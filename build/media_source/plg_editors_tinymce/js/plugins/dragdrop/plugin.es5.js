@@ -153,7 +153,7 @@
       });
     } else {
       Joomla.renderMessages({
-        error: [Joomla.JText._('PLG_TINY_ERR_UNSUPPORTEDBROWSER')]
+        error: [Joomla.Text._('PLG_TINY_ERR_UNSUPPORTEDBROWSER')]
       });
       editor.on('drop', function (e) {
         e.preventDefault();

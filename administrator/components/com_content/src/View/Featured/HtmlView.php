@@ -85,7 +85,7 @@ class HtmlView extends BaseHtmlView
 	 *
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
 	 *
-	 * @return  mixed  A string if successful, otherwise an Error object.
+	 * @return  void
 	 */
 	public function display($tpl = null)
 	{
@@ -124,7 +124,7 @@ class HtmlView extends BaseHtmlView
 			$this->filterForm->removeField('language', 'filter');
 		}
 
-		return parent::display($tpl);
+		parent::display($tpl);
 	}
 
 	/**
@@ -218,6 +218,6 @@ class HtmlView extends BaseHtmlView
 			$toolbar->preferences('com_content');
 		}
 
-		ToolbarHelper::help('JHELP_CONTENT_FEATURED_ARTICLES');
+		ToolbarHelper::help('Articles:_Featured');
 	}
 }

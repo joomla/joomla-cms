@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <config>
-	<fieldset 
+	<help key="Redirect:_Options"/>
+	<fieldset
 		name="redirect"
 		label="COM_REDIRECT_ADVANCED_OPTIONS"
 		>
@@ -46,7 +47,7 @@
 			filter="rules"
 			validate="rules"
 			component="com_redirect"
-			section="component" 
+			section="component"
 		/>
 	</fieldset>
 </config>

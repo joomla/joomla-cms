@@ -62,6 +62,16 @@ export default {
     /* Handle the on crumb click event */
     onCrumbClick(crumb) {
       this.navigateTo(crumb.path);
+      window.parent.document.dispatchEvent(
+        new CustomEvent(
+          'onMediaFileSelected',
+          {
+            bubbles: true,
+            cancelable: false,
+            detail: {},
+          },
+        ),
+      );
     },
     findDrive(adapter) {
       let driveObject = null;

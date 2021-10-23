@@ -120,6 +120,6 @@ class HtmlView extends BaseHtmlView
 			ToolbarHelper::cancel('link.cancel', 'JTOOLBAR_CLOSE');
 		}
 
-		ToolbarHelper::help('JHELP_COMPONENTS_REDIRECT_MANAGER_EDIT');
+		ToolbarHelper::help('Redirects:_New_or_Edit');
 	}
 }

@@ -29,7 +29,7 @@ ul.media-tree {
 .media-disk-name {
   padding: 4px 1px;
   font-size: 1rem;
-  color: var(--atum-bg-dark);
+  color: var(--template-bg-dark);
 
   &:empty {
     display: none;
@@ -106,7 +106,7 @@ ul.media-tree {
   padding-right: 2px;
   font-size: 15px;
   line-height: normal;
-  color: var(--atum-bg-dark-60);
+  color: var(--template-bg-dark-60);
   vertical-align: middle;
 }
 

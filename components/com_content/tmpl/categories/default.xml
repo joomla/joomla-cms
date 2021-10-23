@@ -2,7 +2,7 @@
 <metadata>
 	<layout title="COM_CONTENT_CATEGORIES_VIEW_DEFAULT_TITLE" option="COM_CONTENT_CATEGORIES_VIEW_DEFAULT_OPTION">
 		<help
-			key = "JHELP_MENUS_MENU_ITEM_ARTICLE_CATEGORIES"
+			key = "Menu_Item:_List_All_Categories"
 		/>
 		<message>
 			<![CDATA[COM_CONTENT_CATEGORIES_VIEW_DEFAULT_DESC]]>

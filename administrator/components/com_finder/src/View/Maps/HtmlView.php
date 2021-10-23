@@ -90,7 +90,7 @@ class HtmlView extends BaseHtmlView
 	 *
 	 * @param   string  $tpl  A template file to load. [optional]
 	 *
-	 * @return  mixed  A string if successful, otherwise an \Exception object.
+	 * @return  void
 	 *
 	 * @since   2.5
 	 */
@@ -121,7 +121,7 @@ class HtmlView extends BaseHtmlView
 		// Prepare the view.
 		$this->addToolbar();
 
-		return parent::display($tpl);
+		parent::display($tpl);
 	}
 
 	/**
@@ -173,6 +173,6 @@ class HtmlView extends BaseHtmlView
 			ToolbarHelper::preferences('com_finder');
 		}
 
-		ToolbarHelper::help('JHELP_COMPONENTS_FINDER_MANAGE_CONTENT_MAPS');
+		ToolbarHelper::help('Smart_Search:_Content_Maps');
 	}
 }

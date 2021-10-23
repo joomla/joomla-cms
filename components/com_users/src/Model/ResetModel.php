@@ -241,6 +241,9 @@ class ResetModel extends FormModel
 			return new \Exception(Text::sprintf('COM_USERS_USER_SAVE_FAILED', $user->getError()), 500);
 		}
 
+		// Destroy all active sessions for the user
+		UserHelper::destroyUserSessions($user->id);
+
 		// Flush the user data from the session.
 		$app->setUserState('com_users.reset.token', null);
 		$app->setUserState('com_users.reset.user', null);

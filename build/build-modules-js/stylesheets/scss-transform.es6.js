@@ -31,7 +31,7 @@ module.exports.compile = async (file) => {
   await Fs.writeFile(
     cssFile,
     res.css.toString(),
-    { encoding: 'utf8', mode: 0o2644 },
+    { encoding: 'utf8', mode: 0o644 },
   );
 
   const cssMin = await Postcss([CssNano]).process(res.css.toString(), { from: undefined });
@@ -41,7 +41,7 @@ module.exports.compile = async (file) => {
   await Fs.writeFile(
     cssFile.replace('.css', '.min.css'),
     cssMin.css.toString(),
-    { encoding: 'utf8', mode: 0o2644 },
+    { encoding: 'utf8', mode: 0o644 },
   );
 
   // eslint-disable-next-line no-console

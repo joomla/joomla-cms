@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <config>
+	<help key="Post-installation_Messages:_Options"/>
 	<fieldset
 		name="permissions"
 		label="JCONFIG_PERMISSIONS_LABEL"
@@ -12,7 +13,7 @@
 			label="JCONFIG_PERMISSIONS_LABEL"
 			filter="rules"
 			component="com_postinstall"
-			section="component" 
+			section="component"
 		/>
-	</fieldset>	
+	</fieldset>
 </config>

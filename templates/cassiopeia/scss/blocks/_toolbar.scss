@@ -140,7 +140,7 @@
   }
 }
 
-@include media-breakpoint-down(sm) {
+@include media-breakpoint-down(md) {
   joomla-tab[view=accordion] .col-md-9,
   joomla-tab[view=accordion] .col-md-3 {
     padding: .5rem 1rem !important;
@@ -153,34 +153,6 @@
 
   joomla-tab[view=accordion] ul li {
     width: 100%;
-  }
-
-  .toggler-toolbar {
-    top: 4px;
-    z-index: $zindex-alerts;
-    width: 50px;
-    height: 50px;
-    border: 4px solid #f0f4fb;
-
-    [dir=ltr] & {
-      right: 4px;
-    }
-
-    [dir=rtl] & {
-      left: 4px;
-    }
-
-    .toggler-toolbar-icon::before {
-      font: normal normal 900 20px/1 "Font Awesome 5 Free";
-      color: $white;
-      content: "\f00d";
-    }
-
-    &.collapsed .toggler-toolbar-icon::before {
-      display: inline-block;
-      content: "\f085";
-      transform: translate(-4px);
-    }
   }
 
   .subhead {

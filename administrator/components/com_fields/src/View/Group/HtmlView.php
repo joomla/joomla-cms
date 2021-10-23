@@ -63,7 +63,7 @@ class HtmlView extends BaseHtmlView
 	 *
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
 	 *
-	 * @return  mixed  A string if successful, otherwise an Error object.
+	 * @return  void
 	 *
 	 * @see     JViewLegacy::loadTemplate()
 	 * @since   3.7.0
@@ -94,7 +94,7 @@ class HtmlView extends BaseHtmlView
 
 		$this->addToolbar();
 
-		return parent::display($tpl);
+		parent::display($tpl);
 	}
 
 	/**
@@ -192,6 +192,6 @@ class HtmlView extends BaseHtmlView
 			ToolbarHelper::cancel('group.cancel', 'JTOOLBAR_CLOSE');
 		}
 
-		ToolbarHelper::help('JHELP_COMPONENTS_FIELDS_FIELD_GROUPS_EDIT');
+		ToolbarHelper::help('Component:_New_or_Edit_Field_Group');
 	}
 }

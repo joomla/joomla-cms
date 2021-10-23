@@ -95,7 +95,11 @@ class WarningsModel extends ListModel
 			return $messages;
 		}
 
-		$messages = array();
+		$messages = [];
+
+		// 16MB
+		$minMemory = 16 * 1024 * 1024;
+
 		$file_uploads = ini_get('file_uploads');
 
 		if (!$file_uploads)
@@ -111,13 +115,10 @@ class WarningsModel extends ListModel
 			$messages[] = array('message' => Text::_('COM_INSTALLER_MSG_WARNINGS_PHPUPLOADNOTSET'),
 					'description' => Text::_('COM_INSTALLER_MSG_WARNINGS_PHPUPLOADNOTSETDESC'));
 		}
-		else
+		elseif (!is_writable($upload_dir))
 		{
-			if (!is_writable($upload_dir))
-			{
-				$messages[] = array('message' => Text::_('COM_INSTALLER_MSG_WARNINGS_PHPUPLOADNOTWRITEABLE'),
-						'description' => Text::sprintf('COM_INSTALLER_MSG_WARNINGS_PHPUPLOADNOTWRITEABLEDESC', $upload_dir));
-			}
+			$messages[] = array('message' => Text::_('COM_INSTALLER_MSG_WARNINGS_PHPUPLOADNOTWRITEABLE'),
+					'description' => Text::sprintf('COM_INSTALLER_MSG_WARNINGS_PHPUPLOADNOTWRITEABLEDESC', $upload_dir));
 		}
 
 		$tmp_path = Factory::getApplication()->get('tmp_path');
@@ -127,26 +128,23 @@ class WarningsModel extends ListModel
 			$messages[] = array('message' => Text::_('COM_INSTALLER_MSG_WARNINGS_JOOMLATMPNOTSET'),
 					'description' => Text::_('COM_INSTALLER_MSG_WARNINGS_JOOMLATMPNOTSETDESC'));
 		}
-		else
+		elseif (!is_writable($tmp_path))
 		{
-			if (!is_writable($tmp_path))
-			{
-				$messages[] = array('message' => Text::_('COM_INSTALLER_MSG_WARNINGS_JOOMLATMPNOTWRITEABLE'),
-						'description' => Text::sprintf('COM_INSTALLER_MSG_WARNINGS_JOOMLATMPNOTWRITEABLEDESC', $tmp_path));
-			}
+			$messages[] = array('message' => Text::_('COM_INSTALLER_MSG_WARNINGS_JOOMLATMPNOTWRITEABLE'),
+					'description' => Text::sprintf('COM_INSTALLER_MSG_WARNINGS_JOOMLATMPNOTWRITEABLEDESC', $tmp_path));
 		}
 
 		$memory_limit = $this->return_bytes(ini_get('memory_limit'));
 
-		if ($memory_limit < (8 * 1024 * 1024) && $memory_limit != -1)
+		if ($memory_limit < $minMemory && $memory_limit != -1)
 		{
-			// 8MB
+			// 16MB
 			$messages[] = array('message' => Text::_('COM_INSTALLER_MSG_WARNINGS_LOWMEMORYWARN'),
 					'description' => Text::_('COM_INSTALLER_MSG_WARNINGS_LOWMEMORYDESC'));
 		}
-		elseif ($memory_limit < (16 * 1024 * 1024) && $memory_limit != -1)
+		elseif ($memory_limit < ($minMemory * 1.5) && $memory_limit != -1)
 		{
-			// 16MB
+			// 24MB
 			$messages[] = array('message' => Text::_('COM_INSTALLER_MSG_WARNINGS_MEDMEMORYWARN'),
 					'description' => Text::_('COM_INSTALLER_MSG_WARNINGS_MEDMEMORYDESC'));
 		}
@@ -160,13 +158,13 @@ class WarningsModel extends ListModel
 					'description' => Text::_('COM_INSTALLER_MSG_WARNINGS_UPLOADBIGGERTHANPOSTDESC'));
 		}
 
-		if ($post_max_size < (8 * 1024 * 1024)) // 8MB
+		if ($post_max_size < $minMemory)
 		{
 			$messages[] = array('message' => Text::_('COM_INSTALLER_MSG_WARNINGS_SMALLPOSTSIZE'),
 					'description' => Text::_('COM_INSTALLER_MSG_WARNINGS_SMALLPOSTSIZEDESC'));
 		}
 
-		if ($upload_max_filesize < (8 * 1024 * 1024)) // 8MB
+		if ($upload_max_filesize < $minMemory)
 		{
 			$messages[] = array('message' => Text::_('COM_INSTALLER_MSG_WARNINGS_SMALLUPLOADSIZE'),
 					'description' => Text::_('COM_INSTALLER_MSG_WARNINGS_SMALLUPLOADSIZEDESC'));

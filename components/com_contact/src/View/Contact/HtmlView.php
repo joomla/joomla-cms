@@ -115,7 +115,7 @@ class HtmlView extends BaseHtmlView
 	 *
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
 	 *
-	 * @return  mixed  A string if successful, otherwise an Error object.
+	 * @return  void|boolean
 	 */
 	public function display($tpl = null)
 	{
@@ -346,7 +346,7 @@ class HtmlView extends BaseHtmlView
 			$item->text = $item->misc;
 		}
 
-		$app->triggerEvent('onContentPrepare', array ('com_contact.contact', &$item, &$this->params, $offset));
+		$app->triggerEvent('onContentPrepare', array ('com_contact.contact', &$item, &$item->params, $offset));
 
 		// Store the events for later
 		$item->event = new \stdClass;
@@ -387,9 +387,6 @@ class HtmlView extends BaseHtmlView
 		$this->contacts    = &$contacts;
 		$this->contactUser = $contactUser;
 
-		$item->tags = new TagsHelper;
-		$item->tags->getItemTags('com_contact.contact', $this->item->id);
-
 		$model = $this->getModel();
 		$model->hit();
 
@@ -406,7 +403,7 @@ class HtmlView extends BaseHtmlView
 
 		$this->_prepareDocument();
 
-		return parent::display($tpl);
+		parent::display($tpl);
 	}
 
 	/**
