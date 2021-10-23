@@ -63,7 +63,7 @@ $htag    = $tparams->get('show_page_heading') ? 'h2' : 'h1';
 		<?php $contactLink = RouteHelper::getCategoryRoute($this->item->catid, $this->item->language); ?>
 		<h3>
 			<span class="contact-category"><a href="<?php echo $contactLink; ?>">
-					<?php echo $this->escape($this->item->category_title); ?></a>
+				<?php echo $this->escape($this->item->category_title); ?></a>
 			</span>
 		</h3>
 	<?php endif; ?>
