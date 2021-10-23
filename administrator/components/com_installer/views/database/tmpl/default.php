@@ -33,11 +33,11 @@ defined('_JEXEC') or die;
 						<?php endif; ?>
 
 						<?php if ($this->schemaVersion != $this->changeSet->getSchema()) : ?>
-							<li><?php echo JText::sprintf('COM_INSTALLER_MSG_DATABASE_SCHEMA_ERROR', $this->schemaVersion, $this->changeSet->getSchema()); ?></li>
+							<li><?php echo JText::sprintf('COM_INSTALLER_MSG_DATABASE_SCHEMA_ERROR', '<bdi>' . $this->schemaVersion . '</bdi>', '<bdi>' . $this->changeSet->getSchema() . '</bdi>'); ?></li>
 						<?php endif; ?>
 
 						<?php if (version_compare($this->updateVersion, JVERSION) != 0) : ?>
-							<li><?php echo JText::sprintf('COM_INSTALLER_MSG_DATABASE_UPDATEVERSION_ERROR', $this->updateVersion, JVERSION); ?></li>
+							<li><?php echo JText::sprintf('COM_INSTALLER_MSG_DATABASE_UPDATEVERSION_ERROR', '<bdi>' . $this->updateVersion . '</bdi>', '<bdi>' . JVERSION . '</bdi>'); ?></li>
 						<?php endif; ?>
 
 						<?php foreach ($this->errors as $line => $error) : ?>
@@ -58,8 +58,8 @@ defined('_JEXEC') or die;
 				<div class="control-group" >
 					<fieldset class="panelform">
 						<ul>
-							<li><?php echo JText::sprintf('COM_INSTALLER_MSG_DATABASE_SCHEMA_VERSION', $this->schemaVersion); ?></li>
-							<li><?php echo JText::sprintf('COM_INSTALLER_MSG_DATABASE_UPDATE_VERSION', $this->updateVersion); ?></li>
+							<li><?php echo JText::sprintf('COM_INSTALLER_MSG_DATABASE_SCHEMA_VERSION', '<bdi>' . $this->schemaVersion . '</bdi>'); ?></li>
+							<li><?php echo JText::sprintf('COM_INSTALLER_MSG_DATABASE_UPDATE_VERSION', '<bdi>' . $this->updateVersion . '</bdi>'); ?></li>
 							<li><?php echo JText::sprintf('COM_INSTALLER_MSG_DATABASE_DRIVER', JFactory::getDbo()->name); ?></li>
 							<li><?php echo JText::sprintf('COM_INSTALLER_MSG_DATABASE_CHECKED_OK', count($this->results['ok'])); ?></li>
 							<li><?php echo JText::sprintf('COM_INSTALLER_MSG_DATABASE_SKIPPED', count($this->results['skipped'])); ?></li>
