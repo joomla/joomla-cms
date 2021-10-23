@@ -2307,7 +2307,9 @@ class Installer extends Adapter
 		{
 			$data['inheritable'] = (boolean) $xml->inheritable;
 		}
-		if (isset($xml->parent) && (string) $xml->parent !== '') {
+
+		if (isset($xml->parent) && (string) $xml->parent !== '')
+		{
 			$data['parent'] = (string) $xml->parent;
 		}
 
