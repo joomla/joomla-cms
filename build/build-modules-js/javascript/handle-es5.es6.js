@@ -13,6 +13,10 @@ module.exports.handleES5File = async (file) => {
     // eslint-disable-next-line no-console
     console.log(`Legacy js file: ${basename(file)}: ✅ copied`);
 
+    // Skip minify on the tinymce language files
+    if (file.includes(`build${sep}media_source${sep}vendor${sep}tinymce${sep}`)) {
+      return;
+    }
     minifyJs(file.replace(`${sep}build${sep}media_source${sep}`, `${sep}media${sep}`).replace('.es5.js', '.js'));
   }
 };
