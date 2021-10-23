@@ -125,7 +125,9 @@ class GroupModel extends AdminModel
 			$data['context'] = $context;
 		}
 
-		if (!Factory::getUser()->authorise('core.edit.state', $context . '.fieldgroup.' . $jinput->get('id')))
+		$user = Factory::getUser();
+
+		if (!$user->authorise('core.edit.state', $context . '.fieldgroup.' . $jinput->get('id')))
 		{
 			// Disable fields for display.
 			$form->setFieldAttribute('ordering', 'disabled', 'true');
@@ -134,6 +136,12 @@ class GroupModel extends AdminModel
 			// Disable fields while saving. The controller has already verified this is a record you can edit.
 			$form->setFieldAttribute('ordering', 'filter', 'unset');
 			$form->setFieldAttribute('state', 'filter', 'unset');
+		}
+
+		// Don't allow to change the created_by user if not allowed to access com_users.
+		if (!$user->authorise('core.manage', 'com_users'))
+		{
+			$form->setFieldAttribute('created_by', 'filter', 'unset');
 		}
 
 		return $form;
@@ -280,15 +288,6 @@ class GroupModel extends AdminModel
 	 */
 	public function validate($form, $data, $group = null)
 	{
-		// Don't allow to change the users if not allowed to access com_users.
-		if (!Factory::getUser()->authorise('core.manage', 'com_users'))
-		{
-			if (isset($data['created_by']))
-			{
-				unset($data['created_by']);
-			}
-		}
-
 		if (!Factory::getUser()->authorise('core.admin', 'com_fields'))
 		{
 			if (isset($data['rules']))

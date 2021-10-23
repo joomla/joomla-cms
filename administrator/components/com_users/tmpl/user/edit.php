@@ -35,7 +35,7 @@ $this->useCoreUI = true;
 	<h2><?php echo $this->form->getValue('name', null, Text::_('COM_USERS_USER_NEW_USER_TITLE')); ?></h2>
 
 	<div class="main-card">
-		<?php echo HTMLHelper::_('uitab.startTabSet', 'myTab', array('active' => 'details')); ?>
+		<?php echo HTMLHelper::_('uitab.startTabSet', 'myTab', ['active' => 'details', 'recall' => true, 'breakpoint' => 768]); ?>
 
 		<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'details', Text::_('COM_USERS_USER_ACCOUNT_DETAILS')); ?>
 			<fieldset class="options-form">
@@ -103,9 +103,7 @@ $this->useCoreUI = true;
 				</div>
 			<?php else : ?>
 				<?php foreach ($this->otpConfig->otep as $otep) : ?>
-					<span class="col-lg-3">
-						<?php echo substr($otep, 0, 4); ?>-<?php echo substr($otep, 4, 4); ?>-<?php echo substr($otep, 8, 4); ?>-<?php echo substr($otep, 12, 4); ?>
-					</span>
+					<?php echo wordwrap($otep, 4, '-', true); ?><br>
 				<?php endforeach; ?>
 			<?php endif; ?>
 

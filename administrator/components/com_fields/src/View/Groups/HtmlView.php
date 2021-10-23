@@ -71,7 +71,7 @@ class HtmlView extends BaseHtmlView
 	 *
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
 	 *
-	 * @return  mixed  A string if successful, otherwise an Error object.
+	 * @return  void
 	 *
 	 * @see     HtmlView::loadTemplate()
 	 * @since   3.7.0
@@ -106,7 +106,7 @@ class HtmlView extends BaseHtmlView
 			$this->filterForm->removeField('language', 'filter');
 		}
 
-		return parent::display($tpl);
+		parent::display($tpl);
 	}
 
 	/**
@@ -206,6 +206,6 @@ class HtmlView extends BaseHtmlView
 			$toolbar->preferences($component);
 		}
 
-		$toolbar->help('JHELP_COMPONENTS_FIELDS_FIELD_GROUPS');
+		$toolbar->help('Component:_Field_Groups');
 	}
 }

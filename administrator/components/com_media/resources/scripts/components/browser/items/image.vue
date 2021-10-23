@@ -8,7 +8,7 @@
       <div class="image-background">
         <div
           class="image-cropped"
-          :style="{ backgroundImage: 'url(' + thumbUrl + ')' }"
+          :style="{ backgroundImage: getHashedURL }"
         />
       </div>
     </div>
@@ -187,6 +187,7 @@
 </template>
 
 <script>
+import { api } from '../../../app/Api.es6';
 import * as types from '../../../store/mutation-types.es6';
 
 export default {
@@ -199,13 +200,24 @@ export default {
     };
   },
   computed: {
-    /* Get the item url */
-    thumbUrl() {
-      return this.item.thumb_path;
-    },
     /* Check if the item is an image to edit */
     canEdit() {
       return ['jpg', 'jpeg', 'png'].indexOf(this.item.extension.toLowerCase()) > -1;
+    },
+    /* Get the hashed URL */
+    getHashedURL() {
+      if (this.item.adapter.startsWith('local-')) {
+        return `url(${this.item.thumb_path}?${api.mediaVersion})`;
+      }
+      return `url(${this.item.thumb_path})`;
+    },
+  },
+  watch: {
+    // eslint-disable-next-line
+    '$store.state.showRenameModal'(show) {
+      if (!show && this.$refs.actionToggle && this.$store.state.selectedItems.find((item) => item.name === this.item.name) !== undefined) {
+        this.$refs.actionToggle.focus();
+      }
     },
   },
   methods: {
@@ -226,6 +238,7 @@ export default {
     },
     /* Rename an item */
     openRenameModal() {
+      this.hideActions();
       this.$store.commit(types.SELECT_BROWSER_ITEM, this.item);
       this.$store.commit(types.SHOW_RENAME_MODAL);
     },
@@ -254,7 +267,6 @@ export default {
     /* Hide actions dropdown */
     hideActions() {
       this.showActions = false;
-      this.$nextTick(() => this.$refs.actionToggle.focus());
     },
   },
 };

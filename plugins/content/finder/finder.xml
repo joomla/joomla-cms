@@ -14,8 +14,8 @@
 		<filename plugin="finder">finder.php</filename>
 	</files>
 	<languages>
-		<language tag="en-GB">en-GB.plg_content_finder.ini</language>
-		<language tag="en-GB">en-GB.plg_content_finder.sys.ini</language>
+		<language tag="en-GB">language/en-GB/plg_content_finder.ini</language>
+		<language tag="en-GB">language/en-GB/plg_content_finder.sys.ini</language>
 	</languages>
 	<config>
 		<fields name="params">

@@ -28,6 +28,7 @@ extract($displayData);
  * @var   string  $control          The forms control
  * @var   string  $label            The field label
  * @var   string  $description      The field description
+ * @var   string  $class            Classes for the container
  * @var   array   $buttons          Array of the buttons that will be rendered
  * @var   bool    $groupByFieldset  Whether group the subform fields by it`s fieldset
  */
@@ -38,6 +39,8 @@ if ($multiple)
 	Factory::getDocument()->getWebAssetManager()
 		->useScript('webcomponent.field-subform');
 }
+
+$class = $class ? ' ' . $class : '';
 
 // Build heading
 $table_head = '';
@@ -80,7 +83,7 @@ else
 ?>
 
 <div class="subform-repeatable-wrapper subform-table-layout subform-table-sublayout-<?php echo $sublayout; ?>">
-	<joomla-field-subform class="subform-repeatable" name="<?php echo $name; ?>"
+	<joomla-field-subform class="subform-repeatable<?php echo $class; ?>" name="<?php echo $name; ?>"
 		button-add=".group-add" button-remove=".group-remove" button-move="<?php echo empty($buttons['move']) ? '' : '.group-move' ?>"
 		repeatable-element=".subform-repeatable-group"
 		rows-container="tbody.subform-repeatable-container" minimum="<?php echo $min; ?>" maximum="<?php echo $max; ?>">
@@ -96,7 +99,7 @@ else
 						<td style="width:8%;">
 							<?php if (!empty($buttons['add'])) : ?>
 								<div class="btn-group">
-									<button type="button" class="group-add btn btn-success" aria-label="<?php echo Text::_('JGLOBAL_FIELD_ADD'); ?>">
+									<button type="button" class="group-add btn btn-sm btn-success" aria-label="<?php echo Text::_('JGLOBAL_FIELD_ADD'); ?>">
 										<span class="icon-plus" aria-hidden="true"></span>
 									</button>
 								</div>

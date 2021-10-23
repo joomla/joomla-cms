@@ -75,7 +75,7 @@ class HtmlView extends BaseHtmlView
 	 *
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
 	 *
-	 * @return  mixed  A string if successful, otherwise an Error object.
+	 * @return  void
 	 *
 	 * @since   1.6
 	 */
@@ -166,6 +166,6 @@ class HtmlView extends BaseHtmlView
 			$toolbar->preferences('com_messages');
 		}
 
-		$toolbar->help('JHELP_COMPONENTS_MESSAGING_INBOX');
+		$toolbar->help('Private_Messages');
 	}
 }
