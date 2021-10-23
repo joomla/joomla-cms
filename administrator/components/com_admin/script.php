@@ -8516,9 +8516,15 @@ class JoomlaInstallerScript
 				$newPath = Path::clean(JPATH_ROOT . $newFolder);
 
 				// Handle all files in this folder and all sub-folders
-				foreach (Folder::files($oldPath, '.*', true, true) as $file)
+				foreach (Folder::files($oldPath, '.*', true, true) as $oldFile)
 				{
-					File::move($file, $newPath . substr($file, strlen($oldPath)));
+					$newFile = $newPath . substr($oldFile, strlen($oldPath));
+
+					// Create target folder and parent folders if they doen't exist yet
+					if (Folder::create(\dirname($newFile)))
+					{
+						File::move($oldFile, $newFile);
+					}
 				}
 			}
 		}
