@@ -14,6 +14,7 @@ use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\FileLayout;
+use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\Component\Contact\Site\Helper\RouteHelper;
@@ -62,7 +63,7 @@ $htag    = $tparams->get('show_page_heading') ? 'h2' : 'h1';
 		<?php $contactLink = RouteHelper::getCategoryRoute($this->item->catid, $this->item->language); ?>
 		<h3>
 			<span class="contact-category"><a href="<?php echo $contactLink; ?>">
-				<?php echo $this->escape($this->item->category_title); ?></a>
+					<?php echo $this->escape($this->item->category_title); ?></a>
 			</span>
 		</h3>
 	<?php endif; ?>
@@ -76,7 +77,11 @@ $htag    = $tparams->get('show_page_heading') ? 'h2' : 'h1';
 				'select.genericlist',
 				$this->contacts,
 				'select_contact',
-				'class="form-select" onchange="document.location.href = this.value"', 'link', 'name', $this->item->link);
+				'class="form-select" onchange="document.location.href = this.value"',
+				'link',
+				'name',
+				$this->item->link
+			);
 			?>
 		</form>
 	<?php endif; ?>
@@ -97,18 +102,15 @@ $htag    = $tparams->get('show_page_heading') ? 'h2' : 'h1';
 
 			<?php if ($this->item->image && $tparams->get('show_image')) : ?>
 				<div class="com-contact__thumbnail thumbnail">
-					<?php $imgAttribs = ['itemprop' => 'image']; ?>
-					<?php $img = HTMLHelper::_('cleanImageURL', $this->item->image); ?>
-					<?php if ($img->width > 0 && $img->height > 0) : ?>
-						<?php $imgAttribs['width'] = $img->width; ?>
-						<?php $imgAttribs['height'] = $img->height; ?>
-						<?php $imgAttribs['loading'] = 'lazy'; ?>
-					<?php endif; ?>
-					<?php echo HTMLHelper::_(
-						'image',
-						htmlspecialchars($img->url, ENT_QUOTES, 'UTF-8'),
-						htmlspecialchars($this->item->name, ENT_QUOTES, 'UTF-8'),
-						$imgAttribs
+					<?php echo LayoutHelper::render(
+						'joomla.html.image',
+						[
+							'image' => [
+								'src' => $this->item->image,
+								'alt' => $this->item->name,
+								'attributes' => ['itemprop' => 'image']
+							],
+						]
 					); ?>
 				</div>
 			<?php endif; ?>
@@ -128,7 +130,7 @@ $htag    = $tparams->get('show_page_heading') ? 'h2' : 'h1';
 				<?php if ($tparams->get('allow_vcard')) : ?>
 					<?php echo Text::_('COM_CONTACT_DOWNLOAD_INFORMATION_AS'); ?>
 					<a href="<?php echo Route::_('index.php?option=com_contact&amp;view=contact&amp;id=' . $this->item->id . '&amp;format=vcf'); ?>">
-					<?php echo Text::_('COM_CONTACT_VCARD'); ?></a>
+						<?php echo Text::_('COM_CONTACT_VCARD'); ?></a>
 				<?php endif; ?>
 			</div>
 		</div>

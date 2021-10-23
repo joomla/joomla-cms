@@ -13,6 +13,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\FileLayout;
+use Joomla\CMS\Layout\LayoutHelper;
 
 $app = Factory::getApplication();
 
@@ -40,9 +41,9 @@ $htag    = $this->params->get('show_page_heading') ? 'h2' : 'h1';
 	<?php endif; ?>
 
 	<?php if ($this->params->get('show_category_title', 1)) : ?>
-	<<?php echo $htag; ?>>
-		<?php echo $this->category->title; ?>
-	</<?php echo $htag; ?>>
+		<<?php echo $htag; ?>>
+			<?php echo $this->category->title; ?>
+		</<?php echo $htag; ?>>
 	<?php endif; ?>
 	<?php echo $afterDisplayTitle; ?>
 
@@ -54,18 +55,15 @@ $htag    = $this->params->get('show_page_heading') ? 'h2' : 'h1';
 	<?php if ($beforeDisplayContent || $afterDisplayContent || $this->params->get('show_description', 1) || $this->params->def('show_description_image', 1)) : ?>
 		<div class="category-desc clearfix">
 			<?php if ($this->params->get('show_description_image') && $this->category->getParams()->get('image')) : ?>
-				<?php $imgAttribs = []; ?>
-				<?php $img = HTMLHelper::_('cleanImageURL', $this->category->getParams()->get('image')); ?>
-				<?php if ($img->width > 0 && $img->height > 0) : ?>
-					<?php $imgAttribs['width'] = $img->width; ?>
-					<?php $imgAttribs['height'] = $img->height; ?>
-					<?php $imgAttribs['loading'] = 'lazy'; ?>
-				<?php endif; ?>
-				<?php echo HTMLHelper::_(
-					'image',
-					htmlspecialchars($img->url, ENT_QUOTES, 'UTF-8'),
-					empty($this->category->getParams()->get('image_alt')) && empty($this->category->getParams()->get('image_alt_empty')) ? '' : htmlspecialchars($this->category->getParams()->get('image_alt'), ENT_COMPAT, 'UTF-8'),
-					$imgAttribs
+				<?php echo LayoutHelper::render(
+					'joomla.html.image',
+					[
+						'image' => [
+							'src' => $this->category->getParams()->get('image'),
+							'alt' => empty($this->category->getParams()->get('image_alt')) && empty($this->category->getParams()->get('image_alt_empty')) ? '' : $this->category->getParams()->get('image_alt'),
+							'attributes' => []
+						],
+					]
 				); ?>
 			<?php endif; ?>
 			<?php echo $beforeDisplayContent; ?>
@@ -86,12 +84,11 @@ $htag    = $this->params->get('show_page_heading') ? 'h2' : 'h1';
 	<?php if (!empty($this->lead_items)) : ?>
 		<div class="com-content-category-blog__items blog-items items-leading <?php echo $this->params->get('blog_class_leading'); ?>">
 			<?php foreach ($this->lead_items as &$item) : ?>
-				<div class="com-content-category-blog__item blog-item"
-					itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-						<?php
-						$this->item = & $item;
-						echo $this->loadTemplate('item');
-						?>
+				<div class="com-content-category-blog__item blog-item" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+					<?php
+					$this->item = &$item;
+					echo $this->loadTemplate('item');
+					?>
 				</div>
 				<?php $leadingcount++; ?>
 			<?php endforeach; ?>
@@ -110,15 +107,14 @@ $htag    = $this->params->get('show_page_heading') ? 'h2' : 'h1';
 			<?php $blogClass .= (int) $this->params->get('num_columns'); ?>
 		<?php endif; ?>
 		<div class="com-content-category-blog__items blog-items <?php echo $blogClass; ?>">
-		<?php foreach ($this->intro_items as $key => &$item) : ?>
-			<div class="com-content-category-blog__item blog-item"
-				itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+			<?php foreach ($this->intro_items as $key => &$item) : ?>
+				<div class="com-content-category-blog__item blog-item" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
 					<?php
-					$this->item = & $item;
+					$this->item = &$item;
 					echo $this->loadTemplate('item');
 					?>
-			</div>
-		<?php endforeach; ?>
+				</div>
+			<?php endforeach; ?>
 		</div>
 	<?php endif; ?>
 
@@ -133,7 +129,8 @@ $htag    = $this->params->get('show_page_heading') ? 'h2' : 'h1';
 			<?php if ($this->params->get('show_category_heading_title_text', 1) == 1) : ?>
 				<h3> <?php echo Text::_('JGLOBAL_SUBCATEGORIES'); ?> </h3>
 			<?php endif; ?>
-			<?php echo $this->loadTemplate('children'); ?> </div>
+			<?php echo $this->loadTemplate('children'); ?>
+		</div>
 	<?php endif; ?>
 	<?php if (($this->params->def('show_pagination', 1) == 1 || ($this->params->get('show_pagination') == 2)) && ($this->pagination->pagesTotal > 1)) : ?>
 		<div class="com-content-category-blog__navigation w-100">

@@ -14,6 +14,7 @@ use Joomla\CMS\Filter\OutputFilter;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\FileLayout;
+use Joomla\CMS\Layout\LayoutHelper;
 
 ?>
 
@@ -40,9 +41,9 @@ use Joomla\CMS\Layout\FileLayout;
 	<?php $images = json_decode($this->item->images); ?>
 	<div class="com-newsfeeds-newsfeed newsfeed<?php echo $direction; ?>">
 		<?php if ($this->params->get('display_num')) : ?>
-		<h1 class="<?php echo $direction; ?>">
-			<?php echo $this->escape($this->params->get('page_heading')); ?>
-		</h1>
+			<h1 class="<?php echo $direction; ?>">
+				<?php echo $this->escape($this->params->get('page_heading')); ?>
+			</h1>
 		<?php endif; ?>
 		<h2 class="<?php echo $direction; ?>">
 			<?php if ($this->item->published == 0) : ?>
@@ -63,21 +64,19 @@ use Joomla\CMS\Layout\FileLayout;
 			<?php $imgfloat = empty($images->float_first) ? $this->params->get('float_first') : $images->float_first; ?>
 			<div class="com-newsfeeds-newsfeed__first-image img-intro-<?php echo htmlspecialchars($imgfloat, ENT_COMPAT, 'UTF-8'); ?>">
 				<?php $imgAttribs = []; ?>
-				<?php $img = HTMLHelper::_('cleanImageURL', $images->image_first); ?>
-				<?php if ($img->width > 0 && $img->height > 0) : ?>
-					<?php $imgAttribs['width'] = $img->width; ?>
-					<?php $imgAttribs['height'] = $img->height; ?>
-					<?php $imgAttribs['loading'] = 'lazy'; ?>
-				<?php endif; ?>
 				<?php if ($images->image_first_caption) : ?>
 					<?php $imgAttribs['class'] = 'caption'; ?>
 					<?php $imgAttribs['title'] = htmlspecialchars($images->image_first_caption, ENT_COMPAT, 'UTF-8'); ?>
 				<?php endif; ?>
-				<?php echo HTMLHelper::_(
-					'image',
-					htmlspecialchars($img->url, ENT_QUOTES, 'UTF-8'),
-					empty($images->image_first_alt) && empty($images->image_first_alt_empty) ? '' : htmlspecialchars($images->image_first_alt, ENT_COMPAT, 'UTF-8'),
-					$imgAttribs
+				<?php echo LayoutHelper::render(
+					'joomla.html.image',
+					[
+						'image' => [
+							'src' => $images->image_first,
+							'alt' => empty($images->image_first_alt) && empty($images->image_first_alt_empty) ? '' : $images->image_first_alt,
+							'attributes' => $imgAttribs
+						],
+					]
 				); ?>
 			</div>
 		<?php endif; ?>
@@ -86,21 +85,19 @@ use Joomla\CMS\Layout\FileLayout;
 			<?php $imgfloat = empty($images->float_second) ? $this->params->get('float_second') : $images->float_second; ?>
 			<div class="com-newsfeeds-newsfeed__second-image float-<?php echo htmlspecialchars($imgfloat, ENT_COMPAT, 'UTF-8'); ?> item-image">
 				<?php $imgAttribs = []; ?>
-				<?php $img = HTMLHelper::_('cleanImageURL', $images->image_second); ?>
-				<?php if ($img->width > 0 && $img->height > 0) : ?>
-					<?php $imgAttribs['width'] = $img->width; ?>
-					<?php $imgAttribs['height'] = $img->height; ?>
-					<?php $imgAttribs['loading'] = 'lazy'; ?>
-				<?php endif; ?>
 				<?php if ($images->image_second_caption) : ?>
 					<?php $imgAttribs['class'] = 'caption'; ?>
 					<?php $imgAttribs['title'] = htmlspecialchars($images->image_second_caption, ENT_COMPAT, 'UTF-8'); ?>
 				<?php endif; ?>
-				<?php echo HTMLHelper::_(
-					'image',
-					htmlspecialchars($img->url, ENT_QUOTES, 'UTF-8'),
-					empty($images->image_second_alt) && empty($images->image_second_alt_empty) ? '' : htmlspecialchars($images->image_second_alt, ENT_COMPAT, 'UTF-8'),
-					$imgAttribs
+				<?php echo LayoutHelper::render(
+					'joomla.html.image',
+					[
+						'image' => [
+							'src' => $images->image_second,
+							'alt' => empty($images->image_second_alt) && empty($images->image_second_alt_empty) ? '' : $images->image_second_alt,
+							'attributes' => $imgAttribs
+						],
+					]
 				); ?>
 			</div>
 		<?php endif; ?>
@@ -117,18 +114,15 @@ use Joomla\CMS\Layout\FileLayout;
 		<!-- Show Image -->
 		<?php if ($this->rssDoc->image && $this->params->get('show_feed_image')) : ?>
 			<div class="com-newsfeeds-newsfeed__feed-image">
-				<?php $imgAttribs = []; ?>
-				<?php $img = HTMLHelper::_('cleanImageURL', $this->rssDoc->image->uri); ?>
-				<?php if ($img->width > 0 && $img->height > 0) : ?>
-					<?php $imgAttribs['width'] = $img->width; ?>
-					<?php $imgAttribs['height'] = $img->height; ?>
-					<?php $imgAttribs['loading'] = 'lazy'; ?>
-				<?php endif; ?>
-				<?php echo HTMLHelper::_(
-					'image',
-					htmlspecialchars($img->url, ENT_QUOTES, 'UTF-8'),
-					htmlspecialchars($this->rssDoc->image->title, ENT_COMPAT, 'UTF-8'),
-					$imgAttribs
+				<?php echo LayoutHelper::render(
+					'joomla.html.image',
+					[
+						'image' => [
+							'src' => $this->rssDoc->image->uri,
+							'alt' => $this->rssDoc->image->title,
+							'attributes' => []
+						],
+					]
 				); ?>
 			</div>
 		<?php endif; ?>

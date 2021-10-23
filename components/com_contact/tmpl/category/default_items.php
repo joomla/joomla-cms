@@ -12,6 +12,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Uri\Uri;
 use Joomla\Component\Contact\Administrator\Helper\ContactHelper;
@@ -99,14 +100,15 @@ $listDirn   = $this->escape($this->state->get('list.direction'));
 							<a href="<?php echo Route::_(RouteHelper::getContactRoute($item->slug, $item->catid, $item->language)); ?>">
 								<?php if ($this->params->get('show_image_heading')) : ?>
 									<?php if ($item->image) : ?>
-										<?php $imgAttribs = ['class' => 'contact-thumbnail img-thumbnail']; ?>
-										<?php $img = HTMLHelper::_('cleanImageURL', $item->image); ?>
-										<?php if ($img->width > 0 && $img->height > 0) : ?>
-											<?php $imgAttribs['width'] = $img->width; ?>
-											<?php $imgAttribs['height'] = $img->height; ?>
-											<?php $imgAttribs['loading'] = 'lazy'; ?>
-										<?php endif; ?>
-										<?php echo HTMLHelper::_('image', htmlspecialchars($img->url, ENT_QUOTES, 'UTF-8'), '', $imgAttribs); ?>
+										<?php echo LayoutHelper::render(
+											'joomla.html.image',
+											[
+												'image' => [
+													'src' => $item->image,
+													'alt' => '',
+													'attributes' => ['class' => 'contact-thumbnail img-thumbnail']
+												],
+											]); ?>
 									<?php endif; ?>
 								<?php endif; ?>
 								<?php echo $this->escape($item->name); ?>
