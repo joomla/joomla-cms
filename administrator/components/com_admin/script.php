@@ -8490,7 +8490,7 @@ class JoomlaInstallerScript
 	 */
 	protected function moveRemainingTemplateFiles()
 	{
-		$folders = array(
+		$folders = [
 			'/administrator/templates/atum/css' => '/media/templates/administrator/atum/css',
 			'/administrator/templates/atum/images' => '/media/templates/administrator/atum/images',
 			'/administrator/templates/atum/js' => '/media/templates/administrator/atum/js',
@@ -8499,11 +8499,18 @@ class JoomlaInstallerScript
 			'/templates/cassiopeia/images' => '/media/templates/site/cassiopeia/images',
 			'/templates/cassiopeia/js' => '/media/templates/site/cassiopeia/js',
 			'/templates/cassiopeia/scss' => '/media/templates/site/cassiopeia/scss',
-		);
+		];
+
+		$files = [
+			'/administrator/templates/atum/template_preview.png' => '/media/templates/administrator/atum/images/template_preview.png',
+			'/administrator/templates/atum/template_thumbnail.png' => '/media/templates/administrator/atum/images/template_thumbnail.png',
+			'/templates/cassiopeia/template_preview.png' => '/media/templates/site/cassiopeia/images/template_preview.png',
+			'/templates/cassiopeia/template_thumbnail.png' => '/media/templates/site/cassiopeia/images/template_thumbnail.png',
+		];
 
 		foreach ($folders as $oldFolder => $newFolder)
 		{
-			if ($folderExists = Folder::exists(JPATH_ROOT . $oldFolder))
+			if (Folder::exists(JPATH_ROOT . $oldFolder))
 			{
 				$oldPath = Path::clean(JPATH_ROOT . $oldFolder);
 				$newPath = Path::clean(JPATH_ROOT . $newFolder);
@@ -8513,6 +8520,14 @@ class JoomlaInstallerScript
 				{
 					File::move($file, $newPath . substr($file, strlen($oldPath)));
 				}
+			}
+		}
+
+		foreach ($files as $oldFile => $newFile)
+		{
+			if (File::exists(JPATH_ROOT . $oldFile))
+			{
+				File::move(JPATH_ROOT . $oldFile, JPATH_ROOT . $newFile);
 			}
 		}
 	}
