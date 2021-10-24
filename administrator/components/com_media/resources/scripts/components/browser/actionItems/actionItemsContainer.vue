@@ -4,7 +4,10 @@
     :aria-label="translate('COM_MEDIA_TOGGLE_SELECT_ITEM')"
     :title="translate('COM_MEDIA_TOGGLE_SELECT_ITEM')"
   />
-  <div class="media-browser-actions" :class="{ active: showActions }">
+  <div
+    class="media-browser-actions"
+    :class="{ active: showActions }"
+  >
     <media-browser-action-item-toggle
       ref="actionToggle"
       :on-focused="focused"
@@ -12,7 +15,10 @@
       @keyup.up="openLastActions()"
       @keyup.down="openActions()"
     />
-    <div v-if="showActions" class="media-browser-actions-list">
+    <div
+      v-if="showActions"
+      class="media-browser-actions-list"
+    >
       <ul>
         <li>
           <media-browser-action-item-preview
@@ -51,8 +57,8 @@
               canEdit
                 ? $refs.actionEdit.$el.focus()
                 : shareable
-                ? $refs.actionShare.$el.focus()
-                : $refs.actionDelete.$el.focus()
+                  ? $refs.actionShare.$el.focus()
+                  : $refs.actionDelete.$el.focus()
             "
           />
         </li>
@@ -106,10 +112,10 @@
 </template>
 
 <script>
-import * as types from "../../../store/mutation-types.es6";
+import * as types from '../../../store/mutation-types.es6';
 
 export default {
-  name: "MediaBrowserActionItemsContainer",
+  name: 'MediaBrowserActionItemsContainer',
   props: {
     item: { type: Object, default: () => {} },
     onFocused: { type: Function, default: () => {} },
@@ -134,10 +140,10 @@ export default {
     // eslint-disable-next-line
     "$store.state.showRenameModal"(show) {
       if (
-        !show &&
-        this.$refs.actionToggle &&
-        this.$store.state.selectedItems.find(
-          (item) => item.name === this.item.name
+        !show
+        && this.$refs.actionToggle
+        && this.$store.state.selectedItems.find(
+          (item) => item.name === this.item.name,
         ) !== undefined
       ) {
         this.$refs.actionToggle.$el.focus();
@@ -152,11 +158,11 @@ export default {
     /* Preview an item */
     openPreview() {
       this.$store.commit(types.SHOW_PREVIEW_MODAL);
-      this.$store.dispatch("getFullContents", this.item);
+      this.$store.dispatch('getFullContents', this.item);
     },
     /* Download an item */
     download() {
-      this.$store.dispatch("download", this.item);
+      this.$store.dispatch('download', this.item);
     },
     /* Opening confirm delete modal */
     openConfirmDeleteModal() {
