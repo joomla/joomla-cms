@@ -34,9 +34,9 @@
 
 <script>
 export default {
-  name: "MediaBrowserItemDocument",
+  name: 'MediaBrowserItemDocument',
   // eslint-disable-next-line vue/require-prop-types
-  props: ["item", "focused"],
+  props: ['item', 'focused'],
   data() {
     return {
       showActions: false,

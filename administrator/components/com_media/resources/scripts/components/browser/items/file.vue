@@ -1,5 +1,8 @@
 <template>
-  <div class="media-browser-item-file" @mouseleave="hideActions()">
+  <div
+    class="media-browser-item-file"
+    @mouseleave="hideActions()"
+  >
     <div class="media-browser-item-preview">
       <div class="file-background">
         <div class="file-icon">
@@ -28,9 +31,9 @@
 
 <script>
 export default {
-  name: "MediaBrowserItemFile",
+  name: 'MediaBrowserItemFile',
   // eslint-disable-next-line vue/require-prop-types
-  props: ["item", "focused"],
+  props: ['item', 'focused'],
   data() {
     return {
       showActions: false,

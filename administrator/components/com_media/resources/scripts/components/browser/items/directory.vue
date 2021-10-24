@@ -1,5 +1,8 @@
 <template>
-  <div class="media-browser-item-directory" @mouseleave="hideActions()">
+  <div
+    class="media-browser-item-directory"
+    @mouseleave="hideActions()"
+  >
     <div
       class="media-browser-item-preview"
       @dblclick.stop.prevent="onPreviewDblClick()"
@@ -21,13 +24,13 @@
   </div>
 </template>
 <script>
-import navigable from "../../../mixins/navigable.es6";
+import navigable from '../../../mixins/navigable.es6';
 
 export default {
-  name: "MediaBrowserItemDirectory",
+  name: 'MediaBrowserItemDirectory',
   mixins: [navigable],
   // eslint-disable-next-line vue/require-prop-types
-  props: ["item", "focused"],
+  props: ['item', 'focused'],
   data() {
     return {
       showActions: false,
