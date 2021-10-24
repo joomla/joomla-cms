@@ -921,7 +921,7 @@ class ModuleModel extends AdminModel
 
 		foreach ($templates as $template)
 		{
-			$chromePath      = $client->path . '/templates/' . $template->element . '/html/layouts/chromes';
+			$chromePath = $client->path . '/templates/' . $template->element . '/html/layouts/chromes';
 
 			// Skip if there is no chrome folder in that template.
 			if (!is_dir($chromePath))
