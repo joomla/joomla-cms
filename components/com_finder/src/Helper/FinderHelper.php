@@ -46,7 +46,7 @@ class FinderHelper
 		}
 
 		// Initialise our variables
-		$db = Factory::getDbo();
+		$db = Factory::getContainer()->get('DatabaseDriver');
 		$query = $db->getQuery(true);
 
 		// Sanitise the term for the database
