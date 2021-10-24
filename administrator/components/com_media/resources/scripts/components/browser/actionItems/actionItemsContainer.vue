@@ -4,10 +4,7 @@
     :aria-label="translate('COM_MEDIA_TOGGLE_SELECT_ITEM')"
     :title="translate('COM_MEDIA_TOGGLE_SELECT_ITEM')"
   />
-  <div
-    class="media-browser-actions"
-    :class="{ active: showActions }"
-  >
+  <div class="media-browser-actions" :class="{ active: showActions }">
     <media-browser-action-item-toggle
       ref="actionToggle"
       :on-focused="focused"
@@ -15,10 +12,7 @@
       @keyup.up="openLastActions()"
       @keyup.down="openActions()"
     />
-    <div
-      v-if="showActions"
-      class="media-browser-actions-list"
-    >
+    <div v-if="showActions" class="media-browser-actions-list">
       <ul>
         <li>
           <media-browser-action-item-preview
@@ -48,11 +42,17 @@
             :on-focused="focused"
             :main-action="openRenameModal"
             :closing-action="hideActions"
-            @keyup.up="downloadable ? $refs.actionDownload.$el.focus() : $refs.actionDelete.$el.focus()"
+            @keyup.up="
+              downloadable
+                ? $refs.actionDownload.$el.focus()
+                : $refs.actionDelete.$el.focus()
+            "
             @keyup.down="
               canEdit
                 ? $refs.actionEdit.$el.focus()
-                : shareable ? $refs.actionShare.$el.focus() : $refs.actionDelete.$el.focus()
+                : shareable
+                ? $refs.actionShare.$el.focus()
+                : $refs.actionDelete.$el.focus()
             "
           />
         </li>
@@ -88,8 +88,16 @@
             :on-focused="focused"
             :main-action="openConfirmDeleteModal"
             :hide-actions="hideActions"
-            @keyup.up="shareable ? $refs.actionShare.$el.focus() : $refs.actionRename.$el.focus()"
-            @keyup.down="previewable ? $refs.actionPreview.$el.focus() : $refs.actionRename.$el.focus()"
+            @keyup.up="
+              shareable
+                ? $refs.actionShare.$el.focus()
+                : $refs.actionRename.$el.focus()
+            "
+            @keyup.down="
+              previewable
+                ? $refs.actionPreview.$el.focus()
+                : $refs.actionRename.$el.focus()
+            "
           />
         </li>
       </ul>
@@ -98,10 +106,10 @@
 </template>
 
 <script>
-import * as types from '../../../store/mutation-types.es6';
+import * as types from "../../../store/mutation-types.es6";
 
 export default {
-  name: 'MediaBrowserActionItemsContainer',
+  name: "MediaBrowserActionItemsContainer",
   props: {
     item: { type: Object, default: () => {} },
     onFocused: { type: Function, default: () => {} },
@@ -124,18 +132,17 @@ export default {
   },
   methods: {
     /* Hide actions dropdown */
+    /* Hide actions dropdown */
     hideActions() {
-      this.showActions = false;
-      this.$nextTick(() => this.$refs.actionToggle.$el.focus());
+      this.$refs.container.hideActions();
     },
     /* Preview an item */
     openPreview() {
-      this.$store.commit(types.SHOW_PREVIEW_MODAL);
-      this.$store.dispatch('getFullContents', this.item);
+      this.$refs.container.openPreview();
     },
     /* Preview an item */
     download() {
-      this.$store.dispatch('download', this.item);
+      this.$store.dispatch("download", this.item);
     },
     /* Opening confirm delete modal */
     openConfirmDeleteModal() {

@@ -48,35 +48,9 @@ export default {
     },
   },
   methods: {
-    /* Handle the on preview double click event */
-    onPreviewDblClick() {
-      this.navigateTo(this.item.path);
-    },
-    /* Opening confirm delete modal */
-    openConfirmDeleteModal() {
-      this.$store.commit(types.UNSELECT_ALL_BROWSER_ITEMS);
-      this.$store.commit(types.SELECT_BROWSER_ITEM, this.item);
-      this.$store.commit(types.SHOW_CONFIRM_DELETE_MODAL);
-    },
-    /* Rename an item */
-    openRenameModal() {
-      this.hideActions();
-      this.$store.commit(types.SELECT_BROWSER_ITEM, this.item);
-      this.$store.commit(types.SHOW_RENAME_MODAL);
-    },
-    /* Open actions dropdown */
-    openActions() {
-      this.showActions = true;
-      this.$nextTick(() => this.$refs.actionRename.focus());
-    },
-    /* Open actions dropdown and focus on last element */
-    openLastActions() {
-      this.showActions = true;
-      this.$nextTick(() => this.$refs.actionDelete.focus());
-    },
     /* Hide actions dropdown */
     hideActions() {
-      this.showActions = false;
+      this.$refs.container.hideActions();
     },
   },
 };

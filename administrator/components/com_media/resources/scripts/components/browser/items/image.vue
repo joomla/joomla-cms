@@ -31,12 +31,12 @@
 </template>
 
 <script>
-import { api } from '../../../app/Api.es6';
+import { api } from "../../../app/Api.es6";
 
 export default {
-  name: 'MediaBrowserItemImage',
+  name: "MediaBrowserItemImage",
   // eslint-disable-next-line vue/require-prop-types
-  props: ['item', 'focused'],
+  props: ["item", "focused"],
   data() {
     return {
       showActions: false,
@@ -45,7 +45,7 @@ export default {
   computed: {
     /* Get the hashed URL */
     getHashedURL() {
-      if (this.item.adapter.startsWith('local-')) {
+      if (this.item.adapter.startsWith("local-")) {
         return `url(${this.item.thumb_path}?${api.mediaVersion})`;
       }
       return `url(${this.item.thumb_path})`;
@@ -53,8 +53,14 @@ export default {
   },
   watch: {
     // eslint-disable-next-line
-    '$store.state.showRenameModal'(show) {
-      if (!show && this.$refs.actionToggle && this.$store.state.selectedItems.find((item) => item.name === this.item.name) !== undefined) {
+    "$store.state.showRenameModal"(show) {
+      if (
+        !show &&
+        this.$refs.actionToggle &&
+        this.$store.state.selectedItems.find(
+          (item) => item.name === this.item.name
+        ) !== undefined
+      ) {
         this.$refs.actionToggle.focus();
       }
     },
@@ -62,43 +68,22 @@ export default {
   methods: {
     /* Check if the item is an document to edit */
     canEdit() {
-      return ['jpg', 'jpeg', 'png'].includes(this.item.extension.toLowerCase());
+      return ["jpg", "jpeg", "png"].includes(this.item.extension.toLowerCase());
     },
     /* Hide actions dropdown */
     hideActions() {
       this.$refs.container.hideActions();
     },
-    /* Rename an item */
-    openRenameModal() {
-      this.hideActions();
-      this.$store.commit(types.SELECT_BROWSER_ITEM, this.item);
-      this.$store.commit(types.SHOW_RENAME_MODAL);
+    /* Preview an item */
+    openPreview() {
+      this.$refs.container.openPreview();
     },
     /* Edit an item */
     editItem() {
       // TODO should we use relative urls here?
-      const fileBaseUrl = `${Joomla.getOptions('com_media').editViewUrl}&path=`;
+      const fileBaseUrl = `${Joomla.getOptions("com_media").editViewUrl}&path=`;
 
       window.location.href = fileBaseUrl + this.item.path;
-    },
-    /* Open modal for share url */
-    openShareUrlModal() {
-      this.$store.commit(types.SELECT_BROWSER_ITEM, this.item);
-      this.$store.commit(types.SHOW_SHARE_MODAL);
-    },
-    /* Open actions dropdown */
-    openActions() {
-      this.showActions = true;
-      this.$nextTick(() => this.$refs.actionPreview.focus());
-    },
-    /* Open actions dropdown and focus on last element */
-    openLastActions() {
-      this.showActions = true;
-      this.$nextTick(() => this.$refs.actionDelete.focus());
-    },
-    /* Hide actions dropdown */
-    hideActions() {
-      this.showActions = false;
     },
   },
 };

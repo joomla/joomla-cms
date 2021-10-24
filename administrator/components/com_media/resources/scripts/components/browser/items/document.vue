@@ -57,45 +57,13 @@ export default {
     },
   },
   methods: {
-    /* Preview an item */
-    openPreview() {
-      this.$store.commit(types.SHOW_PREVIEW_MODAL);
-      this.$store.dispatch("getFullContents", this.item);
-    },
-    /* Preview an item */
-    download() {
-      this.$store.dispatch("download", this.item);
-    },
-    /* Opening confirm delete modal */
-    openConfirmDeleteModal() {
-      this.$store.commit(types.UNSELECT_ALL_BROWSER_ITEMS);
-      this.$store.commit(types.SELECT_BROWSER_ITEM, this.item);
-      this.$store.commit(types.SHOW_CONFIRM_DELETE_MODAL);
-    },
-    /* Rename an item */
-    openRenameModal() {
-      this.hideActions();
-      this.$store.commit(types.SELECT_BROWSER_ITEM, this.item);
-      this.$store.commit(types.SHOW_RENAME_MODAL);
-    },
-    /* Open modal for share url */
-    openShareUrlModal() {
-      this.$store.commit(types.SELECT_BROWSER_ITEM, this.item);
-      this.$store.commit(types.SHOW_SHARE_MODAL);
-    },
-    /* Open actions dropdown */
-    openActions() {
-      this.showActions = true;
-      this.$nextTick(() => this.$refs.actionPreview.focus());
-    },
-    /* Open actions dropdown and focus on last element */
-    openLastActions() {
-      this.showActions = true;
-      this.$nextTick(() => this.$refs.actionDelete.focus());
-    },
     /* Hide actions dropdown */
     hideActions() {
-      this.showActions = false;
+      this.$refs.container.hideActions();
+    },
+    /* Preview an item */
+    openPreview() {
+      this.$refs.container.openPreview();
     },
     /* Edit an item */
     editItem() {},
