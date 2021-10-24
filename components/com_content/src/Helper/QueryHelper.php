@@ -69,7 +69,7 @@ class QueryHelper
 	 */
 	public static function orderbySecondary($orderby, $orderDate = 'created', DatabaseInterface $db = null)
 	{
-		$db = $db ?: Factory::getDbo();
+		$db = $db ?: Factory::getContainer()->get('DatabaseDriver');
 
 		$queryDate = self::getQueryDate($orderDate, $db);
 
@@ -175,7 +175,7 @@ class QueryHelper
 	 */
 	public static function getQueryDate($orderDate, DatabaseInterface $db = null)
 	{
-		$db = $db ?: Factory::getDbo();
+		$db = $db ?: Factory::getContainer()->get('DatabaseDriver');
 
 		switch ($orderDate)
 		{
