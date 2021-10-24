@@ -125,11 +125,7 @@ class CategoryController extends FormController
 	 *
 	 * @return  boolean  True if successful, false otherwise.
 	 *
-<<<<<<< HEAD:administrator/components/com_categories/src/Controller/CategoryController.php
-	 * @since   4.0.4
-=======
 	 * @since   3.10.3
->>>>>>> 3.10-dev:administrator/components/com_categories/controllers/category.php
 	 */
 	public function save($key = null, $urlVar = null)
 	{
