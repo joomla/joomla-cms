@@ -154,7 +154,7 @@ export default {
       this.$store.commit(types.SHOW_PREVIEW_MODAL);
       this.$store.dispatch("getFullContents", this.item);
     },
-    /* Preview an item */
+    /* Download an item */
     download() {
       this.$store.dispatch("download", this.item);
     },
