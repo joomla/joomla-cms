@@ -46,7 +46,8 @@ class Api extends Module
 					'username'     => 'api',
 					'password'     => '123',
 					'block'        => 0,
-					'registerDate' => '2000-01-01'
+					'registerDate' => '2000-01-01',
+					'params'       => '{}'
 				],
 				[]
 			);
