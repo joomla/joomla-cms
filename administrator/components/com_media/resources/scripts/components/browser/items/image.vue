@@ -51,20 +51,6 @@ export default {
       return `url(${this.item.thumb_path})`;
     },
   },
-  watch: {
-    // eslint-disable-next-line
-    "$store.state.showRenameModal"(show) {
-      if (
-        !show &&
-        this.$refs.actionToggle &&
-        this.$store.state.selectedItems.find(
-          (item) => item.name === this.item.name
-        ) !== undefined
-      ) {
-        this.$refs.actionToggle.focus();
-      }
-    },
-  },
   methods: {
     /* Check if the item is an document to edit */
     canEdit() {

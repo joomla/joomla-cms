@@ -124,6 +124,20 @@ export default {
       showActions: false,
     };
   },
+  watch: {
+    // eslint-disable-next-line
+    "$store.state.showRenameModal"(show) {
+      if (
+        !show &&
+        this.$refs.actionToggle &&
+        this.$store.state.selectedItems.find(
+          (item) => item.name === this.item.name
+        ) !== undefined
+      ) {
+        this.$refs.actionToggle.$el.focus();
+      }
+    },
+  },
   computed: {
     /* Check if the item is an document to edit */
     canEdit() {
@@ -132,13 +146,13 @@ export default {
   },
   methods: {
     /* Hide actions dropdown */
-    /* Hide actions dropdown */
     hideActions() {
-      this.$refs.container.hideActions();
+      this.showActions = false;
     },
     /* Preview an item */
     openPreview() {
-      this.$refs.container.openPreview();
+      this.$store.commit(types.SHOW_PREVIEW_MODAL);
+      this.$store.dispatch("getFullContents", this.item);
     },
     /* Preview an item */
     download() {
@@ -152,6 +166,7 @@ export default {
     },
     /* Rename an item */
     openRenameModal() {
+      this.hideActions();
       this.$store.commit(types.SELECT_BROWSER_ITEM, this.item);
       this.$store.commit(types.SHOW_RENAME_MODAL);
     },
