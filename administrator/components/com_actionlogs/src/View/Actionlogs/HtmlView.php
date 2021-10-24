@@ -82,7 +82,7 @@ class HtmlView extends BaseHtmlView
 	 * Setting if the date should be displayed relative to the current date.
 	 *
 	 * @var    boolean
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.1.0
 	 */
 	protected $dateRelative = false;
 

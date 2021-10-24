@@ -127,19 +127,8 @@ class TagModel extends AdminModel
 			$registry = new Registry($result->urls);
 			$result->urls = $registry->toArray();
 
-			// Convert the created and modified dates to local user time for display in the form.
+			// Convert the modified dates to local user time for display in the form.
 			$tz = new \DateTimeZone(Factory::getApplication()->get('offset'));
-
-			if ((int) $result->created_time)
-			{
-				$date = new Date($result->created_time);
-				$date->setTimezone($tz);
-				$result->created_time = $date->toSql(true);
-			}
-			else
-			{
-				$result->created_time = null;
-			}
 
 			if ((int) $result->modified_time)
 			{
