@@ -37,7 +37,19 @@ class Api extends Module
 
 		if (!$db->grabFromDatabase('users', 'id', ['id' => $desiredUserId]))
 		{
-			$db->haveInDatabase('users', ['id' => $desiredUserId, 'name' => 'API', 'email' => 'api@example.com', 'username' => 'api', 'password' => '123', 'block' => 0], []);
+			$db->haveInDatabase(
+				'users',
+				[
+					'id'           => $desiredUserId,
+					'name'         => 'API',
+					'email'        => 'api@example.com',
+					'username'     => 'api',
+					'password'     => '123',
+					'block'        => 0,
+					'registerDate' => '2000-01-01'
+				],
+				[]
+			);
 			$db->haveInDatabase('user_usergroup_map', ['user_id' => $desiredUserId, 'group_id' => 8]);
 			$enabledData = ['user_id' => $desiredUserId, 'profile_key' => 'joomlatoken.enabled', 'profile_value' => 1];
 			$tokenData = ['user_id' => $desiredUserId, 'profile_key' => 'joomlatoken.token', 'profile_value' => 'dOi2m1NRrnBHlhaWK/WWxh3B5tqq1INbdf4DhUmYTI4='];
