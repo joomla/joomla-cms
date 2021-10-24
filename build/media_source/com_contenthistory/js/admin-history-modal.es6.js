@@ -20,7 +20,7 @@
         }
       } else {
         // @todo use the CE Modal here
-        alert(Joomla.Text._('COM_CONTENTHISTORY_BUTTON_SELECT_ONE'));
+        alert(Joomla.Text._('COM_CONTENTHISTORY_BUTTON_SELECT_ONE_VERSION'));
       }
       return false;
     });
@@ -36,7 +36,7 @@
         }
       } else {
         // @todo use the CE Modal here
-        alert(Joomla.Text._('COM_CONTENTHISTORY_BUTTON_SELECT_ONE'));
+        alert(Joomla.Text._('COM_CONTENTHISTORY_BUTTON_SELECT_ONE_VERSION'));
       }
       return false;
     });
@@ -55,7 +55,7 @@
         }
       } else {
         // @todo use the CE Modal here
-        alert(Joomla.Text._('COM_CONTENTHISTORY_BUTTON_SELECT_TWO'));
+        alert(Joomla.Text._('COM_CONTENTHISTORY_BUTTON_SELECT_TWO_VERSIONS'));
       }
       return false;
     });
