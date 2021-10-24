@@ -139,7 +139,7 @@ export default {
     },
   },
   computed: {
-    /* Check if the item is an document to edit */
+    /* Check if the item is a document to edit */
     canEdit() {
       return this.editable();
     },
