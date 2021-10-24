@@ -97,6 +97,8 @@ class PlgWebservicesMedia extends CMSPlugin
 
 		$routes = [
 			new Route(['GET'], $baseName, $controller . '.displayList', [], $getDefaults),
+			// When the path ends with a backslash, then list the items
+			new Route(['GET'], $baseName . '/:path/', $controller . '.displayList', ['path' => '.*\/'], $getDefaults),
 			new Route(['GET'], $baseName . '/:path', $controller . '.displayItem', ['path' => '.*'], $getDefaults),
 			new Route(['POST'], $baseName, $controller . '.add', [], $defaults),
 			new Route(['PATCH'], $baseName . '/:path', $controller . '.edit', ['path' => '.*'], $defaults),

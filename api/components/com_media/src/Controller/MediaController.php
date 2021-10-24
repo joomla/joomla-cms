@@ -20,6 +20,7 @@ use Joomla\Component\Media\Administrator\Exception\FileExistsException;
 use Joomla\Component\Media\Administrator\Exception\InvalidPathException;
 use Joomla\Component\Media\Api\Helper\AdapterTrait;
 use Joomla\Component\Media\Api\Helper\MediaHelper;
+use Joomla\Component\Media\Api\Model\MediumModel;
 use Joomla\String\Inflector;
 use Tobscure\JsonApi\Exception\InvalidParameterException;
 
@@ -215,7 +216,8 @@ class MediaController extends ApiController
 			$missingParameters[] = 'path';
 		}
 
-		if (empty($content))
+		// Content is only required when it is a file
+		if (empty($content) && strpos($path, '.'))
 		{
 			$missingParameters[] = 'content';
 		}
@@ -285,7 +287,7 @@ class MediaController extends ApiController
 		// For renaming/moving files, we need the path to the existing file or folder.
 		$this->modelState->set('old_path', $this->input->get('path', '', 'STRING'));
 		// Check if an existing file may be overwritten. Defaults to true.
-		$this->modelState->set('override', $this->input->json->get('override', false));
+		$this->modelState->set('override', $this->input->json->get('override', true));
 
 		$recordId = $this->save();
 
@@ -312,17 +314,19 @@ class MediaController extends ApiController
 	/**
 	 * Method to create or modify a file or folder.
 	 *
-	 * @param   int  $recordKey  The primary key of the item (if exists)
+	 * @param   integer  $recordKey  The primary key of the item (if exists)
 	 *
-	 * @return  int  The record ID on success, false on failure
+	 * @return  string   The path
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	protected function save($recordKey = null): int
+	protected function save($recordKey = null)
 	{
 		// Explicitly get the single item model name.
 		$modelName = $this->input->get('model', Inflector::singularize($this->contentType));
-		$model     = $this->getModel($modelName, '', ['ignore_request' => true, 'state' => $this->modelState]);
+
+		/** @var MediumModel $model */
+		$model = $this->getModel($modelName, '', ['ignore_request' => true, 'state' => $this->modelState]);
 
 		$json = $this->input->json;
 

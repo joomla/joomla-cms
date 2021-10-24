@@ -47,4 +47,16 @@ class Api extends Module
 
 		return 'c2hhMjU2OjM6ZTJmMjJlYTNlNTU0NmM1MDJhYTIzYzMwN2MxYzAwZTQ5NzJhMWRmOTUyNjY5MTk2YjE5ODJmZWMwZTcxNzgwMQ==';
 	}
+
+		/**
+	 * Creates a user for API authentication and returns a bearer token.
+	 *
+	 * @return  string  The token
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function getConfig($name): string
+	{
+		return $this->getModule('Helper\Api')->_getConfig()[$name];
+	}
 }

@@ -84,12 +84,13 @@ class MediumModel extends BaseModel
 	 *
 	 * @param   string  $path  The primary key of the item (if exists)
 	 *
-	 * @return  int     The record ID on success, false on failure
+	 * @return  string   The path
 	 *
 	 * @since   __DEPLOY_VERSION__
+	 *
 	 * @throws  Save
 	 */
-	public function save($path = null): int
+	public function save($path = null): string
 	{
 		$path     = $this->getState('path', '');
 		$oldPath  = $this->getState('old_path', '');

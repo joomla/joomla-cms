@@ -2,7 +2,7 @@ actor: ApiTester
 modules:
     enabled:
         - Helper\JoomlaDb
-        - \Helper\Api
+        - Helper\Api
         - REST:
              url: http://localhost/test-install/api/index.php/v1
              depends: PhpBrowser
@@ -13,3 +13,5 @@ modules:
             user: 'root'
             password: 'joomla_ut'
             prefix: 'jos_'
+        Helper\Api:
+            cmsPath: '/tests/www/test-install'
