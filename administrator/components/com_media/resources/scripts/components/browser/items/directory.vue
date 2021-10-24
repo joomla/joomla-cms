@@ -37,6 +37,10 @@ export default {
     };
   },
   methods: {
+    /* Handle the on preview double click event */
+    onPreviewDblClick() {
+      this.navigateTo(this.item.path);
+    },
     /* Hide actions dropdown */
     hideActions() {
       this.$refs.container.hideActions();
