@@ -6,10 +6,7 @@
   >
     <div class="media-browser-item-preview">
       <div class="image-background">
-        <div
-          class="image-cropped"
-          :style="{ backgroundImage: getHashedURL }"
-        />
+        <div class="image-cropped" :style="{ backgroundImage: getHashedURL }" />
       </div>
     </div>
     <div class="media-browser-item-info">
@@ -54,6 +51,14 @@ export default {
       return `url(${this.item.thumb_path})`;
     },
   },
+  watch: {
+    // eslint-disable-next-line
+    '$store.state.showRenameModal'(show) {
+      if (!show && this.$refs.actionToggle && this.$store.state.selectedItems.find((item) => item.name === this.item.name) !== undefined) {
+        this.$refs.actionToggle.focus();
+      }
+    },
+  },
   methods: {
     /* Check if the item is an document to edit */
     canEdit() {
@@ -63,9 +68,11 @@ export default {
     hideActions() {
       this.$refs.container.hideActions();
     },
-    /* Preview an item */
-    openPreview() {
-      this.$refs.container.openPreview();
+    /* Rename an item */
+    openRenameModal() {
+      this.hideActions();
+      this.$store.commit(types.SELECT_BROWSER_ITEM, this.item);
+      this.$store.commit(types.SHOW_RENAME_MODAL);
     },
     /* Edit an item */
     editItem() {
@@ -73,6 +80,25 @@ export default {
       const fileBaseUrl = `${Joomla.getOptions('com_media').editViewUrl}&path=`;
 
       window.location.href = fileBaseUrl + this.item.path;
+    },
+    /* Open modal for share url */
+    openShareUrlModal() {
+      this.$store.commit(types.SELECT_BROWSER_ITEM, this.item);
+      this.$store.commit(types.SHOW_SHARE_MODAL);
+    },
+    /* Open actions dropdown */
+    openActions() {
+      this.showActions = true;
+      this.$nextTick(() => this.$refs.actionPreview.focus());
+    },
+    /* Open actions dropdown and focus on last element */
+    openLastActions() {
+      this.showActions = true;
+      this.$nextTick(() => this.$refs.actionDelete.focus());
+    },
+    /* Hide actions dropdown */
+    hideActions() {
+      this.showActions = false;
     },
   },
 };
