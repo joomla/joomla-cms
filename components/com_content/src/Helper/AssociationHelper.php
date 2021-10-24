@@ -53,7 +53,7 @@ abstract class AssociationHelper extends CategoryAssociationHelper
 			{
 				$user      = Factory::getUser();
 				$groups    = implode(',', $user->getAuthorisedViewLevels());
-				$db        = Factory::getDbo();
+				$db        = Factory::getContainer()->get('DatabaseDriver');
 				$advClause = array();
 
 				// Filter by user groups
