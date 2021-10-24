@@ -217,7 +217,7 @@ class MediaController extends ApiController
 		}
 
 		// Content is only required when it is a file
-		if (empty($content) && strpos($path, '.'))
+		if (empty($content) && strpos($path, '.') !== false)
 		{
 			$missingParameters[] = 'content';
 		}
