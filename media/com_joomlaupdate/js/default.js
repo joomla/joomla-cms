@@ -223,7 +223,7 @@ function extractionMethodHandler(target, prefix)
 				case PreUpdateChecker.STATE.COMPATIBLE:
 					if (extensionData.compatibilityData.upgradeWarning)
 					{
-						html = '<span class="label label-warning"><span dir="ltr">' + extensionData.compatibilityData.upgradeCompatibilityStatus.compatibleVersion + '</span></span>';
+						html = '<span class="label label-warning" dir="ltr">' + extensionData.compatibilityData.upgradeCompatibilityStatus.compatibleVersion + '</span>';
 						PreUpdateChecker.showyellowwarning = true;
 					}
 					else {
