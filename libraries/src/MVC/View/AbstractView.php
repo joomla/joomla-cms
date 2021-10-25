@@ -14,6 +14,8 @@ use Joomla\CMS\Document\Document;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Joomla\CMS\Object\CMSObject;
+use Joomla\Event\DispatcherAwareInterface;
+use Joomla\Event\DispatcherAwareTrait;
 
 /**
  * Base class for a Joomla View
@@ -22,8 +24,10 @@ use Joomla\CMS\Object\CMSObject;
  *
  * @since  2.5.5
  */
-abstract class AbstractView extends CMSObject implements ViewInterface
+abstract class AbstractView extends CMSObject implements ViewInterface, DispatcherAwareInterface
 {
+	use DispatcherAwareTrait;
+
 	/**
 	 * The active document object
 	 *
@@ -243,5 +247,3 @@ abstract class AbstractView extends CMSObject implements ViewInterface
 		return $this->_name;
 	}
 }
-
-
