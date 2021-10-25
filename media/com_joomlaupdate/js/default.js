@@ -223,11 +223,11 @@ function extractionMethodHandler(target, prefix)
 				case PreUpdateChecker.STATE.COMPATIBLE:
 					if (extensionData.compatibilityData.upgradeWarning)
 					{
-						html = '<span class="label label-warning">' + extensionData.compatibilityData.upgradeCompatibilityStatus.compatibleVersion + '</span>';
+						html = '<span class="label label-warning"><span dir="ltr">' + extensionData.compatibilityData.upgradeCompatibilityStatus.compatibleVersion + '</span></span>';
 						PreUpdateChecker.showyellowwarning = true;
 					}
 					else {
-						html = extensionData.compatibilityData.upgradeCompatibilityStatus.compatibleVersion == false ? Joomla.JText._('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSION_NO_COMPATIBILITY_INFORMATION') : extensionData.compatibilityData.upgradeCompatibilityStatus.compatibleVersion;
+						html = extensionData.compatibilityData.upgradeCompatibilityStatus.compatibleVersion == false ? Joomla.JText._('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSION_NO_COMPATIBILITY_INFORMATION') : '<span dir="ltr">' + extensionData.compatibilityData.upgradeCompatibilityStatus.compatibleVersion + '</span>';
 					}
 					break;
 				case PreUpdateChecker.STATE.INCOMPATIBLE:
@@ -258,7 +258,7 @@ function extractionMethodHandler(target, prefix)
 			// Switch the compatibility state
 			switch (extensionData.compatibilityData.currentCompatibilityStatus.state) {
 				case PreUpdateChecker.STATE.COMPATIBLE:
-					html = extensionData.compatibilityData.currentCompatibilityStatus.compatibleVersion == false ? Joomla.JText._('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSION_NO_COMPATIBILITY_INFORMATION') : extensionData.compatibilityData.currentCompatibilityStatus.compatibleVersion;
+					html = extensionData.compatibilityData.currentCompatibilityStatus.compatibleVersion == false ? Joomla.JText._('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSION_NO_COMPATIBILITY_INFORMATION') : '<span dir="ltr">' + extensionData.compatibilityData.currentCompatibilityStatus.compatibleVersion + '</span>';
 					break;
 				case PreUpdateChecker.STATE.INCOMPATIBLE:
 					// No compatible version found -> display error label

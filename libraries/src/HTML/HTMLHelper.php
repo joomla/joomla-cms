@@ -1170,4 +1170,27 @@ abstract class HTMLHelper
 
 		return '{' . implode(',', $elements) . '}';
 	}
+
+	/**
+	 * Wrap inline text or markup into an HTML inline element with a "dir" attribute
+	 * if the direction of the text or markup shall be different to the document's direction.
+	 *
+	 * @param   string  $value      The text or markup to be shown with direction = $direction
+	 * @param   string  $direction  The direction in which the text or markup shall be shown (auto, ltr or rtl)
+	 * @param   string  $element    The HTML inline element to wrap the text or markup into
+	 *
+	 * @return  string  HTML markup for the desired direction
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 *
+	 */
+	public static function inlineBidirectional($value, $direction = "auto", $element = "span")
+	{
+		if (strtolower(Factory::getDocument()->getDirection()) === $direction)
+		{
+			return $value;
+		}
+
+		return '<' . $element . ' dir="' $direction.  '">' . $value . '</' . $element . '>';
+	}
 }

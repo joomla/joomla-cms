@@ -111,7 +111,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 							<?php echo $item->type_translated; ?>
 						</td>
 						<td class="hidden-phone">
-							<?php echo @$item->version != '' ? $item->version : '&#160;'; ?>
+							<?php echo @$item->version != '' ? JHtml::inlineBidirectional($item->version, 'ltr') : '&#160;'; ?>
 						</td>
 						<td class="hidden-phone hidden-tablet">
 							<?php echo @$item->creationDate != '' ? $item->creationDate : '&#160;'; ?>
