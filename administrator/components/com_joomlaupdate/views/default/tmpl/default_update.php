@@ -26,7 +26,7 @@ defined('_JEXEC') or die;
 				<?php echo JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_INSTALLED'); ?>
 			</td>
 			<td>
-				<?php echo JHtml::inlineBidirectional($this->updateInfo['installed'], 'ltr'); ?>
+				<?php echo JHtml::_('inlineBidirectional', $this->updateInfo['installed'], 'ltr'); ?>
 			</td>
 		</tr>
 		<tr>
@@ -34,7 +34,7 @@ defined('_JEXEC') or die;
 				<?php echo JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_LATEST'); ?>
 			</td>
 			<td>
-				<?php echo JHtml::inlineBidirectional($this->updateInfo['latest'], 'ltr'); ?>
+				<?php echo JHtml::_('inlineBidirectional', $this->updateInfo['latest'], 'ltr'); ?>
 			</td>
 		</tr>
 		<tr>
