@@ -58,8 +58,8 @@ defined('_JEXEC') or die;
 				<div class="control-group" >
 					<fieldset class="panelform">
 						<ul>
-							<li><?php echo JText::sprintf('COM_INSTALLER_MSG_DATABASE_SCHEMA_VERSION_IN_TABLE', JHtml::inlineBidirectional('#__schemas', 'ltr', 'en'), $this->schemaVersionHtml); ?></li>
-							<li><?php echo JText::sprintf('COM_INSTALLER_MSG_DATABASE_UPDATE_VERSION_IN_TABLE', JHtml::inlineBidirectional('#__extensions', 'ltr', 'en'), $this->updateVersionHtml); ?></li>
+							<li><?php echo JText::sprintf('COM_INSTALLER_MSG_DATABASE_SCHEMA_VERSION_IN_TABLE', JHtml::inlineBidirectional('#__schemas', 'ltr', 'span', 'en'), $this->schemaVersionHtml); ?></li>
+							<li><?php echo JText::sprintf('COM_INSTALLER_MSG_DATABASE_UPDATE_VERSION_IN_TABLE', JHtml::inlineBidirectional('#__extensions', 'ltr', 'span', 'en'), $this->updateVersionHtml); ?></li>
 							<li><?php echo JText::sprintf('COM_INSTALLER_MSG_DATABASE_DRIVER', JFactory::getDbo()->name); ?></li>
 							<li><?php echo JText::sprintf('COM_INSTALLER_MSG_DATABASE_CHECKED_OK', count($this->results['ok'])); ?></li>
 							<li><?php echo JText::sprintf('COM_INSTALLER_MSG_DATABASE_SKIPPED', count($this->results['skipped'])); ?></li>
