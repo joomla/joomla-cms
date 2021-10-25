@@ -21,6 +21,9 @@ const scheduleRunnerOptions = Joomla.getOptions('plg_system_schedulerunner');
 const systemPaths = Joomla.getOptions('system.paths');
 
 const scheduleRunnerInterval = (scheduleRunnerOptions && scheduleRunnerOptions.interval ? parseInt(scheduleRunnerOptions.interval, 10) : 300) * 1000;
-const scheduleRunnerUri = `${(systemPaths ? `${systemPaths.root}/index.php` : window.location.pathname)}?option=com_ajax&format=raw&plugin=runScheduler&group=system`;
+const scheduleRunnerUri = `${(systemPaths ? `${systemPaths.root}/index.php` : window.location.pathname)}?option=com_ajax&format=raw&plugin=RunSchedulerLazy&group=system`;
 
 setInterval(() => navigator.sendBeacon(scheduleRunnerUri), scheduleRunnerInterval);
+
+// Run it at the beginning at least once
+navigator.sendBeacon(scheduleRunnerUri);

@@ -14,6 +14,7 @@ use Assert\AssertionFailedException;
 use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\Component\Scheduler\Administrator\Scheduler\Scheduler;
 use Joomla\Event\DispatcherInterface;
@@ -54,19 +55,13 @@ class PlgSystemSchedulerunner extends CMSPlugin implements SubscriberInterface
 
 		if ($app->isClient('site') || $app->isClient('administrator'))
 		{
-			if ($config->get('lazy_scheduler.enabled') && $app->getDocument()->getType() === 'html')
-			{
-				$mapping['onBeforeCompileHead'] = 'injectScheduleRunner';
-				$mapping['onAjaxRunSchedulerLazy'] = 'runLazyCron';
-			}
+			$mapping['onBeforeCompileHead'] = 'injectLazyJS';
+			$mapping['onAjaxRunSchedulerLazy'] = 'runLazyCron';
 
 			// Only allowed in the frontend
 			if ($app->isClient('site'))
 			{
-				$hash = $config->get('webcron.hash');
-
-				// @todo enforce a minimum complexity for hash?
-				if ($config->get('webcron.enabled') && strlen($hash) && $hash === $app->input->get('hash'))
+				if ($config->get('webcron.enabled'))
 				{
 					$mapping['onAjaxRunSchedulerWebcron'] = 'runWebCron';
 				}
@@ -91,9 +86,20 @@ class PlgSystemSchedulerunner extends CMSPlugin implements SubscriberInterface
 	 *
 	 * @since __DEPLOY_VERSION__
 	 */
-	public function injectScheduleRunner(Event $event): void
+	public function injectLazyJS(Event $event): void
 	{
+		// Only inject in HTML documents
+		if ($this->app->getDocument()->getType() !== 'html')
+		{
+			return;
+		}
+
 		$config = ComponentHelper::getParams('com_scheduler');
+
+		if (!$config->get('lazy_scheduler.enabled'))
+		{
+			return;
+		}
 
 		// Add configuration options
 		$triggerInterval = $config->get('lazy_scheduler.interval', 300);
@@ -101,7 +107,7 @@ class PlgSystemSchedulerunner extends CMSPlugin implements SubscriberInterface
 
 		// Load and injection directive
 		$wa = $this->app->getDocument()->getWebAssetManager();
-		// $wa->getRegistry()->addExtensionRegistryFile('plg_system_schedulerunner');
+		$wa->getRegistry()->addExtensionRegistryFile('plg_system_schedulerunner');
 		$wa->useScript('plg_system_schedulerunner.run-schedule');
 	}
 
@@ -112,6 +118,13 @@ class PlgSystemSchedulerunner extends CMSPlugin implements SubscriberInterface
 	 */
 	public function runLazyCron()
 	{
+		$config = ComponentHelper::getParams('com_scheduler');
+
+		if (!$config->get('lazy_scheduler.enabled'))
+		{
+			throw new \Exception(Text::_('JERROR_ALERTNOAUTHOR'), 403);
+		}
+
 		$this->runScheduler();
 	}
 
@@ -122,6 +135,16 @@ class PlgSystemSchedulerunner extends CMSPlugin implements SubscriberInterface
 	 */
 	public function runWebCron()
 	{
+		$config = ComponentHelper::getParams('com_scheduler');
+
+		$hash = $config->get('webcron.hash');
+
+		// @todo enforce a minimum complexity for hash?
+		if (!strlen($hash) || $hash !== $this->app->input->get('hash'))
+		{
+			throw new \Exception(Text::_('JERROR_ALERTNOAUTHOR'), 403);
+		}
+
 		$id = (int) $this->app->input->getInt('id');
 
 		$this->runScheduler($id);
