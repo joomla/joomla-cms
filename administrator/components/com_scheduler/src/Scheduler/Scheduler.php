@@ -122,6 +122,12 @@ class Scheduler
 
 		$task->log(Text::sprintf('COM_SCHEDULER_SCHEDULER_TASK_START', $taskId, $taskTitle), 'info');
 
+		// Let's try to avoid time outs
+		if (\function_exists('set_time_limit'))
+		{
+			set_time_limit(0);
+		}
+
 		$task->run();
 		$exitCode = $task->snapshot['status'] ?? Status::NO_EXIT;
 

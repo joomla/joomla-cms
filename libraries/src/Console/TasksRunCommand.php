@@ -111,7 +111,6 @@ class TasksRunCommand extends AbstractCommand
 			return Status::NO_TASK;
 		}
 
-		@set_time_limit(0);
 		$status = ['startTime' => microtime(true)];
 		$taskCount = count($records);
 		$exit = Status::OK;

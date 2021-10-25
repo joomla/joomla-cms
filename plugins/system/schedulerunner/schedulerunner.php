@@ -13,6 +13,7 @@ defined('_JEXEC') or die;
 use Assert\AssertionFailedException;
 use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Factory;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\Component\Scheduler\Administrator\Scheduler\Scheduler;
 use Joomla\Event\DispatcherInterface;
@@ -38,27 +39,6 @@ class PlgSystemSchedulerunner extends CMSPlugin implements SubscriberInterface
 	protected $app;
 
 	/**
-	 * @var  Registry
-	 * @since  __DEPLOY_VERSION__
-	 */
-	private $schedulerConfig;
-
-	/**
-	 * Override {@see CMSPlugin::__construct} to set up {@see PlgSystemSchedulerunner::$schedulerConfig}.
-	 *
-	 * @param   DispatcherInterface  $subject  The object to observe
-	 * @param   array                $config   An optional associative array of configuration settings.
-	 *
-	 * @since __DEPLOY_VERSION__
-	 */
-	public function __construct(&$subject, $config = [])
-	{
-		$this->schedulerConfig = ComponentHelper::getParams('com_scheduler');
-
-		parent::__construct($subject, $config);
-	}
-
-	/**
 	 * @inheritDoc
 	 *
 	 * @return string[]
@@ -68,18 +48,38 @@ class PlgSystemSchedulerunner extends CMSPlugin implements SubscriberInterface
 	public static function getSubscribedEvents(): array
 	{
 		$config = ComponentHelper::getParams('com_scheduler');
+		$app = Factory::getApplication();
 
-		// Make sure com_scheduler is installed and enabled, lazy scheduling is enabled
-		if (!(ComponentHelper::isEnabled('com_scheduler')
-			&& $config->get('lazy_scheduler.enabled', true)))
+		$mapping  = [];
+
+		if ($app->isClient('site') || $app->isClient('administrator'))
 		{
-			return [];
+			if ($config->get('lazy_scheduler.enabled') && $app->getDocument()->getType() === 'html')
+			{
+				$mapping['onBeforeCompileHead'] = 'injectScheduleRunner';
+				$mapping['onAjaxRunSchedulerLazy'] = 'runLazyCron';
+			}
+
+			// Only allowed in the frontend
+			if ($app->isClient('site'))
+			{
+				$hash = $config->get('webcron.hash');
+
+				// @todo enforce a minimum complexity for hash?
+				if ($config->get('webcron.enabled') && strlen($hash) && $hash === $app->input->get('hash'))
+				{
+					$mapping['onAjaxRunSchedulerWebcron'] = 'runWebCron';
+				}
+			}
+			elseif ($app->isClient('administrator'))
+			{
+				$user = Factory::getUser();
+
+				$mapping['onAjaxRunSchedulerTest'] = 'runTestCron';
+			}
 		}
 
-		return [
-			'onAjaxRunScheduler'  => 'runScheduler',
-			'onBeforeCompileHead' => 'injectScheduleRunner'
-		];
+		return $mapping;
 	}
 
 	/**
@@ -93,53 +93,77 @@ class PlgSystemSchedulerunner extends CMSPlugin implements SubscriberInterface
 	 */
 	public function injectScheduleRunner(Event $event): void
 	{
-		// Inject JS only if scheduler is not protected.
-		if ($this->schedulerConfig->get('lazy_scheduler.protected', false))
-		{
-			return;
-		}
-
-		// Only site requests [@todo allow admin]
-		if (!$this->app->isClient('site'))
-		{
-			return;
-		}
+		$config = ComponentHelper::getParams('com_scheduler');
 
 		// Add configuration options
-		$triggerInterval = $this->schedulerConfig->get('lazy_scheduler.interval', 300);
+		$triggerInterval = $config->get('lazy_scheduler.interval', 300);
 		$this->app->getDocument()->addScriptOptions('plg_system_schedulerunner', ['interval' => $triggerInterval]);
 
 		// Load and injection directive
 		$wa = $this->app->getDocument()->getWebAssetManager();
-		$wa->getRegistry()->addExtensionRegistryFile('plg_system_schedulerunner');
+		// $wa->getRegistry()->addExtensionRegistryFile('plg_system_schedulerunner');
 		$wa->useScript('plg_system_schedulerunner.run-schedule');
 	}
 
 	/**
+	 * Runs the lazy cron in the frontend when activated. No ID allowed
+	 *
+	 * @return void
+	 */
+	public function runLazyCron()
+	{
+		$this->runScheduler();
+	}
+
+	/**
+	 * Runs the webcron and uses an ID if given.
+	 *
+	 * @return void
+	 */
+	public function runWebCron()
+	{
+		$id = (int) $this->app->input->getInt('id');
+
+		$this->runScheduler($id);
+	}
+
+	/**
+	 * Runs the test cron in the backend. ID is required
+	 *
+	 * @return void
+	 */
+	public function runTestCron()
+	{
+		$id = (int) $this->app->input->getInt('id');
+
+		$user = Factory::getUser();
+
+		if (empty($id) || !$user->authorise('core.testrun', 'com_scheduler.task.' . $id))
+		{
+			throw new \Exception(Text::_('JERROR_ALERTNOAUTHOR'), 403);
+		}
+
+		$this->runScheduler($id);
+	}
+
+	/**
 	 * Run the scheduler, allowing execution of a single due task.
+	 *
+	 * @param   integer    $id  The optional ID of the task to run
 	 *
 	 * @return void
 	 *
 	 * @throws AssertionFailedException
 	 * @since __DEPLOY_VERSION__
 	 */
-	public function runScheduler(): void
+	protected function runScheduler(int $id = 0): void
 	{
-		$protected   = (bool) $this->schedulerConfig->get('lazy_scheduler.protected', 0);
-		$hash        = $this->schedulerConfig->get('lazy_scheduler.hash', '');
-		$requestHash = $this->app->getInput()->get('scheduler_hash');
-
-		if ($protected && $hash !== $requestHash)
-		{
-			return;
-		}
-
 		// Since `navigator.sendBeacon()` may time out, allow execution after disconnect if possible.
-		if (function_exists('ignore_user_abort'))
+		if (\function_exists('ignore_user_abort'))
 		{
 			ignore_user_abort(true);
 		}
 
-		(new Scheduler)->runTask();
+		(new Scheduler)->runTask($id);
 	}
 }
