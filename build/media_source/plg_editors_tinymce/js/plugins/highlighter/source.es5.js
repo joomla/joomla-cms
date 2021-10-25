@@ -67,7 +67,7 @@ const findDepth = (haystack, needle) => {
 /**
  * This function is called by plugin.js, when user clicks 'Ok' button
  */
-window.submit = () => {
+window.tinymceHighlighterSubmit = () => {
   const cc = '&#x0;';
   const isDirty = codemirror.isDirty;
   const doc = codemirror.doc;
@@ -162,8 +162,8 @@ const start = () => {
   // Set CodeMirror cursor and bookmark to same position as cursor was in TinyMCE:
   let html = editor.getContent({source_view: true});
 
-    // [FIX] #6 z-index issue with table panel and source code dialog
-    //  editor.selection.getBookmark();
+  // [FIX] #6 z-index issue with table panel and source code dialog
+  //  editor.selection.getBookmark();
 
   html = html.replace(/<span\s+style="display: none;"\s+class="CmCaReT"([^>]*)>([^<]*)<\/span>/gm, String.fromCharCode(chr));
   editor.dom.remove(editor.dom.select('.CmCaReT'));
@@ -207,7 +207,7 @@ const start = () => {
  *
  * @param {Event} evt
  */
-document.onkeydown = (evt) => {
+document.addEventListener('keydown', (evt) => {
   evt = evt || window.event;
   let isEscape = false;
   if ("key" in evt)
@@ -217,7 +217,7 @@ document.onkeydown = (evt) => {
 
   if (isEscape)
     tinymce.activeEditor.windowManager.close();
-};
+});
 
 (() => {
   // Initialise (before load)
@@ -260,12 +260,18 @@ document.onkeydown = (evt) => {
 
   // Write stylesheets
   for (let i = 0; i < CMsettings.cssFiles.length; i++) {
-    document.write('<li'+'nk rel="stylesheet" type="text/css" href="' + CMsettings.path + CMsettings.cssFiles[i] + '" />');
+    const $link = document.createElement('link');
+    $link.type = 'text/css';
+    $link.href = CMsettings.path + CMsettings.cssFiles[i];
+    document.head.append($link);
   }
 
   // Write JS source files
   for (let i = 0; i < CMsettings.jsFiles.length; i++) {
-    document.write('<scr'+'ipt type="text/javascript" src="' + CMsettings.path + CMsettings.jsFiles[i] + '"></scr'+'ipt>');
+    const $script = document.createElement('script');
+    $script.defer = true;
+    $script.src = CMsettings.path + CMsettings.jsFiles[i];
+    document.head.append($script);
   }
 
   // Borrowed from codemirror.js themeChanged function. Sets the theme's class names to the html element.

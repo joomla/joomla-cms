@@ -58,7 +58,7 @@
       config.onAction = function (dialogApi, actionData) {
         if (actionData.name === 'codemirrorOk') {
           const doc = document.querySelectorAll('.tox-dialog__body-iframe iframe')[0];
-          doc.contentWindow.submit();
+          doc.contentWindow.tinymceHighlighterSubmit();
           editor.undoManager.add();
           win.close();
         }
