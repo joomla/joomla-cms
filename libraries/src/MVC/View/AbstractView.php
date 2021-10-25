@@ -11,11 +11,13 @@ namespace Joomla\CMS\MVC\View;
 \defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Document\Document;
+use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Joomla\CMS\Object\CMSObject;
 use Joomla\Event\DispatcherAwareInterface;
 use Joomla\Event\DispatcherAwareTrait;
+use Joomla\Event\EventInterface;
 
 /**
  * Base class for a Joomla View
@@ -245,5 +247,26 @@ abstract class AbstractView extends CMSObject implements ViewInterface, Dispatch
 		}
 
 		return $this->_name;
+	}
+
+	/**
+	 * Dispatches the given event on the internal dispatcher, does a fallback to the global one.
+	 *
+	 * @param   EventInterface  $event  The event
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	protected function dispatchEvent(EventInterface $event)
+	{
+		try
+		{
+			$this->getDispatcher()->dispatch($event->getName(), $event);
+		}
+		catch (\UnexpectedValueException $e)
+		{
+			Factory::getContainer()->get(DispatcherInterface::class)->dispatch($event->getName(), $event);
+		}
 	}
 }
