@@ -1184,13 +1184,13 @@ abstract class HTMLHelper
 	 * @since   __DEPLOY_VERSION__
 	 *
 	 */
-	public static function inlineBidirectional($value, $direction = "auto", $element = "span")
+	public static function inlineBidirectional($value, $direction = 'auto', $element = 'span')
 	{
 		if (strtolower(Factory::getDocument()->getDirection()) === $direction)
 		{
 			return $value;
 		}
 
-		return '<' . $element . ' dir="' $direction.  '">' . $value . '</' . $element . '>';
+		return '<' . $element . ' dir="' . $direction . '">' . $value . '</' . $element . '>';
 	}
 }
