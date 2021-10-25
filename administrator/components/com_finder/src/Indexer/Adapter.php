@@ -414,9 +414,6 @@ abstract class Adapter extends CMSPlugin
 
 			// Update the item.
 			$this->change((int) $item->id, 'access', $temp);
-
-			// Reindex the item
-			$this->reindex($row->id);
 		}
 	}
 
@@ -454,9 +451,6 @@ abstract class Adapter extends CMSPlugin
 
 				// Update the item.
 				$this->change($item->id, 'state', $temp);
-
-				// Reindex the item
-				$this->reindex($item->id);
 			}
 		}
 	}
@@ -846,9 +840,6 @@ abstract class Adapter extends CMSPlugin
 
 			// Update the item.
 			$this->change($pk, 'state', $temp);
-
-			// Reindex the item
-			$this->reindex($pk);
 		}
 	}
 
