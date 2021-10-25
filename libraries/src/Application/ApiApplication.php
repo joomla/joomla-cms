@@ -369,7 +369,7 @@ final class ApiApplication extends CMSApplication
 		* Obtain allowed CORS methods from Global Settings.
 		* Set to methods exposed by current route if not set.
 		*/
-		$allowedMethods = $this->get('cors_allowed_headers', implode(',', $matchingRoutesMethods));
+		$allowedMethods = $this->get('cors_allow_methods', implode(',', $matchingRoutesMethods));
 
 		// No use to go through the regular route handling hassle,
 		// so let's simply output the headers and exit.
