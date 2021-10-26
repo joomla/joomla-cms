@@ -4,12 +4,12 @@
  */
 
 /**
- * Makes calls to com_ajax to trigger the Scheduler.
+ * Run the test task in the scheduler backend list
  *
- * Used for lazy scheduling of tasks.
+ * Used for the play button in the list view
  *
- * @package  Joomla.Plugins
- * @subpackage System.ScheduleRunner
+ * @package  Joomla.Components
+ * @subpackage Scheduler.Tasks
  *
  * @since    __DEPLOY_VERSION__
  */
@@ -17,7 +17,12 @@ if (!window.Joomla) {
   throw new Error('Joomla API was not properly initialised');
 }
 
-const initScheduler = () => {
+const initRunner = () => {
+  const modal = document.getElementById('scheduler-test-modal');
+
+  modal.addEventListener('open.bd.modal', () => {
+    alert('test');
+  });
   const options = Joomla.getOptions('plg_system_schedulerunner');
   const paths = Joomla.getOptions('system.paths');
   const interval = (options && options.inverval ? parseInt(options.interval, 10) : 300) * 1000;
@@ -31,6 +36,6 @@ const initScheduler = () => {
 
 ((document) => {
   document.addEventListener('DOMContentLoaded', () => {
-    initScheduler();
+    initRunner();
   });
 })(document);

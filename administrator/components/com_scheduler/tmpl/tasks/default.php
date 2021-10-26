@@ -24,6 +24,9 @@ use Joomla\Component\Scheduler\Administrator\View\Tasks\HtmlView;
 
 HTMLHelper::_('behavior.multiselect');
 
+Text::script('COM_SCHEDULER_TEST_RUN_TITLE');
+Text::script('COM_SCHEDULER_TEST_RUN_TASK');
+
 try
 {
 	$app = Factory::getApplication();
@@ -46,6 +49,8 @@ if ($saveOrder && !empty($this->items))
 	$saveOrderingUrl = 'index.php?option=com_scheduler&task=tasks.saveOrderAjax&tmpl=component&' . Session::getFormToken() . '=1';
 	HTMLHelper::_('draggablelist.draggable');
 }
+
+$app->getDocument()->getWebAssetManager()->usePreset('com_scheduler.test-task');
 ?>
 
 <form action="<?php echo Route::_('index.php?option=com_scheduler&view=tasks'); ?>" method="post" name="adminForm"
@@ -103,8 +108,13 @@ if ($saveOrder && !empty($this->items))
 					</th>
 
 					<!-- Task type header -->
-					<th scope="col">
+					<th scope="col" class="d-none d-md-table-cell">
 						<?php echo HTMLHelper::_('searchtools.sort', 'COM_SCHEDULER_TASK_TYPE', 'j.type_title', $listDirn, $listOrder) ?>
+					</th>
+
+					<!-- Test task -->
+					<th scope="col">
+						<?php echo Text::_('COM_SCHEDULER_TEST_TASK'); ?>
 					</th>
 
 					<!-- Task ID -->
@@ -184,6 +194,14 @@ if ($saveOrder && !empty($this->items))
 							<?php echo $this->escape($item->safeTypeTitle); ?>
 						</td>
 
+						<!-- Test task -->
+						<td class="small d-none d-md-table-cell">
+							<button type="button" class="btn btn-sm btn-warning" data-id="<?php echo (int) $item->id; ?>" data-bs-toggle="modal" data-bs-target="#scheduler-test-modal">
+								<span class="fa fa-play fa-sm mr-2"></span>
+								<?php echo Text::_('COM_SCHEDULER_TEST_RUN'); ?>
+							</button>
+						</td>
+
 						<!-- Item ID -->
 						<td class="d-none d-md-table-cell">
 							<?php echo (int) $item->id; ?>
@@ -196,7 +214,24 @@ if ($saveOrder && !empty($this->items))
 			<?php
 				// Load the pagination. (@todo: testing)
 				echo $this->pagination->getListFooter();
+
+				// Modal for test runs
+				$modalparams = [
+					'title' => Text::_('COM_SCHEDULER_TEST_RUN_TITLE')
+				];
+
+				$modalbody = '<div class="p-3">';
+					$modalbody .= '<h4>' . Text::_('COM_SCHEDULER_TEST_RUN_TASK') . '</h4>';
+					$modalbody .= '<ul class="list-unstyled">';
+						$modalbody .= '<li>' . Text::_('COM_SCHEDULER_TEST_RUN_STATUS_STARTED') . '</li>';
+						$modalbody .= '<li class="mt-3 text-center"><span class="fa fa-spinner fa-spin fa-lg"></span></li>';
+					$modalbody .= '</ul>';
+				$modalbody .= '</div>';
+
+				echo HTMLHelper::_('bootstrap.renderModal', 'scheduler-test-modal', $modalparams, $modalbody);
+
 			?>
+
 		<?php endif; ?>
 
 		<input type="hidden" name="task" value="">
