@@ -194,7 +194,9 @@ class PluginsModel extends ListModel
 			$source = JPATH_PLUGINS . '/' . $item->folder . '/' . $item->element;
 			$extension = 'plg_' . $item->folder . '_' . $item->element;
 			$lang->load($extension . '.sys', JPATH_ADMINISTRATOR)
-				|| $lang->load($extension . '.sys', $source);
+				|| $lang->load($extension . '.sys', $source)
+				|| $lang->load(strtolower($extension) . '.sys', JPATH_ADMINISTRATOR)
+				|| $lang->load(strtolower($extension) . '.sys', $source);
 			$item->name = Text::_($item->name);
 		}
 	}
