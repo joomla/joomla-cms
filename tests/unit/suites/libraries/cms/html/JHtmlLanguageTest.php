@@ -77,8 +77,8 @@ class JHtmlLanguageTest extends TestCase
 		);
 
 		$this->assertEquals(
-			JHtml::_('language.inlineBidirectional', 'זה מבחן.', 'rtl'),
-			'<span dir="rtl">זה מבחן.</span>',
+			JHtml::_('language.inlineBidirectional', '.זה מבחן', 'rtl'),
+			'<span dir="rtl">.זה מבחן</span>',
 			'Value should be wrapped into a span element with direction rtl when document direction is ltr'
 		);
 
@@ -89,8 +89,8 @@ class JHtmlLanguageTest extends TestCase
 		);
 
 		$this->assertEquals(
-			JHtml::_('language.inlineBidirectional', 'זה מבחן.', 'rtl', 'bdi'),
-			'<bdi dir="rtl">זה מבחן.</bdi>',
+			JHtml::_('language.inlineBidirectional', '.זה מבחן', 'rtl', 'bdi'),
+			'<bdi dir="rtl">.זה מבחן</bdi>',
 			'Value should be wrapped into a bdi element with direction rtl when document direction is ltr'
 		);
 
@@ -101,8 +101,8 @@ class JHtmlLanguageTest extends TestCase
 		);
 
 		$this->assertEquals(
-			JHtml::_('language.inlineBidirectional', 'זה מבחן.', 'rtl', 'span', 'he'),
-			'<span dir="rtl" lang="he">זה מבחן.</span>',
+			JHtml::_('language.inlineBidirectional', '.זה מבחן', 'rtl', 'span', 'he'),
+			'<span dir="rtl" lang="he">.זה מבחן</span>',
 			'Value should be wrapped into a span element with direction rtl and language he when document direction is ltr'
 		);
 
@@ -110,14 +110,14 @@ class JHtmlLanguageTest extends TestCase
 		JFactory::getDocument()->setDirection('rtl');
 
 		$this->assertEquals(
-			JHtml::_('language.inlineBidirectional', 'זה מבחן.'),
-			'<span dir="auto">זה מבחן.</span>',
+			JHtml::_('language.inlineBidirectional', '.זה מבחן'),
+			'<span dir="auto">.זה מבחן</span>',
 			'Value should be wrapped into a span element with default direction auto when document direction is rtl'
 		);
 
 		$this->assertEquals(
-			JHtml::_('language.inlineBidirectional', 'זה מבחן.', 'auto'),
-			'<span dir="auto">זה מבחן.</span>',
+			JHtml::_('language.inlineBidirectional', '.זה מבחן', 'auto'),
+			'<span dir="auto">.זה מבחן</span>',
 			'Value should be wrapped into a span element with direction auto when document direction is rtl'
 		);
 
@@ -128,8 +128,8 @@ class JHtmlLanguageTest extends TestCase
 		);
 
 		$this->assertEquals(
-			JHtml::_('language.inlineBidirectional', 'זה מבחן.', 'rtl'),
-			'זה מבחן.',
+			JHtml::_('language.inlineBidirectional', '.זה מבחן', 'rtl'),
+			'.זה מבחן',
 			'Value should not be changed when desired direction is same as document direction'
 		);
 
@@ -140,8 +140,8 @@ class JHtmlLanguageTest extends TestCase
 		);
 
 		$this->assertEquals(
-			JHtml::_('language.inlineBidirectional', 'זה מבחן.', 'rtl', 'bdi'),
-			'זה מבחן.',
+			JHtml::_('language.inlineBidirectional', '.זה מבחן', 'rtl', 'bdi'),
+			'.זה מבחן',
 			'Value should not be changed when desired direction is same as document direction'
 		);
 
@@ -152,8 +152,8 @@ class JHtmlLanguageTest extends TestCase
 		);
 
 		$this->assertEquals(
-			JHtml::_('language.inlineBidirectional', 'זה מבחן.', 'rtl', 'span', 'he'),
-			'זה מבחן.',
+			JHtml::_('language.inlineBidirectional', '.זה מבחן', 'rtl', 'span', 'he'),
+			'.זה מבחן',
 			'Value should not be changed when desired direction is same as document direction'
 		);
 	}
