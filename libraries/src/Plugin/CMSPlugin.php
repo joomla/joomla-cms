@@ -158,7 +158,7 @@ abstract class CMSPlugin implements DispatcherAwareInterface, PluginInterface
 	{
 		if (empty($extension))
 		{
-			$extension = 'Plg_' . $this->_type . '_' . $this->_name;
+			$extension = 'plg_' . $this->_type . '_' . $this->_name;
 		}
 
 		$extension = strtolower($extension);
