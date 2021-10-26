@@ -1198,7 +1198,7 @@ class Form
 			// Define field name for messages
 			if ($field['label'])
 			{
-				$fieldLabel = ($field['label']);
+				$fieldLabel = $field['label'];
 
 				// Try to translate label if not set to false
 				$translate = (string) $field['translateLabel'];
