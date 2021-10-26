@@ -196,7 +196,7 @@ class AtomRenderer extends DocumentRenderer
 				}
 				else
 				{
-					$feed .= "		<category term=\"" . htmlspecialchars($data->items[$i]->category, ENT_COMPAT, 'UTF-8') . "\"/>\n";
+					$feed .= "		<category term=\"" . htmlspecialchars($data->items[$i]->category, ENT_COMPAT, 'UTF-8') . "\" />\n";
 				}
 			}
 
