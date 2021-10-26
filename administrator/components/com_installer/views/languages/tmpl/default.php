@@ -83,9 +83,9 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 								<?php $minorVersion = $version::MAJOR_VERSION . '.' . $version::MINOR_VERSION; ?>
 								<?php // Display a Note if language pack version is not equal to Joomla version ?>
 								<?php if (strpos($language->version, $minorVersion) !== 0 || strpos($language->version, $currentShortVersion) !== 0) : ?>
-									<span class="label label-warning hasTooltip" title="<?php echo JText::_('JGLOBAL_LANGUAGE_VERSION_NOT_PLATFORM'); ?>"><?php echo JHtml::_('inlineBidirectional', $language->version, 'ltr'); ?></span>
+									<span class="label label-warning hasTooltip" title="<?php echo JText::_('JGLOBAL_LANGUAGE_VERSION_NOT_PLATFORM'); ?>"><?php echo JHtml::_('language.inlineBidirectional', $language->version, 'ltr'); ?></span>
 								<?php else : ?>
-									<span class="label label-success"><?php echo JHtml::_('inlineBidirectional', $language->version, 'ltr'); ?></span>
+									<span class="label label-success"><?php echo JHtml::_('language.inlineBidirectional', $language->version, 'ltr'); ?></span>
 								<?php endif; ?>
 						</td>
 						<td class="small hidden-phone">
