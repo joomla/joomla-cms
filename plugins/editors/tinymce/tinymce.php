@@ -575,7 +575,7 @@ class PlgEditorTinymce extends CMSPlugin
 		$scriptOptions   = array_merge(
 			$scriptOptions,
 			array(
-				'deprecation_warnings' => JDEBUG? true : false,
+				'deprecation_warnings' => JDEBUG ? true : false,
 				'suffix'   => '.min',
 				'baseURL'  => Uri::root(true) . '/media/vendor/tinymce',
 				'directionality' => $text_direction,
