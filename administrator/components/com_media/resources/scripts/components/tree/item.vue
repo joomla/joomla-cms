@@ -73,7 +73,7 @@ export default {
       };
     },
     getTabindex() {
-      return this.isActive ? 0 : -1;
+      return this.isActive ? -1 : 0;
     },
   },
   methods: {
