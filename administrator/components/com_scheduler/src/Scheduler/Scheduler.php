@@ -1,10 +1,10 @@
 <?php
 /**
- * @package         Joomla.Administrator
- * @subpackage      com_scheduler
+ * @package     Joomla.Administrator
+ * @subpackage  com_scheduler
  *
  * @copyright   (C) 2021 Open Source Matters, Inc. <https://www.joomla.org>
- * @license         GNU General Public License version 2 or later; see LICENSE.txt
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\Component\Scheduler\Administrator\Scheduler;
@@ -122,17 +122,18 @@ class Scheduler
 
 		$task->log(Text::sprintf('COM_SCHEDULER_SCHEDULER_TASK_START', $taskId, $taskTitle), 'info');
 
-		// Let's try to avoid time outs
+		// Let's try to avoid time-outs
 		if (\function_exists('set_time_limit'))
 		{
 			set_time_limit(0);
 		}
 
 		$task->run();
-		$exitCode = $task->snapshot['status'] ?? Status::NO_EXIT;
 
-		$netDuration = $task->snapshot['netDuration'] ?? 0;
-		$duration = $task->snapshot['duration'] ?? 0;
+		$executionSnapshot = $task->getContent();
+		$exitCode          = $executionSnapshot['status'] ?? Status::NO_EXIT;
+		$netDuration       = $executionSnapshot['netDuration'] ?? 0;
+		$duration          = $executionSnapshot['duration'] ?? 0;
 
 		if (array_key_exists($exitCode, self::LOG_TEXT))
 		{
@@ -177,10 +178,10 @@ class Scheduler
 	 * Fetches a single scheduled task in a Task instance.
 	 * If no id or title is specified, a due task is returned.
 	 *
-	 * @param   int   $id     The task ID
-	 * @param   bool  $title  The task title
+	 * @param   int   $id           The task ID
+	 * @param   bool  $unpublished  Allow disabled/trashed tasks?
 	 *
-	 * @return ?object
+	 * @return ?object  A matching task record, if it exists
 	 *
 	 * @since __DEPLOY_VERSION__
 	 */

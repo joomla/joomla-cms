@@ -22,7 +22,6 @@ use Joomla\CMS\Table\Extension;
 use Joomla\CMS\User\UserHelper;
 use Joomla\Component\Scheduler\Administrator\Scheduler\Scheduler;
 use Joomla\Component\Scheduler\Administrator\Task\Task;
-use Joomla\Event\DispatcherInterface;
 use Joomla\Event\Event;
 use Joomla\Event\EventInterface;
 use Joomla\Event\SubscriberInterface;
@@ -188,6 +187,8 @@ class PlgSystemSchedulerunner extends CMSPlugin implements SubscriberInterface
 	/**
 	 * Runs the test cron in the backend. ID is required
 	 *
+	 * @param   Event  $event  The onAjaxRunScheduler event.
+	 *
 	 * @return void
 	 *
 	 * @since __DEPLOY_VERSION__
@@ -217,17 +218,18 @@ class PlgSystemSchedulerunner extends CMSPlugin implements SubscriberInterface
 	/**
 	 * Run the scheduler, allowing execution of a single due task.
 	 *
-	 * @param   integer    $id  The optional ID of the task to run
+	 * @param   integer  $id           The optional ID of the task to run
+	 * @param   boolean  $unpublished  Allow execution of unpublished tasks?
 	 *
-	 * @return Task|bool
-	 *
-	 * @throws AssertionFailedException
+	 * @return Task|boolean
 	 *
 	 * @since __DEPLOY_VERSION__
+	 * @throws AssertionFailedException
+	 *
 	 */
-	protected function runScheduler(int $id = 0, bool $unpublish = false): ?Task
+	protected function runScheduler(int $id = 0, bool $unpublished = false): ?Task
 	{
-		return (new Scheduler)->runTask($id, $unpublish);
+		return (new Scheduler)->runTask($id, $unpublished);
 	}
 
 	/**
