@@ -178,10 +178,10 @@ class TasksModel extends ListModel
 		{
 			$filterCount++;
 			$state = (int) $state;
-			$query->where($db->quoteName('a.state') . '= :state')
-				->bind(':state', $state);
+			$query->where($db->quoteName('a.state') . ' = :state')
+				->bind(':state', $state, ParameterType::INTEGER);
 		}
-		elseif ($state == null)
+		elseif ($state === '')
 		{
 			$filterCount++;
 			$query->whereIn($db->quoteName('a.state'), [0, 1]);

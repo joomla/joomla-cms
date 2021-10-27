@@ -96,21 +96,21 @@ class Scheduler
 	 * Run a scheduled task.
 	 * Runs a single due task from the task queue by default if $id and $title are not passed.
 	 *
-	 * @param   int          $id     The task ID
-	 * @param   string|null  $title  The task title
+	 * @param   int   $id           The task ID
+	 * @param   bool  $unpublished  The task title
 	 *
-	 * @return integer  The task exit code.
+	 * @return Task|null  The task executed or null if not exists
 	 *
 	 * @throws AssertionFailedException|\Exception
 	 * @since __DEPLOY_VERSION__
 	 */
-	public function runTask(int $id = 0, ?string $title = ''): int
+	public function runTask(int $id = 0, bool $unpublished = false): ?Task
 	{
-		$task = $this->fetchTask($id, $title);
+		$task = $this->fetchTask($id, $unpublished);
 
 		if (empty($task))
 		{
-			return Status::NO_TASK;
+			return null;
 		}
 
 		$options['text_entry_format'] = '{DATE}	{TIME}	{PRIORITY}	{MESSAGE}';
@@ -139,31 +139,31 @@ class Scheduler
 			$level = $exitCode === Status::OK ? 'info' : 'warning';
 			$task->log(Text::sprintf(self::LOG_TEXT[$exitCode], $taskId, $duration, $netDuration), $level);
 
-			return $exitCode;
+			return $task;
 		}
 
 		$task->log(Text::sprintf('COM_SCHEDULER_SCHEDULER_TASK_UNKNOWN_EXIT', $taskId, $duration, $netDuration, $exitCode),
 			'warning'
 		);
 
-		return $exitCode;
+		return $task;
 	}
 
 	/**
 	 * Fetches a single scheduled task in a Task instance.
 	 * If no id or title is specified, a due task is returned.
 	 *
-	 * @param   int|null     $id     The task ID
-	 * @param   string|null  $title  The task title
+	 * @param   int   $id           The task ID
+	 * @param   bool  $unpublished  The task title
 	 *
 	 * @return ?Task
 	 *
 	 * @throws \Exception
 	 * @since __DEPLOY_VERSION__
 	 */
-	public function fetchTask(int $id = 0, string $title = ''): ?Task
+	public function fetchTask(int $id = 0, bool $unpublished = false): ?Task
 	{
-		$record = $this->fetchTaskRecord($id, $title);
+		$record = $this->fetchTaskRecord($id, $unpublished);
 
 		if ($record === null)
 		{
@@ -177,26 +177,21 @@ class Scheduler
 	 * Fetches a single scheduled task in a Task instance.
 	 * If no id or title is specified, a due task is returned.
 	 *
-	 * @param   int     $id     The task ID
-	 * @param   string  $title  The task title
+	 * @param   int   $id     The task ID
+	 * @param   bool  $title  The task title
 	 *
 	 * @return ?object
 	 *
 	 * @since __DEPLOY_VERSION__
 	 */
-	public function fetchTaskRecord(int $id = 0, string $title = ''): ?object
+	public function fetchTaskRecord(int $id = 0, bool $unpublished = false): ?object
 	{
 		$filters = [];
 		$listConfig = ['limit' => 1];
 
-		if ($id !== 0)
+		if ($id > 0)
 		{
 			$filters['id'] = $id;
-		}
-		elseif ($title !== '')
-		{
-			// Maybe, search?
-			$filters['title'] = $title;
 		}
 		else
 		{
@@ -207,6 +202,11 @@ class Scheduler
 				'a.priority DESC',
 				'a.next_execution ASC'
 			];
+		}
+
+		if ($unpublished)
+		{
+			$filters['state'] = '';
 		}
 
 		return $this->fetchTaskRecords($filters, $listConfig)[0] ?? null;
@@ -227,7 +227,7 @@ class Scheduler
 		try
 		{
 			/** @var TasksModel $model */
-			$model = $this->component->getMVCFactory()->createModel('Tasks', 'Administrator');
+			$model = $this->component->getMVCFactory()->createModel('Tasks', 'Administrator', ['ignore_request' => true]);
 		}
 		catch (\Exception $e)
 		{
@@ -238,12 +238,13 @@ class Scheduler
 			throw new \RunTimeException('JLIB_APPLICATION_ERROR_MODEL_CREATE');
 		}
 
-		$model->set('__state_set', true);
-
 		$model->setState('list.select', '*');
 
 		// Default to only enabled tasks
-		$model->setState('filter.state', 1);
+		if (!isset($filters['state']))
+		{
+			$model->setState('filter.state', 1);
+		}
 
 		// Default to including orphaned tasks
 		$model->setState('filter.orphaned', 0);

@@ -111,7 +111,7 @@ class PlgTaskRequests extends CMSPlugin implements SubscriberInterface
 		$responseFile = JPATH_ROOT . "/tmp/task_{$id}_response.html";
 		File::write($responseFile, $responseBody);
 		$this->snapshot['output_file'] = $responseFile;
-		$this->snapshot['output_body'] = <<< EOF
+		$this->snapshot['output'] = <<< EOF
 ======= Task Output Body =======
 > URL: $url
 > Response Code: ${responseCode}
