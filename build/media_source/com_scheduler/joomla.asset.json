@@ -25,7 +25,30 @@
         "com_scheduler.admin-view-select-task-search.es5"
       ],
       "attributes": {
-        "type" : "module"
+        "type": "module"
+      }
+    },
+    {
+      "name": "com_scheduler.scheduler-config.es5",
+      "type": "script",
+      "uri": "com_scheduler/scheduler-config-es5.js",
+      "dependencies": [
+        "core"
+      ],
+      "attributes": {
+        "nomodule": true
+      }
+    },
+    {
+      "name": "com_scheduler.scheduler-config",
+      "type": "script",
+      "uri": "com_scheduler/scheduler-config.js",
+      "dependencies": [
+        "core",
+        "com_scheduler.scheduler-config.es5"
+      ],
+      "attributes": {
+        "type": "module"
       }
     },
     {
