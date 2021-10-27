@@ -27,8 +27,8 @@ extract($displayData);
 
 Text::script('ERROR');
 Text::script('MESSAGE');
-Text::script('COM_SCHEDULER_WEBCRON_LINK_COPY_SUCCESS');
-Text::script('COM_SCHEDULER_WEBCRON_LINK_COPY_FAIL');
+Text::script('COM_SCHEDULER_CONFIG_WEBCRON_LINK_COPY_SUCCESS');
+Text::script('COM_SCHEDULER_CONFIG_WEBCRON_LINK_COPY_FAIL');
 
 /** @var CMSApplication $app */
 $app = Factory::getApplication();
@@ -50,7 +50,7 @@ $wa->useScript('com_scheduler.scheduler-config');
 			class="btn btn-primary"
 			type="button"
 			id="link-copy"
-			title="<?php echo Text::_('COM_SCHEDULER_WEBCRON_LINK_COPY_DESC'); ?>"><?php echo Text::_('JLIB_HTML_BATCH_COPY'); ?>
+			title="<?php echo Text::_('COM_SCHEDULER_CONFIG_WEBCRON_LINK_COPY_DESC'); ?>"><?php echo Text::_('JLIB_HTML_BATCH_COPY'); ?>
 	</button>
 </div>
 
