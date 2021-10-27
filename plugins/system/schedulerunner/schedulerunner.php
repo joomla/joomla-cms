@@ -17,8 +17,10 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\Component\Scheduler\Administrator\Scheduler\Scheduler;
+use Joomla\Component\Scheduler\Administrator\Task\Task;
 use Joomla\Event\DispatcherInterface;
 use Joomla\Event\Event;
+use Joomla\Event\EventInterface;
 use Joomla\Event\SubscriberInterface;
 use Joomla\Registry\Registry;
 
@@ -68,8 +70,6 @@ class PlgSystemSchedulerunner extends CMSPlugin implements SubscriberInterface
 			}
 			elseif ($app->isClient('administrator'))
 			{
-				$user = Factory::getUser();
-
 				$mapping['onAjaxRunSchedulerTest'] = 'runTestCron';
 			}
 		}
@@ -125,6 +125,12 @@ class PlgSystemSchedulerunner extends CMSPlugin implements SubscriberInterface
 			throw new \Exception(Text::_('JERROR_ALERTNOAUTHOR'), 403);
 		}
 
+		// Since `navigator.sendBeacon()` may time out, allow execution after disconnect if possible.
+		if (\function_exists('ignore_user_abort'))
+		{
+			ignore_user_abort(true);
+		}
+
 		$this->runScheduler();
 	}
 
@@ -155,7 +161,7 @@ class PlgSystemSchedulerunner extends CMSPlugin implements SubscriberInterface
 	 *
 	 * @return void
 	 */
-	public function runTestCron()
+	public function runTestCron(Event $event)
 	{
 		$id = (int) $this->app->input->getInt('id');
 
@@ -166,7 +172,12 @@ class PlgSystemSchedulerunner extends CMSPlugin implements SubscriberInterface
 			throw new \Exception(Text::_('JERROR_ALERTNOAUTHOR'), 403);
 		}
 
-		$this->runScheduler($id);
+		$task = $this->runScheduler($id, true);
+
+		if ($task)
+		{
+			$event->addArgument('result', $task->getContent());
+		}
 	}
 
 	/**
@@ -174,19 +185,13 @@ class PlgSystemSchedulerunner extends CMSPlugin implements SubscriberInterface
 	 *
 	 * @param   integer    $id  The optional ID of the task to run
 	 *
-	 * @return void
+	 * @return Task|bool
 	 *
 	 * @throws AssertionFailedException
 	 * @since __DEPLOY_VERSION__
 	 */
-	protected function runScheduler(int $id = 0): void
+	protected function runScheduler(int $id = 0, bool $unpublish = false): ?Task
 	{
-		// Since `navigator.sendBeacon()` may time out, allow execution after disconnect if possible.
-		if (\function_exists('ignore_user_abort'))
-		{
-			ignore_user_abort(true);
-		}
-
-		(new Scheduler)->runTask($id);
+		return (new Scheduler)->runTask($id, $unpublish);
 	}
 }

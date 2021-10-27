@@ -49,7 +49,7 @@ class Task extends Registry implements LoggerAwareInterface
 	 * @var   []
 	 * @since __DEPLOY_VERSION__
 	 */
-	public $snapshot = [];
+	protected $snapshot = [];
 
 	/**
 	 * @var  string
@@ -146,6 +146,7 @@ class Task extends Registry implements LoggerAwareInterface
 					'subject' => $this
 				]
 			);
+
 			$this->app->getDispatcher()->dispatch('onTaskRecoverFailure', $event);
 		}
 
@@ -155,14 +156,14 @@ class Task extends Registry implements LoggerAwareInterface
 			$this->snapshot['status'] = Status::NO_ROUTINE;
 			$this->skipExecution();
 
-			return $this->handleExit();
+			return $this->isSuccess();
 		}
 
 		if (!$this->acquireLock())
 		{
 			$this->snapshot['status'] = Status::NO_LOCK;
 
-			return $this->handleExit();
+			return $this->isSuccess();
 		}
 
 		$this->snapshot['status'] = Status::RUNNING;
@@ -194,11 +195,19 @@ class Task extends Registry implements LoggerAwareInterface
 		if (!$this->releaseLock())
 		{
 			$this->snapshot['status'] = Status::NO_RELEASE;
-
-			return $this->handleExit();
 		}
 
-		return $this->handleExit();
+		return $this->isSuccess();
+	}
+
+	/**
+	 * Get the snapshot content
+	 *
+	 * @return array
+	 */
+	public function getContent()
+	{
+		return $this->snapshot;
 	}
 
 	/**
@@ -388,15 +397,16 @@ class Task extends Registry implements LoggerAwareInterface
 	 *
 	 * @since __DEPLOY_VERSION__
 	 */
-	private function handleExit(): bool
+	public function isSuccess(): bool
 	{
-		$exitCode = $this->snapshot['status'];
+		$exitCode = $this->snapshot['status'] ?? 'NA';
 		$eventName = self::EVENTS_MAP[$exitCode] ?? self::EVENTS_MAP['NA'];
 
 		$event = AbstractEvent::create($eventName, [
 				'subject' => $this
 			]
 		);
+
 		$this->app->getDispatcher()->dispatch($eventName, $event);
 
 		return $exitCode === Status::OK;

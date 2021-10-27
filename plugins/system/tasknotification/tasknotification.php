@@ -85,7 +85,7 @@ class PlgSystemTasknotification extends CMSPlugin implements SubscriberInterface
 		}
 
 		// @todo safety checks, multiple files [?]
-		$outFile = $event->getArgument('subject')->snapshot['output_file'] ?? '';
+		$outFile = $event->getArgument('subject')->getContent()['output_file'] ?? '';
 		$data = $this->getDataFromTask($event->getArgument('subject'));
 		$this->sendMail('plg_system_tasknotification.failure_mail', $data, $outFile);
 	}
@@ -127,7 +127,7 @@ class PlgSystemTasknotification extends CMSPlugin implements SubscriberInterface
 		// @todo safety checks, multiple files [?]
 		$outFile = $event->getArgument('subject')->snapshot['output_file'] ?? '';
 		$data = $this->getDataFromTask($event->getArgument('subject'));
-		$this->sendMail('plg_system_tasknotification.success_mail', $data, $outFile);
+		$this->sendMail('plg_system_tasknotification.success_mail', $data);
 	}
 
 	/**
@@ -160,12 +160,15 @@ class PlgSystemTasknotification extends CMSPlugin implements SubscriberInterface
 	{
 		$lockOrExecTime = Factory::getDate($task->get('locked') ?? $task->get('last_execution'))->toRFC822();
 
+		$snapshot = $task->getContent();
+
 		return [
-			'TASK_ID'        => $task->get('id'),
-			'TASK_TITLE'     => $task->get('title'),
-			'EXIT_CODE'      => $task->snapshot['status'] ?? Status::NO_EXIT,
-			'EXEC_DATE_TIME' => $lockOrExecTime,
-			'TASK_OUTPUT'    => $task->snapshot['output_body'] ?? '',
+			'TASK_ID'          => $task->get('id'),
+			'TASK_TITLE'       => $task->get('title'),
+			'EXIT_CODE'        => $snapshot['status'] ?? Status::NO_EXIT,
+			'EXEC_DATE_TIME'   => $lockOrExecTime,
+			'TASK_OUTPUT'      => $snapshot['output'] ?? '',
+			'TASK_OUTPUT_FILE' => $snapshot['output_file'] ?? '',
 		];
 	}
 
@@ -179,7 +182,7 @@ class PlgSystemTasknotification extends CMSPlugin implements SubscriberInterface
 	 * @throws Exception
 	 * @since __DEPLOY_VERSION__
 	 */
-	private function sendMail(string $template, array $data, string $attachment = ''): void
+	private function sendMail(string $template, array $data): void
 	{
 		$app = $this->app;
 		$db = $this->db;
@@ -220,11 +223,11 @@ class PlgSystemTasknotification extends CMSPlugin implements SubscriberInterface
 					$mailer->addRecipient($user->email);
 
 					// @todo improve and make safe
-					if ($attachment)
+					if (!empty($data['TASK_OUTPUT_FILE']))
 					{
 						// @todo we allow multiple files
-						$attachName = pathinfo($attachment, PATHINFO_BASENAME);
-						$mailer->addAttachment($attachName, $attachment);
+						$attachName = pathinfo($data['TASK_OUTPUT_FILE'], PATHINFO_BASENAME);
+						$mailer->addAttachment($attachName, $data['TASK_OUTPUT_FILE']);
 					}
 
 					$mailer->send();
