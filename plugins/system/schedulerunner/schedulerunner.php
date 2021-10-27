@@ -14,11 +14,15 @@ use Assert\AssertionFailedException;
 use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\CMSPlugin;
+use Joomla\CMS\Router\Route;
+use Joomla\CMS\Table\Extension;
+use Joomla\CMS\User\UserHelper;
 use Joomla\Component\Scheduler\Administrator\Scheduler\Scheduler;
-use Joomla\Event\DispatcherInterface;
 use Joomla\Event\Event;
+use Joomla\Event\EventInterface;
 use Joomla\Event\SubscriberInterface;
 use Joomla\Registry\Registry;
 
@@ -28,11 +32,21 @@ use Joomla\Registry\Registry;
  * injects into each response with an HTML context a JS file {@see PlgSystemSchedulerunner::injectScheduleRunner()} that
  * sets up an AJAX callback to trigger the scheduler {@see PlgSystemSchedulerunner::runScheduler()}. This is achieved
  * through a call to the `com_ajax` component.
+ * Also supports the scheduler component configuration form through auto-generation of the webcron key and injection
+ * of JS of usability enhancement.
  *
  * @since __DEPLOY_VERSION__
  */
 class PlgSystemSchedulerunner extends CMSPlugin implements SubscriberInterface
 {
+	/**
+	 * Length of auto-generated webcron key.
+	 *
+	 * @var integer
+	 * @since __DEPLOY_VERSION__
+	 */
+	private const WEBCRON_KEY_LENGTH = 20;
+
 	/**
 	 * @var  CMSApplication
 	 * @since  __DEPLOY_VERSION__
@@ -45,6 +59,8 @@ class PlgSystemSchedulerunner extends CMSPlugin implements SubscriberInterface
 	 * @return string[]
 	 *
 	 * @since __DEPLOY_VERSION__
+	 *
+	 * @throws Exception
 	 */
 	public static function getSubscribedEvents(): array
 	{
@@ -68,7 +84,8 @@ class PlgSystemSchedulerunner extends CMSPlugin implements SubscriberInterface
 			}
 			elseif ($app->isClient('administrator'))
 			{
-				$user = Factory::getUser();
+				$mapping['onContentPrepareForm'] = 'enhanceSchedulerConfig';
+				$mapping['onExtensionBeforeSave'] = 'generateWebcronKey';
 
 				$mapping['onAjaxRunSchedulerTest'] = 'runTestCron';
 			}
@@ -115,6 +132,12 @@ class PlgSystemSchedulerunner extends CMSPlugin implements SubscriberInterface
 	 * Runs the lazy cron in the frontend when activated. No ID allowed
 	 *
 	 * @return void
+	 *
+	 * @since __DEPLOY_VERSION__
+	 *
+	 * @throws AssertionFailedException
+	 *
+	 * @throws Exception
 	 */
 	public function runLazyCron()
 	{
@@ -132,14 +155,18 @@ class PlgSystemSchedulerunner extends CMSPlugin implements SubscriberInterface
 	 * Runs the webcron and uses an ID if given.
 	 *
 	 * @return void
+	 *
+	 * @since __DEPLOY_VERSION__
+	 *
+	 * @throws AssertionFailedException
+	 * @throws Exception
 	 */
 	public function runWebCron()
 	{
 		$config = ComponentHelper::getParams('com_scheduler');
 
-		$hash = $config->get('webcron.hash');
+		$hash = $config->get('webcron.key');
 
-		// @todo enforce a minimum complexity for hash?
 		if (!strlen($hash) || $hash !== $this->app->input->get('hash'))
 		{
 			throw new \Exception(Text::_('JERROR_ALERTNOAUTHOR'), 403);
@@ -154,6 +181,11 @@ class PlgSystemSchedulerunner extends CMSPlugin implements SubscriberInterface
 	 * Runs the test cron in the backend. ID is required
 	 *
 	 * @return void
+	 *
+	 * @since __DEPLOY_VERSION__
+	 *
+	 * @throws AssertionFailedException
+	 * @throws Exception
 	 */
 	public function runTestCron()
 	{
@@ -177,6 +209,7 @@ class PlgSystemSchedulerunner extends CMSPlugin implements SubscriberInterface
 	 * @return void
 	 *
 	 * @throws AssertionFailedException
+	 *
 	 * @since __DEPLOY_VERSION__
 	 */
 	protected function runScheduler(int $id = 0): void
@@ -188,5 +221,77 @@ class PlgSystemSchedulerunner extends CMSPlugin implements SubscriberInterface
 		}
 
 		(new Scheduler)->runTask($id);
+	}
+
+	/**
+	 * Enhance the scheduler config form by dynamically populating or removing display fields.
+	 * @todo Move to another plugin?
+	 *
+	 * @param   EventInterface  $event  The onContentPrepareForm event.
+	 *
+	 * @return void
+	 *
+	 * @since __DEPLOY_VERSION__
+	 */
+	public function enhanceSchedulerConfig(EventInterface $event): void
+	{
+		/** @var Form $form */
+		$form = $event->getArgument('0');
+		$data = $event->getArgument('1');
+
+		if ($form->getName() !== 'com_config.component'
+			|| $this->app->input->get('component') !== 'com_scheduler')
+		{
+			return;
+		}
+
+		if (!empty($data['webcron']['key']))
+		{
+			$form->removeField('generate_key_on_save', 'webcron');
+
+			$relative = 'index.php?option=com_ajax&plugin=RunSchedulerLazy&group=system&format=json&hash=' . $data['webcron']['key'];
+			$link = Route::link('site', $relative, false, Route::TLS_IGNORE, true);
+			$form->setValue('base_link', 'webcron', $link);
+		}
+		else
+		{
+			$form->removeField('base_link', 'webcron');
+			$form->removeField('reset_key', 'webcron');
+		}
+	}
+
+	/**
+	 * Auto-generate a key/hash for the webcron functionality.
+	 * This method acts on table save, when a hash doesn't already exist or a reset is required.
+	 * @todo Move to another plugin?
+	 *
+	 * @param   EventInterface  $event The onExtensionBeforeSave event.
+	 *
+	 * @return void
+	 *
+	 * @since __DEPLOY_VERSION__
+	 */
+	public function generateWebcronKey(EventInterface $event): void
+	{
+		/** @var Extension $table */
+		[$context, $table] = $event->getArguments();
+
+		if ($context !== 'com_config.component'
+			|| $this->app->input->get('component') !== 'com_scheduler')
+		{
+			return;
+		}
+
+		$params = new Registry(json_decode($table->params));
+
+		if (empty($params->get('webcron.key'))
+			|| (int) $params->get('webcron.reset_key') === 1)
+		{
+			$params->set('webcron.key', UserHelper::genRandomPassword(self::WEBCRON_KEY_LENGTH));
+		}
+
+		$params->remove('webcron.base_link');
+		$params->remove('webcron.reset_key');
+		$table->params = $params->toString();
 	}
 }
