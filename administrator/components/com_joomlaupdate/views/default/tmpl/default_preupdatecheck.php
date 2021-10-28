@@ -200,10 +200,10 @@ $compatibilityTypes = array(
 								<?php echo JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSION_INSTALLED_VERSION'); ?>
 							</th>
 							<th class="upcomp hidden">
-								<?php echo JText::sprintf('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSION_COMPATIBLE_WITH_JOOMLA_VERSION', isset($this->updateInfo['current']) ? $this->updateInfo['current'] : JVERSION); ?>
+								<?php echo JText::sprintf('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSION_COMPATIBLE_WITH_JOOMLA_VERSION', JHtml::_('language.inlineBidirectional', isset($this->updateInfo['current']) ? $this->updateInfo['current'] : JVERSION, 'ltr')); ?>
 							</th>
 							<th class="currcomp hidden">
-								<?php echo JText::sprintf('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSION_COMPATIBLE_WITH_JOOMLA_VERSION', $this->updateInfo['latest']); ?>
+								<?php echo JText::sprintf('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSION_COMPATIBLE_WITH_JOOMLA_VERSION', JHtml::_('language.inlineBidirectional', $this->updateInfo['latest'], 'ltr')); ?>
 							</th>
 						</tr>
 					</thead>
