@@ -286,15 +286,15 @@ class PlgSystemSchedulerunner extends CMSPlugin implements SubscriberInterface
 		[$context, $table] = $event->getArguments();
 
 		if ($context !== 'com_config.component'
-			|| $this->app->input->get('component') !== 'com_scheduler')
+			|| ($table->name ?? '') !== 'COM_SCHEDULER')
 		{
 			return;
 		}
 
-		$params = new Registry(json_decode($table->params));
+		$params = new Registry($table->params ?? '');
 
 		if (empty($params->get('webcron.key'))
-			|| (int) $params->get('webcron.reset_key') === 1)
+			|| $params->get('webcron.reset_key') === 1)
 		{
 			$params->set('webcron.key', UserHelper::genRandomPassword(self::WEBCRON_KEY_LENGTH));
 		}
