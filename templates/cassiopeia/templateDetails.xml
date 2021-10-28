@@ -110,9 +110,16 @@
 
 				<field
 					name="colorName"
-					type="list"
-					default="colors_standard"
+					type="filelist"
 					label="TPL_CASSIOPEIA_COLOR_NAME_LABEL"
+					default="colors_standard"
+					fileFilter="^custom.+[^min]\.css$"
+					exclude="^colors.+"
+					stripext="true"
+					hide_none="true"
+					hide_default="true"
+					directory="templates/cassiopeia/css/global/"
+					validate="options"
 					>
 					<option value="colors_standard">TPL_CASSIOPEIA_COLOR_NAME_STANDARD</option>
 					<option value="colors_alternative">TPL_CASSIOPEIA_COLOR_NAME_ALTERNATIVE</option>
