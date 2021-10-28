@@ -20,7 +20,7 @@ defined('_JEXEC') or die;
 	</p>
 
 	<div class="alert alert-success">
-		<?php echo JText::sprintf('COM_JOOMLAUPDATE_VIEW_DEFAULT_NOUPDATESNOTICE', JVERSION); ?>
+		<?php echo JText::sprintf('COM_JOOMLAUPDATE_VIEW_DEFAULT_NOUPDATESNOTICE', JHtml::_('language.inlineBidirectional', JVERSION, 'ltr')); ?>
 	</div>
 
 	<?php if (is_object($this->updateInfo['object']) && ($this->updateInfo['object'] instanceof JUpdate)) : ?>

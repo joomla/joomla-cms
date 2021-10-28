@@ -19,6 +19,6 @@ defined('_JEXEC') or die;
 		<?php echo JText::sprintf($this->langKey, $this->updateSourceKey); ?>
 	</p>
 	<div class="alert alert-success">
-		<?php echo JText::sprintf('COM_JOOMLAUPDATE_VIEW_DEFAULT_NOUPDATESNOTICE', JVERSION); ?>
+		<?php echo JText::sprintf('COM_JOOMLAUPDATE_VIEW_DEFAULT_NOUPDATESNOTICE', JHtml::_('language.inlineBidirectional', JVERSION, 'ltr')); ?>
 	</div>
 </fieldset>
