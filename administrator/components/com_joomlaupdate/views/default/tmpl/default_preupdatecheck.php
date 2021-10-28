@@ -46,7 +46,7 @@ $compatibilityTypes = array(
 
 ?>
 <h2>
-	<?php echo JText::sprintf('COM_JOOMLAUPDATE_VIEW_DEFAULT_PREUPDATE_CHECK', $this->updateInfo['latest']); ?>
+	<?php echo JText::sprintf('COM_JOOMLAUPDATE_VIEW_DEFAULT_PREUPDATE_CHECK', JHtml::_('language.inlineBidirectional', $this->updateInfo['latest'], 'ltr')); ?>
 </h2>
 <p>
 	<?php echo JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXPLANATION_AND_LINK_TO_DOCS'); ?>
