@@ -520,10 +520,10 @@ class PlgEditorTinymce extends CMSPlugin
 			}
 		}
 		// Use CodeMirror in the code view instead of plain text to provide syntax highlighting
-		$sourcecode     = $levelParams->get('sourcecode', 1);
+		$sourcecode     = $levelParams->get('highlightPlus', 1);
 		if ($sourcecode)
 		{
-			$externalPlugins['sourcecode'] = HTMLHelper::_('script', 'plg_editors_tinymce/plugins/highlighter/plugin.min.js', ['relative' => true, 'version' => 'auto', 'pathOnly' => true]);
+			$externalPlugins['highlightPlus'] = HTMLHelper::_('script', 'plg_editors_tinymce/plugins/highlighter/plugin.min.js', ['relative' => true, 'version' => 'auto', 'pathOnly' => true]);
 		}
 
 		// Drag and drop Images always FALSE, reverting this allows for inlining the images
