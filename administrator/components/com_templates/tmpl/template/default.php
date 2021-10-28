@@ -25,9 +25,12 @@ $input = Factory::getApplication()->input;
 // Enable assets
 $wa->useScript('form.validate')
 	->useScript('keepalive')
+	->useScript('bootstrap.dropdown')
 	->useScript('diff')
 	->useScript('com_templates.admin-template-compare')
 	->useScript('com_templates.admin-template-toggle-switch');
+
+$wa->registerAndUseScript('tree.wc', 'media/com_templates/js/tree.js');
 
 // No access if not global SuperUser
 if (!Factory::getUser()->authorise('core.admin'))
@@ -87,7 +90,8 @@ if ($this->type == 'font')
 	<div class="row mt-2">
 		<div id="treeholder" class="col-md-3 tree-holder">
 			<div class="mt-2 mb-2">
-				<?php echo $this->loadTemplate('tree'); ?>
+				<?php //echo $this->loadTemplate('tree'); ?>
+				<tree-view json=<?php echo json_encode($this->files); ?>></tree-view>
 			</div>
 		</div>
 		<div class="col-md-9">

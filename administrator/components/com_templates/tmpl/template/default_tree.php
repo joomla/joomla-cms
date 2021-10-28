@@ -11,12 +11,13 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Router\Route;
 
-ksort($this->files, SORT_NATURAL);
+return;
+// ksort($this->files, SORT_NATURAL);
 ?>
 
 <ul class="directory-tree treeselect">
-	<?php foreach ($this->files as $key => $value) : ?>
-		<?php if (is_array($value)) : ?>
+	<?php foreach ($this->files[0] as $key => $value) : ?>
+		<?php if (is_object($value) && $value->type === 'file') : ?>
 			<?php
 			$keyArray  = explode('/', $key);
 			$fileArray = explode('/', $this->fileName);
@@ -24,29 +25,29 @@ ksort($this->files, SORT_NATURAL);
 
 			$keyArrayCount = count($keyArray);
 
-			if (count($fileArray) >= $keyArrayCount)
-			{
-				for ($i = 0; $i < $keyArrayCount; $i++)
-				{
-					if ($keyArray[$i] === $fileArray[$i])
-					{
-						$count++;
-					}
-				}
+			// if (count($fileArray) >= $keyArrayCount)
+			// {
+			// 	for ($i = 0; $i < $keyArrayCount; $i++)
+			// 	{
+			// 		if ($keyArray[$i] === $fileArray[$i])
+			// 		{
+			// 			$count++;
+			// 		}
+			// 	}
 
-				if ($count === $keyArrayCount)
-				{
-					$class = 'folder show';
-				}
-				else
-				{
-					$class = 'folder';
-				}
-			}
-			else
-			{
-				$class = 'folder';
-			}
+			// 	if ($count === $keyArrayCount)
+			// 	{
+			// 		$class = 'folder show';
+			// 	}
+			// 	else
+			// 	{
+			// 		$class = 'folder';
+			// 	}
+			// }
+			// else
+			// {
+			// 	$class = 'folder';
+			// }
 
 			?>
 			<li class="<?php echo $class; ?>">
@@ -56,7 +57,7 @@ ksort($this->files, SORT_NATURAL);
 				<?php echo $this->directoryTree($value); ?>
 			</li>
 		<?php endif; ?>
-		<?php if (is_object($value)) : ?>
+		<?php if (is_object($value) && $value->type === 'folder') : ?>
 			<li>
 				<a class="file" href='<?php echo Route::_('index.php?option=com_templates&view=template&id=' . $this->id . '&file=' . $value->id); ?>'>
 					<span class="icon-file-alt" aria-hidden="true"></span>&nbsp;<?php echo $this->escape($value->name); ?>

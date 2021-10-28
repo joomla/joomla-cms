@@ -66,13 +66,15 @@ class TemplateModel extends FormModel
 	{
 		$temp = new \stdClass;
 
-		if ($template = $this->getTemplate())
+		if ($this->getTemplate())
 		{
+			$temp->type = 'file';
 			$temp->name = $name;
-			$temp->id = urlencode(base64_encode($path . $name));
-
-			return $temp;
+			$temp->id   = urlencode(base64_encode($path . $name));
+			$temp->path = $path;
 		}
+
+		return $temp;
 	}
 
 	/**
@@ -384,10 +386,16 @@ class TemplateModel extends FormModel
 
 		if ($template = $this->getTemplate())
 		{
-			$app    = Factory::getApplication();
-			$client = ApplicationHelper::getClientInfo($template->client_id);
-			$path   = Path::clean($client->path . '/templates/' . $template->element . '/');
-			$lang   = Factory::getLanguage();
+			$mediaPath = '';
+			$app       = Factory::getApplication();
+			$client    = ApplicationHelper::getClientInfo($template->client_id);
+			$path      = Path::clean($client->path . '/templates/' . $template->element); // . '/'
+			$lang      = Factory::getLanguage();
+
+			if ((isset($template->xmldata->inheritable) && $template->xmldata->inheritable) || (isset($template->xmldata->parent) && $template->xmldata->parent !== ''))
+			{
+				$mediaPath = Path::clean(JPATH_ROOT . '/media/templates/' . ($client->id === 0 ? 'site' : 'administrator') . '/' . $template->element ); //. '/'
+			}
 
 			// Load the core and/or local language file(s).
 			$lang->load('tpl_' . $template->element, $client->path) ||
@@ -401,7 +409,15 @@ class TemplateModel extends FormModel
 
 			if (is_dir($path))
 			{
-				$result = $this->getDirectoryTree($path);
+				if ($mediaPath)
+				{
+					$result = $this->dirToArray($path, true);
+					// $result[] = $this->dirToArray($mediaPath, true);
+				}
+				else
+				{
+					$result = $this->dirToArray($path, true);
+				}
 			}
 			else
 			{
@@ -414,6 +430,7 @@ class TemplateModel extends FormModel
 			$this->getUpdatedList(false, true, true);
 		}
 
+		// var_dump('<pre>'. json_encode($result, JSON_PRETTY_PRINT).'</pre>');
 		return $result;
 	}
 
@@ -938,7 +955,8 @@ class TemplateModel extends FormModel
 
 			try
 			{
-				$filePath = Path::check($client->path . '/templates/' . $this->template->element . '/' . $fileName);
+				$fileTemplatePath = Path::check($client->path . '/templates/' . $this->template->element . '/' . $fileName);
+				$fileMediaPath = Path::check(JPATH_ROOT . '/media/templates/' . ($client->id === 0 ? 'site' : 'administrator') . '/' . $this->template->element . '/' . $fileName);
 			}
 			catch (\Exception $e)
 			{
@@ -947,12 +965,15 @@ class TemplateModel extends FormModel
 				return;
 			}
 
-			if (file_exists($filePath))
+			$isTemplate = file_exists($fileTemplatePath);
+			$isMedia = file_exists($fileMediaPath);
+
+			if ($isTemplate || $isMedia)
 			{
 				$item->extension_id = $this->getState('extension.id');
 				$item->filename = Path::clean($fileName);
-				$item->source = file_get_contents($filePath);
-				$item->filePath = Path::clean($filePath);
+				$item->source = file_get_contents($isMedia ? $fileMediaPath : $fileTemplatePath);
+				$item->filePath = Path::clean($isMedia ? $fileMediaPath : $fileTemplatePath);
 
 				if ($coreFile = $this->getCoreFile($fileName, $this->template->client_id))
 				{
@@ -2079,5 +2100,126 @@ class TemplateModel extends FormModel
 
 			return false;
 		}
+	}
+
+	protected function getDirContents($dir, $relativePath = false)
+	{
+		$fileList = [];
+
+		$iterator = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($dir));
+
+		foreach ($iterator as $file) {
+			if ($file->isDir() && !in_array($file->getPath(), ['.', '..'])) {
+				if ($relativePath) {
+					$path = str_replace($dir, '', $file->getPath());
+					$path = ltrim($path, '/\\');
+				}
+
+				if ($path !== '') {
+					$shouldAdd = true;
+
+					foreach ($fileList as $obj)
+					{
+						if ($obj->name === $path)
+						{
+							$shouldAdd = false;
+							break;
+						}
+					}
+
+					if ($shouldAdd)
+					{
+						$temp       = new \stdClass;
+						$temp->type = 'folder';
+						$temp->name = basename($path);
+						$temp->path = $path;
+						$fileList[] = $temp;
+					}
+				}
+
+				continue;
+			}
+
+			$path = $file->getPathname();
+
+			if ($relativePath) {
+				$path = str_replace($dir, '', $path);
+				$path = ltrim($path, '/\\');
+			}
+
+			$temp         = new \stdClass;
+			$temp->type   = 'file';
+			$temp->name   = basename($path);
+			$temp->folder = dirname($path) ;
+			$fileList[]   = $temp;
+		}
+
+		return $fileList;
+	}
+
+
+	/*
+ * Converts a filesystem tree to a PHP array.
+ */
+	function dirToArray($dir)
+	{
+		if (!is_dir($dir))
+		{
+			// If the user supplies a wrong path we inform him.
+			return null;
+		}
+
+		// Our PHP representation of the filesystem
+		// for the supplied directory and its descendant.
+		$data = [];
+
+		foreach (new \DirectoryIterator($dir) as $f)
+		{
+			if ($f->isDot())
+			{
+				// Dot files like '.' and '..' must be skipped.
+				continue;
+			}
+
+			$path = $f->getPathname();
+			$name = $f->getFilename();
+
+			if ($f->isFile() && $name !== '.DS_Store')
+			{
+				$data[] = [
+					'file' => $name,
+					'path' => str_replace(JPATH_ROOT, '', $path),
+				];
+			}
+			else
+			{
+				if (in_array(basename($path), ['node_modules']))
+				{
+					continue;
+				}
+
+				// Process the content of the directory.
+				$files = $this->dirToArray($path);
+
+				$data[] = [
+					'dir'  => $files,
+					'name' => $name,
+					'path' => str_replace(JPATH_ROOT, '', $path),
+				];
+				// A directory has a 'name' attribute
+				// to be able to retrieve its name.
+				// In case it is not needed, just delete it.
+			}
+		}
+
+		// Sorts files and directories if they are not on your system.
+		\usort($data, function ($a, $b) {
+			$aa = isset($a['file']) ? $a['file'] : $a['name'];
+			$bb = isset($b['file']) ? $b['file'] : $b['name'];
+
+			return \strcmp($aa, $bb);
+		});
+
+		return $data;
 	}
 }
