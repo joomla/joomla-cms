@@ -4,9 +4,7 @@
  */
 
 /**
- * Run the test task in the scheduler backend list
- *
- * Used for the play button in the list view
+ * Provides the manual-run functionality for tasks over the com_scheduler administrator backend.
  *
  * @package  Joomla.Components
  * @subpackage Scheduler.Tasks
@@ -18,18 +16,27 @@ if (!window.Joomla) {
 }
 
 const initRunner = () => {
+  const paths = Joomla.getOptions('system.paths');
+  const uri = `${paths ? `${paths.base}/index.php` : window.location.pathname}?option=com_ajax&format=json&plugin=RunSchedulerTest&group=system&id=%d`;
   const modal = document.getElementById('scheduler-test-modal');
 
+  // Task output template
   const template = `
     <h4 class="scheduler-headline">${Joomla.Text._('COM_SCHEDULER_TEST_RUN_TASK')}</h4>
     <div>${Joomla.Text._('COM_SCHEDULER_TEST_RUN_STATUS_STARTED')}</div>
     <div class="mt-3 text-center"><span class="fa fa-spinner fa-spin fa-lg"></span></div>
   `;
 
-  const paths = Joomla.getOptions('system.paths');
-  const uri = `${paths ? `${paths.base}/index.php` : window.location.pathname}?option=com_ajax&format=json&plugin=RunSchedulerTest&group=system&id=%d`;
+  const sanitiseTaskOutput = (text) => text
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#039;')
+    .replace(/([^>\r\n]?)(\r\n|\n\r|\r|\n)/g, '$1<br>$2');
 
-  modal.addEventListener('show.bs.modal', (e) => {
+  // Trigger the task through a GET request, populate the modal with output on completion.
+  const triggerTaskAndShowOutput = (e) => {
     const button = e.relatedTarget;
     const id = parseInt(button.dataset.id, 10);
     const { title } = button.dataset;
@@ -38,7 +45,7 @@ const initRunner = () => {
     modal.querySelector('.modal-body > div').innerHTML = template.replace('%s', title);
 
     Joomla.request({
-      url: uri.replace('%d', id),
+      url: uri.replace('%d', id.toString()),
       onSuccess: (data, xhr) => {
         [].slice.call(modal.querySelectorAll('.modal-body > div > div')).forEach((el) => {
           el.parentNode.removeChild(el);
@@ -46,7 +53,7 @@ const initRunner = () => {
 
         const output = JSON.parse(data);
 
-        if (output && output.success && output.data && output.data.status === 0) {
+        if (output && output.success && output.data) {
           modal.querySelector('.modal-body > div').innerHTML += `<div>${Joomla.Text._('COM_SCHEDULER_TEST_RUN_STATUS_COMPLETED')}</div>`;
 
           if (output.data.duration > 0) {
@@ -54,14 +61,9 @@ const initRunner = () => {
           }
 
           if (output.data.output) {
-            const result = output.data.output
-              .replace(/&/g, '&amp;')
-              .replace(/</g, '&lt;')
-              .replace(/>/g, '&gt;')
-              .replace(/"/g, '&quot;')
-              .replace(/'/g, '&#039;')
-              .replace(/([^>\r\n]?)(\r\n|\n\r|\r|\n)/g, '$1<br>$2');
+            const result = Joomla.sanitizeHtml((output.data.output), null, sanitiseTaskOutput);
 
+            // Can use an indication for non-0 exit codes
             modal.querySelector('.modal-body > div').innerHTML += `<div>${Joomla.Text._('COM_SCHEDULER_TEST_RUN_OUTPUT').replace('%s', result)}</div>`;
           }
         } else {
@@ -76,11 +78,10 @@ const initRunner = () => {
         modal.querySelector('.modal-body > div').innerHTML += `<div>${Joomla.Text._('COM_SCHEDULER_TEST_RUN_OUTPUT').replace('%s', msg.error)}</div>`;
       },
     });
-  });
+  };
+
+  modal.addEventListener('show.bs.modal', triggerTaskAndShowOutput);
+  document.removeEventListener('DOMContentLoaded', initRunner);
 };
 
-((document) => {
-  document.addEventListener('DOMContentLoaded', () => {
-    initRunner();
-  });
-})(document);
+document.addEventListener('DOMContentLoaded', initRunner);
