@@ -15,8 +15,6 @@ use Joomla\CMS\Form\Form;
 use Joomla\CMS\Form\FormField;
 use Joomla\Registry\Registry;
 
-use function json_decode;
-
 /**
  * The Field to load the form inside current form
  *
@@ -182,7 +180,7 @@ class SubformField extends FormField
 					$value = json_decode($value, true);
 				}
 
-				$this->value = (array) $value;
+				$this->value = $value;
 			break;
 
 			default:
