@@ -2,7 +2,7 @@
 <form>
 	<fields name="params">
 		<fields name="notifications">
-			<fieldset name="advanced">
+			<fieldset name="notifications">
 				<field
 					name="success_mail"
 					type="radio"

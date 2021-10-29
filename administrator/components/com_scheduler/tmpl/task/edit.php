@@ -34,8 +34,19 @@ $app = $this->app;
 $input = $app->getInput();
 
 // ?
-$this->ignore_fieldsets = ['aside', 'details', 'exec_hist', 'custom-cron-rules', 'basic', 'advanced'];
+$this->ignore_fieldsets = ['aside', 'details', 'exec_hist', 'custom-cron-rules', 'basic', 'advanced', 'priority'];
 $this->useCoreUI = true;
+
+$advancedFieldsets = $this->form->getFieldsets('params');
+
+// Don't show the params fieldset, they will be loaded later
+foreach ($advancedFieldsets as $fieldset) :
+	if (!empty($fieldset->showFront)) :
+		continue;
+	endif;
+
+	$this->ignore_fieldsets[] = $fieldset->name;
+endforeach;
 
 // ? : Are these of use here?
 $isModal = $input->get('layout') === 'modal';
@@ -111,10 +122,19 @@ $tmpl = $isModal || $input->get('tmpl', '') === 'component' ? '&tmpl=component' 
 		<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'advanced', Text::_('JGLOBAL_FIELDSET_ADVANCED')) ?>
 		<div class="row">
 			<div class="col-lg-9">
+			<fieldset class="options-form">
+				<legend><?php echo Text::_('JGLOBAL_FIELDSET_PRIORITY') ?></legend>
+				<?php echo $this->form->renderFieldset('priority') ?>
+			</fieldset>
+			<?php foreach ($advancedFieldsets as $fieldset) : ?>
+				<?php if (!empty($fieldset->showFront)) :
+					continue;
+				endif; ?>
 				<fieldset class="options-form">
-					<legend><?php echo Text::_('JGLOBAL_FIELDSET_ADVANCED') ?></legend>
-					<?php echo $this->form->renderFieldset('advanced') ?>
+					<legend><?php echo Text::_($fieldset->label ?: 'JGLOBAL_FIELDSET_' . $fieldset->name) ?></legend>
+					<?php echo $this->form->renderFieldset($fieldset->name) ?>
 				</fieldset>
+			<?php endforeach; ?>
 			</div>
 		</div>
 		<?php echo HTMLHelper::_('uitab.endTab') ?>
