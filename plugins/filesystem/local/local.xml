@@ -30,7 +30,7 @@
 					multiple="true"
 					layout="joomla.form.field.subform.repeatable-table"
 					buttons="add,remove,move"
-					default='[{"directory":"images"}]'
+					default='[{"directory":"images","access":""}]'
 				>
 					<form>
 						<field
@@ -40,10 +40,18 @@
 							label="PLG_FILESYSTEM_LOCAL_DIRECTORIES_DIRECTORY_LABEL"
 							folderFilter=""
 							exclude=""
-							stripext=""
+							recursive="1"
 							hide_none="true"
 							validate="options"
 						/>
+						<field
+							name="access"
+							type="accesslevel"
+							label="PLG_FILESYSTEM_LOCAL_DIRECTORIES_ACCESS_LABEL"
+						>
+							<option value="">JALL</option>
+							<option value="-1" disabled="disabled">-</option>
+						</field>
 					</form>
 				</field>
 			</fieldset>

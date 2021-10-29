@@ -24,6 +24,14 @@ use Joomla\Component\Media\Administrator\Provider\ProviderInterface;
 class PlgFileSystemLocal extends CMSPlugin implements ProviderInterface
 {
 	/**
+	 * The application object
+	 *
+	 * @var    \Joomla\CMS\Application\CMSApplicationInterface
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $app;
+
+	/**
 	 * Affects constructor behavior. If true, language files will be loaded automatically.
 	 *
 	 * @var    boolean
@@ -88,9 +96,11 @@ class PlgFileSystemLocal extends CMSPlugin implements ProviderInterface
 			$directories = json_decode($directories);
 		}
 
+		$viewLevels = $this->app->getIdentity()->getAuthorisedViewLevels();
+
 		foreach ($directories as $directoryEntity)
 		{
-			if ($directoryEntity->directory)
+			if ($directoryEntity->directory && (empty($directoryEntity->access) || in_array($directoryEntity->access, $viewLevels)))
 			{
 				$directoryPath = JPATH_ROOT . '/' . $directoryEntity->directory;
 				$directoryPath = rtrim($directoryPath) . '/';

@@ -16,8 +16,8 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\File;
 use Joomla\CMS\Filesystem\Folder;
 use Joomla\CMS\Filesystem\Path;
-use Joomla\CMS\Helper\MediaHelper;
 use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Helper\MediaHelper;
 use Joomla\CMS\Image\Exception\UnparsableImageException;
 use Joomla\CMS\Image\Image;
 use Joomla\CMS\Language\Text;
@@ -68,7 +68,7 @@ class LocalAdapter implements AdapterInterface
 		}
 
 		$this->rootPath = Path::clean(realpath($rootPath), '/');
-		$this->filePath = $filePath;
+		$this->filePath = Path::clean($filePath, '/');
 	}
 
 	/**

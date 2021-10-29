@@ -159,7 +159,12 @@ class FolderlistField extends ListField
 			$this->exclude      = (string) $this->element['exclude'];
 
 			$recursive       = (string) $this->element['recursive'];
-			$this->recursive = ($recursive === 'true' || $recursive === 'recursive' || $recursive === '1');
+			$this->recursive = ($recursive === 'true' || $recursive === 'recursive');
+
+			if (is_numeric($recursive) && $recursive > 0)
+			{
+				$this->recursive = (int) $recursive;
+			}
 
 			$hideNone       = (string) $this->element['hide_none'];
 			$this->hideNone = ($hideNone === 'true' || $hideNone === 'hideNone' || $hideNone === '1');
