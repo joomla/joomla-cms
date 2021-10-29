@@ -62,11 +62,51 @@ class PlgSystemTasknotification extends CMSPlugin implements SubscriberInterface
 	public static function getSubscribedEvents(): array
 	{
 		return [
+			'onContentPrepareForm'  => 'injectTaskNotificationFieldset',
 			'onTaskExecuteSuccess'  => 'notifySuccess',
 			'onTaskExecuteFailure'  => 'notifyFailure',
 			'onTaskRoutineNotFound' => 'notifyOrphan',
 			'onTaskRecoverFailure'  => 'notifyFatalRecovery',
 		];
+	}
+
+	/**
+	 * Inject fields to support configuration of post-execution notifications into the task item form.
+	 *
+	 * @param   EventInterface  $event  The onContentPrepareForm event.
+	 *
+	 * @return boolean True if successful.
+	 *
+	 * @since __DEPLOY_VERSION__
+	 */
+	public function injectTaskNotificationFieldset(EventInterface $event): bool
+	{
+		/** @var Form $form */
+		$form = $event->getArgument('0');
+
+		if ($form->getName() !== 'com_scheduler.task')
+		{
+			return true;
+		}
+
+		$formFile = __DIR__ . "/forms/" . self::TASK_NOTIFICATION_FORM . '.xml';
+
+		try
+		{
+			$formFile = Path::check($formFile);
+		}
+		catch (Exception $e)
+		{
+			// Log?
+			return false;
+		}
+
+		if (!File::exists($formFile))
+		{
+			return false;
+		}
+
+		return $form->loadFile($formFile);
 	}
 
 	/**
