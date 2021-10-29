@@ -183,7 +183,7 @@ class SubformField extends FormField
 				}
 
 				$this->value = (array) $value;
-			break;
+				break;
 
 			default:
 				parent::__set($name, $value);
