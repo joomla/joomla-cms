@@ -54,7 +54,6 @@ class TasksModel extends ListModel
 				'title', 'a.title',
 				'type', 'a.type',
 				'type_title', 'j.type_title',
-				'trigger', 'a.trigger',
 				'state', 'a.state',
 				'last_exit_code', 'a.last_exit_code',
 				'last_execution', 'a.last_execution',
@@ -121,7 +120,7 @@ class TasksModel extends ListModel
 		$query->select(
 			$this->getState(
 				'list.select',
-				'a.id, a.asset_id, a.title, a.type, a.trigger, a.execution_rules, a.state, a.last_exit_code' .
+				'a.id, a.asset_id, a.title, a.type, a.execution_rules, a.state, a.last_exit_code' .
 				', a.last_execution, a.next_execution, a.times_executed, a.times_failed, a.ordering, a.note'
 			)
 		);

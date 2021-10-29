@@ -896,8 +896,6 @@ CREATE TABLE IF NOT EXISTS `#__scheduler_tasks` (
   `asset_id` int NOT NULL UNIQUE DEFAULT '0',
   `title` varchar(255) NOT NULL DEFAULT '',
   `type` varchar(1024) NOT NULL COMMENT 'unique identifier for job defined by plugin',
-  -- Trigger type, default to PseudoCron (compatible everywhere).
-  `trigger` enum ('pseudo_cron', 'cron', 'visit_count') NOT NULL DEFAULT 'pseudo_cron' COMMENT 'Defines how job is triggered',
   `execution_rules` text COMMENT 'Execution Rules, Unprocessed',
   `cron_rules` text COMMENT 'Processed execution rules, crontab-like JSON form',
   `state` tinyint NOT NULL DEFAULT FALSE,
