@@ -1,19 +1,20 @@
 <?php
 /**
- * @package       Joomla.Plugins
- * @subpackage    System.Tasknotification
+ * @package     Joomla.Plugins
+ * @subpackage  System.Tasknotification
  *
- * @copyright (C) 2021 Open Source Matters, Inc. <https://www.joomla.org>
- * @license       GNU General Public License version 2 or later; see LICENSE.txt
+ * @copyright   (C) 2021 Open Source Matters, Inc. <https://www.joomla.org>
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
-
-/** Notifications for (scheduled) task executions. */
 
 // Restrict direct access
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Filesystem\File;
+use Joomla\CMS\Filesystem\Path;
+use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\Mail\MailTemplate;
@@ -21,29 +22,45 @@ use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\User\UserFactoryInterface;
 use Joomla\Component\Scheduler\Administrator\Task\Status;
 use Joomla\Component\Scheduler\Administrator\Task\Task;
-use Joomla\Database\DatabaseDriver;
+use Joomla\Database\DatabaseInterface;
 use Joomla\Event\Event;
+use Joomla\Event\EventInterface;
 use Joomla\Event\SubscriberInterface;
 use PHPMailer\PHPMailer\Exception as MailerException;
 
 /**
- * Plugin class
+ * This plugin implements email notification functionality for Tasks configured through the Scheduler component.
+ * Notification configuration is supported on a per-task basis, which can be set-up through the Task item form, made
+ * possible by injecting the notification fields into the item form with a `onContentPrepareForm` listener.<br/>
+ *
+ * Notifications can be set-up on: task success, failure, fatal failure (task running too long or crashing the request),
+ * or on _orphaned_ task routines (missing parent plugin - either uninstalled, disabled or no longer offering a routine
+ * with the same ID).
  *
  * @since __DEPLOY_VERSION__
  */
 class PlgSystemTasknotification extends CMSPlugin implements SubscriberInterface
 {
 	/**
-	 * @var  DatabaseDriver
-	 * @since  __DEPLOY_VERSION__
+	 * The task notification form. This form is merged into the task item form by {@see
+	 * injectTaskNotificationFieldset()}.
+	 *
+	 * @var string
+	 * @since __DEPLOY_VERSION__
 	 */
-	protected $db;
+	private const TASK_NOTIFICATION_FORM = 'task_notification';
 
 	/**
 	 * @var  CMSApplication
 	 * @since  __DEPLOY_VERSION__
 	 */
 	protected $app;
+
+	/**
+	 * @var  DatabaseInterface
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $db;
 
 	/**
 	 * @var boolean
@@ -53,7 +70,7 @@ class PlgSystemTasknotification extends CMSPlugin implements SubscriberInterface
 
 
 	/**
-	 * Returns event subscriptions
+	 * @inheritDoc
 	 *
 	 * @return array
 	 *
@@ -114,8 +131,8 @@ class PlgSystemTasknotification extends CMSPlugin implements SubscriberInterface
 	 *
 	 * @return void
 	 *
-	 * @throws Exception
 	 * @since __DEPLOY_VERSION__
+	 * @throws Exception
 	 */
 	public function notifyFailure(Event $event): void
 	{
@@ -126,7 +143,7 @@ class PlgSystemTasknotification extends CMSPlugin implements SubscriberInterface
 
 		// @todo safety checks, multiple files [?]
 		$outFile = $event->getArgument('subject')->snapshot['output_file'] ?? '';
-		$data = $this->getDataFromTask($event->getArgument('subject'));
+		$data    = $this->getDataFromTask($event->getArgument('subject'));
 		$this->sendMail('plg_system_tasknotification.failure_mail', $data, $outFile);
 	}
 
@@ -135,8 +152,8 @@ class PlgSystemTasknotification extends CMSPlugin implements SubscriberInterface
 	 *
 	 * @return void
 	 *
-	 * @throws Exception
 	 * @since __DEPLOY_VERSION__
+	 * @throws Exception
 	 */
 	public function notifyOrphan(Event $event): void
 	{
@@ -154,8 +171,8 @@ class PlgSystemTasknotification extends CMSPlugin implements SubscriberInterface
 	 *
 	 * @return void
 	 *
-	 * @throws Exception
 	 * @since __DEPLOY_VERSION__
+	 * @throws Exception
 	 */
 	public function notifySuccess(Event $event): void
 	{
@@ -166,7 +183,7 @@ class PlgSystemTasknotification extends CMSPlugin implements SubscriberInterface
 
 		// @todo safety checks, multiple files [?]
 		$outFile = $event->getArgument('subject')->snapshot['output_file'] ?? '';
-		$data = $this->getDataFromTask($event->getArgument('subject'));
+		$data    = $this->getDataFromTask($event->getArgument('subject'));
 		$this->sendMail('plg_system_tasknotification.success_mail', $data, $outFile);
 	}
 
@@ -175,8 +192,8 @@ class PlgSystemTasknotification extends CMSPlugin implements SubscriberInterface
 	 *
 	 * @return void
 	 *
-	 * @throws Exception
 	 * @since __DEPLOY_VERSION__
+	 * @throws Exception
 	 */
 	public function notifyFatalRecovery(Event $event): void
 	{
@@ -216,13 +233,13 @@ class PlgSystemTasknotification extends CMSPlugin implements SubscriberInterface
 	 *
 	 * @return void
 	 *
-	 * @throws Exception
 	 * @since __DEPLOY_VERSION__
+	 * @throws Exception
 	 */
 	private function sendMail(string $template, array $data, string $attachment = ''): void
 	{
 		$app = $this->app;
-		$db = $this->db;
+		$db  = $this->db;
 
 		/** @var UserFactoryInterface $userFactory */
 		$userFactory = Factory::getContainer()->get('user.factory');
