@@ -1,12 +1,10 @@
 <?php
 /**
- * @package       Joomla.Administrator
- * @subpackage    com_scheduler
+ * @package     Joomla.Administrator
+ * @subpackage  com_scheduler
  *
- * @copyright (C) 2021 Open Source Matters, Inc. <https://www.joomla.org>
- * @license       GNU General Public License version 2 or later; see LICENSE.txt
- *
- * phpcs:ignoreFile
+ * @copyright   (C) 2021 Open Source Matters, Inc. <https://www.joomla.org>
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 // Restrict direct access
@@ -33,15 +31,17 @@ $app = $this->app;
 
 $input = $app->getInput();
 
-// ?
+// Fieldsets to be ignored by the `joomla.edit.params` template.
 $this->ignore_fieldsets = ['aside', 'details', 'exec_hist', 'custom-cron-rules', 'basic', 'advanced', 'priority'];
+
+// Used by the `joomla.edit.params` template to render the right template for UI tabs.
 $this->useCoreUI = true;
 
 $advancedFieldsets = $this->form->getFieldsets('params');
 
 // Don't show the params fieldset, they will be loaded later
 foreach ($advancedFieldsets as $fieldset) :
-	if (!empty($fieldset->showFront)) :
+	if (!empty($fieldset->showFront) || $fieldset->name === 'task_params') :
 		continue;
 	endif;
 
@@ -54,7 +54,6 @@ $layout = $isModal ? 'modal' : 'edit';
 $tmpl = $isModal || $input->get('tmpl', '') === 'component' ? '&tmpl=component' : '';
 ?>
 
-<!-- Form begins -->
 <form action="<?php echo Route::_('index.php?option=com_scheduler&layout=' . $layout . $tmpl . '&id=' . (int) $this->item->id); ?>"
 	  method="post" name="adminForm" id="task-form"
 	  aria-label="<?php echo Text::_('COM_SCHEDULER_FORM_TITLE_' . ((int) $this->item->id === 0 ? 'NEW' : 'EDIT'), true); ?>"
@@ -123,7 +122,7 @@ $tmpl = $isModal || $input->get('tmpl', '') === 'component' ? '&tmpl=component' 
 		<div class="row">
 			<div class="col-lg-9">
 			<fieldset class="options-form">
-				<legend><?php echo Text::_('JGLOBAL_FIELDSET_PRIORITY') ?></legend>
+				<legend><?php echo Text::_('COM_SCHEDULER_FIELDSET_PRIORITY') ?></legend>
 				<?php echo $this->form->renderFieldset('priority') ?>
 			</fieldset>
 			<?php foreach ($advancedFieldsets as $fieldset) : ?>
@@ -131,7 +130,7 @@ $tmpl = $isModal || $input->get('tmpl', '') === 'component' ? '&tmpl=component' 
 					continue;
 				endif; ?>
 				<fieldset class="options-form">
-					<legend><?php echo Text::_($fieldset->label ?: 'JGLOBAL_FIELDSET_' . $fieldset->name) ?></legend>
+					<legend><?php echo Text::_($fieldset->label ?: 'COM_SCHEDULER_FIELDSET_' . $fieldset->name) ?></legend>
 					<?php echo $this->form->renderFieldset($fieldset->name) ?>
 				</fieldset>
 			<?php endforeach; ?>
