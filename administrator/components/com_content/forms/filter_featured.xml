@@ -113,6 +113,8 @@
 			<option value="fp.ordering DESC">JGRID_HEADING_ORDERING_DESC</option>
 			<option value="a.state ASC">JSTATUS_ASC</option>
 			<option value="a.state DESC">JSTATUS_DESC</option>
+			<option value="a.featured ASC">JGRID_HEADING_ORDERING_ASC</option>
+			<option value="a.featured DESC">JGRID_HEADING_ORDERING_DESC</option>
 			<option value="a.title ASC">JGLOBAL_TITLE_ASC</option>
 			<option value="a.title DESC">JGLOBAL_TITLE_DESC</option>
 			<option value="category_title ASC">JCATEGORY_ASC</option>

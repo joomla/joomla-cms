@@ -52,6 +52,7 @@ class ArticlesModel extends ListModel
 				'checked_out_time', 'a.checked_out_time',
 				'catid', 'a.catid', 'category_title',
 				'state', 'a.state',
+				'featured', 'a.featured',
 				'access', 'a.access', 'access_level',
 				'created', 'a.created',
 				'modified', 'a.modified',
