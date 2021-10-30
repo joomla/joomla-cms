@@ -327,7 +327,7 @@ class HtmlView extends BaseHtmlView
 
 		if (!empty($ref_key) && !empty($url))
 		{
-		    $toolbar->help($ref_key, ComponentHelper::getParams($component)->exists('helpURL'), $url);
+			$toolbar->help($ref_key, ComponentHelper::getParams($component)->exists('helpURL'), $url);
 		}
 	}
 }
