@@ -1313,12 +1313,20 @@ abstract class HTMLHelper
 	 */
 	private static function checkFileOrder($first, $second)
 	{
-		if (is_file($second))
+		/**
+		 * This is needed to make sure Joomla! can display image contains space in filename selected
+		 * from a media form field
+		 */
+		$decodedSecond = str_replace('%20', ' ', $second);
+
+		if (is_file($decodedSecond))
 		{
 			return static::convertToRelativePath($second);
 		}
 
-		if (is_file($first))
+		$decodedFirst = str_replace('%20', ' ', $first);
+
+		if (is_file($decodedFirst))
 		{
 			return static::convertToRelativePath($first);
 		}
