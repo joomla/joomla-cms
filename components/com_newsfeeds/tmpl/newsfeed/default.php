@@ -120,7 +120,7 @@ use Joomla\CMS\Layout\LayoutHelper;
 						'image' => [
 							'src' => $this->rssDoc->image->uri,
 							'alt' => $this->rssDoc->image->title,
-							'attributes' => []
+							'attributes' => [],
 						],
 					]
 				); ?>
