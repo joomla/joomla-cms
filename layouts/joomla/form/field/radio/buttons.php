@@ -119,7 +119,7 @@ if ($dataAttribute)
 					<?php $attributes[] = 'required'; ?>
 				<?php endif; ?>
 				<input class="<?php echo $classToggle; ?>" type="radio" id="<?php echo $oid; ?>" name="<?php echo $name; ?>" value="<?php echo $ovalue; ?>" <?php echo implode(' ', $attributes); ?>>
-				<label for="<?php echo $oid; ?>" class="<?php echo trim($optionClass); ?><?php echo $style; ?>">
+				<label for="<?php echo $oid; ?>" class="<?php echo trim($optionClass); ?>"<?php echo $style; ?>>
 					<?php echo $option->text; ?>
 				</label>
 			<?php echo $blockEnd; ?>
