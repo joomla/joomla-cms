@@ -1277,7 +1277,6 @@ class JoomlaInstallerScript
 			'/administrator/components/com_content/models/fields/voteradio.php',
 			'/administrator/components/com_content/models/forms/article.xml',
 			'/administrator/components/com_content/models/forms/filter_articles.xml',
-			'/administrator/components/com_content/models/forms/filter_featured.xml',
 			'/administrator/components/com_content/tables/featured.php',
 			'/administrator/components/com_content/views/article/tmpl/edit.php',
 			'/administrator/components/com_content/views/article/tmpl/edit.xml',
