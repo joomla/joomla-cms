@@ -95,7 +95,7 @@ use Joomla\CMS\Layout\LayoutHelper;
 						'image' => [
 							'src' => $images->image_second,
 							'alt' => empty($images->image_second_alt) && empty($images->image_second_alt_empty) ? '' : $images->image_second_alt,
-							'attributes' => $imgAttribs
+							'attributes' => $imgAttribs,
 						],
 					]
 				); ?>
