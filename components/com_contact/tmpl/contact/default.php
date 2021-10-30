@@ -108,7 +108,7 @@ $htag    = $tparams->get('show_page_heading') ? 'h2' : 'h1';
 							'image' => [
 								'src' => $this->item->image,
 								'alt' => $this->item->name,
-								'attributes' => ['itemprop' => 'image']
+								'attributes' => ['itemprop' => 'image'],
 							],
 						]
 					); ?>
