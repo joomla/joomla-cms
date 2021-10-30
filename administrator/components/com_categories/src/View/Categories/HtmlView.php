@@ -299,7 +299,7 @@ class HtmlView extends BaseHtmlView
 			$url     = (string) $xml->listhelp['url'];
 		}
 
-		if (!$ref_key)
+		if (empty($ref_key))
 		{
 			// Compute the ref_key if it does exist in the component
 			if (!$lang->hasKey($ref_key = strtoupper($component . ($section ? "_$section" : '')) . '_CATEGORIES_HELP_KEY'))
@@ -315,7 +315,7 @@ class HtmlView extends BaseHtmlView
 		 * -locally  searching in a component help file if helpURL param exists in the component and is set to ''
 		 * -remotely searching in a component URL if helpURL param exists in the component and is NOT set to ''
 		 */
-		if (!$url)
+		if (empty($url))
 		{
 			if ($lang->hasKey($lang_help_url = strtoupper($component) . '_HELP_URL'))
 			{
@@ -325,6 +325,9 @@ class HtmlView extends BaseHtmlView
 			}
 		}
 
-		$toolbar->help($ref_key, ComponentHelper::getParams($component)->exists('helpURL'), $url);
+		if (!empty($ref_key) && !empty($url))
+		{
+		    $toolbar->help($ref_key, ComponentHelper::getParams($component)->exists('helpURL'), $url);
+		}
 	}
 }
