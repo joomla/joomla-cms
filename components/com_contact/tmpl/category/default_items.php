@@ -106,7 +106,7 @@ $listDirn   = $this->escape($this->state->get('list.direction'));
 												'image' => [
 													'src' => $item->image,
 													'alt' => '',
-													'attributes' => ['class' => 'contact-thumbnail img-thumbnail']
+													'attributes' => ['class' => 'contact-thumbnail img-thumbnail'],
 												],
 											]); ?>
 									<?php endif; ?>
