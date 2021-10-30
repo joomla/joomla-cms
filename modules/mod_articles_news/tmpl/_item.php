@@ -34,7 +34,7 @@ use Joomla\CMS\Layout\LayoutHelper;
 				'image' => [
 					'src' => $item->imageSrc,
 					'alt' => $item->imageAlt,
-					'attributes' => []
+					'attributes' => [],
 				],
 			]
 		); ?>
