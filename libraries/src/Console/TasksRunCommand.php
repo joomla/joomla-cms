@@ -111,7 +111,6 @@ class TasksRunCommand extends AbstractCommand
 			return Status::NO_TASK;
 		}
 
-		@set_time_limit(0);
 		$status = ['startTime' => microtime(true)];
 		$taskCount = count($records);
 		$exit = Status::OK;
@@ -119,7 +118,8 @@ class TasksRunCommand extends AbstractCommand
 		foreach ($records as $record)
 		{
 			$cStart = microtime(true);
-			$exit = $scheduler->runTask($record->id);
+			$task = $scheduler->runTask($record->id);
+			$exit = $task->isSuccess();
 			$duration = microtime(true) - $cStart;
 			$key = (array_key_exists($exit, $outTextMap)) ? $exit : 'N/A';
 			$this->ioStyle->writeln(sprintf($outTextMap[$key], $record->id, $record->title, $duration, $exit));

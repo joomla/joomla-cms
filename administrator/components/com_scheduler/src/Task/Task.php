@@ -1,13 +1,11 @@
 <?php
 /**
- * @package       Joomla.Administrator
- * @subpackage    com_scheduler
+ * @package     Joomla.Administrator
+ * @subpackage  com_scheduler
  *
- * @copyright (C) 2021 Open Source Matters, Inc. <https://www.joomla.org>
- * @license       GNU General Public License version 2 or later; see LICENSE.txt
+ * @copyright   (C) 2021 Open Source Matters, Inc. <https://www.joomla.org>
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
-
-/** Implements the Task class. */
 
 namespace Joomla\Component\Scheduler\Administrator\Task;
 
@@ -33,9 +31,9 @@ use Psr\Log\LoggerAwareInterface;
 use Psr\Log\LoggerAwareTrait;
 
 /**
- * The Task class.
- * This class essentially extends a task record to define methods for its execution, logging and
- * related properties.
+ * The Task class defines methods for the execution, logging and
+ * related properties of Tasks as supported by `com_scheduler`,
+ * a Task Scheduling component.
  *
  * @since __DEPLOY_VERSION__
  */
@@ -49,7 +47,7 @@ class Task extends Registry implements LoggerAwareInterface
 	 * @var   []
 	 * @since __DEPLOY_VERSION__
 	 */
-	public $snapshot = [];
+	protected $snapshot = [];
 
 	/**
 	 * @var  string
@@ -105,10 +103,11 @@ class Task extends Registry implements LoggerAwareInterface
 			$options['text_file'] = $logFile;
 			Log::addLogger($options, Log::ALL, [$this->logCategory]);
 		}
-
 	}
 
 	/**
+	 * Get the task as a data object that can be stored back in the database.
+	 * ! This method should be removed or changed as part of a better API implementation for the driver.
 	 *
 	 * @return object
 	 *
@@ -146,6 +145,7 @@ class Task extends Registry implements LoggerAwareInterface
 					'subject' => $this
 				]
 			);
+
 			$this->app->getDispatcher()->dispatch('onTaskRecoverFailure', $event);
 		}
 
@@ -155,14 +155,14 @@ class Task extends Registry implements LoggerAwareInterface
 			$this->snapshot['status'] = Status::NO_ROUTINE;
 			$this->skipExecution();
 
-			return $this->handleExit();
+			return $this->isSuccess();
 		}
 
 		if (!$this->acquireLock())
 		{
 			$this->snapshot['status'] = Status::NO_LOCK;
 
-			return $this->handleExit();
+			return $this->isSuccess();
 		}
 
 		$this->snapshot['status'] = Status::RUNNING;
@@ -194,11 +194,22 @@ class Task extends Registry implements LoggerAwareInterface
 		if (!$this->releaseLock())
 		{
 			$this->snapshot['status'] = Status::NO_RELEASE;
-
-			return $this->handleExit();
 		}
 
-		return $this->handleExit();
+		return $this->isSuccess();
+	}
+
+	/**
+	 * Get the task execution snapshot,
+	 * ! Access locations will need updates once a more robust Snapshot container is implemented.
+	 *
+	 * @return array
+	 *
+	 * @since __DEPLOY_VERSION__
+	 */
+	public function getContent(): array
+	{
+		return $this->snapshot;
 	}
 
 	/**
@@ -388,15 +399,16 @@ class Task extends Registry implements LoggerAwareInterface
 	 *
 	 * @since __DEPLOY_VERSION__
 	 */
-	private function handleExit(): bool
+	public function isSuccess(): bool
 	{
-		$exitCode = $this->snapshot['status'];
+		$exitCode = $this->snapshot['status'] ?? 'NA';
 		$eventName = self::EVENTS_MAP[$exitCode] ?? self::EVENTS_MAP['NA'];
 
 		$event = AbstractEvent::create($eventName, [
 				'subject' => $this
 			]
 		);
+
 		$this->app->getDispatcher()->dispatch($eventName, $event);
 
 		return $exitCode === Status::OK;
