@@ -1,13 +1,11 @@
 <?php
 /**
- * @package         Joomla.Administrator
- * @subpackage      com_scheduler
+ * @package     Joomla.Administrator
+ * @subpackage  com_scheduler
  *
- * @copyright       (C) 2021 Open Source Matters, Inc. <https://www.joomla.org>
- * @license         GNU General Public License version 2 or later; see LICENSE.txt
+ * @copyright   (C) 2021 Open Source Matters, Inc. <https://www.joomla.org>
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
-
-/** Declares a list field with all possible states for a task entry. */
 
 namespace Joomla\Component\Scheduler\Administrator\Field;
 
@@ -38,9 +36,9 @@ class TaskStateField extends PredefinedlistField
 	 * @since  __DEPLOY_VERSION__
 	 */
 	protected $predefinedOptions = [
-		-2 => 'JTRASHED',
-		0 => 'JDISABLED',
-		1 => 'JENABLED',
+		-2  => 'JTRASHED',
+		0   => 'JDISABLED',
+		1   => 'JENABLED',
 		'*' => 'JALL',
 	];
 }

@@ -1,13 +1,11 @@
 <?php
 /**
- * @package       Joomla.Administrator
- * @subpackage    com_scheduler
+ * @package     Joomla.Administrator
+ * @subpackage  com_scheduler
  *
- * @copyright (C) 2021 Open Source Matters, Inc. <https://www.joomla.org>
- * @license       GNU General Public License version 2 or later; see LICENSE.txt
+ * @copyright   (C) 2021 Open Source Matters, Inc. <https://www.joomla.org>
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
-
-/** Implements the MVC Model for SelectView. */
 
 namespace Joomla\Component\Scheduler\Administrator\Model;
 
@@ -22,7 +20,7 @@ use Joomla\Component\Scheduler\Administrator\Helper\SchedulerHelper;
 use Joomla\Component\Scheduler\Administrator\Task\TaskOption;
 
 /**
- * MVC Model for SelectView
+ * The MVC Model for SelectView.
  *
  * @since  __DEPLOY_VERSION__
  */
@@ -43,7 +41,7 @@ class SelectModel extends ListModel
 	 * @param   array                 $config   An array of configuration options (name, state, dbo, table_path, ignore_request).
 	 * @param   ?MVCFactoryInterface  $factory  The factory.
 	 *
-	 * @throws Exception
+	 * @throws \Exception
 	 * @since  __DEPLOY_VERSION__
 	 */
 	public function __construct($config = array(), ?MVCFactoryInterface $factory = null)
@@ -57,7 +55,7 @@ class SelectModel extends ListModel
 	 *
 	 * @return TaskOption[]  An array of TaskOption objects
 	 *
-	 * @throws Exception
+	 * @throws \Exception
 	 * @since  __DEPLOY_VERSION__
 	 */
 	public function getItems(): array

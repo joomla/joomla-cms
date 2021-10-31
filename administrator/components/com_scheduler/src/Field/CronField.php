@@ -1,10 +1,10 @@
 <?php
 /**
- * @package       Joomla.Administrator
- * @subpackage    com_scheduler
+ * @package     Joomla.Administrator
+ * @subpackage  com_scheduler
  *
- * @copyright (C) 2021 Open Source Matters, Inc. <https://www.joomla.org>
- * @license       GNU General Public License version 2 or later; see LICENSE.txt
+ * @copyright   (C) 2021 Open Source Matters, Inc. <https://www.joomla.org>
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\Component\Scheduler\Administrator\Field;
@@ -36,7 +36,7 @@ class CronField extends ListField
 		'hours',
 		'days_month',
 		'months',
-		'days_week'
+		'days_week',
 	];
 
 	/**
@@ -47,11 +47,11 @@ class CronField extends ListField
 	 * @since  __DEPLOY_VERSION__
 	 */
 	private const OPTIONS_RANGE = [
-		'minutes' => [0, 59],
-		'hours' => [0, 23],
-		'days_week' => [0, 6],
+		'minutes'    => [0, 59],
+		'hours'      => [0, 23],
+		'days_week'  => [0, 6],
 		'days_month' => [1, 31],
-		'months' => [1, 12]
+		'months'     => [1, 12],
 	];
 
 	/**
@@ -62,14 +62,14 @@ class CronField extends ListField
 	 * @since  __DEPLOY_VERSION__
 	 */
 	private const PREPARED_RESPONSE_LABELS = [
-		'months' => [
+		'months'    => [
 			'JANUARY', 'FEBRUARY', 'MARCH', 'APRIL', 'MAY', 'JUNE',
-			'JULY', 'AUGUST', 'SEPTEMBER', 'OCTOBER', 'NOVEMBER', 'DECEMBER'
+			'JULY', 'AUGUST', 'SEPTEMBER', 'OCTOBER', 'NOVEMBER', 'DECEMBER',
 		],
 		'days_week' => [
 			'MONDAY', 'TUESDAY', 'WEDNESDAY', 'THURSDAY',
-			'FRIDAY', 'SATURDAY', 'SUNDAY'
-		]
+			'FRIDAY', 'SATURDAY', 'SUNDAY',
+		],
 	];
 
 	/**
@@ -108,11 +108,12 @@ class CronField extends ListField
 	/**
 	 * Override the parent method to set deal with subtypes.
 	 *
-	 * @param   SimpleXMLElement  $element   The SimpleXMLElement object representing the `<field>` tag for the form field object.
-	 * @param   mixed             $value     The form field value to validate.
-	 * @param   string            $group     The field name group control value. This acts as an array container for the field.
-	 *                                       For example if the field has name="foo" and the group value is set to "bar" then the
-	 *                                       full field name would end up being "bar[foo]".
+	 * @param   \SimpleXMLElement  $element  The SimpleXMLElement object representing the `<field>` tag for the form
+	 *                                       field object.
+	 * @param   mixed              $value    The form field value to validate.
+	 * @param   string             $group    The field name group control value. This acts as an array container for
+	 *                                       the field. For example if the field has `name="foo"` and the group value is
+	 *                                       set to "bar" then the full field name would end up being "bar[foo]".
 	 *
 	 * @return  boolean  True on success.
 	 *
@@ -122,8 +123,8 @@ class CronField extends ListField
 	{
 		$parentResult = parent::setup($element, $value, $group);
 
-		$subtype = ((string) $element['subtype'] ?? '') ?: null;
-		$wildcard = ((string) $element['wildcard'] ?? '') === 'true';
+		$subtype           = ((string) $element['subtype'] ?? '') ?: null;
+		$wildcard          = ((string) $element['wildcard'] ?? '') === 'true';
 		$onlyNumericLabels = ((string) $element['onlyNumericLabels']) === 'true';
 
 		if (!($subtype && \in_array($subtype, self::SUBTYPES)))
@@ -131,8 +132,8 @@ class CronField extends ListField
 			return false;
 		}
 
-		$this->subtype = $subtype;
-		$this->wildcard = $wildcard;
+		$this->subtype           = $subtype;
+		$this->wildcard          = $wildcard;
 		$this->onlyNumericLabels = $onlyNumericLabels;
 
 		return $parentResult;
@@ -157,7 +158,13 @@ class CronField extends ListField
 
 		if ($this->wildcard)
 		{
-			$options[] = HTMLHelper::_('select.option', '*', '*');
+			try
+			{
+				$options[] = HTMLHelper::_('select.option', '*', '*');
+			}
+			catch (\InvalidArgumentException $e)
+			{
+			}
 		}
 
 		[$optionLower, $optionUpper] = self::OPTIONS_RANGE[$subtype];
@@ -179,7 +186,13 @@ class CronField extends ListField
 
 		for ([$i, $l] = [$optionLower, 0]; $i <= $optionUpper; $i++, $l++)
 		{
-			$options[] = HTMLHelper::_('select.option', (string) ($i), $labels[$l]);
+			try
+			{
+				$options[] = HTMLHelper::_('select.option', (string) ($i), $labels[$l]);
+			}
+			catch (\InvalidArgumentException $e)
+			{
+			}
 		}
 
 		return $options;

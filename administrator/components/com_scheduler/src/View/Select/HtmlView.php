@@ -1,13 +1,11 @@
 <?php
 /**
- * @package       Joomla.Administrator
- * @subpackage    com_scheduler
+ * @package     Joomla.Administrator
+ * @subpackage  com_scheduler
  *
- * @copyright (C) 2021 Open Source Matters, Inc. <https://www.joomla.org>
- * @license       GNU General Public License version 2 or later; see LICENSE.txt
+ * @copyright   (C) 2021 Open Source Matters, Inc. <https://www.joomla.org>
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
-
-/** Implements the MVC View for Task type selection (SelectView). */
 
 namespace Joomla\Component\Scheduler\Administrator\View\Select;
 
@@ -26,8 +24,8 @@ use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\Component\Scheduler\Administrator\Task\TaskOption;
 
 /**
- * The MVC View SelectView
- * Lets the user choose from a list of plugin defined task routines.
+ * The MVC View for the routine selection page (SelectView).
+ * This view lets the user choose from a list of plugin defined task routines.
  *
  * @since  __DEPLOY_VERSION__
  */
@@ -70,13 +68,14 @@ class HtmlView extends BaseHtmlView
 	 *                          name: the name (optional) of the view (defaults to the view class name suffix).
 	 *                          charset: the character set to use for display
 	 *                          escape: the name (optional) of the function to use for escaping strings
-	 *                          base_path: the parent path (optional) of the views directory (defaults to the component folder)
-	 *                          template_plath: the path (optional) of the layout directory (defaults to base_path + /views/ + view name
-	 *                          helper_path: the path (optional) of the helper files (defaults to base_path + /helpers/)
-	 *                          layout: the layout (optional) to use to display the view
+	 *                          base_path: the parent path (optional) of the `views` directory (defaults to the component
+	 *                          folder) template_plath: the path (optional) of the layout directory (defaults to
+	 *                          base_path + /views/ + view name helper_path: the path (optional) of the helper files
+	 *                          (defaults to base_path + /helpers/) layout: the layout (optional) to use to display the
+	 *                          view
 	 *
-	 * @throws  Exception
 	 * @since  __DEPLOY_VERSION__
+	 * @throws  \Exception
 	 */
 	public function __construct($config = [])
 	{
@@ -90,13 +89,13 @@ class HtmlView extends BaseHtmlView
 	 *
 	 * @return  void
 	 *
-	 * @throws  Exception
 	 * @since  __DEPLOY_VERSION__
+	 * @throws \Exception
 	 */
 	public function display($tpl = null): void
 	{
-		$this->state = $this->get('State');
-		$this->items = $this->get('Items');
+		$this->state     = $this->get('State');
+		$this->items     = $this->get('Items');
 		$this->modalLink = '';
 
 		// Check for errors.
@@ -128,7 +127,7 @@ class HtmlView extends BaseHtmlView
 		*/
 		$toolbar = Toolbar::getInstance();
 
-		 // Add page title
+		// Add page title
 		ToolbarHelper::title(Text::_('COM_SCHEDULER_MANAGER_TASKS'), 'clock');
 
 		$toolbar->linkButton('cancel')

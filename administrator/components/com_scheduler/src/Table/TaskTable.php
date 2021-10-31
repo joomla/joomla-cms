@@ -7,8 +7,6 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-/** phpcs:disable Joomla.NamingConventions.ValidVariableName.MemberNotCamelCaps,Joomla.NamingConventions.ValidVariableName.ClassVarHasUnderscore,Joomla.NamingConventions.ValidFunctionName.MethodUnderscore */
-
 namespace Joomla\Component\Scheduler\Administrator\Table;
 
 // Restrict direct access
@@ -79,8 +77,8 @@ class TaskTable extends Table
 	 *
 	 * @return boolean  True if checks pass.
 	 *
-	 * @throws \Exception
 	 * @since  __DEPLOY_VERSION__
+	 * @throws \Exception
 	 */
 	public function check(): bool
 	{

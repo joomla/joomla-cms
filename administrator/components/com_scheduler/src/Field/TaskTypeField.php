@@ -1,13 +1,11 @@
 <?php
 /**
- * @package       Joomla.Administrator
- * @subpackage    com_scheduler
+ * @package     Joomla.Administrator
+ * @subpackage  com_scheduler
  *
- * @copyright     (C) 2021 Open Source Matters, Inc. <https://www.joomla.org>
- * @license       GNU General Public License version 2 or later; see LICENSE.txt
+ * @copyright   (C) 2021 Open Source Matters, Inc. <https://www.joomla.org>
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
-
-/** Declares the TaskTypeField for listing all available task routines. */
 
 namespace Joomla\Component\Scheduler\Administrator\Field;
 
@@ -21,7 +19,7 @@ use Joomla\Component\Scheduler\Administrator\Task\TaskOption;
 use Joomla\Utilities\ArrayHelper;
 
 /**
- * A list field with all available job types
+ * A list field with all available task routines.
  *
  * @since  __DEPLOY_VERSION__
  */
@@ -40,8 +38,8 @@ class TaskTypeField extends ListField
 	 *
 	 * @return array
 	 *
-	 * @throws Exception
 	 * @since  __DEPLOY_VERSION__
+	 * @throws \Exception
 	 */
 	protected function getOptions(): array
 	{
@@ -55,7 +53,13 @@ class TaskTypeField extends ListField
 
 		// Closure to add a TaskOption as a <select> option in $options: array
 		$addTypeAsOption = function (TaskOption $type) use (&$options) {
-			$options[] = HTMLHelper::_('select.option', $type->type, $type->title);
+			try
+			{
+				$options[] = HTMLHelper::_('select.option', $type->type, $type->title);
+			}
+			catch (\InvalidArgumentException $e)
+			{
+			}
 		};
 
 		// Call $addTypeAsOption on each type

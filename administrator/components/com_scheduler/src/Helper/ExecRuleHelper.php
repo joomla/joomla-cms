@@ -1,13 +1,11 @@
 <?php
 /**
- * @package       Joomla.Administrator
- * @subpackage    com_scheduler
+ * @package     Joomla.Administrator
+ * @subpackage  com_scheduler
  *
- * @copyright (C) 2021 Open Source Matters, Inc. <https://www.joomla.org>
- * @license       GNU General Public License version 2 or later; see LICENSE.txt
+ * @copyright   (C) 2021 Open Source Matters, Inc. <https://www.joomla.org>
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
-
-/** Implements the helper class ExecRuleHelper. */
 
 namespace Joomla\Component\Scheduler\Administrator\Helper;
 
@@ -17,13 +15,16 @@ defined('_JEXEC') or die;
 use Cron\CronExpression;
 use Joomla\CMS\Date\Date;
 use Joomla\CMS\Factory;
+use Joomla\Component\Scheduler\Administrator\Task\Task;
 use Joomla\Database\DatabaseDriver;
 use Joomla\Utilities\ArrayHelper;
 
 /**
- * Helper class for supported execution rules.
+ * Helper class for supporting task execution rules.
  *
  * @since  __DEPLOY_VERSION__
+ * @todo   This helper should probably be merged into the {@see Task} class.
+ *
  */
 class ExecRuleHelper
 {
@@ -55,7 +56,7 @@ class ExecRuleHelper
 	public function __construct($task)
 	{
 		$this->task = is_array($task) ? $task : ArrayHelper::fromObject($task);
-		$rule = $this->getFromTask('cron_rules');
+		$rule       = $this->getFromTask('cron_rules');
 		$this->rule = is_string($rule)
 			? (object) json_decode($rule)
 			: (is_array($rule) ? (object) $rule : $rule);
@@ -80,12 +81,14 @@ class ExecRuleHelper
 	}
 
 	/**
-	 * @param   boolean  $string  If true, an SQL formatted string is returned.
+	 * @param   boolean  $string    If true, an SQL formatted string is returned.
+	 * @param   boolean  $basisNow  If true, the current date-time is used as the basis for projecting the next
+	 *                              execution.
 	 *
 	 * @return ?Date|string
 	 *
-	 * @throws \Exception
 	 * @since  __DEPLOY_VERSION__
+	 * @throws \Exception
 	 */
 	public function nextExec(bool $string = true, bool $basisNow = false)
 	{
@@ -100,7 +103,7 @@ class ExecRuleHelper
 				break;
 			case 'cron-expression':
 				// @todo: testing
-				$cExp = new CronExpression((string) $this->rule->exp);
+				$cExp     = new CronExpression((string) $this->rule->exp);
 				$nextExec = $cExp->getNextRunDate('now', 0, false, 'UTC');
 				$nextExec = $string ? $this->dateTimeToSql($nextExec) : $nextExec;
 				break;

@@ -38,7 +38,7 @@ class PlgTaskRequests extends CMSPlugin implements SubscriberInterface
 		'plg_task_requests_task_get' => [
 			'langConstPrefix' => 'PLG_TASK_REQUESTS_TASK_GET_REQUEST',
 			'form'            => 'get_requests',
-			'method'            => 'makeGetRequest',
+			'method'          => 'makeGetRequest',
 		],
 	];
 
@@ -111,7 +111,7 @@ class PlgTaskRequests extends CMSPlugin implements SubscriberInterface
 		$responseFile = JPATH_ROOT . "/tmp/task_{$id}_response.html";
 		File::write($responseFile, $responseBody);
 		$this->snapshot['output_file'] = $responseFile;
-		$this->snapshot['output'] = <<< EOF
+		$this->snapshot['output']      = <<< EOF
 ======= Task Output Body =======
 > URL: $url
 > Response Code: ${responseCode}

@@ -1,10 +1,10 @@
 <?php
 /**
- * @package       Joomla.Administrator
- * @subpackage    com_scheduler
+ * @package     Joomla.Administrator
+ * @subpackage  com_scheduler
  *
- * @copyright (C) 2021 Open Source Matters, Inc. <https://www.joomla.org>
- * @license       GNU General Public License version 2 or later; see LICENSE.txt
+ * @copyright   (C) 2021 Open Source Matters, Inc. <https://www.joomla.org>
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\Component\Scheduler\Administrator\Controller;
@@ -31,12 +31,13 @@ class DisplayController extends BaseController
 
 	/**
 	 * @param   boolean  $cachable   If true, the view output will be cached
-	 * @param   array    $urlparams  An array of safe url parameters and their variable types, for valid values see {@link InputFilter::clean()}.
+	 * @param   array    $urlparams  An array of safe url parameters and their variable types, for valid values see
+	 *                               {@link InputFilter::clean()}.
 	 *
 	 * @return BaseController|boolean  Returns either a BaseController object to support chaining, or false on failure
 	 *
-	 * @throws Exception
 	 * @since  __DEPLOY_VERSION__
+	 * @throws \Exception
 	 */
 	public function display($cachable = false, $urlparams = array())
 	{
@@ -70,7 +71,7 @@ class DisplayController extends BaseController
 	private function validateEntry(string $layout = 'edit'): bool
 	{
 		$context = 'com_scheduler';
-		$id = $this->input->getInt('id');
+		$id      = $this->input->getInt('id');
 		$isValid = true;
 
 		switch ($layout)
@@ -79,7 +80,7 @@ class DisplayController extends BaseController
 
 				// True if controller was called and verified permissions
 				$inEditList = $this->checkEditId("$context.edit.task", $id);
-				$isNew = ($id == 0);
+				$isNew      = ($id == 0);
 
 				// For new item, entry is invalid if task type was not selected through SelectView
 				if ($isNew && !$this->app->getUserState("$context.add.task.task_type"))

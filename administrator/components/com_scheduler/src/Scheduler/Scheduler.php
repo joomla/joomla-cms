@@ -40,24 +40,26 @@ class Scheduler
 		Status::OK         => 'COM_SCHEDULER_SCHEDULER_TASK_COMPLETE',
 		Status::NO_LOCK    => 'COM_SCHEDULER_SCHEDULER_TASK_LOCKED',
 		Status::NO_RUN     => 'COM_SCHEDULER_SCHEDULER_TASK_UNLOCKED',
-		Status::NO_ROUTINE => 'COM_SCHEDULER_SCHEDULER_TASK_ROUTINE_NA'
+		Status::NO_ROUTINE => 'COM_SCHEDULER_SCHEDULER_TASK_ROUTINE_NA',
 	];
 
 	/**
 	 * Filters for the task queue. Can be used with fetchTaskRecords().
+	 *
 	 * @since __DEPLOY_VERSION__
 	 */
 	public const TASK_QUEUE_FILTERS = [
-		'due' => 1,
-		'locked' => -1
+		'due'    => 1,
+		'locked' => -1,
 	];
 
 	/**
 	 * List config for the task queue. Can be used with fetchTaskRecords().
+	 *
 	 * @since __DEPLOY_VERSION__
 	 */
 	public const TASK_QUEUE_LIST_CONFIG = [
-		'multi_ordering' => ['a.priority DESC ', 'a.next_execution ASC']
+		'multi_ordering' => ['a.priority DESC ', 'a.next_execution ASC'],
 	];
 
 	/**
@@ -81,13 +83,13 @@ class Scheduler
 	/**
 	 * Scheduler class constructor
 	 *
-	 * @throws \Exception
 	 * @since __DEPLOY_VERSION__
+	 * @throws \Exception
 	 */
 	public function __construct()
 	{
-		$this->app = Factory::getApplication();
-		$this->db = Factory::getContainer()->get(DatabaseDriver::class);
+		$this->app       = Factory::getApplication();
+		$this->db        = Factory::getContainer()->get(DatabaseDriver::class);
 		$this->component = $this->app->bootComponent('com_scheduler');
 		$this->app->getLanguage()->load('com_scheduler', JPATH_ADMINISTRATOR);
 	}
@@ -101,8 +103,8 @@ class Scheduler
 	 *
 	 * @return Task|null  The task executed or null if not exists
 	 *
-	 * @throws AssertionFailedException|\Exception
 	 * @since __DEPLOY_VERSION__
+	 * @throws AssertionFailedException|\Exception
 	 */
 	public function runTask(int $id = 0, bool $unpublished = false): ?Task
 	{
@@ -114,10 +116,10 @@ class Scheduler
 		}
 
 		$options['text_entry_format'] = '{DATE}	{TIME}	{PRIORITY}	{MESSAGE}';
-		$options['text_file'] = 'joomla_scheduler.php';
+		$options['text_file']         = 'joomla_scheduler.php';
 		Log::addLogger($options, Log::ALL, $task->logCategory);
 
-		$taskId = $task->get('id');
+		$taskId    = $task->get('id');
 		$taskTitle = $task->get('title');
 
 		$task->log(Text::sprintf('COM_SCHEDULER_SCHEDULER_TASK_START', $taskId, $taskTitle), 'info');
@@ -143,7 +145,8 @@ class Scheduler
 			return $task;
 		}
 
-		$task->log(Text::sprintf('COM_SCHEDULER_SCHEDULER_TASK_UNKNOWN_EXIT', $taskId, $duration, $netDuration, $exitCode),
+		$task->log(
+			Text::sprintf('COM_SCHEDULER_SCHEDULER_TASK_UNKNOWN_EXIT', $taskId, $duration, $netDuration, $exitCode),
 			'warning'
 		);
 
@@ -159,8 +162,8 @@ class Scheduler
 	 *
 	 * @return ?Task
 	 *
-	 * @throws \Exception
 	 * @since __DEPLOY_VERSION__
+	 * @throws \Exception
 	 */
 	public function fetchTask(int $id = 0, bool $unpublished = false): ?Task
 	{
@@ -187,7 +190,7 @@ class Scheduler
 	 */
 	public function fetchTaskRecord(int $id = 0, bool $unpublished = false): ?object
 	{
-		$filters = [];
+		$filters    = [];
 		$listConfig = ['limit' => 1];
 
 		if ($id > 0)
@@ -197,11 +200,11 @@ class Scheduler
 		else
 		{
 			// Filters and list config for scheduled task queue
-			$filters['due'] = 1;
-			$filters['locked'] = -1;
+			$filters['due']               = 1;
+			$filters['locked']            = -1;
 			$listConfig['multi_ordering'] = [
 				'a.priority DESC',
-				'a.next_execution ASC'
+				'a.next_execution ASC',
 			];
 		}
 
@@ -220,6 +223,7 @@ class Scheduler
 	 * @return array
 	 *
 	 * @since __DEPLOY_VERSION__
+	 * @throws \RunTimeException
 	 */
 	public function fetchTaskRecords(array $filters, array $listConfig): array
 	{
@@ -228,7 +232,8 @@ class Scheduler
 		try
 		{
 			/** @var TasksModel $model */
-			$model = $this->component->getMVCFactory()->createModel('Tasks', 'Administrator', ['ignore_request' => true]);
+			$model = $this->component->getMVCFactory()
+				->createModel('Tasks', 'Administrator', ['ignore_request' => true]);
 		}
 		catch (\Exception $e)
 		{

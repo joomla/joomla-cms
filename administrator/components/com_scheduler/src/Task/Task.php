@@ -71,7 +71,7 @@ class Task extends Registry implements LoggerAwareInterface
 	protected const EVENTS_MAP = [
 		Status::OK         => 'onTaskExecuteSuccess',
 		Status::NO_ROUTINE => 'onTaskRoutineNotFound',
-		'NA'               => 'onTaskExecuteFailure'
+		'NA'               => 'onTaskExecuteFailure',
 	];
 
 	/**
@@ -79,20 +79,20 @@ class Task extends Registry implements LoggerAwareInterface
 	 *
 	 * @param   object  $record  A `#__scheduler_tasks` record
 	 *
-	 * @throws \Exception
 	 * @since __DEPLOY_VERSION__
+	 * @throws \Exception
 	 */
 	public function __construct(object $record)
 	{
 		// Hack because Registry dumps private properties otherwise
-		$taskOption = $record->taskOption;
+		$taskOption     = $record->taskOption;
 		$record->params = json_decode($record->params, true);
 
 		parent::__construct($record);
 
 		$this->set('taskOption', $taskOption);
 		$this->app = Factory::getApplication();
-		$this->db = Factory::getContainer()->get(DatabaseDriver::class);
+		$this->db  = Factory::getContainer()->get(DatabaseDriver::class);
 		$this->setLogger(Log::createDelegatedLogger());
 		$this->logCategory = 'task' . $this->get('id');
 
@@ -101,7 +101,7 @@ class Task extends Registry implements LoggerAwareInterface
 			$logFile = $this->get('params.log_file') ?? 'task_' . $this->get('id') . '.log.php';
 
 			$options['text_entry_format'] = '{DATE}	{TIME}	{PRIORITY}	{MESSAGE}';
-			$options['text_file'] = $logFile;
+			$options['text_file']         = $logFile;
 			Log::addLogger($options, Log::ALL, [$this->logCategory]);
 		}
 	}
@@ -129,8 +129,8 @@ class Task extends Registry implements LoggerAwareInterface
 	 *
 	 * @return boolean  True if success
 	 *
-	 * @throws AssertionFailedException|\Exception
 	 * @since __DEPLOY_VERSION__
+	 * @throws AssertionFailedException|\Exception
 	 */
 	public function run(): bool
 	{
@@ -140,8 +140,10 @@ class Task extends Registry implements LoggerAwareInterface
 		*/
 		if ($this->get('locked') !== null)
 		{
-			$event = AbstractEvent::create('onTaskRecoverFailure', [
-					'subject' => $this
+			$event = AbstractEvent::create(
+				'onTaskRecoverFailure',
+				[
+					'subject' => $this,
 				]
 			);
 
@@ -164,8 +166,8 @@ class Task extends Registry implements LoggerAwareInterface
 			return $this->isSuccess();
 		}
 
-		$this->snapshot['status'] = Status::RUNNING;
-		$this->snapshot['taskStart'] = $this->snapshot['taskStart'] ?? microtime(true);
+		$this->snapshot['status']      = Status::RUNNING;
+		$this->snapshot['taskStart']   = $this->snapshot['taskStart'] ?? microtime(true);
 		$this->snapshot['netDuration'] = 0;
 
 		/** @var ExecuteTaskEvent $event */
@@ -186,9 +188,9 @@ class Task extends Registry implements LoggerAwareInterface
 		$resultSnapshot = $event->getResultSnapshot();
 		Assertion::notNull($resultSnapshot, 'No task execution snapshot!');
 
-		$this->snapshot['taskEnd'] = microtime(true);
+		$this->snapshot['taskEnd']     = microtime(true);
 		$this->snapshot['netDuration'] = $this->snapshot['taskEnd'] - $this->snapshot['taskStart'];
-		$this->snapshot = array_merge($this->snapshot, $resultSnapshot);
+		$this->snapshot                = array_merge($this->snapshot, $resultSnapshot);
 
 		// @todo make the ExecRuleHelper usage less ugly, perhaps it should be composed into Task
 		// Update object state.
@@ -228,27 +230,30 @@ class Task extends Registry implements LoggerAwareInterface
 	 *
 	 * @return boolean
 	 *
-	 * @throws \Exception
 	 * @since __DEPLOY_VERSION__
+	 * @throws \Exception
 	 */
 	public function acquireLock(): bool
 	{
-		$db = $this->db;
+		$db    = $this->db;
 		$query = $db->getQuery(true);
-		$id = $this->get('id');
-		$now = Factory::getDate('now', 'GMT');
+		$id    = $this->get('id');
+		$now   = Factory::getDate('now', 'GMT');
 
-		$timeout = ComponentHelper::getParams('com_scheduler')->get('timeout', 300);
-		$timeout = new \DateInterval(sprintf('PT%dS', $timeout));
+		$timeout          = ComponentHelper::getParams('com_scheduler')->get('timeout', 300);
+		$timeout          = new \DateInterval(sprintf('PT%dS', $timeout));
 		$timeoutThreshold = (clone $now)->sub($timeout)->toSql();
-		$now = $now->toSql();
+		$now              = $now->toSql();
 
 		$query->update($db->qn('#__scheduler_tasks', 't'))
 			->set('t.locked = :now')
 			->where($db->qn('t.id') . ' = :taskId')
-			->extendWhere('AND', [
-				$db->qn('t.locked') . ' < :threshold',
-				$db->qn('t.locked') . 'IS NULL'],
+			->extendWhere(
+				'AND',
+				[
+					$db->qn('t.locked') . ' < :threshold',
+					$db->qn('t.locked') . 'IS NULL',
+				],
 				'OR'
 			)
 			->bind(':taskId', $id, ParameterType::INTEGER)
@@ -277,18 +282,18 @@ class Task extends Registry implements LoggerAwareInterface
 	/**
 	 * Remove the pseudo-lock and optionally update the task record.
 	 *
-	 * @param   bool  $update     If true, the record is updated with the snapshot
+	 * @param   bool  $update  If true, the record is updated with the snapshot
 	 *
 	 * @return boolean
 	 *
-	 * @throws \Exception
 	 * @since __DEPLOY_VERSION__
+	 * @throws \Exception
 	 */
 	public function releaseLock(bool $update = true): bool
 	{
-		$db = $this->db;
+		$db    = $this->db;
 		$query = $db->getQuery(true);
-		$id = $this->get('id');
+		$id    = $this->get('id');
 
 		$query->update($db->qn('#__scheduler_tasks', 't'))
 			->set('t.locked = NULL')
@@ -298,10 +303,10 @@ class Task extends Registry implements LoggerAwareInterface
 
 		if ($update)
 		{
-			$exitCode = $this->get('last_exit_code');
-			$lastExec = $this->get('last_execution');
-			$nextExec = $this->get('next_execution');
-			$timesFailed = $this->get('times_failed');
+			$exitCode      = $this->get('last_exit_code');
+			$lastExec      = $this->get('last_execution');
+			$nextExec      = $this->get('next_execution');
+			$timesFailed   = $this->get('times_failed');
 			$timesExecuted = $this->get('times_executed');
 
 			$query->set(
@@ -310,7 +315,7 @@ class Task extends Registry implements LoggerAwareInterface
 					't.last_execution = :lastExec',
 					't.next_execution = :nextExec',
 					't.times_executed = :times_executed',
-					't.times_failed = :times_failed'
+					't.times_failed = :times_failed',
 				]
 			)
 				->bind(':exitCode', $exitCode, ParameterType::INTEGER)
@@ -359,19 +364,19 @@ class Task extends Registry implements LoggerAwareInterface
 	}
 
 	/**
-	 * Advances the task entry's next calculated execution, effectively skipping the current execution.
+	 * Advance the task entry's next calculated execution, effectively skipping the current execution.
 	 *
 	 * @return void
 	 *
-	 * @throws \Exception
 	 * @since __DEPLOY_VERSION__
+	 * @throws \Exception
 	 */
 	public function skipExecution(): void
 	{
-		$db = $this->db;
+		$db    = $this->db;
 		$query = $db->getQuery(true);
 
-		$id = $this->get('id');
+		$id       = $this->get('id');
 		$nextExec = (new ExecRuleHelper($this->toObject()))->nextExec(true, true);
 
 		$query->update($db->qn('#__scheduler_tasks', 't'))
@@ -402,11 +407,13 @@ class Task extends Registry implements LoggerAwareInterface
 	 */
 	public function isSuccess(): bool
 	{
-		$exitCode = $this->snapshot['status'] ?? 'NA';
+		$exitCode  = $this->snapshot['status'] ?? 'NA';
 		$eventName = self::EVENTS_MAP[$exitCode] ?? self::EVENTS_MAP['NA'];
 
-		$event = AbstractEvent::create($eventName, [
-				'subject' => $this
+		$event = AbstractEvent::create(
+			$eventName,
+			[
+				'subject' => $this,
 			]
 		);
 

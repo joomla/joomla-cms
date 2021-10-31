@@ -2,8 +2,8 @@
 /**
  * Joomla! Content Management System.
  *
- * @copyright (C) 2021 Open Source Matters, Inc. <https://www.joomla.org>
- * @license       GNU General Public License version 2 or later; see LICENSE.txt
+ * @copyright  (C) 2021 Open Source Matters, Inc. <https://www.joomla.org>
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Console;
@@ -16,6 +16,7 @@ use Joomla\Component\Scheduler\Administrator\Scheduler\Scheduler;
 use Joomla\Component\Scheduler\Administrator\Task\Status;
 use Joomla\Console\Application;
 use Joomla\Console\Command\AbstractCommand;
+use Symfony\Component\Console\Exception\InvalidArgumentException;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -56,8 +57,10 @@ class TasksRunCommand extends AbstractCommand
 	 *
 	 * @return integer The command exit code.
 	 *
-	 * @throws AssertionFailedException
 	 * @since __DEPLOY_VERSION__
+	 * @throws \RunTimeException
+	 * @throws InvalidArgumentException
+	 * @throws AssertionFailedException
 	 */
 	protected function doExecute(InputInterface $input, OutputInterface $output): int
 	{
@@ -66,10 +69,10 @@ class TasksRunCommand extends AbstractCommand
 		 * load the namespace when it's time to do that (why?)
 		 */
 		static $outTextMap = [
-		Status::OK         => 'Task#%1$02d \'%2$s\' processed in %3$.2f seconds.',
-		Status::NO_LOCK    => '<comment>Task#%1$02d \'%2$s\' already running.</comment>',
-		Status::NO_ROUTINE => '<error>Task#%1$02d \'%2$s\' is orphaned! Visit the backend to resolve.</error>',
-		'N/A' => '<error>Task#%1$02d \'%2$s\' exited with code %4$d in %3$.2f seconds.</error>'
+			Status::OK         => 'Task#%1$02d \'%2$s\' processed in %3$.2f seconds.',
+			Status::NO_LOCK    => '<comment>Task#%1$02d \'%2$s\' already running.</comment>',
+			Status::NO_ROUTINE => '<error>Task#%1$02d \'%2$s\' is orphaned! Visit the backend to resolve.</error>',
+			'N/A'              => '<error>Task#%1$02d \'%2$s\' exited with code %4$d in %3$.2f seconds.</error>',
 		];
 
 		$this->configureIo($input, $output);
@@ -77,9 +80,9 @@ class TasksRunCommand extends AbstractCommand
 
 		$scheduler = new Scheduler;
 
-		$id = $input->getOption('id');
+		$id    = $input->getOption('id');
 		$title = $input->getOption('title');
-		$all = $input->getOption('all');
+		$all   = $input->getOption('all');
 
 		if ($id)
 		{
@@ -91,8 +94,8 @@ class TasksRunCommand extends AbstractCommand
 		}
 		else
 		{
-			$filters = $scheduler::TASK_QUEUE_FILTERS;
-			$listConfig = $scheduler::TASK_QUEUE_LIST_CONFIG;
+			$filters             = $scheduler::TASK_QUEUE_FILTERS;
+			$listConfig          = $scheduler::TASK_QUEUE_LIST_CONFIG;
 			$listConfig['limit'] = ($all ? null : 1);
 
 			$records = $scheduler->fetchTaskRecords($filters, $listConfig);
@@ -111,17 +114,17 @@ class TasksRunCommand extends AbstractCommand
 			return Status::NO_TASK;
 		}
 
-		$status = ['startTime' => microtime(true)];
+		$status    = ['startTime' => microtime(true)];
 		$taskCount = count($records);
-		$exit = Status::OK;
+		$exit      = Status::OK;
 
 		foreach ($records as $record)
 		{
-			$cStart = microtime(true);
-			$task = $scheduler->runTask($record->id);
-			$exit = $task->getContent()['status'];
+			$cStart   = microtime(true);
+			$task     = $scheduler->runTask($record->id);
+			$exit     = $task->getContent()['status'];
 			$duration = microtime(true) - $cStart;
-			$key = (array_key_exists($exit, $outTextMap)) ? $exit : 'N/A';
+			$key      = (array_key_exists($exit, $outTextMap)) ? $exit : 'N/A';
 			$this->ioStyle->writeln(sprintf($outTextMap[$key], $record->id, $record->title, $duration, $exit));
 		}
 

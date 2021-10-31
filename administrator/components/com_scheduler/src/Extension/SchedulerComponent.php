@@ -1,13 +1,11 @@
 <?php
 /**
- * @package       Joomla.Administrator
- * @subpackage    com_scheduler
+ * @package     Joomla.Administrator
+ * @subpackage  com_scheduler
  *
- * @copyright     (C) 2021 Open Source Matters, Inc. <https://www.joomla.org>
- * @license       GNU General Public License version 2 or later; see LICENSE.txt
+ * @copyright   (C) 2021 Open Source Matters, Inc. <https://www.joomla.org>
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
-
-/** Implements the Scheduler component class. */
 
 namespace Joomla\Component\Scheduler\Administrator\Extension;
 
@@ -20,10 +18,10 @@ use Joomla\CMS\HTML\HTMLRegistryAwareTrait;
 use Psr\Container\ContainerInterface;
 
 /**
- * Component Class
- * ! Does not do much yet
+ * Component class for com_scheduler.
  *
  * @since  __DEPLOY_VERSION__
+ * @todo   Set up logger(s) here.
  */
 class SchedulerComponent extends MVCComponent implements BootableExtensionInterface
 {
