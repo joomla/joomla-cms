@@ -192,13 +192,12 @@ abstract class ChangeItem
 
 		if ($this->checkQuery)
 		{
-			$this->db->setQuery($this->checkQuery);
-
 			try
 			{
+				$this->db->setQuery($this->checkQuery);
 				$rows = $this->db->loadRowList(0);
 			}
-			catch (\RuntimeException $e)
+			catch (\Exception $e)
 			{
 				// Still render the error message from the Exception object
 				\JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
@@ -233,10 +232,12 @@ abstract class ChangeItem
 		{
 			// At this point we have a failed query
 			$query = $this->db->convertUtf8mb4QueryToUtf8($this->updateQuery);
-			$this->db->setQuery($query);
 
-			if ($this->db->execute())
+			try
 			{
+				$this->db->setQuery($query);
+				$this->db->execute();
+
 				if ($this->check())
 				{
 					$this->checkStatus = 1;
@@ -247,7 +248,7 @@ abstract class ChangeItem
 					$this->rerunStatus = -2;
 				}
 			}
-			else
+			catch (\Exception $e)
 			{
 				$this->rerunStatus = -2;
 			}
