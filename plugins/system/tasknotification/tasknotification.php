@@ -127,6 +127,8 @@ class PlgSystemTasknotification extends CMSPlugin implements SubscriberInterface
 	}
 
 	/**
+	 * Send out email notifications on Task execution failure if task configuration allows it.
+	 *
 	 * @param   Event  $event  The onTaskExecuteFailure event.
 	 *
 	 * @return void
@@ -136,7 +138,10 @@ class PlgSystemTasknotification extends CMSPlugin implements SubscriberInterface
 	 */
 	public function notifyFailure(Event $event): void
 	{
-		if (!(int) $this->params->get('failure_mail', 1))
+		/** @var Task $task */
+		$task = $event->getArgument('subject');
+
+		if (!(int) $task->get('params.notifications.failure_mail', 1))
 		{
 			return;
 		}
@@ -148,6 +153,10 @@ class PlgSystemTasknotification extends CMSPlugin implements SubscriberInterface
 	}
 
 	/**
+	 * Send out email notifications on orphaned task if task configuration allows.<br/>
+	 * A task is `orphaned` if the task's parent plugin has been removed/disabled, or no longer offers a task
+	 * with the same routine ID.
+	 *
 	 * @param   Event  $event  The onTaskRoutineNotFound event.
 	 *
 	 * @return void
@@ -157,7 +166,10 @@ class PlgSystemTasknotification extends CMSPlugin implements SubscriberInterface
 	 */
 	public function notifyOrphan(Event $event): void
 	{
-		if (!(int) $this->params->get('orphan_mail', 1))
+		/** @var Task $task */
+		$task = $event->getArgument('subject');
+
+		if (!(int) $task->get('params.notifications.orphan_mail', 1))
 		{
 			return;
 		}
@@ -167,6 +179,8 @@ class PlgSystemTasknotification extends CMSPlugin implements SubscriberInterface
 	}
 
 	/**
+	 * Send out email notifications on Task execution success if task configuration allows.
+	 *
 	 * @param   Event  $event  The onTaskExecuteSuccess event.
 	 *
 	 * @return void
@@ -176,7 +190,10 @@ class PlgSystemTasknotification extends CMSPlugin implements SubscriberInterface
 	 */
 	public function notifySuccess(Event $event): void
 	{
-		if (!(int) $this->params->get('success_mail', 0))
+		/** @var Task $task */
+		$task = $event->getArgument('subject');
+
+		if (!(int) $task->get('params.notifications.success_mail', 0))
 		{
 			return;
 		}
@@ -188,6 +205,13 @@ class PlgSystemTasknotification extends CMSPlugin implements SubscriberInterface
 	}
 
 	/**
+	 * Send out email notifications on fatal recovery of task execution if task configuration allows.<br/>
+	 * Fatal recovery indicated that the task either crashed the parent process or its execution lasted longer
+	 * than the global task timeout (this is configurable through the Scheduler component configuration).
+	 * In the latter case, the global task timeout should be adjusted so that this false positive can be avoided.
+	 * This stands as a limitation of the Scheduler's current task execution implementation, which doesn't involve
+	 * keeping track of the parent PHP process which could enable keeping track of the task's status.
+	 *
 	 * @param   Event  $event  The onTaskRecoverFailure event.
 	 *
 	 * @return void
@@ -197,7 +221,10 @@ class PlgSystemTasknotification extends CMSPlugin implements SubscriberInterface
 	 */
 	public function notifyFatalRecovery(Event $event): void
 	{
-		if (!(int) $this->params->get('fatal_failure_mail', 1))
+		/** @var Task $task */
+		$task = $event->getArgument('subject');
+
+		if (!(int) $task->get('params.notifications.fatal_failure_mail', 1))
 		{
 			return;
 		}
@@ -244,7 +271,7 @@ class PlgSystemTasknotification extends CMSPlugin implements SubscriberInterface
 		/** @var UserFactoryInterface $userFactory */
 		$userFactory = Factory::getContainer()->get('user.factory');
 
-		// Get all admin users
+		// Get all users who are not blocked and have opted in for system mails.
 		$query = $db->getQuery(true);
 
 		$query->select($db->qn(['name', 'email', 'sendEmail', 'id']))
@@ -263,7 +290,16 @@ class PlgSystemTasknotification extends CMSPlugin implements SubscriberInterface
 			return;
 		}
 
-		// Mail all users with access to scheduler, opt-in mail
+		if ($users === null)
+		{
+			Log::add(Text::_('PLG_SYSTEM_TASK_NOTIFICATION_USER_FETCH_FAIL'), Log::ERROR);
+
+			return;
+		}
+
+		$mailSent = false;
+
+		// Mail all matching users who also have the `core.manage` privilege for com_scheduler.
 		foreach ($users as $user)
 		{
 			$user = $userFactory->loadUserById($user->id);
@@ -276,21 +312,28 @@ class PlgSystemTasknotification extends CMSPlugin implements SubscriberInterface
 					$mailer->addTemplateData($data);
 					$mailer->addRecipient($user->email);
 
-					// @todo improve and make safe
-					if ($attachment)
+					if (!empty($attachment)
+						&& File::exists($attachment)
+						&& is_file($attachment))
 					{
-						// @todo we allow multiple files
+						// @todo we allow multiple files [?]
 						$attachName = pathinfo($attachment, PATHINFO_BASENAME);
 						$mailer->addAttachment($attachName, $attachment);
 					}
 
 					$mailer->send();
+					$mailSent = true;
 				}
 				catch (MailerException $exception)
 				{
-					Log::Add(Text::_('PLG_SYSTEM_TASK_NOTIFICATION_NOTIFY_SEND_EMAIL_FAIL'));
+					Log::add(Text::_('PLG_SYSTEM_TASK_NOTIFICATION_NOTIFY_SEND_EMAIL_FAIL'), Log::ERROR);
 				}
 			}
+		}
+
+		if (!$mailSent)
+		{
+			Log::add(Text::_('PLG_SYSTEM_TASK_NOTIFICATION_NO_MAIL_SENT'), Log::WARNING);
 		}
 	}
 }
