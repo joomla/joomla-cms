@@ -10,7 +10,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\HTML\HTMLHelper;
 
-if ($field->value == '')
+if (empty($field->value) || empty($field->value['imagefile']))
 {
 	return;
 }
