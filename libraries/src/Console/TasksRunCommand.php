@@ -119,7 +119,7 @@ class TasksRunCommand extends AbstractCommand
 		{
 			$cStart = microtime(true);
 			$task = $scheduler->runTask($record->id);
-			$exit = $task->isSuccess();
+			$exit = $task->getContent()['status'];
 			$duration = microtime(true) - $cStart;
 			$key = (array_key_exists($exit, $outTextMap)) ? $exit : 'N/A';
 			$this->ioStyle->writeln(sprintf($outTextMap[$key], $record->id, $record->title, $duration, $exit));
