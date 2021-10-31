@@ -233,45 +233,43 @@
 		</fieldset>
 	</fields>
 
-	<fields>
-		<fieldset name="advanced">
-			<field
-				name="priority"
-				type="list"
-				label="COM_SCHEDULER_LABEL_TASK_PRIORITY"
-				description="COM_SCHEDULER_DESCRIPTION_TASK_PRIORITY"
-				validate="options"
-				required="true"
-				default="0"
-				>
-				<option value="-1">COM_SCHEDULER_LABEL_TASK_PRIORITY_LOW</option>
-				<option value="0">COM_SCHEDULER_LABEL_TASK_PRIORITY_NORMAL</option>
-				<option value="1">COM_SCHEDULER_LABEL_TASK_PRIORITY_HIGH</option>
-			</field>
-		</fieldset>
-	</fields>
+	<fieldset name="priority">
+		<field
+			name="priority"
+			type="list"
+			label="COM_SCHEDULER_LABEL_TASK_PRIORITY"
+			description="COM_SCHEDULER_DESCRIPTION_TASK_PRIORITY"
+			validate="options"
+			required="true"
+			default="0"
+			>
+			<option value="-1">COM_SCHEDULER_LABEL_TASK_PRIORITY_LOW</option>
+			<option value="0">COM_SCHEDULER_LABEL_TASK_PRIORITY_NORMAL</option>
+			<option value="1">COM_SCHEDULER_LABEL_TASK_PRIORITY_HIGH</option>
+		</field>
+	</fieldset>
 
 	<fields name="params">
-		<fieldset name="advanced">
-			<field
-				name="individual_log"
-				type="radio"
-				label="COM_SCHEDULER_FIELD_LABEL_INDIVIDUAL_LOG"
-				layout="joomla.form.field.radio.switcher"
-				default="0"
-				required="true"
-				filter="boolean"
-				>
-				<option value="0">JDISABLED</option>
-				<option value="1">JENABLED</option>
-			</field>
-			<field
-				name="log_file"
-				type="text"
-				label="COM_SCHEDULER_FIELD_LABEL_LOG_FILE"
-				showon="individual_log:1"
-				hint="COM_SCHEDULER_FIELD_HINT_LOG_FILE_AUTO"
-			/>
+		<fieldset name="logging">
+				<field
+					name="individual_log"
+					type="radio"
+					label="COM_SCHEDULER_FIELD_LABEL_INDIVIDUAL_LOG"
+					layout="joomla.form.field.radio.switcher"
+					default="0"
+					required="true"
+					filter="boolean"
+					>
+					<option value="0">JDISABLED</option>
+					<option value="1">JENABLED</option>
+				</field>
+				<field
+					name="log_file"
+					type="text"
+					label="COM_SCHEDULER_FIELD_LABEL_LOG_FILE"
+					showon="individual_log:1"
+					hint="COM_SCHEDULER_FIELD_HINT_LOG_FILE_AUTO"
+				/>
 		</fieldset>
 	</fields>
 </form>
