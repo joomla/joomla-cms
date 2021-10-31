@@ -196,13 +196,12 @@ abstract class ChangeItem
 
 		if ($this->checkQuery)
 		{
-			$this->db->setQuery($this->checkQuery);
-
 			try
 			{
+				$this->db->setQuery($this->checkQuery);
 				$rows = $this->db->loadRowList(0);
 			}
-			catch (\RuntimeException $e)
+			catch (\Exception $e)
 			{
 				// Still render the error message from the Exception object
 				Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
@@ -238,10 +237,9 @@ abstract class ChangeItem
 			// At this point we have a failed query
 			$query = $this->updateQuery;
 
-			$this->db->setQuery($query);
-
 			try
 			{
+				$this->db->setQuery($query);
 				$this->db->execute();
 
 				if ($this->check())
@@ -254,7 +252,7 @@ abstract class ChangeItem
 					$this->rerunStatus = -2;
 				}
 			}
-			catch (ExecutionFailureException $e)
+			catch (\Exception $e)
 			{
 				$this->rerunStatus = -2;
 			}
