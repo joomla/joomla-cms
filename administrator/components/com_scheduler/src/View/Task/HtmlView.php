@@ -1,13 +1,11 @@
 <?php
 /**
- * @package       Joomla.Administrator
- * @subpackage    com_scheduler
+ * @package     Joomla.Administrator
+ * @subpackage  com_scheduler
  *
- * @copyright (C) 2021 Open Source Matters, Inc. <https://www.joomla.org>
- * @license       GNU General Public License version 2 or later; see LICENSE.txt
+ * @copyright   (C) 2021 Open Source Matters, Inc. <https://www.joomla.org>
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
-
-/** Implements the MVC View for the Task form (TaskView). */
 
 namespace Joomla\Component\Scheduler\Administrator\View\Task;
 
@@ -25,7 +23,7 @@ use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 
 /**
- * The MVC View for the Task form
+ * The MVC View for Task configuration page (TaskView).
  *
  * @since  __DEPLOY_VERSION__
  */
@@ -77,14 +75,14 @@ class HtmlView extends BaseHtmlView
 	 *                          name: the name (optional) of the view (defaults to the view class name suffix).
 	 *                          charset: the character set to use for display
 	 *                          escape: the name (optional) of the function to use for escaping strings
-	 *                          base_path: the parent path (optional) of the views directory (defaults to the component
-	 *                          folder) template_plath: the path (optional) of the layout directory (defaults to
-	 *                          base_path + /views/ + view name helper_path: the path (optional) of the helper files
+	 *                          base_path: the parent path (optional) of the `views` directory (defaults to the
+	 *                          component folder) template_plath: the path (optional) of the layout directory (defaults
+	 *                          to base_path + /views/ + view name helper_path: the path (optional) of the helper files
 	 *                          (defaults to base_path + /helpers/) layout: the layout (optional) to use to display the
 	 *                          view
 	 *
-	 * @throws Exception
 	 * @since  __DEPLOY_VERSION__
+	 * @throws \Exception
 	 */
 	public function __construct($config = array())
 	{
@@ -97,16 +95,16 @@ class HtmlView extends BaseHtmlView
 	 *
 	 * @return void
 	 *
-	 * @throws Exception
 	 * @since  __DEPLOY_VERSION__
+	 * @throws \Exception
 	 */
 	public function display($tpl = null): void
 	{
 		/*
 		 * Will call the getForm() method of TaskModel
 		 */
-		$this->form = $this->get('Form');
-		$this->item = $this->get('Item');
+		$this->form  = $this->get('Form');
+		$this->item  = $this->get('Item');
 		$this->state = $this->get('State');
 		$this->canDo = ContentHelper::getActions('com_scheduler', 'task', $this->item->id);
 

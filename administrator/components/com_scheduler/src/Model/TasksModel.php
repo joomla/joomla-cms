@@ -1,13 +1,11 @@
 <?php
 /**
- * @package       Joomla.Administrator
- * @subpackage    com_scheduler
+ * @package     Joomla.Administrator
+ * @subpackage  com_scheduler
  *
- * @copyright (C) 2021 Open Source Matters, Inc. <https://www.joomla.org>
- * @license       GNU General Public License version 2 or later; see LICENSE.txt
+ * @copyright   (C) 2021 Open Source Matters, Inc. <https://www.joomla.org>
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
-
-/** Implements the MVC Model for TasksView. */
 
 namespace Joomla\Component\Scheduler\Administrator\Model;
 
@@ -27,7 +25,8 @@ use Joomla\Database\QueryInterface;
 use Joomla\Utilities\ArrayHelper;
 
 /**
- * MVC Model to deal with operations concerning multiple `#__scheduler_tasks` entries.
+ * The MVC Model for TasksView.
+ * Defines methods to deal with operations concerning multiple `#__scheduler_tasks` entries.
  *
  * @since  __DEPLOY_VERSION__
  */
@@ -40,8 +39,8 @@ class TasksModel extends ListModel
 	 *
 	 * @param   MVCFactoryInterface|null  $factory  The factory.
 	 *
-	 * @throws \Exception
 	 * @since  __DEPLOY_VERSION__
+	 * @throws \Exception
 	 * @see    \JControllerLegacy
 	 */
 	public function __construct($config = [], MVCFactoryInterface $factory = null)
@@ -54,7 +53,6 @@ class TasksModel extends ListModel
 				'title', 'a.title',
 				'type', 'a.type',
 				'type_title', 'j.type_title',
-				'trigger', 'a.trigger',
 				'state', 'a.state',
 				'last_exit_code', 'a.last_exit_code',
 				'last_execution', 'a.last_execution',
@@ -65,7 +63,7 @@ class TasksModel extends ListModel
 				'priority', 'a.priority',
 				'note', 'a.note',
 				'created', 'a.created',
-				'created_by', 'a.created_by'
+				'created_by', 'a.created_by',
 			];
 		}
 
@@ -104,13 +102,13 @@ class TasksModel extends ListModel
 	 *
 	 * @return QueryInterface
 	 *
-	 * @throws \Exception
 	 * @since  __DEPLOY_VERSION__
+	 * @throws \Exception
 	 */
 	protected function getListQuery(): QueryInterface
 	{
 		// Create a new query object.
-		$db = $this->getDbo();
+		$db    = $this->getDbo();
 		$query = $db->getQuery(true);
 
 		/*
@@ -121,7 +119,7 @@ class TasksModel extends ListModel
 		$query->select(
 			$this->getState(
 				'list.select',
-				'a.id, a.asset_id, a.title, a.type, a.trigger, a.execution_rules, a.state, a.last_exit_code' .
+				'a.id, a.asset_id, a.title, a.type, a.execution_rules, a.state, a.last_exit_code' .
 				', a.last_execution, a.next_execution, a.times_executed, a.times_failed, a.ordering, a.note'
 			)
 		);
@@ -178,10 +176,10 @@ class TasksModel extends ListModel
 		{
 			$filterCount++;
 			$state = (int) $state;
-			$query->where($db->quoteName('a.state') . '= :state')
-				->bind(':state', $state);
+			$query->where($db->quoteName('a.state') . ' = :state')
+				->bind(':state', $state, ParameterType::INTEGER);
 		}
-		elseif ($state == null)
+		elseif ($state === '')
 		{
 			$filterCount++;
 			$query->whereIn($db->quoteName('a.state'), [0, 1]);
@@ -215,7 +213,7 @@ class TasksModel extends ListModel
 
 		if (is_numeric($due) && $due != 0)
 		{
-			$now = Factory::getDate('now', 'GMT')->toSql();
+			$now      = Factory::getDate('now', 'GMT')->toSql();
 			$operator = $due == 1 ? ' <= ' : ' > ';
 			$filterCount++;
 			$query->where($db->qn('a.next_execution') . $operator . ':now')
@@ -233,11 +231,11 @@ class TasksModel extends ListModel
 
 		if (is_numeric($locked) && $locked != 0)
 		{
-			$now = Factory::getDate('now', 'GMT');
-			$timeout = ComponentHelper::getParams('com_scheduler')->get('timeout', 300);
-			$timeout = new \DateInterval(sprintf('PT%dS', $timeout));
+			$now              = Factory::getDate('now', 'GMT');
+			$timeout          = ComponentHelper::getParams('com_scheduler')->get('timeout', 300);
+			$timeout          = new \DateInterval(sprintf('PT%dS', $timeout));
 			$timeoutThreshold = (clone $now)->sub($timeout)->toSql();
-			$now = $now->toSql();
+			$now              = $now->toSql();
 
 			switch ($locked)
 			{
@@ -249,7 +247,7 @@ class TasksModel extends ListModel
 						'AND',
 						[
 							$db->qn('a.locked') . ' IS NULL',
-							$db->qn('a.locked') . ' < :threshold'
+							$db->qn('a.locked') . ' < :threshold',
 						],
 						'OR'
 					);
@@ -287,7 +285,7 @@ class TasksModel extends ListModel
 					->bind(':note', $searchStr);
 				$conditions = [
 					$db->quoteName('a.title') . ' LIKE :title',
-					$db->quoteName('a.note') . ' LIKE :note'
+					$db->quoteName('a.note') . ' LIKE :note',
 				];
 				$extendWhereIfFiltered('AND', $conditions, 'OR');
 			}
@@ -334,16 +332,16 @@ class TasksModel extends ListModel
 	 *
 	 * @return object[]
 	 *
-	 * @throws \Exception
 	 * @since  __DEPLOY_VERSION__
 	 * phpcs:disable
+	 * @throws \Exception
 	 */
 	protected function _getList($query, $limitstart = 0, $limit = 0): array
 	{
 		// phpcs:enable
 
 		// Get stuff from the model state
-		$listOrder = $this->getState('list.ordering', 'a.title');
+		$listOrder      = $this->getState('list.ordering', 'a.title');
 		$listDirectionN = strtolower($this->getState('list.direction', 'desc')) == 'desc' ? -1 : 1;
 
 		// Set limit parameters and get object list
@@ -410,8 +408,8 @@ class TasksModel extends ListModel
 	 *
 	 * @return void
 	 *
-	 * @throws \Exception
 	 * @since  __DEPLOY_VERSION__
+	 * @throws \Exception
 	 */
 	private function attachTaskOptions(array $items): void
 	{
@@ -419,7 +417,7 @@ class TasksModel extends ListModel
 
 		foreach ($items as $item)
 		{
-			$item->taskOption = $taskOptions->findOption($item->type);
+			$item->taskOption    = $taskOptions->findOption($item->type);
 			$item->safeTypeTitle = $item->taskOption->title ?? Text::_('JGLOBAL_NONAPPLICABLE');
 		}
 	}

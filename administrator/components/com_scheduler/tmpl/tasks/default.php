@@ -1,12 +1,10 @@
 <?php
 /**
- * @package         Joomla.Administrator
- * @subpackage      com_scheduler
+ * @package     Joomla.Administrator
+ * @subpackage  com_scheduler
  *
  * @copyright   (C) 2021 Open Source Matters, Inc. <https://www.joomla.org>
- * @license         GNU General Public License version 2 or later; see LICENSE.txt
- *
- * phpcs:ignoreFile
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 // Restrict direct access
@@ -23,6 +21,19 @@ use Joomla\Component\Scheduler\Administrator\View\Tasks\HtmlView;
 /** @var  HtmlView  $this*/
 
 HTMLHelper::_('behavior.multiselect');
+
+Text::script('COM_SCHEDULER_TEST_RUN_TITLE');
+Text::script('COM_SCHEDULER_TEST_RUN_TASK');
+Text::script('COM_SCHEDULER_TEST_RUN_DURATION');
+Text::script('COM_SCHEDULER_TEST_RUN_OUTPUT');
+Text::script('COM_SCHEDULER_TEST_RUN_STATUS_STARTED');
+Text::script('COM_SCHEDULER_TEST_RUN_STATUS_COMPLETED');
+Text::script('COM_SCHEDULER_TEST_RUN_STATUS_TERMINATED');
+Text::script('JLIB_JS_AJAX_ERROR_OTHER');
+Text::script('JLIB_JS_AJAX_ERROR_CONNECTION_ABORT');
+Text::script('JLIB_JS_AJAX_ERROR_TIMEOUT');
+Text::script('JLIB_JS_AJAX_ERROR_NO_CONTENT');
+Text::script('JLIB_JS_AJAX_ERROR_PARSE');
 
 try
 {
@@ -46,6 +57,8 @@ if ($saveOrder && !empty($this->items))
 	$saveOrderingUrl = 'index.php?option=com_scheduler&task=tasks.saveOrderAjax&tmpl=component&' . Session::getFormToken() . '=1';
 	HTMLHelper::_('draggablelist.draggable');
 }
+
+$app->getDocument()->getWebAssetManager()->useScript('com_scheduler.test-task');
 ?>
 
 <form action="<?php echo Route::_('index.php?option=com_scheduler&view=tasks'); ?>" method="post" name="adminForm"
@@ -103,8 +116,13 @@ if ($saveOrder && !empty($this->items))
 					</th>
 
 					<!-- Task type header -->
-					<th scope="col">
+					<th scope="col" class="d-none d-md-table-cell">
 						<?php echo HTMLHelper::_('searchtools.sort', 'COM_SCHEDULER_TASK_TYPE', 'j.type_title', $listDirn, $listOrder) ?>
+					</th>
+
+					<!-- Test task -->
+					<th scope="col">
+						<?php echo Text::_('COM_SCHEDULER_TEST_TASK'); ?>
 					</th>
 
 					<!-- Task ID -->
@@ -184,6 +202,14 @@ if ($saveOrder && !empty($this->items))
 							<?php echo $this->escape($item->safeTypeTitle); ?>
 						</td>
 
+						<!-- Test task -->
+						<td class="small d-none d-md-table-cell">
+							<button type="button" class="btn btn-sm btn-warning" <?php echo $item->state < 0 ? 'disabled' : ''; ?> data-id="<?php echo (int) $item->id; ?>" data-title="<?php echo htmlspecialchars($item->title); ?>" data-bs-toggle="modal" data-bs-backdrop="static" data-bs-target="#scheduler-test-modal">
+								<span class="fa fa-play fa-sm mr-2"></span>
+								<?php echo Text::_('COM_SCHEDULER_TEST_RUN'); ?>
+							</button>
+						</td>
+
 						<!-- Item ID -->
 						<td class="d-none d-md-table-cell">
 							<?php echo (int) $item->id; ?>
@@ -196,7 +222,18 @@ if ($saveOrder && !empty($this->items))
 			<?php
 				// Load the pagination. (@todo: testing)
 				echo $this->pagination->getListFooter();
+
+				// Modal for test runs
+				$modalparams = [
+					'title' => ''
+				];
+
+				$modalbody = '<div class="p-3"></div>';
+
+				echo HTMLHelper::_('bootstrap.renderModal', 'scheduler-test-modal', $modalparams, $modalbody);
+
 			?>
+
 		<?php endif; ?>
 
 		<input type="hidden" name="task" value="">

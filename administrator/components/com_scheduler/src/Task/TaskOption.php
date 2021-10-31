@@ -1,13 +1,11 @@
 <?php
 /**
- * @package       Joomla.Administrator
- * @subpackage    com_scheduler
+ * @package     Joomla.Administrator
+ * @subpackage  com_scheduler
  *
- * @copyright (C) 2021 Open Source Matters, Inc. <https://www.joomla.org>
- * @license       GNU General Public License version 2 or later; see LICENSE.txt
+ * @copyright   (C) 2021 Open Source Matters, Inc. <https://www.joomla.org>
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
-
-/** Implements the TaskOption class, used by com_scheduler to refer to plugin task routines. */
 
 namespace Joomla\Component\Scheduler\Administrator\Task;
 
@@ -17,8 +15,8 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Language\Text;
 
 /**
- * The TaskOption class.
- * Each plugin supporting tasks calls the TaskOptions addOptions() method with an array of TaskOption constructor
+ * The TaskOption class is used as a utility container for available plugin-provided task routines.
+ * Each task-supporting plugin calls the {@see TaskOptions::addOptions()} method with an array of TaskOption constructor
  * argument pairs as argument. Internally, the TaskOption object generates the routine title and description from the
  * language constant prefix.
  *
@@ -66,9 +64,9 @@ class TaskOption
 	 */
 	public function __construct(string $type, string $langConstPrefix)
 	{
-		$this->type = $type;
-		$this->title = Text::_("${langConstPrefix}_TITLE");
-		$this->desc = Text::_("${langConstPrefix}_DESC");
+		$this->type            = $type;
+		$this->title           = Text::_("${langConstPrefix}_TITLE");
+		$this->desc            = Text::_("${langConstPrefix}_DESC");
 		$this->langConstPrefix = $langConstPrefix;
 	}
 

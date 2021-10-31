@@ -10,7 +10,6 @@ CREATE TABLE IF NOT EXISTS "#__scheduler_tasks"
     "type" varchar(1024) NOT NULL,
     "execution_rules" text,
     "cron_rules" text,
-    "trigger" varchar(12) NOT NULL DEFAULT 'pseudo_cron',
     "state" smallint NOT NULL DEFAULT '0',
     "last_exit_code" int NOT NULL DEFAULT '0',
     "last_execution" timestamp without time zone,

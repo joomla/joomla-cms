@@ -1,13 +1,11 @@
 <?php
 /**
- * @package       Joomla.Administrator
- * @subpackage    com_scheduler
+ * @package     Joomla.Administrator
+ * @subpackage  com_scheduler
  *
- * @copyright     (C) 2021 Open Source Matters, Inc. <https://www.joomla.org>
- * @license       GNU General Public License version 2 or later; see LICENSE.txt
+ * @copyright   (C) 2021 Open Source Matters, Inc. <https://www.joomla.org>
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
-
-/** Implements the MVC Model for TaskView. */
 
 namespace Joomla\Component\Scheduler\Administrator\Model;
 
@@ -45,7 +43,7 @@ class TaskModel extends AdminModel
 	protected $STATES = [
 		'enabled'  => 1,
 		'disabled' => 0,
-		'trashed'  => -2
+		'trashed'  => -2,
 	];
 
 	/**
@@ -80,8 +78,8 @@ class TaskModel extends AdminModel
 	 * @param   MVCFactoryInterface|null   $factory      The factory [?]
 	 * @param   FormFactoryInterface|null  $formFactory  The form factory [?]
 	 *
-	 * @throws \Exception
 	 * @since  __DEPLOY_VERSION__
+	 * @throws \Exception
 	 */
 	public function __construct($config = array(), MVCFactoryInterface $factory = null, FormFactoryInterface $formFactory = null)
 	{
@@ -89,9 +87,9 @@ class TaskModel extends AdminModel
 		$config['events_map'] = array_merge(
 			[
 				'save'     => 'task',
-				'validate' => 'task'
+				'validate' => 'task',
 			],
-			$config['events_map'],
+			$config['events_map']
 		);
 
 		$this->app = Factory::getApplication();
@@ -108,8 +106,8 @@ class TaskModel extends AdminModel
 	 *
 	 * @return Form|boolean  A JForm object on success, false on failure.
 	 *
-	 * @throws \Exception
 	 * @since  __DEPLOY_VERSION__
+	 * @throws \Exception
 	 */
 	public function getForm($data = array(), $loadData = true)
 	{
@@ -156,8 +154,8 @@ class TaskModel extends AdminModel
 	 *
 	 * @return  boolean  True if the record may be deleted
 	 *
-	 * @throws \Exception
 	 * @since  __DEPLOY_VERSION__
+	 * @throws \Exception
 	 */
 	protected function canDelete($record): bool
 	{
@@ -175,8 +173,8 @@ class TaskModel extends AdminModel
 	 *
 	 * @return  void
 	 *
-	 * @throws \Exception
 	 * @since  __DEPLOY_VERSION__
+	 * @throws \Exception
 	 */
 	protected function populateState(): void
 	{
@@ -208,8 +206,8 @@ class TaskModel extends AdminModel
 	 *
 	 * @return Table
 	 *
-	 * @throws \Exception
 	 * @since  __DEPLOY_VERSION__
+	 * @throws \Exception
 	 */
 	public function getTable($name = 'Task', $prefix = 'Table', $options = array()): Table
 	{
@@ -221,8 +219,8 @@ class TaskModel extends AdminModel
 	 *
 	 * @return object  Associative array of form data.
 	 *
-	 * @throws \Exception
 	 * @since  __DEPLOY_VERSION__
+	 * @throws \Exception
 	 */
 	protected function loadFormData()
 	{
@@ -257,8 +255,8 @@ class TaskModel extends AdminModel
 	 *
 	 * @return  object|boolean  Object on success, false on failure
 	 *
-	 * @throws \Exception
 	 * @since  __DEPLOY_VERSION__
+	 * @throws \Exception
 	 */
 	public function getItem($pk = null)
 	{
@@ -287,8 +285,8 @@ class TaskModel extends AdminModel
 	 *
 	 * @return  boolean  True on success, false on failure
 	 *
-	 * @throws \Exception
 	 * @since  __DEPLOY_VERSION__
+	 * @throws \Exception
 	 */
 	public function save($data): bool
 	{
@@ -374,8 +372,8 @@ class TaskModel extends AdminModel
 	 *
 	 * @return array
 	 *
-	 * @throws \Exception
 	 * @since  __DEPLOY_VERSION__
+	 * @throws \Exception
 	 */
 	private function buildExecutionRules(array $executionRules): array
 	{
@@ -385,7 +383,7 @@ class TaskModel extends AdminModel
 			'hours'   => 'PT%dH',
 			'days'    => 'P%dD',
 			'months'  => 'P%dM',
-			'years'   => 'P%dY'
+			'years'   => 'P%dY',
 		];
 
 		$ruleType        = $executionRules['rule-type'];
@@ -455,8 +453,8 @@ class TaskModel extends AdminModel
 	 *
 	 * @return  void
 	 *
-	 * @throws  \Exception if there is an error in the form event.
 	 * @since   __DEPLOY_VERSION__
+	 * @throws  \Exception if there is an error in the form event.
 	 */
 	protected function preprocessForm(Form $form, $data, $group = 'content'): void
 	{

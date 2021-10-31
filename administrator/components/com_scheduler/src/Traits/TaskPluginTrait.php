@@ -319,6 +319,7 @@ trait TaskPluginTrait
 			catch (\Exception $e)
 			{
 				$this->logTask('Exception when calling routine: ' . $e->getMessage(), 'error');
+
 				$exitCode = Status::NO_RUN;
 			}
 		}

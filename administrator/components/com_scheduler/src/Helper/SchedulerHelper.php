@@ -1,13 +1,11 @@
 <?php
 /**
- * @package       Joomla.Administrator
- * @subpackage    com_scheduler
+ * @package     Joomla.Administrator
+ * @subpackage  com_scheduler
  *
- * @copyright (C) 2021 Open Source Matters, Inc. <https://www.joomla.org>
- * @license       GNU General Public License version 2 or later; see LICENSE.txt
+ * @copyright   (C) 2021 Open Source Matters, Inc. <https://www.joomla.org>
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
-
-/** Implements the SchedulerHelper class. */
 
 namespace Joomla\Component\Scheduler\Administrator\Helper;
 
@@ -41,8 +39,8 @@ abstract class SchedulerHelper
 	 * Returns available task routines as a TaskOptions object.
 	 *
 	 * @return  TaskOptions  A TaskOptions object populated with task routines offered by plugins
-	 * @throws  Exception
 	 * @since  __DEPLOY_VERSION__
+	 * @throws  \Exception
 	 */
 	public static function getTaskOptions(): TaskOptions
 	{
@@ -51,13 +49,13 @@ abstract class SchedulerHelper
 			return self::$taskOptionsCache;
 		}
 
-		/** @var  AdministratorApplication  $app */
-		$app = Factory::getApplication();
+		/** @var  AdministratorApplication $app */
+		$app     = Factory::getApplication();
 		$options = new TaskOptions;
-		$event = AbstractEvent::create(
+		$event   = AbstractEvent::create(
 			'onTaskOptionsList',
 			[
-				'subject' => $options
+				'subject' => $options,
 			]
 		);
 

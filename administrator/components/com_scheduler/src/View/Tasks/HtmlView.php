@@ -1,13 +1,11 @@
 <?php
 /**
- * @package       Joomla.Administrator
- * @subpackage    com_scheduler
+ * @package     Joomla.Administrator
+ * @subpackage  com_scheduler
  *
- * @copyright (C) 2021 Open Source Matters, Inc. <https://www.joomla.org>
- * @license       GNU General Public License version 2 or later; see LICENSE.txt
+ * @copyright   (C) 2021 Open Source Matters, Inc. <https://www.joomla.org>
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
-
-/** Implements the MVC View for the Tasks list view (TasksView). */
 
 namespace Joomla\Component\Scheduler\Administrator\View\Tasks;
 
@@ -27,14 +25,14 @@ use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 
 /**
- * The MVC View for Tasks list view
+ * MVC View for the Tasks list page.
  *
  * @since  __DEPLOY_VERSION__
  */
 class HtmlView extends BaseHtmlView
 {
 	/**
-	 * An array of items
+	 * Array of task items.
 	 *
 	 * @var  array
 	 * @since  __DEPLOY_VERSION__
@@ -42,15 +40,16 @@ class HtmlView extends BaseHtmlView
 	protected $items;
 
 	/**
-	 * The pagination object
+	 * The pagination object.
 	 *
 	 * @var  Pagination
 	 * @since  __DEPLOY_VERSION__
+	 * @todo   Test pagination.
 	 */
 	protected $pagination;
 
 	/**
-	 * The model state
+	 * The model state.
 	 *
 	 * @var  CMSObject
 	 * @since  __DEPLOY_VERSION__
@@ -58,7 +57,7 @@ class HtmlView extends BaseHtmlView
 	protected $state;
 
 	/**
-	 * A Form object for search filters
+	 * A Form object for search filters.
 	 *
 	 * @var  Form
 	 * @since  __DEPLOY_VERSION__
@@ -66,7 +65,7 @@ class HtmlView extends BaseHtmlView
 	public $filterForm;
 
 	/**
-	 * The active search filters
+	 * The active search filters.
 	 *
 	 * @var  array
 	 * @since  __DEPLOY_VERSION__
@@ -74,37 +73,31 @@ class HtmlView extends BaseHtmlView
 	public $activeFilters;
 
 	/**
-	 * Is this view an Empty State
+	 * Is this view in an empty state?
 	 *
 	 * @var  boolean
 	 * @since  __DEPLOY_VERSION__
 	 */
 	private $isEmptyState = false;
 
-	/**
-	 * Execute and display a template script.
-	 *
-	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
-	 *
-	 * @return mixed   A string if successful, otherwise an Error object.
-	 */
-
 
 	/**
+	 * @inheritDoc
+	 *
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
 	 *
 	 * @return  void
 	 *
-	 * @throws  Exception
-	 *
 	 * @since  __DEPLOY_VERSION__
+	 * @throws  \Exception
+	 *
 	 */
 	public function display($tpl = null): void
 	{
-		$this->items = $this->get('Items');
-		$this->pagination = $this->get('Pagination');
-		$this->state = $this->get('State');
-		$this->filterForm = $this->get('FilterForm');
+		$this->items         = $this->get('Items');
+		$this->pagination    = $this->get('Pagination');
+		$this->state         = $this->get('State');
+		$this->filterForm    = $this->get('FilterForm');
 		$this->activeFilters = $this->get('ActiveFilters');
 
 		if (!\count($this->items) && $this->isEmptyState = $this->get('IsEmptyState'))
@@ -115,7 +108,7 @@ class HtmlView extends BaseHtmlView
 		// Check for errors.
 		if (\count($errors = $this->get('Errors')))
 		{
-			throw new \GenericDataException(implode("\n", $errors), 500);
+			throw new GenericDataException(implode("\n", $errors), 500);
 		}
 
 		// We don't need toolbar in the modal window.
@@ -133,14 +126,14 @@ class HtmlView extends BaseHtmlView
 	 *
 	 * @return  void
 	 *
-	 * @throws  Exception
-	 *
 	 * @since  __DEPLOY_VERSION__
+	 * @throws  \Exception
+	 *
 	 */
 	protected function addToolbar(): void
 	{
 		$canDo = ContentHelper::getActions('com_scheduler');
-		$user = Factory::getApplication()->getIdentity();
+		$user  = Factory::getApplication()->getIdentity();
 
 		/*
 		* Get the toolbar object instance
@@ -160,7 +153,7 @@ class HtmlView extends BaseHtmlView
 
 		if (!$this->isEmptyState && ($canDo->get('core.edit.state') || $user->authorise('core.admin')))
 		{
-			/** @var  DropdownButton  $dropdown */
+			/** @var  DropdownButton $dropdown */
 			$dropdown = $toolbar->dropdownButton('status-group')
 				->toggleSplit(false)
 				->text('JTOOLBAR_CHANGE_STATUS')

@@ -1,10 +1,10 @@
 <?php
 /**
- * @package         Joomla.Administrator
- * @subpackage      com_scheduler
+ * @package     Joomla.Administrator
+ * @subpackage  com_scheduler
  *
  * @copyright   (C) 2021 Open Source Matters, Inc. <https://www.joomla.org>
- * @license         GNU General Public License version 2 or later; see LICENSE.txt
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\Component\Scheduler\Administrator\Scheduler;
@@ -40,24 +40,26 @@ class Scheduler
 		Status::OK         => 'COM_SCHEDULER_SCHEDULER_TASK_COMPLETE',
 		Status::NO_LOCK    => 'COM_SCHEDULER_SCHEDULER_TASK_LOCKED',
 		Status::NO_RUN     => 'COM_SCHEDULER_SCHEDULER_TASK_UNLOCKED',
-		Status::NO_ROUTINE => 'COM_SCHEDULER_SCHEDULER_TASK_ROUTINE_NA'
+		Status::NO_ROUTINE => 'COM_SCHEDULER_SCHEDULER_TASK_ROUTINE_NA',
 	];
 
 	/**
 	 * Filters for the task queue. Can be used with fetchTaskRecords().
+	 *
 	 * @since __DEPLOY_VERSION__
 	 */
 	public const TASK_QUEUE_FILTERS = [
-		'due' => 1,
-		'locked' => -1
+		'due'    => 1,
+		'locked' => -1,
 	];
 
 	/**
 	 * List config for the task queue. Can be used with fetchTaskRecords().
+	 *
 	 * @since __DEPLOY_VERSION__
 	 */
 	public const TASK_QUEUE_LIST_CONFIG = [
-		'multi_ordering' => ['a.priority DESC ', 'a.next_execution ASC']
+		'multi_ordering' => ['a.priority DESC ', 'a.next_execution ASC'],
 	];
 
 	/**
@@ -81,13 +83,13 @@ class Scheduler
 	/**
 	 * Scheduler class constructor
 	 *
-	 * @throws \Exception
 	 * @since __DEPLOY_VERSION__
+	 * @throws \Exception
 	 */
 	public function __construct()
 	{
-		$this->app = Factory::getApplication();
-		$this->db = Factory::getContainer()->get(DatabaseDriver::class);
+		$this->app       = Factory::getApplication();
+		$this->db        = Factory::getContainer()->get(DatabaseDriver::class);
 		$this->component = $this->app->bootComponent('com_scheduler');
 		$this->app->getLanguage()->load('com_scheduler', JPATH_ADMINISTRATOR);
 	}
@@ -96,68 +98,76 @@ class Scheduler
 	 * Run a scheduled task.
 	 * Runs a single due task from the task queue by default if $id and $title are not passed.
 	 *
-	 * @param   int          $id     The task ID
-	 * @param   string|null  $title  The task title
+	 * @param   int   $id           The task ID
+	 * @param   bool  $unpublished  The task title
 	 *
-	 * @return integer  The task exit code.
+	 * @return Task|null  The task executed or null if not exists
 	 *
-	 * @throws AssertionFailedException|\Exception
 	 * @since __DEPLOY_VERSION__
+	 * @throws AssertionFailedException|\Exception
 	 */
-	public function runTask(int $id = 0, ?string $title = ''): int
+	public function runTask(int $id = 0, bool $unpublished = false): ?Task
 	{
-		$task = $this->fetchTask($id, $title);
+		$task = $this->fetchTask($id, $unpublished);
 
 		if (empty($task))
 		{
-			return Status::NO_TASK;
+			return null;
 		}
 
 		$options['text_entry_format'] = '{DATE}	{TIME}	{PRIORITY}	{MESSAGE}';
-		$options['text_file'] = 'joomla_scheduler.php';
+		$options['text_file']         = 'joomla_scheduler.php';
 		Log::addLogger($options, Log::ALL, $task->logCategory);
 
-		$taskId = $task->get('id');
+		$taskId    = $task->get('id');
 		$taskTitle = $task->get('title');
 
 		$task->log(Text::sprintf('COM_SCHEDULER_SCHEDULER_TASK_START', $taskId, $taskTitle), 'info');
 
-		$task->run();
-		$exitCode = $task->snapshot['status'] ?? Status::NO_EXIT;
+		// Let's try to avoid time-outs
+		if (\function_exists('set_time_limit'))
+		{
+			set_time_limit(0);
+		}
 
-		$netDuration = $task->snapshot['netDuration'] ?? 0;
-		$duration = $task->snapshot['duration'] ?? 0;
+		$task->run();
+
+		$executionSnapshot = $task->getContent();
+		$exitCode          = $executionSnapshot['status'] ?? Status::NO_EXIT;
+		$netDuration       = $executionSnapshot['netDuration'] ?? 0;
+		$duration          = $executionSnapshot['duration'] ?? 0;
 
 		if (array_key_exists($exitCode, self::LOG_TEXT))
 		{
 			$level = $exitCode === Status::OK ? 'info' : 'warning';
 			$task->log(Text::sprintf(self::LOG_TEXT[$exitCode], $taskId, $duration, $netDuration), $level);
 
-			return $exitCode;
+			return $task;
 		}
 
-		$task->log(Text::sprintf('COM_SCHEDULER_SCHEDULER_TASK_UNKNOWN_EXIT', $taskId, $duration, $netDuration, $exitCode),
+		$task->log(
+			Text::sprintf('COM_SCHEDULER_SCHEDULER_TASK_UNKNOWN_EXIT', $taskId, $duration, $netDuration, $exitCode),
 			'warning'
 		);
 
-		return $exitCode;
+		return $task;
 	}
 
 	/**
 	 * Fetches a single scheduled task in a Task instance.
 	 * If no id or title is specified, a due task is returned.
 	 *
-	 * @param   int|null     $id     The task ID
-	 * @param   string|null  $title  The task title
+	 * @param   int   $id           The task ID
+	 * @param   bool  $unpublished  The task title
 	 *
 	 * @return ?Task
 	 *
-	 * @throws \Exception
 	 * @since __DEPLOY_VERSION__
+	 * @throws \Exception
 	 */
-	public function fetchTask(int $id = 0, string $title = ''): ?Task
+	public function fetchTask(int $id = 0, bool $unpublished = false): ?Task
 	{
-		$record = $this->fetchTaskRecord($id, $title);
+		$record = $this->fetchTaskRecord($id, $unpublished);
 
 		if ($record === null)
 		{
@@ -171,36 +181,36 @@ class Scheduler
 	 * Fetches a single scheduled task in a Task instance.
 	 * If no id or title is specified, a due task is returned.
 	 *
-	 * @param   int     $id     The task ID
-	 * @param   string  $title  The task title
+	 * @param   int   $id           The task ID
+	 * @param   bool  $unpublished  Allow disabled/trashed tasks?
 	 *
-	 * @return ?object
+	 * @return ?object  A matching task record, if it exists
 	 *
 	 * @since __DEPLOY_VERSION__
 	 */
-	public function fetchTaskRecord(int $id = 0, string $title = ''): ?object
+	public function fetchTaskRecord(int $id = 0, bool $unpublished = false): ?object
 	{
-		$filters = [];
+		$filters    = [];
 		$listConfig = ['limit' => 1];
 
-		if ($id !== 0)
+		if ($id > 0)
 		{
 			$filters['id'] = $id;
-		}
-		elseif ($title !== '')
-		{
-			// Maybe, search?
-			$filters['title'] = $title;
 		}
 		else
 		{
 			// Filters and list config for scheduled task queue
-			$filters['due'] = 1;
-			$filters['locked'] = -1;
+			$filters['due']               = 1;
+			$filters['locked']            = -1;
 			$listConfig['multi_ordering'] = [
 				'a.priority DESC',
-				'a.next_execution ASC'
+				'a.next_execution ASC',
 			];
+		}
+
+		if ($unpublished)
+		{
+			$filters['state'] = '';
 		}
 
 		return $this->fetchTaskRecords($filters, $listConfig)[0] ?? null;
@@ -213,6 +223,7 @@ class Scheduler
 	 * @return array
 	 *
 	 * @since __DEPLOY_VERSION__
+	 * @throws \RunTimeException
 	 */
 	public function fetchTaskRecords(array $filters, array $listConfig): array
 	{
@@ -221,7 +232,8 @@ class Scheduler
 		try
 		{
 			/** @var TasksModel $model */
-			$model = $this->component->getMVCFactory()->createModel('Tasks', 'Administrator');
+			$model = $this->component->getMVCFactory()
+				->createModel('Tasks', 'Administrator', ['ignore_request' => true]);
 		}
 		catch (\Exception $e)
 		{
@@ -232,12 +244,13 @@ class Scheduler
 			throw new \RunTimeException('JLIB_APPLICATION_ERROR_MODEL_CREATE');
 		}
 
-		$model->set('__state_set', true);
-
 		$model->setState('list.select', '*');
 
 		// Default to only enabled tasks
-		$model->setState('filter.state', 1);
+		if (!isset($filters['state']))
+		{
+			$model->setState('filter.state', 1);
+		}
 
 		// Default to including orphaned tasks
 		$model->setState('filter.orphaned', 0);

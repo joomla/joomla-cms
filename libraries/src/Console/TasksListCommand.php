@@ -2,8 +2,8 @@
 /**
  * Joomla! Content Management System.
  *
- * @copyright     (C) 2021 Open Source Matters, Inc. <https://www.joomla.org>
- * @license       GNU General Public License version 2 or later; see LICENSE.txt
+ * @copyright  (C) 2021 Open Source Matters, Inc. <https://www.joomla.org>
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Console;
@@ -57,8 +57,8 @@ class TasksListCommand extends AbstractCommand
 	 *
 	 * @return  integer  The command exit code
 	 *
-	 * @throws \Exception
 	 * @since   __DEPLOY_VERSION__
+	 * @throws \Exception
 	 */
 	protected function doExecute(InputInterface $input, OutputInterface $output): int
 	{
@@ -70,16 +70,15 @@ class TasksListCommand extends AbstractCommand
 		$tasks = array_map(
 			function (\stdClass $task): array {
 				$enabled = $task->state === 1;
-				// phpcs:ignore
 				$nextExec = Factory::getDate($task->next_execution, 'UTC');
-				$due = $enabled && $task->taskOption && Factory::getDate('now', 'UTC') > $nextExec;
+				$due      = $enabled && $task->taskOption && Factory::getDate('now', 'UTC') > $nextExec;
 
 				return [
-					'id' => $task->id,
-					'title' => $task->title,
-					'type' => $task->safeTypeTitle,
-					'state' => $task->state === 1 ? 'Enabled' : ($task->state === 0 ? 'Disabled' : 'Trashed'),
-					'next_execution' => $due ? 'DUE!' : $nextExec->toRFC822()
+					'id'             => $task->id,
+					'title'          => $task->title,
+					'type'           => $task->safeTypeTitle,
+					'state'          => $task->state === 1 ? 'Enabled' : ($task->state === 0 ? 'Disabled' : 'Trashed'),
+					'next_execution' => $due ? 'DUE!' : $nextExec->toRFC822(),
 				];
 			},
 			$this->getTasks()
@@ -96,16 +95,15 @@ class TasksListCommand extends AbstractCommand
 	 * @return array
 	 *
 	 * @since __DEPLOY_VERSION__
+	 * @throws \RunTimeException
 	 */
 	private function getTasks(): array
 	{
 		$scheduler = new Scheduler;
 
 		return $scheduler->fetchTaskRecords(
-			['state' => '*',],
-			['ordering' => 'a.title', 'select' =>
-				'a.id, a.title, a.type, a.state, a.next_execution'
-			]
+			['state' => '*'],
+			['ordering' => 'a.title', 'select' => 'a.id, a.title, a.type, a.state, a.next_execution']
 		);
 	}
 

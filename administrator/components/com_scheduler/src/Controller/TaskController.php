@@ -1,13 +1,11 @@
 <?php
 /**
- * @package       Joomla.Administrator
- * @subpackage    com_scheduler
+ * @package     Joomla.Administrator
+ * @subpackage  com_scheduler
  *
- * @copyright     (C) 2021 Open Source Matters, Inc. <https://www.joomla.org>
- * @license       GNU General Public License version 2 or later; see LICENSE.txt
+ * @copyright   (C) 2021 Open Source Matters, Inc. <https://www.joomla.org>
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
-
-/** Implements the MVC controller for TaskModel. */
 
 namespace Joomla\Component\Scheduler\Administrator\Controller;
 
@@ -21,11 +19,9 @@ use Joomla\CMS\Router\Route;
 use Joomla\Component\Scheduler\Administrator\Helper\SchedulerHelper;
 
 /**
- * MVC Controller for TaskView.
+ * MVC Controller for the item configuration page (TaskView).
  *
  * @since  __DEPLOY_VERSION__
- * @todo   check if we need more overrides
- *
  */
 class TaskController extends FormController
 {
@@ -33,8 +29,8 @@ class TaskController extends FormController
 	 * Add a new record
 	 *
 	 * @return boolean
-	 * @throws Exception
 	 * @since  __DEPLOY_VERSION__
+	 * @throws \Exception
 	 */
 	public function add(): bool
 	{
@@ -108,7 +104,7 @@ class TaskController extends FormController
 
 		/**
 		 * Zero record (id:0), return component edit permission by calling parent controller method
-		 * ? : Is this the right way to do this?
+		 * ?: Is this the right way to do this?
 		 */
 		if ($recordId === 0)
 		{
