@@ -27,6 +27,7 @@ use Joomla\Database\DatabaseDriver;
 use Joomla\Database\DatabaseInterface;
 use Joomla\Database\ParameterType;
 use Joomla\Registry\Registry;
+use Psr\Log\InvalidArgumentException;
 use Psr\Log\LoggerAwareInterface;
 use Psr\Log\LoggerAwareTrait;
 
@@ -118,7 +119,6 @@ class Task extends Registry implements LoggerAwareInterface
 		// ! Probably, an array instead
 		$recObject = $this->toObject();
 
-		// phpcs:ignore
 		$recObject->cron_rules = (array) $recObject->cron_rules;
 
 		return $recObject;
@@ -137,7 +137,6 @@ class Task extends Registry implements LoggerAwareInterface
 		/*
 		* Dispatch event if task lock is not released (NULL). This only happens if the task execution
 		* was interrupted by a fatal failure.
-		* @todo add listeners. We can have opt-in hooks for email (priority), push-bullet, etc
 		*/
 		if ($this->get('locked') !== null)
 		{
@@ -191,6 +190,18 @@ class Task extends Registry implements LoggerAwareInterface
 		$this->snapshot['netDuration'] = $this->snapshot['taskEnd'] - $this->snapshot['taskStart'];
 		$this->snapshot = array_merge($this->snapshot, $resultSnapshot);
 
+		// @todo make the ExecRuleHelper usage less ugly, perhaps it should be composed into Task
+		// Update object state.
+		$this->set('last_execution', Factory::getDate('@' . $this->snapshot['taskStart'])->toSql());
+		$this->set('next_execution', (new ExecRuleHelper($this->toObject()))->nextExec());
+		$this->set('last_exit_code', $this->snapshot['status']);
+		$this->set('times_executed', $this->get('times_executed') + 1);
+
+		if ($this->snapshot['status'] !== Status::OK)
+		{
+			$this->set('times_failed', $this->get('times_failed') + 1);
+		}
+
 		if (!$this->releaseLock())
 		{
 			$this->snapshot['status'] = Status::NO_RELEASE;
@@ -200,7 +211,7 @@ class Task extends Registry implements LoggerAwareInterface
 	}
 
 	/**
-	 * Get the task execution snapshot,
+	 * Get the task execution snapshot.
 	 * ! Access locations will need updates once a more robust Snapshot container is implemented.
 	 *
 	 * @return array
@@ -267,7 +278,6 @@ class Task extends Registry implements LoggerAwareInterface
 	 * Remove the pseudo-lock and optionally update the task record.
 	 *
 	 * @param   bool  $update     If true, the record is updated with the snapshot
-	 *                            TODO: Update object state
 	 *
 	 * @return boolean
 	 *
@@ -288,25 +298,26 @@ class Task extends Registry implements LoggerAwareInterface
 
 		if ($update)
 		{
-			$id = $this->get('id');
-
-			// @todo make this look less ugly
-			// @todo this is broken! fix it and do it right by updating times in the run() method !!
-			$nextExec = (new ExecRuleHelper($this->toObject()))->nextExec(false, true);
-			$exitCode = $this->snapshot['status'] ?? Status::NO_EXIT;
-			$now = Factory::getDate('now', 'GMT')->toSql();
+			$exitCode = $this->get('last_exit_code');
+			$lastExec = $this->get('last_execution');
+			$nextExec = $this->get('next_execution');
+			$timesFailed = $this->get('times_failed');
+			$timesExecuted = $this->get('times_executed');
 
 			$query->set(
 				[
-					't.last_execution = :now',
-					't.next_execution = :nextExec',
 					't.last_exit_code = :exitCode',
-					't.times_executed = t.times_executed + 1'
+					't.last_execution = :lastExec',
+					't.next_execution = :nextExec',
+					't.times_executed = :times_executed',
+					't.times_failed = :times_failed'
 				]
 			)
-				->bind(':nextExec', $nextExec)
 				->bind(':exitCode', $exitCode, ParameterType::INTEGER)
-				->bind(':now', $now);
+				->bind(':lastExec', $lastExec)
+				->bind(':nextExec', $nextExec)
+				->bind(':times_executed', $timesExecuted)
+				->bind(':times_failed', $timesFailed);
 
 			if ($exitCode !== Status::OK)
 			{
@@ -317,19 +328,6 @@ class Task extends Registry implements LoggerAwareInterface
 		try
 		{
 			$db->setQuery($query)->execute();
-
-			if ($update)
-			{
-				$this->set('last_execution', $now);
-				$this->set('next_execution', $nextExec);
-				$this->set('last_exit_code', $exitCode);
-				$this->set('times_executed', $this->get('times_executed') + 1);
-
-				if ($exitCode !== Status::OK)
-				{
-					$this->set('times_failed', $this->get('times_failed') + 1);
-				}
-			}
 		}
 		catch (\RuntimeException $e)
 		{
@@ -353,6 +351,7 @@ class Task extends Registry implements LoggerAwareInterface
 	 * @return  void
 	 *
 	 * @since __DEPLOY_VERSION__
+	 * @throws InvalidArgumentException
 	 */
 	public function log(string $message, string $priority = 'info'): void
 	{
@@ -398,6 +397,8 @@ class Task extends Registry implements LoggerAwareInterface
 	 * @return boolean  If true, execution was successful
 	 *
 	 * @since __DEPLOY_VERSION__
+	 * @throws \UnexpectedValueException
+	 * @throws \BadMethodCallException
 	 */
 	public function isSuccess(): bool
 	{
