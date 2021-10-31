@@ -16,6 +16,7 @@ use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Log\Log;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Table\Extension;
@@ -114,7 +115,7 @@ class PlgSystemSchedulerunner extends CMSPlugin implements SubscriberInterface
 
 		$config = ComponentHelper::getParams('com_scheduler');
 
-		if (!$config->get('lazy_scheduler.enabled'))
+		if (!$config->get('lazy_scheduler.enabled', true))
 		{
 			return;
 		}
@@ -144,7 +145,7 @@ class PlgSystemSchedulerunner extends CMSPlugin implements SubscriberInterface
 	{
 		$config = ComponentHelper::getParams('com_scheduler');
 
-		if (!$config->get('lazy_scheduler.enabled'))
+		if (!$config->get('lazy_scheduler.enabled', true))
 		{
 			throw new \Exception(Text::_('JERROR_ALERTNOAUTHOR'), 403);
 		}
@@ -171,8 +172,13 @@ class PlgSystemSchedulerunner extends CMSPlugin implements SubscriberInterface
 	public function runWebCron()
 	{
 		$config = ComponentHelper::getParams('com_scheduler');
+		$hash = $config->get('webcron.key', '');
 
-		$hash = $config->get('webcron.key');
+		if (!$config->get('webcron.enabled', false))
+		{
+			Log::add(Text::_('PLG_SYSTEM_SCHEDULE_RUNNER_WEBCRON_DISABLED'));
+			throw new \Exception(Text::_('JERROR_ALERTNOAUTHOR'), 403);
+		}
 
 		if (!strlen($hash) || $hash !== $this->app->input->get('hash'))
 		{
@@ -200,7 +206,7 @@ class PlgSystemSchedulerunner extends CMSPlugin implements SubscriberInterface
 	{
 		$id = (int) $this->app->input->getInt('id');
 
-		$user = Factory::getUser();
+		$user = Factory::getApplication()->getIdentity();
 
 		if (empty($id) || !$user->authorise('core.testrun', 'com_scheduler.task.' . $id))
 		{
@@ -234,13 +240,16 @@ class PlgSystemSchedulerunner extends CMSPlugin implements SubscriberInterface
 
 	/**
 	 * Enhance the scheduler config form by dynamically populating or removing display fields.
-	 * @todo Move to another plugin?
 	 *
 	 * @param   EventInterface  $event  The onContentPrepareForm event.
 	 *
 	 * @return void
 	 *
 	 * @since __DEPLOY_VERSION__
+	 * @throws UnexpectedValueException
+	 * @throws RuntimeException
+	 * @todo  Move to another plugin?
+	 *
 	 */
 	public function enhanceSchedulerConfig(EventInterface $event): void
 	{
