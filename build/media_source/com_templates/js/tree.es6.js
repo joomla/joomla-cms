@@ -1,15 +1,22 @@
 class TreeView extends HTMLElement {
   constructor() {
     super();
-    this.data = JSON.parse(this.getAttribute('json'));
   }
 
   connectedCallback() {
+    try {
+      this.data = JSON.parse(this.getAttribute('json'));
+    } catch {
+      throw new Error('JSON parsing problem.')
+    }
+
+    if (!this.data) return;
+
     this.data.forEach(data => {
       const liParent = document.createElement(`li`);
       liParent.innerText= data.name || data.file;
       this.appendChild(liParent);
-      if (data.dir !== undefined) {
+      if (data.dir) {
         this.childs(liParent, data);
         this.hide();
       }
@@ -21,9 +28,9 @@ class TreeView extends HTMLElement {
     const childList = document.createElement(`ul`);
     data.dir.forEach(child => {
       const liChild = document.createElement(`li`);
-      liChild.innerText = child.value;
+      liChild.innerText = child.name || child.file;
       childList.appendChild(liChild);
-      if (child.dir !== undefined) {
+      if (child.dir) {
         this.childs(liChild, child);
       }
     });
@@ -59,4 +66,6 @@ class TreeView extends HTMLElement {
   }
 }
 
-customElements.define('tree-view', TreeView, { extends: 'ul' });
+customElements.define('tree-view', TreeView);
+
+// , { extends: 'ul' }
