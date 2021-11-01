@@ -31,6 +31,12 @@ jobs:
         id: cpr
         with:
           branch: mozilla_ca_update
+          commit-message: Update cacert file
+          title: 'Automated cacert file update'
+          body: |
+            Update report
+            - Updated with *today's* date
+            - Cron to update Mozilla CaCert files in the Joomla Core
 
       - name: Log resulting Pull Request
         run: |
