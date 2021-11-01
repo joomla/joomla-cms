@@ -194,7 +194,7 @@ class Task extends Registry implements LoggerAwareInterface
 
 		// @todo make the ExecRuleHelper usage less ugly, perhaps it should be composed into Task
 		// Update object state.
-		$this->set('last_execution', Factory::getDate('@' . $this->snapshot['taskStart'])->toSql());
+		$this->set('last_execution', Factory::getDate('@' . (int) $this->snapshot['taskStart'])->toSql());
 		$this->set('next_execution', (new ExecRuleHelper($this->toObject()))->nextExec());
 		$this->set('last_exit_code', $this->snapshot['status']);
 		$this->set('times_executed', $this->get('times_executed') + 1);
