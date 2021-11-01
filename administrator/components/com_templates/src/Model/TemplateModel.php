@@ -411,8 +411,8 @@ class TemplateModel extends FormModel
 			{
 				if ($mediaPath)
 				{
-					$result = $this->dirToArray($path, true);
-					// $result[] = $this->dirToArray($mediaPath, true);
+					$result = array_merge($this->dirToArray($path, true), $this->dirToArray($mediaPath, true));
+					// $result[] = ;
 				}
 				else
 				{
