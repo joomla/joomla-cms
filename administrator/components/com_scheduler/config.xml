@@ -53,8 +53,7 @@
 		label="COM_SCHEDULER_CONFIG_WEBCRON_LABEL"
 		description="COM_SCHEDULER_CONFIG_WEBCRON_DESC"
 		>
-		<fields name="webcron"
-						addfieldprefix="Joomla\Component\Scheduler\Administrator\Field">
+		<fields name="webcron" addfieldprefix="Joomla\Component\Scheduler\Administrator\Field">
 			<field
 				name="enabled"
 				type="radio"

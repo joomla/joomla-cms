@@ -164,7 +164,7 @@ $app->getDocument()->getWebAssetManager()->useScript('com_scheduler.test-task');
 							?>
 
 							<span class="sortable-handler <?php echo $iconClass ?>">
-									<span class="icon-ellipsis-v"></span>
+									<span class="icon-ellipsis-v" aria-hidden="true"></span>
 							</span>
 
 							<?php if ($canChange && $saveOrder): ?>

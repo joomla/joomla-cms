@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_scheduler
  *
- * @copyright   (C) 2020 Open Source Matters, Inc. <https://www.joomla.org>
+ * @copyright   (C) 2021 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -39,18 +39,18 @@ $wa->useScript('com_scheduler.scheduler-config');
 
 <div class="input-group">
 	<input
-			type="text"
-			class="form-control"
-			name="<?php echo $name; ?>"
-			id="<?php echo $id; ?>"
-			readonly
-			value="<?php echo htmlspecialchars($value, ENT_COMPAT, 'UTF-8'); ?>"
+		type="text"
+		class="form-control"
+		name="<?php echo $name; ?>"
+		id="<?php echo $id; ?>"
+		readonly
+		value="<?php echo htmlspecialchars($value, ENT_COMPAT, 'UTF-8'); ?>"
 	>
 	<button
-			class="btn btn-primary"
-			type="button"
-			id="link-copy"
-			title="<?php echo Text::_('COM_SCHEDULER_CONFIG_WEBCRON_LINK_COPY_DESC'); ?>"><?php echo Text::_('JLIB_HTML_BATCH_COPY'); ?>
+		class="btn btn-primary"
+		type="button"
+		id="link-copy"
+		title="<?php echo Text::_('COM_SCHEDULER_CONFIG_WEBCRON_LINK_COPY_DESC'); ?>"><?php echo Text::_('JLIB_HTML_BATCH_COPY'); ?>
 	</button>
 </div>
 
