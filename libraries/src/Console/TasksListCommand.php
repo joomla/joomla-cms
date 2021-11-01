@@ -69,7 +69,7 @@ class TasksListCommand extends AbstractCommand
 
 		$tasks = array_map(
 			function (\stdClass $task): array {
-				$enabled = $task->state === 1;
+				$enabled  = $task->state === 1;
 				$nextExec = Factory::getDate($task->next_execution, 'UTC');
 				$due      = $enabled && $task->taskOption && Factory::getDate('now', 'UTC') > $nextExec;
 
@@ -90,7 +90,7 @@ class TasksListCommand extends AbstractCommand
 	}
 
 	/**
-	 * Returns an stdClass object array of scheduled tasks.
+	 * Returns a stdClass object array of scheduled tasks.
 	 *
 	 * @return array
 	 *
