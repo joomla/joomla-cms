@@ -267,7 +267,7 @@ class PlgSystemSchedulerunner extends CMSPlugin implements SubscriberInterface
 		{
 			$form->removeField('generate_key_on_save', 'webcron');
 
-			$relative = 'index.php?option=com_ajax&plugin=RunSchedulerLazy&group=system&format=json&hash=' . $data['webcron']['key'];
+			$relative = 'index.php?option=com_ajax&plugin=RunSchedulerWebcron&group=system&format=json&hash=' . $data['webcron']['key'];
 			$link = Route::link('site', $relative, false, Route::TLS_IGNORE, true);
 			$form->setValue('base_link', 'webcron', $link);
 		}
