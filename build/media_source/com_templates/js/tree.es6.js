@@ -53,6 +53,7 @@ class TreeView extends HTMLElement {
     liChildren.forEach((li) => {
       if (li.querySelector('ul') !== null) {
         li.querySelector('a').onclick = (event) => {
+          event.preventDefault();
           const a = event.target;
           const next = a.nextElementSibling;
           if (next.style.display === '') {
