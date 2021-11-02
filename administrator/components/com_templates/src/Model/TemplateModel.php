@@ -2117,6 +2117,16 @@ class TemplateModel extends FormModel
 		}
 	}
 
+	/**
+	 * Method to get the folder structure as an object
+	 *
+	 * @param   string   $dir           The base directory
+	 * @param   boolean  $relativePath  Use relative path
+	 *
+	 * @return  object
+	 *
+	 * @since	__DEPLOY_VERSION__
+	 */
 	protected function getDirContents($dir, $relativePath = false)
 	{
 		$fileList = [];
@@ -2172,10 +2182,13 @@ class TemplateModel extends FormModel
 		return $fileList;
 	}
 
-
-	/*
- * Converts a filesystem tree to a PHP array.
- */
+	/**
+	 * Converts a filesystem tree to a PHP array.
+	 *
+	 * @return  object
+	 *
+	 * @since	__DEPLOY_VERSION__
+	 */
 	function dirToArray($dir)
 	{
 		if (!is_dir($dir))

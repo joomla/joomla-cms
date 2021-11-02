@@ -1060,7 +1060,7 @@ class TemplateController extends BaseController
 
 			/** @var \Joomla\Component\Installer\Administrator\Model\InstallModel $installModel */
 			$installModel = $this->app->bootComponent('com_installer')
-			->getMVCFactory()->createModel('Install', 'Administrator');
+				->getMVCFactory()->createModel('Install', 'Administrator');
 			$this->app->getLanguage()->load('com_installer');
 
 			if (!$installModel->install()) {
