@@ -184,9 +184,8 @@ abstract class ChangeItem
 
 	/**
 	 * Runs the check query and checks that 1 row is returned
-	 * If yes, return true, otherwise return false
 	 *
-	 * @return  boolean  true on success, false otherwise
+	 * @return  integer  1 if success, -1 if skipped, -2 if check failed
 	 *
 	 * @since  2.5
 	 */
