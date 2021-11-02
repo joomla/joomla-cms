@@ -2236,8 +2236,7 @@ class TemplateModel extends FormModel
 					'name' => $name,
 					'path' => str_replace(JPATH_ROOT, '', $path),
 				];
-				// A directory has a 'name' attribute
-				// to be able to retrieve its name.
+				// A directory has a 'name' attribute  to be able to retrieve its name.
 				// In case it is not needed, just delete it.
 			}
 		}
