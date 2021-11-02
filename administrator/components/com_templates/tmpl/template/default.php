@@ -28,7 +28,8 @@ $wa->useScript('form.validate')
 	->useScript('bootstrap.dropdown')
 	->useScript('diff')
 	->useScript('com_templates.admin-template-compare')
-	->useScript('com_templates.admin-template-toggle-switch');
+	->useScript('com_templates.admin-template-toggle-switch')
+	->useStyle('tree.view.css');
 
 $wa->registerAndUseScript('tree.wc', 'media/com_templates/js/tree.js');
 

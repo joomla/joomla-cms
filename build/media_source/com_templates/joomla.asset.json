@@ -6,6 +6,11 @@
   "license": "GPL-2.0-or-later",
   "assets": [
     {
+      "name": "tree.view.css",
+      "type": "style",
+      "uri": "com_templates/admin-template-default.min.css"
+    },
+    {
       "name": "com_templates.admin-template-compare.es5",
       "type": "script",
       "uri": "com_templates/admin-template-compare-es5.min.js",
