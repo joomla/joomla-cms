@@ -102,7 +102,7 @@ class Templates
 	}
 
 	/**
-	 * Display the thumb for the template.
+	 * Display the thumbnail image for the template.
 	 *
 	 * @param   object   $template  The name of the template.
 	 *
