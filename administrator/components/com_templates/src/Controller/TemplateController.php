@@ -1048,7 +1048,7 @@ class TemplateController extends BaseController
 				return false;
 			}
 
-			// Call model's copy method
+			// Call model's child method
 			if (!$model->child()) {
 				$this->setMessage(Text::_('COM_TEMPLATES_ERROR_COULD_NOT_COPY'), 'error');
 
@@ -1069,7 +1069,10 @@ class TemplateController extends BaseController
 				return false;
 			}
 
-			$this->setMessage(Text::sprintf('COM_TEMPLATES_CHILD_SUCCESS', $newName));
+			// @todo get the correct ID of the child template
+			$url = 'index.php?option=com_templates&view=template&id=' . $templateID;
+
+			$this->setMessage(Text::sprintf('COM_TEMPLATES_CHILD_SUCCESS', $newName, Route::_($url)));
 			$model->cleanup();
 
 			return true;

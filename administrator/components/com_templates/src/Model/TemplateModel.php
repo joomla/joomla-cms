@@ -399,6 +399,8 @@ class TemplateModel extends FormModel
 
 			// Load the core and/or local language file(s).
 			$lang->load('tpl_' . $template->element, $client->path) ||
+			$lang->load('tpl_' . $template->xmldata->parent, $client->path) ||
+			$lang->load('tpl_' . $template->xmldata->parent, $client->path . '/templates/' . $template->xmldata->parent) ||
 			$lang->load('tpl_' . $template->element, $client->path . '/templates/' . $template->element);
 			$this->element = $path;
 
@@ -411,12 +413,25 @@ class TemplateModel extends FormModel
 			{
 				if ($mediaPath)
 				{
-					$result = array_merge($this->dirToArray($path, true), $this->dirToArray($mediaPath, true));
-					// $result[] = ;
+					$templateFolder = new \stdClass;
+					$templateFolder->dir = $this->dirToArray($path, true);
+					$templateFolder->name = Text::_('Template_folder');
+					$templateFolder->path = '';
+
+					$mediaFolder = new \stdClass;
+					$mediaFolder->dir = $this->dirToArray($mediaPath, true);
+					$mediaFolder->name = Text::_('Media_folder');
+					$mediaFolder->path = '';
+
+					$result = [$templateFolder, $mediaFolder];
 				}
 				else
 				{
-					$result = $this->dirToArray($path, true);
+					$templateFolder = new \stdClass;
+					$templateFolder->dir = $this->dirToArray($path, true);
+					$templateFolder->name = Text::_('Template_folder');
+					$templateFolder->path = '';
+					$result = [$templateFolder];
 				}
 			}
 			else
@@ -2058,7 +2073,7 @@ class TemplateModel extends FormModel
 			}
 
 			// Check manifest for additional files
-			$newName  = strtolower($this->getState('new_name'));
+			$newName  = $template->element . '_' . strtolower($this->getState('new_name'));
 			$template = $this->getTemplate();
 
 			// Edit XML file
