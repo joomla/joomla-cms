@@ -162,7 +162,7 @@ class Templates
 
 
 	/**
-	 * Renders the html for the modal linked to thumb.
+	 * Renders the html for the modal linked to the thumbnail image.
 	 *
 	 * @param   object   $template  The name of the template.
 	 *
