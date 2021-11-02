@@ -1,20 +1,20 @@
 class TreeView extends HTMLElement {
-  constructor() {
-    super();
-  }
+  // constructor() {
+  //   super();
+  // }
 
   connectedCallback() {
     try {
       this.data = JSON.parse(this.getAttribute('json'));
     } catch {
-      throw new Error('JSON parsing problem.')
+      throw new Error('JSON parsing problem.');
     }
 
     if (!this.data) return;
 
-    this.data.forEach(data => {
-      const liParent = document.createElement(`li`);
-      liParent.innerText= data.name || data.file;
+    this.data.forEach((data) => {
+      const liParent = document.createElement('li');
+      liParent.innerText = data.name || data.file;
       liParent.dataset.path = data.path;
       this.appendChild(liParent);
       if (data.dir) {
@@ -26,9 +26,9 @@ class TreeView extends HTMLElement {
 
   childs(liParent, data) {
     // Create a new unordered list for children
-    const childList = document.createElement(`ul`);
-    data.dir.forEach(child => {
-      const liChild = document.createElement(`li`);
+    const childList = document.createElement('ul');
+    data.dir.forEach((child) => {
+      const liChild = document.createElement('li');
       liChild.innerText = child.name || child.file;
       liChild.dataset.path = child.path;
       childList.appendChild(liChild);
@@ -41,28 +41,27 @@ class TreeView extends HTMLElement {
 
   // Hide childs function
   hide() {
-    var ulChildren = Array.from(this.querySelectorAll(`ul`));
-    var liChildren = Array.from(this.querySelectorAll(`li`));
-    ulChildren.forEach(ul => {
-      ul.style.display = `none`;
+    const ulChildren = Array.from(this.querySelectorAll('ul'));
+    const liChildren = Array.from(this.querySelectorAll('li'));
+    ulChildren.forEach((ul) => {
+      ul.style.display = 'none';
     });
-    liChildren.forEach(li => {
-      var childrenText = li.childNodes[0];
-      if (li.querySelector(`ul`) != null) {
-        const span = document.createElement(`span`);
+    liChildren.forEach((li) => {
+      const childrenText = li.childNodes[0];
+      if (li.querySelector('ul') != null) {
+        const span = document.createElement('span');
         span.textContent = childrenText.textContent;
-        span.style.cursor = `pointer`;
+        span.style.cursor = 'pointer';
         childrenText.parentNode.insertBefore(span, childrenText);
         childrenText.parentNode.removeChild(childrenText);
         span.onclick = (event) => {
-          var next = event.target.nextElementSibling;
-          if (next.style.display == ``) {
-            next.style.display = `none`;
+          const next = event.target.nextElementSibling;
+          if (next.style.display === '') {
+            next.style.display = 'none';
+          } else {
+            next.style.display = '';
           }
-          else {
-            next.style.display = ``;
-          }
-        }
+        };
       }
     });
   }
