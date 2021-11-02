@@ -2195,7 +2195,7 @@ class TemplateModel extends FormModel
 	{
 		if (!is_dir($dir))
 		{
-			// If the user supplies a wrong path we inform him.
+			// If the user supplies a wrong path we inform them.
 			return null;
 		}
 
