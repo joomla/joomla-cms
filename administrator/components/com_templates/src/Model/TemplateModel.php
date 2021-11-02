@@ -2067,7 +2067,7 @@ class TemplateModel extends FormModel
 				return false;
 			}
 
-			// Copy all files from $fromName template to $newName folder
+			// Copy all files from $fromName template folder to $newName template folder
 			if (!File::copy($fromPath, $toPath . '/templateDetails.xml')) {
 				return false;
 			}
