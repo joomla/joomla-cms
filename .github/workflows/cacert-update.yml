@@ -35,7 +35,6 @@ jobs:
           title: 'Automated CA cert file update'
           body: |
             Update report
-            - Updated with *today's* date
             - Cron to update Mozilla CA cert files in the Joomla Core
 
       - name: Log resulting Pull Request
