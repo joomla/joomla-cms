@@ -14,7 +14,7 @@ class TreeView extends HTMLElement {
 
     this.data.forEach((data) => {
       const liParent = document.createElement('li');
-      if (!data.dir) liParent.innerHTML = `<span class="fa fa-file"></span>${child.name || child.file}`;
+      if (!data.dir) liParent.innerHTML = `<span class="fa fa-file"></span>${data.name || data.file}`;
       liParent.dataset.path = data.path;
       this.appendChild(liParent);
       if (data.dir) {
