@@ -201,7 +201,7 @@ abstract class ChangeItem
 				$this->db->setQuery($this->checkQuery);
 				$rows = $this->db->loadRowList(0);
 			}
-			catch (\Exception $e)
+			catch (\RuntimeException $e)
 			{
 				// Still render the error message from the Exception object
 				Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
@@ -252,7 +252,7 @@ abstract class ChangeItem
 					$this->rerunStatus = -2;
 				}
 			}
-			catch (\Exception $e)
+			catch (ExecutionFailureException | \RuntimeException $e)
 			{
 				$this->rerunStatus = -2;
 			}
