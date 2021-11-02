@@ -2175,7 +2175,7 @@ class TemplateModel extends FormModel
 			$temp         = new \stdClass;
 			$temp->type   = 'file';
 			$temp->name   = basename($path);
-			$temp->folder = dirname($path) ;
+			$temp->folder = dirname($path);
 			$fileList[]   = $temp;
 		}
 
@@ -2185,11 +2185,13 @@ class TemplateModel extends FormModel
 	/**
 	 * Converts a filesystem tree to a PHP array.
 	 *
+	 * @param   string  $dir  The base directory
+	 *
 	 * @return  object
 	 *
 	 * @since	__DEPLOY_VERSION__
 	 */
-	function dirToArray($dir)
+	protected function dirToArray($dir)
 	{
 		if (!is_dir($dir))
 		{
