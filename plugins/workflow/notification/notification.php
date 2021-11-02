@@ -225,7 +225,7 @@ class PlgWorkflowNotification extends CMSPlugin implements SubscriberInterface
 					$message = [
 						'id' => 0,
 						'user_id_to' => $receiver->id,
-						'subject' => sprintf($lang->_('PLG_WORKFLOW_NOTIFICATION_ON_TRANSITION_SUBJECT'), $modelName),
+						'subject' => sprintf($lang->_('PLG_WORKFLOW_NOTIFICATION_ON_TRANSITION_SUBJECT'), $title),
 						'message' => $messageText,
 					];
 
