@@ -140,8 +140,7 @@ class Templates
 			}
 			else
 			{
-				// @todo some image fallback
-				$html = HTMLHelper::_('image', 'media/system/images/template_no_thumb.png', Text::_('COM_TEMPLATES_PREVIEW'));
+				$html = HTMLHelper::_('image', 'media/system/images/template_thumb.svg', Text::_('COM_TEMPLATES_PREVIEW'));
 			}
 
 		}
@@ -155,8 +154,7 @@ class Templates
 		}
 		else
 		{
-			// @todo some image fallback
-			$html = HTMLHelper::_('image', 'media/system/images/template_no_thumb.png', Text::_('COM_TEMPLATES_PREVIEW'));
+			$html = HTMLHelper::_('image', 'media/system/images/template_thumb.svg', Text::_('COM_TEMPLATES_PREVIEW'), ['style' => 'width:200px; height:120px;']);
 		}
 
 		return $html;
