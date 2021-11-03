@@ -107,7 +107,7 @@ $htag    = $tparams->get('show_page_heading') ? 'h2' : 'h1';
 						[
 							'src' => htmlspecialchars($this->item->image, ENT_QUOTES, 'UTF-8'),
 							'alt' => htmlspecialchars($this->item->name, ENT_QUOTES, 'UTF-8'),
-							'attributes' => ['itemprop' => 'image'],
+							'itemprop' => 'image',
 						]
 					); ?>
 				</div>
