@@ -191,12 +191,13 @@ class PlgWorkflowNotification extends CMSPlugin implements SubscriberInterface
 
 		foreach ($pks as $pk)
 		{
-			// Get the title of the item which has changed
-			$title = '';
+			// Get the title of the item which has changed, unknown as fallback
+			$title = Text::_('PLG_WORKFLOW_NOTIFICATION_NO_TITLE');
 
 			if ($hasGetItem)
 			{
-				$title = $model->getItem($pk)->title;
+				$item = $model->getItem($pk);
+				$title = (!empty($item->title)) ? $item->title : Text::_('PLG_WORKFLOW_NOTIFICATION_NO_TITLE');
 			}
 
 			// Send Email to receivers
