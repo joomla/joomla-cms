@@ -103,11 +103,9 @@ $listDirn   = $this->escape($this->state->get('list.direction'));
 										<?php echo LayoutHelper::render(
 											'joomla.html.image',
 											[
-												'image' => [
-													'src' => $item->image,
-													'alt' => '',
-													'attributes' => ['class' => 'contact-thumbnail img-thumbnail'],
-												],
+												'src'   => htmlspecialchars($item->image, ENT_QUOTES, 'UTF-8'),
+												'alt'   => '',
+												'class' => 'contact-thumbnail img-thumbnail',
 											]); ?>
 									<?php endif; ?>
 								<?php endif; ?>

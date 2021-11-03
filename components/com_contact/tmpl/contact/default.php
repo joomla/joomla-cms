@@ -105,11 +105,9 @@ $htag    = $tparams->get('show_page_heading') ? 'h2' : 'h1';
 					<?php echo LayoutHelper::render(
 						'joomla.html.image',
 						[
-							'image' => [
-								'src' => $this->item->image,
-								'alt' => $this->item->name,
-								'attributes' => ['itemprop' => 'image'],
-							],
+							'src' => htmlspecialchars($this->item->image, ENT_QUOTES, 'UTF-8'),
+							'alt' => htmlspecialchars($this->item->name, ENT_QUOTES, 'UTF-8'),
+							'attributes' => ['itemprop' => 'image'],
 						]
 					); ?>
 				</div>

@@ -31,11 +31,8 @@ use Joomla\CMS\Layout\LayoutHelper;
 		<?php echo LayoutHelper::render(
 			'joomla.html.image',
 			[
-				'image' => [
-					'src' => $item->imageSrc,
-					'alt' => $item->imageAlt,
-					'attributes' => [],
-				],
+				'src' => htmlspecialchars($item->imageSrc, ENT_COMPAT, 'UTF-8'),
+				'alt' => htmlspecialchars($item->imageAlt, ENT_COMPAT, 'UTF-8'),
 			]
 		); ?>
 		<?php if (!empty($item->imageCaption)) : ?>
