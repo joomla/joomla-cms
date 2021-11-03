@@ -64,9 +64,8 @@ use Joomla\CMS\Layout\LayoutHelper;
 			<?php $imgfloat = empty($images->float_first) ? $this->params->get('float_first') : $images->float_first; ?>
 			<div class="com-newsfeeds-newsfeed__first-image img-intro-<?php echo htmlspecialchars($imgfloat, ENT_COMPAT, 'UTF-8'); ?>">
 				<?php $imgAttribs = [
-					'src' => htmlspecialchars($images->image_first, ENT_COMPAT, 'UTF-8'),
-					'alt' => empty($images->image_first_alt) && empty($images->image_first_alt_empty) ? ''
-						: htmlspecialchars($images-> image_first_alt, ENT_COMPAT, 'UTF-8'),
+					'src' => $images->image_first,
+					'alt' => empty($images->image_first_alt) && empty($images->image_first_alt_empty) ? '' : $images-> image_first_alt,
 				]; ?>
 				<?php if ($images->image_first_caption) : ?>
 					<?php $imgAttribs['class'] = 'caption'; ?>
@@ -80,9 +79,8 @@ use Joomla\CMS\Layout\LayoutHelper;
 			<?php $imgfloat = empty($images->float_second) ? $this->params->get('float_second') : $images->float_second; ?>
 			<div class="com-newsfeeds-newsfeed__second-image float-<?php echo htmlspecialchars($imgfloat, ENT_COMPAT, 'UTF-8'); ?> item-image">
 				<?php $imgAttribs = [
-					'src' => htmlspecialchars($images->image_second, ENT_COMPAT, 'UTF-8'),
-					'alt' => empty($images->image_second_alt) && empty($images->image_second_alt_empty) ? ''
-						: htmlspecialchars($images->image_second_alt, ENT_COMPAT, 'UTF-8'),
+					'src' => $images->image_second,
+					'alt' => empty($images->image_second_alt) && empty($images->image_second_alt_empty) ? '' : $images->image_second_alt,
 				]; ?>
 				<?php if ($images->image_second_caption) : ?>
 					<?php $imgAttribs['class'] = 'caption'; ?>
@@ -107,8 +105,8 @@ use Joomla\CMS\Layout\LayoutHelper;
 				<?php echo LayoutHelper::render(
 					'joomla.html.image',
 					[
-						'src' => htmlspecialchars($this->rssDoc->image->uri, ENT_COMPAT, 'UTF-8'),
-						'alt' => htmlspecialchars($this->rssDoc->image->title, ENT_COMPAT, 'UTF-8'),
+						'src' => $this->rssDoc->image->uri,
+						'alt' => $this->rssDoc->image->title,
 					]
 				); ?>
 			</div>

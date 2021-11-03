@@ -58,9 +58,8 @@ $htag    = $this->params->get('show_page_heading') ? 'h2' : 'h1';
 				<?php echo LayoutHelper::render(
 					'joomla.html.image',
 					[
-						'src' => htmlspecialchars($this->category->getParams()->get('image'), ENT_QUOTES, 'UTF-8'),
-						'alt' => empty($this->category->getParams()->get('image_alt')) && empty($this->category->getParams()->get('image_alt_empty')) ? ''
-							: htmlspecialchars($this->category->getParams()->get('image_alt'), ENT_QUOTES, 'UTF-8' ),
+						'src' => $this->category->getParams()->get('image'),
+						'alt' => empty($this->category->getParams()->get('image_alt')) && empty($this->category->getParams()->get('image_alt_empty')) ? '' : $this->category->getParams()->get('image_alt'),
 					]
 				); ?>
 			<?php endif; ?>

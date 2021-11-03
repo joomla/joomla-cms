@@ -77,10 +77,7 @@ $htag    = $tparams->get('show_page_heading') ? 'h2' : 'h1';
 				'select.genericlist',
 				$this->contacts,
 				'select_contact',
-				'class="form-select" onchange="document.location.href = this.value"',
-				'link',
-				'name',
-				$this->item->link
+				'class="form-select" onchange="document.location.href = this.value"', 'link', 'name', $this->item->link
 			);
 			?>
 		</form>
@@ -105,8 +102,8 @@ $htag    = $tparams->get('show_page_heading') ? 'h2' : 'h1';
 					<?php echo LayoutHelper::render(
 						'joomla.html.image',
 						[
-							'src' => htmlspecialchars($this->item->image, ENT_QUOTES, 'UTF-8'),
-							'alt' => htmlspecialchars($this->item->name, ENT_QUOTES, 'UTF-8'),
+							'src'      => $this->item->image,
+							'alt'      => $this->item->name,
 							'itemprop' => 'image',
 						]
 					); ?>
