@@ -17,7 +17,7 @@
 }
 
 .tox-fullscreen {
-  z-index: 1049 !important;
+  z-index: $zindex-modal-backdrop - 1 !important;
 }
 
 .container-main {
