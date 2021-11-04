@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\String\PunycodeHelper;
 
-$icon = ($this->params->get('contact_icons') == 0);
+$icon = $this->params->get('contact_icons') == 0;
 
 /**
  * Marker_class: Class based on the selection of text, none, or icons
