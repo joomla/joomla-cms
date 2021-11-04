@@ -29,14 +29,15 @@ if ($img->width > 0 && $img->height > 0) {
 }
 
 $src = $hasSrc ? $this->escape($displayData['src']) . ' ' : '';
-$alt = $hasAlt ? $this->escape($displayData['alt']) . ' ': '';
+$alt = $hasAlt ? $this->escape($displayData['alt']) . ' ' : '';
 
 if ($hasSrc)
 {
   unset($displayData['src']);
 }
 
-if ($hasAlt) {
+if ($hasAlt)
+{
   unset($displayData['alt']);
 }
 
