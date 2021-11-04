@@ -28,8 +28,8 @@ if ($img->width > 0 && $img->height > 0) {
   $displayData['loading'] = 'lazy';
 }
 
-$src = $hasSrc ? htmlspecialchars($displayData['src'], ENT_QUOTES, 'UTF-8') . ' ' : '';
-$alt = $hasAlt ? htmlspecialchars($displayData['alt'], ENT_QUOTES, 'UTF-8') . ' ': '';
+$src = $hasSrc ? $this->escape($displayData['src']) . ' ' : '';
+$alt = $hasAlt ? $this->escape($displayData['alt']) . ' ': '';
 
 if ($hasSrc)
 {
