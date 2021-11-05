@@ -18,27 +18,20 @@ defined('_JEXEC') or die;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\Utilities\ArrayHelper;
 
-$img    = HTMLHelper::_('cleanImageURL', $displayData['src']);
-$hasSrc = !empty($displayData['src']);
-$hasAlt = !empty($displayData['alt']);
+$img = HTMLHelper::_('cleanImageURL', $displayData['src']);
 
-if ($img->width > 0 && $img->height > 0) {
-  $displayData['width'] = $img->width;
-  $displayData['height'] = $img->height;
-  $displayData['loading'] = 'lazy';
-}
+$displayData['src'] = $this->escape($img->url);
 
-$src = $hasSrc ? $this->escape($displayData['src']) . ' ' : '';
-$alt = $hasAlt ? $this->escape($displayData['alt']) . ' ' : '';
-
-if ($hasSrc)
+if (!empty($displayData['alt']))
 {
-  unset($displayData['src']);
+	$displayData['alt'] = $this->escape($displayData['alt']);
 }
 
-if ($hasAlt)
+if ($img->width > 0 && $img->height > 0)
 {
-  unset($displayData['alt']);
+	$displayData['width']   = $img->width;
+	$displayData['height']  = $img->height;
+	$displayData['loading'] = 'lazy';
 }
 
-echo '<img ' . $src . $alt . ArrayHelper::toString($displayData) . '>';
+echo '<img '  . ArrayHelper::toString($displayData) . '>';
