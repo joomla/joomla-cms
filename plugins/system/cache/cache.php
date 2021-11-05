@@ -227,12 +227,6 @@ class PlgSystemCache extends CMSPlugin
 	 */
 	protected function isExcluded()
 	{
-		// Run only when we're on Site Application side
-		if (!$this->app->isClient('site'))
-		{
-			return true;
-		}
-
 		// Check if menu items have been excluded.
 		if ($exclusions = $this->params->get('exclude_menu_items', array()))
 		{
