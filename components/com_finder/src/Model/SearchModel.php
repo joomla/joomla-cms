@@ -14,6 +14,8 @@ namespace Joomla\Component\Finder\Site\Model;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\MVC\Model\ListModel;
+use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\CMS\Uri\Uri;
 use Joomla\Component\Finder\Administrator\Indexer\Query;
 use Joomla\String\StringHelper;
 
@@ -41,6 +43,19 @@ class SearchModel extends ListModel
 	 * @since  2.5
 	 */
 	protected $searchquery;
+
+	/**
+	 * Maps each sorting field with a text label.
+	 *
+	 * @var string[]
+	 * @since __DEPLOY_VERSION__
+	 */
+	protected $sortOrderFieldsLabels = [
+		'relevance' => 'COM_FINDER_CONFIG_SORT_OPTION_RELEVANCE',
+		'title' => 'COM_FINDER_CONFIG_SORT_OPTION_TITLE',
+		'date' => 'COM_FINDER_CONFIG_SORT_OPTION_START_DATE',
+		'price' => 'COM_FINDER_CONFIG_SORT_OPTION_LIST_PRICE'
+	];
 
 	/**
 	 * An array of all excluded terms ids.
@@ -320,6 +335,78 @@ class SearchModel extends ListModel
 		}
 
 		return $query;
+	}
+
+	/**
+	 * Method to get the available sorting fields.
+	 *
+	 * @return array|mixed
+	 *
+	 * @throws \Exception
+	 * @since __DEPLOY_VERSION__
+	 */
+	public function getSortOrderFields()
+	{
+		$sortOrderFields = [];
+		$app             = Factory::getApplication();
+		$params          = $app->getParams();
+
+		if ($params->get('show_sort_order', 0, 'uint'))
+		{
+			$sortOrderFieldValues  = $params->get('shown_sort_order', [], 'array');
+			$defaultSortFieldValue = $params->get('sort_order', '', 'cmd');
+			$baseUri               = Uri::getInstance($this->getQuery()->toUri());
+
+			// If the default field is not included in the shown sort fields, add it.
+			if (!in_array($defaultSortFieldValue, $sortOrderFieldValues))
+			{
+				array_unshift($sortOrderFieldValues, $defaultSortFieldValue);
+			}
+
+			foreach ($sortOrderFieldValues as $sortOrderFieldValue)
+			{
+				$sortOrderFields[] = $this->getSortField($sortOrderFieldValue, $baseUri);
+			}
+		}
+
+		// Import Finder plugins
+		PluginHelper::importPlugin('finder');
+
+		// Trigger an event, in case a plugin wishes to change the order fields.
+		$app->triggerEvent('onFinderSortOrderFields', array(&$sortOrderFields));
+
+		return $sortOrderFields;
+	}
+
+	/**
+	 * Method to generate and return a sorting field
+	 *
+	 * @param   string  $value    The value based on which the results will be sorted
+	 * @param   Uri     $baseUri  The uri of the search query
+	 *
+	 * @return \stdClass
+	 *
+	 * @throws \Exception
+	 * @since __DEPLOY_VERSION__
+	 */
+	protected function getSortField(string $value, Uri $baseUri)
+	{
+		$sortField = new \stdClass;
+		$app       = Factory::getApplication();
+		$baseUri->setVar('o', $value);
+		$orderingDirection = $app->getInput()->getWord('od', '');
+
+		if ($orderingDirection)
+		{
+			$baseUri->setVar('od', StringHelper::strtolower($orderingDirection));
+		}
+
+		$sortField->label      = $this->sortOrderFieldsLabels[$value] ?? $value;
+		$sortField->url        = $baseUri->toString();
+		$currentSortOrderField = $app->getInput()->getWord('o', $app->getParams()->get('sort_order', 'relevance'));
+		$sortField->active     = $value === StringHelper::strtolower($currentSortOrderField) ? true : false;
+
+		return $sortField;
 	}
 
 	/**
