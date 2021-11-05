@@ -15,3 +15,4 @@ modules:
             prefix: 'jos_'
         Helper\Api:
             cmsPath: '/tests/www/test-install'
+            localUser: 'www-data'

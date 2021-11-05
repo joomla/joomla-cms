@@ -44,8 +44,16 @@ class MediaCest
 			FileSystem::deleteDir($this->getImagesDirectory($I));
 		}
 
-		// Create the test directory
-		mkdir($this->getImagesDirectory($I));
+		// Copied from \Step\Acceptance\Administrator\Media:createDirectory()
+		$oldUmask     = @umask(0);
+		@mkdir($this->getImagesDirectory($I), 0755, true);
+
+		if (!empty($user = $I->getConfig('localUser')))
+		{
+			@chown($this->getImagesDirectory($I), $user);
+		}
+
+		@umask($oldUmask);
 	}
 
 	/**
