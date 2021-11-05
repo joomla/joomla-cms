@@ -19,7 +19,6 @@ use Joomla\CMS\MVC\Controller\ApiController;
 use Joomla\Component\Media\Administrator\Exception\FileExistsException;
 use Joomla\Component\Media\Administrator\Exception\InvalidPathException;
 use Joomla\Component\Media\Api\Helper\AdapterTrait;
-use Joomla\Component\Media\Api\Helper\MediaHelper;
 use Joomla\Component\Media\Api\Model\MediumModel;
 use Joomla\String\Inflector;
 use Tobscure\JsonApi\Exception\InvalidParameterException;
@@ -329,9 +328,6 @@ class MediaController extends ApiController
 		$model = $this->getModel($modelName, '', ['ignore_request' => true, 'state' => $this->modelState]);
 
 		$json = $this->input->json;
-
-		// Split destination path into adapter name and file path.
-		['adapter' => $adapter, 'path' => $path] = MediaHelper::adapterNameAndPath($this->input->get('path', '', 'STRING'));
 
 		// Decode content, if any
 		if ($content = base64_decode($json->get('content', '', 'raw')))

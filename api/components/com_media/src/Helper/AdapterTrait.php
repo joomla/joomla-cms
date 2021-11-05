@@ -11,6 +11,7 @@ namespace Joomla\Component\Media\Api\Helper;
 
 \defined('_JEXEC') or die;
 
+use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\Component\Media\Administrator\Adapter\AdapterInterface;
@@ -28,18 +29,64 @@ trait AdapterTrait
 	/**
 	 * Holds the available media file adapters.
 	 *
-	 * @var   ProviderManager
+	 * @var    ProviderManager
 	 *
 	 * @since  __DEPLOY_VERSION__
 	 */
 	private $providerManager = null;
 
 	/**
+	 * The default adapter name.
+	 *
+	 * @var    string
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
+	private $defaultAdapterName = null;
+
+	/**
+	 * Returns an array with the adapter name as key and the path of the file.
+	 *
+	 * @return  array
+	 *
+	 * @throws  \Exception
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	private function resolveAdapterAndPath(String $path): array
+	{
+		$result = [];
+		$parts = explode(':', $path, 2);
+
+		// If we have 2 parts, we have both an adapter name and a file path
+		if (\count($parts) == 2)
+		{
+			$result['adapter'] = $parts[0];
+			$result['path']    = $parts[1];
+
+			return $result;
+		}
+
+		if (!$this->getDefaultAdapterName())
+		{
+			throw new \InvalidArgumentException('No adapter found');
+		}
+
+		// If we have less than 2 parts, we return a default adapter name
+		$result['adapter'] = $this->getDefaultAdapterName();
+
+		// If we have 1 part, we return it as the path. Otherwise we return a default path
+		$result['path'] = \count($parts) ? $parts[0] : '/';
+
+		return $result;
+	}
+
+	/**
 	 * Returns a provider for the given id.
 	 *
-	 * @return ProviderInterface
+	 * @return  ProviderInterface
 	 *
-	 * @throws \Exception
+	 * @throws  \Exception
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
@@ -51,9 +98,9 @@ trait AdapterTrait
 	/**
 	 * Return an adapter for the given name.
 	 *
-	 * @return AdapterInterface
+	 * @return  AdapterInterface
 	 *
-	 * @throws \Exception
+	 * @throws  \Exception
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
@@ -63,9 +110,44 @@ trait AdapterTrait
 	}
 
 	/**
+	 * Returns the default adapter name.
+	 *
+	 * @return  string|null
+	 *
+	 * @throws  \Exception
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	private function getDefaultAdapterName(): ?string
+	{
+		if ($this->defaultAdapterName)
+		{
+			return $this->defaultAdapterName;
+		}
+
+		$defaultAdapter = $this->getAdapter('local-' . ComponentHelper::getParams('com_media')->get('file_path', 'images'));
+
+		if (!$defaultAdapter
+			&& $this->getProviderManager()->getProvider('local')
+			&& $this->getProviderManager()->getProvider('local')->getAdapters())
+		{
+			$defaultAdapter = $this->getProviderManager()->getProvider('local')->getAdapters()[0];
+		}
+
+		if (!$defaultAdapter)
+		{
+			return null;
+		}
+
+		$this->defaultAdapterName = 'local-' . $defaultAdapter->getAdapterName();
+
+		return $this->defaultAdapterName;
+	}
+
+	/**
 	 * Return a provider manager.
 	 *
-	 * @return ProviderManager
+	 * @return  ProviderManager
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
@@ -73,7 +155,7 @@ trait AdapterTrait
 	{
 		if (!$this->providerManager)
 		{
-			$this->providerManager = new ProviderManager();
+			$this->providerManager = new ProviderManager;
 
 			// Fire the event to get the results
 			$eventParameters = ['context' => 'AdapterManager', 'providerManager' => $this->providerManager];

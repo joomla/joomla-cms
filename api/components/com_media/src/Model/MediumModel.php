@@ -19,7 +19,7 @@ use Joomla\Component\Media\Administrator\Exception\FileExistsException;
 use Joomla\Component\Media\Administrator\Exception\FileNotFoundException;
 use Joomla\Component\Media\Administrator\Exception\InvalidPathException;
 use Joomla\Component\Media\Administrator\Model\ApiModel;
-use Joomla\Component\Media\Api\Helper\MediaHelper;
+use Joomla\Component\Media\Api\Helper\AdapterTrait;
 
 /**
  * Media web service model supporting a single media item.
@@ -28,6 +28,8 @@ use Joomla\Component\Media\Api\Helper\MediaHelper;
  */
 class MediumModel extends BaseModel
 {
+	use AdapterTrait;
+
 	/**
 	 * Instance of com_media's ApiModel
 	 *
@@ -60,11 +62,7 @@ class MediumModel extends BaseModel
 			'content' => $this->getState('content', false),
 		];
 
-		[
-			'adapter' => $adapterName,
-			'path'    => $path,
-		]
-			= MediaHelper::adapterNameAndPath($this->getState('path', ''));
+		['adapter' => $adapterName, 'path' => $path] = $this->resolveAdapterAndPath($this->getState('path', ''));
 
 		try
 		{
@@ -97,11 +95,7 @@ class MediumModel extends BaseModel
 		$content  = $this->getState('content', null);
 		$override = $this->getState('override', false);
 
-		[
-			'adapter' => $adapterName,
-			'path'    => $path,
-		]
-			= MediaHelper::adapterNameAndPath($path);
+		['adapter' => $adapterName, 'path' => $path] = $this->resolveAdapterAndPath($path);
 
 		$resultPath = '';
 
@@ -260,13 +254,7 @@ class MediumModel extends BaseModel
 	 */
 	public function delete(): void
 	{
-		$path = $this->getState('path', '');
-
-		[
-			'adapter' => $adapterName,
-			'path'    => $path,
-		]
-			= MediaHelper::adapterNameAndPath($path);
+		['adapter' => $adapterName, 'path' => $path] = $this->resolveAdapterAndPath($this->getState('path', ''));
 
 		try
 		{

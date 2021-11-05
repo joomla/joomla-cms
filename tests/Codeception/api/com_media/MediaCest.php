@@ -168,6 +168,27 @@ class MediaCest
 	}
 
 	/**
+	 * Test the GET media files endpoint of com_media from the API.
+	 *
+	 * @param   mixed   ApiTester  $I  Api tester
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function testSearchFiles(ApiTester $I)
+	{
+		$I->amBearerAuthenticated($I->getBearerToken());
+		$I->haveHttpHeader('Accept', 'application/vnd.api+json');
+		$I->sendGET('/media/files?filter[search]=joomla');
+
+		$I->seeResponseCodeIs(HttpCode::OK);
+		$I->seeResponseContainsJson(['data' => ['attributes' => ['type' => 'file', 'name' => 'joomla_black.png']]]);
+		$I->dontSeeResponseContainsJson(['data' => ['attributes' => ['type' => 'dir', 'name' => 'powered_by.png']]]);
+		$I->dontSeeResponseContainsJson(['data' => ['attributes' => ['type' => 'dir', 'name' => 'banners']]]);
+	}
+
+	/**
 	 * Test the GET media files endpoint for a single file of com_media from the API.
 	 *
 	 * @param   mixed   ApiTester  $I  Api tester
@@ -184,6 +205,26 @@ class MediaCest
 
 		$I->seeResponseCodeIs(HttpCode::OK);
 		$I->seeResponseContainsJson(['data' => ['attributes' => ['type' => 'file', 'name' => 'joomla_black.png']]]);
+		$I->dontSeeResponseContainsJson(['data' => ['attributes' => ['url' => $I->getConfig('url') . '/images/joomla_black.png']]]);
+	}
+
+	/**
+	 * Test the GET media files endpoint for a single file of com_media from the API.
+	 *
+	 * @param   mixed   ApiTester  $I  Api tester
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function testGetFileWithUrl(ApiTester $I)
+	{
+		$I->amBearerAuthenticated($I->getBearerToken());
+		$I->haveHttpHeader('Accept', 'application/vnd.api+json');
+		$I->sendGET('/media/files/joomla_black.png?url=1');
+
+		$I->seeResponseCodeIs(HttpCode::OK);
+		$I->seeResponseContainsJson(['data' => ['attributes' => ['url' => $I->getConfig('url') . '/images/joomla_black.png']]]);
 	}
 
 	/**

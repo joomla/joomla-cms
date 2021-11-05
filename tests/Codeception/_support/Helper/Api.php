@@ -64,12 +64,15 @@ class Api extends Module
 		/**
 	 * Creates a user for API authentication and returns a bearer token.
 	 *
-	 * @return  string  The token
+	 * @param   string  $name     The name of the config key
+	 * @param   string  $module   The module
+	 *
+	 * @return  string  The config key
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function getConfig($name): string
+	public function getConfig($name, $module = 'Helper\Api'): string
 	{
-		return $this->getModule('Helper\Api')->_getConfig()[$name];
+		return $this->getModule($module)->_getConfig()[$name];
 	}
 }

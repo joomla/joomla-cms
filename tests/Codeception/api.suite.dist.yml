@@ -14,5 +14,6 @@ modules:
             password: 'joomla_ut'
             prefix: 'jos_'
         Helper\Api:
+            url: 'http://localhost/test-install'
             cmsPath: '/tests/www/test-install'
             localUser: 'www-data'
