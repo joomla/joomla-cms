@@ -298,7 +298,7 @@ class TaskModel extends AdminModel
 
 		$subquery->select('COUNT(*)')
 			->from($query->qn('#__scheduler_tasks'))
-			->where('!' . $query->isNullDatetime($query->qn('locked')));
+			->where($query->qn('locked') . ' IS NOT NULL');
 
 		$query	->update($query->qn('#__scheduler_tasks'))
 			->set('locked = :date1')
