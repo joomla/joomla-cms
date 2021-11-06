@@ -63,30 +63,36 @@ use Joomla\CMS\Layout\LayoutHelper;
 		<?php if (isset($images->image_first) && !empty($images->image_first)) : ?>
 			<?php $imgfloat = empty($images->float_first) ? $this->params->get('float_first') : $images->float_first; ?>
 			<div class="com-newsfeeds-newsfeed__first-image img-intro-<?php echo htmlspecialchars($imgfloat, ENT_COMPAT, 'UTF-8'); ?>">
-				<?php $imgAttribs = [
-					'src' => $images->image_first,
-					'alt' => empty($images->image_first_alt) && empty($images->image_first_alt_empty) ? '' : $images-> image_first_alt,
-				]; ?>
-				<?php if ($images->image_first_caption) : ?>
-					<?php $imgAttribs['class'] = 'caption'; ?>
-					<?php $imgAttribs['title'] = htmlspecialchars($images->image_first_caption, ENT_COMPAT, 'UTF-8'); ?>
-				<?php endif; ?>
-				<?php echo LayoutHelper::render('joomla.html.image', $imgAttribs); ?>
+				<figure>
+					<?php echo LayoutHelper::render(
+						'joomla.html.image',
+						[
+							'src' => $images->image_first,
+							'alt' => empty($images->image_first_alt) && empty($images->image_first_alt_empty) ? '' : $images->image_first_alt,
+						]
+					); ?>
+					<?php if ($images->image_first_caption) : ?>
+						<figcaption><?php echo htmlspecialchars($images->image_first_caption, ENT_COMPAT, 'UTF-8'); ?></figcaption>
+					<?php endif; ?>
+				</figure>
 			</div>
 		<?php endif; ?>
 
 		<?php if (isset($images->image_second) and !empty($images->image_second)) : ?>
 			<?php $imgfloat = empty($images->float_second) ? $this->params->get('float_second') : $images->float_second; ?>
 			<div class="com-newsfeeds-newsfeed__second-image float-<?php echo htmlspecialchars($imgfloat, ENT_COMPAT, 'UTF-8'); ?> item-image">
-				<?php $imgAttribs = [
-					'src' => $images->image_second,
-					'alt' => empty($images->image_second_alt) && empty($images->image_second_alt_empty) ? '' : $images->image_second_alt,
-				]; ?>
-				<?php if ($images->image_second_caption) : ?>
-					<?php $imgAttribs['class'] = 'caption'; ?>
-					<?php $imgAttribs['title'] = htmlspecialchars($images->image_second_caption, ENT_COMPAT, 'UTF-8'); ?>
-				<?php endif; ?>
-				<?php echo LayoutHelper::render('joomla.html.image', $imgAttribs); ?>
+				<figure>
+					<?php echo LayoutHelper::render(
+						'joomla.html.image',
+						[
+							'src' => $images->image_second,
+							'alt' => empty($images->image_second_alt) && empty($images->image_second_alt_empty) ? '' : $images->image_second_alt,
+						]
+					); ?>
+					<?php if ($images->image_second_caption) : ?>
+						<figcaption><?php echo htmlspecialchars($images->image_second_caption, ENT_COMPAT, 'UTF-8'); ?></figcaption>
+					<?php endif; ?>
+				</figure>
 			</div>
 		<?php endif; ?>
 		<!-- Show Description from Component -->
