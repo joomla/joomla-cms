@@ -325,7 +325,11 @@ class TaskModel extends AdminModel
 				->bind(':taskId', $id, ParameterType::INTEGER);
 		}
 
+		$this->getDbo()->lockTable($query->qn('#__scheduler_tasks'));
+
 		$this->getDbo()->setQuery($query)->execute();
+
+		$this->getDbo()->unlockTables();
 
 		if ($this->getDbo()->getAffectedRows() === 0)
 		{
