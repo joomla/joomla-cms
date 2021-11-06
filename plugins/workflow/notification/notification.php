@@ -197,7 +197,7 @@ class PlgWorkflowNotification extends CMSPlugin implements SubscriberInterface
 			if ($hasGetItem)
 			{
 				$item = $model->getItem($pk);
-				$title = (!empty($item->title)) ? $item->title : Text::_('PLG_WORKFLOW_NOTIFICATION_NO_TITLE');
+				$title = !empty($item->title) ? $item->title : $title;
 			}
 
 			// Send Email to receivers
