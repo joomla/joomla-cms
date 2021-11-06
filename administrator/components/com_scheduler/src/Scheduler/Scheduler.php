@@ -63,38 +63,6 @@ class Scheduler
 	];
 
 	/**
-	 * @var  CMSApplication
-	 * @since  __DEPLOY_VERSION__
-	 */
-	protected $app;
-
-	/**
-	 * @var  DatabaseInterface
-	 * @since  __DEPLOY_VERSION__
-	 */
-	protected $db;
-
-	/**
-	 * @var  SchedulerComponent
-	 * @since  __DEPLOY_VERSION__
-	 */
-	protected $component;
-
-	/**
-	 * Scheduler class constructor
-	 *
-	 * @since __DEPLOY_VERSION__
-	 * @throws \Exception
-	 */
-	public function __construct()
-	{
-		$this->app       = Factory::getApplication();
-		$this->db        = Factory::getContainer()->get(DatabaseDriver::class);
-		$this->component = $this->app->bootComponent('com_scheduler');
-		$this->app->getLanguage()->load('com_scheduler', JPATH_ADMINISTRATOR);
-	}
-
-	/**
 	 * Run a scheduled task.
 	 * Runs a single due task from the task queue by default if $id and $title are not passed.
 	 *
@@ -108,12 +76,14 @@ class Scheduler
 	 */
 	public function runTask(int $id = 0, bool $unpublished = false): ?Task
 	{
-		$task = $this->fetchTask($id, $unpublished);
+		$task = $this->getNextTask($id, $unpublished);
 
 		if (empty($task))
 		{
 			return null;
 		}
+
+		Factory::getApplication()->getLanguage()->load('com_scheduler', JPATH_ADMINISTRATOR);
 
 		$options['text_entry_format'] = '{DATE}	{TIME}	{PRIORITY}	{MESSAGE}';
 		$options['text_file']         = 'joomla_scheduler.php';
@@ -154,27 +124,38 @@ class Scheduler
 	}
 
 	/**
-	 * Fetches a single scheduled task in a Task instance.
-	 * If no id or title is specified, a due task is returned.
+	 * Get the next task which is due to run, limit to a specific task when ID is given
 	 *
-	 * @param   int   $id           The task ID
-	 * @param   bool  $unpublished  The task title
+	 * @param   integer $id
 	 *
-	 * @return ?Task
-	 *
-	 * @since __DEPLOY_VERSION__
-	 * @throws \Exception
+	 * @return  Task $task The task to execute
 	 */
-	public function fetchTask(int $id = 0, bool $unpublished = false): ?Task
+	public function getNextTask(int $id = 0)
 	{
-		$record = $this->fetchTaskRecord($id, $unpublished);
+		try
+		{
+			$component = Factory::getApplication()->bootComponent('com_scheduler');
 
-		if ($record === null)
+			/** @var TasksModel $model */
+			$model = $component->getMVCFactory()->createModel('Task', 'Administrator', ['ignore_request' => true]);
+		}
+		catch (\Exception $e)
+		{
+		}
+
+		if (!isset($model))
+		{
+			throw new \RunTimeException('JLIB_APPLICATION_ERROR_MODEL_CREATE');
+		}
+
+		$task = $model->getNextTask($id);
+
+		if (empty($task))
 		{
 			return null;
 		}
 
-		return new Task($record);
+		return new Task($task);
 	}
 
 	/**
@@ -231,8 +212,10 @@ class Scheduler
 
 		try
 		{
+			$component = Factory::getApplication()->bootComponent('com_scheduler');
+
 			/** @var TasksModel $model */
-			$model = $this->component->getMVCFactory()
+			$model = $component->getMVCFactory()
 				->createModel('Tasks', 'Administrator', ['ignore_request' => true]);
 		}
 		catch (\Exception $e)

@@ -120,6 +120,26 @@ class PlgSystemSchedulerunner extends CMSPlugin implements SubscriberInterface
 			return;
 		}
 
+		// Check if any task is due to decrease the load
+		$model = $this->app->bootComponent('com_scheduler')
+			->getMVCFactory()->createModel('Tasks', 'Administrator', ['ignore_request' => true]);
+
+		$model->setState('filter.state', 1);
+		$model->setState('filter.due', 1);
+
+		$items = $model->getItems();
+
+		// See if we are running currently
+		$model->setState('filter.locked', 1);
+		$model->setState('filter.due', 0);
+
+		$items2 = $model->getItems();
+
+		if (empty($items) || !empty($items2))
+		{
+			return;
+		}
+
 		// Add configuration options
 		$triggerInterval = $config->get('lazy_scheduler.interval', 300);
 		$this->app->getDocument()->addScriptOptions('plg_system_schedulerunner', ['interval' => $triggerInterval]);
@@ -147,7 +167,7 @@ class PlgSystemSchedulerunner extends CMSPlugin implements SubscriberInterface
 
 		if (!$config->get('lazy_scheduler.enabled', true))
 		{
-			throw new \Exception(Text::_('JERROR_ALERTNOAUTHOR'), 403);
+			return;
 		}
 
 		// Since `navigator.sendBeacon()` may time out, allow execution after disconnect if possible.
@@ -156,7 +176,15 @@ class PlgSystemSchedulerunner extends CMSPlugin implements SubscriberInterface
 			ignore_user_abort(true);
 		}
 
-		$this->runScheduler();
+		// Supress all errors to avoid any output
+		try
+		{
+			$this->runScheduler();
+		}
+		catch (\Exception $e)
+		{
+
+		}
 	}
 
 	/**

@@ -134,34 +134,11 @@ class Task extends Registry implements LoggerAwareInterface
 	 */
 	public function run(): bool
 	{
-		/*
-		* Dispatch event if task lock is not released (NULL). This only happens if the task execution
-		* was interrupted by a fatal failure.
-		*/
-		if ($this->get('locked') !== null)
-		{
-			$event = AbstractEvent::create(
-				'onTaskRecoverFailure',
-				[
-					'subject' => $this,
-				]
-			);
-
-			$this->app->getDispatcher()->dispatch('onTaskRecoverFailure', $event);
-		}
-
 		// Exit early if task routine is not available
 		if (!SchedulerHelper::getTaskOptions()->findOption($this->get('type')))
 		{
 			$this->snapshot['status'] = Status::NO_ROUTINE;
 			$this->skipExecution();
-
-			return $this->isSuccess();
-		}
-
-		if (!$this->acquireLock())
-		{
-			$this->snapshot['status'] = Status::NO_LOCK;
 
 			return $this->isSuccess();
 		}

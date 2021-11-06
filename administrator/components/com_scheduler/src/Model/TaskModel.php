@@ -24,6 +24,7 @@ use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Table\Table;
 use Joomla\Component\Scheduler\Administrator\Helper\ExecRuleHelper;
 use Joomla\Component\Scheduler\Administrator\Helper\SchedulerHelper;
+use Joomla\Database\ParameterType;
 
 /**
  * MVC Model to interact with the Scheduler DB.
@@ -278,6 +279,73 @@ class TaskModel extends AdminModel
 		$item->set('taskOption', $taskOption);
 
 		return $item;
+	}
+
+	/**
+	 * Lock the next task when no task is locked and returns it, otherwise null
+	 *
+	 * @param   [type] $id
+	 *
+	 * @return void
+	 */
+	public function getNextTask($id = null, $unpublished = false)
+	{
+		$now = Factory::getDate()->toSql();
+
+		// Try to lock the next task
+		$query = $this->getDbo()->getQuery(true);
+		$subquery = $this->getDbo()->getQuery(true);
+
+		$subquery->select('COUNT(*)')
+			->from($query->qn('#__scheduler_tasks'))
+			->where('!' . $query->isNullDatetime($query->qn('locked')));
+
+		$query	->update($query->qn('#__scheduler_tasks'))
+			->set('locked = :date1')
+			->where('(' . $subquery . ') = 0')
+			->where($query->qn('next_execution') . '<= :date2')
+			->bind(':date1', $now)
+			->bind(':date2', $now)
+			->order($query->qn('priority') . ' DESC')
+			->order($query->qn('next_execution') . ' ASC')
+			->setLimit(1);
+
+		if ($unpublished)
+		{
+			$query->whereIn($query->qn('state'), [0, 1]);
+		}
+		else
+		{
+			$query->where($query->qn('state') . ' = 1');
+		}
+
+		if ($id > 0)
+		{
+			$query	->where($query->qn('id') . ' = :taskId')
+				->bind(':taskId', $id, ParameterType::INTEGER);
+		}
+
+		$this->getDbo()->setQuery($query)->execute();
+
+		if ($this->getDbo()->getAffectedRows() === 0)
+		{
+			return null;
+		}
+
+		$query = $this->getDbo()->getQuery(true);
+
+		$query->select('*')
+				->from($query->qn('#__scheduler_tasks'))
+				->where($query->qn('locked') . ' IS NOT NULL');
+
+		$task = $this->getDbo()->setQuery($query)->loadObject();
+
+		$task->execution_rules = json_decode($task->execution_rules);
+		$task->cron_rules = json_decode($task->cron_rules);
+
+		$task->taskOption = SchedulerHelper::getTaskOptions()->findOption($task->type);
+
+		return $task;
 	}
 
 	/**
