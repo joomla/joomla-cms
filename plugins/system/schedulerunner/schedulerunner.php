@@ -183,7 +183,6 @@ class PlgSystemSchedulerunner extends CMSPlugin implements SubscriberInterface
 		}
 		catch (\Exception $e)
 		{
-
 		}
 	}
 

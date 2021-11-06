@@ -286,7 +286,7 @@ class TaskModel extends AdminModel
 	 *
 	 * @param   [type] $id
 	 *
-	 * @return void
+	 * @return Task|null
 	 */
 	public function getNextTask($id = null, $unpublished = false)
 	{
@@ -339,8 +339,8 @@ class TaskModel extends AdminModel
 		$query = $this->getDbo()->getQuery(true);
 
 		$query->select('*')
-				->from($query->qn('#__scheduler_tasks'))
-				->where($query->qn('locked') . ' IS NOT NULL');
+			->from($query->qn('#__scheduler_tasks'))
+			->where($query->qn('locked') . ' IS NOT NULL');
 
 		$task = $this->getDbo()->setQuery($query)->loadObject();
 
