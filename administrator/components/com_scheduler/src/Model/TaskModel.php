@@ -301,7 +301,7 @@ class TaskModel extends AdminModel
 			->where($query->qn('locked') . ' IS NOT NULL');
 
 		$query	->update($query->qn('#__scheduler_tasks'))
-			->set('locked = :date1')
+			->set($query->qn('locked') . ' = :date1')
 			->where('(' . $subquery . ') = 0')
 			->where($query->qn('next_execution') . '<= :date2')
 			->bind(':date1', $now)
