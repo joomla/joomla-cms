@@ -15,13 +15,15 @@ use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Profiler\Profiler;
 use Joomla\CMS\Uri\Uri;
+use Joomla\Event\SubscriberInterface;
+use Joomla\Registry\Registry;
 
 /**
  * Joomla! Page Cache Plugin.
  *
  * @since  1.5
  */
-class PlgSystemCache extends CMSPlugin
+class PlgSystemCache extends CMSPlugin implements SubscriberInterface
 {
 	/**
 	 * Cache instance.
@@ -68,7 +70,27 @@ class PlgSystemCache extends CMSPlugin
 
 		// Instantiate cache with previous options and create the cache key identifier.
 		$this->_cache     = Cache::getInstance('page', $options);
-		$this->_cache_key = Uri::getInstance()->toString();
+		$this->_cache_key = self::simpleCacheKey();
+	}
+
+	/**
+	 * Returns an array of events this subscriber will listen to.
+	 *
+	 * @return  array
+	 *
+	 * @since   4.0.0
+	 */
+	public static function getSubscribedEvents(): array
+	{
+		if (!self::canPageBeCached()) {
+			return [];
+		}
+
+		return [
+			'onAfterRender' => 'verifyIfCurrentPageCanBeCached',
+			'onAfterRoute' => 'dumpCachedPage',
+			'onAfterRespond' => 'storePage',
+		];
 	}
 
 	/**
@@ -96,7 +118,8 @@ class PlgSystemCache extends CMSPlugin
 	}
 
 	/**
-	 * Checks if URL exists in cache, if so dumps it directly and closes.
+	 * onAfterRoute.
+	 * Only for BC, not used on J4
 	 *
 	 * @return  void
 	 *
@@ -104,18 +127,26 @@ class PlgSystemCache extends CMSPlugin
 	 */
 	public function onAfterRoute()
 	{
-		if ($this->app->isClient('administrator') || $this->app->get('offline', '0') || $this->app->getMessageQueue())
-		{
-			return;
-		}
+		$this->dumpCachedPage();
+	}
 
+	/**
+	 * Checks if URL exists in cache, if so dumps it directly and closes.
+	 *
+	 * @return  void
+	 *
+	 * @since   4.1
+	 */
+	public function dumpCachedPage()
+	{
 		// If any pagecache plugins return false for onPageCacheSetCaching, do not use the cache.
 		PluginHelper::importPlugin('pagecache');
 
 		$results = $this->app->triggerEvent('onPageCacheSetCaching');
 		$caching = !in_array(false, $results, true);
 
-		if ($caching && $this->app->getIdentity()->guest && $this->app->input->getMethod() === 'GET')
+		// Double check for BC
+		if ($caching && $this->canPageBeCached())
 		{
 			$this->_cache->setCaching(true);
 		}
@@ -148,8 +179,8 @@ class PlgSystemCache extends CMSPlugin
 	}
 
 	/**
-	 * After Render Event.
-	 * Verify if current page is not excluded from cache.
+	 * onAfterRender.
+	 * Only for BC, not used on J4.
 	 *
 	 * @return   void
 	 *
@@ -157,14 +188,22 @@ class PlgSystemCache extends CMSPlugin
 	 */
 	public function onAfterRender()
 	{
-		if ($this->_cache->getCaching() === false)
-		{
-			return;
-		}
+		$this->verifyIfCurrentPageCanBeCached();
+	}
 
-		// We need to check if user is guest again here, because auto-login plugins have not been fired before the first aid check.
+	/**
+	 * Verify if current page is not excluded from cache.
+	 *
+	 * @return   void
+	 *
+	 * @since   4.1
+	 */
+	public function verifyIfCurrentPageCanBeCached()
+	{
+		// We need to check if user is guest again here,
+		// 	because auto-login plugins have not been fired before the first aid check.
 		// Page is excluded if excluded in plugin settings.
-		if (!$this->app->getIdentity()->guest || $this->app->getMessageQueue() || $this->isExcluded() === true)
+		if (!$this->canPageBeCached())
 		{
 			$this->_cache->setCaching(false);
 
@@ -176,8 +215,8 @@ class PlgSystemCache extends CMSPlugin
 	}
 
 	/**
-	 * After Respond Event.
-	 * Stores page in cache.
+	 * onAfterRespond.
+	 * Only for BC, not used on J4
 	 *
 	 * @return   void
 	 *
@@ -185,6 +224,20 @@ class PlgSystemCache extends CMSPlugin
 	 */
 	public function onAfterRespond()
 	{
+		$this->storePage();
+	}
+
+	/**
+	 * After Respond Event.
+	 * Stores page in cache.
+	 *
+	 * @return   void
+	 *
+	 * @since   1.5
+	 */
+	public function storePage()
+	{
+		// if it can't be cached due to execution conditions (check verifyIfCurrentPageCanBeCached/canPageBeCached)
 		if ($this->_cache->getCaching() === false)
 		{
 			return;
@@ -195,19 +248,83 @@ class PlgSystemCache extends CMSPlugin
 	}
 
 	/**
-	 * Check if the page is excluded from the cache or not.
+	 * Check if the page can be cached according to all conditions.
+	 *
+	 * @return   boolean  True if the page can be cached
+	 *
+	 * @since    4.1
+	 */
+	private static function canPageBeCached(): bool
+	{
+		$app = Factory::getApplication();
+
+		// Only GET requests are cached.
+		if ($app->input->getMethod() !== 'GET')
+		{
+			return false;
+		}
+
+		// Run only when we're on Site Application side
+		if (!$app->isClient('site'))
+		{
+			return false;
+		}
+
+		// If the site is offline, don't do anything
+		if ((bool) $app->get('offline', '0'))
+		{
+			return false;
+		}
+
+		// The user is authenticated
+		if (!$app->getIdentity()->guest) {
+			return false;
+		}
+
+		// If there are messages in the queue, don't cache the page
+		if (!empty($app->getMessageQueue()))
+		{
+			return false;
+		}
+
+		if (self::isExcludedPage()) {
+			return false;
+		}
+
+		return true;
+	}
+
+	/**
+	 * onAfterRoute.
+	 * Only for BC, not used on J4
 	 *
 	 * @return   boolean  True if the page is excluded else false
 	 *
 	 * @since    3.5
 	 */
-	protected function isExcluded()
+	protected static function isExcluded()
 	{
+		return self::isExcludedPage();
+	}
+
+	/**
+	 * Check if the page is excluded from the cache or not.
+	 *
+	 * @return   boolean  True if the page is excluded else false
+	 *
+	 * @since    4.1
+	 */
+	private static function isExcludedPage(): bool
+	{
+		$app = Factory::getApplication();
+		$plugin = PluginHelper::getPlugin('system', 'cache');
+		$params = new Registry($plugin->params);
+
 		// Check if menu items have been excluded.
-		if ($exclusions = $this->params->get('exclude_menu_items', array()))
+		if ($exclusions = $params->get('exclude_menu_items', array()))
 		{
 			// Get the current menu item.
-			$active = $this->app->getMenu()->getActive();
+			$active = $app->getMenu()->getActive();
 
 			if ($active && $active->id && in_array((int) $active->id, (array) $exclusions))
 			{
@@ -216,7 +333,7 @@ class PlgSystemCache extends CMSPlugin
 		}
 
 		// Check if regular expressions are being used.
-		if ($exclusions = $this->params->get('exclude', ''))
+		if ($exclusions = $params->get('exclude', ''))
 		{
 			// Normalize line endings.
 			$exclusions = str_replace(array("\r\n", "\r"), "\n", $exclusions);
@@ -225,7 +342,7 @@ class PlgSystemCache extends CMSPlugin
 			$exclusions = explode("\n", $exclusions);
 
 			// Gets internal URI.
-			$internal_uri	= '/index.php?' . Uri::getInstance()->buildQuery($this->app->getRouter()->getVars());
+			$internalUri = '/index.php?' . Uri::getInstance()->buildQuery($app->getRouter()->getVars());
 
 			// Loop through each pattern.
 			if ($exclusions)
@@ -236,7 +353,7 @@ class PlgSystemCache extends CMSPlugin
 					if ($exclusion !== '')
 					{
 						// Test both external and internal URI
-						if (preg_match('#' . $exclusion . '#i', $this->_cache_key . ' ' . $internal_uri, $match))
+						if (preg_match('#' . $exclusion . '#i', self::simpleCacheKey() . ' ' . $internalUri, $match))
 						{
 							return true;
 						}
@@ -248,8 +365,20 @@ class PlgSystemCache extends CMSPlugin
 		// If any pagecache plugins return true for onPageCacheIsExcluded, exclude.
 		PluginHelper::importPlugin('pagecache');
 
-		$results = $this->app->triggerEvent('onPageCacheIsExcluded');
+		$results = $app->triggerEvent('onPageCacheIsExcluded');
 
 		return in_array(true, $results, true);
+	}
+
+	/**
+	 * Generate the cache key.
+	 *
+	 * @return   string  The cache key
+	 *
+	 * @since    4.1
+	 */
+	private static function simpleCacheKey(): string
+	{
+		return Uri::getInstance()->toString();
 	}
 }
