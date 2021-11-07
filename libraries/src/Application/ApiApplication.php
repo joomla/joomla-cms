@@ -363,7 +363,7 @@ final class ApiApplication extends CMSApplication
 		* Obtain allowed CORS headers from Global Settings.
 		* Set to sensible default if not set.
 		*/
-		$allowedHeaders = $this->get('cors_allowed_headers', 'Content-Type,X-Joomla-Token');
+		$allowedHeaders = $this->get('cors_allow_headers', 'Content-Type,X-Joomla-Token');
 
 		/**
 		* Obtain allowed CORS methods from Global Settings.
