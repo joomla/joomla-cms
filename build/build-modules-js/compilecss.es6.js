@@ -48,10 +48,7 @@ module.exports.stylesheets = async (options, path) => {
   const folderPromises = [];
 
   // Loop to get the files that should be compiled via parameter
-  // eslint-disable-next-line no-restricted-syntax
-  for (const folder of folders) {
-    folderPromises.push(recursive(folder, ['!*.+(scss|css)']));
-  }
+  folders.forEach((folder) => folderPromises.push(recursive(folder, ['!*.+(scss|css)'])));
 
   const computedFiles = await Promise.all(folderPromises);
 
