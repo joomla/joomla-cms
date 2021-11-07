@@ -38,7 +38,7 @@
 			<field
 				name="show_contact_category"
 				type="list"
-				label="COM_CONTACT_FIELD_CONTACT_SHOW_CATEGORY_LABEL1"
+				label="COM_CONTACT_FIELD_CONTACT_SHOW_CATEGORY_LABEL"
 				useglobal="true"
 				class="form-select-color-state"
 				validate="options"
