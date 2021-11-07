@@ -109,6 +109,7 @@ class ContactController extends FormController
 
 		return parent::batch($model);
 	}
+
 	/**
 	 * Function that allows child controller access to model data
 	 * after the data has been saved.
