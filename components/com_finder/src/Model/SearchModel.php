@@ -360,7 +360,7 @@ class SearchModel extends ListModel
 		{
 			$sortOrderFieldValues  = $params->get('shown_sort_order', [], 'array');
 			$defaultSortFieldValue = $params->get('sort_order', '', 'cmd');
-			$queryUri               = Uri::getInstance($this->getQuery()->toUri());
+			$queryUri              = Uri::getInstance($this->getQuery()->toUri());
 
 			// If the default field is not included in the shown sort fields, add it.
 			if (!in_array($defaultSortFieldValue, $sortOrderFieldValues))
@@ -420,7 +420,14 @@ class SearchModel extends ListModel
 			$queryUri->setVar('od', StringHelper::strtolower($direction));
 		}
 
-		$sortField->label      = isset($this->sortOrderFieldsLabels[$value . '.' . $direction]) ? Text::_($this->sortOrderFieldsLabels[$value . '.' . $direction]) : '';
+		$label = '';
+
+		if (isset($this->sortOrderFieldsLabels[$value . '.' . $direction]))
+		{
+			$label = Text::_($this->sortOrderFieldsLabels[$value . '.' . $direction]);
+		}
+
+		$sortField->label      = $label;
 		$sortField->url        = $queryUri->toString();
 		$currentSortOrderField = $app->getInput()->getWord('o', $app->getParams()->get('sort_order', 'relevance'));
 		$sortField->active     = false;
