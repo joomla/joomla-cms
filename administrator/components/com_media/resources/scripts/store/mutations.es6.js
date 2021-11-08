@@ -18,6 +18,7 @@ export default {
      */
   [types.SELECT_DIRECTORY]: (state, payload) => {
     state.selectedDirectory = payload;
+    state.search = '';
   },
 
   /**
