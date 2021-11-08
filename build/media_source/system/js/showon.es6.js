@@ -199,8 +199,10 @@ class Showon {
       if (field.tagName !== 'option') {
         if (showfield) {
           field.classList.remove('hidden');
+          document.dispatchEvent(new CustomEvent('showon-show'));
         } else {
           field.classList.add('hidden');
+          document.dispatchEvent(new CustomEvent('showon-hide'));
         }
       } else {
         // TODO: If chosen or choices.js is active we should update them
