@@ -200,12 +200,12 @@ class Showon {
         if (showfield) {
           field.classList.remove('hidden');
           field.dispatchEvent(new CustomEvent('joomla:showon-show'), {
-            bubbles: true
+            bubbles: true,
           });
         } else {
           field.classList.add('hidden');
           field.dispatchEvent(new CustomEvent('joomla:showon-hide'), {
-            bubbles: true
+            bubbles: true,
           });
         }
       } else {
