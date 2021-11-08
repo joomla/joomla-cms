@@ -87,7 +87,7 @@ class PlgSystemCache extends CMSPlugin implements SubscriberInterface
 		}
 
 		return [
-			'onAfterRender' => 'verifyIfCurrentPageCanBeCached',
+			'onAfterRender' => 'verifyThatCurrentPageCanBeCached',
 			'onAfterRoute' => 'dumpCachedPage',
 			'onAfterRespond' => 'storePage',
 		];
@@ -188,21 +188,20 @@ class PlgSystemCache extends CMSPlugin implements SubscriberInterface
 	 */
 	public function onAfterRender()
 	{
-		$this->verifyIfCurrentPageCanBeCached();
+		$this->verifyThatCurrentPageCanBeCached();
 	}
 
 	/**
-	 * Verify if current page is not excluded from cache.
+	 * Verify that current page is not excluded from cache.
 	 *
 	 * @return   void
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function verifyIfCurrentPageCanBeCached()
+	public function verifyThatCurrentPageCanBeCached()
 	{
-		// We need to check if user is guest again here,
-		// 	because auto-login plugins have not been fired before the first aid check.
-		// Page is excluded if excluded in plugin settings.
+		// Check if the user is a guest again because auto-login plugins
+		// 	have not been fired when getSubscribedEvents was called.
 		if (!$this->canPageBeCached())
 		{
 			$this->_cache->setCaching(false);
@@ -237,7 +236,7 @@ class PlgSystemCache extends CMSPlugin implements SubscriberInterface
 	 */
 	public function storePage()
 	{
-		// if it can't be cached due to execution conditions (check verifyIfCurrentPageCanBeCached/canPageBeCached)
+		// if it can't be cached due to execution conditions (check verifyThatCurrentPageCanBeCached/canPageBeCached)
 		if ($this->_cache->getCaching() === false)
 		{
 			return;
