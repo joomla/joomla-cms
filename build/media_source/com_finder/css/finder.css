@@ -125,3 +125,25 @@
   pointer-events: none;
   border-radius: 3px;
 }
+
+/**
+ * Styling the sorting drop-down
+ */
+#sorting_btn {
+  min-width: 8rem;
+}
+
+.sorting__list-li {
+  display: block;
+  padding: .5rem 0;
+  text-align: start;
+}
+
+.sorting__list-li-active {
+  background-color: #f0f0f0;
+}
+
+.sorting__link {
+  padding: .5rem;
+  text-decoration: none;
+}
