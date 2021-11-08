@@ -78,7 +78,7 @@ class PlgSystemCache extends CMSPlugin implements SubscriberInterface
 	 *
 	 * @return  array
 	 *
-	 * @since   4.1.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public static function getSubscribedEvents(): array
 	{
@@ -135,7 +135,7 @@ class PlgSystemCache extends CMSPlugin implements SubscriberInterface
 	 *
 	 * @return  void
 	 *
-	 * @since   4.1
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function dumpCachedPage()
 	{
@@ -196,7 +196,7 @@ class PlgSystemCache extends CMSPlugin implements SubscriberInterface
 	 *
 	 * @return   void
 	 *
-	 * @since   4.1
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function verifyIfCurrentPageCanBeCached()
 	{
@@ -252,7 +252,7 @@ class PlgSystemCache extends CMSPlugin implements SubscriberInterface
 	 *
 	 * @return   boolean  True if the page can be cached
 	 *
-	 * @since    4.1
+	 * @since    __DEPLOY_VERSION__
 	 */
 	private static function canPageBeCached(): bool
 	{
@@ -312,7 +312,7 @@ class PlgSystemCache extends CMSPlugin implements SubscriberInterface
 	 *
 	 * @return   boolean  True if the page is excluded else false
 	 *
-	 * @since    4.1
+	 * @since    __DEPLOY_VERSION__
 	 */
 	private static function isExcludedPage(): bool
 	{
@@ -375,7 +375,7 @@ class PlgSystemCache extends CMSPlugin implements SubscriberInterface
 	 *
 	 * @return   string  The cache key
 	 *
-	 * @since    4.1
+	 * @since    __DEPLOY_VERSION__
 	 */
 	private static function simpleCacheKey(): string
 	{
