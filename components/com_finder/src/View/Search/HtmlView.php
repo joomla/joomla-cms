@@ -132,6 +132,8 @@ class HtmlView extends BaseHtmlView
 		\JDEBUG ? Profiler::getInstance('Application')->mark('afterFinderQuery') : null;
 		$this->results = $this->get('Items');
 		\JDEBUG ? Profiler::getInstance('Application')->mark('afterFinderResults') : null;
+		$this->sortOrderFields = $this->get('sortOrderFields');
+		\JDEBUG ? Profiler::getInstance('Application')->mark('afterFinderSortOrderFields') : null;
 		$this->total = $this->get('Total');
 		\JDEBUG ? Profiler::getInstance('Application')->mark('afterFinderTotal') : null;
 		$this->pagination = $this->get('Pagination');

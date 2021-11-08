@@ -13,6 +13,7 @@ namespace Joomla\Component\Finder\Site\Model;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Multilanguage;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Uri\Uri;
@@ -51,10 +52,13 @@ class SearchModel extends ListModel
 	 * @since __DEPLOY_VERSION__
 	 */
 	protected $sortOrderFieldsLabels = [
-		'relevance' => 'COM_FINDER_CONFIG_SORT_OPTION_RELEVANCE',
-		'title' => 'COM_FINDER_CONFIG_SORT_OPTION_TITLE',
-		'date' => 'COM_FINDER_CONFIG_SORT_OPTION_START_DATE',
-		'price' => 'COM_FINDER_CONFIG_SORT_OPTION_LIST_PRICE'
+		'relevance.desc' => 'COM_FINDER_SORT_BY_RELEVANCE',
+		'title.asc' => 'JGLOBAL_TITLE_ASC',
+		'title.desc' => 'JGLOBAL_TITLE_DESC',
+		'date.asc' => 'JDATE_ASC',
+		'date.desc' => 'JDATE_DESC',
+		'price.asc' => 'COM_FINDER_SORT_BY_PRICE_ASC',
+		'price.desc' => 'COM_FINDER_SORT_BY_PRICE_DESC'
 	];
 
 	/**
@@ -340,14 +344,15 @@ class SearchModel extends ListModel
 	/**
 	 * Method to get the available sorting fields.
 	 *
-	 * @return array|mixed
+	 * @return  array   The sorting field objects.
 	 *
-	 * @throws \Exception
-	 * @since __DEPLOY_VERSION__
+	 * @throws  \Exception
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function getSortOrderFields()
 	{
 		$sortOrderFields = [];
+		$directions      = ['asc', 'desc'];
 		$app             = Factory::getApplication();
 		$params          = $app->getParams();
 
@@ -355,7 +360,7 @@ class SearchModel extends ListModel
 		{
 			$sortOrderFieldValues  = $params->get('shown_sort_order', [], 'array');
 			$defaultSortFieldValue = $params->get('sort_order', '', 'cmd');
-			$baseUri               = Uri::getInstance($this->getQuery()->toUri());
+			$queryUri               = Uri::getInstance($this->getQuery()->toUri());
 
 			// If the default field is not included in the shown sort fields, add it.
 			if (!in_array($defaultSortFieldValue, $sortOrderFieldValues))
@@ -365,7 +370,16 @@ class SearchModel extends ListModel
 
 			foreach ($sortOrderFieldValues as $sortOrderFieldValue)
 			{
-				$sortOrderFields[] = $this->getSortField($sortOrderFieldValue, $baseUri);
+				foreach ($directions as $direction)
+				{
+					// The relevance has only descending direction.
+					if ($sortOrderFieldValue === 'relevance' && $direction === 'asc')
+					{
+						continue;
+					}
+
+					$sortOrderFields[] = $this->getSortField($sortOrderFieldValue, $direction, $queryUri);
+				}
 			}
 		}
 
@@ -381,30 +395,40 @@ class SearchModel extends ListModel
 	/**
 	 * Method to generate and return a sorting field
 	 *
-	 * @param   string  $value    The value based on which the results will be sorted
-	 * @param   Uri     $baseUri  The uri of the search query
+	 * @param   string  $value      The value based on which the results will be sorted.
+	 * @param   string  $direction  The sorting direction ('asc' or 'desc').
+	 * @param   Uri     $queryUri   The uri of the search query.
 	 *
-	 * @return \stdClass
+	 * @return  \stdClass   The sorting field object.
 	 *
-	 * @throws \Exception
-	 * @since __DEPLOY_VERSION__
+	 * @throws  \Exception
+	 * @since   __DEPLOY_VERSION__
 	 */
-	protected function getSortField(string $value, Uri $baseUri)
+	protected function getSortField(string $value, string $direction, Uri $queryUri)
 	{
 		$sortField = new \stdClass;
 		$app       = Factory::getApplication();
-		$baseUri->setVar('o', $value);
-		$orderingDirection = $app->getInput()->getWord('od', '');
 
-		if ($orderingDirection)
+		// We have to clone the query uri. Otherwise the next elements will use the same.
+		$queryUri = clone $queryUri;
+		$queryUri->setVar('o', $value);
+		$currentOrderingDirection = $app->getInput()->getWord('od', $app->getParams()->get('sort_direction', 'desc'));
+
+		// Validate the sorting direction and add it only if it is different than the set in the params.
+		if (in_array($direction, ['asc', 'desc']) && $direction != $app->getParams()->get('sort_direction', 'desc'))
 		{
-			$baseUri->setVar('od', StringHelper::strtolower($orderingDirection));
+			$queryUri->setVar('od', StringHelper::strtolower($direction));
 		}
 
-		$sortField->label      = $this->sortOrderFieldsLabels[$value] ?? $value;
-		$sortField->url        = $baseUri->toString();
+		$sortField->label      = isset($this->sortOrderFieldsLabels[$value . '.' . $direction]) ? Text::_($this->sortOrderFieldsLabels[$value . '.' . $direction]) : '';
+		$sortField->url        = $queryUri->toString();
 		$currentSortOrderField = $app->getInput()->getWord('o', $app->getParams()->get('sort_order', 'relevance'));
-		$sortField->active     = $value === StringHelper::strtolower($currentSortOrderField) ? true : false;
+		$sortField->active     = false;
+
+		if ($value === StringHelper::strtolower($currentSortOrderField) && $direction === $currentOrderingDirection)
+		{
+			$sortField->active = true;
+		}
 
 		return $sortField;
 	}
