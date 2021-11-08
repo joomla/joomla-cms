@@ -121,12 +121,15 @@ class PlgSystemCache extends CMSPlugin implements SubscriberInterface
 	 * onAfterRoute.
 	 * Only for BC, not used on J4
 	 *
-	 * @return  void
+	 * @return  	void
 	 *
-	 * @since   4.0.0
+	 * @since   	4.0.0
+	 * @deprecated  5.0 Use \Joomla\Event\SubscriberInterface instead
 	 */
 	public function onAfterRoute()
 	{
+		@trigger_error('The '.__METHOD__.' method is deprecated since version 4.1. Use SubscriberInterface instead.', E_USER_DEPRECATED);
+
 		$this->dumpCachedPage();
 	}
 
@@ -182,12 +185,15 @@ class PlgSystemCache extends CMSPlugin implements SubscriberInterface
 	 * onAfterRender.
 	 * Only for BC, not used on J4.
 	 *
-	 * @return   void
+	 * @return   	void
 	 *
-	 * @since   3.9.12
+	 * @since   	3.9.12
+	 * @deprecated  5.0 Use \Joomla\Event\SubscriberInterface instead
 	 */
 	public function onAfterRender()
 	{
+		@trigger_error('The '.__METHOD__.' method is deprecated since version 4.1. Use SubscriberInterface instead.', E_USER_DEPRECATED);
+
 		$this->verifyThatCurrentPageCanBeCached();
 	}
 
@@ -217,12 +223,15 @@ class PlgSystemCache extends CMSPlugin implements SubscriberInterface
 	 * onAfterRespond.
 	 * Only for BC, not used on J4
 	 *
-	 * @return   void
+	 * @return		void
 	 *
-	 * @since   1.5
+	 * @since	  	1.5
+	 * @deprecated  5.0 Use \Joomla\Event\SubscriberInterface instead
 	 */
 	public function onAfterRespond()
 	{
+		@trigger_error('The '.__METHOD__.' method is deprecated since version 4.1. Use SubscriberInterface instead.', E_USER_DEPRECATED);
+
 		$this->storePage();
 	}
 
