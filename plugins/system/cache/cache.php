@@ -78,7 +78,7 @@ class PlgSystemCache extends CMSPlugin implements SubscriberInterface
 	 *
 	 * @return  array
 	 *
-	 * @since   4.0.0
+	 * @since   4.1.0
 	 */
 	public static function getSubscribedEvents(): array
 	{
