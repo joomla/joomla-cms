@@ -176,7 +176,7 @@ class PlgSystemSchedulerunner extends CMSPlugin implements SubscriberInterface
 			ignore_user_abort(true);
 		}
 
-		// Supress all errors to avoid any output
+		// Suppress all errors to avoid any output
 		try
 		{
 			$this->runScheduler();
@@ -212,7 +212,7 @@ class PlgSystemSchedulerunner extends CMSPlugin implements SubscriberInterface
 			throw new \Exception(Text::_('JERROR_ALERTNOAUTHOR'), 403);
 		}
 
-		$id = (int) $this->app->input->getInt('id');
+		$id = (int) $this->app->input->getInt('id', 0);
 
 		$this->runScheduler($id);
 	}
@@ -232,6 +232,7 @@ class PlgSystemSchedulerunner extends CMSPlugin implements SubscriberInterface
 	public function runTestCron(Event $event)
 	{
 		$id = (int) $this->app->input->getInt('id');
+		$allowConcurrent = $this->app->input->getBool('allowConcurrent', false);
 
 		$user = Factory::getApplication()->getIdentity();
 
@@ -240,19 +241,37 @@ class PlgSystemSchedulerunner extends CMSPlugin implements SubscriberInterface
 			throw new \Exception(Text::_('JERROR_ALERTNOAUTHOR'), 403);
 		}
 
-		$task = $this->runScheduler($id, true);
+		// About allow simultaneous, how do we detect if it failed because of pre-existing lock?
+		$task = (new Scheduler)->getTask(
+			[
+				'id' => $id,
+				'allowDisabled' => true,
+				'bypassScheduling' => true,
+				'allowConcurrent' => $allowConcurrent
+			]
+		);
 
-		if ($task)
+		if (!is_null($task))
 		{
+			$task->run();
 			$event->addArgument('result', $task->getContent());
+		}
+
+		else
+		{
+			/*
+			 * Placeholder result, but the idea is if we failed to fetch the task, its likely because another task was
+			 * already running. This is a fair assumption if this test run was triggered through the administrator backend,
+			 * so we know the task probably exists and is either enabled/disabled (not trashed, todo: check if button is disabled on trash view).
+			 */
+			$event->addArgument('result', ['message' => 'could not acquire lock on task. retry or allow concurrency.']);
 		}
 	}
 
 	/**
 	 * Run the scheduler, allowing execution of a single due task.
 	 *
-	 * @param   integer  $id           The optional ID of the task to run
-	 * @param   boolean  $unpublished  Allow execution of unpublished tasks?
+	 * @param   integer  $id  The optional ID of the task to run
 	 *
 	 * @return Task|boolean
 	 *
@@ -260,9 +279,9 @@ class PlgSystemSchedulerunner extends CMSPlugin implements SubscriberInterface
 	 * @throws AssertionFailedException
 	 *
 	 */
-	protected function runScheduler(int $id = 0, bool $unpublished = false): ?Task
+	protected function runScheduler(int $id = 0): ?Task
 	{
-		return (new Scheduler)->runTask($id, $unpublished);
+		return (new Scheduler)->runTask($id);
 	}
 
 	/**
