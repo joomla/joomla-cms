@@ -7,9 +7,9 @@
   border-radius: $border-radius-sm;
 
   &.alert-info {
-    color: var(--atum-bg-dark);
-    background-color: var(--atum-bg-dark-10);
-    border: 1px solid var(--atum-bg-dark-20);
+    color: var(--template-bg-dark);
+    background-color: var(--template-bg-dark-10);
+    border: 1px solid var(--template-bg-dark-20);
   }
 
   &.alert-warning {

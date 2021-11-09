@@ -162,7 +162,7 @@ class HtmlView extends BaseHtmlView
 			}
 		}
 
-		if ($this->state->get('filter.state') == -2 && $canDo->get('core.delete'))
+		if (!$this->isEmptyState && $this->state->get('filter.state') == -2 && $canDo->get('core.delete'))
 		{
 			$toolbar->delete('clients.delete')
 				->text('JTOOLBAR_EMPTY_TRASH')
@@ -175,6 +175,6 @@ class HtmlView extends BaseHtmlView
 			$toolbar->preferences('com_banners');
 		}
 
-		$toolbar->help('JHELP_COMPONENTS_BANNERS_CLIENTS');
+		$toolbar->help('Banners:_Clients');
 	}
 }

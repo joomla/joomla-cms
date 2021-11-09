@@ -152,6 +152,6 @@ class HtmlView extends BaseHtmlView
 		$toolbar->cancel('template.cancel', 'JTOOLBAR_CLOSE');
 
 		$toolbar->divider();
-		$toolbar->help('JHELP_COMPONENTS_MAILS_TEMPLATE_EDIT');
+		$toolbar->help('Mail_Template:_Edit');
 	}
 }

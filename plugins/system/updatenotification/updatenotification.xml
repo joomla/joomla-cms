@@ -13,8 +13,8 @@
 		<filename plugin="updatenotification">updatenotification.php</filename>
 	</files>
 	<languages folder="language">
-		<language tag="en-GB">en-GB.plg_system_updatenotification.ini</language>
-		<language tag="en-GB">en-GB.plg_system_updatenotification.sys.ini</language>
+		<language tag="en-GB">language/en-GB/plg_system_updatenotification.ini</language>
+		<language tag="en-GB">language/en-GB/plg_system_updatenotification.sys.ini</language>
 	</languages>
 	<config>
 		<fields name="params">

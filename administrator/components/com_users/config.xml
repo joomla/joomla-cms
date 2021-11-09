@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <config>
+	<help key="Users:_Options"/>
 	<fieldset
 		name="user_options"
 		label="COM_USERS_CONFIG_USER_OPTIONS" >
@@ -123,6 +124,16 @@
 			<option value="2">COM_USERS_CONFIG_FIELD_ENFORCE_2FA_FIELD_ADMIN</option>
 			<option value="3">COM_USERS_CONFIG_FIELD_ENFORCE_2FA_FIELD_BOTH</option>
 		</field>
+
+		<field
+			name="enforce_2fa_usergroups"
+			type="usergrouplist"
+			label="COM_USERS_CONFIG_FIELD_ENFORCE_2FA_GROUPS_LABEL"
+			multiple="true"
+			filter="int_array"
+			size="10"
+			showon="enforce_2fa_options!:0"
+		/>
 
 	</fieldset>
 

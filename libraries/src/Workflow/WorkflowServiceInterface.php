@@ -89,4 +89,15 @@ interface WorkflowServiceInterface
 	 * @since   4.0.0
 	 */
 	public function getWorkflowContexts(): array;
+
+	/**
+	 * Returns the workflow context based on the given category section
+	 *
+	 * @param   string  $section  The section
+	 *
+	 * @return  string|null
+	 *
+	 * @since   4.0.0
+	 */
+	public function getCategoryWorkflowContext(?string $section = null): string;
 }

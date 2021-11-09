@@ -7,7 +7,7 @@
     <div class="media-browser-item-preview">
       <div class="file-background">
         <div class="file-icon">
-          <span class="icon-file-alt" />
+          <span class="fas fa-file-video" />
         </div>
       </div>
     </div>
@@ -175,6 +175,14 @@ export default {
       showActions: false,
     };
   },
+  watch: {
+    // eslint-disable-next-line
+    '$store.state.showRenameModal'(show) {
+      if (!show && this.$refs.actionToggle && this.$store.state.selectedItems.find((item) => item.name === this.item.name) !== undefined) {
+        this.$refs.actionToggle.focus();
+      }
+    },
+  },
   methods: {
     /* Preview an item */
     openPreview() {
@@ -193,6 +201,7 @@ export default {
     },
     /* Rename an item */
     openRenameModal() {
+      this.hideActions();
       this.$store.commit(types.SELECT_BROWSER_ITEM, this.item);
       this.$store.commit(types.SHOW_RENAME_MODAL);
     },
@@ -214,7 +223,6 @@ export default {
     /* Hide actions dropdown */
     hideActions() {
       this.showActions = false;
-      this.$nextTick(() => this.$refs.actionToggle.focus());
     },
   },
 };

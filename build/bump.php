@@ -36,47 +36,48 @@ function usage($command)
 const PHP_TAB = "\t";
 
 // File paths.
-$versionFile      = '/libraries/src/Version.php';
+$versionFile = '/libraries/src/Version.php';
 
-$coreXmlFiles     = array(
-			'/administrator/manifests/files/joomla.xml',
-			);
+$coreXmlFiles = array(
+	'/administrator/manifests/files/joomla.xml',
+);
 
 $languageXmlFiles = array(
-			'/language/en-GB/langmetadata.xml',
-			'/language/en-GB/install.xml',
-			'/administrator/language/en-GB/langmetadata.xml',
-			'/administrator/language/en-GB/install.xml',
-			'/installation/language/en-GB/en-GB.xml',
-			'/api/language/en-GB/langmetadata.xml'
-			);
+	'/language/en-GB/langmetadata.xml',
+	'/language/en-GB/install.xml',
+	'/administrator/language/en-GB/langmetadata.xml',
+	'/administrator/language/en-GB/install.xml',
+	'/installation/language/en-GB/langmetadata.xml',
+	'/api/language/en-GB/langmetadata.xml',
+	'/api/language/en-GB/install.xml',
+);
 
 $languagePackXmlFile = '/administrator/manifests/packages/pkg_en-GB.xml';
 
 $antJobFile = '/build.xml';
 
 $readMeFiles = array(
-			'/README.md',
-			'/README.txt',
-			);
+	'/README.md',
+	'/README.txt',
+);
 
 /*
  * Change copyright date exclusions.
  * Some systems may try to scan the .git directory, exclude it.
- * Also exclude build resources such as the packaging space or the API documentation build.
+ * Also exclude build resources such as the packaging space or the API documentation build
+ * as well as external libraries.
  */
 $directoryLoopExcludeDirectories = array(
-			'/.git',
-			'/build/api/',
-			'/build/coverage/',
-			'/build/tmp/',
-			'/libraries/vendor/',
-			'/libraries/php-encryption/',
-			'/libraries/phpass/',
-			);
+	'/.git',
+	'/build/api/',
+	'/build/coverage/',
+	'/build/tmp/',
+	'/libraries/vendor/',
+	'/libraries/php-encryption/',
+	'/libraries/phpass/',
+);
 
-$directoryLoopExcludeFiles = array(
-			);
+$directoryLoopExcludeFiles = array();
 
 // Check arguments (exit if incorrect cli arguments).
 $opts = getopt("v:c:");
@@ -155,20 +156,20 @@ else
 $versionSubParts = explode('.', $versionParts[0]);
 
 $version = array(
-		'main'       => $versionSubParts[0] . '.' . $versionSubParts[1],
-		'major'      => $versionSubParts[0],
-		'minor'      => $versionSubParts[1],
-		'patch'      => $versionSubParts[2],
-		'extra'      => (!empty($versionParts[1]) ? $versionParts[1] : '') . (!empty($versionParts[2]) ? (!empty($versionParts[1]) ? '-' : '') . $versionParts[2] : ''),
-		'release'    => $versionSubParts[0] . '.' . $versionSubParts[1] . '.' . $versionSubParts[2],
-		'dev_devel'  => $versionSubParts[2] . (!empty($versionParts[1]) ? '-' . $versionParts[1] : '') . (!empty($versionParts[2]) ? '-' . $versionParts[2] : ''),
-		'dev_status' => $dev_status,
-		'build'      => '',
-		'reldate'    => date('j-F-Y'),
-		'reltime'    => date('H:i'),
-		'reltz'      => 'GMT',
-		'credate'    => date('F Y'),
-		);
+	'main'       => $versionSubParts[0] . '.' . $versionSubParts[1],
+	'major'      => $versionSubParts[0],
+	'minor'      => $versionSubParts[1],
+	'patch'      => $versionSubParts[2],
+	'extra'      => (!empty($versionParts[1]) ? $versionParts[1] : '') . (!empty($versionParts[2]) ? (!empty($versionParts[1]) ? '-' : '') . $versionParts[2] : ''),
+	'release'    => $versionSubParts[0] . '.' . $versionSubParts[1] . '.' . $versionSubParts[2],
+	'dev_devel'  => $versionSubParts[2] . (!empty($versionParts[1]) ? '-' . $versionParts[1] : '') . (!empty($versionParts[2]) ? '-' . $versionParts[2] : ''),
+	'dev_status' => $dev_status,
+	'build'      => '',
+	'reldate'    => date('j-F-Y'),
+	'reltime'    => date('H:i'),
+	'reltz'      => 'GMT',
+	'credate'    => date('F Y'),
+);
 
 // Version Codename.
 if (!empty($opts['c']))
@@ -178,21 +179,23 @@ if (!empty($opts['c']))
 
 // Prints version information.
 echo PHP_EOL;
-echo 'Version data:'. PHP_EOL;
+echo 'Version data:' . PHP_EOL;
 echo '- Main:' . PHP_TAB . PHP_TAB . PHP_TAB . $version['main'] . PHP_EOL;
 echo '- Release:' . PHP_TAB . PHP_TAB . $version['release'] . PHP_EOL;
-echo '- Full:'  . PHP_TAB . PHP_TAB . PHP_TAB . $version['main'] . '.' . $version['dev_devel'] . PHP_EOL;
+echo '- Full:' . PHP_TAB . PHP_TAB . PHP_TAB . $version['main'] . '.' . $version['dev_devel'] . PHP_EOL;
 echo '- Build:' . PHP_TAB . PHP_TAB . $version['build'] . PHP_EOL;
 echo '- Dev Level:' . PHP_TAB . PHP_TAB . $version['dev_devel'] . PHP_EOL;
 echo '- Dev Status:' . PHP_TAB . PHP_TAB . $version['dev_status'] . PHP_EOL;
 echo '- Release date:' . PHP_TAB . PHP_TAB . $version['reldate'] . PHP_EOL;
 echo '- Release time:' . PHP_TAB . PHP_TAB . $version['reltime'] . PHP_EOL;
-echo '- Release timezone:'  . PHP_TAB . $version['reltz'] . PHP_EOL;
+echo '- Release timezone:' . PHP_TAB . $version['reltz'] . PHP_EOL;
 echo '- Creation date:' . PHP_TAB . $version['credate'] . PHP_EOL;
+
 if (!empty($version['codename']))
 {
 	echo '- Codename:' . PHP_TAB . PHP_TAB . $version['codename'] . PHP_EOL;
 }
+
 echo PHP_EOL;
 
 $rootPath = dirname(__DIR__);
@@ -212,10 +215,12 @@ if (file_exists($rootPath . $versionFile))
 	$fileContents = preg_replace("#RELDATE\s*=\s*'[^\']*'#", "RELDATE = '" . $version['reldate'] . "'", $fileContents);
 	$fileContents = preg_replace("#RELTIME\s*=\s*'[^\']*'#", "RELTIME = '" . $version['reltime'] . "'", $fileContents);
 	$fileContents = preg_replace("#RELTZ\s*=\s*'[^\']*'#", "RELTZ = '" . $version['reltz'] . "'", $fileContents);
+
 	if (!empty($version['codename']))
 	{
 		$fileContents = preg_replace("#CODENAME\s*=\s*'[^\']*'#", "CODENAME = '" . $version['codename'] . "'", $fileContents);
 	}
+
 	file_put_contents($rootPath . $versionFile, $fileContents);
 }
 
@@ -274,8 +279,8 @@ foreach ($readMeFiles as $readMeFile)
 
 $changedFilesSinceVersion  = 0;
 $year                      = date('Y');
-$directory                 = new \RecursiveDirectoryIterator($rootPath);
-$iterator                  = new \RecursiveIteratorIterator($directory, RecursiveIteratorIterator::SELF_FIRST);
+$directory                 = new RecursiveDirectoryIterator($rootPath);
+$iterator                  = new RecursiveIteratorIterator($directory, RecursiveIteratorIterator::SELF_FIRST);
 
 foreach ($iterator as $file)
 {

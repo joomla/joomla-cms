@@ -61,7 +61,7 @@ class ItemModel extends AdminModel
 	 * @var    string  The help screen key for the menu item.
 	 * @since  1.6
 	 */
-	protected $helpKey = 'JHELP_MENUS_MENU_ITEM_MANAGER_EDIT';
+	protected $helpKey = 'Menu_Item:_New_Item';
 
 	/**
 	 * @var    string  The help screen base URL for the menu item.
@@ -1248,7 +1248,7 @@ class ItemModel extends AdminModel
 		else
 		{
 			// We don't have a component. Load the form XML to get the help path
-			$xmlFile = Path::find(JPATH_ADMINISTRATOR . '/components/com_menus/models/forms', $typeFile . '.xml');
+			$xmlFile = Path::find(JPATH_ADMINISTRATOR . '/components/com_menus/forms', $typeFile . '.xml');
 
 			if ($xmlFile)
 			{

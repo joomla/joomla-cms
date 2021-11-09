@@ -94,7 +94,7 @@ class HtmlView extends BaseHtmlView
 	 *
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
 	 *
-	 * @return  mixed  A string if successful, otherwise an Error object.
+	 * @return  void
 	 *
 	 * @since  4.0.0
 	 */
@@ -125,7 +125,7 @@ class HtmlView extends BaseHtmlView
 
 		$this->addToolbar();
 
-		return parent::display($tpl);
+		parent::display($tpl);
 	}
 
 	/**
@@ -190,6 +190,6 @@ class HtmlView extends BaseHtmlView
 			$toolbar->preferences($this->extension);
 		}
 
-		$toolbar->help('JHELP_COMPONENTS_WORKFLOW_WORKFLOWS_LIST');
+		$toolbar->help('Workflows_List');
 	}
 }

@@ -265,11 +265,19 @@
       const ids = {}; // Collect id for fix checkboxes and radio
 
       // Filter out nested
-      haveName = [].slice.call(haveName).filter((el) => el.closest('joomla-field-subform') === this);
+      haveName = [].slice.call(haveName).filter((el) => {
+        if (el.nodeName === 'JOOMLA-FIELD-SUBFORM') {
+          // Skip self in .closest() call
+          return el.parentElement.closest('joomla-field-subform') === this;
+        }
+
+        return el.closest('joomla-field-subform') === this;
+      });
 
       haveName.forEach((elem) => {
         const $el = elem;
         const name = $el.getAttribute('name');
+        const aria = $el.getAttribute('aria-describedby');
         const id = name
           .replace(/(\[\]$)/g, '')
           .replace(/(\]\[)/g, '__')
@@ -333,6 +341,10 @@
         $el.name = nameNew;
         if ($el.id) {
           $el.id = idNew;
+        }
+
+        if (aria) {
+          $el.setAttribute('aria-describedby', `${nameNew}-desc`);
         }
 
         // Check if there is a label for this input

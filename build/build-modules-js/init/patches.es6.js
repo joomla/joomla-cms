@@ -21,13 +21,12 @@ module.exports.patchPackages = async (options) => {
   ChosenJs = ChosenJs.replace('}).call(this);', `  document.AbstractChosen = AbstractChosen;
   document.Chosen = Chosen;
 }).call(this);`);
-  await writeFile(chosenPath, ChosenJs, { encoding: 'utf8' });
+  await writeFile(chosenPath, ChosenJs, { encoding: 'utf8', mode: 0o644 });
 
   // Append initialising code to the end of the Short-and-Sweet javascript
   dest = join(mediaVendorPath, 'short-and-sweet');
   const shortandsweetPath = `${dest}/${options.settings.vendors['short-and-sweet'].js['dist/short-and-sweet.min.js']}`;
   let ShortandsweetJs = await readFile(shortandsweetPath, { encoding: 'utf8' });
-  ShortandsweetJs = ShortandsweetJs.concat('document.addEventListener(\'DOMContentLoaded\', function()'
-      + '{shortAndSweet(\'textarea.charcount\', {counterClassName: \'small text-muted\'}); });');
-  await writeFile(shortandsweetPath, ShortandsweetJs, { encoding: 'utf8' });
+  ShortandsweetJs = ShortandsweetJs.concat('shortAndSweet(\'textarea.charcount\', {counterClassName: \'small text-muted\'});');
+  await writeFile(shortandsweetPath, ShortandsweetJs, { encoding: 'utf8', mode: 0o644 });
 };

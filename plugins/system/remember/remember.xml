@@ -13,7 +13,7 @@
 		<filename plugin="remember">remember.php</filename>
 	</files>
 	<languages>
-		<language tag="en-GB">en-GB.plg_system_remember.ini</language>
-		<language tag="en-GB">en-GB.plg_system_remember.sys.ini</language>
+		<language tag="en-GB">language/en-GB/plg_system_remember.ini</language>
+		<language tag="en-GB">language/en-GB/plg_system_remember.sys.ini</language>
 	</languages>
 </extension>
