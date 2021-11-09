@@ -3,7 +3,6 @@
 	<fields name="params">
 		<fieldset name="menu-options" label="COM_MENUS_LINKTYPE_OPTIONS_LABEL"
 		>
-
 			<field
 				name="menu-anchor_title"
 				type="text"
@@ -14,6 +13,14 @@
 				name="menu-anchor_css"
 				type="text"
 				label="COM_MENUS_ITEM_FIELD_ANCHOR_CSS_LABEL"
+				validate="CssIdentifier"
+			/>
+
+			<field
+				name="menu_icon_css"
+				type="text"
+				label="COM_MENUS_ITEM_FIELD_ICON_TITLE_LABEL"
+				description="COM_MENUS_ITEM_FIELD_ICON_TITLE_DESC"
 				validate="CssIdentifier"
 			/>
 
