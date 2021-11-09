@@ -34,7 +34,7 @@ class Templates
 	 *
 	 * @since   1.6
 	 *
-	 * @deprecated  5.0  $template will be obeject type only and $clientId will be removed
+	 * @deprecated  5.0  $template should be object and $clientId will be removed
 	 */
 	public function thumb($template, $clientId = 0)
 	{
@@ -87,9 +87,9 @@ class Templates
 	 *
 	 * @return  string  The html string
 	 *
-	 * @since   1.6
+	 * @since   3.4
 	 *
-	 * @deprecated  5.0  $template will be obeject type only and $clientId will be removed
+	 * @deprecated  5.0  $template should be object and $clientId will be removed
 	 */
 	public function thumbModal($template, $clientId = 0)
 	{
