@@ -173,6 +173,7 @@ class Scheduler
 
 		try
 		{
+			/** @var SchedulerComponent $component */
 			$component = Factory::getApplication()->bootComponent('com_scheduler');
 
 			/** @var TaskModel $model */
@@ -184,7 +185,7 @@ class Scheduler
 
 		if (!isset($model))
 		{
-			throw new \RunTimeException('JLIB_APPLICATION_ERROR_MODEL_CREATE');
+			throw new \RuntimeException('JLIB_APPLICATION_ERROR_MODEL_CREATE');
 		}
 
 		$task = $model->getTask($options);
@@ -207,6 +208,7 @@ class Scheduler
 	 * @return ?object  A matching task record, if it exists
 	 *
 	 * @since __DEPLOY_VERSION__
+	 * @throws \RuntimeException
 	 */
 	public function fetchTaskRecord(int $id = 0, bool $unpublished = false): ?object
 	{
@@ -251,6 +253,7 @@ class Scheduler
 
 		try
 		{
+			/** @var SchedulerComponent $component */
 			$component = Factory::getApplication()->bootComponent('com_scheduler');
 
 			/** @var TasksModel $model */
@@ -263,7 +266,7 @@ class Scheduler
 
 		if (!$model)
 		{
-			throw new \RunTimeException('JLIB_APPLICATION_ERROR_MODEL_CREATE');
+			throw new \RuntimeException('JLIB_APPLICATION_ERROR_MODEL_CREATE');
 		}
 
 		$model->setState('list.select', '*');
