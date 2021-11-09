@@ -25,6 +25,10 @@ use Joomla\CMS\Table\Table;
 use Joomla\Component\Scheduler\Administrator\Helper\ExecRuleHelper;
 use Joomla\Component\Scheduler\Administrator\Helper\SchedulerHelper;
 use Joomla\Database\ParameterType;
+use Symfony\Component\OptionsResolver\Exception\AccessException;
+use Symfony\Component\OptionsResolver\Exception\InvalidOptionsException;
+use Symfony\Component\OptionsResolver\Exception\UndefinedOptionsException;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
  * MVC Model to interact with the Scheduler DB.
@@ -41,11 +45,19 @@ class TaskModel extends AdminModel
 	 * @var array
 	 * @since  __DEPLOY_VERSION__
 	 */
-	protected $STATES = [
+	protected const TASK_STATES = [
 		'enabled'  => 1,
 		'disabled' => 0,
 		'trashed'  => -2,
 	];
+
+	/**
+	 * The name of the  database table with task records.
+	 *
+	 * @var  string
+	 * @since __DEPLOY_VERSION__
+	 */
+	public const TASK_TABLE = '#__scheduler_tasks';
 
 	/**
 	 * Prefix used with controller messages
@@ -282,74 +294,176 @@ class TaskModel extends AdminModel
 	}
 
 	/**
-	 * Lock the next task when no task is locked and returns it, otherwise null
+	 * Get a task from the database, only if an exclusive "lock" on the task can be acquired.
+	 * The method supports options to customise the limitations on the fetch.
 	 *
-	 * @param   [type] $id
+	 * @param   array  $options  Array with options to fetch the task:
+	 *                           1. `id`: Optional id of the task to fetch.
+	 *                           2. `allowDisabled`: If true, disabled tasks can also be fetched.
+	 *                           (default: false)
+	 *                           3. `bypassScheduling`: If true, tasks that are not due can also be
+	 *                           fetched. Should only be true if an `id` is targeted instead of the
+	 *                           task queue. (default: false)
+	 *                           4. `allowConcurrent`: If true, fetches even when another task is
+	 *                           running ('locked'). (default: false)
 	 *
-	 * @return Task|null
+	 * @return ?\stdClass  Task entry as in the database.
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 * @throws UndefinedOptionsException|InvalidOptionsException
+	 * @throws \RuntimeException
 	 */
-	public function getNextTask($id = null, $unpublished = false)
+	public function getTask(array $options = []): ?\stdClass
 	{
+		$resolver = new OptionsResolver;
+
+		try
+		{
+			$this->configureTaskGetterOptions($resolver);
+		}
+		catch (\Exception $e)
+		{
+		}
+
+		try
+		{
+			$options = $resolver->resolve($options);
+		}
+		catch (\Exception $e)
+		{
+			if ($e instanceof UndefinedOptionsException || $e instanceof InvalidOptionsException)
+			{
+				throw $e;
+			}
+		}
+
+		$db  = $this->getDbo();
 		$now = Factory::getDate()->toSql();
 
-		// Try to lock the next task
-		$query = $this->getDbo()->getQuery(true);
-		$subquery = $this->getDbo()->getQuery(true);
+		// Get lock on the table to help with concurrency issues
+		$db->lockTable(self::TASK_TABLE);
 
-		$subquery->select('COUNT(*)')
-			->from($query->qn('#__scheduler_tasks'))
-			->where($query->qn('locked') . ' IS NOT NULL');
+		$lockQuery = $db->getQuery(true);
+		$idQuery = $db->getQuery(true);
+		$idWrapperQuery = $db->getQuery(true);
 
-		$query	->update($query->qn('#__scheduler_tasks'))
-			->set($query->qn('locked') . ' = :date1')
-			->where('(' . $subquery . ') = 0')
-			->where($query->qn('next_execution') . '<= :date2')
-			->bind(':date1', $now)
-			->bind(':date2', $now)
-			->order($query->qn('priority') . ' DESC')
-			->order($query->qn('next_execution') . ' ASC')
-			->setLimit(1);
+		// Get the id of the next task in the task queue
+		$idQuery->from($db->quoteName(self::TASK_TABLE))
+			->select('id')
+			->order($db->quoteName('priority') . ' DESC')
+			->order($db->quoteName('next_execution') . ' ASC')
+			->setLimit(1)
+			->alias($db->quoteName('nextTask'));
 
-		if ($unpublished)
+		// Wrap the id query for compatibility
+		$idWrapperQuery->select('*')->from($idQuery);
+
+		// We'll attempt to get a lock on the task requested, if another task does not already have a pseudo-lock.
+		$lockQuery->update($db->quoteName(self::TASK_TABLE))
+			->set($db->quoteName('locked') . ' = :now1')
+			->bind(':now1', $now)
+			->where($db->quoteName('id') . " IN ($idWrapperQuery)");
+
+		if (!$options['bypassScheduling'])
 		{
-			$query->whereIn($query->qn('state'), [0, 1]);
+			$lockQuery->where($db->quoteName('next_execution') . ' <= :now2')
+				->bind(':now2', $now);
+		}
+
+		if (!$options['allowConcurrent'])
+		{
+			$subQuery = $db->getQuery(true);
+
+			// Sub-query to get count of locked tasks.
+			$subQuery->from($db->quoteName(self::TASK_TABLE))
+				->select('COUNT(*)')
+				->where($db->quoteName('locked') . ' IS NOT NULL');
+
+			$lockQuery->where("($subQuery) = 0");
+		}
+
+		if ($options['allowDisabled'])
+		{
+			$lockQuery->whereIn($db->quoteName('state'), [0, 1]);
 		}
 		else
 		{
-			$query->where($query->qn('state') . ' = 1');
+			$lockQuery->where($db->quoteName('state') . ' = 1');
 		}
 
-		if ($id > 0)
+		if ($options['id'] > 0)
 		{
-			$query	->where($query->qn('id') . ' = :taskId')
-				->bind(':taskId', $id, ParameterType::INTEGER);
+			$lockQuery->where($db->quoteName('id') . ' = :taskId')
+				->bind(':taskId', $options['id'], ParameterType::INTEGER);
 		}
 
-		$this->getDbo()->lockTable($query->qn('#__scheduler_tasks'));
-
-		$this->getDbo()->setQuery($query)->execute();
-
-		$this->getDbo()->unlockTables();
-
-		if ($this->getDbo()->getAffectedRows() === 0)
+		try
 		{
+			// Dbg
+			$db->lockTable(self::TASK_TABLE);
+			$queryStr = $lockQuery->__toString();
+			$db->setQuery($lockQuery)->execute();
+		}
+		catch (\RuntimeException $e)
+		{
+		}
+
+		if ($db->getAffectedRows() != 1)
+		{
+			/*
+			 // @todo
+			// ? Fatal failure handling here?
+			// ! Question is, how? If we check for tasks running beyond there time here, we have no way of
+			//  ! what's already been notified (since we're not auto-unlocking/recovering tasks anymore).
+			// The solution __may__ be in a "last_successful_finish" (or something) column.
+			*/
+
 			return null;
 		}
 
-		$query = $this->getDbo()->getQuery(true);
+		$getQuery = $db->getQuery(true);
 
-		$query->select('*')
-			->from($query->qn('#__scheduler_tasks'))
-			->where($query->qn('locked') . ' IS NOT NULL');
+		$getQuery->select('*')
+			->from($db->quoteName(self::TASK_TABLE))
+			->where($db->quoteName('locked') . ' = :now')
+			->bind(':now', $now);
 
-		$task = $this->getDbo()->setQuery($query)->loadObject();
+		$task = $db->setQuery($getQuery)->loadObject();
 
 		$task->execution_rules = json_decode($task->execution_rules);
-		$task->cron_rules = json_decode($task->cron_rules);
+		$task->cron_rules      = json_decode($task->cron_rules);
 
 		$task->taskOption = SchedulerHelper::getTaskOptions()->findOption($task->type);
 
 		return $task;
+	}
+
+	/**
+	 * Set up an {@see OptionsResolver} to resolve options compatible with the {@see GetTask()} method.
+	 *
+	 * @param   OptionsResolver  $resolver  The {@see OptionsResolver} instance to set up.
+	 *
+	 * @return OptionsResolver
+	 *
+	 * @since __DEPLOY_VERSION__
+	 * @throws AccessException
+	 */
+	public static function configureTaskGetterOptions(OptionsResolver $resolver): OptionsResolver
+	{
+		$resolver->setDefaults(
+			[
+				'id'                => 0,
+				'allowDisabled'     => false,
+				'bypassScheduling'  => false,
+				'allowConcurrent' => false,
+			]
+		)
+			->setAllowedTypes('id', 'int')
+			->setAllowedTypes('allowDisabled', 'bool')
+			->setAllowedTypes('bypassScheduling', 'bool')
+			->setAllowedTypes('allowConcurrent', 'bool');
+
+		return $resolver;
 	}
 
 	/**
