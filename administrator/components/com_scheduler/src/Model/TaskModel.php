@@ -356,13 +356,19 @@ class TaskModel extends AdminModel
 				->bind(':now2', $now);
 		}
 
+		// If concurrency is not allowed, we only get a task if another one does not have a "lock"
 		if (!$options['allowConcurrent'])
 		{
+			// MySQL needs a pseudo-source for the sub-query (https://stackoverflow.com/q/44970574)
+			$pseudoSource = $db->getQuery(true)
+				->select($db->quoteName('id'))
+				->from($db->quoteName(self::TASK_TABLE))
+				->alias('table_clone');
+
 			$subQuery = $db->getQuery(true);
 
 			// Sub-query to get count of locked tasks.
-			$subQuery->from($db->quoteName(self::TASK_TABLE))
-				->select('COUNT(*)')
+			$subQuery->from($pseudoSource)->select('COUNT(id)')
 				->where($db->quoteName('locked') . ' IS NOT NULL');
 
 			$lockQuery->where("($subQuery) = 0");
@@ -382,13 +388,12 @@ class TaskModel extends AdminModel
 			$lockQuery->where($db->quoteName('id') . ' = :taskId')
 				->bind(':taskId', $options['id'], ParameterType::INTEGER);
 		}
+		// Pick from the front of the task queue if no 'id' is specified
 		else
 		{
-			$idQuery = $db->getQuery(true);
-			$idWrapperQuery = $db->getQuery(true);
-
 			// Get the id of the next task in the task queue
-			$idQuery->from($db->quoteName(self::TASK_TABLE))
+			$idQuery = $db->getQuery(true)
+				->from($db->quoteName(self::TASK_TABLE))
 				->select('id')
 				->where($db->quoteName('state') . ' = 1')
 				->order($db->quoteName('priority') . ' DESC')
@@ -396,8 +401,8 @@ class TaskModel extends AdminModel
 				->setLimit(1)
 				->alias($db->quoteName('nextTask'));
 
-			// Wrap the id query for compatibility
-			$idWrapperQuery->select('*')->from($idQuery);
+			// Wrap the id query for compatibility (https://stackoverflow.com/q/17892762A)
+			$idWrapperQuery = $db->getQuery(true)->select('*')->from($idQuery);
 
 			// $lockQuery->join('INNER', $idQuery, $db->quoteName('#__scheduler_tasks.id') . ' = ' . $db->quoteName('nextTask.id'));
 			$lockQuery->where($db->quoteName('id') . " IN ($idWrapperQuery)");
