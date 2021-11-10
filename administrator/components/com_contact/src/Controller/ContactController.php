@@ -121,7 +121,7 @@ class ContactController extends FormController
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	protected function postSaveHook(BaseDatabaseModel $model, $validData = array())
+	protected function postSaveHook(BaseDatabaseModel $model, $validData = [])
 	{
 		if ($this->getTask() === 'save2menu')
 		{
@@ -138,10 +138,13 @@ class ContactController extends FormController
 			$editState['type']  = $type;
 			$editState['request']['id'] = $id;
 
-			$this->app->setUserState('com_menus.edit.item', array(
-				'data' => $editState,
-				'type' => $type,
-				'link' => $link)
+			$this->app->setUserState(
+				'com_menus.edit.item',
+				[
+					'data' => $editState,
+					'type' => $type,
+					'link' => $link,
+				]
 			);
 
 			$this->setRedirect(Route::_('index.php?option=com_menus&view=item&client_id=0&menutype=mainmenu&layout=edit', false));
