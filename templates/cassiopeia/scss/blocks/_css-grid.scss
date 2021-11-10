@@ -52,7 +52,6 @@ body {
     > [class^="container-"],
     > [class*=" container-"] {
       width: 100%;
-      max-width: none;
       column-gap: $cassiopeia-grid-gutter;
     }
 
