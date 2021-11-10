@@ -299,9 +299,9 @@ class Task extends Registry implements LoggerAwareInterface
 		$id    = $this->get('id');
 
 		$query->update($db->qn('#__scheduler_tasks', 't'))
-			->set('t.locked = NULL')
-			->where($db->qn('t.id') . ' = :taskId')
-			->where($db->qn('t.locked') . ' IS NOT NULL')
+			->set('locked = NULL')
+			->where($db->qn('id') . ' = :taskId')
+			->where($db->qn('locked') . ' IS NOT NULL')
 			->bind(':taskId', $id, ParameterType::INTEGER);
 
 		if ($update)
@@ -314,11 +314,11 @@ class Task extends Registry implements LoggerAwareInterface
 
 			$query->set(
 				[
-					't.last_exit_code = :exitCode',
-					't.last_execution = :lastExec',
-					't.next_execution = :nextExec',
-					't.times_executed = :times_executed',
-					't.times_failed = :times_failed',
+					'last_exit_code = :exitCode',
+					'last_execution = :lastExec',
+					'next_execution = :nextExec',
+					'times_executed = :times_executed',
+					'times_failed = :times_failed',
 				]
 			)
 				->bind(':exitCode', $exitCode, ParameterType::INTEGER)
@@ -329,7 +329,7 @@ class Task extends Registry implements LoggerAwareInterface
 
 			if ($exitCode !== Status::OK)
 			{
-				$query->set('t.times_failed = t.times_failed + 1');
+				$query->set('times_failed = t.times_failed + 1');
 			}
 		}
 
