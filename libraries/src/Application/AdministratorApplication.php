@@ -232,7 +232,7 @@ class AdministratorApplication extends CMSApplication
 		$db = Factory::getDbo();
 
 		$query = $db->getQuery(true)
-			->select($db->quoteName(['s.template', 's.params', 's.inheritable', 's.parent']))
+			->select($db->quoteName(['s.template', 's.client_id', 's.params', 's.inheritable', 's.parent']))
 			->from($db->quoteName('#__template_styles', 's'))
 			->join(
 				'LEFT',

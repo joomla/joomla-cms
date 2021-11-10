@@ -349,13 +349,14 @@ abstract class HTMLHelper
 	 * @param   boolean  $relative       Flag if the path to the file is relative to the /media folder (and searches in template).
 	 * @param   boolean  $detectBrowser  Flag if the browser should be detected to include specific browser files.
 	 * @param   boolean  $detectDebug    Flag if debug mode is enabled to include uncompressed files if debug is on.
+	 * @param   object   $template       The template object.
 	 *
 	 * @return  array    files to be included.
 	 *
 	 * @see     Browser
 	 * @since   1.6
 	 */
-	protected static function includeRelativeFiles($folder, $file, $relative, $detectBrowser, $detectDebug)
+	protected static function includeRelativeFiles($folder, $file, $relative, $detectBrowser, $detectDebug, $template)
 	{
 		// Set debug flag
 		$debugMode = false;
@@ -412,13 +413,16 @@ abstract class HTMLHelper
 			// If relative search in template directory or media directory
 			if ($relative)
 			{
-				$app        = Factory::getApplication();
-				$template   = $app->getTemplate(true);
-				$templaPath = JPATH_THEMES;
+				if (!(array) $template)
+				{
+					$template = Factory::getApplication()->getTemplate(true);
+				}
+
+				$templaPath = isset($template->realPath) ? $template->realPath : JPATH_THEMES;
 
 				if ($template->inheritable || !empty($template->parent))
 				{
-					$client     = $app->isClient('administrator') === true ? 'administrator' : 'site';
+					$client     = $template->client_id === 1 ? 'administrator' : 'site';
 					$templaPath = JPATH_ROOT . "/media/templates/$client";
 				}
 
@@ -730,7 +734,7 @@ abstract class HTMLHelper
 
 		if ($returnPath !== -1)
 		{
-			$includes = static::includeRelativeFiles('images', $file, $relative, false, false);
+			$includes = static::includeRelativeFiles('images', $file, $relative, false, false, new \stdClass);
 			$file = \count($includes) ? $includes[0] : null;
 		}
 
@@ -761,8 +765,9 @@ abstract class HTMLHelper
 		$options['pathOnly']      = $options['pathOnly'] ?? false;
 		$options['detectBrowser'] = $options['detectBrowser'] ?? false;
 		$options['detectDebug']   = $options['detectDebug'] ?? true;
+		$options['template']      = $options['template'] ?? new \stdClass;
 
-		$includes = static::includeRelativeFiles('css', $file, $options['relative'], $options['detectBrowser'], $options['detectDebug']);
+		$includes = static::includeRelativeFiles('css', $file, $options['relative'], $options['detectBrowser'], $options['detectDebug'], $options['template']);
 
 		// If only path is required
 		if ($options['pathOnly'])
@@ -813,8 +818,9 @@ abstract class HTMLHelper
 		$options['pathOnly']      = $options['pathOnly'] ?? false;
 		$options['detectBrowser'] = $options['detectBrowser'] ?? false;
 		$options['detectDebug']   = $options['detectDebug'] ?? true;
+		$options['template']      = $options['template'] ?? new \stdClass;
 
-		$includes = static::includeRelativeFiles('js', $file, $options['relative'], $options['detectBrowser'], $options['detectDebug']);
+		$includes = static::includeRelativeFiles('js', $file, $options['relative'], $options['detectBrowser'], $options['detectDebug'], $options['template']);
 
 		// If only path is required
 		if ($options['pathOnly'])

@@ -630,6 +630,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 			$template->params      = new Registry;
 			$template->inheritable = 0;
 			$template->parent      = '';
+			$template->client_id   = 0;
 
 			return $template;
 		}

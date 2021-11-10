@@ -470,7 +470,7 @@ final class SiteApplication extends CMSApplication
 			$db = Factory::getDbo();
 
 			$query = $db->getQuery(true)
-				->select($db->quoteName(['id', 'home', 'template', 's.params', 'inheritable', 'parent']))
+				->select($db->quoteName(['id', 'home', 'template', 's.client_id', 's.params', 'inheritable', 'parent']))
 				->from($db->quoteName('#__template_styles', 's'))
 				->where(
 					[
