@@ -135,7 +135,6 @@
 
 .sorting__list-li {
   display: block;
-  padding: .5rem 0;
   text-align: start;
 }
 
@@ -146,4 +145,5 @@
 .sorting__link {
   padding: .5rem;
   text-decoration: none;
+  display: block;
 }
