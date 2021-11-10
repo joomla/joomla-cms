@@ -52,7 +52,8 @@ class SearchModel extends ListModel
 	 * @since __DEPLOY_VERSION__
 	 */
 	protected $sortOrderFieldsLabels = [
-		'relevance.desc' => 'COM_FINDER_SORT_BY_RELEVANCE',
+		'relevance.asc' => 'COM_FINDER_SORT_BY_RELEVANCE_ASC',
+		'relevance.desc' => 'COM_FINDER_SORT_BY_RELEVANCE_DESC',
 		'title.asc' => 'JGLOBAL_TITLE_ASC',
 		'title.desc' => 'JGLOBAL_TITLE_DESC',
 		'date.asc' => 'JDATE_ASC',
@@ -372,8 +373,8 @@ class SearchModel extends ListModel
 			{
 				foreach ($directions as $direction)
 				{
-					// The relevance has only descending direction.
-					if ($sortOrderFieldValue === 'relevance' && $direction === 'asc')
+					// The relevance has only descending direction. Except if ascending is set in the parameters.
+					if ($sortOrderFieldValue === 'relevance' && $direction === 'asc' && $app->getParams()->get('sort_direction', 'desc') === 'desc')
 					{
 						continue;
 					}
