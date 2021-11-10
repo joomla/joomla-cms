@@ -344,25 +344,11 @@ class TaskModel extends AdminModel
 		$db->lockTable(self::TASK_TABLE);
 
 		$lockQuery = $db->getQuery(true);
-		$idQuery = $db->getQuery(true);
-		$idWrapperQuery = $db->getQuery(true);
-
-		// Get the id of the next task in the task queue
-		$idQuery->from($db->quoteName(self::TASK_TABLE))
-			->select('id')
-			->order($db->quoteName('priority') . ' DESC')
-			->order($db->quoteName('next_execution') . ' ASC')
-			->setLimit(1)
-			->alias($db->quoteName('nextTask'));
-
-		// Wrap the id query for compatibility
-		$idWrapperQuery->select('*')->from($idQuery);
 
 		// We'll attempt to get a lock on the task requested, if another task does not already have a pseudo-lock.
 		$lockQuery->update($db->quoteName(self::TASK_TABLE))
 			->set($db->quoteName('locked') . ' = :now1')
-			->bind(':now1', $now)
-			->where($db->quoteName('id') . " IN ($idWrapperQuery)");
+			->bind(':now1', $now);
 
 		if (!$options['bypassScheduling'])
 		{
@@ -396,16 +382,39 @@ class TaskModel extends AdminModel
 			$lockQuery->where($db->quoteName('id') . ' = :taskId')
 				->bind(':taskId', $options['id'], ParameterType::INTEGER);
 		}
+		else
+		{
+			$idQuery = $db->getQuery(true);
+			$idWrapperQuery = $db->getQuery(true);
+
+			// Get the id of the next task in the task queue
+			$idQuery->from($db->quoteName(self::TASK_TABLE))
+				->select('id')
+				->where($db->quoteName('state') . ' = 1')
+				->order($db->quoteName('priority') . ' DESC')
+				->order($db->quoteName('next_execution') . ' ASC')
+				->setLimit(1)
+				->alias($db->quoteName('nextTask'));
+
+			// Wrap the id query for compatibility
+			$idWrapperQuery->select('*')->from($idQuery);
+
+			// $lockQuery->join('INNER', $idQuery, $db->quoteName('#__scheduler_tasks.id') . ' = ' . $db->quoteName('nextTask.id'));
+			$lockQuery->where($db->quoteName('id') . " IN ($idWrapperQuery)");
+		}
 
 		try
 		{
-			// Dbg
-			$db->lockTable(self::TASK_TABLE);
+			// @todo Remove -- Dbg
 			$queryStr = $lockQuery->__toString();
 			$db->setQuery($lockQuery)->execute();
 		}
 		catch (\RuntimeException $e)
 		{
+		}
+		finally
+		{
+			$db->unlockTables();
 		}
 
 		if ($db->getAffectedRows() != 1)
