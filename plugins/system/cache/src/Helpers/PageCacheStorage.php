@@ -40,12 +40,10 @@ final class PageCacheStorage
 	}
 
 	/**
-	 * Store
-	 *
-	 * @param   object $body  		The page body to be stored.
+ 	 * @param   object $body  	The page body to be stored.
 	 * @param   string $cacheKey	Cache Key
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function store(string $body, string $cacheKey): void
 	{
