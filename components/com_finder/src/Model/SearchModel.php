@@ -59,7 +59,7 @@ class SearchModel extends ListModel
 		'date.asc' => 'JDATE_ASC',
 		'date.desc' => 'JDATE_DESC',
 		'price.asc' => 'COM_FINDER_SORT_BY_PRICE_ASC',
-		'price.desc' => 'COM_FINDER_SORT_BY_PRICE_DESC'
+		'price.desc' => 'COM_FINDER_SORT_BY_PRICE_DESC',
 	];
 
 	/**
