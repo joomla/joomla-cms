@@ -801,6 +801,7 @@ class ComponentAdapter extends InstallerAdapter
 		if (!$this->getManifest()->administration)
 		{
 			throw new \RuntimeException(Text::_('JLIB_INSTALLER_ERROR_COMP_INSTALL_ADMIN_ELEMENT'));
+
 			return;
 		}
 
