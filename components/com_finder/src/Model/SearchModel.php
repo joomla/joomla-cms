@@ -349,6 +349,7 @@ class SearchModel extends ListModel
 	 * @return  array   The sorting field objects.
 	 *
 	 * @throws  \Exception
+	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
 	public function getSortOrderFields()
