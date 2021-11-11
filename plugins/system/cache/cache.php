@@ -14,6 +14,7 @@ use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Profiler\Profiler;
 use Joomla\CMS\Uri\Uri;
+use Joomla\Event\Event;
 use Joomla\Event\SubscriberInterface;
 use Joomla\Plugin\System\Cache\Helpers\PageCacheKeyGenerator;
 use Joomla\Plugin\System\Cache\Helpers\PageCacheStorage;
@@ -84,7 +85,7 @@ final class PlgSystemCache extends CMSPlugin implements SubscriberInterface
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function verifyCanBeCached()
+	public function verifyCanBeCached(Event $event): void
 	{
 		// Check if the user is a guest again because auto-login plugins
 		// 	have not been fired when getSubscribedEvents was called.
@@ -105,7 +106,7 @@ final class PlgSystemCache extends CMSPlugin implements SubscriberInterface
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function storePage()
+	public function storePage(Event $event): void
 	{
 		// if it can't be cached due to execution conditions
 		if (!$this->cacheStorage)
@@ -124,7 +125,7 @@ final class PlgSystemCache extends CMSPlugin implements SubscriberInterface
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function checkAndDumpPage()
+	public function checkAndDumpPage(Event $event): void
 	{
 		$cacheKey = $this->getCacheKey();
 
