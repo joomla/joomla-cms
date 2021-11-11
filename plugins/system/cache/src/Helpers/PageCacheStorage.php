@@ -17,7 +17,7 @@ use Joomla\CMS\Cache\Controller\PageController;
 /**
  * Joomla! Page Cache Plugin - PageCacheStorage.
  *
- * @since  4.1
+ * @since  __DEPLOY_VERSION__
  */
 final class PageCacheStorage
 {
