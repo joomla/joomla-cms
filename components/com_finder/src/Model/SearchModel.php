@@ -390,7 +390,7 @@ class SearchModel extends ListModel
 		PluginHelper::importPlugin('finder');
 
 		// Trigger an event, in case a plugin wishes to change the order fields.
-		$app->triggerEvent('onFinderSortOrderFields', array(&$sortOrderFields));
+		$app->triggerEvent('onFinderSortOrderFields', [&$sortOrderFields]);
 
 		return $sortOrderFields;
 	}
