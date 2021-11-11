@@ -172,7 +172,7 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
 		'mediumint' => 'int',
 		'smallint' => 'int',
 		'year' => 'int',
-		/*
+
 		'binary' => 'int',
 		'varbinary' => 'int',
 		'raw' => 'int',
@@ -181,7 +181,7 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
 		'mediumblob' => 'int',
 		'largeblob' => 'int',
 		'bytea' => 'int',
-		*/
+
 		'serial' => 'int',
 		'smallserial' => 'int',
 		'bigserial' => 'int',
