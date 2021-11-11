@@ -1109,9 +1109,12 @@ class PlgEditorTinymce extends CMSPlugin
 
 		$db->setQuery($query);
 
-		try {
+		try
+		{
 			return $db->loadObject();
-		} catch (RuntimeException $e) {
+		}
+		catch (RuntimeException $e)
+		{
 			$this->app->enqueueMessage(Text::_('JERROR_AN_ERROR_HAS_OCCURRED'), 'error');
 
 			return '';
@@ -1145,12 +1148,14 @@ class PlgEditorTinymce extends CMSPlugin
 		$template   = $this->getActiveSiteTemplate();
 		$templaPath = JPATH_ROOT . '/templates';
 
-		if ($template->inheritable || !empty($template->parent)) {
+		if ($template->inheritable || !empty($template->parent))
+		{
 			$templaPath = JPATH_ROOT . "/media/templates/site";
 		}
 
 		// For each potential files
-		foreach ($potential as $strip) {
+		foreach ($potential as $strip)
+		{
 			$files = [];
 			$files[] = $strip . '.' . $ext;
 
@@ -1159,36 +1164,47 @@ class PlgEditorTinymce extends CMSPlugin
 			 * Add the content of the MD5SUM file located in the same folder to url to ensure cache browser refresh
 			 * This MD5SUM file must represent the signature of the folder content
 			 */
-			foreach ($files as $file) {
-				if (!empty($template->parent)) {
+			foreach ($files as $file)
+			{
+				if (!empty($template->parent))
+				{
 					$found = static::addFileToBuffer("$templaPath/$template->template/$folder/$file", $ext, $debugMode);
 
-					if (empty($found)) {
+					if (empty($found))
+					{
 						$found = static::addFileToBuffer("$templaPath/$template->parent/$folder/$file", $ext, $debugMode);
 					}
-				} else {
+				}
+				else
+				{
 					$found = static::addFileToBuffer("$templaPath/$template->template/$folder/$file", $ext, $debugMode);
 				}
 
-				if (!empty($found)) {
+				if (!empty($found))
+				{
 					$includes[] = $found;
 
 					break;
-				} else {
+				}
+				else
+				{
 					// If the file contains any /: it can be in a media extension subfolder
-					if (strpos($file, '/')) {
+					if (strpos($file, '/'))
+					{
 						// Divide the file extracting the extension as the first part before /
 						list($extension, $file) = explode('/', $file, 2);
 
 						// If the file yet contains any /: it can be a plugin
-						if (strpos($file, '/')) {
+						if (strpos($file, '/'))
+						{
 							// Divide the file extracting the element as the first part before /
 							list($element, $file) = explode('/', $file, 2);
 
 							// Try to deal with plugins group in the media folder
 							$found = static::addFileToBuffer(JPATH_ROOT . "/media/$extension/$element/$folder/$file", $ext, $debugMode);
 
-							if (!empty($found)) {
+							if (!empty($found))
+							{
 								$includes[] = $found;
 
 								break;
@@ -1197,17 +1213,20 @@ class PlgEditorTinymce extends CMSPlugin
 							// Try to deal with classical file in a media subfolder called element
 							$found = static::addFileToBuffer(JPATH_ROOT . "/media/$extension/$folder/$element/$file", $ext, $debugMode);
 
-							if (!empty($found)) {
+							if (!empty($found))
+							{
 								$includes[] = $found;
 
 								break;
 							}
 
 							// Try to deal with system files in the template folder
-							if (!empty($template->parent)) {
+							if (!empty($template->parent))
+							{
 								$found = static::addFileToBuffer("$templaPath/$template->template/$folder/system/$element/$file", $ext, $debugMode);
 
-								if (!empty($found)) {
+								if (!empty($found))
+								{
 									$includes[] = $found;
 
 									break;
@@ -1215,36 +1234,45 @@ class PlgEditorTinymce extends CMSPlugin
 
 								$found = static::addFileToBuffer("$templaPath/$template->parent/$folder/system/$element/$file", $ext, $debugMode);
 
-								if (!empty($found)) {
-									$includes[] = $found;
-
-									break;
-								}
-							} else {
-								// Try to deal with system files in the media folder
-								$found = static::addFileToBuffer(JPATH_ROOT . "/media/system/$folder/$element/$file", $ext, $debugMode);
-
-								if (!empty($found)) {
+								if (!empty($found))
+								{
 									$includes[] = $found;
 
 									break;
 								}
 							}
-						} else {
+							else
+							{
+								// Try to deal with system files in the media folder
+								$found = static::addFileToBuffer(JPATH_ROOT . "/media/system/$folder/$element/$file", $ext, $debugMode);
+
+								if (!empty($found))
+								{
+									$includes[] = $found;
+
+									break;
+								}
+							}
+						}
+						else
+						{
 							// Try to deal with files in the extension's media folder
 							$found = static::addFileToBuffer(JPATH_ROOT . "/media/$extension/$folder/$file", $ext, $debugMode);
 
-							if (!empty($found)) {
+							if (!empty($found))
+							{
 								$includes[] = $found;
 
 								break;
 							}
 
 							// Try to deal with system files in the template folder
-							if (!empty($template->parent)) {
+							if (!empty($template->parent))
+							{
 								$found = static::addFileToBuffer("$templaPath/$template->template/$folder/system/$file", $ext, $debugMode);
 
-								if (!empty($found)) {
+								if (!empty($found))
+								{
 									$includes[] = $found;
 
 									break;
@@ -1252,16 +1280,20 @@ class PlgEditorTinymce extends CMSPlugin
 
 								$found = static::addFileToBuffer("$templaPath/$template->parent/$folder/system/$file", $ext, $debugMode);
 
-								if (!empty($found)) {
+								if (!empty($found))
+								{
 									$includes[] = $found;
 
 									break;
 								}
-							} else {
+							}
+							else
+							{
 								// Try to deal with system files in the template folder
 								$found = static::addFileToBuffer("$templaPath/$template->template/$folder/system/$file", $ext, $debugMode);
 
-								if (!empty($found)) {
+								if (!empty($found))
+								{
 									$includes[] = $found;
 
 									break;
@@ -1271,17 +1303,21 @@ class PlgEditorTinymce extends CMSPlugin
 							// Try to deal with system files in the media folder
 							$found = static::addFileToBuffer(JPATH_ROOT . "/media/system/$folder/$file", $ext, $debugMode);
 
-							if (!empty($found)) {
+							if (!empty($found))
+							{
 								$includes[] = $found;
 
 								break;
 							}
 						}
-					} else {
+					}
+					else
+					{
 						// Try to deal with system files in the media folder
 						$found = static::addFileToBuffer(JPATH_ROOT . "/media/system/$folder/$file", $ext, $debugMode);
 
-						if (!empty($found)) {
+						if (!empty($found))
+						{
 							$includes[] = $found;
 
 							break;
@@ -1310,11 +1346,13 @@ class PlgEditorTinymce extends CMSPlugin
 		$position = strrpos($path, '.min.');
 
 		// We are handling a name.min.ext file:
-		if ($position !== false) {
+		if ($position !== false)
+		{
 			$minifiedPath    = $path;
 			$nonMinifiedPath = substr_replace($path, '', $position, 4);
 
-			if ($debugMode) {
+			if ($debugMode)
+			{
 				return self::checkFileOrder($minifiedPath, $nonMinifiedPath);
 			}
 
@@ -1323,7 +1361,8 @@ class PlgEditorTinymce extends CMSPlugin
 
 		$minifiedPath = pathinfo($path, PATHINFO_DIRNAME) . '/' . pathinfo($path, PATHINFO_FILENAME) . '.min.' . $ext;
 
-		if ($debugMode) {
+		if ($debugMode)
+		{
 			return self::checkFileOrder($minifiedPath, $path);
 		}
 
@@ -1359,11 +1398,13 @@ class PlgEditorTinymce extends CMSPlugin
 	 */
 	private static function checkFileOrder($first, $second)
 	{
-		if (is_file($second)) {
+		if (is_file($second))
+		{
 			return static::convertToRelativePath($second);
 		}
 
-		if (is_file($first)) {
+		if (is_file($first))
+		{
 			return static::convertToRelativePath($first);
 		}
 
