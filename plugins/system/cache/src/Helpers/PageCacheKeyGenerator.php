@@ -48,11 +48,9 @@ final class PageCacheKeyGenerator
 	}
 
 	/**
-	 *
-	 *
 	 * @return  string
 	 *
-	 * @since    __DEPLOY_VERSION__
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function getKey()
 	{
