@@ -19,7 +19,7 @@ use Joomla\Registry\Registry;
 /**
  * Joomla! Page Cache Plugin - PageCachingChecker.
  *
- * @since  4.1
+ * @since  __DEPLOY_VERSION__
  */
 final class PageCachingChecker
 {
