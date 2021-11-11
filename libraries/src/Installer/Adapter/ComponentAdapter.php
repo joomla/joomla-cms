@@ -797,6 +797,12 @@ class ComponentAdapter extends InstallerAdapter
 	 */
 	protected function setupInstallPaths()
 	{
+		// Make sure that we have an admin element
+		if (!$this->getManifest()->administration)
+		{
+			throw new \RuntimeException(Text::_('JLIB_INSTALLER_ERROR_COMP_INSTALL_ADMIN_ELEMENT'));
+		}
+
 		// Set the installation target paths
 		$this->parent->setPath('extension_site', Path::clean(JPATH_SITE . '/components/' . $this->element));
 		$this->parent->setPath('extension_administrator', Path::clean(JPATH_ADMINISTRATOR . '/components/' . $this->element));
@@ -804,12 +810,6 @@ class ComponentAdapter extends InstallerAdapter
 
 		// Copy the admin path as it's used as a common base
 		$this->parent->setPath('extension_root', $this->parent->getPath('extension_administrator'));
-
-		// Make sure that we have an admin element
-		if (!$this->getManifest()->administration)
-		{
-			throw new \RuntimeException(Text::_('JLIB_INSTALLER_ERROR_COMP_INSTALL_ADMIN_ELEMENT'));
-		}
 	}
 
 	/**
