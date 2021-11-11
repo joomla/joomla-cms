@@ -180,7 +180,7 @@ class SubformField extends FormField
 					$value = json_decode($value, true);
 				}
 
-				$this->value = $value;
+				$this->value = $value !== null ? (array) $value : null;
 			break;
 
 			default:
