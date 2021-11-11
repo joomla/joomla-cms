@@ -162,7 +162,66 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
 	 * @var array
 	 * @since  __DEPLOY_VERSION__
 	 */
-	protected static $_typesValuesProperty = [];
+	protected static $_typesValuesProperty = [
+		// 'This type SQL' => 'This type PHP'
+		'bool' => 'bool',
+		'boolean' => 'bool',
+
+		'int' => 'int',
+		'bigint' => 'int',
+		'mediumint' => 'int',
+		'smallint' => 'int',
+		'tinyint' => 'int',
+		'bit' => 'int',
+		'year' => 'int',
+		'binary' => 'int',
+		'blob' => 'int',
+		'tinyblob' => 'int',
+		'mediumblob' => 'int',
+		'largeblob' => 'int',
+		'serial' => 'int',
+		'smallserial' => 'int',
+		'bigserial' => 'int',
+		'numeric' => 'int',
+		'integer' => 'int',
+
+		'float' => 'float',
+		'double' => 'float',
+		'decimal' => 'float',
+		'real' => 'float',
+		'float8' => 'float',
+
+		'string' => 'string',
+		'text' => 'string',
+		'largetext' => 'string',
+		'longtext' => 'string',
+		'mediumtext' => 'string',
+		'tinytext' => 'string',
+		'varchar' => 'string',
+		'char' => 'string',
+		'nvarchar' => 'string',
+		'nchar' => 'string',
+		'json' => 'string',
+
+		'cidr' => 'string',
+		'macaddr' => 'string',
+		'macaddr8' => 'string',
+		'xml' => 'string',
+
+		'datetime' => 'string',
+		'date' => 'string',
+		'time' => 'string',
+		'timestamp' => 'string',
+		'interval' => 'string',
+		'tosql' => 'string',
+		'tostring' => 'string',
+
+		'enum' => '',
+		'set' => '',
+
+		'object' => 'object',
+		'array' => 'array',
+	];
 
 	/**
 	 * Array default values for php simple types
