@@ -1089,7 +1089,7 @@ class PlgEditorTinymce extends CMSPlugin
 	/**
 	 * Helper function to get the active Site template
 	 *
-	 * @return  object|string
+	 * @return  object
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
@@ -1116,7 +1116,7 @@ class PlgEditorTinymce extends CMSPlugin
 		{
 			$this->app->enqueueMessage(Text::_('JERROR_AN_ERROR_HAS_OCCURRED'), 'error');
 
-			return '';
+			return new \stdClass;
 		}
 	}
 
@@ -1145,6 +1145,12 @@ class PlgEditorTinymce extends CMSPlugin
 
 		// If relative search in template directory or media directory
 		$template   = $this->getActiveSiteTemplate();
+
+		if (! (array) $template)
+		{
+			return Uri::root(true) . 'media/system/css/editor.css';
+		}
+
 		$templaPath = JPATH_ROOT . '/templates';
 
 		if ($template->inheritable || !empty($template->parent))
