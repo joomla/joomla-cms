@@ -49,6 +49,7 @@ class SearchModel extends ListModel
 	 * Maps each sorting field with a text label.
 	 *
 	 * @var string[]
+	 *
 	 * @since __DEPLOY_VERSION__
 	 */
 	protected $sortOrderFieldsLabels = [
