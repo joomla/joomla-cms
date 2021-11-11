@@ -162,8 +162,7 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
 	 * @var array
 	 * @since  __DEPLOY_VERSION__
 	 */
-	protected static $_typesValuesProperty = [
-	];
+	protected static $_typesValuesProperty = [];
 
 	/**
 	 * Array default values for php simple types
