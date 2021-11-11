@@ -204,7 +204,7 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
 
 		'guid' => 'string',
 		'decimal' => 'string',
-		'bigint' => 'string',
+		'bigint' => 'int',
 		'ascii_string' => 'string',
 		'cidr' => 'string',
 		'macaddr' => 'string',
