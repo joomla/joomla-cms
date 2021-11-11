@@ -266,9 +266,9 @@ class MediaListCest
 	 *
 	 * @param   Media  $I
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @throws  Exception
 	 *
-	 * @throws Exception
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function searchInFilesAndFolders(Media $I)
 	{
@@ -286,9 +286,9 @@ class MediaListCest
 	 *
 	 * @param   Media  $I
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @throws  Exception
 	 *
-	 * @throws Exception
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function searchIsClearedOnNavigate(Media $I)
 	{
