@@ -166,13 +166,12 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
 		// 'This type SQL' => 'This type PHP'
 		'bool' => 'bool',
 		'boolean' => 'bool',
+		'tinyint' => 'bool',
+		'bit' => 'bool',
 
 		'int' => 'int',
-		'bigint' => 'int',
 		'mediumint' => 'int',
 		'smallint' => 'int',
-		'tinyint' => 'int',
-		'bit' => 'int',
 		'year' => 'int',
 		'binary' => 'int',
 		'blob' => 'int',
@@ -183,11 +182,11 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
 		'smallserial' => 'int',
 		'bigserial' => 'int',
 		'numeric' => 'int',
+		'number' => 'int',
 		'integer' => 'int',
 
 		'float' => 'float',
 		'double' => 'float',
-		'decimal' => 'float',
 		'real' => 'float',
 		'float8' => 'float',
 
@@ -203,6 +202,10 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
 		'nchar' => 'string',
 		'json' => 'string',
 
+		'guid' => 'string',
+		'decimal' => 'string',
+		'bigint' => 'string',
+		'ascii_string' => 'string',
 		'cidr' => 'string',
 		'macaddr' => 'string',
 		'macaddr8' => 'string',
