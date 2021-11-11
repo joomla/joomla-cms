@@ -1089,7 +1089,6 @@ class PlgEditorTinymce extends CMSPlugin
 	/**
 	 * Helper function to get the active Site template
 	 *
-	 *
 	 * @return  object|null
 	 *
 	 * @since   __DEPLOY_VERSION__
