@@ -405,6 +405,7 @@ class SearchModel extends ListModel
 	 * @return  \stdClass   The sorting field object.
 	 *
 	 * @throws  \Exception
+	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
 	protected function getSortField(string $value, string $direction, Uri $queryUri)
