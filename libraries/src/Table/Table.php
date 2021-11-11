@@ -172,14 +172,16 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
 		'mediumint' => 'int',
 		'smallint' => 'int',
 		'year' => 'int',
-		// 'binary' => 'int',
-		// 'varbinary' => 'int',
-		// 'raw' => 'int',
-		// 'blob' => 'int',
-		// 'tinyblob' => 'int',
-		// 'mediumblob' => 'int',
-		// 'largeblob' => 'int',
-		// 'bytea' => 'int',
+		/*
+		'binary' => 'int',
+		'varbinary' => 'int',
+		'raw' => 'int',
+		'blob' => 'int',
+		'tinyblob' => 'int',
+		'mediumblob' => 'int',
+		'largeblob' => 'int',
+		'bytea' => 'int',
+		*/
 		'serial' => 'int',
 		'smallserial' => 'int',
 		'bigserial' => 'int',
@@ -204,7 +206,7 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
 		'nchar' => 'string',
 		'json' => 'string',
 
-		// bigint it is required to be used as a string.
+		// 'bigint' it is required to be used as a string.
 		'bigint' => 'int',
 		'guid' => 'string',
 		'decimal' => 'string',
