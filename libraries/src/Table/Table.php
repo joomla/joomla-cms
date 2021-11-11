@@ -29,7 +29,6 @@ use Joomla\String\StringHelper;
  * Parent class to all tables.
  *
  * @since  1.7.0
- * @tutorial  Joomla.Platform/jtable.cls
  */
 abstract class Table extends CMSObject implements TableInterface, DispatcherAwareInterface
 {

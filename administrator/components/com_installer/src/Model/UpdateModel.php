@@ -282,7 +282,7 @@ class UpdateModel extends ListModel
 	 * Finds updates for an extension.
 	 *
 	 * @param   int  $eid               Extension identifier to look for
-	 * @param   int  $cacheTimeout      Cache timout
+	 * @param   int  $cacheTimeout      Cache timeout
 	 * @param   int  $minimumStability  Minimum stability for updates {@see Updater} (0=dev, 1=alpha, 2=beta, 3=rc, 4=stable)
 	 *
 	 * @return  boolean Result
@@ -499,7 +499,7 @@ class UpdateModel extends ListModel
 			$app->enqueueMessage(
 				Text::sprintf('COM_INSTALLER_MSG_UPDATE_SUCCESS',
 					Text::_('COM_INSTALLER_TYPE_TYPE_' . strtoupper($package['type']))
-				)
+				), 'success'
 			);
 			$result = true;
 		}

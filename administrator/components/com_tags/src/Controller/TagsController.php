@@ -76,7 +76,7 @@ class TagsController extends AdminController
 	 *
 	 * @return  string  The JSON-encoded amount of published articles
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.1.0
 	 */
 	public function getQuickiconContent()
 	{

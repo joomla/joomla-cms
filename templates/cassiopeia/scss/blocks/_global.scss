@@ -132,7 +132,7 @@ th dd {
   text-align: left;
 }
 
-@include media-breakpoint-up(lg) {
+@include media-breakpoint-up(xl) {
   dl.dl-horizontal {
     display: grid;
     grid-template-columns: auto 1fr;

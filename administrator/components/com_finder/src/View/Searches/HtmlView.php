@@ -160,6 +160,6 @@ class HtmlView extends BaseHtmlView
 			ToolbarHelper::preferences('com_finder');
 		}
 
-		ToolbarHelper::help('JHELP_COMPONENTS_FINDER_MANAGE_SEARCHES');
+		ToolbarHelper::help('Smart_Search:_Search_Term_Analysis');
 	}
 }

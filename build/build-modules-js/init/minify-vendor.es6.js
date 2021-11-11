@@ -75,7 +75,7 @@ const minifyJS = async (file) => {
   await writeFile(
     newFile,
     minified,
-    { encoding: 'utf8' },
+    { encoding: 'utf8', mode: 0o644 },
   );
 };
 

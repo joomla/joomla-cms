@@ -19,7 +19,7 @@
 		<language tag="en-GB">language/en-GB/mod_feed.ini</language>
 		<language tag="en-GB">language/en-GB/mod_feed.sys.ini</language>
 	</languages>
-	<help key="JHELP_EXTENSIONS_MODULE_MANAGER_FEED_DISPLAY" />
+	<help key="Site_Modules:_Feed_Display" />
 	<config>
 		<fields name="params">
 			<fieldset name="basic">
