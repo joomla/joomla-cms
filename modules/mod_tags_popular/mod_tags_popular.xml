@@ -35,13 +35,10 @@
 
 				<field
 					name="maximum"
-					type="integer"
+					type="number"
 					label="MOD_TAGS_POPULAR_MAX_LABEL"
 					default="5"
 					filter="integer"
-					first="1"
-					last="20"
-					step="1"
 				/>
 
 				<field
