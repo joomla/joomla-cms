@@ -48,7 +48,7 @@ class JFormFieldRestoredefaults extends FormField
 
 		$wa->useScript('restoredefaults');
 
-		$return .= '<button class="restoreDefaultsBtn btn btn-primary" type="button" data-class="' . $this->class . '">' . Text::_('RESET') . '</button>';
+		$return .= '<button class="restoreDefaultsBtn btn btn-primary" type="button" data-class="' . $this->class . '">' . Text::_('Reset') . '</button>';
 
 		return $return;
 	}
