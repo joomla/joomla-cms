@@ -244,6 +244,11 @@ final class Version
 	 */
 	public function getMediaVersion(): string
 	{
+		if (JDEBUG)
+		{
+			return '';
+		}
+
 		// Load the media version and cache it for future use
 		static $mediaVersion = null;
 
@@ -253,7 +258,7 @@ final class Version
 			$mediaVersion = LibraryHelper::getParams('joomla')->get('mediaversion', '');
 
 			// Refresh assets in debug mode or when the media version is not set
-			if (JDEBUG || empty($mediaVersion))
+			if (empty($mediaVersion))
 			{
 				$mediaVersion = $this->generateMediaVersion();
 
