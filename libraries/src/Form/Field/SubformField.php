@@ -181,6 +181,7 @@ class SubformField extends FormField
 				}
 
 				$this->value = $value !== null ? (array) $value : null;
+
 				break;
 
 			default:
