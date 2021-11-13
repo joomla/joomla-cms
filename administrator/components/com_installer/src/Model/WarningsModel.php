@@ -146,7 +146,8 @@ class WarningsModel extends ListModel
 
 		$memory_limit = $this->return_bytes(ini_get('memory_limit'));
 
-		if ($memory_limit > -1) {
+		if ($memory_limit > -1)
+		{
 			if ($memory_limit < $minLimit)
 			{
 				// 16MB
