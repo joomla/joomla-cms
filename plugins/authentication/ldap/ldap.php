@@ -37,6 +37,12 @@ class PlgAuthenticationLdap extends CMSPlugin
 	 */
 	public function onUserAuthenticate($credentials, $options, &$response)
 	{
+		// If LDAP not correctly configured then bail early.
+		if (!$this->params->get('host'))
+		{
+			return false;
+		}
+
 		// For JLog
 		$response->type = 'LDAP';
 
@@ -79,7 +85,7 @@ class PlgAuthenticationLdap extends CMSPlugin
 
 					$ldap->bind($dn, $this->params->get('password', ''));
 				}
-				catch (ConnectionException $exception)
+				catch (ConnectionException | LdapException $exception)
 				{
 					$response->status = Authentication::STATUS_FAILURE;
 					$response->error_message = Text::_('JGLOBAL_AUTH_NOT_CONNECT');
@@ -138,7 +144,7 @@ class PlgAuthenticationLdap extends CMSPlugin
 				{
 					$ldap->bind($ldap->escape($credentials['username'], '', LDAP_ESCAPE_DN), $credentials['password']);
 				}
-				catch (ConnectionException $exception)
+				catch (ConnectionException | LdapException $exception)
 				{
 					$response->status = Authentication::STATUS_FAILURE;
 					$response->error_message = Text::_('JGLOBAL_AUTH_INVALID_PASS');
@@ -179,7 +185,7 @@ class PlgAuthenticationLdap extends CMSPlugin
 		// Grab some details from LDAP and return them
 		$response->username = $entry->getAttribute($ldap_uid)[0] ?? false;
 		$response->email    = $entry->getAttribute($ldap_email)[0] ?? false;
-		$response->fullname = $entry->getAttribute($ldap_fullname)[0] ?? trim($entry->geAttribute($ldap_fullname)[0]) ?: $credentials['username'];
+		$response->fullname = $entry->getAttribute($ldap_fullname)[0] ?? trim($entry->getAttribute($ldap_fullname)[0]) ?: $credentials['username'];
 
 		// Were good - So say so.
 		$response->status        = Authentication::STATUS_SUCCESS;

@@ -21,7 +21,7 @@
           novalidate
           @submit.prevent="save"
         >
-          <div class="form-group">
+          <div class="form-group p-3">
             <label for="name">{{ translate('COM_MEDIA_NAME') }}</label>
             <div :class="{'input-group': extension.length}">
               <input
@@ -84,6 +84,9 @@ export default {
     extension() {
       return this.item.extension;
     },
+  },
+  updated() {
+    this.$nextTick(() => (this.$refs.nameField ? this.$refs.nameField.focus() : null));
   },
   methods: {
     /* Check if the form is valid */

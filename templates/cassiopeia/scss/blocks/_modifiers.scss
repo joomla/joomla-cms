@@ -3,7 +3,6 @@
 // error page
 
 .error_site {
-  height: 100vh;
   .page-header {
     margin-top: $cassiopeia-grid-gutter;
   }
@@ -38,12 +37,12 @@
 
   [class^="span-col"],
   [class*=" span-col"] {
-    @include media-breakpoint-up(sm) {
+    @include media-breakpoint-up(md) {
       grid-column-end: span 2;
     }
   }
 
-  @include media-breakpoint-up(md) {
+  @include media-breakpoint-up(lg) {
     .span-col-2 {
       grid-column-end: span 2;
     }
@@ -90,7 +89,7 @@
   margin-bottom: $cassiopeia-grid-gutter;
   margin-left: -($cassiopeia-grid-gutter / 2);
 
-  @include media-breakpoint-up(md) {
+  @include media-breakpoint-up(lg) {
     &.columns-2 {
       > div {
         width: 50%;
@@ -167,7 +166,7 @@
   .image-right & {
     flex-direction: column;
 
-    @include media-breakpoint-up(md) {
+    @include media-breakpoint-up(lg) {
       flex-direction: row;
     }
   }
@@ -200,7 +199,7 @@
       }
     }
 
-    @include media-breakpoint-up(md) {
+    @include media-breakpoint-up(lg) {
       &.columns-2 {
         grid-template-columns: 1fr 1fr;
       }
@@ -231,7 +230,7 @@
     }
   }
 
-  @include media-breakpoint-up(md) {
+  @include media-breakpoint-up(lg) {
     &.masonry-2 {
       column-count: 2;
     }
@@ -298,12 +297,8 @@
 }
 
 .mod-list {
-  padding-left: 0;
+  padding-inline-start: 0;
   list-style: none;
-
-  [dir=rtl] & {
-    padding-right: 0;
-  }
 
   li {
     padding: .25em 0;

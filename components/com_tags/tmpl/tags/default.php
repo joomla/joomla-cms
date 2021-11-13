@@ -20,8 +20,11 @@ $descriptionImage = $this->params->get('all_tags_description_image');
 		</h1>
 	<?php endif; ?>
 	<?php if ($this->params->get('all_tags_show_description_image') && !empty($descriptionImage)) : ?>
+		<?php $alt = empty($this->params->get('all_tags_description_image_alt')) && empty($this->params->get('all_tags_description_image_alt_empty'))
+			? ''
+			: 'alt="' . htmlspecialchars($this->params->get('all_tags_description_image_alt'), ENT_COMPAT, 'UTF-8') . '"'; ?>
 		<div class="com-tags__image">
-			<img src="<?php echo htmlspecialchars($descriptionImage, ENT_QUOTES, 'UTF-8'); ?>" />
+			<img src="<?php echo htmlspecialchars($descriptionImage, ENT_QUOTES, 'UTF-8'); ?>" <?php echo $alt; ?>>
 		</div>
 	<?php endif; ?>
 	<?php if (!empty($description)) : ?>

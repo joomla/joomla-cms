@@ -11,7 +11,9 @@ namespace Joomla\Component\Installer\Api\Controller;
 
 \defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\ApiController;
+use Tobscure\JsonApi\Exception\InvalidParameterException;
 
 /**
  * The manage controller
@@ -35,4 +37,34 @@ class ManageController extends ApiController
 	 * @since  4.0.0
 	 */
 	protected $default_view = 'manage';
+
+	/**
+	 * Extension list view amended to add filtering of data
+	 *
+	 * @return  static  A BaseController object to support chaining.
+	 *
+	 * @since   4.0.0
+	 */
+	public function displayList()
+	{
+		$requestBool = $this->input->get('core', $this->input->get->get('core'));
+
+		if (!is_null($requestBool) && $requestBool !== 'true' && $requestBool !== 'false')
+		{
+			// Send the error response
+			$error = Text::sprintf('JLIB_FORM_VALIDATE_FIELD_INVALID', 'core');
+
+			throw new InvalidParameterException($error, 400, null, 'core');
+		}
+
+		if (!is_null($requestBool))
+		{
+			$this->modelState->set('filter.core', ($requestBool === 'true') ? '1' : '0', 'STRING');
+		}
+
+		$this->modelState->set('filter.status', $this->input->get('status', $this->input->get->get('status')), 'INT');
+		$this->modelState->set('filter.type', $this->input->get('type', $this->input->get->get('type')), 'STRING');
+
+		return parent::displayList();
+	}
 }

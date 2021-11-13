@@ -17,7 +17,7 @@ use Joomla\CMS\Factory;
 /**
  * JSON error page renderer
  *
- * @since  4.0
+ * @since  4.0.0
  */
 class JsonRenderer extends AbstractRenderer
 {
@@ -25,7 +25,7 @@ class JsonRenderer extends AbstractRenderer
 	 * The format (type) of the error page
 	 *
 	 * @var    string
-	 * @since  4.0
+	 * @since  4.0.0
 	 */
 	protected $type = 'json';
 
@@ -36,7 +36,7 @@ class JsonRenderer extends AbstractRenderer
 	 *
 	 * @return  string
 	 *
-	 * @since   4.0
+	 * @since   4.0.0
 	 */
 	public function render(\Throwable $error): string
 	{

@@ -17,7 +17,7 @@ use Joomla\Tests\Unit\UnitTestCase;
  *
  * @package     Joomla.UnitTest
  * @subpackage  Form
- * @since       __DEPLOY_VERSION__
+ * @since       3.9.26
  */
 class FilePathRuleTest extends UnitTestCase
 {
@@ -26,7 +26,7 @@ class FilePathRuleTest extends UnitTestCase
 	 *
 	 * @return  array
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.26
 	 */
 	public function dataTest(): array
 	{
@@ -38,14 +38,13 @@ class FilePathRuleTest extends UnitTestCase
 			size="50"
 			default="images"
 			validate="filePath"
+			exclude="administrator|media"
 		/>'
 		);
 
-		// These all pass today,
-		// BUT, Joomla 3.9.26 SHOULD break this test, as a security fix is applied, thus proving the test valuable
 		return [
 			[true, $xml, ''],
-			[false, $xml, '.images'],
+			[true, $xml, '.images'],
 			[false, $xml, './images'],
 			[false, $xml, '.\images'],
 			[false, $xml, '../images'],
@@ -54,19 +53,19 @@ class FilePathRuleTest extends UnitTestCase
 			[false, $xml, '\\images'], // Means \images
 			[true, $xml, 'ftp://images'],
 			[true, $xml, 'http://images'],
-			[true, $xml, 'media'],
-			[true, $xml, 'administrator'],
+			[false, $xml, 'media'],
+			[false, $xml, 'administrator'],
 			[false, $xml, '/4711images'],
-			[false, $xml, '4711images'],
-			[false, $xml, '1'],
-			[false, $xml, '_'],
-			[false, $xml, '*'],
-			[false, $xml, '%'],
-			[false, $xml, '://foo'],
+			[true, $xml, '4711images'],
+			[true, $xml, '1'],
+			[true, $xml, '_'],
+			[true, $xml, '*'],
+			[true, $xml, '%'],
+			[true, $xml, '://foo'],
 			[false, $xml, '/4711i/images'],
 			[false, $xml, '../4711i/images'],
-			[false, $xml, 'Εικόνες'],
-			[false, $xml, 'Изображений'],
+			[true, $xml, 'Εικόνες'],
+			[true, $xml, 'Изображений'],
 		];
 	}
 
@@ -79,7 +78,7 @@ class FilePathRuleTest extends UnitTestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.26
 	 * @dataProvider dataTest
 	 */
 	public function testRule($expected, $element, $value)

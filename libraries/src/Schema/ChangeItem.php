@@ -184,9 +184,8 @@ abstract class ChangeItem
 
 	/**
 	 * Runs the check query and checks that 1 row is returned
-	 * If yes, return true, otherwise return false
 	 *
-	 * @return  boolean  true on success, false otherwise
+	 * @return  integer  1 if success, -1 if skipped, -2 if check failed
 	 *
 	 * @since  2.5
 	 */
@@ -196,10 +195,9 @@ abstract class ChangeItem
 
 		if ($this->checkQuery)
 		{
-			$this->db->setQuery($this->checkQuery);
-
 			try
 			{
+				$this->db->setQuery($this->checkQuery);
 				$rows = $this->db->loadRowList(0);
 			}
 			catch (\RuntimeException $e)
@@ -238,10 +236,9 @@ abstract class ChangeItem
 			// At this point we have a failed query
 			$query = $this->updateQuery;
 
-			$this->db->setQuery($query);
-
 			try
 			{
+				$this->db->setQuery($query);
 				$this->db->execute();
 
 				if ($this->check())
@@ -254,7 +251,7 @@ abstract class ChangeItem
 					$this->rerunStatus = -2;
 				}
 			}
-			catch (ExecutionFailureException $e)
+			catch (ExecutionFailureException | \RuntimeException $e)
 			{
 				$this->rerunStatus = -2;
 			}

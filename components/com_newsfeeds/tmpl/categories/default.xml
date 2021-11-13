@@ -2,7 +2,7 @@
 <metadata>
 	<layout title="COM_NEWSFEEDS_CATEGORIES_VIEW_DEFAULT_TITLE" option="COM_NEWSFEEDS_CATEGORIES_VIEW_DEFAULT_OPTION">
 		<help
-			key = "JHELP_MENUS_MENU_ITEM_NEWSFEED_CATEGORIES"
+			key = "Menu_Item:_List_All_News_Feed_Categories"
 		/>
 		<message>
 			<![CDATA[COM_NEWSFEEDS_CATEGORIES_VIEW_DEFAULT_DESC]]>
@@ -323,6 +323,7 @@
 				type="number"
 				label="COM_NEWSFEEDS_FIELD_CHARACTER_COUNT_LABEL"
 				description="COM_NEWSFEEDS_FIELD_CHARACTER_COUNT_DESC"
+				filter="integer"
 				useglobal="true"
 			/>
 		</fieldset>

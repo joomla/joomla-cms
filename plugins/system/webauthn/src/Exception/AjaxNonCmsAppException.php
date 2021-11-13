@@ -21,5 +21,4 @@ use RuntimeException;
  */
 class AjaxNonCmsAppException extends RuntimeException
 {
-
 }

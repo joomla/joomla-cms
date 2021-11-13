@@ -178,8 +178,8 @@ abstract class Access
 				// Build the HTML for the item.
 				$html[] = '	<div class="control-group">';
 				$html[] = '		<div class="controls">';
-				$html[] = '			<label class="checkbox" for="' . $eid . '">';
-				$html[] = '			<input type="checkbox" name="' . $name . '[]" value="' . $item->id . '" id="' . $eid . '"';
+				$html[] = '			<label class="form-check-label checkbox" for="' . $eid . '">';
+				$html[] = '			<input class="form-check-input" type="checkbox" name="' . $name . '[]" value="' . $item->id . '" id="' . $eid . '"';
 				$html[] = '					' . $checked . $rel . '>';
 				$html[] = '			' . LayoutHelper::render('joomla.html.treeprefix', array('level' => $item->level + 1)) . $item->title;
 				$html[] = '			</label>';

@@ -53,7 +53,7 @@ if ($currentPage >= $step)
 
 
 <?php if (!empty($pages)) : ?>
-	<nav role="navigation" aria-label="<?php echo Text::_('JLIB_HTML_PAGINATION'); ?>">
+	<nav class="pagination__wrapper" aria-label="<?php echo Text::_('JLIB_HTML_PAGINATION'); ?>">
 		<div class="pagination pagination-toolbar text-center">
 
 			<?php if ($showLimitBox) : ?>

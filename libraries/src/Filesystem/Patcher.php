@@ -84,7 +84,7 @@ class Patcher
 	/**
 	 * Method to get a patcher
 	 *
-	 * @return  FilesystemPatcher  an instance of the patcher
+	 * @return  Patcher  an instance of the patcher
 	 *
 	 * @since   3.0.0
 	 */
@@ -101,7 +101,7 @@ class Patcher
 	/**
 	 * Reset the patcher
 	 *
-	 * @return  FilesystemPatcher  This object for chaining
+	 * @return  Patcher  This object for chaining
 	 *
 	 * @since   3.0.0
 	 */
@@ -214,7 +214,7 @@ class Patcher
 	 * @param   string   $root      The files root path
 	 * @param   integer  $strip     The number of '/' to strip
 	 *
-	 * @return  FilesystemPatcher  $this for chaining
+	 * @return  Patcher  $this for chaining
 	 *
 	 * @since   3.0.0
 	 */
@@ -230,7 +230,7 @@ class Patcher
 	 * @param   string   $root   The files root path
 	 * @param   integer  $strip  The number of '/' to strip
 	 *
-	 * @return  FilesystemPatcher  $this for chaining
+	 * @return  Patcher  $this for chaining
 	 *
 	 * @since   3.0.0
 	 */

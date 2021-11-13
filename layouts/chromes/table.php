@@ -13,7 +13,7 @@ defined('_JEXEC') or die;
 $module  = $displayData['module'];
 $params  = $displayData['params'];
 ?>
-<table cellpadding="0" cellspacing="0"
+<table
 	class="moduletable <?php echo htmlspecialchars($params->get('moduleclass_sfx'), ENT_COMPAT, 'UTF-8'); ?>">
 	<?php if ((bool) $module->showtitle) : ?>
 		<tr>

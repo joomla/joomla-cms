@@ -1,70 +1,50 @@
 // Sidebar
 
 .sidebar-nav {
-
-  // override bootstrap important
-  max-height: 75vh;
-  overflow-y: scroll;
-  background: var(--atum-sidebar-bg) !important;
-  box-shadow: $atum-box-shadow;
-
-  ul {
-    padding-left: .5rem;
-  }
+  padding: 1rem 2rem;
 
   li {
-    margin-bottom: .5rem;
     font-size: .9rem;
     font-weight: $font-weight-bold;
-    border-bottom: solid 1px var(--atum-bg-light);
-
-    &.nav-header {
-      padding: .5rem 0 .2rem;
-      margin-bottom: .5rem;
-      font-size: .9rem;
-      color: var(--atum-text-dark);
-      border: 0;
-
-    }
 
     &.divider {
       margin: .3rem 0;
-      border-bottom: 0;
-
     }
 
     a {
-      position: relative;
       display: block;
-      padding: .35rem .35rem .35rem 1.2rem;
-      overflow: hidden;
+      padding: .25rem;
       font-weight: $font-weight-normal;
-      color: var(--atum-text-dark);
+      color: var(--template-text-dark);
       text-decoration: none;
 
       &::before {
-        position: absolute;
-        top: .75rem;
-        left: 0;
-        display: inline-block;
-        width: .6em;
-        height: .6em;
-        content: "";
-        border-top: 1px solid var(--atum-link-color);
-        border-right: 1px solid var(--atum-link-color);
-        transform: rotate(45deg) skew(5deg, 5deg);
+        margin-right: .5rem;
+        font-family: "Font Awesome 5 Free";
+        font-weight: 900;
+        content: "\f054";
 
+        [dir="rtl"] & {
+          margin-right: 0;
+          content: none;
+        }
+      }
+
+      &::after {
+        [dir="rtl"] & {
+          margin-inline-end: .5rem;
+          font-family: "Font Awesome 5 Free";
+          font-weight: 900;
+          content: "\f053";
+        }
       }
     }
 
-    &:hover, &.active {
-      a {
-        color: var(--atum-text-light);
-        background-color: var(--atum-link-color);
+    &.item:hover, &.active {
+      background-color: var(--template-bg-dark-60);
 
-        &::before {
-          border-color: var(--atum-text-light);
-        }
+      a {
+        color: var(--template-text-light);
       }
     }
   }

@@ -176,7 +176,7 @@ class PlgSystemDebug extends CMSPlugin
 		$this->isAjax = $this->app->input->get('option') === 'com_ajax'
 			&& $this->app->input->get('plugin') === 'debug' && $this->app->input->get('group') === 'system';
 
-		$this->showLogs = (bool) $this->params->get('logs', false);
+		$this->showLogs = (bool) $this->params->get('logs', true);
 
 		// Log deprecated class aliases
 		if ($this->showLogs && $this->app->get('log_deprecated'))
@@ -202,7 +202,7 @@ class PlgSystemDebug extends CMSPlugin
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function onBeforeCompileHead()
 	{

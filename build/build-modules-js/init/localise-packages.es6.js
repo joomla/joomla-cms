@@ -20,7 +20,7 @@ const copyFilesTo = async (files, srcDir, destDir) => {
 
   async function doTheCopy(source, dest) {
     await ensureDir(dirname(dest));
-    await copy(source, dest);
+    await copy(source, dest, { preserveTimestamps: true });
   }
 
   // Copy each file
@@ -70,6 +70,7 @@ const resolvePackage = async (vendor, packageName, mediaVendorPath, options, reg
     await copy(
       `${join(RootPath, `node_modules/${packageName}`)}/${options.settings.vendors[packageName].licenseFilename}`,
       `${dest}/${options.settings.vendors[packageName].licenseFilename}`,
+      { preserveTimestamps: true },
     );
   }
 
@@ -127,10 +128,10 @@ module.exports.localisePackages = async (options) => {
   const promises = [];
 
   if (!await existsSync(mediaVendorPath)) {
-    await mkdir(mediaVendorPath, { recursive: true });
+    await mkdir(mediaVendorPath, { recursive: true, mode: 0o755 });
   }
 
-  // Loop to get some text for the packgage.json
+  // Loop to get some text for the package.json
   // eslint-disable-next-line guard-for-in, no-restricted-syntax
   for (const packageName in options.settings.vendors) {
     const vendor = options.settings.vendors[packageName];
@@ -144,6 +145,6 @@ module.exports.localisePackages = async (options) => {
   await writeFile(
     join(mediaVendorPath, 'joomla.asset.json'),
     JSON.stringify(registry, null, 2),
-    { encoding: 'utf8' },
+    { encoding: 'utf8', mode: 0o644 },
   );
 };

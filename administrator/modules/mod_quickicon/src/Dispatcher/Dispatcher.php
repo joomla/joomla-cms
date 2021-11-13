@@ -12,7 +12,6 @@ namespace Joomla\Module\Quickicon\Administrator\Dispatcher;
 \defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Dispatcher\AbstractModuleDispatcher;
-use Joomla\Module\Quickicon\Administrator\Helper\QuickIconHelper;
 
 /**
  * Dispatcher class for mod_quickicon

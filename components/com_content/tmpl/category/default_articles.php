@@ -90,7 +90,7 @@ $currentDate = Factory::getDate()->format('Y-m-d H:i:s');
 				</span>
 				<select name="filter-search" id="filter-search" class="form-select" onchange="document.adminForm.submit();">
 					<option value=""><?php echo Text::_('JOPTION_SELECT_MONTH'); ?></option>
-					<?php echo HtmlHelper::_('select.options', HtmlHelper::_('content.months', $this->state), 'value', 'text', $this->state->get('list.filter')); ?>
+					<?php echo HTMLHelper::_('select.options', HTMLHelper::_('content.months', $this->state), 'value', 'text', $this->state->get('list.filter')); ?>
 				</select>
 			<?php else : ?>
 				<label class="filter-search-lbl visually-hidden" for="filter-search">
@@ -116,10 +116,12 @@ $currentDate = Factory::getDate()->format('Y-m-d H:i:s');
 	<?php endif; ?>
 
 	<?php if (empty($this->items)) : ?>
-		<div class="alert alert-info">
-			<span class="icon-info-circle" aria-hidden="true"></span><span class="visually-hidden"><?php echo Text::_('INFO'); ?></span>
-				<?php echo Text::_('COM_CONTENT_NO_ARTICLES'); ?>
-		</div>
+		<?php if ($this->params->get('show_no_articles', 1)) : ?>
+			<div class="alert alert-info">
+				<span class="icon-info-circle" aria-hidden="true"></span><span class="visually-hidden"><?php echo Text::_('INFO'); ?></span>
+					<?php echo Text::_('COM_CONTENT_NO_ARTICLES'); ?>
+			</div>
+		<?php endif; ?>
 	<?php else : ?>
 		<table class="com-content-category__table category table table-striped table-bordered table-hover">
 			<caption class="visually-hidden">
@@ -181,15 +183,17 @@ $currentDate = Factory::getDate()->format('Y-m-d H:i:s');
 							<?php echo $this->escape($article->title); ?>
 						</a>
 						<?php if (Associations::isEnabled() && $this->params->get('show_associations')) : ?>
-							<div>
+							<div class="cat-list-association">
 							<?php $associations = AssociationHelper::displayAssociations($article->id); ?>
 							<?php foreach ($associations as $association) : ?>
 								<?php if ($this->params->get('flags', 1) && $association['language']->image) : ?>
 									<?php $flag = HTMLHelper::_('image', 'mod_languages/' . $association['language']->image . '.gif', $association['language']->title_native, array('title' => $association['language']->title_native), true); ?>
-									&nbsp;<a href="<?php echo Route::_($association['item']); ?>"><?php echo $flag; ?></a>&nbsp;
+									<a href="<?php echo Route::_($association['item']); ?>"><?php echo $flag; ?></a>
 								<?php else : ?>
-									<?php $class = 'badge bg-secondary badge-' . $association['language']->sef; ?>
-									&nbsp;<a class="<?php echo $class; ?>" title="<?php echo $association['language']->title_native; ?>" href="<?php echo Route::_($association['item']); ?>"><?php echo strtoupper($association['language']->sef); ?></a>&nbsp;
+									<?php $class = 'btn btn-secondary btn-sm btn-' . strtolower($association['language']->lang_code); ?>
+									<a class="<?php echo $class; ?>" title="<?php echo $association['language']->title_native; ?>" href="<?php echo Route::_($association['item']); ?>"><?php echo $association['language']->lang_code; ?>
+										<span class="visually-hidden"><?php echo $association['language']->title_native; ?></span>
+									</a>
 								<?php endif; ?>
 							<?php endforeach; ?>
 							</div>
@@ -205,15 +209,17 @@ $currentDate = Factory::getDate()->format('Y-m-d H:i:s');
 							<?php echo Text::_('COM_CONTENT_REGISTER_TO_READ_MORE'); ?>
 						</a>
 						<?php if (Associations::isEnabled() && $this->params->get('show_associations')) : ?>
-							<div>
+							<div class="cat-list-association">
 							<?php $associations = AssociationHelper::displayAssociations($article->id); ?>
 							<?php foreach ($associations as $association) : ?>
 								<?php if ($this->params->get('flags', 1)) : ?>
 									<?php $flag = HTMLHelper::_('image', 'mod_languages/' . $association['language']->image . '.gif', $association['language']->title_native, array('title' => $association['language']->title_native), true); ?>
-									&nbsp;<a href="<?php echo Route::_($association['item']); ?>"><?php echo $flag; ?></a>&nbsp;
+									<a href="<?php echo Route::_($association['item']); ?>"><?php echo $flag; ?></a>
 								<?php else : ?>
-									<?php $class = 'badge bg-secondary badge-' . $association['language']->sef; ?>
-									&nbsp;<a class="<?php echo $class; ?>" title="<?php echo $association['language']->title_native; ?>" href="<?php echo Route::_($association['item']); ?>"><?php echo strtoupper($association['language']->sef); ?></a>&nbsp;
+									<?php $class = 'btn btn-secondary btn-sm btn-' . strtolower($association['language']->lang_code); ?>
+									<a class="<?php echo $class; ?>" title="<?php echo $association['language']->title_native; ?>" href="<?php echo Route::_($association['item']); ?>"><?php echo $association['language']->lang_code; ?>
+										<span class="visually-hidden"><?php echo $association['language']->title_native; ?></span>
+									</a>
 								<?php endif; ?>
 							<?php endforeach; ?>
 							</div>
@@ -221,21 +227,21 @@ $currentDate = Factory::getDate()->format('Y-m-d H:i:s');
 					<?php endif; ?>
 					<?php if ($article->state == ContentComponent::CONDITION_UNPUBLISHED) : ?>
 						<div>
-							<span class="list-published badge bg-warning text-dark">
+							<span class="list-published badge bg-warning text-light">
 								<?php echo Text::_('JUNPUBLISHED'); ?>
 							</span>
 						</div>
 					<?php endif; ?>
 					<?php if ($article->publish_up > $currentDate) : ?>
 						<div>
-							<span class="list-published badge bg-warning text-dark">
+							<span class="list-published badge bg-warning text-light">
 								<?php echo Text::_('JNOTPUBLISHEDYET'); ?>
 							</span>
 						</div>
 					<?php endif; ?>
 					<?php if (!is_null($article->publish_down) && $article->publish_down < $currentDate) : ?>
 						<div>
-							<span class="list-published badge bg-warning text-dark">
+							<span class="list-published badge bg-warning text-light">
 								<?php echo Text::_('JEXPIRED'); ?>
 							</span>
 						</div>
@@ -295,7 +301,7 @@ $currentDate = Factory::getDate()->format('Y-m-d H:i:s');
 				<?php endif; ?>
 				<?php if ($this->params->get('list_show_ratings', 0) && $this->vote) : ?>
 					<td class="list-ratings">
-						<span class="badge bg-warning text-dark">
+						<span class="badge bg-warning text-light">
 							<?php if ($this->params->get('show_headings')) : ?>
 								<?php echo $article->rating; ?>
 							<?php else : ?>

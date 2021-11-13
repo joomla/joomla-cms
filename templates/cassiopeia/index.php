@@ -41,24 +41,49 @@ $templatePath = 'templates/' . $this->template;
 $paramsColorName = $this->params->get('colorName', 'colors_standard');
 $assetColorName  = 'theme.' . $paramsColorName;
 $wa->registerAndUseStyle($assetColorName, $templatePath . '/css/global/' . $paramsColorName . '.css');
-$this->getPreloadManager()->prefetch($wa->getAsset('style', $assetColorName)->getUri(), ['as' => 'style']);
 
 // Use a font scheme if set in the template style options
 $paramsFontScheme = $this->params->get('useFontScheme', false);
+$fontStyles       = '';
 
 if ($paramsFontScheme)
 {
-	// Prefetch the stylesheet for the font scheme, actually we need to prefetch the font(s)
-	$assetFontScheme  = 'fontscheme.' . $paramsFontScheme;
-	$wa->registerAndUseStyle($assetFontScheme, $templatePath . '/css/global/' . $paramsFontScheme . '.css');
-	$this->getPreloadManager()->prefetch($wa->getAsset('style', $assetFontScheme)->getUri(), ['as' => 'style']);
+	if (stripos($paramsFontScheme, 'https://') === 0)
+	{
+		$this->getPreloadManager()->preconnect('https://fonts.googleapis.com/', []);
+		$this->getPreloadManager()->preconnect('https://fonts.gstatic.com/', []);
+		$this->getPreloadManager()->preload($paramsFontScheme, ['as' => 'style']);
+		$wa->registerAndUseStyle('fontscheme.current', $paramsFontScheme, [], ['media' => 'print', 'rel' => 'lazy-stylesheet', 'onload' => 'this.media=\'all\'']);
+
+		if (preg_match_all('/family=([^?:]*):/i', $paramsFontScheme, $matches) > 0)
+		{
+			$fontStyles = '--cassiopeia-font-family-body: "' . str_replace('+', ' ', $matches[1][0]) . '", sans-serif;
+			--cassiopeia-font-family-headings: "' . str_replace('+', ' ', isset($matches[1][1]) ? $matches[1][1] : $matches[1][0]) . '", sans-serif;
+			--cassiopeia-font-weight-normal: 400;
+			--cassiopeia-font-weight-headings: 700;';
+		}
+	}
+	else
+	{
+		$wa->registerAndUseStyle('fontscheme.current', $paramsFontScheme, ['version' => 'auto'], ['media' => 'print', 'rel' => 'lazy-stylesheet', 'onload' => 'this.media=\'all\'']);
+		$this->getPreloadManager()->preload($wa->getAsset('style', 'fontscheme.current')->getUri() . '?' . $this->getMediaVersion(), ['as' => 'style']);
+	}
 }
 
 // Enable assets
 $wa->usePreset('template.cassiopeia.' . ($this->direction === 'rtl' ? 'rtl' : 'ltr'))
 	->useStyle('template.active.language')
 	->useStyle('template.user')
-	->useScript('template.user');
+	->useScript('template.user')
+	->addInlineStyle(":root {
+		--hue: 214;
+		--template-bg-light: #f0f4fb;
+		--template-text-dark: #495057;
+		--template-text-light: #ffffff;
+		--template-link-color: #2a69b8;
+		--template-special-color: #001B4C;
+		$fontStyles
+	}");
 
 // Override 'template.active' asset to set correct ltr/rtl dependency
 $wa->registerStyle('template.active', '', [], [], ['template.cassiopeia.' . ($this->direction === 'rtl' ? 'rtl' : 'ltr')]);
@@ -95,6 +120,9 @@ $wrapper = $this->params->get('fluidContainer') ? 'wrapper-fluid' : 'wrapper-sta
 $this->setMetaData('viewport', 'width=device-width, initial-scale=1');
 
 $stickyHeader = $this->params->get('stickyHeader') ? 'position-sticky sticky-top' : '';
+
+// Defer font awesome
+$wa->getAsset('style', 'fontawesome')->setAttribute('rel', 'lazy-stylesheet');
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>">
@@ -104,39 +132,47 @@ $stickyHeader = $this->params->get('stickyHeader') ? 'position-sticky sticky-top
 	<jdoc:include type="scripts" />
 </head>
 
-<body class="site-grid site <?php echo $option
+<body class="site <?php echo $option
 	. ' ' . $wrapper
 	. ' view-' . $view
 	. ($layout ? ' layout-' . $layout : ' no-layout')
 	. ($task ? ' task-' . $task : ' no-task')
 	. ($itemid ? ' itemid-' . $itemid : '')
-	. ' ' . $pageclass
-	. $hasClass;
-	echo ($this->direction == 'rtl' ? ' rtl' : '');
+	. ($pageclass ? ' ' . $pageclass : '')
+	. $hasClass
+	. ($this->direction == 'rtl' ? ' rtl' : '');
 ?>">
-	<header class="header container-header full-width <?php echo $stickyHeader; ?>">
-		<div class="grid-child">
-			<div class="navbar-brand">
-				<a class="brand-logo" href="<?php echo $this->baseurl; ?>/">
-					<?php echo $logo; ?>
-				</a>
-				<?php if ($this->params->get('siteDescription')) : ?>
-					<div class="site-description"><?php echo htmlspecialchars($this->params->get('siteDescription')); ?></div>
-				<?php endif; ?>
+	<header class="header container-header full-width<?php echo $stickyHeader ? ' ' . $stickyHeader : ''; ?>">
+
+		<?php if ($this->countModules('topbar')) : ?>
+			<div class="container-topbar">
+			<jdoc:include type="modules" name="topbar" style="none" />
 			</div>
-		</div>
+		<?php endif; ?>
+
+		<?php if ($this->countModules('below-top')) : ?>
+			<div class="grid-child container-below-top">
+				<jdoc:include type="modules" name="below-top" style="none" />
+			</div>
+		<?php endif; ?>
+
+		<?php if ($this->params->get('brand', 1)) : ?>
+			<div class="grid-child">
+				<div class="navbar-brand">
+					<a class="brand-logo" href="<?php echo $this->baseurl; ?>/">
+						<?php echo $logo; ?>
+					</a>
+					<?php if ($this->params->get('siteDescription')) : ?>
+						<div class="site-description"><?php echo htmlspecialchars($this->params->get('siteDescription')); ?></div>
+					<?php endif; ?>
+				</div>
+			</div>
+		<?php endif; ?>
+
 		<?php if ($this->countModules('menu', true) || $this->countModules('search', true)) : ?>
 			<div class="grid-child container-nav">
 				<?php if ($this->countModules('menu', true)) : ?>
-					<nav class="navbar navbar-expand-md">
-						<?php HTMLHelper::_('bootstrap.collapse', '.navbar-toggler'); ?>
-						<button class="navbar-toggler navbar-toggler-right" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="<?php echo Text::_('TPL_CASSIOPEIA_TOGGLE'); ?>">
-							<span class="icon-menu" aria-hidden="true"></span>
-						</button>
-						<div class="collapse navbar-collapse" id="navbar">
-							<jdoc:include type="modules" name="menu" style="none" />
-						</div>
-					</nav>
+					<jdoc:include type="modules" name="menu" style="none" />
 				<?php endif; ?>
 				<?php if ($this->countModules('search', true)) : ?>
 					<div class="container-search">
@@ -147,57 +183,59 @@ $stickyHeader = $this->params->get('stickyHeader') ? 'position-sticky sticky-top
 		<?php endif; ?>
 	</header>
 
-	<?php if ($this->countModules('banner', true)) : ?>
-		<div class="container-banner full-width">
-			<jdoc:include type="modules" name="banner" style="none" />
+	<div class="site-grid">
+		<?php if ($this->countModules('banner', true)) : ?>
+			<div class="container-banner full-width">
+				<jdoc:include type="modules" name="banner" style="none" />
+			</div>
+		<?php endif; ?>
+
+		<?php if ($this->countModules('top-a', true)) : ?>
+		<div class="grid-child container-top-a">
+			<jdoc:include type="modules" name="top-a" style="card" />
 		</div>
-	<?php endif; ?>
+		<?php endif; ?>
 
-	<?php if ($this->countModules('top-a', true)) : ?>
-	<div class="grid-child container-top-a">
-		<jdoc:include type="modules" name="top-a" style="card" />
-	</div>
-	<?php endif; ?>
+		<?php if ($this->countModules('top-b', true)) : ?>
+		<div class="grid-child container-top-b">
+			<jdoc:include type="modules" name="top-b" style="card" />
+		</div>
+		<?php endif; ?>
 
-	<?php if ($this->countModules('top-b', true)) : ?>
-	<div class="grid-child container-top-b">
-		<jdoc:include type="modules" name="top-b" style="card" />
-	</div>
-	<?php endif; ?>
+		<?php if ($this->countModules('sidebar-left', true)) : ?>
+		<div class="grid-child container-sidebar-left">
+			<jdoc:include type="modules" name="sidebar-left" style="card" />
+		</div>
+		<?php endif; ?>
 
-	<?php if ($this->countModules('sidebar-left', true)) : ?>
-	<div class="grid-child container-sidebar-left">
-		<jdoc:include type="modules" name="sidebar-left" style="card" />
-	</div>
-	<?php endif; ?>
+		<div class="grid-child container-component">
+			<jdoc:include type="modules" name="breadcrumbs" style="none" />
+			<jdoc:include type="modules" name="main-top" style="card" />
+			<jdoc:include type="message" />
+			<main>
+			<jdoc:include type="component" />
+			</main>
+			<jdoc:include type="modules" name="main-bottom" style="card" />
+		</div>
 
-	<div class="grid-child container-component">
-		<jdoc:include type="modules" name="breadcrumbs" style="none" />
-		<jdoc:include type="modules" name="main-top" style="card" />
-		<jdoc:include type="message" />
-		<main>
-		<jdoc:include type="component" />
-		</main>
-		<jdoc:include type="modules" name="main-bottom" style="card" />
-	</div>
+		<?php if ($this->countModules('sidebar-right', true)) : ?>
+		<div class="grid-child container-sidebar-right">
+			<jdoc:include type="modules" name="sidebar-right" style="card" />
+		</div>
+		<?php endif; ?>
 
-	<?php if ($this->countModules('sidebar-right', true)) : ?>
-	<div class="grid-child container-sidebar-right">
-		<jdoc:include type="modules" name="sidebar-right" style="card" />
-	</div>
-	<?php endif; ?>
+		<?php if ($this->countModules('bottom-a', true)) : ?>
+		<div class="grid-child container-bottom-a">
+			<jdoc:include type="modules" name="bottom-a" style="card" />
+		</div>
+		<?php endif; ?>
 
-	<?php if ($this->countModules('bottom-a', true)) : ?>
-	<div class="grid-child container-bottom-a">
-		<jdoc:include type="modules" name="bottom-a" style="card" />
+		<?php if ($this->countModules('bottom-b', true)) : ?>
+		<div class="grid-child container-bottom-b">
+			<jdoc:include type="modules" name="bottom-b" style="card" />
+		</div>
+		<?php endif; ?>
 	</div>
-	<?php endif; ?>
-
-	<?php if ($this->countModules('bottom-b', true)) : ?>
-	<div class="grid-child container-bottom-b">
-		<jdoc:include type="modules" name="bottom-b" style="card" />
-	</div>
-	<?php endif; ?>
 
 	<?php if ($this->countModules('footer', true)) : ?>
 	<footer class="container-footer footer full-width">
@@ -208,14 +246,11 @@ $stickyHeader = $this->params->get('stickyHeader') ? 'position-sticky sticky-top
 	<?php endif; ?>
 
 	<?php if ($this->params->get('backTop') == 1) : ?>
-		<div class="back-to-top-wrapper">
-			<a href="#top" id="back-top" class="back-to-top-link" aria-label="<?php echo Text::_('TPL_CASSIOPEIA_BACKTOTOP'); ?>">
-				<span class="icon-arrow-up icon-fw" aria-hidden="true"></span>
-			</a>
-		</div>
+		<a href="#top" id="back-top" class="back-to-top-link" aria-label="<?php echo Text::_('TPL_CASSIOPEIA_BACKTOTOP'); ?>">
+			<span class="icon-arrow-up icon-fw" aria-hidden="true"></span>
+		</a>
 	<?php endif; ?>
 
 	<jdoc:include type="modules" name="debug" style="none" />
-
 </body>
 </html>

@@ -86,7 +86,7 @@ class HtmlView extends BaseHtmlView
 
 		$this->addToolbar();
 
-		return parent::display($tpl);
+		parent::display($tpl);
 	}
 
 	/**
@@ -124,7 +124,7 @@ class HtmlView extends BaseHtmlView
 			$childBar->publish('languages.publish')->listCheck(true);
 			$childBar->unpublish('languages.unpublish')->listCheck(true);
 
-			if (!$this->state->get('filter.published') == -2)
+			if ($this->state->get('filter.published') != -2)
 			{
 				$childBar->trash('languages.trash')->listCheck(true);
 			}
@@ -149,6 +149,6 @@ class HtmlView extends BaseHtmlView
 			ToolbarHelper::divider();
 		}
 
-		ToolbarHelper::help('JHELP_EXTENSIONS_LANGUAGE_MANAGER_CONTENT');
+		ToolbarHelper::help('Languages:_Content');
 	}
 }

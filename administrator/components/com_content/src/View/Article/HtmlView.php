@@ -70,7 +70,7 @@ class HtmlView extends BaseHtmlView
 	 *
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
 	 *
-	 * @return  mixed  A string if successful, otherwise an Error object.
+	 * @return  void
 	 *
 	 * @throws \Exception
 	 * @since   1.6
@@ -79,7 +79,9 @@ class HtmlView extends BaseHtmlView
 	{
 		if ($this->getLayout() == 'pagebreak')
 		{
-			return parent::display($tpl);
+			parent::display($tpl);
+
+			return;
 		}
 
 		$this->form  = $this->get('Form');
@@ -109,7 +111,7 @@ class HtmlView extends BaseHtmlView
 
 		$this->addToolbar();
 
-		return parent::display($tpl);
+		parent::display($tpl);
 	}
 
 	/**
@@ -159,7 +161,7 @@ class HtmlView extends BaseHtmlView
 				}
 			);
 
-			$toolbar->cancel('article.cancel', 'JTOOLBAR_CLOSE');
+			$toolbar->cancel('article.cancel', 'JTOOLBAR_CANCEL');
 		}
 		else
 		{
@@ -204,13 +206,13 @@ class HtmlView extends BaseHtmlView
 
 			$toolbar->cancel('article.cancel', 'JTOOLBAR_CLOSE');
 
-			if (ComponentHelper::isEnabled('com_contenthistory') && $this->state->params->get('save_history', 0) && $itemEditable)
-			{
-				$toolbar->versions('com_content.article', $this->item->id);
-			}
-
 			if (!$isNew)
 			{
+				if (ComponentHelper::isEnabled('com_contenthistory') && $this->state->params->get('save_history', 0) && $itemEditable)
+				{
+					$toolbar->versions('com_content.article', $this->item->id);
+				}
+
 				$url = Route::link(
 					'site',
 					RouteHelper::getArticleRoute($this->item->id . ':' . $this->item->alias, $this->item->catid, $this->item->language),
@@ -231,6 +233,6 @@ class HtmlView extends BaseHtmlView
 		}
 
 		$toolbar->divider();
-		$toolbar->help('JHELP_CONTENT_ARTICLE_MANAGER_EDIT');
+		$toolbar->help('Articles:_Edit');
 	}
 }

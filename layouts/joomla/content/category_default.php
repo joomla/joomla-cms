@@ -23,6 +23,7 @@ $category  = $displayData->get('category');
 $extension = $category->extension;
 $canEdit   = $params->get('access-edit');
 $className = substr($extension, 4);
+$htag	   = $params->get('show_page_heading') ? 'h2' : 'h1';
 
 $app = Factory::getApplication();
 
@@ -51,7 +52,7 @@ if (substr($className, -1) === 's')
 $tagsData = $category->tags->itemTags;
 ?>
 <div>
-	<div class="<?php echo $className .'-category' . $displayData->pageclass_sfx; ?>">
+	<div class="<?php echo $className . '-category' . $displayData->pageclass_sfx; ?>">
 		<?php if ($params->get('show_page_heading')) : ?>
 			<h1>
 				<?php echo $displayData->escape($params->get('page_heading')); ?>
@@ -59,9 +60,9 @@ $tagsData = $category->tags->itemTags;
 		<?php endif; ?>
 
 		<?php if ($params->get('show_category_title', 1)) : ?>
-			<h2>
+			<<?php echo $htag; ?>>
 				<?php echo HTMLHelper::_('content.prepare', $category->title, '', $extension . '.category.title'); ?>
-			</h2>
+			</<?php echo $htag; ?>>
 		<?php endif; ?>
 		<?php echo $afterDisplayTitle; ?>
 

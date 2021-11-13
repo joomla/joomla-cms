@@ -184,7 +184,7 @@ class Changelog extends CMSObject
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION_
+	 * @since   4.0.0
 	 */
 	public function setVersion(string $version)
 	{

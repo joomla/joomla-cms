@@ -107,7 +107,7 @@ class TosField extends RadioField
 
 			$currentLang = Factory::getLanguage()->getTag();
 
-			if (isset($tosAssociated) && $currentLang !== $article->language && array_key_exists($currentLang, $tosAssociated))
+			if (isset($tosAssociated) && $currentLang !== $article->language && \array_key_exists($currentLang, $tosAssociated))
 			{
 				$url  = RouteHelper::getArticleRoute(
 					$tosAssociated[$currentLang]->id,
@@ -134,7 +134,7 @@ class TosField extends RadioField
 					'modalWidth'  => '800',
 					'bodyHeight'  => '500',
 					'footer' => '<button type="button" class="btn btn-secondary" data-bs-dismiss="modal" aria-hidden="true">'
-						. Text::_("JLIB_HTML_BEHAVIOR_CLOSE") . '</button>'
+						. Text::_('JLIB_HTML_BEHAVIOR_CLOSE') . '</button>',
 				]
 			);
 		}

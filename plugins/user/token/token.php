@@ -401,7 +401,7 @@ class PlgUserToken extends CMSPlugin
 					$db->qn('user_id'),
 					$db->qn('profile_key'),
 					$db->qn('profile_value'),
-					$db->qn('ordering')
+					$db->qn('ordering'),
 				]
 			);
 
@@ -464,7 +464,6 @@ class PlgUserToken extends CMSPlugin
 			// Do nothing.
 		}
 	}
-
 
 	/**
 	 * Returns an array with the default profile field values.

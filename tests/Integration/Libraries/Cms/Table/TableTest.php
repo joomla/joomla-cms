@@ -18,8 +18,6 @@ use Joomla\Tests\Integration\IntegrationTestCase;
 /**
  * Test class for \Joomla\CMS\Table\Table.
  *
- * @package  Joomla.Platform
- *
  * @since    4.0.0
  */
 class TableTest extends IntegrationTestCase implements DBTestInterface
@@ -304,7 +302,7 @@ class TableTest extends IntegrationTestCase implements DBTestInterface
 		);
 
 		$this->assertEquals(
-			$nullDate,
+			null,
 			$this->object->publish_up
 		);
 

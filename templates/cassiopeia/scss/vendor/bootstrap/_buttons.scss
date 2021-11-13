@@ -25,8 +25,33 @@
   }
 }
 
-@include media-breakpoint-down(md) {
+.article-info .association,
+.cat-list-association {
+  .btn-secondary {
+    font-weight: 700;
+    color: $white;
+    background-color: $gray-600;
+    border-color: $gray-400;
+
+    &:hover,
+    &:focus {
+      color: $white;
+      background-color: $gray-800;
+    }
+  }
+
+  .btn-sm {
+    padding: 0 .25rem;
+    font-size: .8rem;
+    border-radius: .2rem;
+  }
+}
+
+@include media-breakpoint-down(lg) {
   .btn {
     margin-bottom: .25rem;
+  }
+  .input-group .btn {
+    margin-bottom: 0;
   }
 }

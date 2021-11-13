@@ -23,6 +23,8 @@
 		<folder>scss</folder>
 	</files>
 	<positions>
+		<position>topbar</position>
+		<position>below-top</position>
 		<position>menu</position>
 		<position>search</position>
 		<position>banner</position>
@@ -46,10 +48,23 @@
 		<fields name="params">
 			<fieldset name="advanced">
 				<field
+					name="brand"
+					type="radio"
+					label="TPL_CASSIOPEIA_BRAND_LABEL"
+					default="1"
+					layout="joomla.form.field.radio.switcher"
+					filter="boolean"
+					>
+					<option value="0">JNO</option>
+					<option value="1">JYES</option>
+				</field>
+
+				<field
 					name="logoFile"
 					type="media"
 					default=""
 					label="TPL_CASSIOPEIA_LOGO_LABEL"
+					showon="brand:1"
 				/>
 
 				<field
@@ -58,6 +73,7 @@
 					default=""
 					label="TPL_CASSIOPEIA_TITLE"
 					filter="string"
+					showon="brand:1"
 				/>
 
 				<field
@@ -66,6 +82,7 @@
 					default=""
 					label="TPL_CASSIOPEIA_TAGLINE"
 					filter="string"
+					showon="brand:1"
 				/>
 
 				<field
@@ -76,19 +93,18 @@
 					>
 					<option value="0">JNONE</option>
 					<group label="TPL_CASSIOPEIA_FONT_GROUP_LOCAL">
-						<option value="fonts-local_roboto">Roboto (local)</option>
+						<option value="templates/cassiopeia/css/global/fonts-local_roboto.css">Roboto (local)</option>
 					</group>
 					<group label="TPL_CASSIOPEIA_FONT_GROUP_WEB">
-						<option value="fonts-web_fira-sans">Fira Sans (web)</option>
-						<option value="fonts-web_roboto+noto-sans">Roboto + Noto Sans (web)</option>
+						<option value="https://fonts.googleapis.com/css2?family=Fira+Sans:wght@100;300;400;700&amp;display=swap">Fira Sans (web)</option>
+						<option value="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@100;300;400;700&amp;family=Roboto:wght@100;300;400;700&amp;display=swap">Roboto + Noto Sans (web)</option>
 					</group>
 				</field>
 
 				<field
 					name="noteFontScheme"
 					type="note"
-					label="TPL_CASSIOPEIA_FONT_NOTE_TEXT"
-					heading="p"
+					description="TPL_CASSIOPEIA_FONT_NOTE_TEXT"
 					class="alert alert-warning"
 				/>
 

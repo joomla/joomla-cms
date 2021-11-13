@@ -14,6 +14,7 @@ namespace Joomla\Component\Content\Administrator\Model;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Associations;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Table\Table;
@@ -273,7 +274,6 @@ class ArticlesModel extends ListModel
 				[
 					$db->quoteName('fp.featured_up'),
 					$db->quoteName('fp.featured_down'),
-					$db->quoteName('fp.ordering'),
 					$db->quoteName('l.title', 'language_title'),
 					$db->quoteName('l.image', 'language_image'),
 					$db->quoteName('uc.name', 'editor'),
@@ -665,6 +665,8 @@ class ArticlesModel extends ListModel
 					{
 						unset($transitions[$key]);
 					}
+
+					$transitions[$key]['text'] = Text::_($transition['text']);
 				}
 
 				$this->cache[$store] = $transitions;

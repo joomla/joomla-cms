@@ -2,7 +2,7 @@
 <metadata>
 	<layout title="COM_NEWSFEEDS_CATEGORY_VIEW_DEFAULT_TITLE" option="COM_NEWSFEEDS_CATEGORY_VIEW_DEFAULT_OPTION">
 		<help
-			key = "JHELP_MENUS_MENU_ITEM_NEWSFEED_CATEGORY"
+			key = "Menu_Item:_List_News_Feeds_in_a_Category"
 		/>
 		<message>
 			<![CDATA[COM_NEWSFEEDS_CATEGORY_VIEW_DEFAULT_DESC]]>
@@ -149,18 +149,6 @@
 			</field>
 
 			<field
-				name="show_headings"
-				type="list"
-				label="JGLOBAL_SHOW_HEADINGS_LABEL"
-				useglobal="true"
-				class="form-select-color-state"
-				validate="options"
-				>
-				<option value="0">JHIDE</option>
-				<option value="1">JSHOW</option>
-			</field>
-
-			<field
 				name="show_articles"
 				type="list"
 				label="COM_NEWSFEEDS_FIELD_NUM_ARTICLES_COLUMN_LABEL"
@@ -250,8 +238,9 @@
 			<field
 				name="feed_character_count"
 				type="number"
-				description="COM_NEWSFEEDS_FIELD_CHARACTER_COUNT_DESC"
 				label="COM_NEWSFEEDS_FIELD_CHARACTER_COUNT_LABEL"
+				description="COM_NEWSFEEDS_FIELD_CHARACTER_COUNT_DESC"
+				filter="integer"
 				useglobal="true"
 			/>
 

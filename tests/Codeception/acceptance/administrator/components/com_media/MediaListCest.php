@@ -741,7 +741,7 @@ class MediaListCest
 		$I->amOnPage(MediaListPage::$url);
 		$I->waitForMediaLoaded();
 		$I->clickOnActionInMenuOf('powered_by.png', MediaListPage::$editAction);
-		$I->seeInCurrentUrl(MediaFilePage::$url . '&path=local-0:/powered_by.png');
+		$I->seeInCurrentUrl(MediaFilePage::$url . '&mediatypes=0,1,2,3&path=local-images:/powered_by.png');
 	}
 
 	/**
@@ -894,19 +894,22 @@ class MediaListCest
 		$I->amOnPage(MediaListPage::$url);
 		$I->waitForMediaLoaded();
 		$json = $I->executeJS('return sessionStorage.getItem("' . MediaListPage::$storageKey . '")');
-		$I->assertContains('"selectedDirectory":"local-0:/"', $json);
+		$I->assertContains('"selectedDirectory":"local-images:/"', $json);
 		$I->assertContains('"showInfoBar":false', $json);
 		$I->assertContains('"listView":"grid"', $json);
 		$I->assertContains('"gridSize":"md"', $json);
+		$I->assertContains('"search":""', $json);
 		$I->clickOnLinkInTree('banners');
 		$I->waitForMediaLoaded();
 		$I->openInfobar();
 		$I->click(MediaListPage::$increaseThumbnailSizeButton);
 		$I->click(MediaListPage::$toggleListViewButton);
+		$I->fillField(MediaListPage::$searchInputField, 'joomla');
 		$json = $I->executeJS('return sessionStorage.getItem("' . MediaListPage::$storageKey . '")');
-		$I->assertContains('"selectedDirectory":"local-0:/banners"', $json);
+		$I->assertContains('"selectedDirectory":"local-images:/banners"', $json);
 		$I->assertContains('"showInfoBar":true', $json);
 		$I->assertContains('"listView":"table"', $json);
 		$I->assertContains('"gridSize":"lg"', $json);
+		$I->assertContains('"search":"joomla"', $json);
 	}
 }

@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 use Joomla\Component\Fields\Administrator\Helper\FieldsHelper;
 
 // Check if we have all the data
-if (!key_exists('item', $displayData) || !key_exists('context', $displayData))
+if (!array_key_exists('item', $displayData) || !array_key_exists('context', $displayData))
 {
 	return;
 }
@@ -35,7 +35,7 @@ $parts     = explode('.', $context);
 $component = $parts[0];
 $fields    = null;
 
-if (key_exists('fields', $displayData))
+if (array_key_exists('fields', $displayData))
 {
 	$fields = $displayData['fields'];
 }
@@ -59,7 +59,7 @@ foreach ($fields as $field)
 		continue;
 	}
 
-	$class = $field->params->get('render_class');
+	$class = $field->name . ' ' . $field->params->get('render_class');
 	$layout = $field->params->get('layout', 'render');
 	$content = FieldsHelper::render($context, 'field.' . $layout, array('field' => $field));
 

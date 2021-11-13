@@ -234,7 +234,7 @@ class QuickIconHelper
 					'link'    => Route::_('index.php?option=com_cache'),
 					'name'    => 'MOD_QUICKICON_CACHE',
 					'access'  => array('core.admin', 'com_cache'),
-					'group'   => 'MOD_QUICKICON_SYTEM'
+					'group'   => 'MOD_QUICKICON_SYSTEM'
 				];
 
 				if ($params->get('show_cache') == 2)
@@ -285,7 +285,7 @@ class QuickIconHelper
 
 					$icon = array_merge($default, $icon);
 
-					if (!\is_null($icon['link']) && !\is_null($icon['text']))
+					if (!\is_null($icon['link']) && (!\is_null($icon['text']) || !\is_null($icon['name'])))
 					{
 						$this->buttons[$key][] = $icon;
 					}

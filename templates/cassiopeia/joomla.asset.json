@@ -54,6 +54,9 @@
       "description": "The file containing the javascript for this template.",
       "type": "script",
       "uri": "template.js",
+      "attributes" : {
+        "defer": true
+      },
       "dependencies": [
         "core"
       ]
@@ -96,6 +99,11 @@
       "name": "searchtools",
       "type": "style",
       "uri": "system/searchtools/searchtools.min.css"
+    },
+    {
+      "name": "fontawesome",
+      "type": "style",
+      "uri": "system/joomla-fontawesome.min.css"
     }
   ]
 }

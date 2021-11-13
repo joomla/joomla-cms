@@ -83,7 +83,7 @@ else
 
 		<?php // Feed image ?>
 		<?php if ($params->get('rssimage', 1) && $feed->image) : ?>
-			<img src="<?php echo $feed->image->uri; ?>" alt="<?php echo $feed->image->title; ?>"/>
+			<img class="w-100" src="<?php echo $feed->image->uri; ?>" alt="<?php echo $feed->image->title; ?>"/>
 		<?php endif; ?>
 
 

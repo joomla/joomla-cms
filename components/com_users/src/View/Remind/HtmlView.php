@@ -18,7 +18,7 @@ use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Object\CMSObject;
 
 /**
- * Registration view class for Users.
+ * Remind view class for Users.
  *
  * @since  1.5
  */

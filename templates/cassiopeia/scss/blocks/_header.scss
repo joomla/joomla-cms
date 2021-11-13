@@ -7,7 +7,7 @@
   background-image: $cassiopeia-header-grad;
   box-shadow: 0 5px 5px hsla(0, 0%, 0%, .03) inset;
 
-  @include media-breakpoint-down(md) {
+  @include media-breakpoint-down(lg) {
     position: relative !important;
   }
 
@@ -38,11 +38,6 @@
       margin-left: auto;
     }
 
-    img {
-      width: 18rem;
-      min-width: 18rem;
-    }
-
     a {
       color: $white;
     }
@@ -58,7 +53,7 @@
     justify-content: space-between;
     padding-bottom: $cassiopeia-grid-gutter;
 
-    @include media-breakpoint-down(sm) {
+    @include media-breakpoint-down(md) {
       .container-search,
       nav {
         margin-top: $cassiopeia-grid-gutter;
@@ -85,7 +80,7 @@
     color: $white;
     list-style: none;
 
-    @include media-breakpoint-up(md) {
+    @include media-breakpoint-up(lg) {
       display: flex;
       flex: 1 1 0%;
       flex-direction: row;
@@ -94,7 +89,7 @@
     > li {
       position: relative;
 
-      @include media-breakpoint-up(md) {
+      @include media-breakpoint-up(lg) {
         + li {
           margin-left: 1.55em;
         }
@@ -108,7 +103,7 @@
       }
 
       &::after {
-        @include media-breakpoint-up(md) {
+        @include media-breakpoint-up(lg) {
           position: absolute;
           right: 50%;
           bottom: 0;
@@ -130,7 +125,7 @@
         background: $white;
       }
 
-      @include media-breakpoint-down(md) {
+      @include media-breakpoint-down(lg) {
         &.active > a,
         &.active > span,
         > a:hover {
@@ -156,7 +151,7 @@
       > a::after,
       > button::before {
 
-        @include media-breakpoint-up(md) {
+        @include media-breakpoint-up(lg) {
           position: absolute;
           right: 50%;
           bottom: 0;
@@ -198,7 +193,7 @@
       > a:hover,
       > button:hover {
 
-        @include media-breakpoint-up(md) {
+        @include media-breakpoint-up(lg) {
           text-decoration: none;
         }
       }

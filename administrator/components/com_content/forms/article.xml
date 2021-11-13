@@ -3,7 +3,7 @@
 	<fieldset addfieldprefix="Joomla\Component\Content\Administrator\Field">
 		<field
 			name="id"
-			type="number"
+			type="text"
 			label="JGLOBAL_FIELD_ID_LABEL"
 			class="readonly"
 			default="0"
@@ -74,6 +74,7 @@
 			class="form-select-color-state"
 			size="1"
 			default="1"
+			validate="options"
 			>
 			<option value="1">JPUBLISHED</option>
 			<option value="0">JUNPUBLISHED</option>
@@ -232,7 +233,7 @@
 
 		<field
 			name="hits"
-			type="number"
+			type="text"
 			label="JGLOBAL_HITS"
 			class="readonly"
 			readonly="true"

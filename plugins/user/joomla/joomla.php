@@ -16,7 +16,6 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\Mail\MailTemplate;
 use Joomla\CMS\Plugin\CMSPlugin;
-use Joomla\CMS\Session\SessionManager;
 use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\User\User;
 use Joomla\CMS\User\UserHelper;
@@ -107,34 +106,12 @@ class PlgUserJoomla extends CMSPlugin
 			return;
 		}
 
-		$userid = (int) $user['id'];
+		$userId = (int) $user['id'];
 
 		// Only execute this if the session metadata is tracked
 		if ($this->app->get('session_metadata', true))
 		{
-			// Fetch all session IDs for the user account so they can be destroyed
-			try
-			{
-				$sessionIds = $this->db->setQuery(
-					$this->db->getQuery(true)
-						->select($this->db->quoteName('session_id'))
-						->from($this->db->quoteName('#__session'))
-						->where($this->db->quoteName('userid') . ' = :userid')
-						->bind(':userid', $userid, ParameterType::INTEGER)
-				)->loadColumn();
-			}
-			catch (ExecutionFailureException $e)
-			{
-				// Continue.
-			}
-
-			/** @var SessionManager $sessionManager */
-			$sessionManager = Factory::getContainer()->get('session.manager');
-
-			if (!$sessionManager->destroySessions($sessionIds))
-			{
-				return;
-			}
+			UserHelper::destroyUserSessions($userId, true);
 		}
 
 		try
@@ -142,8 +119,8 @@ class PlgUserJoomla extends CMSPlugin
 			$this->db->setQuery(
 				$this->db->getQuery(true)
 					->delete($this->db->quoteName('#__messages'))
-					->where($this->db->quoteName('user_id_from') . ' = :userid')
-					->bind(':userid', $userid, ParameterType::INTEGER)
+					->where($this->db->quoteName('user_id_from') . ' = :userId')
+					->bind(':userId', $userId, ParameterType::INTEGER)
 			)->execute();
 		}
 		catch (ExecutionFailureException $e)
@@ -219,7 +196,7 @@ class PlgUserJoomla extends CMSPlugin
 			'url' => Uri::root(),
 			'username' => $user['username'],
 			'password' => $user['password_clear'],
-			'email' => $user['email']
+			'email' => $user['email'],
 		];
 
 		$mailer = new MailTemplate('plg_user_joomla.mail', $userLocale);
@@ -400,37 +377,8 @@ class PlgUserJoomla extends CMSPlugin
 
 		if ($forceLogout)
 		{
-			// Fetch all session IDs for the user account so they can be destroyed
-			$query = $this->db->getQuery(true)
-				->select($this->db->quoteName('session_id'))
-				->from($this->db->quoteName('#__session'))
-				->where($this->db->quoteName('userid') . ' = :userid')
-				->bind(':userid', $userid, ParameterType::INTEGER);
-
-			if (!$sharedSessions)
-			{
-				$clientId = (int) $options['clientid'];
-
-				$query->where($this->db->quoteName('client_id') . ' = :clientId')
-					->bind(':clientId', $clientId, ParameterType::INTEGER);
-			}
-
-			try
-			{
-				$sessionIds = $this->db->setQuery($query)->loadColumn();
-			}
-			catch (ExecutionFailureException $e)
-			{
-				return false;
-			}
-
-			/** @var SessionManager $sessionManager */
-			$sessionManager = Factory::getContainer()->get('session.manager');
-
-			if (!$sessionManager->destroySessions($sessionIds))
-			{
-				return false;
-			}
+			$clientId = $sharedSessions ? null : (int) $options['clientid'];
+			UserHelper::destroyUserSessions($user['id'], false, $clientId);
 		}
 
 		// Delete "user state" cookie used for reverse caching proxies like Varnish, Nginx etc.

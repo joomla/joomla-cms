@@ -22,10 +22,9 @@
 		<folder>css</folder>
 		<folder>html</folder>
 		<folder>images</folder>
-		<folder>Service</folder>
 		<folder>scss</folder>
 	</files>
-	<media destination="templates/atum" folder="media">
+	<media destination="templates/administrator/atum" folder="media">
 		<folder>js</folder>
 	</media>
 	<positions>
@@ -87,13 +86,6 @@
 					type="color"
 					label="TPL_ATUM_COLORS_SETTINGS_LINK_COLOR_LABEL"
 					default="#2a69b8"
-					filter="color"
-				/>
-				<field
-					name="sidebar-link-color"
-					type="color"
-					label="TPL_ATUM_COLORS_SETTINGS_LINK_SIDEBAR_COLOR_LABEL"
-					default="#132f53"
 					filter="color"
 				/>
 				<field
