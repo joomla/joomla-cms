@@ -101,7 +101,9 @@ class TasksStateCommand extends AbstractCommand
 
 		if (!is_numeric($state))
 		{
-			$state = ArrayHelper::getValue(['publish' => self::STATE_PUBLISH, 'unpublish' => self::STATE_UNPUBLISH, 'trash' => self::STATE_TRASH], $state);
+			$state = ArrayHelper::getValue(['publish' => self::STATE_PUBLISH, 'unpublish' => self::STATE_UNPUBLISH,
+				'trash' => self::STATE_TRASH], $state
+			);
 		}
 
 		while (!strlen($state) || !in_array($state, [self::STATE_PUBLISH, self::STATE_UNPUBLISH, self::STATE_TRASH]))
@@ -110,7 +112,9 @@ class TasksStateCommand extends AbstractCommand
 
 			if (!is_numeric($state))
 			{
-				$state = ArrayHelper::getValue(['publish' => self::STATE_PUBLISH, 'unpublish' => self::STATE_UNPUBLISH, 'trash' => self::STATE_TRASH], $state);
+				$state = ArrayHelper::getValue(['publish' => self::STATE_PUBLISH, 'unpublish' => self::STATE_UNPUBLISH,
+					'trash' => self::STATE_TRASH], $state
+				);
 			}
 		}
 
