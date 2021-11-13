@@ -120,6 +120,11 @@ $app->getDocument()->getWebAssetManager()->useScript('com_scheduler.test-task');
 						<?php echo HTMLHelper::_('searchtools.sort', 'COM_SCHEDULER_TASK_TYPE', 'j.type_title', $listDirn, $listOrder) ?>
 					</th>
 
+					<!-- Last runs -->
+					<th scope="col" class="d-none d-lg-table-cell">
+						<?php echo Text::_('COM_SCHEDULER_LAST_RUN_DATE'); ?>
+					</th>
+
 					<!-- Test task -->
 					<th scope="col">
 						<?php echo Text::_('COM_SCHEDULER_TEST_TASK'); ?>
@@ -181,6 +186,14 @@ $app->getDocument()->getWebAssetManager()->useScript('com_scheduler.test-task');
 
 						<!-- Item name, edit link, and note (@todo: should it be moved?) -->
 						<th scope="row">
+							<?php if ($item->locked) : ?>
+								<?php echo HTMLHelper::_('jgrid.action', $i, 'unlock', ['enabled' => $canChange, 'prefix' => 'tasks.',
+									'active_class' => 'none fa fa-running border-dark text-body',
+									'inactive_class' => 'none fa fa-running', 'tip' => true, 'translate' => false,
+									'active_title' => Text::sprintf('COM_SCHEDULER_RUNNING_SINCE', HTMLHelper::_('date', $item->last_execution, 'DATE_FORMAT_LC5')),
+									'inactive_title' => Text::sprintf('COM_SCHEDULER_RUNNING_SINCE', HTMLHelper::_('date', $item->last_execution, 'DATE_FORMAT_LC5'))
+									]); ?>
+							<?php endif; ?>
 							<?php if ($canEdit): ?>
 								<a href="<?php echo Route::_('index.php?option=com_scheduler&task=task.edit&id=' . $item->id); ?>"
 								   title="<?php echo Text::_('JACTION_EDIT'); ?> <?php echo $this->escape($item->title); ?>"> <?php echo $this->escape($item->title); ?></a>
@@ -200,6 +213,11 @@ $app->getDocument()->getWebAssetManager()->useScript('com_scheduler.test-task');
 						<!-- Item type -->
 						<td class="small d-none d-md-table-cell">
 							<?php echo $this->escape($item->safeTypeTitle); ?>
+						</td>
+
+						<!-- Last run date -->
+						<td class="small d-none d-lg-table-cell">
+							<?php echo $item->last_execution ? HTMLHelper::_('date', $item->last_execution, 'DATE_FORMAT_LC5') : '-'; ?>
 						</td>
 
 						<!-- Test task -->

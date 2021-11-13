@@ -14,9 +14,12 @@ namespace Joomla\Component\Scheduler\Administrator\Model;
 
 use Joomla\CMS\Application\AdministratorApplication;
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Event\AbstractEvent;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Form\FormFactoryInterface;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Log\Log;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\CMS\Object\CMSObject;
@@ -70,6 +73,22 @@ class TaskModel extends AdminModel
 	 */
 	protected $app;
 
+	/**
+	 * The event to trigger before unlocking the data.
+	 *
+	 * @var    string
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $event_before_unlock = null;
+
+	/**
+	 * The event to trigger after unlocking the data.
+	 *
+	 * @var    string
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $event_unlock = null;
+
 
 	/**
 	 * TaskModel constructor. Needed just to set $app
@@ -84,13 +103,33 @@ class TaskModel extends AdminModel
 	public function __construct($config = array(), MVCFactoryInterface $factory = null, FormFactoryInterface $formFactory = null)
 	{
 		$config['events_map'] = $config['events_map'] ?? [];
+
 		$config['events_map'] = array_merge(
 			[
 				'save'     => 'task',
 				'validate' => 'task',
+				'unlock'   => 'task',
 			],
 			$config['events_map']
 		);
+
+		if (isset($config['event_before_unlock']))
+		{
+			$this->event_before_unlock = $config['event_before_unlock'];
+		}
+		elseif (empty($this->event_before_unlock))
+		{
+			$this->event_before_unlock = 'onContentBeforeUnlock';
+		}
+
+		if (isset($config['event_unlock']))
+		{
+			$this->event_unlock = $config['event_unlock'];
+		}
+		elseif (empty($this->event_unlock))
+		{
+			$this->event_unlock = 'onContentUnlock';
+		}
 
 		$this->app = Factory::getApplication();
 
@@ -413,6 +452,120 @@ class TaskModel extends AdminModel
 			'type' => $ruleClass,
 			'exp'  => $buildExpression,
 		];
+	}
+
+	/**
+	 * Method to unlock one or more records.
+	 *
+	 * @param   array    &$pks   A list of the primary keys to unlock.
+	 * @param   integer  $value  The value of the published state.
+	 *
+	 * @return  boolean  True on success.
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function unlock(&$pks)
+	{
+		$user = Factory::getUser();
+		$table = $this->getTable();
+		$pks = (array) $pks;
+
+		$context = $this->option . '.' . $this->name;
+
+		// Include the plugins for the change of state event.
+		PluginHelper::importPlugin($this->events_map['unlock']);
+
+		// Access checks.
+		foreach ($pks as $i => $pk)
+		{
+			$table->reset();
+
+			if ($table->load($pk))
+			{
+				if (!$this->canEditState($table))
+				{
+					// Prune items that you can't change.
+					unset($pks[$i]);
+
+					Log::add(Text::_('JLIB_APPLICATION_ERROR_EDITSTATE_NOT_PERMITTED'), Log::WARNING, 'jerror');
+
+					return false;
+				}
+
+				/**
+				 * Prune items that are already at the given state.  Note: Only models whose table correctly
+				 * sets 'published' column alias (if different than published) will benefit from this
+				 */
+				$lockedColumnName = $table->getColumnAlias('locked');
+
+				if (property_exists($table, $lockedColumnName) && is_null($table->get($lockedColumnName)))
+				{
+					unset($pks[$i]);
+
+					continue;
+				}
+			}
+		}
+
+		// Check if there are items to change
+		if (!\count($pks))
+		{
+			return true;
+		}
+
+		$event = AbstractEvent::create(
+			$this->event_before_unlock,
+			[
+				'subject'	=> $this,
+				'context'	=> $context,
+				'pks'		=> $pks
+			]
+		);
+
+		try
+		{
+			Factory::getApplication()->getDispatcher()->dispatch($this->event_before_unlock, $event);
+		}
+		catch (\RuntimeException $e)
+		{
+			$this->setError($e->getMessage());
+
+			return false;
+		}
+
+		// Attempt to unlock the records.
+		if (!$table->unlock($pks))
+		{
+			$this->setError($table->getError());
+
+			return false;
+		}
+
+		// Trigger the after unlock event
+		$event = AbstractEvent::create(
+			$this->event_unlock,
+			[
+				'subject'	=> $this,
+				'context'	=> $context,
+				'pks'		=> $pks
+			]
+		);
+
+		try
+		{
+			Factory::getApplication()->getDispatcher()->dispatch($this->event_unlock, $event);
+		}
+		catch (\RuntimeException $e)
+		{
+			$this->setError($e->getMessage());
+
+			return false;
+		}
+
+		// Clear the component's cache
+		$this->cleanCache();
+
+		return true;
 	}
 
 	/**
