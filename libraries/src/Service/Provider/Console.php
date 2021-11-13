@@ -26,6 +26,7 @@ use Joomla\CMS\Console\SiteDownCommand;
 use Joomla\CMS\Console\SiteUpCommand;
 use Joomla\CMS\Console\TasksListCommand;
 use Joomla\CMS\Console\TasksRunCommand;
+use Joomla\CMS\Console\TasksStateCommand;
 use Joomla\CMS\Console\UpdateCoreCommand;
 use Joomla\CMS\Session\MetadataManager;
 use Joomla\Database\Command\ExportCommand;
@@ -225,6 +226,14 @@ class Console implements ServiceProviderInterface
 			function (Container $container)
 			{
 				return new TasksRunCommand;
+			}
+		);
+
+		$container->share(
+			TasksStateCommand::class,
+			function (Container $container)
+			{
+				return new TasksStateCommand;
 			}
 		);
 	}
