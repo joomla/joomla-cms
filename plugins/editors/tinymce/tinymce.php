@@ -635,7 +635,6 @@ class PlgEditorTinymce extends CMSPlugin
 
 				// Disable TinyMCE Branding
 				'branding'   => false,
-
 			)
 		);
 
