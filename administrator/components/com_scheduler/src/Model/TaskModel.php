@@ -343,9 +343,32 @@ class TaskModel extends AdminModel
 		// Get lock on the table to help with concurrency issues
 		$db->lockTable(self::TASK_TABLE);
 
+		// If concurrency is not allowed, we only get a task if another one does not have a "lock"
+		if (!$options['allowConcurrent'])
+		{
+			// Get count of locked (presumed running) tasks
+			$lockCountQuery = $db->getQuery(true)
+				->from($db->quoteName(self::TASK_TABLE))
+				->select('COUNT(id)')
+				->where($db->quoteName('locked') . ' IS NOT NULL');
+
+			try
+			{
+				$runningCount = $db->setQuery($lockCountQuery)->loadResult();
+			}
+			catch (\RuntimeException $e)
+			{
+				return null;
+			}
+
+			if ($runningCount !== 0)
+			{
+				return null;
+			}
+		}
+
 		$lockQuery = $db->getQuery(true);
 
-		// We'll attempt to get a lock on the task requested, if another task does not already have a pseudo-lock.
 		$lockQuery->update($db->quoteName(self::TASK_TABLE))
 			->set($db->quoteName('locked') . ' = :now1')
 			->bind(':now1', $now);
@@ -354,24 +377,6 @@ class TaskModel extends AdminModel
 		{
 			$lockQuery->where($db->quoteName('next_execution') . ' <= :now2')
 				->bind(':now2', $now);
-		}
-
-		// If concurrency is not allowed, we only get a task if another one does not have a "lock"
-		if (!$options['allowConcurrent'])
-		{
-			// MySQL needs a pseudo-source for the sub-query (https://stackoverflow.com/q/44970574)
-			$pseudoSource = $db->getQuery(true)
-				->select($db->quoteName('id'))
-				->from($db->quoteName(self::TASK_TABLE))
-				->alias('table_clone');
-
-			$subQuery = $db->getQuery(true);
-
-			// Sub-query to get count of locked tasks.
-			$subQuery->from($pseudoSource)->select('COUNT(id)')
-				->where($db->quoteName('locked') . ' IS NOT NULL');
-
-			$lockQuery->where("($subQuery) = 0");
 		}
 
 		if ($options['allowDisabled'])
@@ -398,14 +403,18 @@ class TaskModel extends AdminModel
 				->where($db->quoteName('state') . ' = 1')
 				->order($db->quoteName('priority') . ' DESC')
 				->order($db->quoteName('next_execution') . ' ASC')
-				->setLimit(1)
-				->alias($db->quoteName('nextTask'));
+				->setLimit(1);
 
-			// Wrap the id query for compatibility (https://stackoverflow.com/q/17892762A)
-			$idWrapperQuery = $db->getQuery(true)->select('*')->from($idQuery);
+			try
+			{
+				$ids = $db->setQuery($idQuery)->loadColumn();
+			}
+			catch (\RuntimeException $e)
+			{
+				return null;
+			}
 
-			// $lockQuery->join('INNER', $idQuery, $db->quoteName('#__scheduler_tasks.id') . ' = ' . $db->quoteName('nextTask.id'));
-			$lockQuery->where($db->quoteName('id') . " IN ($idWrapperQuery)");
+			$lockQuery->whereIn($db->quoteName('id'), $ids);
 		}
 
 		try
