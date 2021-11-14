@@ -284,10 +284,10 @@ joomla-tab {
         }
 
         .respTable td::before {
-          font-weight: $bold-weight;
-          content: attr(data-label) ":";
           float: inline-start;
           padding-inline-end: 2em;
+          font-weight: $bold-weight;
+          content: attr(data-label) ":";
         }
 
         .respTable td:nth-child(1) {
