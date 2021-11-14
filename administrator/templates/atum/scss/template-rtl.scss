@@ -8,14 +8,6 @@ ul {
   padding-right: 0;
 }
 
-.dropdown-menu-end {
-
-  &::after {
-    right: auto;
-    left: .9rem;
-  }
-}
-
 .menu-collapse {
   right: 0;
   left: auto;
