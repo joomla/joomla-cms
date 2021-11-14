@@ -4,7 +4,7 @@
 
 .back-to-top-link {
   position: absolute;
-  right: 1rem;
+  inset-inline-end: 1rem;
   bottom: 1rem;
   z-index: 10000;
   padding: $cassiopeia-grid-gutter/2;
@@ -15,11 +15,6 @@
   border-radius: $border-radius;
   opacity: 0;
   transition: opacity 200ms ease-in;
-
-  [dir=rtl] & {
-    right: unset;
-    left: 1rem;
-  }
 
   &.visible {
     opacity: 1;
