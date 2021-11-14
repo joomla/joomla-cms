@@ -172,17 +172,21 @@ class TasksModel extends ListModel
 		// Filter over state ----
 		$state = $this->getState('filter.state');
 
-		if (is_numeric($state))
+		if ($state !== '*')
 		{
 			$filterCount++;
-			$state = (int) $state;
-			$query->where($db->quoteName('a.state') . ' = :state')
-				->bind(':state', $state, ParameterType::INTEGER);
-		}
-		elseif ($state === '')
-		{
-			$filterCount++;
-			$query->whereIn($db->quoteName('a.state'), [0, 1]);
+
+			if (is_numeric($state))
+			{
+				$state = (int) $state;
+
+				$query->where($db->quoteName('a.state') . ' = :state')
+					->bind(':state', $state, ParameterType::INTEGER);
+			}
+			else
+			{
+				$query->whereIn($db->quoteName('a.state'), [0, 1]);
+			}
 		}
 
 		// Filter over type ----
