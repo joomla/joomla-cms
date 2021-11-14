@@ -47,9 +47,9 @@ class JFormFieldKeyselect extends FormField
 		if (!$wa->assetExists('script', 'keyselectmodal'))
 		{
 			$document = $app->getDocument();
-			$document->addScriptOptions('set_shorcut_text', Text::_("Set shortcut"));
+			$document->addScriptOptions('set_shorcut_text', Text::_("Set Shortcut"));
 			$document->addScriptOptions('current_combination_text', Text::_("Current Combination"));
-			$document->addScriptOptions('new_combination_text', Text::_("New combination"));
+			$document->addScriptOptions('new_combination_text', Text::_("New Combination"));
 			$document->addScriptOptions('cancel_button_text', Text::_("Cancel"));
 			$document->addScriptOptions('save_button_text', Text::_("Save"));
 			$wa->registerScript('keyselectmodal', 'media/plg_system_shortcut/js/keyselect.js', [], ['defer' => true, 'type' => 'module']);
