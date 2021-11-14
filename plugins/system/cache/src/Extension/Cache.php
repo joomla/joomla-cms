@@ -63,8 +63,8 @@ class Cache extends CMSPlugin implements SubscriberInterface
 		 */
 		return [
 			'onAfterRoute'   => 'onAfterRoute',
-			'onAfterRender'  => ['onAfterRender', PHP_INT_MAX],
-			'onAfterRespond' => ['onAfterRespond', PHP_INT_MAX],
+			'onAfterRender'  => 'onAfterRender',
+			'onAfterRespond' => 'onAfterRespond',
 		];
 	}
 
