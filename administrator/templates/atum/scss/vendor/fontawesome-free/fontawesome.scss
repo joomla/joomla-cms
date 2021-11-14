@@ -12,8 +12,3 @@ $fa-font-path:                     "../../../../../../media/vendor/fontawesome-f
 
 // B/C for Icomoon
 @import "../../../../../../build/media_source/system/scss/icomoon";
-
-// RTL override
-html[dir=rtl] .float-right {
-  float: left;
-}
