@@ -127,7 +127,6 @@ abstract class TagsPopularHelper
 				// Backup bound parameters array of the original query
 				$bounded = $query->getBounded();
 
-				$query->setLimit($maximum);
 				$query->order($db->quoteName('count') . ' DESC');
 				$equery = $db->getQuery(true)
 					->select(
@@ -158,7 +157,11 @@ abstract class TagsPopularHelper
 			}
 		}
 
-		$query->setLimit($maximum, 0);
+		if ($params->get('maximum','5') > 0)
+		{
+			$query->setLimit((int) $params->get('maximum'));
+		}
+
 		$db->setQuery($query);
 
 		try
