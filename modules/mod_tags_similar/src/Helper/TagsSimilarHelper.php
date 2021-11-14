@@ -194,7 +194,7 @@ abstract class TagsSimilarHelper
 			$query->order($query->rand());
 		}
 
-		if ($params->get('maximum','5') > 0)
+		if ((int) $params->get('maximum', 5) > 0)
 		{
 			$query->setLimit((int) $params->get('maximum'));
 		}
