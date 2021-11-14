@@ -28,7 +28,7 @@ use Joomla\Event\SubscriberInterface;
  *
  * @since  1.5
  */
-class Cache extends CMSPlugin implements SubscriberInterface
+final class Cache extends CMSPlugin implements SubscriberInterface
 {
 	/**
 	 * Application object.
