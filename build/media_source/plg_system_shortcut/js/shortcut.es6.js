@@ -1,3 +1,4 @@
+const Mousetrap = require('mousetrap');
 class JoomlaShortcuts {
 	constructor() {
 	  if (!Joomla) {
