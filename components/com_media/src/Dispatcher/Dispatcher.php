@@ -47,11 +47,11 @@ class Dispatcher extends ComponentDispatcher
 	 */
 	protected function checkAccess()
 	{
-		$user   = $this->app->getIdentity();
+		$user = $this->app->getIdentity();
 
 		// Access check
 		if (!$user->authorise('core.manage', 'com_media')
-		    	&& !$user->authorise('core.create', 'com_media'))
+			&& !$user->authorise('core.create', 'com_media'))
 		{
 			throw new NotAllowed($this->app->getLanguage()->_('JERROR_ALERTNOAUTHOR'), 403);
 		}
