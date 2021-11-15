@@ -91,7 +91,7 @@
     "karma-jasmine-ajax": "^0.1.13",
     "karma-json-fixtures-preprocessor": "0.0.6",
     "karma-verbose-reporter": "^0.0.6",
-    "postcss": "^7.0.35",
+    "postcss": "^8.3.11",
     "recursive-readdir": "^2.2.2",
     "rimraf": "^3.0.2",
     "rollup": "^2.52.3",
