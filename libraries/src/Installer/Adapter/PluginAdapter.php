@@ -97,25 +97,31 @@ class PluginAdapter extends InstallerAdapter
 		}
 
 		// If there is a manifest script, let's copy it.
-		if ($this->manifest_script)
+		if (!$this->manifest_script)
 		{
-			$path['src']  = $this->parent->getPath('source') . '/' . $this->manifest_script;
-			$path['dest'] = $this->parent->getPath('extension_root') . '/' . $this->manifest_script;
-
-			if ($this->parent->isOverwrite() || !file_exists($path['dest']))
-			{
-				if (!$this->parent->copyFiles(array($path)))
-				{
-					// Install failed, rollback changes
-					throw new \RuntimeException(
-						Text::sprintf(
-							'JLIB_INSTALLER_ABORT_MANIFEST',
-							Text::_('JLIB_INSTALLER_' . $this->route)
-						)
-					);
-				}
-			}
+			return;
 		}
+
+		$path['src']  = $this->parent->getPath('source') . '/' . $this->manifest_script;
+		$path['dest'] = $this->parent->getPath('extension_root') . '/' . $this->manifest_script;
+
+		if (!$this->parent->isOverwrite() && file_exists($path['dest']))
+		{
+			return;
+		}
+
+		if ($this->parent->copyFiles(array($path)))
+		{
+			return;
+		}
+
+		// Install failed, rollback changes
+		throw new \RuntimeException(
+			Text::sprintf(
+				'JLIB_INSTALLER_ABORT_MANIFEST',
+				Text::_('JLIB_INSTALLER_' . $this->route)
+			)
+		);
 	}
 
 	/**
@@ -132,19 +138,21 @@ class PluginAdapter extends InstallerAdapter
 		parent::createExtensionRoot();
 
 		// If we're updating at this point when there is always going to be an extension_root find the old XML files
-		if ($this->route === 'update')
+		if ($this->route !== 'update')
 		{
-			// Create a new installer because findManifest sets stuff; side effects!
-			$tmpInstaller = new Installer;
+			return;
+		}
 
-			// Look in the extension root
-			$tmpInstaller->setPath('source', $this->parent->getPath('extension_root'));
+		// Create a new installer because findManifest sets stuff; side effects!
+		$tmpInstaller = new Installer;
 
-			if ($tmpInstaller->findManifest())
-			{
-				$old_manifest   = $tmpInstaller->getManifest();
-				$this->oldFiles = $old_manifest->files;
-			}
+		// Look in the extension root
+		$tmpInstaller->setPath('source', $this->parent->getPath('extension_root'));
+
+		if ($tmpInstaller->findManifest())
+		{
+			$old_manifest   = $tmpInstaller->getManifest();
+			$this->oldFiles = $old_manifest->files;
 		}
 	}
 
@@ -175,18 +183,15 @@ class PluginAdapter extends InstallerAdapter
 		}
 
 		// Lastly, we will copy the manifest file to its appropriate place.
-		if ($this->route !== 'discover_install')
+		if ($this->route !== 'discover_install' && !$this->parent->copyManifest(-1))
 		{
-			if (!$this->parent->copyManifest(-1))
-			{
-				// Install failed, rollback changes
-				throw new \RuntimeException(
-					Text::sprintf(
-						'JLIB_INSTALLER_ABORT_COPY_SETUP',
-						Text::_('JLIB_INSTALLER_' . strtoupper($this->route))
-					)
-				);
-			}
+			// Install failed, rollback changes
+			throw new \RuntimeException(
+				Text::sprintf(
+					'JLIB_INSTALLER_ABORT_COPY_SETUP',
+					Text::_('JLIB_INSTALLER_' . strtoupper($this->route))
+				)
+			);
 		}
 	}
 
@@ -294,36 +299,38 @@ class PluginAdapter extends InstallerAdapter
 
 		$element = $this->getManifest()->files;
 
-		if ($element)
+		if (!$element)
 		{
-			$group = strtolower((string) $this->getManifest()->attributes()->group);
-			$name = '';
+			return;
+		}
 
-			if (\count($element->children()))
+		$group = strtolower((string) $this->getManifest()->attributes()->group);
+		$name = '';
+
+		if (\count($element->children()))
+		{
+			foreach ($element->children() as $file)
 			{
-				foreach ($element->children() as $file)
+				if ((string) $file->attributes()->plugin)
 				{
-					if ((string) $file->attributes()->plugin)
-					{
-						$name = strtolower((string) $file->attributes()->plugin);
-						break;
-					}
+					$name = strtolower((string) $file->attributes()->plugin);
+					break;
 				}
 			}
+		}
 
-			if ($name)
+		if ($name)
+		{
+			$extension = "plg_${group}_${name}";
+			$source = $path ?: JPATH_PLUGINS . "/$group/$name";
+			$folder = (string) $element->attributes()->folder;
+
+			if ($folder && file_exists("$path/$folder"))
 			{
-				$extension = "plg_${group}_${name}";
-				$source = $path ?: JPATH_PLUGINS . "/$group/$name";
-				$folder = (string) $element->attributes()->folder;
-
-				if ($folder && file_exists("$path/$folder"))
-				{
-					$source = "$path/$folder";
-				}
-
-				$this->doLoadLanguage($extension, $source, JPATH_ADMINISTRATOR);
+				$source = "$path/$folder";
 			}
+
+			$this->doLoadLanguage($extension, $source, JPATH_ADMINISTRATOR);
 		}
 	}
 
@@ -496,47 +503,46 @@ class PluginAdapter extends InstallerAdapter
 
 			// Update the manifest cache and name
 			$this->extension->store();
+			return;
 		}
-		else
+
+		// Store in the extensions table (1.6)
+		$this->extension->name         = $this->name;
+		$this->extension->type         = 'plugin';
+		$this->extension->ordering     = 0;
+		$this->extension->element      = $this->element;
+		$this->extension->folder       = $this->group;
+		$this->extension->enabled      = 0;
+		$this->extension->protected    = 0;
+		$this->extension->access       = 1;
+		$this->extension->client_id    = 0;
+		$this->extension->params       = $this->parent->getParams();
+		$this->extension->changelogurl = $this->changelogurl;
+
+		// Update the manifest cache for the entry
+		$this->extension->manifest_cache = $this->parent->generateManifestCache();
+
+		// Editor plugins are published by default
+		if ($this->group === 'editors')
 		{
-			// Store in the extensions table (1.6)
-			$this->extension->name         = $this->name;
-			$this->extension->type         = 'plugin';
-			$this->extension->ordering     = 0;
-			$this->extension->element      = $this->element;
-			$this->extension->folder       = $this->group;
-			$this->extension->enabled      = 0;
-			$this->extension->protected    = 0;
-			$this->extension->access       = 1;
-			$this->extension->client_id    = 0;
-			$this->extension->params       = $this->parent->getParams();
-			$this->extension->changelogurl = $this->changelogurl;
-
-			// Update the manifest cache for the entry
-			$this->extension->manifest_cache = $this->parent->generateManifestCache();
-
-			// Editor plugins are published by default
-			if ($this->group === 'editors')
-			{
-				$this->extension->enabled = 1;
-			}
-
-			if (!$this->extension->store())
-			{
-				// Install failed, roll back changes
-				throw new \RuntimeException(
-					Text::sprintf(
-						'JLIB_INSTALLER_ABORT_PLG_INSTALL_ROLLBACK',
-						Text::_('JLIB_INSTALLER_' . $this->route),
-						$this->extension->getError()
-					)
-				);
-			}
-
-			// Since we have created a plugin item, we add it to the installation step stack
-			// so that if we have to rollback the changes we can undo it.
-			$this->parent->pushStep(array('type' => 'extension', 'id' => $this->extension->extension_id));
+			$this->extension->enabled = 1;
 		}
+
+		if (!$this->extension->store())
+		{
+			// Install failed, roll back changes
+			throw new \RuntimeException(
+				Text::sprintf(
+					'JLIB_INSTALLER_ABORT_PLG_INSTALL_ROLLBACK',
+					Text::_('JLIB_INSTALLER_' . $this->route),
+					$this->extension->getError()
+				)
+			);
+		}
+
+		// Since we have created a plugin item, we add it to the installation step stack
+		// so that if we have to rollback the changes we can undo it.
+		$this->parent->pushStep(array('type' => 'extension', 'id' => $this->extension->extension_id));
 	}
 
 	/**
@@ -646,11 +652,9 @@ class PluginAdapter extends InstallerAdapter
 		{
 			return true;
 		}
-		else
-		{
-			Log::add(Text::_('JLIB_INSTALLER_ERROR_PLG_REFRESH_MANIFEST_CACHE'), Log::WARNING, 'jerror');
 
-			return false;
-		}
+		Log::add(Text::_('JLIB_INSTALLER_ERROR_PLG_REFRESH_MANIFEST_CACHE'), Log::WARNING, 'jerror');
+
+		return false;
 	}
 }
