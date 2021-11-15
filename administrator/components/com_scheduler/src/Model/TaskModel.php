@@ -419,8 +419,6 @@ class TaskModel extends AdminModel
 
 		try
 		{
-			// @todo Remove -- Dbg
-			$queryStr = $lockQuery->__toString();
 			$db->setQuery($lockQuery)->execute();
 		}
 		catch (\RuntimeException $e)
