@@ -49,19 +49,19 @@ class MediaController extends ApiController
 	private static $listQueryModelStateMap = [
 		'path'    => [
 			'name' => 'path',
-			'type' => 'STRING'
+			'type' => 'STRING',
 		],
 		'url'     => [
 			'name' => 'url',
-			'type' => 'BOOLEAN'
+			'type' => 'BOOLEAN',
 		],
 		'temp'    => [
 			'name' => 'temp',
-			'type' => 'BOOLEAN'
+			'type' => 'BOOLEAN',
 		],
 		'content' => [
 			'name' => 'content',
-			'type' => 'BOOLEAN'
+			'type' => 'BOOLEAN',
 		],
 	];
 
@@ -74,19 +74,19 @@ class MediaController extends ApiController
 	private static $itemQueryModelStateMap = [
 		'path'    => [
 			'name' => 'path',
-			'type' => 'STRING'
+			'type' => 'STRING',
 		],
 		'url'     => [
 			'name' => 'url',
-			'type' => 'BOOLEAN'
+			'type' => 'BOOLEAN',
 		],
 		'temp'    => [
 			'name' => 'temp',
-			'type' => 'BOOLEAN'
+			'type' => 'BOOLEAN',
 		],
 		'content' => [
 			'name' => 'content',
-			'type' => 'BOOLEAN'
+			'type' => 'BOOLEAN',
 		],
 	];
 
