@@ -23,6 +23,7 @@ use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\Component\Scheduler\Administrator\Event\ExecuteTaskEvent;
 use Joomla\Component\Scheduler\Administrator\Helper\ExecRuleHelper;
 use Joomla\Component\Scheduler\Administrator\Helper\SchedulerHelper;
+use Joomla\Component\Scheduler\Administrator\Scheduler\Scheduler;
 use Joomla\Database\DatabaseDriver;
 use Joomla\Database\DatabaseInterface;
 use Joomla\Database\ParameterType;
@@ -134,20 +135,20 @@ class Task extends Registry implements LoggerAwareInterface
 	 */
 	public function run(): bool
 	{
-		/*
-		* Dispatch event if task lock is not released (NULL). This only happens if the task execution
-		* was interrupted by a fatal failure.
-		*/
-		if ($this->get('locked') !== null)
+		/**
+		 * We try to acquire the lock here, only if we don't already have one.
+		 * We do this, so we can support two ways of running tasks:
+		 *   1. Directly through {@see Scheduler}, which optimises acquiring a lock while fetching from the task queue.
+		 *   2. Running a task without a pre-acquired lock.
+		 * ! This needs some more thought, for whether it should be allowed or if the single-query optimisation
+		 *   should be used everywhere, although it doesn't make sense in the context of fetching
+		 *   a task when it doesn't need to be run. This might be solved if we force a re-fetch
+		 *   with the lock or do it here ourselves (using acquireLock as a proxy to the model's
+		 *   getter).
+		 */
+		if ($this->get('locked') === null)
 		{
-			$event = AbstractEvent::create(
-				'onTaskRecoverFailure',
-				[
-					'subject' => $this,
-				]
-			);
-
-			$this->app->getDispatcher()->dispatch('onTaskRecoverFailure', $event);
+			$this->acquireLock();
 		}
 
 		// Exit early if task routine is not available
@@ -155,13 +156,6 @@ class Task extends Registry implements LoggerAwareInterface
 		{
 			$this->snapshot['status'] = Status::NO_ROUTINE;
 			$this->skipExecution();
-
-			return $this->isSuccess();
-		}
-
-		if (!$this->acquireLock())
-		{
-			$this->snapshot['status'] = Status::NO_LOCK;
 
 			return $this->isSuccess();
 		}
@@ -227,6 +221,9 @@ class Task extends Registry implements LoggerAwareInterface
 
 	/**
 	 * Acquire a pseudo-lock on the task record.
+	 * ! At the moment, this method is not used anywhere as task locks are already
+	 *   acquired when they're fetched. As such this method is not functional and should
+	 *   not be reviewed until it is updated.
 	 *
 	 * @return boolean
 	 *
@@ -245,14 +242,15 @@ class Task extends Registry implements LoggerAwareInterface
 		$timeoutThreshold = (clone $now)->sub($timeout)->toSql();
 		$now              = $now->toSql();
 
-		$query->update($db->qn('#__scheduler_tasks', 't'))
-			->set('t.locked = :now')
-			->where($db->qn('t.id') . ' = :taskId')
+		// @todo update or remove this method
+		$query->update($db->qn('#__scheduler_tasks'))
+			->set('locked = :now')
+			->where($db->qn('id') . ' = :taskId')
 			->extendWhere(
 				'AND',
 				[
-					$db->qn('t.locked') . ' < :threshold',
-					$db->qn('t.locked') . 'IS NULL',
+					$db->qn('locked') . ' < :threshold',
+					$db->qn('locked') . 'IS NULL',
 				],
 				'OR'
 			)
@@ -262,14 +260,19 @@ class Task extends Registry implements LoggerAwareInterface
 
 		try
 		{
+			$db->lockTable('#__scheduler_tasks');
 			$db->setQuery($query)->execute();
 		}
 		catch (\RuntimeException $e)
 		{
 			return false;
 		}
+		finally
+		{
+			$db->unlockTables();
+		}
 
-		if (!$db->getAffectedRows())
+		if ($db->getAffectedRows() === 0)
 		{
 			return false;
 		}
@@ -296,9 +299,9 @@ class Task extends Registry implements LoggerAwareInterface
 		$id    = $this->get('id');
 
 		$query->update($db->qn('#__scheduler_tasks', 't'))
-			->set('t.locked = NULL')
-			->where($db->qn('t.id') . ' = :taskId')
-			->where($db->qn('t.locked') . ' IS NOT NULL')
+			->set('locked = NULL')
+			->where($db->qn('id') . ' = :taskId')
+			->where($db->qn('locked') . ' IS NOT NULL')
 			->bind(':taskId', $id, ParameterType::INTEGER);
 
 		if ($update)
@@ -311,11 +314,11 @@ class Task extends Registry implements LoggerAwareInterface
 
 			$query->set(
 				[
-					't.last_exit_code = :exitCode',
-					't.last_execution = :lastExec',
-					't.next_execution = :nextExec',
-					't.times_executed = :times_executed',
-					't.times_failed = :times_failed',
+					'last_exit_code = :exitCode',
+					'last_execution = :lastExec',
+					'next_execution = :nextExec',
+					'times_executed = :times_executed',
+					'times_failed = :times_failed',
 				]
 			)
 				->bind(':exitCode', $exitCode, ParameterType::INTEGER)
@@ -326,7 +329,7 @@ class Task extends Registry implements LoggerAwareInterface
 
 			if ($exitCode !== Status::OK)
 			{
-				$query->set('t.times_failed = t.times_failed + 1');
+				$query->set('times_failed = t.times_failed + 1');
 			}
 		}
 

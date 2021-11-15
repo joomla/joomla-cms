@@ -72,16 +72,11 @@ class TasksRunCommand extends AbstractCommand
 		$scheduler = new Scheduler;
 
 		$id    = $input->getOption('id');
-		$title = $input->getOption('title');
 		$all   = $input->getOption('all');
 
 		if ($id)
 		{
 			$records[] = $scheduler->fetchTaskRecord($id);
-		}
-		elseif ($title)
-		{
-			$records[] = $scheduler->fetchTaskRecord(0, $title);
 		}
 		else
 		{
@@ -92,7 +87,7 @@ class TasksRunCommand extends AbstractCommand
 			$records = $scheduler->fetchTaskRecords($filters, $listConfig);
 		}
 
-		if (($id || $title) && !$records[0])
+		if ($id && !$records[0])
 		{
 			$this->ioStyle->writeln('<error>No matching task found!</error>');
 
@@ -151,7 +146,6 @@ class TasksRunCommand extends AbstractCommand
 	protected function configure(): void
 	{
 		$this->addOption('id', 'i', InputOption::VALUE_REQUIRED, 'The id of the task to run');
-		$this->addOption('title', 't', InputOption::VALUE_REQUIRED, 'The title of the task to run, can be incomplete.');
 		$this->addOption('all', '', InputOption::VALUE_NONE, 'Run all due tasks. Note that this is overridden if --id or --title are used.');
 
 		$help = "<info>%command.name%</info> run scheduled tasks.

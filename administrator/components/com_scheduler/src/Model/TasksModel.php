@@ -91,6 +91,7 @@ class TasksModel extends ListModel
 		$id .= ':' . $this->getState('filter.type');
 		$id .= ':' . $this->getState('filter.orphaned');
 		$id .= ':' . $this->getState('filter.due');
+		$id .= ':' . $this->getState('filter.locked');
 		$id .= ':' . $this->getState('filter.trigger');
 		$id .= ':' . $this->getState('list.select');
 

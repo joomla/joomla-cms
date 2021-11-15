@@ -13,16 +13,17 @@ namespace Joomla\Component\Scheduler\Administrator\Scheduler;
 defined('_JEXEC') or die;
 
 use Assert\AssertionFailedException;
-use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
 use Joomla\Component\Scheduler\Administrator\Extension\SchedulerComponent;
+use Joomla\Component\Scheduler\Administrator\Model\TaskModel;
 use Joomla\Component\Scheduler\Administrator\Model\TasksModel;
 use Joomla\Component\Scheduler\Administrator\Task\Status;
 use Joomla\Component\Scheduler\Administrator\Task\Task;
-use Joomla\Database\DatabaseDriver;
-use Joomla\Database\DatabaseInterface;
+use Symfony\Component\OptionsResolver\Exception\InvalidOptionsException;
+use Symfony\Component\OptionsResolver\Exception\UndefinedOptionsException;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
  * The Scheduler class provides the core functionality of ComScheduler.
@@ -47,6 +48,8 @@ class Scheduler
 	 * Filters for the task queue. Can be used with fetchTaskRecords().
 	 *
 	 * @since __DEPLOY_VERSION__
+	 * @todo  remove?
+	 *
 	 */
 	public const TASK_QUEUE_FILTERS = [
 		'due'    => 1,
@@ -57,63 +60,43 @@ class Scheduler
 	 * List config for the task queue. Can be used with fetchTaskRecords().
 	 *
 	 * @since __DEPLOY_VERSION__
+	 * @todo  remove?
+	 *
 	 */
 	public const TASK_QUEUE_LIST_CONFIG = [
 		'multi_ordering' => ['a.priority DESC ', 'a.next_execution ASC'],
 	];
 
 	/**
-	 * @var  CMSApplication
-	 * @since  __DEPLOY_VERSION__
-	 */
-	protected $app;
-
-	/**
-	 * @var  DatabaseInterface
-	 * @since  __DEPLOY_VERSION__
-	 */
-	protected $db;
-
-	/**
-	 * @var  SchedulerComponent
-	 * @since  __DEPLOY_VERSION__
-	 */
-	protected $component;
-
-	/**
-	 * Scheduler class constructor
-	 *
-	 * @since __DEPLOY_VERSION__
-	 * @throws \Exception
-	 */
-	public function __construct()
-	{
-		$this->app       = Factory::getApplication();
-		$this->db        = Factory::getContainer()->get(DatabaseDriver::class);
-		$this->component = $this->app->bootComponent('com_scheduler');
-		$this->app->getLanguage()->load('com_scheduler', JPATH_ADMINISTRATOR);
-	}
-
-	/**
 	 * Run a scheduled task.
 	 * Runs a single due task from the task queue by default if $id and $title are not passed.
 	 *
-	 * @param   int   $id           The task ID
-	 * @param   bool  $unpublished  The task title
+	 * @param   int   $id             The task ID. By default, this is 0 and targets the task next in the task queue.
+	 * @param   bool  $allowDisabled  If true, disabled tasks can also be run.
 	 *
 	 * @return Task|null  The task executed or null if not exists
 	 *
 	 * @since __DEPLOY_VERSION__
 	 * @throws AssertionFailedException|\Exception
 	 */
-	public function runTask(int $id = 0, bool $unpublished = false): ?Task
+	public function runTask(int $id = 0, bool $allowDisabled = false): ?Task
 	{
-		$task = $this->fetchTask($id, $unpublished);
+		// ? Sure about inferring scheduling bypass?
+		$task = $this->getTask(
+			[
+				'id'               => $id,
+				'allowDisabled'    => $allowDisabled,
+				'bypassScheduling' => $id === 0,
+				'allowConcurrent'  => false,
+			]
+		);
 
 		if (empty($task))
 		{
 			return null;
 		}
+
+		Factory::getApplication()->getLanguage()->load('com_scheduler', JPATH_ADMINISTRATOR);
 
 		$options['text_entry_format'] = '{DATE}	{TIME}	{PRIORITY}	{MESSAGE}';
 		$options['text_file']         = 'joomla_scheduler.php';
@@ -154,27 +137,65 @@ class Scheduler
 	}
 
 	/**
-	 * Fetches a single scheduled task in a Task instance.
-	 * If no id or title is specified, a due task is returned.
+	 * Get the next task which is due to run, limit to a specific task when ID is given
 	 *
-	 * @param   int   $id           The task ID
-	 * @param   bool  $unpublished  The task title
+	 * @param   array  $options  Options for the getter, see {@see TaskModel::getTask()}.
+	 *                           ! should probably also support a non-locking getter.
 	 *
-	 * @return ?Task
+	 * @return  Task $task The task to execute
 	 *
 	 * @since __DEPLOY_VERSION__
-	 * @throws \Exception
+	 * @throws \RuntimeException
 	 */
-	public function fetchTask(int $id = 0, bool $unpublished = false): ?Task
+	public function getTask(array $options = []): ?Task
 	{
-		$record = $this->fetchTaskRecord($id, $unpublished);
+		$resolver = new OptionsResolver;
 
-		if ($record === null)
+		try
+		{
+			TaskModel::configureTaskGetterOptions($resolver);
+		}
+		catch (\Exception $e)
+		{
+		}
+
+		try
+		{
+			$options = $resolver->resolve($options);
+		}
+		catch (\Exception $e)
+		{
+			if ($e instanceof UndefinedOptionsException || $e instanceof InvalidOptionsException)
+			{
+				throw $e;
+			}
+		}
+
+		try
+		{
+			/** @var SchedulerComponent $component */
+			$component = Factory::getApplication()->bootComponent('com_scheduler');
+
+			/** @var TaskModel $model */
+			$model = $component->getMVCFactory()->createModel('Task', 'Administrator', ['ignore_request' => true]);
+		}
+		catch (\Exception $e)
+		{
+		}
+
+		if (!isset($model))
+		{
+			throw new \RuntimeException('JLIB_APPLICATION_ERROR_MODEL_CREATE');
+		}
+
+		$task = $model->getTask($options);
+
+		if (empty($task))
 		{
 			return null;
 		}
 
-		return new Task($record);
+		return new Task($task);
 	}
 
 	/**
@@ -187,6 +208,7 @@ class Scheduler
 	 * @return ?object  A matching task record, if it exists
 	 *
 	 * @since __DEPLOY_VERSION__
+	 * @throws \RuntimeException
 	 */
 	public function fetchTaskRecord(int $id = 0, bool $unpublished = false): ?object
 	{
@@ -231,8 +253,11 @@ class Scheduler
 
 		try
 		{
+			/** @var SchedulerComponent $component */
+			$component = Factory::getApplication()->bootComponent('com_scheduler');
+
 			/** @var TasksModel $model */
-			$model = $this->component->getMVCFactory()
+			$model = $component->getMVCFactory()
 				->createModel('Tasks', 'Administrator', ['ignore_request' => true]);
 		}
 		catch (\Exception $e)
@@ -241,7 +266,7 @@ class Scheduler
 
 		if (!$model)
 		{
-			throw new \RunTimeException('JLIB_APPLICATION_ERROR_MODEL_CREATE');
+			throw new \RuntimeException('JLIB_APPLICATION_ERROR_MODEL_CREATE');
 		}
 
 		$model->setState('list.select', '*');
