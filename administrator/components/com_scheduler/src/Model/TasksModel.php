@@ -333,12 +333,10 @@ class TasksModel extends ListModel
 	 * @return object[]
 	 *
 	 * @since  __DEPLOY_VERSION__
-	 * phpcs:disable
 	 * @throws \Exception
 	 */
 	protected function _getList($query, $limitstart = 0, $limit = 0): array
 	{
-		// phpcs:enable
 
 		// Get stuff from the model state
 		$listOrder      = $this->getState('list.ordering', 'a.title');
@@ -426,8 +424,8 @@ class TasksModel extends ListModel
 	 * Proxy for the parent method.
 	 * Sets ordering defaults.
 	 *
-	 * @param   ?string  $ordering   Field to order/sort list by
-	 * @param   ?string  $direction  Direction in which to sort list
+	 * @param   string  $ordering   Field to order/sort list by
+	 * @param   string  $direction  Direction in which to sort list
 	 *
 	 * @return void
 	 * @since  __DEPLOY_VERSION__

@@ -181,7 +181,7 @@ class CronField extends ListField
 		}
 		else
 		{
-			$labels = \range(... self::OPTIONS_RANGE[$subtype]);
+			$labels = \range(...self::OPTIONS_RANGE[$subtype]);
 		}
 
 		for ([$i, $l] = [$optionLower, 0]; $i <= $optionUpper; $i++, $l++)

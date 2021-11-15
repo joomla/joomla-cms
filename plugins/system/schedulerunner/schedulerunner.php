@@ -249,7 +249,6 @@ class PlgSystemSchedulerunner extends CMSPlugin implements SubscriberInterface
 	 * @throws UnexpectedValueException
 	 * @throws RuntimeException
 	 * @todo  Move to another plugin?
-	 *
 	 */
 	public function enhanceSchedulerConfig(EventInterface $event): void
 	{

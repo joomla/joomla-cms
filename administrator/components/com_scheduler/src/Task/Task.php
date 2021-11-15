@@ -45,7 +45,7 @@ class Task extends Registry implements LoggerAwareInterface
 	/**
 	 * The task snapshot
 	 *
-	 * @var   []
+	 * @var   array
 	 * @since __DEPLOY_VERSION__
 	 */
 	protected $snapshot = [];
