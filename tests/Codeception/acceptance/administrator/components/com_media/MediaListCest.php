@@ -898,15 +898,18 @@ class MediaListCest
 		$I->assertContains('"showInfoBar":false', $json);
 		$I->assertContains('"listView":"grid"', $json);
 		$I->assertContains('"gridSize":"md"', $json);
+		$I->assertContains('"search":""', $json);
 		$I->clickOnLinkInTree('banners');
 		$I->waitForMediaLoaded();
 		$I->openInfobar();
 		$I->click(MediaListPage::$increaseThumbnailSizeButton);
 		$I->click(MediaListPage::$toggleListViewButton);
+		$I->fillField(MediaListPage::$searchInputField, 'joomla');
 		$json = $I->executeJS('return sessionStorage.getItem("' . MediaListPage::$storageKey . '")');
 		$I->assertContains('"selectedDirectory":"local-images:/banners"', $json);
 		$I->assertContains('"showInfoBar":true', $json);
 		$I->assertContains('"listView":"table"', $json);
 		$I->assertContains('"gridSize":"lg"', $json);
+		$I->assertContains('"search":"joomla"', $json);
 	}
 }
