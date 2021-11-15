@@ -7,7 +7,7 @@ CREATE TABLE IF NOT EXISTS "#__scheduler_tasks"
     "id" serial NOT NULL,
     "asset_id" bigint NOT NULL DEFAULT '0',
     "title" varchar(255) NOT NULL,
-    "type" varchar(1024) NOT NULL,
+    "type" varchar(128) NOT NULL,
     "execution_rules" text,
     "cron_rules" text,
     "state" smallint NOT NULL DEFAULT '0',
