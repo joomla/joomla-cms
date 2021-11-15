@@ -21,6 +21,7 @@ use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Profiler\Profiler;
 use Joomla\CMS\Uri\Uri;
 use Joomla\Event\Event;
+use Joomla\Event\Priority;
 use Joomla\Event\SubscriberInterface;
 
 /**
@@ -63,8 +64,8 @@ final class Cache extends CMSPlugin implements SubscriberInterface
 		 */
 		return [
 			'onAfterRoute'   => 'onAfterRoute',
-			'onAfterRender'  => 'onAfterRender',
-			'onAfterRespond' => 'onAfterRespond',
+			'onAfterRender'  => ['onAfterRender', Priority::LOW],
+			'onAfterRespond' => ['onAfterRespond', Priority::LOW],
 		];
 	}
 
