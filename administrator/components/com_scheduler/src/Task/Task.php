@@ -24,6 +24,7 @@ use Joomla\Component\Scheduler\Administrator\Event\ExecuteTaskEvent;
 use Joomla\Component\Scheduler\Administrator\Helper\ExecRuleHelper;
 use Joomla\Component\Scheduler\Administrator\Helper\SchedulerHelper;
 use Joomla\Component\Scheduler\Administrator\Scheduler\Scheduler;
+use Joomla\Component\Scheduler\Administrator\Table\TaskTable;
 use Joomla\Database\DatabaseDriver;
 use Joomla\Database\DatabaseInterface;
 use Joomla\Database\ParameterType;
@@ -69,6 +70,13 @@ class Task extends Registry implements LoggerAwareInterface
 	 */
 	protected $db;
 
+	/**
+	 * Maps task exit codes to events which should be dispatched when the task finishes.
+	 * 'NA' maps to the event for general task failures.
+	 *
+	 * @var  string[]
+	 * @since  __DEPLOY_VERSION__
+	 */
 	protected const EVENTS_MAP = [
 		Status::OK         => 'onTaskExecuteSuccess',
 		Status::NO_ROUTINE => 'onTaskRoutineNotFound',
@@ -76,9 +84,9 @@ class Task extends Registry implements LoggerAwareInterface
 	];
 
 	/**
-	 * Override parent Registry constructor.
+	 * Constructor for {@see Task}.
 	 *
-	 * @param   object  $record  A `#__scheduler_tasks` record
+	 * @param   object  $record  A task from {@see TaskTable}.
 	 *
 	 * @since __DEPLOY_VERSION__
 	 * @throws \Exception
