@@ -130,6 +130,13 @@ class TasksStateCommand extends AbstractCommand
 			return 1;
 		}
 
+		if ($taskModel->isCheckedOut($task))
+		{
+			$this->ioStyle->error("Task ID '${id}' is checked out!");
+
+			return 2;
+		}
+
 		$table = $taskModel->getTable();
 
 		$action = array_search($state, ['enable' => self::STATE_ENABLE, 'disable' => self::STATE_DISABLE, 'trash' => self::STATE_TRASH]);
