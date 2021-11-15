@@ -86,6 +86,14 @@
             }
           },
           {
+            "name": "mousetrap",
+            "type": "script",
+            "uri": "mousetrap.min.js",
+            "dependencies": {
+              "mousetrap": "^1.6.5"
+            }
+          },
+          {
             "name": "bootstrap.alert",
             "type": "script",
             "uri": "alert.min.js",
