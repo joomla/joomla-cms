@@ -63,7 +63,10 @@ class UsersControllerRegistration extends UsersController
 
 		if (!$userIdToActivate)
 		{
-			JError::raiseError(403, JText::_('COM_USERS_ACTIVATION_TOKEN_NOT_FOUND'));
+			$loginUrl = 'index.php?option=com_users&view=login';
+
+			$this->setMessage(JText::_('COM_USERS_ACTIVATION_TOKEN_NOT_FOUND'));
+			$this->setRedirect(JRoute::_($loginUrl, false));
 
 			return false;
 		}
