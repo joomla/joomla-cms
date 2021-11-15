@@ -11,8 +11,10 @@ namespace Joomla\CMS\Console;
 // Restrict direct access
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Application\ConsoleApplication;
 use Joomla\CMS\Factory;
-use Joomla\Component\Scheduler\Administrator\Scheduler\Scheduler;
+use Joomla\Component\Jobs\Administrator\Table\TaskTable;
+use Joomla\Component\Scheduler\Administrator\Model\TaskModel;
 use Joomla\Console\Application;
 use Joomla\Console\Command\AbstractCommand;
 use Joomla\Utilities\ArrayHelper;
@@ -118,8 +120,11 @@ class TasksStateCommand extends AbstractCommand
 			}
 		}
 
+		/** @var ConsoleApplication $app */
 		$app = $this->getApplication();
-		$taskModel = $app->bootComponent('com_scheduler')->getMVCFactory($app)->createModel('Task', 'Administrator');
+
+		/** @var TaskModel $taskModel */
+		$taskModel = $app->bootComponent('com_scheduler')->getMVCFactory()->createModel('Task', 'Administrator');
 
 		$task = $taskModel->getItem($id);
 
@@ -137,6 +142,7 @@ class TasksStateCommand extends AbstractCommand
 			return 2;
 		}
 
+		/** @var TaskTable $table */
 		$table = $taskModel->getTable();
 
 		$action = array_search($state, ['enable' => self::STATE_ENABLE, 'disable' => self::STATE_DISABLE, 'trash' => self::STATE_TRASH]);
