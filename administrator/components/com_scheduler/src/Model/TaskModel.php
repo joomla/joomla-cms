@@ -107,8 +107,8 @@ class TaskModel extends AdminModel
 	 * TaskModel constructor. Needed just to set $app
 	 *
 	 * @param   array                      $config       An array of configuration options
-	 * @param   MVCFactoryInterface|null   $factory      The factory [?]
-	 * @param   FormFactoryInterface|null  $formFactory  The form factory [?]
+	 * @param   MVCFactoryInterface|null   $factory      The factory
+	 * @param   FormFactoryInterface|null  $formFactory  The form factory
 	 *
 	 * @since  __DEPLOY_VERSION__
 	 * @throws \Exception
@@ -553,7 +553,6 @@ class TaskModel extends AdminModel
 		}
 		else
 		{
-			// phpcs:ignore -- row from table
 			$data['last_execution'] = $this->getItem($id)->last_execution;
 		}
 

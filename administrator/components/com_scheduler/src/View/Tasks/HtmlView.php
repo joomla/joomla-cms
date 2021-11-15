@@ -90,7 +90,6 @@ class HtmlView extends BaseHtmlView
 	 *
 	 * @since  __DEPLOY_VERSION__
 	 * @throws  \Exception
-	 *
 	 */
 	public function display($tpl = null): void
 	{
