@@ -40,7 +40,7 @@ use Psr\Log\LoggerAwareTrait;
  *
  * @since __DEPLOY_VERSION__
  */
-class Task extends Registry implements LoggerAwareInterface
+class Task implements LoggerAwareInterface
 {
 	use LoggerAwareTrait;
 
@@ -51,6 +51,12 @@ class Task extends Registry implements LoggerAwareInterface
 	 * @since __DEPLOY_VERSION__
 	 */
 	protected $snapshot = [];
+
+	/**
+	 * @var  Registry
+	 * @since __DEPLOY_VERSION__
+	 */
+	protected $taskRegistry;
 
 	/**
 	 * @var  string
@@ -93,11 +99,11 @@ class Task extends Registry implements LoggerAwareInterface
 	 */
 	public function __construct(object $record)
 	{
-		// Hack because Registry dumps private properties otherwise
+		// Workaround because Registry dumps private properties otherwise.
 		$taskOption     = $record->taskOption;
 		$record->params = json_decode($record->params, true);
 
-		parent::__construct($record);
+		$this->taskRegistry = new Registry($record);
 
 		$this->set('taskOption', $taskOption);
 		$this->app = Factory::getApplication();
@@ -126,7 +132,7 @@ class Task extends Registry implements LoggerAwareInterface
 	public function getRecord(): object
 	{
 		// ! Probably, an array instead
-		$recObject = $this->toObject();
+		$recObject = $this->taskRegistry->toObject();
 
 		$recObject->cron_rules = (array) $recObject->cron_rules;
 
@@ -164,6 +170,7 @@ class Task extends Registry implements LoggerAwareInterface
 		{
 			$this->snapshot['status'] = Status::NO_ROUTINE;
 			$this->skipExecution();
+			$this->dispatchExitEvent();
 
 			return $this->isSuccess();
 		}
@@ -197,7 +204,7 @@ class Task extends Registry implements LoggerAwareInterface
 		// @todo make the ExecRuleHelper usage less ugly, perhaps it should be composed into Task
 		// Update object state.
 		$this->set('last_execution', Factory::getDate('@' . (int) $this->snapshot['taskStart'])->toSql());
-		$this->set('next_execution', (new ExecRuleHelper($this->toObject()))->nextExec());
+		$this->set('next_execution', (new ExecRuleHelper($this->taskRegistry->toObject()))->nextExec());
 		$this->set('last_exit_code', $this->snapshot['status']);
 		$this->set('times_executed', $this->get('times_executed') + 1);
 
@@ -210,6 +217,8 @@ class Task extends Registry implements LoggerAwareInterface
 		{
 			$this->snapshot['status'] = Status::NO_RELEASE;
 		}
+
+		$this->dispatchExitEvent();
 
 		return $this->isSuccess();
 	}
@@ -388,7 +397,7 @@ class Task extends Registry implements LoggerAwareInterface
 		$query = $db->getQuery(true);
 
 		$id       = $this->get('id');
-		$nextExec = (new ExecRuleHelper($this->toObject()))->nextExec(true, true);
+		$nextExec = (new ExecRuleHelper($this->taskRegistry->toObject()))->nextExec(true, true);
 
 		$query->update($db->qn('#__scheduler_tasks', 't'))
 			->set('t.next_execution = :nextExec')
@@ -408,15 +417,15 @@ class Task extends Registry implements LoggerAwareInterface
 	}
 
 	/**
-	 * Handles task exit (dispatch event, return).
+	 * Handles task exit (dispatch event).
 	 *
-	 * @return boolean  If true, execution was successful
+	 * @return void
 	 *
 	 * @since __DEPLOY_VERSION__
-	 * @throws \UnexpectedValueException
-	 * @throws \BadMethodCallException
+	 *
+	 * @throws \UnexpectedValueException|\BadMethodCallException
 	 */
-	public function isSuccess(): bool
+	protected function dispatchExitEvent(): void
 	{
 		$exitCode  = $this->snapshot['status'] ?? 'NA';
 		$eventName = self::EVENTS_MAP[$exitCode] ?? self::EVENTS_MAP['NA'];
@@ -429,7 +438,47 @@ class Task extends Registry implements LoggerAwareInterface
 		);
 
 		$this->app->getDispatcher()->dispatch($eventName, $event);
+	}
 
-		return $exitCode === Status::OK;
+	/**
+	 * Was the task successful?
+	 *
+	 * @return boolean  True if the task was successful.
+	 * @since __DEPLOY_VERSION__
+	 */
+	public function isSuccess(): bool
+	{
+		return ($this->snapshot['status'] ?? null) === Status::OK;
+	}
+
+	/**
+	 * Set a task property. This method is a proxy to {@see Registry::set()}.
+	 *
+	 * @param   string   $path       Registry path of the task property.
+	 * @param   mixed    $value      The value to set to the property.
+	 * @param   ?string  $separator  The key separator.
+	 *
+	 * @return mixed|null
+	 *
+	 * @since __DEPLOY_VERSION__
+	 */
+	protected function set(string $path, $value, string $separator = null)
+	{
+		return $this->taskRegistry->set($path, $value, $separator);
+	}
+
+	/**
+	 * Get a task property. This method is a proxy to {@see Registry::get()}.
+	 *
+	 * @param   string  $path     Registry path of the task property.
+	 * @param   mixed   $default  Default property to return, if the actual value is null.
+	 *
+	 * @return mixed  The task property.
+	 *
+	 * @since __DEPLOY_VERSION__
+	 */
+	protected function get(string $path, $default = null)
+	{
+		return $this->taskRegistry->get($path, $default);
 	}
 }
