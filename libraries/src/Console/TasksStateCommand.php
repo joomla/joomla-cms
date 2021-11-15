@@ -55,21 +55,21 @@ class TasksStateCommand extends AbstractCommand
 	private $ioStyle;
 
 	/**
-	 * State to publish
+	 * State to enable.
 	 *
 	 * @since __DEPLOY_VERSION__
 	 */
 	const STATE_ENABLE = 1;
 
 	/**
-	 * State to unpublish
+	 * State to disable.
 	 *
 	 * @since __DEPLOY_VERSION__
 	 */
 	const STATE_DISABLE = 0;
 
 	/**
-	 * State to trash
+	 * State to trash.
 	 *
 	 * @since __DEPLOY_VERSION__
 	 */
@@ -96,7 +96,7 @@ class TasksStateCommand extends AbstractCommand
 
 		while (!$id)
 		{
-			$id = (int) $this->ioStyle->ask('Please speficy the ID of the task');
+			$id = (int) $this->ioStyle->ask('Please specify the ID of the task');
 		}
 
 		$state = (string) $input->getOption('state');
@@ -114,7 +114,7 @@ class TasksStateCommand extends AbstractCommand
 
 			if (!is_numeric($state))
 			{
-				$state = ArrayHelper::getValue(['enable' => self::STATE_ENABLE, 'unpublish' => self::STATE_DISABLE,
+				$state = ArrayHelper::getValue(['enable' => self::STATE_ENABLE, 'disable' => self::STATE_DISABLE,
 					'trash' => self::STATE_TRASH], $state
 				);
 			}
@@ -130,7 +130,7 @@ class TasksStateCommand extends AbstractCommand
 
 		if (empty($task->id))
 		{
-			$this->ioStyle->error('Task ID: ' . $id . ' does not exist!');
+			$this->ioStyle->error("Task ID '${id}' does not exist!");
 
 			return 1;
 		}
@@ -149,12 +149,13 @@ class TasksStateCommand extends AbstractCommand
 
 		if (!$table->publish($id, $state))
 		{
-			$this->ioStyle->error('Can\'t ' . $action . ' Task ID ' . $id);
+			$this->ioStyle->error("Can't ${action} Task ID '${id}'");
 
-			return 1;
+			return 3;
 		}
 
-		$this->ioStyle->success('Task ID ' . $id . ' ' . $action . 'ed');
+		$actionAdjective = $action . substr($action, -1) == 'e' ? '' : "";
+		$this->ioStyle->success('Task ID ' . $id . ' ' . $actionAdjective);
 
 		return 0;
 	}
