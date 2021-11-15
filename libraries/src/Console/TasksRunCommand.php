@@ -14,7 +14,6 @@ defined('JPATH_PLATFORM') or die;
 use Assert\AssertionFailedException;
 use Joomla\Component\Scheduler\Administrator\Scheduler\Scheduler;
 use Joomla\Component\Scheduler\Administrator\Task\Status;
-use Joomla\Console\Application;
 use Joomla\Console\Command\AbstractCommand;
 use Symfony\Component\Console\Exception\InvalidArgumentException;
 use Symfony\Component\Console\Input\InputInterface;
@@ -36,14 +35,6 @@ class TasksRunCommand extends AbstractCommand
 	 * @since  __DEPLOY_VERSION__
 	 */
 	protected static $defaultName = 'scheduler:run';
-
-	/**
-	 * The console application
-	 *
-	 * @var Application
-	 * @since __DEPLOY__VERSION__
-	 */
-	protected $application;
 
 	/**
 	 * @var SymfonyStyle
@@ -166,7 +157,7 @@ class TasksRunCommand extends AbstractCommand
 		$help = "<info>%command.name%</info> run scheduled tasks.
 		\nUsage: <info>php %command.full_name% [flags]</info>";
 
-		$this->setDescription('List all scheduled tasks');
+		$this->setDescription('Run one or more tasks');
 		$this->setHelp($help);
 	}
 }

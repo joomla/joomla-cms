@@ -131,7 +131,7 @@ class TasksListCommand extends AbstractCommand
 	 */
 	protected function configure(): void
 	{
-		$help = "<info>%command.name%</info> will list all scheduled tasks.
+		$help = "<info>%command.name%</info> lists all scheduled tasks.
 		\nUsage: <info>php %command.full_name%</info>";
 
 		$this->setDescription('List all scheduled tasks');
