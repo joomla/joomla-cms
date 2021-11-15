@@ -503,6 +503,7 @@ class PluginAdapter extends InstallerAdapter
 
 			// Update the manifest cache and name
 			$this->extension->store();
+
 			return;
 		}
 
