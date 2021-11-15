@@ -61,7 +61,7 @@ class MediaCest
 	 *
 	 * @param   mixed   ApiTester  $I  Api tester
 	 *
-	 * @since   4.0.0
+	 * @since   __DEPLOY_VERSION__
 	 *
 	 * @throws Exception
 	 */
