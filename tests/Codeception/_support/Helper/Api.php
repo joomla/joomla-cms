@@ -61,7 +61,7 @@ class Api extends Module
 		return 'c2hhMjU2OjM6ZTJmMjJlYTNlNTU0NmM1MDJhYTIzYzMwN2MxYzAwZTQ5NzJhMWRmOTUyNjY5MTk2YjE5ODJmZWMwZTcxNzgwMQ==';
 	}
 
-		/**
+	/**
 	 * Creates a user for API authentication and returns a bearer token.
 	 *
 	 * @param   string  $name     The name of the config key
