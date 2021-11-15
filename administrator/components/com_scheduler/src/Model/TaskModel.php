@@ -399,7 +399,7 @@ class TaskModel extends AdminModel
 			// Get the id of the next task in the task queue
 			$idQuery = $db->getQuery(true)
 				->from($db->quoteName(self::TASK_TABLE))
-				->select('id')
+				->select($db->quoteName('id'))
 				->where($db->quoteName('state') . ' = 1')
 				->order($db->quoteName('priority') . ' DESC')
 				->order($db->quoteName('next_execution') . ' ASC')
