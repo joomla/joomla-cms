@@ -57,14 +57,14 @@ class TasksStateCommand extends AbstractCommand
 	 *
 	 * @since __DEPLOY_VERSION__
 	 */
-	const STATE_PUBLISH = 1;
+	const STATE_ENABLE = 1;
 
 	/**
 	 * State to unpublish
 	 *
 	 * @since __DEPLOY_VERSION__
 	 */
-	const STATE_UNPUBLISH = 0;
+	const STATE_DISABLE = 0;
 
 	/**
 	 * State to trash
@@ -101,18 +101,18 @@ class TasksStateCommand extends AbstractCommand
 
 		if (!is_numeric($state))
 		{
-			$state = ArrayHelper::getValue(['publish' => self::STATE_PUBLISH, 'unpublish' => self::STATE_UNPUBLISH,
+			$state = ArrayHelper::getValue(['enable' => self::STATE_ENABLE, 'disable' => self::STATE_DISABLE,
 				'trash' => self::STATE_TRASH], $state
 			);
 		}
 
-		while (!strlen($state) || !in_array($state, [self::STATE_PUBLISH, self::STATE_UNPUBLISH, self::STATE_TRASH]))
+		while (!strlen($state) || !in_array($state, [self::STATE_ENABLE, self::STATE_DISABLE, self::STATE_TRASH]))
 		{
-			$state = (string) $this->ioStyle->ask('Should the state be "publish" (1), "unpublish" (0) or "trash" (-2)');
+			$state = (string) $this->ioStyle->ask('Should the state be "enable" (1), "disable" (0) or "trash" (-2)');
 
 			if (!is_numeric($state))
 			{
-				$state = ArrayHelper::getValue(['publish' => self::STATE_PUBLISH, 'unpublish' => self::STATE_UNPUBLISH,
+				$state = ArrayHelper::getValue(['enable' => self::STATE_ENABLE, 'unpublish' => self::STATE_DISABLE,
 					'trash' => self::STATE_TRASH], $state
 				);
 			}
@@ -132,7 +132,7 @@ class TasksStateCommand extends AbstractCommand
 
 		$table = $taskModel->getTable();
 
-		$action = array_search($state, ['publish' => self::STATE_PUBLISH, 'unpublish' => self::STATE_UNPUBLISH, 'trash' => self::STATE_TRASH]);
+		$action = array_search($state, ['enable' => self::STATE_ENABLE, 'disable' => self::STATE_DISABLE, 'trash' => self::STATE_TRASH]);
 
 		if (!$table->publish($id, $state))
 		{
@@ -171,12 +171,12 @@ class TasksStateCommand extends AbstractCommand
 	protected function configure(): void
 	{
 		$this->addOption('id', 'i', InputOption::VALUE_REQUIRED, 'The id of the task to change');
-		$this->addOption('state', 's', InputOption::VALUE_REQUIRED, 'Set the new state of the task, can be 1/publish, 0/unpublish, -2/trash.');
+		$this->addOption('state', 's', InputOption::VALUE_REQUIRED, 'Set the new state of the task, can be 1/enable, 0/disable, -2/trash.');
 
 		$help = "<info>%command.name%</info> changes the state of a task.
 		\nUsage: <info>php %command.full_name%</info>";
 
-		$this->setDescription('Publish/Unpublish/Trash a task');
+		$this->setDescription('Enable/Disable/Trash a task');
 		$this->setHelp($help);
 	}
 }
