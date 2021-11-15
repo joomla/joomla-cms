@@ -147,6 +147,12 @@ abstract class ToolbarHelper
 	 */
 	public static function help($ref, $com = false, $override = null, $component = null)
 	{
+		// Don't show a help button if neither $ref nor $override is given
+		if (!$ref && !$override)
+		{
+			return;
+		}
+
 		$bar = Toolbar::getInstance('toolbar');
 
 		// Add a help button.
