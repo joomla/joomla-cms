@@ -32,6 +32,7 @@ use Joomla\CMS\Console\SiteDownCommand;
 use Joomla\CMS\Console\SiteUpCommand;
 use Joomla\CMS\Console\TasksListCommand;
 use Joomla\CMS\Console\TasksRunCommand;
+use Joomla\CMS\Console\TasksStateCommand;
 use Joomla\CMS\Console\UpdateCoreCommand;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\LanguageFactoryInterface;
@@ -168,6 +169,7 @@ class Application implements ServiceProviderInterface
 						FinderIndexCommand::getDefaultName()              => FinderIndexCommand::class,
 						TasksListCommand::getDefaultName()                => TasksListCommand::class,
 						TasksRunCommand::getDefaultName()                 => TasksRunCommand::class,
+						TasksStateCommand::getDefaultName()               => TasksStateCommand::class,
 					];
 
 					return new WritableContainerLoader($container, $mapping);

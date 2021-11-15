@@ -168,6 +168,8 @@ class HtmlView extends BaseHtmlView
 				$childBar->addNew('tasks.publish', 'JTOOLBAR_ENABLE')->listCheck(true)->icon('icon-publish');
 				$childBar->addNew('tasks.unpublish', 'JTOOLBAR_DISABLE')->listCheck(true)->icon('icon-unpublish');
 
+				$childBar->checkin('tasks.unlock', 'COM_SCHEDULER_TOOLBAR_UNLOCK')->listCheck(true)->icon('icon-unlock');
+
 				// We don't want the batch Trash button if displayed entries are all trashed
 				if ($this->state->get('filter.state') != -2)
 				{

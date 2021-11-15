@@ -6,7 +6,7 @@ CREATE TABLE IF NOT EXISTS `#__scheduler_tasks` (
     `id` int unsigned NOT NULL AUTO_INCREMENT,
     `asset_id` int NOT NULL UNIQUE DEFAULT '0',
     `title` varchar(255) NOT NULL DEFAULT '',
-    `type` varchar(1024) NOT NULL COMMENT 'unique identifier for job defined by plugin',
+    `type` varchar(128) NOT NULL COMMENT 'unique identifier for job defined by plugin',
     `execution_rules` text COMMENT 'Execution Rules, Unprocessed',
     `cron_rules` text COMMENT 'Processed execution rules, crontab-like JSON form',
     `state` tinyint NOT NULL DEFAULT FALSE,

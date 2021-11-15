@@ -91,6 +91,7 @@ class TasksModel extends ListModel
 		$id .= ':' . $this->getState('filter.type');
 		$id .= ':' . $this->getState('filter.orphaned');
 		$id .= ':' . $this->getState('filter.due');
+		$id .= ':' . $this->getState('filter.locked');
 		$id .= ':' . $this->getState('filter.trigger');
 		$id .= ':' . $this->getState('list.select');
 
@@ -119,7 +120,7 @@ class TasksModel extends ListModel
 		$query->select(
 			$this->getState(
 				'list.select',
-				'a.id, a.asset_id, a.title, a.type, a.execution_rules, a.state, a.last_exit_code' .
+				'a.id, a.asset_id, a.title, a.type, a.execution_rules, a.state, a.last_exit_code, a.locked' .
 				', a.last_execution, a.next_execution, a.times_executed, a.times_failed, a.ordering, a.note'
 			)
 		);
@@ -172,17 +173,21 @@ class TasksModel extends ListModel
 		// Filter over state ----
 		$state = $this->getState('filter.state');
 
-		if (is_numeric($state))
+		if ($state !== '*')
 		{
 			$filterCount++;
-			$state = (int) $state;
-			$query->where($db->quoteName('a.state') . ' = :state')
-				->bind(':state', $state, ParameterType::INTEGER);
-		}
-		elseif ($state === '')
-		{
-			$filterCount++;
-			$query->whereIn($db->quoteName('a.state'), [0, 1]);
+
+			if (is_numeric($state))
+			{
+				$state = (int) $state;
+
+				$query->where($db->quoteName('a.state') . ' = :state')
+					->bind(':state', $state, ParameterType::INTEGER);
+			}
+			else
+			{
+				$query->whereIn($db->quoteName('a.state'), [0, 1]);
+			}
 		}
 
 		// Filter over type ----

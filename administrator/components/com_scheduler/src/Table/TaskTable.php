@@ -12,6 +12,7 @@ namespace Joomla\Component\Scheduler\Administrator\Table;
 // Restrict direct access
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Event\AbstractEvent;
 use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\CMS\Table\Asset;
@@ -180,5 +181,131 @@ class TaskTable extends Table
 		}
 
 		return parent::bind($src, $ignore);
+	}
+	/**
+	 * Method to unlockr a row or list of rows in the database table.
+	 *
+	 * @param   mixed    $pks     An optional array of primary key values to update. If not set the instance property value is used.
+	 *
+	 * @return  boolean  True on success; false if $pks is empty.
+	 *
+	 * @since   1.7.0
+	 */
+	public function unlock($pks = null)
+	{
+		// Sanitize input
+		$userId = (int) $userId;
+		$state  = (int) $state;
+
+		// Pre-processing by observers
+		$event = AbstractEvent::create(
+			'onTableBeforeUnlock',
+			[
+				'subject'	=> $this,
+				'pks'		=> $pks,
+				'state'		=> $state,
+				'userId'	=> $userId,
+			]
+		);
+
+		$this->getDispatcher()->dispatch('onTableBeforeUnlock', $event);
+
+		if (!\is_null($pks))
+		{
+			if (!\is_array($pks))
+			{
+				$pks = array($pks);
+			}
+
+			foreach ($pks as $key => $pk)
+			{
+				if (!\is_array($pk))
+				{
+					$pks[$key] = array($this->_tbl_key => $pk);
+				}
+			}
+		}
+
+		// If there are no primary keys set check to see if the instance key is set.
+		if (empty($pks))
+		{
+			$pk = array();
+
+			foreach ($this->_tbl_keys as $key)
+			{
+				if ($this->$key)
+				{
+					$pk[$key] = $this->$key;
+				}
+				// We don't have a full primary key - return false
+				else
+				{
+					$this->setError(Text::_('JLIB_DATABASE_ERROR_NO_ROWS_SELECTED'));
+
+					return false;
+				}
+			}
+
+			$pks = array($pk);
+		}
+
+		$lockedField = $this->getColumnAlias('locked');
+
+		foreach ($pks as $pk)
+		{
+			// Update the publishing state for rows with the given primary keys.
+			$query = $this->_db->getQuery(true)
+				->update($this->_tbl)
+				->set($this->_db->quoteName($lockedField) . ' = NULL');
+
+			// Build the WHERE clause for the primary keys.
+			$this->appendPrimaryKeys($query, $pk);
+
+			$this->_db->setQuery($query);
+
+			try
+			{
+				$this->_db->execute();
+			}
+			catch (\RuntimeException $e)
+			{
+				$this->setError($e->getMessage());
+
+				return false;
+			}
+
+			// If the Table instance value is in the list of primary keys that were set, set the instance.
+			$ours = true;
+
+			foreach ($this->_tbl_keys as $key)
+			{
+				if ($this->$key != $pk[$key])
+				{
+					$ours = false;
+				}
+			}
+
+			if ($ours)
+			{
+				$this->$lockedField = null;
+			}
+		}
+
+		$this->setError('');
+
+		// Pre-processing by observers
+		$event = AbstractEvent::create(
+			'onTableAfterUnlock',
+			[
+				'subject'	=> $this,
+				'pks'		=> $pks,
+				'state'		=> $state,
+				'userId'	=> $userId,
+			]
+		);
+
+		$this->getDispatcher()->dispatch('onTableAfterUnlock', $event);
+
+		return true;
 	}
 }

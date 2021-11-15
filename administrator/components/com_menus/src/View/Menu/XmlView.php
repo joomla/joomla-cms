@@ -91,7 +91,6 @@ class XmlView extends BaseHtmlView
 		header('content-disposition: attachment; filename="' . $menutype . '.xml"');
 		header("Cache-Control: no-cache, must-revalidate");
 		header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
-		header('Pragma: private');
 
 		$dom = new \DOMDocument;
 		$dom->preserveWhiteSpace = true;

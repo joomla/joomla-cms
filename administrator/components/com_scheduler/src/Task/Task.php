@@ -23,6 +23,8 @@ use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\Component\Scheduler\Administrator\Event\ExecuteTaskEvent;
 use Joomla\Component\Scheduler\Administrator\Helper\ExecRuleHelper;
 use Joomla\Component\Scheduler\Administrator\Helper\SchedulerHelper;
+use Joomla\Component\Scheduler\Administrator\Scheduler\Scheduler;
+use Joomla\Component\Scheduler\Administrator\Table\TaskTable;
 use Joomla\Database\DatabaseDriver;
 use Joomla\Database\DatabaseInterface;
 use Joomla\Database\ParameterType;
@@ -38,7 +40,7 @@ use Psr\Log\LoggerAwareTrait;
  *
  * @since __DEPLOY_VERSION__
  */
-class Task extends Registry implements LoggerAwareInterface
+class Task implements LoggerAwareInterface
 {
 	use LoggerAwareTrait;
 
@@ -49,6 +51,12 @@ class Task extends Registry implements LoggerAwareInterface
 	 * @since __DEPLOY_VERSION__
 	 */
 	protected $snapshot = [];
+
+	/**
+	 * @var  Registry
+	 * @since __DEPLOY_VERSION__
+	 */
+	protected $taskRegistry;
 
 	/**
 	 * @var  string
@@ -68,6 +76,13 @@ class Task extends Registry implements LoggerAwareInterface
 	 */
 	protected $db;
 
+	/**
+	 * Maps task exit codes to events which should be dispatched when the task finishes.
+	 * 'NA' maps to the event for general task failures.
+	 *
+	 * @var  string[]
+	 * @since  __DEPLOY_VERSION__
+	 */
 	protected const EVENTS_MAP = [
 		Status::OK         => 'onTaskExecuteSuccess',
 		Status::NO_ROUTINE => 'onTaskRoutineNotFound',
@@ -75,20 +90,20 @@ class Task extends Registry implements LoggerAwareInterface
 	];
 
 	/**
-	 * Override parent Registry constructor.
+	 * Constructor for {@see Task}.
 	 *
-	 * @param   object  $record  A `#__scheduler_tasks` record
+	 * @param   object  $record  A task from {@see TaskTable}.
 	 *
 	 * @since __DEPLOY_VERSION__
 	 * @throws \Exception
 	 */
 	public function __construct(object $record)
 	{
-		// Hack because Registry dumps private properties otherwise
+		// Workaround because Registry dumps private properties otherwise.
 		$taskOption     = $record->taskOption;
 		$record->params = json_decode($record->params, true);
 
-		parent::__construct($record);
+		$this->taskRegistry = new Registry($record);
 
 		$this->set('taskOption', $taskOption);
 		$this->app = Factory::getApplication();
@@ -117,7 +132,7 @@ class Task extends Registry implements LoggerAwareInterface
 	public function getRecord(): object
 	{
 		// ! Probably, an array instead
-		$recObject = $this->toObject();
+		$recObject = $this->taskRegistry->toObject();
 
 		$recObject->cron_rules = (array) $recObject->cron_rules;
 
@@ -134,20 +149,20 @@ class Task extends Registry implements LoggerAwareInterface
 	 */
 	public function run(): bool
 	{
-		/*
-		* Dispatch event if task lock is not released (NULL). This only happens if the task execution
-		* was interrupted by a fatal failure.
-		*/
-		if ($this->get('locked') !== null)
+		/**
+		 * We try to acquire the lock here, only if we don't already have one.
+		 * We do this, so we can support two ways of running tasks:
+		 *   1. Directly through {@see Scheduler}, which optimises acquiring a lock while fetching from the task queue.
+		 *   2. Running a task without a pre-acquired lock.
+		 * ! This needs some more thought, for whether it should be allowed or if the single-query optimisation
+		 *   should be used everywhere, although it doesn't make sense in the context of fetching
+		 *   a task when it doesn't need to be run. This might be solved if we force a re-fetch
+		 *   with the lock or do it here ourselves (using acquireLock as a proxy to the model's
+		 *   getter).
+		 */
+		if ($this->get('locked') === null)
 		{
-			$event = AbstractEvent::create(
-				'onTaskRecoverFailure',
-				[
-					'subject' => $this,
-				]
-			);
-
-			$this->app->getDispatcher()->dispatch('onTaskRecoverFailure', $event);
+			$this->acquireLock();
 		}
 
 		// Exit early if task routine is not available
@@ -155,13 +170,7 @@ class Task extends Registry implements LoggerAwareInterface
 		{
 			$this->snapshot['status'] = Status::NO_ROUTINE;
 			$this->skipExecution();
-
-			return $this->isSuccess();
-		}
-
-		if (!$this->acquireLock())
-		{
-			$this->snapshot['status'] = Status::NO_LOCK;
+			$this->dispatchExitEvent();
 
 			return $this->isSuccess();
 		}
@@ -195,7 +204,7 @@ class Task extends Registry implements LoggerAwareInterface
 		// @todo make the ExecRuleHelper usage less ugly, perhaps it should be composed into Task
 		// Update object state.
 		$this->set('last_execution', Factory::getDate('@' . (int) $this->snapshot['taskStart'])->toSql());
-		$this->set('next_execution', (new ExecRuleHelper($this->toObject()))->nextExec());
+		$this->set('next_execution', (new ExecRuleHelper($this->taskRegistry->toObject()))->nextExec());
 		$this->set('last_exit_code', $this->snapshot['status']);
 		$this->set('times_executed', $this->get('times_executed') + 1);
 
@@ -208,6 +217,8 @@ class Task extends Registry implements LoggerAwareInterface
 		{
 			$this->snapshot['status'] = Status::NO_RELEASE;
 		}
+
+		$this->dispatchExitEvent();
 
 		return $this->isSuccess();
 	}
@@ -227,6 +238,9 @@ class Task extends Registry implements LoggerAwareInterface
 
 	/**
 	 * Acquire a pseudo-lock on the task record.
+	 * ! At the moment, this method is not used anywhere as task locks are already
+	 *   acquired when they're fetched. As such this method is not functional and should
+	 *   not be reviewed until it is updated.
 	 *
 	 * @return boolean
 	 *
@@ -245,14 +259,15 @@ class Task extends Registry implements LoggerAwareInterface
 		$timeoutThreshold = (clone $now)->sub($timeout)->toSql();
 		$now              = $now->toSql();
 
-		$query->update($db->qn('#__scheduler_tasks', 't'))
-			->set('t.locked = :now')
-			->where($db->qn('t.id') . ' = :taskId')
+		// @todo update or remove this method
+		$query->update($db->qn('#__scheduler_tasks'))
+			->set('locked = :now')
+			->where($db->qn('id') . ' = :taskId')
 			->extendWhere(
 				'AND',
 				[
-					$db->qn('t.locked') . ' < :threshold',
-					$db->qn('t.locked') . 'IS NULL',
+					$db->qn('locked') . ' < :threshold',
+					$db->qn('locked') . 'IS NULL',
 				],
 				'OR'
 			)
@@ -262,14 +277,19 @@ class Task extends Registry implements LoggerAwareInterface
 
 		try
 		{
+			$db->lockTable('#__scheduler_tasks');
 			$db->setQuery($query)->execute();
 		}
 		catch (\RuntimeException $e)
 		{
 			return false;
 		}
+		finally
+		{
+			$db->unlockTables();
+		}
 
-		if (!$db->getAffectedRows())
+		if ($db->getAffectedRows() === 0)
 		{
 			return false;
 		}
@@ -296,9 +316,9 @@ class Task extends Registry implements LoggerAwareInterface
 		$id    = $this->get('id');
 
 		$query->update($db->qn('#__scheduler_tasks', 't'))
-			->set('t.locked = NULL')
-			->where($db->qn('t.id') . ' = :taskId')
-			->where($db->qn('t.locked') . ' IS NOT NULL')
+			->set('locked = NULL')
+			->where($db->qn('id') . ' = :taskId')
+			->where($db->qn('locked') . ' IS NOT NULL')
 			->bind(':taskId', $id, ParameterType::INTEGER);
 
 		if ($update)
@@ -311,11 +331,11 @@ class Task extends Registry implements LoggerAwareInterface
 
 			$query->set(
 				[
-					't.last_exit_code = :exitCode',
-					't.last_execution = :lastExec',
-					't.next_execution = :nextExec',
-					't.times_executed = :times_executed',
-					't.times_failed = :times_failed',
+					'last_exit_code = :exitCode',
+					'last_execution = :lastExec',
+					'next_execution = :nextExec',
+					'times_executed = :times_executed',
+					'times_failed = :times_failed',
 				]
 			)
 				->bind(':exitCode', $exitCode, ParameterType::INTEGER)
@@ -326,7 +346,7 @@ class Task extends Registry implements LoggerAwareInterface
 
 			if ($exitCode !== Status::OK)
 			{
-				$query->set('t.times_failed = t.times_failed + 1');
+				$query->set('times_failed = t.times_failed + 1');
 			}
 		}
 
@@ -377,7 +397,7 @@ class Task extends Registry implements LoggerAwareInterface
 		$query = $db->getQuery(true);
 
 		$id       = $this->get('id');
-		$nextExec = (new ExecRuleHelper($this->toObject()))->nextExec(true, true);
+		$nextExec = (new ExecRuleHelper($this->taskRegistry->toObject()))->nextExec(true, true);
 
 		$query->update($db->qn('#__scheduler_tasks', 't'))
 			->set('t.next_execution = :nextExec')
@@ -397,15 +417,15 @@ class Task extends Registry implements LoggerAwareInterface
 	}
 
 	/**
-	 * Handles task exit (dispatch event, return).
+	 * Handles task exit (dispatch event).
 	 *
-	 * @return boolean  If true, execution was successful
+	 * @return void
 	 *
 	 * @since __DEPLOY_VERSION__
-	 * @throws \UnexpectedValueException
-	 * @throws \BadMethodCallException
+	 *
+	 * @throws \UnexpectedValueException|\BadMethodCallException
 	 */
-	public function isSuccess(): bool
+	protected function dispatchExitEvent(): void
 	{
 		$exitCode  = $this->snapshot['status'] ?? 'NA';
 		$eventName = self::EVENTS_MAP[$exitCode] ?? self::EVENTS_MAP['NA'];
@@ -418,7 +438,47 @@ class Task extends Registry implements LoggerAwareInterface
 		);
 
 		$this->app->getDispatcher()->dispatch($eventName, $event);
+	}
 
-		return $exitCode === Status::OK;
+	/**
+	 * Was the task successful?
+	 *
+	 * @return boolean  True if the task was successful.
+	 * @since __DEPLOY_VERSION__
+	 */
+	public function isSuccess(): bool
+	{
+		return ($this->snapshot['status'] ?? null) === Status::OK;
+	}
+
+	/**
+	 * Set a task property. This method is a proxy to {@see Registry::set()}.
+	 *
+	 * @param   string   $path       Registry path of the task property.
+	 * @param   mixed    $value      The value to set to the property.
+	 * @param   ?string  $separator  The key separator.
+	 *
+	 * @return mixed|null
+	 *
+	 * @since __DEPLOY_VERSION__
+	 */
+	protected function set(string $path, $value, string $separator = null)
+	{
+		return $this->taskRegistry->set($path, $value, $separator);
+	}
+
+	/**
+	 * Get a task property. This method is a proxy to {@see Registry::get()}.
+	 *
+	 * @param   string  $path     Registry path of the task property.
+	 * @param   mixed   $default  Default property to return, if the actual value is null.
+	 *
+	 * @return mixed  The task property.
+	 *
+	 * @since __DEPLOY_VERSION__
+	 */
+	protected function get(string $path, $default = null)
+	{
+		return $this->taskRegistry->get($path, $default);
 	}
 }
