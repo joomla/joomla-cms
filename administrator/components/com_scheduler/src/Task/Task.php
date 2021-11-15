@@ -162,6 +162,7 @@ class Task implements LoggerAwareInterface
 		{
 			$this->snapshot['status'] = Status::NO_ROUTINE;
 			$this->skipExecution();
+			$this->dispatchExitEvent();
 
 			return $this->isSuccess();
 		}
@@ -208,6 +209,8 @@ class Task implements LoggerAwareInterface
 		{
 			$this->snapshot['status'] = Status::NO_RELEASE;
 		}
+
+		$this->dispatchExitEvent();
 
 		return $this->isSuccess();
 	}
@@ -406,15 +409,15 @@ class Task implements LoggerAwareInterface
 	}
 
 	/**
-	 * Handles task exit (dispatch event, return).
+	 * Handles task exit (dispatch event).
 	 *
-	 * @return boolean  If true, execution was successful
+	 * @return void
 	 *
 	 * @since __DEPLOY_VERSION__
-	 * @throws \UnexpectedValueException
-	 * @throws \BadMethodCallException
+	 *
+	 * @throws \UnexpectedValueException|\BadMethodCallException
 	 */
-	public function isSuccess(): bool
+	protected function dispatchExitEvent(): void
 	{
 		$exitCode  = $this->snapshot['status'] ?? 'NA';
 		$eventName = self::EVENTS_MAP[$exitCode] ?? self::EVENTS_MAP['NA'];
@@ -427,8 +430,17 @@ class Task implements LoggerAwareInterface
 		);
 
 		$this->app->getDispatcher()->dispatch($eventName, $event);
+	}
 
-		return $exitCode === Status::OK;
+	/**
+	 * Was the task successful?
+	 *
+	 * @return boolean  True if the task was successful.
+	 * @since __DEPLOY_VERSION__
+	 */
+	public function isSuccess(): bool
+	{
+		return ($this->snapshot['status'] ?? null) === Status::OK;
 	}
 
 	/**
