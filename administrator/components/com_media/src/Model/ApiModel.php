@@ -18,8 +18,8 @@ use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\Component\Media\Administrator\Adapter\AdapterInterface;
-use Joomla\Component\Media\Administrator\Event\FetchMediaFileEvent;
-use Joomla\Component\Media\Administrator\Event\FetchMediaFilesEvent;
+use Joomla\Component\Media\Administrator\Event\FetchMediaItemEvent;
+use Joomla\Component\Media\Administrator\Event\FetchMediaItemsEvent;
 use Joomla\Component\Media\Administrator\Event\FetchMediaFileUrlEvent;
 use Joomla\Component\Media\Administrator\Event\MediaProviderEvent;
 use Joomla\Component\Media\Administrator\Exception\FileExistsException;
@@ -119,10 +119,10 @@ class ApiModel extends BaseDatabaseModel
 		$file->path    = $adapter . ":" . $file->path;
 		$file->adapter = $adapter;
 
-		$event = new FetchMediaFileEvent('onFetchMediaFile', ['file' => $file]);
+		$event = new FetchMediaItemEvent('onFetchMediaItem', ['item' => $file]);
 		Factory::getApplication()->getDispatcher()->dispatch($event->getName(), $event);
 
-		return $event->getArgument('file');
+		return $event->getArgument('item');
 	}
 
 	/**
@@ -187,10 +187,10 @@ class ApiModel extends BaseDatabaseModel
 		// Make proper indexes
 		$files = array_values($files);
 
-		$event = new FetchMediaFilesEvent('onFetchMediaFiles', ['files' => $files]);
+		$event = new FetchMediaItemsEvent('onFetchMediaItems', ['items' => $files]);
 		Factory::getApplication()->getDispatcher()->dispatch($event->getName(), $event);
 
-		return $event->getArgument('files');
+		return $event->getArgument('items');
 	}
 
 	/**
