@@ -1,13 +1,7 @@
-@import "../../tools/tools";
-@import "../../../../../media/vendor/joomla-custom-elements/css/joomla-alert.css";
+@import "../../variables";
+@import "../../../../../../../../node_modules/joomla-ui-custom-elements/dist/css/joomla-alert";
 
 // The following is a restyle for the system alerts
-#system-message-container {
-  &:empty {
-    display: none;
-    margin-top: 0;
-  }
-}
 
 #system-message-container joomla-alert {
   position: relative;
@@ -15,25 +9,21 @@
   width: 100%;
   min-width: 16rem;
   padding: 0;
-  margin-bottom: 0;
-  color: var(--gray-dark);
-  background-color: $white;
-  border: 1px solid var(--alert-accent-color, transparent);
+  margin-bottom: 1rem;
+  color: var(--alert-accent-color, var(--template-bg-dark));
+  background-color: var(--alert-bg-color, var(--white));
+  border: 1px solid var(--alert-accent-color, var(--template-bg-dark));
   border-radius: .25rem;
   transition: opacity .15s linear;
-
-  + * {
-    margin-top: 1rem;
-  }
 
   .alert-heading {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    align-content: center;
     padding: .8rem;
-    color: var(--alert-heading-text);
-    background: var(--alert-accent-color, transparent);
+    color: var(--white);
+    background: var(--alert-accent-color, var(--template-bg-dark));
+    align-content: center;
 
     .message::before,
     .success::before {
@@ -80,38 +70,36 @@
   }
 
   .alert-link {
-    color: var(--success, inherit);
+    color: var(--template-link-color);
+    text-decoration: underline;
   }
 
   &[type="success"],
   &[type="message"] {
-    --alert-accent-color: var(--success);
-    --alert-heading-text: hsla(0, 0%, 100%, .95);
-    --alert-close-button: var(--success);
-    background-color: $white;
+    --alert-accent-color: #{$state-success-text};
+    --alert-bg-color: #{$state-success-bg};
   }
 
   &[type="info"],
   &[type="notice"] {
-    --alert-accent-color: var(--info);
-    --alert-heading-text: hsla(0, 0%, 100%, .95);
-    --alert-close-button: var(--info);
-    background-color: $white;
+    --alert-accent-color: #{$state-info-text};
+    --alert-bg-color: #{$state-info-bg};
   }
 
   &[type="warning"] {
-    --alert-accent-color: var(--warning);
-    --alert-heading-text: hsla(0, 0%, 100%, .95);
-    --alert-close-button: var(--warning);
-    background-color: $white;
+    .joomla-alert--close {
+      color: #{$state-warning-text};
+    }
+
+    color: #{$state-warning-text};
+    --alert-accent-color: #{$warning};
+    --alert-bg-color: #{$state-warning-bg};
   }
 
   &[type="error"],
   &[type="danger"] {
-    --alert-accent-color: var(--danger);
-    --alert-heading-text: hsla(0, 0%, 100%, .95);
-    --alert-close-button: var(--danger);
-    background-color: $white;
+    --alert-accent-color: #{$state-danger-text};
+    --alert-bg-color: #{$state-danger-bg};
   }
 
   .joomla-alert--close,
@@ -119,9 +107,10 @@
     position: absolute;
     top: 0;
     right: 0;
-    padding: .2rem .8rem;
+    padding: .75rem .8rem;
     font-size: 2rem;
-    color: var(--alert-close-button);
+    line-height: 1rem;
+    color: var(--alert-accent-color);
     background: none;
     border: 0;
     opacity: 1;
@@ -136,19 +125,15 @@
     [dir=rtl] & {
       right: auto;
       left: 0;
-      padding: .2rem .6rem;
     }
   }
 
   div {
     font-size: 1rem;
     .alert-message {
-      padding: .3rem 2rem .3rem .3rem;
+      padding: .15rem .3rem;
+      padding-inline-end: 2rem;
       margin: .5rem;
-
-      [dir=rtl] & {
-        padding: .3rem .3rem .3rem 2rem;
-      }
     }
 
     .alert-message:not(:first-of-type) {

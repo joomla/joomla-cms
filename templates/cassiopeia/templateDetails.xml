@@ -7,6 +7,7 @@
 	<authorEmail>admin@joomla.org</authorEmail>
 	<copyright>(C) 2017 Open Source Matters, Inc.</copyright>
 	<description>TPL_CASSIOPEIA_XML_DESCRIPTION</description>
+	<inheritable>1</inheritable>
 	<files>
 		<filename>component.php</filename>
 		<filename>error.php</filename>
@@ -14,14 +15,14 @@
 		<filename>joomla.asset.json</filename>
 		<filename>offline.php</filename>
 		<filename>templateDetails.xml</filename>
-		<filename>template_preview.png</filename>
-		<filename>template_thumbnail.png</filename>
-		<folder>css</folder>
 		<folder>html</folder>
-		<folder>images</folder>
-		<folder>js</folder>
-		<folder>scss</folder>
 	</files>
+	<media destination="templates/site/cassiopeia" folder="media">
+		<folder>js</folder>
+		<folder>css</folder>
+		<folder>scss</folder>
+		<folder>images</folder>
+	</media>
 	<positions>
 		<position>topbar</position>
 		<position>below-top</position>
