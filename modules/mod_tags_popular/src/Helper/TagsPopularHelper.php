@@ -38,7 +38,7 @@ abstract class TagsPopularHelper
 		$user        = Factory::getUser();
 		$groups      = $user->getAuthorisedViewLevels();
 		$timeframe   = $params->get('timeframe', 'alltime');
-		$maximum     = $params->get('maximum', 5);
+		$maximum     = (int) $params->get('maximum', 5);
 		$order_value = $params->get('order_value', 'title');
 		$nowDate     = Factory::getDate()->toSql();
 		$nullDate    = $db->getNullDate();
@@ -157,7 +157,7 @@ abstract class TagsPopularHelper
 			}
 		}
 
-		if ($params->get('maximum','5') > 0)
+		if ($maximum > 0)
 		{
 			$query->setLimit((int) $params->get('maximum'));
 		}
