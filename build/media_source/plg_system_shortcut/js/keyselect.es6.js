@@ -1,9 +1,11 @@
+const Mousetrap = require('mousetrap');
 class JoomlaShortcutModal {
 	constructor() {
 		if (!Joomla) {
 			throw new Error('Joomla API is not properly initialised');
 		}
 		// Bindings
+		Mousetrap.bind()
 		this.setModalAttributes = this.setModalAttributes.bind(this);
 		this.handleKeyCombinationkeyUpEvent = this.handleKeyCombinationkeyUpEvent.bind(this);
 		this.initialiseKeySelectModal = this.initialiseKeySelectModal.bind(this);
@@ -17,7 +19,7 @@ class JoomlaShortcutModal {
 	initialiseKeySelectModal() {
 		const modalDiv = document.createElement('div');
 		this.setModalAttributes(modalDiv, {'class': 'modal fade', 'id': 'keySelectModal', 'tabindex': '-1', 'role': 'dialog', 'aria-labelledby': 'keySelectModalLabel', 'aria-hidden': 'true'});
-    modalDiv.innerHTML = '<div class="modal-dialog modal-dialog-centered" role="document"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="keySelectModalLabel">'+Joomla.getOptions('set_shorcut_text')+'</h5><button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button></div><div class="modal-body"><div class="p-3"><p>'+Joomla.getOptions('current_combination_text')+': <span id="currentKeyCombination"></span></p><div class="form-group"><input type="hidden" id="current_KeyEvent" value="" /><input type="hidden" id="current_keyValue" value="" /><input type="hidden" id="current_hasControl" value="0" /><input type="hidden" id="current_hasShift" value="0" /><input type="hidden" id="current_hasAlt" value="0" /></div><p>'+Joomla.getOptions('new_combination_text')+': <span id="newKeyCombination"></span></p></div></div><div class="modal-footer"><button type="button" class="btn btn-primary" data-bs-dismiss="modal" aria-label="Close">'+Joomla.getOptions('cancel_button_text')+'</button><button type="button" class="btn btn-success" id="saveKeyCombination">'+Joomla.getOptions('save_button_text')+'</button></div></div></div>';
+    modalDiv.innerHTML = '<div class="modal-dialog modal-dialog-centered" role="document"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="keySelectModalLabel">'+Joomla.getOptions('set_shorcut_text')+'</h5><button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button></div><div class="modal-body"><div class="p-3"><p>'+Joomla.getOptions('current_combination_text')+': <span id="currentKeyCombination"></span></p><div class="form-group"><input type="hidden" id="current_KeyEvent" value="" /><input type="hidden" id="current_keyValue" value="" /><input type="hidden" id="current_hasControl" value="0" /><input type="hidden" id="current_hasShift" value="0" /><input type="hidden" id="current_hasAlt" value="0" /></div><p>'+Joomla.getOptions('new_combination_text')+': <span id="newKeyCombination"></span></p><input class="form-control" type="text" placeholder="Default input"></div></div><div class="modal-footer"><button type="button" class="btn btn-primary" data-bs-dismiss="modal" aria-label="Close">'+Joomla.getOptions('cancel_button_text')+'</button><button type="button" class="btn btn-success" id="saveKeyCombination">'+Joomla.getOptions('save_button_text')+'</button></div></div></div>';
 		document.body.appendChild(modalDiv);
 		const keySelectModal = document.getElementById('keySelectModal');
 		Joomla.initialiseModal(keySelectModal);

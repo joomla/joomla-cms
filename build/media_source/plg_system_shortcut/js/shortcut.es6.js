@@ -1,4 +1,3 @@
-const Mousetrap = require('mousetrap');
 class JoomlaShortcuts {
 	constructor() {
 	  if (!Joomla) {
@@ -60,7 +59,6 @@ class JoomlaShortcuts {
 		  hasAlt: 1,
 		  hasControl: 1,
 		  selector: 'joomla-editor-option~article_modal',
-		  link: 'index.php?option=com_content&view=articles',
 		},
 		contact: {
 		  keyEvent: 'c',

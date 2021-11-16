@@ -86,14 +86,6 @@
             }
           },
           {
-            "name": "mousetrap",
-            "type": "script",
-            "uri": "mousetrap.min.js",
-            "dependencies": {
-              "mousetrap": "^1.6.5"
-            }
-          },
-          {
             "name": "bootstrap.alert",
             "type": "script",
             "uri": "alert.min.js",
@@ -539,6 +531,23 @@
         },
         "dependencies": [],
         "licenseFilename": ""
+      },
+      "mousetrap": {
+        "name": "mousetrap",
+        "licenseFilename": "LICENSE",
+        "js" : {
+          "mousetrap.min.js": "mousetrap.min.js"
+        },
+        "provideAssets": [
+          {
+            "name": "mousetrap",
+            "type": "script",
+            "uri": "mousetrap.min.js",
+            "attributes": {
+              "defer": true
+            }
+          }
+        ]
       },
       "punycode": {
         "name": "punycode",
