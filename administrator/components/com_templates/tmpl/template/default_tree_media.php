@@ -12,7 +12,8 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Router\Route;
 
 // Legacy is the default
-if (!count($this->mediaFiles)) {
+if (!count($this->mediaFiles))
+{
 	return;
 }
 

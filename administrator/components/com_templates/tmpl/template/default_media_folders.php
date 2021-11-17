@@ -11,7 +11,8 @@
 defined('_JEXEC') or die;
 
 // Legacy is the default
-if (!count($this->mediaFiles)) {
+if (!count($this->mediaFiles))
+{
 	return;
 }
 

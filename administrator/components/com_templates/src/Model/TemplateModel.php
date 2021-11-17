@@ -24,6 +24,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Model\FormModel;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Uri\Uri;
+use Joomla\Component\Templates\Administrator\Helper\TemplateHelper;
 use Joomla\Component\Templates\Administrator\Helper\TemplatesHelper;
 use Joomla\Database\ParameterType;
 
@@ -2023,6 +2024,13 @@ class TemplateModel extends FormModel
 		return $result;
 	}
 
+	/**
+	 * Method to resolve the base folder.
+	 *
+	 * @return  string  The absolute path for the base.
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
 	private function getBasePath()
 	{
 		$app      = Factory::getApplication();
