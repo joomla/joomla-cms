@@ -935,7 +935,7 @@ class TemplateController extends BaseController
 		if ($model->extractArchive($file))
 		{
 			$this->setMessage(Text::_('COM_TEMPLATES_FILE_ARCHIVE_EXTRACT_SUCCESS'));
-			$url = 'index.php?option=com_templates&view=template&id=' . $id . '&file=' . $file ;
+			$url = 'index.php?option=com_templates&view=template&id=' . $id . '&file=' . $file;
 			$this->setRedirect(Route::_($url, false));
 		}
 		else

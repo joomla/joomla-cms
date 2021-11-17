@@ -1,7 +1,4 @@
 <?php
-
-use Joomla\CMS\Language\Text;
-
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_templates
@@ -11,6 +8,8 @@ use Joomla\CMS\Language\Text;
  */
 
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Language\Text;
 
 ksort($this->files, SORT_STRING);
 ?>
