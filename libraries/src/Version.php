@@ -257,7 +257,7 @@ final class Version
 			// Get the joomla library params and the media version
 			$mediaVersion = LibraryHelper::getParams('joomla')->get('mediaversion', '');
 
-			// Refresh assets in debug mode or when the media version is not set
+			// Refresh assets when the media version is not set
 			if (empty($mediaVersion))
 			{
 				$mediaVersion = $this->generateMediaVersion();
