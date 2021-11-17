@@ -98,7 +98,7 @@ $doc->addScriptOptions('plg_editors_tinymce_builder',
 	</div>
 	<hr>
 	<joomla-tab orientation="vertical" id="joomla-tinymce-builder-sets" recall breakpoint="974">
-		<?php foreach (array_reverse($setsNames) as $num => $title) : ?>
+		<?php foreach ($setsNames as $num => $title) : ?>
 		<?php $isActive = $num === $setsAmount - 1; ?>
 			<joomla-tab-element class="tab-pane" id="set-<?php echo $num; ?>" <?php echo $isActive; ?> name="<?php echo $title; ?>">
 				<?php // Render tab content for each set ?>
