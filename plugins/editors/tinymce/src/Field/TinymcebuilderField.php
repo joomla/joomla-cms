@@ -162,8 +162,6 @@ class TinymcebuilderField extends FormField
 			$setsForms[$num]->bind($formValues);
 		}
 
-		sort($data['setsNames']);
-
 		$data['setsForms'] = $setsForms;
 
 		// Check for TinyMCE language file
