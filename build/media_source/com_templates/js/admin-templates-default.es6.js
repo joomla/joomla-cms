@@ -66,10 +66,19 @@
 
         event.currentTarget.classList.add('selected');
         const listElsAddressToAdd = [].slice.call(document.querySelectorAll('#folderModal input.address'));
+        let ismedia = 0;
 
         listElsAddressToAdd.forEach((element) => {
           element.value = event.currentTarget.getAttribute('data-id');
+          ismedia = element.dataset.base === 'media' ? 1 : 0;
         });
+
+        const isMediaEl = document.createElement('input');
+        isMediaEl.type = 'hidden';
+        isMediaEl.name = 'isMedia';
+        isMediaEl.value = ismedia;
+
+        listElsAddressToAdd[0].insertAdjacentElement('afterend', isMediaEl);
       });
     });
 

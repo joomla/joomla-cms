@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_templates
@@ -22,7 +23,26 @@ $input = Factory::getApplication()->input;
 		<div class="row">
 			<div class="col-md-4">
 				<div class="tree-holder">
-					<?php echo $this->loadTemplate('folders'); ?>
+					<ul class="directory-tree treeselect root">
+						<li class="folder-select">
+							<a class="folder-url" data-id="<?php echo base64_encode($key); ?>" href="" data-base="template">
+								<span class="icon-folder icon-fw" aria-hidden="true"></span>
+								<?php echo Text::_('COM_TEMPLATES_TEMPLATE_FOLDER'); ?>
+							</a>
+							<?php echo $this->loadTemplate('folders'); ?>
+						</li>
+					</ul>
+					<?php if (count($this->mediaFiles)) : ?>
+						<ul class="directory-tree treeselect">
+							<li class="folder-select">
+								<a class="folder-url" data-id="<?php echo base64_encode($key); ?>" href="" data-base="media">
+									<span class="icon-folder icon-fw" aria-hidden="true"></span>
+									<?php echo Text::_('COM_TEMPLATES_TEMPLATE_MEDIA_FOLDER'); ?>
+								</a>
+								<?php echo $this->loadTemplate('media_folders'); ?>
+							</li>
+						</ul>
+					<?php endif; ?>
 				</div>
 			</div>
 			<div class="col-md-8">
@@ -33,7 +53,7 @@ $input = Factory::getApplication()->input;
 					</div>
 					<div class="form-group">
 						<label for="type"><?php echo Text::_('COM_TEMPLATES_NEW_FILE_TYPE'); ?></label>
-						<select class="form-select" data-chosen="true" name="type" id="type" required >
+						<select class="form-select" data-chosen="true" name="type" id="type" required>
 							<option value="">- <?php echo Text::_('COM_TEMPLATES_NEW_FILE_SELECT'); ?> -</option>
 							<option value="css">.css</option>
 							<option value="php">.php</option>
@@ -63,18 +83,18 @@ $input = Factory::getApplication()->input;
 					<span class="mt-2"><?php echo Text::sprintf('JGLOBAL_MAXIMUM_UPLOAD_SIZE_LIMIT', '&#x200E;' . $maxSize); ?></span>
 				</form>
 				<?php if ($this->type != 'home') : ?>
-				<hr class="mb-4">
-				<form method="post" action="<?php echo Route::_('index.php?option=com_templates&task=template.copyFile&id=' . $input->getInt('id') . '&file=' . $this->file); ?>" enctype="multipart/form-data" class="mb-4">
-					<div class="form-group">
-						<input type="hidden" class="address" name="address">
-						<label for="new_name">
-							<?php echo Text::_('COM_TEMPLATES_FILE_NEW_NAME_LABEL')?>
-						</label>
-						<input class="form-control" type="text" id="new_name" name="new_name" required>
-						<?php echo HTMLHelper::_('form.token'); ?>
-					</div>
-					<button type="submit" class="btn btn-primary"><?php echo Text::_('COM_TEMPLATES_BUTTON_COPY_FILE'); ?></button>
-				</form>
+					<hr class="mb-4">
+					<form method="post" action="<?php echo Route::_('index.php?option=com_templates&task=template.copyFile&id=' . $input->getInt('id') . '&file=' . $this->file); ?>" enctype="multipart/form-data" class="mb-4">
+						<div class="form-group">
+							<input type="hidden" class="address" name="address">
+							<label for="new_name">
+								<?php echo Text::_('COM_TEMPLATES_FILE_NEW_NAME_LABEL') ?>
+							</label>
+							<input class="form-control" type="text" id="new_name" name="new_name" required>
+							<?php echo HTMLHelper::_('form.token'); ?>
+						</div>
+						<button type="submit" class="btn btn-primary"><?php echo Text::_('COM_TEMPLATES_BUTTON_COPY_FILE'); ?></button>
+					</form>
 				<?php endif; ?>
 			</div>
 		</div>

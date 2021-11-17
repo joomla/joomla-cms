@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_templates
@@ -21,7 +22,26 @@ $input = Factory::getApplication()->input;
 		<div class="row">
 			<div class="col-md-4">
 				<div class="tree-holder">
-					<?php echo $this->loadTemplate('folders'); ?>
+					<ul class="directory-tree treeselect root">
+						<li class="folder-select">
+							<a class="folder-url" data-id="<?php echo base64_encode(JPATH_ROOT . '/' . ($this->template->client_id === 0 ? '' : 'administrator/') . 'templates/' . $this->template->element); ?>" href="" data-base="template">
+								<span class="icon-folder icon-fw" aria-hidden="true"></span>
+								<?php echo Text::_('COM_TEMPLATES_TEMPLATE_FOLDER'); ?>
+							</a>
+							<?php echo $this->loadTemplate('folders'); ?>
+						</li>
+					</ul>
+					<?php if (count($this->mediaFiles)) : ?>
+						<ul class="directory-tree treeselect">
+							<li class="folder-select">
+								<a class="folder-url" data-id="<?php echo base64_encode(JPATH_ROOT . '/media/templates/' . ($this->template->client_id === 0 ? 'site' : 'administrator') . '/' . $this->template->element); ?>" href="" data-base="media">
+									<span class="icon-folder icon-fw" aria-hidden="true"></span>
+									<?php echo Text::_('COM_TEMPLATES_TEMPLATE_MEDIA_FOLDER'); ?>
+								</a>
+								<?php echo $this->loadTemplate('media_folders'); ?>
+							</li>
+						</ul>
+					<?php endif; ?>
 				</div>
 			</div>
 			<div class="col-md-8">

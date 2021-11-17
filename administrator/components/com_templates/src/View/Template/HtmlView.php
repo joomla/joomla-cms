@@ -138,6 +138,15 @@ class HtmlView extends BaseHtmlView
 	protected $pluginState;
 
 	/**
+	 * A nested array containing list of files and folders in the media folder
+	 *
+	 * @var  array
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $mediaFiles;
+
+	/**
 	 * Execute and display a template script.
 	 *
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
@@ -146,15 +155,16 @@ class HtmlView extends BaseHtmlView
 	 */
 	public function display($tpl = null)
 	{
-		$app            = Factory::getApplication();
-		$this->file     = $app->input->get('file');
-		$this->fileName = InputFilter::getInstance()->clean(base64_decode($this->file), 'string');
-		$explodeArray   = explode('.', $this->fileName);
-		$ext            = end($explodeArray);
-		$this->files    = $this->get('Files');
-		$this->state    = $this->get('State');
-		$this->template = $this->get('Template');
-		$this->preview  = $this->get('Preview');
+		$app              = Factory::getApplication();
+		$this->file        = $app->input->get('file');
+		$this->fileName    = InputFilter::getInstance()->clean(base64_decode($this->file), 'string');
+		$explodeArray      = explode('.', $this->fileName);
+		$ext               = end($explodeArray);
+		$this->files       = $this->get('Files');
+		$this->mediaFiles  = $this->get('MediaFiles');
+		$this->state       = $this->get('State');
+		$this->template    = $this->get('Template');
+		$this->preview     = $this->get('Preview');
 		$this->pluginState = PluginHelper::isEnabled('installer', 'override');
 		$this->updatedList = $this->get('UpdatedList');
 
@@ -356,6 +366,46 @@ class HtmlView extends BaseHtmlView
 		$this->files = $array;
 		$txt         = $this->loadTemplate('folders');
 		$this->files = $temp;
+
+		return $txt;
+	}
+
+	/**
+	 * Method for creating the collapsible tree.
+	 *
+	 * @param   array  $array  The value of the present node for recursion
+	 *
+	 * @return  string
+	 *
+	 * @note    Uses recursion
+	 * @since   3.2
+	 */
+	protected function mediaTree($array)
+	{
+		$temp        = $this->mediaFiles;
+		$this->mediaFiles = $array;
+		$txt         = $this->loadTemplate('tree_media');
+		$this->mediaFiles = $temp;
+
+		return $txt;
+	}
+
+	/**
+	 * Method for listing the folder tree in modals.
+	 *
+	 * @param   array  $array  The value of the present node for recursion
+	 *
+	 * @return  string
+	 *
+	 * @note    Uses recursion
+	 * @since   __DEPLOY_VERSION__
+	 */
+	protected function mediaFolderTree($array)
+	{
+		$temp             = $this->mediaFiles;
+		$this->mediaFiles = $array;
+		$txt              = $this->loadTemplate('media_folders');
+		$this->mediaFiles = $temp;
 
 		return $txt;
 	}

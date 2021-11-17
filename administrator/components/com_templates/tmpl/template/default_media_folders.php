@@ -1,7 +1,5 @@
 <?php
 
-use Joomla\CMS\Language\Text;
-
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_templates
@@ -12,19 +10,23 @@ use Joomla\CMS\Language\Text;
 
 defined('_JEXEC') or die;
 
-ksort($this->files, SORT_STRING);
-?>
+// Legacy is the default
+if (!count($this->mediaFiles)) {
+	return;
+}
 
+ksort($this->mediaFiles, SORT_STRING);
+?>
 <ul class="directory-tree treeselect">
-	<?php foreach ($this->files as $key => $value) : ?>
+	<?php foreach ($this->mediaFiles as $key => $value) : ?>
 		<?php if (is_array($value)) : ?>
 			<li class="folder-select">
-				<a class="folder-url" data-id="<?php echo base64_encode($key); ?>" href="" data-base="template">
+				<a class="folder-url" data-id="<?php echo base64_encode($key); ?>" href="" data-base="media">
 					<span class="icon-folder icon-fw" aria-hidden="true"></span>
 					<?php $explodeArray = explode('/', $key);
 					echo $this->escape(end($explodeArray)); ?>
 				</a>
-				<?php echo $this->folderTree($value); ?>
+				<?php echo $this->mediaFolderTree($value); ?>
 			</li>
 		<?php endif; ?>
 	<?php endforeach; ?>

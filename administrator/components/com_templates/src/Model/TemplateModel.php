@@ -24,7 +24,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Model\FormModel;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Uri\Uri;
-use Joomla\Component\Templates\Administrator\Helper\TemplateHelper;
+use Joomla\Component\Templates\Administrator\Helper\TemplatesHelper;
 use Joomla\Database\ParameterType;
 
 /**
@@ -45,10 +45,18 @@ class TemplateModel extends FormModel
 	/**
 	 * The path to the template
 	 *
-	 * @var    \stdClass
+	 * @var    string
 	 * @since  3.2
 	 */
 	protected $element = null;
+
+	/**
+	 * The path to the static assets
+	 *
+	 * @var    string
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $mediaElement = null;
 
 	/**
 	 * Internal method to get file properties.
@@ -66,8 +74,10 @@ class TemplateModel extends FormModel
 
 		if ($template = $this->getTemplate())
 		{
+			$path = str_replace(JPATH_ROOT . '/media/templates/' . ($this->template->client_id === 0 ? 'site' : 'administrator') . '/' . $this->template->element, '', $path);
+			$path = str_replace(JPATH_ROOT . '/' . ($this->template->client_id === 0 ? '' : 'administrator/') . 'templates/' . $this->template->element, '', $path);
 			$temp->name = $name;
-			$temp->id = urlencode(base64_encode($path . $name));
+			$temp->id = urlencode(base64_encode($path));
 
 			return $temp;
 		}
@@ -436,8 +446,9 @@ class TemplateModel extends FormModel
 			{
 				if (is_dir($dir . $value))
 				{
-					$relativePath = str_replace($this->element, '', $dir . $value);
-					$result['/' . $relativePath] = $this->getDirectoryTree($dir . $value . '/');
+					$relativePath = str_replace(JPATH_ROOT . '/media/templates/' . ($this->template->client_id === 0 ? 'site' : 'administrator') . '/' . $this->template->element, '', $dir . $value);
+					$relativePath = str_replace(JPATH_ROOT . '/' . ($this->template->client_id === 0 ? '' : 'administrator/') .'templates/' . $this->template->element, '', $dir . $value);
+					$result[$relativePath] = $this->getDirectoryTree($dir . $value . '/');
 				}
 				else
 				{
@@ -446,8 +457,9 @@ class TemplateModel extends FormModel
 
 					if ($allowedFormat == true)
 					{
-						$relativePath = str_replace($this->element, '', $dir);
-						$info = $this->getFile('/' . $relativePath, $value);
+						$relativePath = str_replace(JPATH_ROOT . '/media/templates/' . ($this->template->client_id === 0 ? 'site' : 'administrator') . '/' . $this->template->element, '', $dir . $value);
+						$relativePath = str_replace(JPATH_ROOT . '/' . ($this->template->client_id === 0 ? '' : 'administrator/') . 'templates/' . $this->template->element, '', $dir . $value);
+						$info = $this->getFile($relativePath, $value);
 						$result[] = $info;
 					}
 				}
@@ -929,11 +941,15 @@ class TemplateModel extends FormModel
 		{
 			$input    = Factory::getApplication()->input;
 			$fileName = base64_decode($input->get('file'));
-			$client   = ApplicationHelper::getClientInfo($this->template->client_id);
+			$fileName = str_replace('//', '/', $fileName);
+			$isMedia  = $input->getInt('isMedia', 0);
+
+			$fileName = $isMedia ? Path::clean(JPATH_ROOT . '/media/templates/' . ($this->template->client_id === 0 ? 'site' : 'administrator') . '/' . $this->template->element . $fileName)
+			: Path::clean(JPATH_ROOT . ($this->template->client_id === 0 ? '' : '/administrator') . '/templates/' . $this->template->element . $fileName);
 
 			try
 			{
-				$filePath = Path::check($client->path . '/templates/' . $this->template->element . '/' . $fileName);
+				$filePath = Path::check($fileName);
 			}
 			catch (\Exception $e)
 			{
@@ -983,12 +999,15 @@ class TemplateModel extends FormModel
 			return false;
 		}
 
-		$app = Factory::getApplication();
+		$app      = Factory::getApplication();
 		$fileName = base64_decode($app->input->get('file'));
-		$client = ApplicationHelper::getClientInfo($template->client_id);
-		$filePath = Path::clean($client->path . '/templates/' . $template->element . '/' . $fileName);
+		$isMedia  = $app->input->getInt('isMedia', 0);
+		$fileName = $isMedia ? JPATH_ROOT . '/media/templates/' . ($this->template->client_id === 0 ? 'site' : 'administrator') . '/' . $this->template->element . $fileName  :
+			JPATH_ROOT . '/' . ($this->template->client_id === 0 ? '' : 'administrator/') . 'templates/' . $this->template->element . $fileName;
 
-		// Include the extension plugins for the save events.
+		$filePath = Path::clean($fileName);
+
+			// Include the extension plugins for the save events.
 		PluginHelper::importPlugin('extension');
 
 		$user = get_current_user();
@@ -1472,17 +1491,16 @@ class TemplateModel extends FormModel
 		if ($template = $this->getTemplate())
 		{
 			$app    = Factory::getApplication();
-			$client = ApplicationHelper::getClientInfo($template->client_id);
-			$path   = Path::clean($client->path . '/templates/' . $template->element . '/');
+			$path   = Path::clean($location . '/');
 
-			if (file_exists(Path::clean($path . '/' . $location . '/' . $name . '/')))
+			if (file_exists(Path::clean($path . $name)))
 			{
 				$app->enqueueMessage(Text::_('COM_TEMPLATES_FOLDER_EXISTS'), 'error');
 
 				return false;
 			}
 
-			if (!Folder::create(Path::clean($path . '/' . $location . '/' . $name)))
+			if (!Folder::create(Path::clean($path . $name)))
 			{
 				$app->enqueueMessage(Text::_('COM_TEMPLATES_FOLDER_CREATE_ERROR'), 'error');
 
@@ -1507,8 +1525,7 @@ class TemplateModel extends FormModel
 		if ($template = $this->getTemplate())
 		{
 			$app    = Factory::getApplication();
-			$client = ApplicationHelper::getClientInfo($template->client_id);
-			$path   = Path::clean($client->path . '/templates/' . $template->element . '/' . $location);
+			$path   = Path::clean($location . '/');
 
 			if (!file_exists($path))
 			{
@@ -1545,8 +1562,7 @@ class TemplateModel extends FormModel
 		if ($template = $this->getTemplate())
 		{
 			$app          = Factory::getApplication();
-			$client       = ApplicationHelper::getClientInfo($template->client_id);
-			$path         = Path::clean($client->path . '/templates/' . $template->element . '/');
+			$path         = $this->getBasePath();
 			$fileName     = base64_decode($file);
 			$explodeArray = explode('.', $fileName);
 			$type         = end($explodeArray);
@@ -1583,20 +1599,10 @@ class TemplateModel extends FormModel
 		if ($template = $this->getTemplate())
 		{
 			$app      = Factory::getApplication();
-			$client   = ApplicationHelper::getClientInfo($template->client_id);
 			$fileName = base64_decode($app->input->get('file'));
-			$path     = Path::clean($client->path . '/templates/' . $template->element . '/');
+			$path     = $this->getBasePath();
 
-			if (stristr($client->path, 'administrator') == false)
-			{
-				$folder = '/templates/';
-			}
-			else
-			{
-				$folder = '/administrator/templates/';
-			}
-
-			$uri = Uri::root(true) . $folder . $template->element;
+			$uri = Uri::root(false) . ltrim(str_replace(JPATH_ROOT, '', $this->getBasePath()), '/');
 
 			if (file_exists(Path::clean($path . $fileName)))
 			{
@@ -1636,9 +1642,7 @@ class TemplateModel extends FormModel
 		if ($template = $this->getTemplate())
 		{
 			$app      = Factory::getApplication();
-			$client   = ApplicationHelper::getClientInfo($template->client_id);
-			$relPath  = base64_decode($file);
-			$path     = Path::clean($client->path . '/templates/' . $template->element . '/' . $relPath);
+			$path     = $this->getBasePath() . base64_decode($file);
 
 			try
 			{
@@ -1688,9 +1692,7 @@ class TemplateModel extends FormModel
 		if ($template = $this->getTemplate())
 		{
 			$app     = Factory::getApplication();
-			$client  = ApplicationHelper::getClientInfo($template->client_id);
-			$relPath = base64_decode($file);
-			$path    = Path::clean($client->path . '/templates/' . $template->element . '/' . $relPath);
+			$path = $this->getBasePath() . base64_decode($file);
 
 			try
 			{
@@ -1779,7 +1781,7 @@ class TemplateModel extends FormModel
 			$relPath      = base64_decode($app->input->get('file'));
 			$explodeArray = explode('/', $relPath);
 			$fileName     = end($explodeArray);
-			$path         = Path::clean($client->path . '/templates/' . $template->element . '/' . $relPath);
+			$path         = $this->getBasePath() . base64_decode($app->input->get('file'));
 
 			if (stristr($client->path, 'administrator') == false)
 			{
@@ -1827,12 +1829,11 @@ class TemplateModel extends FormModel
 		if ($template = $this->getTemplate())
 		{
 			$app          = Factory::getApplication();
-			$client       = ApplicationHelper::getClientInfo($template->client_id);
 			$relPath      = base64_decode($file);
 			$explodeArray = explode('.', $relPath);
 			$ext          = end($explodeArray);
-			$path         = Path::clean($client->path . '/templates/' . $template->element . '/');
-			$newPath      = Path::clean($path . '/' . $location . '/' . $newName . '.' . $ext);
+			$path         = $this->getBasePath();
+			$newPath      = Path::clean($path . $location . '/' . $newName . '.' . $ext);
 
 			if (file_exists($newPath))
 			{
@@ -1865,10 +1866,8 @@ class TemplateModel extends FormModel
 	{
 		if ($template = $this->getTemplate())
 		{
-			$app     = Factory::getApplication();
-			$client  = ApplicationHelper::getClientInfo($template->client_id);
-			$relPath = base64_decode($app->input->get('file'));
-			$path    = Path::clean($client->path . '/templates/' . $template->element . '/' . $relPath);
+			$app  = Factory::getApplication();
+			$path = $this->getBasePath() . base64_decode($app->input->get('file'));
 
 			if (file_exists(Path::clean($path)))
 			{
@@ -1915,12 +1914,10 @@ class TemplateModel extends FormModel
 		if ($template = $this->getTemplate())
 		{
 			$app          = Factory::getApplication();
-			$client       = ApplicationHelper::getClientInfo($template->client_id);
 			$relPath      = base64_decode($file);
 			$explodeArray = explode('/', $relPath);
 			$fileName     = end($explodeArray);
-			$folderPath   = stristr($relPath, $fileName, true);
-			$path         = Path::clean($client->path . '/templates/' . $template->element . '/' . $folderPath . '/');
+			$path         = $this->getBasePath() . base64_decode($file);
 
 			if (file_exists(Path::clean($path . '/' . $fileName)))
 			{
@@ -1984,5 +1981,54 @@ class TemplateModel extends FormModel
 		}
 
 		return in_array(strtolower($ext), $this->allowedFormats);
+	}
+
+	/**
+	 * Method to get a list of all the files to edit in a template's media folder.
+	 *
+	 * @return  array  A nested array of relevant files.
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function getMediaFiles()
+	{
+		$result = array();
+		$template = $this->getTemplate();
+
+		if (!isset($template->xmldata)) {
+			$template->xmldata = TemplatesHelper::parseXMLTemplateFile($template->client_id === 0 ? JPATH_ROOT : JPATH_ROOT . '/administrator', $template->name);
+		}
+
+		if (!$template->xmldata->inheritable || $template->xmldata->parent === '')
+		{
+			return [];
+		}
+
+		$app  = Factory::getApplication();
+		$path = Path::clean(JPATH_ROOT . '/media/templates/' . ($template->client_id === 0 ? 'site' : 'administrator') . '/' . $template->element . '/');
+		$this->mediaElement = $path;
+
+		if (!is_writable($path)) {
+			$app->enqueueMessage(Text::_('COM_TEMPLATES_DIRECTORY_NOT_WRITABLE'), 'error');
+		}
+
+		if (is_dir($path)) {
+			$result = $this->getDirectoryTree($path);
+		} else {
+			$app->enqueueMessage(Text::_('COM_TEMPLATES_ERROR_TEMPLATE_FOLDER_NOT_FOUND'), 'error');
+
+			return false;
+		}
+
+		return $result;
+	}
+
+	private function getBasePath()
+	{
+		$app      = Factory::getApplication();
+		$isMedia  = $app->input->getInt('isMedia', 0);
+
+		return $isMedia ? JPATH_ROOT . '/media/templates/' . ($this->template->client_id === 0 ? 'site' : 'administrator') . '/' . $this->template->element :
+			JPATH_ROOT . '/' . ($this->template->client_id === 0 ? '' : 'administrator/') . 'templates/' . $this->template->element;
 	}
 }
