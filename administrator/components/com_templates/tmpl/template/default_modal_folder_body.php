@@ -50,7 +50,7 @@ $input = Factory::getApplication()->input;
 						<label for="folder_name"><?php echo Text::_('COM_TEMPLATES_FOLDER_NAME'); ?></label>
 						<input type="text" name="name" id="folder_name" class="form-control" required>
 						<input type="hidden" class="address" name="address">
-						<input type="hidden" name="isMedia" value="">
+						<input type="hidden" name="isMedia" value="0">
 						<?php echo HTMLHelper::_('form.token'); ?>
 					</div>
 					<button type="submit" class="btn btn-primary"><?php echo Text::_('COM_TEMPLATES_BUTTON_CREATE'); ?></button>

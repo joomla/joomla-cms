@@ -67,12 +67,14 @@ $input = Factory::getApplication()->input;
 						</select>
 					</div>
 					<input type="hidden" class="address" name="address">
+					<input type="hidden" name="isMedia" value="0">
 					<?php echo HTMLHelper::_('form.token'); ?>
 					<button type="submit" class="btn btn-primary"><?php echo Text::_('COM_TEMPLATES_BUTTON_CREATE'); ?></button>
 				</form>
 				<hr class="mb-4">
 				<form method="post" action="<?php echo Route::_('index.php?option=com_templates&task=template.uploadFile&id=' . $input->getInt('id') . '&file=' . $this->file); ?>" enctype="multipart/form-data" class="mb-4">
 					<input type="hidden" class="address" name="address">
+					<input type="hidden" name="isMedia" value="0">
 					<div class="input-group">
 						<input type="file" name="files" aria-labelledby="upload" class="form-control" required>
 						<?php echo HTMLHelper::_('form.token'); ?>
@@ -87,6 +89,7 @@ $input = Factory::getApplication()->input;
 					<form method="post" action="<?php echo Route::_('index.php?option=com_templates&task=template.copyFile&id=' . $input->getInt('id') . '&file=' . $this->file); ?>" enctype="multipart/form-data" class="mb-4">
 						<div class="form-group">
 							<input type="hidden" class="address" name="address">
+							<input type="hidden" name="isMedia" value="0">
 							<label for="new_name">
 								<?php echo Text::_('COM_TEMPLATES_FILE_NEW_NAME_LABEL') ?>
 							</label>

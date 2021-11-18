@@ -448,7 +448,7 @@ class TemplateModel extends FormModel
 				if (is_dir($dir . $value))
 				{
 					$relativePath = str_replace(JPATH_ROOT . '/media/templates/' . ($this->template->client_id === 0 ? 'site' : 'administrator') . '/' . $this->template->element, '', $dir . $value);
-					$relativePath = str_replace(JPATH_ROOT . '/' . ($this->template->client_id === 0 ? '' : 'administrator/') .'templates/' . $this->template->element, '', $dir . $value);
+					$relativePath = str_replace(JPATH_ROOT . '/' . ($this->template->client_id === 0 ? '' : 'administrator/') .'templates/' . $this->template->element, '', $relativePath);
 					$result[$relativePath] = $this->getDirectoryTree($dir . $value . '/');
 				}
 				else
@@ -459,7 +459,7 @@ class TemplateModel extends FormModel
 					if ($allowedFormat == true)
 					{
 						$relativePath = str_replace(JPATH_ROOT . '/media/templates/' . ($this->template->client_id === 0 ? 'site' : 'administrator') . '/' . $this->template->element, '', $dir . $value);
-						$relativePath = str_replace(JPATH_ROOT . '/' . ($this->template->client_id === 0 ? '' : 'administrator/') . 'templates/' . $this->template->element, '', $dir . $value);
+						$relativePath = str_replace(JPATH_ROOT . '/' . ($this->template->client_id === 0 ? '' : 'administrator/') . 'templates/' . $this->template->element, '', $relativePath);
 						$info = $this->getFile($relativePath, $value);
 						$result[] = $info;
 					}
@@ -1399,18 +1399,17 @@ class TemplateModel extends FormModel
 	{
 		if ($template = $this->getTemplate())
 		{
-			$app    = Factory::getApplication();
-			$client = ApplicationHelper::getClientInfo($template->client_id);
-			$path   = Path::clean($client->path . '/templates/' . $template->element . '/');
+			$app  = Factory::getApplication();
+			$base =	$this->getBasePath();
 
-			if (file_exists(Path::clean($path . '/' . $location . '/' . $name . '.' . $type)))
+			if (file_exists(Path::clean($base . '/' . $location . '/' . $name . '.' . $type)))
 			{
 				$app->enqueueMessage(Text::_('COM_TEMPLATES_FILE_EXISTS'), 'error');
 
 				return false;
 			}
 
-			if (!fopen(Path::clean($path . '/' . $location . '/' . $name . '.' . $type), 'x'))
+			if (!fopen(Path::clean($base . '/' . $location . '/' . $name . '.' . $type), 'x'))
 			{
 				$app->enqueueMessage(Text::_('COM_TEMPLATES_FILE_CREATE_ERROR'), 'error');
 
