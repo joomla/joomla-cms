@@ -678,6 +678,11 @@ class TemplateModel extends FormModel
 			else
 			{
 				$this->template = $result;
+
+				if (!isset($this->template->xmldata))
+				{
+					$this->template->xmldata = TemplatesHelper::parseXMLTemplateFile($this->template->client_id === 0 ? JPATH_ROOT : JPATH_ROOT . '/administrator', $this->template->name);
+				}
 			}
 		}
 
@@ -2039,5 +2044,89 @@ class TemplateModel extends FormModel
 
 		return $isMedia ? JPATH_ROOT . '/media/templates/' . ($this->template->client_id === 0 ? 'site' : 'administrator') . '/' . $this->template->element :
 			JPATH_ROOT . '/' . ($this->template->client_id === 0 ? '' : 'administrator/') . 'templates/' . $this->template->element;
+	}
+
+
+	/**
+	 * Method to check if new template name already exists
+	 *
+	 * @return  boolean   true if name is not used, false otherwise
+	 *
+	 * @since	__DEPLOY_VERSION__
+	 */
+	public function child()
+	{
+		$app = Factory::getApplication();
+
+		if ($template = $this->getTemplate()) {
+			$client = ApplicationHelper::getClientInfo($template->client_id);
+			$fromPath = Path::clean($client->path . '/templates/' . $template->element . '/templateDetails.xml');
+
+			// Delete new folder if it exists
+			$toPath = $this->getState('to_path');
+
+			if (Folder::exists($toPath)) {
+				if (!Folder::delete($toPath)) {
+					$app->enqueueMessage(Text::_('COM_TEMPLATES_ERROR_COULD_NOT_WRITE'), 'error');
+
+					return false;
+				}
+			} else {
+				if (!Folder::create($toPath)) {
+					$app->enqueueMessage(Text::_('COM_TEMPLATES_ERROR_COULD_NOT_WRITE'), 'error');
+
+					return false;
+				}
+			}
+
+			// Copy the template definition from the parent template
+			if (!File::copy($fromPath, $toPath . '/templateDetails.xml')) {
+				return false;
+			}
+
+			// Check manifest for additional files
+			$newName  = strtolower($this->getState('new_name'));
+			$template = $this->getTemplate();
+
+			// Edit XML file
+			$xmlFile = Path::clean($this->getState('to_path') . '/templateDetails.xml');
+
+			if (File::exists($xmlFile)) {
+				$xml = simplexml_load_string(file_get_contents($xmlFile));
+				unset($xml->languages);
+				unset($xml->media);
+				unset($xml->files);
+				unset($xml->parent);
+
+				// Remove the update parts
+				unset($xml->update);
+				unset($xml->updateservers);
+
+				$files = $xml->addChild('files');
+				$files->addChild('filename', 'templateDetails.xml');
+				$xml->name = $newName;
+				$xml->inheritable = 0;
+				$files = $xml->addChild('parent', $template->element);
+
+				$dom = new \DOMDocument;
+				$dom->preserveWhiteSpace = false;
+				$dom->formatOutput = true;
+				$dom->loadXML($xml->asXML());
+
+				$result = File::write($xmlFile, $dom->saveXML());
+
+				if (!$result) {
+					$app->enqueueMessage(Text::_('COM_TEMPLATES_ERROR_COULD_NOT_WRITE'), 'error');
+
+					return false;
+				}
+			}
+
+			return true;
+		} else {
+			$app->enqueueMessage(Text::_('COM_TEMPLATES_ERROR_INVALID_FROM_NAME'), 'error');
+
+			return false;
+		}
 	}
 }

@@ -418,7 +418,7 @@ class StyleModel extends AdminModel
 		$formFile = Path::clean($client->path . '/templates/' . $template . '/templateDetails.xml');
 
 		// Load the core and/or local language file(s).
-			$lang->load('tpl_' . $template, $client->path)
+		$lang->load('tpl_' . $template, $client->path)
 		||	$lang->load('tpl_' . $data->parent, $client->path)
 		||	$lang->load('tpl_' . $data->parent, $client->path . '/templates/' . $data->parent)
 		||	$lang->load('tpl_' . $template, $client->path . '/templates/' . $template);

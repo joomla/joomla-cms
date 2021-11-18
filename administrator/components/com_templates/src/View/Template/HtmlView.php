@@ -273,10 +273,17 @@ class HtmlView extends BaseHtmlView
 			{
 				ToolbarHelper::custom('template.extractArchive', 'chevron-down', '', 'COM_TEMPLATES_BUTTON_EXTRACT_ARCHIVE', false);
 			}
-			// Add a copy template button
+			// Add a copy/child template button
 			elseif ($this->type === 'home')
 			{
-				ToolbarHelper::modal('copyModal', 'icon-copy', 'COM_TEMPLATES_BUTTON_COPY_TEMPLATE');
+				if ($this->template->xmldata->inheritable)
+				{
+					ToolbarHelper::modal('childModal', 'icon-copy', 'COM_TEMPLATES_TEMPLATE_CHILD', false);
+				}
+				elseif (!isset($this->template->xmldata->parent) || $this->template->xmldata->parent == '')
+				{
+					ToolbarHelper::modal('copyModal', 'icon-copy', 'COM_TEMPLATES_BUTTON_COPY_TEMPLATE', false);
+				}
 			}
 		}
 
