@@ -1007,7 +1007,8 @@ class TemplateController extends BaseController
 		$file       = (string) $this->input->get('file', '', 'cmd');
 
 		// Access check.
-		if (!$this->allowEdit()) {
+		if (!$this->allowEdit())
+		{
 			$app->enqueueMessage(Text::_('JLIB_APPLICATION_ERROR_SAVE_NOT_PERMITTED'), 'error');
 
 			return false;
@@ -1022,8 +1023,10 @@ class TemplateController extends BaseController
 		$model->setState('to_path', $app->get('tmp_path') . '/' . $model->getState('tmp_prefix'));
 
 		// Process only if we have a new name entered
-		if (strlen($newName) > 0) {
-			if (!$this->app->getIdentity()->authorise('core.create', 'com_templates')) {
+		if (strlen($newName) > 0)
+		{
+			if (!$this->app->getIdentity()->authorise('core.create', 'com_templates'))
+			{
 				// User is not authorised to delete
 				$this->setMessage(Text::_('COM_TEMPLATES_ERROR_CREATE_NOT_PERMITTED'), 'error');
 
@@ -1031,14 +1034,16 @@ class TemplateController extends BaseController
 			}
 
 			// Check that new name is valid
-			if (($newNameRaw !== null) && ($newName !== $newNameRaw)) {
+			if (($newNameRaw !== null) && ($newName !== $newNameRaw))
+			{
 				$this->setMessage(Text::_('COM_TEMPLATES_ERROR_INVALID_TEMPLATE_NAME'), 'error');
 
 				return false;
 			}
 
 			// Check that new name doesn't already exist
-			if (!$model->checkNewName()) {
+			if (!$model->checkNewName())
+			{
 				$this->setMessage(Text::_('COM_TEMPLATES_ERROR_DUPLICATE_TEMPLATE_NAME'), 'error');
 
 				return false;
@@ -1047,14 +1052,16 @@ class TemplateController extends BaseController
 			// Check that from name does exist and get the folder name
 			$fromName = $model->getFromName();
 
-			if (!$fromName) {
+			if (!$fromName)
+			{
 				$this->setMessage(Text::_('COM_TEMPLATES_ERROR_INVALID_FROM_NAME'), 'error');
 
 				return false;
 			}
 
 			// Call model's copy method
-			if (!$model->child()) {
+			if (!$model->child())
+			{
 				$this->setMessage(Text::_('COM_TEMPLATES_ERROR_COULD_NOT_COPY'), 'error');
 
 				return false;
@@ -1065,10 +1072,11 @@ class TemplateController extends BaseController
 
 			/** @var \Joomla\Component\Installer\Administrator\Model\InstallModel $installModel */
 			$installModel = $this->app->bootComponent('com_installer')
-			->getMVCFactory()->createModel('Install', 'Administrator');
+				->getMVCFactory()->createModel('Install', 'Administrator');
 			$this->app->getLanguage()->load('com_installer');
 
-			if (!$installModel->install()) {
+			if (!$installModel->install())
+			{
 				$this->setMessage(Text::_('COM_TEMPLATES_ERROR_COULD_NOT_INSTALL'), 'error');
 
 				return false;
