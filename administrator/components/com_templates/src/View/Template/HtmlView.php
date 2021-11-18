@@ -382,9 +382,9 @@ class HtmlView extends BaseHtmlView
 	 */
 	protected function mediaTree($array)
 	{
-		$temp        = $this->mediaFiles;
+		$temp             = $this->mediaFiles;
 		$this->mediaFiles = $array;
-		$txt         = $this->loadTemplate('tree_media');
+		$txt              = $this->loadTemplate('tree_media');
 		$this->mediaFiles = $temp;
 
 		return $txt;

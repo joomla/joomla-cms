@@ -290,7 +290,7 @@ if ($this->type == 'font')
 									<li>
 										<?php
 										$overrideLinkUrl = 'index.php?option=com_templates&view=template&task=template.overrides&folder=' . $view->path
-											. '&id=' . $input->getInt('id') . '&file=' . $this-> file . '&isMedia=' . $input->get('isMedia', 0) . '&' . $token;
+											. '&id=' . $input->getInt('id') . '&file=' . $this->file . '&isMedia=' . $input->get('isMedia', 0) . '&' . $token;
 										?>
 										<a class="component-file-url" href="<?php echo Route::_($overrideLinkUrl); ?>">
 											<span class="icon-copy" aria-hidden="true"></span>&nbsp;<?php echo $view->name; ?>
@@ -318,7 +318,7 @@ if ($this->type == 'font')
 									<li>
 										<?php
 										$overrideLinkUrl = 'index.php?option=com_templates&view=template&task=template.overrides&folder=' . $plugin->path
-											. '&id=' . $input->getInt('id') . '&file=' . $this-> file . '&isMedia=' . $input->get('isMedia', 0) . '&' . $token;
+											. '&id=' . $input->getInt('id') . '&file=' . $this->file . '&isMedia=' . $input->get('isMedia', 0) . '&' . $token;
 										?>
 										<a class="plugin-file-url" href="<?php echo Route::_($overrideLinkUrl); ?>">
 											<span class="icon-copy" aria-hidden="true"></span> <?php echo $plugin->name; ?>

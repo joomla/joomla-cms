@@ -1493,15 +1493,16 @@ class TemplateModel extends FormModel
 		{
 			$app    = Factory::getApplication();
 			$path   = Path::clean($location . '/');
+			$base = $this->getBasePath();
 
-			if (file_exists(Path::clean($path . $name)))
+			if (file_exists(Path::clean($base . $path . $name)))
 			{
 				$app->enqueueMessage(Text::_('COM_TEMPLATES_FOLDER_EXISTS'), 'error');
 
 				return false;
 			}
 
-			if (!Folder::create(Path::clean($path . $name)))
+			if (!Folder::create(Path::clean($base . $path . $name)))
 			{
 				$app->enqueueMessage(Text::_('COM_TEMPLATES_FOLDER_CREATE_ERROR'), 'error');
 
@@ -1525,17 +1526,18 @@ class TemplateModel extends FormModel
 	{
 		if ($template = $this->getTemplate())
 		{
-			$app    = Factory::getApplication();
-			$path   = Path::clean($location . '/');
+			$app  = Factory::getApplication();
+			$base = $this->getBasePath();
+			$path = Path::clean($location . '/');
 
-			if (!file_exists($path))
+			if (!file_exists($base . $path))
 			{
 				$app->enqueueMessage(Text::_('COM_TEMPLATES_FOLDER_NOT_EXISTS'), 'error');
 
 				return false;
 			}
 
-			$return = Folder::delete($path);
+			$return = Folder::delete($base . $path);
 
 			if (!$return)
 			{

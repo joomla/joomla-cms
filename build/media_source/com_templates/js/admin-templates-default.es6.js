@@ -73,12 +73,9 @@
           ismedia = element.dataset.base === 'media' ? 1 : 0;
         });
 
-        const isMediaEl = document.createElement('input');
-        isMediaEl.type = 'hidden';
-        isMediaEl.name = 'isMedia';
-        isMediaEl.value = ismedia;
-
-        listElsAddressToAdd[0].insertAdjacentElement('afterend', isMediaEl);
+        [...document.querySelectorAll('#folderModal input[name="isMedia"]')].forEach((el) => {
+          el.value = ismedia;
+        });
       });
     });
 

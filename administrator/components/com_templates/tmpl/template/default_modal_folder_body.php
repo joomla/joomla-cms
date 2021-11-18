@@ -24,7 +24,7 @@ $input = Factory::getApplication()->input;
 				<div class="tree-holder">
 					<ul class="directory-tree treeselect root">
 						<li class="folder-select">
-							<a class="folder-url" data-id="<?php echo base64_encode(JPATH_ROOT . '/' . ($this->template->client_id === 0 ? '' : 'administrator/') . 'templates/' . $this->template->element); ?>" href="" data-base="template">
+							<a class="folder-url" data-id="" href="" data-base="template">
 								<span class="icon-folder icon-fw" aria-hidden="true"></span>
 								<?php echo Text::_('COM_TEMPLATES_TEMPLATE_FOLDER'); ?>
 							</a>
@@ -34,7 +34,7 @@ $input = Factory::getApplication()->input;
 					<?php if (count($this->mediaFiles)) : ?>
 						<ul class="directory-tree treeselect">
 							<li class="folder-select">
-								<a class="folder-url" data-id="<?php echo base64_encode(JPATH_ROOT . '/media/templates/' . ($this->template->client_id === 0 ? 'site' : 'administrator') . '/' . $this->template->element); ?>" href="" data-base="media">
+								<a class="folder-url" data-id="" href="" data-base="media">
 									<span class="icon-folder icon-fw" aria-hidden="true"></span>
 									<?php echo Text::_('COM_TEMPLATES_TEMPLATE_MEDIA_FOLDER'); ?>
 								</a>
@@ -50,6 +50,7 @@ $input = Factory::getApplication()->input;
 						<label for="folder_name"><?php echo Text::_('COM_TEMPLATES_FOLDER_NAME'); ?></label>
 						<input type="text" name="name" id="folder_name" class="form-control" required>
 						<input type="hidden" class="address" name="address">
+						<input type="hidden" name="isMedia" value="">
 						<?php echo HTMLHelper::_('form.token'); ?>
 					</div>
 					<button type="submit" class="btn btn-primary"><?php echo Text::_('COM_TEMPLATES_BUTTON_CREATE'); ?></button>
