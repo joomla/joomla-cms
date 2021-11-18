@@ -24,7 +24,7 @@ use Joomla\CMS\Language\Text;
 				<div class="controls">
 					<input class="form-control" type="text" id="new_name" name="new_name" required>
 					<small class="form-text">
-						<?php echo Text::_('COM_TEMPLATES_TEMPLATE_CHILD_NAME_LABEL'); ?>
+						<?php echo Text::_('COM_TEMPLATES_TEMPLATE_NEW_NAME_DESC'); ?>
 					</small>
 				</div>
 			</div>
