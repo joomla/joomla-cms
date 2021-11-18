@@ -987,7 +987,7 @@ class TemplateController extends BaseController
 
 
 	/**
-	 * Method for copying the template.
+	 * Method for creating a child template.
 	 *
 	 * @return  boolean     true on success, false otherwise
 	 *

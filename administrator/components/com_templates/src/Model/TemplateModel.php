@@ -2048,7 +2048,7 @@ class TemplateModel extends FormModel
 
 
 	/**
-	 * Method to check if new template name already exists
+	 * Method to create the templateDetails.xml for the child template
 	 *
 	 * @return  boolean   true if name is not used, false otherwise
 	 *
