@@ -1497,7 +1497,7 @@ class TemplateModel extends FormModel
 		{
 			$app    = Factory::getApplication();
 			$path   = Path::clean($location . '/');
-			$base = $this->getBasePath();
+			$base   = $this->getBasePath();
 
 			if (file_exists(Path::clean($base . $path . $name)))
 			{
