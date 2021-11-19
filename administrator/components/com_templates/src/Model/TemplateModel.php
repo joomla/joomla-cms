@@ -2016,7 +2016,8 @@ class TemplateModel extends FormModel
 		$path = Path::clean(JPATH_ROOT . '/media/templates/' . ($template->client_id === 0 ? 'site' : 'administrator') . '/' . $template->element . '/');
 		$this->mediaElement = $path;
 
-		if (!is_writable($path)) {
+		if (!is_writable($path)) 
+		{
 			$app->enqueueMessage(Text::_('COM_TEMPLATES_DIRECTORY_NOT_WRITABLE'), 'error');
 		}
 
