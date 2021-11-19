@@ -214,7 +214,12 @@ class PlgSystemSchedulerunner extends CMSPlugin implements SubscriberInterface
 
 		$id = (int) $this->app->input->getInt('id', 0);
 
-		$this->runScheduler($id);
+		$task = $this->runScheduler($id);
+
+		if (!empty($task) && !empty($task->getContent()['exception']))
+		{
+			throw $task->getContent()['exception'];
+		}
 	}
 
 	/**
