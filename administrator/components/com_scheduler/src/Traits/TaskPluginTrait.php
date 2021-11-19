@@ -316,10 +316,10 @@ trait TaskPluginTrait
 				$method->setAccessible(true);
 				$exitCode = $method->invoke($this, $event);
 			}
-			catch (\Exception $e)
+			catch (\ReflectionException $e)
 			{
+				// @todo replace with language string (?)
 				$this->logTask('Exception when calling routine: ' . $e->getMessage(), 'error');
-
 				$exitCode = Status::NO_RUN;
 			}
 		}
