@@ -43,7 +43,6 @@ class Templates
 			return HTMLHelper::_('image', 'media/system/images/template_thumb.svg', Text::_('COM_TEMPLATES_PREVIEW'));
 		}
 
-		$html   = '';
 		$client = ApplicationHelper::getClientInfo($template->client_id);
 
 		if (!isset($template->xmldata))
