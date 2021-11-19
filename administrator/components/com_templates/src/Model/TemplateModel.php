@@ -2002,7 +2002,8 @@ class TemplateModel extends FormModel
 		$result = array();
 		$template = $this->getTemplate();
 
-		if (!isset($template->xmldata)) {
+		if (!isset($template->xmldata)) 
+		{
 			$template->xmldata = TemplatesHelper::parseXMLTemplateFile($template->client_id === 0 ? JPATH_ROOT : JPATH_ROOT . '/administrator', $template->name);
 		}
 
