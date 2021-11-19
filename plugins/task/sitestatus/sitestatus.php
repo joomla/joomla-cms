@@ -153,7 +153,7 @@ class PlgTaskSitestatus extends CMSPlugin implements SubscriberInterface
 		{
 			$this->logTask(Text::_('PLG_TASK_SITE_STATUS_ERROR_WRITE_FAILED'), 'error');
 
-			return Status::KO_RUN;
+			return Status::KNOCKOUT;
 		}
 
 		// Invalidates the cached configuration file

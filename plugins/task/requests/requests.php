@@ -122,7 +122,7 @@ EOF;
 
 		if ($response->code !== 200)
 		{
-			return TaskStatus::KO_RUN;
+			return TaskStatus::KNOCKOUT;
 		}
 
 		return TaskStatus::OK;

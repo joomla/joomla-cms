@@ -60,12 +60,13 @@ abstract class Status
 	public const NO_RELEASE = 4;
 
 	/**
-	 * Exit code used for task knockout.
+	 * Exit code used when a routine is either "knocked out" by an exception or encounters an exception it cannot handle
+	 * gracefully.
 	 * ? Should this be retained ?
 	 *
 	 * @since __DEPLOY_VERSION__
 	 */
-	public const KO_RUN = 5;
+	public const KNOCKOUT = 5;
 
 	/**
 	 * Exit code used when a task times out.
