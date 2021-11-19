@@ -12,7 +12,6 @@ namespace Joomla\Component\Scheduler\Administrator\Scheduler;
 // Restrict direct access
 defined('_JEXEC') or die;
 
-use Assert\AssertionFailedException;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
@@ -77,7 +76,7 @@ class Scheduler
 	 * @return Task|null  The task executed or null if not exists
 	 *
 	 * @since __DEPLOY_VERSION__
-	 * @throws AssertionFailedException|\Exception
+	 * @throws \RuntimeException
 	 */
 	public function runTask(int $id = 0, bool $allowDisabled = false): ?Task
 	{
@@ -113,7 +112,14 @@ class Scheduler
 			set_time_limit(0);
 		}
 
-		$task->run();
+		try
+		{
+			$task->run();
+		}
+		catch (\Exception $e)
+		{
+			// We suppress the exception here, it's still accessible with `$task->getContent()['exception']`.
+		}
 
 		$executionSnapshot = $task->getContent();
 		$exitCode          = $executionSnapshot['status'] ?? Status::NO_EXIT;
