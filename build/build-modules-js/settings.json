@@ -536,7 +536,7 @@
         "name": "mousetrap",
         "licenseFilename": "LICENSE",
         "js" : {
-          "mousetrap.min.js": "mousetrap.min.js"
+          "mousetrap.min.js": "js/mousetrap.min.js"
         },
         "provideAssets": [
           {

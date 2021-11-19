@@ -1,3 +1,4 @@
+import Mousetrap  from '/media/vendor/mousetrap/js/mousetrap.min.js';
 class JoomlaShortcuts {
 	constructor() {
 	  if (!Joomla) {
