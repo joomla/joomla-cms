@@ -11,7 +11,6 @@ namespace Joomla\CMS\Console;
 // Restrict direct access
 defined('JPATH_PLATFORM') or die;
 
-use Assert\AssertionFailedException;
 use Joomla\Component\Scheduler\Administrator\Scheduler\Scheduler;
 use Joomla\Component\Scheduler\Administrator\Task\Status;
 use Joomla\Console\Command\AbstractCommand;
@@ -51,7 +50,6 @@ class TasksRunCommand extends AbstractCommand
 	 * @since __DEPLOY_VERSION__
 	 * @throws \RunTimeException
 	 * @throws InvalidArgumentException
-	 * @throws AssertionFailedException
 	 */
 	protected function doExecute(InputInterface $input, OutputInterface $output): int
 	{

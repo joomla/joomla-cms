@@ -10,7 +10,6 @@
 // Restrict direct access
 defined('_JEXEC') or die;
 
-use Assert\AssertionFailedException;
 use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
@@ -157,8 +156,6 @@ class PlgSystemSchedulerunner extends CMSPlugin implements SubscriberInterface
 	 *
 	 * @since __DEPLOY_VERSION__
 	 *
-	 * @throws AssertionFailedException
-	 *
 	 * @throws Exception
 	 */
 	public function runLazyCron()
@@ -193,7 +190,6 @@ class PlgSystemSchedulerunner extends CMSPlugin implements SubscriberInterface
 	 *
 	 * @since __DEPLOY_VERSION__
 	 *
-	 * @throws AssertionFailedException
 	 * @throws Exception
 	 */
 	public function runWebCron()
@@ -231,7 +227,6 @@ class PlgSystemSchedulerunner extends CMSPlugin implements SubscriberInterface
 	 *
 	 * @since __DEPLOY_VERSION__
 	 *
-	 * @throws AssertionFailedException
 	 * @throws Exception
 	 */
 	public function runTestCron(Event $event)
