@@ -98,13 +98,13 @@ class PlgSystemSchedulerunner extends CMSPlugin implements SubscriberInterface
 	/**
 	 * Inject JavaScript to trigger the scheduler in HTML contexts.
 	 *
-	 * @param   Event  $event  The onBeforeCompileHead event.
+	 * @param   EventInterface  $event  The onBeforeCompileHead event.
 	 *
 	 * @return void
 	 *
 	 * @since __DEPLOY_VERSION__
 	 */
-	public function injectLazyJS(Event $event): void
+	public function injectLazyJS(EventInterface $event): void
 	{
 		// Only inject in HTML documents
 		if ($this->app->getDocument()->getType() !== 'html')
@@ -163,7 +163,7 @@ class PlgSystemSchedulerunner extends CMSPlugin implements SubscriberInterface
 	 *
 	 * @throws Exception
 	 */
-	public function runLazyCron()
+	public function runLazyCron(EventInterface $e)
 	{
 		$config = ComponentHelper::getParams('com_scheduler');
 
@@ -173,7 +173,7 @@ class PlgSystemSchedulerunner extends CMSPlugin implements SubscriberInterface
 		}
 
 		// Since `navigator.sendBeacon()` may time out, allow execution after disconnect if possible.
-		if (\function_exists('ignore_user_abort'))
+		if (function_exists('ignore_user_abort'))
 		{
 			ignore_user_abort(true);
 		}
@@ -183,7 +183,7 @@ class PlgSystemSchedulerunner extends CMSPlugin implements SubscriberInterface
 		{
 			$this->runScheduler();
 		}
-		catch (\Exception $e)
+		catch (Exception $e)
 		{
 		}
 	}
@@ -207,7 +207,7 @@ class PlgSystemSchedulerunner extends CMSPlugin implements SubscriberInterface
 	 *
 	 * @throws Exception
 	 */
-	public function runWebCron()
+	public function runWebCron(Event $e)
 	{
 		$config = ComponentHelper::getParams('com_scheduler');
 		$hash = $config->get('webcron.key', '');
@@ -215,12 +215,12 @@ class PlgSystemSchedulerunner extends CMSPlugin implements SubscriberInterface
 		if (!$config->get('webcron.enabled', false))
 		{
 			Log::add(Text::_('PLG_SYSTEM_SCHEDULE_RUNNER_WEBCRON_DISABLED'));
-			throw new \Exception(Text::_('JERROR_ALERTNOAUTHOR'), 403);
+			throw new Exception(Text::_('JERROR_ALERTNOAUTHOR'), 403);
 		}
 
 		if (!strlen($hash) || $hash !== $this->app->input->get('hash'))
 		{
-			throw new \Exception(Text::_('JERROR_ALERTNOAUTHOR'), 403);
+			throw new Exception(Text::_('JERROR_ALERTNOAUTHOR'), 403);
 		}
 
 		$id = (int) $this->app->input->getInt('id', 0);
@@ -264,7 +264,7 @@ class PlgSystemSchedulerunner extends CMSPlugin implements SubscriberInterface
 				'id' => $id,
 				'allowDisabled' => true,
 				'bypassScheduling' => true,
-				'allowConcurrent' => $allowConcurrent
+				'allowConcurrent' => $allowConcurrent,
 			]
 		);
 
