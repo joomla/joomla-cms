@@ -2104,7 +2104,7 @@ class TemplateModel extends FormModel
 
 				$files = $xml->addChild('files');
 				$files->addChild('filename', 'templateDetails.xml');
-				$xml->name = $newName;
+				$xml->name = $template->element . '_' . $newName;
 				$xml->inheritable = 0;
 				$files = $xml->addChild('parent', $template->element);
 
