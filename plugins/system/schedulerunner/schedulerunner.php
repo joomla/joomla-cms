@@ -178,6 +178,9 @@ class PlgSystemSchedulerunner extends CMSPlugin implements SubscriberInterface
 			ignore_user_abort(true);
 		}
 
+		// Prevent PHP from trying to output to the user pipe. PHP may kill the script otherwise if the pipe is not accessible.
+		ob_start();
+
 		// Suppress all errors to avoid any output
 		try
 		{
@@ -186,6 +189,8 @@ class PlgSystemSchedulerunner extends CMSPlugin implements SubscriberInterface
 		catch (Exception $e)
 		{
 		}
+
+		ob_end_clean();
 	}
 
 	/**
