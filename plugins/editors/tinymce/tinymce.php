@@ -628,6 +628,17 @@ class PlgEditorTinymce extends CMSPlugin
 			array('title' => 'Tag', 'value' => 'tag'),
 		);
 
+		$scriptOptions['style_formats'] = array(
+			array('title' => Text::_('PLG_TINY_MENU_CONTAINER'), 'items' => array(
+				array('title' => 'article', 'block' => 'article', 'wrapper' => true, 'merge_siblings' => false),
+				array('title' => 'aside', 'block' => 'aside', 'wrapper' => true, 'merge_siblings' => false),
+				array('title' => 'section', 'block' => 'section', 'wrapper' => true, 'merge_siblings' => false),
+				)
+			)
+		);
+
+		$scriptOptions['style_formats_merge'] = true;
+
 		$options['tinyMCE']['default'] = $scriptOptions;
 
 		$doc->addScriptOptions('plg_editor_tinymce', $options);
