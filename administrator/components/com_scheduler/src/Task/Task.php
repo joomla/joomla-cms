@@ -477,7 +477,7 @@ class Task implements LoggerAwareInterface
 	 *
 	 * @since __DEPLOY_VERSION__
 	 */
-	protected function get(string $path, $default = null)
+	public function get(string $path, $default = null)
 	{
 		return $this->taskRegistry->get($path, $default);
 	}
