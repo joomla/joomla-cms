@@ -10,7 +10,6 @@
 // Restrict direct access
 defined('_JEXEC') or die;
 
-use Assert\AssertionFailedException;
 use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
@@ -99,13 +98,13 @@ class PlgSystemSchedulerunner extends CMSPlugin implements SubscriberInterface
 	/**
 	 * Inject JavaScript to trigger the scheduler in HTML contexts.
 	 *
-	 * @param   Event  $event  The onBeforeCompileHead event.
+	 * @param   EventInterface  $event  The onBeforeCompileHead event.
 	 *
 	 * @return void
 	 *
 	 * @since __DEPLOY_VERSION__
 	 */
-	public function injectLazyJS(Event $event): void
+	public function injectLazyJS(EventInterface $event): void
 	{
 		// Only inject in HTML documents
 		if ($this->app->getDocument()->getType() !== 'html')
@@ -151,17 +150,20 @@ class PlgSystemSchedulerunner extends CMSPlugin implements SubscriberInterface
 	}
 
 	/**
-	 * Runs the lazy cron in the frontend when activated. No ID allowed
+	 * Acts on the LazyCron trigger from the frontend when Lazy Cron is enabled in the Scheduler component
+	 * configuration. The lazy cron trigger is implemented in client-side JavaScript which is injected on every page load
+	 * with an HTML context when the component configuration allows it.
+	 * This method then triggers the Scheduler, which effectively runs the next Task in the Scheduler's task queue.
+	 *
+	 * @param   EventInterface  $e  The onAjaxRunSchedulerLazy event.
 	 *
 	 * @return void
 	 *
 	 * @since __DEPLOY_VERSION__
 	 *
-	 * @throws AssertionFailedException
-	 *
 	 * @throws Exception
 	 */
-	public function runLazyCron()
+	public function runLazyCron(EventInterface $e)
 	{
 		$config = ComponentHelper::getParams('com_scheduler');
 
@@ -171,32 +173,46 @@ class PlgSystemSchedulerunner extends CMSPlugin implements SubscriberInterface
 		}
 
 		// Since `navigator.sendBeacon()` may time out, allow execution after disconnect if possible.
-		if (\function_exists('ignore_user_abort'))
+		if (function_exists('ignore_user_abort'))
 		{
 			ignore_user_abort(true);
 		}
+
+		// Prevent PHP from trying to output to the user pipe. PHP may kill the script otherwise if the pipe is not accessible.
+		ob_start();
 
 		// Suppress all errors to avoid any output
 		try
 		{
 			$this->runScheduler();
 		}
-		catch (\Exception $e)
+		catch (Exception $e)
 		{
 		}
+
+		ob_end_clean();
 	}
 
 	/**
-	 * Runs the webcron and uses an ID if given.
+	 * This method is responsible for the WebCron functionality of the Scheduler component.<br/>
+	 * Acting on a `com_ajax` call, this method can work in two ways:
+	 * 1. If no Task ID is specified, it triggers the Scheduler to run the next task in
+	 *   the task queue.
+	 * 2. If a Task ID is specified, it fetches the task (if it exists) from the Scheduler API and executes it.<br/>
+	 *
+	 * URL query parameters:
+	 * - `hash` string (required)   Webcron hash (from the Scheduler component configuration).
+	 * - `id`   int (optional)      ID of the task to trigger.
+	 *
+	 * @param   Event  $e  The onAjaxRunSchedulerWebcron event.
 	 *
 	 * @return void
 	 *
 	 * @since __DEPLOY_VERSION__
 	 *
-	 * @throws AssertionFailedException
 	 * @throws Exception
 	 */
-	public function runWebCron()
+	public function runWebCron(Event $e)
 	{
 		$config = ComponentHelper::getParams('com_scheduler');
 		$hash = $config->get('webcron.key', '');
@@ -204,21 +220,28 @@ class PlgSystemSchedulerunner extends CMSPlugin implements SubscriberInterface
 		if (!$config->get('webcron.enabled', false))
 		{
 			Log::add(Text::_('PLG_SYSTEM_SCHEDULE_RUNNER_WEBCRON_DISABLED'));
-			throw new \Exception(Text::_('JERROR_ALERTNOAUTHOR'), 403);
+			throw new Exception(Text::_('JERROR_ALERTNOAUTHOR'), 403);
 		}
 
 		if (!strlen($hash) || $hash !== $this->app->input->get('hash'))
 		{
-			throw new \Exception(Text::_('JERROR_ALERTNOAUTHOR'), 403);
+			throw new Exception(Text::_('JERROR_ALERTNOAUTHOR'), 403);
 		}
 
 		$id = (int) $this->app->input->getInt('id', 0);
 
-		$this->runScheduler($id);
+		$task = $this->runScheduler($id);
+
+		if (!empty($task) && !empty($task->getContent()['exception']))
+		{
+			throw $task->getContent()['exception'];
+		}
 	}
 
 	/**
-	 * Runs the test cron in the backend. ID is required
+	 * This method is responsible for the "test run" functionality in the Scheduler administrator backend interface.
+	 * Acting on a `com_ajax` call, this method requires the URL to have a `id` query parameter (corresponding to an
+	 * existing Task ID).
 	 *
 	 * @param   Event  $event  The onAjaxRunScheduler event.
 	 *
@@ -226,7 +249,6 @@ class PlgSystemSchedulerunner extends CMSPlugin implements SubscriberInterface
 	 *
 	 * @since __DEPLOY_VERSION__
 	 *
-	 * @throws AssertionFailedException
 	 * @throws Exception
 	 */
 	public function runTestCron(Event $event)
@@ -247,7 +269,7 @@ class PlgSystemSchedulerunner extends CMSPlugin implements SubscriberInterface
 				'id' => $id,
 				'allowDisabled' => true,
 				'bypassScheduling' => true,
-				'allowConcurrent' => $allowConcurrent
+				'allowConcurrent' => $allowConcurrent,
 			]
 		);
 
@@ -260,9 +282,9 @@ class PlgSystemSchedulerunner extends CMSPlugin implements SubscriberInterface
 		else
 		{
 			/*
-			 * Placeholder result, but the idea is if we failed to fetch the task, its likely because another task was
+			 * Placeholder result, but the idea is if we failed to fetch the task, it's likely because another task was
 			 * already running. This is a fair assumption if this test run was triggered through the administrator backend,
-			 * so we know the task probably exists and is either enabled/disabled (not trashed, todo: check if button is disabled on trash view).
+			 * so we know the task probably exists and is either enabled/disabled (not trashed).
 			 */
 			$event->addArgument('result', ['message' => 'could not acquire lock on task. retry or allow concurrency.']);
 		}
@@ -276,8 +298,7 @@ class PlgSystemSchedulerunner extends CMSPlugin implements SubscriberInterface
 	 * @return Task|boolean
 	 *
 	 * @since __DEPLOY_VERSION__
-	 * @throws AssertionFailedException
-	 *
+	 * @throws RuntimeException
 	 */
 	protected function runScheduler(int $id = 0): ?Task
 	{

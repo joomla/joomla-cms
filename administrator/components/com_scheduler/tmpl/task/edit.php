@@ -32,7 +32,7 @@ $app = $this->app;
 $input = $app->getInput();
 
 // Fieldsets to be ignored by the `joomla.edit.params` template.
-$this->ignore_fieldsets = ['aside', 'details', 'exec_hist', 'custom-cron-rules', 'basic', 'advanced', 'priority'];
+$this->ignore_fieldsets = ['aside', 'details', 'exec_hist', 'custom-cron-rules', 'basic', 'advanced', 'priority', 'task-params'];
 
 // Used by the `joomla.edit.params` template to render the right template for UI tabs.
 $this->useCoreUI = true;

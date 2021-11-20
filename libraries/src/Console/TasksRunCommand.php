@@ -9,9 +9,8 @@
 namespace Joomla\CMS\Console;
 
 // Restrict direct access
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
-use Assert\AssertionFailedException;
 use Joomla\Component\Scheduler\Administrator\Scheduler\Scheduler;
 use Joomla\Component\Scheduler\Administrator\Task\Status;
 use Joomla\Console\Command\AbstractCommand;
@@ -51,7 +50,6 @@ class TasksRunCommand extends AbstractCommand
 	 * @since __DEPLOY_VERSION__
 	 * @throws \RunTimeException
 	 * @throws InvalidArgumentException
-	 * @throws AssertionFailedException
 	 */
 	protected function doExecute(InputInterface $input, OutputInterface $output): int
 	{
@@ -101,7 +99,7 @@ class TasksRunCommand extends AbstractCommand
 		}
 
 		$status    = ['startTime' => microtime(true)];
-		$taskCount = count($records);
+		$taskCount = \count($records);
 		$exit      = Status::OK;
 
 		foreach ($records as $record)
@@ -110,7 +108,7 @@ class TasksRunCommand extends AbstractCommand
 			$task     = $scheduler->runTask($record->id);
 			$exit     = $task->getContent()['status'];
 			$duration = microtime(true) - $cStart;
-			$key      = (array_key_exists($exit, $outTextMap)) ? $exit : 'N/A';
+			$key      = (\array_key_exists($exit, $outTextMap)) ? $exit : 'N/A';
 			$this->ioStyle->writeln(sprintf($outTextMap[$key], $record->id, $record->title, $duration, $exit));
 		}
 

@@ -10,7 +10,7 @@
 namespace Joomla\Component\Scheduler\Administrator\Traits;
 
 // Restrict direct access
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\Path;
@@ -23,7 +23,6 @@ use Joomla\Component\Scheduler\Administrator\Task\Status;
 use Joomla\Event\EventInterface;
 use Joomla\Event\SubscriberInterface;
 use Joomla\Utilities\ArrayHelper;
-
 
 /**
  * Utility trait for plugins that offer `com_scheduler` compatible task routines. This trait defines a lot
@@ -87,7 +86,7 @@ trait TaskPluginTrait
 			return;
 		}
 
-		$this->snapshot['endTime']  = $endTime = \microtime(true);
+		$this->snapshot['endTime']  = $endTime = microtime(true);
 		$this->snapshot['duration'] = $endTime - $this->snapshot['startTime'];
 		$this->snapshot['status']   = $exitCode ?? Status::OK;
 		$event->setResult($this->snapshot);
@@ -124,7 +123,9 @@ trait TaskPluginTrait
 			throw new \InvalidArgumentException(
 				sprintf(
 					'Argument 0 of %1$s must be an instance of %2$s or %3$s',
-					__METHOD__, EventInterface::class, Form::class
+					__METHOD__,
+					EventInterface::class,
+					Form::class
 				)
 			);
 		}
@@ -139,13 +140,13 @@ trait TaskPluginTrait
 		$enhancementFormName = self::TASKS_MAP[$routineId]['form'] ?? '';
 
 		// Return if routine is not supported by the plugin or the routine does not have a form linked in TASKS_MAP.
-		if (!$isSupported || strlen($enhancementFormName) === 0)
+		if (!$isSupported || \strlen($enhancementFormName) === 0)
 		{
 			return true;
 		}
 
 		// We expect the form XML in "{PLUGIN_PATH}/forms/{FORM_NAME}.xml"
-		$path                = dirname((new \ReflectionClass(static::class))->getFileName());
+		$path                = \dirname((new \ReflectionClass(static::class))->getFileName());
 		$enhancementFormFile = $path . '/forms/' . $enhancementFormName . '.xml';
 
 		try
@@ -157,7 +158,7 @@ trait TaskPluginTrait
 			return false;
 		}
 
-		if (\is_file($enhancementFormFile))
+		if (is_file($enhancementFormFile))
 		{
 			return $form->loadFile($enhancementFormFile);
 		}
@@ -234,7 +235,6 @@ trait TaskPluginTrait
 	 * @since  __DEPLOY_VERSION__
 	 * @throws \Exception
 	 * @todo   : use dependency injection here (starting from the Task & Scheduler classes).
-	 *
 	 */
 	protected function logTask(string $message, string $priority = 'info'): void
 	{
@@ -303,8 +303,10 @@ trait TaskPluginTrait
 				$this->logTask(
 					sprintf(
 						'Incorrect routine method signature for %1$s(). See checks in %2$s()',
-						$method->getName(), __METHOD__
-					), 'error'
+						$method->getName(),
+						__METHOD__
+					),
+					'error'
 				);
 
 				return;
@@ -316,10 +318,10 @@ trait TaskPluginTrait
 				$method->setAccessible(true);
 				$exitCode = $method->invoke($this, $event);
 			}
-			catch (\Exception $e)
+			catch (\ReflectionException $e)
 			{
+				// @todo replace with language string (?)
 				$this->logTask('Exception when calling routine: ' . $e->getMessage(), 'error');
-
 				$exitCode = Status::NO_RUN;
 			}
 		}
@@ -328,8 +330,10 @@ trait TaskPluginTrait
 			$this->logTask(
 				sprintf(
 					'Incorrectly configured TASKS_MAP in class %s. Missing valid method for `routine_id` %s',
-					static::class, $routineId
-				), 'error'
+					static::class,
+					$routineId
+				),
+				'error'
 			);
 		}
 
@@ -339,14 +343,14 @@ trait TaskPluginTrait
 		 * @since __DEPLOY_VERSION__
 		 */
 		$validateStatus = static function (int $statusCode): bool {
-			return in_array(
+			return \in_array(
 				$statusCode,
 				(new \ReflectionClass(Status::class))->getConstants()
 			);
 		};
 
 		// Validate the exit code.
-		if (!is_integer($exitCode) || !$validateStatus($exitCode))
+		if (!\is_int($exitCode) || !$validateStatus($exitCode))
 		{
 			$exitCode = Status::INVALID_EXIT;
 		}

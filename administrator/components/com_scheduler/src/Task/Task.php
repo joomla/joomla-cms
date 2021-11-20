@@ -10,10 +10,8 @@
 namespace Joomla\Component\Scheduler\Administrator\Task;
 
 // Restrict direct access
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
-use Assert\Assertion;
-use Assert\AssertionFailedException;
 use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Event\AbstractEvent;
@@ -145,7 +143,7 @@ class Task implements LoggerAwareInterface
 	 * @return boolean  True if success
 	 *
 	 * @since __DEPLOY_VERSION__
-	 * @throws AssertionFailedException|\Exception
+	 * @throws \Exception
 	 */
 	public function run(): bool
 	{
@@ -192,10 +190,21 @@ class Task implements LoggerAwareInterface
 		);
 
 		PluginHelper::importPlugin('task');
-		$this->app->getDispatcher()->dispatch('onExecuteTask', $event);
+
+		try
+		{
+			$this->app->getDispatcher()->dispatch('onExecuteTask', $event);
+		}
+		catch (\Exception $e)
+		{
+			// Suppress the exception for now, we'll throw it again once it's safe
+			// @todo replace with language string (?)
+			$this->log('Routine threw exception: ' . $e->getMessage(), 'error');
+			$this->snapshot['exception'] = $e;
+			$this->snapshot['status'] = Status::KNOCKOUT;
+		}
 
 		$resultSnapshot = $event->getResultSnapshot();
-		Assertion::notNull($resultSnapshot, 'No task execution snapshot!');
 
 		$this->snapshot['taskEnd']     = microtime(true);
 		$this->snapshot['netDuration'] = $this->snapshot['taskEnd'] - $this->snapshot['taskStart'];
@@ -219,6 +228,11 @@ class Task implements LoggerAwareInterface
 		}
 
 		$this->dispatchExitEvent();
+
+		if (!empty($this->snapshot['exception']))
+		{
+			throw $this->snapshot['exception'];
+		}
 
 		return $this->isSuccess();
 	}
@@ -477,7 +491,7 @@ class Task implements LoggerAwareInterface
 	 *
 	 * @since __DEPLOY_VERSION__
 	 */
-	protected function get(string $path, $default = null)
+	public function get(string $path, $default = null)
 	{
 		return $this->taskRegistry->get($path, $default);
 	}

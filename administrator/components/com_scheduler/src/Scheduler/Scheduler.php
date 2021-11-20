@@ -10,9 +10,8 @@
 namespace Joomla\Component\Scheduler\Administrator\Scheduler;
 
 // Restrict direct access
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
-use Assert\AssertionFailedException;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
@@ -49,7 +48,6 @@ class Scheduler
 	 *
 	 * @since __DEPLOY_VERSION__
 	 * @todo  remove?
-	 *
 	 */
 	public const TASK_QUEUE_FILTERS = [
 		'due'    => 1,
@@ -61,7 +59,6 @@ class Scheduler
 	 *
 	 * @since __DEPLOY_VERSION__
 	 * @todo  remove?
-	 *
 	 */
 	public const TASK_QUEUE_LIST_CONFIG = [
 		'multi_ordering' => ['a.priority DESC ', 'a.next_execution ASC'],
@@ -74,10 +71,10 @@ class Scheduler
 	 * @param   int   $id             The task ID. By default, this is 0 and targets the task next in the task queue.
 	 * @param   bool  $allowDisabled  If true, disabled tasks can also be run.
 	 *
-	 * @return Task|null  The task executed or null if not exists
+	 * @return ?Task  The task executed or null if not exists
 	 *
 	 * @since __DEPLOY_VERSION__
-	 * @throws AssertionFailedException|\Exception
+	 * @throws \RuntimeException
 	 */
 	public function runTask(int $id = 0, bool $allowDisabled = false): ?Task
 	{
@@ -113,14 +110,21 @@ class Scheduler
 			set_time_limit(0);
 		}
 
-		$task->run();
+		try
+		{
+			$task->run();
+		}
+		catch (\Exception $e)
+		{
+			// We suppress the exception here, it's still accessible with `$task->getContent()['exception']`.
+		}
 
 		$executionSnapshot = $task->getContent();
 		$exitCode          = $executionSnapshot['status'] ?? Status::NO_EXIT;
 		$netDuration       = $executionSnapshot['netDuration'] ?? 0;
 		$duration          = $executionSnapshot['duration'] ?? 0;
 
-		if (array_key_exists($exitCode, self::LOG_TEXT))
+		if (\array_key_exists($exitCode, self::LOG_TEXT))
 		{
 			$level = $exitCode === Status::OK ? 'info' : 'warning';
 			$task->log(Text::sprintf(self::LOG_TEXT[$exitCode], $taskId, $duration, $netDuration), $level);

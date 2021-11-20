@@ -71,7 +71,8 @@ class PlgTaskCheckfiles extends CMSPlugin implements SubscriberInterface
 	 * @return integer  The exit code
 	 *
 	 * @since __DEPLOY_VERSION__
-	 * @throws Exception
+	 * @throws RuntimeException
+	 * @throws LogicException
 	 */
 	protected function checkImages(ExecuteTaskEvent $event): int
 	{
@@ -88,11 +89,11 @@ class PlgTaskCheckfiles extends CMSPlugin implements SubscriberInterface
 			return TaskStatus::NO_RUN;
 		}
 
-		$images = Folder::files($path, '^.*\.(jpg|jpeg|png|gif)', 2, true);
+		$images = Folder::files($path, '^.*\.(jpg|jpeg|png|gif|webp)', 2, true);
 
-		foreach ($images as $image)
+		foreach ($images as $imageFilename)
 		{
-			$properties = Image::getImageFileProperties($image);
+			$properties = Image::getImageFileProperties($imageFilename);
 			$resize     = $properties->$dimension > $limit;
 
 			if (!$resize)
@@ -103,14 +104,15 @@ class PlgTaskCheckfiles extends CMSPlugin implements SubscriberInterface
 			$height = $properties->height;
 			$width  = $properties->width;
 
-			$this->logTask("Found image size ${width}x${height}. Resizing " . $image);
-
 			$newHeight = $dimension === 'height' ? $limit : $height * $limit / $width;
 			$newWidth  = $dimension === 'width' ? $limit : $width * $limit / $height;
 
-			$imageFile = new Image($image);
-			$type      = File::getExt($image) === 'png' ? IMAGETYPE_PNG : IMAGETYPE_JPEG;
-			$imageFile->resize($newWidth, $newHeight)->toFile($image, $type);
+			$this->logTask("Found image size ${width}x${height}. Resizing to ${newWidth}x${newHeight}. File:" . $imageFilename);
+
+			$image = new Image($imageFilename);
+			$image->resize($newWidth, $newHeight)->toFile($imageFilename, $properties->type);
+
+			// We do at most a single resize per execution
 			break;
 		}
 
