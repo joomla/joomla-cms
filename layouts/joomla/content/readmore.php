@@ -40,7 +40,7 @@ $direction = Factory::getLanguage()->isRtl() ? 'left' : 'right';
 	<?php else : ?>
 		<?php $text = Text::sprintf('JGLOBAL_READ_MORE_TITLE', $this->escape(HTMLHelper::_('string.truncate', $item->title, $params->get('readmore_limit')))); ?>
 		<?php $ariaLabel = Text::sprintf('JGLOBAL_READ_MORE_TITLE', $this->escape($item->title)); ?>
-		<a class="btn btn-secondary" href="<?php echo $displayData['link']; ?>" <?php echo $text != $ariaLabel ? 'aria-label="' . $ariaLabel . '"' : ''; ?>>
+		<a class="btn btn-secondary" href="<?php echo $displayData['link']; ?>" <?php echo $text !== $ariaLabel ? 'aria-label="' . $ariaLabel . '"' : ''; ?>>
 			<?php echo '<span class="icon-chevron-' . $direction . '" aria-hidden="true"></span>'; ?>
 			<?php echo $text; ?>
 		</a>
