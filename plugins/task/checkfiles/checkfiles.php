@@ -12,6 +12,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Filesystem\Folder;
 use Joomla\CMS\Image\Image;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\Component\Scheduler\Administrator\Event\ExecuteTaskEvent;
 use Joomla\Component\Scheduler\Administrator\Task\Status as TaskStatus;
@@ -82,7 +83,7 @@ class PlgTaskCheckfiles extends CMSPlugin implements SubscriberInterface
 
 		if (!Folder::exists($path))
 		{
-			$this->logTask('Image path does not exist!', 'warning');
+			$this->logTask(Text::_('PLG_TASK_CHECK_FILES_LOG_IMAGE_PATH_NA'), 'warning');
 
 			return TaskStatus::NO_RUN;
 		}
@@ -105,10 +106,29 @@ class PlgTaskCheckfiles extends CMSPlugin implements SubscriberInterface
 			$newHeight = $dimension === 'height' ? $limit : $height * $limit / $width;
 			$newWidth  = $dimension === 'width' ? $limit : $width * $limit / $height;
 
-			$this->logTask("Found image size ${width}x${height}. Resizing to ${newWidth}x${newHeight}. File:" . $imageFilename);
+			$this->logTask(Text::sprintf('PLG_TASK_CHECK_FILES_LOG_RESIZING_IMAGE', $width, $height, $newWidth, $newHeight, $imageFilename));
 
 			$image = new Image($imageFilename);
-			$image->resize($newWidth, $newHeight)->toFile($imageFilename, $properties->type);
+
+			try
+			{
+				$image->resize($newWidth, $newHeight);
+			}
+			catch (LogicException $e)
+			{
+				$this->logTask('PLG_TASK_CHECK_FILES_LOG_RESIZE_FAIL', 'error');
+				$resizeFail = true;
+			}
+
+			if (!empty($resizeFail))
+			{
+				return TaskStatus::KNOCKOUT;
+			}
+
+			if (!$image->toFile($imageFilename, $properties->type))
+			{
+				$this->logTask('PLG_TASK_CHECK_FILES_LOG_IMAGE_SAVE_FAIL', 'error');
+			}
 
 			// We do at most a single resize per execution
 			break;

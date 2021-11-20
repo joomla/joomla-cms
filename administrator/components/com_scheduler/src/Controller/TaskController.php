@@ -93,7 +93,7 @@ class TaskController extends FormController
 	 * @param   array   $data  Array of input data
 	 * @param   string  $key   Name of key for primary key, defaults to 'id'
 	 *
-	 * @return boolean True if user is allowed to edit record
+	 * @return boolean  True if user is allowed to edit record
 	 *
 	 * @since  __DEPLOY_VERSION__
 	 */

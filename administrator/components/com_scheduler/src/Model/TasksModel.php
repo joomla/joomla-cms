@@ -112,7 +112,7 @@ class TasksModel extends ListModel
 		$db    = $this->getDbo();
 		$query = $db->getQuery(true);
 
-		/*
+		/**
 		 * Select the required fields from the table.
 		 * ? Do we need all these defaults ?
 		 * ? Does 'list.select' exist ?
