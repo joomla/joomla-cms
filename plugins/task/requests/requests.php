@@ -11,6 +11,7 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Filesystem\File;
+use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Http\HttpFactory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\CMSPlugin;
@@ -92,7 +93,6 @@ class PlgTaskRequests extends CMSPlugin implements SubscriberInterface
 		}
 
 		$options = new Registry;
-		$options->set('Content-Type', 'application/json');
 
 		try
 		{
@@ -100,6 +100,8 @@ class PlgTaskRequests extends CMSPlugin implements SubscriberInterface
 		}
 		catch (Exception $e)
 		{
+			$this->logTask(Text::sprintf('PLG_TASK_REQUESTS_TASK_GET_REQUEST_LOG_TIMEOUT'));
+
 			return TaskStatus::TIMEOUT;
 		}
 
@@ -107,14 +109,24 @@ class PlgTaskRequests extends CMSPlugin implements SubscriberInterface
 		$responseBody = $response->body;
 
 		// @todo this handling must be rethought and made safe. stands as a good demo right now.
-		$responseFile = JPATH_ROOT . "/tmp/task_{$id}_response.html";
-		File::write($responseFile, $responseBody);
-		$this->snapshot['output_file'] = $responseFile;
+		$responseFilename = Path::clean(JPATH_ROOT . "/tmp/task_{$id}_response.html");
+
+		if (File::write($responseFilename, $responseBody))
+		{
+			$this->snapshot['output_file'] = $responseFilename;
+			$responseStatus = 'SAVED';
+		}
+		else
+		{
+			$this->logTask('PLG_TASK_REQUESTS_TASK_GET_REQUEST_LOG_UNWRITEABLE_OUTPUT', 'error');
+			$responseStatus = 'NOT_SAVED';
+		}
+
 		$this->snapshot['output']      = <<< EOF
 ======= Task Output Body =======
 > URL: $url
 > Response Code: ${responseCode}
-> Response: {ATTACHED}
+> Response: {${responseStatus}}
 EOF;
 
 		$this->logTask(Text::sprintf('PLG_TASK_REQUESTS_TASK_GET_REQUEST_LOG_RESPONSE', $responseCode));
