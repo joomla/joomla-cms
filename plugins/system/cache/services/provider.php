@@ -1,14 +1,15 @@
 <?php
 /**
- * @package     Joomla.Plugin
- * @subpackage  System.cache
+ * @package         Joomla.Plugin
+ * @subpackage      System.cache
  *
  * @copyright   (C) 2021 Open Source Matters, Inc. <https://www.joomla.org>
- * @license     GNU General Public License version 2 or later; see LICENSE.txt
+ * @license         GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Cache\CacheControllerFactoryInterface;
 use Joomla\CMS\Extension\PluginInterface;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\DI\Container;
@@ -31,10 +32,12 @@ return new class implements ServiceProviderInterface {
 			PluginInterface::class,
 			function (Container $container)
 			{
-				$plugin     = PluginHelper::getPlugin('system', 'cache');
-				$dispatcher = $container->get(DispatcherInterface::class);
+				$plugin                 = PluginHelper::getPlugin('system', 'cache');
+				$dispatcher             = $container->get(DispatcherInterface::class);
+				$documentFactory        = $container->get('document.factory');
+				$cacheControllerFactory = $container->get(CacheControllerFactoryInterface::class);
 
-				return new Cache($dispatcher, (array) $plugin);
+				return new Cache($dispatcher, (array) $plugin, $documentFactory, $cacheControllerFactory);
 			}
 		);
 	}
