@@ -108,7 +108,26 @@ class PlgTaskCheckfiles extends CMSPlugin implements SubscriberInterface
 			$this->logTask(Text::sprintf('PLG_TASK_CHECK_FILES_LOG_RESIZING_IMAGE', $width, $height, $newWidth, $newHeight, $imageFilename));
 
 			$image = new Image($imageFilename);
-			$image->resize($newWidth, $newHeight)->toFile($imageFilename, $properties->type);
+
+			try
+			{
+				$image->resize($newWidth, $newHeight);
+			}
+			catch (LogicException $e)
+			{
+				$this->logTask('PLG_TASK_CHECK_FILES_LOG_RESIZE_FAIL', 'error');
+				$resizeFail = true;
+			}
+
+			if (!empty($resizeFail))
+			{
+				return TaskStatus::KNOCKOUT;
+			}
+
+			if (!$image->toFile($imageFilename, $properties->type))
+			{
+				$this->logTask('PLG_TASK_CHECK_FILES_LOG_IMAGE_SAVE_FAIL', 'error');
+			}
 
 			// We do at most a single resize per execution
 			break;
