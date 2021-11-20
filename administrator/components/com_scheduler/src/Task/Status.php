@@ -9,7 +9,6 @@
 
 namespace Joomla\Component\Scheduler\Administrator\Task;
 
-
 /**
  * A namespace mapping Task statuses to integer values.
  *

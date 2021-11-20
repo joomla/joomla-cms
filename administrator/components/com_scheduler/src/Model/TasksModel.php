@@ -10,7 +10,7 @@
 namespace Joomla\Component\Scheduler\Administrator\Model;
 
 // Restrict direct access
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
@@ -141,7 +141,9 @@ class TasksModel extends ListModel
 		 * @since  __DEPLOY_VERSION__
 		 */
 		$extendWhereIfFiltered = static function (
-			string $outerGlue, array $conditions, string $innerGlue
+			string $outerGlue,
+			array $conditions,
+			string $innerGlue
 		) use ($query, &$filterCount) {
 			if ($filterCount++)
 			{
@@ -300,7 +302,7 @@ class TasksModel extends ListModel
 		// @todo implement multi-column ordering someway
 		$multiOrdering = $this->state->get('list.multi_ordering');
 
-		if (!$multiOrdering || !is_array($multiOrdering))
+		if (!$multiOrdering || !\is_array($multiOrdering))
 		{
 			$orderCol = $this->state->get('list.ordering', 'a.title');
 			$orderDir = $this->state->get('list.direction', 'desc');
@@ -311,7 +313,7 @@ class TasksModel extends ListModel
 				$query->order($db->quoteName($orderCol) . ' ' . $orderDir);
 
 				// If ordering by type or state, also order by title.
-				if (in_array($orderCol, ['a.type', 'a.state', 'a.priority']))
+				if (\in_array($orderCol, ['a.type', 'a.state', 'a.priority']))
 				{
 					// @todo : Test if things are working as expected
 					$query->order($db->quoteName('a.title') . ' ' . $orderDir);

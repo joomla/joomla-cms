@@ -51,7 +51,6 @@ $saveOrder = $listOrder == 'a.ordering';
 $section = null;
 $mode = false;
 
-
 if ($saveOrder && !empty($this->items))
 {
 	$saveOrderingUrl = 'index.php?option=com_scheduler&task=tasks.saveOrderAjax&tmpl=component&' . Session::getFormToken() . '=1';
@@ -191,7 +190,7 @@ $app->getDocument()->getWebAssetManager()->useScript('com_scheduler.test-task');
 									'active_class' => 'none fa fa-running border-dark text-body',
 									'inactive_class' => 'none fa fa-running', 'tip' => true, 'translate' => false,
 									'active_title' => Text::sprintf('COM_SCHEDULER_RUNNING_SINCE', HTMLHelper::_('date', $item->last_execution, 'DATE_FORMAT_LC5')),
-									'inactive_title' => Text::sprintf('COM_SCHEDULER_RUNNING_SINCE', HTMLHelper::_('date', $item->last_execution, 'DATE_FORMAT_LC5'))
+									'inactive_title' => Text::sprintf('COM_SCHEDULER_RUNNING_SINCE', HTMLHelper::_('date', $item->last_execution, 'DATE_FORMAT_LC5')),
 									]); ?>
 							<?php endif; ?>
 							<?php if ($canEdit): ?>
@@ -243,7 +242,7 @@ $app->getDocument()->getWebAssetManager()->useScript('com_scheduler.test-task');
 
 				// Modal for test runs
 				$modalparams = [
-					'title' => ''
+					'title' => '',
 				];
 
 				$modalbody = '<div class="p-3"></div>';

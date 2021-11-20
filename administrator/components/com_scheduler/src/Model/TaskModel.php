@@ -103,7 +103,6 @@ class TaskModel extends AdminModel
 	 */
 	protected $event_unlock = null;
 
-
 	/**
 	 * TaskModel constructor. Needed just to set $app
 	 *
@@ -315,7 +314,7 @@ class TaskModel extends AdminModel
 	{
 		$item = parent::getItem($pk);
 
-		if (!is_object($item))
+		if (!\is_object($item))
 		{
 			return false;
 		}
@@ -513,10 +512,10 @@ class TaskModel extends AdminModel
 	{
 		$resolver->setDefaults(
 			[
-				'id'                => 0,
-				'allowDisabled'     => false,
-				'bypassScheduling'  => false,
-				'allowConcurrent' => false,
+				'id'               => 0,
+				'allowDisabled'    => false,
+				'bypassScheduling' => false,
+				'allowConcurrent'  => false,
 			]
 		)
 			->setAllowedTypes('id', 'int')

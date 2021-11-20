@@ -170,7 +170,7 @@ class CronField extends ListField
 		[$optionLower, $optionUpper] = self::OPTIONS_RANGE[$subtype];
 
 		// If we need text labels, we translate them first
-		if (array_key_exists($subtype, self::PREPARED_RESPONSE_LABELS) && !$this->onlyNumericLabels)
+		if (\array_key_exists($subtype, self::PREPARED_RESPONSE_LABELS) && !$this->onlyNumericLabels)
 		{
 			$labels = array_map(
 				static function (string $string): string {
@@ -181,7 +181,7 @@ class CronField extends ListField
 		}
 		else
 		{
-			$labels = \range(...self::OPTIONS_RANGE[$subtype]);
+			$labels = range(...self::OPTIONS_RANGE[$subtype]);
 		}
 
 		for ([$i, $l] = [$optionLower, 0]; $i <= $optionUpper; $i++, $l++)

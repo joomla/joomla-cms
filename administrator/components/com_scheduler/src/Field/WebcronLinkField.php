@@ -12,7 +12,7 @@ namespace Joomla\Component\Scheduler\Administrator\Field;
 // Restrict direct access
 use Joomla\CMS\Form\Field\TextField;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 /**
  * Field to override the text field layout to add a copy-text button, used in the com_scheduler
@@ -31,7 +31,6 @@ class WebcronLinkField extends TextField
 	 * @since  __DEPLOY_VERSION__
 	 */
 	protected $layout = 'form.field.webcron_link';
-
 
 	/**
 	 * Override layout paths.

@@ -10,7 +10,7 @@
 namespace Joomla\Component\Scheduler\Administrator\Table;
 
 // Restrict direct access
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Event\AbstractEvent;
 use Joomla\CMS\Factory;
@@ -58,7 +58,6 @@ class TaskTable extends Table
 	 * @since  __DEPLOY_VERSION__
 	 */
 	public $typeAlias = 'com_scheduler.task';
-
 
 	/**
 	 * TaskTable constructor override, needed to pass the DB table name and primary key to {@see Table::__construct()}.
@@ -176,7 +175,7 @@ class TaskTable extends Table
 
 		foreach ($fields as $field)
 		{
-			if (array_key_exists($field, $src) && is_null($src[$field]))
+			if (\array_key_exists($field, $src) && \is_null($src[$field]))
 			{
 				$this->$field = $src[$field];
 			}
@@ -184,6 +183,7 @@ class TaskTable extends Table
 
 		return parent::bind($src, $ignore);
 	}
+
 	/**
 	 * Release pseudo-locks on a set of task records. If an empty set is passed, this method releases lock on its
 	 * instance primary key, if available.

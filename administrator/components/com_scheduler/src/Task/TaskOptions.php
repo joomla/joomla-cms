@@ -29,7 +29,6 @@ class TaskOptions
 	 */
 	public $options = [];
 
-
 	/**
 	 * A plugin can support several task routines
 	 * This method is used by a plugin's onTaskOptionsList subscriber to advertise supported routines.

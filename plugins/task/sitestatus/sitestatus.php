@@ -70,7 +70,6 @@ class PlgTaskSitestatus extends CMSPlugin implements SubscriberInterface
 	 */
 	protected $autoloadLanguage = true;
 
-
 	/**
 	 * @inheritDoc
 	 *

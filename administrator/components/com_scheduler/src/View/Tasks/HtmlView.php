@@ -80,7 +80,6 @@ class HtmlView extends BaseHtmlView
 	 */
 	private $isEmptyState = false;
 
-
 	/**
 	 * @inheritDoc
 	 *
@@ -119,7 +118,6 @@ class HtmlView extends BaseHtmlView
 		parent::display($tpl);
 	}
 
-
 	/**
 	 * Add the page title and toolbar.
 	 *
@@ -127,7 +125,6 @@ class HtmlView extends BaseHtmlView
 	 *
 	 * @since  __DEPLOY_VERSION__
 	 * @throws  \Exception
-	 *
 	 */
 	protected function addToolbar(): void
 	{
