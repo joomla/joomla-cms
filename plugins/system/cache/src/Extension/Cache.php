@@ -15,11 +15,13 @@ use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Application\CMSApplicationInterface;
 use Joomla\CMS\Cache\Cache as CMSCache;
 use Joomla\CMS\Cache\CacheController;
-use Joomla\CMS\Factory;
+use Joomla\CMS\Cache\CacheControllerFactoryInterface;
+use Joomla\CMS\Document\FactoryInterface as DocumentFactoryInterface;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Profiler\Profiler;
 use Joomla\CMS\Uri\Uri;
+use Joomla\Event\DispatcherInterface;
 use Joomla\Event\Event;
 use Joomla\Event\Priority;
 use Joomla\Event\SubscriberInterface;
@@ -46,6 +48,51 @@ final class Cache extends CMSPlugin implements SubscriberInterface
 	 * @since  1.5
 	 */
 	private $cache;
+
+	/**
+	 * The application's document factory interface
+	 *
+	 * @var   DocumentFactoryInterface
+	 * @since __DEPLOY_VERSION__
+	 */
+	private $documentFactory;
+
+	/**
+	 * Cache controller factory interface
+	 *
+	 * @var CacheControllerFactoryInterface
+	 * @since __DEPLOY_VERSION__
+	 */
+	private $cacheControllerFactory;
+
+	/**
+	 * Constructor
+	 *
+	 * @param   DispatcherInterface              $subject                 The object to observe
+	 * @param   array                            $config                  An optional associative
+	 *                                                                    array of configuration
+	 *                                                                    settings. Recognized key
+	 *                                                                    values include 'name',
+	 *                                                                    'group', 'params',
+	 *                                                                    'language'
+	 *                                                                    (this list is not meant
+	 *                                                                    to be comprehensive).
+	 * @param   DocumentFactoryInterface         $documentFactory         The application's
+	 *                                                                    document factory
+	 * @param   CacheControllerFactoryInterface  $cacheControllerFactory  Cache controller factory
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function __construct(&$subject, $config,
+		DocumentFactoryInterface $documentFactory,
+		CacheControllerFactoryInterface $cacheControllerFactory
+	)
+	{
+		parent::__construct($subject, $config);
+
+		$this->documentFactory = $documentFactory;
+		$this->cacheControllerFactory = $cacheControllerFactory;
+	}
 
 	/**
 	 * Returns an array of CMS events this plugin will listen to and the respective handlers.
@@ -109,8 +156,7 @@ final class Cache extends CMSPlugin implements SubscriberInterface
 		if (JDEBUG)
 		{
 			// Create a document instance and load it into the application.
-			$document = Factory::getContainer()
-				->get('document.factory')
+			$document = $this->documentFactory
 				->createDocument($this->app->input->get('format', 'html'));
 			$this->app->loadDocument($document);
 
@@ -259,20 +305,24 @@ final class Cache extends CMSPlugin implements SubscriberInterface
 		if ($exclusions)
 		{
 			// Convert the exclusions into a normalised array
-			$exclusions = str_replace(["\r\n", "\r"], "\n", $exclusions);
-			$exclusions = explode("\n", $exclusions);
-			$exclusions = array_filter($exclusions, function ($x) {
+			$exclusions       = str_replace(["\r\n", "\r"], "\n", $exclusions);
+			$exclusions       = explode("\n", $exclusions);
+			$filterExpression = function ($x)
+			{
 				return $x !== '';
-			});
+			};
+			$exclusions       = array_filter($exclusions, $filterExpression);
 
 			// Gets the internal (non-SEF) and the external (possibly SEF) URIs.
 			$internalUrl = '/index.php?' . Uri::getInstance()->buildQuery($this->app->getRouter()->getVars());
 			$externalUrl = Uri::getInstance()->toString();
 
-			$excluded = array_reduce($exclusions, function (bool $carry, string $exclusion) use ($internalUrl, $externalUrl) {
+			$reduceCallback = function (bool $carry, string $exclusion) use ($internalUrl, $externalUrl)
+			{
 				// Test both external and internal URIs
 				return $carry && preg_match('#' . $exclusion . '#i', $externalUrl . ' ' . $internalUrl, $match);
-			}, false);
+			};
+			$excluded = array_reduce($exclusions, $reduceCallback, false);
 
 			if ($excluded)
 			{
@@ -309,7 +359,7 @@ final class Cache extends CMSPlugin implements SubscriberInterface
 		];
 
 		// Instantiate cache with previous options.
-		$this->cache = CMSCache::getInstance('page', $options);
+		$this->cache = $this->cacheControllerFactory->createCacheController('page', $options);
 
 		return $this->cache;
 	}
