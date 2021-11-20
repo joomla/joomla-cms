@@ -90,7 +90,7 @@ $updatePossible = true;
 	</p>
 
 	<div class="d-flex flex-wrap flex-lg-nowrap align-items-start my-4" id="preupdatecheck">
-		<div class="nav flex-column text-nowrap nav-pills me-3 mb-4 text-left" role="tablist" aria-orientation="vertical">
+		<div class="nav flex-column text-nowrap nav-pills me-3 mb-4" role="tablist" aria-orientation="vertical">
 			<button class="nav-link d-flex justify-content-between align-items-center active" id="joomlaupdate-precheck-required-tab" data-bs-toggle="pill" data-bs-target="#joomlaupdate-precheck-required-content" type="button" role="tab" aria-controls="joomlaupdate-precheck-required-content" aria-selected="true">
 				<?php echo Text::_('COM_JOOMLAUPDATE_PREUPDATE_REQUIRED_SETTINGS'); ?>
 				<?php $labelClass = 'success'; ?>
