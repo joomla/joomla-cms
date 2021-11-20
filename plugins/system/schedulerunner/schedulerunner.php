@@ -151,9 +151,9 @@ class PlgSystemSchedulerunner extends CMSPlugin implements SubscriberInterface
 
 	/**
 	 * Acts on the LazyCron trigger from the frontend when Lazy Cron is enabled in the Scheduler component
-	 * configuration. The lazy cron trigger is implemented in client-side JavaScript which is injected on every page load
-	 * with an HTML context when the component configuration allows it.
-	 * This method then triggers the Scheduler, which effectively runs the next Task in the Scheduler's task queue.
+	 * configuration. The lazy cron trigger is implemented in client-side JavaScript which is injected on every page
+	 * load with an HTML context when the component configuration allows it. This method then triggers the Scheduler,
+	 * which effectively runs the next Task in the Scheduler's task queue.
 	 *
 	 * @param   EventInterface  $e  The onAjaxRunSchedulerLazy event.
 	 *
@@ -204,7 +204,7 @@ class PlgSystemSchedulerunner extends CMSPlugin implements SubscriberInterface
 	 * - `hash` string (required)   Webcron hash (from the Scheduler component configuration).
 	 * - `id`   int (optional)      ID of the task to trigger.
 	 *
-	 * @param   Event  $e  The onAjaxRunSchedulerWebcron event.
+	 * @param   Event  $event  The onAjaxRunSchedulerWebcron event.
 	 *
 	 * @return void
 	 *
@@ -212,7 +212,7 @@ class PlgSystemSchedulerunner extends CMSPlugin implements SubscriberInterface
 	 *
 	 * @throws Exception
 	 */
-	public function runWebCron(Event $e)
+	public function runWebCron(Event $event)
 	{
 		$config = ComponentHelper::getParams('com_scheduler');
 		$hash = $config->get('webcron.key', '');
@@ -292,6 +292,8 @@ class PlgSystemSchedulerunner extends CMSPlugin implements SubscriberInterface
 
 	/**
 	 * Run the scheduler, allowing execution of a single due task.
+	 * Does not bypass task scheduling, meaning that even if an ID is passed the task is only
+	 * triggered if it is due.
 	 *
 	 * @param   integer  $id  The optional ID of the task to run
 	 *
