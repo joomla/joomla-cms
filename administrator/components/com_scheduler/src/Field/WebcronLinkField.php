@@ -44,8 +44,9 @@ class WebcronLinkField extends TextField
 	{
 		$s = DIRECTORY_SEPARATOR;
 
-		return [
-				JPATH_ADMINISTRATOR . "${s}/components${s}com_scheduler${s}layouts${s}",
-			] + parent::getLayoutPaths();
+		return array_merge(
+			[JPATH_ADMINISTRATOR . "${s}/components${s}com_scheduler${s}layouts${s}"],
+			parent::getLayoutPaths()
+		);
 	}
 }
