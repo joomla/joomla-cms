@@ -27,6 +27,7 @@ use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Table\Table;
 use Joomla\Component\Scheduler\Administrator\Helper\ExecRuleHelper;
 use Joomla\Component\Scheduler\Administrator\Helper\SchedulerHelper;
+use Joomla\Component\Scheduler\Administrator\Table\TaskTable;
 use Joomla\Database\ParameterType;
 use Symfony\Component\OptionsResolver\Exception\AccessException;
 use Symfony\Component\OptionsResolver\Exception\InvalidOptionsException;
@@ -661,20 +662,23 @@ class TaskModel extends AdminModel
 	}
 
 	/**
-	 * Method to unlock one or more records.
+	 * This method releases "locks" on a set of tasks from the database.
+	 * These locks are pseudo-locks that are used to keep a track of running tasks. However, they require require manual
+	 * intervention to release these locks in cases such as when a task process crashes, leaving the task "locked".
 	 *
-	 * @param   array    &$pks   A list of the primary keys to unlock.
-	 * @param   integer  $value  The value of the published state.
+	 * @param   array  $pks  A list of the primary keys to unlock.
 	 *
 	 * @return  boolean  True on success.
 	 *
 	 * @since   __DEPLOY_VERSION__
+	 * @throws \RuntimeException|\UnexpectedValueException|\BadMethodCallException
 	 */
-	public function unlock(&$pks)
+	public function unlock(array &$pks): bool
 	{
-		$user = Factory::getUser();
+		/** @var TaskTable $table */
 		$table = $this->getTable();
-		$pks = (array) $pks;
+
+		$user = Factory::getApplication()->getIdentity();
 
 		$context = $this->option . '.' . $this->name;
 
@@ -692,28 +696,22 @@ class TaskModel extends AdminModel
 				{
 					// Prune items that you can't change.
 					unset($pks[$i]);
-
 					Log::add(Text::_('JLIB_APPLICATION_ERROR_EDITSTATE_NOT_PERMITTED'), Log::WARNING, 'jerror');
 
 					return false;
 				}
 
-				/**
-				 * Prune items that are already at the given state.  Note: Only models whose table correctly
-				 * sets 'published' column alias (if different than published) will benefit from this
-				 */
+				// Prune items that are already at the given state.
 				$lockedColumnName = $table->getColumnAlias('locked');
 
-				if (property_exists($table, $lockedColumnName) && is_null($table->get($lockedColumnName)))
+				if (property_exists($table, $lockedColumnName) && \is_null($table->get($lockedColumnName)))
 				{
 					unset($pks[$i]);
-
-					continue;
 				}
 			}
 		}
 
-		// Check if there are items to change
+		// Check if there are items to change.
 		if (!\count($pks))
 		{
 			return true;
@@ -722,9 +720,9 @@ class TaskModel extends AdminModel
 		$event = AbstractEvent::create(
 			$this->event_before_unlock,
 			[
-				'subject'	=> $this,
-				'context'	=> $context,
-				'pks'		=> $pks
+				'subject' => $this,
+				'context' => $context,
+				'pks'     => $pks,
 			]
 		);
 
@@ -740,7 +738,7 @@ class TaskModel extends AdminModel
 		}
 
 		// Attempt to unlock the records.
-		if (!$table->unlock($pks))
+		if (!$table->unlock($pks, $user->id))
 		{
 			$this->setError($table->getError());
 
@@ -751,9 +749,9 @@ class TaskModel extends AdminModel
 		$event = AbstractEvent::create(
 			$this->event_unlock,
 			[
-				'subject'	=> $this,
-				'context'	=> $context,
-				'pks'		=> $pks
+				'subject' => $this,
+				'context' => $context,
+				'pks'     => $pks,
 			]
 		);
 
