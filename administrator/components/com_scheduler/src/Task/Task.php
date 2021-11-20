@@ -198,8 +198,7 @@ class Task implements LoggerAwareInterface
 		catch (\Exception $e)
 		{
 			// Suppress the exception for now, we'll throw it again once it's safe
-			// @todo replace with language string (?)
-			$this->log('Routine threw exception: ' . $e->getMessage(), 'error');
+			$this->log(Text::sprintf('COM_SCHEDULER_TASK_ROUTINE_EXCEPTION', $e->getMessage), 'error');
 			$this->snapshot['exception'] = $e;
 			$this->snapshot['status'] = Status::KNOCKOUT;
 		}
