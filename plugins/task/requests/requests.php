@@ -48,7 +48,6 @@ class PlgTaskRequests extends CMSPlugin implements SubscriberInterface
 	 */
 	protected $autoloadLanguage = true;
 
-
 	/**
 	 * @inheritDoc
 	 *

@@ -10,7 +10,7 @@
 namespace Joomla\Component\Scheduler\Administrator\Field;
 
 // Restrict direct access
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Form\Field\ListField;
 use Joomla\CMS\HTML\HTMLHelper;
@@ -48,7 +48,8 @@ class TaskTypeField extends ListField
 		// Get all available task types and sort by title
 		$types = ArrayHelper::sortObjects(
 			SchedulerHelper::getTaskOptions()->options,
-			'title', 1
+			'title',
+			1
 		);
 
 		// Closure to add a TaskOption as a <select> option in $options: array
@@ -63,7 +64,7 @@ class TaskTypeField extends ListField
 		};
 
 		// Call $addTypeAsOption on each type
-		\array_map($addTypeAsOption, $types);
+		array_map($addTypeAsOption, $types);
 
 		return $options;
 	}

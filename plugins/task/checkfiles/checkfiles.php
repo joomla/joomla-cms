@@ -10,7 +10,6 @@
 // Restrict direct access
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Filesystem\File;
 use Joomla\CMS\Filesystem\Folder;
 use Joomla\CMS\Image\Image;
 use Joomla\CMS\Plugin\CMSPlugin;
@@ -47,7 +46,6 @@ class PlgTaskCheckfiles extends CMSPlugin implements SubscriberInterface
 	 * @since __DEPLOY_VERSION__
 	 */
 	protected $autoloadLanguage = true;
-
 
 	/**
 	 * @inheritDoc

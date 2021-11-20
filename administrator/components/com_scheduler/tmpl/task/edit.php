@@ -68,9 +68,11 @@ $tmpl = $isModal || $input->get('tmpl', '') === 'component' ? '&tmpl=component' 
 
 		<!-- The first (and the main) tab in the form -->
 		<?php echo
-		HTMLHelper::_('uitab.addTab',
-				'myTab', 'general',
-				empty($this->item->id) ? Text::_('COM_SCHEDULER_NEW_TASK') : Text::_('COM_SCHEDULER_EDIT_TASK')
+		HTMLHelper::_(
+			'uitab.addTab',
+			'myTab',
+			'general',
+			empty($this->item->id) ? Text::_('COM_SCHEDULER_NEW_TASK') : Text::_('COM_SCHEDULER_EDIT_TASK')
 		);
 		?>
 		<div class="row">

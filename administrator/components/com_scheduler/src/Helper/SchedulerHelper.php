@@ -34,7 +34,6 @@ abstract class SchedulerHelper
 	 */
 	protected static $taskOptionsCache;
 
-
 	/**
 	 * Returns available task routines as a TaskOptions object.
 	 *

@@ -10,14 +10,16 @@
 namespace Joomla\Component\Scheduler\Administrator\Table;
 
 // Restrict direct access
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Event\AbstractEvent;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\CMS\Table\Asset;
 use Joomla\CMS\Table\Table;
 use Joomla\Database\DatabaseDriver;
+use Joomla\Database\Exception\QueryTypeAlreadyDefinedException;
 
 /**
  * Table class for tasks scheduled through `com_scheduler`.
@@ -56,7 +58,6 @@ class TaskTable extends Table
 	 * @since  __DEPLOY_VERSION__
 	 */
 	public $typeAlias = 'com_scheduler.task';
-
 
 	/**
 	 * TaskTable constructor override, needed to pass the DB table name and primary key to {@see Table::__construct()}.
@@ -174,7 +175,7 @@ class TaskTable extends Table
 
 		foreach ($fields as $field)
 		{
-			if (array_key_exists($field, $src) && is_null($src[$field]))
+			if (\array_key_exists($field, $src) && \is_null($src[$field]))
 			{
 				$this->$field = $src[$field];
 			}
@@ -182,41 +183,37 @@ class TaskTable extends Table
 
 		return parent::bind($src, $ignore);
 	}
+
 	/**
-	 * Method to unlockr a row or list of rows in the database table.
+	 * Release pseudo-locks on a set of task records. If an empty set is passed, this method releases lock on its
+	 * instance primary key, if available.
 	 *
-	 * @param   mixed    $pks     An optional array of primary key values to update. If not set the instance property value is used.
+	 * @param   integer[]  $pks     An optional array of primary key values to update. If not set the instance property
+	 *                              value is used.
+	 * @param   ?int       $userId  ID of the user unlocking the tasks.
 	 *
 	 * @return  boolean  True on success; false if $pks is empty.
 	 *
-	 * @since   1.7.0
+	 * @since   __DEPLOY__VERSION__
+	 * @throws QueryTypeAlreadyDefinedException|\UnexpectedValueException|\BadMethodCallException
 	 */
-	public function unlock($pks = null)
+	public function unlock(array $pks = [], ?int $userId = null): bool
 	{
-		// Sanitize input
-		$userId = (int) $userId;
-		$state  = (int) $state;
-
 		// Pre-processing by observers
 		$event = AbstractEvent::create(
-			'onTableBeforeUnlock',
+			'onTaskBeforeUnlock',
 			[
-				'subject'	=> $this,
-				'pks'		=> $pks,
-				'state'		=> $state,
-				'userId'	=> $userId,
+				'subject' => $this,
+				'pks'     => $pks,
+				'userId'  => $userId,
 			]
 		);
 
-		$this->getDispatcher()->dispatch('onTableBeforeUnlock', $event);
+		$this->getDispatcher()->dispatch('onTaskBeforeUnlock', $event);
 
-		if (!\is_null($pks))
+		// Some pre-processing before we can work with the keys.
+		if (!empty($pks))
 		{
-			if (!\is_array($pks))
-			{
-				$pks = array($pks);
-			}
-
 			foreach ($pks as $key => $pk)
 			{
 				if (!\is_array($pk))
@@ -226,10 +223,10 @@ class TaskTable extends Table
 			}
 		}
 
-		// If there are no primary keys set check to see if the instance key is set.
+		// If there are no primary keys set check to see if the instance key is set and use that.
 		if (empty($pks))
 		{
-			$pk = array();
+			$pk = [];
 
 			foreach ($this->_tbl_keys as $key)
 			{
@@ -237,7 +234,7 @@ class TaskTable extends Table
 				{
 					$pk[$key] = $this->$key;
 				}
-				// We don't have a full primary key - return false
+				// We don't have a full primary key - return false.
 				else
 				{
 					$this->setError(Text::_('JLIB_DATABASE_ERROR_NO_ROWS_SELECTED'));
@@ -246,7 +243,7 @@ class TaskTable extends Table
 				}
 			}
 
-			$pks = array($pk);
+			$pks = [$pk];
 		}
 
 		$lockedField = $this->getColumnAlias('locked');
@@ -291,20 +288,17 @@ class TaskTable extends Table
 			}
 		}
 
-		$this->setError('');
-
 		// Pre-processing by observers
 		$event = AbstractEvent::create(
-			'onTableAfterUnlock',
+			'onTaskAfterUnlock',
 			[
-				'subject'	=> $this,
-				'pks'		=> $pks,
-				'state'		=> $state,
-				'userId'	=> $userId,
+				'subject' => $this,
+				'pks'     => $pks,
+				'userId'  => $userId,
 			]
 		);
 
-		$this->getDispatcher()->dispatch('onTableAfterUnlock', $event);
+		$this->getDispatcher()->dispatch('onTaskAfterUnlock', $event);
 
 		return true;
 	}

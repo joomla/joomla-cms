@@ -34,7 +34,6 @@ class SelectModel extends ListModel
 	 */
 	protected $app;
 
-
 	/**
 	 * SelectModel constructor.
 	 *
@@ -52,7 +51,6 @@ class SelectModel extends ListModel
 	}
 
 	/**
-	 *
 	 * @return TaskOption[]  An array of TaskOption objects
 	 *
 	 * @throws \Exception

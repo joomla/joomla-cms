@@ -10,7 +10,7 @@
 namespace Joomla\Component\Scheduler\Administrator\Task;
 
 // Restrict direct access
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
 
@@ -86,6 +86,6 @@ class TaskOption
 			return $this->$name;
 		}
 
-		return null;
+		return;
 	}
 }

@@ -17,6 +17,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\AdminController;
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Joomla\CMS\Router\Route;
+use Joomla\Component\Scheduler\Administrator\Model\TaskModel;
 use Joomla\Utilities\ArrayHelper;
 
 /**
@@ -43,49 +44,54 @@ class TasksController extends AdminController
 	}
 
 	/**
-	 * Unlocks a running task
+	 * Unlock a locked task, i.e., a task that is presumably still running but might have crashed and got stuck in the
+	 * "locked" state.
 	 *
 	 * @return void
+	 *
+	 * @since __DEPLOY__VERSION__
 	 */
-	public function unlock()
+	public function unlock(): void
 	{
 		// Check for request forgeries
 		$this->checkToken();
 
-		// Get items to publish from the request.
-		$cid   = $this->input->get('cid', array(), 'array');
+		/** @var integer[] $cid Items to publish (from request parameters). */
+		$cid = $this->input->get('cid', [], 'array');
 
 		if (empty($cid))
 		{
-			$this->app->getLogger()->warning(Text::_($this->text_prefix . '_NO_ITEM_SELECTED'), array('category' => 'jerror'));
+			$this->app->getLogger()
+				->warning(Text::_($this->text_prefix . '_NO_ITEM_SELECTED'), array('category' => 'jerror'));
 		}
 		else
 		{
-			// Get the model.
+			/** @var TaskModel $model */
 			$model = $this->getModel();
 
-			// Make sure the item ids are integers
+			// Make sure the item IDs are integers
 			$cid = ArrayHelper::toInteger($cid);
 
 			// Unlock the items.
 			try
 			{
 				$model->unlock($cid);
-				$errors = $model->getErrors();
-				$ntext = null;
+				$errors     = $model->getErrors();
+				$noticeText = null;
 
 				if ($errors)
 				{
-					Factory::getApplication()->enqueueMessage(Text::plural($this->text_prefix . '_N_ITEMS_FAILED_UNLOCKING', \count($cid)), 'error');
+					Factory::getApplication()
+						->enqueueMessage(Text::plural($this->text_prefix . '_N_ITEMS_FAILED_UNLOCKING', \count($cid)), 'error');
 				}
 				else
 				{
-					$ntext = $this->text_prefix . '_N_ITEMS_UNLOCKED';
+					$noticeText = $this->text_prefix . '_N_ITEMS_UNLOCKED';
 				}
 
 				if (\count($cid))
 				{
-					$this->setMessage(Text::plural($ntext, \count($cid)));
+					$this->setMessage(Text::plural($noticeText, \count($cid)));
 				}
 			}
 			catch (\Exception $e)
@@ -97,7 +103,8 @@ class TasksController extends AdminController
 		$this->setRedirect(
 			Route::_(
 				'index.php?option=' . $this->option . '&view=' . $this->view_list
-				. $this->getRedirectToListAppend(), false
+				. $this->getRedirectToListAppend(),
+				false
 			)
 		);
 	}

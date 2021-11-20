@@ -10,7 +10,7 @@
 namespace Joomla\Component\Scheduler\Administrator\Helper;
 
 // Restrict direct access
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Cron\CronExpression;
 use Joomla\CMS\Date\Date;
@@ -24,7 +24,6 @@ use Joomla\Utilities\ArrayHelper;
  *
  * @since  __DEPLOY_VERSION__
  * @todo   This helper should probably be merged into the {@see Task} class.
- *
  */
 class ExecRuleHelper
 {
@@ -55,11 +54,11 @@ class ExecRuleHelper
 	 */
 	public function __construct($task)
 	{
-		$this->task = is_array($task) ? $task : ArrayHelper::fromObject($task);
+		$this->task = \is_array($task) ? $task : ArrayHelper::fromObject($task);
 		$rule       = $this->getFromTask('cron_rules');
-		$this->rule = is_string($rule)
+		$this->rule = \is_string($rule)
 			? (object) json_decode($rule)
-			: (is_array($rule) ? (object) $rule : $rule);
+			: (\is_array($rule) ? (object) $rule : $rule);
 		$this->type = $this->rule->type;
 	}
 
