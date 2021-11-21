@@ -124,7 +124,19 @@ class HtmlView extends BaseHtmlView
 
 		$helpUrl = $this->form->getData()->get('helpURL');
 		$helpKey = (string) $this->form->getXml()->config->help['key'];
-		$helpKey = $helpKey ?: 'JHELP_COMPONENTS_' . strtoupper($this->currentComponent) . '_OPTIONS';
+
+		// Try with legacy language key
+		if (!$helpKey)
+		{
+			$language    = Factory::getApplication()->getLanguage();
+			$languageKey = 'JHELP_COMPONENTS_' . strtoupper($this->currentComponent) . '_OPTIONS';
+
+			if ($language->hasKey($languageKey))
+			{
+				$helpKey = $languageKey;
+			}
+		}
+
 		ToolbarHelper::help($helpKey, (boolean) $helpUrl, null, $this->currentComponent);
 	}
 }
