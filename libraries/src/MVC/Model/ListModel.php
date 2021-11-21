@@ -211,7 +211,7 @@ class ListModel extends BaseDatabaseModel implements ListModelInterface
 		$currentStoreId = $this->getStoreId();
 
 		// If the last store id is different from the current, refresh the query.
-		if ($this->lastQueryStoreId != $currentStoreId || empty($this->query))
+		if ($this->lastQueryStoreId !== $currentStoreId || empty($this->query))
 		{
 			$this->lastQueryStoreId = $currentStoreId;
 			$this->query            = $this->getListQuery();
