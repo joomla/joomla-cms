@@ -195,7 +195,7 @@ class CategoriesModelCategory extends JModelAdmin
 
 		$this->hasAssociation = $this->getAssoc();
 
-		if ($assoc)
+		if ($this->hasAssociation)
 		{
 			if ($result->id != null)
 			{
@@ -582,7 +582,7 @@ class CategoriesModelCategory extends JModelAdmin
 
 		$this->hasAssociation = $this->getAssoc();
 
-		if ($assoc)
+		if ($this->hasAssociation)
 		{
 			// Adding self to the association
 			$associations = isset($data['associations']) ? $data['associations'] : array();
@@ -1329,7 +1329,7 @@ class CategoriesModelCategory extends JModelAdmin
 	 */
 	public function getAssoc()
 	{
-		if (!is_null($assoc))
+		if (!is_null($this->hasAssociation))
 		{
 			return $this->hasAssociation;
 		}
