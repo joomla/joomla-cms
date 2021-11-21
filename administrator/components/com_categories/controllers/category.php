@@ -113,7 +113,7 @@ class CategoriesControllerCategory extends JControllerForm
 	 *
 	 * @return  boolean  True if successful, false otherwise.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.10.3
 	 */
 	public function save($key = null, $urlVar = null)
 	{
@@ -134,7 +134,7 @@ class CategoriesControllerCategory extends JControllerForm
 	 *
 	 * @return  boolean  True if access level checks pass, false otherwise.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.10.3
 	 */
 	public function cancel($key = null)
 	{

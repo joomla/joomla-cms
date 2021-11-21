@@ -42,7 +42,7 @@ class NewsfeedsModelCategory extends JModelList
 	protected $_category = null;
 
 	/**
-	 * The list of other newfeed categories.
+	 * The list of other newsfeed categories.
 	 *
 	 * @access    protected
 	 * @var        array

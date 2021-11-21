@@ -27,6 +27,21 @@
 		return str;
 	};
 
+	// CustomEvent polyfill for IE
+	(function () {
+
+		if ( typeof window.CustomEvent === "function" ) return false;
+
+		function CustomEvent ( event, params ) {
+			params = params || { bubbles: false, cancelable: false, detail: undefined };
+			var evt = document.createEvent('CustomEvent');
+			evt.initCustomEvent( event, params.bubbles, params.cancelable, params.detail );
+			return evt;
+		}
+
+		window.CustomEvent = CustomEvent;
+	})();
+
 	var JoomlaCalendar = function (element) {
 
 		// Initialize only if the element exists
@@ -238,7 +253,7 @@
 			this.params.onUpdate(this);
 		}
 
-		this.inputField.dispatchEvent(new Event('change', {bubbles: true, cancelable: true}));
+		this.inputField.dispatchEvent(new CustomEvent('change', {bubbles: true, cancelable: true}));
 
 		if (this.dateClicked) {
 			this.close();
@@ -796,7 +811,7 @@
 				self.inputField.setAttribute('data-alt-value', "0000-00-00 00:00:00");
 				self.inputField.setAttribute('value', '');
 				self.inputField.value = '';
-				self.inputField.dispatchEvent(new Event('change', {bubbles: true, cancelable: true}));
+				self.inputField.dispatchEvent(new CustomEvent('change', {bubbles: true, cancelable: true}));
 			});
 
 		if (this.params.showsTodayBtn) {
