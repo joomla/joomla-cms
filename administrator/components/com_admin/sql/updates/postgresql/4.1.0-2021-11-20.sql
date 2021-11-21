@@ -2,8 +2,7 @@
 -- Table structure for table "#__scheduler_tasks"
 --
 
-CREATE TABLE IF NOT EXISTS "#__scheduler_tasks"
-(
+CREATE TABLE IF NOT EXISTS "#__scheduler_tasks" (
   "id" serial NOT NULL,
   "asset_id" bigint DEFAULT 0 NOT NULL,
   "title" varchar(255) NOT NULL,
