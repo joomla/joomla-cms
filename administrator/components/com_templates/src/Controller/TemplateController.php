@@ -1027,7 +1027,7 @@ class TemplateController extends BaseController
 		{
 			if (!$this->app->getIdentity()->authorise('core.create', 'com_templates'))
 			{
-				// User is not authorised to delete
+				// User is not authorised to create
 				$this->setMessage(Text::_('COM_TEMPLATES_ERROR_CREATE_NOT_PERMITTED'), 'error');
 
 				return false;
