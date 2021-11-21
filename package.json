@@ -56,7 +56,7 @@
     "roboto-fontface": "^0.10.0",
     "short-and-sweet": "^1.0.4",
     "skipto": "^4.1.0",
-    "tinymce": "^5.8.2",
+    "tinymce": "^5.10.2",
     "vue": "^3.1.2",
     "vuex": "^4.0.2",
     "vuex-persistedstate": "^4.0.0-beta.3"
