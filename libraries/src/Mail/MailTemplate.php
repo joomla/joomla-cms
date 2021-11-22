@@ -479,8 +479,6 @@ class MailTemplate
 		return $db->execute();
 	}
 
-
-
 	/**
 	 * Check and if necessary fix the file name of an attachment so that the attached file
 	 * has the same extension as the source file, and not a different file extension
