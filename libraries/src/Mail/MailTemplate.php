@@ -257,6 +257,8 @@ class MailTemplate
 				$htmlBody = nl2br($plainBody, false);
 			}
 
+			$htmlBody = MailHelper::convertRelativeToAbsoluteUrls($htmlBody);
+
 			$this->mailer->setBody($htmlBody);
 		}
 
@@ -476,6 +478,8 @@ class MailTemplate
 
 		return $db->execute();
 	}
+
+
 
 	/**
 	 * Check and if necessary fix the file name of an attachment so that the attached file
