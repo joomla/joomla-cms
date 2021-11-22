@@ -263,7 +263,12 @@ class PlgSystemSchedulerunner extends CMSPlugin implements SubscriberInterface
 			throw new \Exception(Text::_('JERROR_ALERTNOAUTHOR'), 403);
 		}
 
-		// About allow simultaneous, how do we detect if it failed because of pre-existing lock?
+		/**
+		 * ?: About allow simultaneous, how do we detect if it failed because of pre-existing lock?
+		 *
+		 * We will allow CLI exclusive tasks to be fetched and executed, it's left to routines to do a runtime check
+		 * if they want to refuse normal operation.
+		 */
 		$task = (new Scheduler)->getTask(
 			[
 				'id' => $id,
@@ -281,11 +286,12 @@ class PlgSystemSchedulerunner extends CMSPlugin implements SubscriberInterface
 
 		else
 		{
-			/*
+			/**
 			 * Placeholder result, but the idea is if we failed to fetch the task, it's likely because another task was
 			 * already running. This is a fair assumption if this test run was triggered through the administrator backend,
 			 * so we know the task probably exists and is either enabled/disabled (not trashed).
 			 */
+			// @todo language constant + review if this is done right.
 			$event->addArgument('result', ['message' => 'could not acquire lock on task. retry or allow concurrency.']);
 		}
 	}
@@ -297,7 +303,7 @@ class PlgSystemSchedulerunner extends CMSPlugin implements SubscriberInterface
 	 *
 	 * @param   integer  $id  The optional ID of the task to run
 	 *
-	 * @return Task|boolean
+	 * @return ?Task
 	 *
 	 * @since __DEPLOY_VERSION__
 	 * @throws RuntimeException
@@ -315,8 +321,8 @@ class PlgSystemSchedulerunner extends CMSPlugin implements SubscriberInterface
 	 * @return void
 	 *
 	 * @since __DEPLOY_VERSION__
-	 * @throws UnexpectedValueException
-	 * @throws RuntimeException
+	 * @throws UnexpectedValueException|RuntimeException
+	 *
 	 * @todo  Move to another plugin?
 	 */
 	public function enhanceSchedulerConfig(EventInterface $event): void

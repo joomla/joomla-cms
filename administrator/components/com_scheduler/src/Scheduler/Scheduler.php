@@ -85,10 +85,10 @@ class Scheduler
 		// ? Sure about inferring scheduling bypass?
 		$task = $this->getTask(
 			[
-				'id'               => $id,
-				'allowDisabled'    => $allowDisabled,
-				'bypassScheduling' => $id === 0,
-				'allowConcurrent'  => false,
+				'id'                  => $id,
+				'allowDisabled'       => $allowDisabled,
+				'bypassScheduling'    => $id === 0,
+				'allowConcurrent'     => false,
 				'includeCliExclusive' => ($app->isClient('cli')),
 			]
 		);

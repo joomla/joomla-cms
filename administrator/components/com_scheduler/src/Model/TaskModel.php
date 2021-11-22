@@ -519,10 +519,10 @@ class TaskModel extends AdminModel
 	{
 		$resolver->setDefaults(
 			[
-				'id'               => 0,
-				'allowDisabled'    => false,
-				'bypassScheduling' => false,
-				'allowConcurrent'  => false,
+				'id'                  => 0,
+				'allowDisabled'       => false,
+				'bypassScheduling'    => false,
+				'allowConcurrent'     => false,
 				'includeCliExclusive' => true,
 			]
 		)
