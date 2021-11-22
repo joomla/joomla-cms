@@ -18,6 +18,7 @@ CREATE TABLE IF NOT EXISTS "#__scheduler_tasks" (
   "locked" timestamp without time zone,
   "priority" smallint DEFAULT 0 NOT NULL,
   "ordering" bigint DEFAULT 0 NOT NULL,
+  "cli_exclusive" smallint DEFAULT 0 NOT NULL,
   "params" text NOT NULL,
   "note" text,
   "created" timestamp without time zone NOT NULL,
@@ -33,6 +34,7 @@ CREATE INDEX "#__scheduler_tasks_idx_last_exit" ON "#__scheduler_tasks" ("last_e
 CREATE INDEX "#__scheduler_tasks_idx_next_exec" ON "#__scheduler_tasks" ("next_execution");
 CREATE INDEX "#__scheduler_tasks_idx_locked" ON "#__scheduler_tasks" ("locked");
 CREATE INDEX "#__scheduler_tasks_idx_priority" ON "#__scheduler_tasks" ("priority");
+CREATE INDEX "#__scheduler_tasks_idx_cli_exclusive" ON "#__scheduler_tasks" ("cli_exclusive");
 CREATE INDEX "#__scheduler_tasks_idx_checked_out" ON "#__scheduler_tasks" ("checked_out");
 
 -- Add "com_scheduler" to "#__extensions"
