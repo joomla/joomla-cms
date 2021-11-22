@@ -166,7 +166,7 @@ class Templates
 					'width'  => '800px',
 					'footer' => $footer,
 				),
-				'<div><img src="' . $preview . '" style="max-width:100%" alt="' . $template->name . '"></div>'
+				'<div><img src="' . $preview . '" class="mw-100" alt="' . $template->name . '"></div>'
 			);
 		}
 
