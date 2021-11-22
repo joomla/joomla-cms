@@ -309,6 +309,35 @@
 			<option value="1">JON</option>
 		</field>
 
+    <field>
+			name="content_languages"
+			type="subform"
+			label="PLG_TINY_FIELD_CONTENTLANGS_LABEL"
+			description="PLG_TINY_FIELD_CONTENTLANGS_DESC"
+			layout="joomla.form.field.subform.repeatable-table"
+			icon="list"
+			multiple="true"
+			default=''
+  		>
+			<form hidden="true" name="content_languages" repeat="true">
+				<field
+					name="content_language_name"
+					type="text"
+					label="PLG_TINY_FIELD_CONTENTLANGUAGE_LABEL"
+					size="30"
+					filter="string"
+				/>
+
+				<field
+					name="content_language_code"
+					type="text"
+					label="PLG_TINY_FIELD_CONTENTCODE_LABEL"
+					size="10"
+					filter="string"
+				/>
+			</form>
+		</field>
+
 		<field
 			name="custom_plugin"
 			type="text"

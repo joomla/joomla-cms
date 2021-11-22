@@ -558,6 +558,20 @@ class PlgEditorTinymce extends CMSPlugin
 		// Convert pt to px in dropdown
 		$scriptOptions['fontsize_formats'] = '8px 10px 12px 14px 18px 24px 36px';
 
+		// select the languages for the "language of parts" menu
+		if (isset($extraOptions->content_languages) && $extraOptions->content_languages)
+		{
+			foreach (json_decode(json_encode($extraOptions->content_languages), true) as $content_language)
+			{
+				// if we have a language name and a language code then add to the menu
+				if ($content_language['content_language_name'] != '' && $content_language['content_language_code'] != '')
+				{
+					$ctemp[] = array('title' => $content_language['content_language_name'], 'code' => $content_language['content_language_code']);
+				}
+			}
+			$scriptOptions['content_langs'] = array_merge($ctemp);
+		}
+
 		// User custom plugins and buttons
 		$custom_plugin = trim($levelParams->get('custom_plugin', ''));
 		$custom_button = trim($levelParams->get('custom_button', ''));
@@ -675,6 +689,17 @@ class PlgEditorTinymce extends CMSPlugin
 			array('title' => 'Search', 'value' => 'search'),
 			array('title' => 'Tag', 'value' => 'tag'),
 		);
+
+		$scriptOptions['style_formats'] = array(
+			array('title' => Text::_('PLG_TINY_MENU_CONTAINER'), 'items' => array(
+				array('title' => 'article', 'block' => 'article', 'wrapper' => true, 'merge_siblings' => false),
+				array('title' => 'aside', 'block' => 'aside', 'wrapper' => true, 'merge_siblings' => false),
+				array('title' => 'section', 'block' => 'section', 'wrapper' => true, 'merge_siblings' => false),
+				)
+			)
+		);
+
+		$scriptOptions['style_formats_merge'] = true;
 
 		$options['tinyMCE']['default'] = $scriptOptions;
 
@@ -993,6 +1018,8 @@ class PlgEditorTinymce extends CMSPlugin
 			'pastetext'     => array('label' => 'Paste as text', 'plugin' => 'paste'),
 			'removeformat'  => array('label' => 'Clear formatting'),
 
+			'language'      => array('label' => 'Language'),
+
 			// Buttons from the plugins
 			'anchor'         => array('label' => 'Anchor', 'plugin' => 'anchor'),
 			'hr'             => array('label' => 'Horizontal line', 'plugin' => 'hr'),
@@ -1083,6 +1110,7 @@ class PlgEditorTinymce extends CMSPlugin
 				'cut', 'copy', 'paste', 'pastetext', '|',
 				'visualchars', 'visualblocks', 'nonbreaking', 'blockquote', 'template', '|',
 				'print', 'preview', 'codesample', 'insertdatetime', 'removeformat', 'jxtdbuttons',
+				'language',
 			),
 			'toolbar2' => array(),
 		);

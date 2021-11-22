@@ -22,21 +22,21 @@
 			title="MOD_MENU_CONFIGURATION"
 			type="component"
 			element="com_config"
-			link="index.php?option=com_config"
+			link="index.php?option=com_config&amp;view=application"
 		/>
 
 		<menuitem
 			title="MOD_MENU_GLOBAL_CHECKIN"
 			type="component"
 			element="com_checkin"
-			link="index.php?option=com_checkin"
+			link="index.php?option=com_checkin&amp;view=checkin"
 		/>
 
 		<menuitem
 			title="MOD_MENU_CLEAR_CACHE"
 			type="component"
 			element="com_cache"
-			link="index.php?option=com_cache"
+			link="index.php?option=com_cache&amp;view=cache"
 		/>
 
 		<menuitem
@@ -48,7 +48,7 @@
 	</menuitem>
 
 	<menuitem
-		title="COM_USERS_MENUS_USERS"
+		title="MOD_MENU_COM_USERS"
 		type="heading"
 		icon="users"
 		class="class:users"
@@ -149,7 +149,7 @@
 			title="MOD_MENU_COM_ACTIONLOGS"
 			type="component"
 			element="com_actionlogs"
-			link="index.php?option=com_actionlogs"
+			link="index.php?option=com_actionlogs&amp;view=actionlogs"
 			class="class:userlogs"
 		/>
 
@@ -173,7 +173,7 @@
 			title="MOD_MENU_MESSAGING"
 			type="component"
 			element="com_messages"
-			link="index.php?option=com_messages"
+			link="index.php?option=com_messages&amp;view=messages"
 			>
 			<menuitem
 				title="MOD_MENU_MESSAGING_NEW"
@@ -267,7 +267,7 @@
 	</menuitem>
 
 	<menuitem
-		title="COM_CONTENT_MENUS"
+		title="MOD_MENU_COM_CONTENT"
 		type="heading"
 		icon="file-alt"
 		class="class:file-alt"
@@ -331,7 +331,7 @@
 		title="MOD_MENU_MEDIA_MANAGER"
 		type="component"
 		element="com_media"
-		link="index.php?option=com_media"
+		link="index.php?option=com_media&amp;view=media"
 		class="class:image"
 	/>
 
@@ -344,7 +344,7 @@
 			title="COM_JOOMLAUPDATE"
 			type="component"
 			element="com_joomlaupdate"
-			link="index.php?option=com_joomlaupdate"
+			link="index.php?option=com_joomlaupdate&amp;view=joomlaupdate"
 			class="class:component"
 			permission="core.manage;com_joomlaupdate"
 		/>
@@ -352,7 +352,7 @@
 			title="COM_POSTINSTALL"
 			type="component"
 			element="com_postinstall"
-			link="index.php?option=com_postinstall"
+			link="index.php?option=com_postinstall&amp;view=messages"
 			class="class:component"
 		/>
 
@@ -360,7 +360,7 @@
 			title="MOD_MENU_MANAGE_REDIRECTS"
 			type="component"
 			element="com_redirect"
-			link="index.php?option=com_redirect"
+			link="index.php?option=com_redirect&amp;view=links"
 			permission="core.manage;com_redirect"
 		/>
 	</menuitem>
@@ -455,7 +455,7 @@
 			title="MOD_MENU_EXTENSIONS_PLUGIN_MANAGER"
 			type="component"
 			element="com_plugins"
-			link="index.php?option=com_plugins"
+			link="index.php?option=com_plugins&amp;view=plugins"
 		/>
 
 		<menuitem
@@ -489,7 +489,7 @@
 			title="MOD_MENU_EXTENSIONS_LANGUAGE_MANAGER"
 			type="component"
 			element="com_languages"
-			link="index.php?option=com_languages">
+			link="index.php?option=com_languages&amp;view=installed">
 			<menuitem
 				title="MOD_MENU_COM_LANGUAGES_SUBMENU_INSTALLED"
 				type="component"

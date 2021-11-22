@@ -67,5 +67,5 @@
 			default="25"
 			onchange="this.form.submit();"
 		/>
-    </fields>
+	</fields>
 </form>
