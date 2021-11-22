@@ -181,7 +181,7 @@ INSERT INTO `#__extensions` (`package_id`, `name`, `type`, `element`, `folder`, 
 (0, 'com_actionlogs', 'component', 'com_actionlogs', '', 1, 1, 1, 0, 1, '', '{"ip_logging":0,"csv_delimiter":",","loggable_extensions":["com_banners","com_cache","com_categories","com_checkin","com_config","com_contact","com_content","com_installer","com_media","com_menus","com_messages","com_modules","com_newsfeeds","com_plugins","com_redirect","com_tags","com_templates","com_users"]}', ''),
 (0, 'com_workflow', 'component', 'com_workflow', '', 1, 1, 0, 1, 1, '', '{}', ''),
 (0, 'com_mails', 'component', 'com_mails', '', 1, 1, 1, 1, 1, '', '', ''),
-(0, 'com_scheduler', 'component', 'com_scheduler', 1, 1, 1, 1, 0, 1, '', '', '');
+(0, 'com_scheduler', 'component', 'com_scheduler', '', 1, 1, 1, 0, 1, '', '{}', '');
 
 -- Libraries
 INSERT INTO `#__extensions` (`package_id`, `name`, `type`, `element`, `folder`, `client_id`, `enabled`, `access`, `protected`, `locked`, `manifest_cache`, `params`, `custom_data`) VALUES
@@ -336,13 +336,18 @@ INSERT INTO `#__extensions` (`package_id`, `name`, `type`, `element`, `folder`, 
 (0, 'plg_system_privacyconsent', 'plugin', 'privacyconsent', 'system', 0, 0, 1, 0, 1, '', '{}', '', 13, 0),
 (0, 'plg_system_redirect', 'plugin', 'redirect', 'system', 0, 0, 1, 0, 1, '', '', '', 14, 0),
 (0, 'plg_system_remember', 'plugin', 'remember', 'system', 0, 1, 1, 0, 1, '', '', '', 15, 0),
+(0, 'plg_system_schedulerunner', 'plugin', 'schedulerunner', 'system', 0, 1, 1, 0, 0, '', '{}', '', 15, 0),
 (0, 'plg_system_sef', 'plugin', 'sef', 'system', 0, 1, 1, 0, 1, '', '', '', 16, 0),
 (0, 'plg_system_sessiongc', 'plugin', 'sessiongc', 'system', 0, 1, 1, 0, 1, '', '', '', 17, 0),
 (0, 'plg_system_skipto', 'plugin', 'skipto', 'system', 0, 1, 1, 0, 1, '', '{}', '', 18, 0),
 (0, 'plg_system_stats', 'plugin', 'stats', 'system', 0, 1, 1, 0, 1, '', '', '', 19, 0),
+(0, 'plg_system_tasknotification', 'plugin', 'tasknotification', 'system', 0, 1, 1, 0, 1, '', '', '', 22, 0),
 (0, 'plg_system_updatenotification', 'plugin', 'updatenotification', 'system', 0, 1, 1, 0, 1, '', '', '', 20, 0),
 (0, 'plg_system_webauthn', 'plugin', 'webauthn', 'system', 0, 1, 1, 0, 1, '', '{}', '', 21, 0),
-(0, 'plg_system_tasknotification', 'plugin', 'tasknotification', 'system', 0, 1, 1, 0, 1, '', '', '', 22, 0),
+(0, 'plg_task_checkfiles', 'plugin', 'checkfiles', 'task', 0, 1, 1, 0, 0, '', '{}', '', 15, 0),
+(0, 'plg_task_demotasks', 'plugin', 'demotasks', 'task', 0, 1, 1, 0, 0, '', '{}', '', 15, 0),
+(0, 'plg_task_requests', 'plugin', 'requests', 'task', 0, 1, 1, 0, 0, '', '{}', '', 15, 0),
+(0, 'plg_task_sitestatus', 'plugin', 'sitestatus', 'task', 0, 1, 1, 0, 0, '', '{}', '', 15, 0),
 (0, 'plg_twofactorauth_totp', 'plugin', 'totp', 'twofactorauth', 0, 0, 1, 0, 1, '', '', '', 1, 0),
 (0, 'plg_twofactorauth_yubikey', 'plugin', 'yubikey', 'twofactorauth', 0, 0, 1, 0, 1, '', '', '', 2, 0),
 (0, 'plg_user_contactcreator', 'plugin', 'contactcreator', 'user', 0, 0, 1, 0, 1, '', '{"autowebpage":"","category":"4","autopublish":"0"}', '', 1, 0),
@@ -368,11 +373,7 @@ INSERT INTO `#__extensions` (`package_id`, `name`, `type`, `element`, `folder`, 
 (0, 'plg_webservices_users', 'plugin', 'users', 'webservices', 0, 1, 1, 0, 1, '', '{}', '', 16, 0),
 (0, 'plg_workflow_featuring', 'plugin', 'featuring', 'workflow', 0, 1, 1, 0, 1, '', '{}', '', 1, 0),
 (0, 'plg_workflow_notification', 'plugin', 'notification', 'workflow', 0, 1, 1, 0, 1, '', '{}', '', 2, 0),
-(0, 'plg_workflow_publishing', 'plugin', 'publishing', 'workflow', 0, 1, 1, 0, 1, '', '{}', '', 3, 0),
-(0, 'plg_task_demotasks', 'plugin', 'demotasks', 'task', 0, 1, 1, 0, 0, '', '{}', '', 15, 0),
-(0, 'plg_system_schedulerunner', 'plugin', 'schedulerunner', 'system', 0, 1, 1, 0, 0, '', '{}', '', 15, 0),
-(0, 'plg_task_requests', 'plugin', 'requests', 'task', 0, 1, 1, 0, 0, '', '{}', '', 15, 0),
-(0, 'plg_task_sitestatus', 'plugin', 'sitestatus', 'task', 0, 1, 1, 0, 0, '', '{}', '', 15, 0);
+(0, 'plg_workflow_publishing', 'plugin', 'publishing', 'workflow', 0, 1, 1, 0, 1, '', '{}', '', 3, 0);
 
 -- Templates
 INSERT INTO `#__extensions` (`package_id`, `name`, `type`, `element`, `folder`, `client_id`, `enabled`, `access`, `protected`, `locked`, `manifest_cache`, `params`, `custom_data`, `ordering`, `state`) VALUES
