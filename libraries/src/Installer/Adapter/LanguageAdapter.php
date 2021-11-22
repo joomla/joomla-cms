@@ -149,7 +149,7 @@ class LanguageAdapter extends InstallerAdapter
 
 		// Get the language name
 		// Set the extensions name
-		$name = \JFilterInput::getInstance()->clean((string) $this->getManifest()->name, 'cmd');
+		$name = \JFilterInput::getInstance()->clean((string) $this->getManifest()->name, 'string');
 		$this->set('name', $name);
 
 		// Get the Language tag [ISO tag, eg. en-GB]
@@ -503,7 +503,7 @@ class LanguageAdapter extends InstallerAdapter
 		// Get the language name
 		// Set the extensions name
 		$name = (string) $this->getManifest()->name;
-		$name = \JFilterInput::getInstance()->clean($name, 'cmd');
+		$name = \JFilterInput::getInstance()->clean($name, 'string');
 		$this->set('name', $name);
 
 		// Get the Language tag [ISO tag, eg. en-GB]
