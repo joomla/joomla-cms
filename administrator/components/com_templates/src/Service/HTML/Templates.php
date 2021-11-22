@@ -40,7 +40,7 @@ class Templates
 	{
 		if (is_string($template))
 		{
-			return HTMLHelper::_('image', 'media/system/images/template_thumb.svg', Text::_('COM_TEMPLATES_PREVIEW'));
+			return HTMLHelper::_('image', 'template_thumbnail.png', Text::_('COM_TEMPLATES_PREVIEW'), [], true, -1);
 		}
 
 		$client = ApplicationHelper::getClientInfo($template->client_id);
@@ -77,7 +77,7 @@ class Templates
 		}
 		elseif (file_exists($client->path . '/templates/' . $template->name . '/template_thumbnail.png'))
 		{
-			$html = HTMLHelper::_('image', (($template->client_id == 0) ? Uri::root(true) : Uri::root(true) . 'administrator/') . 'templates/' . $template->name . '/template_thumbnail.png', Text::_('COM_TEMPLATES_PREVIEW'));
+			$html = HTMLHelper::_('image', (($template->client_id == 0) ? Uri::root(true) : Uri::root(true) . '/administrator/') . '/templates/' . $template->name . '/template_thumbnail.png', Text::_('COM_TEMPLATES_PREVIEW'), [], false, -1);
 
 			if (file_exists($client->path . '/templates/' . $template->name . '/template_preview.png'))
 			{
@@ -108,7 +108,7 @@ class Templates
 	{
 		if (is_string($template))
 		{
-			return '';
+			return HTMLHelper::_('image', 'template_thumbnail.png', Text::_('COM_TEMPLATES_PREVIEW'), [], true, -1);
 		}
 
 		$html    = '';
