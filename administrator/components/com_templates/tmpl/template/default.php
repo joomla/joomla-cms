@@ -88,7 +88,7 @@ if ($this->type == 'font') {
 			<div class="mt-2 mb-2">
 				<ul class="directory-tree treeselect">
 					<li class="folder-select">
-						<a class="folder-url" data-id="<?php echo base64_encode($key); ?>" href="">
+						<a class="folder-url" data-id="" href="">
 							<span class="icon-folder icon-fw" aria-hidden="true"></span>
 							<?php echo Text::_('COM_TEMPLATES_TEMPLATE_FILES'); ?>
 						</a>
@@ -98,7 +98,7 @@ if ($this->type == 'font') {
 				<?php if (count($this->mediaFiles)) : ?>
 					<ul class="directory-tree treeselect">
 						<li class="folder-select">
-							<a class="folder-url" data-id="<?php echo base64_encode($key); ?>" href="">
+							<a class="folder-url" data-id="" href="">
 								<span class="icon-folder icon-fw" aria-hidden="true"></span>
 								<?php echo Text::_('COM_TEMPLATES_TEMPLATE_MEDIA_FILES'); ?>
 							</a>
@@ -376,7 +376,7 @@ if ($this->type == 'font') {
 	<?php echo HTMLHelper::_('uitab.endTabSet'); ?>
 
 	<?php // Collapse Modal
-	$taskName = $this->template->xmldata->inheritable ? 'child' : 'copy';
+	$taskName = isset($this->template->xmldata->inheritable) && (string) $this->template->xmldata->inheritable === '1' ? 'child' : 'copy';
 	$copyModalData = array(
 		'selector' => $taskName . 'Modal',
 		'params'   => array(
