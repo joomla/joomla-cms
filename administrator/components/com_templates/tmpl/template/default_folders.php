@@ -20,7 +20,7 @@ ksort($this->files, SORT_STRING);
 			<li class="folder-select">
 				<a class="folder-url" data-id="<?php echo base64_encode($key); ?>" href="" data-base="template">
 					<span class="icon-folder icon-fw" aria-hidden="true"></span>
-					<?php $explodeArray = explode('/', $key);
+					<?php $explodeArray = explode('/', rtrim($key, '\\'));
 					echo $this->escape(end($explodeArray)); ?>
 				</a>
 				<?php echo $this->folderTree($value); ?>

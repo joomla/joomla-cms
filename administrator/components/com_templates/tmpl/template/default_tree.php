@@ -18,7 +18,7 @@ ksort($this->files, SORT_NATURAL);
 	<?php foreach ($this->files as $key => $value) : ?>
 		<?php if (is_array($value)) : ?>
 			<?php
-			$keyArray  = explode('/', $key);
+			$keyArray  = explode('/', rtrim($key, '\\'));
 			$fileArray = explode('/', $this->fileName);
 			$count     = 0;
 

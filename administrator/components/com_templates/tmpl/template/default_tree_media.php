@@ -24,7 +24,7 @@ ksort($this->mediaFiles, SORT_STRING);
 	<?php foreach ($this->mediaFiles as $key => $value) : ?>
 		<?php if (is_array($value)) : ?>
 			<?php
-			$keyArray  = explode('/', $key);
+			$keyArray  = explode('/', rtrim($key, '\\'));
 			$fileArray = explode('/', $this->fileName);
 			$count     = 0;
 
