@@ -907,6 +907,7 @@ CREATE TABLE IF NOT EXISTS `#__scheduler_tasks` (
   `locked` datetime,
   `priority` smallint NOT NULL DEFAULT 0,
   `ordering` int NOT NULL DEFAULT 0 COMMENT 'Configurable list ordering',
+  `cli_exclusive` smallint NOT NULL DEFAULT 0 COMMENT 'If 1, the task is only accessible via CLI',
   `params` text NOT NULL,
   `note` text,
   `created` datetime NOT NULL,
@@ -920,6 +921,7 @@ CREATE TABLE IF NOT EXISTS `#__scheduler_tasks` (
   KEY `idx_next_exec` (`next_execution`),
   KEY `idx_locked` (`locked`),
   KEY `idx_priority` (`priority`),
+  KEY `idx_cli_exclusive` (`cli_exclusive`),
   KEY `idx_checked_out` (`checked_out`)
 ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 DEFAULT COLLATE = utf8mb4_unicode_ci;
 
