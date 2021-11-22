@@ -2024,9 +2024,7 @@ class TemplateModel extends FormModel
 		if (is_dir($path)) {
 			$result = $this->getDirectoryTree($path);
 		} else {
-			$app->enqueueMessage(Text::_('COM_TEMPLATES_ERROR_TEMPLATE_FOLDER_NOT_FOUND'), 'error');
-
-			return false;
+			return [];
 		}
 
 		return $result;
@@ -2060,21 +2058,27 @@ class TemplateModel extends FormModel
 	{
 		$app = Factory::getApplication();
 
-		if ($template = $this->getTemplate()) {
+		if ($template = $this->getTemplate())
+		{
 			$client = ApplicationHelper::getClientInfo($template->client_id);
 			$fromPath = Path::clean($client->path . '/templates/' . $template->element . '/templateDetails.xml');
 
 			// Delete new folder if it exists
 			$toPath = $this->getState('to_path');
 
-			if (Folder::exists($toPath)) {
-				if (!Folder::delete($toPath)) {
+			if (Folder::exists($toPath))
+			{
+				if (!Folder::delete($toPath))
+				{
 					$app->enqueueMessage(Text::_('COM_TEMPLATES_ERROR_COULD_NOT_WRITE'), 'error');
 
 					return false;
 				}
-			} else {
-				if (!Folder::create($toPath)) {
+			}
+			else
+			{
+				if (!Folder::create($toPath))
+				{
 					$app->enqueueMessage(Text::_('COM_TEMPLATES_ERROR_COULD_NOT_WRITE'), 'error');
 
 					return false;
@@ -2082,7 +2086,8 @@ class TemplateModel extends FormModel
 			}
 
 			// Copy the template definition from the parent template
-			if (!File::copy($fromPath, $toPath . '/templateDetails.xml')) {
+			if (!File::copy($fromPath, $toPath . '/templateDetails.xml'))
+			{
 				return false;
 			}
 
@@ -2093,7 +2098,8 @@ class TemplateModel extends FormModel
 			// Edit XML file
 			$xmlFile = Path::clean($this->getState('to_path') . '/templateDetails.xml');
 
-			if (File::exists($xmlFile)) {
+			if (File::exists($xmlFile))
+			{
 				$xml = simplexml_load_string(file_get_contents($xmlFile));
 				unset($xml->languages);
 				unset($xml->media);
@@ -2117,15 +2123,23 @@ class TemplateModel extends FormModel
 
 				$result = File::write($xmlFile, $dom->saveXML());
 
-				if (!$result) {
+				if (!$result)
+				{
 					$app->enqueueMessage(Text::_('COM_TEMPLATES_ERROR_COULD_NOT_WRITE'), 'error');
 
 					return false;
 				}
+
+				if (!is_dir(JPATH_ROOT . '/media/templates/' . ($template->client_id === 0 ? 'site' : 'administrator') . '/' . $template->element . '_' . $newName))
+				{
+					Folder::create(JPATH_ROOT . '/media/templates/' . ($template->client_id === 0 ? 'site' : 'administrator') . '/' . $template->element . '_' . $newName);
+				}
 			}
 
 			return true;
-		} else {
+		}
+		else
+		{
 			$app->enqueueMessage(Text::_('COM_TEMPLATES_ERROR_INVALID_FROM_NAME'), 'error');
 
 			return false;
