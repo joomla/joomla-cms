@@ -345,6 +345,7 @@ class TaskModel extends AdminModel
 	 *                           task queue. (default: false)
 	 *                           4. `allowConcurrent`: If true, fetches even when another task is
 	 *                           running ('locked'). (default: false)
+	 *                           5. `includeCliExclusive`: If true, can also fetch CLI exclusive tasks. (default: true)
 	 *
 	 * @return ?\stdClass  Task entry as in the database.
 	 *
@@ -411,6 +412,12 @@ class TaskModel extends AdminModel
 		$lockQuery->update($db->quoteName(self::TASK_TABLE))
 			->set($db->quoteName('locked') . ' = :now1')
 			->bind(':now1', $now);
+
+		// If directed, exclude CLI exclusive tasks
+		if (!$options['includeCliExclusive'])
+		{
+			$lockQuery->where($db->quoteName('cli_exclusive') . ' = 0');
+		}
 
 		if (!$options['bypassScheduling'])
 		{
@@ -516,12 +523,14 @@ class TaskModel extends AdminModel
 				'allowDisabled'    => false,
 				'bypassScheduling' => false,
 				'allowConcurrent'  => false,
+				'includeCliExclusive' => true,
 			]
 		)
 			->setAllowedTypes('id', 'int')
 			->setAllowedTypes('allowDisabled', 'bool')
 			->setAllowedTypes('bypassScheduling', 'bool')
-			->setAllowedTypes('allowConcurrent', 'bool');
+			->setAllowedTypes('allowConcurrent', 'bool')
+			->setAllowedTypes('includeCliExclusive', 'bool');
 
 		return $resolver;
 	}
