@@ -276,7 +276,7 @@ class HtmlView extends BaseHtmlView
 			// Add a copy/child template button
 			elseif ($this->type === 'home')
 			{
-				if ($this->template->xmldata->inheritable)
+				if (isset($this->template->xmldata->inheritable) && $this->template->xmldata->inheritable)
 				{
 					ToolbarHelper::modal('childModal', 'icon-copy', 'COM_TEMPLATES_TEMPLATE_CHILD', false);
 				}
