@@ -326,7 +326,7 @@ class MediaListPage extends AdminListPage
 	 * The search input field.
 	 *
 	 * @var array
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.5
 	 */
 	public static $searchInputField = ['id' => 'media_search'];
 
