@@ -12,6 +12,7 @@ namespace Joomla\Component\Scheduler\Administrator\Scheduler;
 // Restrict direct access
 \defined('_JEXEC') or die;
 
+use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
@@ -78,13 +79,17 @@ class Scheduler
 	 */
 	public function runTask(int $id = 0, bool $allowDisabled = false): ?Task
 	{
+		/** @var CMSApplication $app */
+		$app = Factory::getApplication();
+
 		// ? Sure about inferring scheduling bypass?
 		$task = $this->getTask(
 			[
-				'id'               => $id,
-				'allowDisabled'    => $allowDisabled,
-				'bypassScheduling' => $id === 0,
-				'allowConcurrent'  => false,
+				'id'                  => $id,
+				'allowDisabled'       => $allowDisabled,
+				'bypassScheduling'    => $id === 0,
+				'allowConcurrent'     => false,
+				'includeCliExclusive' => ($app->isClient('cli')),
 			]
 		);
 
@@ -93,7 +98,7 @@ class Scheduler
 			return null;
 		}
 
-		Factory::getApplication()->getLanguage()->load('com_scheduler', JPATH_ADMINISTRATOR);
+		$app->getLanguage()->load('com_scheduler', JPATH_ADMINISTRATOR);
 
 		$options['text_entry_format'] = '{DATE}	{TIME}	{PRIORITY}	{MESSAGE}';
 		$options['text_file']         = 'joomla_scheduler.php';

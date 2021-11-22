@@ -38,6 +38,7 @@ abstract class SchedulerHelper
 	 * Returns available task routines as a TaskOptions object.
 	 *
 	 * @return  TaskOptions  A TaskOptions object populated with task routines offered by plugins
+	 *
 	 * @since  __DEPLOY_VERSION__
 	 * @throws  \Exception
 	 */
