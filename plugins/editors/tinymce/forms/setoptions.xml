@@ -309,7 +309,7 @@
 			<option value="1">JON</option>
 		</field>
 
-    <field>
+		<field
 			name="content_languages"
 			type="subform"
 			label="PLG_TINY_FIELD_CONTENTLANGS_LABEL"
