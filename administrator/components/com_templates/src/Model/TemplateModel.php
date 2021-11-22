@@ -2133,6 +2133,7 @@ class TemplateModel extends FormModel
 				if (!is_dir(JPATH_ROOT . '/media/templates/' . ($template->client_id === 0 ? 'site' : 'administrator') . '/' . $template->element . '_' . $newName))
 				{
 					Folder::create(JPATH_ROOT . '/media/templates/' . ($template->client_id === 0 ? 'site' : 'administrator') . '/' . $template->element . '_' . $newName);
+					file_put_contents(JPATH_ROOT . '/media/templates/' . ($template->client_id === 0 ? 'site' : 'administrator') . '/' . $template->element . '_' . $newName . '/index.json', '{}');
 				}
 			}
 
