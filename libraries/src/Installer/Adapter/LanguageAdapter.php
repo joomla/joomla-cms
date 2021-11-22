@@ -304,7 +304,7 @@ class LanguageAdapter extends InstallerAdapter
 
 		// Get the language name
 		// Set the extensions name
-		$this->name = InputFilter::getInstance()->clean((string) $this->getManifest()->name, 'cmd');
+		$this->name = InputFilter::getInstance()->clean((string) $this->getManifest()->name, 'string');
 
 		// Get the Language tag [ISO tag, eg. en-GB]
 		$tag = (string) $this->getManifest()->tag;
@@ -553,7 +553,7 @@ class LanguageAdapter extends InstallerAdapter
 		// Get the language name
 		// Set the extensions name
 		$name = (string) $this->getManifest()->name;
-		$name = InputFilter::getInstance()->clean($name, 'cmd');
+		$name = InputFilter::getInstance()->clean($name, 'string');
 		$this->name = $name;
 
 		// Get the Language tag [ISO tag, eg. en-GB]
