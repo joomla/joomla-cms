@@ -125,8 +125,8 @@ class PlgTaskRequests extends CMSPlugin implements SubscriberInterface
 		$this->snapshot['output']      = <<< EOF
 ======= Task Output Body =======
 > URL: $url
-> Response Code: ${responseCode}
-> Response: {${responseStatus}}
+> Response Code: $responseCode
+> Response: $responseStatus
 EOF;
 
 		$this->logTask(Text::sprintf('PLG_TASK_REQUESTS_TASK_GET_REQUEST_LOG_RESPONSE', $responseCode));
