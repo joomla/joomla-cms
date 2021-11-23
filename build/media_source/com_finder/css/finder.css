@@ -129,6 +129,11 @@
 /**
  * Styling the sorting drop-down
  */
+#sorting_label {
+  line-height: 3rem;
+  margin-inline-end: .5rem;
+}
+
 #sorting_btn {
   min-width: 8rem;
 }

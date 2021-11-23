@@ -16,7 +16,7 @@ use Joomla\CMS\Router\Route;
 ?>
 <?php HTMLHelper::_('bootstrap.dropdown', '.dropdown-toggle'); ?>
 <div class="sorting float-end">
-	<p class="visually-hidden" id="finder_sorting_desc"><?php echo Text::_('COM_FINDER_SORT_BY'); ?></p>
+	<label id="sorting_label" for="sorting_btn"><?php echo Text::_('COM_FINDER_SORT_BY'); ?></label>
 
 	<div class="sorting__select btn-group">
 		<?php foreach ($this->sortOrderFields as $sortOrderField) : ?>
@@ -24,7 +24,7 @@ use Joomla\CMS\Router\Route;
 				<button id="sorting_btn" class="btn btn-secondary dropdown-toggle" type="button"
 						data-bs-toggle="dropdown"
 						aria-haspopup="listbox"
-						aria-labelledby="finder_sorting_desc" aria-expanded="false" aria-controls="finder_sorting_list">
+						aria-expanded="false" aria-controls="finder_sorting_list">
 					<?php echo $this->escape($sortOrderField->label); ?>
 				</button>
 			<?php
