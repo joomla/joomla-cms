@@ -1013,7 +1013,7 @@ class TemplateModel extends FormModel
 
 		$filePath = Path::clean($fileName);
 
-			// Include the extension plugins for the save events.
+		// Include the extension plugins for the save events.
 		PluginHelper::importPlugin('extension');
 
 		$user = get_current_user();
@@ -2021,7 +2021,8 @@ class TemplateModel extends FormModel
 			$app->enqueueMessage(Text::_('COM_TEMPLATES_DIRECTORY_NOT_WRITABLE'), 'error');
 		}
 
-		if (is_dir($path)) {
+		if (is_dir($path))
+		{
 			$result = $this->getDirectoryTree($path);
 		}
 
@@ -2110,6 +2111,15 @@ class TemplateModel extends FormModel
 
 				$files = $xml->addChild('files');
 				$files->addChild('filename', 'templateDetails.xml');
+
+				// Media folder
+				$media = $xml->addChild('media');
+				$media->addAttribute('folder', 'media');
+				$media->addAttribute('destination', 'templates/' . ($template->client_id === 0 ? 'site/' : 'administrator/') . $template->element . '_' . $newName);
+				$media->addChild('folder', 'css');
+				$media->addChild('folder', 'js');
+				$media->addChild('folder', 'images');
+
 				$xml->name = $template->element . '_' . $newName;
 				$xml->inheritable = 0;
 				$files = $xml->addChild('parent', $template->element);
@@ -2128,10 +2138,25 @@ class TemplateModel extends FormModel
 					return false;
 				}
 
-				if (!is_dir(JPATH_ROOT . '/media/templates/' . ($template->client_id === 0 ? 'site' : 'administrator') . '/' . $template->element . '_' . $newName))
+				// Create an empty media folder structure
+				if (!Folder::create($toPath . '/media'))
 				{
-					Folder::create(JPATH_ROOT . '/media/templates/' . ($template->client_id === 0 ? 'site' : 'administrator') . '/' . $template->element . '_' . $newName);
-					file_put_contents(JPATH_ROOT . '/media/templates/' . ($template->client_id === 0 ? 'site' : 'administrator') . '/' . $template->element . '_' . $newName . '/index.json', '{}');
+					return false;
+				}
+
+				if (!Folder::create($toPath . '/media/css'))
+				{
+					return false;
+				}
+
+				if (!Folder::create($toPath . '/media/js'))
+				{
+					return false;
+				}
+
+				if (!Folder::create($toPath . '/media/images'))
+				{
+					return false;
 				}
 			}
 

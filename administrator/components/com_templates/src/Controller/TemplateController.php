@@ -998,7 +998,14 @@ class TemplateController extends BaseController
 		// Check for request forgeries
 		$this->checkToken();
 
-		$app = $this->app;
+		// Access check.
+		if (!$this->allowEdit())
+		{
+			$this->app->enqueueMessage(Text::_('JLIB_APPLICATION_ERROR_SAVE_NOT_PERMITTED'), 'error');
+
+			return false;
+		}
+
 		$this->input->set('installtype', 'folder');
 		$newNameRaw = $this->input->get('new_name', null, 'string');
 		// Only accept letters, numbers and underscore for template name
@@ -1006,21 +1013,13 @@ class TemplateController extends BaseController
 		$templateID = (int) $this->input->getInt('id', 0);
 		$file       = (string) $this->input->get('file', '', 'cmd');
 
-		// Access check.
-		if (!$this->allowEdit())
-		{
-			$app->enqueueMessage(Text::_('JLIB_APPLICATION_ERROR_SAVE_NOT_PERMITTED'), 'error');
-
-			return false;
-		}
-
 		$this->setRedirect('index.php?option=com_templates&view=template&id=' . $templateID . '&file=' . $file);
 
 		/* @var \Joomla\Component\Templates\Administrator\Model\TemplateModel $model */
 		$model = $this->getModel('Template', 'Administrator');
 		$model->setState('new_name', $newName);
 		$model->setState('tmp_prefix', uniqid('template_child_'));
-		$model->setState('to_path', $app->get('tmp_path') . '/' . $model->getState('tmp_prefix'));
+		$model->setState('to_path', $this->app->get('tmp_path') . '/' . $model->getState('tmp_prefix'));
 
 		// Process only if we have a new name entered
 		if (!strlen($newName)) {
@@ -1053,7 +1052,7 @@ class TemplateController extends BaseController
 		// Check that from name does exist and get the folder name
 		$fromName = $model->getFromName();
 
-		if (!$fromName) 
+		if (!$fromName)
 		{
 			$this->setMessage(Text::_('COM_TEMPLATES_ERROR_INVALID_FROM_NAME'), 'error');
 
@@ -1068,7 +1067,7 @@ class TemplateController extends BaseController
 		}
 
 		// Call installation model
-		$this->input->set('install_directory', $app->get('tmp_path') . '/' . $model->getState('tmp_prefix'));
+		$this->input->set('install_directory', $this->app->get('tmp_path') . '/' . $model->getState('tmp_prefix'));
 
 		/** @var \Joomla\Component\Installer\Administrator\Model\InstallModel $installModel */
 		$installModel = $this->app->bootComponent('com_installer')
