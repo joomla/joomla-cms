@@ -1053,7 +1053,8 @@ class TemplateController extends BaseController
 		// Check that from name does exist and get the folder name
 		$fromName = $model->getFromName();
 
-		if (!$fromName) {
+		if (!$fromName) 
+		{
 			$this->setMessage(Text::_('COM_TEMPLATES_ERROR_INVALID_FROM_NAME'), 'error');
 
 			return false;
