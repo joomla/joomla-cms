@@ -385,7 +385,7 @@ class HtmlView extends BaseHtmlView
 	 * @return  string
 	 *
 	 * @note    Uses recursion
-	 * @since   3.2
+	 * @since   __DEPLOY_VERSION__
 	 */
 	protected function mediaTree($array)
 	{
