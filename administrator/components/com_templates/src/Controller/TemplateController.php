@@ -989,7 +989,7 @@ class TemplateController extends BaseController
 	/**
 	 * Method for creating a child template.
 	 *
-	 * @return  boolean     true on success, false otherwise
+	 * @return  boolean   true on success, false otherwise
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
