@@ -2052,7 +2052,7 @@ class TemplateModel extends FormModel
 	 *
 	 * @return  boolean   true if name is not used, false otherwise
 	 *
-	 * @since	__DEPLOY_VERSION__
+	 * @since  __DEPLOY_VERSION__
 	 */
 	public function child()
 	{
