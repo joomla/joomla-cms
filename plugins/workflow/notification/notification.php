@@ -180,7 +180,7 @@ class PlgWorkflowNotification extends CMSPlugin implements SubscriberInterface
 
 		$toStage = $model_stage->getItem($transition->to_stage_id)->title;
 
-		// Get the nameif the transition
+		// Get the name of the transition
 		$model_transition = $this->app->bootComponent('com_workflow')
 			->getMVCFactory()->createModel('Transition', 'Administrator');
 

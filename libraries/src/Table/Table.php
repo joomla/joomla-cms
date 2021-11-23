@@ -43,6 +43,14 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
 	private static $_includePaths = array();
 
 	/**
+	 * Table fields cache
+	 *
+	 * @var   array
+	 * @since __DEPLOY_VERSION__
+	 */
+	private static $tableFields;
+
+	/**
 	 * Name of the database table to model.
 	 *
 	 * @var    string
@@ -240,9 +248,9 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
 	 */
 	public function getFields($reload = false)
 	{
-		static $cache = null;
+		$key = $this->_db->getServerType() . ':' . $this->_db->getName() . ':' . $this->_tbl;
 
-		if ($cache === null || $reload)
+		if (!isset(self::$tableFields[$key]) || $reload)
 		{
 			// Lookup the fields for this table only once.
 			$name   = $this->_tbl;
@@ -253,10 +261,10 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
 				throw new \UnexpectedValueException(sprintf('No columns found for %s table', $name));
 			}
 
-			$cache = $fields;
+			self::$tableFields[$key] = $fields;
 		}
 
-		return $cache;
+		return self::$tableFields[$key];
 	}
 
 	/**

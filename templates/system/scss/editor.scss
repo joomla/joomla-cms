@@ -63,3 +63,14 @@ hr.system-pagebreak {
   color: #808080;
   border: #808080 dashed 1px;
 }
+
+span[lang] {
+  padding: 2px;
+  border: 1px dashed #bbb;
+  &:after {
+    font-size: smaller;
+    color: #f00;
+    vertical-align: super;
+    content: attr(lang);
+  }
+}
