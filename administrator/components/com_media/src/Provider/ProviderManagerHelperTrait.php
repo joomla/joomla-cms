@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-namespace Joomla\Component\Media\Api\Helper;
+namespace Joomla\Component\Media\Administrator\Provider;
 
 \defined('_JEXEC') or die;
 
@@ -24,7 +24,7 @@ use Joomla\Component\Media\Administrator\Provider\ProviderManager;
  *
  * @since  __DEPLOY_VERSION__
  */
-trait AdapterTrait
+trait ProviderManagerHelperTrait
 {
 	/**
 	 * Holds the available media file adapters.
@@ -45,6 +45,56 @@ trait AdapterTrait
 	private $defaultAdapterName = null;
 
 	/**
+	 * Return a provider manager.
+	 *
+	 * @return  ProviderManager
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function getProviderManager(): ProviderManager
+	{
+		if (!$this->providerManager)
+		{
+			// Fire the event to get the results
+			$eventParameters = ['context' => 'AdapterManager', 'providerManager' => new ProviderManager];
+			$event           = new MediaProviderEvent('onSetupProviders', $eventParameters);
+			PluginHelper::importPlugin('filesystem');
+			Factory::getApplication()->triggerEvent('onSetupProviders', $event);
+			$this->providerManager = $event->getProviderManager();
+		}
+
+		return $this->providerManager;
+	}
+
+	/**
+	 * Returns a provider for the given id.
+	 *
+	 * @return  ProviderInterface
+	 *
+	 * @throws  \Exception
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function getProvider(String $id): ProviderInterface
+	{
+		return $this->getProviderManager()->getProvider($id);
+	}
+
+	/**
+	 * Return an adapter for the given name.
+	 *
+	 * @return  AdapterInterface
+	 *
+	 * @throws  \Exception
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function getAdapter(String $name): AdapterInterface
+	{
+		return $this->getProviderManager()->getAdapter($name);
+	}
+
+	/**
 	 * Returns an array with the adapter name as key and the path of the file.
 	 *
 	 * @return  array
@@ -53,7 +103,7 @@ trait AdapterTrait
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	private function resolveAdapterAndPath(String $path): array
+	protected function resolveAdapterAndPath(String $path): array
 	{
 		$result = [];
 		$parts = explode(':', $path, 2);
@@ -82,34 +132,6 @@ trait AdapterTrait
 	}
 
 	/**
-	 * Returns a provider for the given id.
-	 *
-	 * @return  ProviderInterface
-	 *
-	 * @throws  \Exception
-	 *
-	 * @since   __DEPLOY_VERSION__
-	 */
-	private function getProvider(String $id): ProviderInterface
-	{
-		return $this->getProviderManager()->getProvider($id);
-	}
-
-	/**
-	 * Return an adapter for the given name.
-	 *
-	 * @return  AdapterInterface
-	 *
-	 * @throws  \Exception
-	 *
-	 * @since   __DEPLOY_VERSION__
-	 */
-	private function getAdapter(String $name): AdapterInterface
-	{
-		return $this->getProviderManager()->getAdapter($name);
-	}
-
-	/**
 	 * Returns the default adapter name.
 	 *
 	 * @return  string|null
@@ -118,7 +140,7 @@ trait AdapterTrait
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	private function getDefaultAdapterName(): ?string
+	protected function getDefaultAdapterName(): ?string
 	{
 		if ($this->defaultAdapterName)
 		{
@@ -142,28 +164,5 @@ trait AdapterTrait
 		$this->defaultAdapterName = 'local-' . $defaultAdapter->getAdapterName();
 
 		return $this->defaultAdapterName;
-	}
-
-	/**
-	 * Return a provider manager.
-	 *
-	 * @return  ProviderManager
-	 *
-	 * @since   __DEPLOY_VERSION__
-	 */
-	private function getProviderManager(): ProviderManager
-	{
-		if (!$this->providerManager)
-		{
-			$this->providerManager = new ProviderManager;
-
-			// Fire the event to get the results
-			$eventParameters = ['context' => 'AdapterManager', 'providerManager' => $this->providerManager];
-			$event           = new MediaProviderEvent('onSetupProviders', $eventParameters);
-			PluginHelper::importPlugin('filesystem');
-			Factory::getApplication()->triggerEvent('onSetupProviders', $event);
-		}
-
-		return $this->providerManager;
 	}
 }

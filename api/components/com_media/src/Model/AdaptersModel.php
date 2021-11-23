@@ -14,7 +14,7 @@ namespace Joomla\Component\Media\Api\Model;
 use Joomla\CMS\MVC\Model\BaseModel;
 use Joomla\CMS\MVC\Model\ListModelInterface;
 use Joomla\CMS\Pagination\Pagination;
-use Joomla\Component\Media\Api\Helper\AdapterTrait;
+use Joomla\Component\Media\Administrator\Provider\ProviderManagerHelperTrait;
 
 /**
  * Media web service model supporting lists of media adapters.
@@ -23,7 +23,7 @@ use Joomla\Component\Media\Api\Helper\AdapterTrait;
  */
 class AdaptersModel extends BaseModel implements ListModelInterface
 {
-	use AdapterTrait;
+	use ProviderManagerHelperTrait;
 
 	/**
 	 * A hacky way to enable the standard jsonapiView::displayList() to create a Pagination object,
