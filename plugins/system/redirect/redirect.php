@@ -294,7 +294,6 @@ class PlgSystemRedirect extends JPlugin
 				}
 				catch (Exception $e)
 				{
-					JErrorPage::render(new Exception(JText::_('PLG_SYSTEM_REDIRECT_ERROR_UPDATING_DATABASE'), 500, $e));
 				}
 
 				$app->redirect($destination, (int) $redirect->header);
