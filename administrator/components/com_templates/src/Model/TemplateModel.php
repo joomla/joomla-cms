@@ -1999,7 +1999,7 @@ class TemplateModel extends FormModel
 	 */
 	public function getMediaFiles()
 	{
-		$result = array();
+		$result = [];
 		$template = $this->getTemplate();
 
 		if (!isset($template->xmldata))
