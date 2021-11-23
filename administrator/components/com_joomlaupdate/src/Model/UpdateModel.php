@@ -661,7 +661,7 @@ ENDDATA;
 		}
 
 		// Re-create namespace map. It is needed when updating to a Joomla! version has new extension added
-		(new \JNamespacePsr4Map())->create();
+		(new \JNamespacePsr4Map)->create();
 
 		$installer->manifest = $manifest;
 
