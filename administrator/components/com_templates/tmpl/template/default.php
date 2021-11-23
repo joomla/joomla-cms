@@ -31,18 +31,21 @@ $wa->useScript('form.validate')
 	->useScript('com_templates.admin-template-toggle-switch');
 
 // No access if not global SuperUser
-if (!Factory::getUser()->authorise('core.admin')) {
+if (!Factory::getUser()->authorise('core.admin'))
+{
 	Factory::getApplication()->enqueueMessage(Text::_('JERROR_ALERTNOAUTHOR'), 'danger');
 }
 
-if ($this->type == 'image') {
+if ($this->type == 'image')
+{
 	$wa->usePreset('cropperjs');
 }
 
 $wa->useStyle('com_templates.admin-templates')
 	->useScript('com_templates.admin-templates');
 
-if ($this->type == 'font') {
+if ($this->type == 'font')
+{
 	$wa->addInlineStyle("
 		@font-face {
 			font-family: previewFont;
