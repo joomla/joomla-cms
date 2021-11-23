@@ -54,7 +54,7 @@ class Templates
 		{
 			if (isset($template->xmldata->parent) && (string) $template->xmldata->parent !== '' && file_exists(JPATH_ROOT . '/media/templates/' . $client->name . '/' . (string) $template->xmldata->parent . '/images/template_thumbnail.png'))
 			{
-				$html = HTMLHelper::_('image', Uri::root(true) . 'media/templates/' . $client->name . '/' . (string) $template->xmldata->parent . '/images/template_thumbnail.png', Text::_('COM_TEMPLATES_PREVIEW'));
+				$html = HTMLHelper::_('image', 'media/templates/' . $client->name . '/' . (string) $template->xmldata->parent . '/images/template_thumbnail.png', Text::_('COM_TEMPLATES_PREVIEW'));
 
 				if (file_exists(JPATH_ROOT . '/media/templates/' . $client->name . '/' . (string) $template->xmldata->parent . '/images/template_preview.png'))
 				{
@@ -63,7 +63,7 @@ class Templates
 			}
 			elseif (file_exists(JPATH_ROOT . '/media/templates/' . $client->name . '/' . $template->name . '/images/template_thumbnail.png'))
 			{
-				$html = HTMLHelper::_('image', Uri::root(true) . 'media/templates/' . $client->name . '/' . $template->name . '/images/template_thumbnail.png', Text::_('COM_TEMPLATES_PREVIEW'));
+				$html = HTMLHelper::_('image', 'media/templates/' . $client->name . '/' . $template->name . '/images/template_thumbnail.png', Text::_('COM_TEMPLATES_PREVIEW'));
 
 				if (file_exists(JPATH_ROOT . '/media/templates/' . $client->name . '/' . $template->name . '/images/template_preview.png'))
 				{
