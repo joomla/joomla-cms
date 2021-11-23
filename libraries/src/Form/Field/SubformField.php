@@ -196,9 +196,14 @@ class SubformField extends FormField
 			return false;
 		}
 
-		foreach (array('fieldname', 'formsource', 'min', 'max', 'layout', 'groupByFieldset', 'buttons') as $attributeName)
+		foreach (array('formsource', 'min', 'max', 'layout', 'groupByFieldset', 'buttons') as $attributeName)
 		{
 			$this->__set($attributeName, $element[$attributeName]);
+		}
+
+		if ((string) $element['fieldname'])
+		{
+			$this->__set('fieldname', $element['fieldname']);
 		}
 
 		if ($this->value && \is_string($this->value))

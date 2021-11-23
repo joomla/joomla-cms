@@ -16,6 +16,9 @@
   }
 }
 
+.tox-fullscreen {
+  z-index: $zindex-modal-backdrop - 1 !important;
+}
 
 .container-main {
   .mce-panel {
