@@ -2023,8 +2023,6 @@ class TemplateModel extends FormModel
 
 		if (is_dir($path)) {
 			$result = $this->getDirectoryTree($path);
-		} else {
-			return [];
 		}
 
 		return $result;
