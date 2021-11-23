@@ -168,9 +168,13 @@ class HtmlView extends BaseHtmlView
 			}
 		}
 		// Here we have now two options: preupdatecheck or update
-		elseif ($this->getLayout() != 'update' || $isCritical)
+		elseif ($this->getLayout() != 'update' && ($isCritical || $this->shouldDisplayPreUpdateCheck()))
 		{
 			$this->setLayout('preupdatecheck');
+		}
+		else
+		{
+			$this->setLayout('update');
 		}
 
 		if (in_array($this->getLayout(), ['preupdatecheck', 'update', 'upload']))

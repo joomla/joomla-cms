@@ -55,16 +55,16 @@ $listDirection = $this->escape($this->state->get('list.direction'));
 									<th scope="col" class="w-10">
 										<?php echo Text::_('COM_INSTALLER_HEADING_PROBLEMS'); ?>
 									</th>
-									<th scope="col" class="w-10 d-none d-md-table-cell text-end">
+									<th scope="col" class="w-10 d-none d-lg-table-cell text-end">
 										<?php echo Text::_('COM_INSTALLER_HEADING_DATABASE_SCHEMA'); ?>
 									</th>
-									<th scope="col" class="w-10 d-none d-md-table-cell">
+									<th scope="col" class="w-10 d-none d-lg-table-cell">
 										<?php echo Text::_('COM_INSTALLER_HEADING_UPDATE_VERSION'); ?>
 									</th>
-									<th scope="col" class="w-10 d-none d-md-table-cell">
+									<th scope="col" class="w-10 d-none d-lg-table-cell">
 										<?php echo HTMLHelper::_('searchtools.sort', 'COM_INSTALLER_HEADING_FOLDER', 'folder_translated', $listDirection, $listOrder); ?>
 									</th>
-									<th scope="col" class="w-1 d-none d-md-table-cell">
+									<th scope="col" class="w-1 d-none d-lg-table-cell">
 										<?php echo HTMLHelper::_('searchtools.sort', 'COM_INSTALLER_HEADING_ID', 'extension_id', $listDirection, $listOrder); ?>
 									</th>
 								</tr>
@@ -99,16 +99,16 @@ $listDirection = $this->escape($this->state->get('list.direction'));
 												<ul><li><?php echo implode('</li><li>', $item['errorsMessage']); ?></li></ul>
 											</div>
 										</td>
-										<td class="d-none d-md-table-cell text-end">
+										<td class="d-none d-lg-table-cell text-end">
 											<?php echo $extension->version_id; ?>
 										</td>
-										<td class="d-none d-md-table-cell">
+										<td class="d-none d-lg-table-cell">
 											<?php echo '&#x200E;' . $extension->version; ?>
 										</td>
-										<td class="d-none d-md-table-cell">
+										<td class="d-none d-lg-table-cell">
 											<?php echo $extension->folder_translated; ?>
 										</td>
-										<td class="d-none d-md-table-cell">
+										<td class="d-none d-lg-table-cell">
 											<?php echo $extension->extension_id; ?>
 										</td>
 									</tr>
