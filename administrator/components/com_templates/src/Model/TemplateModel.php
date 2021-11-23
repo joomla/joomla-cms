@@ -2009,7 +2009,7 @@ class TemplateModel extends FormModel
 
 		if (!isset($template->xmldata->inheritable) || (isset($template->xmldata->parent) && $template->xmldata->parent === ''))
 		{
-			return [];
+			return $result;
 		}
 
 		$app  = Factory::getApplication();
