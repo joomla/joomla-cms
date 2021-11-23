@@ -260,26 +260,20 @@ document.addEventListener('keydown', (evt) => {
 
   // Write stylesheets
   for (let i = 0; i < CMsettings.cssFiles.length; i++) {
-    const $link = document.createElement('link');
-    $link.type = 'text/css';
-    $link.href = CMsettings.path + CMsettings.cssFiles[i];
-    document.head.append($link);
+    document.write('<li' + 'nk rel="stylesheet" type="text/css" href="' + CMsettings.path + CMsettings.cssFiles[i] + '" />');
   }
 
-  // Write JS source files
+  // Write JS source files. Needs to be synchronous to ensure the correct order.
   for (let i = 0; i < CMsettings.jsFiles.length; i++) {
-    const $script = document.createElement('script');
-    $script.defer = true;
-    $script.src = CMsettings.path + CMsettings.jsFiles[i];
-    document.head.append($script);
+    document.write('<scr' + 'ipt type="text/javascript" src="' + CMsettings.path + CMsettings.jsFiles[i] + '"></scr' + 'ipt>');
   }
 
   // Borrowed from codemirror.js themeChanged function. Sets the theme's class names to the html element.
   // Without this, the background color outside of the codemirror wrapper element remains white.
-    // [TMP] commented temporary, cause JS error: Uncaught TypeError: Cannot read property 'replace' of undefined
-    if(CMsettings.config.theme) {
-      document.documentElement.className += CMsettings.config.theme.replace(/(^|\s)\s*/g, " cm-s-");
-    }
+  // [TMP] commented temporary, cause JS error: Uncaught TypeError: Cannot read property 'replace' of undefined
+  if (CMsettings.config.theme) {
+    document.documentElement.className += CMsettings.config.theme.replace(/(^|\s)\s*/g, ' cm-s-');
+  }
 
   window.onload = start;
 })();
