@@ -57,6 +57,13 @@ class PlgWebservicesUsers extends CMSPlugin
 			'levels',
 			['component' => 'com_users']
 		);
+
+		// A public route for auth
+		$defaults = ['component' => 'com_users', 'public' => true];
+		$routes = [
+			new Route(['POST'], 'v1/users/auth', 'users.credentials', [], $defaults),
+		];
+		$router->addRoutes($routes);
 	}
 
 	/**
