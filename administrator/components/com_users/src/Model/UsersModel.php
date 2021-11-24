@@ -19,6 +19,9 @@ use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\Database\DatabaseQuery;
 use Joomla\Database\ParameterType;
 use Joomla\Utilities\ArrayHelper;
+use Joomla\CMS\Access\Exception\AuthenticationFailed;
+use Joomla\CMS\User\UserHelper;
+use Joomla\CMS\User\User;
 
 /**
  * Methods supporting a list of user records.
@@ -580,5 +583,81 @@ class UsersModel extends ListModel
 		}
 
 		return implode("\n", $result);
+	}
+
+	public function credentials($credentials = [] ): array
+	{
+		$db    = $this->getDbo();
+		$query = $db->getQuery(true)
+			->select($db->quoteName(['id', 'password', 'profile_value']))
+			->from($db->quoteName('#__users'))
+			->join(
+				'INNER',
+				$db->quoteName('#__user_profiles', 'p'),
+				$db->quoteName('id') . ' = ' . $db->quoteName('p.user_id')
+			)
+			->where($db->quoteName('username') . ' = :username')
+			->where($db->quoteName('p.profile_key') . ' = ' . $db->quote('joomlatoken.token'))
+			->bind(':username', $credentials['username']);
+
+		$db->setQuery($query);
+		$result = $db->loadObject();
+		
+		if ($result)
+		{
+			$match = UserHelper::verifyPassword($credentials['password'], $result->password, $result->id);
+
+			if ($match === true)
+			{
+				$user = User::getInstance($result->id);			
+				return [$this->getTokenForDisplay($user->id, $result->profile_value, 'sha256')];
+			}
+			else
+			{
+				throw new AuthenticationFailed;
+			}
+		}
+	
+		throw new AuthenticationFailed;
+	}
+
+	/**
+	 * Returns the token formatted suitably for the user to copy.
+	 *
+	 * @param   integer  $userId     The user id for token
+	 * @param   string   $tokenSeed  The token seed data stored in the database
+	 * @param   string   $algorithm  The hashing algorithm to use for the token (default: sha256)
+	 *
+	 * @return  string
+	 * @since   4.0.0
+	 */
+	private function getTokenForDisplay(int $userId, string $tokenSeed,
+		string $algorithm = 'sha256'
+	): string
+	{
+		if (empty($tokenSeed))
+		{
+			return '';
+		}
+
+		try
+		{
+			$siteSecret = Factory::getApplication()->get('secret');
+		}
+		catch (\Exception $e)
+		{
+			$siteSecret = '';
+		}
+
+		if (empty($siteSecret))
+		{
+			return '';
+		}
+
+		$rawToken  = base64_decode($tokenSeed);
+		$tokenHash = hash_hmac($algorithm, $rawToken, $siteSecret);
+		$message   = base64_encode("$algorithm:$userId:$tokenHash");
+
+		return $message;
 	}
 }
