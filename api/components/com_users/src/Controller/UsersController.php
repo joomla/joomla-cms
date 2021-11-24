@@ -175,4 +175,47 @@ class UsersController extends ApiController
 
 		return parent::displayList();
 	}
+
+	/**
+	 * User list view with filtering of data
+	 *
+	 * @return  static  A BaseController object to support chaining.
+	 *
+	 * @since   4.0.0
+	 * @throws  InvalidParameterException
+	 */
+	public function credentials()
+	{	
+		$viewType   = $this->app->getDocument()->getType();
+		$viewName   = $this->input->get('view', $this->default_view);
+		$viewLayout = $this->input->get('layout', 'default', 'string');
+		$filter     = InputFilter::getInstance();
+
+		try
+		{
+			/** @var JsonapiView $view */
+			$view = $this->getView(
+				$viewName,
+				$viewType,
+				'',
+				['base_path' => $this->basePath, 'layout' => $viewLayout, 'contentType' => $this->contentType]
+			);
+		}
+		catch (\Exception $e)
+		{
+			throw new \RuntimeException($e->getMessage());
+		}
+
+		/** @var \Joomla\Component\Jobs\Administrator\Model\UsersModel $model */
+		$model = $this->getModel();
+		$data  = $this->input->get('data', json_decode($this->input->json->getRaw(), true), 'array');
+
+		$view->setModel($model, true);
+
+		$view->document = $this->app->getDocument();
+
+		$view->credentials($data);
+
+		return $this;
+	}
 }
