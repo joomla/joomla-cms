@@ -91,7 +91,7 @@ $this->addHeadLink(HTMLHelper::_('image', 'joomla-favicon-pinned.svg', '', [], t
 // Logo file or site title param
 if ($this->params->get('logoFile'))
 {
-	$logo = '<img src="' . htmlspecialchars(Uri::root() . $this->params->get('logoFile'), ENT_QUOTES, 'UTF-8') . '" alt="' . $sitename . '">';
+	$logo = '<img src="' . Uri::root(true) . '/' . htmlspecialchars($this->params->get('logoFile'), ENT_QUOTES) . '" alt="' . $sitename . '">';
 }
 elseif ($this->params->get('siteTitle'))
 {
@@ -99,7 +99,7 @@ elseif ($this->params->get('siteTitle'))
 }
 else
 {
-	$logo = '<img src="' . $this->baseurl . '/' . $templatePath. '/images/logo.svg" class="logo d-inline-block" alt="' . $sitename . '">';
+	$logo = HTMLHelper::_('image', 'logo.svg', $sitename, ['class' => 'logo d-inline-block'], true, 0);
 }
 
 // Container
