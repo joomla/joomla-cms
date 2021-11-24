@@ -519,6 +519,12 @@ class PlgEditorTinymce extends CMSPlugin
 				$plugins[] = $pName;
 			}
 		}
+		// Use CodeMirror in the code view instead of plain text to provide syntax highlighting
+		$sourcecode = $levelParams->get('highlightPlus', 1);
+		if ($sourcecode)
+		{
+			$externalPlugins['highlightPlus'] = HTMLHelper::_('script', 'plg_editors_tinymce/plugins/highlighter/plugin.min.js', ['relative' => true, 'version' => 'auto', 'pathOnly' => true]);
+		}
 
 		// Drag and drop Images always FALSE, reverting this allows for inlining the images
 		$allowImgPaste = false;
@@ -589,6 +595,7 @@ class PlgEditorTinymce extends CMSPlugin
 		$scriptOptions   = array_merge(
 			$scriptOptions,
 			array(
+				'deprecation_warnings' => JDEBUG ? true : false,
 				'suffix'   => '.min',
 				'baseURL'  => Uri::root(true) . '/media/vendor/tinymce',
 				'directionality' => $text_direction,
@@ -610,8 +617,7 @@ class PlgEditorTinymce extends CMSPlugin
 				'quickbars_selection_toolbar' => 'bold italic underline | H2 H3 | link blockquote',
 
 				// Cleanup/Output
-				'inline_styles'    => true,
-				'gecko_spellcheck' => true,
+				'browser_spellcheck' => true,
 				'entity_encoding'  => $levelParams->get('entity_encoding', 'raw'),
 				'verify_html'      => !$ignore_filter,
 
@@ -656,14 +662,12 @@ class PlgEditorTinymce extends CMSPlugin
 		{
 			// Break
 			$scriptOptions['force_br_newlines'] = true;
-			$scriptOptions['force_p_newlines']  = false;
 			$scriptOptions['forced_root_block'] = '';
 		}
 		else
 		{
 			// Paragraph
 			$scriptOptions['force_br_newlines'] = false;
-			$scriptOptions['force_p_newlines']  = true;
 			$scriptOptions['forced_root_block'] = 'p';
 		}
 

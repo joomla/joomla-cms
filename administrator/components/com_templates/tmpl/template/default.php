@@ -160,7 +160,7 @@ if ($this->type == 'font')
 				</form>
 			<?php elseif ($this->type == 'image') : ?>
 				<legend><?php echo $this->escape(basename($this->image['address'])); ?></legend>
-				<img id="image-crop" src="<?php echo $this->image['address'] . '?' . time(); ?>" style="max-width: 100%">
+				<img id="image-crop" src="<?php echo $this->image['address'] . '?' . time(); ?>" class="mw-100">
 				<form action="<?php echo Route::_('index.php?option=com_templates&view=template&id=' . $input->getInt('id') . '&file=' . $this->file); ?>" method="post" name="adminForm" id="adminForm">
 					<fieldset class="adminform">
 						<input type="hidden" id="x" name="x">
