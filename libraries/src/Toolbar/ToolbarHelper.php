@@ -166,7 +166,7 @@ abstract class ToolbarHelper
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.1.0
 	 */
 	public static function inlinehelp(string $class = "hide-aware-inline-help")
 	{
