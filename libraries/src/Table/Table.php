@@ -253,8 +253,6 @@ abstract class Table extends \JObject implements \JObservableInterface, \JTableI
 	public function getFields($reload = false)
 	{
 		$key = $this->_db->getServerType() . ':' . $this->_db->getName() . ':' . $this->_tbl;
-		
-		//$key = 'sqlite:sqlite:' . $this->_tbl;
 
 		if (!isset(self::$tableFields[$key]) || $reload)
 		{
@@ -264,8 +262,6 @@ abstract class Table extends \JObject implements \JObservableInterface, \JTableI
 
 			if (empty($fields))
 			{
-				var_dump($this->_db);
-				
 				throw new \UnexpectedValueException(sprintf('No columns found for %s table', $name));
 			}
 
