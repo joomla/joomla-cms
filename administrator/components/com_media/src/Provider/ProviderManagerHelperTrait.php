@@ -99,7 +99,7 @@ trait ProviderManagerHelperTrait
 	 *
 	 * @return  array
 	 *
-	 * @throws  \Exception
+	 * @throws  \InvalidArgumentException
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
