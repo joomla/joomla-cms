@@ -262,6 +262,9 @@ abstract class Table extends \JObject implements \JObservableInterface, \JTableI
 
 			if (empty($fields))
 			{
+				var_dump(self::$tableFields);
+				var_dump($key);
+				
 				throw new \UnexpectedValueException(sprintf('No columns found for %s table', $name));
 			}
 
