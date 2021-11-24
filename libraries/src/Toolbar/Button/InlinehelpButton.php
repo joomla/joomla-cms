@@ -16,7 +16,7 @@ namespace Joomla\CMS\Toolbar\Button;
  * @method self targetclass(string $value)
  * @method string getTargetclass()
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.1.0
  */
 class InlinehelpButton extends BasicButton
 {
@@ -27,7 +27,7 @@ class InlinehelpButton extends BasicButton
 	 *
 	 * @return  void
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.1.0
 	 */
 	protected function prepareOptions(array &$options)
 	{
@@ -54,7 +54,7 @@ class InlinehelpButton extends BasicButton
 	 *
 	 * @return  string
 	 *
-	 * @since       __DEPLOY_VERSION__
+	 * @since       4.1.0
 	 *
 	 * @deprecated  5.0 Use render() instead.
 	 */
@@ -79,7 +79,7 @@ class InlinehelpButton extends BasicButton
 	 *
 	 * @return  array
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.1.0
 	 */
 	protected static function getAccessors(): array
 	{
