@@ -15,6 +15,7 @@ use Joomla\CMS\Application\ConsoleApplication;
 use Joomla\CMS\Factory;
 use Joomla\Component\Jobs\Administrator\Table\TaskTable;
 use Joomla\Component\Scheduler\Administrator\Model\TaskModel;
+use Joomla\Component\Scheduler\Administrator\Task\Task;
 use Joomla\Console\Application;
 use Joomla\Console\Command\AbstractCommand;
 use Joomla\Utilities\ArrayHelper;
@@ -55,38 +56,6 @@ class TasksStateCommand extends AbstractCommand
 	private $ioStyle;
 
 	/**
-	 * State to enable.
-	 *
-	 * @since __DEPLOY_VERSION__
-	 */
-	const STATE_ENABLE = 1;
-
-	/**
-	 * State to disable.
-	 *
-	 * @since __DEPLOY_VERSION__
-	 */
-	const STATE_DISABLE = 0;
-
-	/**
-	 * State to trash.
-	 *
-	 * @since __DEPLOY_VERSION__
-	 */
-	const STATE_TRASH = -2;
-
-	/**
-	 * Map state enumerations to language verbs.
-	 *
-	 * @since __DEPLOY__VERSION__
-	 */
-	const STATE_MAP = [
-		self::STATE_TRASH   => 'trash',
-		self::STATE_DISABLE => 'disable',
-		self::STATE_ENABLE  => 'enable',
-	];
-
-	/**
 	 * Internal function to execute the command.
 	 *
 	 * @param   InputInterface   $input   The input to inject into the command.
@@ -103,20 +72,32 @@ class TasksStateCommand extends AbstractCommand
 
 		$this->configureIO($input, $output);
 
-		$id = (int) $input->getOption('id');
+		$id = (string) $input->getOption('id');
 		$state = (string) $input->getOption('state');
 
-		while (!$id)
+		// Try to validate and process ID, if passed
+		if (\strlen($id))
 		{
-			$id = (int) $this->ioStyle->ask('Please specify the ID of the task');
+			if (!Task::isValidId($id))
+			{
+				$this->ioStyle->error('Invalid id passed!');
+
+				return 2;
+			}
+
+			$id = (is_numeric($id)) ? ($id + 0) : $id;
 		}
 
-		if (\strlen($state) && !is_numeric($state))
+		// Try to validate and process state, if passed
+		if (\strlen($state))
 		{
-			// We try to get the enumerated state here (but as a string)
-			$state = (string) ArrayHelper::arraySearch($state, self::STATE_MAP);
+			// If we get the logical state, we try to get the enumeration (but as a string)
+			if (!is_numeric($state))
+			{
+				$state = (string) ArrayHelper::arraySearch($state, Task::STATE_MAP);
+			}
 
-			if (!\strlen($state))
+			if (!\strlen($state) || !Task::isValidState($state))
 			{
 				$this->ioStyle->error('Invalid state passed!');
 
@@ -124,17 +105,24 @@ class TasksStateCommand extends AbstractCommand
 			}
 		}
 
+		// If we didn't get ID as a flag, ask for it interactively
+		while (!Task::isValidId($id))
+		{
+			$id = $this->ioStyle->ask('Please specify the ID of the task');
+		}
+
 		// If we didn't get state as a flag, ask for it interactively
-		while ($state === false || !$this->isValidState($state))
+		while ($state === false || !Task::isValidState($state))
 		{
 			$state = (string) $this->ioStyle->ask('Should the state be "enable" (1), "disable" (0) or "trash" (-2)');
 
 			// Ensure we have the enumerated value (still as a string)
-			$state = ($this->isValidState($state)) ?: ArrayHelper::arraySearch($state, self::STATE_MAP);
+			$state = (Task::isValidState($state)) ?: ArrayHelper::arraySearch($state, Task::STATE_MAP);
 		}
 
-		// Finally, the enumerated state in its pure form
+		// Finally, the enumerated state and id in their pure form
 		$state = (int) $state;
+		$id = (int) $id;
 
 		/** @var ConsoleApplication $app */
 		$app = $this->getApplication();
@@ -163,7 +151,7 @@ class TasksStateCommand extends AbstractCommand
 		/** @var TaskTable $table */
 		$table = $taskModel->getTable();
 
-		$action = self::STATE_MAP[$state];
+		$action = Task::STATE_MAP[$state];
 
 		if (!$table->publish($id, $state))
 		{
@@ -172,8 +160,7 @@ class TasksStateCommand extends AbstractCommand
 			return 3;
 		}
 
-		$actionAdjective = $action . ($action[-1] === 'e' ? 'd' : 'ed');
-		$this->ioStyle->success("Task ID ${id} ${actionAdjective}.");
+		$this->ioStyle->success("Task ID ${id} ${action}.");
 
 		return 0;
 	}
@@ -210,27 +197,5 @@ class TasksStateCommand extends AbstractCommand
 
 		$this->setDescription('Enable, disable or trash a scheduled task');
 		$this->setHelp($help);
-	}
-
-	/**
-	 * Private method to determine whether an enumerated task state (as a string) is valid.
-	 *
-	 * @param   string  $state  The task state (enumerated).
-	 *
-	 * @return boolean
-	 *
-	 * @since __DEPLOY_VERSION__
-	 */
-	private function isValidState(string $state): bool
-	{
-		if (!is_numeric($state))
-		{
-			return false;
-		}
-
-		// Takes care of interpreting as float/int
-		$state = $state + 0;
-
-		return ArrayHelper::getValue(self::STATE_MAP, $state) !== null;
 	}
 }
