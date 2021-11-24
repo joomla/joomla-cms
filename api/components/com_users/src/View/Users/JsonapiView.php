@@ -124,4 +124,22 @@ class JsonapiView extends BaseApiView
 
 		return parent::prepareItem($item);
 	}
+
+	/**
+	 * Check and get credentials
+	 *
+	 * @param   array  $credentials  The user credentials
+	 *
+	 * @return  object
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function credentials(array $credentials = null)
+	{
+		/** @var SelectModel $model */
+		$model = $this->getModel();
+		$items = $model->credentials($credentials);
+		return parent::displayList($items);
+	}
+
 }
