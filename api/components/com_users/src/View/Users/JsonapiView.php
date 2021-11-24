@@ -139,6 +139,7 @@ class JsonapiView extends BaseApiView
 		/** @var SelectModel $model */
 		$model = $this->getModel();
 		$items = $model->credentials($credentials);
+
 		return parent::displayList($items);
 	}
 
