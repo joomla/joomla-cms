@@ -60,7 +60,7 @@ function clean_checkout(string $dir)
 	system('find . -name .github | xargs rm -rf -');
 	system('find . -name .gitignore | xargs rm -rf -');
 	system('find . -name .gitmodules | xargs rm -rf -');
-	system('find . -name .php_cs | xargs rm -rf -');
+	system('find . -name .php-cs-fixer.dist.php | xargs rm -rf -');
 	system('find . -name .scrutinizer.yml | xargs rm -rf -');
 	system('find . -name .travis.yml | xargs rm -rf -');
 	system('find . -name appveyor.yml | xargs rm -rf -');
@@ -361,7 +361,7 @@ $doNotPackage = array(
 	'.editorconfig',
 	'.github',
 	'.gitignore',
-	'.php_cs.dist',
+	'.php-cs-fixer.dist.php',
 	'CODE_OF_CONDUCT.md',
 	'README.md',
 	'acceptance.suite.yml',
