@@ -59,7 +59,7 @@ class TasksRunCommand extends AbstractCommand
 		 */
 		static $outTextMap = [
 			Status::OK         => 'Task#%1$02d \'%2$s\' processed in %3$.2f seconds.',
-			Status::NO_LOCK    => '<comment>Task#%1$02d \'%2$s\' already running.</comment>',
+			Status::NO_RUN    => '<warning>Task#%1$02d \'%2$s\' failed to run. Is it already running?</warning>',
 			Status::NO_ROUTINE => '<error>Task#%1$02d \'%2$s\' is orphaned! Visit the backend to resolve.</error>',
 			'N/A'              => '<error>Task#%1$02d \'%2$s\' exited with code %4$d in %3$.2f seconds.</error>',
 		];
@@ -105,8 +105,8 @@ class TasksRunCommand extends AbstractCommand
 		foreach ($records as $record)
 		{
 			$cStart   = microtime(true);
-			$task     = $scheduler->runTask($record->id);
-			$exit     = $task->getContent()['status'];
+			$task     = $scheduler->runTask(['id' => $record->id, 'allowDisabled' => true, 'allowConcurrent' => true]);
+			$exit     = empty($task) ? Status::NO_RUN : $task->getContent()['status'];
 			$duration = microtime(true) - $cStart;
 			$key      = (\array_key_exists($exit, $outTextMap)) ? $exit : 'N/A';
 			$this->ioStyle->writeln(sprintf($outTextMap[$key], $record->id, $record->title, $duration, $exit));
