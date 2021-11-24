@@ -185,7 +185,7 @@ class UsersController extends ApiController
 	 * @throws  InvalidParameterException
 	 */
 	public function credentials()
-	{	
+	{
 		$viewType   = $this->app->getDocument()->getType();
 		$viewName   = $this->input->get('view', $this->default_view);
 		$viewLayout = $this->input->get('layout', 'default', 'string');
