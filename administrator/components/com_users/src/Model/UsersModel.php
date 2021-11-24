@@ -602,14 +602,15 @@ class UsersModel extends ListModel
 
 		$db->setQuery($query);
 		$result = $db->loadObject();
-		
+
 		if ($result)
 		{
 			$match = UserHelper::verifyPassword($credentials['password'], $result->password, $result->id);
 
 			if ($match === true)
 			{
-				$user = User::getInstance($result->id);			
+				$user = User::getInstance($result->id);
+
 				return [$this->getTokenForDisplay($user->id, $result->profile_value, 'sha256')];
 			}
 			else
@@ -617,7 +618,7 @@ class UsersModel extends ListModel
 				throw new AuthenticationFailed;
 			}
 		}
-	
+
 		throw new AuthenticationFailed;
 	}
 
