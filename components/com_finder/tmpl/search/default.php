@@ -29,7 +29,7 @@ $this->document->getWebAssetManager()
 			<?php echo $this->loadTemplate('form'); ?>
 		</div>
 	<?php endif; ?>
-	<?php if ($this->params->get('show_sort_order') && !empty($this->results)) : ?>
+	<?php if ($this->params->get('show_sort_order') && !empty($this->sortOrderFields) && !empty($this->results)) : ?>
 		<div id="search-sorting" class="com-finder__sorting clearfix">
 			<?php echo $this->loadTemplate('sorting'); ?>
 		</div>

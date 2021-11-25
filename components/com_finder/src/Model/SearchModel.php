@@ -354,14 +354,14 @@ class SearchModel extends ListModel
 	 */
 	public function getSortOrderFields()
 	{
-		$sortOrderFields = [];
-		$directions      = ['asc', 'desc'];
-		$app             = Factory::getApplication();
-		$params          = $app->getParams();
+		$sortOrderFields      = [];
+		$directions           = ['asc', 'desc'];
+		$app                  = Factory::getApplication();
+		$params               = $app->getParams();
+		$sortOrderFieldValues = $params->get('shown_sort_order', [], 'array');
 
-		if ($params->get('show_sort_order', 0, 'uint'))
+		if ($params->get('show_sort_order', 0, 'uint') && !empty($sortOrderFieldValues))
 		{
-			$sortOrderFieldValues  = $params->get('shown_sort_order', [], 'array');
 			$defaultSortFieldValue = $params->get('sort_order', '', 'cmd');
 			$queryUri              = Uri::getInstance($this->getQuery()->toUri());
 
