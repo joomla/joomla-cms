@@ -80,8 +80,7 @@ const initRunner = () => {
     });
   };
 
-  const reloadOnClose = (e) => {
-    const paths = Joomla.getOptions('system.paths');
+  const reloadOnClose = () => {
     window.location.href = `${paths ? `${paths.base}/index.php` : window.location.pathname}?option=com_scheduler&view=tasks`;
   };
 
