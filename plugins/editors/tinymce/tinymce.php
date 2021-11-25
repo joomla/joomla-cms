@@ -1206,7 +1206,8 @@ class PlgEditorTinymce extends CMSPlugin
 		$position = strrpos($path, '.min.');
 
 		// We are handling a name.min.ext file:
-		if ($position !== false) {
+		if ($position !== false)
+		{
 			$minifiedPath    = $path;
 			$nonMinifiedPath = substr_replace($path, '', $position, 4);
 
