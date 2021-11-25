@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension type="plugin" group="system" method="upgrade">
+	<name>plg_system_jooa11y</name>
+	<author>Joomla! Project</author>
+	<creationDate>November 2021</creationDate>
+	<copyright>(C) 2021 Open Source Matters, Inc.</copyright>
+	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
+	<authorEmail>admin@joomla.org</authorEmail>
+	<authorUrl>www.joomla.org</authorUrl>
+	<version>4.1.0</version>
+	<description>PLG_SYSTEM_JOOA11Y_XML_DESCRIPTION</description>
+	<files>
+		<filename plugin="jooa11y">jooa11y.php</filename>
+	</files>
+	<languages>
+		<language tag="en-GB">language/en-GB/plg_system_jooa11y.ini</language>
+		<language tag="en-GB">language/en-GB/plg_system_jooa11y.sys.ini</language>
+	</languages>
+	<config>
+		<fields name="params">
+			<fieldset name="basic">
+				<field
+					name="checkRoot"
+					type="text"
+					label="PLG_SYSTEM_JOOA11Y_FIELD_CHECK_ROOT"
+					description="PLG_SYSTEM_JOOA11Y_FIELD_CHECK_ROOT_DESC"
+					default="main"
+					filter="string"
+				/>
+				<field
+					name="readabilityRoot"
+					type="text"
+					label="PLG_SYSTEM_JOOA11Y_FIELD_READABILITY_ROOT"
+					description="PLG_SYSTEM_JOOA11Y_FIELD_READABILITY_ROOT_DESC"
+					default="main"
+					filter="string"
+				/>
+			</fieldset>
+			<fieldset name="advanced">
+				<field
+					name="containerIgnore"
+					type="text"
+					label="PLG_SYSTEM_JOOA11Y_FIELD_CONTAINER_IGNORE"
+					description="PLG_SYSTEM_JOOA11Y_FIELD_CONTAINER_IGNORE_DESC"
+					filter="string"
+				/>
+				<field
+					name="outlineIgnore"
+					type="text"
+					label="PLG_SYSTEM_JOOA11Y_FIELD_OUTLINE_IGNORE"
+					description="PLG_SYSTEM_JOOA11Y_FIELD_OUTLINE_IGNORE_DESC"
+					filter="string"
+				/>
+				<field
+					name="headerIgnore"
+					type="text"
+					label="PLG_SYSTEM_JOOA11Y_FIELD_HEADER_IGNORE"
+					description="PLG_SYSTEM_JOOA11Y_FIELD_HEADER_IGNORE_DESC"
+					filter="string"
+				/>
+				<field
+					name="imageIgnore"
+					type="text"
+					label="PLG_SYSTEM_JOOA11Y_FIELD_IMAGE_IGNORE"
+					description="PLG_SYSTEM_JOOA11Y_FIELD_IMAGE_IGNORE_DESC"
+					filter="string"
+				/>
+				<field
+					name="linkIgnore"
+					type="text"
+					label="PLG_SYSTEM_JOOA11Y_FIELD_LINK_IGNORE"
+					description="PLG_SYSTEM_JOOA11Y_FIELD_LINK_IGNORE_DESC"
+					filter="string"
+				/>
+				<field
+					name="linkSpanIgnore"
+					type="text"
+					label="PLG_SYSTEM_JOOA11Y_FIELD_LINK_SPAN_IGNORE"
+					description="PLG_SYSTEM_JOOA11Y_FIELD_LINK_SPAN_IGNORE_DESC"
+					filter="string"
+				/>
+				<field
+					name="linksToFlag"
+					type="text"
+					label="PLG_SYSTEM_JOOA11Y_FIELD_LINKS_TO_FLAG"
+					description="PLG_SYSTEM_JOOA11Y_FIELD_LINKS_TO_FLAG_DESC"
+					filter="string"
+				/>
+			</fieldset>
+			<fieldset name="preferences" label="PLG_SYSTEM_JOOA11Y_PREFERENCES_FIELDSET_LABEL">
+				<field
+					name="contrast"
+					type="radio"
+					layout="joomla.form.field.radio.switcher"
+					label="PLG_SYSTEM_JOOA11Y_FIELD_PREF_CONTRAST"
+					default="On"
+					>
+					<option value="Off">JOFF</option>
+					<option value="On">JON</option>
+				</field>
+				<field
+					name="labels"
+					type="radio"
+					layout="joomla.form.field.radio.switcher"
+					label="PLG_SYSTEM_JOOA11Y_FIELD_PREF_LABELS"
+					default="On"
+					>
+					<option value="Off">JOFF</option>
+					<option value="On">JON</option>
+				</field>
+				<field
+					name="links_advanced"
+					type="radio"
+					layout="joomla.form.field.radio.switcher"
+					label="PLG_SYSTEM_JOOA11Y_FIELD_PREF_LINKS_ADVANCED"
+					default="Off"
+					>
+					<option value="Off">JOFF</option>
+					<option value="On">JON</option>
+				</field>
+				<field
+					name="readability"
+					type="radio"
+					layout="joomla.form.field.radio.switcher"
+					label="PLG_SYSTEM_JOOA11Y_FIELD_PREF_READABILITY"
+					default="On"
+					>
+					<option value="Off">JOFF</option>
+					<option value="On">JON</option>
+				</field>
+				<field
+					name="darkmode"
+					type="radio"
+					layout="joomla.form.field.radio.switcher"
+					label="PLG_SYSTEM_JOOA11Y_FIELD_PREF_DARKMODE"
+					default="Off"
+					>
+					<option value="Off">JOFF</option>
+					<option value="On">JON</option>
+				</field>
+			</fieldset>
+		</fields>
+	</config>
+</extension>
