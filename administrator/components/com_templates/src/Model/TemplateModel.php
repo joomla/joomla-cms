@@ -1372,9 +1372,7 @@ class TemplateModel extends FormModel
 		if ($template = $this->getTemplate())
 		{
 			$app      = Factory::getApplication();
-			$client   = ApplicationHelper::getClientInfo($template->client_id);
-			$path     = Path::clean($client->path . '/templates/' . $template->element . '/');
-			$filePath = $path . urldecode(base64_decode($file));
+			$filePath = $this->getBasePath() . urldecode(base64_decode($file));
 
 			$return = File::delete($filePath);
 
