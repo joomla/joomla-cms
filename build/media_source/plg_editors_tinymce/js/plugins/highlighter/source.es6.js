@@ -231,7 +231,7 @@ const start = () => {
   codemirror.on('change', (inst) => {
     inst.isDirty = true;
   });
-  codemirror.setSize("100%", "100%");
+  codemirror.setSize('100%', '100%');
   codemirror.refresh();
 };
 
