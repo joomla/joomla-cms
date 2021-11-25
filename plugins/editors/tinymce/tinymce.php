@@ -1211,7 +1211,8 @@ class PlgEditorTinymce extends CMSPlugin
 			$minifiedPath    = $path;
 			$nonMinifiedPath = substr_replace($path, '', $position, 4);
 
-			if (JDEBUG && is_file($nonMinifiedPath)) {
+			if (JDEBUG && is_file($nonMinifiedPath))
+			{
 				return Uri::root(true) . str_replace(JPATH_ROOT, '', $nonMinifiedPath);
 			}
 			elseif (is_file($minifiedPath))
