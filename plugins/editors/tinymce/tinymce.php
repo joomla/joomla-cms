@@ -18,7 +18,6 @@ use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
-use Joomla\CMS\Log\Log;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Session\Session;
 use Joomla\CMS\Uri\Uri;
@@ -277,12 +276,7 @@ class PlgEditorTinymce extends CMSPlugin
 			// If it is not a URL, assume it is a file name in the current template folder
 			else
 			{
-				$includes = $this->includeRelativeFiles('css', $content_css_custom);
-
-				if (\count($includes) === 1)
-				{
-					$content_css = $includes[0];
-				}
+				$content_css = $this->includeRelativeFiles('css', $content_css_custom);
 			}
 		}
 		else
@@ -290,12 +284,7 @@ class PlgEditorTinymce extends CMSPlugin
 			// Process when use_content_css is Yes and no custom file given
 			if ($use_content_css)
 			{
-				$includes = $this->includeRelativeFiles('css', 'editor.css');
-
-				if (\count($includes) === 1)
-				{
-					$content_css = $includes[0];
-				}
+				$content_css = $this->includeRelativeFiles('css', 'editor' . (JDEBUG ? '' : '.min') . '.css');
 			}
 		}
 
@@ -1164,287 +1153,88 @@ class PlgEditorTinymce extends CMSPlugin
 	 */
 	protected function includeRelativeFiles($folder, $file)
 	{
-		// Detect debug mode
-		$debugMode = JDEBUG ? true : false;
+		$fallback  = Uri::root(true) . '/media/system/css/editor' . (JDEBUG ? '' : '.min') . '.css';
+		$template  = $this->getActiveSiteTemplate();
+
+		if (!(array) $template) {
+			return $fallback;
+		}
 
 		// Extract extension and strip the file
-		$strip = File::stripExt($file);
-		$ext   = File::getExt($file);
-
-		// Prepare array of files
-		$includes  = [];
-		$potential = [$strip];
-
-		// If relative search in template directory or media directory
-		$template   = $this->getActiveSiteTemplate();
-
-		if (! (array) $template)
-		{
-			return Uri::root(true) . 'media/system/css/editor.css';
-		}
-
+		$file       = File::stripExt($file). '.' . File::getExt($file);
 		$templaPath = JPATH_ROOT . '/templates';
 
-		if ($template->inheritable || !empty($template->parent))
+		if ($template->inheritable || (isset($template->parent) && $template->parent !== ''))
 		{
-			$templaPath = JPATH_ROOT . "/media/templates/site";
+			$templaPath = JPATH_ROOT . '/media/templates/site';
 		}
 
-		// For each potential files
-		foreach ($potential as $strip)
+		if (isset($template->parent) && $template->parent !== '')
 		{
-			$files = [];
-			$files[] = $strip . '.' . $ext;
+			$found = static::resolveFileUrl("$templaPath/$template->template/$folder/$file");
 
-			/**
-			 * Loop on 1 or 2 files and break on first found.
-			 * Add the content of the MD5SUM file located in the same folder to url to ensure cache browser refresh
-			 * This MD5SUM file must represent the signature of the folder content
-			 */
-			foreach ($files as $file)
+			if (empty($found))
 			{
-				if (!empty($template->parent))
-				{
-					$found = static::addFileToBuffer("$templaPath/$template->template/$folder/$file", $ext, $debugMode);
-
-					if (empty($found))
-					{
-						$found = static::addFileToBuffer("$templaPath/$template->parent/$folder/$file", $ext, $debugMode);
-					}
-				}
-				else
-				{
-					$found = static::addFileToBuffer("$templaPath/$template->template/$folder/$file", $ext, $debugMode);
-				}
-
-				if (!empty($found))
-				{
-					$includes[] = $found;
-
-					break;
-				}
-				else
-				{
-					// If the file contains any /: it can be in a media extension subfolder
-					if (strpos($file, '/'))
-					{
-						// Divide the file extracting the extension as the first part before /
-						list($extension, $file) = explode('/', $file, 2);
-
-						// If the file yet contains any /: it can be a plugin
-						if (strpos($file, '/'))
-						{
-							// Divide the file extracting the element as the first part before /
-							list($element, $file) = explode('/', $file, 2);
-
-							// Try to deal with plugins group in the media folder
-							$found = static::addFileToBuffer(JPATH_ROOT . "/media/$extension/$element/$folder/$file", $ext, $debugMode);
-
-							if (!empty($found))
-							{
-								$includes[] = $found;
-
-								break;
-							}
-
-							// Try to deal with classical file in a media subfolder called element
-							$found = static::addFileToBuffer(JPATH_ROOT . "/media/$extension/$folder/$element/$file", $ext, $debugMode);
-
-							if (!empty($found))
-							{
-								$includes[] = $found;
-
-								break;
-							}
-
-							// Try to deal with system files in the template folder
-							if (!empty($template->parent))
-							{
-								$found = static::addFileToBuffer("$templaPath/$template->template/$folder/system/$element/$file", $ext, $debugMode);
-
-								if (!empty($found))
-								{
-									$includes[] = $found;
-
-									break;
-								}
-
-								$found = static::addFileToBuffer("$templaPath/$template->parent/$folder/system/$element/$file", $ext, $debugMode);
-
-								if (!empty($found))
-								{
-									$includes[] = $found;
-
-									break;
-								}
-							}
-							else
-							{
-								// Try to deal with system files in the media folder
-								$found = static::addFileToBuffer(JPATH_ROOT . "/media/system/$folder/$element/$file", $ext, $debugMode);
-
-								if (!empty($found))
-								{
-									$includes[] = $found;
-
-									break;
-								}
-							}
-						}
-						else
-						{
-							// Try to deal with files in the extension's media folder
-							$found = static::addFileToBuffer(JPATH_ROOT . "/media/$extension/$folder/$file", $ext, $debugMode);
-
-							if (!empty($found))
-							{
-								$includes[] = $found;
-
-								break;
-							}
-
-							// Try to deal with system files in the template folder
-							if (!empty($template->parent))
-							{
-								$found = static::addFileToBuffer("$templaPath/$template->template/$folder/system/$file", $ext, $debugMode);
-
-								if (!empty($found))
-								{
-									$includes[] = $found;
-
-									break;
-								}
-
-								$found = static::addFileToBuffer("$templaPath/$template->parent/$folder/system/$file", $ext, $debugMode);
-
-								if (!empty($found))
-								{
-									$includes[] = $found;
-
-									break;
-								}
-							}
-							else
-							{
-								// Try to deal with system files in the template folder
-								$found = static::addFileToBuffer("$templaPath/$template->template/$folder/system/$file", $ext, $debugMode);
-
-								if (!empty($found))
-								{
-									$includes[] = $found;
-
-									break;
-								}
-							}
-
-							// Try to deal with system files in the media folder
-							$found = static::addFileToBuffer(JPATH_ROOT . "/media/system/$folder/$file", $ext, $debugMode);
-
-							if (!empty($found))
-							{
-								$includes[] = $found;
-
-								break;
-							}
-						}
-					}
-					else
-					{
-						// Try to deal with system files in the media folder
-						$found = static::addFileToBuffer(JPATH_ROOT . "/media/system/$folder/$file", $ext, $debugMode);
-
-						if (!empty($found))
-						{
-							$includes[] = $found;
-
-							break;
-						}
-					}
-				}
+				$found = static::resolveFileUrl("$templaPath/$template->parent/$folder/$file");
 			}
 		}
+		else
+		{
+			$found = static::resolveFileUrl("$templaPath/$template->template/$folder/$file");
+		}
 
-		return $includes;
+		if (empty($found))
+		{
+			return $fallback;
+		}
+
+		return $found;
 	}
 
 	/**
 	 * Method that searches if file exists in given path and returns the relative path. If a minified version exists it will be preferred.
 	 *
-	 * @param   string   $path       The actual path of the file
-	 * @param   string   $ext        The extension of the file
-	 * @param   boolean  $debugMode  Signifies if debug is enabled
+	 * @param   string   $path          The actual path of the file
 	 *
 	 * @return  string  The relative path of the file
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	protected static function addFileToBuffer($path = '', $ext = '', $debugMode = false)
+	protected static function resolveFileUrl($path = '')
 	{
 		$position = strrpos($path, '.min.');
 
 		// We are handling a name.min.ext file:
-		if ($position !== false)
-		{
+		if ($position !== false) {
 			$minifiedPath    = $path;
 			$nonMinifiedPath = substr_replace($path, '', $position, 4);
 
-			if ($debugMode)
-			{
-				return self::checkFileOrder($minifiedPath, $nonMinifiedPath);
+			if (JDEBUG && is_file($nonMinifiedPath)) {
+				return Uri::root(true) . str_replace(JPATH_ROOT, '', $nonMinifiedPath);
 			}
-
-			return self::checkFileOrder($nonMinifiedPath, $minifiedPath);
+			elseif (is_file($minifiedPath))
+			{
+				return Uri::root(true) . str_replace(JPATH_ROOT, '', $minifiedPath);
+			}
+			else
+			{
+				return '';
+			}
 		}
 
-		$minifiedPath = pathinfo($path, PATHINFO_DIRNAME) . '/' . pathinfo($path, PATHINFO_FILENAME) . '.min.' . $ext;
+		$minifiedPath = pathinfo($path, PATHINFO_DIRNAME) . '/' . pathinfo($path, PATHINFO_FILENAME) . '.min.' . pathinfo($path, PATHINFO_EXTENSION);
 
-		if ($debugMode)
+		if (JDEBUG && is_file($path))
 		{
-			return self::checkFileOrder($minifiedPath, $path);
+			return Uri::root(true) . str_replace(JPATH_ROOT, '', $path);
 		}
-
-		return self::checkFileOrder($path, $minifiedPath);
-	}
-
-	/**
-	 * Method that takes a file path and converts it to a relative path
-	 *
-	 * @param   string  $path  The actual path of the file
-	 *
-	 * @return  string  The relative path of the file
-	 *
-	 * @since   __DEPLOY_VERSION__
-	 */
-	protected static function convertToRelativePath($path)
-	{
-		$relativeFilePath = Uri::root(true) . str_replace(JPATH_ROOT, '', $path);
-
-		// On windows devices we need to replace "\" with "/" otherwise some browsers will not load the asset
-		return str_replace(DIRECTORY_SEPARATOR, '/', $relativeFilePath);
-	}
-
-	/**
-	 * Method that takes two paths and checks if the files exist with different order
-	 *
-	 * @param   string  $first   the path of the minified file
-	 * @param   string  $second  the path of the non minified file
-	 *
-	 * @return  string
-	 *
-	 * @since   __DEPLOY_VERSION__
-	 */
-	private static function checkFileOrder($first, $second)
-	{
-		if (is_file($second))
+		elseif (is_file($minifiedPath))
 		{
-			return static::convertToRelativePath($second);
+			return Uri::root(true) . str_replace(JPATH_ROOT, '', $minifiedPath);
 		}
-
-		if (is_file($first))
+		else
 		{
-			return static::convertToRelativePath($first);
+			return '';
 		}
-
-		return '';
 	}
 }
