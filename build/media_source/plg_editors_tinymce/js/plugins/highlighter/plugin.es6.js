@@ -16,6 +16,16 @@ window.tinymce.PluginManager.add('highlightPlus', (editor, url) => {
       editor.selection.setContent('<span style="display: none;" class="CmCaReT">&#x0;</span>');
     }
 
+    let codemirrorWidth = 800;
+    if (editor.settings.codemirror.width) {
+      codemirrorWidth = editor.settings.codemirror.width;
+    }
+
+    let codemirrorHeight = 550;
+    if (editor.settings.codemirror.height) {
+      codemirrorHeight = editor.settings.codemirror.height;
+    }
+
     const buttonsConfig = [
       {
         type: 'custom',
@@ -33,8 +43,8 @@ window.tinymce.PluginManager.add('highlightPlus', (editor, url) => {
     const config = {
       title: 'Source code',
       url: `${url}/source.html`,
-      width: window.innerWidth - 5,
-      height: window.innerHeight - 150,
+      width: codemirrorWidth,
+      height: codemirrorHeight,
       resizable: true,
       maximizable: true,
       fullScreen: editor.settings.codemirror.fullscreen,
