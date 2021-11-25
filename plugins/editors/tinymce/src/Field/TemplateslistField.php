@@ -66,7 +66,8 @@ class TemplatesListField extends FolderlistField
     $options     = [0 => $def];
     $directories = [JPATH_ROOT . '/templates', JPATH_ROOT . '/media/templates/site'];
 
-    foreach ($directories as $directory) {
+    foreach ($directories as $directory) 
+    {
       $this->directory = $directory;
       $options         = array_merge($options, parent::getOptions());
     }
