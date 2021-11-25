@@ -15,9 +15,8 @@ use Joomla\CMS\Router\Route;
 
 ?>
 <?php HTMLHelper::_('bootstrap.dropdown', '.dropdown-toggle'); ?>
-<div class="sorting float-end">
+<div class="sorting">
 	<label id="sorting_label" for="sorting_btn"><?php echo Text::_('COM_FINDER_SORT_BY'); ?></label>
-
 	<div class="sorting__select btn-group">
 		<?php foreach ($this->sortOrderFields as $sortOrderField) : ?>
 			<?php if ($sortOrderField->active) : ?>

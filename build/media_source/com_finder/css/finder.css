@@ -130,8 +130,8 @@
  * Styling the sorting drop-down
  */
 #sorting_label {
-  line-height: 3rem;
-  margin-inline-end: .5rem;
+  margin-inline-end: .3rem;
+  vertical-align: super;
 }
 
 #sorting_btn {
