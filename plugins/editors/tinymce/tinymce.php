@@ -1156,7 +1156,8 @@ class PlgEditorTinymce extends CMSPlugin
 		$fallback  = Uri::root(true) . '/media/system/css/editor' . (JDEBUG ? '' : '.min') . '.css';
 		$template  = $this->getActiveSiteTemplate();
 
-		if (!(array) $template) {
+		if (!(array) $template) 
+		{
 			return $fallback;
 		}
 
