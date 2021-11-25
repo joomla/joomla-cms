@@ -18,8 +18,6 @@ use Joomla\CMS\Language\Text;
 /**
  * Generates the list of directories  available for drag and drop upload.
  *
- * @package     Joomla.Plugin
- * @subpackage  Editors.tinymce
  * @since       __DEPLOY_VERSION__
  */
 class TemplatesListField extends FolderlistField
