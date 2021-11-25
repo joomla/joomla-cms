@@ -2104,10 +2104,15 @@ class TemplateModel extends FormModel
 				unset($xml->media);
 				unset($xml->files);
 				unset($xml->parent);
+				unset($xml->creationDate);
+				unset($xml->author);
 
 				// Remove the update parts
 				unset($xml->update);
 				unset($xml->updateservers);
+
+				$xml->addChild('author', Factory::getUser()->name);
+				$xml->addChild('creationDate', (new Date('now'))->format('F Y'));
 
 				$files = $xml->addChild('files');
 				$files->addChild('filename', 'templateDetails.xml');
