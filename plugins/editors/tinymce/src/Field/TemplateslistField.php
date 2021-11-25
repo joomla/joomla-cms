@@ -16,7 +16,7 @@ use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 
 /**
- * Generates the list of directories  available for drag and drop upload.
+ * Generates the list of directories available for template snippets.
  *
  * @since       __DEPLOY_VERSION__
  */
