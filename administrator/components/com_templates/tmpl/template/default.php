@@ -92,7 +92,7 @@ if ($this->type == 'font')
 					<li class="folder-select">
 						<a class="folder-url" data-id="" href="">
 							<span class="icon-folder icon-fw" aria-hidden="true"></span>
-							<?php echo Text::_('COM_TEMPLATES_TEMPLATE_FILES'); ?>
+							<?php echo ($this->template->client_id === 0 ? '/' : '/administrator/') . 'templates/' . $this->template->element; ?>
 						</a>
 						<?php echo $this->loadTemplate('tree'); ?>
 					</li>
@@ -102,7 +102,7 @@ if ($this->type == 'font')
 						<li class="folder-select">
 							<a class="folder-url" data-id="" href="">
 								<span class="icon-folder icon-fw" aria-hidden="true"></span>
-								<?php echo Text::_('COM_TEMPLATES_TEMPLATE_MEDIA_FILES'); ?>
+								<?php echo '/media/templates/' . ($this->template->client_id === 0 ? 'site/' : 'administrator/') . $this->template->element; ?>
 							</a>
 							<?php echo $this->loadTemplate('tree_media'); ?>
 						</li>
