@@ -102,19 +102,19 @@ if (Program.copyAssets) {
 // Creates the error pages for unsupported PHP version & incomplete environment
 if (Program.buildPages) {
   createErrorPages(options)
-  .catch((err) => handleError(err, 1));
+    .catch((err) => handleError(err, 1));
 }
 
 // Convert scss to css
 if (Program.compileCss) {
   stylesheets(options, Program.args[0])
-  .catch((err) => handleError(err, 1));
+    .catch((err) => handleError(err, 1));
 }
 
 // Compress/transpile the javascript files
 if (Program.compileJs) {
   scripts(options, Program.args[0])
-  .catch((err) => handleError(err, 1));
+    .catch((err) => handleError(err, 1));
 }
 
 // Compress/transpile the javascript files
@@ -146,14 +146,14 @@ if (Program.watchComMedia) {
 // Update the .js/.css versions
 if (Program.versioning) {
   versioning()
-  .catch((err) => handleError(err, 1));
+    .catch((err) => handleError(err, 1));
 }
 
 // Prepare the repo for dev work
 if (Program.prepare) {
-    const bench = new Timer('Build');
-    allowedVersion();
-    recreateMediaFolder(options)
+  const bench = new Timer('Build');
+  allowedVersion();
+  recreateMediaFolder(options)
     .then(() => cleanVendors())
     .then(() => localisePackages(options))
     .then(() => Promise.all(
@@ -164,8 +164,9 @@ if (Program.prepare) {
         stylesheets(options, Program.args[0]),
         scripts(options, Program.args[0]),
         bootstrapJs(),
-        mediaManager(true)
-      ]))
+        mediaManager(true),
+      ],
+    ))
     .then(() => bench.stop('Build'))
     .then(() => { process.exit(0); })
     .catch((err) => {

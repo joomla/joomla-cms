@@ -60,3 +60,13 @@ hr#system-readmore {
   border: #f00 dashed 1px;
 }
 
+span[lang] {
+  padding: 2px;
+  border: 1px dashed #bbb;
+  &:after {
+    font-size: smaller;
+    color: #f00;
+    vertical-align: super;
+    content: attr(lang);
+  }
+}
