@@ -30,12 +30,11 @@ window.tinymce.PluginManager.add('highlightPlus', (editor, url) => {
       },
     ];
 
-    const rects = document.body.getBoundingClientRect();
     const config = {
       title: 'Source code',
       url: `${url}/source.html`,
-      width: rects.width - 5,
-      height: rects.height - 150,
+      width: window.innerWidth - 5,
+      height: window.innerHeight - 150,
       resizable: true,
       maximizable: true,
       fullScreen: editor.settings.codemirror.fullscreen,
