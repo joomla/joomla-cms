@@ -73,7 +73,7 @@ class TemplateModel extends FormModel
 	{
 		$temp = new \stdClass;
 
-		if ($template = $this->getTemplate())
+		if ($this->getTemplate())
 		{
 			$path = str_replace(JPATH_ROOT . '/media/templates/' . ($this->template->client_id === 0 ? 'site' : 'administrator') . '/' . $this->template->element, '', $path);
 			$path = str_replace(JPATH_ROOT . '/' . ($this->template->client_id === 0 ? '' : 'administrator/') . 'templates/' . $this->template->element, '', $path);
@@ -1369,7 +1369,7 @@ class TemplateModel extends FormModel
 	 */
 	public function deleteFile($file)
 	{
-		if ($template = $this->getTemplate())
+		if ($this->getTemplate())
 		{
 			$app      = Factory::getApplication();
 			$filePath = $this->getBasePath() . urldecode(base64_decode($file));
@@ -1400,7 +1400,7 @@ class TemplateModel extends FormModel
 	 */
 	public function createFile($name, $type, $location)
 	{
-		if ($template = $this->getTemplate())
+		if ($this->getTemplate())
 		{
 			$app  = Factory::getApplication();
 			$base =	$this->getBasePath();
@@ -1444,11 +1444,10 @@ class TemplateModel extends FormModel
 	 */
 	public function uploadFile($file, $location)
 	{
-		if ($template = $this->getTemplate())
+		if ($this->getTemplate())
 		{
 			$app      = Factory::getApplication();
-			$client   = ApplicationHelper::getClientInfo($template->client_id);
-			$path     = Path::clean($client->path . '/templates/' . $template->element . '/');
+			$path     = $this->getBasePath();;
 			$fileName = File::makeSafe($file['name']);
 
 			$err = null;
@@ -1491,7 +1490,7 @@ class TemplateModel extends FormModel
 	 */
 	public function createFolder($name, $location)
 	{
-		if ($template = $this->getTemplate())
+		if ($this->getTemplate())
 		{
 			$app    = Factory::getApplication();
 			$path   = Path::clean($location . '/');
@@ -1526,7 +1525,7 @@ class TemplateModel extends FormModel
 	 */
 	public function deleteFolder($location)
 	{
-		if ($template = $this->getTemplate())
+		if ($this->getTemplate())
 		{
 			$app  = Factory::getApplication();
 			$base = $this->getBasePath();
@@ -1564,7 +1563,7 @@ class TemplateModel extends FormModel
 	 */
 	public function renameFile($file, $name)
 	{
-		if ($template = $this->getTemplate())
+		if ($this->getTemplate())
 		{
 			$app          = Factory::getApplication();
 			$path         = $this->getBasePath();
@@ -1601,7 +1600,7 @@ class TemplateModel extends FormModel
 	 */
 	public function getImage()
 	{
-		if ($template = $this->getTemplate())
+		if ($this->getTemplate())
 		{
 			$app      = Factory::getApplication();
 			$fileName = base64_decode($app->input->get('file'));
@@ -1644,7 +1643,7 @@ class TemplateModel extends FormModel
 	 */
 	public function cropImage($file, $w, $h, $x, $y)
 	{
-		if ($template = $this->getTemplate())
+		if ($this->getTemplate())
 		{
 			$app      = Factory::getApplication();
 			$path     = $this->getBasePath() . base64_decode($file);
@@ -1694,9 +1693,9 @@ class TemplateModel extends FormModel
 	 */
 	public function resizeImage($file, $width, $height)
 	{
-		if ($template = $this->getTemplate())
+		if ($this->getTemplate())
 		{
-			$app     = Factory::getApplication();
+			$app  = Factory::getApplication();
 			$path = $this->getBasePath() . base64_decode($file);
 
 			try
@@ -1831,7 +1830,7 @@ class TemplateModel extends FormModel
 	 */
 	public function copyFile($newName, $location, $file)
 	{
-		if ($template = $this->getTemplate())
+		if ($this->getTemplate())
 		{
 			$app          = Factory::getApplication();
 			$relPath      = base64_decode($file);
@@ -1869,7 +1868,7 @@ class TemplateModel extends FormModel
 	 */
 	public function getArchive()
 	{
-		if ($template = $this->getTemplate())
+		if ($this->getTemplate())
 		{
 			$app  = Factory::getApplication();
 			$path = $this->getBasePath() . base64_decode($app->input->get('file'));
@@ -1916,7 +1915,7 @@ class TemplateModel extends FormModel
 	 */
 	public function extractArchive($file)
 	{
-		if ($template = $this->getTemplate())
+		if ($this->getTemplate())
 		{
 			$app          = Factory::getApplication();
 			$relPath      = base64_decode($file);
