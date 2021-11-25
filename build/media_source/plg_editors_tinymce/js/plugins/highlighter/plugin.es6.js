@@ -3,8 +3,6 @@
  *
  * Original code by Arjan Haverkamp
  * Copyright 2013-2015 Arjan Haverkamp (arjan@webgear.nl)
- *
- * Adapted for use in Joomla by Dimitrios Grammatikogiannis
  */
 window.tinymce.PluginManager.add('highlightPlus', (editor, url) => {
   const showSourceEditor = () => {
