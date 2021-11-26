@@ -18,6 +18,7 @@ use Joomla\CMS\Language\Associations;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
+use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
@@ -222,6 +223,13 @@ class HtmlView extends BaseHtmlView
 				$toolbar->preview($url, 'JGLOBAL_PREVIEW')
 					->bodyHeight(80)
 					->modalWidth(90);
+
+					if (PluginHelper::isEnabled('system', 'jooa11y'))
+					{
+						$toolbar->jooa11y($url, 'JGLOBAL_JOOA11Y')
+						->bodyHeight(80)
+						->modalWidth(90);
+					}
 
 				if (Associations::isEnabled() && ComponentHelper::isEnabled('com_associations'))
 				{
