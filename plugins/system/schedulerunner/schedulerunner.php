@@ -310,7 +310,7 @@ class PlgSystemSchedulerunner extends CMSPlugin implements SubscriberInterface
 	 */
 	protected function runScheduler(int $id = 0): ?Task
 	{
-		return (new Scheduler)->runTask($id);
+		return (new Scheduler)->runTask(['id' => $id]);
 	}
 
 	/**
