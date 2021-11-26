@@ -469,32 +469,30 @@ class HtmlDocument extends Document
 
 		$renderer = $this->loadRenderer($type);
 
-		if ($this->_caching == true && $type == 'modules')
+		if ($this->_caching == true && $type == 'modules' && $name !== 'debug')
 		{
 			$cache = \JFactory::getCache('com_modules', '');
-			$hash = md5(serialize(array($name, $attribs, null, $renderer)));
+			$hash = md5(serialize(array($name, $attribs, null, get_class($renderer))));
 			$cbuffer = $cache->get('cbuffer_' . $type);
 
 			if (isset($cbuffer[$hash]))
 			{
 				return Cache::getWorkarounds($cbuffer[$hash], array('mergehead' => 1));
 			}
-			else
-			{
-				$options = array();
-				$options['nopathway'] = 1;
-				$options['nomodules'] = 1;
-				$options['modulemode'] = 1;
 
-				$this->setBuffer($renderer->render($name, $attribs, null), $type, $name);
-				$data = parent::$_buffer[$type][$name][$title];
+			$options = array();
+			$options['nopathway'] = 1;
+			$options['nomodules'] = 1;
+			$options['modulemode'] = 1;
 
-				$tmpdata = Cache::setWorkarounds($data, $options);
+			$this->setBuffer($renderer->render($name, $attribs, null), $type, $name);
+			$data = parent::$_buffer[$type][$name][$title];
 
-				$cbuffer[$hash] = $tmpdata;
+			$tmpdata = Cache::setWorkarounds($data, $options);
 
-				$cache->store($cbuffer, 'cbuffer_' . $type);
-			}
+			$cbuffer[$hash] = $tmpdata;
+
+			$cache->store($cbuffer, 'cbuffer_' . $type);
 		}
 		else
 		{
@@ -719,7 +717,7 @@ class HtmlDocument extends Document
 
 		// 1.5 or core then 1.6
 		$lang->load('tpl_' . $template, JPATH_BASE, null, false, true)
-			|| $lang->load('tpl_' . $template, $directory . '/' . $template, null, false, true);
+		|| $lang->load('tpl_' . $template, $directory . '/' . $template, null, false, true);
 
 		// Assign the variables
 		$this->template = $template;
