@@ -89,11 +89,7 @@ class PlgSystemJooa11y extends CMSPlugin
 			return false;
 		}
 
-		// Are we in a modal?
-		if ($this->app->input->get('tmpl', '', 'cmd') === 'component')
-		{
-			return true;
-		}
+		// @todo Check if we are in a modal ie we pressed the toolbar button
 
 		// Load the checker if authorised
 		if (!$this->isAuthorisedDisplayChecker())
