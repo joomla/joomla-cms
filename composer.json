@@ -100,7 +100,8 @@
         "codeception/module-db": "^1.0",
         "codeception/module-rest": "^1.0",
         "codeception/module-webdriver": "^1.0",
-        "codeception/module-phpbrowser": "^1.0"
+        "codeception/module-phpbrowser": "^1.0",
+        "hoa/console": "^3.17"
     },
     "replace": {
         "paragonie/random_compat": "9.99.99"
