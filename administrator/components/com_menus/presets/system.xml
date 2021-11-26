@@ -165,6 +165,14 @@
 		/>
 
 		<menuitem
+			title="MOD_MENU_MANAGE_SCHEDULED_TASKS"
+			type="component"
+			element="com_scheduler"
+			link="index.php?option=com_scheduler&amp;view=tasks"
+			permission="core.manage;com_scheduler"
+		/>
+
+		<menuitem
 			title="MOD_MENU_EXTENSIONS_MODULE_MANAGER_SITE"
 			type="component"
 			element="com_modules"
