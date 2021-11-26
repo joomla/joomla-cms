@@ -142,7 +142,17 @@ class PlgSystemJooa11y extends CMSPlugin
 		$wa = $document->getWebAssetManager()
 			->registerAndUseScript('jooa11y', 'plg_system_jooa11y/joomla-a11y-checker.js')
 			->registerAndUseScript('jooa11y-lang', 'plg_system_jooa11y/lang/en.js')
-			->registerAndUseStyle('jooa11y', 'plg_system_jooa11y/joomla-a11y-checker.css');
+			->registerAndUseStyle('jooa11y', 'plg_system_jooa11y/joomla-a11y-checker.css')
+			->addInlineScript("
+window.addEventListener('load', () => {
+    // Set translations
+    Jooa11y.Lang.addI18n(Jooa11yLangEn.strings);
+
+    // Instantiate
+    const checker = new Jooa11y.Jooa11y(Jooa11yLangEn.options);
+    checker.doInitialCheck();
+});
+", ['name' => 'jooa11y-init'], ['type' => 'module']);
 
 		return true;
 
