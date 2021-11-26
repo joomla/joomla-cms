@@ -140,6 +140,8 @@ class PlgSystemJooa11y extends CMSPlugin
 		* I know the code below can be improved - help! */
 
 		$wa = $document->getWebAssetManager()
+		->registerAndUseScript('popper', 'https://unpkg.com/@popperjs/core@2')
+		->registerAndUseScript('tippy', 'https://unpkg.com/tippy.js@6')
 			->registerAndUseScript('jooa11y', 'plg_system_jooa11y/joomla-a11y-checker.js')
 			->registerAndUseScript('jooa11y-lang', 'plg_system_jooa11y/lang/en.js')
 			->registerAndUseStyle('jooa11y', 'plg_system_jooa11y/joomla-a11y-checker.css')
