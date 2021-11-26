@@ -93,15 +93,6 @@ class JInstallerAdapterTest extends TestCaseDatabase
 	{
 		$mockInstaller = $this->getMockBuilder('JInstaller')->getMock();
 		$mockDatabase = $this->getMockDatabase();
-
-		$mockDatabase->expects($this->any())
-			->method('getServerType')
-			->willReturn('sqlite');
-
-		$mockDatabase->expects($this->any())
-			->method('getName')
-			->willReturn('sqlite');
-
 		$object = $this->getMockForAbstractClass('JInstallerAdapter', array($mockInstaller, $mockDatabase, array('foo' => 'bar')));
 
 		$this->assertAttributeInstanceOf('JTableExtension', 'extension', $object);
