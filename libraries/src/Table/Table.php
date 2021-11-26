@@ -253,6 +253,9 @@ abstract class Table extends \JObject implements \JObservableInterface, \JTableI
 	public function getFields($reload = false)
 	{
 		$key = $this->_db->getServerType() . ':' . $this->_db->getName() . ':' . $this->_tbl;
+		
+		var_dump($this->_db->getServerType());
+		var_dump($this->_db->getName());
 
 		if (!isset(self::$tableFields[$key]) || $reload)
 		{
