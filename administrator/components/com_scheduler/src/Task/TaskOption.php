@@ -86,6 +86,6 @@ class TaskOption
 			return $this->$name;
 		}
 
-		return;
+		return null;
 	}
 }
