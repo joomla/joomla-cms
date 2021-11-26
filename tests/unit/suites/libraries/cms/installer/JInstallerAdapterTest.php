@@ -71,17 +71,8 @@ class JInstallerAdapterTest extends TestCaseDatabase
 	 */
 	public function getMockDatabase($driver = '', array $extraMethods = array(), $nullDate = '0000-00-00 00:00:00', $dateFormat = 'Y-m-d H:i:s')
 	{
-		$mockDatabase = parent::getMockDatabase('sqlite', $extraMethods, $nullDate, $dateFormat);
-
-		$mockDatabase->expects($this->any())
-			->method('getServerType')
-			->willReturn('sqlite');
-
-		$mockDatabase->expects($this->any())
-			->method('getName')
-			->willReturn('sqlite');
-		
-		return $mockDatabase;
+		// Make sure we are creating an sqlite and not a dummy class here
+		return parent::getMockDatabase('sqlite', $extraMethods, $nullDate, $dateFormat);
 	}
 
 	/**
