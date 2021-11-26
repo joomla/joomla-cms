@@ -131,7 +131,7 @@ class HtmlView extends BaseHtmlView
 							$childBar->save('contact.save2menu', 'JTOOLBAR_SAVE_TO_MENU');
 						}
 
-						$childBar->save2new('conyact.save2new');
+						$childBar->save2new('contact.save2new');
 					}
 				);
 			}
