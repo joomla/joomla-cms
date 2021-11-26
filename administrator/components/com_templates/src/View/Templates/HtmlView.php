@@ -133,7 +133,7 @@ class HtmlView extends BaseHtmlView
 		$canDo    = ContentHelper::getActions('com_templates');
 		$clientId = (int) $this->get('State')->get('client_id');
 
-		// Add a shortcut to the styles view.
+		// Add a shortcut to the styles list view.
 		ToolbarHelper::link('index.php?option=com_templates&view=styles&client_id=' . $clientId, Text::_('COM_TEMPLATES_MANAGER_STYLES_BUTTON'), 'brush');
 
 		// Set the title.
