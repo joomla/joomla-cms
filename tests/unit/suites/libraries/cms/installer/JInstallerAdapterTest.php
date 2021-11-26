@@ -80,6 +80,8 @@ class JInstallerAdapterTest extends TestCaseDatabase
 		$mockDatabase->expects($this->any())
 			->method('getName')
 			->willReturn('sqlite');
+		
+		return $mockDatabase;
 	}
 
 	/**
