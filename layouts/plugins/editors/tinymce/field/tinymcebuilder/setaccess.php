@@ -19,6 +19,6 @@ extract($displayData);
  */
 
 ?>
-<div class="setaccess-form-wrapper my-3">
+<div class="setaccess-form-wrapper">
 	<?php echo $form->renderField('access'); ?>
 </div>

@@ -9,12 +9,13 @@
 namespace Joomla\CMS\Console;
 
 // Restrict direct access
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Application\ConsoleApplication;
 use Joomla\CMS\Factory;
 use Joomla\Component\Jobs\Administrator\Table\TaskTable;
 use Joomla\Component\Scheduler\Administrator\Model\TaskModel;
+use Joomla\Component\Scheduler\Administrator\Task\Task;
 use Joomla\Console\Application;
 use Joomla\Console\Command\AbstractCommand;
 use Joomla\Utilities\ArrayHelper;
@@ -55,27 +56,6 @@ class TasksStateCommand extends AbstractCommand
 	private $ioStyle;
 
 	/**
-	 * State to enable.
-	 *
-	 * @since __DEPLOY_VERSION__
-	 */
-	const STATE_ENABLE = 1;
-
-	/**
-	 * State to disable.
-	 *
-	 * @since __DEPLOY_VERSION__
-	 */
-	const STATE_DISABLE = 0;
-
-	/**
-	 * State to trash.
-	 *
-	 * @since __DEPLOY_VERSION__
-	 */
-	const STATE_TRASH = -2;
-
-	/**
 	 * Internal function to execute the command.
 	 *
 	 * @param   InputInterface   $input   The input to inject into the command.
@@ -92,33 +72,57 @@ class TasksStateCommand extends AbstractCommand
 
 		$this->configureIO($input, $output);
 
-		$id = (int) $input->getOption('id');
-
-		while (!$id)
-		{
-			$id = (int) $this->ioStyle->ask('Please specify the ID of the task');
-		}
-
+		$id = (string) $input->getOption('id');
 		$state = (string) $input->getOption('state');
 
-		if (!is_numeric($state))
+		// Try to validate and process ID, if passed
+		if (\strlen($id))
 		{
-			$state = ArrayHelper::getValue(['enable' => self::STATE_ENABLE, 'disable' => self::STATE_DISABLE,
-				'trash' => self::STATE_TRASH], $state
-			);
+			if (!Task::isValidId($id))
+			{
+				$this->ioStyle->error('Invalid id passed!');
+
+				return 2;
+			}
+
+			$id = (is_numeric($id)) ? ($id + 0) : $id;
 		}
 
-		while (!strlen($state) || !in_array($state, [self::STATE_ENABLE, self::STATE_DISABLE, self::STATE_TRASH]))
+		// Try to validate and process state, if passed
+		if (\strlen($state))
+		{
+			// If we get the logical state, we try to get the enumeration (but as a string)
+			if (!is_numeric($state))
+			{
+				$state = (string) ArrayHelper::arraySearch($state, Task::STATE_MAP);
+			}
+
+			if (!\strlen($state) || !Task::isValidState($state))
+			{
+				$this->ioStyle->error('Invalid state passed!');
+
+				return 2;
+			}
+		}
+
+		// If we didn't get ID as a flag, ask for it interactively
+		while (!Task::isValidId($id))
+		{
+			$id = $this->ioStyle->ask('Please specify the ID of the task');
+		}
+
+		// If we didn't get state as a flag, ask for it interactively
+		while ($state === false || !Task::isValidState($state))
 		{
 			$state = (string) $this->ioStyle->ask('Should the state be "enable" (1), "disable" (0) or "trash" (-2)');
 
-			if (!is_numeric($state))
-			{
-				$state = ArrayHelper::getValue(['enable' => self::STATE_ENABLE, 'disable' => self::STATE_DISABLE,
-					'trash' => self::STATE_TRASH], $state
-				);
-			}
+			// Ensure we have the enumerated value (still as a string)
+			$state = (Task::isValidState($state)) ?: ArrayHelper::arraySearch($state, Task::STATE_MAP);
 		}
+
+		// Finally, the enumerated state and id in their pure form
+		$state = (int) $state;
+		$id = (int) $id;
 
 		/** @var ConsoleApplication $app */
 		$app = $this->getApplication();
@@ -128,6 +132,7 @@ class TasksStateCommand extends AbstractCommand
 
 		$task = $taskModel->getItem($id);
 
+		// We couldn't fetch that task :(
 		if (empty($task->id))
 		{
 			$this->ioStyle->error("Task ID '${id}' does not exist!");
@@ -135,17 +140,18 @@ class TasksStateCommand extends AbstractCommand
 			return 1;
 		}
 
+		// If the item is checked-out we need a check in (currently not possible through the CLI)
 		if ($taskModel->isCheckedOut($task))
 		{
 			$this->ioStyle->error("Task ID '${id}' is checked out!");
 
-			return 2;
+			return 1;
 		}
 
 		/** @var TaskTable $table */
 		$table = $taskModel->getTable();
 
-		$action = array_search($state, ['enable' => self::STATE_ENABLE, 'disable' => self::STATE_DISABLE, 'trash' => self::STATE_TRASH]);
+		$action = Task::STATE_MAP[$state];
 
 		if (!$table->publish($id, $state))
 		{
@@ -154,8 +160,7 @@ class TasksStateCommand extends AbstractCommand
 			return 3;
 		}
 
-		$actionAdjective = $action . substr($action, -1) == 'e' ? '' : "";
-		$this->ioStyle->success('Task ID ' . $id . ' ' . $actionAdjective);
+		$this->ioStyle->success("Task ID ${id} ${action}.");
 
 		return 0;
 	}
@@ -170,7 +175,7 @@ class TasksStateCommand extends AbstractCommand
 	 *
 	 * @since  __DEPLOY_VERSION__
 	 */
-	private function configureIO(InputInterface $input, OutputInterface $output)
+	private function configureIO(InputInterface $input, OutputInterface $output): void
 	{
 		$this->ioStyle = new SymfonyStyle($input, $output);
 	}
@@ -184,13 +189,13 @@ class TasksStateCommand extends AbstractCommand
 	 */
 	protected function configure(): void
 	{
-		$this->addOption('id', 'i', InputOption::VALUE_REQUIRED, 'The id of the task to change');
-		$this->addOption('state', 's', InputOption::VALUE_REQUIRED, 'Set the new state of the task, can be 1/enable, 0/disable, -2/trash.');
+		$this->addOption('id', 'i', InputOption::VALUE_REQUIRED, 'The id of the task to change state.');
+		$this->addOption('state', 's', InputOption::VALUE_REQUIRED, 'The new state of the task, can be 1/enable, 0/disable, or -2/trash.');
 
 		$help = "<info>%command.name%</info> changes the state of a task.
 		\nUsage: <info>php %command.full_name%</info>";
 
-		$this->setDescription('Enable/Disable/Trash a task');
+		$this->setDescription('Enable, disable or trash a scheduled task');
 		$this->setHelp($help);
 	}
 }

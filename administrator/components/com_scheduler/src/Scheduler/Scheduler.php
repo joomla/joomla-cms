@@ -21,6 +21,7 @@ use Joomla\Component\Scheduler\Administrator\Model\TaskModel;
 use Joomla\Component\Scheduler\Administrator\Model\TasksModel;
 use Joomla\Component\Scheduler\Administrator\Task\Status;
 use Joomla\Component\Scheduler\Administrator\Task\Task;
+use Symfony\Component\OptionsResolver\Exception\AccessException;
 use Symfony\Component\OptionsResolver\Exception\InvalidOptionsException;
 use Symfony\Component\OptionsResolver\Exception\UndefinedOptionsException;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -69,30 +70,56 @@ class Scheduler
 	 * Run a scheduled task.
 	 * Runs a single due task from the task queue by default if $id and $title are not passed.
 	 *
-	 * @param   int   $id             The task ID. By default, this is 0 and targets the task next in the task queue.
-	 * @param   bool  $allowDisabled  If true, disabled tasks can also be run.
+	 * @param   array  $options  Array with options to configure the method's behavior. Supports:
+	 *                           1. `id`: (Optional) ID of the task to run.
+	 *                           2. `allowDisabled`: Allow running disabled tasks.
+	 *                           3. `allowConcurrent`: Allow concurrent execution, i.e., running the task when another
+	 *                           task may be running.
 	 *
 	 * @return ?Task  The task executed or null if not exists
 	 *
 	 * @since __DEPLOY_VERSION__
 	 * @throws \RuntimeException
 	 */
-	public function runTask(int $id = 0, bool $allowDisabled = false): ?Task
+	public function runTask(array $options): ?Task
 	{
+		$resolver = new OptionsResolver;
+
+		try
+		{
+			$this->configureTaskRunnerOptions($resolver);
+		}
+		catch (\Exception $e)
+		{
+		}
+
+		try
+		{
+			$options = $resolver->resolve($options);
+		}
+		catch (\Exception $e)
+		{
+			if ($e instanceof UndefinedOptionsException || $e instanceof InvalidOptionsException)
+			{
+				throw $e;
+			}
+		}
+
 		/** @var CMSApplication $app */
 		$app = Factory::getApplication();
 
 		// ? Sure about inferring scheduling bypass?
 		$task = $this->getTask(
 			[
-				'id'                  => $id,
-				'allowDisabled'       => $allowDisabled,
-				'bypassScheduling'    => $id === 0,
-				'allowConcurrent'     => false,
+				'id'                  => $options['id'],
+				'allowDisabled'       => $options['allowDisabled'],
+				'bypassScheduling'    => $options['id'] === 0,
+				'allowConcurrent'     => $options['allowConcurrent'],
 				'includeCliExclusive' => ($app->isClient('cli')),
 			]
 		);
 
+		// ? Should this be logged? (probably, if an ID is passed?)
 		if (empty($task))
 		{
 			return null;
@@ -143,6 +170,30 @@ class Scheduler
 		);
 
 		return $task;
+	}
+
+	/**
+	 * Set up an {@see OptionsResolver} to resolve options compatible with {@see runTask}.
+	 *
+	 * @param   OptionsResolver  $resolver  The {@see OptionsResolver} instance to set up.
+	 *
+	 * @return void
+	 *
+	 * @since __DEPLOY_VERSION__
+	 * @throws AccessException
+	 */
+	protected function configureTaskRunnerOptions(OptionsResolver $resolver): void
+	{
+		$resolver->setDefaults(
+			[
+				'id' => 0,
+				'allowDisabled' => false,
+				'allowConcurrent' => false,
+			]
+		)
+			->setAllowedTypes('id', 'int')
+			->setAllowedTypes('allowDisabled', 'bool')
+			->setAllowedTypes('allowConcurrent', 'bool');
 	}
 
 	/**
@@ -211,15 +262,15 @@ class Scheduler
 	 * Fetches a single scheduled task in a Task instance.
 	 * If no id or title is specified, a due task is returned.
 	 *
-	 * @param   int   $id           The task ID
-	 * @param   bool  $unpublished  Allow disabled/trashed tasks?
+	 * @param   int   $id             The task ID.
+	 * @param   bool  $allowDisabled  Allow disabled/trashed tasks?
 	 *
 	 * @return ?object  A matching task record, if it exists
 	 *
 	 * @since __DEPLOY_VERSION__
 	 * @throws \RuntimeException
 	 */
-	public function fetchTaskRecord(int $id = 0, bool $unpublished = false): ?object
+	public function fetchTaskRecord(int $id = 0, bool $allowDisabled = false): ?object
 	{
 		$filters    = [];
 		$listConfig = ['limit' => 1];
@@ -239,7 +290,7 @@ class Scheduler
 			];
 		}
 
-		if ($unpublished)
+		if ($allowDisabled)
 		{
 			$filters['state'] = '';
 		}

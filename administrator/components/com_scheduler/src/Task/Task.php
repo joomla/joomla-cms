@@ -16,6 +16,7 @@ use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Event\AbstractEvent;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\Component\Scheduler\Administrator\Event\ExecuteTaskEvent;
@@ -27,6 +28,7 @@ use Joomla\Database\DatabaseDriver;
 use Joomla\Database\DatabaseInterface;
 use Joomla\Database\ParameterType;
 use Joomla\Registry\Registry;
+use Joomla\Utilities\ArrayHelper;
 use Psr\Log\InvalidArgumentException;
 use Psr\Log\LoggerAwareInterface;
 use Psr\Log\LoggerAwareTrait;
@@ -41,6 +43,38 @@ use Psr\Log\LoggerAwareTrait;
 class Task implements LoggerAwareInterface
 {
 	use LoggerAwareTrait;
+
+	/**
+	 * Enumerated state for enabled tasks.
+	 *
+	 * @since __DEPLOY_VERSION__
+	 */
+	const STATE_ENABLED = 1;
+
+	/**
+	 * Enumerated state for disabled tasks.
+	 *
+	 * @since __DEPLOY_VERSION__
+	 */
+	public const STATE_DISABLED = 0;
+
+	/**
+	 * Enumerated state for trashed tasks.
+	 *
+	 * @since __DEPLOY_VERSION__
+	 */
+	public const STATE_TRASHED = -2;
+
+	/**
+	 * Map state enumerations to logical language adjectives.
+	 *
+	 * @since __DEPLOY__VERSION__
+	 */
+	public const STATE_MAP = [
+		self::STATE_TRASHED  => 'trashed',
+		self::STATE_DISABLED => 'disabled',
+		self::STATE_ENABLED  => 'enabled',
+	];
 
 	/**
 	 * The task snapshot
@@ -198,7 +232,7 @@ class Task implements LoggerAwareInterface
 		catch (\Exception $e)
 		{
 			// Suppress the exception for now, we'll throw it again once it's safe
-			$this->log(Text::sprintf('COM_SCHEDULER_TASK_ROUTINE_EXCEPTION', $e->getMessage), 'error');
+			$this->log(Text::sprintf('COM_SCHEDULER_TASK_ROUTINE_EXCEPTION', $e->getMessage()), 'error');
 			$this->snapshot['exception'] = $e;
 			$this->snapshot['status'] = Status::KNOCKOUT;
 		}
@@ -493,5 +527,49 @@ class Task implements LoggerAwareInterface
 	public function get(string $path, $default = null)
 	{
 		return $this->taskRegistry->get($path, $default);
+	}
+
+	/**
+	 * Static method to determine whether an enumerated task state (as a string) is valid.
+	 *
+	 * @param   string  $state  The task state (enumerated, as a string).
+	 *
+	 * @return boolean
+	 *
+	 * @since __DEPLOY_VERSION__
+	 */
+	public static function isValidState(string $state): bool
+	{
+		if (!is_numeric($state))
+		{
+			return false;
+		}
+
+		// Takes care of interpreting as float/int
+		$state = $state + 0;
+
+		return ArrayHelper::getValue(self::STATE_MAP, $state) !== null;
+	}
+
+	/**
+	 * Static method to determine whether a task id is valid. Note that this does not
+	 * validate ids against the database, but only verifies that an id may exist.
+	 *
+	 * @param   string  $id  The task id (as a string).
+	 *
+	 * @return boolean
+	 *
+	 * @since __DEPLOY_VERSION__
+	 */
+	public static function isValidId(string $id): bool
+	{
+		$id = is_numeric($id) ? ($id + 0) : $id;
+
+		if (!\is_int($id) || $id <= 0)
+		{
+			return false;
+		}
+
+		return true;
 	}
 }
