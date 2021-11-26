@@ -98,6 +98,8 @@
 					label="MOD_FEED_FIELD_ITEMS_LABEL"
 					default="3"
 					filter="integer"
+					min="1"
+					validate="number"
 				/>
 
 				<field
