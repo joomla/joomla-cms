@@ -69,11 +69,11 @@ class JInstallerAdapterTest extends TestCaseDatabase
 
 		$mockDatabase->expects($this->any())
 			->method('getServerType')
-			->willReturn('servertype');
+			->willReturn('sqlite');
 
 		$mockDatabase->expects($this->any())
 			->method('getName')
-			->willReturn('dbname');
+			->willReturn('sqlite');
 
 		$object = $this->getMockForAbstractClass('JInstallerAdapter', array($mockInstaller, $mockDatabase, array('foo' => 'bar')));
 
