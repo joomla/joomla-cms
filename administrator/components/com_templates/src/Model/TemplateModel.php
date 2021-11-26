@@ -2052,123 +2052,160 @@ class TemplateModel extends FormModel
 	 */
 	public function child()
 	{
-		$app = Factory::getApplication();
+		$app      = Factory::getApplication();
+		$template = $this->getTemplate();
 
-		if ($template = $this->getTemplate())
+		if (!(array) $template)
 		{
-			$client = ApplicationHelper::getClientInfo($template->client_id);
-			$fromPath = Path::clean($client->path . '/templates/' . $template->element . '/templateDetails.xml');
+			$app->enqueueMessage(Text::_('COM_TEMPLATES_ERROR_COULD_NOT_WRITE'), 'error');
 
-			// Delete new folder if it exists
-			$toPath = $this->getState('to_path');
+			return false;
+		}
 
-			if (Folder::exists($toPath))
+		$client   = ApplicationHelper::getClientInfo($template->client_id);
+		$fromPath = Path::clean($client->path . '/templates/' . $template->element . '/templateDetails.xml');
+
+		// Delete new folder if it exists
+		$toPath = $this->getState('to_path');
+
+		if (Folder::exists($toPath))
+		{
+			if (!Folder::delete($toPath))
 			{
-				if (!Folder::delete($toPath))
-				{
-					$app->enqueueMessage(Text::_('COM_TEMPLATES_ERROR_COULD_NOT_WRITE'), 'error');
+				$app->enqueueMessage(Text::_('COM_TEMPLATES_ERROR_COULD_NOT_WRITE'), 'error');
 
-					return false;
-				}
-			}
-			else
-			{
-				if (!Folder::create($toPath))
-				{
-					$app->enqueueMessage(Text::_('COM_TEMPLATES_ERROR_COULD_NOT_WRITE'), 'error');
-
-					return false;
-				}
-			}
-
-			// Copy the template definition from the parent template
-			if (!File::copy($fromPath, $toPath . '/templateDetails.xml'))
-			{
 				return false;
 			}
-
-			// Check manifest for additional files
-			$newName  = strtolower($this->getState('new_name'));
-			$template = $this->getTemplate();
-
-			// Edit XML file
-			$xmlFile = Path::clean($this->getState('to_path') . '/templateDetails.xml');
-
-			if (File::exists($xmlFile))
-			{
-				$xml = simplexml_load_string(file_get_contents($xmlFile));
-				unset($xml->languages);
-				unset($xml->media);
-				unset($xml->files);
-				unset($xml->parent);
-				unset($xml->creationDate);
-				unset($xml->author);
-
-				// Remove the update parts
-				unset($xml->update);
-				unset($xml->updateservers);
-
-				$xml->addChild('author', Factory::getUser()->name);
-				$xml->addChild('creationDate', (new Date('now'))->format('F Y'));
-
-				$files = $xml->addChild('files');
-				$files->addChild('filename', 'templateDetails.xml');
-
-				// Media folder
-				$media = $xml->addChild('media');
-				$media->addAttribute('folder', 'media');
-				$media->addAttribute('destination', 'templates/' . ($template->client_id === 0 ? 'site/' : 'administrator/') . $template->element . '_' . $newName);
-				$media->addChild('folder', 'css');
-				$media->addChild('folder', 'js');
-				$media->addChild('folder', 'images');
-
-				$xml->name = $template->element . '_' . $newName;
-				$xml->inheritable = 0;
-				$files = $xml->addChild('parent', $template->element);
-
-				$dom = new \DOMDocument;
-				$dom->preserveWhiteSpace = false;
-				$dom->formatOutput = true;
-				$dom->loadXML($xml->asXML());
-
-				$result = File::write($xmlFile, $dom->saveXML());
-
-				if (!$result)
-				{
-					$app->enqueueMessage(Text::_('COM_TEMPLATES_ERROR_COULD_NOT_WRITE'), 'error');
-
-					return false;
-				}
-
-				// Create an empty media folder structure
-				if (!Folder::create($toPath . '/media'))
-				{
-					return false;
-				}
-
-				if (!Folder::create($toPath . '/media/css'))
-				{
-					return false;
-				}
-
-				if (!Folder::create($toPath . '/media/js'))
-				{
-					return false;
-				}
-
-				if (!Folder::create($toPath . '/media/images'))
-				{
-					return false;
-				}
-			}
-
-			return true;
 		}
 		else
+		{
+			if (!Folder::create($toPath))
+			{
+				$app->enqueueMessage(Text::_('COM_TEMPLATES_ERROR_COULD_NOT_WRITE'), 'error');
+
+				return false;
+			}
+		}
+
+		// Copy the template definition from the parent template
+		if (!File::copy($fromPath, $toPath . '/templateDetails.xml'))
+		{
+			return false;
+		}
+
+		// Check manifest for additional files
+		$newName  = strtolower($this->getState('new_name'));
+		$template = $this->getTemplate();
+
+		// Edit XML file
+		$xmlFile = Path::clean($this->getState('to_path') . '/templateDetails.xml');
+
+		if (!File::exists($xmlFile))
 		{
 			$app->enqueueMessage(Text::_('COM_TEMPLATES_ERROR_INVALID_FROM_NAME'), 'error');
 
 			return false;
 		}
+
+		try
+		{
+			$xml = simplexml_load_string(file_get_contents($xmlFile));
+		}
+		catch (\Exception $e)
+		{
+			$app->enqueueMessage(Text::_('COM_TEMPLATES_ERROR_COULD_NOT_READ'), 'error');
+
+			return false;
+		}
+
+		$user = Factory::getUser();
+		unset($xml->languages);
+		unset($xml->media);
+		unset($xml->files);
+		unset($xml->parent);
+		unset($xml->inheritable);
+
+		// Remove the update parts
+		unset($xml->update);
+		unset($xml->updateservers);
+
+		if (isset($xml->creationDate))
+		{
+			$xml->creationDate = (new Date('now'))->format('F Y');
+		}
+		else
+		{
+			$xml->addChild('creationDate', (new Date('now'))->format('F Y'));
+		}
+
+		if (isset($xml->author))
+		{
+			$xml->author = $user->name;
+		}
+		else
+		{
+			$xml->addChild('author', $user->name);
+		}
+
+		if (isset($xml->authorEmail))
+		{
+			$xml->authorEmail = $user->email;
+		}
+		else
+		{
+			$xml->addChild('authorEmail', $user->email);
+		}
+
+		$files = $xml->addChild('files');
+		$files->addChild('filename', 'templateDetails.xml');
+
+		// Media folder
+		$media = $xml->addChild('media');
+		$media->addAttribute('folder', 'media');
+		$media->addAttribute('destination', 'templates/' . ($template->client_id === 0 ? 'site/' : 'administrator/') . $template->element . '_' . $newName);
+		$media->addChild('folder', 'css');
+		$media->addChild('folder', 'js');
+		$media->addChild('folder', 'images');
+
+		$xml->name = $template->element . '_' . $newName;
+		$xml->inheritable = 0;
+		$files = $xml->addChild('parent', $template->element);
+
+		$dom = new \DOMDocument;
+		$dom->preserveWhiteSpace = false;
+		$dom->formatOutput = true;
+		$dom->loadXML($xml->asXML());
+
+		$result = File::write($xmlFile, $dom->saveXML());
+
+		if (!$result)
+		{
+			$app->enqueueMessage(Text::_('COM_TEMPLATES_ERROR_COULD_NOT_WRITE'), 'error');
+
+			return false;
+		}
+
+		// Create an empty media folder structure
+		if (!Folder::create($toPath . '/media'))
+		{
+			return false;
+		}
+
+		if (!Folder::create($toPath . '/media/css'))
+		{
+			return false;
+		}
+
+		if (!Folder::create($toPath . '/media/js'))
+		{
+			return false;
+		}
+
+		if (!Folder::create($toPath . '/media/images'))
+		{
+			return false;
+		}
+
+		return true;
 	}
 }
