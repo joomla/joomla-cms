@@ -22,7 +22,7 @@ use Joomla\Event\SubscriberInterface;
 use Joomla\Registry\Registry;
 
 /**
- * Task plugin with routines to make HTTP requests.<br/>
+ * Task plugin with routines to make HTTP requests.
  * At the moment, offers a single routine for GET requests.
  *
  * @since  __DEPLOY_VERSION__
