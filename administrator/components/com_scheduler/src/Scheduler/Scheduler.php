@@ -262,15 +262,15 @@ class Scheduler
 	 * Fetches a single scheduled task in a Task instance.
 	 * If no id or title is specified, a due task is returned.
 	 *
-	 * @param   int   $id           The task ID
-	 * @param   bool  $unpublished  Allow disabled/trashed tasks?
+	 * @param   int   $id             The task ID.
+	 * @param   bool  $allowDisabled  Allow disabled/trashed tasks?
 	 *
 	 * @return ?object  A matching task record, if it exists
 	 *
 	 * @since __DEPLOY_VERSION__
 	 * @throws \RuntimeException
 	 */
-	public function fetchTaskRecord(int $id = 0, bool $unpublished = false): ?object
+	public function fetchTaskRecord(int $id = 0, bool $allowDisabled = false): ?object
 	{
 		$filters    = [];
 		$listConfig = ['limit' => 1];
@@ -290,7 +290,7 @@ class Scheduler
 			];
 		}
 
-		if ($unpublished)
+		if ($allowDisabled)
 		{
 			$filters['state'] = '';
 		}
