@@ -114,7 +114,11 @@ class HtmlView extends BaseHtmlView
 	 */
 	protected function addToolbar()
 	{
-		$canDo = ContentHelper::getActions('com_templates');
+		$canDo    = ContentHelper::getActions('com_templates');
+		$clientId = (int) $this->get('State')->get('client_id');
+
+		// Add a shortcut to the styles view.
+		ToolbarHelper::link('index.php?option=com_templates&view=templates&client_id=' . $clientId, Text::_('COM_TEMPLATES_MANAGER_TEMPLATES'), 'list');
 
 		// Set the title.
 		if ((int) $this->get('State')->get('client_id') === 1)
