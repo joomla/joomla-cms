@@ -13,7 +13,7 @@ namespace Joomla\CMS\Console;
 
 use Joomla\CMS\Application\ConsoleApplication;
 use Joomla\CMS\Factory;
-use Joomla\Component\Jobs\Administrator\Table\TaskTable;
+use Joomla\Component\Scheduler\Administrator\Table\TaskTable;
 use Joomla\Component\Scheduler\Administrator\Model\TaskModel;
 use Joomla\Component\Scheduler\Administrator\Task\Task;
 use Joomla\Console\Application;
