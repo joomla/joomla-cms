@@ -34,7 +34,7 @@ abstract class Table extends \JObject implements \JObservableInterface, \JTableI
 	 * Table fields cache
 	 *
 	 * @var   array
-	 * @since __DEPLOY_VERSION__
+	 * @since 3.10.4
 	 */
 	private static $tableFields;
 

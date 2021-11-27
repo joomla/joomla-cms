@@ -1807,7 +1807,7 @@ ENDDATA;
 	 *
 	 * @return  boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.10.4
 	 */
 	public function isTemplateActive($template)
 	{

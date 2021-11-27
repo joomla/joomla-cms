@@ -20,7 +20,7 @@ class CategoriesModelCategories extends JModelList
 	 * Does an association exist? Caches the result of getAssoc().
 	 *
 	 * @var   boolean|null
-	 * @since __DEPLOY_VERSION__
+	 * @since 3.10.4
 	 */
 	private $hasAssociation;
 
