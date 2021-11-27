@@ -133,7 +133,7 @@ class TemplateController extends BaseController
 		}
 
 		$url  = 'index.php?option=com_templates&view=template&id=' . $id . '&file=' .
-		$file . '&isMedia=' . $this->input->getInt('isMedia', 0);
+			$file . '&isMedia=' . $this->input->getInt('isMedia', 0);
 		$this->setRedirect(Route::_($url, false));
 	}
 
