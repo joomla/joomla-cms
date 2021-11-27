@@ -75,10 +75,10 @@ class TemplateModel extends FormModel
 
 		if ($this->getTemplate())
 		{
-			$path = str_replace(JPATH_ROOT . '/media/templates/' . ($this->template->client_id === 0 ? 'site' : 'administrator') . '/' . $this->template->element, '', $path);
-			$path = str_replace(JPATH_ROOT . '/' . ($this->template->client_id === 0 ? '' : 'administrator/') . 'templates/' . $this->template->element, '', $path);
+			$path = str_replace(JPATH_ROOT . DIRECTORY_SEPARATOR . 'media' . DIRECTORY_SEPARATOR . 'templates' . DIRECTORY_SEPARATOR . ($this->template->client_id === 0 ? 'site' : 'administrator') . DIRECTORY_SEPARATOR . $this->template->element, '', $path);
+			$path = str_replace(JPATH_ROOT . DIRECTORY_SEPARATOR . ($this->template->client_id === 0 ? '' : 'administrator' . DIRECTORY_SEPARATOR) . 'templates' . DIRECTORY_SEPARATOR . $this->template->element, '', $path);
 			$temp->name = $name;
-			$temp->id = urlencode(base64_encode($path));
+			$temp->id = urlencode(base64_encode(str_replace('\\', '//', $path)));
 
 			return $temp;
 		}
@@ -449,7 +449,7 @@ class TemplateModel extends FormModel
 				{
 					$relativePath = str_replace(JPATH_ROOT . DIRECTORY_SEPARATOR . 'media' . DIRECTORY_SEPARATOR . 'templates' . DIRECTORY_SEPARATOR . ($this->template->client_id === 0 ? 'site' : 'administrator') . DIRECTORY_SEPARATOR . $this->template->element, '', $dir . $value);
 					$relativePath = str_replace(JPATH_ROOT . DIRECTORY_SEPARATOR . ($this->template->client_id === 0 ? '' : 'administrator' . DIRECTORY_SEPARATOR) .'templates' . DIRECTORY_SEPARATOR . $this->template->element, '', $relativePath);
-					$result[$relativePath] = $this->getDirectoryTree($dir . $value . '/');
+					$result[str_replace('\\', '//', $relativePath)] = $this->getDirectoryTree($dir . $value . '/');
 				}
 				else
 				{
