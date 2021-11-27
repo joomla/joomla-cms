@@ -20,7 +20,7 @@ use Joomla\Component\Scheduler\Administrator\Traits\TaskPluginTrait;
 use Joomla\Event\SubscriberInterface;
 
 /**
- * Task plugin with routines that offer checks on files.<br/>
+ * Task plugin with routines that offer checks on files.
  * At the moment, offers a single routine to check and resize image files in a directory.
  *
  * @since  __DEPLOY_VERSION__
