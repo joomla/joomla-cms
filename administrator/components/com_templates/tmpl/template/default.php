@@ -396,7 +396,7 @@ if ($this->type == 'font')
 		$renameModalData = array(
 			'selector' => 'renameModal',
 			'params'   => array(
-				'title'  => Text::sprintf('COM_TEMPLATES_RENAME_FILE', $this->fileName),
+				'title'  => Text::sprintf('COM_TEMPLATES_RENAME_FILE', str_replace('//', '/', $this->fileName)),
 				'footer' => $this->loadTemplate('modal_rename_footer')
 			),
 			'body' => $this->loadTemplate('modal_rename_body')
