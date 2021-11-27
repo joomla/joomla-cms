@@ -25,9 +25,9 @@ $input = Factory::getApplication()->input;
 				<div class="tree-holder">
 					<ul class="directory-tree treeselect root">
 						<li class="folder-select">
-							<a class="folder-url" data-id="<?php echo base64_encode($key); ?>" href="" data-base="template">
+							<a class="folder-url" data-id="" href="" data-base="template">
 								<span class="icon-folder icon-fw" aria-hidden="true"></span>
-								<?php echo Text::_('COM_TEMPLATES_TEMPLATE_FOLDER'); ?>
+								<?php echo ($this->template->client_id === 0 ? '/' : '/administrator/') . 'templates/' . $this->template->element; ?>
 							</a>
 							<?php echo $this->loadTemplate('folders'); ?>
 						</li>
@@ -35,9 +35,9 @@ $input = Factory::getApplication()->input;
 					<?php if (count($this->mediaFiles)) : ?>
 						<ul class="directory-tree treeselect">
 							<li class="folder-select">
-								<a class="folder-url" data-id="<?php echo base64_encode($key); ?>" href="" data-base="media">
+								<a class="folder-url" data-id="" href="" data-base="media">
 									<span class="icon-folder icon-fw" aria-hidden="true"></span>
-									<?php echo Text::_('COM_TEMPLATES_TEMPLATE_MEDIA_FOLDER'); ?>
+									<?php echo '/media/templates/' . ($this->template->client_id === 0 ? 'site/' : 'administrator/') . $this->template->element; ?>
 								</a>
 								<?php echo $this->loadTemplate('media_folders'); ?>
 							</li>
