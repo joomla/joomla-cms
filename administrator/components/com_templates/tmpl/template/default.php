@@ -131,7 +131,6 @@ if ($this->type == 'font')
 							<?php if ($overrideCheck['1'] === 'html') : ?>
 								<h2><?php echo Text::_('COM_TEMPLATES_FILE_OVERRIDE_PANE'); ?></h2>
 							<?php endif; ?>
-							<?php echo $input->getInt('id'); ?>
 							<form action="<?php echo Route::_('index.php?option=com_templates&view=template&id=' . $input->getInt('id') . '&file=' . $this->file . '&isMedia=' . $input->get('isMedia', 0)); ?>" method="post" name="adminForm" id="adminForm">
 								<input type="hidden" name="isMedia" value="<?php echo $input->get('isMedia', 0); ?>">
 								<div class="editor-border">
