@@ -1215,14 +1215,13 @@ class PlgEditorTinymce extends CMSPlugin
 			{
 				return Uri::root(true) . str_replace(JPATH_ROOT, '', $nonMinifiedPath);
 			}
-			elseif (is_file($minifiedPath))
+
+			if (is_file($minifiedPath))
 			{
 				return Uri::root(true) . str_replace(JPATH_ROOT, '', $minifiedPath);
 			}
-			else
-			{
-				return '';
-			}
+
+			return '';
 		}
 
 		$minifiedPath = pathinfo($path, PATHINFO_DIRNAME) . '/' . pathinfo($path, PATHINFO_FILENAME) . '.min.' . pathinfo($path, PATHINFO_EXTENSION);
@@ -1231,13 +1230,12 @@ class PlgEditorTinymce extends CMSPlugin
 		{
 			return Uri::root(true) . str_replace(JPATH_ROOT, '', $path);
 		}
-		elseif (is_file($minifiedPath))
+
+		if (is_file($minifiedPath))
 		{
 			return Uri::root(true) . str_replace(JPATH_ROOT, '', $minifiedPath);
 		}
-		else
-		{
-			return '';
-		}
+
+		return '';
 	}
 }
