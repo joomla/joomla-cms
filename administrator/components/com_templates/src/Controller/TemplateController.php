@@ -75,7 +75,7 @@ class TemplateController extends BaseController
 		$file = base64_encode('home');
 		$id = (int) $this->input->get('id', 0, 'int');
 		$url  = 'index.php?option=com_templates&view=template&id=' . $id . '&file=' .
-		$file . '&isMedia=' . $isMedia;
+		$file . '&isMedia=' . $this->input->getInt('isMedia', 0);
 		$this->setRedirect(Route::_($url, false));
 	}
 
@@ -133,7 +133,7 @@ class TemplateController extends BaseController
 		}
 
 		$url  = 'index.php?option=com_templates&view=template&id=' . $id . '&file=' .
-		$file . '&isMedia=' . $isMedia;
+		$file . '&isMedia=' . $this->input->getInt('isMedia', 0);
 		$this->setRedirect(Route::_($url, false));
 	}
 
