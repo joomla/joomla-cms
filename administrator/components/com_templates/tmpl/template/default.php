@@ -64,7 +64,7 @@ if ($this->type == 'font')
 	<div class="row mt-2">
 		<div class="col-md-8" id="conditional-section">
 			<?php if ($this->type == 'file') : ?>
-				<p class="lead"><?php echo Text::sprintf('COM_TEMPLATES_TEMPLATE_FILENAME', '&#x200E;' . ($input->get('isMedia', 0) ? '/media/templates/' . ($this->template->client_id === 0 ? 'site' : 'administrator') . '/' . $this->template->element . base64_decode($this->file) : '/' . ($this->template->client_id === 0 ? '' : 'administrator/') . 'templates/' . $this->template->element . base64_decode($this->file)), $this->template->element); ?></p>
+				<p class="lead"><?php echo Text::sprintf('COM_TEMPLATES_TEMPLATE_FILENAME', '&#x200E;' . ($input->get('isMedia', 0) ? '/media/templates/' . ($this->template->client_id === 0 ? 'site' : 'administrator') . '/' . $this->template->element . str_replace('//', '/', base64_decode($this->file)) : '/' . ($this->template->client_id === 0 ? '' : 'administrator/') . 'templates/' . $this->template->element . str_replace('//', '/', base64_decode($this->file))), $this->template->element); ?></p>
 				<p class="lead path hidden"><?php echo $this->source->filename; ?></p>
 			<?php endif; ?>
 			<?php if ($this->type == 'image') : ?>

@@ -460,8 +460,7 @@ class TemplateModel extends FormModel
 					{
 						$relativePath = str_replace(JPATH_ROOT . DIRECTORY_SEPARATOR . 'media'. DIRECTORY_SEPARATOR . 'templates'  . DIRECTORY_SEPARATOR . ($this->template->client_id === 0 ? 'site' : 'administrator') . DIRECTORY_SEPARATOR . $this->template->element, '', $dir . $value);
 						$relativePath = str_replace(JPATH_ROOT . DIRECTORY_SEPARATOR . ($this->template->client_id === 0 ? '' : 'administrator' . DIRECTORY_SEPARATOR) . 'templates' . DIRECTORY_SEPARATOR . $this->template->element, '', $relativePath);
-						$info = $this->getFile($relativePath, $value);
-						$result[] = $info;
+						$result[] = $this->getFile($relativePath, $value);
 					}
 				}
 			}
