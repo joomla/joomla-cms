@@ -8505,16 +8505,18 @@ class JoomlaInstallerScript
 		{
 			if (Folder::exists(JPATH_ROOT . $oldFolder))
 			{
-				$oldPath = \realpath(JPATH_ROOT . $oldFolder);
-				$newPath = \realpath(JPATH_ROOT . $newFolder);
+				$oldPath   = \realpath(JPATH_ROOT . $oldFolder);
+				$newPath   = \realpath(JPATH_ROOT . $newFolder);
+				$directory = new \RecursiveDirectoryIterator($oldPath);
+				$iterator  = new \RecursiveIteratorIterator($directory);
 
 				// Handle all files in this folder and all sub-folders
-				foreach (Folder::files($oldPath, '.*', true, true) as $oldFile)
+				foreach ($iterator as $oldFile)
 				{
 					$newFile = $newPath . substr($oldFile, strlen($oldPath));
 
 					// Create target folder and parent folders if they don't exist yet
-					if (Folder::create(\dirname($newFile)))
+					if (@mkdir(\dirname($newFile), 0755, true) !== false)
 					{
 						File::move($oldFile, $newFile);
 					}
