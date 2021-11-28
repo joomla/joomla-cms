@@ -8513,6 +8513,12 @@ class JoomlaInstallerScript
 				// Handle all files in this folder and all sub-folders
 				foreach ($iterator as $oldFile)
 				{
+					if ($oldFile->isDir() || $oldFile->isDot())
+					{
+						continue;
+					}
+
+					$oldPath = $oldFile->getPathname();
 					$newFile = $newPath . substr($oldFile, strlen($oldPath));
 
 					// Create target folder and parent folders if they don't exist yet
