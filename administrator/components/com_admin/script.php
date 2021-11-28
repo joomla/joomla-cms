@@ -8519,7 +8519,6 @@ class JoomlaInstallerScript
 						continue;
 					}
 
-					$oldPath = $oldFile->getPathname();
 					$newFile = $newPath . substr($oldFile, strlen($oldPath));
 
 					// Create target folder and parent folders if they don't exist yet
