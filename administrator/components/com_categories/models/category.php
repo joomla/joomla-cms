@@ -46,6 +46,14 @@ class CategoriesModelCategory extends JModelAdmin
 	protected $associationsContext = 'com_categories.item';
 
 	/**
+	 * Does an association exist? Caches the result of getAssoc().
+	 *
+	 * @var   boolean|null
+	 * @since 3.10.4
+	 */
+	private $hasAssociation;
+
+	/**
 	 * Override parent constructor.
 	 *
 	 * @param   array  $config  An optional associative array of configuration settings.
@@ -193,9 +201,9 @@ class CategoriesModelCategory extends JModelAdmin
 			}
 		}
 
-		$this->hasAssociation = $this->getAssoc();
+		$assoc = $this->getAssoc();
 
-		if ($this->hasAssociation)
+		if ($assoc)
 		{
 			if ($result->id != null)
 			{
@@ -580,9 +588,9 @@ class CategoriesModelCategory extends JModelAdmin
 			return false;
 		}
 
-		$this->hasAssociation = $this->getAssoc();
+		$assoc = $this->getAssoc();
 
-		if ($this->hasAssociation)
+		if ($assoc)
 		{
 			// Adding self to the association
 			$associations = isset($data['associations']) ? $data['associations'] : array();
