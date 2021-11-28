@@ -13,7 +13,6 @@ use Joomla\CMS\Extension\ExtensionHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\File;
 use Joomla\CMS\Filesystem\Folder;
-use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Installer\Installer;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
@@ -8506,15 +8505,15 @@ class JoomlaInstallerScript
 		{
 			if (Folder::exists(JPATH_ROOT . $oldFolder))
 			{
-				$oldPath = Path::clean(JPATH_ROOT . $oldFolder);
-				$newPath = Path::clean(JPATH_ROOT . $newFolder);
+				$oldPath = \realpath(JPATH_ROOT . $oldFolder);
+				$newPath = \realpath(JPATH_ROOT . $newFolder);
 
 				// Handle all files in this folder and all sub-folders
 				foreach (Folder::files($oldPath, '.*', true, true) as $oldFile)
 				{
 					$newFile = $newPath . substr($oldFile, strlen($oldPath));
 
-					// Create target folder and parent folders if they doen't exist yet
+					// Create target folder and parent folders if they don't exist yet
 					if (Folder::create(\dirname($newFile)))
 					{
 						File::move($oldFile, $newFile);
