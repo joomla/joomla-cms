@@ -12,7 +12,7 @@ class CodemirrorEditor extends HTMLElement {
       if (entries[0].isIntersecting && this.instance) {
         this.instance.refresh();
       }
-    }, {threshold: 0});
+    }, { threshold: 0 });
   }
 
   static get observedAttributes() {
