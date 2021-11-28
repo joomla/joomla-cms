@@ -46,15 +46,6 @@ abstract class LoginHelper
 			}
 		);
 
-		// Fix wrongly set parentheses in RTL languages
-		if (Factory::getApplication()->getLanguage()->isRtl())
-		{
-			foreach ($languages as &$language)
-			{
-				$language['text'] = $language['text'] . '&#x200E;';
-			}
-		}
-
 		array_unshift($languages, HTMLHelper::_('select.option', '', Text::_('JDEFAULTLANGUAGE')));
 
 		return HTMLHelper::_('select.genericlist', $languages, 'lang', 'class="form-select"', 'value', 'text', null);
