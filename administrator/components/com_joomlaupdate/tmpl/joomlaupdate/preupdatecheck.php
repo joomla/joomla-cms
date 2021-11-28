@@ -84,7 +84,7 @@ if (version_compare($this->updateInfo['latest'], Version::MAJOR_VERSION + 1, '>=
 	Factory::getApplication()->enqueueMessage(
 		Text::sprintf(
 			'COM_JOOMLAUPDATE_VIEW_DEFAULT_NON_CORE_BACKEND_TEMPLATE_USED_NOTICE',
-            ucfirst($this->defaultBackendTemplate)
+			ucfirst($this->defaultBackendTemplate)
 		),
 		'info'
 	);

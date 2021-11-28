@@ -1776,7 +1776,7 @@ ENDDATA;
 
 		$home = array_filter(
 			$templates,
-			function($value)
+			function ($value)
 			{
 				return $value->home > 0;
 			}
