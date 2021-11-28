@@ -8516,7 +8516,12 @@ class JoomlaInstallerScript
 					$newFile = $newPath . substr($oldFile, strlen($oldPath));
 
 					// Create target folder and parent folders if they don't exist yet
-					if (@mkdir(\dirname($newFile), 0755, true) !== false)
+					if (!is_dir(\dirname($newFile)))
+					{
+						@mkdir(\dirname($newFile), 0755, true);
+					}
+
+					if (is_dir(\dirname($newFile)))
 					{
 						File::move($oldFile, $newFile);
 					}
