@@ -122,6 +122,7 @@ class FieldsModel extends ListModel
 		$id .= ':' . $this->getState('filter.state');
 		$id .= ':' . $this->getState('filter.group_id');
 		$id .= ':' . serialize($this->getState('filter.language'));
+		$id .= ':' . $this->getState('filter.only_use_in_subform');
 
 		return parent::getStoreId($id);
 	}
