@@ -8508,12 +8508,13 @@ class JoomlaInstallerScript
 				$oldPath   = \realpath(JPATH_ROOT . $oldFolder);
 				$newPath   = \realpath(JPATH_ROOT . $newFolder);
 				$directory = new \RecursiveDirectoryIterator($oldPath);
+				$directory->setFlags(RecursiveDirectoryIterator::SKIP_DOTS);
 				$iterator  = new \RecursiveIteratorIterator($directory);
 
 				// Handle all files in this folder and all sub-folders
 				foreach ($iterator as $oldFile)
 				{
-					if ($oldFile->isDir() || $oldFile->isDot())
+					if ($oldFile->isDir())
 					{
 						continue;
 					}
