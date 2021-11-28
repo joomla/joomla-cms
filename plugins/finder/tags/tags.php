@@ -220,7 +220,7 @@ class PlgFinderTags extends Adapter
 
 		// Initialize the item parameters.
 		$registry = new Registry($item->params);
-		$item->params = ComponentHelper::getParams('com_tags', true);
+		$item->params = clone ComponentHelper::getParams('com_tags', true);
 		$item->params->merge($registry);
 
 		$item->metadata = new Registry($item->metadata);
