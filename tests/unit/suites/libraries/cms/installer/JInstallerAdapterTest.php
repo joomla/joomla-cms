@@ -67,7 +67,7 @@ class JInstallerAdapterTest extends TestCaseDatabase
 	 *
 	 * @return  JDatabaseDriver
 	 *
-	 * @since   3.0.0
+	 * @since   3.10.4
 	 */
 	public function getMockDatabase($driver = '', array $extraMethods = array(), $nullDate = '0000-00-00 00:00:00', $dateFormat = 'Y-m-d H:i:s')
 	{
