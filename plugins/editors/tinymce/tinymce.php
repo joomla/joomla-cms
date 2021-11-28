@@ -1153,8 +1153,8 @@ class PlgEditorTinymce extends CMSPlugin
 	 */
 	protected function includeRelativeFiles($folder, $file)
 	{
-		$fallback  = Uri::root(true) . '/media/system/css/editor' . (JDEBUG ? '' : '.min') . '.css';
-		$template  = $this->getActiveSiteTemplate();
+		$fallback = Uri::root(true) . '/media/system/css/editor' . (JDEBUG ? '' : '.min') . '.css';
+		$template = $this->getActiveSiteTemplate();
 
 		if (!(array) $template) 
 		{
