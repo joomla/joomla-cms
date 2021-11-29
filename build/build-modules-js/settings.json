@@ -437,9 +437,6 @@
           "dist/css/joomla-a11y-checker.css": "css/joomla-a11y-checker.css",
           "dist/css/joomla-a11y-checker.min.css": "css/joomla-a11y-checker.min.css"
         },
-        "filesExtra": {
-          "src/scss/jooa11y.scss": "scss/joomla-a11y-checker.scss"
-        },
         "provideAssets": [
           {
             "name": "joomla-a11y-checker",
