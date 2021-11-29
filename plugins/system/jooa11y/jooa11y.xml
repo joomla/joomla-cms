@@ -31,7 +31,6 @@
 					<option value="Off">JOFF</option>
 					<option value="On">JON</option>
 				</field>
-				/>
 				<field
 					name="checkRoot"
 					type="text"
