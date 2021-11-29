@@ -20,7 +20,9 @@
       "name": "plg_system_jooa11y.jooa11y",
       "type": "preset",
       "dependencies": [
-        "plg_system_jooa11y.jooa11y#script"
+        "plg_system_jooa11y.jooa11y#script",
+        "joomla-a11y-checker#script",
+        "joomla-a11y-checker#style"
       ]
     }
   ]

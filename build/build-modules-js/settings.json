@@ -449,7 +449,7 @@
           {
             "name": "joomla-a11y-checker",
             "type": "script",
-            "uri": "joomla-a11y-checker.min.js",
+            "uri": "joomla-a11y-checker.min.es5.js",
             "attributes": {
               "defer": true
             },

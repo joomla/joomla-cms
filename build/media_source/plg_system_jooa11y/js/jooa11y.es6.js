@@ -5,9 +5,9 @@ window.addEventListener('load', () => {
   }
 
   // Set translations
-  Jooa11y.Lang.addI18n(Jooa11yLangEn.strings);
+  // Jooa11y.Lang.addI18n(Jooa11yLangEn.strings);
 
   // Instantiate
-  const checker = new Jooa11y.Jooa11y(Jooa11yLangEn.options);
+  const checker = new Jooa11y.Jooa11y(Jooa11y.options);
   checker.doInitialCheck();
 });
