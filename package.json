@@ -45,6 +45,7 @@
     "diff": "^4.0.2",
     "dragula": "3.7.2",
     "focus-visible": "^5.2.0",
+    "joomla-a11y-checker": "github:joomla-projects/joomla-a11y-checker#joomla",
     "joomla-ui-custom-elements": "0.2.0",
     "jquery": "^3.6.0",
     "jquery-migrate": "^3.3.2",
@@ -57,6 +58,7 @@
     "short-and-sweet": "^1.0.4",
     "skipto": "^4.1.0",
     "tinymce": "^5.10.2",
+    "tippy.js": "^6.3.7",
     "vue": "^3.1.2",
     "vuex": "^4.0.2",
     "vuex-persistedstate": "^4.0.0-beta.3"

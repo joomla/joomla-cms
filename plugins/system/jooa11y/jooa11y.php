@@ -13,13 +13,14 @@ use Joomla\CMS\Application\CMSApplicationInterface;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\CMSPlugin;
+use Joomla\Event\SubscriberInterface;
 
 /**
  * Jooa11y plugin to add an accessibility checker
  *
  * @since  __DEPLOY_VERSION__
  */
-class PlgSystemJooa11y extends CMSPlugin
+class PlgSystemJooa11y extends CMSPlugin implements SubscriberInterface
 {
 	/**
 	 * Application object.
@@ -28,6 +29,36 @@ class PlgSystemJooa11y extends CMSPlugin
 	 * @since  __DEPLOY_VERSION__
 	 */
 	protected $app;
+
+	/**
+	 * Affects constructor behavior. If true, language files will be loaded automatically.
+	 *
+	 * @var    boolean
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $autoloadLanguage = true;
+
+	/**
+	 * Subscribe to certain events
+	 *
+	 * @return string[]  An array of event mappings
+	 *
+	 * @since __DEPLOY_VERSION__
+	 *
+	 * @throws Exception
+	 */
+	public static function getSubscribedEvents(): array
+	{
+		$mapping = [];
+
+		// Only trigger in frontend
+		if (Factory::getApplication()->isClient('site'))
+		{
+			$mapping['onBeforeCompileHead'] = 'initJooa11y';
+		}
+
+		return $mapping;
+	}
 
   	/**
 	 * Method to check if the current user is allowed to see the debug information or not.
@@ -38,9 +69,9 @@ class PlgSystemJooa11y extends CMSPlugin
 	 */
 	private function isAuthorisedDisplayChecker(): bool
 	{
-		static $result = null;
+		static $result;
 
-		if ($result !== null)
+		if (is_bool($result))
 		{
 			return $result;
 		}
@@ -56,13 +87,13 @@ class PlgSystemJooa11y extends CMSPlugin
 			{
 				$result = false;
 
-				return false;
+				return $result;
 			}
 		}
 
 		$result = true;
 
-		return true;
+		return $result;
 	}
 
 	/**
@@ -72,33 +103,19 @@ class PlgSystemJooa11y extends CMSPlugin
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function onAfterDispatch()
+	public function initJooa11y()
 	{
-		// Only on site application
-		if (!$this->app->isClient('site'))
+		// Check if we are in a modal or the plugin enforce loading
+		$showJooa11y = $this->app->input->get('jooa11y', $this->params->get('showAlways', 0));
+
+		// Load the checker if authorised
+		if (!$showJooa11y || !$this->isAuthorisedDisplayChecker())
 		{
-			return false;
+			return;
 		}
 
 		// Get the document object.
 		$document = $this->app->getDocument();
-
-		// Only on HTML documents
-		if ($document->getType() !== 'html')
-		{
-			return false;
-		}
-
-		// @todo Check if we are in a modal ie we pressed the toolbar button
-
-		// Load the checker if authorised
-		if (!$this->isAuthorisedDisplayChecker())
-		{
-			return false;
-		}
-
-		// Load language file.
-		$this->loadLanguage();
 
 		// Determine if it is an LTR or RTL language
 		$direction = Factory::getLanguage()->isRtl() ? 'right' : 'left';
@@ -132,27 +149,28 @@ class PlgSystemJooa11y extends CMSPlugin
 			]
 		);
 
+		$this->attachLanguageStrings();
+
 		/** @var Joomla\CMS\WebAsset\WebAssetManager $wa
 		* I know the code below can be improved - help! */
 
-		$wa = $document->getWebAssetManager()
-		->registerAndUseScript('popper', 'https://unpkg.com/@popperjs/core@2')
-		->registerAndUseScript('tippy', 'https://unpkg.com/tippy.js@6')
-			->registerAndUseScript('jooa11y', 'plg_system_jooa11y/joomla-a11y-checker.js')
-			->registerAndUseScript('jooa11y-lang', 'plg_system_jooa11y/lang/en.js')
-			->registerAndUseStyle('jooa11y', 'plg_system_jooa11y/joomla-a11y-checker.css')
-			->addInlineScript("
-window.addEventListener('load', () => {
-    // Set translations
-    Jooa11y.Lang.addI18n(Jooa11yLangEn.strings);
+		$wa = $document->getWebAssetManager();
 
-    // Instantiate
-    const checker = new Jooa11y.Jooa11y(Jooa11yLangEn.options);
-    checker.doInitialCheck();
-});
-", ['name' => 'jooa11y-init'], ['type' => 'module']);
+		$wa->getRegistry()->addRegistryFile('media/plg_system_jooa11y/joomla.asset.json');
+
+		$wa->usePreset('plg_system_jooa11y.jooa11y');
 
 		return true;
 
+	}
+
+	/**
+	 * Attach the language string to JS options
+	 *
+	 * @return void
+	 */
+	protected function attachLanguageStrings()
+	{
+		// @todo Text::script(...);
 	}
 }

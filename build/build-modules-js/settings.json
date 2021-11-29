@@ -427,6 +427,48 @@
         ],
         "licenseFilename": "LICENSE.txt"
       },
+      "joomla-a11y-checker": {
+        "name": "joomla-a11y-checker",
+        "js": {
+          "dist/js/joomla-a11y-checker.umd.js": "js/joomla-a11y-checker.es5.js",
+          "dist/js/joomla-a11y-checker.umd.min.js": "js/joomla-a11y-checker.min.es5.js"
+        },
+        "css": {
+          "dist/css/joomla-a11y-checker.css": "css/joomla-a11y-checker.css",
+          "dist/css/joomla-a11y-checker.min.css": "css/joomla-a11y-checker.min.css"
+        },
+        "filesExtra": {
+          "src/scss/jooa11y.scss": "scss/joomla-a11y-checker.scss"
+        },
+        "provideAssets": [
+          {
+            "name": "joomla-a11y-checker",
+            "type": "style",
+            "uri": "joomla-a11y-checker.min.css"
+          },
+          {
+            "name": "joomla-a11y-checker",
+            "type": "script",
+            "uri": "joomla-a11y-checker.min.js",
+            "attributes": {
+              "defer": true
+            },
+            "dependencies": [
+              "core",
+              "tippy"
+            ]
+          },
+          {
+            "name": "joomla-a11y-checker",
+            "type": "preset",
+            "dependencies": [
+              "joomla-a11y-checker#style",
+              "joomla-a11y-checker#script"
+            ]
+          }
+        ],
+        "licenseFilename": "LICENSE.md"
+      },
       "joomla-ui-custom-elements": {
         "name": "joomla-custom-elements",
         "js": {
@@ -711,6 +753,60 @@
             "attributes": {
               "defer": true
             }
+          }
+        ]
+      },
+      "@popperjs/core": {
+        "name": "popperjs",
+        "js": {
+          "dist/umd/popper.js": "js/popper.es5.js",
+          "dist/umd/popper.min.js": "js/popper.min.es5.js"
+        },
+        "provideAssets": [
+          {
+            "name": "popperjs",
+            "type": "script",
+            "uri": "popper.min.es5.js"
+          },
+          {
+            "name": "popperjs",
+            "type": "preset",
+            "dependencies": [
+              "popper#script"
+            ]
+          }
+        ]
+      },
+      "tippy.js": {
+        "name": "tippy.js",
+        "js": {
+          "dist/tippy-bundle.umd.js": "js/tippy.es5.js",
+          "dist/tippy-bundle.umd.min.js": "js/tippy.min.es5.js"
+        },
+        "css" : {
+          "dist/tippy.css": "css/tippy.css"
+        },
+        "provideAssets": [
+          {
+            "name": "tippy",
+            "type": "style",
+            "uri": "tippy.css"
+          },
+          {
+            "name": "tippy",
+            "type": "script",
+            "uri": "tippy.min.es5.js",
+            "dependencies": [
+              "popperjs"
+            ]
+          },
+          {
+            "name": "tippy",
+            "type": "preset",
+            "dependencies": [
+              "tippy#style",
+              "tippy#script"
+            ]
           }
         ]
       },

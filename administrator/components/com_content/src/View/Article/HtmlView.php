@@ -224,12 +224,12 @@ class HtmlView extends BaseHtmlView
 					->bodyHeight(80)
 					->modalWidth(90);
 
-					if (PluginHelper::isEnabled('system', 'jooa11y'))
-					{
-						$toolbar->jooa11y($url, 'JGLOBAL_JOOA11Y')
+				if (PluginHelper::isEnabled('system', 'jooa11y'))
+				{
+					$toolbar->jooa11y($url, 'JGLOBAL_JOOA11Y')
 						->bodyHeight(80)
 						->modalWidth(90);
-					}
+				}
 
 				if (Associations::isEnabled() && ComponentHelper::isEnabled('com_associations'))
 				{
