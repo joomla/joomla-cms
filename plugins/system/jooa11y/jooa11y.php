@@ -60,7 +60,7 @@ class PlgSystemJooa11y extends CMSPlugin implements SubscriberInterface
 		return $mapping;
 	}
 
-  	/**
+	/**
 	 * Method to check if the current user is allowed to see the debug information or not.
 	 *
 	 * @return  boolean  True if access is allowed.
