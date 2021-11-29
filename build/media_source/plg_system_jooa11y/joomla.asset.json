@@ -13,7 +13,6 @@
         "joomla-a11y-checker"
       ],
       "attributes": {
-        "nomodule": true,
         "defer": true
       }
     },

@@ -151,9 +151,7 @@ class PlgSystemJooa11y extends CMSPlugin implements SubscriberInterface
 
 		$this->attachLanguageStrings();
 
-		/** @var Joomla\CMS\WebAsset\WebAssetManager $wa
-		* I know the code below can be improved - help! */
-
+		/** @var Joomla\CMS\WebAsset\WebAssetManager $wa*/
 		$wa = $document->getWebAssetManager();
 
 		$wa->getRegistry()->addRegistryFile('media/plg_system_jooa11y/joomla.asset.json');
