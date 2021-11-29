@@ -29,30 +29,30 @@ class ExtensionsListCommand extends AbstractCommand
 	 * The default command name
 	 *
 	 * @var    string
-	 * @since  4.0
+	 * @since  4.0.0
 	 */
 	protected static $defaultName = 'extension:list';
 
 	/**
 	 * Stores the installed Extensions
 	 * @var array
-	 * @since 4.0
+	 * @since 4.0.0
 	 */
-	private $extensions;
+	protected $extensions;
 
 	/**
 	 * Stores the Input Object
 	 * @var InputInterface
-	 * @since 4.0
+	 * @since 4.0.0
 	 */
-	private $cliInput;
+	protected $cliInput;
 
 	/**
 	 * SymfonyStyle Object
 	 * @var   SymfonyStyle
-	 * @since 4.0
+	 * @since 4.0.0
 	 */
-	private $ioStyle;
+	protected $ioStyle;
 
 	/**
 	 * Database connector
@@ -83,10 +83,10 @@ class ExtensionsListCommand extends AbstractCommand
 	 *
 	 * @return void
 	 *
-	 * @since 4.0
+	 * @since 4.0.0
 	 *
 	 */
-	private function configureIO(InputInterface $input, OutputInterface $output): void
+	protected function configureIO(InputInterface $input, OutputInterface $output): void
 	{
 		$this->cliInput = $input;
 		$this->ioStyle = new SymfonyStyle($input, $output);
@@ -118,7 +118,7 @@ class ExtensionsListCommand extends AbstractCommand
 	 *
 	 * @return mixed
 	 *
-	 * @since 4.0
+	 * @since 4.0.0
 	 */
 	public function getExtensions()
 	{
@@ -137,7 +137,7 @@ class ExtensionsListCommand extends AbstractCommand
 	 *
 	 * @return void
 	 *
-	 * @since 4.0
+	 * @since 4.0.0
 	 */
 	public function setExtensions($extensions = null): void
 	{
@@ -156,7 +156,7 @@ class ExtensionsListCommand extends AbstractCommand
 	 *
 	 * @return array
 	 *
-	 * @since 4.0
+	 * @since 4.0.0
 	 */
 	private function getAllExtensionsFromDB(): array
 	{
@@ -177,9 +177,9 @@ class ExtensionsListCommand extends AbstractCommand
 	 *
 	 * @return array
 	 *
-	 * @since 4.0
+	 * @since 4.0.0
 	 */
-	private function getExtensionsNameAndId($extensions): array
+	protected function getExtensionsNameAndId($extensions): array
 	{
 		$extInfo = [];
 
@@ -205,7 +205,7 @@ class ExtensionsListCommand extends AbstractCommand
 	 *
 	 * @return array
 	 *
-	 * @since 4.0
+	 * @since 4.0.0
 	 */
 	private function filterExtensionsBasedOn($type): array
 	{

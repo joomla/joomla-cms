@@ -12,6 +12,7 @@ namespace Joomla\Component\Config\Site\View\Modules;
 \defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 
 /**
@@ -44,7 +45,7 @@ class HtmlView extends BaseHtmlView
 	 *
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
 	 *
-	 * @return  mixed  A string if successful, otherwise an Error object.
+	 * @return  void
 	 *
 	 * @since   3.2
 	 */
@@ -60,7 +61,7 @@ class HtmlView extends BaseHtmlView
 		$moduleData = $module->getProperties();
 		unset($moduleData['xml']);
 
-		/** @var Modules $model */
+		/** @var \Joomla\Component\Config\Site\Model\ModulesModel $model */
 		$model = $this->getModel();
 
 		// Need to add module name to the state of model
@@ -76,6 +77,21 @@ class HtmlView extends BaseHtmlView
 			$this->form->bind($moduleData);
 		}
 
-		return parent::display($tpl);
+		$this->_prepareDocument();
+
+		parent::display($tpl);
+	}
+
+	/**
+	 * Prepares the document.
+	 *
+	 * @return  void
+	 *
+	 * @since   4.0.0
+	 */
+	protected function _prepareDocument()
+	{
+		// There is no menu item for this so we have to use the title from the component
+		$this->setDocumentTitle(Text::_('COM_CONFIG_MODULES_SETTINGS_TITLE'));
 	}
 }

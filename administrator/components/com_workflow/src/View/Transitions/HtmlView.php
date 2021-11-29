@@ -111,25 +111,25 @@ class HtmlView extends BaseHtmlView
 	 *
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
 	 *
-	 * @return  mixed  A string if successful, otherwise an Error object.
+	 * @return  void
 	 *
 	 * @since  4.0.0
 	 */
 	public function display($tpl = null)
 	{
+		$this->state            = $this->get('State');
+		$this->transitions      = $this->get('Items');
+		$this->pagination       = $this->get('Pagination');
+		$this->filterForm    	= $this->get('FilterForm');
+		$this->activeFilters 	= $this->get('ActiveFilters');
+		$this->workflow         = $this->get('Workflow');
+
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
 			throw new GenericDataException(implode("\n", $errors), 500);
 		}
 
-		$this->state            = $this->get('State');
-		$this->transitions      = $this->get('Items');
-		$this->pagination       = $this->get('Pagination');
-		$this->filterForm    	= $this->get('FilterForm');
-		$this->activeFilters 	= $this->get('ActiveFilters');
-
-		$this->workflow      = $this->get('Workflow');
 		$this->workflowID    = $this->workflow->id;
 
 		$parts = explode('.', $this->workflow->extension);
@@ -143,7 +143,7 @@ class HtmlView extends BaseHtmlView
 
 		$this->addToolbar();
 
-		return parent::display($tpl);
+		parent::display($tpl);
 	}
 
 	/**
@@ -209,6 +209,6 @@ class HtmlView extends BaseHtmlView
 				->listCheck(true);
 		}
 
-		$toolbar->help('JHELP_COMPONENTS_WORKFLOW_TRANSITIONS_LIST');
+		$toolbar->help('Transitions_List:_Basic_Workflow');
 	}
 }

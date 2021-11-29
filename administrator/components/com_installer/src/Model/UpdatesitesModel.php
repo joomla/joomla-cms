@@ -380,8 +380,13 @@ class UpdatesitesModel extends InstallerModel
 					{
 						/**
 						 * Search if the extension exists in the extensions table. Excluding Joomla
-						 * core extensions (id < 10000) and discovered extensions.
+						 * core extensions and discovered but not yet installed extensions.
 						 */
+
+						$name    = (string) $manifest->name;
+						$pkgName = (string) $manifest->packagename;
+						$type    = (string) $manifest['type'];
+
 						$query = $db->getQuery(true)
 							->select($db->quoteName('extension_id'))
 							->from($db->quoteName('#__extensions'))
@@ -400,9 +405,9 @@ class UpdatesitesModel extends InstallerModel
 								'OR'
 							)
 							->whereNotIn($db->quoteName('extension_id'), $joomlaCoreExtensionIds)
-							->bind(':name', $manifest->name)
-							->bind(':pkgname', $manifest->packagename)
-							->bind(':type', $manifest['type']);
+							->bind(':name', $name)
+							->bind(':pkgname', $pkgName)
+							->bind(':type', $type);
 						$db->setQuery($query);
 
 						$eid = (int) $db->loadResult();
@@ -446,7 +451,7 @@ class UpdatesitesModel extends InstallerModel
 		}
 
 		// Flush the system cache to ensure extra_query is correctly loaded next time.
-		$this->cleanCache('_system', 1);
+		$this->cleanCache('_system');
 	}
 
 	/**
@@ -491,7 +496,7 @@ class UpdatesitesModel extends InstallerModel
 			'enabled'   => 'string',
 			'type'      => 'string',
 			'folder'    => 'string',
-			'supported' => 'bool',
+			'supported' => 'int',
 		];
 
 		foreach ($stateKeys as $key => $filterType)
@@ -518,6 +523,18 @@ class UpdatesitesModel extends InstallerModel
 		}
 
 		parent::populateState($ordering, $direction);
+	}
+
+	protected function getStoreId($id = '')
+	{
+		$id .= ':' . $this->getState('search');
+		$id .= ':' . $this->getState('client_id');
+		$id .= ':' . $this->getState('enabled');
+		$id .= ':' . $this->getState('type');
+		$id .= ':' . $this->getState('folder');
+		$id .= ':' . $this->getState('supported');
+
+		return parent::getStoreId($id);
 	}
 
 	/**
@@ -635,7 +652,7 @@ class UpdatesitesModel extends InstallerModel
 				->bind(':siteId', $uid, ParameterType::INTEGER);
 		}
 
-		if ($supported != 0)
+		if (is_numeric($supported))
 		{
 			switch ($supported)
 			{

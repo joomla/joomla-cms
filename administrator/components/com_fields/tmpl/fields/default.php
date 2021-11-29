@@ -144,13 +144,13 @@ if (count($this->filterForm->getField('context')->options) > 1)
 											<?php else : ?>
 												<?php echo $this->escape($item->title); ?>
 											<?php endif; ?>
-											<span class="small break-word">
+											<div class="small break-word">
 												<?php if (empty($item->note)) : ?>
 													<?php echo Text::sprintf('JGLOBAL_LIST_NAME', $this->escape($item->name)); ?>
 												<?php else : ?>
 													<?php echo Text::sprintf('JGLOBAL_LIST_NAME_NOTE', $this->escape($item->name), $this->escape($item->note)); ?>
 												<?php endif; ?>
-											</span>
+											</div>
 											<?php if ($item->only_use_in_subform) : ?>
 												<div class="small badge bg-secondary">
 													<?php echo Text::_('COM_FIELDS_FIELD_ONLY_USE_IN_SUBFORM_BADGE'); ?>

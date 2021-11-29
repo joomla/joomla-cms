@@ -1198,7 +1198,15 @@ class Form
 			// Define field name for messages
 			if ($field['label'])
 			{
-				$fieldLabel = Text::_($field['label']);
+				$fieldLabel = $field['label'];
+
+				// Try to translate label if not set to false
+				$translate = (string) $field['translateLabel'];
+
+				if (!($translate === 'false' || $translate === 'off' || $translate === '0'))
+				{
+					$fieldLabel = Text::_($fieldLabel);
+				}
 			}
 			else
 			{
@@ -1255,7 +1263,7 @@ class Form
 	 *
 	 * @return  mixed  Array or false.
 	 *
-	 * @since   4.0
+	 * @since   4.0.0
 	 */
 	public function postProcess($data, $group = null)
 	{

@@ -9,10 +9,10 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Log\Log;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\User\UserHelper;
-use Joomla\CMS\Log\Log;
 
 /**
  * Joomla! System Remember Me Plugin
@@ -34,7 +34,7 @@ class PlgSystemRemember extends CMSPlugin
 	 * Database object
 	 *
 	 * @var    \Joomla\Database\DatabaseInterface
-	 * @since  4.0
+	 * @since  4.0.0
 	 */
 	protected $db;
 

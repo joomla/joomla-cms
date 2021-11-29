@@ -344,6 +344,12 @@ class UserModel extends AdminModel
 			return false;
 		}
 
+		// Destroy all active sessions for the user after changing the password or blocking him
+		if ($data['password2'] || $data['block'])
+		{
+			UserHelper::destroyUserSessions($user->id, true);
+		}
+
 		$this->setState('user.id', $user->id);
 
 		return true;
@@ -513,6 +519,11 @@ class UserModel extends AdminModel
 							$this->setError($table->getError());
 
 							return false;
+						}
+
+						if ($table->block)
+						{
+							UserHelper::destroyUserSessions($table->id);
 						}
 
 						// Trigger the after save event
@@ -1031,22 +1042,45 @@ class UserModel extends AdminModel
 		// Get the secret key, yes the thing that is saved in the configuration file
 		$key = $this->getOtpConfigEncryptionKey();
 
+		// Cleanup old encryption methods, and convert to using openssl as the adapter to use.
 		if (strpos($config, '{') === false)
 		{
-			$openssl         = new Aes($key, 256);
-			$mcrypt          = new Aes($key, 256, 'cbc', null, 'mcrypt');
+			/**
+			 * This part of the if statement block of code has been reviewed just before 4.0.0 release and determined that it is wrong,
+			 * and has never worked.
+			 *
+			 * The aim is/was to migrate away from mcrypt encrypted data by decrypting the data and then re-encrypting
+			 * it with the openssl adapter, but there has been a bug for a long time in the constructing of the
+			 * mcrypt Aes class, where the number of parameters passed were wrong, meaning it was actually returning
+			 * an openssl adapter not an mcrypt one.
+			 *
+			 * Rather than fix this just before 4.0.0 release, we will deprecate this block and remove it in 5.0.0
+			 *
+			 * @deprecated 4.0.0 Will be removed in 5.0.0 - always use the openssl (default) adapter with the Aes class from now on.
+			 */
 
+			// We use the openssl adapter by default now.
+			$openssl = new Aes($key, 256);
+
+			/**
+			 * Deal with legacy mcrypt encrypted data
+			 * NOTE THIS NEXT LINE IS WRONG and contains wrong number of params, thus returns the openssl adapter and not the mcrypt adapter.
+			 */
+			$mcrypt = new Aes($key, 256, 'cbc', null, 'mcrypt');
+
+			// Attempt to decrypt using the mcrypt adapter, under normal circumstances this should fail (We no longer use mcrypt adapter to encrypt).
 			$decryptedConfig = $mcrypt->decryptString($config);
 
+			// If we were able to decrypt using the mcrypt adapter, { will be in the config (JSON String), so lets update to openssl adapter use.
 			if (strpos($decryptedConfig, '{') !== false)
 			{
-				// Data encrypted with mcrypt
+				// Data encrypted with mcrypt, decrypt it, and then convert to openssl.
 				$decryptedOtep = $mcrypt->decryptString($encryptedOtep);
 				$encryptedOtep = $openssl->encryptString($decryptedOtep);
 			}
 			else
 			{
-				// Config data seems to be save encrypted, this can happen with 3.6.3 and openssl, lets get the data
+				// Config data seems to be save encrypted, this can happen with 3.6.3 and openssl, lets get the data.
 				$decryptedConfig = $openssl->decryptString($config);
 			}
 

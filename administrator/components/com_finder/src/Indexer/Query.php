@@ -1213,7 +1213,6 @@ class Query
 
 				// Adjust the loop.
 				$i++;
-				continue;
 			}
 		}
 

@@ -13,7 +13,6 @@ namespace Joomla\CMS\Extension;
 use Joomla\CMS\Application\CMSApplicationInterface;
 use Joomla\CMS\Dispatcher\DispatcherInterface;
 use Joomla\CMS\Dispatcher\ModuleDispatcherFactoryInterface;
-use Joomla\CMS\Helper\HelperFactory;
 use Joomla\CMS\Helper\HelperFactoryInterface;
 use Joomla\Input\Input;
 
@@ -38,7 +37,7 @@ class Module implements ModuleInterface, HelperFactoryInterface
 	 *
 	 * @var HelperFactoryInterface
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	private $helperFactory;
 
@@ -80,7 +79,7 @@ class Module implements ModuleInterface, HelperFactoryInterface
 	 *
 	 * @return  \stdClass
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function getHelper(string $name, array $config = [])
 	{

@@ -114,7 +114,7 @@ class TemplateModel extends FormModel
 	public function getTemplateList()
 	{
 		// Get a db connection.
-		$db = Factory::getDbo();
+		$db = $this->getDbo();
 
 		// Create a new query object.
 		$query = $db->getQuery(true);
@@ -154,7 +154,7 @@ class TemplateModel extends FormModel
 	public function getUpdatedList($state = false, $all = false, $cleanup = false)
 	{
 		// Get a db connection.
-		$db = Factory::getDbo();
+		$db = $this->getDbo();
 
 		// Create a new query object.
 		$query = $db->getQuery(true);
@@ -318,7 +318,7 @@ class TemplateModel extends FormModel
 	 */
 	public function publish($ids, $value, $exid)
 	{
-		$db = Factory::getDbo();
+		$db = $this->getDbo();
 
 		foreach ($ids as $id)
 		{
@@ -1980,8 +1980,9 @@ class TemplateModel extends FormModel
 			$archiveTypes = explode(',', $params->get('compressed_formats'));
 
 			$this->allowedFormats = array_merge($imageTypes, $sourceTypes, $fontTypes, $archiveTypes);
+			$this->allowedFormats = array_map('strtolower', $this->allowedFormats);
 		}
 
-		return in_array($ext, $this->allowedFormats);
+		return in_array(strtolower($ext), $this->allowedFormats);
 	}
 }

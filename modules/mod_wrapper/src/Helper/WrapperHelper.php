@@ -25,7 +25,7 @@ class WrapperHelper
 	 *
 	 * @param   mixed  &$params  The parameters set in the administrator section
 	 *
-	 * @return  mixed  &params  The modified parameters
+	 * @return  mixed  &$params  The modified parameters
 	 *
 	 * @since   1.5
 	 */

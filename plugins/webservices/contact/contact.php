@@ -41,7 +41,7 @@ class PlgWebservicesContact extends CMSPlugin
 	{
 		$route = new Route(
 			['POST'],
-			'v1/contact/form/:id',
+			'v1/contacts/form/:id',
 			'contact.submitForm',
 			['id' => '(\d+)'],
 			['component' => 'com_contact']
@@ -50,13 +50,13 @@ class PlgWebservicesContact extends CMSPlugin
 		$router->addRoute($route);
 
 		$router->createCRUDRoutes(
-			'v1/contact',
+			'v1/contacts',
 			'contact',
 			['component' => 'com_contact']
 		);
 
 		$router->createCRUDRoutes(
-			'v1/contact/categories',
+			'v1/contacts/categories',
 			'categories',
 			['component' => 'com_categories', 'extension' => 'com_contact']
 		);
@@ -78,37 +78,37 @@ class PlgWebservicesContact extends CMSPlugin
 	private function createFieldsRoutes(&$router)
 	{
 		$router->createCRUDRoutes(
-			'v1/fields/contact/contact',
+			'v1/fields/contacts/contact',
 			'fields',
 			['component' => 'com_fields', 'context' => 'com_contact.contact']
 		);
 
 		$router->createCRUDRoutes(
-			'v1/fields/contact/mail',
+			'v1/fields/contacts/mail',
 			'fields',
 			['component' => 'com_fields', 'context' => 'com_contact.mail']
 		);
 
 		$router->createCRUDRoutes(
-			'v1/fields/contact/categories',
+			'v1/fields/contacts/categories',
 			'fields',
 			['component' => 'com_fields', 'context' => 'com_contact.categories']
 		);
 
 		$router->createCRUDRoutes(
-			'v1/fields/groups/contact/contact',
+			'v1/fields/groups/contacts/contact',
 			'groups',
 			['component' => 'com_fields', 'context' => 'com_contact.contact']
 		);
 
 		$router->createCRUDRoutes(
-			'v1/fields/groups/contact/mail',
+			'v1/fields/groups/contacts/mail',
 			'groups',
 			['component' => 'com_fields', 'context' => 'com_contact.mail']
 		);
 
 		$router->createCRUDRoutes(
-			'v1/fields/groups/contact/categories',
+			'v1/fields/groups/contacts/categories',
 			'groups',
 			['component' => 'com_fields', 'context' => 'com_contact.categories']
 		);
@@ -133,9 +133,9 @@ class PlgWebservicesContact extends CMSPlugin
 		$getDefaults = array_merge(['public' => false], $defaults);
 
 		$routes = [
-			new Route(['GET'], 'v1/contact/contenthistory/:id', 'history.displayList', ['id' => '(\d+)'], $getDefaults),
-			new Route(['PATCH'], 'v1/contact/contenthistory/keep/:id', 'history.keep', ['id' => '(\d+)'], $defaults),
-			new Route(['DELETE'], 'v1/contact/contenthistory/:id', 'history.delete', ['id' => '(\d+)'], $defaults),
+			new Route(['GET'], 'v1/contacts/:id/contenthistory', 'history.displayList', ['id' => '(\d+)'], $getDefaults),
+			new Route(['PATCH'], 'v1/contacts/:id/contenthistory/keep', 'history.keep', ['id' => '(\d+)'], $defaults),
+			new Route(['DELETE'], 'v1/contacts/:id/contenthistory', 'history.delete', ['id' => '(\d+)'], $defaults),
 		];
 
 		$router->addRoutes($routes);

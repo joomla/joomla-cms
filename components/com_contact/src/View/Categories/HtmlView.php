@@ -14,7 +14,7 @@ namespace Joomla\Component\Contact\Site\View\Categories;
 use Joomla\CMS\MVC\View\CategoriesView;
 
 /**
- * Content categories view.
+ * Contact categories view.
  *
  * @since  1.6
  */

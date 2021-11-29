@@ -474,7 +474,11 @@ class PlgEditorTinymce extends CMSPlugin
 			$template_path = $levelParams->get('content_template_path');
 			$template_path = $template_path ? '/templates/' . $template_path : '/media/vendor/tinymce/templates';
 
-			foreach (glob(JPATH_ROOT . $template_path . '/*.{html,txt}', GLOB_BRACE) as $filepath)
+			$filepaths = Folder::exists(JPATH_ROOT . $template_path)
+				? Folder::files(JPATH_ROOT . $template_path, '\.(html|txt)$', false, true)
+				: [];
+
+			foreach ($filepaths as $filepath)
 			{
 				$fileinfo      = pathinfo($filepath);
 				$filename      = $fileinfo['filename'];
@@ -485,17 +489,16 @@ class PlgEditorTinymce extends CMSPlugin
 					continue;
 				}
 
-				$lang        = Factory::getLanguage();
 				$title       = $filename;
 				$title_upper = strtoupper($filename);
 				$description = ' ';
 
-				if ($lang->hasKey('PLG_TINY_TEMPLATE_' . $title_upper . '_TITLE'))
+				if ($language->hasKey('PLG_TINY_TEMPLATE_' . $title_upper . '_TITLE'))
 				{
 					$title = Text::_('PLG_TINY_TEMPLATE_' . $title_upper . '_TITLE');
 				}
 
-				if ($lang->hasKey('PLG_TINY_TEMPLATE_' . $title_upper . '_DESC'))
+				if ($language->hasKey('PLG_TINY_TEMPLATE_' . $title_upper . '_DESC'))
 				{
 					$description = Text::_('PLG_TINY_TEMPLATE_' . $title_upper . '_DESC');
 				}
@@ -532,7 +535,7 @@ class PlgEditorTinymce extends CMSPlugin
 			}
 
 			Text::script('PLG_TINY_ERR_UNSUPPORTEDBROWSER');
-			Text::script('JERROR');
+			Text::script('ERROR');
 			Text::script('PLG_TINY_DND_ADDITIONALDATA');
 			Text::script('PLG_TINY_DND_ALTTEXT');
 			Text::script('PLG_TINY_DND_LAZYLOADED');
@@ -543,7 +546,7 @@ class PlgEditorTinymce extends CMSPlugin
 			$scriptOptions['uploadUri']          = $uploadUrl;
 
 			// @TODO have a way to select the adapter, similar to $levelParams->get('path', '');
-			$scriptOptions['comMediaAdapter']    = 'local-0:';
+			$scriptOptions['comMediaAdapter']    = 'local-images:';
 		}
 
 		// Convert pt to px in dropdown
@@ -572,6 +575,7 @@ class PlgEditorTinymce extends CMSPlugin
 		$scriptOptions   = array_merge(
 			$scriptOptions,
 			array(
+				'deprecation_warnings' => JDEBUG ? true : false,
 				'suffix'   => '.min',
 				'baseURL'  => Uri::root(true) . '/media/vendor/tinymce',
 				'directionality' => $text_direction,
@@ -593,8 +597,7 @@ class PlgEditorTinymce extends CMSPlugin
 				'quickbars_selection_toolbar' => 'bold italic underline | H2 H3 | link blockquote',
 
 				// Cleanup/Output
-				'inline_styles'    => true,
-				'gecko_spellcheck' => true,
+				'browser_spellcheck' => true,
 				'entity_encoding'  => $levelParams->get('entity_encoding', 'raw'),
 				'verify_html'      => !$ignore_filter,
 
@@ -639,14 +642,12 @@ class PlgEditorTinymce extends CMSPlugin
 		{
 			// Break
 			$scriptOptions['force_br_newlines'] = true;
-			$scriptOptions['force_p_newlines']  = false;
 			$scriptOptions['forced_root_block'] = '';
 		}
 		else
 		{
 			// Paragraph
 			$scriptOptions['force_br_newlines'] = false;
-			$scriptOptions['force_p_newlines']  = true;
 			$scriptOptions['forced_root_block'] = 'p';
 		}
 

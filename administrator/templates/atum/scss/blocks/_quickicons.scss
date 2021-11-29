@@ -21,7 +21,7 @@
     --text-color: hsl(var(--hue), 30%, 40%);
     --bg-color: hsl(var(--hue), 60%, 97%);
     --icon-color: hsl(var(--hue), 30%, 40%);
-    --bg-color-hvr: var(--atum-bg-dark);
+    --bg-color-hvr: var(--template-bg-dark);
 
     display: flex;
     flex-grow: 1;
@@ -82,9 +82,9 @@
 
       &.warning,
       &.danger {
-        --text-color: var(--white);
-        --bg-color: var(--danger);
-        --icon-color: var(--white);
+        --text-color: var(--danger);
+        --bg-color: #f4f0f0;
+        --icon-color: #ce8484;
         --bg-color-hvr: var(--danger);
       }
 
@@ -121,7 +121,7 @@
       &:hover,
       &:focus,
       &:active {
-        background: var(--atum-bg-dark);
+        background: var(--template-bg-dark);
 
         * {
           color: $white;
@@ -142,9 +142,5 @@
 
 #content .menu-quicktask {
   position: absolute;
-  right: 1.25rem;
-
-  [dir=rtl] & {
-    left: 1.25rem;
-  }
+  inset-inline-end: 1.25rem;
 }

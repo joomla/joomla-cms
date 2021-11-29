@@ -31,7 +31,7 @@ const { patchPackages } = require('./build-modules-js/init/patches.es6.js');
 const { cleanVendors } = require('./build-modules-js/init/cleanup-media.es6.js');
 const { recreateMediaFolder } = require('./build-modules-js/init/recreate-media.es6');
 const { watching } = require('./build-modules-js/watch.es6.js');
-const { mediaManager } = require('./build-modules-js/javascript/build-com_media-js.es6');
+const { mediaManager, watchMediaManager } = require('./build-modules-js/javascript/build-com_media-js.es6');
 const { compressFiles } = require('./build-modules-js/compress.es6.js');
 const { versioning } = require('./build-modules-js/versioning.es6.js');
 const { Timer } = require('./build-modules-js/utils/timer.es6.js');
@@ -88,8 +88,8 @@ if (!process.argv.slice(2).length) {
 // Update the vendor folder
 if (Program.copyAssets) {
   allowedVersion();
-  Promise.all([cleanVendors()])
-    .then(() => recreateMediaFolder())
+  recreateMediaFolder(options)
+    .then(() => cleanVendors())
     .then(() => localisePackages(options))
     .then(() => patchPackages(options))
     .then(() => minifyVendor())
@@ -101,25 +101,25 @@ if (Program.copyAssets) {
 
 // Creates the error pages for unsupported PHP version & incomplete environment
 if (Program.buildPages) {
-  Promise.all([createErrorPages(options)])
+  createErrorPages(options)
     .catch((err) => handleError(err, 1));
 }
 
 // Convert scss to css
 if (Program.compileCss) {
-  Promise.all([stylesheets(options, Program.args[0])])
+  stylesheets(options, Program.args[0])
     .catch((err) => handleError(err, 1));
 }
 
 // Compress/transpile the javascript files
 if (Program.compileJs) {
-  Promise.all([scripts(options, Program.args[0])])
+  scripts(options, Program.args[0])
     .catch((err) => handleError(err, 1));
 }
 
 // Compress/transpile the javascript files
 if (Program.watch) {
-  watching();
+  watching(Program.args[0]);
 }
 
 // Gzip js/css files
@@ -140,40 +140,38 @@ if (Program.comMedia) {
 
 // Watch & Compile the media manager
 if (Program.watchComMedia) {
-  mediaManager(true);
+  watchMediaManager(true);
 }
 
 // Update the .js/.css versions
 if (Program.versioning) {
-  Promise.all([versioning()])
+  versioning()
     .catch((err) => handleError(err, 1));
 }
 
 // Prepare the repo for dev work
 if (Program.prepare) {
-  (async () => {
-    const bench = new Timer('Build');
-    try {
-      allowedVersion();
-      await cleanVendors();
-      await recreateMediaFolder();
-      await localisePackages(options);
-      await patchPackages(options);
-      await Promise.all([
+  const bench = new Timer('Build');
+  allowedVersion();
+  recreateMediaFolder(options)
+    .then(() => cleanVendors())
+    .then(() => localisePackages(options))
+    .then(() => Promise.all(
+      [
+        patchPackages(options),
         minifyVendor(),
         createErrorPages(options),
         stylesheets(options, Program.args[0]),
         scripts(options, Program.args[0]),
         bootstrapJs(),
         mediaManager(true),
-      ]);
-      bench.stop('Build');
-    } catch (err) {
+      ],
+    ))
+    .then(() => bench.stop('Build'))
+    .then(() => { process.exit(0); })
+    .catch((err) => {
       // eslint-disable-next-line no-console
       console.error(err);
       process.exit(-1);
-    }
-
-    process.exit(0);
-  })();
+    });
 }

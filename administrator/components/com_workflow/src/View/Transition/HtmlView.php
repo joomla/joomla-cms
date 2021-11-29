@@ -51,7 +51,7 @@ class HtmlView extends BaseHtmlView
 	/**
 	 * That is object of Application
 	 *
-	 * @var     CMSApplication
+	 * @var    \Joomla\CMS\Application\CMSApplication
 	 * @since  4.0.0
 	 */
 	protected $app;
@@ -59,7 +59,7 @@ class HtmlView extends BaseHtmlView
 	/**
 	 * The application input object.
 	 *
-	 * @var    Input
+	 * @var    \Joomla\CMS\Input\Input
 	 * @since  4.0.0
 	 */
 	protected $input;
@@ -99,12 +99,6 @@ class HtmlView extends BaseHtmlView
 	 */
 	public function display($tpl = null)
 	{
-		// Check for errors.
-		if (count($errors = $this->get('Errors')))
-		{
-			throw new GenericDataException(implode("\n", $errors), 500);
-		}
-
 		$this->app = Factory::getApplication();
 		$this->input = $this->app->input;
 
@@ -112,6 +106,12 @@ class HtmlView extends BaseHtmlView
 		$this->state      = $this->get('State');
 		$this->form       = $this->get('Form');
 		$this->item       = $this->get('Item');
+
+		// Check for errors.
+		if (count($errors = $this->get('Errors')))
+		{
+			throw new GenericDataException(implode("\n", $errors), 500);
+		}
 
 		$extension = $this->state->get('filter.extension');
 
@@ -128,7 +128,7 @@ class HtmlView extends BaseHtmlView
 		$this->workflowID = $this->input->getCmd("workflow_id");
 
 		// Set the toolbar
-		$this->addToolBar();
+		$this->addToolbar();
 
 		// Display the template
 		parent::display($tpl);

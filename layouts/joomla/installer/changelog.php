@@ -29,7 +29,7 @@ array_walk(
 				$class = 'bg-dark';
 				break;
 			case 'language':
-				$class = 'bg-jlanguage';
+				$class = 'bg-primary';
 				break;
 			case 'addition':
 				$class = 'bg-success';
@@ -38,7 +38,7 @@ array_walk(
 				$class = 'bg-warning text-dark';
 				break;
 			case 'remove':
-				$class = 'bg-light text-dark';
+				$class = 'bg-secondary';
 				break;
 			default:
 			case 'note':

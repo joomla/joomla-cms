@@ -11,7 +11,6 @@ namespace Joomla\Component\Cache\Administrator\View\Cache;
 
 \defined('_JEXEC') or die;
 
-use Exception;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Text;
@@ -83,11 +82,11 @@ class HtmlView extends BaseHtmlView
 	 *
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
 	 *
-	 * @return  mixed  A string if successful, otherwise an Error object.
+	 * @return  void
 	 *
 	 * @since   1.6
 	 *
-	 * @throws  Exception
+	 * @throws  GenericDataException
 	 */
 	public function display($tpl = null): void
 	{
@@ -144,6 +143,6 @@ class HtmlView extends BaseHtmlView
 			ToolbarHelper::divider();
 		}
 
-		ToolbarHelper::help('JHELP_SITE_MAINTENANCE_CLEAR_CACHE');
+		ToolbarHelper::help('Maintenance:_Clear_Cache');
 	}
 }

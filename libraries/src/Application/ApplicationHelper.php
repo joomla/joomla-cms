@@ -90,7 +90,7 @@ class ApplicationHelper
 	{
 		if (Factory::getApplication()->get('unicodeslugs') == 1)
 		{
-			$output = OutputFilter::stringURLUnicodeSlug($string);
+			$output = OutputFilter::stringUrlUnicodeSlug($string);
 		}
 		else
 		{

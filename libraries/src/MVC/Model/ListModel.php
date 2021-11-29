@@ -63,6 +63,14 @@ class ListModel extends BaseDatabaseModel implements ListModelInterface
 	protected $query = array();
 
 	/**
+	 * The cache ID used when last populating $this->query
+	 *
+	 * @var   null|string
+	 * @since 3.10.4
+	 */
+	protected $lastQueryStoreId = null;
+
+	/**
 	 * Name of the filter form to load
 	 *
 	 * @var    string
@@ -91,7 +99,7 @@ class ListModel extends BaseDatabaseModel implements ListModelInterface
 	 * A list of forbidden filter variables to not merge into the model's state
 	 *
 	 * @var    array
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $filterForbiddenList = array();
 
@@ -108,7 +116,7 @@ class ListModel extends BaseDatabaseModel implements ListModelInterface
 	 * A list of forbidden variables to not merge into the model's state
 	 *
 	 * @var    array
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $listForbiddenList = array('select');
 
@@ -155,7 +163,7 @@ class ListModel extends BaseDatabaseModel implements ListModelInterface
 	 *
 	 * @return DatabaseQuery
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.0.0
 	 */
 	protected function getEmptyStateQuery()
 	{
@@ -181,7 +189,7 @@ class ListModel extends BaseDatabaseModel implements ListModelInterface
 	 *
 	 * @throws Exception
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.0.0
 	 */
 	public function getIsEmptyState(): bool
 	{
@@ -199,17 +207,14 @@ class ListModel extends BaseDatabaseModel implements ListModelInterface
 	 */
 	protected function _getListQuery()
 	{
-		// Capture the last store id used.
-		static $lastStoreId;
-
 		// Compute the current store id.
 		$currentStoreId = $this->getStoreId();
 
 		// If the last store id is different from the current, refresh the query.
-		if ($lastStoreId != $currentStoreId || empty($this->query))
+		if ($this->lastQueryStoreId !== $currentStoreId || empty($this->query))
 		{
-			$lastStoreId = $currentStoreId;
-			$this->query = $this->getListQuery();
+			$this->lastQueryStoreId = $currentStoreId;
+			$this->query            = $this->getListQuery();
 		}
 
 		return $this->query;

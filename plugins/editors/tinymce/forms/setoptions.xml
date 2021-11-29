@@ -26,6 +26,7 @@
 			directory="media/vendor/tinymce/skins/ui"
 			recursive="false"
 			hide_none="true"
+			validate="options"
 		/>
 
 		<field
@@ -35,6 +36,7 @@
 			directory="media/vendor/tinymce/skins/ui"
 			recursive="false"
 			hide_none="true"
+			validate="options"
 		/>
 
 		<field
@@ -79,6 +81,7 @@
 			exclude="system"
 			default=""
 			folderFilter="^tinymce"
+			validate="options"
 		/>
 
 		<field
@@ -115,6 +118,7 @@
 			hide_default="1"
 			fileFilter="\.js$"
 			showon="lang_mode:0"
+			validate="options"
 		/>
 
 		<field

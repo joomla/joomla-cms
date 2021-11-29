@@ -193,7 +193,7 @@ class TemplatesModel extends ListModel
 	 *
 	 * @return array
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function getExtensions()
 	{

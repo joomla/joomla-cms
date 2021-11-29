@@ -52,7 +52,7 @@ foreach ($modules as $key => $mod)
 			echo '<div class="header-item">' . $mod . '</div>';
 		}
 	?>
-	<div class="header-more dropdown d-none" id="header-more-items" >
+	<div class="header-more d-none" id="header-more-items" >
 		<button class="header-more-btn dropdown-toggle" type="button" title="<?php echo Text::_('TPL_ATUM_MORE_ELEMENTS'); ?>" data-bs-toggle="dropdown" aria-expanded="false">
 			<div class="header-item-icon"><span class="icon-ellipsis-h" aria-hidden="true"></span></div>
 			<div class="visually-hidden"><?php echo Text::_('TPL_ATUM_MORE_ELEMENTS'); ?></div>

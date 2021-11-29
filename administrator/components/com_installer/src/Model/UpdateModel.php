@@ -282,7 +282,7 @@ class UpdateModel extends ListModel
 	 * Finds updates for an extension.
 	 *
 	 * @param   int  $eid               Extension identifier to look for
-	 * @param   int  $cacheTimeout      Cache timout
+	 * @param   int  $cacheTimeout      Cache timeout
 	 * @param   int  $minimumStability  Minimum stability for updates {@see Updater} (0=dev, 1=alpha, 2=beta, 3=rc, 4=stable)
 	 *
 	 * @return  boolean Result
@@ -326,7 +326,7 @@ class UpdateModel extends ListModel
 		$db->execute();
 
 		// Clear the administrator cache
-		$this->cleanCache('_system', 1);
+		$this->cleanCache('_system');
 
 		$this->_message = Text::_('JLIB_INSTALLER_PURGED_UPDATES');
 
@@ -385,14 +385,10 @@ class UpdateModel extends ListModel
 		}
 
 		// Clear the cached extension data and menu cache
-		$this->cleanCache('_system', 0);
-		$this->cleanCache('_system', 1);
-		$this->cleanCache('com_modules', 0);
-		$this->cleanCache('com_modules', 1);
-		$this->cleanCache('com_plugins', 0);
-		$this->cleanCache('com_plugins', 1);
-		$this->cleanCache('mod_menu', 0);
-		$this->cleanCache('mod_menu', 1);
+		$this->cleanCache('_system');
+		$this->cleanCache('com_modules');
+		$this->cleanCache('com_plugins');
+		$this->cleanCache('mod_menu');
 
 		// Set the final state
 		$this->setState('result', $result);
@@ -503,7 +499,7 @@ class UpdateModel extends ListModel
 			$app->enqueueMessage(
 				Text::sprintf('COM_INSTALLER_MSG_UPDATE_SUCCESS',
 					Text::_('COM_INSTALLER_TYPE_TYPE_' . strtoupper($package['type']))
-				)
+				), 'success'
 			);
 			$result = true;
 		}
@@ -645,7 +641,7 @@ class UpdateModel extends ListModel
 	 *
 	 * @return DatabaseQuery
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.0.0
 	 */
 	protected function getEmptyStateQuery()
 	{

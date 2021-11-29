@@ -19,34 +19,23 @@
     &::before {
       position: absolute;
       top: 14px;
-      left: ($treeselect-indent - 15px);
+      inset-inline-start: ($treeselect-indent - 15px);
       width: 10px;
       height: 1px;
       margin: auto;
       content: "";
       background-color: rgba(0, 0, 0, .2);
-
-      [dir=rtl] & {
-        right: ($treeselect-indent - 15px);
-        left: 0;
-        margin: 0;
-      }
     }
 
     &::after {
       position: absolute;
       top: 0;
       bottom: 0;
-      left: ($treeselect-indent - 15px);
+      inset-inline-start: ($treeselect-indent - 15px);
       width: 1px;
       height: 100%;
       content: "";
       background-color: rgba(0, 0, 0, .2);
-
-      [dir=rtl] & {
-        right: ($treeselect-indent - 15px);
-        left: 0;
-      }
     }
 
     &:last-child {
@@ -104,7 +93,7 @@
     &::after {
       margin-left: 0;
       font-size: 1rem;
-      color: var(--atum-text-dark);
+      color: var(--template-text-dark);
     }
   }
 }
@@ -119,14 +108,8 @@
 
     li::before,
     li::after {
-      left: 8px;
+      inset-inline-start: 8px;
       display: block;
-
-      [dir=rtl] & {
-        right: 8px;
-        left: 0;
-        margin: 0;
-      }
     }
 
     li::before {

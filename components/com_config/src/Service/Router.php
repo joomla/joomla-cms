@@ -22,7 +22,7 @@ use Joomla\CMS\Menu\AbstractMenu;
 /**
  * Routing class from com_config
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 class Router extends RouterView
 {

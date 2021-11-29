@@ -14,11 +14,6 @@ body,
   float: right !important;
 }
 
-.input-group-prepend .btn,
-.input-group-append .btn {
-  right: -1px;
-}
-
 .form-check {
   padding-right: 1.25rem;
   padding-left: 0;
@@ -36,13 +31,6 @@ body,
   padding-right: 0;
 }
 
-.metismenu.mod-menu .mm-toggler {
-  &:after {
-    margin-right: .5em;
-    margin-left: 0;
-  }
-}
-
 .container-header {
   background-image: $cassiopeia-header-grad-rtl;
 
@@ -58,38 +46,11 @@ body,
   }
 }
 
-// skipto
-.skip-to {
-  [role="separator"] {
-    text-align: right !important;
-  }
-}
-
 // SearchTools rounded corners
 .awesomplete {
   input {
     @include border-start-radius(0);
   }
-}
-
-.input-group > .input-group-prepend > .btn,
-.input-group > .input-group-prepend > .input-group-text,
-.input-group > .input-group-append:not(:last-child) > .btn,
-.input-group > .input-group-append:not(:last-child) > .input-group-text,
-.input-group > .input-group-append:last-child > .btn:not(:last-child):not(.dropdown-toggle),
-.input-group > .input-group-append:last-child > .input-group-text:not(:last-child) {
-  @include border-start-radius($border-radius);
-  @include border-end-radius(0);
-}
-
-.input-group > .input-group-append > .btn,
-.input-group > .input-group-append > .input-group-text,
-.input-group > .input-group-prepend:not(:first-child) > .btn,
-.input-group > .input-group-prepend:not(:first-child) > .input-group-text,
-.input-group > .input-group-prepend:first-child > .btn:not(:first-child),
-.input-group > .input-group-prepend:first-child > .input-group-text:not(:first-child) {
-  @include border-start-radius($border-radius);
-  @include border-end-radius(0);
 }
 
 .input-group > .form-control:not(:last-child),

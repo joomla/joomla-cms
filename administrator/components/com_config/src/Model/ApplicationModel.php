@@ -867,8 +867,7 @@ class ApplicationModel extends FormModel
 		$app->set('cors_allow_methods', $data['cors_allow_methods']);
 
 		// Clear cache of com_config component.
-		$this->cleanCache('_system', 0);
-		$this->cleanCache('_system', 1);
+		$this->cleanCache('_system');
 
 		$result = $app->triggerEvent('onApplicationBeforeSave', array($config));
 
@@ -955,12 +954,6 @@ class ApplicationModel extends FormModel
 		if (!File::write($file, $configuration))
 		{
 			throw new \RuntimeException(Text::_('COM_CONFIG_ERROR_WRITE_FAILED'));
-		}
-
-		// Invalidates the cached configuration file
-		if (function_exists('opcache_invalidate'))
-		{
-			\opcache_invalidate($file);
 		}
 
 		// Attempt to make the file unwriteable.
@@ -1391,7 +1384,7 @@ class ApplicationModel extends FormModel
 
 		try
 		{
-			$mailSent = $mailer->Send();
+			$mailSent = $mailer->send();
 		}
 		catch (MailDisabledException | phpMailerException $e)
 		{

@@ -158,33 +158,6 @@ class ArchiveModel extends ArticlesModel
 	}
 
 	/**
-	 * Model override to add alternating value for $odd
-	 *
-	 * @param   string   $query       The query.
-	 * @param   integer  $limitstart  Offset.
-	 * @param   integer  $limit       The number of records.
-	 *
-	 * @return  array  An array of results.
-	 *
-	 * @since   3.0.1
-	 * @throws  \RuntimeException
-	 */
-	protected function _getList($query, $limitstart=0, $limit=0)
-	{
-		$result = parent::_getList($query, $limitstart, $limit);
-
-		$odd = 1;
-
-		foreach ($result as $k => $row)
-		{
-			$result[$k]->odd = $odd;
-			$odd = 1 - $odd;
-		}
-
-		return $result;
-	}
-
-	/**
 	 * Gets the archived articles years
 	 *
 	 * @return   array

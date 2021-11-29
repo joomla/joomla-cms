@@ -27,7 +27,7 @@ class HtmlView extends InstallerViewDefault
 	 * Is this view an Empty State
 	 *
 	 * @var  boolean
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.0.0
 	 */
 	private $isEmptyState = false;
 
@@ -90,7 +90,7 @@ class HtmlView extends InstallerViewDefault
 
 		parent::addToolbar();
 
-		ToolbarHelper::help('JHELP_EXTENSIONS_EXTENSION_MANAGER_DISCOVER');
+		ToolbarHelper::help('Extensions:_Discover');
 	}
 
 	/**

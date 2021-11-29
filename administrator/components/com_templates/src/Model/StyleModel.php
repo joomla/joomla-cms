@@ -41,7 +41,7 @@ class StyleModel extends AdminModel
 	 * @var	    string
 	 * @since   1.6
 	 */
-	protected $helpKey = 'JHELP_EXTENSIONS_TEMPLATE_MANAGER_STYLES_EDIT';
+	protected $helpKey = 'Templates:_Edit_Style';
 
 	/**
 	 * The help screen base URL for the module.
@@ -737,7 +737,7 @@ class StyleModel extends AdminModel
 	 * Custom clean cache method
 	 *
 	 * @param   string   $group     The cache group
-	 * @param   integer  $clientId  The ID of the client
+	 * @param   integer  $clientId  @deprecated   5.0   No longer used.
 	 *
 	 * @return  void
 	 *

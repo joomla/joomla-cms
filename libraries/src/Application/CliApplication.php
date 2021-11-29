@@ -22,7 +22,6 @@ use Joomla\DI\ContainerAwareTrait;
 use Joomla\Event\DispatcherAwareInterface;
 use Joomla\Event\DispatcherAwareTrait;
 use Joomla\Event\DispatcherInterface;
-use Joomla\Input\Cli;
 use Joomla\Input\Input;
 use Joomla\Registry\Registry;
 use Joomla\Session\SessionInterface;
@@ -73,7 +72,7 @@ abstract class CliApplication extends AbstractApplication implements DispatcherA
 	 * The application message queue.
 	 *
 	 * @var    array
-	 * @since  4.0
+	 * @since  4.0.0
 	 */
 	protected $messages = [];
 

@@ -18,11 +18,11 @@
   &-help {
 
     &__header {
-      color: var(--atum-special-color);
+      color: var(--template-special-color);
     }
 
     a {
-      color: var(--atum-link-color);
+      color: var(--template-link-color);
     }
 
     h2 {
@@ -41,7 +41,7 @@
     }
 
     &__header {
-      color: var(--atum-special-color);
+      color: var(--template-special-color);
 
       span {
         margin-right: 5px;
@@ -49,7 +49,7 @@
     }
 
     a {
-      color: var(--atum-link-color);
+      color: var(--template-link-color);
     }
 
     h2 {
@@ -74,7 +74,6 @@
   }
 
   .card {
-
     p:last-child {
       margin-bottom: 0;
     }
@@ -83,34 +82,34 @@
     .table {
       padding: 0;
       margin-bottom: unset;
-
-      > .published {
-        padding-left: .9rem;
-        border-left: 5px solid var(--success);
-      }
-
-      > .unpublished {
-        padding-left: .9rem;
-        border-left: 5px solid var(--danger);
-      }
     }
 
   }
 
   .card-header {
     display: flex;
+    align-items: center;
     padding: 1rem 1rem .75rem;
     font-weight: $font-weight-bold;
-    color: var(--atum-bg-dark);
+    color: var(--template-bg-dark);
     background: var(--card-bg);
 
-    > [class^="icon-"] {
+    > [class^="icon-"],
+    > img {
       margin-inline-end: .5rem;
+    }
+
+    .btn {
+      margin-top: .25em;
+      margin-bottom: .25em;
     }
   }
 
   .card-body {
     padding: 0;
+    overflow: hidden;
+    border-bottom-right-radius: $border-radius;
+    border-bottom-left-radius: $border-radius;
   }
 
   .module-actions {
@@ -119,8 +118,7 @@
 
     > * {
       padding: 0;
-      margin-top: -10px;
-      color: var(--atum-bg-dark-70);
+      color: var(--template-bg-dark-70);
     }
   }
 
@@ -146,7 +144,7 @@
     &:active {
       color: #fff;
       text-decoration: none;
-      background: var(--atum-bg-dark);
+      background: var(--template-bg-dark);
     }
 
     > span {
@@ -164,15 +162,20 @@
 .cpanel-modules {
   .list-group {
     border-top: 1px solid $list-group-border-color;
-
-    &:not(.sample-data) {
-      font-size: .95rem;
-    }
   }
 
   .list-group-item {
     &:hover {
       background: var(--toolbar-bg);
+    }
+
+    a {
+      font-weight: 500;
+      text-decoration: underline;
+    }
+
+    .btn {
+      text-decoration: none;
     }
 
     .list-group-item a > span {
@@ -183,27 +186,29 @@
         display: block;
         padding: .5rem;
         color: rgba(255, 255, 255, .9);
-        background: var(--atum-link-color);
+        background: var(--template-link-color);
         box-shadow: $atum-box-shadow;
 
         &:hover {
-          background: var(--atum-link-hover-color);
+          background: var(--template-link-hover-color);
         }
       }
     }
   }
 
-  .list-group-item a > span.home-image {
+  .list-group-item span.home-image {
     &[class^="#{$jicon-css-prefix}-"],
     &[class*=" #{$jicon-css-prefix}-"],
     &[class^="#{$fa-css-prefix}-"],
     &[class*=" #{$fa-css-prefix}-"] {
       display: inline-block;
       padding: 0;
+      margin: 0 .85rem;
       font-size: .9rem;
       color: rgba(1, 1, 1, 1);
       background: var(--white-offset);
       box-shadow: none;
+      transform: scale(1.2);
     }
   }
 

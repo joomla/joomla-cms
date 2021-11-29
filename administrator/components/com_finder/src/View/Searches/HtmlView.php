@@ -25,7 +25,7 @@ use Joomla\CMS\Uri\Uri;
 /**
  * View class for a list of search terms.
  *
- * @since  4.0
+ * @since  4.0.0
  */
 class HtmlView extends BaseHtmlView
 {
@@ -84,7 +84,7 @@ class HtmlView extends BaseHtmlView
 	/**
 	 * @var boolean
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	private $isEmptyState = false;
 
@@ -93,7 +93,7 @@ class HtmlView extends BaseHtmlView
 	 *
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
 	 *
-	 * @return  mixed  A string if successful, otherwise an Error object.
+	 * @return  void
 	 */
 	public function display($tpl = null)
 	{
@@ -129,7 +129,7 @@ class HtmlView extends BaseHtmlView
 		// Prepare the view.
 		$this->addToolbar();
 
-		return parent::display($tpl);
+		parent::display($tpl);
 	}
 
 	/**
@@ -160,6 +160,6 @@ class HtmlView extends BaseHtmlView
 			ToolbarHelper::preferences('com_finder');
 		}
 
-		ToolbarHelper::help('JHELP_COMPONENTS_FINDER_MANAGE_SEARCHES');
+		ToolbarHelper::help('Smart_Search:_Search_Term_Analysis');
 	}
 }

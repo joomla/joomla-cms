@@ -17,7 +17,7 @@ use Joomla\CMS\Form\Field\TextField;
 /**
  * Joomlatoken field class
  *
- * @since  4.0
+ * @since  4.0.0
  */
 class JoomlatokenField extends TextField
 {

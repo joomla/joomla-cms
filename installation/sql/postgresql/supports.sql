@@ -138,24 +138,6 @@ COMMENT ON COLUMN "#__contentitem_tag_map"."tag_id" IS 'PK from the tag table';
 COMMENT ON COLUMN "#__contentitem_tag_map"."tag_date" IS 'Date of most recent save for this tag-item';
 COMMENT ON COLUMN "#__contentitem_tag_map"."type_id" IS 'PK from the content_type table';
 
--- --------------------------------------------------------
-
---
--- Table structure for table `#__csp`
---
-
-CREATE TABLE IF NOT EXISTS "#__csp" (
-  "id" serial NOT NULL,
-  "document_uri" varchar(500) NOT NULL DEFAULT '',
-  "blocked_uri" varchar(500) NOT NULL DEFAULT '',
-  "directive" varchar(500) NOT NULL DEFAULT '',
-  "client" varchar(500) NOT NULL DEFAULT '',
-  "created" timestamp without time zone NOT NULL,
-  "modified"  timestamp without time zone NOT NULL,
-  "published" smallint DEFAULT 0 NOT NULL,
-  PRIMARY KEY ("id")
-);
-
 --
 -- Table structure for table `#__fields`
 --
@@ -309,6 +291,8 @@ INSERT INTO "#__postinstall_messages" ("extension_id", "title_key", "description
 SELECT "extension_id", 'PLG_SYSTEM_UPDATENOTIFICATION_POSTINSTALL_UPDATECACHETIME', 'PLG_SYSTEM_UPDATENOTIFICATION_POSTINSTALL_UPDATECACHETIME_BODY', 'PLG_SYSTEM_UPDATENOTIFICATION_POSTINSTALL_UPDATECACHETIME_ACTION', 'plg_system_updatenotification', 1, 'action', 'site://plugins/system/updatenotification/postinstall/updatecachetime.php', 'updatecachetime_postinstall_action', 'site://plugins/system/updatenotification/postinstall/updatecachetime.php', 'updatecachetime_postinstall_condition', '3.6.3', 1 FROM "#__extensions" WHERE "name" = 'files_joomla';
 INSERT INTO "#__postinstall_messages" ("extension_id", "title_key", "description_key", "action_key", "language_extension", "language_client_id", "type", "action_file", "action", "condition_file", "condition_method", "version_introduced", "enabled")
 SELECT "extension_id", 'PLG_SYSTEM_HTTPHEADERS_POSTINSTALL_INTRODUCTION_TITLE', 'PLG_SYSTEM_HTTPHEADERS_POSTINSTALL_INTRODUCTION_BODY', 'PLG_SYSTEM_HTTPHEADERS_POSTINSTALL_INTRODUCTION_ACTION', 'plg_system_httpheaders', 1, 'action', 'site://plugins/system/httpheaders/postinstall/introduction.php', 'httpheaders_postinstall_action', 'site://plugins/system/httpheaders/postinstall/introduction.php', 'httpheaders_postinstall_condition', '4.0.0', 1 FROM "#__extensions" WHERE "name" = 'files_joomla';
+INSERT INTO "#__postinstall_messages" ("extension_id", "title_key", "description_key", "action_key", "language_extension", "language_client_id", "type", "action_file", "action", "condition_file", "condition_method", "version_introduced", "enabled")
+SELECT "extension_id", 'COM_ADMIN_POSTINSTALL_MSG_FLOC_BLOCKER_TITLE', 'COM_ADMIN_POSTINSTALL_MSG_FLOC_BLOCKER_DESCRIPTION', '', 'com_admin', 1, 'message', '', '', '', '', '3.9.27', 1 FROM "#__extensions" WHERE "name" = 'files_joomla';
 
 --
 -- Table structure for table `#__ucm_base`

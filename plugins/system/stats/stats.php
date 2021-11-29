@@ -198,9 +198,9 @@ class PlgSystemStats extends CMSPlugin
 			throw new RuntimeException('Unable to save plugin settings', 500);
 		}
 
-		if (!$this->unpublishPlugin())
+		if (!$this->disablePlugin())
 		{
-			throw new RuntimeException('Unable to unpublish stats plugin', 500);
+			throw new RuntimeException('Unable to disable the statistics plugin', 500);
 		}
 
 		echo json_encode(['sent' => 0]);
@@ -214,7 +214,7 @@ class PlgSystemStats extends CMSPlugin
 	 * @since   3.5
 	 *
 	 * @throws  Exception         If user is not allowed.
-	 * @throws  RuntimeException  If there is an error saving the params, unpublishing the plugin or sending the data.
+	 * @throws  RuntimeException  If there is an error saving the params, disabling the plugin or sending the data.
 	 */
 	public function onAjaxSendOnce()
 	{
@@ -232,9 +232,9 @@ class PlgSystemStats extends CMSPlugin
 
 		$this->sendStats();
 
-		if (!$this->unpublishPlugin())
+		if (!$this->disablePlugin())
 		{
-			throw new RuntimeException('Unable to unpublish stats plugin', 500);
+			throw new RuntimeException('Unable to disable the statistics plugin', 500);
 		}
 
 		echo json_encode(['sent' => 1]);
@@ -249,7 +249,7 @@ class PlgSystemStats extends CMSPlugin
 	 * @since   3.5
 	 *
 	 * @throws  Exception         If user is not allowed.
-	 * @throws  RuntimeException  If there is an error saving the params, unpublishing the plugin or sending the data.
+	 * @throws  RuntimeException  If there is an error saving the params, disabling the plugin or sending the data.
 	 */
 	public function onAjaxSendStats()
 	{
@@ -643,14 +643,14 @@ class PlgSystemStats extends CMSPlugin
 	}
 
 	/**
-	 * Unpublish this plugin, if user selects once or never, to stop Joomla loading the plugin on every page load and
+	 * Disable this plugin, if user selects once or never, to stop Joomla loading the plugin on every page load and
 	 * therefore regaining a tiny bit of performance
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.0.0
 	 *
 	 * @return  boolean
 	 */
-	private function unpublishPlugin()
+	private function disablePlugin()
 	{
 		$db = $this->db;
 

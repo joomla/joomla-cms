@@ -1,6 +1,6 @@
 <?php
 /**
- * @package    Joomla.Libraries
+ * Joomla! Content Management System
  *
  * @copyright  (C) 2017 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
@@ -29,7 +29,7 @@ class JNamespacePsr4Map
 
 	/**
 	 * @var array|null
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.0.0
 	 */
 	private $cachedMap = null;
 
@@ -153,12 +153,10 @@ class JNamespacePsr4Map
 			{
 				foreach ($constants as $constant)
 				{
-					$path = str_replace($constant, constant($constant), $path);
+					$path = preg_replace(['/^(' . $constant . ")\s\.\s\'/", '/\'$/'], [constant($constant), ''], $path);
 				}
 
-				$path = str_replace(["'", " ", "."], "", $path);
 				$namespace = str_replace('\\\\', '\\', $namespace);
-
 				$map[$namespace] = [ $path ];
 			}
 

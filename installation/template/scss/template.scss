@@ -17,10 +17,15 @@ $fa-font-path: "../../../media/vendor/fontawesome-free/webfonts";
 @import "../../../build/media_source/system/scss/icomoon";
 
 // Bootstrap
-@import "../../../media/vendor/bootstrap/scss/bootstrap";
+@import "../../../media/vendor/bootstrap/scss/functions";
+
+// Variables from the Atum template
+@import "../../../administrator/templates/atum/scss/variables";
+
+// Bootstrap with the root.scss overriden
+@import "../../../administrator/templates/atum/scss/vendor/bootstrap";
 
 // Backend Template stuff
-@import "../../../administrator/templates/atum/scss/mixin";
 @import "../../../administrator/templates/atum/scss/blocks/global";
 @import "../../../administrator/templates/atum/scss/blocks/header";
 @import "../../../administrator/templates/atum/scss/vendor/bootstrap/custom-forms";
@@ -30,7 +35,7 @@ $fa-font-path: "../../../media/vendor/fontawesome-free/webfonts";
 @import "../../../administrator/templates/atum/scss/vendor/bootstrap/reboot";
 
 body {
-  background: var(--atum-bg-light);
+  background: var(--template-bg-light);
 }
 
 .form-select {
@@ -62,7 +67,7 @@ body {
     color: $white;
 
     &:hover {
-      color: var(--atum-link-color);
+      color: var(--template-link-color);
     }
   }
 }
@@ -112,6 +117,15 @@ body {
 
 .j-install-step-form {
   padding: .65rem 1.2rem;
+
+  // Remove default bootstrap margins in the installer forms.
+  .control-group {
+    margin-bottom: 0;
+
+    .control-label {
+      padding: 0;
+    }
+  }
 }
 
 .languageForm {

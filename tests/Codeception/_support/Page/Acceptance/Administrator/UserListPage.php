@@ -87,7 +87,7 @@ class UserListPage extends AdminListPage
 	 * @var    string
 	 * @since  3.7.3
 	 */
-	public static $accountDetailsTab = ['xpath' => "//a[@href='#details']"];
+	public static $accountDetailsTab = ['xpath' => "//button[@aria-controls='details']"];
 
 	/**
 	 * Locator for user's username input field.

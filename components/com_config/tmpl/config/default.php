@@ -20,7 +20,17 @@ $wa->useScript('keepalive')
 	->useScript('com_config.config');
 
 ?>
-
+<?php if ($this->params->get('show_page_heading')) : ?>
+	<div class="page-header">
+		<h1>
+			<?php if ($this->escape($this->params->get('page_heading'))) : ?>
+				<?php echo $this->escape($this->params->get('page_heading')); ?>
+			<?php else : ?>
+				<?php echo $this->escape($this->params->get('page_title')); ?>
+			<?php endif; ?>
+		</h1>
+	</div>
+<?php endif; ?>
 <form action="<?php echo Route::_('index.php?option=com_config'); ?>" id="application-form" method="post" name="adminForm" class="form-validate">
 
 	<?php echo $this->loadTemplate('site'); ?>
@@ -30,7 +40,6 @@ $wa->useScript('keepalive')
 	<input type="hidden" name="task" value="">
 	<?php echo HTMLHelper::_('form.token'); ?>
 
-	<hr>
 	<div class="mb-2">
 	<button type="button" class="btn btn-primary" data-submit-task="config.apply">
 		<span class="icon-check" aria-hidden="true"></span>

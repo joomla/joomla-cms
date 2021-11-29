@@ -49,7 +49,7 @@ abstract class JsonApiView extends JsonView
 	 *
 	 * @var  array
 	 *
-	 * @since  4.0
+	 * @since  4.0.0
 	 */
 	protected $relationship = [];
 
@@ -57,7 +57,7 @@ abstract class JsonApiView extends JsonView
 	 * Serializer data
 	 *
 	 * @var    AbstractSerializer
-	 * @since  4.0
+	 * @since  4.0.0
 	 */
 	protected $serializer;
 

@@ -80,7 +80,7 @@ class HtmlView extends BaseHtmlView
 	/**
 	 * @var boolean
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	private $isEmptyState = false;
 
@@ -89,7 +89,7 @@ class HtmlView extends BaseHtmlView
 	 *
 	 * @param   string  $tpl  A template file to load. [optional]
 	 *
-	 * @return  mixed  A string if successful, otherwise an \Exception object.
+	 * @return  void
 	 *
 	 * @since   2.5
 	 */
@@ -117,7 +117,7 @@ class HtmlView extends BaseHtmlView
 		// Configure the toolbar.
 		$this->addToolbar();
 
-		return parent::display($tpl);
+		parent::display($tpl);
 	}
 
 	/**
@@ -174,6 +174,6 @@ class HtmlView extends BaseHtmlView
 			ToolbarHelper::preferences('com_finder');
 		}
 
-		ToolbarHelper::help('JHELP_COMPONENTS_FINDER_MANAGE_SEARCH_FILTERS');
+		ToolbarHelper::help('Smart_Search:_Search_Filters');
 	}
 }

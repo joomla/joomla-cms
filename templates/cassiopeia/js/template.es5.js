@@ -3,7 +3,7 @@
  * @subpackage  Templates.Cassiopeia
  * @copyright   (C) 2017 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
- * @since       4.0
+ * @since       4.0.0
  */
 
 Joomla = window.Joomla || {};
@@ -37,7 +37,23 @@ Joomla = window.Joomla || {};
      * Back to top
      */
     var backToTop = document.getElementById('back-top');
+
     if (backToTop) {
+
+      function checkScrollPos() {
+        if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+          backToTop.classList.add('visible');
+        } else {
+          backToTop.classList.remove('visible')
+        }
+      }
+
+      checkScrollPos();
+
+      window.onscroll = function() {
+        checkScrollPos();
+      };
+
       backToTop.addEventListener('click', function(event) {
         event.preventDefault();
         window.scrollTo(0, 0);

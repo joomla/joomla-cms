@@ -1,6 +1,6 @@
 /**
- * @copyright	(C) 2013 Open Source Matters, Inc. <https://www.joomla.org>
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @copyright  (C) 2013 Open Source Matters, Inc. <https://www.joomla.org>
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 /* Module edit in front-end */
@@ -16,12 +16,7 @@
     display: block;
     position: absolute;
     top: 0;
-    right: 0;
-}
-html[dir=rtl] .btn.jmodedit
-{
-    right: auto;
-    left: 0;
+    inset-inline-end: 0;
 }
 
 /* Menu edit in front-end */

@@ -55,7 +55,7 @@ class HtmlView extends BaseHtmlView
 	 * Is this view an Empty State
 	 *
 	 * @var  boolean
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.0.0
 	 */
 	private $isEmptyState = false;
 
@@ -64,7 +64,7 @@ class HtmlView extends BaseHtmlView
 	 *
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
 	 *
-	 * @return  mixed  A string if successful, otherwise an Error object.
+	 * @return  void
 	 *
 	 * @since   1.6
 	 */
@@ -180,7 +180,7 @@ class HtmlView extends BaseHtmlView
 			}
 		}
 
-		if ($state->get('filter.published') == -2 && $canDo->get('core.delete'))
+		if (!$this->isEmptyState && $state->get('filter.published') == -2 && $canDo->get('core.delete'))
 		{
 			$toolbar->delete('newsfeeds.delete')
 				->text('JTOOLBAR_EMPTY_TRASH')
@@ -193,6 +193,6 @@ class HtmlView extends BaseHtmlView
 			$toolbar->preferences('com_newsfeeds');
 		}
 
-		$toolbar->help('JHELP_COMPONENTS_NEWSFEEDS_FEEDS');
+		$toolbar->help('News_Feeds');
 	}
 }

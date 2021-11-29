@@ -204,6 +204,27 @@ class ChecksModel extends BaseInstallationModel
 		$setting->recommended = true;
 		$settings[] = $setting;
 
+		// Check for GD support
+		$setting = new \stdClass;
+		$setting->label = Text::sprintf('INSTL_EXTENSION_AVAILABLE', 'GD');
+		$setting->state = extension_loaded('gd');
+		$setting->recommended = true;
+		$settings[] = $setting;
+
+		// Check for iconv support
+		$setting = new \stdClass;
+		$setting->label = Text::sprintf('INSTL_EXTENSION_AVAILABLE', 'iconv');
+		$setting->state = function_exists('iconv');
+		$setting->recommended = true;
+		$settings[] = $setting;
+
+		// Check for intl support
+		$setting = new \stdClass;
+		$setting->label = Text::sprintf('INSTL_EXTENSION_AVAILABLE', 'intl');
+		$setting->state = function_exists('transliterator_transliterate');
+		$setting->recommended = true;
+		$settings[] = $setting;
+
 		return $settings;
 	}
 

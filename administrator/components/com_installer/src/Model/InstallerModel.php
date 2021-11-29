@@ -91,7 +91,7 @@ class InstallerModel extends ListModel
 				$searchFields = array('name');
 
 				// If in update sites view search also in the update site name field.
-				if ($this instanceof Updatesites)
+				if ($this instanceof UpdatesitesModel)
 				{
 					$searchFields[] = 'update_site_name';
 				}
