@@ -214,7 +214,7 @@ $excludeZip   = isset($options['exclude-zip']);
 $excludeGzip  = isset($options['exclude-gzip']);
 $excludeBzip2 = isset($options['exclude-bzip2']);
 $excludeZstd  = !isset($options['include-zstd']);
-$disablePatchPackages  = !isset($options['disable-patch-packages']);
+$buildPatchPackages = !isset($options['disable-patch-packages']);
 $showHelp     = isset($options['help']);
 
 // Disable the generation of extra text files
@@ -424,7 +424,7 @@ foreach ($doNotPackage as $removeFile)
 // Count down starting with the latest release and add diff files to this array
 for ($num = $release - 1; $num >= 0; $num--)
 {
-	if (!$disablePatchPackages)
+	if (!$buildPatchPackages)
 	{
 		echo "Disabled creating patch package for $num per flag.\n";
 		continue;
