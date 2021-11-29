@@ -119,7 +119,7 @@ class ContactController extends FormController
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.1.0
 	 */
 	protected function postSaveHook(BaseDatabaseModel $model, $validData = [])
 	{
