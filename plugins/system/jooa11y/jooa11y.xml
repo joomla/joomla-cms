@@ -25,10 +25,11 @@
 					label="PLG_SYSTEM_JOOA11Y_FIELD_SHOW_ALWAYS"
 					description="PLG_SYSTEM_JOOA11Y_FIELD_SHOW_ALWAYS_DESC"
 					layout="joomla.form.field.radio.switcher"
-					default="On"
+					default="0"
+					filter="integer"
 					>
-					<option value="Off">JOFF</option>
-					<option value="On">JON</option>
+					<option value="0">JOFF</option>
+					<option value="1">JON</option>
 				</field>
 				<field
 					name="checkRoot"
