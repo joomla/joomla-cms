@@ -20,7 +20,7 @@ use Joomla\Component\Content\Site\Helper\RouteHelper;
 /**
  * Editor Jooa11y button
  *
- * @since  _DEPLOY_VERSION_
+ * @since  __DEPLOY_VERSION__
  */
 class PlgButtonJooa11y extends CMSPlugin
 {
@@ -28,7 +28,7 @@ class PlgButtonJooa11y extends CMSPlugin
 	 * Load the language file on instantiation.
 	 *
 	 * @var    boolean
-	 * @since  _DEPLOY_VERSION_
+	 * @since  __DEPLOY_VERSION__
 	 */
 	protected $autoloadLanguage = true;
 
@@ -39,7 +39,7 @@ class PlgButtonJooa11y extends CMSPlugin
 	 *
 	 * @return  CMSObject  The button options as JObject
 	 *
-	 * @since   _DEPLOY_VERSION_
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function onDisplay($name)
 	{
