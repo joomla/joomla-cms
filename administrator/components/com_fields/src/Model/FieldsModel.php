@@ -42,24 +42,24 @@ class FieldsModel extends ListModel
 		if (empty($config['filter_fields']))
 		{
 			$config['filter_fields'] = array(
-					'id', 'a.id',
-					'title', 'a.title',
-					'type', 'a.type',
-					'name', 'a.name',
-					'state', 'a.state',
-					'access', 'a.access',
-					'access_level',
-					'only_use_in_subform',
-					'language', 'a.language',
-					'ordering', 'a.ordering',
-					'checked_out', 'a.checked_out',
-					'checked_out_time', 'a.checked_out_time',
-					'created_time', 'a.created_time',
-					'created_user_id', 'a.created_user_id',
-					'group_title', 'g.title',
-					'category_id', 'a.category_id',
-					'group_id', 'a.group_id',
-					'assigned_cat_ids'
+				'id', 'a.id',
+				'title', 'a.title',
+				'type', 'a.type',
+				'name', 'a.name',
+				'state', 'a.state',
+				'access', 'a.access',
+				'access_level',
+				'only_use_in_subform',
+				'language', 'a.language',
+				'ordering', 'a.ordering',
+				'checked_out', 'a.checked_out',
+				'checked_out_time', 'a.checked_out_time',
+				'created_time', 'a.created_time',
+				'created_user_id', 'a.created_user_id',
+				'group_title', 'g.title',
+				'category_id', 'a.category_id',
+				'group_id', 'a.group_id',
+				'assigned_cat_ids'
 			);
 		}
 
@@ -144,14 +144,14 @@ class FieldsModel extends ListModel
 
 		// Select the required fields from the table.
 		$query->select(
-				$this->getState(
-						'list.select',
-						'DISTINCT a.id, a.title, a.name, a.checked_out, a.checked_out_time, a.note' .
-						', a.state, a.access, a.created_time, a.created_user_id, a.ordering, a.language' .
-						', a.fieldparams, a.params, a.type, a.default_value, a.context, a.group_id' .
-						', a.label, a.description, a.required, a.only_use_in_subform'
-						)
-				);
+			$this->getState(
+				'list.select',
+				'DISTINCT a.id, a.title, a.name, a.checked_out, a.checked_out_time, a.note' .
+				', a.state, a.access, a.created_time, a.created_user_id, a.ordering, a.language' .
+				', a.fieldparams, a.params, a.type, a.default_value, a.context, a.group_id' .
+				', a.label, a.description, a.required, a.only_use_in_subform'
+			)
+		);
 		$query->from('#__fields AS a');
 
 		// Join over the language
@@ -204,62 +204,62 @@ class FieldsModel extends ListModel
 			{
 				// Get the categories for this component (and optionally this section, if available)
 				$cat = (
-						function () use ($parts) {
-							// Get the CategoryService for this component
-							$componentObject = $this->bootComponent($parts[0]);
+					function () use ($parts) {
+						// Get the CategoryService for this component
+						$componentObject = $this->bootComponent($parts[0]);
 
-							if (!$componentObject instanceof CategoryServiceInterface)
-							{
-								// No CategoryService -> no categories
-								return null;
-							}
+						if (!$componentObject instanceof CategoryServiceInterface)
+						{
+							// No CategoryService -> no categories
+							return null;
+						}
 
-							$cat = null;
+						$cat = null;
 
-							// Try to get the categories for this component and section
+						// Try to get the categories for this component and section
+						try
+						{
+							$cat = $componentObject->getCategory([], $parts[1] ?: '');
+						}
+						catch (SectionNotFoundException $e)
+						{
+							// Not found for component and section -> Now try once more without the section, so only component
 							try
 							{
-								$cat = $componentObject->getCategory([], $parts[1] ?: '');
+								$cat = $componentObject->getCategory();
 							}
 							catch (SectionNotFoundException $e)
 							{
-								// Not found for component and section -> Now try once more without the section, so only component
-								try
-								{
-									$cat = $componentObject->getCategory();
-								}
-								catch (SectionNotFoundException $e)
-								{
-									// If we haven't found it now, return (no categories available for this component)
-									return null;
-								}
+								// If we haven't found it now, return (no categories available for this component)
+								return null;
 							}
-
-							// So we found categories for at least the component, return them
-							return $cat;
 						}
-						)();
 
-						if ($cat)
+						// So we found categories for at least the component, return them
+						return $cat;
+					}
+				)();
+
+				if ($cat)
+				{
+					foreach ($categories as $assignedCatIds)
+					{
+						// Check if we have the actual category
+						$parent = $cat->get($assignedCatIds);
+
+						if ($parent)
 						{
-							foreach ($categories as $assignedCatIds)
+							$categories[] = (int) $parent->id;
+
+							// Traverse the tree up to get all the fields which are attached to a parent
+							while ($parent->getParent() && $parent->getParent()->id != 'root')
 							{
-								// Check if we have the actual category
-								$parent = $cat->get($assignedCatIds);
-
-								if ($parent)
-								{
-									$categories[] = (int) $parent->id;
-
-									// Traverse the tree up to get all the fields which are attached to a parent
-									while ($parent->getParent() && $parent->getParent()->id != 'root')
-									{
-										$parent = $parent->getParent();
-										$categories[] = (int) $parent->id;
-									}
-								}
+								$parent = $parent->getParent();
+								$categories[] = (int) $parent->id;
 							}
 						}
+					}
+				}
 			}
 
 			$categories = array_unique($categories);
@@ -270,11 +270,11 @@ class FieldsModel extends ListModel
 			if (in_array('0', $categories))
 			{
 				$query->where(
-						'(' .
+					'(' .
 						$db->quoteName('fc.category_id') . ' IS NULL OR ' .
 						$db->quoteName('fc.category_id') . ' IN (' . implode(',', $query->bindArray(array_values($categories), ParameterType::INTEGER)) . ')' .
-						')'
-						);
+					')'
+				);
 			}
 			else
 			{
@@ -288,13 +288,13 @@ class FieldsModel extends ListModel
 			$groups = $user->getAuthorisedViewLevels();
 			$query->whereIn($db->quoteName('a.access'), $groups);
 			$query->extendWhere(
-					'AND',
-					[
-							$db->quoteName('a.group_id') . ' = 0',
-							$db->quoteName('g.access') . ' IN (' . implode(',', $query->bindArray($groups, ParameterType::INTEGER)) . ')'
-					],
-					'OR'
-					);
+				'AND',
+				[
+					$db->quoteName('a.group_id') . ' = 0',
+					$db->quoteName('g.access') . ' IN (' . implode(',', $query->bindArray($groups, ParameterType::INTEGER)) . ')'
+				],
+				'OR'
+			);
 		}
 
 		// Filter by state
@@ -302,26 +302,26 @@ class FieldsModel extends ListModel
 
 		// Include group state only when not on on back end list
 		$includeGroupState = !$app->isClient('administrator') ||
-		$app->input->get('option') != 'com_fields' ||
-		$app->input->get('view') != 'fields';
+			$app->input->get('option') != 'com_fields' ||
+			$app->input->get('view') != 'fields';
 
 		if (is_numeric($state))
 		{
 			$state = (int) $state;
 			$query->where($db->quoteName('a.state') . ' = :state')
-			->bind(':state', $state, ParameterType::INTEGER);
+				->bind(':state', $state, ParameterType::INTEGER);
 
 			if ($includeGroupState)
 			{
 				$query->extendWhere(
-						'AND',
-						[
-								$db->quoteName('a.group_id') . ' = 0',
-								$db->quoteName('g.state') . ' = :gstate',
-						],
-						'OR'
-						)
-						->bind(':gstate', $state, ParameterType::INTEGER);
+					'AND',
+					[
+						$db->quoteName('a.group_id') . ' = 0',
+						$db->quoteName('g.state') . ' = :gstate',
+					],
+					'OR'
+				)
+					->bind(':gstate', $state, ParameterType::INTEGER);
 			}
 		}
 		elseif (!$state)
@@ -331,13 +331,13 @@ class FieldsModel extends ListModel
 			if ($includeGroupState)
 			{
 				$query->extendWhere(
-						'AND',
-						[
-								$db->quoteName('a.group_id') . ' = 0',
-								$db->quoteName('g.state') . ' IN (' . implode(',', $query->bindArray([0, 1], ParameterType::INTEGER)) . ')'
-						],
-						'OR'
-						);
+					'AND',
+					[
+						$db->quoteName('a.group_id') . ' = 0',
+						$db->quoteName('g.state') . ' IN (' . implode(',', $query->bindArray([0, 1], ParameterType::INTEGER)) . ')'
+					],
+					'OR'
+				);
 			}
 		}
 
@@ -347,7 +347,7 @@ class FieldsModel extends ListModel
 		{
 			$groupId = (int) $groupId;
 			$query->where($db->quoteName('a.group_id') . ' = :groupid')
-			->bind(':groupid', $groupId, ParameterType::INTEGER);
+				->bind(':groupid', $groupId, ParameterType::INTEGER);
 		}
 
 		$onlyUseInSubForm = $this->getState('filter.only_use_in_subform');
@@ -356,7 +356,7 @@ class FieldsModel extends ListModel
 		{
 			$onlyUseInSubForm = (int) $onlyUseInSubForm;
 			$query->where($db->quoteName('a.only_use_in_subform') . ' = :only_use_in_subform')
-			->bind(':only_use_in_subform', $onlyUseInSubForm, ParameterType::INTEGER);
+				->bind(':only_use_in_subform', $onlyUseInSubForm, ParameterType::INTEGER);
 		}
 
 		// Filter by search in title
@@ -368,33 +368,33 @@ class FieldsModel extends ListModel
 			{
 				$search = (int) substr($search, 3);
 				$query->where($db->quoteName('a.id') . ' = :id')
-				->bind(':id', $search, ParameterType::INTEGER);
+					->bind(':id', $search, ParameterType::INTEGER);
 			}
 			elseif (stripos($search, 'author:') === 0)
 			{
 				$search = '%' . substr($search, 7) . '%';
 				$query->where(
-						'(' .
+					'(' .
 						$db->quoteName('ua.name') . ' LIKE :name OR ' .
 						$db->quoteName('ua.username') . ' LIKE :username' .
-						')'
-						)
-						->bind(':name', $search)
-						->bind(':username', $search);
+					')'
+				)
+					->bind(':name', $search)
+					->bind(':username', $search);
 			}
 			else
 			{
 				$search = '%' . str_replace(' ', '%', trim($search)) . '%';
 				$query->where(
-						'(' .
+					'(' .
 						$db->quoteName('a.title') . ' LIKE :title OR ' .
 						$db->quoteName('a.name') . ' LIKE :sname OR ' .
 						$db->quoteName('a.note') . ' LIKE :note' .
-						')'
-						)
-						->bind(':title', $search)
-						->bind(':sname', $search)
-						->bind(':note', $search);
+					')'
+				)
+					->bind(':title', $search)
+					->bind(':sname', $search)
+					->bind(':note', $search);
 			}
 		}
 
@@ -483,12 +483,12 @@ class FieldsModel extends ListModel
 		$db    = $this->getDbo();
 		$query = $db->getQuery(true);
 		$query->select(
-				[
-						$db->quoteName('title', 'text'),
-						$db->quoteName('id', 'value'),
-						$db->quoteName('state'),
-				]
-				);
+			[
+				$db->quoteName('title', 'text'),
+				$db->quoteName('id', 'value'),
+				$db->quoteName('state'),
+			]
+		);
 		$query->from($db->quoteName('#__fields_groups'));
 		$query->whereIn($db->quoteName('state'), [0, 1]);
 		$query->where($db->quoteName('context') . ' = :context');
