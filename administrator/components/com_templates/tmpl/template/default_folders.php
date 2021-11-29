@@ -9,8 +9,6 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Language\Text;
-
 ksort($this->files, SORT_STRING);
 ?>
 
