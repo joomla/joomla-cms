@@ -25,7 +25,6 @@
 					label="PLG_SYSTEM_JOOA11Y_FIELD_SHOW_ALWAYS"
 					description="PLG_SYSTEM_JOOA11Y_FIELD_SHOW_ALWAYS_DESC"
 					layout="joomla.form.field.radio.switcher"
-					label="PLG_SYSTEM_JOOA11Y_FIELD_PREF_CONTRAST"
 					default="On"
 					>
 					<option value="Off">JOFF</option>
