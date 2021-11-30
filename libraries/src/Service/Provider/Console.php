@@ -11,10 +11,10 @@ namespace Joomla\CMS\Service\Provider;
 \defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Console\CheckJoomlaUpdatesCommand;
-use Joomla\CMS\Console\ExtensionInstallCommand;
 use Joomla\CMS\Console\ExtensionDiscoverCommand;
 use Joomla\CMS\Console\ExtensionDiscoverInstallCommand;
 use Joomla\CMS\Console\ExtensionDiscoverListCommand;
+use Joomla\CMS\Console\ExtensionInstallCommand;
 use Joomla\CMS\Console\ExtensionRemoveCommand;
 use Joomla\CMS\Console\ExtensionsListCommand;
 use Joomla\CMS\Console\FinderIndexCommand;
@@ -24,6 +24,9 @@ use Joomla\CMS\Console\SessionMetadataGcCommand;
 use Joomla\CMS\Console\SetConfigurationCommand;
 use Joomla\CMS\Console\SiteDownCommand;
 use Joomla\CMS\Console\SiteUpCommand;
+use Joomla\CMS\Console\TasksListCommand;
+use Joomla\CMS\Console\TasksRunCommand;
+use Joomla\CMS\Console\TasksStateCommand;
 use Joomla\CMS\Console\UpdateCoreCommand;
 use Joomla\CMS\Session\MetadataManager;
 use Joomla\Database\Command\ExportCommand;
@@ -207,6 +210,31 @@ class Console implements ServiceProviderInterface
 				return new FinderIndexCommand($container->get('db'));
 			},
 			true
+		);
+
+		$container->share(
+			TasksListCommand::class,
+			function (Container $container)
+			{
+				return new TasksListCommand;
+			},
+			true
+		);
+
+		$container->share(
+			TasksRunCommand::class,
+			function (Container $container)
+			{
+				return new TasksRunCommand;
+			}
+		);
+
+		$container->share(
+			TasksStateCommand::class,
+			function (Container $container)
+			{
+				return new TasksStateCommand;
+			}
 		);
 	}
 }

@@ -12,7 +12,6 @@ namespace Joomla\Component\Media\Api\View\Media;
 \defined('_JEXEC') or die;
 
 use Joomla\CMS\MVC\View\JsonApiView as BaseApiView;
-use Joomla\Component\Media\Administrator\Provider\ProviderManager;
 use Joomla\Component\Media\Api\Helper\AdapterTrait;
 
 /**
