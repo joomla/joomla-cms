@@ -5948,7 +5948,6 @@ class JoomlaInstallerScript
 			'/administrator/components/com_fields/tmpl/field/modal.php',
 			'/administrator/templates/atum/scss/pages/_com_admin.scss',
 			'/administrator/templates/atum/scss/pages/_com_finder.scss',
-			'/administrator/templates/atum/scss/pages/_com_joomlaupdate.scss',
 			'/libraries/src/Error/JsonApi/InstallLanguageExceptionHandler.php',
 			'/libraries/src/MVC/Controller/Exception/InstallLanguage.php',
 			'/media/com_fields/js/admin-field-edit-modal-es5.js',
