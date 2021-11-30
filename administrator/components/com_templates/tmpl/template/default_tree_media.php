@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_templates
  *
- * @copyright   (C) 2013 Open Source Matters, Inc. <https://www.joomla.org>
+ * @copyright   (C) 2021 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -11,11 +11,17 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Router\Route;
 
-ksort($this->files, SORT_NATURAL);
+// Legacy is the default
+if (!count($this->mediaFiles))
+{
+	return;
+}
+
+ksort($this->mediaFiles, SORT_STRING);
 ?>
 
 <ul class="directory-tree treeselect">
-	<?php foreach ($this->files as $key => $value) : ?>
+	<?php foreach ($this->mediaFiles as $key => $value) : ?>
 		<?php if (is_array($value)) : ?>
 			<?php
 			$keyArray  = explode('/', rtrim($key, '\\'));
@@ -53,12 +59,12 @@ ksort($this->files, SORT_NATURAL);
 				<a class="folder-url" href="">
 					<span class="icon-folder icon-fw" aria-hidden="true"></span>&nbsp;<?php $explodeArray = explode('/', $key); echo $this->escape(end($explodeArray)); ?>
 				</a>
-				<?php echo $this->directoryTree($value); ?>
+				<?php echo $this->mediaTree($value); ?>
 			</li>
 		<?php endif; ?>
 		<?php if (is_object($value)) : ?>
 			<li>
-				<a class="file" href='<?php echo Route::_('index.php?option=com_templates&view=template&id=' . $this->id . '&file=' . $value->id . '&isMedia=0'); ?>'>
+				<a class="file" href="<?php echo Route::_('index.php?option=com_templates&view=template&id=' . $this->id . '&file=' . $value->id . '&isMedia=1'); ?>">
 					<span class="icon-file-alt" aria-hidden="true"></span>&nbsp;<?php echo $this->escape($value->name); ?>
 				</a>
 			</li>
