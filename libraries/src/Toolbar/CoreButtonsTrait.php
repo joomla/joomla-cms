@@ -82,7 +82,7 @@ trait CoreButtonsTrait
 	 *
 	 * @return  PopupButton|LinkButton
 	 *
-	 * @since   4.0.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function jooa11y(string $url, string $text = 'JGLOBAL_JOOA11Y', $newWindow = false)
 	{
