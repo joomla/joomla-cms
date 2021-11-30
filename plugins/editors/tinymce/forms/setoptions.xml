@@ -72,13 +72,9 @@
 
 		<field
 			name="content_template_path"
-			type="folderlist"
+			type="templateslist"
 			label="PLG_TINY_FIELD_CUSTOM_CONTENT_TEMPLATE_PATH_LABEL"
 			description="PLG_TINY_FIELD_CUSTOM_CONTENT_TEMPLATE_PATH_DESC"
-			directory="/templates"
-			hide_none="true"
-			recursive="true"
-			exclude="system"
 			default=""
 			folderFilter="^tinymce"
 			validate="options"
