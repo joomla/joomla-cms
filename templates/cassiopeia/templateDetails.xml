@@ -119,7 +119,7 @@
 					stripext="true"
 					hide_none="true"
 					hide_default="true"
-					directory="templates/cassiopeia/css/global/"
+					directory="media/templates/site/cassiopeia/css/global/"
 					validate="options"
 					>
 					<option value="colors_standard">TPL_CASSIOPEIA_COLOR_NAME_STANDARD</option>
