@@ -45,7 +45,7 @@
     "diff": "^4.0.2",
     "dragula": "3.7.2",
     "focus-visible": "^5.2.0",
-    "joomla-a11y-checker": "github:joomla-projects/joomla-a11y-checker#joomla",
+    "joomla-a11y-checker": "https://github.com/joomla-projects/joomla-a11y-checker.git",
     "joomla-ui-custom-elements": "0.2.0",
     "jquery": "^3.6.0",
     "jquery-migrate": "^3.3.2",
