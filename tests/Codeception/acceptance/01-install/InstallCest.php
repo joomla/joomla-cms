@@ -26,7 +26,7 @@ class InstallCest
 	public function installJoomla(AcceptanceTester $I)
 	{
 		$I->am('Administrator');
-		$I->installJoomlaRemovingInstallationFolder();
+		$I->installJoomla();
 	}
 
 	/**

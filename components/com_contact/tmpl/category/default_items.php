@@ -123,7 +123,7 @@ $listDirn   = $this->escape($this->state->get('list.direction'));
 									<span class="list-published badge bg-warning text-light">
 										<?php echo Text::_('JEXPIRED'); ?>
 									</span>
-								</div
+								</div>
 							<?php endif; ?>
 							<?php if ($item->published == -2) : ?>
 								<div>
