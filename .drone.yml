@@ -27,6 +27,7 @@ steps:
     image: node:14-alpine
     depends_on: [ phpcs ]
     commands:
+      - apk update && apk upgrade && apk add --no-cache bash git openssh
       - npm ci --unsafe-perm
 
   - name: php72-unit
@@ -251,6 +252,6 @@ steps:
 
 ---
 kind: signature
-hmac: 2b1ca61bdae1a8fe36dc5cdf0497d42d8f3f30df4f0f6e5d248fbfe00be69e48
+hmac: 5700042665a0debd3251ff8bda701067ed8b1670068c0a2ffba390be67e75b03
 
 ...
