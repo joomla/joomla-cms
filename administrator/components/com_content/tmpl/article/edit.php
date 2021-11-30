@@ -47,6 +47,12 @@ if (!$assoc)
 	$this->ignore_fieldsets[] = 'frontendassociations';
 }
 
+if (!$params->get('show_article_options', 1))
+{
+	// Ignore fieldsets inside Options tab
+	$this->ignore_fieldsets = array_merge($this->ignore_fieldsets, ['attribs', 'basic', 'category', 'author', 'date', 'other']);
+}
+
 // In case of modal
 $isModal = $input->get('layout') === 'modal';
 $layout  = $isModal ? 'modal' : 'edit';
@@ -104,9 +110,7 @@ $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=c
 			<?php echo HTMLHelper::_('uitab.endTab'); ?>
 		<?php endif; ?>
 
-		<?php if ($params->get('show_article_options', 1) == 1) : ?>
-			<?php echo LayoutHelper::render('joomla.edit.params', $this); ?>
-		<?php endif; ?>
+		<?php echo LayoutHelper::render('joomla.edit.params', $this); ?>
 
 		<?php // Do not show the publishing options if the edit form is configured not to. ?>
 		<?php if ($params->get('show_publishing_options', 1) == 1) : ?>
