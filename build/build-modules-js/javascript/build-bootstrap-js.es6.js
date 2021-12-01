@@ -14,6 +14,7 @@ const tasks = [];
 const inputFolder = 'build/media_source/vendor/bootstrap/js';
 const outputFolder = 'media/vendor/bootstrap/js';
 
+// eslint-disable-next-line import/no-dynamic-require
 const bsVersion = require(`${process.cwd()}/package.json`).dependencies.bootstrap.replace(/^\^|~/, '');
 
 const createMinified = async (file) => {
