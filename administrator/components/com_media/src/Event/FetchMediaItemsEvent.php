@@ -11,18 +11,12 @@ namespace Joomla\Component\Media\Administrator\Event;
 
 \defined('_JEXEC') or die;
 
-use BadMethodCallException;
-use Joomla\CMS\Date\Date;
-use Joomla\CMS\Event\AbstractImmutableEvent;
-use Joomla\CMS\HTML\HTMLHelper;
-use Joomla\CMS\Language\Text;
-
 /**
  * Event object for fetch media items.
  *
  * @since  __DEPLOY_VERSION__
  */
-final class FetchMediaItemsEvent extends AbstractImmutableEvent
+final class FetchMediaItemsEvent extends AbstractMediaItemValidationEvent
 {
 	/**
 	 * Constructor.
@@ -30,7 +24,7 @@ final class FetchMediaItemsEvent extends AbstractImmutableEvent
 	 * @param   string  $name       The event name.
 	 * @param   array   $arguments  The event arguments.
 	 *
-	 * @throws  BadMethodCallException
+	 * @throws  \BadMethodCallException
 	 *
 	 * @since  __DEPLOY_VERSION__
 	 */
@@ -41,25 +35,30 @@ final class FetchMediaItemsEvent extends AbstractImmutableEvent
 		// Check for required arguments
 		if (!\array_key_exists('items', $arguments) || !is_array($arguments['items']))
 		{
-			throw new BadMethodCallException("Argument 'items' of event $name is not of the expected type");
+			throw new \BadMethodCallException("Argument 'items' of event $name is not of the expected type");
 		}
 	}
 
 	/**
-	 * Validate $value to be an array
+	 * Validate $item to be an array
 	 *
-	 * @param   array  $values  The value to set
+	 * @param   array  $items  The value to set
 	 *
 	 * @return array
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	protected function setItems(array $values): array
+	protected function setItems(array $items): array
 	{
 		$result = [];
 
-		foreach($values as $value) {
-			$result[] = $this->validateItem($value);
+		foreach($items as $item)
+		{
+			$clone = clone $item;
+
+			$this->validate($clone);
+
+			$result[] = $clone;
 		}
 
 		return $result;
@@ -68,138 +67,21 @@ final class FetchMediaItemsEvent extends AbstractImmutableEvent
 	/**
 	 * Returns the items.
 	 *
-	 * @param   array  $values  The value to set
+	 * @param   array  $items  The value to set
 	 *
 	 * @return array
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	protected function getItems(array $values): array
+	protected function getItems(array $items): array
 	{
 		$result = [];
 
-		foreach($values as $value) {
-			$result[] = clone $value;
+		foreach($items as $item)
+		{
+			$result[] = clone $item;
 		}
 
 		return $result;
-	}
-
-	/**
-	 * Validate $value to have all attributes with a valid type
-	 *
-	 * Validation based on \Joomla\Component\Media\Administrator\Adapter\AdapterInterface::getFile()
-	 *
-	 * Properties validated:
-	 * - type:          The type can be file or dir
-	 * - name:          The name of the file
-	 * - path:          The relative path to the root
-	 * - extension:     The file extension
-	 * - size:          The size of the file
-	 * - create_date:   The date created
-	 * - modified_date: The date modified
-	 * - mime_type:     The mime type
-	 * - width:         The width, when available
-	 * - height:        The height, when available
-	 *
-	 * Generation based on \Joomla\Plugin\Filesystem\Local\Adapter\LocalAdapter::getPathInformation()
-	 *
-	 * Properties generated:
-	 * - created_date_formatted:  DATE_FORMAT_LC5 formatted string based on create_date
-	 * - modified_date_formatted: DATE_FORMAT_LC5 formatted string based on modified_date
-	 *
-	 * @param   \stdClass  $value  The value to set
-	 *
-	 * @return \stdClass
-	 *
-	 * @since   __DEPLOY_VERSION__
-	 *
-	 * @throws BadMethodCallException
-	 */
-	private function validateItem(\stdClass $value): \stdClass
-	{
-		// Make immutable object
-		$value = clone $value;
-
-		// Only "dir" or "file" is allowed
-		if (!isset($value->type) || ($value->type !== 'dir' && $value->type !== 'file'))
-		{
-				throw new BadMethodCallException("Property 'type' of argument 'item' of event {$this->name} has a wrong value. Valid: 'dir' or 'file'");
-		}
-
-		// Non empty string
-		if (empty($value->name) || !is_string($value->name))
-		{
-				throw new BadMethodCallException("Property 'name' of argument 'item' of event {$this->name} has a wrong value. Valid: non empty string");
-		}
-
-		// Non empty string
-		if (empty($value->path) || !is_string($value->path))
-		{
-				throw new BadMethodCallException("Property 'path' of argument 'item' of event {$this->name} has a wrong value. Valid: non empty string");
-		}
-
-		// A string
-		if (!isset($value->extension) || !is_string($value->extension))
-		{
-				throw new BadMethodCallException("Property 'extension' of argument 'item' of event {$this->name} has a wrong value. Valid: string");
-		}
-
-		// An empty string or an integer
-		if (!isset($value->size) ||
-			(!is_integer($value->size) && !is_string($value->size)) ||
-			(is_string($value->size) && $value->size !== '')
-		)
-		{
-				throw new BadMethodCallException("Property 'size' of argument 'item' of event {$this->name} has a wrong value. Valid: empty string or integer");
-		}
-
-		// A string
-		if (!isset($value->mime_type) || !is_string($value->mime_type))
-		{
-				throw new BadMethodCallException("Property 'mime_type' of argument 'item' of event {$this->name} has a wrong value. Valid: string");
-		}
-
-		// An integer
-		if (!isset($value->width) || !is_integer($value->width))
-		{
-				throw new BadMethodCallException("Property 'width' of argument 'item' of event {$this->name} has a wrong value. Valid: integer");
-		}
-
-		// An integer
-		if (!isset($value->height) || !is_integer($value->height))
-		{
-				throw new BadMethodCallException("Property 'height' of argument 'item' of event {$this->name} has a wrong value. Valid: integer");
-		}
-
-		// A ISO 8601 date string
-		if (empty($value->create_date)) {
-				throw new BadMethodCallException("Property 'create_date' of argument 'item' of event {$this->name} has a wrong value. Valid: ISO 8601 date string");
-		}
-
-		// Validate date format
-		$date = Date::createFromFormat(\DATE_ISO8601, $value->create_date);
-		if (!$date) {
-				throw new BadMethodCallException("Property 'create_date' of argument 'item' of event {$this->name} has a wrong value. Valid: ISO 8601 date string");
-		}
-
-		// Create formated string based on \Joomla\Plugin\Filesystem\Local\Adapter\LocalAdapter::getPathInformation()
-		$value->create_date_formatted   = HTMLHelper::_('date', $date, Text::_('DATE_FORMAT_LC5'));
-
-		// A ISO 8601 date string
-		if (empty($value->modified_date)) {
-				throw new BadMethodCallException("Property 'modified_date' of argument 'item' of event {$this->name} has a wrong value. Valid: ISO 8601 date string");
-		}
-
-		// Validate date format
-		$date = Date::createFromFormat(\DATE_ISO8601, $value->modified_date);
-		if (!$date) {
-				throw new BadMethodCallException("Property 'modified_date' of argument 'item' of event {$this->name} has a wrong value. Valid: ISO 8601 date string");
-		}
-
-		// Create formated string based on \Joomla\Plugin\Filesystem\Local\Adapter\LocalAdapter::getPathInformation()
-		$value->modified_date_formatted   = HTMLHelper::_('date', $date, Text::_('DATE_FORMAT_LC5'));
-
-		return $value;
 	}
 }

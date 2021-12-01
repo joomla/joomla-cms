@@ -20,7 +20,7 @@ use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\Component\Media\Administrator\Adapter\AdapterInterface;
 use Joomla\Component\Media\Administrator\Event\FetchMediaItemEvent;
 use Joomla\Component\Media\Administrator\Event\FetchMediaItemsEvent;
-use Joomla\Component\Media\Administrator\Event\FetchMediaFileUrlEvent;
+use Joomla\Component\Media\Administrator\Event\FetchMediaItemUrlEvent;
 use Joomla\Component\Media\Administrator\Event\MediaProviderEvent;
 use Joomla\Component\Media\Administrator\Exception\FileExistsException;
 use Joomla\Component\Media\Administrator\Exception\FileNotFoundException;
@@ -467,7 +467,7 @@ class ApiModel extends BaseDatabaseModel
 
 		$url = $this->getAdapter($adapter)->getUrl($path);
 
-		$event = new FetchMediaFileUrlEvent('onFetchMediaFileUrl', ['adapter' => $adapter, 'path' => $path, 'url' => $url]);
+		$event = new FetchMediaItemUrlEvent('onFetchMediaFileUrl', ['adapter' => $adapter, 'path' => $path, 'url' => $url]);
 		Factory::getApplication()->getDispatcher()->dispatch($event->getName(), $event);
 
 		return $event->getArgument('url');
