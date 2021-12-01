@@ -14,12 +14,13 @@ const tasks = [];
 const inputFolder = 'build/media_source/vendor/bootstrap/js';
 const outputFolder = 'media/vendor/bootstrap/js';
 
-const getCurrentUnixTime = Math.round((new Date()).getTime() / 1000);
+const bsVersionA = require(`${process.cwd()}/package.json`);
+const bsVersion = bsVersionA.dependencies.bootstrap.replace(/^\^/, '');
 
 const createMinified = async (file) => {
   const initial = await readFile(resolve(outputFolder, file), { encoding: 'utf8' });
-  const mini = await minify(initial.replace('./popper.js', `./popper.min.js?${getCurrentUnixTime}`).replace('./dom.js', `./dom.min.js?${getCurrentUnixTime}`), { sourceMap: false, format: { comments: false } });
-  await writeFile(resolve(outputFolder, file), initial.replace('./popper.js', `./popper.js?${getCurrentUnixTime}`).replace('./dom.js', `./dom.js?${getCurrentUnixTime}`), { encoding: 'utf8', mode: 0o644 });
+  const mini = await minify(initial.replace('./popper.js', `./popper.min.js?${bsVersion}`).replace('./dom.js', `./dom.min.js?${bsVersion}`).replace('./alert.js', `./alert.min.js?${bsVersion}`).replace('./modal.js', `./modal.min.js?${bsVersion}`), { sourceMap: false, format: { comments: false } });
+  await writeFile(resolve(outputFolder, file), initial.replace('./popper.js', `./popper.js?${bsVersion}`).replace('./dom.js', `./dom.js?${bsVersion}`), { encoding: 'utf8', mode: 0o644 });
   await writeFile(resolve(outputFolder, file.replace('.js', '.min.js')), mini.code, { encoding: 'utf8', mode: 0o644 });
 };
 
