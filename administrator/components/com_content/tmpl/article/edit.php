@@ -37,17 +37,17 @@ $this->useCoreUI = true;
 $params = clone $this->state->get('params');
 $params->merge(new Registry($this->item->attribs));
 
-$app = Factory::getApplication();
-$input = $app->input;
+$input = Factory::getApplication()->input;
 
-$assoc = Associations::isEnabled();
+$assoc              = Associations::isEnabled();
+$showArticleOptions = $params->get('show_article_options', 1);
 
-if (!$assoc)
+if (!$assoc || !$showArticleOptions)
 {
 	$this->ignore_fieldsets[] = 'frontendassociations';
 }
 
-if (!$params->get('show_article_options', 1))
+if (!$showArticleOptions)
 {
 	// Ignore fieldsets inside Options tab
 	$this->ignore_fieldsets = array_merge($this->ignore_fieldsets, ['attribs', 'basic', 'category', 'author', 'date', 'other']);
