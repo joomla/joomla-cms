@@ -769,7 +769,7 @@ class ZIPExtraction
 	/**
 	 * Get the most recent error message
 	 *
-	 * @return   string|null  The message string, null if there's no error
+	 * @return  string|null  The message string, null if there's no error
 	 * @since   4.0.4
 	 */
 	public function getError(): ?string
