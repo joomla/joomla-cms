@@ -28,7 +28,7 @@ const build = async () => {
 
   const domImports = await readdir(resolve('node_modules/bootstrap', 'js/src/dom'));
   const utilImports = await readdir(resolve('node_modules/bootstrap', 'js/src/util'));
- 
+
   const bundle = await rollup.rollup({
     input: resolve(inputFolder, 'index.es6.js'),
     plugins: [
