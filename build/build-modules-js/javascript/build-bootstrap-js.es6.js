@@ -14,8 +14,7 @@ const tasks = [];
 const inputFolder = 'build/media_source/vendor/bootstrap/js';
 const outputFolder = 'media/vendor/bootstrap/js';
 
-const bsVersionA = require(process.cwd() + '/package.json');
-const bsVersion = bsVersionA.dependencies.bootstrap.replace(/^\^/, '');
+const bsVersion = require(`${process.cwd()}/package.json`).dependencies.bootstrap.replace(/^\^|~/, '');
 
 const createMinified = async (file) => {
   const initial = await readFile(resolve(outputFolder, file), { encoding: 'utf8' });
