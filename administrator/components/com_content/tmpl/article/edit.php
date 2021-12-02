@@ -37,20 +37,14 @@ $this->useCoreUI = true;
 $params = clone $this->state->get('params');
 $params->merge(new Registry($this->item->attribs));
 
-$input = Factory::getApplication()->input;
+$app = Factory::getApplication();
+$input = $app->input;
 
-$assoc              = Associations::isEnabled();
-$showArticleOptions = $params->get('show_article_options', 1);
+$assoc = Associations::isEnabled();
 
-if (!$assoc || !$showArticleOptions)
+if (!$assoc)
 {
 	$this->ignore_fieldsets[] = 'frontendassociations';
-}
-
-if (!$showArticleOptions)
-{
-	// Ignore fieldsets inside Options tab
-	$this->ignore_fieldsets = array_merge($this->ignore_fieldsets, ['attribs', 'basic', 'category', 'author', 'date', 'other']);
 }
 
 // In case of modal
@@ -110,7 +104,9 @@ $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=c
 			<?php echo HTMLHelper::_('uitab.endTab'); ?>
 		<?php endif; ?>
 
-		<?php echo LayoutHelper::render('joomla.edit.params', $this); ?>
+		<?php if ($params->get('show_article_options', 1) == 1) : ?>
+			<?php echo LayoutHelper::render('joomla.edit.params', $this); ?>
+		<?php endif; ?>
 
 		<?php // Do not show the publishing options if the edit form is configured not to. ?>
 		<?php if ($params->get('show_publishing_options', 1) == 1) : ?>
