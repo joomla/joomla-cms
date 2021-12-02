@@ -186,9 +186,11 @@ class PlgEditorTinymce extends CMSPlugin
 		$extraOptionsAll  = (array) $this->params->get('configuration.setoptions', array());
 		$toolbarParamsAll = (array) $this->params->get('configuration.toolbars', array());
 
-		// Get configuration depend from User group
 		// Reverse the array, so the items with lowest access level goes first
-		foreach (array_reverse($extraOptionsAll, true) as $set => $val)
+		krsort($extraOptionsAll);
+
+		// Get configuration depend from User group
+		foreach ($extraOptionsAll as $set => $val)
 		{
 			$val = (object) $val;
 			$val->access = empty($val->access) ? array() : $val->access;
