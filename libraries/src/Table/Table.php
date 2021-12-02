@@ -46,7 +46,7 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
 	 * Table fields cache
 	 *
 	 * @var   array
-	 * @since 4.0.5
+	 * @since 3.10.4
 	 */
 	private static $tableFields;
 

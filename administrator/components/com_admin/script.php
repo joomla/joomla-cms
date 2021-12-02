@@ -6324,6 +6324,8 @@ class JoomlaInstallerScript
 			'/templates/system/scss/general.scss',
 			'/templates/system/scss/offline.scss',
 			'/templates/system/scss/offline_rtl.scss',
+			// From 4.0.4 to 4.0.5
+			'/media/vendor/codemirror/lib/#codemirror.js#',
 		);
 
 		$folders = array(
