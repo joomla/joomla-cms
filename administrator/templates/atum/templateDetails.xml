@@ -7,6 +7,7 @@
 	<authorEmail>admin@joomla.org</authorEmail>
 	<copyright>(C) 2016 Open Source Matters, Inc.</copyright>
 	<description>TPL_ATUM_XML_DESCRIPTION</description>
+	<inheritable>1</inheritable>
 	<files>
 		<filename>component.php</filename>
 		<filename>cpanel.php</filename>
@@ -17,15 +18,13 @@
 		<filename>joomla.asset.json</filename>
 		<filename>login.php</filename>
 		<filename>templateDetails.xml</filename>
-		<filename>template_preview.png</filename>
-		<filename>template_thumbnail.png</filename>
-		<folder>css</folder>
 		<folder>html</folder>
-		<folder>images</folder>
-		<folder>scss</folder>
 	</files>
 	<media destination="templates/administrator/atum" folder="media">
 		<folder>js</folder>
+		<folder>css</folder>
+		<folder>scss</folder>
+		<folder>images</folder>
 	</media>
 	<positions>
 		<!-- used directly in the template -->
