@@ -568,7 +568,6 @@ class HtmlDocument extends Document
 					[
 						$name,
 						$attribs,
-						null,
 						\get_class($renderer),
 						CmsFactory::getApplication()->input->get('Itemid'),
 					]
