@@ -563,13 +563,17 @@ class HtmlDocument extends Document
 			/** @var  \Joomla\CMS\Cache\Controller\OutputController  $cache */
 			$cache = CmsFactory::getContainer()->get(CacheControllerFactoryInterface::class)
 				->createCacheController('output', ['defaultgroup' => 'com_modules']);
-			$hash = md5(serialize(array(
-				$name,
-				$attribs,
-				null,
-				get_class($renderer),
-				CmsFactory::getApplication()->input->get('Itemid'),
-			)));
+			$hash = md5(
+				serialize(
+					[
+						$name,
+						$attribs,
+						null,
+						get_class($renderer),
+						CmsFactory::getApplication()->input->get('Itemid'),
+					]
+				)
+			);
 			$cbuffer = $cache->get('cbuffer_' . $type);
 
 			if (isset($cbuffer[$hash]))
