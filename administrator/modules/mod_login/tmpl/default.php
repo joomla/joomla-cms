@@ -57,7 +57,7 @@ Text::script('JHIDEPASSWORD');
 					autocomplete="current-password"
 				>
 				<button type="button" class="btn btn-primary input-password-toggle">
-					<span class="icon-eye icon-fw" aria-hidden="true"></span>
+					<span class="icon-eye-slash icon-fw" aria-hidden="true"></span>
 					<span class="visually-hidden"><?php echo Text::_('JSHOWPASSWORD'); ?></span>
 				</button>
 

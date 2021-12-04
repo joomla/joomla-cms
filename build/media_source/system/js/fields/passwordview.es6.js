@@ -16,8 +16,9 @@
 
           if (input.type === 'password') {
             // Update the icon class
-            icon.classList.remove('icon-eye');
-            icon.classList.add('icon-eye-slash');
+         
+            icon.classList.remove("icon-eye-slash");
+            icon.classList.add("icon-eye");
 
             // Update the input type
             input.type = 'text';
@@ -29,8 +30,9 @@
             srText.innerText = Joomla.Text._('JHIDEPASSWORD');
           } else if (input.type === 'text') {
             // Update the icon class
-            icon.classList.add('icon-eye');
-            icon.classList.remove('icon-eye-slash');
+          
+            s.classList.add("icon-eye-slash");
+            s.classList.remove("icon-eye");
 
             // Update the input type
             input.type = 'password';

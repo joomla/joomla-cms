@@ -61,7 +61,7 @@ Text::script('JHIDEPASSWORD');
 				<div class="input-group">
 					<input name="passwd" id="mod-login-password" type="password" class="form-control" required="required" autocomplete="current-password" placeholder="<?php echo Text::_('JGLOBAL_PASSWORD'); ?>" size="15">
 					<button type="button" class="btn btn-secondary input-password-toggle">
-						<span class="icon-eye icon-fw" aria-hidden="true"></span>
+						<span class="icon-eye-slash icon-fw" aria-hidden="true"></span>
 						<span class="visually-hidden"><?php echo Text::_('JSHOWPASSWORD'); ?></span>
 					</button>
 				</div>
