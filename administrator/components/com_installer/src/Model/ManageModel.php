@@ -145,7 +145,7 @@ class ManageModel extends InstallerModel
 				}
 
 				// Parent template cannot be disabled if there are children
-				if ($style->load(array('parent' => $table->element, 'client_id' => $table->client_id)))
+				if ($style->load(['parent' => $table->element, 'client_id' => $table->client_id]))
 				{
 					Factory::getApplication()->enqueueMessage(Text::_('COM_INSTALLER_ERROR_DISABLE_PARENT_TEMPLATE_NOT_PERMITTED'), 'notice');
 					unset($eid[$i]);
