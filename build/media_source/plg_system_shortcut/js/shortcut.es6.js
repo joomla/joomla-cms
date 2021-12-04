@@ -1,9 +1,4 @@
-class JoomlaShortcuts {
-	constructor() {
-	  if (!Joomla) {
-		throw new Error('Joomla API is not properly initialised');
-	  }
-	  /*apply*/
+/*apply*/
 Mousetrap.bind('alt+s', function(e) {
     document.querySelector("joomla-toolbar-button button.button-apply").click();
 });
@@ -85,5 +80,37 @@ Mousetrap.bind('ctrl+alt+r', function(e) {
 });
 
 
-Mousetrap.bind('escape', function(e) { alert('keyboard shortcuts'); });
+const defaultOptions = [
+	 { KeyBtn: 'apply :', keyEvent: 'alt+s', selector: 'joomla-toolbar-button button.button-apply'},
+	{KeyBtn: 'new :', keyEvent: 'alt+n', selector: 'joomla-toolbar-button button.button-new'},
+	{KeyBtn: 'save :', keyEvent: 'alt+w', selector: 'joomla-toolbar-button button.button-save'},
+	{KeyBtn: 'saveNew :', keyEvent: 'shift+alt+n', selector: 'joomla-toolbar-button button.button-save-new'},
+	{KeyBtn: 'help :', keyEvent: 'alt+x', selector: 'joomla-toolbar-button button.button-help'},
+	{KeyBtn: 'cancel :', keyEvent: 'alt+q', selector: 'joomla-toolbar-button button.button-cancel'},
+	{KeyBtn: 'copy :', keyEvent: 'shift+alt+c', selector: 'joomla-toolbar-button button.button-button-copy'},
+	{KeyBtn: 'article :', keyEvent: 'ctrl+alt+a', selector: 'joomla-editor-option~article_modal'},
+	{KeyBtn: 'contact :', keyEvent: 'ctrl+alt+c', selector: 'joomla-editor-option~contact_modal'},
+	{KeyBtn: 'fields :', keyEvent: 'ctrl+alt+f', selector: 'joomla-editor-option~fields_modal'},
+	{KeyBtn: 'image :', keyEvent: 'ctrl+alt+l', selector: 'joomla-editor-option~image_modal'},
+	{KeyBtn: 'menu :', keyEvent: 'ctrl+alt+m', selector: 'joomla-editor-option~menu_modal'},
+	{KeyBtn: 'module :', keyEvent: 'ctrl+shift+alt+m', selector: 'joomla-editor-option~module_modal'},
+	{KeyBtn: 'pagebreak :', keyEvent: 'ctrl+alt+p', selector: 'joomla-editor-option~pagebreak_modal'},
+	{KeyBtn: 'readmore :', keyEvent: 'ctrl+alt+r', selector: 'joomla-editor-option~read_more'}
+];
 
+
+Mousetrap.bind('escape', function(e) {
+	var keys = 'Shortcut Keys \n\n';
+	defaultOptions.forEach(shortcutkeylist);
+
+	function shortcutkeylist(item, index) {
+
+		button = item.KeyBtn;
+		keyevent = item.keyEvent.toUpperCase();
+		keys += button+' '+keyevent+'\n';
+	}
+
+   	alert(keys);
+	//const phpOptions = Joomla.getOptions('joomla-shortcut-keys');	
+
+});
