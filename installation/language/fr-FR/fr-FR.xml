@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <metafile
-	version="3.9"
+ 	version="3.10"
 	client="installation">
 	<name>French (France)</name>
-	<version>3.9.23</version>
-	<creationDate>2020-03-24</creationDate>
+	<version>3.10.4</version>
+	<creationDate>2021-11-29</creationDate>
 	<author>Joomla.fr</author>
 	<copyright>(C) 2005 Open Source Matters, Inc.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
