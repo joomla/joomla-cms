@@ -9,23 +9,25 @@ const { nodeResolve } = require('@rollup/plugin-node-resolve');
 const replace = require('@rollup/plugin-replace');
 const { babel } = require('@rollup/plugin-babel');
 const commonjs = require('@rollup/plugin-commonjs');
+const bsVersion = require('../../../package.json').dependencies.bootstrap.replace(/^\^|~/, '');
 
 const tasks = [];
 const inputFolder = 'build/media_source/vendor/bootstrap/js';
 const outputFolder = 'media/vendor/bootstrap/js';
 
-const getCurrentUnixTime = Math.round((new Date()).getTime() / 1000);
-
 const createMinified = async (file) => {
   const initial = await readFile(resolve(outputFolder, file), { encoding: 'utf8' });
-  const mini = await minify(initial.replace('./popper.js', `./popper.min.js?${getCurrentUnixTime}`).replace('./dom.js', `./dom.min.js?${getCurrentUnixTime}`), { sourceMap: false, format: { comments: false } });
-  await writeFile(resolve(outputFolder, file), initial.replace('./popper.js', `./popper.js?${getCurrentUnixTime}`).replace('./dom.js', `./dom.js?${getCurrentUnixTime}`), { encoding: 'utf8', mode: 0o644 });
+  const mini = await minify(initial.replace('./popper.js', `./popper.min.js?${bsVersion}`).replace('./dom.js', `./dom.min.js?${bsVersion}`), { sourceMap: false, format: { comments: false } });
+  await writeFile(resolve(outputFolder, file), initial.replace('./popper.js', `./popper.js?${bsVersion}`).replace('./dom.js', `./dom.js?${bsVersion}`), { encoding: 'utf8', mode: 0o644 });
   await writeFile(resolve(outputFolder, file.replace('.js', '.min.js')), mini.code, { encoding: 'utf8', mode: 0o644 });
 };
 
 const build = async () => {
   // eslint-disable-next-line no-console
   console.log('Building ES6 Components...');
+
+  const domImports = await readdir(resolve('node_modules/bootstrap', 'js/src/dom'));
+  const utilImports = await readdir(resolve('node_modules/bootstrap', 'js/src/util'));
 
   const bundle = await rollup.rollup({
     input: resolve(inputFolder, 'index.es6.js'),
@@ -57,11 +59,9 @@ const build = async () => {
     ],
     external: [
       './base-component.js',
-      './dom/data.js',
-      './event-handler.js',
-      './dom/manipulator.js',
-      './selector-engine.js',
-      './util/index.js',
+      ...domImports.map((file) => `./dom/${file}`),
+      ...domImports.map((file) => `./${file}`),
+      ...utilImports.map((file) => `./util/${file}`),
     ],
     manualChunks: {
       alert: ['build/media_source/vendor/bootstrap/js/alert.es6.js'],
@@ -78,11 +78,8 @@ const build = async () => {
       popper: ['@popperjs/core'],
       dom: [
         'node_modules/bootstrap/js/src/base-component.js',
-        'node_modules/bootstrap/js/src/dom/data.js',
-        'node_modules/bootstrap/js/src/dom/event-handler.js',
-        'node_modules/bootstrap/js/src/dom/manipulator.js',
-        'node_modules/bootstrap/js/src/dom/selector-engine.js',
-        'node_modules/bootstrap/js/src/util/index.js',
+        ...domImports.map((file) => `node_modules/bootstrap/js/src/dom/${file}`),
+        ...utilImports.map((file) => `node_modules/bootstrap/js/src/util/${file}`),
       ],
     },
   });
