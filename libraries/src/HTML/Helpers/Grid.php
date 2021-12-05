@@ -62,7 +62,7 @@ abstract class Grid
 		}
 
 		$html = '<a href="#" onclick="Joomla.tableOrdering(\'' . $order . '\',\'' . $direction . '\',\'' . $task . '\'' . $form . ');return false;"'
-			. ' class="hasPopover" title="' . htmlspecialchars(Text::_($tip ?: $title)) . '"'
+			. '  title="' . htmlspecialchars(Text::_($tip ?: $title)) . '"'
 			. ' data-bs-content="' . htmlspecialchars(Text::_('JGLOBAL_CLICK_TO_SORT_THIS_COLUMN')) . '" data-bs-placement="top">';
 
 		if (isset($title['0']) && $title['0'] === '<')
