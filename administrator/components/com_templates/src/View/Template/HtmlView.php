@@ -278,7 +278,7 @@ class HtmlView extends BaseHtmlView
 			{
 				if (isset($this->template->xmldata->inheritable) && (string) $this->template->xmldata->inheritable === '1')
 				{
-					ToolbarHelper::modal('childModal', 'icon-copy', 'COM_TEMPLATES_TEMPLATE_CHILD', false);
+					ToolbarHelper::modal('childModal', 'icon-copy', 'COM_TEMPLATES_BUTTON_TEMPLATE_CHILD', false);
 				}
 				elseif (!isset($this->template->xmldata->parent) || $this->template->xmldata->parent == '')
 				{
