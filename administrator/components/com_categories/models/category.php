@@ -46,6 +46,14 @@ class CategoriesModelCategory extends JModelAdmin
 	protected $associationsContext = 'com_categories.item';
 
 	/**
+	 * Does an association exist? Caches the result of getAssoc().
+	 *
+	 * @var   boolean|null
+	 * @since 3.10.4
+	 */
+	private $hasAssociation;
+
+	/**
 	 * Override parent constructor.
 	 *
 	 * @param   array  $config  An optional associative array of configuration settings.
@@ -185,7 +193,7 @@ class CategoriesModelCategory extends JModelAdmin
 			// Convert the metadata field to an array.
 			$registry = new Registry($result->metadata);
 			$result->metadata = $registry->toArray();
-			
+
 			if (!empty($result->id))
 			{
 				$result->tags = new JHelperTags;
@@ -1329,32 +1337,30 @@ class CategoriesModelCategory extends JModelAdmin
 	 */
 	public function getAssoc()
 	{
-		static $assoc = null;
-
-		if (!is_null($assoc))
+		if (!is_null($this->hasAssociation))
 		{
-			return $assoc;
+			return $this->hasAssociation;
 		}
 
 		$extension = $this->getState('category.extension');
 
-		$assoc = JLanguageAssociations::isEnabled();
+		$this->hasAssociation = JLanguageAssociations::isEnabled();
 		$extension = explode('.', $extension);
 		$component = array_shift($extension);
 		$cname = str_replace('com_', '', $component);
 
-		if (!$assoc || !$component || !$cname)
+		if (!$this->hasAssociation || !$component || !$cname)
 		{
-			$assoc = false;
+			$this->hasAssociation = false;
 		}
 		else
 		{
 			$hname = $cname . 'HelperAssociation';
 			JLoader::register($hname, JPATH_SITE . '/components/' . $component . '/helpers/association.php');
 
-			$assoc = class_exists($hname) && !empty($hname::$category_association);
+			$this->hasAssociation = class_exists($hname) && !empty($hname::$category_association);
 		}
 
-		return $assoc;
+		return $this->hasAssociation;
 	}
 }

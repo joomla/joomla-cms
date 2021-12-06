@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <metafile version="3.10" client="installation">
 	<name>Svenska (Sverige)</name>
-	<version>3.10.0</version>
-	<creationDate>August 2021</creationDate>
+	<version>3.10.4</version>
+	<creationDate>November 2021</creationDate>
 	<author>Swedish Translation Team - SvenskJoomla</author>
-	<copyright>(C) 2006 Open Source Matters, Inc.</copyright>
+	<copyright>(C) 2005 Open Source Matters, Inc.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<files>
 		<filename>sv-SE.ini</filename>

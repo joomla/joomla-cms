@@ -473,8 +473,6 @@ class JApplication extends BaseApplication
 	/**
 	 * Gets a configuration value.
 	 *
-	 * An example is in application/japplication-getcfg.php Getting a configuration
-	 *
 	 * @param   string  $varname  The name of the value to get.
 	 * @param   string  $default  Default value to return
 	 *
