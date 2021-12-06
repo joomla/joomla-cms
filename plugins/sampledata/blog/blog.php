@@ -569,12 +569,14 @@ class PlgSampledataBlog extends CMSPlugin
 				'featured' => 1,
 				'tags'     => array_map('strval', $tagIds),
 				'images'   => array(
-					'image_intro'               => 'images/sampledata/cassiopeia/nasa1-1200.jpg#joomlaImage://local-images/sampledata/cassiopeia/nasa1-1200.jpg?width=1200&height=400',
+					'image_intro'               => 'images/sampledata/cassiopeia/nasa1-1200.jpg#'
+												. 'joomlaImage://local-images/sampledata/cassiopeia/nasa1-1200.jpg?width=1200&height=400',
 					'float_intro'               => '',
 					'image_intro_alt'           => Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_CONTENT_ARTICLE_2_INTROIMAGE_ALT'),
 					'image_intro_alt_empty'     => '',
 					'image_intro_caption'       => '',
-					'image_fulltext'            => 'images/sampledata/cassiopeia/nasa1-400.jpg#joomlaImage://local-images/sampledata/cassiopeia/nasa1-400.jpg?width=400&height=400',
+					'image_fulltext'            => 'images/sampledata/cassiopeia/nasa1-400.jpg#'
+												. 'joomlaImage://local-images/sampledata/cassiopeia/nasa1-400.jpg?width=400&height=400',
 					'float_fulltext'            => 'float-start',
 					'image_fulltext_alt'        => '',
 					'image_fulltext_alt_empty'  => 1,
@@ -587,12 +589,14 @@ class PlgSampledataBlog extends CMSPlugin
 				'featured' => 1,
 				'tags'     => array_map('strval', $tagIds),
 				'images'   => array(
-					'image_intro'               => 'images/sampledata/cassiopeia/nasa2-1200.jpg#joomlaImage://local-images/sampledata/cassiopeia/nasa2-1200.jpg?width=1200&height=400',
+					'image_intro'               => 'images/sampledata/cassiopeia/nasa2-1200.jpg#'
+												. 'joomlaImage://local-images/sampledata/cassiopeia/nasa2-1200.jpg?width=1200&height=400',
 					'float_intro'               => '',
 					'image_intro_alt'           => '',
 					'image_intro_alt_empty'     => 1,
 					'image_intro_caption'       => '',
-					'image_fulltext'            => 'images/sampledata/cassiopeia/nasa2-400.jpg#joomlaImage://local-images/sampledata/cassiopeia/nasa2-400.jpg?width=400&height=400',
+					'image_fulltext'            => 'images/sampledata/cassiopeia/nasa2-400.jpg#'
+												. 'joomlaImage://local-images/sampledata/cassiopeia/nasa2-400.jpg?width=400&height=400',
 					'float_fulltext'            => 'float-start',
 					'image_fulltext_alt'        => '',
 					'image_fulltext_alt_empty'  => 1,
@@ -606,12 +610,14 @@ class PlgSampledataBlog extends CMSPlugin
 				'featured' => 1,
 				'tags'     => array_map('strval', $tagIds),
 				'images'   => array(
-					'image_intro'               => 'images/sampledata/cassiopeia/nasa3-1200.jpg#joomlaImage://local-images/sampledata/cassiopeia/nasa3-1200.jpg?width=1200&height=400',
+					'image_intro'               => 'images/sampledata/cassiopeia/nasa3-1200.jpg#'
+												. 'joomlaImage://local-images/sampledata/cassiopeia/nasa3-1200.jpg?width=1200&height=400',
 					'float_intro'               => '',
 					'image_intro_alt'           => '',
 					'image_intro_alt_empty'     => 1,
 					'image_intro_caption'       => '',
-					'image_fulltext'            => 'images/sampledata/cassiopeia/nasa3-400.jpg#joomlaImage://local-images/sampledata/cassiopeia/nasa3-400.jpg?width=400&height=400',
+					'image_fulltext'            => 'images/sampledata/cassiopeia/nasa3-400.jpg#'
+												. 'joomlaImage://local-images/sampledata/cassiopeia/nasa3-400.jpg?width=400&height=400',
 					'float_fulltext'            => 'float-start',
 					'image_fulltext_alt'        => Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_CONTENT_ARTICLE_4_FULLTEXTIMAGE_ALT'),
 					'image_fulltext_alt_empty'  => '',
@@ -624,16 +630,18 @@ class PlgSampledataBlog extends CMSPlugin
 				'featured' => 1,
 				'tags'     => array_map('strval', $tagIds),
 				'images'   => array(
-					'image_intro'               => 'images/sampledata/cassiopeia/nasa4-1200.jpg#joomlaImage://local-images/sampledata/cassiopeia/nasa4-1200.jpg?width=1200&height=400',
+					'image_intro'               => 'images/sampledata/cassiopeia/nasa4-1200.jpg#'
+												. 'joomlaImage://local-images/sampledata/cassiopeia/nasa4-1200.jpg?width=1200&height=400',
 					'float_intro'               => '',
 					'image_intro_alt'           => '',
 					'image_intro_alt_empty'     => 1,
 					'image_intro_caption'       => '',
-					'image_fulltext'            => 'images/sampledata/cassiopeia/nasa4-400.jpg#joomlaImage://local-images/sampledata/cassiopeia/nasa4-400.jpg?width=400&height=400',
+					'image_fulltext'            => 'images/sampledata/cassiopeia/nasa4-400.jpg#'
+												. 'joomlaImage://local-images/sampledata/cassiopeia/nasa4-400.jpg?width=400&height=400',
 					'float_fulltext'            => 'float-start',
 					'image_fulltext_alt'        => '',
 					'image_fulltext_alt_empty'  => 1,
-					'image_fulltext_caption' => 'www.nasa.gov/multimedia/imagegallery',
+					'image_fulltext_caption'    => 'www.nasa.gov/multimedia/imagegallery',
 				),
 			),
 			// Category 2 = Joomla - marketing texts
@@ -641,7 +649,8 @@ class PlgSampledataBlog extends CMSPlugin
 				// Article 6 - Millions
 				'catid'    => $catIds[2],
 				'images'   => array(
-					'image_intro'            => 'images/sampledata/cassiopeia/nasa1-640.jpg#joomlaImage://local-images/sampledata/cassiopeia/nasa1-640.jpg?width=640&height=320',
+					'image_intro'            => 'images/sampledata/cassiopeia/nasa1-640.jpg#'
+											. 'joomlaImage://local-images/sampledata/cassiopeia/nasa1-640.jpg?width=640&height=320',
 					'float_intro'            => '',
 					'image_intro_alt'        => '',
 					'image_intro_alt_empty'  => 1,
@@ -652,7 +661,8 @@ class PlgSampledataBlog extends CMSPlugin
 				// Article 7 - Love
 				'catid'    => $catIds[2],
 				'images'   => array(
-					'image_intro'            => 'images/sampledata/cassiopeia/nasa2-640.jpg#joomlaImage://local-images/sampledata/cassiopeia/nasa2-640.jpg?width=640&height=320',
+					'image_intro'            => 'images/sampledata/cassiopeia/nasa2-640.jpg#'
+											. 'joomlaImage://local-images/sampledata/cassiopeia/nasa2-640.jpg?width=640&height=320',
 					'float_intro'            => '',
 					'image_intro_alt'        => '',
 					'image_intro_alt_empty'  => 1,
@@ -663,7 +673,8 @@ class PlgSampledataBlog extends CMSPlugin
 				// Article 8 - Joomla
 				'catid'    => $catIds[2],
 				'images'   => array(
-					'image_intro'            => 'images/sampledata/cassiopeia/nasa3-640.jpg#joomlaImage://local-images/sampledata/cassiopeia/nasa3-640.jpg?width=640&height=320',
+					'image_intro'            => 'images/sampledata/cassiopeia/nasa3-640.jpg#'
+											. 'joomlaImage://local-images/sampledata/cassiopeia/nasa3-640.jpg?width=640&height=320',
 					'float_intro'            => '',
 					'image_intro_alt'        => '',
 					'image_intro_alt_empty'  => 1,
@@ -679,7 +690,8 @@ class PlgSampledataBlog extends CMSPlugin
 					'image_intro_alt'           => '',
 					'image_intro_alt_empty'     => '',
 					'image_intro_caption'       => '',
-					'image_fulltext'            => 'images/sampledata/cassiopeia/nasa4-400.jpg#joomlaImage://local-images/sampledata/cassiopeia/nasa4-400.jpg?width=400&height=400',
+					'image_fulltext'            => 'images/sampledata/cassiopeia/nasa4-400.jpg#'
+												. 'joomlaImage://local-images/sampledata/cassiopeia/nasa4-400.jpg?width=400&height=400',
 					'float_fulltext'            => 'float-end',
 					'image_fulltext_alt'        => '',
 					'image_fulltext_alt_empty'  => 1,
