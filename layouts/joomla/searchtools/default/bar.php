@@ -35,7 +35,7 @@ $filters = $data['view']->filterForm->getGroup('filter');
 			<div class="input-group">
 				<?php echo $filters['filter_search']->input; ?>
 				<?php if ($filters['filter_search']->description) : ?>
-				<div role="tooltip" id="<?php echo $filters['filter_search']->name . '-desc'; ?>">
+				<div role="tooltip" id="<?php echo ($filters['filter_search']->id ?: $filters['filter_search']->name) . '-desc'; ?>">
 					<?php echo htmlspecialchars(Text::_($filters['filter_search']->description), ENT_COMPAT, 'UTF-8'); ?>
 				</div>
 				<?php endif; ?>
