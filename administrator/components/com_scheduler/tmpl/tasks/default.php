@@ -201,9 +201,7 @@ $app->getDocument()->getWebAssetManager()->useScript('com_scheduler.test-task');
 							<?php endif; ?>
 
 							<span class="small">
-								<?php if (empty($item->note)): ?>
-									<?php echo Text::_('COM_SCHEDULER_NO_NOTE'); ?>
-								<?php else: ?>
+								<?php if ($item->note): ?>
 									<?php echo Text::sprintf('JGLOBAL_LIST_NOTE', $this->escape($item->note)); ?>
 								<?php endif; ?>
 							</span>
