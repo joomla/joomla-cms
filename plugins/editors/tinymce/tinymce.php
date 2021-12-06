@@ -183,12 +183,16 @@ class PlgEditorTinymce extends CMSPlugin
 		$levelParams      = new Joomla\Registry\Registry;
 		$extraOptions     = new stdClass;
 		$toolbarParams    = new stdClass;
-		$extraOptionsAll  = $this->params->get('configuration.setoptions', array());
-		$toolbarParamsAll = $this->params->get('configuration.toolbars', array());
+		$extraOptionsAll  = (array) $this->params->get('configuration.setoptions', array());
+		$toolbarParamsAll = (array) $this->params->get('configuration.toolbars', array());
+
+		// Sort the array in reverse, so the items with lowest access level goes first
+		krsort($extraOptionsAll);
 
 		// Get configuration depend from User group
 		foreach ($extraOptionsAll as $set => $val)
 		{
+			$val = (object) $val;
 			$val->access = empty($val->access) ? array() : $val->access;
 
 			// Check whether User in one of allowed group
@@ -197,7 +201,7 @@ class PlgEditorTinymce extends CMSPlugin
 				if (isset($ugroups[$group]))
 				{
 					$extraOptions  = $val;
-					$toolbarParams = $toolbarParamsAll->$set;
+					$toolbarParams = (object) $toolbarParamsAll[$set];
 				}
 			}
 		}
