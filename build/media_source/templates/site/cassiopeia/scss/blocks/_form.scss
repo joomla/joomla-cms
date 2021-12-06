@@ -124,7 +124,7 @@ fieldset {
 .control-group {
   margin: $cassiopeia-grid-gutter 0;
 }
-.container-popup [id="filter_search-desc"] {
+.container-popup #filter_search-desc {
   top: 100%;
   bottom: auto;
 }
