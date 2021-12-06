@@ -5948,7 +5948,6 @@ class JoomlaInstallerScript
 			'/administrator/components/com_fields/tmpl/field/modal.php',
 			'/administrator/templates/atum/scss/pages/_com_admin.scss',
 			'/administrator/templates/atum/scss/pages/_com_finder.scss',
-			'/administrator/templates/atum/scss/pages/_com_joomlaupdate.scss',
 			'/libraries/src/Error/JsonApi/InstallLanguageExceptionHandler.php',
 			'/libraries/src/MVC/Controller/Exception/InstallLanguage.php',
 			'/media/com_fields/js/admin-field-edit-modal-es5.js',
@@ -6109,7 +6108,9 @@ class JoomlaInstallerScript
 			'/media/com_joomlaupdate/js/update.min.js.gz',
 			'/templates/cassiopeia/images/system/sort_asc.png',
 			'/templates/cassiopeia/images/system/sort_desc.png',
-			// From 4.0.4 to 4.1.0
+			// From 4.0.4 to 4.0.5
+			'/media/vendor/codemirror/lib/#codemirror.js#',
+			// From 4.0.5 to 4.1.0
 			'/administrator/templates/atum/css/system/searchtools/searchtools.css',
 			'/administrator/templates/atum/css/system/searchtools/searchtools.min.css',
 			'/administrator/templates/atum/css/system/searchtools/searchtools.min.css.gz',
@@ -7583,7 +7584,7 @@ class JoomlaInstallerScript
 			'/libraries/vendor/algo26-matthias/idna-convert/tests',
 			// From 4.0.3 to 4.0.4
 			'/templates/cassiopeia/images/system',
-			// From 4.0.4 to 4.1.0
+			// From 4.0.5 to 4.1.0
 			'/templates/system/scss',
 			'/templates/system/css',
 			'/templates/cassiopeia/scss/vendor/metismenu',

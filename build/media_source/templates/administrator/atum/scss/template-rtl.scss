@@ -8,44 +8,6 @@ ul {
   padding-right: 0;
 }
 
-.dropdown-menu-end {
-
-  &::after {
-    right: auto;
-    left: .9rem;
-  }
-}
-
-.sidebar-wrapper {
-  right: 0;
-  left: auto;
-}
-
-.menu-collapse {
-  right: 0;
-  left: auto;
-  margin-right: -7.5px;
-  margin-left: 0;
-}
-
-.field-calendar {
-  float: none;
-}
-
-.form-text {
-  float: right;
-}
-
-.field-user-wrapper {
-  float: none;
-}
-
-// System panel
-.menu-quicktask,
-.menu-badge {
-  float: left;
-}
-
 // Redirect urls fields
 #jform_new_url,
 #jform_old_url,
@@ -57,13 +19,6 @@ ul {
 #jform_dbprefix {
   text-align: right;
   direction: ltr;
-}
-
-// skipto
-.skip-to {
-  [role="separator"] {
-    text-align: right !important;
-  }
 }
 
 .input-group > .form-control:not(:last-child),

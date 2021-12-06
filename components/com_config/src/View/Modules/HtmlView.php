@@ -61,7 +61,7 @@ class HtmlView extends BaseHtmlView
 		$moduleData = $module->getProperties();
 		unset($moduleData['xml']);
 
-		/** @var Modules $model */
+		/** @var \Joomla\Component\Config\Site\Model\ModulesModel $model */
 		$model = $this->getModel();
 
 		// Need to add module name to the state of model
