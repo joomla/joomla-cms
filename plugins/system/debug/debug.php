@@ -686,7 +686,7 @@ class PlgSystemDebug extends CMSPlugin
 		foreach (Profiler::getInstance('Application')->getMarks() as $index => $mark)
 		{
 			// Ignore the before mark as the after one contains the timing of the action
-			if(stripos($mark->label, 'before') !== false)
+			if (stripos($mark->label, 'before') !== false)
 			{
 				continue;
 			}
