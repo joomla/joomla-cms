@@ -25,6 +25,7 @@ use Joomla\Plugin\Editors\TinyMCE\PluginTraits\ResolveFiles;
 use Joomla\Plugin\Editors\TinyMCE\PluginTraits\KnownButtons;
 use Joomla\Plugin\Editors\TinyMCE\PluginTraits\GlobalFilters;
 use Joomla\Plugin\Editors\TinyMCE\PluginTraits\ToolbarPresets;
+
 /**
  * Handles the onDisplay event for the TinyMCE editor.
  *
