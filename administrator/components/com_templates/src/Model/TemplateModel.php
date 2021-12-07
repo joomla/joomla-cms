@@ -2189,27 +2189,13 @@ class TemplateModel extends FormModel
 		}
 
 		// Create an empty media folder structure
-		if (!Folder::create($toPath . '/media'))
-		{
-			return false;
-		}
-
-		if (!Folder::create($toPath . '/media/css'))
-		{
-			return false;
-		}
-
-		if (!Folder::create($toPath . '/media/js'))
-		{
-			return false;
-		}
-
-		if (!Folder::create($toPath . '/media/images'))
-		{
-			return false;
-		}
-
-		if (!Folder::create($toPath . '/media/html') || !Folder::create($toPath . '/media/scss'))
+		if (!Folder::create($toPath . '/media')
+			|| !Folder::create($toPath . '/media/css')
+			|| !Folder::create($toPath . '/media/js')
+			|| !Folder::create($toPath . '/media/images')
+			|| !Folder::create($toPath . '/media/html')
+			|| !Folder::create($toPath . '/media/scss')
+			)
 		{
 			return false;
 		}
@@ -2238,8 +2224,9 @@ class TemplateModel extends FormModel
 
 		$query->select($db->quoteName(array('id', 'title')))
 			->from($db->quoteName('#__template_styles'))
+			->where($db->quoteName('client_id') . ' =' . $db->quote($template->client_id), 'AND')
 			->where($db->quoteName('template') . ' =' . $db->quote($template->element))
-			->where($db->quoteName('client_id') . ' =' . $db->quote($template->client_id));
+			->orWhere($db->quoteName('parent') . ' = ' . $db->quote($template->element));
 
 		$db->setQuery($query);
 
@@ -2253,7 +2240,7 @@ class TemplateModel extends FormModel
 	 *
 	 * @since  __DEPLOY_VERSION__
 	 */
-	public function applyStyle()
+	public function applyStyles()
 	{
 		$app        = Factory::getApplication();
 		$template   = $this->getTemplate();
@@ -2266,16 +2253,19 @@ class TemplateModel extends FormModel
 		// Create a new query object.
 		$query = $db->getQuery(true);
 
-		$query->select($db->quoteName('params'))
-			->from($db->quoteName('#__template_styles'))
-			->where($db->quoteName('id') . ' = ' . $db->quote($applyStyle));
+		$query->select([$db->quoteName('title'), $db->quoteName('params')])
+			->from($db->quoteName('#__template_styles'));
+		foreach ($applyStyle as $style)
+		{
+			$query->where($db->quoteName('id') . ' = ' . $db->quote((int) $style), 'OR');
+		}
 
 		// Reset the query using our newly populated query object.
 		$db->setQuery($query);
 
 		try
 		{
-			$parentStyle = $db->loadResult();
+			$parentStyle = $db->loadObjectList();
 		}
 		catch (\Exception $e)
 		{
@@ -2284,33 +2274,31 @@ class TemplateModel extends FormModel
 			return false;
 		}
 
-		// Create a new query object.
-		$query = $db->getQuery(true);
-
-		// Fields to update.
-		$fields = [
-			$db->quoteName('params') . ' = ' . $db->quote($parentStyle),
-		];
-
-		// Apply the styles from the given parent style
-		$conditions = [
-			$db->quoteName('template') . ' = ' . $db->quote($template->element . '_' . $newName),
-			$db->quoteName('client_id') . ' = ' . $db->quote($template->client_id),
-		];
-
-		$query->update($db->quoteName('#__template_styles'))->set($fields)->where($conditions);
-
-		$db->setQuery($query);
-
-		try
+		foreach ($parentStyle as $style)
 		{
-			$db->execute();
-		}
-		catch (\Exception $e)
-		{
-			$app->enqueueMessage(Text::_('COM_TEMPLATES_ERROR_COULD_NOT_READ'), 'error');
+			$query = $db->getQuery(true);
 
-			return false;
+			// Insert columns and values
+			$columns = ['id', 'template', 'client_id', 'home', 'title', 'inheritable', 'parent', 'params'];
+			$values = [0, $db->quote($template->element . '_' . $newName), $db->quote($template->client_id), 0, $db->quote($template->element . '_' . $newName . ' copy of ' . $style->title), 0, $db->quote($template->element), $db->quote($style->params)];
+
+			$query
+				->insert($db->quoteName('#__template_styles'))
+				->columns($db->quoteName($columns))
+				->values(implode(',', $values));
+
+			$db->setQuery($query);
+
+			try
+			{
+				$db->execute();
+			}
+			catch (\Exception $e)
+			{
+				$app->enqueueMessage(Text::_('COM_TEMPLATES_ERROR_COULD_NOT_READ'), 'error');
+
+				return false;
+			}
 		}
 
 		return true;

@@ -230,28 +230,6 @@ class HtmlView extends BaseHtmlView
 			$this->setLayout('readonly');
 		}
 
-		if (count($this->styles) > 0)
-		{
-			// Generate a list of styles for the child creation modal
-			$options = [
-				HTMLHelper::_('select.option', 0, Text::_('JOPTION_USE_DEFAULT'), 'value', 'text'),
-			];
-
-			foreach ($this->styles as $style) {
-				$options[] = HTMLHelper::_('select.option', $style->id, $style->title, 'value', 'text');
-			}
-
-			$this->stylesHTML = HTMLHelper::_(
-				'select.genericlist',
-				$options,
-				'style_id',
-				[
-					'list.attr' => 'class="form-select" size="1"',
-					'list.select' => 0,
-				]
-			);
-		}
-
 		parent::display($tpl);
 	}
 

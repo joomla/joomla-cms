@@ -9,8 +9,53 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
+use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Layout\LayoutHelper;
 
+Factory::getDocument()->getWebAssetManager()->usePreset('choicesjs');
+
+// Generate a list of styles for the child creation modal
+$options = [
+	HTMLHelper::_('select.option', '0', Text::_('JNONE'), 'value', 'text'),
+];
+
+if (count($this->styles) > 0)
+{
+	foreach ($this->styles as $style) {
+		$options[] = HTMLHelper::_('select.option', $style->id, $style->title, 'value', 'text');
+	}
+}
+
+$fancySelectData = [
+	'autocomplete' => 'off',
+	'autofocus'    => false,
+	'class'        => '',
+	'description'  => '',
+	'disabled'     => false,
+	'group'        => false,
+	'id'           => 'style_ids',
+	'hidden'       => false,
+	'hint'         => '',
+	'label'        => '',
+	'labelclass'   => '',
+	'onchange'     => '',
+	'onclick'      => '',
+	'multiple'     => true,
+	'pattern'      => '',
+	'readonly'     => false,
+	'repeat'       => false,
+	'required'     => true,
+	'size'         => 4,
+	'spellcheck'   => false,
+	'validate'     => '',
+	'value'        => '0',
+	'options'      => $options,
+	'dataAttributes' => [],
+	'dataAttribute'	=> '',
+	'name'    => 'style_ids[]',
+];
 ?>
 <div id="template-manager-copy" class="container-fluid">
 	<div class="mt-2">
@@ -35,7 +80,7 @@ use Joomla\CMS\Language\Text;
 					</label>
 				</div>
 				<div class="controls">
-					<?php echo $this->stylesHTML; ?>
+					<?php echo LayoutHelper::render('joomla.form.field.list-fancy-select', $fancySelectData); ?>
 					<small class="form-text">
 						<?php echo Text::_('COM_TEMPLATES_TEMPLATE_NEW_STYLE_DESC'); ?>
 					</small>
