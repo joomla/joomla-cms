@@ -2209,12 +2209,7 @@ class TemplateModel extends FormModel
 			return false;
 		}
 
-		if (!Folder::create($toPath . '/media/html'))
-		{
-			return false;
-		}
-
-		if (!Folder::create($toPath . '/media/scss'))
+		if (!Folder::create($toPath . '/media/html') || !Folder::create($toPath . '/media/scss'))
 		{
 			return false;
 		}
