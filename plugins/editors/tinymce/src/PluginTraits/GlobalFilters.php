@@ -48,7 +48,7 @@ trait GlobalFilters
 		$customList    = false;
 		$unfiltered    = false;
 
-		/*
+		/**
 		 * Cycle through each of the user groups the user is in.
 		 * Remember they are included in the public group as well.
 		 */

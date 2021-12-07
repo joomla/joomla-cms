@@ -15,7 +15,7 @@ use Joomla\CMS\Uri\Uri;
 use Joomla\Plugin\Editors\TinyMCE\PluginTraits\ActiveSiteTemplate;
 
 /**
- * Handles the XTD Buttons for the TinyMCE editor.
+ * Handles the editor.css files.
  *
  * @since  __DEPLOY_VERSION__
  */
@@ -23,14 +23,14 @@ trait ResolveFiles
 {
 	use ActiveSiteTemplate;
 	/**
-	 * Compute the files to be included
+	 * Compute the file paths to be included
 	 *
 	 * @param   string   $folder  Folder name to search in (i.e. images, css, js).
 	 * @param   string   $file    Path to file.
 	 *
 	 * @return  array    files to be included.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.1.0
 	 */
 	protected function includeRelativeFiles($folder, $file)
 	{
@@ -71,13 +71,14 @@ trait ResolveFiles
 	}
 
 	/**
-	 * Method that searches if file exists in given path and returns the relative path. If a minified version exists it will be preferred.
+	 * Method that searches if file exists in given path and returns the relative path.
+	 * If a minified version exists it will be preferred.
 	 *
 	 * @param   string   $path          The actual path of the file
 	 *
 	 * @return  string  The relative path of the file
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.1.0
 	 */
 	protected static function resolveFileUrl($path = '')
 	{

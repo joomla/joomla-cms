@@ -11,7 +11,7 @@ namespace Joomla\Plugin\Editors\TinyMCE\PluginTraits;
 \defined('_JEXEC') or die();
 
 /**
- * Handles the XTD Buttons for the TinyMCE editor.
+ * The ToolbarPresets trait holds the default presets for the toolbar.
  *
  * @since  __DEPLOY_VERSION__
  */

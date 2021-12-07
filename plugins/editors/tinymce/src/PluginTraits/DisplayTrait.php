@@ -39,7 +39,7 @@ trait DisplayTrait
   use ToolbarPresets;
   use XTDButtons;
 
-        /**
+	/**
 	 * Display the editor area.
 	 *
 	 * @param   string   $name     The name of the editor area.
@@ -201,8 +201,8 @@ trait DisplayTrait
 			 * else, assume it is a file name in the current template folder
 			 */
 			$content_css = strpos($content_css_custom, 'http') !== false
-			? $content_css_custom
-			: $this->includeRelativeFiles('css', $content_css_custom);
+				? $content_css_custom
+				: $this->includeRelativeFiles('css', $content_css_custom);
 		}
 		else
 		{

@@ -99,7 +99,6 @@ trait KnownButtons
 			'searchreplace'  => ['label' => 'Find and replace', 'plugin' => 'searchreplace'],
 			'insertdatetime' => ['label' => 'Insert date/time', 'plugin' => 'insertdatetime'],
 			'help'           => ['label' => 'Help', 'plugin' => 'help'],
-			// 'spellchecker'   => ['label' => 'Spellcheck', 'plugin' => 'spellchecker'],
 		];
 	}
 }
