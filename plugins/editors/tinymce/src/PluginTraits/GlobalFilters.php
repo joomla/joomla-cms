@@ -27,7 +27,7 @@ trait GlobalFilters
 	 *
 	 * @return  JFilterInput
 	 *
-	 * @since   3.6
+	 * @since   __DEPLOY_VERSION__
 	 */
 	protected static function getGlobalFilters($user)
 	{
