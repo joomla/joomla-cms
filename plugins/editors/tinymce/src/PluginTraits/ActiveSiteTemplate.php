@@ -15,7 +15,7 @@ use Joomla\CMS\Language\Text;
 use RuntimeException;
 
 /**
- * Handles the XTD Buttons for the TinyMCE editor.
+ * Gets the active Site template.
  *
  * @since  __DEPLOY_VERSION__
  */
