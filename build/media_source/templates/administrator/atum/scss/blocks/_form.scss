@@ -127,11 +127,11 @@ td .form-control {
   display: block;
 }
 
-[id="filter[search]-desc"] {
+#filter_search-desc {
   bottom: 100%;
 }
 
-.container-popup [id="filter[search]-desc"] {
+.container-popup #filter_search-desc {
   top: 100%;
   bottom: auto;
 }
