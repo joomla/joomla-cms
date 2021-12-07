@@ -352,7 +352,7 @@ abstract class WebApplication extends AbstractWebApplication
 		}
 
 		// Check to see if an explicit base URI has been set.
-		$siteUri = trim($this->get('site_uri'));
+		$siteUri = trim($this->get('site_uri') ?? '');
 
 		if ($siteUri != '')
 		{
@@ -387,7 +387,7 @@ abstract class WebApplication extends AbstractWebApplication
 			$path = substr_replace($path, '', strpos($path, 'index.php'), 9);
 		}
 
-		$path = rtrim($path, '/\\');
+		$path = rtrim($path ?? '', '/\\');
 
 		// Set the base URI both as just a path and as the full URI.
 		$this->set('uri.base.full', $host . $path . '/');
@@ -401,7 +401,7 @@ abstract class WebApplication extends AbstractWebApplication
 		}
 
 		// Get an explicitly set media URI is present.
-		$mediaURI = trim($this->get('media_uri'));
+		$mediaURI = trim($this->get('media_uri') ?? '');
 
 		if ($mediaURI)
 		{
@@ -413,7 +413,7 @@ abstract class WebApplication extends AbstractWebApplication
 			else
 			{
 				// Normalise slashes.
-				$mediaURI = trim($mediaURI, '/\\');
+				$mediaURI = trim($mediaURI  ?? '', '/\\');
 				$mediaURI = !empty($mediaURI) ? '/' . $mediaURI . '/' : '/';
 				$this->set('uri.media.full', $this->get('uri.base.host') . $mediaURI);
 				$this->set('uri.media.path', $mediaURI);
