@@ -62,8 +62,8 @@ abstract class Grid
 		}
 
 		$html = '<a href="#" onclick="Joomla.tableOrdering(\'' . $order . '\',\'' . $direction . '\',\'' . $task . '\'' . $form . ');return false;"'
-		. ' class="hasPopover"'.'aria-describedby="desc"'
-			. ' data-bs-content="' . htmlspecialchars(Text::_('JGLOBAL_CLICK_TO_SORT_THIS_COLUMN')) . '" data-bs-placement="top">';
+		.'aria-describedby="desc"'. ' data-bs-content="' . htmlspecialchars(Text::_('JGLOBAL_CLICK_TO_SORT_THIS_COLUMN')) . '" data-bs-placement="top">';
+		
 		if (isset($title['0']) && $title['0'] === '<')
 		{
 			$html .= $title;
@@ -80,6 +80,7 @@ abstract class Grid
 
 		$html .='<div id="desc" class="visually-hidden">click this link to sort the column</div>';
 		$html .= '</a>';
+		
 		return $html;
 	}
 
