@@ -25,8 +25,8 @@ trait ResolveFiles
 	/**
 	 * Compute the files to be included
 	 *
-	 * @param   string   $folder         Folder name to search in (i.e. images, css, js).
-	 * @param   string   $file           Path to file.
+	 * @param   string   $folder  Folder name to search in (i.e. images, css, js).
+	 * @param   string   $file    Path to file.
 	 *
 	 * @return  array    files to be included.
 	 *
