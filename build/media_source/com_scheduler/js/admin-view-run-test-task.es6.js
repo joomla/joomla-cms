@@ -9,7 +9,7 @@
  * @package  Joomla.Components
  * @subpackage Scheduler.Tasks
  *
- * @since    __DEPLOY_VERSION__
+ * @since    4.1.0
  */
 if (!window.Joomla) {
   throw new Error('Joomla API was not properly initialised');

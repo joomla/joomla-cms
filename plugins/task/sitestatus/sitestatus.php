@@ -26,7 +26,7 @@ use Joomla\Utilities\ArrayHelper;
  * Task plugin with routines to change the offline status of the site. These routines can be used to control planned
  * maintenance periods and related operations.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.1.0
  */
 class PlgTaskSitestatus extends CMSPlugin implements SubscriberInterface
 {
@@ -34,7 +34,7 @@ class PlgTaskSitestatus extends CMSPlugin implements SubscriberInterface
 
 	/**
 	 * @var string[]
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.1.0
 	 */
 	protected const TASKS_MAP = [
 		'plg_task_toggle_offline'             => [
@@ -58,7 +58,7 @@ class PlgTaskSitestatus extends CMSPlugin implements SubscriberInterface
 	 * The application object.
 	 *
 	 * @var  CMSApplication
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.1.0
 	 */
 	protected $app;
 
@@ -66,7 +66,7 @@ class PlgTaskSitestatus extends CMSPlugin implements SubscriberInterface
 	 * Autoload the language file.
 	 *
 	 * @var boolean
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.1.0
 	 */
 	protected $autoloadLanguage = true;
 
@@ -75,7 +75,7 @@ class PlgTaskSitestatus extends CMSPlugin implements SubscriberInterface
 	 *
 	 * @return string[]
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.1.0
 	 */
 	public static function getSubscribedEvents(): array
 	{
@@ -90,7 +90,7 @@ class PlgTaskSitestatus extends CMSPlugin implements SubscriberInterface
 	 *
 	 * @return void
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.1.0
 	 * @throws Exception
 	 */
 	public function alterSiteStatus(ExecuteTaskEvent $event): void
@@ -131,7 +131,7 @@ class PlgTaskSitestatus extends CMSPlugin implements SubscriberInterface
 	 *
 	 * @return  integer  The task exit code
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.1.0
 	 * @throws Exception
 	 */
 	private function writeConfigFile(Registry $config): int

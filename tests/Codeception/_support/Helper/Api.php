@@ -26,7 +26,7 @@ class Api extends Module
 	 *
 	 * @return  string  The token
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.1.0
 	 */
 	public function getBearerToken(): string
 	{
@@ -69,7 +69,7 @@ class Api extends Module
 	 *
 	 * @return  string  The config key
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.1.0
 	 */
 	public function getConfig($name, $module = 'Helper\Api'): string
 	{

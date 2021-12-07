@@ -172,7 +172,7 @@ class JoomlaDb extends Db
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.1.0
 	 */
 	public function deleteFromDatabase($table, $criteria = []): void
 	{
