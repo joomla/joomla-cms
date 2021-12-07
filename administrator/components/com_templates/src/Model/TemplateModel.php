@@ -2222,7 +2222,7 @@ class TemplateModel extends FormModel
 		$db    = $this->getDbo();
 		$query = $db->getQuery(true);
 
-		$query->select($db->quoteName(array('id', 'title')))
+		$query->select($db->quoteName(['id', 'title']))
 			->from($db->quoteName('#__template_styles'))
 			->where($db->quoteName('client_id') . ' =' . $db->quote($template->client_id), 'AND')
 			->where($db->quoteName('template') . ' =' . $db->quote($template->element))
@@ -2234,18 +2234,18 @@ class TemplateModel extends FormModel
 	}
 
 	/**
-	 * Method to apply selected params to the child template
+	 * Method to copy selected styles to the child template
 	 *
 	 * @return  boolean   true if name is not used, false otherwise
 	 *
 	 * @since  __DEPLOY_VERSION__
 	 */
-	public function applyStyles()
+	public function copyStyles()
 	{
 		$app        = Factory::getApplication();
 		$template   = $this->getTemplate();
 		$newName    = strtolower($this->getState('new_name'));
-		$applyStyle = $this->getState('applyStyle');
+		$applyStyle = $this->getState('stylesToCopy');
 
 		// Get a db connection.
 		$db = $this->getDbo();
@@ -2280,7 +2280,7 @@ class TemplateModel extends FormModel
 
 			// Insert columns and values
 			$columns = ['id', 'template', 'client_id', 'home', 'title', 'inheritable', 'parent', 'params'];
-			$values = [0, $db->quote($template->element . '_' . $newName), $db->quote($template->client_id), 0, $db->quote($template->element . '_' . $newName . ' copy of ' . $style->title), 0, $db->quote($template->element), $db->quote($style->params)];
+			$values = [0, $db->quote($template->element . '_' . $newName), $db->quote($template->client_id), 0, $db->quote(ucfirst($template->element . '_' . $newName . ' copy of ' . $style->title)), 0, $db->quote($template->element), $db->quote($style->params)];
 
 			$query
 				->insert($db->quoteName('#__template_styles'))
