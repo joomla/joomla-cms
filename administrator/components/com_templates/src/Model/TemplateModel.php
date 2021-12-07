@@ -55,7 +55,7 @@ class TemplateModel extends FormModel
 	 * The path to the static assets
 	 *
 	 * @var    string
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.1.0
 	 */
 	protected $mediaElement = null;
 
@@ -1993,7 +1993,7 @@ class TemplateModel extends FormModel
 	 *
 	 * @return  array  A nested array of relevant files.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.1.0
 	 */
 	public function getMediaFiles()
 	{
@@ -2032,7 +2032,7 @@ class TemplateModel extends FormModel
 	 *
 	 * @return  string  The absolute path for the base.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.1.0
 	 */
 	private function getBasePath()
 	{
@@ -2049,7 +2049,7 @@ class TemplateModel extends FormModel
 	 *
 	 * @return  boolean   true if name is not used, false otherwise
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.1.0
 	 */
 	public function child()
 	{

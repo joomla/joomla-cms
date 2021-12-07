@@ -257,7 +257,7 @@ abstract class AbstractView extends CMSObject implements ViewInterface, Dispatch
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.1.0
 	 */
 	protected function dispatchEvent(EventInterface $event)
 	{

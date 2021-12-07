@@ -23,7 +23,7 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 /**
  * Console command to run scheduled tasks.
  *
- * @since __DEPLOY_VERSION__
+ * @since 4.1.0
  */
 class TasksRunCommand extends AbstractCommand
 {
@@ -31,13 +31,13 @@ class TasksRunCommand extends AbstractCommand
 	 * The default command name
 	 *
 	 * @var    string
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.1.0
 	 */
 	protected static $defaultName = 'scheduler:run';
 
 	/**
 	 * @var SymfonyStyle
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.1.0
 	 */
 	private $ioStyle;
 
@@ -47,7 +47,7 @@ class TasksRunCommand extends AbstractCommand
 	 *
 	 * @return integer The command exit code.
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.1.0
 	 * @throws \RunTimeException
 	 * @throws InvalidArgumentException
 	 */
@@ -127,7 +127,7 @@ class TasksRunCommand extends AbstractCommand
 	 *
 	 * @return  void
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.1.0
 	 */
 	private function configureIO(InputInterface $input, OutputInterface $output)
 	{
@@ -139,7 +139,7 @@ class TasksRunCommand extends AbstractCommand
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.1.0
 	 */
 	protected function configure(): void
 	{

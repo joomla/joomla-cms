@@ -19,13 +19,13 @@ use Joomla\CMS\Router\Route;
 /**
  * Default controller for com_scheduler.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.1.0
  */
 class DisplayController extends BaseController
 {
 	/**
 	 * @var   string
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.1.0
 	 */
 	protected $default_view = 'tasks';
 
@@ -36,7 +36,7 @@ class DisplayController extends BaseController
 	 *
 	 * @return BaseController|boolean  Returns either a BaseController object to support chaining, or false on failure
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.1.0
 	 * @throws \Exception
 	 */
 	public function display($cachable = false, $urlparams = array())
@@ -66,7 +66,7 @@ class DisplayController extends BaseController
 	 *
 	 * @return boolean  True is entry is valid
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.1.0
 	 */
 	private function validateEntry(string $layout = 'edit'): bool
 	{

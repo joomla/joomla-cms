@@ -19,7 +19,7 @@ use Joomla\Component\Media\Api\Helper\AdapterTrait;
 /**
  * Media web service model supporting lists of media adapters.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.1.0
  */
 class AdaptersModel extends BaseModel implements ListModelInterface
 {
@@ -30,7 +30,7 @@ class AdaptersModel extends BaseModel implements ListModelInterface
 	 * since com_media's ApiModel does not support pagination as we know from regular ListModel derived models.
 	 *
 	 * @var    int
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.1.0
 	 */
 	private $total = 0;
 
@@ -39,7 +39,7 @@ class AdaptersModel extends BaseModel implements ListModelInterface
 	 *
 	 * @return  array  An array of data items.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.1.0
 	 */
 	public function getItems(): array
 	{
@@ -69,7 +69,7 @@ class AdaptersModel extends BaseModel implements ListModelInterface
 	 *
 	 * @return  Pagination  A Pagination object for the data set.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.1.0
 	 */
 	public function getPagination(): Pagination
 	{
@@ -83,7 +83,7 @@ class AdaptersModel extends BaseModel implements ListModelInterface
 	 *
 	 * @return  integer  The starting number of items available in the data set.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.1.0
 	 */
 	public function getStart(): int
 	{
@@ -95,7 +95,7 @@ class AdaptersModel extends BaseModel implements ListModelInterface
 	 *
 	 * @return  integer  The total number of items available in the data set.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.1.0
 	 */
 	public function getTotal(): int
 	{

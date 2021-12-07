@@ -27,7 +27,7 @@ use Joomla\CMS\Toolbar\ToolbarHelper;
 /**
  * MVC View for the Tasks list page.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.1.0
  */
 class HtmlView extends BaseHtmlView
 {
@@ -35,7 +35,7 @@ class HtmlView extends BaseHtmlView
 	 * Array of task items.
 	 *
 	 * @var  array
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.1.0
 	 */
 	protected $items;
 
@@ -43,7 +43,7 @@ class HtmlView extends BaseHtmlView
 	 * The pagination object.
 	 *
 	 * @var  Pagination
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.1.0
 	 * @todo   Test pagination.
 	 */
 	protected $pagination;
@@ -52,7 +52,7 @@ class HtmlView extends BaseHtmlView
 	 * The model state.
 	 *
 	 * @var  CMSObject
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.1.0
 	 */
 	protected $state;
 
@@ -60,7 +60,7 @@ class HtmlView extends BaseHtmlView
 	 * A Form object for search filters.
 	 *
 	 * @var  Form
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.1.0
 	 */
 	public $filterForm;
 
@@ -68,7 +68,7 @@ class HtmlView extends BaseHtmlView
 	 * The active search filters.
 	 *
 	 * @var  array
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.1.0
 	 */
 	public $activeFilters;
 
@@ -76,7 +76,7 @@ class HtmlView extends BaseHtmlView
 	 * Is this view in an empty state?
 	 *
 	 * @var  boolean
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.1.0
 	 */
 	private $isEmptyState = false;
 
@@ -87,7 +87,7 @@ class HtmlView extends BaseHtmlView
 	 *
 	 * @return  void
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.1.0
 	 * @throws  \Exception
 	 */
 	public function display($tpl = null): void
@@ -123,7 +123,7 @@ class HtmlView extends BaseHtmlView
 	 *
 	 * @return  void
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.1.0
 	 * @throws  \Exception
 	 */
 	protected function addToolbar(): void

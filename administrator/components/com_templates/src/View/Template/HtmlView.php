@@ -142,7 +142,7 @@ class HtmlView extends BaseHtmlView
 	 *
 	 * @var  array
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.1.0
 	 */
 	protected $mediaFiles;
 
@@ -385,7 +385,7 @@ class HtmlView extends BaseHtmlView
 	 * @return  string
 	 *
 	 * @note    Uses recursion
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.1.0
 	 */
 	protected function mediaTree($array)
 	{
@@ -405,7 +405,7 @@ class HtmlView extends BaseHtmlView
 	 * @return  string
 	 *
 	 * @note    Uses recursion
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.1.0
 	 */
 	protected function mediaFolderTree($array)
 	{
