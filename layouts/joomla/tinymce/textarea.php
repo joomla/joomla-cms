@@ -13,11 +13,13 @@ use Joomla\CMS\Factory;
 $data = $displayData;
 $wa   = Factory::getDocument()->getWebAssetManager();
 
-if (!$wa->assetExists('script', 'tinymce')) {
+if (!$wa->assetExists('script', 'tinymce'))
+{
 	$wa->registerScript('tinymce', 'media/vendor/tinymce/tinymce.min.js', [], ['defer' => true]);
 }
 
-if (!$wa->assetExists('script', 'plg_editors_tinymce')) {
+if (!$wa->assetExists('script', 'plg_editors_tinymce'))
+{
 	$wa->registerScript('plg_editors_tinymce', 'plg_editors_tinymce/tinymce.min.js', [], ['defer' => true], ['core', 'tinymce']);
 }
 
