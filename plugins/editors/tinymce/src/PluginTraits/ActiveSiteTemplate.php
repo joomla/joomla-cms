@@ -15,14 +15,14 @@ use Joomla\CMS\Language\Text;
 use RuntimeException;
 
 /**
- * Gets the active Site template.
+ * Gets the active Site template style.
  *
  * @since  __DEPLOY_VERSION__
  */
 trait ActiveSiteTemplate
 {
 	/**
-	 * Helper function to get the active Site template
+	 * Helper function to get the active Site template style.
 	 *
 	 * @return  object
 	 *
