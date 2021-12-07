@@ -276,7 +276,7 @@ trait DisplayTrait
 			// Get from preset
 			$presets = static::getToolbarPreset();
 
-			/*
+			/**
 			 * Predefine group as:
 			 * Set 0: for Administrator, Editor, Super Users (4,7,8)
 			 * Set 1: for Registered, Manager (2,6), all else are public
