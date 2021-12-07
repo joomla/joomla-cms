@@ -413,7 +413,7 @@ abstract class WebApplication extends AbstractWebApplication
 			else
 			{
 				// Normalise slashes.
-				$mediaURI = trim($mediaURI  ?? '', '/\\');
+				$mediaURI = trim($mediaURI ?? '', '/\\');
 				$mediaURI = !empty($mediaURI) ? '/' . $mediaURI . '/' : '/';
 				$this->set('uri.media.full', $this->get('uri.base.host') . $mediaURI);
 				$this->set('uri.media.path', $mediaURI);
