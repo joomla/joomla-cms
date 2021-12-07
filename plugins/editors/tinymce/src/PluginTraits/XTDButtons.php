@@ -29,6 +29,8 @@ trait XTDButtons
 	 * @param   string  $excluded  the buttons that should be hidden
 	 *
 	 * @return array
+	 *
+	 * @since __DEPLOY_VERSION__
 	 */
 	private function tinyButtons($name, $excluded)
 	{

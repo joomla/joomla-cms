@@ -54,6 +54,5 @@ class PlgEditorTinymce extends CMSPlugin
 	 */
 	public function onInit()
 	{
-		return;
 	}
 }

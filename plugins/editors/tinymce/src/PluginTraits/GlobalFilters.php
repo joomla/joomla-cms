@@ -48,8 +48,10 @@ trait GlobalFilters
 		$customList    = false;
 		$unfiltered    = false;
 
-		// Cycle through each of the user groups the user is in.
-		// Remember they are included in the public group as well.
+		/**
+		 * Cycle through each of the user groups the user is in.
+		 * Remember they are included in the public group as well.
+		 */
 		foreach ($userGroups as $groupId)
 		{
 			// May have added a group but not saved the filters.
@@ -73,8 +75,10 @@ trait GlobalFilters
 			}
 			else
 			{
-				// Forbidden or allowed lists.
-				// Preprocess the tags and attributes.
+				/**
+				 * Forbidden or allowed lists.
+				 * Preprocess the tags and attributes.
+				 */
 				$tags           = explode(',', $filterData->filter_tags);
 				$attributes     = explode(',', $filterData->filter_attributes);
 				$tempTags       = [];
@@ -100,9 +104,11 @@ trait GlobalFilters
 					}
 				}
 
-				// Collect the list of forbidden or allowed tags and attributes.
-				// Each list is cumulative.
-				// "BL" is deprecated in Joomla! 4, will be removed in Joomla! 5
+				/**
+				 * Collect the list of forbidden or allowed tags and attributes.
+				 * Each list is cumulative.
+				 * "BL" is deprecated in Joomla! 4, will be removed in Joomla! 5
+				 */
 				if (in_array($filterType, ['BL', 'FL']))
 				{
 					$forbiddenList           = true;

@@ -45,8 +45,8 @@ trait ResolveFiles
 		// Extract extension and strip the file
 		$file       = File::stripExt($file). '.' . File::getExt($file);
 		$templaPath = $template->inheritable || (isset($template->parent) && $template->parent !== '')
-		? JPATH_ROOT . '/media/templates/site'
-		: JPATH_ROOT . '/templates';
+			? JPATH_ROOT . '/media/templates/site'
+			: JPATH_ROOT . '/templates';
 
 		if (isset($template->parent) && $template->parent !== '')
 		{
