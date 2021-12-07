@@ -62,9 +62,8 @@ abstract class Grid
 		}
 
 		$html = '<a href="#" onclick="Joomla.tableOrdering(\'' . $order . '\',\'' . $direction . '\',\'' . $task . '\'' . $form . ');return false;"'
-			. '  title="' . htmlspecialchars(Text::_($tip ?: $title)) . '"'
+		. ' class="hasPopover"'.'aria-describedby="desc"'
 			. ' data-bs-content="' . htmlspecialchars(Text::_('JGLOBAL_CLICK_TO_SORT_THIS_COLUMN')) . '" data-bs-placement="top">';
-
 		if (isset($title['0']) && $title['0'] === '<')
 		{
 			$html .= $title;
@@ -79,8 +78,8 @@ abstract class Grid
 			$html .= '<span class="icon-' . $icon[$index] . '"></span>';
 		}
 
+		$html .='<div id="desc" class="visually-hidden">click this link to sort the column</div>';
 		$html .= '</a>';
-
 		return $html;
 	}
 
@@ -118,8 +117,7 @@ abstract class Grid
 	 */
 	public static function id($rowNum, $recId, $checkedOut = false, $name = 'cid', $stub = 'cb', $title = '', $formId = null)
 	{
-		if ($formId !== null)
-		{
+		if ($formId !== null) {
 			return $checkedOut ? '' : '<label for="' . $stub . $rowNum . '"><span class="visually-hidden">' . Text::_('JSELECT')
 				. ' ' . htmlspecialchars($title, ENT_COMPAT, 'UTF-8') . '</span></label>'
 				. '<input class="form-check-input" type="checkbox" id="' . $stub . $rowNum . '" name="' . $name . '[]" value="' . $recId
@@ -148,27 +146,18 @@ abstract class Grid
 		$user = Factory::getUser();
 		$userid = $user->get('id');
 
-		if ($row instanceof Table)
-		{
+		if ($row instanceof Table) {
 			$result = $row->isCheckedOut($userid);
-		}
-		else
-		{
+		} else {
 			$result = false;
 		}
 
-		if ($result)
-		{
+		if ($result) {
 			return static::_checkedOut($row);
-		}
-		else
-		{
-			if ($identifier === 'id')
-			{
+		} else {
+			if ($identifier === 'id') {
 				return HTMLHelper::_('grid.id', $i, $row->$identifier);
-			}
-			else
-			{
+			} else {
 				return HTMLHelper::_('grid.id', $i, $row->$identifier, $result, $identifier);
 			}
 		}
@@ -189,8 +178,7 @@ abstract class Grid
 	 */
 	public static function published($value, $i, $img1 = 'tick.png', $img0 = 'publish_x.png', $prefix = '')
 	{
-		if (is_object($value))
-		{
+		if (is_object($value)) {
 			$value = $value->published;
 		}
 
@@ -221,13 +209,11 @@ abstract class Grid
 	{
 		$state = array('' => '- ' . Text::_('JLIB_HTML_SELECT_STATE') . ' -', 'P' => Text::_($published), 'U' => Text::_($unpublished));
 
-		if ($archived)
-		{
+		if ($archived) {
 			$state['A'] = Text::_($archived);
 		}
 
-		if ($trashed)
-		{
+		if ($trashed) {
 			$state['T'] = Text::_($trashed);
 		}
 
@@ -275,8 +261,7 @@ abstract class Grid
 	{
 		$hover = '';
 
-		if ($overlib)
-		{
+		if ($overlib) {
 			$date = HTMLHelper::_('date', $row->checked_out_time, Text::_('DATE_FORMAT_LC1'));
 			$time = HTMLHelper::_('date', $row->checked_out_time, 'H:i');
 
