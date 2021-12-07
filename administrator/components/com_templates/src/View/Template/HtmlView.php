@@ -15,6 +15,7 @@ use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\Form\Form;
+use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Object\CMSObject;
@@ -167,6 +168,8 @@ class HtmlView extends BaseHtmlView
 		$this->preview     = $this->get('Preview');
 		$this->pluginState = PluginHelper::isEnabled('installer', 'override');
 		$this->updatedList = $this->get('UpdatedList');
+		$this->styles      = $this->get('AllTemplateStyles');
+		$this->stylesHTML  = '';
 
 		$params       = ComponentHelper::getParams('com_templates');
 		$imageTypes   = explode(',', $params->get('image_formats'));
@@ -225,6 +228,28 @@ class HtmlView extends BaseHtmlView
 		if (!Factory::getUser()->authorise('core.admin'))
 		{
 			$this->setLayout('readonly');
+		}
+
+		if (count($this->styles) > 0)
+		{
+			// Generate a list of styles for the child creation modal
+			$options = [
+				HTMLHelper::_('select.option', 0, Text::_('JOPTION_USE_DEFAULT'), 'value', 'text'),
+			];
+
+			foreach ($this->styles as $style) {
+				$options[] = HTMLHelper::_('select.option', $style->id, $style->title, 'value', 'text');
+			}
+
+			$this->stylesHTML = HTMLHelper::_(
+				'select.genericlist',
+				$options,
+				'style_id',
+				[
+					'list.attr' => 'class="form-select" size="1"',
+					'list.select' => 0,
+				]
+			);
 		}
 
 		parent::display($tpl);

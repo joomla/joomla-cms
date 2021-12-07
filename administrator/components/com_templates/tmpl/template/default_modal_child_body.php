@@ -28,6 +28,19 @@ use Joomla\CMS\Language\Text;
 					</small>
 				</div>
 			</div>
+			<div class="control-group">
+				<div class="control-label">
+					<label for="new_name">
+						<?php echo Text::_('COM_TEMPLATES_TEMPLATE_CHILD_STYLE_LABEL'); ?>
+					</label>
+				</div>
+				<div class="controls">
+					<?php echo $this->stylesHTML; ?>
+					<small class="form-text">
+						<?php echo Text::_('COM_TEMPLATES_TEMPLATE_NEW_STYLE_DESC'); ?>
+					</small>
+				</div>
+			</div>
 		</div>
 	</div>
 </div>

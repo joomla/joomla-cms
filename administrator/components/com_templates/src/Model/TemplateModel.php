@@ -19,6 +19,7 @@ use Joomla\CMS\Filesystem\File;
 use Joomla\CMS\Filesystem\Folder;
 use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Form\Form;
+use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Image\Image;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Model\FormModel;
@@ -2043,7 +2044,6 @@ class TemplateModel extends FormModel
 			JPATH_ROOT . '/' . ($this->template->client_id === 0 ? '' : 'administrator/') . 'templates/' . $this->template->element;
 	}
 
-
 	/**
 	 * Method to create the templateDetails.xml for the child template
 	 *
@@ -2167,6 +2167,8 @@ class TemplateModel extends FormModel
 		$media->addChild('folder', 'css');
 		$media->addChild('folder', 'js');
 		$media->addChild('folder', 'images');
+		$media->addChild('folder', 'html');
+		$media->addChild('folder', 'scss');
 
 		$xml->name = $template->element . '_' . $newName;
 		$xml->inheritable = 0;
@@ -2204,6 +2206,115 @@ class TemplateModel extends FormModel
 
 		if (!Folder::create($toPath . '/media/images'))
 		{
+			return false;
+		}
+
+		if (!Folder::create($toPath . '/media/html'))
+		{
+			return false;
+		}
+
+		if (!Folder::create($toPath . '/media/scss'))
+		{
+			return false;
+		}
+
+		return true;
+	}
+
+	/**
+	 * Method to get the parent template existing styles
+	 *
+	 * @return  array   array of id,titles of the styles
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
+	public function getAllTemplateStyles()
+	{
+		$template = $this->getTemplate();
+
+		if (!$template->xmldata->inheritable)
+		{
+			return [];
+		}
+
+		$db    = $this->getDbo();
+		$query = $db->getQuery(true);
+
+		$query->select($db->quoteName(array('id', 'title')))
+			->from($db->quoteName('#__template_styles'))
+			->where($db->quoteName('template') . ' =' . $db->quote($template->element))
+			->where($db->quoteName('client_id') . ' =' . $db->quote($template->client_id));
+
+		$db->setQuery($query);
+
+		return $db->loadObjectList();
+	}
+
+	/**
+	 * Method to apply selected params to the child template
+	 *
+	 * @return  boolean   true if name is not used, false otherwise
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
+	public function applyStyle()
+	{
+		$app        = Factory::getApplication();
+		$template   = $this->getTemplate();
+		$newName    = strtolower($this->getState('new_name'));
+		$applyStyle = $this->getState('applyStyle');
+
+		// Get a db connection.
+		$db = $this->getDbo();
+
+		// Create a new query object.
+		$query = $db->getQuery(true);
+
+		$query->select($db->quoteName('params'))
+			->from($db->quoteName('#__template_styles'))
+			->where($db->quoteName('id') . ' = ' . $db->quote($applyStyle));
+
+		// Reset the query using our newly populated query object.
+		$db->setQuery($query);
+
+		try
+		{
+			$parentStyle = $db->loadResult();
+		}
+		catch (\Exception $e)
+		{
+			$app->enqueueMessage(Text::_('COM_TEMPLATES_ERROR_COULD_NOT_READ'), 'error');
+
+			return false;
+		}
+
+		// Create a new query object.
+		$query = $db->getQuery(true);
+
+		// Fields to update.
+		$fields = [
+			$db->quoteName('params') . ' = ' . $db->quote($parentStyle),
+		];
+
+		// Apply the styles from the given parent style
+		$conditions = [
+			$db->quoteName('template') . ' = ' . $db->quote($template->element . '_' . $newName),
+			$db->quoteName('client_id') . ' = ' . $db->quote($template->client_id),
+		];
+
+		$query->update($db->quoteName('#__template_styles'))->set($fields)->where($conditions);
+
+		$db->setQuery($query);
+
+		try
+		{
+			$db->execute();
+		}
+		catch (\Exception $e)
+		{
+			$app->enqueueMessage(Text::_('COM_TEMPLATES_ERROR_COULD_NOT_READ'), 'error');
+
 			return false;
 		}
 
