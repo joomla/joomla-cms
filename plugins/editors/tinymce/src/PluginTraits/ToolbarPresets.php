@@ -22,7 +22,7 @@ trait ToolbarPresets
 	 *
 	 * @return array
 	 *
-	 * @since 3.7.0
+	 * @since __DEPLOY_VERSION__
 	 */
 	public static function getToolbarPreset()
 	{
