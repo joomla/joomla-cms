@@ -20,11 +20,11 @@ use Joomla\CMS\Uri\Uri;
 use Joomla\Registry\Registry;
 use stdClass;
 
-use Joomla\Plugin\Editors\TinyMCE\PluginTraits\XTDButtons;
-use Joomla\Plugin\Editors\TinyMCE\PluginTraits\ResolveFiles;
-use Joomla\Plugin\Editors\TinyMCE\PluginTraits\KnownButtons;
 use Joomla\Plugin\Editors\TinyMCE\PluginTraits\GlobalFilters;
+use Joomla\Plugin\Editors\TinyMCE\PluginTraits\KnownButtons;
+use Joomla\Plugin\Editors\TinyMCE\PluginTraits\ResolveFiles;
 use Joomla\Plugin\Editors\TinyMCE\PluginTraits\ToolbarPresets;
+use Joomla\Plugin\Editors\TinyMCE\PluginTraits\XTDButtons;
 
 /**
  * Handles the onDisplay event for the TinyMCE editor.
