@@ -27,7 +27,7 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 /**
  * Console command to change the state of tasks.
  *
- * @since __DEPLOY_VERSION__
+ * @since 4.1.0
  */
 class TasksStateCommand extends AbstractCommand
 {
@@ -35,7 +35,7 @@ class TasksStateCommand extends AbstractCommand
 	 * The default command name
 	 *
 	 * @var    string
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.1.0
 	 */
 	protected static $defaultName = 'scheduler:state';
 
@@ -44,14 +44,14 @@ class TasksStateCommand extends AbstractCommand
 	 *
 	 * @var Application
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.1.0
 	 */
 	protected $application;
 
 	/**
 	 * @var SymfonyStyle
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.1.0
 	 */
 	private $ioStyle;
 
@@ -63,7 +63,7 @@ class TasksStateCommand extends AbstractCommand
 	 *
 	 * @return  integer  The command exit code
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.1.0
 	 * @throws \Exception
 	 */
 	protected function doExecute(InputInterface $input, OutputInterface $output): int
@@ -173,7 +173,7 @@ class TasksStateCommand extends AbstractCommand
 	 *
 	 * @return  void
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.1.0
 	 */
 	private function configureIO(InputInterface $input, OutputInterface $output): void
 	{
@@ -185,7 +185,7 @@ class TasksStateCommand extends AbstractCommand
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.1.0
 	 */
 	protected function configure(): void
 	{

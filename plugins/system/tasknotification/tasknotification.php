@@ -37,7 +37,7 @@ use PHPMailer\PHPMailer\Exception as MailerException;
  * or on _orphaned_ task routines (missing parent plugin - either uninstalled, disabled or no longer offering a routine
  * with the same ID).
  *
- * @since __DEPLOY_VERSION__
+ * @since 4.1.0
  */
 class PlgSystemTasknotification extends CMSPlugin implements SubscriberInterface
 {
@@ -46,25 +46,25 @@ class PlgSystemTasknotification extends CMSPlugin implements SubscriberInterface
 	 * injectTaskNotificationFieldset()}.
 	 *
 	 * @var string
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.1.0
 	 */
 	private const TASK_NOTIFICATION_FORM = 'task_notification';
 
 	/**
 	 * @var  CMSApplication
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.1.0
 	 */
 	protected $app;
 
 	/**
 	 * @var  DatabaseInterface
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.1.0
 	 */
 	protected $db;
 
 	/**
 	 * @var boolean
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.1.0
 	 */
 	protected $autoloadLanguage = true;
 
@@ -74,7 +74,7 @@ class PlgSystemTasknotification extends CMSPlugin implements SubscriberInterface
 	 *
 	 * @return array
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.1.0
 	 */
 	public static function getSubscribedEvents(): array
 	{
@@ -94,7 +94,7 @@ class PlgSystemTasknotification extends CMSPlugin implements SubscriberInterface
 	 *
 	 * @return boolean True if successful.
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.1.0
 	 */
 	public function injectTaskNotificationFieldset(EventInterface $event): bool
 	{
@@ -133,7 +133,7 @@ class PlgSystemTasknotification extends CMSPlugin implements SubscriberInterface
 	 *
 	 * @return void
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.1.0
 	 * @throws Exception
 	 */
 	public function notifyFailure(Event $event): void
@@ -161,7 +161,7 @@ class PlgSystemTasknotification extends CMSPlugin implements SubscriberInterface
 	 *
 	 * @return void
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.1.0
 	 * @throws Exception
 	 */
 	public function notifyOrphan(Event $event): void
@@ -185,7 +185,7 @@ class PlgSystemTasknotification extends CMSPlugin implements SubscriberInterface
 	 *
 	 * @return void
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.1.0
 	 * @throws Exception
 	 */
 	public function notifySuccess(Event $event): void
@@ -216,7 +216,7 @@ class PlgSystemTasknotification extends CMSPlugin implements SubscriberInterface
 	 *
 	 * @return void
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.1.0
 	 * @throws Exception
 	 */
 	public function notifyFatalRecovery(Event $event): void
@@ -238,7 +238,7 @@ class PlgSystemTasknotification extends CMSPlugin implements SubscriberInterface
 	 *
 	 * @return array  An array of data to bind to a mail template.
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.1.0
 	 */
 	private function getDataFromTask(Task $task): array
 	{
@@ -260,7 +260,7 @@ class PlgSystemTasknotification extends CMSPlugin implements SubscriberInterface
 	 *
 	 * @return void
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.1.0
 	 * @throws Exception
 	 */
 	private function sendMail(string $template, array $data, string $attachment = ''): void

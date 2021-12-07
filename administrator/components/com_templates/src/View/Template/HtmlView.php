@@ -143,7 +143,7 @@ class HtmlView extends BaseHtmlView
 	 *
 	 * @var  array
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.1.0
 	 */
 	protected $mediaFiles;
 
@@ -303,7 +303,7 @@ class HtmlView extends BaseHtmlView
 			{
 				if (isset($this->template->xmldata->inheritable) && (string) $this->template->xmldata->inheritable === '1')
 				{
-					ToolbarHelper::modal('childModal', 'icon-copy', 'COM_TEMPLATES_TEMPLATE_CHILD', false);
+					ToolbarHelper::modal('childModal', 'icon-copy', 'COM_TEMPLATES_BUTTON_TEMPLATE_CHILD', false);
 				}
 				elseif (!isset($this->template->xmldata->parent) || $this->template->xmldata->parent == '')
 				{
@@ -410,7 +410,7 @@ class HtmlView extends BaseHtmlView
 	 * @return  string
 	 *
 	 * @note    Uses recursion
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.1.0
 	 */
 	protected function mediaTree($array)
 	{
@@ -430,7 +430,7 @@ class HtmlView extends BaseHtmlView
 	 * @return  string
 	 *
 	 * @note    Uses recursion
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.1.0
 	 */
 	protected function mediaFolderTree($array)
 	{

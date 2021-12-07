@@ -991,7 +991,7 @@ class TemplateController extends BaseController
 	 *
 	 * @return  boolean   true on success, false otherwise
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.1.0
 	 */
 	public function child()
 	{

@@ -17,7 +17,7 @@ use Joomla\Component\Media\Api\Helper\AdapterTrait;
 /**
  * Media web service view
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.1.0
  */
 class JsonapiView extends BaseApiView
 {
@@ -27,7 +27,7 @@ class JsonapiView extends BaseApiView
 	 * The fields to render item in the documents
 	 *
 	 * @var    array
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.1.0
 	 */
 	protected $fieldsToRenderItem = [
 		'provider_id',
@@ -39,7 +39,7 @@ class JsonapiView extends BaseApiView
 	 * The fields to render items in the documents
 	 *
 	 * @var    array
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.1.0
 	 */
 	protected $fieldsToRenderList = [
 		'provider_id',
