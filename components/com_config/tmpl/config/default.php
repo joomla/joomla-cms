@@ -17,7 +17,8 @@ use Joomla\CMS\Router\Route;
 $wa = $this->document->getWebAssetManager();
 $wa->useScript('keepalive')
 	->useScript('form.validate')
-	->useScript('com_config.config');
+	->useScript('com_config.config')
+	->useScript('inlinehelp');
 
 ?>
 <?php if ($this->params->get('show_page_heading')) : ?>
