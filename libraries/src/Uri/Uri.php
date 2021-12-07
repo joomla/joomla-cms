@@ -142,11 +142,11 @@ class Uri extends \Joomla\Uri\Uri
 			$uri = static::getInstance();
 			$live_site = ($uri->isSsl()) ? str_replace('http://', 'https://', $config->get('live_site')) : $config->get('live_site');
 
-			if (trim($live_site) != '')
+			if (trim($live_site ?? '') != '')
 			{
 				$uri = static::getInstance($live_site);
 				static::$base['prefix'] = $uri->toString(array('scheme', 'host', 'port'));
-				static::$base['path'] = rtrim($uri->toString(array('path')), '/\\');
+				static::$base['path'] = rtrim($uri->toString(array('path') ?? ''), '/\\');
 
 				if (\defined('JPATH_BASE') && \defined('JPATH_ADMINISTRATOR'))
 				{
@@ -177,7 +177,7 @@ class Uri extends \Joomla\Uri\Uri
 				// Extra cleanup to remove invalid chars in the URL to prevent injections through broken server implementation
 				$script_name = str_replace(array("'", '"', '<', '>'), array('%27', '%22', '%3C', '%3E'), $script_name);
 
-				static::$base['path'] = rtrim(\dirname($script_name), '/\\');
+				static::$base['path'] = rtrim(\dirname($script_name) ?? '', '/\\');
 			}
 		}
 
@@ -201,7 +201,7 @@ class Uri extends \Joomla\Uri\Uri
 		{
 			$uri = static::getInstance(static::base());
 			static::$root['prefix'] = $uri->toString(array('scheme', 'host', 'port'));
-			static::$root['path'] = rtrim($uri->toString(array('path')), '/\\');
+			static::$root['path'] = rtrim($uri->toString(array('path') ?? ''), '/\\');
 		}
 
 		// Get the scheme
