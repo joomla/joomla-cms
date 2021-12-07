@@ -39,7 +39,7 @@ trait DisplayTrait
   use ToolbarPresets;
   use XTDButtons;
 
-  /**
+        /**
 	 * Display the editor area.
 	 *
 	 * @param   string   $name     The name of the editor area.
