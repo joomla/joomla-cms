@@ -161,7 +161,7 @@ steps:
       - bash tests/Codeception/drone-system-run.sh "$(pwd)" mysqlphpmax
 
   - name: phpmax-system-mysql8
-    depends_on: [ javascript-cs ]
+    depends_on: [ phpmax-system-mysql ]
     image: joomlaprojects/docker-images:systemtests
     environment:
       JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
@@ -169,7 +169,7 @@ steps:
       - bash tests/Codeception/drone-system-run.sh "$(pwd)" mysql8phpmax
 
   - name: phpmax-system-postgres
-    depends_on: [ javascript-cs ]
+    depends_on: [ phpmax-system-mysql8 ]
     image: joomlaprojects/docker-images:systemtests
     environment:
       JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
@@ -177,7 +177,7 @@ steps:
       - bash tests/Codeception/drone-system-run.sh "$(pwd)" postgresphpmax
 
   - name: phpmin-system-mysql
-    depends_on: [ javascript-cs ]
+    depends_on: [ phpmax-system-postgres ]
     image: joomlaprojects/docker-images:systemtests
     environment:
       JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
@@ -185,7 +185,7 @@ steps:
       - bash tests/Codeception/drone-system-run.sh "$(pwd)" mysql
 
   - name: phpmin-system-mysql8
-    depends_on: [ javascript-cs ]
+    depends_on: [ phpmin-system-mysql ]
     image: joomlaprojects/docker-images:systemtests
     environment:
       JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
@@ -193,7 +193,7 @@ steps:
       - bash tests/Codeception/drone-system-run.sh "$(pwd)" mysql8
 
   - name: phpmin-system-postgres
-    depends_on: [ javascript-cs ]
+    depends_on: [ phpmin-system-mysql8 ]
     image: joomlaprojects/docker-images:systemtests
     environment:
       JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
