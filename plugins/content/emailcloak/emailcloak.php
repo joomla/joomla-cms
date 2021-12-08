@@ -430,7 +430,7 @@ class PlgContentEmailcloak extends CMSPlugin
 		 * <img src="..." title="email@example.org"> or <input type="text" placeholder="email@example.org">
 		 * The '<[^<]*>(*SKIP)(*F)|' trick is used to exclude this kind of occurrences
 		 */
-		$pattern = '~<[^<]*(?<!\/)>(*SKIP)(*F)|(<\w.*\"'.$searchEmail.'\".*\/\>)~i';
+		$pattern = '~<[^<]*(?<!\/)>(*SKIP)(*F)|(<\w.*\"' . $searchEmail . '\".*\/\>)~i';
 
 		while (preg_match($pattern, $text, $regs, PREG_OFFSET_CAPTURE))
 		{
