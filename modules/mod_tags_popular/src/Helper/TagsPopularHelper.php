@@ -38,7 +38,7 @@ abstract class TagsPopularHelper
 		$user        = Factory::getUser();
 		$groups      = $user->getAuthorisedViewLevels();
 		$timeframe   = $params->get('timeframe', 'alltime');
-		$maximum     = (int)$params->get('maximum', 5);
+		$maximum     =(int) $params->get('maximum', 5);
 		$order_value = $params->get('order_value', 'title');
 		$nowDate     = Factory::getDate()->toSql();
 		$nullDate    = $db->getNullDate();
@@ -126,8 +126,6 @@ abstract class TagsPopularHelper
 			{
 				// Backup bound parameters array of the original query
 				$bounded = $query->getBounded();
-
-			
 				$query->order($db->quoteName('count') . ' DESC');
 				$equery = $db->getQuery(true)
 					->select(
@@ -158,9 +156,11 @@ abstract class TagsPopularHelper
 			}
 		}
 
-		if($maximum > 0){
+		if ($maximum > 0)
+		{
 			$query->setLimit($maximum);
 		}
+		
 		$db->setQuery($query);
 
 		try

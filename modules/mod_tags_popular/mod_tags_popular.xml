@@ -39,7 +39,7 @@
 					label="MOD_TAGS_POPULAR_MAX_LABEL"
 					default="5"
 					filter="integer"
-					min="0"
+					min="1"
 					validate="number"
 				/>
 
