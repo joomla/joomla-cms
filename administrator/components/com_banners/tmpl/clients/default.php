@@ -133,7 +133,7 @@ $params     = $this->state->params ?? new CMSObject;
 									</td>
 									<td class="text-center btns d-none d-md-table-cell itemnumber">
 										<a class="btn <?php echo ($item->count_unpublished > 0) ? 'btn-danger' : 'btn-secondary'; ?>" href="<?php echo Route::_('index.php?option=com_banners&view=banners&filter[client_id]=' . (int) $item->id . '&filter[published]=0'); ?>"
-										aria-describedby="tip-publish<?php echo $i; ?>">
+										aria-describedby="tip-unpublish<?php echo $i; ?>">
 											<?php echo $item->count_unpublished; ?>
 										</a>
 										<div role="tooltip" id="tip-unpublish<?php echo $i; ?>">
