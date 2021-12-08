@@ -156,7 +156,7 @@ class FieldsModel extends ListModel
 
 		// Join over the language
 		$query->select('l.title AS language_title, l.image AS language_image')
-			->join('LEFT', $db->quoteName('#__languages') . ' AS l ON l.lang_code = a.language');
+		->join('LEFT', $db->quoteName('#__languages') . ' AS l ON l.lang_code = a.language');
 
 		// Join over the users for the checked out user.
 		$query->select('uc.name AS editor')->join('LEFT', '#__users AS uc ON uc.id=a.checked_out');
@@ -168,14 +168,14 @@ class FieldsModel extends ListModel
 		$query->select('ua.name AS author_name')->join('LEFT', '#__users AS ua ON ua.id = a.created_user_id');
 
 		// Join over the field groups.
-		$query->select('g.title AS group_title, g.access as group_access, g.state AS group_state, g.note as group_note');
+		$query->select('g.title AS group_title, g.access as group_access, g.state AS group_state, g.note as group_note, g.params as group_params');
 		$query->join('LEFT', '#__fields_groups AS g ON g.id = a.group_id');
 
 		// Filter by context
 		if ($context = $this->getState('filter.context'))
 		{
 			$query->where($db->quoteName('a.context') . ' = :context')
-				->bind(':context', $context);
+			->bind(':context', $context);
 		}
 
 		// Filter by access level.
@@ -190,7 +190,7 @@ class FieldsModel extends ListModel
 			{
 				$access = (int) $access;
 				$query->where($db->quoteName('a.access') . ' = :access')
-					->bind(':access', $access, ParameterType::INTEGER);
+				->bind(':access', $access, ParameterType::INTEGER);
 			}
 		}
 
