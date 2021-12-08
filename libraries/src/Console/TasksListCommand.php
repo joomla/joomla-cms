@@ -22,7 +22,7 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 /**
  * Console command to list scheduled tasks.
  *
- * @since __DEPLOY_VERSION__
+ * @since 4.1.0
  */
 class TasksListCommand extends AbstractCommand
 {
@@ -30,7 +30,7 @@ class TasksListCommand extends AbstractCommand
 	 * The default command name
 	 *
 	 * @var    string
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.1.0
 	 */
 	protected static $defaultName = 'scheduler:list';
 
@@ -38,13 +38,13 @@ class TasksListCommand extends AbstractCommand
 	 * The console application object
 	 *
 	 * @var Application
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.1.0
 	 */
 	protected $application;
 
 	/**
 	 * @var SymfonyStyle
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.1.0
 	 */
 	private $ioStyle;
 
@@ -57,7 +57,7 @@ class TasksListCommand extends AbstractCommand
 	 *
 	 * @return  integer  The command exit code
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.1.0
 	 * @throws \Exception
 	 */
 	protected function doExecute(InputInterface $input, OutputInterface $output): int
@@ -94,7 +94,7 @@ class TasksListCommand extends AbstractCommand
 	 *
 	 * @return array
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.1.0
 	 * @throws \RunTimeException
 	 */
 	private function getTasks(): array
@@ -115,7 +115,7 @@ class TasksListCommand extends AbstractCommand
 	 *
 	 * @return  void
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.1.0
 	 */
 	private function configureIO(InputInterface $input, OutputInterface $output)
 	{
@@ -127,7 +127,7 @@ class TasksListCommand extends AbstractCommand
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.1.0
 	 */
 	protected function configure(): void
 	{

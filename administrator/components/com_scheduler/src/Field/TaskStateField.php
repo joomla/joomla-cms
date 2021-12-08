@@ -17,7 +17,7 @@ use Joomla\CMS\Form\Field\PredefinedlistField;
 /**
  * A predefined list field with all possible states for a com_scheduler entry.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.1.0
  */
 class TaskStateField extends PredefinedlistField
 {
@@ -25,7 +25,7 @@ class TaskStateField extends PredefinedlistField
 	 * The form field type.
 	 *
 	 * @var    string
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.1.0
 	 */
 	public $type = 'taskState';
 
@@ -33,7 +33,7 @@ class TaskStateField extends PredefinedlistField
 	 * Available states
 	 *
 	 * @var  string[]
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.1.0
 	 */
 	protected $predefinedOptions = [
 		-2  => 'JTRASHED',

@@ -26,7 +26,7 @@ use Joomla\DI\ServiceProviderInterface;
  * used to register the components initializers into a DI container
  * created by the application.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.1.0
  */
 return new class implements ServiceProviderInterface
 {
@@ -37,7 +37,7 @@ return new class implements ServiceProviderInterface
 	 *
 	 * @return void
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.1.0
 	 */
 	public function register(Container $container)
 	{

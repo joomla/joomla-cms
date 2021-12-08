@@ -20,7 +20,7 @@ use Joomla\CMS\Language\Text;
  * Multi-select form field, supporting inputs of:
  * minutes, hours, days of week, days of month and months.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.1.0
  */
 class CronField extends ListField
 {
@@ -29,7 +29,7 @@ class CronField extends ListField
 	 *
 	 * @var string[]
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.1.0
 	 */
 	private const SUBTYPES = [
 		'minutes',
@@ -44,7 +44,7 @@ class CronField extends ListField
 	 *
 	 * @var int[][]
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.1.0
 	 */
 	private const OPTIONS_RANGE = [
 		'minutes'    => [0, 59],
@@ -59,7 +59,7 @@ class CronField extends ListField
 	 * The labels are language constants translated when needed.
 	 *
 	 * @var string[][]
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.1.0
 	 */
 	private const PREPARED_RESPONSE_LABELS = [
 		'months'    => [
@@ -77,7 +77,7 @@ class CronField extends ListField
 	 *
 	 * @var    string
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.1.0
 	 */
 	protected $type = 'cronIntervals';
 
@@ -85,7 +85,7 @@ class CronField extends ListField
 	 * The subtype of the CronIntervals field
 	 *
 	 * @var string
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.1.0
 	 */
 	private $subtype;
 
@@ -93,7 +93,7 @@ class CronField extends ListField
 	 * If true, field options will include a wildcard
 	 *
 	 * @var boolean
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.1.0
 	 */
 	private $wildcard;
 
@@ -101,7 +101,7 @@ class CronField extends ListField
 	 * If true, field will only have numeric labels (for days_week and months)
 	 *
 	 * @var boolean
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.1.0
 	 */
 	private $onlyNumericLabels;
 
@@ -117,7 +117,7 @@ class CronField extends ListField
 	 *
 	 * @return  boolean  True on success.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.1.0
 	 */
 	public function setup(\SimpleXMLElement $element, $value, $group = null): bool
 	{
@@ -144,7 +144,7 @@ class CronField extends ListField
 	 *
 	 * @return   array  Array of objects representing options in the options list
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.1.0
 	 */
 	protected function getOptions(): array
 	{
