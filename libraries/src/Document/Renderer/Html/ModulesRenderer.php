@@ -10,6 +10,7 @@ namespace Joomla\CMS\Document\Renderer\Html;
 
 \defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Document\DocumentRenderer;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ModuleHelper;
@@ -42,8 +43,26 @@ class ModulesRenderer extends DocumentRenderer
 		$user         = Factory::getUser();
 		$frontediting = ($app->isClient('site') && $app->get('frontediting', 1) && !$user->guest);
 		$menusEditing = ($app->get('frontediting', 1) == 2) && $user->authorise('core.edit', 'com_menus');
+		$modules      = ModuleHelper::getModules($position);
 
-		foreach (ModuleHelper::getModules($position) as $mod)
+		// Prepend a dummy module for template preview
+		if ($app->input->getBool('tp') && ComponentHelper::getParams('com_templates')->get('template_positions_display'))
+		{
+			$dummy = (object) [
+				'id' => 0,
+				'module' => '',
+				'params' => '',
+				'showtitle' => 0,
+				'title' => $position,
+				'position' => $position,
+				'content' => $position,
+				'contentRendered' => true,
+			];
+
+			array_unshift($modules, $dummy);
+		}
+
+		foreach ($modules as $mod)
 		{
 			$moduleHtml = $renderer->render($mod, $params, $content);
 
