@@ -18,7 +18,7 @@ use Joomla\CMS\Language\Text;
 /**
  * Generates the list of directories available for template snippets.
  *
- * @since       __DEPLOY_VERSION__
+ * @since       4.1.0
  */
 class TemplatesListField extends FolderlistField
 {
@@ -36,7 +36,7 @@ class TemplatesListField extends FolderlistField
 	 * @return  boolean  True on success.
 	 *
 	 * @see     \Joomla\CMS\Form\FormField::setup()
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.1.0
 	 */
 	public function setup(\SimpleXMLElement $element, $value, $group = null)
 	{
@@ -56,7 +56,7 @@ class TemplatesListField extends FolderlistField
 	 *
 	 * @return  array  The dirs option objects.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.1.0
 	 */
 	public function getOptions()
 	{
@@ -80,7 +80,7 @@ class TemplatesListField extends FolderlistField
 	 *
 	 * @return  string  The field input markup.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.1.0
 	 */
 	protected function getInput()
 	{

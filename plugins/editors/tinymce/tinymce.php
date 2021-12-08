@@ -1116,7 +1116,7 @@ class PlgEditorTinymce extends CMSPlugin
 	 *
 	 * @return  object
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.1.0
 	 */
 	protected function getActiveSiteTemplate()
 	{
@@ -1153,7 +1153,7 @@ class PlgEditorTinymce extends CMSPlugin
 	 *
 	 * @return  array    files to be included.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.1.0
 	 */
 	protected function includeRelativeFiles($folder, $file)
 	{
@@ -1203,7 +1203,7 @@ class PlgEditorTinymce extends CMSPlugin
 	 *
 	 * @return  string  The relative path of the file
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.1.0
 	 */
 	protected static function resolveFileUrl($path = '')
 	{

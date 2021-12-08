@@ -21,7 +21,7 @@ use Joomla\Component\Scheduler\Administrator\Helper\SchedulerHelper;
 /**
  * MVC Controller for the item configuration page (TaskView).
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.1.0
  */
 class TaskController extends FormController
 {
@@ -29,7 +29,7 @@ class TaskController extends FormController
 	 * Add a new record
 	 *
 	 * @return boolean
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.1.0
 	 * @throws \Exception
 	 */
 	public function add(): bool
@@ -73,7 +73,7 @@ class TaskController extends FormController
 	 *
 	 * @return boolean  True if access level checks pass
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.1.0
 	 */
 	public function cancel($key = null): bool
 	{
@@ -95,7 +95,7 @@ class TaskController extends FormController
 	 *
 	 * @return boolean  True if user is allowed to edit record
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.1.0
 	 */
 	protected function allowEdit($data = array(), $key = 'id'): bool
 	{

@@ -21,7 +21,7 @@ use Joomla\Utilities\ArrayHelper;
 /**
  * A list field with all available task routines.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.1.0
  */
 class TaskTypeField extends ListField
 {
@@ -29,7 +29,7 @@ class TaskTypeField extends ListField
 	 * The form field type.
 	 *
 	 * @var    string
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.1.0
 	 */
 	protected $type = 'taskType';
 
@@ -38,7 +38,7 @@ class TaskTypeField extends ListField
 	 *
 	 * @return array
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.1.0
 	 * @throws \Exception
 	 */
 	protected function getOptions(): array
