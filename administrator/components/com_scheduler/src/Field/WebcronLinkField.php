@@ -20,7 +20,7 @@ use Joomla\CMS\Form\Field\TextField;
  * This field class is only needed because the layout file is in a non-global directory, so this should
  * be made redundant and removed if/once the layout is shifted to `JPATH_SITE/layout/`
  *
- * @since __DEPLOY_VERSION__
+ * @since 4.1.0
  */
 class WebcronLinkField extends TextField
 {
@@ -28,7 +28,7 @@ class WebcronLinkField extends TextField
 	 * We use a custom layout that allows for the link to be copied.
 	 *
 	 * @var  string
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.1.0
 	 */
 	protected $layout = 'form.field.webcron_link';
 
@@ -38,7 +38,7 @@ class WebcronLinkField extends TextField
 	 * @inheritDoc
 	 * @return string[]
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.1.0
 	 */
 	protected function getLayoutPaths(): array
 	{

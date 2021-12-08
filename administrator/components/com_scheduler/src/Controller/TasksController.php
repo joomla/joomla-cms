@@ -23,7 +23,7 @@ use Joomla\Utilities\ArrayHelper;
 /**
  * MVC Controller for TasksView.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.1.0
  */
 class TasksController extends AdminController
 {
@@ -36,7 +36,7 @@ class TasksController extends AdminController
 	 *
 	 * @return  BaseDatabaseModel
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.1.0
 	 */
 	public function getModel($name = 'Task', $prefix = 'Administrator', $config = ['ignore_request' => true]): BaseDatabaseModel
 	{

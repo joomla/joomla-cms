@@ -22,7 +22,7 @@ use Joomla\Utilities\ArrayHelper;
 /**
  * Helper class for supporting task execution rules.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.1.0
  * @todo   This helper should probably be merged into the {@see Task} class.
  */
 class ExecRuleHelper
@@ -31,26 +31,26 @@ class ExecRuleHelper
 	 * The execution rule type
 	 *
 	 * @var string
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.1.0
 	 */
 	private $type;
 
 	/**
 	 * @var array
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.1.0
 	 */
 	private $task;
 
 	/**
 	 * @var object
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.1.0
 	 */
 	private $rule;
 
 	/**
 	 * @param   array|object  $task  A task entry
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.1.0
 	 */
 	public function __construct($task)
 	{
@@ -70,7 +70,7 @@ class ExecRuleHelper
 	 *
 	 * @return mixed
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.1.0
 	 */
 	private function getFromTask(string $property, $default = null)
 	{
@@ -86,7 +86,7 @@ class ExecRuleHelper
 	 *
 	 * @return ?Date|string
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.1.0
 	 * @throws \Exception
 	 */
 	public function nextExec(bool $string = true, bool $basisNow = false)
@@ -122,7 +122,7 @@ class ExecRuleHelper
 	 *
 	 * @return string
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.1.0
 	 */
 	private function dateTimeToSql(\DateTime $dateTime): string
 	{

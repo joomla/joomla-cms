@@ -18,7 +18,7 @@ use Joomla\Component\Media\Administrator\Provider\ProviderManagerHelperTrait;
 /**
  * Media web service controller.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.1.0
  */
 class AdaptersController extends ApiController
 {
@@ -28,7 +28,7 @@ class AdaptersController extends ApiController
 	 * The content type of the item.
 	 *
 	 * @var    string
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.1.0
 	 */
 	protected $contentType = 'adapters';
 
@@ -37,7 +37,7 @@ class AdaptersController extends ApiController
 	 *
 	 * @var    string
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.1.0
 	 */
 	protected $default_view = 'adapters';
 
@@ -51,7 +51,7 @@ class AdaptersController extends ApiController
 	 * @throws  InvalidPathException
 	 * @throws  \Exception
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.1.0
 	 */
 	public function displayItem($path = '')
 	{
