@@ -152,8 +152,16 @@ steps:
     commands:
       - npm run lint:js
 
-  - name: phpmax-system-mysql
+  - name: phpmin-system-mysql
     depends_on: [ javascript-cs ]
+    image: joomlaprojects/docker-images:systemtests
+    environment:
+      JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
+    commands:
+      - bash tests/Codeception/drone-system-run.sh "$(pwd)" mysql
+
+  - name: phpmax-system-mysql
+    depends_on: [ phpmin-system-mysql ]
     image: joomlaprojects/docker-images:systemtests
     environment:
       JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
@@ -176,16 +184,8 @@ steps:
     commands:
       - bash tests/Codeception/drone-system-run.sh "$(pwd)" postgresphpmax
 
-  - name: phpmin-system-mysql
-    depends_on: [ phpmax-system-postgres ]
-    image: joomlaprojects/docker-images:systemtests
-    environment:
-      JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
-    commands:
-      - bash tests/Codeception/drone-system-run.sh "$(pwd)" mysql
-
   - name: phpmin-system-mysql8
-    depends_on: [ phpmin-system-mysql ]
+    depends_on: [ phpmax-system-postgres ]
     image: joomlaprojects/docker-images:systemtests
     environment:
       JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
