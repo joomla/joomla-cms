@@ -10,7 +10,7 @@ const DATA_ATTRIBUTE_PATTERN = /^data-[\w-]*$/i;
 
 const DefaultAllowlist = {
   // Global attributes allowed on any supplied element below.
-  '*': ['class', 'dir', 'id', 'lang', 'role', ARIA_ATTRIBUTE_PATTERN, DATA_ATTRIBUTE_PATTERN],
+  '*': ['class', 'dir', 'id', 'lang', 'role','style', ARIA_ATTRIBUTE_PATTERN, DATA_ATTRIBUTE_PATTERN],
   a: ['target', 'href', 'title', 'rel'],
   area: [],
   b: [],
