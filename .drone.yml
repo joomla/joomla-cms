@@ -182,7 +182,7 @@ steps:
     environment:
       JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
     commands:
-      - bash tests/Codeception/drone-system-run.sh "$(pwd)" mysql
+      - bash tests/Codeception/drone-system-run.sh "$(pwd)" mysqlphp81
 
   - name: system-tests-mysql8-php-81
     depends_on: [ system-tests-mysql-php-81 ]
@@ -190,7 +190,7 @@ steps:
     environment:
       JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
     commands:
-      - bash tests/Codeception/drone-system-run.sh "$(pwd)" mysql8
+      - bash tests/Codeception/drone-system-run.sh "$(pwd)" mysql8php81
 
   - name: system-tests-postgres-php-81
     depends_on: [ system-tests-mysql8-php-81 ]
@@ -198,7 +198,7 @@ steps:
     environment:
       JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
     commands:
-      - bash tests/Codeception/drone-system-run.sh "$(pwd)" postgres
+      - bash tests/Codeception/drone-system-run.sh "$(pwd)" postgresphp81
 
   - name: api-tests
     depends_on:

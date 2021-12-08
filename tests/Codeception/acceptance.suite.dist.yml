@@ -53,12 +53,48 @@ env:
                 Joomla\Browser\JoomlaBrowser:
                     database host: 'postgres'
                     database type: 'pgsql'
+                    database prefix: 'jos_'
                 Helper\JoomlaDb:
                     dsn: 'pgsql:host=postgres;dbname=test_joomla'
+                    prefix: 'jos_'
     mysql8:
         modules:
             config:
                 Joomla\Browser\JoomlaBrowser:
                     database host: 'mysql8'
+                    database prefix: 'jos_'
+                Helper\JoomlaDb:
+                    prefix: 'jos_'
     mysql:
+      modules:
+        config:
+          Joomla\Browser\JoomlaBrowser:
+            database prefix: 'jos_'
+          Helper\JoomlaDb:
+            prefix: 'jos_'
+    postgresphp81:
+        modules:
+            config:
+                Joomla\Browser\JoomlaBrowser:
+                    database host: 'postgres'
+                    database type: 'pgsql'
+                    database prefix: 'php81_'
+                Helper\JoomlaDb:
+                    dsn: 'pgsql:host=postgres;dbname=test_joomla'
+                    prefix: 'php81_'
+    mysql8php81:
+        modules:
+            config:
+                Joomla\Browser\JoomlaBrowser:
+                    database host: 'mysql8'
+                    database prefix: 'php81_'
+                Helper\JoomlaDb:
+                  prefix: 'php81_'
+    mysqlphp81:
+        modules:
+          config:
+              Joomla\Browser\JoomlaBrowser:
+                  database prefix: 'php81_'
+              Helper\JoomlaDb:
+                  prefix: 'php81_'
     # Nothing to change
