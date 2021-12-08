@@ -176,8 +176,34 @@ steps:
     commands:
       - bash tests/Codeception/drone-system-run.sh "$(pwd)" postgres
 
+  - name: system-tests-mysql-php-81
+    depends_on: [ javascript-cs ]
+    image: joomlaprojects/docker-images:systemtests
+    environment:
+      JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
+    commands:
+      - bash tests/Codeception/drone-system-run.sh "$(pwd)" mysql
+
+  - name: system-tests-mysql8-php-81
+    depends_on: [ system-tests-mysql-php-81 ]
+    image: joomlaprojects/docker-images:systemtests
+    environment:
+      JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
+    commands:
+      - bash tests/Codeception/drone-system-run.sh "$(pwd)" mysql8
+
+  - name: system-tests-postgres-php-81
+    depends_on: [ system-tests-mysql8-php-81 ]
+    image: joomlaprojects/docker-images:systemtests
+    environment:
+      JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
+    commands:
+      - bash tests/Codeception/drone-system-run.sh "$(pwd)" postgres
+
   - name: api-tests
-    depends_on: [ system-tests-postgres ]
+    depends_on:
+      - system-tests-postgres
+      - system-tests-postgres-php-81
     image: joomlaprojects/docker-images:systemtests
     environment:
       JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
@@ -209,9 +235,9 @@ branches:
   exclude: [ l10n_* ]
 
 volumes:
-- name: composer-cache
-  host:
-    path: /tmp/composer-cache
+  - name: composer-cache
+    host:
+      path: /tmp/composer-cache
 
 services:
   - name: mysql
@@ -275,6 +301,6 @@ steps:
 
 ---
 kind: signature
-hmac: 20fa94a7645c05d5ed14b601ab963bbdbde0d6a804d0ec54ea34b0b78a8b25d9
+hmac: 2eed53fc3994df7682c7a6c370d5a8940fbccb4a4a0a5bb7fcdb02cca3c0d53f
 
 ...
