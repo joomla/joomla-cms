@@ -152,48 +152,48 @@ steps:
     commands:
       - npm run lint:js
 
-  - name: system-tests-mysql-php-81
+  - name: phpmax-system-mysql
     depends_on: [ javascript-cs ]
     image: joomlaprojects/docker-images:systemtests
     environment:
       JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
     commands:
-      - bash tests/Codeception/drone-system-run.sh "$(pwd)" mysqlphp81
+      - bash tests/Codeception/drone-system-run.sh "$(pwd)" mysqlphpmax
 
-  - name: system-tests-mysql8-php-81
-    depends_on: [ system-tests-mysql-php-81 ]
+  - name: phpmax-system-mysql8
+    depends_on: [ javascript-cs ]
     image: joomlaprojects/docker-images:systemtests
     environment:
       JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
     commands:
-      - bash tests/Codeception/drone-system-run.sh "$(pwd)" mysql8php81
+      - bash tests/Codeception/drone-system-run.sh "$(pwd)" mysql8phpmax
 
-  - name: system-tests-postgres-php-81
-    depends_on: [ system-tests-mysql8-php-81 ]
+  - name: phpmax-system-postgres
+    depends_on: [ javascript-cs ]
     image: joomlaprojects/docker-images:systemtests
     environment:
       JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
     commands:
-      - bash tests/Codeception/drone-system-run.sh "$(pwd)" postgresphp81
+      - bash tests/Codeception/drone-system-run.sh "$(pwd)" postgresphpmax
 
-  - name: system-tests-mysql
-    depends_on: [ system-tests-postgres-php-81 ]
+  - name: phpmin-system-mysql
+    depends_on: [ javascript-cs ]
     image: joomlaprojects/docker-images:systemtests
     environment:
       JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
     commands:
       - bash tests/Codeception/drone-system-run.sh "$(pwd)" mysql
 
-  - name: system-tests-mysql8
-    depends_on: [ system-tests-mysql ]
+  - name: phpmin-system-mysql8
+    depends_on: [ javascript-cs ]
     image: joomlaprojects/docker-images:systemtests
     environment:
       JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
     commands:
       - bash tests/Codeception/drone-system-run.sh "$(pwd)" mysql8
 
-  - name: system-tests-postgres
-    depends_on: [ system-tests-mysql8 ]
+  - name: phpmin-system-postgres
+    depends_on: [ javascript-cs ]
     image: joomlaprojects/docker-images:systemtests
     environment:
       JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
@@ -201,7 +201,13 @@ steps:
       - bash tests/Codeception/drone-system-run.sh "$(pwd)" postgres
 
   - name: api-tests
-    depends_on: [ system-tests-postgres ]
+    depends_on:
+      - phpmax-system-mysql
+      - phpmax-system-mysql8
+      - phpmax-system-postgres
+      - phpmin-system-mysql
+      - phpmin-system-mysql8
+      - phpmin-system-postgres
     image: joomlaprojects/docker-images:systemtests
     environment:
       JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
@@ -299,6 +305,6 @@ steps:
 
 ---
 kind: signature
-hmac: 1ac70c520a9990d8e16ac088993643b9a41cc28a66c9ec28620d7d7a313354a1
+hmac: ca1f79ccd1257760089db3f8d94d72ae75020a1a2e89bc1d460ba87202f5b687
 
 ...
