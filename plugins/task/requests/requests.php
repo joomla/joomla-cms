@@ -25,7 +25,7 @@ use Joomla\Registry\Registry;
  * Task plugin with routines to make HTTP requests.
  * At the moment, offers a single routine for GET requests.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.1.0
  */
 class PlgTaskRequests extends CMSPlugin implements SubscriberInterface
 {
@@ -33,7 +33,7 @@ class PlgTaskRequests extends CMSPlugin implements SubscriberInterface
 
 	/**
 	 * @var string[]
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.1.0
 	 */
 	protected const TASKS_MAP = [
 		'plg_task_requests_task_get' => [
@@ -45,7 +45,7 @@ class PlgTaskRequests extends CMSPlugin implements SubscriberInterface
 
 	/**
 	 * @var boolean
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.1.0
 	 */
 	protected $autoloadLanguage = true;
 
@@ -54,7 +54,7 @@ class PlgTaskRequests extends CMSPlugin implements SubscriberInterface
 	 *
 	 * @return string[]
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.1.0
 	 */
 	public static function getSubscribedEvents(): array
 	{
@@ -72,7 +72,7 @@ class PlgTaskRequests extends CMSPlugin implements SubscriberInterface
 	 *
 	 * @return integer  The exit code
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.1.0
 	 * @throws Exception
 	 */
 	protected function makeGetRequest(ExecuteTaskEvent $event): int

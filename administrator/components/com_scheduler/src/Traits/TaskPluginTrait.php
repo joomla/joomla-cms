@@ -33,7 +33,7 @@ use Joomla\Utilities\ArrayHelper;
  * to include this trait, and define methods corresponding to each routine along with the `TASKS_MAP` class constant to
  * declare supported routines and related properties.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.1.0
  */
 trait TaskPluginTrait
 {
@@ -41,7 +41,7 @@ trait TaskPluginTrait
 	 * A snapshot of the routine state.
 	 *
 	 * @var array
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.1.0
 	 */
 	protected $snapshot = [];
 
@@ -52,7 +52,7 @@ trait TaskPluginTrait
 	 *
 	 * @return void
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.1.0
 	 */
 	protected function startRoutine(ExecuteTaskEvent $event): void
 	{
@@ -76,7 +76,7 @@ trait TaskPluginTrait
 	 *
 	 * @return void
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.1.0
 	 * @throws \Exception
 	 */
 	protected function endRoutine(ExecuteTaskEvent $event, int $exitCode): void
@@ -103,7 +103,7 @@ trait TaskPluginTrait
 	 *
 	 * @return boolean  True if the form was successfully enhanced or the context was not relevant.
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.1.0
 	 * @throws \Exception
 	 */
 	public function enhanceTaskItemForm($context, $data = null): bool
@@ -175,7 +175,7 @@ trait TaskPluginTrait
 	 *
 	 * @return void
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.1.0
 	 */
 	public function advertiseRoutines(EventInterface $event): void
 	{
@@ -202,7 +202,7 @@ trait TaskPluginTrait
 	 *
 	 * @return  string
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.1.0
 	 * @throws  \Exception
 	 */
 	protected function getRoutineId(Form $form, $data): string
@@ -232,7 +232,7 @@ trait TaskPluginTrait
 	 *
 	 * @return void
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.1.0
 	 * @throws \Exception
 	 * @todo   : use dependency injection here (starting from the Task & Scheduler classes).
 	 */
@@ -273,7 +273,7 @@ trait TaskPluginTrait
 	 *
 	 * @return void
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.1.0
 	 * @throws \Exception
 	 */
 	public function standardRoutineHandler(ExecuteTaskEvent $event): void
@@ -340,7 +340,7 @@ trait TaskPluginTrait
 		/**
 		 * Closure to validate a status against {@see Status}
 		 *
-		 * @since __DEPLOY_VERSION__
+		 * @since 4.1.0
 		 */
 		$validateStatus = static function (int $statusCode): bool {
 			return \in_array(

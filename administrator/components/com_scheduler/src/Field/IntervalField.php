@@ -18,7 +18,7 @@ use Joomla\CMS\Form\FormField;
 /**
  * Select style field for interval(s) in minutes, hours, days and months.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.1.0
  */
 class IntervalField extends NumberField
 {
@@ -26,7 +26,7 @@ class IntervalField extends NumberField
 	 * The form field type.
 	 *
 	 * @var    string
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.1.0
 	 */
 	protected $type = 'Intervals';
 
@@ -34,7 +34,7 @@ class IntervalField extends NumberField
 	 * The subtypes supported by this field type => [minVal, maxVal]
 	 *
 	 * @var string[]
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.1.0
 	 */
 	private const SUBTYPES = [
 		'minutes' => [1, 59],
@@ -47,7 +47,7 @@ class IntervalField extends NumberField
 	 * The allowable maximum value of the field.
 	 *
 	 * @var    float
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.1.0
 	 */
 	protected $max;
 
@@ -55,7 +55,7 @@ class IntervalField extends NumberField
 	 * The allowable minimum value of the field.
 	 *
 	 * @var    float
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.1.0
 	 */
 	protected $min;
 
@@ -63,7 +63,7 @@ class IntervalField extends NumberField
 	 * The step by which value of the field increased or decreased.
 	 *
 	 * @var    float
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.1.0
 	 */
 	protected $step = 1;
 
@@ -79,7 +79,7 @@ class IntervalField extends NumberField
 	 *
 	 * @return  boolean  True on success.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.1.0
 	 */
 	public function setup(\SimpleXMLElement $element, $value, $group = null): bool
 	{
