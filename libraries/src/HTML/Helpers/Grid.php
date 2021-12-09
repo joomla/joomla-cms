@@ -62,7 +62,7 @@ abstract class Grid
 		}
 
 		$html = '<a href="#" onclick="Joomla.tableOrdering(\'' . $order . '\',\'' . $direction . '\',\'' . $task . '\'' . $form . ');return false;"'
-			   .'aria-describedby="headingDesc">';
+			   . 'aria-describedby="headingDesc">';
 
 		if (isset($title['0']) && $title['0'] === '<')
 		{
@@ -77,9 +77,8 @@ abstract class Grid
 		{
 			$html .= '<span class="icon-' . $icon[$index] . '"></span>';
 		}
-		
-        $html .= '<div id="headingDesc"' . ' class="visually-hidden">' . Text::_('JGLOBAL_CLICK_THIS_LINK_TO_SORT_THE_TABLE') . '</div>';
-		$html .= '</a>';
+        	$html .= '<div id="headingDesc"' . ' class="visually-hidden">' . Text::_('JGLOBAL_CLICK_THIS_LINK_TO_SORT_THE_TABLE') . '</div>';
+			$html .= '</a>';
 
 		return $html;
 	}
