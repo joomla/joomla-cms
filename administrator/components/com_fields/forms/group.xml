@@ -154,6 +154,20 @@
 				<option value="0">JNO</option>
 				<option value="1">JYES</option>
 			</field>
+
+			<field
+				name="layout"
+				type="filelist"
+				label="COM_FIELDS_FIELD_LAYOUT_LABEL"
+				default="render"
+				directory="components/com_fields/layouts/fields"
+				fileFilter="\.php$"
+				hide_none="true"
+				stripext="true"
+				exclude="render\.php"
+			>
+			</field>
+			<option value="render">JDEFAULT</option>
 		</fieldset>
 	</fields>
 </form>

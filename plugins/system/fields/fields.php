@@ -441,12 +441,12 @@ class PlgSystemFields extends CMSPlugin
 		{
 			return FieldsHelper::render(
 				$context,
-				'fields.render',
-				array(
+				$fields[0]->group_layout ? $fields[0]->group_layout : 'render',
+				[
 					'item'            => $item,
 					'context'         => $context,
 					'fields'          => $fields,
-				)
+				]
 			);
 		}
 
