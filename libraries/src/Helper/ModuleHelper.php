@@ -85,6 +85,7 @@ abstract class ModuleHelper
 	{
 		$position = strtolower($position);
 		$result   = array();
+		$input    = Factory::getApplication()->input;
 		$modules  = &static::load();
 		$total    = \count($modules);
 
@@ -94,6 +95,18 @@ abstract class ModuleHelper
 			{
 				$result[] = &$modules[$i];
 			}
+		}
+
+		// Prepend a dummy module for template preview
+		if ($input->getBool('tp') && ComponentHelper::getParams('com_templates')->get('template_positions_display'))
+		{
+			$dummy = static::createDummyModule();
+			$dummy->title = $position;
+			$dummy->position = $position;
+			$dummy->content = $position;
+			$dummy->contentRendered = true;
+
+			array_unshift($result, $dummy);
 		}
 
 		return $result;
