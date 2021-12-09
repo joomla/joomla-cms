@@ -156,7 +156,7 @@ class FieldsModel extends ListModel
 
 		// Join over the language
 		$query->select('l.title AS language_title, l.image AS language_image')
-		->join('LEFT', $db->quoteName('#__languages') . ' AS l ON l.lang_code = a.language');
+			->join('LEFT', $db->quoteName('#__languages') . ' AS l ON l.lang_code = a.language');
 
 		// Join over the users for the checked out user.
 		$query->select('uc.name AS editor')->join('LEFT', '#__users AS uc ON uc.id=a.checked_out');
@@ -175,7 +175,7 @@ class FieldsModel extends ListModel
 		if ($context = $this->getState('filter.context'))
 		{
 			$query->where($db->quoteName('a.context') . ' = :context')
-			->bind(':context', $context);
+				->bind(':context', $context);
 		}
 
 		// Filter by access level.
@@ -190,7 +190,7 @@ class FieldsModel extends ListModel
 			{
 				$access = (int) $access;
 				$query->where($db->quoteName('a.access') . ' = :access')
-				->bind(':access', $access, ParameterType::INTEGER);
+					->bind(':access', $access, ParameterType::INTEGER);
 			}
 		}
 
