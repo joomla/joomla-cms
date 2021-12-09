@@ -49,6 +49,20 @@
 		/>
 
 		<field
+ 			name="image"
+ 			type="filelist"
+ 			label="COM_LANGUAGES_FIELD_IMAGE_LABEL"
+ 			stripext="1"
+ 			directory="media/mod_languages/images/"
+ 			hide_none="1"
+ 			hide_default="1"
+ 			fileFilter="\.gif$"
+ 			validate="options"
+ 			>
+ 			<option value="">JNONE</option>
+ 		</field>
+
+		<field
 			name="description"
 			type="textarea"
 			label="JGLOBAL_DESCRIPTION"
