@@ -205,7 +205,7 @@ class FieldsModel extends ListModel
 				// Get the categories for this component (and optionally this section, if available)
 				$cat = (
 					function () use ($parts) {
-					// Get the CategoryService for this component
+						// Get the CategoryService for this component
 						$componentObject = $this->bootComponent($parts[0]);
 
 						if (!$componentObject instanceof CategoryServiceInterface)
@@ -321,7 +321,7 @@ class FieldsModel extends ListModel
 					],
 					'OR'
 				)
-				->bind(':gstate', $state, ParameterType::INTEGER);
+					->bind(':gstate', $state, ParameterType::INTEGER);
 			}
 		}
 		elseif (!$state)
@@ -379,8 +379,8 @@ class FieldsModel extends ListModel
 					$db->quoteName('ua.username') . ' LIKE :username' .
 					')'
 				)
-				->bind(':name', $search)
-				->bind(':username', $search);
+					->bind(':name', $search)
+					->bind(':username', $search);
 			}
 			else
 			{

@@ -486,6 +486,7 @@ class PlgSystemFields extends CMSPlugin
 					);
 				}
 			}
+
 			return $html;
 		}
 
