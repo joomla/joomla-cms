@@ -20,6 +20,8 @@ use Joomla\CMS\Router\Route;
 		<div class="module-wrapper">
 			<div class="card">
 				<?php
+				$child->img = $child->img ?? '';
+
 				if (substr($child->img, 0, 6) === 'class:')
 					{
 						$iconImage = '<span class="icon-' . substr($child->img, 6) . '" aria-hidden="true"></span>';
