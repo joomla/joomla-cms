@@ -103,8 +103,8 @@
 				<field
 					name="contrast"
 					type="radio"
-					layout="joomla.form.field.radio.switcher"
 					label="PLG_SYSTEM_JOOA11Y_FIELD_PREF_CONTRAST"
+					layout="joomla.form.field.radio.switcher"
 					default="On"
 					>
 					<option value="Off">JOFF</option>
@@ -113,8 +113,8 @@
 				<field
 					name="labels"
 					type="radio"
-					layout="joomla.form.field.radio.switcher"
 					label="PLG_SYSTEM_JOOA11Y_FIELD_PREF_LABELS"
+					layout="joomla.form.field.radio.switcher"
 					default="On"
 					>
 					<option value="Off">JOFF</option>
@@ -123,8 +123,8 @@
 				<field
 					name="links_advanced"
 					type="radio"
-					layout="joomla.form.field.radio.switcher"
 					label="PLG_SYSTEM_JOOA11Y_FIELD_PREF_LINKS_ADVANCED"
+					layout="joomla.form.field.radio.switcher"
 					default="Off"
 					>
 					<option value="Off">JOFF</option>
@@ -133,8 +133,8 @@
 				<field
 					name="readability"
 					type="radio"
-					layout="joomla.form.field.radio.switcher"
 					label="PLG_SYSTEM_JOOA11Y_FIELD_PREF_READABILITY"
+					layout="joomla.form.field.radio.switcher"
 					default="On"
 					>
 					<option value="Off">JOFF</option>
@@ -143,8 +143,8 @@
 				<field
 					name="darkmode"
 					type="radio"
-					layout="joomla.form.field.radio.switcher"
 					label="PLG_SYSTEM_JOOA11Y_FIELD_PREF_DARKMODE"
+					layout="joomla.form.field.radio.switcher"
 					default="Off"
 					>
 					<option value="Off">JOFF</option>
