@@ -195,6 +195,7 @@ abstract class TagsSimilarHelper
 		}
 
 		$maximum = (int) $params->get('maximum', 5)
+
 		if ($maximum > 0)
 		{
 			$query->setLimit($maximum);
