@@ -77,8 +77,8 @@ abstract class Grid
 		{
 			$html .= '<span class="icon-' . $icon[$index] . '"></span>';
 		}
-        	$html .= '<div id="headingDesc"' . ' class="visually-hidden">' . Text::_('JGLOBAL_CLICK_THIS_LINK_TO_SORT_THE_TABLE') . '</div>';
-			$html .= '</a>';
+
+		$html .= '<div id="headingDesc"' . ' class="visually-hidden">' . Text::_('JGLOBAL_CLICK_THIS_LINK_TO_SORT_THE_TABLE') . '</div></a>';
 
 		return $html;
 	}
