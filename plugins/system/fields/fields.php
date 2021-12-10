@@ -133,7 +133,7 @@ class PlgSystemFields extends CMSPlugin
 
 		/** @var \Joomla\Component\Fields\Administrator\Model\FieldModel $model */
 		$model = Factory::getApplication()->bootComponent('com_fields')->getMVCFactory()
-		->createModel('Field', 'Administrator', ['ignore_request' => true]);
+			->createModel('Field', 'Administrator', ['ignore_request' => true]);
 
 		// Loop over the fields
 		foreach ($fields as $field)
@@ -224,7 +224,7 @@ class PlgSystemFields extends CMSPlugin
 
 		/** @var \Joomla\Component\Fields\Administrator\Model\FieldModel $model */
 		$model = Factory::getApplication()->bootComponent('com_fields')->getMVCFactory()
-		->createModel('Field', 'Administrator', ['ignore_request' => true]);
+			->createModel('Field', 'Administrator', ['ignore_request' => true]);
 		$model->cleanupValues($context, $item->id);
 	}
 
@@ -439,10 +439,11 @@ class PlgSystemFields extends CMSPlugin
 
 		if ($fields)
 		{
-			// split fields array if there is more than one group
+			// Split fields array if there is more than one group
 			$field_groups = [];
 			$last_group = $fields[0]->group_title;
-			foreach($fields as $field)
+
+			foreach ($fields as $field)
 			{
 				if ($field->group_title === $last_group)
 				{
@@ -454,33 +455,35 @@ class PlgSystemFields extends CMSPlugin
 					$field_groups[$last_group][] = $field;
 				}
 			}
+
 			$html = '';
+
 			foreach ($field_groups as $field_group)
 			{
-				// items not in a group will have group_id of 0
+				// Items not in a group will have group_id of 0
 				if (empty($field_group[0]->group_id))
 				{
 					$html .= FieldsHelper::render(
-							$context,
-							'fields.render',
-							[
-									'item'            => $item,
-									'context'         => $context,
-									'fields'          => $field_group,
-							]
-							);
+						$context,
+						'fields.render',
+						[
+							'item'            => $item,
+							'context'         => $context,
+							'fields'          => $field_group,
+						]
+					);
 				}
 				else
 				{
 					$html .= FieldsHelper::render(
-							$context,
-							$field_group[0]->group_layout ? $field_group[0]->group_layout : 'render',
-							[
-									'item'            => $item,
-									'context'         => $context,
-									'fields'          => $field_group,
-							]
-							);
+						$context,
+						$field_group[0]->group_layout ? $field_group[0]->group_layout : 'render',
+						[
+							'item'            => $item,
+							'context'         => $context,
+								'fields'          => $field_group,
+						]
+					);
 				}
 			}
 			return $html;
