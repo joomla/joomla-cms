@@ -292,7 +292,7 @@ class Date extends \DateTime
 	 *
 	 * @since   1.7.0
 	 */
-	public function format($format, $local = false, $translate = true) :string
+	public function format($format, $local = false, $translate = true): string
 	{
 		if ($translate)
 		{
