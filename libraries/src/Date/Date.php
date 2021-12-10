@@ -409,7 +409,7 @@ class Date extends \DateTime
 	 * @since   1.7.0
 	 * @note    This method can't be type hinted due to a PHP bug: https://bugs.php.net/bug.php?id=61483
 	 */
-	public function setTimezone($tz) :Date
+	public function setTimezone($tz): Date
 	{
 		$this->tz = $tz;
 
