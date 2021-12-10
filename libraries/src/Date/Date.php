@@ -292,7 +292,7 @@ class Date extends \DateTime
 	 *
 	 * @since   1.7.0
 	 */
-	public function format($format, $local = false, $translate = true)
+	public function format($format, $local = false, $translate = true) :string
 	{
 		if ($translate)
 		{
@@ -409,7 +409,7 @@ class Date extends \DateTime
 	 * @since   1.7.0
 	 * @note    This method can't be type hinted due to a PHP bug: https://bugs.php.net/bug.php?id=61483
 	 */
-	public function setTimezone($tz)
+	public function setTimezone($tz) :Date
 	{
 		$this->tz = $tz;
 
