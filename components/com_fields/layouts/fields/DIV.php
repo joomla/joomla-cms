@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_fields
  *
- * @copyright   (C) 2016 Open Source Matters, Inc. <https://www.joomla.org>
+ * @copyright   (C) 2021 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 defined('_JEXEC') or die;
@@ -69,7 +69,7 @@ foreach ($fields as $field)
 		continue;
 	}
 
-	$output[] = '<li class="field-entry ' . $class . '">' . $content . '</li>';
+	$output[] = '<div class="field-entry ' . $class . '">' . $content . '</div>';
 }
 
 if (empty($output))
@@ -83,6 +83,6 @@ $title_class = empty($fields[0]->group_title_class) ? '' : ' class="' . $fields[
 	echo '<' . $fields[0]->group_title_tag . $title_class . '>' . $fields[0]->group_title . '</' . $fields[0]->group_title_tag . '>' . "\n";
 }
 ?>
-<ul class="fields-container">
+<div class="fields-container">
 	<?php echo implode("\n", $output); ?>
-</ul>
+</div>

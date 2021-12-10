@@ -156,6 +156,28 @@
 			</field>
 
 			<field
+				name="layout"
+				type="filelist"
+				label="COM_FIELDS_FIELD_LAYOUT_LABEL"
+				default="render"
+				directory="components/com_fields/layouts/fields"
+				fileFilter="\.php$"
+				hide_none="true"
+				stripext="true"
+				exclude="render\.php"
+			>
+			</field>
+			<option value="render">JDEFAULT</option>
+			
+			<field
+				name="render_class"
+				type="textarea"
+				label="COM_FIELDS_FIELD_RENDER_CLASS_LABEL"
+				size="40"
+				validate="CssIdentifier"
+			/>
+
+			<field
 				name="show_title"
 				type="radio"
 				label="COM_FIELDS_GROUP_SHOW_TITLE_LABEL"
@@ -171,10 +193,11 @@
 				type="list"
 				label="COM_FIELDS_GROUP_TITLE_TAG_LABEL"
 				default="p"
-				showon="show_title:1[AND]render_tag:ul,ol,p,div"
+				showon="show_title:1"
 				>
 				<option value="p">p</option>
 				<option value="div">div</option>
+				<option value="h3">h3</option>
 			</field>
 			
 			<field
@@ -183,29 +206,7 @@
 				label="COM_FIELDS_GROUP_TITLE_TAG_CLASS_LABEL"
 				size="40"
 				validate="CssIdentifier"
-				default="mb-0"
 				showon="show_title:1"
-			/>
-
-			<field
-				name="render_tag"
-				type="list"
-				label="COM_FIELDS_GROUP_RENDER_TAG_LABEL"
-				default="ul"
-				>
-				<option value="ul">ul</option>
-				<option value="ol">ol</option>
-				<option value="dl">dl</option>
-				<option value="p">p</option>
-				<option value="div">div</option>
-			</field>
-			
-			<field
-				name="render_class"
-				type="textarea"
-				label="COM_FIELDS_FIELD_RENDER_CLASS_LABEL"
-				size="40"
-				validate="CssIdentifier"
 			/>
 
 		</fieldset>

@@ -323,12 +323,20 @@
 					size="40"
 				/>
 
-				<field
-					name="layout"
-					type="fieldLayout"
-					label="COM_FIELDS_FIELD_LAYOUT_LABEL"
-					class="form-select"
-				/>
+			<field
+				name="layout"
+				type="filelist"
+				label="COM_FIELDS_FIELD_LAYOUT_LABEL"
+				default="render"
+				directory="components/com_fields/layouts/field"
+				fileFilter="\.php$"
+				hide_none="true"
+				stripext="true"
+				exclude="render\.php"
+			>
+			</field>
+			<option value="render">JDEFAULT</option>
+			
 
 				<field
 					name="display_readonly"
