@@ -11,7 +11,6 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Document\HtmlDocument;
 use Joomla\CMS\Factory;
-use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 
 extract($displayData);

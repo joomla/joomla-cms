@@ -23,7 +23,7 @@ use Joomla\Event\SubscriberInterface;
  * Task plugin with routines that offer checks on files.
  * At the moment, offers a single routine to check and resize image files in a directory.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.1.0
  */
 class PlgTaskCheckfiles extends CMSPlugin implements SubscriberInterface
 {
@@ -32,7 +32,7 @@ class PlgTaskCheckfiles extends CMSPlugin implements SubscriberInterface
 	/**
 	 * @var string[]
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.1.0
 	 */
 	protected const TASKS_MAP = [
 		'checkfiles.imagesize' => [
@@ -44,7 +44,7 @@ class PlgTaskCheckfiles extends CMSPlugin implements SubscriberInterface
 
 	/**
 	 * @var boolean
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.1.0
 	 */
 	protected $autoloadLanguage = true;
 
@@ -53,7 +53,7 @@ class PlgTaskCheckfiles extends CMSPlugin implements SubscriberInterface
 	 *
 	 * @return string[]
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.1.0
 	 */
 	public static function getSubscribedEvents(): array
 	{
@@ -69,7 +69,7 @@ class PlgTaskCheckfiles extends CMSPlugin implements SubscriberInterface
 	 *
 	 * @return integer  The exit code
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.1.0
 	 * @throws RuntimeException
 	 * @throws LogicException
 	 */
