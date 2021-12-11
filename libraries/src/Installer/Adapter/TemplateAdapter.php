@@ -340,7 +340,7 @@ class TemplateAdapter extends InstallerAdapter
 					Text::sprintf('JLIB_INSTALLER_DEFAULT_STYLE', Text::_($this->extension->name)),
 					$this->extension->params,
 					(int) $this->manifest->inheritable,
-					$this->manifest->parent ?: '',
+					(string) $this->manifest->parent ?: '',
 				],
 				[
 					ParameterType::STRING,
@@ -464,6 +464,7 @@ class TemplateAdapter extends InstallerAdapter
 	{
 		$this->parent->extension = $this->extension;
 
+		$db       = $this->parent->getDbo();
 		$name     = $this->extension->element;
 		$clientId = $this->extension->client_id;
 
@@ -473,8 +474,26 @@ class TemplateAdapter extends InstallerAdapter
 			throw new \RuntimeException(Text::_('JLIB_INSTALLER_ERROR_TPL_UNINSTALL_TEMPLATE_ID_EMPTY'));
 		}
 
+		// Deny removing a parent template if there are children
+		$query = $db->getQuery(true)
+			->select('COUNT(*)')
+			->from($db->quoteName('#__template_styles'))
+			->where(
+				[
+					$db->quoteName('parent') . ' = :template',
+					$db->quoteName('client_id') . ' = :client_id',
+				]
+			)
+			->bind(':template', $name)
+			->bind(':client_id', $clientId);
+		$db->setQuery($query);
+
+		if ($db->loadResult() != 0)
+		{
+			throw new \RuntimeException(Text::_('JLIB_INSTALLER_ERROR_TPL_UNINSTALL_PARENT_TEMPLATE'));
+		}
+
 		// Deny remove default template
-		$db = $this->parent->getDbo();
 		$query = $db->getQuery(true)
 			->select('COUNT(*)')
 			->from($db->quoteName('#__template_styles'))

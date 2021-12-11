@@ -39,6 +39,37 @@
 		/>
 
 		<field
+			name="show_image"
+			type="radio"
+			label="COM_FINDER_CONFIG_SHOW_IMAGE_LABEL"
+			layout="joomla.form.field.radio.switcher"
+			default="0"
+			>
+			<option value="0">JHIDE</option>
+			<option value="1">JSHOW</option>
+		</field>
+
+		<field
+			name="image_class"
+			type="text"
+			label="COM_FINDER_CONFIG_IMAGE_CLASS_LABEL"
+			validate="CssIdentifier"
+			showon="show_image:1"
+		/>
+
+		<field
+			name="link_image"
+			type="radio"
+			label="COM_FINDER_CONFIG_LINKED_IMAGE_LABEL"
+			layout="joomla.form.field.radio.switcher"
+			default="0"
+			showon="show_image:1"
+		>
+			<option value="0">JNO</option>
+			<option value="1">JYES</option>
+		</field>
+
+		<field
 			name="show_date"
 			type="radio"
 			label="COM_FINDER_CONFIG_SHOW_DATE_LABEL"

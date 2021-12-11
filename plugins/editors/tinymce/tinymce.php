@@ -12,12 +12,12 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Access\Access;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Filesystem\File;
 use Joomla\CMS\Filesystem\Folder;
 use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
-use Joomla\CMS\Log\Log;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Session\Session;
 use Joomla\CMS\Uri\Uri;
@@ -183,12 +183,16 @@ class PlgEditorTinymce extends CMSPlugin
 		$levelParams      = new Joomla\Registry\Registry;
 		$extraOptions     = new stdClass;
 		$toolbarParams    = new stdClass;
-		$extraOptionsAll  = $this->params->get('configuration.setoptions', array());
-		$toolbarParamsAll = $this->params->get('configuration.toolbars', array());
+		$extraOptionsAll  = (array) $this->params->get('configuration.setoptions', array());
+		$toolbarParamsAll = (array) $this->params->get('configuration.toolbars', array());
+
+		// Sort the array in reverse, so the items with lowest access level goes first
+		krsort($extraOptionsAll);
 
 		// Get configuration depend from User group
 		foreach ($extraOptionsAll as $set => $val)
 		{
+			$val = (object) $val;
 			$val->access = empty($val->access) ? array() : $val->access;
 
 			// Check whether User in one of allowed group
@@ -197,7 +201,7 @@ class PlgEditorTinymce extends CMSPlugin
 				if (isset($ugroups[$group]))
 				{
 					$extraOptions  = $val;
-					$toolbarParams = $toolbarParamsAll->$set;
+					$toolbarParams = (object) $toolbarParamsAll[$set];
 				}
 			}
 		}
@@ -262,36 +266,7 @@ class PlgEditorTinymce extends CMSPlugin
 
 		$use_content_css    = $levelParams->get('content_css', 1);
 		$content_css_custom = $levelParams->get('content_css_custom', '');
-
-		/*
-		 * Lets get the default template for the site application
-		 */
-		$db    = Factory::getDbo();
-		$query = $db->getQuery(true)
-			->select($db->quoteName('template'))
-			->from($db->quoteName('#__template_styles'))
-			->where(
-				[
-					$db->quoteName('client_id') . ' = 0',
-					$db->quoteName('home') . ' = ' . $db->quote('1'),
-				]
-			);
-
-		$db->setQuery($query);
-
-		try
-		{
-			$template = $db->loadResult();
-		}
-		catch (RuntimeException $e)
-		{
-			$this->app->enqueueMessage(Text::_('JERROR_AN_ERROR_HAS_OCCURRED'), 'error');
-
-			return '';
-		}
-
-		$content_css    = null;
-		$templates_path = JPATH_SITE . '/templates';
+		$content_css        = null;
 
 		// Loading of css file for 'styles' dropdown
 		if ($content_css_custom)
@@ -305,14 +280,7 @@ class PlgEditorTinymce extends CMSPlugin
 			// If it is not a URL, assume it is a file name in the current template folder
 			else
 			{
-				$content_css = Uri::root(true) . '/templates/' . $template . '/css/' . $content_css_custom;
-
-				// Issue warning notice if the file is not found (but pass name to $content_css anyway to avoid TinyMCE error
-				if (!file_exists($templates_path . '/' . $template . '/css/' . $content_css_custom))
-				{
-					$msg = sprintf(Text::_('PLG_TINY_ERR_CUSTOMCSSFILENOTPRESENT'), $content_css_custom);
-					Log::add($msg, Log::WARNING, 'jerror');
-				}
+				$content_css = $this->includeRelativeFiles('css', $content_css_custom);
 			}
 		}
 		else
@@ -320,24 +288,7 @@ class PlgEditorTinymce extends CMSPlugin
 			// Process when use_content_css is Yes and no custom file given
 			if ($use_content_css)
 			{
-				// First check templates folder for default template
-				// if no editor.css file in templates folder, check system template folder
-				if (!file_exists($templates_path . '/' . $template . '/css/editor.css'))
-				{
-					// If no editor.css file in system folder, show alert
-					if (!file_exists($templates_path . '/system/css/editor.css'))
-					{
-						Log::add(Text::_('PLG_TINY_ERR_EDITORCSSFILENOTPRESENT'), Log::WARNING, 'jerror');
-					}
-					else
-					{
-						$content_css = Uri::root(true) . '/templates/system/css/editor.css';
-					}
-				}
-				else
-				{
-					$content_css = Uri::root(true) . '/templates/' . $template . '/css/editor.css';
-				}
+				$content_css = $this->includeRelativeFiles('css', 'editor' . (JDEBUG ? '' : '.min') . '.css');
 			}
 		}
 
@@ -519,6 +470,12 @@ class PlgEditorTinymce extends CMSPlugin
 				$plugins[] = $pName;
 			}
 		}
+		// Use CodeMirror in the code view instead of plain text to provide syntax highlighting
+		$sourcecode = $levelParams->get('highlightPlus', 1);
+		if ($sourcecode)
+		{
+			$externalPlugins['highlightPlus'] = HTMLHelper::_('script', 'plg_editors_tinymce/plugins/highlighter/plugin.min.js', ['relative' => true, 'version' => 'auto', 'pathOnly' => true]);
+		}
 
 		// Drag and drop Images always FALSE, reverting this allows for inlining the images
 		$allowImgPaste = false;
@@ -551,6 +508,20 @@ class PlgEditorTinymce extends CMSPlugin
 
 		// Convert pt to px in dropdown
 		$scriptOptions['fontsize_formats'] = '8px 10px 12px 14px 18px 24px 36px';
+
+		// select the languages for the "language of parts" menu
+		if (isset($extraOptions->content_languages) && $extraOptions->content_languages)
+		{
+			foreach (json_decode(json_encode($extraOptions->content_languages), true) as $content_language)
+			{
+				// if we have a language name and a language code then add to the menu
+				if ($content_language['content_language_name'] != '' && $content_language['content_language_code'] != '')
+				{
+					$ctemp[] = array('title' => $content_language['content_language_name'], 'code' => $content_language['content_language_code']);
+				}
+			}
+			$scriptOptions['content_langs'] = array_merge($ctemp);
+		}
 
 		// User custom plugins and buttons
 		$custom_plugin = trim($levelParams->get('custom_plugin', ''));
@@ -667,6 +638,17 @@ class PlgEditorTinymce extends CMSPlugin
 			array('title' => 'Search', 'value' => 'search'),
 			array('title' => 'Tag', 'value' => 'tag'),
 		);
+
+		$scriptOptions['style_formats'] = array(
+			array('title' => Text::_('PLG_TINY_MENU_CONTAINER'), 'items' => array(
+				array('title' => 'article', 'block' => 'article', 'wrapper' => true, 'merge_siblings' => false),
+				array('title' => 'aside', 'block' => 'aside', 'wrapper' => true, 'merge_siblings' => false),
+				array('title' => 'section', 'block' => 'section', 'wrapper' => true, 'merge_siblings' => false),
+				)
+			)
+		);
+
+		$scriptOptions['style_formats_merge'] = true;
 
 		$options['tinyMCE']['default'] = $scriptOptions;
 
@@ -985,6 +967,8 @@ class PlgEditorTinymce extends CMSPlugin
 			'pastetext'     => array('label' => 'Paste as text', 'plugin' => 'paste'),
 			'removeformat'  => array('label' => 'Clear formatting'),
 
+			'language'      => array('label' => 'Language'),
+
 			// Buttons from the plugins
 			'anchor'         => array('label' => 'Anchor', 'plugin' => 'anchor'),
 			'hr'             => array('label' => 'Horizontal line', 'plugin' => 'hr'),
@@ -1075,6 +1059,7 @@ class PlgEditorTinymce extends CMSPlugin
 				'cut', 'copy', 'paste', 'pastetext', '|',
 				'visualchars', 'visualblocks', 'nonbreaking', 'blockquote', 'template', '|',
 				'print', 'preview', 'codesample', 'insertdatetime', 'removeformat', 'jxtdbuttons',
+				'language',
 			),
 			'toolbar2' => array(),
 		);
@@ -1124,5 +1109,137 @@ class PlgEditorTinymce extends CMSPlugin
 		}
 
 		return $array;
+	}
+
+	/**
+	 * Helper function to get the active Site template
+	 *
+	 * @return  object
+	 *
+	 * @since   4.1.0
+	 */
+	protected function getActiveSiteTemplate()
+	{
+		$db    = Factory::getContainer()->get('db');
+		$query = $db->getQuery(true)
+			->select('*')
+			->from($db->quoteName('#__template_styles'))
+			->where(
+				[
+					$db->quoteName('client_id') . ' = 0',
+					$db->quoteName('home') . ' = ' . $db->quote('1'),
+				]
+			);
+
+		$db->setQuery($query);
+
+		try
+		{
+			return $db->loadObject();
+		}
+		catch (RuntimeException $e)
+		{
+			$this->app->enqueueMessage(Text::_('JERROR_AN_ERROR_HAS_OCCURRED'), 'error');
+
+			return new \stdClass;
+		}
+	}
+
+	/**
+	 * Compute the files to be included
+	 *
+	 * @param   string   $folder         Folder name to search in (i.e. images, css, js).
+	 * @param   string   $file           Path to file.
+	 *
+	 * @return  array    files to be included.
+	 *
+	 * @since   4.1.0
+	 */
+	protected function includeRelativeFiles($folder, $file)
+	{
+		$fallback = Uri::root(true) . '/media/system/css/editor' . (JDEBUG ? '' : '.min') . '.css';
+		$template = $this->getActiveSiteTemplate();
+
+		if (!(array) $template) 
+		{
+			return $fallback;
+		}
+
+		// Extract extension and strip the file
+		$file       = File::stripExt($file). '.' . File::getExt($file);
+		$templaPath = JPATH_ROOT . '/templates';
+
+		if ($template->inheritable || (isset($template->parent) && $template->parent !== ''))
+		{
+			$templaPath = JPATH_ROOT . '/media/templates/site';
+		}
+
+		if (isset($template->parent) && $template->parent !== '')
+		{
+			$found = static::resolveFileUrl("$templaPath/$template->template/$folder/$file");
+
+			if (empty($found))
+			{
+				$found = static::resolveFileUrl("$templaPath/$template->parent/$folder/$file");
+			}
+		}
+		else
+		{
+			$found = static::resolveFileUrl("$templaPath/$template->template/$folder/$file");
+		}
+
+		if (empty($found))
+		{
+			return $fallback;
+		}
+
+		return $found;
+	}
+
+	/**
+	 * Method that searches if file exists in given path and returns the relative path. If a minified version exists it will be preferred.
+	 *
+	 * @param   string   $path          The actual path of the file
+	 *
+	 * @return  string  The relative path of the file
+	 *
+	 * @since   4.1.0
+	 */
+	protected static function resolveFileUrl($path = '')
+	{
+		$position = strrpos($path, '.min.');
+
+		// We are handling a name.min.ext file:
+		if ($position !== false)
+		{
+			$minifiedPath    = $path;
+			$nonMinifiedPath = substr_replace($path, '', $position, 4);
+
+			if (JDEBUG && is_file($nonMinifiedPath))
+			{
+				return Uri::root(true) . str_replace(JPATH_ROOT, '', $nonMinifiedPath);
+			}
+
+			if (is_file($minifiedPath))
+			{
+				return Uri::root(true) . str_replace(JPATH_ROOT, '', $minifiedPath);
+			}
+
+			return '';
+		}
+
+		$minifiedPath = pathinfo($path, PATHINFO_DIRNAME) . '/' . pathinfo($path, PATHINFO_FILENAME) . '.min.' . pathinfo($path, PATHINFO_EXTENSION);
+
+		if (JDEBUG && is_file($path))
+		{
+			return Uri::root(true) . str_replace(JPATH_ROOT, '', $path);
+		}
+
+		if (is_file($minifiedPath))
+		{
+			return Uri::root(true) . str_replace(JPATH_ROOT, '', $minifiedPath);
+		}
+
+		return '';
 	}
 }
