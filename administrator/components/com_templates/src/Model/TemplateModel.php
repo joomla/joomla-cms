@@ -971,7 +971,7 @@ class TemplateModel extends FormModel
 				$item->filename     = Path::clean($fileName);
 				$item->source       = file_get_contents($filePath);
 				$item->filePath     = Path::clean($filePath);
-				$ds                 = DIRECTORY_SEPERATOR;
+				$ds                 = DIRECTORY_SEPARATOR;
 				$cleanFileName      = str_replace(JPATH_ROOT . ($this->template->client_id === 1 ? $ds . 'administrator' . $ds : $ds) . 'templates' . $ds . $this->template->element, '', $fileName);
 
 				if ($coreFile = $this->getCoreFile($cleanFileName, $this->template->client_id))
