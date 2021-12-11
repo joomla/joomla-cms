@@ -154,6 +154,7 @@ class PlgSystemShortcut extends CMSPlugin
 			$document->addScriptOptions('editor', $editor);
 			$document->addScriptOptions('joomla-shortcut-keys', $joomla_shortcut_keys);
 			$document->addScript(JURI::Root().'media/plg_system_shortcut/js/shortcut.js');
+			
 			return true;
 		}
 		return true;
