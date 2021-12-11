@@ -292,7 +292,7 @@ class Date extends \DateTime
 	 *
 	 * @since   1.7.0
 	 */
-        #[\ReturnTypeWillChange]
+	#[\ReturnTypeWillChange]
 	public function format($format, $local = false, $translate = true)
 	{
 		if ($translate)
