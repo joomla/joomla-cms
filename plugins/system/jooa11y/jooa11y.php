@@ -156,7 +156,8 @@ class PlgSystemJooa11y extends CMSPlugin implements SubscriberInterface
 
 		$wa->getRegistry()->addRegistryFile('media/plg_system_jooa11y/joomla.asset.json');
 
-		$wa->usePreset('plg_system_jooa11y.jooa11y');
+		$wa->useScript('plg_system_jooa11y.jooa11y')
+			->useStyle('plg_system_jooa11y.jooa11y');
 
 		return true;
 	}

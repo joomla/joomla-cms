@@ -6,24 +6,32 @@
   "license": "GPL-2.0-or-later",
   "assets": [
     {
-      "name": "plg_system_jooa11y.jooa11y",
+      "name": "plg_system_jooa11y.jooa11y-es5",
       "type": "script",
-      "uri": "plg_system_jooa11y/jooa11y.min.js",
+      "uri": "plg_system_jooa11y/jooa11y-es5.min.js",
       "dependencies": [
-        "joomla-a11y-checker"
+        "core"
       ],
       "attributes": {
-        "defer": true
+        "defer": true,
+        "nomodule": true
       }
     },
     {
       "name": "plg_system_jooa11y.jooa11y",
-      "type": "preset",
+      "type": "script",
+      "uri": "plg_system_jooa11y/jooa11y.min.js",
       "dependencies": [
-        "plg_system_jooa11y.jooa11y#script",
-        "joomla-a11y-checker#script",
-        "joomla-a11y-checker#style"
-      ]
+        "plg_system_jooa11y.jooa11y-es5"
+      ],
+      "attributes": {
+        "type": "module"
+      }
+    },
+    {
+      "name": "plg_system_jooa11y.jooa11y",
+      "type": "style",
+      "uri": "plg_system_jooa11y/jooa11y.min.css"
     }
   ]
 }

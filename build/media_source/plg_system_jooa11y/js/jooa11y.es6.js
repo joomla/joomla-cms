@@ -1,15 +1,18 @@
+import { Jooa11y, Lang } from 'joomla-a11y-checker/dist/js/joomla-a11y-checker.esm.js';
+
+if (!Joomla) {
+  throw new Error('Joomla API is not initaiated properly!');
+}
+
+const options = Joomla.getOptions('jooa11yOptions');
+
 window.addEventListener('load', () => {
-  // Check if Jooa11y is loaded
-  if (!Jooa11y) {
-    return;
-  }
-
-  // Set translations
-  // Jooa11y.Lang.addI18n(Jooa11yLangEn.strings);
-
-  const options = Joomla.getOptions('jooa11yOptions');
+  /**
+   * Set translations:
+   * Lang.addI18n(Jooa11yLangEn.strings);
+   */
 
   // Instantiate
-  const checker = new Jooa11y.Jooa11y(options);
+  const checker = new Jooa11y(options);
   checker.doInitialCheck();
 });
