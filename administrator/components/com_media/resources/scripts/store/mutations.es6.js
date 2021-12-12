@@ -92,9 +92,14 @@ export default {
       // Update the relation to the parent directory
       if (parentDirectoryIndex !== -1) {
         state.directories
-          .splice(parentDirectoryIndex,
+          .splice(
+            parentDirectoryIndex,
             1,
-            { ...parentDirectory, directories: [...parentDirectory.directories, directory.path] });
+            {
+              ...parentDirectory,
+              directories: [...parentDirectory.directories, directory.path]
+            },
+          );
       }
     }
 
@@ -119,9 +124,14 @@ export default {
       // Update the relation to the parent directory
       if (parentDirectoryIndex !== -1) {
         state.directories
-          .splice(parentDirectoryIndex,
+          .splice(
+            parentDirectoryIndex,
             1,
-            { ...parentDirectory, files: [...parentDirectory.files, file.path] });
+            {
+              ...parentDirectory,
+              files: [...parentDirectory.files, file.path]
+            },
+          );
       }
     }
 
@@ -158,9 +168,14 @@ export default {
       state.files.push(file);
 
       // Update the relation to the parent directory
-      state.directories.splice(parentDirectoryIndex,
+      state.directories.splice(
+        parentDirectoryIndex,
         1,
-        { ...parentDirectory, files: [...parentDirectory.files, file.path] });
+        {
+          ...parentDirectory,
+          files: [...parentDirectory.files, file.path]
+        },
+      );
     }
   },
 
@@ -182,9 +197,14 @@ export default {
       state.directories.push(directory);
 
       // Update the relation to the parent directory
-      state.directories.splice(parentDirectoryIndex,
+      state.directories.splice(
+        parentDirectoryIndex,
         1,
-        { ...parentDirectory, directories: [...parentDirectory.directories, directory.path] });
+        {
+          ...parentDirectory,
+          directories: [...parentDirectory.directories, directory.path]
+        },
+      );
     }
   },
 

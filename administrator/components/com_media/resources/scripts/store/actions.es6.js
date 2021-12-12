@@ -14,7 +14,7 @@ function updateUrlPath(path) {
     path = '';
   }
   const url = window.location.href;
-  const pattern = new RegExp('\\b(path=).*?(&|$)');
+  const pattern = /\\b(path=).*?(&|$)/;
 
   if (url.search(pattern) >= 0) {
     // eslint-disable-next-line no-restricted-globals
