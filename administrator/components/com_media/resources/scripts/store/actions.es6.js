@@ -9,20 +9,10 @@ import { notifications } from '../app/Notifications.es6';
 
 // TODO move to utils
 function updateUrlPath(path) {
-  if (path == null) {
-    // eslint-disable-next-line no-param-reassign
-    path = '';
-  }
-  const url = window.location.href;
-  const pattern = /\\b(path=).*?(&|$)/;
-
-  if (url.search(pattern) >= 0) {
-    // eslint-disable-next-line no-restricted-globals
-    history.pushState(null, '', url.replace(pattern, `$1${path}$2`));
-  } else {
-    // eslint-disable-next-line no-restricted-globals
-    history.pushState(null, '', `${url + (url.indexOf('?') > 0 ? '&' : '?')}path=${path}`);
-  }
+  const currentPath = path === null ? '' : path;
+  const url = new URL(window.location.href);
+  url.searchParams.set('path', currentPath);
+  window.history.pushState(null, '', url.href);
 }
 
 /**
