@@ -7,11 +7,11 @@ const updateUrlPath = (path) => {
   const currentPath = path === null ? '' : path;
   const url = new URL(window.location.href);
 
-   if (url.searchParams.has('path')) {
-     window.history.pushState(null, '', url.href.replace(/\b(path=).*?(&|$)/, `$1${currentPath}$2`));
-   } else {
-     window.history.pushState(null, '', `${url.href + (url.href.indexOf('?') > 0 ? '&' : '?')}path=${currentPath}`);
-   }
+  if (url.searchParams.has('path')) {
+    window.history.pushState(null, '', url.href.replace(/\b(path=).*?(&|$)/, `$1${currentPath}$2`));
+  } else {
+    window.history.pushState(null, '', `${url.href + (url.href.indexOf('?') > 0 ? '&' : '?')}path=${currentPath}`);
+  }
 }
 
 /**
