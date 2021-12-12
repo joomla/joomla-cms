@@ -123,31 +123,7 @@
 			<option value="1">COM_USERS_CONFIG_FIELD_ENFORCE_2FA_FIELD_SITE</option>
 			<option value="2">COM_USERS_CONFIG_FIELD_ENFORCE_2FA_FIELD_ADMIN</option>
 			<option value="3">COM_USERS_CONFIG_FIELD_ENFORCE_2FA_FIELD_BOTH</option>
-		</field>
-		
-		<field
-			name="frontend_login_message"
-			type="radio"
-			label="COM_USERS_CONFIG_FIELD_FRONTEND_LOGIN_LABEL"
-			layout="joomla.form.field.radio.switcher"
-			default="0"
-			filter="integer"
-			>
-			<option value="0">JNO</option>
-			<option value="1">JYES</option>
-		</field>
-
-		<field
-			name="frontend_logout_message"
-			type="radio"
-			label="COM_USERS_CONFIG_FIELD_FRONTEND_LOGOUT_LABEL"
-			layout="joomla.form.field.radio.switcher"
-			default="0"
-			filter="integer"
-			>
-			<option value="0">JNO</option>
-			<option value="1">JYES</option>
-		</field>
+		</field>		
 
 		<field
 			name="enforce_2fa_usergroups"
