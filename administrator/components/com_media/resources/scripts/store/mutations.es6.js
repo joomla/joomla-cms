@@ -97,7 +97,7 @@ export default {
             1,
             {
               ...parentDirectory,
-              directories: [...parentDirectory.directories, directory.path]
+              directories: [...parentDirectory.directories, directory.path],
             },
           );
       }
@@ -129,7 +129,7 @@ export default {
             1,
             {
               ...parentDirectory,
-              files: [...parentDirectory.files, file.path]
+              files: [...parentDirectory.files, file.path],
             },
           );
       }
@@ -173,7 +173,7 @@ export default {
         1,
         {
           ...parentDirectory,
-          files: [...parentDirectory.files, file.path]
+          files: [...parentDirectory.files, file.path],
         },
       );
     }
@@ -202,7 +202,7 @@ export default {
         1,
         {
           ...parentDirectory,
-          directories: [...parentDirectory.directories, directory.path]
+          directories: [...parentDirectory.directories, directory.path],
         },
       );
     }
