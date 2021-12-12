@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_config
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2013 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -53,7 +53,7 @@ class HtmlView extends BaseHtmlView
 	 *
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
 	 *
-	 * @return  mixed  A string if successful, otherwise an Error object.
+	 * @return  void
 	 *
 	 * @see     \JViewLegacy::loadTemplate()
 	 * @since   3.2
@@ -82,12 +82,6 @@ class HtmlView extends BaseHtmlView
 			return false;
 		}
 
-		// Bind the form to the data.
-		if ($form)
-		{
-			$form->bind($component->getParams());
-		}
-
 		$this->fieldsets   = $form ? $form->getFieldsets() : null;
 		$this->formControl = $form ? $form->getFormControl() : null;
 
@@ -108,7 +102,7 @@ class HtmlView extends BaseHtmlView
 
 		$this->addToolbar();
 
-		return parent::display($tpl);
+		parent::display($tpl);
 	}
 
 	/**
@@ -120,7 +114,7 @@ class HtmlView extends BaseHtmlView
 	 */
 	protected function addToolbar()
 	{
-		ToolbarHelper::title(Text::_($this->component->option . '_configuration'), 'sliders-h config');
+		ToolbarHelper::title(Text::_($this->component->option . '_configuration'), 'cog config');
 		ToolbarHelper::apply('component.apply');
 		ToolbarHelper::divider();
 		ToolbarHelper::save('component.save');
@@ -130,7 +124,19 @@ class HtmlView extends BaseHtmlView
 
 		$helpUrl = $this->form->getData()->get('helpURL');
 		$helpKey = (string) $this->form->getXml()->config->help['key'];
-		$helpKey = $helpKey ?: 'JHELP_COMPONENTS_' . strtoupper($this->currentComponent) . '_OPTIONS';
+
+		// Try with legacy language key
+		if (!$helpKey)
+		{
+			$language    = Factory::getApplication()->getLanguage();
+			$languageKey = 'JHELP_COMPONENTS_' . strtoupper($this->currentComponent) . '_OPTIONS';
+
+			if ($language->hasKey($languageKey))
+			{
+				$helpKey = $languageKey;
+			}
+		}
+
 		ToolbarHelper::help($helpKey, (boolean) $helpUrl, null, $this->currentComponent);
 	}
 }

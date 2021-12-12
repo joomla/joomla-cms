@@ -1,0 +1,97 @@
+$jicon-css-prefix: icon;
+$fa-css-prefix:    fa;
+
+.media-infobar {
+  position: absolute;
+  top: ($toolbar-height + 1px);
+  right: 0;
+  bottom: 0;
+  z-index: 4;
+  float: none;
+  width: 25%;
+  padding: $gutter-width;
+  overflow-y: auto;
+  background-color: $info-bg;
+  border-inline-start: 1px solid $border-color;
+  h2 {
+    padding: 8px ($gutter-width + 15px) 8px ($gutter-width - 5px);
+    margin: (-$gutter-width) (-$gutter-width) $gutter-width;
+    font-weight: normal;
+    word-wrap: break-word;
+    background-color: $info-title-bg;
+    border-bottom: 1px solid #eee;
+  }
+  dl {
+    display: flex;
+    flex-wrap: wrap;
+    margin-right: -($col-gutter-width / 2);
+    margin-left: -($col-gutter-width / 2);
+  }
+  dt, dd {
+    position: relative;
+    width: 100%;
+    min-height: 1px;
+    padding-right: ($col-gutter-width / 2);
+    padding-left: ($col-gutter-width / 2);
+  }
+  dt {
+    font-weight: normal;
+    color: rgba(0, 0, 0, .54);
+  }
+}
+
+.infobar-close {
+  position: absolute;
+  top: 0;
+  right: 0;
+  z-index: 2;
+  padding: 5px $gutter-width;
+  font-size: 2.6rem;
+  line-height: 2rem;
+  color: $info-close-color;
+  text-indent: 0;
+  text-shadow: none;
+  &:hover {
+    color: $info-close-color-hover;
+    cursor: pointer;
+  }
+}
+
+[class^="#{$jicon-css-prefix}-"],
+[class*=" #{$jicon-css-prefix}-"],
+[class^="#{$fa-css-prefix}-"],
+[class*=" #{$fa-css-prefix}-"] {
+  &.placeholder-icon {
+    display: block;
+    width: 4rem;
+    height: 4rem;
+    margin: 20px auto 15px;
+    font-size: 2rem;
+    line-height: calc(4rem - 4px);
+    color: #ccc;
+    border: 2px solid #ccc;
+    border-radius: 50%;
+  }
+}
+
+// RTL override
+
+html[dir=rtl] .media-infobar {
+  right: auto;
+  left: 0;
+}
+
+html[dir=rtl] .infobar-close {
+  right: auto;
+  left: 0;
+}
+
+html[dir=rtl] .media-infobar dd {
+  margin-right: 0;
+  margin-left: auto;
+  direction: ltr;
+  text-align: right;
+}
+html[dir=rtl] .media-infobar h2 {
+  padding: 20px $gutter-width 10px 0;
+}

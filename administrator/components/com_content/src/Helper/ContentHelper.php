@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2017 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -15,6 +15,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Table\Category;
+use Joomla\CMS\Workflow\WorkflowServiceInterface;
 use Joomla\Database\ParameterType;
 use Joomla\Registry\Registry;
 
@@ -54,20 +55,20 @@ class ContentHelper extends \Joomla\CMS\Helper\ContentHelper
 	 *
 	 * @param   array  $transitions  Array of transitions
 	 * @param   int    $pk           Id of state
-	 * @param   int    $workflow_id  Id of the workflow
+	 * @param   int    $workflowId   Id of the workflow
 	 *
 	 * @return  array
 	 *
 	 * @since   4.0.0
 	 */
-	public static function filterTransitions(array $transitions, int $pk, int $workflow_id = 0): array
+	public static function filterTransitions(array $transitions, int $pk, int $workflowId = 0): array
 	{
 		return array_values(
 			array_filter(
 				$transitions,
-				function ($var) use ($pk, $workflow_id)
+				function ($var) use ($pk, $workflowId)
 				{
-					return in_array($var['from_stage_id'], [-1, $pk]) && $workflow_id == $var['workflow_id'];
+					return in_array($var['from_stage_id'], [-1, $pk]) && $workflowId == $var['workflow_id'];
 				}
 			)
 		);
@@ -92,10 +93,20 @@ class ContentHelper extends \Joomla\CMS\Helper\ContentHelper
 
 		$data = (array) $data;
 
-		// Make workflows translateable
+		// Make workflows translatable
 		Factory::getLanguage()->load('com_workflow', JPATH_ADMINISTRATOR);
 
 		$form->setFieldAttribute('workflow_id', 'default', 'inherit');
+
+		$component = Factory::getApplication()->bootComponent('com_content');
+
+		if (!$component instanceof WorkflowServiceInterface
+			|| !$component->isWorkflowActive('com_content.article'))
+		{
+			$form->removeField('workflow_id', 'params');
+
+			return;
+		}
 
 		$query = $db->getQuery(true);
 
@@ -105,6 +116,7 @@ class ContentHelper extends \Joomla\CMS\Helper\ContentHelper
 				[
 					$db->quoteName('default') . ' = 1',
 					$db->quoteName('published') . ' = 1',
+					$db->quoteName('extension') . ' = ' . $db->quote('com_content.article'),
 				]
 			);
 
@@ -135,6 +147,7 @@ class ContentHelper extends \Joomla\CMS\Helper\ContentHelper
 						[
 							$db->quoteName('id') . ' = :workflowId',
 							$db->quoteName('published') . ' = 1',
+							$db->quoteName('extension') . ' = ' . $db->quote('com_content.article'),
 						]
 					)
 					->bind(':workflowId', $workflow_id, ParameterType::INTEGER);

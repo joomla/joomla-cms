@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_installer
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2008 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -113,6 +113,6 @@ class HtmlView extends InstallerViewDefault
 		}
 
 		parent::addToolbar();
-		$toolbar->help('JHELP_EXTENSIONS_EXTENSION_MANAGER_MANAGE');
+		$toolbar->help('Extensions:_Manage');
 	}
 }

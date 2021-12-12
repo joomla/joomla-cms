@@ -1,0 +1,39 @@
+// Card
+
+// Backport Bootstrap 4 card-columns
+.card-columns {
+  .card {
+    margin-bottom: $card-spacer-y;
+  }
+
+  @include media-breakpoint-up(sm) {
+    column-count: 3;
+    column-gap: 1.25rem;
+    orphans: 1;
+    widows: 1;
+
+    .card {
+      display: inline-block; // Don't let them vertically span multiple columns
+      width: 100%; // Don't let their width change
+    }
+  }
+}
+
+.content {
+  .card {
+    box-shadow: $atum-box-shadow;
+  }
+
+  .card-header {
+    display: flex;
+    padding: 1rem 1rem .75rem;
+    font-weight: $font-weight-bold;
+    color: var(--template-bg-dark);
+    background: var(--card-bg);
+
+    > [class^="icon-"],
+    > img {
+      margin-inline-end: .5rem;
+    }
+  }
+}

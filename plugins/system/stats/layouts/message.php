@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  System.stats
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2015 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -23,7 +23,7 @@ extract($displayData);
  */
 ?>
 
-<joomla-alert type="info" dismiss="true" class="js-pstats-alert hidden" role="alertdialog">
+<joomla-alert type="info" dismiss class="js-pstats-alert hidden" role="alertdialog" close-text="<?php echo Text::_('JCLOSE'); ?>" aria-labelledby="alert-stats-heading">
 	<div class="alert-heading"><?php echo Text::_('PLG_SYSTEM_STATS_LABEL_MESSAGE_TITLE'); ?></div>
 	<div>
 		<div class="alert-message">

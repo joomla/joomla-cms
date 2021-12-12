@@ -2,16 +2,14 @@
 /**
  * @package    Joomla.Cli
  *
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2017 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 // We are a valid entry point.
 const _JEXEC = 1;
 
-/**
- * Define the application's minimum supported PHP version as a constant so it can be referenced within the application.
- */
+// Define the application's minimum supported PHP version as a constant so it can be referenced within the application.
 const JOOMLA_MINIMUM_PHP = '7.2.5';
 
 if (version_compare(PHP_VERSION, JOOMLA_MINIMUM_PHP, '<'))
@@ -45,6 +43,15 @@ if (!file_exists(JPATH_LIBRARIES . '/vendor/autoload.php') || !is_dir(JPATH_ROOT
 	exit;
 }
 
+// Check if installed
+if (!file_exists(JPATH_CONFIGURATION . '/configuration.php')
+	|| (filesize(JPATH_CONFIGURATION . '/configuration.php') < 10))
+{
+	echo 'Install Joomla to run cli commands' . PHP_EOL;
+
+	exit;
+}
+
 // Get the framework.
 require_once JPATH_BASE . '/includes/framework.php';
 
@@ -55,7 +62,7 @@ $container = \Joomla\CMS\Factory::getContainer();
  * Alias the session service keys to the CLI session service as that is the primary session backend for this application
  *
  * In addition to aliasing "common" service keys, we also create aliases for the PHP classes to ensure autowiring objects
- * is supported.  This includes aliases for aliased class names, and the keys for alised class names should be considered
+ * is supported.  This includes aliases for aliased class names, and the keys for aliased class names should be considered
  * deprecated to be removed when the class name alias is removed as well.
  */
 $container->alias('session', 'session.cli')

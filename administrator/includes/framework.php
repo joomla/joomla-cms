@@ -2,13 +2,14 @@
 /**
  * @package    Joomla.Administrator
  *
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2005 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Version;
+use Joomla\Utilities\IpHelper;
 
 // System includes
 require_once JPATH_LIBRARIES . '/bootstrap.php';
@@ -76,6 +77,18 @@ switch ($config->error_reporting)
 
 define('JDEBUG', $config->debug);
 
+// Check deprecation logging
+if (empty($config->log_deprecated))
+{
+	// Reset handler for E_USER_DEPRECATED
+	set_error_handler(null, E_USER_DEPRECATED);
+}
+else
+{
+	// Make sure handler for E_USER_DEPRECATED is registered
+	set_error_handler(['Joomla\CMS\Exception\ExceptionHandler', 'handleUserDeprecatedErrors'], E_USER_DEPRECATED);
+}
+
 if (JDEBUG || $config->error_reporting === 'maximum')
 {
 	// Set new Exception handler with debug enabled
@@ -85,6 +98,23 @@ if (JDEBUG || $config->error_reporting === 'maximum')
 			'renderException'
 		]
 	);
+}
+
+/**
+ * Correctly set the allowing of IP Overrides if behind a trusted proxy/load balancer.
+ *
+ * We need to do this as high up the stack as we can, as the default in \Joomla\Utilities\IpHelper is to
+ * $allowIpOverride = true which is the wrong default for a generic site NOT behind a trusted proxy/load balancer.
+ */
+if (property_exists($config, 'behind_loadbalancer') && $config->behind_loadbalancer == 1)
+{
+	// If Joomla is configured to be behind a trusted proxy/load balancer, allow HTTP Headers to override the REMOTE_ADDR
+	IpHelper::setAllowIpOverrides(true);
+}
+else
+{
+	// We disable the allowing of IP overriding using headers by default.
+	IpHelper::setAllowIpOverrides(false);
 }
 
 unset($config);

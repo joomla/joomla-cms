@@ -38,12 +38,13 @@
 			name="category_id"
 			type="category"
 			label="JCATEGORY"
+			multiple="true"
 			extension="com_contact"
-			published="0,1,2"
+			layout="joomla.form.field.list-fancy-select"
+			hint="JOPTION_SELECT_CATEGORY"
 			onchange="this.form.submit();"
-			>
-			<option value="">JOPTION_SELECT_CATEGORY</option>
-		</field>
+			published="0,1,2"
+		/>
 
 		<field
 			name="access"
@@ -102,10 +103,10 @@
 			<option value="">JGLOBAL_SORT_BY</option>
 			<option value="a.ordering ASC">JGRID_HEADING_ORDERING_ASC</option>
 			<option value="a.ordering DESC">JGRID_HEADING_ORDERING_DESC</option>
-			<option value="a.published ASC">JSTATUS_ASC</option>
-			<option value="a.published DESC">JSTATUS_DESC</option>
 			<option value="a.featured ASC">JFEATURED_ASC</option>
 			<option value="a.featured DESC">JFEATURED_DESC</option>
+			<option value="a.published ASC">JSTATUS_ASC</option>
+			<option value="a.published DESC">JSTATUS_DESC</option>
 			<option value="a.name ASC">JGLOBAL_TITLE_ASC</option>
 			<option value="a.name DESC">JGLOBAL_TITLE_DESC</option>
 			<option value="category_title ASC">JCATEGORY_ASC</option>

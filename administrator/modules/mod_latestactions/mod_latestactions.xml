@@ -3,7 +3,7 @@
 	<name>mod_latestactions</name>
 	<author>Joomla! Project</author>
 	<creationDate>May 2018</creationDate>
-	<copyright>Copyright (C) 2005 - 2020 Open Source Matters. All rights reserved.</copyright>
+	<copyright>(C) 2018 Open Source Matters, Inc.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
@@ -16,10 +16,10 @@
 		<folder>tmpl</folder>
 	</files>
 	<languages>
-		<language tag="en-GB">en-GB.mod_latestactions.ini</language>
-		<language tag="en-GB">en-GB.mod_latestactions.sys.ini</language>
+		<language tag="en-GB">language/en-GB/mod_latestactions.ini</language>
+		<language tag="en-GB">language/en-GB/mod_latestactions.sys.ini</language>
 	</languages>
-	<help key="JHELP_EXTENSIONS_MODULE_MANAGER_ADMIN_LATESTACTIONS" />
+	<help key="Admin_Modules:_Action_Logs_-_Latest" />
 	<config>
 		<fields name="params">
 			<fieldset name="basic">
@@ -29,6 +29,8 @@
 					label="MOD_LATESTACTIONS_FIELD_COUNT_LABEL"
 					default="5"
 					filter="integer"
+					min="1"
+					validate="number"
 				/>
 			</fieldset>
 			<fieldset name="advanced">
@@ -36,7 +38,8 @@
 					name="layout"
 					type="modulelayout"
 					label="JFIELD_ALT_LAYOUT_LABEL"
-					class="custom-select"
+					class="form-select"
+					validate="moduleLayout"
 				/>
 
 				<field
@@ -44,6 +47,7 @@
 					type="textarea"
 					label="COM_MODULES_FIELD_MODULECLASS_SFX_LABEL"
 					rows="3"
+					validate="CssIdentifier"
 				/>
 
 				<field
@@ -76,6 +80,8 @@
 					label="COM_MODULES_FIELD_CACHE_TIME_LABEL"
 					default="900"
 					filter="integer"
+					min="1"
+					validate="number"
 				/>
 
 				<field

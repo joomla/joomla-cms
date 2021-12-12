@@ -4,7 +4,6 @@
 		<field
 			name="id"
 			type="hidden"
-			id="id"
 			default="0"
 			filter="int"
 			readonly="true"
@@ -18,7 +17,6 @@
 			name="menutype"
 			type="text"
 			label="COM_MENUS_MENU_MENUTYPE_LABEL"
-			id="menutype"
 			size="30"
 			maxlength="24"
 			required="true"
@@ -27,7 +25,6 @@
 			name="title"
 			type="text"
 			label="JGLOBAL_TITLE"
-			id="title"
 			size="30"
 			maxlength="48"
 			required="true"

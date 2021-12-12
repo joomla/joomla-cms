@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2013 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -524,7 +524,7 @@ class Microdata
 			{
 				/*
 				 * Process and return the HTML in an automatic way,
-				 * with the $Property expected Types an display everything in the right way,
+				 * with the $Property expected Types and display everything in the right way,
 				 * check if the Property is 'nested' or must be rendered in a metadata tag
 				 */
 				switch (static::getExpectedDisplayType($this->fallbackType, $this->fallbackProperty))
@@ -766,7 +766,7 @@ class Microdata
 	{
 		static::loadTypes();
 
-		return (\array_key_exists($type, static::$types)) ? true : false;
+		return \array_key_exists($type, static::$types);
 	}
 
 	/**

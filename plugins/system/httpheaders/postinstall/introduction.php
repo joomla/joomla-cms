@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  System.HttpHeaders
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2018 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -17,7 +17,7 @@ use Joomla\CMS\Factory;
  *
  * @return  integer
  *
- * @since   4.0
+ * @since   4.0.0
  */
 function httpheaders_postinstall_condition()
 {
@@ -29,7 +29,7 @@ function httpheaders_postinstall_condition()
  *
  * @return  void
  *
- * @since   4.0
+ * @since   4.0.0
  */
 function httpheaders_postinstall_action()
 {

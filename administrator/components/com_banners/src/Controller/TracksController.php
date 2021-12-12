@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_banners
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2017 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -109,6 +109,9 @@ class TracksController extends BaseController
 		// Get and render the view.
 		if ($view = $this->getView($vName, 'raw'))
 		{
+			// Check for request forgeries.
+			$this->checkToken('GET');
+
 			// Get the model for the view.
 			/** @var \Joomla\Component\Banners\Administrator\Model\TracksModel $model */
 			$model = $this->getModel($vName);

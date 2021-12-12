@@ -1,5 +1,5 @@
 /**
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2018 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -11,36 +11,19 @@
  * @package  Joomla.JavaScript
  * @since    3.7.0
  */
-((document, Joomla) => {
-  'use strict';
+if (!window.Joomla) {
+  throw new Error('Joomla API was not properly initialised');
+}
 
-  const keepAlive = (keepAliveUri) => {
-    Joomla.request({ url: keepAliveUri });
-  };
+const keepAliveOptions = Joomla.getOptions('system.keepalive');
+const keepAliveInterval = keepAliveOptions && keepAliveOptions.interval ? parseInt(keepAliveOptions.interval, 10) : 45 * 1000;
+let keepAliveUri = keepAliveOptions && keepAliveOptions.uri ? keepAliveOptions.uri.replace(/&amp;/g, '&') : '';
 
-  const onBoot = () => {
-    if (!Joomla || (typeof Joomla.getOptions !== 'function'
-      && typeof Joomla.request !== 'function')) {
-      throw new Error('core.js was not properly initialised');
-    }
+// Fallback in case no keepalive uri was found.
+if (keepAliveUri === '') {
+  const systemPaths = Joomla.getOptions('system.paths');
 
-    const keepAliveOptions = Joomla.getOptions('system.keepalive');
-    const keepAliveInterval = keepAliveOptions
-    && keepAliveOptions.interval ? parseInt(keepAliveOptions.interval, 10) : 45 * 1000;
-    let keepAliveUri = keepAliveOptions && keepAliveOptions.uri ? keepAliveOptions.uri.replace(/&amp;/g, '&') : '';
+  keepAliveUri = `${(systemPaths ? `${systemPaths.root}/index.php` : window.location.pathname)}?option=com_ajax&format=json`;
+}
 
-    // Fallback in case no keepalive uri was found.
-    if (keepAliveUri === '') {
-      const systemPaths = Joomla.getOptions('system.paths');
-
-      keepAliveUri = `${(systemPaths ? `${systemPaths.root}/index.php` : window.location.pathname)}?option=com_ajax&format=json`;
-    }
-
-    setInterval(keepAlive, keepAliveInterval, keepAliveUri);
-
-    // Cleanup
-    document.removeEventListener('DOMContentLoaded', onBoot);
-  };
-
-  document.addEventListener('DOMContentLoaded', onBoot, true);
-})(document, Joomla);
+setInterval(() => navigator.sendBeacon(keepAliveUri), keepAliveInterval);

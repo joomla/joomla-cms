@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2006 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -24,6 +24,8 @@ use Joomla\CMS\MVC\Model\BaseModel;
 use Joomla\CMS\MVC\View\ViewInterface;
 use Joomla\CMS\Session\Session;
 use Joomla\CMS\Uri\Uri;
+use Joomla\Event\DispatcherAwareInterface;
+use Joomla\Event\DispatcherAwareTrait;
 use Joomla\Input\Input;
 
 /**
@@ -34,8 +36,10 @@ use Joomla\Input\Input;
  *
  * @since  2.5.5
  */
-class BaseController implements ControllerInterface
+class BaseController implements ControllerInterface, DispatcherAwareInterface
 {
+	use DispatcherAwareTrait;
+
 	/**
 	 * The base path of the controller
 	 *
@@ -144,7 +148,7 @@ class BaseController implements ControllerInterface
 	 * The factory.
 	 *
 	 * @var    MVCFactoryInterface
-	 * @since  4.0.0
+	 * @since  3.10.0
 	 */
 	protected $factory;
 
@@ -280,7 +284,8 @@ class BaseController implements ControllerInterface
 
 		if (\is_array($command))
 		{
-			$command = $filter->clean(array_pop(array_keys($command)), 'cmd');
+			$keys = array_keys($command);
+			$command = $filter->clean(array_pop($keys), 'cmd');
 		}
 		else
 		{
@@ -677,7 +682,7 @@ class BaseController implements ControllerInterface
 
 			try
 			{
-				/** @var \JCacheControllerView $cache */
+				/** @var \Joomla\CMS\Cache\Controller\ViewController $cache */
 				$cache = Factory::getCache($option, 'view');
 				$cache->get($view, 'display');
 			}
@@ -810,7 +815,7 @@ class BaseController implements ControllerInterface
 
 			if (!preg_match('/(.*)Controller/i', \get_class($this), $r))
 			{
-				throw new \Exception(Text::_('JLIB_APPLICATION_ERROR_CONTROLLER_GET_NAME'), 500);
+				throw new \Exception(Text::sprintf('JLIB_APPLICATION_ERROR_GET_NAME', __METHOD__), 500);
 			}
 
 			$this->name = strtolower($r[1]);

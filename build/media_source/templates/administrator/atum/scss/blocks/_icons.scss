@@ -1,0 +1,86 @@
+// Icons
+
+.#{$jicon-css-prefix}-white {
+  color: $white;
+}
+
+.tbody-icon {
+  padding: 0 3px;
+  text-align: center;
+  background-color: transparent;
+  border: 0;
+
+  [class^="#{$jicon-css-prefix}-"],
+  [class*=" #{$jicon-css-prefix}-"],
+  [class^="#{$fa-css-prefix}-"],
+  [class*=" #{$fa-css-prefix}-"] {
+    width: 26px;
+    height: 26px;
+    font-size: 1rem;
+    line-height: 22px;
+    color: $gray-400;
+    border: 2px solid var(--border);
+    border-radius: 50%;
+  }
+
+  .#{$jicon-css-prefix}-publish,
+  .#{$jicon-css-prefix}-check,
+  .#{$fa-css-prefix}-check {
+    color: var(--success);
+    border-color: var(--success);
+  }
+
+  .#{$jicon-css-prefix}-home,
+  .#{$jicon-css-prefix}-color-featured,
+  .#{$jicon-css-prefix}-star.featured,
+  .#{$fa-css-prefix}-star.featured {
+    color: $warning;
+    border-color: $warning;
+  }
+
+  .#{$jicon-css-prefix}-archive,
+  .#{$jicon-css-prefix}-folder,
+  .#{$fa-css-prefix}-folder {
+    color: var(--template-text-dark);
+    border-color: $gray-700;
+  }
+
+  .#{$jicon-css-prefix}-checkedout,
+  .#{$jicon-css-prefix}-lock,
+  .#{$fa-css-prefix}-lock {
+    width: auto;
+    height: auto;
+    font-size: 1.2rem;
+    line-height: 1rem;
+    color: var(--template-text-dark);
+    border: 0;
+  }
+
+  &.home-disabled,
+  &.featured-disabled,
+  &.color-featured-disabled,
+  &.#{$jicon-css-prefix}-star-disabled,
+  &.#{$fa-css-prefix}-star-disabled {
+    cursor: not-allowed;
+    opacity: 1;
+  }
+
+  &.disabled .#{$jicon-css-prefix}-home,
+  &.disabled .#{$fa-css-prefix}-home {
+    color: $state-warning-bg;
+    border-color: $state-warning-bg;
+  }
+}
+
+// WebAuthn
+.plg_system_webauthn_login_button svg {
+  margin-inline-end: 2px;
+}
+
+.plg_system_webauthn_login_button svg path {
+  fill: var(--white);
+}
+
+.badge > span {
+  margin-inline-end: .5rem;
+}

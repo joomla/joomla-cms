@@ -237,7 +237,7 @@
         el.style.backgroundColor = color;
         el.setAttribute('type', 'button');
         const a11yColor = color === 'transparent' ? this.textTransp : this.getColorName(color);
-        el.innerHTML = `<span class="sr-only">${a11yColor}</span>`;
+        el.innerHTML = Joomla.sanitizeHtml(`<span class="visually-hidden">${a11yColor}</span>`);
 
         this.buttons.push(el);
       });
@@ -246,7 +246,7 @@
       const close = document.createElement('button');
       close.setAttribute('class', 'btn-close');
       close.setAttribute('type', 'button');
-      close.innerHTML = this.textClose;
+      close.innerHTML = Joomla.sanitizeHtml(this.textClose);
 
       this.buttons.push(close);
 
@@ -268,7 +268,7 @@
       this.icon.setAttribute('type', 'button');
       this.icon.setAttribute('tabindex', '0');
       this.icon.style.backgroundColor = color;
-      this.icon.innerHTML = `<span class="sr-only">${this.textSelect}</span>`;
+      this.icon.innerHTML = Joomla.sanitizeHtml(`<span class="visually-hidden">${this.textSelect}</span>`);
       this.icon.id = uniqueId;
       this.select.insertAdjacentElement('beforebegin', this.icon);
       this.icon.addEventListener('click', this.show.bind(this));
@@ -291,15 +291,12 @@
 
       this.appendChild(this.panel);
 
-      this.focusableElements = [].slice.call(this.panel.querySelectorAll(this.focusableSelectors.join()));
+      this.focusableElements = [].slice
+        .call(this.panel.querySelectorAll(this.focusableSelectors.join()));
 
       this.keys = this.keys.bind(this);
       this.hide = this.hide.bind(this);
       this.mousedown = this.mousedown.bind(this);
-    }
-
-    disconnectedCallback() {
-
     }
 
     static get observedAttributes() {
@@ -368,6 +365,13 @@
       this.icon.setAttribute('class', clss);
       this.icon.style.backgroundColor = bgcolor;
 
+      // trigger change event both on the select and on the custom element
+      this.select.dispatchEvent(new Event('change'));
+      this.dispatchEvent(new CustomEvent('change', {
+        detail: { value: color },
+        bubbles: true,
+      }));
+
       // Hide the panel
       this.hide();
 
@@ -406,6 +410,7 @@
     }
 
     // Prevents the mousedown event from "eating" the click event.
+    // eslint-disable-next-line class-methods-use-this
     mousedown(e) {
       e.stopPropagation();
       e.preventDefault();
@@ -416,10 +421,13 @@
       let newValue = value;
       if (value.length === 4) {
         const tmpValue = value.split('');
-        newValue = tmpValue[0] + tmpValue[1] + tmpValue[1] + tmpValue[2] + tmpValue[2] + tmpValue[3] + tmpValue[3];
+        newValue = tmpValue[0] + tmpValue[1] + tmpValue[1] + tmpValue[2]
+          + tmpValue[2] + tmpValue[3] + tmpValue[3];
       }
 
+      // eslint-disable-next-line no-restricted-syntax
       for (const color in colorNames) {
+        // eslint-disable-next-line no-prototype-builtins
         if (colorNames.hasOwnProperty(color) && newValue.toLowerCase() === colorNames[color]) {
           return color;
         }
@@ -429,11 +437,12 @@
     }
 
     /**
-		 * Converts a RGB color to its hexadecimal value.
-		 * See http://stackoverflow.com/questions/1740700/get-hex-value-rather-than-rgb-value-using-$
-		 */
+     * Converts a RGB color to its hexadecimal value.
+     * See http://stackoverflow.com/questions/1740700/get-hex-value-rather-than-rgb-value-using-$
+     */
+    // eslint-disable-next-line class-methods-use-this
     rgb2hex(rgb) {
-      const hex = x => (`0${parseInt(x, 10).toString(16)}`).slice(-2);
+      const hex = (x) => (`0${parseInt(x, 10).toString(16)}`).slice(-2);
       const matches = rgb.match(/^rgb\((\d+),\s*(\d+),\s*(\d+)\)$/);
 
       return `#${hex(matches[1])}${hex(matches[2])}${hex(matches[3])}`;

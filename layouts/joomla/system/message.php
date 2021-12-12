@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  Layout
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2014 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -13,9 +13,11 @@ use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 
-$msgList = $displayData['msgList'];
-
-$alert = [
+/* @var $displayData array */
+$msgList   = $displayData['msgList'];
+$document  = Factory::getDocument();
+$msgOutput = '';
+$alert     = [
 	CMSApplication::MSG_EMERGENCY => 'danger',
 	CMSApplication::MSG_ALERT     => 'danger',
 	CMSApplication::MSG_CRITICAL  => 'danger',
@@ -39,29 +41,34 @@ Text::script('JOK');
 Text::script('JOPEN');
 
 // Alerts progressive enhancement
-Factory::getDocument()->getWebAssetManager()
+$document->getWebAssetManager()
 	->useStyle('webcomponent.joomla-alert')
-	->useScript('webcomponent.joomla-alert');
+	->useScript('messages');
 
+if (is_array($msgList) && !empty($msgList))
+{
+	$messages = [];
+
+	foreach ($msgList as $type => $msgs)
+	{
+		// JS loaded messages
+		$messages[] = [$alert[$type] ?? $type => $msgs];
+		// Noscript fallback
+		if (!empty($msgs)) {
+			$msgOutput .= '<div class="alert alert-' . ($alert[$type] ?? $type) . '">';
+			foreach ($msgs as $msg) :
+				$msgOutput .= $msg;
+			endforeach;
+			$msgOutput .= '</div>';
+		}
+	}
+
+	if ($msgOutput !== '')
+	{
+		$msgOutput = '<noscript>' . $msgOutput . '</noscript>';
+	}
+
+	$document->addScriptOptions('joomla.messages', $messages);
+}
 ?>
-<div id="system-message-container" aria-live="polite">
-	<div id="system-message">
-		<?php if (is_array($msgList) && !empty($msgList)) : ?>
-			<?php foreach ($msgList as $type => $msgs) : ?>
-				<joomla-alert type="<?php echo $alert[$type] ?? $type; ?>" dismiss="true">
-					<?php if (!empty($msgs)) : ?>
-						<div class="alert-heading">
-							<span class="<?php echo $type; ?>"></span>
-							<span class="sr-only"><?php echo Text::_($type); ?></span>
-						</div>
-						<div class="alert-wrapper">
-							<?php foreach ($msgs as $msg) : ?>
-								<div class="alert-message"><?php echo $msg; ?></div>
-							<?php endforeach; ?>
-						</div>
-					<?php endif; ?>
-				</joomla-alert>
-			<?php endforeach; ?>
-		<?php endif; ?>
-	</div>
-</div>
+<div id="system-message-container" aria-live="polite"><?php echo $msgOutput; ?></div>

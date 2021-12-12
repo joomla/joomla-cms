@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_newsfeeds
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2008 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -131,6 +131,12 @@ class NewsfeedModel extends AdminModel
 			$form->setFieldAttribute('published', 'filter', 'unset');
 			$form->setFieldAttribute('publish_up', 'filter', 'unset');
 			$form->setFieldAttribute('publish_down', 'filter', 'unset');
+		}
+
+		// Don't allow to change the created_by user if not allowed to access com_users.
+		if (!Factory::getUser()->authorise('core.manage', 'com_users'))
+		{
+			$form->setFieldAttribute('created_by', 'filter', 'unset');
 		}
 
 		return $form;
@@ -285,7 +291,12 @@ class NewsfeedModel extends AdminModel
 		{
 			$item->tags = new  TagsHelper;
 			$item->tags->getTagIds($item->id, 'com_newsfeeds.newsfeed');
-			$item->metadata['tags'] = $item->tags;
+
+			// TODO: We probably don't need this in any client - but needs careful validation
+			if (!Factory::getApplication()->isClient('api'))
+			{
+				$item->metadata['tags'] = $item->tags;
+			}
 		}
 
 		return $item;

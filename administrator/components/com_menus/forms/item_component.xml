@@ -3,7 +3,6 @@
 	<fields name="params" label="COM_MENUS_LINKTYPE_OPTIONS_LABEL"
 	>
 		<fieldset name="menu-options" label="COM_MENUS_LINKTYPE_OPTIONS_LABEL">
-
 			<field
 				name="menu-anchor_title"
 				type="text"
@@ -14,6 +13,15 @@
 				name="menu-anchor_css"
 				type="text"
 				label="COM_MENUS_ITEM_FIELD_ANCHOR_CSS_LABEL"
+				validate="CssIdentifier"
+			/>
+
+			<field
+				name="menu_icon_css"
+				type="text"
+				label="COM_MENUS_ITEM_FIELD_ICON_TITLE_LABEL"
+				description="COM_MENUS_ITEM_FIELD_ICON_TITLE_DESC"
+				validate="CssIdentifier"
 			/>
 
 			<field
@@ -26,6 +34,7 @@
 				name="menu_image_css"
 				type="text"
 				label="COM_MENUS_ITEM_FIELD_MENU_IMAGE_CSS_LABEL"
+				validate="CssIdentifier"
 			/>
 
 			<field
@@ -65,7 +74,7 @@
 				name="show_page_heading"
 				type="list"
 				label="COM_MENUS_ITEM_FIELD_SHOW_PAGE_HEADING_LABEL"
-				class="custom-select-color-state"
+				class="form-select-color-state"
 				default=""
 				useglobal="true"
 				validate="options"
@@ -84,6 +93,7 @@
 				name="pageclass_sfx"
 				type="text"
 				label="COM_MENUS_ITEM_FIELD_PAGE_CLASS_LABEL"
+				validate="CssIdentifier"
 			/>
 
 		</fieldset>
@@ -95,6 +105,8 @@
 				label="JFIELD_META_DESCRIPTION_LABEL"
 				rows="3"
 				cols="40"
+				maxlength="160"
+				charcounter="true"
 			/>
 
 			<field
@@ -104,10 +116,10 @@
 				validate="options"
 				>
 				<option value="">JGLOBAL_USE_GLOBAL</option>
-				<option value="index, follow">JGLOBAL_INDEX_FOLLOW</option>
-				<option value="noindex, follow">JGLOBAL_NOINDEX_FOLLOW</option>
-				<option value="index, nofollow">JGLOBAL_INDEX_NOFOLLOW</option>
-				<option value="noindex, nofollow">JGLOBAL_NOINDEX_NOFOLLOW</option>
+				<option value="index, follow" />
+				<option value="noindex, follow" />
+				<option value="index, nofollow" />
+				<option value="noindex, nofollow" />
 			</field>
 		</fieldset>
 

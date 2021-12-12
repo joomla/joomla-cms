@@ -1,20 +1,20 @@
-const Fs = require('fs');
+const {
+  access, mkdir, readFile, writeFile,
+} = require('fs').promises;
 const Ini = require('ini');
-const Path = require('path');
+const { dirname } = require('path');
 const Recurs = require('recursive-readdir');
-const UglifyCss = require('uglifycss');
-const UglifyJs = require('uglify-es');
+const Postcss = require('postcss');
+const Autoprefixer = require('autoprefixer');
+const CssNano = require('cssnano');
+const { minify } = require('terser');
 
 const RootPath = process.cwd();
 const dir = `${RootPath}/installation/language`;
 const srcPath = `${RootPath}/build/warning_page`;
 
-// Set the initial template
-let incomplete = 'window.errorLocale = {';
-let unsupported = 'window.errorLocale = {';
-
 /**
- * Will produce 2 .html files
+ * Will produce as many .html files as defined in settings.json
  * Expects three files:
  *     build/warning_page/template.css
  *     build/warning_page/template.html
@@ -23,80 +23,145 @@ let unsupported = 'window.errorLocale = {';
  * And also specific strings in the languages in the installation folder!
  * Also the base strings are held in build/build-modules-js/settings.json
  */
-module.exports.run = (options) => {
-  const initTemplate = Fs.readFileSync(`${srcPath}/template.html`, 'utf-8');
-  let cssContent = Fs.readFileSync(`${srcPath}/template.css`, 'utf-8');
-  let jsContent = Fs.readFileSync(`${srcPath}/template.js`, 'utf-8');
+module.exports.createErrorPages = async (options) => {
+  const iniFilesProcess = [];
+  const processPages = [];
+  global.incompleteObj = {};
+  global.unsupportedObj = {};
+  global.fatalObj = {};
+  global.noxmlObj = {};
 
-  cssContent = UglifyCss.processString(cssContent, { expandVars: false });
-  jsContent = UglifyJs.minify(jsContent);
+  const initTemplate = await readFile(`${srcPath}/template.html`, { encoding: 'utf8' });
+  let cssContent = await readFile(`${srcPath}/template.css`, { encoding: 'utf8' });
+  let jsContent = await readFile(`${srcPath}/template.js`, { encoding: 'utf8' });
 
-  Recurs(dir).then(
-    (files) => {
-      files.sort().forEach((file) => {
-        const languageStrings = Ini.parse(Fs.readFileSync(file, 'UTF-8'));
+  const cssMin = await Postcss([Autoprefixer, CssNano]).process(cssContent, { from: undefined });
 
-        // Build the variables into json for the unsupported page
-        if (languageStrings.MIN_PHP_ERROR_LANGUAGE) {
-          const name = Path.dirname(file).replace(/.+\//, '').replace(/.+\\/, '');
-          unsupported += `"${name}":{"language":"${languageStrings.MIN_PHP_ERROR_LANGUAGE}",`
-                      + `"header":"${languageStrings.MIN_PHP_ERROR_HEADER}",`
-                      + `"text1":"${languageStrings.MIN_PHP_ERROR_TEXT}",`
-                      + `"help-url-text":"${languageStrings.MIN_PHP_ERROR_URL_TEXT}"},`;
-        }
+  cssContent = cssMin.css;
+  jsContent = await minify(jsContent);
 
-        // Build the variables into json for the unsupported page
-        if (languageStrings.BUILD_INCOMPLETE_LANGUAGE) {
-          const name = Path.dirname(file).replace(/.+\//, '').replace(/.+\\/, '');
-          incomplete += `"${name}":{"language":"${languageStrings.BUILD_INCOMPLETE_LANGUAGE}",`
-                     + `"header":"${languageStrings.BUILD_INCOMPLETE_HEADER}",`
-                     + `"text1":"${languageStrings.BUILD_INCOMPLETE_TEXT}",`
-                     + `"help-url-text":"${languageStrings.BUILD_INCOMPLETE_URL_TEXT}"},`;
-        }
-      });
+  const processIni = async (file) => {
+    const languageStrings = Ini.parse(await readFile(file, { encoding: 'utf8' }));
 
-      unsupported = `${unsupported}}`;
-      incomplete = `${incomplete}}`;
+    // Build the variables into json for the unsupported page
+    if (languageStrings.BUILD_MIN_PHP_ERROR_LANGUAGE) {
+      const name = dirname(file).replace(/.+\//, '').replace(/.+\\/, '');
+      global.unsupportedObj = {
+        ...global.unsupportedObj,
+        [name]: {
+          language: languageStrings.BUILD_MIN_PHP_ERROR_LANGUAGE,
+          header: languageStrings.BUILD_MIN_PHP_ERROR_HEADER,
+          text1: languageStrings.BUILD_MIN_PHP_ERROR_TEXT,
+          'help-url-text': languageStrings.BUILD_MIN_PHP_ERROR_URL_TEXT,
+        },
+      };
+    }
 
-      Object.keys(options.settings.errorPages).sort().forEach((name) => {
-        let checkContent = initTemplate;
-        checkContent = checkContent.replace('{{jsonContents}}', name === 'incomplete' ? incomplete : unsupported);
-        checkContent = checkContent.replace('{{PHP_VERSION}}', '');
-        checkContent = checkContent.replace('{{Title}}', options.settings.errorPages[name].title);
-        checkContent = checkContent.replace('{{Header}}', options.settings.errorPages[name].header);
-        checkContent = checkContent.replace('{{Description}}', options.settings.errorPages[name].text);
-        checkContent = checkContent.replace('{{Link}}', options.settings.errorPages[name].link);
-        checkContent = checkContent.replace('{{LinkText}}', options.settings.errorPages[name].linkText);
+    // Build the variables into json for the build incomplete page
+    if (languageStrings.BUILD_INCOMPLETE_LANGUAGE) {
+      const name = dirname(file).replace(/.+\//, '').replace(/.+\\/, '');
+      global.incompleteObj = {
+        ...global.incompleteObj,
+        [name]: {
+          language: languageStrings.BUILD_INCOMPLETE_LANGUAGE,
+          header: languageStrings.BUILD_INCOMPLETE_HEADER,
+          text1: languageStrings.BUILD_INCOMPLETE_TEXT,
+          'help-url-text': languageStrings.BUILD_INCOMPLETE_URL_TEXT,
+        },
+      };
+    }
 
-        if (cssContent) {
-          checkContent = checkContent.replace('{{cssContents}}', cssContent);
-        }
+    // Build the variables into json for the fatal error page
+    if (languageStrings.BUILD_FATAL_LANGUAGE) {
+      const name = dirname(file).replace(/.+\//, '').replace(/.+\\/, '');
+      global.fatalObj = {
+        ...global.fatalObj,
+        [name]: {
+          language: languageStrings.BUILD_FATAL_LANGUAGE,
+          header: languageStrings.BUILD_FATAL_HEADER,
+          text1: languageStrings.BUILD_FATAL_TEXT,
+          'help-url-text': languageStrings.BUILD_FATAL_URL_TEXT,
+        },
+      };
+    }
 
-        if (jsContent) {
-          checkContent = checkContent.replace('{{jsContents}}', jsContent.code);
-        }
+    // Build the variables into json for the missing XML error page
+    if (languageStrings.BUILD_NOXML_LANGUAGE) {
+      const name = dirname(file).replace(/.+\//, '').replace(/.+\\/, '');
+      global.noxmlObj = {
+        ...global.noxmlObj,
+        [name]: {
+          language: languageStrings.BUILD_NOXML_LANGUAGE,
+          header: languageStrings.BUILD_NOXML_HEADER,
+          text1: languageStrings.BUILD_NOXML_TEXT,
+          'help-url-text': languageStrings.BUILD_NOXML_URL_TEXT,
+        },
+      };
+    }
+  };
 
-        Fs.writeFile(
-          `${RootPath}${options.settings.errorPages[name].destFile}`,
-          checkContent,
-          { encoding: 'utf8' },
-          (err) => {
-            if (err) {
-              // eslint-disable-next-line no-console
-              console.log(err);
-              return;
-            }
+  const files = await Recurs(dir);
+  files.sort().forEach((file) => {
+    if (file.endsWith('langmetadata.xml')) {
+      return;
+    }
+    iniFilesProcess.push(processIni(file));
+  });
 
-            // eslint-disable-next-line no-console
-            console.log(`The ${options.settings.errorPages[name].destFile} page was created successfully!`);
-          },
-        );
-      });
-    },
-    (error) => {
-      // eslint-disable-next-line no-console
-      console.error(`${error}`);
-      process.exit(1);
-    },
-  );
+  await Promise.all(iniFilesProcess).catch((err) => {
+    // eslint-disable-next-line no-console
+    console.error(err);
+    process.exit(-1);
+  });
+
+  const processPage = async (name) => {
+    const sortedJson = Object.fromEntries(Object.entries(global[`${name}Obj`]).sort());
+    const jsonContent = `window.errorLocale=${JSON.stringify(sortedJson)};`;
+
+    let template = initTemplate;
+
+    template = template.replace('{{jsonContents}}', jsonContent);
+    template = template.replace('{{Title}}', options.settings.errorPages[name].title);
+    template = template.replace('{{Header}}', options.settings.errorPages[name].header);
+    template = template.replace('{{Description}}', options.settings.errorPages[name].text);
+    template = template.replace('{{Link}}', options.settings.errorPages[name].link);
+    template = template.replace('{{LinkText}}', options.settings.errorPages[name].linkText);
+
+    if (cssContent) {
+      template = template.replace('{{cssContents}}', cssContent);
+    }
+
+    if (jsContent) {
+      template = template.replace('{{jsContents}}', jsContent.code);
+    }
+
+    let mediaExists = false;
+    try {
+      await access(dirname(`${RootPath}${options.settings.errorPages[name].destFile}`));
+      mediaExists = true;
+    } catch (err) {
+      // Do nothing
+    }
+
+    if (!mediaExists) {
+      await mkdir(dirname(`${RootPath}${options.settings.errorPages[name].destFile}`), { recursive: true, mode: 0o755 });
+    }
+
+    await writeFile(
+      `${RootPath}${options.settings.errorPages[name].destFile}`,
+      template,
+      { encoding: 'utf8', mode: 0o644 },
+    );
+
+    // eslint-disable-next-line no-console
+    console.error(`✅ Created the file: ${options.settings.errorPages[name].destFile}`);
+  };
+
+  Object.keys(options.settings.errorPages).forEach((name) => processPages.push(processPage(name)));
+
+  return Promise.all(processPages).catch((err) => {
+    // eslint-disable-next-line no-console
+    console.error(err);
+    process.exit(-1);
+  });
 };

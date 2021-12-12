@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Extension.Joomla
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2010 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -52,16 +52,17 @@ class PlgExtensionJoomla extends CMSPlugin
 	/**
 	 * Adds an update site to the table if it doesn't exist.
 	 *
-	 * @param   string   $name      The friendly name of the site
-	 * @param   string   $type      The type of site (e.g. collection or extension)
-	 * @param   string   $location  The URI for the site
-	 * @param   boolean  $enabled   If this site is enabled
+	 * @param   string   $name        The friendly name of the site
+	 * @param   string   $type        The type of site (e.g. collection or extension)
+	 * @param   string   $location    The URI for the site
+	 * @param   boolean  $enabled     If this site is enabled
+	 * @param   string   $extraQuery  Any additional request query to use when updating
 	 *
 	 * @return  void
 	 *
 	 * @since   1.6
 	 */
-	private function addUpdateSite($name, $type, $location, $enabled)
+	private function addUpdateSite($name, $type, $location, $enabled, $extraQuery = '')
 	{
 		// Look if the location is used already; doesn't matter what type you can't have two types at the same address, doesn't make sense
 		$db    = $this->db;
@@ -82,12 +83,13 @@ class PlgExtensionJoomla extends CMSPlugin
 			$enabled = (int) $enabled;
 			$query->clear()
 				->insert($db->quoteName('#__update_sites'))
-				->columns($db->quoteName(['name', 'type', 'location', 'enabled']))
-				->values(':name, :type, :location, :enabled')
+				->columns($db->quoteName(['name', 'type', 'location', 'enabled', 'extra_query']))
+				->values(':name, :type, :location, :enabled, :extra_query')
 				->bind(':name', $name)
 				->bind(':type', $type)
 				->bind(':location', $location)
-				->bind(':enabled', $enabled, ParameterType::INTEGER);
+				->bind(':enabled', $enabled, ParameterType::INTEGER)
+				->bind(':extra_query', $extraQuery);
 
 			$db->setQuery($query);
 
@@ -289,7 +291,7 @@ class PlgExtensionJoomla extends CMSPlugin
 			foreach ($children as $child)
 			{
 				$attrs = $child->attributes();
-				$this->addUpdateSite($attrs['name'], $attrs['type'], trim($child), true);
+				$this->addUpdateSite((string) $attrs['name'], (string) $attrs['type'], trim($child), true, $this->installer->extraQuery);
 			}
 		}
 		else

@@ -3,7 +3,7 @@
  * @package     Joomla.Tests
  * @subpackage  Helper
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2019 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -165,6 +165,23 @@ class JoomlaDb extends Db
 	}
 
 	/**
+	 * Deletes records in a database.
+	 *
+	 * @param   string  $table     Table name
+	 * @param   array   $criteria  Search criteria [Optional]
+	 *
+	 * @return  void
+	 *
+	 * @since   4.1.0
+	 */
+	public function deleteFromDatabase($table, $criteria = []): void
+	{
+		$table = $this->addPrefix($table);
+
+		$this->driver->deleteQueryByCriteria($table, $criteria);
+	}
+
+	/**
 	 * Add the table prefix.
 	 *
 	 * @param   string  $table  Table without prefix
@@ -190,6 +207,6 @@ class JoomlaDb extends Db
 	 */
 	public function getConfig($value)
 	{
-		return $this->getModule('JoomlaBrowser')->_getConfig($value);
+		return $this->getModule('Joomla\Browser\JoomlaBrowser')->_getConfig($value);
 	}
 }

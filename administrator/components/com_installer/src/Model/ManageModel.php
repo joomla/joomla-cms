@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_installer
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2008 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -143,6 +143,14 @@ class ManageModel extends InstallerModel
 					unset($eid[$i]);
 					continue;
 				}
+
+				// Parent template cannot be disabled if there are children
+				if ($style->load(['parent' => $table->element, 'client_id' => $table->client_id]))
+				{
+					Factory::getApplication()->enqueueMessage(Text::_('COM_INSTALLER_ERROR_DISABLE_PARENT_TEMPLATE_NOT_PERMITTED'), 'notice');
+					unset($eid[$i]);
+					continue;
+				}
 			}
 
 			if ($table->protected == 1)
@@ -168,12 +176,9 @@ class ManageModel extends InstallerModel
 		}
 
 		// Clear the cached extension data and menu cache
-		$this->cleanCache('_system', 0);
-		$this->cleanCache('_system', 1);
-		$this->cleanCache('com_modules', 0);
-		$this->cleanCache('com_modules', 1);
-		$this->cleanCache('mod_menu', 0);
-		$this->cleanCache('mod_menu', 1);
+		$this->cleanCache('_system');
+		$this->cleanCache('com_modules');
+		$this->cleanCache('mod_menu');
 
 		return $result;
 	}
@@ -299,14 +304,10 @@ class ManageModel extends InstallerModel
 		$app->setUserState('com_installer.extension_message', $installer->get('extension_message'));
 
 		// Clear the cached extension data and menu cache
-		$this->cleanCache('_system', 0);
-		$this->cleanCache('_system', 1);
-		$this->cleanCache('com_modules', 0);
-		$this->cleanCache('com_modules', 1);
-		$this->cleanCache('com_plugins', 0);
-		$this->cleanCache('com_plugins', 1);
-		$this->cleanCache('mod_menu', 0);
-		$this->cleanCache('mod_menu', 1);
+		$this->cleanCache('_system');
+		$this->cleanCache('com_modules');
+		$this->cleanCache('com_plugins');
+		$this->cleanCache('mod_menu');
 
 		return $result;
 	}

@@ -2,7 +2,7 @@
 <form>
 	<field
 		name="id"
-		type="number"
+		type="text"
 		label="JGLOBAL_FIELD_ID_LABEL"
 		default="0"
 		class="readonly"
@@ -11,7 +11,7 @@
 
 	<field
 		name="hits"
-		type="number"
+		type="text"
 		label="JGLOBAL_HITS"
 		class="readonly"
 		default="0"
@@ -88,7 +88,7 @@
 		name="published"
 		type="list"
 		label="JSTATUS"
-		class="custom-select-color-state"
+		class="form-select-color-state"
 		default="1"
 		size="1"
 		validate="options"
@@ -125,6 +125,8 @@
 		name="access"
 		type="accesslevel"
 		label="JFIELD_ACCESS_LABEL"
+		filter="UINT"
+		validate="options"
 	/>
 
 	<field
@@ -158,6 +160,7 @@
 		name="created_user_id"
 		type="user"
 		label="JGLOBAL_FIELD_CREATED_BY_LABEL"
+		validate="UserId"
 	/>
 
 	<field
@@ -185,6 +188,7 @@
 		class="readonly"
 		readonly="true"
 		filter="unset"
+		validate="UserId"
 	/>
 
 	<field
@@ -230,7 +234,7 @@
 					name="tag_layout"
 					type="componentlayout"
 					label="JFIELD_ALT_LAYOUT_LABEL"
-					class="custom-select"
+					class="form-select"
 					useglobal="true"
 					extension="com_tags"
 					view="tag"
@@ -241,6 +245,7 @@
 					type="text"
 					label="COM_TAGS_FIELD_TAG_LINK_CLASS"
 					size="20"
+					validate="CssIdentifier"
 				/>
 
 			</fields>
@@ -334,10 +339,10 @@
 				validate="options"
 				>
 				<option value="">JGLOBAL_USE_GLOBAL</option>
-				<option value="index, follow">JGLOBAL_INDEX_FOLLOW</option>
-				<option value="noindex, follow">JGLOBAL_NOINDEX_FOLLOW</option>
-				<option value="index, nofollow">JGLOBAL_INDEX_NOFOLLOW</option>
-				<option value="noindex, nofollow">JGLOBAL_NOINDEX_NOFOLLOW</option>
+				<option value="index, follow"></option>
+				<option value="noindex, follow"></option>
+				<option value="index, nofollow"></option>
+				<option value="noindex, nofollow"></option>
 			</field>
 		</fieldset>
 	</fields>

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2011 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -126,6 +126,6 @@ class NoteTable extends Table implements VersionableTableInterface
 	 */
 	public function getTypeAlias()
 	{
-		return 'com_users.note';
+		return $this->typeAlias;
 	}
 }

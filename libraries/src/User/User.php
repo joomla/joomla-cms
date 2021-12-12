@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2006 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -102,7 +102,7 @@ class User extends CMSObject
 	/**
 	 * Date the user was registered
 	 *
-	 * @var    \DateTime
+	 * @var    string
 	 * @since  1.7.0
 	 */
 	public $registerDate = null;
@@ -110,7 +110,7 @@ class User extends CMSObject
 	/**
 	 * Date of last visit
 	 *
-	 * @var    \DateTime
+	 * @var    string
 	 * @since  1.7.0
 	 */
 	public $lastvisitDate = null;
@@ -644,9 +644,11 @@ class User extends CMSObject
 				$array['password'] = $this->password;
 			}
 
-			// Prevent updating current registration date/last visit date
+			// Prevent updating internal fields
 			unset($array['registerDate']);
 			unset($array['lastvisitDate']);
+			unset($array['lastResetTime']);
+			unset($array['resetCount']);
 		}
 
 		if (\array_key_exists('params', $array))

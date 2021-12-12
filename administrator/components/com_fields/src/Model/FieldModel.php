@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_fields
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2016 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -163,8 +163,20 @@ class FieldModel extends AdminModel
 		// Save the assigned categories into #__fields_categories
 		$db = $this->getDbo();
 		$id = (int) $this->getState('field.id');
-		$cats = isset($data['assigned_cat_ids']) ? (array) $data['assigned_cat_ids'] : array();
-		$cats = ArrayHelper::toInteger($cats);
+
+		/**
+		 * If the field is only used in subform, set Category to None automatically so that it will only be displayed
+		 * as part of SubForm on add/edit item screen
+		 */
+		if (!empty($data['only_use_in_subform']))
+		{
+			$cats = [-1];
+		}
+		else
+		{
+			$cats = isset($data['assigned_cat_ids']) ? (array) $data['assigned_cat_ids'] : array();
+			$cats = ArrayHelper::toInteger($cats);
+		}
 
 		$assignedCatIds = array();
 
@@ -419,15 +431,15 @@ class FieldModel extends AdminModel
 	/**
 	 * Method to change the title & name.
 	 *
-	 * @param   integer  $category_id  The id of the category.
-	 * @param   string   $name         The name.
-	 * @param   string   $title        The title.
+	 * @param   integer  $categoryId  The id of the category.
+	 * @param   string   $name        The name.
+	 * @param   string   $title       The title.
 	 *
 	 * @return  array  Contains the modified title and name.
 	 *
 	 * @since    3.7.0
 	 */
-	protected function generateNewTitle($category_id, $name, $title)
+	protected function generateNewTitle($categoryId, $name, $title)
 	{
 		// Alter the title & name
 		$table = $this->getTable();
@@ -557,6 +569,29 @@ class FieldModel extends AdminModel
 			// Disable fields while saving. The controller has already verified this is a record you can edit.
 			$form->setFieldAttribute('ordering', 'filter', 'unset');
 			$form->setFieldAttribute('state', 'filter', 'unset');
+		}
+
+		// Don't allow to change the created_user_id user if not allowed to access com_users.
+		if (!Factory::getUser()->authorise('core.manage', 'com_users'))
+		{
+			$form->setFieldAttribute('created_user_id', 'filter', 'unset');
+		}
+
+		// In case we are editing a field, field type cannot be changed, so some extra handling below is needed
+		if ($fieldId)
+		{
+			$fieldType = $form->getField('type');
+
+			if ($fieldType->value == 'subform')
+			{
+				// Only Use In subform should not be available for subform field type, so we remove it
+				$form->removeField('only_use_in_subform');
+			}
+			else
+			{
+				// Field type could not be changed, so remove showon attribute to avoid js errors
+				$form->setFieldAttribute('only_use_in_subform', 'showon', '');
+			}
 		}
 
 		return $form;
@@ -860,7 +895,7 @@ class FieldModel extends AdminModel
 	/**
 	 * A protected method to get a set of ordering conditions.
 	 *
-	 * @param   JTable  $table  A JTable object.
+	 * @param   Table  $table  A JTable object.
 	 *
 	 * @return  array  An array of conditions to add to ordering queries.
 	 *
@@ -919,6 +954,32 @@ class FieldModel extends AdminModel
 		$this->preprocessData('com_fields.field', $data);
 
 		return $data;
+	}
+
+	/**
+	 * Method to validate the form data.
+	 *
+	 * @param   Form    $form   The form to validate against.
+	 * @param   array   $data   The data to validate.
+	 * @param   string  $group  The name of the field group to validate.
+	 *
+	 * @return  array|boolean  Array of filtered data if valid, false otherwise.
+	 *
+	 * @see     JFormRule
+	 * @see     JFilterInput
+	 * @since   3.9.23
+	 */
+	public function validate($form, $data, $group = null)
+	{
+		if (!Factory::getUser()->authorise('core.admin', 'com_fields'))
+		{
+			if (isset($data['rules']))
+			{
+				unset($data['rules']);
+			}
+		}
+
+		return parent::validate($form, $data, $group);
 	}
 
 	/**
@@ -1058,14 +1119,14 @@ class FieldModel extends AdminModel
 	/**
 	 * Clean the cache
 	 *
-	 * @param   string   $group      The cache group
-	 * @param   integer  $client_id  The ID of the client
+	 * @param   string   $group     The cache group
+	 * @param   integer  $clientId  @deprecated   5.0   No longer used.
 	 *
 	 * @return  void
 	 *
 	 * @since   3.7.0
 	 */
-	protected function cleanCache($group = null, $client_id = 0)
+	protected function cleanCache($group = null, $clientId = 0)
 	{
 		$context = Factory::getApplication()->input->get('context');
 

@@ -47,9 +47,10 @@
 		<field
 			name="supported"
 			type="list"
+			label="COM_INSTALLER_HEADING_SUPPORTED"
 			onchange="this.form.submit();"
 			validate="options"
-		>
+			>
 			<option value="">COM_INSTALLER_VALUE_SUPPORTED_SELECT</option>
 			<option value="1">COM_INSTALLER_VALUE_SUPPORTED_SUPPORTED</option>
 			<option value="-1">COM_INSTALLER_VALUE_SUPPORTED_MISSING</option>
