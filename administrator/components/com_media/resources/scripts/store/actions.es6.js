@@ -12,7 +12,7 @@ const updateUrlPath = (path) => {
   } else {
     window.history.pushState(null, '', `${url.href + (url.href.indexOf('?') > 0 ? '&' : '?')}path=${currentPath}`);
   }
-}
+};
 
 /**
  * Actions are similar to mutations, the difference being that:
