@@ -123,7 +123,7 @@
 			<option value="1">COM_USERS_CONFIG_FIELD_ENFORCE_2FA_FIELD_SITE</option>
 			<option value="2">COM_USERS_CONFIG_FIELD_ENFORCE_2FA_FIELD_ADMIN</option>
 			<option value="3">COM_USERS_CONFIG_FIELD_ENFORCE_2FA_FIELD_BOTH</option>
-		</field>		
+		</field>
 
 		<field
 			name="enforce_2fa_usergroups"
