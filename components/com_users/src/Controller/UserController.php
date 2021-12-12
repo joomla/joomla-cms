@@ -232,8 +232,6 @@ class UserController extends BaseController
 			$return = Uri::root();
 		}
 
-		$logout = ComponentHelper::getParams('com_users')->get('frontend_logout_message', 0);
-
 		// Show a message when a user is logged out.
 		if (Factory::getUser()->get('id') === 0)
 		{
