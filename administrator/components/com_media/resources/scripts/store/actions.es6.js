@@ -3,17 +3,22 @@ import * as types from './mutation-types.es6';
 import translate from '../plugins/translate.es6';
 import { notifications } from '../app/Notifications.es6';
 
-// Actions are similar to mutations, the difference being that:
-// - Instead of mutating the state, actions commit mutations.
-// - Actions can contain arbitrary asynchronous operations.
-
-// TODO move to utils
-function updateUrlPath(path) {
+const updateUrlPath = (path) => {
   const currentPath = path === null ? '' : path;
   const url = new URL(window.location.href);
-  url.searchParams.set('path', currentPath);
-  window.history.pushState(null, '', url.href);
+
+   if (url.searchParams.has('path')) {
+     window.history.pushState(null, '', url.href.replace(/\b(path=).*?(&|$)/, `$1${currentPath}$2`));
+   } else {
+     window.history.pushState(null, '', `${url.href + (url.href.indexOf('?') > 0 ? '&' : '?')}path=${currentPath}`);
+   }
 }
+
+/**
+ * Actions are similar to mutations, the difference being that:
+ * Instead of mutating the state, actions commit mutations.
+ * Actions can contain arbitrary asynchronous operations.
+ */
 
 /**
  * Get contents of a directory from the api

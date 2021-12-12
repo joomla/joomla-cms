@@ -218,7 +218,7 @@ class MediaListCest
 		$I->doubleClick(MediaListPage::item('banners'));
 		$I->waitForMediaLoaded();
 		$I->seeInCurrentUrl(MediaListPage::$url . 'banners');
-		$I->seeContents($this->contents['%3A%2Fbanners']);
+		$I->seeContents($this->contents['/banners']);
 	}
 
 	/**
