@@ -36,11 +36,11 @@ abstract class PunycodeHelper
 	 */
 	public static function toPunycode($utfString)
 	{
-		if (!preg_match("/[[a-zA-Z0-9-]+$/", $utfString)) 
+		if (!preg_match("/[[a-zA-Z0-9-]+$/", $utfString))
 		{
 			return (new ToIdn)->convert($utfString);
 		}
-		return $utfString; // This is already a Punycode string
+		return $utfString;
 	}
 
 	/**
