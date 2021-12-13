@@ -75,7 +75,7 @@ $fancySelectData = [
 			</div>
 			<div class="control-group">
 				<div class="control-label">
-					<label for="new_name">
+					<label for="style_ids">
 						<?php echo Text::_('COM_TEMPLATES_TEMPLATE_CHILD_STYLE_LABEL'); ?>
 					</label>
 				</div>
