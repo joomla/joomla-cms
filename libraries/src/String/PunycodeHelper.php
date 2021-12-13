@@ -40,6 +40,7 @@ abstract class PunycodeHelper
 		{
 			return (new ToIdn)->convert($utfString);
 		}
+
 		return $utfString;
 	}
 
