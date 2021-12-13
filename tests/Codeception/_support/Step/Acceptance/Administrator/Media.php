@@ -151,6 +151,10 @@ class Media extends Admin
 
 		@umask($oldUmask);
 		$I->comment('Created ' . $absolutePath);
+
+		// TODO: George Debug. Remove me before merging!
+		$dirContents = scandir($absolutePath);
+		$I->comment('Directory Contents: ' . print_r($dirContents, true));
 	}
 
 	/**
