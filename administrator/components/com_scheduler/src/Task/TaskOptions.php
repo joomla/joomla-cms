@@ -17,7 +17,7 @@ namespace Joomla\Component\Scheduler\Administrator\Task;
  * Used as the subject argument for the `onTaskOptionsList` event, plugins that support tasks must add them to the
  * object through the addOptions() method.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.1.0
  */
 class TaskOptions
 {
@@ -25,7 +25,7 @@ class TaskOptions
 	 * An array of TaskOptions
 	 *
 	 * @var TaskOption[]
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.1.0
 	 */
 	public $options = [];
 
@@ -38,7 +38,7 @@ class TaskOptions
 	 *
 	 * @return void
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.1.0
 	 */
 	public function addOptions(array $taskRoutines): void
 	{
@@ -53,7 +53,7 @@ class TaskOptions
 	 *
 	 * @return  ?TaskOption  A matching TaskOption if available, null otherwise
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.1.0
 	 */
 	public function findOption(?string $routineId): ?TaskOption
 	{

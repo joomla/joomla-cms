@@ -21,19 +21,19 @@ use Joomla\Registry\Registry;
  * The ExecutionRulesRule Class.
  * Validates execution rules, with input for other fields as context.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.1.0
  */
 class ExecutionRulesRule extends FormRule
 {
 	/**
 	 * @var string  RULE_TYPE_FIELD   The field containing the rule type to test against
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.1.0
 	 */
 	private const RULE_TYPE_FIELD = "execution_rules.rule-type";
 
 	/**
 	 * @var string CUSTOM_RULE_GROUP  The field group containing custom execution rules
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.1.0
 	 */
 	private const CUSTOM_RULE_GROUP = "execution_rules.custom";
 
@@ -50,7 +50,7 @@ class ExecutionRulesRule extends FormRule
 	 *
 	 * @return boolean
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.1.0
 	 */
 	public function test(\SimpleXMLElement $element, $value, $group = null, Registry $input = null, Form $form = null): bool
 	{
@@ -73,7 +73,7 @@ class ExecutionRulesRule extends FormRule
 	 *
 	 * @return boolean  True if field is valid
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.1.0
 	 */
 	private function validateField(\SimpleXMLElement $element, $value, ?string $group = null, ?Form $form = null): bool
 	{

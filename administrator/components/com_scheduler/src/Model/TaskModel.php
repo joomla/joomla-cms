@@ -38,7 +38,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
  * MVC Model to interact with the Scheduler DB.
  * Implements methods to add, remove, edit tasks.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.1.0
  */
 class TaskModel extends AdminModel
 {
@@ -47,7 +47,7 @@ class TaskModel extends AdminModel
 	 * ? Do we end up using this?
 	 *
 	 * @var array
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.1.0
 	 */
 	protected const TASK_STATES = [
 		'enabled'  => 1,
@@ -59,7 +59,7 @@ class TaskModel extends AdminModel
 	 * The name of the  database table with task records.
 	 *
 	 * @var  string
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.1.0
 	 */
 	public const TASK_TABLE = '#__scheduler_tasks';
 
@@ -67,7 +67,7 @@ class TaskModel extends AdminModel
 	 * Prefix used with controller messages
 	 *
 	 * @var string
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.1.0
 	 */
 	protected $text_prefix = 'COM_SCHEDULER';
 
@@ -75,7 +75,7 @@ class TaskModel extends AdminModel
 	 * Type alias for content type
 	 *
 	 * @var string
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.1.0
 	 */
 	public $typeAlias = 'com_scheduler.task';
 
@@ -83,7 +83,7 @@ class TaskModel extends AdminModel
 	 * The Application object, for convenience
 	 *
 	 * @var AdministratorApplication $app
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.1.0
 	 */
 	protected $app;
 
@@ -91,7 +91,7 @@ class TaskModel extends AdminModel
 	 * The event to trigger before unlocking the data.
 	 *
 	 * @var    string
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.1.0
 	 */
 	protected $event_before_unlock = null;
 
@@ -99,7 +99,7 @@ class TaskModel extends AdminModel
 	 * The event to trigger after unlocking the data.
 	 *
 	 * @var    string
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.1.0
 	 */
 	protected $event_unlock = null;
 
@@ -110,7 +110,7 @@ class TaskModel extends AdminModel
 	 * @param   MVCFactoryInterface|null   $factory      The factory
 	 * @param   FormFactoryInterface|null  $formFactory  The form factory
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.1.0
 	 * @throws \Exception
 	 */
 	public function __construct($config = array(), MVCFactoryInterface $factory = null, FormFactoryInterface $formFactory = null)
@@ -158,7 +158,7 @@ class TaskModel extends AdminModel
 	 *
 	 * @return Form|boolean  A JForm object on success, false on failure.
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.1.0
 	 * @throws \Exception
 	 */
 	public function getForm($data = array(), $loadData = true)
@@ -206,7 +206,7 @@ class TaskModel extends AdminModel
 	 *
 	 * @return  boolean  True if the record may be deleted
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.1.0
 	 * @throws \Exception
 	 */
 	protected function canDelete($record): bool
@@ -225,7 +225,7 @@ class TaskModel extends AdminModel
 	 *
 	 * @return  void
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.1.0
 	 * @throws \Exception
 	 */
 	protected function populateState(): void
@@ -258,7 +258,7 @@ class TaskModel extends AdminModel
 	 *
 	 * @return Table
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.1.0
 	 * @throws \Exception
 	 */
 	public function getTable($name = 'Task', $prefix = 'Table', $options = array()): Table
@@ -271,7 +271,7 @@ class TaskModel extends AdminModel
 	 *
 	 * @return object  Associative array of form data.
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.1.0
 	 * @throws \Exception
 	 */
 	protected function loadFormData()
@@ -307,7 +307,7 @@ class TaskModel extends AdminModel
 	 *
 	 * @return  object|boolean  Object on success, false on failure
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.1.0
 	 * @throws \Exception
 	 */
 	public function getItem($pk = null)
@@ -349,7 +349,7 @@ class TaskModel extends AdminModel
 	 *
 	 * @return ?\stdClass  Task entry as in the database.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.1.0
 	 * @throws UndefinedOptionsException|InvalidOptionsException
 	 * @throws \RuntimeException
 	 */
@@ -512,7 +512,7 @@ class TaskModel extends AdminModel
 	 *
 	 * @return OptionsResolver
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.1.0
 	 * @throws AccessException
 	 */
 	public static function configureTaskGetterOptions(OptionsResolver $resolver): OptionsResolver
@@ -540,7 +540,7 @@ class TaskModel extends AdminModel
 	 *
 	 * @return  boolean  True on success, false on failure
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.1.0
 	 * @throws \Exception
 	 */
 	public function save($data): bool
@@ -591,7 +591,7 @@ class TaskModel extends AdminModel
 	 *
 	 * @return array  Processed rules
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.1.0
 	 */
 	private function processExecutionRules(array $unprocessedRules): array
 	{
@@ -626,7 +626,7 @@ class TaskModel extends AdminModel
 	 *
 	 * @return array
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.1.0
 	 * @throws \Exception
 	 */
 	private function buildExecutionRules(array $executionRules): array
@@ -678,7 +678,7 @@ class TaskModel extends AdminModel
 	 *
 	 * @return  boolean  True on success.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.1.0
 	 * @throws \RuntimeException|\UnexpectedValueException|\BadMethodCallException
 	 */
 	public function unlock(array &$pks): bool
@@ -790,7 +790,7 @@ class TaskModel extends AdminModel
 	 *
 	 * @return string  A wildcard string if $target is fully populated, else $target itself.
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.1.0
 	 */
 	private function wildcardIfMatch(array $target, array $reference, bool $targetToInt = false): string
 	{
@@ -818,7 +818,7 @@ class TaskModel extends AdminModel
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.1.0
 	 * @throws  \Exception if there is an error in the form event.
 	 */
 	protected function preprocessForm(Form $form, $data, $group = 'content'): void

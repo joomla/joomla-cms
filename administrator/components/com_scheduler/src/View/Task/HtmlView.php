@@ -25,13 +25,13 @@ use Joomla\CMS\Toolbar\ToolbarHelper;
 /**
  * The MVC View for Task configuration page (TaskView).
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.1.0
  */
 class HtmlView extends BaseHtmlView
 {
 	/**
 	 * @var AdministratorApplication $app
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.1.0
 	 */
 	protected $app;
 
@@ -39,7 +39,7 @@ class HtmlView extends BaseHtmlView
 	 * The Form object
 	 *
 	 * @var Form
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.1.0
 	 */
 	protected $form;
 
@@ -47,7 +47,7 @@ class HtmlView extends BaseHtmlView
 	 * The active item
 	 *
 	 * @var object
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.1.0
 	 */
 	protected $item;
 
@@ -55,7 +55,7 @@ class HtmlView extends BaseHtmlView
 	 * The model state
 	 *
 	 * @var CMSObject
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.1.0
 	 */
 	protected $state;
 
@@ -81,7 +81,7 @@ class HtmlView extends BaseHtmlView
 	 *                          (defaults to base_path + /helpers/) layout: the layout (optional) to use to display the
 	 *                          view
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.1.0
 	 * @throws \Exception
 	 */
 	public function __construct($config = array())
@@ -95,7 +95,7 @@ class HtmlView extends BaseHtmlView
 	 *
 	 * @return void
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.1.0
 	 * @throws \Exception
 	 */
 	public function display($tpl = null): void
@@ -118,7 +118,7 @@ class HtmlView extends BaseHtmlView
 	 *
 	 * @return void
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.1.0
 	 */
 	protected function addToolbar(): void
 	{
