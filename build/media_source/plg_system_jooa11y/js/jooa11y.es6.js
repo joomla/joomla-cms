@@ -4,8 +4,9 @@ if (!Joomla) {
   throw new Error('Joomla API is not initaiated properly!');
 }
 
+const stringPrefix = 'PLG_SYSTEM_JOOA11Y_';
+
 Lang.translate = string => {
-  const stringPrefix = 'PLG_SYSTEM_JOOA11Y_';
   return Joomla.Text._(stringPrefix + string, string);
 };
 
