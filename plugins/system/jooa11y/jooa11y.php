@@ -149,7 +149,16 @@ class PlgSystemJooa11y extends CMSPlugin implements SubscriberInterface
 			]
 		);
 
-		$this->attachLanguageStrings();
+		// Add the language constants
+		$constants = [
+			'PLG_SYSTEM_JOOA11Y_HIDE_OUTLINE',
+			'SHOW_SETTINGS',
+		];
+
+		foreach ($constants as $constant)
+		{
+			Text::script($constant);
+		}
 
 		/** @var Joomla\CMS\WebAsset\WebAssetManager $wa*/
 		$wa = $document->getWebAssetManager();
@@ -160,15 +169,5 @@ class PlgSystemJooa11y extends CMSPlugin implements SubscriberInterface
 			->useStyle('plg_system_jooa11y.jooa11y');
 
 		return true;
-	}
-
-	/**
-	 * Attach the language string to JS options
-	 *
-	 * @return void
-	 */
-	protected function attachLanguageStrings()
-	{
-		// @todo Text::script(...);
 	}
 }
