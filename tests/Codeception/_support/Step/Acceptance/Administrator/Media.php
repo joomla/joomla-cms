@@ -153,7 +153,7 @@ class Media extends Admin
 		$I->comment('Created ' . $absolutePath);
 
 		// TODO: George Debug. Remove me before merging!
-		$dirContents = scandir($absolutePath);
+		$dirContents = scandir(dirname($absolutePath));
 		$I->comment('Directory Contents: ' . print_r($dirContents, true));
 	}
 
