@@ -58,6 +58,9 @@ env:
         Helper\JoomlaDb:
           dsn: 'pgsql:host=postgres;dbname=test_joomla'
           prefix: 'jos_'
+        Helper\Acceptance:
+          url: 'http://localhost/postgres'
+          cmsPath: '/tests/www/postgres'
   mysql8:
     modules:
       config:
@@ -67,6 +70,9 @@ env:
           database prefix: 'jos_'
         Helper\JoomlaDb:
           prefix: 'jos_'
+        Helper\Acceptance:
+          url: 'http://localhost/mysql8'
+          cmsPath: '/tests/www/mysql8'
   mysql:
     modules:
       config:
@@ -75,6 +81,9 @@ env:
           database prefix: 'jos_'
         Helper\JoomlaDb:
           prefix: 'jos_'
+        Helper\Acceptance:
+          url: 'http://localhost/mysql'
+          cmsPath: '/tests/www/mysql'
   postgresphpmax:
     modules:
       config:
@@ -86,6 +95,9 @@ env:
         Helper\JoomlaDb:
           dsn: 'pgsql:host=postgres;dbname=test_joomla'
           prefix: 'phpmax_'
+        Helper\Acceptance:
+          url: 'http://localhost/postgresphpmax'
+          cmsPath: '/tests/www/postgresphpmax'
   mysql8phpmax:
     modules:
       config:
@@ -95,6 +107,9 @@ env:
           database prefix: 'phpmax_'
         Helper\JoomlaDb:
           prefix: 'phpmax_'
+        Helper\Acceptance:
+          url: 'http://localhost/mysql8phpmax'
+          cmsPath: '/tests/www/mysql8phpmax'
   mysqlphpmax:
     modules:
       config:
@@ -103,3 +118,6 @@ env:
           database prefix: 'phpmax_'
         Helper\JoomlaDb:
           prefix: 'phpmax_'
+        Helper\Acceptance:
+          url: 'http://localhost/mysqlphpmax'
+          cmsPath: '/tests/www/mysqlphpmax'
