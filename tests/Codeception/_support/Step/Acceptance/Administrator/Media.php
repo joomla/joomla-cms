@@ -331,6 +331,7 @@ class Media extends Admin
 	 */
 	protected function absolutizePath($path)
 	{
+			$I = $this;
 
 			// TODO: Remove before merge
 		$I->comment('Directory Contents: ' . print_r($path, true));
