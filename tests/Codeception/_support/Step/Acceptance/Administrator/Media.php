@@ -331,13 +331,6 @@ class Media extends Admin
 	 */
 	protected function absolutizePath($path)
 	{
-			$I = $this;
-
-			// TODO: Remove before merge
-		$I->comment('Directory Contents: ' . print_r($path, true));
-		$I->comment('cmspath Contents: ' . print_r($this->getCmsPath(), true));
-		$I->comment('Acceptence config Contents: ' . json_encode($this->getSuiteConfiguration()));
-
 		return rtrim($this->getCmsPath(), '/') . '/' . ltrim($path, '/');
 	}
 
@@ -350,14 +343,7 @@ class Media extends Admin
 	 */
 	protected function getLocalUser()
 	{
-		try
-		{
-			return $this->getSuiteConfiguration()['modules']['config']['Helper\Acceptance']['localUser'];
-		}
-		catch (Exception $e)
-		{
-			return '';
-		}
+		return $this->getScenario()->current('localUser');
 	}
 
 	/**
@@ -371,13 +357,6 @@ class Media extends Admin
 	 */
 	protected function getCmsPath()
 	{
-		try
-		{
-			return $this->getSuiteConfiguration()['modules']['config']['Helper\Acceptance']['cmsPath'];
-		}
-		catch (Exception $e)
-		{
-			throw new Exception('cmsPath is not defined in acceptance.suite.yml.');
-		}
+		return $this->getScenario()->current('cmsPath');
 	}
 }
