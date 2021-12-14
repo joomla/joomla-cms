@@ -18,6 +18,8 @@ use Facebook\WebDriver\WebDriverKeys;
 use Page\Acceptance\Administrator\MediaListPage;
 use PHPUnit\Framework\Assert;
 
+use function print_r;
+
 /**
  * Acceptance Step object class contains suits for Media Manager.
  *
@@ -329,6 +331,12 @@ class Media extends Admin
 	 */
 	protected function absolutizePath($path)
 	{
+
+			// TODO: Remove before merge
+		$I->comment('Directory Contents: ' . print_r($path, true));
+		$I->comment('cmspath Contents: ' . print_r($this->getCmsPath(), true));
+		$I->comment('Acceptence config Contents: ' . print_r($this->getSuiteConfiguration()['modules']['config']['Helper\Acceptance'], true));
+
 		return rtrim($this->getCmsPath(), '/') . '/' . ltrim($path, '/');
 	}
 
