@@ -41,7 +41,7 @@ modules:
     Helper\Acceptance:
       url: 'http://localhost/test-install'   # the url that points to the joomla installation at /tests/system/joomla-cms - we need it twice here
       MicrosoftEdgeInsiders: false           # set this to true, if you are on Windows Insiders
-      cmsPath: '/tests/www/test-install'                # ; If you want to setup your test website (document root) in a different folder, you can do that here.
+      cmsPath: '/tests/www/test-install-test'                # ; If you want to setup your test website (document root) in a different folder, you can do that here.
       localUser: 'www-data'                          # (Linux / Mac only) If you want to set a different owner for the CMS test folder
 
 error_level: "E_ALL & ~E_STRICT & ~E_DEPRECATED"

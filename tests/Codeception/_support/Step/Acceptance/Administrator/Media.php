@@ -336,7 +336,7 @@ class Media extends Admin
 			// TODO: Remove before merge
 		$I->comment('Directory Contents: ' . print_r($path, true));
 		$I->comment('cmspath Contents: ' . print_r($this->getCmsPath(), true));
-		$I->comment('Acceptence config Contents: ' . print_r($this->getSuiteConfiguration()['modules']['config']['Helper\Acceptance'], true));
+		$I->comment('Acceptence config Contents: ' . json_encode($this->getSuiteConfiguration()['modules']['config']['Helper\Acceptance']));
 
 		return rtrim($this->getCmsPath(), '/') . '/' . ltrim($path, '/');
 	}
