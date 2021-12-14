@@ -33,6 +33,7 @@
   "dependencies": {
     "@claviska/jquery-minicolors": "^2.3.5",
     "@fortawesome/fontawesome-free": "^5.15.3",
+    "@popperjs/core": "^2.9.2",
     "@webcomponents/webcomponentsjs": "^2.5.0",
     "accessibility": "^3.0.10",
     "awesomplete": "1.1.5",
