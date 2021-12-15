@@ -86,7 +86,15 @@ class CategoriesController extends ApiController
 		/** @var Category $category */
 		$category = $this->getModel('Category')->getTable('Category');
 		$category->load($recordId);
-		$category->setLocation($category->parent_id, $data['location']);
+
+		$reference = $category->parent_id;
+
+		if (!empty($data['location_reference']))
+		{
+			$reference = $data['location_reference'];
+		}
+
+		$category->setLocation($reference, $data['location']);
 		$category->store();
 
 		return $recordId;
