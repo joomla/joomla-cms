@@ -12,6 +12,7 @@ namespace Joomla\Component\Categories\Api\Controller;
 \defined('_JEXEC') or die;
 
 use Joomla\CMS\MVC\Controller\ApiController;
+use Joomla\CMS\Table\Category;
 
 /**
  * The categories controller
@@ -55,6 +56,40 @@ class CategoriesController extends ApiController
 		$this->input->set('extension', $extension);
 
 		return $data;
+	}
+
+	/**
+	 * Method to save a record.
+	 *
+	 * @param   integer  $recordKey  The primary key of the item (if exists)
+	 *
+	 * @return  integer  The record ID on success, false on failure
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	protected function save($recordKey = null)
+	{
+		$recordId = parent::save($recordKey);
+
+		if (!$recordId)
+		{
+			return $recordId;
+		}
+
+		$data = $this->input->get('data', json_decode($this->input->json->getRaw(), true), 'array');
+
+		if (empty($data['location']))
+		{
+			return $recordId;
+		}
+
+		/** @var Category $category */
+		$category = $this->getModel('Category')->getTable('Category');
+		$category->load($recordId);
+		$category->setLocation($category->parent_id, $data['location']);
+		$category->store();
+
+		return $recordId;
 	}
 
 	/**
