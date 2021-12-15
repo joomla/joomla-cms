@@ -47,55 +47,11 @@
 					default="main"
 					filter="string"
 				/>
-			</fieldset>
-			<fieldset name="advanced">
 				<field
 					name="containerIgnore"
 					type="text"
 					label="PLG_SYSTEM_JOOA11Y_FIELD_CONTAINER_IGNORE"
 					description="PLG_SYSTEM_JOOA11Y_FIELD_CONTAINER_IGNORE_DESC"
-					filter="string"
-				/>
-				<field
-					name="outlineIgnore"
-					type="text"
-					label="PLG_SYSTEM_JOOA11Y_FIELD_OUTLINE_IGNORE"
-					description="PLG_SYSTEM_JOOA11Y_FIELD_OUTLINE_IGNORE_DESC"
-					filter="string"
-				/>
-				<field
-					name="headerIgnore"
-					type="text"
-					label="PLG_SYSTEM_JOOA11Y_FIELD_HEADER_IGNORE"
-					description="PLG_SYSTEM_JOOA11Y_FIELD_HEADER_IGNORE_DESC"
-					filter="string"
-				/>
-				<field
-					name="imageIgnore"
-					type="text"
-					label="PLG_SYSTEM_JOOA11Y_FIELD_IMAGE_IGNORE"
-					description="PLG_SYSTEM_JOOA11Y_FIELD_IMAGE_IGNORE_DESC"
-					filter="string"
-				/>
-				<field
-					name="linkIgnore"
-					type="text"
-					label="PLG_SYSTEM_JOOA11Y_FIELD_LINK_IGNORE"
-					description="PLG_SYSTEM_JOOA11Y_FIELD_LINK_IGNORE_DESC"
-					filter="string"
-				/>
-				<field
-					name="linkSpanIgnore"
-					type="text"
-					label="PLG_SYSTEM_JOOA11Y_FIELD_LINK_SPAN_IGNORE"
-					description="PLG_SYSTEM_JOOA11Y_FIELD_LINK_SPAN_IGNORE_DESC"
-					filter="string"
-				/>
-				<field
-					name="linksToFlag"
-					type="text"
-					label="PLG_SYSTEM_JOOA11Y_FIELD_LINKS_TO_FLAG"
-					description="PLG_SYSTEM_JOOA11Y_FIELD_LINKS_TO_FLAG_DESC"
 					filter="string"
 				/>
 			</fieldset>
