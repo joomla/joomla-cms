@@ -36,7 +36,7 @@ abstract class PunycodeHelper
 	 */
 	public static function toPunycode($utfString)
 	{
-		if (!preg_match("/[[a-zA-Z0-9-]+$/", $utfString))
+		if (substr($utfString,0,4) != 'xn--')
 		{
 			return (new ToIdn)->convert($utfString);
 		}
