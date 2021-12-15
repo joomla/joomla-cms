@@ -226,7 +226,8 @@ class HtmlView extends BaseHtmlView
 
 				if (PluginHelper::isEnabled('system', 'jooa11y'))
 				{
-					$toolbar->jooa11y($url . '&jooa11y=1', 'JGLOBAL_JOOA11Y')
+					$query = (Factory::getApplication()->getConfig()->get('sef')) ? "?" : "&";
+					$toolbar->jooa11y($url . $query . 'jooa11y=1', 'JGLOBAL_JOOA11Y')
 						->bodyHeight(80)
 						->modalWidth(90);
 				}
