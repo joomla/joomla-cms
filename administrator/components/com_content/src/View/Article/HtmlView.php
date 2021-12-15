@@ -214,20 +214,15 @@ class HtmlView extends BaseHtmlView
 					$toolbar->versions('com_content.article', $this->item->id);
 				}
 
-				$url = Route::link(
-					'site',
-					RouteHelper::getArticleRoute($this->item->id . ':' . $this->item->alias, $this->item->catid, $this->item->language),
-					true
-				);
+				$url = RouteHelper::getArticleRoute($this->item->id . ':' . $this->item->alias, $this->item->catid, $this->item->language);
 
-				$toolbar->preview($url, 'JGLOBAL_PREVIEW')
+				$toolbar->preview(Route::link('site', $url, true), 'JGLOBAL_PREVIEW')
 					->bodyHeight(80)
 					->modalWidth(90);
 
 				if (PluginHelper::isEnabled('system', 'jooa11y'))
 				{
-					$query = (Factory::getApplication()->getConfig()->get('sef')) ? "?" : "&";
-					$toolbar->jooa11y($url . $query . 'jooa11y=1', 'JGLOBAL_JOOA11Y')
+					$toolbar->jooa11y(Route::link('site', $url . '&jooa11y=1', true), 'JGLOBAL_JOOA11Y')
 						->bodyHeight(80)
 						->modalWidth(90);
 				}
