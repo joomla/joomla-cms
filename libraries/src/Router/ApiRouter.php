@@ -158,10 +158,10 @@ class ApiRouter extends Router
 
 		// When the base path doesn't contain the api part in the url, the routes will not match
 		// This can happen when the live site parameter is set
-        if (!strpos($baseUri, '/api'))
+		if (!strpos($baseUri, '/api'))
 		{
-            $baseUri .= '/api';
-        }
+			$baseUri .= '/api';
+		}
 
 		// Remove the base URI path.
 		$path = substr_replace($path, '', 0, \strlen($baseUri));
