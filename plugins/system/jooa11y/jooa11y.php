@@ -134,12 +134,6 @@ class PlgSystemJooa11y extends CMSPlugin implements SubscriberInterface
 				'checkRoot'       => $this->params->get('checkRoot', 'main'),
 				'readabilityRoot' => $this->params->get('readabilityRoot', 'main'),
 				'containerIgnore' => $this->params->get('containerIgnore'),
-				'outlineIgnore'   => $this->params->get('outlineIgnore'),
-				'headerIgnore'    => $this->params->get('headerIgnore'),
-				'imageIgnore'     => $this->params->get('imageIgnore'),
-				'linkIgnore'      => $this->params->get('linkIgnore'),
-				'linkIgnoreSpan'  => $this->params->get('linkIgnore'),
-				'linksToFlag'     => $this->params->get('linkIgnore'),
 				// Start up preferences
 				'contrast'        => $this->params->get('contrast'),
 				'labels'          => $this->params->get('labels'),
