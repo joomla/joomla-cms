@@ -37,11 +37,12 @@ abstract class PunycodeHelper
 	 */
 	public static function toPunycode($utfString)
 	{
-		try 
+		try
 		{
-		    $converted = (new ToIdn)->convert($utfString);
-		} catch (AlreadyPunycodeException $e) {
-		    $converted = $utfString;
+			$converted = (new ToIdn)->convert($utfString);
+		} catch (AlreadyPunycodeException $e)
+		{
+			$converted = $utfString;
 		}
 		return $converted;
 	}
