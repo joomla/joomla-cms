@@ -33,10 +33,10 @@
           toggleButton.removeAttribute('disabled');
           toggleButton.addEventListener('click', () => {
             if (Joomla.editors.instances[currentEditor.id].instance.isHidden()) {
-              toggleIcon.setAttribute('class', 'icon-eye');
+              toggleIcon ? toggleIcon.setAttribute('class', 'icon-eye') : null;
               Joomla.editors.instances[currentEditor.id].instance.show();
             } else {
-              toggleIcon.setAttribute('class', 'icon-eye-slash');
+              toggleIcon ? toggleIcon.setAttribute('class', 'icon-eye-slash') : null;
               Joomla.editors.instances[currentEditor.id].instance.hide();
             }
           });
