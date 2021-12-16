@@ -343,7 +343,6 @@ class Media extends Admin
 	protected function getLocalUser()
 	{
 		$I = $this;
-		$I->comment('Config: ' . json_encode($I->getConfig(null)));
 
 		return $I->getConfig('localUser');
 	}
@@ -359,6 +358,8 @@ class Media extends Admin
 	 */
 	protected function getCmsPath()
 	{
-		return $this->getConfig('localUser');
+		$I = $this;
+
+		return $I->getConfig('cmsPath');
 	}
 }
