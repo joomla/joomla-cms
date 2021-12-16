@@ -348,6 +348,8 @@ class Media extends Admin
 	 */
 	protected function getLocalUser()
 	{
+		$this->comment('Config: ' . json_encode($this->getConfig(null)));
+
 		return $this->getConfig('localUser');
 	}
 
