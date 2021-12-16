@@ -331,8 +331,13 @@ class Media extends Admin
 	 */
 	protected function absolutizePath($path)
 	{
+		// George TODO: Remove before merge
+		$I = $this;
+		$I->comment('Acceptance config Contents: ' . json_encode($this->getSuiteConfiguration()));
+
 		return rtrim($this->getCmsPath(), '/') . '/' . ltrim($path, '/');
 	}
+
 
 	/**
 	 * Method to get the local user from the configuration from suite configuration.
@@ -343,7 +348,7 @@ class Media extends Admin
 	 */
 	protected function getLocalUser()
 	{
-		return $this->getScenario()->current('localUser');
+		return $this->getConfig('localUser');
 	}
 
 	/**
@@ -357,6 +362,6 @@ class Media extends Admin
 	 */
 	protected function getCmsPath()
 	{
-		return $this->getScenario()->current('cmsPath');
+		return $this->getConfig('localUser');
 	}
 }
