@@ -40,7 +40,7 @@ abstract class PunycodeHelper
 		try
 		{
 			$converted = (new ToIdn)->convert($utfString);
-		} 
+		}
 		catch (AlreadyPunycodeException $e)
 		{
 			$converted = $utfString;
