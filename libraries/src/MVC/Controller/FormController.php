@@ -950,9 +950,19 @@ class FormController extends BaseController
 			{
 				$fieldName = $field->fieldname;
 
-				if (isset($filteredData[$fieldName]))
+				if ($field->group)
 				{
-					$data[$fieldName] = $filteredData[$fieldName];
+					if (isset($filteredData[$field->group][$fieldName]))
+					{
+						$data[$field->group][$fieldName] = $filteredData[$field->group][$fieldName];
+					}
+				}
+				else
+				{
+					if (isset($filteredData[$fieldName]))
+					{
+						$data[$fieldName] = $filteredData[$fieldName];
+					}
 				}
 			}
 		}
