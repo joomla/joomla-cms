@@ -12,6 +12,7 @@ namespace Joomla\CMS\String;
 
 use Algo26\IdnaConvert\ToIdn;
 use Algo26\IdnaConvert\ToUnicode;
+use Algo26\IdnaConvert\Exception\AlreadyPunycodeException;
 use Joomla\Uri\UriHelper;
 
 /**
@@ -36,12 +37,13 @@ abstract class PunycodeHelper
 	 */
 	public static function toPunycode($utfString)
 	{
-		if (substr($utfString,0,4) != 'xn--')
+		try 
 		{
-			return (new ToIdn)->convert($utfString);
+		    $converted = (new ToIdn)->convert($utfString);
+		} catch (AlreadyPunycodeException $e) {
+		    $converted = $utfString;
 		}
-
-		return $utfString;
+		return $converted;
 	}
 
 	/**
