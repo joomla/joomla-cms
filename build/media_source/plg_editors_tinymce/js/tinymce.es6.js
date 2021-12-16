@@ -33,11 +33,13 @@
           toggleButton.removeAttribute('disabled');
           toggleButton.addEventListener('click', () => {
             if (Joomla.editors.instances[currentEditor.id].instance.isHidden()) {
-              toggleIcon ? toggleIcon.setAttribute('class', 'icon-eye') : null;
               Joomla.editors.instances[currentEditor.id].instance.show();
             } else {
-              toggleIcon ? toggleIcon.setAttribute('class', 'icon-eye-slash') : null;
               Joomla.editors.instances[currentEditor.id].instance.hide();
+            }
+
+            if (toggleIcon) {
+              toggleIcon.setAttribute('class', Joomla.editors.instances[currentEditor.id].instance.isHidden() ? 'icon-eye' : 'icon-eye-slash');
             }
           });
         }
