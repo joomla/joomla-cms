@@ -200,13 +200,11 @@ $app->getDocument()->getWebAssetManager()->useScript('com_scheduler.test-task');
 								<?php echo $this->escape($item->title); ?>
 							<?php endif; ?>
 
-							<span class="small">
-								<?php if (empty($item->note)): ?>
-									<?php echo Text::_('COM_SCHEDULER_NO_NOTE'); ?>
-								<?php else: ?>
+							<?php if ($item->note): ?>
+								<span class="small">
 									<?php echo Text::sprintf('JGLOBAL_LIST_NOTE', $this->escape($item->note)); ?>
-								<?php endif; ?>
-							</span>
+								</span>
+							<?php endif; ?>
 						</th>
 
 						<!-- Item type -->
@@ -222,7 +220,7 @@ $app->getDocument()->getWebAssetManager()->useScript('com_scheduler.test-task');
 						<!-- Test task -->
 						<td class="small d-none d-md-table-cell">
 							<button type="button" class="btn btn-sm btn-warning" <?php echo $item->state < 0 ? 'disabled' : ''; ?> data-id="<?php echo (int) $item->id; ?>" data-title="<?php echo htmlspecialchars($item->title); ?>" data-bs-toggle="modal" data-bs-backdrop="static" data-bs-target="#scheduler-test-modal">
-								<span class="fa fa-play fa-sm mr-2"></span>
+								<span class="fa fa-play fa-sm me-2"></span>
 								<?php echo Text::_('COM_SCHEDULER_TEST_RUN'); ?>
 							</button>
 						</td>
