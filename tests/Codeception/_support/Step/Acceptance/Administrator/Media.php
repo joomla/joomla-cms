@@ -332,7 +332,6 @@ class Media extends Admin
 		return rtrim($this->getCmsPath(), '/') . '/' . ltrim($path, '/');
 	}
 
-
 	/**
 	 * Method to get the local user from the configuration from suite configuration.
 	 *
