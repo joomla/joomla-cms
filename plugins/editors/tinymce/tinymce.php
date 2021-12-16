@@ -617,6 +617,7 @@ class PlgEditorTinymce extends CMSPlugin
 				'content_css'        => $content_css,
 				'document_base_url'  => Uri::root(true) . '/',
 				'paste_data_images'  => $allowImgPaste,
+				'paste_as_text'      => (bool) $levelParams->get('paste_as_text', true),
 				'image_caption'      => true,
 				'importcss_append'   => true,
 				'height'             => $html_height,
