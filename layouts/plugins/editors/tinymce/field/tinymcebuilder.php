@@ -102,11 +102,11 @@ $doc->addScriptOptions('plg_editors_tinymce_builder',
 			<joomla-tab-element class="tab-pane" id="set-<?php echo $num; ?>" <?php echo $isActive; ?> name="<?php echo $title; ?>">
 				<?php // Render tab content for each set ?>
 					<?php
-						$presetButtonClasses = array(
+						$presetButtonClasses = [
 							'simple'   => 'btn-success',
 							'medium'   => 'btn-info',
 							'advanced' => 'btn-warning',
-						);
+						];
 						// Check whether the values exists, and if empty then use from preset
 						if (empty($value['toolbars'][$num]['menu'])
 							&& empty($value['toolbars'][$num]['toolbar1'])
