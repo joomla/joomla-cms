@@ -286,11 +286,7 @@ class AddUserCommand extends AbstractCommand
 	}
 
 	/**
-	 * Configure the command.
-	 *
-	 * @return  void
-	 *
-	 * @since   4.0.0
+	 * {@inheritdoc}
 	 */
 	protected function configure(): void
 	{
