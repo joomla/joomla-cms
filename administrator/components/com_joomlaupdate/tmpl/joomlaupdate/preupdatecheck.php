@@ -283,7 +283,7 @@ if (version_compare($this->updateInfo['latest'], Version::MAJOR_VERSION + 1, '>=
 										</th>
 										<th class="upcomp hidden" scope="col">
 											<?php echo Text::sprintf('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSION_COMPATIBLE_WITH_JOOMLA_VERSION', $this->escape($this->updateInfo['latest'])); ?>
-										</td>
+										</th>
 									</tr>
 								</thead>
 								<tbody class="row-fluid">
