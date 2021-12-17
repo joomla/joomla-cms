@@ -403,7 +403,12 @@ class ApiController extends BaseController
 	 *
 	 * @param   integer  $recordKey  The primary key of the item (if exists)
 	 *
-	 * @return  integer  The record ID on success, false on failure
+	 * @return  integer|boolean  The record ID on success, false on failure
+	 *
+	 * @throws InvalidParameterException
+	 * @throws \RuntimeException
+	 * @throws \Exception
+	 * @throws \Joomla\CMS\MVC\Controller\Exception\CheckinCheckout
 	 *
 	 * @since   4.0.0
 	 */
