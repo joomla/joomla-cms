@@ -12,8 +12,10 @@ namespace Joomla\CMS\Application;
 
 use Joomla\CMS\Console;
 use Joomla\CMS\Extension\ExtensionManagerTrait;
+use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Language;
 use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\CMS\Router\Router;
 use Joomla\CMS\Version;
 use Joomla\Console\Application;
 use Joomla\DI\Container;
@@ -137,6 +139,9 @@ class ConsoleApplication extends Application implements DispatcherAwareInterface
 
 		// Set up the environment
 		$this->input->set('format', 'cli');
+
+		// Setting HOST to live site as it is needed when doing some routing
+		$_SERVER['HTTP_HOST'] = $this->get('live_site');
 	}
 
 	/**
@@ -433,5 +438,28 @@ class ConsoleApplication extends Application implements DispatcherAwareInterface
 	public function setName(string $name): void
 	{
 		throw new \RuntimeException('The console application name cannot be changed');
+	}
+
+	/**
+	 * Returns the application Router object.
+	 *
+	 * @param   string  $name     The name of the application.
+	 * @param   array   $options  An optional associative array of configuration settings.
+	 *
+	 * @return  Router
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public static function getRouter($name = null, array $options = array())
+	{
+		if (!isset($name) || Factory::getApplication()->getName() === $name)
+		{
+			// Use site as default as there is no console router
+			$name = 'site';
+		}
+
+		$options['mode'] = Factory::getApplication()->get('sef');
+
+		return Router::getInstance($name, $options);
 	}
 }
