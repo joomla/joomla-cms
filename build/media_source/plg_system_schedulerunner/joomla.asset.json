@@ -25,7 +25,7 @@
         "plg_system_schedulerunner.run-schedule.es5",
         "core"
       ],
-      "atrributes": {
+      "attributes": {
         "nomodule": true,
         "defer": true
       }
