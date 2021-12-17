@@ -26,8 +26,7 @@
         "core"
       ],
       "attributes": {
-        "nomodule": true,
-        "defer": true
+         "type": "module"
       }
     }
   ]
