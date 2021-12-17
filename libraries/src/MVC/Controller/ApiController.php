@@ -401,7 +401,7 @@ class ApiController extends BaseController
 	/**
 	 * Method to save a record.
 	 *
-	 * @param   integer  $recordKey  The primary key of the item (if exists)
+	 * @param   integer|null  $recordKey  The primary key of the item (if exists)
 	 *
 	 * @return  integer|boolean  The record ID on success, false on failure
 	 *
