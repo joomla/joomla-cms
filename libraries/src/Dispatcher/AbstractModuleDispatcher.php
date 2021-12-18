@@ -10,6 +10,8 @@ namespace Joomla\CMS\Dispatcher;
 
 \defined('_JEXEC') or die;
 
+use Joomla\CMS\Application\AdministratorApplication;
+use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Application\CMSApplicationInterface;
 use Joomla\CMS\Helper\ModuleHelper;
 use Joomla\Input\Input;
@@ -78,6 +80,17 @@ abstract class AbstractModuleDispatcher extends Dispatcher
 			{
 				extract($displayData);
 			}
+
+			/**
+			 * Extracted variables
+			 * -----------------
+			 * @var   \stdClass       $module
+			 * @var   CMSApplication  $app
+			 * @var   Input           $input
+			 * @var   Registry        $params
+			 * @var   string          $template
+			 * @var   array           $buttons
+			 */
 
 			require ModuleHelper::getLayoutPath($module->module, $params->get('layout', 'default'));
 		};
