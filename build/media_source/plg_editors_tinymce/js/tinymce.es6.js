@@ -6,6 +6,19 @@
 ((tinyMCE, Joomla, window, document) => {
   'use strict';
 
+  // Debounce ReInit per editor ID
+  const reInitQueue = {};
+  const debounceReInit = (editor, element, pluginOptions) => {
+    if (reInitQueue[element.id]) {
+      clearTimeout(reInitQueue[element.id]);
+    }
+    reInitQueue[element.id] = setTimeout(() => {
+      editor.remove();
+      Joomla.editors.instances[element.id] = null;
+      Joomla.JoomlaTinyMCE.setupEditor(element, pluginOptions);
+    }, 500);
+  }
+
   Joomla.JoomlaTinyMCE = {
     /**
      * Find all TinyMCE elements and initialize TinyMCE instance for each
@@ -148,6 +161,16 @@
       // Create a new instance
       // eslint-disable-next-line no-undef
       const ed = new tinyMCE.Editor(element.id, options, tinymce.EditorManager);
+
+      // Work around iframe behavior, when iframe element changes location in DOM and losing its content.
+      // Re init editor when iframe is reloaded.
+      ed.on('PostRender', (event) => {
+        const $iframe = ed.getContentAreaContainer().querySelector('iframe');
+        $iframe && $iframe.addEventListener('load', () => {
+          debounceReInit(ed, element, pluginOptions)
+        });
+      });
+
       ed.render();
 
       /** Register the editor's instance to Joomla Object */
