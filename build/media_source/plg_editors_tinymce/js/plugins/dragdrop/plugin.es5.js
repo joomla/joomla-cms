@@ -3,20 +3,28 @@
 
   /* eslint-disable no-undef */
   tinymce.PluginManager.add('jdragndrop', function (editor) {
-    var responseData; // Reset the drop area border
+    var responseData;
 
-    tinyMCE.DOM.bind(document, 'dragleave', function (e) {
+    // Reset the drop area border
+    var dragleaveCallback = function (e) {
       e.stopPropagation();
       e.preventDefault();
-      editor.contentAreaContainer.style.borderWidth = '1px 0 0';
+      editor.contentAreaContainer.style.borderWidth = '0';
       return false;
-    }); // Fix for Chrome
+    }
+    tinyMCE.DOM.bind(document, 'dragleave', dragleaveCallback);
 
+    editor.on('remove', function () {
+      tinyMCE.DOM.unbind(document, 'dragleave', dragleaveCallback);
+    });
+
+    // Fix for Chrome
     editor.on('dragenter', function (e) {
       e.stopPropagation();
       return false;
-    }); // Notify user when file is over the drop area
+    });
 
+    // Notify user when file is over the drop area
     editor.on('dragover', function (e) {
       e.preventDefault();
       editor.contentAreaContainer.style.borderStyle = 'dashed';
