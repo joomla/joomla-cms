@@ -16,7 +16,7 @@
         "vendor-dir": "libraries/vendor",
         "github-protocols": ["https"],
         "allow-plugins": {
-            "dealerdirect/phpcodesniffer-composer-installer": false
+            "dealerdirect/phpcodesniffer-composer-installer": true
         }
     },
     "support": {
