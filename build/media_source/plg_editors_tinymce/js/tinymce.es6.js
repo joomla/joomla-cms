@@ -17,7 +17,7 @@
       Joomla.editors.instances[element.id] = null;
       Joomla.JoomlaTinyMCE.setupEditor(element, pluginOptions);
     }, 500);
-  }
+  };
 
   Joomla.JoomlaTinyMCE = {
     /**
@@ -164,11 +164,13 @@
 
       // Work around iframe behavior, when iframe element changes location in DOM and losing its content.
       // Re init editor when iframe is reloaded.
-      ed.on('PostRender', (event) => {
+      ed.on('PostRender', () => {
         const $iframe = ed.getContentAreaContainer().querySelector('iframe');
-        $iframe && $iframe.addEventListener('load', () => {
-          debounceReInit(ed, element, pluginOptions)
-        });
+        if ($iframe) {
+          $iframe.addEventListener('load', () => {
+            debounceReInit(ed, element, pluginOptions);
+          });
+        }
       });
 
       ed.render();
