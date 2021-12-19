@@ -344,14 +344,14 @@
       "dom-autoscroller": {
         "name": "dragula-scroller",
         "js": {
-          "dist/dom-autoscroller.js": "js/dragula-scroller.js",
-          "dist/dom-autoscroller.min.js": "js/dragula-scroller.min.js"
+          "dist/dom-autoscroller.js": "js/dom-autoscroller.js",
+          "dist/dom-autoscroller.min.js": "js/dom-autoscroller.min.js"
         },
         "provideAssets": [
           {
             "name": "dragula-scroller",
             "type": "script",
-            "uri": "dragula-scroller.min.js",
+            "uri": "dom-autoscroller.min.js",
             "attributes": {
               "defer": true
             }
