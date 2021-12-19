@@ -6,9 +6,7 @@ if (!Joomla) {
 
 const stringPrefix = 'PLG_SYSTEM_JOOA11Y_';
 
-Lang.translate = string => {
-  return Joomla.Text._(stringPrefix + string, string);
-};
+Lang.translate = (string) => Joomla.Text._(stringPrefix + string, string);
 
 const options = Joomla.getOptions('jooa11yOptions');
 
