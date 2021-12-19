@@ -144,7 +144,7 @@ if (container) {
   };
 
   // eslint-disable-next-line no-undef
-  dragula([container], {
+  const drake = dragula([container], {
     // Y axis is considered when determining where an element would be dropped
     direction: 'vertical',
     // elements are moved by default, not copied
@@ -188,4 +188,18 @@ if (container) {
     .on('drop', (el) => {
       saveTheOrder(el);
     });
+
+  autoScroll(
+    [
+      window,
+      container.parentElement,
+    ],
+    {
+      margin: 20,
+      scrollWhenOutside: false,
+      autoScroll() {
+        return this.down && drake.dragging;
+      },
+    },
+  );
 }

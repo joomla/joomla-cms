@@ -43,6 +43,7 @@
     "codemirror": "^5.64.0",
     "cropperjs": "^1.5.11",
     "diff": "^4.0.2",
+    "dom-autoscroller": "^2.3.4",
     "dragula": "3.7.2",
     "focus-visible": "^5.2.0",
     "joomla-ui-custom-elements": "0.2.0",

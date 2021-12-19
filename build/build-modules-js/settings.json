@@ -341,6 +341,25 @@
         "dependencies": [],
         "licenseFilename": "license"
       },
+      "dom-autoscroller": {
+        "name": "dragula-scroller",
+        "js": {
+          "dist/dom-autoscroller.js": "js/dragula-scroller.js",
+          "dist/dom-autoscroller.min.js": "js/dragula-scroller.min.js"
+        },
+        "provideAssets": [
+          {
+            "name": "dragula-scroller",
+            "type": "script",
+            "uri": "dragula-scroller.min.js",
+            "attributes": {
+              "defer": true
+            }
+          }
+        ],
+        "dependencies": [],
+        "licenseFilename": "LICENSE"
+      },
       "focus-visible": {
         "name": "focus-visible",
         "js": {
