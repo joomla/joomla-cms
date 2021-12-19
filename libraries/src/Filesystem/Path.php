@@ -216,7 +216,10 @@ class Path
 			);
 		}
 
-		$path = trim($path);
+ 		if (isset($path))
+		{
+			$path = trim($path);
+		}
 
 		if (empty($path))
 		{

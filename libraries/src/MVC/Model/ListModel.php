@@ -630,7 +630,7 @@ class ListModel extends BaseDatabaseModel implements ListModelInterface
 				// Check if the ordering direction is valid, otherwise use the incoming value.
 				$value = $app->getUserStateFromRequest($this->context . '.orderdirn', 'filter_order_Dir', $direction);
 
-				if (!\in_array(strtoupper($value), array('ASC', 'DESC', '')))
+				if (!\in_array(strtoupper($value ?? ''), array('ASC', 'DESC', '')))
 				{
 					$value = $direction;
 					$app->setUserState($this->context . '.orderdirn', $value);

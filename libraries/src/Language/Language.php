@@ -1180,6 +1180,11 @@ class Language
 	 */
 	public function hasKey($string)
 	{
+		if ($string === null)
+		{
+			$string = '';
+		}
+
 		$key = strtoupper($string);
 
 		return isset($this->strings[$key]);

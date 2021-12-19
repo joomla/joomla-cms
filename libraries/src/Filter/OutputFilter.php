@@ -47,7 +47,7 @@ class OutputFilter extends BaseOutputFilter
 	 */
 	public static function stringJSSafe($string)
 	{
-		$chars = preg_split('//u', $string, null, PREG_SPLIT_NO_EMPTY);
+		$chars = preg_split('//u', $string, 0, PREG_SPLIT_NO_EMPTY);
 		$new_str = '';
 
 		foreach ($chars as $chr)
@@ -81,6 +81,11 @@ class OutputFilter extends BaseOutputFilter
 	public static function stringURLSafe($string, $language = '')
 	{
 		// Remove any '-' from the string since they will be used as concatenaters
+		if ($string === null)
+		{
+			$string = '';
+		}
+
 		$str = str_replace('-', ' ', $string);
 
 		// Transliterate on the language requested (fallback to current language if not specified)

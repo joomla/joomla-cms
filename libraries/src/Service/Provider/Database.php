@@ -46,6 +46,11 @@ class Database implements ServiceProviderInterface
 
 					$dbtype = $conf->get('dbtype');
 
+					if ($dbtype === null)
+					{
+						$dbtype = 'mysqli';
+					}
+
 					/*
 					 * In Joomla! 3.x and earlier the `mysql` type was used for the `ext/mysql` PHP extension, which is no longer supported.
 					 * The `pdomysql` type represented the PDO MySQL adapter.  With the Framework's package in use, the PDO MySQL adapter
