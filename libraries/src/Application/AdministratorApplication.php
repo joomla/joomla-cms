@@ -387,8 +387,8 @@ class AdministratorApplication extends CMSApplication
 		{
 			$lang = $this->input->getCmd('lang');
 
-			if(isset($lang))
-			{			
+			if (isset($lang))
+			{
 				$lang = preg_replace('/[^A-Z-]/i', '', $lang);
 			}
 

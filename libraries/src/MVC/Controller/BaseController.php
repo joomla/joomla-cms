@@ -709,7 +709,7 @@ class BaseController implements ControllerInterface
 	{
 		$this->task = $task;
 
-		if(isset($task))
+		if (isset($task))
 		{
 			$task = strtolower($task);
 		}

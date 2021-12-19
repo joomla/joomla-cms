@@ -216,7 +216,7 @@ class Path
 			);
 		}
 
- 		if (isset($path))
+		if (isset($path))
 		{
 			$path = trim($path);
 		}
