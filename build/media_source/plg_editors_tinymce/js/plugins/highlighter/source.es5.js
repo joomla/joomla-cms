@@ -194,7 +194,7 @@ const start = () => {
 
   CMsettings.config.value = html;
 
-  // Instantiante CodeMirror:
+  // Instantiate CodeMirror:
   codemirror = CodeMirror(document.body, CMsettings.config);
   codemirror.isDirty = false;
   codemirror.on('change', (inst) => {
