@@ -143,8 +143,7 @@ if (container) {
     rearrangeChildren(el);
   };
 
-  // eslint-disable-next-line no-undef
-  const drake = dragula([container], {
+  const drake = window.dragula([container], {
     // Y axis is considered when determining where an element would be dropped
     direction: 'vertical',
     // elements are moved by default, not copied
@@ -189,7 +188,7 @@ if (container) {
       saveTheOrder(el);
     });
 
-  autoScroll(
+  window.autoScroll(
     [
       window,
       container.parentElement,
