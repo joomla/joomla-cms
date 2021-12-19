@@ -135,7 +135,7 @@ if (container) {
       const ajaxOptions = {
         url,
         method: 'POST',
-        data: new URLSearchParams(formData).toString() + '&' + getOrderData(rows, inputRows, dragElementIndex, dropElementIndex).join('&'),
+        data: `${new URLSearchParams(formData).toString()}&${getOrderData(rows, inputRows, dragElementIndex, dropElementIndex).join('&')}`,
         perform: true,
       };
 
