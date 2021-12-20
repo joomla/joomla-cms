@@ -195,7 +195,8 @@ if (container) {
     ],
     {
       margin: 20,
-      scrollWhenOutside: false,
+      maxSpeed: 10,
+      scrollWhenOutside: true,
       autoScroll() {
         return this.down && drake.dragging;
       },
