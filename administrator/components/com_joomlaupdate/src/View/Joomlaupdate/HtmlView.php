@@ -89,7 +89,7 @@ class HtmlView extends BaseHtmlView
 	protected $defaultBackendTemplate = 'atum';
 
 	/**
-	 * Flag if the update component itself has to be updated
+	 * Flag if default backend template is being used
 	 *
 	 * @var boolean  True when default backend template is being used
 	 *
@@ -107,7 +107,7 @@ class HtmlView extends BaseHtmlView
 	protected $messagePrefix = '';
 
 	/**
-	 * Flag if the update component itself has to be updated
+	 * List of non core critical plugins
 	 *
 	 * @var    \stdClass[]
 	 * @since  4.0.0
