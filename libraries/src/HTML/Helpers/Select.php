@@ -136,7 +136,7 @@ abstract class Select
 		}
 
 		$id = $options['id'] !== false ? $options['id'] : $name;
-		$id = str_replace(array('[', ']', ' '), '', $id);
+		$id = str_replace(array('[', ']', ' '), '', $id ?? '');
 
 		// If the selectbox contains "form-select-color-state" then load the JS file
 		if (strpos($attribs, 'form-select-color-state') !== false)

@@ -315,7 +315,7 @@ class BaseController implements ControllerInterface
 		}
 
 		// Get the controller class name.
-		$class = ucfirst($prefix) . 'Controller' . ucfirst($type);
+		$class = ucfirst($prefix) . 'Controller' . ucfirst($type ?? '');
 
 		// Include the class if not present.
 		if (!class_exists($class))

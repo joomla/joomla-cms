@@ -582,7 +582,7 @@ class ListModel extends BaseDatabaseModel implements ListModelInterface
 								break;
 
 							case 'direction':
-								if (!\in_array(strtoupper($value), array('ASC', 'DESC', '')))
+								if (!\in_array(strtoupper($value ?? ''), array('ASC', 'DESC', '')))
 								{
 									$value = $direction;
 								}

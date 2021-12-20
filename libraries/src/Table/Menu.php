@@ -125,7 +125,7 @@ class Menu extends Nested
 		}
 
 		// Check for a path.
-		if (trim($this->path) === '')
+		if (trim($this->path ?? '') === '')
 		{
 			$this->path = $this->alias;
 		}
