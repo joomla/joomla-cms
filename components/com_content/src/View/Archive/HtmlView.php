@@ -205,7 +205,7 @@ class HtmlView extends BaseHtmlView
 		$form->limitField = $pagination->getLimitBox();
 
 		// Escape strings for HTML output
-		$this->pageclass_sfx = htmlspecialchars($params->get('pageclass_sfx'));
+		$this->pageclass_sfx = htmlspecialchars($params->get('pageclass_sfx', ''));
 
 		$this->filter     = $state->get('list.filter');
 		$this->form       = &$form;
