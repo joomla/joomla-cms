@@ -94,8 +94,6 @@ class HtmlView extends BaseHtmlView
 
 		$this->_prepareDocument();
 
-		Factory::getApplication()->getDocument()->getWebAssetManager()->useScript('inlinehelp');
-
 		parent::display($tpl);
 	}
 
