@@ -114,11 +114,20 @@ class TemplateModel extends AdminModel
 			$form->removeField('copyto', 'params');
 		}
 
-		if (!trim($params->get('attachment_folder')))
+		if ($params->get('attachment_folder') === null)
 		{
 			$form->removeField('attachments');
 
 			return $form;
+		}
+		else
+		{
+			if (!trim($params->get('attachment_folder')))
+			{
+				$form->removeField('attachments');
+
+				return $form;
+			}
 		}
 
 		try
