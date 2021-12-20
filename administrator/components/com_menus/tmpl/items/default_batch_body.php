@@ -31,7 +31,7 @@ if ($clientId == 1)
 }
 ?>
 <div class="p-3">
-	<?php if (strlen($menuType) && $menuType != '*') : ?>
+	<?php if (strlen($menuType ?? '') && $menuType != '*') : ?>
 	<?php if ($clientId != 1) : ?>
 	<div class="row">
 		<?php if (Multilanguage::isEnabled()) : ?>
