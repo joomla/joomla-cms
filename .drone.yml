@@ -149,8 +149,46 @@ steps:
     commands:
       - npm run lint:js
 
+  - name: phpmin-api-mysql
+    depends_on:
+      - javascript-cs
+    image: joomlaprojects/docker-images:systemtests
+    environment:
+      JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
+    commands:
+      - bash tests/Codeception/drone-api-run.sh "$(pwd)" mysql
+
+  - name: phpmax-api-mysql
+    depends_on:
+      - phpmin-api-mysql
+    image: joomlaprojects/docker-images:systemtests81
+    environment:
+      JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
+    commands:
+      - bash tests/Codeception/drone-api-run.sh "$(pwd)" mysql
+
+  - name: phpmin-api-postgres
+    depends_on:
+      - phpmax-api-mysql
+    image: joomlaprojects/docker-images:systemtests
+    environment:
+      JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
+    commands:
+      - bash tests/Codeception/drone-api-run.sh "$(pwd)" postgres
+
+  - name: phpmax-api-postgres
+    depends_on:
+      - phpmin-api-postgres
+    image: joomlaprojects/docker-images:systemtests81
+    environment:
+      JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
+    commands:
+      - bash tests/Codeception/drone-api-run.sh "$(pwd)" postgres
+
   - name: phpmin-system-mysql
-    depends_on: [ javascript-cs ]
+    depends_on:
+      - javascript-cs
+      - phpmax-api-postgres
     image: joomlaprojects/docker-images:systemtests
     environment:
       JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
@@ -200,7 +238,8 @@ steps:
     commands:
       - bash tests/Codeception/drone-system-run.sh "$(pwd)" postgres
 
-  - name: api-tests
+  - name: artifacts-system-tests
+    image: cschlosser/drone-ftps
     depends_on:
       - phpmax-system-mysql
       - phpmax-system-mysql8
@@ -208,15 +247,10 @@ steps:
       - phpmin-system-mysql
       - phpmin-system-mysql8
       - phpmin-system-postgres
-    image: joomlaprojects/docker-images:systemtests
-    environment:
-      JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
-    commands:
-      - bash tests/Codeception/drone-api-run.sh "$(pwd)"
-
-  - name: artifacts-system-tests
-    image: cschlosser/drone-ftps
-    depends_on: [ api-tests ]
+      - phpmax-api-mysql
+      - phpmax-api-postgres
+      - phpmin-api-mysql
+      - phpmin-api-postgres
     environment:
       FTP_USERNAME:
         from_secret: ftpusername
@@ -305,6 +339,6 @@ steps:
 
 ---
 kind: signature
-hmac: 475844d98659ca1ae5acec3960fe329b8ae412f15c7dae440cb99fe3f258bd9a
+hmac: dbc4227e3f479ff2080b7d39e71308556fb4924cbee3151d3a7766d5a51283bb
 
 ...
