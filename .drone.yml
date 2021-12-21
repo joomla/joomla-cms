@@ -162,6 +162,7 @@ steps:
     depends_on:
       - phpmin-api-mysql
     image: joomlaprojects/docker-images:systemtests8.1
+    failure: ignore
     environment:
       JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
     commands:
@@ -171,6 +172,7 @@ steps:
     depends_on:
       - phpmax-api-mysql
     image: joomlaprojects/docker-images:systemtests
+    failure: ignore
     environment:
       JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
     commands:
@@ -180,6 +182,7 @@ steps:
     depends_on:
       - phpmin-api-postgres
     image: joomlaprojects/docker-images:systemtests8.1
+    failure: ignore
     environment:
       JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
     commands:
@@ -190,6 +193,7 @@ steps:
       - javascript-cs
       - phpmax-api-postgres
     image: joomlaprojects/docker-images:systemtests
+    failure: ignore
     environment:
       JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
     commands:
