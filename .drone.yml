@@ -161,7 +161,7 @@ steps:
   - name: phpmax-api-mysql
     depends_on:
       - phpmin-api-mysql
-    image: joomlaprojects/docker-images:systemtests81
+    image: joomlaprojects/docker-images:systemtests8.1
     environment:
       JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
     commands:
@@ -179,7 +179,7 @@ steps:
   - name: phpmax-api-postgres
     depends_on:
       - phpmin-api-postgres
-    image: joomlaprojects/docker-images:systemtests81
+    image: joomlaprojects/docker-images:systemtests8.1
     environment:
       JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
     commands:
@@ -339,6 +339,6 @@ steps:
 
 ---
 kind: signature
-hmac: dbc4227e3f479ff2080b7d39e71308556fb4924cbee3151d3a7766d5a51283bb
+hmac: 7c8d375a35ad2b6da2e9b5417e420fd4a1f16cb63850c266118e0ce7e29d27ce
 
 ...
