@@ -55,58 +55,6 @@
 					filter="string"
 				/>
 			</fieldset>
-			<fieldset name="preferences" label="PLG_SYSTEM_JOOA11Y_PREFERENCES_FIELDSET_LABEL">
-				<field
-					name="contrast"
-					type="radio"
-					label="PLG_SYSTEM_JOOA11Y_FIELD_PREF_CONTRAST"
-					layout="joomla.form.field.radio.switcher"
-					default="On"
-					>
-					<option value="Off">JOFF</option>
-					<option value="On">JON</option>
-				</field>
-				<field
-					name="labels"
-					type="radio"
-					label="PLG_SYSTEM_JOOA11Y_FIELD_PREF_LABELS"
-					layout="joomla.form.field.radio.switcher"
-					default="On"
-					>
-					<option value="Off">JOFF</option>
-					<option value="On">JON</option>
-				</field>
-				<field
-					name="links_advanced"
-					type="radio"
-					label="PLG_SYSTEM_JOOA11Y_FIELD_PREF_LINKS_ADVANCED"
-					layout="joomla.form.field.radio.switcher"
-					default="Off"
-					>
-					<option value="Off">JOFF</option>
-					<option value="On">JON</option>
-				</field>
-				<field
-					name="readability"
-					type="radio"
-					label="PLG_SYSTEM_JOOA11Y_FIELD_PREF_READABILITY"
-					layout="joomla.form.field.radio.switcher"
-					default="On"
-					>
-					<option value="Off">JOFF</option>
-					<option value="On">JON</option>
-				</field>
-				<field
-					name="darkmode"
-					type="radio"
-					label="PLG_SYSTEM_JOOA11Y_FIELD_PREF_DARKMODE"
-					layout="joomla.form.field.radio.switcher"
-					default="Off"
-					>
-					<option value="Off">JOFF</option>
-					<option value="On">JON</option>
-				</field>
-			</fieldset>
 		</fields>
 	</config>
 </extension>

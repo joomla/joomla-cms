@@ -123,26 +123,6 @@ class PlgSystemJooa11y extends CMSPlugin implements SubscriberInterface
 		// Detect the current active language
 		$lang = Factory::getLanguage()->getTag();
 
-		// Add plugin settings from the xml
-		$document->addScriptOptions(
-			'jooa11yOptions',
-			[
-				// Language
-				'langCode'        => $this->params->get('langCode', 'en'),
-				'readabilityLang' => $this->params->get('readabilityLang', 'en'),
-				// Advanced Fieldset
-				'checkRoot'       => $this->params->get('checkRoot', 'main'),
-				'readabilityRoot' => $this->params->get('readabilityRoot', 'main'),
-				'containerIgnore' => $this->params->get('containerIgnore'),
-				// Start up preferences
-				'contrast'        => $this->params->get('contrast'),
-				'labels'          => $this->params->get('labels'),
-				'links_advanced'  => $this->params->get('links_advanced'),
-				'readability'     => $this->params->get('readability'),
-				'darkmode'        => $this->params->get('darkmode'),
-			]
-		);
-
 		// Add the language constants
 		$constants = [
 			'PLG_SYSTEM_JOOA11Y_ALERT_CLOSE',
