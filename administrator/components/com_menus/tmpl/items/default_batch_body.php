@@ -20,7 +20,7 @@ $options = [
 ];
 $published = (int) $this->state->get('filter.published');
 $clientId  = (int) $this->state->get('filter.client_id');
-$menuType  = Factory::getApplication()->getUserState('com_menus.items.menutype');
+$menuType  = Factory::getApplication()->getUserState('com_menus.items.menutype', '');
 
 if ($clientId == 1)
 {
@@ -31,7 +31,7 @@ if ($clientId == 1)
 }
 ?>
 <div class="p-3">
-	<?php if (strlen($menuType ?? '') && $menuType != '*') : ?>
+	<?php if (strlen($menuType) && $menuType != '*') : ?>
 	<?php if ($clientId != 1) : ?>
 	<div class="row">
 		<?php if (Multilanguage::isEnabled()) : ?>
