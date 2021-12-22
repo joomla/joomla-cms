@@ -146,9 +146,3 @@
 .sorting__list-li-active {
   background-color: #f0f0f0;
 }
-
-.sorting__link {
-  padding: .5rem;
-  text-decoration: none;
-  display: block;
-}

@@ -34,7 +34,7 @@ use Joomla\CMS\Router\Route;
 		<ul id="finder_sorting_list" class="sorting__list block dropdown-menu" role="listbox" aria-labelledby="finder_sorting_desc">
 			<?php foreach ($this->sortOrderFields as $sortOrderField) : ?>
 			<li  class="sorting__list-li <?php echo $sortOrderField->active ? 'sorting__list-li-active' : ''; ?>">
-				<a class="sorting__link" role="option" href="<?php echo Route::_($sortOrderField->url);?>" <?php echo $sortOrderField->active ? 'aria-current="true"' : ''; ?>>
+				<a class="dropdown-item" role="option" href="<?php echo Route::_($sortOrderField->url);?>" <?php echo $sortOrderField->active ? 'aria-current="true"' : ''; ?>>
 					<?php echo $this->escape($sortOrderField->label); ?>
 				</a>
 			</li>
