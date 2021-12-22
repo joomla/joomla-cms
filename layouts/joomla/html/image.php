@@ -28,7 +28,7 @@ if (!empty($displayData['alt']))
 	$displayData['alt'] = $this->escape($displayData['alt']);
 }
 
-if ($img->width > 0 && $img->height > 0)
+if (isset($img->width) && $img->width > 0 && isset($img->height) && $img->height > 0)
 {
 	$displayData['width']   = $img->width;
 	$displayData['height']  = $img->height;
