@@ -8,8 +8,12 @@
 				label="PLG_TASK_CHECK_FILES_LABEL_DIRECTORY"
 				directory="images"
 				hide_default="true"
+				hide_none="true"
 				required="true"
-			/>
+				validate="options"
+				>
+				<option value="">JOPTION_DO_NOT_USE</option>
+			</field>
 			<field
 				name="dimension"
 				type="list"

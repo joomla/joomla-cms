@@ -352,9 +352,9 @@ abstract class WebApplication extends AbstractWebApplication
 		}
 
 		// Check to see if an explicit base URI has been set.
-		$siteUri = trim($this->get('site_uri'));
+		$siteUri = trim($this->get('site_uri', ''));
 
-		if ($siteUri != '')
+		if ($siteUri !== '')
 		{
 			$uri = Uri::getInstance($siteUri);
 			$path = $uri->toString(array('path'));
@@ -401,7 +401,7 @@ abstract class WebApplication extends AbstractWebApplication
 		}
 
 		// Get an explicitly set media URI is present.
-		$mediaURI = trim($this->get('media_uri'));
+		$mediaURI = trim($this->get('media_uri', ''));
 
 		if ($mediaURI)
 		{
