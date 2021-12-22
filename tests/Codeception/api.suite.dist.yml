@@ -3,10 +3,6 @@ modules:
     enabled:
         - Helper\JoomlaDb
         - \Helper\Api
-        - REST:
-             url: http://localhost/mysql/api/index.php/v1
-             depends: PhpBrowser
-             part: Json
     config:
         Helper\JoomlaDb:
             dsn: 'mysql:host=mysql;dbname=test_joomla'
@@ -15,11 +11,21 @@ modules:
             prefix: 'jos_'
 
 env:
+  mysql:
+    modules:
+      enabled:
+        - REST:
+            url: http://localhost/mysql/api/index.php/v1
+            depends: PhpBrowser
+            part: Json
   postgres:
     modules:
+      enabled:
+        - REST:
+            url: http://localhost/postgres/api/index.php/v1
+            depends: PhpBrowser
+            part: Json
       config:
-        PhpBrowser:
-          url: http://localhost/postgres/api/index.php/v1
         Helper\JoomlaDb:
           dsn: 'pgsql:host=postgres;dbname=test_joomla'
           prefix: 'jos_'
@@ -28,6 +34,8 @@ env:
       enabled:
         - REST:
             url: http://localhost/postgresphpmax/api/index.php/v1
+            depends: PhpBrowser
+            part: Json
       config:
         Helper\JoomlaDb:
           dsn: 'pgsql:host=postgres;dbname=test_joomla'
@@ -37,6 +45,8 @@ env:
       enabled:
         - REST:
             url: http://localhost/mysqlphpmax/api/index.php/v1
+            depends: PhpBrowser
+            part: Json
       config:
         Helper\JoomlaDb:
           prefix: 'phpmax_'
