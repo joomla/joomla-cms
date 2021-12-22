@@ -3,6 +3,7 @@
     "stylelint-scss",
     "stylelint-order"
   ],
+  "customSyntax": "postcss-scss",
   "rules": {
     "declaration-bang-space-before": "always",
     "declaration-bang-space-after": "never",

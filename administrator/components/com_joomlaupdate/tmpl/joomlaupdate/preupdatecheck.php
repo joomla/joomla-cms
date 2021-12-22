@@ -300,7 +300,7 @@ if (version_compare($this->updateInfo['latest'], Version::MAJOR_VERSION + 1, '>=
 											<td class="instver hidden">
 												<?php echo $extension->version; ?>
 											</td>
-											<td id="available-version-<?php echo $extension->extension_id; ?>" class="currcomp hidden" />
+											<td id="available-version-<?php echo $extension->extension_id; ?>" class="currcomp hidden"></td>
 											<td
 												class="extension-check upcomp hidden"
 												data-extension-id="<?php echo $extension->extension_id; ?>"
