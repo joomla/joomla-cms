@@ -131,11 +131,14 @@
  */
 #sorting_label {
   margin-inline-end: .3rem;
-  vertical-align: super;
 }
 
 #sorting_btn {
   min-width: 8rem;
+}
+
+.sorting .sorting__select {
+  margin-bottom: 0;
 }
 
 .sorting__list-li {
