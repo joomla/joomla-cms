@@ -25,7 +25,7 @@ $img        = HTMLHelper::cleanImageURL($images->image_fulltext);
 $layoutAttr = [
 	'src'      => $img->url,
 	'itemprop' => 'image',
-	'alt'      => empty($images->image_fulltext_alt) && empty($images->image_fulltext_alt_empty) ? '' : 'alt="' . htmlspecialchars($images->image_fulltext_alt, ENT_COMPAT, 'UTF-8') . '"',
+	'alt'      => empty($images->image_fulltext_alt) && empty($images->image_fulltext_alt_empty) ? '' : htmlspecialchars($images->image_fulltext_alt, ENT_COMPAT, 'UTF-8'),
 ];
 
 // Set lazyloading only for images which have width and height attributes
