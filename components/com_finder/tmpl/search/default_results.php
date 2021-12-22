@@ -45,7 +45,7 @@ use Joomla\CMS\Uri\Uri;
 	<?php // Exit this template. ?>
 	<?php return; ?>
 <?php endif; ?>
-<?php // Display the the "Sort By" drop-down. ?>
+<?php // Display the 'Sort By' drop-down. ?>
 <?php if ($this->params->get('show_sort_order', 0) && !empty($this->sortOrderFields) && !empty($this->results)) : ?>
 	<div id="search-sorting" class="com-finder__sorting d-flex justify-content-end">
 		<?php echo $this->loadTemplate('sorting'); ?>
