@@ -132,6 +132,7 @@ abstract class PunycodeHelper
 	{
 		if (empty($uri))
 		{
+			$uri = '';
 			return;
 		}
 
