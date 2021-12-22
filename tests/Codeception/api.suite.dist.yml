@@ -17,10 +17,9 @@ modules:
 env:
   postgres:
     modules:
-      enabled:
-        - REST:
-            url: http://localhost/postgres/api/index.php/v1
       config:
+        PhpBrowser:
+          url: http://localhost/postgres/api/index.php/v1
         Helper\JoomlaDb:
           dsn: 'pgsql:host=postgres;dbname=test_joomla'
           prefix: 'jos_'
