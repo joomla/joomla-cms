@@ -74,6 +74,7 @@ if (window.innerWidth > 1024) {
   // @todo Needs to be translateable
   // summary.innerText = 'Table options';
   summary.innerText = Joomla.Text._('JSHOW');
+
   detailElement.appendChild(summary);
 
   const ul = document.createElement('ul');
@@ -87,6 +88,7 @@ if (window.innerWidth > 1024) {
     const label = document.createElement('label');
     const input = document.createElement('input');
     input.type = 'checkbox';
+    input.name = 'column';
 
     if (storage.get(index) === false) {
       input.setAttribute('checked', '');
@@ -132,4 +134,7 @@ if (window.innerWidth > 1024) {
         }
       });
   });
+
+  console.log(headers.length);
+  console.log(document.querySelectorAll("input[name='column']:checked").length); // replace 'name' with the name of the checkboxes
 }
