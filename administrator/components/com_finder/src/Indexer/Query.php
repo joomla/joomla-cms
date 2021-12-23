@@ -750,12 +750,12 @@ class Query
 	 */
 	protected function processString($input, $lang, $mode)
 	{
-		// Clean up the input string.
 		if ($input === null)
 		{
 			$input = '';
 		}
 
+		// Clean up the input string.
 		$input  = html_entity_decode($input, ENT_QUOTES, 'UTF-8');
 		$input  = StringHelper::strtolower($input);
 		$input  = preg_replace('#\s+#mi', ' ', $input);
