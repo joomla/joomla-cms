@@ -67,20 +67,23 @@ if (window.innerWidth > 1024) {
       storage.set(index, 0);
     }
   };
+  const divouter = document.createElement('div');
+  divouter.setAttribute('class', 'dropdown float-end pb-2');
 
-  const button = document.createElement('button')
-  // set up the button
-  button.setAttribute('class', 'btn btn-info');
+  const divinner = document.createElement('div');
+  divinner.setAttribute('class', 'dropdown-menu dropdown-menu-end');
+  divinner.setAttribute('data-bs-popper', 'static');
+
+  const button = document.createElement('button');
+  button.setAttribute('class', 'btn btn-primary btn-sm');
   button.setAttribute('type', 'button');
-  button.setAttribute('data-bs-toggle', 'dropend');
-  button.setAttribute('data-bs-display', 'static');
+  button.setAttribute('data-bs-toggle', 'dropdown');
+  button.setAttribute('data-bs-auto-close', 'false');
   button.setAttribute('aria-haspopup', 'true');
   button.setAttribute('aria-expanded', 'false');
-  // the id below needs to be changed to something unique (same as pagens?)
-  button.setAttribute('id', '12345');
 
   const ul = document.createElement('ul');
-  ul.setAttribute('class', 'list-unstyled');
+  ul.setAttribute('class', 'list-unstyled p-2');
   ul.setAttribute('id', 'columnList');
 
   headers.forEach((el, index) => {
@@ -121,7 +124,11 @@ if (window.innerWidth > 1024) {
     li.appendChild(label);
     ul.appendChild(li);
   });
-  table.insertAdjacentElement('afterend', ul);
+  table.insertAdjacentElement('beforebegin', divouter);
+  divouter.insertAdjacentElement('afterbegin', button);
+  divouter.insertAdjacentElement('beforeend', divinner);
+  divinner.insertAdjacentElement('afterbegin', ul);
+
   rows.forEach((col) => {
     [].slice.call(col.children)
       .forEach((cc, index) => {
@@ -138,10 +145,14 @@ if (window.innerWidth > 1024) {
         }
       });
   });
-const columnCount = document.querySelectorAll("input[name='column']:checked");
-// columnCount needs to be updated when you select a checkbox - this is static :()
-// add 1 to the count for the checkbox column we excluded earlier
-button.innerText = (columnCount.length + 1)  + '/' + headers.length + ' ' + Joomla.Text._('JGLOBAL_COLUMNS');
-table.insertAdjacentElement('afterend', button);
+  const columnCount = document.querySelectorAll("input[name='column']:checked");
+  function updateChecked() {
+    button.innerText = (document.querySelectorAll("input[name='column']:checked").length + 1) + '/' + headers.length + ' ' + Joomla.Text._('JGLOBAL_COLUMNS');
+  }
 
+  document.querySelectorAll("input[name='column']").forEach((i) => {
+    i.onclick = () => updateChecked();
+  });
+  // add 1 to the columnCount.length for the checkbox column we excluded earlier
+  button.innerText = (columnCount.length + 1) + '/' + headers.length + ' ' + Joomla.Text._('JGLOBAL_COLUMNS');
 }
