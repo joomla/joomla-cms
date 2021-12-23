@@ -201,7 +201,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 		// Don't add empty messages.
 		if ($msg === null)
 		{
-			$msg = '';
+			return;
 		}
 
 		if (trim($msg) === '')

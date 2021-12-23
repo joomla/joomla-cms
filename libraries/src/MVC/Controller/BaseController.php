@@ -305,7 +305,7 @@ class BaseController implements ControllerInterface
 		else
 		{
 			// Base controller.
-			$type = null;
+			$type = '';
 
 			// Define the controller filename and path.
 			$file       = self::createFileName('controller', array('name' => 'controller', 'format' => $format));
@@ -315,7 +315,7 @@ class BaseController implements ControllerInterface
 		}
 
 		// Get the controller class name.
-		$class = ucfirst($prefix) . 'Controller' . ucfirst($type ?? '');
+		$class = ucfirst($prefix) . 'Controller' . ucfirst($type);
 
 		// Include the class if not present.
 		if (!class_exists($class))
@@ -709,7 +709,7 @@ class BaseController implements ControllerInterface
 	{
 		$this->task = $task;
 
-		if (isset($task))
+		if ($task !== null)
 		{
 			$task = strtolower($task);
 		}

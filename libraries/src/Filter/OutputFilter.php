@@ -80,12 +80,12 @@ class OutputFilter extends BaseOutputFilter
 	 */
 	public static function stringURLSafe($string, $language = '')
 	{
-		// Remove any '-' from the string since they will be used as concatenaters
 		if ($string === null)
 		{
 			$string = '';
 		}
 
+		// Remove any '-' from the string since they will be used as concatenaters
 		$str = str_replace('-', ' ', $string);
 
 		// Transliterate on the language requested (fallback to current language if not specified)

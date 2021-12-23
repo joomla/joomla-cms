@@ -76,7 +76,7 @@ class ComponentlayoutField extends FormField
 		{
 			$template_style_id = $this->form->getValue('template_style_id');
 
-			if (isset($template_style_id))
+			if ($template_style_id !== null)
 			{
 				$template_style_id = (int) preg_replace('#\W#', '', $template_style_id);
 			}
