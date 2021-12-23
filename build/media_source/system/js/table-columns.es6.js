@@ -76,6 +76,8 @@ if (window.innerWidth > 1024) {
   button.setAttribute('data-bs-display', 'static');
   button.setAttribute('aria-haspopup', 'true');
   button.setAttribute('aria-expanded', 'false');
+  // the id below needs to be changed to something unique (same as pagens?)
+  button.setAttribute('id', '12345');
 
   const ul = document.createElement('ul');
   ul.setAttribute('class', 'list-unstyled');
@@ -135,8 +137,9 @@ if (window.innerWidth > 1024) {
         }
       });
   });
-const columnCount = document.querySelectorAll("input[name='column']:checked").length + '/' + headers.length;
-button.innerText = columnCount + ' ' + Joomla.Text._('JGLOBAL_COLUMNS');
+const columnCount = document.querySelectorAll("input[name='column']:checked");
+// columnCount needs to be updated when you select a checkbox - this is static :()
+button.innerText = columnCount.length  + '/' + headers.length + ' ' + Joomla.Text._('JGLOBAL_COLUMNS');
 table.insertAdjacentElement('afterend', button);
 
 }
