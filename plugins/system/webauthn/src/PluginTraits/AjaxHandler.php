@@ -134,7 +134,7 @@ trait AjaxHandler
 
 					if (isset($result['message']))
 					{
-						$type = isset($result['type']) ? $result['type'] : 'info';
+						$type = $result['type'] ?? 'info';
 						$app->enqueueMessage($result['message'], $type);
 
 						$modifiers = " and setting a system message of type $type";
