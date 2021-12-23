@@ -71,9 +71,7 @@ if (window.innerWidth > 1024) {
   const detailElement = document.createElement('details');
   const summary = document.createElement('summary');
 
-  // @todo Needs to be translateable
-  // summary.innerText = 'Table options';
-  summary.innerText = Joomla.Text._('JSHOW');
+  summary.innerText = Joomla.Text._('JGLOBAL_COLUMNS');
 
   detailElement.appendChild(summary);
 
