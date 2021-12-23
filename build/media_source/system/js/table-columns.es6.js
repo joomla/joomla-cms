@@ -68,14 +68,18 @@ if (window.innerWidth > 1024) {
     }
   };
 
-  const detailElement = document.createElement('details');
-  const summary = document.createElement('summary');
-
-  summary.innerText = Joomla.Text._('JGLOBAL_COLUMNS');
-
-  detailElement.appendChild(summary);
+  const button = document.createElement('button')
+  // set up the button
+  button.setAttribute('class', 'btn btn-info');
+  button.setAttribute('type', 'button');
+  button.setAttribute('data-bs-toggle', 'dropend');
+  button.setAttribute('data-bs-display', 'static');
+  button.setAttribute('aria-haspopup', 'true');
+  button.setAttribute('aria-expanded', 'false');
 
   const ul = document.createElement('ul');
+  ul.setAttribute('class', 'list-unstyled');
+
   headers.forEach((el, index) => {
     // Remove the first column as we don't want to hide the row select checkbox
     if (index === 0) return;
@@ -85,6 +89,7 @@ if (window.innerWidth > 1024) {
     const li = document.createElement('li');
     const label = document.createElement('label');
     const input = document.createElement('input');
+    input.setAttribute('class', 'form-check-input me-1');
     input.type = 'checkbox';
     input.name = 'column';
 
@@ -109,13 +114,11 @@ if (window.innerWidth > 1024) {
       label.innerText = s;
     }
 
-    label.appendChild(input);
+    label.insertAdjacentElement('afterbegin', input);
     li.appendChild(label);
     ul.appendChild(li);
   });
-  detailElement.appendChild(ul);
-
-  table.insertAdjacentElement('beforebegin', detailElement);
+  table.insertAdjacentElement('afterend', ul);
   rows.forEach((col) => {
     [].slice.call(col.children)
       .forEach((cc, index) => {
@@ -126,13 +129,14 @@ if (window.innerWidth > 1024) {
           }
         } else {
           // disable the checkbox for this column as its the "main link" of an item.
-          const lis = [...document.querySelector('details ul').children];
+          const lis = [...document.querySelector('ul').children];
           const input = lis[index -1].querySelector('input');
           if (input) input.setAttribute('disabled', '');
         }
       });
   });
+const columnCount = document.querySelectorAll("input[name='column']:checked").length + '/' + headers.length;
+button.innerText = columnCount + ' ' + Joomla.Text._('JGLOBAL_COLUMNS');
+table.insertAdjacentElement('afterend', button);
 
-  console.log(headers.length);
-  console.log(document.querySelectorAll("input[name='column']:checked").length); // replace 'name' with the name of the checkboxes
 }
