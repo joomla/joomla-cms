@@ -72,7 +72,8 @@ if (window.innerWidth > 1024) {
   const summary = document.createElement('summary');
 
   // @todo Needs to be translateable
-  summary.innerText = 'Table options';
+  // summary.innerText = 'Table options';
+  summary.innerText = Joomla.Text._('JSHOW');
   detailElement.appendChild(summary);
 
   const ul = document.createElement('ul');
@@ -114,6 +115,7 @@ if (window.innerWidth > 1024) {
   });
   detailElement.appendChild(ul);
 
+  table.insertAdjacentElement('beforebegin', detailElement);
   rows.forEach((col) => {
     [].slice.call(col.children)
       .forEach((cc, index) => {
@@ -123,14 +125,11 @@ if (window.innerWidth > 1024) {
             toggleHidden(index);
           }
         } else {
-          // remove the checkbox for this column as its the "main link" of an item.
-          // BRIAN - I assume this is supposed to remove the li for the item where the children nodeName === 'TH'
-          // BRIAN - but it fails - not sure why
-          const lis = [].slice.call(document.querySelector('details ul').children);
-          lis[index].remove();
+          // disable the checkbox for this column as its the "main link" of an item.
+          const lis = [...document.querySelector('details ul').children];
+          const input = lis[index -1].querySelector('input');
+          if (input) input.setAttribute('disabled', '');
         }
       });
   });
-
-  table.insertAdjacentElement('afterend', detailElement);
 }
