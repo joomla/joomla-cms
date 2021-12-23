@@ -147,7 +147,7 @@ class JsonapiView extends BaseApiView
 
 		$offset              = $currentPageQuery['offset'];
 		$limit               = $currentPageQuery['limit'];
-		$totalItemsCount     = count($items);
+		$totalItemsCount     = \count($items);
 		$totalPagesAvailable = ceil($totalItemsCount / $limit);
 
 		$items = array_splice($items, $offset, $limit);
@@ -199,7 +199,7 @@ class JsonapiView extends BaseApiView
 	 */
 	protected function prepareItem($item)
 	{
-		if (is_string($item->params))
+		if (\is_string($item->params))
 		{
 			$item->params = json_decode($item->params);
 		}
