@@ -26,7 +26,7 @@ $imgclass   = empty($images->float_intro) ? $params->get('float_intro') : $image
 $img        = HTMLHelper::cleanImageURL($images->image_intro);
 $layoutAttr = [
 	'src'      => $img->url,
-	'alt'      => empty($images->image_intro_alt) && empty($images->image_intro_alt_empty) ? '' : htmlspecialchars($images->image_intro_alt, ENT_COMPAT, 'UTF-8'),
+	'alt'      => empty($images->image_intro_alt) && empty($images->image_intro_alt_empty) ? '' : $images->image_intro_alt,
 ];
 
 // Set lazyloading only for images which have width and height attributes
