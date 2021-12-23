@@ -25,7 +25,7 @@ Text::script('JLIB_HTML_PLEASE_MAKE_A_SELECTION_FROM_THE_LIST');
 
 /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
 $wa = $this->document->getWebAssetManager();
-$wa	->useScript('multiselect')
+$wa->useScript('multiselect')
 	->useScript('com_contenthistory.admin-history-modal');
 ?>
 <div class="container-popup">

@@ -16,7 +16,7 @@ use Joomla\CMS\Router\Route;
 
 /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
 $wa = $this->document->getWebAssetManager();
-$wa	->useScript('multiselect')
+$wa->useScript('multiselect')
 	->useScript('com_installer.changelog');
 
 $listOrder = $this->escape($this->state->get('list.ordering'));

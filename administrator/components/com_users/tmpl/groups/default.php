@@ -24,7 +24,7 @@ Text::script('COM_USERS_GROUPS_CONFIRM_DELETE', true);
 
 /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
 $wa = $this->document->getWebAssetManager();
-$wa	->useScript('multiselect')
+$wa->useScript('multiselect')
 	->useScript('com_users.admin-users-groups');
 
 ?>

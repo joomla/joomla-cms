@@ -79,7 +79,7 @@ JS;
 $wa = $this->document->getWebAssetManager();
 
 $wa->getRegistry()->addExtensionRegistryFile('com_workflow');
-$wa	->useScript('multiselect')
+$wa->useScript('multiselect')
 	->useScript('com_workflow.admin-items-workflow-buttons')
 	->addInlineScript($js, [], ['type' => 'module']);
 

@@ -24,7 +24,7 @@ Text::script('COM_FINDER_INDEX_CONFIRM_DELETE_PROMPT');
 
 /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
 $wa = $this->document->getWebAssetManager();
-$wa	->useScript('multiselect')
+$wa->useScript('multiselect')
 	->useScript('com_finder.filters');
 
 ?>

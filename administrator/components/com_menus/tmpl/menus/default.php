@@ -35,7 +35,7 @@ $this->document->addScriptOptions('menus-default', ['items' => $itemIds]);
 
 /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
 $wa = $this->document->getWebAssetManager();
-$wa	->useScript('multiselect')
+$wa->useScript('multiselect')
 	->useScript('com_menus.admin-menus');
 
 ?>

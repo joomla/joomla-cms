@@ -57,7 +57,7 @@ if ($saveOrder && !empty($this->items))
 
 /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
 $wa = $this->document->getWebAssetManager();
-$wa	->useScript('multiselect')
+$wa->useScript('multiselect')
 	->useScript('com_scheduler.test-task');
 
 ?>

@@ -26,7 +26,7 @@ Text::script('COM_FINDER_MAPS_CONFIRM_DELETE_PROMPT');
 
 /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
 $wa = $this->document->getWebAssetManager();
-$wa	->useScript('multiselect')
+$wa->useScript('multiselect')
 	->useScript('com_finder.maps');
 
 ?>
