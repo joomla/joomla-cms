@@ -122,7 +122,7 @@ class Date extends \DateTime
 		// If called with null $date
 		if ($date === null)
 		{
-			$date = date('now');
+			$date = 'now';
 		}
 
 		// If the date is numeric assume a unix timestamp and convert it.
