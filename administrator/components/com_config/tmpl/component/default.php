@@ -25,10 +25,8 @@ Text::script('MESSAGE');
 
 /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
 $wa = $this->document->getWebAssetManager();
-
-// Load the tooltip behavior.
-HTMLHelper::_('behavior.formvalidator');
-HTMLHelper::_('behavior.keepalive');
+$wa->useScript('formvalidator')
+	->useScript('keepalive');
 
 if ($this->fieldsets)
 {

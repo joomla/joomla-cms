@@ -24,8 +24,6 @@ use Joomla\CMS\Session\Session;
 use Joomla\Component\Content\Administrator\Helper\ContentHelper;
 use Joomla\Utilities\ArrayHelper;
 
-HTMLHelper::_('behavior.multiselect');
-
 $app       = Factory::getApplication();
 $user      = Factory::getUser();
 $userId    = $user->get('id');
@@ -82,7 +80,8 @@ JS;
 $wa = $this->document->getWebAssetManager();
 
 $wa->getRegistry()->addExtensionRegistryFile('com_workflow');
-$wa->useScript('com_workflow.admin-items-workflow-buttons')
+$wa	->useScript('multiselect')
+	->useScript('com_workflow.admin-items-workflow-buttons')
 	->addInlineScript($js, [], ['type' => 'module']);
 
 $workflow_state    = Factory::getApplication()->bootComponent('com_content')->isFunctionalityUsed('core.state', 'com_content.article');
