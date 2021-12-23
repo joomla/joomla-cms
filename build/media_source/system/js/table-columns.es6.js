@@ -81,6 +81,7 @@ if (window.innerWidth > 1024) {
 
   const ul = document.createElement('ul');
   ul.setAttribute('class', 'list-unstyled');
+  ul.setAttribute('id', 'columnList');
 
   headers.forEach((el, index) => {
     // Remove the first column as we don't want to hide the row select checkbox
@@ -131,7 +132,7 @@ if (window.innerWidth > 1024) {
           }
         } else {
           // disable the checkbox for this column as its the "main link" of an item.
-          const lis = [...document.querySelector('ul').children];
+          const lis = [...document.querySelector('#columnList').children];
           const input = lis[index -1].querySelector('input');
           if (input) input.setAttribute('disabled', '');
         }
@@ -139,7 +140,8 @@ if (window.innerWidth > 1024) {
   });
 const columnCount = document.querySelectorAll("input[name='column']:checked");
 // columnCount needs to be updated when you select a checkbox - this is static :()
-button.innerText = columnCount.length  + '/' + headers.length + ' ' + Joomla.Text._('JGLOBAL_COLUMNS');
+// add 1 to the count for the checkbox column we excluded earlier
+button.innerText = (columnCount.length + 1)  + '/' + headers.length + ' ' + Joomla.Text._('JGLOBAL_COLUMNS');
 table.insertAdjacentElement('afterend', button);
 
 }
