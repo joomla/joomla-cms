@@ -1095,7 +1095,6 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 
 					$this->setHeader('Expires', 'Wed, 17 Aug 2005 00:00:00 GMT', true);
 					$this->setHeader('Last-Modified', gmdate('D, d M Y H:i:s') . ' GMT', true);
-					$this->setHeader('x-power', 'brian', true);
 					$this->setHeader('Cache-Control', 'no-store, no-cache, must-revalidate', false);
 					$this->sendHeaders();
 
