@@ -60,19 +60,16 @@ class HtmlView extends BaseHtmlView
 	 */
 	public function display($tpl = null)
 	{
-		$form = null;
-		$component = null;
-
 		try
 		{
-			$component = $this->get('component');
+			$component = $this->get('component', null);
 
 			if (!$component->enabled)
 			{
 				return false;
 			}
 
-			$form = $this->get('form');
+			$form = $this->get('form', null);
 			$user = Factory::getUser();
 		}
 		catch (\Exception $e)
