@@ -1049,7 +1049,6 @@ class Query
 
 					// Adjust the loop.
 					$i += 2;
-					continue;
 				}
 				// Handle the OR operator.
 				elseif ($op === 'OR' && isset($terms[$i + 2]))
@@ -1119,7 +1118,6 @@ class Query
 
 					// Adjust the loop.
 					$i += 2;
-					continue;
 				}
 			}
 			// Handle an orphaned OR operator.
@@ -1167,7 +1165,6 @@ class Query
 
 				// Adjust the loop.
 				$i++;
-				continue;
 			}
 			// Handle the NOT operator.
 			elseif (isset($terms[$i + 1]) && array_search($terms[$i], $operators, true) === 'NOT')

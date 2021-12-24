@@ -239,7 +239,6 @@ class InstalledModel extends ListModel
 					&& stripos($installedLanguage->language, $search) === false)
 				{
 					unset($installedLanguages[$key]);
-					continue;
 				}
 			}
 		}
