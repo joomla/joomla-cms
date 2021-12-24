@@ -25,7 +25,7 @@ Text::script('MESSAGE');
 
 /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
 $wa = $this->document->getWebAssetManager();
-$wa->useScript('formvalidator')
+$wa->useScript('form.validate')
 	->useScript('keepalive');
 
 if ($this->fieldsets)
