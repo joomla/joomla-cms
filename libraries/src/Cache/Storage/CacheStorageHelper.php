@@ -56,14 +56,19 @@ class CacheStorageHelper
 	/**
 	 * Increase cache items count.
 	 *
-	 * @param   string  $size  Cached item size
+	 * @param   bool|int  $size  Cached item size, or false if thats what filesize returned
 	 *
 	 * @return  void
 	 *
 	 * @since   1.7.0
 	 */
-	public function updateSize($size)
+	public function updateSize(/*bool|int*/ $size)
 	{
+		if ($size === false)
+		{
+			return;
+		}
+		
 		$this->size += $size;
 		$this->count++;
 	}
