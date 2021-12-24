@@ -686,8 +686,6 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
 	{
 		$input  = Factory::getApplication()->input;
 		$filter = \JFilterInput::getInstance();
-		$db     = $this->getDbo();
-		$user	= Factory::getUser();
 
 		if (isset($data['metadata']) && isset($data['metadata']['author']))
 		{
