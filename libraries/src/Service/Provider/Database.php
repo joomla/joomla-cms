@@ -16,7 +16,6 @@ use Joomla\Database\Mysql\MysqlDriver;
 use Joomla\DI\Container;
 use Joomla\DI\ServiceProviderInterface;
 use Joomla\Event\DispatcherInterface;
-use Joomla\Registry\Registry;
 
 /**
  * Service provider for the application's database dependency
@@ -43,7 +42,7 @@ class Database implements ServiceProviderInterface
 				DatabaseInterface::class,
 				function (Container $container)
 				{
-					/** @var $conf Registry */
+					/** @var $conf \Joomla\Registry\Registry */
 					$conf = $container->get('config');
 
 					$dbtype = $conf->get('dbtype', null);
