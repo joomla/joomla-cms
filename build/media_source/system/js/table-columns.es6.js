@@ -151,12 +151,12 @@ if (window.innerWidth > 992) {
   });
   const columnCount = document.querySelectorAll("input[name='column']:checked");
   function updateChecked() {
-    button.innerText = (document.querySelectorAll("input[name='column']:checked").length + 1) + '/' + headers.length + ' ' + Joomla.Text._('JGLOBAL_COLUMNS');
+    button.innerText = `${document.querySelectorAll("input[name='column']:checked").length + 1}/${headers.length} ${Joomla.Text._('JGLOBAL_COLUMNS')}`;
   }
 
   document.querySelectorAll("input[name='column']").forEach((i) => {
     i.onclick = () => updateChecked();
   });
   // add 1 to the columnCount.length for the checkbox column we excluded earlier
-  button.innerText = (columnCount.length + 1) + '/' + headers.length + ' ' + Joomla.Text._('JGLOBAL_COLUMNS');
+  button.innerText = `${columnCount.length + 1}/${headers.length} ${Joomla.Text._('JGLOBAL_COLUMNS')}`;
 }
