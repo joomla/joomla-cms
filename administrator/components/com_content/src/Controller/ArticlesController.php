@@ -133,7 +133,7 @@ class ArticlesController extends AdminController
 	/**
 	 * Method to get the JSON-encoded amount of published articles
 	 *
-	 * @return  void  
+	 * @return  void
 	 *
 	 * @since   4.0.0
 	 */
