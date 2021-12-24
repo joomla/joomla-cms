@@ -13,6 +13,7 @@ steps:
   - php -v
   - git config --global url."git://".insteadOf https://
   - git config --global url."ssh://".insteadOf https://
+  - composer self-update --stable
   - composer install
   - composer require phpmd/phpmd
   volumes:
