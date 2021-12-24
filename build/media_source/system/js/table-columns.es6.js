@@ -75,12 +75,16 @@ if (window.innerWidth > 1024) {
   divinner.setAttribute('data-bs-popper', 'static');
 
   const button = document.createElement('button');
-  button.setAttribute('class', 'btn btn-primary btn-sm');
-  button.setAttribute('type', 'button');
-  button.setAttribute('data-bs-toggle', 'dropdown');
-  button.setAttribute('data-bs-auto-close', 'false');
-  button.setAttribute('aria-haspopup', 'true');
-  button.setAttribute('aria-expanded', 'false');
+  Object.entries({
+    class: 'btn btn-primary btn-sm',
+    type: 'button',
+    'data-bs-toggle': 'dropdown',
+    'data-bs-auto-close': 'false',
+    'aria-haspopup': 'true',
+    'aria-expanded': 'false',
+  }).forEach(([key, value]) => {
+    button.setAttribute(key, value);
+  });
 
   const ul = document.createElement('ul');
   ul.setAttribute('class', 'list-unstyled p-2');
