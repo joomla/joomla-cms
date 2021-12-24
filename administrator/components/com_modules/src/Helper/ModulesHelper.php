@@ -298,7 +298,7 @@ abstract class ModulesHelper
 	 * Create and return a new Option
 	 *
 	 * @param   string  $value   The option value [optional]
-	 * @param   string  $text The option text [optional]
+	 * @param   string  $text    The option text [optional]
 	 *
 	 * @return  stdClass  The option as an object (\stdClass instance)
 	 *
