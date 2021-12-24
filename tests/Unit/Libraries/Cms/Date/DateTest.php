@@ -180,4 +180,19 @@ class DateTest extends UnitTestCase
 
 		$this->assertSame('1978-03-08 18:06:00', (string) $date);
 	}
+
+	/**
+	 * @testdox  Test overriding default with a null date
+	 *
+	 * @return void
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function testNullDate()
+	{
+		$date = new Date(null);
+
+		// Compare just the Y-m-d as the time will be milliseconds/seconds different.
+		// This is ok, as really what we are interested in is no exceptions or deprecated notices raised.
+		$this->assertSame(date('Y-m-d'), $date->format('Y-m-d'));
+	}
 }
