@@ -302,7 +302,7 @@ class Form
 		{
 			// Get the field groups for the element.
 			$attrs = $element->xpath('ancestor::fields[@name]/@name');
-			$groups = array_map('strval', $attrs ? $attrs : array());
+			$groups = array_map('strval', $attrs ?: array());
 			$group = implode('.', $groups);
 
 			// If the field is successfully loaded add it to the result array.
@@ -468,7 +468,7 @@ class Form
 		{
 			// Get the field groups for the element.
 			$attrs  = $element->xpath('ancestor::fields[@name]/@name');
-			$groups = array_map('strval', $attrs ? $attrs : array());
+			$groups = array_map('strval', $attrs ?: array());
 			$group  = implode('.', $groups);
 
 			// If the field is successfully loaded add it to the result array.
@@ -697,7 +697,7 @@ class Form
 			{
 				// Get the group names as strings for ancestor fields elements.
 				$attrs = $field->xpath('ancestor::fields[@name]/@name');
-				$groups = array_map('strval', $attrs ? $attrs : array());
+				$groups = array_map('strval', $attrs ?: array());
 
 				// Check to see if the field exists in the current form.
 				if ($current = $this->findField((string) $field['name'], implode('.', $groups)))
@@ -1133,7 +1133,7 @@ class Form
 
 			// Get the field groups for the element.
 			$attrs = $field->xpath('ancestor::fields[@name]/@name');
-			$groups = array_map('strval', $attrs ? $attrs : array());
+			$groups = array_map('strval', $attrs ?: array());
 			$attrGroup = implode('.', $groups);
 
 			$key = $attrGroup ? $attrGroup . '.' . $name : $name;
@@ -1225,7 +1225,7 @@ class Form
 
 			// Get the field groups for the element.
 			$attrs = $field->xpath('ancestor::fields[@name]/@name');
-			$groups = array_map('strval', $attrs ? $attrs : array());
+			$groups = array_map('strval', $attrs ?: array());
 			$attrGroup = implode('.', $groups);
 
 			$key = $attrGroup ? $attrGroup . '.' . $name : $name;
@@ -1292,7 +1292,7 @@ class Form
 
 			// Get the field groups for the element.
 			$attrs = $field->xpath('ancestor::fields[@name]/@name');
-			$groups = array_map('strval', $attrs ? $attrs : array());
+			$groups = array_map('strval', $attrs ?: array());
 			$attrGroup = implode('.', $groups);
 
 			$key = $attrGroup ? $attrGroup . '.' . $name : $name;
@@ -1358,7 +1358,7 @@ class Form
 			{
 				// Get the group names as strings for ancestor fields elements.
 				$attrs = $field->xpath('ancestor::fields[@name]/@name');
-				$names = array_map('strval', $attrs ? $attrs : array());
+				$names = array_map('strval', $attrs ?: array());
 
 				// If the field is in the exact group use it and break out of the loop.
 				if ($names == (array) $groupNames)
@@ -1480,7 +1480,7 @@ class Form
 						{
 							// Get the names of the groups that the field is in.
 							$attrs = $field->xpath('ancestor::fields[@name]/@name');
-							$names = array_map('strval', $attrs ? $attrs : array());
+							$names = array_map('strval', $attrs ?: array());
 
 							// If the field is in the specific group then add it to the return list.
 							if ($names == (array) $groupNames)
@@ -1563,7 +1563,7 @@ class Form
 					{
 						// Get the group names as strings for ancestor fields elements.
 						$attrs = $fields->xpath('ancestor-or-self::fields[@name]/@name');
-						$names = array_map('strval', $attrs ? $attrs : array());
+						$names = array_map('strval', $attrs ?: array());
 
 						// If the group names for the fields element match the valid names at this
 						// level add the fields element.
@@ -1679,7 +1679,7 @@ class Form
 
 		// Get any addfieldpath attributes from the form definition.
 		$paths = $this->xml->xpath('//*[@addfieldpath]/@addfieldpath');
-		$paths = array_map('strval', $paths ? $paths : array());
+		$paths = array_map('strval', $paths ?: []);
 
 		// Add the field paths.
 		foreach ($paths as $path)
@@ -1690,7 +1690,7 @@ class Form
 
 		// Get any addformpath attributes from the form definition.
 		$paths = $this->xml->xpath('//*[@addformpath]/@addformpath');
-		$paths = array_map('strval', $paths ? $paths : array());
+		$paths = array_map('strval', $paths ?: []);
 
 		// Add the form paths.
 		foreach ($paths as $path)
@@ -1701,7 +1701,7 @@ class Form
 
 		// Get any addrulepath attributes from the form definition.
 		$paths = $this->xml->xpath('//*[@addrulepath]/@addrulepath');
-		$paths = array_map('strval', $paths ? $paths : array());
+		$paths = array_map('strval', $paths ?: []);
 
 		// Add the rule paths.
 		foreach ($paths as $path)
@@ -1712,7 +1712,7 @@ class Form
 
 		// Get any addrulepath attributes from the form definition.
 		$paths = $this->xml->xpath('//*[@addfilterpath]/@addfilterpath');
-		$paths = array_map('strval', $paths ? $paths : array());
+		$paths = array_map('strval', $paths ?: []);
 
 		// Add the rule paths.
 		foreach ($paths as $path)
@@ -1723,7 +1723,7 @@ class Form
 
 		// Get any addfieldprefix attributes from the form definition.
 		$prefixes = $this->xml->xpath('//*[@addfieldprefix]/@addfieldprefix');
-		$prefixes = array_map('strval', $prefixes ? $prefixes : array());
+		$prefixes = array_map('strval', $prefixes ?: []);
 
 		// Add the field prefixes.
 		foreach ($prefixes as $prefix)
@@ -1733,7 +1733,7 @@ class Form
 
 		// Get any addformprefix attributes from the form definition.
 		$prefixes = $this->xml->xpath('//*[@addformprefix]/@addformprefix');
-		$prefixes = array_map('strval', $prefixes ? $prefixes : array());
+		$prefixes = array_map('strval', $prefixes ?: []);
 
 		// Add the field prefixes.
 		foreach ($prefixes as $prefix)
@@ -1743,7 +1743,7 @@ class Form
 
 		// Get any addruleprefix attributes from the form definition.
 		$prefixes = $this->xml->xpath('//*[@addruleprefix]/@addruleprefix');
-		$prefixes = array_map('strval', $prefixes ? $prefixes : array());
+		$prefixes = array_map('strval', $prefixes ?: []);
 
 		// Add the field prefixes.
 		foreach ($prefixes as $prefix)
@@ -1753,7 +1753,7 @@ class Form
 
 		// Get any addruleprefix attributes from the form definition.
 		$prefixes = $this->xml->xpath('//*[@addfilterprefix]/@addfilterprefix');
-		$prefixes = array_map('strval', $prefixes ? $prefixes : array());
+		$prefixes = array_map('strval', $prefixes ?: []);
 
 		// Add the field prefixes.
 		foreach ($prefixes as $prefix)

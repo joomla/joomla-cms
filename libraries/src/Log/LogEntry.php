@@ -121,6 +121,6 @@ class LogEntry
 		$this->callStack = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS);
 
 		// Get the date as a Date object.
-		$this->date = new Date($date ? $date : 'now');
+		$this->date = new Date($date ?: 'now');
 	}
 }

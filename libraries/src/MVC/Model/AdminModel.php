@@ -1214,8 +1214,6 @@ abstract class AdminModel extends FormModel
 				if (property_exists($table, $publishedColumnName) && $table->get($publishedColumnName, $value) == $value)
 				{
 					unset($pks[$i]);
-
-					continue;
 				}
 			}
 		}

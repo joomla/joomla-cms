@@ -902,8 +902,6 @@ class Browser
 				return substr($_SERVER['SERVER_PROTOCOL'], $pos + 1);
 			}
 		}
-
-		return;
 	}
 
 	/**
