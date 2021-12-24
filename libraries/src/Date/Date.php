@@ -122,6 +122,12 @@ class Date extends \DateTime
 		// If the date is numeric assume a unix timestamp and convert it.
 		$date = is_numeric($date) ? date('c', $date) : $date;
 
+		// Ensure that we have a valid date to send to the parent constructor.
+		if (null === $date)
+		{
+			$date = 'now';
+		}
+
 		// Call the DateTime constructor.
 		parent::__construct($date, $tz);
 
