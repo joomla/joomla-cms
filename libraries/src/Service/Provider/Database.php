@@ -47,7 +47,7 @@ class Database implements ServiceProviderInterface
 
 					$dbtype = $conf->get('dbtype', null);
 
-					// Ensure we have a db type, else set a sane, assumed, default.
+					// Ensure we have a db type, if we don't then set a sane, assumed, default.
 					if (null === $dbtype)
 					{
 						$dbtype = 'mysqli';
