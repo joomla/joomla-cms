@@ -86,6 +86,8 @@ class ArticlesController extends AdminController
 		if (empty($ids))
 		{
 			$this->app->enqueueMessage(Text::_('JERROR_NO_ITEMS_SELECTED'), 'error');
+			
+			$this->setRedirect(Route::_($redirectUrl, false));
 
 			return;
 		}
