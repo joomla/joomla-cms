@@ -182,7 +182,7 @@ class DateTest extends UnitTestCase
 	}
 
 	/**
-	 * @testdox  Test overriding default with a null date
+	 * @testdox  Test overriding default for param in __construct, with a null date
 	 *
 	 * @return void
 	 * @since   __DEPLOY_VERSION__
