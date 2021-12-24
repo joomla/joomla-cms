@@ -16,6 +16,7 @@ use Joomla\Database\Mysql\MysqlDriver;
 use Joomla\DI\Container;
 use Joomla\DI\ServiceProviderInterface;
 use Joomla\Event\DispatcherInterface;
+use Joomla\Registry\Registry;
 
 /**
  * Service provider for the application's database dependency
@@ -42,9 +43,19 @@ class Database implements ServiceProviderInterface
 				DatabaseInterface::class,
 				function (Container $container)
 				{
+					/** @var $conf Registry */
 					$conf = $container->get('config');
 
-					$dbtype = $conf->get('dbtype');
+					$dbtype = $conf->get('dbtype', null);
+
+					// Ensure we have a db type, else set a sane, assumed, default.
+					if (null === $dbtype)
+					{
+						$dbtype = 'mysqli';
+					}
+
+					// Normalise.
+					$dbtype = strtolower($dbtype);
 
 					/*
 					 * In Joomla! 3.x and earlier the `mysql` type was used for the `ext/mysql` PHP extension, which is no longer supported.
@@ -57,17 +68,14 @@ class Database implements ServiceProviderInterface
 					 * For these cases, if a connection cannot be made with MySQLi, the database API will handle throwing an Exception
 					 * so we don't need to make any additional checks for MySQLi.
 					 */
-					if (strtolower($dbtype) === 'pdomysql')
+					if ($dbtype === 'pdomysql')
 					{
 						$dbtype = 'mysql';
 					}
 
-					if (strtolower($dbtype) === 'mysql')
+					if ($dbtype === 'mysql' && !MysqlDriver::isSupported())
 					{
-						if (!MysqlDriver::isSupported())
-						{
-							$dbtype = 'mysqli';
-						}
+						$dbtype = 'mysqli';
 					}
 
 					/*
@@ -75,7 +83,7 @@ class Database implements ServiceProviderInterface
 					 * to the PDO PostgreSQL driver regardless of if the environment supports it.  Instead of getting a "driver not found" type of
 					 * error, this will instead force the API to report that the driver is not supported.
 					 */
-					if (strtolower($dbtype) === 'postgresql')
+					if ($dbtype === 'postgresql')
 					{
 						$dbtype = 'pgsql';
 					}
@@ -108,12 +116,12 @@ class Database implements ServiceProviderInterface
 					}
 
 					// Enable utf8mb4 connections for mysql adapters
-					if (strtolower($dbtype) === 'mysqli')
+					if ($dbtype === 'mysqli')
 					{
 						$options['utf8mb4'] = true;
 					}
 
-					if (strtolower($dbtype) === 'mysql')
+					if ($dbtype === 'mysql')
 					{
 						$options['charset'] = 'utf8mb4';
 					}
