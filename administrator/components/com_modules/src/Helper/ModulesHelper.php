@@ -34,8 +34,6 @@ abstract class ModulesHelper
 	 */
 	public static function getStateOptions(): array
 	{
-		// Build the filter options.
-
 		$options   = [];
 		$options[] = HTMLHelper::_('select.option', '1', Text::_('JPUBLISHED'));
 		$options[] = HTMLHelper::_('select.option', '0', Text::_('JUNPUBLISHED'));
@@ -54,7 +52,6 @@ abstract class ModulesHelper
 	 */
 	public static function getClientOptions(): array
 	{
-		// Build the filter options.
 		$options   = [];
 		$options[] = HTMLHelper::_('select.option', '0', Text::_('JSITE'));
 		$options[] = HTMLHelper::_('select.option', '1', Text::_('JADMINISTRATOR'));
@@ -75,7 +72,6 @@ abstract class ModulesHelper
 	public static function getPositions(int $clientId, bool $editPositions = false): array
 	{
 		$db       = Factory::getContainer()->get('DatabaseDriver');
-		$clientId = (int) $clientId;
 		$query    = $db->getQuery(true)
 			->select('DISTINCT ' . $db->quoteName('position'))
 			->from($db->quoteName('#__modules'))
@@ -97,7 +93,6 @@ abstract class ModulesHelper
 			return [];
 		}
 
-		// Build the list
 		$options = [];
 
 		foreach ($positions as $position)
@@ -133,7 +128,6 @@ abstract class ModulesHelper
 	public static function getTemplates(int $clientId = 0, string $state = '', string $template = ''): array
 	{
 		$db       = Factory::getContainer()->get('DatabaseDriver');
-		$clientId = (int) $clientId;
 
 		// Get the database object and a new query object.
 		$query = $db->getQuery(true);
