@@ -29,6 +29,8 @@ abstract class ModulesHelper
 	 * Get a list of filter options for the state of a module.
 	 *
 	 * @return  stdClass[]  An array of select option elements.
+	 *
+	 * @since  1.6
 	 */
 	public static function getStateOptions(): array
 	{
@@ -47,6 +49,8 @@ abstract class ModulesHelper
 	 * Get a list of filter options for the application clients.
 	 *
 	 * @return  stdClass[]  An array of select option elements.
+	 *
+	 * @since  1.6
 	 */
 	public static function getClientOptions(): array
 	{
@@ -65,10 +69,12 @@ abstract class ModulesHelper
 	 * @param   boolean  $editPositions  Allow to edit the positions
 	 *
 	 * @return  stdClass[]  An array of positions
+	 *
+	 * @since  1.6
 	 */
-	public static function getPositions($clientId, $editPositions = false): array
+	public static function getPositions(int $clientId, bool $editPositions = false): array
 	{
-		$db       = Factory::getDbo();
+		$db       = Factory::getContainer()->get('DatabaseDriver');
 		$clientId = (int) $clientId;
 		$query    = $db->getQuery(true)
 			->select('DISTINCT ' . $db->quoteName('position'))
@@ -121,10 +127,12 @@ abstract class ModulesHelper
 	 * @param   string   $template  Template name
 	 *
 	 * @return  stdClass[]|null  List of templates or null if upstream query failed
+	 *
+	 * @since  1.6
 	 */
-	public static function getTemplates($clientId = 0, $state = '', $template = ''): array
+	public static function getTemplates(int $clientId = 0, string $state = '', string $template = ''): array
 	{
-		$db       = Factory::getDbo();
+		$db       = Factory::getContainer()->get('DatabaseDriver');
 		$clientId = (int) $clientId;
 
 		// Get the database object and a new query object.
@@ -163,8 +171,10 @@ abstract class ModulesHelper
 	 * @param   int  $clientId  The client id.
 	 *
 	 * @return  stdClass[]  List of modules
+	 *
+	 * @since  1.6
 	 */
-	public static function getModules($clientId): array
+	public static function getModules(int $clientId): array
 	{
 		$db    = Factory::getContainer()->get('DatabaseDriver');
 		$query = $db->getQuery(true)
@@ -201,8 +211,10 @@ abstract class ModulesHelper
 	 * @param   int  $clientId  The client id.
 	 *
 	 * @return  stdClass[]
+	 *
+	 * @since  1.6
 	 */
-	public static function getAssignmentOptions($clientId): array
+	public static function getAssignmentOptions(int $clientId): array
 	{
 		$options = [];
 		$options[] = HTMLHelper::_('select.option', '0', 'COM_MODULES_OPTION_MENU_ALL');
@@ -228,7 +240,7 @@ abstract class ModulesHelper
 	 *
 	 * @since   3.0
 	 */
-	public static function getTranslatedModulePosition($clientId, $template, $position): string
+	public static function getTranslatedModulePosition(int $clientId, string $template, string $position): string
 	{
 		// Template translation
 		$lang = Factory::getLanguage();
@@ -277,7 +289,7 @@ abstract class ModulesHelper
 	 *
 	 * @since   3.0
 	 */
-	public static function isTranslatedText($langKey, $text): bool
+	public static function isTranslatedText(string $langKey, string $text): bool
 	{
 		return $text !== $langKey;
 	}
@@ -285,14 +297,14 @@ abstract class ModulesHelper
 	/**
 	 * Create and return a new Option
 	 *
-	 * @param   string  $value  The option value [optional]
-	 * @param   string  $text   The option text [optional]
+	 * @param   string  $value   The option value [optional]
+	 * @param   string  $text The option text [optional]
 	 *
 	 * @return  stdClass  The option as an object (\stdClass instance)
 	 *
 	 * @since   3.0
 	 */
-	public static function createOption($value = '', $text = ''): stdClass
+	public static function createOption(string $value = '', string $text = ''): stdClass
 	{
 		if (empty($text))
 		{
@@ -316,7 +328,7 @@ abstract class ModulesHelper
 	 *
 	 * @since   3.0
 	 */
-	public static function createOptionGroup($label = '', $options = []): array
+	public static function createOptionGroup(string $label = '', array $options = []): array
 	{
 		$group = [];
 		$group['value'] = $label;
