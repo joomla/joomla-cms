@@ -144,7 +144,7 @@ if (window.innerWidth > 1024) {
         } else {
           // disable the checkbox for this column as its the "main link" of an item.
           const lis = [...document.querySelector('#columnList').children];
-          const input = lis[index -1].querySelector('input');
+          const input = lis[index - 1].querySelector('input');
           if (input) input.setAttribute('disabled', '');
         }
       });
