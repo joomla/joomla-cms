@@ -1,4 +1,4 @@
-if (window.innerWidth > 1024) {
+if (window.innerWidth > 992) {
   const storage = {
     pagens() {
       return `joomla-tableoptions-${document.querySelector('.page-title')

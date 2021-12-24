@@ -25,6 +25,8 @@ use Joomla\Component\Content\Administrator\Helper\ContentHelper;
 use Joomla\Utilities\ArrayHelper;
 
 HTMLHelper::_('behavior.multiselect');
+HTMLHelper::_('script', 'table-columns.js', ['relative' => true, 'version' => 'auto'], ['type' => 'module']);
+Text::script('JGLOBAL_COLUMNS');
 
 $app       = Factory::getApplication();
 $user      = Factory::getUser();
