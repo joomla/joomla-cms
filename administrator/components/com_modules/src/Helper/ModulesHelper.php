@@ -16,6 +16,7 @@ use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\Database\ParameterType;
 use Joomla\Utilities\ArrayHelper;
+use stdClass;
 
 /**
  * Modules component helper.
@@ -27,12 +28,13 @@ abstract class ModulesHelper
 	/**
 	 * Get a list of filter options for the state of a module.
 	 *
-	 * @return  array  An array of \JHtmlOption elements.
+	 * @return  stdClass[]  An array of select option elements.
 	 */
-	public static function getStateOptions()
+	public static function getStateOptions(): array
 	{
 		// Build the filter options.
-		$options   = array();
+
+		$options   = [];
 		$options[] = HTMLHelper::_('select.option', '1', Text::_('JPUBLISHED'));
 		$options[] = HTMLHelper::_('select.option', '0', Text::_('JUNPUBLISHED'));
 		$options[] = HTMLHelper::_('select.option', '-2', Text::_('JTRASHED'));
@@ -44,12 +46,12 @@ abstract class ModulesHelper
 	/**
 	 * Get a list of filter options for the application clients.
 	 *
-	 * @return  array  An array of \JHtmlOption elements.
+	 * @return  stdClass[]  An array of select option elements.
 	 */
-	public static function getClientOptions()
+	public static function getClientOptions(): array
 	{
 		// Build the filter options.
-		$options   = array();
+		$options   = [];
 		$options[] = HTMLHelper::_('select.option', '0', Text::_('JSITE'));
 		$options[] = HTMLHelper::_('select.option', '1', Text::_('JADMINISTRATOR'));
 
@@ -62,9 +64,9 @@ abstract class ModulesHelper
 	 * @param   integer  $clientId       Client ID
 	 * @param   boolean  $editPositions  Allow to edit the positions
 	 *
-	 * @return  array  A list of positions
+	 * @return  stdClass[]  An array of positions
 	 */
-	public static function getPositions($clientId, $editPositions = false)
+	public static function getPositions($clientId, $editPositions = false): array
 	{
 		$db       = Factory::getDbo();
 		$clientId = (int) $clientId;
@@ -80,17 +82,17 @@ abstract class ModulesHelper
 		try
 		{
 			$positions = $db->loadColumn();
-			$positions = is_array($positions) ? $positions : array();
+			$positions = is_array($positions) ? $positions :[];
 		}
 		catch (\RuntimeException $e)
 		{
 			Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
 
-			return;
+			return [];
 		}
 
 		// Build the list
-		$options = array();
+		$options = [];
 
 		foreach ($positions as $position)
 		{
@@ -118,9 +120,9 @@ abstract class ModulesHelper
 	 * @param   string   $state     State
 	 * @param   string   $template  Template name
 	 *
-	 * @return  array  List of templates
+	 * @return  stdClass[]|null  List of templates or null if upstream query failed
 	 */
-	public static function getTemplates($clientId = 0, $state = '', $template = '')
+	public static function getTemplates($clientId = 0, $state = '', $template = ''): array
 	{
 		$db       = Factory::getDbo();
 		$clientId = (int) $clientId;
@@ -160,11 +162,11 @@ abstract class ModulesHelper
 	 *
 	 * @param   int  $clientId  The client id.
 	 *
-	 * @return  array  Array of unique modules
+	 * @return  stdClass[]  List of modules
 	 */
-	public static function getModules($clientId)
+	public static function getModules($clientId): array
 	{
-		$db    = Factory::getDbo();
+		$db    = Factory::getContainer()->get('DatabaseDriver');
 		$query = $db->getQuery(true)
 			->select('element AS value, name AS text')
 			->from('#__extensions as e')
@@ -198,11 +200,11 @@ abstract class ModulesHelper
 	 *
 	 * @param   int  $clientId  The client id.
 	 *
-	 * @return  array
+	 * @return  stdClass[]
 	 */
-	public static function getAssignmentOptions($clientId)
+	public static function getAssignmentOptions($clientId): array
 	{
-		$options = array();
+		$options = [];
 		$options[] = HTMLHelper::_('select.option', '0', 'COM_MODULES_OPTION_MENU_ALL');
 		$options[] = HTMLHelper::_('select.option', '-', 'COM_MODULES_OPTION_MENU_NONE');
 
@@ -226,7 +228,7 @@ abstract class ModulesHelper
 	 *
 	 * @since   3.0
 	 */
-	public static function getTranslatedModulePosition($clientId, $template, $position)
+	public static function getTranslatedModulePosition($clientId, $template, $position): string
 	{
 		// Template translation
 		$lang = Factory::getLanguage();
@@ -257,8 +259,8 @@ abstract class ModulesHelper
 			if (!self::isTranslatedText($langKey, $text))
 			{
 				// Try to humanize the position name
-				$text = ucfirst(preg_replace('/^' . $template . '\-/', '', $position));
-				$text = ucwords(str_replace(array('-', '_'), ' ', $text));
+				$text = ucfirst(preg_replace('/^' . $template . '-/', '', $position));
+				$text = ucwords(str_replace(['-', '_'], ' ', $text));
 			}
 		}
 
@@ -275,7 +277,7 @@ abstract class ModulesHelper
 	 *
 	 * @since   3.0
 	 */
-	public static function isTranslatedText($langKey, $text)
+	public static function isTranslatedText($langKey, $text): bool
 	{
 		return $text !== $langKey;
 	}
@@ -286,18 +288,18 @@ abstract class ModulesHelper
 	 * @param   string  $value  The option value [optional]
 	 * @param   string  $text   The option text [optional]
 	 *
-	 * @return  object  The option as an object (\stdClass instance)
+	 * @return  stdClass  The option as an object (\stdClass instance)
 	 *
 	 * @since   3.0
 	 */
-	public static function createOption($value = '', $text = '')
+	public static function createOption($value = '', $text = ''): stdClass
 	{
 		if (empty($text))
 		{
 			$text = $value;
 		}
 
-		$option = new \stdClass;
+		$option = new stdClass;
 		$option->value = $value;
 		$option->text  = $text;
 
@@ -314,9 +316,9 @@ abstract class ModulesHelper
 	 *
 	 * @since   3.0
 	 */
-	public static function createOptionGroup($label = '', $options = array())
+	public static function createOptionGroup($label = '', $options = []): array
 	{
-		$group = array();
+		$group = [];
 		$group['value'] = $label;
 		$group['text']  = $label;
 		$group['items'] = $options;
