@@ -17,7 +17,8 @@ if (version_compare(PHP_VERSION, JOOMLA_MINIMUM_PHP, '<'))
 	echo 'Sorry, your PHP version is not supported.' . PHP_EOL;
 	echo 'Your command line php needs to be version ' . JOOMLA_MINIMUM_PHP . ' or newer to run the Joomla! CLI Tools' . PHP_EOL;
 	echo 'The version of PHP currently running this code, at the command line, is PHP version ' . PHP_VERSION . '.' . PHP_EOL;
-	echo 'Please note, the version of PHP running your commands here, may be different to the version that is used by your web server to run the Joomla! Web Application' . PHP_EOL;	
+	echo 'Please note, the version of PHP running your commands here, may be different to the version that is used by ';
+	echo 'your web server to run the Joomla! Web Application' . PHP_EOL;
 
 	exit;
 }
