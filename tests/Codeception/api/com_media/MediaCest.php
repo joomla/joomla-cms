@@ -376,7 +376,7 @@ class MediaCest
 	/**
 	 * Test the PATCH media files endpoint of com_media from the API without adapter information.
 	 *
-	 * @param   mixed   ApiTester  $I  Api tester
+	 * @param  ApiTester  $I  Api tester
 	 *
 	 * @return  void
 	 *
