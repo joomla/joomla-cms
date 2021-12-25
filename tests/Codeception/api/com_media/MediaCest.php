@@ -31,7 +31,7 @@ class MediaCest
 	/**
 	 * Runs before every test.
 	 *
-	 * @param   mixed   ApiTester  $I  Api tester
+	 * @param   ApiTester  $I  Api tester
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 *
@@ -59,7 +59,7 @@ class MediaCest
 	/**
 	 * Runs after every test.
 	 *
-	 * @param   mixed   ApiTester  $I  Api tester
+	 * @param   ApiTester  $I  Api tester
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 *
@@ -74,7 +74,7 @@ class MediaCest
 	/**
 	 * Test the GET media adapter endpoint of com_media from the API.
 	 *
-	 * @param   mixed   ApiTester  $I  Api tester
+	 * @param   ApiTester  $I  Api tester
 	 *
 	 * @return  void
 	 *
@@ -93,7 +93,7 @@ class MediaCest
 	/**
 	 * Test the GET media adapter endpoint for a single adapter of com_media from the API.
 	 *
-	 * @param   mixed   ApiTester  $I  Api tester
+	 * @param   ApiTester  $I  Api tester
 	 *
 	 * @return  void
 	 *
@@ -112,7 +112,7 @@ class MediaCest
 	/**
 	 * Test the GET media files endpoint of com_media from the API.
 	 *
-	 * @param   mixed   ApiTester  $I  Api tester
+	 * @param   ApiTester  $I  Api tester
 	 *
 	 * @return  void
 	 *
@@ -132,7 +132,7 @@ class MediaCest
 	/**
 	 * Test the GET media files endpoint of com_media from the API.
 	 *
-	 * @param   mixed   ApiTester  $I  Api tester
+	 * @param   ApiTester  $I  Api tester
 	 *
 	 * @return  void
 	 *
@@ -151,7 +151,7 @@ class MediaCest
 	/**
 	 * Test the GET media files endpoint of com_media from the API.
 	 *
-	 * @param   mixed   ApiTester  $I  Api tester
+	 * @param   ApiTester  $I  Api tester
 	 *
 	 * @return  void
 	 *
@@ -170,7 +170,7 @@ class MediaCest
 	/**
 	 * Test the GET media files endpoint of com_media from the API.
 	 *
-	 * @param   mixed   ApiTester  $I  Api tester
+	 * @param   ApiTester  $I  Api tester
 	 *
 	 * @return  void
 	 *
@@ -191,7 +191,7 @@ class MediaCest
 	/**
 	 * Test the GET media files endpoint for a single file of com_media from the API.
 	 *
-	 * @param   mixed   ApiTester  $I  Api tester
+	 * @param   ApiTester  $I  Api tester
 	 *
 	 * @return  void
 	 *
@@ -211,7 +211,7 @@ class MediaCest
 	/**
 	 * Test the GET media files endpoint for a single file of com_media from the API.
 	 *
-	 * @param   mixed   ApiTester  $I  Api tester
+	 * @param   ApiTester  $I  Api tester
 	 *
 	 * @return  void
 	 *
@@ -230,7 +230,7 @@ class MediaCest
 	/**
 	 * Test the GET media files endpoint for a single file of com_media from the API.
 	 *
-	 * @param   mixed   ApiTester  $I  Api tester
+	 * @param   ApiTester  $I  Api tester
 	 *
 	 * @return  void
 	 *
@@ -249,7 +249,7 @@ class MediaCest
 	/**
 	 * Test the POST media files endpoint of com_media from the API without adapter information.
 	 *
-	 * @param   mixed   ApiTester  $I  Api tester
+	 * @param   ApiTester  $I  Api tester
 	 *
 	 * @return  void
 	 *
@@ -275,7 +275,7 @@ class MediaCest
 	/**
 	 * Test the POST media files endpoint of com_media from the API without adapter information.
 	 *
-	 * @param   mixed   ApiTester  $I  Api tester
+	 * @param   ApiTester  $I  Api tester
 	 *
 	 * @return  void
 	 *
@@ -298,7 +298,7 @@ class MediaCest
 	/**
 	 * Test the POST media files endpoint of com_media from the API with adapter information.
 	 *
-	 * @param   mixed   ApiTester  $I  Api tester
+	 * @param   ApiTester  $I  Api tester
 	 *
 	 * @return  void
 	 *
@@ -475,7 +475,7 @@ class MediaCest
 	/**
 	 * Test the DELETE media files endpoint of com_media from the API without adapter information.
 	 *
-	 * @param   mixed   ApiTester  $I  Api tester
+	 * @param   ApiTester  $I  Api tester
 	 *
 	 * @return  void
 	 *
@@ -535,7 +535,7 @@ class MediaCest
 	/**
 	 * Returns the absolute tmp image folder path to work on.
 	 *
-	 * @param   mixed   ApiTester  $I  Api tester
+	 * @param   ApiTester  $I  Api tester
 	 *
 	 * @return  string  The absolute folder path
 	 *
