@@ -77,8 +77,7 @@ $htag    = $tparams->get('show_page_heading') ? 'h2' : 'h1';
 				'select.genericlist',
 				$this->contacts,
 				'select_contact',
-				'class="form-select" onchange="document.location.href = this.value"', 'link', 'name', $this->item->link
-			);
+				'class="form-select" onchange="document.location.href = this.value"', 'link', 'name', $this->item->link);
 			?>
 		</form>
 	<?php endif; ?>

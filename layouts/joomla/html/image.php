@@ -32,7 +32,11 @@ if (isset($img->width) && $img->width > 0 && isset($img->height) && $img->height
 {
 	$displayData['width']   = $img->width;
 	$displayData['height']  = $img->height;
-	$displayData['loading'] = 'lazy';
+
+	if (empty($displayData['loading']))
+	{
+		$displayData['loading'] = 'lazy';
+	}
 }
 
 echo '<img '  . ArrayHelper::toString($displayData) . '>';

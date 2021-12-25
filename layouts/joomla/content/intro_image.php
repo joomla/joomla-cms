@@ -23,18 +23,10 @@ if (empty($images->image_intro))
 }
 
 $imgclass   = empty($images->float_intro) ? $params->get('float_intro') : $images->float_intro;
-$img        = HTMLHelper::cleanImageURL($images->image_intro);
 $layoutAttr = [
-	'src'      => $img->url,
+	'src'      => $images->image_intro,
 	'alt'      => empty($images->image_intro_alt) && empty($images->image_intro_alt_empty) ? '' : $images->image_intro_alt,
 ];
-
-// Set lazyloading only for images which have width and height attributes
-if ((isset($img->attributes['width']) && (int) $img->attributes['width'] > 0)
-&& (isset($img->attributes['height']) && (int) $img->attributes['height'] > 0))
-{
-	$layoutAttr = array_merge($layoutAttr, $img->attributes, ['loading' => 'lazy']);
-}
 ?>
 <figure class="<?php echo htmlspecialchars($imgclass, ENT_COMPAT, 'UTF-8'); ?> item-image">
 	<?php if ($params->get('link_intro_image') && ($params->get('access-view') || $params->get('show_noauth', '0') == '1')) : ?>
