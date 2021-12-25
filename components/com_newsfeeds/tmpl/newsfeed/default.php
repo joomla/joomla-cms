@@ -42,7 +42,7 @@ use Joomla\CMS\Layout\LayoutHelper;
 	<div class="com-newsfeeds-newsfeed newsfeed<?php echo $direction; ?>">
 		<?php if ($this->params->get('display_num')) : ?>
 		<h1 class="<?php echo $direction; ?>">
- 			<?php echo $this->escape($this->params->get('page_heading')); ?>
+			<?php echo $this->escape($this->params->get('page_heading')); ?>
  		</h1>
 		<?php endif; ?>
 		<h2 class="<?php echo $direction; ?>">

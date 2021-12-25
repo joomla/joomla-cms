@@ -41,9 +41,9 @@ $htag    = $this->params->get('show_page_heading') ? 'h2' : 'h1';
 	<?php endif; ?>
 
 	<?php if ($this->params->get('show_category_title', 1)) : ?>
-		<<?php echo $htag; ?>>
-			<?php echo $this->category->title; ?>
-		</<?php echo $htag; ?>>
+	<<?php echo $htag; ?>>
+ 		<?php echo $this->category->title; ?>
+ 	</<?php echo $htag; ?>>
 	<?php endif; ?>
 	<?php echo $afterDisplayTitle; ?>
 
