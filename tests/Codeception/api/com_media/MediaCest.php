@@ -15,7 +15,7 @@ use Codeception\Util\HttpCode;
  *
  * Basic com_media (files) tests.
  *
- * @since   __DEPLOY_VERSION__
+ * @since   4.1.0
  */
 class MediaCest
 {
@@ -24,7 +24,7 @@ class MediaCest
 	 *
 	 * @var     string
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.1.0
 	 */
 	private $testDirectory = 'test-dir';
 
@@ -33,7 +33,7 @@ class MediaCest
 	 *
 	 * @param   ApiTester  $I  Api tester
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.1.0
 	 *
 	 * @throws Exception
 	 */
@@ -61,7 +61,7 @@ class MediaCest
 	 *
 	 * @param   ApiTester  $I  Api tester
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.1.0
 	 *
 	 * @throws Exception
 	 */
@@ -78,7 +78,7 @@ class MediaCest
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.1.0
 	 */
 	public function testGetAdapters(ApiTester $I)
 	{
@@ -97,7 +97,7 @@ class MediaCest
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.1.0
 	 */
 	public function testGetAdapter(ApiTester $I)
 	{
@@ -116,7 +116,7 @@ class MediaCest
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.1.0
 	 */
 	public function testGetFiles(ApiTester $I)
 	{
@@ -136,7 +136,7 @@ class MediaCest
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.1.0
 	 */
 	public function testGetFilesInSubfolder(ApiTester $I)
 	{
@@ -155,7 +155,7 @@ class MediaCest
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.1.0
 	 */
 	public function testGetFilesWithAdapter(ApiTester $I)
 	{
@@ -174,7 +174,7 @@ class MediaCest
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.1.0
 	 */
 	public function testSearchFiles(ApiTester $I)
 	{
@@ -195,7 +195,7 @@ class MediaCest
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.1.0
 	 */
 	public function testGetFile(ApiTester $I)
 	{
@@ -215,7 +215,7 @@ class MediaCest
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.1.0
 	 */
 	public function testGetFileWithUrl(ApiTester $I)
 	{
@@ -234,7 +234,7 @@ class MediaCest
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.1.0
 	 */
 	public function testGetFolder(ApiTester $I)
 	{
@@ -253,7 +253,7 @@ class MediaCest
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.1.0
 	 */
 	public function testCreateFileWithoutAdapter(ApiTester $I)
 	{
@@ -279,7 +279,7 @@ class MediaCest
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.1.0
 	 */
 	public function testCreateFolderWithoutAdapter(ApiTester $I)
 	{
@@ -302,7 +302,7 @@ class MediaCest
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.1.0
 	 */
 	public function testCreateFileWithAdapter(ApiTester $I)
 	{
@@ -380,7 +380,7 @@ class MediaCest
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.1.0
 	 */
 	public function testUpdateFolderWithoutAdapter(ApiTester $I)
 	{
@@ -405,7 +405,7 @@ class MediaCest
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.1.0
 	 */
 	public function testUpdateFileWithAdapter(ApiTester $I)
 	{
@@ -479,7 +479,7 @@ class MediaCest
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.1.0
 	 */
 	public function testDeleteFolderWithoutAdapter(ApiTester $I)
 	{
@@ -539,7 +539,7 @@ class MediaCest
 	 *
 	 * @return  string  The absolute folder path
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.1.0
 	 */
 	private function getImagesDirectory(ApiTester $I): string
 	{

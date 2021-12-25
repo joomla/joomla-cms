@@ -1,0 +1,223 @@
+@if $metismenu==true {
+  .metismenu {
+    &.menu-horizontal {
+      flex: 1 0 100%;
+      padding: 0;
+      margin: 0;
+      list-style: none;
+
+      @include media-breakpoint-up(lg) {
+        display: flex;
+        flex: 1 1 0%;
+        flex-direction: row;
+      }
+
+      > li {
+        position: relative;
+      }
+
+      .level-1 {
+        > ul {
+          min-width: 12rem;
+        }
+      }
+    }
+
+    &.mod-menu {
+      margin: 0;
+
+      .metismenu-item {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        padding: ($cassiopeia-grid-gutter/2) $cassiopeia-grid-gutter;
+        font-size: 1.1rem;
+        line-height: 1.5;
+
+        &.parent {
+          position: relative;
+        }
+
+        > ul {
+          position: absolute;
+          top: 100%;
+          z-index: 1001;
+          display: block;
+          padding: 0;
+          list-style: none;
+          box-shadow: 0 0 .5em hsla(0, 0%, 0%, .1);
+        }
+
+        > span,
+        > a,
+        > button {
+          overflow: hidden;
+          text-decoration: none;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+        }
+
+        > a:focus,
+        > button:focus {
+          outline: 1px dotted $gray-400;
+          outline-offset: 2px;
+        }
+
+        &.active > a,
+        &.active > button,
+        > a:hover,
+        > button:hover {
+          text-decoration: underline;
+        }
+
+        &::after {
+          content: none;
+        }
+
+        &:not(.level-1) > ul,
+        &:not(.level-2) > ul {
+          margin-right: -1em;
+
+          [dir="rtl"] & {
+            margin-right: 0;
+            margin-left: -1em;
+          }
+        }
+
+        &.divider:not(.parent) {
+          width: 1px;
+          padding: 0;
+          margin: .25em;
+          overflow: hidden;
+          border-right: 1px solid $gray-400;
+
+          @include media-breakpoint-down(lg) {
+            width: auto;
+            height: 1px;
+            border-bottom: 1px solid $gray-400;
+          }
+
+        }
+      }
+
+      .mm-collapsing {
+        height: 0;
+        overflow: hidden;
+        transition-timing-function: ease;
+        transition-duration: .35s;
+        transition-property: color, background-color, height, visibility;
+      }
+
+      .mm-collapse {
+        position: absolute;
+        background-color: hsl(0, 0%, 100%);
+        box-shadow: $cassiopeia-box-shadow;
+
+        &:not(.mm-show) {
+          display: none;
+        }
+
+        > li {
+          > a {
+            display: inline-flex;
+          }
+
+          &.divider:not(.parent) {
+            width: auto;
+            height: 1px;
+            border-bottom: 1px solid $gray-400;
+          }
+        }
+
+        > li.parent {
+          .mm-toggler {
+            display: inline-flex;
+          }
+
+          > ul {
+            position: relative;
+            top: 0;
+            flex-basis: calc(100% + #{$cassiopeia-grid-gutter});
+            margin-top: ($cassiopeia-grid-gutter/2);
+            margin-bottom: ($cassiopeia-grid-gutter/-2);
+            background-color: hsla(0, 0%, 0%, .03);
+            box-shadow: none;
+          }
+        }
+      }
+
+      .mm-toggler {
+        position: relative;
+        display: flex;
+        align-items: center;
+        height: 100%;
+        padding: 0;
+        color: currentColor;
+        user-select: none;
+        background: none;
+        border: none;
+        box-shadow: none;
+
+        &:after {
+          width: 0;
+          height: 0;
+          margin-inline-start: .5em;
+          content: "";
+          border-top: .5em solid currentColor;
+          border-right: .5em solid transparent;
+          border-left: .5em solid transparent;
+          transition: all .3s ease-out;
+
+          @at-root .mm-active > & {
+            transform: rotateX(-180deg);
+          }
+        }
+
+        &[aria-expanded="true"]:after {
+          transform: rotateX(-180deg);
+        }
+      }
+
+      .parent {
+        > ul {
+          color: $gray-900;
+        }
+      }
+    }
+  }
+
+  .sidebar-right,
+  .sidebar-left {
+    .metismenu {
+      .mm-collapse {
+        position: relative;
+        background-color: hsla(0, 0%, 0%, .03);
+      }
+
+      li.parent {
+        > ul {
+          position: relative;
+          top: 0;
+          box-shadow: none;
+
+          @include media-breakpoint-down(xl) {
+            width: 100%;
+          }
+        }
+      }
+
+      .metismenu-item {
+        > span,
+        > a {
+          white-space: inherit;
+        }
+
+        &.divider:not(.parent) {
+          width: auto;
+          height: 1px;
+          border-bottom: 1px solid $gray-400;
+        }
+      }
+    }
+  }
+}
