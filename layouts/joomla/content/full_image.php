@@ -26,9 +26,9 @@ $layoutAttr = [
 	'alt'      => empty($images->image_fulltext_alt) && empty($images->image_fulltext_alt_empty) ? '' : $images->image_fulltext_alt,
 ];
 ?>
-<figure class="<?php echo htmlspecialchars($imgclass, ENT_COMPAT, 'UTF-8'); ?> item-image">
+<figure class="<?php echo $this->escape($imgclass); ?> item-image">
 	<?php echo LayoutHelper::render('joomla.html.image', $layoutAttr); ?>
 	<?php if ($images->image_fulltext_caption !== '') : ?>
-		<figcaption class="caption"><?php echo htmlspecialchars($images->image_fulltext_caption, ENT_COMPAT, 'UTF-8'); ?></figcaption>
+		<figcaption class="caption"><?php echo $this->escape($images->image_fulltext_caption); ?></figcaption>
 	<?php endif; ?>
 </figure>
