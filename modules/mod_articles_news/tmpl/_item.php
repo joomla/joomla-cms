@@ -17,13 +17,13 @@ use Joomla\CMS\Layout\LayoutHelper;
 	<<?php echo $item_heading; ?> class="newsflash-title">
 	<?php if ($item->link !== '' && $params->get('link_titles')) : ?>
 		<a href="<?php echo $item->link; ?>">
- 			<?php echo $item->title; ?>
- 		</a>
- 	<?php else : ?>
- 		<?php echo $item->title; ?>
- 	<?php endif; ?>
- 	</<?php echo $item_heading; ?>>
- <?php endif; ?>
+			<?php echo $item->title; ?>
+		</a>
+	<?php else : ?>
+		<?php echo $item->title; ?>
+	<?php endif; ?>
+	</<?php echo $item_heading; ?>>
+<?php endif; ?>
 
 <?php if ($params->get('img_intro_full') !== 'none' && !empty($item->imageSrc)) : ?>
 	<figure class="newsflash-image">
