@@ -47,6 +47,22 @@ class PlgContentJoomla extends CMSPlugin
 	protected $db;
 
 	/**
+	 * Initial version of form images
+	 *
+	 * @var    array
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $initFormImages;
+
+	/**
+	 * Initial version of content
+	 *
+	 * @var    string
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $initContent;
+
+	/**
 	 * The save event.
 	 *
 	 * @param   string   $context  The context
@@ -72,7 +88,6 @@ class PlgContentJoomla extends CMSPlugin
 		}
 
 		$item = clone $table;
-
 		$item->load($table->id);
 
 		if ($item->published != -2 && $data['published'] == -2)

@@ -9,6 +9,7 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Helper\ResponsiveImagesHelper;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\Component\Content\Site\Helper\RouteHelper;
@@ -22,10 +23,12 @@ if (empty($images->image_intro))
 	return;
 }
 
-$imgclass  = empty($images->float_intro) ? $params->get('float_intro') : $images->float_intro;
-$extraAttr = '';
-$img       = HTMLHelper::cleanImageURL($images->image_intro);
-$alt       = empty($images->image_intro_alt) && empty($images->image_intro_alt_empty) ? '' : 'alt="' . htmlspecialchars($images->image_intro_alt, ENT_COMPAT, 'UTF-8') . '"';
+$imgclass    = empty($images->float_intro) ? $params->get('float_intro') : $images->float_intro;
+$extraAttr   = '';
+$img         = HTMLHelper::cleanImageURL($images->image_intro);
+$alt         = empty($images->image_intro_alt) && empty($images->image_intro_alt_empty) ? '' : 'alt="' . htmlspecialchars($images->image_intro_alt, ENT_COMPAT, 'UTF-8') . '"';
+$srcsetSizes = sprintf('srcset="%1s" sizes="%2s"', ResponsiveImagesHelper::createFormSrcset($img->url, $images->image_intro_sizes, $images->image_intro_size_options, $images->image_intro_method), ResponsiveImagesHelper::generateSizes($img->url));
+
 
 // Set lazyloading only for images which have width and height attributes
 if ((isset($img->attributes['width']) && (int) $img->attributes['width'] > 0)
@@ -42,6 +45,7 @@ if ((isset($img->attributes['width']) && (int) $img->attributes['width'] > 0)
 					 <?php echo $alt; ?>
 					 itemprop="thumbnailUrl"
 					 <?php echo $extraAttr; ?>
+					 <?php echo $srcsetSizes; ?>
 			/>
 		</a>
 	<?php else : ?>
@@ -49,6 +53,7 @@ if ((isset($img->attributes['width']) && (int) $img->attributes['width'] > 0)
 				 <?php echo $alt; ?>
 				 itemprop="thumbnail"
 				 <?php echo $extraAttr; ?>
+				 <?php echo $srcsetSizes; ?>
 		/>
 	<?php endif; ?>
 	<?php if (isset($images->image_intro_caption) && $images->image_intro_caption !== '') : ?>

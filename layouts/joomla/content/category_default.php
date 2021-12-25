@@ -10,6 +10,7 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
+use Joomla\CMS\Helper\ResponsiveImagesHelper;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
@@ -39,6 +40,11 @@ $beforeDisplayContent = trim(implode("\n", $results));
 
 $results = $app->triggerEvent('onContentAfterDisplay', array($extension . '.categories', &$category, &$params, 0));
 $afterDisplayContent = trim(implode("\n", $results));
+
+$img = HTMLHelper::cleanImageURL($category->getParams()->get('image'));
+$img_sizes = $category->getParams()->get('image_sizes');
+$img_size_options = $category->getParams()->get('image_size_options');
+$img_method = $category->getParams()->get('image_method');
 
 /**
  * This will work for the core components but not necessarily for other components
@@ -74,7 +80,9 @@ $tagsData = $category->tags->itemTags;
 			<div class="category-desc">
 				<?php if ($params->get('show_description_image') && $category->getParams()->get('image')) : ?>
 					<?php $alt = empty($category->getParams()->get('image_alt')) && empty($category->getParams()->get('image_alt_empty')) ? '' : 'alt="' . htmlspecialchars($category->getParams()->get('image_alt'), ENT_COMPAT, 'UTF-8') . '"'; ?>
-					<img src="<?php echo $category->getParams()->get('image'); ?>" <?php echo $alt; ?>>
+					<img src="<?php echo $category->getParams()->get('image'); ?>" <?php echo $alt; ?>
+						<?php echo sprintf('srcset="%1s" sizes="%2s"', ResponsiveImagesHelper::createFormSrcset($img->url, $img_sizes, $img_size_options, $img_method), ResponsiveImagesHelper::generateSizes($img->url)); ?>
+					>
 				<?php endif; ?>
 				<?php echo $beforeDisplayContent; ?>
 				<?php if ($params->get('show_description') && $category->description) : ?>

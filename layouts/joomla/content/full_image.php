@@ -9,6 +9,7 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Helper\ResponsiveImagesHelper;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\Utilities\ArrayHelper;
 
@@ -20,10 +21,11 @@ if (empty($images->image_fulltext))
 	return;
 }
 
-$imgclass  = empty($images->float_fulltext) ? $params->get('float_fulltext') : $images->float_fulltext;
-$extraAttr = '';
-$img       = HTMLHelper::cleanImageURL($images->image_fulltext);
-$alt       = empty($images->image_fulltext_alt) && empty($images->image_fulltext_alt_empty) ? '' : 'alt="' . htmlspecialchars($images->image_fulltext_alt, ENT_COMPAT, 'UTF-8') . '"';
+$imgclass    = empty($images->float_fulltext) ? $params->get('float_fulltext') : $images->float_fulltext;
+$extraAttr   = '';
+$img         = HTMLHelper::cleanImageURL($images->image_fulltext);
+$alt         = empty($images->image_fulltext_alt) && empty($images->image_fulltext_alt_empty) ? '' : 'alt="' . htmlspecialchars($images->image_fulltext_alt, ENT_COMPAT, 'UTF-8') . '"';
+$srcsetSizes = sprintf('srcset="%1s" sizes="%2s"', ResponsiveImagesHelper::createFormSrcset($img->url, $images->image_fulltext_sizes, $images->image_fulltext_size_options, $images->image_fulltext_method), ResponsiveImagesHelper::generateSizes($img->url));
 
 // Set lazyloading only for images which have width and height attributes
 if ((isset($img->attributes['width']) && (int) $img->attributes['width'] > 0)
@@ -37,6 +39,7 @@ if ((isset($img->attributes['width']) && (int) $img->attributes['width'] > 0)
 			 <?php echo $alt; ?>
 			 itemprop="image"
 			<?php echo $extraAttr; ?>
+			<?php echo $srcsetSizes ?>
 	/>
 	<?php if ($images->image_fulltext_caption !== '') : ?>
 		<figcaption class="caption"><?php echo htmlspecialchars($images->image_fulltext_caption, ENT_COMPAT, 'UTF-8'); ?></figcaption>

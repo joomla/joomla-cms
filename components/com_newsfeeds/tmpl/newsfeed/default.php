@@ -11,6 +11,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filter\OutputFilter;
+use Joomla\CMS\Helper\ResponsiveImagesHelper;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\FileLayout;
@@ -38,6 +39,10 @@ use Joomla\CMS\Layout\FileLayout;
 		<?php $direction = ' redirect-rtl'; ?>
 	<?php endif; ?>
 	<?php $images = json_decode($this->item->images); ?>
+	<?php
+		$imgFirst = HTMLHelper::cleanImageURL($images->image_first);
+		$imgSecond = HTMLHelper::cleanImageURL($images->image_second);
+	?>
 	<div class="com-newsfeeds-newsfeed newsfeed<?php echo $direction; ?>">
 		<?php if ($this->params->get('display_num')) : ?>
 		<h1 class="<?php echo $direction; ?>">
@@ -61,6 +66,7 @@ use Joomla\CMS\Layout\FileLayout;
 		<!-- Show Images from Component -->
 		<?php if (isset($images->image_first) && !empty($images->image_first)) : ?>
 			<?php $imgfloat = empty($images->float_first) ? $this->params->get('float_first') : $images->float_first; ?>
+			<?php $firstSrcsetSizes = sprintf('srcset="%1s" sizes="%2s"', ResponsiveImagesHelper::createFormSrcset($imgFirst->url, $images->image_first_sizes, $images->image_first_size_options, $images->image_first_method), ResponsiveImagesHelper::generateSizes($imgFirst->url)); ?>
 			<?php $alt = empty($images->image_first_alt) && empty($images->image_first_alt_empty)
 				? ''
 				: 'alt="' . htmlspecialchars($images->image_first_alt, ENT_COMPAT, 'UTF-8') . '"'; ?>
@@ -70,12 +76,15 @@ use Joomla\CMS\Layout\FileLayout;
 				<?php if ($images->image_first_caption) : ?>
 					<?php echo 'class="caption" title="' . htmlspecialchars($images->image_first_caption, ENT_COMPAT, 'UTF-8') . '"'; ?>
 				<?php endif; ?>
-				src="<?php echo htmlspecialchars($images->image_first, ENT_COMPAT, 'UTF-8'); ?>" <?php echo $alt; ?>>
+					src="<?php echo htmlspecialchars($images->image_first, ENT_COMPAT, 'UTF-8'); ?>" <?php echo $alt; ?>
+					<?php $firstSrcsetSizes ?>
+				>
 			</div>
 		<?php endif; ?>
 
 		<?php if (isset($images->image_second) and !empty($images->image_second)) : ?>
 			<?php $imgfloat = empty($images->float_second) ? $this->params->get('float_second') : $images->float_second; ?>
+			<?php $secondSrcsetSizes = sprintf('srcset="%1s" sizes="%2s"', ResponsiveImagesHelper::createFormSrcset($imgSecond->url, $images->image_second_sizes, $images->image_second_size_options, $images->image_second_method), ResponsiveImagesHelper::generateSizes($imgSecond->url)); ?>
 			<?php $alt = empty($images->image_second_alt) && empty($images->image_second_alt_empty)
 				? ''
 				: 'alt="' . htmlspecialchars($images->image_second_alt, ENT_COMPAT, 'UTF-8') . '"'; ?>
@@ -84,7 +93,9 @@ use Joomla\CMS\Layout\FileLayout;
 				<?php if ($images->image_second_caption) : ?>
 					<?php echo 'class="caption" title="' . htmlspecialchars($images->image_second_caption) . '"'; ?>
 				<?php endif; ?>
-				src="<?php echo htmlspecialchars($images->image_second, ENT_COMPAT, 'UTF-8'); ?>" <?php echo $alt; ?>>
+					src="<?php echo htmlspecialchars($images->image_second, ENT_COMPAT, 'UTF-8'); ?>" <?php echo $alt; ?>
+					<?php $secondSrcsetSizes ?>
+				>
 			</div>
 		<?php endif; ?>
 		<!-- Show Description from Component -->

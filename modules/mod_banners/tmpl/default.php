@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Helper\ResponsiveImagesHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Uri\Uri;
@@ -29,7 +31,14 @@ use Joomla\Component\Banners\Site\Helper\BannerHelper;
 			<?php // Text based banners ?>
 			<?php echo str_replace(array('{CLICKURL}', '{NAME}'), array($link, $item->name), $item->custombannercode); ?>
 		<?php else : ?>
-			<?php $imageurl = $item->params->get('imageurl'); ?>
+			<?php
+				$imageurl = $item->params->get('imageurl');
+				$img = HTMLHelper::cleanImageURL($imageurl);
+				$imageurl_sizes = $item->params->get('imageurl_sizes');
+				$imageurl_size_options = $item->params->get('imageurl_size_options');
+				$imageurl_method = $item->params->get('imageurl_method');
+				$srcsetSizes = sprintf('srcset="%1s" sizes="%2s"', ResponsiveImagesHelper::createFormSrcset($img->url, $imageurl_sizes, $imageurl_size_options, $imageurl_method), ResponsiveImagesHelper::generateSizes($img->url));
+			?>
 			<?php $width = $item->params->get('width'); ?>
 			<?php $height = $item->params->get('height'); ?>
 			<?php if (BannerHelper::isImage($imageurl)) : ?>
@@ -51,6 +60,7 @@ use Joomla\Component\Banners\Site\Helper\BannerHelper;
 								alt="<?php echo htmlspecialchars($alt, ENT_QUOTES, 'UTF-8'); ?>"
 								<?php if (!empty($width)) echo 'width="' . $width . '"'; ?>
 								<?php if (!empty($height)) echo 'height="' . $height . '"'; ?>
+								<?php echo $srcsetSizes ?>
 							>
 						</a>
 					<?php elseif ($target == 2) : ?>
@@ -65,6 +75,7 @@ use Joomla\Component\Banners\Site\Helper\BannerHelper;
 								alt="<?php echo htmlspecialchars($alt, ENT_QUOTES, 'UTF-8'); ?>"
 								<?php if (!empty($width)) echo 'width="' . $width . '"'; ?>
 								<?php if (!empty($height)) echo 'height="' . $height . '"'; ?>
+								<?php echo $srcsetSizes ?>
 							>
 						</a>
 					<?php else : ?>
@@ -77,6 +88,7 @@ use Joomla\Component\Banners\Site\Helper\BannerHelper;
 								alt="<?php echo htmlspecialchars($alt, ENT_QUOTES, 'UTF-8'); ?>"
 								<?php if (!empty($width)) echo 'width="' . $width . '"'; ?>
 								<?php if (!empty($height)) echo 'height="' . $height . '"'; ?>
+								<?php echo $srcsetSizes ?>
 							>
 						</a>
 					<?php endif; ?>
@@ -87,6 +99,7 @@ use Joomla\Component\Banners\Site\Helper\BannerHelper;
 						alt="<?php echo htmlspecialchars($alt, ENT_QUOTES, 'UTF-8'); ?>"
 						<?php if (!empty($width)) echo 'width="' . $width . '"'; ?>
 						<?php if (!empty($height)) echo 'height="' . $height . '"'; ?>
+						<?php echo $srcsetSizes ?>
 					>
 				<?php endif; ?>
 			<?php endif; ?>

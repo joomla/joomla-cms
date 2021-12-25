@@ -10,6 +10,7 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
+use Joomla\CMS\Helper\ResponsiveImagesHelper;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
@@ -103,6 +104,7 @@ $n         = count($this->items);
 
 				<?php if ($this->params->get('all_tags_show_tag_image') && !empty($item->images)) : ?>
 					<?php $images = json_decode($item->images); ?>
+					<?php $img = HTMLHelper::cleanImageURL($images->image_intro); ?>
 					<span class="tag-body">
 						<?php if (!empty($images->image_intro)) : ?>
 							<?php $imgfloat = empty($images->float_intro) ? $this->params->get('float_intro') : $images->float_intro; ?>
@@ -113,6 +115,7 @@ $n         = count($this->items);
 									<?php endif; ?>
 									src="<?php echo htmlspecialchars($images->image_intro, ENT_QUOTES, 'UTF-8'); ?>"
 									alt="<?php echo htmlspecialchars($images->image_intro_alt, ENT_QUOTES, 'UTF-8'); ?>">
+									<?php echo sprintf('srcset="%1s" sizes="%2s"', ResponsiveImagesHelper::createFormSrcset($img->url, $images->image_intro_sizes, $images->image_intro_size_options, $images->image_intro_method), ResponsiveImagesHelper::generateSizes($img->url)); ?>
 							</div>
 						<?php endif; ?>
 					</span>

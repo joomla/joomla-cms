@@ -292,6 +292,71 @@
 				/>
 
 				<field
+					name="image_first_sizes"
+					type="radio"
+					label="COM_NEWSFEEDS_FIELD_SET_RESPONSIVE_SIZES_LABEL"
+					layout="joomla.form.field.radio.switcher"
+					default="0"
+					filter="integer"
+					>
+					<option value="0">JNO</option>
+					<option value="1">JYES</option>
+				</field>
+
+				<field
+					name="image_first_method"
+					type="list"
+					label="COM_NEWSFEEDS_FIELD_CREATION_METHOD_LABEL"
+					default="0"
+					filter="integer"
+					validate="options"
+					showon="image_first_sizes:1"
+					>
+					<option value="0">JSELECT</option>
+					<option value="2">COM_NEWSFEEDS_FIELD_METHOD_OPTION_RESIZE</option>
+					<option value="4">COM_NEWSFEEDS_FIELD_METHOD_OPTION_CROP</option>
+					<option value="5">COM_NEWSFEEDS_FIELD_METHOD_OPTION_RESIZE_CROP</option>
+				</field>
+
+				<field
+					name="image_first_size_options"
+					type="subform"
+					label="COM_NEWSFEEDS_FIELD_RESPONSIVE_SIZES_LABEL"
+					description="COM_NEWSFEEDS_FIELD_RESPONSIVE_SIZES_DESC"
+					layout="joomla.form.field.subform.repeatable-table"
+					icon="list"
+					multiple="true"
+					showon="image_first_sizes:1"
+				>
+					<form hidden="true" name="list_templates_modal" repeat="true">
+						<field
+							name="title"
+							type="text"
+							label="JGLOBAL_TITLE"
+							hint="JGLOBAL_FIELD_RESPONSIVE_SIZES_TITLE_DESC"
+						/>
+
+						<field
+							name="width"
+							type="number"
+							label="COM_NEWSFEEDS_FIELD_RESPONSIVE_SIZES_WIDTH_LABEL"
+							filter="integer"
+							validate="number"
+							required="true"
+						/>
+
+						<field
+							name="height"
+							type="number"
+							label="COM_NEWSFEEDS_FIELD_RESPONSIVE_SIZES_HEIGHT_LABEL"
+							filter="integer"
+							validate="number"
+							required="true"
+						/>
+					</form>
+				</field>
+
+				<field
 					name="spacer1"
 					type="spacer"
 					hr="true"
@@ -335,6 +400,71 @@
 					label="COM_NEWSFEEDS_FIELD_IMAGE_CAPTION_LABEL"
 					size="20"
 				/>
+
+				<field
+					name="image_second_sizes"
+					type="radio"
+					label="COM_NEWSFEEDS_FIELD_SET_RESPONSIVE_SIZES_LABEL"
+					layout="joomla.form.field.radio.switcher"
+					default="0"
+					filter="integer"
+					>
+					<option value="0">JNO</option>
+					<option value="1">JYES</option>
+				</field>
+
+				<field
+					name="image_second_method"
+					type="list"
+					label="COM_NEWSFEEDS_FIELD_CREATION_METHOD_LABEL"
+					default="0"
+					filter="integer"
+					validate="options"
+					showon="image_second_sizes:1"
+					>
+					<option value="0">JSELECT</option>
+					<option value="2">COM_NEWSFEEDS_FIELD_METHOD_OPTION_RESIZE</option>
+					<option value="4">COM_NEWSFEEDS_FIELD_METHOD_OPTION_CROP</option>
+					<option value="5">COM_NEWSFEEDS_FIELD_METHOD_OPTION_RESIZE_CROP</option>
+				</field>
+
+				<field
+					name="image_second_size_options"
+					type="subform"
+					label="COM_NEWSFEEDS_FIELD_RESPONSIVE_SIZES_LABEL"
+					description="COM_NEWSFEEDS_FIELD_RESPONSIVE_SIZES_DESC"
+					layout="joomla.form.field.subform.repeatable-table"
+					icon="list"
+					multiple="true"
+					showon="image_second_sizes:1"
+				>
+					<form hidden="true" name="list_templates_modal" repeat="true">
+						<field
+							name="title"
+							type="text"
+							label="JGLOBAL_TITLE"
+							hint="JGLOBAL_FIELD_RESPONSIVE_SIZES_TITLE_DESC"
+						/>
+
+						<field
+							name="width"
+							type="number"
+							label="COM_NEWSFEEDS_FIELD_RESPONSIVE_SIZES_WIDTH_LABEL"
+							filter="integer"
+							validate="number"
+							required="true"
+						/>
+
+						<field
+							name="height"
+							type="number"
+							label="COM_NEWSFEEDS_FIELD_RESPONSIVE_SIZES_HEIGHT_LABEL"
+							filter="integer"
+							validate="number"
+							required="true"
+						/>
+					</form>
+				</field>
 			</fieldset>
 		</fields>
 	</fieldset>

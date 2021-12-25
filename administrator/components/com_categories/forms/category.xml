@@ -259,6 +259,71 @@
 					label="COM_CATEGORIES_FIELD_IMAGE_ALT_EMPTY_LABEL"
 					description="COM_CATEGORIES_FIELD_IMAGE_ALT_EMPTY_DESC"
 				/>
+
+				<field
+					name="image_sizes"
+					type="radio"
+					layout="joomla.form.field.radio.switcher"
+					label="JGLOBAL_FIELD_SET_RESPONSIVE_SIZES_LABEL"
+					default="0"
+					filter="integer"
+				>
+					<option value="0">JNO</option>
+					<option value="1">JYES</option>
+				</field>
+
+				<field
+					name="image_method"
+					type="list"
+					label="JGLOBAL_FIELD_CREATION_METHOD_LABEL"
+					default="0"
+					filter="integer"
+					validate="options"
+					showon="image_sizes:1"
+					>
+					<option value="0">JSELECT</option>
+					<option value="2">JGLOBAL_FIELD_CREATION_METHOD_OPTION_RESIZE</option>
+					<option value="4">JGLOBAL_FIELD_CREATION_METHOD_OPTION_CROP</option>
+					<option value="5">JGLOBAL_FIELD_CREATION_METHOD_OPTION_RESIZE_CROP</option>
+				</field>
+
+				<field
+					name="image_size_options"
+					type="subform"
+					label="JGLOBAL_FIELD_RESPONSIVE_SIZES_LABEL"
+					description="JGLOBAL_FIELD_RESPONSIVE_SIZES_DESC"
+					layout="joomla.form.field.subform.repeatable-table"
+					icon="list"
+					multiple="true"
+					showon="image_sizes:1"
+				>
+					<form hidden="true" name="list_templates_modal" repeat="true">
+						<field
+							name="title"
+							type="text"
+							label="JGLOBAL_TITLE"
+							hint="JGLOBAL_FIELD_RESPONSIVE_SIZES_TITLE_DESC"
+						/>
+
+						<field
+							name="width"
+							type="number"
+							label="JGLOBAL_WIDTH"
+							filter="integer"
+							validate="number"
+							required="true"
+						/>
+
+						<field
+							name="height"
+							type="number"
+							label="JGLOBAL_HEIGHT"
+							filter="integer"
+							validate="number"
+							required="true"
+						/>
+					</form>
+				</field>
 			</fieldset>
 		</fieldset>
 	</fields>

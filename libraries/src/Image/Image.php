@@ -254,7 +254,8 @@ class Image
 	 *
 	 * @return  array
 	 *
-	 * @since   2.5.0
+	 * @since        2.5.0
+	 * @deprecated   __DEPLOY_VERSION__  Use Image::generateMultipleSizes instead
 	 * @throws  \LogicException
 	 * @throws  \InvalidArgumentException
 	 */
@@ -322,7 +323,8 @@ class Image
 	 *
 	 * @return  array
 	 *
-	 * @since   2.5.0
+	 * @since        2.5.0
+	 * @deprecated   __DEPLOY_VERSION__  Use Image::createMultipleSizes instead
 	 * @throws  \LogicException
 	 * @throws  \InvalidArgumentException
 	 */
@@ -381,6 +383,170 @@ class Image
 		}
 
 		return $thumbsCreated;
+	}
+
+	/**
+	 * Method to generate different sized versions of current image. It allows creation by resizing or
+	 * cropping the original image.
+	 *
+	 * @param   array    $imageSizes      array of strings. Example: $imageSizes = array('1200x800','800x600');
+	 * @param   integer  $creationMethod  1-3 resize $scaleMethod | 4 create by cropping | 5 resize then crop
+	 * @param   boolean  $thumbs          true to generate thumbs, false to generate responsive images
+	 *
+	 * @return  array    generated images
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 * @throws  \LogicException
+	 * @throws  \InvalidArgumentException
+	 */
+	public function generateMultipleSizes($imageSizes, $creationMethod = self::SCALE_INSIDE, $thumbs = false)
+	{
+		// Make sure the resource handle is valid.
+		if (!$this->isLoaded())
+		{
+			throw new \LogicException('No valid image was loaded.');
+		}
+
+		// Create a responsive or thumbs directory in the current image folder
+		$destFolder = \dirname($this->getPath()) . ($thumbs ? '/thumbs' : '/responsive');
+
+		// Check destination
+		if (!is_dir($destFolder) && (!is_dir(\dirname($destFolder)) || !@mkdir($destFolder)))
+		{
+			throw new \InvalidArgumentException('Folder does not exist and cannot be created: ' . $destFolder);
+		}
+
+		// Process images
+		$imagesGenerated = [];
+
+		if (!empty($imageSizes))
+		{
+			// Get current image filename and extension.
+			$pathInfo      = pathinfo($this->getPath());
+			$filename      = $pathInfo['filename'];
+			$fileExtension = $pathInfo['extension'] ?? '';
+
+			foreach ($imageSizes as $imageSize)
+			{
+				// Desired image size
+				$size = explode('x', strtolower($imageSize));
+
+				if (\count($size) != 2)
+				{
+					throw new \InvalidArgumentException('Invalid image size received: ' . $imageSize);
+				}
+
+				$imageWidth  = $size[0];
+				$imageHeight = $size[1];
+
+				// Make sure responsive size is smaller than original
+				if ($imageWidth <= $this->getWidth())
+				{
+					switch ($creationMethod)
+					{
+						case self::CROP:
+							$image = $this->crop($imageWidth, $imageHeight, null, null, true);
+							break;
+
+						case self::CROP_RESIZE:
+							$image = $this->cropResize($imageWidth, $imageHeight, true);
+							break;
+
+						default:
+							$image = $this->resize($imageWidth, $imageHeight, true, $creationMethod);
+							break;
+					}
+
+					// Return Image object with image path to ease further manipulation
+					$image->path = sprintf(
+						'%s/%s_%dx%d.%s', $destFolder, $filename, $image->getWidth(), $image->getHeight(), $fileExtension
+					);
+					$imagesGenerated[] = $image;
+				}
+			}
+		}
+
+		return $imagesGenerated;
+	}
+
+	/**
+	 * Method to create different sized versions of current image and save them to disk. It allows creation
+	 * by resizing or cropping the original image.
+	 *
+	 * @param   array    $imageSizes      array of strings. Example: $imageSizes = array('1200x800','800x600');
+	 * @param   integer  $creationMethod  1-3 resize $scaleMethod | 4 create by cropping | 5 resize then crop
+	 * @param   boolean  $thumbs          true to generate thumbs, false to generate responsive images
+	 *
+	 * @return  array    created images
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 * @throws  \LogicException
+	 */
+	public function createMultipleSizes($imageSizes, $creationMethod = self::SCALE_INSIDE, $thumbs = false)
+	{
+		// Make sure the resource handle is valid.
+		if (!$this->isLoaded())
+		{
+			throw new \LogicException('No valid image was loaded.');
+		}
+
+		// Process images
+		$imagesCreated = [];
+
+		if ($images = $this->generateMultipleSizes($imageSizes, $creationMethod, $thumbs))
+		{
+			// Parent image properties
+			$imgProperties = static::getImageFileProperties($this->getPath());
+
+			foreach ($images as $image)
+			{
+				if ($image->toFile($image->getPath(), $imgProperties->type))
+				{
+					// Return Image object with image path to ease further manipulation
+					$imagesCreated[] = $image;
+				}
+			}
+		}
+
+		return $imagesCreated;
+	}
+
+	/**
+	 * Method to delete different sized versions of current image from disk.
+	 *
+	 * @param   array    $imageSizes      array of strings. Example: $imageSizes = array('1200x800','800x600');
+	 * @param   integer  $creationMethod  1-3 resize $scaleMethod | 4 create by cropping | 5 resize then crop
+	 * @param   boolean  $thumbs          true to delete thumbs, false to delete responsive images
+	 *
+	 * @return  array    deleted images
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 * @throws  \LogicException
+	 */
+	public function deleteMultipleSizes($imageSizes, $creationMethod = self::SCALE_INSIDE, $thumbs = false)
+	{
+		// Make sure the resource handle is valid.
+		if (!$this->isLoaded())
+		{
+			throw new \LogicException('No valid image was loaded.');
+		}
+
+		// Process images and delete them
+		$imagesDeleted = [];
+
+		if ($images = $this->generateMultipleSizes($imageSizes, $creationMethod, $thumbs))
+		{
+			foreach ($images as $image)
+			{
+				if (unlink($image->getPath()))
+				{
+					// Return Image object with image path to ease further manipulation
+					$imagesDeleted[] = $image;
+				}
+			}
+		}
+
+		return $imagesDeleted;
 	}
 
 	/**
@@ -1159,7 +1325,7 @@ class Image
 	}
 
 	/**
-	 * Method for set option of generate thumbnail method
+	 * Method for set option of generate multiple sizes function
 	 *
 	 * @param   boolean  $quality  True for best quality. False for best speed.
 	 *
@@ -1167,7 +1333,7 @@ class Image
 	 *
 	 * @since   3.7.0
 	 */
-	public function setThumbnailGenerate($quality = true)
+	public function setSizesGenerate($quality = true)
 	{
 		$this->generateBestQuality = (boolean) $quality;
 	}

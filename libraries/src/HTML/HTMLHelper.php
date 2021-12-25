@@ -1292,4 +1292,64 @@ abstract class HTMLHelper
 
 		return '';
 	}
+
+	/**
+	 * Method that takes HTML as string and finds all image sources
+	 *
+	 * @param   string  $content  HTML content
+	 *
+	 * @return  array   image sources
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
+	public static function getContentImageSources($content)
+	{
+		// Get src of img tags: <img src="images/joomla.png" /> - images/joomla.png and remove duplicates
+		$images = preg_match_all('/<*img[^>]*src *= *["\']?([^"\']*)/', $content, $matched) ? array_unique($matched[1]) : [];
+
+		return $images;
+	}
+
+	/**
+	 * Method that takes HTML as string and image source then returns img tag of specified image
+	 *
+	 * @param   string  $content  HTML content
+	 * @param   string  $image    image source
+	 *
+	 * @return  string  img tag of given image or null if not found
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
+	public static function getContentImage($content, $image)
+	{
+		$imgTag = preg_match('/(<img [^>]+' . preg_quote($image, '/') . '.*?>)/', $content, $matched) ? $matched[1] : null;
+
+		return $imgTag;
+	}
+
+	/**
+	 * Method that gets HTML as string and removes specified attribute(s)
+	 *
+	 * @param   string  $content  HTML content
+	 * @param   array   $attribs  array of attributes to be removed. For example: ['src', 'data-size']
+	 *
+	 * @return  string  content without the given attributes or false
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
+	public static function removeContentAttribs($content, $attribs)
+	{
+		if (is_null($content))
+		{
+			return false;
+		}
+
+		// Iterate through the attributes and remove from string
+		foreach ($attribs as $attr)
+		{
+			$content = preg_replace('/' . $attr . '*= *"?[^"]*"/', '', $content);
+		}
+
+		return $content;
+	}
 }

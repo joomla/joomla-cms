@@ -10,11 +10,18 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Helper\ResponsiveImagesHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\FileLayout;
 
 $pageClass = $this->params->get('pageclass_sfx');
 $htag    = $this->params->get('show_page_heading') ? 'h2' : 'h1';
+
+$img = HTMLHelper::cleanImageURL($this->category->getParams()->get('image'));
+$img_sizes = $this->category->getParams()->get('image_sizes');
+$img_size_options = $this->category->getParams()->get('image_size_options');
+$img_method = $this->category->getParams()->get('image_method');
+
 ?>
 <div class="com-newsfeeds-category newsfeed-category">
 	<?php if ($this->params->get('show_page_heading')) : ?>
@@ -34,7 +41,9 @@ $htag    = $this->params->get('show_page_heading') ? 'h2' : 'h1';
 	<?php if ($this->params->get('show_description', 1) || $this->params->def('show_description_image', 1)) : ?>
 		<div class="com-newsfeeds-category__description category-desc">
 			<?php if ($this->params->get('show_description_image') && $this->category->getParams()->get('image')) : ?>
-				<img src="<?php echo $this->category->getParams()->get('image'); ?>">
+				<img src="<?php echo $this->category->getParams()->get('image'); ?>"
+					<?php echo sprintf('srcset="%1s" sizes="%2s"', ResponsiveImagesHelper::createFormSrcset($img->url, $img_sizes, $img_size_options, $img_method), ResponsiveImagesHelper::generateSizes($img->url)); ?>
+				>
 			<?php endif; ?>
 			<?php if ($this->params->get('show_description') && $this->category->description) : ?>
 				<?php echo HTMLHelper::_('content.prepare', $this->category->description, '', 'com_newsfeeds.category'); ?>

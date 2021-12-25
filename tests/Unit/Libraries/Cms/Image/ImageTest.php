@@ -948,6 +948,171 @@ class ImageTest extends UnitTestCase
 	}
 
 	/**
+	 * Test the Image::generateMultipleSizes method without a loaded image.
+	 *
+	 * @return  void
+	 *
+	 * @covers  \Joomla\CMS\Image\Image::generateMultipleSizes
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function testGenerateMultipleSizesWithoutLoadedImage()
+	{
+		$this->expectException(\LogicException::class);
+
+		$this->instance->generateMultipleSizes(['400x200']);
+	}
+
+	/**
+	 * Test the Image::generateMultipleSizes method with invalid size.
+	 *
+	 * @return  void
+	 *
+	 * @covers  \Joomla\CMS\Image\Image::generateMultipleSizes
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function testGenerateMultipleSizesWithInvalidSize()
+	{
+		$this->expectException(\InvalidArgumentException::class);
+
+		$this->instance->loadFile($this->testFile);
+
+		$this->instance->generateMultipleSizes(['400*200']);
+	}
+
+	/**
+	 * Test the Image::generateMultipleSizes method.
+	 *
+	 * @return  void
+	 *
+	 * @covers  \Joomla\CMS\Image\Image::generateMultipleSizes
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function testGenerateMultipleSizes()
+	{
+		$this->instance->loadFile($this->testFile);
+
+		$images = $this->instance->generateMultipleSizes(['400x200']);
+
+		// Verify that the resized image is the correct size.
+		$this->assertTrue(
+			imagesx(TestHelper::getValue($images[0], 'handle')) === 400 ||
+			imagesy(TestHelper::getValue($images[0], 'handle')) === 200
+		);
+
+		$images = $this->instance->generateMultipleSizes(['400x200'], Image::CROP);
+
+		// Verify that the resized image is the correct size.
+		$this->assertEquals(
+			200,
+			imagesy(TestHelper::getValue($images[0], 'handle'))
+		);
+		$this->assertEquals(
+			400,
+			imagesx(TestHelper::getValue($images[0], 'handle'))
+		);
+
+		$images = $this->instance->generateMultipleSizes(['400x200'], Image::CROP_RESIZE);
+
+		// Verify that the resized image is the correct size.
+		$this->assertEquals(
+			200,
+			imagesy(TestHelper::getValue($images[0], 'handle'))
+		);
+		$this->assertEquals(
+			400,
+			imagesx(TestHelper::getValue($images[0], 'handle'))
+		);
+	}
+
+	/**
+	 * Test the Image::createMultipleSizes method without a loaded image.
+	 *
+	 * @return  void
+	 *
+	 * @covers  \Joomla\CMS\Image\Image::createMultipleSizes
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function testCreateMultipleSizesWithoutLoadedImage()
+	{
+		$this->expectException(\LogicException::class);
+
+		$this->instance->createMultipleSizes(['400x200']);
+	}
+
+	/**
+	 * Test the Image::createMultipleSizes method.
+	 *
+	 * @return  void
+	 *
+	 * @covers  \Joomla\CMS\Image\Image::createMultipleSizes
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function testCreateMultipleSizes()
+	{
+		$this->instance->loadFile($this->testFile);
+
+		$images = $this->instance->createMultipleSizes(['400x200'], Image::CROP);
+		$outFileGif = TestHelper::getValue($images[0], 'path');
+
+		$a = Image::getImageFileProperties($this->testFile);
+		$b = Image::getImageFileProperties($outFileGif);
+
+		// Assert that properties that should be equal are equal.
+		$this->assertEquals(400, $b->width);
+		$this->assertEquals(200, $b->height);
+		$this->assertEquals($a->bits, $b->bits);
+		$this->assertEquals($a->channels, $b->channels);
+		$this->assertEquals($a->mime, $b->mime);
+		$this->assertEquals($a->type, $b->type);
+		$this->assertEquals($a->channels, $b->channels);
+
+		unlink($outFileGif);
+	}
+
+	/**
+	 * Test the Image::deleteMultipleSizes method without a loaded image.
+	 *
+	 * @return  void
+	 *
+	 * @covers  \Joomla\CMS\Image\Image::deleteMultipleSizes
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function testDeleteMultipleSizesWithoutLoadedImage()
+	{
+		$this->expectException(\LogicException::class);
+
+		$this->instance->deleteMultipleSizes(['400x200']);
+	}
+
+	/**
+	 * Test the Image::deleteMultipleSizes method.
+	 *
+	 * @return  void
+	 *
+	 * @covers  \Joomla\CMS\Image\Image::deleteMultipleSizes
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function testDeleteMultipleSizes()
+	{
+		$this->instance->loadFile($this->testFile);
+
+		$images = $this->instance->createMultipleSizes(['400x200'], Image::CROP);
+		$outFileGif = TestHelper::getValue($images[0], 'path');
+
+		$this->instance->deleteMultipleSizes(['400x200'], Image::CROP);
+
+		// Assert that the file is deleted
+		$this->assertEquals(false, is_file($outFileGif));
+	}
+
+	/**
 	 * Test the Image::isTransparent method without a loaded image.
 	 *
 	 * @return  void
