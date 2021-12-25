@@ -11,7 +11,7 @@
  * Layout variables
  * -----------------
  * @var   array  $displayData  Array with all the given attributes for the image element.
- *                             Eg: src,class,alt,width,height,loading,decoding,style,data-*
+ *                             Eg: src, class ,alt, width, height, loading, decoding, style, data-*
  *                             Note: only the alt attribute is escaped by default!
  */
 defined('_JEXEC') or die;
