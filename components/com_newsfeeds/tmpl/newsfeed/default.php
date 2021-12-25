@@ -43,7 +43,7 @@ use Joomla\CMS\Layout\LayoutHelper;
 		<?php if ($this->params->get('display_num')) : ?>
 		<h1 class="<?php echo $direction; ?>">
 			<?php echo $this->escape($this->params->get('page_heading')); ?>
- 		</h1>
+		</h1>
 		<?php endif; ?>
 		<h2 class="<?php echo $direction; ?>">
 			<?php if ($this->item->published == 0) : ?>
