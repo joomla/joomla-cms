@@ -515,7 +515,7 @@ class MediaCest
 	/**
 	 * Test the DELETE media files endpoint of com_media from the API with adapter information.
 	 *
-	 * @param   mixed   ApiTester  $I  Api tester
+	 * @param   ApiTester  $I  Api tester
 	 *
 	 * @return  void
 	 *
