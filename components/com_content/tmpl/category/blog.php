@@ -105,14 +105,14 @@ $htag    = $this->params->get('show_page_heading') ? 'h2' : 'h1';
 		<?php endif; ?>
 		<div class="com-content-category-blog__items blog-items <?php echo $blogClass; ?>">
 		<?php foreach ($this->intro_items as $key => &$item) : ?>
- 			<div class="com-content-category-blog__item blog-item"
- 				itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
- 					<?php
- 					$this->item = & $item;
- 					echo $this->loadTemplate('item');
- 					?>
- 			</div>
- 		<?php endforeach; ?>
+			<div class="com-content-category-blog__item blog-item"
+				itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+					<?php
+					$this->item = & $item;
+					echo $this->loadTemplate('item');
+					?>
+			</div>
+		<?php endforeach; ?>
 		</div>
 	<?php endif; ?>
 
