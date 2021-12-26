@@ -14,12 +14,18 @@ use Joomla\CMS\Language\Text;
 
 ?>
 <dd class="createdby" itemprop="author" itemscope itemtype="https://schema.org/Person">
-	<span class="icon-user icon-fw" aria-hidden="true"></span>
+	<span class="info-icon icon-user icon-fw" aria-hidden="true"></span>
 	<?php $author = ($displayData['item']->created_by_alias ?: $displayData['item']->author); ?>
-	<?php $author = '<span itemprop="name">' . $author . '</span>'; ?>
+	<?php $author = '<span class="info-value" itemprop="name">' . $author . '</span>'; ?>
 	<?php if (!empty($displayData['item']->contact_link ) && $displayData['params']->get('link_author') == true) : ?>
-		<?php echo Text::sprintf('COM_CONTENT_WRITTEN_BY', HTMLHelper::_('link', $displayData['item']->contact_link, $author, array('itemprop' => 'url'))); ?>
+		<span class="info-label">
+		<?php echo Text::sprintf('COM_CONTENT_WRITTEN_BY', ''); ?>
+		</span>
+		<?php echo HTMLHelper::_('link', $displayData['item']->contact_link, $author, array('class' => 'info-value', 'itemprop' => 'url')); ?>
 	<?php else : ?>
-		<?php echo Text::sprintf('COM_CONTENT_WRITTEN_BY', $author); ?>
+		<span class="info-label">
+		<?php echo Text::sprintf('COM_CONTENT_WRITTEN_BY', ''); ?>
+		</span>
+		<?php echo $author; ?>
 	<?php endif; ?>
 </dd>
