@@ -41,7 +41,6 @@ class FinderHelper
 		$fields = array();
 		$uri = Uri::getInstance(Route::_($route));
 		$uri->delVar('q');
-		$uri->delVar('Itemid');
 
 		// Create hidden input elements for each part of the URI.
 		foreach ($uri->getQuery(true) as $n => $v)
