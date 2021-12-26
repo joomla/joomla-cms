@@ -302,7 +302,7 @@ class Form
 		{
 			// Get the field groups for the element.
 			$attrs = $element->xpath('ancestor::fields[@name]/@name');
-			$groups = array_map('strval', $attrs ?: array());
+			$groups = array_map('strval', $attrs ?: []);
 			$group = implode('.', $groups);
 
 			// If the field is successfully loaded add it to the result array.
