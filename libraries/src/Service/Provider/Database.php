@@ -48,13 +48,7 @@ class Database implements ServiceProviderInterface
 					$dbtype = $conf->get('dbtype', null);
 
 					// Ensure we have a db type, if we don't then set a sane, assumed, default.
-					if (null === $dbtype)
-					{
-						$dbtype = 'mysqli';
-					}
-
-					// Normalise.
-					$dbtype = strtolower($dbtype);
+					$dbtype = $dbtype ? strtolower($dbtype) : 'mysqli';
 
 					/*
 					 * In Joomla! 3.x and earlier the `mysql` type was used for the `ext/mysql` PHP extension, which is no longer supported.
