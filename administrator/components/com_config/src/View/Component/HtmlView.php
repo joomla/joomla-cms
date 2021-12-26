@@ -62,14 +62,14 @@ class HtmlView extends BaseHtmlView
 	{
 		try
 		{
-			$component = $this->get('component', null);
+			$component = $this->get('component');
 
 			if (!$component->enabled)
 			{
 				return false;
 			}
 
-			$form = $this->get('form', null);
+			$form = $this->get('form');
 			$user = Factory::getUser();
 		}
 		catch (\Exception $e)
