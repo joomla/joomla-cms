@@ -14,8 +14,11 @@ use Joomla\CMS\Language\Text;
 
 ?>
 <dd class="published">
-	<span class="icon-calendar icon-fw" aria-hidden="true"></span>
-	<time datetime="<?php echo HTMLHelper::_('date', $displayData['item']->publish_up, 'c'); ?>" itemprop="datePublished">
-		<?php echo Text::sprintf('COM_CONTENT_PUBLISHED_DATE_ON', HTMLHelper::_('date', $displayData['item']->publish_up, Text::_('DATE_FORMAT_LC3'))); ?>
+	<span class="info-icon icon-calendar icon-fw" aria-hidden="true"></span>
+	<span class="info-label">
+		<?php echo Text::sprintf('COM_CONTENT_PUBLISHED_DATE_ON', ''); ?>
+	</span>
+	<time class="info-value" datetime="<?php echo HTMLHelper::_('date', $displayData['item']->publish_up, 'c'); ?>" itemprop="datePublished">
+		<?php echo HTMLHelper::_('date', $displayData['item']->publish_up, Text::_('DATE_FORMAT_LC3')); ?>
 	</time>
 </dd>
