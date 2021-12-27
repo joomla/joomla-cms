@@ -43,7 +43,6 @@ trait TaskPluginTrait
 	 */
 	protected $snapshot = [];
 
-
 	/**
 	 * The task logger. We expect this logger from {@see ExecuteTaskEvent}, setting it up in {@see startRoutine}.
 	 *
