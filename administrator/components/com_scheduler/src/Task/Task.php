@@ -589,6 +589,7 @@ class Task implements LoggerAwareInterface
 	public function computeNextExecution(bool $asString = true, bool $basisNow = false)
 	{
 		$expression = $this->get('cron_rules.exp');
+
 		switch ($this->get('cron_rules.type'))
 		{
 			case 'interval':
@@ -604,6 +605,7 @@ class Task implements LoggerAwareInterface
 				// 'manual' execution is handled here.
 				$nextExec = null;
 		}
+
 		return ($asString && !empty($nextExec))
 			? $nextExec->format($this->db->getDateFormat())
 			: $nextExec;
