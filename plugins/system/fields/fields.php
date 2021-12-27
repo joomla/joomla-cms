@@ -445,15 +445,12 @@ class PlgSystemFields extends CMSPlugin
 
 			foreach ($fields as $field)
 			{
-				if ($field->group_title === $last_group)
-				{
-					$field_groups[$last_group][] = $field;
-				}
-				else
+				if ($field->group_title !== $last_group)
 				{
 					$last_group = $field->group_title;
-					$field_groups[$last_group][] = $field;
 				}
+
+				$field_groups[$last_group][] = $field;
 			}
 
 			$html = '';
@@ -477,11 +474,11 @@ class PlgSystemFields extends CMSPlugin
 				{
 					$html .= FieldsHelper::render(
 						$context,
-						$field_group[0]->group_layout ? $field_group[0]->group_layout : 'render',
+						$field_group[0]->group_layout ?: 'render',
 						[
 							'item'            => $item,
 							'context'         => $context,
-								'fields'          => $field_group,
+							'fields'          => $field_group,
 						]
 					);
 				}
