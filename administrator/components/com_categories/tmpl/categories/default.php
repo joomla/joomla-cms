@@ -20,7 +20,7 @@ use Joomla\String\Inflector;
 
 HTMLHelper::_('behavior.multiselect');
 
-$user      = Factory::getUser();
+$user      = Factory::getApplication()->getIdentity();
 $userId    = $user->get('id');
 $extension = $this->escape($this->state->get('filter.extension'));
 $listOrder = $this->escape($this->state->get('list.ordering'));

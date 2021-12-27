@@ -33,7 +33,7 @@ $wa->useScript('com_associations.admin-associations-modal');
 $function         = $app->input->getCmd('function', 'jSelectAssociation');
 $listOrder        = $this->escape($this->state->get('list.ordering'));
 $listDirn         = $this->escape($this->state->get('list.direction'));
-$canManageCheckin = Factory::getUser()->authorise('core.manage', 'com_checkin');
+$canManageCheckin = Factory::getApplication()->getIdentity()->authorise('core.manage', 'com_checkin');
 
 $iconStates = array(
 	-2 => 'icon-trash',

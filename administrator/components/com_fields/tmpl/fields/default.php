@@ -21,7 +21,7 @@ use Joomla\Component\Fields\Administrator\Helper\FieldsHelper;
 HTMLHelper::_('behavior.multiselect');
 
 $app       = Factory::getApplication();
-$user      = Factory::getUser();
+$user      = Factory::getApplication()->getIdentity();
 $userId    = $user->get('id');
 $context   = $this->escape($this->state->get('filter.context'));
 $component = $this->state->get('filter.component');

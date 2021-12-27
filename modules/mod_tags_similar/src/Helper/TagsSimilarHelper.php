@@ -48,7 +48,7 @@ abstract class TagsSimilarHelper
 		}
 
 		$db         = Factory::getDbo();
-		$user       = Factory::getUser();
+		$user       = Factory::getApplication()->getIdentity();
 		$groups     = $user->getAuthorisedViewLevels();
 		$matchtype  = $params->get('matchtype', 'all');
 		$ordering   = $params->get('ordering', 'count');

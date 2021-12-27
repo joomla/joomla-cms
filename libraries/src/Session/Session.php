@@ -100,7 +100,7 @@ class Session extends BaseSession
 	 */
 	public static function getFormToken($forceNew = false)
 	{
-		$user = Factory::getUser();
+		$user = Factory::getApplication()->getIdentity();
 
 		return ApplicationHelper::getHash($user->get('id', 0) . Factory::getApplication()->getSession()->getToken($forceNew));
 	}

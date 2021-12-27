@@ -51,7 +51,7 @@ abstract class AssociationHelper extends CategoryAssociationHelper
 		{
 			if ($id)
 			{
-				$user      = Factory::getUser();
+				$user      = Factory::getApplication()->getIdentity();
 				$groups    = implode(',', $user->getAuthorisedViewLevels());
 				$db        = Factory::getDbo();
 				$advClause = array();
@@ -121,7 +121,7 @@ abstract class AssociationHelper extends CategoryAssociationHelper
 
 		if ($associations = self::getAssociations($id, 'article'))
 		{
-			$levels    = Factory::getUser()->getAuthorisedViewLevels();
+			$levels    = Factory::getApplication()->getIdentity()->getAuthorisedViewLevels();
 			$languages = LanguageHelper::getLanguages();
 
 			foreach ($languages as $language)

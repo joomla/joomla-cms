@@ -179,7 +179,7 @@ class AssociationsModel extends ListModel
 		}
 
 		// Create a new query object.
-		$user     = Factory::getUser();
+		$user     = Factory::getApplication()->getIdentity();
 		$db       = $this->getDbo();
 		$query    = $db->getQuery(true);
 

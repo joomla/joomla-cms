@@ -60,7 +60,7 @@ abstract class ArticlesCategoryHelper
 
 		// Access filter
 		$access     = !ComponentHelper::getParams('com_content')->get('show_noauth');
-		$authorised = Access::getAuthorisedViewLevels(Factory::getUser()->get('id'));
+		$authorised = Access::getAuthorisedViewLevels(Factory::getApplication()->getIdentity()->get('id'));
 		$articles->setState('filter.access', $access);
 
 		// Prep for Normal or Dynamic Modes

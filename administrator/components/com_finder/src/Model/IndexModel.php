@@ -88,7 +88,7 @@ class IndexModel extends ListModel
 	 */
 	protected function canDelete($record)
 	{
-		return Factory::getUser()->authorise('core.delete', $this->option);
+		return Factory::getApplication()->getIdentity()->authorise('core.delete', $this->option);
 	}
 
 	/**
@@ -102,7 +102,7 @@ class IndexModel extends ListModel
 	 */
 	protected function canEditState($record)
 	{
-		return Factory::getUser()->authorise('core.edit.state', $this->option);
+		return Factory::getApplication()->getIdentity()->authorise('core.edit.state', $this->option);
 	}
 
 	/**
@@ -439,7 +439,7 @@ class IndexModel extends ListModel
 	 */
 	public function publish(&$pks, $value = 1)
 	{
-		$user = Factory::getUser();
+		$user = Factory::getApplication()->getIdentity();
 		$table = $this->getTable();
 		$pks = (array) $pks;
 

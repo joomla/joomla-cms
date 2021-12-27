@@ -130,7 +130,7 @@ class HtmlView extends BaseHtmlView
 	protected function addToolbar()
 	{
 		$extension = Factory::getApplication()->input->get('extension');
-		$user = Factory::getUser();
+		$user = Factory::getApplication()->getIdentity();
 		$userId = $user->id;
 
 		$isNew = ($this->item->id == 0);

@@ -174,7 +174,7 @@ class FieldTable extends Table
 		}
 
 		$date = Factory::getDate()->toSql();
-		$user = Factory::getUser();
+		$user = Factory::getApplication()->getIdentity();
 
 		// Set created date if not set.
 		if (!(int) $this->created_time)

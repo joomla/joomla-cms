@@ -212,7 +212,7 @@ class HtmlView extends BaseHtmlView
 
 		$this->addToolbar();
 
-		if (!Factory::getUser()->authorise('core.admin'))
+		if (!Factory::getApplication()->getIdentity()->authorise('core.admin'))
 		{
 			$this->setLayout('readonly');
 		}
@@ -230,7 +230,7 @@ class HtmlView extends BaseHtmlView
 	protected function addToolbar()
 	{
 		$app   = Factory::getApplication();
-		$user  = Factory::getUser();
+		$user  = Factory::getApplication()->getIdentity();
 		$app->input->set('hidemainmenu', true);
 
 		// User is global SuperUser

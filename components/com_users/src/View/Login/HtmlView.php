@@ -91,7 +91,7 @@ class HtmlView extends BaseHtmlView
 	public function display($tpl = null)
 	{
 		// Get the view data.
-		$this->user   = Factory::getUser();
+		$this->user   = Factory::getApplication()->getIdentity();
 		$this->form   = $this->get('Form');
 		$this->state  = $this->get('State');
 		$this->params = $this->state->get('params');
@@ -133,7 +133,7 @@ class HtmlView extends BaseHtmlView
 	 */
 	protected function prepareDocument()
 	{
-		$login = Factory::getUser()->get('guest') ? true : false;
+		$login = Factory::getApplication()->getIdentity()->get('guest') ? true : false;
 
 		// Because the application sets a default page title,
 		// we need to get it from the menu item itself

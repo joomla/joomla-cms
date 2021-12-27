@@ -351,7 +351,7 @@ if (version_compare($this->updateInfo['latest'], Version::MAJOR_VERSION + 1, '>=
 		<?php echo HTMLHelper::_('form.token'); ?>
 	</form>
 
-	<?php if (Factory::getUser()->authorise('core.admin')) : ?>
+	<?php if (Factory::getApplication()->getIdentity()->authorise('core.admin')) : ?>
 		<div class="text-center">
 		<?php echo HTMLHelper::_('link', Route::_('index.php?option=com_joomlaupdate&view=upload'), Text::_('COM_JOOMLAUPDATE_EMPTYSTATE_APPEND')); ?>
 		</div>

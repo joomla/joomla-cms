@@ -111,7 +111,7 @@ class CategoryModel extends AdminModel
 			return false;
 		}
 
-		return Factory::getUser()->authorise('core.delete', $record->extension . '.category.' . (int) $record->id);
+		return Factory::getApplication()->getIdentity()->authorise('core.delete', $record->extension . '.category.' . (int) $record->id);
 	}
 
 	/**
@@ -125,7 +125,7 @@ class CategoryModel extends AdminModel
 	 */
 	protected function canEditState($record)
 	{
-		$user = Factory::getUser();
+		$user = Factory::getApplication()->getIdentity();
 
 		// Check for existing category.
 		if (!empty($record->id))
@@ -286,7 +286,7 @@ class CategoryModel extends AdminModel
 		$parts      = explode('.', $extension);
 		$assetKey   = $categoryId ? $extension . '.category.' . $categoryId : $parts[0];
 
-		if (!Factory::getUser()->authorise('core.edit.state', $assetKey))
+		if (!Factory::getApplication()->getIdentity()->authorise('core.edit.state', $assetKey))
 		{
 			// Disable fields for display.
 			$form->setFieldAttribute('ordering', 'disabled', 'true');
@@ -299,7 +299,7 @@ class CategoryModel extends AdminModel
 		}
 
 		// Don't allow to change the created_user_id user if not allowed to access com_users.
-		if (!Factory::getUser()->authorise('core.manage', 'com_users'))
+		if (!Factory::getApplication()->getIdentity()->authorise('core.manage', 'com_users'))
 		{
 			$form->setFieldAttribute('created_user_id', 'filter', 'unset');
 		}
@@ -383,7 +383,7 @@ class CategoryModel extends AdminModel
 	 */
 	public function validate($form, $data, $group = null)
 	{
-		if (!Factory::getUser()->authorise('core.admin', $data['extension']))
+		if (!Factory::getApplication()->getIdentity()->authorise('core.admin', $data['extension']))
 		{
 			if (isset($data['rules']))
 			{

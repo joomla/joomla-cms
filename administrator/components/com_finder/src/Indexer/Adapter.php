@@ -757,7 +757,7 @@ abstract class Adapter extends CMSPlugin
 		$return = null;
 
 		// Set variables
-		$user = Factory::getUser();
+		$user = Factory::getApplication()->getIdentity();
 		$groups = implode(',', $user->getAuthorisedViewLevels());
 
 		// Build a query to get the menu params.

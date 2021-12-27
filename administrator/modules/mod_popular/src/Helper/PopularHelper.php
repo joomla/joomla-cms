@@ -37,7 +37,7 @@ abstract class PopularHelper
 	 */
 	public static function getList(Registry &$params, ArticlesModel $model)
 	{
-		$user = Factory::getUser();
+		$user = Factory::getApplication()->getIdentity();
 
 		// Set List SELECT
 		$model->setState('list.select', 'a.id, a.title, a.checked_out, a.checked_out_time, ' .

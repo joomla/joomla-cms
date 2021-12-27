@@ -157,7 +157,7 @@ class HtmlView extends BaseHtmlView
 	{
 		$canDo = ContentHelper::getActions($this->extension, 'workflow', $this->workflowID);
 
-		$user = Factory::getUser();
+		$user = Factory::getApplication()->getIdentity();
 
 		$toolbar = Toolbar::getInstance('toolbar');
 

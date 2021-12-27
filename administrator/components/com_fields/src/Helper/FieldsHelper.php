@@ -549,7 +549,7 @@ class FieldsHelper
 	{
 		$parts = self::extract($field->context);
 
-		return Factory::getUser()->authorise('core.edit.value', $parts[0] . '.field.' . (int) $field->id);
+		return Factory::getApplication()->getIdentity()->authorise('core.edit.value', $parts[0] . '.field.' . (int) $field->id);
 	}
 
 	/**

@@ -40,7 +40,7 @@ class MenuHelper
 
 		// Get active menu item
 		$base   = self::getBase($params);
-		$levels = Factory::getUser()->getAuthorisedViewLevels();
+		$levels = Factory::getApplication()->getIdentity()->getAuthorisedViewLevels();
 		asort($levels);
 		$key = 'menu_items' . $params . implode(',', $levels) . '.' . $base->id;
 

@@ -131,7 +131,7 @@ class RequestModel extends AdminModel
 			return false;
 		}
 
-		$user = Factory::getUser();
+		$user = Factory::getApplication()->getIdentity();
 
 		$message = [
 			'action'       => 'request-completed',
@@ -170,7 +170,7 @@ class RequestModel extends AdminModel
 			return false;
 		}
 
-		$user = Factory::getUser();
+		$user = Factory::getApplication()->getIdentity();
 
 		$message = [
 			'action'       => 'request-created',
@@ -209,7 +209,7 @@ class RequestModel extends AdminModel
 			return false;
 		}
 
-		$user = Factory::getUser();
+		$user = Factory::getApplication()->getIdentity();
 
 		$message = [
 			'action'       => 'request-invalidated',
@@ -413,7 +413,7 @@ class RequestModel extends AdminModel
 		$validatedData['status'] = 0;
 
 		// The user cannot create a request for their own account
-		if (strtolower(Factory::getUser()->email) === strtolower($validatedData['email']))
+		if (strtolower(Factory::getApplication()->getIdentity()->email) === strtolower($validatedData['email']))
 		{
 			$this->setError(Text::_('COM_PRIVACY_ERROR_CANNOT_CREATE_REQUEST_FOR_SELF'));
 

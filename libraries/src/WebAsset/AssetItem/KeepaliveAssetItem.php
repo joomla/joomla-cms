@@ -54,7 +54,7 @@ class KeepaliveAssetItem extends WebAssetItem implements WebAssetAttachBehaviorI
 		}
 
 		// If we are in the frontend or logged in as a user, we can use the ajax component to reduce the load
-		$uri = 'index.php' . ($app->isClient('site') || !Factory::getUser()->guest ? '?option=com_ajax&format=json' : '');
+		$uri = 'index.php' . ($app->isClient('site') || !Factory::getApplication()->getIdentity()->guest ? '?option=com_ajax&format=json' : '');
 
 		// Add keepalive script options.
 		$doc->addScriptOptions('system.keepalive', array('interval' => $refreshTime * 1000, 'uri' => Route::_($uri)));

@@ -116,7 +116,7 @@ class ItemModel extends AdminModel
 			$menuTypeId = $this->getMenuTypeId($record->menutype);
 		}
 
-		return Factory::getUser()->authorise('core.delete', 'com_menus.menu.' . (int) $menuTypeId);
+		return Factory::getApplication()->getIdentity()->authorise('core.delete', 'com_menus.menu.' . (int) $menuTypeId);
 	}
 
 	/**
@@ -133,7 +133,7 @@ class ItemModel extends AdminModel
 		$menuTypeId = !empty($record->menutype) ? $this->getMenuTypeId($record->menutype) : 0;
 		$assetKey   = $menuTypeId ? 'com_menus.menu.' . (int) $menuTypeId : 'com_menus';
 
-		return Factory::getUser()->authorise('core.edit.state', $assetKey);
+		return Factory::getApplication()->getIdentity()->authorise('core.edit.state', $assetKey);
 	}
 
 	/**
@@ -192,7 +192,7 @@ class ItemModel extends AdminModel
 		}
 
 		// Check that user has create permission for menus
-		$user = Factory::getUser();
+		$user = Factory::getApplication()->getIdentity();
 
 		$menuTypeId = (int) $this->getMenuTypeId($menuType);
 
@@ -391,7 +391,7 @@ class ItemModel extends AdminModel
 		}
 
 		// Check that user has create and edit permission for menus
-		$user = Factory::getUser();
+		$user = Factory::getApplication()->getIdentity();
 
 		$menuTypeId = (int) $this->getMenuTypeId($menuType);
 
@@ -523,7 +523,7 @@ class ItemModel extends AdminModel
 	 */
 	protected function canSave($data = array(), $key = 'id')
 	{
-		return Factory::getUser()->authorise('core.edit', $this->option);
+		return Factory::getApplication()->getIdentity()->authorise('core.edit', $this->option);
 	}
 
 	/**

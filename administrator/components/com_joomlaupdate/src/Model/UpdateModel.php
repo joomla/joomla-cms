@@ -1011,7 +1011,7 @@ ENDDATA;
 	{
 		// Make sure the username matches
 		$username = $credentials['username'] ?? null;
-		$user     = Factory::getUser();
+		$user     = Factory::getApplication()->getIdentity();
 
 		if (strtolower($user->username) != strtolower($username))
 		{

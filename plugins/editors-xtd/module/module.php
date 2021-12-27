@@ -45,7 +45,7 @@ class PlgButtonModule extends CMSPlugin
 		 * Use the built-in element view to select the module.
 		 * Currently uses blank class.
 		 */
-		$user  = Factory::getUser();
+		$user  = Factory::getApplication()->getIdentity();
 
 		if ($user->authorise('core.create', 'com_modules')
 			|| $user->authorise('core.edit', 'com_modules')

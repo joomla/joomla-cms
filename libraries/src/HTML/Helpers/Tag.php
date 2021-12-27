@@ -219,7 +219,7 @@ abstract class Tag
 				array(
 					'minTermLength' => $minTermLength,
 					'selector'      => $selector,
-					'allowCustom'   => Factory::getUser()->authorise('core.create', 'com_tags') ? $allowCustom : false,
+					'allowCustom'   => Factory::getApplication()->getIdentity()->authorise('core.create', 'com_tags') ? $allowCustom : false,
 				)
 			);
 		}

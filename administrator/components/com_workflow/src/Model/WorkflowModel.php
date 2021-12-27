@@ -334,7 +334,7 @@ class WorkflowModel extends AdminModel
 			return false;
 		}
 
-		return Factory::getUser()->authorise('core.delete', $record->extension . '.workflow.' . (int) $record->id);
+		return Factory::getApplication()->getIdentity()->authorise('core.delete', $record->extension . '.workflow.' . (int) $record->id);
 	}
 
 	/**
@@ -348,7 +348,7 @@ class WorkflowModel extends AdminModel
 	 */
 	protected function canEditState($record)
 	{
-		$user = Factory::getUser();
+		$user = Factory::getApplication()->getIdentity();
 
 		// Check for existing workflow.
 		if (!empty($record->id))

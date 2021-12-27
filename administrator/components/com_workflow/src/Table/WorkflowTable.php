@@ -185,7 +185,7 @@ class WorkflowTable extends Table
 	public function store($updateNulls = true)
 	{
 		$date = Factory::getDate();
-		$user = Factory::getUser();
+		$user = Factory::getApplication()->getIdentity();
 
 		$table = new WorkflowTable($this->getDbo());
 

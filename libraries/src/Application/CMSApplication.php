@@ -334,7 +334,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 	 */
 	protected function checkUserRequireReset($option, $view, $layout, $tasks)
 	{
-		if (Factory::getUser()->get('requireReset', 0))
+		if (Factory::getApplication()->getIdentity()->get('requireReset', 0))
 		{
 			$redirect = false;
 
@@ -483,7 +483,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 				throw new \RuntimeException(Text::sprintf('JLIB_APPLICATION_ERROR_APPLICATION_LOAD', $name), 500);
 			}
 
-			static::$instances[$name]->loadIdentity(Factory::getUser());
+			static::$instances[$name]->loadIdentity(Factory::getApplication()->getIdentity());
 		}
 
 		return static::$instances[$name];
@@ -717,7 +717,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 		$this->loadLibraryLanguage();
 
 		// Set user specific editor.
-		$user = Factory::getUser();
+		$user = Factory::getApplication()->getIdentity();
 		$editor = $user->getParam('editor', $this->get('editor'));
 
 		if (!PluginHelper::isEnabled('editors', $editor))
@@ -874,7 +874,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 			 * Any errors raised should be done in the plugin as this provides the ability
 			 * to provide much more information about why the routine may have failed.
 			 */
-			$user = Factory::getUser();
+			$user = Factory::getApplication()->getIdentity();
 
 			if ($response->type === 'Cookie')
 			{
@@ -1027,7 +1027,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 
 		$caching = false;
 
-		if ($this->isClient('site') && $this->get('caching') && $this->get('caching', 2) == 2 && !Factory::getUser()->get('id'))
+		if ($this->isClient('site') && $this->get('caching') && $this->get('caching', 2) == 2 && !Factory::getApplication()->getIdentity()->get('id'))
 		{
 			$caching = true;
 		}

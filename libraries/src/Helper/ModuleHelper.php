@@ -599,7 +599,7 @@ abstract class ModuleHelper
 			$cacheparams->cachesuffix = '';
 		}
 
-		$user = Factory::getUser();
+		$user = Factory::getApplication()->getIdentity();
 		$app  = Factory::getApplication();
 
 		/** @var CallbackController $cache */

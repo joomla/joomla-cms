@@ -50,7 +50,7 @@ class PreviewModel extends ItemModel
 			return false;
 		}
 
-		$user = Factory::getUser();
+		$user = Factory::getApplication()->getIdentity();
 
 		// Access check
 		if (!$user->authorise('core.edit', $table->item_id) && !$this->canEdit($table))
@@ -129,7 +129,7 @@ class PreviewModel extends ItemModel
 			 * Make sure user has edit privileges for this content item. Note that we use edit permissions
 			 * for the content item, not delete permissions for the content history row.
 			 */
-			$user   = Factory::getUser();
+			$user   = Factory::getApplication()->getIdentity();
 			$result = $user->authorise('core.edit', $record->item_id);
 
 			// Finally try session (this catches edit.own case too)

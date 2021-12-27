@@ -149,7 +149,7 @@ abstract class Access
 
 		$count++;
 
-		$isSuperAdmin = Factory::getUser()->authorise('core.admin');
+		$isSuperAdmin = Factory::getApplication()->getIdentity()->authorise('core.admin');
 
 		$groups = array_values(UserGroupsHelper::getInstance()->getAll());
 

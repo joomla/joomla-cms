@@ -20,7 +20,7 @@ use Joomla\Component\Fields\Administrator\Helper\FieldsHelper;
 HTMLHelper::_('behavior.multiselect');
 
 $app       = Factory::getApplication();
-$user      = Factory::getUser();
+$user      = Factory::getApplication()->getIdentity();
 $userId    = $user->get('id');
 
 $component = '';

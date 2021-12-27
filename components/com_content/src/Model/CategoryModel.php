@@ -157,7 +157,7 @@ class CategoryModel extends ListModel
 		$mergedParams->merge($params);
 
 		$this->setState('params', $mergedParams);
-		$user  = Factory::getUser();
+		$user  = Factory::getApplication()->getIdentity();
 
 		$asset = 'com_content';
 
@@ -388,7 +388,7 @@ class CategoryModel extends ListModel
 			// Compute selected asset permissions.
 			if (is_object($this->_item))
 			{
-				$user  = Factory::getUser();
+				$user  = Factory::getApplication()->getIdentity();
 				$asset = 'com_content.category.' . $this->_item->id;
 
 				// Check general create permission.

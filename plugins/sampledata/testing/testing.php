@@ -115,7 +115,7 @@ class PlgSampledataTesting extends CMSPlugin
 		/** @var \Joomla\Component\Tags\Administrator\Model\TagModel $model */
 		$model = $this->app->bootComponent('com_tags')->getMVCFactory()->createModel('Tag', 'Administrator', ['ignore_request' => true]);
 		$access = (int) $this->app->get('access', 1);
-		$user   = Factory::getUser();
+		$user   = Factory::getApplication()->getIdentity();
 		$tagIds = array();
 
 		// Create first three tags.
@@ -228,7 +228,7 @@ class PlgSampledataTesting extends CMSPlugin
 		/** @var Joomla\Component\Banners\Administrator\Model\BannerModel $bannerModel */
 		$bannerModel = $factory->createModel('Banner', 'Administrator', ['ignore_request' => true]);
 
-		$user = Factory::getUser();
+		$user = Factory::getApplication()->getIdentity();
 
 		// Add categories.
 		$categories   = array();
@@ -1051,7 +1051,7 @@ class PlgSampledataTesting extends CMSPlugin
 
 		$model  = $this->app->bootComponent('com_contact')->getMVCFactory()->createModel('Contact', 'Administrator', ['ignore_request' => true]);
 		$access = (int) $this->app->get('access', 1);
-		$user   = Factory::getUser();
+		$user   = Factory::getApplication()->getIdentity();
 
 		// Insert first level of categories.
 		$categories   = array();
@@ -1404,7 +1404,7 @@ class PlgSampledataTesting extends CMSPlugin
 		/** @var \Joomla\Component\Newsfeeds\Administrator\Model\NewsfeedModel $model */
 		$model  = $this->app->bootComponent('com_newsfeeds')->getMVCFactory()->createModel('Newsfeed', 'Administrator', ['ignore_request' => true]);
 		$access = (int) $this->app->get('access', 1);
-		$user   = Factory::getUser();
+		$user   = Factory::getApplication()->getIdentity();
 
 		// Insert first level of categories.
 		$categories   = array();
@@ -4562,7 +4562,7 @@ class PlgSampledataTesting extends CMSPlugin
 
 		$catIds = array();
 		$access = (int) $this->app->get('access', 1);
-		$user   = Factory::getUser();
+		$user   = Factory::getApplication()->getIdentity();
 
 		foreach ($categories as $category)
 		{
@@ -4617,7 +4617,7 @@ class PlgSampledataTesting extends CMSPlugin
 		$ids = array();
 
 		$access = (int) $this->app->get('access', 1);
-		$user   = Factory::getUser();
+		$user   = Factory::getApplication()->getIdentity();
 		$mvcFactory = $this->app->bootComponent('com_content')->getMVCFactory();
 
 		foreach ($articles as $i => $article)
@@ -4700,7 +4700,7 @@ class PlgSampledataTesting extends CMSPlugin
 
 		$itemIds = array();
 		$access  = (int) $this->app->get('access', 1);
-		$user    = Factory::getUser();
+		$user    = Factory::getApplication()->getIdentity();
 
 		foreach ($menuItems as $menuItem)
 		{

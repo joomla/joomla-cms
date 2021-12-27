@@ -38,7 +38,7 @@ abstract class RelatedItemsHelper
 		$db        = Factory::getDbo();
 		$app       = Factory::getApplication();
 		$input     = $app->input;
-		$groups    = Factory::getUser()->getAuthorisedViewLevels();
+		$groups    = Factory::getApplication()->getIdentity()->getAuthorisedViewLevels();
 		$maximum   = (int) $params->get('maximum', 5);
 		$factory   = $app->bootComponent('com_content')->getMVCFactory();
 

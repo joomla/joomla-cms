@@ -189,7 +189,7 @@ abstract class UserHelper
 		if (Factory::getSession()->getId())
 		{
 			// Set the group data for the user object in the session.
-			$temp = Factory::getUser();
+			$temp = Factory::getApplication()->getIdentity();
 
 			if ($temp->id == $userId)
 			{
@@ -249,7 +249,7 @@ abstract class UserHelper
 		$temp->groups = $user->groups;
 
 		// Set the group data for the user object in the session.
-		$temp = Factory::getUser();
+		$temp = Factory::getApplication()->getIdentity();
 
 		if ($temp->id == $userId)
 		{
@@ -303,7 +303,7 @@ abstract class UserHelper
 		if (Factory::getSession()->getId())
 		{
 			// Set the group data for the user object in the session.
-			$temp = Factory::getUser();
+			$temp = Factory::getApplication()->getIdentity();
 
 			if ($temp->id == $userId)
 			{
@@ -327,7 +327,7 @@ abstract class UserHelper
 	{
 		if ($userId == 0)
 		{
-			$user   = Factory::getUser();
+			$user   = Factory::getApplication()->getIdentity();
 			$userId = $user->id;
 		}
 

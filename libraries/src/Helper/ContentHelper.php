@@ -171,7 +171,7 @@ class ContentHelper
 
 		$result = new CMSObject;
 
-		$user = Factory::getUser();
+		$user = Factory::getApplication()->getIdentity();
 
 		$actions = Access::getActionsFromFile(
 			JPATH_ADMINISTRATOR . '/components/' . $component . '/access.xml', '/access/section[@name="component"]/'

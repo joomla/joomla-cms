@@ -39,7 +39,7 @@ class ConfigModel extends FormModel
 	 */
 	protected function populateState()
 	{
-		$user = Factory::getUser();
+		$user = Factory::getApplication()->getIdentity();
 
 		$this->setState('user.id', $user->get('id'));
 

@@ -51,7 +51,7 @@ class ClientModel extends AdminModel
 
 		if (!empty($record->catid))
 		{
-			return Factory::getUser()->authorise('core.delete', 'com_banners.category.' . (int) $record->catid);
+			return Factory::getApplication()->getIdentity()->authorise('core.delete', 'com_banners.category.' . (int) $record->catid);
 		}
 
 		return parent::canDelete($record);
@@ -69,7 +69,7 @@ class ClientModel extends AdminModel
 	 */
 	protected function canEditState($record)
 	{
-		$user = Factory::getUser();
+		$user = Factory::getApplication()->getIdentity();
 
 		if (!empty($record->catid))
 		{

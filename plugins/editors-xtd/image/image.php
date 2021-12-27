@@ -45,7 +45,7 @@ class PlgButtonImage extends CMSPlugin
 	{
 		$app       = Factory::getApplication();
 		$doc       = $app->getDocument();
-		$user      = Factory::getUser();
+		$user      = Factory::getApplication()->getIdentity();
 		$extension = $app->input->get('option');
 
 		// For categories we check the extension (ex: component.section)

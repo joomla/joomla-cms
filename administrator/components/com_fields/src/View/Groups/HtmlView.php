@@ -153,7 +153,7 @@ class HtmlView extends BaseHtmlView
 			$toolbar->addNew('group.add');
 		}
 
-		if ($canDo->get('core.edit.state') || Factory::getUser()->authorise('core.admin'))
+		if ($canDo->get('core.edit.state') || Factory::getApplication()->getIdentity()->authorise('core.admin'))
 		{
 			$dropdown = $toolbar->dropdownButton('status-group')
 				->text('JTOOLBAR_CHANGE_STATUS')
@@ -173,7 +173,7 @@ class HtmlView extends BaseHtmlView
 				$childBar->archive('groups.archive')->listCheck(true);
 			}
 
-			if (Factory::getUser()->authorise('core.admin'))
+			if (Factory::getApplication()->getIdentity()->authorise('core.admin'))
 			{
 				$childBar->checkin('groups.checkin')->listCheck(true);
 			}

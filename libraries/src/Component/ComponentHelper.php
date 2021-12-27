@@ -128,7 +128,7 @@ class ComponentHelper
 
 		// Filter settings
 		$config     = static::getParams('com_config');
-		$user       = Factory::getUser();
+		$user       = Factory::getApplication()->getIdentity();
 		$userGroups = Access::getGroupsByUser($user->get('id'));
 
 		$filters = $config->get('filters');

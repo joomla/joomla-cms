@@ -227,7 +227,7 @@ class TagsHelper extends CMSHelper
 			// We will use the tags table to store them
 			$tagTable  = Factory::getApplication()->bootComponent('com_tags')->getMVCFactory()->createTable('Tag', 'Administrator');
 			$newTags   = array();
-			$canCreate = Factory::getUser()->authorise('core.create', 'com_tags');
+			$canCreate = Factory::getApplication()->getIdentity()->authorise('core.create', 'com_tags');
 
 			foreach ($tags as $key => $tag)
 			{
@@ -360,7 +360,7 @@ class TagsHelper extends CMSHelper
 			->bind(':contentType', $contentType)
 			->bind(':id', $id, ParameterType::INTEGER);
 
-		$user = Factory::getUser();
+		$user = Factory::getApplication()->getIdentity();
 		$groups = $user->getAuthorisedViewLevels();
 
 		$query->whereIn($db->quoteName('t.access'), $groups);
@@ -466,7 +466,7 @@ class TagsHelper extends CMSHelper
 		// Create a new query object.
 		$db = Factory::getDbo();
 		$query = $db->getQuery(true);
-		$user = Factory::getUser();
+		$user = Factory::getApplication()->getIdentity();
 		$nullDate = $db->getNullDate();
 		$nowDate = Factory::getDate()->toSql();
 

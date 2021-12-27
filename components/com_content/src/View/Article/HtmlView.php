@@ -100,7 +100,7 @@ class HtmlView extends BaseHtmlView
 		}
 
 		$app        = Factory::getApplication();
-		$user       = Factory::getUser();
+		$user       = Factory::getApplication()->getIdentity();
 
 		$this->item  = $this->get('Item');
 		$this->print = $app->input->getBool('print', false);

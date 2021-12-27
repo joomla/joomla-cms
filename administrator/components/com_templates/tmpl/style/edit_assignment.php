@@ -16,7 +16,7 @@ use Joomla\Component\Menus\Administrator\Helper\MenusHelper;
 
 // Initialise related data.
 $menuTypes = MenusHelper::getMenuLinks();
-$user      = Factory::getUser();
+$user      = Factory::getApplication()->getIdentity();
 
 /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
 $wa = $this->document->getWebAssetManager();

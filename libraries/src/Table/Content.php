@@ -345,7 +345,7 @@ class Content extends Table implements VersionableTableInterface, TaggableTableI
 	public function store($updateNulls = true)
 	{
 		$date = Factory::getDate()->toSql();
-		$user = Factory::getUser();
+		$user = Factory::getApplication()->getIdentity();
 
 		// Set created date if not set.
 		if (!(int) $this->created)

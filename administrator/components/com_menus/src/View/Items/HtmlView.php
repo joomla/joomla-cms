@@ -319,7 +319,7 @@ class HtmlView extends BaseHtmlView
 		$menutypeId = (int) $this->state->get('menutypeid');
 
 		$canDo = ContentHelper::getActions('com_menus', 'menu', (int) $menutypeId);
-		$user  = Factory::getUser();
+		$user  = Factory::getApplication()->getIdentity();
 
 		// Get the menu title
 		$menuTypeTitle = $this->get('State')->get('menutypetitle');
@@ -343,7 +343,7 @@ class HtmlView extends BaseHtmlView
 
 		$protected = $this->state->get('filter.menutype') == 'main';
 
-		if (($canDo->get('core.edit.state') || Factory::getUser()->authorise('core.admin')) && !$protected
+		if (($canDo->get('core.edit.state') || Factory::getApplication()->getIdentity()->authorise('core.admin')) && !$protected
 			|| $canDo->get('core.edit.state') && $this->state->get('filter.client_id') == 0)
 		{
 			$dropdown = $toolbar->dropdownButton('status-group')
@@ -362,7 +362,7 @@ class HtmlView extends BaseHtmlView
 				$childBar->unpublish('items.unpublish')->listCheck(true);
 			}
 
-			if (Factory::getUser()->authorise('core.admin') && !$protected)
+			if (Factory::getApplication()->getIdentity()->authorise('core.admin') && !$protected)
 			{
 				$childBar->checkin('articles.checkin')->listCheck(true);
 			}
@@ -392,7 +392,7 @@ class HtmlView extends BaseHtmlView
 			}
 		}
 
-		if (Factory::getUser()->authorise('core.admin'))
+		if (Factory::getApplication()->getIdentity()->authorise('core.admin'))
 		{
 			$toolbar->standardButton('refresh')
 				->text('JTOOLBAR_REBUILD')

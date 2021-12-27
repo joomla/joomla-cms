@@ -141,7 +141,7 @@ class NewsfeedTable extends Table implements VersionableTableInterface, Taggable
 	public function store($updateNulls = true)
 	{
 		$date = Factory::getDate();
-		$user = Factory::getUser();
+		$user = Factory::getApplication()->getIdentity();
 
 		// Set created date if not set.
 		if (!(int) $this->created)

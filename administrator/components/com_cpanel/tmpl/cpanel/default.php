@@ -29,7 +29,7 @@ $wa = $this->document->getWebAssetManager();
 $wa->useScript('com_cpanel.admin-cpanel')
 	->useScript('com_cpanel.admin-addmodule');
 
-$user = Factory::getUser();
+$user = Factory::getApplication()->getIdentity();
 
 // Set up the bootstrap modal that will be used for all module editors
 echo HTMLHelper::_(

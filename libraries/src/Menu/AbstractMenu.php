@@ -391,7 +391,7 @@ abstract class AbstractMenu
 	protected function getUser()
 	{
 		return empty($this->storedUser)
-			? Factory::getUser()
+			? Factory::getApplication()->getIdentity()
 			: $this->storedUser;
 	}
 
@@ -414,7 +414,7 @@ abstract class AbstractMenu
 		if ($propName === 'user')
 		{
 			return empty($this->storedUser)
-				? Factory::getUser()
+				? Factory::getApplication()->getIdentity()
 				: $this->storedUser;
 		}
 

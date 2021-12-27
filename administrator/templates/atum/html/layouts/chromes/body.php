@@ -25,7 +25,7 @@ if ((string) $module->content === '')
 $id = $module->id;
 
 // Permission checks
-$user      = Factory::getUser();
+$user      = Factory::getApplication()->getIdentity();
 $canEdit   = $user->authorise('core.edit', 'com_modules.module.' . $id) && $user->authorise('core.manage', 'com_modules');
 $canChange = $user->authorise('core.edit.state', 'com_modules.module.' . $id) && $user->authorise('core.manage', 'com_modules');
 

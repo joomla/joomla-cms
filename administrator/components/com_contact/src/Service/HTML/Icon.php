@@ -107,7 +107,7 @@ class Icon
 	 */
 	public static function edit($contact, $params, $attribs = array(), $legacy = false)
 	{
-		$user = Factory::getUser();
+		$user = Factory::getApplication()->getIdentity();
 		$uri  = Uri::getInstance();
 
 		// Ignore if in a popup window.

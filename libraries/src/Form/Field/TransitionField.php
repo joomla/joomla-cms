@@ -143,7 +143,7 @@ class TransitionField extends ListField
 
 		if (\count($items))
 		{
-			$user = Factory::getUser();
+			$user = Factory::getApplication()->getIdentity();
 
 			$items = array_filter(
 				$items,

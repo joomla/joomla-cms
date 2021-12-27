@@ -63,6 +63,6 @@ function twofactorauth_postinstall_action()
 	Factory::getCache()->clean('com_plugins');
 
 	// Redirect the user to their profile editor page
-	$url = 'index.php?option=com_users&task=user.edit&id=' . Factory::getUser()->id;
+	$url = 'index.php?option=com_users&task=user.edit&id=' . Factory::getApplication()->getIdentity()->id;
 	Factory::getApplication()->redirect($url);
 }

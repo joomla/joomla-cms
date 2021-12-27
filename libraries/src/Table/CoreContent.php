@@ -232,7 +232,7 @@ class CoreContent extends Table
 	public function store($updateNulls = true)
 	{
 		$date = Factory::getDate();
-		$user = Factory::getUser();
+		$user = Factory::getApplication()->getIdentity();
 
 		if ($this->core_content_id)
 		{

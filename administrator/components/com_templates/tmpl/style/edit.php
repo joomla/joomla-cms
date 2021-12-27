@@ -20,7 +20,7 @@ HTMLHelper::_('behavior.keepalive');
 
 $this->useCoreUI = true;
 
-$user = Factory::getUser();
+$user = Factory::getApplication()->getIdentity();
 ?>
 
 <form action="<?php echo Route::_('index.php?option=com_templates&layout=edit&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="style-form" aria-label="<?php echo Text::_('COM_TEMPLATES_STYLE_FORM_EDIT'); ?>" class="form-validate">

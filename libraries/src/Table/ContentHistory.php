@@ -89,7 +89,7 @@ class ContentHistory extends Table
 		// Modify author and date only when not toggling Keep Forever
 		if ($this->get('keep_forever') === null)
 		{
-			$this->set('editor_user_id', Factory::getUser()->id);
+			$this->set('editor_user_id', Factory::getApplication()->getIdentity()->id);
 			$this->set('save_date', Factory::getDate()->toSql());
 		}
 

@@ -110,7 +110,7 @@ class MenuType extends Table
 		if ($this->id)
 		{
 			// Get the user id
-			$userId = (int) Factory::getUser()->id;
+			$userId = (int) Factory::getApplication()->getIdentity()->id;
 			$notIn  = [0, $userId];
 
 			// Get the old value of the table
@@ -204,7 +204,7 @@ class MenuType extends Table
 		if ($pk !== null)
 		{
 			// Get the user id
-			$userId = (int) Factory::getUser()->id;
+			$userId = (int) Factory::getApplication()->getIdentity()->id;
 			$notIn  = [0, $userId];
 			$star   = '*';
 

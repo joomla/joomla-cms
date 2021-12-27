@@ -64,7 +64,7 @@ class FrontendlanguageField extends ListField
 		{
 			$languages = array();
 
-			if (Factory::getUser()->authorise('core.admin'))
+			if (Factory::getApplication()->getIdentity()->authorise('core.admin'))
 			{
 				Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
 			}

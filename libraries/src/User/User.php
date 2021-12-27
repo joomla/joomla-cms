@@ -714,7 +714,7 @@ class User extends CMSObject
 
 			// @todo ACL - this needs to be acl checked
 
-			$my = Factory::getUser();
+			$my = Factory::getApplication()->getIdentity();
 
 			// Are we creating a new user
 			$isNew = empty($this->id);

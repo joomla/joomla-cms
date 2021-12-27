@@ -59,7 +59,7 @@ abstract class ArticlesNewsHelper
 
 		// Access filter
 		$access     = !ComponentHelper::getParams('com_content')->get('show_noauth');
-		$authorised = Access::getAuthorisedViewLevels(Factory::getUser()->get('id'));
+		$authorised = Access::getAuthorisedViewLevels(Factory::getApplication()->getIdentity()->get('id'));
 		$model->setState('filter.access', $access);
 
 		// Category filter

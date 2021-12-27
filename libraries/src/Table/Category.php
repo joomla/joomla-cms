@@ -238,7 +238,7 @@ class Category extends Nested implements VersionableTableInterface, TaggableTabl
 	public function store($updateNulls = true)
 	{
 		$date = Factory::getDate()->toSql();
-		$user = Factory::getUser();
+		$user = Factory::getApplication()->getIdentity();
 
 		// Set created date if not set.
 		if (!(int) $this->created_time)

@@ -72,7 +72,7 @@ class ConfigHelper extends ContentHelper
 	{
 		$result = array();
 		$components = self::getAllComponents();
-		$user = Factory::getUser();
+		$user = Factory::getApplication()->getIdentity();
 
 		// Remove com_config from the array as that may have weird side effects
 		$components = array_diff($components, array('com_config'));

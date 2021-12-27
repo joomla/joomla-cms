@@ -167,7 +167,7 @@ class FormView extends HtmlView
 	{
 		Factory::getApplication()->input->set('hidemainmenu', true);
 
-		$user       = Factory::getUser();
+		$user       = Factory::getApplication()->getIdentity();
 		$userId     = $user->id;
 		$isNew      = ($this->item->id == 0);
 		$viewName   = $this->getName();

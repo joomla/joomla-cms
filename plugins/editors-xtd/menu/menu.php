@@ -44,7 +44,7 @@ class PlgButtonMenu extends CMSPlugin
 		 * Use the built-in element view to select the menu item.
 		 * Currently uses blank class.
 		 */
-		$user  = Factory::getUser();
+		$user  = Factory::getApplication()->getIdentity();
 
 		if ($user->authorise('core.create', 'com_menus')
 			|| $user->authorise('core.edit', 'com_menus'))

@@ -75,7 +75,7 @@ class MenuField extends GroupedlistField
 
 		if ($accessType)
 		{
-			$user = Factory::getUser();
+			$user = Factory::getApplication()->getIdentity();
 
 			foreach ($menus as $key => $menu)
 			{

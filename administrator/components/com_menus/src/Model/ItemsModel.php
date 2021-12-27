@@ -252,7 +252,7 @@ class ItemsModel extends ListModel
 		// Create a new query object.
 		$db       = $this->getDbo();
 		$query    = $db->getQuery(true);
-		$user     = Factory::getUser();
+		$user     = Factory::getApplication()->getIdentity();
 		$clientId = (int) $this->getState('filter.client_id');
 
 		// Select all fields from the table.
@@ -590,7 +590,7 @@ class ItemsModel extends ListModel
 				return false;
 			}
 			// Check if menu type is valid against ACL.
-			elseif (!Factory::getUser()->authorise('core.manage', 'com_menus.menu.' . $cMenu->id))
+			elseif (!Factory::getApplication()->getIdentity()->authorise('core.manage', 'com_menus.menu.' . $cMenu->id))
 			{
 				Log::add(Text::_('JERROR_ALERTNOAUTHOR'), Log::ERROR, 'jerror');
 

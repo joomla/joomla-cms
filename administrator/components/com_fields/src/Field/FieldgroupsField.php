@@ -41,7 +41,7 @@ class FieldgroupsField extends ListField
 		$states    = $this->element['state'] ?: '0,1';
 		$states    = ArrayHelper::toInteger(explode(',', $states));
 
-		$user       = Factory::getUser();
+		$user       = Factory::getApplication()->getIdentity();
 		$viewlevels = ArrayHelper::toInteger($user->getAuthorisedViewLevels());
 
 		$db    = Factory::getDbo();

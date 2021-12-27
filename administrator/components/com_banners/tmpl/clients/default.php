@@ -28,7 +28,7 @@ $purchaseTypes = [
 	'5' => 'DAILY',
 ];
 
-$user       = Factory::getUser();
+$user       = Factory::getApplication()->getIdentity();
 $userId     = $user->get('id');
 $listOrder  = $this->escape($this->state->get('list.ordering'));
 $listDirn   = $this->escape($this->state->get('list.direction'));

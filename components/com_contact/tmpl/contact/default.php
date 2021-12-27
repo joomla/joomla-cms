@@ -20,7 +20,7 @@ use Joomla\Component\Contact\Site\Helper\RouteHelper;
 
 $tparams = $this->item->params;
 $canDo   = ContentHelper::getActions('com_contact', 'category', $this->item->catid);
-$canEdit = $canDo->get('core.edit') || ($canDo->get('core.edit.own') && $this->item->created_by === Factory::getUser()->id);
+$canEdit = $canDo->get('core.edit') || ($canDo->get('core.edit.own') && $this->item->created_by === Factory::getApplication()->getIdentity()->id);
 $htag    = $tparams->get('show_page_heading') ? 'h2' : 'h1';
 ?>
 

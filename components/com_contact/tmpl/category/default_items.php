@@ -24,7 +24,7 @@ $wa->useScript('com_contact.contacts-list');
 HTMLHelper::_('behavior.core');
 $canDo   = ContactHelper::getActions('com_contact', 'category', $this->category->id);
 $canEdit = $canDo->get('core.edit');
-$userId  = Factory::getUser()->id;
+$userId  = Factory::getApplication()->getIdentity()->id;
 
 $listOrder  = $this->escape($this->state->get('list.ordering'));
 $listDirn   = $this->escape($this->state->get('list.direction'));

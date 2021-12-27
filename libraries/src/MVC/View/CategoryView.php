@@ -123,7 +123,7 @@ class CategoryView extends HtmlView
 	public function commonCategoryDisplay()
 	{
 		$app    = Factory::getApplication();
-		$user   = Factory::getUser();
+		$user   = Factory::getApplication()->getIdentity();
 		$params = $app->getParams();
 
 		// Get some data from the models

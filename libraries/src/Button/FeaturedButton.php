@@ -59,7 +59,7 @@ class FeaturedButton extends ActionButton
 
 			$nowDate  = Factory::getDate()->toUnix();
 
-			$tz       = Factory::getUser()->getTimezone();
+			$tz       = Factory::getApplication()->getIdentity()->getTimezone();
 
 			if (!is_null($featuredUp))
 			{

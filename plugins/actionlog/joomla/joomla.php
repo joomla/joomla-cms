@@ -612,7 +612,7 @@ class PlgActionlogJoomla extends ActionLogPlugin
 			return;
 		}
 
-		$jUser = Factory::getUser();
+		$jUser = Factory::getApplication()->getIdentity();
 
 		if (!$jUser->id)
 		{
@@ -974,7 +974,7 @@ class PlgActionlogJoomla extends ActionLogPlugin
 	public function onAfterCheckin($table)
 	{
 		$context = 'com_checkin';
-		$user    = Factory::getUser();
+		$user    = Factory::getApplication()->getIdentity();
 
 		if (!$this->checkLoggable($context))
 		{
@@ -1010,7 +1010,7 @@ class PlgActionlogJoomla extends ActionLogPlugin
 	public function onAfterLogPurge($group = '')
 	{
 		$context = $this->app->input->get('option');
-		$user    = Factory::getUser();
+		$user    = Factory::getApplication()->getIdentity();
 		$message = array(
 			'action'      => 'actionlogs',
 			'type'        => 'PLG_ACTIONLOG_JOOMLA_TYPE_USER',
@@ -1038,7 +1038,7 @@ class PlgActionlogJoomla extends ActionLogPlugin
 	public function onAfterLogExport($group = '')
 	{
 		$context = $this->app->input->get('option');
-		$user    = Factory::getUser();
+		$user    = Factory::getApplication()->getIdentity();
 		$message = array(
 			'action'      => 'actionlogs',
 			'type'        => 'PLG_ACTIONLOG_JOOMLA_TYPE_USER',
@@ -1066,7 +1066,7 @@ class PlgActionlogJoomla extends ActionLogPlugin
 	public function onAfterPurge($group = 'all')
 	{
 		$context = $this->app->input->get('option');
-		$user    = Factory::getUser();
+		$user    = Factory::getApplication()->getIdentity();
 
 		if (!$this->checkLoggable($context))
 		{
@@ -1147,7 +1147,7 @@ class PlgActionlogJoomla extends ActionLogPlugin
 	public function onJoomlaAfterUpdate($oldVersion = null)
 	{
 		$context = $this->app->input->get('option');
-		$user    = Factory::getUser();
+		$user    = Factory::getApplication()->getIdentity();
 
 		if (empty($oldVersion))
 		{

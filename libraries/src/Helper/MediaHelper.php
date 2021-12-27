@@ -345,7 +345,7 @@ class MediaHelper
 					return false;
 				}
 
-				if (!Factory::getUser()->authorise('core.manage', $component))
+				if (!Factory::getApplication()->getIdentity()->authorise('core.manage', $component))
 				{
 					$app->enqueueMessage(Text::_('JLIB_MEDIA_ERROR_WARNNOTADMIN'), 'error');
 

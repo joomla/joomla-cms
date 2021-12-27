@@ -259,7 +259,7 @@ abstract class BaseDatabaseModel extends BaseModel implements DatabaseModelInter
 		$table = $this->getTable();
 		$checkedOutField = $table->getColumnAlias('checked_out');
 
-		if (property_exists($item, $checkedOutField) && $item->{$checkedOutField} != Factory::getUser()->id)
+		if (property_exists($item, $checkedOutField) && $item->{$checkedOutField} != Factory::getApplication()->getIdentity()->id)
 		{
 			return true;
 		}

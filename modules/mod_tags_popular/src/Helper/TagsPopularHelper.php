@@ -35,7 +35,7 @@ abstract class TagsPopularHelper
 	public static function getList(&$params)
 	{
 		$db          = Factory::getDbo();
-		$user        = Factory::getUser();
+		$user        = Factory::getApplication()->getIdentity();
 		$groups      = $user->getAuthorisedViewLevels();
 		$timeframe   = $params->get('timeframe', 'alltime');
 		$maximum     = $params->get('maximum', 5);

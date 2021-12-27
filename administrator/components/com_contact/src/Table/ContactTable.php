@@ -75,7 +75,7 @@ class ContactTable extends Table implements VersionableTableInterface, TaggableT
 	public function store($updateNulls = true)
 	{
 		$date   = Factory::getDate()->toSql();
-		$userId = Factory::getUser()->id;
+		$userId = Factory::getApplication()->getIdentity()->id;
 
 		// Set created date if not set.
 		if (!(int) $this->created)

@@ -147,7 +147,7 @@ class ModuleModel extends AdminModel
 	protected function batchCopy($value, $pks, $contexts)
 	{
 		// Set the variables
-		$user = Factory::getUser();
+		$user = Factory::getApplication()->getIdentity();
 		$table = $this->getTable();
 		$newIds = array();
 
@@ -262,7 +262,7 @@ class ModuleModel extends AdminModel
 	protected function batchMove($value, $pks, $contexts)
 	{
 		// Set the variables
-		$user = Factory::getUser();
+		$user = Factory::getApplication()->getIdentity();
 		$table = $this->getTable();
 
 		foreach ($pks as $pk)
@@ -323,7 +323,7 @@ class ModuleModel extends AdminModel
 		// Check for existing module.
 		if (!empty($record->id))
 		{
-			return Factory::getUser()->authorise('core.edit.state', 'com_modules.module.' . (int) $record->id);
+			return Factory::getApplication()->getIdentity()->authorise('core.edit.state', 'com_modules.module.' . (int) $record->id);
 		}
 
 		// Default to component settings if module not known.
@@ -344,7 +344,7 @@ class ModuleModel extends AdminModel
 	{
 		$app        = Factory::getApplication();
 		$pks        = (array) $pks;
-		$user       = Factory::getUser();
+		$user       = Factory::getApplication()->getIdentity();
 		$table      = $this->getTable();
 		$context    = $this->option . '.' . $this->name;
 
@@ -414,7 +414,7 @@ class ModuleModel extends AdminModel
 	 */
 	public function duplicate(&$pks)
 	{
-		$user = Factory::getUser();
+		$user = Factory::getApplication()->getIdentity();
 		$db   = $this->getDbo();
 
 		// Access checks.
@@ -592,7 +592,7 @@ class ModuleModel extends AdminModel
 			return false;
 		}
 
-		$user = Factory::getUser();
+		$user = Factory::getApplication()->getIdentity();
 
 		/**
 		 * Check for existing module
@@ -917,7 +917,7 @@ class ModuleModel extends AdminModel
 	 */
 	public function validate($form, $data, $group = null)
 	{
-		if (!Factory::getUser()->authorise('core.admin', 'com_modules'))
+		if (!Factory::getApplication()->getIdentity()->authorise('core.admin', 'com_modules'))
 		{
 			if (isset($data['rules']))
 			{

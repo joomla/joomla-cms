@@ -35,7 +35,7 @@ class CategoriesHelper
 	{
 		$langAssociations = Associations::getAssociations($extension, '#__categories', 'com_categories.item', $pk, 'id', 'alias', '');
 		$associations     = array();
-		$user             = Factory::getUser();
+		$user             = Factory::getApplication()->getIdentity();
 		$groups           = $user->getAuthorisedViewLevels();
 
 		foreach ($langAssociations as $langAssociation)

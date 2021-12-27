@@ -50,7 +50,7 @@ class PlgContentPagenavigation extends CMSPlugin
 		if ($context === 'com_content.article' && $view === 'article' && $params->get('show_item_navigation'))
 		{
 			$db         = Factory::getDbo();
-			$user       = Factory::getUser();
+			$user       = Factory::getApplication()->getIdentity();
 			$lang       = Factory::getLanguage();
 			$now        = Factory::getDate()->toSql();
 			$query      = $db->getQuery(true);

@@ -146,7 +146,7 @@ class PluginsField extends ListField
 
 			if ((string) $this->element['useaccess'] === 'true')
 			{
-				$query->whereIn($db->quoteName('access'), Factory::getUser()->getAuthorisedViewLevels());
+				$query->whereIn($db->quoteName('access'), Factory::getApplication()->getIdentity()->getAuthorisedViewLevels());
 			}
 
 			$options   = $db->setQuery($query)->loadObjectList();

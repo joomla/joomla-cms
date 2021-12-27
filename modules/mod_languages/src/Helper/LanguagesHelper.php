@@ -36,7 +36,7 @@ abstract class LanguagesHelper
 	 */
 	public static function getList(&$params)
 	{
-		$user		= Factory::getUser();
+		$user		= Factory::getApplication()->getIdentity();
 		$lang		= Factory::getLanguage();
 		$languages	= LanguageHelper::getLanguages();
 		$app		= Factory::getApplication();

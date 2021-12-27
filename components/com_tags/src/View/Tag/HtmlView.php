@@ -138,7 +138,7 @@ class HtmlView extends BaseHtmlView
 
 		// Check whether access level allows access.
 		// @TODO: Should already be computed in $item->params->get('access-view')
-		$user   = Factory::getUser();
+		$user   = Factory::getApplication()->getIdentity();
 		$groups = $user->getAuthorisedViewLevels();
 
 		foreach ($item as $itemElement)
@@ -368,7 +368,7 @@ class HtmlView extends BaseHtmlView
 
 		if (!empty($this->item))
 		{
-			$user   = Factory::getUser();
+			$user   = Factory::getApplication()->getIdentity();
 			$groups = $user->getAuthorisedViewLevels();
 
 			foreach ($this->item as $item)

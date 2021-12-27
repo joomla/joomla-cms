@@ -41,7 +41,7 @@ abstract class ArticlesLatestHelper
 	{
 		// Get the Dbo and User object
 		$db   = Factory::getDbo();
-		$user = Factory::getUser();
+		$user = Factory::getApplication()->getIdentity();
 
 		// Set application parameters in model
 		$app       = Factory::getApplication();

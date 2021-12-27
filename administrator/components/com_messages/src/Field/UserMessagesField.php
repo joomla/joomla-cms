@@ -88,6 +88,6 @@ class UserMessagesField extends UserField
 	 */
 	protected function getExcluded()
 	{
-		return array(Factory::getUser()->id);
+		return array(Factory::getApplication()->getIdentity()->id);
 	}
 }

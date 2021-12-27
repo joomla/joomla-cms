@@ -507,7 +507,7 @@ class Query
 		$db = Factory::getDbo();
 
 		// Initialize user variables
-		$groups = implode(',', Factory::getUser()->getAuthorisedViewLevels());
+		$groups = implode(',', Factory::getApplication()->getIdentity()->getAuthorisedViewLevels());
 
 		// Load the predefined filter.
 		$query = $db->getQuery(true)
@@ -599,7 +599,7 @@ class Query
 	protected function processDynamicTaxonomy($filters)
 	{
 		// Initialize user variables
-		$groups = implode(',', Factory::getUser()->getAuthorisedViewLevels());
+		$groups = implode(',', Factory::getApplication()->getIdentity()->getAuthorisedViewLevels());
 
 		// Remove duplicates and sanitize.
 		$filters = array_unique($filters);

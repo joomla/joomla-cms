@@ -22,7 +22,7 @@ HTMLHelper::_('behavior.multiselect');
 
 $listOrder  = $this->escape($this->state->get('list.ordering'));
 $listDirn   = $this->escape($this->state->get('list.direction'));
-$loggeduser = Factory::getUser();
+$loggeduser = Factory::getApplication()->getIdentity();
 $tfa        = PluginHelper::isEnabled('twofactorauth');
 
 ?>

@@ -100,7 +100,7 @@ class MailModel extends AdminModel
 	{
 		$app      = Factory::getApplication();
 		$data     = $app->input->post->get('jform', array(), 'array');
-		$user     = Factory::getUser();
+		$user     = Factory::getApplication()->getIdentity();
 		$access   = new Access;
 		$db       = $this->getDbo();
 		$language = Factory::getLanguage();

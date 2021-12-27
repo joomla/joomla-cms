@@ -284,7 +284,7 @@ class PlgSystemPrivacyconsent extends CMSPlugin
 			return;
 		}
 
-		$userId = Factory::getUser()->id;
+		$userId = Factory::getApplication()->getIdentity()->id;
 
 		// Check to see whether user already consented, if not, redirect to user profile page
 		if ($userId > 0)

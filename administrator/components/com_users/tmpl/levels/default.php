@@ -20,7 +20,7 @@ use Joomla\Component\Users\Administrator\Helper\UsersHelper;
 
 HTMLHelper::_('behavior.multiselect');
 
-$user       = Factory::getUser();
+$user       = Factory::getApplication()->getIdentity();
 $listOrder  = $this->escape($this->state->get('list.ordering'));
 $listDirn   = $this->escape($this->state->get('list.direction'));
 $saveOrder  = $listOrder == 'a.ordering';
@@ -80,7 +80,7 @@ if ($saveOrder && !empty($this->items))
 							$groups = json_decode($item->rules);
 
 							// If this group is super admin and this user is not super admin, $canEdit is false
-							if (!Factory::getUser()->authorise('core.admin') && Access::checkGroup($groups[0], 'core.admin'))
+							if (!Factory::getApplication()->getIdentity()->authorise('core.admin') && Access::checkGroup($groups[0], 'core.admin'))
 							{
 								$canEdit   = false;
 								$canChange = false;

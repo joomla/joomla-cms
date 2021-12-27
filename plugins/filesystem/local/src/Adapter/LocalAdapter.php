@@ -384,7 +384,7 @@ class LocalAdapter implements AdapterInterface
 		$dateObj = Factory::getDate($date);
 
 		$timezone = Factory::getApplication()->get('offset');
-		$user     = Factory::getUser();
+		$user     = Factory::getApplication()->getIdentity();
 
 		if ($user->id)
 		{

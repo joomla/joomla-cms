@@ -37,7 +37,7 @@ class UsersLatestHelper
 			->select($db->quoteName(['a.id', 'a.name', 'a.username', 'a.registerDate']))
 			->order($db->quoteName('a.registerDate') . ' DESC')
 			->from($db->quoteName('#__users', 'a'));
-		$user = Factory::getUser();
+		$user = Factory::getApplication()->getIdentity();
 
 		if (!$user->authorise('core.admin') && $params->get('filter_groups', 0) == 1)
 		{

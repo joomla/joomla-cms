@@ -58,7 +58,7 @@ class PublishedButton extends ActionButton
 			$nullDate = Factory::getDbo()->getNullDate();
 			$nowDate = Factory::getDate()->toUnix();
 
-			$tz = Factory::getUser()->getTimezone();
+			$tz = Factory::getApplication()->getIdentity()->getTimezone();
 
 			$publishUp   = ($publishUp !== null && $publishUp !== $nullDate) ? Factory::getDate($publishUp, 'UTC')->setTimezone($tz) : false;
 			$publishDown = ($publishDown !== null && $publishDown !== $nullDate) ? Factory::getDate($publishDown, 'UTC')->setTimezone($tz) : false;

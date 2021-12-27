@@ -39,7 +39,7 @@ if ($saveOrder)
 
 $extension = $this->escape($this->state->get('filter.extension'));
 
-$user = Factory::getUser();
+$user = Factory::getApplication()->getIdentity();
 $userId = $user->id;
 ?>
 <form action="<?php echo Route::_('index.php?option=com_workflow&view=workflows&extension=' . $extension); ?>" method="post" name="adminForm" id="adminForm">

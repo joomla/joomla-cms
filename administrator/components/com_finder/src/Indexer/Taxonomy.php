@@ -309,7 +309,7 @@ class Taxonomy
 		$db = Factory::getDbo();
 
 		// Set user variables
-		$groups = implode(',', Factory::getUser()->getAuthorisedViewLevels());
+		$groups = implode(',', Factory::getApplication()->getIdentity()->getAuthorisedViewLevels());
 
 		// Create a query to get the taxonomy branch titles.
 		$query = $db->getQuery(true)
@@ -341,7 +341,7 @@ class Taxonomy
 		$db = Factory::getDbo();
 
 		// Set user variables
-		$groups = implode(',', Factory::getUser()->getAuthorisedViewLevels());
+		$groups = implode(',', Factory::getApplication()->getIdentity()->getAuthorisedViewLevels());
 
 		// Create a query to get the node.
 		$query = $db->getQuery(true)

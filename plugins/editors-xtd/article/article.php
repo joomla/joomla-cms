@@ -41,7 +41,7 @@ class PlgButtonArticle extends CMSPlugin
 	 */
 	public function onDisplay($name)
 	{
-		$user  = Factory::getUser();
+		$user  = Factory::getApplication()->getIdentity();
 
 		// Can create in any category (component permission) or at least in one category
 		$canCreateRecords = $user->authorise('core.create', 'com_content')

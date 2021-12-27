@@ -30,7 +30,7 @@ $wa->useScript('form.validate')
 	->useScript('com_templates.admin-template-toggle-switch');
 
 // No access if not global SuperUser
-if (!Factory::getUser()->authorise('core.admin'))
+if (!Factory::getApplication()->getIdentity()->authorise('core.admin'))
 {
 	Factory::getApplication()->enqueueMessage(Text::_('JERROR_ALERTNOAUTHOR'), 'danger');
 }

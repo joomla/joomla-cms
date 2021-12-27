@@ -18,7 +18,7 @@ use Joomla\CMS\Session\Session;
 
 HTMLHelper::_('behavior.multiselect');
 
-$user      = Factory::getUser();
+$user      = Factory::getApplication()->getIdentity();
 $userId    = $user->id;
 
 $listOrder = $this->escape($this->state->get('list.ordering'));

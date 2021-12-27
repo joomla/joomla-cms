@@ -211,7 +211,7 @@ class ListView extends HtmlView
 	protected function addToolbar()
 	{
 		$canDo = $this->canDo;
-		$user  = Factory::getUser();
+		$user  = Factory::getApplication()->getIdentity();
 
 		// Get the toolbar object instance
 		$bar = Toolbar::getInstance('toolbar');

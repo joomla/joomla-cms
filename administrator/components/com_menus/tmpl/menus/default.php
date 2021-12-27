@@ -19,7 +19,7 @@ HTMLHelper::_('behavior.multiselect');
 
 $uri       = Uri::getInstance();
 $return    = base64_encode($uri);
-$user      = Factory::getUser();
+$user      = Factory::getApplication()->getIdentity();
 $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
 $modMenuId = (int) $this->get('ModMenuId');

@@ -23,7 +23,7 @@ $return           = LoginHelper::getReturnUrl($params, $type);
 $registerLink     = LoginHelper::getRegistrationUrl($params);
 $twofactormethods = AuthenticationHelper::getTwoFactorMethods();
 $extraButtons     = AuthenticationHelper::getLoginButtons($formId);
-$user             = Factory::getUser();
+$user             = Factory::getApplication()->getIdentity();
 $layout           = $params->get('layout', 'default');
 
 // Logged users must load the logout sublayout

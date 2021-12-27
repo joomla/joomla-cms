@@ -41,7 +41,7 @@ class PlgButtonContact extends CMSPlugin
 	 */
 	public function onDisplay($name)
 	{
-		$user  = Factory::getUser();
+		$user  = Factory::getApplication()->getIdentity();
 
 		if ($user->authorise('core.create', 'com_contact')
 			|| $user->authorise('core.edit', 'com_contact')

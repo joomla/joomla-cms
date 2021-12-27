@@ -41,7 +41,7 @@ class Filter
 	{
 		$db     = Factory::getDbo();
 		$query  = $db->getQuery(true);
-		$user   = Factory::getUser();
+		$user   = Factory::getApplication()->getIdentity();
 		$groups = implode(',', $user->getAuthorisedViewLevels());
 		$html   = '';
 		$filter = null;
@@ -220,7 +220,7 @@ class Filter
 	 */
 	public function select($idxQuery, $options)
 	{
-		$user   = Factory::getUser();
+		$user   = Factory::getApplication()->getIdentity();
 		$groups = implode(',', $user->getAuthorisedViewLevels());
 		$filter = null;
 

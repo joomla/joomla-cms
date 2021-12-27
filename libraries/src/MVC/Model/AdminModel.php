@@ -815,7 +815,7 @@ abstract class AdminModel extends FormModel
 	 */
 	protected function canDelete($record)
 	{
-		return Factory::getUser()->authorise('core.delete', $this->option);
+		return Factory::getApplication()->getIdentity()->authorise('core.delete', $this->option);
 	}
 
 	/**
@@ -829,7 +829,7 @@ abstract class AdminModel extends FormModel
 	 */
 	protected function canEditState($record)
 	{
-		return Factory::getUser()->authorise('core.edit.state', $this->option);
+		return Factory::getApplication()->getIdentity()->authorise('core.edit.state', $this->option);
 	}
 
 	/**
@@ -1168,7 +1168,7 @@ abstract class AdminModel extends FormModel
 	 */
 	public function publish(&$pks, $value = 1)
 	{
-		$user = Factory::getUser();
+		$user = Factory::getApplication()->getIdentity();
 		$table = $this->getTable();
 		$pks = (array) $pks;
 
@@ -1667,7 +1667,7 @@ abstract class AdminModel extends FormModel
 
 		// Check that the user has create permission for the component
 		$extension = Factory::getApplication()->input->get('option', '');
-		$user = Factory::getUser();
+		$user = Factory::getApplication()->getIdentity();
 
 		if (!$user->authorise('core.create', $extension . '.category.' . $categoryId))
 		{
@@ -1714,7 +1714,7 @@ abstract class AdminModel extends FormModel
 			$this->batchSet = true;
 
 			// Get current user
-			$this->user = Factory::getUser();
+			$this->user = Factory::getApplication()->getIdentity();
 
 			// Get table
 			$this->table = $this->getTable();

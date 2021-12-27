@@ -59,7 +59,7 @@ class LoginHelper
 	 */
 	public static function getType()
 	{
-		$user = Factory::getUser();
+		$user = Factory::getApplication()->getIdentity();
 
 		return (!$user->get('guest')) ? 'logout' : 'login';
 	}

@@ -50,7 +50,7 @@ abstract class Category
 		{
 			$config = (array) $config;
 			$db     = Factory::getDbo();
-			$user   = Factory::getUser();
+			$user   = Factory::getApplication()->getIdentity();
 			$groups = $user->getAuthorisedViewLevels();
 
 			$query = $db->getQuery(true)
@@ -158,7 +158,7 @@ abstract class Category
 		if (!isset(static::$items[$hash]))
 		{
 			$config = (array) $config;
-			$user = Factory::getUser();
+			$user = Factory::getApplication()->getIdentity();
 			$db = Factory::getDbo();
 			$query = $db->getQuery(true)
 				->select(

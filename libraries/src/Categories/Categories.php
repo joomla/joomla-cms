@@ -222,7 +222,7 @@ class Categories implements CategoryInterface
 		/** @var \Joomla\Database\DatabaseDriver */
 		$db   = Factory::getDbo();
 		$app  = Factory::getApplication();
-		$user = Factory::getUser();
+		$user = Factory::getApplication()->getIdentity();
 		$extension = $this->_extension;
 
 		if ($id !== 'root')

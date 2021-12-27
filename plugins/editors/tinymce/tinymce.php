@@ -174,7 +174,7 @@ class PlgEditorTinymce extends CMSPlugin
 			return $editor;
 		}
 
-		$user     = Factory::getUser();
+		$user     = Factory::getApplication()->getIdentity();
 		$language = Factory::getLanguage();
 		$theme    = 'silver';
 		$ugroups  = array_combine($user->getAuthorisedGroups(), $user->getAuthorisedGroups());
@@ -763,7 +763,7 @@ class PlgEditorTinymce extends CMSPlugin
 	{
 		// Filter settings
 		$config     = ComponentHelper::getParams('com_config');
-		$user       = Factory::getUser();
+		$user       = Factory::getApplication()->getIdentity();
 		$userGroups = Access::getGroupsByUser($user->get('id'));
 
 		$filters = $config->get('filters');

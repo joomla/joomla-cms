@@ -226,7 +226,7 @@ class AdministratorApplication extends CMSApplication
 			return $this->template->template;
 		}
 
-		$admin_style = (int) Factory::getUser()->getParam('admin_style');
+		$admin_style = (int) Factory::getApplication()->getIdentity()->getParam('admin_style');
 
 		// Load the template name from the database
 		$db = Factory::getDbo();
@@ -308,7 +308,7 @@ class AdministratorApplication extends CMSApplication
 	 */
 	protected function initialiseApp($options = array())
 	{
-		$user = Factory::getUser();
+		$user = Factory::getApplication()->getIdentity();
 
 		// If the user is a guest we populate it with the guest user group.
 		if ($user->guest)
@@ -408,7 +408,7 @@ class AdministratorApplication extends CMSApplication
 	 */
 	public static function purgeMessages()
 	{
-		$userId = Factory::getUser()->id;
+		$userId = Factory::getApplication()->getIdentity()->id;
 
 		$db = Factory::getDbo();
 		$query = $db->getQuery(true)
@@ -487,7 +487,7 @@ class AdministratorApplication extends CMSApplication
 
 		if (property_exists('\JConfig', 'root_user'))
 		{
-			if (Factory::getUser()->get('username') === $rootUser || Factory::getUser()->id === (string) $rootUser)
+			if (Factory::getApplication()->getIdentity()->get('username') === $rootUser || Factory::getApplication()->getIdentity()->id === (string) $rootUser)
 			{
 				$this->enqueueMessage(
 					Text::sprintf(
@@ -498,7 +498,7 @@ class AdministratorApplication extends CMSApplication
 				);
 			}
 			// Show this message to superusers too
-			elseif (Factory::getUser()->authorise('core.admin'))
+			elseif (Factory::getApplication()->getIdentity()->authorise('core.admin'))
 			{
 				$this->enqueueMessage(
 					Text::sprintf(

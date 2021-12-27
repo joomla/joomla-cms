@@ -21,7 +21,7 @@ use Joomla\String\Inflector;
 HTMLHelper::_('behavior.multiselect');
 
 $app       = Factory::getApplication();
-$user      = Factory::getUser();
+$user      = Factory::getApplication()->getIdentity();
 $userId    = $user->get('id');
 $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));

@@ -17,7 +17,7 @@ $params = ComponentHelper::getParams('com_content');
 
 $published = (int) $this->state->get('filter.published');
 
-$user = Factory::getUser();
+$user = Factory::getApplication()->getIdentity();
 ?>
 
 <div class="p-3">
