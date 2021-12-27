@@ -1044,7 +1044,7 @@ class Access
 					}
 				}
 			}
-	
+
 			$authorised = array_unique($authorised);
 
 			return $authorised;
