@@ -295,7 +295,7 @@ class PluginsModel extends ListModel
 	{
 		$data = parent::loadFormData();
 
-		// Set the selected filter values for pages that use the \JLayouts for filtering
+		// Set the selected filter values for pages that use the Layouts for filtering
 		$data->list['sortTable'] = $this->state->get('list.ordering');
 		$data->list['directionTable'] = $this->state->get('list.direction');
 
