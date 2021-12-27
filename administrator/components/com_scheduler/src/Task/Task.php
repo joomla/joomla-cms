@@ -126,7 +126,8 @@ class Task implements LoggerAwareInterface
 	/**
 	 * Constructor for {@see Task}.
 	 *
-	 * @param   object  $record  A task from {@see TaskTable}.
+	 * @param   object           $record  A task from {@see TaskTable}.
+	 * @param   LoggerInterface  $logger  A logger instance for the Task's logs.
 	 *
 	 * @since 4.1.0
 	 * @throws \Exception
@@ -229,7 +230,7 @@ class Task implements LoggerAwareInterface
 				'routineId'       => $this->get('type'),
 				'langConstPrefix' => $this->get('taskOption')->langConstPrefix,
 				'params'          => $this->get('params'),
-				'logger'		  => [$this, 'log']
+				'logger'		  => [$this, 'log'],
 			]
 		);
 
