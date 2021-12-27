@@ -10,19 +10,29 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\Component\Content\Site\Helper\RouteHelper;
 
 ?>
-<dd class="parent-category-name">
+<dd class="parent-category">
+	<?php echo LayoutHelper::render('joomla.icon.iconclass', ['icon' => 'info-icon icon-folder-open icon-fw']); ?>
 	<?php $title = $this->escape($displayData['item']->parent_title); ?>
 	<?php if ($displayData['params']->get('link_parent_category') && !empty($displayData['item']->parent_id)) : ?>
-		<?php $url = '<a href="' . Route::_(
+		<span class="info-label">
+			<?php echo Text::sprintf('COM_CONTENT_PARENT', ''); ?>
+		</span>
+		<?php $url = '<a class="info-value" href="' . Route::_(
 			RouteHelper::getCategoryRoute($displayData['item']->parent_id, $displayData['item']->parent_language)
 			)
 			. '" itemprop="genre">' . $title . '</a>'; ?>
-		<?php echo Text::sprintf('COM_CONTENT_PARENT', $url); ?>
+		<?php echo $url; ?>
 	<?php else : ?>
-		<?php echo Text::sprintf('COM_CONTENT_PARENT', '<span itemprop="genre">' . $title . '</span>'); ?>
+		<span class="info-label">
+			<?php echo Text::sprintf('COM_CONTENT_PARENT', ''); ?>
+		</span>
+		<span class="info-value" itemprop="genre">
+		<?php echo $title; ?>
+		</span>
 	<?php endif; ?>
 </dd>
