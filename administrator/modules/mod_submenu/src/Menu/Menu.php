@@ -61,10 +61,6 @@ abstract class Menu
 				{
 					$item->link = 'index.php?option=com_admin&amp;view=help&amp;layout=langforum';
 				}
-				elseif ($special === 'custom-forum')
-				{
-					$item->link = $this->params->get('forum_url');
-				}
 			}
 
 			$uri   = new Uri($item->link);
