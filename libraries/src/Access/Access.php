@@ -1044,7 +1044,9 @@ class Access
 					}
 				}
 			}
-
+			
+			$authorised = array_unique($authorised);
+			
 			return $authorised;
 		}
 
@@ -1069,6 +1071,8 @@ class Access
 				}
 			}
 		}
+		
+		$authorised = array_unique($authorised);
 
 		return $authorised;
 	}
