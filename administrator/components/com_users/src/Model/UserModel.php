@@ -201,13 +201,14 @@ class UserModel extends AdminModel
 	/**
 	 * Override Joomla\CMS\MVC\Model\AdminModel::preprocessForm to ensure the correct plugin group is loaded.
 	 *
-	 * @param   \JForm  $form   A \JForm object.
+	 * @param   Form    $form   A \JForm object.
 	 * @param   mixed   $data   The data expected for the form.
 	 * @param   string  $group  The name of the plugin group to import (defaults to "content").
 	 *
 	 * @return  void
 	 *
 	 * @since   1.6
+	 *
 	 * @throws  \Exception if there is an error in the form event.
 	 */
 	protected function preprocessForm(Form $form, $data, $group = 'user')

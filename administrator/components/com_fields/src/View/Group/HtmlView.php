@@ -28,7 +28,7 @@ use Joomla\Component\Fields\Administrator\Helper\FieldsHelper;
 class HtmlView extends BaseHtmlView
 {
 	/**
-	 * @var  \JForm
+	 * @var  \Joomla\CMS\Form\Form
 	 *
 	 * @since  3.7.0
 	 */

@@ -165,7 +165,7 @@ class MapsModel extends ListModel
 	/**
 	 * Build an SQL query to load the list data.
 	 *
-	 * @return  \JDatabaseQuery  A \JDatabaseQuery object
+	 * @return  \Joomla\Database\DatabaseQuery
 	 *
 	 * @since   2.5
 	 */
@@ -236,7 +236,7 @@ class MapsModel extends ListModel
 	/**
 	 * Returns a record count for the query.
 	 *
-	 * @param   \JDatabaseQuery|string  $query  The query.
+	 * @param   \Joomla\Database\DatabaseQuery|string
 	 *
 	 * @return  integer  Number of rows for query.
 	 *

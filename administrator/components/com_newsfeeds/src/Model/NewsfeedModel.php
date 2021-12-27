@@ -102,7 +102,7 @@ class NewsfeedModel extends AdminModel
 	 * @param   array    $data      Data for the form.
 	 * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
 	 *
-	 * @return  \JForm    A \JForm object on success, false on failure
+	 * @return  \Joomla\CMS\Form\Form|bool  A Form object on success, false on failure
 	 *
 	 * @since   1.6
 	 */
@@ -390,7 +390,7 @@ class NewsfeedModel extends AdminModel
 	/**
 	 * A protected method to get a set of ordering conditions.
 	 *
-	 * @param   \JForm  $form   The form object.
+	 * @param   Form    $form   The form object.
 	 * @param   array   $data   The data to be injected into the form
 	 * @param   string  $group  The plugin group to process
 	 *

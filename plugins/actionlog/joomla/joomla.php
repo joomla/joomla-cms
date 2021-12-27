@@ -847,7 +847,7 @@ class PlgActionlogJoomla extends ActionLogPlugin
 		{
 			$loggedInUser = $this->db->loadObject();
 		}
-		catch (JDatabaseExceptionExecuting $e)
+		catch (\Joomla\Database\Exception\ExecutionFailureException $e)
 		{
 			return;
 		}

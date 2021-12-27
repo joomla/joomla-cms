@@ -32,7 +32,7 @@ use Joomla\Component\Fields\Administrator\Helper\FieldsHelper;
 class HtmlView extends BaseHtmlView
 {
 	/**
-	 * @var  \JForm
+	 * @var  \Joomla\CMS\Form\Form
 	 *
 	 * @since  3.7.0
 	 */
@@ -53,7 +53,7 @@ class HtmlView extends BaseHtmlView
 	protected $items;
 
 	/**
-	 * @var  \JPagination
+	 * @var  \Joomla\CMS\Pagination\Pagination
 	 *
 	 * @since  3.7.0
 	 */

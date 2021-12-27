@@ -985,14 +985,15 @@ class FieldModel extends AdminModel
 	/**
 	 * Method to allow derived classes to preprocess the form.
 	 *
-	 * @param   \JForm  $form   A JForm object.
+	 * @param   Form    $form   A JForm object.
 	 * @param   mixed   $data   The data expected for the form.
 	 * @param   string  $group  The name of the plugin group to import (defaults to "content").
 	 *
 	 * @return  void
 	 *
-	 * @see     \Joomla\CMS\Form\FormField
 	 * @since   3.7.0
+	 *
+	 * @see     \Joomla\CMS\Form\FormField
 	 * @throws  \Exception if there is an error in the form event.
 	 */
 	protected function preprocessForm(Form $form, $data, $group = 'content')

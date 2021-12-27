@@ -14,6 +14,7 @@ namespace Joomla\Component\Installer\Administrator\Model;
 use Joomla\CMS\Extension\ExtensionHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\File;
+use Joomla\CMS\Form\Form;
 use Joomla\CMS\Installer\Installer;
 use Joomla\CMS\Installer\InstallerHelper;
 use Joomla\CMS\Language\Text;
@@ -90,7 +91,7 @@ class UpdateModel extends ListModel
 	/**
 	 * Method to get the database query
 	 *
-	 * @return  \JDatabaseQuery  The database query
+	 * @return  \Joomla\Database\DatabaseQuery  The database query
 	 *
 	 * @since   1.6
 	 */
@@ -215,9 +216,9 @@ class UpdateModel extends ListModel
 	/**
 	 * Returns an object list
 	 *
-	 * @param   \JDatabaseQuery  $query       The query
-	 * @param   int              $limitstart  Offset
-	 * @param   int              $limit       The number of records
+	 * @param   DatabaseQuery  $query       The query
+	 * @param   int            $limitstart  Offset
+	 * @param   int            $limit       The number of records
 	 *
 	 * @return  array
 	 *
@@ -537,9 +538,9 @@ class UpdateModel extends ListModel
 	public function getForm($data = array(), $loadData = true)
 	{
 		// Get the form.
-		\JForm::addFormPath(JPATH_COMPONENT . '/models/forms');
-		\JForm::addFieldPath(JPATH_COMPONENT . '/models/fields');
-		$form = \JForm::getInstance('com_installer.update', 'update', array('load_data' => $loadData));
+		Form::addFormPath(JPATH_COMPONENT . '/models/forms');
+		Form::addFieldPath(JPATH_COMPONENT . '/models/fields');
+		$form = Form::getInstance('com_installer.update', 'update', array('load_data' => $loadData));
 
 		// Check for an error.
 		if ($form == false)

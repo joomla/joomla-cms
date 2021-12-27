@@ -29,14 +29,13 @@ class StageTable extends Table
 	 * Indicates that columns fully support the NULL value in the database
 	 *
 	 * @var    boolean
+	 *
 	 * @since  4.0.0
 	 */
 	protected $_supportNullValue = true;
 
 	/**
-	 * Constructor
-	 *
-	 * @param   \JDatabaseDriver  $db  Database connector object
+	 * @param   DatabaseDriver  $db  Database connector object
 	 *
 	 * @since  4.0.0
 	 */

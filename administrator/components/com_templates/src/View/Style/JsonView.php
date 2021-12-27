@@ -31,7 +31,7 @@ class JsonView extends BaseHtmlView
 	/**
 	 * The form object
 	 *
-	 * @var   \JForm
+	 * @var   \Joomla\CMS\Form\Form
 	 */
 	protected $form;
 
