@@ -57,11 +57,12 @@ class HtmlView extends BaseHtmlView
 
 	/**
 	 * The page to return to on submission
-	 * @todo Implement this functionality
 	 *
 	 * @var    string
 	 *
 	 * @since  1.6
+	 *
+	 * @todo Implement this functionality
 	 */
 	protected $return_page = '';
 
