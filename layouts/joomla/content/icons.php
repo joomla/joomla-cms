@@ -17,10 +17,6 @@ $articleId = $displayData['item']->id;
 
 <?php if ($canEdit) : ?>
 	<div class="icons">
-		<div class="float-end">
-			<div>
-				<?php echo HTMLHelper::_('icon.edit', $displayData['item'], $displayData['params']); ?>
-			</div>
-		</div>
+		<?php echo HTMLHelper::_('icon.edit', $displayData['item'], $displayData['params']); ?>
 	</div>
 <?php endif; ?>
