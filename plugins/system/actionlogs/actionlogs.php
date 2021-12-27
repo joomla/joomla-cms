@@ -98,8 +98,8 @@ class PlgSystemActionLogs extends CMSPlugin
 		}
 
 		/**
-		 * We only allow users who have Super User permission change this setting for himself or for other users
-		 * who have same Super User permission
+		 * We only allow users who have Super User permission to change this setting for themselves or for other
+		 * users who have the same Super User permission
 		 */
 
 		$user = Factory::getApplication()->getIdentity();
