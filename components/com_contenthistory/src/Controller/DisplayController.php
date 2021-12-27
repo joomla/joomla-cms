@@ -26,7 +26,7 @@ class DisplayController extends BaseController
 	/**
 	 * @param   array                     $config   An optional associative array of configuration settings.
 	 * @param   MVCFactoryInterface|null  $factory  The factory.
-	 * @param   CMSApplication|null       $app      The JApplication for the dispatcher
+	 * @param   CMSApplication|null       $app      The Application for the dispatcher
 	 * @param   ?Input                    $input    Input
 	 *
 	 * @since   3.0
