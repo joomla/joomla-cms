@@ -10,7 +10,6 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Application\ApplicationHelper;
-use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Extension\ExtensionHelper;
 use Joomla\CMS\HTML\HTMLHelper;
@@ -19,7 +18,6 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Session\Session;
-use Joomla\Database\DatabaseDriver;
 use Joomla\Database\ParameterType;
 
 /**
@@ -30,14 +28,14 @@ use Joomla\Database\ParameterType;
 class PlgSampledataBlog extends CMSPlugin
 {
 	/**
-	 * @var    DatabaseDriver
+	 * @var    \Joomla\Database\DatabaseDriver
 	 *
 	 * @since  3.8.0
 	 */
 	protected $db;
 
 	/**
-	 * @var    CMSApplication
+	 * @var    \Joomla\CMS\Application\CMSApplication
 	 *
 	 * @since  3.8.0
 	 */
@@ -101,7 +99,7 @@ class PlgSampledataBlog extends CMSPlugin
 
 		if (!ComponentHelper::isEnabled('com_tags'))
 		{
-			$response            = array();
+			$response            = [];
 			$response['success'] = true;
 			$response['message'] = Text::sprintf('PLG_SAMPLEDATA_BLOG_STEP_SKIPPED', 1, 'com_tags');
 
@@ -120,14 +118,14 @@ class PlgSampledataBlog extends CMSPlugin
 		$modelTag = $this->app->bootComponent('com_tags')->getMVCFactory()
 			->createModel('Tag', 'Administrator', ['ignore_request' => true]);
 
-		$tagIds = array();
+		$tagIds = [];
 
 		// Create first three tags.
 		for ($i = 0; $i <= 3; $i++)
 		{
 			$title = Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_TAG_' . $i . '_TITLE') . $langSuffix;
 
-			$tag   = array(
+			$tag   = [
 				'id'              => 0,
 				'title'           => $title,
 				'alias'           => ApplicationHelper::stringURLSafe($title),
@@ -138,7 +136,7 @@ class PlgSampledataBlog extends CMSPlugin
 				'created_user_id' => $user->id,
 				'language'        => $language,
 				'description'     => '',
-			);
+			];
 
 			try
 			{
@@ -150,7 +148,7 @@ class PlgSampledataBlog extends CMSPlugin
 			}
 			catch (Exception $e)
 			{
-				$response            = array();
+				$response            = [];
 				$response['success'] = false;
 				$response['message'] = Text::sprintf('PLG_SAMPLEDATA_BLOG_STEP_FAILED', 1, $e->getMessage());
 
@@ -162,7 +160,7 @@ class PlgSampledataBlog extends CMSPlugin
 
 		if (!ComponentHelper::isEnabled('com_content') || !$this->app->getIdentity()->authorise('core.create', 'com_content'))
 		{
-			$response            = array();
+			$response            = [];
 			$response['success'] = true;
 			$response['message'] = Text::sprintf('PLG_SAMPLEDATA_BLOG_STEP_SKIPPED', 1, 'com_content');
 

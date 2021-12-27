@@ -10,7 +10,6 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Application\ApplicationHelper;
-use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Extension\ExtensionHelper;
 use Joomla\CMS\Factory;
@@ -22,7 +21,6 @@ use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Session\Session;
 use Joomla\CMS\Table\Table;
 use Joomla\CMS\Workflow\Workflow;
-use Joomla\Database\DatabaseDriver;
 use Joomla\Database\Exception\ExecutionFailureException;
 use Joomla\Database\ParameterType;
 
@@ -34,14 +32,14 @@ use Joomla\Database\ParameterType;
 class PlgSampledataMultilang extends CMSPlugin
 {
 	/**
-	 * @var    DatabaseDriver
+	 * @var     \Joomla\Database\DatabaseDriver
 	 *
 	 * @since   4.0.0
 	 */
 	protected $db;
 
 	/**
-	 * @var     CMSApplication
+	 * @var     \Joomla\CMS\Application\CMSApplication
 	 *
 	 * @since   4.0.0
 	 */
@@ -50,7 +48,7 @@ class PlgSampledataMultilang extends CMSPlugin
 	/**
 	 * Affects constructor behavior. If true, language files will be loaded automatically.
 	 *
-	 * @var    boolean
+	 * @var     boolean
 	 *
 	 * @since   4.0.0
 	 */

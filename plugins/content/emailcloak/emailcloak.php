@@ -21,9 +21,8 @@ use Joomla\String\StringHelper;
 class PlgContentEmailcloak extends CMSPlugin
 {
 	/**
-	 * The Application object
-	 *
 	 * @var    \Joomla\CMS\Application\SiteApplication
+	 *
 	 * @since  3.9.0
 	 */
 	protected $app;
@@ -33,7 +32,7 @@ class PlgContentEmailcloak extends CMSPlugin
 	 *
 	 * @param   string   $context  The context of the content being passed to the plugin.
 	 * @param   mixed    &$row     An object with a "text" property or the string to be cloaked.
-	 * @param   mixed    &$params  Additional parameters. See {@see PlgContentEmailcloak()}.
+	 * @param   mixed    &$params  Additional parameters.
 	 * @param   integer  $page     Optional page number. Unused. Defaults to zero.
 	 *
 	 * @return  void|bool

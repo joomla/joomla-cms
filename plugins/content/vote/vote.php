@@ -20,10 +20,8 @@ use Joomla\CMS\Plugin\PluginHelper;
 class PlgContentVote extends CMSPlugin
 {
 	/**
-	 * Application object
-	 *
 	 * @var    \Joomla\CMS\Application\CMSApplication
-	 *
+     *
 	 * @since  3.7.0
 	 */
 	protected $app;

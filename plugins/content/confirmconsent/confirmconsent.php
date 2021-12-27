@@ -21,8 +21,6 @@ use Joomla\CMS\Plugin\CMSPlugin;
 class PlgContentConfirmConsent extends CMSPlugin
 {
 	/**
-	 * The Application object
-	 *
 	 * @var    \Joomla\CMS\Application\SiteApplication
 	 *
 	 * @since  3.9.0
@@ -45,10 +43,10 @@ class PlgContentConfirmConsent extends CMSPlugin
 	 *
 	 * @since  3.9.0
 	 */
-	protected $supportedContext = array(
+	protected $supportedContext = [
 		'com_contact.contact',
 		'com_privacy.request',
-	);
+	];
 
 	/**
 	 * Add additional fields to the supported forms
