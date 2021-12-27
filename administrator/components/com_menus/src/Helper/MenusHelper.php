@@ -492,7 +492,7 @@ class MenusHelper extends ContentHelper
 
 		foreach ($items as $item)
 		{
-			/** @var  \JTableMenu  $table */
+			/** @var \Joomla\CMS\Table\Menu $table */
 			$table = Table::getInstance('Menu');
 
 			$item->alias = $menutype . '-' . $item->title;

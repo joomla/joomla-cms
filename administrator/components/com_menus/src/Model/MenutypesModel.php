@@ -138,7 +138,7 @@ class MenutypesModel extends BaseDatabaseModel
 	 * Method to create the reverse lookup for link-to-name.
 	 * (can be used from onAfterGetMenuTypeOptions handlers)
 	 *
-	 * @param   \JObject  $option  with request array or string and title public variables
+	 * @param   CMSObject $option  With request array or string and title public variables.
 	 *
 	 * @return  void
 	 *
