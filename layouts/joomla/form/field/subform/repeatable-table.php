@@ -37,9 +37,9 @@ if ($multiple)
 {
 	// Add script
 	Factory::getApplication()
-			->getDocument()
-			->getWebAssetManager()
-			->useScript('webcomponent.field-subform');
+		->getDocument()
+		->getWebAssetManager()
+		->useScript('webcomponent.field-subform');
 }
 
 $class = $class ? ' ' . $class : '';
@@ -79,8 +79,8 @@ else
 
 	// Label will not be shown for sections layout, so reset the margin left
 	Factory::getApplication()
-			->getDocument()
-			->addStyleDeclaration('.subform-table-sublayout-section .controls { margin-left: 0px }');
+		->getDocument()
+		->addStyleDeclaration('.subform-table-sublayout-section .controls { margin-left: 0px }');
 }
 ?>
 

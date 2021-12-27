@@ -156,7 +156,7 @@ class PlgUserTerms extends CMSPlugin
 			->bootComponent('com_actionlogs')
 			->getMVCFactory()
 			->createModel('Actionlog', 'Administrator');
-		
+
 		$model->addLog([$message], 'PLG_USER_TERMS_LOGGING_CONSENT_TO_TERMS', 'plg_user_terms', $userId);
 	}
 }
