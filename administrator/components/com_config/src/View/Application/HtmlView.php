@@ -61,9 +61,6 @@ class HtmlView extends BaseHtmlView
 	 */
 	public function display($tpl = null)
 	{
-		$form = null;
-		$data = null;
-
 		try
 		{
 			// Load Form and Data
