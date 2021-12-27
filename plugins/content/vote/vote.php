@@ -21,7 +21,7 @@ class PlgContentVote extends CMSPlugin
 {
 	/**
 	 * @var    \Joomla\CMS\Application\CMSApplication
-     *
+	 *
 	 * @since  3.7.0
 	 */
 	protected $app;
