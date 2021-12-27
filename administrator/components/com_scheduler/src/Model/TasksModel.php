@@ -230,8 +230,6 @@ class TasksModel extends ListModel
 				->bind(':type', $typeFilter);
 		}
 
-		// @todo: Filter over trigger
-
 		// Filter over exit code ----
 		$exitCode = $this->getState('filter.last_exit_code');
 
