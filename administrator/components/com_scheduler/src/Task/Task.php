@@ -229,6 +229,7 @@ class Task implements LoggerAwareInterface
 				'routineId'       => $this->get('type'),
 				'langConstPrefix' => $this->get('taskOption')->langConstPrefix,
 				'params'          => $this->get('params'),
+				'logger'		  => [$this, 'log']
 			]
 		);
 
