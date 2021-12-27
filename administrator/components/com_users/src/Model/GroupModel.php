@@ -121,7 +121,7 @@ class GroupModel extends AdminModel
 	/**
 	 * Override preprocessForm to load the user plugin group instead of content.
 	 *
-	 * @param   Form    $form   A form object.
+	 * @param   Form    $form   A Form object.
 	 * @param   mixed   $data   The data expected for the form.
 	 * @param   string  $group  The name of the plugin group to import (defaults to "content").
 	 *
