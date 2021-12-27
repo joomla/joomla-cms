@@ -18,8 +18,8 @@ $urls = json_decode($this->item->urls);
 $params = $this->item->params;
 if ($urls && (!empty($urls->urla) || !empty($urls->urlb) || !empty($urls->urlc))) :
 ?>
-<div class="com-content-article__links content-links">
-	<ul class="com-content-article__links content-list">
+<div class="links | com-content-article__links content-links">
+	<ul class="links | com-content-article__links content-list">
 		<?php
 			$urlarray = array(
 			array($urls->urla, $urls->urlatext, $urls->targeta, 'a'),
@@ -42,7 +42,7 @@ if ($urls && (!empty($urls->urla) || !empty($urls->urlb) || !empty($urls->urlc))
 				// If no target is present, use the default
 				$target = $target ?: $params->get('target' . $id);
 				?>
-			<li class="com-content-article__link content-links-<?php echo $id; ?>">
+			<li class="link link-<?php echo $id; ?> | com-content-article__link content-links-<?php echo $id; ?>">
 				<?php
 					// Compute the correct link
 
@@ -73,7 +73,7 @@ if ($urls && (!empty($urls->urla) || !empty($urls->urlb) || !empty($urls->urlc))
 									'width'  => '100%',
 									'modalWidth'  => '500',
 									'bodyHeight'  => '500',
-									'footer' => '<button type="button" class="btn btn-secondary" data-bs-dismiss="modal" aria-hidden="true">'
+									'footer' => '<button type="button" class="btn | btn-secondary" data-bs-dismiss="modal" aria-hidden="true">'
 										. \Joomla\CMS\Language\Text::_('JLIB_HTML_BEHAVIOR_CLOSE') . '</button>'
 								)
 							);
