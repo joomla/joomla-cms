@@ -394,7 +394,7 @@ class NewsfeedModel extends AdminModel
 	 * @param   array   $data   The data to be injected into the form
 	 * @param   string  $group  The plugin group to process
 	 *
-	 * @return  array  An array of conditions to add to add to ordering queries.
+	 * @return  array  An array of conditions to add to ordering queries.
 	 *
 	 * @since   1.6
 	 */
