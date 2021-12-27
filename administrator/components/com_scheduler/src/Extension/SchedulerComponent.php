@@ -21,7 +21,6 @@ use Psr\Container\ContainerInterface;
  * Component class for com_scheduler.
  *
  * @since  4.1.0
- * @todo   Set up logger(s) here.
  */
 class SchedulerComponent extends MVCComponent implements BootableExtensionInterface
 {
