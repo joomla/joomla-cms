@@ -10,6 +10,7 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Application\ApplicationHelper;
+use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Extension\ExtensionHelper;
 use Joomla\CMS\Factory;
@@ -21,6 +22,7 @@ use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Session\Session;
 use Joomla\CMS\Table\Table;
 use Joomla\CMS\Workflow\Workflow;
+use Joomla\Database\DatabaseDriver;
 use Joomla\Database\Exception\ExecutionFailureException;
 use Joomla\Database\ParameterType;
 
@@ -32,18 +34,14 @@ use Joomla\Database\ParameterType;
 class PlgSampledataMultilang extends CMSPlugin
 {
 	/**
-	 * Database object
-	 *
-	 * @var    JDatabaseDriver
+	 * @var    DatabaseDriver
 	 *
 	 * @since   4.0.0
 	 */
 	protected $db;
 
 	/**
-	 * Application object
-	 *
-	 * @var    JApplicationCms
+	 * @var     CMSApplication
 	 *
 	 * @since   4.0.0
 	 */
@@ -59,7 +57,7 @@ class PlgSampledataMultilang extends CMSPlugin
 	protected $autoloadLanguage = true;
 
 	/**
-	 * @var     string language path
+	 * @var     string
 	 *
 	 * @since   4.0.0
 	 */
@@ -737,11 +735,10 @@ class PlgSampledataMultilang extends CMSPlugin
 	 *
 	 * @param   stdClass  $itemLanguage  Language Object.
 	 *
-	 * @return  JTable|boolean  Menu Item Object. False otherwise.
+	 * @return  Table|boolean Menu Item Object. False otherwise.
 	 *
 	 * @since   4.0.0
 	 */
-
 	private function addAllCategoriesMenuItem($itemLanguage)
 	{
 		// Add Menu Item.
@@ -817,7 +814,7 @@ class PlgSampledataMultilang extends CMSPlugin
 	 * @param   stdClass  $itemLanguage  Language Object.
 	 * @param   integer   $categoryId    The id of the category displayed by the blog.
 	 *
-	 * @return  JTable|boolean  Menu Item Object. False otherwise.
+	 * @return  Table|boolean Menu Item Object. False otherwise.
 	 *
 	 * @since   4.0.0
 	 */
@@ -983,7 +980,7 @@ class PlgSampledataMultilang extends CMSPlugin
 	 *
 	 * @param   stdClass  $itemLanguage  Language Object.
 	 *
-	 * @return  JTable|boolean  Category Object. False otherwise.
+	 * @return  Table|boolean Category Object. False otherwise.
 	 *
 	 * @since   4.0.0
 	 */
@@ -1058,7 +1055,7 @@ class PlgSampledataMultilang extends CMSPlugin
 	 * @param   stdClass  $itemLanguage  Language Object.
 	 * @param   integer   $categoryId    The id of the category where we want to add the article.
 	 *
-	 * @return  JTable|boolean  Article Object. False otherwise.
+	 * @return  Table|boolean Article Object. False otherwise.
 	 *
 	 * @since   4.0.0
 	 */

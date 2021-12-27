@@ -23,7 +23,7 @@ class PlgContentEmailcloak extends CMSPlugin
 	/**
 	 * The Application object
 	 *
-	 * @var    JApplicationSite
+	 * @var    \Joomla\CMS\Application\SiteApplication
 	 * @since  3.9.0
 	 */
 	protected $app;
@@ -36,7 +36,7 @@ class PlgContentEmailcloak extends CMSPlugin
 	 * @param   mixed    &$params  Additional parameters. See {@see PlgContentEmailcloak()}.
 	 * @param   integer  $page     Optional page number. Unused. Defaults to zero.
 	 *
-	 * @return  void
+	 * @return  void|bool
 	 */
 	public function onContentPrepare($context, &$row, &$params, $page = 0)
 	{

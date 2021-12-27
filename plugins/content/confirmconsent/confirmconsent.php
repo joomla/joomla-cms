@@ -23,7 +23,8 @@ class PlgContentConfirmConsent extends CMSPlugin
 	/**
 	 * The Application object
 	 *
-	 * @var    JApplicationSite
+	 * @var    \Joomla\CMS\Application\SiteApplication
+	 *
 	 * @since  3.9.0
 	 */
 	protected $app;
@@ -32,6 +33,7 @@ class PlgContentConfirmConsent extends CMSPlugin
 	 * Load the language file on instantiation.
 	 *
 	 * @var    boolean
+	 *
 	 * @since  3.9.0
 	 */
 	protected $autoloadLanguage = true;
@@ -40,6 +42,7 @@ class PlgContentConfirmConsent extends CMSPlugin
 	 * The supported form contexts
 	 *
 	 * @var    array
+	 *
 	 * @since  3.9.0
 	 */
 	protected $supportedContext = array(

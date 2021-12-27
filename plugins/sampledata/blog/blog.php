@@ -10,6 +10,7 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Application\ApplicationHelper;
+use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Extension\ExtensionHelper;
 use Joomla\CMS\HTML\HTMLHelper;
@@ -18,6 +19,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Session\Session;
+use Joomla\Database\DatabaseDriver;
 use Joomla\Database\ParameterType;
 
 /**
@@ -28,18 +30,14 @@ use Joomla\Database\ParameterType;
 class PlgSampledataBlog extends CMSPlugin
 {
 	/**
-	 * Database object
-	 *
-	 * @var    JDatabaseDriver
+	 * @var    DatabaseDriver
 	 *
 	 * @since  3.8.0
 	 */
 	protected $db;
 
 	/**
-	 * Application object
-	 *
-	 * @var    JApplicationCms
+	 * @var    CMSApplication
 	 *
 	 * @since  3.8.0
 	 */
