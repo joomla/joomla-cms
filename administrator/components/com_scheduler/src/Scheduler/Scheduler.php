@@ -255,7 +255,7 @@ class Scheduler
 			return null;
 		}
 
-		return new Task($task);
+		return new Task($task, Factory::getContainer()->get(LoggerInterface::class));
 	}
 
 	/**
