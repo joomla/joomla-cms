@@ -369,7 +369,7 @@ class StageModel extends AdminModel
 	/**
 	 * Method to preprocess the form.
 	 *
-	 * @param   Form    $form   A \JForm object.
+	 * @param   Form    $form   A Form object.
 	 * @param   mixed   $data   The data expected for the form.
 	 * @param   string  $group  The name of the plugin group to import (defaults to "content").
 	 *
