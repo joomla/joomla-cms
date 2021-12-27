@@ -18,7 +18,7 @@ use Joomla\CMS\Language\Text;
 	<span class="info-label">
 		<?php echo Text::sprintf('COM_CONTENT_CREATED_DATE_ON', ''); ?>
 	</span>
-	<span class="info-value">
+	<time class="info-value" datetime="<?php echo HTMLHelper::_('date', $displayData['item']->created, 'c'); ?>" itemprop="dateCreated">
 		<?php echo HTMLHelper::_('date', $displayData['item']->created, Text::_('DATE_FORMAT_LC3')); ?>
-	</span>
+	</time>
 </dd>
