@@ -15,6 +15,7 @@ use Joomla\CMS\Document\FactoryInterface;
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Language;
+use Joomla\CMS\WebAsset\WebAssetManager;
 use Joomla\Input\Input;
 use Joomla\Registry\Registry;
 use Joomla\Tests\Unit\UnitTestCase;
@@ -78,22 +79,34 @@ class HtmlHelperTest extends UnitTestCase
 	 */
 	protected function setUp(): void
 	{
+		// Start with the easy mocks.
+		$lang = $this->createMock(Language::class);
+		$input = $this->createMock(Input::class);
+		$factory = $this->createMock(Factory::class);
+
+		// Mock the Document object.
+		$doc = new Document(
+			[
+				'factory' => $this->createMock(FactoryInterface::class),
+			]
+		);
+
+		// Mock WA and some calls used that we are not directly testing.
+		$wa = $this->createMock(WebAssetManager::class);
+		$wa->expects($this->any())->method('__call')->will($this->returnValue($wa));
+		$doc->setWebAssetManager($wa);
+
+		// Inject the mocked document in the mocked factory.
+		$factory::$document = $doc;
+
+		// Mock a template that the app will return from getTemplate().
 		$template = new stdClass;
 		$template->template = 'system';
 		$template->params = new Registry;
 		$template->inheritable = 0;
 		$template->parent = '';
 
-		$lang = $this->createMock(Language::class);
-		$input = $this->createMock(Input::class);
-
-		$factory = $this->createMock(Factory::class);
-		$factory::$document = new Document(
-			[
-				'factory' => $this->createMock(FactoryInterface::class),
-			]
-		);
-
+		// Ensure the application can return all our mocked items.
 		$app = $this->createMock(CMSApplication::class);
 		$app->method('__get')
 			->with('input')
@@ -105,6 +118,7 @@ class HtmlHelperTest extends UnitTestCase
 		$app->method('getTemplate')
 			->will($this->returnValue($template));
 
+		// Finally, set the application into the factory.
 		$reflection = new ReflectionClass($factory);
 		$reflection_property = $reflection->getProperty('application');
 		$reflection_property->setAccessible(true);
