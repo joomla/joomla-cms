@@ -14,7 +14,7 @@ namespace Joomla\Component\Media\Administrator\Event;
 /**
  * Event object for fetch media items.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.1.0
  */
 final class FetchMediaItemsEvent extends AbstractMediaItemValidationEvent
 {
@@ -26,7 +26,7 @@ final class FetchMediaItemsEvent extends AbstractMediaItemValidationEvent
 	 *
 	 * @throws  \BadMethodCallException
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.1.0
 	 */
 	public function __construct($name, array $arguments = array())
 	{
@@ -46,7 +46,7 @@ final class FetchMediaItemsEvent extends AbstractMediaItemValidationEvent
 	 *
 	 * @return array
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.1.0
 	 */
 	protected function setItems(array $items): array
 	{
@@ -71,7 +71,7 @@ final class FetchMediaItemsEvent extends AbstractMediaItemValidationEvent
 	 *
 	 * @return array
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.1.0
 	 */
 	protected function getItems(array $items): array
 	{
