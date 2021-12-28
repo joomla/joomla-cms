@@ -37,14 +37,14 @@ class HtmlHelperTest extends UnitTestCase
 		<div class="input-group">
 				<input
 			type="text"
-			id="testId"
-			name="testName"
+			id="%s"
+			name="%s"
 			value="%s"
 						class="form-control"									data-alt-value="%s" autocomplete="off">
 		<button type="button" class="btn btn-primary"
-			id="testId_btn"
+			id="%s_btn"
 			title="JLIB_HTML_BEHAVIOR_OPEN_CALENDAR"
-			data-inputfield="testId" data-button="testId_btn" data-date-format="%s" data-firstday="" data-weekend="" data-today-btn="1" data-week-numbers="1" data-show-time="0" data-show-others="1" data-time24="24" data-only-months-nav="0" data-min-year="" data-max-year="" data-date-type=""		><span class="icon-calendar" aria-hidden="true"></span>
+			data-inputfield="%s" data-button="%s_btn" data-date-format="%s" data-firstday="" data-weekend="" data-today-btn="1" data-week-numbers="1" data-show-time="0" data-show-others="1" data-time24="24" data-only-months-nav="0" data-min-year="" data-max-year="" data-date-type=""		><span class="icon-calendar" aria-hidden="true"></span>
 		<span class="visually-hidden">JLIB_HTML_BEHAVIOR_OPEN_CALENDAR</span>
 		</button>
 			</div>
@@ -58,12 +58,12 @@ class HtmlHelperTest extends UnitTestCase
 	public function testCalendar()
 	{
 		$this->assertEquals(
-			sprintf($this->template, 'Mar', 'Mar', '%b'),
+			sprintf($this->template, 'testId', 'testName', 'Mar', 'Mar', 'testId', 'testId', 'testId', '%b'),
 			HTMLHelper::calendar('1978-03-08 06:12:12', 'testName', 'testId', '%b', [])
 		);
 
 		$this->assertEquals(
-			sprintf($this->template, '1978-03-08', '1978-03-08', '%Y-%m-%d'),
+			sprintf($this->template, 'testId', 'testName', '1978-03-08', '1978-03-08', 'testId', 'testId', 'testId', '%Y-%m-%d'),
 			HTMLHelper::calendar('1978-03-08 06:12:12', 'testName', 'testId', '%Y-%m-%d', [])
 		);
 	}
