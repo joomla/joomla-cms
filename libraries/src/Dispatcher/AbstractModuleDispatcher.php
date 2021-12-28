@@ -82,12 +82,8 @@ abstract class AbstractModuleDispatcher extends Dispatcher
 			/**
 			 * Extracted variables
 			 * -----------------
-			 * @var   \stdClass                $module
-			 * @var   CMSApplicationInterface  $app
-			 * @var   Input                    $input
-			 * @var   Registry                 $params
-			 * @var   string                   $template
-			 * @var   array                    $buttons
+			 * @var   \stdClass  $module
+			 * @var   Registry   $params
 			 */
 
 			require ModuleHelper::getLayoutPath($module->module, $params->get('layout', 'default'));
