@@ -25,14 +25,14 @@ use stdClass;
 /**
  * Test class for HtmlHelperTest.
  *
- * @since       __DEPLOY_VERSION__
+ * @since  __DEPLOY_VERSION__
  */
 class HtmlHelperTest extends UnitTestCase
 {
 	/**
-	 * @var string Base HTML Output with place holders
+	 * @var   string   Base HTML Output with place holders
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since  __DEPLOY_VERSION__
 	 */
 	private $template = '<div class="field-calendar">
 		<div class="input-group">
@@ -54,7 +54,7 @@ class HtmlHelperTest extends UnitTestCase
 	/**
 	 * Test the replacement of using deprecated strftime with Date formats
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since  __DEPLOY_VERSION__
 	 */
 	public function testCalendar()
 	{
@@ -75,7 +75,7 @@ class HtmlHelperTest extends UnitTestCase
 	 *
 	 * @return void
 	 *
-	 * @since       __DEPLOY_VERSION__
+	 * @since  __DEPLOY_VERSION__
 	 */
 	protected function setUp(): void
 	{
