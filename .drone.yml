@@ -645,6 +645,7 @@ steps:
     image: joomlaprojects/docker-images:php8.0
     commands:
       - phpunit --version
+      - mv phpunit.xml.php8 phpunit.xml
       - phpunit
 
 services:

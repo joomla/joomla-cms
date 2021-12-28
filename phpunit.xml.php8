@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit bootstrap="tests/unit8/bootstrap.php" colors="false">
+	<!-- These constants help setup environment configurations for running optional tests. -->
+	<php>
+		<const name="JTEST_DATABASE_MYSQL_DSN" value="host=mysql;dbname=joomla_ut;user=joomla_ut;pass=joomla_ut" />
+		<const name="JTEST_DATABASE_MYSQLI_DSN" value="host=mysql;dbname=joomla_ut;user=joomla_ut;pass=joomla_ut" />
+		<const name="JTEST_DATABASE_PDO_MYSQL_DSN" value="host=mysql;dbname=joomla_ut;user=joomla_ut;pass=joomla_ut" />
+		<const name="JTEST_DATABASE_POSTGRESQL_DSN" value="host=postgres;port=5432;dbname=joomla_ut;user=joomla_ut;pass=joomla_ut" />
+		<!--<const name="JTEST_DATABASE_SQLSRV_DSN" value="host=localhost;dbname=joomla_ut;user=utuser;pass=ut1234" />-->
+		<!--<const name="JTEST_HTTP_STUB" value="http://localhost/joomla-cms/tests/unit8/stubs/jhttp_stub.php" />-->
+		<const name="JOOMLA_TEST_LOGGING" value="yes" />
+		<const name="JTEST_CACHE_REDIS_DSN" value="host=redis;port=6379;db=;auth=" />
+		<const name="JTEST_CACHE_MEMCACHE_DSN" value="host=memcache;port=11211" />
+		<const name="JTEST_CACHE_MEMCACHED_DSN" value="host=memcached;port=11211" />
+	</php>
+
+	<testsuites>
+		<testsuite name="libraries-cms">
+			<directory>tests/unit8/suites/libraries/cms</directory>
+		</testsuite>
+		<testsuite name="libraries-platform">
+			<directory>tests/unit8/suites/libraries/joomla</directory>
+		</testsuite>
+		<testsuite name="libraries-legacy">
+			<directory>tests/unit8/suites/libraries/legacy</directory>
+		</testsuite>
+		<testsuite name="database">
+			<directory>tests/unit8/suites/database</directory>
+		</testsuite>
+		<testsuite name="administrator">
+			<directory>tests/unit8/suites/administrator</directory>
+		</testsuite>
+		<testsuite name="FinderIndexer">
+			<directory>tests/unit8/suites/finderIndexer</directory>
+		</testsuite>
+		<testsuite name="plugins">
+			<directory>tests/unit8/suites/plugins</directory>
+		</testsuite>
+	</testsuites>
+
+	<logging>
+		<log type="coverage-html" target="build/coverage" title="Joomla-CMS" charset="UTF-8" yui="true" highlight="true"
+			lowUpperBound="35" highLowerBound="70" />
+		<log type="coverage-clover" target="build/logs/clover.xml" />
+		<log type="junit" target="build/logs/junit.xml" logIncompleteSkipped="false" />
+	</logging>
+	<filter>
+		<whitelist addUncoveredFilesFromWhitelist="true">
+			<directory suffix=".php">libraries/cms</directory>
+			<directory suffix=".php">libraries/joomla</directory>
+			<directory suffix=".php">libraries/legacy</directory>
+			<directory suffix=".php">libraries/src</directory>
+			<directory suffix=".php">administrator/components/com_finder/helpers/indexer</directory>
+			<directory suffix=".php">plugins</directory>
+			<file>administrator/includes/helper.php</file>
+			<file>libraries/loader.php</file>
+		</whitelist>
+	</filter>
+</phpunit>
