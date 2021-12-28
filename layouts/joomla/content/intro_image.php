@@ -23,8 +23,8 @@ if (empty($images->image_intro))
 
 $imgclass   = empty($images->float_intro) ? $params->get('float_intro') : $images->float_intro;
 $layoutAttr = [
-	'src'      => $images->image_intro,
-	'alt'      => empty($images->image_intro_alt) && empty($images->image_intro_alt_empty) ? '' : $images->image_intro_alt,
+	'src' => $images->image_intro,
+	'alt' => empty($images->image_intro_alt) && empty($images->image_intro_alt_empty) ? '' : $images->image_intro_alt,
 ];
 ?>
 <figure class="<?php echo $this->escape($imgclass); ?> item-image">
