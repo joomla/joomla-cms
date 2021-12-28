@@ -60,7 +60,7 @@ HTMLHelper::_('behavior.formvalidator');
 				<tr>
 					<td>
 						<input
-						        class="form-check-input"
+							class="form-check-input"
 							id="admin-language-cb<?php echo $i; ?>"
 							type="radio"
 							name="administratorlang"
@@ -100,7 +100,7 @@ HTMLHelper::_('behavior.formvalidator');
 				<tr>
 					<td>
 						<input
-						        class="form-check-input"
+							class="form-check-input"
 							id="site-language-cb<?php echo $i; ?>"
 							type="radio"
 							name="frontendlang"
