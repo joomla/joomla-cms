@@ -16,7 +16,11 @@ local composer(phpversion) = {
     name: "composer",
     image: "joomlaprojects/docker-images:php" + phpversion,
     volumes: volumes,
-    commands: ["php -v", "composer install"]
+    commands: [
+    	"php -v",
+    	"composer --version",
+    	"composer install"
+    ]
 };
 
 local prepare(phpversion) = {
@@ -90,10 +94,13 @@ local pipeline(phpversion, ignore_result) = {
                 image: "joomlaprojects/docker-images:php7.4",
                 volumes: volumes,
                 commands: [
-                    "php -v",
-                    "composer install",
-                    "composer require phpmd/phpmd"
-                ]
+					"php -v",
+					"git config --global url.\"git://\".insteadOf https://",
+					"git config --global url.\"ssh://\".insteadOf https://",
+					"composer --version",
+					"composer install",
+					"composer require phpmd/phpmd"
+				]
             },
 			{
 				name: "phpcs",
@@ -130,7 +137,9 @@ local pipeline(phpversion, ignore_result) = {
     pipeline("7.2", false),
     pipeline("7.3", false),
     pipeline("7.4", false),
-	pipeline("8.0", true),
+	pipeline("8.0", false),
+	pipeline("8.1", true),
+	pipeline("8.2", true),
 	{
 		kind: "pipeline",
 		name: "package",
@@ -155,29 +164,6 @@ local pipeline(phpversion, ignore_result) = {
 					"if [ $DRONE_REPO_NAME != 'joomla-cms' ]; then echo \"The packager only runs on the joomla/joomla-cms repo\"; exit 0; fi",
 					"/bin/drone_build.sh"
 				]
-			}
-		]
-	},
-	{
-		kind: "pipeline",
-		name: "Rips",
-		steps: [
-			{
-				name: "analysis3x",
-				image: "rips/rips-cli:3.2.2",
-				when: {
-					repo: ["joomla/joomla-cms", "joomla/cms-security"],
-					branch: ["3.10-dev"]
-				},
-				commands: [
-					"export RIPS_BASE_URI='https://api.rips.joomla.org'",
-					"rips-cli rips:list --table=scans --parameter filter='{\"__and\":[{\"__lessThan\":{\"percent\":100}}]}'",
-					"rips-cli rips:scan:start --progress --application=1 --threshold=0 --path=$(pwd) --remove-code --remove-upload --tag=$DRONE_REPO_NAMESPACE-$DRONE_BRANCH || { echo \"Please contact the security team at security@joomla.org\"; exit 1; }"
-				],
-				environment: {
-					RIPS_EMAIL: {from_secret:"RIPS_EMAIL"},
-					RIPS_PASSWORD: {from_secret: "RIPS_PASSWORD"}
-				}
 			}
 		]
 	}
