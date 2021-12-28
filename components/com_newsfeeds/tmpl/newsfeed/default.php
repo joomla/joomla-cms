@@ -90,7 +90,7 @@ use Joomla\CMS\Layout\LayoutHelper;
 						]
 					); ?>
 					<?php if ($images->image_second_caption) : ?>
-						<figcaption><?php echo htmlspecialchars($images->image_second_caption, ENT_COMPAT, 'UTF-8'); ?></figcaption>
+						<figcaption class="caption"><?php echo htmlspecialchars($images->image_second_caption, ENT_COMPAT, 'UTF-8'); ?></figcaption>
 					<?php endif; ?>
 				</figure>
 			</div>
