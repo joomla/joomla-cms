@@ -66,7 +66,7 @@ class ListModel extends BaseDatabaseModel implements ListModelInterface
 	 * The cache ID used when last populating $this->query
 	 *
 	 * @var   null|string
-	 * @since 4.0.5
+	 * @since 3.10.4
 	 */
 	protected $lastQueryStoreId = null;
 

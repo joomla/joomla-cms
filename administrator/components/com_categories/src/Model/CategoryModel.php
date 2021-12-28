@@ -71,7 +71,7 @@ class CategoryModel extends AdminModel
 	 * Does an association exist? Caches the result of getAssoc().
 	 *
 	 * @var   boolean|null
-	 * @since 4.0.5
+	 * @since 3.10.4
 	 */
 	private $hasAssociation;
 
