@@ -644,7 +644,8 @@ steps:
   - name: PHPUnit
     image: joomlaprojects/docker-images:php8.0
     commands:
-      - libraries/vendor/bin/phpunit
+      - phpunit --version
+      - phpunit
 
 services:
   - name: mysql
