@@ -101,6 +101,13 @@ steps:
       - php -v
       - ./libraries/vendor/bin/phpunit --testsuite Integration
 
+  - name: php82-integration
+    depends_on: [ npm ]
+    image: joomlaprojects/docker-images:php8.2
+    commands:
+      - php -v
+      - ./libraries/vendor/bin/phpunit --testsuite Integration
+
   - name: php72-integration-pgsql
     depends_on: [ npm ]
     image: joomlaprojects/docker-images:php7.2
@@ -137,6 +144,13 @@ steps:
       - php -v
       - ./libraries/vendor/bin/phpunit --testsuite Integration --configuration phpunit-pgsql.xml.dist
 
+  - name: php82-integration-pgsql
+    depends_on: [ npm ]
+    image: joomlaprojects/docker-images:php8.2
+    commands:
+      - php -v
+      - ./libraries/vendor/bin/phpunit --testsuite Integration --configuration phpunit-pgsql.xml.dist
+
   - name: scss-cs
     depends_on: [ npm ]
     image: node:current-alpine
@@ -168,9 +182,19 @@ steps:
     commands:
       - bash tests/Codeception/drone-api-run.sh "$(pwd)" mysql
 
+  - name: phpnext-api-mysql
+    depends_on:
+      - phpmin-api-mysql
+    image: joomlaprojects/docker-images:systemtests8.2
+    failure: ignore
+    environment:
+      JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
+    commands:
+      - bash tests/Codeception/drone-api-run.sh "$(pwd)" mysqlphpnext
+
   - name: phpmin-api-postgres
     depends_on:
-      - phpmax-api-mysql
+      - phpnext-api-mysql
     image: joomlaprojects/docker-images:systemtests
     failure: ignore
     environment:
@@ -178,9 +202,19 @@ steps:
     commands:
       - bash tests/Codeception/drone-api-run.sh "$(pwd)" postgres
 
-  - name: phpmax-api-postgres
+  - name: phpnext-api-postgres
     depends_on:
       - phpmin-api-postgres
+    image: joomlaprojects/docker-images:systemtests8.2
+    failure: ignore
+    environment:
+      JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
+    commands:
+      - bash tests/Codeception/drone-api-run.sh "$(pwd)" postgresphpnext
+
+  - name: phpmax-api-postgres
+    depends_on:
+      - phpnext-api-postgres
     image: joomlaprojects/docker-images:systemtests8.1
     failure: ignore
     environment:
@@ -199,8 +233,17 @@ steps:
     commands:
       - bash tests/Codeception/drone-system-run.sh "$(pwd)" mysql
 
-  - name: phpmax-system-mysql
+  - name: phpnext-system-mysql
     depends_on: [ phpmin-system-mysql ]
+    image: joomlaprojects/docker-images:systemtests8.2
+    failure: ignore
+    environment:
+      JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
+    commands:
+      - bash tests/Codeception/drone-system-run.sh "$(pwd)" mysqlphpnext
+
+  - name: phpmax-system-mysql
+    depends_on: [ phpnext-system-mysql ]
     image: joomlaprojects/docker-images:systemtests8.1
     failure: ignore
     environment:
@@ -208,8 +251,17 @@ steps:
     commands:
       - bash tests/Codeception/drone-system-run.sh "$(pwd)" mysqlphpmax
 
-  - name: phpmax-system-mysql8
+  - name: phpnext-system-mysql8
     depends_on: [ phpmax-system-mysql ]
+    image: joomlaprojects/docker-images:systemtests8.2
+    failure: ignore
+    environment:
+      JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
+    commands:
+      - bash tests/Codeception/drone-system-run.sh "$(pwd)" mysql8phpnext
+
+  - name: phpmax-system-mysql8
+    depends_on: [ phpnext-system-mysql ]
     image: joomlaprojects/docker-images:systemtests8.1
     failure: ignore
     environment:
@@ -217,8 +269,17 @@ steps:
     commands:
       - bash tests/Codeception/drone-system-run.sh "$(pwd)" mysql8phpmax
 
-  - name: phpmax-system-postgres
+  - name: phpnext-system-postgres
     depends_on: [ phpmax-system-mysql8 ]
+    image: joomlaprojects/docker-images:systemtests8.2
+    failure: ignore
+    environment:
+      JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
+    commands:
+      - bash tests/Codeception/drone-system-run.sh "$(pwd)" postgresphpnext
+
+  - name: phpmax-system-postgres
+    depends_on: [ phpnext-system-mysql8 ]
     image: joomlaprojects/docker-images:systemtests8.1
     failure: ignore
     environment:
@@ -245,12 +306,17 @@ steps:
   - name: artifacts-system-tests
     image: cschlosser/drone-ftps
     depends_on:
+      - phpnext-system-mysql
+      - phpnext-system-mysql8
+      - phpnext-system-postgres
       - phpmax-system-mysql
       - phpmax-system-mysql8
       - phpmax-system-postgres
       - phpmin-system-mysql
       - phpmin-system-mysql8
       - phpmin-system-postgres
+      - phpnext-api-mysql
+      - phpnext-api-postgres
       - phpmax-api-mysql
       - phpmax-api-postgres
       - phpmin-api-mysql
@@ -343,6 +409,6 @@ steps:
 
 ---
 kind: signature
-hmac: 4ab5716e7a8afd029cc27ebfe787ac8a107ff4e0bf02272b7bc74e480132c2a1
+hmac: 58ac7c137c4ca8d3f26c6303b041a6aa0efff7f0150b07bded902ce870ab9e5d
 
 ...
