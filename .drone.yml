@@ -34,7 +34,7 @@ steps:
     image: joomlaprojects/docker-images:php8.0
     commands:
       - phpunit --version
-      - phpunit --configuration phpunit.xml.php8 --verbose --debug
+      - phpunit --configuration phpunit-php8.xml --verbose --debug
 
 services:
   - name: mysql
