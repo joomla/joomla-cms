@@ -28,21 +28,21 @@ class HtmlView extends BaseHtmlView
 	/**
 	 * The item object for the newsfeed
 	 *
-	 * @var    \JObject
+	 * @var  \Joomla\CMS\Object\CMSObject
 	 */
 	protected $item;
 
 	/**
 	 * The form object for the newsfeed
 	 *
-	 * @var    \JForm
+	 * @var  \Joomla\CMS\Form\Form
 	 */
 	protected $form;
 
 	/**
 	 * The model state of the newsfeed
 	 *
-	 * @var    \JObject
+	 * @var  \Joomla\CMS\Object\CMSObject
 	 */
 	protected $state;
 

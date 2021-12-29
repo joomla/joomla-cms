@@ -28,21 +28,21 @@ use Joomla\Component\Fields\Administrator\Helper\FieldsHelper;
 class HtmlView extends BaseHtmlView
 {
 	/**
-	 * @var  \JForm
+	 * @var    \Joomla\CMS\Form\Form
 	 *
 	 * @since  3.7.0
 	 */
 	protected $form;
 
 	/**
-	 * @var  \JObject
+	 * @var    \Joomla\CMS\Object\CMSObject
 	 *
 	 * @since  3.7.0
 	 */
 	protected $item;
 
 	/**
-	 * @var  \JObject
+	 * @var    \Joomla\CMS\Object\CMSObject
 	 *
 	 * @since  3.7.0
 	 */
@@ -51,7 +51,7 @@ class HtmlView extends BaseHtmlView
 	/**
 	 * The actions the user is authorised to perform
 	 *
-	 * @var  \JObject
+	 * @var    \Joomla\CMS\Object\CMSObject
 	 *
 	 * @since  3.7.0
 	 */
@@ -66,6 +66,7 @@ class HtmlView extends BaseHtmlView
 	 * @return  void
 	 *
 	 * @see     JViewLegacy::loadTemplate()
+	 *
 	 * @since   3.7.0
 	 */
 	public function display($tpl = null)

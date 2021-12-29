@@ -211,7 +211,7 @@ class TransitionsModel extends ListModel
 	 * @param   array    $data      data
 	 * @param   boolean  $loadData  load current data
 	 *
-	 * @return  \JForm|boolean  The \JForm object or false on error
+	 * @return  \Joomla\CMS\Form\Form|boolean The Form object or false on error
 	 *
 	 * @since  4.0.0
 	 */

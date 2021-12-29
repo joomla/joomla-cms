@@ -397,14 +397,16 @@ class CategoryModel extends AdminModel
 	/**
 	 * Method to preprocess the form.
 	 *
-	 * @param   \JForm  $form   A JForm object.
-	 * @param   mixed   $data   The data expected for the form.
-	 * @param   string  $group  The name of the plugin group to import.
+	 * @param   Form    $form  A Form object.
+	 * @param   mixed   $data  The data expected for the form.
+	 * @param   string  $group The name of the plugin group to import.
 	 *
 	 * @return  mixed
 	 *
 	 * @see     \Joomla\CMS\Form\FormField
+	 *
 	 * @since   1.6
+	 *
 	 * @throws  \Exception if there is an error in the form event.
 	 */
 	protected function preprocessForm(Form $form, $data, $group = 'content')
