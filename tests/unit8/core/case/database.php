@@ -6,7 +6,7 @@
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-if (!class_exists('PHPUnit_Extensions_Database_TestCase'))
+if (!class_exists('PHPUnit\DbUnit\TestCase'))
 {
 	require_once 'PHPUnit/Extensions/Database/TestCase.php';
 	require_once 'PHPUnit/Extensions/Database/DataSet/XmlDataSet.php';
@@ -20,7 +20,7 @@ if (!class_exists('PHPUnit_Extensions_Database_TestCase'))
  * @package  Joomla.Test
  * @since    3.0.0
  */
-abstract class TestCaseDatabase extends PHPUnit_Extensions_Database_TestCase
+abstract class TestCaseDatabase extends PHPUnit\DbUnit\TestCase
 {
 	/**
 	 * @var    JDatabaseDriver  The active database driver being used for the tests.

@@ -13,6 +13,9 @@ steps:
     commands:
       - php -v
       - composer --version
+      - composer remove --dev phpunit/phpunit phpunit/dbunit friendsofphp/php-cs-fixer squizlabs/php_codesniffer
+      - composer require "symfony/yaml:2.* || ^3.0" --ignore-platform-reqs
+      - composer require --dev "phpunit/phpunit:^9.5.0" "kornrunner/dbunit:^6.0" --ignore-platform-reqs -W
       - composer install
     volumes:
       - name: composer-cache

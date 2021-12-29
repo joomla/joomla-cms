@@ -33,7 +33,7 @@ class TestMockDispatcher
 	/**
 	 * Creates and instance of the mock JEventDispatcher object.
 	 *
-	 * @param   PHPUnit_Framework_TestCase  $test        A test object.
+	 * @param   \PHPUnit\Framework\TestCase  $test        A test object.
 	 * @param   boolean                     $defaults  True to create the default mock handlers and triggers.
 	 *
 	 * @return  PHPUnit_Framework_MockObject_MockObject

@@ -8,6 +8,8 @@
 
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\Log\LogEntry;
+use PHPUnit\Framework\TestResult;
+use PHPUnit\Util\ErrorHandler;
 
 /**
  * Class with general helper methods for testing
@@ -25,6 +27,14 @@ class TestHelper
 	private static $isDeprecationHandlerRegistered = false;
 
 	/**
+	 * Are we using PHPUnit 8.3+
+	 *
+	 * @var    boolean
+	 * @since  __DEPLOY_VERSION__
+	 */
+	private static $isAtLeastPhpUnit83;
+
+	/**
 	 * Registers a message handler to catch deprecation errors
 	 *
 	 * This method is based on \Symfony\Bridge\PhpUnit\DeprecationErrorHandler::register()
@@ -40,6 +50,9 @@ class TestHelper
 			return;
 		}
 
+		$UtilPrefix = class_exists('PHPUnit_Util_ErrorHandler') ? 'PHPUnit_Util_' : 'PHPUnit\Util\\';
+		self::$isAtLeastPhpUnit83 = method_exists('PHPUnit\Util\ErrorHandler', '__invoke');
+
 		$deprecations = array(
 			'phpCount'  => 0,
 			'userCount' => 0,
@@ -47,12 +60,12 @@ class TestHelper
 			'user'      => array(),
 		);
 
-		$deprecationHandler = function ($type, $msg, $file, $line) use (&$deprecations)
+		$deprecationHandler = function ($type, $msg, $file, $line, $context = array()) use (&$deprecations, $UtilPrefix)
 		{
 			// Check if the type is E_DEPRECATED or E_USER_DEPRECATED
 			if (!in_array($type, array(E_DEPRECATED, E_USER_DEPRECATED)))
 			{
-				return PHPUnit_Util_ErrorHandler::handleError($type, $msg, $file, $line);
+				return \call_user_func(TestHelper::getPhpUnitErrorHandler(), $type, $msg, $file, $line, $context);
 			}
 
 			$trace = debug_backtrace(PHP_VERSION_ID >= 50400 ? DEBUG_BACKTRACE_IGNORE_ARGS | DEBUG_BACKTRACE_PROVIDE_OBJECT : true);
@@ -91,7 +104,7 @@ class TestHelper
 		{
 			restore_error_handler();
 
-			if (array('PHPUnit_Util_ErrorHandler', 'handleError') === $oldErrorHandler)
+			if ($oldErrorHandler instanceof ErrorHandler || array($UtilPrefix.'ErrorHandler', 'handleError') === $oldErrorHandler)
 			{
 				restore_error_handler();
 				self::register();
@@ -226,5 +239,34 @@ class TestHelper
 		}
 
 		return defined('STDOUT') && function_exists('posix_isatty') && @posix_isatty(STDOUT);
+	}
+
+	/**
+	 * @internal
+	 */
+	public static function getPhpUnitErrorHandler()
+	{
+		if (!self::$isAtLeastPhpUnit83)
+		{
+			return (class_exists('PHPUnit_Util_ErrorHandler', false) ? 'PHPUnit_Util_' : 'PHPUnit\\Util\\') . 'ErrorHandler::handleError';
+		}
+
+		foreach (debug_backtrace(DEBUG_BACKTRACE_PROVIDE_OBJECT | DEBUG_BACKTRACE_IGNORE_ARGS) as $frame)
+		{
+			if (isset($frame['object']) && $frame['object'] instanceof TestResult)
+			{
+				return new ErrorHandler(
+					$frame['object']->getConvertDeprecationsToExceptions(),
+					$frame['object']->getConvertErrorsToExceptions(),
+					$frame['object']->getConvertNoticesToExceptions(),
+					$frame['object']->getConvertWarningsToExceptions()
+				);
+			}
+		}
+
+		return function ()
+		{
+			return false;
+		};
 	}
 }
