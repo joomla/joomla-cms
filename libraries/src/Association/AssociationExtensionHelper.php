@@ -181,7 +181,7 @@ abstract class AssociationExtensionHelper  implements AssociationExtensionInterf
 	 *
 	 * @param   string  $typeName  The item type
 	 *
-	 * @return  array  Array of support information
+	 * @return  string  The type title
 	 *
 	 * @since   3.7.0
 	 */

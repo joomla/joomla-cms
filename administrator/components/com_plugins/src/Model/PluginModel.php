@@ -78,7 +78,7 @@ class PluginModel extends AdminModel
 	 * @param   array    $data      Data for the form.
 	 * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
 	 *
-	 * @return  \JForm    A \JForm object on success, false on failure.
+	 * @return  Form|bool  A Form object on success, false on failure.
 	 *
 	 * @since   1.6
 	 */
@@ -237,7 +237,7 @@ class PluginModel extends AdminModel
 	/**
 	 * Preprocess the form.
 	 *
-	 * @param   \JForm  $form   A form object.
+	 * @param   \Joomla\CMS\Form\Form  $form A form object.
 	 * @param   mixed   $data   The data expected for the form.
 	 * @param   string  $group  Cache group name.
 	 *

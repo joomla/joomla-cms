@@ -337,7 +337,7 @@ class IndexModel extends ListModel
 	 * @param   string  $prefix  A prefix for the table class name. [optional]
 	 * @param   array   $config  Configuration array for model. [optional]
 	 *
-	 * @return  \JTable  A database object
+	 * @return  \Joomla\CMS\Table\Table  A database object
 	 *
 	 * @since   2.5
 	 */

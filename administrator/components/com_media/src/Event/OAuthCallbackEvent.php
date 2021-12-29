@@ -32,7 +32,7 @@ class OAuthCallbackEvent extends AbstractEvent
 	/**
 	 * The event input.
 	 *
-	 * @var \JInput
+	 * @var    Input
 	 * @since  4.0.0
 	 */
 	private $input = null;

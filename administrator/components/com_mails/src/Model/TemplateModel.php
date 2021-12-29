@@ -114,7 +114,7 @@ class TemplateModel extends AdminModel
 			$form->removeField('copyto', 'params');
 		}
 
-		if (!trim($params->get('attachment_folder')))
+		if (!trim($params->get('attachment_folder', '')))
 		{
 			$form->removeField('attachments');
 
@@ -329,7 +329,7 @@ class TemplateModel extends AdminModel
 		$isNew = true;
 
 		// Include the plugins for the save events.
-		\JPluginHelper::importPlugin($this->events_map['save']);
+		\Joomla\CMS\Plugin\PluginHelper::importPlugin($this->events_map['save']);
 
 		// Allow an exception to be thrown.
 		try

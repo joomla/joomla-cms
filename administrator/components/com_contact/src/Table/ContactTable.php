@@ -13,6 +13,7 @@ namespace Joomla\Component\Contact\Administrator\Table;
 
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\String\PunycodeHelper;
 use Joomla\CMS\Table\Table;
@@ -150,7 +151,7 @@ class ContactTable extends Table implements VersionableTableInterface, TaggableT
 
 		$this->default_con = (int) $this->default_con;
 
-		if (\JFilterInput::checkAttribute(array('href', $this->webpage)))
+		if (InputFilter::checkAttribute(array('href', $this->webpage)))
 		{
 			$this->setError(Text::_('COM_CONTACT_WARNING_PROVIDE_VALID_URL'));
 
