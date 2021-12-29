@@ -95,35 +95,18 @@ if (!defined('JDEBUG'))
 	define('JDEBUG', false);
 }
 
-// Import the library loader if necessary.
-if (!class_exists('JLoader'))
-{
-	require_once JPATH_PLATFORM . '/loader.php';
+/**
+ * Load our cached Namespacemap file for Unit tests.
+ *
+ * We need to do this so that unit tests can find the correct files and autoload Joomla CMS classes as needed.
+ */
+$map = require_once  'autoload_psr4.php';
+$loader = include JPATH_LIBRARIES . '/vendor/autoload.php';
 
-	// If JLoader still does not exist panic.
-	if (!class_exists('JLoader'))
-	{
-		throw new RuntimeException('Joomla Platform not loaded.');
-	}
+foreach ($map as $namespace => $path)
+{
+	$loader->setPsr4($namespace, $path);
 }
 
-// Setup the autoloaders.
-JLoader::setup();
-
-// Create the Composer autoloader
-/** @var \Composer\Autoload\ClassLoader $loader */
-$loader = require JPATH_LIBRARIES . '/vendor/autoload.php';
-
-// We need to pull our decorated class loader into memory before unregistering Composer's loader
-class_exists('\\Joomla\\CMS\\Autoload\\ClassLoader');
-
-$loader->unregister();
-
-// Decorate Composer autoloader
-spl_autoload_register([new \Joomla\CMS\Autoload\ClassLoader($loader), 'loadClass'], true, true);
-
-// Register the class aliases for Framework classes that have replaced their Platform equivalents
-require_once JPATH_LIBRARIES . '/classmap.php';
-
-// Define the Joomla version if not already defined.
-defined('JVERSION') or define('JVERSION', (new JVersion)->getShortVersion());
+// Bootstrap Joomla, to keep our test stack as close to a running app as possible.
+require_once JPATH_LIBRARIES . '/bootstrap.php';
