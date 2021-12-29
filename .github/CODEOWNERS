@@ -34,12 +34,12 @@ libraries/src/Updater/*  @rdeutz @wilsonge @zero-24
 tests/*  @hackwar
 tests/Codeception/*  @rdeutz
 tests/javascript/*  @rdeutz
-tests/Unit/*  @rdeutz @philetaylor
+tests/Unit/*  @rdeutz
 .appveyor.yml  @rdeutz @hackwar
 .drone.yml  @rdeutz @hackwar
 .hound.yml  @wilsonge @hackwar
 codeception.yml  @rdeutz @hackwar
-phpunit.xml.dist  @rdeutz @hackwar @philetaylor
+phpunit.xml.dist  @rdeutz @hackwar
 phpunit-pgsql.xml.dist  @rdeutz @hackwar
 RoboFile.php  @rdeutz @hackwar
 
