@@ -14,6 +14,8 @@
  */
 abstract class TestCase extends \PHPUnit\Framework\TestCase
 {
+	use Yoast\PHPUnitPolyfills\Helpers\AssertAttributeHelper;
+
 	/**
 	 * @var         array  The list of errors expected to be encountered during the test.
 	 * @deprecated  3.2.0

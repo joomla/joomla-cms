@@ -22,6 +22,8 @@ if (!class_exists('PHPUnit\DbUnit\TestCase'))
  */
 abstract class TestCaseDatabase extends PHPUnit\DbUnit\TestCase
 {
+	use Yoast\PHPUnitPolyfills\Helpers\AssertAttributeHelper;
+
 	/**
 	 * @var    JDatabaseDriver  The active database driver being used for the tests.
 	 * @since  3.0.0

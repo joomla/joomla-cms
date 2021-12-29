@@ -14,7 +14,7 @@ steps:
       - composer --version
       - composer remove --dev phpunit/phpunit phpunit/dbunit friendsofphp/php-cs-fixer squizlabs/php_codesniffer
       - composer require "symfony/yaml:2.* || ^3.0" --ignore-platform-reqs
-      - composer require --dev "phpunit/phpunit:^9.5.0" "kornrunner/dbunit:^6.0" --ignore-platform-reqs -W
+      - composer require --dev "phpunit/phpunit:^9.5.0" "kornrunner/dbunit:^6.0" "yoast/phpunit-polyfills" --ignore-platform-reqs -W
       - composer install --ignore-platform-reqs
     volumes:
       - name: composer-cache

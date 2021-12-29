@@ -86,10 +86,10 @@ class JInstallerAdapterTest extends TestCaseDatabase
 		$mockDatabase = $this->getMockDatabase();
 		$object = $this->getMockForAbstractClass('JInstallerAdapter', array($mockInstaller, $mockDatabase, array('foo' => 'bar')));
 
-		$this->assertAttributeInstanceOf('JTableExtension', 'extension', $object);
+		$this->assertInstanceOf('JTableExtension', $this->getPropertyValue( $object, 'extension' ));
 
-		$this->assertAttributeSame($mockDatabase, 'db', $object);
-		$this->assertAttributeSame($mockInstaller, 'parent', $object);
+		$this->assertSame($mockDatabase, $this->getPropertyValue( $object, 'db' ));
+		$this->assertSame($mockInstaller, $this->getPropertyValue( $object, 'parent' ));
 
 		$this->assertEquals(
 			'bar',
@@ -138,10 +138,9 @@ class JInstallerAdapterTest extends TestCaseDatabase
 		// Invoke the method
 		TestReflection::invoke($object, 'checkExistingExtension');
 
-		$this->assertAttributeEquals(
+		$this->assertEquals(
 			$extensionId,
-			'currentExtensionId',
-			$object,
+			$this->getPropertyValue( $object, 'currentExtensionId' ),
 			'The extension ID was not populated correctly for a found extension'
 		);
 	}
@@ -222,6 +221,7 @@ class JInstallerAdapterTest extends TestCaseDatabase
 		TestReflection::setValue($object, 'element', $element);
 
 		// Invoke the method
+		$this->expectException(RuntimeException::class);
 		TestReflection::invoke($object, 'checkExistingExtension');
 	}
 
@@ -266,10 +266,9 @@ class JInstallerAdapterTest extends TestCaseDatabase
 		// Invoke the method
 		TestReflection::invoke($object, 'checkExtensionInFilesystem');
 
-		$this->assertAttributeEquals(
+		$this->assertEquals(
 			'install',
-			'route',
-			$object,
+			$this->getPropertyValue( $object, 'route' ),
 			'JInstallerAdapter::checkExtensionInFilesystem() should not update the route unless an extension ID has been set'
 		);
 
@@ -318,10 +317,9 @@ class JInstallerAdapterTest extends TestCaseDatabase
 		// Invoke the method
 		TestReflection::invoke($object, 'checkExtensionInFilesystem');
 
-		$this->assertAttributeEquals(
+		$this->assertEquals(
 			'update',
-			'route',
-			$object,
+			$this->getPropertyValue( $object, 'route' ),
 			'JInstallerAdapter::checkExtensionInFilesystem() should change the route to upgrade when an extension ID has been set'
 		);
 	}
@@ -359,6 +357,7 @@ class JInstallerAdapterTest extends TestCaseDatabase
 		TestReflection::setValue($object, 'manifest', $manifestObject);
 
 		// Invoke the method
+		$this->expectException(RuntimeException::class);
 		TestReflection::invoke($object, 'checkExtensionInFilesystem');
 	}
 
@@ -1318,6 +1317,7 @@ class JInstallerAdapterTest extends TestCaseDatabase
 			->method('doDatabaseTransactions')
 			->willReturn(false);
 
+		$this->expectException(RuntimeException::class);
 		TestReflection::invoke($object, 'parseQueries');
 	}
 
@@ -1366,6 +1366,7 @@ class JInstallerAdapterTest extends TestCaseDatabase
 			->method('getManifest')
 			->willReturn($schema);
 
+		$this->expectException(RuntimeException::class);
 		TestReflection::invoke($object, 'parseQueries');
 	}
 
@@ -1596,6 +1597,7 @@ class JInstallerAdapterTest extends TestCaseDatabase
 
 		$mockInstaller->manifestClass = $mockScript;
 
+		$this->expectException(RuntimeException::class);
 		TestReflection::invoke($object, 'triggerManifestScript', 'preflight');
 	}
 
@@ -1643,6 +1645,7 @@ class JInstallerAdapterTest extends TestCaseDatabase
 
 		$mockInstaller->manifestClass = $mockScript;
 
+		$this->expectException(RuntimeException::class);
 		TestReflection::invoke($object, 'triggerManifestScript', $method);
 	}
 
@@ -1746,10 +1749,9 @@ class JInstallerAdapterTest extends TestCaseDatabase
 
 		$object->update();
 
-		$this->assertAttributeEquals(
+		$this->assertEquals(
 			'update',
-			'route',
-			$object,
+			$this->getPropertyValue( $object, 'route' ),
 			'Checks the route is set in the class var'
 		);
 	}

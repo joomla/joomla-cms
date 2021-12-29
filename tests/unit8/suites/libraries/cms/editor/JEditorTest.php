@@ -18,6 +18,8 @@ require_once __DIR__ . '/stubs/EditorObserver.php';
  */
 class JEditorTest extends \PHPUnit\Framework\TestCase
 {
+	use Yoast\PHPUnitPolyfills\Helpers\AssertAttributeHelper;
+
 	/**
 	 * Object under test
 	 *
@@ -103,21 +105,18 @@ class JEditorTest extends \PHPUnit\Framework\TestCase
 		);
 		$this->object->attach($testObserver);
 
-		$this->assertAttributeSame(
+		$this->assertSame(
 			array($testObserver),
-			'_observers',
-			$this->object,
-			'Observer was not attached to the editor'
-		);
+			$this->getPropertyValue( $this->object, '_observers' ),
+			'Observer was not attached to the editor' );
 
-		$this->assertAttributeSame(
+		$this->assertSame(
 			array(
 				'oninit' => array(
 					0 => 0
 				)
 			),
-			'_methods',
-			$this->object,
+			$this->getPropertyValue( $this->object, '_methods' ),
 			'The method for the test observer was not stored correctly'
 		);
 	}
@@ -144,22 +143,20 @@ class JEditorTest extends \PHPUnit\Framework\TestCase
 		$this->object->attach($testObserver);
 		$this->object->attach($testObserver2);
 
-		$this->assertAttributeSame(
+		$this->assertSame(
 			array($testObserver, $testObserver2),
-			'_observers',
-			$this->object,
+			$this->getPropertyValue( $this->object, '_observers' ),
 			'Observers were not attached to the editor'
 		);
 
-		$this->assertAttributeSame(
+		$this->assertSame(
 			array(
 				'oninit' => array(
 					0 => 0,
 					1 => 1,
 				)
 			),
-			'_methods',
-			$this->object,
+			$this->getPropertyValue( $this->object, '_methods' ),
 			'The methods for the test observers were not stored correctly'
 		);
 	}
@@ -186,14 +183,13 @@ class JEditorTest extends \PHPUnit\Framework\TestCase
 		$this->object->attach($testObserver);
 		$this->object->attach($testObserver2);
 
-		$this->assertAttributeSame(
+		$this->assertSame(
 			array($testObserver, $testObserver2),
-			'_observers',
-			$this->object,
+			$this->getPropertyValue( $this->object, '_observers' ),
 			'Observers were not attached to the editor'
 		);
 
-		$this->assertAttributeSame(
+		$this->assertSame(
 			array(
 				'oninit' => array(
 					0 => 0,
@@ -202,8 +198,7 @@ class JEditorTest extends \PHPUnit\Framework\TestCase
 					0 => 1
 				)
 			),
-			'_methods',
-			$this->object,
+			$this->getPropertyValue( $this->object, '_methods' ),
 			'The methods for the test observers were not stored correctly'
 		);
 	}
@@ -218,10 +213,9 @@ class JEditorTest extends \PHPUnit\Framework\TestCase
 		$testObserver = new EditorObserver;
 		$this->object->attach($testObserver);
 
-		$this->assertAttributeSame(
+		$this->assertSame(
 			array($testObserver),
-			'_observers',
-			$this->object,
+			$this->getPropertyValue( $this->object, '_observers' ),
 			'Observer was not attached to the editor'
 		);
 	}

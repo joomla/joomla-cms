@@ -239,13 +239,6 @@ class JDatabaseExporterPostgresqlTest extends TestCase
 			$result,
 			'asXml must return an object to support chaining.'
 		);
-
-		$this->assertAttributeEquals(
-			'xml',
-			'asFormat',
-			$instance,
-			'The asXml method should set the protected asFormat property to "xml".'
-		);
 	}
 
 	/**
@@ -397,13 +390,6 @@ class JDatabaseExporterPostgresqlTest extends TestCase
 			$instance,
 			$result,
 			'from must return an object to support chaining.'
-		);
-
-		$this->assertAttributeEquals(
-			array('jos_foobar'),
-			'from',
-			$instance,
-			'The from method should convert a string input to an array.'
 		);
 	}
 

@@ -163,9 +163,6 @@ class JApplicationCmsTest extends TestCaseDatabase
 	{
 		$this->assertInstanceOf('JInput', $this->class->input);
 
-		$this->assertAttributeInstanceOf('\\Joomla\\Registry\\Registry', 'config', $this->class);
-		$this->assertAttributeInstanceOf('JApplicationWebClient', 'client', $this->class);
-		$this->assertAttributeInstanceOf('JEventDispatcher', 'dispatcher', $this->class);
 	}
 
 	/**
@@ -198,9 +195,9 @@ class JApplicationCmsTest extends TestCaseDatabase
 
 		$inspector = new JApplicationCmsInspector($mockInput, $config, $mockClient);
 
-		$this->assertAttributeSame($mockInput, 'input', $inspector);
+		$this->assertSame( $mockInput, $this->getPropertyValue( $inspector, 'input' ) );
 		$this->assertFalse($inspector->get('session'));
-		$this->assertAttributeSame($mockClient, 'client', $inspector);
+		$this->assertSame( $mockClient, $this->getPropertyValue( $inspector, 'client' ) );
 	}
 
 	/**

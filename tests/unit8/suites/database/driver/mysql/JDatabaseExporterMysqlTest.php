@@ -237,6 +237,8 @@ class JDatabaseExporterMysqlTest extends TestCase
 	 */
 	public function testCheckWithNoDbo()
 	{
+		$this->expectException(Exception::class);
+
 		$instance = new JDatabaseExporterMysql;
 
 		$instance->check();
