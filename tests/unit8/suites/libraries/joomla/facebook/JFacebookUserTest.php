@@ -332,10 +332,10 @@ class JFacebookUserTest extends TestCase
 	 * @return  void
 	 *
 	 * @since   3.2.0
-	 * @expectedException  RuntimeException
 	 */
 	public function testGetFriendRequestsFailure()
 	{
+		$this->expectException(\RuntimeException::class);
 		$returnData = new stdClass;
 		$returnData->code = 401;
 		$returnData->body = $this->errorString;
@@ -382,10 +382,10 @@ class JFacebookUserTest extends TestCase
 	 * @return  void
 	 *
 	 * @since   3.2.0
-	 * @expectedException  RuntimeException
 	 */
 	public function testGetFriendListsFailure()
 	{
+		$this->expectException(\RuntimeException::class);
 		$returnData = new stdClass;
 		$returnData->code = 401;
 		$returnData->body = $this->errorString;
@@ -432,10 +432,10 @@ class JFacebookUserTest extends TestCase
 	 * @return  void
 	 *
 	 * @since   3.2.0
-	 * @expectedException  RuntimeException
 	 */
 	public function testGetFeedFailure()
 	{
+		$this->expectException(\RuntimeException::class);
 		$returnData = new stdClass;
 		$returnData->code = 401;
 		$returnData->body = $this->errorString;
@@ -487,10 +487,10 @@ class JFacebookUserTest extends TestCase
 	 * @return  void
 	 *
 	 * @since   3.2.0
-	 * @expectedException  RuntimeException
 	 */
 	public function testGetHomeFailure()
 	{
+		$this->expectException(\RuntimeException::class);
 		$filter = 'app_2305272732';
 		$location = true;
 
@@ -542,10 +542,10 @@ class JFacebookUserTest extends TestCase
 	 * @return  void
 	 *
 	 * @since   3.2.0
-	 * @expectedException  RuntimeException
 	 */
 	public function testHasFriendFailure()
 	{
+		$this->expectException(\RuntimeException::class);
 		$returnData = new stdClass;
 		$returnData->code = 401;
 		$returnData->body = $this->errorString;
@@ -592,10 +592,10 @@ class JFacebookUserTest extends TestCase
 	 * @return  void
 	 *
 	 * @since   3.2.0
-	 * @expectedException  RuntimeException
 	 */
 	public function testGetMutualFriendsFailure()
 	{
+		$this->expectException(\RuntimeException::class);
 		$returnData = new stdClass;
 		$returnData->code = 401;
 		$returnData->body = $this->errorString;
@@ -670,10 +670,10 @@ class JFacebookUserTest extends TestCase
 	 * @return  void
 	 *
 	 * @since   3.2.0
-	 * @expectedException  RuntimeException
 	 */
 	public function testGetPictureFailure()
 	{
+		$this->expectException(\RuntimeException::class);
 		$type = 'large';
 
 		$returnData = new JHttpResponse;
@@ -725,10 +725,10 @@ class JFacebookUserTest extends TestCase
 	 * @return  void
 	 *
 	 * @since   3.2.0
-	 * @expectedException  RuntimeException
 	 */
 	public function testGetFamilyFailure()
 	{
+		$this->expectException(\RuntimeException::class);
 		$returnData = new stdClass;
 		$returnData->code = 401;
 		$returnData->body = $this->errorString;
@@ -777,10 +777,10 @@ class JFacebookUserTest extends TestCase
 	 * @return  void
 	 *
 	 * @since   3.2.0
-	 * @expectedException  RuntimeException
 	 */
 	public function testGetNotificationsFailure()
 	{
+		$this->expectException(\RuntimeException::class);
 		$read = true;
 
 		$returnData = new stdClass;
@@ -898,10 +898,10 @@ class JFacebookUserTest extends TestCase
 	 * @return  void
 	 *
 	 * @since   3.2.0
-	 * @expectedException  RuntimeException
 	 */
 	public function testGetPermissionsFailure()
 	{
+		$this->expectException(\RuntimeException::class);
 		$returnData = new stdClass;
 		$returnData->code = 401;
 		$returnData->body = $this->errorString;
@@ -1011,10 +1011,10 @@ class JFacebookUserTest extends TestCase
 	 * @return  void
 	 *
 	 * @since   3.2.0
-	 * @expectedException  RuntimeException
 	 */
 	public function testGetAlbumsFailure()
 	{
+		$this->expectException(\RuntimeException::class);
 		$returnData = new stdClass;
 		$returnData->code = 401;
 		$returnData->body = $this->errorString;
@@ -1070,10 +1070,10 @@ class JFacebookUserTest extends TestCase
 	 * @return  void
 	 *
 	 * @since   3.2.0
-	 * @expectedException RuntimeException
 	 */
 	public function testCreateAlbumFailure()
 	{
+		$this->expectException(\RuntimeException::class);
 		$name = 'test';
 		$description = 'This is a test';
 		$privacy = '{"value": "SELF"}';
@@ -1130,10 +1130,10 @@ class JFacebookUserTest extends TestCase
 	 * @return  void
 	 *
 	 * @since   3.2.0
-	 * @expectedException  RuntimeException
 	 */
 	public function testGetCheckinsFailure()
 	{
+		$this->expectException(\RuntimeException::class);
 		$returnData = new stdClass;
 		$returnData->code = 401;
 		$returnData->body = $this->errorString;
@@ -1195,10 +1195,10 @@ class JFacebookUserTest extends TestCase
 	 * @return  void
 	 *
 	 * @since   3.2.0
-	 * @expectedException RuntimeException
 	 */
 	public function testCreateCheckinFailure()
 	{
+		$this->expectException(\RuntimeException::class);
 		$place = '241967239209655';
 		$coordinates = '{"latitude":"44.42863444299","longitude":"26.133339107061"}';
 		$tags = 'me';
@@ -1260,10 +1260,10 @@ class JFacebookUserTest extends TestCase
 	 * @return  void
 	 *
 	 * @since   3.2.0
-	 * @expectedException  RuntimeException
 	 */
 	public function testGetLikesFailure()
 	{
+		$this->expectException(\RuntimeException::class);
 		$returnData = new stdClass;
 		$returnData->code = 401;
 		$returnData->body = $this->errorString;
@@ -1310,10 +1310,10 @@ class JFacebookUserTest extends TestCase
 	 * @return  void
 	 *
 	 * @since   3.2.0
-	 * @expectedException  RuntimeException
 	 */
 	public function testLikesPageFailure()
 	{
+		$this->expectException(\RuntimeException::class);
 		$returnData = new stdClass;
 		$returnData->code = 401;
 		$returnData->body = $this->errorString;
@@ -1360,10 +1360,10 @@ class JFacebookUserTest extends TestCase
 	 * @return  void
 	 *
 	 * @since   3.2.0
-	 * @expectedException  RuntimeException
 	 */
 	public function testGetEventsFailure()
 	{
+		$this->expectException(\RuntimeException::class);
 		$returnData = new stdClass;
 		$returnData->code = 401;
 		$returnData->body = $this->errorString;
@@ -1427,10 +1427,10 @@ class JFacebookUserTest extends TestCase
 	 * @return  void
 	 *
 	 * @since   3.2.0
-	 * @expectedException RuntimeException
 	 */
 	public function testCreateEventFailure()
 	{
+		$this->expectException(\RuntimeException::class);
 		$name = 'test';
 		$start_time = 1590962400;
 		$end_time = 1590966000;
@@ -1512,10 +1512,10 @@ class JFacebookUserTest extends TestCase
 	 * @return  void
 	 *
 	 * @since   3.2.0
-	 * @expectedException RuntimeException
 	 */
 	public function testEditEventFailure()
 	{
+		$this->expectException(\RuntimeException::class);
 		$event = '345345345435';
 		$name = 'test';
 		$start_time = 1590962400;
@@ -1582,10 +1582,10 @@ class JFacebookUserTest extends TestCase
 	 * @return  void
 	 *
 	 * @since   3.2.0
-	 * @expectedException RuntimeException
 	 */
 	public function testDeleteEventFailure()
 	{
+		$this->expectException(\RuntimeException::class);
 		$event = '5148941614';
 
 		$returnData = new stdClass;
@@ -1634,10 +1634,10 @@ class JFacebookUserTest extends TestCase
 	 * @return  void
 	 *
 	 * @since   3.2.0
-	 * @expectedException  RuntimeException
 	 */
 	public function testGetGroupsFailure()
 	{
+		$this->expectException(\RuntimeException::class);
 		$returnData = new stdClass;
 		$returnData->code = 401;
 		$returnData->body = $this->errorString;
@@ -1684,10 +1684,10 @@ class JFacebookUserTest extends TestCase
 	 * @return  void
 	 *
 	 * @since   3.2.0
-	 * @expectedException  RuntimeException
 	 */
 	public function testGetLinksFailure()
 	{
+		$this->expectException(\RuntimeException::class);
 		$returnData = new stdClass;
 		$returnData->code = 401;
 		$returnData->body = $this->errorString;
@@ -1741,10 +1741,10 @@ class JFacebookUserTest extends TestCase
 	 * @return  void
 	 *
 	 * @since   3.2.0
-	 * @expectedException RuntimeException
 	 */
 	public function testCreateLinkFailure()
 	{
+		$this->expectException(\RuntimeException::class);
 		$link = 'www.example.com';
 		$message = 'message';
 
@@ -1800,10 +1800,10 @@ class JFacebookUserTest extends TestCase
 	 * @return  void
 	 *
 	 * @since   3.2.0
-	 * @expectedException RuntimeException
 	 */
 	public function testDeleteLinkFailure()
 	{
+		$this->expectException(\RuntimeException::class);
 		$link = '156174391080008_235345346';
 
 		$returnData = new stdClass;
@@ -1852,10 +1852,10 @@ class JFacebookUserTest extends TestCase
 	 * @return  void
 	 *
 	 * @since   3.2.0
-	 * @expectedException  RuntimeException
 	 */
 	public function testGetNotesFailure()
 	{
+		$this->expectException(\RuntimeException::class);
 		$returnData = new stdClass;
 		$returnData->code = 401;
 		$returnData->body = $this->errorString;
@@ -1909,10 +1909,10 @@ class JFacebookUserTest extends TestCase
 	 * @return  void
 	 *
 	 * @since   3.2.0
-	 * @expectedException RuntimeException
 	 */
 	public function testCreateNoteFailure()
 	{
+		$this->expectException(\RuntimeException::class);
 		$subject = 'subject';
 		$message = 'message';
 
@@ -1966,10 +1966,10 @@ class JFacebookUserTest extends TestCase
 	 * @return  void
 	 *
 	 * @since   3.2.0
-	 * @expectedException  RuntimeException
 	 */
 	public function testGetPhotosFailure()
 	{
+		$this->expectException(\RuntimeException::class);
 		$returnData = new stdClass;
 		$returnData->code = 401;
 		$returnData->body = $this->errorString;
@@ -2029,10 +2029,10 @@ class JFacebookUserTest extends TestCase
 	 * @return  void
 	 *
 	 * @since   3.2.0
-	 * @expectedException RuntimeException
 	 */
 	public function testCreatePhotoFailure()
 	{
+		$this->expectException(\RuntimeException::class);
 		$source = '/path/to/source';
 		$message = 'message';
 		$place = '23432421234';
@@ -2094,10 +2094,10 @@ class JFacebookUserTest extends TestCase
 	 * @return  void
 	 *
 	 * @since   3.2.0
-	 * @expectedException  RuntimeException
 	 */
 	public function testGetPostsFailure()
 	{
+		$this->expectException(\RuntimeException::class);
 		$location = true;
 
 		$returnData = new stdClass;
@@ -2175,10 +2175,10 @@ class JFacebookUserTest extends TestCase
 	 * @return  void
 	 *
 	 * @since   3.2.0
-	 * @expectedException RuntimeException
 	 */
 	public function testCreatePostFailure()
 	{
+		$this->expectException(\RuntimeException::class);
 		$user = '134534252';
 		$message = 'message';
 		$link = 'www.example.com';
@@ -2256,10 +2256,10 @@ class JFacebookUserTest extends TestCase
 	 * @return  void
 	 *
 	 * @since   3.2.0
-	 * @expectedException RuntimeException
 	 */
 	public function testDeletePostFailure()
 	{
+		$this->expectException(\RuntimeException::class);
 		$post = '5148941614';
 
 		$returnData = new stdClass;
@@ -2308,10 +2308,10 @@ class JFacebookUserTest extends TestCase
 	 * @return  void
 	 *
 	 * @since   3.2.0
-	 * @expectedException  RuntimeException
 	 */
 	public function testGetStatusesFailure()
 	{
+		$this->expectException(\RuntimeException::class);
 		$returnData = new stdClass;
 		$returnData->code = 401;
 		$returnData->body = $this->errorString;
@@ -2364,10 +2364,10 @@ class JFacebookUserTest extends TestCase
 	 * @return  void
 	 *
 	 * @since   3.2.0
-	 * @expectedException RuntimeException
 	 */
 	public function testCreateStatusFailure()
 	{
+		$this->expectException(\RuntimeException::class);
 		$user = '134534252';
 		$message = 'message';
 
@@ -2422,10 +2422,10 @@ class JFacebookUserTest extends TestCase
 	 * @return  void
 	 *
 	 * @since   3.2.0
-	 * @expectedException RuntimeException
 	 */
 	public function testDeleteStatusFailure()
 	{
+		$this->expectException(\RuntimeException::class);
 		$status = '5148941614';
 
 		$returnData = new stdClass;
@@ -2474,10 +2474,10 @@ class JFacebookUserTest extends TestCase
 	 * @return  void
 	 *
 	 * @since   3.2.0
-	 * @expectedException  RuntimeException
 	 */
 	public function testGetVideosFailure()
 	{
+		$this->expectException(\RuntimeException::class);
 		$returnData = new stdClass;
 		$returnData->code = 401;
 		$returnData->body = $this->errorString;
@@ -2535,10 +2535,10 @@ class JFacebookUserTest extends TestCase
 	 * @return  void
 	 *
 	 * @since   3.2.0
-	 * @expectedException RuntimeException
 	 */
 	public function testCreateVideoFailure()
 	{
+		$this->expectException(\RuntimeException::class);
 		$source = '/path/to/source';
 		$title = 'title';
 		$description = 'Description example';
@@ -2596,10 +2596,10 @@ class JFacebookUserTest extends TestCase
 	 * @return  void
 	 *
 	 * @since   3.2.0
-	 * @expectedException  RuntimeException
 	 */
 	public function testGetTaggedFailure()
 	{
+		$this->expectException(\RuntimeException::class);
 		$returnData = new stdClass;
 		$returnData->code = 401;
 		$returnData->body = $this->errorString;
@@ -2646,10 +2646,10 @@ class JFacebookUserTest extends TestCase
 	 * @return  void
 	 *
 	 * @since   3.2.0
-	 * @expectedException  RuntimeException
 	 */
 	public function testGetActivitiesFailure()
 	{
+		$this->expectException(\RuntimeException::class);
 		$returnData = new stdClass;
 		$returnData->code = 401;
 		$returnData->body = $this->errorString;
@@ -2696,10 +2696,10 @@ class JFacebookUserTest extends TestCase
 	 * @return  void
 	 *
 	 * @since   3.2.0
-	 * @expectedException  RuntimeException
 	 */
 	public function testGetBooksFailure()
 	{
+		$this->expectException(\RuntimeException::class);
 		$returnData = new stdClass;
 		$returnData->code = 401;
 		$returnData->body = $this->errorString;
@@ -2746,10 +2746,10 @@ class JFacebookUserTest extends TestCase
 	 * @return  void
 	 *
 	 * @since   3.2.0
-	 * @expectedException  RuntimeException
 	 */
 	public function testGetInterestsFailure()
 	{
+		$this->expectException(\RuntimeException::class);
 		$returnData = new stdClass;
 		$returnData->code = 401;
 		$returnData->body = $this->errorString;
@@ -2796,10 +2796,10 @@ class JFacebookUserTest extends TestCase
 	 * @return  void
 	 *
 	 * @since   3.2.0
-	 * @expectedException  RuntimeException
 	 */
 	public function testGetMoviesFailure()
 	{
+		$this->expectException(\RuntimeException::class);
 		$returnData = new stdClass;
 		$returnData->code = 401;
 		$returnData->body = $this->errorString;
@@ -2846,10 +2846,10 @@ class JFacebookUserTest extends TestCase
 	 * @return  void
 	 *
 	 * @since   3.2.0
-	 * @expectedException  RuntimeException
 	 */
 	public function testGetTelevisionFailure()
 	{
+		$this->expectException(\RuntimeException::class);
 		$returnData = new stdClass;
 		$returnData->code = 401;
 		$returnData->body = $this->errorString;
@@ -2896,10 +2896,10 @@ class JFacebookUserTest extends TestCase
 	 * @return  void
 	 *
 	 * @since   3.2.0
-	 * @expectedException  RuntimeException
 	 */
 	public function testGetMusicFailure()
 	{
+		$this->expectException(\RuntimeException::class);
 		$returnData = new stdClass;
 		$returnData->code = 401;
 		$returnData->body = $this->errorString;
@@ -2946,10 +2946,10 @@ class JFacebookUserTest extends TestCase
 	 * @return  void
 	 *
 	 * @since   3.2.0
-	 * @expectedException  RuntimeException
 	 */
 	public function testGetSubscribersFailure()
 	{
+		$this->expectException(\RuntimeException::class);
 		$returnData = new stdClass;
 		$returnData->code = 401;
 		$returnData->body = $this->errorString;
@@ -2996,10 +2996,10 @@ class JFacebookUserTest extends TestCase
 	 * @return  void
 	 *
 	 * @since   3.2.0
-	 * @expectedException  RuntimeException
 	 */
 	public function testGetSubscribedToFailure()
 	{
+		$this->expectException(\RuntimeException::class);
 		$returnData = new stdClass;
 		$returnData->code = 401;
 		$returnData->body = $this->errorString;

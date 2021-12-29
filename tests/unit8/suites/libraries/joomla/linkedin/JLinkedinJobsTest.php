@@ -153,11 +153,11 @@ class JLinkedinJobsTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @expectedException DomainException
 	 * @since   3.2.0
 	 */
 	public function testGetJobFailure()
 	{
+		$this->expectException(\DomainException::class);
 		$id = 12345;
 		$fields = '(id,company,posting-date)';
 
@@ -218,11 +218,11 @@ class JLinkedinJobsTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @expectedException DomainException
 	 * @since   3.2.0
 	 */
 	public function testGetBookmarkedFailure()
 	{
+		$this->expectException(\DomainException::class);
 		$fields = '(id,position)';
 
 		// Set request parameters.
@@ -281,11 +281,11 @@ class JLinkedinJobsTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @expectedException DomainException
 	 * @since   3.2.0
 	 */
 	public function testBookmarkFailure()
 	{
+		$this->expectException(\DomainException::class);
 		$id = '12345';
 
 		$path = '/v1/people/~/job-bookmarks';
@@ -339,11 +339,11 @@ class JLinkedinJobsTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @expectedException DomainException
 	 * @since   3.2.0
 	 */
 	public function testDeleteBookmarkFailure()
 	{
+		$this->expectException(\DomainException::class);
 		$id = '12345';
 
 		$path = '/v1/people/~/job-bookmarks/' . $id;
@@ -402,11 +402,11 @@ class JLinkedinJobsTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @expectedException DomainException
 	 * @since   3.2.0
 	 */
 	public function testGetSuggestedFailure()
 	{
+		$this->expectException(\DomainException::class);
 		$fields = '(jobs)';
 		$start = 1;
 		$count = 10;
@@ -504,11 +504,11 @@ class JLinkedinJobsTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @expectedException DomainException
 	 * @since   3.2.0
 	 */
 	public function testSearchFailure()
 	{
+		$this->expectException(\DomainException::class);
 		$fields = '(facets)';
 		$keywords = 'quality, internet';
 		$company_name = 'Google';

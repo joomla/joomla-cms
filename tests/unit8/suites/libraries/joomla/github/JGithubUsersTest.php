@@ -119,11 +119,11 @@ class JGithubUsersTest extends \PHPUnit\Framework\TestCase
 	/**
 	 * Tests the getUser method with failure
 	 *
-	 * @expectedException  DomainException
 	 * @return void
 	 */
 	public function testGetUserFailure()
 	{
+		$this->expectException(\DomainException::class);
 		$this->response->code = 404;
 		$this->response->body = '{"message":"Not Found"}';
 
@@ -193,12 +193,12 @@ class JGithubUsersTest extends \PHPUnit\Framework\TestCase
 	/**
 	 * Tests the GetAuthenticatedUser method with failure
 	 *
-	 * @expectedException  DomainException
 	 *
 	 * @return void
 	 */
 	public function testGetAuthenticatedUserFailure()
 	{
+		$this->expectException(\DomainException::class);
 		$this->response->code = 401;
 		$this->response->body = '{"message":"Requires authentication"}';
 

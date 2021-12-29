@@ -73,11 +73,11 @@ class JTableContenttypeTest extends TestCaseDatabase
 	 * @return  void
 	 *
 	 * @since   3.1
-	 * @expectedException         UnexpectedValueException
-	 * @expectedExceptionMessage  The title is empty
 	 */
 	public function testCheckFailsWithAnEmptyDataSet()
 	{
+		$this->expectException(\UnexpectedValueException::class);
+		$this->expectExceptionMessage('The title is empty');
 		$this->object->check();
 	}
 
@@ -87,11 +87,11 @@ class JTableContenttypeTest extends TestCaseDatabase
 	 * @return  void
 	 *
 	 * @since   3.1
-	 * @expectedException         UnexpectedValueException
-	 * @expectedExceptionMessage  The type_alias is empty
 	 */
 	public function testCheckFailsWithAnEmptyAlias()
 	{
+		$this->expectException(\UnexpectedValueException::class);
+		$this->expectExceptionMessage('The type_alias is empty');
 		$this->object->type_title = 'Unit Test';
 		$this->object->check();
 	}

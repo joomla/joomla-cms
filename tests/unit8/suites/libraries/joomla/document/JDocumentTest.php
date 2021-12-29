@@ -564,13 +564,13 @@ class JDocumentTest extends \PHPUnit\Framework\TestCase
 
 	/**
 	 * @testdox  Test that loadRenderer throws an exception for an unknown renderer type
-	 * @expectedException  RuntimeException
 	 *
 	 * @covers   JDocument::loadRenderer
 	 * @uses     JDocument::setType
 	 */
 	public function testEnsureLoadRendererThrowsException()
 	{
+		$this->expectException(\RuntimeException::class);
 		$this->object->setType('html');
 		$this->object->loadRenderer('unknown');
 	}

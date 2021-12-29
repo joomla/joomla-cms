@@ -94,30 +94,30 @@ class JGithubPackageRepositoriesTest extends \PHPUnit\Framework\TestCase
 	/**
 	 * @covers JGithubPackageRepositories::getListOwn
 	 *
-	 * @expectedException RuntimeException
 	 */
 	public function testGetListOwnInvalidType()
 	{
+		$this->expectException(\RuntimeException::class);
 		$this->object->getListOwn('INVALID');
 	}
 
 	/**
 	 * @covers JGithubPackageRepositories::getListOwn
 	 *
-	 * @expectedException RuntimeException
 	 */
 	public function testGetListOwnInvalidSortField()
 	{
+		$this->expectException(\RuntimeException::class);
 		$this->object->getListOwn('all', 'INVALID');
 	}
 
 	/**
 	 * @covers JGithubPackageRepositories::getListOwn
 	 *
-	 * @expectedException RuntimeException
 	 */
 	public function testGetListOwnInvalidSortOrder()
 	{
+		$this->expectException(\RuntimeException::class);
 		$this->object->getListOwn('all', 'full_name', 'INVALID');
 	}
 
@@ -140,27 +140,21 @@ class JGithubPackageRepositoriesTest extends \PHPUnit\Framework\TestCase
 		);
 	}
 
-	/**
-	 * @expectedException RuntimeException
-	 */
 	public function testGetListUserInvalidType()
 	{
+		$this->expectException(\RuntimeException::class);
 		$this->object->getListUser('joomla', 'INVALID');
 	}
 
-	/**
-	 * @expectedException RuntimeException
-	 */
 	public function testGetListUserInvalidSortField()
 	{
+		$this->expectException(\RuntimeException::class);
 		$this->object->getListUser('joomla', 'all', 'INVALID');
 	}
 
-	/**
-	 * @expectedException RuntimeException
-	 */
 	public function testGetListUserInvalidSortOrder()
 	{
+		$this->expectException(\RuntimeException::class);
 		$this->object->getListUser('joomla', 'all', 'full_name', 'INVALID');
 	}
 
@@ -183,11 +177,9 @@ class JGithubPackageRepositoriesTest extends \PHPUnit\Framework\TestCase
 		);
 	}
 
-	/**
-	 * @expectedException RuntimeException
-	 */
 	public function testGetListOrgInvalidType()
 	{
+		$this->expectException(\RuntimeException::class);
 		$this->object->getListOrg('joomla', 'INVALID');
 	}
 

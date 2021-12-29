@@ -586,10 +586,10 @@ class JTableNestedTest extends TestCaseDatabase
 	 * @return  void
 	 *
 	 * @since   3.0.0
-	 * @expectedException  InvalidArgumentException
 	 */
 	public function testSetLocation_exception()
 	{
+		$this->expectException(\InvalidArgumentException::class);
 		$this->class->setLocation(20, 'foo');
 	}
 

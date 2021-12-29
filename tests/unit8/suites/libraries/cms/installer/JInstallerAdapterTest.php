@@ -193,11 +193,11 @@ class JInstallerAdapterTest extends TestCaseDatabase
 	/**
 	 * @testdox Test checking if an existing extension exists
 	 *
-	 * @expectedException RuntimeException
 	 * @covers  JInstallerAdapter::checkExistingExtension
 	 */
 	public function testCheckExistingExtensionReturnsErrorWhenTableGivesException()
 	{
+		$this->expectException(\RuntimeException::class);
 		$mockInstaller = $this->getMockBuilder('JInstaller')->getMock();
 		$mockDatabase = $this->getMockDatabase();
 		$object = $this->getMockForAbstractClass('JInstallerAdapter', array($mockInstaller, $mockDatabase));
@@ -221,7 +221,6 @@ class JInstallerAdapterTest extends TestCaseDatabase
 		TestReflection::setValue($object, 'element', $element);
 
 		// Invoke the method
-		$this->expectException(RuntimeException::class);
 		TestReflection::invoke($object, 'checkExistingExtension');
 	}
 
@@ -327,11 +326,11 @@ class JInstallerAdapterTest extends TestCaseDatabase
 	/**
 	 * @testdox JInstallerAdapter::checkExtensionInFilesystem throws an exception when a file exists and overwrite is set to false
 	 *
-	 * @expectedException  RuntimeException
 	 * @covers  JInstallerAdapter::checkExtensionInFilesystem
 	 */
 	public function testsCheckExtensionInFilesystemWithOverwriteSetFalse()
 	{
+		$this->expectException(\RuntimeException::class);
 		$mockInstaller = $this->getMockBuilder('JInstaller')
 			->setMethods(array('getPath', 'isOverwrite', 'isUpgrade'))
 			->getMock();
@@ -357,7 +356,6 @@ class JInstallerAdapterTest extends TestCaseDatabase
 		TestReflection::setValue($object, 'manifest', $manifestObject);
 
 		// Invoke the method
-		$this->expectException(RuntimeException::class);
 		TestReflection::invoke($object, 'checkExtensionInFilesystem');
 	}
 
@@ -1296,11 +1294,11 @@ class JInstallerAdapterTest extends TestCaseDatabase
 	/**
 	 * @testdox Test parse queries throws an exception with install route and JInstallerAdapter::doDatabaseTransactions() returning false
 	 *
-	 * @expectedException  RuntimeException
 	 * @covers  JInstallerAdapter::parseQueries
 	 */
 	public function testParseQueriesWithInstallRoute()
 	{
+		$this->expectException(\RuntimeException::class);
 		$mockInstaller = $this->getMockBuilder('JInstaller')->getMock();
 		$mockDatabase = $this->getMockDatabase();
 		$object = $this->getMockForAbstractClass(
@@ -1317,18 +1315,17 @@ class JInstallerAdapterTest extends TestCaseDatabase
 			->method('doDatabaseTransactions')
 			->willReturn(false);
 
-		$this->expectException(RuntimeException::class);
 		TestReflection::invoke($object, 'parseQueries');
 	}
 
 	/**
 	 * @testdox Test parse queries throws an exception with install route and JInstallerAdapter::doDatabaseTransactions() returning false
 	 *
-	 * @expectedException  RuntimeException
 	 * @covers  JInstallerAdapter::parseQueries
 	 */
 	public function testParseQueriesWithUpdateRouteAndParsingReturningFalseReturnsException()
 	{
+		$this->expectException(\RuntimeException::class);
 		// The sample Schema
 		$schema = simplexml_load_string('<extension><update><schemas><schemapath type="mysql">sql/updates/mysql</schemapath></schemas></update></extension>');
 
@@ -1366,7 +1363,6 @@ class JInstallerAdapterTest extends TestCaseDatabase
 			->method('getManifest')
 			->willReturn($schema);
 
-		$this->expectException(RuntimeException::class);
 		TestReflection::invoke($object, 'parseQueries');
 	}
 
@@ -1571,11 +1567,11 @@ class JInstallerAdapterTest extends TestCaseDatabase
 	/**
 	 * @testdox Test an exception is thrown when the preflight method returns false
 	 *
-	 * @expectedException  RuntimeException
 	 * @covers  JInstallerAdapter::triggerManifestScript
 	 */
 	public function testTriggerManifestScriptPreflightReturningFalseThrowsException()
 	{
+		$this->expectException(\RuntimeException::class);
 		$mockInstaller = $this->getMockBuilder('JInstaller')
 			->setMethods(array('set'))
 			->getMock();
@@ -1597,7 +1593,6 @@ class JInstallerAdapterTest extends TestCaseDatabase
 
 		$mockInstaller->manifestClass = $mockScript;
 
-		$this->expectException(RuntimeException::class);
 		TestReflection::invoke($object, 'triggerManifestScript', 'preflight');
 	}
 
@@ -1620,11 +1615,11 @@ class JInstallerAdapterTest extends TestCaseDatabase
 	 * @param   string  $method  The method to run
 	 *
 	 * @dataProvider       casesTestTriggerManifestException
-	 * @expectedException  RuntimeException
 	 * @covers  JInstallerAdapter::triggerManifestScript
 	 */
 	public function testTriggerManifestScriptInstallOrUpdateReturningFalseThrowsException($method)
 	{
+		$this->expectException(\RuntimeException::class);
 		$mockInstaller = $this->getMockBuilder('JInstaller')
 			->setMethods(array('set'))
 			->getMock();
@@ -1645,7 +1640,6 @@ class JInstallerAdapterTest extends TestCaseDatabase
 
 		$mockInstaller->manifestClass = $mockScript;
 
-		$this->expectException(RuntimeException::class);
 		TestReflection::invoke($object, 'triggerManifestScript', $method);
 	}
 

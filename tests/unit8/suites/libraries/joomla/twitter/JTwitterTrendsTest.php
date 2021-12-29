@@ -177,10 +177,10 @@ class JTwitterTrendsTest extends TestCase
 	 * @return  void
 	 *
 	 * @since   3.1.4
-	 * @expectedException DomainException
 	 */
 	public function testGetTrendsFailure()
 	{
+		$this->expectException(\DomainException::class);
 		$id = '1a2b3c4d';
 		$exclude = 'hashtags';
 
@@ -255,10 +255,10 @@ class JTwitterTrendsTest extends TestCase
 	 * @return  void
 	 *
 	 * @since   3.1.4
-	 * @expectedException DomainException
 	 */
 	public function testGetLocationsFailure()
 	{
+		$this->expectException(\DomainException::class);
 		$returnData = new stdClass;
 		$returnData->code = 200;
 		$returnData->body = $this->rateLimit;
@@ -333,10 +333,10 @@ class JTwitterTrendsTest extends TestCase
 	 * @return  void
 	 *
 	 * @since   3.1.4
-	 * @expectedException DomainException
 	 */
 	public function testGetClosestFailure()
 	{
+		$this->expectException(\DomainException::class);
 		$lat = 45;
 		$long = 45;
 

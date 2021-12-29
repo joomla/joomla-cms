@@ -105,10 +105,10 @@ class JControllerBaseTest extends TestCase
 	 * @return  void
 	 *
 	 * @since   3.0.0
-	 * @expectedException  UnexpectedValueException
 	 */
 	public function testUnserialise_exception()
 	{
+		$this->expectException(\UnexpectedValueException::class);
 		$this->_instance->unserialize('s:7:"default";');
 	}
 

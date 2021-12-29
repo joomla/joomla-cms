@@ -473,10 +473,10 @@ class JDatabaseImporterPostgresqlTest extends \PHPUnit\Framework\TestCase
 	/**
 	 * Tests the check method.
 	 *
-	 * @expectedException Exception
 	 */
 	public function testCheckWithNoDbo()
 	{
+		$this->expectException(\Exception::class);
 		$instance = new JDatabaseImporterPostgresql;
 
 		$instance->check();
@@ -485,10 +485,10 @@ class JDatabaseImporterPostgresqlTest extends \PHPUnit\Framework\TestCase
 	/**
 	 * Tests the check method.
 	 *
-	 * @expectedException Exception
 	 */
 	public function testCheckWithNoFrom()
 	{
+		$this->expectException(\Exception::class);
 		$instance = new JDatabaseImporterPostgresql;
 		$instance->setDbo($this->dbo);
 

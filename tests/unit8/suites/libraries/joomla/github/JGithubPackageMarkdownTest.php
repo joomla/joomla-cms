@@ -91,22 +91,18 @@ class JGithubPackageMarkdownTest extends \PHPUnit\Framework\TestCase
 		);
 	}
 
-	/**
-	 * @expectedException  InvalidArgumentException
-	 */
 	public function testRenderInvalidMode()
 	{
+		$this->expectException(\InvalidArgumentException::class);
 		$this->assertThat(
 			$this->object->render('', 'xxx', 'github/gollum'),
 			$this->equalTo('')
 		);
 	}
 
-	/**
-	 * @expectedException  DomainException
-	 */
 	public function testRenderFailure()
 	{
+		$this->expectException(\DomainException::class);
 		$this->response->code = 404;
 		$this->response->body = '';
 

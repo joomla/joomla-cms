@@ -99,10 +99,10 @@ class JGithubPackageOrgsMembersTest extends \PHPUnit\Framework\TestCase
 	/**
 	 * @covers JGithubPackageOrgsMembers::getList
 	 *
-	 * @expectedException UnexpectedValueException
 	 */
 	public function testGetListUnexpected()
 	{
+		$this->expectException(\UnexpectedValueException::class);
 		$this->response->code = 666;
 		$this->response->body = $this->sampleString;
 
@@ -177,10 +177,10 @@ class JGithubPackageOrgsMembersTest extends \PHPUnit\Framework\TestCase
 	/**
 	 * @covers JGithubPackageOrgsMembers::check
 	 *
-	 * @expectedException UnexpectedValueException
 	 */
 	public function testCheckUnexpectedr()
 	{
+		$this->expectException(\UnexpectedValueException::class);
 		$this->response->code = 666;
 		$this->response->body = $this->sampleString;
 
@@ -274,10 +274,10 @@ class JGithubPackageOrgsMembersTest extends \PHPUnit\Framework\TestCase
 	/**
 	 * @covers JGithubPackageOrgsMembers::checkPublic
 	 *
-	 * @expectedException UnexpectedValueException
 	 */
 	public function testCheckPublicUnexpected()
 	{
+		$this->expectException(\UnexpectedValueException::class);
 		$this->response->code = 666;
 		$this->response->body = $this->sampleString;
 

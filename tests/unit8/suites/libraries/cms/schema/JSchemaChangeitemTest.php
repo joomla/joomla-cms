@@ -57,10 +57,10 @@ class JSchemaChangeitemTest extends TestCase
 	 *
 	 * @covers   JSchemaChangeitem::getInstance
 	 *
-	 * @expectedException  RuntimeException
 	 */
 	public function testGetInstanceThrowsAnExceptionForAnUnsupportedDriver()
 	{
+		$this->expectException(\RuntimeException::class);
 		$file  = __DIR__ . '/stubs/mysql/3.5.0-2016-03-01.sql';
 		$dbo   = $this->getMockDatabase('Sqlite');
 		$query = 'SELECT foo FROM bar';

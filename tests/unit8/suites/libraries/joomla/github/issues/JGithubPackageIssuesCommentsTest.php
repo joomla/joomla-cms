@@ -122,22 +122,18 @@ class JGithubPackageIssuesCommentsTest extends \PHPUnit\Framework\TestCase
 		);
 	}
 
-	/**
-	 * @expectedException UnexpectedValueException
-	 */
 	public function testGetRepositoryListInvalidSort()
 	{
+		$this->expectException(\UnexpectedValueException::class);
 		$this->response->code = 200;
 		$this->response->body = $this->sampleString;
 
 		$this->object->getRepositoryList('joomla', 'joomla-platform', 'invalid');
 	}
 
-	/**
-	 * @expectedException UnexpectedValueException
-	 */
 	public function testGetRepositoryListInvalidDirection()
 	{
+		$this->expectException(\UnexpectedValueException::class);
 		$this->response->code = 200;
 		$this->response->body = $this->sampleString;
 

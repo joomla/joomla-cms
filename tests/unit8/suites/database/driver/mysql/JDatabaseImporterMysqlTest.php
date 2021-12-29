@@ -370,10 +370,10 @@ class JDatabaseImporterMysqlTest extends TestCase
 	/**
 	 * Tests the check method.
 	 *
-	 * @expectedException Exception
 	 */
 	public function testCheckWithNoDbo()
 	{
+		$this->expectException(\Exception::class);
 		$instance = new JDatabaseImporterMysql;
 
 		$instance->check();
@@ -382,10 +382,10 @@ class JDatabaseImporterMysqlTest extends TestCase
 	/**
 	 * Tests the check method.
 	 *
-	 * @expectedException Exception
 	 */
 	public function testCheckWithNoFrom()
 	{
+		$this->expectException(\Exception::class);
 		$instance = new JDatabaseImporterMysql;
 		$instance->setDbo($this->dbo);
 

@@ -204,10 +204,10 @@ class JTwitterSearchTest extends TestCase
 	 * @return  void
 	 *
 	 * @since   3.1.4
-	 * @expectedException DomainException
 	 */
 	public function testSearchFailure()
 	{
+		$this->expectException(\DomainException::class);
 		$query = '@noradio';
 
 		$returnData = new stdClass;
@@ -281,10 +281,10 @@ class JTwitterSearchTest extends TestCase
 	 * @return  void
 	 *
 	 * @since   3.1.4
-	 * @expectedException DomainException
 	 */
 	public function testGetSavedSearchesFailure()
 	{
+		$this->expectException(\DomainException::class);
 		$returnData = new stdClass;
 		$returnData->code = 200;
 		$returnData->body = $this->savedSearchesRateLimit;
@@ -355,10 +355,10 @@ class JTwitterSearchTest extends TestCase
 	 * @return  void
 	 *
 	 * @since   3.1.4
-	 * @expectedException DomainException
 	 */
 	public function testGetSavedSearchesByIdFailure()
 	{
+		$this->expectException(\DomainException::class);
 		$id = 12345;
 
 		$returnData = new stdClass;
@@ -423,10 +423,10 @@ class JTwitterSearchTest extends TestCase
 	 * @return  void
 	 *
 	 * @since   3.1.4
-	 * @expectedException DomainException
 	 */
 	public function testCreateSavedSearchFailure()
 	{
+		$this->expectException(\DomainException::class);
 		$query = 'test';
 
 		$returnData = new stdClass;
@@ -491,10 +491,10 @@ class JTwitterSearchTest extends TestCase
 	 * @return  void
 	 *
 	 * @since   3.1.4
-	 * @expectedException DomainException
 	 */
 	public function testDeleteSavedSearchFailure()
 	{
+		$this->expectException(\DomainException::class);
 		$id = 12345;
 
 		$returnData = new stdClass;

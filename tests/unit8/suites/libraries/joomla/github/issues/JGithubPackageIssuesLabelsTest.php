@@ -154,11 +154,9 @@ class JGithubPackageIssuesLabelsTest extends \PHPUnit\Framework\TestCase
 		);
 	}
 
-	/**
-	 * @expectedException DomainException
-	 */
 	public function testCreateFailure()
 	{
+		$this->expectException(\DomainException::class);
 		$this->response->code = 404;
 		$this->response->body = $this->errorString;
 

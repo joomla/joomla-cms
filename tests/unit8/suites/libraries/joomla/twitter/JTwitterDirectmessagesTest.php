@@ -189,11 +189,11 @@ class JTwitterDirectmessagesTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @expectedException DomainException
 	 * @since   3.1.4
 	 */
 	public function testGetDirectMessagesFailure()
 	{
+		$this->expectException(\DomainException::class);
 		$since_id = 12345;
 		$max_id = 54321;
 		$count = 10;
@@ -285,11 +285,11 @@ class JTwitterDirectmessagesTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @expectedException DomainException
 	 * @since   3.1.4
 	 */
 	public function testGetSentDirectMessagesFailure()
 	{
+		$this->expectException(\DomainException::class);
 		$since_id = 12345;
 		$max_id = 54321;
 		$count = 10;
@@ -400,11 +400,11 @@ class JTwitterDirectmessagesTest extends TestCase
 	 * @return  void
 	 *
 	 * @dataProvider  seedUser
-	 * @expectedException DomainException
 	 * @since   3.1.4
 	 */
 	public function testSendDirectMessagesFailure($user)
 	{
+		$this->expectException(\DomainException::class);
 		$text = 'This is a test.';
 
 		$returnData = new stdClass;
@@ -483,11 +483,11 @@ class JTwitterDirectmessagesTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @expectedException DomainException
 	 * @since   3.1.4
 	 */
 	public function testGetDirectMessagesByIdFailure()
 	{
+		$this->expectException(\DomainException::class);
 		$id = 12345;
 
 		$returnData = new stdClass;
@@ -555,11 +555,11 @@ class JTwitterDirectmessagesTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @expectedException DomainException
 	 * @since   3.1.4
 	 */
 	public function testDeleteDirectMessagesFailure()
 	{
+		$this->expectException(\DomainException::class);
 		$id = 12345;
 		$entities = true;
 

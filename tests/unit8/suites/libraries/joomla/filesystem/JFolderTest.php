@@ -23,11 +23,11 @@ class JFolderTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @expectedException  UnexpectedValueException
 	 * @since   1.7.3
 	 */
 	public function testDeleteArrayPath()
 	{
+		$this->expectException(\UnexpectedValueException::class);
 		JFolder::delete(array('/path/to/folder') );
 	}
 

@@ -163,10 +163,10 @@ class JViewHtmlTest extends TestCase
 	 * @covers  JViewHtml::render
 	 * @since   3.0.0
 	 *
-	 * @expectedException  RuntimeException
 	 */
 	public function testRender_exception()
 	{
+		$this->expectException(\RuntimeException::class);
 		$this->_instance->render();
 	}
 

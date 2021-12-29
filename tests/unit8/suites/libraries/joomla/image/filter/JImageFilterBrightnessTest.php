@@ -73,10 +73,10 @@ class JImageFilterBrightnessTest extends TestCase
 	 *
 	 * @since   2.5.0
 	 *
-	 * @expectedException  InvalidArgumentException
 	 */
 	public function testExecuteInvalidArgument()
 	{
+		$this->expectException(\InvalidArgumentException::class);
 		// Create an image handle of the correct size.
 		$imageHandle = imagecreatetruecolor(100, 100);
 

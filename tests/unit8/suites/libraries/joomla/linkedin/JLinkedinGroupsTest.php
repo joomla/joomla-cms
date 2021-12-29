@@ -160,10 +160,10 @@ class JLinkedinGroupsTest extends TestCase
 	 * @return  void
 	 *
 	 * @since   3.2.0
-	 * @expectedException DomainException
 	 */
 	public function testGetGroupFailure()
 	{
+		$this->expectException(\DomainException::class);
 		$id = '12345';
 		$fields = '(id,name,short-description,description,relation-to-viewer:(membership-state,available-actions),is-open-to-non-members)';
 		$start = 1;
@@ -266,11 +266,11 @@ class JLinkedinGroupsTest extends TestCase
 	 * @return  void
 	 *
 	 * @dataProvider seedId
-	 * @expectedException DomainException
 	 * @since   3.2.0
 	 */
 	public function testGetMembershipsFailure($person_id)
 	{
+		$this->expectException(\DomainException::class);
 		$fields = '(id,name,short-description,description,relation-to-viewer:(membership-state,available-actions),is-open-to-non-members)';
 		$start = 1;
 		$count = 10;
@@ -368,11 +368,11 @@ class JLinkedinGroupsTest extends TestCase
 	 * @return  void
 	 *
 	 * @dataProvider seedId
-	 * @expectedException DomainException
 	 * @since   3.2.0
 	 */
 	public function testGetSettingsFailure($person_id)
 	{
+		$this->expectException(\DomainException::class);
 		$group_id = '12345';
 		$fields = '(group:(id,name),membership-state,email-digest-frequency,email-announcements-from-managers,
 			allow-messages-from-members,email-for-every-new-post)';
@@ -461,11 +461,11 @@ class JLinkedinGroupsTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @expectedException DomainException
 	 * @since   3.2.0
 	 */
 	public function testChangeSettingsFailure()
 	{
+		$this->expectException(\DomainException::class);
 		$group_id = '12345';
 		$show_logo = true;
 		$digest_frequency = 'daily';
@@ -555,11 +555,11 @@ class JLinkedinGroupsTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @expectedException DomainException
 	 * @since   3.2.0
 	 */
 	public function testJoinGroupFailure()
 	{
+		$this->expectException(\DomainException::class);
 		$group_id = '12345';
 		$show_logo = true;
 		$digest_frequency = 'daily';
@@ -632,11 +632,11 @@ class JLinkedinGroupsTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @expectedException DomainException
 	 * @since   3.2.0
 	 */
 	public function testLeaveGroupFailure()
 	{
+		$this->expectException(\DomainException::class);
 		$group_id = '12345';
 
 		$path = '/v1/people/~/group-memberships/' . $group_id;
@@ -704,11 +704,11 @@ class JLinkedinGroupsTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @expectedException DomainException
 	 * @since   3.2.0
 	 */
 	public function testGetDiscussionsFailure()
 	{
+		$this->expectException(\DomainException::class);
 		$id = '12345';
 		$fields = '(creation-timestamp,title,summary,creator:(first-name,last-name),likes,attachment:(content-url,title),relation-to-viewer)';
 		$start = 1;
@@ -806,11 +806,11 @@ class JLinkedinGroupsTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @expectedException DomainException
 	 * @since   3.2.0
 	 */
 	public function testGetUserPostsFailure()
 	{
+		$this->expectException(\DomainException::class);
 		$group_id = '12345';
 		$role = 'creator';
 		$person_id = '123345456';
@@ -889,11 +889,11 @@ class JLinkedinGroupsTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @expectedException DomainException
 	 * @since   3.2.0
 	 */
 	public function testGetPostFailure()
 	{
+		$this->expectException(\DomainException::class);
 		$post_id = 'g-12345';
 		$fields = '(id,type,category,creator,title,relation-to-viewer:(is-following,is-liked),likes,comments,site-group-post-url)';
 
@@ -963,11 +963,11 @@ class JLinkedinGroupsTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @expectedException DomainException
 	 * @since   3.2.0
 	 */
 	public function testGetPostCommentsFailure()
 	{
+		$this->expectException(\DomainException::class);
 		$post_id = 'g-12345';
 		$fields = '(creator:(first-name,last-name,picture-url),creation-timestamp,text))';
 		$start = 1;
@@ -1036,11 +1036,11 @@ class JLinkedinGroupsTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @expectedException DomainException
 	 * @since   3.2.0
 	 */
 	public function testCreatePostFailure()
 	{
+		$this->expectException(\DomainException::class);
 		$group_id = '12345';
 		$title = 'post title';
 		$summary = 'post summary';
@@ -1113,11 +1113,11 @@ class JLinkedinGroupsTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @expectedException DomainException
 	 * @since   3.2.0
 	 */
 	public function testLikePostFailure()
 	{
+		$this->expectException(\DomainException::class);
 		$post_id = 'g_12345';
 
 		$path = '/v1/posts/' . $post_id . '/relation-to-viewer/is-liked';
@@ -1220,11 +1220,11 @@ class JLinkedinGroupsTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @expectedException DomainException
 	 * @since   3.2.0
 	 */
 	public function testFollowPostFailure()
 	{
+		$this->expectException(\DomainException::class);
 		$post_id = 'g_12345';
 
 		$path = '/v1/posts/' . $post_id . '/relation-to-viewer/is-following';
@@ -1315,11 +1315,11 @@ class JLinkedinGroupsTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @expectedException DomainException
 	 * @since   3.2.0
 	 */
 	public function testFalgPostFailure()
 	{
+		$this->expectException(\DomainException::class);
 		$flag = 'promotion';
 		$post_id = 'g_12345';
 
@@ -1374,11 +1374,11 @@ class JLinkedinGroupsTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @expectedException DomainException
 	 * @since   3.2.0
 	 */
 	public function testDeletePostFailure()
 	{
+		$this->expectException(\DomainException::class);
 		$post_id = 'g_12345';
 
 		$path = '/v1/posts/' . $post_id;
@@ -1436,11 +1436,11 @@ class JLinkedinGroupsTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @expectedException DomainException
 	 * @since   3.2.0
 	 */
 	public function testGetCommentFailure()
 	{
+		$this->expectException(\DomainException::class);
 		$comment_id = 'g-12345';
 		$fields = '(id,text,creator,creation-timestamp,relation-to-viewer)';
 
@@ -1504,11 +1504,11 @@ class JLinkedinGroupsTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @expectedException DomainException
 	 * @since   3.2.0
 	 */
 	public function testAddCommentFailure()
 	{
+		$this->expectException(\DomainException::class);
 		$post_id = 'g_12345';
 		$comment = 'some comment';
 
@@ -1563,11 +1563,11 @@ class JLinkedinGroupsTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @expectedException DomainException
 	 * @since   3.2.0
 	 */
 	public function testDeleteCommentFailure()
 	{
+		$this->expectException(\DomainException::class);
 		$comment_id = 'g_12345';
 
 		$path = '/v1/comments/' . $comment_id;
@@ -1640,11 +1640,11 @@ class JLinkedinGroupsTest extends TestCase
 	 * @return  void
 	 *
 	 * @dataProvider seedId
-	 * @expectedException DomainException
 	 * @since   3.2.0
 	 */
 	public function testGetSuggestedFailure($person_id)
 	{
+		$this->expectException(\DomainException::class);
 		$fields = '(id,name,is-open-to-non-members)';
 
 		// Set request parameters.
@@ -1727,11 +1727,11 @@ class JLinkedinGroupsTest extends TestCase
 	 * @return  void
 	 *
 	 * @dataProvider seedId
-	 * @expectedException DomainException
 	 * @since   3.2.0
 	 */
 	public function testDeleteSuggestionFailure($person_id)
 	{
+		$this->expectException(\DomainException::class);
 		$suggestion_id = '12345';
 
 		// Set the API base

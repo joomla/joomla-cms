@@ -175,10 +175,10 @@ class JTwitterPlacesTest extends TestCase
 	 * @return  void
 	 *
 	 * @since   3.1.4
-	 * @expectedException DomainException
 	 */
 	public function testGetPlaceFailure()
 	{
+		$this->expectException(\DomainException::class);
 		$id = '1a2b3c4d';
 
 		$returnData = new stdClass;
@@ -264,10 +264,10 @@ class JTwitterPlacesTest extends TestCase
 	 * @return  void
 	 *
 	 * @since   3.1.4
-	 * @expectedException DomainException
 	 */
 	public function testGetGeocodeFailure()
 	{
+		$this->expectException(\DomainException::class);
 		$lat = 45;
 		$long = 45;
 		$accuracy = '5ft';
@@ -404,10 +404,10 @@ class JTwitterPlacesTest extends TestCase
 	 *
 	 * @since 3.1.4
 	 * @dataProvider seedSearch
-	 * @expectedException DomainException
 	 */
 	public function testSearchFailure($lat, $long, $query, $ip)
 	{
+		$this->expectException(\DomainException::class);
 		$granularity = 'city';
 		$accuracy = '5ft';
 		$max_results = 10;
@@ -515,10 +515,10 @@ class JTwitterPlacesTest extends TestCase
 	 * @return  void
 	 *
 	 * @since 3.1.4
-	 * @expectedException DomainException
 	 */
 	public function testSimilarPlacesFailure()
 	{
+		$this->expectException(\DomainException::class);
 		$lat = 45;
 		$long = 45;
 		$name = 'Twitter HQ';
@@ -617,10 +617,10 @@ class JTwitterPlacesTest extends TestCase
 	 * @return  void
 	 *
 	 * @since 3.1.4
-	 * @expectedException DomainException
 	 */
 	public function testCreatePlaceFailure()
 	{
+		$this->expectException(\DomainException::class);
 		$lat = 45;
 		$long = 45;
 		$name = 'Twitter HQ';

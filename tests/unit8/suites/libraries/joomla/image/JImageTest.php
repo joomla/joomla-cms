@@ -267,10 +267,10 @@ class JImageTest extends TestCase
 	 *
 	 * @since   2.5.0
 	 *
-	 * @expectedException  InvalidArgumentException
 	 */
 	public function testloadFileBmp()
 	{
+		$this->expectException(\InvalidArgumentException::class);
 		// Get a new JImage inspector.
 		$image = new JImageInspector;
 		$image->loadFile($this->testFileBmp);
@@ -281,11 +281,11 @@ class JImageTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @expectedException  InvalidArgumentException
 	 * @since   1.7.3
 	 */
 	public function testloadFileWithInvalidFile()
 	{
+		$this->expectException(\InvalidArgumentException::class);
 		// Get a new JImage inspector.
 		$image = new JImageInspector;
 		$image->loadFile('bogus_file');
@@ -345,10 +345,10 @@ class JImageTest extends TestCase
 	 *
 	 * @since   2.5.0
 	 *
-	 * @expectedException  LogicException
 	 */
 	public function testResizeNoFile()
 	{
+		$this->expectException(\LogicException::class);
 		// Get a new JImage inspector.
 		$image = new JImageInspector;
 
@@ -361,11 +361,11 @@ class JImageTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @expectedException  LogicException
 	 * @since   1.7.3
 	 */
 	public function testToFileInvalid()
 	{
+		$this->expectException(\LogicException::class);
 		$outFileGif = JPATH_TESTS . '/tmp/out.gif';
 
 		$image = new JImageInspector;
@@ -554,11 +554,11 @@ class JImageTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @expectedException  LogicException
 	 * @since   1.7.3
 	 */
 	public function testGetHeightWithoutLoadedImage()
 	{
+		$this->expectException(\LogicException::class);
 		// Create a new JImage object without loading an image.
 		$image = new JImage;
 
@@ -589,11 +589,11 @@ class JImageTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @expectedException  LogicException
 	 * @since   1.7.3
 	 */
 	public function testGetWidthWithoutLoadedImage()
 	{
+		$this->expectException(\LogicException::class);
 		// Create a new JImage object without loading an image.
 		$image = new JImage;
 
@@ -605,11 +605,11 @@ class JImageTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @expectedException  InvalidArgumentException
 	 * @since   1.7.3
 	 */
 	public function testGetImageFilePropertiesWithInvalidFile()
 	{
+		$this->expectException(\InvalidArgumentException::class);
 		JImage::getImageFileProperties(JPATH_TESTS . '/suite/joomla/image/stubs/bogus.image');
 	}
 
@@ -618,11 +618,11 @@ class JImageTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @expectedException  LogicException
 	 * @since   1.7.3
 	 */
 	public function testIsTransparentWithoutLoadedImage()
 	{
+		$this->expectException(\LogicException::class);
 		// Create a new JImage object without loading an image.
 		$image = new JImage;
 
@@ -677,11 +677,11 @@ class JImageTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @expectedException  LogicException
 	 * @since   1.7.3
 	 */
 	public function testCropWithoutLoadedImage()
 	{
+		$this->expectException(\LogicException::class);
 		// Create a new JImage object without loading an image.
 		$image = new JImage;
 
@@ -762,11 +762,11 @@ class JImageTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @expectedException  LogicException
 	 * @since   1.7.3
 	 */
 	public function testRotateWithoutLoadedImage()
 	{
+		$this->expectException(\LogicException::class);
 		// Create a new JImage object without loading an image.
 		$image = new JImage;
 
@@ -845,11 +845,11 @@ class JImageTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @expectedException  LogicException
 	 * @since   1.7.3
 	 */
 	public function testFilterWithoutLoadedImage()
 	{
+		$this->expectException(\LogicException::class);
 		// Create a new JImage object without loading an image.
 		$image = new JImage;
 
@@ -861,11 +861,11 @@ class JImageTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @expectedException  RuntimeException
 	 * @since   1.7.3
 	 */
 	public function testFilterWithInvalidFilterType()
 	{
+		$this->expectException(\RuntimeException::class);
 		// Create a new JImageInspector object.
 		$image = new JImageInspector(imagecreatetruecolor(10, 10));
 
@@ -908,11 +908,11 @@ class JImageTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @expectedException  InvalidArgumentException
 	 * @since   1.7.3
 	 */
 	public function testPrepareDimensionsWithInvalidScale()
 	{
+		$this->expectException(\InvalidArgumentException::class);
 		// Create an image handle of the correct size.
 		$imageHandle = imagecreatetruecolor(100, 100);
 

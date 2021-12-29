@@ -125,10 +125,10 @@ class JTwitterObjectTest extends TestCase
 	 * @return void
 	 *
 	 * @since 3.1.4
-	 * @expectedException RuntimeException
 	 */
 	public function testCheckRateLimit()
 	{
+		$this->expectException(\RuntimeException::class);
 		$resource = 'statuses';
 		$action = 'show';
 
@@ -194,10 +194,10 @@ class JTwitterObjectTest extends TestCase
 	 *
 	 * @since   3.1.4
 	 *
-	 * @expectedException  DomainException
 	 */
 	public function testGetRateLimitFailure()
 	{
+		$this->expectException(\DomainException::class);
 		$resource = 'statuses';
 
 		$returnData = new stdClass;

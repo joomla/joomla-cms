@@ -224,10 +224,10 @@ class JTwitterListsTest extends TestCase
 	 *
 	 * @since 3.1.4
 	 * @dataProvider seedUser
-	 * @expectedException DomainException
 	 */
 	public function testGetListsFailure($user)
 	{
+		$this->expectException(\DomainException::class);
 		$returnData = new stdClass;
 		$returnData->code = 200;
 		$returnData->body = $this->rateLimit;
@@ -380,10 +380,10 @@ class JTwitterListsTest extends TestCase
 	 *
 	 * @since 3.1.4
 	 * @dataProvider seedListStatuses
-	 * @expectedException DomainException
 	 */
 	public function testGetStatusesFailure($list, $owner)
 	{
+		$this->expectException(\DomainException::class);
 		$returnData = new stdClass;
 		$returnData->code = 200;
 		$returnData->body = $this->rateLimit;
@@ -528,10 +528,10 @@ class JTwitterListsTest extends TestCase
 	 *
 	 * @since 3.1.4
 	 * @dataProvider seedListStatuses
-	 * @expectedException DomainException
 	 */
 	public function testGetSubscribersFailure($list, $owner)
 	{
+		$this->expectException(\DomainException::class);
 		$cursor = 1234;
 		$entities = true;
 		$skip_status = true;
@@ -704,10 +704,10 @@ class JTwitterListsTest extends TestCase
 	 *
 	 * @since 3.1.4
 	 * @dataProvider seedMembers
-	 * @expectedException DomainException
 	 */
 	public function testDeleteMembersFailure($list, $user_id, $screen_name, $owner)
 	{
+		$this->expectException(\DomainException::class);
 		$returnData = new stdClass;
 		$returnData->code = 500;
 		$returnData->body = $this->errorString;
@@ -847,10 +847,10 @@ class JTwitterListsTest extends TestCase
 	 *
 	 * @since 3.1.4
 	 * @dataProvider seedListStatuses
-	 * @expectedException DomainException
 	 */
 	public function testSubscribeFailure($list, $owner)
 	{
+		$this->expectException(\DomainException::class);
 		$returnData = new stdClass;
 		$returnData->code = 200;
 		$returnData->body = $this->rateLimit;
@@ -1030,10 +1030,10 @@ class JTwitterListsTest extends TestCase
 	 *
 	 * @since 3.1.4
 	 * @dataProvider seedListUserOwner
-	 * @expectedException DomainException
 	 */
 	public function testIsMemberFailure($list, $user, $owner)
 	{
+		$this->expectException(\DomainException::class);
 		$entities = true;
 		$skip_status = true;
 
@@ -1214,10 +1214,10 @@ class JTwitterListsTest extends TestCase
 	 *
 	 * @since 3.1.4
 	 * @dataProvider seedListUserOwner
-	 * @expectedException DomainException
 	 */
 	public function testIsSubscriberFailure($list, $user, $owner)
 	{
+		$this->expectException(\DomainException::class);
 		$entities = true;
 		$skip_status = true;
 
@@ -1375,10 +1375,10 @@ class JTwitterListsTest extends TestCase
 	 *
 	 * @since 3.1.4
 	 * @dataProvider seedListStatuses
-	 * @expectedException DomainException
 	 */
 	public function testUnsubscribeFailure($list, $owner)
 	{
+		$this->expectException(\DomainException::class);
 		$returnData = new stdClass;
 		$returnData->code = 200;
 		$returnData->body = $this->rateLimit;
@@ -1533,10 +1533,10 @@ class JTwitterListsTest extends TestCase
 	 *
 	 * @since 3.1.4
 	 * @dataProvider seedMembers
-	 * @expectedException DomainException
 	 */
 	public function testAddMembersFailure($list, $user_id, $screen_name, $owner)
 	{
+		$this->expectException(\DomainException::class);
 		$returnData = new stdClass;
 		$returnData->code = 200;
 		$returnData->body = $this->rateLimit;
@@ -1693,10 +1693,10 @@ class JTwitterListsTest extends TestCase
 	 *
 	 * @since 3.1.4
 	 * @dataProvider seedListStatuses
-	 * @expectedException DomainException
 	 */
 	public function testGetMembersFailure($list, $owner)
 	{
+		$this->expectException(\DomainException::class);
 		$entities = true;
 		$skip_status = true;
 
@@ -1839,10 +1839,10 @@ class JTwitterListsTest extends TestCase
 	 *
 	 * @since 3.1.4
 	 * @dataProvider seedListStatuses
-	 * @expectedException DomainException
 	 */
 	public function testGetListByIdFailure($list, $owner)
 	{
+		$this->expectException(\DomainException::class);
 		$returnData = new stdClass;
 		$returnData->code = 200;
 		$returnData->body = $this->rateLimit;
@@ -1968,10 +1968,10 @@ class JTwitterListsTest extends TestCase
 	 *
 	 * @since 3.1.4
 	 * @dataProvider seedUser
-	 * @expectedException DomainException
 	 */
 	public function testGetSubscriptionsFailure($user)
 	{
+		$this->expectException(\DomainException::class);
 		$count = 10;
 		$cursor = 1234;
 
@@ -2107,10 +2107,10 @@ class JTwitterListsTest extends TestCase
 	 *
 	 * @since 3.1.4
 	 * @dataProvider seedListStatuses
-	 * @expectedException DomainException
 	 */
 	public function testUpdateFailure($list, $owner)
 	{
+		$this->expectException(\DomainException::class);
 		$name = 'test list';
 		$mode = 'private';
 		$description = 'this is a description';
@@ -2225,10 +2225,10 @@ class JTwitterListsTest extends TestCase
 	 * @return  void
 	 *
 	 * @since 3.1.4
-	 * @expectedException DomainException
 	 */
 	public function testCreateFailure()
 	{
+		$this->expectException(\DomainException::class);
 		$name = 'test list';
 		$mode = 'private';
 		$description = 'this is a description';
@@ -2343,10 +2343,10 @@ class JTwitterListsTest extends TestCase
 	 *
 	 * @since 3.1.4
 	 * @dataProvider seedListStatuses
-	 * @expectedException DomainException
 	 */
 	public function testDeleteFailure($list, $owner)
 	{
+		$this->expectException(\DomainException::class);
 		$returnData = new stdClass;
 		$returnData->code = 200;
 		$returnData->body = $this->rateLimit;

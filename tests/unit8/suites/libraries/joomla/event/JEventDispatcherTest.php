@@ -201,12 +201,12 @@ class JEventDispatcherTest extends \PHPUnit\Framework\TestCase
 	 * Test JEventDispatcher::register() with an error.
 	 *
 	 * @since              3.0.0
-	 * @expectedException  InvalidArgumentException
 	 *
 	 * @return void
 	 */
 	public function testRegisterException()
 	{
+		$this->expectException(\InvalidArgumentException::class);
 		$this->object->register('fakeevent', 'nonExistingClass');
 	}
 

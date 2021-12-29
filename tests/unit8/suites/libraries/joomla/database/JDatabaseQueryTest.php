@@ -668,11 +668,11 @@ class JDatabaseQueryTest extends TestCase
 	 * @return  void
 	 *
 	 * @covers             JDatabaseQuery::dateFormat
-	 * @expectedException  RuntimeException
 	 * @since              1.7.3
 	 */
 	public function testDateFormatException()
 	{
+		$this->expectException(\RuntimeException::class);
 		// Override the internal database for testing.
 		TestReflection::setValue($this->_instance, 'db', new stdClass);
 
@@ -773,11 +773,11 @@ class JDatabaseQueryTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @expectedException  RuntimeException
 	 * @since              1.7.3
 	 */
 	public function testEscapeException()
 	{
+		$this->expectException(\RuntimeException::class);
 		// Override the internal database for testing.
 		TestReflection::setValue($this->_instance, 'db', new stdClass);
 
@@ -1072,11 +1072,11 @@ class JDatabaseQueryTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @expectedException  RuntimeException
 	 * @since              1.7.3
 	 */
 	public function testNullDateException()
 	{
+		$this->expectException(\RuntimeException::class);
 		// Override the internal database for testing.
 		TestReflection::setValue($this->_instance, 'db', new stdClass);
 
@@ -1172,11 +1172,11 @@ class JDatabaseQueryTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @expectedException  RuntimeException
 	 * @since              1.7.3
 	 */
 	public function testQuoteException()
 	{
+		$this->expectException(\RuntimeException::class);
 		// Override the internal database for testing.
 		TestReflection::setValue($this->_instance, 'db', new stdClass);
 
@@ -1205,11 +1205,11 @@ class JDatabaseQueryTest extends TestCase
 	 * @return  void
 	 *
 	 * @covers             JDatabaseQuery::quoteName
-	 * @expectedException  RuntimeException
 	 * @since              1.7.3
 	 */
 	public function testQuoteNameException()
 	{
+		$this->expectException(\RuntimeException::class);
 		// Override the internal database for testing.
 		TestReflection::setValue($this->_instance, 'db', new stdClass);
 

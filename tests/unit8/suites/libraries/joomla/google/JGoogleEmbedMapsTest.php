@@ -432,11 +432,11 @@ class JGoogleEmbedMapsTest extends TestCase
 	 * Tests the deleteMarkers method with an out of bounds index
 	 *
 	 * @group	JGoogle
-	 * @expectedException OutOfBoundsException
 	 * @return void
 	 */
 	public function testDeleteMarkersException()
 	{
+		$this->expectException(\OutOfBoundsException::class);
 		$this->object->deleteMarker();
 	}
 
@@ -715,11 +715,11 @@ class JGoogleEmbedMapsTest extends TestCase
 	 * Tests the geocodeAddress method with 400 error
 	 *
 	 * @group	JGoogle
-	 * @expectedException RuntimeException
 	 * @return void
 	 */
 	public function testGeocodeAddress400()
 	{
+		$this->expectException(\RuntimeException::class);
 		$this->http->expects($this->once())->method('get')->will($this->returnCallback('mapsGeocode400Callback'));
 		$this->object->geocodeAddress('Palo Alto');
 	}
@@ -728,11 +728,11 @@ class JGoogleEmbedMapsTest extends TestCase
 	 * Tests the geocodeAddress method with bad json
 	 *
 	 * @group	JGoogle
-	 * @expectedException RuntimeException
 	 * @return void
 	 */
 	public function testGeocodeAddressBadJson()
 	{
+		$this->expectException(\RuntimeException::class);
 		$this->http->expects($this->once())->method('get')->will($this->returnCallback('mapsGeocodeBadJsonCallback'));
 		$this->object->geocodeAddress('Palo Alto');
 	}

@@ -152,10 +152,10 @@ class JFacebookAlbumTest extends TestCase
 	 * @return  void
 	 *
 	 * @since   3.2.0
-	 * @expectedException  RuntimeException
 	 */
 	public function testGetAlbumFailure()
 	{
+		$this->expectException(\RuntimeException::class);
 		$album = '124346363456';
 
 		$returnData = new stdClass;
@@ -206,10 +206,10 @@ class JFacebookAlbumTest extends TestCase
 	 * @return  void
 	 *
 	 * @since   3.2.0
-	 * @expectedException  RuntimeException
 	 */
 	public function testGetPhotosFailure()
 	{
+		$this->expectException(\RuntimeException::class);
 		$album = '124346363456';
 
 		$returnData = new stdClass;
@@ -270,10 +270,10 @@ class JFacebookAlbumTest extends TestCase
 	 * @return  void
 	 *
 	 * @since   3.2.0
-	 * @expectedException  RuntimeException
 	 */
 	public function testCreatePhotoFailure()
 	{
+		$this->expectException(\RuntimeException::class);
 		$album = '124346363456';
 		$source = '/path/to/source';
 		$message = 'message';
@@ -334,10 +334,10 @@ class JFacebookAlbumTest extends TestCase
 	 * @return  void
 	 *
 	 * @since   3.2.0
-	 * @expectedException  RuntimeException
 	 */
 	public function testGetCommentsFailure()
 	{
+		$this->expectException(\RuntimeException::class);
 		$album = '124346363456';
 
 		$returnData = new stdClass;
@@ -393,10 +393,10 @@ class JFacebookAlbumTest extends TestCase
 	 * @return  void
 	 *
 	 * @since   3.2.0
-	 * @expectedException  RuntimeException
 	 */
 	public function testCreateCommentFailure()
 	{
+		$this->expectException(\RuntimeException::class);
 		$album = '124346363456';
 		$message = 'test message';
 
@@ -452,10 +452,10 @@ class JFacebookAlbumTest extends TestCase
 	 * @return  void
 	 *
 	 * @since   3.2.0
-	 * @expectedException  RuntimeException
 	 */
 	public function testDeleteCommentFailure()
 	{
+		$this->expectException(\RuntimeException::class);
 		$comment = '5148941614_12343468';
 
 		$returnData = new stdClass;
@@ -506,10 +506,10 @@ class JFacebookAlbumTest extends TestCase
 	 * @return  void
 	 *
 	 * @since   3.2.0
-	 * @expectedException  RuntimeException
 	 */
 	public function testGetLikesFailure()
 	{
+		$this->expectException(\RuntimeException::class);
 		$album = '124346363456';
 
 		$returnData = new stdClass;
@@ -560,10 +560,10 @@ class JFacebookAlbumTest extends TestCase
 	 * @return  void
 	 *
 	 * @since   3.2.0
-	 * @expectedException  RuntimeException
 	 */
 	public function testCreateLikeFailure()
 	{
+		$this->expectException(\RuntimeException::class);
 		$album = '124346363456';
 
 		$returnData = new stdClass;
@@ -614,10 +614,10 @@ class JFacebookAlbumTest extends TestCase
 	 * @return  void
 	 *
 	 * @since   3.2.0
-	 * @expectedException  RuntimeException
 	 */
 	public function testDeleteLikeFailure()
 	{
+		$this->expectException(\RuntimeException::class);
 		$album = '124346363456';
 
 		$returnData = new stdClass;
@@ -668,10 +668,10 @@ class JFacebookAlbumTest extends TestCase
 	 * @return  void
 	 *
 	 * @since   3.2.0
-	 * @expectedException  RuntimeException
 	 */
 	public function testGetPictureFailure()
 	{
+		$this->expectException(\RuntimeException::class);
 		$album = '124346363456';
 
 		$returnData = new stdClass;

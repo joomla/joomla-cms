@@ -136,12 +136,12 @@ class JGithubPackageIssuesAssigneesTest extends \PHPUnit\Framework\TestCase
 	 * a 204 header with no content is returned.
 	 * Otherwise a 404 status code is returned.
 	 *
-	 * @expectedException DomainException
 	 *
 	 * @return void
 	 */
 	public function testCheckException()
 	{
+		$this->expectException(\DomainException::class);
 		$this->response->code = 666;
 		$this->response->body = '';
 

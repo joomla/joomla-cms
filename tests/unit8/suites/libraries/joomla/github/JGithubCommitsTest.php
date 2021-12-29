@@ -386,10 +386,10 @@ class JGitHubCommitsTest extends \PHPUnit\Framework\TestCase
 	 *
 	 * @since   3.0.0
 	 *
-	 * @expectedException  DomainException
 	 */
 	public function testGetCommitFailure()
 	{
+		$this->expectException(\DomainException::class);
 		$returnData = new stdClass;
 		$returnData->code = 500;
 		$returnData->body = $this->errorString;
@@ -433,10 +433,10 @@ class JGitHubCommitsTest extends \PHPUnit\Framework\TestCase
 	 *
 	 * @since   3.0.0
 	 *
-	 * @expectedException  DomainException
 	 */
 	public function testGetCommitCommentFailure()
 	{
+		$this->expectException(\DomainException::class);
 		$returnData = new stdClass;
 		$returnData->code = 500;
 		$returnData->body = $this->errorString;
@@ -480,10 +480,10 @@ class JGitHubCommitsTest extends \PHPUnit\Framework\TestCase
 	 *
 	 * @since   3.0.0
 	 *
-	 * @expectedException  DomainException
 	 */
 	public function testGetCommitCommentsFailure()
 	{
+		$this->expectException(\DomainException::class);
 		$returnData = new stdClass;
 		$returnData->code = 500;
 		$returnData->body = $this->errorString;
@@ -527,10 +527,10 @@ class JGitHubCommitsTest extends \PHPUnit\Framework\TestCase
 	 *
 	 * @since   3.0.0
 	 *
-	 * @expectedException  DomainException
 	 */
 	public function testGetDiffFailure()
 	{
+		$this->expectException(\DomainException::class);
 		$returnData = new stdClass;
 		$returnData->code = 500;
 		$returnData->body = $this->errorString;
@@ -574,10 +574,10 @@ class JGitHubCommitsTest extends \PHPUnit\Framework\TestCase
 	 *
 	 * @since   3.0.0
 	 *
-	 * @expectedException  DomainException
 	 */
 	public function testGetListFailure()
 	{
+		$this->expectException(\DomainException::class);
 		$returnData = new stdClass;
 		$returnData->code = 500;
 		$returnData->body = $this->errorString;
@@ -621,10 +621,10 @@ class JGitHubCommitsTest extends \PHPUnit\Framework\TestCase
 	 *
 	 * @since   3.0.0
 	 *
-	 * @expectedException  DomainException
 	 */
 	public function testGetListCommentsFailure()
 	{
+		$this->expectException(\DomainException::class);
 		$returnData = new stdClass;
 		$returnData->code = 500;
 		$returnData->body = $this->errorString;

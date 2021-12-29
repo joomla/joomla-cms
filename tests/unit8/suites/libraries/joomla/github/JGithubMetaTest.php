@@ -120,10 +120,10 @@ class JGithubMetaTest extends TestCase
 	 *
 	 * @since   3.2.0
 	 *
-	 * @expectedException  DomainException
 	 */
 	public function testGetMetaFailure()
 	{
+		$this->expectException(\DomainException::class);
 		$this->response->code = 500;
 		$this->response->body = $this->errorString;
 

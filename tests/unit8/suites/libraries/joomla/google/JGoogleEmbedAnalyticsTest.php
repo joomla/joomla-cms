@@ -284,11 +284,11 @@ class JGoogleEmbedAnalyticsTest extends TestCase
 	 * Tests the getHeader method without a code
 	 *
 	 * @group	JGoogle
-	 * @expectedException UnexpectedValueException
 	 * @return void
 	 */
 	public function testGetHeaderException()
 	{
+		$this->expectException(\UnexpectedValueException::class);
 		$this->object->getHeader();
 	}
 
@@ -330,11 +330,11 @@ class JGoogleEmbedAnalyticsTest extends TestCase
 	 * Tests the getBody method without a code
 	 *
 	 * @group	JGoogle
-	 * @expectedException UnexpectedValueException
 	 * @return void
 	 */
 	public function testGetBodyException()
 	{
+		$this->expectException(\UnexpectedValueException::class);
 		$this->object->getBody();
 	}
 

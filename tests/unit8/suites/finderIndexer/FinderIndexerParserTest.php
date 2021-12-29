@@ -40,10 +40,10 @@ class FinderIndexerParserTest extends \PHPUnit\Framework\TestCase
 	 * @since   3.0
 	 *
 	 * @covers  FinderIndexerParser::getInstance
-	 * @expectedException  Exception
 	 */
 	public function testGetInstance_noParser()
 	{
+		$this->expectException(\Exception::class);
 		FinderIndexerParser::getInstance('noway');
 	}
 }

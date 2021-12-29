@@ -175,10 +175,10 @@ class JGithubPackageUsersFollowersTest extends \PHPUnit\Framework\TestCase
 	/**
 	 * @covers JGithubPackageUsersFollowers::check
 	 *
-	 * @expectedException UnexpectedValueException
 	 */
 	public function testCheckUnexpected()
 	{
+		$this->expectException(\UnexpectedValueException::class);
 		$this->response->code = 666;
 		$this->response->body = false;
 

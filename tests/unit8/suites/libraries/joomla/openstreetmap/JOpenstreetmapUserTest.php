@@ -154,10 +154,10 @@ XML;
 	 * @return  void
 	 *
 	 * @since   3.2.0
-	 * @expectedException DomainException
 	 */
 	public function testGetDetailsFailure()
 	{
+		$this->expectException(\DomainException::class);
 		$returnData = new stdClass;
 		$returnData->code = 500;
 		$returnData->body = $this->errorString;
@@ -205,11 +205,11 @@ XML;
 	 * @return  void
 	 *
 	 * @since   3.2.0
-	 * @expectedException DomainException
 	 */
 	public function testGetPreferencesFailure()
 	{
 
+		$this->expectException(\DomainException::class);
 		$returnData = new stdClass;
 		$returnData->code = 500;
 		$returnData->body = $this->errorString;
@@ -259,11 +259,11 @@ XML;
 	 * @return  void
 	 *
 	 * @since   3.2.0
-	 * @expectedException DomainException
 	 */
 	public function testReplacePreferencesFailure()
 	{
 
+		$this->expectException(\DomainException::class);
 		$preferences = array("A" => "a");
 
 		$returnData = new stdClass;
@@ -316,11 +316,11 @@ XML;
 	 * @return  void
 	 *
 	 * @since   3.2.0
-	 * @expectedException DomainException
 	 */
 	public function testChangePreferenceFailure()
 	{
 
+		$this->expectException(\DomainException::class);
 		$key = "A";
 		$preference = "a";
 

@@ -190,12 +190,12 @@ class JModelLegacyTest extends TestCaseDatabase
 	 *
 	 * @return  void
 	 *
-	 * @expectedException Exception
 	 *
 	 * @testdox Constructor throws an exception when no "model" appears in the class name
 	 */
 	public function testThatAnExecptionIsThrownWhenNoModelIsInTheName()
 	{
+		$this->expectException(\Exception::class);
 		new Supercalifragilisticexpialigetisch;
 	}
 
@@ -404,8 +404,6 @@ class JModelLegacyTest extends TestCaseDatabase
 	/**
 	 * Test getting the name of a class that does exist, but does not contain 'Model' (upper- or lowercase)
 	 *
-	 * @expectedException      Exception
-	 * @expectedExceptionCode  500
 	 *
 	 * @since   3.1.4
 	 *
@@ -415,6 +413,8 @@ class JModelLegacyTest extends TestCaseDatabase
 	 */
 	public function testNameOfExistingClassThatDoesNotContainModel()
 	{
+		$this->expectException(\Exception::class);
+		$this->expectExceptionCode('500');
 		$this->fixture = new NokeywordInName;
 		$this->fixture->getName();
 	}
@@ -422,7 +422,6 @@ class JModelLegacyTest extends TestCaseDatabase
 	/**
 	 * Tests the getTable method.
 	 *
-	 * @expectedException  Exception
 	 *
 	 * @since   3.1.4
 	 *
@@ -432,13 +431,13 @@ class JModelLegacyTest extends TestCaseDatabase
 	 */
 	public function testExceptionIsThrownWhenGettingExplicitlyCalledNonExistentTable()
 	{
+		$this->expectException(\Exception::class);
 		$this->fixture->getTable('Nonexistent');
 	}
 
 	/**
 	 * Tests the getTable method.
 	 *
-	 * @expectedException  Exception
 	 *
 	 * @since   3.1.4
 	 *
@@ -448,6 +447,7 @@ class JModelLegacyTest extends TestCaseDatabase
 	 */
 	public function testExceptionIsThrownWhenGettingNonExistentTable()
 	{
+		$this->expectException(\Exception::class);
 		$this->fixture->getTable();
 	}
 

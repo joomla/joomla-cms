@@ -274,10 +274,10 @@ class JFacebookTest extends TestCase
 	 * @return  void
 	 *
 	 * @since   3.2.0
-	 * @expectedException  InvalidArgumentException
 	 */
 	public function test__GetOther()
 	{
+		$this->expectException(\InvalidArgumentException::class);
 		$this->object->other;
 	}
 

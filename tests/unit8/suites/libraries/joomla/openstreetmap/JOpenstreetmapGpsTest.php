@@ -160,10 +160,10 @@ XML;
 	 * @return  void
 	 *
 	 * @since   3.2.0
-	 * @expectedException DomainException
 	 */
 	public function testRetrieveGpsFailure()
 	{
+		$this->expectException(\DomainException::class);
 		$left = '1';
 		$bottom = '1';
 		$right = '2';
@@ -225,11 +225,11 @@ XML;
 	 * @return  void
 	 *
 	 * @since   3.2.0
-	 * @expectedException DomainException
 	 */
 	public function testUploadTraceFailure()
 	{
 
+		$this->expectException(\DomainException::class);
 		$file = '/htdocs/new_trace.gpx';
 		$description = 'Test Trace';
 		$tags = '';
@@ -289,11 +289,11 @@ XML;
 	 * @return  void
 	 *
 	 * @since   3.2.0
-	 * @expectedException DomainException
 	 */
 	public function testDownloadTraceMetadetailsFailure()
 	{
 
+		$this->expectException(\DomainException::class);
 		$id = '123';
 		$username = 'username';
 		$password = 'password';
@@ -349,11 +349,11 @@ XML;
 	 * @return  void
 	 *
 	 * @since   3.2.0
-	 * @expectedException DomainException
 	 */
 	public function testDownloadTraceMetadataFailure()
 	{
 
+		$this->expectException(\DomainException::class);
 		$id = '123';
 		$username = 'username';
 		$password = 'password';

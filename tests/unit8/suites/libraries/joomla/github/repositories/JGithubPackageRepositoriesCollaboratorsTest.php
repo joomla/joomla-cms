@@ -118,10 +118,10 @@ class JGithubPackageRepositoriesCollaboratorsTest extends \PHPUnit\Framework\Tes
 	/**
 	 * @covers JGithubPackageRepositoriesCollaborators::get
 	 *
-	 * @expectedException UnexpectedValueException
 	 */
 	public function testGetUnexpected()
 	{
+		$this->expectException(\UnexpectedValueException::class);
 		$this->response->code = 666;
 		$this->response->body = null;
 

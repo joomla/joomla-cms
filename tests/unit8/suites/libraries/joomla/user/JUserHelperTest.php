@@ -223,11 +223,11 @@ class JUserHelperTest extends TestCaseDatabase
 	 * @return  void
 	 *
 	 * @since   3.1.4
-	 * @expectedException  RuntimeException
 	 * @covers  JUserHelper::addUsertoGroup
 	 */
 	public function testAddUserToGroupException()
 	{
+		$this->expectException(\RuntimeException::class);
 		JUserHelper::addUserToGroup(44, 99);
 	}
 

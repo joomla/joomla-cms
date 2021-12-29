@@ -152,10 +152,10 @@ class JFacebookCheckinTest extends TestCase
 	 * @return  void
 	 *
 	 * @since   3.2.0
-	 * @expectedException  RuntimeException
 	 */
 	public function testGetCheckinFailure()
 	{
+		$this->expectException(\RuntimeException::class);
 		$checkin = '124346363456';
 
 		$returnData = new stdClass;
@@ -206,10 +206,10 @@ class JFacebookCheckinTest extends TestCase
 	 * @return  void
 	 *
 	 * @since   3.2.0
-	 * @expectedException  RuntimeException
 	 */
 	public function testGetCommentsFailure()
 	{
+		$this->expectException(\RuntimeException::class);
 		$checkin = '124346363456';
 
 		$returnData = new stdClass;
@@ -265,10 +265,10 @@ class JFacebookCheckinTest extends TestCase
 	 * @return  void
 	 *
 	 * @since   3.2.0
-	 * @expectedException  RuntimeException
 	 */
 	public function testCreateCommentFailure()
 	{
+		$this->expectException(\RuntimeException::class);
 		$checkin = '124346363456';
 		$message = 'test message';
 
@@ -324,10 +324,10 @@ class JFacebookCheckinTest extends TestCase
 	 * @return  void
 	 *
 	 * @since   3.2.0
-	 * @expectedException  RuntimeException
 	 */
 	public function testDeleteCommentFailure()
 	{
+		$this->expectException(\RuntimeException::class);
 		$comment = '5148941614_12343468';
 
 		$returnData = new stdClass;
@@ -378,10 +378,10 @@ class JFacebookCheckinTest extends TestCase
 	 * @return  void
 	 *
 	 * @since   3.2.0
-	 * @expectedException  RuntimeException
 	 */
 	public function testGetLikesFailure()
 	{
+		$this->expectException(\RuntimeException::class);
 		$checkin = '124346363456';
 
 		$returnData = new stdClass;
@@ -432,10 +432,10 @@ class JFacebookCheckinTest extends TestCase
 	 * @return  void
 	 *
 	 * @since   3.2.0
-	 * @expectedException  RuntimeException
 	 */
 	public function testCreateLikeFailure()
 	{
+		$this->expectException(\RuntimeException::class);
 		$checkin = '124346363456';
 
 		$returnData = new stdClass;
@@ -486,10 +486,10 @@ class JFacebookCheckinTest extends TestCase
 	 * @return  void
 	 *
 	 * @since   3.2.0
-	 * @expectedException  RuntimeException
 	 */
 	public function testDeleteLikeFailure()
 	{
+		$this->expectException(\RuntimeException::class);
 		$checkin = '124346363456';
 
 		$returnData = new stdClass;

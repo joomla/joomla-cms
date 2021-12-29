@@ -128,7 +128,6 @@ class JGithubMilestonesTest extends \PHPUnit\Framework\TestCase
 	/**
 	 * Tests the create method - failure
 	 *
-	 * @expectedException  DomainException
 	 *
 	 * @return void
 	 *
@@ -136,6 +135,7 @@ class JGithubMilestonesTest extends \PHPUnit\Framework\TestCase
 	 */
 	public function testCreateFailure()
 	{
+		$this->expectException(\DomainException::class);
 		$returnData = new stdClass;
 		$returnData->code = 501;
 		$returnData->body = $this->errorString;
@@ -216,7 +216,6 @@ class JGithubMilestonesTest extends \PHPUnit\Framework\TestCase
 	/**
 	 * Tests the edit method - failure
 	 *
-	 * @expectedException  DomainException
 	 *
 	 * @return void
 	 *
@@ -224,6 +223,7 @@ class JGithubMilestonesTest extends \PHPUnit\Framework\TestCase
 	 */
 	public function testEditFailure()
 	{
+		$this->expectException(\DomainException::class);
 		$returnData = new stdClass;
 		$returnData->code = 500;
 		$returnData->body = $this->errorString;
@@ -266,7 +266,6 @@ class JGithubMilestonesTest extends \PHPUnit\Framework\TestCase
 	/**
 	 * Tests the get method - failure
 	 *
-	 * @expectedException  DomainException
 	 *
 	 * @return void
 	 *
@@ -274,6 +273,7 @@ class JGithubMilestonesTest extends \PHPUnit\Framework\TestCase
 	 */
 	public function testGetFailure()
 	{
+		$this->expectException(\DomainException::class);
 		$returnData = new stdClass;
 		$returnData->code = 500;
 		$returnData->body = $this->errorString;
@@ -313,7 +313,6 @@ class JGithubMilestonesTest extends \PHPUnit\Framework\TestCase
 	/**
 	 * Tests the getList method - failure
 	 *
-	 * @expectedException  DomainException
 	 *
 	 * @return void
 	 *
@@ -321,6 +320,7 @@ class JGithubMilestonesTest extends \PHPUnit\Framework\TestCase
 	 */
 	public function testGetListFailure()
 	{
+		$this->expectException(\DomainException::class);
 		$returnData = new stdClass;
 		$returnData->code = 500;
 		$returnData->body = $this->errorString;
@@ -357,7 +357,6 @@ class JGithubMilestonesTest extends \PHPUnit\Framework\TestCase
 	/**
 	 * Tests the delete method - failure
 	 *
-	 * @expectedException  DomainException
 	 *
 	 * @return void
 	 *
@@ -365,6 +364,7 @@ class JGithubMilestonesTest extends \PHPUnit\Framework\TestCase
 	 */
 	public function testDeleteFailure()
 	{
+		$this->expectException(\DomainException::class);
 		$returnData = new stdClass;
 		$returnData->code = 504;
 		$returnData->body = $this->errorString;

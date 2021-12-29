@@ -41,10 +41,10 @@ class JImageFilterTest extends TestCase
 	 *
 	 * @since   2.5.0
 	 *
-	 * @expectedException  InvalidArgumentException
 	 */
 	public function testConstructorInvalidArgument()
 	{
+		$this->expectException(\InvalidArgumentException::class);
 		new JImageFilterBrightness('test');
 	}
 

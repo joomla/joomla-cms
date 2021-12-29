@@ -94,12 +94,12 @@ class JArchiveTest extends JArchiveTestCase
 	/**
 	 * Tests extracting an unknown type
 	 *
-	 * @expectedException  InvalidArgumentException
 	 *
 	 * @return  void
 	 */
 	public function testExtractUnknownType()
 	{
+		$this->expectException(\InvalidArgumentException::class);
 		JArchive::extract(__DIR__ . '/unknown.type', $this->outputPath);
 	}
 
@@ -151,12 +151,12 @@ class JArchiveTest extends JArchiveTestCase
 	/**
 	 * Test if the method throws an exception if the adapter is unknown
 	 *
-	 * @expectedException  UnexpectedValueException
 	 *
 	 * @return  mixed
 	 */
 	public function testIfItThrowsAnExceptionWhenAdapterIsNotKnown()
 	{
+		$this->expectException(\UnexpectedValueException::class);
 		JArchive::getAdapter('unknown');
 	}
 }

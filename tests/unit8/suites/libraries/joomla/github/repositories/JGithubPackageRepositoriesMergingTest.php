@@ -188,11 +188,9 @@ class JGithubPackageRepositoriesMergingTest extends \PHPUnit\Framework\TestCase
 		);
 	}
 
-	/**
-	 * @expectedException UnexpectedValueException
-	 */
 	public function testPerformNoOp()
 	{
+		$this->expectException(\UnexpectedValueException::class);
 		$this->response->code = 204;
 		$this->response->body = $this->sampleString;
 
@@ -207,11 +205,9 @@ class JGithubPackageRepositoriesMergingTest extends \PHPUnit\Framework\TestCase
 		);
 	}
 
-	/**
-	 * @expectedException UnexpectedValueException
-	 */
 	public function testPerformMissing()
 	{
+		$this->expectException(\UnexpectedValueException::class);
 		$this->response->code = 404;
 		$this->response->body = $this->sampleString;
 
@@ -226,11 +222,9 @@ class JGithubPackageRepositoriesMergingTest extends \PHPUnit\Framework\TestCase
 		);
 	}
 
-	/**
-	 * @expectedException UnexpectedValueException
-	 */
 	public function testPerformConflict()
 	{
+		$this->expectException(\UnexpectedValueException::class);
 		$this->response->code = 409;
 		$this->response->body = $this->sampleString;
 
@@ -245,11 +239,9 @@ class JGithubPackageRepositoriesMergingTest extends \PHPUnit\Framework\TestCase
 		);
 	}
 
-	/**
-	 * @expectedException UnexpectedValueException
-	 */
 	public function testPerformUnexpected()
 	{
+		$this->expectException(\UnexpectedValueException::class);
 		$this->response->code = 666;
 		$this->response->body = $this->sampleString;
 

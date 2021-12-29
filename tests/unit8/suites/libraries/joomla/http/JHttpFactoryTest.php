@@ -37,10 +37,10 @@ class JHttpFactoryTest extends \PHPUnit\Framework\TestCase
 	 * @return  void
 	 *
 	 * @since              3.4
-	 * @expectedException  RuntimeException
 	 */
 	public function testGetHttpException()
 	{
+		$this->expectException(\RuntimeException::class);
 		JHttpFactory::getHttp(new \Joomla\Registry\Registry, array('fopen'));
 	}
 

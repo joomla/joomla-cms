@@ -1238,10 +1238,10 @@ class JDatabaseDriverPostgresqlTest extends TestCaseDatabasePostgresql
 	 *
 	 * @return  void
 	 *
-	 * @expectedException RuntimeException
 	 */
 	public function testReleaseTransactionSavepoint()
 	{
+		$this->expectException(\RuntimeException::class);
 		self::$driver->transactionRollback();
 		self::$driver->transactionStart();
 

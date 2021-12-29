@@ -221,12 +221,12 @@ class JGithubTest extends \PHPUnit\Framework\TestCase
 	 * Tests the magic __get method - failure
 	 *
 	 * @since  1.7.3
-	 * @expectedException RuntimeException
 	 *
 	 * @return void
 	 */
 	public function test__GetFailure()
 	{
+		$this->expectException(\RuntimeException::class);
 		$this->assertThat(
 			$this->object->other,
 			$this->isNull()
@@ -237,12 +237,12 @@ class JGithubTest extends \PHPUnit\Framework\TestCase
 	 * Tests the magic __get method - failure
 	 *
 	 * @since  1.7.3
-	 * @expectedException RuntimeException
 	 *
 	 * @return void
 	 */
 	public function test__GetPackageFailure()
 	{
+		$this->expectException(\RuntimeException::class);
 		$this->assertThat(
 			$this->object->repositories->other,
 			$this->isNull()

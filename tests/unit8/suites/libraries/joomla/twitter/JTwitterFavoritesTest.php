@@ -211,11 +211,11 @@ class JTwitterFavoritesTest extends TestCase
 	 * @return  void
 	 *
 	 * @dataProvider  seedUser
-	 * @expectedException DomainException
 	 * @since   3.1.4
 	 */
 	public function testGetFavoritesFailure($user)
 	{
+		$this->expectException(\DomainException::class);
 		$count = 10;
 
 		$returnData = new stdClass;
@@ -292,11 +292,11 @@ class JTwitterFavoritesTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @expectedException DomainException
 	 * @since   3.1.4
 	 */
 	public function testCreateFavoritesFailure()
 	{
+		$this->expectException(\DomainException::class);
 		$id = 12345;
 		$entities = true;
 
@@ -356,11 +356,11 @@ class JTwitterFavoritesTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @expectedException DomainException
 	 * @since   3.1.4
 	 */
 	public function testDeleteFavoritesFailure()
 	{
+		$this->expectException(\DomainException::class);
 		$id = 12345;
 		$entities = true;
 

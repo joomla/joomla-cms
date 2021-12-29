@@ -111,12 +111,12 @@ class JGithubForksTest extends \PHPUnit\Framework\TestCase
 	/**
 	 * Tests the create method - failure
 	 *
-	 * @expectedException  DomainException
 	 *
 	 * @return void
 	 */
 	public function testCreateFailure()
 	{
+		$this->expectException(\DomainException::class);
 		$returnData = new stdClass;
 		$returnData->code = 501;
 		$returnData->body = $this->errorString;
@@ -159,12 +159,12 @@ class JGithubForksTest extends \PHPUnit\Framework\TestCase
 	/**
 	 * Tests the getList method - failure
 	 *
-	 * @expectedException  DomainException
 	 *
 	 * @return void
 	 */
 	public function testGetListFailure()
 	{
+		$this->expectException(\DomainException::class);
 		$returnData = new stdClass;
 		$returnData->code = 500;
 		$returnData->body = $this->errorString;

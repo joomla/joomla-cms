@@ -149,10 +149,10 @@ class JFacebookPhotoTest extends TestCase
 	 * @return  void
 	 *
 	 * @since   3.2.0
-	 * @expectedException  RuntimeException
 	 */
 	public function testGetPhotoFailure()
 	{
+		$this->expectException(\RuntimeException::class);
 		$token = $this->oauth->getToken();
 		$photo = '124346363456';
 
@@ -201,10 +201,10 @@ class JFacebookPhotoTest extends TestCase
 	 * @return  void
 	 *
 	 * @since   3.0.0
-	 * @expectedException  RuntimeException
 	 */
 	public function testGetCommentsFailure()
 	{
+		$this->expectException(\RuntimeException::class);
 		$token = $this->oauth->getToken();
 		$photo = '124346363456';
 
@@ -258,10 +258,10 @@ class JFacebookPhotoTest extends TestCase
 	 * @return  void
 	 *
 	 * @since   3.2.0
-	 * @expectedException  RuntimeException
 	 */
 	public function testCreateCommentFailure()
 	{
+		$this->expectException(\RuntimeException::class);
 		$token = $this->oauth->getToken();
 		$photo = '124346363456';
 		$message = 'test message';
@@ -315,10 +315,10 @@ class JFacebookPhotoTest extends TestCase
 	 * @return  void
 	 *
 	 * @since   3.2.0
-	 * @expectedException  RuntimeException
 	 */
 	public function testDeleteCommentFailure()
 	{
+		$this->expectException(\RuntimeException::class);
 		$token = $this->oauth->getToken();
 		$comment = '5148941614_12343468';
 
@@ -367,10 +367,10 @@ class JFacebookPhotoTest extends TestCase
 	 * @return  void
 	 *
 	 * @since   3.2.0
-	 * @expectedException  RuntimeException
 	 */
 	public function testGetLikesFailure()
 	{
+		$this->expectException(\RuntimeException::class);
 		$token = $this->oauth->getToken();
 		$photo = '124346363456';
 
@@ -419,10 +419,10 @@ class JFacebookPhotoTest extends TestCase
 	 * @return  void
 	 *
 	 * @since   3.2.0
-	 * @expectedException  RuntimeException
 	 */
 	public function testCreateLikeFailure()
 	{
+		$this->expectException(\RuntimeException::class);
 		$token = $this->oauth->getToken();
 		$photo = '124346363456';
 
@@ -471,10 +471,10 @@ class JFacebookPhotoTest extends TestCase
 	 * @return  void
 	 *
 	 * @since   3.2.0
-	 * @expectedException  RuntimeException
 	 */
 	public function testDeleteLikeFailure()
 	{
+		$this->expectException(\RuntimeException::class);
 		$token = $this->oauth->getToken();
 		$photo = '124346363456';
 
@@ -523,10 +523,10 @@ class JFacebookPhotoTest extends TestCase
 	 * @return  void
 	 *
 	 * @since   3.2.0
-	 * @expectedException  RuntimeException
 	 */
 	public function testGetTagsFailure()
 	{
+		$this->expectException(\RuntimeException::class);
 		$token = $this->oauth->getToken();
 		$photo = '124346363456';
 
@@ -617,10 +617,10 @@ class JFacebookPhotoTest extends TestCase
 	 * @return  void
 	 *
 	 * @since   3.2.0
-	 * @expectedException  RuntimeException
 	 */
 	public function testCreateTagFailure($to)
 	{
+		$this->expectException(\RuntimeException::class);
 		$token = $this->oauth->getToken();
 		$photo = '124346363456';
 		$tag_text = 'tag text';
@@ -696,10 +696,10 @@ class JFacebookPhotoTest extends TestCase
 	 * @return  void
 	 *
 	 * @since   3.2.0
-	 * @expectedException  RuntimeException
 	 */
 	public function testUpdateTagFailure()
 	{
+		$this->expectException(\RuntimeException::class);
 		$token = $this->oauth->getToken();
 		$photo = '124346363456';
 		$to = '113467457834';
@@ -757,10 +757,10 @@ class JFacebookPhotoTest extends TestCase
 	 * @return  void
 	 *
 	 * @since   3.2.0
-	 * @expectedException  RuntimeException
 	 */
 	public function testGetPictureFailure()
 	{
+		$this->expectException(\RuntimeException::class);
 		$token = $this->oauth->getToken();
 		$photo = '124346363456';
 

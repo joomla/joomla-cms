@@ -220,10 +220,10 @@ class JDatabaseExporterMysqliTest extends TestCase
 	/**
 	 * Tests the check method.
 	 *
-	 * @expectedException Exception
 	 */
 	public function testCheckWithNoDbo()
 	{
+		$this->expectException(\Exception::class);
 		$instance = new JDatabaseExporterMysqli;
 
 		$instance->check();
@@ -232,10 +232,10 @@ class JDatabaseExporterMysqliTest extends TestCase
 	/**
 	 * Tests the check method.
 	 *
-	 * @expectedException Exception
 	 */
 	public function testCheckWithNoTables()
 	{
+		$this->expectException(\Exception::class);
 		$instance = new JDatabaseExporterMysqli;
 		$instance->setDbo($this->dbo);
 
@@ -263,10 +263,10 @@ class JDatabaseExporterMysqliTest extends TestCase
 	/**
 	 * Tests the from method with bad input.
 	 *
-	 * @expectedException Exception
 	 */
 	public function testFromWithBadInput()
 	{
+		$this->expectException(\Exception::class);
 		$instance = new JDatabaseExporterMysqli;
 
 		$instance->from(new stdClass);

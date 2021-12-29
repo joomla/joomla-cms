@@ -40,10 +40,10 @@ class FinderIndexerStemmerTest extends \PHPUnit\Framework\TestCase
 	 * @since   3.0
 	 *
 	 * @covers  FinderIndexerStemmer::getInstance
-	 * @expectedException  Exception
 	 */
 	public function testGetInstance_noParser()
 	{
+		$this->expectException(\Exception::class);
 		FinderIndexerStemmer::getInstance('noway');
 	}
 }

@@ -236,10 +236,10 @@ class JTwitterFriendsTest extends TestCase
 	 *
 	 * @dataProvider  seedUser
 	 * @since   3.1.4
-	 * @expectedException  DomainException
 	 */
 	public function testGetFriendIdsFailure($user)
 	{
+		$this->expectException(\DomainException::class);
 		$cursor = 123;
 		$string_ids = true;
 		$count = 5;
@@ -388,10 +388,10 @@ class JTwitterFriendsTest extends TestCase
 	 * @return  void
 	 *
 	 * @since 3.1.4
-	 * @expectedException  DomainException
 	 */
 	public function testGetFriendshipDetailsFailure($user_a, $user_b)
 	{
+		$this->expectException(\DomainException::class);
 		$returnData = new stdClass;
 		$returnData->code = 200;
 		$returnData->body = $this->friendshipsRateLimit;
@@ -518,10 +518,10 @@ class JTwitterFriendsTest extends TestCase
 	 *
 	 * @dataProvider  seedUser
 	 * @since   3.1.4
-	 * @expectedException  DomainException
 	 */
 	public function testGetFollowerIdsFailure($user)
 	{
+		$this->expectException(\DomainException::class);
 		$cursor = 123;
 		$string_ids = true;
 		$count = 5;
@@ -619,10 +619,10 @@ class JTwitterFriendsTest extends TestCase
 	 * @return  void
 	 *
 	 * @since 3.1.4
-	 * @expectedException  DomainException
 	 */
 	public function testGetFriendshipsIncomingFailure()
 	{
+		$this->expectException(\DomainException::class);
 		$cursor = 1243;
 		$string_ids = true;
 
@@ -703,10 +703,10 @@ class JTwitterFriendsTest extends TestCase
 	 * @return  void
 	 *
 	 * @since 3.1.4
-	 * @expectedException  DomainException
 	 */
 	public function testGetFriendshipsOutgoingFailure()
 	{
+		$this->expectException(\DomainException::class);
 		$cursor = 1234;
 		$string_ids = true;
 
@@ -812,10 +812,10 @@ class JTwitterFriendsTest extends TestCase
 	 *
 	 * @since   3.1.4
 	 *
-	 * @expectedException  DomainException
 	 */
 	public function testFollowFailure($user)
 	{
+		$this->expectException(\DomainException::class);
 		$returnData = new stdClass;
 		$returnData->code = 500;
 		$returnData->body = $this->errorString;
@@ -897,10 +897,10 @@ class JTwitterFriendsTest extends TestCase
 	 *
 	 * @since   3.1.4
 	 *
-	 * @expectedException  DomainException
 	 */
 	public function testUnfollowFailure($user)
 	{
+		$this->expectException(\DomainException::class);
 		$returnData = new stdClass;
 		$returnData->code = 500;
 		$returnData->body = $this->errorString;
@@ -1012,10 +1012,10 @@ class JTwitterFriendsTest extends TestCase
 	 *
 	 * @since 3.1.4
 	 * @dataProvider seedFriendshipsLookup
-	 * @expectedException  DomainException
 	 */
 	public function testGetFriendshipsLookupFailure($screen_name, $id)
 	{
+		$this->expectException(\DomainException::class);
 		$returnData = new stdClass;
 		$returnData->code = 200;
 		$returnData->body = $this->friendshipsRateLimit;
@@ -1115,10 +1115,10 @@ class JTwitterFriendsTest extends TestCase
 	 *
 	 * @since   3.1.4
 	 *
-	 * @expectedException  DomainException
 	 */
 	public function testUpdateFriendshipFailure($user)
 	{
+		$this->expectException(\DomainException::class);
 		$returnData = new stdClass;
 		$returnData->code = 500;
 		$returnData->body = $this->errorString;
@@ -1193,10 +1193,10 @@ class JTwitterFriendsTest extends TestCase
 	 * @return  void
 	 *
 	 * @since 3.1.4
-	 * @expectedException  DomainException
 	 */
 	public function testGetFriendshipNoRetweetIdsFailure()
 	{
+		$this->expectException(\DomainException::class);
 		$string_ids = true;
 
 		$returnData = new stdClass;

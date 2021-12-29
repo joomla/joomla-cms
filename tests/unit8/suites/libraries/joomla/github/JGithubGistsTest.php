@@ -167,12 +167,12 @@ class JGithubGistsTest extends \PHPUnit\Framework\TestCase
 	/**
 	 * Tests the create method loading file content from a file - file does not exist
 	 *
-	 * @expectedException InvalidArgumentException
 	 *
 	 * @return void
 	 */
 	public function testCreateGistFromFileNotFound()
 	{
+		$this->expectException(\InvalidArgumentException::class);
 		$returnData = new stdClass;
 		$returnData->code = 501;
 		$returnData->body = $this->sampleString;

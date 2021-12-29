@@ -326,10 +326,10 @@ class JDatabaseExporterPostgresqlTest extends TestCase
 	/**
 	 * Tests the check method.
 	 *
-	 * @expectedException Exception
 	 */
 	public function testCheckWithNoDbo()
 	{
+		$this->expectException(\Exception::class);
 		$instance = new JDatabaseExporterPostgresql;
 
 		$instance->check();
@@ -338,10 +338,10 @@ class JDatabaseExporterPostgresqlTest extends TestCase
 	/**
 	 * Tests the check method.
 	 *
-	 * @expectedException Exception
 	 */
 	public function testCheckWithNoTables()
 	{
+		$this->expectException(\Exception::class);
 		$instance	= new JDatabaseExporterPostgresql;
 		$instance->setDbo($this->dbo);
 
@@ -368,10 +368,10 @@ class JDatabaseExporterPostgresqlTest extends TestCase
 	/**
 	 * Tests the from method with bad input.
 	 *
-	 * @expectedException Exception
 	 */
 	public function testFromWithBadInput()
 	{
+		$this->expectException(\Exception::class);
 		$instance = new JDatabaseExporterPostgresql;
 
 		$instance->from(new stdClass);

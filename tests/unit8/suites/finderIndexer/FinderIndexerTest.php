@@ -111,10 +111,10 @@ class FinderIndexerTest extends TestCaseDatabase
 	 *
 	 * @since   3.0
 	 * @covers  FinderIndexer::getInstance
-	 * @expectedException  RuntimeException
 	 */
 	public function testGetInstanceException()
 	{
+		$this->expectException(\RuntimeException::class);
 		JFactory::$database = $this->getMockDatabase('Nosql');
 
 		FinderIndexer::getInstance();

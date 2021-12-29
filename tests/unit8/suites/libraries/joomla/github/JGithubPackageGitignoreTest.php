@@ -174,13 +174,13 @@ class JGithubPackageGitignoreTest extends \PHPUnit\Framework\TestCase
 	/**
 	 * Tests the get method with failure.
 	 *
-	 * @expectedException DomainException
 	 *
 	 * @since   ¿
 	 * @return  void
 	 */
 	public function testGetFailure()
 	{
+		$this->expectException(\DomainException::class);
 		$this->response->code = 404;
 		$this->response->body = '{"message":"Not found"}';
 

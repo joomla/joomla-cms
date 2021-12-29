@@ -175,10 +175,10 @@ class JGithubPackageRepositoriesContentsTest extends \PHPUnit\Framework\TestCase
 	/**
 	 * @covers JGithubPackageRepositoriesContents::getArchiveLink
 	 *
-	 * @expectedException UnexpectedValueException
 	 */
 	public function testGetArchiveLinkInvalidFormat()
 	{
+		$this->expectException(\UnexpectedValueException::class);
 		$this->response->code = 302;
 		$this->response->body = $this->sampleString;
 

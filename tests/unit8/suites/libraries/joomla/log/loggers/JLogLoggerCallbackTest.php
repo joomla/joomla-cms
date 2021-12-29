@@ -180,10 +180,10 @@ class JLogLoggerCallbackTest extends \PHPUnit\Framework\TestCase
 	 * @return  null
 	 *
 	 * @since   3.0.1
-	 * @expectedException  RuntimeException
 	 */
 	public function testConstructorForException()
 	{
+		$this->expectException(\RuntimeException::class);
 		$options = array();
 
 		new JLogLoggerCallback($options);

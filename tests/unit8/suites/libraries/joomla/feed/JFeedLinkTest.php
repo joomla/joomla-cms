@@ -40,11 +40,11 @@ class JFeedLinkTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @expectedException  InvalidArgumentException
 	 * @since              3.1.4
 	 */
 	public function testConstructWithInvalidLength()
 	{
+		$this->expectException(\InvalidArgumentException::class);
 		new JFeedLink('URI', 'self', 'application/x-pdf', 'en-GB', 'My Link', 'foobar');
 	}
 }

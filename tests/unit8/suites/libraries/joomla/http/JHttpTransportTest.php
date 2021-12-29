@@ -118,11 +118,11 @@ class JHttpTransportTest extends \PHPUnit\Framework\TestCase
 	 * @return  void
 	 *
 	 * @dataProvider       transportProvider
-	 * @expectedException  RuntimeException
 	 * @since              3.4
 	 */
 	public function testBadDomainRequestGet($transportClass)
 	{
+		$this->expectException(\RuntimeException::class);
 		$transport = new $transportClass($this->options);
 		$transport->request('get', new JUri('http://xommunity.joomla.org'));
 	}

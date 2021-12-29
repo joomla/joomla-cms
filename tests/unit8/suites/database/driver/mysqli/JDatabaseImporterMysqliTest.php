@@ -363,10 +363,10 @@ class JDatabaseImporterMysqliTest extends \PHPUnit\Framework\TestCase
 	/**
 	 * Tests the check method.
 	 *
-	 * @expectedException Exception
 	 */
 	public function testCheckWithNoDbo()
 	{
+		$this->expectException(\Exception::class);
 		$instance = new JDatabaseImporterMysqli;
 
 		$instance->check();
@@ -375,10 +375,10 @@ class JDatabaseImporterMysqliTest extends \PHPUnit\Framework\TestCase
 	/**
 	 * Tests the check method.
 	 *
-	 * @expectedException Exception
 	 */
 	public function testCheckWithNoFrom()
 	{
+		$this->expectException(\Exception::class);
 		$instance = new JDatabaseImporterMysqli;
 		$instance->setDbo($this->dbo);
 

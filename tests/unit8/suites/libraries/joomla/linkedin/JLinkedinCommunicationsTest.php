@@ -174,11 +174,11 @@ class JLinkedinCommunicationsTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @expectedException DomainException
 	 * @since   3.2.0
 	 */
 	public function testInviteByEmailFailure()
 	{
+		$this->expectException(\DomainException::class);
 		$email = 'example@domain.com';
 		$first_name = 'Frist';
 		$last_name = 'Last';
@@ -303,11 +303,11 @@ class JLinkedinCommunicationsTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @expectedException RuntimeException
 	 * @since   3.2.0
 	 */
 	public function testInviteByIdFailure()
 	{
+		$this->expectException(\RuntimeException::class);
 		$id = 'lcnIwDU0S6';
 		$first_name = 'Frist';
 		$last_name = 'Last';
@@ -386,11 +386,11 @@ class JLinkedinCommunicationsTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @expectedException DomainException
 	 * @since   3.2.0
 	 */
 	public function testSendMessageFailure()
 	{
+		$this->expectException(\DomainException::class);
 		$recipient = array('~', 'lcnIwDU0S6');
 		$subject = 'Subject';
 		$body = 'body';

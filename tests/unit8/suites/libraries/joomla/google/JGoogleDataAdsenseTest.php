@@ -274,11 +274,11 @@ class JGoogleDataAdsenseTest extends TestCase
 	 * Tests the generateReport method with a bad start date
 	 *
 	 * @group	JGoogle
-	 * @expectedException InvalidArgumentException
 	 * @return void
 	 */
 	public function testGenerateReportStartException()
 	{
+		$this->expectException(\InvalidArgumentException::class);
 		$this->object->generateReport('accountID', array(true));
 	}
 
@@ -286,11 +286,11 @@ class JGoogleDataAdsenseTest extends TestCase
 	 * Tests the generateReport method with a bad end date
 	 *
 	 * @group	JGoogle
-	 * @expectedException InvalidArgumentException
 	 * @return void
 	 */
 	public function testGenerateReportEndException()
 	{
+		$this->expectException(\InvalidArgumentException::class);
 		$this->object->generateReport('accountID', time(), array(true));
 	}
 

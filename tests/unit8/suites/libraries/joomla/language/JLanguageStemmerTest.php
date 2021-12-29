@@ -45,12 +45,12 @@ class JLanguageStemmerTest extends \PHPUnit\Framework\TestCase
 	/**
 	 * Test...
 	 *
-	 * @expectedException  RuntimeException
 	 *
 	 * @return void
 	 */
 	public function testGetInstanceException()
 	{
+		$this->expectException(\RuntimeException::class);
 		JLanguageStemmer::getInstance('unexisting');
 	}
 }

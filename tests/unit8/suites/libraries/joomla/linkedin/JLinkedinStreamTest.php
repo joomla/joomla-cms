@@ -203,11 +203,11 @@ class JLinkedinStreamTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @expectedException DomainException
 	 * @since   3.2.0
 	 */
 	public function testShareFailure()
 	{
+		$this->expectException(\DomainException::class);
 		$comment = 'some comment';
 		$visibility = 'anyone';
 
@@ -292,11 +292,11 @@ class JLinkedinStreamTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @expectedException DomainException
 	 * @since   3.2.0
 	 */
 	public function testReshareFailure()
 	{
+		$this->expectException(\DomainException::class);
 		$id = 's123435';
 		$visibility = 'anyone';
 		$comment = 'some comment';
@@ -410,11 +410,11 @@ class JLinkedinStreamTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @expectedException DomainException
 	 * @since   3.2.0
 	 */
 	public function testGetCurrentShareFailure()
 	{
+		$this->expectException(\DomainException::class);
 		// Set request parameters.
 		$data['format'] = 'json';
 
@@ -492,11 +492,11 @@ class JLinkedinStreamTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @expectedException DomainException
 	 * @since   3.2.0
 	 */
 	public function testGetShareStreamFailure()
 	{
+		$this->expectException(\DomainException::class);
 		// Set request parameters.
 		$data['format'] = 'json';
 		$data['type'] = 'SHAR';
@@ -599,11 +599,11 @@ class JLinkedinStreamTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @expectedException DomainException
 	 * @since   3.2.0
 	 */
 	public function testGetNetworkUpdatesFailure()
 	{
+		$this->expectException(\DomainException::class);
 		$self = true;
 		$type = array('PICT', 'STAT');
 		$count = 50;
@@ -674,11 +674,11 @@ class JLinkedinStreamTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @expectedException DomainException
 	 * @since   3.2.0
 	 */
 	public function testGetNetworkStatsFailure()
 	{
+		$this->expectException(\DomainException::class);
 		// Set request parameters.
 		$data['format'] = 'json';
 
@@ -741,11 +741,11 @@ class JLinkedinStreamTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @expectedException DomainException
 	 * @since   3.2.0
 	 */
 	public function testPostNetworkUpdateFailure()
 	{
+		$this->expectException(\DomainException::class);
 		$body = '&amp;lt;a href=&amp;quot;http://www.linkedin.com/profile?viewProfile=&amp;amp;key=3639896&amp;amp;authToken=JdAa&amp;amp;
 			authType=name&amp;amp;trk=api*a119686*s128146*&amp;quot;&amp;gt;Kirsten Jones&amp;lt;/a&amp;gt; is reading about &amp;lt;
 			a href=&amp;quot;http://www.tigers.com&amp;quot;&amp;gt;Tigers&amp;lt;/a&amp;gt;http://www.tigers.com&amp;gt;Tigers&amp;lt;/a&amp;gt;..';
@@ -810,11 +810,11 @@ class JLinkedinStreamTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @expectedException DomainException
 	 * @since   3.2.0
 	 */
 	public function testGetCommentsFailure()
 	{
+		$this->expectException(\DomainException::class);
 		$key = 'APPM-187317358-5635333363205165056-196773';
 
 		// Set request parameters.
@@ -877,11 +877,11 @@ class JLinkedinStreamTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @expectedException DomainException
 	 * @since   3.2.0
 	 */
 	public function testPostCommentFailure()
 	{
+		$this->expectException(\DomainException::class);
 		$key = 'APPM-187317358-5635333363205165056-196773';
 		$comment = 'Comment text';
 
@@ -944,11 +944,11 @@ class JLinkedinStreamTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @expectedException DomainException
 	 * @since   3.2.0
 	 */
 	public function testGetLikesFailure()
 	{
+		$this->expectException(\DomainException::class);
 		$key = 'APPM-187317358-5635333363205165056-196773';
 
 		// Set request parameters.
@@ -1020,11 +1020,11 @@ class JLinkedinStreamTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @expectedException DomainException
 	 * @since   3.2.0
 	 */
 	public function testLikeFailure()
 	{
+		$this->expectException(\DomainException::class);
 		$key = 'APPM-187317358-5635333363205165056-196773';
 
 		$path = '/v1/people/~/network/updates/key=' . $key . '/is-liked';

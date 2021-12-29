@@ -94,10 +94,10 @@ class JGithubPackageSearchTest extends \PHPUnit\Framework\TestCase
 	/**
 	 * @covers JGithubPackageSearch::issues
 	 *
-	 * @expectedException UnexpectedValueException
 	 */
 	public function testIssuesInvalidState()
 	{
+		$this->expectException(\UnexpectedValueException::class);
 		$this->response->code = 200;
 		$this->response->body = $this->sampleString;
 

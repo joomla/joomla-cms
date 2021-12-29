@@ -171,10 +171,10 @@ class JTwitterHelpTest extends TestCase
 	 * @return  void
 	 *
 	 * @since   3.1.4
-	 * @expectedException DomainException
 	 */
 	public function testGetLanguagesFailure()
 	{
+		$this->expectException(\DomainException::class);
 		$returnData = new stdClass;
 		$returnData->code = 200;
 		$returnData->body = $this->rateLimit;
@@ -243,10 +243,10 @@ class JTwitterHelpTest extends TestCase
 	 * @return  void
 	 *
 	 * @since   3.1.4
-	 * @expectedException DomainException
 	 */
 	public function testGetConfigurationFailure()
 	{
+		$this->expectException(\DomainException::class);
 		$returnData = new stdClass;
 		$returnData->code = 200;
 		$returnData->body = $this->rateLimit;

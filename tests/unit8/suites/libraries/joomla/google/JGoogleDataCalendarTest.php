@@ -315,11 +315,11 @@ class JGoogleDataCalendarTest extends TestCase
 	 * Tests the createEvent method with a bad start date
 	 *
 	 * @group	JGoogle
-	 * @expectedException InvalidArgumentException
 	 * @return void
 	 */
 	public function testCreateEventStartException()
 	{
+		$this->expectException(\InvalidArgumentException::class);
 		$this->object->createEvent('calendarID', array(true));
 	}
 
@@ -327,11 +327,11 @@ class JGoogleDataCalendarTest extends TestCase
 	 * Tests the createEvent method with a bad end date
 	 *
 	 * @group	JGoogle
-	 * @expectedException InvalidArgumentException
 	 * @return void
 	 */
 	public function testCreateEventEndException()
 	{
+		$this->expectException(\InvalidArgumentException::class);
 		$this->object->createEvent('calendarID', time(), array(true));
 	}
 

@@ -2386,10 +2386,10 @@ class JFormTest extends TestCaseDatabase
 	 *
 	 * @since   3.0.0
 	 *
-	 * @expectedException  UnexpectedValueException
 	 */
 	public function testValidateField_missingRule()
 	{
+		$this->expectException(\UnexpectedValueException::class);
 		$form = new JFormInspector('form1');
 		$form->load(JFormDataHelper::$validateFieldDocument);
 		$xml = $form->getXml();

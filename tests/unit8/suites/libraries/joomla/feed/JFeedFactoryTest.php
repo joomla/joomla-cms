@@ -48,10 +48,10 @@ class JFeedFactoryTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @expectedException  RuntimeException
 	 */
 	public function testGetFeedBad()
 	{
+		$this->expectException(\RuntimeException::class);
 		$this->markTestSkipped('This test is failing to execute and is locking up the test suite.');
 		$this->_instance->getFeed(JPATH_TEST_STUBS . '/feed/test.bad.feed');
 	}
@@ -61,10 +61,10 @@ class JFeedFactoryTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @expectedException  LogicException
 	 */
 	public function testGetFeedNoParser()
 	{
+		$this->expectException(\LogicException::class);
 		$this->_instance->getFeed(JPATH_TEST_STUBS . '/feed/test.myfeed.feed');
 	}
 
@@ -74,10 +74,10 @@ class JFeedFactoryTest extends TestCase
 	 * @return  void
 	 *
 	 * @medium
-	 * @expectedException  RuntimeException
 	 */
 	public function testGetFeedIdn()
 	{
+		$this->expectException(\RuntimeException::class);
 		$this->_instance->getFeed('http://джумла-тест.рф/master/article-category-blog?format=feed&type=rss');
 	}
 
@@ -131,10 +131,10 @@ class JFeedFactoryTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @expectedException  InvalidArgumentException
 	 */
 	public function testRegisterParserWithInvalidClass()
 	{
+		$this->expectException(\InvalidArgumentException::class);
 		TestReflection::setValue($this->_instance, 'parsers', array());
 
 		$this->_instance->registerParser('mock', 'JFeedParserMocks');
@@ -149,10 +149,10 @@ class JFeedFactoryTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @expectedException  InvalidArgumentException
 	 */
 	public function testRegisterParserWithInvalidTag()
 	{
+		$this->expectException(\InvalidArgumentException::class);
 		TestReflection::setValue($this->_instance, 'parsers', array());
 
 		$this->_instance->registerParser('42tag', 'JFeedParserMock');
@@ -183,10 +183,10 @@ class JFeedFactoryTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @expectedException  LogicException
 	 */
 	public function test_fetchFeedParserWithInvalidTag()
 	{
+		$this->expectException(\LogicException::class);
 		TestReflection::invoke($this->_instance, '_fetchFeedParser', 'foobar', new XMLReader);
 	}
 }

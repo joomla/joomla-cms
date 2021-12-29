@@ -346,10 +346,10 @@ class JGithubAccountTest extends \PHPUnit\Framework\TestCase
 	 *
 	 * @since   3.1.4
 	 *
-	 * @expectedException  RuntimeException
 	 */
 	public function testEditAuthorisationTooManyScopes()
 	{
+		$this->expectException(\RuntimeException::class);
 		$this->object->editAuthorisation(42, array(), array('public_repo', 'gist'), array('public_repo', 'gist'), 'My test app', 'https://www.joomla.org');
 	}
 
@@ -384,10 +384,10 @@ class JGithubAccountTest extends \PHPUnit\Framework\TestCase
 	 *
 	 * @since   3.0.0
 	 *
-	 * @expectedException  DomainException
 	 */
 	public function testGetAuthorisationFailure()
 	{
+		$this->expectException(\DomainException::class);
 		$returnData = new stdClass;
 		$returnData->code = 500;
 		$returnData->body = $this->errorString;
@@ -431,10 +431,10 @@ class JGithubAccountTest extends \PHPUnit\Framework\TestCase
 	 *
 	 * @since   3.1.4
 	 *
-	 * @expectedException  DomainException
 	 */
 	public function testGetAuthorisationsFailure()
 	{
+		$this->expectException(\DomainException::class);
 		$returnData = new stdClass;
 		$returnData->code = 500;
 		$returnData->body = $this->errorString;
@@ -478,10 +478,10 @@ class JGithubAccountTest extends \PHPUnit\Framework\TestCase
 	 *
 	 * @since   3.1.4
 	 *
-	 * @expectedException  DomainException
 	 */
 	public function testGetRateLimitFailure()
 	{
+		$this->expectException(\DomainException::class);
 		$returnData = new stdClass;
 		$returnData->code = 500;
 		$returnData->body = $this->errorString;

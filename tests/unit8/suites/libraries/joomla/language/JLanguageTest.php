@@ -805,12 +805,12 @@ class JLanguageTest extends \PHPUnit\Framework\TestCase
 	/**
 	 * Test debugFile throws an Exception when the file does not exist
 	 *
-	 * @expectedException  InvalidArgumentException
 	 *
 	 * @return void
 	 */
 	public function testVerifyDebugFileThrowsAnExceptionWhenTheFileDoesNotExist()
 	{
+		$this->expectException(\InvalidArgumentException::class);
 		$this->object->debugFile(__DIR__ . '/data/not-existing.ini');
 	}
 
@@ -1204,12 +1204,12 @@ class JLanguageTest extends \PHPUnit\Framework\TestCase
 	/**
 	 * Test...
 	 *
-	 * @expectedException  RuntimeException
 	 *
 	 * @return void
 	 */
 	public function testParseXMLLanguageFileException()
 	{
+		$this->expectException(\RuntimeException::class);
 		$path = __DIR__ . '/data/language/es-ES/es-ES.xml';
 
 		JLanguageHelper::parseXMLLanguageFile($path);

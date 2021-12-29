@@ -110,11 +110,11 @@ class JFeedTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @expectedException  InvalidArgumentException
 	 * @since              3.1.4
 	 */
 	public function testMagicSetAuthorWithInvalidAuthor()
 	{
+		$this->expectException(\InvalidArgumentException::class);
 		$this->_instance->author = 'Jack Sprat';
 	}
 
@@ -123,11 +123,11 @@ class JFeedTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @expectedException  InvalidArgumentException
 	 * @since              3.1.4
 	 */
 	public function testMagicSetCategoriesWithInvalidProperty()
 	{
+		$this->expectException(\InvalidArgumentException::class);
 		$this->_instance->categories = 'Can\'t touch this';
 	}
 
@@ -283,11 +283,11 @@ class JFeedTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @expectedException  InvalidArgumentException
 	 * @since              3.1.4
 	 */
 	public function testOffsetSetWithString()
 	{
+		$this->expectException(\InvalidArgumentException::class);
 		$this->_instance->offsetSet(1, 'My string');
 	}
 

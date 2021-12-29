@@ -180,11 +180,9 @@ class JGithubPackageActivityStarringTest extends \PHPUnit\Framework\TestCase
 		);
 	}
 
-	/**
-	 * @expectedException UnexpectedValueException
-	 */
 	public function testCheckUnexpected()
 	{
+		$this->expectException(\UnexpectedValueException::class);
 		$this->response->code = 666;
 		$this->response->body = false;
 

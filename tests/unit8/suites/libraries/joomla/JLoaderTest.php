@@ -552,10 +552,10 @@ class JLoaderTest extends \PHPUnit\Framework\TestCase
 	 * @return  void
 	 *
 	 * @since   3.1.4
-	 * @expectedException  RuntimeException
 	 */
 	public function testRegisterNamespaceException()
 	{
+		$this->expectException(\RuntimeException::class);
 		// Clear the namespaces array for this test
 		TestReflection::setValue('JLoader', 'namespaces', array('psr0' => array(), 'psr4' => array()));
 
@@ -689,10 +689,10 @@ class JLoaderTest extends \PHPUnit\Framework\TestCase
 	 * @return  void
 	 *
 	 * @since   3.0.0
-	 * @expectedException RuntimeException
 	 */
 	public function testRegisterPrefixException()
 	{
+		$this->expectException(\RuntimeException::class);
 		JLoader::registerPrefix('P', __DIR__ . '/doesnotexist');
 	}
 

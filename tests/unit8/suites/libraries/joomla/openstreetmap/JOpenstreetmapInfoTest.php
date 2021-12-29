@@ -154,10 +154,10 @@ XML;
 	 * @return  void
 	 *
 	 * @since   3.2.0
-	 * @expectedException DomainException
 	 */
 	public function testGetCapabilitiesFailure()
 	{
+		$this->expectException(\DomainException::class);
 		$returnData = new stdClass;
 		$returnData->code = 500;
 		$returnData->body = $this->errorString;
@@ -209,10 +209,10 @@ XML;
 	 * @return  void
 	 *
 	 * @since   3.2.0
-	 * @expectedException DomainException
 	 */
 	public function testRetrieveMapDataFailure()
 	{
+		$this->expectException(\DomainException::class);
 		$left = '1';
 		$bottom = '1';
 		$right = '2';
@@ -265,11 +265,11 @@ XML;
 	 * @return  void
 	 *
 	 * @since   3.2.0
-	 * @expectedException DomainException
 	 */
 	public function testRetrievePermissionsFailure()
 	{
 
+		$this->expectException(\DomainException::class);
 		$returnData = new stdClass;
 		$returnData->code = 500;
 		$returnData->body = $this->errorString;

@@ -153,11 +153,11 @@ class JGoogleDataPicasaTest extends TestCase
 	 * Tests the listAlbums method with wrong XML
 	 *
 	 * @group	JGoogle
-	 * @expectedException UnexpectedValueException
 	 * @return void
 	 */
 	public function testListAlbumsException()
 	{
+		$this->expectException(\UnexpectedValueException::class);
 		$this->http->expects($this->once())->method('get')->will($this->returnCallback('picasaBadXmlCallback'));
 		$this->object->listAlbums();
 	}

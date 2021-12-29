@@ -118,10 +118,10 @@ class JGithubPackageOrgsTeamsTest extends \PHPUnit\Framework\TestCase
 	/**
 	 * @covers JGithubPackageOrgsTeams::create
 	 *
-	 * @expectedException UnexpectedValueException
 	 */
 	public function testCreateWrongPermission()
 	{
+		$this->expectException(\UnexpectedValueException::class);
 		$this->response->code = 201;
 		$this->response->body = $this->sampleString;
 
@@ -150,10 +150,10 @@ class JGithubPackageOrgsTeamsTest extends \PHPUnit\Framework\TestCase
 	/**
 	 * @covers JGithubPackageOrgsTeams::edit
 	 *
-	 * @expectedException UnexpectedValueException
 	 */
 	public function testEditWrongPermission()
 	{
+		$this->expectException(\UnexpectedValueException::class);
 		$this->response->code = 200;
 		$this->response->body = $this->sampleString;
 
@@ -239,10 +239,10 @@ class JGithubPackageOrgsTeamsTest extends \PHPUnit\Framework\TestCase
 	/**
 	 * @covers JGithubPackageOrgsTeams::isMember
 	 *
-	 * @expectedException UnexpectedValueException
 	 */
 	public function testIsMemberUnexpected()
 	{
+		$this->expectException(\UnexpectedValueException::class);
 		$this->response->code = 666;
 		$this->response->body = $this->sampleString;
 
@@ -355,10 +355,10 @@ class JGithubPackageOrgsTeamsTest extends \PHPUnit\Framework\TestCase
 	/**
 	 * @covers JGithubPackageOrgsTeams::checkRepo
 	 *
-	 * @expectedException UnexpectedValueException
 	 */
 	public function testCheckRepoUnexpected()
 	{
+		$this->expectException(\UnexpectedValueException::class);
 		$this->response->code = 666;
 		$this->response->body = $this->sampleString;
 
