@@ -31,7 +31,7 @@ class JFormFieldModuletagTest extends \PHPUnit\Framework\TestCase
 			'value'
 		);
 
-		$this->assertContains(
+		$this->assertStringContainsString(
 			'<option value="nav">nav</option>',
 			$field->input,
 			'The getInput method should return an option with various opening tags, verify nav tag is in list.'

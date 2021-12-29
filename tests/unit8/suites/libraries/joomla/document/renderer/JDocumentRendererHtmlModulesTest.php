@@ -139,7 +139,7 @@ class JDocumentRendererHtmlModulesTest extends TestCaseDatabase
 	 */
 	public function eventCallback(&$buffer, &$params)
 	{
-		$this->assertContains('mod_search63', $buffer, 'buffer empty when processing onAfterRenderModules event');
+		$this->assertStringContainsString('mod_search63', $buffer, 'buffer empty when processing onAfterRenderModules event');
 		$this->assertArrayHasKey('name', $params, "params['name'] empty when processing onAfterRenderModules event");
 		$this->callbackExecuted = true;
 	}

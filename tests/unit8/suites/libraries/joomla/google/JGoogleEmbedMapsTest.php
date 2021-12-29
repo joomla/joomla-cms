@@ -617,36 +617,36 @@ class JGoogleEmbedMapsTest extends TestCase
 		$header = $this->object->getHeader();
 
 		// Variables
-		$this->assertContains('zoom: 8', $header);
-		$this->assertContains('center: new google.maps.LatLng(37.7749295,-122.4194155)', $header);
-		$this->assertContains('mapTypeId: google.maps.MapTypeId.SATELLITE', $header);
-		$this->assertContains('alert();', $header);
-		$this->assertContains('center: new google.maps.LatLng(37.7749295,-122.4194155)', $header);
+		$this->assertStringContainsString('zoom: 8', $header);
+		$this->assertStringContainsString('center: new google.maps.LatLng(37.7749295,-122.4194155)', $header);
+		$this->assertStringContainsString('mapTypeId: google.maps.MapTypeId.SATELLITE', $header);
+		$this->assertStringContainsString('alert();', $header);
+		$this->assertStringContainsString('center: new google.maps.LatLng(37.7749295,-122.4194155)', $header);
 
 		// Markers
-		$this->assertContains('position: new google.maps.LatLng(37.7749295,-122.4194155),', $header);
-		$this->assertContains('position: new google.maps.LatLng(25,75),', $header);
-		$this->assertContains("title:'Home'", $header);
-		$this->assertContains("title:'25, 75'", $header);
-		$this->assertContains('"centerkey":"value"', $header);
+		$this->assertStringContainsString('position: new google.maps.LatLng(37.7749295,-122.4194155),', $header);
+		$this->assertStringContainsString('position: new google.maps.LatLng(25,75),', $header);
+		$this->assertStringContainsString("title:'Home'", $header);
+		$this->assertStringContainsString("title:'25, 75'", $header);
+		$this->assertStringContainsString('"centerkey":"value"', $header);
 
 		// Loading
-		$this->assertContains("function asynchronouscallback() {", $header);
-		$this->assertContains("script.src = 'http://maps.googleapis.com/maps/api/js?key=123456&sensor=true&callback=asynchronouscallback", $header);
-		$this->assertContains('window.onload=', $header);
+		$this->assertStringContainsString("function asynchronouscallback() {", $header);
+		$this->assertStringContainsString("script.src = 'http://maps.googleapis.com/maps/api/js?key=123456&sensor=true&callback=asynchronouscallback", $header);
+		$this->assertStringContainsString('window.onload=', $header);
 
 		$this->object->setAutoload('jquery');
 		$header = $this->object->getHeader();
-		$this->assertContains('jQuery(document).ready(', $header);
+		$this->assertStringContainsString('jQuery(document).ready(', $header);
 
 		$this->object->setAutoload('mootools');
 		$header = $this->object->getHeader();
-		$this->assertContains("window.addEvent('domready',", $header);
+		$this->assertStringContainsString("window.addEvent('domready',", $header);
 
 		$this->object->noSensor();
 		$this->object->useSync();
 		$header = $this->object->getHeader();
-		$this->assertContains("<script type='text/javascript' src='http://maps.googleapis.com/maps/api/js?key=123456&sensor=false'>", $header);
+		$this->assertStringContainsString("<script type='text/javascript' src='http://maps.googleapis.com/maps/api/js?key=123456&sensor=false'>", $header);
 	}
 
 	/**
@@ -663,7 +663,7 @@ class JGoogleEmbedMapsTest extends TestCase
 
 		$body = $this->object->getBody();
 
-		$this->assertContains("<div id='MAPID' class='class1 class2' style='width: 100%'></div>", $body);
+		$this->assertStringContainsString("<div id='MAPID' class='class1 class2' style='width: 100%'></div>", $body);
 	}
 
 	/**

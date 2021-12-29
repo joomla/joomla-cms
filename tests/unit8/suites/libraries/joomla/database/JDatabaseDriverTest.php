@@ -133,7 +133,7 @@ class JDatabaseDriverTest extends TestCaseDatabase
 	{
 		$db = $this->db;
 
-		$this->assertContains(
+		$this->assertStringContainsString(
 			'sqlite',
 			$db::getConnectors(),
 			'The getConnectors method should return an array with Sqlite as an available option.'

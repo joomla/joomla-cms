@@ -99,7 +99,7 @@ class JHtmlFormbehaviorTest extends TestCase
 			'Verify that the Chosen CSS is loaded'
 		);
 
-		$this->assertContains(
+		$this->assertStringContainsString(
 			'$(container).find("testSelect").chosen',
 			$document->_script['text/javascript'],
 			'Verify that the Chosen JS is initialised with the supplied selector'

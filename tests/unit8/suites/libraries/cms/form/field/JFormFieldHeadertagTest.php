@@ -31,7 +31,7 @@ class JFormFieldHeadertagTest extends \PHPUnit\Framework\TestCase
 			'value'
 		);
 
-		$this->assertContains(
+		$this->assertStringContainsString(
 			'<option value="h3">h3</option>',
 			$field->input,
 			'The getInput method should return an option with the header tags, verify H3 tag is in list.'

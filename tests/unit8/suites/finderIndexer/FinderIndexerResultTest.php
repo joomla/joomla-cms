@@ -179,7 +179,7 @@ class FinderIndexerResultTest extends TestCaseDatabase
 		$testItem = $instructions[FinderIndexer::MISC_CONTEXT];
 
 		// Assert the test instruction is present
-		$this->assertContains(
+		$this->assertStringContainsString(
 			'testItem',
 			$testItem
 		);

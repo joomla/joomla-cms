@@ -382,7 +382,7 @@ class JHtmlBootstrapTest extends TestCase
 			'Verify that the alert method initialises Bootstrap as well'
 		);
 
-		$this->assertContains(
+		$this->assertStringContainsString(
 			'jQuery(function($){ initTooltips();',
 			$document->_script['text/javascript'],
 			'Verify that the tooltip script is initialised'

@@ -478,7 +478,7 @@ class JModelLegacyTest extends TestCaseDatabase
 	{
 		$paths = JModelLegacy::addIncludePath(__DIR__ . '/stubs');
 
-		$this->assertContains(__DIR__ . DIRECTORY_SEPARATOR . 'stubs', $paths);
+		$this->assertStringContainsString(__DIR__ . DIRECTORY_SEPARATOR . 'stubs', $paths);
 	}
 
 	/**

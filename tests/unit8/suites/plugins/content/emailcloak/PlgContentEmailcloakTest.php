@@ -387,9 +387,9 @@ class PlgContentEmailcloakTest extends TestCaseDatabase
 			$hash = $output_array[1];
 
 			// Assert the JLIB_HTML_CLOAKING span is intact
-			$this->assertRegExp('/\<span\sid\=\"cloak[0-9a-z]{32}\"\>JLIB_HTML_CLOAKING\<\/span\>/', $row->text);
+			$this->assertMatchesRegularExpression('/\<span\sid\=\"cloak[0-9a-z]{32}\"\>JLIB_HTML_CLOAKING\<\/span\>/', $row->text);
 			$cloakHTML = '<span id="cloak' . $hash . '">JLIB_HTML_CLOAKING</span>';
-			$this->assertContains($cloakHTML, $row->text);
+			$this->assertStringContainsString($cloakHTML, $row->text);
 
 			// Need to do this to overcome whitespace comparison issue in phpunit for some reason...
 			preg_match_all("/\<script type=\'text\/javascript\'\>(.*)<\/script>/ism", $row->text, $innerJS);

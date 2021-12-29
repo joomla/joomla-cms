@@ -71,7 +71,7 @@ class JSchemaChangesetTestPostgresql extends TestCaseDatabasePostgresql
 		$status = $this->object->getStatus();
 
 		$this->assertArrayHasKey('unchecked', $status, 'An array should be returned containing a list of unchecked items');
-		$this->assertContainsOnlyInstancesOf('JSchemaChangeitemPostgresql', $status['unchecked'], 'The unchecked items array should only contain JSchemaChangeitem objects');
+		$this->assertStringContainsStringOnlyInstancesOf('JSchemaChangeitemPostgresql', $status['unchecked'], 'The unchecked items array should only contain JSchemaChangeitem objects');
 	}
 
 	/**

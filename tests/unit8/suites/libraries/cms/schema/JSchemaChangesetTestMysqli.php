@@ -71,7 +71,7 @@ class JSchemaChangesetTestMysqli extends TestCaseDatabaseMysqli
 		$status = $this->object->getStatus();
 
 		$this->assertArrayHasKey('unchecked', $status, 'An array should be returned containing a list of unchecked items');
-		$this->assertContainsOnlyInstancesOf('JSchemaChangeitemMysql', $status['unchecked'], 'The unchecked items array should only contain JSchemaChangeitem objects');
+		$this->assertStringContainsStringOnlyInstancesOf('JSchemaChangeitemMysql', $status['unchecked'], 'The unchecked items array should only contain JSchemaChangeitem objects');
 	}
 
 	/**

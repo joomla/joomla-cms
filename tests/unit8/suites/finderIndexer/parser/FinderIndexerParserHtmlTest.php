@@ -54,7 +54,7 @@ class FinderIndexerParserHtmlTest extends \PHPUnit\Framework\TestCase
 
 		$input = file_get_contents(dirname(__DIR__) . '/data/parseHtml.txt');
 
-		$this->assertContains(
+		$this->assertStringContainsString(
 			$testResult,
 			$this->object->parse($input)
 		);
@@ -76,7 +76,7 @@ class FinderIndexerParserHtmlTest extends \PHPUnit\Framework\TestCase
 		$output = $this->object->parse($input);
 
 		// String $testResult1 will only be present if <span> tags are removed.
-		$this->assertContains(
+		$this->assertStringContainsString(
 			$testResult1,
 			$output
 		);
@@ -89,14 +89,14 @@ class FinderIndexerParserHtmlTest extends \PHPUnit\Framework\TestCase
 
 		// String $testResult3 will only be present if <h1> tag is removed
 		// and replaced by a space.
-		$this->assertContains(
+		$this->assertStringContainsString(
 			$testResult3,
 			$output
 		);
 
 		// String $testResult4 will only be present if <h1> tag is removed
 		// and replaced by exactly one space.
-		$this->assertContains(
+		$this->assertStringContainsString(
 			$testResult4,
 			$output
 		);
@@ -144,7 +144,7 @@ class FinderIndexerParserHtmlTest extends \PHPUnit\Framework\TestCase
 
 		// String $testResult5 is contained in an invalid <script> block
 		// where the end tag does not match the start tag.
-		$this->assertContains(
+		$this->assertStringContainsString(
 			$testResult5,
 			$output
 		);
@@ -164,7 +164,7 @@ class FinderIndexerParserHtmlTest extends \PHPUnit\Framework\TestCase
 
 		// String $testResult1 is beyond the 2Kb boundary with a <script> tag
 		// that spans the boundary.
-		$this->assertContains(
+		$this->assertStringContainsString(
 			$testResult1,
 			$output
 		);

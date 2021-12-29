@@ -77,7 +77,7 @@ class JHtmlMenuTest extends TestCaseDatabase
 	 */
 	public function testMenus()
 	{
-		$this->assertContains('<option value="mainmenu">Main Menu</option>', JHtmlSelect::options(JHtmlMenu::menus(), 'value', 'text'));
+		$this->assertStringContainsString('<option value="mainmenu">Main Menu</option>', JHtmlSelect::options(JHtmlMenu::menus(), 'value', 'text'));
 	}
 
 	/**
@@ -89,7 +89,7 @@ class JHtmlMenuTest extends TestCaseDatabase
 	 */
 	public function testMenuitems()
 	{
-		$this->assertContains(
+		$this->assertStringContainsString(
 			'<option value="mainmenu.435">- Home</option>',
 			JHtmlSelect::options(JHtmlMenu::menuitems(), array('published' => '1'))
 		);

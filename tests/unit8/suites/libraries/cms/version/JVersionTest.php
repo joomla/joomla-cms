@@ -120,7 +120,7 @@ class JVersionTest extends \PHPUnit\Framework\TestCase
 	 */
 	public function testGetUserAgent_maskTrue()
 	{
-		$this->assertContains('Mozilla/5.0 ', $this->object->getUserAgent(null, true, true));
+		$this->assertStringContainsString('Mozilla/5.0 ', $this->object->getUserAgent(null, true, true));
 	}
 
 	/**
@@ -132,7 +132,7 @@ class JVersionTest extends \PHPUnit\Framework\TestCase
 	 */
 	public function testGetUserAgent_ComponentNull()
 	{
-		$this->assertContains('Framework', $this->object->getUserAgent(null, false, true));
+		$this->assertStringContainsString('Framework', $this->object->getUserAgent(null, false, true));
 	}
 
 	/**
@@ -144,6 +144,6 @@ class JVersionTest extends \PHPUnit\Framework\TestCase
 	 */
 	public function testGetUserAgent_ComponentNotNull()
 	{
-		$this->assertContains('Component_test', $this->object->getUserAgent('Component_test', false, true));
+		$this->assertStringContainsString('Component_test', $this->object->getUserAgent('Component_test', false, true));
 	}
 }

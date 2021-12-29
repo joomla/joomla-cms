@@ -510,7 +510,7 @@ class JLoaderTest extends \PHPUnit\Framework\TestCase
 
 		$namespaces = JLoader::getNamespaces();
 
-		$this->assertContains($path, $namespaces['discover']);
+		$this->assertStringContainsString($path, $namespaces['discover']);
 
 		// Try to add an other path for the namespace.
 		$path = JPATH_TEST_STUBS . '/discover2';
@@ -518,7 +518,7 @@ class JLoaderTest extends \PHPUnit\Framework\TestCase
 		$namespaces = JLoader::getNamespaces();
 
 		$this->assertCount(2, $namespaces['discover']);
-		$this->assertContains($path, $namespaces['discover']);
+		$this->assertStringContainsString($path, $namespaces['discover']);
 	}
 
 	/**
@@ -543,7 +543,7 @@ class JLoaderTest extends \PHPUnit\Framework\TestCase
 
 		$namespaces = JLoader::getNamespaces();
 		$this->assertCount(1, $namespaces['discover']);
-		$this->assertContains($path, $namespaces['discover']);
+		$this->assertStringContainsString($path, $namespaces['discover']);
 	}
 
 	/**
@@ -580,7 +580,7 @@ class JLoaderTest extends \PHPUnit\Framework\TestCase
 
 		$namespaces = JLoader::getNamespaces();
 
-		$this->assertContains($path, $namespaces['discover1']);
+		$this->assertStringContainsString($path, $namespaces['discover1']);
 
 		// Try registering namespace with trailing backslash.
 		$path = JPATH_TEST_STUBS . '/discover2';
@@ -588,7 +588,7 @@ class JLoaderTest extends \PHPUnit\Framework\TestCase
 
 		$namespaces = JLoader::getNamespaces();
 
-		$this->assertContains($path, $namespaces['discover2']);
+		$this->assertStringContainsString($path, $namespaces['discover2']);
 	}
 
 	/**

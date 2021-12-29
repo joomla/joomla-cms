@@ -311,7 +311,7 @@ function picasaAlbumCallback($url, array $headers = null, $timeout = null)
  */
 function dataPicasaAlbumCallback($url, $data, array $headers = null, $timeout = null)
 {
-	\PHPUnit\Framework\TestCase::assertContains('<title>New Title</title>', $data);
+	\PHPUnit\Framework\TestCase::assertStringContainsString('<title>New Title</title>', $data);
 
 	$response = new stdClass;
 

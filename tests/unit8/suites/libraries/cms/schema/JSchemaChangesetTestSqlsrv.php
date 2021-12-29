@@ -71,7 +71,7 @@ class JSchemaChangesetTestSqlsrv extends TestCaseDatabaseSqlsrv
 		$status = $this->object->getStatus();
 
 		$this->assertArrayHasKey('unchecked', $status, 'An array should be returned containing a list of unchecked items');
-		$this->assertContainsOnlyInstancesOf('JSchemaChangeitemSqlsrv', $status['unchecked'], 'The unchecked items array should only contain JSchemaChangeitem objects');
+		$this->assertStringContainsStringOnlyInstancesOf('JSchemaChangeitemSqlsrv', $status['unchecked'], 'The unchecked items array should only contain JSchemaChangeitem objects');
 	}
 
 	/**

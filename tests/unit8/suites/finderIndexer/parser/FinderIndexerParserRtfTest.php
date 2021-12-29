@@ -54,7 +54,7 @@ class FinderIndexerParserRtfTest extends \PHPUnit\Framework\TestCase
 
 		$input = file_get_contents(dirname(__DIR__) . '/data/parseHtml.txt');
 
-		$this->assertContains(
+		$this->assertStringContainsString(
 			$testResult,
 			$this->object->parse($input)
 		);

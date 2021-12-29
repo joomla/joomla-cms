@@ -234,12 +234,12 @@ class JSessionTest extends TestCase
 			is_array($return),
 			'Line: ' . __LINE__ . ' JSession::getStores must return an array.'
 		);
-		$this->assertContains(
+		$this->assertStringContainsString(
 			'database',
 			$return,
 			'Line: ' . __LINE__ . ' session storage database should always be available.'
 		);
-		$this->assertContains(
+		$this->assertStringContainsString(
 			'none',
 			$return,
 			'Line: ' . __LINE__ . ' session storage "none" should always be available.'

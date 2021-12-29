@@ -74,7 +74,7 @@ class JDocumentOpensearchTest extends TestCase
 	 */
 	public function testTheDefaultReturnForRender()
 	{
-		$this->assertContains('<?xml version="1.0" encoding="utf-8"?>', $this->object->render());
+		$this->assertStringContainsString('<?xml version="1.0" encoding="utf-8"?>', $this->object->render());
 	}
 
 	/**
