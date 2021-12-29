@@ -86,12 +86,6 @@ class HtmlView extends InstallerViewDefault
 		$toolbar = Toolbar::getInstance('toolbar');
 		$canDo   = ContentHelper::getActions('com_installer');
 
-		if ($canDo->get('core.manage'))
-		{
-			ToolbarHelper::link('index.php?option=com_installer&view=install', 'COM_INSTALLER_TOOLBAR_INSTALL', 'upload');
-			$toolbar->divider();
-		}
-
 		if ($canDo->get('core.edit.state'))
 		{
 			$toolbar->publish('manage.publish')
@@ -115,6 +109,12 @@ class HtmlView extends InstallerViewDefault
 				->text('JTOOLBAR_UNINSTALL')
 				->message('COM_INSTALLER_CONFIRM_UNINSTALL')
 				->listCheck(true);
+			$toolbar->divider();
+		}
+
+		if ($canDo->get('core.manage'))
+		{
+			ToolbarHelper::link('index.php?option=com_installer&view=install', 'COM_INSTALLER_TOOLBAR_INSTALL_LINK', 'upload');
 			$toolbar->divider();
 		}
 
