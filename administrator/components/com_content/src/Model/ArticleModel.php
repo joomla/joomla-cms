@@ -13,6 +13,8 @@ namespace Joomla\Component\Content\Administrator\Model;
 
 use Joomla\CMS\Event\AbstractEvent;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Filter\InputFilter;
+use Joomla\CMS\Filter\OutputFilter;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Form\FormFactoryInterface;
 use Joomla\CMS\Helper\TagsHelper;
@@ -685,7 +687,7 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
 	public function save($data)
 	{
 		$input  = Factory::getApplication()->input;
-		$filter = \JFilterInput::getInstance();
+		$filter = InputFilter::getInstance();
 		$db     = $this->getDbo();
 		$user	= Factory::getUser();
 
@@ -805,11 +807,11 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
 			{
 				if (Factory::getApplication()->get('unicodeslugs') == 1)
 				{
-					$data['alias'] = \JFilterOutput::stringUrlUnicodeSlug($data['title']);
+					$data['alias'] = OutputFilter::stringUrlUnicodeSlug($data['title']);
 				}
 				else
 				{
-					$data['alias'] = \JFilterOutput::stringURLSafe($data['title']);
+					$data['alias'] = OutputFilter::stringURLSafe($data['title']);
 				}
 
 				$table = Table::getInstance('Content', 'JTable');

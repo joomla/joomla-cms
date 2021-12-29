@@ -14,6 +14,7 @@ namespace Joomla\Component\Installer\Administrator\Model;
 use Joomla\CMS\Extension\ExtensionHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\File;
+use Joomla\CMS\Form\Form;
 use Joomla\CMS\Installer\Installer;
 use Joomla\CMS\Installer\InstallerHelper;
 use Joomla\CMS\Language\Text;
@@ -530,16 +531,16 @@ class UpdateModel extends ListModel
 	 * @param   array    $data      Data for the form.
 	 * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
 	 *
-	 * @return  mixed  A \JForm object on success, false on failure
+	 * @return  Form|bool  A Form object on success, false on failure
 	 *
 	 * @since	2.5.2
 	 */
 	public function getForm($data = array(), $loadData = true)
 	{
 		// Get the form.
-		\JForm::addFormPath(JPATH_COMPONENT . '/models/forms');
-		\JForm::addFieldPath(JPATH_COMPONENT . '/models/fields');
-		$form = \JForm::getInstance('com_installer.update', 'update', array('load_data' => $loadData));
+		Form::addFormPath(JPATH_COMPONENT . '/models/forms');
+		Form::addFieldPath(JPATH_COMPONENT . '/models/fields');
+		$form = Form::getInstance('com_installer.update', 'update', array('load_data' => $loadData));
 
 		// Check for an error.
 		if ($form == false)

@@ -22,23 +22,23 @@ use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 class JsonView extends BaseHtmlView
 {
 	/**
-	 * The \JObject (on success, false on failure)
+	 * The Object (on success, false on failure)
 	 *
-	 * @var   \JObject
+	 * @var  \Joomla\CMS\Object\CMSObject
 	 */
 	protected $item;
 
 	/**
 	 * The form object
 	 *
-	 * @var   \JForm
+	 * @var  \Joomla\CMS\Form\Form
 	 */
 	protected $form;
 
 	/**
 	 * The model state
 	 *
-	 * @var   \JObject
+	 * @var  \Joomla\CMS\Object\CMSObject
 	 */
 	protected $state;
 
