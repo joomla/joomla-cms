@@ -555,4 +555,19 @@ class Result implements \Serializable
 			}
 		}
 	}
+
+	/**
+	 * Magic method used for serializing.
+	 */
+	public function __serialize()
+	{
+	}
+
+	/**
+	 * Magic method used for unserializing.
+	 */
+	public function __unserialize($serialized)
+	{
+	}
+
 }
