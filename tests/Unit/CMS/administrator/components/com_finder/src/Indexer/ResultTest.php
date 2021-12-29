@@ -39,6 +39,11 @@ class ResultTest extends UnitTestCase
 	 *
 	 * @throws \ReflectionException
 	 *
+	 * @covers Result::unserialize
+	 * @covers Result::serialize
+	 * @covers Result::__serialize
+	 * @covers Result::__unserialize
+	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
 	public function testSerialize(): void
