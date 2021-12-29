@@ -237,7 +237,7 @@ class PluginModel extends AdminModel
 	/**
 	 * Preprocess the form.
 	 *
-	 * @param \Joomla\CMS\Form\Form $form A form object.
+	 * @param   \Joomla\CMS\Form\Form  $form A form object.
 	 * @param   mixed   $data   The data expected for the form.
 	 * @param   string  $group  Cache group name.
 	 *
