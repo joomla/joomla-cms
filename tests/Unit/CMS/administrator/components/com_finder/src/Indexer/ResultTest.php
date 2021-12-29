@@ -27,6 +27,8 @@ class ResultTest extends UnitTestCase
 	 */
 	protected function setUp(): void
 	{
+		// Can be removed once we have autoloading working in Unit Tests
+		// @see https://github.com/joomla/joomla-cms/pull/36486
 		if (!class_exists(Result::class))
 		{
 			require_once JPATH_ADMINISTRATOR . '/components/com_finder/src/Indexer/Indexer.php';
