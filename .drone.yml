@@ -36,7 +36,7 @@ steps:
       - phpunit --version
       # temporary disable php stream wrapper for testing
       - sed -i 's/in_array/!in_array/g' libraries/cms.php
-      - phpunit --configuration phpunit-php8.xml --verbose --debug
+      - phpunit --configuration phpunit-php8.xml
 
 services:
   - name: mysql
