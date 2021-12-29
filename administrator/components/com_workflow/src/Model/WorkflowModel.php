@@ -223,7 +223,7 @@ class WorkflowModel extends AdminModel
 	/**
 	 * Method to preprocess the form.
 	 *
-	 * @param \Joomla\CMS\Form\Form $form A Form object.
+	 * @param   \Joomla\CMS\Form\Form  $form  A Form object.
 	 * @param   mixed   $data   The data expected for the form.
 	 * @param   string  $group  The name of the plugin group to import (defaults to "content").
 	 *
