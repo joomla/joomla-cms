@@ -110,3 +110,7 @@ foreach ($map as $namespace => $path)
 
 // Bootstrap Joomla, to keep our test stack as close to a running app as possible.
 require_once JPATH_LIBRARIES . '/bootstrap.php';
+
+// Remove Joomla's internal Error Handler x2 so that PHPUnit handles Warnings/Notices correctly.
+restore_error_handler();
+restore_error_handler();
