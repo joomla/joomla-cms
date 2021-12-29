@@ -15,7 +15,9 @@ use Joomla\CMS\Access\Exception\NotAllowed;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\CMS\Service\Provider\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
+use Joomla\Component\Content\Administrator\Helper\ContentHelper;
 use Joomla\Component\Installer\Administrator\View\Installer\HtmlView as InstallerViewDefault;
 
 /**
@@ -60,6 +62,12 @@ class HtmlView extends InstallerViewDefault
 	 */
 	protected function addToolbar()
 	{
+		if (ContentHelper::getActions('com_installer')->get('core.manage'))
+		{
+			ToolbarHelper::link('index.php?option=com_installer&view=manage', 'COM_INSTALLER_TOOLBAR_MANAGE', 'list');
+			ToolbarHelper::divider();
+		}
+
 		parent::addToolbar();
 
 		ToolbarHelper::help('Extensions:_Install');
