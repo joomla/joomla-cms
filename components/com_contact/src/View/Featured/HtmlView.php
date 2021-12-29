@@ -122,7 +122,7 @@ class HtmlView extends BaseHtmlView
 		}
 
 		// Escape strings for HTML output
-		$this->pageclass_sfx = htmlspecialchars($params->get('pageclass_sfx'), ENT_COMPAT, 'UTF-8');
+		$this->pageclass_sfx = htmlspecialchars($params->get('pageclass_sfx', ''), ENT_COMPAT, 'UTF-8');
 
 		$maxLevel         = $params->get('maxLevel', -1);
 		$this->maxLevel   = &$maxLevel;
