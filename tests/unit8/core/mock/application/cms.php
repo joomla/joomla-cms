@@ -46,10 +46,10 @@ class TestMockApplicationCms extends TestMockApplicationWeb
 	 * Adds mock objects for some methods.
 	 *
 	 * @param   TestCase                                 $test        A test object.
-	 * @param   PHPUnit_Framework_MockObject_MockObject  $mockObject  The mock object.
+	 * @param   \PHPUnit\Framework\MockObject\MockObject  $mockObject  The mock object.
 	 * @param   array                                    $options     A set of options to configure the mock.
 	 *
-	 * @return  PHPUnit_Framework_MockObject_MockObject  The object with the behaviours added
+	 * @return  \PHPUnit\Framework\MockObject\MockObject  The object with the behaviours added
 	 *
 	 * @since   3.4
 	 */
@@ -76,7 +76,7 @@ class TestMockApplicationCms extends TestMockApplicationWeb
 	 * @param   array     $options      A set of options to configure the mock.
 	 * @param   array     $constructor  An array containing constructor arguments to inject into the mock.
 	 *
-	 * @return  JApplicationCms|PHPUnit_Framework_MockObject_MockObject
+	 * @return  JApplicationCms|\PHPUnit\Framework\MockObject\MockObject
 	 *
 	 * @since   3.2
 	 */

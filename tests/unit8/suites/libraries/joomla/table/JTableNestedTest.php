@@ -765,7 +765,7 @@ class JTableNestedTest extends TestCaseDatabase
 	/**
 	 * Gets the data set to be loaded into the database during setup
 	 *
-	 * @return  PHPUnit_Extensions_Database_DataSet_XmlDataSet
+	 * @return  \PHPUnit\DbUnit\DataSet\XmlDataSet
 	 *
 	 * @since   1.7.3
 	 */

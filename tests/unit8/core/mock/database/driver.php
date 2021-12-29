@@ -31,7 +31,7 @@ class TestMockDatabaseDriver
 	 * @param   string                      $nullDate      A null date string for the driver.
 	 * @param   string                      $dateFormat    A date format for the driver.
 	 *
-	 * @return  PHPUnit_Framework_MockObject_MockObject
+	 * @return  \PHPUnit\Framework\MockObject\MockObject
 	 *
 	 * @since   1.7.3
 	 */

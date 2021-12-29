@@ -42,7 +42,7 @@ class TestMockApplicationCli extends TestMockApplicationBase
 	 * @param   TestCase  $test     A test object.
 	 * @param   array     $options  A set of options to configure the mock.
 	 *
-	 * @return  PHPUnit_Framework_MockObject_MockObject
+	 * @return  \PHPUnit\Framework\MockObject\MockObject
 	 *
 	 * @since   3.0.1
 	 */

@@ -139,7 +139,7 @@ abstract class TestCaseDatabaseOracle extends TestCaseDatabase
 	/**
 	 * Returns the default database connection for running the tests.
 	 *
-	 * @return  PHPUnit_Extensions_Database_DB_DefaultDatabaseConnection
+	 * @return  \PHPUnit\DbUnit\Database\DefaultConnection
 	 *
 	 * @since   3.0.0
 	 */

@@ -132,7 +132,7 @@ abstract class TestCaseDatabase extends PHPUnit\DbUnit\TestCase
 	/**
 	 * Assigns mock callbacks to methods.
 	 *
-	 * @param   PHPUnit_Framework_MockObject_MockObject  $mockObject  The mock object.
+	 * @param   \PHPUnit\Framework\MockObject\MockObject  $mockObject  The mock object.
 	 * @param   array                                    $array       An array of methods names to mock with callbacks.
 	 * This method assumes that the mock callback is named {mock}{method name}.
 	 *
@@ -164,7 +164,7 @@ abstract class TestCaseDatabase extends PHPUnit\DbUnit\TestCase
 	/**
 	 * Assigns mock values to methods.
 	 *
-	 * @param   PHPUnit_Framework_MockObject_MockObject  $mockObject  The mock object.
+	 * @param   \PHPUnit\Framework\MockObject\MockObject  $mockObject  The mock object.
 	 * @param   array                                    $array       An associative array of methods to mock with return values:<br />
 	 * string (method name) => mixed (return value)
 	 *
@@ -355,7 +355,7 @@ abstract class TestCaseDatabase extends PHPUnit\DbUnit\TestCase
 	/**
 	 * Returns the default database connection for running the tests.
 	 *
-	 * @return  PHPUnit_Extensions_Database_DB_DefaultDatabaseConnection
+	 * @return  \PHPUnit\DbUnit\Database\DefaultConnection
 	 *
 	 * @since   3.0.0
 	 */
@@ -374,7 +374,7 @@ abstract class TestCaseDatabase extends PHPUnit\DbUnit\TestCase
 	/**
 	 * Gets the data set to be loaded into the database during setup
 	 *
-	 * @return  PHPUnit_Extensions_Database_DataSet_XmlDataSet
+	 * @return  \PHPUnit\DbUnit\DataSet\XmlDataSet
 	 *
 	 * @since   1.7.0
 	 */
@@ -386,17 +386,17 @@ abstract class TestCaseDatabase extends PHPUnit\DbUnit\TestCase
 	/**
 	 * Returns the database operation executed in test setup.
 	 *
-	 * @return  PHPUnit_Extensions_Database_Operation_DatabaseOperation
+	 * @return  \PHPUnit\DbUnit\Operation\DatabaseOperation
 	 *
 	 * @since   3.0.0
 	 */
 	protected function getSetUpOperation()
 	{
 		// Required given the use of InnoDB constraints.
-		return new PHPUnit_Extensions_Database_Operation_Composite(
+		return new \PHPUnit\DbUnit\Operation\Composite(
 			array(
-				PHPUnit_Extensions_Database_Operation_Factory::DELETE_ALL(),
-				PHPUnit_Extensions_Database_Operation_Factory::INSERT()
+				\PHPUnit\DbUnit\Operation\Factory::DELETE_ALL(),
+				\PHPUnit\DbUnit\Operation\Factory::INSERT()
 			)
 		);
 	}
@@ -404,14 +404,14 @@ abstract class TestCaseDatabase extends PHPUnit\DbUnit\TestCase
 	/**
 	 * Returns the database operation executed in test cleanup.
 	 *
-	 * @return  PHPUnit_Extensions_Database_Operation_DatabaseOperation
+	 * @return  \PHPUnit\DbUnit\Operation\DatabaseOperation
 	 *
 	 * @since   3.0.0
 	 */
 	protected function getTearDownOperation()
 	{
 		// Required given the use of InnoDB constraints.
-		return PHPUnit_Extensions_Database_Operation_Factory::DELETE_ALL();
+		return \PHPUnit\DbUnit\Operation\Factory::DELETE_ALL();
 	}
 
 	/**

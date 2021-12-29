@@ -800,7 +800,7 @@ class JDatabaseImporterPdomysqlTest extends \PHPUnit\Framework\TestCase
 				'setDbo must return an object to support chaining.'
 			);
 		}
-		catch (PHPUnit_Framework_Error $e)
+		catch (\PHPUnit\Framework\Error $e)
 		{
 			// Unknown error has occurred.
 			$this->fail(

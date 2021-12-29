@@ -62,7 +62,7 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
 	/**
 	 * Assigns mock callbacks to methods.
 	 *
-	 * @param   PHPUnit_Framework_MockObject_MockObject  $mockObject  The mock object.
+	 * @param   \PHPUnit\Framework\MockObject\MockObject  $mockObject  The mock object.
 	 * @param   array                                    $array       An array of methods names to mock with callbacks.
 	 * This method assumes that the mock callback is named {mock}{method name}.
 	 *
@@ -94,7 +94,7 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
 	/**
 	 * Assigns mock values to methods.
 	 *
-	 * @param   PHPUnit_Framework_MockObject_MockObject  $mockObject  The mock object.
+	 * @param   \PHPUnit\Framework\MockObject\MockObject  $mockObject  The mock object.
 	 * @param   array                                    $array       An associative array of methods to mock with return values:<br />
 	 * string (method name) => mixed (return value)
 	 *
@@ -173,7 +173,7 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
 	 * @param   array  $options      A set of options to configure the mock.
 	 * @param   array  $constructor  An array containing constructor arguments to inject into the mock.
 	 *
-	 * @return  JApplicationCms|PHPUnit_Framework_MockObject_MockObject
+	 * @return  JApplicationCms|\PHPUnit\Framework\MockObject\MockObject
 	 *
 	 * @since   3.2
 	 */

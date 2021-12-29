@@ -379,7 +379,7 @@ class JGoogleDataPicasaAlbumTest extends TestCase
 	 * Tests the upload method with an invalid file
 	 *
 	 * @group	JGoogle
-	 * @expectedException PHPUnit_Framework_Error_Warning
+	 * @expectedException \PHPUnit\Framework\Error\Warning
 	 * @return void
 	 */
 	public function testUploadFake()

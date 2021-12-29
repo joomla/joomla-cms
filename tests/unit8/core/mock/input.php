@@ -47,7 +47,7 @@ class TestMockInput
 	 * @param   array  $options  An associative array of options to configure the mock.
 	 *                           * methods => an array of additional methods to mock
 	 *
-	 * @return  PHPUnit_Framework_MockObject_MockObject
+	 * @return  \PHPUnit\Framework\MockObject\MockObject
 	 *
 	 * @since   3.4
 	 */
@@ -100,7 +100,7 @@ class TestMockInput
 	/**
 	 * Creates an instance of a mock JInputJson object.
 	 *
-	 * @return  PHPUnit_Framework_MockObject_MockObject
+	 * @return  \PHPUnit\Framework\MockObject\MockObject
 	 *
 	 * @since   3.4
 	 */

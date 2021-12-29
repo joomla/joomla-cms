@@ -19,7 +19,7 @@ class JAdministratorHelperTest extends TestCase
 	protected $object;
 
 	/**
-	 * @var  PHPUnit_Framework_MockObject_MockObject
+	 * @var  \PHPUnit\Framework\MockObject\MockObject
 	 */
 	protected $user;
 

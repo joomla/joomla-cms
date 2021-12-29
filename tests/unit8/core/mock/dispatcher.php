@@ -36,7 +36,7 @@ class TestMockDispatcher
 	 * @param   \PHPUnit\Framework\TestCase  $test        A test object.
 	 * @param   boolean                     $defaults  True to create the default mock handlers and triggers.
 	 *
-	 * @return  PHPUnit_Framework_MockObject_MockObject
+	 * @return  \PHPUnit\Framework\MockObject\MockObject
 	 *
 	 * @since   1.7.3
 	 */

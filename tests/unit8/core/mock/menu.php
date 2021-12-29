@@ -21,7 +21,7 @@ class TestMockMenu
 	 *
 	 * @param   \PHPUnit\Framework\TestCase  $test  A test object.
 	 *
-	 * @return  PHPUnit_Framework_MockObject_MockObject
+	 * @return  \PHPUnit\Framework\MockObject\MockObject
 	 *
 	 * @since   3.4
 	 */

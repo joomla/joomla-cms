@@ -19,7 +19,7 @@ class TestMockLanguage
 	 *
 	 * @param   \PHPUnit\Framework\TestCase  $test  A test object.
 	 *
-	 * @return  PHPUnit_Framework_MockObject_MockObject
+	 * @return  \PHPUnit\Framework\MockObject\MockObject
 	 *
 	 * @since   1.7.3
 	 */

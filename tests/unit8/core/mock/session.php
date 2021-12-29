@@ -47,7 +47,7 @@ class TestMockSession
 	 *                                                get.user.name : the value to assign to the user object name returned by get('user')
 	 *                                                get.user.username : the value to assign to the user object username returned by get('user')
 	 *
-	 * @return  PHPUnit_Framework_MockObject_MockObject
+	 * @return  \PHPUnit\Framework\MockObject\MockObject
 	 *
 	 * @since   1.7.3
 	 */
