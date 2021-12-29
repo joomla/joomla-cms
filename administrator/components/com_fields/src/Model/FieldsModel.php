@@ -41,7 +41,7 @@ class FieldsModel extends ListModel
 	{
 		if (empty($config['filter_fields']))
 		{
-			$config['filter_fields'] = array(
+			$config['filter_fields'] = [
 					'id', 'a.id',
 					'title', 'a.title',
 					'type', 'a.type',
@@ -60,7 +60,7 @@ class FieldsModel extends ListModel
 					'category_id', 'a.category_id',
 					'group_id', 'a.group_id',
 					'assigned_cat_ids'
-			);
+			];
 		}
 
 		parent::__construct($config, $factory);
