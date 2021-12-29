@@ -8,7 +8,6 @@
  */
 namespace Joomla\Component\Finder\Administrator\Indexer;
 
-use Joomla\Component\Finder\Administrator\Indexer\Result;
 use Joomla\Tests\Unit\UnitTestCase;
 use ReflectionClass;
 
