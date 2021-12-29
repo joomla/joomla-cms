@@ -114,7 +114,7 @@ class HtmlView extends InstallerViewDefault
 
 		if ($canDo->get('core.manage'))
 		{
-			ToolbarHelper::link('index.php?option=com_installer&view=install', 'COM_INSTALLER_TOOLBAR_INSTALL_LINK', 'upload');
+			ToolbarHelper::link('index.php?option=com_installer&view=install', 'COM_INSTALLER_TOOLBAR_INSTALL_EXTENSIONS', 'upload');
 			$toolbar->divider();
 		}
 
