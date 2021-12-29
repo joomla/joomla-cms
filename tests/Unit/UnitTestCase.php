@@ -26,6 +26,11 @@ use stdClass;
  */
 abstract class UnitTestCase extends \PHPUnit\Framework\TestCase
 {
+	/**
+	 * @return void
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
 	protected function setUp(): void
 	{
 		$this->initJoomla();
