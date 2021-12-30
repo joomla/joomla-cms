@@ -16,7 +16,7 @@ use Joomla\CMS\Event\AbstractImmutableEvent;
 /**
  * Event object to set an url.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.1.0
  */
 final class FetchMediaItemUrlEvent extends AbstractImmutableEvent
 {
@@ -28,7 +28,7 @@ final class FetchMediaItemUrlEvent extends AbstractImmutableEvent
 	 *
 	 * @throws  \BadMethodCallException
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.1.0
 	 */
 	public function __construct($name, array $arguments = array())
 	{
@@ -66,7 +66,7 @@ final class FetchMediaItemUrlEvent extends AbstractImmutableEvent
 	 *
 	 * @return string
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.1.0
 	 */
 	protected function setUrl(string $value): string
 	{
@@ -78,7 +78,7 @@ final class FetchMediaItemUrlEvent extends AbstractImmutableEvent
 	 *
 	 * @param   string  $value  The value to set
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.1.0
 	 *
 	 * @throws \BadMethodCallException
 	 */
@@ -92,7 +92,7 @@ final class FetchMediaItemUrlEvent extends AbstractImmutableEvent
 	 *
 	 * @param   string  $value  The value to set
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.1.0
 	 *
 	 * @throws \BadMethodCallException
 	 */

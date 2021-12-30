@@ -16,7 +16,7 @@ use Joomla\CMS\Event\AbstractImmutableEvent;
 /**
  * Event to validate media items.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.1.0
  */
 abstract class AbstractMediaItemValidationEvent extends AbstractImmutableEvent
 {
@@ -43,7 +43,7 @@ abstract class AbstractMediaItemValidationEvent extends AbstractImmutableEvent
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.1.0
 	 *
 	 * @throws \BadMethodCallException
 	 */
