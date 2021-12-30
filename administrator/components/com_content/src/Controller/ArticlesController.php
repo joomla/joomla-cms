@@ -133,9 +133,9 @@ class ArticlesController extends AdminController
 	}
 
 	/**
-	 * Method to get the number of published articles for quickicons
+	 * Method to get the JSON-encoded amount of published articles
 	 *
-	 * @return  string  The JSON-encoded amount of published articles
+	 * @return  void
 	 *
 	 * @since   4.0.0
 	 */
