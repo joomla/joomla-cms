@@ -83,7 +83,7 @@ class JCacheStorageTest extends TestCase
 		$this->available = array(
 			'apc'       => JCacheStorageApc::isSupported(),
 			'apcu'      => JCacheStorageApcu::isSupported(),
-			'cachelite' => JCacheStorageCachelite::isSupported(),
+			'cachelite' => JCacheStorageCachelite::isSupported() && PHP_VERSION_ID < 80000, // Cache lite is not compatible with php 8+
 			'file'      => true,
 			'memcache'  => JCacheStorageMemcache::isSupported(),
 			'memcached' => JCacheStorageMemcached::isSupported(),
