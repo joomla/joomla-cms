@@ -47,7 +47,7 @@ class HtmlView extends BaseHtmlView
 	/**
 	 * The model state
 	 *
-	 * @var  \JObject
+	 * @var \Joomla\CMS\Object\CMSObject
 	 */
 	protected $state;
 
@@ -75,7 +75,7 @@ class HtmlView extends BaseHtmlView
 	/**
 	 * Is this view an Empty State
 	 *
-	 * @var  boolean
+	 * @var   boolean
 	 * @since 4.0.0
 	 */
 	private $isEmptyState = false;

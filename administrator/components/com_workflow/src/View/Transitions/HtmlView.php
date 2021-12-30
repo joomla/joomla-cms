@@ -29,7 +29,7 @@ class HtmlView extends BaseHtmlView
 	/**
 	 * An array of transitions
 	 *
-	 * @var     array
+	 * @var    array
 	 * @since  4.0.0
 	 */
 	protected $transitions;
@@ -37,7 +37,7 @@ class HtmlView extends BaseHtmlView
 	/**
 	 * The model state
 	 *
-	 * @var     object
+	 * @var    object
 	 * @since  4.0.0
 	 */
 	protected $state;
@@ -45,7 +45,7 @@ class HtmlView extends BaseHtmlView
 	/**
 	 * The HTML for displaying sidebar
 	 *
-	 * @var     string
+	 * @var    string
 	 * @since  4.0.0
 	 */
 	protected $sidebar;
@@ -53,7 +53,8 @@ class HtmlView extends BaseHtmlView
 	/**
 	 * The pagination object
 	 *
-	 * @var     \Joomla\CMS\Pagination\Pagination
+	 * @var    \Joomla\CMS\Pagination\Pagination
+	 *
 	 * @since  4.0.0
 	 */
 	protected $pagination;
@@ -61,7 +62,7 @@ class HtmlView extends BaseHtmlView
 	/**
 	 * Form object for search filters
 	 *
-	 * @var     \Joomla\CMS\Form\Form
+	 * @var    \Joomla\CMS\Form\Form
 	 *
 	 * @since  4.0.0
 	 */
@@ -70,7 +71,7 @@ class HtmlView extends BaseHtmlView
 	/**
 	 * The active search filters
 	 *
-	 * @var     array
+	 * @var    array
 	 * @since  4.0.0
 	 */
 	public $activeFilters;
@@ -78,7 +79,7 @@ class HtmlView extends BaseHtmlView
 	/**
 	 * The current workflow
 	 *
-	 * @var     object
+	 * @var    object
 	 * @since  4.0.0
 	 */
 	protected $workflow;
@@ -86,7 +87,7 @@ class HtmlView extends BaseHtmlView
 	/**
 	 * The ID of current workflow
 	 *
-	 * @var     integer
+	 * @var    integer
 	 * @since  4.0.0
 	 */
 	protected $workflowID;
@@ -94,7 +95,7 @@ class HtmlView extends BaseHtmlView
 	/**
 	 * The name of current extension
 	 *
-	 * @var     string
+	 * @var    string
 	 * @since  4.0.0
 	 */
 	protected $extension;

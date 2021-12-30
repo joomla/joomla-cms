@@ -162,7 +162,7 @@ class ClientsModel extends ListModel
 		);
 
 		// Filter by search in title
-		if ($search = trim($this->getState('filter.search')))
+		if ($search = trim($this->getState('filter.search', '')))
 		{
 			if (stripos($search, 'id:') === 0)
 			{

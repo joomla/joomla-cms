@@ -28,7 +28,8 @@ class HtmlView extends BaseHtmlView
 	/**
 	 * The filter object
 	 *
-	 * @var  \Joomla\Component\Finder\Administrator\Table\FilterTable
+	 * @var    \Joomla\Component\Finder\Administrator\Table\FilterTable
+	 *
 	 * @since  3.6.2
 	 */
 	protected $filter;
@@ -36,7 +37,7 @@ class HtmlView extends BaseHtmlView
 	/**
 	 * The Form object
 	 *
-	 * @var  \Joomla\CMS\Form\Form
+	 * @var    \Joomla\CMS\Form\Form
 	 *
 	 * @since  3.6.2
 	 */
@@ -45,7 +46,7 @@ class HtmlView extends BaseHtmlView
 	/**
 	 * The active item
 	 *
-	 * @var  \JObject|boolean
+	 * @var    \Joomla\CMS\Object\CMSObject|boolean
 	 *
 	 * @since  3.6.2
 	 */
@@ -54,7 +55,8 @@ class HtmlView extends BaseHtmlView
 	/**
 	 * The model state
 	 *
-	 * @var  \JObject
+	 * @var    \Joomla\CMS\Object\CMSObject
+	 *
 	 * @since  3.6.2
 	 */
 	protected $state;
@@ -63,6 +65,7 @@ class HtmlView extends BaseHtmlView
 	 * The total indexed items
 	 *
 	 * @var    integer
+	 *
 	 * @since  3.8.0
 	 */
 	protected $total;

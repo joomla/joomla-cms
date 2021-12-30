@@ -29,7 +29,7 @@ class TemplatesHelper
 	/**
 	 * Get a list of filter options for the application clients.
 	 *
-	 * @return  array  An array of \JHtmlOption elements.
+	 * @return  array  An array of HtmlOption elements.
 	 */
 	public static function getClientOptions()
 	{
@@ -46,7 +46,7 @@ class TemplatesHelper
 	 *
 	 * @param   mixed  $clientId  The CMS client id (0:site | 1:administrator) or '*' for all.
 	 *
-	 * @return  array  An array of \JHtmlOption elements.
+	 * @return  array
 	 */
 	public static function getTemplateOptions($clientId = '*')
 	{
@@ -77,12 +77,10 @@ class TemplatesHelper
 	}
 
 	/**
-	 * TODO
+	 * @param   string  $templateBaseDir
+	 * @param   string  $templateDir
 	 *
-	 * @param   string  $templateBaseDir  TODO
-	 * @param   string  $templateDir      TODO
-	 *
-	 * @return  boolean|\JObject
+	 * @return boolean|CMSObject
 	 */
 	public static function parseXMLTemplateFile($templateBaseDir, $templateDir)
 	{
@@ -110,10 +108,8 @@ class TemplatesHelper
 	}
 
 	/**
-	 * TODO
-	 *
-	 * @param   integer  $clientId     TODO
-	 * @param   string   $templateDir  TODO
+	 * @param   integer  $clientId
+	 * @param   string   $templateDir
 	 *
 	 * @return  boolean|array
 	 *

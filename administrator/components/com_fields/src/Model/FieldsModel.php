@@ -449,7 +449,7 @@ class FieldsModel extends ListModel
 	 * @param   array    $data      data
 	 * @param   boolean  $loadData  load current data
 	 *
-	 * @return  \Joomla\CMS\Form\Form|false  the Form object or false
+	 * @return  \Joomla\CMS\Form\Form|bool  the Form object or false
 	 *
 	 * @since   3.7.0
 	 */

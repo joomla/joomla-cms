@@ -78,7 +78,7 @@ class MenuModel extends FormModel
 	 * @param   string  $prefix  A prefix for the table class name. Optional.
 	 * @param   array   $config  Configuration array for model. Optional.
 	 *
-	 * @return  \JTable    A database object
+	 * @return  Table A database object
 	 *
 	 * @since   1.6
 	 */

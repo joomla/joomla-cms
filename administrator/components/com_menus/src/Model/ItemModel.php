@@ -959,7 +959,7 @@ class ItemModel extends AdminModel
 	 * A protected method to get the where clause for the reorder.
 	 * This ensures that the row will be moved relative to a row with the same menutype.
 	 *
-	 * @param   \JTableMenu  $table  instance.
+	 * @param   \Joomla\CMS\Table\Menu  $table
 	 *
 	 * @return  array  An array of conditions to add to add to ordering queries.
 	 *
