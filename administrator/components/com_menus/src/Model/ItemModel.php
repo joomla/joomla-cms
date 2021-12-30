@@ -756,7 +756,7 @@ class ItemModel extends AdminModel
 		// We have a valid type, inject it into the state for forms to use.
 		$this->setState('item.type', $table->type);
 
-		// Convert to the \JObject before adding the params.
+		// Convert to the \Joomla\CMS\Object\CMSObject before adding the params.
 		$properties = $table->getProperties(1);
 		$result = ArrayHelper::toObject($properties);
 
