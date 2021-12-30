@@ -39,7 +39,7 @@ class TestReflection
 				return $property->getDefaultValue();
 			}
 
-			return $property->Value($object);
+			return $property->getValue($object);
 		}
 
 		// Hrm, maybe dealing with a private property in the parent class.
