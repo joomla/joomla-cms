@@ -28,7 +28,7 @@ use PHPMailer\PHPMailer\Exception as phpmailerException;
 class MailTemplate
 {
 	/**
-	 * Mailer object to send the actual mail..
+	 * Mailer object to send the actual mail.
 	 *
 	 * @var    \Joomla\CMS\Mail\Mail
 	 * @since  4.0.0
