@@ -46,7 +46,7 @@ class HtmlView extends BaseHtmlView
 	/**
 	 * Tag data for the current tag or tags (on success, false on failure)
 	 *
-	 * @var    \Joomla\CMS\Object\CMSObject|boolean
+	 * @var    \Joomla\CMS\Object\CMSObject|bool
 	 *
 	 * @since  3.1
 	 */
