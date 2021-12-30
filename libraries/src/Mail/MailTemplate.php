@@ -190,6 +190,12 @@ class MailTemplate
 
 		$mail = self::getTemplate($this->template_id, $this->language);
 
+		// If the Mail Template was not found in the db, we cannot send an email.
+		if ($mail === null)
+		{
+			return false;
+		}
+
 		/** @var Registry $params */
 		$params = $mail->params;
 		$app    = Factory::getApplication();
