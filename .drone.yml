@@ -58,6 +58,14 @@ steps:
       - php -v
       - ./libraries/vendor/bin/phpunit --testsuite Unit
 
+  - name: php81-unit
+    depends_on: [ phpcs ]
+    image: joomlaprojects/docker-images:php8.1
+    failure: ignore
+    commands:
+      - php -v
+      - ./libraries/vendor/bin/phpunit --testsuite Unit
+
   - name: php72-integration
     depends_on: [ npm ]
     image: joomlaprojects/docker-images:php7.2
@@ -87,6 +95,14 @@ steps:
       - php -v
       - ./libraries/vendor/bin/phpunit --testsuite Integration
 
+  - name: php81-integration
+    depends_on: [ npm ]
+    image: joomlaprojects/docker-images:php8.1
+    failure: ignore
+    commands:
+      - php -v
+      - ./libraries/vendor/bin/phpunit --testsuite Integration
+
   - name: php72-integration-pgsql
     depends_on: [ npm ]
     image: joomlaprojects/docker-images:php7.2
@@ -111,6 +127,14 @@ steps:
   - name: php80-integration-pgsql
     depends_on: [ npm ]
     image: joomlaprojects/docker-images:php8.0
+    failure: ignore
+    commands:
+      - php -v
+      - ./libraries/vendor/bin/phpunit --testsuite Integration --configuration phpunit-pgsql.xml.dist
+
+  - name: php81-integration-pgsql
+    depends_on: [ npm ]
+    image: joomlaprojects/docker-images:php8.1
     failure: ignore
     commands:
       - php -v
@@ -251,6 +275,6 @@ steps:
 
 ---
 kind: signature
-hmac: 2b1ca61bdae1a8fe36dc5cdf0497d42d8f3f30df4f0f6e5d248fbfe00be69e48
+hmac: bd749550476cef0ec9258524e7f158b25dd3adf55758bb1c24874a185db1b40a
 
 ...

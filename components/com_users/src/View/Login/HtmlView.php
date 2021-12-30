@@ -116,7 +116,7 @@ class HtmlView extends BaseHtmlView
 		$this->extraButtons = AuthenticationHelper::getLoginButtons('com-users-login__form');
 
 		// Escape strings for HTML output
-		$this->pageclass_sfx = htmlspecialchars($this->params->get('pageclass_sfx'), ENT_COMPAT, 'UTF-8');
+		$this->pageclass_sfx = htmlspecialchars($this->params->get('pageclass_sfx', ''), ENT_COMPAT, 'UTF-8');
 
 		$this->prepareDocument();
 
