@@ -140,9 +140,6 @@ class ConsoleApplication extends Application implements DispatcherAwareInterface
 
 		// Set up the environment
 		$this->input->set('format', 'cli');
-
-		// Setting HOST to live site as it is needed when doing some routing
-		$_SERVER['HTTP_HOST'] = $this->get('live_site');
 	}
 
 	/**
