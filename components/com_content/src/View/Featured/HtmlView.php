@@ -68,9 +68,7 @@ class HtmlView extends BaseHtmlView
 	protected $link_items = array();
 
 	/**
-	 * An instance of JDatabaseDriver.
-	 *
-	 * @var    \JDatabaseDriver
+	 * @var    \Joomla\Database\DatabaseDriver
 	 *
 	 * @since  3.6.3
 	 */

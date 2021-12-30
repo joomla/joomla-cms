@@ -49,7 +49,7 @@ class HtmlView extends BaseHtmlView
 	/**
 	 * The item object details
 	 *
-	 * @var \Joomla\CMS\Object\CMSObject
+	 * @var    \Joomla\CMS\Object\CMSObject
 	 *
 	 * @since  1.6
 	 */

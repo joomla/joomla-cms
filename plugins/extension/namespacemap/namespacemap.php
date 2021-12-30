@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Installer\Installer as JInstaller;
+use Joomla\CMS\Installer\Installer;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\Event\DispatcherInterface;
 
@@ -47,8 +47,8 @@ class PlgExtensionNamespacemap extends CMSPlugin
 	/**
 	 * Update / Create map on extension install
 	 *
-	 * @param   JInstaller  $installer  Installer instance
-	 * @param   integer     $eid        Extension id
+	 * @param   Installer  $installer  Installer instance
+	 * @param   integer    $eid        Extension id
 	 *
 	 * @return  void
 	 *
@@ -67,9 +67,9 @@ class PlgExtensionNamespacemap extends CMSPlugin
 	/**
 	 * Update / Create map on extension uninstall
 	 *
-	 * @param   JInstaller  $installer  Installer instance
-	 * @param   integer     $eid        Extension id
-	 * @param   boolean     $removed    Installation result
+	 * @param   Installer  $installer  Installer instance
+	 * @param   integer    $eid        Extension id
+	 * @param   boolean    $removed    Installation result
 	 *
 	 * @return  void
 	 *
@@ -88,8 +88,8 @@ class PlgExtensionNamespacemap extends CMSPlugin
 	/**
 	 * Update map on extension update
 	 *
-	 * @param   JInstaller  $installer  Installer instance
-	 * @param   integer     $eid        Extension id
+	 * @param   Installer  $installer  Installer instance
+	 * @param   integer    $eid        Extension id
 	 *
 	 * @return  void
 	 *
