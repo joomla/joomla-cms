@@ -456,7 +456,7 @@ class ConsoleApplication extends Application implements DispatcherAwareInterface
 			throw new InvalidArgumentException('A router name must be set in console application.');
 		}
 
-		// Fallback to site router when console router is fetched
+		// Fallback to site router when console router is requested
 		if (Factory::getApplication()->getName() === $name)
 		{
 			$name = 'site';
