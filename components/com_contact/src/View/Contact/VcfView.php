@@ -36,7 +36,7 @@ class VcfView extends AbstractView
 	 *
 	 * @return  string  A string if successful
 	 *
-	 * @throws GenericDataException
+	 * @throws  GenericDataException
 	 */
 	public function display($tpl = null)
 	{
