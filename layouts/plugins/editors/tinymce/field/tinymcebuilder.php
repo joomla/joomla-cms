@@ -14,6 +14,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Layout\FileLayout;
 
 extract($displayData);
 
@@ -52,7 +53,7 @@ extract($displayData);
  * @var   array        $setsNames      List of Sets names
  * @var   Form[]       $setsForms      Form with extra options for an each set
  * @var   string       $languageFile   TinyMCE language file to translate the buttons
- * @var   JLayoutFile  $this           Context
+ * @var   FileLayout   $this           Context
  */
 
 /** @var HtmlDocument $doc */

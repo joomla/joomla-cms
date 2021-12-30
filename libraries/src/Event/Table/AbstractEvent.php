@@ -13,7 +13,6 @@ namespace Joomla\CMS\Event\Table;
 use BadMethodCallException;
 use Joomla\CMS\Event\AbstractImmutableEvent;
 use Joomla\CMS\Table\TableInterface;
-use JTableInterface;
 
 /**
  * Event class for the Table's events
