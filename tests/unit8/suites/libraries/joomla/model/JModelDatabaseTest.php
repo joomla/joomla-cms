@@ -78,7 +78,7 @@ class JModelDatabaseTest extends TestCase
 		$db = TestMockDatabaseDriver::create($this);
 		$this->_instance->setDb($db);
 
-		$this->assertAttributeSame($db, 'db', $this->_instance);
+		$this->assertSame($db, $this->getPropertyValue($this->_instance, 'db'));
 	}
 
 	/**

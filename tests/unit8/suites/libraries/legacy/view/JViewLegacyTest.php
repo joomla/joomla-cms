@@ -236,30 +236,31 @@ class JViewLegacyTest extends TestCase
 		$model3->name = 'defaulttest';
 
 		// Assert that initial state is empty
-		$this->assertAttributeEquals($models, '_models', $this->class);
+		$this->assertEquals($models, $this->getPropertyValue($this->class, '_models'));
 
 		// Assert that setModel() returns the model handed over
 		$this->assertThat($this->class->setModel($model1), $this->equalTo($model1));
 		$models['model'] = $model1;
 
 		// Assert that model was correctly added to array
-		$this->assertAttributeEquals($models, '_models', $this->class);
+		$this->assertEquals($models, $this->getPropertyValue($this->class, '_models'));
 
 		// Assert that having more than one model works
 		$this->class->setModel($model2);
 		$models['test'] = $model2;
 
-		$this->assertAttributeEquals($models, '_models', $this->class);
+		$this->assertEquals($models, $this->getPropertyValue($this->class, '_models'));
 
 		// Assert that default model works correctly
-		$this->assertAttributeEquals('', '_defaultModel', $this->class);
+		$this->assertEquals('', $this->getPropertyValue($this->class, '_defaultModel'));
 
 		$this->class->setModel($model3, true);
 		$models['defaulttest'] = $model3;
 
-		$this->assertAttributeEquals($models, '_models', $this->class);
+		$this->assertEquals($models, $this->getPropertyValue($this->class, '_models'));
 
-		$this->assertAttributeEquals('defaulttest', '_defaultModel', $this->class);
+		$this->assertEquals('defaulttest', $this->getPropertyValue($this->class, '_defaultModel'));
+
 	}
 
 	/**
@@ -271,17 +272,17 @@ class JViewLegacyTest extends TestCase
 	 */
 	public function testSetLayout()
 	{
-		$this->assertAttributeEquals('default', '_layout', $this->class);
+		$this->assertEquals('default', $this->getPropertyValue($this->class, '_layout'));
 
 		$this->class->setLayout('test');
 
-		$this->assertAttributeEquals('test', '_layout', $this->class);
-		$this->assertAttributeEquals('_', '_layoutTemplate', $this->class);
+		$this->assertEquals('test', $this->getPropertyValue($this->class, '_layout'));
+		$this->assertEquals('_', $this->getPropertyValue($this->class, '_layoutTemplate'));
 
 		$this->class->setLayout('-:test2');
 
-		$this->assertAttributeEquals('test2', '_layout', $this->class);
-		$this->assertAttributeEquals('-', '_layoutTemplate', $this->class);
+		$this->assertEquals('test2', $this->getPropertyValue($this->class, '_layout'));
+		$this->assertEquals('-', $this->getPropertyValue($this->class, '_layoutTemplate'));
 	}
 
 	/**
@@ -293,11 +294,11 @@ class JViewLegacyTest extends TestCase
 	 */
 	public function testSetLayoutExt()
 	{
-		$this->assertAttributeEquals('php', '_layoutExt', $this->class);
+		$this->assertEquals('php', $this->getPropertyValue($this->class, '_layoutExt'));
 
 		$this->class->setLayoutExt('tmpl');
 
-		$this->assertAttributeEquals('tmpl', '_layoutExt', $this->class);
+		$this->assertEquals('tmpl', $this->getPropertyValue($this->class, '_layoutExt'));
 	}
 
 	/**
@@ -309,15 +310,15 @@ class JViewLegacyTest extends TestCase
 	 */
 	public function testSetEscape()
 	{
-		$this->assertAttributeEquals('htmlspecialchars', '_escape', $this->class);
+		$this->assertEquals('htmlspecialchars', $this->getPropertyValue($this->class, '_escape'));
 
 		$this->class->setEscape('escapefunc');
 
-		$this->assertAttributeEquals('escapefunc', '_escape', $this->class);
+		$this->assertEquals('escapefunc', $this->getPropertyValue($this->class, '_escape'));
 
 		$this->class->setEscape(array('EscapeClass', 'func'));
 
-		$this->assertAttributeEquals(array('EscapeClass', 'func'), '_escape', $this->class);
+		$this->assertEquals(array('EscapeClass', 'func'), $this->getPropertyValue($this->class, '_escape'));
 	}
 
 	/**
@@ -336,18 +337,16 @@ class JViewLegacyTest extends TestCase
 
 		$this->class->addTemplatePath(JPATH_ROOT . $ds . 'libraries');
 
-		$this->assertAttributeEquals(
+		$this->assertEquals(
 			array('helper' => array(), 'template' => array(realpath(JPATH_ROOT . $ds . 'libraries') . $ds)),
-			'_path',
-			$this->class
+			$this->getPropertyValue($this->class, '_path')
 		);
 
 		$this->class->addTemplatePath(JPATH_ROOT . $ds . 'cache');
 
-		$this->assertAttributeEquals(
+		$this->assertEquals(
 			array('helper' => array(), 'template' => array(realpath(JPATH_ROOT . $ds . 'cache') . $ds, realpath(JPATH_ROOT . $ds . 'libraries') . $ds)),
-			'_path',
-			$this->class
+			$this->getPropertyValue($this->class, '_path')
 		);
 	}
 
@@ -367,18 +366,16 @@ class JViewLegacyTest extends TestCase
 
 		$this->class->addHelperPath(JPATH_ROOT . $ds . 'libraries');
 
-		$this->assertAttributeEquals(
+		$this->assertEquals(
 			array('helper' => array(realpath(JPATH_ROOT . $ds . 'libraries') . $ds), 'template' => array()),
-			'_path',
-			$this->class
+			$this->getPropertyValue($this->class, '_path')
 		);
 
 		$this->class->addHelperPath(JPATH_ROOT . $ds . 'cache');
 
-		$this->assertAttributeEquals(
+		$this->assertEquals(
 			array('helper' => array(realpath(JPATH_ROOT . $ds . 'cache') . $ds, realpath(JPATH_ROOT . $ds . 'libraries') . $ds), 'template' => array()),
-			'_path',
-			$this->class
+			$this->getPropertyValue($this->class, '_path')
 		);
 	}
 
@@ -398,40 +395,36 @@ class JViewLegacyTest extends TestCase
 
 		TestReflection::invoke($this->class, '_addPath', 'template', JPATH_ROOT . $ds . 'libraries');
 
-		$this->assertAttributeEquals(
+		$this->assertEquals(
 			array('helper' => array(), 'template' => array(realpath(JPATH_ROOT . $ds . 'libraries') . $ds)),
-			'_path',
-			$this->class
+			$this->getPropertyValue($this->class, '_path')
 		);
 
 		TestReflection::invoke($this->class, '_addPath', 'helper', realpath(JPATH_ROOT . $ds . 'tests'));
 
-		$this->assertAttributeEquals(
+		$this->assertEquals(
 			array('helper' => array(realpath(JPATH_ROOT . $ds . 'tests') . $ds), 'template' => array(realpath(JPATH_ROOT . $ds . 'libraries') . $ds)),
-			'_path',
-			$this->class
+			$this->getPropertyValue($this->class, '_path')
 		);
 
 		TestReflection::invoke($this->class, '_addPath', 'template', realpath(JPATH_ROOT . $ds . 'tests'));
 
-		$this->assertAttributeEquals(
+		$this->assertEquals(
 			array(
 				'helper' => array(realpath(JPATH_ROOT . $ds . 'tests') . $ds),
 				'template' => array(realpath(JPATH_ROOT . $ds . 'tests') . $ds, realpath(JPATH_ROOT . $ds . 'libraries') . $ds)
 			),
-			'_path',
-			$this->class
+			$this->getPropertyValue($this->class, '_path')
 		);
 
 		TestReflection::invoke($this->class, '_addPath', 'helper', realpath(JPATH_ROOT . $ds . 'libraries'));
 
-		$this->assertAttributeEquals(
+		$this->assertEquals(
 			array(
 				'helper' => array(realpath(JPATH_ROOT . $ds . 'libraries') . $ds, realpath(JPATH_ROOT . $ds . 'tests') . $ds),
 				'template' => array(realpath(JPATH_ROOT . $ds . 'tests') . $ds, realpath(JPATH_ROOT . $ds . 'libraries') . $ds)
 			),
-			'_path',
-			$this->class
+			$this->getPropertyValue($this->class, '_path')
 		);
 	}
 

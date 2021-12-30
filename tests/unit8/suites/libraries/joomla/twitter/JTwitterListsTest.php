@@ -196,7 +196,7 @@ class JTwitterListsTest extends TestCase
 		}
 		else
 		{
-			$this->setExpectedException('RuntimeException');
+			$this->expectException(\RuntimeException::class);
 			$this->object->getLists($user);
 		}
 
@@ -254,7 +254,7 @@ class JTwitterListsTest extends TestCase
 		}
 		else
 		{
-			$this->setExpectedException('RuntimeException');
+			$this->expectException(\RuntimeException::class);
 			$this->object->getLists($user);
 		}
 
@@ -341,13 +341,13 @@ class JTwitterListsTest extends TestCase
 			else
 			{
 				// We don't have a valid entry
-				$this->setExpectedException('RuntimeException');
+				$this->expectException(\RuntimeException::class);
 				$this->object->getStatuses($list, $owner);
 			}
 		}
 		else
 		{
-			$this->setExpectedException('RuntimeException');
+			$this->expectException(\RuntimeException::class);
 			$this->object->getStatuses($list, $owner);
 		}
 
@@ -419,13 +419,13 @@ class JTwitterListsTest extends TestCase
 			else
 			{
 				// We don't have a valid entry
-				$this->setExpectedException('RuntimeException');
+				$this->expectException(\RuntimeException::class);
 				$this->object->getStatuses($list, $owner);
 			}
 		}
 		else
 		{
-			$this->setExpectedException('RuntimeException');
+			$this->expectException(\RuntimeException::class);
 			$this->object->getStatuses($list, $owner);
 		}
 
@@ -491,13 +491,13 @@ class JTwitterListsTest extends TestCase
 			else
 			{
 				// We don't have a valid entry
-				$this->setExpectedException('RuntimeException');
+				$this->expectException(\RuntimeException::class);
 				$this->object->getSubscribers($list, $owner);
 			}
 		}
 		else
 		{
-			$this->setExpectedException('RuntimeException');
+			$this->expectException(\RuntimeException::class);
 			$this->object->getSubscribers($list, $owner);
 		}
 
@@ -571,13 +571,13 @@ class JTwitterListsTest extends TestCase
 			else
 			{
 				// We don't have a valid entry
-				$this->setExpectedException('RuntimeException');
+				$this->expectException(\RuntimeException::class);
 				$this->object->getSubscribers($list, $owner);
 			}
 		}
 		else
 		{
-			$this->setExpectedException('RuntimeException');
+			$this->expectException(\RuntimeException::class);
 			$this->object->getSubscribers($list, $owner);
 		}
 
@@ -655,13 +655,13 @@ class JTwitterListsTest extends TestCase
 			else
 			{
 				// We don't have a valid entry
-				$this->setExpectedException('RuntimeException');
+				$this->expectException(\RuntimeException::class);
 				$this->object->deleteMembers($list, $user_id, $screen_name, $owner);
 			}
 		}
 		else
 		{
-			$this->setExpectedException('RuntimeException');
+			$this->expectException(\RuntimeException::class);
 			$this->object->deleteMembers($list, $user_id, $screen_name, $owner);
 		}
 
@@ -675,7 +675,7 @@ class JTwitterListsTest extends TestCase
 		}
 		if ($user_id == null && $screen_name == null)
 		{
-			$this->setExpectedException('RuntimeException');
+			$this->expectException(\RuntimeException::class);
 			$this->object->deleteMembers($list, $user_id, $screen_name, $owner);
 		}
 
@@ -732,13 +732,13 @@ class JTwitterListsTest extends TestCase
 			else
 			{
 				// We don't have a valid entry
-				$this->setExpectedException('RuntimeException');
+				$this->expectException(\RuntimeException::class);
 				$this->object->deleteMembers($list, $user_id, $screen_name, $owner);
 			}
 		}
 		else
 		{
-			$this->setExpectedException('RuntimeException');
+			$this->expectException(\RuntimeException::class);
 			$this->object->deleteMembers($list, $user_id, $screen_name, $owner);
 		}
 
@@ -752,7 +752,7 @@ class JTwitterListsTest extends TestCase
 		}
 		if ($user_id == null && $screen_name == null)
 		{
-			$this->setExpectedException('RuntimeException');
+			$this->expectException(\RuntimeException::class);
 			$this->object->deleteMembers($list, $user_id, $screen_name, $owner);
 		}
 
@@ -814,13 +814,13 @@ class JTwitterListsTest extends TestCase
 			else
 			{
 				// We don't have a valid entry
-				$this->setExpectedException('RuntimeException');
+				$this->expectException(\RuntimeException::class);
 				$this->object->subscribe($list, $owner);
 			}
 		}
 		else
 		{
-			$this->setExpectedException('RuntimeException');
+			$this->expectException(\RuntimeException::class);
 			$this->object->subscribe($list, $owner);
 		}
 
@@ -886,13 +886,13 @@ class JTwitterListsTest extends TestCase
 			else
 			{
 				// We don't have a valid entry
-				$this->setExpectedException('RuntimeException');
+				$this->expectException(\RuntimeException::class);
 				$this->object->subscribe($list, $owner);
 			}
 		}
 		else
 		{
-			$this->setExpectedException('RuntimeException');
+			$this->expectException(\RuntimeException::class);
 			$this->object->subscribe($list, $owner);
 		}
 
@@ -978,13 +978,13 @@ class JTwitterListsTest extends TestCase
 			else
 			{
 				// We don't have a valid entry
-				$this->setExpectedException('RuntimeException');
+				$this->expectException(\RuntimeException::class);
 				$this->object->isMember($list, $user, $owner);
 			}
 		}
 		else
 		{
-			$this->setExpectedException('RuntimeException');
+			$this->expectException(\RuntimeException::class);
 			$this->object->isMember($list, $user, $owner);
 		}
 
@@ -999,7 +999,7 @@ class JTwitterListsTest extends TestCase
 		else
 		{
 			// We don't have a valid entry
-			$this->setExpectedException('RuntimeException');
+			$this->expectException(\RuntimeException::class);
 			$this->object->isMember($list, $user, $owner);
 		}
 
@@ -1072,13 +1072,13 @@ class JTwitterListsTest extends TestCase
 			else
 			{
 				// We don't have a valid entry
-				$this->setExpectedException('RuntimeException');
+				$this->expectException(\RuntimeException::class);
 				$this->object->isMember($list, $user, $owner);
 			}
 		}
 		else
 		{
-			$this->setExpectedException('RuntimeException');
+			$this->expectException(\RuntimeException::class);
 			$this->object->isMember($list, $user, $owner);
 		}
 
@@ -1093,7 +1093,7 @@ class JTwitterListsTest extends TestCase
 		else
 		{
 			// We don't have a valid entry
-			$this->setExpectedException('RuntimeException');
+			$this->expectException(\RuntimeException::class);
 			$this->object->isMember($list, $user, $owner);
 		}
 
@@ -1162,13 +1162,13 @@ class JTwitterListsTest extends TestCase
 			else
 			{
 				// We don't have a valid entry
-				$this->setExpectedException('RuntimeException');
+				$this->expectException(\RuntimeException::class);
 				$this->object->isSubscriber($list, $user, $owner);
 			}
 		}
 		else
 		{
-			$this->setExpectedException('RuntimeException');
+			$this->expectException(\RuntimeException::class);
 			$this->object->isSubscriber($list, $user, $owner);
 		}
 
@@ -1183,7 +1183,7 @@ class JTwitterListsTest extends TestCase
 		else
 		{
 			// We don't have a valid entry
-			$this->setExpectedException('RuntimeException');
+			$this->expectException(\RuntimeException::class);
 			$this->object->isSubscriber($list, $user, $owner);
 		}
 
@@ -1256,13 +1256,13 @@ class JTwitterListsTest extends TestCase
 			else
 			{
 				// We don't have a valid entry
-				$this->setExpectedException('RuntimeException');
+				$this->expectException(\RuntimeException::class);
 				$this->object->isSubscriber($list, $user, $owner);
 			}
 		}
 		else
 		{
-			$this->setExpectedException('RuntimeException');
+			$this->expectException(\RuntimeException::class);
 			$this->object->isSubscriber($list, $user, $owner);
 		}
 
@@ -1277,7 +1277,7 @@ class JTwitterListsTest extends TestCase
 		else
 		{
 			// We don't have a valid entry
-			$this->setExpectedException('RuntimeException');
+			$this->expectException(\RuntimeException::class);
 			$this->object->isSubscriber($list, $user, $owner);
 		}
 
@@ -1342,13 +1342,13 @@ class JTwitterListsTest extends TestCase
 			else
 			{
 				// We don't have a valid entry
-				$this->setExpectedException('RuntimeException');
+				$this->expectException(\RuntimeException::class);
 				$this->object->unsubscribe($list, $owner);
 			}
 		}
 		else
 		{
-			$this->setExpectedException('RuntimeException');
+			$this->expectException(\RuntimeException::class);
 			$this->object->unsubscribe($list, $owner);
 		}
 
@@ -1414,13 +1414,13 @@ class JTwitterListsTest extends TestCase
 			else
 			{
 				// We don't have a valid entry
-				$this->setExpectedException('RuntimeException');
+				$this->expectException(\RuntimeException::class);
 				$this->object->unsubscribe($list, $owner);
 			}
 		}
 		else
 		{
-			$this->setExpectedException('RuntimeException');
+			$this->expectException(\RuntimeException::class);
 			$this->object->unsubscribe($list, $owner);
 		}
 
@@ -1484,13 +1484,13 @@ class JTwitterListsTest extends TestCase
 			else
 			{
 				// We don't have a valid entry
-				$this->setExpectedException('RuntimeException');
+				$this->expectException(\RuntimeException::class);
 				$this->object->addMembers($list, $user_id, $screen_name, $owner);
 			}
 		}
 		else
 		{
-			$this->setExpectedException('RuntimeException');
+			$this->expectException(\RuntimeException::class);
 			$this->object->addMembers($list, $user_id, $screen_name, $owner);
 		}
 
@@ -1504,7 +1504,7 @@ class JTwitterListsTest extends TestCase
 		}
 		if ($user_id == null && $screen_name == null)
 		{
-			$this->setExpectedException('RuntimeException');
+			$this->expectException(\RuntimeException::class);
 			$this->object->addMembers($list, $user_id, $screen_name, $owner);
 		}
 
@@ -1572,13 +1572,13 @@ class JTwitterListsTest extends TestCase
 			else
 			{
 				// We don't have a valid entry
-				$this->setExpectedException('RuntimeException');
+				$this->expectException(\RuntimeException::class);
 				$this->object->addMembers($list, $user_id, $screen_name, $owner);
 			}
 		}
 		else
 		{
-			$this->setExpectedException('RuntimeException');
+			$this->expectException(\RuntimeException::class);
 			$this->object->addMembers($list, $user_id, $screen_name, $owner);
 		}
 
@@ -1592,7 +1592,7 @@ class JTwitterListsTest extends TestCase
 		}
 		if ($user_id == null && $screen_name == null)
 		{
-			$this->setExpectedException('RuntimeException');
+			$this->expectException(\RuntimeException::class);
 			$this->object->addMembers($list, $user_id, $screen_name, $owner);
 		}
 
@@ -1657,13 +1657,13 @@ class JTwitterListsTest extends TestCase
 			else
 			{
 				// We don't have a valid entry
-				$this->setExpectedException('RuntimeException');
+				$this->expectException(\RuntimeException::class);
 				$this->object->getMembers($list, $owner);
 			}
 		}
 		else
 		{
-			$this->setExpectedException('RuntimeException');
+			$this->expectException(\RuntimeException::class);
 			$this->object->getMembers($list, $owner);
 		}
 
@@ -1735,13 +1735,13 @@ class JTwitterListsTest extends TestCase
 			else
 			{
 				// We don't have a valid entry
-				$this->setExpectedException('RuntimeException');
+				$this->expectException(\RuntimeException::class);
 				$this->object->getMembers($list, $owner);
 			}
 		}
 		else
 		{
-			$this->setExpectedException('RuntimeException');
+			$this->expectException(\RuntimeException::class);
 			$this->object->getMembers($list, $owner);
 		}
 
@@ -1806,13 +1806,13 @@ class JTwitterListsTest extends TestCase
 			else
 			{
 				// We don't have a valid entry
-				$this->setExpectedException('RuntimeException');
+				$this->expectException(\RuntimeException::class);
 				$this->object->getListById($list, $owner);
 			}
 		}
 		else
 		{
-			$this->setExpectedException('RuntimeException');
+			$this->expectException(\RuntimeException::class);
 			$this->object->getListById($list, $owner);
 		}
 
@@ -1878,13 +1878,13 @@ class JTwitterListsTest extends TestCase
 			else
 			{
 				// We don't have a valid entry
-				$this->setExpectedException('RuntimeException');
+				$this->expectException(\RuntimeException::class);
 				$this->object->getListById($list, $owner);
 			}
 		}
 		else
 		{
-			$this->setExpectedException('RuntimeException');
+			$this->expectException(\RuntimeException::class);
 			$this->object->getListById($list, $owner);
 		}
 
@@ -1939,7 +1939,7 @@ class JTwitterListsTest extends TestCase
 		}
 		else
 		{
-			$this->setExpectedException('RuntimeException');
+			$this->expectException(\RuntimeException::class);
 			$this->object->getSubscriptions($user);
 		}
 
@@ -2001,7 +2001,7 @@ class JTwitterListsTest extends TestCase
 		}
 		else
 		{
-			$this->setExpectedException('RuntimeException');
+			$this->expectException(\RuntimeException::class);
 			$this->object->getSubscriptions($user);
 		}
 
@@ -2070,13 +2070,13 @@ class JTwitterListsTest extends TestCase
 			else
 			{
 				// We don't have a valid entry
-				$this->setExpectedException('RuntimeException');
+				$this->expectException(\RuntimeException::class);
 				$this->object->update($list, $owner);
 			}
 		}
 		else
 		{
-			$this->setExpectedException('RuntimeException');
+			$this->expectException(\RuntimeException::class);
 			$this->object->update($list, $owner);
 		}
 
@@ -2150,13 +2150,13 @@ class JTwitterListsTest extends TestCase
 			else
 			{
 				// We don't have a valid entry
-				$this->setExpectedException('RuntimeException');
+				$this->expectException(\RuntimeException::class);
 				$this->object->update($list, $owner);
 			}
 		}
 		else
 		{
-			$this->setExpectedException('RuntimeException');
+			$this->expectException(\RuntimeException::class);
 			$this->object->update($list, $owner);
 		}
 
@@ -2310,13 +2310,13 @@ class JTwitterListsTest extends TestCase
 			else
 			{
 				// We don't have a valid entry
-				$this->setExpectedException('RuntimeException');
+				$this->expectException(\RuntimeException::class);
 				$this->object->delete($list, $owner);
 			}
 		}
 		else
 		{
-			$this->setExpectedException('RuntimeException');
+			$this->expectException(\RuntimeException::class);
 			$this->object->delete($list, $owner);
 		}
 
@@ -2382,13 +2382,13 @@ class JTwitterListsTest extends TestCase
 			else
 			{
 				// We don't have a valid entry
-				$this->setExpectedException('RuntimeException');
+				$this->expectException(\RuntimeException::class);
 				$this->object->delete($list, $owner);
 			}
 		}
 		else
 		{
-			$this->setExpectedException('RuntimeException');
+			$this->expectException(\RuntimeException::class);
 			$this->object->delete($list, $owner);
 		}
 

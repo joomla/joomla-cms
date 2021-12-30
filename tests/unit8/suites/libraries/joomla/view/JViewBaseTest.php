@@ -35,7 +35,7 @@ class JViewBaseTest extends TestCase
 	 */
 	public function test__construct()
 	{
-		$this->assertAttributeInstanceOf('JModel', 'model', $this->_instance);
+		$this->assertInstanceOf('JModel', $this->getPropertyValue($this->_instance, 'model'));
 	}
 
 	/**

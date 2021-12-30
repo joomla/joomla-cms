@@ -57,8 +57,8 @@ class JSchemaChangesetTestPostgresql extends TestCaseDatabasePostgresql
 	 */
 	public function testTheObjectIsInstantiatedCorrectly()
 	{
-		$this->assertAttributeInstanceOf('JDatabaseDriverPostgresql', 'db', $this->object, 'The database driver was not correctly injected');
-		$this->assertAttributeContainsOnly('JSchemaChangeitemPostgresql', 'changeItems', $this->object, null, 'The list of change items was not correctly set');
+		$this->assertInstanceOf('JDatabaseDriverPostgresql', $this->getPropertyValue($this->object, 'db'), 'The database driver was not correctly injected');
+		$this->assertContainsOnly('JSchemaChangeitemPostgresql', $this->getPropertyValue($this->object, 'changeItems'), null, 'The list of change items was not correctly set');
 	}
 
 	/**

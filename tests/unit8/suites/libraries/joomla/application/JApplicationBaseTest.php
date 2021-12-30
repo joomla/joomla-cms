@@ -28,8 +28,8 @@ class JApplicationBaseTest extends TestCase
 	{
 		$object = $this->getMockForAbstractClass('JApplicationBase');
 
-		$this->assertAttributeInstanceOf('JInput', 'input', $object);
-		$this->assertAttributeInstanceOf('Joomla\Registry\Registry', 'config', $object);
+		$this->assertInstanceOf('JInput', $this->getPropertyValue($object, 'input'));
+		$this->assertInstanceOf('Joomla\Registry\Registry', $this->getPropertyValue($object, 'config'));
 	}
 
 	/**
@@ -43,8 +43,8 @@ class JApplicationBaseTest extends TestCase
 		$mockConfig = $this->getMockBuilder('Joomla\Registry\Registry')->getMock();
 		$object     = $this->getMockForAbstractClass('JApplicationBase', array($mockInput, $mockConfig));
 
-		$this->assertAttributeSame($mockInput, 'input', $object);
-		$this->assertAttributeSame($mockConfig, 'config', $object);
+		$this->assertSame($mockInput, $this->getPropertyValue($object, 'input'));
+		$this->assertSame($mockConfig, $this->getPropertyValue($object, 'config'));
 	}
 
 	/**
@@ -128,7 +128,7 @@ class JApplicationBaseTest extends TestCase
 	{
 		$this->class->loadDispatcher();
 
-		$this->assertAttributeInstanceOf('JEventDispatcher', 'dispatcher', $this->class);
+		$this->assertInstanceOf('JEventDispatcher', $this->getPropertyValue($this->class, 'dispatcher'));
 
 		// Reset the global state for JEventDispatcher
 		TestReflection::setValue('JEventDispatcher', 'instance', null);
@@ -145,7 +145,7 @@ class JApplicationBaseTest extends TestCase
 
 		$this->class->loadDispatcher($dispatcher);
 
-		$this->assertAttributeSame($dispatcher, 'dispatcher', $this->class);
+		$this->assertSame($dispatcher, $this->getPropertyValue($this->class, 'dispatcher'));
 	}
 
 	/**
@@ -163,13 +163,13 @@ class JApplicationBaseTest extends TestCase
 		JFactory::$session = $this->getMockBuilder('JSession')->getMock();
 
 		// Before running, this should be null
-		$this->assertAttributeNotInstanceOf('JUser', 'identity', $this->class);
+		$this->assertNotInstanceOf('JUser', $this->getPropertyValue($this->class, 'identity'));
 
 		// Validate method chaining
 		$this->assertSame($this->class, $this->class->loadIdentity());
 
 		// A JUser object should have been loaded
-		$this->assertAttributeInstanceOf('JUser', 'identity', $this->class);
+		$this->assertInstanceOf('JUser', $this->getPropertyValue($this->class, 'identity'));
 
 		// Restore the global state
 		$this->restoreFactoryState();
@@ -187,7 +187,7 @@ class JApplicationBaseTest extends TestCase
 		// Validate method chaining
 		$this->assertSame($this->class, $this->class->loadIdentity($mockUser));
 
-		$this->assertAttributeSame($mockUser, 'identity', $this->class);
+		$this->assertSame($mockUser, $this->getPropertyValue($this->class, 'identity'));
 	}
 
 	/**
@@ -242,7 +242,7 @@ class JApplicationBaseTest extends TestCase
 
 		$this->class->setConfiguration($mockConfig);
 
-		$this->assertAttributeSame($mockConfig, 'config', $this->class);
+		$this->assertSame($mockConfig, $this->getPropertyValue($this->class, 'config'));
 	}
 
 	/**
@@ -256,7 +256,7 @@ class JApplicationBaseTest extends TestCase
 
 		$this->class->setLogger($mockLogger);
 
-		$this->assertAttributeSame($mockLogger, 'logger', $this->class);
+		$this->assertSame($mockLogger, $this->getPropertyValue($this->class, 'logger'));
 	}
 
 	/**

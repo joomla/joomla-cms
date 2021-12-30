@@ -374,7 +374,7 @@ class JTwitterDirectmessagesTest extends TestCase
 		}
 		else
 		{
-			$this->setExpectedException('RuntimeException');
+			$this->expectException(\RuntimeException::class);
 			$this->object->sendDirectMessages($user, $text);
 		}
 		$data['text'] = $text;
@@ -422,7 +422,7 @@ class JTwitterDirectmessagesTest extends TestCase
 		}
 		else
 		{
-			$this->setExpectedException('RuntimeException');
+			$this->expectException(\RuntimeException::class);
 			$this->object->sendDirectMessages($user, $text);
 		}
 		$data['text'] = $text;

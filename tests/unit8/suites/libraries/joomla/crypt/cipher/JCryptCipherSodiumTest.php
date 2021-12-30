@@ -86,6 +86,6 @@ class JCryptCipherSodiumTest extends TestCase
 		$this->assertSame(Crypt::safeStrlen($key->public), 32);
 
 		// Assert the key is of the correct type.
-		$this->assertAttributeEquals('sodium', 'type', $key);
+		$this->assertEquals('sodium', $this->getPropertyValue($key, 'type'));
 	}
 }

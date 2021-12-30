@@ -65,13 +65,13 @@ class JControllerFormTest extends TestCase
 			)
 		);
 
-		$this->assertAttributeEquals('com_minces', 'option', $object, 'Checks the _option variable was created properly.');
+		$this->assertEquals('com_minces', $this->getPropertyValue($object, 'option'), 'Checks the _option variable was created properly.');
 
-		$this->assertAttributeEquals('mince', 'context', $object, 'Check the _context variable was created properly.');
+		$this->assertEquals('mince', $this->getPropertyValue($object, 'context'), 'Check the _context variable was created properly.');
 
-		$this->assertAttributeEquals('mince', 'view_item', $object, 'Check the _view_item variable was created properly.');
+		$this->assertEquals('mince', $this->getPropertyValue($object, 'view_item'), 'Check the _view_item variable was created properly.');
 
-		$this->assertAttributeEquals('minces', 'view_list', $object, 'Check the _view_list variable was created properly.');
+		$this->assertEquals('minces', $this->getPropertyValue($object, 'view_list'), 'Check the _view_list variable was created properly.');
 
 		// Test for correct pluralisation.
 		$object = new MiniesControllerMiny(
@@ -81,7 +81,7 @@ class JControllerFormTest extends TestCase
 			)
 		);
 
-		$this->assertAttributeEquals('minies', 'view_list', $object, 'Check the _view_list variable was created properly');
+		$this->assertEquals('minies', $this->getPropertyValue($object, 'view_list'), 'Check the _view_list variable was created properly');
 
 		$object = new MintsControllerMint(
 			array(
@@ -90,6 +90,6 @@ class JControllerFormTest extends TestCase
 			)
 		);
 
-		$this->assertAttributeEquals('mints', 'view_list', $object, 'Check the _view_list variable was created properly');
+		$this->assertEquals('mints', $this->getPropertyValue($object, 'view_list'), 'Check the _view_list variable was created properly');
 	}
 }

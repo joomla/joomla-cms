@@ -35,15 +35,15 @@ class JControllerBaseTest extends TestCase
 	{
 		// New controller with no dependencies.
 		$this->assertEquals('default', TestReflection::getValue($this->_instance, 'app')->input, 'Checks the mock application came from the factory.');
-		$this->assertAttributeEquals('default', 'input', $this->_instance, 'Checks the input came from the application.');
+		$this->assertEquals('default', $this->getPropertyValue($this->_instance, 'input'), 'Checks the input came from the application.');
 
 		// New controller with dependencies
 		$app = TestMockApplicationWeb::create($this);
 		$app->test = 'ok';
 
 		$class = new BaseController(new JInputCookie, $app);
-		$this->assertAttributeInstanceOf('JInputCookie', 'input', $class, 'Checks the type of the injected input.');
-		$this->assertAttributeSame($app, 'app', $class, 'Checks the injected application.');
+		$this->assertInstanceOf('JInputCookie', $this->getPropertyValue($class, 'input'), 'Checks the type of the injected input.');
+		$this->assertSame($app, $this->getPropertyValue($class, 'app'), 'Checks the injected application.');
 	}
 
 	/**

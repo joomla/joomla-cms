@@ -175,7 +175,7 @@ class JLinkedinStreamTest extends TestCase
 		}
 		elseif (!$comment)
 		{
-			$this->setExpectedException('RuntimeException');
+			$this->expectException(\RuntimeException::class);
 			$this->object->share($visibility, $comment, $title, $url, $image, $description, $twitter);
 		}
 

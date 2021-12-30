@@ -191,10 +191,9 @@ class JFilesystemPatcherTest extends TestCase
 	{
 		$patcher = JFilesystemPatcher::getInstance()->reset();
 		$patcher->add($udiff, $root, $strip);
-		$this->assertAttributeEquals(
+		$this->assertEquals(
 			$expected,
-			'patches',
-			$patcher,
+			$this->getPropertyValue($patcher, 'patches'),
 			'Line:' . __LINE__ . ' The patcher cannot add the unified diff string.'
 		);
 	}
@@ -236,7 +235,7 @@ class JFilesystemPatcherTest extends TestCase
 		$patcher = JFilesystemPatcher::getInstance()->reset();
 		$patcher->addFile(JPATH_TESTS . '/tmp/patcher/lao2tzu.diff', realpath(JPATH_TESTS . '/tmp/patcher'));
 
-		$this->assertAttributeEquals(
+		$this->assertEquals(
 			array(
 				array(
 					'udiff' => $udiff,
@@ -244,8 +243,7 @@ class JFilesystemPatcherTest extends TestCase
 					'strip' => 0
 				)
 			),
-			'patches',
-			$patcher,
+			$this->getPropertyValue($patcher, 'patches'),
 			'Line:' . __LINE__ . ' The patcher cannot add the unified diff file.'
 		);
 	}
@@ -286,28 +284,24 @@ class JFilesystemPatcherTest extends TestCase
 			$patcher,
 			'Line:' . __LINE__ . ' The reset method does not return $this for chaining.'
 		);
-		$this->assertAttributeEquals(
+		$this->assertEquals(
 			array(),
-			'sources',
-			$patcher,
+			$this->getPropertyValue($patcher, 'sources'),
 			'Line:' . __LINE__ . ' The patcher has not been reset.'
 		);
-		$this->assertAttributeEquals(
+		$this->assertEquals(
 			array(),
-			'destinations',
-			$patcher,
+			$this->getPropertyValue($patcher, 'destinations'),
 			'Line:' . __LINE__ . ' The patcher has not been reset.'
 		);
-		$this->assertAttributeEquals(
+		$this->assertEquals(
 			array(),
-			'removals',
-			$patcher,
+-			$this->getPropertyValue($patcher, 'removals'),
 			'Line:' . __LINE__ . ' The patcher has not been reset.'
 		);
-		$this->assertAttributeEquals(
+		$this->assertEquals(
 			array(),
-			'patches',
-			$patcher,
+			$this->getPropertyValue($patcher, 'patches'),
 			'Line:' . __LINE__ . ' The patcher has not been reset.'
 		);
 	}
@@ -921,7 +915,7 @@ But after they are produced,
 	{
 		if ($throw)
 		{
-			$this->setExpectedException($throw);
+			$this->expectException($throw);
 		}
 
 		foreach ($sources as $path => $content)

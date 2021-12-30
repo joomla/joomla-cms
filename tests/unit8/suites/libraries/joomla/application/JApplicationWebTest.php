@@ -155,9 +155,9 @@ class JApplicationWebTest extends TestCase
 	 */
 	public function test__construct()
 	{
-		$this->assertAttributeInstanceOf('JInput', 'input', $this->class);
-		$this->assertAttributeInstanceOf('\\Joomla\\Registry\\Registry', 'config', $this->class);
-		$this->assertAttributeInstanceOf('JApplicationWebClient', 'client', $this->class);
+		$this->assertInstanceOf('JInput', $this->getPropertyValue($this->class, 'input'));
+		$this->assertInstanceOf('\\Joomla\\Registry\\Registry', $this->getPropertyValue($this->class, 'config'));
+		$this->assertInstanceOf('JApplicationWebClient', $this->getPropertyValue($this->class, 'client'));
 
 		// TODO Test that configuration data loaded.
 
@@ -687,7 +687,7 @@ class JApplicationWebTest extends TestCase
 	{
 		if ($expectedException)
 		{
-			$this->setExpectedException('RuntimeException');
+			$this->expectException(\RuntimeException::class);
 		}
 
 		if (is_null($file) && is_null($class))
@@ -815,9 +815,10 @@ class JApplicationWebTest extends TestCase
 
 		$this->class->initialise(false);
 
-		$this->assertAttributeInstanceOf('JDocument', 'document', $this->class);
-		$this->assertAttributeInstanceOf('JLanguage', 'language', $this->class);
-		$this->assertAttributeInstanceOf('JEventDispatcher', 'dispatcher', $this->class);
+		$this->assertInstanceOf('JDocument', $this->getPropertyValue($this->class, 'document'));
+		$this->assertInstanceOf('JLanguage', $this->getPropertyValue($this->class, 'language'));
+		$this->assertInstanceOf('JEventDispatcher', $this->getPropertyValue($this->class, 'dispatcher'));
+
 	}
 
 	/**
@@ -831,9 +832,9 @@ class JApplicationWebTest extends TestCase
 	{
 		$this->class->initialise(false, false, false);
 
-		$this->assertAttributeEmpty('session', $this->class);
-		$this->assertAttributeEmpty('document', $this->class);
-		$this->assertAttributeEmpty('language', $this->class);
+		$this->assertEmpty($this->getPropertyValue($this->class, 'session'));
+		$this->assertEmpty($this->getPropertyValue($this->class, 'document'));
+		$this->assertEmpty($this->getPropertyValue($this->class, 'language'));
 	}
 
 	/**
@@ -935,7 +936,7 @@ class JApplicationWebTest extends TestCase
 
 		$this->class->loadDocument();
 
-		$this->assertAttributeInstanceOf('JDocument', 'document', $this->class);
+		$this->assertInstanceOf('JDocument', $this->getPropertyValue($this->class, 'document') );
 	}
 
 	/**
@@ -949,7 +950,7 @@ class JApplicationWebTest extends TestCase
 	{
 		$this->class->loadLanguage();
 
-		$this->assertAttributeInstanceOf('JLanguage', 'language', $this->class);
+		$this->assertInstanceOf('JLanguage', $this->getPropertyValue($this->class, 'language') );
 	}
 
 	/**

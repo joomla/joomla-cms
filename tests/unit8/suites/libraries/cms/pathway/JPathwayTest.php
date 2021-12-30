@@ -61,7 +61,7 @@ class JPathwayTest extends TestCase
 	 */
 	public function test__construct()
 	{
-		$this->assertAttributeEquals(array(), '_pathway', $this->fixture);
+		$this->assertEquals(array(), $this->getPropertyValue( $this->fixture, '_pathway'));
 	}
 
 	/**
@@ -160,10 +160,10 @@ class JPathwayTest extends TestCase
 		$pathway[4] = $object2;
 
 		$this->assertEquals(array(), $this->fixture->setPathway($pathway));
-		$this->assertAttributeEquals(array_values($pathway), '_pathway', $this->fixture);
+		$this->assertEquals(array_values($pathway), $this->getPropertyValue($this->fixture, '_pathway'));
 
 		$this->assertEquals(array_values($pathway), $this->fixture->setPathway(array()));
-		$this->assertAttributeEquals(array(), '_pathway', $this->fixture);
+		$this->assertEquals(array(), $this->getPropertyValue($this->fixture, '_pathway'));
 	}
 
 	/**
@@ -214,7 +214,7 @@ class JPathwayTest extends TestCase
 		$this->fixture->addItem('Item1', 'index.php?key=item1');
 		$this->fixture->addItem('Item2', 'index.php?key=item2');
 
-		$this->assertAttributeEquals($pathway, '_pathway', $this->fixture);
+		$this->assertEquals(array(), $this->getPropertyValue($this->fixture, '_pathway'));
 	}
 
 	/**
@@ -242,11 +242,11 @@ class JPathwayTest extends TestCase
 
 		$pathway[1]->name = 'Item3';
 
-		$this->assertAttributeEquals($pathway, '_pathway', $this->fixture);
+		$this->assertEquals($pathway, $this->getPropertyValue($this->fixture, '_pathway'));
 
 		$this->assertFalse($this->fixture->setItemName(3, 'False'));
 
-		$this->assertAttributeEquals($pathway, '_pathway', $this->fixture);
+		$this->assertEquals($pathway, $this->getPropertyValue($this->fixture, '_pathway'));
 	}
 
 	/**

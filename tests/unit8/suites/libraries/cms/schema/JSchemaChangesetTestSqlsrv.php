@@ -57,8 +57,8 @@ class JSchemaChangesetTestSqlsrv extends TestCaseDatabaseSqlsrv
 	 */
 	public function testTheObjectIsInstantiatedCorrectly()
 	{
-		$this->assertAttributeInstanceOf('JDatabaseDriverSqlsrv', 'db', $this->object, 'The database driver was not correctly injected');
-		$this->assertAttributeContainsOnly('JSchemaChangeitemSqlsrv', 'changeItems', $this->object, null, 'The list of change items was not correctly set');
+		$this->assertInstanceOf('JDatabaseDriverSqlsrv', $this->getPropertyValue($this->object, 'db'), 'The database driver was not correctly injected');
+		$this->assertContainsOnly('JSchemaChangeitemSqlsrv', $this->getPropertyValue($this->object, 'changeItems'), null, 'The list of change items was not correctly set');
 	}
 
 	/**

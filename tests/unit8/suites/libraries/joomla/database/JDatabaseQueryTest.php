@@ -1350,7 +1350,7 @@ class JDatabaseQueryTest extends TestCase
 	public function testSetQuery()
 	{
 		$this->assertSame($this->_instance, $this->_instance->setQuery('Some SQL'), 'Check chaining.');
-		$this->assertAttributeEquals('Some SQL', 'sql', $this->_instance, 'Checks the property was set correctly.');
+		$this->assertEquals('Some SQL', $this->getPropertyValue($this->_instance, 'sql'), 'Checks the property was set correctly.');
 		$this->assertEquals('Some SQL', (string) $this->_instance, 'Checks the rendering of the raw SQL.');
 	}
 

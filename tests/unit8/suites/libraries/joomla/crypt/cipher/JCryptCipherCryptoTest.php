@@ -98,6 +98,6 @@ class JCryptCipherCryptoTest extends TestCase
 		$this->assertSame(Crypto::KEY_BYTE_SIZE, JCrypt::safeStrlen($key->public));
 
 		// Assert the key is of the correct type.
-		$this->assertAttributeEquals('crypto', 'type', $key);
+		$this->assertEquals('crypto', $this->getPropertyValue($key, 'type'));
 	}
 }

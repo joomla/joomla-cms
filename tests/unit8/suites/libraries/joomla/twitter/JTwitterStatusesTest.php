@@ -282,7 +282,7 @@ class JTwitterStatusesTest extends TestCase
 		}
 		else
 		{
-			$this->setExpectedException('RuntimeException');
+			$this->expectException(\RuntimeException::class);
 			$this->object->getUserTimeline($user, $count, $include_rts, $no_replies, $since_id, $max_id, $trim_user, $contributor);
 		}
 
@@ -348,7 +348,7 @@ class JTwitterStatusesTest extends TestCase
 		}
 		else
 		{
-			$this->setExpectedException('RuntimeException');
+			$this->expectException(\RuntimeException::class);
 			$this->object->getUserTimeline($user, $count);
 		}
 
@@ -989,7 +989,7 @@ class JTwitterStatusesTest extends TestCase
 
 		if ($headers_array['x-mediaratelimit-remaining'] == 0)
 		{
-			$this->setExpectedException('RuntimeException');
+			$this->expectException(\RuntimeException::class);
 		}
 
 		$this->assertThat(
@@ -1132,7 +1132,7 @@ class JTwitterStatusesTest extends TestCase
 		{
 			// Set request parameters.
 			$data['url'] = rawurlencode($url);
-			$this->setExpectedException('DomainException');
+			$this->expectException(\DomainException::class);
 
 			$path = $this->object->fetchUrl('/statuses/oembed.json', $data);
 
@@ -1145,7 +1145,7 @@ class JTwitterStatusesTest extends TestCase
 		}
 		else
 		{
-			$this->setExpectedException('RuntimeException');
+			$this->expectException(\RuntimeException::class);
 
 			$this->object->getOembed(null, null);
 		}

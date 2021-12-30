@@ -53,7 +53,7 @@ class JApplicationWebRouterRestTest extends TestCase
 	{
 		$_SERVER['REQUEST_METHOD'] = 'FOOBAR';
 
-		$this->setExpectedException('RuntimeException');
+		$this->expectException(\RuntimeException::class);
 		TestReflection::invoke($this->_instance, 'fetchControllerSuffix');
 	}
 
@@ -133,7 +133,7 @@ class JApplicationWebRouterRestTest extends TestCase
 		// If we are expecting an exception set it.
 		if ($exception)
 		{
-			$this->setExpectedException('RuntimeException');
+			$this->expectException(\RuntimeException::class);
 		}
 
 		// Execute the code to test.

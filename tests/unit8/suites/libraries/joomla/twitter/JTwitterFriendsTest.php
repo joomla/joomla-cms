@@ -206,7 +206,7 @@ class JTwitterFriendsTest extends TestCase
 		}
 		else
 		{
-			$this->setExpectedException('RuntimeException');
+			$this->expectException(\RuntimeException::class);
 			$this->object->getFriendIds($user, $cursor, $string_ids, $count);
 		}
 
@@ -270,7 +270,7 @@ class JTwitterFriendsTest extends TestCase
 		}
 		else
 		{
-			$this->setExpectedException('RuntimeException');
+			$this->expectException(\RuntimeException::class);
 			$this->object->getFriendIds($user, $cursor, $string_ids, $count);
 		}
 
@@ -347,7 +347,7 @@ class JTwitterFriendsTest extends TestCase
 		}
 		else
 		{
-			$this->setExpectedException('RuntimeException');
+			$this->expectException(\RuntimeException::class);
 			$this->object->getFriendshipDetails($user_a, $user_b);
 		}
 
@@ -361,7 +361,7 @@ class JTwitterFriendsTest extends TestCase
 		}
 		else
 		{
-			$this->setExpectedException('RuntimeException');
+			$this->expectException(\RuntimeException::class);
 			$this->object->getFriendshipDetails($user_a, $user_b);
 		}
 
@@ -418,7 +418,7 @@ class JTwitterFriendsTest extends TestCase
 		}
 		else
 		{
-			$this->setExpectedException('RuntimeException');
+			$this->expectException(\RuntimeException::class);
 			$this->object->getFriendshipDetails($user_a, $user_b);
 		}
 
@@ -432,7 +432,7 @@ class JTwitterFriendsTest extends TestCase
 		}
 		else
 		{
-			$this->setExpectedException('RuntimeException');
+			$this->expectException(\RuntimeException::class);
 			$this->object->getFriendshipDetails($user_a, $user_b);
 		}
 
@@ -488,7 +488,7 @@ class JTwitterFriendsTest extends TestCase
 		}
 		else
 		{
-			$this->setExpectedException('RuntimeException');
+			$this->expectException(\RuntimeException::class);
 			$this->object->getFollowerIds($user, $cursor, $string_ids, $count);
 		}
 
@@ -552,7 +552,7 @@ class JTwitterFriendsTest extends TestCase
 		}
 		else
 		{
-			$this->setExpectedException('RuntimeException');
+			$this->expectException(\RuntimeException::class);
 			$this->object->getFollowerIds($user, $cursor, $string_ids, $count);
 		}
 
@@ -785,7 +785,7 @@ class JTwitterFriendsTest extends TestCase
 		}
 		else
 		{
-			$this->setExpectedException('RuntimeException');
+			$this->expectException(\RuntimeException::class);
 			$this->object->follow($user, $follow);
 		}
 		$data['follow'] = $follow;
@@ -831,7 +831,7 @@ class JTwitterFriendsTest extends TestCase
 		}
 		else
 		{
-			$this->setExpectedException('RuntimeException');
+			$this->expectException(\RuntimeException::class);
 			$this->object->follow($user);
 		}
 
@@ -871,7 +871,7 @@ class JTwitterFriendsTest extends TestCase
 		}
 		else
 		{
-			$this->setExpectedException('RuntimeException');
+			$this->expectException(\RuntimeException::class);
 			$this->object->unfollow($user);
 		}
 
@@ -916,7 +916,7 @@ class JTwitterFriendsTest extends TestCase
 		}
 		else
 		{
-			$this->setExpectedException('RuntimeException');
+			$this->expectException(\RuntimeException::class);
 			$this->object->unfollow($user);
 		}
 
@@ -985,7 +985,7 @@ class JTwitterFriendsTest extends TestCase
 		}
 		if ($id == null && $screen_name == null)
 		{
-			$this->setExpectedException('RuntimeException');
+			$this->expectException(\RuntimeException::class);
 			$this->object->getFriendshipsLookup($screen_name, $id);
 		}
 
@@ -1041,7 +1041,7 @@ class JTwitterFriendsTest extends TestCase
 		}
 		if ($id == null && $screen_name == null)
 		{
-			$this->setExpectedException('RuntimeException');
+			$this->expectException(\RuntimeException::class);
 			$this->object->getFriendshipsLookup($screen_name, $id);
 		}
 
@@ -1086,7 +1086,7 @@ class JTwitterFriendsTest extends TestCase
 		}
 		else
 		{
-			$this->setExpectedException('RuntimeException');
+			$this->expectException(\RuntimeException::class);
 			$this->object->updateFriendship($user, $device, $retweets);
 		}
 
@@ -1134,7 +1134,7 @@ class JTwitterFriendsTest extends TestCase
 		}
 		else
 		{
-			$this->setExpectedException('RuntimeException');
+			$this->expectException(\RuntimeException::class);
 			$this->object->updateFriendship($user);
 		}
 

@@ -57,8 +57,8 @@ class JSchemaChangesetTestPdomysql extends TestCaseDatabasePdomysql
 	 */
 	public function testTheObjectIsInstantiatedCorrectly()
 	{
-		$this->assertAttributeInstanceOf('JDatabaseDriverPdomysql', 'db', $this->object, 'The database driver was not correctly injected');
-		$this->assertAttributeContainsOnly('JSchemaChangeitemMysql', 'changeItems', $this->object, null, 'The list of change items was not correctly set');
+		$this->assertInstanceOf('JDatabaseDriverPdomysql', $this->getPropertyValue($this->object, 'db'), 'The database driver was not correctly injected');
+		$this->assertContainsOnly('JSchemaChangeitemMysql', $this->getPropertyValue($this->object, 'changeItems'), null, 'The list of change items was not correctly set');
 	}
 
 	/**

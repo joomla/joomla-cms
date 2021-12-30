@@ -145,6 +145,6 @@ class JCryptCipherBlowfishTest extends TestCase
 		$this->assertEquals(56, strlen($key->private));
 
 		// Assert the key is of the correct type.
-		$this->assertAttributeEquals('blowfish', 'type', $key);
+		$this->assertEquals('blowfish', $this->getPropertyValue($key, 'type'));
 	}
 }

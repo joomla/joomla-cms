@@ -244,13 +244,13 @@ class JControllerLegacyTest extends TestCase
 	{
 		$this->class->setMessage('Hello World');
 
-		$this->assertAttributeEquals('Hello World', 'message', $this->class, 'Checks the message.');
-		$this->assertAttributeEquals('message', 'messageType', $this->class, 'Checks the message type.');
+		$this->assertEquals('Hello World', $this->getPropertyValue($this->class, 'message'), 'Checks the message.');
+		$this->assertEquals('message', $this->getPropertyValue($this->class, 'messageType'), 'Checks the message type.');
 
 		$this->class->setMessage('Morning Universe', 'notice');
 
-		$this->assertAttributeEquals('Morning Universe', 'message', $this->class, 'Checks a change in the message.');
-		$this->assertAttributeEquals('notice', 'messageType', $this->class, 'Checks a change in the message type.');
+		$this->assertEquals('Morning Universe', $this->getPropertyValue($this->class, 'message'), 'Checks a change in the message.');
+		$this->assertEquals('notice', $this->getPropertyValue($this->class, 'messageType'), 'Checks a change in the message type.');
 	}
 
 	/**
@@ -262,9 +262,9 @@ class JControllerLegacyTest extends TestCase
 	{
 		$this->class->setRedirect('index.php?option=com_foobar');
 
-		$this->assertAttributeEquals('index.php?option=com_foobar', 'redirect', $this->class);
-		$this->assertAttributeEquals(null, 'message', $this->class);
-		$this->assertAttributeEquals('message', 'messageType', $this->class);
+		$this->assertEquals('index.php?option=com_foobar', $this->getPropertyValue($this->class, 'redirect'));
+		$this->assertEquals(null, $this->getPropertyValue($this->class, 'message'));
+		$this->assertEquals('message', $this->getPropertyValue($this->class, 'messageType'));
 	}
 
 	/**
@@ -276,9 +276,9 @@ class JControllerLegacyTest extends TestCase
 	{
 		$this->class->setRedirect('index.php?option=com_foobar', 'Hello World');
 
-		$this->assertAttributeEquals('index.php?option=com_foobar', 'redirect', $this->class);
-		$this->assertAttributeEquals('Hello World', 'message', $this->class);
-		$this->assertAttributeEquals('message', 'messageType', $this->class);
+		$this->assertEquals('index.php?option=com_foobar', $this->getPropertyValue($this->class, 'redirect'));
+		$this->assertEquals('Hello World', $this->getPropertyValue($this->class, 'message'));
+		$this->assertEquals('message', $this->getPropertyValue($this->class, 'messageType'));
 	}
 
 	/**
@@ -290,9 +290,9 @@ class JControllerLegacyTest extends TestCase
 	{
 		$this->class->setRedirect('index.php?option=com_foobar', 'Morning Universe', 'notice');
 
-		$this->assertAttributeEquals('index.php?option=com_foobar', 'redirect', $this->class);
-		$this->assertAttributeEquals('Morning Universe', 'message', $this->class);
-		$this->assertAttributeEquals('notice', 'messageType', $this->class);
+		$this->assertEquals('index.php?option=com_foobar', $this->getPropertyValue($this->class, 'redirect'));
+		$this->assertEquals('Morning Universe', $this->getPropertyValue($this->class, 'message'));
+		$this->assertEquals('notice', $this->getPropertyValue($this->class, 'messageType'));
 	}
 
 	/**
@@ -306,9 +306,9 @@ class JControllerLegacyTest extends TestCase
 		$this->class->setMessage('Hi all');
 		$this->class->setRedirect('index.php?option=com_foobar');
 
-		$this->assertAttributeEquals('index.php?option=com_foobar', 'redirect', $this->class);
-		$this->assertAttributeEquals('Hi all', 'message', $this->class);
-		$this->assertAttributeEquals('message', 'messageType', $this->class);
+		$this->assertEquals('index.php?option=com_foobar', $this->getPropertyValue($this->class, 'redirect'));
+		$this->assertEquals('Hi all', $this->getPropertyValue($this->class, 'message'));
+		$this->assertEquals('message', $this->getPropertyValue($this->class, 'messageType'));
 	}
 
 	/**
@@ -322,9 +322,9 @@ class JControllerLegacyTest extends TestCase
 		$this->class->setMessage('Hi all');
 		$this->class->setRedirect('index.php?option=com_foobar', 'Bye all');
 
-		$this->assertAttributeEquals('index.php?option=com_foobar', 'redirect', $this->class);
-		$this->assertAttributeEquals('Bye all', 'message', $this->class);
-		$this->assertAttributeEquals('message', 'messageType', $this->class);
+		$this->assertEquals('index.php?option=com_foobar', $this->getPropertyValue($this->class, 'redirect'));
+		$this->assertEquals('Bye all', $this->getPropertyValue($this->class, 'message'));
+		$this->assertEquals('message', $this->getPropertyValue($this->class, 'messageType'));
 	}
 
 	/**
@@ -337,9 +337,9 @@ class JControllerLegacyTest extends TestCase
 		$this->class->setMessage('Hello folks', 'notice');
 		$this->class->setRedirect('index.php?option=com_foobar', 'Bye, Folks');
 
-		$this->assertAttributeEquals('index.php?option=com_foobar', 'redirect', $this->class);
-		$this->assertAttributeEquals('Bye, Folks', 'message', $this->class);
-		$this->assertAttributeEquals('notice', 'messageType', $this->class);
+		$this->assertEquals('index.php?option=com_foobar', $this->getPropertyValue($this->class, 'redirect'));
+		$this->assertEquals('Bye, Folks', $this->getPropertyValue($this->class, 'message'));
+		$this->assertEquals('notice', $this->getPropertyValue($this->class, 'messageType'));
 	}
 
 	/**
@@ -352,9 +352,9 @@ class JControllerLegacyTest extends TestCase
 		$this->class->setMessage('Hi all');
 		$this->class->setRedirect('index.php?option=com_foobar', 'Bye all', 'notice');
 
-		$this->assertAttributeEquals('index.php?option=com_foobar', 'redirect', $this->class);
-		$this->assertAttributeEquals('Bye all', 'message', $this->class);
-		$this->assertAttributeEquals('notice', 'messageType', $this->class);
+		$this->assertEquals('index.php?option=com_foobar', $this->getPropertyValue($this->class, 'redirect'));
+		$this->assertEquals('Bye all', $this->getPropertyValue($this->class, 'message'));
+		$this->assertEquals('notice', $this->getPropertyValue($this->class, 'messageType'));
 	}
 
 	/**
@@ -367,9 +367,9 @@ class JControllerLegacyTest extends TestCase
 		$this->class->setMessage('Hi all');
 		$this->class->setRedirect('index.php?option=com_foobar', null, 'notice');
 
-		$this->assertAttributeEquals('index.php?option=com_foobar', 'redirect', $this->class);
-		$this->assertAttributeEquals('Hi all', 'message', $this->class);
-		$this->assertAttributeEquals('notice', 'messageType', $this->class);
+		$this->assertEquals('index.php?option=com_foobar', $this->getPropertyValue($this->class, 'redirect'));
+		$this->assertEquals('Hi all', $this->getPropertyValue($this->class, 'message'));
+		$this->assertEquals('notice', $this->getPropertyValue($this->class, 'messageType'));
 	}
 
 	/**
@@ -382,9 +382,9 @@ class JControllerLegacyTest extends TestCase
 		$this->class->setMessage('Hello folks', 'notice');
 		$this->class->setRedirect('index.php?option=com_foobar');
 
-		$this->assertAttributeEquals('index.php?option=com_foobar', 'redirect', $this->class);
-		$this->assertAttributeEquals('Hello folks', 'message', $this->class);
-		$this->assertAttributeEquals('notice', 'messageType', $this->class);
+		$this->assertEquals('index.php?option=com_foobar', $this->getPropertyValue($this->class, 'redirect'));
+		$this->assertEquals('Hello folks', $this->getPropertyValue($this->class, 'message'));
+		$this->assertEquals('notice', $this->getPropertyValue($this->class, 'messageType'));
 	}
 
 	/**
@@ -397,9 +397,9 @@ class JControllerLegacyTest extends TestCase
 		$this->class->setMessage('Hello folks', 'notice');
 		$this->class->setRedirect('index.php?option=com_foobar', 'Bye, folks', 'notice');
 
-		$this->assertAttributeEquals('index.php?option=com_foobar', 'redirect', $this->class);
-		$this->assertAttributeEquals('Bye, folks', 'message', $this->class);
-		$this->assertAttributeEquals('notice', 'messageType', $this->class);
+		$this->assertEquals('index.php?option=com_foobar', $this->getPropertyValue($this->class, 'redirect'));
+		$this->assertEquals('Bye, folks', $this->getPropertyValue($this->class, 'message'));
+		$this->assertEquals('notice', $this->getPropertyValue($this->class, 'messageType'));
 	}
 
 	/**
@@ -412,8 +412,8 @@ class JControllerLegacyTest extends TestCase
 		$this->class->setMessage('Folks?', 'notice');
 		$this->class->setRedirect('index.php?option=com_foobar', null, 'question');
 
-		$this->assertAttributeEquals('index.php?option=com_foobar', 'redirect', $this->class);
-		$this->assertAttributeEquals('Folks?', 'message', $this->class);
-		$this->assertAttributeEquals('question', 'messageType', $this->class);
+		$this->assertEquals('index.php?option=com_foobar', $this->getPropertyValue($this->class, 'redirect'));
+		$this->assertEquals('Folks?', $this->getPropertyValue($this->class, 'message'));
+		$this->assertEquals('question', $this->getPropertyValue($this->class, 'messageType'));
 	}
 }

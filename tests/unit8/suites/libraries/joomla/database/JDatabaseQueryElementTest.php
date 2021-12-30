@@ -169,16 +169,16 @@ class JDatabaseQueryElementTest extends \PHPUnit\Framework\TestCase
 	{
 		$baseElement = new JDatabaseQueryElement($element['name'], $element['elements'], $element['glue']);
 
-		$this->assertAttributeEquals(
-			$expected['name'], 'name', $baseElement, 'Line ' . __LINE__ . ' name should be set'
+		$this->assertEquals(
+			$expected['name'], $this->getPropertyValue($baseElement, 'name'), 'Line ' . __LINE__ . ' name should be set'
 		);
 
-		$this->assertAttributeEquals(
-			$expected['elements'], 'elements', $baseElement, 'Line ' . __LINE__ . ' elements should be set'
+		$this->assertEquals(
+			$expected['elements'], $this->getPropertyValue($baseElement, 'elements'), 'Line ' . __LINE__ . ' elements should be set'
 		);
 
-		$this->assertAttributeEquals(
-			$expected['glue'], 'glue', $baseElement, 'Line ' . __LINE__ . ' glue should be set'
+		$this->assertEquals(
+			$expected['glue'], $this->getPropertyValue($baseElement, 'glue'), 'Line ' . __LINE__ . ' glue should be set'
 		);
 	}
 
@@ -224,7 +224,7 @@ class JDatabaseQueryElementTest extends \PHPUnit\Framework\TestCase
 		$appendElement = new JDatabaseQueryElement($append['name'], $append['elements'], $append['glue']);
 		$expectedElement = new JDatabaseQueryElement($expected['name'], $expected['elements'], $expected['glue']);
 		$baseElement->append($appendElement);
-		$this->assertAttributeEquals(array($expectedElement), 'elements', $baseElement);
+		$this->assertEquals(array($expectedElement), $this->getPropertyValue($baseElement, 'elements'));
 	}
 
 	/**

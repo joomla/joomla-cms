@@ -68,9 +68,9 @@ class JApplicationCliTest extends TestCase
 	 */
 	public function test__construct()
 	{
-		$this->assertAttributeInstanceOf('JInput', 'input', $this->class);
-		$this->assertAttributeInstanceOf('\\Joomla\\Registry\\Registry', 'config', $this->class);
-		$this->assertAttributeInstanceOf('JEventDispatcher', 'dispatcher', $this->class);
+		$this->assertInstanceOf('JInput', $this->getPropertyValue($this->class, 'input'));
+		$this->assertInstanceOf('\\Joomla\\Registry\\Registry', $this->getPropertyValue($this->class, 'config'));
+		$this->assertInstanceOf('JEventDispatcher', $this->getPropertyValue($this->class, 'dispatcher'));
 
 		// TODO Test that configuration data loaded.
 
@@ -209,7 +209,7 @@ class JApplicationCliTest extends TestCase
 	{
 		if ($expectedException)
 		{
-			$this->setExpectedException('RuntimeException');
+			$this->expectException(\RuntimeException::class);
 		}
 
 		if (is_null($file) && is_null($class))

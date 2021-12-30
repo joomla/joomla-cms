@@ -148,6 +148,7 @@ class JCryptCipher3DesTest extends TestCase
 		$this->assertEquals(24, strlen($key->private));
 
 		// Assert the key is of the correct type.
-		$this->assertAttributeEquals('3des', 'type', $key);
+		$this->assertEquals('3des', $this->getPropertyValue($key, 'type'));
+
 	}
 }

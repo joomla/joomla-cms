@@ -16,6 +16,8 @@
  */
 class JUriTest extends \PHPUnit\Framework\TestCase
 {
+	use Yoast\PHPUnitPolyfills\Helpers\AssertAttributeHelper;
+
 	/**
 	 * @var    JUri
 	 */
@@ -169,10 +171,9 @@ class JUriTest extends \PHPUnit\Framework\TestCase
 	{
 		$this->object->setPath('/this/is/a/path/to/a/file.htm');
 
-		$this->assertAttributeSame(
+		$this->assertSame(
 			'/this/is/a/path/to/a/file.htm',
-			'path',
-			$this->object,
+			$this->getPropertyValue($this->object, 'path'),
 			"The URI's path attribute was not set correctly."
 		);
 	}

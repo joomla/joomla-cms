@@ -35,14 +35,14 @@ class JViewHtmlTest extends TestCase
 	 */
 	public function test__construct()
 	{
-		$this->assertAttributeEquals(new SplPriorityQueue, 'paths', $this->_instance, 'Check default paths.');
+		$this->assertEquals(new SplPriorityQueue, $this->getPropertyValue($this->_instance, 'paths'), 'Check default paths.');
 
 		$model = JModelMock::create($this);
 		$paths = new SplPriorityQueue;
 		$paths->insert('foo', 1);
 
 		$this->_instance = new HtmlView($model, $paths);
-		$this->assertAttributeSame($paths, 'paths', $this->_instance, 'Check default paths.');
+		$this->assertSame($paths, $this->getPropertyValue($this->_instance, 'paths'), 'Check default paths.');
 	}
 
 	/**
@@ -181,7 +181,7 @@ class JViewHtmlTest extends TestCase
 	public function testSetLayout()
 	{
 		$result = $this->_instance->setLayout('fringe/division');
-		$this->assertAttributeSame('fringe/division', 'layout', $this->_instance);
+		$this->assertSame('fringe/division', $this->getPropertyValue($this->_instance, 'layout'));
 		$this->assertSame($this->_instance, $result);
 	}
 
@@ -199,7 +199,7 @@ class JViewHtmlTest extends TestCase
 		$paths->insert('bar', 99);
 
 		$result = $this->_instance->setPaths($paths);
-		$this->assertAttributeSame($paths, 'paths', $this->_instance);
+		$this->assertSame($paths, $this->getPropertyValue($this->_instance, 'paths'));
 		$this->assertSame($this->_instance, $result);
 	}
 

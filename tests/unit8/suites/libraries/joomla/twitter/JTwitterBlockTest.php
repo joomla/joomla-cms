@@ -270,7 +270,7 @@ class JTwitterBlockTest extends TestCase
 		}
 		else
 		{
-			$this->setExpectedException('RuntimeException');
+			$this->expectException(\RuntimeException::class);
 			$this->object->block($user);
 		}
 
@@ -332,7 +332,7 @@ class JTwitterBlockTest extends TestCase
 		}
 		else
 		{
-			$this->setExpectedException('RuntimeException');
+			$this->expectException(\RuntimeException::class);
 			$this->object->block($user);
 		}
 
@@ -390,7 +390,7 @@ class JTwitterBlockTest extends TestCase
 		}
 		else
 		{
-			$this->setExpectedException('RuntimeException');
+			$this->expectException(\RuntimeException::class);
 			$this->object->unblock($user);
 		}
 
@@ -452,7 +452,7 @@ class JTwitterBlockTest extends TestCase
 		}
 		else
 		{
-			$this->setExpectedException('RuntimeException');
+			$this->expectException(\RuntimeException::class);
 			$this->object->unblock($user);
 		}
 

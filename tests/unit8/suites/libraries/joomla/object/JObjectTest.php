@@ -17,6 +17,8 @@
  */
 class JObjectTest extends \PHPUnit\Framework\TestCase
 {
+	use Yoast\PHPUnitPolyfills\Helpers\AssertAttributeHelper;
+
 	/**
 	 * @var  JObject  Test-Object
 	 */
@@ -197,10 +199,9 @@ class JObjectTest extends \PHPUnit\Framework\TestCase
 		{
 			$this->o->setError($error);
 		}
-		$this->assertAttributeEquals(
+		$this->assertEquals(
 			$this->o->getErrors(),
-			'_errors',
-			$this->o
+			$this->getPropertyValues($this->o, '_errors')
 		);
 		$this->assertEquals(
 			$errors,
@@ -250,10 +251,9 @@ class JObjectTest extends \PHPUnit\Framework\TestCase
 	public function testSetError()
 	{
 		$this->o->setError('A Test Error');
-		$this->assertAttributeEquals(
+		$this->assertEquals(
 			array('A Test Error'),
-			'_errors',
-			$this->o
+			$this->getPropertyValue($this->o, '_errors')
 		);
 	}
 }

@@ -77,25 +77,23 @@ class JFeedParserTest extends TestCase
 	public function testRegisterNamespace()
 	{
 		// For a new object we nave no namespaces.
-		$this->assertAttributeEmpty('namespaces', $this->_instance);
+		$this->assertEmpty($this->getPropertyValue($this->_instance, 'namespaces'));
 
 		// Add a new namespace.
 		$mock = $this->getMockBuilder('JFeedParserNamespace')->getMock();
 		$this->_instance->registerNamespace('foo', $mock);
 
-		$this->assertAttributeEquals(
+		$this->assertEquals(
 			array('foo' => $mock),
-			'namespaces',
-			$this->_instance
+			$this->getPropertyValue($this->_instance, 'namespaces')
 		);
 
 		// Add the namespace again for a different prefix.
 		$this->_instance->registerNamespace('bar', $mock);
 
-		$this->assertAttributeEquals(
+		$this->assertEquals(
 			array('foo' => $mock, 'bar' => $mock),
-			'namespaces',
-			$this->_instance
+			$this->getPropertyValue($this->_instance, 'namespaces')
 		);
 	}
 

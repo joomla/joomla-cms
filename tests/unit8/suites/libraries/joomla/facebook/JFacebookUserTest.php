@@ -232,7 +232,7 @@ class JFacebookUserTest extends TestCase
 			->with('me')
 			->will($this->returnValue($returnData));
 
-			$this->setExpectedException('RuntimeException');
+			$this->expectException(\RuntimeException::class);
 			$this->object->getUser('me');
 
 			// Authenticated.
@@ -296,7 +296,7 @@ class JFacebookUserTest extends TestCase
 		->with('me/friends?access_token=' . $token['access_token'])
 		->will($this->returnValue($returnData));
 
-		$this->setExpectedException('RuntimeException');
+		$this->expectException(\RuntimeException::class);
 		$this->object->getFriends('me');
 	}
 
@@ -862,7 +862,7 @@ class JFacebookUserTest extends TestCase
 		->with($notification . '?access_token=' . $token['access_token'], $data)
 		->will($this->returnValue($returnData));
 
-		$this->setExpectedException('RuntimeException');
+		$this->expectException(\RuntimeException::class);
 		$this->object->updateNotification($notification);
 	}
 
@@ -975,7 +975,7 @@ class JFacebookUserTest extends TestCase
 		->with('me/permissions?permission=' . $permission . '&access_token=' . $token['access_token'])
 		->will($this->returnValue($returnData));
 
-		$this->setExpectedException('RuntimeException');
+		$this->expectException(\RuntimeException::class);
 		$this->object->deletePermission('me', $permission);
 	}
 

@@ -69,9 +69,9 @@ class JApplicationWebRouterBaseTest extends TestCase
 	 */
 	public function testAddMap()
 	{
-		$this->assertAttributeEmpty('maps', $this->_instance);
+		$this->assertEmpty($this->getPropertyValue($this->_instance, 'maps'));
 		$this->_instance->addMap('foo', 'MyApplicationFoo');
-		$this->assertAttributeEquals(
+		$this->assertEquals(
 			array(
 				array(
 					'regex' => chr(1) . '^foo$' . chr(1),
@@ -79,8 +79,7 @@ class JApplicationWebRouterBaseTest extends TestCase
 					'controller' => 'MyApplicationFoo'
 				)
 			),
-			'maps',
-			$this->_instance
+			$this->getPropertyValue($this->_instance, 'maps')
 		);
 	}
 
@@ -123,9 +122,9 @@ class JApplicationWebRouterBaseTest extends TestCase
 			)
 		);
 
-		$this->assertAttributeEmpty('maps', $this->_instance);
+		$this->assertEmpty($this->getPropertyValue($this->_instance, 'maps'));
 		$this->_instance->addMaps($maps);
-		$this->assertAttributeEquals($rules, 'maps', $this->_instance);
+		$this->assertEquals($rules, $this->getPropertyValue($this->_instance, 'maps'));
 	}
 
 	/**
@@ -151,7 +150,7 @@ class JApplicationWebRouterBaseTest extends TestCase
 		// If we should expect an exception set that up.
 		if ($e)
 		{
-			$this->setExpectedException('InvalidArgumentException');
+			$this->expectException(\InvalidArgumentException::class);
 		}
 
 		// Execute the route parsing.
@@ -159,7 +158,7 @@ class JApplicationWebRouterBaseTest extends TestCase
 
 		// Test the assertions.
 		$this->assertEquals($c, $actual, 'Incorrect controller name found.');
-		$this->assertAttributeEquals($i, 'data', $this->_input, 'The input data is incorrect.');
+		$this->assertEquals($i, $this->getPropertyValue($this->_input, 'data'), 'The input data is incorrect.');
 	}
 
 	/**

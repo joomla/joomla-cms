@@ -194,7 +194,7 @@ class JTwitterUsersTest extends TestCase
 		}
 		if ($id == null && $screen_name == null)
 		{
-			$this->setExpectedException('RuntimeException');
+			$this->expectException(\RuntimeException::class);
 			$this->object->getUsersLookup($screen_name, $id);
 		}
 
@@ -251,7 +251,7 @@ class JTwitterUsersTest extends TestCase
 		}
 		if ($id == null && $screen_name == null)
 		{
-			$this->setExpectedException('RuntimeException');
+			$this->expectException(\RuntimeException::class);
 			$this->object->getUsersLookup($screen_name, $id);
 		}
 
@@ -318,7 +318,7 @@ class JTwitterUsersTest extends TestCase
 		}
 		else
 		{
-			$this->setExpectedException('RuntimeException');
+			$this->expectException(\RuntimeException::class);
 			$this->object->getUserProfileBanner($user);
 		}
 
@@ -374,7 +374,7 @@ class JTwitterUsersTest extends TestCase
 		}
 		else
 		{
-			$this->setExpectedException('RuntimeException');
+			$this->expectException(\RuntimeException::class);
 			$this->object->getUserProfileBanner($user);
 		}
 
@@ -516,7 +516,7 @@ class JTwitterUsersTest extends TestCase
 		}
 		else
 		{
-			$this->setExpectedException('RuntimeException');
+			$this->expectException(\RuntimeException::class);
 			$this->object->getUser($user, $entities);
 		}
 		$data['include_entities'] = $entities;
@@ -575,7 +575,7 @@ class JTwitterUsersTest extends TestCase
 		}
 		else
 		{
-			$this->setExpectedException('RuntimeException');
+			$this->expectException(\RuntimeException::class);
 			$this->object->getUser($user, $entities);
 		}
 		$data['include_entities'] = $entities;
@@ -631,7 +631,7 @@ class JTwitterUsersTest extends TestCase
 		}
 		else
 		{
-			$this->setExpectedException('RuntimeException');
+			$this->expectException(\RuntimeException::class);
 			$this->object->getContributees($user, $entities, $skip_status);
 		}
 		$data['include_entities'] = $entities;
@@ -692,7 +692,7 @@ class JTwitterUsersTest extends TestCase
 		}
 		else
 		{
-			$this->setExpectedException('RuntimeException');
+			$this->expectException(\RuntimeException::class);
 			$this->object->getContributees($user, $entities, $skip_status);
 		}
 		$data['include_entities'] = $entities;
@@ -749,7 +749,7 @@ class JTwitterUsersTest extends TestCase
 		}
 		else
 		{
-			$this->setExpectedException('RuntimeException');
+			$this->expectException(\RuntimeException::class);
 			$this->object->getContributors($user, $entities, $skip_status);
 		}
 		$data['include_entities'] = $entities;
@@ -810,7 +810,7 @@ class JTwitterUsersTest extends TestCase
 		}
 		else
 		{
-			$this->setExpectedException('RuntimeException');
+			$this->expectException(\RuntimeException::class);
 			$this->object->getContributors($user, $entities, $skip_status);
 		}
 		$data['include_entities'] = $entities;

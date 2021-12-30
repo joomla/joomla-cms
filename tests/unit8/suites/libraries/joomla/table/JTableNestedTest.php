@@ -567,17 +567,17 @@ class JTableNestedTest extends TestCaseDatabase
 	public function testSetLocation()
 	{
 		$this->class->setLocation(20);
-		$this->assertAttributeEquals(20, '_location_id', $this->class);
-		$this->assertAttributeEquals('after', '_location', $this->class);
+		$this->assertEquals(20, $this->getPropertyValue($this->class, '_location_id'));
+		$this->assertEquals('after', $this->getPropertyValue($this->class, '_location'));
 
 		$this->class->setLocation(20, 'before');
-		$this->assertAttributeEquals('before', '_location', $this->class);
+		$this->assertEquals('before', $this->getPropertyValue($this->class, '_location'));
 
 		$this->class->setLocation(20, 'first-child');
-		$this->assertAttributeEquals('first-child', '_location', $this->class);
+		$this->assertEquals('first-child', $this->getPropertyValue($this->class, '_location'));
 
 		$this->class->setLocation(20, 'last-child');
-		$this->assertAttributeEquals('last-child', '_location', $this->class);
+		$this->assertEquals('last-child', $this->getPropertyValue($this->class, '_location'));
 	}
 
 	/**

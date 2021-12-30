@@ -126,7 +126,7 @@ class JDatabaseIteratorPdomysqlTest extends TestCaseDatabasePdomysql
 	{
 		if ($exception)
 		{
-			$this->setExpectedException($exception);
+			$this->expectException($exception);
 		}
 
 		self::$driver->setQuery(self::$driver->getQuery(true)->select($select)->from($from), $offset, $limit);

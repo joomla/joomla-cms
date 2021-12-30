@@ -222,7 +222,7 @@ class JOAuth1ClientTest extends TestCase
 
 				JFactory::$session = $mockSession;
 
-				$this->setExpectedException('DomainException');
+				$this->expectException(\DomainException::class);
 				$this->object->authenticate();
 			}
 

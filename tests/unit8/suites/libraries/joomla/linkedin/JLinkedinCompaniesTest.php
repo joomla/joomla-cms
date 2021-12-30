@@ -151,7 +151,7 @@ class JLinkedinCompaniesTest extends TestCase
 
 		if ($id == null && $name == null && $domain == null)
 		{
-			$this->setExpectedException('RuntimeException');
+			$this->expectException(\RuntimeException::class);
 			$this->object->getCompanies($id, $name, $domain, $fields);
 		}
 

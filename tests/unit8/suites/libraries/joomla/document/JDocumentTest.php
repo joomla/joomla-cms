@@ -12,6 +12,7 @@
  */
 class JDocumentTest extends \PHPUnit\Framework\TestCase
 {
+	use Yoast\PHPUnitPolyfills\Helpers\AssertAttributeHelper;
 	/**
 	 * @var  JDocument
 	 */
@@ -99,13 +100,13 @@ class JDocumentTest extends \PHPUnit\Framework\TestCase
 	{
 		$object = new JDocument($options);
 
-		$this->assertAttributeSame($expects['lineend'], '_lineEnd', $object);
-		$this->assertAttributeSame($expects['charset'], '_charset', $object);
-		$this->assertAttributeSame($expects['language'], 'language', $object);
-		$this->assertAttributeSame($expects['direction'], 'direction', $object);
-		$this->assertAttributeSame($expects['tab'], '_tab', $object);
-		$this->assertAttributeSame($expects['link'], 'link', $object);
-		$this->assertAttributeSame($expects['base'], 'base', $object);
+		$this->assertSame($expects['lineend'], $this->getPropertyValue($object, '_lineEnd'));
+		$this->assertSame($expects['charset'], $this->getPropertyValue($object, '_charset'));
+		$this->assertSame($expects['language'], $this->getPropertyValue($object, 'language'));
+		$this->assertSame($expects['direction'], $this->getPropertyValue($object, 'direction'));
+		$this->assertSame($expects['tab'], $this->getPropertyValue($object, '_tab'));
+		$this->assertSame($expects['link'], $this->getPropertyValue($object, 'link'));
+		$this->assertSame($expects['base'], $this->getPropertyValue($object, 'base'));
 	}
 
 	/**
@@ -123,7 +124,7 @@ class JDocumentTest extends \PHPUnit\Framework\TestCase
 	{
 		$doc = JDocument::getInstance('custom');
 		$this->assertInstanceOf('JDocumentRaw', $doc);
-		$this->assertAttributeSame('custom', '_type', $doc);
+		$this->assertSame('custom', $this->getPropertyValue($doc, '_type'));
 	}
 
 	/**

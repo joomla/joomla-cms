@@ -138,6 +138,6 @@ class JCryptCipherSimpleTest extends TestCase
 		$this->assertEquals($key->public, $key->private);
 
 		// Assert the key is of the correct type.
-		$this->assertAttributeEquals('simple', 'type', $key);
+		$this->assertEquals('simple', $this->getPropertyValue($key, 'type'));
 	}
 }

@@ -145,6 +145,6 @@ class JCryptCipherRijndael256Test extends TestCase
 		$this->assertEquals(32, strlen($key->private));
 
 		// Assert the key is of the correct type.
-		$this->assertAttributeEquals('rijndael256', 'type', $key);
+		$this->assertEquals('rijndael256', $this->getPropertyValue($key, 'type'));
 	}
 }

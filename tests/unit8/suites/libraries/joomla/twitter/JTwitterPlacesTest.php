@@ -364,7 +364,7 @@ class JTwitterPlacesTest extends TestCase
 		// Set request parameters.
 		if ($lat == null && $long == null && $ip == null && $query == null)
 		{
-			$this->setExpectedException('RuntimeException');
+			$this->expectException(\RuntimeException::class);
 			$this->object->search();
 		}
 
@@ -433,7 +433,7 @@ class JTwitterPlacesTest extends TestCase
 		// Set request parameters.
 		if ($lat == null && $long == null && $ip == null && $query == null)
 		{
-			$this->setExpectedException('RuntimeException');
+			$this->expectException(\RuntimeException::class);
 			$this->object->search();
 		}
 

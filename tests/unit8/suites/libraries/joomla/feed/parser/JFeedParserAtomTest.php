@@ -258,10 +258,9 @@ class JFeedParserAtomTest extends TestCase
 
 		TestReflection::invoke($this->_instance, 'initialise');
 
-		$this->assertAttributeEquals(
+		$this->assertEquals(
 			$expected,
-			'version',
-			$this->_instance,
+			$this->getPropertyValue($this->_instance, 'version'),
 			'The version string detected should match the expected value.'
 		);
 

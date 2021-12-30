@@ -55,15 +55,13 @@ class JApplicationWebRouterTest extends TestCase
 	 */
 	public function test__construct()
 	{
-		$this->assertAttributeInstanceOf(
+		$this->assertInstanceOf(
 			'JApplicationWeb',
-			'app',
-			$this->_instance
+			$this->getPropertyValue($this->_instance, 'app')
 		);
-		$this->assertAttributeInstanceOf(
+		$this->assertInstanceOf(
 			'JInput',
-			'input',
-			$this->_instance
+			$this->getPropertyValue($this->_instance, 'input')
 		);
 	}
 
@@ -76,10 +74,9 @@ class JApplicationWebRouterTest extends TestCase
 	{
 		$this->_instance->setControllerPrefix('MyApplication');
 
-		$this->assertAttributeEquals(
+		$this->assertEquals(
 			'MyApplication',
-			'controllerPrefix',
-			$this->_instance
+			$this->getPropertyValue($this->_instance, 'controllerPrefix')
 		);
 	}
 
@@ -92,10 +89,9 @@ class JApplicationWebRouterTest extends TestCase
 	{
 		$this->_instance->setDefaultController('foobar');
 
-		$this->assertAttributeEquals(
+		$this->assertEquals(
 			'foobar',
-			'default',
-			$this->_instance
+			$this->getPropertyValue($this->_instance, 'default')
 		);
 	}
 
