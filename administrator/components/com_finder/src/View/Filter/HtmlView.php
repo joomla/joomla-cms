@@ -16,6 +16,7 @@ use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
+use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 
 /**
@@ -28,14 +29,14 @@ class HtmlView extends BaseHtmlView
 	/**
 	 * The filter object
 	 *
-	 * @var  \Joomla\Component\Finder\Administrator\Table\FilterTable
+	 * @var    \Joomla\Component\Finder\Administrator\Table\FilterTable
 	 *
 	 * @since  3.6.2
 	 */
 	protected $filter;
 
 	/**
-	 * The \JForm object
+	 * The Form object
 	 *
 	 * @var    \Joomla\CMS\Form\Form
 	 *
@@ -46,7 +47,7 @@ class HtmlView extends BaseHtmlView
 	/**
 	 * The active item
 	 *
-	 * @var    \Joomla\CMS\Object\CMSObject|boolean
+	 * @var    CMSObject|boolean
 	 *
 	 * @since  3.6.2
 	 */
@@ -55,7 +56,7 @@ class HtmlView extends BaseHtmlView
 	/**
 	 * The model state
 	 *
-	 * @var    \Joomla\CMS\Object\CMSObject
+	 * @var    CMSObject
 	 *
 	 * @since  3.6.2
 	 */

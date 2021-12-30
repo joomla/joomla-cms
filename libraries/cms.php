@@ -64,8 +64,7 @@ if (in_array('phar', stream_get_wrappers()))
 // Define the Joomla version if not already defined
 if (!defined('JVERSION'))
 {
-	$jversion = new JVersion;
-	define('JVERSION', $jversion->getShortVersion());
+	define('JVERSION', (new \Joomla\CMS\Version)->getShortVersion());
 }
 
 // Register a handler for uncaught exceptions that shows a pretty error page when possible
@@ -74,7 +73,7 @@ set_exception_handler(array('Joomla\CMS\Exception\ExceptionHandler', 'handleExce
 // Set up the message queue logger for web requests
 if (array_key_exists('REQUEST_METHOD', $_SERVER))
 {
-	JLog::addLogger(array('logger' => 'messagequeue'), JLog::ALL, array('jerror'));
+	\Joomla\CMS\Log\Log::addLogger(array('logger' => 'messagequeue'), \Joomla\CMS\Log\Log::ALL, ['jerror']);
 }
 
 // Register the Crypto lib

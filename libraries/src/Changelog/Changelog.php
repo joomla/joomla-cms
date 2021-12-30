@@ -214,24 +214,19 @@ class Changelog extends CMSObject
 			$this->$tag->data = '';
 		}
 
-		switch ($name)
+		$name = strtolower($name);
+
+		if (!isset($this->currentChangelog->$name))
 		{
-			default:
-				$name = strtolower($name);
+			$this->currentChangelog->$name = new \stdClass;
+		}
 
-				if (!isset($this->currentChangelog->$name))
-				{
-					$this->currentChangelog->$name = new \stdClass;
-				}
+		$this->currentChangelog->$name->data = '';
 
-				$this->currentChangelog->$name->data = '';
-
-				foreach ($attrs as $key => $data)
-				{
-					$key                                 = strtolower($key);
-					$this->currentChangelog->$name->$key = $data;
-				}
-				break;
+		foreach ($attrs as $key => $data)
+		{
+			$key                                 = strtolower($key);
+			$this->currentChangelog->$name->$key = $data;
 		}
 	}
 

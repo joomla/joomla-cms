@@ -107,7 +107,6 @@ abstract class DaemonApplication extends CliApplication
 	 *                                            the application's event dispatcher, if it is null then the default event dispatcher
 	 *                                            will be created based on the application's loadDispatcher() method.
 	 *
-	 * @see     JApplicationBase::loadDispatcher()
 	 * @since   1.7.0
 	 */
 	public function __construct(Cli $input = null, Registry $config = null, DispatcherInterface $dispatcher = null)

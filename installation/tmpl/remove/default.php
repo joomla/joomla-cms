@@ -60,6 +60,7 @@ HTMLHelper::_('behavior.formvalidator');
 				<tr>
 					<td>
 						<input
+							class="form-check-input"
 							id="admin-language-cb<?php echo $i; ?>"
 							type="radio"
 							name="administratorlang"
@@ -99,6 +100,7 @@ HTMLHelper::_('behavior.formvalidator');
 				<tr>
 					<td>
 						<input
+							class="form-check-input"
 							id="site-language-cb<?php echo $i; ?>"
 							type="radio"
 							name="frontendlang"
@@ -246,7 +248,7 @@ HTMLHelper::_('behavior.formvalidator');
 						<?php $language->code = $element[1]; ?>
 						<tr>
 							<td>
-								<input type="checkbox" id="cb<?php echo $i; ?>" name="cid[]" value="<?php echo $language->update_id; ?>">
+								<input class="form-check-input" type="checkbox" id="cb<?php echo $i; ?>" name="cid[]" value="<?php echo $language->update_id; ?>">
 							</td>
 							<th scope="row">
 								<label for="cb<?php echo $i; ?>"><?php echo $language->name; ?></label>

@@ -102,7 +102,7 @@ class PluginsHelper
 	 * @param   string  $templateBaseDir  Base path to the template directory.
 	 * @param   string  $templateDir      Template directory.
 	 *
-	 * @return CMSObject|bool
+	 * @return  CMSObject|bool
 	 */
 	public function parseXMLTemplateFile($templateBaseDir, $templateDir)
 	{

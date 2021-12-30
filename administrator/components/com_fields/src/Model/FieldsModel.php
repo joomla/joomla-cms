@@ -128,9 +128,9 @@ class FieldsModel extends ListModel
 	}
 
 	/**
-	 * Method to get a JDatabaseQuery object for retrieving the data set from a database.
+	 * Method to get a DatabaseQuery object for retrieving the data set from a database.
 	 *
-	 * @return  \JDatabaseQuery   A JDatabaseQuery object to retrieve the data set.
+	 * @return  \Joomla\Database\DatabaseQuery   A DatabaseQuery object to retrieve the data set.
 	 *
 	 * @since   3.7.0
 	 */
@@ -449,7 +449,7 @@ class FieldsModel extends ListModel
 	 * @param   array    $data      data
 	 * @param   boolean  $loadData  load current data
 	 *
-	 * @return  \Joomla\CMS\Form\Form|bool  The JForm object or false.
+	 * @return  \Joomla\CMS\Form\Form|bool  the Form object or false
 	 *
 	 * @since   3.7.0
 	 */

@@ -150,7 +150,7 @@ class CategoryModel extends AdminModel
 	 * @param   string  $prefix  The class prefix. Optional.
 	 * @param   array   $config  Configuration array for model. Optional.
 	 *
-	 * @return  \Joomla\CMS\Table\Table  A JTable object
+	 * @return  \Joomla\CMS\Table\Table  A Table object
 	 *
 	 * @since   1.6
 	 */
@@ -403,11 +403,11 @@ class CategoryModel extends AdminModel
 	 *
 	 * @return  mixed
 	 *
-	 * @see     \Joomla\CMS\Form\FormField
-	 *
 	 * @since   1.6
 	 *
 	 * @throws  \Exception if there is an error in the form event.
+	 *
+	 * @see     \Joomla\CMS\Form\FormField
 	 */
 	protected function preprocessForm(Form $form, $data, $group = 'content')
 	{

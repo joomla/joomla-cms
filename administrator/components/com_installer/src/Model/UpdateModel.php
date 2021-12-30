@@ -91,7 +91,7 @@ class UpdateModel extends ListModel
 	/**
 	 * Method to get the database query
 	 *
-	 * @return  \JDatabaseQuery  The database query
+	 * @return  \Joomla\Database\DatabaseQuery  The database query
 	 *
 	 * @since   1.6
 	 */
@@ -216,9 +216,9 @@ class UpdateModel extends ListModel
 	/**
 	 * Returns an object list
 	 *
-	 * @param   \JDatabaseQuery  $query       The query
-	 * @param   int              $limitstart  Offset
-	 * @param   int              $limit       The number of records
+	 * @param   DatabaseQuery  $query       The query
+	 * @param   int            $limitstart  Offset
+	 * @param   int            $limit       The number of records
 	 *
 	 * @return  array
 	 *

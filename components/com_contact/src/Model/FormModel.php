@@ -107,7 +107,7 @@ class FormModel extends \Joomla\Component\Contact\Administrator\Model\ContactMod
 		}
 
 		$properties = $table->getProperties();
-		$value      = ArrayHelper::toObject($properties, 'JObject');
+		$value      = ArrayHelper::toObject($properties, \Joomla\CMS\Object\CMSObject::class);
 
 		// Convert field to Registry.
 		$value->params = new Registry($value->params);
