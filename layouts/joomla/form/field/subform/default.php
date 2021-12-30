@@ -7,9 +7,9 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-use Joomla\CMS\Form\Form;
-
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Form\Form;
 
 extract($displayData);
 
