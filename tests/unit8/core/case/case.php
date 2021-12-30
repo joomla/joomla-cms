@@ -6,6 +6,8 @@
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+require_once dirname(dirname(__DIR__)) . '/stubs/tests/assertTag.php';
+
 /**
  * Abstract test case class for unit testing.
  *
@@ -15,6 +17,7 @@
 abstract class TestCase extends \PHPUnit\Framework\TestCase
 {
 	use Yoast\PHPUnitPolyfills\Helpers\AssertAttributeHelper;
+	use assertTag;
 
 	/**
 	 * @var         array  The list of errors expected to be encountered during the test.

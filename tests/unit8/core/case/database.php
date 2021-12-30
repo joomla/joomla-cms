@@ -6,6 +6,8 @@
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+require_once dirname(dirname(__DIR__)) . '/stubs/tests/assertTag.php';
+
 if (!class_exists('PHPUnit\DbUnit\TestCase'))
 {
 	require_once 'PHPUnit/Extensions/Database/TestCase.php';
@@ -23,6 +25,7 @@ if (!class_exists('PHPUnit\DbUnit\TestCase'))
 abstract class TestCaseDatabase extends PHPUnit\DbUnit\TestCase
 {
 	use Yoast\PHPUnitPolyfills\Helpers\AssertAttributeHelper;
+	use assertTag;
 
 	/**
 	 * @var    JDatabaseDriver  The active database driver being used for the tests.
