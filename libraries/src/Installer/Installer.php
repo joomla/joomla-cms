@@ -1173,6 +1173,7 @@ class Installer extends Adapter
 					{
 						$version = '0.0.0';
 					}
+					Log::add(Text::_('JLIB_INSTALLER_SQL_BEGIN'), Log::INFO, 'Update');
 
 					foreach ($files as $file)
 					{
@@ -1200,19 +1201,22 @@ class Installer extends Adapter
 							// Process each query in the $queries array (split out of sql file).
 							foreach ($queries as $query)
 							{
+								$queryString = (string) $query;
+								$queryString = str_replace(array("\r", "\n"), array('', ' '), substr($queryString, 0, 80));
+
 								try
 								{
 									$db->setQuery($query)->execute();
 								}
 								catch (ExecutionFailureException $e)
 								{
-									Log::add(Text::sprintf('JLIB_INSTALLER_ERROR_SQL_ERROR', $e->getMessage()), Log::WARNING, 'jerror');
+									Log::add(Text::sprintf('JLIB_INSTALLER_UPDATE_LOG_QUERY', $file, $queryString), Log::INFO, 'Update');
+									Log::add(Text::sprintf('JLIB_INSTALLER_ERROR_SQL_ERROR', $e->getMessage()), Log::INFO, 'Update');
+									Log::add(Text::_('JLIB_INSTALLER_SQL_END_NOT_COMPLETE'), Log::INFO, 'Update');
 
 									return false;
 								}
 
-								$queryString = (string) $query;
-								$queryString = str_replace(array("\r", "\n"), array('', ' '), substr($queryString, 0, 80));
 								Log::add(Text::sprintf('JLIB_INSTALLER_UPDATE_LOG_QUERY', $file, $queryString), Log::INFO, 'Update');
 
 								$update_count++;
@@ -1248,6 +1252,8 @@ class Installer extends Adapter
 
 						return false;
 					}
+					Log::add(Text::_('JLIB_INSTALLER_SQL_END'), Log::INFO, 'Update');
+
 				}
 			}
 		}
