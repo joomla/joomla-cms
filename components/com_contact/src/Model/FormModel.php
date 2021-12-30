@@ -17,6 +17,7 @@ use Joomla\CMS\Form\Form;
 use Joomla\CMS\Helper\TagsHelper;
 use Joomla\CMS\Language\Associations;
 use Joomla\CMS\Language\Multilanguage;
+use Joomla\CMS\Table\Table;
 use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
 
@@ -215,7 +216,7 @@ class FormModel extends \Joomla\Component\Contact\Administrator\Model\ContactMod
 			$form->setFieldAttribute('language', 'default', '*');
 		}
 
-		return parent::preprocessForm($form, $data, $group);
+		parent::preprocessForm($form, $data, $group);
 	}
 
 	/**
@@ -225,10 +226,10 @@ class FormModel extends \Joomla\Component\Contact\Administrator\Model\ContactMod
 	 * @param   string  $prefix   The class prefix. Optional.
 	 * @param   array   $options  Configuration array for model. Optional.
 	 *
-	 * @return  Table  A Table object
+	 * @return  bool|Table  A Table object
 	 *
-	 * @since   4.0.0
 	 * @throws  \Exception
+	 * @since   4.0.0
 	 */
 	public function getTable($name = 'Contact', $prefix = 'Administrator', $options = array())
 	{
