@@ -51,21 +51,21 @@ class HtmlView extends BaseHtmlView
 	/**
 	 * Should the print button be displayed or not?
 	 *
-	 * @var  boolean
+	 * @var   boolean
 	 */
 	protected $print = false;
 
 	/**
 	 * The model state
 	 *
-	 * @var  \Joomla\CMS\Object\CMSObject
+	 * @var   \Joomla\CMS\Object\CMSObject
 	 */
 	protected $state;
 
 	/**
 	 * The user object
 	 *
-	 * @var  \Joomla\CMS\User\User|null
+	 * @var   \Joomla\CMS\User\User|null
 	 */
 	protected $user = null;
 
@@ -101,8 +101,8 @@ class HtmlView extends BaseHtmlView
 			return;
 		}
 
-		$app        = Factory::getApplication();
-		$user       = Factory::getUser();
+		$app  = Factory::getApplication();
+		$user = Factory::getUser();
 
 		$this->item  = $this->get('Item');
 		$this->print = $app->input->getBool('print', false);
