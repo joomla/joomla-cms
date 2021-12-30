@@ -47,7 +47,7 @@ INSERT INTO "#__assets" ("id", "parent_id", "lft", "rgt", "level", "name", "titl
 (15, 1, 49, 50, 1, 'com_media', 'com_media', '{"core.admin":{"7":1},"core.manage":{"6":1},"core.create":{"3":1},"core.delete":{"5":1}}'),
 (16, 1, 51, 54, 1, 'com_menus', 'com_menus', '{"core.admin":{"7":1}}'),
 (17, 1, 55, 56, 1, 'com_messages', 'com_messages', '{"core.admin":{"7":1},"core.manage":{"7":1}}'),
-(18, 1, 57, 128, 1, 'com_modules', 'com_modules', '{"core.admin":{"7":1}}'),
+(18, 1, 57, 130, 1, 'com_modules', 'com_modules', '{"core.admin":{"7":1}}'),
 (19, 1, 131, 134, 1, 'com_newsfeeds', 'com_newsfeeds', '{"core.admin":{"7":1},"core.manage":{"6":1}}'),
 (20, 1, 135, 136, 1, 'com_plugins', 'com_plugins', '{"core.admin":{"7":1}}'),
 (21, 1, 137, 138, 1, 'com_redirect', 'com_redirect', '{"core.admin":{"7":1}}'),
@@ -112,7 +112,7 @@ INSERT INTO "#__assets" ("id", "parent_id", "lft", "rgt", "level", "name", "titl
 (86, 18, 122, 123, 2, 'com_modules.module.96', 'Popular Articles', '{}'),
 (87, 18, 124, 125, 2, 'com_modules.module.97', 'Recently Added Articles', '{}'),
 (88, 18, 126, 127, 2, 'com_modules.module.98', 'Logged-in Users', '{}'),
-(89, 18, 129, 130, 2, 'com_modules.module.90', 'Login Support', '{}');
+(89, 18, 128, 129, 2, 'com_modules.module.90', 'Login Support', '{}');
 
 SELECT setval('#__assets_id_seq', 90, false);
 
