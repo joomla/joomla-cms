@@ -1175,12 +1175,15 @@ class Installer extends Adapter
 					}
 
 					Log::add(Text::_('JLIB_INSTALLER_SQL_BEGIN'), Log::INFO, 'Update');
+					Log::add(Text::sprintf('JLIB_INSTALLER_SQL_BEGIN_SCHEMA', $version), Log::INFO, 'Update');
 
 					foreach ($files as $file)
 					{
 						if (version_compare($file, $version) > 0)
 						{
 							$buffer = file_get_contents($this->getPath('extension_root') . '/' . $schemapath . '/' . $file . '.sql');
+
+							Log::add(Text::sprintf('JLIB_INSTALLER_SQL_FILE_BEGIN'), Log::INFO, 'Update');
 
 							// Graceful exit and rollback if read not successful
 							if ($buffer === false)
