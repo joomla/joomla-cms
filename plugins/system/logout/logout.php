@@ -20,9 +20,8 @@ use Joomla\CMS\Plugin\CMSPlugin;
 class PlgSystemLogout extends CMSPlugin
 {
 	/**
-	 * Application object.
+	 * @var    \Joomla\CMS\Application\CMSApplication
 	 *
-	 * @var    JApplicationCms
 	 * @since  3.7.3
 	 */
 	protected $app;
@@ -31,13 +30,12 @@ class PlgSystemLogout extends CMSPlugin
 	 * Load the language file on instantiation.
 	 *
 	 * @var    boolean
+	 *
 	 * @since  3.1
 	 */
 	protected $autoloadLanguage = true;
 
 	/**
-	 * Constructor.
-	 *
 	 * @param   object  &$subject  The object to observe -- event dispatcher.
 	 * @param   object  $config    An optional associative array of configuration settings.
 	 *
@@ -58,7 +56,13 @@ class PlgSystemLogout extends CMSPlugin
 		if ($this->app->input->cookie->getString($hash))
 		{
 			// Destroy the cookie.
-			$this->app->input->cookie->set($hash, '', 1, $this->app->get('cookie_path', '/'), $this->app->get('cookie_domain', ''));
+			$this->app->input->cookie->set(
+				$hash,
+				'',
+				1,
+				$this->app->get('cookie_path', '/'),
+				$this->app->get('cookie_domain', '')
+			);
 		}
 	}
 
@@ -72,7 +76,7 @@ class PlgSystemLogout extends CMSPlugin
 	 *
 	 * @since   1.6
 	 */
-	public function onUserLogout($user, $options = array())
+	public function onUserLogout($user, $options = [])
 	{
 		if ($this->app->isClient('site'))
 		{
