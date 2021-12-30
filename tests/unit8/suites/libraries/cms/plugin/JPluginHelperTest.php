@@ -111,7 +111,7 @@ class JPluginHelperTest extends TestCaseDatabase
 	public function testGetPluginGroup()
 	{
 		$plugins = JPluginHelper::getPlugin('content');
-		$this->assertInternalType('array', $plugins, 'Method should return all plugins in a group');
+		$this->assertIsArray($plugins, 'Method should return all plugins in a group');
 		$this->assertCount(7, $plugins, 'Method should return all plugins in a group');
 	}
 

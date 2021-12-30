@@ -77,7 +77,7 @@ class JFeedParserRssTest extends TestCase
 		TestReflection::invoke($this->_instance, 'handleCategory', $feed, $el);
 
 		// Ensure that the clound property is an object.
-		$this->assertInternalType('array', $feed->categories);
+		$this->assertIsArray($feed->categories);
 
 		$this->assertEquals(
 			array('IT/Internet/Web development' => ''),
@@ -101,7 +101,7 @@ class JFeedParserRssTest extends TestCase
 		TestReflection::invoke($this->_instance, 'handleCloud', $feed, $el);
 
 		// Ensure that the clound property is an object.
-		$this->assertInternalType('object', $feed->cloud);
+		$this->assertIsObject($feed->cloud);
 
 		$this->assertEquals(
 			'domain.com',
@@ -346,7 +346,7 @@ class JFeedParserRssTest extends TestCase
 		TestReflection::invoke($this->_instance, 'handleSkipDays', $feed, $el);
 
 		// Ensure that the clound property is an object.
-		$this->assertInternalType('array', $feed->skipDays);
+		$this->assertIsArray($feed->skipDays);
 
 		$this->assertEquals(
 			array('Saturday', 'Sunday'),
@@ -370,7 +370,7 @@ class JFeedParserRssTest extends TestCase
 		TestReflection::invoke($this->_instance, 'handleSkipHours', $feed, $el);
 
 		// Ensure that the clound property is an object.
-		$this->assertInternalType('array', $feed->skipHours);
+		$this->assertIsArray($feed->skipHours);
 
 		$this->assertEquals(
 			array(0, 10),

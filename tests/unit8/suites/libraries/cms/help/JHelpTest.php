@@ -119,6 +119,9 @@ class JHelpTest extends TestCase
 		);
 		$this->assertEquals(array($helpsite), JHelp::createSiteList(null), 'Returns the default help site list');
 
-		$this->assertInternalType('array', JHelp::createSiteList(JPATH_ADMINISTRATOR . '/help/helpsites.xml'), 'Returns the help site list defined in the XML file');
+		$this->assertIsArray(
+			JHelp::createSiteList(JPATH_ADMINISTRATOR . '/help/helpsites.xml'),
+			'Returns the help site list defined in the XML file'
+		);
 	}
 }

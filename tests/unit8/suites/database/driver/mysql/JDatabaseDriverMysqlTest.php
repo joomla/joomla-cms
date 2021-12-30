@@ -293,8 +293,7 @@ class JDatabaseDriverMysqlTest extends TestCaseDatabaseMysql
 	 */
 	public function testGetTableCreate()
 	{
-		$this->assertInternalType(
-			'array',
+		$this->assertIsArray(
 			self::$driver->getTableCreate('#__dbtest'),
 			'The statement to create the table is returned in an array.'
 		);
@@ -381,8 +380,7 @@ class JDatabaseDriverMysqlTest extends TestCaseDatabaseMysql
 	 */
 	public function testGetTableKeys()
 	{
-		$this->assertInternalType(
-			'array',
+		$this->assertIsArray(
 			self::$driver->getTableKeys('#__dbtest'),
 			'The list of keys for the table is returned in an array.'
 		);
@@ -397,8 +395,7 @@ class JDatabaseDriverMysqlTest extends TestCaseDatabaseMysql
 	 */
 	public function testGetTableList()
 	{
-		$this->assertInternalType(
-			'array',
+		$this->assertIsArray(
 			self::$driver->getTableList(),
 			'The list of tables for the database is returned in an array.'
 		);

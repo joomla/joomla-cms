@@ -72,7 +72,7 @@ class JVersionTest extends \PHPUnit\Framework\TestCase
 	 */
 	public function testGetHelpVersion()
 	{
-		$this->assertInternalType('string', $this->object->getHelpVersion());
+		$this->assertIsString($this->object->getHelpVersion());
 	}
 
 	/**
@@ -96,7 +96,7 @@ class JVersionTest extends \PHPUnit\Framework\TestCase
 	 */
 	public function testGetLongVersion()
 	{
-		$this->assertInternalType('string', $this->object->getLongVersion());
+		$this->assertIsString($this->object->getLongVersion());
 	}
 
 	/**

@@ -207,8 +207,7 @@ class FinderIndexerResultTest extends TestCaseDatabase
 	 */
 	public function testGetTaxonomy()
 	{
-		$this->assertInternalType(
-			'array',
+		$this->assertIsArray(
 			$this->object->getTaxonomy()
 		);
 	}

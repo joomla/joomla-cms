@@ -94,7 +94,7 @@ class JModuleHelperTest extends TestCaseDatabase
 
 		$module = JModuleHelper::getModule('mod_false');
 
-		$this->assertInternalType('object', $module, 'No object was returned');
+		$this->assertIsObject($module, 'No object was returned');
 
 		$this->assertEquals(
 			$module->id,

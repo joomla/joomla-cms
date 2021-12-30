@@ -203,7 +203,7 @@ class JLayoutBaseTest extends \PHPUnit\Framework\TestCase
 	 */
 	public function testRetrievingTheListOfDebugMessagesIsAnArray()
 	{
-		$this->assertInternalType('array', $this->layoutBase->getDebugMessages());
+		$this->assertIsArray($this->layoutBase->getDebugMessages());
 	}
 
 	/**
