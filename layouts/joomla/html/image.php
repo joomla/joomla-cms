@@ -28,10 +28,10 @@ if (!empty($displayData['alt']))
 	$displayData['alt'] = $this->escape($displayData['alt']);
 }
 
-if (isset($img->width) && $img->width > 0 && isset($img->height) && $img->height > 0)
+if (isset($img->attributes['width']) && isset($img->attributes['height']) && $img->attributes['width'] > 0 && $img->attributes['height'] > 0)
 {
-	$displayData['width']  = $img->width;
-	$displayData['height'] = $img->height;
+	$displayData['width']  = $img->attributes['width'];
+	$displayData['height'] = $img->attributes['width'];
 
 	if (empty($displayData['loading']))
 	{
