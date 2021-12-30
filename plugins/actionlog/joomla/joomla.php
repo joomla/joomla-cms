@@ -299,7 +299,7 @@ class PlgActionlogJoomla extends ActionLogPlugin
 	 * On Saving application configuration logging method
 	 * Method is called when the application config is being saved
 	 *
-	 * @param   \Joomla\Registry\Registry  $config  JRegistry object with the new config
+	 * @param   \Joomla\Registry\Registry  $config  Registry object with the new config
 	 *
 	 * @return  void
 	 *
