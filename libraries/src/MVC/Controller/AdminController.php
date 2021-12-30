@@ -63,7 +63,7 @@ class AdminController extends BaseController
 	 *                                         'view_path' (this list is not meant to be comprehensive).
 	 * @param   MVCFactoryInterface  $factory  The factory.
 	 * @param   CMSApplication       $app      The Application for the dispatcher
-	 * @param   Input                $input    Input  The Input object for the request
+	 * @param   Input                $input    The Input object for the request
 	 *
 	 * @since   3.0
 	 */
