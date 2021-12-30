@@ -41,7 +41,7 @@ class StyleModel extends AdminModel
 	 * @var	    string
 	 * @since   1.6
 	 */
-	protected $helpKey = 'JHELP_EXTENSIONS_TEMPLATE_MANAGER_STYLES_EDIT';
+	protected $helpKey = 'Templates:_Edit_Style';
 
 	/**
 	 * The help screen base URL for the module.
@@ -366,7 +366,7 @@ class StyleModel extends AdminModel
 				return false;
 			}
 
-			// Convert to the \JObject before adding other data.
+			// Convert to the \Joomla\CMS\Object\CMSObject before adding other data.
 			$properties        = $table->getProperties(1);
 			$this->_cache[$pk] = ArrayHelper::toObject($properties, CMSObject::class);
 

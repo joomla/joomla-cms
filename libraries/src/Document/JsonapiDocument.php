@@ -1,7 +1,6 @@
 <?php
 /**
- * @package     Joomla.Platform
- * @subpackage  Document
+ * Joomla! Content Management System
  *
  * @copyright   (C) 2019 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE
@@ -160,6 +159,7 @@ class JsonapiDocument extends JsonDocument implements \JsonSerializable
 	 *
 	 * @since  4.0.0
 	 */
+	#[\ReturnTypeWillChange]
 	public function jsonSerialize()
 	{
 		return $this->toArray();

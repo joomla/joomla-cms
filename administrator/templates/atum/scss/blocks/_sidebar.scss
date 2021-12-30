@@ -2,7 +2,7 @@
 
 .sidebar-wrapper {
   z-index: $zindex-sidebar;
-  min-height: calc(100vh - 69px);
+  min-height: calc(100vh - 66px);
   overflow: hidden;
   background-color: var(--template-sidebar-bg);
   box-shadow: 0 0 20px -10px var(--template-bg-dark-50);
@@ -59,7 +59,7 @@
   @include media-breakpoint-up(sm) {
     flex: 1 0 $sidebar-width;
     max-width: $sidebar-width;
-    transition: all .3s ease;
+    transition: all .3s ease-in-out;
   }
 
   @include media-breakpoint-down(sm) {
@@ -215,7 +215,7 @@
 
   .main-nav a:hover .sidebar-item-title {
     position: absolute;
-    left: 100%;
+    inset-inline-start: 100%;
     display: flex;
     align-items: center;
     height: 100%;
@@ -223,12 +223,10 @@
     white-space: nowrap;
     pointer-events: none;
     background-color: var(--template-bg-dark-60);
-    border-radius: 0 $border-radius $border-radius 0;
-    [dir=rtl] & {
-      right: 100%;
-      left: unset;
-      border-radius: $border-radius 0 0 $border-radius;
-    }
+    border-end-start-radius: 0;
+    border-end-end-radius: $border-radius;
+    border-start-end-radius: $border-radius;
+    border-start-start-radius: 0;
   }
 
   .main-nav > li > ul {

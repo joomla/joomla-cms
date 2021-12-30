@@ -80,7 +80,8 @@
 					name="siteDescription"
 					type="text"
 					default=""
-					label="TPL_CASSIOPEIA_TAGLINE"
+					label="TPL_CASSIOPEIA_TAGLINE_LABEL"
+					description="TPL_CASSIOPEIA_TAGLINE_DESC"
 					filter="string"
 					showon="brand:1"
 				/>
@@ -93,11 +94,11 @@
 					>
 					<option value="0">JNONE</option>
 					<group label="TPL_CASSIOPEIA_FONT_GROUP_LOCAL">
-						<option value="fonts-local_roboto">Roboto (local)</option>
+						<option value="templates/cassiopeia/css/global/fonts-local_roboto.css">Roboto (local)</option>
 					</group>
 					<group label="TPL_CASSIOPEIA_FONT_GROUP_WEB">
-						<option value="fonts-web_fira-sans">Fira Sans (web)</option>
-						<option value="fonts-web_roboto+noto-sans">Roboto + Noto Sans (web)</option>
+						<option value="https://fonts.googleapis.com/css2?family=Fira+Sans:wght@100;300;400;700&amp;display=swap">Fira Sans (web)</option>
+						<option value="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@100;300;400;700&amp;family=Roboto:wght@100;300;400;700&amp;display=swap">Roboto + Noto Sans (web)</option>
 					</group>
 				</field>
 

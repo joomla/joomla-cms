@@ -29,7 +29,8 @@ class HtmlView extends BaseHtmlView
 	/**
 	 * The model state
 	 *
-	 * @var    \JObject
+	 * @var    \Joomla\CMS\Object\CMSObject
+	 *
 	 * @since  3.1
 	 */
 	protected $state;
@@ -45,7 +46,8 @@ class HtmlView extends BaseHtmlView
 	/**
 	 * Tag data for the current tag or tags (on success, false on failure)
 	 *
-	 * @var    \JObject|boolean
+	 * @var    \Joomla\CMS\Object\CMSObject|boolean
+	 *
 	 * @since  3.1
 	 */
 	protected $item;
@@ -217,7 +219,7 @@ class HtmlView extends BaseHtmlView
 		$this->item       = $item;
 
 		// Escape strings for HTML output
-		$this->pageclass_sfx = htmlspecialchars($params->get('pageclass_sfx'));
+		$this->pageclass_sfx = htmlspecialchars($params->get('pageclass_sfx', ''));
 
 		// Merge tag params. If this is single-tag view, menu params override tag params
 		// Otherwise, article params override menu item params

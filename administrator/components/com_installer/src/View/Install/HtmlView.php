@@ -62,6 +62,6 @@ class HtmlView extends InstallerViewDefault
 	{
 		parent::addToolbar();
 
-		ToolbarHelper::help('JHELP_EXTENSIONS_EXTENSION_MANAGER_INSTALL');
+		ToolbarHelper::help('Extensions:_Install');
 	}
 }

@@ -60,7 +60,7 @@ body {
       grid-column: full-start / full-end;
     }
 
-    @include media-breakpoint-up(md) {
+    @include media-breakpoint-up(lg) {
       grid-template-areas: ". banner banner banner banner ."
         ". top-a top-a top-a top-a ."
         ". top-b top-b top-b top-b ."

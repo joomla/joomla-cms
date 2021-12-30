@@ -14,6 +14,11 @@ const RootPath = process.cwd();
  */
 module.exports.copyAllFiles = async (dirName, name, type) => {
   const folderName = dirName === '/' ? '/' : `/${dirName}`;
-  await copy(join(RootPath, `node_modules/${name}/${folderName}`),
-    join(RootPath, `media/vendor/${name.replace(/.+\//, '')}/${type}`));
+  await copy(
+    join(RootPath, `node_modules/${name}/${folderName}`),
+    join(RootPath, `media/vendor/${name.replace(/.+\//, '')}/${type}`),
+    {
+      preserveTimestamps: true,
+    },
+  );
 };

@@ -388,7 +388,7 @@ class PlgFieldsSubform extends FieldsPlugin
 			static::$customFieldsCache = array();
 
 			// Get all custom field instances
-			$customFields = FieldsHelper::getFields('');
+			$customFields = FieldsHelper::getFields('', null, false, null, true);
 
 			foreach ($customFields as $customField)
 			{

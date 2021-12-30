@@ -140,7 +140,7 @@
   }
 }
 
-@include media-breakpoint-down(sm) {
+@include media-breakpoint-down(md) {
   joomla-tab[view=accordion] .col-md-9,
   joomla-tab[view=accordion] .col-md-3 {
     padding: .5rem 1rem !important;

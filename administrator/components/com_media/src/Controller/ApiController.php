@@ -160,6 +160,11 @@ class ApiController extends BaseController
 	 */
 	public function deleteFiles()
 	{
+		if (!$this->app->getIdentity()->authorise('core.delete', 'com_media'))
+		{
+			throw new \Exception(Text::_('JLIB_APPLICATION_ERROR_DELETE_NOT_PERMITTED'), 403);
+		}
+
 		$this->getModel()->delete($this->getAdapter(), $this->getPath());
 
 		return null;
@@ -191,6 +196,11 @@ class ApiController extends BaseController
 	 */
 	public function postFiles()
 	{
+		if (!$this->app->getIdentity()->authorise('core.create', 'com_media'))
+		{
+			throw new \Exception(Text::_('JLIB_APPLICATION_ERROR_CREATE_RECORD_NOT_PERMITTED'), 403);
+		}
+
 		$adapter      = $this->getAdapter();
 		$path         = $this->getPath();
 		$content      = $this->input->json;
@@ -257,6 +267,11 @@ class ApiController extends BaseController
 	 */
 	public function putFiles()
 	{
+		if (!$this->app->getIdentity()->authorise('core.edit', 'com_media'))
+		{
+			throw new \Exception(Text::_('JLIB_APPLICATION_ERROR_EDIT_NOT_PERMITTED'), 403);
+		}
+
 		$adapter = $this->getAdapter();
 		$path    = $this->getPath();
 
@@ -344,11 +359,6 @@ class ApiController extends BaseController
 	 */
 	private function checkContent()
 	{
-		if (!$this->app->getIdentity()->authorise('core.create', 'com_media'))
-		{
-			throw new \Exception(Text::_('COM_MEDIA_ERROR_CREATE_NOT_PERMITTED'), 403);
-		}
-
 		$params = ComponentHelper::getParams('com_media');
 
 		$helper       = new MediaHelper;

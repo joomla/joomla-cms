@@ -22,10 +22,9 @@
 		<folder>css</folder>
 		<folder>html</folder>
 		<folder>images</folder>
-		<folder>Service</folder>
 		<folder>scss</folder>
 	</files>
-	<media destination="templates/atum" folder="media">
+	<media destination="templates/administrator/atum" folder="media">
 		<folder>js</folder>
 	</media>
 	<positions>

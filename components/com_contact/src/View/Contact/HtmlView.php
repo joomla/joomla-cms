@@ -13,7 +13,6 @@ namespace Joomla\Component\Contact\Site\View\Contact;
 
 use Joomla\CMS\Categories\Categories;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Helper\TagsHelper;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\GenericDataException;
@@ -48,7 +47,8 @@ class HtmlView extends BaseHtmlView
 	/**
 	 * The item object details
 	 *
-	 * @var    \JObject
+	 * @var    \Joomla\CMS\Object\CMSObject
+	 *
 	 * @since  1.6
 	 */
 	protected $item;
@@ -378,7 +378,7 @@ class HtmlView extends BaseHtmlView
 		}
 
 		// Escape strings for HTML output
-		$this->pageclass_sfx = htmlspecialchars($item->params->get('pageclass_sfx'));
+		$this->pageclass_sfx = htmlspecialchars($item->params->get('pageclass_sfx', ''));
 
 		$this->params      = &$item->params;
 		$this->state       = &$state;
@@ -386,9 +386,6 @@ class HtmlView extends BaseHtmlView
 		$this->user        = &$user;
 		$this->contacts    = &$contacts;
 		$this->contactUser = $contactUser;
-
-		$item->tags = new TagsHelper;
-		$item->tags->getItemTags('com_contact.contact', $this->item->id);
 
 		$model = $this->getModel();
 		$model->hit();

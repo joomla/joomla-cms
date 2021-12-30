@@ -3,9 +3,6 @@
 // Atum Variables
 @import "../../variables";
 
-// Mixins
-@import "../../mixin";
-
 @import "../../../../../../media/vendor/bootstrap/scss/variables";
 @import "../../../../../../media/vendor/bootstrap/scss/mixins";
 
@@ -144,21 +141,14 @@
   .choices__button_joomla {
     position: absolute;
     top: 50%;
-    right: 0;
+    inset-inline-end: 0;
     width: 20px;
     height: 20px;
     padding: 0;
-    margin-top: -10px;
-    margin-right: 50px;
+    margin-block-start: -10px;
+    margin-inline-end: 50px;
     border-radius: 10em;
     opacity: .5;
-
-    [dir=rtl] & {
-      right: auto;
-      left: 0;
-      margin-right: 0;
-      margin-left: 50px;
-    }
 
     &:hover,
     &:focus {

@@ -33,7 +33,7 @@ class XmlView extends BaseHtmlView
 	protected $items;
 
 	/**
-	 * @var  \JObject
+	 * @var    \Joomla\CMS\Object\CMSObject
 	 *
 	 * @since  3.8.0
 	 */
@@ -91,7 +91,6 @@ class XmlView extends BaseHtmlView
 		header('content-disposition: attachment; filename="' . $menutype . '.xml"');
 		header("Cache-Control: no-cache, must-revalidate");
 		header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
-		header('Pragma: private');
 
 		$dom = new \DOMDocument;
 		$dom->preserveWhiteSpace = true;
@@ -134,7 +133,7 @@ class XmlView extends BaseHtmlView
 			$node['element'] = $item->element;
 		}
 
-		if ($item->class)
+		if (isset($item->class) && $item->class)
 		{
 			$node['class'] = htmlentities($item->class, ENT_XML1);
 		}
@@ -172,9 +171,12 @@ class XmlView extends BaseHtmlView
 			$node->addChild('params', htmlentities((string) $item->getParams(), ENT_XML1));
 		}
 
-		foreach ($item->submenu as $sub)
+		if (isset($item->submenu))
 		{
-			$this->addXmlChild($node, $sub);
+			foreach ($item->submenu as $sub)
+			{
+				$this->addXmlChild($node, $sub);
+			}
 		}
 	}
 }

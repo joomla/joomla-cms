@@ -19,7 +19,7 @@
 		<language tag="en-GB">language/en-GB/mod_tags_popular.ini</language>
 		<language tag="en-GB">language/en-GB/mod_tags_popular.sys.ini</language>
 	</languages>
-	<help key="JHELP_EXTENSIONS_MODULE_MANAGER_TAGS_POPULAR" />
+	<help key="Site_Modules:_Tags_-_Popular" />
 	<config>
 		<fields name="params">
 			<fieldset name="basic">

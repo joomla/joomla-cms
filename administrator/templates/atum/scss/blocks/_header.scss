@@ -24,6 +24,7 @@
     width: $sidebar-width;
     height: 100%;
     padding: 12px 5px;
+    overflow: hidden;
     background-color: var(--template-bg-dark-70);
     transition: all .3s ease-in-out;
 
@@ -227,25 +228,5 @@
     .#{$fa-css-prefix}-angle-down {
       transform: rotate(180deg);
     }
-  }
-
-  .header-item-more {
-    &.active .header-more-menu {
-      left: 0;
-
-      [dir=rtl] & {
-        right: 0;
-        left: auto;
-      }
-    }
-
-    .header-item-content {
-      background: transparent;
-    }
-  }
-
-  .header-more-menu {
-    top: auto;
-    bottom: 100%;
   }
 }

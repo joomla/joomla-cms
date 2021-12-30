@@ -969,7 +969,7 @@ class Nested extends Table
 			// Nothing to set publishing state on, return false.
 			else
 			{
-				$e = new \UnexpectedValueException(sprintf('%s::publish(%s, %d, %d) empty.', \get_class($this), $pks, $state, $userId));
+				$e = new \UnexpectedValueException(sprintf('%s::publish(%s, %d, %d) empty.', \get_class($this), implode(',', $pks), $state, $userId));
 				$this->setError($e);
 
 				return false;

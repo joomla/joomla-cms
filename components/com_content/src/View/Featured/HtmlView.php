@@ -28,7 +28,7 @@ class HtmlView extends BaseHtmlView
 	/**
 	 * The model state
 	 *
-	 * @var  \JObject
+	 * @var  \Joomla\CMS\Object\CMSObject
 	 */
 	protected $state = null;
 
@@ -68,9 +68,8 @@ class HtmlView extends BaseHtmlView
 	protected $link_items = array();
 
 	/**
-	 * An instance of JDatabaseDriver.
+	 * @var    \Joomla\Database\DatabaseDriver
 	 *
-	 * @var    \JDatabaseDriver
 	 * @since  3.6.3
 	 */
 	protected $db;
@@ -195,7 +194,7 @@ class HtmlView extends BaseHtmlView
 		}
 
 		// Escape strings for HTML output
-		$this->pageclass_sfx = htmlspecialchars($params->get('pageclass_sfx'));
+		$this->pageclass_sfx = htmlspecialchars($params->get('pageclass_sfx', ''));
 
 		$this->params     = &$params;
 		$this->items      = &$items;
