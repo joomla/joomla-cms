@@ -229,10 +229,10 @@ class FormModel extends \Joomla\Component\Contact\Administrator\Model\ContactMod
 	 * @param   string  $prefix   The class prefix. Optional.
 	 * @param   array   $options  Configuration array for model. Optional.
 	 *
-	 * @return  Table  A Table object
+	 * @return  bool|Table  A Table object
 	 *
 	 * @since   4.0.0
-	 *
+
 	 * @throws  Exception
 	 */
 	public function getTable($name = 'Contact', $prefix = 'Administrator', $options = array())
