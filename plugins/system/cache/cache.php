@@ -260,7 +260,7 @@ class PlgSystemCache extends CMSPlugin
 					if ($exclusion !== '')
 					{
 						// Test both external and internal URI
-						if (preg_match('#' . $exclusion . '#i', $this->_cache_key . ' ' . $internal_uri, $match))
+						if (preg_match('#' . $exclusion . '#i', $this->_cache_key . ' ' . $internal_uri))
 						{
 							return true;
 						}
