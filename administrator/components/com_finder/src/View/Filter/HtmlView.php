@@ -28,14 +28,14 @@ class HtmlView extends BaseHtmlView
 	/**
 	 * The filter object
 	 *
-	 * @var  \Joomla\Component\Finder\Administrator\Table\FilterTable
+	 * @var    \Joomla\Component\Finder\Administrator\Table\FilterTable
 	 *
 	 * @since  3.6.2
 	 */
 	protected $filter;
 
 	/**
-	 * The \JForm object
+	 * The Form object
 	 *
 	 * @var    \Joomla\CMS\Form\Form
 	 *

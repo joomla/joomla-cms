@@ -219,7 +219,7 @@ class TransitionModel extends AdminModel
 	 *
 	 * @return  \Joomla\CMS\Form\Form|boolean  A Form object on success, false on failure
 	 *
-	 * @since  4.0.0
+	 * @since   4.0.0
 	 */
 	public function getForm($data = array(), $loadData = true)
 	{

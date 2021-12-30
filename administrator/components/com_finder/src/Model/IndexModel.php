@@ -184,7 +184,7 @@ class IndexModel extends ListModel
 	/**
 	 * Build an SQL query to load the list data.
 	 *
-	 * @return  \JDatabaseQuery  A \JDatabaseQuery object
+	 * @return  \Joomla\Database\DatabaseQuery
 	 *
 	 * @since   2.5
 	 */

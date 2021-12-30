@@ -33,7 +33,7 @@ class HtmlView extends BaseHtmlView
 	protected $item;
 
 	/**
-	 * The \JForm object
+	 * The Form object
 	 *
 	 * @var  \Joomla\CMS\Form\Form
 	 */

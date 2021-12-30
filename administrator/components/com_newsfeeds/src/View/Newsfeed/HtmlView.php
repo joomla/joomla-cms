@@ -39,6 +39,7 @@ class HtmlView extends BaseHtmlView
 	 * The form object for the newsfeed
 	 *
 	 * @var    \Joomla\CMS\Form\Form
+	 *
 	 * @since  1.6
 	 */
 	protected $form;

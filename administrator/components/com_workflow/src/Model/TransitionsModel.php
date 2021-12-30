@@ -213,7 +213,7 @@ class TransitionsModel extends ListModel
 	 *
 	 * @return  \Joomla\CMS\Form\Form|boolean The Form object or false on error
 	 *
-	 * @since  4.0.0
+	 * @since   4.0.0
 	 */
 	public function getFilterForm($data = array(), $loadData = true)
 	{

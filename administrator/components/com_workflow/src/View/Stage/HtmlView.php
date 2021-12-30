@@ -36,6 +36,7 @@ class HtmlView extends BaseHtmlView
 	 * From object to generate fields
 	 *
 	 * @var    \Joomla\CMS\Form\Form
+	 *
 	 * @since  4.0.0
 	 */
 	protected $form;

@@ -26,6 +26,7 @@ class TransitionTable extends Table
 	 * Indicates that columns fully support the NULL value in the database
 	 *
 	 * @var    boolean
+	 *
 	 * @since  4.0.0
 	 */
 	protected $_supportNullValue = true;
@@ -34,6 +35,7 @@ class TransitionTable extends Table
 	 * An array of key names to be json encoded in the bind function
 	 *
 	 * @var    array
+	 *
 	 * @since  4.0.0
 	 */
 	protected $_jsonEncode = [
@@ -41,9 +43,7 @@ class TransitionTable extends Table
 	];
 
 	/**
-	 * Constructor
-	 *
-	 * @param   \JDatabaseDriver  $db  Database connector object
+	 * @param   DatabaseDriver  $db  Database connector object
 	 *
 	 * @since  4.0.0
 	 */

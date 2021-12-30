@@ -25,6 +25,7 @@ class OAuthCallbackEvent extends AbstractEvent
 	 * The event context.
 	 *
 	 * @var string
+	 *
 	 * @since  4.0.0
 	 */
 	private $context = null;
@@ -33,6 +34,7 @@ class OAuthCallbackEvent extends AbstractEvent
 	 * The event input.
 	 *
 	 * @var    Input
+	 *
 	 * @since  4.0.0
 	 */
 	private $input = null;
