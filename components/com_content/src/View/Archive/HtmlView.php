@@ -35,14 +35,14 @@ class HtmlView extends BaseHtmlView
 	/**
 	 * An array containing archived articles
 	 *
-	 * @var    \stdClass[]
+	 * @var   \stdClass[]
 	 */
 	protected $items = array();
 
 	/**
 	 * The pagination object
 	 *
-	 * @var  \Joomla\CMS\Pagination\Pagination|null
+	 * @var   \Joomla\CMS\Pagination\Pagination|null
 	 */
 	protected $pagination = null;
 
@@ -86,7 +86,7 @@ class HtmlView extends BaseHtmlView
 	/**
 	 * The user object
 	 *
-	 * @var \Joomla\CMS\User\User
+	 * @var    \Joomla\CMS\User\User
 	 *
 	 * @since  4.0.0
 	 */
