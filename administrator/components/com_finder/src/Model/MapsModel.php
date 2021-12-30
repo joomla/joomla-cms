@@ -275,7 +275,7 @@ class MapsModel extends ListModel
 	}
 
 	/**
-	 * Returns a \JTable object, always creating it.
+	 * Returns a Table object, always creating it.
 	 *
 	 * @param   string  $type    The table type to instantiate. [optional]
 	 * @param   string  $prefix  A prefix for the table class name. [optional]
