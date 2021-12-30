@@ -10,6 +10,7 @@ namespace Joomla\CMS\Application;
 
 \defined('JPATH_PLATFORM') or die;
 
+use InvalidArgumentException;
 use Joomla\CMS\Console;
 use Joomla\CMS\Extension\ExtensionManagerTrait;
 use Joomla\CMS\Factory;
@@ -449,12 +450,18 @@ class ConsoleApplication extends Application implements DispatcherAwareInterface
 	 * @return  Router
 	 *
 	 * @since   __DEPLOY_VERSION__
+	 * @throws  \InvalidArgumentException
 	 */
 	public static function getRouter($name = null, array $options = array())
 	{
-		if (!isset($name) || Factory::getApplication()->getName() === $name)
+		if (!isset($name))
 		{
-			// Use site as default as there is no console router
+			throw new InvalidArgumentException('A router name must be set in console application.');
+		}
+
+		// Fallback to site router when console router is fetched
+		if (Factory::getApplication()->getName() === $name)
+		{
 			$name = 'site';
 		}
 
