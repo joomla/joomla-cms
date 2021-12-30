@@ -1183,8 +1183,6 @@ class Installer extends Adapter
 						{
 							$buffer = file_get_contents($this->getPath('extension_root') . '/' . $schemapath . '/' . $file . '.sql');
 
-							Log::add(Text::sprintf('JLIB_INSTALLER_SQL_FILE_BEGIN'), Log::INFO, 'Update');
-
 							// Graceful exit and rollback if read not successful
 							if ($buffer === false)
 							{
