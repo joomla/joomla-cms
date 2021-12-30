@@ -102,7 +102,7 @@ class PlgSystemActionLogs extends CMSPlugin
 		 * users who have the same Super User permission
 		 */
 
-		$user = Factory::getApplication()->getIdentity();
+		$user = Factory::getUser();
 
 		if (!$user->authorise('core.admin'))
 		{

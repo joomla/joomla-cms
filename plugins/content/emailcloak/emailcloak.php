@@ -35,29 +35,18 @@ class PlgContentEmailcloak extends CMSPlugin
 	 * @param   mixed    &$params  Additional parameters.
 	 * @param   integer  $page     Optional page number. Unused. Defaults to zero.
 	 *
-	 * @return  void|bool
+	 * @return  void
 	 */
 	public function onContentPrepare($context, &$row, &$params, $page = 0)
 	{
-		if ($this->app->isClient('api'))
-		{
-			return true;
-		}
-
+		// Don't run if in the API Application
 		// Don't run this plugin when the content is being indexed
-		if ($context === 'com_finder.indexer')
+		if ($this->app->isClient('api') || $context === 'com_finder.indexer')
 		{
 			return;
 		}
 
-		if (is_object($row))
-		{
-			$this->_cloak($row->text, $params);
-
-			return;
-		}
-
-		$this->_cloak($row, $params);
+		$this->_cloak(is_object($row) ? $row->text : $row, $params);
 	}
 
 	/**
