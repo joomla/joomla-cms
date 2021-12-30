@@ -35,7 +35,11 @@ class TestReflection
 			$property = $refl->getProperty($propertyName);
 			$property->setAccessible(true);
 
-			return $property->getValue($object);
+			if (is_string($object)) {
+				return $property->getDefaultValue();
+			}
+
+			return $property->Value($object);
 		}
 
 		// Hrm, maybe dealing with a private property in the parent class.
@@ -43,6 +47,10 @@ class TestReflection
 		{
 			$property = new \ReflectionProperty(get_parent_class($object), $propertyName);
 			$property->setAccessible(true);
+
+			if (is_string($object)) {
+				return $property->getDefaultValue();
+			}
 
 			return $property->getValue($object);
 		}
