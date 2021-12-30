@@ -21,7 +21,8 @@ class JCacheStorageCacheliteTest extends TestCaseCache
 	 */
 	protected function setUp(): void
 	{
-		if (!JCacheStorageCachelite::isSupported())
+		// Cache lite is not compatible with php 8+
+		if (!JCacheStorageCachelite::isSupported() || PHP_VERSION_ID > 80000)
 		{
 			$this->markTestSkipped('The Cache_Lite cache handler is not supported on this system.');
 		}
