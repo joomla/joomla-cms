@@ -62,7 +62,7 @@ use Joomla\CMS\Layout\LayoutHelper;
 		<!-- Show Images from Component -->
 		<?php if (isset($images->image_first) && !empty($images->image_first)) : ?>
 			<?php $imgfloat = empty($images->float_first) ? $this->params->get('float_first') : $images->float_first; ?>
-			<div class="com-newsfeeds-newsfeed__first-image img-intro-<?php echo htmlspecialchars($imgfloat, ENT_COMPAT, 'UTF-8'); ?>">
+			<div class="com-newsfeeds-newsfeed__first-image img-intro-<?php echo $this->escape($imgfloat); ?>">
 				<figure>
 					<?php echo LayoutHelper::render(
 						'joomla.html.image',
@@ -72,7 +72,7 @@ use Joomla\CMS\Layout\LayoutHelper;
 						]
 					); ?>
 					<?php if ($images->image_first_caption) : ?>
-						<figcaption class="caption"><?php echo htmlspecialchars($images->image_first_caption, ENT_COMPAT, 'UTF-8'); ?></figcaption>
+						<figcaption class="caption"><?php echo $this->escape($images->image_first_caption); ?></figcaption>
 					<?php endif; ?>
 				</figure>
 			</div>
@@ -80,7 +80,7 @@ use Joomla\CMS\Layout\LayoutHelper;
 
 		<?php if (isset($images->image_second) and !empty($images->image_second)) : ?>
 			<?php $imgfloat = empty($images->float_second) ? $this->params->get('float_second') : $images->float_second; ?>
-			<div class="com-newsfeeds-newsfeed__second-image float-<?php echo htmlspecialchars($imgfloat, ENT_COMPAT, 'UTF-8'); ?> item-image">
+			<div class="com-newsfeeds-newsfeed__second-image float-<?php echo $this->escape($imgfloat); ?> item-image">
 				<figure>
 					<?php echo LayoutHelper::render(
 						'joomla.html.image',
@@ -90,7 +90,7 @@ use Joomla\CMS\Layout\LayoutHelper;
 						]
 					); ?>
 					<?php if ($images->image_second_caption) : ?>
-						<figcaption class="caption"><?php echo htmlspecialchars($images->image_second_caption, ENT_COMPAT, 'UTF-8'); ?></figcaption>
+						<figcaption class="caption"><?php echo $this->escape($images->image_second_caption); ?></figcaption>
 					<?php endif; ?>
 				</figure>
 			</div>
