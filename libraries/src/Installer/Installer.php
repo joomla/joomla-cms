@@ -1173,6 +1173,7 @@ class Installer extends Adapter
 					{
 						$version = '0.0.0';
 					}
+
 					Log::add(Text::_('JLIB_INSTALLER_SQL_BEGIN'), Log::INFO, 'Update');
 
 					foreach ($files as $file)
@@ -1252,8 +1253,8 @@ class Installer extends Adapter
 
 						return false;
 					}
-					Log::add(Text::_('JLIB_INSTALLER_SQL_END'), Log::INFO, 'Update');
 
+					Log::add(Text::_('JLIB_INSTALLER_SQL_END'), Log::INFO, 'Update');
 				}
 			}
 		}
