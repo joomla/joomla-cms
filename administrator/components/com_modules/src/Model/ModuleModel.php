@@ -738,7 +738,7 @@ class ModuleModel extends AdminModel
 				}
 			}
 
-			// Convert to the \JObject before adding other data.
+			// Convert to the \Joomla\CMS\Object\CMSObject before adding other data.
 			$properties        = $table->getProperties(1);
 			$this->_cache[$pk] = ArrayHelper::toObject($properties, CMSObject::class);
 

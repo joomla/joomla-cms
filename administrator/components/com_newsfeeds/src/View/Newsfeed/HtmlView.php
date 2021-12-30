@@ -31,6 +31,7 @@ class HtmlView extends BaseHtmlView
 	 * The item object for the newsfeed
 	 *
 	 * @var    \Joomla\CMS\Object\CMSObject
+	 *
 	 * @since  1.6
 	 */
 	protected $item;
@@ -48,6 +49,7 @@ class HtmlView extends BaseHtmlView
 	 * The model state of the newsfeed
 	 *
 	 * @var    \Joomla\CMS\Object\CMSObject
+	 *
 	 * @since  1.6
 	 */
 	protected $state;

@@ -70,6 +70,7 @@ class HtmlView extends BaseHtmlView
 	 * The active search filters
 	 *
 	 * @var    array
+	 *
 	 * @since  4.0.0
 	 */
 	public $activeFilters;
@@ -78,6 +79,7 @@ class HtmlView extends BaseHtmlView
 	 * The actions the user is authorised to perform
 	 *
 	 * @var    \Joomla\CMS\Object\CMSObject
+	 *
 	 * @since  4.0.0
 	 */
 	protected $canDo;
