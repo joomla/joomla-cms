@@ -184,9 +184,9 @@ class JToolbarTest extends TestCase
 	 */
 	public function testAddButtonPath_Array()
 	{
-		$initialValue = $this->readAttribute($this->object, '_buttonPath');
+		$initialValue = $this->getPropertyValue($this->object, '_buttonPath');
 		$this->object->addButtonPath(array('MyTestPath1', 'MyTestPath2'));
-		$newValue = $this->readAttribute($this->object, '_buttonPath');
+		$newValue = $this->getPropertyValue($this->object, '_buttonPath');
 		$this->assertThat(
 			$newValue[0],
 			$this->equalTo('MyTestPath2' . DIRECTORY_SEPARATOR)
@@ -217,9 +217,9 @@ class JToolbarTest extends TestCase
 	 */
 	public function testAddButtonPath_String()
 	{
-		$initialValue = $this->readAttribute($this->object, '_buttonPath');
+		$initialValue = $this->getPropertyValue($this->object, '_buttonPath');
 		$this->object->addButtonPath('MyTestPath');
-		$newValue = $this->readAttribute($this->object, '_buttonPath');
+		$newValue = $this->getPropertyValue($this->object, '_buttonPath');
 		$this->assertThat(
 			$newValue[0],
 			$this->equalTo('MyTestPath' . DIRECTORY_SEPARATOR)
