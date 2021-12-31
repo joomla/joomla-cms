@@ -119,7 +119,7 @@ class HtmlView extends BaseHtmlView
 		$this->twofactorform    = $this->get('Twofactorform');
 		$this->twofactormethods = UsersHelper::getTwoFactorMethods();
 		$this->otpConfig        = $this->get('OtpConfig');
-		$this->db               = Factory::getDbo();
+		$this->db               = Factory::getContainer()->get('DatabaseDriver');
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))

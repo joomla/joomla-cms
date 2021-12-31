@@ -40,7 +40,7 @@ abstract class ArticlesLatestHelper
 	public static function getList(Registry $params, ArticlesModel $model)
 	{
 		// Get the Dbo and User object
-		$db   = Factory::getDbo();
+		$db   = Factory::getContainer()->get('DatabaseDriver');
 		$user = Factory::getUser();
 
 		// Set application parameters in model

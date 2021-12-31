@@ -718,7 +718,7 @@ class HtmlDocument extends Document
 
 		if (!isset($children))
 		{
-			$db = CmsFactory::getDbo();
+			$db = CmsFactory::getContainer()->get('DatabaseDriver');
 			$app = CmsFactory::getApplication();
 			$menu = $app->getMenu();
 			$active = $menu->getActive();

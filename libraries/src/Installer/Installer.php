@@ -1036,7 +1036,7 @@ class Installer extends Adapter
 	{
 		if ($eid && $schema)
 		{
-			$db = Factory::getDbo();
+			$db = Factory::getContainer()->get('DatabaseDriver');
 			$schemapaths = $schema->children();
 
 			if (!$schemapaths)
@@ -1108,7 +1108,7 @@ class Installer extends Adapter
 		// Ensure we have an XML element and a valid extension id
 		if ($eid && $schema)
 		{
-			$db = Factory::getDbo();
+			$db = Factory::getContainer()->get('DatabaseDriver');
 			$schemapaths = $schema->children();
 
 			if (\count($schemapaths))
@@ -2087,7 +2087,7 @@ class Installer extends Adapter
 	 */
 	public function cleanDiscoveredExtension($type, $element, $folder = '', $client = 0)
 	{
-		$db = Factory::getDbo();
+		$db = Factory::getContainer()->get('DatabaseDriver');
 		$query = $db->getQuery(true)
 			->delete($db->quoteName('#__extensions'))
 			->where('type = :type')

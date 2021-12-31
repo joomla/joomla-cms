@@ -215,7 +215,7 @@ class MVCFactory implements MVCFactoryInterface, FormFactoryAwareInterface
 		}
 		else
 		{
-			$db = Factory::getDbo();
+			$db = Factory::getContainer()->get('DatabaseDriver');
 		}
 
 		return new $className($db);

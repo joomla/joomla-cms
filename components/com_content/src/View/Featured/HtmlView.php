@@ -202,7 +202,7 @@ class HtmlView extends BaseHtmlView
 		$this->items      = &$items;
 		$this->pagination = &$pagination;
 		$this->user       = &$user;
-		$this->db         = Factory::getDbo();
+		$this->db         = Factory::getContainer()->get('DatabaseDriver');
 
 		$this->_prepareDocument();
 

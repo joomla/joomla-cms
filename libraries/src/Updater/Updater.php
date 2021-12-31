@@ -392,7 +392,7 @@ class Updater extends Adapter
 	 */
 	private function getSitesWithUpdates($timestamp = 0)
 	{
-		$db        = Factory::getDbo();
+		$db        = Factory::getContainer()->get('DatabaseDriver');
 		$timestamp = (int) $timestamp;
 
 		$query = $db->getQuery(true)
@@ -438,7 +438,7 @@ class Updater extends Adapter
 	private function updateLastCheckTimestamp($updateSiteId)
 	{
 		$timestamp    = time();
-		$db           = Factory::getDbo();
+		$db           = Factory::getContainer()->get('DatabaseDriver');
 		$updateSiteId = (int) $updateSiteId;
 
 		$query = $db->getQuery(true)
