@@ -63,7 +63,9 @@ class SiteMenu extends AbstractMenu
 	{
 		// Extract the internal dependencies before calling the parent constructor since it calls $this->load()
 		$this->app      = isset($options['app']) && $options['app'] instanceof CMSApplication ? $options['app'] : Factory::getApplication();
-		$this->db       = isset($options['db']) && $options['db'] instanceof DatabaseDriver ? $options['db'] : Factory::getContainer()->get('DatabaseDriver');
+		$this->db       = isset($options['db']) && $options['db'] instanceof DatabaseDriver
+			? $options['db']
+			: Factory::getContainer()->get('DatabaseDriver');
 		$this->language = isset($options['language']) && $options['language'] instanceof Language ? $options['language'] : Factory::getLanguage();
 
 		parent::__construct($options);
