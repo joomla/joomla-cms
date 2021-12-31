@@ -27,12 +27,13 @@ class FeedView extends CategoryFeedView
 {
 	/**
 	 * @var    string  The name of the view to link individual items to
+	 *
 	 * @since  3.2
 	 */
 	protected $viewName = 'article';
 
 	/**
-	 * Method to reconcile non standard names from components to usage in this class.
+	 * Method to reconcile non-standard names from components to usage in this class.
 	 * Typically overridden in the component feed view class.
 	 *
 	 * @param   object  $item  The item for a feed, an element of the $items array.
@@ -68,7 +69,7 @@ class FeedView extends CategoryFeedView
 			$link = Route::_(
 				RouteHelper::getArticleRoute($item->slug, $item->catid, $item->language),
 				true,
-				$app->get('force_ssl') == 2 ? \JRoute::TLS_FORCE : \JRoute::TLS_IGNORE,
+				$app->get('force_ssl') == 2 ? Route::TLS_FORCE : Route::TLS_IGNORE,
 				true
 			);
 

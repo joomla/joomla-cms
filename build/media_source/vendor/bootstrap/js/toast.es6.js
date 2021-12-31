@@ -1,4 +1,4 @@
-import Toast from '../../../../../node_modules/bootstrap/js/src/toast';
+import Toast from 'bootstrap/js/src/toast';
 
 window.bootstrap = window.bootstrap || {};
 window.bootstrap.Toast = Toast;
