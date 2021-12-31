@@ -77,7 +77,7 @@ $tagsData = $category->tags->itemTags;
 						'joomla.html.image',
 						[
 							'src'   => $category->getParams()->get('image'),
-							'alt'   => empty($category->getParams()->get('image_alt')) && empty($category->getParams()->get('image_alt_empty')) ? false : $this->escape($category->getParams()->get('image_alt')),
+							'alt'   => empty($category->getParams()->get('image_alt')) && empty($category->getParams()->get('image_alt_empty')) ? false : $category->getParams()->get('image_alt'),
 						]
 					); ?>
 				<?php endif; ?>
