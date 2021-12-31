@@ -115,7 +115,7 @@ INSERT INTO "#__assets" ("id", "parent_id", "lft", "rgt", "level", "name", "titl
 (89, 18, 128, 129, 2, 'com_modules.module.90', 'Login Support', '{}'),
 (90, 1, 163, 164, 1, 'com_scheduler', 'com_scheduler', '{}');
 
-SELECT setval('#__assets_id_seq', 90, false);
+SELECT setval('#__assets_id_seq', 91, false);
 
 --
 -- Table structure for table `#__extensions`
