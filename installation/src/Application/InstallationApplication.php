@@ -396,8 +396,7 @@ final class InstallationApplication extends CMSApplication
 			$langfiles['site']  = Folder::folders(LanguageHelper::getLanguagePath(JPATH_SITE));
 			$langfiles['admin'] = Folder::folders(LanguageHelper::getLanguagePath(JPATH_ADMINISTRATOR));
 		}
-		$langfiles['site']  = Folder::folders(LanguageHelper::getLanguagePath(JPATH_SITE));
-		$langfiles['admin'] = Folder::folders(LanguageHelper::getLanguagePath(JPATH_ADMINISTRATOR));
+
 		return $langfiles;
 	}
 
