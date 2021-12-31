@@ -207,6 +207,9 @@ class JModelListTest extends TestCaseDatabase
 	 */
 	public function testGetTotalReturnsFalseOnEmptyQuery()
 	{
+		$this->markTestIncomplete('Should be reactivated when https://github.com/joomla/joomla-cms/issues/36504 is fixed.');
+		return;
+
 		TestReflection::setValue($this->object, '__state_set', true);
 
 		$this->assertFalse($this->object->getTotal());
