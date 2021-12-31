@@ -71,7 +71,7 @@ class Api extends Module
 	 *
 	 * @since   4.1.0
 	 */
-	public function getConfig($name, $module = 'Helper\Api'): string
+	public function getConfig($name, $module = '\Helper\Api'): string
 	{
 		return $this->getModule($module)->_getConfig()[$name];
 	}
