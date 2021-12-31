@@ -44,8 +44,8 @@ class ActionlogModel extends BaseDatabaseModel
 	 */
 	public function addLog($messages, $messageLanguageKey, $context, $userId = null)
 	{
-		$db     = $this->_db;
 		$user   = Factory::getUser($userId);
+		$db     = $this->_db;
 		$date   = Factory::getDate();
 		$params = ComponentHelper::getComponent('com_actionlogs')->getParams();
 
