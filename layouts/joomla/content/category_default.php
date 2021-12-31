@@ -76,8 +76,8 @@ $tagsData = $category->tags->itemTags;
 					<?php echo LayoutHelper::render(
 						'joomla.html.image',
 						[
-							'src'   => $category->getParams()->get('image'),
-							'alt'   => empty($category->getParams()->get('image_alt')) && empty($category->getParams()->get('image_alt_empty')) ? false : $category->getParams()->get('image_alt'),
+							'src' => $category->getParams()->get('image'),
+							'alt' => empty($category->getParams()->get('image_alt')) && empty($category->getParams()->get('image_alt_empty')) ? false : $category->getParams()->get('image_alt'),
 						]
 					); ?>
 				<?php endif; ?>
