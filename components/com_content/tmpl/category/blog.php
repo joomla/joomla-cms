@@ -59,7 +59,7 @@ $htag    = $this->params->get('show_page_heading') ? 'h2' : 'h1';
 					'joomla.html.image',
 					[
 						'src' => $this->category->getParams()->get('image'),
-						'alt' => empty($this->category->getParams()->get('image_alt')) && empty($this->category->getParams()->get('image_alt_empty')) ? '' : $this->category->getParams()->get('image_alt'),
+						'alt' => empty($this->category->getParams()->get('image_alt')) && empty($this->category->getParams()->get('image_alt_empty')) ? false : $this->category->getParams()->get('image_alt'),
 					]
 				); ?>
 			<?php endif; ?>

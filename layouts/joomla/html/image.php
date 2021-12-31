@@ -23,12 +23,19 @@ $img = HTMLHelper::_('cleanImageURL', $displayData['src']);
 
 $displayData['src'] = $this->escape($img->url);
 
-if (!empty($displayData['alt']))
+if (isset($displayData['alt']))
 {
-	$displayData['alt'] = $this->escape($displayData['alt']);
+	if ($displayData['alt'] === false)
+	{
+		unset($displayData['alt']);
+	}
+	else
+	{
+		$displayData['alt'] = $this->escape($displayData['alt']);
+	}
 }
 
-if (isset($img->attributes['width']) && isset($img->attributes['height']))
+if ($img->attributes['width'] > 0 && $img->attributes['height'] > 0)
 {
 	$displayData['width']  = $img->attributes['width'];
 	$displayData['height'] = $img->attributes['height'];
@@ -39,4 +46,4 @@ if (isset($img->attributes['width']) && isset($img->attributes['height']))
 	}
 }
 
-echo '<img '  . ArrayHelper::toString($displayData) . '>';
+echo '<img ' . ArrayHelper::toString($displayData) . '>';
