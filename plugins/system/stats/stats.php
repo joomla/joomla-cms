@@ -9,6 +9,7 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Application\AdministratorApplication;
 use Joomla\CMS\Cache\Cache;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Http\HttpFactory;
@@ -98,7 +99,7 @@ class PlgSystemStats extends CMSPlugin
 	 */
 	public function onAfterInitialise()
 	{
-		if (!$this->app->isClient('administrator') || !$this->isAllowedUser())
+		if (!$this->app->isClient(AdministratorApplication::CLIENT) || !$this->isAllowedUser())
 		{
 			return;
 		}
@@ -126,7 +127,7 @@ class PlgSystemStats extends CMSPlugin
 	 */
 	public function onAfterDispatch()
 	{
-		if (!$this->app->isClient('administrator') || !$this->isAllowedUser())
+		if (!$this->app->isClient(AdministratorApplication::CLIENT) || !$this->isAllowedUser())
 		{
 			return;
 		}

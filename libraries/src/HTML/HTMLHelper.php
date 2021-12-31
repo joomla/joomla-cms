@@ -10,6 +10,8 @@ namespace Joomla\CMS\HTML;
 
 \defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Application\AdministratorApplication;
+use Joomla\CMS\Application\SiteApplication;
 use Joomla\CMS\Environment\Browser;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\File;
@@ -442,7 +444,7 @@ abstract class HTMLHelper
 
 				if ($template->inheritable || !empty($template->parent))
 				{
-					$client     = $app->isClient('administrator') === true ? 'administrator' : 'site';
+					$client     = $app->isClient(AdministratorApplication::CLIENT) === true ? AdministratorApplication::CLIENT : SiteApplication::CLIENT;
 					$templaPath = JPATH_ROOT . "/media/templates/$client";
 				}
 

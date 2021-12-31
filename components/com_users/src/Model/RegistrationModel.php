@@ -12,6 +12,7 @@ namespace Joomla\Component\Users\Site\Model;
 \defined('_JEXEC') or die;
 
 use Joomla\CMS\Application\ApplicationHelper;
+use Joomla\CMS\Application\SiteApplication;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Date\Date;
 use Joomla\CMS\Factory;
@@ -140,7 +141,7 @@ class RegistrationModel extends FormModel
 			$user->set('activation', $data['activation']);
 			$data['siteurl'] = Uri::base();
 			$data['activate'] = Route::link(
-				'site',
+				SiteApplication::CLIENT,
 				'index.php?option=com_users&task=registration.activate&token=' . $data['activation'],
 				false,
 				$linkMode,
@@ -515,7 +516,7 @@ class RegistrationModel extends FormModel
 			$linkMode = $app->get('force_ssl', 0) == 2 ? Route::TLS_FORCE : Route::TLS_IGNORE;
 
 			$data['activate'] = Route::link(
-				'site',
+				SiteApplication::CLIENT,
 				'index.php?option=com_users&task=registration.activate&token=' . $data['activation'],
 				false,
 				$linkMode,
@@ -530,7 +531,7 @@ class RegistrationModel extends FormModel
 			$linkMode = $app->get('force_ssl', 0) == 2 ? Route::TLS_FORCE : Route::TLS_IGNORE;
 
 			$data['activate'] = Route::link(
-				'site',
+				SiteApplication::CLIENT,
 				'index.php?option=com_users&task=registration.activate&token=' . $data['activation'],
 				false,
 				$linkMode,

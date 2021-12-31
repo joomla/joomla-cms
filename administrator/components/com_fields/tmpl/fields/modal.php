@@ -15,7 +15,7 @@ use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Session\Session;
 
-if (Factory::getApplication()->isClient('site'))
+if (Factory::getApplication()->isClient(\Joomla\CMS\Application\SiteApplication::CLIENT))
 {
 	Session::checkToken('get') or die(Text::_('JINVALID_TOKEN'));
 }

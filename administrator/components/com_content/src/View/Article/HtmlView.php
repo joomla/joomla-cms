@@ -216,7 +216,7 @@ class HtmlView extends BaseHtmlView
 				}
 
 				$url = Route::link(
-					'site',
+					\Joomla\CMS\Application\SiteApplication::CLIENT,
 					RouteHelper::getArticleRoute($this->item->id . ':' . $this->item->alias, $this->item->catid, $this->item->language),
 					true
 				);

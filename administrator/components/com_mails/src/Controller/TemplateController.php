@@ -12,6 +12,7 @@ namespace Joomla\Component\Mails\Administrator\Controller;
 \defined('_JEXEC') or die;
 
 use Joomla\CMS\Application\CMSApplication;
+use Joomla\CMS\Application\SiteApplication;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\FormController;
@@ -250,10 +251,10 @@ class TemplateController extends FormController
 			return false;
 		}
 
-		$langKey = $this->text_prefix . ($recordId === 0 && $this->app->isClient('site') ? '_SUBMIT' : '') . '_SAVE_SUCCESS';
+		$langKey = $this->text_prefix . ($recordId === 0 && $this->app->isClient(SiteApplication::CLIENT) ? '_SUBMIT' : '') . '_SAVE_SUCCESS';
 		$prefix  = Factory::getLanguage()->hasKey($langKey) ? $this->text_prefix : 'COM_MAILS';
 
-		$this->setMessage(Text::_($prefix . ($recordId === 0 && $this->app->isClient('site') ? '_SUBMIT' : '') . '_SAVE_SUCCESS'));
+		$this->setMessage(Text::_($prefix . ($recordId === 0 && $this->app->isClient(SiteApplication::CLIENT) ? '_SUBMIT' : '') . '_SAVE_SUCCESS'));
 
 		// Redirect the user and adjust session state based on the chosen task.
 		switch ($task)

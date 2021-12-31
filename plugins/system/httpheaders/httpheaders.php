@@ -259,7 +259,7 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 
 		// Handle CSP Header configuration
 		$cspEnabled = (int) $this->params->get('contentsecuritypolicy', 0);
-		$cspClient  = (string) $this->params->get('contentsecuritypolicy_client', 'site');
+		$cspClient  = (string) $this->params->get('contentsecuritypolicy_client', \Joomla\CMS\Application\SiteApplication::CLIENT);
 
 		// Check whether CSP is enabled and enabled by the current client
 		if ($cspEnabled && ($this->app->isClient($cspClient) || $cspClient === 'both'))

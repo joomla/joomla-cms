@@ -113,7 +113,9 @@ class MetasRenderer extends DocumentRenderer
 
 		if ($noFavicon)
 		{
-			$client   = $app->isClient('administrator') === true ? 'administrator/' : 'site/';
+			$client   = $app->isClient(\Joomla\CMS\Application\AdministratorApplication::CLIENT) === true
+				? 'administrator/'
+				: 'site/';
 			$template = $app->getTemplate(true);
 
 			// Try to find a favicon by checking the template and root folder

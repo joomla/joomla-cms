@@ -60,7 +60,7 @@ class PlgContentConfirmConsent extends CMSPlugin
 	 */
 	public function onContentPrepareForm(Form $form, $data)
 	{
-		if ($this->app->isClient('administrator') || !in_array($form->getName(), $this->supportedContext))
+		if ($this->app->isClient(\Joomla\CMS\Application\AdministratorApplication::CLIENT) || !in_array($form->getName(), $this->supportedContext))
 		{
 			return true;
 		}

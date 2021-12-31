@@ -67,11 +67,11 @@ if ($displayData['active'])
 
 	$class = 'active';
 
-	if ($app->isClient('administrator'))
+	if ($app->isClient(\Joomla\CMS\Application\AdministratorApplication::CLIENT))
 	{
 		$link = 'href="#" onclick="document.adminForm.' . $item->prefix . $limit . '; Joomla.submitform();return false;"';
 	}
-	elseif ($app->isClient('site'))
+	elseif ($app->isClient(\Joomla\CMS\Application\SiteApplication::CLIENT))
 	{
 		$link = 'href="' . $item->link . '"';
 	}

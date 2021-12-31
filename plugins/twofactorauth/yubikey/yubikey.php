@@ -57,11 +57,11 @@ class PlgTwofactorauthYubikey extends CMSPlugin
 		{
 			$app = Factory::getApplication();
 
-			if ($app->isClient('administrator'))
+			if ($app->isClient(\Joomla\CMS\Application\AdministratorApplication::CLIENT))
 			{
 				$current_section = 2;
 			}
-			elseif ($app->isClient('site'))
+			elseif ($app->isClient(\Joomla\CMS\Application\SiteApplication::CLIENT))
 			{
 				$current_section = 1;
 			}

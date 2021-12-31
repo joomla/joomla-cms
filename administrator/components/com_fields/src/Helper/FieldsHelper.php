@@ -11,6 +11,8 @@ namespace Joomla\Component\Fields\Administrator\Helper;
 
 \defined('_JEXEC') or die;
 
+use Joomla\CMS\Application\AdministratorApplication;
+use Joomla\CMS\Application\SiteApplication;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Fields\FieldsServiceInterface;
 use Joomla\CMS\Form\Form;
@@ -497,7 +499,7 @@ class FieldsHelper
 			->getMVCFactory()->createModel('Field', 'Administrator', ['ignore_request' => true]);
 
 		if ((!isset($data->id) || !$data->id) && Factory::getApplication()->input->getCmd('controller') == 'modules'
-			&& Factory::getApplication()->isClient('site'))
+			&& Factory::getApplication()->isClient(SiteApplication::CLIENT))
 		{
 			// Modules on front end editing don't have data and an id set
 			$data->id = Factory::getApplication()->input->getInt('id');
@@ -566,11 +568,11 @@ class FieldsHelper
 		$app = Factory::getApplication();
 
 		// Detect if the field should be shown at all
-		if ($field->params->get('show_on') == 1 && $app->isClient('administrator'))
+		if ($field->params->get('show_on') == 1 && $app->isClient(AdministratorApplication::CLIENT))
 		{
 			return false;
 		}
-		elseif ($field->params->get('show_on') == 2 && $app->isClient('site'))
+		elseif ($field->params->get('show_on') == 2 && $app->isClient(SiteApplication::CLIENT))
 		{
 			return false;
 		}

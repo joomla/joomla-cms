@@ -43,7 +43,7 @@ class CaptchaRule extends FormRule
 		$app    = Factory::getApplication();
 		$plugin = $app->get('captcha');
 
-		if ($app->isClient('site'))
+		if ($app->isClient(\Joomla\CMS\Application\SiteApplication::CLIENT))
 		{
 			$plugin = $app->getParams()->get('captcha', $plugin);
 		}

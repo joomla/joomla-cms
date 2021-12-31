@@ -79,7 +79,7 @@ class TermsField extends RadioField
 		$article = false;
 		$termsArticle = $this->element['article'] > 0 ? (int) $this->element['article'] : 0;
 
-		if ($termsArticle && Factory::getApplication()->isClient('site'))
+		if ($termsArticle && Factory::getApplication()->isClient(\Joomla\CMS\Application\SiteApplication::CLIENT))
 		{
 			$db    = Factory::getDbo();
 			$query = $db->getQuery(true)

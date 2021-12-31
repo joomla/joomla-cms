@@ -61,7 +61,7 @@ class UsersComponent extends MVCComponent implements BootableExtensionInterface,
 	 */
 	public function validateSection($section, $item = null)
 	{
-		if (Factory::getApplication()->isClient('site'))
+		if (Factory::getApplication()->isClient(\Joomla\CMS\Application\SiteApplication::CLIENT))
 		{
 			switch ($section)
 			{

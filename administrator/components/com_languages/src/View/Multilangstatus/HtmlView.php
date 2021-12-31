@@ -42,7 +42,8 @@ class HtmlView extends BaseHtmlView
 		$this->statuses        = MultilangstatusHelper::getStatus();
 		$this->homepages       = Multilanguage::getSiteHomePages();
 		$this->defaultHome     = MultilangstatusHelper::getDefaultHomeModule();
-		$this->default_lang    = ComponentHelper::getParams('com_languages')->get('site', 'en-GB');
+		$this->default_lang    = ComponentHelper::getParams('com_languages')
+			->get(\Joomla\CMS\Application\SiteApplication::CLIENT, 'en-GB');
 
 		parent::display($tpl);
 	}

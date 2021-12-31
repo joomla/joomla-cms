@@ -13,6 +13,7 @@ namespace Joomla\CMS\Application;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filter\OutputFilter;
+use Joomla\CMS\Installation\Application\InstallationApplication;
 
 /**
  * Application helper functions
@@ -128,32 +129,32 @@ class ApplicationHelper
 			$obj = new \stdClass;
 
 			// Site Client
-			$obj->id = 0;
-			$obj->name = 'site';
+			$obj->id = SiteApplication::CLIENT_ID;
+			$obj->name = SiteApplication::CLIENT;
 			$obj->path = JPATH_SITE;
 			self::$_clients[0] = clone $obj;
 
 			// Administrator Client
-			$obj->id = 1;
-			$obj->name = 'administrator';
+			$obj->id = AdministratorApplication::CLIENT_ID;
+			$obj->name = AdministratorApplication::CLIENT;
 			$obj->path = JPATH_ADMINISTRATOR;
 			self::$_clients[1] = clone $obj;
 
 			// Installation Client
-			$obj->id = 2;
-			$obj->name = 'installation';
+			$obj->id = InstallationApplication::CLIENT_ID;
+			$obj->name = InstallationApplication::CLIENT;
 			$obj->path = JPATH_INSTALLATION;
 			self::$_clients[2] = clone $obj;
 
 			// API Client
-			$obj->id = 3;
-			$obj->name = 'api';
+			$obj->id = ApiApplication::CLIENT_ID;
+			$obj->name = ApiApplication::CLIENT;
 			$obj->path = JPATH_API;
 			self::$_clients[3] = clone $obj;
 
 			// CLI Client
-			$obj->id = 4;
-			$obj->name = 'cli';
+			$obj->id = ConsoleApplication::CLIENT_ID;
+			$obj->name = ConsoleApplication::CLIENT;
 			$obj->path = JPATH_CLI;
 			self::$_clients[4] = clone $obj;
 		}

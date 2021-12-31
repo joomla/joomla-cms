@@ -11,6 +11,9 @@ namespace Joomla\Component\Languages\Administrator\Model;
 
 \defined('_JEXEC') or die;
 
+use Joomla\CMS\Application\AdministratorApplication;
+use Joomla\CMS\Application\ApiApplication;
+use Joomla\CMS\Application\SiteApplication;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\File;
 use Joomla\CMS\Language\LanguageHelper;
@@ -169,7 +172,7 @@ class OverridesModel extends ListModel
 
 		$app = Factory::getApplication();
 
-		if ($app->isClient('api'))
+		if ($app->isClient(ApiApplication::CLIENT))
 		{
 			return;
 		}
@@ -183,7 +186,7 @@ class OverridesModel extends ListModel
 		$this->setState('filter.search', $search);
 
 		$this->setState('language_client', $language . $client);
-		$this->setState('filter.client', $client ? 'administrator' : 'site');
+		$this->setState('filter.client', $client ? AdministratorApplication::CLIENT : SiteApplication::CLIENT);
 		$this->setState('filter.language', $language);
 
 		// Add the 'language_client' value to the session to display a message if none selected
@@ -215,7 +218,7 @@ class OverridesModel extends ListModel
 
 		$app = Factory::getApplication();
 
-		if ($app->isClient('api'))
+		if ($app->isClient(ApiApplication::CLIENT))
 		{
 			$cids = (array) $cids;
 			$client = $this->getState('filter.client');
@@ -223,7 +226,7 @@ class OverridesModel extends ListModel
 		else
 		{
 			$filterclient = Factory::getApplication()->getUserState('com_languages.overrides.filter.client');
-			$client = $filterclient == 0 ? 'site' : 'administrator';
+			$client = $filterclient == 0 ? SiteApplication::CLIENT : AdministratorApplication::CLIENT;
 		}
 
 		// Parse the override.ini file in oder to get the keys and strings.

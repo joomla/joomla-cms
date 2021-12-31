@@ -42,7 +42,13 @@ trait TagApiSerializerTrait
 		foreach ($model->tags as $id => $tagName)
 		{
 			$resources[] = (new Resource($id, $serializer))
-				->addLink('self', Route::link('site', Uri::root() . 'api/index.php/v1/tags/' . $id));
+				->addLink(
+					'self',
+					Route::link(
+						\Joomla\CMS\Application\SiteApplication::CLIENT,
+						Uri::root() . 'api/index.php/v1/tags/' . $id
+					)
+				);
 		}
 
 		$collection = new Collection($resources, $serializer);

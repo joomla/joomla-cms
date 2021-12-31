@@ -159,7 +159,7 @@ class HtmlView extends BaseHtmlView
 			$this->filterForm->removeField('client_id', '');
 
 			// If in the frontend state and language should not activate the search tools.
-			if (Factory::getApplication()->isClient('site'))
+			if (Factory::getApplication()->isClient(\Joomla\CMS\Application\SiteApplication::CLIENT))
 			{
 				unset($this->activeFilters['state']);
 				unset($this->activeFilters['language']);

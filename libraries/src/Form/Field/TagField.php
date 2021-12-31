@@ -156,7 +156,7 @@ class TagField extends ListField
 			);
 
 		// Limit Options in multilanguage
-		if ($app->isClient('site') && Multilanguage::isEnabled())
+		if ($app->isClient(\Joomla\CMS\Application\SiteApplication::CLIENT) && Multilanguage::isEnabled())
 		{
 			if (ComponentHelper::getParams('com_tags')->get('tag_list_language_filter') === 'current_language')
 			{

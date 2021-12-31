@@ -74,7 +74,7 @@ class PlgAuthenticationCookie extends CMSPlugin
 	public function onUserAuthenticate($credentials, $options, &$response)
 	{
 		// No remember me for admin
-		if ($this->app->isClient('administrator'))
+		if ($this->app->isClient(\Joomla\CMS\Application\AdministratorApplication::CLIENT))
 		{
 			return false;
 		}
@@ -252,7 +252,7 @@ class PlgAuthenticationCookie extends CMSPlugin
 	public function onUserAfterLogin($options)
 	{
 		// No remember me for admin
-		if ($this->app->isClient('administrator'))
+		if ($this->app->isClient(\Joomla\CMS\Application\AdministratorApplication::CLIENT))
 		{
 			return false;
 		}
@@ -406,7 +406,7 @@ class PlgAuthenticationCookie extends CMSPlugin
 	public function onUserAfterLogout($options)
 	{
 		// No remember me for admin
-		if ($this->app->isClient('administrator'))
+		if ($this->app->isClient(\Joomla\CMS\Application\AdministratorApplication::CLIENT))
 		{
 			return false;
 		}

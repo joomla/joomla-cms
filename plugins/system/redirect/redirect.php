@@ -72,7 +72,8 @@ class PlgSystemRedirect extends CMSPlugin implements SubscriberInterface
 		/** @var \Joomla\CMS\Application\CMSApplication $app */
 		$app = $event->getApplication();
 
-		if ($app->isClient('administrator') || ((int) $event->getError()->getCode() !== 404))
+		if ($app->isClient(\Joomla\CMS\Application\AdministratorApplication::CLIENT)
+			|| ((int) $event->getError()->getCode() !== 404))
 		{
 			return;
 		}

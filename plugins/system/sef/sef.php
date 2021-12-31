@@ -9,6 +9,7 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Application\SiteApplication;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Uri\Uri;
@@ -38,7 +39,7 @@ class PlgSystemSef extends CMSPlugin
 	{
 		$doc = $this->app->getDocument();
 
-		if (!$this->app->isClient('site') || $doc->getType() !== 'html')
+		if (!$this->app->isClient(SiteApplication::CLIENT) || $doc->getType() !== 'html')
 		{
 			return;
 		}
@@ -89,7 +90,7 @@ class PlgSystemSef extends CMSPlugin
 	 */
 	public function onAfterRender()
 	{
-		if (!$this->app->isClient('site'))
+		if (!$this->app->isClient(SiteApplication::CLIENT))
 		{
 			return;
 		}

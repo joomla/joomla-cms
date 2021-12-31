@@ -10,7 +10,9 @@ namespace Joomla\CMS\Layout;
 
 \defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Application\AdministratorApplication;
 use Joomla\CMS\Application\ApplicationHelper;
+use Joomla\CMS\Application\SiteApplication;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\Path;
@@ -488,18 +490,19 @@ class FileLayout extends BaseLayout
 		// Force string conversion to avoid unexpected states
 		switch ((string) $client)
 		{
-			case 'site':
-			case '0':
+			case SiteApplication::CLIENT:
+			case SiteApplication::CLIENT_ID:
 				$client = 0;
 				break;
 
+			case AdministratorApplication::CLIENT:
+			case AdministratorApplication::CLIENT_ID:
 			case 'admin':
-			case '1':
 				$client = 1;
 				break;
 
 			default:
-				$client = (int) Factory::getApplication()->isClient('administrator');
+				$client = (int) Factory::getApplication()->isClient(AdministratorApplication::CLIENT);
 				break;
 		}
 

@@ -231,7 +231,7 @@ class SiteMenu extends AbstractMenu
 		$attributes = (array) $attributes;
 		$values     = (array) $values;
 
-		if ($this->app->isClient('site'))
+		if ($this->app->isClient(\Joomla\CMS\Application\SiteApplication::CLIENT))
 		{
 			// Filter by language if not set
 			if (($key = array_search('language', $attributes)) === false)
@@ -280,7 +280,9 @@ class SiteMenu extends AbstractMenu
 		// Get menu items first to ensure defaults have been populated
 		$items = $this->getMenu();
 
-		if (\array_key_exists($language, $this->default) && $this->app->isClient('site') && $this->app->getLanguageFilter())
+		if (\array_key_exists($language, $this->default)
+			&& $this->app->isClient(\Joomla\CMS\Application\SiteApplication::CLIENT)
+			&& $this->app->getLanguageFilter())
 		{
 			return $items[$this->default[$language]];
 		}

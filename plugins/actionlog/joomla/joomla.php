@@ -1100,7 +1100,7 @@ class PlgActionlogJoomla extends ActionLogPlugin
 	 */
 	public function onAfterDispatch()
 	{
-		if (!$this->app->isClient('api'))
+		if (!$this->app->isClient(\Joomla\CMS\Application\ApiApplication::CLIENT))
 		{
 			return;
 		}

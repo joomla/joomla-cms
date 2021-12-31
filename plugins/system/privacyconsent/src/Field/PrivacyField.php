@@ -11,6 +11,7 @@ namespace Joomla\Plugin\System\PrivacyConsent\Field;
 
 \defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Application\SiteApplication;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Field\RadioField;
 use Joomla\CMS\Language\Multilanguage;
@@ -81,7 +82,7 @@ class PrivacyField extends RadioField
 		$link = false;
 		$privacyArticle = $this->element['article'] > 0 ? (int) $this->element['article'] : 0;
 
-		if ($privacyArticle && Factory::getApplication()->isClient('site'))
+		if ($privacyArticle && Factory::getApplication()->isClient(SiteApplication::CLIENT))
 		{
 			$db    = Factory::getDbo();
 			$query = $db->getQuery(true)
@@ -99,7 +100,7 @@ class PrivacyField extends RadioField
 
 		$privacyMenuItem = $this->element['menu_item'] > 0 ? (int) $this->element['menu_item'] : 0;
 
-		if ($privacyMenuItem && Factory::getApplication()->isClient('site'))
+		if ($privacyMenuItem && Factory::getApplication()->isClient(SiteApplication::CLIENT))
 		{
 			$link = 'index.php?Itemid=' . $privacyMenuItem;
 

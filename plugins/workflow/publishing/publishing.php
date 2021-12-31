@@ -214,7 +214,7 @@ class PlgWorkflowPublishing extends CMSPlugin implements SubscriberInterface
 	{
 		$app = Factory::getApplication();
 
-		if (!$app->isClient('administrator'))
+		if (!$app->isClient(\Joomla\CMS\Application\AdministratorApplication::CLIENT))
 		{
 			return;
 		}

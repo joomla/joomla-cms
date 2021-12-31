@@ -88,7 +88,13 @@ class SessionGcCommand extends AbstractCommand implements ContainerAwareInterfac
 		\nUsage: <info>php %command.full_name% --application=[APPLICATION]</info>";
 
 		$this->setDescription('Perform session garbage collection');
-		$this->addOption('application', 'app', InputOption::VALUE_OPTIONAL, 'The application to perform garbage collection for.', 'site');
+		$this->addOption(
+			'application',
+			'app',
+			InputOption::VALUE_OPTIONAL,
+			'The application to perform garbage collection for.',
+			\Joomla\CMS\Application\SiteApplication::CLIENT
+		);
 		$this->setHelp($help);
 	}
 

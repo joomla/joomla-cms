@@ -70,7 +70,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 										<?php echo Text::sprintf('COM_TEMPLATES_TEMPLATE_DETAILS', ucfirst($item->name)); ?></a>
 									<div>
 										<?php if ($this->preview) : ?>
-											<?php $client = (int) $item->client_id === 1 ? 'administrator' : 'site'; ?>
+											<?php $client = (int) $item->client_id === 1 ? \Joomla\CMS\Application\AdministratorApplication::CLIENT : \Joomla\CMS\Application\SiteApplication::CLIENT; ?>
 											<a href="<?php echo Route::link($client, 'index.php?tp=1&template=' . $item->element); ?>" target="_blank" aria-labelledby="preview-<?php echo $item->extension_id; ?>">
 												<?php echo Text::_('COM_TEMPLATES_TEMPLATE_PREVIEW'); ?>
 											</a>

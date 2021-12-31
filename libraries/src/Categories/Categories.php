@@ -10,6 +10,7 @@ namespace Joomla\CMS\Categories;
 
 \defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Application\SiteApplication;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\Database\ParameterType;
@@ -304,7 +305,7 @@ class Categories implements CategoryInterface
 				->where($db->quoteName('s.id') . ' = :id')
 				->bind(':id', $id, ParameterType::INTEGER);
 
-			if ($app->isClient('site') && Multilanguage::isEnabled())
+			if ($app->isClient(SiteApplication::CLIENT) && Multilanguage::isEnabled())
 			{
 				// For the most part, we use c.lft column, which index is properly used instead of c.rgt
 				$query->join(
@@ -334,7 +335,7 @@ class Categories implements CategoryInterface
 		{
 			$query->from($db->quoteName('#__categories', 'c'));
 
-			if ($app->isClient('site') && Multilanguage::isEnabled())
+			if ($app->isClient(SiteApplication::CLIENT) && Multilanguage::isEnabled())
 			{
 				$query->whereIn($db->quoteName('c.language'), [Factory::getLanguage()->getTag(), '*'], ParameterType::STRING);
 			}

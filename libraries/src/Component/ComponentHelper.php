@@ -312,7 +312,7 @@ class ComponentHelper
 		$app = Factory::getApplication();
 		$lang = Factory::getLanguage();
 
-		if (!$app->isClient('api'))
+		if (!$app->isClient(\Joomla\CMS\Application\ApiApplication::CLIENT))
 		{
 			// Load template language files.
 			$template = $app->getTemplate(true)->template;

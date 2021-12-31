@@ -1175,7 +1175,7 @@ class PlgSampledataMultilang extends CMSPlugin
 		// Publish the Content Languages.
 		$tableLanguage = Table::getInstance('Language');
 
-		$siteLanguages = $this->getInstalledlangs('site');
+		$siteLanguages = $this->getInstalledlangs(\Joomla\CMS\Application\SiteApplication::CLIENT);
 
 		// For each content language.
 		foreach ($siteLanguages as $siteLang)
@@ -1212,7 +1212,7 @@ class PlgSampledataMultilang extends CMSPlugin
 	 */
 	public function getInstalledlangsFrontend()
 	{
-		return $this->getInstalledlangs('site');
+		return $this->getInstalledlangs(\Joomla\CMS\Application\SiteApplication::CLIENT);
 	}
 
 	/**
@@ -1355,7 +1355,7 @@ class PlgSampledataMultilang extends CMSPlugin
 	 *
 	 * @since   4.0.0
 	 */
-	protected function getClient($client = 'administrator')
+	protected function getClient($client = \Joomla\CMS\Application\AdministratorApplication::CLIENT)
 	{
 		$this->client = ApplicationHelper::getClientInfo($client, true);
 

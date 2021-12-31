@@ -11,6 +11,7 @@ namespace Joomla\CMS\Installer;
 \defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Application\ApplicationHelper;
+use Joomla\CMS\Application\SiteApplication;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\Object\CMSObject;
@@ -61,7 +62,7 @@ class InstallerExtension extends CMSObject
 	 * @var    string
 	 * @since  3.1
 	 */
-	public $client = 'site';
+	public $client = SiteApplication::CLIENT;
 
 	/**
 	 * The group name of the plugin. Not used for other known extension types (only plugins)

@@ -56,7 +56,7 @@ class ModuleDispatcherFactory implements ModuleDispatcherFactoryInterface
 	{
 		$name = 'Site';
 
-		if ($application->isClient('administrator'))
+		if ($application->isClient(\Joomla\CMS\Application\AdministratorApplication::CLIENT))
 		{
 			$name = 'Administrator';
 		}

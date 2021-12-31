@@ -394,7 +394,7 @@ class InstalledModel extends ListModel
 		{
 			$client = $this->getClient();
 
-			if ($client->name == 'administrator')
+			if ($client->name == \Joomla\CMS\Application\AdministratorApplication::CLIENT)
 			{
 				Factory::getApplication()->setUserState('application.lang', $cid);
 			}

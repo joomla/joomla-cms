@@ -17,6 +17,7 @@ use DateTimeZone;
 use Exception;
 use JLoader;
 use Joomla\Application\AbstractApplication;
+use Joomla\CMS\Application\AdministratorApplication;
 use Joomla\CMS\Application\CliApplication;
 use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Application\ConsoleApplication;
@@ -428,7 +429,7 @@ abstract class Joomla
 			$app = Factory::getApplication();
 		}
 
-		$isAdmin = $app->isClient('administrator');
+		$isAdmin = $app->isClient(AdministratorApplication::CLIENT);
 		/** @var User $user */
 		$user    = Factory::getContainer()->get(UserFactoryInterface::class)->loadUserById($userId);
 
@@ -554,7 +555,7 @@ abstract class Joomla
 				$app = Factory::getApplication();
 			}
 
-			self::$isAdmin = $app->isClient('administrator');
+			self::$isAdmin = $app->isClient(AdministratorApplication::CLIENT);
 		}
 
 		return self::$isAdmin;

@@ -10,7 +10,9 @@ namespace Joomla\CMS\Installer\Adapter;
 
 \defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Application\AdministratorApplication;
 use Joomla\CMS\Application\ApplicationHelper;
+use Joomla\CMS\Application\SiteApplication;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\Folder;
 use Joomla\CMS\Installer\Installer;
@@ -614,8 +616,8 @@ class TemplateAdapter extends InstallerAdapter
 		$results    = array();
 		$site_list  = Folder::folders(JPATH_SITE . '/templates');
 		$admin_list = Folder::folders(JPATH_ADMINISTRATOR . '/templates');
-		$site_info  = ApplicationHelper::getClientInfo('site', true);
-		$admin_info = ApplicationHelper::getClientInfo('administrator', true);
+		$site_info  = ApplicationHelper::getClientInfo(SiteApplication::CLIENT, true);
+		$admin_info = ApplicationHelper::getClientInfo(AdministratorApplication::CLIENT, true);
 
 		foreach ($site_list as $template)
 		{

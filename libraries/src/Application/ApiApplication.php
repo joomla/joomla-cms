@@ -33,6 +33,20 @@ use Negotiation\Negotiator;
 final class ApiApplication extends CMSApplication
 {
 	/**
+	 * @const   string  The client name
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public const CLIENT = 'api';
+
+	/**
+	 * @const   int  The client id
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public const CLIENT_ID = 3;
+
+	/**
 	 * Maps extension types to their
 	 *
 	 * @var    array
@@ -67,10 +81,10 @@ final class ApiApplication extends CMSApplication
 	public function __construct(JInputJson $input = null, Registry $config = null, WebClient $client = null, Container $container = null)
 	{
 		// Register the application name
-		$this->name = 'api';
+		$this->name = self::CLIENT;
 
 		// Register the client ID
-		$this->clientId = 3;
+		$this->clientId = self::CLIENT_ID;
 
 		// Execute the parent constructor
 		parent::__construct($input, $config, $client, $container);

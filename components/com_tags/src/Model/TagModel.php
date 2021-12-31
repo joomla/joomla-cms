@@ -181,7 +181,9 @@ class TagModel extends ListModel
 		$app = Factory::getApplication();
 
 		// Load the parameters.
-		$params = $app->isClient('administrator') ? ComponentHelper::getParams('com_tags') : $app->getParams();
+		$params = $app->isClient(\Joomla\CMS\Application\AdministratorApplication::CLIENT)
+			? ComponentHelper::getParams('com_tags')
+			: $app->getParams();
 
 		$this->setState('params', $params);
 

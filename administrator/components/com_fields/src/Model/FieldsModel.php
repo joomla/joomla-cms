@@ -11,6 +11,7 @@ namespace Joomla\Component\Fields\Administrator\Model;
 
 \defined('_JEXEC') or die;
 
+use Joomla\CMS\Application\AdministratorApplication;
 use Joomla\CMS\Categories\CategoryServiceInterface;
 use Joomla\CMS\Categories\SectionNotFoundException;
 use Joomla\CMS\Factory;
@@ -283,7 +284,8 @@ class FieldsModel extends ListModel
 		}
 
 		// Implement View Level Access
-		if (!$app->isClient('administrator') || !$user->authorise('core.admin'))
+		if (!$app->isClient(AdministratorApplication::CLIENT)
+			|| !$user->authorise('core.admin'))
 		{
 			$groups = $user->getAuthorisedViewLevels();
 			$query->whereIn($db->quoteName('a.access'), $groups);
@@ -301,7 +303,7 @@ class FieldsModel extends ListModel
 		$state = $this->getState('filter.state');
 
 		// Include group state only when not on on back end list
-		$includeGroupState = !$app->isClient('administrator') ||
+		$includeGroupState = !$app->isClient(AdministratorApplication::CLIENT) ||
 			$app->input->get('option') != 'com_fields' ||
 			$app->input->get('view') != 'fields';
 

@@ -194,7 +194,7 @@ class Result implements \Serializable
 	 */
 	public function __construct()
 	{
-		$this->defaultLanguage = ComponentHelper::getParams('com_languages')->get('site', 'en-GB');
+		$this->defaultLanguage = ComponentHelper::getParams('com_languages')->get(\Joomla\CMS\Application\SiteApplication::CLIENT, 'en-GB');
 	}
 
 	/**

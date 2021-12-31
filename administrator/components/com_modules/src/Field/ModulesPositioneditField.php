@@ -108,7 +108,7 @@ class ModulesPositioneditField extends FormField
 
 		if ($result === true)
 		{
-			$this->client = $this->element['client'] ? (string) $this->element['client'] : 'site';
+			$this->client = $this->element['client'] ? (string) $this->element['client'] : \Joomla\CMS\Application\SiteApplication::CLIENT;
 		}
 
 		return $result;
@@ -125,7 +125,7 @@ class ModulesPositioneditField extends FormField
 	{
 		$data = $this->getLayoutData();
 
-		$clientId  = $this->client === 'administrator' ? 1 : 0;
+		$clientId  = $this->client === \Joomla\CMS\Application\AdministratorApplication::CLIENT ? 1 : 0;
 		$positions = HTMLHelper::_('modules.positions', $clientId, 1, $this->value);
 
 		$data['client']    = $clientId;

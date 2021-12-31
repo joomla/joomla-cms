@@ -33,6 +33,20 @@ use Joomla\Registry\Registry;
 class AdministratorApplication extends CMSApplication
 {
 	/**
+	 * @const   string  The client name
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public const CLIENT = 'administrator';
+
+	/**
+	 * @const   int  The client id
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public const CLIENT_ID = 1;
+
+	/**
 	 * List of allowed components for guests and users which do not have the core.login.admin privilege.
 	 *
 	 * By default we allow two core components:
@@ -67,10 +81,10 @@ class AdministratorApplication extends CMSApplication
 	public function __construct(Input $input = null, Registry $config = null, WebClient $client = null, Container $container = null)
 	{
 		// Register the application name
-		$this->name = 'administrator';
+		$this->name = self::CLIENT;
 
 		// Register the client ID
-		$this->clientId = 1;
+		$this->clientId = self::CLIENT_ID;
 
 		// Execute the parent constructor
 		parent::__construct($input, $config, $client, $container);
@@ -199,7 +213,7 @@ class AdministratorApplication extends CMSApplication
 	 *
 	 * @since	3.2
 	 */
-	public static function getRouter($name = 'administrator', array $options = array())
+	public static function getRouter($name = self::CLIENT, array $options = array())
 	{
 		return parent::getRouter($name, $options);
 	}

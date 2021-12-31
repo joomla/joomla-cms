@@ -102,7 +102,7 @@ class CaptchaField extends FormField
 
 		$default = $app->get('captcha');
 
-		if ($app->isClient('site'))
+		if ($app->isClient(\Joomla\CMS\Application\SiteApplication::CLIENT))
 		{
 			$default = $app->getParams()->get('captcha', $default);
 		}

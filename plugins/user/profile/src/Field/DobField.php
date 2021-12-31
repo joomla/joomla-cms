@@ -54,7 +54,7 @@ class DobField extends CalendarField
 			$view   = $app->input->getString('view', '');
 
 			// Only display the tip when editing profile
-			if ($view === 'registration' || $view === 'profile' || $app->isClient('administrator'))
+			if ($view === 'registration' || $view === 'profile' || $app->isClient(\Joomla\CMS\Application\AdministratorApplication::CLIENT))
 			{
 				$layout = new FileLayout('plugins.user.profile.fields.dob');
 				$info   = $layout->render(array('text' => $text));

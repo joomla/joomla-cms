@@ -1027,7 +1027,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 
 		$caching = false;
 
-		if ($this->isClient('site') && $this->get('caching') && $this->get('caching', 2) == 2 && !Factory::getUser()->get('id'))
+		if ($this->isClient(SiteApplication::CLIENT) && $this->get('caching') && $this->get('caching', 2) == 2 && !Factory::getUser()->get('id'))
 		{
 			$caching = true;
 		}
@@ -1283,7 +1283,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 			}
 		);
 
-		if ($pluginsSiteEnable && $this->isClient('site'))
+		if ($pluginsSiteEnable && $this->isClient(SiteApplication::CLIENT))
 		{
 			if (\in_array($enforce2faOptions, [1, 3]))
 			{
@@ -1316,7 +1316,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 		$view   = $this->input->get('view', null, 'STRING');
 		$layout = $this->input->get('layout', null, 'STRING');
 
-		if ($this->isClient('site'))
+		if ($this->isClient(SiteApplication::CLIENT))
 		{
 			// If user is already on edit profile screen or press update/apply button, do nothing to avoid infinite redirect
 			if (($option === 'com_users' && \in_array($task, ['profile.edit', 'profile.save', 'profile.apply', 'user.logout', 'user.menulogout'], true))

@@ -86,7 +86,7 @@ class PlgApiAuthenticationBasic extends CMSPlugin
 				$response->fullname = $user->name;
 				$response->username = $username;
 
-				if ($this->app->isClient('administrator'))
+				if ($this->app->isClient(\Joomla\CMS\Application\AdministratorApplication::CLIENT))
 				{
 					$response->language = $user->getParam('admin_language');
 				}

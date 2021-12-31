@@ -9,6 +9,7 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Application\SiteApplication;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Router\ApiRouter;
@@ -78,7 +79,7 @@ class PlgWebservicesLanguages extends CMSPlugin
 		{
 			$baseName          = 'v1/languages/overrides/site/' . $item->lang_code;
 			$controller        = 'overrides';
-			$overridesDefaults = array_merge($defaults, ['lang_code' => $item->lang_code, 'app' => 'site']);
+			$overridesDefaults = array_merge($defaults, ['lang_code' => $item->lang_code, 'app' => SiteApplication::CLIENT]);
 			$getDefaults       = array_merge(['public' => false], $overridesDefaults);
 
 			$routes = [
@@ -92,7 +93,13 @@ class PlgWebservicesLanguages extends CMSPlugin
 			$router->addRoutes($routes);
 
 			$baseName          = 'v1/languages/overrides/administrator/' . $item->lang_code;
-			$overridesDefaults = array_merge($defaults, ['lang_code' => $item->lang_code, 'app' => 'administrator']);
+			$overridesDefaults = array_merge(
+				$defaults,
+				[
+					'lang_code' => $item->lang_code,
+					'app' => \Joomla\CMS\Application\AdministratorApplication::CLIENT,
+				]
+			);
 			$getDefaults       = array_merge(['public' => false], $overridesDefaults);
 
 			$routes = [

@@ -11,6 +11,7 @@ namespace Joomla\CMS\Form\Field;
 \defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Application\ApplicationHelper;
+use Joomla\CMS\Application\SiteApplication;
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
@@ -113,7 +114,7 @@ class TemplatestyleField extends GroupedlistField
 		if ($result === true)
 		{
 			// Get the clientName template.
-			$this->clientName = $this->element['client'] ? (string) $this->element['client'] : 'site';
+			$this->clientName = $this->element['client'] ? (string) $this->element['client'] : SiteApplication::CLIENT;
 			$this->template = (string) $this->element['template'];
 		}
 

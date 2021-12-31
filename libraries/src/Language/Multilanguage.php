@@ -55,7 +55,7 @@ class Multilanguage
 		$app = $app ?: Factory::getApplication();
 
 		// If being called from the frontend, we can avoid the database query.
-		if ($app->isClient('site'))
+		if ($app->isClient(\Joomla\CMS\Application\SiteApplication::CLIENT))
 		{
 			static::$enabled = $app->getLanguageFilter();
 

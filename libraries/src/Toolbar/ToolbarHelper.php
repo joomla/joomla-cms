@@ -45,7 +45,7 @@ abstract class ToolbarHelper
 		$app->JComponentTitle = $html;
 		$title = strip_tags($title) . ' - ' . $app->get('sitename');
 
-		if ($app->isClient('administrator'))
+		if ($app->isClient(\Joomla\CMS\Application\AdministratorApplication::CLIENT))
 		{
 			$title .= ' - ' . Text::_('JADMINISTRATION');
 		}

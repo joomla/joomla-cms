@@ -34,6 +34,20 @@ use Joomla\Registry\Registry;
 final class SiteApplication extends CMSApplication
 {
 	/**
+	 * @const   string  The client name
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public const CLIENT = 'site';
+
+	/**
+	 * @const   int  The client id
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public const CLIENT_ID = 0;
+
+	/**
 	 * Option to filter by language
 	 *
 	 * @var    boolean
@@ -68,10 +82,10 @@ final class SiteApplication extends CMSApplication
 	public function __construct(Input $input = null, Registry $config = null, WebClient $client = null, Container $container = null)
 	{
 		// Register the application name
-		$this->name = 'site';
+		$this->name = self::CLIENT;
 
 		// Register the client ID
-		$this->clientId = 0;
+		$this->clientId = self::CLIENT_ID;
 
 		// Execute the parent constructor
 		parent::__construct($input, $config, $client, $container);

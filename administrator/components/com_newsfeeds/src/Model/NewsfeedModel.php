@@ -293,7 +293,7 @@ class NewsfeedModel extends AdminModel
 			$item->tags->getTagIds($item->id, 'com_newsfeeds.newsfeed');
 
 			// TODO: We probably don't need this in any client - but needs careful validation
-			if (!Factory::getApplication()->isClient('api'))
+			if (!Factory::getApplication()->isClient(\Joomla\CMS\Application\ApiApplication::CLIENT))
 			{
 				$item->metadata['tags'] = $item->tags;
 			}

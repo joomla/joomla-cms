@@ -187,7 +187,7 @@ class PlgContentPagenavigation extends CMSPlugin
 				->bind(':nowDate1', $now)
 				->bind(':nowDate2', $now);
 
-			if ($app->isClient('site') && $app->getLanguageFilter())
+			if ($app->isClient(\Joomla\CMS\Application\SiteApplication::CLIENT) && $app->getLanguageFilter())
 			{
 				$query->whereIn($db->quoteName('a.language'), [$lang->getTag(), '*'], ParameterType::STRING);
 			}

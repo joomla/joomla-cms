@@ -14,6 +14,7 @@ use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Form\FormRule;
+use Joomla\CMS\Installation\Application\InstallationApplication;
 use Joomla\CMS\Language\Text;
 use Joomla\Registry\Registry;
 
@@ -55,7 +56,7 @@ class PasswordRule extends FormRule
 
 		// In the installer we don't have any access to the
 		// database yet so use the hard coded default settings
-		if (!Factory::getApplication()->isClient('installation'))
+		if (!Factory::getApplication()->isClient(InstallationApplication::CLIENT))
 		{
 			// If we have parameters from com_users, use those instead.
 			// Some of these may be empty for legacy reasons.

@@ -12,6 +12,7 @@ namespace Joomla\Component\Actionlogs\Administrator\Helper;
 \defined('_JEXEC') or die;
 
 use Generator;
+use Joomla\CMS\Application\AdministratorApplication;
 use Joomla\CMS\Date\Date;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\Path;
@@ -221,7 +222,7 @@ class ActionlogsHelper
 			{
 				if (!isset($links[$value]))
 				{
-					$links[$value] = Route::link('administrator', $value, false, $linkMode, true);
+					$links[$value] = Route::link(AdministratorApplication::CLIENT, $value, false, $linkMode, true);
 				}
 
 				$value = $links[$value];

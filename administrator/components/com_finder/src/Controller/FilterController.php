@@ -11,6 +11,7 @@ namespace Joomla\Component\Finder\Administrator\Controller;
 
 \defined('_JEXEC') or die;
 
+use Joomla\CMS\Application\SiteApplication;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\FormController;
 use Joomla\CMS\Router\Route;
@@ -188,8 +189,8 @@ class FilterController extends FormController
 
 		$this->setMessage(
 			Text::_(
-				($this->app->getLanguage()->hasKey($this->text_prefix . ($recordId === 0 && $this->app->isClient('site') ? '_SUBMIT' : '') . '_SAVE_SUCCESS')
-				? $this->text_prefix : 'JLIB_APPLICATION') . ($recordId === 0 && $this->app->isClient('site') ? '_SUBMIT' : '') . '_SAVE_SUCCESS'
+				($this->app->getLanguage()->hasKey($this->text_prefix . ($recordId === 0 && $this->app->isClient(SiteApplication::CLIENT) ? '_SUBMIT' : '') . '_SAVE_SUCCESS')
+				? $this->text_prefix : 'JLIB_APPLICATION') . ($recordId === 0 && $this->app->isClient(SiteApplication::CLIENT) ? '_SUBMIT' : '') . '_SAVE_SUCCESS'
 			)
 		);
 

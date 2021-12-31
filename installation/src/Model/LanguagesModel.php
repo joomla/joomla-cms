@@ -319,7 +319,7 @@ class LanguagesModel extends BaseInstallationModel
 	 */
 	public function getInstalledlangsFrontend()
 	{
-		return $this->getInstalledlangs('site');
+		return $this->getInstalledlangs(\Joomla\CMS\Application\SiteApplication::CLIENT);
 	}
 
 	/**
@@ -457,7 +457,7 @@ class LanguagesModel extends BaseInstallationModel
 	 *
 	 * @since   3.1
 	 */
-	protected function getClient($client = 'administrator')
+	protected function getClient($client = \Joomla\CMS\Application\AdministratorApplication::CLIENT)
 	{
 		$this->client = ApplicationHelper::getClientInfo($client, true);
 
@@ -474,7 +474,7 @@ class LanguagesModel extends BaseInstallationModel
 	 *
 	 * @since   3.1
 	 */
-	public function setDefault($language, $clientName = 'administrator')
+	public function setDefault($language, $clientName = \Joomla\CMS\Application\AdministratorApplication::CLIENT)
 	{
 		$client = $this->getClient($clientName);
 

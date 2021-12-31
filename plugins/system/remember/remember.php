@@ -49,7 +49,7 @@ class PlgSystemRemember extends CMSPlugin
 	public function onAfterInitialise()
 	{
 		// No remember me for admin.
-		if ($this->app->isClient('administrator'))
+		if ($this->app->isClient(\Joomla\CMS\Application\AdministratorApplication::CLIENT))
 		{
 			return;
 		}
@@ -78,7 +78,7 @@ class PlgSystemRemember extends CMSPlugin
 	public function onUserLogout($user, $options)
 	{
 		// No remember me for admin
-		if ($this->app->isClient('administrator'))
+		if ($this->app->isClient(\Joomla\CMS\Application\AdministratorApplication::CLIENT))
 		{
 			return true;
 		}

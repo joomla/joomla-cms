@@ -11,6 +11,9 @@ namespace Joomla\Component\Languages\Administrator\Model;
 
 \defined('_JEXEC') or die;
 
+use Joomla\CMS\Application\AdministratorApplication;
+use Joomla\CMS\Application\ApiApplication;
+use Joomla\CMS\Application\SiteApplication;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Language\Language;
@@ -45,7 +48,7 @@ class OverrideModel extends AdminModel
 			return false;
 		}
 
-		$client   = $this->getState('filter.client', 'site');
+		$client   = $this->getState('filter.client', SiteApplication::CLIENT);
 		$language = $this->getState('filter.language', 'en-GB');
 		$langName = Language::getInstance($language)->getName();
 
@@ -112,7 +115,7 @@ class OverrideModel extends AdminModel
 			$result->override = $strings[$pk];
 		}
 
-		$oppositeFileName = constant('JPATH_' . strtoupper($this->getState('filter.client') == 'site' ? 'administrator' : 'site'))
+		$oppositeFileName = constant('JPATH_' . strtoupper($this->getState('filter.client') == SiteApplication::CLIENT ? AdministratorApplication::CLIENT : SiteApplication::CLIENT))
 			. '/language/overrides/' . $this->getState('filter.language', 'en-GB') . '.override.ini';
 		$oppositeStrings  = LanguageHelper::parseIniFile($oppositeFileName);
 		$result->both = isset($oppositeStrings[$pk]) && ($oppositeStrings[$pk] == $strings[$pk]);
@@ -134,7 +137,7 @@ class OverrideModel extends AdminModel
 	{
 		$app = Factory::getApplication();
 
-		if ($app->isClient('api'))
+		if ($app->isClient(ApiApplication::CLIENT))
 		{
 			$client   = $this->getState('filter.client');
 			$language = $this->getState('filter.language');
@@ -161,7 +164,7 @@ class OverrideModel extends AdminModel
 			return false;
 		}
 
-		$client = $client ? 'administrator' : 'site';
+		$client = $client ? AdministratorApplication::CLIENT : SiteApplication::CLIENT;
 
 		// Parse the override.ini file in oder to get the keys and strings.
 		$fileName = constant('JPATH_' . strtoupper($client)) . '/language/overrides/' . $language . '.override.ini';
@@ -218,12 +221,12 @@ class OverrideModel extends AdminModel
 	{
 		$app = Factory::getApplication();
 
-		if ($app->isClient('api'))
+		if ($app->isClient(ApiApplication::CLIENT))
 		{
 			return;
 		}
 
-		$client = $app->getUserStateFromRequest('com_languages.overrides.filter.client', 'filter_client', 0, 'int') ? 'administrator' : 'site';
+		$client = $app->getUserStateFromRequest('com_languages.overrides.filter.client', 'filter_client', 0, 'int') ? AdministratorApplication::CLIENT : SiteApplication::CLIENT;
 		$this->setState('filter.client', $client);
 
 		$language = $app->getUserStateFromRequest('com_languages.overrides.filter.language', 'filter_language', 'en-GB', 'cmd');

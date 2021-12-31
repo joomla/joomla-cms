@@ -38,6 +38,20 @@ class ConsoleApplication extends Application implements DispatcherAwareInterface
 	use DispatcherAwareTrait, EventAware, IdentityAware, ContainerAwareTrait, ExtensionManagerTrait, ExtensionNamespaceMapper;
 
 	/**
+	 * @const   string  The client name
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public const CLIENT = 'cli';
+
+	/**
+	 * @const   int  The client id
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public const CLIENT_ID = 4;
+
+	/**
 	 * The input.
 	 *
 	 * @var    Input
@@ -122,7 +136,8 @@ class ConsoleApplication extends Application implements DispatcherAwareInterface
 		$this->setVersion(JVERSION);
 
 		// Register the client name as cli
-		$this->name = 'cli';
+		$this->name = self::CLIENT;
+		$this->id   = self::CLIENT_ID;
 
 		$this->setContainer($container);
 		$this->setDispatcher($dispatcher);

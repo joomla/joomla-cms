@@ -476,7 +476,9 @@ abstract class ModuleHelper
 			->bind(':itemId', $itemId, ParameterType::INTEGER);
 
 		// Filter by language
-		if ($app->isClient('site') && $app->getLanguageFilter() || $app->isClient('administrator') && static::isAdminMultilang())
+		if ($app->isClient(\Joomla\CMS\Application\SiteApplication::CLIENT) && $app->getLanguageFilter()
+			|| $app->isClient(\Joomla\CMS\Application\AdministratorApplication::CLIENT)
+			&& static::isAdminMultilang())
 		{
 			$language = $app->getLanguage()->getTag();
 

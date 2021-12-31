@@ -11,6 +11,7 @@ namespace Joomla\Component\Modules\Administrator\Model;
 
 \defined('_JEXEC') or die;
 
+use Joomla\CMS\Application\SiteApplication;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
@@ -99,7 +100,7 @@ class ModulesModel extends ListModel
 		$this->setState('filter.access', $this->getUserStateFromRequest($this->context . '.filter.access', 'filter_access', '', 'cmd'));
 
 		// If in modal layout on the frontend, state and language are always forced.
-		if ($app->isClient('site') && $layout === 'modal')
+		if ($app->isClient(SiteApplication::CLIENT) && $layout === 'modal')
 		{
 			$this->setState('filter.language', 'current');
 			$this->setState('filter.state', 1);
@@ -112,9 +113,9 @@ class ModulesModel extends ListModel
 		}
 
 		// Special case for the client id.
-		if ($app->isClient('site') || $layout === 'modal')
+		if ($app->isClient(SiteApplication::CLIENT) || $layout === 'modal')
 		{
-			$this->setState('client_id', 0);
+			$this->setState('client_id', SiteApplication::CLIENT_ID);
 			$clientId = 0;
 		}
 		else

@@ -885,7 +885,7 @@ class PlgSampledataBlog extends CMSPlugin
 		$catIds = $this->app->getUserState('sampledata.blog.articles.catIds');
 
 		// Link to the homepage from logout
-		$home = $this->app->getMenu('site')->getDefault()->id;
+		$home = $this->app->getMenu(\Joomla\CMS\Application\SiteApplication::CLIENT)->getDefault()->id;
 
 		if (Multilanguage::isEnabled())
 		{

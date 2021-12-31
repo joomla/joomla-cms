@@ -9,6 +9,7 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Application\SiteApplication;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\LanguageFactoryInterface;
@@ -152,7 +153,7 @@ class PlgUserJoomla extends CMSPlugin
 
 		// TODO: Suck in the frontend registration emails here as well. Job for a rainy day.
 		// The method check here ensures that if running as a CLI Application we don't get any errors
-		if (method_exists($this->app, 'isClient') && !$this->app->isClient('administrator'))
+		if (method_exists($this->app, 'isClient') && !$this->app->isClient(\Joomla\CMS\Application\AdministratorApplication::CLIENT))
 		{
 			return;
 		}
@@ -319,7 +320,7 @@ class PlgUserJoomla extends CMSPlugin
 		$instance->setLastVisit();
 
 		// Add "user state" cookie used for reverse caching proxies like Varnish, Nginx etc.
-		if ($this->app->isClient('site'))
+		if ($this->app->isClient(SiteApplication::CLIENT))
 		{
 			$this->app->input->cookie->set(
 				'joomla_user_state',
@@ -380,7 +381,7 @@ class PlgUserJoomla extends CMSPlugin
 		}
 
 		// Delete "user state" cookie used for reverse caching proxies like Varnish, Nginx etc.
-		if ($this->app->isClient('site'))
+		if ($this->app->isClient(SiteApplication::CLIENT))
 		{
 			$this->app->input->cookie->set('joomla_user_state', '', 1, $this->app->get('cookie_path', '/'), $this->app->get('cookie_domain', ''));
 		}

@@ -39,7 +39,7 @@ class PlgSystemLanguagecode extends CMSPlugin
 	public function onAfterRender()
 	{
 		// Use this plugin only in site application.
-		if ($this->app->isClient('site'))
+		if ($this->app->isClient(\Joomla\CMS\Application\SiteApplication::CLIENT))
 		{
 			// Get the response body.
 			$body = $this->app->getBody();

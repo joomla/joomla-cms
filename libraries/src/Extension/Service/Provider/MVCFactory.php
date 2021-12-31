@@ -59,7 +59,7 @@ class MVCFactory implements ServiceProviderInterface
 			MVCFactoryInterface::class,
 			function (Container $container)
 			{
-				if (\Joomla\CMS\Factory::getApplication()->isClient('api'))
+				if (\Joomla\CMS\Factory::getApplication()->isClient(\Joomla\CMS\Application\ApiApplication::CLIENT))
 				{
 					$factory = new ApiMVCFactory($this->namespace);
 				}

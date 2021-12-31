@@ -402,7 +402,7 @@ class MessageModel extends AdminModel
 			$sitename = $app->get('sitename');
 			$fromName = $fromUser->get('name');
 			$siteURL  = Route::link(
-				'administrator',
+				\Joomla\CMS\Application\AdministratorApplication::CLIENT,
 				'index.php?option=com_messages&view=message&message_id=' . $table->message_id,
 				false,
 				$linkMode,

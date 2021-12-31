@@ -10,6 +10,8 @@ namespace Joomla\CMS\Form\Field;
 
 \defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Application\AdministratorApplication;
+use Joomla\CMS\Application\SiteApplication;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\LanguageHelper;
@@ -43,9 +45,9 @@ class LanguageField extends ListField
 		// Initialize some field attributes.
 		$client = (string) $this->element['client'];
 
-		if ($client !== 'site' && $client !== 'administrator')
+		if ($client !== SiteApplication::CLIENT && $client !== AdministratorApplication::CLIENT)
 		{
-			$client = 'site';
+			$client = SiteApplication::CLIENT;
 		}
 
 		// Make sure the languages are sorted base on locale instead of random sorting
@@ -73,13 +75,13 @@ class LanguageField extends ListField
 		{
 			switch ((string) $this->value)
 			{
-				case 'site':
+				case SiteApplication::CLIENT:
 				case 'frontend':
 				case '0':
 					$this->value = $langParams->get('site', 'en-GB');
 					break;
 				case 'admin':
-				case 'administrator':
+				case AdministratorApplication::CLIENT:
 				case 'backend':
 				case '1':
 					$this->value = $langParams->get('administrator', 'en-GB');

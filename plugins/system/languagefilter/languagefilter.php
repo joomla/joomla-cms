@@ -12,6 +12,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Application\CMSApplicationInterface;
+use Joomla\CMS\Application\SiteApplication;
 use Joomla\CMS\Association\AssociationServiceInterface;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
@@ -108,10 +109,10 @@ class PlgSystemLanguageFilter extends CMSPlugin
 		$this->mode_sef     = $this->app->get('sef', 0);
 		$this->sefs         = LanguageHelper::getLanguages('sef');
 		$this->lang_codes   = LanguageHelper::getLanguages('lang_code');
-		$this->default_lang = ComponentHelper::getParams('com_languages')->get('site', 'en-GB');
+		$this->default_lang = ComponentHelper::getParams('com_languages')->get(\Joomla\CMS\Application\SiteApplication::CLIENT, 'en-GB');
 
 		// If language filter plugin is executed in a site page.
-		if ($this->app->isClient('site'))
+		if ($this->app->isClient(SiteApplication::CLIENT))
 		{
 			$levels = $this->app->getIdentity()->getAuthorisedViewLevels();
 
@@ -155,7 +156,7 @@ class PlgSystemLanguageFilter extends CMSPlugin
 		$this->app->item_associations = $this->params->get('item_associations', 0);
 
 		// We need to make sure we are always using the site router, even if the language plugin is executed in admin app.
-		$router = CMSApplication::getInstance('site')->getRouter('site');
+		$router = CMSApplication::getInstance(SiteApplication::CLIENT)->getRouter(SiteApplication::CLIENT);
 
 		// Attach build rules for language SEF.
 		$router->attachBuildRule(array($this, 'preprocessBuildRule'), Router::PROCESS_BEFORE);
@@ -184,7 +185,9 @@ class PlgSystemLanguageFilter extends CMSPlugin
 	public function onAfterRoute()
 	{
 		// Add custom site name.
-		if ($this->app->isClient('site') && isset($this->lang_codes[$this->current_lang]) && $this->lang_codes[$this->current_lang]->sitename)
+		if ($this->app->isClient(SiteApplication::CLIENT)
+			&& isset($this->lang_codes[$this->current_lang])
+			&& $this->lang_codes[$this->current_lang]->sitename)
 		{
 			$this->app->set('sitename', $this->lang_codes[$this->current_lang]->sitename);
 		}
@@ -603,14 +606,14 @@ class PlgSystemLanguageFilter extends CMSPlugin
 
 			if ($lang_code === $this->user_lang_code || !isset($this->lang_codes[$lang_code]))
 			{
-				if ($this->app->isClient('site'))
+				if ($this->app->isClient(SiteApplication::CLIENT))
 				{
 					$this->app->setUserState('com_users.edit.profile.redirect', null);
 				}
 			}
 			else
 			{
-				if ($this->app->isClient('site'))
+				if ($this->app->isClient(SiteApplication::CLIENT))
 				{
 					$this->app->setUserState('com_users.edit.profile.redirect', 'index.php?Itemid='
 						. $this->app->getMenu()->getDefault($lang_code)->id . '&lang=' . $this->lang_codes[$lang_code]->sef
@@ -635,7 +638,7 @@ class PlgSystemLanguageFilter extends CMSPlugin
 	 */
 	public function onUserLogin($user, $options = array())
 	{
-		if ($this->app->isClient('site'))
+		if ($this->app->isClient(SiteApplication::CLIENT))
 		{
 			$menu = $this->app->getMenu();
 
@@ -754,7 +757,7 @@ class PlgSystemLanguageFilter extends CMSPlugin
 	{
 		$doc = $this->app->getDocument();
 
-		if ($this->app->isClient('site') && $this->params->get('alternate_meta', 1) && $doc->getType() === 'html')
+		if ($this->app->isClient(SiteApplication::CLIENT) && $this->params->get('alternate_meta', 1) && $doc->getType() === 'html')
 		{
 			$languages             = $this->lang_codes;
 			$homes                 = Multilanguage::getSiteHomePages();

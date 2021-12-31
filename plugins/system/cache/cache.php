@@ -9,6 +9,7 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Application\SiteApplication;
 use Joomla\CMS\Cache\Cache;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Plugin\CMSPlugin;
@@ -60,7 +61,7 @@ class PlgSystemCache extends CMSPlugin
 		parent::__construct($subject, $config);
 
 		// Run only when we're on Site Application side
-		if (!$this->app->isClient('site'))
+		if (!$this->app->isClient(SiteApplication::CLIENT))
 		{
 			return;
 		}
@@ -89,7 +90,7 @@ class PlgSystemCache extends CMSPlugin
 		static $key;
 
 		// Run only when we're on Site Application side
-		if (!$this->app->isClient('site'))
+		if (!$this->app->isClient(SiteApplication::CLIENT))
 		{
 			return '';
 		}
@@ -116,7 +117,8 @@ class PlgSystemCache extends CMSPlugin
 	 */
 	public function onAfterRoute()
 	{
-		if (!$this->app->isClient('site') || $this->app->get('offline', '0') || $this->app->getMessageQueue())
+		if (!$this->app->isClient(SiteApplication::CLIENT)
+			|| $this->app->get('offline', '0') || $this->app->getMessageQueue())
 		{
 			return;
 		}
@@ -170,7 +172,7 @@ class PlgSystemCache extends CMSPlugin
 	public function onAfterRender()
 	{
 		// Run only when we're on Site Application side
-		if (!$this->app->isClient('site'))
+		if (!$this->app->isClient(SiteApplication::CLIENT))
 		{
 			return;
 		}
@@ -204,7 +206,7 @@ class PlgSystemCache extends CMSPlugin
 	public function onAfterRespond()
 	{
 		// Run only when we're on Site Application side
-		if (!$this->app->isClient('site'))
+		if (!$this->app->isClient(SiteApplication::CLIENT))
 		{
 			return;
 		}

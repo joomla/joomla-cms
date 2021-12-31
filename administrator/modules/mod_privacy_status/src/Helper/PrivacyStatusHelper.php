@@ -11,6 +11,7 @@ namespace Joomla\Module\PrivacyStatus\Administrator\Helper;
 
 \defined('_JEXEC') or die;
 
+use Joomla\CMS\Application\SiteApplication;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Multilanguage;
@@ -117,7 +118,7 @@ class PrivacyStatusHelper
 			{
 				// Find the Itemid of the home menu item tagged to the site default language
 				$params = ComponentHelper::getParams('com_languages');
-				$defaultSiteLanguage = $params->get('site');
+				$defaultSiteLanguage = $params->get(SiteApplication::CLIENT);
 
 				$db    = Factory::getDbo();
 				$query = $db->getQuery(true)
@@ -142,11 +143,11 @@ class PrivacyStatusHelper
 				$itemId = '';
 			}
 
-			$status['link'] = Route::link('site', 'index.php?option=com_privacy&view=request' . $itemId, true, $linkMode);
+			$status['link'] = Route::link(SiteApplication::CLIENT, 'index.php?option=com_privacy&view=request' . $itemId, true, $linkMode);
 		}
 		else
 		{
-			$status['link'] = Route::link('site', 'index.php?Itemid=' . $menuItem->id . $lang, true, $linkMode);
+			$status['link'] = Route::link(SiteApplication::CLIENT, 'index.php?Itemid=' . $menuItem->id . $lang, true, $linkMode);
 		}
 
 		return $status;

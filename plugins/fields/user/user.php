@@ -31,7 +31,7 @@ class PlgFieldsUser extends \Joomla\Component\Fields\Administrator\Plugin\Fields
 	 */
 	public function onCustomFieldsPrepareDom($field, DOMElement $parent, Form $form)
 	{
-		if ($this->app->isClient('site'))
+		if ($this->app->isClient(\Joomla\CMS\Application\SiteApplication::CLIENT))
 		{
 			// The user field is not working on the front end
 			return;

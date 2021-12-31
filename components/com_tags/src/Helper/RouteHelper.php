@@ -153,7 +153,7 @@ class RouteHelper extends CMSRouteHelper
 	 */
 	protected static function _findItem($needles = null)
 	{
-		$menus    = AbstractMenu::getInstance('site');
+		$menus    = AbstractMenu::getInstance(\Joomla\CMS\Application\SiteApplication::CLIENT);
 		$language = $needles['language'] ?? '*';
 
 		// Prepare the reverse lookup array.

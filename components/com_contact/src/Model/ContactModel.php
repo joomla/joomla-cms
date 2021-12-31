@@ -70,7 +70,7 @@ class ContactModel extends FormModel
 		/** @var SiteApplication $app */
 		$app = Factory::getContainer()->get(SiteApplication::class);
 
-		if (Factory::getApplication()->isClient('api'))
+		if (Factory::getApplication()->isClient(\Joomla\CMS\Application\ApiApplication::CLIENT))
 		{
 			// TODO: remove this
 			$app->loadLanguage();

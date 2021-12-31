@@ -40,6 +40,20 @@ final class InstallationApplication extends CMSApplication
 	use \Joomla\CMS\Application\ExtensionNamespaceMapper;
 
 	/**
+	 * @const   string  The client name
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public const CLIENT = 'installation';
+
+	/**
+	 * @const   int  The client id
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public const CLIENT_ID = 2;
+
+	/**
 	 * Class constructor.
 	 *
 	 * @param   Input|null      $input      An optional argument to provide dependency injection for the application's input
@@ -58,10 +72,10 @@ final class InstallationApplication extends CMSApplication
 	public function __construct(Input $input = null, Registry $config = null, WebClient $client = null, Container $container = null)
 	{
 		// Register the application name.
-		$this->name = 'installation';
+		$this->name = self::CLIENT;
 
 		// Register the client ID.
-		$this->clientId = 2;
+		$this->clientId = self::CLIENT_ID;
 
 		// Run the parent constructor.
 		parent::__construct($input, $config, $client, $container);
@@ -371,6 +385,8 @@ final class InstallationApplication extends CMSApplication
 		{
 			foreach (LanguageHelper::getInstalledLanguages() as $clientId => $language)
 			{
+				// These are not application names, they are names used for the array keys below.
+				// This is why admin is not administrator
 				$clientName = $clientId === 0 ? 'site' : 'admin';
 
 				foreach ($language as $languageCode => $lang)

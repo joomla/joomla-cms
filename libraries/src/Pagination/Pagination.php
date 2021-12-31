@@ -561,7 +561,7 @@ class Pagination
 		$selected = $this->viewall ? 0 : $this->limit;
 
 		// Build the select list.
-		if ($this->app->isClient('administrator'))
+		if ($this->app->isClient(\Joomla\CMS\Application\AdministratorApplication::CLIENT))
 		{
 			$html = HTMLHelper::_(
 				'select.genericlist',

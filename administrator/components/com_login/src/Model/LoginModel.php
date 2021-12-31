@@ -170,7 +170,7 @@ class LoginModel extends BaseDatabaseModel
 				->bind(':module', $module);
 
 			// Filter by language.
-			if ($app->isClient('site') && $app->getLanguageFilter())
+			if ($app->isClient(\Joomla\CMS\Application\SiteApplication::CLIENT) && $app->getLanguageFilter())
 			{
 				$query->whereIn($db->quoteName('m.language'), [$lang, '*']);
 			}

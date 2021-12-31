@@ -11,6 +11,7 @@ namespace Joomla\Component\Config\Administrator\Controller;
 
 \defined('_JEXEC') or die;
 
+use Joomla\CMS\Application\AdministratorApplication;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\BaseController;
 
@@ -32,7 +33,7 @@ class RequestController extends BaseController
 	{
 		$componentFolder = $this->input->getWord('option', 'com_config');
 
-		if ($this->app->isClient('administrator'))
+		if ($this->app->isClient(AdministratorApplication::CLIENT))
 		{
 			$viewName = $this->input->getWord('view', 'application');
 		}
@@ -44,7 +45,7 @@ class RequestController extends BaseController
 		// Register the layout paths for the view
 		$paths = new \SplPriorityQueue;
 
-		if ($this->app->isClient('administrator'))
+		if ($this->app->isClient(AdministratorApplication::CLIENT))
 		{
 			$paths->insert(JPATH_ADMINISTRATOR . '/components/' . $componentFolder . '/view/' . $viewName . '/tmpl', 1);
 		}

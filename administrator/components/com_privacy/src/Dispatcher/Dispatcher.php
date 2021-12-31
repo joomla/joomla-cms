@@ -29,7 +29,8 @@ class Dispatcher extends ComponentDispatcher
 	protected function checkAccess()
 	{
 		// Check the user has permission to access this component if in the backend
-		if ($this->app->isClient('administrator') && !$this->app->getIdentity()->authorise('core.admin', $this->option))
+		if ($this->app->isClient(\Joomla\CMS\Application\AdministratorApplication::CLIENT)
+			&& !$this->app->getIdentity()->authorise('core.admin', $this->option))
 		{
 			throw new NotAllowed($this->app->getLanguage()->_('JERROR_ALERTNOAUTHOR'), 403);
 		}

@@ -85,7 +85,7 @@ class PlgAuthenticationJoomla extends CMSPlugin
 				$response->email    = $user->email;
 				$response->fullname = $user->name;
 
-				if ($this->app->isClient('administrator'))
+				if ($this->app->isClient(\Joomla\CMS\Application\AdministratorApplication::CLIENT))
 				{
 					$response->language = $user->getParam('admin_language');
 				}

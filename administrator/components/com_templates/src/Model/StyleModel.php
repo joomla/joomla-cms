@@ -12,6 +12,7 @@ namespace Joomla\Component\Templates\Administrator\Model;
 \defined('_JEXEC') or die;
 
 use Joomla\CMS\Application\ApplicationHelper;
+use Joomla\CMS\Application\SiteApplication;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\Path;
@@ -438,7 +439,7 @@ class StyleModel extends AdminModel
 			$form->setFieldAttribute('home', 'readonly', 'true');
 		}
 
-		if ($client->name === 'site' && !Multilanguage::isEnabled())
+		if ($client->name === SiteApplication::CLIENT && !Multilanguage::isEnabled())
 		{
 			$form->setFieldAttribute('home', 'type', 'radio');
 			$form->setFieldAttribute('home', 'layout', 'joomla.form.field.radio.switcher');

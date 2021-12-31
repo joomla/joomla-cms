@@ -29,7 +29,7 @@ class PlgFieldsRadio extends \Joomla\Component\Fields\Administrator\Plugin\Field
 	 */
 	public function onCustomFieldsBeforePrepareField($context, $item, $field)
 	{
-		if (!$this->app->isClient('api'))
+		if (!$this->app->isClient(\Joomla\CMS\Application\ApiApplication::CLIENT))
 		{
 			return;
 		}

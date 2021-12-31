@@ -46,7 +46,7 @@ class PlgSystemLogout extends CMSPlugin
 		parent::__construct($subject, $config);
 
 		// If we are on admin don't process.
-		if (!$this->app->isClient('site'))
+		if (!$this->app->isClient(\Joomla\CMS\Application\SiteApplication::CLIENT))
 		{
 			return;
 		}
@@ -78,20 +78,20 @@ class PlgSystemLogout extends CMSPlugin
 	 */
 	public function onUserLogout($user, $options = [])
 	{
-		if ($this->app->isClient('site'))
+		if (!$this->app->isClient(\Joomla\CMS\Application\SiteApplication::CLIENT))
 		{
-			// Create the cookie.
-			$this->app->input->cookie->set(
-				ApplicationHelper::getHash('PlgSystemLogout'),
-				true,
-				time() + 86400,
-				$this->app->get('cookie_path', '/'),
-				$this->app->get('cookie_domain', ''),
-				$this->app->isHttpsForced(),
-				true
-			);
+			return true;
 		}
 
-		return true;
+		// Create the cookie.
+		$this->app->input->cookie->set(
+			ApplicationHelper::getHash('PlgSystemLogout'),
+			true,
+			time() + 86400,
+			$this->app->get('cookie_path', '/'),
+			$this->app->get('cookie_domain', ''),
+			$this->app->isHttpsForced(),
+			true
+		);
 	}
 }

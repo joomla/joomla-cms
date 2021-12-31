@@ -233,7 +233,7 @@ class PlgEditorTinymce extends CMSPlugin
 		$levelParams->loadObject($extraOptions);
 
 		// Set the selected skin
-		$skin = $levelParams->get($this->app->isClient('administrator') ? 'skin_admin' : 'skin', 'oxide');
+		$skin = $levelParams->get($this->app->isClient(\Joomla\CMS\Application\AdministratorApplication::CLIENT) ? 'skin_admin' : 'skin', 'oxide');
 
 		// Check that selected skin exists.
 		$skin = Folder::exists(JPATH_ROOT . '/media/vendor/tinymce/skins/ui/' . $skin) ? $skin : 'oxide';
@@ -533,7 +533,7 @@ class PlgEditorTinymce extends CMSPlugin
 			$externalPlugins['jdragndrop'] = HTMLHelper::_('script', 'plg_editors_tinymce/plugins/dragdrop/plugin.min.js', ['relative' => true, 'version' => 'auto', 'pathOnly' => true]);
 			$uploadUrl                     = Uri::base(false) . 'index.php?option=com_media&format=json&task=api.files';
 
-			if ($this->app->isClient('site'))
+			if ($this->app->isClient(\Joomla\CMS\Application\SiteApplication::CLIENT))
 			{
 				$uploadUrl = htmlentities($uploadUrl, null, 'UTF-8', null);
 			}

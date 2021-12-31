@@ -11,6 +11,7 @@ namespace Joomla\Component\Content\Administrator\Extension;
 
 \defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Application\AdministratorApplication;
 use Joomla\CMS\Application\SiteApplication;
 use Joomla\CMS\Association\AssociationServiceInterface;
 use Joomla\CMS\Association\AssociationServiceTrait;
@@ -134,7 +135,7 @@ class ContentComponent extends MVCComponent implements
 	 */
 	public function validateSection($section, $item = null)
 	{
-		if (Factory::getApplication()->isClient('site'))
+		if (Factory::getApplication()->isClient(SiteApplication::CLIENT))
 		{
 			// On the front end we need to map some sections
 			switch ($section)
@@ -259,11 +260,11 @@ class ContentComponent extends MVCComponent implements
 
 		$modelname = array_shift($parts);
 
-		if ($modelname === 'article' && Factory::getApplication()->isClient('site'))
+		if ($modelname === 'article' && Factory::getApplication()->isClient(SiteApplication::CLIENT))
 		{
 			return 'Form';
 		}
-		elseif ($modelname === 'featured' && Factory::getApplication()->isClient('administrator'))
+		elseif ($modelname === 'featured' && Factory::getApplication()->isClient(AdministratorApplication::CLIENT))
 		{
 			return 'Article';
 		}

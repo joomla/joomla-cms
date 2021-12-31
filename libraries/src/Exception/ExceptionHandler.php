@@ -87,7 +87,7 @@ class ExceptionHandler
 			$app = Factory::getApplication();
 
 			// Flag if we are on cli
-			$isCli = $app->isClient('cli');
+			$isCli = $app->isClient(\Joomla\CMS\Application\ConsoleApplication::CLIENT);
 
 			// If site is offline and it's a 404 error, just go to index (to see offline message, instead of 404)
 			if (!$isCli && $error->getCode() == '404' && $app->get('offline') == 1)

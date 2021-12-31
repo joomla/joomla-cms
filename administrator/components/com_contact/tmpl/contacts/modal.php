@@ -20,7 +20,7 @@ use Joomla\Component\Contact\Site\Helper\RouteHelper;
 
 $app = Factory::getApplication();
 
-if ($app->isClient('site'))
+if ($app->isClient(\Joomla\CMS\Application\SiteApplication::CLIENT))
 {
 	Session::checkToken('get') or die(Text::_('JINVALID_TOKEN'));
 }

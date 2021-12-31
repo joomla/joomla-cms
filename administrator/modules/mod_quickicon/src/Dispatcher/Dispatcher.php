@@ -11,6 +11,7 @@ namespace Joomla\Module\Quickicon\Administrator\Dispatcher;
 
 \defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Application\AdministratorApplication;
 use Joomla\CMS\Dispatcher\AbstractModuleDispatcher;
 
 /**
@@ -31,7 +32,7 @@ class Dispatcher extends AbstractModuleDispatcher
 	{
 		$data = parent::getLayoutData();
 
-		$helper          = $this->app->bootModule('mod_quickicon', 'administrator')->getHelper('QuickIconHelper');
+		$helper          = $this->app->bootModule('mod_quickicon', AdministratorApplication::CLIENT)->getHelper('QuickIconHelper');
 		$data['buttons'] = $helper->getButtons($data['params'], $this->getApplication());
 
 		return $data;

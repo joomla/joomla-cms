@@ -100,7 +100,7 @@ class ModulesModuleField extends ListField
 
 		if ($result === true)
 		{
-			$this->client = $this->element['client'] ? (string) $this->element['client'] : 'site';
+			$this->client = $this->element['client'] ? (string) $this->element['client'] : \Joomla\CMS\Application\SiteApplication::CLIENT;
 		}
 
 		return $result;
@@ -115,7 +115,7 @@ class ModulesModuleField extends ListField
 	 */
 	public function getOptions()
 	{
-		$clientId = $this->client === 'administrator' ? 1 : 0;
+		$clientId = $this->client === \Joomla\CMS\Application\AdministratorApplication::CLIENT ? 1 : 0;
 		$options  = ModulesHelper::getModules($clientId);
 
 		return array_merge(parent::getOptions(), $options);

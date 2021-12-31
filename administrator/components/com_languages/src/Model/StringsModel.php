@@ -11,6 +11,8 @@ namespace Joomla\Component\Languages\Administrator\Model;
 
 \defined('_JEXEC') or die;
 
+use Joomla\CMS\Application\AdministratorApplication;
+use Joomla\CMS\Application\SiteApplication;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\Folder;
 use Joomla\CMS\Filesystem\Path;
@@ -62,7 +64,7 @@ class StringsModel extends BaseDatabaseModel
 			);
 
 		// Initialize some variables.
-		$client   = $app->getUserState('com_languages.overrides.filter.client', 'site') ? 'administrator' : 'site';
+		$client   = $app->getUserState('com_languages.overrides.filter.client', SiteApplication::CLIENT) ? AdministratorApplication::CLIENT : SiteApplication::CLIENT;
 		$language = $app->getUserState('com_languages.overrides.filter.language', 'en-GB');
 
 		$base = constant('JPATH_' . strtoupper($client));

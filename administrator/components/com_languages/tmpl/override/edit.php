@@ -35,7 +35,7 @@ $wa->useScript('keepalive')
 				<?php echo $this->form->renderField('key'); ?>
 				<?php echo $this->form->renderField('override'); ?>
 
-				<?php if ($this->state->get('filter.client') == 'administrator') : ?>
+				<?php if ($this->state->get('filter.client') == \Joomla\CMS\Application\AdministratorApplication::CLIENT) : ?>
 					<?php echo $this->form->renderField('both'); ?>
 				<?php endif; ?>
 

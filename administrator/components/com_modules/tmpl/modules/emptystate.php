@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Application\AdministratorApplication;
+use Joomla\CMS\Application\SiteApplication;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
@@ -19,7 +21,7 @@ $displayData = [
 	'helpURL'    => 'https://docs.joomla.org/Special:MyLanguage/Module',
 	'icon'       => 'icon-cube module',
 	// Although it is (almost) impossible to get to this page with no created Administrator Modules, we add this for completeness.
-	'title'      => Text::_('COM_MODULES_EMPTYSTATE_TITLE_' . ($this->clientId ? 'ADMINISTRATOR' : 'SITE')),
+	'title'      => Text::_('COM_MODULES_EMPTYSTATE_TITLE_' . strtoupper($this->clientId ? AdministratorApplication::CLIENT : SiteApplication::CLIENT)),
 ];
 
 if (Factory::getApplication()->getIdentity()->authorise('core.create', 'com_modules'))

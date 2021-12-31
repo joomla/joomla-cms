@@ -772,7 +772,7 @@ class BaseController implements ControllerInterface
 
 			// We don't have the concept on a menu tree in the api app, so skip setting it's information and
 			// return early
-			if ($this->app->isClient('api'))
+			if ($this->app->isClient(\Joomla\CMS\Application\ApiApplication::CLIENT))
 			{
 				return $model;
 			}

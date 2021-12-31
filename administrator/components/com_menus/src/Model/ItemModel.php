@@ -11,6 +11,7 @@ namespace Joomla\Component\Menus\Administrator\Model;
 
 \defined('_JEXEC') or die;
 
+use Joomla\CMS\Application\ApiApplication;
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
@@ -989,7 +990,7 @@ class ItemModel extends AdminModel
 		$pk = $app->input->getInt('id');
 		$this->setState('item.id', $pk);
 
-		if (!$app->isClient('api'))
+		if (!$app->isClient(ApiApplication::CLIENT))
 		{
 			$parentId = $app->getUserState('com_menus.edit.item.parent_id');
 			$menuType = $app->getUserStateFromRequest('com_menus.items.menutype', 'menutype', '', 'string');
@@ -1020,14 +1021,14 @@ class ItemModel extends AdminModel
 		else
 		{
 			$menuTypeId = 0;
-			$clientId   = $app->isClient('api') ? $app->input->get('client_id') :
+			$clientId   = $app->isClient(ApiApplication::CLIENT) ? $app->input->get('client_id') :
 				$app->getUserState('com_menus.items.client_id', 0);
 		}
 
 		// Forced client id will override/clear menuType if conflicted
 		$forcedClientId = $app->input->get('client_id', null, 'string');
 
-		if (!$app->isClient('api'))
+		if (!$app->isClient(ApiApplication::CLIENT))
 		{
 			// Set the menu type and client id on the list view state, so we return to this menu after saving.
 			$app->setUserState('com_menus.items.menutype', $menuType);
@@ -1065,7 +1066,7 @@ class ItemModel extends AdminModel
 
 		$this->setState('item.type', $type);
 
-		$link = $app->isClient('api') ? $app->input->get('link') :
+		$link = $app->isClient(ApiApplication::CLIENT) ? $app->input->get('link') :
 			$app->getUserState('com_menus.edit.item.link');
 
 		if ($link)

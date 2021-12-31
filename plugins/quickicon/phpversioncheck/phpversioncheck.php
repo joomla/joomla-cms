@@ -208,7 +208,7 @@ class PlgQuickiconPhpVersionCheck extends CMSPlugin
 	private function shouldDisplayMessage()
 	{
 		// Only on admin app
-		if (!$this->app->isClient('administrator'))
+		if (!$this->app->isClient(\Joomla\CMS\Application\AdministratorApplication::CLIENT))
 		{
 			return false;
 		}

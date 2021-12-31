@@ -94,7 +94,7 @@ class PlgUserTerms extends CMSPlugin
 	public function onUserBeforeSave($user, $isNew, $data)
 	{
 		// // Only check for front-end user registration
-		if ($this->app->isClient('administrator'))
+		if ($this->app->isClient(\Joomla\CMS\Application\AdministratorApplication::CLIENT))
 		{
 			return true;
 		}

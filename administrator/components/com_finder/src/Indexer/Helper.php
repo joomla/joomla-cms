@@ -374,7 +374,7 @@ class Helper
 		// We need to go to com_languages to get the site default language, it's the best we can guess.
 		if (empty($lang))
 		{
-			$lang = ComponentHelper::getParams('com_languages')->get('site', 'en-GB');
+			$lang = ComponentHelper::getParams('com_languages')->get(\Joomla\CMS\Application\SiteApplication::CLIENT, 'en-GB');
 		}
 
 		return $lang;

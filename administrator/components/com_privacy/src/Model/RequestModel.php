@@ -12,6 +12,7 @@ namespace Joomla\Component\Privacy\Administrator\Model;
 \defined('_JEXEC') or die;
 
 use Joomla\CMS\Application\ApplicationHelper;
+use Joomla\CMS\Application\SiteApplication;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Language;
@@ -323,8 +324,19 @@ class RequestModel extends AdminModel
 			$templateData = [
 				'sitename' => $app->get('sitename'),
 				'url'      => Uri::root(),
-				'tokenurl' => Route::link('site', 'index.php?option=com_privacy&view=confirm&confirm_token=' . $token, false, $linkMode, true),
-				'formurl'  => Route::link('site', 'index.php?option=com_privacy&view=confirm', false, $linkMode, true),
+				'tokenurl' => Route::link(
+					SiteApplication::CLIENT,
+					'index.php?option=com_privacy&view=confirm&confirm_token=' . $token,
+					false,
+					$linkMode,
+					true
+				),
+				'formurl'  => Route::link(
+					SiteApplication::CLIENT, 'index.php?option=com_privacy&view=confirm',
+					false,
+					$linkMode,
+					true
+				),
 				'token'    => $token,
 			];
 

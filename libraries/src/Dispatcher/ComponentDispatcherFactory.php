@@ -71,7 +71,7 @@ class ComponentDispatcherFactory implements ComponentDispatcherFactoryInterface
 
 		if (!class_exists($className))
 		{
-			if ($application->isClient('api'))
+			if ($application->isClient(\Joomla\CMS\Application\ApiApplication::CLIENT))
 			{
 				$className = ApiDispatcher::class;
 			}

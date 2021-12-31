@@ -10,7 +10,9 @@ namespace Joomla\CMS\Installer\Adapter;
 
 \defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Application\AdministratorApplication;
 use Joomla\CMS\Application\ApplicationHelper;
+use Joomla\CMS\Application\SiteApplication;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\Folder;
@@ -277,9 +279,9 @@ class LanguageAdapter extends InstallerAdapter
 		else
 		{
 			// No client attribute was found so we assume the site as the client
-			$cname    = 'site';
+			$cname    = SiteApplication::CLIENT;
 			$basePath = JPATH_SITE;
-			$clientId = 0;
+			$clientId = SiteApplication::CLIENT_ID;
 			$element  = $this->getManifest()->files;
 
 			return $this->_install($cname, $basePath, $clientId, $element);
@@ -807,7 +809,7 @@ class LanguageAdapter extends InstallerAdapter
 	{
 		$client = ApplicationHelper::getClientInfo($this->extension->client_id);
 
-		if ($client->name !== 'site' && $client->name !== 'administrator')
+		if ($client->name !== SiteApplication::CLIENT && $client->name !== AdministratorApplication::CLIENT)
 		{
 			return;
 		}
@@ -825,7 +827,7 @@ class LanguageAdapter extends InstallerAdapter
 		$db->setQuery($query);
 		$users = $db->loadObjectList();
 
-		if ($client->name === 'administrator')
+		if ($client->name === \Joomla\CMS\Application\AdministratorApplication::CLIENT)
 		{
 			$param_name = 'admin_language';
 		}

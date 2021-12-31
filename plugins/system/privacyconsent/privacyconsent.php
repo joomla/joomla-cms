@@ -9,7 +9,9 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Application\AdministratorApplication;
 use Joomla\CMS\Application\ApplicationHelper;
+use Joomla\CMS\Application\SiteApplication;
 use Joomla\CMS\Cache\Cache;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
@@ -120,7 +122,7 @@ class PlgSystemPrivacyconsent extends CMSPlugin
 	public function onUserBeforeSave($user, $isNew, $data)
 	{
 		// // Only check for front-end user creation/update profile
-		if ($this->app->isClient('administrator'))
+		if ($this->app->isClient(AdministratorApplication::CLIENT))
 		{
 			return true;
 		}
@@ -162,7 +164,7 @@ class PlgSystemPrivacyconsent extends CMSPlugin
 	public function onUserAfterSave($data, $isNew, $result, $error): void
 	{
 		// Only create an entry on front-end user creation/update profile
-		if ($this->app->isClient('administrator'))
+		if ($this->app->isClient(AdministratorApplication::CLIENT))
 		{
 			return;
 		}
@@ -279,7 +281,7 @@ class PlgSystemPrivacyconsent extends CMSPlugin
 	public function onAfterRoute()
 	{
 		// Run this in frontend only
-		if ($this->app->isClient('administrator'))
+		if ($this->app->isClient(AdministratorApplication::CLIENT))
 		{
 			return;
 		}
@@ -604,8 +606,8 @@ class PlgSystemPrivacyconsent extends CMSPlugin
 				$templateData = [
 					'sitename' => $app->get('sitename'),
 					'url'      => Uri::root(),
-					'tokenurl' => Route::link('site', 'index.php?option=com_privacy&view=remind&remind_token=' . $token, false, $linkMode, true),
-					'formurl'  => Route::link('site', 'index.php?option=com_privacy&view=remind', false, $linkMode, true),
+					'tokenurl' => Route::link(SiteApplication::CLIENT, 'index.php?option=com_privacy&view=remind&remind_token=' . $token, false, $linkMode, true),
+					'formurl'  => Route::link(SiteApplication::CLIENT, 'index.php?option=com_privacy&view=remind', false, $linkMode, true),
 					'token'    => $token,
 				];
 

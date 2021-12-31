@@ -406,7 +406,10 @@ class PlgSystemFields extends CMSPlugin
 		{
 			$app = Factory::getApplication();
 
-			if ($app->isClient('site') && Multilanguage::isEnabled() && isset($item->language) && $item->language === '*')
+			if ($app->isClient(\Joomla\CMS\Application\SiteApplication::CLIENT)
+				&& Multilanguage::isEnabled()
+				&& isset($item->language)
+				&& $item->language === '*')
 			{
 				$lang = $app->getLanguage()->getTag();
 

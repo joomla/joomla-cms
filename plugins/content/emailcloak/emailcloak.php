@@ -41,7 +41,7 @@ class PlgContentEmailcloak extends CMSPlugin
 	{
 		// Don't run if in the API Application
 		// Don't run this plugin when the content is being indexed
-		if ($this->app->isClient('api') || $context === 'com_finder.indexer')
+		if ($this->app->isClient(\Joomla\CMS\Application\ApiApplication::CLIENT) || $context === 'com_finder.indexer')
 		{
 			return;
 		}

@@ -14,6 +14,7 @@ use Joomla\CMS\Cache\CacheControllerFactoryInterface;
 use Joomla\CMS\Cache\Controller\OutputController;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\File;
+use Joomla\CMS\Installation\Application\InstallationApplication;
 use Joomla\CMS\Installer\Installer;
 use Joomla\CMS\Log\Log;
 use Joomla\Registry\Registry;
@@ -120,7 +121,7 @@ class LanguageHelper
 		if (empty($languages))
 		{
 			// Installation uses available languages
-			if (Factory::getApplication()->isClient('installation'))
+			if (Factory::getApplication()->isClient(InstallationApplication::CLIENT))
 			{
 				$languages[$key] = array();
 				$knownLangs = self::getKnownLanguages(JPATH_BASE);

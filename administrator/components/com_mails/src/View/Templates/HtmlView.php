@@ -105,7 +105,7 @@ class HtmlView extends BaseHtmlView
 		}
 
 		// Find and set site default language
-		$defaultLanguageTag = ComponentHelper::getParams('com_languages')->get('site');
+		$defaultLanguageTag = ComponentHelper::getParams('com_languages')->get(\Joomla\CMS\Application\SiteApplication::CLIENT);
 
 		foreach ($this->languages as $tag => $language)
 		{

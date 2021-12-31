@@ -66,7 +66,7 @@ class StylesModel extends ListModel
 	{
 		$app = Factory::getApplication();
 
-		if (!$app->isClient('api'))
+		if (!$app->isClient(\Joomla\CMS\Application\ApiApplication::CLIENT))
 		{
 			// Load the filter state.
 			$this->setState('filter.search', $this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search', '', 'string'));

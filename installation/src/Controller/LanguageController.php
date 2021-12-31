@@ -100,7 +100,7 @@ class LanguageController extends JSONController
 		}
 
 		// Attempt to set the default administrator language
-		if (!$model->setDefault($admin_lang, 'administrator'))
+		if (!$model->setDefault($admin_lang, \Joomla\CMS\Application\AdministratorApplication::CLIENT))
 		{
 			// Create an error response message.
 			$this->app->enqueueMessage(Text::_('INSTL_DEFAULTLANGUAGE_ADMIN_COULDNT_SET_DEFAULT'), 'error');
@@ -121,7 +121,7 @@ class LanguageController extends JSONController
 		}
 
 		// Attempt to set the default site language
-		if (!$model->setDefault($frontend_lang, 'site'))
+		if (!$model->setDefault($frontend_lang, \Joomla\CMS\Application\SiteApplication::CLIENT))
 		{
 			// Create an error response message.
 			$app->enqueueMessage(Text::_('INSTL_DEFAULTLANGUAGE_FRONTEND_COULDNT_SET_DEFAULT'), 'error');

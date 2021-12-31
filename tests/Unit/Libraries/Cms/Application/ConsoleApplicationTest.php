@@ -30,7 +30,7 @@ class ConsoleApplicationTest extends UnitTestCase
 		$app = $this->createApplication();
 
 		$this->assertSame('cli', $app->getName());
-		$this->assertSame(true, $app->isClient('cli'));
+		$this->assertSame(true, $app->isClient(\Joomla\CMS\Application\ConsoleApplication::CLIENT));
 	}
 
 	/**
