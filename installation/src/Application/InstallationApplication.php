@@ -369,7 +369,18 @@ final class InstallationApplication extends CMSApplication
 		// If db connection, fetch them from the database.
 		if ($db)
 		{
-			foreach (LanguageHelper::getInstalledLanguages() as $clientId => $language)
+			// PHP 8 Named Arguments would make this call a lot prettier!
+			$languages = LanguageHelper::getInstalledLanguages(
+				null,
+				false,
+				false,
+				'element',
+				null,
+				null,
+				$db
+			);
+
+			foreach ($languages as $clientId => $language)
 			{
 				$clientName = $clientId === 0 ? 'site' : 'admin';
 
@@ -385,7 +396,8 @@ final class InstallationApplication extends CMSApplication
 			$langfiles['site']  = Folder::folders(LanguageHelper::getLanguagePath(JPATH_SITE));
 			$langfiles['admin'] = Folder::folders(LanguageHelper::getLanguagePath(JPATH_ADMINISTRATOR));
 		}
-
+		$langfiles['site']  = Folder::folders(LanguageHelper::getLanguagePath(JPATH_SITE));
+		$langfiles['admin'] = Folder::folders(LanguageHelper::getLanguagePath(JPATH_ADMINISTRATOR));
 		return $langfiles;
 	}
 

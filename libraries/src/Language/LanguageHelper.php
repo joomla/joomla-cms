@@ -180,19 +180,20 @@ class LanguageHelper
 	/**
 	 * Get a list of installed languages.
 	 *
-	 * @param   integer  $clientId         The client app id.
-	 * @param   boolean  $processMetaData  Fetch Language metadata.
-	 * @param   boolean  $processManifest  Fetch Language manifest.
-	 * @param   string   $pivot            The pivot of the returning array.
-	 * @param   string   $orderField       Field to order the results.
-	 * @param   string   $orderDirection   Direction to order the results.
+	 * @param   integer              $clientId         The client app id.
+	 * @param   boolean              $processMetaData  Fetch Language metadata.
+	 * @param   boolean              $processManifest  Fetch Language manifest.
+	 * @param   string               $pivot            The pivot of the returning array.
+	 * @param   string               $orderField       Field to order the results.
+	 * @param   string               $orderDirection   Direction to order the results.
+	 * @param   DatabaseDriver|null  $db               When in the installation app, provide a db connection.
 	 *
 	 * @return  array  Array with the installed languages.
 	 *
 	 * @since   3.7.0
 	 */
 	public static function getInstalledLanguages($clientId = null, $processMetaData = false, $processManifest = false, $pivot = 'element',
-		$orderField = null, $orderDirection = null
+		$orderField = null, $orderDirection = null, $db = null
 	)
 	{
 		static $installedLanguages = null;
@@ -209,8 +210,15 @@ class LanguageHelper
 			}
 			else
 			{
+
+				/**
+				 * We cannot use the DatabaseDriver from the container here when this method is called by installation app.
+				 * because the installation app has not connected that instance as there is no configuration at the start
+				 * of the install. It seems that legacy Factory::getDBO would create the db connection whereas getting
+				 * from the container doesn't connect because there are no credentials in the container version.
+				 */
 				/** @var DatabaseDriver $db */
-				$db = Factory::getContainer()->get('DatabaseDriver');
+				$db = $db ?: Factory::getContainer()->get('DatabaseDriver');
 
 				$query = $db->getQuery(true)
 					->select(
