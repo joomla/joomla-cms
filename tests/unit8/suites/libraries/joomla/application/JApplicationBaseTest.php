@@ -256,7 +256,16 @@ class JApplicationBaseTest extends TestCase
 
 		$this->class->setLogger($mockLogger);
 
-		$this->assertSame($mockLogger, $this->getPropertyValue($this->class, 'logger'));
+		$mockApplication = new ReflectionObject( $this->class );
+		$BaseApplication = $mockApplication->getParentClass();
+		$AbstractApplication = $BaseApplication->getParentClass();
+
+		$property = $AbstractApplication->getProperty( 'logger' );
+		$property->setAccessible( true );
+
+		$actualValue = $property->getValue($this->class);
+
+		$this->assertSame($mockLogger, $actualValue);
 	}
 
 	/**
