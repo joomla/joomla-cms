@@ -174,7 +174,7 @@ abstract class ModulesHelper
 		$query = $db->getQuery(true)
 			->select('element AS value, name AS text')
 			->from('#__extensions as e')
-			->where('e.client_id = ' . (int) $clientId)
+			->where('e.client_id = ' . $clientId)
 			->where('type = ' . $db->quote('module'))
 			->join('LEFT', '#__modules as m ON m.module=e.element AND m.client_id=e.client_id')
 			->where('m.module IS NOT NULL')
