@@ -8,7 +8,7 @@ platform:
 
 steps:
   - name: composer
-    image: joomlaprojects/docker-images:php8.0
+    image: joomlaprojects/docker-images:php8.0-test
     commands:
       - php -v
       - composer --version
@@ -21,7 +21,7 @@ steps:
         path: /tmp/composer-cache
 
   - name: prepare
-    image: joomlaprojects/docker-images:php8.0
+    image: joomlaprojects/docker-images:php8.0-test
     commands:
       - php -v
       - sleep 20
@@ -31,7 +31,7 @@ steps:
       PGPASSWORD: joomla_ut
 
   - name: PHPUnit
-    image: joomlaprojects/docker-images:php8.0
+    image: joomlaprojects/docker-images:php8.0-test
     commands:
       - phpunit --version
       # temporary disable php stream wrapper for testing
