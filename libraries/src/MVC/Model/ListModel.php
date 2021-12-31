@@ -669,7 +669,7 @@ class ListModel extends BaseDatabaseModel implements ListModelInterface
 	/**
 	 * Gets the value of a user state variable and sets it in the session
 	 *
-	 * This is the same as the method in \JApplication except that this also can optionally
+	 * This is the same as the method in Application except that this also can optionally
 	 * force you back to the first page when a filter has changed
 	 *
 	 * @param   string   $key        The key of the user state variable.

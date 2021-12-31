@@ -64,7 +64,6 @@ trait AjaxHandler
 				throw new AjaxNonCmsAppException;
 			}
 
-			$input    = $app->input;
 			$akaction = $input->getCmd('akaction');
 			$token    = Joomla::getToken();
 
@@ -83,7 +82,6 @@ trait AjaxHandler
 			$eventName = 'onAjaxWebauthn' . ucfirst($akaction);
 
 			$results = $app->triggerEvent($eventName, []);
-			$result = null;
 
 			foreach ($results as $r)
 			{
@@ -100,8 +98,6 @@ trait AjaxHandler
 		catch (AjaxNonCmsAppException $e)
 		{
 			Joomla::log('system', "This is not a CMS application", Log::NOTICE);
-
-			$result = null;
 		}
 		catch (Exception $e)
 		{
