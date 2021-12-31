@@ -140,9 +140,9 @@ class ApplicationHelper
 			$obj->path = JPATH_ADMINISTRATOR;
 			self::$_clients[1] = clone $obj;
 
-			// Installation Client
-			$obj->id = InstallationApplication::CLIENT_ID;
-			$obj->name = InstallationApplication::CLIENT;
+			// Installation Client - We have to hard code these values, because the installation folder gets deleted!
+			$obj->id = 3;
+			$obj->name = 'installation';
 			$obj->path = JPATH_INSTALLATION;
 			self::$_clients[2] = clone $obj;
 
