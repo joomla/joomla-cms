@@ -30,7 +30,8 @@ class HtmlView extends BaseHtmlView
 	/**
 	 * The edit form.
 	 *
-	 * @var    \JForm
+	 * @var    \Joomla\CMS\Form\Form
+	 *
 	 * @since  2.5
 	 */
 	protected $form;

@@ -11,8 +11,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 
-/** @var JDocumentError $this */
-
+/** @var \Joomla\CMS\Document\ErrorDocument $this */
 // Add required assets
 $this->getWebAssetManager()
 	->registerAndUseStyle('template.installation', 'template' . ($this->direction === 'rtl' ? '-rtl' : '') . '.css')

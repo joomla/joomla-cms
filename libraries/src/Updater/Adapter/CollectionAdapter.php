@@ -204,15 +204,10 @@ class CollectionAdapter extends UpdateAdapter
 	{
 		array_pop($this->stack);
 
-		switch ($name)
+		if ($name === 'CATEGORY' && $this->pop_parent)
 		{
-			case 'CATEGORY':
-				if ($this->pop_parent)
-				{
-					$this->pop_parent = 0;
-					array_pop($this->parent);
-				}
-				break;
+			$this->pop_parent = 0;
+			array_pop($this->parent);
 		}
 	}
 
