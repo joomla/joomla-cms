@@ -403,7 +403,7 @@ class Installer extends Adapter
 
 				case 'extension':
 					/** @var DatabaseDriver $db */
-					$db = Factory::getContainer()->get('DatabaseDriver');
+					$db = $this->getDbo();
 
 					$query = $db->getQuery(true);
 					$stepId = (int) $step['id'];
