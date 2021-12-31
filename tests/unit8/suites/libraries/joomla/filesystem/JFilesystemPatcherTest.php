@@ -296,7 +296,7 @@ class JFilesystemPatcherTest extends TestCase
 		);
 		$this->assertEquals(
 			array(),
--			$this->getPropertyValue($patcher, 'removals'),
+			$this->getPropertyValue($patcher, 'removals'),
 			'Line:' . __LINE__ . ' The patcher has not been reset.'
 		);
 		$this->assertEquals(
