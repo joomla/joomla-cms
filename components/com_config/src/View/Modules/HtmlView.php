@@ -12,14 +12,13 @@ namespace Joomla\Component\Config\Site\View\Modules;
 \defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
+use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 
 /**
  * View to edit a module.
  *
- * @package     Joomla.Site
- * @subpackage  com_config
  * @since       3.2
  */
 class HtmlView extends BaseHtmlView
@@ -28,6 +27,7 @@ class HtmlView extends BaseHtmlView
 	 * The module to be rendered
 	 *
 	 * @var   array
+	 *
 	 * @since 3.2
 	 */
 	public $item;
@@ -35,7 +35,8 @@ class HtmlView extends BaseHtmlView
 	/**
 	 * The form object
 	 *
-	 * @var   \JForm
+	 * @var   Form
+	 *
 	 * @since 3.2
 	 */
 	public $form;
@@ -67,7 +68,7 @@ class HtmlView extends BaseHtmlView
 		// Need to add module name to the state of model
 		$model->getState()->set('module.name', $moduleData['module']);
 
-		/** @var \JForm form */
+		/** @var Form form */
 		$this->form      = $this->get('form');
 		$this->positions = $this->get('positions');
 		$this->item      = $moduleData;

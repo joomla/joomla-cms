@@ -31,7 +31,8 @@ class FormModel extends \Joomla\Component\Contact\Administrator\Model\ContactMod
 	/**
 	 * Model typeAlias string. Used for version history.
 	 *
-	 * @var  string
+	 * @var    string
+	 *
 	 * @since  4.0.0
 	 */
 	public $typeAlias = 'com_contact.contact';
@@ -39,7 +40,8 @@ class FormModel extends \Joomla\Component\Contact\Administrator\Model\ContactMod
 	/**
 	 * Name of the form
 	 *
-	 * @var string
+	 * @var    string
+	 *
 	 * @since  4.0.0
 	 */
 	protected $formName = 'form';
@@ -50,7 +52,7 @@ class FormModel extends \Joomla\Component\Contact\Administrator\Model\ContactMod
 	 * @param   array    $data      Data for the form.
 	 * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
 	 *
-	 * @return  \JForm|boolean  A \JForm object on success, false on failure
+	 * @return  Form|boolean  A Form object on success, false on failure
 	 *
 	 * @since   4.0.0
 	 */
@@ -146,8 +148,9 @@ class FormModel extends \Joomla\Component\Contact\Administrator\Model\ContactMod
 	 *
 	 * @return  boolean  True on success.
 	 *
-	 * @throws Exception
 	 * @since   4.0.0
+	 *
+	 * @throws  Exception
 	 */
 	public function save($data)
 	{
@@ -173,9 +176,9 @@ class FormModel extends \Joomla\Component\Contact\Administrator\Model\ContactMod
 	 *
 	 * @return  void
 	 *
-	 * @throws  Exception
-	 *
 	 * @since   4.0.0
+	 *
+	 * @throws  Exception
 	 */
 	protected function populateState()
 	{
@@ -228,8 +231,9 @@ class FormModel extends \Joomla\Component\Contact\Administrator\Model\ContactMod
 	 *
 	 * @return  bool|Table  A Table object
 	 *
-	 * @throws  \Exception
 	 * @since   4.0.0
+
+	 * @throws  Exception
 	 */
 	public function getTable($name = 'Contact', $prefix = 'Administrator', $options = array())
 	{
