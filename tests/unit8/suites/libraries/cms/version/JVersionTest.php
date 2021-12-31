@@ -108,7 +108,7 @@ class JVersionTest extends \PHPUnit\Framework\TestCase
 	 */
 	public function testGetUserAgent_maskFalse()
 	{
-		$this->assertNotContains('Mozilla/5.0 ', $this->object->getUserAgent(null, false, true));
+		$this->assertStringNotContainsString('Mozilla/5.0 ', $this->object->getUserAgent(null, false, true));
 	}
 
 	/**

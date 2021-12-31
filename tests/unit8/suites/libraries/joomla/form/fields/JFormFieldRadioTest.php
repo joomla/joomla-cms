@@ -132,12 +132,6 @@ class JFormFieldRadioTest extends TestCase
 			'Line:' . __LINE__ . ' The setup method should return true.'
 		);
 
-		$this->assertThat(
-			strlen($field->input),
-			$this->logicalNot(
-				$this->StringContains('Yes')
-			),
-			'Line:' . __LINE__ . ' The field should not contain a Yes option.'
-		);
+		$this->assertStringNotContainsString('Yes', $field->input, 'Line:' . __LINE__ . ' The field should not contain a Yes option.');
 	}
 }

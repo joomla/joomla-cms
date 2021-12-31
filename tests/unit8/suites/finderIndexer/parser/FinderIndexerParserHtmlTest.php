@@ -82,7 +82,7 @@ class FinderIndexerParserHtmlTest extends \PHPUnit\Framework\TestCase
 		);
 
 		// String $testResult2 is contained in an HTML attribute that should be removed.
-		$this->assertNotContains(
+		$this->assertStringNotContainsString(
 			$testResult2,
 			$output
 		);

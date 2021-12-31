@@ -201,7 +201,7 @@ class JObjectTest extends \PHPUnit\Framework\TestCase
 		}
 		$this->assertEquals(
 			$this->o->getErrors(),
-			$this->getPropertyValues($this->o, '_errors')
+			$this->getPropertyValue($this->o, '_errors')
 		);
 		$this->assertEquals(
 			$errors,
