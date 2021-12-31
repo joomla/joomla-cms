@@ -121,7 +121,8 @@ class LanguageHelper
 		if (empty($languages))
 		{
 			// Installation uses available languages
-			if (Factory::getApplication()->isClient(InstallationApplication::CLIENT))
+			if (class_exists('\Joomla\CMS\Installation\Application\InstallationApplication')
+				&& Factory::getApplication()->isClient(InstallationApplication::CLIENT))
 			{
 				$languages[$key] = array();
 				$knownLangs = self::getKnownLanguages(JPATH_BASE);

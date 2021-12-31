@@ -56,7 +56,8 @@ class PasswordRule extends FormRule
 
 		// In the installer we don't have any access to the
 		// database yet so use the hard coded default settings
-		if (!Factory::getApplication()->isClient(InstallationApplication::CLIENT))
+		if (class_exists('\Joomla\CMS\Installation\Application\InstallationApplication')
+			&& !Factory::getApplication()->isClient(InstallationApplication::CLIENT))
 		{
 			// If we have parameters from com_users, use those instead.
 			// Some of these may be empty for legacy reasons.
