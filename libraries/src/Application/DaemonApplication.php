@@ -463,7 +463,7 @@ abstract class DaemonApplication extends CliApplication
 		}
 
 		// Change the user id for the process necessary.
-		if ($uid && (posix_getuid($file) != $uid) && (!@ posix_setuid($uid)))
+		if ($uid && (posix_getuid() != $uid) && (!@ posix_setuid($uid)))
 		{
 			Log::add('Unable to change user ownership of the process.', Log::ERROR);
 
@@ -471,7 +471,7 @@ abstract class DaemonApplication extends CliApplication
 		}
 
 		// Change the group id for the process necessary.
-		if ($gid && (posix_getgid($file) != $gid) && (!@ posix_setgid($gid)))
+		if ($gid && (posix_getgid() != $gid) && (!@ posix_setgid($gid)))
 		{
 			Log::add('Unable to change group ownership of the process.', Log::ERROR);
 
