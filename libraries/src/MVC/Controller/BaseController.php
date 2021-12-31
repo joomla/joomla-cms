@@ -185,6 +185,7 @@ class BaseController implements ControllerInterface, DispatcherAwareInterface
 	 * @return  void
 	 *
 	 * @since   3.0
+	 * @deprecated  5.0 See \Joomla\CMS\MVC\Model\LegacyModelLoaderTrait::getInstance
 	 */
 	public static function addModelPath($path, $prefix = '')
 	{
