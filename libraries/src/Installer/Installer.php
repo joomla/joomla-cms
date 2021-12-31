@@ -72,6 +72,7 @@ class Installer extends Adapter
 	 * @since  3.1
 	 */
 	protected $stepStack = [];
+
 	/**
 	 * Extension Table Entry
 	 *
@@ -401,7 +402,7 @@ class Installer extends Adapter
 					break;
 
 				case 'extension':
-					/* @var DatabaseDriver $db */
+					/** @var DatabaseDriver $db */
 					$db = Factory::getContainer()->get('DatabaseDriver');
 
 					$query = $db->getQuery(true);
@@ -1036,7 +1037,7 @@ class Installer extends Adapter
 	{
 		if ($eid && $schema)
 		{
-			/* @var DatabaseDriver $db */
+			/** @var DatabaseDriver $db */
 			$db = Factory::getContainer()->get('DatabaseDriver');
 
 			$schemapaths = $schema->children();
@@ -1110,7 +1111,7 @@ class Installer extends Adapter
 		// Ensure we have an XML element and a valid extension id
 		if ($eid && $schema)
 		{
-			/* @var DatabaseDriver $db */
+			/** @var DatabaseDriver $db */
 			$db = Factory::getContainer()->get('DatabaseDriver');
 
 			$schemapaths = $schema->children();
@@ -2091,7 +2092,7 @@ class Installer extends Adapter
 	 */
 	public function cleanDiscoveredExtension($type, $element, $folder = '', $client = 0)
 	{
-		/* @var DatabaseDriver $db */
+		/** @var DatabaseDriver $db */
 		$db = Factory::getContainer()->get('DatabaseDriver');
 
 		$query = $db->getQuery(true)

@@ -36,7 +36,7 @@ class ArticlesArchiveHelper
 	 */
 	public static function getList(&$params)
 	{
-		/* @var \Joomla\Database\DatabaseDriver $db */
+		/** @var \Joomla\Database\DatabaseDriver $db */
 		$db    = Factory::getContainer()->get('DatabaseDriver');
 		$app   = Factory::getApplication();
 		$query = $db->getQuery(true);

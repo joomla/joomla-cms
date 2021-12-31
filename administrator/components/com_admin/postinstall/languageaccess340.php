@@ -26,7 +26,7 @@ use Joomla\CMS\Factory;
  */
 function admin_postinstall_languageaccess340_condition()
 {
-	/* @var \Joomla\Database\DatabaseDriver $db */
+	/** @var \Joomla\Database\DatabaseDriver $db */
 	$db = Factory::getContainer()->get('DatabaseDriver');
 
 	$query = $db->getQuery(true)

@@ -99,7 +99,7 @@ class LanguageAdapter extends InstallerAdapter
 			return false;
 		}
 
-		/* @var DatabaseDriver $db */
+		/** @var DatabaseDriver $db */
 		$db = Factory::getContainer()->get('DatabaseDriver');
 
 		$this->resetUserLanguage();
@@ -501,7 +501,7 @@ class LanguageAdapter extends InstallerAdapter
 	 */
 	protected function getSefString($itemLanguageTag)
 	{
-		/* @var DatabaseDriver $db */
+		/** @var DatabaseDriver $db */
 		$db                  = Factory::getContainer()->get('DatabaseDriver');
 		$langs               = explode('-', $itemLanguageTag);
 		$prefixToFind        = $langs[0];
@@ -816,7 +816,7 @@ class LanguageAdapter extends InstallerAdapter
 			return;
 		}
 
-		/* @var DatabaseDriver $db */
+		/** @var DatabaseDriver $db */
 		$db = Factory::getContainer()->get('DatabaseDriver');
 
 		// Setting the language of users which have this language as the default language

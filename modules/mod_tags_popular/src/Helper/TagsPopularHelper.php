@@ -34,7 +34,7 @@ abstract class TagsPopularHelper
 	 */
 	public static function getList(&$params)
 	{
-		/* @var \Joomla\Database\DatabaseDriver $db */
+		/** @var \Joomla\Database\DatabaseDriver $db */
 		$db          = Factory::getContainer()->get('DatabaseDriver');
 		$user        = Factory::getUser();
 		$groups      = $user->getAuthorisedViewLevels();

@@ -66,7 +66,7 @@ abstract class ModulesHelper
 	 */
 	public static function getPositions($clientId, $editPositions = false)
 	{
-		/* @var \Joomla\Database\DatabaseDriver $db */
+		/** @var \Joomla\Database\DatabaseDriver $db */
 		$db = Factory::getContainer()->get('DatabaseDriver');
 
 		$clientId = (int) $clientId;
@@ -124,7 +124,7 @@ abstract class ModulesHelper
 	 */
 	public static function getTemplates($clientId = 0, $state = '', $template = '')
 	{
-		/* @var \Joomla\Database\DatabaseDriver $db */
+		/** @var \Joomla\Database\DatabaseDriver $db */
 		$db = Factory::getContainer()->get('DatabaseDriver');
 
 		$clientId = (int) $clientId;
@@ -168,7 +168,7 @@ abstract class ModulesHelper
 	 */
 	public static function getModules($clientId)
 	{
-		/* @var \Joomla\Database\DatabaseDriver $db */
+		/** @var \Joomla\Database\DatabaseDriver $db */
 		$db   = Factory::getContainer()->get('DatabaseDriver');
 		$lang = Factory::getLanguage();
 

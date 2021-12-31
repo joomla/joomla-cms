@@ -196,7 +196,7 @@ class RulesField extends FormField
 		// If the asset id is empty (component or new item).
 		if (empty($this->assetId))
 		{
-			/* @var DatabaseDriver $db */
+			/** @var DatabaseDriver $db */
 			$db = Factory::getContainer()->get('DatabaseDriver');
 
 			// Get the component asset id as fallback.
@@ -221,7 +221,7 @@ class RulesField extends FormField
 		// If not in global config we need the parent_id asset to calculate permissions.
 		if (!$this->isGlobalConfig)
 		{
-			/* @var DatabaseDriver $db */
+			/** @var DatabaseDriver $db */
 			$db = Factory::getContainer()->get('DatabaseDriver');
 
 			// In this case we need to get the component rules too.

@@ -89,7 +89,7 @@ class ComponentlayoutField extends FormField
 			$lang->load($extension . '.sys', JPATH_ADMINISTRATOR)
 			|| $lang->load($extension . '.sys', JPATH_ADMINISTRATOR . '/components/' . $extension);
 
-			/* @var \Joomla\Database\DatabaseDriver $db */
+			/** @var \Joomla\Database\DatabaseDriver $db */
 			$db = Factory::getContainer()->get('DatabaseDriver');
 
 			// Build the query.

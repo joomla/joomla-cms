@@ -50,7 +50,7 @@ abstract class Tag
 
 		if (!isset(static::$items[$hash]))
 		{
-			/* @var DatabaseDriver $db */
+			/** @var DatabaseDriver $db */
 			$db     = Factory::getContainer()->get('DatabaseDriver');
 			$config = (array) $config;
 
@@ -124,7 +124,7 @@ abstract class Tag
 	 */
 	public static function tags($config = ['filter.published' => [0, 1]])
 	{
-		/* @var DatabaseDriver $db */
+		/** @var DatabaseDriver $db */
 		$db     = Factory::getContainer()->get('DatabaseDriver');
 		$hash   = md5(serialize($config));
 		$config = (array) $config;

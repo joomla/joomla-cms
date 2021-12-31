@@ -146,7 +146,7 @@ class LanguageHelper
 				}
 				else
 				{
-					/* @var DatabaseDriver $db */
+					/** @var DatabaseDriver $db */
 					$db = Factory::getContainer()->get('DatabaseDriver');
 
 					$query = $db->getQuery(true)
@@ -209,7 +209,7 @@ class LanguageHelper
 			}
 			else
 			{
-				/* @var DatabaseDriver $db */
+				/** @var DatabaseDriver $db */
 				$db = Factory::getContainer()->get('DatabaseDriver');
 
 				$query = $db->getQuery(true)
@@ -382,7 +382,7 @@ class LanguageHelper
 			}
 			else
 			{
-				/* @var DatabaseDriver $db */
+				/** @var DatabaseDriver $db */
 				$db = Factory::getContainer()->get('DatabaseDriver');
 
 				$query = $db->getQuery(true)

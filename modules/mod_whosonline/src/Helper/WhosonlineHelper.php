@@ -29,7 +29,7 @@ class WhosonlineHelper
 	 **/
 	public static function getOnlineCount()
 	{
-		/* @var \Joomla\Database\DatabaseDriver $db */
+		/** @var \Joomla\Database\DatabaseDriver $db */
 		$db = Factory::getContainer()->get('DatabaseDriver');
 
 		// Calculate number of guests and users
@@ -89,7 +89,7 @@ class WhosonlineHelper
 	 **/
 	public static function getOnlineUserNames($params)
 	{
-		/* @var \Joomla\Database\DatabaseDriver $db */
+		/** @var \Joomla\Database\DatabaseDriver $db */
 		$db = Factory::getContainer()->get('DatabaseDriver');
 
 		$whereCondition = Factory::getApplication()->get('shared_session', '0') ? 'IS NULL' : '= 0';

@@ -179,7 +179,7 @@ class MenuitemField extends GroupedlistField
 		// Build group for a specific menu type.
 		if ($menuType)
 		{
-			/* @var \Joomla\Database\DatabaseDriver $db */
+			/** @var \Joomla\Database\DatabaseDriver $db */
 			$db = Factory::getContainer()->get('DatabaseDriver');
 
 			// If the menutype is empty, group the items by menutype.

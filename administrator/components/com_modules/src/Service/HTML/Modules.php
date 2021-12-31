@@ -228,7 +228,7 @@ class Modules
 	 */
 	public function positionList($clientId = 0)
 	{
-		/* @var \Joomla\Database\DatabaseDriver $db */
+		/** @var \Joomla\Database\DatabaseDriver $db */
 		$db = Factory::getContainer()->get('DatabaseDriver');
 
 		$clientId = (int) $clientId;

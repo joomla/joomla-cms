@@ -48,7 +48,7 @@ class FieldLayoutField extends FormField
 
 		if ($extension)
 		{
-			/* @var \Joomla\Database\DatabaseDriver $db */
+			/** @var \Joomla\Database\DatabaseDriver $db */
 			$db = Factory::getContainer()->get('DatabaseDriver');
 
 			$query = $db->getQuery(true);

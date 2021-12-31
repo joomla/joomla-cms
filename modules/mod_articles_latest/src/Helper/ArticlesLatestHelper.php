@@ -39,7 +39,7 @@ abstract class ArticlesLatestHelper
 	 */
 	public static function getList(Registry $params, ArticlesModel $model)
 	{
-		/* @var \Joomla\Database\DatabaseDriver $db */
+		/** @var \Joomla\Database\DatabaseDriver $db */
 		$db   = Factory::getContainer()->get('DatabaseDriver');
 		$user = Factory::getUser();
 

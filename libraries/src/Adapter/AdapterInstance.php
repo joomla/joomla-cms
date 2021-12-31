@@ -56,7 +56,7 @@ class AdapterInstance extends CMSObject
 		$this->parent = $parent;
 
 		// Pull in the global dbo in case something happened to it.
-		/* @var \Joomla\Database\DatabaseDriver $db */
+		/** @var \Joomla\Database\DatabaseDriver $db */
 		$this->db = $db ?: Factory::getContainer()->get('DatabaseDriver');
 	}
 

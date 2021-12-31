@@ -41,7 +41,7 @@ class NewsfeedsHelper extends ContentHelper
 	 */
 	public static function countItems(&$items)
 	{
-		/* @var DatabaseDriver $db */
+		/** @var DatabaseDriver $db */
 		$db = Factory::getContainer()->get('DatabaseDriver');
 
 		$query = $db->getQuery(true);
@@ -106,7 +106,7 @@ class NewsfeedsHelper extends ContentHelper
 	 */
 	public static function countTagItems(&$items, $extension)
 	{
-		/* @var DatabaseDriver $db */
+		/** @var DatabaseDriver $db */
 		$db = Factory::getContainer()->get('DatabaseDriver');
 
 		$parts     = explode('.', $extension);

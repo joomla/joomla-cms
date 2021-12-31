@@ -357,7 +357,7 @@ class Update extends CMSObject
 					// Check if DB & version is supported via <supported_databases> tag, assume supported if tag isn't present
 					if (isset($this->currentUpdate->supported_databases))
 					{
-						/* @var \Joomla\Database\DatabaseDriver $db */
+						/** @var \Joomla\Database\DatabaseDriver $db */
 						$db           = Factory::getContainer()->get('DatabaseDriver');
 						$dbType       = strtolower($db->getServerType());
 						$dbVersion    = $db->getVersion();

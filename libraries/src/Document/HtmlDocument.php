@@ -718,7 +718,7 @@ class HtmlDocument extends Document
 
 		if (!isset($children))
 		{
-			/* @var \Joomla\Database\DatabaseDriver $db */
+			/** @var \Joomla\Database\DatabaseDriver $db */
 			$db       = CmsFactory::getContainer()->get('DatabaseDriver');
 			$app      = CmsFactory::getApplication();
 			$menu     = $app->getMenu();

@@ -40,7 +40,7 @@ class Filter
 	 */
 	public function slider($options = [])
 	{
-		/* @var DatabaseDriver $db */
+		/** @var DatabaseDriver $db */
 		$db     = Factory::getContainer()->get('DatabaseDriver');
 		$user   = Factory::getUser();
 		$groups = implode(',', $user->getAuthorisedViewLevels());
@@ -242,7 +242,7 @@ class Filter
 		}
 		else
 		{
-			/* @var DatabaseDriver $db */
+			/** @var DatabaseDriver $db */
 			$db = Factory::getContainer()->get('DatabaseDriver');
 
 			$query = $db->getQuery(true);

@@ -48,7 +48,7 @@ class PluginsHelper
 	 */
 	public static function folderOptions()
 	{
-		/* @var \Joomla\Database\DatabaseDriver $db */
+		/** @var \Joomla\Database\DatabaseDriver $db */
 		$db = Factory::getContainer()->get('DatabaseDriver');
 
 		$query = $db->getQuery(true)
@@ -78,7 +78,7 @@ class PluginsHelper
 	 */
 	public static function elementOptions()
 	{
-		/* @var \Joomla\Database\DatabaseDriver $db */
+		/** @var \Joomla\Database\DatabaseDriver $db */
 		$db = Factory::getContainer()->get('DatabaseDriver');
 
 		$query = $db->getQuery(true)

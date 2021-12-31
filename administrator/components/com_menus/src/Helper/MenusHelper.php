@@ -109,7 +109,7 @@ class MenusHelper extends ContentHelper
 	 */
 	public static function getMenuTypes($clientId = 0)
 	{
-		/* @var DatabaseDriver $db */
+		/** @var DatabaseDriver $db */
 		$db = Factory::getContainer()->get('DatabaseDriver');
 
 		$query = $db->getQuery(true)
@@ -145,7 +145,7 @@ class MenusHelper extends ContentHelper
 	 */
 	public static function getMenuLinks($menuType = null, $parentId = 0, $mode = 0, $published = [], $languages = [], $clientId = 0)
 	{
-		/* @var DatabaseDriver $db */
+		/** @var DatabaseDriver $db */
 		$db = Factory::getContainer()->get('DatabaseDriver');
 
 		$hasClientId = $clientId !== null;
@@ -473,7 +473,7 @@ class MenusHelper extends ContentHelper
 	 */
 	protected static function installPresetItems($node, $menutype)
 	{
-		/* @var DatabaseDriver $db */
+		/** @var DatabaseDriver $db */
 		$db    = Factory::getContainer()->get('DatabaseDriver');
 		$query = $db->getQuery(true);
 		$items = $node->getChildren();
@@ -765,7 +765,7 @@ class MenusHelper extends ContentHelper
 	 */
 	public static function resolveAlias(&$item)
 	{
-		/* @var DatabaseDriver $db */
+		/** @var DatabaseDriver $db */
 		$db = Factory::getContainer()->get('DatabaseDriver');
 
 		$obj = $item;
@@ -851,7 +851,7 @@ class MenusHelper extends ContentHelper
 	 */
 	protected static function loadXml($elements, $parent, $replace = [])
 	{
-		/* @var DatabaseDriver $db */
+		/** @var DatabaseDriver $db */
 		$db = Factory::getContainer()->get('DatabaseDriver');
 
 		foreach ($elements as $element)

@@ -267,7 +267,7 @@ class AssociationsHelper extends ContentHelper
 				$title       = $items[$langCode][$titleFieldName];
 				$additional  = '';
 
-				/* @var DatabaseDriver $db */
+				/** @var DatabaseDriver $db */
 				$db = Factory::getContainer()->get('DatabaseDriver');
 
 				if (isset($items[$langCode]['catid']))
@@ -471,7 +471,7 @@ class AssociationsHelper extends ContentHelper
 	 */
 	private static function getEnabledExtensions()
 	{
-		/* @var DatabaseDriver $db */
+		/** @var DatabaseDriver $db */
 		$db = Factory::getContainer()->get('DatabaseDriver');
 
 		$query = $db->getQuery(true)
@@ -690,7 +690,7 @@ class AssociationsHelper extends ContentHelper
 	 */
 	public static function getLanguagefilterPluginId()
 	{
-		/* @var DatabaseDriver $db */
+		/** @var DatabaseDriver $db */
 		$db = Factory::getContainer()->get('DatabaseDriver');
 
 		$query = $db->getQuery(true)

@@ -94,13 +94,14 @@ abstract class ListHelper
 	 */
 	public static function genericordering($query, $chop = 30)
 	{
-		/* @var DatabaseDriver $db */
+		/** @var DatabaseDriver $db */
 		$db = Factory::getContainer()->get('DatabaseDriver');
 
 		$db->setQuery($query);
 		$items = $db->loadObjectList();
 
 		$options = [];
+		
 		if (empty($items))
 		{
 			$options[] = HTMLHelper::_('select.option', 1, Text::_('JLIB_FORM_FIELD_PARAM_INTEGER_FIRST_LABEL'));
@@ -194,7 +195,7 @@ abstract class ListHelper
 	 */
 	public static function users($name, $active, $nouser = 0, $javascript = null, $order = 'name')
 	{
-		/* @var DatabaseDriver $db */
+		/** @var DatabaseDriver $db */
 		$db = Factory::getContainer()->get('DatabaseDriver');
 
 		$query = $db->getQuery(true)

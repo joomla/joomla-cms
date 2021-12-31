@@ -228,7 +228,7 @@ class ChromestyleField extends GroupedlistField
 	 */
 	protected function getTemplates()
 	{
-		/* @var \Joomla\Database\DatabaseDriver $db */
+		/** @var \Joomla\Database\DatabaseDriver $db */
 		$db = Factory::getContainer()->get('DatabaseDriver');
 
 		// Get the database object and a new query object.

@@ -199,7 +199,7 @@ class SqlField extends ListField
 	 */
 	protected function processQuery($conditions, $filters, $defaults)
 	{
-		/* @var DatabaseDriver $db */
+		/** @var DatabaseDriver $db */
 		$db = Factory::getContainer()->get('DatabaseDriver');
 
 		// Get the query object
@@ -279,7 +279,7 @@ class SqlField extends ListField
 
 		if ($this->query)
 		{
-			/* @var DatabaseDriver $db */
+			/** @var DatabaseDriver $db */
 			$db = Factory::getContainer()->get('DatabaseDriver');
 
 			// Set the query and get the result list.

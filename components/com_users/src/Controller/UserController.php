@@ -55,7 +55,7 @@ class UserController extends BaseController
 		{
 			if (Multilanguage::isEnabled())
 			{
-				/* @var DatabaseDriver $db */
+				/** @var DatabaseDriver $db */
 				$db = Factory::getContainer()->get('DatabaseDriver');
 
 				$query = $db->getQuery(true)
@@ -181,7 +181,7 @@ class UserController extends BaseController
 		{
 			if (Multilanguage::isEnabled())
 			{
-				/* @var DatabaseDriver $db */
+				/** @var DatabaseDriver $db */
 				$db = Factory::getContainer()->get('DatabaseDriver');
 
 				$query = $db->getQuery(true)
@@ -256,7 +256,7 @@ class UserController extends BaseController
 		{
 			if ($itemid)
 			{
-				/* @var DatabaseDriver $db */
+				/** @var DatabaseDriver $db */
 				$db = Factory::getContainer()->get('DatabaseDriver');
 
 				$query = $db->getQuery(true)

@@ -40,7 +40,7 @@ class ComponentsCategoryField extends ListField
 	 */
 	protected function getOptions()
 	{
-		/* @var \Joomla\Database\DatabaseDriver $db */
+		/** @var \Joomla\Database\DatabaseDriver $db */
 		$db      = Factory::getContainer()->get('DatabaseDriver');
 		$options = [];
 

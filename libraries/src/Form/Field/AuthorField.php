@@ -51,7 +51,7 @@ class AuthorField extends ListField
 		{
 			static::$options[$hash] = parent::getOptions();
 
-			/* @var \Joomla\Database\DatabaseDriver $db */
+			/** @var \Joomla\Database\DatabaseDriver $db */
 			$db = Factory::getContainer()->get('DatabaseDriver');
 
 			// Construct the query

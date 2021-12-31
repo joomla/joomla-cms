@@ -33,7 +33,7 @@ function httpheaders_postinstall_condition()
  */
 function httpheaders_postinstall_action()
 {
-	/* @var \Joomla\Database\DatabaseDriver $db */
+	/** @var \Joomla\Database\DatabaseDriver $db */
 	$db = Factory::getContainer()->get('DatabaseDriver');
 
 	// Enable the plugin

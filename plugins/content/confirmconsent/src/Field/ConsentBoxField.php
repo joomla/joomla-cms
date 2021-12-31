@@ -242,7 +242,7 @@ class ConsentBoxField extends CheckboxesField
 	 */
 	private function getAssignedArticleUrl()
 	{
-		/* @var \Joomla\Database\DatabaseDriver $db */
+		/** @var \Joomla\Database\DatabaseDriver $db */
 		$db = Factory::getContainer()->get('DatabaseDriver');
 
 		// Get the info from the article
@@ -332,7 +332,7 @@ class ConsentBoxField extends CheckboxesField
 
 			if (Multilanguage::isEnabled())
 			{
-				/* @var \Joomla\Database\DatabaseDriver $db */
+				/** @var \Joomla\Database\DatabaseDriver $db */
 				$db = Factory::getContainer()->get('DatabaseDriver');
 
 				$query = $db->getQuery(true)

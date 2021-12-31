@@ -169,7 +169,7 @@ class AddUserCommand extends AbstractCommand
 	 */
 	protected function getGroupId($groupName)
 	{
-		/* @var \Joomla\Database\DatabaseDriver $db */
+		/** @var \Joomla\Database\DatabaseDriver $db */
 		$db = Factory::getContainer()->get('DatabaseDriver');
 
 		$query = $db->getQuery(true)
@@ -220,7 +220,7 @@ class AddUserCommand extends AbstractCommand
 	 */
 	protected function getUserGroups(): array
 	{
-		/* @var \Joomla\Database\DatabaseDriver $db */
+		/** @var \Joomla\Database\DatabaseDriver $db */
 		$db     = Factory::getContainer()->get('DatabaseDriver');
 		$groups = $this->getApplication()->getConsoleInput()->getOption('usergroup');
 

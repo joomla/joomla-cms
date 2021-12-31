@@ -121,7 +121,7 @@ class CategoryField extends FormField
 
 		if ($value)
 		{
-			/* @var \Joomla\Database\DatabaseDriver $db */
+			/** @var \Joomla\Database\DatabaseDriver $db */
 			$db = Factory::getContainer()->get('DatabaseDriver');
 
 			$query = $db->getQuery(true)

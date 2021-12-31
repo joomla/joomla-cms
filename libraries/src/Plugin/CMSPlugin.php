@@ -136,7 +136,7 @@ abstract class CMSPlugin implements DispatcherAwareInterface, PluginInterface
 
 			if ($dbProperty->isPrivate() === false && \is_null($this->db))
 			{
-				/* @var \Joomla\Database\DatabaseDriver $db */
+				/** @var \Joomla\Database\DatabaseDriver $db */
 				$this->db = Factory::getContainer()->get('DatabaseDriver');
 			}
 		}

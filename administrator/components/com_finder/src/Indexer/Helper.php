@@ -254,7 +254,7 @@ class Helper
 	{
 		static $types;
 
-		/* @var DatabaseDriver $db */
+		/** @var DatabaseDriver $db */
 		$db = Factory::getContainer()->get('DatabaseDriver');
 
 		$query = $db->getQuery(true);
@@ -349,7 +349,7 @@ class Helper
 	 */
 	public static function getCommonWords($lang)
 	{
-		/* @var DatabaseDriver $db */
+		/** @var DatabaseDriver $db */
 		$db = Factory::getContainer()->get('DatabaseDriver');
 
 		// Create the query to load all the common terms for the language.

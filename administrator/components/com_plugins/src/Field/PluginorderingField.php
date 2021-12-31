@@ -36,7 +36,7 @@ class PluginorderingField extends OrderingField
 	 */
 	protected function getQuery()
 	{
-		/* @var \Joomla\Database\DatabaseDriver $db */
+		/** @var \Joomla\Database\DatabaseDriver $db */
 		$db     = Factory::getContainer()->get('DatabaseDriver');
 		$folder = $this->form->getValue('folder');
 

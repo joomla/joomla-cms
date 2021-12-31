@@ -18,7 +18,7 @@ if ($value == '')
 	return;
 }
 
-/* @var \Joomla\Database\DatabaseDriver $db */
+/** @var \Joomla\Database\DatabaseDriver $db */
 $db = Factory::getContainer()->get('DatabaseDriver');
 
 $value = (array) $value;

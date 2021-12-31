@@ -36,7 +36,7 @@ class BannersHelper extends ContentHelper
 	 */
 	public static function updateReset()
 	{
-		/* @var DatabaseDriver $db */
+		/** @var DatabaseDriver $db */
 		$db   = Factory::getContainer()->get('DatabaseDriver');
 		$date = Factory::getDate();
 		$app  = Factory::getApplication();
@@ -154,7 +154,7 @@ class BannersHelper extends ContentHelper
 	 */
 	public static function getClientOptions()
 	{
-		/* @var DatabaseDriver $db */
+		/** @var DatabaseDriver $db */
 		$db = Factory::getContainer()->get('DatabaseDriver');
 
 		$query = $db->getQuery(true)

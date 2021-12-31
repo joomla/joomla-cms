@@ -287,7 +287,7 @@ class Access
 
 		!JDEBUG ?: Profiler::getInstance('Application')->mark('Before Access::preloadPermissions (' . $extensionName . ')');
 
-		/* @var DatabaseDriver $db */
+		/** @var DatabaseDriver $db */
 		$db = Factory::getContainer()->get('DatabaseDriver');
 
 		$assetKey = $extensionName . '.%';
@@ -358,7 +358,7 @@ class Access
 			}
 		}
 
-		/* @var DatabaseDriver $db */
+		/** @var DatabaseDriver $db */
 		$db = Factory::getContainer()->get('DatabaseDriver');
 
 		// Get the asset info for all assets in asset names list.
@@ -594,7 +594,7 @@ class Access
 			$recursive = false;
 		}
 
-		/* @var DatabaseDriver $db */
+		/** @var DatabaseDriver $db */
 		$db = Factory::getContainer()->get('DatabaseDriver');
 
 		// Build the database query to get the rules for the asset.
@@ -681,7 +681,7 @@ class Access
 			return self::$rootAssetId;
 		}
 
-		/* @var DatabaseDriver $db */
+		/** @var DatabaseDriver $db */
 		$db = Factory::getContainer()->get('DatabaseDriver');
 
 		// No preload. Return root asset id from Assets.
@@ -728,7 +728,7 @@ class Access
 				// Else we have to do an extra db query to fetch it from the table fetch it from table.
 				else
 				{
-					/* @var DatabaseDriver $db */
+					/** @var DatabaseDriver $db */
 					$db = Factory::getContainer()->get('DatabaseDriver');
 
 					$table = new Asset($db);
@@ -775,7 +775,7 @@ class Access
 			// Else we have to do an extra db query to fetch it from the table fetch it from table.
 			else
 			{
-				/* @var DatabaseDriver $db */
+				/** @var DatabaseDriver $db */
 				$db = Factory::getContainer()->get('DatabaseDriver');
 
 				$table = new Asset($db);
@@ -857,7 +857,7 @@ class Access
 	 */
 	public static function getGroupTitle($groupId)
 	{
-		/* @var DatabaseDriver $db */
+		/** @var DatabaseDriver $db */
 		$db = Factory::getContainer()->get('DatabaseDriver');
 
 		// Cast as integer until method is typehinted.
@@ -907,7 +907,7 @@ class Access
 			// Registered user and guest if all groups are requested
 			else
 			{
-				/* @var DatabaseDriver $db */
+				/** @var DatabaseDriver $db */
 				$db = Factory::getContainer()->get('DatabaseDriver');
 
 				// Build the database query to get the rules for the asset.
@@ -974,7 +974,7 @@ class Access
 	 */
 	public static function getUsersByGroup($groupId, $recursive = false)
 	{
-		/* @var DatabaseDriver $db */
+		/** @var DatabaseDriver $db */
 		$db = Factory::getContainer()->get('DatabaseDriver');
 
 		// Cast as integer until method is typehinted.
@@ -1019,7 +1019,7 @@ class Access
 		// Only load the view levels once.
 		if (empty(self::$viewLevels))
 		{
-			/* @var DatabaseDriver $db */
+			/** @var DatabaseDriver $db */
 			$db = Factory::getContainer()->get('DatabaseDriver');
 
 			// Build the base query.

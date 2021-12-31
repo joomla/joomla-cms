@@ -112,7 +112,7 @@ class LibraryHelper
 	{
 		if (static::isEnabled($element))
 		{
-			/* @var DatabaseDriver $db */
+			/** @var DatabaseDriver $db */
 			$db = Factory::getContainer()->get('DatabaseDriver');
 
 			// Save params in DB
@@ -153,7 +153,7 @@ class LibraryHelper
 	{
 		$loader = function ($element)
 		{
-			/* @var DatabaseDriver $db */
+			/** @var DatabaseDriver $db */
 			$db = Factory::getContainer()->get('DatabaseDriver');
 
 			$query = $db->getQuery(true)

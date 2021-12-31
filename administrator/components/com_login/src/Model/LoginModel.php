@@ -142,7 +142,7 @@ class LoginModel extends BaseDatabaseModel
 		$cache = Factory::getCache('com_modules', 'callback');
 
 		$loader = function () use ($app, $lang, $module) {
-			/* @var \Joomla\Database\DatabaseDriver $db */
+			/** @var \Joomla\Database\DatabaseDriver $db */
 			$db = Factory::getContainer()->get('DatabaseDriver');
 
 			$query = $db->getQuery(true)

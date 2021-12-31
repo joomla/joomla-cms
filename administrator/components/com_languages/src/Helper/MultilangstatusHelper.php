@@ -32,7 +32,7 @@ abstract class MultilangstatusHelper
 	 */
 	public static function getHomes()
 	{
-		/* @var DatabaseDriver $db */
+		/** @var DatabaseDriver $db */
 		$db = Factory::getContainer()->get('DatabaseDriver');
 
 		// Check for multiple Home pages.
@@ -59,7 +59,7 @@ abstract class MultilangstatusHelper
 	 */
 	public static function getLangswitchers()
 	{
-		/* @var DatabaseDriver $db */
+		/** @var DatabaseDriver $db */
 		$db = Factory::getContainer()->get('DatabaseDriver');
 
 		// Check if switcher is published.
@@ -86,7 +86,7 @@ abstract class MultilangstatusHelper
 	 */
 	public static function getContentlangs()
 	{
-		/* @var DatabaseDriver $db */
+		/** @var DatabaseDriver $db */
 		$db = Factory::getContainer()->get('DatabaseDriver');
 
 		// Check for published Content Languages.
@@ -112,7 +112,7 @@ abstract class MultilangstatusHelper
 	 */
 	public static function getStatus()
 	{
-		/* @var DatabaseDriver $db */
+		/** @var DatabaseDriver $db */
 		$db = Factory::getContainer()->get('DatabaseDriver');
 
 		// Check for combined status.
@@ -158,7 +158,7 @@ abstract class MultilangstatusHelper
 	 */
 	public static function getContacts()
 	{
-		/* @var DatabaseDriver $db */
+		/** @var DatabaseDriver $db */
 		$db        = Factory::getContainer()->get('DatabaseDriver');
 		$languages = \count(LanguageHelper::getLanguages());
 
@@ -260,7 +260,7 @@ abstract class MultilangstatusHelper
 	 */
 	public static function getDefaultHomeModule()
 	{
-		/* @var DatabaseDriver $db */
+		/** @var DatabaseDriver $db */
 		$db = Factory::getContainer()->get('DatabaseDriver');
 
 		// Find Default Home menutype.
@@ -324,7 +324,7 @@ abstract class MultilangstatusHelper
 	 */
 	public static function getModule($moduleName, $instanceTitle = null)
 	{
-		/* @var DatabaseDriver $db */
+		/** @var DatabaseDriver $db */
 		$db = Factory::getContainer()->get('DatabaseDriver');
 
 		$query = $db->getQuery(true)

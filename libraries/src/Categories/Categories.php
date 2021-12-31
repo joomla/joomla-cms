@@ -219,7 +219,7 @@ class Categories implements CategoryInterface
 	 */
 	protected function _load($id)
 	{
-		/* @var \Joomla\Database\DatabaseDriver $db */
+		/** @var \Joomla\Database\DatabaseDriver $db */
 		$db   = Factory::getContainer()->get('DatabaseDriver');
 		$app  = Factory::getApplication();
 		$user = Factory::getUser();

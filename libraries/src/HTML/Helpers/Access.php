@@ -48,7 +48,7 @@ abstract class Access
 	 */
 	public static function level($name, $selected, $attribs = '', $params = true, $id = false)
 	{
-		/* @var \Joomla\Database\DatabaseDriver $db */
+		/** @var \Joomla\Database\DatabaseDriver $db */
 		$db = Factory::getContainer()->get('DatabaseDriver');
 
 		$query = $db->getQuery(true)
@@ -254,7 +254,7 @@ abstract class Access
 	{
 		if (empty(static::$asset_groups))
 		{
-			/* @var \Joomla\Database\DatabaseDriver $db */
+			/** @var \Joomla\Database\DatabaseDriver $db */
 			$db = Factory::getContainer()->get('DatabaseDriver');
 
 			$query = $db->getQuery(true)

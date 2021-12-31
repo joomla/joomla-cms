@@ -161,7 +161,7 @@ class ActionlogsHelper
 	 */
 	public static function getLogContentTypeParams($context)
 	{
-		/* @var \Joomla\Database\DatabaseDriver $db */
+		/** @var \Joomla\Database\DatabaseDriver $db */
 		$db = Factory::getContainer()->get('DatabaseDriver');
 
 		$query = $db->getQuery(true)
@@ -287,7 +287,7 @@ class ActionlogsHelper
 	 */
 	public static function loadActionLogPluginsLanguage()
 	{
-		/* @var \Joomla\Database\DatabaseDriver $db */
+		/** @var \Joomla\Database\DatabaseDriver $db */
 		$db   = Factory::getContainer()->get('DatabaseDriver');
 		$lang = Factory::getLanguage();
 

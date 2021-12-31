@@ -109,9 +109,9 @@ class HtmlView extends BaseHtmlView
 	 */
 	public function display($tpl = null)
 	{
-		/* @var \Joomla\Database\DatabaseDriver $db */
+		/** @var \Joomla\Database\DatabaseDriver $db */
 		$this->db               = Factory::getContainer()->get('DatabaseDriver');
-		$user                   = Factory::getUser();;
+		$user                   = Factory::getUser();
 		$this->data	            = $this->get('Data');
 		$this->state            = $this->get('State');
 		$this->params           = $this->state->get('params');

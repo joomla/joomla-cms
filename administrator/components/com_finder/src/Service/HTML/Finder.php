@@ -33,7 +33,7 @@ class Finder
 	 */
 	public function typeslist()
 	{
-		/* @var \Joomla\Database\DatabaseDriver $db */
+		/** @var \Joomla\Database\DatabaseDriver $db */
 		$db = Factory::getContainer()->get('DatabaseDriver');
 
 		// Load the finder types.
@@ -76,7 +76,7 @@ class Finder
 	 */
 	public function mapslist()
 	{
-		/* @var \Joomla\Database\DatabaseDriver $db */
+		/** @var \Joomla\Database\DatabaseDriver $db */
 		$db = Factory::getContainer()->get('DatabaseDriver');
 
 		// Load the finder types.

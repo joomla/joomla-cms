@@ -199,7 +199,7 @@ final class UserGroupsHelper
 	{
 		if ($this->total === null)
 		{
-			/* @var \Joomla\Database\DatabaseDriver $db */
+			/** @var \Joomla\Database\DatabaseDriver $db */
 			$db = Factory::getContainer()->get('DatabaseDriver');
 
 			$query = $db->getQuery(true)
@@ -225,7 +225,7 @@ final class UserGroupsHelper
 	 */
 	public function load($id)
 	{
-		/* @var \Joomla\Database\DatabaseDriver $db */
+		/** @var \Joomla\Database\DatabaseDriver $db */
 		$db = Factory::getContainer()->get('DatabaseDriver');
 
 		// Cast as integer until method is typehinted.
@@ -258,7 +258,7 @@ final class UserGroupsHelper
 	 */
 	public function loadAll()
 	{
-		/* @var \Joomla\Database\DatabaseDriver $db */
+		/** @var \Joomla\Database\DatabaseDriver $db */
 		$db = Factory::getContainer()->get('DatabaseDriver');
 
 		$query = $db->getQuery(true)

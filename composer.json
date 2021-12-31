@@ -14,7 +14,10 @@
             "php": "7.2.5"
         },
         "vendor-dir": "libraries/vendor",
-        "github-protocols": ["https"]
+        "github-protocols": ["https"],
+        "allow-plugins": {
+            "dealerdirect/phpcodesniffer-composer-installer": true
+        }
     },
     "support": {
         "issues": "https://issues.joomla.org/",

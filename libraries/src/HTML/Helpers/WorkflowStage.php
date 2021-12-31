@@ -33,7 +33,7 @@ abstract class WorkflowStage
 	 */
 	public static function existing($options)
 	{
-		/* @var \Joomla\Database\DatabaseDriver $db */
+		/** @var \Joomla\Database\DatabaseDriver $db */
 		$db = Factory::getContainer()->get('DatabaseDriver');
 
 		// Build the query.

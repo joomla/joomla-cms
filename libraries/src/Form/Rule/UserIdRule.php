@@ -49,7 +49,7 @@ class UserIdRule extends FormRule
 			return !$required;
 		}
 
-		/* @var \Joomla\Database\DatabaseDriver $db */
+		/** @var \Joomla\Database\DatabaseDriver $db */
 		$db = Factory::getContainer()->get('DatabaseDriver');
 
 		// Build the query.

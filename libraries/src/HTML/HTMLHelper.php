@@ -1159,7 +1159,7 @@ abstract class HTMLHelper
 		$fillTable    = ($fillTable) ? "1" : "0";
 		$singleHeader = ($singleHeader) ? "1" : "0";
 
-		/* @var \Joomla\Database\DatabaseDriver $db */
+		/** @var \Joomla\Database\DatabaseDriver $db */
 		$db = Factory::getContainer()->get('DatabaseDriver');
 
 		// Format value when not nulldate ('0000-00-00 00:00:00'), otherwise blank it as it would result in 1970-01-01.

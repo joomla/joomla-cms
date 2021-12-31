@@ -54,7 +54,7 @@ abstract class Menu
 
 		if (!isset(static::$menus[$key]))
 		{
-			/* @var DatabaseDriver $db */
+			/** @var DatabaseDriver $db */
 			$db = Factory::getContainer()->get('DatabaseDriver');
 
 			$query = $db->getQuery(true)
@@ -102,7 +102,7 @@ abstract class Menu
 
 		if (empty(static::$items[$key]))
 		{
-			/* @var DatabaseDriver $db */
+			/** @var DatabaseDriver $db */
 			$db = Factory::getContainer()->get('DatabaseDriver');
 
 			// B/C - not passed  = 0, null can be passed for both clients
@@ -263,7 +263,7 @@ abstract class Menu
 			return '<input type="hidden" name="ordering" value="' . $row->ordering . '">' . Text::_('JGLOBAL_NEWITEMSLAST_DESC');
 		}
 
-		/* @var DatabaseDriver $db */
+		/** @var DatabaseDriver $db */
 		$db = Factory::getContainer()->get('DatabaseDriver');
 
 		$query = $db->getQuery(true)
@@ -308,7 +308,7 @@ abstract class Menu
 	 */
 	public static function linkOptions($all = false, $unassigned = false, $clientId = 0)
 	{
-		/* @var DatabaseDriver $db */
+		/** @var DatabaseDriver $db */
 		$db = Factory::getContainer()->get('DatabaseDriver');
 
 		// Get a list of the menu items

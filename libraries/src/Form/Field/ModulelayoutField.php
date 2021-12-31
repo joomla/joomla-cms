@@ -87,7 +87,7 @@ class ModulelayoutField extends FormField
 			$lang->load($module . '.sys', $client->path)
 				|| $lang->load($module . '.sys', $client->path . '/modules/' . $module);
 
-			/* @var \Joomla\Database\DatabaseDriver $db */
+			/** @var \Joomla\Database\DatabaseDriver $db */
 			$db = Factory::getContainer()->get('DatabaseDriver');
 
 			// Build the query.

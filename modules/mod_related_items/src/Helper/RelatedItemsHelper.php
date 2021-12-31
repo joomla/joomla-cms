@@ -35,7 +35,7 @@ abstract class RelatedItemsHelper
 	 */
 	public static function getList(&$params)
 	{
-		/* @var \Joomla\Database\DatabaseDriver $db */
+		/** @var \Joomla\Database\DatabaseDriver $db */
 		$db      = Factory::getContainer()->get('DatabaseDriver');
 		$app     = Factory::getApplication();
 		$input   = $app->input;

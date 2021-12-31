@@ -177,7 +177,7 @@ class InstallerScript
 	 */
 	public function getInstances($isModule)
 	{
-		/* @var DatabaseDriver $db */
+		/** @var DatabaseDriver $db */
 		$db = Factory::getContainer()->get('DatabaseDriver');
 
 		$extension = $this->extension;
@@ -277,7 +277,7 @@ class InstallerScript
 		// Store the combined new and existing values back as a JSON string
 		$paramsString = json_encode($params);
 
-		/* @var DatabaseDriver $db */
+		/** @var DatabaseDriver $db */
 		$db = Factory::getContainer()->get('DatabaseDriver');
 
 		$query = $db->getQuery(true)
@@ -309,7 +309,7 @@ class InstallerScript
 	 */
 	public function getItemArray($element, $table, $column, $identifier)
 	{
-		/* @var DatabaseDriver $db */
+		/** @var DatabaseDriver $db */
 		$db = Factory::getContainer()->get('DatabaseDriver');
 
 		$paramType = is_numeric($identifier) ? ParameterType::INTEGER : ParameterType::STRING;

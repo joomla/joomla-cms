@@ -96,7 +96,7 @@ class LanguagesModel extends BaseInstallationModel
 	 */
 	public function getItems()
 	{
-		/* @var DatabaseDriver $db */
+		/** @var DatabaseDriver $db */
 		$db = Factory::getContainer()->get('DatabaseDriver');
 
 		$extQuery  = $db->getQuery(true);
@@ -401,7 +401,7 @@ class LanguagesModel extends BaseInstallationModel
 	 */
 	protected function getLanguageList($clientId = 1)
 	{
-		/* @var DatabaseDriver $db */
+		/** @var DatabaseDriver $db */
 		$db = Factory::getContainer()->get('DatabaseDriver');
 
 		$query = $db->getQuery(true);

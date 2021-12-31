@@ -39,7 +39,7 @@ class UserMessagesField extends UserField
 	 */
 	protected function getGroups()
 	{
-		/* @var \Joomla\Database\DatabaseDriver $db */
+		/** @var \Joomla\Database\DatabaseDriver $db */
 		$db = Factory::getContainer()->get('DatabaseDriver');
 
 		// Compute usergroups

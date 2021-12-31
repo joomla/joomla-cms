@@ -43,7 +43,7 @@ class ContentmapField extends GroupedlistField
 	{
 		$groups = [];
 
-		/* @var \Joomla\Database\DatabaseDriver $db */
+		/** @var \Joomla\Database\DatabaseDriver $db */
 		$db = Factory::getContainer()->get('DatabaseDriver');
 
 		// Levels subquery.

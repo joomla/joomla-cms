@@ -54,7 +54,7 @@ class ListUserCommand extends AbstractCommand
 		$this->configureIO($input, $output);
 		$this->ioStyle->title('List users');
 
-		/* @var \Joomla\Database\DatabaseDriver $db */
+		/** @var \Joomla\Database\DatabaseDriver $db */
 		$db = Factory::getContainer()->get('DatabaseDriver');
 
 		$groupsQuery = $db->getQuery(true)

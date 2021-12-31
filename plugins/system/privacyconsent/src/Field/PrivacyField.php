@@ -75,7 +75,7 @@ class PrivacyField extends RadioField
 	 */
 	protected function getLayoutData()
 	{
-		/* @var \Joomla\Database\DatabaseDriver $db */
+		/** @var \Joomla\Database\DatabaseDriver $db */
 		$db = Factory::getContainer()->get('DatabaseDriver');
 
 		$data = parent::getLayoutData();

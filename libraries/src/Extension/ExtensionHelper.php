@@ -368,7 +368,7 @@ class ExtensionHelper
 			return self::$coreExtensionIds;
 		}
 
-		/* @var \Joomla\Database\DatabaseDriver $db */
+		/** @var \Joomla\Database\DatabaseDriver $db */
 		$db = Factory::getContainer()->get('DatabaseDriver');
 
 		$query = $db->getQuery(true)
@@ -439,7 +439,7 @@ class ExtensionHelper
 
 		if (!\array_key_exists($key, self::$loadedExtensions))
 		{
-			/* @var \Joomla\Database\DatabaseDriver $db */
+			/** @var \Joomla\Database\DatabaseDriver $db */
 			$db = Factory::getContainer()->get('DatabaseDriver');
 
 			$query = $db->getQuery(true)

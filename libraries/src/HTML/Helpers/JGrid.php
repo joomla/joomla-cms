@@ -193,7 +193,7 @@ abstract class JGrid
 		// Special state for dates
 		if ($publishUp || $publishDown)
 		{
-			/* @var \Joomla\Database\DatabaseDriver $db */
+			/** @var \Joomla\Database\DatabaseDriver $db */
 			$db       = Factory::getContainer()->get('DatabaseDriver');
 			$nullDate = $db->getNullDate();
 			$nowDate  = Factory::getDate()->toUnix();

@@ -158,7 +158,7 @@ abstract class UserHelper
 		// Add the user to the group if necessary.
 		if (!\in_array($groupId, $user->groups))
 		{
-			/* @var DatabaseDriver $db */
+			/** @var DatabaseDriver $db */
 			$db = Factory::getContainer()->get('DatabaseDriver');
 
 			// Check whether the group exists.
@@ -274,7 +274,7 @@ abstract class UserHelper
 	 */
 	public static function setUserGroups($userId, $groups)
 	{
-		/* @var DatabaseDriver $db */
+		/** @var DatabaseDriver $db */
 		$db   = Factory::getContainer()->get('DatabaseDriver');
 		$user = User::getInstance((int) $userId);
 
@@ -357,7 +357,7 @@ abstract class UserHelper
 	 */
 	public static function activateUser($activation)
 	{
-		/* @var DatabaseDriver $db */
+		/** @var DatabaseDriver $db */
 		$db = Factory::getContainer()->get('DatabaseDriver');
 
 		// Let's get the id of the user we want to activate
@@ -408,7 +408,7 @@ abstract class UserHelper
 	 */
 	public static function getUserId($username)
 	{
-		/* @var DatabaseDriver $db */
+		/** @var DatabaseDriver $db */
 		$db = Factory::getContainer()->get('DatabaseDriver');
 
 		$query = $db->getQuery(true)
@@ -616,7 +616,7 @@ abstract class UserHelper
 			return false;
 		}
 
-		/* @var DatabaseDriver $db */
+		/** @var DatabaseDriver $db */
 		$db = Factory::getContainer()->get('DatabaseDriver');
 
 		try

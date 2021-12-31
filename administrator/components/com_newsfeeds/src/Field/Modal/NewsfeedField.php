@@ -110,7 +110,7 @@ class NewsfeedField extends FormField
 
 		if ($value)
 		{
-			/* @var \Joomla\Database\DatabaseDriver $db */
+			/** @var \Joomla\Database\DatabaseDriver $db */
 			$db = Factory::getContainer()->get('DatabaseDriver');
 
 			$id    = (int) $value;

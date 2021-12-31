@@ -104,7 +104,7 @@ class UCMContent extends UCMBase
 	 */
 	public function delete($pk, UCMType $type = null)
 	{
-		/* @var DatabaseDriver $db */
+		/** @var DatabaseDriver $db */
 		$db = Factory::getContainer()->get('DatabaseDriver');
 
 		$type = $type ?: $this->type;
@@ -227,7 +227,7 @@ class UCMContent extends UCMBase
 	 */
 	public function getPrimaryKey($typeId, $contentItemId)
 	{
-		/* @var DatabaseDriver $db */
+		/** @var DatabaseDriver $db */
 		$db = Factory::getContainer()->get('DatabaseDriver');
 
 		$query = $db->getQuery(true)

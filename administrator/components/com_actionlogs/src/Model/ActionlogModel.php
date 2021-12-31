@@ -44,7 +44,7 @@ class ActionlogModel extends BaseDatabaseModel
 	 */
 	public function addLog($messages, $messageLanguageKey, $context, $userId = null)
 	{
-		/* @var \Joomla\Database\DatabaseDriver $db */
+		/** @var \Joomla\Database\DatabaseDriver $db */
 		$db     = Factory::getContainer()->get('DatabaseDriver');
 		$user   = Factory::getUser($userId);
 		$date   = Factory::getDate();

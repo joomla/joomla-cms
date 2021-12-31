@@ -116,7 +116,7 @@ class Indexer
 	 */
 	public function __construct()
 	{
-		/* @var \Joomla\Database\DatabaseDriver $db */
+		/** @var \Joomla\Database\DatabaseDriver $db */
 		$this->db = Factory::getContainer()->get('DatabaseDriver');
 
 		// Set up query template for addTokensToDb

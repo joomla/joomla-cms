@@ -115,7 +115,7 @@ class JoomlaInstallerScript
 	 */
 	protected function clearStatsCache()
 	{
-		/* @var DatabaseDriver $db */
+		/** @var DatabaseDriver $db */
 		$db = Factory::getContainer()->get('DatabaseDriver');
 
 		try
@@ -173,7 +173,7 @@ class JoomlaInstallerScript
 	 */
 	protected function updateDatabase()
 	{
-		/* @var DatabaseDriver $db */
+		/** @var DatabaseDriver $db */
 		$db = Factory::getContainer()->get('DatabaseDriver');
 
 		if ($db->getServerType() === 'mysql')
@@ -189,7 +189,7 @@ class JoomlaInstallerScript
 	 */
 	protected function updateDatabaseMysql()
 	{
-		/* @var DatabaseDriver $db */
+		/** @var DatabaseDriver $db */
 		$db = Factory::getContainer()->get('DatabaseDriver');
 
 		$db->setQuery('SHOW ENGINES');
@@ -239,7 +239,7 @@ class JoomlaInstallerScript
 	 */
 	protected function uninstallRepeatableFieldsPlugin()
 	{
-		/* @var DatabaseDriver $db */
+		/** @var DatabaseDriver $db */
 		$db  = Factory::getContainer()->get('DatabaseDriver');
 		$app = Factory::getApplication();
 
@@ -524,7 +524,7 @@ class JoomlaInstallerScript
 	 */
 	protected function uninstallEosPlugin()
 	{
-		/* @var DatabaseDriver $db */
+		/** @var DatabaseDriver $db */
 		$db = Factory::getContainer()->get('DatabaseDriver');
 
 		// Check if the plg_quickicon_eos310 plugin is present
@@ -582,7 +582,7 @@ class JoomlaInstallerScript
 		}
 
 		// Attempt to refresh manifest caches
-		/* @var DatabaseDriver $db */
+		/** @var DatabaseDriver $db */
 		$db = Factory::getContainer()->get('DatabaseDriver');
 
 		$query = $db->getQuery(true)
@@ -7508,7 +7508,7 @@ class JoomlaInstallerScript
 	 */
 	public function convertTablesToUtf8mb4($doDbFixMsg = false)
 	{
-		/* @var DatabaseDriver $db */
+		/** @var DatabaseDriver $db */
 		$db = Factory::getContainer()->get('DatabaseDriver');
 
 		if ($db->getServerType() !== 'mysql')
@@ -7704,7 +7704,7 @@ class JoomlaInstallerScript
 	 */
 	private function dropUtf8ConversionTable()
 	{
-		/* @var DatabaseDriver $db */
+		/** @var DatabaseDriver $db */
 		$db = Factory::getContainer()->get('DatabaseDriver');
 
 		try
@@ -7745,7 +7745,7 @@ class JoomlaInstallerScript
 		// Update UCM content types.
 		$this->updateContentTypes();
 
-		/* @var DatabaseDriver $db */
+		/** @var DatabaseDriver $db */
 		$db = Factory::getContainer()->get('DatabaseDriver');
 
 		Table::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_menus/Table/');
@@ -8100,7 +8100,6 @@ class JoomlaInstallerScript
 			'com_users.category',
 			'com_users.user',
 		];
-
 
 		/** @var DatabaseDriver $db */
 		$db = Factory::getContainer()->get('DatabaseDriver');

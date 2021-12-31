@@ -66,7 +66,7 @@ class Multilanguage
 		// If already tested, don't test again.
 		if (!$tested)
 		{
-			/* @var DatabaseDriver $db */
+			/** @var DatabaseDriver $db */
 			$db = $db ?: Factory::getContainer()->get('DatabaseDriver');
 
 			// Determine status of language filter plugin.
@@ -105,7 +105,7 @@ class Multilanguage
 
 		if (!isset($multilangSiteHomePages))
 		{
-			/* @var DatabaseDriver $db */
+			/** @var DatabaseDriver $db */
 			$db = $db ?: Factory::getContainer()->get('DatabaseDriver');
 
 			// Check for Home pages languages.

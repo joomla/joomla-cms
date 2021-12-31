@@ -152,7 +152,7 @@ class TagsHelper extends CMSHelper
 				// Remove duplicates
 				$aliases = array_values(array_unique($aliases));
 
-				/* @var DatabaseDriver $db */
+				/** @var DatabaseDriver $db */
 				$db = Factory::getContainer()->get('DatabaseDriver');
 
 				$query = $db->getQuery(true)
@@ -344,7 +344,7 @@ class TagsHelper extends CMSHelper
 	 */
 	public function getItemTags($contentType, $id, $getTagData = true)
 	{
-		/* @var DatabaseDriver $db */
+		/** @var DatabaseDriver $db */
 		$db = Factory::getContainer()->get('DatabaseDriver');
 
 		// Cast as integer until method is typehinted.
@@ -412,7 +412,7 @@ class TagsHelper extends CMSHelper
 			return;
 		}
 
-		/* @var DatabaseDriver $db */
+		/** @var DatabaseDriver $db */
 		$db = Factory::getContainer()->get('DatabaseDriver');
 
 		/**
@@ -467,7 +467,7 @@ class TagsHelper extends CMSHelper
 		$anyOrAll = true, $languageFilter = 'all', $stateFilter = '0,1'
 	)
 	{
-		/* @var DatabaseDriver $db */
+		/** @var DatabaseDriver $db */
 		$db       = Factory::getContainer()->get('DatabaseDriver');
 		$nullDate = $db->getNullDate();
 		$nowDate  = Factory::getDate()->toSql();
@@ -655,7 +655,7 @@ class TagsHelper extends CMSHelper
 		{
 			$tagIds = ArrayHelper::toInteger($tagIds);
 
-			/* @var DatabaseDriver $db */
+			/** @var DatabaseDriver $db */
 			$db = Factory::getContainer()->get('DatabaseDriver');
 
 			$query = $db->getQuery(true)
@@ -721,7 +721,7 @@ class TagsHelper extends CMSHelper
 	 */
 	public static function getTypes($arrayType = 'objectList', $selectTypes = null, $useAlias = true)
 	{
-		/* @var DatabaseDriver $db */
+		/** @var DatabaseDriver $db */
 		$db = Factory::getContainer()->get('DatabaseDriver');
 
 		$query = $db->getQuery(true)
@@ -875,7 +875,7 @@ class TagsHelper extends CMSHelper
 	 */
 	public static function searchTags($filters = [])
 	{
-		/* @var DatabaseDriver $db */
+		/** @var DatabaseDriver $db */
 		$db = Factory::getContainer()->get('DatabaseDriver');
 
 		$query = $db->getQuery(true)
@@ -993,7 +993,7 @@ class TagsHelper extends CMSHelper
 	 */
 	public function tagDeleteInstances($tagId)
 	{
-		/* @var DatabaseDriver $db */
+		/** @var DatabaseDriver $db */
 		$db = Factory::getContainer()->get('DatabaseDriver');
 
 		// Cast as integer until method is typehinted.
@@ -1069,7 +1069,7 @@ class TagsHelper extends CMSHelper
 	 */
 	public function unTagItem($contentId, TableInterface $table, $tags = [])
 	{
-		/* @var DatabaseDriver $db */
+		/** @var DatabaseDriver $db */
 		$db = Factory::getContainer()->get('DatabaseDriver');
 
 		$key = $table->getKeyName();

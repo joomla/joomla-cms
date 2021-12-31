@@ -48,7 +48,7 @@ class AdministratorService
 		{
 			$associations = ArrayHelper::toInteger($associations);
 
-			/* @var \Joomla\Database\DatabaseDriver $db */
+			/** @var \Joomla\Database\DatabaseDriver $db */
 			$db = Factory::getContainer()->get('DatabaseDriver');
 
 			// Get the associated categories

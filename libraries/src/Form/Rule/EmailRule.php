@@ -176,7 +176,7 @@ class EmailRule extends FormRule
 
 		if ($unique && !$multiple)
 		{
-			/* @var \Joomla\Database\DatabaseDriver $db */
+			/** @var \Joomla\Database\DatabaseDriver $db */
 			$db = Factory::getContainer()->get('DatabaseDriver');
 
 			// Get the extra field check attribute.

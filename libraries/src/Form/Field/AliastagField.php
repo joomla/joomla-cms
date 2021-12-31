@@ -38,7 +38,7 @@ class AliastagField extends ListField
 	 */
 	protected function getOptions()
 	{
-		/* @var \Joomla\Database\DatabaseDriver $db */
+		/** @var \Joomla\Database\DatabaseDriver $db */
 		$db = Factory::getContainer()->get('DatabaseDriver');
 
 		// Get list of tag type alias

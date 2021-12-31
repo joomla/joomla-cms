@@ -33,7 +33,7 @@ class CategoriesHelper
 	 */
 	public static function getAssociations($pk, $extension = 'com_content')
 	{
-		/* @var \Joomla\Database\DatabaseDriver $db */
+		/** @var \Joomla\Database\DatabaseDriver $db */
 		$db               = Factory::getContainer()->get('DatabaseDriver');
 		$langAssociations = Associations::getAssociations($extension, '#__categories', 'com_categories.item', $pk, 'id', 'alias', '');
 		$associations     = [];

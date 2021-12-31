@@ -38,7 +38,7 @@ class Versioning
 	 */
 	public static function get($typeAlias, $id)
 	{
-		/* @var DatabaseDriver $db */
+		/** @var DatabaseDriver $db */
 		$db = Factory::getContainer()->get('DatabaseDriver');
 
 		$itemid = $typeAlias . '.' . $id;
@@ -66,7 +66,7 @@ class Versioning
 	 */
 	public static function delete($typeAlias, $id)
 	{
-		/* @var DatabaseDriver $db */
+		/** @var DatabaseDriver $db */
 		$db = Factory::getContainer()->get('DatabaseDriver');
 
 		$itemid = $typeAlias . '.' . $id;

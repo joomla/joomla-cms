@@ -156,7 +156,7 @@ class OrderingField extends FormField
 	 */
 	protected function getQuery()
 	{
-		/* @var \Joomla\Database\DatabaseDriver $db */
+		/** @var \Joomla\Database\DatabaseDriver $db */
 		$db           = Factory::getContainer()->get('DatabaseDriver');
 		$categoryId   = (int) $this->form->getValue('catid');
 		$ucmType      = new UCMType;

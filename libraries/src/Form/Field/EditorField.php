@@ -288,7 +288,7 @@ class EditorField extends TextareaField
 
 			if ($this->editorType)
 			{
-				/* @var \Joomla\Database\DatabaseDriver $db */
+				/** @var \Joomla\Database\DatabaseDriver $db */
 				$db = Factory::getContainer()->get('DatabaseDriver');
 
 				// Get the list of editor types.

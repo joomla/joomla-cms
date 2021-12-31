@@ -449,7 +449,7 @@ class Date extends \DateTime
 	{
 		if ($db === null)
 		{
-			/* @var \Joomla\Database\DatabaseDriver $db */
+			/** @var \Joomla\Database\DatabaseDriver $db */
 			$db = Factory::getContainer()->get('DatabaseDriver');
 		}
 

@@ -42,7 +42,7 @@ class MenuField extends GroupedlistField
 	 */
 	protected function getGroups()
 	{
-		/* @var \Joomla\Database\DatabaseDriver $db */
+		/** @var \Joomla\Database\DatabaseDriver $db */
 		$db = Factory::getContainer()->get('DatabaseDriver');
 
 		$clientId   = (string) $this->element['clientid'];

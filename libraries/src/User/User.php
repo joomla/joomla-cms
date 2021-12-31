@@ -396,7 +396,7 @@ class User extends CMSObject
 	 */
 	public function getAuthorisedCategories($component, $action)
 	{
-		/* @var \Joomla\Database\DatabaseDriver $db */
+		/** @var \Joomla\Database\DatabaseDriver $db */
 		$db = Factory::getContainer()->get('DatabaseDriver');
 
 		// Brute force method: get all published category rows for the component and check each one

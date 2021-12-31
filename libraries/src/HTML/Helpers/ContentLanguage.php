@@ -44,7 +44,7 @@ abstract class ContentLanguage
 	{
 		if (empty(static::$items))
 		{
-			/* @var \Joomla\Database\DatabaseDriver $db */
+			/** @var \Joomla\Database\DatabaseDriver $db */
 			$db = Factory::getContainer()->get('DatabaseDriver');
 
 			$query = $db->getQuery(true);

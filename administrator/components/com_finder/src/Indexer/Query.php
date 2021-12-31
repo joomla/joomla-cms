@@ -504,7 +504,7 @@ class Query
 	 */
 	protected function processStaticTaxonomy($filterId)
 	{
-		/* @var DatabaseDriver $db */
+		/** @var DatabaseDriver $db */
 		$db = Factory::getContainer()->get('DatabaseDriver');
 
 		// Initialize user variables
@@ -618,7 +618,7 @@ class Query
 			return true;
 		}
 
-		/* @var DatabaseDriver $db */
+		/** @var DatabaseDriver $db */
 		$db = Factory::getContainer()->get('DatabaseDriver');
 
 		$query = $db->getQuery(true);
@@ -1330,7 +1330,7 @@ class Query
 	 */
 	protected function getTokenData($token)
 	{
-		/* @var DatabaseDriver $db */
+		/** @var DatabaseDriver $db */
 		$db = Factory::getContainer()->get('DatabaseDriver');
 
 		// Create a database query to build match the token.

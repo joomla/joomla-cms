@@ -131,7 +131,7 @@ class TemplatestyleField extends GroupedlistField
 	 */
 	protected function getGroups()
 	{
-		/* @var \Joomla\Database\DatabaseDriver $db */
+		/** @var \Joomla\Database\DatabaseDriver $db */
 		$db     = Factory::getContainer()->get('DatabaseDriver');
 		$lang   = Factory::getLanguage();
 		$groups = [];

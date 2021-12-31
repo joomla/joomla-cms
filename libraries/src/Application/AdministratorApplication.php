@@ -227,7 +227,7 @@ class AdministratorApplication extends CMSApplication
 			return $this->template->template;
 		}
 
-		/* @var DatabaseDriver $db */
+		/** @var DatabaseDriver $db */
 		$db = Factory::getContainer()->get('DatabaseDriver');
 
 		// Load the template name from the database
@@ -249,6 +249,7 @@ class AdministratorApplication extends CMSApplication
 			);
 
 		$admin_style = (int) Factory::getUser()->getParam('admin_style');
+
 		if ($admin_style)
 		{
 			$query->extendWhere(
@@ -409,7 +410,7 @@ class AdministratorApplication extends CMSApplication
 	 */
 	public static function purgeMessages()
 	{
-		/* @var DatabaseDriver $db */
+		/** @var DatabaseDriver $db */
 		$db     = Factory::getContainer()->get('DatabaseDriver');
 		$userId = Factory::getUser()->id;
 

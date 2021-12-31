@@ -38,7 +38,7 @@ class MenuTable extends \Joomla\CMS\Table\Menu
 
 		if ($return)
 		{
-			/* @var \Joomla\Database\DatabaseDriver $db */
+			/** @var \Joomla\Database\DatabaseDriver $db */
 			$db = Factory::getContainer()->get('DatabaseDriver');
 
 			// Delete key from the #__modules_menu table

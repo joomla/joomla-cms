@@ -120,7 +120,7 @@ class LanguageHelper
 
 		$loaded = true;
 
-		/* @var \Joomla\Database\DatabaseDriver $db */
+		/** @var \Joomla\Database\DatabaseDriver $db */
 		$db = Factory::getContainer()->get('DatabaseDriver');
 
 		// Get array of all the enabled Smart Search plugin names.

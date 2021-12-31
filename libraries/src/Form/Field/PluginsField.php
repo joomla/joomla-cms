@@ -119,7 +119,7 @@ class PluginsField extends ListField
 
 		if (!empty($folder))
 		{
-			/* @var \Joomla\Database\DatabaseDriver $db */
+			/** @var \Joomla\Database\DatabaseDriver $db */
 			$db = Factory::getContainer()->get('DatabaseDriver');
 
 			// Get list of plugins

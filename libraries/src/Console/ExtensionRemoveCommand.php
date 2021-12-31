@@ -154,7 +154,7 @@ class ExtensionRemoveCommand extends AbstractCommand
 
 		if (strtolower($response) === 'yes')
 		{
-			/* @var \Joomla\Database\DatabaseDriver $db */
+			/** @var \Joomla\Database\DatabaseDriver $db */
 			$db        = Factory::getContainer()->get('DatabaseDriver');
 			$installer = Installer::getInstance();
 			$row       = new \Joomla\CMS\Table\Extension($db);

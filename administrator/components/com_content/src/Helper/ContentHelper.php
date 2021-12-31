@@ -38,7 +38,7 @@ class ContentHelper extends \Joomla\CMS\Helper\ContentHelper
 	 */
 	public static function canDeleteState(int $id): bool
 	{
-		/* @var DatabaseDriver $db */
+		/** @var DatabaseDriver $db */
 		$db = Factory::getContainer()->get('DatabaseDriver');
 
 		$query = $db->getQuery(true);
@@ -93,7 +93,7 @@ class ContentHelper extends \Joomla\CMS\Helper\ContentHelper
 			return;
 		}
 
-		/* @var DatabaseDriver $db */
+		/** @var DatabaseDriver $db */
 		$db = Factory::getContainer()->get('DatabaseDriver');
 
 		$data = (array) $data;

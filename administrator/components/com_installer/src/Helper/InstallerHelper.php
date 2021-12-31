@@ -36,7 +36,7 @@ class InstallerHelper
 	 */
 	public static function getExtensionTypes()
 	{
-		/* @var DatabaseDriver $db */
+		/** @var DatabaseDriver $db */
 		$db = Factory::getContainer()->get('DatabaseDriver');
 
 		$query = $db->getQuery(true)
@@ -65,7 +65,7 @@ class InstallerHelper
 	 */
 	public static function getExtensionGroups()
 	{
-		/* @var DatabaseDriver $db */
+		/** @var DatabaseDriver $db */
 		$db = Factory::getContainer()->get('DatabaseDriver');
 
 		$nofolder = '';
@@ -254,7 +254,7 @@ class InstallerHelper
 		// Get the database driver. If it fails we cannot report whether the extension supports download keys.
 		try
 		{
-			/* @var DatabaseDriver $db */
+			/** @var DatabaseDriver $db */
 			$db = Factory::getContainer()->get('DatabaseDriver');
 		}
 		catch (Exception $e)
@@ -383,7 +383,7 @@ class InstallerHelper
 	{
 		try
 		{
-			/* @var DatabaseDriver $db */
+			/** @var DatabaseDriver $db */
 			$db = Factory::getContainer()->get('DatabaseDriver');
 		}
 		catch (Exception $e)

@@ -135,7 +135,7 @@ abstract class Adapter extends CMSPlugin
 	 */
 	public function __construct(&$subject, $config)
 	{
-		/* @var \Joomla\Database\DatabaseDriver $db */
+		/** @var \Joomla\Database\DatabaseDriver $db */
 		$this->db = Factory::getContainer()->get('DatabaseDriver');
 
 		// Call the parent constructor.

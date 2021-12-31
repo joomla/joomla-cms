@@ -57,7 +57,7 @@ class ContentHelper
 	 */
 	public static function countRelations(&$items, $config)
 	{
-		/* @var DatabaseDriver $db */
+		/** @var DatabaseDriver $db */
 		$db = Factory::getContainer()->get('DatabaseDriver');
 
 		// Allow custom state / condition values and custom column names to support custom components
@@ -255,7 +255,7 @@ class ContentHelper
 	 */
 	public static function getLanguageId($langCode)
 	{
-		/* @var DatabaseDriver $db */
+		/** @var DatabaseDriver $db */
 		$db = Factory::getContainer()->get('DatabaseDriver');
 
 		$query = $db->getQuery(true)

@@ -377,7 +377,7 @@ class MailTemplate
 	 */
 	public static function getTemplate($key, $language)
 	{
-		/* @var DatabaseDriver $db */
+		/** @var DatabaseDriver $db */
 		$db = Factory::getContainer()->get('DatabaseDriver');
 
 		$query = $db->getQuery(true);
@@ -413,7 +413,7 @@ class MailTemplate
 	 */
 	public static function createTemplate($key, $subject, $body, $tags, $htmlbody = '')
 	{
-		/* @var DatabaseDriver $db */
+		/** @var DatabaseDriver $db */
 		$db = Factory::getContainer()->get('DatabaseDriver');
 
 		$template = new \stdClass;
@@ -445,7 +445,7 @@ class MailTemplate
 	 */
 	public static function updateTemplate($key, $subject, $body, $tags, $htmlbody = '')
 	{
-		/* @var DatabaseDriver $db */
+		/** @var DatabaseDriver $db */
 		$db = Factory::getContainer()->get('DatabaseDriver');
 
 		$template = new \stdClass;
@@ -472,7 +472,7 @@ class MailTemplate
 	 */
 	public static function deleteTemplate($key)
 	{
-		/* @var DatabaseDriver $db */
+		/** @var DatabaseDriver $db */
 		$db = Factory::getContainer()->get('DatabaseDriver');
 
 		$query = $db->getQuery(true);

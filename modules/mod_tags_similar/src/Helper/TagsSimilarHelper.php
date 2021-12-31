@@ -47,7 +47,7 @@ abstract class TagsSimilarHelper
 			return [];
 		}
 
-		/* @var \Joomla\Database\DatabaseDriver $db */
+		/** @var \Joomla\Database\DatabaseDriver $db */
 		$db         = Factory::getContainer()->get('DatabaseDriver');
 		$user       = Factory::getUser();
 		$groups     = $user->getAuthorisedViewLevels();

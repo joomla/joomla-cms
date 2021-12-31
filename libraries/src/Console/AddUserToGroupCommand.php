@@ -97,7 +97,7 @@ class AddUserToGroupCommand extends AbstractCommand
 			return Command::FAILURE;
 		}
 
-		/* @var DatabaseDriver $db */
+		/** @var DatabaseDriver $db */
 		$db   = Factory::getContainer()->get('DatabaseDriver');
 		$user = User::getInstance($userId);
 
@@ -142,7 +142,7 @@ class AddUserToGroupCommand extends AbstractCommand
 	 */
 	protected function getGroups($user): array
 	{
-		/* @var DatabaseDriver $db */
+		/** @var DatabaseDriver $db */
 		$db        = Factory::getContainer()->get('DatabaseDriver');
 		$groups    = $this->getApplication()->getConsoleInput()->getOption('group');
 		$groupList = [];
@@ -207,7 +207,7 @@ class AddUserToGroupCommand extends AbstractCommand
 	 */
 	protected function getGroupId($groupName)
 	{
-		/* @var DatabaseDriver $db */
+		/** @var DatabaseDriver $db */
 		$db = Factory::getContainer()->get('DatabaseDriver');
 
 		$query = $db->getQuery(true)
@@ -231,7 +231,7 @@ class AddUserToGroupCommand extends AbstractCommand
 	 */
 	protected function getUserId($username)
 	{
-		/* @var DatabaseDriver $db */
+		/** @var DatabaseDriver $db */
 		$db = Factory::getContainer()->get('DatabaseDriver');
 
 		$query = $db->getQuery(true)

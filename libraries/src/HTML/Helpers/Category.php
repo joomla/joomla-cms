@@ -48,7 +48,7 @@ abstract class Category
 
 		if (!isset(static::$items[$hash]))
 		{
-			/* @var \Joomla\Database\DatabaseDriver $db */
+			/** @var \Joomla\Database\DatabaseDriver $db */
 			$db     = Factory::getContainer()->get('DatabaseDriver');
 			$user   = Factory::getUser();
 			$config = (array) $config;
@@ -158,7 +158,7 @@ abstract class Category
 
 		if (!isset(static::$items[$hash]))
 		{
-			/* @var \Joomla\Database\DatabaseDriver $db */
+			/** @var \Joomla\Database\DatabaseDriver $db */
 			$db     = Factory::getContainer()->get('DatabaseDriver');
 			$user   = Factory::getUser();
 			$config = (array) $config;

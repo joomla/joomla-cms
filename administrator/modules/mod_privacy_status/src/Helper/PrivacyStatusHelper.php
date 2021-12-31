@@ -61,7 +61,7 @@ class PrivacyStatusHelper
 	 */
 	public static function getRequestFormPublished()
 	{
-		/* @var DatabaseDriver $db */
+		/** @var DatabaseDriver $db */
 		$db = Factory::getContainer()->get('DatabaseDriver');
 
 		$status = [
@@ -163,7 +163,7 @@ class PrivacyStatusHelper
 	 */
 	public static function getNumberUrgentRequests()
 	{
-		/* @var DatabaseDriver $db */
+		/** @var DatabaseDriver $db */
 		$db     = Factory::getContainer()->get('DatabaseDriver');
 		$params = ComponentHelper::getComponent('com_privacy')->getParams();
 		$notify = (int) $params->get('notify', 14);

@@ -45,7 +45,7 @@ class FinderHelper
 			return;
 		}
 
-		/* @var \Joomla\Database\DatabaseDriver $db */
+		/** @var \Joomla\Database\DatabaseDriver $db */
 		$db = Factory::getContainer()->get('DatabaseDriver');
 
 		// Sanitise the term for the database

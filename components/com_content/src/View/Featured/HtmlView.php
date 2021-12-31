@@ -198,7 +198,7 @@ class HtmlView extends BaseHtmlView
 		// Escape strings for HTML output
 		$this->pageclass_sfx = htmlspecialchars($params->get('pageclass_sfx', ''));
 
-		/* @var \Joomla\Database\DatabaseDriver $db */
+		/** @var \Joomla\Database\DatabaseDriver $db */
 		$this->db         = Factory::getContainer()->get('DatabaseDriver');
 		$this->params     = &$params;
 		$this->items      = &$items;

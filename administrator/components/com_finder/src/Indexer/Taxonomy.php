@@ -162,7 +162,7 @@ class Taxonomy
 			return static::$nodes[$parentId . ':' . $node->title]->id;
 		}
 
-		/* @var DatabaseDriver $db */
+		/** @var DatabaseDriver $db */
 		$db = Factory::getContainer()->get('DatabaseDriver');
 
 		// Check to see if the node is in the table.
@@ -276,7 +276,7 @@ class Taxonomy
 	 */
 	public static function addMap($linkId, $nodeId)
 	{
-		/* @var DatabaseDriver $db */
+		/** @var DatabaseDriver $db */
 		$db = Factory::getContainer()->get('DatabaseDriver');
 
 		// Insert the map.
@@ -310,7 +310,7 @@ class Taxonomy
 	 */
 	public static function getBranchTitles()
 	{
-		/* @var DatabaseDriver $db */
+		/** @var DatabaseDriver $db */
 		$db = Factory::getContainer()->get('DatabaseDriver');
 
 		// Set user variables
@@ -343,7 +343,7 @@ class Taxonomy
 	 */
 	public static function getNodeByTitle($branch, $title)
 	{
-		/* @var DatabaseDriver $db */
+		/** @var DatabaseDriver $db */
 		$db = Factory::getContainer()->get('DatabaseDriver');
 
 		// Set user variables
@@ -380,7 +380,7 @@ class Taxonomy
 	 */
 	public static function removeMaps($linkId)
 	{
-		/* @var DatabaseDriver $db */
+		/** @var DatabaseDriver $db */
 		$db = Factory::getContainer()->get('DatabaseDriver');
 
 		// Delete the maps.
@@ -403,7 +403,7 @@ class Taxonomy
 	 */
 	public static function removeOrphanNodes()
 	{
-		/* @var DatabaseDriver $db */
+		/** @var DatabaseDriver $db */
 		$db           = Factory::getContainer()->get('DatabaseDriver');
 		$nodeTable    = new MapTable($db);
 		$query        = $db->getQuery(true);
@@ -417,6 +417,7 @@ class Taxonomy
 			->where($db->quoteName('m.link_id') . ' IS NULL');
 
 		$affectedRows = 0;
+
 		do
 		{
 			$db->setQuery($query);
@@ -446,7 +447,7 @@ class Taxonomy
 	{
 		if (!count(self::$taxonomies))
 		{
-			/* @var DatabaseDriver $db */
+			/** @var DatabaseDriver $db */
 			$db = Factory::getContainer()->get('DatabaseDriver');
 
 			$query = $db->getQuery(true);

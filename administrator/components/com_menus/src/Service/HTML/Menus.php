@@ -48,7 +48,7 @@ class Menus
 		// Get the associations
 		if ($associations = MenusHelper::getAssociations($itemid))
 		{
-			/* @var \Joomla\Database\DatabaseDriver $db */
+			/** @var \Joomla\Database\DatabaseDriver $db */
 			$db = Factory::getContainer()->get('DatabaseDriver');
 
 			// Get the associated menu items

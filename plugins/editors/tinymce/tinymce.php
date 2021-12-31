@@ -267,7 +267,7 @@ class PlgEditorTinymce extends CMSPlugin
 		$use_content_css    = $levelParams->get('content_css', 1);
 		$content_css_custom = $levelParams->get('content_css_custom', '');
 
-		/* @var \Joomla\Database\DatabaseDriver $db */
+		/** @var \Joomla\Database\DatabaseDriver $db */
 		$db = Factory::getContainer()->get('DatabaseDriver');
 
 		// Let's get the default template for the site application.
@@ -1095,7 +1095,7 @@ class PlgEditorTinymce extends CMSPlugin
 	 */
 	private function getPluginId()
 	{
-		/* @var \Joomla\Database\DatabaseDriver $db */
+		/** @var \Joomla\Database\DatabaseDriver $db */
 		$db = Factory::getContainer()->get('DatabaseDriver');
 
 		$query = $db->getQuery(true)

@@ -64,7 +64,7 @@ class LevelController extends FormController
 	 */
 	protected function allowEdit($data = [], $key = 'id')
 	{
-		/* @var \Joomla\Database\DatabaseDriver $db */
+		/** @var \Joomla\Database\DatabaseDriver $db */
 		$db = Factory::getContainer()->get('DatabaseDriver');
 
 		// Check for if Super Admin can edit

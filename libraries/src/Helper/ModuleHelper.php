@@ -413,7 +413,7 @@ abstract class ModuleHelper
 	 */
 	public static function getModuleList()
 	{
-		/* @var \Joomla\Database\DatabaseDriver $db */
+		/** @var \Joomla\Database\DatabaseDriver $db */
 		$db       = Factory::getContainer()->get('DatabaseDriver');
 		$app      = Factory::getApplication();
 		$itemId   = $app->input->getInt('Itemid', 0);

@@ -101,7 +101,7 @@ class RemoveUserFromGroupCommand extends AbstractCommand
 
 		$this->userGroups = $this->getGroups($user);
 
-		/* @var DatabaseDriver $db */
+		/** @var DatabaseDriver $db */
 		$db = Factory::getContainer()->get('DatabaseDriver');
 
 		$query = $db->getQuery(true)
@@ -173,7 +173,7 @@ class RemoveUserFromGroupCommand extends AbstractCommand
 	 */
 	protected function getGroups($user): array
 	{
-		/* @var DatabaseDriver $db */
+		/** @var DatabaseDriver $db */
 		$db         = Factory::getContainer()->get('DatabaseDriver');
 		$option     = $this->getApplication()->getConsoleInput()->getOption('group');
 		$userGroups = Access::getGroupsByUser($user->id, false);
@@ -236,7 +236,7 @@ class RemoveUserFromGroupCommand extends AbstractCommand
 	 */
 	protected function getGroupId($groupName)
 	{
-		/* @var DatabaseDriver $db */
+		/** @var DatabaseDriver $db */
 		$db = Factory::getContainer()->get('DatabaseDriver');
 
 		$query = $db->getQuery(true)

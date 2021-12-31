@@ -51,7 +51,7 @@ abstract class AssociationHelper extends CategoryAssociationHelper
 		{
 			if ($id)
 			{
-				/* @var \Joomla\Database\DatabaseDriver $db */
+				/** @var \Joomla\Database\DatabaseDriver $db */
 				$db        = Factory::getContainer()->get('DatabaseDriver');
 				$user      = Factory::getUser();
 				$groups    = implode(',', $user->getAuthorisedViewLevels());
