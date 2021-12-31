@@ -101,7 +101,7 @@ abstract class ListHelper
 		$items = $db->loadObjectList();
 
 		$options = [];
-		
+
 		if (empty($items))
 		{
 			$options[] = HTMLHelper::_('select.option', 1, Text::_('JLIB_FORM_FIELD_PARAM_INTEGER_FIRST_LABEL'));
