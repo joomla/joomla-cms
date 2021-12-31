@@ -77,7 +77,7 @@ class Adapter extends CMSObject
 		$this->_adapterfolder = $adapterfolder ? $adapterfolder : 'adapters';
 
 		/** @var \Joomla\Database\DatabaseDriver $db */
-		$this->db = Factory::getContainer()->get('DatabaseDriver');
+		$this->_db = Factory::getContainer()->get('DatabaseDriver');
 	}
 
 	/**
