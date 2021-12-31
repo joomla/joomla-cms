@@ -23,6 +23,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\Table\Table;
 use Joomla\CMS\Table\Update;
+use Joomla\Database\DatabaseDriver;
 use Joomla\Database\ParameterType;
 use Joomla\Registry\Registry;
 
@@ -98,12 +99,14 @@ class LanguageAdapter extends InstallerAdapter
 			return false;
 		}
 
+		/* @var DatabaseDriver $db */
+		$db = Factory::getContainer()->get('DatabaseDriver');
+
 		$this->resetUserLanguage();
 
 		$extensionId = $this->extension->extension_id;
 
 		// Remove the schema version
-		$db = Factory::getDbo();
 		$query = $db->getQuery(true)
 			->delete($db->quoteName('#__schemas'))
 			->where($db->quoteName('extension_id') . ' = :extension_id')
@@ -410,7 +413,7 @@ class LanguageAdapter extends InstallerAdapter
 		 */
 		if ($created)
 		{
-			$this->parent->pushStep(array('type' => 'folder', 'path' => $this->parent->getPath('extension_site')));
+			$this->parent->pushStep(['type' => 'folder', 'path' => $this->parent->getPath('extension_site')]);
 		}
 
 		// Copy all the necessary files
@@ -469,7 +472,7 @@ class LanguageAdapter extends InstallerAdapter
 		// Clobber any possible pending updates
 		/** @var Update $update */
 		$update = Table::getInstance('update');
-		$uid = $update->find(array('element' => $this->tag, 'type' => 'language', 'folder' => ''));
+		$uid = $update->find(['element' => $this->tag, 'type' => 'language', 'folder' => '']);
 
 		if ($uid)
 		{
@@ -498,12 +501,13 @@ class LanguageAdapter extends InstallerAdapter
 	 */
 	protected function getSefString($itemLanguageTag)
 	{
+		/* @var DatabaseDriver $db */
+		$db                  = Factory::getContainer()->get('DatabaseDriver');
 		$langs               = explode('-', $itemLanguageTag);
 		$prefixToFind        = $langs[0];
 		$numberPrefixesFound = 0;
 
 		// Get the sef value of all current content languages.
-		$db = Factory::getDbo();
 		$query = $db->getQuery(true)
 			->select($db->quoteName('sef'))
 			->from($db->quoteName('#__languages'));
@@ -608,7 +612,7 @@ class LanguageAdapter extends InstallerAdapter
 
 		// Clobber any possible pending updates
 		$update = Table::getInstance('update');
-		$uid = $update->find(array('element' => $this->tag, 'type' => 'language', 'client_id' => $clientId));
+		$uid = $update->find(['element' => $this->tag, 'type' => 'language', 'client_id' => $clientId]);
 
 		if ($uid)
 		{
@@ -617,7 +621,7 @@ class LanguageAdapter extends InstallerAdapter
 
 		// Update an entry to the extension table
 		$row = Table::getInstance('extension');
-		$eid = $row->find(array('element' => $this->tag, 'type' => 'language', 'client_id' => $clientId));
+		$eid = $row->find(['element' => $this->tag, 'type' => 'language', 'client_id' => $clientId]);
 
 		if ($eid)
 		{
@@ -812,8 +816,10 @@ class LanguageAdapter extends InstallerAdapter
 			return;
 		}
 
+		/* @var DatabaseDriver $db */
+		$db = Factory::getContainer()->get('DatabaseDriver');
+
 		// Setting the language of users which have this language as the default language
-		$db = Factory::getDbo();
 		$query = $db->getQuery(true)
 			->select(
 				[
@@ -879,7 +885,7 @@ class LanguageAdapter extends InstallerAdapter
 		$tableLanguage = Table::getInstance('language');
 
 		// Check if content language already exists.
-		if ($tableLanguage->load(array('lang_code' => $tag)))
+		if ($tableLanguage->load(['lang_code' => $tag]))
 		{
 			return;
 		}
@@ -939,7 +945,7 @@ class LanguageAdapter extends InstallerAdapter
 		}
 
 		// Prepare language data for store.
-		$languageData = array(
+		$languageData = [
 			'lang_id'      => 0,
 			'lang_code'    => $tag,
 			'title'        => $contentLanguageTitle,
@@ -952,7 +958,7 @@ class LanguageAdapter extends InstallerAdapter
 			'description'  => '',
 			'metadesc'     => '',
 			'sitename'     => '',
-		);
+		];
 
 		if (!$tableLanguage->bind($languageData) || !$tableLanguage->check() || !$tableLanguage->store() || !$tableLanguage->reorder())
 		{

@@ -29,7 +29,8 @@ class WhosonlineHelper
 	 **/
 	public static function getOnlineCount()
 	{
-		$db = Factory::getDbo();
+		/* @var \Joomla\Database\DatabaseDriver $db */
+		$db = Factory::getContainer()->get('DatabaseDriver');
 
 		// Calculate number of guests and users
 		$result	     = [];
@@ -88,9 +89,11 @@ class WhosonlineHelper
 	 **/
 	public static function getOnlineUserNames($params)
 	{
+		/* @var \Joomla\Database\DatabaseDriver $db */
+		$db = Factory::getContainer()->get('DatabaseDriver');
+
 		$whereCondition = Factory::getApplication()->get('shared_session', '0') ? 'IS NULL' : '= 0';
 
-		$db    = Factory::getDbo();
 		$query = $db->getQuery(true)
 			->select($db->quoteName(['a.username', 'a.userid', 'a.client_id']))
 			->from($db->quoteName('#__session', 'a'))
@@ -106,7 +109,7 @@ class WhosonlineHelper
 
 			if (empty($groups))
 			{
-				return array();
+				return [];
 			}
 
 			$query->leftJoin($db->quoteName('#__user_usergroup_map', 'm'), $db->quoteName('m.user_id') . ' = ' . $db->quoteName('a.userid'))
@@ -123,7 +126,7 @@ class WhosonlineHelper
 		}
 		catch (\RuntimeException $e)
 		{
-			return array();
+			return [];
 		}
 	}
 }

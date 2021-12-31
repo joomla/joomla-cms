@@ -42,7 +42,7 @@ class UsersHelper extends ContentHelper
 	public static function getStateOptions()
 	{
 		// Build the filter options.
-		$options = array();
+		$options = [];
 		$options[] = HTMLHelper::_('select.option', '0', Text::_('JENABLED'));
 		$options[] = HTMLHelper::_('select.option', '1', Text::_('JDISABLED'));
 
@@ -59,7 +59,7 @@ class UsersHelper extends ContentHelper
 	public static function getActiveOptions()
 	{
 		// Build the filter options.
-		$options = array();
+		$options = [];
 		$options[] = HTMLHelper::_('select.option', '0', Text::_('COM_USERS_ACTIVATED'));
 		$options[] = HTMLHelper::_('select.option', '1', Text::_('COM_USERS_UNACTIVATED'));
 
@@ -96,7 +96,7 @@ class UsersHelper extends ContentHelper
 	 */
 	public static function getRangeOptions()
 	{
-		$options = array(
+		$options = [
 			HTMLHelper::_('select.option', 'today', Text::_('COM_USERS_OPTION_RANGE_TODAY')),
 			HTMLHelper::_('select.option', 'past_week', Text::_('COM_USERS_OPTION_RANGE_PAST_WEEK')),
 			HTMLHelper::_('select.option', 'past_1month', Text::_('COM_USERS_OPTION_RANGE_PAST_1MONTH')),
@@ -104,7 +104,7 @@ class UsersHelper extends ContentHelper
 			HTMLHelper::_('select.option', 'past_6month', Text::_('COM_USERS_OPTION_RANGE_PAST_6MONTH')),
 			HTMLHelper::_('select.option', 'past_year', Text::_('COM_USERS_OPTION_RANGE_PAST_YEAR')),
 			HTMLHelper::_('select.option', 'post_year', Text::_('COM_USERS_OPTION_RANGE_POST_YEAR')),
-		);
+		];
 
 		return $options;
 	}
@@ -121,11 +121,11 @@ class UsersHelper extends ContentHelper
 	public static function getTwoFactorMethods()
 	{
 		PluginHelper::importPlugin('twofactorauth');
-		$identities = Factory::getApplication()->triggerEvent('onUserTwofactorIdentify', array());
+		$identities = Factory::getApplication()->triggerEvent('onUserTwofactorIdentify', []);
 
-		$options = array(
+		$options = [
 			HTMLHelper::_('select.option', 'none', Text::_('JGLOBAL_OTPMETHOD_NONE'), 'value', 'text'),
-		);
+		];
 
 		if (!empty($identities))
 		{
@@ -148,7 +148,7 @@ class UsersHelper extends ContentHelper
 	 *
 	 * @param   string  $rules  User Groups in JSON format
 	 *
-	 * @return  string  $groups  Comma separated list of User Groups
+	 * @return  string|bool  $groups  Comma separated list of User Groups
 	 *
 	 * @since   3.6
 	 */
@@ -161,7 +161,9 @@ class UsersHelper extends ContentHelper
 			return false;
 		}
 
-		$db = Factory::getDbo();
+		/* @var \Joomla\Database\DatabaseDriver $db */
+		$db = Factory::getContainer()->get('DatabaseDriver');
+
 		$query = $db->getQuery(true)
 			->select($db->quoteName('title', 'text'))
 			->from($db->quoteName('#__usergroups'))

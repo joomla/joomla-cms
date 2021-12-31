@@ -33,9 +33,10 @@ class StatsHelper
 	 */
 	public static function &getList(&$params)
 	{
+		/* @var \Joomla\Database\DatabaseDriver $db */
+		$db         = Factory::getContainer()->get('DatabaseDriver');
 		$app        = Factory::getApplication();
-		$db         = Factory::getDbo();
-		$rows       = array();
+		$rows       = [];
 		$query      = $db->getQuery(true);
 		$serverinfo = $params->get('serverinfo', 0);
 		$siteinfo   = $params->get('siteinfo', 0);
@@ -153,7 +154,7 @@ class StatsHelper
 		// Include additional data defined by published system plugins
 		PluginHelper::importPlugin('system');
 
-		$arrays = (array) $app->triggerEvent('onGetStats', array('mod_stats'));
+		$arrays = (array) $app->triggerEvent('onGetStats', ['mod_stats']);
 
 		foreach ($arrays as $response)
 		{

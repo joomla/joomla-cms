@@ -18,7 +18,9 @@ if ($value == '')
 	return;
 }
 
-$db    = Factory::getDbo();
+/* @var \Joomla\Database\DatabaseDriver $db */
+$db = Factory::getContainer()->get('DatabaseDriver');
+
 $value = (array) $value;
 $query = $db->getQuery(true);
 $sql   = $fieldParams->get('query', '');
@@ -40,7 +42,7 @@ catch (Exception $e)
 	$items = $db->loadObjectList();
 }
 
-$texts = array();
+$texts = [];
 
 foreach ($items as $item)
 {

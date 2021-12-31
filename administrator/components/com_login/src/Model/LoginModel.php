@@ -38,11 +38,11 @@ class LoginModel extends BaseDatabaseModel
 	{
 		$input = Factory::getApplication()->input->getInputForRequestMethod();
 
-		$credentials = array(
+		$credentials = [
 			'username'  => $input->get('username', '', 'USERNAME'),
 			'password'  => $input->get('passwd', '', 'RAW'),
 			'secretkey' => $input->get('secretkey', '', 'RAW'),
-		);
+		];
 
 		$this->setState('credentials', $credentials);
 
@@ -142,7 +142,8 @@ class LoginModel extends BaseDatabaseModel
 		$cache = Factory::getCache('com_modules', 'callback');
 
 		$loader = function () use ($app, $lang, $module) {
-			$db = Factory::getDbo();
+			/* @var \Joomla\Database\DatabaseDriver $db */
+			$db = Factory::getContainer()->get('DatabaseDriver');
 
 			$query = $db->getQuery(true)
 				->select(
@@ -185,7 +186,7 @@ class LoginModel extends BaseDatabaseModel
 
 		try
 		{
-			return $clean = $cache->get($loader, array(), md5(serialize(array($clientId, $lang))));
+			return $clean = $cache->get($loader, [], md5(serialize([$clientId, $lang])));
 		}
 		catch (CacheExceptionInterface $cacheException)
 		{
@@ -200,14 +201,14 @@ class LoginModel extends BaseDatabaseModel
 					'error'
 				);
 
-				return array();
+				return [];
 			}
 		}
 		catch (ExecutionFailureException $databaseException)
 		{
 			Factory::getApplication()->enqueueMessage(Text::sprintf('JLIB_APPLICATION_ERROR_MODULE_LOAD', $databaseException->getMessage()), 'error');
 
-			return array();
+			return [];
 		}
 	}
 }

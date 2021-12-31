@@ -22,6 +22,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Table\Table;
 use Joomla\CMS\Updater\Update;
 use Joomla\CMS\Updater\Updater;
+use Joomla\Database\DatabaseDriver;
 use Joomla\Registry\Registry;
 
 /**
@@ -75,8 +76,10 @@ class LanguagesModel extends BaseInstallationModel
 		}
 
 		/*
-		 * Factory::getDbo() gets called during app bootup, and because of the "uniqueness" of the install app, the config doesn't get read
-		 * correctly at that point.  So, we have to reset the factory database object here so that we can get a valid database configuration.
+		 * Factory::getContainer()->get('DatabaseDriver') gets called during app bootup, and because of the "uniqueness"
+		 * of the install app, the config doesn't get read correctly at that point.  So, we have to reset the factory
+		 * database object here so that we can get a valid database configuration.
+		 *
 		 * The day we have proper dependency injection will be a glorious one.
 		 */
 		Factory::$database = null;
@@ -93,10 +96,12 @@ class LanguagesModel extends BaseInstallationModel
 	 */
 	public function getItems()
 	{
-		// Get the extension_id of the en-GB package.
-		$db        = Factory::getDbo();
+		/* @var DatabaseDriver $db */
+		$db = Factory::getContainer()->get('DatabaseDriver');
+
 		$extQuery  = $db->getQuery(true);
 
+		// Get the extension_id of the en-GB package.
 		$extQuery->select($db->quoteName('extension_id'))
 			->from($db->quoteName('#__extensions'))
 			->where($db->quoteName('type') . ' = ' . $db->quote('package'))
@@ -116,12 +121,12 @@ class LanguagesModel extends BaseInstallationModel
 			 * In #__update_sites_extensions you should have this extension_id linked
 			 * to the Accredited Translations Repo.
 			 */
-			$updater->findUpdates(array($extId), 0);
+			$updater->findUpdates([$extId], 0);
 
 			$query = $db->getQuery(true);
 
 			// Select the required fields from the updates table.
-			$query->select($db->quoteName(array('update_id', 'name', 'element', 'version')))
+			$query->select($db->quoteName(['update_id', 'name', 'element', 'version']))
 				->from($db->quoteName('#__updates'))
 				->order($db->quoteName('name'));
 
@@ -130,12 +135,12 @@ class LanguagesModel extends BaseInstallationModel
 
 			if (!$list || $list instanceof \Exception)
 			{
-				$list = array();
+				$list = [];
 			}
 		}
 		else
 		{
-			$list = array();
+			$list = [];
 		}
 
 		return $list;
@@ -339,7 +344,7 @@ class LanguagesModel extends BaseInstallationModel
 		$langlist = $this->getLanguageList($client->id);
 
 		// Compute all the languages.
-		$data = array();
+		$data = [];
 
 		foreach ($langlist as $lang)
 		{
@@ -380,7 +385,7 @@ class LanguagesModel extends BaseInstallationModel
 			$data[]           = $row;
 		}
 
-		usort($data, array($this, 'compareLanguages'));
+		usort($data, [$this, 'compareLanguages']);
 
 		return $data;
 	}
@@ -396,12 +401,13 @@ class LanguagesModel extends BaseInstallationModel
 	 */
 	protected function getLanguageList($clientId = 1)
 	{
-		// Create a new db object.
-		$db    = Factory::getDbo();
+		/* @var DatabaseDriver $db */
+		$db = Factory::getContainer()->get('DatabaseDriver');
+
 		$query = $db->getQuery(true);
 
 		// Select field element from the extensions table.
-		$query->select($db->quoteName(array('element', 'name')))
+		$query->select($db->quoteName(['element', 'name']))
 			->from($db->quoteName('#__extensions'))
 			->where($db->quoteName('type') . ' = ' . $db->quote('language'))
 			->where($db->quoteName('state') . ' = 0')
@@ -482,7 +488,7 @@ class LanguagesModel extends BaseInstallationModel
 		$params->set($client->name, $language);
 
 		$table = Table::getInstance('extension');
-		$id    = $table->find(array('element' => 'com_languages'));
+		$id    = $table->find(['element' => 'com_languages']);
 
 		// Load
 		if (!$table->load($id))
@@ -522,7 +528,7 @@ class LanguagesModel extends BaseInstallationModel
 	 */
 	public function getOptions()
 	{
-		return Factory::getSession()->get('setup.options', array());
+		return Factory::getSession()->get('setup.options', []);
 	}
 
 	/**
@@ -548,7 +554,7 @@ class LanguagesModel extends BaseInstallationModel
 
 		try
 		{
-			$form = Form::getInstance('jform', $view, array('control' => 'jform'));
+			$form = Form::getInstance('jform', $view, ['control' => 'jform']);
 		}
 		catch (\Exception $e)
 		{

@@ -16,6 +16,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\File;
 use Joomla\CMS\Installer\Installer;
 use Joomla\CMS\Log\Log;
+use Joomla\Database\DatabaseDriver;
 use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
 
@@ -145,7 +146,9 @@ class LanguageHelper
 				}
 				else
 				{
-					$db = Factory::getDbo();
+					/* @var DatabaseDriver $db */
+					$db = Factory::getContainer()->get('DatabaseDriver');
+
 					$query = $db->getQuery(true)
 						->select('*')
 						->from($db->quoteName('#__languages'))
@@ -206,7 +209,8 @@ class LanguageHelper
 			}
 			else
 			{
-				$db = Factory::getDbo();
+				/* @var DatabaseDriver $db */
+				$db = Factory::getContainer()->get('DatabaseDriver');
 
 				$query = $db->getQuery(true)
 					->select(
@@ -378,7 +382,8 @@ class LanguageHelper
 			}
 			else
 			{
-				$db = Factory::getDbo();
+				/* @var DatabaseDriver $db */
+				$db = Factory::getContainer()->get('DatabaseDriver');
 
 				$query = $db->getQuery(true)
 					->select('*')
@@ -395,11 +400,11 @@ class LanguageHelper
 		// B/C layer. Before 3.8.3.
 		if ($publishedStates === true)
 		{
-			$publishedStates = array(1);
+			$publishedStates = [1];
 		}
 		elseif ($publishedStates === false)
 		{
-			$publishedStates = array();
+			$publishedStates = [];
 		}
 
 		// Check the language published state, if needed.
@@ -450,7 +455,7 @@ class LanguageHelper
 		// Check if file exists.
 		if (!is_file($fileName))
 		{
-			return array();
+			return [];
 		}
 
 		// Capture hidden PHP errors from the parsing.
@@ -484,7 +489,7 @@ class LanguageHelper
 			ini_set('track_errors', $trackErrors);
 		}
 
-		return \is_array($strings) ? $strings : array();
+		return \is_array($strings) ? $strings : [];
 	}
 
 	/**
@@ -525,7 +530,7 @@ class LanguageHelper
 	 */
 	public static function exists($lang, $basePath = JPATH_BASE)
 	{
-		static $paths = array();
+		static $paths = [];
 
 		// Return false if no language was specified
 		if (!$lang)
@@ -620,7 +625,7 @@ class LanguageHelper
 	 */
 	public static function parseLanguageFiles($dir = null)
 	{
-		$languages = array();
+		$languages = [];
 
 		// Search main language directory for subdirectories
 		foreach (glob($dir . '/*', GLOB_NOSORT | GLOB_ONLYDIR) as $directory)
@@ -646,7 +651,7 @@ class LanguageHelper
 					// Get installed language metadata from xml file and merge it with lang array
 					if ($metadata = self::parseXMLLanguageFile($file))
 					{
-						$languages = array_replace($languages, array($dirPathParts['filename'] => $metadata));
+						$languages = array_replace($languages, [$dirPathParts['filename'] => $metadata]);
 					}
 				}
 				catch (\RuntimeException $e)
@@ -664,9 +669,10 @@ class LanguageHelper
 	 *
 	 * @param   string  $path  Path to the XML files.
 	 *
-	 * @return  array  Array holding the found metadata as a key => value pair.
+	 * @return  array|void  Array holding the found metadata as a key => value pair.
 	 *
 	 * @since   3.7.0
+	 *
 	 * @throws  \RuntimeException
 	 */
 	public static function parseXMLLanguageFile($path)
@@ -690,7 +696,7 @@ class LanguageHelper
 			return;
 		}
 
-		$metadata = array();
+		$metadata = [];
 
 		foreach ($xml->metadata->children() as $child)
 		{

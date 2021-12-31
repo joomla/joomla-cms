@@ -105,7 +105,7 @@ class Update extends CMSObject
 	 * @var    DownloadSource[]
 	 * @since  3.8.3
 	 */
-	protected $downloadSources = array();
+	protected $downloadSources = [];
 
 	/**
 	 * Update manifest `<tags>` element
@@ -177,7 +177,7 @@ class Update extends CMSObject
 	 * @var    array
 	 * @since  3.0.0
 	 */
-	protected $stack = array('base');
+	protected $stack = ['base'];
 
 	/**
 	 * Unused state array
@@ -185,7 +185,7 @@ class Update extends CMSObject
 	 * @var    array
 	 * @since  3.0.0
 	 */
-	protected $stateStore = array();
+	protected $stateStore = [];
 
 	/**
 	 * Object containing the current update data
@@ -224,7 +224,7 @@ class Update extends CMSObject
 	 * @var    array
 	 * @since  3.10.2
 	 */
-	protected $compatibleVersions = array();
+	protected $compatibleVersions = [];
 
 	/**
 	 * Gets the reference to the current direct parent
@@ -262,7 +262,7 @@ class Update extends CMSObject
 	 * @note    This is public because it is called externally
 	 * @since   1.7.0
 	 */
-	public function _startElement($parser, $name, $attrs = array())
+	public function _startElement($parser, $name, $attrs = [])
 	{
 		$this->stack[] = $name;
 		$tag           = $this->_getStackLocation();
@@ -357,7 +357,8 @@ class Update extends CMSObject
 					// Check if DB & version is supported via <supported_databases> tag, assume supported if tag isn't present
 					if (isset($this->currentUpdate->supported_databases))
 					{
-						$db           = Factory::getDbo();
+						/* @var \Joomla\Database\DatabaseDriver $db */
+						$db           = Factory::getContainer()->get('DatabaseDriver');
 						$dbType       = strtolower($db->getServerType());
 						$dbVersion    = $db->getVersion();
 						$supportedDbs = $this->currentUpdate->supported_databases;

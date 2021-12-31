@@ -73,7 +73,9 @@ class PrivacyHelper extends ContentHelper
 	 */
 	public static function getPrivacyConsentPluginId()
 	{
-		$db    = Factory::getDbo();
+		/* @var \Joomla\Database\DatabaseDriver $db */
+		$db = Factory::getContainer()->get('DatabaseDriver');
+
 		$query = $db->getQuery(true)
 			->select($db->quoteName('extension_id'))
 			->from($db->quoteName('#__extensions'))

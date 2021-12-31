@@ -15,6 +15,7 @@ use Joomla\CMS\Filesystem\File;
 use Joomla\CMS\Filesystem\Folder;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
+use Joomla\Database\DatabaseDriver;
 use Joomla\Database\ParameterType;
 
 /**
@@ -54,7 +55,7 @@ class InstallerScript
 	 * @var    array
 	 * @since  3.6
 	 */
-	protected $deleteFiles = array();
+	protected $deleteFiles = [];
 
 	/**
 	 * A list of folders to be deleted
@@ -62,7 +63,7 @@ class InstallerScript
 	 * @var    array
 	 * @since  3.6
 	 */
-	protected $deleteFolders = array();
+	protected $deleteFolders = [];
 
 	/**
 	 * A list of CLI script files to be copied to the cli directory
@@ -70,7 +71,7 @@ class InstallerScript
 	 * @var    array
 	 * @since  3.6
 	 */
-	protected $cliScriptFiles = array();
+	protected $cliScriptFiles = [];
 
 	/**
 	 * Minimum PHP version required to install the extension
@@ -176,9 +177,10 @@ class InstallerScript
 	 */
 	public function getInstances($isModule)
 	{
-		$extension = $this->extension;
+		/* @var DatabaseDriver $db */
+		$db = Factory::getContainer()->get('DatabaseDriver');
 
-		$db = Factory::getDbo();
+		$extension = $this->extension;
 		$query = $db->getQuery(true);
 
 		// Select the item(s) and retrieve the id
@@ -275,7 +277,9 @@ class InstallerScript
 		// Store the combined new and existing values back as a JSON string
 		$paramsString = json_encode($params);
 
-		$db = Factory::getDbo();
+		/* @var DatabaseDriver $db */
+		$db = Factory::getContainer()->get('DatabaseDriver');
+
 		$query = $db->getQuery(true)
 			->update($db->quoteName($this->paramTable))
 			->set('params = :params')
@@ -305,8 +309,8 @@ class InstallerScript
 	 */
 	public function getItemArray($element, $table, $column, $identifier)
 	{
-		// Get the DB and query objects
-		$db = Factory::getDbo();
+		/* @var DatabaseDriver $db */
+		$db = Factory::getContainer()->get('DatabaseDriver');
 
 		$paramType = is_numeric($identifier) ? ParameterType::INTEGER : ParameterType::STRING;
 
@@ -391,7 +395,7 @@ class InstallerScript
 	public function addDashboardMenu(string $dashboard, string $preset)
 	{
 		$model  = Factory::getApplication()->bootComponent('com_modules')->getMVCFactory()->createModel('Module', 'Administrator', ['ignore_request' => true]);
-		$module = array(
+		$module = [
 			'id'         => 0,
 			'asset_id'   => 0,
 			'language'   => '*',
@@ -403,7 +407,7 @@ class InstallerScript
 			'content'    => '',
 			'module'     => 'mod_submenu',
 			'position'   => 'cpanel-' . $dashboard,
-		);
+		];
 
 		// Try to get a translated module title, otherwise fall back to a fixed string.
 		$titleKey         = strtoupper('COM_' . $this->extension . '_DASHBOARD_' . $dashboard . '_TITLE');
@@ -411,11 +415,11 @@ class InstallerScript
 		$module['title']  = ($title === $titleKey) ? ucfirst($dashboard) . ' Dashboard' : $title;
 
 		$module['access'] = (int) Factory::getApplication()->get('access', 1);
-		$module['params'] = array(
+		$module['params'] = [
 			'menutype' => '*',
 			'preset'   => $preset,
 			'style'    => 'System-none',
-		);
+		];
 
 		if (!$model->save($module))
 		{

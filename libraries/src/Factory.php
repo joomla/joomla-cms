@@ -207,7 +207,7 @@ abstract class Factory
 	 *   notify developers of changes needed in their code
 	 *
 	 * This method is not suggested for use as a one-for-one replacement of static calls, such as
-	 * replacing calls to `Factory::getDbo()` with calls to `Factory::getContainer()->get('db')`, code
+	 * replacing calls to `Factory::getDbo()` with calls to `Factory::getContainer()->get('DatabaseDriver')`, code
 	 * should be refactored to support dependency injection instead of making this change.
 	 *
 	 * @return  Container

@@ -14,6 +14,7 @@ namespace Joomla\Component\Finder\Administrator\Indexer;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Tree\NodeInterface;
 use Joomla\Component\Finder\Administrator\Table\MapTable;
+use Joomla\Database\DatabaseDriver;
 
 /**
  * Taxonomy base class for the Finder indexer package.
@@ -28,7 +29,7 @@ class Taxonomy
 	 * @var    object[]
 	 * @since  4.0.0
 	 */
-	public static $taxonomies = array();
+	public static $taxonomies = [];
 
 	/**
 	 * An internal cache of branch data.
@@ -36,7 +37,7 @@ class Taxonomy
 	 * @var    object[]
 	 * @since  4.0.0
 	 */
-	public static $branches = array();
+	public static $branches = [];
 
 	/**
 	 * An internal cache of taxonomy node data for inserting it.
@@ -44,7 +45,7 @@ class Taxonomy
 	 * @var    object[]
 	 * @since  2.5
 	 */
-	public static $nodes = array();
+	public static $nodes = [];
 
 	/**
 	 * Method to add a branch to the taxonomy tree.
@@ -161,8 +162,10 @@ class Taxonomy
 			return static::$nodes[$parentId . ':' . $node->title]->id;
 		}
 
+		/* @var DatabaseDriver $db */
+		$db = Factory::getContainer()->get('DatabaseDriver');
+
 		// Check to see if the node is in the table.
-		$db = Factory::getDbo();
 		$query = $db->getQuery(true)
 			->select('*')
 			->from($db->quoteName('#__finder_taxonomy'))
@@ -273,9 +276,10 @@ class Taxonomy
 	 */
 	public static function addMap($linkId, $nodeId)
 	{
-		// Insert the map.
-		$db = Factory::getDbo();
+		/* @var DatabaseDriver $db */
+		$db = Factory::getContainer()->get('DatabaseDriver');
 
+		// Insert the map.
 		$query = $db->getQuery(true)
 			->select($db->quoteName('link_id'))
 			->from($db->quoteName('#__finder_taxonomy_map'))
@@ -306,7 +310,8 @@ class Taxonomy
 	 */
 	public static function getBranchTitles()
 	{
-		$db = Factory::getDbo();
+		/* @var DatabaseDriver $db */
+		$db = Factory::getContainer()->get('DatabaseDriver');
 
 		// Set user variables
 		$groups = implode(',', Factory::getUser()->getAuthorisedViewLevels());
@@ -338,7 +343,8 @@ class Taxonomy
 	 */
 	public static function getNodeByTitle($branch, $title)
 	{
-		$db = Factory::getDbo();
+		/* @var DatabaseDriver $db */
+		$db = Factory::getContainer()->get('DatabaseDriver');
 
 		// Set user variables
 		$groups = implode(',', Factory::getUser()->getAuthorisedViewLevels());
@@ -374,8 +380,10 @@ class Taxonomy
 	 */
 	public static function removeMaps($linkId)
 	{
+		/* @var DatabaseDriver $db */
+		$db = Factory::getContainer()->get('DatabaseDriver');
+
 		// Delete the maps.
-		$db = Factory::getDbo();
 		$query = $db->getQuery(true)
 			->delete($db->quoteName('#__finder_taxonomy_map'))
 			->where($db->quoteName('link_id') . ' = ' . (int) $linkId);
@@ -395,12 +403,12 @@ class Taxonomy
 	 */
 	public static function removeOrphanNodes()
 	{
-		// Delete all orphaned nodes.
-		$affectedRows = 0;
-		$db           = Factory::getDbo();
+		/* @var DatabaseDriver $db */
+		$db           = Factory::getContainer()->get('DatabaseDriver');
 		$nodeTable    = new MapTable($db);
 		$query        = $db->getQuery(true);
 
+		// Delete all orphaned nodes.
 		$query->select($db->quoteName('t.id'))
 			->from($db->quoteName('#__finder_taxonomy', 't'))
 			->join('LEFT', $db->quoteName('#__finder_taxonomy_map', 'm') . ' ON ' . $db->quoteName('m.node_id') . '=' . $db->quoteName('t.id'))
@@ -408,6 +416,7 @@ class Taxonomy
 			->where('t.lft + 1 = t.rgt')
 			->where($db->quoteName('m.link_id') . ' IS NULL');
 
+		$affectedRows = 0;
 		do
 		{
 			$db->setQuery($query);
@@ -429,7 +438,7 @@ class Taxonomy
 	 *
 	 * @param   integer  $id  Id of the taxonomy
 	 *
-	 * @return  object|array  A taxonomy object or an array of all taxonomies
+	 * @return  object|array|bool  A taxonomy object or an array of all taxonomies
 	 *
 	 * @since   4.0.0
 	 */
@@ -437,14 +446,17 @@ class Taxonomy
 	{
 		if (!count(self::$taxonomies))
 		{
-			$db    = Factory::getDbo();
+			/* @var DatabaseDriver $db */
+			$db = Factory::getContainer()->get('DatabaseDriver');
+
 			$query = $db->getQuery(true);
 
-			$query->select(array('id','parent_id','lft','rgt','level','path','title','alias','state','access','language'))
+			$query->select(['id','parent_id','lft','rgt','level','path','title','alias','state','access','language'])
 				->from($db->quoteName('#__finder_taxonomy'))
 				->order($db->quoteName('lft'));
 
 			$db->setQuery($query);
+
 			self::$taxonomies = $db->loadObjectList('id');
 		}
 

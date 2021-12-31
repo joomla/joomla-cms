@@ -35,12 +35,13 @@ abstract class RelatedItemsHelper
 	 */
 	public static function getList(&$params)
 	{
-		$db        = Factory::getDbo();
-		$app       = Factory::getApplication();
-		$input     = $app->input;
-		$groups    = Factory::getUser()->getAuthorisedViewLevels();
-		$maximum   = (int) $params->get('maximum', 5);
-		$factory   = $app->bootComponent('com_content')->getMVCFactory();
+		/* @var \Joomla\Database\DatabaseDriver $db */
+		$db      = Factory::getContainer()->get('DatabaseDriver');
+		$app     = Factory::getApplication();
+		$input   = $app->input;
+		$groups  = Factory::getUser()->getAuthorisedViewLevels();
+		$maximum = (int) $params->get('maximum', 5);
+		$factory = $app->bootComponent('com_content')->getMVCFactory();
 
 		// Get an instance of the generic articles model
 		/** @var \Joomla\Component\Content\Site\Model\ArticlesModel $articles */
@@ -82,7 +83,7 @@ abstract class RelatedItemsHelper
 			{
 				$app->enqueueMessage(Text::_('JERROR_AN_ERROR_HAS_OCCURRED'), 'error');
 
-				return array();
+				return [];
 			}
 
 			// Explode the meta keys on a comma

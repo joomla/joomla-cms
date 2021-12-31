@@ -16,6 +16,7 @@ use Joomla\CMS\Filesystem\File;
 use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Mail\Exception\MailDisabledException;
+use Joomla\Database\DatabaseDriver;
 use Joomla\Database\ParameterType;
 use Joomla\Registry\Registry;
 use PHPMailer\PHPMailer\Exception as phpmailerException;
@@ -55,14 +56,14 @@ class MailTemplate
 	 * @var    string[]
 	 * @since  4.0.0
 	 */
-	protected $data = array();
+	protected $data = [];
 
 	/**
 	 *
 	 * @var    string[]
 	 * @since  4.0.0
 	 */
-	protected $attachments = array();
+	protected $attachments = [];
 
 	/**
 	 * List of recipients of the email
@@ -70,7 +71,7 @@ class MailTemplate
 	 * @var    \stdClass[]
 	 * @since  4.0.0
 	 */
-	protected $recipients = array();
+	protected $recipients = [];
 
 	/**
 	 * Reply To of the email
@@ -221,7 +222,7 @@ class MailTemplate
 			}
 		}
 
-		$app->triggerEvent('onMailBeforeRendering', array($this->template_id, &$this));
+		$app->triggerEvent('onMailBeforeRendering', [$this->template_id, &$this]);
 
 		$subject = $this->replaceTags(Text::_($mail->subject), $this->data);
 		$this->mailer->setSubject($subject);
@@ -335,7 +336,7 @@ class MailTemplate
 		{
 			if (is_array($value))
 			{
-				$matches = array();
+				$matches = [];
 
 				if (preg_match_all('/{' . strtoupper($key) . '}(.*?){\/' . strtoupper($key) . '}/s', $text, $matches))
 				{
@@ -376,7 +377,9 @@ class MailTemplate
 	 */
 	public static function getTemplate($key, $language)
 	{
-		$db = Factory::getDbo();
+		/* @var DatabaseDriver $db */
+		$db = Factory::getContainer()->get('DatabaseDriver');
+
 		$query = $db->getQuery(true);
 		$query->select('*')
 			->from($db->quoteName('#__mail_templates'))
@@ -410,7 +413,8 @@ class MailTemplate
 	 */
 	public static function createTemplate($key, $subject, $body, $tags, $htmlbody = '')
 	{
-		$db = Factory::getDbo();
+		/* @var DatabaseDriver $db */
+		$db = Factory::getContainer()->get('DatabaseDriver');
 
 		$template = new \stdClass;
 		$template->template_id = $key;
@@ -420,7 +424,7 @@ class MailTemplate
 		$template->htmlbody = $htmlbody;
 		$template->attachments = '';
 		$params = new \stdClass;
-		$params->tags = array($tags);
+		$params->tags = [$tags];
 		$template->params = json_encode($params);
 
 		return $db->insertObject('#__mail_templates', $template);
@@ -441,7 +445,8 @@ class MailTemplate
 	 */
 	public static function updateTemplate($key, $subject, $body, $tags, $htmlbody = '')
 	{
-		$db = Factory::getDbo();
+		/* @var DatabaseDriver $db */
+		$db = Factory::getContainer()->get('DatabaseDriver');
 
 		$template = new \stdClass;
 		$template->template_id = $key;
@@ -450,7 +455,7 @@ class MailTemplate
 		$template->body = $body;
 		$template->htmlbody = $htmlbody;
 		$params = new \stdClass;
-		$params->tags = array($tags);
+		$params->tags = [$tags];
 		$template->params = json_encode($params);
 
 		return $db->updateObject('#__mail_templates', $template, ['template_id', 'language']);
@@ -467,7 +472,9 @@ class MailTemplate
 	 */
 	public static function deleteTemplate($key)
 	{
-		$db = Factory::getDbo();
+		/* @var DatabaseDriver $db */
+		$db = Factory::getContainer()->get('DatabaseDriver');
+
 		$query = $db->getQuery(true);
 		$query->delete($db->quoteName('#__mail_templates'))
 			->where($db->quoteName('template_id') . ' = :key')

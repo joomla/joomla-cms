@@ -44,8 +44,9 @@ abstract class ContentLanguage
 	{
 		if (empty(static::$items))
 		{
-			// Get the database object and a new query object.
-			$db    = Factory::getDbo();
+			/* @var \Joomla\Database\DatabaseDriver $db */
+			$db = Factory::getContainer()->get('DatabaseDriver');
+
 			$query = $db->getQuery(true);
 
 			// Build the query.
@@ -67,7 +68,7 @@ abstract class ContentLanguage
 
 		if ($all)
 		{
-			$all_option = array(new CMSObject(array('value' => '*', 'text' => $translate ? Text::alt('JALL', 'language') : 'JALL_LANGUAGE')));
+			$all_option = [new CMSObject(['value' => '*', 'text' => $translate ? Text::alt('JALL', 'language') : 'JALL_LANGUAGE'])];
 
 			return array_merge($all_option, static::$items);
 		}

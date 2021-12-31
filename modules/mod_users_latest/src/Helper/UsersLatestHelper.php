@@ -32,7 +32,9 @@ class UsersLatestHelper
 	 */
 	public static function getUsers($params)
 	{
-		$db    = Factory::getDbo();
+		/* @var \Joomla\Database\DatabaseDriver $db */
+		$db = Factory::getContainer()->get('DatabaseDriver');
+
 		$query = $db->getQuery(true)
 			->select($db->quoteName(['a.id', 'a.name', 'a.username', 'a.registerDate']))
 			->order($db->quoteName('a.registerDate') . ' DESC')
@@ -45,7 +47,7 @@ class UsersLatestHelper
 
 			if (empty($groups))
 			{
-				return array();
+				return [];
 			}
 
 			$query->leftJoin($db->quoteName('#__user_usergroup_map', 'm'), $db->quoteName('m.user_id') . ' = ' . $db->quoteName('a.id'))
@@ -65,7 +67,7 @@ class UsersLatestHelper
 		{
 			Factory::getApplication()->enqueueMessage(Text::_('JERROR_AN_ERROR_HAS_OCCURRED'), 'error');
 
-			return array();
+			return [];
 		}
 	}
 }

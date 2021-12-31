@@ -62,11 +62,13 @@ class LevelController extends FormController
 	 *
 	 * @since   3.8.8
 	 */
-	protected function allowEdit($data = array(), $key = 'id')
+	protected function allowEdit($data = [], $key = 'id')
 	{
+		/* @var \Joomla\Database\DatabaseDriver $db */
+		$db = Factory::getContainer()->get('DatabaseDriver');
+
 		// Check for if Super Admin can edit
 		$data['id'] = (int) $data['id'];
-		$db    = Factory::getDbo();
 		$query = $db->getQuery(true)
 			->select('*')
 			->from($db->quoteName('#__viewlevels'))
@@ -111,7 +113,7 @@ class LevelController extends FormController
 		// Check for request forgeries.
 		$this->checkToken();
 
-		$ids = $this->input->get('cid', array(), 'array');
+		$ids = $this->input->get('cid', [], 'array');
 
 		if (!$this->app->getIdentity()->authorise('core.admin', $this->option))
 		{

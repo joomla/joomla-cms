@@ -38,13 +38,16 @@ class MenuTable extends \Joomla\CMS\Table\Menu
 
 		if ($return)
 		{
+			/* @var \Joomla\Database\DatabaseDriver $db */
+			$db = Factory::getContainer()->get('DatabaseDriver');
+
 			// Delete key from the #__modules_menu table
-			$db = Factory::getDbo();
 			$query = $db->getQuery(true)
 				->delete($db->quoteName('#__modules_menu'))
 				->where($db->quoteName('menuid') . ' = :pk')
 				->bind(':pk', $pk, ParameterType::INTEGER);
 			$db->setQuery($query);
+
 			$db->execute();
 		}
 

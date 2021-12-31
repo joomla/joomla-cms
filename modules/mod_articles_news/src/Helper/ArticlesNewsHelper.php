@@ -63,13 +63,13 @@ abstract class ArticlesNewsHelper
 		$model->setState('filter.access', $access);
 
 		// Category filter
-		$model->setState('filter.category_id', $params->get('catid', array()));
+		$model->setState('filter.category_id', $params->get('catid', []));
 
 		// Filter by language
 		$model->setState('filter.language', $app->getLanguageFilter());
 
 		// Filter by tag
-		$model->setState('filter.tag', $params->get('tag', array()));
+		$model->setState('filter.tag', $params->get('tag', []));
 
 		// Featured switch
 		$featured = $params->get('show_featured', '');
@@ -103,7 +103,7 @@ abstract class ArticlesNewsHelper
 
 		if (trim($ordering) === 'rand()')
 		{
-			$model->setState('list.ordering', Factory::getDbo()->getQuery(true)->rand());
+			$model->setState('list.ordering', Factory::getContainer()->get('DatabaseDriver')->getQuery(true)->rand());
 		}
 		else
 		{
@@ -177,15 +177,15 @@ abstract class ArticlesNewsHelper
 			if ($triggerEvents)
 			{
 				$item->text = '';
-				$app->triggerEvent('onContentPrepare', array('com_content.article', &$item, &$params, 0));
+				$app->triggerEvent('onContentPrepare', ['com_content.article', &$item, &$params, 0]);
 
-				$results                 = $app->triggerEvent('onContentAfterTitle', array('com_content.article', &$item, &$params, 0));
+				$results                 = $app->triggerEvent('onContentAfterTitle', ['com_content.article', &$item, &$params, 0]);
 				$item->afterDisplayTitle = trim(implode("\n", $results));
 
-				$results                    = $app->triggerEvent('onContentBeforeDisplay', array('com_content.article', &$item, &$params, 0));
+				$results                    = $app->triggerEvent('onContentBeforeDisplay', ['com_content.article', &$item, &$params, 0]);
 				$item->beforeDisplayContent = trim(implode("\n", $results));
 
-				$results                   = $app->triggerEvent('onContentAfterDisplay', array('com_content.article', &$item, &$params, 0));
+				$results                   = $app->triggerEvent('onContentAfterDisplay', ['com_content.article', &$item, &$params, 0]);
 				$item->afterDisplayContent = trim(implode("\n", $results));
 			}
 			else

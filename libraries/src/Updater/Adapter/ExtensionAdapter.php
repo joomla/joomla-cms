@@ -37,7 +37,7 @@ class ExtensionAdapter extends UpdateAdapter
 	 *
 	 * @since   1.7.0
 	 */
-	protected function _startElement($parser, $name, $attrs = array())
+	protected function _startElement($parser, $name, $attrs = [])
 	{
 		$this->stack[] = $name;
 		$tag           = $this->_getStackLocation();
@@ -138,7 +138,8 @@ class ExtensionAdapter extends UpdateAdapter
 					// Check if DB & version is supported via <supported_databases> tag, assume supported if tag isn't present
 					if (isset($this->currentUpdate->supported_databases))
 					{
-						$db           = Factory::getDbo();
+						/* @var \Joomla\Database\DatabaseDriver $db */
+						$db           = Factory::getContainer()->get('DatabaseDriver');
 						$dbType       = strtoupper($db->getServerType());
 						$dbVersion    = $db->getVersion();
 						$supportedDbs = $this->currentUpdate->supported_databases;
@@ -318,7 +319,7 @@ class ExtensionAdapter extends UpdateAdapter
 			}
 
 			$app = Factory::getApplication();
-			$app->getLogger()->warning("Error parsing url: {$this->_url}", array('category' => 'updater'));
+			$app->getLogger()->warning("Error parsing url: {$this->_url}", ['category' => 'updater']);
 			$app->enqueueMessage(Text::sprintf('JLIB_UPDATER_ERROR_EXTENSION_PARSE_URL', $this->_url), 'warning');
 
 			return false;
@@ -335,14 +336,14 @@ class ExtensionAdapter extends UpdateAdapter
 				unset($this->latest->client);
 			}
 
-			$updates = array($this->latest);
+			$updates = [$this->latest];
 		}
 		else
 		{
-			$updates = array();
+			$updates = [];
 		}
 
-		return array('update_sites' => array(), 'updates' => $updates);
+		return ['update_sites' => [], 'updates' => $updates];
 	}
 
 	/**

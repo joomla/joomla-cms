@@ -45,7 +45,7 @@ abstract class User
 		// Exclude super admin groups if requested
 		if (!$includeSuperAdmin)
 		{
-			$filteredGroups = array();
+			$filteredGroups = [];
 
 			foreach ($groups as $group)
 			{
@@ -70,7 +70,9 @@ abstract class User
 	 */
 	public static function userlist()
 	{
-		$db    = Factory::getDbo();
+		/* @var \Joomla\Database\DatabaseDriver $db */
+		$db = Factory::getContainer()->get('DatabaseDriver');
+
 		$query = $db->getQuery(true)
 			->select(
 				[

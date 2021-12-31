@@ -38,7 +38,7 @@ abstract class HTMLHelper
 	 * @var    array
 	 * @since  1.5
 	 */
-	public static $formatOptions = array('format.depth' => 0, 'format.eol' => "\n", 'format.indent' => "\t");
+	public static $formatOptions = ['format.depth' => 0, 'format.eol' => "\n", 'format.indent' => "\t"];
 
 	/**
 	 * An array to hold included paths
@@ -47,7 +47,7 @@ abstract class HTMLHelper
 	 * @since  1.5
 	 * @deprecated  5.0
 	 */
-	protected static $includePaths = array();
+	protected static $includePaths = [];
 
 	/**
 	 * An array to hold method references
@@ -56,7 +56,7 @@ abstract class HTMLHelper
 	 * @since  1.6
 	 * @deprecated  5.0
 	 */
-	protected static $registry = array();
+	protected static $registry = [];
 
 	/**
 	 * The service registry for custom and overridden JHtml helpers
@@ -104,7 +104,7 @@ abstract class HTMLHelper
 		$file   = \count($parts) === 2 ? array_shift($parts) : '';
 		$func   = array_shift($parts);
 
-		return array(strtolower($prefix . '.' . $file . '.' . $func), $prefix, $file, $func);
+		return [strtolower($prefix . '.' . $file . '.' . $func), $prefix, $file, $func];
 	}
 
 	/**
@@ -142,7 +142,7 @@ abstract class HTMLHelper
 		{
 			$service = static::getServiceRegistry()->getService($file);
 
-			$toCall = array($service, $func);
+			$toCall = [$service, $func];
 
 			if (!\is_callable($toCall))
 			{
@@ -182,7 +182,7 @@ abstract class HTMLHelper
 			}
 		}
 
-		$toCall = array($className, $func);
+		$toCall = [$className, $func];
 
 		if (!\is_callable($toCall))
 		{
@@ -312,7 +312,7 @@ abstract class HTMLHelper
 	protected static function call(callable $function, $args)
 	{
 		// PHP 5.3 workaround
-		$temp = array();
+		$temp = [];
 
 		foreach ($args as &$arg)
 		{
@@ -771,15 +771,15 @@ abstract class HTMLHelper
 	 * Write a `<link>` element to load a CSS file
 	 *
 	 * @param   string  $file     Path to file
-	 * @param   array   $options  Array of options. Example: array('version' => 'auto', 'conditional' => 'lt IE 9')
-	 * @param   array   $attribs  Array of attributes. Example: array('id' => 'scriptid', 'async' => 'async', 'data-test' => 1)
+	 * @param   array   $options  Array of options. Example: ['version' => 'auto', 'conditional' => 'lt IE 9']
+	 * @param   array   $attribs  Array of attributes. Example: ['id' => 'scriptid', 'async' => 'async', 'data-test' => 1]
 	 *
 	 * @return  array|string|null  nothing if $returnPath is false, null, path or array of path if specific CSS browser files were detected
 	 *
 	 * @see   Browser
 	 * @since 1.5
 	 */
-	public static function stylesheet($file, $options = array(), $attribs = array())
+	public static function stylesheet($file, $options = [], $attribs = [])
 	{
 		$options['relative']      = $options['relative'] ?? false;
 		$options['pathOnly']      = $options['pathOnly'] ?? false;
@@ -823,15 +823,15 @@ abstract class HTMLHelper
 	 * Write a `<script>` element to load a JavaScript file
 	 *
 	 * @param   string  $file     Path to file.
-	 * @param   array   $options  Array of options. Example: array('version' => 'auto', 'conditional' => 'lt IE 9')
-	 * @param   array   $attribs  Array of attributes. Example: array('id' => 'scriptid', 'async' => 'async', 'data-test' => 1)
+	 * @param   array   $options  Array of options. Example: ['version' => 'auto', 'conditional' => 'lt IE 9']
+	 * @param   array   $attribs  Array of attributes. Example: ['id' => 'scriptid', 'async' => 'async', 'data-test' => 1]
 	 *
 	 * @return  array|string|null  Nothing if $returnPath is false, null, path or array of path if specific JavaScript browser files were detected
 	 *
 	 * @see   HTMLHelper::stylesheet()
 	 * @since 1.5
 	 */
-	public static function script($file, $options = array(), $attribs = array())
+	public static function script($file, $options = [], $attribs = [])
 	{
 		$options['relative']      = $options['relative'] ?? false;
 		$options['pathOnly']      = $options['pathOnly'] ?? false;
@@ -984,7 +984,7 @@ abstract class HTMLHelper
 	{
 		if (\is_array($title))
 		{
-			foreach (array('image', 'text', 'href', 'alt', 'class') as $param)
+			foreach (['image', 'text', 'href', 'alt', 'class'] as $param)
 			{
 				if (isset($title[$param]))
 				{
@@ -1119,7 +1119,7 @@ abstract class HTMLHelper
 	 * @since   1.5
 	 *
 	 */
-	public static function calendar($value, $name, $id, $format = '%Y-%m-%d', $attribs = array())
+	public static function calendar($value, $name, $id, $format = '%Y-%m-%d', $attribs = [])
 	{
 		$app       = Factory::getApplication();
 		$lang      = $app->getLanguage();
@@ -1159,8 +1159,11 @@ abstract class HTMLHelper
 		$fillTable    = ($fillTable) ? "1" : "0";
 		$singleHeader = ($singleHeader) ? "1" : "0";
 
+		/* @var \Joomla\Database\DatabaseDriver $db */
+		$db = Factory::getContainer()->get('DatabaseDriver');
+
 		// Format value when not nulldate ('0000-00-00 00:00:00'), otherwise blank it as it would result in 1970-01-01.
-		if ($value && $value !== Factory::getDbo()->getNullDate() && strtotime($value) !== false)
+		if ($value && $value !== $db->getNullDate() && strtotime($value) !== false)
 		{
 			$tz = date_default_timezone_get();
 			date_default_timezone_set('UTC');
@@ -1172,7 +1175,7 @@ abstract class HTMLHelper
 			$inputvalue = '';
 		}
 
-		$data = array(
+		$data = [
 			'id'             => $id,
 			'name'           => $name,
 			'class'          => $class,
@@ -1202,7 +1205,7 @@ abstract class HTMLHelper
 			'calendar'       => $calendar,
 			'firstday'       => $lang->getFirstDay(),
 			'weekend'        => explode(',', $lang->getWeekEnd()),
-		);
+		];
 
 		return LayoutHelper::render('joomla.form.field.calendar', $data, null, null);
 	}

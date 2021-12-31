@@ -40,9 +40,10 @@ class MenuParentField extends ListField
 	 */
 	protected function getOptions()
 	{
-		$options = array();
+		/* @var \Joomla\Database\DatabaseDriver $db */
+		$db      = Factory::getContainer()->get('DatabaseDriver');
+		$options = [];
 
-		$db = Factory::getDbo();
 		$query = $db->getQuery(true)
 			->select(
 				[

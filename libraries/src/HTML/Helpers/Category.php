@@ -48,9 +48,10 @@ abstract class Category
 
 		if (!isset(static::$items[$hash]))
 		{
-			$config = (array) $config;
-			$db     = Factory::getDbo();
+			/* @var \Joomla\Database\DatabaseDriver $db */
+			$db     = Factory::getContainer()->get('DatabaseDriver');
 			$user   = Factory::getUser();
+			$config = (array) $config;
 			$groups = $user->getAuthorisedViewLevels();
 
 			$query = $db->getQuery(true)
@@ -157,9 +158,11 @@ abstract class Category
 
 		if (!isset(static::$items[$hash]))
 		{
+			/* @var \Joomla\Database\DatabaseDriver $db */
+			$db     = Factory::getContainer()->get('DatabaseDriver');
+			$user   = Factory::getUser();
 			$config = (array) $config;
-			$user = Factory::getUser();
-			$db = Factory::getDbo();
+
 			$query = $db->getQuery(true)
 				->select(
 					[

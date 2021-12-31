@@ -98,7 +98,9 @@ class DisplayController extends BaseController
 				$langCodes[$language->metadata['tag']] = $languageName;
 			}
 
-			$db    = Factory::getDbo();
+			/* @var \Joomla\Database\DatabaseDriver $db */
+			$db = Factory::getContainer()->get('DatabaseDriver');
+
 			$query = $db->getQuery(true);
 
 			$query->select($db->quoteName('m.language'))

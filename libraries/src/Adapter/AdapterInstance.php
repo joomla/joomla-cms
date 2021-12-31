@@ -47,7 +47,7 @@ class AdapterInstance extends CMSObject
 	 *
 	 * @since   1.6
 	 */
-	public function __construct(Adapter $parent, DatabaseDriver $db, array $options = array())
+	public function __construct(Adapter $parent, DatabaseDriver $db, array $options = [])
 	{
 		// Set the properties from the options array that is passed in
 		$this->setProperties($options);
@@ -56,7 +56,8 @@ class AdapterInstance extends CMSObject
 		$this->parent = $parent;
 
 		// Pull in the global dbo in case something happened to it.
-		$this->db = $db ?: Factory::getDbo();
+		/* @var \Joomla\Database\DatabaseDriver $db */
+		$this->db = $db ?: Factory::getContainer()->get('DatabaseDriver');
 	}
 
 	/**

@@ -49,7 +49,7 @@ class NewsfeedField extends FormField
 		$allowSelect    = ((string) $this->element['select'] != 'false');
 		$allowPropagate = ((string) $this->element['propagate'] == 'true');
 
-		$languages = LanguageHelper::getContentLanguages(array(0, 1), false);
+		$languages = LanguageHelper::getContentLanguages([0, 1], false);
 
 		// Load language
 		Factory::getLanguage()->load('com_newsfeeds', JPATH_ADMINISTRATOR);
@@ -73,7 +73,7 @@ class NewsfeedField extends FormField
 
 			if (is_null($scriptSelect))
 			{
-				$scriptSelect = array();
+				$scriptSelect = [];
 			}
 
 			if (!isset($scriptSelect[$this->id]))
@@ -110,8 +110,11 @@ class NewsfeedField extends FormField
 
 		if ($value)
 		{
+			/* @var \Joomla\Database\DatabaseDriver $db */
+			$db = Factory::getContainer()->get('DatabaseDriver');
+
 			$id    = (int) $value;
-			$db    = Factory::getDbo();
+
 			$query = $db->getQuery(true)
 				->select($db->quoteName('name'))
 				->from($db->quoteName('#__newsfeeds'))
@@ -220,7 +223,7 @@ class NewsfeedField extends FormField
 			$html .= HTMLHelper::_(
 				'bootstrap.renderModal',
 				'ModalSelect' . $modalId,
-				array(
+				[
 					'title'       => $modalTitle,
 					'url'         => $urlSelect,
 					'height'      => '400px',
@@ -229,7 +232,7 @@ class NewsfeedField extends FormField
 					'modalWidth'  => 80,
 					'footer'      => '<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">'
 										. Text::_('JLIB_HTML_BEHAVIOR_CLOSE') . '</button>',
-				)
+				]
 			);
 		}
 
@@ -239,7 +242,7 @@ class NewsfeedField extends FormField
 			$html .= HTMLHelper::_(
 				'bootstrap.renderModal',
 				'ModalNew' . $modalId,
-				array(
+				[
 					'title'       => Text::_('COM_NEWSFEEDS_NEW_NEWSFEED'),
 					'backdrop'    => 'static',
 					'keyboard'    => false,
@@ -261,7 +264,7 @@ class NewsfeedField extends FormField
 							. ' onclick="window.processModalEdit(this, \''
 							. $this->id . '\', \'add\', \'newsfeed\', \'apply\', \'newsfeed-form\', \'jform_id\', \'jform_name\'); return false;">'
 							. Text::_('JAPPLY') . '</button>',
-				)
+				]
 			);
 		}
 
@@ -271,7 +274,7 @@ class NewsfeedField extends FormField
 			$html .= HTMLHelper::_(
 				'bootstrap.renderModal',
 				'ModalEdit' . $modalId,
-				array(
+				[
 					'title'       => Text::_('COM_NEWSFEEDS_EDIT_NEWSFEED'),
 					'backdrop'    => 'static',
 					'keyboard'    => false,
@@ -293,7 +296,7 @@ class NewsfeedField extends FormField
 							. ' onclick="window.processModalEdit(this, \''
 							. $this->id . '\', \'edit\', \'newsfeed\', \'apply\', \'newsfeed-form\', \'jform_id\', \'jform_name\'); return false;">'
 							. Text::_('JAPPLY') . '</button>',
-				)
+				]
 			);
 		}
 

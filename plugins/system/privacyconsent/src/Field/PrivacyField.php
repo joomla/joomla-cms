@@ -75,6 +75,9 @@ class PrivacyField extends RadioField
 	 */
 	protected function getLayoutData()
 	{
+		/* @var \Joomla\Database\DatabaseDriver $db */
+		$db = Factory::getContainer()->get('DatabaseDriver');
+
 		$data = parent::getLayoutData();
 
 		$article = false;
@@ -83,7 +86,6 @@ class PrivacyField extends RadioField
 
 		if ($privacyArticle && Factory::getApplication()->isClient('site'))
 		{
-			$db    = Factory::getDbo();
 			$query = $db->getQuery(true)
 				->select($db->quoteName(['id', 'alias', 'catid', 'language']))
 				->from($db->quoteName('#__content'))
@@ -105,7 +107,6 @@ class PrivacyField extends RadioField
 
 			if (Multilanguage::isEnabled())
 			{
-				$db    = Factory::getDbo();
 				$query = $db->getQuery(true)
 					->select($db->quoteName(['id', 'language']))
 					->from($db->quoteName('#__menu'))

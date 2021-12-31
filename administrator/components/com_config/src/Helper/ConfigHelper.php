@@ -32,13 +32,16 @@ class ConfigHelper extends ContentHelper
 	 */
 	public static function getAllComponents()
 	{
-		$db = Factory::getDbo();
+		/* @var \Joomla\Database\DatabaseDriver $db */
+		$db = Factory::getContainer()->get('DatabaseDriver');
+
 		$query = $db->getQuery(true)
 			->select('element')
 			->from('#__extensions')
 			->where('type = ' . $db->quote('component'))
 			->where('enabled = 1');
 		$db->setQuery($query);
+
 		$result = $db->loadColumn();
 
 		return $result;
@@ -70,12 +73,12 @@ class ConfigHelper extends ContentHelper
 	 */
 	public static function getComponentsWithConfig($authCheck = true)
 	{
-		$result = array();
+		$result = [];
 		$components = self::getAllComponents();
 		$user = Factory::getUser();
 
 		// Remove com_config from the array as that may have weird side effects
-		$components = array_diff($components, array('com_config'));
+		$components = array_diff($components, ['com_config']);
 
 		foreach ($components as $component)
 		{

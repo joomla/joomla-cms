@@ -413,6 +413,8 @@ abstract class ModuleHelper
 	 */
 	public static function getModuleList()
 	{
+		/* @var \Joomla\Database\DatabaseDriver $db */
+		$db       = Factory::getContainer()->get('DatabaseDriver');
 		$app      = Factory::getApplication();
 		$itemId   = $app->input->getInt('Itemid', 0);
 		$groups   = $app->getIdentity()->getAuthorisedViewLevels();
@@ -420,11 +422,9 @@ abstract class ModuleHelper
 
 		// Build a cache ID for the resulting data object
 		$cacheId = implode(',', $groups) . '.' . $clientId . '.' . $itemId;
-
-		$db      = Factory::getDbo();
-		$query   = $db->getQuery(true);
 		$nowDate = Factory::getDate()->toSql();
 
+		$query   = $db->getQuery(true);
 		$query->select($db->quoteName(['m.id', 'm.title', 'm.module', 'm.position', 'm.content', 'm.showtitle', 'm.params', 'mm.menuid']))
 			->from($db->quoteName('#__modules', 'm'))
 			->join(

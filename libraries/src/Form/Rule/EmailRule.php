@@ -176,14 +176,14 @@ class EmailRule extends FormRule
 
 		if ($unique && !$multiple)
 		{
-			// Get the database object and a new query object.
-			$db = Factory::getDbo();
-			$query = $db->getQuery(true);
+			/* @var \Joomla\Database\DatabaseDriver $db */
+			$db = Factory::getContainer()->get('DatabaseDriver');
 
 			// Get the extra field check attribute.
 			$userId = ($form instanceof Form) ? (int) $form->getValue('id') : 0;
 
 			// Build the query.
+			$query = $db->getQuery(true);
 			$query->select('COUNT(*)')
 				->from($db->quoteName('#__users'))
 				->where(

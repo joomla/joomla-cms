@@ -56,7 +56,8 @@ class ExistsRule extends FormRule
 			$existsColumn = 'id';
 		}
 
-		$db = Factory::getDbo();
+		/* @var \Joomla\Database\DatabaseDriver $db */
+		$db = Factory::getContainer()->get('DatabaseDriver');
 
 		// Set and query the database.
 		$exists = $db->setQuery(

@@ -72,7 +72,7 @@ class DisplayController extends BaseController
 		if (ModuleHelper::isAdminMultilang())
 		{
 			$languages = LanguageHelper::getInstalledLanguages(1, true);
-			$langCodes = array();
+			$langCodes = [];
 
 			foreach ($languages as $language)
 			{
@@ -88,7 +88,9 @@ class DisplayController extends BaseController
 				$langCodes[$language->metadata['tag']] = $languageName;
 			}
 
-			$db    = Factory::getDbo();
+			/* @var \Joomla\Database\DatabaseDriver $db */
+			$db = Factory::getContainer()->get('DatabaseDriver');
+
 			$query = $db->getQuery(true);
 
 			$query->select($db->quoteName('m.language'))

@@ -50,7 +50,7 @@ class ApplicationModel extends FormModel
 	 * @var    array
 	 * @since  3.9.23
 	 */
-	private $protectedConfigurationFields = array('password', 'secret', 'smtppass', 'redis_server_auth', 'session_redis_server_auth');
+	private $protectedConfigurationFields = ['password', 'secret', 'smtppass', 'redis_server_auth', 'session_redis_server_auth'];
 
 	/**
 	 * Method to get a form object.
@@ -62,10 +62,10 @@ class ApplicationModel extends FormModel
 	 *
 	 * @since	1.6
 	 */
-	public function getForm($data = array(), $loadData = true)
+	public function getForm($data = [], $loadData = true)
 	{
 		// Get the form.
-		$form = $this->loadForm('com_config.application', 'application', array('control' => 'jform', 'load_data' => $loadData));
+		$form = $this->loadForm('com_config.application', 'application', ['control' => 'jform', 'load_data' => $loadData]);
 
 		if (empty($form))
 		{
@@ -93,7 +93,7 @@ class ApplicationModel extends FormModel
 		$data   = ArrayHelper::fromObject($config);
 
 		// Get the correct driver at runtime
-		$data['dbtype'] = Factory::getDbo()->getName();
+		$data['dbtype'] = Factory::getContainer()->get('DatabaseDriver')->getName();
 
 		// Prime the asset_id for the rules.
 		$data['asset_id'] = 1;
@@ -318,14 +318,14 @@ class ApplicationModel extends FormModel
 		}
 
 		// Check that we aren't setting wrong database configuration
-		$options = array(
+		$options = [
 			'driver'   => $data['dbtype'],
 			'host'     => $data['host'],
 			'user'     => $data['user'],
 			'password' => $data['password'],
 			'database' => $data['db'],
 			'prefix'   => $data['dbprefix'],
-		);
+		];
 
 		if ((int) $data['dbencryption'] !== 0)
 		{
@@ -383,17 +383,17 @@ class ApplicationModel extends FormModel
 
 				// Do not check for valid server certificate here, leave this to the user, moreover disable using a proxy if any is configured.
 				$options->set('transport.curl',
-					array(
+					[
 						CURLOPT_SSL_VERIFYPEER => false,
 						CURLOPT_SSL_VERIFYHOST => false,
 						CURLOPT_PROXY => null,
 						CURLOPT_PROXYUSERPWD => null,
-					)
+					]
 				);
-				$response = HttpFactory::getHttp($options)->get('https://' . $host . Uri::root(true) . '/', array('Host' => $host), 10);
+				$response = HttpFactory::getHttp($options)->get('https://' . $host . Uri::root(true) . '/', ['Host' => $host], 10);
 
 				// If available in HTTPS check also the status code.
-				if (!in_array($response->code, array(200, 503, 301, 302, 303, 304, 305, 306, 307, 308, 309, 310, 401), true))
+				if (!in_array($response->code, [200, 503, 301, 302, 303, 304, 305, 306, 307, 308, 309, 310, 401], true))
 				{
 					throw new \RuntimeException(Text::_('COM_CONFIG_ERROR_SSL_NOT_AVAILABLE_HTTP_CODE'));
 				}
@@ -454,12 +454,12 @@ class ApplicationModel extends FormModel
 		// Save the text filters
 		if (isset($data['filters']))
 		{
-			$registry = new Registry(array('filters' => $data['filters']));
+			$registry = new Registry(['filters' => $data['filters']]);
 
 			$extension = Table::getInstance('extension');
 
 			// Get extension_id
-			$extensionId = $extension->find(array('name' => 'com_config'));
+			$extensionId = $extension->find(['name' => 'com_config']);
 
 			if ($extension->load((int) $extensionId))
 			{
@@ -870,7 +870,7 @@ class ApplicationModel extends FormModel
 		// Clear cache of com_config component.
 		$this->cleanCache('_system');
 
-		$result = $app->triggerEvent('onApplicationBeforeSave', array($config));
+		$result = $app->triggerEvent('onApplicationBeforeSave', [$config]);
 
 		// Store the data.
 		if (in_array(false, $result, true))
@@ -882,7 +882,7 @@ class ApplicationModel extends FormModel
 		$result = $this->writeConfigFile($config);
 
 		// Trigger the after save event.
-		$app->triggerEvent('onApplicationAfterSave', array($config));
+		$app->triggerEvent('onApplicationAfterSave', [$config]);
 
 		return $result;
 	}
@@ -909,7 +909,7 @@ class ApplicationModel extends FormModel
 		unset($prev['root_user']);
 		$config = new Registry($prev);
 
-		$result = $app->triggerEvent('onApplicationBeforeSave', array($config));
+		$result = $app->triggerEvent('onApplicationBeforeSave', [$config]);
 
 		// Store the data.
 		if (in_array(false, $result, true))
@@ -921,7 +921,7 @@ class ApplicationModel extends FormModel
 		$result = $this->writeConfigFile($config);
 
 		// Trigger the after save event.
-		$app->triggerEvent('onApplicationAfterSave', array($config));
+		$app->triggerEvent('onApplicationAfterSave', [$config]);
 
 		return $result;
 	}
@@ -950,7 +950,7 @@ class ApplicationModel extends FormModel
 		}
 
 		// Attempt to write the configuration file as a PHP class named JConfig.
-		$configuration = $config->toString('PHP', array('class' => 'JConfig', 'closingtag' => false));
+		$configuration = $config->toString('PHP', ['class' => 'JConfig', 'closingtag' => false]);
 
 		if (!File::write($file, $configuration))
 		{
@@ -986,13 +986,13 @@ class ApplicationModel extends FormModel
 		if (is_null($permission))
 		{
 			// Get data from input.
-			$permission = array(
+			$permission = [
 				'component' => $app->input->Json->get('comp'),
 				'action'    => $app->input->Json->get('action'),
 				'rule'      => $app->input->Json->get('rule'),
 				'value'     => $app->input->Json->get('value'),
-				'title'     => $app->input->Json->get('title', '', 'RAW')
-			);
+				'title'     => $app->input->Json->get('title', '', 'RAW'),
+			];
 		}
 
 		// We are creating a new item so we don't have an item id so don't allow.
@@ -1068,7 +1068,7 @@ class ApplicationModel extends FormModel
 
 			if ($result === false)
 			{
-				$data = array($permission['action'] => array($permission['rule'] => $permission['value']));
+				$data = [$permission['action'] => [$permission['rule'] => $permission['value']]];
 
 				$rules        = new Rules($data);
 				$asset->rules = (string) $rules;
@@ -1112,13 +1112,13 @@ class ApplicationModel extends FormModel
 					// Check if we already have an action entry.
 					if (!isset($temp[$permission['action']]))
 					{
-						$temp[$permission['action']] = array();
+						$temp[$permission['action']] = [];
 					}
 
 					// Check if we already have a rule entry.
 					if (!isset($temp[$permission['action']][$permission['rule']]))
 					{
-						$temp[$permission['action']][$permission['rule']] = array();
+						$temp[$permission['action']][$permission['rule']] = [];
 					}
 
 					// Set the new permission.
@@ -1160,11 +1160,11 @@ class ApplicationModel extends FormModel
 		}
 
 		// All checks done.
-		$result = array(
+		$result = [
 			'text'    => '',
 			'class'   => '',
 			'result'  => true,
-		);
+		];
 
 		// Show the current effective calculated permission considering current group, path and cascade.
 
@@ -1376,10 +1376,10 @@ class ApplicationModel extends FormModel
 		// Prepare email and try to send it
 		$mailer = new MailTemplate('com_config.test_mail', $user->getParam('language', $app->get('language')), $mail);
 		$mailer->addTemplateData(
-			array(
+			[
 				'sitename' => $app->get('sitename'),
-				'method' => Text::_('COM_CONFIG_SENDMAIL_METHOD_' . strtoupper($mail->Mailer))
-			)
+				'method' => Text::_('COM_CONFIG_SENDMAIL_METHOD_' . strtoupper($mail->Mailer)),
+			]
 		);
 		$mailer->addRecipient($app->get('mailfrom'), $app->get('fromname'));
 

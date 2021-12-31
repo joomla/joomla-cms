@@ -1486,13 +1486,12 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
 		// This last check can only be relied on if tracking session metadata
 		if (Factory::getApplication()->get('session_metadata', true))
 		{
-			$db = Factory::getDbo();
-			$query = $db->getQuery(true)
+			$query = $this->_db->getQuery(true)
 				->select('COUNT(userid)')
-				->from($db->quoteName('#__session'))
-				->where($db->quoteName('userid') . ' = ' . (int) $against);
-			$db->setQuery($query);
-			$checkedOut = (boolean) $db->loadResult();
+				->from($this->_db->quoteName('#__session'))
+				->where($this->_db->quoteName('userid') . ' = ' . (int) $against);
+			$this->_db->setQuery($query);
+			$checkedOut = (boolean) $this->_db->loadResult();
 
 			// If a session exists for the user then it is checked out.
 			return $checkedOut;

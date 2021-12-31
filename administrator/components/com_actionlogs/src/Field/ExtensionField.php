@@ -41,7 +41,9 @@ class ExtensionField extends ListField
 	 */
 	public function getOptions()
 	{
-		$db    = Factory::getDbo();
+		/** @var \Joomla\Database\DatabaseDriver $db */
+		$db = Factory::getContainer()->get('DatabaseDriver');
+
 		$query = $db->getQuery(true)
 			->select('DISTINCT ' . $db->quoteName('extension'))
 			->from($db->quoteName('#__action_logs'))

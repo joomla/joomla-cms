@@ -83,7 +83,9 @@ class CMSHelper
 	 */
 	public function getLanguageId($langCode)
 	{
-		$db    = Factory::getDbo();
+		/* @var \Joomla\Database\DatabaseDriver $db */
+		$db = Factory::getContainer()->get('DatabaseDriver');
+
 		$query = $db->getQuery(true)
 			->select($db->quoteName('lang_id'))
 			->from($db->quoteName('#__languages'))
@@ -106,7 +108,7 @@ class CMSHelper
 	public function getRowData(TableInterface $table)
 	{
 		$fields = $table->getFields();
-		$data = array();
+		$data = [];
 
 		foreach ($fields as &$field)
 		{

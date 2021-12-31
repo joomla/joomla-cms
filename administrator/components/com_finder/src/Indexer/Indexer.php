@@ -116,22 +116,21 @@ class Indexer
 	 */
 	public function __construct()
 	{
-		$this->db = Factory::getDbo();
-
-		$db = $this->db;
+		/* @var \Joomla\Database\DatabaseDriver $db */
+		$this->db = Factory::getContainer()->get('DatabaseDriver');
 
 		// Set up query template for addTokensToDb
-		$this->addTokensToDbQueryTemplate = $db->getQuery(true)->insert($db->quoteName('#__finder_tokens'))
+		$this->addTokensToDbQueryTemplate = $this->db->getQuery(true)->insert($this->db->quoteName('#__finder_tokens'))
 			->columns(
-				array(
+				[
 					$db->quoteName('term'),
 					$db->quoteName('stem'),
 					$db->quoteName('common'),
 					$db->quoteName('phrase'),
 					$db->quoteName('weight'),
 					$db->quoteName('context'),
-					$db->quoteName('language')
-				)
+					$db->quoteName('language'),
+				]
 			);
 	}
 
@@ -163,13 +162,13 @@ class Indexer
 			$data->options = ComponentHelper::getParams('com_finder');
 
 			// Setup the weight lookup information.
-			$data->weights = array(
+			$data->weights = [
 				self::TITLE_CONTEXT => round($data->options->get('title_multiplier', 1.7), 2),
 				self::TEXT_CONTEXT  => round($data->options->get('text_multiplier', 0.7), 2),
 				self::META_CONTEXT  => round($data->options->get('meta_multiplier', 1.2), 2),
 				self::PATH_CONTEXT  => round($data->options->get('path_multiplier', 2.0), 2),
-				self::MISC_CONTEXT  => round($data->options->get('misc_multiplier', 0.3), 2)
-			);
+				self::MISC_CONTEXT  => round($data->options->get('misc_multiplier', 0.3), 2),
+			];
 
 			// Set the current time as the start time.
 			$data->startTime = Factory::getDate()->toSql();
@@ -178,7 +177,7 @@ class Indexer
 			$data->batchSize   = (int) $data->options->get('batch_size', 50);
 			$data->batchOffset = 0;
 			$data->totalItems  = 0;
-			$data->pluginState = array();
+			$data->pluginState = [];
 		}
 
 		// Setup the profiler if debugging is enabled.
@@ -390,7 +389,7 @@ class Indexer
 						if ($group === static::PATH_CONTEXT)
 						{
 							$ip = File::stripExt($ip);
-							$ip = str_replace(array('/', '-'), ' ', $ip);
+							$ip = str_replace(['/', '-'], ' ', $ip);
 						}
 
 						// Tokenize a string of content and add it to the database.
@@ -625,7 +624,7 @@ class Indexer
 
 		// Trigger a plugin event after indexing
 		PluginHelper::importPlugin('finder');
-		Factory::getApplication()->triggerEvent('onFinderIndexAfterIndex', array($item, $linkId));
+		Factory::getApplication()->triggerEvent('onFinderIndexAfterIndex', [$item, $linkId]);
 
 		return $linkId;
 	}
@@ -686,7 +685,7 @@ class Indexer
 		}
 
 		PluginHelper::importPlugin('finder');
-		Factory::getApplication()->triggerEvent('onFinderIndexAfterDelete', array($linkId));
+		Factory::getApplication()->triggerEvent('onFinderIndexAfterDelete', [$linkId]);
 
 		return true;
 	}
@@ -761,13 +760,13 @@ class Indexer
 		$state = static::getState();
 
 		// Get the relevant configuration variables.
-		$config = array(
+		$config = [
 			$state->weights,
 			$state->options->get('stem', 1),
-			$state->options->get('stemmer', 'porter_en')
-		);
+			$state->options->get('stemmer', 'porter_en'),
+		];
 
-		return md5(serialize(array($item, $config)));
+		return md5(serialize([$item, $config]));
 	}
 
 	/**
@@ -920,7 +919,7 @@ class Indexer
 		$query = clone $this->addTokensToDbQueryTemplate;
 
 		// Check if a single FinderIndexerToken object was given and make it to be an array of FinderIndexerToken objects
-		$tokens = is_array($tokens) ? $tokens : array($tokens);
+		$tokens = is_array($tokens) ? $tokens : [$tokens];
 
 		// Count the number of token values.
 		$values = 0;
@@ -992,15 +991,15 @@ class Indexer
 	 */
 	protected function toggleTables($memory)
 	{
-		if (strtolower(Factory::getDbo()->getServerType()) != 'mysql')
+		// Get the database adapter.
+		$db = $this->db;
+
+		if (strtolower($db->getServerType()) != 'mysql')
 		{
 			return true;
 		}
 
 		static $state;
-
-		// Get the database adapter.
-		$db = $this->db;
 
 		// Check if we are setting the tables to the Memory engine.
 		if ($memory === true && $state !== true)

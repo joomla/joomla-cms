@@ -34,7 +34,7 @@ abstract class ArticlesCategoryHelper
 	 *
 	 * @param   \Joomla\Registry\Registry  &$params  object holding the models parameters
 	 *
-	 * @return  mixed
+	 * @return  mixed|void
 	 *
 	 * @since  1.6
 	 */
@@ -78,7 +78,7 @@ abstract class ArticlesCategoryHelper
 					{
 						case 'category':
 						case 'categories':
-							$catids = array($input->getInt('id'));
+							$catids = [$input->getInt('id')];
 							break;
 						case 'article':
 							if ($params->get('show_on_article_page', 1))
@@ -95,11 +95,11 @@ abstract class ArticlesCategoryHelper
 									$article->setState('filter.published', 1);
 									$article->setState('article.id', (int) $article_id);
 									$item   = $article->getItem();
-									$catids = array($item->catid);
+									$catids = [$item->catid];
 								}
 								else
 								{
-									$catids = array($catid);
+									$catids = [$catid];
 								}
 							}
 							else
@@ -140,7 +140,7 @@ abstract class ArticlesCategoryHelper
 				$categories->setState('filter.get_children', $levels);
 				$categories->setState('filter.published', 1);
 				$categories->setState('filter.access', $access);
-				$additional_catids = array();
+				$additional_catids = [];
 
 				foreach ($catids as $catid)
 				{
@@ -174,7 +174,7 @@ abstract class ArticlesCategoryHelper
 		switch ($ordering)
 		{
 			case 'random':
-				$articles->setState('list.ordering', Factory::getDbo()->getQuery(true)->rand());
+				$articles->setState('list.ordering', Factory::getContainer()->get('DatabaseDriver')->getQuery(true)->rand());
 				break;
 
 			case 'rating_count':
@@ -196,12 +196,12 @@ abstract class ArticlesCategoryHelper
 		}
 
 		// Filter by multiple tags
-		$articles->setState('filter.tag', $params->get('filter_tag', array()));
+		$articles->setState('filter.tag', $params->get('filter_tag', []));
 
 		$articles->setState('filter.featured', $params->get('show_front', 'show'));
-		$articles->setState('filter.author_id', $params->get('created_by', array()));
+		$articles->setState('filter.author_id', $params->get('created_by', []));
 		$articles->setState('filter.author_id.include', $params->get('author_filtering_type', 1));
-		$articles->setState('filter.author_alias', $params->get('created_by_alias', array()));
+		$articles->setState('filter.author_alias', $params->get('created_by_alias', []));
 		$articles->setState('filter.author_alias.include', $params->get('author_alias_filtering_type', 1));
 		$excluded_articles = $params->get('excluded_articles', '');
 
@@ -327,7 +327,7 @@ abstract class ArticlesCategoryHelper
 	 */
 	public static function _cleanIntrotext($introtext)
 	{
-		$introtext = str_replace(array('<p>', '</p>'), ' ', $introtext);
+		$introtext = str_replace(['<p>', '</p>'], ' ', $introtext);
 		$introtext = strip_tags($introtext, '<a><em><strong>');
 		$introtext = trim($introtext);
 
@@ -397,7 +397,7 @@ abstract class ArticlesCategoryHelper
 	 */
 	public static function groupBy($list, $fieldName, $direction, $fieldNameToKeep = null)
 	{
-		$grouped = array();
+		$grouped = [];
 
 		if (!\is_array($list))
 		{
@@ -406,14 +406,14 @@ abstract class ArticlesCategoryHelper
 				return $grouped;
 			}
 
-			$list = array($list);
+			$list = [$list];
 		}
 
 		foreach ($list as $key => $item)
 		{
 			if (!isset($grouped[$item->$fieldName]))
 			{
-				$grouped[$item->$fieldName] = array();
+				$grouped[$item->$fieldName] = [];
 			}
 
 			if ($fieldNameToKeep === null)
@@ -448,7 +448,7 @@ abstract class ArticlesCategoryHelper
 	 */
 	public static function groupByDate($list, $direction = 'ksort', $type = 'year', $monthYearFormat = 'F Y', $field = 'created')
 	{
-		$grouped = array();
+		$grouped = [];
 
 		if (!\is_array($list))
 		{
@@ -457,7 +457,7 @@ abstract class ArticlesCategoryHelper
 				return $grouped;
 			}
 
-			$list = array($list);
+			$list = [$list];
 		}
 
 		foreach ($list as $key => $item)
@@ -469,7 +469,7 @@ abstract class ArticlesCategoryHelper
 
 					if (!isset($grouped[$month_year]))
 					{
-						$grouped[$month_year] = array();
+						$grouped[$month_year] = [];
 					}
 
 					$grouped[$month_year][$key] = $item;
@@ -480,7 +480,7 @@ abstract class ArticlesCategoryHelper
 
 					if (!isset($grouped[$year]))
 					{
-						$grouped[$year] = array();
+						$grouped[$year] = [];
 					}
 
 					$grouped[$year][$key] = $item;
@@ -519,8 +519,8 @@ abstract class ArticlesCategoryHelper
 	 */
 	public static function groupByTags($list, $direction = 'ksort')
 	{
-		$grouped  = array();
-		$untagged = array();
+		$grouped  = [];
+		$untagged = [];
 
 		if (!$list)
 		{

@@ -39,8 +39,8 @@ abstract class ArticlesLatestHelper
 	 */
 	public static function getList(Registry $params, ArticlesModel $model)
 	{
-		// Get the Dbo and User object
-		$db   = Factory::getDbo();
+		/* @var \Joomla\Database\DatabaseDriver $db */
+		$db   = Factory::getContainer()->get('DatabaseDriver');
 		$user = Factory::getUser();
 
 		// Set application parameters in model
@@ -63,7 +63,7 @@ abstract class ArticlesLatestHelper
 		$model->setState('filter.access', $access);
 
 		// Category filter
-		$model->setState('filter.category_id', $params->get('catid', array()));
+		$model->setState('filter.category_id', $params->get('catid', []));
 
 		// State filter
 		$model->setState('filter.condition', 1);
@@ -82,7 +82,7 @@ abstract class ArticlesLatestHelper
 				break;
 
 			case 'created_by':
-				$model->setState('filter.author_id', $params->get('author', array()));
+				$model->setState('filter.author_id', $params->get('author', []));
 				break;
 
 			case '0':
@@ -113,13 +113,13 @@ abstract class ArticlesLatestHelper
 		}
 
 		// Set ordering
-		$order_map = array(
+		$order_map = [
 			'm_dsc'  => 'a.modified DESC, a.created',
 			'mc_dsc' => 'a.modified',
 			'c_dsc'  => 'a.created',
 			'p_dsc'  => 'a.publish_up',
 			'random' => $db->getQuery(true)->rand(),
-		);
+		];
 
 		$ordering = ArrayHelper::getValue($order_map, $params->get('ordering'), 'a.publish_up');
 		$dir      = 'DESC';

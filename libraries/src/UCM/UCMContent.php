@@ -14,6 +14,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Table\Table;
 use Joomla\CMS\Table\TableInterface;
+use Joomla\Database\DatabaseDriver;
 use Joomla\Database\ParameterType;
 
 /**
@@ -103,7 +104,9 @@ class UCMContent extends UCMBase
 	 */
 	public function delete($pk, UCMType $type = null)
 	{
-		$db   = Factory::getDbo();
+		/* @var DatabaseDriver $db */
+		$db = Factory::getContainer()->get('DatabaseDriver');
+
 		$type = $type ?: $this->type;
 
 		if (!\is_array($pk))
@@ -139,7 +142,7 @@ class UCMContent extends UCMBase
 
 		$fields = json_decode($contentType->type->field_mappings);
 
-		$ucmData = array();
+		$ucmData = [];
 
 		$common = \is_object($fields->common) ? $fields->common : $fields->common[0];
 
@@ -198,7 +201,7 @@ class UCMContent extends UCMBase
 		if (!$primaryKey)
 		{
 			// Store the core UCM mappings
-			$baseData = array();
+			$baseData = [];
 			$baseData['ucm_type_id']     = $typeId;
 			$baseData['ucm_item_id']     = $data['core_content_item_id'];
 			$baseData['ucm_language_id'] = ContentHelper::getLanguageId($data['core_language']);
@@ -224,7 +227,9 @@ class UCMContent extends UCMBase
 	 */
 	public function getPrimaryKey($typeId, $contentItemId)
 	{
-		$db = Factory::getDbo();
+		/* @var DatabaseDriver $db */
+		$db = Factory::getContainer()->get('DatabaseDriver');
+
 		$query = $db->getQuery(true)
 			->select($db->quoteName('ucm_id'))
 			->from($db->quoteName('#__ucm_base'))

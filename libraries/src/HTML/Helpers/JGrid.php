@@ -193,16 +193,17 @@ abstract class JGrid
 		// Special state for dates
 		if ($publishUp || $publishDown)
 		{
-			$nullDate = Factory::getDbo()->getNullDate();
-			$nowDate = Factory::getDate()->toUnix();
-
-			$tz = Factory::getUser()->getTimezone();
+			/* @var \Joomla\Database\DatabaseDriver $db */
+			$db       = Factory::getContainer()->get('DatabaseDriver');
+			$nullDate = $db->getNullDate();
+			$nowDate  = Factory::getDate()->toUnix();
+			$tz       = Factory::getUser()->getTimezone();
 
 			$publishUp = ($publishUp !== null && $publishUp !== $nullDate) ? Factory::getDate($publishUp, 'UTC')->setTimezone($tz) : false;
 			$publishDown = ($publishDown !== null && $publishDown !== $nullDate) ? Factory::getDate($publishDown, 'UTC')->setTimezone($tz) : false;
 
 			// Create tip text, only we have publish up or down settings
-			$tips = array();
+			$tips = [];
 
 			if ($publishUp)
 			{
@@ -247,7 +248,7 @@ abstract class JGrid
 				}
 			}
 
-			return static::state($states, $value, $i, array('prefix' => $prefix, 'translate' => !$tip), $enabled, true, $checkbox, $formId);
+			return static::state($states, $value, $i, ['prefix' => $prefix, 'translate' => !$tip], $enabled, true, $checkbox, $formId);
 		}
 
 		return static::state($states, $value, $i, $prefix, $enabled, true, $checkbox, $formId);
@@ -280,10 +281,10 @@ abstract class JGrid
 			$prefix   = array_key_exists('prefix', $options) ? $options['prefix'] : '';
 		}
 
-		$states = array(
-			0 => array('setDefault', '', 'JLIB_HTML_SETDEFAULT_ITEM', '', 1, $inactive_class, $inactive_class),
-			1 => array('unsetDefault', 'JDEFAULT', 'JLIB_HTML_UNSETDEFAULT_ITEM', 'JDEFAULT', 1, $active_class, $active_class),
-		);
+		$states = [
+			0 => ['setDefault', '', 'JLIB_HTML_SETDEFAULT_ITEM', '', 1, $inactive_class, $inactive_class],
+			1 => ['unsetDefault', 'JDEFAULT', 'JLIB_HTML_UNSETDEFAULT_ITEM', 'JDEFAULT', 1, $active_class, $active_class],
+		];
 
 		return static::state($states, $value, $i, $prefix, $enabled, true, $checkbox, $formId);
 	}
@@ -300,10 +301,10 @@ abstract class JGrid
 	 *
 	 * @since   1.6
 	 */
-	public static function publishedOptions($config = array())
+	public static function publishedOptions($config = [])
 	{
 		// Build the active state filter options.
-		$options = array();
+		$options = [];
 
 		if (!array_key_exists('published', $config) || $config['published'])
 		{

@@ -16,6 +16,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Router\Route;
+use Joomla\Database\DatabaseDriver;
 
 /**
  * Helper class for admin privacy status module
@@ -60,13 +61,15 @@ class PrivacyStatusHelper
 	 */
 	public static function getRequestFormPublished()
 	{
+		/* @var DatabaseDriver $db */
+		$db = Factory::getContainer()->get('DatabaseDriver');
+
 		$status = [
 			'exists'    => false,
 			'published' => false,
 			'link'      => '',
 		];
 
-		$db    = Factory::getDbo();
 		$query = $db->getQuery(true)
 			->select(
 				[
@@ -119,7 +122,6 @@ class PrivacyStatusHelper
 				$params = ComponentHelper::getParams('com_languages');
 				$defaultSiteLanguage = $params->get('site');
 
-				$db    = Factory::getDbo();
 				$query = $db->getQuery(true)
 					->select($db->quoteName('id'))
 					->from($db->quoteName('#__menu'))
@@ -161,13 +163,13 @@ class PrivacyStatusHelper
 	 */
 	public static function getNumberUrgentRequests()
 	{
-		// Load the parameters.
+		/* @var DatabaseDriver $db */
+		$db     = Factory::getContainer()->get('DatabaseDriver');
 		$params = ComponentHelper::getComponent('com_privacy')->getParams();
 		$notify = (int) $params->get('notify', 14);
 		$now    = Factory::getDate()->toSql();
 		$period = '-' . $notify;
 
-		$db    = Factory::getDbo();
 		$query = $db->getQuery(true);
 		$query->select('COUNT(*)')
 			->from($db->quoteName('#__privacy_requests'))

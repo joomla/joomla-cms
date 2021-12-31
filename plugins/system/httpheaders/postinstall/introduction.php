@@ -33,9 +33,10 @@ function httpheaders_postinstall_condition()
  */
 function httpheaders_postinstall_action()
 {
-	// Enable the plugin
-	$db = Factory::getDbo();
+	/* @var \Joomla\Database\DatabaseDriver $db */
+	$db = Factory::getContainer()->get('DatabaseDriver');
 
+	// Enable the plugin
 	$query = $db->getQuery(true)
 		->update($db->quoteName('#__extensions'))
 		->set($db->quoteName('enabled') . ' = 1')

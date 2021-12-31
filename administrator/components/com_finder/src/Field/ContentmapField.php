@@ -41,10 +41,10 @@ class ContentmapField extends GroupedlistField
 	 */
 	protected function getGroups()
 	{
-		$groups = array();
+		$groups = [];
 
-		// Get the database object and a new query object.
-		$db = Factory::getDbo();
+		/* @var \Joomla\Database\DatabaseDriver $db */
+		$db = Factory::getContainer()->get('DatabaseDriver');
 
 		// Levels subquery.
 		$levelQuery = $db->getQuery(true);
@@ -111,7 +111,7 @@ class ContentmapField extends GroupedlistField
 					// Initialize the group if necessary.
 					if (!isset($groups[$name]))
 					{
-						$groups[$name] = array();
+						$groups[$name] = [];
 					}
 
 					$groups[$name][] = HTMLHelper::_('select.option', $branch->value, $levelPrefix . $text);

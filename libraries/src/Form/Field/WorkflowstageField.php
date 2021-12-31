@@ -88,11 +88,14 @@ class WorkflowstageField extends GroupedlistField
 	 * @return  array  The field option objects as a nested array in groups.
 	 *
 	 * @since  4.0.0
+	 *
 	 * @throws  \UnexpectedValueException
 	 */
 	protected function getGroups()
 	{
-		$db    = Factory::getDbo();
+		/* @var \Joomla\Database\DatabaseDriver $db */
+		$db = Factory::getContainer()->get('DatabaseDriver');
+
 		$query = $db->getQuery(true);
 
 		// Select distinct stages for existing articles

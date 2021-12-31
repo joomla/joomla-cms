@@ -39,8 +39,10 @@ class UserMessagesField extends UserField
 	 */
 	protected function getGroups()
 	{
+		/* @var \Joomla\Database\DatabaseDriver $db */
+		$db = Factory::getContainer()->get('DatabaseDriver');
+
 		// Compute usergroups
-		$db = Factory::getDbo();
 		$query = $db->getQuery(true)
 			->select('id')
 			->from('#__usergroups');
@@ -88,6 +90,6 @@ class UserMessagesField extends UserField
 	 */
 	protected function getExcluded()
 	{
-		return array(Factory::getUser()->id);
+		return [Factory::getUser()->id];
 	}
 }

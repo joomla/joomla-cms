@@ -97,7 +97,8 @@ class DatabaseLogger extends Logger
 		// If both the database object and driver options are empty we want to use the system database connection.
 		if (empty($this->options['db_driver']))
 		{
-			$this->db = Factory::getDbo();
+			/* @var \Joomla\Database\DatabaseDriver $db */
+			$this->db = Factory::getContainer()->get('DatabaseDriver');
 			$this->driver = null;
 			$this->host = null;
 			$this->user = null;
@@ -155,14 +156,14 @@ class DatabaseLogger extends Logger
 	protected function connect()
 	{
 		// Build the configuration object to use for DatabaseDriver.
-		$options = array(
+		$options = [
 			'driver' => $this->driver,
 			'host' => $this->host,
 			'user' => $this->user,
 			'password' => $this->password,
 			'database' => $this->database,
 			'prefix' => $this->prefix,
-		);
+		];
 
 		$this->db = DatabaseDriver::getInstance($options);
 	}

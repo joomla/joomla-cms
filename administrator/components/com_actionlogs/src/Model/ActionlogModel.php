@@ -44,8 +44,9 @@ class ActionlogModel extends BaseDatabaseModel
 	 */
 	public function addLog($messages, $messageLanguageKey, $context, $userId = null)
 	{
+		/* @var \Joomla\Database\DatabaseDriver $db */
+		$db     = Factory::getContainer()->get('DatabaseDriver');
 		$user   = Factory::getUser($userId);
-		$db     = $this->getDbo();
 		$date   = Factory::getDate();
 		$params = ComponentHelper::getComponent('com_actionlogs')->getParams();
 
@@ -63,7 +64,7 @@ class ActionlogModel extends BaseDatabaseModel
 			$ip = 'COM_ACTIONLOGS_DISABLED';
 		}
 
-		$loggedMessages = array();
+		$loggedMessages = [];
 
 		foreach ($messages as $message)
 		{

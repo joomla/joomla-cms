@@ -94,13 +94,14 @@ class HtmlView extends BaseHtmlView
 	 */
 	public function display($tpl = null)
 	{
+		/* @var \Joomla\Database\DatabaseDriver $db */
+		$this->db            = Factory::getContainer()->get('DatabaseDriver');
 		$this->items         = $this->get('Items');
 		$this->pagination    = $this->get('Pagination');
 		$this->state         = $this->get('State');
 		$this->filterForm    = $this->get('FilterForm');
 		$this->activeFilters = $this->get('ActiveFilters');
 		$this->canDo         = ContentHelper::getActions('com_users');
-		$this->db            = Factory::getDbo();
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))

@@ -26,6 +26,7 @@ use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Session\SessionManager;
 use Joomla\CMS\Uri\Uri;
+use Joomla\Database\DatabaseDriver;
 use Joomla\Database\Exception\ExecutionFailureException;
 use Joomla\Database\ParameterType;
 use Joomla\Utilities\ArrayHelper;
@@ -157,8 +158,10 @@ abstract class UserHelper
 		// Add the user to the group if necessary.
 		if (!\in_array($groupId, $user->groups))
 		{
+			/* @var DatabaseDriver $db */
+			$db = Factory::getContainer()->get('DatabaseDriver');
+
 			// Check whether the group exists.
-			$db = Factory::getDbo();
 			$query = $db->getQuery(true)
 				->select($db->quoteName('id'))
 				->from($db->quoteName('#__usergroups'))
@@ -214,7 +217,7 @@ abstract class UserHelper
 		// Get the user object.
 		$user = User::getInstance((int) $userId);
 
-		return $user->groups ?? array();
+		return $user->groups ?? [];
 	}
 
 	/**
@@ -271,7 +274,8 @@ abstract class UserHelper
 	 */
 	public static function setUserGroups($userId, $groups)
 	{
-		// Get the user object.
+		/* @var DatabaseDriver $db */
+		$db   = Factory::getContainer()->get('DatabaseDriver');
 		$user = User::getInstance((int) $userId);
 
 		// Set the group ids.
@@ -279,7 +283,6 @@ abstract class UserHelper
 		$user->groups = $groups;
 
 		// Get the titles for the user groups.
-		$db = Factory::getDbo();
 		$query = $db->getQuery(true)
 			->select($db->quoteName(['id', 'title']))
 			->from($db->quoteName('#__usergroups'))
@@ -338,7 +341,7 @@ abstract class UserHelper
 		$data->id = $userId;
 
 		// Trigger the data preparation event.
-		Factory::getApplication()->triggerEvent('onContentPrepareData', array('com_users.profile', &$data));
+		Factory::getApplication()->triggerEvent('onContentPrepareData', ['com_users.profile', &$data]);
 
 		return $data;
 	}
@@ -354,7 +357,8 @@ abstract class UserHelper
 	 */
 	public static function activateUser($activation)
 	{
-		$db       = Factory::getDbo();
+		/* @var DatabaseDriver $db */
+		$db = Factory::getContainer()->get('DatabaseDriver');
 
 		// Let's get the id of the user we want to activate
 		$query = $db->getQuery(true)
@@ -404,8 +408,9 @@ abstract class UserHelper
 	 */
 	public static function getUserId($username)
 	{
-		// Initialise some variables
-		$db = Factory::getDbo();
+		/* @var DatabaseDriver $db */
+		$db = Factory::getContainer()->get('DatabaseDriver');
+
 		$query = $db->getQuery(true)
 			->select($db->quoteName('id'))
 			->from($db->quoteName('#__users'))
@@ -429,7 +434,7 @@ abstract class UserHelper
 	 * @since   3.2.1
 	 * @throws  \InvalidArgumentException when the algorithm is not supported
 	 */
-	public static function hashPassword($password, $algorithm = self::HASH_BCRYPT, array $options = array())
+	public static function hashPassword($password, $algorithm = self::HASH_BCRYPT, array $options = [])
 	{
 		$container = Factory::getContainer();
 
@@ -611,7 +616,8 @@ abstract class UserHelper
 			return false;
 		}
 
-		$db = Factory::getDbo();
+		/* @var DatabaseDriver $db */
+		$db = Factory::getContainer()->get('DatabaseDriver');
 
 		try
 		{
@@ -650,7 +656,7 @@ abstract class UserHelper
 		// If true, removes the current session id from the purge list
 		if ($keepCurrent)
 		{
-			$sessionIds = array_diff($sessionIds, array(Factory::getSession()->getId()));
+			$sessionIds = array_diff($sessionIds, [Factory::getSession()->getId()]);
 		}
 
 		// If there aren't any active sessions then there's nothing to do here

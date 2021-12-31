@@ -13,6 +13,7 @@ namespace Joomla\Component\Newsfeeds\Administrator\Helper;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ContentHelper;
+use Joomla\Database\DatabaseDriver;
 use Joomla\Database\ParameterType;
 
 /**
@@ -40,7 +41,9 @@ class NewsfeedsHelper extends ContentHelper
 	 */
 	public static function countItems(&$items)
 	{
-		$db    = Factory::getDbo();
+		/* @var DatabaseDriver $db */
+		$db = Factory::getContainer()->get('DatabaseDriver');
+
 		$query = $db->getQuery(true);
 		$query->select(
 			[
@@ -103,8 +106,9 @@ class NewsfeedsHelper extends ContentHelper
 	 */
 	public static function countTagItems(&$items, $extension)
 	{
-		$db        = Factory::getDbo();
-		$query     = $db->getQuery(true);
+		/* @var DatabaseDriver $db */
+		$db = Factory::getContainer()->get('DatabaseDriver');
+
 		$parts     = explode('.', $extension);
 		$section   = null;
 
@@ -113,6 +117,7 @@ class NewsfeedsHelper extends ContentHelper
 			$section = $parts[1];
 		}
 
+		$query = $db->getQuery(true);
 		$query->select(
 			[
 				$db->quoteName('published', 'state'),

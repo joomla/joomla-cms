@@ -49,7 +49,8 @@ class PlgContentPagenavigation extends CMSPlugin
 
 		if ($context === 'com_content.article' && $view === 'article' && $params->get('show_item_navigation'))
 		{
-			$db         = Factory::getDbo();
+			/* @var \Joomla\Database\DatabaseDriver $db */
+			$db         = Factory::getContainer()->get('DatabaseDriver');
 			$user       = Factory::getUser();
 			$lang       = Factory::getLanguage();
 			$now        = Factory::getDate()->toSql();

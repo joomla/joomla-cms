@@ -174,12 +174,12 @@ class ConsentBoxField extends CheckboxesField
 		}
 
 		// Here mainly for B/C with old layouts. This can be done in the layouts directly
-		$extraData = array(
+		$extraData = [
 			'text'     => $data['label'],
 			'for'      => $this->id,
 			'classes'  => explode(' ', $data['labelclass']),
 			'position' => $position,
-		);
+		];
 
 		return $this->getRenderer($this->renderLabelLayout)->render(array_merge($data, $extraData));
 	}
@@ -224,11 +224,11 @@ class ConsentBoxField extends CheckboxesField
 	{
 		$data = parent::getLayoutData();
 
-		$extraData = array(
+		$extraData = [
 			'articleid' => (integer) $this->articleid,
 			'menuItemId' => (integer) $this->menuItemId,
 			'privacyType' => (string) $this->privacyType,
-		);
+		];
 
 		return array_merge($data, $extraData);
 	}
@@ -242,11 +242,12 @@ class ConsentBoxField extends CheckboxesField
 	 */
 	private function getAssignedArticleUrl()
 	{
-		$db = Factory::getDbo();
+		/* @var \Joomla\Database\DatabaseDriver $db */
+		$db = Factory::getContainer()->get('DatabaseDriver');
 
 		// Get the info from the article
 		$query = $db->getQuery(true)
-			->select($db->quoteName(array('id', 'catid', 'language')))
+			->select($db->quoteName(['id', 'catid', 'language']))
 			->from($db->quoteName('#__content'))
 			->where($db->quoteName('id') . ' = ' . (int) $this->articleid);
 		$db->setQuery($query);
@@ -331,7 +332,9 @@ class ConsentBoxField extends CheckboxesField
 
 			if (Multilanguage::isEnabled())
 			{
-				$db    = Factory::getDbo();
+				/* @var \Joomla\Database\DatabaseDriver $db */
+				$db = Factory::getContainer()->get('DatabaseDriver');
+
 				$query = $db->getQuery(true)
 					->select($db->quoteName(['id', 'language']))
 					->from($db->quoteName('#__menu'))

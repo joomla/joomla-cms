@@ -139,7 +139,7 @@ class ChromestyleField extends GroupedlistField
 	 */
 	protected function getGroups()
 	{
-		$groups = array();
+		$groups = [];
 
 		// Add Module Style Field
 		$tmp = '---' . Text::_('JLIB_FORM_VALUE_FROM_TEMPLATE') . '---';
@@ -151,7 +151,7 @@ class ChromestyleField extends GroupedlistField
 		foreach ($templateStyles as $template => $styles)
 		{
 			$template = ucfirst($template);
-			$groups[$template] = array();
+			$groups[$template] = [];
 
 			foreach ($styles as $style)
 			{
@@ -174,7 +174,7 @@ class ChromestyleField extends GroupedlistField
 	 */
 	protected function getTemplateModuleStyles()
 	{
-		$moduleStyles = array();
+		$moduleStyles = [];
 
 		// Global Layouts
 		$layouts = Folder::files(JPATH_SITE . '/layouts/chromes', '.*\.php');
@@ -228,7 +228,8 @@ class ChromestyleField extends GroupedlistField
 	 */
 	protected function getTemplates()
 	{
-		$db = Factory::getDbo();
+		/* @var \Joomla\Database\DatabaseDriver $db */
+		$db = Factory::getContainer()->get('DatabaseDriver');
 
 		// Get the database object and a new query object.
 		$query = $db->getQuery(true);

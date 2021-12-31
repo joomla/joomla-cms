@@ -45,9 +45,8 @@ class FinderHelper
 			return;
 		}
 
-		// Initialise our variables
-		$db = Factory::getDbo();
-		$query = $db->getQuery(true);
+		/* @var \Joomla\Database\DatabaseDriver $db */
+		$db = Factory::getContainer()->get('DatabaseDriver');
 
 		// Sanitise the term for the database
 		$temp = unserialize(serialize($searchquery));
@@ -60,6 +59,7 @@ class FinderHelper
 		$entry->results = $resultCount;
 
 		// Query the table to determine if the term has been searched previously
+		$query = $db->getQuery(true);
 		$query->select($db->quoteName('hits'))
 			->from($db->quoteName('#__finder_logging'))
 			->where($db->quoteName('md5sum') . ' = ' . $db->quote($entry->md5sum));

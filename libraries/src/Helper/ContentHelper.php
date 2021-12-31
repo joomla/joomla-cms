@@ -21,6 +21,7 @@ use Joomla\CMS\Log\Log;
 use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Table\Table;
+use Joomla\Database\DatabaseDriver;
 use Joomla\Registry\Registry;
 
 /**
@@ -56,18 +57,19 @@ class ContentHelper
 	 */
 	public static function countRelations(&$items, $config)
 	{
-		$db = Factory::getDbo();
+		/* @var DatabaseDriver $db */
+		$db = Factory::getContainer()->get('DatabaseDriver');
 
 		// Allow custom state / condition values and custom column names to support custom components
-		$counter_names = isset($config->counter_names) ? $config->counter_names : array(
+		$counter_names = isset($config->counter_names) ? $config->counter_names : [
 			'-2' => 'count_trashed',
 			'0'  => 'count_unpublished',
 			'1'  => 'count_published',
 			'2'  => 'count_archived',
-		);
+		];
 
 		// Index category objects by their ID
-		$records = array();
+		$records = [];
 
 		foreach ($items as $item)
 		{
@@ -253,7 +255,9 @@ class ContentHelper
 	 */
 	public static function getLanguageId($langCode)
 	{
-		$db    = Factory::getDbo();
+		/* @var DatabaseDriver $db */
+		$db = Factory::getContainer()->get('DatabaseDriver');
+
 		$query = $db->getQuery(true)
 			->select($db->quoteName('lang_id'))
 			->from($db->quoteName('#__languages'))

@@ -40,14 +40,16 @@ class SearchfilterField extends ListField
 	 */
 	public function getOptions()
 	{
-		// Build the query.
-		$db = Factory::getDbo();
+		/* @var \Joomla\Database\DatabaseDriver $db */
+		$db = Factory::getContainer()->get('DatabaseDriver');
+
 		$query = $db->getQuery(true)
 			->select('f.title AS text, f.filter_id AS value')
 			->from($db->quoteName('#__finder_filters') . ' AS f')
 			->where('f.state = 1')
 			->order('f.title ASC');
 		$db->setQuery($query);
+
 		$options = $db->loadObjectList();
 
 		array_unshift($options, HTMLHelper::_('select.option', '', Text::_('COM_FINDER_SELECT_SEARCH_FILTER'), 'value', 'text'));

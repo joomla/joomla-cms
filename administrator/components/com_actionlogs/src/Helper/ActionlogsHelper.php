@@ -161,7 +161,9 @@ class ActionlogsHelper
 	 */
 	public static function getLogContentTypeParams($context)
 	{
-		$db = Factory::getDbo();
+		/* @var \Joomla\Database\DatabaseDriver $db */
+		$db = Factory::getContainer()->get('DatabaseDriver');
+
 		$query = $db->getQuery(true)
 			->select('a.*')
 			->from($db->quoteName('#__action_log_config', 'a'))
@@ -285,25 +287,26 @@ class ActionlogsHelper
 	 */
 	public static function loadActionLogPluginsLanguage()
 	{
+		/* @var \Joomla\Database\DatabaseDriver $db */
+		$db   = Factory::getContainer()->get('DatabaseDriver');
 		$lang = Factory::getLanguage();
-		$db   = Factory::getDbo();
 
 		// Get all (both enabled and disabled) actionlog plugins
 		$query = $db->getQuery(true)
 			->select(
 				$db->quoteName(
-					array(
+					[
 						'folder',
 						'element',
 						'params',
-						'extension_id'
-					),
-					array(
+						'extension_id',
+					],
+					[
 						'type',
 						'name',
 						'params',
-						'id'
-					)
+						'id',
+					]
 				)
 			)
 			->from('#__extensions')
@@ -319,7 +322,7 @@ class ActionlogsHelper
 		}
 		catch (\RuntimeException $e)
 		{
-			$rows = array();
+			$rows = [];
 		}
 
 		if (empty($rows))

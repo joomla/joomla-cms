@@ -37,10 +37,10 @@ class FrontendlanguageField extends ListField
 	 */
 	protected function getOptions()
 	{
-		// Get the database object and a new query object.
-		$db    = Factory::getDbo();
-		$query = $db->getQuery(true);
+		/* @var \Joomla\Database\DatabaseDriver $db */
+		$db = Factory::getContainer()->get('DatabaseDriver');
 
+		$query = $db->getQuery(true);
 		$query->select('a.lang_code AS value, a.title AS text')
 			->from($db->quoteName('#__languages') . ' AS a')
 			->where('a.published = 1')
@@ -62,7 +62,7 @@ class FrontendlanguageField extends ListField
 		}
 		catch (\RuntimeException $e)
 		{
-			$languages = array();
+			$languages = [];
 
 			if (Factory::getUser()->authorise('core.admin'))
 			{

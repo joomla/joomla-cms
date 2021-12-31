@@ -16,6 +16,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Object\CMSObject;
+use Joomla\Database\DatabaseDriver;
 use Joomla\Database\ParameterType;
 use SimpleXMLElement;
 
@@ -35,14 +36,17 @@ class InstallerHelper
 	 */
 	public static function getExtensionTypes()
 	{
-		$db    = Factory::getDbo();
+		/* @var DatabaseDriver $db */
+		$db = Factory::getContainer()->get('DatabaseDriver');
+
 		$query = $db->getQuery(true)
 			->select('DISTINCT ' . $db->quoteName('type'))
 			->from($db->quoteName('#__extensions'));
 		$db->setQuery($query);
+
 		$types = $db->loadColumn();
 
-		$options = array();
+		$options = [];
 
 		foreach ($types as $type)
 		{
@@ -61,8 +65,10 @@ class InstallerHelper
 	 */
 	public static function getExtensionGroups()
 	{
+		/* @var DatabaseDriver $db */
+		$db = Factory::getContainer()->get('DatabaseDriver');
+
 		$nofolder = '';
-		$db       = Factory::getDbo();
 		$query    = $db->getQuery(true)
 			->select('DISTINCT ' . $db->quoteName('folder'))
 			->from($db->quoteName('#__extensions'))
@@ -70,9 +76,10 @@ class InstallerHelper
 			->bind(':folder', $nofolder)
 			->order($db->quoteName('folder'));
 		$db->setQuery($query);
+
 		$folders = $db->loadColumn();
 
-		$options = array();
+		$options = [];
 
 		foreach ($folders as $folder)
 		{
@@ -92,7 +99,7 @@ class InstallerHelper
 	public static function getClientOptions()
 	{
 		// Build the filter options.
-		$options   = array();
+		$options   = [];
 		$options[] = HTMLHelper::_('select.option', '0', Text::_('JSITE'));
 		$options[] = HTMLHelper::_('select.option', '1', Text::_('JADMINISTRATOR'));
 		$options[] = HTMLHelper::_('select.option', '3', Text::_('JAPI'));
@@ -110,7 +117,7 @@ class InstallerHelper
 	public static function getStateOptions()
 	{
 		// Build the filter options.
-		$options   = array();
+		$options   = [];
 		$options[] = HTMLHelper::_('select.option', '0', Text::_('JDISABLED'));
 		$options[] = HTMLHelper::_('select.option', '1', Text::_('JENABLED'));
 		$options[] = HTMLHelper::_('select.option', '2', Text::_('JPROTECTED'));
@@ -247,7 +254,8 @@ class InstallerHelper
 		// Get the database driver. If it fails we cannot report whether the extension supports download keys.
 		try
 		{
-			$db = Factory::getDbo();
+			/* @var DatabaseDriver $db */
+			$db = Factory::getContainer()->get('DatabaseDriver');
 		}
 		catch (Exception $e)
 		{
@@ -375,7 +383,8 @@ class InstallerHelper
 	{
 		try
 		{
-			$db = Factory::getDbo();
+			/* @var DatabaseDriver $db */
+			$db = Factory::getContainer()->get('DatabaseDriver');
 		}
 		catch (Exception $e)
 		{

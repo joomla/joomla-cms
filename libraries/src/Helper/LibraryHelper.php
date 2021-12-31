@@ -16,6 +16,7 @@ use Joomla\CMS\Cache\Exception\CacheExceptionInterface;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
+use Joomla\Database\DatabaseDriver;
 use Joomla\Registry\Registry;
 
 /**
@@ -31,7 +32,7 @@ class LibraryHelper
 	 * @var    array
 	 * @since  3.2
 	 */
-	protected static $libraries = array();
+	protected static $libraries = [];
 
 	/**
 	 * Get the library information.
@@ -111,8 +112,10 @@ class LibraryHelper
 	{
 		if (static::isEnabled($element))
 		{
+			/* @var DatabaseDriver $db */
+			$db = Factory::getContainer()->get('DatabaseDriver');
+
 			// Save params in DB
-			$db           = Factory::getDbo();
 			$paramsString = $params->toString();
 			$query        = $db->getQuery(true)
 				->update($db->quoteName('#__extensions'))
@@ -150,7 +153,9 @@ class LibraryHelper
 	{
 		$loader = function ($element)
 		{
-			$db = Factory::getDbo();
+			/* @var DatabaseDriver $db */
+			$db = Factory::getContainer()->get('DatabaseDriver');
+
 			$query = $db->getQuery(true)
 				->select($db->quoteName(['extension_id', 'element', 'params', 'enabled'], ['id', 'option', null, null]))
 				->from($db->quoteName('#__extensions'))
@@ -167,7 +172,7 @@ class LibraryHelper
 
 		try
 		{
-			static::$libraries[$element] = $cache->get($loader, array($element), __METHOD__ . $element);
+			static::$libraries[$element] = $cache->get($loader, [$element], __METHOD__ . $element);
 		}
 		catch (CacheExceptionInterface $e)
 		{

@@ -97,12 +97,9 @@ class TransitionField extends ListField
 	 */
 	protected function getOptions()
 	{
-		// Let's get the id for the current item, either category or content item.
-		$jinput = Factory::getApplication()->input;
-
-		// Initialise variable.
-		$db = Factory::getDbo();
-		$extension = $this->extension;
+		/* @var \Joomla\Database\DatabaseDriver $db */
+		$db            = Factory::getContainer()->get('DatabaseDriver');
+		$extension     = $this->extension;
 		$workflowStage = (int) $this->workflowStage;
 
 		$query = $db->getQuery(true)

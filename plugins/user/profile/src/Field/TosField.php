@@ -90,7 +90,9 @@ class TosField extends RadioField
 			$attribs['data-bs-toggle'] = 'modal';
 			$attribs['data-bs-target'] = '#tosModal';
 
-			$db    = Factory::getDbo();
+			/* @var \Joomla\Database\DatabaseDriver $db */
+			$db = Factory::getContainer()->get('DatabaseDriver');
+
 			$query = $db->getQuery(true);
 
 			$query->select($db->quoteName(['id', 'alias', 'catid', 'language']))

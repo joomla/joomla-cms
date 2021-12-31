@@ -33,8 +33,10 @@ class Finder
 	 */
 	public function typeslist()
 	{
+		/* @var \Joomla\Database\DatabaseDriver $db */
+		$db = Factory::getContainer()->get('DatabaseDriver');
+
 		// Load the finder types.
-		$db = Factory::getDbo();
 		$query = $db->getQuery(true)
 			->select('DISTINCT t.title AS text, t.id AS value')
 			->from($db->quoteName('#__finder_types') . ' AS t')
@@ -48,11 +50,11 @@ class Finder
 		}
 		catch (\RuntimeException $e)
 		{
-			return array();
+			return [];
 		}
 
 		// Compile the options.
-		$options = array();
+		$options = [];
 
 		$lang = Factory::getLanguage();
 
@@ -74,8 +76,10 @@ class Finder
 	 */
 	public function mapslist()
 	{
+		/* @var \Joomla\Database\DatabaseDriver $db */
+		$db = Factory::getContainer()->get('DatabaseDriver');
+
 		// Load the finder types.
-		$db = Factory::getDbo();
 		$query = $db->getQuery(true)
 			->select($db->quoteName('title', 'text'))
 			->select($db->quoteName('id', 'value'))
@@ -105,7 +109,7 @@ class Finder
 		$branches = ArrayHelper::sortObjects($branches, 'translatedText', 1, true, true);
 
 		// Compile the options.
-		$options = array();
+		$options = [];
 		$options[] = HTMLHelper::_('select.option', '', Text::_('COM_FINDER_MAPS_SELECT_BRANCH'));
 
 		// Convert the values to options.
@@ -126,9 +130,9 @@ class Finder
 	 */
 	public static function statelist()
 	{
-		return array(
+		return [
 			HTMLHelper::_('select.option', '1', Text::sprintf('COM_FINDER_ITEM_X_ONLY', Text::_('JPUBLISHED'))),
-			HTMLHelper::_('select.option', '0', Text::sprintf('COM_FINDER_ITEM_X_ONLY', Text::_('JUNPUBLISHED')))
-		);
+			HTMLHelper::_('select.option', '0', Text::sprintf('COM_FINDER_ITEM_X_ONLY', Text::_('JUNPUBLISHED'))),
+		];
 	}
 }

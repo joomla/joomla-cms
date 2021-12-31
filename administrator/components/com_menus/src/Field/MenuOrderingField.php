@@ -35,13 +35,13 @@ class MenuOrderingField extends ListField
 	 * Method to get the list of siblings in a menu.
 	 * The method requires that parent be set.
 	 *
-	 * @return  array  The field option objects or false if the parent field has not been set
+	 * @return  array|bool  The field option objects or false if the parent field has not been set
 	 *
 	 * @since   1.7
 	 */
 	protected function getOptions()
 	{
-		$options = array();
+		$options = [];
 
 		// Get the parent
 		$parent_id = (int) $this->form->getValue('parent_id', 0);
@@ -51,7 +51,9 @@ class MenuOrderingField extends ListField
 			return false;
 		}
 
-		$db = Factory::getDbo();
+		/* @var \Joomla\Database\DatabaseDriver $db */
+		$db = Factory::getContainer()->get('DatabaseDriver');
+
 		$query = $db->getQuery(true)
 			->select(
 				[
@@ -100,9 +102,9 @@ class MenuOrderingField extends ListField
 		}
 
 		$options = array_merge(
-			array(array('value' => '-1', 'text' => Text::_('COM_MENUS_ITEM_FIELD_ORDERING_VALUE_FIRST'))),
+			[['value' => '-1', 'text' => Text::_('COM_MENUS_ITEM_FIELD_ORDERING_VALUE_FIRST')]],
 			$options,
-			array(array('value' => '-2', 'text' => Text::_('COM_MENUS_ITEM_FIELD_ORDERING_VALUE_LAST')))
+			[['value' => '-2', 'text' => Text::_('COM_MENUS_ITEM_FIELD_ORDERING_VALUE_LAST')]]
 		);
 
 		// Merge any additional options in the XML definition.

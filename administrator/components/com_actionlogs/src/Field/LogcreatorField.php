@@ -53,7 +53,8 @@ class LogcreatorField extends ListField
 		{
 			static::$options[$hash] = parent::getOptions();
 
-			$db = Factory::getDbo();
+			/* @var \Joomla\Database\DatabaseDriver $db */
+			$db = Factory::getContainer()->get('DatabaseDriver');
 
 			// Construct the query
 			$query = $db->getQuery(true)

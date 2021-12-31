@@ -49,11 +49,11 @@ class UserIdRule extends FormRule
 			return !$required;
 		}
 
-		// Get the database object and a new query object.
-		$db = Factory::getDbo();
-		$query = $db->getQuery(true);
+		/* @var \Joomla\Database\DatabaseDriver $db */
+		$db = Factory::getContainer()->get('DatabaseDriver');
 
 		// Build the query.
+		$query = $db->getQuery(true);
 		$query->select('COUNT(*)')
 			->from($db->quoteName('#__users'))
 			->where($db->quoteName('id') . ' = :userId')

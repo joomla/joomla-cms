@@ -13,6 +13,7 @@ namespace Joomla\CMS\HTML\Helpers;
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\Database\DatabaseDriver;
 use Joomla\Database\ParameterType;
 
 /**
@@ -28,7 +29,7 @@ abstract class Menu
 	 * @var    array
 	 * @since  1.6
 	 */
-	protected static $menus = array();
+	protected static $menus = [];
 
 	/**
 	 * Cached array of the menus items.
@@ -36,7 +37,7 @@ abstract class Menu
 	 * @var    array
 	 * @since  1.6
 	 */
-	protected static $items = array();
+	protected static $items = [];
 
 	/**
 	 * Get a list of the available menus.
@@ -53,7 +54,8 @@ abstract class Menu
 
 		if (!isset(static::$menus[$key]))
 		{
-			$db = Factory::getDbo();
+			/* @var DatabaseDriver $db */
+			$db = Factory::getContainer()->get('DatabaseDriver');
 
 			$query = $db->getQuery(true)
 				->select(
@@ -94,17 +96,19 @@ abstract class Menu
 	 *
 	 * @since   1.6
 	 */
-	public static function menuItems($config = array())
+	public static function menuItems($config = [])
 	{
 		$key = serialize($config);
 
 		if (empty(static::$items[$key]))
 		{
+			/* @var DatabaseDriver $db */
+			$db = Factory::getContainer()->get('DatabaseDriver');
+
 			// B/C - not passed  = 0, null can be passed for both clients
 			$clientId = array_key_exists('clientid', $config) ? $config['clientid'] : 0;
 			$menus    = static::menus($clientId);
 
-			$db    = Factory::getDbo();
 			$query = $db->getQuery(true)
 				->select(
 					[
@@ -145,13 +149,13 @@ abstract class Menu
 			$items = $db->loadObjectList();
 
 			// Collate menu items based on menutype
-			$lookup = array();
+			$lookup = [];
 
 			foreach ($items as &$item)
 			{
 				if (!isset($lookup[$item->menutype]))
 				{
-					$lookup[$item->menutype] = array();
+					$lookup[$item->menutype] = [];
 				}
 
 				$lookup[$item->menutype][] = &$item;
@@ -165,7 +169,7 @@ abstract class Menu
 				$item->text = str_repeat('- ', $item->level) . $item->text;
 			}
 
-			static::$items[$key] = array();
+			static::$items[$key] = [];
 
 			$user = Factory::getUser();
 
@@ -225,7 +229,7 @@ abstract class Menu
 	 *
 	 * @since   1.6
 	 */
-	public static function menuItemList($name, $selected = null, $attribs = null, $config = array())
+	public static function menuItemList($name, $selected = null, $attribs = null, $config = [])
 	{
 		static $count;
 
@@ -233,12 +237,12 @@ abstract class Menu
 
 		return HTMLHelper::_(
 			'select.genericlist', $options, $name,
-			array(
+			[
 				'id'             => $config['id'] ?? 'assetgroups_' . (++$count),
 				'list.attr'      => $attribs ?? 'class="inputbox" size="1"',
 				'list.select'    => (int) $selected,
 				'list.translate' => false,
-			)
+			]
 		);
 	}
 
@@ -254,37 +258,39 @@ abstract class Menu
 	 */
 	public static function ordering(&$row, $id)
 	{
-		if ($id)
+		if (!$id)
 		{
-			$db = Factory::getDbo();
-			$query = $db->getQuery(true)
-				->select(
-					[
-						$db->quoteName('ordering', 'value'),
-						$db->quoteName('title', 'text'),
-					]
-				)
-				->from($db->quoteName('#__menu'))
-				->where(
-					[
-						$db->quoteName('menutype') . ' = :menutype',
-						$db->quoteName('parent_id') . ' = :parent',
-						$db->quoteName('published') . ' != -2',
-					]
-				)
-				->order($db->quoteName('ordering'))
-				->bind(':menutype', $row->menutype)
-				->bind(':parent', $row->parent_id, ParameterType::INTEGER);
-			$order = HTMLHelper::_('list.genericordering', $query);
-			$ordering = HTMLHelper::_(
-				'select.genericlist', $order, 'ordering',
-				array('list.attr' => 'class="inputbox" size="1"', 'list.select' => (int) $row->ordering)
-			);
+			return '<input type="hidden" name="ordering" value="' . $row->ordering . '">' . Text::_('JGLOBAL_NEWITEMSLAST_DESC');
 		}
-		else
-		{
-			$ordering = '<input type="hidden" name="ordering" value="' . $row->ordering . '">' . Text::_('JGLOBAL_NEWITEMSLAST_DESC');
-		}
+
+		/* @var DatabaseDriver $db */
+		$db = Factory::getContainer()->get('DatabaseDriver');
+
+		$query = $db->getQuery(true)
+			->select(
+				[
+					$db->quoteName('ordering', 'value'),
+					$db->quoteName('title', 'text'),
+				]
+			)
+			->from($db->quoteName('#__menu'))
+			->where(
+				[
+					$db->quoteName('menutype') . ' = :menutype',
+					$db->quoteName('parent_id') . ' = :parent',
+					$db->quoteName('published') . ' != -2',
+				]
+			)
+			->order($db->quoteName('ordering'))
+			->bind(':menutype', $row->menutype)
+			->bind(':parent', $row->parent_id, ParameterType::INTEGER);
+
+		$order = HTMLHelper::_('list.genericordering', $query);
+
+		$ordering = HTMLHelper::_(
+			'select.genericlist', $order, 'ordering',
+			['list.attr' => 'class="inputbox" size="1"', 'list.select' => (int) $row->ordering]
+		);
 
 		return $ordering;
 	}
@@ -302,7 +308,8 @@ abstract class Menu
 	 */
 	public static function linkOptions($all = false, $unassigned = false, $clientId = 0)
 	{
-		$db = Factory::getDbo();
+		/* @var DatabaseDriver $db */
+		$db = Factory::getContainer()->get('DatabaseDriver');
 
 		// Get a list of the menu items
 		$query = $db->getQuery(true)
@@ -338,26 +345,26 @@ abstract class Menu
 
 		if (!$mitems)
 		{
-			$mitems = array();
+			$mitems = [];
 		}
 
 		// Establish the hierarchy of the menu
-		$children = array();
+		$children = [];
 
 		// First pass - collect children
 		foreach ($mitems as $v)
 		{
 			$pt            = $v->parent_id;
-			$list          = @$children[$pt] ? $children[$pt] : array();
+			$list          = @$children[$pt] ? $children[$pt] : [];
 			$list[]        = $v;
 			$children[$pt] = $list;
 		}
 
 		// Second pass - get an indent list of the items
-		$list = static::treerecurse((int) $mitems[0]->parent_id, '', array(), $children, 9999, 0, 0);
+		$list = static::treerecurse((int) $mitems[0]->parent_id, '', [], $children, 9999, 0, 0);
 
 		// Code that adds menu name to Display of Page(s)
-		$mitems = array();
+		$mitems = [];
 
 		if ($all | $unassigned)
 		{

@@ -154,7 +154,9 @@ class XmlView extends BaseHtmlView
 
 			if ($hideitems)
 			{
-				$db    = Factory::getDbo();
+				/* @var \Joomla\Database\DatabaseDriver $db */
+				$db = Factory::getContainer()->get('DatabaseDriver');
+
 				$query = $db->getQuery(true);
 
 				$query

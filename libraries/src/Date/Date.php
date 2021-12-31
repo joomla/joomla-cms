@@ -438,7 +438,7 @@ class Date extends \DateTime
 	 * Gets the date as an SQL datetime string.
 	 *
 	 * @param   boolean         $local  True to return the date string in the local time zone, false to return it in GMT.
-	 * @param   DatabaseDriver  $db     The database driver or null to use Factory::getDbo()
+	 * @param   DatabaseDriver  $db     The database driver or null to use Factory::getContainer()->get('DatabaseDriver')
 	 *
 	 * @return  string     The date string in SQL datetime format.
 	 *
@@ -449,7 +449,8 @@ class Date extends \DateTime
 	{
 		if ($db === null)
 		{
-			$db = Factory::getDbo();
+			/* @var \Joomla\Database\DatabaseDriver $db */
+			$db = Factory::getContainer()->get('DatabaseDriver');
 		}
 
 		return $this->format($db->getDateFormat(), $local, false);

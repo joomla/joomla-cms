@@ -39,7 +39,7 @@ class ContenthistoryHelper
 	 */
 	public static function createObjectArray($object)
 	{
-		$result = array();
+		$result = [];
 
 		if ($object === null)
 		{
@@ -106,8 +106,8 @@ class ContenthistoryHelper
 	 */
 	public static function getFormValues($object, ContentType $typesTable)
 	{
-		$labels = array();
-		$values = array();
+		$labels = [];
+		$values = [];
 		$expandedObjectArray = static::createObjectArray($object);
 		static::loadLanguageFiles($typesTable->type_alias);
 
@@ -195,7 +195,7 @@ class ContenthistoryHelper
 	 * @param   \stdClass  $lookup  The std object with the values needed to do the query.
 	 * @param   mixed      $value   The value used to find the matching title or name. Typically the id.
 	 *
-	 * @return  mixed  Value from database (for example, name or title) on success, false on failure.
+	 * @return  string|bool  Value from database (for example, name or title) on success, false on failure.
 	 *
 	 * @since   3.2
 	 */
@@ -205,13 +205,18 @@ class ContenthistoryHelper
 
 		if (isset($lookup->sourceColumn) && isset($lookup->targetTable) && isset($lookup->targetColumn) && isset($lookup->displayColumn))
 		{
-			$db    = Factory::getDbo();
+			/* @var \Joomla\Database\DatabaseDriver $db */
+			$db = Factory::getContainer()->get('DatabaseDriver');
+
 			$value = (int) $value;
+
 			$query = $db->getQuery(true);
+
 			$query->select($db->quoteName($lookup->displayColumn))
 				->from($db->quoteName($lookup->targetTable))
 				->where($db->quoteName($lookup->targetColumn) . ' = :value')
 				->bind(':value', $value, ParameterType::INTEGER);
+
 			$db->setQuery($query);
 
 			try
@@ -349,7 +354,7 @@ class ContenthistoryHelper
 		$typesTable = Table::getInstance('ContentType', 'Joomla\\CMS\\Table\\');
 		$typeAlias = explode('.', $table->item_id);
 		array_pop($typeAlias);
-		$typesTable->load(array('type_alias' => implode('.', $typeAlias)));
+		$typesTable->load(['type_alias' => implode('.', $typeAlias)]);
 		$formValues = static::getFormValues($object, $typesTable);
 		$object = static::mergeLabels($object, $formValues);
 		$object = static::hideFields($object, $typesTable);

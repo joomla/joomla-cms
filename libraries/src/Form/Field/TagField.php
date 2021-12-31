@@ -86,7 +86,7 @@ class TagField extends ListField
 			{
 				if (empty($this->value->tags))
 				{
-					$this->value = array();
+					$this->value = [];
 				}
 				else
 				{
@@ -103,7 +103,7 @@ class TagField extends ListField
 			// Integer is given
 			if (\is_int($this->value))
 			{
-				$this->value = array($this->value);
+				$this->value = [$this->value];
 			}
 
 			$data['value'] = $this->value;
@@ -127,7 +127,9 @@ class TagField extends ListField
 	 */
 	protected function getOptions()
 	{
-		$published = (string) $this->element['published'] ?: array(0, 1);
+		/* @var \Joomla\Database\DatabaseDriver $db */
+		$db        = Factory::getContainer()->get('DatabaseDriver');
+		$published = (string) $this->element['published'] ?: [0, 1];
 		$app       = Factory::getApplication();
 		$language  = null;
 		$options   = [];
@@ -136,7 +138,6 @@ class TagField extends ListField
 		$prefillLimit   = 30;
 		$isRemoteSearch = $this->isRemoteSearch();
 
-		$db    = Factory::getDbo();
 		$query = $db->getQuery(true)
 			->select(
 				[
@@ -236,7 +237,7 @@ class TagField extends ListField
 				}
 				catch (\RuntimeException $e)
 				{
-					return array();
+					return [];
 				}
 
 				// Limit the main query to the missing amount of tags
@@ -264,7 +265,7 @@ class TagField extends ListField
 			}
 			catch (\RuntimeException $e)
 			{
-				return array();
+				return [];
 			}
 		}
 
@@ -350,7 +351,7 @@ class TagField extends ListField
 	 */
 	public function allowCustom()
 	{
-		if ($this->element['custom'] && \in_array((string) $this->element['custom'], array('0', 'false', 'deny')))
+		if ($this->element['custom'] && \in_array((string) $this->element['custom'], ['0', 'false', 'deny']))
 		{
 			return false;
 		}
@@ -369,7 +370,7 @@ class TagField extends ListField
 	{
 		if ($this->element['remote-search'])
 		{
-			return !\in_array((string) $this->element['remote-search'], array('0', 'false', ''));
+			return !\in_array((string) $this->element['remote-search'], ['0', 'false', '']);
 		}
 
 		return $this->comParams->get('tag_field_ajax_mode', 1) == 1;

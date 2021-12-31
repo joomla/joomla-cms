@@ -117,7 +117,7 @@ class OrderingField extends FormField
 	 */
 	protected function getInput()
 	{
-		$html = array();
+		$html = [];
 		$attr = '';
 
 		// Initialize some field attributes.
@@ -156,6 +156,8 @@ class OrderingField extends FormField
 	 */
 	protected function getQuery()
 	{
+		/* @var \Joomla\Database\DatabaseDriver $db */
+		$db           = Factory::getContainer()->get('DatabaseDriver');
 		$categoryId   = (int) $this->form->getValue('catid');
 		$ucmType      = new UCMType;
 		$ucmRow       = $ucmType->getType($ucmType->getTypeId($this->contentType));
@@ -172,7 +174,6 @@ class OrderingField extends FormField
 			$title    = $ucmMapCommon[0]->core_title;
 		}
 
-		$db    = Factory::getDbo();
 		$query = $db->getQuery(true);
 		$query->select([$db->quoteName($ordering, 'value'), $db->quoteName($title, 'text')])
 			->from($db->quoteName(json_decode($ucmRow->table)->special->dbtable))

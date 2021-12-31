@@ -130,7 +130,7 @@ class Updater extends Adapter
 
 		$now              = time();
 		$earliestTime     = $now - $cacheTimeout;
-		$sitesWithUpdates = array();
+		$sitesWithUpdates = [];
 
 		if ($cacheTimeout > 0)
 		{
@@ -235,7 +235,7 @@ class Updater extends Adapter
 
 		if (!\is_array($result))
 		{
-			return array();
+			return [];
 		}
 
 		return $result;
@@ -254,7 +254,7 @@ class Updater extends Adapter
 	 */
 	private function getUpdateObjectsForSite($updateSite, $minimumStability = self::STABILITY_STABLE, $includeCurrent = false)
 	{
-		$retVal = array();
+		$retVal = [];
 
 		$this->setAdapter($updateSite['type']);
 
@@ -317,22 +317,22 @@ class Updater extends Adapter
 
 					$uid = $update
 						->find(
-							array(
+							[
 								'element'   => $current_update->get('element'),
 								'type'      => $current_update->get('type'),
 								'client_id' => $current_update->get('client_id'),
 								'folder'    => $current_update->get('folder'),
-							)
+							]
 						);
 
 					$eid = $extension
 						->find(
-							array(
+							[
 								'element'   => $current_update->get('element'),
 								'type'      => $current_update->get('type'),
 								'client_id' => $current_update->get('client_id'),
 								'folder'    => $current_update->get('folder'),
-							)
+							]
 						);
 
 					if (!$uid)
@@ -392,7 +392,7 @@ class Updater extends Adapter
 	 */
 	private function getSitesWithUpdates($timestamp = 0)
 	{
-		$db        = Factory::getDbo();
+		$db        = $this->getDbo();
 		$timestamp = (int) $timestamp;
 
 		$query = $db->getQuery(true)
@@ -420,7 +420,7 @@ class Updater extends Adapter
 
 		if (empty($retVal))
 		{
-			return array();
+			return [];
 		}
 
 		return $retVal;
@@ -438,7 +438,7 @@ class Updater extends Adapter
 	private function updateLastCheckTimestamp($updateSiteId)
 	{
 		$timestamp    = time();
-		$db           = Factory::getDbo();
+		$db           = $this->getDbo();
 		$updateSiteId = (int) $updateSiteId;
 
 		$query = $db->getQuery(true)

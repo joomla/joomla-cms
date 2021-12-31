@@ -59,11 +59,11 @@ class SiteMenu extends AbstractMenu
 	 *
 	 * @since   1.5
 	 */
-	public function __construct($options = array())
+	public function __construct($options = [])
 	{
 		// Extract the internal dependencies before calling the parent constructor since it calls $this->load()
+		$this->db       = isset($options['db']) && $options['db'] instanceof DatabaseDriver ? $options['db'] : Factory::getContainer()->get('DatabaseDriver');
 		$this->app      = isset($options['app']) && $options['app'] instanceof CMSApplication ? $options['app'] : Factory::getApplication();
-		$this->db       = isset($options['db']) && $options['db'] instanceof DatabaseDriver ? $options['db'] : Factory::getDbo();
 		$this->language = isset($options['language']) && $options['language'] instanceof Language ? $options['language'] : Factory::getLanguage();
 
 		parent::__construct($options);
@@ -168,7 +168,7 @@ class SiteMenu extends AbstractMenu
 			$cache = Factory::getContainer()->get(CacheControllerFactoryInterface::class)
 				->createCacheController('callback', ['defaultgroup' => 'com_menus']);
 
-			$this->items = $cache->get($loader, array(), md5(\get_class($this)), false);
+			$this->items = $cache->get($loader, [], md5(\get_class($this)), false);
 		}
 		catch (CacheExceptionInterface $e)
 		{
@@ -193,7 +193,7 @@ class SiteMenu extends AbstractMenu
 		foreach ($this->items as &$item)
 		{
 			// Get parent information.
-			$parent_tree = array();
+			$parent_tree = [];
 
 			if (isset($this->items[$item->parent_id]))
 			{
@@ -239,7 +239,7 @@ class SiteMenu extends AbstractMenu
 				if (Multilanguage::isEnabled())
 				{
 					$attributes[] = 'language';
-					$values[]     = array(Factory::getLanguage()->getTag(), '*');
+					$values[]     = [Factory::getLanguage()->getTag(), '*'];
 				}
 			}
 			elseif ($values[$key] === null)

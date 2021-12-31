@@ -135,8 +135,8 @@ abstract class Adapter extends CMSPlugin
 	 */
 	public function __construct(&$subject, $config)
 	{
-		// Get the database object.
-		$this->db = Factory::getDbo();
+		/* @var \Joomla\Database\DatabaseDriver $db */
+		$this->db = Factory::getContainer()->get('DatabaseDriver');
 
 		// Call the parent constructor.
 		parent::__construct($subject, $config);
@@ -364,7 +364,7 @@ abstract class Adapter extends CMSPlugin
 		// Check the items.
 		if (empty($items))
 		{
-			Factory::getApplication()->triggerEvent('onFinderIndexAfterDelete', array($id));
+			Factory::getApplication()->triggerEvent('onFinderIndexAfterDelete', [$id]);
 
 			return true;
 		}

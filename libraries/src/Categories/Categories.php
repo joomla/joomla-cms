@@ -27,7 +27,7 @@ class Categories implements CategoryInterface
 	 * @var    Categories[]
 	 * @since  1.6
 	 */
-	public static $instances = array();
+	public static $instances = [];
 
 	/**
 	 * Array of category nodes
@@ -127,7 +127,7 @@ class Categories implements CategoryInterface
 	 * @since       1.6
 	 * @deprecated  5.0 Use the ComponentInterface to get the categories
 	 */
-	public static function getInstance($extension, $options = array())
+	public static function getInstance($extension, $options = [])
 	{
 		$hash = md5(strtolower($extension) . serialize($options));
 
@@ -219,8 +219,8 @@ class Categories implements CategoryInterface
 	 */
 	protected function _load($id)
 	{
-		/** @var \Joomla\Database\DatabaseDriver */
-		$db   = Factory::getDbo();
+		/* @var \Joomla\Database\DatabaseDriver $db */
+		$db   = Factory::getContainer()->get('DatabaseDriver');
 		$app  = Factory::getApplication();
 		$user = Factory::getUser();
 		$extension = $this->_extension;
@@ -275,7 +275,7 @@ class Categories implements CategoryInterface
 		$case_when .= $query->charLength($db->quoteName('c.alias'), '!=', '0');
 		$case_when .= ' THEN ';
 		$c_id = $query->castAsChar($db->quoteName('c.id'));
-		$case_when .= $query->concatenate(array($c_id, $db->quoteName('c.alias')), ':');
+		$case_when .= $query->concatenate([$c_id, $db->quoteName('c.alias')], ':');
 		$case_when .= ' ELSE ';
 		$case_when .= $c_id . ' END as ' . $db->quoteName('slug');
 

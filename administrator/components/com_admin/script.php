@@ -18,6 +18,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\Table\Table;
 use Joomla\Component\Fields\Administrator\Model\FieldModel;
+use Joomla\Database\DatabaseDriver;
 use Joomla\Database\ParameterType;
 
 /**
@@ -114,7 +115,8 @@ class JoomlaInstallerScript
 	 */
 	protected function clearStatsCache()
 	{
-		$db = Factory::getDbo();
+		/* @var DatabaseDriver $db */
+		$db = Factory::getContainer()->get('DatabaseDriver');
 
 		try
 		{
@@ -171,7 +173,10 @@ class JoomlaInstallerScript
 	 */
 	protected function updateDatabase()
 	{
-		if (Factory::getDbo()->getServerType() === 'mysql')
+		/* @var DatabaseDriver $db */
+		$db = Factory::getContainer()->get('DatabaseDriver');
+
+		if ($db->getServerType() === 'mysql')
 		{
 			$this->updateDatabaseMysql();
 		}
@@ -184,7 +189,8 @@ class JoomlaInstallerScript
 	 */
 	protected function updateDatabaseMysql()
 	{
-		$db = Factory::getDbo();
+		/* @var DatabaseDriver $db */
+		$db = Factory::getContainer()->get('DatabaseDriver');
 
 		$db->setQuery('SHOW ENGINES');
 
@@ -233,8 +239,9 @@ class JoomlaInstallerScript
 	 */
 	protected function uninstallRepeatableFieldsPlugin()
 	{
+		/* @var DatabaseDriver $db */
+		$db  = Factory::getContainer()->get('DatabaseDriver');
 		$app = Factory::getApplication();
-		$db  = Factory::getDbo();
 
 		// Check if the plg_fields_repeatable plugin is present
 		$extensionId = $db->setQuery(
@@ -517,7 +524,8 @@ class JoomlaInstallerScript
 	 */
 	protected function uninstallEosPlugin()
 	{
-		$db = Factory::getDbo();
+		/* @var DatabaseDriver $db */
+		$db = Factory::getContainer()->get('DatabaseDriver');
 
 		// Check if the plg_quickicon_eos310 plugin is present
 		$extensionId = $db->setQuery(
@@ -574,7 +582,9 @@ class JoomlaInstallerScript
 		}
 
 		// Attempt to refresh manifest caches
-		$db    = Factory::getDbo();
+		/* @var DatabaseDriver $db */
+		$db = Factory::getContainer()->get('DatabaseDriver');
+
 		$query = $db->getQuery(true)
 			->select('*')
 			->from('#__extensions');
@@ -7498,7 +7508,8 @@ class JoomlaInstallerScript
 	 */
 	public function convertTablesToUtf8mb4($doDbFixMsg = false)
 	{
-		$db = Factory::getDbo();
+		/* @var DatabaseDriver $db */
+		$db = Factory::getContainer()->get('DatabaseDriver');
 
 		if ($db->getServerType() !== 'mysql')
 		{
@@ -7693,12 +7704,13 @@ class JoomlaInstallerScript
 	 */
 	private function dropUtf8ConversionTable()
 	{
-		$db = Factory::getDbo();
+		/* @var DatabaseDriver $db */
+		$db = Factory::getContainer()->get('DatabaseDriver');
 
 		try
 		{
-			$db->setQuery('DROP TABLE ' . $db->quoteName('#__utf8_conversion') . ';'
-			)->execute();
+			$db->setQuery('DROP TABLE ' . $db->quoteName('#__utf8_conversion') . ';')
+				->execute();
 		}
 		catch (Exception $e)
 		{
@@ -7733,7 +7745,9 @@ class JoomlaInstallerScript
 		// Update UCM content types.
 		$this->updateContentTypes();
 
-		$db = Factory::getDbo();
+		/* @var DatabaseDriver $db */
+		$db = Factory::getContainer()->get('DatabaseDriver');
+
 		Table::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_menus/Table/');
 
 		$tableItem   = new \Joomla\Component\Menus\Administrator\Table\MenuTable($db);
@@ -8087,8 +8101,11 @@ class JoomlaInstallerScript
 			'com_users.user',
 		];
 
+
+		/** @var DatabaseDriver $db */
+		$db = Factory::getContainer()->get('DatabaseDriver');
+
 		// Get table definitions.
-		$db = Factory::getDbo();
 		$query = $db->getQuery(true)
 			->select(
 				[

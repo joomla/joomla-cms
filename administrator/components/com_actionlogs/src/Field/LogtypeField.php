@@ -29,6 +29,7 @@ class LogtypeField extends CheckboxesField
 	 * The form field type.
 	 *
 	 * @var    string
+	 *
 	 * @since  3.9.0
 	 */
 	protected $type = 'LogType';
@@ -42,15 +43,17 @@ class LogtypeField extends CheckboxesField
 	 */
 	public function getOptions()
 	{
-		$db    = Factory::getDbo();
+		/* @var \Joomla\Database\DatabaseDriver $db */
+		$db = Factory::getContainer()->get('DatabaseDriver');
+
 		$query = $db->getQuery(true)
 			->select($db->quoteName('extension'))
 			->from($db->quoteName('#__action_logs_extensions'));
 
 		$extensions = $db->setQuery($query)->loadColumn();
 
-		$options = array();
-		$tmp     = array('checked' => true);
+		$options = [];
+		$tmp     = ['checked' => true];
 
 		foreach ($extensions as $extension)
 		{

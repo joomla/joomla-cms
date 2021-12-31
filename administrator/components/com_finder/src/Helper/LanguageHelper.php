@@ -120,10 +120,12 @@ class LanguageHelper
 
 		$loaded = true;
 
+		/* @var \Joomla\Database\DatabaseDriver $db */
+		$db = Factory::getContainer()->get('DatabaseDriver');
+
 		// Get array of all the enabled Smart Search plugin names.
-		$db = Factory::getDbo();
 		$query = $db->getQuery(true)
-			->select(array($db->quoteName('name'), $db->quoteName('element')))
+			->select([$db->quoteName('name'), $db->quoteName('element')])
 			->from($db->quoteName('#__extensions'))
 			->where($db->quoteName('type') . ' = ' . $db->quote('plugin'))
 			->where($db->quoteName('folder') . ' = ' . $db->quote('finder'))

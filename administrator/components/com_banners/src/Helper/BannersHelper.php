@@ -17,6 +17,7 @@ use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Table\Table;
+use Joomla\Database\DatabaseDriver;
 use Joomla\Database\ParameterType;
 
 /**
@@ -35,7 +36,8 @@ class BannersHelper extends ContentHelper
 	 */
 	public static function updateReset()
 	{
-		$db   = Factory::getDbo();
+		/* @var DatabaseDriver $db */
+		$db   = Factory::getContainer()->get('DatabaseDriver');
 		$date = Factory::getDate();
 		$app  = Factory::getApplication();
 		$user = $app->getIdentity();
@@ -152,9 +154,9 @@ class BannersHelper extends ContentHelper
 	 */
 	public static function getClientOptions()
 	{
-		$options = array();
+		/* @var DatabaseDriver $db */
+		$db = Factory::getContainer()->get('DatabaseDriver');
 
-		$db = Factory::getDbo();
 		$query = $db->getQuery(true)
 			->select(
 				[
@@ -176,6 +178,8 @@ class BannersHelper extends ContentHelper
 		catch (\RuntimeException $e)
 		{
 			Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+
+			$options = [];
 		}
 
 		array_unshift($options, HTMLHelper::_('select.option', '0', Text::_('COM_BANNERS_NO_CLIENT')));

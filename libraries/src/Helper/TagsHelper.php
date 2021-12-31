@@ -17,6 +17,7 @@ use Joomla\CMS\Table\Table;
 use Joomla\CMS\Table\TableInterface;
 use Joomla\CMS\UCM\UCMContent;
 use Joomla\CMS\UCM\UCMType;
+use Joomla\Database\DatabaseDriver;
 use Joomla\Database\ParameterType;
 use Joomla\Utilities\ArrayHelper;
 
@@ -63,7 +64,7 @@ class TagsHelper extends CMSHelper
 	 *
 	 * @since   3.1
 	 */
-	public function addTagMapping($ucmId, TableInterface $table, $tags = array())
+	public function addTagMapping($ucmId, TableInterface $table, $tags = [])
 	{
 		$db = $table->getDbo();
 		$key = $table->getKeyName();
@@ -132,7 +133,7 @@ class TagsHelper extends CMSHelper
 		if ($tags)
 		{
 			// Create an array with all the aliases of the results
-			$aliases = array();
+			$aliases = [];
 
 			foreach ($tags as $tag)
 			{
@@ -151,7 +152,8 @@ class TagsHelper extends CMSHelper
 				// Remove duplicates
 				$aliases = array_values(array_unique($aliases));
 
-				$db = Factory::getDbo();
+				/* @var DatabaseDriver $db */
+				$db = Factory::getContainer()->get('DatabaseDriver');
 
 				$query = $db->getQuery(true)
 					->select(
@@ -178,7 +180,7 @@ class TagsHelper extends CMSHelper
 				{
 					foreach ($tags as $tag)
 					{
-						$namesPath = array();
+						$namesPath = [];
 
 						if (!empty($tag->path))
 						{
@@ -226,8 +228,8 @@ class TagsHelper extends CMSHelper
 		{
 			// We will use the tags table to store them
 			$tagTable  = Factory::getApplication()->bootComponent('com_tags')->getMVCFactory()->createTable('Tag', 'Administrator');
-			$newTags   = array();
 			$canCreate = Factory::getUser()->authorise('core.create', 'com_tags');
+			$newTags   = [];
 
 			foreach ($tags as $key => $tag)
 			{
@@ -250,7 +252,7 @@ class TagsHelper extends CMSHelper
 					$tagTable->reset();
 
 					// Try to load the selected tag
-					if ($tagTable->load(array('title' => $tagText)))
+					if ($tagTable->load(['title' => $tagText]))
 					{
 						$newTags[] = (int) $tagTable->id;
 					}
@@ -311,7 +313,7 @@ class TagsHelper extends CMSHelper
 
 		if (!\is_array($contentItemId))
 		{
-			$contentItemId = array($key => $contentItemId);
+			$contentItemId = [$key => $contentItemId];
 		}
 
 		// If we have multiple items for the content item primary key we currently don't support this so
@@ -342,11 +344,12 @@ class TagsHelper extends CMSHelper
 	 */
 	public function getItemTags($contentType, $id, $getTagData = true)
 	{
+		/* @var DatabaseDriver $db */
+		$db = Factory::getContainer()->get('DatabaseDriver');
+
 		// Cast as integer until method is typehinted.
 		$id = (int) $id;
 
-		// Initialize some variables.
-		$db = Factory::getDbo();
 		$query = $db->getQuery(true)
 			->select($db->quoteName('m.tag_id'))
 			->from($db->quoteName('#__contentitem_tag_map', 'm'))
@@ -409,20 +412,21 @@ class TagsHelper extends CMSHelper
 			return;
 		}
 
+		/* @var DatabaseDriver $db */
+		$db = Factory::getContainer()->get('DatabaseDriver');
+
 		/**
 		 * Ids possible formats:
 		 * ---------------------
 		 * 	$id = 1;
-		 *  $id = array(1,2);
-		 *  $id = array('1,3,4,19');
+		 *  $id = [1,2];
+		 *  $id = ['1,3,4,19'];
 		 *  $id = '1,3';
 		 */
 		$ids = (array) $ids;
 		$ids = implode(',', $ids);
 		$ids = explode(',', $ids);
 		$ids = ArrayHelper::toInteger($ids);
-
-		$db = Factory::getDbo();
 
 		// Load the tags.
 		$query = $db->getQuery(true)
@@ -463,12 +467,11 @@ class TagsHelper extends CMSHelper
 		$anyOrAll = true, $languageFilter = 'all', $stateFilter = '0,1'
 	)
 	{
-		// Create a new query object.
-		$db = Factory::getDbo();
-		$query = $db->getQuery(true);
-		$user = Factory::getUser();
+		/* @var DatabaseDriver $db */
+		$db       = Factory::getContainer()->get('DatabaseDriver');
 		$nullDate = $db->getNullDate();
-		$nowDate = Factory::getDate()->toSql();
+		$nowDate  = Factory::getDate()->toSql();
+		$user     = Factory::getUser();
 
 		// Force ids to array and sanitize
 		$tagIds = (array) $tagId;
@@ -482,7 +485,7 @@ class TagsHelper extends CMSHelper
 		// We do not search child tags when the match all option is selected.
 		if ($includeChildren)
 		{
-			$tagTreeArray = array();
+			$tagTreeArray = [];
 
 			foreach ($tagIds as $tag)
 			{
@@ -497,6 +500,7 @@ class TagsHelper extends CMSHelper
 		$stateFilters = ArrayHelper::toInteger($stateFilters);
 
 		// M is the mapping table. C is the core_content table. Ct is the content_types table.
+		$query = $db->getQuery(true);
 		$query->select(
 			[
 				$db->quoteName('m.type_alias'),
@@ -645,13 +649,15 @@ class TagsHelper extends CMSHelper
 	 */
 	public function getTagNames($tagIds)
 	{
-		$tagNames = array();
+		$tagNames = [];
 
 		if (\is_array($tagIds) && \count($tagIds) > 0)
 		{
 			$tagIds = ArrayHelper::toInteger($tagIds);
 
-			$db = Factory::getDbo();
+			/* @var DatabaseDriver $db */
+			$db = Factory::getContainer()->get('DatabaseDriver');
+
 			$query = $db->getQuery(true)
 				->select($db->quoteName('title'))
 				->from($db->quoteName('#__tags'))
@@ -675,7 +681,7 @@ class TagsHelper extends CMSHelper
 	 *
 	 * @since   3.1
 	 */
-	public function getTagTreeArray($id, &$tagTreeArray = array())
+	public function getTagTreeArray($id, &$tagTreeArray = [])
 	{
 		// Get a level row instance.
 		$table = Factory::getApplication()->bootComponent('com_tags')->getMVCFactory()->createTable('Tag', 'Administrator');
@@ -715,8 +721,9 @@ class TagsHelper extends CMSHelper
 	 */
 	public static function getTypes($arrayType = 'objectList', $selectTypes = null, $useAlias = true)
 	{
-		// Initialize some variables.
-		$db = Factory::getDbo();
+		/* @var DatabaseDriver $db */
+		$db = Factory::getContainer()->get('DatabaseDriver');
+
 		$query = $db->getQuery(true)
 			->select('*');
 
@@ -770,7 +777,7 @@ class TagsHelper extends CMSHelper
 	 *
 	 * @since   3.1
 	 */
-	public function postStoreProcess(TableInterface $table, $newTags = array(), $replace = true)
+	public function postStoreProcess(TableInterface $table, $newTags = [], $replace = true)
 	{
 		if (!empty($table->newTags) && empty($newTags))
 		{
@@ -826,9 +833,9 @@ class TagsHelper extends CMSHelper
 	 *
 	 * @since   3.1
 	 */
-	public function preStoreProcess(TableInterface $table, $newTags = array())
+	public function preStoreProcess(TableInterface $table, $newTags = [])
 	{
-		if ($newTags != array())
+		if ($newTags != [])
 		{
 			$this->newTags = $newTags;
 		}
@@ -866,9 +873,11 @@ class TagsHelper extends CMSHelper
 	 *
 	 * @since   3.1
 	 */
-	public static function searchTags($filters = array())
+	public static function searchTags($filters = [])
 	{
-		$db = Factory::getDbo();
+		/* @var DatabaseDriver $db */
+		$db = Factory::getContainer()->get('DatabaseDriver');
+
 		$query = $db->getQuery(true)
 			->select(
 				[
@@ -966,7 +975,7 @@ class TagsHelper extends CMSHelper
 		}
 		catch (\RuntimeException $e)
 		{
-			return array();
+			return [];
 		}
 
 		// We will replace path aliases with tag names
@@ -984,11 +993,13 @@ class TagsHelper extends CMSHelper
 	 */
 	public function tagDeleteInstances($tagId)
 	{
+		/* @var DatabaseDriver $db */
+		$db = Factory::getContainer()->get('DatabaseDriver');
+
 		// Cast as integer until method is typehinted.
-		$tag_id = (int) $tagId;
+		$tagId = (int) $tagId;
 
 		// Delete the old tag maps.
-		$db = Factory::getDbo();
 		$query = $db->getQuery(true)
 			->delete($db->quoteName('#__contentitem_tag_map'))
 			->where($db->quoteName('tag_id') . ' = :id')
@@ -1009,7 +1020,7 @@ class TagsHelper extends CMSHelper
 	 *
 	 * @since   3.1
 	 */
-	public function tagItem($ucmId, TableInterface $table, $tags = array(), $replace = true)
+	public function tagItem($ucmId, TableInterface $table, $tags = [], $replace = true)
 	{
 		$key = $table->get('_tbl_key');
 		$oldTags = $this->getTagIds((int) $table->$key, $this->typeAlias);
@@ -1022,7 +1033,7 @@ class TagsHelper extends CMSHelper
 		}
 		else
 		{
-			if ($tags == array())
+			if ($tags == [])
 			{
 				$newTags = $table->newTags;
 			}
@@ -1056,11 +1067,13 @@ class TagsHelper extends CMSHelper
 	 *
 	 * @since   3.1
 	 */
-	public function unTagItem($contentId, TableInterface $table, $tags = array())
+	public function unTagItem($contentId, TableInterface $table, $tags = [])
 	{
+		/* @var DatabaseDriver $db */
+		$db = Factory::getContainer()->get('DatabaseDriver');
+
 		$key = $table->getKeyName();
 		$id = (int) $table->$key;
-		$db = Factory::getDbo();
 		$query = $db->getQuery(true)
 			->delete($db->quoteName('#__contentitem_tag_map'))
 			->where(

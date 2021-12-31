@@ -41,7 +41,9 @@ class PlugininfoField extends FormField
 	 */
 	protected function getInput()
 	{
-		$db     = Factory::getDbo();
+		/* @var \Joomla\Database\DatabaseDriver $db */
+		$db = Factory::getContainer()->get('DatabaseDriver');
+
 		$query  = $db->getQuery(true)
 			->select($db->quoteName('extension_id'))
 			->from($db->quoteName('#__extensions'))
@@ -55,7 +57,7 @@ class PlugininfoField extends FormField
 			'link',
 			Route::_('index.php?option=com_plugins&task=plugin.edit&extension_id=' . $result),
 			Text::_('PLG_SYSTEM_ACTIONLOGS_JOOMLA_ACTIONLOG_DISABLED'),
-			array('class' => 'alert-link')
+			['class' => 'alert-link']
 		);
 
 		return '<div class="alert alert-info">'

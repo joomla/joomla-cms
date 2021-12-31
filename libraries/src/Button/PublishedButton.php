@@ -55,8 +55,9 @@ class PublishedButton extends ActionButton
 			$bakState = $this->getState($value);
 			$default  = $this->getState($value) ?? $this->unknownState;
 
-			$nullDate = Factory::getDbo()->getNullDate();
-			$nowDate = Factory::getDate()->toUnix();
+			/** @var string $nullDate */
+			$nullDate = Factory::getContainer()->get('DatabaseDriver')->getNullDate();
+			$nowDate  = Factory::getDate()->toUnix();
 
 			$tz = Factory::getUser()->getTimezone();
 
@@ -68,7 +69,7 @@ class PublishedButton extends ActionButton
 			if ($value === 1)
 			{
 				// Create tip text, only we have publish up or down settings
-				$tips = array();
+				$tips = [];
 
 				if ($publishUp)
 				{

@@ -20,6 +20,7 @@ use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\Component\Fields\Administrator\Model\FieldsModel;
+use Joomla\Database\DatabaseDriver;
 use Joomla\Database\ParameterType;
 
 /**
@@ -617,7 +618,9 @@ class FieldsHelper
 			return array();
 		}
 
-		$db    = Factory::getDbo();
+		/* @var DatabaseDriver $db */
+		$db = Factory::getContainer()->get('DatabaseDriver');
+
 		$query = $db->getQuery(true);
 
 		$query->select($db->quoteName('a.category_id'))
@@ -647,7 +650,9 @@ class FieldsHelper
 			return [];
 		}
 
-		$db    = Factory::getDbo();
+		/* @var DatabaseDriver $db */
+		$db = Factory::getContainer()->get('DatabaseDriver');
+
 		$query = $db->getQuery(true);
 
 		$query->select($db->quoteName('c.title'))
@@ -670,7 +675,9 @@ class FieldsHelper
 	 */
 	public static function getFieldsPluginId()
 	{
-		$db    = Factory::getDbo();
+		/* @var DatabaseDriver $db */
+		$db = Factory::getContainer()->get('DatabaseDriver');
+
 		$query = $db->getQuery(true)
 			->select($db->quoteName('extension_id'))
 			->from($db->quoteName('#__extensions'))

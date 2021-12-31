@@ -43,9 +43,11 @@ class ContenttypesField extends ListField
 	public function getOptions()
 	{
 		$lang    = Factory::getLanguage();
-		$options = array();
+		$options = [];
 
-		$db    = Factory::getDbo();
+		/* @var \Joomla\Database\DatabaseDriver $db */
+		$db = Factory::getContainer()->get('DatabaseDriver');
+
 		$query = $db->getQuery(true)
 			->select($db->quoteName('id', 'value'))
 			->select($db->quoteName('title', 'text'))

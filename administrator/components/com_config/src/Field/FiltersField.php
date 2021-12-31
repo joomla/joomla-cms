@@ -156,8 +156,8 @@ class FiltersField extends FormField
 	 */
 	protected function getUserGroups()
 	{
-		// Get a database object.
-		$db = Factory::getDbo();
+		/* @var \Joomla\Database\DatabaseDriver $db */
+		$db = Factory::getContainer()->get('DatabaseDriver');
 
 		// Get the user groups from the database.
 		$query = $db->getQuery(true);

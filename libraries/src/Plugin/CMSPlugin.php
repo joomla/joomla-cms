@@ -85,7 +85,7 @@ abstract class CMSPlugin implements DispatcherAwareInterface, PluginInterface
 	 *
 	 * @since   1.5
 	 */
-	public function __construct(&$subject, $config = array())
+	public function __construct(&$subject, $config = [])
 	{
 		// Get the parameters.
 		if (isset($config['params']))
@@ -136,7 +136,8 @@ abstract class CMSPlugin implements DispatcherAwareInterface, PluginInterface
 
 			if ($dbProperty->isPrivate() === false && \is_null($this->db))
 			{
-				$this->db = Factory::getDbo();
+				/* @var \Joomla\Database\DatabaseDriver $db */
+				$this->db = Factory::getContainer()->get('DatabaseDriver');
 			}
 		}
 

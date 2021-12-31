@@ -79,8 +79,9 @@ class DeleteUserCommand extends AbstractCommand
 
 		$this->username = $this->getStringFromOption('username', 'Please enter a username');
 
+		/* @var \Joomla\Database\DatabaseDriver $db */
+		$db     = Factory::getContainer()->get('DatabaseDriver');
 		$userId = UserHelper::getUserId($this->username);
-		$db = Factory::getDbo();
 
 		if (empty($userId))
 		{

@@ -15,6 +15,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\User\User;
 use Joomla\CMS\User\UserHelper;
 use Joomla\Console\Command\AbstractCommand;
+use Joomla\Database\DatabaseDriver;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Exception\InvalidOptionException;
 use Symfony\Component\Console\Input\InputInterface;
@@ -69,7 +70,7 @@ class RemoveUserFromGroupCommand extends AbstractCommand
 	 *
 	 * @since  4.0.0
 	 */
-	private $userGroups = array();
+	private $userGroups = [];
 
 	/**
 	 * Internal function to execute the command.
@@ -100,7 +101,9 @@ class RemoveUserFromGroupCommand extends AbstractCommand
 
 		$this->userGroups = $this->getGroups($user);
 
-		$db = Factory::getDbo();
+		/* @var DatabaseDriver $db */
+		$db = Factory::getContainer()->get('DatabaseDriver');
+
 		$query = $db->getQuery(true)
 			->select($db->quoteName('title'))
 			->from($db->quoteName('#__usergroups'))
@@ -170,8 +173,9 @@ class RemoveUserFromGroupCommand extends AbstractCommand
 	 */
 	protected function getGroups($user): array
 	{
-		$option = $this->getApplication()->getConsoleInput()->getOption('group');
-		$db = Factory::getDbo();
+		/* @var DatabaseDriver $db */
+		$db         = Factory::getContainer()->get('DatabaseDriver');
+		$option     = $this->getApplication()->getConsoleInput()->getOption('group');
 		$userGroups = Access::getGroupsByUser($user->id, false);
 
 		if (!$option)
@@ -232,7 +236,9 @@ class RemoveUserFromGroupCommand extends AbstractCommand
 	 */
 	protected function getGroupId($groupName)
 	{
-		$db = Factory::getDbo();
+		/* @var DatabaseDriver $db */
+		$db = Factory::getContainer()->get('DatabaseDriver');
+
 		$query = $db->getQuery(true)
 			->select($db->quoteName('id'))
 			->from($db->quoteName('#__usergroups'))

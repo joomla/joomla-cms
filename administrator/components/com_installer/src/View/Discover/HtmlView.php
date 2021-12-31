@@ -104,12 +104,15 @@ class HtmlView extends InstallerViewDefault
 	 */
 	public function checkExtensions()
 	{
-		$db = Factory::getDbo();
+		/* @var \Joomla\Database\DatabaseDriver $db */
+		$db = Factory::getContainer()->get('DatabaseDriver');
+
 		$query = $db->getQuery(true)
 			->select('*')
 			->from($db->quoteName('#__extensions'))
 			->where($db->quoteName('state') . ' = -1');
 		$db->setQuery($query);
+
 		$discoveredExtensions = $db->loadObjectList();
 
 		return (count($discoveredExtensions) === 0) ? false : true;

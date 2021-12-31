@@ -15,6 +15,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\User\User;
 use Joomla\CMS\User\UserHelper;
 use Joomla\Console\Command\AbstractCommand;
+use Joomla\Database\DatabaseDriver;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Exception\InvalidOptionException;
 use Symfony\Component\Console\Input\InputInterface;
@@ -96,12 +97,12 @@ class AddUserToGroupCommand extends AbstractCommand
 			return Command::FAILURE;
 		}
 
-		// Fetch user
+		/* @var DatabaseDriver $db */
+		$db   = Factory::getContainer()->get('DatabaseDriver');
 		$user = User::getInstance($userId);
 
 		$this->userGroups = $this->getGroups($user);
 
-		$db = Factory::getDbo();
 		$query = $db->getQuery(true)
 			->select($db->quoteName('title'))
 			->from($db->quoteName('#__usergroups'))
@@ -141,10 +142,9 @@ class AddUserToGroupCommand extends AbstractCommand
 	 */
 	protected function getGroups($user): array
 	{
-		$groups = $this->getApplication()->getConsoleInput()->getOption('group');
-
-		$db = Factory::getDbo();
-
+		/* @var DatabaseDriver $db */
+		$db        = Factory::getContainer()->get('DatabaseDriver');
+		$groups    = $this->getApplication()->getConsoleInput()->getOption('group');
 		$groupList = [];
 
 		// Group names have been supplied as input arguments
@@ -207,7 +207,8 @@ class AddUserToGroupCommand extends AbstractCommand
 	 */
 	protected function getGroupId($groupName)
 	{
-		$db = Factory::getDbo();
+		/* @var DatabaseDriver $db */
+		$db = Factory::getContainer()->get('DatabaseDriver');
 
 		$query = $db->getQuery(true)
 			->select($db->quoteName('id'))
@@ -230,7 +231,8 @@ class AddUserToGroupCommand extends AbstractCommand
 	 */
 	protected function getUserId($username)
 	{
-		$db = Factory::getDbo();
+		/* @var DatabaseDriver $db */
+		$db = Factory::getContainer()->get('DatabaseDriver');
 
 		$query = $db->getQuery(true)
 			->select($db->quoteName('id'))

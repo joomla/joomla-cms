@@ -49,7 +49,7 @@ class MenusController extends BaseController
 	 *
 	 * @since   1.6
 	 */
-	public function getModel($name = 'Menu', $prefix = 'Administrator', $config = array('ignore_request' => true))
+	public function getModel($name = 'Menu', $prefix = 'Administrator', $config = ['ignore_request' => true])
 	{
 		return parent::getModel($name, $prefix, $config);
 	}
@@ -67,7 +67,7 @@ class MenusController extends BaseController
 		$this->checkToken();
 
 		$user = $this->app->getIdentity();
-		$cids = (array) $this->input->get('cid', array(), 'array');
+		$cids = (array) $this->input->get('cid', [], 'array');
 
 		if (count($cids) < 1)
 		{
@@ -119,7 +119,9 @@ class MenusController extends BaseController
 	 */
 	public function resync()
 	{
-		$db = Factory::getDbo();
+		/* @var \Joomla\Database\DatabaseDriver $db */
+		$db = Factory::getContainer()->get('DatabaseDriver');
+
 		$query = $db->getQuery(true);
 		$parts = null;
 

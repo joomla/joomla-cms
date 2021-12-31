@@ -32,7 +32,7 @@ abstract class ModulesHelper
 	public static function getStateOptions()
 	{
 		// Build the filter options.
-		$options   = array();
+		$options   = [];
 		$options[] = HTMLHelper::_('select.option', '1', Text::_('JPUBLISHED'));
 		$options[] = HTMLHelper::_('select.option', '0', Text::_('JUNPUBLISHED'));
 		$options[] = HTMLHelper::_('select.option', '-2', Text::_('JTRASHED'));
@@ -49,7 +49,7 @@ abstract class ModulesHelper
 	public static function getClientOptions()
 	{
 		// Build the filter options.
-		$options   = array();
+		$options   = [];
 		$options[] = HTMLHelper::_('select.option', '0', Text::_('JSITE'));
 		$options[] = HTMLHelper::_('select.option', '1', Text::_('JADMINISTRATOR'));
 
@@ -62,25 +62,27 @@ abstract class ModulesHelper
 	 * @param   integer  $clientId       Client ID
 	 * @param   boolean  $editPositions  Allow to edit the positions
 	 *
-	 * @return  array  A list of positions
+	 * @return  array|void  A list of positions
 	 */
 	public static function getPositions($clientId, $editPositions = false)
 	{
-		$db       = Factory::getDbo();
+		/* @var \Joomla\Database\DatabaseDriver $db */
+		$db = Factory::getContainer()->get('DatabaseDriver');
+
 		$clientId = (int) $clientId;
-		$query    = $db->getQuery(true)
+
+		$query = $db->getQuery(true)
 			->select('DISTINCT ' . $db->quoteName('position'))
 			->from($db->quoteName('#__modules'))
 			->where($db->quoteName('client_id') . ' = :clientid')
 			->order($db->quoteName('position'))
 			->bind(':clientid', $clientId, ParameterType::INTEGER);
-
 		$db->setQuery($query);
 
 		try
 		{
 			$positions = $db->loadColumn();
-			$positions = is_array($positions) ? $positions : array();
+			$positions = is_array($positions) ? $positions : [];
 		}
 		catch (\RuntimeException $e)
 		{
@@ -90,7 +92,7 @@ abstract class ModulesHelper
 		}
 
 		// Build the list
-		$options = array();
+		$options = [];
 
 		foreach ($positions as $position)
 		{
@@ -122,7 +124,9 @@ abstract class ModulesHelper
 	 */
 	public static function getTemplates($clientId = 0, $state = '', $template = '')
 	{
-		$db       = Factory::getDbo();
+		/* @var \Joomla\Database\DatabaseDriver $db */
+		$db = Factory::getContainer()->get('DatabaseDriver');
+
 		$clientId = (int) $clientId;
 
 		// Get the database object and a new query object.
@@ -164,7 +168,10 @@ abstract class ModulesHelper
 	 */
 	public static function getModules($clientId)
 	{
-		$db    = Factory::getDbo();
+		/* @var \Joomla\Database\DatabaseDriver $db */
+		$db   = Factory::getContainer()->get('DatabaseDriver');
+		$lang = Factory::getLanguage();
+
 		$query = $db->getQuery(true)
 			->select('element AS value, name AS text')
 			->from('#__extensions as e')
@@ -173,10 +180,9 @@ abstract class ModulesHelper
 			->join('LEFT', '#__modules as m ON m.module=e.element AND m.client_id=e.client_id')
 			->where('m.module IS NOT NULL')
 			->group('element,name');
-
 		$db->setQuery($query);
+
 		$modules = $db->loadObjectList();
-		$lang = Factory::getLanguage();
 
 		foreach ($modules as $i => $module)
 		{
@@ -202,7 +208,7 @@ abstract class ModulesHelper
 	 */
 	public static function getAssignmentOptions($clientId)
 	{
-		$options = array();
+		$options = [];
 		$options[] = HTMLHelper::_('select.option', '0', 'COM_MODULES_OPTION_MENU_ALL');
 		$options[] = HTMLHelper::_('select.option', '-', 'COM_MODULES_OPTION_MENU_NONE');
 
@@ -258,7 +264,7 @@ abstract class ModulesHelper
 			{
 				// Try to humanize the position name
 				$text = ucfirst(preg_replace('/^' . $template . '\-/', '', $position));
-				$text = ucwords(str_replace(array('-', '_'), ' ', $text));
+				$text = ucwords(str_replace(['-', '_'], ' ', $text));
 			}
 		}
 
@@ -314,9 +320,9 @@ abstract class ModulesHelper
 	 *
 	 * @since   3.0
 	 */
-	public static function createOptionGroup($label = '', $options = array())
+	public static function createOptionGroup($label = '', $options = [])
 	{
-		$group = array();
+		$group = [];
 		$group['value'] = $label;
 		$group['text']  = $label;
 		$group['items'] = $options;

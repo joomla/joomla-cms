@@ -64,7 +64,7 @@ class ModuleController extends FormController
 		$app->setUserState('com_modules.add.module.params', null);
 
 		// Parameters could be coming in for a new item, so let's set them.
-		$params = $this->input->get('params', array(), 'array');
+		$params = $this->input->get('params', [], 'array');
 		$app->setUserState('com_modules.add.module.params', $params);
 	}
 
@@ -136,7 +136,7 @@ class ModuleController extends FormController
 	 *
 	 * @since   3.2
 	 */
-	protected function allowEdit($data = array(), $key = 'id')
+	protected function allowEdit($data = [], $key = 'id')
 	{
 		// Initialise variables.
 		$recordId = (int) isset($data[$key]) ? $data[$key] : 0;
@@ -170,7 +170,7 @@ class ModuleController extends FormController
 		$this->checkToken();
 
 		// Set the model
-		$model = $this->getModel('Module', 'Administrator', array());
+		$model = $this->getModel('Module', 'Administrator', []);
 
 		// Preset the redirect
 		$redirectUrl = 'index.php?option=com_modules&view=modules' . $this->getRedirectToListAppend();
@@ -190,7 +190,7 @@ class ModuleController extends FormController
 	 *
 	 * @since   1.6
 	 */
-	protected function postSaveHook(BaseDatabaseModel $model, $validData = array())
+	protected function postSaveHook(BaseDatabaseModel $model, $validData = [])
 	{
 		$task = $this->getTask();
 
@@ -223,7 +223,7 @@ class ModuleController extends FormController
 		if ($this->app->getDocument()->getType() == 'json')
 		{
 			$model = $this->getModel();
-			$data  = $this->input->post->get('jform', array(), 'array');
+			$data  = $this->input->post->get('jform', [], 'array');
 			$item = $model->getItem($this->input->get('id'));
 			$properties = $item->getProperties();
 
@@ -289,8 +289,11 @@ class ModuleController extends FormController
 			$app->close();
 		}
 
-		$db    = Factory::getDbo();
+		/* @var \Joomla\Database\DatabaseDriver $db */
+		$db = Factory::getContainer()->get('DatabaseDriver');
+
 		$clientId = (int) $clientId;
+
 		$query = $db->getQuery(true)
 			->select($db->quoteName(['position', 'ordering', 'title']))
 			->from($db->quoteName('#__modules'))
@@ -299,7 +302,6 @@ class ModuleController extends FormController
 			->order($db->quoteName('ordering'))
 			->bind(':clientid', $clientId, ParameterType::INTEGER)
 			->bind(':position', $position);
-
 		$db->setQuery($query);
 
 		try
@@ -313,7 +315,7 @@ class ModuleController extends FormController
 			return '';
 		}
 
-		$orders2 = array();
+		$orders2 = [];
 		$n = count($orders);
 
 		if ($n > 0)

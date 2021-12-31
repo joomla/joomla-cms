@@ -14,6 +14,7 @@ use Joomla\CMS\Access\Access;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\FormField;
 use Joomla\CMS\Helper\UserGroupsHelper;
+use Joomla\Database\DatabaseDriver;
 use Joomla\Database\ParameterType;
 
 /**
@@ -178,11 +179,11 @@ class RulesField extends FormField
 		{
 			if ($el->getName() === 'action')
 			{
-				$this->actions[] = (object) array(
+				$this->actions[] = (object) [
 					'name' => (string) $el['name'],
 					'title' => (string) $el['title'],
 					'description' => (string) $el['description'],
-				);
+				];
 			}
 		}
 
@@ -195,8 +196,10 @@ class RulesField extends FormField
 		// If the asset id is empty (component or new item).
 		if (empty($this->assetId))
 		{
+			/* @var DatabaseDriver $db */
+			$db = Factory::getContainer()->get('DatabaseDriver');
+
 			// Get the component asset id as fallback.
-			$db = Factory::getDbo();
 			$query = $db->getQuery(true)
 				->select($db->quoteName('id'))
 				->from($db->quoteName('#__assets'))
@@ -218,9 +221,10 @@ class RulesField extends FormField
 		// If not in global config we need the parent_id asset to calculate permissions.
 		if (!$this->isGlobalConfig)
 		{
-			// In this case we need to get the component rules too.
-			$db = Factory::getDbo();
+			/* @var DatabaseDriver $db */
+			$db = Factory::getContainer()->get('DatabaseDriver');
 
+			// In this case we need to get the component rules too.
 			$query = $db->getQuery(true)
 				->select($db->quoteName('parent_id'))
 				->from($db->quoteName('#__assets'))
@@ -253,7 +257,7 @@ class RulesField extends FormField
 	{
 		$data = parent::getLayoutData();
 
-		$extraData = array(
+		$extraData = [
 			'groups'         => $this->groups,
 			'section'        => $this->section,
 			'actions'        => $this->actions,
@@ -263,7 +267,7 @@ class RulesField extends FormField
 			'isGlobalConfig' => $this->isGlobalConfig,
 			'parentAssetId'  => $this->parentAssetId,
 			'component'      => $this->component,
-		);
+		];
 
 		return array_merge($data, $extraData);
 	}

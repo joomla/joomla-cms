@@ -40,9 +40,9 @@ class ComponentsCategoryField extends ListField
 	 */
 	protected function getOptions()
 	{
-		// Initialise variable.
-		$db      = Factory::getDbo();
-		$options = array();
+		/* @var \Joomla\Database\DatabaseDriver $db */
+		$db      = Factory::getContainer()->get('DatabaseDriver');
+		$options = [];
 
 		$query = $db->getQuery(true);
 		$query->select('DISTINCT ' . $db->quoteName('extension'))

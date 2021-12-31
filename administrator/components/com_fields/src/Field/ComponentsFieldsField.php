@@ -42,8 +42,8 @@ class ComponentsFieldsField extends ListField
 	 */
 	protected function getOptions()
 	{
-		// Initialise variable.
-		$db = Factory::getDbo();
+		/* @var \Joomla\Database\DatabaseDriver $db */
+		$db = Factory::getContainer()->get('DatabaseDriver');
 
 		$query = $db->getQuery(true)
 			->select('DISTINCT a.name AS text, a.element AS value')

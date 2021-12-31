@@ -29,7 +29,7 @@ class Adapter extends CMSObject
 	 * @var    static[]
 	 * @since  1.6
 	 */
-	protected $_adapters = array();
+	protected $_adapters = [];
 
 	/**
 	 * Adapter Folder
@@ -64,8 +64,6 @@ class Adapter extends CMSObject
 	protected $_db;
 
 	/**
-	 * Constructor
-	 *
 	 * @param   string  $basepath       Base Path of the adapters
 	 * @param   string  $classprefix    Class prefix of adapters
 	 * @param   string  $adapterfolder  Name of folder to append to base path
@@ -78,7 +76,8 @@ class Adapter extends CMSObject
 		$this->_classprefix = $classprefix ? $classprefix : 'J';
 		$this->_adapterfolder = $adapterfolder ? $adapterfolder : 'adapters';
 
-		$this->_db = Factory::getDbo();
+		/* @var \Joomla\Database\DatabaseDriver $db */
+		$this->db = Factory::getContainer()->get('DatabaseDriver');
 	}
 
 	/**
@@ -103,7 +102,7 @@ class Adapter extends CMSObject
 	 *
 	 * @since   1.6
 	 */
-	public function getAdapter($name, $options = array())
+	public function getAdapter($name, $options = [])
 	{
 		if (array_key_exists($name, $this->_adapters))
 		{
@@ -129,7 +128,7 @@ class Adapter extends CMSObject
 	 *
 	 * @since   1.6
 	 */
-	public function setAdapter($name, &$adapter = null, $options = array())
+	public function setAdapter($name, &$adapter = null, $options = [])
 	{
 		if (is_object($adapter))
 		{
@@ -187,7 +186,7 @@ class Adapter extends CMSObject
 	 *
 	 * @since   1.6
 	 */
-	public function loadAllAdapters($options = array())
+	public function loadAllAdapters($options = [])
 	{
 		$files = new \DirectoryIterator($this->_basepath . '/' . $this->_adapterfolder);
 

@@ -44,10 +44,11 @@ abstract class TagsSimilarHelper
 		// This module does not apply to list views in general at this point.
 		if ($option === 'com_tags' || $view === 'category' || $option === 'com_users')
 		{
-			return array();
+			return [];
 		}
 
-		$db         = Factory::getDbo();
+		/* @var \Joomla\Database\DatabaseDriver $db */
+		$db         = Factory::getContainer()->get('DatabaseDriver');
 		$user       = Factory::getUser();
 		$groups     = $user->getAuthorisedViewLevels();
 		$matchtype  = $params->get('matchtype', 'all');
@@ -63,7 +64,7 @@ abstract class TagsSimilarHelper
 
 		if (!$tagsToMatch)
 		{
-			return array();
+			return [];
 		}
 
 		$tagsToMatch = explode(',', $tagsToMatch);

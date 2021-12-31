@@ -33,11 +33,11 @@ abstract class WorkflowStage
 	 */
 	public static function existing($options)
 	{
-		// Get the database object and a new query object.
-		$db    = Factory::getDbo();
-		$query = $db->getQuery(true);
+		/* @var \Joomla\Database\DatabaseDriver $db */
+		$db = Factory::getContainer()->get('DatabaseDriver');
 
 		// Build the query.
+		$query = $db->getQuery(true);
 		$query->select(
 			[
 				$db->quoteName('ws.id', 'workflow_stage_id'),
@@ -54,7 +54,7 @@ abstract class WorkflowStage
 		// Set the query and load the options.
 		$stages = $db->setQuery($query)->loadObjectList();
 
-		$workflowStages = array();
+		$workflowStages = [];
 
 		// Grouping the stages by workflow
 		foreach ($stages as $stage)
@@ -64,15 +64,15 @@ abstract class WorkflowStage
 
 			if (!array_key_exists($workflowStageKey, $workflowStages))
 			{
-				$workflowStages[$workflowStageKey] = array();
+				$workflowStages[$workflowStageKey] = [];
 			}
 
 			$workflowStages[$workflowStageKey][] = HTMLHelper::_('select.option', $stage->workflow_stage_id, Text::_($stage->workflow_stage_title));
 		}
 
-		$prefix[] = array(
+		$prefix[] = [
 			HTMLHelper::_('select.option', '', $options['title'])
-		);
+		];
 
 		return array_merge($prefix, $workflowStages);
 	}

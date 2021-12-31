@@ -21,6 +21,7 @@ use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Router\Router;
 use Joomla\CMS\Session\Session;
 use Joomla\CMS\Uri\Uri;
+use Joomla\Database\DatabaseDriver;
 use Joomla\Database\ParameterType;
 use Joomla\DI\Container;
 use Joomla\Registry\Registry;
@@ -159,7 +160,7 @@ class AdministratorApplication extends CMSApplication
 	{
 		// Get the language from the (login) form or user state
 		$login_lang = ($this->input->get('option') === 'com_login') ? $this->input->get('lang') : '';
-		$options    = array('language' => $login_lang ?: $this->getUserState('application.lang'));
+		$options    = ['language' => $login_lang ?: $this->getUserState('application.lang')];
 
 		// Initialise the application
 		$this->initialiseApp($options);
@@ -199,7 +200,7 @@ class AdministratorApplication extends CMSApplication
 	 *
 	 * @since	3.2
 	 */
-	public static function getRouter($name = 'administrator', array $options = array())
+	public static function getRouter($name = 'administrator', array $options = [])
 	{
 		return parent::getRouter($name, $options);
 	}
@@ -226,11 +227,10 @@ class AdministratorApplication extends CMSApplication
 			return $this->template->template;
 		}
 
-		$admin_style = (int) Factory::getUser()->getParam('admin_style');
+		/* @var DatabaseDriver $db */
+		$db = Factory::getContainer()->get('DatabaseDriver');
 
 		// Load the template name from the database
-		$db = Factory::getDbo();
-
 		$query = $db->getQuery(true)
 			->select($db->quoteName(['s.template', 's.params', 's.inheritable', 's.parent']))
 			->from($db->quoteName('#__template_styles', 's'))
@@ -248,6 +248,7 @@ class AdministratorApplication extends CMSApplication
 				]
 			);
 
+		$admin_style = (int) Factory::getUser()->getParam('admin_style');
 		if ($admin_style)
 		{
 			$query->extendWhere(
@@ -306,7 +307,7 @@ class AdministratorApplication extends CMSApplication
 	 *
 	 * @since   3.2
 	 */
-	protected function initialiseApp($options = array())
+	protected function initialiseApp($options = [])
 	{
 		$user = Factory::getUser();
 
@@ -314,7 +315,7 @@ class AdministratorApplication extends CMSApplication
 		if ($user->guest)
 		{
 			$guestUsergroup = ComponentHelper::getParams('com_users')->get('guest_usergroup', 1);
-			$user->groups = array($guestUsergroup);
+			$user->groups = [$guestUsergroup];
 		}
 
 		// If a language was specified it has priority, otherwise use user or default language settings
@@ -357,14 +358,14 @@ class AdministratorApplication extends CMSApplication
 	/**
 	 * Login authentication function
 	 *
-	 * @param   array  $credentials  Array('username' => string, 'password' => string)
-	 * @param   array  $options      Array('remember' => boolean)
+	 * @param   array  $credentials  ['username' => string, 'password' => string]
+	 * @param   array  $options      ['remember' => boolean]
 	 *
 	 * @return  boolean  True on success.
 	 *
 	 * @since   3.2
 	 */
-	public function login($credentials, $options = array())
+	public function login($credentials, $options = [])
 	{
 		// The minimum group
 		$options['group'] = 'Public Backend';
@@ -408,9 +409,10 @@ class AdministratorApplication extends CMSApplication
 	 */
 	public static function purgeMessages()
 	{
+		/* @var DatabaseDriver $db */
+		$db     = Factory::getContainer()->get('DatabaseDriver');
 		$userId = Factory::getUser()->id;
 
-		$db = Factory::getDbo();
 		$query = $db->getQuery(true)
 			->select($db->quoteName(['cfg_name', 'cfg_value']))
 			->from($db->quoteName('#__messages_cfg'))

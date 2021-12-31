@@ -30,7 +30,9 @@ class PrivacyDashboardHelper
 	 */
 	public static function getData()
 	{
-		$db    = Factory::getDbo();
+		/* @var \Joomla\Database\DatabaseDriver $db */
+		$db = Factory::getContainer()->get('DatabaseDriver');
+
 		$query = $db->getQuery(true)
 			->select(
 				[

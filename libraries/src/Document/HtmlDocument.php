@@ -34,7 +34,7 @@ class HtmlDocument extends Document
 	 * @var    array
 	 * @since  1.7.0
 	 */
-	public $_links = array();
+	public $_links = [];
 
 	/**
 	 * Array of custom tags
@@ -42,7 +42,7 @@ class HtmlDocument extends Document
 	 * @var    array
 	 * @since  1.7.0
 	 */
-	public $_custom = array();
+	public $_custom = [];
 
 	/**
 	 * Name of the template
@@ -98,7 +98,7 @@ class HtmlDocument extends Document
 	 * @var    array
 	 * @since  1.7.0
 	 */
-	protected $_template_tags = array();
+	protected $_template_tags = [];
 
 	/**
 	 * Integer with caching setting
@@ -123,7 +123,7 @@ class HtmlDocument extends Document
 	 *
 	 * @since   1.7.0
 	 */
-	public function __construct($options = array())
+	public function __construct($options = [])
 	{
 		parent::__construct($options);
 
@@ -143,7 +143,7 @@ class HtmlDocument extends Document
 	 */
 	public function getHeadData()
 	{
-		$data = array();
+		$data = [];
 		$data['title']         = $this->title;
 		$data['description']   = $this->description;
 		$data['link']          = $this->link;
@@ -203,14 +203,14 @@ class HtmlDocument extends Document
 			$this->title         = '';
 			$this->description   = '';
 			$this->link          = '';
-			$this->_metaTags     = array();
-			$this->_links        = array();
-			$this->_styleSheets  = array();
-			$this->_style        = array();
-			$this->_scripts      = array();
-			$this->_script       = array();
-			$this->_custom       = array();
-			$this->scriptOptions = array();
+			$this->_metaTags     = [];
+			$this->_links        = [];
+			$this->_styleSheets  = [];
+			$this->_style        = [];
+			$this->_scripts      = [];
+			$this->_script       = [];
+			$this->_custom       = [];
+			$this->scriptOptions = [];
 		}
 
 		if (\is_array($types))
@@ -256,11 +256,11 @@ class HtmlDocument extends Document
 			case 'script':
 			case 'custom':
 				$realType = '_' . $type;
-				$this->{$realType} = array();
+				$this->{$realType} = [];
 				break;
 
 			case 'scriptOptions':
-				$this->{$type} = array();
+				$this->{$type} = [];
 				break;
 		}
 	}
@@ -325,7 +325,7 @@ class HtmlDocument extends Document
 	 *
 	 * @param   array  $data  The document head data in array form
 	 *
-	 * @return  HtmlDocument|null instance of $this to allow chaining or null for empty input data
+	 * @return  HtmlDocument|void Instance of $this to allow chaining or void for empty input data
 	 *
 	 * @since   1.7.0
 	 */
@@ -451,7 +451,7 @@ class HtmlDocument extends Document
 	 *
 	 * @since   1.7.0
 	 */
-	public function addHeadLink($href, $relation, $relType = 'rel', $attribs = array())
+	public function addHeadLink($href, $relation, $relType = 'rel', $attribs = [])
 	{
 		$this->_links[$href]['relation'] = $relation;
 		$this->_links[$href]['relType'] = $relType;
@@ -478,7 +478,7 @@ class HtmlDocument extends Document
 	public function addFavicon($href, $type = 'image/vnd.microsoft.icon', $relation = 'shortcut icon')
 	{
 		$href = str_replace('\\', '/', $href);
-		$this->addHeadLink($href, $relation, 'rel', array('type' => $type));
+		$this->addHeadLink($href, $relation, 'rel', ['type' => $type]);
 
 		return $this;
 	}
@@ -539,7 +539,7 @@ class HtmlDocument extends Document
 	 *
 	 * @since   1.7.0
 	 */
-	public function getBuffer($type = null, $name = null, $attribs = array())
+	public function getBuffer($type = null, $name = null, $attribs = [])
 	{
 		// If no type is specified, return the whole buffer
 		if ($type === null)
@@ -560,15 +560,15 @@ class HtmlDocument extends Document
 		{
 			/** @var  \Joomla\CMS\Document\Renderer\Html\ModulesRenderer  $renderer */
 			$cache = CmsFactory::getCache('com_modules', '');
-			$hash = md5(serialize(array($name, $attribs, null, get_class($renderer))));
+			$hash = md5(serialize([$name, $attribs, null, get_class($renderer)]));
 			$cbuffer = $cache->get('cbuffer_' . $type);
 
 			if (isset($cbuffer[$hash]))
 			{
-				return Cache::getWorkarounds($cbuffer[$hash], array('mergehead' => 1));
+				return Cache::getWorkarounds($cbuffer[$hash], ['mergehead' => 1]);
 			}
 
-			$options = array();
+			$options = [];
 			$options['nopathway'] = 1;
 			$options['nomodules'] = 1;
 			$options['modulemode'] = 1;
@@ -600,13 +600,13 @@ class HtmlDocument extends Document
 	 *
 	 * @since   1.7.0
 	 */
-	public function setBuffer($content, $options = array())
+	public function setBuffer($content, $options = [])
 	{
 		// The following code is just for backward compatibility.
 		if (\func_num_args() > 1 && !\is_array($options))
 		{
 			$args = \func_get_args();
-			$options = array();
+			$options = [];
 			$options['type'] = $args[1];
 			$options['name'] = $args[2] ?? null;
 			$options['title'] = $args[3] ?? null;
@@ -626,7 +626,7 @@ class HtmlDocument extends Document
 	 *
 	 * @since   1.7.0
 	 */
-	public function parse($params = array())
+	public function parse($params = [])
 	{
 		return $this->_fetchTemplate($params)->_parseTemplate();
 	}
@@ -641,7 +641,7 @@ class HtmlDocument extends Document
 	 *
 	 * @since   1.7.0
 	 */
-	public function render($caching = false, $params = array())
+	public function render($caching = false, $params = [])
 	{
 		$this->_caching = $caching;
 
@@ -718,10 +718,11 @@ class HtmlDocument extends Document
 
 		if (!isset($children))
 		{
-			$db = CmsFactory::getDbo();
-			$app = CmsFactory::getApplication();
-			$menu = $app->getMenu();
-			$active = $menu->getActive();
+			/* @var \Joomla\Database\DatabaseDriver $db */
+			$db       = CmsFactory::getContainer()->get('DatabaseDriver');
+			$app      = CmsFactory::getApplication();
+			$menu     = $app->getMenu();
+			$active   = $menu->getActive();
 			$children = 0;
 
 			if ($active)
@@ -783,7 +784,7 @@ class HtmlDocument extends Document
 	 *
 	 * @since   1.7.0
 	 */
-	protected function _fetchTemplate($params = array())
+	protected function _fetchTemplate($params = [])
 	{
 		// Check
 		$directory = $params['directory'] ?? 'templates';
@@ -839,7 +840,7 @@ class HtmlDocument extends Document
 	 */
 	protected function _parseTemplate()
 	{
-		$matches = array();
+		$matches = [];
 
 		if (preg_match_all('#<jdoc:include\ type="([^"]+)"(.*)\/>#iU', $this->_template, $matches))
 		{
@@ -851,7 +852,7 @@ class HtmlDocument extends Document
 			for ($i = \count($matches[0]) - 1; $i >= 0; $i--)
 			{
 				$type = $matches[1][$i];
-				$attribs = empty($matches[2][$i]) ? array() : Utility::parseAttributes($matches[2][$i]);
+				$attribs = empty($matches[2][$i]) ? [] : Utility::parseAttributes($matches[2][$i]);
 				$name = $attribs['name'] ?? null;
 
 				// Separate buffers to be executed first and last

@@ -116,7 +116,7 @@ class AddUserCommand extends AbstractCommand
 		$this->password = $this->getStringFromOption('password', 'Please enter a password');
 		$this->userGroups = $this->getUserGroups();
 
-		if (\in_array("error", $this->userGroups))
+		if (\in_array('error', $this->userGroups))
 		{
 			$this->ioStyle->error("'" . $this->userGroups[1] . "' user group doesn't exist!");
 
@@ -169,7 +169,9 @@ class AddUserCommand extends AbstractCommand
 	 */
 	protected function getGroupId($groupName)
 	{
-		$db = Factory::getDbo();
+		/* @var \Joomla\Database\DatabaseDriver $db */
+		$db = Factory::getContainer()->get('DatabaseDriver');
+
 		$query = $db->getQuery(true)
 			->select($db->quoteName('id'))
 			->from($db->quoteName('#__usergroups'))
@@ -218,8 +220,9 @@ class AddUserCommand extends AbstractCommand
 	 */
 	protected function getUserGroups(): array
 	{
+		/* @var \Joomla\Database\DatabaseDriver $db */
+		$db     = Factory::getContainer()->get('DatabaseDriver');
 		$groups = $this->getApplication()->getConsoleInput()->getOption('usergroup');
-		$db = Factory::getDbo();
 
 		$groupList = [];
 

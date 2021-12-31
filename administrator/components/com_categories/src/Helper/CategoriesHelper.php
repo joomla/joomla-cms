@@ -33,8 +33,10 @@ class CategoriesHelper
 	 */
 	public static function getAssociations($pk, $extension = 'com_content')
 	{
+		/* @var \Joomla\Database\DatabaseDriver $db */
+		$db               = Factory::getContainer()->get('DatabaseDriver');
 		$langAssociations = Associations::getAssociations($extension, '#__categories', 'com_categories.item', $pk, 'id', 'alias', '');
-		$associations     = array();
+		$associations     = [];
 		$user             = Factory::getUser();
 		$groups           = $user->getAuthorisedViewLevels();
 
@@ -43,7 +45,6 @@ class CategoriesHelper
 			// Include only published categories with user access
 			$arrId   = explode(':', $langAssociation->id);
 			$assocId = (int) $arrId[0];
-			$db      = Factory::getDbo();
 
 			$query = $db->getQuery(true)
 				->select($db->quoteName('published'))
@@ -75,7 +76,7 @@ class CategoriesHelper
 	{
 		$categoryTable = Table::getInstance('CategoryTable', '\\Joomla\\Component\\Categories\\Administrator\\Table\\');
 
-		$data = array();
+		$data = [];
 		$data['id'] = $catid;
 		$data['extension'] = $extension;
 

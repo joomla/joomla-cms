@@ -13,6 +13,7 @@ namespace Joomla\CMS\HTML\Helpers;
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\Database\DatabaseDriver;
 use Joomla\Database\DatabaseQuery;
 use Joomla\String\StringHelper;
 
@@ -51,7 +52,7 @@ abstract class ListHelper
 		}
 
 		$imageFiles = new \DirectoryIterator(JPATH_SITE . '/' . $directory);
-		$images = array(HTMLHelper::_('select.option', '', Text::_('JOPTION_SELECT_IMAGE')));
+		$images = [HTMLHelper::_('select.option', '', Text::_('JOPTION_SELECT_IMAGE'))];
 
 		foreach ($imageFiles as $file)
 		{
@@ -72,10 +73,10 @@ abstract class ListHelper
 			'select.genericlist',
 			$images,
 			$name,
-			array(
+			[
 				'list.attr' => 'size="1" ' . $javascript,
 				'list.select' => $active,
-			)
+			]
 		);
 
 		return $images;
@@ -93,12 +94,13 @@ abstract class ListHelper
 	 */
 	public static function genericordering($query, $chop = 30)
 	{
-		$db = Factory::getDbo();
-		$options = array();
-		$db->setQuery($query);
+		/* @var DatabaseDriver $db */
+		$db = Factory::getContainer()->get('DatabaseDriver');
 
+		$db->setQuery($query);
 		$items = $db->loadObjectList();
 
+		$options = [];
 		if (empty($items))
 		{
 			$options[] = HTMLHelper::_('select.option', 1, Text::_('JLIB_FORM_FIELD_PARAM_INTEGER_FIRST_LABEL'));
@@ -192,7 +194,9 @@ abstract class ListHelper
 	 */
 	public static function users($name, $active, $nouser = 0, $javascript = null, $order = 'name')
 	{
-		$db = Factory::getDbo();
+		/* @var DatabaseDriver $db */
+		$db = Factory::getContainer()->get('DatabaseDriver');
+
 		$query = $db->getQuery(true)
 			->select(
 				[
@@ -221,10 +225,10 @@ abstract class ListHelper
 			'select.genericlist',
 			$users,
 			$name,
-			array(
+			[
 				'list.attr' => 'size="1" ' . $javascript,
 				'list.select' => $active,
-			)
+			]
 		);
 
 		return $users;
@@ -250,7 +254,7 @@ abstract class ListHelper
 		$id = false
 	)
 	{
-		$pos = array();
+		$pos = [];
 
 		if ($none)
 		{
@@ -274,12 +278,12 @@ abstract class ListHelper
 
 		$positions = HTMLHelper::_(
 			'select.genericlist', $pos, $name,
-			array(
+			[
 				'id' => $id,
 				'list.attr' => 'size="1"' . $javascript,
 				'list.select' => $active,
 				'option.key' => null,
-			)
+			]
 		);
 
 		return $positions;

@@ -48,8 +48,10 @@ class AdministratorService
 				$associations[$tag] = (int) $associated->id;
 			}
 
+			/* @var \Joomla\Database\DatabaseDriver $db */
+			$db = Factory::getContainer()->get('DatabaseDriver');
+
 			// Get the associated newsfeed items
-			$db = Factory::getDbo();
 			$query = $db->getQuery(true);
 			$query
 				->select(
@@ -86,7 +88,7 @@ class AdministratorService
 
 			if ($items)
 			{
-				$languages = LanguageHelper::getContentLanguages(array(0, 1));
+				$languages = LanguageHelper::getContentLanguages([0, 1]);
 				$content_languages = array_column($languages, 'lang_code');
 
 				foreach ($items as &$item)

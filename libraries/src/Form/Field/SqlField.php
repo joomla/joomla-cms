@@ -13,6 +13,7 @@ namespace Joomla\CMS\Form\Field;
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\Database\DatabaseDriver;
 use Joomla\Database\DatabaseQuery;
 use Joomla\Database\Exception\ExecutionFailureException;
 
@@ -138,8 +139,8 @@ class SqlField extends ListField
 			if (empty($this->query))
 			{
 				// Get the query from the form
-				$query    = array();
-				$defaults = array();
+				$query    = [];
+				$defaults = [];
 
 				$sql_select = (string) $this->element['sql_select'];
 				$sql_from   = (string) $this->element['sql_from'];
@@ -198,8 +199,8 @@ class SqlField extends ListField
 	 */
 	protected function processQuery($conditions, $filters, $defaults)
 	{
-		// Get the database object.
-		$db = Factory::getDbo();
+		/* @var DatabaseDriver $db */
+		$db = Factory::getContainer()->get('DatabaseDriver');
 
 		// Get the query object
 		$query = $db->getQuery(true);
@@ -231,7 +232,7 @@ class SqlField extends ListField
 		// Process the filters
 		if (\is_array($filters))
 		{
-			$html_filters = Factory::getApplication()->getUserStateFromRequest($this->context . '.filter', 'filter', array(), 'array');
+			$html_filters = Factory::getApplication()->getUserStateFromRequest($this->context . '.filter', 'filter', [], 'array');
 
 			foreach ($filters as $k => $value)
 			{
@@ -269,7 +270,7 @@ class SqlField extends ListField
 	 */
 	protected function getOptions()
 	{
-		$options = array();
+		$options = [];
 
 		// Initialize some field attributes.
 		$key   = $this->keyField;
@@ -278,8 +279,8 @@ class SqlField extends ListField
 
 		if ($this->query)
 		{
-			// Get the database object.
-			$db = Factory::getDbo();
+			/* @var DatabaseDriver $db */
+			$db = Factory::getContainer()->get('DatabaseDriver');
 
 			// Set the query and get the result list.
 			$db->setQuery($this->query);

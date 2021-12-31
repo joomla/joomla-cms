@@ -34,7 +34,7 @@ class TemplatesHelper
 	public static function getClientOptions()
 	{
 		// Build the filter options.
-		$options = array();
+		$options = [];
 		$options[] = HTMLHelper::_('select.option', '0', Text::_('JSITE'));
 		$options[] = HTMLHelper::_('select.option', '1', Text::_('JADMINISTRATOR'));
 
@@ -50,10 +50,12 @@ class TemplatesHelper
 	 */
 	public static function getTemplateOptions($clientId = '*')
 	{
-		// Build the filter options.
-		$db = Factory::getDbo();
+		/* @var \Joomla\Database\DatabaseDriver $db */
+		$db = Factory::getContainer()->get('DatabaseDriver');
+
 		$query = $db->getQuery(true);
 
+		// Build the filter options.
 		$query->select($db->quoteName('element', 'value'))
 			->select($db->quoteName('name', 'text'))
 			->select($db->quoteName('extension_id', 'e_id'))
@@ -117,7 +119,7 @@ class TemplatesHelper
 	 */
 	public static function getPositions($clientId, $templateDir)
 	{
-		$positions = array();
+		$positions = [];
 
 		$templateBaseDir = $clientId ? JPATH_ADMINISTRATOR : JPATH_SITE;
 		$filePath = Path::clean($templateBaseDir . '/templates/' . $templateDir . '/templateDetails.xml');
@@ -151,7 +153,7 @@ class TemplatesHelper
 			}
 			else
 			{
-				$positions = array();
+				$positions = [];
 			}
 		}
 

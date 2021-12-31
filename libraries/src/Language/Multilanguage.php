@@ -12,6 +12,7 @@ namespace Joomla\CMS\Language;
 
 use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Factory;
+use Joomla\Database\DatabaseDriver;
 use Joomla\Database\DatabaseInterface;
 
 /**
@@ -65,8 +66,10 @@ class Multilanguage
 		// If already tested, don't test again.
 		if (!$tested)
 		{
+			/* @var DatabaseDriver $db */
+			$db = $db ?: Factory::getContainer()->get('DatabaseDriver');
+
 			// Determine status of language filter plugin.
-			$db    = $db ?: Factory::getDbo();
 			$query = $db->getQuery(true)
 				->select($db->quoteName('enabled'))
 				->from($db->quoteName('#__extensions'))
@@ -102,8 +105,10 @@ class Multilanguage
 
 		if (!isset($multilangSiteHomePages))
 		{
+			/* @var DatabaseDriver $db */
+			$db = $db ?: Factory::getContainer()->get('DatabaseDriver');
+
 			// Check for Home pages languages.
-			$db    = $db ?: Factory::getDbo();
 			$query = $db->getQuery(true)
 				->select(
 					[

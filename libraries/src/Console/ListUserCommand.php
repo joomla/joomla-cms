@@ -51,10 +51,11 @@ class ListUserCommand extends AbstractCommand
 	 */
 	protected function doExecute(InputInterface $input, OutputInterface $output): int
 	{
-		$db = Factory::getDbo();
-
 		$this->configureIO($input, $output);
 		$this->ioStyle->title('List users');
+
+		/* @var \Joomla\Database\DatabaseDriver $db */
+		$db = Factory::getContainer()->get('DatabaseDriver');
 
 		$groupsQuery = $db->getQuery(true)
 			->select($db->quoteName(['title', 'id']))

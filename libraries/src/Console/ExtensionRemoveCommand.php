@@ -154,9 +154,10 @@ class ExtensionRemoveCommand extends AbstractCommand
 
 		if (strtolower($response) === 'yes')
 		{
-			// Get an installer object for the extension type
+			/* @var \Joomla\Database\DatabaseDriver $db */
+			$db        = Factory::getContainer()->get('DatabaseDriver');
 			$installer = Installer::getInstance();
-			$row       = new \Joomla\CMS\Table\Extension(Factory::getDbo());
+			$row       = new \Joomla\CMS\Table\Extension($db);
 
 			if ((int) $extensionId === 0 || !$row->load($extensionId))
 			{

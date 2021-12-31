@@ -106,7 +106,7 @@ class Workflow
 
 		// Initialise default objects if none have been provided
 		$this->app = $app ?: Factory::getApplication();
-		$this->db = $db ?: Factory::getDbo();
+		$this->db = $db ?: Factory::getContainer()->get('DatabaseDriver');
 	}
 
 	/**

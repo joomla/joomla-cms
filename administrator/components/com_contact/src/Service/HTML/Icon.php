@@ -60,7 +60,7 @@ class Icon
 	 *
 	 * @since  4.0.0
 	 */
-	public static function create($category, $params, $attribs = array())
+	public static function create($category, $params, $attribs = [])
 	{
 		$uri = Uri::getInstance();
 
@@ -105,7 +105,7 @@ class Icon
 	 *
 	 * @since   4.0.0
 	 */
-	public static function edit($contact, $params, $attribs = array(), $legacy = false)
+	public static function edit($contact, $params, $attribs = [], $legacy = false)
 	{
 		$user = Factory::getUser();
 		$uri  = Uri::getInstance();
@@ -133,7 +133,7 @@ class Icon
 			$tooltip      = Text::sprintf('COM_CONTACT_CHECKED_OUT_BY', $checkoutUser->name)
 				. ' <br> ' . $date;
 
-			$text = LayoutHelper::render('joomla.content.icons.edit_lock', array('contact' => $contact, 'tooltip' => $tooltip, 'legacy' => $legacy));
+			$text = LayoutHelper::render('joomla.content.icons.edit_lock', ['contact' => $contact, 'tooltip' => $tooltip, 'legacy' => $legacy]);
 
 			$attribs['aria-describedby'] = 'editcontact-' . (int) $contact->id;
 			$output = HTMLHelper::_('link', '#', $text, $attribs);
@@ -158,7 +158,7 @@ class Icon
 
 		if (($contact->publish_up !== null && strtotime($contact->publish_up) > $nowDate)
 			|| ($contact->publish_down !== null && strtotime($contact->publish_down) < $nowDate
-			&& $contact->publish_down !== Factory::getDbo()->getNullDate()))
+			&& $contact->publish_down !== Factory::getContainer()->get('DatabaseDriver')->getNullDate()))
 		{
 			$icon = 'eye-slash';
 		}

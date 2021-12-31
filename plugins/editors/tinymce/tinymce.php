@@ -96,7 +96,7 @@ class PlgEditorTinymce extends CMSPlugin
 	 * @return  string
 	 */
 	public function onDisplay(
-		$name, $content, $width, $height, $col, $row, $buttons = true, $id = null, $asset = null, $author = null, $params = array())
+		$name, $content, $width, $height, $col, $row, $buttons = true, $id = null, $asset = null, $author = null, $params = [])
 	{
 		if (empty($id))
 		{
@@ -106,8 +106,8 @@ class PlgEditorTinymce extends CMSPlugin
 		$id            = preg_replace('/(\s|[^A-Za-z0-9_])+/', '_', $id);
 		$nameGroup     = explode('[', preg_replace('/\[\]|\]/', '', $name));
 		$fieldName     = end($nameGroup);
-		$scriptOptions = array();
-		$externalPlugins = array();
+		$scriptOptions = [];
+		$externalPlugins = [];
 
 		// Check for existing options
 		$doc     = Factory::getDocument();
@@ -183,8 +183,8 @@ class PlgEditorTinymce extends CMSPlugin
 		$levelParams      = new Joomla\Registry\Registry;
 		$extraOptions     = new stdClass;
 		$toolbarParams    = new stdClass;
-		$extraOptionsAll  = (array) $this->params->get('configuration.setoptions', array());
-		$toolbarParamsAll = (array) $this->params->get('configuration.toolbars', array());
+		$extraOptionsAll  = (array) $this->params->get('configuration.setoptions', []);
+		$toolbarParamsAll = (array) $this->params->get('configuration.toolbars', []);
 
 		// Sort the array in reverse, so the items with lowest access level goes first
 		krsort($extraOptionsAll);
@@ -193,7 +193,7 @@ class PlgEditorTinymce extends CMSPlugin
 		foreach ($extraOptionsAll as $set => $val)
 		{
 			$val = (object) $val;
-			$val->access = empty($val->access) ? array() : $val->access;
+			$val->access = empty($val->access) ? [] : $val->access;
 
 			// Check whether User in one of allowed group
 			foreach ($val->access as $group)
@@ -267,10 +267,10 @@ class PlgEditorTinymce extends CMSPlugin
 		$use_content_css    = $levelParams->get('content_css', 1);
 		$content_css_custom = $levelParams->get('content_css_custom', '');
 
-		/*
-		 * Lets get the default template for the site application
-		 */
-		$db    = Factory::getDbo();
+		/* @var \Joomla\Database\DatabaseDriver $db */
+		$db = Factory::getContainer()->get('DatabaseDriver');
+
+		// Let's get the default template for the site application.
 		$query = $db->getQuery(true)
 			->select($db->quoteName('template'))
 			->from($db->quoteName('#__template_styles'))
@@ -355,10 +355,10 @@ class PlgEditorTinymce extends CMSPlugin
 
 			$ignore_filter = $filter === false;
 
-			$blockedTags       = !empty($filter->blockedTags) ? $filter->blockedTags : array();
-			$blockedAttributes = !empty($filter->blockedAttributes) ? $filter->blockedAttributes : array();
-			$tagArray          = !empty($filter->tagsArray) ? $filter->tagsArray : array();
-			$attrArray         = !empty($filter->attrArray) ? $filter->attrArray : array();
+			$blockedTags       = !empty($filter->blockedTags) ? $filter->blockedTags : [];
+			$blockedAttributes = !empty($filter->blockedAttributes) ? $filter->blockedAttributes : [];
+			$tagArray          = !empty($filter->tagsArray) ? $filter->tagsArray : [];
+			$attrArray         = !empty($filter->attrArray) ? $filter->attrArray : [];
 
 			$invalid_elements  = implode(',', array_merge($blockedTags, $blockedAttributes, $tagArray, $attrArray));
 
@@ -404,17 +404,17 @@ class PlgEditorTinymce extends CMSPlugin
 		}
 
 		// Set of always available plugins
-		$plugins  = array(
+		$plugins  = [
 			'autolink',
 			'lists',
 			'importcss',
 			'quickbars',
-		);
+		];
 
 		// Allowed elements
-		$elements = array(
+		$elements = [
 			'hr[id|title|alt|class|width|size|noshade]',
-		);
+		];
 
 		if ($extended_elements)
 		{
@@ -507,16 +507,16 @@ class PlgEditorTinymce extends CMSPlugin
 					$description = Text::_('PLG_TINY_TEMPLATE_' . $title_upper . '_DESC');
 				}
 
-				$templates[] = array(
+				$templates[] = [
 					'title' => $title,
 					'description' => $description,
 					'url' => Uri::root(true) . $template_path . '/' . $full_filename,
-				);
+				];
 			}
 		}
 
 		// Check for extra plugins, from the setoptions form
-		foreach (array('wordcount' => 1, 'advlist' => 1, 'autosave' => 1, 'textpattern' => 0) as $pName => $def)
+		foreach (['wordcount' => 1, 'advlist' => 1, 'autosave' => 1, 'textpattern' => 0] as $pName => $def)
 		{
 			if ($levelParams->get($pName, $def))
 			{
@@ -578,7 +578,7 @@ class PlgEditorTinymce extends CMSPlugin
 		// Build the final options set
 		$scriptOptions   = array_merge(
 			$scriptOptions,
-			array(
+			[
 				'deprecation_warnings' => JDEBUG ? true : false,
 				'suffix'   => '.min',
 				'baseURL'  => Uri::root(true) . '/media/vendor/tinymce',
@@ -639,7 +639,7 @@ class PlgEditorTinymce extends CMSPlugin
 
 				// Disable TinyMCE Branding
 				'branding'   => false,
-			)
+			]
 		);
 
 		if ($levelParams->get('newlines'))
@@ -655,22 +655,22 @@ class PlgEditorTinymce extends CMSPlugin
 			$scriptOptions['forced_root_block'] = 'p';
 		}
 
-		$scriptOptions['rel_list'] = array(
-			array('title' => 'None', 'value' => ''),
-			array('title' => 'Alternate', 'value' => 'alternate'),
-			array('title' => 'Author', 'value' => 'author'),
-			array('title' => 'Bookmark', 'value' => 'bookmark'),
-			array('title' => 'Help', 'value' => 'help'),
-			array('title' => 'License', 'value' => 'license'),
-			array('title' => 'Lightbox', 'value' => 'lightbox'),
-			array('title' => 'Next', 'value' => 'next'),
-			array('title' => 'No Follow', 'value' => 'nofollow'),
-			array('title' => 'No Referrer', 'value' => 'noreferrer'),
-			array('title' => 'Prefetch', 'value' => 'prefetch'),
-			array('title' => 'Prev', 'value' => 'prev'),
-			array('title' => 'Search', 'value' => 'search'),
-			array('title' => 'Tag', 'value' => 'tag'),
-		);
+		$scriptOptions['rel_list'] = [
+			['title' => 'None', 'value' => ''],
+			['title' => 'Alternate', 'value' => 'alternate'],
+			['title' => 'Author', 'value' => 'author'],
+			['title' => 'Bookmark', 'value' => 'bookmark'],
+			['title' => 'Help', 'value' => 'help'],
+			['title' => 'License', 'value' => 'license'],
+			['title' => 'Lightbox', 'value' => 'lightbox'],
+			['title' => 'Next', 'value' => 'next'],
+			['title' => 'No Follow', 'value' => 'nofollow'],
+			['title' => 'No Referrer', 'value' => 'noreferrer'],
+			['title' => 'Prefetch', 'value' => 'prefetch'],
+			['title' => 'Prev', 'value' => 'prev'],
+			['title' => 'Search', 'value' => 'search'],
+			['title' => 'Tag', 'value' => 'tag'],
+		];
 
 		$options['tinyMCE']['default'] = $scriptOptions;
 
@@ -768,14 +768,14 @@ class PlgEditorTinymce extends CMSPlugin
 
 		$filters = $config->get('filters');
 
-		$forbiddenListTags        = array();
-		$forbiddenListAttributes  = array();
+		$forbiddenListTags        = [];
+		$forbiddenListAttributes  = [];
 
-		$customListTags       = array();
-		$customListAttributes = array();
+		$customListTags       = [];
+		$customListAttributes = [];
 
-		$allowedListTags        = array();
-		$allowedListAttributes  = array();
+		$allowedListTags        = [];
+		$allowedListAttributes  = [];
 
 		$allowedList  = false;
 		$forbiddenList  = false;
@@ -947,72 +947,72 @@ class PlgEditorTinymce extends CMSPlugin
 		$buttons = [
 
 			// General buttons
-			'|'              => array('label' => Text::_('PLG_TINY_TOOLBAR_BUTTON_SEPARATOR'), 'text' => '|'),
+			'|'              => ['label' => Text::_('PLG_TINY_TOOLBAR_BUTTON_SEPARATOR'), 'text' => '|'],
 
-			'undo'           => array('label' => 'Undo'),
-			'redo'           => array('label' => 'Redo'),
+			'undo'           => ['label' => 'Undo'],
+			'redo'           => ['label' => 'Redo'],
 
-			'bold'           => array('label' => 'Bold'),
-			'italic'         => array('label' => 'Italic'),
-			'underline'      => array('label' => 'Underline'),
-			'strikethrough'  => array('label' => 'Strikethrough'),
-			'styleselect'    => array('label' => Text::_('PLG_TINY_TOOLBAR_BUTTON_STYLESELECT'), 'text' => 'Formats'),
-			'formatselect'   => array('label' => Text::_('PLG_TINY_TOOLBAR_BUTTON_FORMATSELECT'), 'text' => 'Paragraph'),
-			'fontselect'     => array('label' => Text::_('PLG_TINY_TOOLBAR_BUTTON_FONTSELECT'), 'text' => 'Font Family'),
-			'fontsizeselect' => array('label' => Text::_('PLG_TINY_TOOLBAR_BUTTON_FONTSIZESELECT'), 'text' => 'Font Sizes'),
+			'bold'           => ['label' => 'Bold'],
+			'italic'         => ['label' => 'Italic'],
+			'underline'      => ['label' => 'Underline'],
+			'strikethrough'  => ['label' => 'Strikethrough'],
+			'styleselect'    => ['label' => Text::_('PLG_TINY_TOOLBAR_BUTTON_STYLESELECT'), 'text' => 'Formats'],
+			'formatselect'   => ['label' => Text::_('PLG_TINY_TOOLBAR_BUTTON_FORMATSELECT'), 'text' => 'Paragraph'],
+			'fontselect'     => ['label' => Text::_('PLG_TINY_TOOLBAR_BUTTON_FONTSELECT'), 'text' => 'Font Family'],
+			'fontsizeselect' => ['label' => Text::_('PLG_TINY_TOOLBAR_BUTTON_FONTSIZESELECT'), 'text' => 'Font Sizes'],
 
-			'alignleft'     => array('label' => 'Align left'),
-			'aligncenter'   => array('label' => 'Align center'),
-			'alignright'    => array('label' => 'Align right'),
-			'alignjustify'  => array('label' => 'Justify'),
-			'lineheight'    => array('label' => 'Line height'),
+			'alignleft'     => ['label' => 'Align left'],
+			'aligncenter'   => ['label' => 'Align center'],
+			'alignright'    => ['label' => 'Align right'],
+			'alignjustify'  => ['label' => 'Justify'],
+			'lineheight'    => ['label' => 'Line height'],
 
-			'outdent'       => array('label' => 'Decrease indent'),
-			'indent'        => array('label' => 'Increase indent'),
+			'outdent'       => ['label' => 'Decrease indent'],
+			'indent'        => ['label' => 'Increase indent'],
 
-			'forecolor'     => array('label' => 'Text colour'),
-			'backcolor'     => array('label' => 'Background text colour'),
+			'forecolor'     => ['label' => 'Text colour'],
+			'backcolor'     => ['label' => 'Background text colour'],
 
-			'bullist'       => array('label' => 'Bullet list'),
-			'numlist'       => array('label' => 'Numbered list'),
+			'bullist'       => ['label' => 'Bullet list'],
+			'numlist'       => ['label' => 'Numbered list'],
 
-			'link'          => array('label' => 'Insert/edit link', 'plugin' => 'link'),
-			'unlink'        => array('label' => 'Remove link', 'plugin' => 'link'),
+			'link'          => ['label' => 'Insert/edit link', 'plugin' => 'link'],
+			'unlink'        => ['label' => 'Remove link', 'plugin' => 'link'],
 
-			'subscript'     => array('label' => 'Subscript'),
-			'superscript'   => array('label' => 'Superscript'),
-			'blockquote'    => array('label' => 'Blockquote'),
+			'subscript'     => ['label' => 'Subscript'],
+			'superscript'   => ['label' => 'Superscript'],
+			'blockquote'    => ['label' => 'Blockquote'],
 
-			'cut'           => array('label' => 'Cut'),
-			'copy'          => array('label' => 'Copy'),
-			'paste'         => array('label' => 'Paste', 'plugin' => 'paste'),
-			'pastetext'     => array('label' => 'Paste as text', 'plugin' => 'paste'),
-			'removeformat'  => array('label' => 'Clear formatting'),
+			'cut'           => ['label' => 'Cut'],
+			'copy'          => ['label' => 'Copy'],
+			'paste'         => ['label' => 'Paste', 'plugin' => 'paste'],
+			'pastetext'     => ['label' => 'Paste as text', 'plugin' => 'paste'],
+			'removeformat'  => ['label' => 'Clear formatting'],
 
 			// Buttons from the plugins
-			'anchor'         => array('label' => 'Anchor', 'plugin' => 'anchor'),
-			'hr'             => array('label' => 'Horizontal line', 'plugin' => 'hr'),
-			'ltr'            => array('label' => 'Left to right', 'plugin' => 'directionality'),
-			'rtl'            => array('label' => 'Right to left', 'plugin' => 'directionality'),
-			'code'           => array('label' => 'Source code', 'plugin' => 'code'),
-			'codesample'     => array('label' => 'Insert/Edit code sample', 'plugin' => 'codesample'),
-			'table'          => array('label' => 'Table', 'plugin' => 'table'),
-			'charmap'        => array('label' => 'Special character', 'plugin' => 'charmap'),
-			'visualchars'    => array('label' => 'Show invisible characters', 'plugin' => 'visualchars'),
-			'visualblocks'   => array('label' => 'Show blocks', 'plugin' => 'visualblocks'),
-			'nonbreaking'    => array('label' => 'Nonbreaking space', 'plugin' => 'nonbreaking'),
-			'emoticons'      => array('label' => 'Emoticons', 'plugin' => 'emoticons'),
-			'media'          => array('label' => 'Insert/edit video', 'plugin' => 'media'),
-			'image'          => array('label' => 'Insert/edit image', 'plugin' => 'image'),
-			'pagebreak'      => array('label' => 'Page break', 'plugin' => 'pagebreak'),
-			'print'          => array('label' => 'Print', 'plugin' => 'print'),
-			'preview'        => array('label' => 'Preview', 'plugin' => 'preview'),
-			'fullscreen'     => array('label' => 'Fullscreen', 'plugin' => 'fullscreen'),
-			'template'       => array('label' => 'Insert template', 'plugin' => 'template'),
-			'searchreplace'  => array('label' => 'Find and replace', 'plugin' => 'searchreplace'),
-			'insertdatetime' => array('label' => 'Insert date/time', 'plugin' => 'insertdatetime'),
-			'help'           => array('label' => 'Help', 'plugin' => 'help'),
-			// 'spellchecker'   => array('label' => 'Spellcheck', 'plugin' => 'spellchecker'),
+			'anchor'         => ['label' => 'Anchor', 'plugin' => 'anchor'],
+			'hr'             => ['label' => 'Horizontal line', 'plugin' => 'hr'],
+			'ltr'            => ['label' => 'Left to right', 'plugin' => 'directionality'],
+			'rtl'            => ['label' => 'Right to left', 'plugin' => 'directionality'],
+			'code'           => ['label' => 'Source code', 'plugin' => 'code'],
+			'codesample'     => ['label' => 'Insert/Edit code sample', 'plugin' => 'codesample'],
+			'table'          => ['label' => 'Table', 'plugin' => 'table'],
+			'charmap'        => ['label' => 'Special character', 'plugin' => 'charmap'],
+			'visualchars'    => ['label' => 'Show invisible characters', 'plugin' => 'visualchars'],
+			'visualblocks'   => ['label' => 'Show blocks', 'plugin' => 'visualblocks'],
+			'nonbreaking'    => ['label' => 'Nonbreaking space', 'plugin' => 'nonbreaking'],
+			'emoticons'      => ['label' => 'Emoticons', 'plugin' => 'emoticons'],
+			'media'          => ['label' => 'Insert/edit video', 'plugin' => 'media'],
+			'image'          => ['label' => 'Insert/edit image', 'plugin' => 'image'],
+			'pagebreak'      => ['label' => 'Page break', 'plugin' => 'pagebreak'],
+			'print'          => ['label' => 'Print', 'plugin' => 'print'],
+			'preview'        => ['label' => 'Preview', 'plugin' => 'preview'],
+			'fullscreen'     => ['label' => 'Fullscreen', 'plugin' => 'fullscreen'],
+			'template'       => ['label' => 'Insert template', 'plugin' => 'template'],
+			'searchreplace'  => ['label' => 'Find and replace', 'plugin' => 'searchreplace'],
+			'insertdatetime' => ['label' => 'Insert date/time', 'plugin' => 'insertdatetime'],
+			'help'           => ['label' => 'Help', 'plugin' => 'help'],
+			// 'spellchecker'   => ['label' => 'Spellcheck', 'plugin' => 'spellchecker'],
 		];
 
 		return $buttons;
@@ -1040,9 +1040,9 @@ class PlgEditorTinymce extends CMSPlugin
 			'toolbar2' => [],
 		];
 
-		$preset['medium'] = array(
-			'menu' => array('edit', 'insert', 'view', 'format', 'table', 'tools', 'help'),
-			'toolbar1' => array(
+		$preset['medium'] = [
+			'menu' => ['edit', 'insert', 'view', 'format', 'table', 'tools', 'help'],
+			'toolbar1' => [
 				'bold', 'italic', 'underline', 'strikethrough', '|',
 				'alignleft', 'aligncenter', 'alignright', 'alignjustify', '|',
 				'formatselect', '|',
@@ -1053,13 +1053,13 @@ class PlgEditorTinymce extends CMSPlugin
 				'hr', 'table', '|',
 				'subscript', 'superscript', '|',
 				'charmap', 'pastetext', 'preview', 'jxtdbuttons',
-			),
-			'toolbar2' => array(),
-		);
+			],
+			'toolbar2' => [],
+		];
 
-		$preset['advanced'] = array(
-			'menu'     => array('edit', 'insert', 'view', 'format', 'table', 'tools', 'help'),
-			'toolbar1' => array(
+		$preset['advanced'] = [
+			'menu'     => ['edit', 'insert', 'view', 'format', 'table', 'tools', 'help'],
+			'toolbar1' => [
 				'bold', 'italic', 'underline', 'strikethrough', '|',
 				'alignleft', 'aligncenter', 'alignright', 'alignjustify', '|',
 				'lineheight', '|',
@@ -1079,9 +1079,9 @@ class PlgEditorTinymce extends CMSPlugin
 				'cut', 'copy', 'paste', 'pastetext', '|',
 				'visualchars', 'visualblocks', 'nonbreaking', 'blockquote', 'template', '|',
 				'print', 'preview', 'codesample', 'insertdatetime', 'removeformat', 'jxtdbuttons',
-			),
-			'toolbar2' => array(),
-		);
+			],
+			'toolbar2' => [],
+		];
 
 		return $preset;
 	}
@@ -1095,7 +1095,9 @@ class PlgEditorTinymce extends CMSPlugin
 	 */
 	private function getPluginId()
 	{
-		$db    = Factory::getDbo();
+		/* @var \Joomla\Database\DatabaseDriver $db */
+		$db = Factory::getContainer()->get('DatabaseDriver');
+
 		$query = $db->getQuery(true)
 			->select($db->quoteName('extension_id'))
 			->from($db->quoteName('#__extensions'))

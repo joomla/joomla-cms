@@ -36,9 +36,10 @@ class ArticlesArchiveHelper
 	 */
 	public static function getList(&$params)
 	{
-		$app       = Factory::getApplication();
-		$db        = Factory::getDbo();
-		$query     = $db->getQuery(true);
+		/* @var \Joomla\Database\DatabaseDriver $db */
+		$db    = Factory::getContainer()->get('DatabaseDriver');
+		$app   = Factory::getApplication();
+		$query = $db->getQuery(true);
 
 		$query->select($query->month($db->quoteName('created')) . ' AS created_month')
 			->select('MIN(' . $db->quoteName('created') . ') AS created')
@@ -73,7 +74,7 @@ class ArticlesArchiveHelper
 		$itemid = (isset($item) && !empty($item->id)) ? '&Itemid=' . $item->id : '';
 
 		$i     = 0;
-		$lists = array();
+		$lists = [];
 
 		foreach ($rows as $row)
 		{

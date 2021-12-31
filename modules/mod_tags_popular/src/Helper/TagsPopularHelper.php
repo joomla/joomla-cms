@@ -34,7 +34,8 @@ abstract class TagsPopularHelper
 	 */
 	public static function getList(&$params)
 	{
-		$db          = Factory::getDbo();
+		/* @var \Joomla\Database\DatabaseDriver $db */
+		$db          = Factory::getContainer()->get('DatabaseDriver');
 		$user        = Factory::getUser();
 		$groups      = $user->getAuthorisedViewLevels();
 		$timeframe   = $params->get('timeframe', 'alltime');
@@ -167,7 +168,7 @@ abstract class TagsPopularHelper
 		}
 		catch (\RuntimeException $e)
 		{
-			$results = array();
+			$results = [];
 			Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
 		}
 

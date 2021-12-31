@@ -62,8 +62,10 @@ class ContenttypeField extends ListField
 	 */
 	protected function getOptions()
 	{
+		/* @var \Joomla\Database\DatabaseDriver $db */
+		$db   = Factory::getContainer()->get('DatabaseDriver');
 		$lang = Factory::getLanguage();
-		$db    = Factory::getDbo();
+
 		$query = $db->getQuery(true)
 			->select(
 				[
@@ -84,7 +86,7 @@ class ContenttypeField extends ListField
 		}
 		catch (\RuntimeException $e)
 		{
-			return array();
+			return [];
 		}
 
 		foreach ($options as $option)

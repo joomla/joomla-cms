@@ -177,7 +177,7 @@ class EditorField extends TextareaField
 
 			case 'hide':
 				$value = (string) $value;
-				$this->hide = $value ? explode(',', $value) : array();
+				$this->hide = $value ? explode(',', $value) : [];
 				break;
 
 			case 'editorType':
@@ -230,11 +230,11 @@ class EditorField extends TextareaField
 			}
 			else
 			{
-				$this->buttons = !empty($hide) ? explode(',', $buttons) : array();
+				$this->buttons = !empty($hide) ? explode(',', $buttons) : [];
 			}
 
-			$this->hide        = !empty($hide) ? explode(',', (string) $this->element['hide']) : array();
-			$this->editorType  = !empty($editorType) ? explode('|', trim($editorType)) : array();
+			$this->hide        = !empty($hide) ? explode(',', (string) $this->element['hide']) : [];
+			$this->editorType  = !empty($editorType) ? explode('|', trim($editorType)) : [];
 		}
 
 		return $result;
@@ -251,11 +251,11 @@ class EditorField extends TextareaField
 	{
 		// Get an editor object.
 		$editor = $this->getEditor();
-		$params = array(
+		$params = [
 			'autofocus' => $this->autofocus,
 			'readonly'  => $this->readonly || $this->disabled,
 			'syntax'    => (string) $this->element['syntax'],
-		);
+		];
 
 		return $editor->display(
 			$this->name,
@@ -288,11 +288,11 @@ class EditorField extends TextareaField
 
 			if ($this->editorType)
 			{
+				/* @var \Joomla\Database\DatabaseDriver $db */
+				$db = Factory::getContainer()->get('DatabaseDriver');
+
 				// Get the list of editor types.
 				$types = $this->editorType;
-
-				// Get the database object.
-				$db = Factory::getDbo();
 
 				// Build the query.
 				$query = $db->getQuery(true)

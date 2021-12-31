@@ -38,9 +38,9 @@ class NewsfeedsField extends ListField
 	 */
 	protected function getOptions()
 	{
-		$options = array();
+		/* @var \Joomla\Database\DatabaseDriver $db */
+		$db = Factory::getContainer()->get('DatabaseDriver');
 
-		$db    = Factory::getDbo();
 		$query = $db->getQuery(true)
 			->select(
 				[
@@ -61,6 +61,8 @@ class NewsfeedsField extends ListField
 		catch (\RuntimeException $e)
 		{
 			Factory::getApplication()->enqueueMessage($db->getMessage(), 'error');
+
+			$options = [];
 		}
 
 		// Merge any additional options in the XML definition.

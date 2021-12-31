@@ -19,6 +19,7 @@ use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
+use Joomla\Database\DatabaseDriver;
 use Joomla\Database\ParameterType;
 use Joomla\Registry\Registry;
 
@@ -43,7 +44,7 @@ class AssociationsHelper extends ContentHelper
 	 * @var    array
 	 * @since  3.7.0
 	 */
-	public static $supportedExtensionsList = array();
+	public static $supportedExtensionsList = [];
 
 	/**
 	 * Get the associated items for an item
@@ -60,7 +61,7 @@ class AssociationsHelper extends ContentHelper
 	{
 		if (!self::hasSupport($extensionName))
 		{
-			return array();
+			return [];
 		}
 
 		// Get the extension specific helper method
@@ -98,7 +99,7 @@ class AssociationsHelper extends ContentHelper
 	 * @param   string  $typeName       The item type
 	 * @param   int     $itemId         The id of item for which we need the associated items
 	 *
-	 * @return  \Joomla\CMS\Table\Table|null
+	 * @return  array
 	 *
 	 * @since  3.7.0
 	 */
@@ -106,7 +107,7 @@ class AssociationsHelper extends ContentHelper
 	{
 		if (!self::hasSupport($extensionName))
 		{
-			return array();
+			return [];
 		}
 
 		// Get the extension specific helper method
@@ -223,7 +224,7 @@ class AssociationsHelper extends ContentHelper
 		$titleFieldName = self::getTypeFieldName($extensionName, $typeName, 'title');
 
 		// Get all content languages.
-		$languages = LanguageHelper::getContentLanguages(array(0, 1), false);
+		$languages = LanguageHelper::getContentLanguages([0, 1], false);
 		$content_languages = array_column($languages, 'lang_code');
 
 		// Display warning if Content Language is trashed or deleted
@@ -266,10 +267,11 @@ class AssociationsHelper extends ContentHelper
 				$title       = $items[$langCode][$titleFieldName];
 				$additional  = '';
 
+				/* @var DatabaseDriver $db */
+				$db = Factory::getContainer()->get('DatabaseDriver');
+
 				if (isset($items[$langCode]['catid']))
 				{
-					$db = Factory::getDbo();
-
 					// Get the category name
 					$query = $db->getQuery(true)
 						->select($db->quoteName('title'))
@@ -284,8 +286,6 @@ class AssociationsHelper extends ContentHelper
 				}
 				elseif (isset($items[$langCode]['menutype']))
 				{
-					$db = Factory::getDbo();
-
 					// Get the menutype name
 					$query = $db->getQuery(true)
 						->select($db->quoteName('title'))
@@ -309,7 +309,7 @@ class AssociationsHelper extends ContentHelper
 			}
 			else
 			{
-				$items[$langCode] = array();
+				$items[$langCode] = [];
 
 				$title      = Text::_('COM_ASSOCIATIONS_NO_ASSOCIATION');
 				$additional = $addLink ? Text::_('COM_ASSOCIATIONS_ADD_NEW_ASSOCIATION') : '';
@@ -319,7 +319,7 @@ class AssociationsHelper extends ContentHelper
 			}
 
 			// Generate item Html.
-			$options   = array(
+			$options   = [
 				'option'   => 'com_associations',
 				'view'     => 'association',
 				'layout'   => 'edit',
@@ -327,7 +327,7 @@ class AssociationsHelper extends ContentHelper
 				'task'     => 'association.edit',
 				'id'       => $itemId,
 				'target'   => $target,
-			);
+			];
 
 			$url     = Route::_('index.php?' . http_build_query($options));
 			$url     = $allow && $addLink ? $url : '';
@@ -358,7 +358,7 @@ class AssociationsHelper extends ContentHelper
 			return self::$extensionsSupport;
 		}
 
-		self::$extensionsSupport = array();
+		self::$extensionsSupport = [];
 
 		$extensions = self::getEnabledExtensions();
 
@@ -423,7 +423,7 @@ class AssociationsHelper extends ContentHelper
 
 		// Get the supported types
 		$types  = $helper->getItemTypes();
-		$rTypes = array();
+		$rTypes = [];
 
 		foreach ($types as $typeName)
 		{
@@ -471,7 +471,8 @@ class AssociationsHelper extends ContentHelper
 	 */
 	private static function getEnabledExtensions()
 	{
-		$db = Factory::getDbo();
+		/* @var DatabaseDriver $db */
+		$db = Factory::getContainer()->get('DatabaseDriver');
 
 		$query = $db->getQuery(true)
 			->select('*')
@@ -493,7 +494,7 @@ class AssociationsHelper extends ContentHelper
 	 */
 	public static function getContentLanguages()
 	{
-		return LanguageHelper::getContentLanguages(array(0, 1));
+		return LanguageHelper::getContentLanguages([0, 1]);
 	}
 
 	/**
@@ -689,7 +690,9 @@ class AssociationsHelper extends ContentHelper
 	 */
 	public static function getLanguagefilterPluginId()
 	{
-		$db    = Factory::getDbo();
+		/* @var DatabaseDriver $db */
+		$db = Factory::getContainer()->get('DatabaseDriver');
+
 		$query = $db->getQuery(true)
 			->select($db->quoteName('extension_id'))
 			->from($db->quoteName('#__extensions'))

@@ -137,7 +137,7 @@ class User extends CMSObject
 	 * @var    array
 	 * @since  1.7.0
 	 */
-	public $groups = array();
+	public $groups = [];
 
 	/**
 	 * Guest status
@@ -215,7 +215,7 @@ class User extends CMSObject
 	 * @var    array  User instances container.
 	 * @since  1.7.3
 	 */
-	protected static $instances = array();
+	protected static $instances = [];
 
 	/**
 	 * Constructor activating the default information of the language
@@ -396,10 +396,11 @@ class User extends CMSObject
 	 */
 	public function getAuthorisedCategories($component, $action)
 	{
+		/* @var \Joomla\Database\DatabaseDriver $db */
+		$db = Factory::getContainer()->get('DatabaseDriver');
+
 		// Brute force method: get all published category rows for the component and check each one
 		// TODO: Modify the way permissions are stored in the db to allow for faster implementation and better scaling
-		$db = Factory::getDbo();
-
 		$subQuery = $db->getQuery(true)
 			->select($db->quoteName(['id', 'asset_id']))
 			->from($db->quoteName('#__categories'))
@@ -417,7 +418,7 @@ class User extends CMSObject
 			->bind(':component', $component);
 		$db->setQuery($query);
 		$allCategories = $db->loadObjectList('id');
-		$allowedCategories = array();
+		$allowedCategories = [];
 
 		foreach ($allCategories as $category)
 		{
@@ -441,7 +442,7 @@ class User extends CMSObject
 	{
 		if ($this->_authLevels === null)
 		{
-			$this->_authLevels = array();
+			$this->_authLevels = [];
 		}
 
 		if (empty($this->_authLevels))
@@ -463,7 +464,7 @@ class User extends CMSObject
 	{
 		if ($this->_authGroups === null)
 		{
-			$this->_authGroups = array();
+			$this->_authGroups = [];
 		}
 
 		if (empty($this->_authGroups))
@@ -776,7 +777,7 @@ class User extends CMSObject
 			// Fire the onUserBeforeSave event.
 			PluginHelper::importPlugin('user');
 
-			$result = Factory::getApplication()->triggerEvent('onUserBeforeSave', array($oldUser->getProperties(), $isNew, $this->getProperties()));
+			$result = Factory::getApplication()->triggerEvent('onUserBeforeSave', [$oldUser->getProperties(), $isNew, $this->getProperties()]);
 
 			if (\in_array(false, $result, true))
 			{
@@ -800,7 +801,7 @@ class User extends CMSObject
 			}
 
 			// Fire the onUserAfterSave event
-			Factory::getApplication()->triggerEvent('onUserAfterSave', array($this->getProperties(), $isNew, $result, $this->getError()));
+			Factory::getApplication()->triggerEvent('onUserAfterSave', [$this->getProperties(), $isNew, $result, $this->getError()]);
 		}
 		catch (\Exception $e)
 		{
@@ -824,7 +825,7 @@ class User extends CMSObject
 		PluginHelper::importPlugin('user');
 
 		// Trigger the onUserBeforeDelete event
-		Factory::getApplication()->triggerEvent('onUserBeforeDelete', array($this->getProperties()));
+		Factory::getApplication()->triggerEvent('onUserBeforeDelete', [$this->getProperties()]);
 
 		// Create the user table object
 		$table = $this->getTable();
@@ -835,7 +836,7 @@ class User extends CMSObject
 		}
 
 		// Trigger the onUserAfterDelete event
-		Factory::getApplication()->triggerEvent('onUserAfterDelete', array($this->getProperties(), $result, $this->getError()));
+		Factory::getApplication()->triggerEvent('onUserAfterDelete', [$this->getProperties(), $result, $this->getError()]);
 
 		return $result;
 	}
@@ -901,7 +902,7 @@ class User extends CMSObject
 	 */
 	public function __sleep()
 	{
-		return array('id');
+		return ['id'];
 	}
 
 	/**

@@ -109,17 +109,16 @@ class HtmlView extends BaseHtmlView
 	 */
 	public function display($tpl = null)
 	{
-		$user = Factory::getUser();
-
-		// Get the view data.
-		$this->data	        = $this->get('Data');
-		$this->form	        = $this->getModel()->getForm(new CMSObject(array('id' => $user->id)));
+		/* @var \Joomla\Database\DatabaseDriver $db */
+		$this->db               = Factory::getContainer()->get('DatabaseDriver');
+		$user                   = Factory::getUser();;
+		$this->data	            = $this->get('Data');
 		$this->state            = $this->get('State');
 		$this->params           = $this->state->get('params');
 		$this->twofactorform    = $this->get('Twofactorform');
 		$this->twofactormethods = UsersHelper::getTwoFactorMethods();
 		$this->otpConfig        = $this->get('OtpConfig');
-		$this->db               = Factory::getDbo();
+		$this->form	            = $this->getModel()->getForm(new CMSObject(['id' => $user->id]));
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
