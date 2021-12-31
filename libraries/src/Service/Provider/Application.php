@@ -175,7 +175,7 @@ class Application implements ServiceProviderInterface
 			->share(
 				'JApplicationApi',
 				function (Container $container) {
-					$app = new ApiApplication($container->get(CMSInput::class), $container->get('config'), null, $container);
+					$app = new ApiApplication(null, $container->get('config'), null, $container);
 					$app->setDispatcher($container->get('Joomla\Event\DispatcherInterface'));
 					$app->setLogger($container->get(LoggerInterface::class));
 					$app->setSession($container->get('Joomla\Session\SessionInterface'));
