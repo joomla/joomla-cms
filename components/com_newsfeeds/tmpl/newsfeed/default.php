@@ -68,7 +68,7 @@ use Joomla\CMS\Layout\LayoutHelper;
 						'joomla.html.image',
 						[
 							'src' => $images->image_first,
-							'alt' => empty($images->image_first_alt) && empty($images->image_first_alt_empty) ? '' : $images->image_first_alt,
+							'alt' => empty($images->image_first_alt) && empty($images->image_first_alt_empty) ? false : $images->image_first_alt,
 						]
 					); ?>
 					<?php if ($images->image_first_caption) : ?>
