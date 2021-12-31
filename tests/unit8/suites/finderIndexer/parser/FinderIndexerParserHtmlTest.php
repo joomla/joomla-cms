@@ -119,25 +119,25 @@ class FinderIndexerParserHtmlTest extends \PHPUnit\Framework\TestCase
 		$output = $this->object->parse($input);
 
 		// String $testResult1 is contained in a <script> block that should be removed.
-		$this->assertNotContains(
+		$this->assertStringNotContainsString(
 			$testResult1,
 			$output
 		);
 
 		// String $testResult2 is contained in a <noscript> block that should be removed.
-		$this->assertNotContains(
+		$this->assertStringNotContainsString(
 			$testResult2,
 			$output
 		);
 
 		// String $testResult3 is contained in a <style> block that should be removed.
-		$this->assertNotContains(
+		$this->assertStringNotContainsString(
 			$testResult3,
 			$output
 		);
 
 		// String $testResult4 is contained in a <head> block that should be removed.
-		$this->assertNotContains(
+		$this->assertStringNotContainsString(
 			$testResult4,
 			$output
 		);

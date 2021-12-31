@@ -1577,13 +1577,15 @@ class JArrayHelperTest extends \PHPUnit\Framework\TestCase
 			return;
 		}
 
+		$localInput = $input;
+
 		if ($defaults)
 		{
-			$output = JArrayHelper::sortObjects($input, $key);
+			$output = JArrayHelper::sortObjects(&$localInput, $key);
 		}
 		else
 		{
-			$output = JArrayHelper::sortObjects($input, $key, $direction, $casesensitive, $locale);
+			$output = JArrayHelper::sortObjects(&$localInput, $key, $direction, $casesensitive, $locale);
 		}
 
 		// The ordering of elements that compare equal according to $key is undefined (implementation dependent).
@@ -1615,7 +1617,8 @@ class JArrayHelperTest extends \PHPUnit\Framework\TestCase
 	 */
 	public function testToInteger($input, $default, $expect, $message)
 	{
-		JArrayHelper::toInteger($input, $default);
+		$localInput = $input;
+		JArrayHelper::toInteger(&$localInput, $default);
 		$this->assertEquals(
 			$expect,
 			$input,
@@ -1639,9 +1642,10 @@ class JArrayHelperTest extends \PHPUnit\Framework\TestCase
 	 */
 	public function testToObject($input, $className, $expect, $message)
 	{
+		$localInput = $input;
 		$this->assertEquals(
 			$expect,
-			JArrayHelper::toObject($input),
+			JArrayHelper::toObject(&$localInput),
 			$message
 		);
 	}

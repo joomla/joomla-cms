@@ -16,6 +16,8 @@
  */
 class JDatabaseQueryElementTest extends \PHPUnit\Framework\TestCase
 {
+	use Yoast\PHPUnitPolyfills\Helpers\AssertAttributeHelper;
+
 	/**
 	 * Test cases for append and __toString
 	 *
