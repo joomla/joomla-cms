@@ -12,10 +12,12 @@ namespace Joomla\CMS\Installation\Service\Provider;
 \defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Error\Renderer\JsonRenderer;
-use Joomla\CMS\Factory;
+use Joomla\CMS\Input\Input as CMSInput;
 use Joomla\CMS\Installation\Application\InstallationApplication;
 use Joomla\DI\Container;
 use Joomla\DI\ServiceProviderInterface;
+use Joomla\Event\Priority;
+use Joomla\Session\SessionEvents;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -40,17 +42,13 @@ class Application implements ServiceProviderInterface
 			InstallationApplication::class,
 			function (Container $container)
 			{
-				$app = new InstallationApplication(null, $container->get('config'), null, $container);
-
-				// The session service provider needs Factory::$application, set it if still null
-				if (Factory::$application === null)
-				{
-					Factory::$application = $app;
-				}
-
+				$app = new InstallationApplication($container->get(CMSInput::class), $container->get('config'), null, $container);
 				$app->setDispatcher($container->get('Joomla\Event\DispatcherInterface'));
 				$app->setLogger($container->get(LoggerInterface::class));
 				$app->setSession($container->get('Joomla\Session\SessionInterface'));
+
+				// Ensure that session purging is configured now we have a dispatcher
+				$app->getDispatcher()->addListener(SessionEvents::START, [$app, 'afterSessionStart'], Priority::HIGH);
 
 				return $app;
 			},
