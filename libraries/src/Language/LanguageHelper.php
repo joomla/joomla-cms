@@ -210,7 +210,6 @@ class LanguageHelper
 			}
 			else
 			{
-
 				/**
 				 * We cannot use the DatabaseDriver from the container here when this method is called by installation app.
 				 * because the installation app has not connected that instance as there is no configuration at the start
