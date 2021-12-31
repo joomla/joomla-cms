@@ -334,11 +334,11 @@ class JComponentRouterViewTest extends TestCaseDatabase
 	 * @return  void
 	 *
 	 * @since   3.5
-	 * @expectedException Exception
 	 * @covers  JComponentRouterView::getName
 	 */
 	public function testGetNameException()
 	{
+		$this->expectException(\Exception::class);
 		$object = new FakeComponentURLCreator($this->object->app, $this->object->menu);
 		$object->getName();
 	}

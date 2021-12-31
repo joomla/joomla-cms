@@ -260,10 +260,11 @@ class JOAuth1ClientTest extends TestCase
 	 * @return  void
 	 *
 	 * @since   3.2.0
-	 * @expectedException DomainException
 	 */
 	public function testGenerateRequestTokenFailure()
 	{
+		$this->expectException(\DomainException::class);
+
 		$this->object->setOption('requestTokenURL', 'https://example.com/request_token');
 
 		$returnData = new stdClass;
