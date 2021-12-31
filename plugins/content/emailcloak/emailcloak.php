@@ -49,7 +49,7 @@ class PlgContentEmailcloak extends CMSPlugin
 		// Convert to a parameter, so we can pass-by-reference into `_clock` method
 		$text = is_object($row) ? $row->text : $row;
 
-		$this->_cloak( $text, $params);
+		$this->_cloak($text, $params);
 	}
 
 	/**
