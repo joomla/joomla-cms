@@ -23,6 +23,8 @@ trait DeprecatedClientAwareHelper
 	 * @return  boolean
 	 *
 	 * @since   __DEPLOY_VERSION__
+	 *
+	 * @deprecated  5.0  Will be removed in Joomla 5.0 - You have been warned!
 	 */
 	public function isAdmin(): bool
 	{
@@ -35,6 +37,8 @@ trait DeprecatedClientAwareHelper
 	 * @return  boolean
 	 *
 	 * @since   __DEPLOY_VERSION__
+	 *
+	 * @deprecated  5.0  Will be removed in Joomla 5.0 - You have been warned!
 	 */
 	public function isSite(): bool
 	{
@@ -47,6 +51,8 @@ trait DeprecatedClientAwareHelper
 	 * @return  boolean
 	 *
 	 * @since   __DEPLOY_VERSION__
+	 *
+	 * @deprecated  5.0  Will be removed in Joomla 5.0 - You have been warned!
 	 */
 	public function isCLI(): bool
 	{
@@ -59,6 +65,8 @@ trait DeprecatedClientAwareHelper
 	 * @return  boolean
 	 *
 	 * @since   __DEPLOY_VERSION__
+	 *
+	 * @deprecated  5.0  Will be removed in Joomla 5.0 - You have been warned!
 	 */
 	public function isApi(): bool
 	{
@@ -71,6 +79,8 @@ trait DeprecatedClientAwareHelper
 	 * @param   string  $function  The function that is deprecated
 	 *
 	 * @return  void
+	 *
+	 * @deprecated  5.0  Will be removed in Joomla 5.0 - You have been warned!
 	 */
 	private function _raiseDeprecatedNotice($function)
 	{
