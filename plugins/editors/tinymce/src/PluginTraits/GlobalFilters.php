@@ -25,7 +25,7 @@ trait GlobalFilters
 	 * Get the global text filters to arbitrary text as per settings for current user groups
 	 * @param   User  $user  The user object
 	 *
-	 * @return  JFilterInput
+	 * @return  InputFilter
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
