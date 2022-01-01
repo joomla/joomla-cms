@@ -34,6 +34,7 @@ class PlgSystemStats extends CMSPlugin
 	 * Indicates sending statistics is always allowed.
 	 *
 	 * @var    integer
+	 *
 	 * @since  3.5
 	 */
 	const MODE_ALLOW_ALWAYS = 1;
@@ -42,6 +43,7 @@ class PlgSystemStats extends CMSPlugin
 	 * Indicates sending statistics is only allowed one time.
 	 *
 	 * @var    integer
+	 *
 	 * @since  3.5
 	 */
 	const MODE_ALLOW_ONCE = 2;
@@ -50,22 +52,21 @@ class PlgSystemStats extends CMSPlugin
 	 * Indicates sending statistics is never allowed.
 	 *
 	 * @var    integer
+	 *
 	 * @since  3.5
 	 */
 	const MODE_ALLOW_NEVER = 3;
 
 	/**
-	 * Application object
+	 * @var    \Joomla\CMS\Application\CMSApplication
 	 *
-	 * @var    JApplicationCms
 	 * @since  3.5
 	 */
 	protected $app;
 
 	/**
-	 * Database object
+	 * @var    \Joomla\Database\DatabaseDriver
 	 *
-	 * @var    JDatabaseDriver
 	 * @since  3.5
 	 */
 	protected $db;
@@ -74,6 +75,7 @@ class PlgSystemStats extends CMSPlugin
 	 * URL to send the statistics.
 	 *
 	 * @var    string
+	 *
 	 * @since  3.5
 	 */
 	protected $serverUrl = 'https://developer.joomla.org/stats/submit';
@@ -82,6 +84,7 @@ class PlgSystemStats extends CMSPlugin
 	 * Unique identifier for this site
 	 *
 	 * @var    string
+	 *
 	 * @since  3.5
 	 */
 	protected $uniqueId;
@@ -348,7 +351,7 @@ class PlgSystemStats extends CMSPlugin
 	 *
 	 * @param   string  $layoutId  Layout identifier
 	 *
-	 * @return  JLayout
+	 * @return  \Joomla\CMS\Layout\LayoutInterface
 	 *
 	 * @since   3.5
 	 */
@@ -646,7 +649,7 @@ class PlgSystemStats extends CMSPlugin
 	 * Disable this plugin, if user selects once or never, to stop Joomla loading the plugin on every page load and
 	 * therefore regaining a tiny bit of performance
 	 *
-	 * @since 4.0.0
+	 * @since   4.0.0
 	 *
 	 * @return  boolean
 	 */

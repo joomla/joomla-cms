@@ -20,6 +20,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\File;
 use Joomla\CMS\Filesystem\Folder;
 use Joomla\CMS\Filesystem\Path;
+use Joomla\CMS\Filter\OutputFilter;
 use Joomla\CMS\Http\HttpFactory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
@@ -495,7 +496,7 @@ class ApplicationModel extends FormModel
 		// Escape the offline message if present.
 		if (isset($data['offline_message']))
 		{
-			$data['offline_message'] = \JFilterOutput::ampReplace($data['offline_message']);
+			$data['offline_message'] = OutputFilter::ampReplace($data['offline_message']);
 		}
 
 		// Purge the database session table if we are changing to the database handler.

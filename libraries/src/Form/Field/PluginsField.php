@@ -48,10 +48,9 @@ class PluginsField extends ListField
 	 */
 	public function __get($name)
 	{
-		switch ($name)
+		if ($name === 'folder')
 		{
-			case 'folder':
-				return $this->folder;
+			return $this->folder;
 		}
 
 		return parent::__get($name);

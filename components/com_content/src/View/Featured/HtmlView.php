@@ -28,7 +28,7 @@ class HtmlView extends BaseHtmlView
 	/**
 	 * The model state
 	 *
-	 * @var  \JObject
+	 * @var  \Joomla\CMS\Object\CMSObject
 	 */
 	protected $state = null;
 
@@ -42,7 +42,7 @@ class HtmlView extends BaseHtmlView
 	/**
 	 * The pagination object.
 	 *
-	 * @var  \JPagination
+	 * @var  \Joomla\CMS\Pagination\Pagination
 	 */
 	protected $pagination = null;
 
@@ -68,9 +68,8 @@ class HtmlView extends BaseHtmlView
 	protected $link_items = array();
 
 	/**
-	 * An instance of JDatabaseDriver.
+	 * @var    \Joomla\Database\DatabaseDriver
 	 *
-	 * @var    \JDatabaseDriver
 	 * @since  3.6.3
 	 */
 	protected $db;
@@ -78,7 +77,7 @@ class HtmlView extends BaseHtmlView
 	/**
 	 * The user object
 	 *
-	 * @var  \JUser|null
+	 * @var \Joomla\CMS\User\User|null
 	 */
 	protected $user = null;
 
@@ -86,6 +85,7 @@ class HtmlView extends BaseHtmlView
 	 * The page class suffix
 	 *
 	 * @var    string
+	 *
 	 * @since  4.0.0
 	 */
 	protected $pageclass_sfx = '';
@@ -94,6 +94,7 @@ class HtmlView extends BaseHtmlView
 	 * The page parameters
 	 *
 	 * @var    \Joomla\Registry\Registry|null
+	 *
 	 * @since  4.0.0
 	 */
 	protected $params = null;

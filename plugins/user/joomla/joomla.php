@@ -31,17 +31,15 @@ use Joomla\Registry\Registry;
 class PlgUserJoomla extends CMSPlugin
 {
 	/**
-	 * Application object
+	 * @var    \Joomla\CMS\Application\CMSApplication
 	 *
-	 * @var    \Joomla\CMS\Application\CMSApplicationInterface
 	 * @since  3.2
 	 */
 	protected $app;
 
 	/**
-	 * Database object
+	 * @var    \Joomla\Database\DatabaseDriver
 	 *
-	 * @var    \Joomla\Database\DatabaseInterface
 	 * @since  3.2
 	 */
 	protected $db;
@@ -49,8 +47,8 @@ class PlgUserJoomla extends CMSPlugin
 	/**
 	 * Set as required the passwords fields when mail to user is set to No
 	 *
-	 * @param   JForm  $form  The form to be altered.
-	 * @param   mixed  $data  The associated data for the form.
+	 * @param   \Joomla\CMS\Form\Form  $form  The form to be altered.
+	 * @param   mixed                  $data  The associated data for the form.
 	 *
 	 * @return  boolean
 	 *

@@ -12,7 +12,6 @@ namespace Joomla\Component\Installer\Administrator\Model;
 \defined('_JEXEC') or die;
 
 use Exception;
-use JDatabaseQuery;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\Folder;
 use Joomla\CMS\Installer\Installer;
@@ -540,7 +539,7 @@ class UpdatesitesModel extends InstallerModel
 	/**
 	 * Method to get the database query
 	 *
-	 * @return  JDatabaseQuery  The database query
+	 * @return  \Joomla\Database\DatabaseQuery  The database query
 	 *
 	 * @since   3.4
 	 */

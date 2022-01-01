@@ -33,7 +33,7 @@ class HtmlView extends BaseHtmlView
 	/**
 	 * The \JForm object
 	 *
-	 * @var \Joomla\CMS\Form\Form
+	 * @var  \Joomla\CMS\Form\Form
 	 */
 	protected $form;
 
@@ -54,7 +54,7 @@ class HtmlView extends BaseHtmlView
 	/**
 	 * The actions the user is authorised to perform
 	 *
-	 * @var  \JObject
+	 * @var  \Joomla\CMS\Object\CMSObject
 	 */
 	protected $canDo;
 
@@ -72,8 +72,9 @@ class HtmlView extends BaseHtmlView
 	 *
 	 * @return  void
 	 *
-	 * @throws \Exception
 	 * @since   1.6
+	 *
+	 * @throws  \Exception
 	 */
 	public function display($tpl = null)
 	{
@@ -119,8 +120,9 @@ class HtmlView extends BaseHtmlView
 	 *
 	 * @return  void
 	 *
-	 * @throws \Exception
 	 * @since   1.6
+	 *
+	 * @throws  \Exception
 	 */
 	protected function addToolbar()
 	{

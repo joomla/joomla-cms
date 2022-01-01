@@ -27,15 +27,15 @@ class HtmlView extends BaseHtmlView
 	/**
 	 * The model state
 	 *
-	 * @var     object
+	 * @var    object
 	 * @since  4.0.0
 	 */
 	protected $state;
 
 	/**
-	 * The \JForm object
+	 * The Form object
 	 *
-	 * @var  \JForm
+	 * @var  \Joomla\CMS\Form\Form
 	 */
 	protected $form;
 
@@ -49,7 +49,7 @@ class HtmlView extends BaseHtmlView
 	/**
 	 * The ID of current workflow
 	 *
-	 * @var     integer
+	 * @var    integer
 	 * @since  4.0.0
 	 */
 	protected $workflowID;
@@ -57,7 +57,7 @@ class HtmlView extends BaseHtmlView
 	/**
 	 * The name of current extension
 	 *
-	 * @var     string
+	 * @var    string
 	 * @since  4.0.0
 	 */
 	protected $extension;

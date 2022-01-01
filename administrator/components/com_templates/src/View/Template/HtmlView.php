@@ -148,7 +148,7 @@ class HtmlView extends BaseHtmlView
 	{
 		$app            = Factory::getApplication();
 		$this->file     = $app->input->get('file');
-		$this->fileName = InputFilter::getInstance()->clean(base64_decode($this->file), 'string');
+		$this->fileName = InputFilter::getInstance()->clean(base64_decode($this->file ?? ''), 'string');
 		$explodeArray   = explode('.', $this->fileName);
 		$ext            = end($explodeArray);
 		$this->files    = $this->get('Files');

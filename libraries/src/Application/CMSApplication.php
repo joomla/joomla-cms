@@ -475,7 +475,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 			}
 			elseif (class_exists($classname))
 			{
-				// TODO - This creates an implicit hard requirement on the JApplicationCms constructor
+				// @todo This creates an implicit hard requirement on the ApplicationCms constructor
 				static::$instances[$name] = new $classname(null, null, null, $container);
 			}
 			else
@@ -930,7 +930,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 	 */
 	public function logout($userid = null, $options = array())
 	{
-		// Get a user object from the \JApplication.
+		// Get a user object from the Application.
 		$user = Factory::getUser($userid);
 
 		// Build the credentials array.

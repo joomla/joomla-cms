@@ -80,7 +80,9 @@ class UpdateModel extends BaseDatabaseModel
 				}
 				else
 				{
-					return Factory::getApplication()->enqueueMessage(Text::_('COM_JOOMLAUPDATE_CONFIG_UPDATESOURCE_CUSTOM_ERROR'), 'error');
+					Factory::getApplication()->enqueueMessage(Text::_('COM_JOOMLAUPDATE_CONFIG_UPDATESOURCE_CUSTOM_ERROR'), 'error');
+
+					return;
 				}
 				break;
 
