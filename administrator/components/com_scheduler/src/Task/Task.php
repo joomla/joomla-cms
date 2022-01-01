@@ -133,8 +133,12 @@ class Task implements LoggerAwareInterface
 	public function __construct(object $record)
 	{
 		// Workaround because Registry dumps private properties otherwise.
-		$taskOption     = $record->taskOption;
-		$record->params = json_decode($record->params, true);
+		$taskOption = $record->taskOption;
+
+		if (is_string($record->params))
+		{
+			$record->params = json_decode($record->params, true);
+		}
 
 		$this->taskRegistry = new Registry($record);
 
