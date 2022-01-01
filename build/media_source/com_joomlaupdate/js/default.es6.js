@@ -322,11 +322,25 @@ Joomla = window.Joomla || {};
         PreUpdateChecker.checkNextChunk(extensions);
       },
       onError(xhr) {
+        // Report the XHR error
         Joomla.renderMessages(Joomla.ajaxErrorsMessages(xhr));
+
+        // Mark all pending extensions as errored out on the server side
+        extensionsArray.forEach((info) => {
+          const node = document.getElementById(`preUpdateCheck_${info.eid}`);
+
+          if (!node) {
+            return;
+          }
+
+          PreUpdateChecker.setResultView({
+            element: node,
+            compatibleVersion: 0,
+            serverError: 1,
+          });
+        });
       },
     });
-
-    // TODO Send a request.
   };
 
   /**
