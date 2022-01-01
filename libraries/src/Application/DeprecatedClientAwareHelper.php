@@ -72,7 +72,8 @@ trait DeprecatedClientAwareHelper
 	 *
 	 * @return  void
 	 */
-	private function _raiseDeprecatedNotice($function){
+	private function _raiseDeprecatedNotice($function)
+	{
 		@trigger_error(
 			sprintf(
 				'%s() is deprecated and will be removed in Joomla 5.0',
