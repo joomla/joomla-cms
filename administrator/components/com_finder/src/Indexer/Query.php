@@ -750,6 +750,11 @@ class Query
 	 */
 	protected function processString($input, $lang, $mode)
 	{
+		if ($input === null)
+		{
+			$input = '';
+		}
+
 		// Clean up the input string.
 		$input  = html_entity_decode($input, ENT_QUOTES, 'UTF-8');
 		$input  = StringHelper::strtolower($input);
