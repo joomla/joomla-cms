@@ -663,7 +663,7 @@ class PlgEditorTinymce extends CMSPlugin
 	 * @param   string  $name      the id of the editor field
 	 * @param   string  $excluded  the buttons that should be hidden
 	 *
-	 * @return array
+	 * @return  array|void
 	 */
 	private function tinyButtons($name, $excluded)
 	{
@@ -733,7 +733,7 @@ class PlgEditorTinymce extends CMSPlugin
 	/**
 	 * Get the global text filters to arbitrary text as per settings for current user groups
 	 *
-	 * @return  JFilterInput
+	 * @return  InputFilter
 	 *
 	 * @since   3.6
 	 */

@@ -50,7 +50,7 @@ const getWcMinifiedCss = async (file) => {
  */
 module.exports.handleESMFile = async (file) => {
   // eslint-disable-next-line no-console
-  console.log(`Tranpiling ES2017 file: ${basename(file).replace('.es6.js', '.js')}...`);
+  console.log(`Transpiling ES2017 file: ${basename(file).replace('.es6.js', '.js')}...`);
   const newPath = file.replace(/\.w-c\.es6\.js$/, '').replace(/\.es6\.js$/, '').replace(`${sep}build${sep}media_source${sep}`, `${sep}media${sep}`);
   const minifiedCss = await getWcMinifiedCss(file);
   const bundle = await rollup.rollup({
