@@ -331,6 +331,7 @@ if (version_compare($this->updateInfo['latest'], Version::MAJOR_VERSION + 1, '>=
 
 	<form action="<?php echo Route::_('index.php?option=com_joomlaupdate&layout=update'); ?>" method="post" class="d-flex flex-column mb-5">
 
+		<?php if (!$this->noVersionCheck): ?>
 		<div id="preupdatecheckbox">
 			<div class="form-check d-flex justify-content-center mb-3">
 				<input type="checkbox" class="me-3" id="noncoreplugins" name="noncoreplugins" value="1" required />
@@ -339,8 +340,10 @@ if (version_compare($this->updateInfo['latest'], Version::MAJOR_VERSION + 1, '>=
 				</label>
 			</div>
 		</div>
+		<?php endif; ?>
 
-		<button class="btn btn-lg btn-warning disabled submitupdate mx-auto" type="submit" disabled>
+		<button class="btn btn-lg btn-warning <?php echo $this->noVersionCheck ? '' : 'disabled' ?> submitupdate mx-auto"
+				type="submit" <?php echo $this->noVersionCheck ? '' : 'disabled' ?>>
 			<?php echo Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_INSTALLUPDATE'); ?>
 		</button>
 	</form>
