@@ -123,13 +123,13 @@ class Indexer
 		$this->addTokensToDbQueryTemplate = $this->db->getQuery(true)->insert($this->db->quoteName('#__finder_tokens'))
 			->columns(
 				[
-					$db->quoteName('term'),
-					$db->quoteName('stem'),
-					$db->quoteName('common'),
-					$db->quoteName('phrase'),
-					$db->quoteName('weight'),
-					$db->quoteName('context'),
-					$db->quoteName('language'),
+					$this->db->quoteName('term'),
+					$this->db->quoteName('stem'),
+					$this->db->quoteName('common'),
+					$this->db->quoteName('phrase'),
+					$this->db->quoteName('weight'),
+					$this->db->quoteName('context'),
+					$this->db->quoteName('language'),
 				]
 			);
 	}
