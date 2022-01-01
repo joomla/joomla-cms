@@ -49,6 +49,15 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 	use ContainerAwareTrait, ExtensionManagerTrait, ExtensionNamespaceMapper, SessionAwareWebApplicationTrait;
 
 	/**
+	 * Allow calling of isAdmin and isSite in Joomla 4.x
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 *
+	 * @deprecated  5.0  Will be removed in Joomla 5.0 - you have been warned!
+	 */
+	use DeprecatedClientAwareHelper;
+
+	/**
 	 * Array of options for the \JDocument object
 	 *
 	 * @var    array
