@@ -64,7 +64,7 @@ class TaskOptions
 
 		foreach ($this->options as $option)
 		{
-			if ($option->type === $routineId)
+			if ($option->id === $routineId)
 			{
 				return $option;
 			}

@@ -66,7 +66,7 @@ $wa->useScript('com_scheduler.admin-view-select-task-search');
 			<!-- Plugin task cards start below -->
 			<?php foreach ($this->items as $item) : ?>
 				<?php // Prepare variables for the link. ?>
-				<?php $link = 'index.php?option=com_scheduler&task=task.add&type=' . $item->type; ?>
+				<?php $link = 'index.php?option=com_scheduler&task=task.add&type=' . $item->id; ?>
 				<?php $name = $this->escape($item->title); ?>
 				<?php $desc = HTMLHelper::_('string.truncate', $this->escape(strip_tags($item->desc)), 200); ?>
 				<!-- The task card begins -->

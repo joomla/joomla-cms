@@ -185,7 +185,7 @@ class TasksModel extends ListModel
 			$activeRoutines = array_map(
 				static function (TaskOption $taskOption): string
 				{
-					return $taskOption->type;
+					return $taskOption->id;
 				},
 				$taskOptions->options
 			);
