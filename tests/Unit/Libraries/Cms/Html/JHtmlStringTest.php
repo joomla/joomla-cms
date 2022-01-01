@@ -12,7 +12,7 @@ use Joomla\CMS\HTML\Helpers\StringHelper;
 use Joomla\Tests\Unit\UnitTestCase;
 
 /**
- * Tests for String.
+ * Tests for StringHelper.
  *
  * @package     Joomla.UnitTest
  * @subpackage  HTML
@@ -415,7 +415,7 @@ class JHtmlStringTest extends UnitTestCase
 	}
 
 	/**
-	 * Tests the String::abridge method.
+	 * Tests the StringHelper::abridge method.
 	 *
 	 * @param   string   $text      The text to truncate.
 	 * @param   integer  $length    The maximum length of the text.
@@ -433,7 +433,7 @@ class JHtmlStringTest extends UnitTestCase
 	}
 
 	/**
-	 * Tests the String::truncate method.
+	 * Tests the StringHelper::truncate method.
 	 *
 	 * @param   string   $text         The text to truncate.
 	 * @param   integer  $length       The maximum length of the text.
@@ -452,7 +452,7 @@ class JHtmlStringTest extends UnitTestCase
 	}
 
 	/**
-	 * Tests the String::truncateComplex method.
+	 * Tests the StringHelper::truncateComplex method.
 	 *
 	 * @param   string   $html       The text to truncate.
 	 * @param   integer  $maxLength  The maximum length of the text.
