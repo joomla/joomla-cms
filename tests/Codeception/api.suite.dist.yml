@@ -2,7 +2,7 @@ actor: ApiTester
 modules:
     enabled:
         - Helper\JoomlaDb
-        - \Helper\Api
+        - Helper\Api
     config:
         Helper\JoomlaDb:
             dsn: 'mysql:host=mysql;dbname=test_joomla'
