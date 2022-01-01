@@ -29,7 +29,7 @@ use Joomla\Registry\Registry;
  * Add extra fields in the User Profile page.
  *
  * This class only injects the custom form fields. The actual interface is rendered through
- * JFormFieldWebauthn.
+ * WebauthnField.
  *
  * @see     WebauthnField::getInput()
  *
