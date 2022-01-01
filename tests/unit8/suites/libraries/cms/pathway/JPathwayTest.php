@@ -214,7 +214,7 @@ class JPathwayTest extends TestCase
 		$this->fixture->addItem('Item1', 'index.php?key=item1');
 		$this->fixture->addItem('Item2', 'index.php?key=item2');
 
-		$this->assertEquals(array(), $this->getPropertyValue($this->fixture, '_pathway'));
+		$this->assertEquals($pathway, $this->getPropertyValue($this->fixture, '_pathway'));
 	}
 
 	/**
