@@ -75,7 +75,7 @@ $twofactormethods = AuthenticationHelper::getTwoFactorMethods();
 			</p>
 		<?php endif; ?>
 		<p id="submit-button">
-			<input type="submit" name="Submit" class="button login" value="<?php echo Text::_('JLOGIN'); ?>" />
+			<button type="submit" name="Submit" class="button login"><?php echo Text::_('JLOGIN'); ?></button>
 		</p>
 		<input type="hidden" name="option" value="com_users" />
 		<input type="hidden" name="task" value="user.login" />
