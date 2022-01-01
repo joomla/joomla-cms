@@ -62,9 +62,9 @@ class Application implements ServiceProviderInterface
 	 */
 	public function register(Container $container)
 	{
-		$container->alias(AdministratorApplication::class, 'JApplicationAdministrator')
+		$container->alias(AdministratorApplication::class, AdministratorApplication::class)
 			->share(
-				'JApplicationAdministrator',
+				AdministratorApplication::class,
 				function (Container $container)
 				{
 					$app = new AdministratorApplication(null, $container->get('config'), null, $container);
@@ -85,9 +85,9 @@ class Application implements ServiceProviderInterface
 				true
 			);
 
-		$container->alias(SiteApplication::class, 'JApplicationSite')
+		$container->alias(SiteApplication::class, SiteApplication::class)
 			->share(
-				'JApplicationSite',
+				SiteApplication::class,
 				function (Container $container)
 				{
 					$app = new SiteApplication(null, $container->get('config'), null, $container);
@@ -171,9 +171,9 @@ class Application implements ServiceProviderInterface
 				true
 			);
 
-		$container->alias(ApiApplication::class, 'JApplicationApi')
+		$container->alias(ApiApplication::class, ApiApplication::class)
 			->share(
-				'JApplicationApi',
+				ApiApplication::class,
 				function (Container $container) {
 					$app = new ApiApplication(null, $container->get('config'), null, $container);
 
@@ -183,9 +183,9 @@ class Application implements ServiceProviderInterface
 						Factory::$application = $app;
 					}
 
-					$app->setDispatcher($container->get('Joomla\Event\DispatcherInterface'));
+					$app->setDispatcher($container->get(DispatcherInterface::class));
 					$app->setLogger($container->get(LoggerInterface::class));
-					$app->setSession($container->get('Joomla\Session\SessionInterface'));
+					$app->setSession($container->get(SessionInterface::class));
 
 					return $app;
 				},

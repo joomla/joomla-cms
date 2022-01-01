@@ -10,6 +10,7 @@ namespace Joomla\CMS\Application;
 
 \defined('JPATH_PLATFORM') or die;
 
+use Joomla\Application\AbstractApplication;
 use Joomla\Application\SessionAwareWebApplicationTrait;
 use Joomla\Application\Web\WebClient;
 use Joomla\CMS\Authentication\Authentication;
@@ -417,7 +418,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 		try
 		{
 			Log::add(
-				sprintf('%s() is deprecated and will be removed in 5.0. Use JFactory->getApplication()->get() instead.', __METHOD__),
+				sprintf('%s() is deprecated and will be removed in 5.0. Use Factory->getApplication()->get() instead.', __METHOD__),
 				Log::WARNING,
 				'deprecated'
 			);
@@ -457,7 +458,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 	 * @throws      \RuntimeException
 	 * @deprecated  5.0 Use \Joomla\CMS\Factory::getContainer()->get($name) instead
 	 */
-	public static function getInstance($name = null, $prefix = '\JApplication', Container $container = null)
+	public static function getInstance($name = null, $prefix = AbstractApplication::class, Container $container = null)
 	{
 		if (empty(static::$instances[$name]))
 		{
