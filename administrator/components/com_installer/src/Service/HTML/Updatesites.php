@@ -30,7 +30,7 @@ class Updatesites
 	 *
 	 * @return  string   The HTML code
 	 *
-	 * @see     JHtmlJGrid::state()
+	 * @see     Grid::state()
 	 * @since   3.5
 	 */
 	public function state($value, $i, $enabled = true, $checkbox = 'cb')

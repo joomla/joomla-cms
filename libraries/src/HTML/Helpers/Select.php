@@ -75,7 +75,7 @@ abstract class Select
 	 *                               can be an array of attributes, or an array of options. Treated as options
 	 *                               if it is the last argument passed. Valid options are:
 	 *                               Format options, see {@see HTMLHelper::$formatOptions}.
-	 *                               Selection options, see {@see JHtmlSelect::options()}.
+	 *                               Selection options, see {@see Select::options()}.
 	 *                               list.attr, string|array: Additional attributes for the select
 	 *                               element.
 	 *                               id, string: Value to use as the select element id attribute.
@@ -170,7 +170,7 @@ abstract class Select
 	 * @param   string  $name     The value of the HTML name attribute
 	 * @param   array   $options  Options, an array of key/value pairs. Valid options are:
 	 *                            Format options, {@see HTMLHelper::$formatOptions}.
-	 *                            Selection options. See {@see JHtmlSelect::options()}.
+	 *                            Selection options. See {@see Select::options()}.
 	 *                            group.id: The property in each group to use as the group id
 	 *                            attribute. Defaults to none.
 	 *                            group.label: The property in each group to use as the group

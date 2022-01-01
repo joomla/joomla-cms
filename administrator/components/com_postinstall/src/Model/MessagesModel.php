@@ -415,7 +415,7 @@ class MessagesModel extends BaseDatabaseModel
 	 *
 	 * @since 3.4
 	 *
-	 * @return  array  Compatible with JHtmlSelect::genericList
+	 * @return  array  Compatible with \Joomla\CMS\HTML\Helpers\Select::genericList
 	 */
 	public function getComponentOptions()
 	{

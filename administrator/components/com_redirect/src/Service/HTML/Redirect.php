@@ -39,7 +39,7 @@ class Redirect
 		// Note: $i is required but has to be an optional argument in the function call due to argument order
 		if (null === $i)
 		{
-			throw new \InvalidArgumentException('$i is a required argument in JHtmlRedirect::published');
+			throw new \InvalidArgumentException('$i is a required argument in Redirect::published');
 		}
 
 		// Array of image, task, title, action

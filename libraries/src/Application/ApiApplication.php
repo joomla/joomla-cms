@@ -98,19 +98,19 @@ final class ApiApplication extends CMSApplication
 		$this->initialiseApp();
 
 		// Mark afterInitialise in the profiler.
-		JDEBUG ? $this->profiler->mark('afterInitialise') : null;
+		JDEBUG && $this->profiler->mark('afterInitialise');
 
 		// Route the application
 		$this->route();
 
 		// Mark afterApiRoute in the profiler.
-		JDEBUG ? $this->profiler->mark('afterApiRoute') : null;
+		JDEBUG && $this->profiler->mark('afterApiRoute');
 
 		// Dispatch the application
 		$this->dispatch();
 
 		// Mark afterDispatch in the profiler.
-		JDEBUG ? $this->profiler->mark('afterDispatch') : null;
+		JDEBUG && $this->profiler->mark('afterDispatch');
 	}
 
 	/**

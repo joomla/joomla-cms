@@ -395,8 +395,8 @@ class RequestModel extends AdminModel
 	 *
 	 * @return  array|boolean  Array of filtered data if valid, false otherwise.
 	 *
-	 * @see     \Joomla\CMS\Form\FormRule
-	 * @see     JFilterInput
+	 * @see     FormRule
+	 * @see     InputFilter
 	 * @since   3.9.0
 	 */
 	public function validate($form, $data, $group = null)

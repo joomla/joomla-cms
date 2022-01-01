@@ -8,11 +8,11 @@
  */
 namespace Joomla\Tests\Unit\Libraries\Cms\Html;
 
-use JHtmlString;
+use Joomla\CMS\HTML\Helpers\StringHelper;
 use Joomla\Tests\Unit\UnitTestCase;
 
 /**
- * Tests for JHtmlString.
+ * Tests for String.
  *
  * @package     Joomla.UnitTest
  * @subpackage  HTML
@@ -415,7 +415,7 @@ class JHtmlStringTest extends UnitTestCase
 	}
 
 	/**
-	 * Tests the JHtmlString::abridge method.
+	 * Tests the String::abridge method.
 	 *
 	 * @param   string   $text      The text to truncate.
 	 * @param   integer  $length    The maximum length of the text.
@@ -429,11 +429,11 @@ class JHtmlStringTest extends UnitTestCase
 	 */
 	public function testAbridge($text, $length, $intro, $expected)
 	{
-		$this->assertEquals($expected, JHtmlString::abridge($text, $length, $intro));
+		$this->assertEquals($expected, StringHelper::abridge($text, $length, $intro));
 	}
 
 	/**
-	 * Tests the JHtmlString::truncate method.
+	 * Tests the String::truncate method.
 	 *
 	 * @param   string   $text         The text to truncate.
 	 * @param   integer  $length       The maximum length of the text.
@@ -448,11 +448,11 @@ class JHtmlStringTest extends UnitTestCase
 	 */
 	public function testTruncate($text, $length, $noSplit, $allowedHtml, $expected)
 	{
-		$this->assertEquals($expected, JHtmlString::truncate($text, $length, $noSplit, $allowedHtml));
+		$this->assertEquals($expected, StringHelper::truncate($text, $length, $noSplit, $allowedHtml));
 	}
 
 	/**
-	 * Tests the JHtmlString::truncateComplex method.
+	 * Tests the String::truncateComplex method.
 	 *
 	 * @param   string   $html       The text to truncate.
 	 * @param   integer  $maxLength  The maximum length of the text.
@@ -466,6 +466,6 @@ class JHtmlStringTest extends UnitTestCase
 	 */
 	public function testTruncateComplex($html, $maxLength, $noSplit, $expected)
 	{
-		$this->assertEquals($expected, JHtmlString::truncateComplex($html, $maxLength, $noSplit));
+		$this->assertEquals($expected, StringHelper::truncateComplex($html, $maxLength, $noSplit));
 	}
 }

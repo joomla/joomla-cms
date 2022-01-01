@@ -965,8 +965,8 @@ class FieldModel extends AdminModel
 	 *
 	 * @return  array|boolean  Array of filtered data if valid, false otherwise.
 	 *
-	 * @see     JFormRule
-	 * @see     JFilterInput
+	 * @see     FormRule
+	 * @see     InputFilter
 	 * @since   3.9.23
 	 */
 	public function validate($form, $data, $group = null)

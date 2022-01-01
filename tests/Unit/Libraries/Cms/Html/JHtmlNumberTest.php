@@ -9,11 +9,11 @@
 
 namespace Joomla\Tests\Unit\Libraries\Cms\Html;
 
-use JHtmlNumber;
+use Joomla\CMS\HTML\Helpers\Number;
 use Joomla\Tests\Unit\UnitTestCase;
 
 /**
- * Test class for JHtmlNumberTest.
+ * Test class for Number.
  *
  * @package     Joomla.UnitTest
  * @subpackage  Html
@@ -224,7 +224,7 @@ class JHtmlNumberTest extends UnitTestCase
 	}
 
 	/**
-	 * Tests the JHtmlNumber::bytes method.
+	 * Tests the Number::bytes method.
 	 *
 	 * @param   string   $result     The expected result to match against.
 	 * @param   string   $bytes      The number of bytes. Can be either numeric or suffixed format: 32M, 60K, 12G or 812b
@@ -244,6 +244,6 @@ class JHtmlNumberTest extends UnitTestCase
 	 */
 	public function testBytes($result, $bytes, $unit = 'auto', $precision = 2, $iec = false)
 	{
-		$this->assertEquals($result, JHtmlNumber::bytes($bytes, $unit, $precision, $iec));
+		$this->assertEquals($result, Number::bytes($bytes, $unit, $precision, $iec));
 	}
 }

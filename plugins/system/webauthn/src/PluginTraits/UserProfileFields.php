@@ -21,6 +21,7 @@ use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\User\User;
 use Joomla\CMS\User\UserFactoryInterface;
 use Joomla\Plugin\System\Webauthn\CredentialRepository;
+use Joomla\Plugin\System\Webauthn\Field\WebauthnField;
 use Joomla\Plugin\System\Webauthn\Helper\Joomla;
 use Joomla\Registry\Registry;
 
@@ -30,7 +31,7 @@ use Joomla\Registry\Registry;
  * This class only injects the custom form fields. The actual interface is rendered through
  * JFormFieldWebauthn.
  *
- * @see     JFormFieldWebauthn::getInput()
+ * @see     WebauthnField::getInput()
  *
  * @since   4.0.0
  */

@@ -1043,7 +1043,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 		$this->triggerEvent('onAfterRender');
 
 		// Mark afterRender in the profiler.
-		JDEBUG ? $this->profiler->mark('afterRender') : null;
+		JDEBUG && $this->profiler->mark('afterRender');
 	}
 
 	/**

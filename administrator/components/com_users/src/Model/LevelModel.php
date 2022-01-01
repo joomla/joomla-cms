@@ -261,8 +261,8 @@ class LevelModel extends AdminModel
 	 *
 	 * @return  array|boolean  Array of filtered data if valid, false otherwise.
 	 *
-	 * @see     \Joomla\CMS\Form\FormRule
-	 * @see     \JFilterInput
+	 * @see     FormRule
+	 * @see     InputFilter
 	 * @since   3.8.8
 	 */
 	public function validate($form, $data, $group = null)

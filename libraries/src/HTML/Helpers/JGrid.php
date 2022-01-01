@@ -168,7 +168,7 @@ abstract class JGrid
 	 *
 	 * @return  string  The HTML markup
 	 *
-	 * @see     JHtmlJGrid::state()
+	 * @see     Grid::state()
 	 * @since   1.6
 	 */
 	public static function published($value, $i, $prefix = '', $enabled = true, $checkbox = 'cb', $publishUp = null, $publishDown = null,
@@ -267,7 +267,7 @@ abstract class JGrid
 	 *
 	 * @return  string  The HTML markup
 	 *
-	 * @see     JHtmlJGrid::state()
+	 * @see     JGrid::state()
 	 * @since   1.6
 	 */
 	public static function isdefault($value, $i, $prefix = '', $enabled = true, $checkbox = 'cb', $formId = null, $active_class = 'icon-color-featured icon-star', $inactive_class = 'icon-unfeatured')

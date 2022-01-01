@@ -52,7 +52,7 @@ class Session extends BaseSession
 	/**
 	 * Checks for a form token in the request.
 	 *
-	 * Use in conjunction with HTMLHelper::_('form.token') or JSession::getFormToken.
+	 * Use in conjunction with HTMLHelper::_('form.token') or Session::getFormToken.
 	 *
 	 * @param   string  $method  The request method in which to look for the token key.
 	 *

@@ -712,8 +712,8 @@ class DocumentTest extends UnitTestCase
 	/**
 	 * @testdox  Test that loadRenderer returns the intended object
 	 *
-	 * @covers   JDocument::loadRenderer
-	 * @uses     JDocument::setType
+	 * @covers   Document::loadRenderer
+	 * @uses     Document::setType
 	 *
 	 * @return void
 	 * @since   4.0.0

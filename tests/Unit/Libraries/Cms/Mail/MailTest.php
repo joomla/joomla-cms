@@ -197,7 +197,7 @@ class MailTest extends UnitTestCase
 	/**
 	 * Tests the addReplyTo method.
 	 *
-	 * @covers        JMail::addReplyTo
+	 * @covers        Mail::addReplyTo
 	 *
 	 * @dataProvider  seedTestAddReplyTo
 	 *
@@ -241,7 +241,7 @@ class MailTest extends UnitTestCase
 	/**
 	 * Tests the IsHTML method.
 	 *
-	 * @covers  JMail::IsHTML
+	 * @covers  Mail::IsHTML
 	 *
 	 * @return void
 	 *
@@ -257,7 +257,7 @@ class MailTest extends UnitTestCase
 	/**
 	 * Tests the IsHTML method.
 	 *
-	 * @covers  JMail::IsHTML
+	 * @covers  Mail::IsHTML
 	 *
 	 * @return void
 	 *
@@ -296,7 +296,7 @@ class MailTest extends UnitTestCase
 	}
 
 	/**
-	 * Test for the JMail::useSMTP method.
+	 * Test for the Mail::useSMTP method.
 	 *
 	 * @param   string   $auth      SMTP Authentication
 	 * @param   string   $host      SMTP Host

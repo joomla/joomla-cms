@@ -133,13 +133,13 @@ class HtmlView extends BaseHtmlView
 		// Get view data.
 		$this->state = $this->get('State');
 		$this->query = $this->get('Query');
-		\JDEBUG ? Profiler::getInstance('Application')->mark('afterFinderQuery') : null;
+		\JDEBUG && Profiler::getInstance('Application')->mark('afterFinderQuery');
 		$this->results = $this->get('Items');
-		\JDEBUG ? Profiler::getInstance('Application')->mark('afterFinderResults') : null;
+		\JDEBUG && Profiler::getInstance('Application')->mark('afterFinderResults');
 		$this->total = $this->get('Total');
-		\JDEBUG ? Profiler::getInstance('Application')->mark('afterFinderTotal') : null;
+		\JDEBUG && Profiler::getInstance('Application')->mark('afterFinderTotal');
 		$this->pagination = $this->get('Pagination');
-		\JDEBUG ? Profiler::getInstance('Application')->mark('afterFinderPagination') : null;
+		\JDEBUG && Profiler::getInstance('Application')->mark('afterFinderPagination');
 
 		// Flag indicates to not add limitstart=0 to URL
 		$this->pagination->hideEmptyLimitstart = true;
@@ -203,11 +203,11 @@ class HtmlView extends BaseHtmlView
 
 		$this->prepareDocument();
 
-		\JDEBUG ? Profiler::getInstance('Application')->mark('beforeFinderLayout') : null;
+		\JDEBUG && Profiler::getInstance('Application')->mark('beforeFinderLayout');
 
 		parent::display($tpl);
 
-		\JDEBUG ? Profiler::getInstance('Application')->mark('afterFinderLayout') : null;
+		\JDEBUG && Profiler::getInstance('Application')->mark('afterFinderLayout');
 	}
 
 	/**

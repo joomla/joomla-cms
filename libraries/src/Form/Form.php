@@ -1157,8 +1157,8 @@ class Form
 	/**
 	 * Method to validate form data.
 	 *
-	 * Validation warnings will be pushed into JForm::errors and should be
-	 * retrieved with JForm::getErrors() when validate returns boolean false.
+	 * Validation warnings will be pushed into Form::errors and should be
+	 * retrieved with Form::getErrors() when validate returns boolean false.
 	 *
 	 * @param   array   $data   An array of field values to validate.
 	 * @param   string  $group  The optional dot-separated form group path on which to filter the

@@ -11,6 +11,7 @@ namespace Joomla\Component\Installer\Administrator\Service\HTML;
 
 \defined('_JEXEC') or die;
 
+use Joomla\CMS\HTML\Helpers\Grid;
 use Joomla\CMS\HTML\HTMLHelper;
 
 /**
@@ -30,7 +31,7 @@ class Manage
 	 *
 	 * @return  string        The Html code
 	 *
-	 * @see JHtmlJGrid::state
+	 * @see Grid::state
 	 *
 	 * @since   2.5
 	 */

@@ -745,7 +745,7 @@ class Stream extends CMSObject
 	 * any write you do. Specifying chunked will get around this by only
 	 * writing in specific chunk sizes. This defaults to 8192 which is a
 	 * sane number to use most of the time (change the default with
-	 * JStream::set('chunksize', newsize);)
+	 * Stream::set('chunksize', newsize);)
 	 * Note: This doesn't support gzip/bzip2 writing like reading does
 	 *
 	 * @param   string   $string  Reference to the string to write.

@@ -51,7 +51,7 @@ class LevelController extends FormController
 	}
 
 	/**
-	 * Overrides JControllerForm::allowEdit
+	 * Overrides FormController::allowEdit
 	 *
 	 * Checks that non-Super Admins are not editing Super Admins.
 	 *

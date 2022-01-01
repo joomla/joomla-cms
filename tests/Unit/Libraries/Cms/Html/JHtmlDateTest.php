@@ -9,7 +9,6 @@
 
 namespace Joomla\Tests\Unit\Libraries\Cms\Html;
 
-use JHtmlDate;
 use Joomla\CMS\Date\Date;
 use Joomla\Tests\Unit\UnitTestCase;
 
@@ -76,7 +75,7 @@ class JHtmlDateTest extends UnitTestCase
 	}
 
 	/**
-	 * Tests the JHtmlDate::relative method.
+	 * Tests the \Joomla\CMS\HTML\Helpers\Date::relative method.
 	 *
 	 * @param   string  $result  The expected test result
 	 * @param   string  $date    The date to convert
@@ -91,6 +90,6 @@ class JHtmlDateTest extends UnitTestCase
 	 */
 	public function testRelative($result, $date, $unit = null, $time = null)
 	{
-		$this->assertEquals($result, JHtmlDate::relative($date, $unit, $time));
+		$this->assertEquals($result, \Joomla\CMS\HTML\Helpers\Date::relative($date, $unit, $time));
 	}
 }

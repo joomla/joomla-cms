@@ -38,7 +38,7 @@ class DisplayController extends BaseController
 	 * you will need to override it in your own controllers.
 	 *
 	 * @param   boolean     $cachable   If true, the view output will be cached
-	 * @param   array|bool  $urlparams  An array of safe URL parameters and their variable types, for valid values see {@link \JFilterInput::clean()}
+	 * @param   array|bool  $urlparams  An array of safe URL parameters and their variable types, for valid values see {@link InputFilter::clean()}
 	 *
 	 * @return  BaseController|boolean  A Controller object to support chaining.
 	 *

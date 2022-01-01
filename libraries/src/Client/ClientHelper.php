@@ -132,7 +132,7 @@ class ClientHelper
 			$session->set($client . '.user', $user, 'JClientHelper');
 			$session->set($client . '.pass', $pass, 'JClientHelper');
 
-			// Force re-creation of the data saved within JClientHelper::getCredentials()
+			// Force re-creation of the data saved within ClientHelper::getCredentials()
 			self::getCredentials($client, true);
 		}
 

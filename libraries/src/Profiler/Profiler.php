@@ -140,7 +140,7 @@ class Profiler
 	 * Get all profiler marks.
 	 *
 	 * Returns an array of all marks created since the Profiler object
-	 * was instantiated.  Marks are objects as per {@link JProfiler::mark()}.
+	 * was instantiated.  Marks are objects as per {@link Profiler::mark()}.
 	 *
 	 * @return  array  Array of profiler marks
 	 *

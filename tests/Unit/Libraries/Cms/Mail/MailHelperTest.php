@@ -38,7 +38,7 @@ class MailHelperTest extends UnitTestCase
 	}
 
 	/**
-	 * Test for the JMailHelper::cleanLine method.
+	 * Test for the MailHelper::cleanLine method.
 	 *
 	 * @param   string  $input     The input to clean
 	 * @param   string  $expected  The expected result
@@ -100,7 +100,7 @@ class MailHelperTest extends UnitTestCase
 	}
 
 	/**
-	 * Test for the JMailHelper::cleanText method.
+	 * Test for the MailHelper::cleanText method.
 	 *
 	 * @param   string  $input     The input to clean
 	 * @param   string  $expected  The expected result
@@ -143,7 +143,7 @@ class MailHelperTest extends UnitTestCase
 	}
 
 	/**
-	 * Test for the JMailHelper::cleanBody method.
+	 * Test for the MailHelper::cleanBody method.
 	 *
 	 * @param   string  $input     The input to clean
 	 * @param   string  $expected  The expected result
@@ -184,7 +184,7 @@ class MailHelperTest extends UnitTestCase
 	}
 
 	/**
-	 * Test for the JMailHelper::cleanSubject method.
+	 * Test for the MailHelper::cleanSubject method.
 	 *
 	 * @param   string  $input     The input to clean
 	 * @param   string  $expected  The expected result
@@ -219,7 +219,7 @@ class MailHelperTest extends UnitTestCase
 	}
 
 	/**
-	 * Test for the JMailHelper::cleanAddress method.
+	 * Test for the MailHelper::cleanAddress method.
 	 *
 	 * @param   string  $input     The input to clean
 	 * @param   string  $expected  The expected result
@@ -270,7 +270,7 @@ class MailHelperTest extends UnitTestCase
 	}
 
 	/**
-	 * Test for the JMailHelper::isEmailAddress method.
+	 * Test for the MailHelper::isEmailAddress method.
 	 *
 	 * @param   string  $input     The input to clean
 	 * @param   string  $expected  The expected result

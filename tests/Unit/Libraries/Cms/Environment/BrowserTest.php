@@ -161,7 +161,7 @@ class BrowserTest extends UnitTestCase
 	/**
 	 * @testdox  A browser with a given user agent is correctly detected
 	 *
-	 * @covers        JBrowser::match
+	 * @covers        Browser::match
 	 * @dataProvider  dataMatch
 	 *
 	 * @param   string   $userAgent             The user agent to test

@@ -25,7 +25,7 @@ class DisplayController extends BaseController
 	 *
 	 * @param   boolean        $cachable   If true, the view output will be cached
 	 * @param   mixed|boolean  $urlparams  An array of safe URL parameters and their
-	 *                                     variable types, for valid values see {@link \JFilterInput::clean()}.
+	 *                                     variable types, for valid values see {@link InputFilter::clean()}.
 	 *
 	 * @return  static  This object to support chaining.
 	 *

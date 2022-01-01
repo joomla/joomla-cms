@@ -224,13 +224,13 @@ final class SiteApplication extends CMSApplication
 		$this->initialiseApp();
 
 		// Mark afterInitialise in the profiler.
-		JDEBUG ? $this->profiler->mark('afterInitialise') : null;
+		JDEBUG && $this->profiler->mark('afterInitialise');
 
 		// Route the application
 		$this->route();
 
 		// Mark afterRoute in the profiler.
-		JDEBUG ? $this->profiler->mark('afterRoute') : null;
+		JDEBUG && $this->profiler->mark('afterRoute');
 
 		/*
 		 * Check if the user is required to reset their password
@@ -245,7 +245,7 @@ final class SiteApplication extends CMSApplication
 		$this->dispatch();
 
 		// Mark afterDispatch in the profiler.
-		JDEBUG ? $this->profiler->mark('afterDispatch') : null;
+		JDEBUG && $this->profiler->mark('afterDispatch');
 	}
 
 	/**

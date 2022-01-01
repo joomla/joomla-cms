@@ -284,7 +284,7 @@ class Access
 			return;
 		}
 
-		!JDEBUG ?: Profiler::getInstance('Application')->mark('Before Access::preloadPermissions (' . $extensionName . ')');
+		JDEBUG && Profiler::getInstance('Application')->mark('Before Access::preloadPermissions (' . $extensionName . ')');
 
 		// Get the database connection object.
 		$db       = Factory::getDbo();
@@ -320,7 +320,7 @@ class Access
 		self::$preloadedAssetTypes[$assetType]     = true;
 		self::$preloadedAssetTypes[$extensionName] = true;
 
-		!JDEBUG ?: Profiler::getInstance('Application')->mark('After Access::preloadPermissions (' . $extensionName . ')');
+		JDEBUG && Profiler::getInstance('Application')->mark('After Access::preloadPermissions (' . $extensionName . ')');
 	}
 
 	/**
@@ -342,7 +342,7 @@ class Access
 			return array();
 		}
 
-		!JDEBUG ?: Profiler::getInstance('Application')->mark('Before Access::preloadComponents (all components)');
+		JDEBUG && Profiler::getInstance('Application')->mark('Before Access::preloadComponents (all components)');
 
 		// Add root to asset names list.
 		$components = array('root.1');
@@ -399,7 +399,7 @@ class Access
 		// Mark all components asset type as preloaded.
 		self::$preloadedAssetTypes['components'] = true;
 
-		!JDEBUG ?: Profiler::getInstance('Application')->mark('After Access::preloadComponents (all components)');
+		JDEBUG && Profiler::getInstance('Application')->mark('After Access::preloadComponents (all components)');
 
 		return $components;
 	}
@@ -514,7 +514,7 @@ class Access
 		// Almost all calls can take advantage of preloading.
 		if ($assetId && isset(self::$preloadedAssets[$assetId]))
 		{
-			!JDEBUG ?: Profiler::getInstance('Application')->mark('Before Access::getAssetRules (id:' . $assetId . ' name:' . $assetName . ')');
+			JDEBUG && Profiler::getInstance('Application')->mark('Before Access::getAssetRules (id:' . $assetId . ' name:' . $assetName . ')');
 
 			// Collects permissions for each asset
 			$collected = array();
@@ -576,7 +576,7 @@ class Access
 				self::$assetRules[$assetId] = self::$assetRulesIdentities[$hash];
 			}
 
-			!JDEBUG ?: Profiler::getInstance('Application')->mark('After Access::getAssetRules (id:' . $assetId . ' name:' . $assetName . ')');
+			JDEBUG && Profiler::getInstance('Application')->mark('After Access::getAssetRules (id:' . $assetId . ' name:' . $assetName . ')');
 
 			return self::$assetRulesIdentities[$hash];
 		}
@@ -584,7 +584,7 @@ class Access
 		// Non preloading code. Use old slower method, slower. Only used in rare cases (if any) or without preloading chosen.
 		Log::add('Asset ' . $assetKey . ' permissions fetch without preloading (slower method).', Log::INFO, 'assets');
 
-		!JDEBUG ?: Profiler::getInstance('Application')->mark('Before Access::getAssetRules (assetKey:' . $assetKey . ')');
+		JDEBUG && Profiler::getInstance('Application')->mark('Before Access::getAssetRules (assetKey:' . $assetKey . ')');
 
 		// There's no need to process it with the recursive method for the Root Asset ID.
 		if ((int) $assetKey === 1)
@@ -651,7 +651,7 @@ class Access
 		$rules = new Rules;
 		$rules->mergeCollection($result);
 
-		!JDEBUG ?: Profiler::getInstance('Application')->mark('Before Access::getAssetRules <strong>Slower</strong> (assetKey:' . $assetKey . ')');
+		JDEBUG && Profiler::getInstance('Application')->mark('Before Access::getAssetRules <strong>Slower</strong> (assetKey:' . $assetKey . ')');
 
 		return $rules;
 	}
