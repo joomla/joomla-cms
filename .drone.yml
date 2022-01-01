@@ -67,6 +67,113 @@ volumes:
     host:
       path: /tmp/composer-cache
 
+---
+kind: pipeline
+name: PHP 8.1
+
+platform:
+  os: linux
+  arch: amd64
+
+steps:
+  - name: composer
+    image: joomlaprojects/docker-images:php8.1
+    commands:
+      - php -v
+      - composer --version
+      - composer remove --dev phpunit/phpunit phpunit/dbunit friendsofphp/php-cs-fixer squizlabs/php_codesniffer
+      - composer require "symfony/yaml:2.* || ^3.0" --ignore-platform-reqs
+      - composer require --dev "phpunit/phpunit:^9.5.0" "kornrunner/dbunit:^6.0" "yoast/phpunit-polyfills" --ignore-platform-reqs -W
+      - composer install --ignore-platform-reqs
+    volumes:
+      - name: composer-cache
+        path: /tmp/composer-cache
+
+  - name: prepare
+    image: joomlaprojects/docker-images:php8.1
+    commands:
+      - php -v
+      - sleep 20
+      - "mysql --host=mysql --user=joomla_ut --password=joomla_ut --database=joomla_ut < \"tests/unit/schema/mysql.sql\""
+      - "psql -h postgres -d joomla_ut -U joomla_ut -a -f \"tests/unit/schema/postgresql.sql\""
+    environment:
+      PGPASSWORD: joomla_ut
+
+  - name: PHPUnit
+    image: joomlaprojects/docker-images:php8.1
+    commands:
+      - phpunit --version
+      # temporary disable php stream wrapper for testing
+      - sed -i 's/in_array/!in_array/g' libraries/cms.php
+      - phpunit --configuration phpunit-php8.xml
+
+services:
+  - name: mysql
+    image: mysql:5.7
+    environment:
+      MYSQL_DATABASE: joomla_ut
+      MYSQL_PASSWORD: joomla_ut
+      MYSQL_ROOT_PASSWORD: joomla_ut
+      MYSQL_USER: joomla_ut
+
+  - name: postgres
+    image: postgres:11-alpine
+    environment:
+      POSTGRES_DB: joomla_ut
+      POSTGRES_PASSWORD: joomla_ut
+      POSTGRES_USER: joomla_ut
+    ports:
+      - 5432
+
+  - name: memcached
+    image: memcached:alpine
+
+  - name: redis
+    image: redis:alpine
+
+volumes:
+  - name: composer-cache
+    host:
+      path: /tmp/composer-cache
+---
+kind: pipeline
+name: PHP 8.2
+
+platform:
+  os: linux
+  arch: amd64
+
+steps:
+  - name: composer
+    image: joomlaprojects/docker-images:php8.2
+    commands:
+      - php -v
+      - composer --version
+      - composer remove --dev phpunit/phpunit phpunit/dbunit friendsofphp/php-cs-fixer squizlabs/php_codesniffer
+      - composer require "symfony/yaml:2.* || ^3.0" --ignore-platform-reqs
+      - composer require --dev "phpunit/phpunit:^9.5.0" "kornrunner/dbunit:^6.0" "yoast/phpunit-polyfills" --ignore-platform-reqs -W
+      - composer install --ignore-platform-reqs
+    volumes:
+      - name: composer-cache
+        path: /tmp/composer-cache
+
+  - name: prepare
+    image: joomlaprojects/docker-images:php8.2
+    commands:
+      - php -v
+      - sleep 20
+      - "mysql --host=mysql --user=joomla_ut --password=joomla_ut --database=joomla_ut < \"tests/unit/schema/mysql.sql\""
+      - "psql -h postgres -d joomla_ut -U joomla_ut -a -f \"tests/unit/schema/postgresql.sql\""
+    environment:
+      PGPASSWORD: joomla_ut
+
+  - name: PHPUnit
+    image: joomlaprojects/docker-images:php8.2
+    commands:
+      - phpunit --version
+      # temporary disable php stream wrapper for testing
+      - sed -i 's/in_array/!in_array/g' libraries/cms.php
+      - phpunit --configuration phpunit-php8.xml
 
 services:
   - name: mysql
