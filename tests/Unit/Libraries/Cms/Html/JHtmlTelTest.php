@@ -12,9 +12,8 @@ namespace Joomla\Tests\Unit\Libraries\Cms\Html;
 use Joomla\CMS\HTML\Helpers\Telephone;
 use Joomla\Tests\Unit\UnitTestCase;
 
-
 /**
- * Test class for JHtmlTel.
+ * Test class for Telephone.
  *
  * @package     Joomla.UnitTest
  * @subpackage  Html
