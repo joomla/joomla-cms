@@ -92,6 +92,11 @@ class TestMockApplicationCms extends TestMockApplicationWeb
 
 		if (isset($options))
 		{
+			if (!isset($constructor[0]))
+			{
+				$constructor[0]	= $test->getMockInput();
+			}
+
 			// Build the mock object & allow call to original constructor.
 			$mockObject = $test->getMockBuilder('JApplicationCms')
 						->setMethods($methods)
