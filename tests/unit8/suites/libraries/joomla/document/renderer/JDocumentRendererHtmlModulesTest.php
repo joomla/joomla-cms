@@ -122,7 +122,7 @@ class JDocumentRendererHtmlModulesTest extends TestCaseDatabase
 			. '<input name="searchword" id="mod-search-searchword63" maxlength="200"  '
 			. 'class="inputbox search-query input-medium" type="search" size="20" placeholder="Search ..." />'
 			. '<input type="hidden" name="task" value="search" /><input type="hidden" name="option" value="com_search" />'
-			. '<input type="hidden" name="Itemid" value="" /></form></div></div>';
+			. '<input type="hidden" name="Itemid" value="0" /></form></div></div>';
 		$this->assertEquals($html, $htmlClean, 'render output does not match expected content');
 	}
 
