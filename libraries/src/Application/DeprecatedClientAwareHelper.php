@@ -20,9 +20,9 @@ namespace Joomla\CMS\Application;
 trait DeprecatedClientAwareHelper
 {
 	/**
-	 * @return bool
+	 * @return  boolean
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function isAdmin(): bool
 	{
@@ -32,9 +32,9 @@ trait DeprecatedClientAwareHelper
 	}
 
 	/**
-	 * @return bool
+	 * @return  boolean
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function isSite(): bool
 	{
@@ -44,9 +44,9 @@ trait DeprecatedClientAwareHelper
 	}
 
 	/**
-	 * @return bool
+	 * @return  boolean
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function isCLI(): bool
 	{
@@ -56,9 +56,9 @@ trait DeprecatedClientAwareHelper
 	}
 
 	/**
-	 * @return bool
+	 * @return  boolean
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function isApi(): bool
 	{
@@ -68,9 +68,9 @@ trait DeprecatedClientAwareHelper
 	}
 
 	/**
-	 * @param string $function The function that is deprecated
+	 * @param   string  $function  The function that is deprecated
 	 *
-	 * @return void
+	 * @return  void
 	 */
 	private function _raiseDeprecatedNotice($function){
 		@trigger_error(
