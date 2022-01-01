@@ -21,7 +21,7 @@ use Joomla\CMS\Language\Text;
  * language constant prefix.
  *
  * @property-read  string $desc             The routine description.
- * @property-read  string $id             The routine ID.
+ * @property-read  string $id               The routine ID.
  * @property-read  string $langConstPrefix  The routine's language constant prefix.
  * @property-read  string $title            The routine title.
  *
@@ -69,8 +69,8 @@ class TaskOption
 	 */
 	public function __construct(string $type, string $langConstPrefix)
 	{
-		$this->id    = $type;
-		$this->title = Text::_("${langConstPrefix}_TITLE");
+		$this->id              = $type;
+		$this->title           = Text::_("${langConstPrefix}_TITLE");
 		$this->desc            = Text::_("${langConstPrefix}_DESC");
 		$this->langConstPrefix = $langConstPrefix;
 	}
