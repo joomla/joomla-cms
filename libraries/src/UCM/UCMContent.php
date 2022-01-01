@@ -181,7 +181,7 @@ class UCMContent extends UCMBase
 	 * Store data to the appropriate table
 	 *
 	 * @param   array           $data        Data to be stored
-	 * @param   TableInterface  $table       JTable Object
+	 * @param   TableInterface  $table       Table Object
 	 * @param   boolean         $primaryKey  Flag that is true for data that are using #__ucm_content as their primary table
 	 *
 	 * @return  boolean  true on success
