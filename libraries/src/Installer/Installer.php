@@ -1338,6 +1338,8 @@ class Installer extends Adapter
 			->bind(':extension_id', $eid, ParameterType::INTEGER);
 		$db->setQuery($query);
 
+		$hasVersion = true;
+
 		try
 		{
 			$version = $db->loadResult();
@@ -1345,7 +1347,8 @@ class Installer extends Adapter
 			// No version - use initial version.
 			if (!$version)
 			{
-				$version = '0.0.0';
+				$version    = '0.0.0';
+				$hasVersion = false;
 			}
 		}
 		catch (ExecutionFailureException $e)
@@ -1405,7 +1408,8 @@ class Installer extends Adapter
 			// Update the schema version for this extension
 			try
 			{
-				$this->updateSchemaTable($eid, $file);
+				$this->updateSchemaTable($eid, $file, $hasVersion);
+				$hasVersion = true;
 			}
 			catch (ExecutionFailureException $e)
 			{
@@ -1421,32 +1425,61 @@ class Installer extends Adapter
 	/**
 	 * Update the schema table with the latest version
 	 *
-	 * @param   int     $eid     Extension ID
-	 * @param   string  $version Latest schema version ID
+	 * @param   int     $eid      Extension ID.
+	 * @param   string  $version  Latest schema version ID.
+	 * @param   boolean $update   Should I run an update against an existing record or insert a new one?
 	 *
 	 * @return  void
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	protected function updateSchemaTable(int $eid, string $version): void
+	protected function updateSchemaTable(int $eid, string $version, bool $update = false): void
 	{
-		// Delete an existing schema version record
 		/** @var DatabaseDriver $db */
 		$db    = Factory::getContainer()->get('DatabaseDriver');
-		$query = $db->getQuery(true)
-			->delete('#__schemas')
-			->where('extension_id = :extension_id')
-			->bind(':extension_id', $eid, ParameterType::INTEGER);
 
-		$db->setQuery($query)->execute();
-
-		// Insert a new schema record
 		$o = (object) [
 			'extension_id' => $eid,
 			'version_id'   => $version,
 		];
 
-		$db->insertObject('#__schemas', $o);
+		try
+		{
+			if ($update)
+			{
+				$db->updateObject('#__schemas', $o, 'extension_id');
+			}
+			else
+			{
+				$db->insertObject('#__schemas', $o);
+			}
+		}
+		catch (ExecutionFailureException $e)
+		{
+			/**
+			 * Safe fallback: delete any existing record and insert afresh.
+			 *
+			 * It is possible that the schema version may be populated after we detected it does not
+			 * exist (or removed after we detected it exists) and before we finish executing the SQL
+			 * update script. This could happen e.g. if the update SQL script messes with it, or if
+			 * another process is also tinkering with the #__schemas table.
+			 *
+			 * The safe fallback below even runs inside a transaction to prevent interference from
+			 * another process.
+			 */
+			$db->transactionStart();
+
+			$query = $db->getQuery(true)
+				->delete('#__schemas')
+				->where('extension_id = :extension_id')
+				->bind(':extension_id', $eid, ParameterType::INTEGER);
+
+			$db->setQuery($query)->execute();
+
+			$db->insertObject('#__schemas', $o);
+
+			$db->transactionCommit();
+		}
 	}
 
 	/**
