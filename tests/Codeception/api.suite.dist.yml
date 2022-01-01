@@ -3,10 +3,6 @@ modules:
     enabled:
         - Helper\JoomlaDb
         - Helper\Api
-        - REST:
-             url: http://localhost/test-install/api/index.php/v1
-             depends: PhpBrowser
-             part: Json
     config:
         Helper\JoomlaDb:
             dsn: 'mysql:host=mysql;dbname=test_joomla'
