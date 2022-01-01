@@ -49,7 +49,7 @@ endforeach;
 
 ?>
 
-<form action="<?php echo Route::_('index.php?option=com_scheduler&layout=' . $layout . $tmpl . '&id=' . (int) $this->item->id); ?>"
+<form action="<?php echo Route::_('index.php?option=com_scheduler&view=task&layout=edit&id=' . (int) $this->item->id); ?>"
 	  method="post" name="adminForm" id="task-form"
 	  aria-label="<?php echo Text::_('COM_SCHEDULER_FORM_TITLE_' . ((int) $this->item->id === 0 ? 'NEW' : 'EDIT'), true); ?>"
 	  class="form-validate">
