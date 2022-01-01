@@ -72,7 +72,7 @@ class HtmlView extends BaseHtmlView
 		{
 			Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
 
-			return false;
+			return;
 		}
 
 		// Bind data

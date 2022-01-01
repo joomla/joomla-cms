@@ -1110,7 +1110,7 @@ abstract class AdminModel extends FormModel
 	/**
 	 * A protected method to get a set of ordering conditions.
 	 *
-	 * @param   Table  $table  A \JTable object.
+	 * @param   Table  $table  A Table object.
 	 *
 	 * @return  array  An array of conditions to add to ordering queries.
 	 *
@@ -1145,7 +1145,7 @@ abstract class AdminModel extends FormModel
 	/**
 	 * Prepare and sanitise the table data prior to saving.
 	 *
-	 * @param   Table  $table  A reference to a \JTable object.
+	 * @param   Table  $table  A reference to a Table object.
 	 *
 	 * @return  void
 	 *

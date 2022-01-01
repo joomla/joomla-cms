@@ -44,7 +44,7 @@ class UpdateController extends BaseController
 
 		try
 		{
-			Log::add(Text::sprintf('COM_JOOMLAUPDATE_UPDATE_LOG_START', $user->id, $user->name, '&#x200E;' . \JVERSION), Log::INFO, 'Update');
+			Log::add(Text::sprintf('COM_JOOMLAUPDATE_UPDATE_LOG_START', $user->id, $user->name, \JVERSION), Log::INFO, 'Update');
 		}
 		catch (\RuntimeException $exception)
 		{
