@@ -16,7 +16,7 @@ class DateTest extends UnitTestCase
 	/**
 	 * @testdox  Test that the Date class can init and has the right timezones
 	 *
-	 * @return void
+	 * @return  void
 	 * @since   4.0.0
 	 */
 	public function testConstruct()
