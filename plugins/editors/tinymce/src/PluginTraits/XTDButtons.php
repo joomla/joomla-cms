@@ -28,7 +28,7 @@ trait XTDButtons
 	 * @param   string  $name      the id of the editor field
 	 * @param   string  $excluded  the buttons that should be hidden
 	 *
-	 * @return array
+	 * @return array|void
 	 *
 	 * @since __DEPLOY_VERSION__
 	 */
