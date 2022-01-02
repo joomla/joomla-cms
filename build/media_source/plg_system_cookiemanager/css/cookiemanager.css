@@ -1,10 +1,12 @@
 button.preview {
+  position: fixed;
   bottom: 0;
   right: 0;
-  padding: 5px;
-  height: 32px;
-  position: fixed;
-  z-index: 1000;
+  padding: 6px;
+  margin: 1rem;
+  z-index: 99999;
+  border-radius: 2.75rem;
+  min-width: 150px;
 }
 
 li.cookie-cat {
