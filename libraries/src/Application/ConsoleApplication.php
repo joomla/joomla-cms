@@ -451,15 +451,9 @@ class ConsoleApplication extends Application implements DispatcherAwareInterface
 	 */
 	public static function getRouter($name = null, array $options = array())
 	{
-		if (!isset($name))
+		if (empty($name))
 		{
 			throw new InvalidArgumentException('A router name must be set in console application.');
-		}
-
-		// Fallback to site router when console router is requested
-		if (Factory::getApplication()->getName() === $name)
-		{
-			$name = 'site';
 		}
 
 		$options['mode'] = Factory::getApplication()->get('sef');
