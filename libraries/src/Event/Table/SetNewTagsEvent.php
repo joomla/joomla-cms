@@ -24,7 +24,7 @@ class SetNewTagsEvent extends AbstractEvent
 	 * Constructor.
 	 *
 	 * Mandatory arguments:
-	 * subject		TableInterface	The table we are operating on
+	 * subject		TableInterface	The table we are operating on {@link \Joomla\CMS\Table\TableInterface}
 	 * newTags 		int[]			New tags to be added to or replace current tags for an item
 	 * replaceTags	bool			Replace tags (true) or add them (false)
 	 *
