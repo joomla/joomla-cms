@@ -609,6 +609,7 @@ class JLoaderTest extends \PHPUnit\Framework\TestCase
 
 		// Get the current prefixes array
 		$prefixes = TestReflection::getValue('JLoader', 'prefixes');
+		var_dump($prefixes);die;
 
 		$this->assertEquals(
 			$prefixes['J'][0],
