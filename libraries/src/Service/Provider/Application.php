@@ -62,9 +62,9 @@ class Application implements ServiceProviderInterface
 	 */
 	public function register(Container $container)
 	{
-		$container->alias(AdministratorApplication::class, AdministratorApplication::class)
+		$container->alias(AdministratorApplication::class, 'JApplicationAdministrator')
 			->share(
-				AdministratorApplication::class,
+				'JApplicationAdministrator',
 				function (Container $container)
 				{
 					$app = new AdministratorApplication(null, $container->get('config'), null, $container);
