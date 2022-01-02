@@ -55,15 +55,6 @@ class JException extends Exception
 	protected $info = '';
 
 	/**
-	 * Name of the file the error occurred in [Available if backtrace is enabled]
-	 *
-	 * @var    string
-	 * @since  1.5
-	 * @deprecated  1.7
-	 */
-	protected $file = '';
-
-	/**
 	 * Line number the error occurred in [Available if backtrace is enabled]
 	 *
 	 * @var    integer
