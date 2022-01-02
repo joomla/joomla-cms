@@ -32,12 +32,13 @@ class TestReflection
 		// First check if the property is easily accessible.
 		if ($refl->hasProperty($propertyName))
 		{
+			if (is_string($object))
+			{
+				return $refl->getStaticPropertyValue($propertyName);
+			}
+
 			$property = $refl->getProperty($propertyName);
 			$property->setAccessible(true);
-
-			if (is_string($object)) {
-				return $property->getDefaultValue();
-			}
 
 			return $property->getValue($object);
 		}
@@ -45,12 +46,13 @@ class TestReflection
 		// Hrm, maybe dealing with a private property in the parent class.
 		if (get_parent_class($object))
 		{
+			if (is_string($object))
+			{
+				return $refl->getStaticPropertyValue($propertyName);
+			}
+
 			$property = new \ReflectionProperty(get_parent_class($object), $propertyName);
 			$property->setAccessible(true);
-
-			if (is_string($object)) {
-				return $property->getDefaultValue();
-			}
 
 			return $property->getValue($object);
 		}
