@@ -558,7 +558,7 @@ class AdministratorApplication extends CMSApplication
 	{
 		/** @var self $app */
 		$app    = Factory::getApplication();
-		$option = strtolower($app->input->get('option'));
+		$option = strtolower($app->input->get('option', ''));
 		$user   = $app->getIdentity();
 
 		/**

@@ -12,7 +12,6 @@ namespace Joomla\CMS\Language;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
-use Joomla\CMS\Log\Log;
 
 /**
  * Text handling class.
@@ -342,7 +341,7 @@ class Text
 	 * @param   boolean  $jsSafe                Ensure the output is JavaScript safe.
 	 * @param   boolean  $interpretBackSlashes  Interpret \t and \n.
 	 *
-	 * @return  string
+	 * @return  array
 	 *
 	 * @since   1.7.0
 	 */

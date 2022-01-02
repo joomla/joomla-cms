@@ -13,7 +13,6 @@ defined('JPATH_PLATFORM') or die;
 use Joomla\CMS\Filesystem\Folder;
 use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Form\Form;
-use Joomla\CMS\Form\Rule\FilePathRule;
 use Joomla\Registry\Registry;
 
 /**

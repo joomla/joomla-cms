@@ -12,6 +12,13 @@ const RootPath = process.cwd();
  * @returns {Promise}
  */
 module.exports.cleanVendors = async () => {
+  if (process.env.SKIP_COMPOSER_CHECK === 'YES') {
+    await mkdir('media/vendor/debugbar', { recursive: true, mode: 0o755 });
+    // eslint-disable-next-line no-console
+    console.log('Skipping the DebugBar assets...');
+    return;
+  }
+
   // eslint-disable-next-line no-console
   console.log('Cleanup the Vendor ');
 
@@ -24,10 +31,10 @@ module.exports.cleanVendors = async () => {
     // console.error('/media has been removed.');
 
     // Recreate the media folder
-    await mkdir(join(RootPath, 'media/vendor/debugbar'), { recursive: true });
+    await mkdir(join(RootPath, 'media/vendor/debugbar'), { recursive: true, mode: 0o755 });
 
     // Copy some assets from a PHP package
-    await copy(join(RootPath, 'libraries/vendor/maximebf/debugbar/src/DebugBar/Resources'), join(RootPath, 'media/vendor/debugbar'));
+    await copy(join(RootPath, 'libraries/vendor/maximebf/debugbar/src/DebugBar/Resources'), join(RootPath, 'media/vendor/debugbar'), { preserveTimestamps: true });
     await remove(join(RootPath, 'media/vendor/debugbar/vendor/font-awesome'));
     await remove(join(RootPath, 'media/vendor/debugbar/vendor/jquery'));
   } else {

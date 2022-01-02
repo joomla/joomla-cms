@@ -209,7 +209,7 @@ class ApiRouter extends Router
 		// Extract routes matching $routePath from all known routes.
 		return array_filter($this->routes,
 			function ($route) use ($routePath) {
-				return preg_match($route->getRegex(), ltrim($routePath, '/'), $matches) === 1;
+				return preg_match($route->getRegex(), ltrim($routePath, '/')) === 1;
 			}
 		);
 	}
