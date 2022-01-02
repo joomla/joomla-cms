@@ -830,7 +830,8 @@ INSERT INTO `#__action_logs_extensions` (`id`, `extension`) VALUES
 (16, 'com_templates'),
 (17, 'com_users'),
 (18, 'com_checkin'),
-(19, 'com_scheduler');
+(19, 'com_scheduler'),
+(20, 'com_cookiemanager');
 
 -- --------------------------------------------------------
 
@@ -869,7 +870,8 @@ INSERT INTO `#__action_log_config` (`id`, `type_title`, `type_alias`, `id_holder
 (17, 'access_level', 'com_users.level', 'id' , 'title', '#__viewlevels', 'PLG_ACTIONLOG_JOOMLA'),
 (18, 'banner_client', 'com_banners.client', 'id', 'name', '#__banner_clients', 'PLG_ACTIONLOG_JOOMLA'),
 (19, 'application_config', 'com_config.application', '', 'name', '', 'PLG_ACTIONLOG_JOOMLA'),
-(20, 'task', 'com_scheduler.task', 'id', 'title', '#__scheduler_tasks', 'PLG_ACTIONLOG_JOOMLA');
+(20, 'task', 'com_scheduler.task', 'id', 'title', '#__scheduler_tasks', 'PLG_ACTIONLOG_JOOMLA'),
+(21, 'cookiemanager_cookie', 'com_cookiemanager.cookie', 'id', 'name', '#__cookiemanager_cookies', 'PLG_ACTIONLOG_JOOMLA');
 
 -- --------------------------------------------------------
 
@@ -926,3 +928,64 @@ CREATE TABLE IF NOT EXISTS `#__scheduler_tasks` (
 ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 DEFAULT COLLATE = utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
+
+--
+-- Table structure for table `#__cookiemanager_cookies`
+--
+
+CREATE TABLE IF NOT EXISTS `#__cookiemanager_cookies` (
+  `id` int NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  `title` varchar(255) NOT NULL,
+  `alias` varchar(400) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
+  `cookie_name` varchar(255) NOT NULL,
+  `cookie_desc` varchar(255) NOT NULL,
+  `exp_period` varchar(20) NOT NULL,
+  `exp_value` int NOT NULL DEFAULT 0,
+  `catid` int NOT NULL DEFAULT 0,
+  `published` tinyint NOT NULL DEFAULT 1,
+  `ordering` int NOT NULL DEFAULT 0,
+  `created` datetime NOT NULL,
+  `created_by` int unsigned NOT NULL DEFAULT 0,
+  `modified` datetime NOT NULL,
+  `modified_by` int unsigned NOT NULL DEFAULT 0,
+  KEY `idx_state` (`published`),
+  KEY `idx_catid` (`catid`),
+  KEY `idx_createdby` (`created_by`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `#__cookiemanager_scripts`
+--
+
+CREATE TABLE IF NOT EXISTS `#__cookiemanager_scripts` (
+  `id` int NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  `title` varchar(255) NOT NULL,
+  `alias` varchar(400) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
+  `position` int NOT NULL DEFAULT 4,
+  `type` int NOT NULL DEFAULT 1,
+  `code` text NOT NULL,
+  `catid` int NOT NULL DEFAULT 0,
+  `published` tinyint NOT NULL DEFAULT 1,
+  `ordering` int NOT NULL DEFAULT 0,
+  KEY `idx_state` (`published`),
+  KEY `idx_catid` (`catid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `#__cookiemanager_consents`
+--
+
+CREATE TABLE IF NOT EXISTS `#__cookiemanager_consents` (
+  `id` int NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  `uuid` varchar(32) NOT NULL,
+  `ccuuid` varchar(64) NOT NULL,
+  `consent_opt_in` varchar(255) NOT NULL,
+  `consent_opt_out` varchar(255) NOT NULL,
+  `consent_date` varchar(100) NOT NULL,
+  `user_agent` varchar(150) NOT NULL,
+  `url` varchar(100) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE utf8mb4_unicode_ci;
