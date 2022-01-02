@@ -33,7 +33,7 @@ abstract class SortableList
 	 * @return  void
 	 *
 	 * @since   3.0
-	 * @deprecated  5.0  In Joomla 4 call Html::_('draggablelist.draggable') and add a class of js-draggable to the tbody element of the table
+	 * @deprecated  5.0  In Joomla 4 call HTMLHelper::_('draggablelist.draggable') and add a class of js-draggable to the tbody element of the table
 	 */
 	public static function sortable($tableId, $formId, $sortDir = 'asc', $saveOrderingUrl = null, $proceedSaveOrderButton = true, $nestedList = false)
 	{
