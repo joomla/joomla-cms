@@ -12,6 +12,7 @@ namespace Joomla\Component\Admin\Administrator\Controller;
 \defined('_JEXEC') or die;
 
 use Joomla\CMS\MVC\Controller\BaseController;
+use \Joomla\Filter\InputFilter;
 
 /**
  * Admin Controller
