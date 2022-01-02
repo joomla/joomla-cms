@@ -1577,9 +1577,6 @@ class JArrayHelperTest extends \PHPUnit\Framework\TestCase
 			return;
 		}
 
-		$this->markTestIncomplete("Skip test till https://github.com/joomla/joomla-cms/pull/36503 is merged");
-		return;
-
 		if ($defaults)
 		{
 			$output = JArrayHelper::sortObjects($input, $key);
