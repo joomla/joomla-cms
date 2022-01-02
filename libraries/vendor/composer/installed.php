@@ -1,11 +1,11 @@
 <?php return array(
     'root' => array(
-        'pretty_version' => 'dev-3.10-dev',
-        'version' => 'dev-3.10-dev',
+        'pretty_version' => 'dev-3.10-drone',
+        'version' => 'dev-3.10-drone',
         'type' => 'project',
         'install_path' => __DIR__ . '/../../../',
         'aliases' => array(),
-        'reference' => 'e9ef82568c974fdc9f610d73b24bd3f7e789713c',
+        'reference' => 'd55ab7f9ddd92b19e519745c92f698ad5505cd9a',
         'name' => 'joomla/joomla-cms',
         'dev' => false,
     ),
@@ -128,12 +128,12 @@
             'dev_requirement' => false,
         ),
         'joomla/joomla-cms' => array(
-            'pretty_version' => 'dev-3.10-dev',
-            'version' => 'dev-3.10-dev',
+            'pretty_version' => 'dev-3.10-drone',
+            'version' => 'dev-3.10-drone',
             'type' => 'project',
             'install_path' => __DIR__ . '/../../../',
             'aliases' => array(),
-            'reference' => 'e9ef82568c974fdc9f610d73b24bd3f7e789713c',
+            'reference' => 'd55ab7f9ddd92b19e519745c92f698ad5505cd9a',
             'dev_requirement' => false,
         ),
         'joomla/ldap' => array(
@@ -211,12 +211,12 @@
             'dev_requirement' => false,
         ),
         'paragonie/sodium_compat' => array(
-            'pretty_version' => 'v1.9.1',
-            'version' => '1.9.1.0',
+            'pretty_version' => 'v1.17.0',
+            'version' => '1.17.0.0',
             'type' => 'library',
             'install_path' => __DIR__ . '/../paragonie/sodium_compat',
             'aliases' => array(),
-            'reference' => '87125d5b265f98c4d1b8d83a1f0726607c229421',
+            'reference' => 'c59cac21abbcc0df06a3dd18076450ea4797b321',
             'dev_requirement' => false,
         ),
         'phpmailer/phpmailer' => array(
