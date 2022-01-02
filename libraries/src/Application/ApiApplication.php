@@ -191,7 +191,7 @@ final class ApiApplication extends CMSApplication
 	 *
 	 * @param   boolean  $params  True to return the template parameters
 	 *
-	 * @return  string
+	 * @return  string|\stdClass
 	 *
 	 * @since   4.0.0
 	 */

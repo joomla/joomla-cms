@@ -54,10 +54,9 @@ class TimezoneField extends GroupedlistField
 	 */
 	public function __get($name)
 	{
-		switch ($name)
+		if ($name === 'keyField')
 		{
-			case 'keyField':
-				return $this->keyField;
+			return $this->keyField;
 		}
 
 		return parent::__get($name);
