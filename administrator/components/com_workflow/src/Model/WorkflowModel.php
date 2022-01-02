@@ -302,8 +302,7 @@ class WorkflowModel extends AdminModel
 					'default' => '1',
 					'extension' => $table->get('extension')
 				]
-			)
-			)
+			))
 			{
 				$table->default = 0;
 				$table->modified = $date;

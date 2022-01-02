@@ -227,8 +227,7 @@ class WorkflowTable extends Table
 					'default' => '1',
 					'extension' => $this->extension
 				]
-			)
-			)
+			))
 			{
 				$table->default = 0;
 				$table->store();
