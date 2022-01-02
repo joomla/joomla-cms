@@ -61,7 +61,7 @@ class JException extends Exception
 	 * @since  1.5
 	 * @deprecated  1.7
 	 */
-	protected $file = null;
+	protected $file = '';
 
 	/**
 	 * Line number the error occurred in [Available if backtrace is enabled]
