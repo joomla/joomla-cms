@@ -6110,6 +6110,8 @@ class JoomlaInstallerScript
 			'/templates/cassiopeia/images/system/sort_desc.png',
 			// From 4.0.4 to 4.0.5
 			'/media/vendor/codemirror/lib/#codemirror.js#',
+			// From 4.0.5 to 4.0.6
+			'/media/vendor/mediaelement/css/mejs-controls.png',
 		);
 
 		$folders = array(
@@ -7459,7 +7461,7 @@ class JoomlaInstallerScript
 
 		foreach ($newComponents as $component)
 		{
-			/** @var JTableAsset $asset */
+			/** @var \Joomla\CMS\Table\Asset $asset */
 			$asset = Table::getInstance('Asset');
 
 			if ($asset->loadByName($component))

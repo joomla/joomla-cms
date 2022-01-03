@@ -36,6 +36,7 @@ class HtmlView extends BaseHtmlView
 	 * The query indexer object
 	 *
 	 * @var    Query
+	 *
 	 * @since  4.0.0
 	 */
 	protected $query;
@@ -50,14 +51,14 @@ class HtmlView extends BaseHtmlView
 	/**
 	 * The model state
 	 *
-	 * @var  \JObject
+	 * @var  \Joomla\CMS\Object\CMSObject
 	 */
 	protected $state;
 
 	/**
 	 * The logged in user
 	 *
-	 * @var  \JUser|null
+	 * @var  \Joomla\CMS\User\User|null
 	 */
 	protected $user = null;
 
@@ -65,6 +66,7 @@ class HtmlView extends BaseHtmlView
 	 * The suggested search query
 	 *
 	 * @var   string|false
+	 *
 	 * @since 4.0.0
 	 */
 	protected $suggested = false;
@@ -73,6 +75,7 @@ class HtmlView extends BaseHtmlView
 	 * The explained (human-readable) search query
 	 *
 	 * @var   string|null
+	 *
 	 * @since 4.0.0
 	 */
 	protected $explained = null;
@@ -81,6 +84,7 @@ class HtmlView extends BaseHtmlView
 	 * The page class suffix
 	 *
 	 * @var    string
+	 *
 	 * @since  4.0.0
 	 */
 	protected $pageclass_sfx = '';
@@ -185,7 +189,7 @@ class HtmlView extends BaseHtmlView
 		$this->explained = HTMLHelper::_('query.explained', $this->query);
 
 		// Escape strings for HTML output
-		$this->pageclass_sfx = htmlspecialchars($this->params->get('pageclass_sfx'));
+		$this->pageclass_sfx = htmlspecialchars($this->params->get('pageclass_sfx', ''));
 
 		// Check for layout override only if this is not the active menu item
 		// If it is the active menu item, then the view and category id will match
