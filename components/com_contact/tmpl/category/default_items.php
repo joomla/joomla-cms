@@ -131,7 +131,7 @@ $listDirn   = $this->escape($this->state->get('list.direction'));
 									<span class="list-published badge bg-warning text-light">
 										<?php echo Text::_('JEXPIRED'); ?>
 									</span>
-								</div
+								</div>
 							<?php endif; ?>
 							<?php if ($item->published == -2) : ?>
 								<div>
@@ -197,7 +197,7 @@ $listDirn   = $this->escape($this->state->get('list.direction'));
 		<?php endif; ?>
 
 		<?php if ($this->params->get('show_pagination', 2)) : ?>
-			<div class="com-contact-category__counter w-100">
+			<div class="com-contact-category__pagination w-100">
 				<?php if ($this->params->def('show_pagination_results', 1)) : ?>
 					<p class="com-contact-category__counter counter float-end pt-3 pe-2">
 						<?php echo $this->pagination->getPagesCounter(); ?>

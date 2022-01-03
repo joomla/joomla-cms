@@ -394,7 +394,7 @@ final class InstallationApplication extends CMSApplication
 	 *
 	 * @param   boolean  $params  True to return the template parameters
 	 *
-	 * @return  string  The name of the template.
+	 * @return  string|\stdClass  The name of the template.
 	 *
 	 * @since   3.1
 	 */

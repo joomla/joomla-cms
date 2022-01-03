@@ -73,7 +73,10 @@ $htag    = $this->params->get('show_page_heading') ? 'h2' : 'h1';
 
 	<?php if (empty($this->lead_items) && empty($this->link_items) && empty($this->intro_items)) : ?>
 		<?php if ($this->params->get('show_no_articles', 1)) : ?>
-			<p><?php echo Text::_('COM_CONTENT_NO_ARTICLES'); ?></p>
+			<div class="alert alert-info">
+				<span class="icon-info-circle" aria-hidden="true"></span><span class="visually-hidden"><?php echo Text::_('INFO'); ?></span>
+					<?php echo Text::_('COM_CONTENT_NO_ARTICLES'); ?>
+			</div>
 		<?php endif; ?>
 	<?php endif; ?>
 

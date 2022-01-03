@@ -51,28 +51,27 @@ if (substr($className, -1) === 's')
 
 $tagsData = $category->tags->itemTags;
 ?>
-<div>
-	<div class="<?php echo $className . '-category' . $displayData->pageclass_sfx; ?>">
-		<?php if ($params->get('show_page_heading')) : ?>
-			<h1>
-				<?php echo $displayData->escape($params->get('page_heading')); ?>
-			</h1>
-		<?php endif; ?>
+<div class="<?php echo $className . '-category' . $displayData->pageclass_sfx; ?>">
+	<?php if ($params->get('show_page_heading')) : ?>
+		<h1>
+			<?php echo $displayData->escape($params->get('page_heading')); ?>
+		</h1>
+	<?php endif; ?>
 
-		<?php if ($params->get('show_category_title', 1)) : ?>
-			<<?php echo $htag; ?>>
-				<?php echo HTMLHelper::_('content.prepare', $category->title, '', $extension . '.category.title'); ?>
-			</<?php echo $htag; ?>>
-		<?php endif; ?>
-		<?php echo $afterDisplayTitle; ?>
+	<?php if ($params->get('show_category_title', 1)) : ?>
+		<<?php echo $htag; ?>>
+			<?php echo HTMLHelper::_('content.prepare', $category->title, '', $extension . '.category.title'); ?>
+		</<?php echo $htag; ?>>
+	<?php endif; ?>
+	<?php echo $afterDisplayTitle; ?>
 
-		<?php if ($params->get('show_cat_tags', 1)) : ?>
-			<?php echo LayoutHelper::render('joomla.content.tags', $tagsData); ?>
-		<?php endif; ?>
+	<?php if ($params->get('show_cat_tags', 1)) : ?>
+		<?php echo LayoutHelper::render('joomla.content.tags', $tagsData); ?>
+	<?php endif; ?>
 
-		<?php if ($beforeDisplayContent || $afterDisplayContent || $params->get('show_description', 1) || $params->def('show_description_image', 1)) : ?>
-			<div class="category-desc">
-				<?php if ($params->get('show_description_image') && $category->getParams()->get('image')) : ?>
+	<?php if ($beforeDisplayContent || $afterDisplayContent || $params->get('show_description', 1) || $params->def('show_description_image', 1)) : ?>
+		<div class="category-desc">
+			<?php if ($params->get('show_description_image') && $category->getParams()->get('image')) : ?>
 					<?php echo LayoutHelper::render(
 						'joomla.html.image',
 						[
@@ -80,25 +79,24 @@ $tagsData = $category->tags->itemTags;
 							'alt' => empty($category->getParams()->get('image_alt')) && empty($category->getParams()->get('image_alt_empty')) ? false : $category->getParams()->get('image_alt'),
 						]
 					); ?>
-				<?php endif; ?>
-				<?php echo $beforeDisplayContent; ?>
-				<?php if ($params->get('show_description') && $category->description) : ?>
-					<?php echo HTMLHelper::_('content.prepare', $category->description, '', $extension . '.category.description'); ?>
-				<?php endif; ?>
-				<?php echo $afterDisplayContent; ?>
-			</div>
-		<?php endif; ?>
-		<?php echo $displayData->loadTemplate($displayData->subtemplatename); ?>
+			<?php endif; ?>
+			<?php echo $beforeDisplayContent; ?>
+			<?php if ($params->get('show_description') && $category->description) : ?>
+				<?php echo HTMLHelper::_('content.prepare', $category->description, '', $extension . '.category.description'); ?>
+			<?php endif; ?>
+			<?php echo $afterDisplayContent; ?>
+		</div>
+	<?php endif; ?>
+	<?php echo $displayData->loadTemplate($displayData->subtemplatename); ?>
 
-		<?php if ($displayData->maxLevel != 0 && $displayData->get('children')) : ?>
-			<div class="cat-children">
-				<?php if ($params->get('show_category_heading_title_text', 1) == 1) : ?>
-					<h3>
-						<?php echo Text::_('JGLOBAL_SUBCATEGORIES'); ?>
-					</h3>
-				<?php endif; ?>
-				<?php echo $displayData->loadTemplate('children'); ?>
-			</div>
-		<?php endif; ?>
-	</div>
+	<?php if ($displayData->maxLevel != 0 && $displayData->get('children')) : ?>
+		<div class="cat-children">
+			<?php if ($params->get('show_category_heading_title_text', 1) == 1) : ?>
+				<h3>
+					<?php echo Text::_('JGLOBAL_SUBCATEGORIES'); ?>
+				</h3>
+			<?php endif; ?>
+			<?php echo $displayData->loadTemplate('children'); ?>
+		</div>
+	<?php endif; ?>
 </div>

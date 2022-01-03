@@ -271,7 +271,7 @@ class PlgFinderContent extends Adapter
 
 		// Initialise the item parameters.
 		$registry = new Registry($item->params);
-		$item->params = ComponentHelper::getParams('com_content', true);
+		$item->params = clone ComponentHelper::getParams('com_content', true);
 		$item->params->merge($registry);
 
 		$item->metadata = new Registry($item->metadata);

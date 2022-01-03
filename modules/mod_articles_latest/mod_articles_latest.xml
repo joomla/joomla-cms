@@ -39,6 +39,8 @@
 					label="MOD_LATEST_NEWS_FIELD_COUNT_LABEL"
 					default="5"
 					filter="integer"
+					min="1"
+					validate="number"
 				/>
 
 				<field

@@ -31,13 +31,6 @@ body,
   padding-right: 0;
 }
 
-.metismenu.mod-menu .mm-toggler {
-  &:after {
-    margin-right: .5em;
-    margin-left: 0;
-  }
-}
-
 .container-header {
   background-image: $cassiopeia-header-grad-rtl;
 
@@ -50,13 +43,6 @@ body,
     > li {
       margin-left: 1.55em;
     }
-  }
-}
-
-// skipto
-.skip-to {
-  [role="separator"] {
-    text-align: right !important;
   }
 }
 

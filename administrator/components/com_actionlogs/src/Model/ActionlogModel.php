@@ -122,6 +122,7 @@ class ActionlogModel extends BaseDatabaseModel
 		$query
 			->select($db->quoteName(array('u.email', 'l.extensions')))
 			->from($db->quoteName('#__users', 'u'))
+			->where($db->quoteName('u.block') . ' = 0')
 			->join(
 				'INNER',
 				$db->quoteName('#__action_logs_users', 'l') . ' ON ( ' . $db->quoteName('l.notify') . ' = 1 AND '
