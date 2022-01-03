@@ -303,7 +303,7 @@
 			>
 			<option value="0">JOFF</option>
 			<option value="1">JON</option>
-    </field>
+		</field>
 
 		<field
 			name="sourcecode"
