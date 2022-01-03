@@ -47,7 +47,7 @@ class OutputFilter extends BaseOutputFilter
 	 */
 	public static function stringJSSafe($string)
 	{
-		$chars = preg_split('//u', $string, null, PREG_SPLIT_NO_EMPTY);
+		$chars = preg_split('//u', $string, -1, PREG_SPLIT_NO_EMPTY);
 		$new_str = '';
 
 		foreach ($chars as $chr)

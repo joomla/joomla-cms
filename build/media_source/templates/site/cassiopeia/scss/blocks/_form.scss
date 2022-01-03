@@ -1,0 +1,134 @@
+// Form
+
+.form-control {
+  max-width: $input-max-width;
+  background-color: $white;
+
+  &.input-xlarge {
+    max-width: 21.875rem;
+  }
+
+  &.input-xxlarge {
+    max-width: 34.375rem;
+  }
+
+  &.input-full {
+    max-width: 100%;
+  }
+}
+
+.spacer hr {
+  width: 23.75rem;
+}
+
+.form-select {
+  max-width: $input-max-width;
+}
+
+// Bootstrap 4 b/c on form-inline
+.form-inline .form-select {
+  display: inline-block;
+  width: auto;
+}
+
+@include media-breakpoint-down(lg) {
+  .form-inline .form-select {
+    width: 100%;
+  }
+}
+
+td .form-control {
+  display: inline-block;
+  width: auto;
+}
+
+.checkboxes {
+  padding-top: 5px;
+
+  .checkbox input {
+    position: static;
+    margin-left: 0;
+  }
+}
+
+.modal label {
+  width: 100%;
+}
+
+// Validation
+.invalid {
+  color: $danger;
+  border-color: $danger;
+}
+
+.valid {
+  border-color: $success;
+}
+
+.form-control-feedback {
+  display: block;
+}
+
+// set up hidden tooltip
+[role="tooltip"]:not(.show) {
+  right: 5em;
+  z-index: $zindex-tooltip;
+  display: none;
+  max-width: 100%;
+  padding: .5em;
+  margin: .5em;
+  color: $black;
+  text-align: start;
+  background: $white;
+  border: 1px solid $gray-600;
+  border-radius: $border-radius;
+  box-shadow: 0 0 .5rem rgba(0, 0, 0, .8);
+
+  &[id^=editarticle-] {
+    right: auto;
+    margin-inline-start: -10em;
+  }
+
+  &[id^=editcontact-] {
+    right: auto;
+    margin-inline-start: -10em;
+  }
+
+  &[id^=id-skip-] {
+    right: auto;
+  }
+}
+
+// reveal associated tooltip on focus
+:focus + [role="tooltip"],
+:hover + [role="tooltip"] {
+  position: absolute;
+  display: block;
+}
+
+.filter-search-bar__description {
+  bottom: 100%;
+}
+
+fieldset {
+  margin-bottom: $cassiopeia-grid-gutter*2;
+  + fieldset {
+    margin-top: $cassiopeia-grid-gutter*2;
+  }
+
+  > * {
+    margin-bottom: 0;
+  }
+}
+
+.control-group {
+  margin: $cassiopeia-grid-gutter 0;
+}
+.container-popup .filter-search-bar__description {
+  top: 100%;
+  bottom: auto;
+}
+
+.com-users-login__options {
+  margin-top: $cassiopeia-grid-gutter*2;
+}

@@ -25,6 +25,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\CMS\Table\Category;
 use Joomla\CMS\UCM\UCMType;
 use Joomla\CMS\Versioning\VersionableModelTrait;
 use Joomla\Component\Categories\Administrator\Helper\CategoriesHelper;
@@ -65,6 +66,14 @@ class CategoryModel extends AdminModel
 	 * @since    3.4.4
 	 */
 	protected $associationsContext = 'com_categories.item';
+
+	/**
+	 * Does an association exist? Caches the result of getAssoc().
+	 *
+	 * @var   boolean|null
+	 * @since 3.10.4
+	 */
+	private $hasAssociation;
 
 	/**
 	 * Override parent constructor.
@@ -141,7 +150,7 @@ class CategoryModel extends AdminModel
 	 * @param   string  $prefix  The class prefix. Optional.
 	 * @param   array   $config  Configuration array for model. Optional.
 	 *
-	 * @return  \Joomla\CMS\Table\Table  A JTable object
+	 * @return  \Joomla\CMS\Table\Table  A Table object
 	 *
 	 * @since   1.6
 	 */
@@ -239,7 +248,7 @@ class CategoryModel extends AdminModel
 	 * @param   array    $data      Data for the form.
 	 * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
 	 *
-	 * @return  \JForm|boolean  A JForm object on success, false on failure
+	 * @return  Form|boolean  A JForm object on success, false on failure
 	 *
 	 * @since   1.6
 	 */
@@ -302,7 +311,7 @@ class CategoryModel extends AdminModel
 	 * A protected method to get the where clause for the reorder
 	 * This ensures that the row will be moved relative to a row with the same extension
 	 *
-	 * @param   \JTableCategory  $table  Current table instance
+	 * @param   Category  $table  Current table instance
 	 *
 	 * @return  array  An array of conditions to add to ordering queries.
 	 *
@@ -388,15 +397,17 @@ class CategoryModel extends AdminModel
 	/**
 	 * Method to preprocess the form.
 	 *
-	 * @param   \JForm  $form   A JForm object.
-	 * @param   mixed   $data   The data expected for the form.
-	 * @param   string  $group  The name of the plugin group to import.
+	 * @param   Form    $form  A Form object.
+	 * @param   mixed   $data  The data expected for the form.
+	 * @param   string  $group The name of the plugin group to import.
 	 *
 	 * @return  mixed
 	 *
-	 * @see     \Joomla\CMS\Form\FormField
 	 * @since   1.6
+	 *
 	 * @throws  \Exception if there is an error in the form event.
+	 *
+	 * @see     \Joomla\CMS\Form\FormField
 	 */
 	protected function preprocessForm(Form $form, $data, $group = 'content')
 	{
@@ -558,7 +569,7 @@ class CategoryModel extends AdminModel
 
 			if ($data['title'] == $origTable->title)
 			{
-				list($title, $alias) = $this->generateNewTitle($data['parent_id'], $data['alias'], $data['title']);
+				[$title, $alias] = $this->generateNewTitle($data['parent_id'], $data['alias'], $data['title']);
 				$data['title'] = $title;
 				$data['alias'] = $alias;
 			}
@@ -1078,7 +1089,7 @@ class CategoryModel extends AdminModel
 			$this->table->rgt = null;
 
 			// Alter the title & alias
-			list($title, $alias) = $this->generateNewTitle($this->table->parent_id, $this->table->alias, $this->table->title);
+			[$title, $alias] = $this->generateNewTitle($this->table->parent_id, $this->table->alias, $this->table->title);
 			$this->table->title  = $title;
 			$this->table->alias  = $alias;
 
@@ -1354,41 +1365,39 @@ class CategoryModel extends AdminModel
 	 */
 	public function getAssoc()
 	{
-		static $assoc = null;
-
-		if (!is_null($assoc))
+		if (!is_null($this->hasAssociation))
 		{
-			return $assoc;
+			return $this->hasAssociation;
 		}
 
 		$extension = $this->getState('category.extension');
 
-		$assoc = Associations::isEnabled();
+		$this->hasAssociation = Associations::isEnabled();
 		$extension = explode('.', $extension);
 		$component = array_shift($extension);
 		$cname = str_replace('com_', '', $component);
 
-		if (!$assoc || !$component || !$cname)
+		if (!$this->hasAssociation || !$component || !$cname)
 		{
-			$assoc = false;
+			$this->hasAssociation = false;
 
-			return $assoc;
+			return $this->hasAssociation;
 		}
 
 		$componentObject = $this->bootComponent($component);
 
 		if ($componentObject instanceof AssociationServiceInterface && $componentObject instanceof CategoryServiceInterface)
 		{
-			$assoc = true;
+			$this->hasAssociation = true;
 
-			return $assoc;
+			return $this->hasAssociation;
 		}
 
 		$hname = $cname . 'HelperAssociation';
 		\JLoader::register($hname, JPATH_SITE . '/components/' . $component . '/helpers/association.php');
 
-		$assoc = class_exists($hname) && !empty($hname::$category_association);
+		$this->hasAssociation = class_exists($hname) && !empty($hname::$category_association);
 
-		return $assoc;
+		return $this->hasAssociation;
 	}
 }

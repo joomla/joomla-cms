@@ -29,9 +29,9 @@ use Joomla\CMS\Toolbar\ToolbarHelper;
 class HtmlView extends BaseHtmlView
 {
 	/**
-	 * The \JForm object
+	 * The Form object
 	 *
-	 * @var  \JForm
+	 * @var  \Joomla\CMS\Form\Form
 	 */
 	protected $form;
 
@@ -45,7 +45,7 @@ class HtmlView extends BaseHtmlView
 	/**
 	 * The model state
 	 *
-	 * @var  \JObject
+	 * @var  \Joomla\CMS\Object\CMSObject
 	 */
 	protected $state;
 
@@ -131,7 +131,7 @@ class HtmlView extends BaseHtmlView
 							$childBar->save('contact.save2menu', 'JTOOLBAR_SAVE_TO_MENU');
 						}
 
-						$childBar->save2new('conyact.save2new');
+						$childBar->save2new('contact.save2new');
 					}
 				);
 			}
