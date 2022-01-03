@@ -6,7 +6,7 @@
   >
     <div class="media-browser-item-preview">
       <div class="image-background">
-        <img class="image-cropped" :src="getURL" :alt="altTag" loading="lazy" :width="width" :height="height" >
+        <img class="image-cropped" :src="getURL" :alt="altTag" loading="lazy" :width="width" :height="height">
       </div>
     </div>
     <div class="media-browser-item-info">
