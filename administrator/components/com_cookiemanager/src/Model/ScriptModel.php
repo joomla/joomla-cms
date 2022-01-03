@@ -73,7 +73,7 @@ class ScriptModel extends AdminModel
 	public function getForm($data = [], $loadData = true)
 	{
 		// Get the form.
-		$form = $this->loadForm('com_cookiemanager.script', 'script', array('control' => 'jform', 'load_data' => $loadData));
+		$form = $this->loadForm('com_cookiemanager.script', 'script', ['control' => 'jform', 'load_data' => $loadData]);
 
 		if (empty($form))
 		{

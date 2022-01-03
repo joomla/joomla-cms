@@ -132,18 +132,18 @@ class CookiesModel extends ListModel
 				);
 
 			// Filter by categories
-			$categoryId = $this->getState('filter.category_id', array());
+			$categoryId = $this->getState('filter.category_id', []);
 
 		if (!is_array($categoryId))
 		{
-			$categoryId = $categoryId ? array($categoryId) : array();
+			$categoryId = $categoryId ? [$categoryId] : [];
 		}
 
 		if (count($categoryId))
 		{
 			$categoryId = ArrayHelper::toInteger($categoryId);
 			$categoryTable = Table::getInstance('Category', 'JTable');
-			$subCatItemsWhere = array();
+			$subCatItemsWhere = [];
 
 			foreach ($categoryId as $filter_catid)
 			{
