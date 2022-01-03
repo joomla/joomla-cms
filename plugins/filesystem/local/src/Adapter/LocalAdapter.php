@@ -271,7 +271,7 @@ class LocalAdapter implements AdapterInterface
 	 * @since   4.0.0
 	 * @throws  \Exception
 	 */
-	public function delete(string $path)
+	public function delete(string $path): void
 	{
 		$localPath = $this->getLocalPath($path);
 
@@ -358,8 +358,7 @@ class LocalAdapter implements AdapterInterface
 				$obj->width  = $props->width;
 				$obj->height = $props->height;
 
-				// Todo : Change this path to an actual thumbnail path
-				$obj->thumb_path = $this->getUrl($obj->path);
+				$obj->thumb_path = $this->getThumb($path);
 			}
 			catch (UnparsableImageException $e)
 			{
@@ -868,5 +867,38 @@ class LocalAdapter implements AdapterInterface
 		{
 			throw new InvalidPathException($e->getMessage());
 		}
+	}
+
+	/**
+	 * Returns the path for the thumbnail of the given path.
+	 * If the thumbnail does not exist, it will be created.
+	 *
+	 * @param   string  $path  The path of the image
+	 *
+	 * @return  string
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	private function getThumb($path): string
+	{
+		$dir = \dirname(str_replace(JPATH_ROOT . '/' . $this->filePath, JPATH_ROOT . '/media/cache_mm/thumbs/' . $this->filePath, $path));
+
+		if (!is_dir($dir))
+		{
+			mkdir($dir, 0755, true);
+		}
+
+		$thumbPath = str_replace(JPATH_ROOT . '/' . $this->filePath, JPATH_ROOT . '/media/cache_mm/thumbs/' . $this->filePath, $path);
+		$thumbURL = Uri::root() . $this->getEncodedPath(str_replace(JPATH_ROOT . '/' . $this->filePath, 'media/cache_mm/thumbs/' . $this->filePath, $path));
+
+		if (file_exists($thumbPath))
+		{
+			return $thumbURL;
+		}
+
+		// Create the thumbnail
+		(new Image($path))->resize(300, 200, true)->toFile($thumbPath);
+
+		return $thumbURL;
 	}
 }
