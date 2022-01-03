@@ -35,8 +35,9 @@ class ColorField extends FormField
 	 *
 	 * @var    mixed
 	 * @since  3.2
+	 * @deprecated 5.0 Use the layout instead
 	 */
-	protected $control = 'hue';
+	protected $control;
 
 	/**
 	 * Default color when there is no value.
@@ -116,7 +117,7 @@ class ColorField extends FormField
 	 * @var    string
 	 * @since  3.5
 	 */
-	protected $layout = 'joomla.form.field.color';
+	protected $layout = 'joomla.form.field.color.advanced';
 
 	/**
 	 * Method to get certain otherwise inaccessible properties from the form field object.
@@ -203,7 +204,7 @@ class ColorField extends FormField
 		if ($return)
 		{
 			$this->colors     = (string) $this->element['colors'];
-			$this->control    = isset($this->element['control']) ? (string) $this->element['control'] : 'hue';
+			$this->control    = isset($this->element['control']) ? (string) $this->element['control'] : '';
 			$this->default    = (string) $this->element['default'];
 			$this->display    = isset($this->element['display']) ? (string) $this->element['display'] : 'hue';
 			$this->format     = isset($this->element['format']) ? (string) $this->element['format'] : 'hex';
@@ -226,18 +227,16 @@ class ColorField extends FormField
 	 */
 	protected function getInput()
 	{
-		// Switch the layouts
-		if ($this->control === 'simple' || $this->control === 'slider')
+		$layout = $this->layout;
+
+		// Switch the layouts when control is set, this is for BC reasons
+		if ($this->control)
 		{
-			$this->layout .= '.' . $this->control;
-		}
-		else
-		{
-			$this->layout .= '.advanced';
+			$layout = 'joomla.form.field.color.' . $this->control;
 		}
 
 		// Trim the trailing line in the layout file
-		return rtrim($this->getRenderer($this->layout)->render($this->getLayoutData()), PHP_EOL);
+		return rtrim($this->getRenderer($layout)->render($this->getLayoutData()), PHP_EOL);
 	}
 
 	/**
@@ -266,18 +265,37 @@ class ColorField extends FormField
 			$color = '#' . $color;
 		}
 
-		switch ($this->control)
+		if ($this->control)
 		{
-			case 'simple':
-				$controlModeData = $this->getSimpleModeLayoutData();
-				break;
-			case 'slider':
-				$controlModeData = $this->getSliderModeLayoutData();
-				break;
-			case 'advanced':
-			default:
-				$controlModeData = $this->getAdvancedModeLayoutData($lang);
-				break;
+			switch ($this->control)
+			{
+				case 'simple':
+					$controlModeData = $this->getSimpleModeLayoutData();
+					break;
+				case 'slider':
+					$controlModeData = $this->getSliderModeLayoutData();
+					break;
+				case 'advanced':
+				default:
+					$controlModeData = $this->getAdvancedModeLayoutData($lang);
+					break;
+			}
+		}
+		else
+		{
+			switch ($this->layout)
+			{
+				case 'joomla.form.field.color.simple':
+					$controlModeData = $this->getSimpleModeLayoutData();
+					break;
+				case 'joomla.form.field.color.slider':
+					$controlModeData = $this->getSliderModeLayoutData();
+					break;
+				case 'joomla.form.field.color.advanced':
+				default:
+					$controlModeData = $this->getAdvancedModeLayoutData($lang);
+					break;
+			}
 		}
 
 		$extraData = array(
@@ -362,7 +380,6 @@ class ColorField extends FormField
 	{
 		return array(
 			'colors'  => $this->colors,
-			'control' => $this->control,
 			'lang'    => $lang,
 		);
 	}

@@ -43,7 +43,6 @@ extract($displayData);
  * @var   array    $options         Options available for this field.
  * @var   array    $checked         Is this field checked?
  * @var   array    $position        Is this field checked?
- * @var   array    $control         Is this field checked?
  * @var   string   $dataAttribute   Miscellaneous data attributes preprocessed for HTML output
  * @var   array    $dataAttributes  Miscellaneous data attributes for eg, data-*.
  */
@@ -60,7 +59,6 @@ else
 
 $inputclass   = ($keywords && ! in_array($format, array('rgb', 'rgba'), true)) ? ' keywords' : ' ' . $format;
 $class        = ' class="form-control ' . trim('minicolors ' . $class) . ($validate === 'color' ? '' : $inputclass) . '"';
-$control      = $control ? ' data-control="' . $control . '"' : '';
 $format       = $format ? ' data-format="' . $format . '"' : '';
 $keywords     = $keywords ? ' data-keywords="' . $keywords . '"' : '';
 $colors       = $colors ? ' data-colors="' . $colors . '"' : '';
@@ -83,7 +81,6 @@ $wa->usePreset('minicolors')
 	echo $hint,
 		$class,
 		$position,
-		$control,
 		$readonly,
 		$disabled,
 		$required,
