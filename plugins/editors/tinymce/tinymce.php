@@ -663,7 +663,7 @@ class PlgEditorTinymce extends CMSPlugin
 	 * @param   string  $name      the id of the editor field
 	 * @param   string  $excluded  the buttons that should be hidden
 	 *
-	 * @return array
+	 * @return  array|void
 	 */
 	private function tinyButtons($name, $excluded)
 	{
@@ -733,7 +733,7 @@ class PlgEditorTinymce extends CMSPlugin
 	/**
 	 * Get the global text filters to arbitrary text as per settings for current user groups
 	 *
-	 * @return  JFilterInput
+	 * @return  InputFilter
 	 *
 	 * @since   3.6
 	 */
@@ -1116,7 +1116,7 @@ class PlgEditorTinymce extends CMSPlugin
 	 *
 	 * @return  object
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.1.0
 	 */
 	protected function getActiveSiteTemplate()
 	{
@@ -1153,7 +1153,7 @@ class PlgEditorTinymce extends CMSPlugin
 	 *
 	 * @return  array    files to be included.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.1.0
 	 */
 	protected function includeRelativeFiles($folder, $file)
 	{
@@ -1203,7 +1203,7 @@ class PlgEditorTinymce extends CMSPlugin
 	 *
 	 * @return  string  The relative path of the file
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.1.0
 	 */
 	protected static function resolveFileUrl($path = '')
 	{

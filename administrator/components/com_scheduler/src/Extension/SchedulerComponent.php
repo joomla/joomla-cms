@@ -20,7 +20,7 @@ use Psr\Container\ContainerInterface;
 /**
  * Component class for com_scheduler.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.1.0
  * @todo   Set up logger(s) here.
  */
 class SchedulerComponent extends MVCComponent implements BootableExtensionInterface
@@ -38,7 +38,7 @@ class SchedulerComponent extends MVCComponent implements BootableExtensionInterf
 	 *
 	 * @return void
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.1.0
 	 */
 	public function boot(ContainerInterface $container): void
 	{

@@ -55,7 +55,7 @@ class TemplateModel extends FormModel
 	 * The path to the static assets
 	 *
 	 * @var    string
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.1.0
 	 */
 	protected $mediaElement = null;
 
@@ -399,8 +399,10 @@ class TemplateModel extends FormModel
 			$lang   = Factory::getLanguage();
 
 			// Load the core and/or local language file(s).
-			$lang->load('tpl_' . $template->element, $client->path) ||
-			$lang->load('tpl_' . $template->element, $client->path . '/templates/' . $template->element);
+			$lang->load('tpl_' . $template->element, $client->path)
+			|| (!empty($template->xmldata->parent) && $lang->load('tpl_' . $template->xmldata->parent, $client->path))
+			|| $lang->load('tpl_' . $template->element, $client->path . '/templates/' . $template->element)
+			|| (!empty($template->xmldata->parent) && $lang->load('tpl_' . $template->xmldata->parent, $client->path . '/templates/' . $template->xmldata->parent));
 			$this->element = $path;
 
 			if (!is_writable($path))
@@ -532,7 +534,7 @@ class TemplateModel extends FormModel
 		}
 		elseif (stristr($type, 'layouts') !== false)
 		{
-			// For Jlayouts
+			// For Layouts
 			$subtype = $explodeArray['3'];
 
 			if (stristr($subtype, 'com_'))
@@ -966,11 +968,13 @@ class TemplateModel extends FormModel
 			if (file_exists($filePath))
 			{
 				$item->extension_id = $this->getState('extension.id');
-				$item->filename = Path::clean($fileName);
-				$item->source = file_get_contents($filePath);
-				$item->filePath = Path::clean($filePath);
+				$item->filename     = Path::clean($fileName);
+				$item->source       = file_get_contents($filePath);
+				$item->filePath     = Path::clean($filePath);
+				$ds                 = DIRECTORY_SEPARATOR;
+				$cleanFileName      = str_replace(JPATH_ROOT . ($this->template->client_id === 1 ? $ds . 'administrator' . $ds : $ds) . 'templates' . $ds . $this->template->element, '', $fileName);
 
-				if ($coreFile = $this->getCoreFile($fileName, $this->template->client_id))
+				if ($coreFile = $this->getCoreFile($cleanFileName, $this->template->client_id))
 				{
 					$item->coreFile = $coreFile;
 					$item->core = file_get_contents($coreFile);
@@ -1991,7 +1995,7 @@ class TemplateModel extends FormModel
 	 *
 	 * @return  array  A nested array of relevant files.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.1.0
 	 */
 	public function getMediaFiles()
 	{
@@ -2030,7 +2034,7 @@ class TemplateModel extends FormModel
 	 *
 	 * @return  string  The absolute path for the base.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.1.0
 	 */
 	private function getBasePath()
 	{
@@ -2047,7 +2051,7 @@ class TemplateModel extends FormModel
 	 *
 	 * @return  boolean   true if name is not used, false otherwise
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.1.0
 	 */
 	public function child()
 	{

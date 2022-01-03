@@ -6110,7 +6110,9 @@ class JoomlaInstallerScript
 			'/templates/cassiopeia/images/system/sort_desc.png',
 			// From 4.0.4 to 4.0.5
 			'/media/vendor/codemirror/lib/#codemirror.js#',
-			// From 4.0.5 to 4.1.0
+			// From 4.0.5 to 4.0.6
+			'/media/vendor/mediaelement/css/mejs-controls.png',
+			// From 4.0.x to 4.1.0
 			'/administrator/templates/atum/css/system/searchtools/searchtools.css',
 			'/administrator/templates/atum/css/system/searchtools/searchtools.min.css',
 			'/administrator/templates/atum/css/system/searchtools/searchtools.min.css.gz',
@@ -7727,7 +7729,7 @@ class JoomlaInstallerScript
 
 		foreach ($newComponents as $component)
 		{
-			/** @var JTableAsset $asset */
+			/** @var \Joomla\CMS\Table\Asset $asset */
 			$asset = Table::getInstance('Asset');
 
 			if ($asset->loadByName($component))
@@ -8487,7 +8489,7 @@ class JoomlaInstallerScript
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.1.0
 	 */
 	protected function moveRemainingTemplateFiles()
 	{

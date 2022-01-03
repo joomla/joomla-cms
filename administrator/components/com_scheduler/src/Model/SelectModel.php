@@ -22,7 +22,7 @@ use Joomla\Component\Scheduler\Administrator\Task\TaskOption;
 /**
  * The MVC Model for SelectView.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.1.0
  */
 class SelectModel extends ListModel
 {
@@ -30,7 +30,7 @@ class SelectModel extends ListModel
 	 * The Application object, due removal.
 	 *
 	 * @var AdministratorApplication
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.1.0
 	 */
 	protected $app;
 
@@ -41,7 +41,7 @@ class SelectModel extends ListModel
 	 * @param   ?MVCFactoryInterface  $factory  The factory.
 	 *
 	 * @throws \Exception
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.1.0
 	 */
 	public function __construct($config = array(), ?MVCFactoryInterface $factory = null)
 	{
@@ -54,7 +54,7 @@ class SelectModel extends ListModel
 	 * @return TaskOption[]  An array of TaskOption objects
 	 *
 	 * @throws \Exception
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.1.0
 	 */
 	public function getItems(): array
 	{

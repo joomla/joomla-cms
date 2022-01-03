@@ -211,7 +211,7 @@ abstract class UpdateAdapter extends AdapterInstance
 	 *
 	 * @param   array  $options  The update options, see findUpdate() in children classes
 	 *
-	 * @return  boolean|\JHttpResponse  False if we can't connect to the site, JHttpResponse otherwise
+	 * @return  \Joomla\CMS\Http\Response|bool  False if we can't connect to the site, HTTP Response object otherwise
 	 *
 	 * @throws  \Exception
 	 */

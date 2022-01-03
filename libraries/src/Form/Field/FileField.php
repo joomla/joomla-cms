@@ -56,10 +56,9 @@ class FileField extends FormField
 	 */
 	public function __get($name)
 	{
-		switch ($name)
+		if ($name === 'accept')
 		{
-			case 'accept':
-				return $this->accept;
+			return $this->accept;
 		}
 
 		return parent::__get($name);

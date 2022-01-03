@@ -22,7 +22,7 @@ use Joomla\Component\Scheduler\Administrator\Task\TaskOptions;
  * The SchedulerHelper class.
  * Provides static methods used across com_scheduler
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.1.0
  */
 abstract class SchedulerHelper
 {
@@ -30,7 +30,7 @@ abstract class SchedulerHelper
 	 * Cached TaskOptions object
 	 *
 	 * @var  TaskOptions
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.1.0
 	 */
 	protected static $taskOptionsCache;
 
@@ -39,7 +39,7 @@ abstract class SchedulerHelper
 	 *
 	 * @return  TaskOptions  A TaskOptions object populated with task routines offered by plugins
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.1.0
 	 * @throws  \Exception
 	 */
 	public static function getTaskOptions(): TaskOptions

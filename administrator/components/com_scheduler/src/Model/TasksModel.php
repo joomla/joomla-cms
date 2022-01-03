@@ -19,6 +19,7 @@ use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\CMS\Object\CMSObject;
 use Joomla\Component\Scheduler\Administrator\Helper\SchedulerHelper;
+use Joomla\Component\Scheduler\Administrator\Task\TaskOption;
 use Joomla\Database\DatabaseQuery;
 use Joomla\Database\ParameterType;
 use Joomla\Database\QueryInterface;
@@ -28,7 +29,7 @@ use Joomla\Utilities\ArrayHelper;
  * The MVC Model for TasksView.
  * Defines methods to deal with operations concerning multiple `#__scheduler_tasks` entries.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.1.0
  */
 class TasksModel extends ListModel
 {
@@ -39,7 +40,7 @@ class TasksModel extends ListModel
 	 *
 	 * @param   MVCFactoryInterface|null  $factory  The factory.
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.1.0
 	 * @throws \Exception
 	 * @see    \JControllerLegacy
 	 */
@@ -81,7 +82,7 @@ class TasksModel extends ListModel
 	 *
 	 * @return string  A store id.
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.1.0
 	 */
 	protected function getStoreId($id = ''): string
 	{
@@ -103,7 +104,7 @@ class TasksModel extends ListModel
 	 *
 	 * @return QueryInterface
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.1.0
 	 * @throws \Exception
 	 */
 	protected function getListQuery(): QueryInterface
@@ -138,7 +139,7 @@ class TasksModel extends ListModel
 		 * @param   array   $conditions
 		 * @param   string  $innerGlue
 		 *
-		 * @since  __DEPLOY_VERSION__
+		 * @since  4.1.0
 		 */
 		$extendWhereIfFiltered = static function (
 			string $outerGlue,
@@ -172,6 +173,33 @@ class TasksModel extends ListModel
 				->bind(':match', $match);
 		}
 
+		// Filter orphaned (-1: exclude, 0: include, 1: only) ----
+		$filterOrphaned = (int) $this->getState('filter.orphaned');
+
+		if ($filterOrphaned !== 0)
+		{
+			$filterCount++;
+			$taskOptions = SchedulerHelper::getTaskOptions();
+
+			// Array of all active routine ids
+			$activeRoutines = array_map(
+				static function (TaskOption $taskOption): string
+				{
+					return $taskOption->type;
+				},
+				$taskOptions->options
+			);
+
+			if ($filterOrphaned === -1)
+			{
+				$query->whereIn($db->quoteName('type'), $activeRoutines, ParameterType::STRING);
+			}
+			else
+			{
+				$query->whereNotIn($db->quoteName('type'), $activeRoutines, ParameterType::STRING);
+			}
+		}
+
 		// Filter over state ----
 		$state = $this->getState('filter.state');
 
@@ -201,8 +229,6 @@ class TasksModel extends ListModel
 			$query->where($db->quotename('a.type') . '= :type')
 				->bind(':type', $typeFilter);
 		}
-
-		// @todo: Filter over trigger
 
 		// Filter over exit code ----
 		$exitCode = $this->getState('filter.last_exit_code');
@@ -339,7 +365,7 @@ class TasksModel extends ListModel
 	 *
 	 * @return object[]
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.1.0
 	 * @throws \Exception
 	 */
 	protected function _getList($query, $limitstart = 0, $limit = 0): array
@@ -385,24 +411,6 @@ class TasksModel extends ListModel
 			$responseList = ArrayHelper::sortObjects($responseList, 'safeTypeTitle', $listDirectionN, true, false);
 		}
 
-		// Filter orphaned (-1: exclude, 0: include, 1: only) ----
-		// ! This breaks pagination at the moment [@todo: fix]
-		$filterOrphaned = (int) $this->getState('filter.orphaned');
-
-		if ($filterOrphaned !== 0)
-		{
-			$responseList = array_values(
-				array_filter(
-					$responseList,
-					static function (object $c) use ($filterOrphaned) {
-						$isOrphan = !isset($c->taskOption);
-
-						return $filterOrphaned === 1 ? $isOrphan : !$isOrphan;
-					}
-				)
-			);
-		}
-
 		return $responseList;
 	}
 
@@ -413,7 +421,7 @@ class TasksModel extends ListModel
 	 *
 	 * @return void
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.1.0
 	 * @throws \Exception
 	 */
 	private function attachTaskOptions(array $items): void
@@ -435,7 +443,7 @@ class TasksModel extends ListModel
 	 * @param   string  $direction  Direction in which to sort list
 	 *
 	 * @return void
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.1.0
 	 */
 	protected function populateState($ordering = 'a.id', $direction = 'ASC'): void
 	{

@@ -28,7 +28,7 @@ class PlgTaskDemotasks extends CMSPlugin implements SubscriberInterface
 
 	/**
 	 * @var string[]
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.1.0
 	 */
 	private const TASKS_MAP = [
 		'demoTask_r1.sleep'                    => [
@@ -48,7 +48,7 @@ class PlgTaskDemotasks extends CMSPlugin implements SubscriberInterface
 
 	/**
 	 * @var boolean
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.1.0
 	 */
 	protected $autoloadLanguage = true;
 
@@ -57,7 +57,7 @@ class PlgTaskDemotasks extends CMSPlugin implements SubscriberInterface
 	 *
 	 * @return string[]
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.1.0
 	 */
 	public static function getSubscribedEvents(): array
 	{
@@ -73,7 +73,7 @@ class PlgTaskDemotasks extends CMSPlugin implements SubscriberInterface
 	 *
 	 * @return integer  The routine exit code.
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.1.0
 	 * @throws Exception
 	 */
 	private function sleep(ExecuteTaskEvent $event): int
@@ -94,7 +94,7 @@ class PlgTaskDemotasks extends CMSPlugin implements SubscriberInterface
 	 *
 	 * @return integer  The routine exit code.
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.1.0
 	 * @throws Exception
 	 */
 	private function stressMemory(ExecuteTaskEvent $event): int
@@ -122,7 +122,7 @@ class PlgTaskDemotasks extends CMSPlugin implements SubscriberInterface
 	 *
 	 * @return integer  The routine exit code.
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.1.0
 	 * @throws Exception
 	 */
 	private function stressMemoryRemoveLimit(ExecuteTaskEvent $event): int
@@ -144,7 +144,7 @@ class PlgTaskDemotasks extends CMSPlugin implements SubscriberInterface
 	 *
 	 * @return float
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.1.0
 	 */
 	private function getMemoryLimit(): float
 	{

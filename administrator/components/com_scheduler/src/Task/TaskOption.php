@@ -20,7 +20,7 @@ use Joomla\CMS\Language\Text;
  * argument pairs as argument. Internally, the TaskOption object generates the routine title and description from the
  * language constant prefix.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.1.0
  */
 class TaskOption
 {
@@ -28,7 +28,7 @@ class TaskOption
 	 * Task routine title
 	 *
 	 * @var string
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.1.0
 	 */
 	protected $title;
 
@@ -36,7 +36,7 @@ class TaskOption
 	 * Task routine description.
 	 *
 	 * @var string
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.1.0
 	 */
 	protected $desc;
 
@@ -44,13 +44,13 @@ class TaskOption
 	 * Routine type-ID.
 	 *
 	 * @var string
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.1.0
 	 */
 	protected $type;
 
 	/**
 	 * @var string
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.1.0
 	 */
 	protected $langConstPrefix;
 
@@ -60,7 +60,7 @@ class TaskOption
 	 * @param   string  $type             A unique ID string for a plugin task routine.
 	 * @param   string  $langConstPrefix  The Language constant prefix $p. Expects $p . _TITLE and $p . _DESC to exist.
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.1.0
 	 */
 	public function __construct(string $type, string $langConstPrefix)
 	{
@@ -77,7 +77,7 @@ class TaskOption
 	 *
 	 * @return  mixed
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.1.0
 	 */
 	public function __get(string $name)
 	{

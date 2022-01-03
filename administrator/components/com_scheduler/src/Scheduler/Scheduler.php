@@ -33,7 +33,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
  * It is planned that this class is extended with C[R]UD methods for
  * scheduled tasks.
  *
- * @since __DEPLOY_VERSION__
+ * @since 4.1.0
  * @todo  A global instance?
  */
 class Scheduler
@@ -48,7 +48,7 @@ class Scheduler
 	/**
 	 * Filters for the task queue. Can be used with fetchTaskRecords().
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.1.0
 	 * @todo  remove?
 	 */
 	public const TASK_QUEUE_FILTERS = [
@@ -59,7 +59,7 @@ class Scheduler
 	/**
 	 * List config for the task queue. Can be used with fetchTaskRecords().
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.1.0
 	 * @todo  remove?
 	 */
 	public const TASK_QUEUE_LIST_CONFIG = [
@@ -78,7 +78,7 @@ class Scheduler
 	 *
 	 * @return ?Task  The task executed or null if not exists
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.1.0
 	 * @throws \RuntimeException
 	 */
 	public function runTask(array $options): ?Task
@@ -113,7 +113,7 @@ class Scheduler
 			[
 				'id'                  => $options['id'],
 				'allowDisabled'       => $options['allowDisabled'],
-				'bypassScheduling'    => $options['id'] === 0,
+				'bypassScheduling'    => $options['id'] !== 0,
 				'allowConcurrent'     => $options['allowConcurrent'],
 				'includeCliExclusive' => ($app->isClient('cli')),
 			]
@@ -179,7 +179,7 @@ class Scheduler
 	 *
 	 * @return void
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.1.0
 	 * @throws AccessException
 	 */
 	protected function configureTaskRunnerOptions(OptionsResolver $resolver): void
@@ -204,7 +204,7 @@ class Scheduler
 	 *
 	 * @return  Task $task The task to execute
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.1.0
 	 * @throws \RuntimeException
 	 */
 	public function getTask(array $options = []): ?Task
@@ -267,7 +267,7 @@ class Scheduler
 	 *
 	 * @return ?object  A matching task record, if it exists
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.1.0
 	 * @throws \RuntimeException
 	 */
 	public function fetchTaskRecord(int $id = 0, bool $allowDisabled = false): ?object
@@ -304,7 +304,7 @@ class Scheduler
 	 *
 	 * @return array
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.1.0
 	 * @throws \RunTimeException
 	 */
 	public function fetchTaskRecords(array $filters, array $listConfig): array

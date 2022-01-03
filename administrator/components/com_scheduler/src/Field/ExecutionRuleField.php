@@ -17,7 +17,7 @@ use Joomla\CMS\Form\Field\PredefinedlistField;
 /**
  * A select list containing valid Cron interval types.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.1.0
  */
 class ExecutionRuleField extends PredefinedlistField
 {
@@ -25,7 +25,7 @@ class ExecutionRuleField extends PredefinedlistField
 	 * The form field type.
 	 *
 	 * @var    string
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.1.0
 	 */
 	protected $type = 'ExecutionRule';
 
@@ -33,7 +33,7 @@ class ExecutionRuleField extends PredefinedlistField
 	 * Available execution rules.
 	 *
 	 * @var string[]
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.1.0
 	 */
 	protected $predefinedOptions = [
 		'interval-minutes' => 'COM_SCHEDULER_EXECUTION_INTERVAL_MINUTES',

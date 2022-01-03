@@ -17,6 +17,7 @@ use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Joomla\CMS\Object\CMSObject;
 use Joomla\Event\DispatcherAwareInterface;
 use Joomla\Event\DispatcherAwareTrait;
+use Joomla\Event\DispatcherInterface;
 use Joomla\Event\EventInterface;
 
 /**
@@ -256,7 +257,7 @@ abstract class AbstractView extends CMSObject implements ViewInterface, Dispatch
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.1.0
 	 */
 	protected function dispatchEvent(EventInterface $event)
 	{
