@@ -1360,7 +1360,7 @@ class Installer extends Adapter
 
 			/*
 			 * Before we can add a file to the copyfiles array we need to ensure
-			 * that the folder we are copying our file to exits and if it doesn't,
+			 * that the folder we are copying our file to exists and if it doesn't,
 			 * we need to create it.
 			 */
 
@@ -1484,7 +1484,7 @@ class Installer extends Adapter
 
 			/*
 			 * Before we can add a file to the copyfiles array we need to ensure
-			 * that the folder we are copying our file to exits and if it doesn't,
+			 * that the folder we are copying our file to exists and if it doesn't,
 			 * we need to create it.
 			 */
 
@@ -1573,7 +1573,7 @@ class Installer extends Adapter
 
 			/*
 			 * Before we can add a file to the copyfiles array we need to ensure
-			 * that the folder we are copying our file to exits and if it doesn't,
+			 * that the folder we are copying our file to exists and if it doesn't,
 			 * we need to create it.
 			 */
 

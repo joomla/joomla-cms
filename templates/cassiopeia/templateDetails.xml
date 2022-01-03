@@ -80,7 +80,8 @@
 					name="siteDescription"
 					type="text"
 					default=""
-					label="TPL_CASSIOPEIA_TAGLINE"
+					label="TPL_CASSIOPEIA_TAGLINE_LABEL"
+					description="TPL_CASSIOPEIA_TAGLINE_DESC"
 					filter="string"
 					showon="brand:1"
 				/>

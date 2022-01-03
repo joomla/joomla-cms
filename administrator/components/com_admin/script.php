@@ -5948,7 +5948,6 @@ class JoomlaInstallerScript
 			'/administrator/components/com_fields/tmpl/field/modal.php',
 			'/administrator/templates/atum/scss/pages/_com_admin.scss',
 			'/administrator/templates/atum/scss/pages/_com_finder.scss',
-			'/administrator/templates/atum/scss/pages/_com_joomlaupdate.scss',
 			'/libraries/src/Error/JsonApi/InstallLanguageExceptionHandler.php',
 			'/libraries/src/MVC/Controller/Exception/InstallLanguage.php',
 			'/media/com_fields/js/admin-field-edit-modal-es5.js',
@@ -6109,6 +6108,10 @@ class JoomlaInstallerScript
 			'/media/com_joomlaupdate/js/update.min.js.gz',
 			'/templates/cassiopeia/images/system/sort_asc.png',
 			'/templates/cassiopeia/images/system/sort_desc.png',
+			// From 4.0.4 to 4.0.5
+			'/media/vendor/codemirror/lib/#codemirror.js#',
+			// From 4.0.5 to 4.0.6
+			'/media/vendor/mediaelement/css/mejs-controls.png',
 		);
 
 		$folders = array(
@@ -7458,7 +7461,7 @@ class JoomlaInstallerScript
 
 		foreach ($newComponents as $component)
 		{
-			/** @var JTableAsset $asset */
+			/** @var \Joomla\CMS\Table\Asset $asset */
 			$asset = Table::getInstance('Asset');
 
 			if ($asset->loadByName($component))

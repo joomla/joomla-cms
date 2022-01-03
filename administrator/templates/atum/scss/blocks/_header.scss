@@ -229,24 +229,4 @@
       transform: rotate(180deg);
     }
   }
-
-  .header-item-more {
-    &.active .header-more-menu {
-      left: 0;
-
-      [dir=rtl] & {
-        right: 0;
-        left: auto;
-      }
-    }
-
-    .header-item-content {
-      background: transparent;
-    }
-  }
-
-  .header-more-menu {
-    top: auto;
-    bottom: 100%;
-  }
 }
