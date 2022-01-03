@@ -234,7 +234,11 @@ class LocalAdapter implements AdapterInterface
 		$name      = $this->getSafeName($name);
 		$ds        = DIRECTORY_SEPARATOR;
 		$localPath = $this->getLocalPath($path . '/' . $name);
-		$thumbPath = str_replace(JPATH_ROOT . $ds . $this->filePath, JPATH_ROOT . $ds . 'media' . $ds . 'cache_mm' . $ds . 'thumbs' . $ds . $this->filePath, $localPath);
+		$thumbPath = str_replace(
+			JPATH_ROOT . $ds . $this->filePath,
+			JPATH_ROOT . $ds . 'media' . $ds . 'cache_mm' . $ds . 'thumbs' . $ds . $this->filePath,
+			$localPath
+		);
 
 		$this->checkContent($localPath, $data);
 
@@ -267,7 +271,11 @@ class LocalAdapter implements AdapterInterface
 	{
 		$localPath = $this->getLocalPath($path . '/' . $name);
 		$ds        = DIRECTORY_SEPARATOR;
-		$thumbPath = str_replace(JPATH_ROOT . $ds . $this->filePath, JPATH_ROOT . $ds . 'media' . $ds . 'cache_mm' . $ds . 'thumbs' . $ds . $this->filePath, $localPath);
+		$thumbPath = str_replace(
+			JPATH_ROOT . $ds . $this->filePath,
+			JPATH_ROOT . $ds . 'media' . $ds . 'cache_mm' . $ds . 'thumbs' . $ds . $this->filePath,
+			$localPath
+		);
 
 		if (!File::exists($localPath))
 		{
@@ -301,7 +309,11 @@ class LocalAdapter implements AdapterInterface
 	{
 		$localPath = $this->getLocalPath($path);
 		$ds        = DIRECTORY_SEPARATOR;
-		$thumbPath = str_replace(JPATH_ROOT . $ds . $this->filePath, JPATH_ROOT . $ds . 'media' . $ds . 'cache_mm' . $ds . 'thumbs' . $ds . $this->filePath, $localPath);
+		$thumbPath = str_replace(
+			JPATH_ROOT . $ds . $this->filePath,
+			JPATH_ROOT . $ds . 'media' . $ds . 'cache_mm' . $ds . 'thumbs' . $ds . $this->filePath,
+			$localPath
+		);
 
 		if (is_file($localPath))
 		{
@@ -920,16 +932,30 @@ class LocalAdapter implements AdapterInterface
 	private function getThumb($path): string
 	{
 		$ds  = DIRECTORY_SEPARATOR;
-		$dir = \dirname(str_replace(JPATH_ROOT . $ds . $this->filePath, JPATH_ROOT . $ds . 'media' . $ds . 'cache_mm'. $ds . 'thumbs' . $ds . $this->filePath, $path));
+		$dir = \dirname(
+			str_replace(
+				JPATH_ROOT . $ds . $this->filePath,
+				JPATH_ROOT . $ds . 'media' . $ds . 'cache_mm'. $ds . 'thumbs' . $ds . $this->filePath,
+				$path
+			)
+		);
 
 		if (!is_dir($dir))
 		{
 			mkdir($dir, 0755, true);
 		}
 
-		$thumbPath = str_replace(JPATH_ROOT . $ds . $this->filePath, JPATH_ROOT . $ds . 'media'. $ds . 'cache_mm' . $ds . 'thumbs' . $ds . $this->filePath, $path);
+		$thumbPath = str_replace(
+			JPATH_ROOT . $ds . $this->filePath,
+			JPATH_ROOT . $ds . 'media'. $ds . 'cache_mm' . $ds . 'thumbs' . $ds . $this->filePath,
+			$path
+		);
 		$thumbURL = Uri::root() . $this->getEncodedPath(
-			str_replace(JPATH_ROOT . $ds . $this->filePath, 'media' . $ds . 'cache_mm' . $ds . 'thumbs' . $ds . $this->filePath, $path)
+			str_replace(
+				JPATH_ROOT . $ds . $this->filePath,
+				'media' . $ds . 'cache_mm' . $ds . 'thumbs' . $ds . $this->filePath,
+				$path
+			)
 		);
 
 		if (file_exists($thumbPath))
