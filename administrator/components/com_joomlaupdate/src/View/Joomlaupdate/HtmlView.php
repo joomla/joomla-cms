@@ -259,8 +259,8 @@ class HtmlView extends BaseHtmlView
 				$this->updateSourceKey = Text::_('COM_JOOMLAUPDATE_CONFIG_UPDATESOURCE_DEFAULT');
 		}
 
-		$this->noVersionCheck = $params->get('noversioncheck', 0) == 1;
-		$this->noBackupCheck = $params->get('nobackupcheck', 0) == 1;
+		$this->noVersionCheck = $params->get('versioncheck', 1) == 0;
+		$this->noBackupCheck  = $params->get('backupcheck', 0) == 0;
 
 		// Remove temporary files
 		$this->getModel()->removePackageFiles();
