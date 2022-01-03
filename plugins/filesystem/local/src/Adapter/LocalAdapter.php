@@ -250,6 +250,8 @@ class LocalAdapter implements AdapterInterface
 	public function updateFile(string $name, string $path, $data)
 	{
 		$localPath = $this->getLocalPath($path . '/' . $name);
+		$ds        = DIRECTORY_SEPARATOR;
+		$thumbPath = str_replace(JPATH_ROOT . $ds . $this->filePath, JPATH_ROOT . $ds . 'media' . $ds . 'cache_mm' . $ds . 'thumbs' . $ds . $this->filePath, $path . $ds . $name);
 
 		if (!File::exists($localPath))
 		{
@@ -259,6 +261,13 @@ class LocalAdapter implements AdapterInterface
 		$this->checkContent($localPath, $data);
 
 		File::write($localPath, $data);
+
+		if (!is_dir(\dirname($thumbPath))) {
+			mkdir(\dirname($thumbPath), 0755, true);
+		}
+
+		// Create the thumbnail
+		(new Image($localPath))->resize(300, 200, true)->toFile($thumbPath);
 	}
 
 	/**
@@ -274,12 +283,19 @@ class LocalAdapter implements AdapterInterface
 	public function delete(string $path): void
 	{
 		$localPath = $this->getLocalPath($path);
+		$ds        = DIRECTORY_SEPARATOR;
+		$thumbPath = str_replace(JPATH_ROOT . $ds . $this->filePath, JPATH_ROOT . $ds . 'media' . $ds . 'cache_mm' . $ds . 'thumbs' . $ds . $this->filePath, $path);
 
 		if (is_file($localPath))
 		{
 			if (!File::exists($localPath))
 			{
 				throw new FileNotFoundException;
+			}
+
+			if (is_file($thumbPath))
+			{
+				File::delete($thumbPath);
 			}
 
 			$success = File::delete($localPath);
@@ -289,6 +305,11 @@ class LocalAdapter implements AdapterInterface
 			if (!Folder::exists($localPath))
 			{
 				throw new FileNotFoundException;
+			}
+
+			if (is_dir($thumbPath))
+			{
+				Folder::delete($thumbPath);
 			}
 
 			$success = Folder::delete($localPath);
@@ -881,7 +902,7 @@ class LocalAdapter implements AdapterInterface
 	 */
 	private function getThumb($path): string
 	{
-		$ds = DIRECTORY_SEPARATOR;
+		$ds  = DIRECTORY_SEPARATOR;
 		$dir = \dirname(str_replace(JPATH_ROOT . $ds . $this->filePath, JPATH_ROOT . $ds. 'media' . $ds . 'cache_mm'. $ds . 'thumbs' . $ds . $this->filePath, $path));
 
 		if (!is_dir($dir))
