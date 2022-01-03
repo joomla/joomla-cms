@@ -472,7 +472,8 @@ class UpdateController extends BaseController
 	 * Prints a JSON string.
 	 * Called from JS.
 	 *
-	 * @since   3.10.0
+	 * @since       3.10.0
+	 * @deprecated  5.0  Use batchextensioncompatibility instead.
 	 *
 	 * @return void
 	 */
