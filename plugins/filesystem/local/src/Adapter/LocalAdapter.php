@@ -881,16 +881,17 @@ class LocalAdapter implements AdapterInterface
 	 */
 	private function getThumb($path): string
 	{
-		$dir = \dirname(str_replace(JPATH_ROOT . '/' . $this->filePath, JPATH_ROOT . '/media/cache_mm/thumbs/' . $this->filePath, $path));
+		$ds = DIRECTORY_SEPARATOR;
+		$dir = \dirname(str_replace(JPATH_ROOT . $ds . $this->filePath, JPATH_ROOT . $ds. 'media' . $ds . 'cache_mm'. $ds . 'thumbs' . $ds . $this->filePath, $path));
 
 		if (!is_dir($dir))
 		{
 			mkdir($dir, 0755, true);
 		}
 
-		$thumbPath = str_replace(JPATH_ROOT . '/' . $this->filePath, JPATH_ROOT . '/media/cache_mm/thumbs/' . $this->filePath, $path);
+		$thumbPath = str_replace(JPATH_ROOT . $ds . $this->filePath, JPATH_ROOT . $ds . 'media'. $ds . 'cache_mm' . $ds . 'thumbs' . $ds . $this->filePath, $path);
 		$thumbURL = Uri::root() . $this->getEncodedPath(
-			str_replace(JPATH_ROOT . '/' . $this->filePath, 'media/cache_mm/thumbs/' . $this->filePath, $path)
+			str_replace(JPATH_ROOT . $ds . $this->filePath, 'media' . $ds . 'cache_mm' . $ds . 'thumbs' . $ds . $this->filePath, $path)
 		);
 
 		if (file_exists($thumbPath))
