@@ -664,7 +664,7 @@ abstract class HTMLHelper
 	 *             url: 'string',
 	 *             attributes: [
 	 *               width:  integer,
-	 *               height: integer
+	 *               height: integer,
 	 *             ]
 	 *           }
 	 *
