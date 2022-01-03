@@ -11,8 +11,6 @@ namespace Joomla\Component\Cookiemanager\Administrator\Model;
 
 \defined('_JEXEC') or die;
 
-use Joomla\CMS\Factory;
-use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\CMS\Table\Table;
 use Joomla\Database\ParameterType;
