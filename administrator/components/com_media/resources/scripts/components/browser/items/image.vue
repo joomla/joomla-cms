@@ -88,7 +88,7 @@ export default {
       return this.item.height;
     },
     altTag() {
-      return `Image filename: ${this.item.name}`;
+      return this.item.name;
     },
   }
 };
