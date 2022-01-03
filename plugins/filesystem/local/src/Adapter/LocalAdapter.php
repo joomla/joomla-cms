@@ -889,7 +889,9 @@ class LocalAdapter implements AdapterInterface
 		}
 
 		$thumbPath = str_replace(JPATH_ROOT . '/' . $this->filePath, JPATH_ROOT . '/media/cache_mm/thumbs/' . $this->filePath, $path);
-		$thumbURL = Uri::root() . $this->getEncodedPath(str_replace(JPATH_ROOT . '/' . $this->filePath, 'media/cache_mm/thumbs/' . $this->filePath, $path));
+		$thumbURL = Uri::root() . $this->getEncodedPath(
+			str_replace(JPATH_ROOT . '/' . $this->filePath, 'media/cache_mm/thumbs/' . $this->filePath, $path)
+		);
 
 		if (file_exists($thumbPath))
 		{
