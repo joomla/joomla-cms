@@ -21,9 +21,8 @@ use Joomla\CMS\Uri\Uri;
 class PlgSystemSef extends CMSPlugin
 {
 	/**
-	 * Application object.
+	 * @var    \Joomla\CMS\Application\CMSApplication
 	 *
-	 * @var    JApplicationCms
 	 * @since  3.5
 	 */
 	protected $app;
