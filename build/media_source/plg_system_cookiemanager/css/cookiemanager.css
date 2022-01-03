@@ -33,29 +33,26 @@ li.cookie-cat {
 
 .modal-dialog-top-left {
     position: fixed;
-    top: 0px;
-    left: 0px;
+    top: 0;
+    left: 0;
     margin: 10px;
 }
-
 .modal-dialog-top-right {
     position: fixed;
-    top: 0px;
-    right: 0px;
+    top: 0;
+    right: 0;
     margin: 10px;
 }
-
 .modal-dialog-bottom-left {
     position: fixed;
-    bottom: 0px;
-    left: 0px;
+    bottom: 0;
+    left: 0;
     margin: 10px;
 }
-
 .modal-dialog-bottom-right {
     position: fixed;
-    bottom: 0px;
-    right: 0px;
+    bottom: 0;
+    right: 0;
     margin: 10px;
 }
 
