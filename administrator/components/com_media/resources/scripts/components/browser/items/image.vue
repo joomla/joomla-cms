@@ -6,7 +6,14 @@
   >
     <div class="media-browser-item-preview">
       <div class="image-background">
-        <img class="image-cropped" :src="getURL" :alt="altTag" loading="lazy" :width="width" :height="height">
+        <img
+          class="image-cropped"
+          :src="getURL"
+          :alt="altTag"
+          loading="lazy"
+          :width="width"
+          :height="height"
+        >
       </div>
     </div>
     <div class="media-browser-item-info">
@@ -54,6 +61,22 @@ export default {
       },
     };
   },
+  computed: {
+    getURL() {
+      return this.item.adapter.startsWith('local-')
+        ? `${this.item.thumb_path}?${api.mediaVersion}`
+        : `${this.item.thumb_path}`;
+    },
+    width() {
+      return this.item.width;
+    },
+    height() {
+      return this.item.height;
+    },
+    altTag() {
+      return this.item.name;
+    },
+  },
   methods: {
     /* Check if the item is a document to edit */
     canEdit() {
@@ -75,21 +98,5 @@ export default {
       window.location.href = fileBaseUrl + this.item.path;
     },
   },
-  computed: {
-    getURL() {
-      return this.item.adapter.startsWith('local-')
-        ? `${this.item.thumb_path}?${api.mediaVersion}`
-        : `${this.item.thumb_path}`;
-    },
-    width() {
-      return this.item.width;
-    },
-    height() {
-      return this.item.height;
-    },
-    altTag() {
-      return this.item.name;
-    },
-  }
 };
 </script>
