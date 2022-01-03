@@ -935,7 +935,7 @@ class LocalAdapter implements AdapterInterface
 		$dir = \dirname(
 			str_replace(
 				JPATH_ROOT . $ds . $this->filePath,
-				JPATH_ROOT . $ds . 'media' . $ds . 'cache_mm'. $ds . 'thumbs' . $ds . $this->filePath,
+				JPATH_ROOT . $ds . 'media' . $ds . 'cache_mm' . $ds . 'thumbs' . $ds . $this->filePath,
 				$path
 			)
 		);
@@ -947,7 +947,7 @@ class LocalAdapter implements AdapterInterface
 
 		$thumbPath = str_replace(
 			JPATH_ROOT . $ds . $this->filePath,
-			JPATH_ROOT . $ds . 'media'. $ds . 'cache_mm' . $ds . 'thumbs' . $ds . $this->filePath,
+			JPATH_ROOT . $ds . 'media' . $ds . 'cache_mm' . $ds . 'thumbs' . $ds . $this->filePath,
 			$path
 		);
 		$thumbURL = Uri::root() . $this->getEncodedPath(
