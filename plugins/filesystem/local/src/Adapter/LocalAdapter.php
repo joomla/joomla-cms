@@ -870,7 +870,7 @@ class LocalAdapter implements AdapterInterface
 	}
 
 	/**
-	 * Returns the path for the thumbnail of the given path.
+	 * Returns the path for the thumbnail of the given image.
 	 * If the thumbnail does not exist, it will be created.
 	 *
 	 * @param   string  $path  The path of the image
