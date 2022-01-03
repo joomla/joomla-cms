@@ -60,7 +60,7 @@ function clean_checkout(string $dir)
 	system('find . -name .github | xargs rm -rf -');
 	system('find . -name .gitignore | xargs rm -rf -');
 	system('find . -name .gitmodules | xargs rm -rf -');
-	system('find . -name .php_cs | xargs rm -rf -');
+	system('find . -name .php-cs-fixer.dist.php | xargs rm -rf -');
 	system('find . -name .scrutinizer.yml | xargs rm -rf -');
 	system('find . -name .travis.yml | xargs rm -rf -');
 	system('find . -name appveyor.yml | xargs rm -rf -');
@@ -207,13 +207,14 @@ $tmp      = $here . '/tmp';
 $fullpath = $tmp . '/' . $time;
 
 // Parse input options
-$options = getopt('', ['help', 'remote::', 'exclude-zip', 'exclude-gzip', 'exclude-bzip2', 'include-zstd']);
+$options = getopt('', ['help', 'remote::', 'exclude-zip', 'exclude-gzip', 'exclude-bzip2', 'include-zstd', 'disable-patch-packages']);
 
 $remote       = $options['remote'] ?? false;
 $excludeZip   = isset($options['exclude-zip']);
 $excludeGzip  = isset($options['exclude-gzip']);
 $excludeBzip2 = isset($options['exclude-bzip2']);
 $excludeZstd  = !isset($options['include-zstd']);
+$buildPatchPackages = !isset($options['disable-patch-packages']);
 $showHelp     = isset($options['help']);
 
 // Disable the generation of extra text files
@@ -361,7 +362,7 @@ $doNotPackage = array(
 	'.editorconfig',
 	'.github',
 	'.gitignore',
-	'.php_cs.dist',
+	'.php-cs-fixer.dist.php',
 	'CODE_OF_CONDUCT.md',
 	'README.md',
 	'acceptance.suite.yml',
@@ -423,6 +424,12 @@ foreach ($doNotPackage as $removeFile)
 // Count down starting with the latest release and add diff files to this array
 for ($num = $release - 1; $num >= 0; $num--)
 {
+	if (!$buildPatchPackages)
+	{
+		echo "Disabled creating patch package for $num per flag.\n";
+		continue;
+	}
+
 	echo "Create version $num update packages.\n";
 
 	// Here we get a list of all files that have changed between the two references ($previousTag and $remote) and save in diffdocs
@@ -703,6 +710,12 @@ if ($includeExtraTextfiles)
 		'MINOR'   => 'Update from Joomla! ' . $version . '.x ',
 		'UPGRADE' => 'Update from Joomla! 3.10 ',
 	);
+
+	if (!$buildPatchPackages)
+	{
+		$releaseText['UPGRADE'] = 'Update from a previous version of Joomla! ';
+	}
+
 	$githubLink = 'https://github.com/joomla/joomla-cms/releases/download/' . $tagVersion . '/';
 
 	foreach ($checksums as $packageName => $packageHashes)

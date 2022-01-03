@@ -28,18 +28,14 @@ use Joomla\Database\ParameterType;
 class PlgSampledataBlog extends CMSPlugin
 {
 	/**
-	 * Database object
-	 *
-	 * @var    JDatabaseDriver
+	 * @var    \Joomla\Database\DatabaseDriver
 	 *
 	 * @since  3.8.0
 	 */
 	protected $db;
 
 	/**
-	 * Application object
-	 *
-	 * @var    JApplicationCms
+	 * @var    \Joomla\CMS\Application\CMSApplication
 	 *
 	 * @since  3.8.0
 	 */
@@ -103,7 +99,7 @@ class PlgSampledataBlog extends CMSPlugin
 
 		if (!ComponentHelper::isEnabled('com_tags'))
 		{
-			$response            = array();
+			$response            = [];
 			$response['success'] = true;
 			$response['message'] = Text::sprintf('PLG_SAMPLEDATA_BLOG_STEP_SKIPPED', 1, 'com_tags');
 
@@ -122,14 +118,14 @@ class PlgSampledataBlog extends CMSPlugin
 		$modelTag = $this->app->bootComponent('com_tags')->getMVCFactory()
 			->createModel('Tag', 'Administrator', ['ignore_request' => true]);
 
-		$tagIds = array();
+		$tagIds = [];
 
 		// Create first three tags.
 		for ($i = 0; $i <= 3; $i++)
 		{
 			$title = Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_TAG_' . $i . '_TITLE') . $langSuffix;
 
-			$tag   = array(
+			$tag   = [
 				'id'              => 0,
 				'title'           => $title,
 				'alias'           => ApplicationHelper::stringURLSafe($title),
@@ -140,7 +136,7 @@ class PlgSampledataBlog extends CMSPlugin
 				'created_user_id' => $user->id,
 				'language'        => $language,
 				'description'     => '',
-			);
+			];
 
 			try
 			{
@@ -152,7 +148,7 @@ class PlgSampledataBlog extends CMSPlugin
 			}
 			catch (Exception $e)
 			{
-				$response            = array();
+				$response            = [];
 				$response['success'] = false;
 				$response['message'] = Text::sprintf('PLG_SAMPLEDATA_BLOG_STEP_FAILED', 1, $e->getMessage());
 
@@ -164,7 +160,7 @@ class PlgSampledataBlog extends CMSPlugin
 
 		if (!ComponentHelper::isEnabled('com_content') || !$this->app->getIdentity()->authorise('core.create', 'com_content'))
 		{
-			$response            = array();
+			$response            = [];
 			$response['success'] = true;
 			$response['message'] = Text::sprintf('PLG_SAMPLEDATA_BLOG_STEP_SKIPPED', 1, 'com_content');
 
@@ -766,7 +762,7 @@ class PlgSampledataBlog extends CMSPlugin
 				&& ComponentHelper::getParams('com_content')->get('workflow_enabled'))
 			{
 				// Set the article featured in #__content_frontpage
-				$query = $this->db->getQuery(true);
+				$this->db->getQuery(true);
 
 				$featuredItem = (object) [
 					'content_id'      => $articleModel->getItem()->id,
