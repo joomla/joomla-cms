@@ -85,11 +85,9 @@ export default {
     },
     visibilityChanged(isVisible, entry) {
       if (entry.isIntersecting) {
-        if (this.item.adapter.startsWith('local-')) {
-          this.currentInfo = `url(${this.item.thumb_path}?${api.mediaVersion})`;
-          return;
-        }
-        this.currentInfo = `url(${this.item.thumb_path})`;
+        this.currentInfo = this.item.adapter.startsWith('local-')
+        ? `url(${this.item.thumb_path}?${api.mediaVersion})`
+        : `url(${this.item.thumb_path})`;
       } else {
         this.currentInfo = false;
       }
