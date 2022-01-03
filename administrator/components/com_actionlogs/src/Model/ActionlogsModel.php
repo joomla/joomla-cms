@@ -269,7 +269,7 @@ class ActionlogsModel extends ListModel
 	}
 
 	/**
-	 * Get logs data into JTable object
+	 * Get logs data into Table object
 	 *
 	 * @param   integer[]|null  $pks  An optional array of log record IDs to load
 	 *

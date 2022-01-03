@@ -793,6 +793,7 @@
 				name="float_fulltext"
 				type="text"
 				label="COM_CONTENT_FIELD_IMAGE_CLASS_LABEL"
+				description="COM_CONTENT_FIELD_IMAGE_CLASS_DESC"
 				size="20"
 			/>
 
@@ -908,7 +909,7 @@
 
 	<fields name="metadata" label="JGLOBAL_FIELDSET_METADATA_OPTIONS">
 		<fieldset name="jmetadata"
-				  label="JGLOBAL_FIELDSET_METADATA_OPTIONS">
+				label="JGLOBAL_FIELDSET_METADATA_OPTIONS">
 
 			<field
 				name="robots"
