@@ -61,9 +61,6 @@ class HtmlView extends BaseHtmlView
 	 */
 	public function display($tpl = null)
 	{
-		$form = null;
-		$data = null;
-
 		try
 		{
 			// Load Form and Data
@@ -75,7 +72,7 @@ class HtmlView extends BaseHtmlView
 		{
 			Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
 
-			return false;
+			return;
 		}
 
 		// Bind data
@@ -120,6 +117,7 @@ class HtmlView extends BaseHtmlView
 		ToolbarHelper::divider();
 		ToolbarHelper::cancel('application.cancel', 'JTOOLBAR_CLOSE');
 		ToolbarHelper::divider();
+		ToolbarHelper::inlinehelp();
 		ToolbarHelper::help('Site_Global_Configuration');
 	}
 }

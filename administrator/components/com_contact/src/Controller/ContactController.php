@@ -12,6 +12,7 @@ namespace Joomla\Component\Contact\Administrator\Controller;
 \defined('_JEXEC') or die;
 
 use Joomla\CMS\MVC\Controller\FormController;
+use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Versioning\VersionableControllerTrait;
 use Joomla\Utilities\ArrayHelper;
@@ -107,5 +108,46 @@ class ContactController extends FormController
 		$this->setRedirect(Route::_('index.php?option=com_contact&view=contacts' . $this->getRedirectToListAppend(), false));
 
 		return parent::batch($model);
+	}
+
+	/**
+	 * Function that allows child controller access to model data
+	 * after the data has been saved.
+	 *
+	 * @param   BaseDatabaseModel  $model      The data model object.
+	 * @param   array              $validData  The validated data.
+	 *
+	 * @return  void
+	 *
+	 * @since   4.1.0
+	 */
+	protected function postSaveHook(BaseDatabaseModel $model, $validData = [])
+	{
+		if ($this->getTask() === 'save2menu')
+		{
+			$editState = [];
+
+			$id = $model->getState('contact.id');
+
+			$link = 'index.php?option=com_contact&view=contact';
+			$type = 'component';
+
+			$editState['id'] = $id;
+			$editState['link']  = $link;
+			$editState['title'] = $model->getItem($id)->title;
+			$editState['type']  = $type;
+			$editState['request']['id'] = $id;
+
+			$this->app->setUserState(
+				'com_menus.edit.item',
+				[
+					'data' => $editState,
+					'type' => $type,
+					'link' => $link,
+				]
+			);
+
+			$this->setRedirect(Route::_('index.php?option=com_menus&view=item&client_id=0&menutype=mainmenu&layout=edit', false));
+		}
 	}
 }
