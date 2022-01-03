@@ -7,8 +7,9 @@
     <div class="media-browser-item-preview">
       <div class="image-background">
         <div
+          v-observe-visibility="visibilityChanged"
           class="image-cropped"
-          :style="{ backgroundImage: getHashedURL }"
+          :style="{ backgroundImage: currentInfo }"
         />
       </div>
     </div>
@@ -38,21 +39,29 @@ import { api } from '../../../app/Api.es6';
 
 export default {
   name: 'MediaBrowserItemImage',
-  // eslint-disable-next-line vue/require-prop-types
-  props: ['item', 'focused'],
+  props: {
+    item: {
+      type: Object,
+      required: true,
+    },
+    focused: {
+      type: Boolean,
+      required: true,
+      default: false,
+    },
+  },
   data() {
     return {
-      showActions: false,
+      showActions: {
+        type: Boolean,
+        default: false,
+      },
+      currentInfo: {
+        type: Object || Boolean,
+        required: true,
+        default: false,
+      },
     };
-  },
-  computed: {
-    /* Get the hashed URL */
-    getHashedURL() {
-      if (this.item.adapter.startsWith('local-')) {
-        return `url(${this.item.thumb_path}?${api.mediaVersion})`;
-      }
-      return `url(${this.item.thumb_path})`;
-    },
   },
   methods: {
     /* Check if the item is a document to edit */
@@ -73,6 +82,17 @@ export default {
       const fileBaseUrl = `${Joomla.getOptions('com_media').editViewUrl}&path=`;
 
       window.location.href = fileBaseUrl + this.item.path;
+    },
+    visibilityChanged(isVisible, entry) {
+      if (entry.isIntersecting) {
+        if (this.item.adapter.startsWith('local-')) {
+          this.currentInfo = `url(${this.item.thumb_path}?${api.mediaVersion})`;
+          return;
+        }
+        this.currentInfo = `url(${this.item.thumb_path})`;
+      } else {
+        this.currentInfo = false;
+      }
     },
   },
 };
