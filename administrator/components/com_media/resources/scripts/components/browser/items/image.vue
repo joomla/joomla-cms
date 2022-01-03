@@ -86,8 +86,8 @@ export default {
     visibilityChanged(isVisible, entry) {
       if (entry.isIntersecting) {
         this.currentInfo = this.item.adapter.startsWith('local-')
-        ? `url(${this.item.thumb_path}?${api.mediaVersion})`
-        : `url(${this.item.thumb_path})`;
+          ? `url(${this.item.thumb_path}?${api.mediaVersion})`
+          : `url(${this.item.thumb_path})`;
       } else {
         this.currentInfo = false;
       }
