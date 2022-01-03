@@ -6,11 +6,7 @@
   >
     <div class="media-browser-item-preview">
       <div class="image-background">
-        <div
-          v-observe-visibility="visibilityChanged"
-          class="image-cropped"
-          :style="{ backgroundImage: currentInfo }"
-        />
+        <img class="image-cropped" :src="getURL" :alt="altTag" loading="lazy" :width="width" :height="height" >
       </div>
     </div>
     <div class="media-browser-item-info">
@@ -56,11 +52,6 @@ export default {
         type: Boolean,
         default: false,
       },
-      currentInfo: {
-        type: Object || Boolean,
-        required: true,
-        default: false,
-      },
     };
   },
   methods: {
@@ -83,15 +74,22 @@ export default {
 
       window.location.href = fileBaseUrl + this.item.path;
     },
-    visibilityChanged(isVisible, entry) {
-      if (entry.isIntersecting) {
-        this.currentInfo = this.item.adapter.startsWith('local-')
-          ? `url(${this.item.thumb_path}?${api.mediaVersion})`
-          : `url(${this.item.thumb_path})`;
-      } else {
-        this.currentInfo = false;
-      }
-    },
   },
+  computed: {
+    getURL() {
+      return this.item.adapter.startsWith('local-')
+        ? `${this.item.thumb_path}?${api.mediaVersion}`
+        : `${this.item.thumb_path}`;
+    },
+    width() {
+      return this.item.width;
+    },
+    height() {
+      return this.item.height;
+    },
+    altTag() {
+      return `Image filename: ${this.item.name}`;
+    },
+  }
 };
 </script>

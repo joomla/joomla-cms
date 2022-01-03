@@ -1,5 +1,4 @@
 import { createApp } from 'vue';
-import { ObserveVisibility } from 'vue-observe-visibility';
 import Event from './app/Event.es6';
 import App from './components/app.vue';
 import Disk from './components/tree/disk.vue';
@@ -60,12 +59,5 @@ createApp(App)
   .component('MediaBrowserActionItemDelete', Delete)
   .component('MediaBrowserActionItemEdit', Edit)
   .component('MediaBrowserActionItemsContainer', Container)
-  .directive('observe-visibility', {
-    beforeMount: (el, binding, vnode) => {
-      vnode.context = binding.instance;
-      ObserveVisibility.bind(el, binding, vnode);
-    },
-    updated: ObserveVisibility.update,
-    unmounted: ObserveVisibility.unbind,
-  })
+  // Append the app to the DOM
   .mount('#com-media');
