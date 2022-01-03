@@ -173,7 +173,7 @@ class MediaController extends ApiController
 	/**
 	 * Set model state using a list of mappings between query parameters and model state names.
 	 *
-	 * @param   array  $mappings  A list of mappings between query parameters and model state names..
+	 * @param   array  $mappings  A list of mappings between query parameters and model state names.
 	 *
 	 * @return  void
 	 *

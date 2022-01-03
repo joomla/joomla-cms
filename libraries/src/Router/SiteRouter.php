@@ -30,14 +30,14 @@ class SiteRouter extends Router
 	 * Component-router objects
 	 *
 	 * @var    array
+	 *
 	 * @since  3.3
 	 */
-	protected $componentRouters = array();
+	protected $componentRouters = [];
 
 	/**
-	 * Current Application-Object
-	 *
 	 * @var    CMSApplication
+	 *
 	 * @since  3.4
 	 */
 	protected $app;
@@ -46,6 +46,7 @@ class SiteRouter extends Router
 	 * Current Menu-Object
 	 *
 	 * @var    AbstractMenu
+	 *
 	 * @since  3.4
 	 */
 	protected $menu;
@@ -53,8 +54,8 @@ class SiteRouter extends Router
 	/**
 	 * Class constructor
 	 *
-	 * @param   CMSApplication  $app   JApplicationCms Object
-	 * @param   AbstractMenu    $menu  JMenu object
+	 * @param   CMSApplication  $app   Application Object
+	 * @param   AbstractMenu    $menu  Menu object
 	 *
 	 * @since   3.4
 	 */
