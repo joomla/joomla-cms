@@ -155,6 +155,13 @@ class Uri extends \Joomla\Uri\Uri
 						static::$base['path'] .= '/administrator';
 					}
 				}
+				if (\defined('JPATH_BASE') && \defined('JPATH_API'))
+				{
+					if (JPATH_BASE == JPATH_API)
+					{
+						static::$base['path'] .= '/api';
+					}
+				}
 			}
 			else
 			{
