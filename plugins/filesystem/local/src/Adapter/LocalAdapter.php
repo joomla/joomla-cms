@@ -72,7 +72,8 @@ class LocalAdapter implements AdapterInterface
 		$ds             = DIRECTORY_SEPARATOR;
 		$dir            = JPATH_ROOT . $ds . 'media' . $ds . 'cache_mm' . $ds . 'thumbs' . $ds . $this->filePath;
 
-		if (!is_dir($dir)) {
+		if (!is_dir($dir))
+		{
 			mkdir($dir, 0755, true);
 		}
 	}
@@ -239,7 +240,8 @@ class LocalAdapter implements AdapterInterface
 
 		File::write($localPath, $data);
 
-		if (!is_dir(\dirname($thumbPath))) {
+		if (!is_dir(\dirname($thumbPath)))
+		{
 			mkdir(\dirname($thumbPath), 0755, true);
 		}
 
@@ -276,7 +278,8 @@ class LocalAdapter implements AdapterInterface
 
 		File::write($localPath, $data);
 
-		if (!is_dir(\dirname($thumbPath))) {
+		if (!is_dir(\dirname($thumbPath)))
+		{
 			mkdir(\dirname($thumbPath), 0755, true);
 		}
 
