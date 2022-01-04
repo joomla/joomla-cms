@@ -27,6 +27,8 @@
 </template>
 
 <script>
+import { api } from '../../../app/Api.es6';
+
 export default {
   name: 'MediaBrowserItemAudio',
   // eslint-disable-next-line vue/require-prop-types

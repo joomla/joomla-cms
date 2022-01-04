@@ -27,6 +27,7 @@
 </template>
 <script>
 import navigable from '../../../mixins/navigable.es6';
+import { api } from '../../../app/Api.es6';
 
 export default {
   name: 'MediaBrowserItemDirectory',
