@@ -25,9 +25,8 @@ use Joomla\Registry\Registry;
 class PlgContentContact extends CMSPlugin
 {
 	/**
-	 * Database object
+	 * @var    \Joomla\Database\DatabaseDriver
 	 *
-	 * @var    JDatabaseDriver
 	 * @since  3.3
 	 */
 	protected $db;
