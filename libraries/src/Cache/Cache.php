@@ -599,14 +599,14 @@ class Cache
 	 *
 	 * @since   1.7.0
 	 */
-	public static function setWorkarounds($data, $options = [])
+	public static function setWorkarounds($data, $options = array())
 	{
-		$loptions = [
+		$loptions = array(
 			'nopathway'  => 0,
 			'nohead'     => 0,
 			'nomodules'  => 0,
 			'modulemode' => 0,
-		];
+		);
 
 		if (isset($options['nopathway']))
 		{
@@ -684,9 +684,15 @@ class Cache
 						{
 							foreach ($newvalue as $type => $currentScriptStr)
 							{
+								$currentScriptStr = is_array($currentScriptStr)
+									? implode("\n", $currentScriptStr) : $currentScriptStr;
+
 								if (isset($options['headerbefore'][$now][strtolower($type)]))
 								{
 									$oldScriptStr = $options['headerbefore'][$now][strtolower($type)];
+
+									$oldScriptStr = is_array($oldScriptStr)
+										? implode("\n", $oldScriptStr) : $oldScriptStr;
 
 									if ($oldScriptStr != $currentScriptStr)
 									{
