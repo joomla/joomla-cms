@@ -16,6 +16,7 @@
       @keyup.down="openActions()"
     />
     <div
+      v-if="showActions"
       class="media-browser-actions-list"
     >
       <ul>
@@ -199,7 +200,7 @@ export default {
       this.showActions = true;
       const buttons = [...this.$el.parentElement.querySelectorAll('.media-browser-actions-list button')];
       if (buttons.length) {
-        this.$nextTick(() => last[last.length - 1].focus());
+        this.$nextTick(() => buttons[buttons.length - 1].focus());
       }
     },
     editItem() {
