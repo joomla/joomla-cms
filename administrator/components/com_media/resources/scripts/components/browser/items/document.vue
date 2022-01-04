@@ -23,8 +23,8 @@
       ref="container"
       :focused="focused"
       :item="item"
-      :edit="editItem"
-      :can-edit="canEdit"
+      :editable="canEdit"
+      :deletable="canDelete"
       :previewable="true"
       :downloadable="true"
       :shareable="true"
@@ -43,6 +43,12 @@ export default {
     };
   },
   methods: {
+    canEdit() {
+      return api.canEdit;
+    },
+    canDelete() {
+      return api.canDelete;
+    },
     /* Hide actions dropdown */
     hideActions() {
       this.$refs.container.hideActions();
@@ -51,8 +57,6 @@ export default {
     openPreview() {
       this.$refs.container.openPreview();
     },
-    /* Edit an item */
-    editItem() {},
   },
 };
 </script>

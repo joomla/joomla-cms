@@ -26,6 +26,7 @@
       :item="item"
       :edit="editItem"
       :editable="canEdit"
+      :deletable="canDelete"
       :previewable="true"
       :downloadable="true"
       :shareable="true"
@@ -57,7 +58,10 @@ export default {
   methods: {
     /* Check if the item is a document to edit */
     canEdit() {
-      return ['jpg', 'jpeg', 'png'].includes(this.item.extension.toLowerCase());
+      return api.canEdit && ['jpg', 'jpeg', 'png'].includes(this.item.extension.toLowerCase());
+    },
+    canDelete() {
+      return api.canDelete;
     },
     /* Hide actions dropdown */
     hideActions() {

@@ -44,6 +44,7 @@
         </li>
         <li>
           <media-browser-action-item-rename
+            v-if="canEdit"
             ref="actionRename"
             :on-focused="focused"
             :main-action="openRenameModal"
@@ -90,6 +91,7 @@
         </li>
         <li>
           <media-browser-action-item-delete
+            v-if="canDelete"
             ref="actionDelete"
             :on-focused="focused"
             :main-action="openConfirmDeleteModal"
@@ -120,7 +122,8 @@ export default {
     item: { type: Object, default: () => {} },
     onFocused: { type: Function, default: () => {} },
     edit: { type: Function, default: () => {} },
-    editable: { type: Function, default: () => false },
+    editable: { type: Boolean, default: false },
+    deletable: { type: Boolean, default: false },
     previewable: { type: Boolean, default: false },
     downloadable: { type: Boolean, default: false },
     shareable: { type: Boolean, default: false },
@@ -134,6 +137,9 @@ export default {
     /* Check if the item is an document to edit */
     canEdit() {
       return this.editable();
+    },
+    canDelete() {
+      return this.deletable();
     },
   },
   watch: {

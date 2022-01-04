@@ -17,6 +17,7 @@
     <media-browser-action-items-container
       ref="container"
       :focused="focused"
+      :deleteable="canDelete"
       :item="item"
       :previewable="true"
       :downloadable="true"
@@ -36,6 +37,12 @@ export default {
     };
   },
   methods: {
+    canEdit() {
+      return api.canEdit;
+    },
+    canDelete() {
+      return api.canDelete;
+    },
     /* Hide actions dropdown */
     hideActions() {
       this.$refs.container.hideActions();
