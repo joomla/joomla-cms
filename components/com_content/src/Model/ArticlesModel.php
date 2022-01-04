@@ -130,6 +130,9 @@ class ArticlesModel extends ListModel
 
 		$this->setState('filter.language', Multilanguage::isEnabled());
 
+		// Filter by start and end dates.
+		$this->setState('filter.filter_publish_dates', $params->get('filter_publish_dates', 'all'));
+
 		// Process show_noauth parameter
 		if ((!$params->get('show_noauth')) || (!ComponentHelper::getParams('com_content')->get('show_noauth')))
 		{
@@ -171,6 +174,7 @@ class ArticlesModel extends ListModel
 		$id .= ':' . serialize($this->getState('filter.author_alias'));
 		$id .= ':' . $this->getState('filter.author_alias.include');
 		$id .= ':' . $this->getState('filter.date_filtering');
+		$id .= ':' . $this->getState('filter.filter_publish_dates');
 		$id .= ':' . $this->getState('filter.date_field');
 		$id .= ':' . $this->getState('filter.start_date_range');
 		$id .= ':' . $this->getState('filter.end_date_range');
@@ -529,14 +533,21 @@ class ArticlesModel extends ListModel
 		// Filter by start and end dates.
 		if ((!$user->authorise('core.edit.state', 'com_content')) && (!$user->authorise('core.edit', 'com_content')))
 		{
-			$query->where(
-				[
-					'(' . $db->quoteName('a.publish_up') . ' IS NULL OR ' . $db->quoteName('a.publish_up') . ' <= :publishUp)',
-					'(' . $db->quoteName('a.publish_down') . ' IS NULL OR ' . $db->quoteName('a.publish_down') . ' >= :publishDown)',
-				]
-			)
-				->bind(':publishUp', $nowDate)
-				->bind(':publishDown', $nowDate);
+			// TODO : Populate state for component is not working or something is missing
+			// If no param or state is set we want to force the filters
+			$filterPublishDates = $this->getState('filter.filter_publish_dates', $params->get('filter_publish_dates', 'all'));
+
+			if(in_array($filterPublishDates, ['up','all']))
+			{
+				$query->where('(' . $db->quoteName('a.publish_up') . ' IS NULL OR ' . $db->quoteName('a.publish_up') . ' <= :publishUp)')
+					->bind(':publishUp', $nowDate);
+			}
+
+			if(in_array($filterPublishDates, ['down','all']))
+			{
+				$query->where('(' . $db->quoteName('a.publish_down') . ' IS NULL OR ' . $db->quoteName('a.publish_down') . ' >= :publishDown)')
+					->bind(':publishDown', $nowDate);
+			}
 		}
 
 		// Filter by Date Range or Relative Date

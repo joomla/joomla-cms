@@ -93,6 +93,9 @@ abstract class ArticlesLatestHelper
 				break;
 		}
 
+		// Filter by start and end dates.
+		$model->setState('filter.filter_publish_dates', $params->get('filter_publish_dates', 'all'));
+
 		// Filter by language
 		$model->setState('filter.language', $app->getLanguageFilter());
 

@@ -27,7 +27,6 @@
 	<!-- Add fields to the parameters object for the layout. -->
 	<fields name="params">
 		<fieldset name="basic" label="JGLOBAL_CATEGORIES_OPTIONS">
-
 			<field
 				name="show_base_description"
 				type="list"
@@ -98,10 +97,9 @@
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
 			</field>
-	</fieldset>
+		</fieldset>
 
-	<fieldset name="category" label="JGLOBAL_CATEGORY_OPTIONS" description="JGLOBAL_SUBSLIDER_DRILL_CATEGORIES_LABEL">
-
+		<fieldset name="category" label="JGLOBAL_CATEGORY_OPTIONS" description="JGLOBAL_SUBSLIDER_DRILL_CATEGORIES_LABEL">
 			<field
 				name="show_category_title"
 				type="list"
@@ -201,9 +199,9 @@
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
 			</field>
-	</fieldset>
-	<fieldset name="blog" label="JGLOBAL_BLOG_LAYOUT_OPTIONS" description="JGLOBAL_SUBSLIDER_DRILL_CATEGORIES_LABEL">
+		</fieldset>
 
+		<fieldset name="blog" label="JGLOBAL_BLOG_LAYOUT_OPTIONS" description="JGLOBAL_SUBSLIDER_DRILL_CATEGORIES_LABEL">
 			<field
 				name="blog_class_leading"
 				type="text"
@@ -316,10 +314,9 @@
 				<option value="modified">JGLOBAL_MODIFIED</option>
 				<option value="published">JPUBLISHED</option>
 			</field>
-	</fieldset>
+		</fieldset>
 
-	<fieldset name="advanced" label="JGLOBAL_LIST_LAYOUT_OPTIONS" description="JGLOBAL_SUBSLIDER_DRILL_CATEGORIES_LABEL">
-
+		<fieldset name="advanced" label="JGLOBAL_LIST_LAYOUT_OPTIONS" description="JGLOBAL_SUBSLIDER_DRILL_CATEGORIES_LABEL">
 			<field
 				name="show_pagination_limit"
 				type="list"
@@ -420,11 +417,23 @@
 				<option value="100">J100</option>
 				<option value="0">JALL</option>
 			</field>
-
-	</fieldset>
+		</fieldset>
 
 		<fieldset name="shared" label="COM_CONTENT_SHARED_LABEL" description="COM_CONTENT_SHARED_DESC">
-
+			<field
+				name="filter_publish_dates"
+				type="list"
+				label="JGLOBAL_FIELD_FILTER_PUBLISH_DATES_LABEL"
+				useglobal="true"
+				class="form-select-color-state"
+				validate="options"
+				>
+				<option value="all">JAll</option>
+				<option value="up">JGLOBAL_PUBLISH_UP</option>
+				<option value="down">JGLOBAL_PUBLISH_DOWN</option>
+				<option value="none">JNONE</option>
+			</field>
+			
 			<field
 				name="show_pagination"
 				type="list"
@@ -451,10 +460,7 @@
 			</field>
 		</fieldset>
 
-		<fieldset name="article" label="COM_CONTENT_ATTRIBS_FIELDSET_LABEL"
-			addfieldprefix="Joomla\Component\Content\Administrator\Field"
-		>
-
+		<fieldset name="article" label="COM_CONTENT_ATTRIBS_FIELDSET_LABEL" addfieldprefix="Joomla\Component\Content\Administrator\Field">
 			<field
 				name="article_layout"
 				type="componentlayout"
@@ -684,8 +690,8 @@
 				<option value="1">JYES</option>
 			</field>
 		</fieldset>
-		<fieldset name="integration">
 
+		<fieldset name="integration">
 			<field
 				name="show_feed_link"
 				type="list"

@@ -323,6 +323,19 @@
 			</field>
 
 			<field
+				name="filter_publish_dates"
+				type="list"
+				label="JGLOBAL_FIELD_FILTER_PUBLISH_DATES_LABEL"
+				useglobal="true"
+				validate="options"
+				>
+				<option value="all">JAll</option>
+				<option value="up">JGLOBAL_PUBLISH_UP</option>
+				<option value="down">JGLOBAL_PUBLISH_DOWN</option>
+				<option value="none">JNONE</option>
+			</field>
+
+			<field
 				name="order_date"
 				type="list"
 				label="JGLOBAL_ORDERING_DATE_LABEL"

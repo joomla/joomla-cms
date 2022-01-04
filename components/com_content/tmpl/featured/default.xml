@@ -164,6 +164,21 @@
 			</field>
 
 			<field
+				name="filter_publish_dates"
+				type="list"
+				label="JGLOBAL_FIELD_FILTER_PUBLISH_DATES_LABEL"
+				useglobal="true"
+				class="form-select-color-state"
+				validate="options"
+				parentclass="stack span-2"
+				>
+				<option value="all">JAll</option>
+				<option value="up">JGLOBAL_PUBLISH_UP</option>
+				<option value="down">JGLOBAL_PUBLISH_DOWN</option>
+				<option value="none">JNONE</option>
+			</field>
+
+			<field
 				name="show_pagination"
 				type="list"
 				label="JGLOBAL_PAGINATION_LABEL"

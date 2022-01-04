@@ -221,6 +221,20 @@
 					<option value="0">JGLOBAL_ORDER_ASCENDING</option>
 					<option value="1">JGLOBAL_ORDER_DESCENDING</option>
 				</field>
+
+				<field
+					name="filter_publish_dates"
+					type="list"
+					label="JGLOBAL_FIELD_FILTER_PUBLISH_DATES_LABEL"
+					default="all"
+					class="form-select-color-state"
+					validate="options"
+					>
+					<option value="all">JAll</option>
+					<option value="up">JGLOBAL_PUBLISH_UP</option>
+					<option value="down">JGLOBAL_PUBLISH_DOWN</option>
+					<option value="none">JNONE</option>
+				</field>
 			</fieldset>
 
 			<fieldset name="advanced">

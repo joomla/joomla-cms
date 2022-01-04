@@ -225,6 +225,9 @@ abstract class ArticlesCategoryHelper
 			$articles->setState('filter.relative_date', $params->get('relative_date', 30));
 		}
 
+		// Filter by start and end dates.
+		$articles->setState('filter.filter_publish_dates', $params->get('filter_publish_dates', 'all'));
+
 		// Filter by language
 		$articles->setState('filter.language', $app->getLanguageFilter());
 
