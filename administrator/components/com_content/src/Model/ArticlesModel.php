@@ -462,13 +462,14 @@ class ArticlesModel extends ListModel
 		}
 		elseif (is_array($authorId))
 		{
-			// check to see if by_me is in the array
+			// Check to see if by_me is in the array
 			if (in_array('by_me', $authorId))
 
-			// replace by_me with the current user id in the array
+			// Replace by_me with the current user id in the array
 			{
 				$authorId['by_me'] = $user->id;
 			}
+
 			$authorId = ArrayHelper::toInteger($authorId);
 			$query->whereIn($db->quoteName('a.created_by'), $authorId);
 		}
