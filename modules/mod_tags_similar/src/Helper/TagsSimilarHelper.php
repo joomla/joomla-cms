@@ -194,7 +194,7 @@ abstract class TagsSimilarHelper
 			$query->order($query->rand());
 		}
 
-		$maximum = (int) $params->get('maximum', 5)
+		$maximum = (int) $params->get('maximum', 5);
 
 		if ($maximum > 0)
 		{
