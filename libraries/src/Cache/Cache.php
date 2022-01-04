@@ -599,14 +599,14 @@ class Cache
 	 *
 	 * @since   1.7.0
 	 */
-	public static function setWorkarounds($data, $options = array())
+	public static function setWorkarounds($data, $options = [])
 	{
-		$loptions = array(
+		$loptions = [
 			'nopathway'  => 0,
 			'nohead'     => 0,
 			'nomodules'  => 0,
 			'modulemode' => 0,
-		);
+		];
 
 		if (isset($options['nopathway']))
 		{
@@ -657,7 +657,7 @@ class Cache
 			if ($loptions['modulemode'] == 1)
 			{
 				$headnow = $document->getHeadData();
-				$unset   = array('title', 'description', 'link', 'links', 'metaTags');
+				$unset   = ['title', 'description', 'link', 'links', 'metaTags'];
 
 				foreach ($unset as $un)
 				{
