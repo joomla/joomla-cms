@@ -83,7 +83,7 @@ class LocalAdapter implements AdapterInterface
 
 		if ($this->thumbs)
 		{
-			$dir = JPATH_ROOT . '/media/cache_mm/thumbs/' . $this->filePath;
+			$dir = JPATH_ROOT . '/media/cache/com_media/thumbs/' . $this->filePath;
 
 			if (!is_dir($dir))
 			{
@@ -256,7 +256,7 @@ class LocalAdapter implements AdapterInterface
 		{
 			$thumbPath = str_replace(
 				$this->rootPath,
-				JPATH_ROOT . '/media/cache_mm/thumbs/' . $this->filePath,
+				JPATH_ROOT . '/media/cache/com_media/thumbs/' . $this->filePath,
 				$localPath
 			);
 
@@ -301,7 +301,7 @@ class LocalAdapter implements AdapterInterface
 		{
 			$thumbPath = str_replace(
 				$this->rootPath,
-				JPATH_ROOT . '/media/cache_mm/thumbs/' . $this->filePath,
+				JPATH_ROOT . '/media/cache/com_media/thumbs/' . $this->filePath,
 				$localPath
 			);
 
@@ -330,7 +330,7 @@ class LocalAdapter implements AdapterInterface
 		$localPath = $this->getLocalPath($path);
 		$thumbPath = str_replace(
 			$this->rootPath,
-			JPATH_ROOT . '/media/cache_mm/thumbs/' . $this->filePath,
+			JPATH_ROOT . '/media/cache/com_media/thumbs/' . $this->filePath,
 			$localPath
 		);
 
@@ -953,7 +953,7 @@ class LocalAdapter implements AdapterInterface
 		$dir = \dirname(
 			str_replace(
 				$this->rootPath,
-				JPATH_ROOT . '/media/cache_mm/thumbs/' . $this->filePath,
+				JPATH_ROOT . '/media/cache/com_media/thumbs/' . $this->filePath,
 				$path
 			)
 		);
@@ -965,13 +965,13 @@ class LocalAdapter implements AdapterInterface
 
 		$thumbPath = str_replace(
 			$this->rootPath,
-			JPATH_ROOT . '/media/cache_mm/thumbs/' . $this->filePath,
+			JPATH_ROOT . '/media/cache/com_media/thumbs/' . $this->filePath,
 			$path
 		);
 		$thumbURL = Uri::root() . $this->getEncodedPath(
 			str_replace(
 				$this->rootPath,
-				'media/cache_mm/thumbs/' . $this->filePath,
+				'media/cache/com_media/thumbs/' . $this->filePath,
 				$path
 			)
 		);
