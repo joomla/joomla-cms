@@ -189,16 +189,18 @@ export default {
     /* Open actions dropdown */
     openActions() {
       this.showActions = true;
-      if (this.previewable) {
-        this.$nextTick(() => this.$refs.actionPreview.$el.focus());
-      } else {
-        this.$nextTick(() => this.$refs.actionRename.$el.focus());
+      const buttons = [...this.$el.parentElement.querySelectorAll('.media-browser-actions-list button')];
+      if (buttons.length) {
+        buttons[0].focus();
       }
     },
     /* Open actions dropdown and focus on last element */
     openLastActions() {
       this.showActions = true;
-      this.$nextTick(() => this.$refs.actionDelete.$el.focus());
+      const buttons = [...this.$el.parentElement.querySelectorAll('.media-browser-actions-list button')];
+      if (buttons.length) {
+        this.$nextTick(() => last[last.length - 1].focus());
+      }
     },
     editItem() {
       this.edit();
