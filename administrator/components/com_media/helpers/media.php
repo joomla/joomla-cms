@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_media
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2006 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -209,7 +209,7 @@ abstract class MediaHelper
 	 *
 	 * @return  string  The link for the action log
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.27
 	 */
 	public static function getContentTypeLink($contentType, $id, CMSObject $mediaObject)
 	{

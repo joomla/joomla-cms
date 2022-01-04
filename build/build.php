@@ -6,8 +6,13 @@
  * Note: the new package must be tagged in your git repository BEFORE doing this
  * It uses the git tag for the new version, not trunk.
  *
- * This script is designed to be run in CLI on Linux or Mac OS X.
+ * This script is designed to be run in CLI on Linux, Mac OS X and WSL.
  * Make sure your default umask is 022 to create archives with correct permissions.
+ *
+ * For WSL based setups make sure there is a /etc/wsl.conf with the following content:
+ * [automount]
+ * enabled=true
+ * options=metadata,uid=1000,gid=1000,umask=022
  *
  * Steps:
  * 1. Tag new release in the local git repository (for example, "git tag 2.5.1")
@@ -16,7 +21,7 @@
  * 4. Check the archives in the tmp directory.
  *
  * @package    Joomla.Build
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2012 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -28,7 +33,7 @@ function usage($command)
 {
 	echo PHP_EOL;
 	echo 'Usage: php ' . $command . ' [options]' . PHP_EOL;
-	echo PHP_TAB . '[options]:'.PHP_EOL;
+	echo PHP_TAB . '[options]:' . PHP_EOL;
 	echo PHP_TAB . PHP_TAB . '--remote <remote>:' . PHP_TAB . 'The git remote reference to build from (ex: `tags/3.8.6`, `4.0-dev`), defaults to the most recent tag for the repository' . PHP_EOL;
 	echo PHP_TAB . PHP_TAB . '--exclude-zip:' . PHP_TAB . PHP_TAB . 'Exclude the generation of .zip packages' . PHP_EOL;
 	echo PHP_TAB . PHP_TAB . '--exclude-gzip:' . PHP_TAB . PHP_TAB . 'Exclude the generation of .tar.gz packages' . PHP_EOL;
@@ -71,6 +76,9 @@ $excludeGzip  = isset($options['exclude-gzip']);
 $excludeBzip2 = isset($options['exclude-bzip2']);
 $showHelp     = isset($options['help']);
 
+// Disable the generation of extra text files
+$includeExtraTextfiles = false;
+
 if ($showHelp)
 {
 	usage($argv[0]);
@@ -84,6 +92,9 @@ if (!$remote)
 	$tagVersion = system($systemGit . ' describe --tags `' . $systemGit . ' rev-list --tags --max-count=1`', $tagVersion);
 	$remote = 'tags/' . $tagVersion;
 	chdir($here);
+
+	// We are in release mode so we need the extra text files
+	$includeExtraTextfiles = true;
 }
 
 echo "Start build for remote $remote.\n";
@@ -228,18 +239,21 @@ for ($num = $release - 1; $num >= 0; $num--)
 	// Loop through and add all files except: tests, installation, build, .git, .travis, travis, phpunit, .md, or images
 	foreach ($files as $file)
 	{
-		if (substr($file, 0, 1) === 'R') {
-			$fileName   = substr($file, strrpos($file, "\t") + 1);
-		} else {
-			$fileName   = substr($file, 2);
+		if (substr($file, 0, 1) === 'R')
+		{
+			$fileName = substr($file, strrpos($file, "\t") + 1);
 		}
-		$folderPath = explode('/', $fileName);
-		$baseFolderName = $folderPath[0];
+		else
+		{
+			$fileName = substr($file, 2);
+		}
 
-		$doNotPackageFile = in_array(trim($fileName), $doNotPackage);
-		$doNotPatchFile = in_array(trim($fileName), $doNotPatch);
+		$folderPath             = explode('/', $fileName);
+		$baseFolderName         = $folderPath[0];
+		$doNotPackageFile       = in_array(trim($fileName), $doNotPackage);
+		$doNotPatchFile         = in_array(trim($fileName), $doNotPatch);
 		$doNotPackageBaseFolder = in_array($baseFolderName, $doNotPackage);
-		$doNotPatchBaseFolder = in_array($baseFolderName, $doNotPatch);
+		$doNotPatchBaseFolder   = in_array($baseFolderName, $doNotPatch);
 
 		if ($doNotPackageFile || $doNotPatchFile || $doNotPackageBaseFolder || $doNotPatchBaseFolder)
 		{
@@ -389,84 +403,98 @@ if (!$excludeZip)
 
 chdir('..');
 
-foreach (array_keys($checksums) as $packageName)
+// Thats only needed when we release a version
+if ($includeExtraTextfiles)
 {
-	echo "Generating checksums for $packageName\n";
 
-	foreach (array('md5', 'sha1', 'sha256', 'sha384', 'sha512') as $hash)
+	foreach (array_keys($checksums) as $packageName)
 	{
-		if (file_exists('packages/' . $packageName))
+		echo "Generating checksums for $packageName\n";
+
+		foreach (array('sha256', 'sha384', 'sha512') as $hash)
 		{
-			$checksums[$packageName][$hash] = hash_file($hash, 'packages/' . $packageName);
+			if (file_exists('packages/' . $packageName))
+			{
+				$checksums[$packageName][$hash] = hash_file($hash, 'packages/' . $packageName);
+			}
+			else
+			{
+				echo "Package $packageName not found in build directories\n";
+			}
 		}
-		else
+	}
+
+	echo "Generating checksums.txt file\n";
+
+	$checksumsContent = '';
+
+	foreach ($checksums as $packageName => $packageHashes)
+	{
+		$checksumsContent .= "Filename: $packageName\n";
+
+		foreach ($packageHashes as $hashType => $hash)
 		{
-			echo "Package $packageName not found in build directories\n";
+			$checksumsContent .= "$hashType: $hash\n";
 		}
-	}
-}
 
-echo "Generating checksums.txt file\n";
-
-$checksumsContent = '';
-
-foreach ($checksums as $packageName => $packageHashes)
-{
-	$checksumsContent .= "Filename: $packageName\n";
-
-	foreach ($packageHashes as $hashType => $hash)
-	{
-		$checksumsContent .= "$hashType: $hash\n";
+		$checksumsContent .= "\n";
 	}
 
-	$checksumsContent .= "\n";
-}
+	file_put_contents('checksums.txt', $checksumsContent);
 
-file_put_contents('checksums.txt', $checksumsContent);
+	echo "Generating github_release.txt file\n";
 
-echo "Generating github_release.txt file\n";
+	$githubContent = array();
+	$githubText    = '';
+	$releaseText   = array(
+		'FULL'    => 'New Joomla! Installations ',
+		'POINT'   => 'Update from Joomla! ' . $version . '.' . $previousRelease . ' ',
+		'MINOR'   => 'Update from Joomla! ' . $version . '.x ',
+		'UPGRADE' => 'Update from Joomla! 2.5 or previous 3.x releases ',
+	);
+	$githubLink = 'https://github.com/joomla/joomla-cms/releases/download/' . $tagVersion . '/';
 
-$githubContent = array();
-$githubText = '';
-$releaseText = array(
-	'FULL' => 'New Joomla! Installations ',
-	'POINT' => 'Update from Joomla! ' . $version . '.' . $previousRelease . ' ',
-	'MINOR' => 'Update from Joomla! ' . $version . '.x ',
-	'UPGRADE' => 'Update from Joomla! 2.5 or previous 3.x releases ',
-);
-$githubLink = 'https://github.com/joomla/joomla-cms/releases/download/' . $tagVersion . '/';
-
-foreach ($checksums as $packageName => $packageHashes)
-{
-	$type = '';
-	if (strpos($packageName, 'Full_Package') !== false)
+	foreach ($checksums as $packageName => $packageHashes)
 	{
-		$type = 'FULL';
-	} elseif (strpos($packageName, 'Patch_Package') !== false) {
-		if (strpos($packageName, '.x_to') !== false) {
-			$type = 'MINOR';
-		} else {
-			$type = 'POINT';
+		$type = '';
+
+		if (strpos($packageName, 'Full_Package') !== false)
+		{
+			$type = 'FULL';
 		}
-	} elseif (strpos($packageName, 'Update_Package') !== false) {
-		$type = 'UPGRADE';
+		elseif (strpos($packageName, 'Patch_Package') !== false)
+		{
+			if (strpos($packageName, '.x_to') !== false)
+			{
+				$type = 'MINOR';
+			}
+			else
+			{
+				$type = 'POINT';
+			}
+		}
+		elseif (strpos($packageName, 'Update_Package') !== false)
+		{
+			$type = 'UPGRADE';
+		}
+
+		$githubContent[$type][] = '[' . substr($packageName, strpos($packageName, 'Package') + 7) . '](' . $githubLink . $packageName . ')';
 	}
 
-	$githubContent[$type][] = '[' . substr($packageName, strpos($packageName, 'Package') + 7) . '](' . $githubLink . $packageName . ')';
-}
+	foreach ($releaseText as $type => $text)
+	{
+		if (empty($githubContent[$type]))
+		{
+			continue;
+		}
 
-foreach($releaseText as $type => $text)
-{
-	if (empty($githubContent[$type])) {
-		continue;
+		$githubText .= $text;
+		$githubText .= implode(" | ", $githubContent[$type]);
+
+		$githubText .= "\n";
 	}
 
-	$githubText .= $text;
-	$githubText .= implode(" | ", $githubContent[$type]);
-
-	$githubText .= "\n";
+	file_put_contents('github_release.txt', $githubText);
 }
-
-file_put_contents('github_release.txt', $githubText);
 
 echo "Build of version $fullVersion complete!\n";

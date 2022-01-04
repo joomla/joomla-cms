@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  User.joomla
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2006 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -354,23 +354,9 @@ class PlgUserJoomla extends JPlugin
 
 		if ($forceLogout)
 		{
-			$query = $this->db->getQuery(true)
-				->delete($this->db->quoteName('#__session'))
-				->where($this->db->quoteName('userid') . ' = ' . (int) $user['id']);
+			$clientId = (!$sharedSessions) ? (int) $options['clientid'] : null;
 
-			if (!$sharedSessions)
-			{
-				$query->where($this->db->quoteName('client_id') . ' = ' . (int) $options['clientid']);
-			}
-
-			try
-			{
-				$this->db->setQuery($query)->execute();
-			}
-			catch (RuntimeException $e)
-			{
-				return false;
-			}
+			UserHelper::destroyUserSessions($user['id'], false, $clientId);
 		}
 
 		// Delete "user state" cookie used for reverse caching proxies like Varnish, Nginx etc.

@@ -1,5 +1,5 @@
 /**
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2016 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 !(function(window, document){
@@ -26,6 +26,21 @@
 		}
 		return str;
 	};
+
+	// CustomEvent polyfill for IE
+	(function () {
+
+		if ( typeof window.CustomEvent === "function" ) return false;
+
+		function CustomEvent ( event, params ) {
+			params = params || { bubbles: false, cancelable: false, detail: undefined };
+			var evt = document.createEvent('CustomEvent');
+			evt.initCustomEvent( event, params.bubbles, params.cancelable, params.detail );
+			return evt;
+		}
+
+		window.CustomEvent = CustomEvent;
+	})();
 
 	var JoomlaCalendar = function (element) {
 
@@ -234,15 +249,11 @@
 		}
 		this.inputField.value = this.date.print(this.params.dateFormat, this.params.dateType, true);
 
-		if (typeof this.inputField.onchange == "function") {
-			this.inputField.onchange();
-		}
-
 		if (this.dateClicked && typeof this.params.onUpdate === "function") {
 			this.params.onUpdate(this);
 		}
 
-		this.inputField.dispatchEvent(new Event('change', {bubbles: true, cancelable: true}));
+		this.inputField.dispatchEvent(new CustomEvent('change', {bubbles: true, cancelable: true}));
 
 		if (this.dateClicked) {
 			this.close();
@@ -800,10 +811,7 @@
 				self.inputField.setAttribute('data-alt-value', "0000-00-00 00:00:00");
 				self.inputField.setAttribute('value', '');
 				self.inputField.value = '';
-				if (self.inputField.onchange) {
-					self.inputField.onchange();
-				}
-				self.inputField.dispatchEvent(new Event('change', {bubbles: true, cancelable: true}));
+				self.inputField.dispatchEvent(new CustomEvent('change', {bubbles: true, cancelable: true}));
 			});
 
 		if (this.params.showsTodayBtn) {

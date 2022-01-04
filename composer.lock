@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "ba560746d60d5a740f097fe2d35b211b",
+    "content-hash": "576ba4484df6a684545e5b84464c8c95",
     "packages": [
         {
             "name": "brumann/polyfill-unserialize",
@@ -204,20 +204,20 @@
         },
         {
             "name": "joomla/archive",
-            "version": "1.1.8",
+            "version": "1.1.10",
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-framework/archive.git",
-                "reference": "3753805379a764fa96fd3db7e3b6218760d169ac"
+                "reference": "32c9009a1020d16bc1060c0d06339898b697cf2c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-framework/archive/zipball/3753805379a764fa96fd3db7e3b6218760d169ac",
-                "reference": "3753805379a764fa96fd3db7e3b6218760d169ac",
+                "url": "https://api.github.com/repos/joomla-framework/archive/zipball/32c9009a1020d16bc1060c0d06339898b697cf2c",
+                "reference": "32c9009a1020d16bc1060c0d06339898b697cf2c",
                 "shasum": ""
             },
             "require": {
-                "joomla/filesystem": "~1.3|~2.0",
+                "joomla/filesystem": "~1.6|~2.0@beta",
                 "php": "^5.3.10|~7.0"
             },
             "require-dev": {
@@ -254,7 +254,7 @@
             ],
             "support": {
                 "issues": "https://github.com/joomla-framework/archive/issues",
-                "source": "https://github.com/joomla-framework/archive/tree/1.1.8"
+                "source": "https://github.com/joomla-framework/archive/tree/1.1.10"
             },
             "funding": [
                 {
@@ -266,7 +266,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2020-11-27T23:24:42+00:00"
+            "time": "2021-03-06T12:37:57+00:00"
         },
         {
             "name": "joomla/compat",
@@ -538,12 +538,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-framework/filter.git",
-                "reference": "df3403c90cd8718895122ed7be27a85d842dcb7f"
+                "reference": "ec9517655b0b72e8a3f7665a88f8b8f6e21eb480"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-framework/filter/zipball/df3403c90cd8718895122ed7be27a85d842dcb7f",
-                "reference": "df3403c90cd8718895122ed7be27a85d842dcb7f",
+                "url": "https://api.github.com/repos/joomla-framework/filter/zipball/ec9517655b0b72e8a3f7665a88f8b8f6e21eb480",
+                "reference": "ec9517655b0b72e8a3f7665a88f8b8f6e21eb480",
                 "shasum": ""
             },
             "require": {
@@ -582,7 +582,7 @@
             ],
             "support": {
                 "issues": "https://github.com/joomla-framework/filter/issues",
-                "source": "https://github.com/joomla-framework/filter/tree/2.0.0-beta3"
+                "source": "https://github.com/joomla-framework/filter/tree/1.4.3"
             },
             "funding": [
                 {
@@ -594,7 +594,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2021-01-31T22:55:23+00:00"
+            "time": "2021-02-01T01:43:30+00:00"
         },
         {
             "name": "joomla/image",
@@ -1023,25 +1023,25 @@
         },
         {
             "name": "joomla/utilities",
-            "version": "1.6.1",
+            "version": "1.6.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-framework/utilities.git",
-                "reference": "b54beb07ddf2d8074f6f8f43c365f84ddf714c8f"
+                "reference": "9f7d9fda537ca005f7467de68f92506d48f348f5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-framework/utilities/zipball/b54beb07ddf2d8074f6f8f43c365f84ddf714c8f",
-                "reference": "b54beb07ddf2d8074f6f8f43c365f84ddf714c8f",
+                "url": "https://api.github.com/repos/joomla-framework/utilities/zipball/9f7d9fda537ca005f7467de68f92506d48f348f5",
+                "reference": "9f7d9fda537ca005f7467de68f92506d48f348f5",
                 "shasum": ""
             },
             "require": {
                 "joomla/string": "~1.3|~2.0",
-                "php": "^5.3.10|~7.0"
+                "php": "^5.3.10|~7.0|^8.0"
             },
             "require-dev": {
                 "joomla/coding-standards": "~2.0@alpha",
-                "phpunit/phpunit": "^4.8.35|^5.4.3|~6.0"
+                "phpunit/phpunit": "^4.8.35|^5.4.3|~6.0|^7.0|^8.0"
             },
             "type": "joomla-package",
             "extra": {
@@ -1067,9 +1067,19 @@
             ],
             "support": {
                 "issues": "https://github.com/joomla-framework/utilities/issues",
-                "source": "https://github.com/joomla-framework/utilities/tree/1.6.1"
+                "source": "https://github.com/joomla-framework/utilities/tree/1.6.2"
             },
-            "time": "2019-07-17T01:48:57+00:00"
+            "funding": [
+                {
+                    "url": "https://community.joomla.org/sponsorship-campaigns.html",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://github.com/joomla",
+                    "type": "github"
+                }
+            ],
+            "time": "2021-06-02T21:39:39+00:00"
         },
         {
             "name": "leafo/lessphp",
@@ -1077,12 +1087,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-backports/lessphp.git",
-                "reference": "1bddadba0691b59dedfe841b1f99f9d4294b208c"
+                "reference": "802755b7632f59078843f38c9d57e5a8c496cc3a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-backports/lessphp/zipball/1bddadba0691b59dedfe841b1f99f9d4294b208c",
-                "reference": "1bddadba0691b59dedfe841b1f99f9d4294b208c",
+                "url": "https://api.github.com/repos/joomla-backports/lessphp/zipball/802755b7632f59078843f38c9d57e5a8c496cc3a",
+                "reference": "802755b7632f59078843f38c9d57e5a8c496cc3a",
                 "shasum": ""
             },
             "require-dev": {
@@ -1122,10 +1132,7 @@
             ],
             "description": "lessphp is a compiler for LESS written in PHP.",
             "homepage": "http://leafo.net/lessphp/",
-            "support": {
-                "source": "https://github.com/joomla-backports/lessphp/tree/joomla3-php8"
-            },
-            "time": "2020-10-10T19:20:26+00:00"
+            "time": "2021-08-13T06:59:31+00:00"
         },
         {
             "name": "paragonie/random_compat",
@@ -1182,16 +1189,16 @@
         },
         {
             "name": "paragonie/sodium_compat",
-            "version": "v1.9.1",
+            "version": "v1.17.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/paragonie/sodium_compat.git",
-                "reference": "87125d5b265f98c4d1b8d83a1f0726607c229421"
+                "reference": "c59cac21abbcc0df06a3dd18076450ea4797b321"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/paragonie/sodium_compat/zipball/87125d5b265f98c4d1b8d83a1f0726607c229421",
-                "reference": "87125d5b265f98c4d1b8d83a1f0726607c229421",
+                "url": "https://api.github.com/repos/paragonie/sodium_compat/zipball/c59cac21abbcc0df06a3dd18076450ea4797b321",
+                "reference": "c59cac21abbcc0df06a3dd18076450ea4797b321",
                 "shasum": ""
             },
             "require": {
@@ -1199,7 +1206,7 @@
                 "php": "^5.2.4|^5.3|^5.4|^5.5|^5.6|^7|^8"
             },
             "require-dev": {
-                "phpunit/phpunit": "^3|^4|^5"
+                "phpunit/phpunit": "^3|^4|^5|^6|^7|^8|^9"
             },
             "suggest": {
                 "ext-libsodium": "PHP < 7.0: Better performance, password hashing (Argon2i), secure memory management (memzero), and better security.",
@@ -1262,22 +1269,22 @@
             ],
             "support": {
                 "issues": "https://github.com/paragonie/sodium_compat/issues",
-                "source": "https://github.com/paragonie/sodium_compat/tree/master"
+                "source": "https://github.com/paragonie/sodium_compat/tree/v1.17.0"
             },
-            "time": "2019-03-20T17:19:05+00:00"
+            "time": "2021-08-10T02:43:50+00:00"
         },
         {
             "name": "phpmailer/phpmailer",
-            "version": "v5.2.28",
+            "version": "dev-joomla-backports",
             "source": {
                 "type": "git",
-                "url": "https://github.com/PHPMailer/PHPMailer.git",
-                "reference": "acba50393dd03da69a50226c139722af8b153b11"
+                "url": "https://github.com/joomla-backports/PHPMailer.git",
+                "reference": "3bac61142e875279af98f16afef696b6bb7a19c9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/PHPMailer/PHPMailer/zipball/acba50393dd03da69a50226c139722af8b153b11",
-                "reference": "acba50393dd03da69a50226c139722af8b153b11",
+                "url": "https://api.github.com/repos/joomla-backports/PHPMailer/zipball/3bac61142e875279af98f16afef696b6bb7a19c9",
+                "reference": "3bac61142e875279af98f16afef696b6bb7a19c9",
                 "shasum": ""
             },
             "require": {
@@ -1307,6 +1314,7 @@
             "suggest": {
                 "league/oauth2-google": "Needed for Google XOAUTH2 authentication"
             },
+            "default-branch": true,
             "type": "library",
             "autoload": {
                 "classmap": [
@@ -1319,7 +1327,6 @@
                     "extras/ntlm_sasl_client.php"
                 ]
             },
-            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "LGPL-2.1"
             ],
@@ -1341,25 +1348,7 @@
                 }
             ],
             "description": "PHPMailer is a full-featured email creation and transfer class for PHP",
-            "support": {
-                "issues": "https://github.com/PHPMailer/PHPMailer/issues",
-                "source": "https://github.com/PHPMailer/PHPMailer/tree/v5.2.28"
-            },
-            "funding": [
-                {
-                    "url": "https://marcus.bointon.com/donations/",
-                    "type": "custom"
-                },
-                {
-                    "url": "https://github.com/Synchro",
-                    "type": "github"
-                },
-                {
-                    "url": "https://www.patreon.com/marcusbointon",
-                    "type": "patreon"
-                }
-            ],
-            "time": "2020-03-19T14:29:37+00:00"
+            "time": "2021-08-13T06:59:24+00:00"
         },
         {
             "name": "psr/container",
@@ -1416,16 +1405,16 @@
         },
         {
             "name": "psr/log",
-            "version": "1.1.3",
+            "version": "1.1.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/php-fig/log.git",
-                "reference": "0f73288fd15629204f9d42b7055f72dacbe811fc"
+                "reference": "d49695b909c3b7628b6289db5479a1c204601f11"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-fig/log/zipball/0f73288fd15629204f9d42b7055f72dacbe811fc",
-                "reference": "0f73288fd15629204f9d42b7055f72dacbe811fc",
+                "url": "https://api.github.com/repos/php-fig/log/zipball/d49695b909c3b7628b6289db5479a1c204601f11",
+                "reference": "d49695b909c3b7628b6289db5479a1c204601f11",
                 "shasum": ""
             },
             "require": {
@@ -1449,7 +1438,7 @@
             "authors": [
                 {
                     "name": "PHP-FIG",
-                    "homepage": "http://www.php-fig.org/"
+                    "homepage": "https://www.php-fig.org/"
                 }
             ],
             "description": "Common interface for logging libraries",
@@ -1460,9 +1449,9 @@
                 "psr-3"
             ],
             "support": {
-                "source": "https://github.com/php-fig/log/tree/1.1.3"
+                "source": "https://github.com/php-fig/log/tree/1.1.4"
             },
-            "time": "2020-03-23T09:12:05+00:00"
+            "time": "2021-05-03T11:20:27+00:00"
         },
         {
             "name": "simplepie/simplepie",
@@ -3815,7 +3804,8 @@
     "aliases": [],
     "minimum-stability": "dev",
     "stability-flags": {
-        "leafo/lessphp": 20
+        "leafo/lessphp": 20,
+        "phpmailer/phpmailer": 20
     },
     "prefer-stable": true,
     "prefer-lowest": false,
@@ -3826,5 +3816,5 @@
     "platform-overrides": {
         "php": "5.3.10"
     },
-    "plugin-api-version": "2.0.0"
+    "plugin-api-version": "2.2.0"
 }

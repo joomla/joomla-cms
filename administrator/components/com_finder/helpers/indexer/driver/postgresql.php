@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2012 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -247,28 +247,30 @@ class FinderIndexerDriverPostgresql extends FinderIndexer
 		 * table.
 		 */
 		$query = 'INSERT INTO ' . $db->quoteName('#__finder_tokens_aggregate') .
-				' (' . $db->quoteName('term_id') .
-				', ' . $db->quoteName('term') .
-				', ' . $db->quoteName('stem') .
-				', ' . $db->quoteName('common') .
-				', ' . $db->quoteName('phrase') .
-				', ' . $db->quoteName('term_weight') .
-				', ' . $db->quoteName('context') .
-				', ' . $db->quoteName('context_weight') .
-				', ' . $db->quoteName('language') . ')' .
-				' SELECT' .
-				' t.term_id, t1.term, t1.stem, t1.common, t1.phrase, t1.weight, t1.context,' .
-				' ROUND( t1.weight * COUNT( t2.term ) * %F, 8 ) AS context_weight, t1.language' .
-				' FROM (' .
-				'   SELECT DISTINCT t1.term, t1.stem, t1.common, t1.phrase, t1.weight, t1.context, t1.language' .
-				'   FROM ' . $db->quoteName('#__finder_tokens') . ' AS t1' .
-				'   WHERE t1.context = %d' .
-				' ) AS t1' .
-				' JOIN ' . $db->quoteName('#__finder_tokens') . ' AS t2 ON t2.term = t1.term' .
-				' LEFT JOIN ' . $db->quoteName('#__finder_terms') . ' AS t ON t.term = t1.term' .
-				' WHERE t2.context = %d AND t.term_id IS NOT NULL' .
-				' GROUP BY t1.term, t.term_id, t1.term, t1.stem, t1.common, t1.phrase, t1.weight, t1.context, t1.language' .
-				' ORDER BY t1.term DESC';
+			' (' . $db->quoteName('term_id') .
+			', ' . $db->quoteName('map_suffix') .
+			', ' . $db->quoteName('term') .
+			', ' . $db->quoteName('stem') .
+			', ' . $db->quoteName('common') .
+			', ' . $db->quoteName('phrase') .
+			', ' . $db->quoteName('term_weight') .
+			', ' . $db->quoteName('context') .
+			', ' . $db->quoteName('context_weight') .
+			', ' . $db->quoteName('total_weight') .
+			', ' . $db->quoteName('language') . ')' .
+			' SELECT' .
+			' COALESCE(t.term_id, 0), \'\', t1.term, t1.stem, t1.common, t1.phrase, t1.weight, t1.context,' .
+			' ROUND( t1.weight * COUNT( t2.term ) * %F, 8 ) AS context_weight, 0, t1.language' .
+			' FROM (' .
+			'   SELECT DISTINCT t1.term, t1.stem, t1.common, t1.phrase, t1.weight, t1.context, t1.language' .
+			'   FROM ' . $db->quoteName('#__finder_tokens') . ' AS t1' .
+			'   WHERE t1.context = %d' .
+			' ) AS t1' .
+			' JOIN ' . $db->quoteName('#__finder_tokens') . ' AS t2 ON t2.term = t1.term AND t2.language = t1.language' .
+			' LEFT JOIN ' . $db->quoteName('#__finder_terms') . ' AS t ON t.term = t1.term ' .
+			' WHERE t2.context = %d' .
+			' GROUP BY t1.term, t.term_id, t1.stem, t1.common, t1.phrase, t1.weight, t1.context, t1.language' .
+			' ORDER BY t1.term DESC';
 
 		// Iterate through the contexts and aggregate the tokens per context.
 		foreach ($state->weights as $context => $multiplier)
@@ -288,32 +290,21 @@ class FinderIndexerDriverPostgresql extends FinderIndexer
 		 * table have a term of 0, then no term record exists for that
 		 * term so we need to add it to the terms table.
 		 */
-
-		// Emulation of IGNORE INTO behaviour
 		$db->setQuery(
-			' SELECT ta.term' .
+			'INSERT INTO ' . $db->quoteName('#__finder_terms') .
+			' (' . $db->quoteName('term') .
+			', ' . $db->quoteName('stem') .
+			', ' . $db->quoteName('common') .
+			', ' . $db->quoteName('phrase') .
+			', ' . $db->quoteName('weight') .
+			', ' . $db->quoteName('soundex') .
+			', ' . $db->quoteName('language') . ')' .
+			' SELECT ta.term, ta.stem, ta.common, ta.phrase, ta.term_weight, SOUNDEX(ta.term), ta.language' .
 			' FROM ' . $db->quoteName('#__finder_tokens_aggregate') . ' AS ta' .
-			' WHERE ta.term_id = 0'
+			' WHERE ta.term_id = 0' .
+			' GROUP BY ta.term, ta.stem, ta.common, ta.phrase, ta.term_weight, SOUNDEX(ta.term), ta.language'
 		);
-
-		if ($db->loadRow() === null)
-		{
-			$db->setQuery(
-				'INSERT INTO ' . $db->quoteName('#__finder_terms') .
-				' (' . $db->quoteName('term') .
-				', ' . $db->quoteName('stem') .
-				', ' . $db->quoteName('common') .
-				', ' . $db->quoteName('phrase') .
-				', ' . $db->quoteName('weight') .
-				', ' . $db->quoteName('soundex') .
-				', ' . $db->quoteName('language') . ')' .
-				' SELECT ta.term, ta.stem, ta.common, ta.phrase, ta.term_weight, SOUNDEX(ta.term), ta.language' .
-				' FROM ' . $db->quoteName('#__finder_tokens_aggregate') . ' AS ta' .
-				' WHERE ta.term_id = 0' .
-				' GROUP BY ta.term, ta.stem, ta.common, ta.phrase, ta.term_weight, SOUNDEX(ta.term), ta.language'
-			);
-			$db->execute();
-		}
+		$db->execute();
 
 		/*
 		 * Now, we just inserted a bunch of new records into the terms table
@@ -395,9 +386,11 @@ class FinderIndexerDriverPostgresql extends FinderIndexer
 		static::$profiler ? static::$profiler->mark('afterMapping') : null;
 
 		// Update the signature.
+		$object = serialize($item);
 		$query->clear()
 			->update($db->quoteName('#__finder_links'))
 			->set($db->quoteName('md5sum') . ' = ' . $db->quote($curSig))
+			->set($db->quoteName('object') . ' = ' . $db->quote(pg_escape_bytea($object)))
 			->where($db->quoteName('link_id') . ' = ' . $db->quote($linkId));
 		$db->setQuery($query);
 		$db->execute();

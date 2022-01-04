@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_search
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2006 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -347,7 +347,12 @@ class SearchHelper
 		}
 		else
 		{
-			if (($wordpos = @StringHelper::strpos($text, ' ', $length)) !== false)
+			if (($mbtextlen = StringHelper::strlen($text)) < $length)
+			{
+				$length = $mbtextlen;
+			}
+
+			if (($wordpos = StringHelper::strpos($text, ' ', $length)) !== false)
 			{
 				return StringHelper::substr($text, 0, $wordpos) . '&#160;...';
 			}
