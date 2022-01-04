@@ -53,14 +53,24 @@ class LocalAdapter implements AdapterInterface
 	private $filePath = null;
 
 	/**
+	 * Should the adapter create a thumbnail for the image?
+	 *
+	 * @var boolean
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
+	private $thumbs = false;
+
+	/**
 	 * The absolute root path in the local file system.
 	 *
-	 * @param   string  $rootPath  The root path
-	 * @param   string  $filePath  The file path of media folder
+	 * @param   string   $rootPath  The root path
+	 * @param   string   $filePath  The file path of media folder
+	 * @param   boolean  $thumbs    The thumbs option
 	 *
 	 * @since   4.0.0
 	 */
-	public function __construct(string $rootPath, string $filePath)
+	public function __construct(string $rootPath, string $filePath, bool $thumbs = false)
 	{
 		if (!file_exists($rootPath))
 		{
@@ -69,11 +79,16 @@ class LocalAdapter implements AdapterInterface
 
 		$this->rootPath = Path::clean(realpath($rootPath), '/');
 		$this->filePath = $filePath;
-		$dir            = JPATH_ROOT . '/media/cache_mm/thumbs/' . $this->filePath;
+		$this->thumbs   = $thumbs;
 
-		if (!is_dir($dir))
+		if ($this->thumbs)
 		{
-			mkdir($dir, 0755, true);
+			$dir = JPATH_ROOT . '/media/cache_mm/thumbs/' . $this->filePath;
+
+			if (!is_dir($dir))
+			{
+				mkdir($dir, 0755, true);
+			}
 		}
 	}
 
@@ -232,23 +247,27 @@ class LocalAdapter implements AdapterInterface
 	{
 		$name      = $this->getSafeName($name);
 		$localPath = $this->getLocalPath($path . '/' . $name);
-		$thumbPath = str_replace(
-			$this->rootPath,
-			JPATH_ROOT . '/media/cache_mm/thumbs/' . $this->filePath,
-			$localPath
-		);
 
 		$this->checkContent($localPath, $data);
 
 		File::write($localPath, $data);
 
-		if (!is_dir(\dirname($thumbPath)))
+		if ($this->thumbs)
 		{
-			mkdir(\dirname($thumbPath), 0755, true);
-		}
+			$thumbPath = str_replace(
+				$this->rootPath,
+				JPATH_ROOT . '/media/cache_mm/thumbs/' . $this->filePath,
+				$localPath
+			);
 
-		// Create the thumbnail
-		(new Image($localPath))->resize(300, 200, true)->toFile($thumbPath);
+			if (!is_dir(\dirname($thumbPath)))
+			{
+				mkdir(\dirname($thumbPath), 0755, true);
+			}
+
+			// Create the thumbnail
+			(new Image($localPath))->resize(300, 300, true)->toFile($thumbPath);
+		}
 
 		return $name;
 	}
@@ -268,11 +287,6 @@ class LocalAdapter implements AdapterInterface
 	public function updateFile(string $name, string $path, $data)
 	{
 		$localPath = $this->getLocalPath($path . '/' . $name);
-		$thumbPath = str_replace(
-			$this->rootPath,
-			JPATH_ROOT . '/media/cache_mm/thumbs/' . $this->filePath,
-			$localPath
-		);
 
 		if (!File::exists($localPath))
 		{
@@ -283,13 +297,22 @@ class LocalAdapter implements AdapterInterface
 
 		File::write($localPath, $data);
 
-		if (!is_dir(\dirname($thumbPath)))
+		if ($this->thumbs)
 		{
-			mkdir(\dirname($thumbPath), 0755, true);
-		}
+			$thumbPath = str_replace(
+				$this->rootPath,
+				JPATH_ROOT . '/media/cache_mm/thumbs/' . $this->filePath,
+				$localPath
+			);
 
-		// Create the thumbnail
-		(new Image($localPath))->resize(300, 200, true)->toFile($thumbPath);
+			if (!is_dir(\dirname($thumbPath)))
+			{
+				mkdir(\dirname($thumbPath), 0755, true);
+			}
+
+			// Create the thumbnail
+			(new Image($localPath))->resize(300, 300, true)->toFile($thumbPath);
+		}
 	}
 
 	/**
@@ -318,7 +341,7 @@ class LocalAdapter implements AdapterInterface
 				throw new FileNotFoundException;
 			}
 
-			if (is_file($thumbPath))
+			if ($this->thumbs && is_file($thumbPath))
 			{
 				File::delete($thumbPath);
 			}
@@ -332,7 +355,7 @@ class LocalAdapter implements AdapterInterface
 				throw new FileNotFoundException;
 			}
 
-			if (is_dir($thumbPath))
+			if ($this->thumbs && is_dir($thumbPath))
 			{
 				Folder::delete($thumbPath);
 			}
@@ -404,7 +427,7 @@ class LocalAdapter implements AdapterInterface
 				$obj->width  = $props->width;
 				$obj->height = $props->height;
 
-				$obj->thumb_path = $this->getThumb($path);
+				$obj->thumb_path = $this->thumbs ? $this->getThumb($path) : $this->getUrl($obj->path);
 			}
 			catch (UnparsableImageException $e)
 			{
@@ -959,7 +982,7 @@ class LocalAdapter implements AdapterInterface
 		}
 
 		// Create the thumbnail
-		(new Image($path))->resize(300, 200, true)->toFile($thumbPath);
+		(new Image($path))->resize(300, 300, true)->toFile($thumbPath);
 
 		return $thumbURL;
 	}

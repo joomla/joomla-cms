@@ -44,6 +44,17 @@
 							hide_none="true"
 							validate="options"
 						/>
+						<field
+							name="thumbs"
+							type="radio"
+							layout="joomla.form.field.radio.switcher"
+							label="PLG_FILESYSTEM_LOCAL_DIRECTORIES_DIRECTORY_THUMBS_LABEL"
+							default="1"
+							filter="integer"
+						>
+							<option value="0">JNO</option>
+							<option value="1">JYES</option>
+						</field>
 					</form>
 				</field>
 			</fieldset>
