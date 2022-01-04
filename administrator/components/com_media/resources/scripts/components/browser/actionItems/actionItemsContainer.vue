@@ -16,7 +16,6 @@
       @keyup.down="openActions()"
     />
     <div
-      v-if="showActions"
       class="media-browser-actions-list"
     >
       <ul>
@@ -28,7 +27,7 @@
             :main-action="openPreview"
             :closing-action="hideActions"
             @keyup.up="$refs.actionDelete.$el.focus()"
-            @keyup.down="$refs.actionDownload.$el.focus()"
+            @keyup.down="$refs.actionDelete.$el.previousElementSibling.focus()"
           />
         </li>
         <li>
@@ -39,7 +38,7 @@
             :main-action="download"
             :closing-action="hideActions"
             @keyup.up="$refs.actionPreview.$el.focus()"
-            @keyup.down="$refs.actionRename.$el.focus()"
+            @keyup.down="$refs.actionPreview.$el.previousElementSibling.focus()"
           />
         </li>
         <li>
@@ -52,14 +51,14 @@
             @keyup.up="
               downloadable
                 ? $refs.actionDownload.$el.focus()
-                : $refs.actionDelete.$el.focus()
+                : $refs.actionDownload.$el.previousElementSibling.focus()
             "
             @keyup.down="
               canEdit
                 ? $refs.actionEdit.$el.focus()
                 : shareable
                   ? $refs.actionShare.$el.focus()
-                  : $refs.actionDelete.$el.focus()
+                  : $refs.actionShare.$el.previousElementSibling.focus()
             "
           />
         </li>
@@ -71,7 +70,7 @@
             :main-action="editItem"
             :closing-action="hideActions"
             @keyup.up="$refs.actionRename.$el.focus()"
-            @keyup.down="$refs.actionShare.$el.focus()"
+            @keyup.down="$refs.actionRename.$el.previousElementSibling.focus()"
           />
         </li>
         <li>
@@ -84,7 +83,7 @@
             @keyup.up="
               canEdit
                 ? $refs.actionEdit.$el.focus()
-                : $refs.actionRename.$el.focus()
+                : $refs.actionEdit.$el.previousElementSibling.focus()
             "
             @keyup.down="$refs.actionDelete.$el.focus()"
           />
@@ -99,12 +98,12 @@
             @keyup.up="
               shareable
                 ? $refs.actionShare.$el.focus()
-                : $refs.actionRename.$el.focus()
+                : $refs.actionShare.$el.previousElementSibling.focus()
             "
             @keyup.down="
               previewable
                 ? $refs.actionPreview.$el.focus()
-                : $refs.actionRename.$el.focus()
+                : $refs.actionPreview.$el.previousElementSibling.focus()
             "
           />
         </li>

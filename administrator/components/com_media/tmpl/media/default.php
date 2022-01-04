@@ -55,6 +55,7 @@ $config = [
 	'providers'           => (array) $this->providers,
 	'currentPath'         => $this->currentPath,
 	'isModal'             => $tmpl === 'component',
+	'canCreate'           => $app->getIdentity()->authorise('core.create', 'com_media'),
 	'canEdit'             => $app->getIdentity()->authorise('core.edit', 'com_media'),
 	'canDelete'           => $app->getIdentity()->authorise('core.delete', 'com_media'),
 ];

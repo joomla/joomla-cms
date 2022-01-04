@@ -59,6 +59,8 @@ export default {
     openPreview() {
       this.$refs.container.openPreview();
     },
+    /* Edit an item */
+    editItem() {},
   },
 };
 </script>
