@@ -376,7 +376,7 @@ class MailTemplate
 	 * @param   string  $key       Template identifier
 	 * @param   string  $language  Language code of the template
 	 *
-	 * @return  object  An object with the data of the mail
+	 * @return  object|null  An object with the data of the mail, or null if the template not found in the db.
 	 *
 	 * @since   4.0.0
 	 */
