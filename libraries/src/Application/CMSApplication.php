@@ -597,7 +597,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 	 *
 	 * @since   3.2
 	 */
-	public static function getRouter($name = null, array $options = array())
+	public function getRouter($name = null, array $options = array())
 	{
 		$app = Factory::getApplication();
 
@@ -1062,7 +1062,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 		// Get the full request URI.
 		$uri = clone Uri::getInstance();
 
-		$router = static::getRouter();
+		$router = $this->getRouter();
 		$result = $router->parse($uri, true);
 
 		$active = $this->getMenu()->getActive();

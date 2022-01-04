@@ -199,7 +199,7 @@ class AdministratorApplication extends CMSApplication
 	 *
 	 * @since	3.2
 	 */
-	public static function getRouter($name = 'administrator', array $options = array())
+	public function getRouter($name = 'administrator', array $options = array())
 	{
 		return parent::getRouter($name, $options);
 	}
