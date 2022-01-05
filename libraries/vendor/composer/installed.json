@@ -1524,23 +1524,23 @@
         },
         {
             "name": "simplepie/simplepie",
-            "version": "1.3.2",
-            "version_normalized": "1.3.2.0",
+            "version": "1.3.3",
+            "version_normalized": "1.3.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/simplepie/simplepie.git",
-                "reference": "e497949ecdcc535d6959a7a61defc1d9b0bdd1c6"
+                "reference": "9f6fdaa79d9888ae8f1626b4f2e6b5ff7ca29bb3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/simplepie/simplepie/zipball/e497949ecdcc535d6959a7a61defc1d9b0bdd1c6",
-                "reference": "e497949ecdcc535d6959a7a61defc1d9b0bdd1c6",
+                "url": "https://api.github.com/repos/simplepie/simplepie/zipball/9f6fdaa79d9888ae8f1626b4f2e6b5ff7ca29bb3",
+                "reference": "9f6fdaa79d9888ae8f1626b4f2e6b5ff7ca29bb3",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.2.0"
             },
-            "time": "2021-12-19T07:17:11+00:00",
+            "time": "2021-12-24T02:44:57+00:00",
             "type": "library",
             "installation-source": "dist",
             "autoload": {
@@ -1579,7 +1579,7 @@
             ],
             "support": {
                 "issues": "https://github.com/simplepie/simplepie/issues",
-                "source": "https://github.com/simplepie/simplepie/tree/1.3.2"
+                "source": "https://github.com/simplepie/simplepie/tree/1.3.3"
             },
             "install-path": "../simplepie/simplepie"
         },

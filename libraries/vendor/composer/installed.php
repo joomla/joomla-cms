@@ -1,11 +1,11 @@
 <?php return array(
     'root' => array(
-        'pretty_version' => 'dev-3.10-drone',
-        'version' => 'dev-3.10-drone',
+        'pretty_version' => 'dev-3.10-dev',
+        'version' => 'dev-3.10-dev',
         'type' => 'project',
         'install_path' => __DIR__ . '/../../../',
         'aliases' => array(),
-        'reference' => 'd55ab7f9ddd92b19e519745c92f698ad5505cd9a',
+        'reference' => 'b52db136c057fa3975f312ff20029636d2cc4d0a',
         'name' => 'joomla/joomla-cms',
         'dev' => false,
     ),
@@ -128,12 +128,12 @@
             'dev_requirement' => false,
         ),
         'joomla/joomla-cms' => array(
-            'pretty_version' => 'dev-3.10-drone',
-            'version' => 'dev-3.10-drone',
+            'pretty_version' => 'dev-3.10-dev',
+            'version' => 'dev-3.10-dev',
             'type' => 'project',
             'install_path' => __DIR__ . '/../../../',
             'aliases' => array(),
-            'reference' => 'd55ab7f9ddd92b19e519745c92f698ad5505cd9a',
+            'reference' => 'b52db136c057fa3975f312ff20029636d2cc4d0a',
             'dev_requirement' => false,
         ),
         'joomla/ldap' => array(
@@ -255,12 +255,12 @@
             'dev_requirement' => false,
         ),
         'simplepie/simplepie' => array(
-            'pretty_version' => '1.3.2',
-            'version' => '1.3.2.0',
+            'pretty_version' => '1.3.3',
+            'version' => '1.3.3.0',
             'type' => 'library',
             'install_path' => __DIR__ . '/../simplepie/simplepie',
             'aliases' => array(),
-            'reference' => 'e497949ecdcc535d6959a7a61defc1d9b0bdd1c6',
+            'reference' => '9f6fdaa79d9888ae8f1626b4f2e6b5ff7ca29bb3',
             'dev_requirement' => false,
         ),
         'symfony/polyfill-ctype' => array(
