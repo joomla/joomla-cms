@@ -8506,7 +8506,7 @@ class JoomlaInstallerScript
 
 		foreach ($folders as $oldFolder => $newFolder)
 		{
-			if (Folder::exists(JPATH_ROOT . str_replace('/', DIRECTORY_SEPARATOR, $oldFolder)))
+			if (Folder::exists(\realpath(JPATH_ROOT . str_replace('/', DIRECTORY_SEPARATOR, $oldFolder))))
 			{
 				$oldPath   = \realpath(JPATH_ROOT . str_replace('/', DIRECTORY_SEPARATOR, $oldFolder));
 				$newPath   = \realpath(JPATH_ROOT . str_replace('/', DIRECTORY_SEPARATOR, $newFolder));
