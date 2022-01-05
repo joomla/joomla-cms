@@ -285,6 +285,18 @@ class PlgSystemRedirect extends JPlugin
 				// In case the url contains double // lets remove it
 				$destination = str_replace(JUri::root() . '/', JUri::root(), $dest);
 
+				// Always count redirect hits
+				$redirect->hits++;
+
+				try
+				{
+					$db->updateObject('#__redirect_links', $redirect, 'id');
+				}
+				catch (Exception $e)
+				{
+					// We don't log issues for now
+				}
+
 				$app->redirect($destination, (int) $redirect->header);
 			}
 

@@ -1799,4 +1799,63 @@ ENDDATA;
 		// Translate the extension name if possible
 		$item->name = strip_tags(JText::_($item->name));
 	}
+
+	/**
+	 * Checks whether a given template is active
+	 *
+	 * @param   string  $template  The template name to be checked
+	 *
+	 * @return  boolean
+	 *
+	 * @since   3.10.4
+	 */
+	public function isTemplateActive($template)
+	{
+		$db = $this->getDbo();
+		$query = $db->getQuery(true);
+
+		$query->select(
+			$db->qn(
+				array(
+					'id',
+					'home'
+				)
+			)
+		)->from(
+			$db->qn('#__template_styles')
+		)->where(
+			$db->qn('template') . ' = ' . $db->q($template)
+		);
+
+		$templates = $db->setQuery($query)->loadObjectList();
+
+		$home = array_filter(
+			$templates,
+			function($value)
+			{
+				return $value->home > 0;
+			}
+		);
+
+		$ids = JArrayHelper::getColumn($templates, 'id');
+
+		$menu = false;
+
+		if (count($ids))
+		{
+			$query = $db->getQuery(true);
+
+			$query->select(
+				'COUNT(*)'
+			)->from(
+				$db->qn('#__menu')
+			)->where(
+				$db->qn('template_style_id') . ' IN(' . implode(',', $ids) . ')'
+			);
+
+			$menu = $db->setQuery($query)->loadResult() > 0;
+		}
+
+		return $home || $menu;
+	}
 }

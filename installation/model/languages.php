@@ -177,6 +177,13 @@ class InstallationModelLanguages extends JModelBase
 			// Download the package to the tmp folder.
 			$package = $this->downloadPackage($package_url);
 
+			if (!$package)
+			{
+				JFactory::getApplication()->enqueueMessage(JText::sprintf('INSTL_DEFAULTLANGUAGE_COULD_NOT_DOWNLOAD_PACKAGE', $package_url), 'error');
+
+				continue;
+			}
+
 			// Install the package.
 			if (!$installer->install($package['dir']))
 			{
