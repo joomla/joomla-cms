@@ -828,7 +828,15 @@ abstract class UserHelper
 		$ua = \JFactory::getApplication()->client;
 		$uaString = $ua->userAgent;
 		$browserVersion = $ua->browserVersion;
-		$uaShort = str_replace($browserVersion, 'abcd', $uaString);
+
+		if ($browserVersion)
+		{
+			$uaShort = str_replace($browserVersion, 'abcd', $uaString);
+		}
+		else
+		{
+			$uaShort = $uaString;
+		}
 
 		return md5(\JUri::base() . $uaShort);
 	}
