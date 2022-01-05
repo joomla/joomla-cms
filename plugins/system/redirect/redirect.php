@@ -294,6 +294,7 @@ class PlgSystemRedirect extends JPlugin
 				}
 				catch (Exception $e)
 				{
+					// We don't log issues for now
 				}
 
 				$app->redirect($destination, (int) $redirect->header);
