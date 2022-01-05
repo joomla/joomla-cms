@@ -8511,7 +8511,7 @@ class JoomlaInstallerScript
 				$oldPath   = \realpath(JPATH_ROOT . str_replace('/', DIRECTORY_SEPARATOR, $oldFolder));
 				$newPath   = \realpath(JPATH_ROOT . str_replace('/', DIRECTORY_SEPARATOR, $newFolder));
 				$directory = new \RecursiveDirectoryIterator($oldPath);
-				$directory->setFlags(RecursiveDirectoryIterator::SKIP_DOTS);
+				$directory->setFlags(\RecursiveDirectoryIterator::SKIP_DOTS);
 				$iterator  = new \RecursiveIteratorIterator($directory);
 
 				// Handle all files in this folder and all sub-folders
