@@ -115,7 +115,7 @@ class ContentComponent extends MVCComponent implements
 	public function boot(ContainerInterface $container)
 	{
 		$this->getRegistry()->register('contentadministrator', new AdministratorService);
-		$this->getRegistry()->register('contenticon', new Icon($container->get(SiteApplication::class)));
+		$this->getRegistry()->register('contenticon', new Icon);
 
 		// The layout joomla.content.icons does need a general icon service
 		$this->getRegistry()->register('icon', $this->getRegistry()->getService('contenticon'));
