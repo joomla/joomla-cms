@@ -502,7 +502,11 @@ class HtmlView extends AbstractView
 				// Set the alternative template search dir
 				if (isset($app))
 				{
-					$component = preg_replace('/[^A-Z0-9_\.-]/i', '', $component);
+					if ($component)
+					{
+						$component = preg_replace('/[^A-Z0-9_\.-]/i', '', $component);
+					}
+
 					$name = $this->getName();
 
 					if (!empty($template->parent))

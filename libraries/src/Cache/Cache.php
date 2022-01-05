@@ -599,14 +599,14 @@ class Cache
 	 *
 	 * @since   1.7.0
 	 */
-	public static function setWorkarounds($data, $options = array())
+	public static function setWorkarounds($data, $options = [])
 	{
-		$loptions = array(
+		$loptions = [
 			'nopathway'  => 0,
 			'nohead'     => 0,
 			'nomodules'  => 0,
 			'modulemode' => 0,
-		);
+		];
 
 		if (isset($options['nopathway']))
 		{
@@ -638,13 +638,13 @@ class Cache
 
 			if (!\is_array($buffer1))
 			{
-				$buffer1 = array();
+				$buffer1 = [];
 			}
 
 			// Make sure the module buffer is an array.
 			if (!isset($buffer1['module']) || !\is_array($buffer1['module']))
 			{
-				$buffer1['module'] = array();
+				$buffer1['module'] = [];
 			}
 		}
 
@@ -665,7 +665,7 @@ class Cache
 					unset($options['headerbefore'][$un]);
 				}
 
-				$cached['head'] = array();
+				$cached['head'] = [];
 
 				// Only store what this module has added
 				foreach ($headnow as $now => $value)
@@ -735,13 +735,13 @@ class Cache
 
 			if (!\is_array($buffer2))
 			{
-				$buffer2 = array();
+				$buffer2 = [];
 			}
 
 			// Make sure the module buffer is an array.
 			if (!isset($buffer2['module']) || !\is_array($buffer2['module']))
 			{
-				$buffer2['module'] = array();
+				$buffer2['module'] = [];
 			}
 
 			// Compare the second module buffer against the first buffer.

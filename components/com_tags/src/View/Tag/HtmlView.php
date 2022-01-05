@@ -29,7 +29,8 @@ class HtmlView extends BaseHtmlView
 	/**
 	 * The model state
 	 *
-	 * @var    \JObject
+	 * @var    \Joomla\CMS\Object\CMSObject
+	 *
 	 * @since  3.1
 	 */
 	protected $state;
@@ -38,6 +39,7 @@ class HtmlView extends BaseHtmlView
 	 * List of items associated with the tag
 	 *
 	 * @var    \stdClass[]|false
+	 *
 	 * @since  3.1
 	 */
 	protected $items;
@@ -45,7 +47,8 @@ class HtmlView extends BaseHtmlView
 	/**
 	 * Tag data for the current tag or tags (on success, false on failure)
 	 *
-	 * @var    \JObject|boolean
+	 * @var    \Joomla\CMS\Object\CMSObject|boolean
+	 *
 	 * @since  3.1
 	 */
 	protected $item;
@@ -54,6 +57,7 @@ class HtmlView extends BaseHtmlView
 	 * UNUSED
 	 *
 	 * @var    null
+	 *
 	 * @since  3.1
 	 */
 	protected $children;
@@ -62,6 +66,7 @@ class HtmlView extends BaseHtmlView
 	 * UNUSED
 	 *
 	 * @var    null
+	 *
 	 * @since  3.1
 	 */
 	protected $parent;
@@ -70,6 +75,7 @@ class HtmlView extends BaseHtmlView
 	 * The pagination object
 	 *
 	 * @var    \Joomla\CMS\Pagination\Pagination
+	 *
 	 * @since  3.1
 	 */
 	protected $pagination;
@@ -78,6 +84,7 @@ class HtmlView extends BaseHtmlView
 	 * The page parameters
 	 *
 	 * @var    \Joomla\Registry\Registry|null
+	 *
 	 * @since  3.1
 	 */
 	protected $params;
@@ -86,6 +93,7 @@ class HtmlView extends BaseHtmlView
 	 * Array of tags title
 	 *
 	 * @var    array
+	 *
 	 * @since  3.1
 	 */
 	protected $tags_title;
@@ -94,6 +102,7 @@ class HtmlView extends BaseHtmlView
 	 * The page class suffix
 	 *
 	 * @var    string
+	 *
 	 * @since  4.0.0
 	 */
 	protected $pageclass_sfx = '';
@@ -102,6 +111,7 @@ class HtmlView extends BaseHtmlView
 	 * The logged in user
 	 *
 	 * @var    User|null
+	 *
 	 * @since  4.0.0
 	 */
 	protected $user = null;
@@ -217,7 +227,7 @@ class HtmlView extends BaseHtmlView
 		$this->item       = $item;
 
 		// Escape strings for HTML output
-		$this->pageclass_sfx = htmlspecialchars($params->get('pageclass_sfx'));
+		$this->pageclass_sfx = htmlspecialchars($params->get('pageclass_sfx', ''));
 
 		// Merge tag params. If this is single-tag view, menu params override tag params
 		// Otherwise, article params override menu item params

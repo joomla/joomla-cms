@@ -161,16 +161,12 @@
         &:after {
           width: 0;
           height: 0;
-          margin: 0 0 0 .5em;
+          margin-inline-start: .5em;
           content: "";
           border-top: .5em solid currentColor;
           border-right: .5em solid transparent;
           border-left: .5em solid transparent;
           transition: all .3s ease-out;
-
-          [dir="rtl"] & {
-            margin: 0 .5em 0 0;
-          }
 
           @at-root .mm-active > & {
             transform: rotateX(-180deg);

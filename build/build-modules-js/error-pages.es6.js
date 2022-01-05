@@ -44,7 +44,7 @@ module.exports.createErrorPages = async (options) => {
     const languageStrings = Ini.parse(await readFile(file, { encoding: 'utf8' }));
 
     // Build the variables into json for the unsupported page
-    if (languageStrings.MIN_PHP_ERROR_LANGUAGE) {
+    if (languageStrings.BUILD_MIN_PHP_ERROR_LANGUAGE) {
       const name = dirname(file).replace(/.+\//, '').replace(/.+\\/, '');
       global.unsupportedObj = {
         ...global.unsupportedObj,
@@ -102,6 +102,9 @@ module.exports.createErrorPages = async (options) => {
 
   const files = await Recurs(dir);
   files.sort().forEach((file) => {
+    if (file.endsWith('langmetadata.xml')) {
+      return;
+    }
     iniFilesProcess.push(processIni(file));
   });
 
