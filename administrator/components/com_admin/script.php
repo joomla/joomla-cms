@@ -7662,7 +7662,7 @@ class JoomlaInstallerScript
 			}
 		}
 
-		$this->moveRemainingTemplateFiles();
+		// $this->moveRemainingTemplateFiles();
 
 		foreach ($folders as $folder)
 		{
