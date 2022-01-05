@@ -97,7 +97,7 @@
 			showtime="true"
 			size="22"
 			filter="user_utc"
-		   	showon="home:0"
+			showon="home:0"
 		/>
 
 		<field
