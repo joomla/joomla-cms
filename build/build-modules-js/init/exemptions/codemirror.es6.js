@@ -15,12 +15,12 @@ const xmlVersionStr = /(<version>)(.+)(<\/version>)/;
 module.exports.codeMirror = async (packageName, version) => {
   const itemvendorPath = join(RootPath, `media/vendor/${packageName}`);
   if (!await existsSync(itemvendorPath)) {
-    await mkdir(itemvendorPath, { recursive: true });
-    await mkdir(join(itemvendorPath, 'addon'));
-    await mkdir(join(itemvendorPath, 'lib'));
-    await mkdir(join(itemvendorPath, 'mode'));
-    await mkdir(join(itemvendorPath, 'keymap'));
-    await mkdir(join(itemvendorPath, 'theme'));
+    await mkdir(itemvendorPath, { recursive: true, mode: 0o755 });
+    await mkdir(join(itemvendorPath, 'addon'), { mode: 0o755 });
+    await mkdir(join(itemvendorPath, 'lib'), { mode: 0o755 });
+    await mkdir(join(itemvendorPath, 'mode'), { mode: 0o755 });
+    await mkdir(join(itemvendorPath, 'keymap'), { mode: 0o755 });
+    await mkdir(join(itemvendorPath, 'theme'), { mode: 0o755 });
   }
 
   await copyAllFiles('addon', 'codemirror', 'addon');
@@ -54,16 +54,18 @@ module.exports.codeMirror = async (packageName, version) => {
     'media/vendor/codemirror/lib/addons.js',
   );
 
-  await concatFiles([
-    'media/vendor/codemirror/addon/display/fullscreen.css',
-    'media/vendor/codemirror/addon/fold/foldgutter.css',
-    'media/vendor/codemirror/addon/search/matchesonscrollbar.css',
-    'media/vendor/codemirror/addon/scroll/simplescrollbars.css',
-  ],
-  'media/vendor/codemirror/lib/addons.css');
+  await concatFiles(
+    [
+      'media/vendor/codemirror/addon/display/fullscreen.css',
+      'media/vendor/codemirror/addon/fold/foldgutter.css',
+      'media/vendor/codemirror/addon/search/matchesonscrollbar.css',
+      'media/vendor/codemirror/addon/scroll/simplescrollbars.css',
+    ],
+    'media/vendor/codemirror/lib/addons.css',
+  );
 
   // Update the XML file for Codemirror
   let codemirrorXml = await readFile(`${RootPath}/plugins/editors/codemirror/codemirror.xml`, { encoding: 'utf8' });
   codemirrorXml = codemirrorXml.replace(xmlVersionStr, `$1${version}$3`);
-  await writeFile(`${RootPath}/plugins/editors/codemirror/codemirror.xml`, codemirrorXml, { encoding: 'utf8' });
+  await writeFile(`${RootPath}/plugins/editors/codemirror/codemirror.xml`, codemirrorXml, { encoding: 'utf8', mode: 0o644 });
 };

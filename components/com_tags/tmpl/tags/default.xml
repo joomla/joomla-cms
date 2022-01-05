@@ -2,7 +2,7 @@
 <metadata>
 	<layout title="COM_TAGS_TAGS_VIEW_DEFAULT_TITLE" option="COM_TAGS_TAG_VIEW_DEFAULT_OPTION">
 		<help
-			key="JHELP_MENUS_MENU_ITEM_TAGS_ITEMS_LIST_ALL"
+			key="Menu_Item:_List_All_Tags"
 		/>
 		<message>
 			<![CDATA[COM_TAGS_TAGS_VIEW_DEFAULT_DESC]]>

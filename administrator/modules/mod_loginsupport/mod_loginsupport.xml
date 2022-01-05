@@ -18,7 +18,7 @@
 		<language tag="en-GB">language/en-GB/mod_loginsupport.ini</language>
 		<language tag="en-GB">language/en-GB/mod_loginsupport.sys.ini</language>
 	</languages>
-	<help key="JHELP_EXTENSIONS_MODULE_MANAGER_ADMIN_LOGIN_SUPPORT" />
+	<help key="Admin_Modules:_Login_Support_Information" />
 	<config>
 		<fields name="params">
 			<fieldset name="basic">
@@ -96,6 +96,8 @@
 					label="COM_MODULES_FIELD_CACHE_TIME_LABEL"
 					default="0"
 					filter="integer"
+					min="0"
+					validate="number"
 				/>
 
 				<field

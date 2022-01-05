@@ -2,7 +2,7 @@
 <metadata>
 	<layout title="COM_FINDER_MENU_SEARCH_VIEW_DEFAULT_TITLE">
 		<help
-			key = "JHELP_MENUS_MENU_ITEM_FINDER_SEARCH"
+			key = "Menu_Item:_Search"
 		/>
 		<message>
 			<![CDATA[COM_FINDER_MENU_SEARCH_VIEW_DEFAULT_TEXT]]>

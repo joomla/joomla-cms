@@ -934,6 +934,12 @@ class Indexer
 
 			foreach ($tokens as $token)
 			{
+				// Database size for a term field
+				if ($token->length > 75)
+				{
+					continue;
+				}
+
 				if ($filterCommon && $token->common)
 				{
 					continue;
@@ -956,7 +962,11 @@ class Indexer
 				++$values;
 			}
 
-			$db->setQuery($query)->execute();
+			// Only execute the query if there are tokens to insert
+			if ($query->values !== null)
+			{
+				$db->setQuery($query)->execute();
+			}
 
 			// Check if we're approaching the memory limit of the token table.
 			if ($values > static::$state->options->get('memory_table_limit', 10000))

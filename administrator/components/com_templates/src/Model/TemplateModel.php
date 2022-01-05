@@ -114,7 +114,7 @@ class TemplateModel extends FormModel
 	public function getTemplateList()
 	{
 		// Get a db connection.
-		$db = Factory::getDbo();
+		$db = $this->getDbo();
 
 		// Create a new query object.
 		$query = $db->getQuery(true);
@@ -154,7 +154,7 @@ class TemplateModel extends FormModel
 	public function getUpdatedList($state = false, $all = false, $cleanup = false)
 	{
 		// Get a db connection.
-		$db = Factory::getDbo();
+		$db = $this->getDbo();
 
 		// Create a new query object.
 		$query = $db->getQuery(true);
@@ -318,7 +318,7 @@ class TemplateModel extends FormModel
 	 */
 	public function publish($ids, $value, $exid)
 	{
-		$db = Factory::getDbo();
+		$db = $this->getDbo();
 
 		foreach ($ids as $id)
 		{
@@ -520,7 +520,7 @@ class TemplateModel extends FormModel
 		}
 		elseif (stristr($type, 'layouts') !== false)
 		{
-			// For Jlayouts
+			// For Layouts
 			$subtype = $explodeArray['3'];
 
 			if (stristr($subtype, 'com_'))

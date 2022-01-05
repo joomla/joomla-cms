@@ -183,12 +183,16 @@ class PlgEditorTinymce extends CMSPlugin
 		$levelParams      = new Joomla\Registry\Registry;
 		$extraOptions     = new stdClass;
 		$toolbarParams    = new stdClass;
-		$extraOptionsAll  = $this->params->get('configuration.setoptions', array());
-		$toolbarParamsAll = $this->params->get('configuration.toolbars', array());
+		$extraOptionsAll  = (array) $this->params->get('configuration.setoptions', array());
+		$toolbarParamsAll = (array) $this->params->get('configuration.toolbars', array());
+
+		// Sort the array in reverse, so the items with lowest access level goes first
+		krsort($extraOptionsAll);
 
 		// Get configuration depend from User group
 		foreach ($extraOptionsAll as $set => $val)
 		{
+			$val = (object) $val;
 			$val->access = empty($val->access) ? array() : $val->access;
 
 			// Check whether User in one of allowed group
@@ -197,7 +201,7 @@ class PlgEditorTinymce extends CMSPlugin
 				if (isset($ugroups[$group]))
 				{
 					$extraOptions  = $val;
-					$toolbarParams = $toolbarParamsAll->$set;
+					$toolbarParams = (object) $toolbarParamsAll[$set];
 				}
 			}
 		}
@@ -474,7 +478,11 @@ class PlgEditorTinymce extends CMSPlugin
 			$template_path = $levelParams->get('content_template_path');
 			$template_path = $template_path ? '/templates/' . $template_path : '/media/vendor/tinymce/templates';
 
-			foreach (glob(JPATH_ROOT . $template_path . '/*.{html,txt}', GLOB_BRACE) as $filepath)
+			$filepaths = Folder::exists(JPATH_ROOT . $template_path)
+				? Folder::files(JPATH_ROOT . $template_path, '\.(html|txt)$', false, true)
+				: [];
+
+			foreach ($filepaths as $filepath)
 			{
 				$fileinfo      = pathinfo($filepath);
 				$filename      = $fileinfo['filename'];
@@ -485,17 +493,16 @@ class PlgEditorTinymce extends CMSPlugin
 					continue;
 				}
 
-				$lang        = Factory::getLanguage();
 				$title       = $filename;
 				$title_upper = strtoupper($filename);
 				$description = ' ';
 
-				if ($lang->hasKey('PLG_TINY_TEMPLATE_' . $title_upper . '_TITLE'))
+				if ($language->hasKey('PLG_TINY_TEMPLATE_' . $title_upper . '_TITLE'))
 				{
 					$title = Text::_('PLG_TINY_TEMPLATE_' . $title_upper . '_TITLE');
 				}
 
-				if ($lang->hasKey('PLG_TINY_TEMPLATE_' . $title_upper . '_DESC'))
+				if ($language->hasKey('PLG_TINY_TEMPLATE_' . $title_upper . '_DESC'))
 				{
 					$description = Text::_('PLG_TINY_TEMPLATE_' . $title_upper . '_DESC');
 				}
@@ -572,6 +579,7 @@ class PlgEditorTinymce extends CMSPlugin
 		$scriptOptions   = array_merge(
 			$scriptOptions,
 			array(
+				'deprecation_warnings' => JDEBUG ? true : false,
 				'suffix'   => '.min',
 				'baseURL'  => Uri::root(true) . '/media/vendor/tinymce',
 				'directionality' => $text_direction,
@@ -593,8 +601,7 @@ class PlgEditorTinymce extends CMSPlugin
 				'quickbars_selection_toolbar' => 'bold italic underline | H2 H3 | link blockquote',
 
 				// Cleanup/Output
-				'inline_styles'    => true,
-				'gecko_spellcheck' => true,
+				'browser_spellcheck' => true,
 				'entity_encoding'  => $levelParams->get('entity_encoding', 'raw'),
 				'verify_html'      => !$ignore_filter,
 
@@ -639,14 +646,12 @@ class PlgEditorTinymce extends CMSPlugin
 		{
 			// Break
 			$scriptOptions['force_br_newlines'] = true;
-			$scriptOptions['force_p_newlines']  = false;
 			$scriptOptions['forced_root_block'] = '';
 		}
 		else
 		{
 			// Paragraph
 			$scriptOptions['force_br_newlines'] = false;
-			$scriptOptions['force_p_newlines']  = true;
 			$scriptOptions['forced_root_block'] = 'p';
 		}
 
@@ -680,7 +685,7 @@ class PlgEditorTinymce extends CMSPlugin
 	 * @param   string  $name      the id of the editor field
 	 * @param   string  $excluded  the buttons that should be hidden
 	 *
-	 * @return array
+	 * @return  array|void
 	 */
 	private function tinyButtons($name, $excluded)
 	{
@@ -750,7 +755,7 @@ class PlgEditorTinymce extends CMSPlugin
 	/**
 	 * Get the global text filters to arbitrary text as per settings for current user groups
 	 *
-	 * @return  JFilterInput
+	 * @return  InputFilter
 	 *
 	 * @since   3.6
 	 */

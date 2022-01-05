@@ -31,7 +31,7 @@
   width: auto;
 }
 
-@include media-breakpoint-down(md) {
+@include media-breakpoint-down(lg) {
   .form-inline .form-select {
     width: 100%;
   }
@@ -92,6 +92,10 @@ td .form-control {
   &[id^=editcontact-] {
     right: auto;
     margin-inline-start: -10em;
+  }
+
+  &[id^=id-skip-] {
+    right: auto;
   }
 }
 

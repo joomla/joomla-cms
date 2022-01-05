@@ -15,6 +15,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Installer\Installer;
+use Joomla\CMS\Object\CMSObject;
 
 /**
  * Plugins component helper.
@@ -101,11 +102,11 @@ class PluginsHelper
 	 * @param   string  $templateBaseDir  Base path to the template directory.
 	 * @param   string  $templateDir      Template directory.
 	 *
-	 * @return  \JObject
+	 * @return  CMSObject|bool
 	 */
 	public function parseXMLTemplateFile($templateBaseDir, $templateDir)
 	{
-		$data = new \JObject;
+		$data = new CMSObject;
 
 		// Check of the xml file exists.
 		$filePath = Path::clean($templateBaseDir . '/templates/' . $templateDir . '/templateDetails.xml');

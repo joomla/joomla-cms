@@ -148,7 +148,7 @@ class HtmlView extends BaseHtmlView
 	{
 		$app            = Factory::getApplication();
 		$this->file     = $app->input->get('file');
-		$this->fileName = InputFilter::getInstance()->clean(base64_decode($this->file), 'string');
+		$this->fileName = InputFilter::getInstance()->clean(base64_decode($this->file ?? ''), 'string');
 		$explodeArray   = explode('.', $this->fileName);
 		$ext            = end($explodeArray);
 		$this->files    = $this->get('Files');
@@ -241,7 +241,7 @@ class HtmlView extends BaseHtmlView
 		$explodeArray = explode('.', $this->fileName);
 		$ext = end($explodeArray);
 
-		ToolbarHelper::title(Text::sprintf('COM_TEMPLATES_MANAGER_VIEW_TEMPLATE', ucfirst($this->template->name)), 'paint-brush thememanager');
+		ToolbarHelper::title(Text::sprintf('COM_TEMPLATES_MANAGER_VIEW_TEMPLATE', ucfirst($this->template->name)), 'icon-code thememanager');
 
 		// Only show file edit buttons for global SuperUser
 		if ($isSuperUser)
@@ -317,7 +317,7 @@ class HtmlView extends BaseHtmlView
 		}
 
 		ToolbarHelper::divider();
-		ToolbarHelper::help('JHELP_EXTENSIONS_TEMPLATE_MANAGER_TEMPLATES_EDIT');
+		ToolbarHelper::help('Templates:_Customise');
 	}
 
 	/**

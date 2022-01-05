@@ -17,7 +17,7 @@
 		<language tag="en-GB">language/en-GB/mod_post_installation_messages.ini</language>
 		<language tag="en-GB">language/en-GB/mod_post_installation_messages.sys.ini</language>
 	</languages>
-	<help key="JHELP_EXTENSIONS_MODULE_MANAGER_ADMIN_POST_INSTALLATION_MESSAGES" />
+	<help key="Admin_Modules:_Post_Installation_Messages" />
 	<config>
 		<fields name="params">
 			<fieldset name="advanced">
