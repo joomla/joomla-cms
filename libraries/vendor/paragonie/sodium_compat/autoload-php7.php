@@ -1,30 +1,13 @@
 <?php
-
-require_once dirname(dirname(__FILE__)) . '/autoload.php';
-
-if (PHP_VERSION_ID < 50300) {
+/*
+ This file should only ever be loaded on PHP 7+
+ */
+if (PHP_VERSION_ID < 70000) {
     return;
 }
 
-/*
- * This file is just for convenience, to allow developers to reduce verbosity when
- * they add this project to their libraries.
- *
- * Replace this:
- *
- * $x = ParagonIE_Sodium_Compat::crypto_aead_xchacha20poly1305_encrypt(...$args);
- *
- * with this:
- *
- * use ParagonIE\Sodium\Compat;
- *
- * $x = Compat::crypto_aead_xchacha20poly1305_encrypt(...$args);
- */
 spl_autoload_register(function ($class) {
-    if ($class[0] === '\\') {
-        $class = substr($class, 1);
-    }
-    $namespace = 'ParagonIE\\Sodium';
+    $namespace = 'ParagonIE_Sodium_';
     // Does the class use the namespace prefix?
     $len = strlen($namespace);
     if (strncmp($namespace, $class, $len) !== 0) {
@@ -38,7 +21,7 @@ spl_autoload_register(function ($class) {
     // Replace the namespace prefix with the base directory, replace namespace
     // separators with directory separators in the relative class name, append
     // with .php
-    $file = dirname(dirname(__FILE__)) . '/namespaced/' . str_replace('\\', '/', $relative_class) . '.php';
+    $file = dirname(__FILE__) . '/src/' . str_replace('_', '/', $relative_class) . '.php';
     // if the file exists, require it
     if (file_exists($file)) {
         require_once $file;
