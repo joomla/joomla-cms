@@ -20,7 +20,20 @@ $extension-types: (
   // Extension type badges
   .badge {
     margin: 1px;
-  }
+      // BS5 Dropped all .badge-* color classes
+      &.badge-success {
+        background-color: var(--success);
+      }
+      &.badge-secondary {
+        background-color: var(--secondary);
+      }
+      &.badge-danger {
+        background-color: var(--danger);
+      }
+      &.badge-warning {
+        background-color: var(--warning);
+      }
+    }
 
   .fader {
     position: absolute;
@@ -55,6 +68,10 @@ $extension-types: (
     .card {
       height: 400px;
       margin-bottom: 2rem;
+
+      &:hover {
+        background-color: var(--gray-200);
+      }
     }
 
     .card-img, .card-img-top {
