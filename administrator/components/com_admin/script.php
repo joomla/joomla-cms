@@ -8508,8 +8508,8 @@ class JoomlaInstallerScript
 		{
 			if (Folder::exists(JPATH_ROOT . $oldFolder))
 			{
-				$oldPath   = \realpath(JPATH_ROOT . $oldFolder);
-				$newPath   = \realpath(JPATH_ROOT . $newFolder);
+				$oldPath   = \realpath(JPATH_ROOT . str_replace('/', DIRECTORY_SEPARATOR, $oldFolder));
+				$newPath   = \realpath(JPATH_ROOT . str_replace('/', DIRECTORY_SEPARATOR, $newFolder));
 				$directory = new \RecursiveDirectoryIterator($oldPath);
 				$directory->setFlags(RecursiveDirectoryIterator::SKIP_DOTS);
 				$iterator  = new \RecursiveIteratorIterator($directory);
