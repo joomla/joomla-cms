@@ -358,15 +358,15 @@ abstract class JArrayHelper
 	/**
 	 * Callback function for sorting an array of objects on a key
 	 *
-	 * @param   array  &$a  An array of objects
-	 * @param   array  &$b  An array of objects
+	 * @param   array  $a  An array of objects
+	 * @param   array  $b  An array of objects
 	 *
 	 * @return  integer  Comparison status
 	 *
 	 * @see     JArrayHelper::sortObjects()
 	 * @since   1.7.0
 	 */
-	protected static function _sortObjects(&$a, &$b)
+	protected static function _sortObjects($a, $b)
 	{
 		$key = self::$sortKey;
 
