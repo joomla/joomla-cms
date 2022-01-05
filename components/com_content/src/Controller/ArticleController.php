@@ -419,7 +419,7 @@ class ArticleController extends FormController
 	 */
 	public function reload($key = null, $urlVar = 'a_id')
 	{
-		return parent::reload($key, $urlVar);
+		parent::reload($key, $urlVar);
 	}
 
 	/**

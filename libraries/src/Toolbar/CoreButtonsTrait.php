@@ -74,6 +74,38 @@ trait CoreButtonsTrait
 	}
 
 	/**
+	 * Writes a jooa11y accessibility checker button for a given option (opens a popup window).
+	 *
+	 * @param   string  $url        The url to open
+	 * @param   string  $text       The text of button.
+	 * @param   bool    $newWindow  Whether to open the preview in _blank or just a modal
+	 *
+	 * @return  PopupButton|LinkButton
+	 *
+	 * @since   4.1.0
+	 */
+	public function jooa11y(string $url, string $text = 'JGLOBAL_JOOA11Y', $newWindow = false)
+	{
+		if ($newWindow === true)
+		{
+			$button = $this->linkButton('jooa11y-link', $text)
+				->url($url)
+				->attributes(['target' => '_blank'])
+				->icon('icon-universal-access');
+		}
+		else
+		{
+			$button = $this->popupButton('jooa11y-preview', $text)
+				->url($url)
+				->iframeWidth(640)
+				->iframeHeight(480)
+				->icon('icon-universal-access');
+		}
+
+		return $button;
+	}
+
+	/**
 	 * Writes a help button for a given option (opens a popup window).
 	 *
 	 * @param   string  $ref           The name of the popup file (excluding the file extension for an xml file).
