@@ -29,19 +29,9 @@
   .navbar-brand {
     position: relative;
     display: inline-block;
-    margin-right: auto;
+    margin-inline-end: auto;
     font-size: 2rem;
     color: $white;
-
-    [dir=rtl] & {
-      margin-right: 0;
-      margin-left: auto;
-    }
-
-    img {
-      width: 18rem;
-      min-width: 18rem;
-    }
 
     a {
       color: $white;

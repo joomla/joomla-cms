@@ -41,6 +41,8 @@
 					label="MOD_RELATED_FIELD_MAX_LABEL"
 					default="5"
 					filter="integer"
+					min="1"
+					validate="number"
 				/>
 			</fieldset>
 			<fieldset name="advanced">

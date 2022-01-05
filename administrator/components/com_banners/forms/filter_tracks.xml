@@ -73,7 +73,7 @@
 			format="%Y-%m-%d"
 			filter="user_utc"
 		/>
-    </fields>
+	</fields>
 	<fields name="list">
 		<field
 			name="fullordering"

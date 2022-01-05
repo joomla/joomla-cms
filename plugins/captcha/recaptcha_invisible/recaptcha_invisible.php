@@ -169,7 +169,7 @@ class PlgCaptchaRecaptcha_Invisible extends CMSPlugin
 	public function onSetupField(\Joomla\CMS\Form\Field\CaptchaField $field, \SimpleXMLElement $element)
 	{
 		// Hide the label for the invisible recaptcha type
-		$element['hiddenLabel'] = true;
+		$element['hiddenLabel'] = 'true';
 	}
 
 	/**

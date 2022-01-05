@@ -28,21 +28,21 @@ class HtmlView extends BaseHtmlView
 	/**
 	 * The model state
 	 *
-	 * @var    \JObject
+	 * @var   \Joomla\CMS\Object\CMSObject
 	 */
 	protected $state = null;
 
 	/**
 	 * An array containing archived articles
 	 *
-	 * @var    \stdClass[]
+	 * @var   \stdClass[]
 	 */
 	protected $items = array();
 
 	/**
 	 * The pagination object
 	 *
-	 * @var  \JPagination|null
+	 * @var   \Joomla\CMS\Pagination\Pagination|null
 	 */
 	protected $pagination = null;
 
@@ -50,6 +50,7 @@ class HtmlView extends BaseHtmlView
 	 * The years that are available to filter on.
 	 *
 	 * @var   array
+	 *
 	 * @since 3.6.0
 	 */
 	protected $years = array();
@@ -58,6 +59,7 @@ class HtmlView extends BaseHtmlView
 	 * Object containing the year, month and limit field to be displayed
 	 *
 	 * @var    \stdClass|null
+	 *
 	 * @since  4.0.0
 	 */
 	protected $form = null;
@@ -66,6 +68,7 @@ class HtmlView extends BaseHtmlView
 	 * The page parameters
 	 *
 	 * @var    \Joomla\Registry\Registry|null
+	 *
 	 * @since  4.0.0
 	 */
 	protected $params = null;
@@ -75,6 +78,7 @@ class HtmlView extends BaseHtmlView
 	 * filter_field component parameter)
 	 *
 	 * @var    string
+	 *
 	 * @since  4.0.0
 	 */
 	protected $filter = '';
@@ -82,7 +86,8 @@ class HtmlView extends BaseHtmlView
 	/**
 	 * The user object
 	 *
-	 * @var    \JUser
+	 * @var    \Joomla\CMS\User\User
+	 *
 	 * @since  4.0.0
 	 */
 	protected $user = null;
@@ -91,6 +96,7 @@ class HtmlView extends BaseHtmlView
 	 * The page class suffix
 	 *
 	 * @var    string
+	 *
 	 * @since  4.0.0
 	 */
 	protected $pageclass_sfx = '';
@@ -205,7 +211,7 @@ class HtmlView extends BaseHtmlView
 		$form->limitField = $pagination->getLimitBox();
 
 		// Escape strings for HTML output
-		$this->pageclass_sfx = htmlspecialchars($params->get('pageclass_sfx'));
+		$this->pageclass_sfx = htmlspecialchars($params->get('pageclass_sfx', ''));
 
 		$this->filter     = $state->get('list.filter');
 		$this->form       = &$form;

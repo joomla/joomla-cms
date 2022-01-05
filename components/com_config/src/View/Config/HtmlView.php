@@ -25,7 +25,8 @@ class HtmlView extends BaseHtmlView
 	/**
 	 * The form object
 	 *
-	 * @var   \JForm
+	 * @var   \Joomla\CMS\Form\Form
+	 *
 	 * @since 3.2
 	 */
 	public $form;
@@ -34,6 +35,7 @@ class HtmlView extends BaseHtmlView
 	 * The data to be displayed in the form
 	 *
 	 * @var   array
+	 *
 	 * @since 3.2
 	 */
 	public $data;
@@ -42,6 +44,7 @@ class HtmlView extends BaseHtmlView
 	 * Is the current user a super administrator?
 	 *
 	 * @var   boolean
+	 *
 	 * @since 3.2
 	 */
 	protected $userIsSuperAdmin;
@@ -50,6 +53,7 @@ class HtmlView extends BaseHtmlView
 	 * The page class suffix
 	 *
 	 * @var    string
+	 *
 	 * @since  4.0.0
 	 */
 	protected $pageclass_sfx = '';
@@ -58,6 +62,7 @@ class HtmlView extends BaseHtmlView
 	 * The page parameters
 	 *
 	 * @var    \Joomla\Registry\Registry|null
+	 *
 	 * @since  4.0.0
 	 */
 	protected $params = null;
@@ -124,7 +129,7 @@ class HtmlView extends BaseHtmlView
 		}
 
 		// Escape strings for HTML output
-		$this->pageclass_sfx = htmlspecialchars($params->get('pageclass_sfx'));
+		$this->pageclass_sfx = htmlspecialchars($params->get('pageclass_sfx', ''));
 		$this->params        = &$params;
 	}
 }

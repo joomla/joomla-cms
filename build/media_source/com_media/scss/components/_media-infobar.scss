@@ -4,7 +4,7 @@ $fa-css-prefix:    fa;
 .media-infobar {
   position: absolute;
   top: ($toolbar-height + 1px);
-  right: 0;
+  inset-inline-end: 0;
   bottom: 0;
   z-index: 4;
   float: none;
@@ -14,7 +14,10 @@ $fa-css-prefix:    fa;
   background-color: $info-bg;
   border-inline-start: 1px solid $border-color;
   h2 {
-    padding: 8px ($gutter-width + 15px) 8px ($gutter-width - 5px);
+    padding-block-start: 8px;
+    padding-block-end: 8px;
+    padding-inline-start: ($gutter-width - 5px);
+    padding-inline-end: ($gutter-width + 15px);
     margin: (-$gutter-width) (-$gutter-width) $gutter-width;
     font-weight: normal;
     word-wrap: break-word;
@@ -29,10 +32,14 @@ $fa-css-prefix:    fa;
   }
   dt, dd {
     position: relative;
+    direction: ltr;
     width: 100%;
     min-height: 1px;
     padding-right: ($col-gutter-width / 2);
     padding-left: ($col-gutter-width / 2);
+    [dir=rtl] & {
+      text-align: end;
+    }
   }
   dt {
     font-weight: normal;
@@ -43,7 +50,7 @@ $fa-css-prefix:    fa;
 .infobar-close {
   position: absolute;
   top: 0;
-  right: 0;
+  inset-inline-end: 0;
   z-index: 2;
   padding: 5px $gutter-width;
   font-size: 2.6rem;
@@ -72,26 +79,4 @@ $fa-css-prefix:    fa;
     border: 2px solid #ccc;
     border-radius: 50%;
   }
-}
-
-// RTL override
-
-html[dir=rtl] .media-infobar {
-  right: auto;
-  left: 0;
-}
-
-html[dir=rtl] .infobar-close {
-  right: auto;
-  left: 0;
-}
-
-html[dir=rtl] .media-infobar dd {
-  margin-right: 0;
-  margin-left: auto;
-  direction: ltr;
-  text-align: right;
-}
-html[dir=rtl] .media-infobar h2 {
-  padding: 20px $gutter-width 10px 0;
 }
