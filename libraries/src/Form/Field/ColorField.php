@@ -341,7 +341,7 @@ class ColorField extends FormField
 			}
 		}
 
-		$split = $this->split ? $this->split : 3;
+		$split = $this->split ?: 3;
 
 		return array(
 			'colors' => $colors,
