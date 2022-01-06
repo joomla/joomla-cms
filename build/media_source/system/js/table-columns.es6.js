@@ -1,164 +1,174 @@
-if (window.innerWidth > 992) {
-  const storage = {
-    pagens() {
-      return `joomla-tableoptions-${document.querySelector('.page-title')
-        .innerText
-        .trim()
-        .replace(/\s'\//, '-')
-        .toLowerCase()}`;
-    },
-    getData() {
-      const item = window.localStorage.getItem(this.pagens());
+/**
+ * TableColumns class for toggle visibility of <table> columns.
+ */
+class TableColumns {
 
-      if (item == null) {
-        return {};
-      }
-      try {
-        return JSON.parse(item);
-      } catch (e) {
-        return {};
-      }
-    },
-    has() {
-      return Object.prototype.hasOwnProperty.call(window.localStorage, this.pagens());
-    },
-    set(i, v) {
-      const obj = this.getData();
+  constructor($table, tableName) {
+    this.$table = $table;
+    this.tableName = tableName;
+    this.storageKey = `joomla-tablecolumns-${this.tableName}`;
 
-      if (obj) {
-        obj[i] = v;
-        window.localStorage.setItem(this.pagens(), JSON.stringify(obj));
-      }
-    },
-    get(i) {
-      const obj = this.getData();
+    this.$headers = [].slice.call($table.querySelector('thead tr').children);
+    this.$rows = [].slice.call($table.querySelectorAll('tbody tr'));
+    this.listOfHidden = [];
 
-      if (obj) {
-        return Object.prototype.hasOwnProperty.call(obj, i) && obj[i] === 1;
-      }
+    // Load previous state, and set up toggle menu
+    this.loadState();
+    this.createControls();
 
-      return false;
-    },
-  };
-
-  const table = document.querySelector('table');
-  if (!table) {
-    throw new Error('A table is needed');
-  }
-  const headers = [].slice.call(table.querySelector('thead tr').children);
-  if (!headers) {
-    throw new Error('A thead element is needed');
-  }
-  const rows = [].slice.call(table.querySelectorAll('tbody tr'));
-  if (!rows.length) {
-    throw new Error('The table needs rows');
+    // Restore sate
+    this.listOfHidden.forEach((index) => {
+      this.toggleColumn(index, true);
+    });
   }
 
-  const toggleHidden = (index) => {
-    headers[index].classList.toggle('d-none');
+  /**
+   * Create a controls to select visible columns
+   */
+  createControls() {
+    const $divouter = document.createElement('div');
+    $divouter.setAttribute('class', 'dropdown float-end pb-2');
 
-    rows.forEach((col) => {
-      col.children[index].classList.toggle('d-none');
+    const $divinner = document.createElement('div');
+    $divinner.setAttribute('class', 'dropdown-menu dropdown-menu-end');
+    $divinner.setAttribute('data-bs-popper', 'static');
+
+    // Create a toggle button
+    const $button = document.createElement('button');
+    $button.type = 'button';
+    $button.textContent = Joomla.Text._('JGLOBAL_COLUMNS');
+    $button.classList.add('btn', 'btn-primary', 'btn-sm');
+    $button.setAttribute('data-bs-toggle', 'dropdown');
+    $button.setAttribute('data-bs-auto-close', 'false');
+    $button.setAttribute('aria-haspopup', 'true');
+    $button.setAttribute('aria-expanded', 'false');
+
+    const $ul = document.createElement('ul');
+    $ul.setAttribute('class', 'list-unstyled p-2');
+    $ul.setAttribute('id', 'columnList');
+
+    // Collect a list of headers for dropdown
+    this.$headers.forEach(($el, index) => {
+      // Skip the first column as we don't want to hide the row select checkbox
+      if (index === 0) return;
+
+      const $li = document.createElement('li');
+      const $label = document.createElement('label');
+      const $input = document.createElement('input');
+      $input.classList.add('form-check-input', 'me-1');
+      $input.type = 'checkbox';
+      $input.name = 'column';
+      $input.checked = this.listOfHidden.indexOf(index) === -1;
+      $input.value = index;
+
+      // Find the header name
+      let $titleEl = $el.querySelector('span');
+      let title = $titleEl.textContent.trim();
+
+      if (!title) {
+        $titleEl = $el.querySelector('span.visually-hidden') || $el;
+        title = $titleEl.textContent.trim()
+      }
+
+      if (title.includes(':')) {
+        title = title.split(':', 2)[1].trim();
+      }
+
+      $label.textContent = title;
+      $label.insertAdjacentElement('afterbegin', $input);
+      $li.appendChild($label);
+      $ul.appendChild($li);
     });
 
-    if (headers[index].classList.contains('d-none')) {
-      storage.set(index, 1);
-    } else {
-      storage.set(index, 0);
-    }
-  };
-  const divouter = document.createElement('div');
-  divouter.setAttribute('class', 'dropdown float-end pb-2');
+    this.$table.insertAdjacentElement('beforebegin', $divouter);
+    $divouter.appendChild($button);
+    $divouter.appendChild($divinner);
+    $divinner.appendChild($ul);
 
-  const divinner = document.createElement('div');
-  divinner.setAttribute('class', 'dropdown-menu dropdown-menu-end');
-  divinner.setAttribute('data-bs-popper', 'static');
+    // Listen to checkboxes change
+    $ul.addEventListener('change', (event) => {
+      this.toggleColumn(parseInt(event.target.value, 10));
+      this.saveState();
+    });
 
-  const button = document.createElement('button');
-  Object.entries({
-    class: 'btn btn-primary btn-sm',
-    type: 'button',
-    'data-bs-toggle': 'dropdown',
-    'data-bs-auto-close': 'false',
-    'aria-haspopup': 'true',
-    'aria-expanded': 'false',
-  }).forEach(([key, value]) => {
-    button.setAttribute(key, value);
-  });
+    // Remove "media query" classes, which may prevent toggling to work.
+    this.$headers.forEach(($el) => {
+      $el.classList.remove('d-none', 'd-md-table-cell', 'd-lg-table-cell', 'd-xl-table-cell');
+    });
+    this.$rows.forEach(($row) => {
+      [].slice.call($row.children).forEach(($el) => {
+        $el.classList.remove('d-none', 'd-md-table-cell', 'd-lg-table-cell', 'd-xl-table-cell');
+      })
+    });
 
-  const ul = document.createElement('ul');
-  ul.setAttribute('class', 'list-unstyled p-2');
-  ul.setAttribute('id', 'columnList');
-
-  headers.forEach((el, index) => {
-    // Remove the first column as we don't want to hide the row select checkbox
-    if (index === 0) return;
-
-    el.classList.remove('d-none', 'd-md-table-cell', 'd-lg-table-cell', 'd-xl-table-cell');
-
-    const li = document.createElement('li');
-    const label = document.createElement('label');
-    const input = document.createElement('input');
-    input.setAttribute('class', 'form-check-input me-1');
-    input.type = 'checkbox';
-    input.name = 'column';
-
-    if (storage.get(index) === false) {
-      input.setAttribute('checked', '');
-    }
-
-    input.addEventListener('input', () => toggleHidden(index));
-
-    let s = '';
-    if (el.querySelector('span.visually-hidden')) {
-      s = el.querySelector('span.visually-hidden').innerText;
-    } else if (el.querySelector('span')) {
-      s = el.querySelector('span').innerText;
-    } else {
-      s = el.innerText;
-    }
-
-    if (s.includes(':')) {
-      label.innerText = s.split(':', 2)[1].trim();
-    } else {
-      label.innerText = s;
-    }
-
-    label.insertAdjacentElement('afterbegin', input);
-    li.appendChild(label);
-    ul.appendChild(li);
-  });
-  table.insertAdjacentElement('beforebegin', divouter);
-  divouter.insertAdjacentElement('afterbegin', button);
-  divouter.insertAdjacentElement('beforeend', divinner);
-  divinner.insertAdjacentElement('afterbegin', ul);
-
-  rows.forEach((col) => {
-    [].slice.call(col.children)
-      .forEach((cc, index) => {
-        if (cc.nodeName !== 'TH') {
-          cc.classList.remove('d-none', 'd-md-table-cell', 'd-lg-table-cell', 'd-xl-table-cell');
-          if (storage.get(index) === true) {
-            toggleHidden(index);
-          }
-        } else {
-          // disable the checkbox for this column as its the "main link" of an item.
-          const lis = [...document.querySelector('#columnList').children];
-          const input = lis[index - 1].querySelector('input');
-          if (input) input.setAttribute('disabled', '');
-        }
-      });
-  });
-  const columnCount = document.querySelectorAll("input[name='column']:checked");
-  /* eslint-disable */
-  function updateChecked() {
-    button.innerText = `${document.querySelectorAll("input[name='column']:checked").length + 1}/${headers.length} ${Joomla.Text._('JGLOBAL_COLUMNS')}`;
+    this.$button = $button;
+    this.$menu = $ul;
+    this.updateCounter();
   }
-  /* eslint-enable */
 
-  document.querySelectorAll("input[name='column']").forEach((i) => {
-    i.onclick = () => updateChecked();
+  /**
+   * Update button text
+   */
+  updateCounter() {
+    const total = this.$headers.length - 1;
+    const visible = total - this.listOfHidden.length;
+
+    this.$button.textContent = `${visible}/${total} ${Joomla.Text._('JGLOBAL_COLUMNS')}`;
+  }
+
+  /**
+   * Toggle column visibility
+   *
+   * @param {Number} index  The column index
+   * @param {Boolean} force To force hide
+   */
+  toggleColumn(index, force) {
+    const i = this.listOfHidden.indexOf(index);
+
+    if (i === -1) {
+      this.listOfHidden.push(index);
+    } else if(force !== true) {
+      this.listOfHidden.splice(i, 1);
+    }
+
+    this.$headers[index].classList.toggle('d-none', force);
+
+    this.$rows.forEach(($col) => {
+      $col.children[index].classList.toggle('d-none', force);
+    });
+
+    this.updateCounter();
+  }
+
+  /**
+   * Save state, list of hidden columns
+   */
+  saveState() {
+    window.localStorage.setItem(this.storageKey, this.listOfHidden.join(','))
+  }
+
+  /**
+   * Load state, list of hidden columns
+   */
+  loadState() {
+    const stored = window.localStorage.getItem(this.storageKey);
+
+    if (stored) {
+      this.listOfHidden = stored.split(',').map((val) => parseInt(val, 10));
+    }
+  }
+}
+
+if (window.innerWidth > 992) {
+  // Look for table.table-columns-js with id or data-name attribute
+  document.querySelectorAll('table.table-columns-js').forEach(($table) => {
+    const tableName = ($table.dataset.name ? $table.dataset.name : $table.id).toLowerCase();
+
+    // Skip unnamed table
+    if (!tableName) {
+      return;
+    }
+
+    new TableColumns($table, tableName);
   });
-  // add 1 to the columnCount.length for the checkbox column we excluded earlier
-  button.innerText = `${columnCount.length + 1}/${headers.length} ${Joomla.Text._('JGLOBAL_COLUMNS')}`;
 }
