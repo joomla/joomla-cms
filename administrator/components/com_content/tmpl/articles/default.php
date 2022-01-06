@@ -86,7 +86,6 @@ $wa = $this->document->getWebAssetManager();
 
 $wa->getRegistry()->addExtensionRegistryFile('com_workflow');
 $wa->useScript('com_workflow.admin-items-workflow-buttons')
-	->useScript('table.columns')
 	->addInlineScript($js, [], ['type' => 'module']);
 
 $workflow_state    = Factory::getApplication()->bootComponent('com_content')->isFunctionalityUsed('core.state', 'com_content.article');
