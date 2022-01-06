@@ -44,10 +44,10 @@
 		 * @since 3.7.0
 		 */
 		setupEditor: function ( element, pluginOptions ) {
-			var name = element ? element.getAttribute('name').replace(/\[\]|\]/g, '').split('[').pop() : 'default', // Get Editor name
-			    tinyMCEOptions = pluginOptions ? pluginOptions.tinyMCE || {} : {},
-			    defaultOptions = tinyMCEOptions['default'] || {},
-			    options = tinyMCEOptions[name] ? tinyMCEOptions[name] : defaultOptions; // Check specific options by the name
+			var name = element ? element.getAttribute('id') : 'default', // Get Editor name
+				tinyMCEOptions = pluginOptions ? pluginOptions.tinyMCE || {} : {},
+				defaultOptions = tinyMCEOptions['default'] || {},
+				options = tinyMCEOptions[name] ? tinyMCEOptions[name] : defaultOptions; // Check specific options by the name
 
 			// Avoid an unexpected changes, and copy the options object
 			if (options.joomlaMergeDefaults) {
