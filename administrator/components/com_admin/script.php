@@ -97,11 +97,11 @@ class JoomlaInstallerScript
 
 		// This needs to stay for 2.5 update compatibility
 		$this->deleteUnexistingFiles();
+		$this->updateManifestCaches();
+		$this->updateDatabase();
 
 		// Ensure templates are moved to the correct mode
 		$this->fixTemplateMode();
-		$this->updateManifestCaches();
-		$this->updateDatabase();
 		$this->updateAssets($installer);
 		$this->clearStatsCache();
 		$this->convertTablesToUtf8mb4(true);
