@@ -44,6 +44,16 @@ $compatibilityTypes = array(
 	)
 );
 
+if (version_compare($this->updateInfo['latest'], '4', '>=') && $this->isBackendTemplateIsis === false)
+{
+	JFactory::getApplication()->enqueueMessage(
+		JText::_(
+			'COM_JOOMLAUPDATE_VIEW_DEFAULT_NON_CORE_BACKEND_TEMPLATE_USED_NOTICE'
+		),
+		'info'
+	);
+}
+
 ?>
 <h2>
 	<?php echo JText::sprintf('COM_JOOMLAUPDATE_VIEW_DEFAULT_PREUPDATE_CHECK', $this->updateInfo['latest']); ?>

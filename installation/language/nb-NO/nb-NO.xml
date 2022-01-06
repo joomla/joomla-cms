@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<metafile version="3.9" client="installation">
+ <metafile version="3.10" client="installation">
 	<name>Norwegian Bokmal (Norway)</name>
-	<version>3.9.23</version>
-	<creationDate>November 2020</creationDate>
+	<version>3.10.4</version>
+	<creationDate>November 2021</creationDate>
 	<author>Norwegian Translation Team</author>
-	<copyright>(C) 2006 Open Source Matters, Inc.</copyright>
+	<copyright>Copyright (C) 2005 - 2021 Open Source Matters. All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<files>
 		<filename>nb-NO.ini</filename>

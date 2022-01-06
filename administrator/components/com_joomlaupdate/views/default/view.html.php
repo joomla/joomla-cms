@@ -101,6 +101,7 @@ class JoomlaupdateViewDefault extends JViewLegacy
 		$this->phpOptions             = $model->getPhpOptions();
 		$this->phpSettings            = $model->getPhpSettings();
 		$this->nonCoreExtensions      = $model->getNonCoreExtensions();
+		$this->isBackendTemplateIsis  = (bool) $model->isTemplateActive('isis');
 
 		// Disable the critical plugins check for non-major updates.
 		$this->nonCoreCriticalPlugins = array();

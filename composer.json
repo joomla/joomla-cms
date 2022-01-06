@@ -50,7 +50,7 @@
         "ircmaxell/password-compat": "1.*",
         "leafo/lessphp": "dev-joomla3-php8",
         "paragonie/random_compat": "~1.4",
-        "paragonie/sodium_compat": "1.9.1",
+        "paragonie/sodium_compat": "1.17.0",
         "phpmailer/phpmailer": "dev-joomla-backports",
         "symfony/polyfill-php55": "~1.9",
         "symfony/polyfill-php56": "~1.9",

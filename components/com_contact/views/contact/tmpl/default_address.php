@@ -118,6 +118,7 @@ defined('_JEXEC') or die;
 <?php if ($this->contact->webpage && $this->params->get('show_webpage')) : ?>
 	<dt>
 		<span class="<?php echo $this->params->get('marker_class'); ?>">
+			<?php echo $this->params->get('marker_webpage'); ?>
 		</span>
 	</dt>
 	<dd>

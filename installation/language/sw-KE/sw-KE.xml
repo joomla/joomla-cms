@@ -3,10 +3,10 @@
 	version="3.10"
 	client="installation">
 	<name>Swahili (East Africa)</name>
-	<version>3.10.0</version>
-	<creationDate>March 2020</creationDate>
+	<version>3.10.4</version>
+	<creationDate>November 2021</creationDate>
 	<author>Hassan Abdalla</author>
-	<copyright>(C) 2012 Open Source Matters, Inc.</copyright>
+	<copyright>(C) 2005 Open Source Matters, Inc.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<files>
 		<filename>sw-KE.ini</filename>
