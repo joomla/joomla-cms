@@ -150,9 +150,11 @@ if (window.innerWidth > 992) {
       });
   });
   const columnCount = document.querySelectorAll("input[name='column']:checked");
+  /* eslint-disable */
   function updateChecked() {
     button.innerText = `${document.querySelectorAll("input[name='column']:checked").length + 1}/${headers.length} ${Joomla.Text._('JGLOBAL_COLUMNS')}`;
   }
+  /* eslint-enable */
 
   document.querySelectorAll("input[name='column']").forEach((i) => {
     i.onclick = () => updateChecked();
