@@ -66,7 +66,7 @@ class TableColumns {
 
       if (!title) {
         $titleEl = $el.querySelector('span.visually-hidden') || $el;
-        title = $titleEl.textContent.trim()
+        title = $titleEl.textContent.trim();
       }
 
       if (title.includes(':')) {
