@@ -48,9 +48,9 @@ let CMsettings = {
 };
 
 // Declare some variables:
-let tinymce;     // Reference to TinyMCE
-let editor;      // Reference to TinyMCE editor
-let codemirror;  // CodeMirror instance
+let tinymce; // Reference to TinyMCE
+let editor; // Reference to TinyMCE editor
+let codemirror; // CodeMirror instance
 const chr = 0; // Unused utf-8 character, placeholder for cursor
 const isMac = /macintosh|mac os/i.test(navigator.userAgent);
 
@@ -70,7 +70,7 @@ const findDepth = (haystack, needle) => {
   const idx = haystack.indexOf(needle);
   let depth = 0;
   for (let x = idx - 1; x >= 0; x -= 1) {
-    switch(haystack.charAt(x)) {
+    switch (haystack.charAt(x)) {
       case '<': depth -= 1; break;
       case '>': depth += 1; break;
       case '&': depth += 1; break;
@@ -121,7 +121,7 @@ window.tinymceHighlighterSubmit = () => {
     code.search(ccScript) !== -1
     || code.search(ccStyle) !== -1
     || code.search(ccLocationCheck) !== -1
-  ){
+  ) {
     editor.setContent(code.replace(cc, ''));
   } else {
     editor.setContent(code.replace(cc, '<span id="CmCaReT"></span>'));
@@ -136,7 +136,7 @@ window.tinymceHighlighterSubmit = () => {
   const el = editor.dom.select('span#CmCaReT')[0];
   if (el) {
     editor.selection.scrollIntoView(el);
-    editor.selection.setCursorLocation(el,0);
+    editor.selection.setCursorLocation(el, 0);
     editor.dom.remove(el);
   }
 };
@@ -160,7 +160,7 @@ document.addEventListener('keydown', (evt) => {
  */
 const start = () => {
   // Initialise (on load)
-  if (typeof(window.CodeMirror) !== 'function') {
+  if (typeof (window.CodeMirror) !== 'function') {
     throw new Error(`CodeMirror not found in "${CMsettings.path}", aborting...`);
   }
 
@@ -191,7 +191,7 @@ const start = () => {
   head.appendChild(div);
 
   // Set CodeMirror cursor and bookmark to same position as cursor was in TinyMCE:
-  let html = editor.getContent({source_view: true});
+  let html = editor.getContent({ source_view: true });
 
   // [FIX] #6 z-index issue with table panel and source code dialog
   //  editor.selection.getBookmark();
@@ -237,19 +237,19 @@ const start = () => {
 
 // Initialise
 tinymce = window.parent.tinymce;
-  if (!tinymce) {
-    throw new Error('tinyMCE not found');
-  }
+if (!tinymce) {
+  throw new Error('tinyMCE not found');
+}
 
-  editor = tinymce.activeEditor;
-  const userSettings = editor.settings.codemirror;
+editor = tinymce.activeEditor;
+const userSettings = editor.settings.codemirror;
 
-  if (userSettings.fullscreen) {
+if (userSettings.fullscreen) {
   CMsettings.jsFiles.push(`${cmPath}/addon/display/fullscreen.min.js`);
   CMsettings.cssFiles.push(`${cmPath}/addon/display/fullscreen.css`);
-  }
+}
 
-  // Merge config
+// Merge config
 CMsettings = { ...CMsettings, ...userSettings };
 
 // Append the stylesheets
