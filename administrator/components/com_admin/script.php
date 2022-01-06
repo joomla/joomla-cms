@@ -8548,25 +8548,28 @@ class JoomlaInstallerScript
 	{
 		$db = Factory::getDbo();
 
-		array_map(function($template) use ($db)
-		{
-			$clientId = $template === 'atum' ? 1 : 0;
-			$query = $db->getQuery(true)
-				->update($db->quoteName('#__template_styles'))
-				->set($db->quoteName('inheritable') . ' = ' . $db->quote(1))
-				->where($db->quoteName('template') . ' = ' . $db->quote($template))
-				->where($db->quoteName('client_id') . ' = ' . $db->quote($clientId));
-
-			try
+		array_map(
+			function ($template) use ($db)
 			{
-				$db->setQuery($query)->execute();
-			}
-			catch (Exception $e)
-			{
-				echo Text::sprintf('JLIB_DATABASE_ERROR_FUNCTION_FAILED', $e->getCode(), $e->getMessage()) . '<br>';
+				$clientId = $template === 'atum' ? 1 : 0;
+				$query = $db->getQuery(true)
+					->update($db->quoteName('#__template_styles'))
+					->set($db->quoteName('inheritable') . ' = ' . $db->quote(1))
+					->where($db->quoteName('template') . ' = ' . $db->quote($template))
+					->where($db->quoteName('client_id') . ' = ' . $db->quote($clientId));
 
-				return;
-			}
-		}, ['atum', 'cassiopeia']);
+				try
+				{
+					$db->setQuery($query)->execute();
+				}
+				catch (Exception $e)
+				{
+					echo Text::sprintf('JLIB_DATABASE_ERROR_FUNCTION_FAILED', $e->getCode(), $e->getMessage()) . '<br>';
+
+					return;
+				}
+			},
+			['atum', 'cassiopeia']
+		);
 	}
 }
