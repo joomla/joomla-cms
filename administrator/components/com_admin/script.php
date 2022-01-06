@@ -8556,7 +8556,7 @@ class JoomlaInstallerScript
 					->update($db->quoteName('#__template_styles'))
 					->set($db->quoteName('inheritable') . ' = 1')
 					->where($db->quoteName('template') . ' = ' . $db->quote($template))
-					->where($db->quoteName('client_id') . ' = ' . $db->quote($clientId));
+					->where($db->quoteName('client_id') . ' = ' . $clientId);
 
 				try
 				{
