@@ -8557,7 +8557,8 @@ class JoomlaInstallerScript
 				->where($db->quoteName('template') . ' = ' . $db->quote($template))
 				->where($db->quoteName('client_id') . ' = ' . $db->quote($clientId));
 
-			try {
+			try
+			{
 				$db->setQuery($query)->execute();
 			}
 			catch (Exception $e)
