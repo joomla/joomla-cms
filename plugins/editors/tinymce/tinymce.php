@@ -162,8 +162,7 @@ class PlgEditorTinymce extends JPlugin
 		}
 
 		$id            = preg_replace('/(\s|[^A-Za-z0-9_])+/', '_', $id);
-		$nameGroup     = explode('[', preg_replace('/\[\]|\]/', '', $name));
-		$fieldName     = end($nameGroup);
+		$fieldName     = $id;
 		$scriptOptions = array();
 
 		// Check for existing options
@@ -1233,8 +1232,7 @@ class PlgEditorTinymce extends JPlugin
 		}
 
 		$id            = preg_replace('/(\s|[^A-Za-z0-9_])+/', '_', $id);
-		$nameGroup     = explode('[', preg_replace('/\[\]|\]/', '', $name));
-		$fieldName     = end($nameGroup);
+		$fieldName     = $id;
 		$scriptOptions = array();
 
 		// Check for existing options
