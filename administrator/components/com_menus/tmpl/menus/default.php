@@ -17,6 +17,10 @@ use Joomla\CMS\Uri\Uri;
 
 HTMLHelper::_('behavior.multiselect');
 
+/** @var \Joomla\CMS\WebAsset\WebAssetManager $wa */
+$wa = $this->document->getWebAssetManager();
+$wa->useScript('table.columns');
+
 $uri       = Uri::getInstance();
 $return    = base64_encode($uri);
 $user      = Factory::getUser();

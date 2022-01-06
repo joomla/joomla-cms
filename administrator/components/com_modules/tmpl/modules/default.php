@@ -20,6 +20,10 @@ use Joomla\CMS\Session\Session;
 
 HTMLHelper::_('behavior.multiselect');
 
+/** @var \Joomla\CMS\WebAsset\WebAssetManager $wa */
+$wa = $this->document->getWebAssetManager();
+$wa->useScript('table.columns');
+
 $clientId  = (int) $this->state->get('client_id', 0);
 $user      = Factory::getUser();
 $listOrder = $this->escape($this->state->get('list.ordering'));

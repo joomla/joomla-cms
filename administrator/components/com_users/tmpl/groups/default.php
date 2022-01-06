@@ -26,7 +26,8 @@ Text::script('COM_USERS_GROUPS_CONFIRM_DELETE', true);
 
 /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
 $wa = $this->document->getWebAssetManager();
-$wa->useScript('com_users.admin-users-groups');
+$wa->useScript('com_users.admin-users-groups')
+	->useScript('table.columns');
 
 ?>
 <form action="<?php echo Route::_('index.php?option=com_users&view=groups'); ?>" method="post" name="adminForm" id="adminForm">

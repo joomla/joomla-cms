@@ -20,6 +20,10 @@ use Joomla\String\Inflector;
 
 HTMLHelper::_('behavior.multiselect');
 
+/** @var \Joomla\CMS\WebAsset\WebAssetManager $wa */
+$wa = $this->document->getWebAssetManager();
+$wa->useScript('table.columns');
+
 $user      = Factory::getUser();
 $userId    = $user->get('id');
 $extension = $this->escape($this->state->get('filter.extension'));

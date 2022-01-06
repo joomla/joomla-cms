@@ -110,7 +110,7 @@ $assoc = Associations::isEnabled();
 						<?php echo Text::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
 					</div>
 				<?php else : ?>
-					<table class="table itemList table-columns-js" id="articleList" data-name="articles">
+					<table class="table itemList" id="articleList">
 						<caption class="visually-hidden">
 							<?php echo Text::_('COM_CONTENT_ARTICLES_TABLE_CAPTION'); ?>,
 							<span id="orderedBy"><?php echo Text::_('JGLOBAL_SORTED_BY'); ?> </span>,

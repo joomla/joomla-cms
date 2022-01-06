@@ -159,9 +159,13 @@ class TableColumns {
 }
 
 if (window.innerWidth > 992) {
-  // Look for table.table-columns-js with id or data-name attribute
-  document.querySelectorAll('table.table-columns-js').forEach(($table) => {
-    const tableName = ($table.dataset.name ? $table.dataset.name : $table.id).toLowerCase();
+  // Look for dataset name else page-title
+  document.querySelectorAll('table').forEach(($table) => {
+    const tableName = ($table.dataset.name ? $table.dataset.name : document.querySelector('.page-title')
+      .textContent.trim()
+      .replace(/\s'\//, '-')
+      .toLowerCase()
+    );
 
     // Skip unnamed table
     if (!tableName) {

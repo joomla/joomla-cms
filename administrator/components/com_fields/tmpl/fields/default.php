@@ -20,6 +20,10 @@ use Joomla\Component\Fields\Administrator\Helper\FieldsHelper;
 
 HTMLHelper::_('behavior.multiselect');
 
+/** @var \Joomla\CMS\WebAsset\WebAssetManager $wa */
+$wa = $this->document->getWebAssetManager();
+$wa->useScript('table.columns');
+
 $app       = Factory::getApplication();
 $user      = Factory::getUser();
 $userId    = $user->get('id');
