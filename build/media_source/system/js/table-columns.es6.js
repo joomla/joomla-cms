@@ -2,7 +2,6 @@
  * TableColumns class for toggle visibility of <table> columns.
  */
 class TableColumns {
-
   constructor($table, tableName) {
     this.$table = $table;
     this.tableName = tableName;
@@ -98,7 +97,7 @@ class TableColumns {
     this.$rows.forEach(($row) => {
       [].slice.call($row.children).forEach(($el) => {
         $el.classList.remove('d-none', 'd-md-table-cell', 'd-lg-table-cell', 'd-xl-table-cell');
-      })
+      });
     });
 
     this.$button = $button;
@@ -127,7 +126,7 @@ class TableColumns {
 
     if (i === -1) {
       this.listOfHidden.push(index);
-    } else if(force !== true) {
+    } else if (force !== true) {
       this.listOfHidden.splice(i, 1);
     }
 
@@ -144,7 +143,7 @@ class TableColumns {
    * Save state, list of hidden columns
    */
   saveState() {
-    window.localStorage.setItem(this.storageKey, this.listOfHidden.join(','))
+    window.localStorage.setItem(this.storageKey, this.listOfHidden.join(','));
   }
 
   /**
