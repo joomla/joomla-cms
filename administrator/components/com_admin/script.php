@@ -8554,7 +8554,7 @@ class JoomlaInstallerScript
 				$clientId = $template === 'atum' ? 1 : 0;
 				$query = $db->getQuery(true)
 					->update($db->quoteName('#__template_styles'))
-					->set($db->quoteName('inheritable') . ' = ' . $db->quote(1))
+					->set($db->quoteName('inheritable') . ' = 1')
 					->where($db->quoteName('template') . ' = ' . $db->quote($template))
 					->where($db->quoteName('client_id') . ' = ' . $db->quote($clientId));
 
