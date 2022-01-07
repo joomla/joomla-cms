@@ -537,13 +537,13 @@ class ArticlesModel extends ListModel
 			// If no param or state is set we want to force the filters
 			$filterPublishDates = $this->getState('filter.filter_publish_dates', $params->get('filter_publish_dates', 'all'));
 
-			if(in_array($filterPublishDates, ['up', 'all']))
+			if (in_array($filterPublishDates, ['up', 'all']))
 			{
 				$query->where('(' . $db->quoteName('a.publish_up') . ' IS NULL OR ' . $db->quoteName('a.publish_up') . ' <= :publishUp)')
 					->bind(':publishUp', $nowDate);
 			}
 
-			if(in_array($filterPublishDates, ['down', 'all']))
+			if (in_array($filterPublishDates, ['down', 'all']))
 			{
 				$query->where('(' . $db->quoteName('a.publish_down') . ' IS NULL OR ' . $db->quoteName('a.publish_down') . ' >= :publishDown)')
 					->bind(':publishDown', $nowDate);
