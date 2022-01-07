@@ -65,7 +65,7 @@ class ProviderManager
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function unregisterProvider(ProviderInterface $provider = null)
+	public function unregisterProvider(ProviderInterface $provider = null): void
 	{
 		if ($provider === null)
 		{
