@@ -8544,7 +8544,7 @@ class JoomlaInstallerScript
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	protected function fixTemplateMode()
+	protected function fixTemplateMode(): void
 	{
 		$db = Factory::getDbo();
 
