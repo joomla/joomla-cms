@@ -79,7 +79,7 @@ class ProviderManager
 		}
 
 		unset($this->providers[$provider->getID()]);
-    }
+	}
 
 	/**
 	 * Returns the provider for a particular ID
