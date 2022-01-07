@@ -18,7 +18,7 @@ use Joomla\Event\SubscriberInterface;
 /**
  * Jooa11y plugin to add an accessibility checker
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.1.0
  */
 class PlgSystemJooa11y extends CMSPlugin implements SubscriberInterface
 {
@@ -26,7 +26,7 @@ class PlgSystemJooa11y extends CMSPlugin implements SubscriberInterface
 	 * Application object.
 	 *
 	 * @var    CMSApplicationInterface
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.1.0
 	 */
 	protected $app;
 
@@ -34,7 +34,7 @@ class PlgSystemJooa11y extends CMSPlugin implements SubscriberInterface
 	 * Affects constructor behavior. If true, language files will be loaded automatically.
 	 *
 	 * @var    boolean
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.1.0
 	 */
 	protected $autoloadLanguage = true;
 
@@ -43,7 +43,7 @@ class PlgSystemJooa11y extends CMSPlugin implements SubscriberInterface
 	 *
 	 * @return string[]  An array of event mappings
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.1.0
 	 *
 	 * @throws Exception
 	 */
@@ -65,7 +65,7 @@ class PlgSystemJooa11y extends CMSPlugin implements SubscriberInterface
 	 *
 	 * @return  boolean  True if access is allowed.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.1.0
 	 */
 	private function isAuthorisedDisplayChecker(): bool
 	{
@@ -101,7 +101,7 @@ class PlgSystemJooa11y extends CMSPlugin implements SubscriberInterface
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.1.0
 	 */
 	public function initJooa11y()
 	{
