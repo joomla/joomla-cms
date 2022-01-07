@@ -62,7 +62,7 @@ class TableColumns {
 
       // Find the header name
       let $titleEl = $el.querySelector('span');
-      let title = $titleEl.textContent.trim();
+      let title = $titleEl ? $titleEl.textContent.trim() : '';
 
       if (!title) {
         $titleEl = $el.querySelector('span.visually-hidden') || $el;
