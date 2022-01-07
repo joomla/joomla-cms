@@ -25,7 +25,7 @@ use Joomla\Database\Exception\QueryTypeAlreadyDefinedException;
  * Table class for tasks scheduled through `com_scheduler`.
  * The type alias for Task table entries is `com_scheduler.task`.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.1.0
  */
 class TaskTable extends Table
 {
@@ -33,7 +33,7 @@ class TaskTable extends Table
 	 * Ensure params are json encoded by the bind method.
 	 *
 	 * @var string[]
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.1.0
 	 */
 	protected $_jsonEncode = ['params', 'execution_rules', 'cron_rules'];
 
@@ -41,7 +41,7 @@ class TaskTable extends Table
 	 * The 'created' column.
 	 *
 	 * @var string
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.1.0
 	 */
 	public $created;
 
@@ -49,13 +49,13 @@ class TaskTable extends Table
 	 * The 'title' column.
 	 *
 	 * @var string
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.1.0
 	 */
 	public $title;
 
 	/**
 	 * @var    string
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.1.0
 	 */
 	public $typeAlias = 'com_scheduler.task';
 
@@ -64,7 +64,7 @@ class TaskTable extends Table
 	 *
 	 * @param   DatabaseDriver  $db  A database connector object.
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.1.0
 	 */
 	public function __construct(DatabaseDriver $db)
 	{
@@ -79,7 +79,7 @@ class TaskTable extends Table
 	 *
 	 * @return boolean  True if checks pass.
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.1.0
 	 * @throws \Exception
 	 */
 	public function check(): bool
@@ -119,7 +119,7 @@ class TaskTable extends Table
 	 *
 	 * @return boolean  True if successful.
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.1.0
 	 * @throws \Exception
 	 */
 	public function store($updateNulls = true): bool
@@ -148,7 +148,7 @@ class TaskTable extends Table
 	 *
 	 * @return string  The asset name.
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.1.0
 	 */
 	protected function _getAssetName(): string
 	{
@@ -167,7 +167,7 @@ class TaskTable extends Table
 	 *
 	 * @return boolean
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.1.0
 	 */
 	public function bind($src, $ignore = array()): bool
 	{

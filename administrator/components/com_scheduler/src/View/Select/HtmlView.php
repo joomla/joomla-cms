@@ -27,13 +27,13 @@ use Joomla\Component\Scheduler\Administrator\Task\TaskOption;
  * The MVC View for the routine selection page (SelectView).
  * This view lets the user choose from a list of plugin defined task routines.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.1.0
  */
 class HtmlView extends BaseHtmlView
 {
 	/**
 	 * @var  AdministratorApplication
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.1.0
 	 */
 	protected $app;
 
@@ -41,7 +41,7 @@ class HtmlView extends BaseHtmlView
 	 * The model state
 	 *
 	 * @var  CMSObject
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.1.0
 	 */
 	protected $state;
 
@@ -49,7 +49,7 @@ class HtmlView extends BaseHtmlView
 	 * An array of items
 	 *
 	 * @var  TaskOption[]
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.1.0
 	 */
 	protected $items;
 
@@ -57,7 +57,7 @@ class HtmlView extends BaseHtmlView
 	 * A suffix for links for modal use [?]
 	 *
 	 * @var  string
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.1.0
 	 */
 	protected $modalLink;
 
@@ -74,7 +74,7 @@ class HtmlView extends BaseHtmlView
 	 *                          (defaults to base_path + /helpers/) layout: the layout (optional) to use to display the
 	 *                          view
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.1.0
 	 * @throws  \Exception
 	 */
 	public function __construct($config = [])
@@ -89,7 +89,7 @@ class HtmlView extends BaseHtmlView
 	 *
 	 * @return  void
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.1.0
 	 * @throws \Exception
 	 */
 	public function display($tpl = null): void
@@ -114,7 +114,7 @@ class HtmlView extends BaseHtmlView
 	 *
 	 * @return void
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.1.0
 	 */
 	protected function addToolbar(): void
 	{

@@ -22,7 +22,7 @@ use Joomla\Component\Media\Administrator\Provider\ProviderManager;
 /**
  * Trait for classes that need adapters.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.1.0
  */
 trait AdapterTrait
 {
@@ -31,7 +31,7 @@ trait AdapterTrait
 	 *
 	 * @var    ProviderManager
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.1.0
 	 */
 	private $providerManager = null;
 
@@ -40,7 +40,7 @@ trait AdapterTrait
 	 *
 	 * @var    string
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.1.0
 	 */
 	private $defaultAdapterName = null;
 
@@ -51,7 +51,7 @@ trait AdapterTrait
 	 *
 	 * @throws  \Exception
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.1.0
 	 */
 	private function resolveAdapterAndPath(String $path): array
 	{
@@ -88,7 +88,7 @@ trait AdapterTrait
 	 *
 	 * @throws  \Exception
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.1.0
 	 */
 	private function getProvider(String $id): ProviderInterface
 	{
@@ -102,7 +102,7 @@ trait AdapterTrait
 	 *
 	 * @throws  \Exception
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.1.0
 	 */
 	private function getAdapter(String $name): AdapterInterface
 	{
@@ -116,7 +116,7 @@ trait AdapterTrait
 	 *
 	 * @throws  \Exception
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.1.0
 	 */
 	private function getDefaultAdapterName(): ?string
 	{
@@ -149,7 +149,7 @@ trait AdapterTrait
 	 *
 	 * @return  ProviderManager
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.1.0
 	 */
 	private function getProviderManager(): ProviderManager
 	{

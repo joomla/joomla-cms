@@ -51,10 +51,9 @@ class OrderingField extends FormField
 	 */
 	public function __get($name)
 	{
-		switch ($name)
+		if ($name === 'contentType')
 		{
-			case 'contentType':
-				return $this->contentType;
+			return $this->contentType;
 		}
 
 		return parent::__get($name);

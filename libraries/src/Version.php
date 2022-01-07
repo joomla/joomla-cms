@@ -85,7 +85,7 @@ final class Version
 	 * @var    string
 	 * @since  3.5
 	 */
-	const RELDATE = '23-November-2021';
+	const RELDATE = '4-January-2022';
 
 	/**
 	 * Release time.

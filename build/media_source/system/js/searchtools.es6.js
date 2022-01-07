@@ -125,7 +125,7 @@ Joomla = window.Joomla || {};
       const self = this;
 
       // Get values
-      this.searchString = this.searchField.value;
+      this.searchString = this.searchField ? this.searchField.value : '';
 
       // Do some binding
       this.showFilters = this.showFilters.bind(this);

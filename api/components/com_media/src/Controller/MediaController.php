@@ -26,7 +26,7 @@ use Tobscure\JsonApi\Exception\InvalidParameterException;
 /**
  * Media web service controller.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.1.0
  */
 class MediaController extends ApiController
 {
@@ -36,7 +36,7 @@ class MediaController extends ApiController
 	 * The content type of the item.
 	 *
 	 * @var    string
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.1.0
 	 */
 	protected $contentType = 'media';
 
@@ -44,7 +44,7 @@ class MediaController extends ApiController
 	 * Query parameters => model state mappings
 	 *
 	 * @var    array
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.1.0
 	 */
 	private static $listQueryModelStateMap = [
 		'path'    => [
@@ -69,7 +69,7 @@ class MediaController extends ApiController
 	 * Item query parameters => model state mappings
 	 *
 	 * @var    array
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.1.0
 	 */
 	private static $itemQueryModelStateMap = [
 		'path'    => [
@@ -95,7 +95,7 @@ class MediaController extends ApiController
 	 *
 	 * @var    string
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.1.0
 	 */
 	protected $default_view = 'media';
 
@@ -104,7 +104,7 @@ class MediaController extends ApiController
 	 *
 	 * @return  static  A \JControllerLegacy object to support chaining.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.1.0
 	 *
 	 * @throws  \Exception
 	 */
@@ -130,7 +130,7 @@ class MediaController extends ApiController
 		$filter        = InputFilter::getInstance();
 
 		// Search for files matching (part of) a name or glob pattern.
-		if ($doSearch = array_key_exists('search', $apiFilterInfo))
+		if (\array_key_exists('search', $apiFilterInfo))
 		{
 			$this->modelState->set('search', $filter->clean($apiFilterInfo['search'], 'STRING'));
 
@@ -148,7 +148,7 @@ class MediaController extends ApiController
 	 *
 	 * @return  static  A \JControllerLegacy object to support chaining.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.1.0
 	 *
 	 * @throws  InvalidPathException
 	 * @throws  \Exception
@@ -173,11 +173,11 @@ class MediaController extends ApiController
 	/**
 	 * Set model state using a list of mappings between query parameters and model state names.
 	 *
-	 * @param   array  $mappings  A list of mappings between query parameters and model state names..
+	 * @param   array  $mappings  A list of mappings between query parameters and model state names.
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.1.0
 	 */
 	private function setModelState(array $mappings): void
 	{
@@ -195,7 +195,7 @@ class MediaController extends ApiController
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.1.0
 	 *
 	 * @throws  FileExistsException
 	 * @throws  InvalidPathException
@@ -243,7 +243,7 @@ class MediaController extends ApiController
 	 *
 	 * @return  boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.1.0
 	 */
 	protected function allowAdd($data = array()): bool
 	{
@@ -257,7 +257,7 @@ class MediaController extends ApiController
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.1.0
 	 *
 	 * @throws  FileExistsException
 	 * @throws  InvalidPathException
@@ -300,7 +300,7 @@ class MediaController extends ApiController
 	 *
 	 * @return  boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.1.0
 	 */
 	protected function allowEdit($data = array(), $key = 'id'): bool
 	{
@@ -317,7 +317,7 @@ class MediaController extends ApiController
 	 *
 	 * @return  string   The path
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.1.0
 	 */
 	protected function save($recordKey = null)
 	{
@@ -346,7 +346,7 @@ class MediaController extends ApiController
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.1.0
 	 *
 	 * @throws  \RuntimeException
 	 */
@@ -371,7 +371,7 @@ class MediaController extends ApiController
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.1.0
 	 *
 	 * @throws  InvalidPathException
 	 * @throws  \RuntimeException
@@ -399,7 +399,7 @@ class MediaController extends ApiController
 	 *
 	 * @return  boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.1.0
 	 */
 	protected function allowDelete(): bool
 	{

@@ -38,7 +38,7 @@ use Psr\Log\LoggerAwareTrait;
  * related properties of Tasks as supported by `com_scheduler`,
  * a Task Scheduling component.
  *
- * @since __DEPLOY_VERSION__
+ * @since 4.1.0
  */
 class Task implements LoggerAwareInterface
 {
@@ -47,21 +47,21 @@ class Task implements LoggerAwareInterface
 	/**
 	 * Enumerated state for enabled tasks.
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.1.0
 	 */
 	const STATE_ENABLED = 1;
 
 	/**
 	 * Enumerated state for disabled tasks.
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.1.0
 	 */
 	public const STATE_DISABLED = 0;
 
 	/**
 	 * Enumerated state for trashed tasks.
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.1.0
 	 */
 	public const STATE_TRASHED = -2;
 
@@ -80,31 +80,31 @@ class Task implements LoggerAwareInterface
 	 * The task snapshot
 	 *
 	 * @var   array
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.1.0
 	 */
 	protected $snapshot = [];
 
 	/**
 	 * @var  Registry
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.1.0
 	 */
 	protected $taskRegistry;
 
 	/**
 	 * @var  string
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.1.0
 	 */
 	public $logCategory;
 
 	/**
 	 * @var  CMSApplication
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.1.0
 	 */
 	protected $app;
 
 	/**
 	 * @var  DatabaseInterface
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.1.0
 	 */
 	protected $db;
 
@@ -113,7 +113,7 @@ class Task implements LoggerAwareInterface
 	 * 'NA' maps to the event for general task failures.
 	 *
 	 * @var  string[]
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.1.0
 	 */
 	protected const EVENTS_MAP = [
 		Status::OK         => 'onTaskExecuteSuccess',
@@ -126,7 +126,7 @@ class Task implements LoggerAwareInterface
 	 *
 	 * @param   object  $record  A task from {@see TaskTable}.
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.1.0
 	 * @throws \Exception
 	 */
 	public function __construct(object $record)
@@ -159,7 +159,7 @@ class Task implements LoggerAwareInterface
 	 *
 	 * @return object
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.1.0
 	 */
 	public function getRecord(): object
 	{
@@ -176,7 +176,7 @@ class Task implements LoggerAwareInterface
 	 *
 	 * @return boolean  True if success
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.1.0
 	 * @throws \Exception
 	 */
 	public function run(): bool
@@ -276,7 +276,7 @@ class Task implements LoggerAwareInterface
 	 *
 	 * @return array
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.1.0
 	 */
 	public function getContent(): array
 	{
@@ -291,7 +291,7 @@ class Task implements LoggerAwareInterface
 	 *
 	 * @return boolean
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.1.0
 	 * @throws \Exception
 	 */
 	public function acquireLock(): bool
@@ -353,7 +353,7 @@ class Task implements LoggerAwareInterface
 	 *
 	 * @return boolean
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.1.0
 	 * @throws \Exception
 	 */
 	public function releaseLock(bool $update = true): bool
@@ -422,7 +422,7 @@ class Task implements LoggerAwareInterface
 	 *
 	 * @return  void
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.1.0
 	 * @throws InvalidArgumentException
 	 */
 	public function log(string $message, string $priority = 'info'): void
@@ -435,7 +435,7 @@ class Task implements LoggerAwareInterface
 	 *
 	 * @return void
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.1.0
 	 * @throws \Exception
 	 */
 	public function skipExecution(): void
@@ -468,7 +468,7 @@ class Task implements LoggerAwareInterface
 	 *
 	 * @return void
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.1.0
 	 *
 	 * @throws \UnexpectedValueException|\BadMethodCallException
 	 */
@@ -491,7 +491,7 @@ class Task implements LoggerAwareInterface
 	 * Was the task successful?
 	 *
 	 * @return boolean  True if the task was successful.
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.1.0
 	 */
 	public function isSuccess(): bool
 	{
@@ -507,7 +507,7 @@ class Task implements LoggerAwareInterface
 	 *
 	 * @return mixed|null
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.1.0
 	 */
 	protected function set(string $path, $value, string $separator = null)
 	{
@@ -522,7 +522,7 @@ class Task implements LoggerAwareInterface
 	 *
 	 * @return mixed  The task property.
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.1.0
 	 */
 	public function get(string $path, $default = null)
 	{
@@ -536,7 +536,7 @@ class Task implements LoggerAwareInterface
 	 *
 	 * @return boolean
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.1.0
 	 */
 	public static function isValidState(string $state): bool
 	{
@@ -559,7 +559,7 @@ class Task implements LoggerAwareInterface
 	 *
 	 * @return boolean
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.1.0
 	 */
 	public static function isValidId(string $id): bool
 	{

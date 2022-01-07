@@ -24,7 +24,7 @@ use Joomla\Component\Media\Api\Helper\AdapterTrait;
 /**
  * Media web service model supporting a single media item.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.1.0
  */
 class MediumModel extends BaseModel
 {
@@ -34,7 +34,7 @@ class MediumModel extends BaseModel
 	 * Instance of com_media's ApiModel
 	 *
 	 * @var ApiModel
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.1.0
 	 */
 	private $mediaApiModel;
 
@@ -50,7 +50,7 @@ class MediumModel extends BaseModel
 	 *
 	 * @return  \stdClass  A file or folder object.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.1.0
 	 * @throws  ResourceNotFound
 	 */
 	public function getItem()
@@ -84,7 +84,7 @@ class MediumModel extends BaseModel
 	 *
 	 * @return  string   The path
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.1.0
 	 *
 	 * @throws  Save
 	 */
@@ -96,6 +96,18 @@ class MediumModel extends BaseModel
 		$override = $this->getState('override', false);
 
 		['adapter' => $adapterName, 'path' => $path] = $this->resolveAdapterAndPath($path);
+
+		// Trim adapter information from path
+		if ($pos = strpos($path, ':/'))
+		{
+			$path = substr($path, $pos + 1);
+		}
+
+		// Trim adapter information from old path
+		if ($pos = strpos($oldPath, ':/'))
+		{
+			$oldPath = substr($oldPath, $pos + 1);
+		}
 
 		$resultPath = '';
 
@@ -249,7 +261,7 @@ class MediumModel extends BaseModel
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.1.0
 	 * @throws  Save
 	 */
 	public function delete(): void

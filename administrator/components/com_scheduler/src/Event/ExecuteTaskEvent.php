@@ -18,7 +18,7 @@ use Joomla\Component\Scheduler\Administrator\Task\Task;
 /**
  * Event class for onExecuteTask event.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.1.0
  */
 class ExecuteTaskEvent extends AbstractEvent
 {
@@ -28,7 +28,7 @@ class ExecuteTaskEvent extends AbstractEvent
 	 * @param   string  $name       The event name.
 	 * @param   array   $arguments  The event arguments.
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.1.0
 	 * @throws  \BadMethodCallException
 	 */
 	public function __construct($name, array $arguments = array())
@@ -51,7 +51,7 @@ class ExecuteTaskEvent extends AbstractEvent
 	 *
 	 * @return  void
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.1.0
 	 */
 	public function setResult(array $snapshot = []): void
 	{
@@ -66,7 +66,7 @@ class ExecuteTaskEvent extends AbstractEvent
 	/**
 	 * @return integer  The task's taskId.
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.1.0
 	 */
 	public function getTaskId(): int
 	{
@@ -76,7 +76,7 @@ class ExecuteTaskEvent extends AbstractEvent
 	/**
 	 * @return  string  The task's 'type'.
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.1.0
 	 */
 	public function getRoutineId(): string
 	{
@@ -88,7 +88,7 @@ class ExecuteTaskEvent extends AbstractEvent
 	 *
 	 * @return  array  The task snapshot if available, else null
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.1.0
 	 */
 	public function getResultSnapshot(): array
 	{

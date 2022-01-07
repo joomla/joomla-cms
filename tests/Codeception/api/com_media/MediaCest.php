@@ -15,7 +15,7 @@ use Codeception\Util\HttpCode;
  *
  * Basic com_media (files) tests.
  *
- * @since   __DEPLOY_VERSION__
+ * @since   4.1.0
  */
 class MediaCest
 {
@@ -24,16 +24,16 @@ class MediaCest
 	 *
 	 * @var     string
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.1.0
 	 */
 	private $testDirectory = 'test-dir';
 
 	/**
 	 * Runs before every test.
 	 *
-	 * @param   mixed   ApiTester  $I  Api tester
+	 * @param   ApiTester  $I  Api tester
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.1.0
 	 *
 	 * @throws Exception
 	 */
@@ -59,9 +59,9 @@ class MediaCest
 	/**
 	 * Runs after every test.
 	 *
-	 * @param   mixed   ApiTester  $I  Api tester
+	 * @param   ApiTester  $I  Api tester
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.1.0
 	 *
 	 * @throws Exception
 	 */
@@ -74,11 +74,11 @@ class MediaCest
 	/**
 	 * Test the GET media adapter endpoint of com_media from the API.
 	 *
-	 * @param   mixed   ApiTester  $I  Api tester
+	 * @param   ApiTester  $I  Api tester
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.1.0
 	 */
 	public function testGetAdapters(ApiTester $I)
 	{
@@ -93,11 +93,11 @@ class MediaCest
 	/**
 	 * Test the GET media adapter endpoint for a single adapter of com_media from the API.
 	 *
-	 * @param   mixed   ApiTester  $I  Api tester
+	 * @param   ApiTester  $I  Api tester
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.1.0
 	 */
 	public function testGetAdapter(ApiTester $I)
 	{
@@ -112,11 +112,11 @@ class MediaCest
 	/**
 	 * Test the GET media files endpoint of com_media from the API.
 	 *
-	 * @param   mixed   ApiTester  $I  Api tester
+	 * @param   ApiTester  $I  Api tester
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.1.0
 	 */
 	public function testGetFiles(ApiTester $I)
 	{
@@ -132,11 +132,11 @@ class MediaCest
 	/**
 	 * Test the GET media files endpoint of com_media from the API.
 	 *
-	 * @param   mixed   ApiTester  $I  Api tester
+	 * @param   ApiTester  $I  Api tester
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.1.0
 	 */
 	public function testGetFilesInSubfolder(ApiTester $I)
 	{
@@ -151,11 +151,11 @@ class MediaCest
 	/**
 	 * Test the GET media files endpoint of com_media from the API.
 	 *
-	 * @param   mixed   ApiTester  $I  Api tester
+	 * @param   ApiTester  $I  Api tester
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.1.0
 	 */
 	public function testGetFilesWithAdapter(ApiTester $I)
 	{
@@ -170,11 +170,11 @@ class MediaCest
 	/**
 	 * Test the GET media files endpoint of com_media from the API.
 	 *
-	 * @param   mixed   ApiTester  $I  Api tester
+	 * @param   ApiTester  $I  Api tester
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.1.0
 	 */
 	public function testSearchFiles(ApiTester $I)
 	{
@@ -191,11 +191,11 @@ class MediaCest
 	/**
 	 * Test the GET media files endpoint for a single file of com_media from the API.
 	 *
-	 * @param   mixed   ApiTester  $I  Api tester
+	 * @param   ApiTester  $I  Api tester
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.1.0
 	 */
 	public function testGetFile(ApiTester $I)
 	{
@@ -211,11 +211,11 @@ class MediaCest
 	/**
 	 * Test the GET media files endpoint for a single file of com_media from the API.
 	 *
-	 * @param   mixed   ApiTester  $I  Api tester
+	 * @param   ApiTester  $I  Api tester
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.1.0
 	 */
 	public function testGetFileWithUrl(ApiTester $I)
 	{
@@ -230,11 +230,11 @@ class MediaCest
 	/**
 	 * Test the GET media files endpoint for a single file of com_media from the API.
 	 *
-	 * @param   mixed   ApiTester  $I  Api tester
+	 * @param   ApiTester  $I  Api tester
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.1.0
 	 */
 	public function testGetFolder(ApiTester $I)
 	{
@@ -247,15 +247,15 @@ class MediaCest
 	}
 
 	/**
-	 * Test the POST media files endpoint of com_media from the API.
+	 * Test the POST media files endpoint of com_media from the API without adapter information.
 	 *
-	 * @param   mixed   ApiTester  $I  Api tester
+	 * @param   ApiTester  $I  Api tester
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.1.0
 	 */
-	public function testCreateFile(ApiTester $I)
+	public function testCreateFileWithoutAdapter(ApiTester $I)
 	{
 		$I->amBearerAuthenticated($I->getBearerToken());
 		$I->haveHttpHeader('Content-Type', 'application/json');
@@ -273,15 +273,15 @@ class MediaCest
 	}
 
 	/**
-	 * Test the POST media files endpoint of com_media from the API.
+	 * Test the POST media files endpoint of com_media from the API without adapter information.
 	 *
-	 * @param   mixed   ApiTester  $I  Api tester
+	 * @param   ApiTester  $I  Api tester
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.1.0
 	 */
-	public function testCreateFolder(ApiTester $I)
+	public function testCreateFolderWithoutAdapter(ApiTester $I)
 	{
 		$I->amBearerAuthenticated($I->getBearerToken());
 		$I->haveHttpHeader('Content-Type', 'application/json');
@@ -296,15 +296,64 @@ class MediaCest
 	}
 
 	/**
-	 * Test the PATCH media files endpoint of com_media from the API.
+	 * Test the POST media files endpoint of com_media from the API with adapter information.
 	 *
-	 * @param   mixed   ApiTester  $I  Api tester
+	 * @param   ApiTester  $I  Api tester
+	 *
+	 * @return  void
+	 *
+	 * @since   4.1.0
+	 */
+	public function testCreateFileWithAdapter(ApiTester $I)
+	{
+		$I->amBearerAuthenticated($I->getBearerToken());
+		$I->haveHttpHeader('Content-Type', 'application/json');
+		$I->haveHttpHeader('Accept', 'application/vnd.api+json');
+		$I->sendPost(
+			'/media/files',
+			[
+				'path'    => 'local-images:/' . $this->testDirectory . '/test.jpg',
+				'content' => base64_encode(file_get_contents(codecept_data_dir() . '/com_media/test-image-1.jpg'))
+			]
+		);
+
+		$I->seeResponseCodeIs(HttpCode::OK);
+		$I->seeResponseContainsJson(['data' => ['attributes' => ['type' => 'file', 'name' => 'test.jpg']]]);
+	}
+
+	/**
+	 * Test the POST media files endpoint of com_media from the API with adapter information.
+	 *
+	 * @param   ApiTester  $I  Api tester
 	 *
 	 * @return  void
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function testUpdateFile(ApiTester $I)
+	public function testCreateFolderWithAdapter(ApiTester $I)
+	{
+		$I->amBearerAuthenticated($I->getBearerToken());
+		$I->haveHttpHeader('Content-Type', 'application/json');
+		$I->haveHttpHeader('Accept', 'application/vnd.api+json');
+		$I->sendPost(
+			'/media/files',
+			['path' => 'local-images:/' . $this->testDirectory . '/test-from-create']
+		);
+
+		$I->seeResponseCodeIs(HttpCode::OK);
+		$I->seeResponseContainsJson(['data' => ['attributes' => ['type' => 'dir', 'name' => 'test-from-create']]]);
+	}
+
+	/**
+	 * Test the PATCH media files endpoint of com_media from the API without adapter information.
+	 *
+	 * @param  ApiTester  $I  Api tester
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function testUpdateFileWithoutAdapter(ApiTester $I)
 	{
 		file_put_contents($this->getImagesDirectory($I) . '/override.jpg', '1');
 
@@ -325,15 +374,15 @@ class MediaCest
 	}
 
 	/**
-	 * Test the PATCH media files endpoint of com_media from the API.
+	 * Test the PATCH media files endpoint of com_media from the API without adapter information.
 	 *
-	 * @param   mixed   ApiTester  $I  Api tester
+	 * @param  ApiTester  $I  Api tester
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.1.0
 	 */
-	public function testUpdateFolder(ApiTester $I)
+	public function testUpdateFolderWithoutAdapter(ApiTester $I)
 	{
 		mkdir($this->getImagesDirectory($I) . '/override');
 
@@ -350,15 +399,69 @@ class MediaCest
 	}
 
 	/**
-	 * Test the DELETE media files endpoint of com_media from the API.
+	 * Test the PATCH media files endpoint of com_media from the API wit adapter information.
 	 *
-	 * @param   mixed   ApiTester  $I  Api tester
+	 * @param  ApiTester  $I  Api tester
+	 *
+	 * @return  void
+	 *
+	 * @since   4.1.0
+	 */
+	public function testUpdateFileWithAdapter(ApiTester $I)
+	{
+		file_put_contents($this->getImagesDirectory($I) . '/override.jpg', '1');
+
+		$I->amBearerAuthenticated($I->getBearerToken());
+		$I->haveHttpHeader('Content-Type', 'application/json');
+		$I->haveHttpHeader('Accept', 'application/vnd.api+json');
+		$I->sendPatch(
+			'/media/files/local-images:/' . $this->testDirectory . '/override.jpg',
+			[
+				'path'    => 'local-images:/' . $this->testDirectory . '/override.jpg',
+				'content' => base64_encode(file_get_contents(codecept_data_dir() . '/com_media/test-image-1.jpg'))
+			]
+		);
+
+		$I->seeResponseCodeIs(HttpCode::OK);
+		$I->seeResponseContainsJson(['data' => ['attributes' => ['type' => 'file', 'name' => 'override.jpg']]]);
+		$I->dontSeeResponseContainsJson(['data' => ['attributes' => ['content' => '1']]]);
+	}
+
+	/**
+	 * Test the PATCH media files endpoint of com_media from the API with adapter information.
+	 *
+	 * @param  ApiTester  $I  Api tester
 	 *
 	 * @return  void
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function testDeleteFile(ApiTester $I)
+	public function testUpdateFolderWithAdapter(ApiTester $I)
+	{
+		mkdir($this->getImagesDirectory($I) . '/override');
+
+		$I->amBearerAuthenticated($I->getBearerToken());
+		$I->haveHttpHeader('Content-Type', 'application/json');
+		$I->haveHttpHeader('Accept', 'application/vnd.api+json');
+		$I->sendPatch(
+			'/media/files/local-images:/' . $this->testDirectory . '/override',
+			['path' => 'local-images:/' . $this->testDirectory . '/override-new']
+		);
+
+		$I->seeResponseCodeIs(HttpCode::OK);
+		$I->seeResponseContainsJson(['data' => ['attributes' => ['type' => 'dir', 'name' => 'override-new']]]);
+	}
+
+	/**
+	 * Test the DELETE media files endpoint of com_media from the API without adapter information.
+	 *
+	 * @param   ApiTester  $I  Api tester
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function testDeleteFileWithoutAdapter(ApiTester $I)
 	{
 		touch($this->getImagesDirectory($I) . '/todelete.jpg');
 
@@ -370,15 +473,15 @@ class MediaCest
 	}
 
 	/**
-	 * Test the DELETE media files endpoint of com_media from the API.
+	 * Test the DELETE media files endpoint of com_media from the API without adapter information.
 	 *
-	 * @param   mixed   ApiTester  $I  Api tester
+	 * @param   ApiTester  $I  Api tester
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.1.0
 	 */
-	public function testDeleteFolder(ApiTester $I)
+	public function testDeleteFolderWithoutAdapter(ApiTester $I)
 	{
 		mkdir($this->getImagesDirectory($I) . '/todelete');
 
@@ -390,13 +493,53 @@ class MediaCest
 	}
 
 	/**
+	 * Test the DELETE media files endpoint of com_media from the API with adapter information.
+	 *
+	 * @param   ApiTester  $I  Api tester
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function testDeleteFileWithAdapter(ApiTester $I)
+	{
+		touch($this->getImagesDirectory($I) . '/todelete.jpg');
+
+		$I->amBearerAuthenticated($I->getBearerToken());
+		$I->haveHttpHeader('Accept', 'application/vnd.api+json');
+		$I->sendDelete('/media/files/local-images:/' . $this->testDirectory . '/todelete.jpg');
+
+		$I->seeResponseCodeIs(HttpCode::NO_CONTENT);
+	}
+
+	/**
+	 * Test the DELETE media files endpoint of com_media from the API with adapter information.
+	 *
+	 * @param   ApiTester  $I  Api tester
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function testDeleteFolderWithAdapter(ApiTester $I)
+	{
+		mkdir($this->getImagesDirectory($I) . '/todelete');
+
+		$I->amBearerAuthenticated($I->getBearerToken());
+		$I->haveHttpHeader('Accept', 'application/vnd.api+json');
+		$I->sendDelete('/media/files/local-images:/' . $this->testDirectory . '/todelete');
+
+		$I->seeResponseCodeIs(HttpCode::NO_CONTENT);
+	}
+
+	/**
 	 * Returns the absolute tmp image folder path to work on.
 	 *
-	 * @param   mixed   ApiTester  $I  Api tester
+	 * @param   ApiTester  $I  Api tester
 	 *
 	 * @return  string  The absolute folder path
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.1.0
 	 */
 	private function getImagesDirectory(ApiTester $I): string
 	{

@@ -79,8 +79,8 @@ if ($this->type == 'font')
 		<?php if ($this->type == 'file' && !empty($this->source->coreFile)) : ?>
 			<div class="col-md-4 text-end">
 				<div id="toggle-buttons">
-					<?php echo $this->form->getInput('show_core'); ?>
-					<?php echo $this->form->getInput('show_diff'); ?>
+					<?php echo $this->form->renderField('show_core'); ?>
+					<?php echo $this->form->renderField('show_diff'); ?>
 				</div>
 			</div>
 		<?php endif; ?>
@@ -128,7 +128,7 @@ if ($this->type == 'font')
 					<div class="row">
 						<div class="col-md-12" id="override-pane">
 							<?php $overrideCheck = explode(DIRECTORY_SEPARATOR, $this->source->filename); ?>
-							<?php if ($overrideCheck['1'] === 'html') : ?>
+							<?php if (!empty($this->source->coreFile)) : ?>
 								<h2><?php echo Text::_('COM_TEMPLATES_FILE_OVERRIDE_PANE'); ?></h2>
 							<?php endif; ?>
 							<form action="<?php echo Route::_('index.php?option=com_templates&view=template&id=' . $input->getInt('id') . '&file=' . $this->file . '&isMedia=' . $input->get('isMedia', 0)); ?>" method="post" name="adminForm" id="adminForm">
