@@ -56,8 +56,8 @@ class ProviderManager
 	}
 
 	/**
-	 * Unregister a provider from the ProviderManager. When null then all providers
-	 * are cleared.
+	 * Unregister a provider from the ProviderManager.
+	 * When no provider, or null is passed in, then all providers are cleared.
 	 *
 	 * @param   ProviderInterface  $provider  The provider to be unregistered
 	 *
