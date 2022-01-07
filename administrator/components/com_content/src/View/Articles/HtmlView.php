@@ -130,7 +130,7 @@ class HtmlView extends BaseHtmlView
 		}
 		else
 		{
-			/*
+			/**
 			 * In article associations modal we need to remove language filter if forcing a language.
 			 * We also need to change the category filter to show categories with All or the forced language.
 			 */
