@@ -97,6 +97,18 @@ class MediumModel extends BaseModel
 
 		['adapter' => $adapterName, 'path' => $path] = $this->resolveAdapterAndPath($path);
 
+		// Trim adapter information from path
+		if ($pos = strpos($path, ':/'))
+		{
+			$path = substr($path, $pos + 1);
+		}
+
+		// Trim adapter information from old path
+		if ($pos = strpos($oldPath, ':/'))
+		{
+			$oldPath = substr($oldPath, $pos + 1);
+		}
+
 		$resultPath = '';
 
 		/**
