@@ -968,6 +968,7 @@ class LocalAdapter implements AdapterInterface
 			JPATH_ROOT . '/media/cache/com_media/thumbs/' . $this->filePath,
 			$path
 		);
+
 		$thumbURL = Uri::root() . $this->getEncodedPath(
 			str_replace(
 				$this->rootPath,
