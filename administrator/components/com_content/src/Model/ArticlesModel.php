@@ -352,7 +352,7 @@ class ArticlesModel extends ListModel
 		// Filter by featured.
 		$featured = (string) $this->getState('filter.featured');
 
-		if (in_array($featured, ['0','1']))
+		if (\in_array($featured, ['0','1']))
 		{
 			$featured = (int) $featured;
 			$query->where($db->quoteName('a.featured') . ' = :featured')
@@ -463,7 +463,7 @@ class ArticlesModel extends ListModel
 		elseif (is_array($authorId))
 		{
 			// Check to see if by_me is in the array
-			if (in_array('by_me', $authorId))
+			if (\in_array('by_me', $authorId))
 
 			// Replace by_me with the current user id in the array
 			{
