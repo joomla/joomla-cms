@@ -185,8 +185,9 @@ class AccessiblemediaField extends SubformField
 		<field
 			name="imagefile"
 			type="media"
+			class="$this->class"
 			label="JLIB_FORM_FIELD_PARAM_ACCESSIBLEMEDIA_PARAMS_IMAGEFILE_LABEL"
-			directory="$this->directory"
+			folder="$this->directory"
 			preview="$this->preview"
 			preview_width="$this->previewWidth"
 			preview_height="$this->previewHeight"
