@@ -56,6 +56,32 @@ class ProviderManager
 	}
 
 	/**
+     * Unregister a provider from the ProviderManager. When null then all providers
+	 * are cleared.
+     *
+     * @param   ProviderInterface  $provider  The provider to be unregistered
+     *
+     * @return  void
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    public function unregisterProvider(ProviderInterface $provider = null)
+    {
+		if ($provider === null)
+		{
+			$this->providers = [];
+			return;
+		}
+
+		if (!array_key_exists($provider->getID(), $this->providers))
+		{
+			return;
+		}
+
+		unset($this->providers[$provider->getID()]);
+    }
+
+	/**
 	 * Returns the provider for a particular ID
 	 *
 	 * @param   string  $id  The ID for the provider
