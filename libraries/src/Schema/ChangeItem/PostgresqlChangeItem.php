@@ -57,7 +57,7 @@ class PostgresqlChangeItem extends ChangeItem
 		$find = array('#((\s*)\(\s*([^)\s]+)\s*)(\))#', '#(\s)(\s*)#');
 		$replace = array('($3)', '$1');
 		$updateQuery = preg_replace($find, $replace, $this->updateQuery);
-		$wordArray = preg_split($splitIntoWords, $updateQuery, null, PREG_SPLIT_NO_EMPTY);
+		$wordArray = preg_split($splitIntoWords, $updateQuery, -1, PREG_SPLIT_NO_EMPTY);
 
 		$totalWords = \count($wordArray);
 
@@ -79,7 +79,7 @@ class PostgresqlChangeItem extends ChangeItem
 			$actions = preg_split($splitIntoActions, $actions);
 
 			// Get the last action
-			$lastActionArray = preg_split($splitIntoWords, end($actions), null, PREG_SPLIT_NO_EMPTY);
+			$lastActionArray = preg_split($splitIntoWords, end($actions), -1, PREG_SPLIT_NO_EMPTY);
 
 			// Replace all actions by the last one
 			array_splice($wordArray, 3, $totalWords, $lastActionArray);

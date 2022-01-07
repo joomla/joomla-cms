@@ -130,7 +130,7 @@ class MediaController extends ApiController
 		$filter        = InputFilter::getInstance();
 
 		// Search for files matching (part of) a name or glob pattern.
-		if ($doSearch = array_key_exists('search', $apiFilterInfo))
+		if (\array_key_exists('search', $apiFilterInfo))
 		{
 			$this->modelState->set('search', $filter->clean($apiFilterInfo['search'], 'STRING'));
 
@@ -173,7 +173,7 @@ class MediaController extends ApiController
 	/**
 	 * Set model state using a list of mappings between query parameters and model state names.
 	 *
-	 * @param   array  $mappings  A list of mappings between query parameters and model state names..
+	 * @param   array  $mappings  A list of mappings between query parameters and model state names.
 	 *
 	 * @return  void
 	 *
