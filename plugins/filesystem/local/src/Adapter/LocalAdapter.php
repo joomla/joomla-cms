@@ -948,7 +948,7 @@ class LocalAdapter implements AdapterInterface
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	private function getThumb($path): string
+	private function getThumb(string $path): string
 	{
 		$dir = \dirname(
 			str_replace(
