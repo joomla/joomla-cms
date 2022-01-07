@@ -106,8 +106,8 @@
 			name="menuordering"
 			type="MenuOrdering"
 			label="COM_MENUS_ITEM_FIELD_ORDERING_LABEL"
-			filter="int">
-		</field>
+			filter="int"
+		/>
 
 		<field
 			name="component_id"
