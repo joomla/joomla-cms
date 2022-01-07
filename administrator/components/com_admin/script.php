@@ -8546,7 +8546,7 @@ class JoomlaInstallerScript
 	 */
 	protected function fixTemplateMode(): void
 	{
-		$db = Factory::getDbo();
+		$db = Factory::getContainer()->get('DatabaseDriver');
 
 		array_map(
 			function ($template) use ($db)
