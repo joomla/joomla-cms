@@ -480,7 +480,7 @@ class HtmlDocument extends Document
 						$name,
 						$attribs,
 						\get_class($renderer),
-						(int) Factory::getApplication()->input->get('Itemid', 0, 'int')
+						$itemId
 					)
 				)
 			);
