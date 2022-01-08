@@ -1,4 +1,4 @@
-import Modal from '../../../../../node_modules/bootstrap/js/src/modal';
+import Modal from 'bootstrap/js/src/modal';
 
 Joomla = Joomla || {};
 Joomla.Modal = Joomla.Modal || {};
@@ -88,7 +88,6 @@ Joomla.initialiseModal = (modal, options) => {
       const padding = modalBody.offsetTop;
       const maxModalHeight = parseFloat(getComputedStyle(document.body, null).height.replace('px', '')) - (padding * 2);
       modalBodyPadding = modalBodyHeightOuter - modalBodyHeight;
-      // eslint-disable-next-line max-len
       maxModalBodyHeight = maxModalHeight - (modalHeaderHeight + modalFooterHeight + modalBodyPadding);
     }
 

@@ -47,10 +47,9 @@ class ModuleorderField extends FormField
 	 */
 	public function __get($name)
 	{
-		switch ($name)
+		if ($name === 'linked')
 		{
-			case 'linked':
-				return $this->$name;
+			return $this->linked;
 		}
 
 		return parent::__get($name);

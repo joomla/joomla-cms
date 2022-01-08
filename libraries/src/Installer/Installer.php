@@ -522,17 +522,6 @@ class Installer extends Adapter
 		// Make sure Joomla can figure out what has changed
 		clearstatcache();
 
-		/**
-		 * Flush the opcache regardless of result to ensure consistency
-		 *
-		 * In some (most?) systems PHP's CLI has a separate opcode cache to the one used by the web server or FPM process,
-		 * which means running opcache_reset() in the CLI won't reset the webserver/fpm opcode cache, and vice versa.
-		 */
-		if (function_exists('opcache_reset'))
-		{
-			\opcache_reset();
-		}
-
 		// Fire the onExtensionAfterInstall
 		Factory::getApplication()->triggerEvent(
 			'onExtensionAfterInstall',
@@ -1371,7 +1360,7 @@ class Installer extends Adapter
 
 			/*
 			 * Before we can add a file to the copyfiles array we need to ensure
-			 * that the folder we are copying our file to exits and if it doesn't,
+			 * that the folder we are copying our file to exists and if it doesn't,
 			 * we need to create it.
 			 */
 
@@ -1495,7 +1484,7 @@ class Installer extends Adapter
 
 			/*
 			 * Before we can add a file to the copyfiles array we need to ensure
-			 * that the folder we are copying our file to exits and if it doesn't,
+			 * that the folder we are copying our file to exists and if it doesn't,
 			 * we need to create it.
 			 */
 
@@ -1584,7 +1573,7 @@ class Installer extends Adapter
 
 			/*
 			 * Before we can add a file to the copyfiles array we need to ensure
-			 * that the folder we are copying our file to exits and if it doesn't,
+			 * that the folder we are copying our file to exists and if it doesn't,
 			 * we need to create it.
 			 */
 
@@ -2312,6 +2301,17 @@ class Installer extends Adapter
 		$data['version'] = (string) $xml->version;
 		$data['description'] = (string) $xml->description;
 		$data['group'] = (string) $xml->group;
+
+		// Child template specific fields.
+		if (isset($xml->inheritable))
+		{
+			$data['inheritable'] = (string) $xml->inheritable === '0' ? false : true;
+		}
+
+		if (isset($xml->parent) && (string) $xml->parent !== '')
+		{
+			$data['parent'] = (string) $xml->parent;
+		}
 
 		if ($xml->files && \count($xml->files->children()))
 		{

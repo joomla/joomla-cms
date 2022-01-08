@@ -11,7 +11,6 @@ namespace Joomla\Component\Cache\Administrator\View\Cache;
 
 \defined('_JEXEC') or die;
 
-use Exception;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Text;
@@ -144,6 +143,6 @@ class HtmlView extends BaseHtmlView
 			ToolbarHelper::divider();
 		}
 
-		ToolbarHelper::help('JHELP_SITE_MAINTENANCE_CLEAR_CACHE');
+		ToolbarHelper::help('Maintenance:_Clear_Cache');
 	}
 }

@@ -13,7 +13,7 @@
 			type="status"
 			label="JSTATUS"
 			onchange="this.form.submit();"
-			filter="-2,0,1"
+			optionsFilter="-2,0,1"
 			>
 			<option value="">JOPTION_SELECT_PUBLISHED</option>
 		</field>

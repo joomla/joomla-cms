@@ -4,6 +4,8 @@
 		name="component"
 		label="COM_MEDIA_FIELDSET_OPTIONS_LABEL">
 
+		<help key="Media:_Options"/>
+
 		<field
 			name="upload_maxsize"
 			type="number"
@@ -104,7 +106,7 @@
 			label="COM_MEDIA_FIELD_LEGAL_DOCUMENT_EXTENSIONS_LABEL"
 			description="COM_MEDIA_FIELD_LEGAL_DOCUMENT_EXTENSIONS_DESC"
 			size="50"
-			default="doc,odg,odp,ods,odt,pdf,png,ppt,txt,xcf,xls,csv"
+			default="doc,odg,odp,ods,odt,pdf,ppt,txt,xcf,xls,csv"
 		/>
 
 		<field

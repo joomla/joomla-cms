@@ -26,9 +26,9 @@ use Joomla\CMS\User\User;
 class HtmlView extends BaseHtmlView
 {
 	/**
-	 * The \JForm object
+	 * The Form object
 	 *
-	 * @var  \JForm
+	 * @var  \Joomla\CMS\Form\Form
 	 */
 	protected $form;
 
@@ -42,7 +42,7 @@ class HtmlView extends BaseHtmlView
 	/**
 	 * The model state
 	 *
-	 * @var  \JObject
+	 * @var  \Joomla\CMS\Object\CMSObject
 	 */
 	protected $state;
 
@@ -92,7 +92,7 @@ class HtmlView extends BaseHtmlView
 			ToolbarHelper::title(Text::_('COM_MESSAGES_WRITE_PRIVATE_MESSAGE'), 'envelope-open-text new-privatemessage');
 			ToolbarHelper::custom('message.save', 'envelope', '', 'COM_MESSAGES_TOOLBAR_SEND', false);
 			ToolbarHelper::cancel('message.cancel');
-			ToolbarHelper::help('JHELP_COMPONENTS_MESSAGING_WRITE');
+			ToolbarHelper::help('Private_Messages:_Write');
 		}
 		else
 		{
@@ -107,7 +107,7 @@ class HtmlView extends BaseHtmlView
 			}
 
 			ToolbarHelper::cancel('message.cancel');
-			ToolbarHelper::help('JHELP_COMPONENTS_MESSAGING_READ');
+			ToolbarHelper::help('Private_Messages:_Read');
 		}
 	}
 }

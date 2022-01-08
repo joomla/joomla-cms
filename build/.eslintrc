@@ -1,13 +1,12 @@
 {
   "extends": [
-	// Extend the airbnb eslint config
-	"airbnb-base",
-	// Vue
-	"plugin:vue/vue3-recommended"
+    // Extend the airbnb eslint config
+    "airbnb-base",
+    // Vue
+    "plugin:vue/vue3-recommended"
   ],
-  "parser": "vue-eslint-parser",
   "parserOptions": {
-	"sourceType": "module"
+    "sourceType": "module"
   },
   // ESLint will not look in parent folders for eslint configs
   "root": true,
@@ -20,8 +19,8 @@
   // Additional global variables your script accesses during execution
   "globals": {
     "Joomla": true,
-	"MediaManager" : true,
-	"bootstrap": true
+    "MediaManager" : true,
+    "bootstrap": true
   },
   // Rule overrides
   "rules": {
@@ -33,7 +32,19 @@
     "strict": [0],
     // Disable alert rule till we have a CE in place
     "no-alert": 0,
-	// Allow extensions on imports
-	"import/extensions": 0
+    // Max length to match the .php files
+    "max-len": ["error",
+      150,
+      2,
+      {
+        "ignoreUrls": true,
+        "ignoreComments": false,
+        "ignoreRegExpLiterals": true,
+        "ignoreStrings": true,
+        "ignoreTemplateLiterals": true
+      }
+    ],
+    // Allow extensions on imports
+    "import/extensions": 0
   }
 }

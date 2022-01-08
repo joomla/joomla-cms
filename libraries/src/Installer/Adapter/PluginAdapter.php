@@ -232,23 +232,27 @@ class PluginAdapter extends InstallerAdapter
 	 */
 	public function getElement($element = null)
 	{
-		if (!$element)
+		if ($element || !$this->getManifest())
 		{
-			// Backward Compatibility
-			// @todo Deprecate in future version
-			if (\count($this->getManifest()->files->children()))
+			return $element;
+		}
+
+		// Backward Compatibility
+		// @todo Deprecate in future version
+		if (!\count($this->getManifest()->files->children()))
+		{
+			return $element;
+		}
+
+		$type = (string) $this->getManifest()->attributes()->type;
+
+		foreach ($this->getManifest()->files->children() as $file)
+		{
+			if ((string) $file->attributes()->$type)
 			{
-				$type = (string) $this->getManifest()->attributes()->type;
+				$element = (string) $file->attributes()->$type;
 
-				foreach ($this->getManifest()->files->children() as $file)
-				{
-					if ((string) $file->attributes()->$type)
-					{
-						$element = (string) $file->attributes()->$type;
-
-						break;
-					}
-				}
+				break;
 			}
 		}
 
@@ -421,7 +425,10 @@ class PluginAdapter extends InstallerAdapter
 		$this->parent->findManifest();
 		$this->setManifest($this->parent->getManifest());
 
-		$this->group = (string) $this->getManifest()->attributes()->group;
+		if ($this->getManifest())
+		{
+			$this->group = (string) $this->getManifest()->attributes()->group;
+		}
 
 		// Attempt to load the language file; might have uninstall strings
 		$this->loadLanguage($this->parent->getPath('source'));

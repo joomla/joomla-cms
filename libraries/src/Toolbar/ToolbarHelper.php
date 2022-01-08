@@ -10,11 +10,13 @@ namespace Joomla\CMS\Toolbar;
 
 \defined('_JEXEC') or die;
 
+use Joomla\CMS\Document\HtmlDocument;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\FileLayout;
 use Joomla\CMS\Table\Table;
 use Joomla\CMS\Uri\Uri;
+use Throwable;
 
 /**
  * Utility class for the button bar.
@@ -132,6 +134,27 @@ abstract class ToolbarHelper
 	}
 
 	/**
+	 * Writes a jooa11y accessibility checker button for a given option (opens a popup window).
+	 *
+	 * @param   string   $url            The url to open
+	 * @param   bool     $updateEditors  Unused
+	 * @param   string   $icon           The image to display.
+	 * @param   integer  $bodyHeight     The body height of the preview popup
+	 * @param   integer  $modalWidth     The modal width of the preview popup
+	 *
+	 * @return  void
+	 *
+	 * @since   4.1.0
+	 */
+	public static function jooa11y($url = '', $updateEditors = false, $icon = 'icon-universal-access', $bodyHeight = null, $modalWidth = null)
+	{
+		$bar = Toolbar::getInstance('toolbar');
+
+		// Add a button.
+		$bar->appendButton('Popup', $icon, 'Preview', $url . '&task=preview', 640, 480, $bodyHeight, $modalWidth);
+	}
+
+	/**
 	 * Writes a help button for a given option (opens a popup window).
 	 *
 	 * @param   string  $ref        The name of the popup file (excluding the file extension for an xml file).
@@ -145,10 +168,52 @@ abstract class ToolbarHelper
 	 */
 	public static function help($ref, $com = false, $override = null, $component = null)
 	{
+		// Don't show a help button if neither $ref nor $override is given
+		if (!$ref && !$override)
+		{
+			return;
+		}
+
 		$bar = Toolbar::getInstance('toolbar');
 
 		// Add a help button.
 		$bar->appendButton('Help', $ref, $com, $override, $component);
+	}
+
+	/**
+	 * Writes a help button for showing/hiding the inline help of a form
+	 *
+	 * @param   string  $class   The class used by the inline help items.
+	 *
+	 * @return  void
+	 *
+	 * @since   4.1.0
+	 */
+	public static function inlinehelp(string $class = "hide-aware-inline-help")
+	{
+		/** @var HtmlDocument $doc */
+		try
+		{
+			$doc = Factory::getApplication()->getDocument();
+
+			if (!($doc instanceof HtmlDocument))
+			{
+				return;
+			}
+
+			$doc->getWebAssetManager()->useScript('inlinehelp');
+		}
+		catch (Throwable $e)
+		{
+			return;
+		}
+
+		$bar = Toolbar::getInstance('toolbar');
+
+		// Add a help button.
+		$bar->inlinehelpButton('inlinehelp')
+			->targetclass($class)
+			->icon('fa fa-question-circle');
 	}
 
 	/**

@@ -593,6 +593,11 @@ class LocalAdapter implements AdapterInterface
 			$destinationPath = $destinationPath . '/' . $this->getFileName($sourcePath);
 		}
 
+		if (!MediaHelper::checkFileExtension(pathinfo($destinationPath, PATHINFO_EXTENSION)))
+		{
+			throw new \Exception('Move file is not possible as the extension is invalid');
+		}
+
 		if (file_exists($destinationPath) && !$force)
 		{
 			throw new \Exception('Move file is not possible as destination file already exists');
@@ -732,22 +737,6 @@ class LocalAdapter implements AdapterInterface
 		}
 
 		return $files;
-	}
-
-	/**
-	 * Returns a temporary url for the given path.
-	 * This is used internally in media manager
-	 *
-	 * @param   string  $path  The path to file
-	 *
-	 * @return  string
-	 *
-	 * @since   4.0.0
-	 * @throws  FileNotFoundException
-	 */
-	public function getTemporaryUrl(string $path): string
-	{
-		return $this->getUrl($path);
 	}
 
 	/**

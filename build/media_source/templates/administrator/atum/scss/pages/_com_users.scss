@@ -1,0 +1,29 @@
+// com_users
+
+.com_users {
+
+  &.view-debuggroup,
+  &.view-debuguser {
+
+    thead th {
+      white-space: normal;
+    }
+
+    .legend {
+      margin: 1rem 1rem 0;
+    }
+  }
+
+  &.view-mail {
+
+    .form-control {
+      max-width: 100%;
+    }
+  }
+
+  #fieldset-groups {
+    .controls {
+      margin-inline-start: 2rem;
+    }
+  }
+}

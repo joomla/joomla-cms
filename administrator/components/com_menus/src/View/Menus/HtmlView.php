@@ -48,14 +48,15 @@ class HtmlView extends BaseHtmlView
 	/**
 	 * The model state
 	 *
-	 * @var  \JObject
+	 * @var  \Joomla\CMS\Object\CMSObject
 	 */
 	protected $state;
 
 	/**
 	 * Form object for search filters
 	 *
-	 * @var    \JForm
+	 * @var    \Joomla\CMS\Form\Form
+	 *
 	 * @since  4.0.0
 	 */
 	public $filterForm;
@@ -125,8 +126,6 @@ class HtmlView extends BaseHtmlView
 			ToolbarHelper::deleteList('COM_MENUS_MENU_CONFIRM_DELETE', 'menus.delete', 'JTOOLBAR_DELETE');
 		}
 
-		ToolbarHelper::custom('menus.rebuild', 'refresh', '', 'JTOOLBAR_REBUILD', false);
-
 		if ($canDo->get('core.admin') && $this->state->get('client_id') == 1)
 		{
 			ToolbarHelper::custom('menu.exportXml', 'download', '', 'COM_MENUS_MENU_EXPORT_BUTTON', true);
@@ -139,6 +138,6 @@ class HtmlView extends BaseHtmlView
 		}
 
 		ToolbarHelper::divider();
-		ToolbarHelper::help('JHELP_MENUS_MENU_MANAGER');
+		ToolbarHelper::help('Menus');
 	}
 }

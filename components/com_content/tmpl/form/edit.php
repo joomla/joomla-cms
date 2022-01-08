@@ -47,7 +47,7 @@ if (!$editoroptions)
 
 	<form action="<?php echo Route::_('index.php?option=com_content&a_id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="adminForm" class="form-validate form-vertical">
 		<fieldset>
-			<?php echo HTMLHelper::_('uitab.startTabSet', $this->tab_name, array('active' => 'editor')); ?>
+			<?php echo HTMLHelper::_('uitab.startTabSet', $this->tab_name, ['active' => 'editor', 'recall' => true, 'breakpoint' => 768]); ?>
 
 			<?php echo HTMLHelper::_('uitab.addTab', $this->tab_name, 'editor', Text::_('COM_CONTENT_ARTICLE_CONTENT')); ?>
 				<?php echo $this->form->renderField('title'); ?>
@@ -161,6 +161,12 @@ if (!$editoroptions)
 				<span class="icon-check" aria-hidden="true"></span>
 				<?php echo Text::_('JSAVE'); ?>
 			</button>
+			<?php if ($this->showSaveAsCopy) : ?>
+				<button type="button" class="btn btn-primary" data-submit-task="article.save2copy">
+					<span class="icon-copy" aria-hidden="true"></span>
+					<?php echo Text::_('JSAVEASCOPY'); ?>
+				</button>
+			<?php endif; ?>
 			<button type="button" class="btn btn-danger" data-submit-task="article.cancel">
 				<span class="icon-times" aria-hidden="true"></span>
 				<?php echo Text::_('JCANCEL'); ?>

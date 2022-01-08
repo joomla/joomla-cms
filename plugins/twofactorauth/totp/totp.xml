@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<extension type="plugin" group="system" method="upgrade">
+<extension type="plugin" group="twofactorauth" method="upgrade">
 	<name>plg_twofactorauth_totp</name>
 	<author>Joomla! Project</author>
 	<creationDate>August 2013</creationDate>
@@ -15,8 +15,8 @@
 		<folder>tmpl</folder>
 	</files>
 	<languages>
-		<language tag="en-GB">en-GB.plg_twofactorauth_totp.ini</language>
-		<language tag="en-GB">en-GB.plg_twofactorauth_totp.sys.ini</language>
+		<language tag="en-GB">language/en-GB/plg_twofactorauth_totp.ini</language>
+		<language tag="en-GB">language/en-GB/plg_twofactorauth_totp.sys.ini</language>
 	</languages>
 	<config>
 		<fields name="params">

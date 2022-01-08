@@ -14,7 +14,6 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\Database\ParameterType;
-use Joomla\Utilities\ArrayHelper;
 
 /**
  * Components Category field.
@@ -154,8 +153,10 @@ class TransitionField extends ListField
 				}
 			);
 
-			// Sort by transition name
-			$items = ArrayHelper::sortObjects($items, 'value', 1, true, true);
+			foreach ($items as $item)
+			{
+				$item->text = Text::_($item->text);
+			}
 		}
 
 		// Get workflow stage title

@@ -28,7 +28,10 @@ $listDirn = $this->escape($this->state->get('list.direction'));
 				echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this));
 				?>
 				<?php if (empty($this->items)) : ?>
-					<joomla-alert type="warning"><?php echo Text::_('JGLOBAL_NO_MATCHING_RESULTS'); ?></joomla-alert>
+					<div class="alert alert-info">
+						<span class="icon-info-circle" aria-hidden="true"></span><span class="visually-hidden"><?php echo Text::_('INFO'); ?></span>
+						<?php echo Text::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
+					</div>
 				<?php else : ?>
 					<table class="table" id="templateList">
 						<caption class="visually-hidden">
@@ -72,8 +75,8 @@ $listDirn = $this->escape($this->state->get('list.direction'));
 									<?php echo Text::_($component); ?>
 								</td>
 								<?php if (count($this->languages) > 1) : ?>
-									<td class="text-center">
-										<ul class="list-unstyled d-flex">
+									<td>
+										<ul class="list-unstyled d-flex justify-content-center">
 										<?php foreach ($this->languages as $language) : ?>
 											<li class="p-1">
 												<a href="<?php echo Route::_('index.php?option=com_mails&task=template.edit&template_id=' . $item->template_id . '&language=' . $language->lang_code); ?>">

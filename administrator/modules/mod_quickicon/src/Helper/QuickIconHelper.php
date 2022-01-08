@@ -136,7 +136,7 @@ class QuickIconHelper
 					$tmp['ajaxurl'] = 'index.php?option=com_tags&amp;task=tags.getQuickiconContent&amp;format=json';
 				}
 
-				self::$buttons[$key][] = $tmp;
+				$this->buttons[$key][] = $tmp;
 			}
 
 			if ($params->get('show_categories'))
@@ -304,7 +304,7 @@ class QuickIconHelper
 
 					$icon = array_merge($default, $icon);
 
-					if (!\is_null($icon['link']) && !\is_null($icon['text']))
+					if (!\is_null($icon['link']) && (!\is_null($icon['text']) || !\is_null($icon['name'])))
 					{
 						$this->buttons[$key][] = $icon;
 					}

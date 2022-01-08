@@ -116,7 +116,7 @@ class UserModel extends AdminModel
 	 * @param   array    $data      An optional array of data for the form to interrogate.
 	 * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
 	 *
-	 * @return  mixed  A \JForm object on success, false on failure
+	 * @return  Form|bool  A Form object on success, false on failure
 	 *
 	 * @since   1.6
 	 */
@@ -201,13 +201,14 @@ class UserModel extends AdminModel
 	/**
 	 * Override Joomla\CMS\MVC\Model\AdminModel::preprocessForm to ensure the correct plugin group is loaded.
 	 *
-	 * @param   \JForm  $form   A \JForm object.
+	 * @param   Form    $form   A Form object.
 	 * @param   mixed   $data   The data expected for the form.
 	 * @param   string  $group  The name of the plugin group to import (defaults to "content").
 	 *
 	 * @return  void
 	 *
 	 * @since   1.6
+	 *
 	 * @throws  \Exception if there is an error in the form event.
 	 */
 	protected function preprocessForm(Form $form, $data, $group = 'user')
@@ -342,6 +343,12 @@ class UserModel extends AdminModel
 			$this->setError($user->getError());
 
 			return false;
+		}
+
+		// Destroy all active sessions for the user after changing the password or blocking him
+		if ($data['password2'] || $data['block'])
+		{
+			UserHelper::destroyUserSessions($user->id, true);
 		}
 
 		$this->setState('user.id', $user->id);
@@ -513,6 +520,11 @@ class UserModel extends AdminModel
 							$this->setError($table->getError());
 
 							return false;
+						}
+
+						if ($table->block)
+						{
+							UserHelper::destroyUserSessions($table->id);
 						}
 
 						// Trigger the after save event

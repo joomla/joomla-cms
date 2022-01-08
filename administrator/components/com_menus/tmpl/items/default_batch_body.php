@@ -10,6 +10,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 
@@ -19,7 +20,7 @@ $options = [
 ];
 $published = (int) $this->state->get('filter.published');
 $clientId  = (int) $this->state->get('filter.client_id');
-$menuType  = Factory::getApplication()->getUserState('com_menus.items.menutype');
+$menuType  = Factory::getApplication()->getUserState('com_menus.items.menutype', '');
 
 if ($clientId == 1)
 {
@@ -33,11 +34,13 @@ if ($clientId == 1)
 	<?php if (strlen($menuType) && $menuType != '*') : ?>
 	<?php if ($clientId != 1) : ?>
 	<div class="row">
-		<div class="form-group col-md-6">
-			<div class="controls">
-				<?php echo LayoutHelper::render('joomla.html.batch.language', []); ?>
+		<?php if (Multilanguage::isEnabled()) : ?>
+			<div class="form-group col-md-6">
+				<div class="controls">
+					<?php echo LayoutHelper::render('joomla.html.batch.language', []); ?>
+				</div>
 			</div>
-		</div>
+		<?php endif; ?>
 		<div class="form-group col-md-6">
 			<div class="controls">
 				<?php echo LayoutHelper::render('joomla.html.batch.access', []); ?>

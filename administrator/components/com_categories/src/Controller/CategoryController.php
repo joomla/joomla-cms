@@ -41,11 +41,10 @@ class CategoryController extends FormController
 	 *
 	 * @param   array                     $config   An optional associative array of configuration settings.
 	 * @param   MVCFactoryInterface|null  $factory  The factory.
-	 * @param   CMSApplication|null       $app      The JApplication for the dispatcher
+	 * @param   CMSApplication|null       $app      The Application for the dispatcher
 	 * @param   Input|null                $input    Input
 	 *
 	 * @since  1.6
-	 * @see    \JControllerLegacy
 	 * @throws \Exception
 	 */
 	public function __construct($config = array(), MVCFactoryInterface $factory = null, CMSApplication $app = null, Input $input = null)
@@ -126,7 +125,7 @@ class CategoryController extends FormController
 	 *
 	 * @return  boolean  True if successful, false otherwise.
 	 *
-	 * @since   4.0.0
+	 * @since   3.10.3
 	 */
 	public function save($key = null, $urlVar = null)
 	{
@@ -146,7 +145,7 @@ class CategoryController extends FormController
 	 *
 	 * @return  boolean  True if access level checks pass, false otherwise.
 	 *
-	 * @since   4.0.0
+	 * @since   3.10.3
 	 */
 	public function cancel($key = null)
 	{

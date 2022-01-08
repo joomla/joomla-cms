@@ -556,7 +556,7 @@ class HtmlDocument extends Document
 
 		$renderer = $this->loadRenderer($type);
 
-		if ($this->_caching == true && $type === 'modules')
+		if ($this->_caching == true && $type === 'modules' && $name !== 'debug')
 		{
 			/** @var  \Joomla\CMS\Document\Renderer\Html\ModulesRenderer  $renderer */
 			$cache = CmsFactory::getCache('com_modules', '');
@@ -567,22 +567,20 @@ class HtmlDocument extends Document
 			{
 				return Cache::getWorkarounds($cbuffer[$hash], array('mergehead' => 1));
 			}
-			else
-			{
-				$options = array();
-				$options['nopathway'] = 1;
-				$options['nomodules'] = 1;
-				$options['modulemode'] = 1;
 
-				$this->setBuffer($renderer->render($name, $attribs, null), $type, $name);
-				$data = parent::$_buffer[$type][$name][$title];
+			$options = array();
+			$options['nopathway'] = 1;
+			$options['nomodules'] = 1;
+			$options['modulemode'] = 1;
 
-				$tmpdata = Cache::setWorkarounds($data, $options);
+			$this->setBuffer($renderer->render($name, $attribs, null), $type, $name);
+			$data = parent::$_buffer[$type][$name][$title];
 
-				$cbuffer[$hash] = $tmpdata;
+			$tmpdata = Cache::setWorkarounds($data, $options);
 
-				$cache->store($cbuffer, 'cbuffer_' . $type);
-			}
+			$cbuffer[$hash] = $tmpdata;
+
+			$cache->store($cbuffer, 'cbuffer_' . $type);
 		}
 		else
 		{
@@ -695,7 +693,7 @@ class HtmlDocument extends Document
 		{
 			if (empty($module->contentRendered))
 			{
-				$renderer->render($module, array('style' => 'raw'));
+				$renderer->render($module, ['contentOnly' => true]);
 			}
 
 			if (trim($module->content) !== '')

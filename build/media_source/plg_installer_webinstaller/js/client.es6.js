@@ -57,8 +57,9 @@ class WebInstaller {
       return false;
     }
 
+    // eslint-disable-next-line prefer-regex-literals
     const pattern1 = new RegExp(webInstallerOptions.options.base_url);
-    const pattern2 = new RegExp('^index.php');
+    const pattern2 = /^index\.php/;
 
     if (!(pattern1.test(url) || pattern2.test(url))) {
       window.open(url, '_blank');
@@ -290,7 +291,7 @@ class WebInstaller {
 
   processLinkClick(url) {
     const pattern1 = new RegExp(webInstallerOptions.options.base_url);
-    const pattern2 = new RegExp('^index.php');
+    const pattern2 = /^index\.php/;
 
     if (pattern1.test(url) || pattern2.test(url)) {
       webInstallerOptions.view = url.replace(/^.+[&?]view=(\w+).*$/, '$1');
@@ -401,7 +402,7 @@ class WebInstaller {
 
 customElements.whenDefined('joomla-tab').then(() => {
   const installerTabs = document.getElementById('myTab');
-  const link = installerTabs.querySelector('#tab-web');
+  const link = installerTabs.querySelector('button[aria-controls=web]');
 
   // Abort if the IFW tab cannot be found
   if (!link) {
@@ -412,7 +413,7 @@ customElements.whenDefined('joomla-tab').then(() => {
     link.click();
   }
 
-  if (link.hasAttribute('active') && !instance) {
+  if (link.hasAttribute('aria-expanded') && link.getAttribute('aria-expanded') === 'true' && !instance) {
     instance = new WebInstaller();
     instance.initialise();
   }

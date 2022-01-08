@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension type="plugin" group="webservices" method="upgrade">
+	<name>plg_webservices_media</name>
+	<author>Joomla! Project</author>
+	<creationDate>May 2021</creationDate>
+	<copyright>(C) 2021 Open Source Matters, Inc.</copyright>
+	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
+	<authorEmail>admin@joomla.org</authorEmail>
+	<authorUrl>www.joomla.org</authorUrl>
+	<version>4.1.0</version>
+	<description>PLG_WEBSERVICES_MEDIA_XML_DESCRIPTION</description>
+	<files>
+		<filename plugin="media">media.php</filename>
+	</files>
+	<languages>
+		<language tag="en-GB">language/en-GB/en-GB.plg_webservices_media.ini</language>
+		<language tag="en-GB">language/en-GB/en-GB.plg_webservices_media.sys.ini</language>
+	</languages>
+</extension>
