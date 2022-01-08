@@ -16,8 +16,6 @@
  */
 defined('_JEXEC') or die;
 
-use Joomla\Utilities\ArrayHelper;
-
 if (isset($displayData['alt']))
 {
 	$displayData['src'] = $this->escape($img->url);
@@ -31,4 +29,4 @@ if (isset($displayData['alt'])) {
 	}
 }
 
-echo '<img ' . ArrayHelper::toString($displayData) . '>';
+echo '<img ' . JArrayHelper::toString($displayData) . '>';
