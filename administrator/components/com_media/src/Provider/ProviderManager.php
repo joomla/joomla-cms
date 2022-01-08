@@ -63,7 +63,7 @@ class ProviderManager
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.6
 	 */
 	public function unregisterProvider(ProviderInterface $provider = null): void
 	{
