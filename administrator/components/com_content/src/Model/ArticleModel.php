@@ -513,7 +513,6 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
 
 				$module = trim($matchesmodlist[0]);
 				$name = array_key_exists(1, $matchesmodlist) ? htmlspecialchars_decode(trim($matchesmodlist[1])) : null;
-				$stylemod = array_key_exists(2, $matchesmodlist) ? trim($matchesmodlist[2]) : 'none';
 
 				$mod = ModuleHelper::getModule($module, $name);
 
