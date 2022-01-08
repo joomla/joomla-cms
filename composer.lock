@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "576ba4484df6a684545e5b84464c8c95",
+    "content-hash": "2e9d786f7742e0c0bb2c61de5cf378dc",
     "packages": [
         {
             "name": "brumann/polyfill-unserialize",
@@ -1455,16 +1455,16 @@
         },
         {
             "name": "simplepie/simplepie",
-            "version": "1.3.1",
+            "version": "1.3.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/simplepie/simplepie.git",
-                "reference": "ce53709778bc1e2e4deda1651b66e5081398d5cc"
+                "reference": "9f6fdaa79d9888ae8f1626b4f2e6b5ff7ca29bb3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/simplepie/simplepie/zipball/ce53709778bc1e2e4deda1651b66e5081398d5cc",
-                "reference": "ce53709778bc1e2e4deda1651b66e5081398d5cc",
+                "url": "https://api.github.com/repos/simplepie/simplepie/zipball/9f6fdaa79d9888ae8f1626b4f2e6b5ff7ca29bb3",
+                "reference": "9f6fdaa79d9888ae8f1626b4f2e6b5ff7ca29bb3",
                 "shasum": ""
             },
             "require": {
@@ -1507,9 +1507,9 @@
             ],
             "support": {
                 "issues": "https://github.com/simplepie/simplepie/issues",
-                "source": "https://github.com/simplepie/simplepie/tree/1.3.1"
+                "source": "https://github.com/simplepie/simplepie/tree/1.3.3"
             },
-            "time": "2012-10-30T17:54:03+00:00"
+            "time": "2021-12-24T02:44:57+00:00"
         },
         {
             "name": "symfony/polyfill-ctype",
@@ -2027,16 +2027,16 @@
         },
         {
             "name": "typo3/phar-stream-wrapper",
-            "version": "v2.2.1",
+            "version": "v2.2.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/TYPO3/phar-stream-wrapper.git",
-                "reference": "2e519bb30e24c405674b4d2dc4b4a1de292887d2"
+                "reference": "cf7728109e0cab28da9ad357c3009e38d371116e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/TYPO3/phar-stream-wrapper/zipball/2e519bb30e24c405674b4d2dc4b4a1de292887d2",
-                "reference": "2e519bb30e24c405674b4d2dc4b4a1de292887d2",
+                "url": "https://api.github.com/repos/TYPO3/phar-stream-wrapper/zipball/cf7728109e0cab28da9ad357c3009e38d371116e",
+                "reference": "cf7728109e0cab28da9ad357c3009e38d371116e",
                 "shasum": ""
             },
             "require": {
@@ -2071,9 +2071,9 @@
             ],
             "support": {
                 "issues": "https://github.com/TYPO3/phar-stream-wrapper/issues",
-                "source": "https://github.com/TYPO3/phar-stream-wrapper/tree/v2.2.1"
+                "source": "https://github.com/TYPO3/phar-stream-wrapper/tree/v2.2.2"
             },
-            "time": "2020-11-11T14:34:18+00:00"
+            "time": "2021-09-20T19:19:38+00:00"
         }
     ],
     "packages-dev": [
@@ -3816,5 +3816,5 @@
     "platform-overrides": {
         "php": "5.3.10"
     },
-    "plugin-api-version": "2.2.0"
+    "plugin-api-version": "2.1.0"
 }
