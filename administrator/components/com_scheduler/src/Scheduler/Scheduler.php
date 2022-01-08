@@ -113,7 +113,7 @@ class Scheduler
 			[
 				'id'                  => $options['id'],
 				'allowDisabled'       => $options['allowDisabled'],
-				'bypassScheduling'    => $options['id'] === 0,
+				'bypassScheduling'    => $options['id'] !== 0,
 				'allowConcurrent'     => $options['allowConcurrent'],
 				'includeCliExclusive' => ($app->isClient('cli')),
 			]
