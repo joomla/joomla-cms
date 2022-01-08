@@ -20,12 +20,12 @@ use Joomla\CMS\Language\Text;
  * argument pairs as argument. Internally, the TaskOption object generates the routine title and description from the
  * language constant prefix.
  *
+ * @since  4.1.0
+ *
  * @property-read  string $desc             The routine description.
  * @property-read  string $id               The routine ID.
  * @property-read  string $langConstPrefix  The routine's language constant prefix.
  * @property-read  string $title            The routine title.
- *
- * @since  4.1.0
  */
 class TaskOption
 {
