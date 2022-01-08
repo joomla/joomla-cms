@@ -16,7 +16,7 @@
  */
 defined('_JEXEC') or die;
 
-if (isset($displayData['alt']))
+if (isset($displayData['src']))
 {
 	$displayData['src'] = $this->escape($img->url);
 }
