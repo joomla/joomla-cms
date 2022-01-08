@@ -54,6 +54,10 @@ if ($saveOrder && !empty($this->items))
 	HTMLHelper::_('draggablelist.draggable');
 }
 
+/** @var \Joomla\CMS\WebAsset\WebAssetManager $wa */
+$wa = $this->document->getWebAssetManager();
+$wa->useScript('multiselect');
+
 $workflow_enabled  = ComponentHelper::getParams('com_content')->get('workflow_enabled');
 $workflow_state    = false;
 $workflow_featured = false;
@@ -75,12 +79,8 @@ $js = <<<JS
 })();
 JS;
 
-/** @var \Joomla\CMS\WebAsset\WebAssetManager $wa */
-$wa = $this->document->getWebAssetManager();
-
 $wa->getRegistry()->addExtensionRegistryFile('com_workflow');
-$wa->useScript('multiselect')
-	->useScript('com_workflow.admin-items-workflow-buttons')
+$wa->useScript('com_workflow.admin-items-workflow-buttons')
 	->addInlineScript($js, [], ['type' => 'module']);
 
 $workflow_state    = Factory::getApplication()->bootComponent('com_content')->isFunctionalityUsed('core.state', 'com_content.article');
