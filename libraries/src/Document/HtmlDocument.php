@@ -472,7 +472,7 @@ class HtmlDocument extends Document
 
 		if ($this->_caching == true && $type == 'modules' && $name !== 'debug')
 		{
-			$cache = Factory::getCache('com_modules', '');
+			$cache  = Factory::getCache('com_modules', '');
 			$itemId = (int) Factory::getApplication()->input->get('Itemid', 0, 'int');
 
 			$hash = md5(
