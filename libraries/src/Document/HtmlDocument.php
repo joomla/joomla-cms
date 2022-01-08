@@ -563,7 +563,7 @@ class HtmlDocument extends Document
 			/** @var  \Joomla\CMS\Cache\Controller\OutputController  $cache */
 			$cache = CmsFactory::getContainer()->get(CacheControllerFactoryInterface::class)
 				->createCacheController('output', ['defaultgroup' => 'com_modules']);
-			$itemId = (int) CmsFactory::getApplication()->input->get('Itemid');
+			$itemId = (int) CmsFactory::getApplication()->input->get('Itemid', 0, 'int');
 
 			$hash = md5(
 				serialize(
