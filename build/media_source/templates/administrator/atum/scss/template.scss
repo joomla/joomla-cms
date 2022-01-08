@@ -78,3 +78,8 @@
     scroll-behavior: auto !important;
   }
 }
+
+// Add thin light grey border to flag gif images
+img[src$="gif"] {
+  border: 1px solid var(--gray-200);
+}
