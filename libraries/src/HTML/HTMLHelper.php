@@ -766,6 +766,12 @@ abstract class HTMLHelper
 			return $file;
 		}
 
+		// Ensure we have a valid default for concatenating
+		if ($attribs === null)
+		{
+			$attribs = '';
+		}
+
 		return '<img src="' . $file . '" alt="' . $alt . '" ' . trim((\is_array($attribs) ? ArrayHelper::toString($attribs) : $attribs)) . '>';
 	}
 
