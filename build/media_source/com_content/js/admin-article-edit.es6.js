@@ -11,7 +11,7 @@
    * of the module found using data-module-id attribute of
    * the button. (2) Remove imported modules by id or by
    * position and (3) To delete the importOnSave cookie when
-   * the module modal is clsoed.
+   * the module modal is closed.
    */
 
   document.addEventListener('DOMContentLoaded', () => {
