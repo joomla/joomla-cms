@@ -474,7 +474,7 @@ class HtmlDocument extends Document
 		{
 			$cache = Factory::getCache('com_modules', '');
 			$itemId = (int) Factory::getApplication()->input->get('Itemid', 0, 'int');
-			$hash =   md5(
+			$hash   = md5(
 				serialize(
 					array(
 						$name,
