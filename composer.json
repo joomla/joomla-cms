@@ -65,7 +65,7 @@
         "fig/link-util": "~1.0",
         "google/recaptcha": "~1.1",
         "laminas/laminas-diactoros": "^2.2.2",
-        "paragonie/sodium_compat": "~1.9.1",
+        "paragonie/sodium_compat": "~1.17.0",
         "phpmailer/phpmailer": "~6.0",
         "psr/link": "~1.0",
         "symfony/console": "~5.0",
