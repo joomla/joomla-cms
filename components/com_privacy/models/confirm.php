@@ -29,7 +29,6 @@ class PrivacyModelConfirm extends JModelAdmin
 	{
 		// Get the form.
 		$form = $this->getForm();
-		$data['email'] = JStringPunycode::emailToPunycode($data['email']);
 
 		// Check for an error.
 		if ($form instanceof Exception)
@@ -58,6 +57,9 @@ class PrivacyModelConfirm extends JModelAdmin
 
 			return false;
 		}
+
+		// Get the user email address
+		$data['email'] = JFactory::getUser()->email;
 
 		// Search for the information request
 		/** @var PrivacyTableRequest $table */
