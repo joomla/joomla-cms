@@ -45,8 +45,8 @@ class Database implements ServiceProviderInterface
 					$conf = $container->get('config');
 
 					/**
-					 * TODO: This 'sensible' default is required in the installer for now. Eventually we need to
-					 *       refactor the installer so it is not required
+					 * @todo: This 'sensible' default is required in the installer for now. Eventually we need to
+					 *        refactor the installer so it is not required
 					 */
 					$dbtype = $conf->get('dbtype', 'mysqli');
 
