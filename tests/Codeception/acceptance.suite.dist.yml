@@ -106,3 +106,34 @@ env:
           cmsPath: '/tests/www/mysqlphpmax'
         Helper\JoomlaDb:
           prefix: 'phpmax_'
+  postgresphpnext:
+    modules:
+      config:
+        Joomla\Browser\JoomlaBrowser:
+          url: 'http://localhost/postgresphpnext'
+          database host: 'postgres'
+          database type: 'pgsql'
+          database prefix: 'phpnext_'
+          cmsPath: '/tests/www/postgresphpnext'
+        Helper\JoomlaDb:
+          dsn: 'pgsql:host=postgres;dbname=test_joomla'
+          prefix: 'phpnext_'
+  mysql8phpnext:
+    modules:
+      config:
+        Joomla\Browser\JoomlaBrowser:
+          url: 'http://localhost/mysql8phpnext'
+          database host: 'mysql8'
+          database prefix: 'phpnext_'
+          cmsPath: '/tests/www/mysql8phpnext'
+        Helper\JoomlaDb:
+          prefix: 'phpnext_'
+  mysqlphpnext:
+    modules:
+      config:
+        Joomla\Browser\JoomlaBrowser:
+          url: 'http://localhost/mysqlphpnext'
+          database prefix: 'phpnext_'
+          cmsPath: '/tests/www/mysqlphpnext'
+        Helper\JoomlaDb:
+          prefix: 'phpnext_'

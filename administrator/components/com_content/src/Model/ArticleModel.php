@@ -13,6 +13,8 @@ namespace Joomla\Component\Content\Administrator\Model;
 
 use Joomla\CMS\Event\AbstractEvent;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Filter\InputFilter;
+use Joomla\CMS\Filter\OutputFilter;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Form\FormFactoryInterface;
 use Joomla\CMS\Helper\TagsHelper;
@@ -498,7 +500,9 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
 		$record = new \stdClass;
 
 		// Get ID of the article from input, for frontend, we use a_id while backend uses id
-		$articleIdFromInput = (int) $app->input->getInt('a_id') ?: $app->input->getInt('id', 0);
+		$articleIdFromInput = $app->isClient('site')
+			? $app->input->getInt('a_id', 0)
+			: $app->input->getInt('id', 0);
 
 		// On edit article, we get ID of article from article.id state, but on save, we use data from input
 		$id = (int) $this->getState('article.id', $articleIdFromInput);
@@ -685,9 +689,7 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
 	public function save($data)
 	{
 		$input  = Factory::getApplication()->input;
-		$filter = \JFilterInput::getInstance();
-		$db     = $this->getDbo();
-		$user	= Factory::getUser();
+		$filter = InputFilter::getInstance();
 
 		if (isset($data['metadata']) && isset($data['metadata']['author']))
 		{
@@ -805,11 +807,11 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
 			{
 				if (Factory::getApplication()->get('unicodeslugs') == 1)
 				{
-					$data['alias'] = \JFilterOutput::stringUrlUnicodeSlug($data['title']);
+					$data['alias'] = OutputFilter::stringUrlUnicodeSlug($data['title']);
 				}
 				else
 				{
-					$data['alias'] = \JFilterOutput::stringURLSafe($data['title']);
+					$data['alias'] = OutputFilter::stringURLSafe($data['title']);
 				}
 
 				$table = Table::getInstance('Content', 'JTable');

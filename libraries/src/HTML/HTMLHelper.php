@@ -657,13 +657,15 @@ abstract class HTMLHelper
 	/**
 	 * Gets a URL, cleans the Joomla specific params and returns an object
 	 *
-	 * @param    string        $url        The relative or absolute URL to use for the src attribute.
+	 * @param    string  $url  The relative or absolute URL to use for the src attribute.
 	 *
 	 * @return   object
 	 * @example  {
-	 *             url:    'string',
-	 *             width:  integer,
-	 *             height: integer,
+	 *             url: 'string',
+	 *             attributes: [
+	 *               width:  integer,
+	 *               height: integer,
+	 *             ]
 	 *           }
 	 *
 	 * @since    4.0.0
@@ -767,6 +769,12 @@ abstract class HTMLHelper
 		if ($returnPath === 1)
 		{
 			return $file;
+		}
+
+		// Ensure we have a valid default for concatenating
+		if ($attribs === null)
+		{
+			$attribs = '';
 		}
 
 		return '<img src="' . $file . '" alt="' . $alt . '" ' . trim((\is_array($attribs) ? ArrayHelper::toString($attribs) : $attribs)) . '>';
