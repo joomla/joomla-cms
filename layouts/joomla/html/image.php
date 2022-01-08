@@ -21,10 +21,14 @@ if (isset($displayData['alt']))
 	$displayData['src'] = $this->escape($img->url);
 }
 
-if (isset($displayData['alt'])) {
-	if ($displayData['alt'] === false) {
+if (isset($displayData['alt']))
+{
+	if ($displayData['alt'] === false)
+	{
 		unset($displayData['alt']);
-	} else {
+	}
+	else
+	{
 		$displayData['alt'] = $this->escape($displayData['alt']);
 	}
 }
