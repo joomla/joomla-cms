@@ -173,6 +173,17 @@ class SubformField extends FormField
 
 				break;
 
+			case 'value':
+				// We allow a json encoded string or an array
+				if (is_string($value))
+				{
+					$value = json_decode($value, true);
+				}
+
+				$this->value = $value !== null ? (array) $value : null;
+
+				break;
+
 			default:
 				parent::__set($name, $value);
 		}
