@@ -307,7 +307,7 @@ abstract class ModArticlesCategoryHelper
 				$item->introtext = JHtml::_('content.prepare', $item->introtext, '', 'mod_articles_category.content');
 			}
 
-			$item->displayIntrotext = $item->introtext;
+			$item->displayIntrotext = $show_introtext ? $item->introtext : '';
 			$item->displayReadmore  = $item->alternative_readmore;
 		}
 
