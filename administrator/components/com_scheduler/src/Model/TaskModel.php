@@ -27,7 +27,6 @@ use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Table\Table;
 use Joomla\Component\Scheduler\Administrator\Helper\SchedulerHelper;
 use Joomla\Component\Scheduler\Administrator\Table\TaskTable;
-use Joomla\Component\Scheduler\Administrator\Task\Task;
 use Joomla\Database\ParameterType;
 use Symfony\Component\OptionsResolver\Exception\AccessException;
 use Symfony\Component\OptionsResolver\Exception\InvalidOptionsException;
@@ -569,7 +568,7 @@ class TaskModel extends AdminModel
 		$data['cron_rules'] = $this->buildExecutionRules($data['execution_rules']);
 
 		// `next_execution` would be null if scheduling is disabled with the "manual" rule!
-		$data['next_execution'] = (new Task((object) $data))->computeNextExecution();
+		$data['next_execution'] = (new ExecRuleHelper($data))->nextExec();
 
 		if ($isNew)
 		{
