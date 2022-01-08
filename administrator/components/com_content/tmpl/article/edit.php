@@ -312,7 +312,7 @@ $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=c
 			<?php echo HTMLHelper::_('uitab.endTab'); ?>
 		<?php endif; ?>
 
-    <?php echo LayoutHelper::render('joomla.edit.params', $this); ?>
+		<?php echo LayoutHelper::render('joomla.edit.params', $this); ?>
 
 		<?php // Do not show the publishing options if the edit form is configured not to. ?>
 		<?php if ($params->get('show_publishing_options', 1) == 1) : ?>
