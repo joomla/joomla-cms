@@ -802,17 +802,17 @@
         },
         {
             "name": "joomla/registry",
-            "version": "1.6.3",
-            "version_normalized": "1.6.3.0",
+            "version": "1.6.4",
+            "version_normalized": "1.6.4.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-framework/registry.git",
-                "reference": "51c08b18838aaf2104e38c3846e34b4706e83644"
+                "reference": "87450394f093efcb3ac5fc978e73d1403ebe8a38"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-framework/registry/zipball/51c08b18838aaf2104e38c3846e34b4706e83644",
-                "reference": "51c08b18838aaf2104e38c3846e34b4706e83644",
+                "url": "https://api.github.com/repos/joomla-framework/registry/zipball/87450394f093efcb3ac5fc978e73d1403ebe8a38",
+                "reference": "87450394f093efcb3ac5fc978e73d1403ebe8a38",
                 "shasum": ""
             },
             "require": {
@@ -824,13 +824,13 @@
             "require-dev": {
                 "joomla/coding-standards": "~2.0@alpha",
                 "joomla/test": "~1.0",
-                "phpunit/phpunit": "^4.8.35|^5.4.3|~6.0",
+                "phpunit/phpunit": "^4.8.35|^5.4.3|~6.0|~7.0|~8.0",
                 "symfony/yaml": "~2.0|~3.0|~4.0|~5.0"
             },
             "suggest": {
                 "symfony/yaml": "Install symfony/yaml if you require YAML support."
             },
-            "time": "2019-11-27T16:58:55+00:00",
+            "time": "2022-01-08T18:33:07+00:00",
             "type": "joomla-package",
             "extra": {
                 "branch-alias": {
@@ -856,8 +856,18 @@
             ],
             "support": {
                 "issues": "https://github.com/joomla-framework/registry/issues",
-                "source": "https://github.com/joomla-framework/registry/tree/1.6.3"
+                "source": "https://github.com/joomla-framework/registry/tree/1.6.4"
             },
+            "funding": [
+                {
+                    "url": "https://community.joomla.org/sponsorship-campaigns.html",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://github.com/joomla",
+                    "type": "github"
+                }
+            ],
             "install-path": "../joomla/registry"
         },
         {
