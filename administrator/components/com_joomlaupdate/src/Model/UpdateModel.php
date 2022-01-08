@@ -29,6 +29,7 @@ use Joomla\CMS\Updater\Updater;
 use Joomla\CMS\User\UserHelper;
 use Joomla\CMS\Version;
 use Joomla\Database\ParameterType;
+use Joomla\Utilities\ArrayHelper;
 
 /**
  * Joomla! update overview Model
@@ -79,7 +80,9 @@ class UpdateModel extends BaseDatabaseModel
 				}
 				else
 				{
-					return Factory::getApplication()->enqueueMessage(Text::_('COM_JOOMLAUPDATE_CONFIG_UPDATESOURCE_CUSTOM_ERROR'), 'error');
+					Factory::getApplication()->enqueueMessage(Text::_('COM_JOOMLAUPDATE_CONFIG_UPDATESOURCE_CUSTOM_ERROR'), 'error');
+
+					return;
 				}
 				break;
 
@@ -659,6 +662,9 @@ ENDDATA;
 
 			return false;
 		}
+
+		// Re-create namespace map. It is needed when updating to a Joomla! version has new extension added
+		(new \JNamespacePsr4Map)->create();
 
 		$installer->manifest = $manifest;
 
@@ -1739,5 +1745,64 @@ ENDDATA;
 
 		// Translate the extension name if possible
 		$item->name = strip_tags(Text::_($item->name));
+	}
+
+	/**
+	 * Checks whether a given template is active
+	 *
+	 * @param   string  $template  The template name to be checked
+	 *
+	 * @return  boolean
+	 *
+	 * @since   3.10.4
+	 */
+	public function isTemplateActive($template)
+	{
+		$db = $this->getDbo();
+		$query = $db->getQuery(true);
+
+		$query->select(
+			$db->qn(
+				array(
+					'id',
+					'home'
+				)
+			)
+		)->from(
+			$db->qn('#__template_styles')
+		)->where(
+			$db->qn('template') . ' = :template'
+		)->bind(':template', $template, ParameterType::STRING);
+
+		$templates = $db->setQuery($query)->loadObjectList();
+
+		$home = array_filter(
+			$templates,
+			function ($value)
+			{
+				return $value->home > 0;
+			}
+		);
+
+		$ids = ArrayHelper::getColumn($templates, 'id');
+
+		$menu = false;
+
+		if (count($ids))
+		{
+			$query = $db->getQuery(true);
+
+			$query->select(
+				'COUNT(*)'
+			)->from(
+				$db->qn('#__menu')
+			)->whereIn(
+				$db->qn('template_style_id'), $ids
+			);
+
+			$menu = $db->setQuery($query)->loadResult() > 0;
+		}
+
+		return $home || $menu;
 	}
 }

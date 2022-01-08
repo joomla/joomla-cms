@@ -75,7 +75,7 @@
 			size="10"
 			filter="user_utc"
 		/>
-    </fields>
+	</fields>
 	<fields name="list">
 		<field
 			name="fullordering"

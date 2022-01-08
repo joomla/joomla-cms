@@ -136,7 +136,7 @@ class QuickIconHelper
 					$tmp['ajaxurl'] = 'index.php?option=com_tags&amp;task=tags.getQuickiconContent&amp;format=json';
 				}
 
-				self::$buttons[$key][] = $tmp;
+				$this->buttons[$key][] = $tmp;
 			}
 
 			if ($params->get('show_categories'))

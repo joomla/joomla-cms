@@ -26,7 +26,7 @@ $wa               = $this->getWebAssetManager();
 $fullWidth = 1;
 
 // Template path
-$templatePath = 'templates/' . $this->template;
+$templatePath = 'media/templates/site/cassiopeia';
 
 // Color Theme
 $paramsColorName = $this->params->get('colorName', 'colors_standard');
@@ -185,7 +185,7 @@ $wa->getAsset('style', 'fontawesome')->setAttribute('rel', 'lazy-stylesheet');
 							</div>
 						<?php endforeach; ?>
 
-						<input type="submit" name="Submit" class="btn btn-primary" value="<?php echo Text::_('JLOGIN'); ?>">
+						<button type="submit" name="Submit" class="btn btn-primary"><?php echo Text::_('JLOGIN'); ?></button>
 
 						<input type="hidden" name="option" value="com_users">
 						<input type="hidden" name="task" value="user.login">

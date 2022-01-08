@@ -1,0 +1,194 @@
+// Form
+
+.form-control {
+  max-width: $input-max-width;
+  background-color: $white;
+  border: $input-border;
+  border-radius: $border-radius;
+
+  &:focus {
+    border-color: $focuscolor;
+    box-shadow: $focusshadow;
+  }
+}
+
+.control-group {
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  margin: 0 0 1rem;
+
+  > .form-check {
+    display: inline-block;
+  }
+
+  &::after {
+    display: table;
+    clear: both;
+    content: "";
+  }
+
+  .control-label {
+    width: 240px;
+    padding: .3rem 1rem .3rem 0;
+  }
+
+  .controls {
+    position: relative;
+    flex: 1;
+    min-width: 210px;
+
+    + div {
+      width: 100%;
+      margin: 5px 0 10px;
+    }
+  }
+
+  .form-vertical & {
+    flex-direction: column;
+  }
+}
+
+.stack .control-label {
+  width: 100%;
+}
+
+.spacer {
+  hr {
+    width: 380px;
+  }
+
+  label {
+    width: 440px;
+  }
+}
+
+td .form-control {
+  display: inline-block;
+  width: auto;
+}
+
+.checkboxes {
+  padding-top: 5px;
+
+  .checkbox input {
+    position: static;
+    margin-left: 0;
+  }
+}
+
+.form-check {
+  padding-top: 5px;
+  margin-bottom: 0;
+}
+
+.modal label {
+  width: 100%;
+}
+
+// Validation
+.invalid {
+  color: var(--danger);
+  border-color: var(--danger);
+}
+
+.valid {
+  border-color: var(--success);
+}
+
+.form-control-feedback {
+  display: block;
+}
+
+[aria-grabbed="true"] {
+  box-shadow: $input-box-shadow;
+}
+
+.sortable-handler.inactive {
+  opacity: .3;
+}
+
+// set up hidden tooltip
+[role="tooltip"]:not(.show) {
+  z-index: $zindex-tooltip;
+  display: none;
+  padding: .5em;
+  margin: .25em;
+  color: $white;
+  text-align: start;
+  background: $black;
+  border-radius: .2rem !important;
+}
+
+// reveal associated tooltip on focus
+:focus + [role="tooltip"],
+:hover + [role="tooltip"] {
+  position: absolute;
+  display: block;
+}
+
+.filter-search-bar__description {
+  bottom: 100%;
+}
+
+.container-popup .filter-search-bar__description {
+  top: 100%;
+  bottom: auto;
+}
+
+.input-group > .form-control[readonly] {
+  margin-right: 1px;
+}
+
+.form-group {
+  @extend .mb-3;
+}
+
+// Subform - non table layout
+div.subform-repeatable-group {
+  position: relative;
+  padding: 32px 32px 16px 28px;
+  margin-top: 20px;
+  border: $input-border;
+  border-radius: $border-radius;
+
+  > .btn-toolbar {
+
+    .btn-group {
+      position: static;
+    }
+
+    .btn {
+      position: absolute;
+
+      &.group-add {
+        right: -1px;
+        bottom: -1px;
+        border-radius: $border-radius 0 $border-radius 0;
+      }
+      &.group-remove {
+        top: -1px;
+        right: -1px;
+        border-radius: 0 $border-radius 0 $border-radius;
+      }
+      &.group-move {
+        top: 50%;
+        right: 100%;
+        margin-top: -27px;
+        line-height: 52px;
+        border-radius: $border-radius 0 0 $border-radius;
+      }
+    }
+  }
+}
+
+// Highlight draggable section
+.subform-repeatable-group[draggable="true"] {
+  // For non table layout
+  background-color: $teal;
+
+  // For table layout
+  > td {
+    background-color: $teal;
+  }
+}

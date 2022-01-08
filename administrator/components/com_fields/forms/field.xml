@@ -269,6 +269,14 @@
 				/>
 
 				<field
+					name="value_render_class"
+					type="textarea"
+					label="COM_FIELDS_FIELD_VALUE_RENDER_CLASS_LABEL"
+					description="COM_FIELDS_FIELD_VALUE_RENDER_CLASS_DESC"
+					size="40"
+				/>
+
+				<field
 					name="showlabel"
 					type="radio"
 					label="COM_FIELDS_FIELD_SHOWLABEL_LABEL"
