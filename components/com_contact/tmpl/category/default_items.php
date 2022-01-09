@@ -12,6 +12,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Uri\Uri;
 use Joomla\Component\Contact\Administrator\Helper\ContactHelper;
@@ -99,7 +100,14 @@ $listDirn   = $this->escape($this->state->get('list.direction'));
 							<a href="<?php echo Route::_(RouteHelper::getContactRoute($item->slug, $item->catid, $item->language)); ?>">
 								<?php if ($this->params->get('show_image_heading')) : ?>
 									<?php if ($item->image) : ?>
-										<?php echo HTMLHelper::_('image', $item->image, '', array('class' => 'contact-thumbnail img-thumbnail')); ?>
+										<?php echo LayoutHelper::render(
+											'joomla.html.image',
+											[
+												'src'   => $item->image,
+												'alt'   => '',
+												'class' => 'contact-thumbnail img-thumbnail',
+											]
+										); ?>
 									<?php endif; ?>
 								<?php endif; ?>
 								<?php echo $this->escape($item->name); ?>

@@ -709,18 +709,10 @@ abstract class HTMLHelper
 		{
 			$obj->attributes['width'] = $width;
 		}
-		else
-		{
-			unset($obj->attributes['width']);
-		}
 
 		if ($height > 0)
 		{
 			$obj->attributes['height'] = $height;
-		}
-		else
-		{
-			unset($obj->attributes['height']);
 		}
 
 		$mediaUri->setFragment('');
