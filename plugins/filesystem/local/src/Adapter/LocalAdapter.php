@@ -62,24 +62,35 @@ class LocalAdapter implements AdapterInterface
 	private $thumbs = false;
 
 	/**
+	 * Thumbnail dimensions in pixels, [0] = width, [1] = height
+	 *
+	 * @var array
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
+	private $thumbSize = [100, 100];
+
+	/**
 	 * The absolute root path in the local file system.
 	 *
-	 * @param   string   $rootPath  The root path
-	 * @param   string   $filePath  The file path of media folder
-	 * @param   boolean  $thumbs    The thumbs option
+	 * @param   string   $rootPath   The root path
+	 * @param   string   $filePath   The file path of media folder
+	 * @param   boolean  $thumbs     The thumbs option
+	 * @param   array    $thumbSize  The thumbnail dimensions in pixels
 	 *
 	 * @since   4.0.0
 	 */
-	public function __construct(string $rootPath, string $filePath, bool $thumbs = false)
+	public function __construct(string $rootPath, string $filePath, bool $thumbs = false, array $thumbSize = [100, 100])
 	{
 		if (!file_exists($rootPath))
 		{
 			throw new \InvalidArgumentException;
 		}
 
-		$this->rootPath = Path::clean(realpath($rootPath), '/');
-		$this->filePath = $filePath;
-		$this->thumbs   = $thumbs;
+		$this->rootPath  = Path::clean(realpath($rootPath), '/');
+		$this->filePath  = $filePath;
+		$this->thumbs    = $thumbs;
+		$this->thumbSize = $thumbSize;
 
 		if ($this->thumbs)
 		{
@@ -254,19 +265,15 @@ class LocalAdapter implements AdapterInterface
 
 		if ($this->thumbs)
 		{
-			$thumbPath = str_replace(
-				$this->rootPath,
-				JPATH_ROOT . '/media/cache/com_media/thumbs/' . $this->filePath,
-				$localPath
-			);
+			$thumbPaths = $this->getLocalThumbPaths($localPath);
 
-			if (!is_dir(\dirname($thumbPath)))
+			if (!is_dir(dirname($thumbPaths['fs'])))
 			{
-				mkdir(\dirname($thumbPath), 0755, true);
+				mkdir(dirname($thumbPaths['fs']), 0755, true);
 			}
 
 			// Create the thumbnail
-			(new Image($localPath))->resize(300, 300, true)->toFile($thumbPath);
+			(new Image($localPath))->resize($this->thumbSize[0], $this->thumbSize[1], true)->toFile($thumbPaths['fs']);
 		}
 
 		return $name;
@@ -299,19 +306,15 @@ class LocalAdapter implements AdapterInterface
 
 		if ($this->thumbs)
 		{
-			$thumbPath = str_replace(
-				$this->rootPath,
-				JPATH_ROOT . '/media/cache/com_media/thumbs/' . $this->filePath,
-				$localPath
-			);
+			$thumbPaths = $this->getLocalThumbPaths($localPath);
 
-			if (!is_dir(\dirname($thumbPath)))
+			if (!is_dir(dirname($thumbPaths['fs'])))
 			{
-				mkdir(\dirname($thumbPath), 0755, true);
+				mkdir(dirname($thumbPaths['fs']), 0755, true);
 			}
 
 			// Create the thumbnail
-			(new Image($localPath))->resize(300, 300, true)->toFile($thumbPath);
+			(new Image($localPath))->resize($this->thumbSize[0], $this->thumbSize[1], true)->toFile($thumbPaths['fs']);
 		}
 	}
 
@@ -327,12 +330,8 @@ class LocalAdapter implements AdapterInterface
 	 */
 	public function delete(string $path): void
 	{
-		$localPath = $this->getLocalPath($path);
-		$thumbPath = str_replace(
-			$this->rootPath,
-			JPATH_ROOT . '/media/cache/com_media/thumbs/' . $this->filePath,
-			$localPath
-		);
+		$localPath  = $this->getLocalPath($path);
+		$thumbPaths = $this->getLocalThumbPaths($localPath);
 
 		if (is_file($localPath))
 		{
@@ -341,9 +340,9 @@ class LocalAdapter implements AdapterInterface
 				throw new FileNotFoundException;
 			}
 
-			if ($this->thumbs && is_file($thumbPath))
+			if ($this->thumbs && is_file($thumbPaths['fs']))
 			{
-				File::delete($thumbPath);
+				File::delete($thumbPaths['fs']);
 			}
 
 			$success = File::delete($localPath);
@@ -355,9 +354,9 @@ class LocalAdapter implements AdapterInterface
 				throw new FileNotFoundException;
 			}
 
-			if ($this->thumbs && is_dir($thumbPath))
+			if ($this->thumbs && is_dir($thumbPaths['fs]']))
 			{
-				Folder::delete($thumbPath);
+				Folder::delete($thumbPaths['fs]']);
 			}
 
 			$success = Folder::delete($localPath);
@@ -799,7 +798,7 @@ class LocalAdapter implements AdapterInterface
 	{
 		$files = glob($pattern, $flags);
 
-		foreach (glob(\dirname($pattern) . '/*', GLOB_ONLYDIR | GLOB_NOSORT) as $dir)
+		foreach (glob(dirname($pattern) . '/*', GLOB_ONLYDIR | GLOB_NOSORT) as $dir)
 		{
 			$files = array_merge($files, $this->rglob($dir . '/' . $this->getFileName($pattern), $flags));
 		}
@@ -876,7 +875,7 @@ class LocalAdapter implements AdapterInterface
 		$helper = new MediaHelper;
 
 		// @todo find a better way to check the input, by not writing the file to the disk
-		$tmpFile = Path::clean(\dirname($localPath) . '/' . uniqid() . '.' . File::getExt($name));
+		$tmpFile = Path::clean(dirname($localPath) . '/' . uniqid() . '.' . File::getExt($name));
 
 		if (!File::write($tmpFile, $mediaContent))
 		{
@@ -938,6 +937,46 @@ class LocalAdapter implements AdapterInterface
 		}
 	}
 
+
+	/**
+	 * Returns the local filesystem thumbnail path for the given path.
+	 *
+	 * Throws an InvalidPathException if the path is invalid.
+	 *
+	 * @param   string  $path  The path
+	 *
+	 * @return  array
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 * @throws  InvalidPathException
+	 */
+	private function getLocalThumbPaths(string $path): array
+	{
+		try
+		{
+			$fs  = Path::check(
+				str_replace(
+					$this->rootPath,
+					JPATH_ROOT . '/media/cache/com_media/thumbs/' . $this->filePath,
+					$path
+				)
+			);
+			$url = str_replace(
+				$this->rootPath,
+				'media/cache/com_media/thumbs/' . $this->filePath,
+				$path
+			);
+			return [
+				'fs'  => $fs,
+				'url' => $url,
+			];
+		}
+		catch (\Exception $e)
+		{
+			throw new InvalidPathException($e->getMessage());
+		}
+	}
+
 	/**
 	 * Returns the path for the thumbnail of the given image.
 	 * If the thumbnail does not exist, it will be created.
@@ -950,40 +989,21 @@ class LocalAdapter implements AdapterInterface
 	 */
 	private function getThumb(string $path): string
 	{
-		$dir = \dirname(
-			str_replace(
-				$this->rootPath,
-				JPATH_ROOT . '/media/cache/com_media/thumbs/' . $this->filePath,
-				$path
-			)
-		);
+		$thumbPaths = $this->getLocalThumbPaths($path);
+		$dir        = dirname($thumbPaths['fs']);
 
 		if (!is_dir($dir))
 		{
 			mkdir($dir, 0755, true);
 		}
 
-		$thumbPath = str_replace(
-			$this->rootPath,
-			JPATH_ROOT . '/media/cache/com_media/thumbs/' . $this->filePath,
-			$path
-		);
-
-		$thumbURL = Uri::root() . $this->getEncodedPath(
-			str_replace(
-				$this->rootPath,
-				'media/cache/com_media/thumbs/' . $this->filePath,
-				$path
-			)
-		);
-
-		if (file_exists($thumbPath))
-		{
-			return $thumbURL;
-		}
+		$thumbURL = Uri::root() . $this->getEncodedPath($thumbPaths['url']);
 
 		// Create the thumbnail
-		(new Image($path))->resize(300, 300, true)->toFile($thumbPath);
+		if (!file_exists($thumbPaths['fs']))
+		{
+			(new Image($path))->resize($this->thumbSize[0], $this->thumbSize[1], true)->toFile($thumbPaths['fs']);
+		}
 
 		return $thumbURL;
 	}
