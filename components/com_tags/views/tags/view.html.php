@@ -76,7 +76,7 @@ class TagsViewTags extends JViewLegacy
 		}
 
 		// Escape strings for HTML output
-		$this->pageclass_sfx = htmlspecialchars($this->params->get('pageclass_sfx'));
+		$this->pageclass_sfx = htmlspecialchars($this->params->get('pageclass_sfx', ''));
 
 		$active = JFactory::getApplication()->getMenu()->getActive();
 

@@ -13,7 +13,7 @@ JHtml::addIncludePath(JPATH_COMPONENT . '/helpers');
 JHtml::_('behavior.caption');
 JHtml::_('formbehavior.chosen', 'select');
 
-$pageClass = $this->params->get('pageclass_sfx');
+$pageClass = $this->params->get('pageclass_sfx', '');
 
 ?>
 <div class="newsfeed-category<?php echo $this->pageclass_sfx; ?>">

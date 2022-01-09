@@ -295,6 +295,7 @@ class Session implements \IteratorAggregate
 	 *
 	 * @since   3.0.1
 	 */
+	#[\ReturnTypeWillChange]
 	public function getIterator()
 	{
 		return new \ArrayIterator($this->getData());
