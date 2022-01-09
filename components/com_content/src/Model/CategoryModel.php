@@ -395,7 +395,7 @@ class CategoryModel extends ListModel
 					$this->_item->getParams()->set('access-create', true);
 				}
 
-				// TODO: Why aren't we lazy loading the children and siblings?
+				// @todo: Why aren't we lazy loading the children and siblings?
 				$this->_children = $this->_item->getChildren();
 				$this->_parent = false;
 
