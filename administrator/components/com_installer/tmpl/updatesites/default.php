@@ -18,6 +18,10 @@ use Joomla\CMS\Router\Route;
 HTMLHelper::_('behavior.multiselect');
 HTMLHelper::_('bootstrap.popover', 'span.hasPopover', ['trigger' => 'hover focus']);
 
+/** @var \Joomla\CMS\WebAsset\WebAssetManager $wa */
+$wa = $this->document->getWebAssetManager();
+$wa->useScript('table.columns');
+
 $user      = Factory::getApplication()->getIdentity();
 $userId    = $user->get('id');
 $listOrder = $this->escape($this->state->get('list.ordering'));

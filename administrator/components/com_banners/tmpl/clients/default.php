@@ -20,6 +20,10 @@ use Joomla\CMS\Router\Route;
 
 HTMLHelper::_('behavior.multiselect');
 
+/** @var \Joomla\CMS\WebAsset\WebAssetManager $wa */
+$wa = $this->document->getWebAssetManager();
+$wa->useScript('table.columns');
+
 $purchaseTypes = [
 	'1' => 'UNLIMITED',
 	'2' => 'YEARLY',
