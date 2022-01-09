@@ -20,9 +20,9 @@ module.exports.handleCssFile = async (file) => {
 
     const content = await readFile(file, { encoding: 'utf8' });
     const cssMin = await Postcss([
-      Autoprefixer,
-      CssNano,
-      UrlVersion,
+      Autoprefixer(),
+      CssNano(),
+      UrlVersion(),
     ]).process(content, { from: undefined });
 
     // Ensure the folder exists or create it

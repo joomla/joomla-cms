@@ -22,7 +22,7 @@ module.exports.handleScssFile = async (file) => {
   }
 
   // Auto prefixing
-  const cleaner = Postcss([Autoprefixer, UrlVersion]);
+  const cleaner = Postcss([Autoprefixer(), UrlVersion()]);
   const res = await cleaner.process(compiled.css, { from: file.replace(`${sep}build${sep}media_source${sep}`, `${sep}media${sep}`) });
 
   // Ensure the folder exists or create it

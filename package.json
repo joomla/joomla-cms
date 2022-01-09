@@ -94,7 +94,7 @@
     "karma-verbose-reporter": "^0.0.6",
     "postcss": "^8.4.4",
     "postcss-scss": "^4.0.2",
-    "postcss-url-version": "0.0.5",
+    "postcss-url-version": "1.0.3",
     "recursive-readdir": "^2.2.2",
     "rimraf": "^3.0.2",
     "rollup": "^2.61.1",
