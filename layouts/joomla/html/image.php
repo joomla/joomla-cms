@@ -6,6 +6,7 @@
  * @copyright   (C) 2022 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+defined('_JEXEC') or die;
 
 /**
  * Layout variables
@@ -14,7 +15,6 @@
  *                             Eg: src, class, alt, width, height, loading, decoding, style, data-*
  *                             Note: only the alt and src attributes are escaped by default!
  */
-defined('_JEXEC') or die;
 
 if (isset($displayData['src']))
 {
