@@ -301,7 +301,6 @@ abstract class ModArticlesCategoryHelper
 
 			if ($show_introtext)
 			{
-				
 				$item->introtext = self::_cleanIntrotext($item->introtext);
 				$item->introtext=  self::truncate($item->introtext, $introtext_limit);
 				$item->introtext = JHtml::_('content.prepare', $item->introtext, '', 'mod_articles_category.content');
