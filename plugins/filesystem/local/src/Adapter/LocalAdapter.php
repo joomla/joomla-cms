@@ -966,6 +966,7 @@ class LocalAdapter implements AdapterInterface
 				'media/cache/com_media/thumbs/' . $this->filePath,
 				$path
 			);
+
 			return [
 				'fs'  => $fs,
 				'url' => $url,
