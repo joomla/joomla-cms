@@ -33,7 +33,6 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  * @package SimplePie
- * @version 1.3.1
  * @copyright 2004-2012 Ryan Parman, Geoffrey Sneddon, Ryan McCue
  * @author Ryan Parman
  * @author Geoffrey Sneddon
@@ -247,6 +246,11 @@ class SimplePie_Sanitize
 			if ($type & (SIMPLEPIE_CONSTRUCT_HTML | SIMPLEPIE_CONSTRUCT_XHTML))
 			{
 
+				if (!class_exists('DOMDocument'))
+				{
+					$this->registry->call('Misc', 'error', array('DOMDocument not found, unable to use sanitizer', E_USER_WARNING, __FILE__, __LINE__));
+					return '';
+				}
 				$document = new DOMDocument();
 				$document->encoding = 'UTF-8';
 				$data = $this->preprocess($data, $type);

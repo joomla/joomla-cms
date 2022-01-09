@@ -2,7 +2,7 @@
 /**
  * Part of the Joomla Framework Filesystem Package
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -249,7 +249,7 @@ class Stream
 		}
 		elseif ($detectprocessingmode)
 		{
-			$ext = strtolower(pathinfo($this->filename, PATHINFO_EXTENSION));
+			$ext = strtolower(pathinfo($this->filename, \PATHINFO_EXTENSION));
 
 			switch ($ext)
 			{
@@ -668,7 +668,7 @@ class Stream
 	 * @since   1.0
 	 * @throws  FilesystemException
 	 */
-	public function seek($offset, $whence = SEEK_SET)
+	public function seek($offset, $whence = \SEEK_SET)
 	{
 		if (!$this->fh)
 		{
@@ -881,7 +881,7 @@ class Stream
 		$php_errormsg = '';
 		$trackErrors  = ini_get('track_errors');
 		ini_set('track_errors', true);
-		$sch = parse_url($filename, PHP_URL_SCHEME);
+		$sch = parse_url($filename, \PHP_URL_SCHEME);
 
 		// Scheme specific options; ftp's chmod support is fun.
 		switch ($sch)
@@ -1071,7 +1071,7 @@ class Stream
 	 * @since   1.0
 	 * @throws  FilesystemException
 	 */
-	public function appendFilter($filtername, $readWrite = STREAM_FILTER_READ, $params = array())
+	public function appendFilter($filtername, $readWrite = \STREAM_FILTER_READ, $params = array())
 	{
 		$res = false;
 
@@ -1111,7 +1111,7 @@ class Stream
 	 * @since   1.0
 	 * @throws  FilesystemException
 	 */
-	public function prependFilter($filtername, $readWrite = STREAM_FILTER_READ, $params = array())
+	public function prependFilter($filtername, $readWrite = \STREAM_FILTER_READ, $params = array())
 	{
 		$res = false;
 

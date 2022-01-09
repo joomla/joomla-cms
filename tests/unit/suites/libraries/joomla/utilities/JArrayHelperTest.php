@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Utilities
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2013 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -1429,7 +1429,7 @@ class JArrayHelperTest extends \PHPUnit\Framework\TestCase
 	 *
 	 * @param   array   $input     Input array
 	 * @param   mixed   $index     Element to pull, either by association or number
-	 * @param   mixed   $default   The defualt value, if element not present
+	 * @param   mixed   $default   The default value, if element not present
 	 * @param   string  $type      The type of value returned
 	 * @param   array   $expect    The expected results
 	 * @param   string  $message   The failure message

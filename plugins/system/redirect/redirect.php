@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  System.redirect
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2009 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -284,6 +284,18 @@ class PlgSystemRedirect extends JPlugin
 
 				// In case the url contains double // lets remove it
 				$destination = str_replace(JUri::root() . '/', JUri::root(), $dest);
+
+				// Always count redirect hits
+				$redirect->hits++;
+
+				try
+				{
+					$db->updateObject('#__redirect_links', $redirect, 'id');
+				}
+				catch (Exception $e)
+				{
+					// We don't log issues for now
+				}
 
 				$app->redirect($destination, (int) $redirect->header);
 			}

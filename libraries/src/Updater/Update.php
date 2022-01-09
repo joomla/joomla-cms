@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2008 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -217,6 +217,14 @@ class Update extends \JObject
 	protected $minimum_stability = Updater::STABILITY_STABLE;
 
 	/**
+	 * Array with compatible versions used by the pre-update check
+	 *
+	 * @var    array
+	 * @since  3.10.2
+	 */
+	protected $compatibleVersions = array();
+
+	/**
 	 * Gets the reference to the current direct parent
 	 *
 	 * @return  object
@@ -411,14 +419,13 @@ class Update extends \JObject
 
 					if ($phpMatch && $stabilityMatch && $dbMatch)
 					{
-						if (isset($this->latest))
+						if (!empty($this->currentUpdate->downloadurl) && !empty($this->currentUpdate->downloadurl->_data))
 						{
-							if (version_compare($this->currentUpdate->version->_data, $this->latest->version->_data, '>') == 1)
-							{
-								$this->latest = $this->currentUpdate;
-							}
+							$this->compatibleVersions[] = $this->currentUpdate->version->_data;
 						}
-						else
+
+						if (!isset($this->latest)
+							|| version_compare($this->currentUpdate->version->_data, $this->latest->version->_data, '>'))
 						{
 							$this->latest = $this->currentUpdate;
 						}
@@ -489,14 +496,14 @@ class Update extends \JObject
 	/**
 	 * Loads an XML file from a URL.
 	 *
-	 * @param   string  $url                The URL.
-	 * @param   int     $minimum_stability  The minimum stability required for updating the extension {@see Updater}
+	 * @param   string  $url               The URL.
+	 * @param   int     $minimumStability  The minimum stability required for updating the extension {@see Updater}
 	 *
 	 * @return  boolean  True on success
 	 *
 	 * @since   1.7.0
 	 */
-	public function loadFromXml($url, $minimum_stability = Updater::STABILITY_STABLE)
+	public function loadFromXml($url, $minimumStability = Updater::STABILITY_STABLE)
 	{
 		$version    = new Version;
 		$httpOption = new Registry;
@@ -520,7 +527,7 @@ class Update extends \JObject
 			return false;
 		}
 
-		$this->minimum_stability = $minimum_stability;
+		$this->minimum_stability = $minimumStability;
 
 		$this->xmlParser = xml_parser_create('');
 		xml_set_object($this->xmlParser, $this);

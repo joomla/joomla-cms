@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2005 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -569,7 +569,7 @@ class ModuleAdapter extends InstallerAdapter
 
 		$this->parent->setPath('source', $this->parent->getPath('extension_root'));
 
-		// Get the module's manifest objecct
+		// Get the module's manifest object
 		// We do findManifest to avoid problem when uninstalling a list of extensions: getManifest cache its manifest file.
 		$this->parent->findManifest();
 		$this->setManifest($this->parent->getManifest());

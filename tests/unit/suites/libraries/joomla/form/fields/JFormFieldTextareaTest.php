@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Form
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2013 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -79,7 +79,7 @@ class JFormFieldTextareaTest extends TestCase
 	}
 
 	/**
-	 * Tests rows and columns attribute setup by JFormFieldTextare::setup method
+	 * Tests rows and columns attribute setup by JFormFieldTextarea::setup method
 	 *
 	 * @covers JFormField::setup
 	 * @covers JFormField::__get

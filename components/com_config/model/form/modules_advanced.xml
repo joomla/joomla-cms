@@ -10,6 +10,7 @@
 				label="COM_MODULES_FIELD_MODULE_TAG_LABEL"
 				description="COM_MODULES_FIELD_MODULE_TAG_DESC"
 				default="div"
+				validate="options"
 			/>
 
 			<field
@@ -28,6 +29,7 @@
 				label="COM_MODULES_FIELD_HEADER_TAG_LABEL"
 				description="COM_MODULES_FIELD_HEADER_TAG_DESC"
 				default="h3"
+				validate="options"
 			/>
 
 			<field

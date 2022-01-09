@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Database
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2005 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -191,7 +191,10 @@ class JDatabaseDriverMysqli extends JDatabaseDriver
 		// Disable query cache and turn profiling ON in debug mode.
 		if ($this->debug)
 		{
-			mysqli_query($this->connection, 'SET query_cache_type = 0;');
+			if ($this->hasQueryCacheEnabled())
+			{
+				mysqli_query($this->connection, 'SET query_cache_type = 0;');
+			}
 
 			if ($this->hasProfiling())
 			{
@@ -940,6 +943,28 @@ class JDatabaseDriverMysqli extends JDatabaseDriver
 			$row = mysqli_fetch_assoc($res);
 
 			return isset($row);
+		}
+		catch (Exception $e)
+		{
+			return false;
+		}
+	}
+
+	/**
+	 * Internal function to check if query cache is enabled.
+	 *
+	 * @return  boolean
+	 *
+	 * @since   3.9.25
+	 */
+	private function hasQueryCacheEnabled()
+	{
+		try
+		{
+			$res = mysqli_query($this->connection, "SHOW VARIABLES LIKE 'query_cache_type'");
+			$row = mysqli_fetch_assoc($res);
+
+			return isset($row['Value']) && $row['Value'] === 'ON';
 		}
 		catch (Exception $e)
 		{

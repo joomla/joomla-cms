@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Observer
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2013 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -33,7 +33,7 @@ class JObserverUpdater implements JObserverUpdaterInterface
 	protected $observers = array();
 
 	/**
-	 * Process observers (useful when a class extends significantly an observerved method, and calls observers itself
+	 * Process observers (useful when a class extends significantly an observed method, and calls observers itself
 	 *
 	 * @var    boolean
 	 * @since  3.1.2

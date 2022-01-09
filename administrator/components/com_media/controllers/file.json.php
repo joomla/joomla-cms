@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_media
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2010 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -84,7 +84,7 @@ class MediaControllerFile extends JControllerLegacy
 			$fileparts['filename'] = JStringPunycode::toPunycode($fileparts['filename']);
 			$tempExt = !empty($fileparts['extension']) ? strtolower($fileparts['extension']) : '';
 
-			// Transform filename to punycode, then neglect otherthan non-alphanumeric characters & underscores. Also transform extension to lowercase
+			// Transform filename to punycode, then neglect other than non-alphanumeric characters & underscores. Also transform extension to lowercase
 			$safeFileName = preg_replace(array("/[\\s]/", '/[^a-zA-Z0-9_\-]/'), array('_', ''), $fileparts['filename']) . '.' . $tempExt;
 
 			// Create filepath with safe-filename

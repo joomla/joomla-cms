@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2006 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -133,10 +133,5 @@ $afterDisplayContent = trim(implode("\n", $results));
 				<p class="counter pull-right"> <?php echo $this->pagination->getPagesCounter(); ?> </p>
 			<?php endif; ?>
 			<?php echo $this->pagination->getPagesLinks(); ?> </div>
-	<?php endif; ?>
-
-	<?php // Code to add a link to submit an article. ?>
-	<?php if ($this->category->getParams()->get('access-create')) : ?>
-		<?php echo JHtml::_('icon.create', $this->category, $this->category->params); ?>
 	<?php endif; ?>
 </div>

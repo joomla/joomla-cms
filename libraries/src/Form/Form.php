@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2009 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -10,7 +10,6 @@ namespace Joomla\CMS\Form;
 
 defined('JPATH_PLATFORM') or die;
 
-use Joomla\CMS\Form\Factory\LegacyFormFactory;
 use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
 
@@ -78,7 +77,7 @@ class Form
 	protected static $forms = array();
 
 	/**
-	 * Alows extensions to implement repeating elements
+	 * Allows extensions to implement repeating elements
 	 *
 	 * @var    boolean
 	 * @since  3.2
@@ -620,7 +619,7 @@ class Form
 	 * @param   string  $group    The optional dot-separated form group path on which to get the value.
 	 * @param   mixed   $default  The optional default value of the field value is empty.
 	 *
-	 * @return  string  A string containing the html for the control goup
+	 * @return  string  A string containing the html for the control group
 	 *
 	 * @since      3.2
 	 * @deprecated 3.2.3  Use renderField() instead of getControlGroup
@@ -637,7 +636,7 @@ class Form
 	 *
 	 * @param   string  $name  The name of the fieldset for which to get the values.
 	 *
-	 * @return  string  A string containing the html for the control goups
+	 * @return  string  A string containing the html for the control groups
 	 *
 	 * @since      3.2
 	 * @deprecated 3.2.3 Use renderFieldset() instead of getControlGroups
@@ -1563,6 +1562,18 @@ class Form
 				{
 					$field   = $this->loadField($element);
 					$subForm = $field->loadSubForm();
+
+					// Subform field may have a default value, that is a JSON string
+					if ($value && is_string($value))
+					{
+						$value = json_decode($value, true);
+
+						// The string is invalid json
+						if (!$value)
+						{
+							return null;
+						}
+					}
 
 					if ($field->multiple)
 					{

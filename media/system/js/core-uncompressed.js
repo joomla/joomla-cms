@@ -1,5 +1,5 @@
 /**
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2009 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -310,6 +310,7 @@ Joomla.editors.instances = Joomla.editors.instances || {
 	/**
 	 * Render messages send via JSON
 	 * Used by some javascripts such as validate.js
+	 * PLEASE NOTE: do NOT use user supplied input in messages as potential HTML markup is NOT sanitized!
 	 *
 	 * @param   {object}  messages    JavaScript object containing the messages to render. Example:
 	 *                              var messages = {
@@ -487,11 +488,9 @@ Joomla.editors.instances = Joomla.editors.instances || {
 	 *
 	 * Pops up a new window in the middle of the screen
 	 *
-	 * @deprecated  4.0 No replacement
+	 * @note  This will be moved out of core.js into a new file toolbar.js in Joomla 4
 	 */
 	Joomla.popupWindow = function( mypage, myname, w, h, scroll ) {
-		console.warn('Joomla.popupWindow() is deprecated without a replacement!');
-
 		var winl = ( screen.width - w ) / 2,
 		    wint = ( screen.height - h ) / 2,
 		    winprops = 'height=' + h +
@@ -960,7 +959,7 @@ Joomla.editors.instances = Joomla.editors.instances || {
 					xhr.setRequestHeader('X-CSRF-Token', token);
 				}
 
-				if (!options.headers || !options.headers['Content-Type']) {
+				if (typeof(options.data) === 'string' && (!options.headers || !options.headers['Content-Type'])) {
 					xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
 				}
 			}

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  Template.hathor
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2012 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -25,7 +25,7 @@ JHtml::_('behavior.keepalive');
 					<label for="mod-login-secretkey">
 						<?php echo JText::_('JGLOBAL_SECRETKEY'); ?>
 					</label>
-					<input name="secretkey" autocomplete="off" tabindex="3" id="mod-login-secretkey" type="text" class="input-medium" size="15"/>
+					<input name="secretkey" autocomplete="one-time-code" tabindex="3" id="mod-login-secretkey" type="text" class="input-medium" size="15"/>
 				</div>
 			</div>
 		<?php endif; ?>

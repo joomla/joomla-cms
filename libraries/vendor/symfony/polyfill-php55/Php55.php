@@ -43,6 +43,7 @@ final class Php55
         // Pre-hash for optimization if password length > hash length
         $hashLength = \strlen(hash($algorithm, '', true));
         switch ($algorithm) {
+            case 'sha1':
             case 'sha224':
             case 'sha256':
                 $blockSize = 64;

@@ -2,7 +2,7 @@
 /**
  * Part of the Joomla Framework Filesystem Package
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -18,50 +18,72 @@ class Patcher
 {
 	/**
 	 * Regular expression for searching source files
+	 *
+	 * @var    string
+	 * @since  1.0
 	 */
 	const SRC_FILE = '/^---\\s+(\\S+)\s+\\d{1,4}-\\d{1,2}-\\d{1,2}\\s+\\d{1,2}:\\d{1,2}:\\d{1,2}(\\.\\d+)?\\s+(\+|-)\\d{4}/A';
 
 	/**
 	 * Regular expression for searching destination files
+	 *
+	 * @var    string
+	 * @since  1.0
 	 */
 	const DST_FILE = '/^\\+\\+\\+\\s+(\\S+)\s+\\d{1,4}-\\d{1,2}-\\d{1,2}\\s+\\d{1,2}:\\d{1,2}:\\d{1,2}(\\.\\d+)?\\s+(\+|-)\\d{4}/A';
 
 	/**
 	 * Regular expression for searching hunks of differences
+	 *
+	 * @var    string
+	 * @since  1.0
 	 */
 	const HUNK = '/@@ -(\\d+)(,(\\d+))?\\s+\\+(\\d+)(,(\\d+))?\\s+@@($)/A';
 
 	/**
 	 * Regular expression for splitting lines
+	 *
+	 * @var    string
+	 * @since  1.0
 	 */
 	const SPLIT = '/(\r\n)|(\r)|(\n)/';
 
 	/**
-	 * @var    array  sources files
+	 * Source files
+	 *
+	 * @var    array
 	 * @since  1.0
 	 */
 	protected $sources = array();
 
 	/**
-	 * @var    array  destination files
+	 * Destination files
+	 *
+	 * @var    array
 	 * @since  1.0
 	 */
 	protected $destinations = array();
 
 	/**
-	 * @var    array  removal files
+	 * Removal files
+	 *
+	 * @var    array
 	 * @since  1.0
 	 */
 	protected $removals = array();
 
 	/**
-	 * @var    array  patches
+	 * Patches
+	 *
+	 * @var    array
 	 * @since  1.0
 	 */
 	protected $patches = array();
 
 	/**
-	 * @var    array  instance of this class
+	 * Singleton instance of this class
+	 *
+	 * @var    Patcher
 	 * @since  1.0
 	 */
 	protected static $instance;
@@ -235,7 +257,7 @@ class Patcher
 	{
 		$this->patches[] = array(
 			'udiff' => $udiff,
-			'root'  => isset($root) ? rtrim($root, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR : '',
+			'root'  => isset($root) ? rtrim($root, \DIRECTORY_SEPARATOR) . \DIRECTORY_SEPARATOR : '',
 			'strip' => $strip,
 		);
 
