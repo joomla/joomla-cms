@@ -197,6 +197,8 @@ JS
 	 */
 	private function _getCommand($url)
 	{
+		$url = $url ?? '';
+
 		if (strpos($url, 'http') !== 0)
 		{
 			$url = Uri::base() . $url;

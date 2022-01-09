@@ -520,7 +520,7 @@ class TemplateModel extends FormModel
 		}
 		elseif (stristr($type, 'layouts') !== false)
 		{
-			// For Jlayouts
+			// For Layouts
 			$subtype = $explodeArray['3'];
 
 			if (stristr($subtype, 'com_'))

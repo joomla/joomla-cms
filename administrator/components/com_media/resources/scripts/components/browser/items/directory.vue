@@ -112,6 +112,14 @@ export default {
       showActions: false,
     };
   },
+  watch: {
+    // eslint-disable-next-line
+    '$store.state.showRenameModal'(show) {
+      if (!show && this.$refs.actionToggle && this.$store.state.selectedItems.find((item) => item.name === this.item.name) !== undefined) {
+        this.$refs.actionToggle.focus();
+      }
+    },
+  },
   methods: {
     /* Handle the on preview double click event */
     onPreviewDblClick() {
@@ -125,6 +133,7 @@ export default {
     },
     /* Rename an item */
     openRenameModal() {
+      this.hideActions();
       this.$store.commit(types.SELECT_BROWSER_ITEM, this.item);
       this.$store.commit(types.SHOW_RENAME_MODAL);
     },
@@ -141,8 +150,6 @@ export default {
     /* Hide actions dropdown */
     hideActions() {
       this.showActions = false;
-      // eslint-disable-next-line no-unused-expressions
-      this.$nextTick(() => { this.$refs.actionToggle ? this.$refs.actionToggle.focus() : false; });
     },
   },
 };

@@ -414,7 +414,7 @@ class FieldModel extends AdminModel
 	 * @param   string  $prefix   The class prefix. Optional.
 	 * @param   array   $options  Configuration array for model. Optional.
 	 *
-	 * @return  Table  A JTable object
+	 * @return  Table  A Table object
 	 *
 	 * @since   3.7.0
 	 * @throws  \Exception
@@ -504,7 +504,7 @@ class FieldModel extends AdminModel
 	 * @param   array    $data      Data for the form.
 	 * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
 	 *
-	 * @return  mixed  A \JForm object on success, false on failure
+	 * @return  Form|bool  A Form object on success, false on failure
 	 *
 	 * @since   3.7.0
 	 */
@@ -895,7 +895,7 @@ class FieldModel extends AdminModel
 	/**
 	 * A protected method to get a set of ordering conditions.
 	 *
-	 * @param   Table  $table  A JTable object.
+	 * @param   Table  $table  A Table object.
 	 *
 	 * @return  array  An array of conditions to add to ordering queries.
 	 *
@@ -985,15 +985,17 @@ class FieldModel extends AdminModel
 	/**
 	 * Method to allow derived classes to preprocess the form.
 	 *
-	 * @param   \JForm  $form   A JForm object.
+	 * @param   Form    $form   A Form object.
 	 * @param   mixed   $data   The data expected for the form.
 	 * @param   string  $group  The name of the plugin group to import (defaults to "content").
 	 *
 	 * @return  void
 	 *
-	 * @see     \Joomla\CMS\Form\FormField
 	 * @since   3.7.0
+	 *
 	 * @throws  \Exception if there is an error in the form event.
+	 *
+	 * @see     \Joomla\CMS\Form\FormField
 	 */
 	protected function preprocessForm(Form $form, $data, $group = 'content')
 	{
