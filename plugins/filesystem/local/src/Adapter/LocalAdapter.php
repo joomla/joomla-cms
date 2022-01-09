@@ -267,6 +267,11 @@ class LocalAdapter implements AdapterInterface
 		{
 			$thumbPaths = $this->getLocalThumbPaths($localPath);
 
+			if (empty($thumbPaths))
+			{
+				return $name;
+			}
+
 			if (!is_dir(dirname($thumbPaths['fs'])))
 			{
 				mkdir(dirname($thumbPaths['fs']), 0755, true);
@@ -308,6 +313,11 @@ class LocalAdapter implements AdapterInterface
 		{
 			$thumbPaths = $this->getLocalThumbPaths($localPath);
 
+			if (empty($thumbPaths['fs']))
+			{
+				return;
+			}
+
 			if (!is_dir(dirname($thumbPaths['fs'])))
 			{
 				mkdir(dirname($thumbPaths['fs']), 0755, true);
@@ -340,7 +350,7 @@ class LocalAdapter implements AdapterInterface
 				throw new FileNotFoundException;
 			}
 
-			if ($this->thumbs && is_file($thumbPaths['fs']))
+			if ($this->thumbs && !empty($thumbPaths['fs']) && is_file($thumbPaths['fs']))
 			{
 				File::delete($thumbPaths['fs']);
 			}
@@ -354,9 +364,9 @@ class LocalAdapter implements AdapterInterface
 				throw new FileNotFoundException;
 			}
 
-			if ($this->thumbs && is_dir($thumbPaths['fs]']))
+			if ($this->thumbs && !empty($thumbPaths['fs']) && is_dir($thumbPaths['fs']))
 			{
-				Folder::delete($thumbPaths['fs]']);
+				Folder::delete($thumbPaths['fs']);
 			}
 
 			$success = Folder::delete($localPath);
@@ -937,7 +947,6 @@ class LocalAdapter implements AdapterInterface
 		}
 	}
 
-
 	/**
 	 * Returns the local filesystem thumbnail path for the given path.
 	 *
@@ -991,7 +1000,13 @@ class LocalAdapter implements AdapterInterface
 	private function getThumb(string $path): string
 	{
 		$thumbPaths = $this->getLocalThumbPaths($path);
-		$dir        = dirname($thumbPaths['fs']);
+
+		if (empty($thumbPaths['fs']))
+		{
+			return $this->getUrl($path);
+		}
+
+		$dir = dirname($thumbPaths['fs']);
 
 		if (!is_dir($dir))
 		{
