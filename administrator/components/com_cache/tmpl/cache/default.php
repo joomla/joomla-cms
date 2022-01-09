@@ -16,10 +16,6 @@ use Joomla\CMS\Router\Route;
 
 HTMLHelper::_('behavior.multiselect');
 
-/** @var \Joomla\CMS\WebAsset\WebAssetManager $wa */
-$wa = $this->document->getWebAssetManager();
-$wa->useScript('table.columns');
-
 /** @var \Joomla\Component\Cache\Administrator\View\Cache\HtmlView $this */
 
 $listOrder = $this->escape($this->state->get('list.ordering'));
@@ -28,6 +24,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
 $wa = $this->document->getWebAssetManager();
 $wa->useScript('keepalive')
+	->useScript('table.columns')
 	->useScript('com_cache.admin-cache');
 
 ?>
