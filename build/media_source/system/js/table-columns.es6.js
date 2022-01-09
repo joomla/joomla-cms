@@ -21,9 +21,9 @@ class TableColumns {
         if ($el.nodeName === 'TH') {
           this.protectedCols.push(index);
 
-          // Make sure in not in the list of hidden
+          // Make sure its not in the list of hidden
           const ih = this.listOfHidden.indexOf(index);
-          if (ih !== -1){
+          if (ih !== -1) {
             this.listOfHidden.splice(ih, 1);
           }
         }
@@ -66,8 +66,8 @@ class TableColumns {
 
     // Collect a list of headers for dropdown
     this.$headers.forEach(($el, index) => {
-      // Skip the protected columns
-      if (this.protectedCols.indexOf(index) !== -1) return;
+      // Skip the first column as we dont want to display the checkboxes
+      if (index === 0) return;
 
       const $li = document.createElement('li');
       const $label = document.createElement('label');
@@ -76,6 +76,7 @@ class TableColumns {
       $input.type = 'checkbox';
       $input.name = 'column';
       $input.checked = this.listOfHidden.indexOf(index) === -1;
+      $input.disabled = this.protectedCols.indexOf(index) !== -1;
       $input.value = index;
 
       // Find the header name
@@ -127,7 +128,8 @@ class TableColumns {
    * Update button text
    */
   updateCounter() {
-    const total = this.$headers.length - this.protectedCols.length;
+    // Don't count the checkboxes column in the total
+    const total = this.$headers.length - 1;
     const visible = total - this.listOfHidden.length;
 
     this.$button.textContent = `${visible}/${total} ${Joomla.Text._('JGLOBAL_COLUMNS')}`;
