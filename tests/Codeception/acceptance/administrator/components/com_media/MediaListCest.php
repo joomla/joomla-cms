@@ -12,9 +12,9 @@ use Page\Acceptance\Administrator\MediaListPage;
 use Step\Acceptance\Administrator\Media;
 
 /*
- * TODO test d&d upload of files
- * TODO test download of files
- * TODO enable skipped tests
+ * @todo test d&d upload of files
+ * @todo test download of files
+ * @todo enable skipped tests
  */
 
 /**
