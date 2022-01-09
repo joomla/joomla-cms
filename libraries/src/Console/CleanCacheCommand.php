@@ -10,6 +10,7 @@ namespace Joomla\CMS\Console;
 
 \defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Cache\CacheControllerFactoryInterface;
 use Joomla\CMS\Factory;
 use Joomla\Console\Command\AbstractCommand;
 use Symfony\Component\Console\Command\Command;
@@ -48,7 +49,7 @@ class CleanCacheCommand extends AbstractCommand
 
 		$symfonyStyle->title('Cleaning System Cache');
 
-		Factory::getCache()->gc();
+		Factory::getContainer()->get(CacheControllerFactoryInterface::class)->createCacheController()->gc();
 
 		$symfonyStyle->success('Cache cleaned');
 
