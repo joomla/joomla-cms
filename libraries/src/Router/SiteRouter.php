@@ -136,7 +136,7 @@ class SiteRouter extends Router
 		/**
 		 * In some environments (e.g. CLI we can't form a valid base URL). In this case we catch the exception thrown
 		 * by URI and set an empty base URI for further work.
-		 * TODO: This should probably be handled better
+		 * @todo: This should probably be handled better
 		 */
 		try
 		{
