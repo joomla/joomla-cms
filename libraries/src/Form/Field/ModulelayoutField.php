@@ -76,7 +76,7 @@ class ModulelayoutField extends FormField
 		if ($this->form instanceof Form)
 		{
 			$template_style_id = $this->form->getValue('template_style_id', null, 0);
-			$template_style_id = (int) preg_replace('#\W#', '', $template_style_id ?? '');
+			$template_style_id = (int) preg_replace('#\W#', '', $template_style_id);
 		}
 
 		// If an extension and view are present build the options.

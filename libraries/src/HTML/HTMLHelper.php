@@ -747,11 +747,6 @@ abstract class HTMLHelper
 	 */
 	public static function image($file, $alt, $attribs = null, $relative = false, $returnPath = 0)
 	{
-		if ($attribs === null)
-		{
-			$attribs = '';
-		}
-
 		$returnPath = (int) $returnPath;
 
 		if (strpos($file, '?') !== false)
