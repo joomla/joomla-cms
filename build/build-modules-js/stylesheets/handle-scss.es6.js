@@ -5,6 +5,7 @@ const { ensureDir } = require('fs-extra');
 const { dirname, sep } = require('path');
 const Postcss = require('postcss');
 const Sass = require('sass');
+const UrlVersion = require('postcss-url-version');
 
 module.exports.handleScssFile = async (file) => {
   const cssFile = file.replace(`${sep}scss${sep}`, `${sep}css${sep}`)
@@ -21,8 +22,8 @@ module.exports.handleScssFile = async (file) => {
   }
 
   // Auto prefixing
-  const cleaner = Postcss([Autoprefixer()]);
-  const res = await cleaner.process(compiled.css.toString(), { from: undefined });
+  const cleaner = Postcss([Autoprefixer, UrlVersion]);
+  const res = await cleaner.process(compiled.css, { from: undefined });
 
   // Ensure the folder exists or create it
   await ensureDir(dirname(cssFile), {});

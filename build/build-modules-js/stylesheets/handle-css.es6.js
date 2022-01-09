@@ -5,6 +5,7 @@ const { dirname, sep } = require('path');
 const Postcss = require('postcss');
 const Autoprefixer = require('autoprefixer');
 const CssNano = require('cssnano');
+const UrlVersion = require('postcss-url-version');
 
 module.exports.handleCssFile = async (file) => {
   const outputFile = file.replace(`${sep}build${sep}media_source${sep}`, `${sep}media${sep}`);
@@ -17,8 +18,12 @@ module.exports.handleCssFile = async (file) => {
       await copy(file, outputFile, { preserveTimestamps: true, overwrite: true });
     }
 
-    const content = await readFile(file, { encoding: 'utf8' });
-    const cssMin = await Postcss([Autoprefixer, CssNano]).process(content, { from: undefined });
+    const content = await readFile(file, { encoding: 'utf8' }); // , UrlVersion
+    const cssMin = await Postcss([
+      Autoprefixer,
+      CssNano,
+      UrlVersion,
+    ]).process(content, { from: undefined });
 
     // Ensure the folder exists or create it
     await writeFile(outputFile.replace('.css', '.min.css'), cssMin.css.toString(), { encoding: 'utf8', mode: 0o644 });
