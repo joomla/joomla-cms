@@ -2,7 +2,7 @@ const Autoprefixer = require('autoprefixer');
 const CssNano = require('cssnano');
 const { writeFile } = require('fs').promises;
 const { ensureDir } = require('fs-extra');
-const { dirname, sep } = require('path');
+const { dirname, join, sep } = require('path');
 const Postcss = require('postcss');
 const Sass = require('sass');
 const UrlVersion = require('postcss-url-version');
@@ -23,7 +23,7 @@ module.exports.handleScssFile = async (file) => {
 
   // Auto prefixing
   const cleaner = Postcss([Autoprefixer, UrlVersion]);
-  const res = await cleaner.process(compiled.css, { from: undefined });
+  const res = await cleaner.process(compiled.css, { from: file.replace(`${sep}build${sep}media_source${sep}`, `${sep}media${sep}`) });
 
   // Ensure the folder exists or create it
   await ensureDir(dirname(cssFile), {});
@@ -33,7 +33,7 @@ module.exports.handleScssFile = async (file) => {
     { encoding: 'utf8', mode: 0o644 },
   );
 
-  const cssMin = await Postcss([CssNano]).process(res.css, { from: undefined });
+  const cssMin = await Postcss([CssNano]).process(res.css, { from: file.replace(`${sep}build${sep}media_source${sep}`, `${sep}media${sep}`) });
 
   // Ensure the folder exists or create it
   await ensureDir(dirname(cssFile.replace('.css', '.min.css')), {});
