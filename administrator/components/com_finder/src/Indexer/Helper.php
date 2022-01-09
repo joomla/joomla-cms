@@ -112,7 +112,7 @@ class Helper
 		$tokens = array();
 		$terms = $language->tokenise($input);
 
-		// TODO: array_filter removes any number 0's from the terms. Not sure this is entirely intended
+		// @todo: array_filter removes any number 0's from the terms. Not sure this is entirely intended
 		$terms = array_filter($terms);
 		$terms = array_values($terms);
 

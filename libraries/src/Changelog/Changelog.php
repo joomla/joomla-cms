@@ -355,7 +355,7 @@ class Changelog extends CMSObject
 
 		if ($response === null || $response->code !== 200)
 		{
-			// TODO: Add a 'mark bad' setting here somehow
+			// @todo: Add a 'mark bad' setting here somehow
 			Log::add(Text::sprintf('JLIB_UPDATER_ERROR_EXTENSION_OPEN_URL', $url), Log::WARNING, 'jerror');
 
 			return false;
