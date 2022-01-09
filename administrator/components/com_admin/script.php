@@ -7588,7 +7588,7 @@ class JoomlaInstallerScript
 			'/libraries/vendor/algo26-matthias/idna-convert/tests',
 			// From 4.0.3 to 4.0.4
 			'/templates/cassiopeia/images/system',
-			// From 4.0.5 to 4.1.0-beta1
+			// From 4.0.x to 4.1.0-beta1
 			'/templates/system/scss',
 			'/templates/system/css',
 			'/templates/cassiopeia/scss/vendor/metismenu',
