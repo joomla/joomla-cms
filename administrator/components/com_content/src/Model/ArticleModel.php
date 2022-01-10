@@ -499,7 +499,9 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
 		$record = new \stdClass;
 
 		// Get ID of the article from input, for frontend, we use a_id while backend uses id
-		$articleIdFromInput = (int) $app->input->getInt('a_id') ?: $app->input->getInt('id', 0);
+		$articleIdFromInput = $app->isClient('site')
+			? $app->input->getInt('a_id', 0)
+			: $app->input->getInt('id', 0);
 
 		// On edit article, we get ID of article from article.id state, but on save, we use data from input
 		$id = (int) $this->getState('article.id', $articleIdFromInput);

@@ -107,7 +107,6 @@ abstract class DaemonApplication extends CliApplication
 	 *                                            the application's event dispatcher, if it is null then the default event dispatcher
 	 *                                            will be created based on the application's loadDispatcher() method.
 	 *
-	 * @see     JApplicationBase::loadDispatcher()
 	 * @since   1.7.0
 	 */
 	public function __construct(Cli $input = null, Registry $config = null, DispatcherInterface $dispatcher = null)
@@ -464,7 +463,7 @@ abstract class DaemonApplication extends CliApplication
 		}
 
 		// Change the user id for the process necessary.
-		if ($uid && (posix_getuid($file) != $uid) && (!@ posix_setuid($uid)))
+		if ($uid && (posix_getuid() != $uid) && (!@ posix_setuid($uid)))
 		{
 			Log::add('Unable to change user ownership of the process.', Log::ERROR);
 
@@ -472,7 +471,7 @@ abstract class DaemonApplication extends CliApplication
 		}
 
 		// Change the group id for the process necessary.
-		if ($gid && (posix_getgid($file) != $gid) && (!@ posix_setgid($gid)))
+		if ($gid && (posix_getgid() != $gid) && (!@ posix_setgid($gid)))
 		{
 			Log::add('Unable to change group ownership of the process.', Log::ERROR);
 

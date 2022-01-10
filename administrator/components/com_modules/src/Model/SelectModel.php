@@ -80,7 +80,7 @@ class SelectModel extends ListModel
 	/**
 	 * Build an SQL query to load the list data.
 	 *
-	 * @return  \JDatabaseQuery
+	 * @return  \Joomla\Database\DatabaseQuery
 	 */
 	protected function getListQuery()
 	{
@@ -160,7 +160,7 @@ class SelectModel extends ListModel
 
 		$items = ArrayHelper::sortObjects($items, 'name', 1, true, true);
 
-		// TODO: Use the cached XML from the extensions table?
+		// @todo: Use the cached XML from the extensions table?
 
 		return $items;
 	}

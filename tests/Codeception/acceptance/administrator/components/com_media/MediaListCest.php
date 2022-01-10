@@ -12,9 +12,9 @@ use Page\Acceptance\Administrator\MediaListPage;
 use Step\Acceptance\Administrator\Media;
 
 /*
- * TODO test d&d upload of files
- * TODO test download of files
- * TODO enable skipped tests
+ * @todo test d&d upload of files
+ * @todo test download of files
+ * @todo enable skipped tests
  */
 
 /**
@@ -259,6 +259,46 @@ class MediaListCest
 		$I->waitForMediaLoaded();
 		$I->seeInCurrentUrl(MediaListPage::$url);
 		$I->seeContents($this->contents['root']);
+	}
+
+	/**
+	 * Test that search is applied to the current list.
+	 *
+	 * @param   Media  $I
+	 *
+	 * @throws  Exception
+	 *
+	 * @since   4.1.0
+	 */
+	public function searchInFilesAndFolders(Media $I)
+	{
+		$I->wantToTest('that search is applied to the current list.');
+		$I->amOnPage(MediaListPage::$url);
+		$I->waitForMediaLoaded();
+		$I->fillField(MediaListPage::$searchInputField, 'joomla');
+		$I->seeElement(MediaListPage::$items);
+		$I->seeElement(MediaListPage::item('joomla_black.png'));
+		$I->dontSeeElement(MediaListPage::item('banners'));
+	}
+
+	/**
+	 * Test that search is cleared when navigating in the tree.
+	 *
+	 * @param   Media  $I
+	 *
+	 * @throws  Exception
+	 *
+	 * @since   4.1.0
+	 */
+	public function searchIsClearedOnNavigate(Media $I)
+	{
+		$I->wantToTest('that search is cleared when navigating in the tree.');
+		$I->amOnPage(MediaListPage::$url);
+		$I->waitForMediaLoaded();
+		$I->fillField(MediaListPage::$searchInputField, 'banner');
+		$I->doubleClick(MediaListPage::item('banners'));
+		$I->waitForMediaLoaded();
+		$I->seeInField(MediaListPage::$searchInputField, '');
 	}
 
 	/**

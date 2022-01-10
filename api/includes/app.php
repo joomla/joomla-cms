@@ -26,7 +26,7 @@ if (!defined('_JDEFINES'))
 require_once JPATH_BASE . '/includes/framework.php';
 
 // Set profiler start time and memory usage and mark afterLoad in the profiler.
-JDEBUG ? JProfiler::getInstance('Application')->setStart($startTime, $startMem)->mark('afterLoad') : null;
+JDEBUG && \Joomla\CMS\Profiler\Profiler::getInstance('Application')->setStart($startTime, $startMem)->mark('afterLoad');
 
 // Boot the DI container
 $container = \Joomla\CMS\Factory::getContainer();

@@ -12,6 +12,7 @@ namespace Joomla\Component\Categories\Api\Controller;
 \defined('_JEXEC') or die;
 
 use Joomla\CMS\MVC\Controller\ApiController;
+use Joomla\CMS\Table\Category;
 
 /**
  * The categories controller
@@ -50,11 +51,53 @@ class CategoriesController extends ApiController
 		$extension = $this->getExtensionFromInput();
 		$data['extension'] = $extension;
 
-		// TODO: This is a hack to drop the extension into the global input object - to satisfy how state is built
+		// @todo: This is a hack to drop the extension into the global input object - to satisfy how state is built
 		//       we should be able to improve this in the future
 		$this->input->set('extension', $extension);
 
 		return $data;
+	}
+
+	/**
+	 * Method to save a record.
+	 *
+	 * @param   integer  $recordKey  The primary key of the item (if exists)
+	 *
+	 * @return  integer  The record ID on success, false on failure
+	 *
+	 * @since   4.1.0
+	 */
+	protected function save($recordKey = null)
+	{
+		$recordId = parent::save($recordKey);
+
+		if (!$recordId)
+		{
+			return $recordId;
+		}
+
+		$data = $this->input->get('data', json_decode($this->input->json->getRaw(), true), 'array');
+
+		if (empty($data['location']))
+		{
+			return $recordId;
+		}
+
+		/** @var Category $category */
+		$category = $this->getModel('Category')->getTable('Category');
+		$category->load((int) $recordId);
+
+		$reference = $category->parent_id;
+
+		if (!empty($data['location_reference']))
+		{
+			$reference = (int) $data['location_reference'];
+		}
+
+		$category->setLocation($reference, $data['location']);
+		$category->store();
+
+		return $recordId;
 	}
 
 	/**

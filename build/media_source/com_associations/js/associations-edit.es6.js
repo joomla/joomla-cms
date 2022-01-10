@@ -17,7 +17,7 @@ Joomla = window.Joomla || {};
       if (el) {
         const attribute = el.getAttribute('for');
 
-        if (attribute.replace(new RegExp('_name$'), '') === `${formControl}_associations_${languageCode.replace('-', '_')}`) {
+        if (attribute.replace(/_name$/, '') === `${formControl}_associations_${languageCode.replace('-', '_')}`) {
           element.classList.add('hidden');
         }
       }

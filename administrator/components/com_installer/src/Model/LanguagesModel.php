@@ -207,7 +207,7 @@ class LanguagesModel extends ListModel
 	/**
 	 * Returns a record count for the updatesite.
 	 *
-	 * @param   \JDatabaseQuery|string  $query  The query.
+	 * @param   \Joomla\Database\DatabaseQuery|string  $query  The query.
 	 *
 	 * @return  integer  Number of rows for query.
 	 *
