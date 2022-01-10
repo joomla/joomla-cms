@@ -451,7 +451,7 @@ class ApiController extends BaseController
 
 		$data = $this->preprocessSaveData($data);
 
-		// TODO: Not the cleanest thing ever but it works...
+		// @todo: Not the cleanest thing ever but it works...
 		Form::addFormPath(JPATH_COMPONENT_ADMINISTRATOR . '/forms');
 
 		// Validate the posted data.

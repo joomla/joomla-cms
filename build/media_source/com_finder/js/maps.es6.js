@@ -10,7 +10,7 @@ Joomla = window.Joomla || {};
 
   document.addEventListener('DOMContentLoaded', () => {
     Joomla.submitbutton = (pressbutton) => {
-      // TODO replace with joomla-alert
+      // @todo replace with joomla-alert
       if (pressbutton === 'map.delete' && !window.confirm(Joomla.Text._('COM_FINDER_MAPS_CONFIRM_DELETE_PROMPT'))) {
         return false;
       }
