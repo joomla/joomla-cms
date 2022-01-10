@@ -597,7 +597,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 	 *
 	 * @since   3.2
 	 */
-	public function getRouter($name = null, array $options = array())
+	public function getRouter($name = null, array $options = [])
 	{
 		$app = Factory::getApplication();
 
