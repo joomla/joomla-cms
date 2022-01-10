@@ -2269,7 +2269,7 @@ class TemplateModel extends FormModel
 		}
 		catch (\Exception $e)
 		{
-			$app->enqueueMessage(Text::_('COM_TEMPLATES_ERROR_COULD_NOT_READ'), 'error');
+			$app->enqueueMessage(Text::_('COM_TEMPLATES_ERROR_STYLE_NOT_FOUND'), 'error');
 
 			return false;
 		}
