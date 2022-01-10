@@ -65,7 +65,7 @@ class CategoriesController extends ApiController
 	 *
 	 * @return  integer  The record ID on success, false on failure
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.6
 	 */
 	protected function save($recordKey = null)
 	{

@@ -1,11 +1,11 @@
 .media-breadcrumb {
   display: flex;
   padding: 0;
-  margin: 0 auto 0 0;
+  margin-inline-end: auto;
   font-size: .9rem;
   line-height: $toolbar-height;
   background: transparent;
-  border-left: 1px solid $border-color;
+  border-inline-start: 1px solid $border-color;
 
   ol {
     display: flex;
@@ -20,15 +20,16 @@
 }
 
 .media-breadcrumb-item {
-  padding: 0 8px 0 22px;
+  padding-inline-end: 8px;
+  padding-inline-start: 22px;
   background-color: $breadcrumbs-bg;
   &:first-of-type {
-    padding-left: 16px;
+    padding-inline-start: 16px;
   }
   &:last-of-type {
     background-color: $breadcrumbs-current-bg;
     &::after {
-      border-left-color: $breadcrumbs-current-bg;
+      border-inline-start-color: $breadcrumbs-current-bg;
     }
   }
   &:hover {
@@ -42,7 +43,7 @@
     position: absolute;
     top: 0;
     bottom: 0;
-    left: 100%;
+    inset-inline-start: 100%;
     z-index: 2;
     display: block;
     width: 0;
@@ -51,45 +52,12 @@
     content: "" !important;
     border-top: 23px solid transparent;
     border-bottom: 23px solid transparent;
-    border-left: 10px solid transparent;
+    border-inline-start: 10px solid transparent;
   }
   &::before {
-    border-left-color: $border-color;
+    border-inline-start-color: $border-color;
   }
   &::after {
-    border-left-color: $breadcrumbs-bg;
+    border-inline-start-color: $breadcrumbs-bg;
   }
-}
-
-.breadcrumb-item + .breadcrumb-item::before {
-  display: none;
-}
-
-// RTL override
-
-html[dir=rtl] .media-breadcrumb {
-  margin: 0 0 0 auto;
-}
-
-html[dir=rtl] .media-breadcrumb-item::after, .media-breadcrumb-item::before {
-  right: 100%;
-  border-right: 10px solid transparent;
-  border-left: 0;
-}
-
-html[dir=rtl] .media-breadcrumb-item {
-  padding: 0 22px 0 8px;
-}
-
-html[dir=rtl] .media-breadcrumb-item::before {
-  border-right-color: #fafafa;
-}
-
-html[dir=rtl] .media-breadcrumb-item:first-of-type {
-  padding-right: 16px;
-  padding-left: 0;
-}
-
-html[dir=rtl] .media-breadcrumb-item:last-of-type::after {
-  border-right: 10px solid #fff;
 }
