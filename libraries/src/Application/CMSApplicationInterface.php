@@ -8,6 +8,7 @@
 
 namespace Joomla\CMS\Application;
 
+use InvalidArgumentException;
 use Joomla\Application\ConfigurationAwareApplicationInterface;
 use Joomla\CMS\Extension\ExtensionManagerInterface;
 use Joomla\CMS\Language\Language;
@@ -177,7 +178,7 @@ interface CMSApplicationInterface extends ExtensionManagerInterface, Configurati
 	 * @return  Router
 	 *
 	 * @since   __DEPLOY_VERSION__
-	 * @throws  \InvalidArgumentException
+	 * @throws  InvalidArgumentException
 	 */
 	public static function getRouter($name = null, array $options = []]);
 
