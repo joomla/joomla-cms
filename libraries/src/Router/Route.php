@@ -132,7 +132,7 @@ class Route
 		{
 			$app = Factory::getApplication();
 
-			self::$_router[$client] = $app->getRouter($client);
+			self::$_router[$client] = $app::getRouter($client);
 		}
 
 		// Make sure that we have our router
