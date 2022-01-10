@@ -17,9 +17,7 @@ use Joomla\CMS\Layout\LayoutHelper;
 Factory::getDocument()->getWebAssetManager()->usePreset('choicesjs');
 
 // Generate a list of styles for the child creation modal
-$options = [
-	HTMLHelper::_('select.option', '0', Text::_('JNONE'), 'value', 'text'),
-];
+$options = [];
 
 if (count($this->styles) > 0)
 {
@@ -29,32 +27,32 @@ if (count($this->styles) > 0)
 }
 
 $fancySelectData = [
-	'autocomplete' => 'off',
-	'autofocus'    => false,
-	'class'        => '',
-	'description'  => '',
-	'disabled'     => false,
-	'group'        => false,
-	'id'           => 'style_ids',
-	'hidden'       => false,
-	'hint'         => '',
-	'label'        => '',
-	'labelclass'   => '',
-	'onchange'     => '',
-	'onclick'      => '',
-	'multiple'     => true,
-	'pattern'      => '',
-	'readonly'     => false,
-	'repeat'       => false,
-	'required'     => true,
-	'size'         => 4,
-	'spellcheck'   => false,
-	'validate'     => '',
-	'value'        => '0',
-	'options'      => $options,
+	'autocomplete'   => 'off',
+	'autofocus'      => false,
+	'class'          => '',
+	'description'    => '',
+	'disabled'       => false,
+	'group'          => false,
+	'id'             => 'style_ids',
+	'hidden'         => false,
+	'hint'           => '',
+	'label'          => '',
+	'labelclass'     => '',
+	'onchange'       => '',
+	'onclick'        => '',
+	'multiple'       => true,
+	'pattern'        => '',
+	'readonly'       => false,
+	'repeat'         => false,
+	'required'       => false,
+	'size'           => 4,
+	'spellcheck'     => false,
+	'validate'       => '',
+	'value'          => '0',
+	'options'        => $options,
 	'dataAttributes' => [],
-	'dataAttribute'	=> '',
-	'name'    => 'style_ids[]',
+	'dataAttribute'	 => '',
+	'name'           => 'style_ids[]',
 ];
 ?>
 <div id="template-manager-copy" class="container-fluid">

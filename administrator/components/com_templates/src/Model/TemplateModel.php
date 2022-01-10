@@ -28,6 +28,7 @@ use Joomla\CMS\Uri\Uri;
 use Joomla\Component\Templates\Administrator\Helper\TemplateHelper;
 use Joomla\Component\Templates\Administrator\Helper\TemplatesHelper;
 use Joomla\Database\ParameterType;
+use Joomla\Utilities\ArrayHelper;
 
 /**
  * Template model class.
@@ -2195,7 +2196,7 @@ class TemplateModel extends FormModel
 			|| !Folder::create($toPath . '/media/css')
 			|| !Folder::create($toPath . '/media/js')
 			|| !Folder::create($toPath . '/media/images')
-			|| !Folder::create($toPath . '/media/html')
+			|| !Folder::create($toPath . '/media/html/tinymce')
 			|| !Folder::create($toPath . '/media/scss')
 			)
 		{
@@ -2244,10 +2245,10 @@ class TemplateModel extends FormModel
 	 */
 	public function copyStyles()
 	{
-		$app        = Factory::getApplication();
-		$template   = $this->getTemplate();
-		$newName    = strtolower($this->getState('new_name'));
-		$applyStyle = $this->getState('stylesToCopy');
+		$app         = Factory::getApplication();
+		$template    = $this->getTemplate();
+		$newName     = strtolower($this->getState('new_name'));
+		$applyStyles = $this->getState('stylesToCopy');
 
 		// Get a db connection.
 		$db = $this->getDbo();
@@ -2256,11 +2257,9 @@ class TemplateModel extends FormModel
 		$query = $db->getQuery(true);
 
 		$query->select([$db->quoteName('title'), $db->quoteName('params')])
-			->from($db->quoteName('#__template_styles'));
-		foreach ($applyStyle as $style)
-		{
-			$query->where($db->quoteName('id') . ' = ' . $db->quote((int) $style), 'OR');
-		}
+			->from($db->quoteName('#__template_styles'))
+			->whereIn($db->quoteName('id'), ArrayHelper::toInteger($applyStyles));
+
 
 		// Reset the query using our newly populated query object.
 		$db->setQuery($query);
@@ -2282,7 +2281,7 @@ class TemplateModel extends FormModel
 
 			// Insert columns and values
 			$columns = ['id', 'template', 'client_id', 'home', 'title', 'inheritable', 'parent', 'params'];
-			$values = [0, $db->quote($template->element . '_' . $newName), $db->quote($template->client_id), 0, $db->quote(ucfirst($template->element . '_' . $newName . ' copy of ' . $style->title)), 0, $db->quote($template->element), $db->quote($style->params)];
+			$values = [0, $db->quote($template->element . '_' . $newName), (int) $template->client_id, 0, $db->quote(ucfirst($template->element . '_' . $newName . ' copy of ' . $style->title)), 0, $db->quote($template->element), $db->quote($style->params)];
 
 			$query
 				->insert($db->quoteName('#__template_styles'))
