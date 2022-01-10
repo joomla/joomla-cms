@@ -2197,8 +2197,7 @@ class TemplateModel extends FormModel
 			|| !Folder::create($toPath . '/media/js')
 			|| !Folder::create($toPath . '/media/images')
 			|| !Folder::create($toPath . '/media/html/tinymce')
-			|| !Folder::create($toPath . '/media/scss')
-			)
+			|| !Folder::create($toPath . '/media/scss'))
 		{
 			return false;
 		}
