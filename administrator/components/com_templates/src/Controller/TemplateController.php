@@ -1085,7 +1085,7 @@ class TemplateController extends BaseController
 		$this->setMessage(Text::sprintf('COM_TEMPLATES_CHILD_SUCCESS', $newName));
 		$model->cleanup();
 
-		if ($extraStyles > 0)
+		if (\count($extraStyles) > 0)
 		{
 			$model->setState('stylesToCopy', $extraStyles);
 			$model->copyStyles();
