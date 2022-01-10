@@ -2225,9 +2225,12 @@ class TemplateModel extends FormModel
 
 		$query->select($db->quoteName(['id', 'title']))
 			->from($db->quoteName('#__template_styles'))
-			->where($db->quoteName('client_id') . ' =' . $db->quote($template->client_id), 'AND')
-			->where($db->quoteName('template') . ' =' . $db->quote($template->element))
-			->orWhere($db->quoteName('parent') . ' = ' . $db->quote($template->element));
+			->where($db->quoteName('client_id') . ' = :client_id', 'AND')
+			->where($db->quoteName('template') . ' = :template')
+			->orWhere($db->quoteName('parent') . ' = :parent')
+			->bind(':client_id', $template->client_id, ParameterType::INTEGER)
+			->bind(':template', $template->element)
+			->bind(':parent', $template->element);
 
 		$db->setQuery($query);
 
