@@ -78,7 +78,7 @@ class BannerCest
 		$I->haveHttpHeader('Content-Type', 'application/json');
 		$I->haveHttpHeader('Accept', 'application/vnd.api+json');
 
-		// Category is a required field for this patch request for now TODO: Remove this dependency
+		// Category is a required field for this patch request for now @todo: Remove this dependency
 		$I->sendPATCH('/banners/' . $id, ['name' => 'Different Custom Advert', 'state' => -2, 'catid' => 3]);
 		$I->seeResponseCodeIs(HttpCode::OK);
 
