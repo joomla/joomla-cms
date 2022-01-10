@@ -2259,8 +2259,6 @@ class TemplateModel extends FormModel
 		$query->select([$db->quoteName('title'), $db->quoteName('params')])
 			->from($db->quoteName('#__template_styles'))
 			->whereIn($db->quoteName('id'), ArrayHelper::toInteger($applyStyles));
-
-
 		// Reset the query using our newly populated query object.
 		$db->setQuery($query);
 
