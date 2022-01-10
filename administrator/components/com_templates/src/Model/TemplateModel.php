@@ -2277,10 +2277,11 @@ class TemplateModel extends FormModel
 		foreach ($parentStyle as $style)
 		{
 			$query = $db->getQuery(true);
+			$styleName = Text::sprintf('COM_TEMPLATES_COPY_CHILD_TEMPLATE_STYLES', ucfirst($template->element . '_' . $newName), $style->title);
 
 			// Insert columns and values
 			$columns = ['id', 'template', 'client_id', 'home', 'title', 'inheritable', 'parent', 'params'];
-			$values = [0, $db->quote($template->element . '_' . $newName), (int) $template->client_id, $db->quote('0'), $db->quote(ucfirst($template->element . '_' . $newName . ' copy of ' . $style->title)), 0, $db->quote($template->element), $db->quote($style->params)];
+			$values = [0, $db->quote($template->element . '_' . $newName), (int) $template->client_id, $db->quote('0'), $db->quote($styleName), 0, $db->quote($template->element), $db->quote($style->params)];
 
 			$query
 				->insert($db->quoteName('#__template_styles'))
