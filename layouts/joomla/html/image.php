@@ -18,7 +18,7 @@ defined('_JEXEC') or die;
 
 if (isset($displayData['src']))
 {
-	$displayData['src'] = $this->escape($img->url);
+	$displayData['src'] = $this->escape($displayData['src']);
 }
 
 if (isset($displayData['alt']))
