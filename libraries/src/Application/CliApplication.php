@@ -10,6 +10,7 @@ namespace Joomla\CMS\Application;
 
 \defined('JPATH_PLATFORM') or die;
 
+use InvalidArgumentException;
 use Joomla\Application\AbstractApplication;
 use Joomla\CMS\Application\CLI\CliInput;
 use Joomla\CMS\Application\CLI\CliOutput;
@@ -17,6 +18,7 @@ use Joomla\CMS\Application\CLI\Output\Stdout;
 use Joomla\CMS\Extension\ExtensionManagerTrait;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Language;
+use Joomla\CMS\Router\Router;
 use Joomla\DI\Container;
 use Joomla\DI\ContainerAwareTrait;
 use Joomla\Event\DispatcherAwareInterface;
@@ -403,5 +405,28 @@ abstract class CliApplication extends AbstractApplication implements DispatcherA
 	public function isCli()
 	{
 		return true;
+	}
+
+	/**
+	 * Returns the application Router object.
+	 *
+	 * @param   string  $name     The name of the application.
+	 * @param   array   $options  An optional associative array of configuration settings.
+	 *
+	 * @return  Router
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 * @throws  \InvalidArgumentException
+	 */
+	public static function getRouter($name = null, array $options = [])
+	{
+		if (empty($name))
+		{
+			throw new InvalidArgumentException('A router name must be set in cli application.');
+		}
+
+		$options['mode'] = Factory::getApplication()->get('sef');
+
+		return Router::getInstance($name, $options);
 	}
 }
