@@ -180,7 +180,7 @@ interface CMSApplicationInterface extends ExtensionManagerInterface, Configurati
 	 * @since   __DEPLOY_VERSION__
 	 * @throws  InvalidArgumentException
 	 */
-	public static function getRouter($name = null, array $options = []]);
+	public static function getRouter($name = null, array $options = []);
 
 	/**
 	 * Allows the application to load a custom or default identity.
