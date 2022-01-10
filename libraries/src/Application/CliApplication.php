@@ -416,7 +416,7 @@ abstract class CliApplication extends AbstractApplication implements DispatcherA
 	 * @return  Router
 	 *
 	 * @since   __DEPLOY_VERSION__
-	 * @throws  \InvalidArgumentException
+	 * @throws  InvalidArgumentException
 	 */
 	public static function getRouter($name = null, array $options = [])
 	{
