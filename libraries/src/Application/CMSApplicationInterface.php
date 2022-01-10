@@ -11,6 +11,7 @@ namespace Joomla\CMS\Application;
 use Joomla\Application\ConfigurationAwareApplicationInterface;
 use Joomla\CMS\Extension\ExtensionManagerInterface;
 use Joomla\CMS\Language\Language;
+use Joomla\CMS\Router\Router;
 use Joomla\CMS\User\User;
 use Joomla\Input\Input;
 
@@ -166,6 +167,19 @@ interface CMSApplicationInterface extends ExtensionManagerInterface, Configurati
 	 * @since   4.0.0
 	 */
 	public function getName();
+
+	/**
+	 * Returns the application Router object.
+	 *
+	 * @param   string  $name     The name of the application.
+	 * @param   array   $options  An optional associative array of configuration settings.
+	 *
+	 * @return  Router
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 * @throws  \InvalidArgumentException
+	 */
+	public static function getRouter($name = null, array $options = []]);
 
 	/**
 	 * Allows the application to load a custom or default identity.
