@@ -6,6 +6,7 @@
  * @copyright   (C) 2021 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Plugin\Editors\TinyMCE\PluginTraits;
 
 \defined('_JEXEC') or die();
@@ -27,11 +28,11 @@ use stdClass;
  */
 trait DisplayTrait
 {
-  use GlobalFilters;
-  use KnownButtons;
-  use ResolveFiles;
-  use ToolbarPresets;
-  use XTDButtons;
+	use GlobalFilters;
+	use KnownButtons;
+	use ResolveFiles;
+	use ToolbarPresets;
+	use XTDButtons;
 
 	/**
 	 * Display the editor area.
@@ -454,8 +455,9 @@ trait DisplayTrait
 
 				// Cleanup/Output
 				'browser_spellcheck' => true,
-				'entity_encoding'  => $levelParams->get('entity_encoding', 'raw'),
-				'verify_html'      => !$ignore_filter,
+				'entity_encoding'    => $levelParams->get('entity_encoding', 'raw'),
+				'verify_html'        => !$ignore_filter,
+				'paste_as_text'      => (bool) $levelParams->get('paste_as_text', false),
 
 				'valid_elements'          => $valid_elements,
 				'extended_valid_elements' => implode(',', $elements),
