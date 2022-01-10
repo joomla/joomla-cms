@@ -21,7 +21,8 @@ $options = [];
 
 if (count($this->styles) > 0)
 {
-	foreach ($this->styles as $style) {
+	foreach ($this->styles as $style)
+	{
 		$options[] = HTMLHelper::_('select.option', $style->id, $style->title, 'value', 'text');
 	}
 }
