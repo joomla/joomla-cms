@@ -378,7 +378,7 @@ final class SiteApplication extends CMSApplication
 	 *
 	 * @since	3.2
 	 */
-	public function getRouter($name = 'site', array $options = array())
+	public function getRouter($name = 'site', array $options = [])
 	{
 		return parent::getRouter($name, $options);
 	}
