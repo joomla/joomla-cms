@@ -247,16 +247,26 @@ abstract class ToolbarButton
 		return $layout->render(array('icon' => $identifier));
 	}
 	/*
-	Allow any
-	class which
-	extends Joomla\CMS\Toolbar\ToobarButton
-	and/or Joomla\CMS\Toolbar\popupButton
-	to customise the FileLayout object in any way required.
+	* Allow any
+	*
+	* class which
+	*
+	* extends Joomla\CMS\Toolbar\ToobarButton
+	*
+	* and/or Joomla\CMS\Toolbar\popupButton
+	*
+	* to customise the FileLayout object in any way required.
+	*
+	* @param  string  $layoutId  Dot separated path to the layout file, relative to base path [@since 3.0]
+	*
+	* @param  string  $basePath  Full path to actual layout files, after possible template override check [@since 3.0]
+	*
+	* @param  mixed  $options  Optional custom options to load. Registry or array format [@since 3.2]
 	*/
 
-	protected function getLayoutInstance( $layoutId, $basepath = null, $options = null )
+	protected function getLayoutInstance( $layoutId, $basePath = null, $options = null )
 	{
-		return new FileLayout($layoutId, $basepath, $options);
+		return new FileLayout($layoutId, $basePath, $options);
 	}
 	/**
 	 * Get the button
