@@ -1,5 +1,7 @@
 .media-toolbar {
-  position: relative;
+  position: sticky;
+  top: 67px;
+  z-index: 1;
   display: flex;
   flex-wrap: wrap;
   padding: 0;

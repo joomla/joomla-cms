@@ -18,6 +18,8 @@ ul.media-tree {
 }
 
 .media-drive {
+  position: fixed;
+  z-index: 1;
   overflow-x: auto;
   background-color: $sidebar-drive-bg;
   border: 1px solid $border-color;
