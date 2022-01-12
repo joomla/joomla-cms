@@ -126,7 +126,7 @@ $app->getDocument()->getWebAssetManager()->useScript('com_scheduler.test-task');
 
 					<!-- Test task -->
 					<th scope="col">
-						<?php echo Text::_('COM_SCHEDULER_TEST_TASK'); ?>
+						<?php echo Text::_('COM_SCHEDULER_TASK_RUN'); ?>
 					</th>
 
 					<!-- Task ID -->
