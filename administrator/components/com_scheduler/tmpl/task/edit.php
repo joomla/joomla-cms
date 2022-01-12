@@ -32,7 +32,7 @@ $app = $this->app;
 $input = $app->getInput();
 
 // Fieldsets to be ignored by the `joomla.edit.params` template.
-$this->ignore_fieldsets = ['aside', 'details', 'exec_hist', 'custom-cron-rules', 'basic', 'advanced', 'priority', 'task-params'];
+$this->ignore_fieldsets = ['aside', 'details', 'exec_hist', 'custom-cron-rules', 'basic', 'advanced', 'priority'];
 
 // Used by the `joomla.edit.params` template to render the right template for UI tabs.
 $this->useCoreUI = true;
@@ -40,8 +40,9 @@ $this->useCoreUI = true;
 $advancedFieldsets = $this->form->getFieldsets('params');
 
 // Don't show the params fieldset, they will be loaded later
-foreach ($advancedFieldsets as $fieldset) :
-	if (!empty($fieldset->showFront) || $fieldset->name === 'task_params') :
+foreach ($advancedFieldsets as $name => $fieldset) :
+	if ($name === 'task_params') :
+		unset($advancedFieldsets[$name]);
 		continue;
 	endif;
 
@@ -128,9 +129,6 @@ $tmpl = $isModal || $input->get('tmpl', '') === 'component' ? '&tmpl=component' 
 				<?php echo $this->form->renderFieldset('priority') ?>
 			</fieldset>
 			<?php foreach ($advancedFieldsets as $fieldset) : ?>
-				<?php if (!empty($fieldset->showFront)) :
-					continue;
-				endif; ?>
 				<fieldset class="options-form">
 					<legend><?php echo Text::_($fieldset->label ?: 'COM_SCHEDULER_FIELDSET_' . $fieldset->name) ?></legend>
 					<?php echo $this->form->renderFieldset($fieldset->name) ?>
