@@ -211,7 +211,7 @@ abstract class ToolbarButton
 		$options['btnClass'] = 'button-' . $buttonClass . ' ' . $iconclass;
 
 		// Instantiate a new LayoutFile instance and render the layout
-		$layout = new FileLayout($this->layout);
+		$layout = $this->getLayoutInstance($this->layout);
 
 		return $layout->render($options);
 	}
@@ -246,7 +246,14 @@ abstract class ToolbarButton
 
 		return $layout->render(array('icon' => $identifier));
 	}
+	/*
+	This will allow any class which extends Joomla\CMS\Toolbar\ToobarButton and/or Joomla\CMS\Toolbar\popupButton to customise the FileLayout object (or even extend that class) in any way required.
+	*/
 
+	protected function getLayoutInstance($layoutId, $basePath = null, $options = null)
+		{
+		return new FileLayout($layoutId, $basePath, $options);
+	}	
 	/**
 	 * Get the button
 	 *
