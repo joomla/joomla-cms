@@ -18,6 +18,7 @@ use Joomla\Component\Scheduler\Administrator\Event\ExecuteTaskEvent;
 use Joomla\Component\Scheduler\Administrator\Task\Status as TaskStatus;
 use Joomla\Component\Scheduler\Administrator\Traits\TaskPluginTrait;
 use Joomla\Event\SubscriberInterface;
+use Joomla\Filesystem\Path;
 
 /**
  * Task plugin with routines that offer checks on files.
@@ -77,7 +78,7 @@ class PlgTaskCheckfiles extends CMSPlugin implements SubscriberInterface
 	{
 		$params = $event->getArgument('params');
 
-		$path      = JPATH_ROOT . '/images/' . $params->path;
+		$path      = Path::check(JPATH_ROOT . '/images/' . $params->path);
 		$dimension = $params->dimension;
 		$limit     = $params->limit;
 
@@ -112,7 +113,7 @@ class PlgTaskCheckfiles extends CMSPlugin implements SubscriberInterface
 
 			try
 			{
-				$image->resize($newWidth, $newHeight);
+				$image->resize($newWidth, $newHeight, false);
 			}
 			catch (LogicException $e)
 			{
