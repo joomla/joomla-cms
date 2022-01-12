@@ -243,11 +243,11 @@ class PlgEditorTinymce extends CMSPlugin
 
 		if ($langMode)
 		{
-			if (file_exists(JPATH_ROOT . '/media/vendor/tinymce/langs/' . $language->getTag() . '.js'))
+			if (file_exists(JPATH_ROOT . '/media/vendor/tinymce/langs/' . $language->getTag() . (JDEBUG ? '.js' : '.min.js')))
 			{
 				$langPrefix = $language->getTag();
 			}
-			elseif (file_exists(JPATH_ROOT . '/media/vendor/tinymce/langs/' . substr($language->getTag(), 0, strpos($language->getTag(), '-')) . '.js'))
+			elseif (file_exists(JPATH_ROOT . '/media/vendor/tinymce/langs/' . substr($language->getTag(), 0, strpos($language->getTag(), '-')) . (JDEBUG ? '.js' : '.min.js')))
 			{
 				$langPrefix = substr($language->getTag(), 0, strpos($language->getTag(), '-'));
 			}
@@ -580,10 +580,10 @@ class PlgEditorTinymce extends CMSPlugin
 			$scriptOptions,
 			array(
 				'deprecation_warnings' => JDEBUG ? true : false,
-				'suffix'   => '.min',
+				'suffix'   => JDEBUG ? '' : '.min',
 				'baseURL'  => Uri::root(true) . '/media/vendor/tinymce',
 				'directionality' => $text_direction,
-				'language' => $langPrefix,
+				'language' => $langPrefix . (JDEBUG ? '' : '.min'),
 				'autosave_restore_when_empty' => false,
 				'skin'     => $skin,
 				'theme'    => $theme,
