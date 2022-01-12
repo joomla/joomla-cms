@@ -247,10 +247,10 @@ abstract class ToolbarButton
 		return $layout->render(array('icon' => $identifier));
 	}
 	/*
-	allow any 
-	class which 
-	extends Joomla\CMS\Toolbar\ToobarButton 
-	and/or Joomla\CMS\Toolbar\popupButton 
+	Allow any
+	class which
+	extends Joomla\CMS\Toolbar\ToobarButton
+	and/or Joomla\CMS\Toolbar\popupButton
 	to customise the FileLayout object in any way required.
 	*/
 
