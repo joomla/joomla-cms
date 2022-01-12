@@ -305,7 +305,7 @@ class BaseController implements ControllerInterface
 		else
 		{
 			// Base controller.
-			$type = null;
+			$type = '';
 
 			// Define the controller filename and path.
 			$file       = self::createFileName('controller', array('name' => 'controller', 'format' => $format));

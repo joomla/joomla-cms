@@ -297,7 +297,12 @@ class WorkflowModel extends AdminModel
 		if ($value)
 		{
 			// Unset other default item
-			if ($table->load(array('default' => '1')))
+			if ($table->load(
+				[
+					'default' => '1',
+					'extension' => $table->get('extension')
+				]
+			))
 			{
 				$table->default = 0;
 				$table->modified = $date;
