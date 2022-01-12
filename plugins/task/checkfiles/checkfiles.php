@@ -81,6 +81,7 @@ class PlgTaskCheckfiles extends CMSPlugin implements SubscriberInterface
 		$path      = Path::check(JPATH_ROOT . '/images/' . $params->path);
 		$dimension = $params->dimension;
 		$limit     = $params->limit;
+		$numImages = max(1, (int) $params->numImages ?? 1);
 
 		if (!Folder::exists($path))
 		{
@@ -131,8 +132,14 @@ class PlgTaskCheckfiles extends CMSPlugin implements SubscriberInterface
 				$this->logTask('PLG_TASK_CHECK_FILES_LOG_IMAGE_SAVE_FAIL', 'error');
 			}
 
-			// We do at most a single resize per execution
-			break;
+			--$numImages;
+
+			// We do a limited number of resize per execution
+
+			if ($numImages <= 0)
+			{
+				break;
+			}
 		}
 
 		return TaskStatus::OK;
