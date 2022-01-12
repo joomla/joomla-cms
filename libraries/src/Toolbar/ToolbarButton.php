@@ -252,7 +252,6 @@ abstract class ToolbarButton
 	* in any way required.
 	*
 	* @param  string  $layoutId  Dot separated path to the layout file, relative to base path [@since 3.0]
-	*
 	* @param  string  $basePath  Full path to actual layout files, after possible template override check [@since 3.0]
 	*
 	* @param  mixed  $options  Optional custom options to load. Registry or array format [@since 3.2]
