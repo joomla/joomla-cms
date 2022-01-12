@@ -250,7 +250,8 @@ abstract class ToolbarButton
 	This will allow any class which extends Joomla\CMS\Toolbar\ToobarButton and/or Joomla\CMS\Toolbar\popupButton to customise the FileLayout object in any way required.
 	*/
 
-	protected function getLayoutInstance( $layoutId, $basepath = null, $options = null ) {
+	protected function getLayoutInstance( $layoutId, $basepath = null, $options = null ) 
+	{
 		return new FileLayout($layoutId, $basepath, $options);
 	}
 	/**
