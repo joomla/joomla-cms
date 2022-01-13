@@ -263,7 +263,7 @@ class LocalAdapter implements AdapterInterface
 
 		File::write($localPath, $data);
 
-		if (MediaHelper::isImage(pathinfo($localPath)['basename']) && $this->thumbs)
+		if ($this->thumbs && MediaHelper::isImage(pathinfo($localPath)['basename']))
 		{
 			$thumbPaths = $this->getLocalThumbPaths($localPath);
 
@@ -309,7 +309,7 @@ class LocalAdapter implements AdapterInterface
 
 		File::write($localPath, $data);
 
-		if (MediaHelper::isImage(pathinfo($localPath)['basename']) && $this->thumbs)
+		if ($this->thumbs && MediaHelper::isImage(pathinfo($localPath)['basename']))
 		{
 			$thumbPaths = $this->getLocalThumbPaths($localPath);
 
