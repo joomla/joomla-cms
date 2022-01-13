@@ -278,7 +278,7 @@ class LocalAdapter implements AdapterInterface
 			}
 
 			// Create the thumbnail
-			$this->createThumb($path, $thumbPaths['fs']);
+			$this->createThumb($localPath, $thumbPaths['fs']);
 		}
 
 		return $name;
@@ -324,7 +324,7 @@ class LocalAdapter implements AdapterInterface
 			}
 
 			// Create the thumbnail
-			$this->createThumb($path, $thumbPaths['fs']);
+			$this->createThumb($localPath, $thumbPaths['fs']);
 		}
 	}
 
