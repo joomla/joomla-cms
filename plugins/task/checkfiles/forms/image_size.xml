@@ -37,10 +37,10 @@
 			<field
 				name="numImages"
 				type="number"
-				label="PLG_TASK_CHECK_FILES_LABEL_NUMIMAGES"
-				description="PLG_TASK_CHECK_FILES_LABEL_NUMIMAGES_DESC"
+				label="PLG_TASK_CHECK_FILES_LABEL_MAXIMAGES"
+				description="PLG_TASK_CHECK_FILES_LABEL_MAXIMAGES_DESC"
 				required="true"
-				min="0"
+				min="1"
 				step="1"
 				default="1"
 				filter="int"
