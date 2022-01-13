@@ -1045,7 +1045,7 @@ class LocalAdapter implements AdapterInterface
 
 		try
 		{
-			$image->createThumbs([$this->thumbSize[0] . 'x' .$this->thumbSize[1]], $image::SCALE_INSIDE, dirname($thumbPath), true);
+			$image->createThumbs([$this->thumbSize[0] . 'x' . $this->thumbSize[1]], $image::SCALE_INSIDE, dirname($thumbPath), true);
 		}
 		catch (\Exception $e)
 		{
