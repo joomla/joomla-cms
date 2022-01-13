@@ -104,8 +104,7 @@ class PlgFileSystemLocal extends CMSPlugin implements ProviderInterface
 					$directoryPath,
 					$directoryEntity->directory,
 					$directoryEntity->thumbs,
-					[100, 100],
-					40
+					[100, 100]
 				);
 
 				$adapters[$adapter->getAdapterName()] = $adapter;
