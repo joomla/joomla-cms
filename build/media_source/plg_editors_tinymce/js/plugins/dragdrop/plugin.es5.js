@@ -49,11 +49,11 @@
             responseData = response.data;
             var urlPath; // For local adapters use relative paths
 
-            if (/local-/.test(responseData.adapter)) {
-              var _Joomla$getOptions = Joomla.getOptions('system.paths'),
-                  rootFull = _Joomla$getOptions.rootFull;
-
-              urlPath = "" + response.data.thumb_path.split(rootFull)[1];
+            var _Joomla$getOptions = Joomla.getOptions('system.paths'),
+            rootFull = _Joomla$getOptions.rootFull;
+            var parts = response.data.thumb_path.split(rootFull);
+            if (parts.length > 1) {
+              urlPath = "" + parts[1];
             } else if (responseData.thumb_path) {
               // Absolute path for different domain
               urlPath = responseData.thumb_path;
