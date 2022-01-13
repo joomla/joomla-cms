@@ -127,6 +127,7 @@ const insertAsImage = async (media, editor, fieldClass) => {
     const { rootFull } = Joomla.getOptions('system.paths');
     const parts = media.url.split(rootFull);
     if (parts.length > 1) {
+      // eslint-disable-next-line prefer-destructuring
       Joomla.selectedMediaFile.url = parts[1];
       if (media.thumb_path) {
         Joomla.selectedMediaFile.thumb = media.thumb_path;
@@ -207,6 +208,7 @@ const insertAsOther = (media, editor, fieldClass, type) => {
     const { rootFull } = Joomla.getOptions('system.paths');
     const parts = media.url.split(rootFull);
     if (parts.length > 1) {
+      // eslint-disable-next-line prefer-destructuring
       Joomla.selectedMediaFile.url = parts[1];
     } else {
       Joomla.selectedMediaFile.url = media.url;
