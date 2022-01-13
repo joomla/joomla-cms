@@ -248,7 +248,7 @@ abstract class ToolbarButton
 	}
 	/*
 	* Allow any class which extends Joomla\CMS\Toolbar\ToobarButton
-	* and/or Joomla\CMS\Toolbar\popupButton to customise the FileLayout object 
+	* and/or Joomla\CMS\Toolbar\popupButton to customise the FileLayout object
 	* in any way required.
 	*
 	* @param  string  $layoutId  Dot separated path to the layout file, relative to base path [@since 3.0]
