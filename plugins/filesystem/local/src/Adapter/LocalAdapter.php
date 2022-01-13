@@ -278,7 +278,7 @@ class LocalAdapter implements AdapterInterface
 			}
 
 			// Create the thumbnail
-			(new Image($localPath))->resize($this->thumbSize[0], $this->thumbSize[1], true)->toFile($thumbPaths['fs']);
+			(new Image($localPath))->resize([$this->thumbSize[0] . 'x' . $this->thumbSize[1]], 5)->toFile($thumbPaths['fs']);
 		}
 
 		return $name;
@@ -324,7 +324,7 @@ class LocalAdapter implements AdapterInterface
 			}
 
 			// Create the thumbnail
-			(new Image($localPath))->resize($this->thumbSize[0], $this->thumbSize[1], true)->toFile($thumbPaths['fs']);
+			(new Image($localPath))->resize([$this->thumbSize[0] . 'x' . $this->thumbSize[1]], 5)->toFile($thumbPaths['fs']);
 		}
 	}
 
@@ -1018,7 +1018,7 @@ class LocalAdapter implements AdapterInterface
 		// Create the thumbnail
 		if (!file_exists($thumbPaths['fs']))
 		{
-			(new Image($path))->resize($this->thumbSize[0], $this->thumbSize[1], true)->toFile($thumbPaths['fs']);
+			(new Image($path))->resize([$this->thumbSize[0] . 'x' . $this->thumbSize[1]], 5)->toFile($thumbPaths['fs']);
 		}
 
 		return $thumbURL;
