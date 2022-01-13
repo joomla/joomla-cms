@@ -12,7 +12,7 @@ namespace Joomla\Component\Media\Api\View\Media;
 \defined('_JEXEC') or die;
 
 use Joomla\CMS\MVC\View\JsonApiView as BaseApiView;
-use Joomla\Component\Media\Api\Helper\AdapterTrait;
+use Joomla\Component\Media\Administrator\Provider\ProviderManagerHelperTrait;
 
 /**
  * Media web service view
@@ -21,7 +21,7 @@ use Joomla\Component\Media\Api\Helper\AdapterTrait;
  */
 class JsonapiView extends BaseApiView
 {
-	use AdapterTrait;
+	use ProviderManagerHelperTrait;
 
 	/**
 	 * The fields to render item in the documents

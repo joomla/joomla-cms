@@ -10,11 +10,11 @@ Joomla = window.Joomla || {};
 
   document.addEventListener('DOMContentLoaded', () => {
     Joomla.submitbutton = (pressbutton) => {
-      // TODO replace with joomla-alert
+      // @todo replace with joomla-alert
       if (pressbutton === 'index.purge' && !window.confirm(Joomla.Text._('COM_FINDER_INDEX_CONFIRM_PURGE_PROMPT'))) {
         return false;
       }
-      // TODO replace with joomla-alert
+      // @todo replace with joomla-alert
       if (pressbutton === 'index.delete' && !window.confirm(Joomla.Text._('COM_FINDER_INDEX_CONFIRM_DELETE_PROMPT'))) {
         return false;
       }
