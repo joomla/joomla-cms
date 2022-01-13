@@ -55,7 +55,7 @@ use Joomla\CMS\Router\Route;
 						<meta itemprop="position" content="<?php echo $key + 1; ?>">
 					</li>
 
-				<?php 
+				<?php
 				// Render items without links without structured data so Google doesn't flag it as invalid breadcrumbs.
 				else :
 					$breadcrumbItem = '<span>' . $item->name . '</span>'; ?>
