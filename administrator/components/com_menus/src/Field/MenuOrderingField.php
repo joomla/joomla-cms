@@ -48,7 +48,7 @@ class MenuOrderingField extends ListField
 
 		if (!$parent_id)
 		{
-			return false;
+			return [];
 		}
 
 		$db = Factory::getDbo();

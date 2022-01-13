@@ -106,7 +106,7 @@ class AssociationsHelper extends ContentHelper
 	{
 		if (!self::hasSupport($extensionName))
 		{
-			return array();
+			return null;
 		}
 
 		// Get the extension specific helper method
