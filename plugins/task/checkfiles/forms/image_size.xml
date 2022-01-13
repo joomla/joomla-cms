@@ -40,7 +40,7 @@
 				label="PLG_TASK_CHECK_FILES_LABEL_DIMENSION_NUMIMAGES"
 				description="PLG_TASK_CHECK_FILES_LABEL_DIMENSION_NUMIMAGES_DESC"
 				required="true"
-				min="0"
+				min="1"
 				step="1"
 				default="1"
 				filter="int"
