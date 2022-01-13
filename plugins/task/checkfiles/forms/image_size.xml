@@ -37,8 +37,8 @@
 			<field
 				name="numImages"
 				type="number"
-				label="PLG_TASK_CHECK_FILES_LABEL_DIMENSION_NUMIMAGES"
-				description="PLG_TASK_CHECK_FILES_LABEL_DIMENSION_NUMIMAGES_DESC"
+				label="PLG_TASK_CHECK_FILES_LABEL_NUMIMAGES"
+				description="PLG_TASK_CHECK_FILES_LABEL_NUMIMAGES_DESC"
 				required="true"
 				min="0"
 				step="1"
