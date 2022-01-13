@@ -80,7 +80,7 @@ class LocalAdapter implements AdapterInterface
 	 *
 	 * @since   4.0.0
 	 */
-	public function __construct(string $rootPath, string $filePath, bool $thumbs = false, array $thumbSize = [100, 100])
+	public function __construct(string $rootPath, string $filePath, bool $thumbs = false, array $thumbSize = [200, 200])
 	{
 		if (!file_exists($rootPath))
 		{
