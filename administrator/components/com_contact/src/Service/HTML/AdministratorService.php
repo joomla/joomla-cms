@@ -34,7 +34,7 @@ class AdministratorService
 	 *
 	 * @return  string  The language HTML
 	 *
-	 * @throws  Exception
+	 * @throws  \Exception
 	 */
 	public function association($contactid)
 	{
