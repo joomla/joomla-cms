@@ -68,7 +68,7 @@ class LocalAdapter implements AdapterInterface
 	 *
 	 * @since  __DEPLOY_VERSION__
 	 */
-	private $thumbSize = [100, 100];
+	private $thumbSize = [200, 200];
 
 	/**
 	 * The absolute root path in the local file system.
