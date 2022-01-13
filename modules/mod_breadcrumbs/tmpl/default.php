@@ -47,16 +47,23 @@ use Joomla\CMS\Router\Route;
 		// Generate the trail
 		foreach ($list as $key => $item) :
 			if ($key !== $last_item_key) :
-				if (!empty($item->link)) :
-					$breadcrumbItem = '<a itemprop="item" href="' . Route::_($item->link) . '" class="pathway"><span itemprop="name">' . html_entity_decode($item->name, ENT_QUOTES, 'UTF-8') . '</span></a>';
-				else :
-					$breadcrumbItem = '<span itemprop="name">' . $item->name . '</span>';
-				endif;
-				// Render all but last item - along with separator ?>
-				<li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem" class="mod-breadcrumbs__item breadcrumb-item"><?php echo $breadcrumbItem; ?>
-					<meta itemprop="position" content="<?php echo $key + 1; ?>">
-				</li>
-			<?php elseif ($show_last) :
+				// Render links with structured data
+				if (!empty($item->link)) : 
+					$breadcrumbItem = '<a itemprop="item" href="' . Route::_($item->link) . '" class="pathway"><span itemprop="name">' . html_entity_decode($item->name, ENT_QUOTES, 'UTF-8') . '</span></a>'; ?>
+					<li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem" class="mod-breadcrumbs__item breadcrumb-item">
+						<?php echo $breadcrumbItem; ?>
+						<meta itemprop="position" content="<?php echo $key + 1; ?>">
+					</li>
+
+				<?php 
+				// Render items without links without structured data so Google doesn't flag it as invalid breadcrumbs.
+				else : 
+					$breadcrumbItem = '<span>' . $item->name . '</span>'; ?>
+					<li class="mod-breadcrumbs__item breadcrumb-item">
+						<?php echo $breadcrumbItem; ?>
+					</li>
+				<?php endif;
+			elseif ($show_last) :
 				$breadcrumbItem = '<span itemprop="name">' . html_entity_decode($item->name, ENT_QUOTES, 'UTF-8') . '</span>';
 				// Render last item if required. ?>
 				<li aria-current="page" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem" class="mod-breadcrumbs__item breadcrumb-item active"><?php echo $breadcrumbItem; ?>
