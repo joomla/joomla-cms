@@ -135,7 +135,6 @@ class PlgTaskCheckfiles extends CMSPlugin implements SubscriberInterface
 			--$numImages;
 
 			// We do a limited number of resize per execution
-
 			if ($numImages <= 0)
 			{
 				break;
