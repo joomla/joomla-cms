@@ -71,16 +71,26 @@ class LocalAdapter implements AdapterInterface
 	private $thumbSize = [100, 100];
 
 	/**
+	 * Thumbnail quality (0-1)
+	 *
+	 * @var float
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
+	private $thumbQuality = 40;
+
+	/**
 	 * The absolute root path in the local file system.
 	 *
-	 * @param   string   $rootPath   The root path
-	 * @param   string   $filePath   The file path of media folder
-	 * @param   boolean  $thumbs     The thumbs option
-	 * @param   array    $thumbSize  The thumbnail dimensions in pixels
+	 * @param   string   $rootPath      The root path
+	 * @param   string   $filePath      The file path of media folder
+	 * @param   boolean  $thumbs        The thumbs option
+	 * @param   array    $thumbSize     The thumbnail dimensions in pixels
+	 * @param   float    $thumbQuality  The thumbnail quality
 	 *
 	 * @since   4.0.0
 	 */
-	public function __construct(string $rootPath, string $filePath, bool $thumbs = false, array $thumbSize = [100, 100])
+	public function __construct(string $rootPath, string $filePath, bool $thumbs = false, array $thumbSize = [100, 100], $thumbQuality = 40)
 	{
 		if (!file_exists($rootPath))
 		{
@@ -91,6 +101,7 @@ class LocalAdapter implements AdapterInterface
 		$this->filePath  = $filePath;
 		$this->thumbs    = $thumbs;
 		$this->thumbSize = $thumbSize;
+		$this->thumbQuality = $thumbQuality;
 
 		if ($this->thumbs)
 		{
@@ -278,7 +289,7 @@ class LocalAdapter implements AdapterInterface
 			}
 
 			// Create the thumbnail
-			(new Image($localPath))->resize([$this->thumbSize[0] . 'x' . $this->thumbSize[1]], 5)->toFile($thumbPaths['fs']);
+			$this->createThumb($path, $thumbPaths['fs']);
 		}
 
 		return $name;
@@ -324,7 +335,7 @@ class LocalAdapter implements AdapterInterface
 			}
 
 			// Create the thumbnail
-			(new Image($localPath))->resize([$this->thumbSize[0] . 'x' . $this->thumbSize[1]], 5)->toFile($thumbPaths['fs']);
+			$this->createThumb($path, $thumbPaths['fs']);
 		}
 	}
 
@@ -1018,9 +1029,41 @@ class LocalAdapter implements AdapterInterface
 		// Create the thumbnail
 		if (!file_exists($thumbPaths['fs']))
 		{
-			(new Image($path))->resize([$this->thumbSize[0] . 'x' . $this->thumbSize[1]], 5)->toFile($thumbPaths['fs']);
+			if ($this->createThumb($path, $thumbPaths['fs']))
+			{
+				return $thumbURL;
+			}
+
+			return $this->getUrl(str_replace($this->rootPath, '', $path));
 		}
 
 		return $thumbURL;
+	}
+
+	/**
+	 * Create a thumbnail of the given image.
+	 *
+	 * @param   string  $path       The path of the image
+	 * @param   string  $thumbPath  The path of the thumbnail
+	 *
+	 * @return  boolean
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	private function createThumb(string $path, string $thumbPath): bool
+	{
+		$image = new Image($path);
+
+		try
+		{
+			$image->createThumbs([$this->thumbSize[0] . 'x' .$this->thumbSize[1]], $image::SCALE_INSIDE, dirname($thumbPath), true);
+			// $image->toFile($thumbPath, ['quality' => $this->thumbQuality]);
+		}
+		catch (\Exception $e)
+		{
+			return false;
+		}
+
+		return true;
 	}
 }
