@@ -48,7 +48,7 @@ use Joomla\CMS\Router\Route;
 		foreach ($list as $key => $item) :
 			if ($key !== $last_item_key) :
 				// Render links with structured data
-				if (!empty($item->link)) : 
+				if (!empty($item->link)) :
 					$breadcrumbItem = '<a itemprop="item" href="' . Route::_($item->link) . '" class="pathway"><span itemprop="name">' . html_entity_decode($item->name, ENT_QUOTES, 'UTF-8') . '</span></a>'; ?>
 					<li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem" class="mod-breadcrumbs__item breadcrumb-item">
 						<?php echo $breadcrumbItem; ?>
