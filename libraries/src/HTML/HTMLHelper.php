@@ -1300,7 +1300,7 @@ abstract class HTMLHelper
 		{
 			$path = substr_replace($path, '', 0, strlen(JPATH_ROOT));
 		}
-
+$path = strpos($path, JPATH_ROOT) === 0 ? substr_replace($path, '', 0, strlen(JPATH_ROOT)) : $path;
 		$relativeFilePath = Uri::root(true) . $path;
 
 		// On windows devices we need to replace "\" with "/" otherwise some browsers will not load the asset
