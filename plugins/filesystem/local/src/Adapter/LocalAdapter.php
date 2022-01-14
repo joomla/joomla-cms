@@ -364,12 +364,12 @@ class LocalAdapter implements AdapterInterface
 				throw new FileNotFoundException;
 			}
 
+			$success = Folder::delete($localPath);
+
 			if ($this->thumbs && !empty($thumbPaths['fs']) && is_dir($thumbPaths['fs']))
 			{
 				Folder::delete($thumbPaths['fs']);
 			}
-
-			$success = Folder::delete($localPath);
 		}
 
 		if (!$success)
@@ -939,7 +939,7 @@ class LocalAdapter implements AdapterInterface
 	{
 		try
 		{
-			return Path::check($this->rootPath . '/' . $path);
+			return Path::check(realpath($this->rootPath . '/' . $path));
 		}
 		catch (\Exception $e)
 		{
@@ -966,7 +966,7 @@ class LocalAdapter implements AdapterInterface
 			$fs  = Path::check(
 				str_replace(
 					$this->rootPath,
-					JPATH_ROOT . '/media/cache/com_media/thumbs/' . $this->filePath,
+					realpath(JPATH_ROOT . '/media/cache/com_media/thumbs/' . $this->filePath),
 					$path
 				)
 			);
