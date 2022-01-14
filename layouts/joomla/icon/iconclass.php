@@ -31,7 +31,7 @@ $title      = $displayData['title'] ?? null;
 $html       = $displayData['html'] ?? true;
 
 // Replace double set icon-icon-
-// ToDo: Joomla should be cleaned so this replacement is not needed.
+// @todo: Joomla should be cleaned so this replacement is not needed.
 $icon       = str_replace('icon-icon-', 'icon-', $icon);
 
 switch ($icon)

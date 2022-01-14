@@ -39,8 +39,9 @@ $this->useCoreUI = true;
 
 $advancedFieldsets = $this->form->getFieldsets('params');
 // Don't show the params fieldset, they will be loaded later
-foreach ($advancedFieldsets as $fieldset) :
-	if (!empty($fieldset->showFront) || $fieldset->name === 'task_params') :
+foreach ($advancedFieldsets as $name => $fieldset) :
+	if ($name === 'task_params') :
+		unset($advancedFieldsets[$name]);
 		continue;
 	endif;
 
@@ -152,9 +153,6 @@ endforeach;
 				<?php echo $this->form->renderFieldset('priority') ?>
 			</fieldset>
 			<?php foreach ($advancedFieldsets as $fieldset) : ?>
-				<?php if (!empty($fieldset->showFront)) :
-					continue;
-				endif; ?>
 				<fieldset class="options-form">
 					<legend><?php echo Text::_($fieldset->label ?: 'COM_SCHEDULER_FIELDSET_' . $fieldset->name) ?></legend>
 					<?php echo $this->form->renderFieldset($fieldset->name) ?>

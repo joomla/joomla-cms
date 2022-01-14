@@ -17,7 +17,8 @@ if (!window.Joomla) {
 
 const initRunner = () => {
   const paths = Joomla.getOptions('system.paths');
-  const uri = `${paths ? `${paths.base}/index.php` : window.location.pathname}?option=com_ajax&format=json&plugin=RunSchedulerTest&group=system&id=%d`;
+  const token = Joomla.getOptions('com_scheduler.test-task.token');
+  const uri = `${paths ? `${paths.base}/index.php` : window.location.pathname}?option=com_ajax&format=json&plugin=RunSchedulerTest&group=system&id=%d${token ? `&${token}=1` : ''}`;
   const modal = document.getElementById('scheduler-test-modal');
 
   // Task output template
@@ -41,7 +42,7 @@ const initRunner = () => {
     const id = parseInt(button.dataset.id, 10);
     const { title } = button.dataset;
 
-    modal.querySelector('.modal-title').innerHTML = Joomla.Text._('COM_SCHEDULER_TEST_RUN_TITLE').replace('%d', id);
+    modal.querySelector('.modal-title').innerHTML = Joomla.Text._('COM_SCHEDULER_TEST_RUN_TITLE').replace('%d', id.toString());
     modal.querySelector('.modal-body > div').innerHTML = template.replace('%s', title);
 
     Joomla.request({
