@@ -21,6 +21,7 @@ use Joomla\CMS\Pagination\Pagination;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Profiler\Profiler;
 use Joomla\CMS\Router\Route;
+use Joomla\CMS\Router\SiteRouter;
 use Joomla\CMS\Uri\Uri;
 use Joomla\Component\Finder\Administrator\Indexer\Query;
 use Joomla\Component\Finder\Site\Helper\FinderHelper;
@@ -160,7 +161,7 @@ class HtmlView extends BaseHtmlView
 		if (strpos($this->query->input, '"'))
 		{
 			// Get the application router.
-			$router = $app->getRouter();
+			$router = Factory::getContainer()->get(SiteRouter::class);;
 
 			// Fix the q variable in the URL.
 			if ($router->getVar('q') !== $this->query->input)

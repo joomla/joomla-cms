@@ -249,7 +249,7 @@ class PlgSystemCache extends CMSPlugin
 			$exclusions = explode("\n", $exclusions);
 
 			// Gets internal URI.
-			$internal_uri	= '/index.php?' . Uri::getInstance()->buildQuery($this->app->getRouter()->getVars());
+			$internal_uri	= '/index.php?' . Uri::getInstance()->buildQuery(Factory::getContainer()->get(SiteRouter::class)->getVars());
 
 			// Loop through each pattern.
 			if ($exclusions)
