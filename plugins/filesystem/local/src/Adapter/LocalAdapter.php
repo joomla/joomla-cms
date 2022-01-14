@@ -939,7 +939,7 @@ class LocalAdapter implements AdapterInterface
 	{
 		try
 		{
-			return Path::check(realpath($this->rootPath . '/' . $path));
+			return Path::check($this->rootPath . '/' . $path);
 		}
 		catch (\Exception $e)
 		{
@@ -965,7 +965,7 @@ class LocalAdapter implements AdapterInterface
 		{
 			$fs  = Path::check(
 				str_replace(
-					$this->rootPath,
+					realpath($this->rootPath),
 					realpath(JPATH_ROOT . '/media/cache/com_media/thumbs/' . $this->filePath),
 					$path
 				)
