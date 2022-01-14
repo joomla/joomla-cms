@@ -20,6 +20,7 @@ use Joomla\Plugin\Editors\TinyMCE\PluginTraits\DisplayTrait;
 class PlgEditorTinymce extends CMSPlugin
 {
 	use DisplayTrait;
+
 	/**
 	 * Base path for editor files
 	 *
