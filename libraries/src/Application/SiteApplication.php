@@ -377,7 +377,7 @@ final class SiteApplication extends CMSApplication
 	 *
 	 * @return	\Joomla\CMS\Router\Router
 	 *
-	 * @since	   3.2
+	 * @since      3.2
 	 * @deprecated 5.0 Inject the router or load it from the dependency injection container
 	 */
 	public static function getRouter($name = 'site', array $options = array())
