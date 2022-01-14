@@ -38,6 +38,7 @@ $this->ignore_fieldsets = ['aside', 'details', 'exec_hist', 'custom-cron-rules',
 $this->useCoreUI = true;
 
 $advancedFieldsets = $this->form->getFieldsets('params');
+
 // Don't show the params fieldset, they will be loaded later
 foreach ($advancedFieldsets as $name => $fieldset) :
 	if ($name === 'task_params') :
