@@ -67,7 +67,7 @@ class LanguageAdapter extends InstallerAdapter
 	 */
 	protected function copyBaseFiles()
 	{
-		// TODO - Refactor adapter to use common code
+		// @todo - Refactor adapter to use common code
 	}
 
 	/**
@@ -80,7 +80,7 @@ class LanguageAdapter extends InstallerAdapter
 	 */
 	protected function finaliseInstall()
 	{
-		// TODO - Refactor adapter to use common code
+		// @todo - Refactor adapter to use common code
 	}
 
 	/**
@@ -167,7 +167,7 @@ class LanguageAdapter extends InstallerAdapter
 	 */
 	protected function setupInstallPaths()
 	{
-		// TODO - Refactor adapter to use common code
+		// @todo - Refactor adapter to use common code
 	}
 
 	/**
@@ -226,7 +226,7 @@ class LanguageAdapter extends InstallerAdapter
 	 */
 	protected function storeExtension()
 	{
-		// TODO - Refactor adapter to use common code
+		// @todo - Refactor adapter to use common code
 	}
 
 	/**
