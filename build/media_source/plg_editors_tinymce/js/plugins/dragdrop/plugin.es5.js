@@ -142,7 +142,7 @@
           var files = [].slice.call(e.dataTransfer.files);
           files.forEach(function (file) {
             // Only images allowed
-            if (file.name.toLowerCase().match(/\.(jpg|jpeg|png|gif)$/)) {
+            if (['image/jpeg', 'image/png', 'image/gif', 'image/webp'].includes(file.type)) {
               // Upload the file(s)
               readFile(file);
             }
