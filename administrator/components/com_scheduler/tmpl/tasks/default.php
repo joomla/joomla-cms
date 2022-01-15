@@ -22,13 +22,13 @@ use Joomla\Component\Scheduler\Administrator\View\Tasks\HtmlView;
 
 HTMLHelper::_('behavior.multiselect');
 
-Text::script('COM_SCHEDULER_TEST_RUN_TITLE');
-Text::script('COM_SCHEDULER_TEST_RUN_TASK');
-Text::script('COM_SCHEDULER_TEST_RUN_DURATION');
-Text::script('COM_SCHEDULER_TEST_RUN_OUTPUT');
-Text::script('COM_SCHEDULER_TEST_RUN_STATUS_STARTED');
-Text::script('COM_SCHEDULER_TEST_RUN_STATUS_COMPLETED');
-Text::script('COM_SCHEDULER_TEST_RUN_STATUS_TERMINATED');
+Text::script('COM_SCHEDULER_RUN_TASK_TITLE');
+Text::script('COM_SCHEDULER_RUN_TASK_TASK');
+Text::script('COM_SCHEDULER_RUN_TASK_DURATION');
+Text::script('COM_SCHEDULER_RUN_TASK_OUTPUT');
+Text::script('COM_SCHEDULER_RUN_TASK_STATUS_STARTED');
+Text::script('COM_SCHEDULER_RUN_TASK_STATUS_COMPLETED');
+Text::script('COM_SCHEDULER_RUN_TASK_STATUS_TERMINATED');
 Text::script('JLIB_JS_AJAX_ERROR_OTHER');
 Text::script('JLIB_JS_AJAX_ERROR_CONNECTION_ABORT');
 Text::script('JLIB_JS_AJAX_ERROR_TIMEOUT');
@@ -126,7 +126,7 @@ $app->getDocument()->getWebAssetManager()->useScript('com_scheduler.test-task');
 
 					<!-- Test task -->
 					<th scope="col">
-						<?php echo Text::_('COM_SCHEDULER_TEST_TASK'); ?>
+						<?php echo Text::_('COM_SCHEDULER_RUN_TASK'); ?>
 					</th>
 
 					<!-- Task ID -->
@@ -221,7 +221,7 @@ $app->getDocument()->getWebAssetManager()->useScript('com_scheduler.test-task');
 						<td class="small d-none d-md-table-cell">
 							<button type="button" class="btn btn-sm btn-warning" <?php echo $item->state < 0 ? 'disabled' : ''; ?> data-id="<?php echo (int) $item->id; ?>" data-title="<?php echo htmlspecialchars($item->title); ?>" data-bs-toggle="modal" data-bs-backdrop="static" data-bs-target="#scheduler-test-modal">
 								<span class="fa fa-play fa-sm me-2"></span>
-								<?php echo Text::_('COM_SCHEDULER_TEST_RUN'); ?>
+								<?php echo Text::_('COM_SCHEDULER_RUN_TASK'); ?>
 							</button>
 						</td>
 
