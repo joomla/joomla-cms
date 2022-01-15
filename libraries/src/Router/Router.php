@@ -95,7 +95,9 @@ class Router
 	 * @return  Router  A Router object.
 	 *
 	 * @since      1.5
+	 *
 	 * @throws     \RuntimeException
+	 *
 	 * @deprecated 5.0 Inject the router or load it from the dependency injection container
 	 */
 	public static function getInstance($client, $options = array())
