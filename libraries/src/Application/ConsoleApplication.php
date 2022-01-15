@@ -447,7 +447,9 @@ class ConsoleApplication extends Application implements DispatcherAwareInterface
 	 * @return  Router
 	 *
 	 * @since      4.0.6
+	 *
 	 * @throws     \InvalidArgumentException
+	 *
 	 * @deprecated 5.0 Inject the router or load it from the dependency injection container
 	 */
 	public static function getRouter($name = null, array $options = array())
