@@ -221,11 +221,7 @@ $app->getDocument()->getWebAssetManager()->useScript('com_scheduler.test-task');
 						<td class="small d-none d-md-table-cell">
 							<button type="button" class="btn btn-sm btn-warning" <?php echo $item->state < 0 ? 'disabled' : ''; ?> data-id="<?php echo (int) $item->id; ?>" data-title="<?php echo htmlspecialchars($item->title); ?>" data-bs-toggle="modal" data-bs-backdrop="static" data-bs-target="#scheduler-test-modal">
 								<span class="fa fa-play fa-sm me-2"></span>
-<<<<<<< Updated upstream
-								<?php echo Text::_('COM_SCHEDULER_TEST_RUN'); ?>
-=======
-								<?php echo Text::_('COM_SCHEDULER_RUN_TASK'); ?>
->>>>>>> Stashed changes
+								<?php echo Text::_('COM_SCHEDULER_TASK_RUN'); ?>
 							</button>
 						</td>
 
