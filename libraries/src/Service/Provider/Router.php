@@ -51,7 +51,7 @@ class Router implements ServiceProviderInterface
 				AdministratorRouter::class,
 				function (Container $container)
 				{
-					return new AdministratorRouter();
+					return new AdministratorRouter;
 				},
 				true
 			);
