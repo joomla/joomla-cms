@@ -23,6 +23,7 @@ use Joomla\CMS\Table\Extension;
 use Joomla\CMS\Table\Table;
 use Joomla\Database\DatabaseDriver;
 use Joomla\Database\Exception\ExecutionFailureException;
+use Joomla\Database\Exception\PrepareStatementFailureException;
 use Joomla\Database\ParameterType;
 
 /**
@@ -1328,6 +1329,9 @@ class Installer extends Adapter
 			return $updateCount;
 		}
 
+		Log::add(Text::_('JLIB_INSTALLER_SQL_BEGIN'), Log::INFO, 'Update');
+		Log::add(Text::sprintf('JLIB_INSTALLER_SQL_BEGIN_SCHEMA', $version), Log::INFO, 'Update');
+
 		$files = str_replace('.sql', '', $files);
 		usort($files, 'version_compare');
 
@@ -1384,22 +1388,31 @@ class Installer extends Adapter
 					strtoupper(substr($query, -self::CAN_FAIL_MARKER_LENGTH - 1)) === (self::CAN_FAIL_MARKER . ';');
 				$query   = $canFail ? (substr($query, 0, -self::CAN_FAIL_MARKER_LENGTH - 1) . ';') : $query;
 
+				$queryString = (string) $query;
+				$queryString = str_replace(["\r", "\n"], ['', ' '], substr($queryString, 0, 80));
+
 				try
 				{
 					$db->setQuery($query)->execute();
 				}
-				catch (ExecutionFailureException $e)
+				catch (ExecutionFailureException | PrepareStatementFailureException $e)
 				{
 					if (!$canFail)
 					{
-						Log::add(Text::sprintf('JLIB_INSTALLER_ERROR_SQL_ERROR', $e->getMessage()), Log::WARNING, 'jerror');
+						$errorMessage = Text::sprintf('JLIB_INSTALLER_ERROR_SQL_ERROR', $e->getMessage());
+
+						// Log the error in the update log file
+						Log::add(Text::sprintf('JLIB_INSTALLER_UPDATE_LOG_QUERY', $file, $queryString), Log::INFO, 'Update');
+						Log::add($errorMessage, Log::INFO, 'Update');
+						Log::add(Text::_('JLIB_INSTALLER_SQL_END_NOT_COMPLETE'), Log::INFO, 'Update');
+
+						// Show the error message to the user
+						Log::add($errorMessage, Log::WARNING, 'jerror');
 
 						return false;
 					}
 				}
 
-				$queryString = (string) $query;
-				$queryString = str_replace(["\r", "\n"], ['', ' '], substr($queryString, 0, 80));
 				Log::add(Text::sprintf('JLIB_INSTALLER_UPDATE_LOG_QUERY', $file, $queryString), Log::INFO, 'Update');
 
 				$updateCount++;
@@ -1418,6 +1431,8 @@ class Installer extends Adapter
 				return false;
 			}
 		}
+
+		Log::add(Text::_('JLIB_INSTALLER_SQL_END'), Log::INFO, 'Update');
 
 		return $updateCount;
 	}
