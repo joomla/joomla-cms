@@ -161,7 +161,7 @@ class HtmlView extends BaseHtmlView
 		if (strpos($this->query->input, '"'))
 		{
 			// Get the application router.
-			$router = Factory::getContainer()->get(SiteRouter::class);;
+			$router = Factory::getContainer()->get(SiteRouter::class);
 
 			// Fix the q variable in the URL.
 			if ($router->getVar('q') !== $this->query->input)
