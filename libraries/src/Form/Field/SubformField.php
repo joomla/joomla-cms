@@ -242,7 +242,7 @@ class SubformField extends FormField
 	protected function getInput()
 	{
 		// Prepare data for renderer
-		$data    = parent::getLayoutData();
+		$data    = $this->getLayoutData();
 		$tmpl    = null;
 		$control = $this->name;
 
