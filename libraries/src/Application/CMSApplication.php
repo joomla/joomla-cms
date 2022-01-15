@@ -597,6 +597,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 	 * @return  Router
 	 *
 	 * @since      3.2
+	 *
 	 * @deprecated 5.0 Inject the router or load it from the dependency injection container
 	 */
 	public static function getRouter($name = null, array $options = array())
