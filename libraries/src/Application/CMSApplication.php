@@ -30,7 +30,6 @@ use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Profiler\Profiler;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Router\Router;
-use Joomla\CMS\Router\SiteRouter;
 use Joomla\CMS\Session\MetadataManager;
 use Joomla\CMS\Session\Session;
 use Joomla\CMS\Uri\Uri;
@@ -1060,7 +1059,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 	 *
 	 * @since      3.2
 	 *
-	 * @deprecated 5.0 Implement the route functionality in the extending class this here will be removed without replacement
+	 * @deprecated 5.0 Implement the route functionality in the extending class, this here will be removed without replacement
 	 */
 	protected function route()
 	{

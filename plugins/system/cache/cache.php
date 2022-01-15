@@ -249,6 +249,7 @@ class PlgSystemCache extends CMSPlugin
 			$exclusions = explode("\n", $exclusions);
 
 			// Gets internal URI.
+			// Router can be injected when turned into a DI built plugin
 			$internal_uri	= '/index.php?' . Uri::getInstance()->buildQuery(Factory::getContainer()->get(SiteRouter::class)->getVars());
 
 			// Loop through each pattern.

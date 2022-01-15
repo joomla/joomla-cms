@@ -35,7 +35,6 @@ use Joomla\String\StringHelper;
  */
 final class SiteApplication extends CMSApplication
 {
-
 	/**
 	 * Option to filter by language
 	 *

@@ -33,7 +33,6 @@ use Joomla\CMS\Console\SiteUpCommand;
 use Joomla\CMS\Console\UpdateCoreCommand;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\LanguageFactoryInterface;
-use Joomla\CMS\Router\SiteRouter;
 use Joomla\CMS\User\UserFactoryInterface;
 use Joomla\Console\Application as BaseConsoleApplication;
 use Joomla\Console\Loader\LoaderInterface;

@@ -156,7 +156,8 @@ class PlgSystemLanguageFilter extends CMSPlugin
 		$this->app->item_associations = $this->params->get('item_associations', 0);
 
 		// We need to make sure we are always using the site router, even if the language plugin is executed in admin app.
-		$router = CMSApplication::getInstance('site')->getRouter('site');
+		// Router can be injected when turned into a DI built plugin
+		$router = Factory::getContainer()->get(SiteRouter::class);
 
 		// Attach build rules for language SEF.
 		$router->attachBuildRule(array($this, 'preprocessBuildRule'), Router::PROCESS_BEFORE);
@@ -765,6 +766,7 @@ class PlgSystemLanguageFilter extends CMSPlugin
 			$remove_default_prefix = $this->params->get('remove_default_prefix', 0);
 			$server                = Uri::getInstance()->toString(array('scheme', 'host', 'port'));
 			$is_home               = false;
+			// Router can be injected when turned into a DI built plugin
 			$currentInternalUrl    = 'index.php?' . http_build_query(Factory::getContainer()->get(SiteRouter::class)->getVars());
 
 			if ($active)
