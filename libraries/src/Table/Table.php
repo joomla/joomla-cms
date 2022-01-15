@@ -221,7 +221,7 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
 		// Create or set a Dispatcher
 		if (!\is_object($dispatcher) || !($dispatcher instanceof DispatcherInterface))
 		{
-			// TODO Maybe we should use a dedicated "behaviour" dispatcher for performance reasons and to prevent system plugins from butting in?
+			// @todo Maybe we should use a dedicated "behaviour" dispatcher for performance reasons and to prevent system plugins from butting in?
 			$dispatcher = Factory::getApplication()->getDispatcher();
 		}
 
