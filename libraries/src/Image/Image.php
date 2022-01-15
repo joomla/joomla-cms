@@ -319,7 +319,7 @@ class Image
 	 * @param   mixed    $thumbSizes       string or array of strings. Example: $thumbSizes = ['150x75','250x150'];
 	 * @param   integer  $creationMethod   1-3 resize $scaleMethod | 4 create cropping
 	 * @param   string   $thumbsFolder     destination thumbs folder. null generates a thumbs folder in the image folder
-	 * @param   string   $useOriginalName  Shall we use the original image name? Defaults is false, {filename}_{width}x{height}.{ext}
+	 * @param   boolean  $useOriginalName  Shall we use the original image name? Defaults is false, {filename}_{width}x{height}.{ext}
 	 *
 	 * @return  array
 	 *
