@@ -59,7 +59,7 @@ class InstallController extends BaseController
 		}
 
 		// Don't redirect to an external URL.
-		if (!Uri::isInternal($redirect_url))
+		if ($redirect_url && !Uri::isInternal($redirect_url))
 		{
 			$redirect_url = '';
 		}
