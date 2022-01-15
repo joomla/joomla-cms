@@ -49,12 +49,13 @@ class InstallController extends BaseController
 		// TODO: Reset the users acl here as well to kill off any missing bits.
 		$result = $model->install();
 
-		$app = $this->app;
+		$app          = $this->app;
 		$redirect_url = $app->getUserState('com_installer.redirect_url');
+		$return       = $this->input->getBase64('return');
 
-		if (!$redirect_url)
+		if (!$redirect_url && $return)
 		{
-			$redirect_url = base64_decode($this->input->getBase64('return'));
+			$redirect_url = base64_decode($return);
 		}
 
 		// Don't redirect to an external URL.
