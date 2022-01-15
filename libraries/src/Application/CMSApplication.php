@@ -1056,16 +1056,18 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 	 * are then set in the request object to be processed when the application is being
 	 * dispatched.
 	 *
-	 * @return  void
+	 * @return     void
 	 *
-	 * @since   3.2
+	 * @since      3.2
+	 *
+	 * @deprecated 5.0 Implement the route functionality in the extending class this here will be removed without replacement
 	 */
 	protected function route()
 	{
 		// Get the full request URI.
 		$uri = clone Uri::getInstance();
 
-		$router = $this->getContainer()->get(SiteRouter::class);
+		$router = static::getRouter();
 		$result = $router->parse($uri, true);
 
 		$active = $this->getMenu()->getActive();
