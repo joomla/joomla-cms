@@ -329,7 +329,7 @@ class Image
 	 */
 	public function createThumbnails($thumbSizes, $creationMethod = self::SCALE_INSIDE, $thumbsFolder = null, $useOriginalName = false)
 	{
-				// Make sure the resource handle is valid.
+		// Make sure the resource handle is valid.
 		if (!$this->isLoaded())
 		{
 			throw new \LogicException('No valid image was loaded.');
