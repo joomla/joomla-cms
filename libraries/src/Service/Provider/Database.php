@@ -44,11 +44,7 @@ class Database implements ServiceProviderInterface
 				{
 					$conf = $container->get('config');
 
-					/**
-					 * @todo: This 'sensible' default is required in the installer for now. Eventually we need to
-					 *        refactor the installer so it is not required
-					 */
-					$dbtype = $conf->get('dbtype', 'mysqli');
+					$dbtype = $conf->get('dbtype');
 
 					/*
 					 * In Joomla! 3.x and earlier the `mysql` type was used for the `ext/mysql` PHP extension, which is no longer supported.

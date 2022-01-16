@@ -562,15 +562,7 @@ abstract class UserHelper
 		$ua = Factory::getApplication()->client;
 		$uaString = $ua->userAgent;
 		$browserVersion = $ua->browserVersion;
-
-		if ($browserVersion)
-		{
-			$uaShort = str_replace($browserVersion, 'abcd', $uaString);
-		}
-		else
-		{
-			$uaShort = $uaString;
-		}
+		$uaShort = str_replace($browserVersion, 'abcd', $uaString);
 
 		return md5(Uri::base() . $uaShort);
 	}

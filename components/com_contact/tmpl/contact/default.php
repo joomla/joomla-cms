@@ -14,7 +14,6 @@ use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\FileLayout;
-use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\Component\Contact\Site\Helper\RouteHelper;
@@ -98,13 +97,11 @@ $htag    = $tparams->get('show_page_heading') ? 'h2' : 'h1';
 
 			<?php if ($this->item->image && $tparams->get('show_image')) : ?>
 				<div class="com-contact__thumbnail thumbnail">
-					<?php echo LayoutHelper::render(
-						'joomla.html.image',
-						[
-							'src'      => $this->item->image,
-							'alt'      => $this->item->name,
-							'itemprop' => 'image',
-						]
+					<?php echo HTMLHelper::_(
+						'image',
+						$this->item->image,
+						htmlspecialchars($this->item->name,  ENT_QUOTES, 'UTF-8'),
+						array('itemprop' => 'image')
 					); ?>
 				</div>
 			<?php endif; ?>

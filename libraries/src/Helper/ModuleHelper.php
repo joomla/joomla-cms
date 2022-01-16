@@ -84,10 +84,12 @@ abstract class ModuleHelper
 	public static function &getModules($position)
 	{
 		$position = strtolower($position);
-		$result   = array();
-		$input    = Factory::getApplication()->input;
-		$modules  = &static::load();
-		$total    = \count($modules);
+		$result = array();
+		$input  = Factory::getApplication()->input;
+
+		$modules =& static::load();
+
+		$total = \count($modules);
 
 		for ($i = 0; $i < $total; $i++)
 		{
@@ -97,16 +99,14 @@ abstract class ModuleHelper
 			}
 		}
 
-		// Prepend a dummy module for template preview
-		if ($input->getBool('tp') && ComponentHelper::getParams('com_templates')->get('template_positions_display'))
+		if (\count($result) === 0)
 		{
-			$dummy = static::createDummyModule();
-			$dummy->title = $position;
-			$dummy->position = $position;
-			$dummy->content = $position;
-			$dummy->contentRendered = true;
-
-			array_unshift($result, $dummy);
+			if ($input->getBool('tp') && ComponentHelper::getParams('com_templates')->get('template_positions_display'))
+			{
+				$result[0] = static::createDummyModule();
+				$result[0]->title = $position;
+				$result[0]->position = $position;
+			}
 		}
 
 		return $result;

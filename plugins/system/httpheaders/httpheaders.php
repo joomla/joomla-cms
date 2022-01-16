@@ -13,8 +13,6 @@ use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Uri\Uri;
 use Joomla\Database\DatabaseDriver;
-use Joomla\Event\DispatcherInterface;
-use Joomla\Event\Event;
 use Joomla\Event\SubscriberInterface;
 
 /**
@@ -129,8 +127,8 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 	/**
 	 * Constructor.
 	 *
-	 * @param   DispatcherInterface  $subject  The object to observe.
-	 * @param   array                $config   An optional associative array of configuration settings.
+	 * @param   object  &$subject  The object to observe.
+	 * @param   array   $config    An optional associative array of configuration settings.
 	 *
 	 * @since   4.0.0
 	 */
@@ -165,7 +163,7 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 	 *
 	 * @since   4.0.0
 	 */
-	public function applyHashesToCspRule(Event $event): void
+	public function applyHashesToCspRule(): void
 	{
 		// CSP is only relevant on html pages. Let's early exit here.
 		if ($this->app->getDocument()->getType() !== 'html')
@@ -254,7 +252,7 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 	 *
 	 * @since   4.0.0
 	 */
-	public function setHttpHeaders(Event $event): void
+	public function setHttpHeaders(): void
 	{
 		// Set the default header when they are enabled
 		$this->setStaticHeaders();
