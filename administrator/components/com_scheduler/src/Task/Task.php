@@ -12,7 +12,6 @@ namespace Joomla\Component\Scheduler\Administrator\Task;
 // Restrict direct access
 \defined('_JEXEC') or die;
 
-use DateInterval;
 use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Event\AbstractEvent;
@@ -266,7 +265,7 @@ class Task implements LoggerAwareInterface
 			 * Moreover, the times executed does NOT increase for each step. It will increase once,
 			 * after the last step, when they return Status::OK.
 			 */
-			$this->set('next_execution', Factory::getDate('now', 'UTC')->sub(new DateInterval('PT1M'))->toSql());
+			$this->set('next_execution', Factory::getDate('now', 'UTC')->sub(new \DateInterval('PT1M'))->toSql());
 		}
 
 		// The only acceptable "successful" statuses are either clean exit or resuming execution.
@@ -322,7 +321,7 @@ class Task implements LoggerAwareInterface
 		$now   = Factory::getDate('now', 'GMT');
 
 		$timeout          = ComponentHelper::getParams('com_scheduler')->get('timeout', 300);
-		$timeout          = new DateInterval(sprintf('PT%dS', $timeout));
+		$timeout          = new \DateInterval(sprintf('PT%dS', $timeout));
 		$timeoutThreshold = (clone $now)->sub($timeout)->toSql();
 		$now              = $now->toSql();
 
