@@ -79,7 +79,7 @@ class PlgTaskDemotasks extends CMSPlugin implements SubscriberInterface
 	 *
 	 * Whether the task will resume is random. There's a 40% chance of finishing every time it runs.
 	 *
-	 * You can use this is a template to create long running tasks which can detect an impeding
+	 * You can use this as a template to create long running tasks which can detect an impeding
 	 * timeout condition, return Status::WILL_RESUME and resume execution next time they are called.
 	 *
 	 * @param   ExecuteTaskEvent  $event  The event we are handling
