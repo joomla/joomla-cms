@@ -688,6 +688,8 @@ abstract class FormField
 		$this->layout = !empty($this->element['layout']) ? (string) $this->element['layout'] : $this->layout;
 
 		$this->parentclass = isset($this->element['parentclass']) ? (string) $this->element['parentclass'] : $this->parentclass;
+		
+		$this->labelElement = $this->element['label'] ? (string) $this->element['label'] : null;
 
 		// Add required to class list if field is required.
 		if ($this->required)
@@ -808,7 +810,7 @@ abstract class FormField
 		}
 
 		// Get the label text from the XML element, defaulting to the element name.
-		$title = $this->label ? (string) $this->label : (string) $this->fieldname;
+		$title = $this->labelElement ? (string) $this->labelElement : (string) $this->fieldname;
 		$title = $this->translateLabel ? Text::_($title) : $title;
 
 		return $title;
@@ -1319,7 +1321,7 @@ abstract class FormField
 	protected function getLayoutData()
 	{
 		// Label preprocess
-		$label = !empty($this->label) ? (string) $this->label : null;
+		$label = !empty($this->labelElement) ? (string) $this->labelElement : null;
 		$label = $label && $this->translateLabel ? Text::_($label) : $label;
 
 		// Description preprocess
