@@ -260,7 +260,7 @@ class Task implements LoggerAwareInterface
 			/**
 			 * Resumable tasks need special handling.
 			 *
-			 * The are rescheduled as soon as possible to let their next step to be executed without
+			 * They are rescheduled as soon as possible to let their next step to be executed without
 			 * a very large temporal gap to the previous step.
 			 *
 			 * Moreover, the times executed does NOT increase for each step. It will increase once,
