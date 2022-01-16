@@ -970,7 +970,7 @@ class LocalAdapter implements AdapterInterface
 			$fs  = Path::check(
 				str_replace(
 					realpath($this->rootPath),
-					realpath(JPATH_ROOT . '/media/cache/com_media/thumbs/' . $this->filePath),
+					JPATH_ROOT . '/media/cache/com_media/thumbs/' . $this->filePath,
 					realpath($path)
 				)
 			);
