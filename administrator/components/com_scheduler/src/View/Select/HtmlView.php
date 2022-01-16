@@ -135,14 +135,5 @@ class HtmlView extends BaseHtmlView
 			->buttonClass('btn btn-danger')
 			->icon('icon-times')
 			->text(Text::_('JCANCEL'));
-
-		// Add preferences button if user has privileges
-		if ($canDo->get('core.admin') || $canDo->get('core.options'))
-		{
-			$toolbar->preferences('com_scheduler');
-		}
-
-		// Add help button
-		$toolbar->help('JHELP_COMPONENTS_SCHEDULED_TASKS_MANAGER');
 	}
 }
