@@ -975,8 +975,8 @@ class LocalAdapter implements AdapterInterface
 				)
 			);
 			$url = str_replace(
-				realpath($this->rootPath),
-				'media/cache/com_media/thumbs/' . $this->filePath,
+				realpath($this->rootPath) . DIRECTORY_SEPARATOR,
+				'media/cache/com_media/thumbs/' . $this->filePath . '/',
 				realpath($path)
 			);
 
