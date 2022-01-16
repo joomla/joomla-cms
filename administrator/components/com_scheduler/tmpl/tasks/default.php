@@ -219,7 +219,7 @@ $app->getDocument()->getWebAssetManager()->useScript('com_scheduler.test-task');
 
 						<!-- Test task -->
 						<td class="small d-none d-md-table-cell">
-							<button type="button" class="btn btn-sm btn-warning" <?php echo $item->state < 0 ? 'disabled' : ''; ?> data-id="<?php echo (int) $item->id; ?>" data-title="<?php echo htmlspecialchars($item->title); ?>" data-bs-toggle="modal" data-bs-backdrop="static" data-bs-target="#scheduler-test-modal">
+							<button type="button" class="btn btn-sm btn-warning" <?php echo $item->state < 0 ? 'disabled' : ''; ?> data-id="<?php echo (int) $item->id; ?>" data-title="<?php echo htmlspecialchars($item->title); ?>" data-bs-toggle="modal" data-bs-backdrop="static" data-bs-target="#scheduler-task-modal">
 								<span class="fa fa-play fa-sm me-2"></span>
 								<?php echo Text::_('COM_SCHEDULER_RUN_TASK'); ?>
 							</button>
@@ -245,7 +245,7 @@ $app->getDocument()->getWebAssetManager()->useScript('com_scheduler.test-task');
 
 				$modalbody = '<div class="p-3"></div>';
 
-				echo HTMLHelper::_('bootstrap.renderModal', 'scheduler-test-modal', $modalparams, $modalbody);
+				echo HTMLHelper::_('bootstrap.renderModal', 'scheduler-task-modal', $modalparams, $modalbody);
 
 			?>
 

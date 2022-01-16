@@ -258,7 +258,7 @@ class PlgSystemSchedulerunner extends CMSPlugin implements SubscriberInterface
 
 		$user = Factory::getApplication()->getIdentity();
 
-		if (empty($id) || !$user->authorise('core.testrun', 'com_scheduler.task.' . $id))
+		if (empty($id) || !$user->authorise('core.runtask', 'com_scheduler.task.' . $id))
 		{
 			throw new \Exception(Text::_('JERROR_ALERTNOAUTHOR'), 403);
 		}
