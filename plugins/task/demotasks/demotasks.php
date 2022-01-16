@@ -86,8 +86,8 @@ class PlgTaskDemotasks extends CMSPlugin implements SubscriberInterface
 	 *
 	 * @return  integer
 	 *
-	 * @throws  Exception
-	 * @since   4.1.0
+	 * @since   __DEPLOY_VERSION__
+	 * @throws  \Exception
 	 */
 	private function resumable(ExecuteTaskEvent $event): int
 	{
