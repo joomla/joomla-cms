@@ -1014,12 +1014,9 @@ class LocalAdapter implements AdapterInterface
 		}
 
 		// Create the thumbnail
-		if (!file_exists($thumbPaths['fs']))
+		if (!is_file($thumbPaths['fs']) && !$this->createThumb($path, $thumbPaths['fs']))
 		{
-			if (!$this->createThumb($path, $thumbPaths['fs']))
-			{
-				return $this->getUrl($path);
-			}
+			return $this->getUrl($path);
 		}
 
 		return Uri::root() . $this->getEncodedPath($thumbPaths['url']);;
