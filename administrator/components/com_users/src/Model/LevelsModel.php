@@ -177,7 +177,7 @@ class LevelsModel extends ListModel
 		}
 
 		// Move the row.
-		// TODO: Where clause to restrict category.
+		// @todo: Where clause to restrict category.
 		$table->move($pk);
 
 		return true;

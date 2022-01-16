@@ -72,7 +72,7 @@ class ContactModel extends FormModel
 
 		if (Factory::getApplication()->isClient('api'))
 		{
-			// TODO: remove this
+			// @todo: remove this
 			$app->loadLanguage();
 			$this->setState('contact.id', Factory::getApplication()->input->post->getInt('id'));
 		}

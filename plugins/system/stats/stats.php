@@ -40,15 +40,6 @@ class PlgSystemStats extends CMSPlugin
 	const MODE_ALLOW_ALWAYS = 1;
 
 	/**
-	 * Indicates sending statistics is only allowed one time.
-	 *
-	 * @var    integer
-	 *
-	 * @since  3.5
-	 */
-	const MODE_ALLOW_ONCE = 2;
-
-	/**
 	 * Indicates sending statistics is never allowed.
 	 *
 	 * @var    integer
@@ -207,40 +198,6 @@ class PlgSystemStats extends CMSPlugin
 		}
 
 		echo json_encode(['sent' => 0]);
-	}
-
-	/**
-	 * User selected to send data once.
-	 *
-	 * @return  void
-	 *
-	 * @since   3.5
-	 *
-	 * @throws  Exception         If user is not allowed.
-	 * @throws  RuntimeException  If there is an error saving the params, disabling the plugin or sending the data.
-	 */
-	public function onAjaxSendOnce()
-	{
-		if (!$this->isAllowedUser() || !$this->isAjaxRequest())
-		{
-			throw new Exception(Text::_('JGLOBAL_AUTH_ACCESS_DENIED'), 403);
-		}
-
-		$this->params->set('mode', static::MODE_ALLOW_ONCE);
-
-		if (!$this->saveParams())
-		{
-			throw new RuntimeException('Unable to save plugin settings', 500);
-		}
-
-		$this->sendStats();
-
-		if (!$this->disablePlugin())
-		{
-			throw new RuntimeException('Unable to disable the statistics plugin', 500);
-		}
-
-		echo json_encode(['sent' => 1]);
 	}
 
 	/**

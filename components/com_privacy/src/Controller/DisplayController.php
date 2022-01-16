@@ -11,7 +11,6 @@ namespace Joomla\Component\Privacy\Site\Controller;
 
 \defined('_JEXEC') or die;
 
-use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\CMS\Router\Route;
 
@@ -36,11 +35,11 @@ class DisplayController extends BaseController
 	{
 		$view = $this->input->get('view', $this->default_view);
 
-		// Submitting information requests through the frontend is restricted to authenticated users at this time
-		if ($view === 'request' && $this->app->getIdentity()->guest)
+		// Submitting information requests and confirmation through the frontend is restricted to authenticated users at this time
+		if (in_array($view, ['confirm', 'request']) && $this->app->getIdentity()->guest)
 		{
 			$this->setRedirect(
-				Route::_('index.php?option=com_users&view=login&return=' . base64_encode('index.php?option=com_privacy&view=request'), false)
+				Route::_('index.php?option=com_users&view=login&return=' . base64_encode('index.php?option=com_privacy&view=' . $view), false)
 			);
 
 			return $this;
@@ -49,7 +48,7 @@ class DisplayController extends BaseController
 		// Set a Referrer-Policy header for views which require it
 		if (in_array($view, ['confirm', 'remind']))
 		{
-			Factory::getApplication()->setHeader('Referrer-Policy', 'no-referrer', true);
+			$this->app->setHeader('Referrer-Policy', 'no-referrer', true);
 		}
 
 		return parent::display($cachable, $urlparams);
