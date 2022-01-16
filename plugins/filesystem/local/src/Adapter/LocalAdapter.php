@@ -982,7 +982,7 @@ class LocalAdapter implements AdapterInterface
 
 			return [
 				'fs'  => $fs,
-				'url' => str_replace('\', '/', $url),
+				'url' => str_replace('\\', '/', $url),
 			];
 		}
 		catch (\Exception $e)
