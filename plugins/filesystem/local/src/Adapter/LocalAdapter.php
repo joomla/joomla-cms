@@ -1013,20 +1013,16 @@ class LocalAdapter implements AdapterInterface
 			mkdir($dir, 0755, true);
 		}
 
-		$thumbURL = Uri::root() . $this->getEncodedPath($thumbPaths['url']);
-
 		// Create the thumbnail
 		if (!file_exists($thumbPaths['fs']))
 		{
-			if ($this->createThumb($path, $thumbPaths['fs']))
+			if (!$this->createThumb($path, $thumbPaths['fs']))
 			{
-				return $thumbURL;
+				return $this->getUrl($path);
 			}
-
-			return $this->getUrl(str_replace($this->rootPath, '', $path));
 		}
 
-		return $thumbURL;
+		return Uri::root() . $this->getEncodedPath($thumbPaths['url']);;
 	}
 
 	/**
