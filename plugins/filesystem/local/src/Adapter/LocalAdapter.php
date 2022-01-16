@@ -436,7 +436,7 @@ class LocalAdapter implements AdapterInterface
 				$obj->width  = $props->width;
 				$obj->height = $props->height;
 
-				$obj->thumb_path = $this->thumbs ? $this->getThumb($this->getLocalPath($path)) : $this->getUrl($obj->path);
+				$obj->thumb_path = $this->thumbs ? $this->getThumb($path) : $this->getUrl($obj->path);
 			}
 			catch (UnparsableImageException $e)
 			{
@@ -967,7 +967,7 @@ class LocalAdapter implements AdapterInterface
 				str_replace(
 					realpath($this->rootPath),
 					realpath(JPATH_ROOT . '/media/cache/com_media/thumbs/' . $this->filePath),
-					$path
+					realpath($path)
 				)
 			);
 			$url = str_replace(
@@ -1019,7 +1019,7 @@ class LocalAdapter implements AdapterInterface
 			return $this->getUrl($path);
 		}
 
-		return Uri::root() . $this->getEncodedPath($thumbPaths['url']);;
+		return Uri::root() . $this->getEncodedPath($thumbPaths['url']);
 	}
 
 	/**
