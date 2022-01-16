@@ -909,7 +909,7 @@
 
 	<fields name="metadata" label="JGLOBAL_FIELDSET_METADATA_OPTIONS">
 		<fieldset name="jmetadata"
-				  label="JGLOBAL_FIELDSET_METADATA_OPTIONS">
+				label="JGLOBAL_FIELDSET_METADATA_OPTIONS">
 
 			<field
 				name="robots"

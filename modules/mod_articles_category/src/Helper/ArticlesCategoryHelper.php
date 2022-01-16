@@ -328,7 +328,8 @@ abstract class ArticlesCategoryHelper
 	public static function _cleanIntrotext($introtext)
 	{
 		$introtext = str_replace(['<p>', '</p>'], ' ', $introtext);
-		$introtext = strip_tags($introtext, '<a><em><strong>');
+		$introtext = strip_tags($introtext, '<a><em><strong><joomla-hidden-mail>');
+
 		$introtext = trim($introtext);
 
 		return $introtext;
