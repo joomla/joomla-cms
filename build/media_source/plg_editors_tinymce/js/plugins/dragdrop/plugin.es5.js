@@ -17,11 +17,11 @@
     function dialogClose(api) {
       var dialogData = api.getData();
       var altEmpty = dialogData.altEmpty ? ' alt=""' : '';
-      var altValue = dialogData.altText ? " alt=\"" + dialogData.altText + "\"" : altEmpty;
+      var altValue = dialogData.altText ? ` alt="${dialogData.altText}"` : altEmpty;
       var lazyValue = dialogData.isLazy ? ' loading="lazy"' : '';
-      var width = dialogData.isLazy ? " width=\"" + responseData.width + "\"" : '';
-      var height = dialogData.isLazy ? " height=\"" + responseData.height + "\"" : '';
-      editor.execCommand('mceInsertContent', false, "<img src=\"" + urlPath + "\"" + altValue + lazyValue + width + height + "/>");
+      var width = dialogData.isLazy ? ` width="${responseData.width}"` : '';
+      var height = dialogData.isLazy ? ` height="${responseData.height}"` : '';
+      editor.execCommand('mceInsertContent', false, `<img src="${urlPath}"${altValue + lazyValue + width + height}/>`);
     }
 
     editor.windowManager.open({
