@@ -73,7 +73,7 @@ abstract class Status
 	 * Use this for long running tasks, e.g. batch processing of hundreds or thousands of files,
 	 * sending newsletters with thousands of subscribers etc. These are tasks which might run out of
 	 * memory and/or hit a time limit when lazy scheduling or web triggering of tasks is being used.
-	 * Split them in smaller batches which return Status::WILL_RESUME. When the last batch is
+	 * Split them into smaller batches which return Status::WILL_RESUME. When the last batch is
 	 * executed return Status::OK.
 	 *
 	 * @since 4.1.0
