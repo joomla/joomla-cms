@@ -961,6 +961,8 @@ class LocalAdapter implements AdapterInterface
 	 */
 	private function getLocalThumbPaths(string $path): array
 	{
+		$normalizeDirectorySeparator = ['\\', '/', ':'];
+
 		/**
 		 * NOTE: please use `realpath` inside the `str_replace` below.
 		 *       Otherwise, the `str_replace` will not work as expected on non UNIX OS.
@@ -969,15 +971,15 @@ class LocalAdapter implements AdapterInterface
 		{
 			$fs  = Path::check(
 				str_replace(
-					realpath($this->rootPath),
+					str_replace($normalizeDirectorySeparator, '/', $this->rootPath),
 					JPATH_ROOT . '/media/cache/com_media/thumbs/' . $this->filePath,
-					realpath($path)
+					str_replace($normalizeDirectorySeparator, '/', $path)
 				)
 			);
 			$url = str_replace(
-				realpath($this->rootPath) . DIRECTORY_SEPARATOR,
-				'media/cache/com_media/thumbs/' . $this->filePath . '/',
-				realpath($path)
+				str_replace($normalizeDirectorySeparator, '/', $this->rootPath),
+				'media/cache/com_media/thumbs/' . $this->filePath,
+				str_replace($normalizeDirectorySeparator, '/', $path)
 			);
 
 			return [
