@@ -405,9 +405,9 @@ class Image
 	 * @throws  \LogicException
 	 * @throws  \InvalidArgumentException
 	 */
-	public function createThumbs($thumbSizes, $creationMethod = self::SCALE_INSIDE)
+	public function createThumbs($thumbSizes, $creationMethod = self::SCALE_INSIDE, $thumbsFolder = null)
 	{
-		$this->createThumbnails($thumbSizes, $creationMethod, false);
+		$this->createThumbnails($thumbSizes, $creationMethod, $thumbsFolder);
 	}
 
 	/**
