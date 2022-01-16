@@ -132,7 +132,7 @@ abstract class PunycodeHelper
 	{
 		if (empty($uri))
 		{
-			return;
+			return '';
 		}
 
 		$parsed = UriHelper::parse_url($uri);
