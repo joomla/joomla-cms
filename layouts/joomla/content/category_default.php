@@ -72,13 +72,8 @@ $tagsData = $category->tags->itemTags;
 	<?php if ($beforeDisplayContent || $afterDisplayContent || $params->get('show_description', 1) || $params->def('show_description_image', 1)) : ?>
 		<div class="category-desc">
 			<?php if ($params->get('show_description_image') && $category->getParams()->get('image')) : ?>
-					<?php echo LayoutHelper::render(
-						'joomla.html.image',
-						[
-							'src' => $category->getParams()->get('image'),
-							'alt' => empty($category->getParams()->get('image_alt')) && empty($category->getParams()->get('image_alt_empty')) ? false : $category->getParams()->get('image_alt'),
-						]
-					); ?>
+				<?php $alt = empty($category->getParams()->get('image_alt')) && empty($category->getParams()->get('image_alt_empty')) ? '' : 'alt="' . htmlspecialchars($category->getParams()->get('image_alt'), ENT_COMPAT, 'UTF-8') . '"'; ?>
+				<img src="<?php echo $category->getParams()->get('image'); ?>" <?php echo $alt; ?>>
 			<?php endif; ?>
 			<?php echo $beforeDisplayContent; ?>
 			<?php if ($params->get('show_description') && $category->description) : ?>
