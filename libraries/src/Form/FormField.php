@@ -808,7 +808,7 @@ abstract class FormField
 		}
 
 		// Get the label text from the XML element, defaulting to the element name.
-		$title = $this->element['label'] ? (string) $this->element['label'] : (string) $this->element['name'];
+		$title = $this->label ? (string) $this->label : (string) $this->fieldname;
 		$title = $this->translateLabel ? Text::_($title) : $title;
 
 		return $title;
@@ -831,7 +831,7 @@ abstract class FormField
 		$data = $this->getLayoutData();
 
 		// Forcing the Alias field to display the tip below
-		$position = $this->element['name'] === 'alias' ? ' data-bs-placement="bottom" ' : '';
+		$position = $this->fieldname === 'alias' ? ' data-bs-placement="bottom" ' : '';
 
 		// Here mainly for B/C with old layouts. This can be done in the layouts directly
 		$extraData = array(
@@ -1319,7 +1319,7 @@ abstract class FormField
 	protected function getLayoutData()
 	{
 		// Label preprocess
-		$label = !empty($this->element['label']) ? (string) $this->element['label'] : null;
+		$label = !empty($this->label) ? (string) $this->label : null;
 		$label = $label && $this->translateLabel ? Text::_($label) : $label;
 
 		// Description preprocess
