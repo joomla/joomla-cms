@@ -436,7 +436,7 @@ class LocalAdapter implements AdapterInterface
 				$obj->width  = $props->width;
 				$obj->height = $props->height;
 
-				$obj->thumb_path = $this->thumbs ? $this->getThumb($path) : $this->getUrl($obj->path);
+				$obj->thumb_path = $this->thumbs ? $this->getThumb($this->getLocalPath($path)) : $this->getUrl($obj->path);
 			}
 			catch (UnparsableImageException $e)
 			{
