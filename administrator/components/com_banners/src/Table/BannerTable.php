@@ -135,7 +135,7 @@ class BannerTable extends Table implements VersionableTableInterface
 		}
 
 		// Check the publish down date is not earlier than publish up.
-		if (!is_null($this->publish_down) && !is_null($this->publish_up) && $this->publish_down < $this->publish_up)
+		if (!\is_null($this->publish_down) && !\is_null($this->publish_up) && $this->publish_down < $this->publish_up)
 		{
 			$this->setError(Text::_('JGLOBAL_START_PUBLISH_AFTER_FINISH'));
 
@@ -181,7 +181,7 @@ class BannerTable extends Table implements VersionableTableInterface
 	 */
 	public function bind($array, $ignore = array())
 	{
-		if (isset($array['params']) && is_array($array['params']))
+		if (isset($array['params']) && \is_array($array['params']))
 		{
 			$registry = new Registry($array['params']);
 
@@ -304,7 +304,7 @@ class BannerTable extends Table implements VersionableTableInterface
 			}
 		}
 
-		return count($this->getErrors()) == 0;
+		return \count($this->getErrors()) == 0;
 	}
 
 	/**
@@ -359,7 +359,7 @@ class BannerTable extends Table implements VersionableTableInterface
 			}
 
 			// Verify checkout
-			if (is_null($table->checked_out) || $table->checked_out == $userId)
+			if (\is_null($table->checked_out) || $table->checked_out == $userId)
 			{
 				// Change the state
 				$table->sticky = $state;
@@ -377,7 +377,7 @@ class BannerTable extends Table implements VersionableTableInterface
 			}
 		}
 
-		return count($this->getErrors()) == 0;
+		return \count($this->getErrors()) == 0;
 	}
 
 	/**

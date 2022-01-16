@@ -65,27 +65,27 @@ abstract class ActionLogPlugin extends CMSPlugin
 
 		foreach ($messages as $index => $message)
 		{
-			if (!array_key_exists('userid', $message))
+			if (!\array_key_exists('userid', $message))
 			{
 				$message['userid'] = $user->id;
 			}
 
-			if (!array_key_exists('username', $message))
+			if (!\array_key_exists('username', $message))
 			{
 				$message['username'] = $user->username;
 			}
 
-			if (!array_key_exists('accountlink', $message))
+			if (!\array_key_exists('accountlink', $message))
 			{
 				$message['accountlink'] = 'index.php?option=com_users&task=user.edit&id=' . $user->id;
 			}
 
-			if (array_key_exists('type', $message))
+			if (\array_key_exists('type', $message))
 			{
 				$message['type'] = strtoupper($message['type']);
 			}
 
-			if (array_key_exists('app', $message))
+			if (\array_key_exists('app', $message))
 			{
 				$message['app'] = strtoupper($message['app']);
 			}

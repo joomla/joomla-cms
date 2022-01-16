@@ -74,7 +74,7 @@ class HelpModel extends BaseDatabaseModel
 	 */
 	public function &getHelpSearch()
 	{
-		if (is_null($this->help_search))
+		if (\is_null($this->help_search))
 		{
 			$this->help_search = Factory::getApplication()->input->getString('helpsearch');
 		}
@@ -91,7 +91,7 @@ class HelpModel extends BaseDatabaseModel
 	 */
 	public function &getPage()
 	{
-		if (is_null($this->page))
+		if (\is_null($this->page))
 		{
 			$this->page = Help::createUrl(Factory::getApplication()->input->get('page', 'Start_Here'));
 		}
@@ -108,7 +108,7 @@ class HelpModel extends BaseDatabaseModel
 	 */
 	public function getLangTag()
 	{
-		if (is_null($this->lang_tag))
+		if (\is_null($this->lang_tag))
 		{
 			$this->lang_tag = Factory::getLanguage()->getTag();
 
@@ -129,7 +129,7 @@ class HelpModel extends BaseDatabaseModel
 	 */
 	public function &getToc()
 	{
-		if (!is_null($this->toc))
+		if (!\is_null($this->toc))
 		{
 			return $this->toc;
 		}

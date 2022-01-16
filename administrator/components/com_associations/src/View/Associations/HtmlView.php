@@ -92,14 +92,14 @@ class HtmlView extends BaseHtmlView
 
 			$types = $extension->get('types');
 
-			if (array_key_exists($typeName, $types))
+			if (\array_key_exists($typeName, $types))
 			{
 				$type = $types[$typeName];
 			}
 
 			$this->itemType = $type;
 
-			if (is_null($type))
+			if (\is_null($type))
 			{
 				Factory::getApplication()->enqueueMessage(Text::_('COM_ASSOCIATIONS_ERROR_NO_TYPE'), 'warning');
 			}
@@ -112,13 +112,13 @@ class HtmlView extends BaseHtmlView
 
 				$details = $type->get('details');
 
-				if (array_key_exists('support', $details))
+				if (\array_key_exists('support', $details))
 				{
 					$support = $details['support'];
 					$this->typeSupports = $support;
 				}
 
-				if (array_key_exists('fields', $details))
+				if (\array_key_exists('fields', $details))
 				{
 					$fields = $details['fields'];
 					$this->typeFields = $fields;
@@ -189,7 +189,7 @@ class HtmlView extends BaseHtmlView
 		}
 
 		// Check for errors.
-		if (count($errors = $this->get('Errors')))
+		if (\count($errors = $this->get('Errors')))
 		{
 			throw new \Exception(implode("\n", $errors), 500);
 		}
