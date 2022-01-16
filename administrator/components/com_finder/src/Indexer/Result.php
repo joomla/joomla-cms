@@ -1,6 +1,6 @@
 <?php
 /**
- * @package     Joomla.Administrator
+ * @package     Joomla.Administrator 
  * @subpackage  com_finder
  *
  * @copyright   (C) 2011 Open Source Matters, Inc. <https://www.joomla.org>
