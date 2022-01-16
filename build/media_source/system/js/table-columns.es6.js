@@ -74,7 +74,7 @@ class TableColumns {
       const $input = document.createElement('input');
       $input.classList.add('form-check-input', 'me-1');
       $input.type = 'checkbox';
-      $input.name = 'table[column][]';
+      $input.name = 'column';
       $input.checked = this.listOfHidden.indexOf(index) === -1;
       $input.disabled = this.protectedCols.indexOf(index) !== -1;
       $input.value = index;
@@ -142,9 +142,6 @@ class TableColumns {
    * @param {Boolean} force To force hide
    */
   toggleColumn(index, force) {
-    // Skip incorrect index
-    if (!this.$headers[index]) return;
-
     // Skip the protected columns
     if (this.protectedCols.indexOf(index) !== -1) return;
 
@@ -189,7 +186,7 @@ if (window.innerWidth > 992) {
   [...document.querySelectorAll('table')].forEach(($table) => {
     const tableName = ($table.dataset.name ? $table.dataset.name : document.querySelector('.page-title')
       .textContent.trim()
-      .replace(/[^a-z0-9]/gi, '-')
+      .replace(/\s'\//, '-')
       .toLowerCase()
     );
 
