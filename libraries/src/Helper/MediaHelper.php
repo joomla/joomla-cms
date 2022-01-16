@@ -246,7 +246,7 @@ class MediaHelper
 		// Remove allowed executables from array
 		if (count($allowedExecutables))
 		{
-			$executables = array_diff($executables, $allowedExecutables);
+			$executable = array_diff($executables, $allowedExecutables);
 		}
 
 		$check = array_intersect($filetypes, $executables);
