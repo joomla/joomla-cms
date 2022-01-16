@@ -385,7 +385,7 @@ class AdministratorApplication extends CMSApplication
 
 		if (!($result instanceof \Exception))
 		{
-			$lang = $this->input->getCmd('lang');
+			$lang = $this->input->getCmd('lang', '');
 			$lang = preg_replace('/[^A-Z-]/i', '', $lang);
 
 			if ($lang)
