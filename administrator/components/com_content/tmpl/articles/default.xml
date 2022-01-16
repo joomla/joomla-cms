@@ -43,9 +43,10 @@
 				multiple="true"
 				layout="joomla.form.field.list-fancy-select"
 				class="multipleAuthors"
-				filter="intarray"
+				filter="array"
 				>
 				<option value="0">JNONE</option>
+				<option value="by_me">COM_CONTENT_FILTER_AUTHORS_BY_ME</option>
 			</field>
 
 			<field
