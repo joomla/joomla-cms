@@ -274,7 +274,7 @@ class TextField extends FormField
 	 */
 	protected function getOptions()
 	{
-		if(empty($this->options))
+		if (empty($this->options))
 		{
 			return [];
 		}
