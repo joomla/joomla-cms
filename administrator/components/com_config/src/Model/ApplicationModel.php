@@ -20,6 +20,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\File;
 use Joomla\CMS\Filesystem\Folder;
 use Joomla\CMS\Filesystem\Path;
+use Joomla\CMS\Filter\OutputFilter;
 use Joomla\CMS\Http\HttpFactory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
@@ -495,7 +496,7 @@ class ApplicationModel extends FormModel
 		// Escape the offline message if present.
 		if (isset($data['offline_message']))
 		{
-			$data['offline_message'] = \JFilterOutput::ampReplace($data['offline_message']);
+			$data['offline_message'] = OutputFilter::ampReplace($data['offline_message']);
 		}
 
 		// Purge the database session table if we are changing to the database handler.
@@ -1090,7 +1091,7 @@ class ApplicationModel extends FormModel
 				}
 
 				/**
-				 * @to do: incorrect ACL stored
+				 * @todo: incorrect ACL stored
 				 * When changing a permission of an item that doesn't have a row in the asset table the row a new row is created.
 				 * This works fine for item <-> component <-> global config scenario and component <-> global config scenario.
 				 * But doesn't work properly for item <-> section(s) <-> component <-> global config scenario,
@@ -1184,7 +1185,7 @@ class ApplicationModel extends FormModel
 			$parentAssetId = null;
 
 			/**
-			 * @to do: incorrect info
+			 * @todo: incorrect info
 			 * When creating a new item (not saving) it uses the calculated permissions from the component (item <-> component <-> global config).
 			 * But if we have a section too (item <-> section(s) <-> component <-> global config) this is not correct.
 			 * Also, currently it uses the component permission, but should use the calculated permissions for a child of the component/section.
@@ -1285,7 +1286,7 @@ class ApplicationModel extends FormModel
 			// Second part: Overwrite the calculated permissions labels if there is an explicit permission in the current group.
 
 			/**
-			 * @to do: incorrect info
+			 * @todo: incorrect info
 			 * If a component has a permission that doesn't exists in global config (ex: frontend editing in com_modules) by default
 			 * we get "Not Allowed (Inherited)" when we should get "Not Allowed (Default)".
 			 */

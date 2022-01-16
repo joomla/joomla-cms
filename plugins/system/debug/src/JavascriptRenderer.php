@@ -61,7 +61,7 @@ class JavascriptRenderer extends DebugBarJavascriptRenderer
 
 		foreach ($inlineCss as $content)
 		{
-			$html .= sprintf('<style type="text/css">%s</style>' . "\n", $content);
+			$html .= sprintf('<style>%s</style>' . "\n", $content);
 		}
 
 		foreach ($jsFiles as $file)

@@ -96,7 +96,7 @@ abstract class WebApplication extends AbstractWebApplication
 	 *
 	 * This method must be invoked as: $web = WebApplication::getInstance();
 	 *
-	 * @param   string  $name  The name (optional) of the JApplicationWeb class to instantiate.
+	 * @param   string  $name  The name (optional) of the WebApplication class to instantiate.
 	 *
 	 * @return  WebApplication
 	 *

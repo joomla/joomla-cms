@@ -157,7 +157,7 @@ class FeaturedModel extends ArticlesModel
 	/**
 	 * Get the list of items.
 	 *
-	 * @return  \JDatabaseQuery
+	 * @return  \Joomla\Database\DatabaseQuery
 	 */
 	protected function getListQuery()
 	{
