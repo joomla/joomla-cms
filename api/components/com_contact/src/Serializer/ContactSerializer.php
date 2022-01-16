@@ -40,7 +40,7 @@ class ContactSerializer extends JoomlaSerializer
 	{
 		$resources = [];
 
-		// TODO: This can't be hardcoded in the future?
+		// @todo: This can't be hardcoded in the future?
 		$serializer = new JoomlaSerializer($this->type);
 
 		foreach ($model->associations as $association)
