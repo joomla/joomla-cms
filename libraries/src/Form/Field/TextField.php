@@ -53,9 +53,9 @@ class TextField extends FormField
 	 * The field option objects.
 	 *
 	 * @var    array
-	 * @since  3.2
+	 * @since  4.0
 	 */
-	protected $options;
+	protected $options = [];
 
 	/**
 	 * The name of the form field direction (ltr or rtl).
@@ -201,7 +201,7 @@ class TextField extends FormField
 			$this->addonBefore = (string) $this->element['addonBefore'];
 			$this->addonAfter  = (string) $this->element['addonAfter'];
 			$this->useglobal = (bool) $this->element['useglobal'];
-			
+
 			foreach ($this->element->children() as $option)
 			{
 				// Only add <option /> elements.
