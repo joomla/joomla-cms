@@ -833,7 +833,7 @@ final class SiteApplication extends CMSApplication
 		if ($active !== null
 			&& $active->type === 'alias'
 			&& $active->getParams()->get('alias_redirect')
-			&& \in_array($this->input->getMethod(), array('GET', 'HEAD'), true))
+			&& \in_array($this->input->getMethod(), ['GET', 'HEAD'], true))
 		{
 			$item = $this->getMenu()->getItem($active->getParams()->get('aliasoptions'));
 
