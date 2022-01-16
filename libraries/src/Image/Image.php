@@ -407,7 +407,7 @@ class Image
 	 */
 	public function createThumbs($thumbSizes, $creationMethod = self::SCALE_INSIDE, $thumbsFolder = null)
 	{
-		$this->createThumbnails($thumbSizes, $creationMethod, $thumbsFolder, false);
+		return $this->createThumbnails($thumbSizes, $creationMethod, $thumbsFolder, false);
 	}
 
 	/**
