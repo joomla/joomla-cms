@@ -221,10 +221,7 @@ class ApiController extends BaseController
 			$name = $this->getModel()->createFolder($adapter, $name, $path, $override);
 		}
 
-		$options        = [];
-		$options['url'] = $this->input->getBool('url', false);
-
-		return $this->getModel()->getFile($adapter, $path . '/' . $name, $options);
+		return $this->getModel()->getFile($adapter, $path . '/' . $name);
 	}
 
 	/**
