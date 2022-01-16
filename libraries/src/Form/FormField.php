@@ -688,7 +688,7 @@ abstract class FormField
 		$this->layout = !empty($this->element['layout']) ? (string) $this->element['layout'] : $this->layout;
 
 		$this->parentclass = isset($this->element['parentclass']) ? (string) $this->element['parentclass'] : $this->parentclass;
-		
+
 		$this->labelElement = $this->element['label'] ? (string) $this->element['label'] : null;
 
 		// Add required to class list if field is required.
