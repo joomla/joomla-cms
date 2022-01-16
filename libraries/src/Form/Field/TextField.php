@@ -50,6 +50,14 @@ class TextField extends FormField
 	protected $inputmode;
 
 	/**
+	 * The field option objects.
+	 *
+	 * @var    array
+	 * @since  3.2
+	 */
+	protected $options;
+
+	/**
 	 * The name of the form field direction (ltr or rtl).
 	 *
 	 * @var    string
@@ -192,6 +200,19 @@ class TextField extends FormField
 
 			$this->addonBefore = (string) $this->element['addonBefore'];
 			$this->addonAfter  = (string) $this->element['addonAfter'];
+			$this->useglobal = (bool) $this->element['useglobal'];
+			
+			foreach ($this->element->children() as $option)
+			{
+				// Only add <option /> elements.
+				if ($option->getName() !== 'option')
+				{
+					continue;
+				}
+
+				// Create a new option element in list options.
+				$this->options[] = ['value' => (string) $option['value'], 'text' => (string) $option];
+			}
 		}
 
 		return $result;
@@ -206,7 +227,7 @@ class TextField extends FormField
 	 */
 	protected function getInput()
 	{
-		if ($this->element['useglobal'])
+		if ($this->useglobal)
 		{
 			$component = Factory::getApplication()->input->getCmd('option');
 
@@ -253,16 +274,15 @@ class TextField extends FormField
 	 */
 	protected function getOptions()
 	{
+		if(empty($this->options))
+		{
+			return [];
+		}
+
 		$options = array();
 
-		foreach ($this->element->children() as $option)
+		foreach ($this->options as $option)
 		{
-			// Only add <option /> elements.
-			if ($option->getName() !== 'option')
-			{
-				continue;
-			}
-
 			// Create a new option object based on the <option /> element.
 			$options[] = HTMLHelper::_(
 				'select.option', (string) $option['value'],
