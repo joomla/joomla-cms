@@ -961,22 +961,13 @@ class LocalAdapter implements AdapterInterface
 	 */
 	private function getLocalThumbPaths(string $path): array
 	{
-		$normalizeDirectorySeparator = ['\\', '/', ':'];
+		$rootPath = str_replace(['\\', '/'], '/', $this->rootPath);
+		$path     = str_replace(['\\', '/'], '/', $path);
 
 		try
 		{
-			$fs  = Path::check(
-				str_replace(
-					str_replace($normalizeDirectorySeparator, '/', $this->rootPath),
-					JPATH_ROOT . '/media/cache/com_media/thumbs/' . $this->filePath,
-					str_replace($normalizeDirectorySeparator, '/', $path)
-				)
-			);
-			$url = str_replace(
-				str_replace($normalizeDirectorySeparator, '/', $this->rootPath),
-				'media/cache/com_media/thumbs/' . $this->filePath,
-				str_replace($normalizeDirectorySeparator, '/', $path)
-			);
+			$fs  = Path::check(str_replace($rootPath, JPATH_ROOT . '/media/cache/com_media/thumbs/' . $this->filePath, $path));
+			$url = str_replace($rootPath, 'media/cache/com_media/thumbs/' . $this->filePath, $path);
 
 			return [
 				'fs'  => $fs,
