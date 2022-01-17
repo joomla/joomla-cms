@@ -17,6 +17,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Session\Session;
+use Joomla\Component\Scheduler\Administrator\Scheduler\Scheduler;
 use Joomla\Component\Scheduler\Administrator\View\Tasks\HtmlView;
 
 /** @var  HtmlView  $this*/
@@ -226,7 +227,7 @@ $document->getWebAssetManager()->useScript('com_scheduler.test-task');
 						<td class="small d-none d-md-table-cell">
 							<div id="run-task-btn-wrapper"
 									<?php
-									$disabled = ($item->state < 0 || !$user->authorise('core.testrun', 'com_scheduler.task.' . $item->id));
+									$disabled = ($item->state < 0 || !Scheduler::isAuthorizedToRun($item, $user));
 									if ($disabled):
 										$reason = Text::_($item->state < 0 ? "COM_SCHEDULER_MANAGER_TOOLTIP_TASK_TRASHED" : "COM_SCHEDULER_MANAGER_TOOLTIP_NOT_AUTHORIZED");
 										echo ' data-toggle="tooltip" data-placement="top" title="' . $reason . '"';

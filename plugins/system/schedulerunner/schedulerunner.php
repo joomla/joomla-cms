@@ -262,9 +262,16 @@ class PlgSystemSchedulerunner extends CMSPlugin implements SubscriberInterface
 		$id = (int) $this->app->input->getInt('id');
 		$allowConcurrent = $this->app->input->getBool('allowConcurrent', false);
 
+		if (empty($id))
+		{
+			throw new \Exception(Text::_('JERROR_ALERTNOAUTHOR'), 403);
+		}
+
+		$scheduler = new Scheduler;
+		$taskRecord = $scheduler->fetchTaskRecord($id, true);
 		$user = Factory::getApplication()->getIdentity();
 
-		if (empty($id) || !$user->authorise('core.testrun', 'com_scheduler.task.' . $id))
+		if (empty($taskRecord) || !Scheduler::isAuthorizedToRun($taskRecord, $user))
 		{
 			throw new \Exception(Text::_('JERROR_ALERTNOAUTHOR'), 403);
 		}
@@ -275,7 +282,7 @@ class PlgSystemSchedulerunner extends CMSPlugin implements SubscriberInterface
 		 * We will allow CLI exclusive tasks to be fetched and executed, it's left to routines to do a runtime check
 		 * if they want to refuse normal operation.
 		 */
-		$task = (new Scheduler)->getTask(
+		$task = $scheduler->getTask(
 			[
 				'id' => $id,
 				'allowDisabled' => true,
