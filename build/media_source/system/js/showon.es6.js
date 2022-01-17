@@ -209,7 +209,7 @@ class Showon {
           }));
         }
       } else {
-        // TODO: If chosen or choices.js is active we should update them
+        // @todo: If chosen or choices.js is active we should update them
         field.disabled = !showfield;
       }
     });
