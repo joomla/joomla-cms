@@ -7,7 +7,7 @@
     <div class="media-browser-item-preview">
       <div class="file-background">
         <div class="file-icon">
-          <span class="fas fa-file-pdf" />
+          <span v-bind:class="getFileClass" />
         </div>
       </div>
     </div>
@@ -174,6 +174,26 @@ export default {
     return {
       showActions: false,
     };
+  },
+  computed: {
+    /* Get the hashed URL */
+    getFileClass: (item) => {
+      switch (item.mime_type) {
+        case 'application/pdf':
+          return 'fas fa-file-pdf';
+        case 'application/msword':
+        case 'application/vnd.openxmlformats-officedocument.wordprocessingml.document':
+          return 'fas fa-file-word';
+        case 'application/vnd.ms-excel':
+        case 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet':
+          return 'fas fa-file-excel';
+        case 'application/vnd.ms-powerpoint':
+        case 'application/vnd.openxmlformats-officedocument.presentationml.presentation':
+          return 'fas fa-file-powerpoint';
+        default:
+          return 'fas fa-file';
+      }
+    },
   },
   watch: {
     // eslint-disable-next-line
