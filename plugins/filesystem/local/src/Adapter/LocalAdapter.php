@@ -963,10 +963,6 @@ class LocalAdapter implements AdapterInterface
 	{
 		$normalizeDirectorySeparator = ['\\', '/', ':'];
 
-		/**
-		 * NOTE: please use `realpath` inside the `str_replace` below.
-		 *       Otherwise, the `str_replace` will not work as expected on non UNIX OS.
-		 */
 		try
 		{
 			$fs  = Path::check(
