@@ -74,7 +74,7 @@ class DataFormatter extends DebugBarDataFormatter
 
 			$string = rtrim($string, ', ') . ')';
 		}
-		elseif (isset($call['args']))
+		elseif (isset($call['args'][0]))
 		{
 			$string .= htmlspecialchars($call['function']) . ' ' . $call['args'][0];
 		}
