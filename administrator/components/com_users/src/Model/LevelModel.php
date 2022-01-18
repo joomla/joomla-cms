@@ -109,7 +109,7 @@ class LevelModel extends AdminModel
 
 					$this->levelsInUse = array_merge($this->levelsInUse, $values);
 
-					// TODO Could assemble an array of the tables used by each view level list those,
+					// @todo Could assemble an array of the tables used by each view level list those,
 					// giving the user a clue in the error where to look.
 				}
 			}
@@ -173,7 +173,7 @@ class LevelModel extends AdminModel
 	 * @param   array    $data      An optional array of data for the form to interrogate.
 	 * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
 	 *
-	 * @return  Form|bool	A \JForm object on success, false on failure
+	 * @return  Form|bool  A Form object on success, false on failure
 	 *
 	 * @since   1.6
 	 */

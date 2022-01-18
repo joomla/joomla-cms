@@ -16,6 +16,7 @@ use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\Pagination\Pagination;
 use Joomla\CMS\Toolbar\Toolbar;
+use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\Component\Installer\Administrator\View\Installer\HtmlView as InstallerViewDefault;
 
 /**
@@ -83,8 +84,7 @@ class HtmlView extends InstallerViewDefault
 	protected function addToolbar()
 	{
 		$toolbar = Toolbar::getInstance('toolbar');
-
-		$canDo = ContentHelper::getActions('com_installer');
+		$canDo   = ContentHelper::getActions('com_installer');
 
 		if ($canDo->get('core.edit.state'))
 		{
@@ -109,6 +109,12 @@ class HtmlView extends InstallerViewDefault
 				->text('JTOOLBAR_UNINSTALL')
 				->message('COM_INSTALLER_CONFIRM_UNINSTALL')
 				->listCheck(true);
+			$toolbar->divider();
+		}
+
+		if ($canDo->get('core.manage'))
+		{
+			ToolbarHelper::link('index.php?option=com_installer&view=install', 'COM_INSTALLER_TOOLBAR_INSTALL_EXTENSIONS', 'upload');
 			$toolbar->divider();
 		}
 
