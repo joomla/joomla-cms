@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 
-// TODO: Deprecate this file since we can use popup button to raise batch modal.
+// @todo: Deprecate this file since we can use popup button to raise batch modal.
 
 HTMLHelper::_('behavior.core');
 
