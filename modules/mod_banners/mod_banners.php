@@ -12,8 +12,8 @@ defined('_JEXEC') or die;
 // Include the banners functions only once
 JLoader::register('ModBannersHelper', __DIR__ . '/helper.php');
 
-$headerText = trim($params->get('header_text'));
-$footerText = trim($params->get('footer_text'));
+$headerText = trim($params->get('header_text', ''));
+$footerText = trim($params->get('footer_text', ''));
 
 JLoader::register('BannersHelper', JPATH_ADMINISTRATOR . '/components/com_banners/helpers/banners.php');
 BannersHelper::updateReset();
