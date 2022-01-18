@@ -426,6 +426,10 @@
         ],
         "licenseFilename": "LICENSE.txt"
       },
+      "joomla-a11y-checker": {
+        "name": "joomla-a11y-checker",
+        "licenseFilename": "LICENSE.md"
+      },
       "joomla-ui-custom-elements": {
         "name": "joomla-custom-elements",
         "js": {

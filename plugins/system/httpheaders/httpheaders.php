@@ -495,7 +495,7 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 		{
 			$headerAndClient = explode('#', $headerAndClient);
 			$header = $headerAndClient[0];
-			$client = isset($headerAndClient[1]) ? $headerAndClient[1] : 'both';
+			$client = $headerAndClient[1] ?? 'both';
 
 			if (!$this->app->isClient($client) && $client != 'both')
 			{
