@@ -126,6 +126,12 @@ abstract class TagsPopularHelper
 			{
 				// Backup bound parameters array of the original query
 				$bounded = $query->getBounded();
+
+				if ($maximum > 0)
+				{
+					$query->setLimit($maximum);
+				}
+				
 				$query->order($db->quoteName('count') . ' DESC');
 				$equery = $db->getQuery(true)
 					->select(
