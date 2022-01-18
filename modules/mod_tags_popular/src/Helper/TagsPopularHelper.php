@@ -38,7 +38,7 @@ abstract class TagsPopularHelper
 		$user        = Factory::getUser();
 		$groups      = $user->getAuthorisedViewLevels();
 		$timeframe   = $params->get('timeframe', 'alltime');
-		$maximum =     (int) $params->get('maximum', 5);
+		$maximum     = (int) $params->get('maximum', 5);
 		$order_value = $params->get('order_value', 'title');
 		$nowDate     = Factory::getDate()->toSql();
 		$nullDate    = $db->getNullDate();

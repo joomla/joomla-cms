@@ -200,7 +200,7 @@ abstract class TagsSimilarHelper
 		{
 			$query->setLimit($maximum);
 		}
-		
+
 		$db->setQuery($query);
 
 		try
