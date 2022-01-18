@@ -8,12 +8,12 @@
 		<action name="core.delete" title="JACTION_DELETE" />
 		<action name="core.edit" title="JACTION_EDIT" />
 		<action name="core.edit.state" title="JACTION_EDITSTATE" />
-		<action name="core.testrun" title="COM_SCHEDULER_PERMISSION_TESTRUN" />
+		<action name="core.runtask" title="COM_SCHEDULER_PERMISSION_RUN_TASK" />
 	</section>
 	<section name="task">
 		<action name="core.delete" title="JACTION_DELETE" />
 		<action name="core.edit" title="JACTION_EDIT" />
 		<action name="core.edit.state" title="JACTION_EDITSTATE" />
-		<action name="core.testrun" title="COM_SCHEDULER_PERMISSION_TESTRUN" />
+		<action name="core.runtask" title="COM_SCHEDULER_PERMISSION_RUN_TASK" />
 	</section>
 </access>
