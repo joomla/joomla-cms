@@ -15,7 +15,7 @@ use Joomla\CMS\Layout\LayoutHelper;
 $displayData = [
 	'textPrefix' => 'COM_SCHEDULER',
 	'formURL' => 'index.php?option=com_scheduler&task=task.add',
-	'helpURL' => 'https://docs.joomla.org/J4.x:Task_Scheduler',
+	'helpURL' => 'https://docs.joomla.org/Special:MyLanguage/J4.x:Task_Scheduler',
 	'icon' => 'icon-clock clock',
 ];
 
