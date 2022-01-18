@@ -132,14 +132,11 @@ class AccessiblemediaField extends SubformField
 	{
 		/**
 		 * When you have subforms which are not repeatable (i.e. a subform custom field with the
-		 * repeat attribute set to 0) you get an array here. This happens because the subform data,
-		 * including the inner data of the media field, is stored as JSON and decoded as an
-		 * associative array. Since the code below only expects a string (JSON or legacy single
-		 * image file) or an object it thinks there's invalid data which causes the media field to
-		 * not save its data and, on the next page load, not render at all.
+		 * repeat attribute set to 0) you get an array here since the data comes from decoding the
+		 * JSON into an associative array, including the media subfield's data.
 		 *
-		 * Typecasting that array back to the expected object value solves the discrepancy between
-		 * provided data and expected data, solving the issue.
+		 * However, this method expects an object or a string, not an array. Typecasting the array
+		 * to an object solves the data format discrepancy.
 		 */
 		$value = is_array($value) ? (object) $value : $value;
 
