@@ -1103,6 +1103,7 @@ class WebApplication extends BaseApplication
 		{
 			$code = 0;
 		}
+
 		header($string, $replace, $code);
 	}
 
