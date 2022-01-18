@@ -176,9 +176,9 @@ export default {
     };
   },
   computed: {
-    /* Get the hashed URL */
-    getFileClass: (item) => {
-      switch (item.mime_type) {
+    /* Get the mime type */
+    getFileClass() {
+      switch (this.item.mime_type) {
         case 'application/pdf':
           return 'fas fa-file-pdf';
         case 'application/msword':
