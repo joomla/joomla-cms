@@ -199,11 +199,17 @@ class Showon {
       if (field.tagName !== 'option') {
         if (showfield) {
           field.classList.remove('hidden');
+          field.dispatchEvent(new CustomEvent('joomla:showon-show', {
+            bubbles: true,
+          }));
         } else {
           field.classList.add('hidden');
+          field.dispatchEvent(new CustomEvent('joomla:showon-hide', {
+            bubbles: true,
+          }));
         }
       } else {
-        // TODO: If chosen or choices.js is active we should update them
+        // @todo: If chosen or choices.js is active we should update them
         field.disabled = !showfield;
       }
     });
