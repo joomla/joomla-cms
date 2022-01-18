@@ -131,6 +131,19 @@ class AccessiblemediaField extends SubformField
 	public function setup(\SimpleXMLElement $element, $value, $group = null)
 	{
 		/**
+		 * When you have subforms which are not repeatable (i.e. a subform custom field with the
+		 * repeat attribute set to 0) you get an array here. This happens because the subform data,
+		 * including the inner data of the media field, is stored as JSON and decoded as an
+		 * associative array. Since the code below only expects a string (JSON or legacy single
+		 * image file) or an object it thinks there's invalid data which causes the media field to
+		 * not save its data and, on the next page load, not render at all.
+		 *
+		 * Typecasting that array back to the expected object value solves the discrepancy between
+		 * provided data and expected data, solving the issue.
+		 */
+		$value = is_array($value) ? (object) $value : $value;
+
+		/**
 		 * If the value is not a string, it is
 		 * most likely within a custom field of type subform
 		 * and the value is a stdClass with properties
