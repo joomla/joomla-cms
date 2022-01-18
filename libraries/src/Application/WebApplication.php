@@ -1098,6 +1098,12 @@ class WebApplication extends BaseApplication
 	protected function header($string, $replace = true, $code = null)
 	{
 		$string = str_replace(chr(0), '', $string);
+
+		if ($code === null)
+		{
+			$code = 0;
+		}
+
 		header($string, $replace, $code);
 	}
 
