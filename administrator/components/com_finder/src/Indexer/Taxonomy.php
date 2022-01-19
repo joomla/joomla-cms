@@ -188,7 +188,7 @@ class Taxonomy
 		 * The database did not match the input. This could be because the
 		 * state has changed or because the node does not exist. Let's figure
 		 * out which case is true and deal with it.
-		 * @todo: use factory?
+		 * TODO: use factory?
 		 */
 		$nodeTable = new MapTable($db);
 
@@ -383,6 +383,31 @@ class Taxonomy
 		$db->execute();
 
 		return true;
+	}
+
+	/**
+	 * Method to remove orphaned taxonomy maps
+	 *
+	 * @return  integer  The number of deleted rows.
+	 *
+	 * @since   4.1.0
+	 * @throws  \RuntimeException on database error.
+	 */
+	public static function removeOrphanMaps()
+	{
+		// Delete all orphaned maps
+		$db = Factory::getDbo();
+		$query2 = $db->getQuery(true)
+			->select($db->quoteName('link_id'))
+			->from($db->quoteName('#__finder_links'));
+		$query = $db->getQuery(true)
+			->delete($db->quoteName('#__finder_taxonomy_map'))
+			->where($db->quoteName('link_id') . ' NOT IN (' . $query2 . ')');
+		$db->setQuery($query);
+		$db->execute();
+		$count = $db->getAffectedRows();
+
+		return $count;
 	}
 
 	/**
