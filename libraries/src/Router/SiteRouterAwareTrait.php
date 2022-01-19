@@ -29,6 +29,7 @@ trait SiteRouterAwareTrait
 	 * @return  SiteRouter
 	 *
 	 * @since   __DEPLOY_VERSION__
+	 *
 	 * @throws  \UnexpectedValueException May be thrown if the router has not been set.
 	 */
 	public function getSiteRouter(): SiteRouter
