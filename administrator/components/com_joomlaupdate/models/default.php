@@ -443,7 +443,7 @@ class JoomlaupdateModelDefault extends JModelLegacy
 		// Download the package
 		try
 		{
-			$result = $http->get($url);
+			$result = $http->get($url, [], 30);
 		}
 		catch (RuntimeException $e)
 		{
