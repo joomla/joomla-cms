@@ -13,6 +13,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\Component\Scheduler\Administrator\Event\ExecuteTaskEvent;
 use Joomla\Component\Scheduler\Administrator\Task\Status;
+use Joomla\Component\Scheduler\Administrator\Task\Task;
 use Joomla\Component\Scheduler\Administrator\Traits\TaskPluginTrait;
 use Joomla\Event\SubscriberInterface;
 
@@ -44,6 +45,11 @@ class PlgTaskDemotasks extends CMSPlugin implements SubscriberInterface
 			'langConstPrefix' => 'PLG_TASK_DEMO_TASKS_STRESS_MEMORY_OVERRIDE',
 			'method'          => 'stressMemoryRemoveLimit',
 		],
+		'demoTask_r4.resumable' => [
+			'langConstPrefix' => 'PLG_TASK_DEMO_TASKS_RESUMABLE',
+			'method'          => 'resumable',
+			'form'            => 'testTaskForm',
+		],
 	];
 
 	/**
@@ -66,6 +72,60 @@ class PlgTaskDemotasks extends CMSPlugin implements SubscriberInterface
 			'onExecuteTask'        => 'standardRoutineHandler',
 			'onContentPrepareForm' => 'enhanceTaskItemForm',
 		];
+	}
+
+	/**
+	 * Sample resumable task.
+	 *
+	 * Whether the task will resume is random. There's a 40% chance of finishing every time it runs.
+	 *
+	 * You can use this as a template to create long running tasks which can detect an impending
+	 * timeout condition, return Status::WILL_RESUME and resume execution next time they are called.
+	 *
+	 * @param   ExecuteTaskEvent  $event  The event we are handling
+	 *
+	 * @return  integer
+	 *
+	 * @since   4.1.0
+	 * @throws  \Exception
+	 */
+	private function resumable(ExecuteTaskEvent $event): int
+	{
+		/** @var Task $task */
+		$task    = $event->getArgument('subject');
+		$timeout = (int) $event->getArgument('params')->timeout ?? 1;
+
+		$lastStatus = $task->get('last_exit_code', Status::OK);
+
+		// This is how you detect if you are resuming a task or starting it afresh
+		if ($lastStatus === Status::WILL_RESUME)
+		{
+			$this->logTask(sprintf('Resuming task %d', $task->get('id')));
+		}
+		else
+		{
+			$this->logTask(sprintf('Starting new task %d', $task->get('id')));
+		}
+
+		// Sample task body; we are simply sleeping for some time.
+		$this->logTask(sprintf('Starting %ds timeout', $timeout));
+		sleep($timeout);
+		$this->logTask(sprintf('%ds timeout over!', $timeout));
+
+		// Should I resume the task in the next step (randomly decided)?
+		$willResume = random_int(0, 5) < 4;
+
+		// Log our intention to resume or not and return the appropriate exit code.
+		if ($willResume)
+		{
+			$this->logTask(sprintf('Task %d will resume', $task->get('id')));
+		}
+		else
+		{
+			$this->logTask(sprintf('Task %d is now complete', $task->get('id')));
+		}
+
+		return $willResume ? Status::WILL_RESUME : Status::OK;
 	}
 
 	/**
