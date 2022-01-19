@@ -11,6 +11,29 @@
       "uri": "com_finder/dates.min.css"
     },
     {
+      "name": "com_finder.debug.es5",
+      "type": "script",
+      "uri": "com_finder/debug-es5.min.js",
+      "dependencies": [
+        "core"
+      ],
+      "attributes": {
+        "nomodule": true,
+        "defer": true
+      }
+    },
+    {
+      "name": "com_finder.debug",
+      "type": "script",
+      "uri": "com_finder/debug.min.js",
+      "dependencies": [
+        "com_finder.debug.es5"
+      ],
+      "attributes": {
+        "type": "module"
+      }
+    },
+    {
       "name": "com_finder.filters.es5",
       "type": "script",
       "uri": "com_finder/filters-es5.min.js",

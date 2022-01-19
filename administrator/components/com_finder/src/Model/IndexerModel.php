@@ -11,13 +11,38 @@ namespace Joomla\Component\Finder\Administrator\Model;
 
 \defined('_JEXEC') or die;
 
-use Joomla\CMS\MVC\Model\BaseDatabaseModel;
+use Joomla\CMS\Form\Form;
+use Joomla\CMS\MVC\Model\FormModel;
 
 /**
  * Indexer model class for Finder.
  *
  * @since  2.5
  */
-class IndexerModel extends BaseDatabaseModel
+class IndexerModel extends FormModel
 {
+	/**
+	 * Method for getting a form.
+	 *
+	 * @param   array    $data      Data for the form.
+	 * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
+	 *
+	 * @return  Form
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 *
+	 * @throws \Exception
+	 */
+	public function getForm($data = array(), $loadData = true)
+	{
+		// Get the form.
+		$form = $this->loadForm('com_finder.indexer', 'indexer', array('control' => '', 'load_data' => $loadData));
+
+		if (empty($form))
+		{
+			return false;
+		}
+
+		return $form;
+	}
 }

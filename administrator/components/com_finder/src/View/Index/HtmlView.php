@@ -176,10 +176,38 @@ class HtmlView extends BaseHtmlView
 
 		ToolbarHelper::title(Text::_('COM_FINDER_INDEX_TOOLBAR_TITLE'), 'search-plus finder');
 
-		$toolbar->appendButton(
-			'Popup', 'archive', 'COM_FINDER_INDEX', 'index.php?option=com_finder&view=indexer&tmpl=component', 500, 210, 0, 0,
-			'window.parent.location.reload()', Text::_('COM_FINDER_HEADING_INDEXER')
-		);
+		if (JDEBUG)
+		{
+			$dropdown = $toolbar->dropdownButton('indexing-group');
+			$dropdown->text('COM_FINDER_INDEX')
+				->toggleSplit(false)
+				->icon('icon-archive')
+				->buttonClass('btn btn-action');
+
+			$childBar = $dropdown->getChildToolbar();
+
+			$childBar->popupButton('index', 'COM_FINDER_INDEX')
+				->url('index.php?option=com_finder&view=indexer&tmpl=component')
+				->icon('icon-archive')
+				->iframeWidth(500)
+				->iframeHeight(210)
+				->onclose('window.parent.location.reload()')
+				->title(Text::_('COM_FINDER_HEADING_INDEXER'));
+
+			$childBar->linkButton('indexdebug', 'COM_FINDER_INDEX_TOOLBAR_INDEX_DEBUGGING')
+				->url('index.php?option=com_finder&view=indexer&layout=debug')
+				->icon('icon-tools');
+		}
+		else
+		{
+			$toolbar->popupButton('index', 'COM_FINDER_INDEX')
+				->url('index.php?option=com_finder&view=indexer&tmpl=component')
+				->icon('icon-archive')
+				->iframeWidth(500)
+				->iframeHeight(210)
+				->onclose('window.parent.location.reload()')
+				->title(Text::_('COM_FINDER_HEADING_INDEXER'));
+		}
 
 		if (!$this->isEmptyState)
 		{
