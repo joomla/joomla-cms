@@ -157,10 +157,43 @@ class Indexer
 		// If the state is empty, load the values for the first time.
 		if (empty($data))
 		{
-			$data = new CMSObject;
+			$data = new \stdClass;
+			$data->force = false;
 
 			// Load the default configuration options.
 			$data->options = ComponentHelper::getParams('com_finder');
+			$db = Factory::getDbo();
+
+			if ($db->getServerType() == 'mysql')
+			{
+				/**
+				 * Try to calculate the heapsize for the memory table for indexing. If this fails,
+				 * we fall back on a reasonable small size. We want to prevent the system to fail
+				 * and block saving content.
+				 */
+				try
+				{
+					$db->setQuery('SHOW VARIABLES LIKE ' . $db->quote('max_heap_table_size'));
+					$heapsize = $db->loadObject();
+
+					/**
+					 * In tests, the size of a row seems to have been around 720 bytes.
+					 * We take 800 to be on the safe side.
+					 */
+					$memory_table_limit = (int) ($heapsize->Value / 800);
+					$data->options->set('memory_table_limit', $memory_table_limit);
+				}
+				catch (Exception $e)
+				{
+					// Something failed. We fall back to a reasonable guess.
+					$data->options->set('memory_table_limit', 7500);
+				}
+			}
+			else
+			{
+				// We are running on PostgreSQL and don't have this issue, so we set a rather high number.
+				$data->options->set('memory_table_limit', 50000);
+			}
 
 			// Setup the weight lookup information.
 			$data->weights = array(
@@ -863,6 +896,15 @@ class Indexer
 	 */
 	private function tokenizeToDbShort($input, $context, $lang, $format, $count)
 	{
+		static $filterCommon, $filterNumeric;
+
+		if (is_null($filterCommon))
+		{
+			$params = ComponentHelper::getParams('com_finder');
+			$filterCommon = $params->get('filter_commonwords', false);
+			$filterNumeric = $params->get('filter_numerics', false);
+		}
+
 		// Parse the input.
 		$input = Helper::parse($input, $format);
 
@@ -880,50 +922,7 @@ class Indexer
 			return $count;
 		}
 
-		// Add the tokens to the database.
-		$count += $this->addTokensToDb($tokens, $context);
-
-		// Check if we're approaching the memory limit of the token table.
-		if ($count > static::$state->options->get('memory_table_limit', 10000))
-		{
-			$this->toggleTables(false);
-		}
-
-		return $count;
-	}
-
-	/**
-	 * Method to add a set of tokens to the database.
-	 *
-	 * @param   Token[]|Token  $tokens   An array or single Token object.
-	 * @param   mixed          $context  The context of the tokens. See context constants. [optional]
-	 *
-	 * @return  integer  The number of tokens inserted into the database.
-	 *
-	 * @since   2.5
-	 * @throws  Exception on database error.
-	 */
-	protected function addTokensToDb($tokens, $context = '')
-	{
-		static $filterCommon, $filterNumeric;
-
-		if (is_null($filterCommon))
-		{
-			$params = ComponentHelper::getParams('com_finder');
-			$filterCommon = $params->get('filter_commonwords', false);
-			$filterNumeric = $params->get('filter_numerics', false);
-		}
-
-		// Get the database object.
-		$db = $this->db;
-
 		$query = clone $this->addTokensToDbQueryTemplate;
-
-		// Check if a single FinderIndexerToken object was given and make it to be an array of FinderIndexerToken objects
-		$tokens = is_array($tokens) ? $tokens : array($tokens);
-
-		// Count the number of token values.
-		$values = 0;
 
 		// Break into chunks of no more than 128 items
 		$chunks = array_chunk($tokens, 128);
@@ -951,31 +950,31 @@ class Indexer
 				}
 
 				$query->values(
-					$db->quote($token->term) . ', '
-					. $db->quote($token->stem) . ', '
+					$query->quote($token->term) . ', '
+					. $query->quote($token->stem) . ', '
 					. (int) $token->common . ', '
 					. (int) $token->phrase . ', '
-					. $db->quote($token->weight) . ', '
+					. $query->quote($token->weight) . ', '
 					. (int) $context . ', '
-					. $db->quote($token->language)
+					. $query->quote($token->language)
 				);
-				++$values;
+				$count++;
+			}
+
+			// Check if we're approaching the memory limit of the token table.
+			if ($count > static::$state->options->get('memory_table_limit', 10000))
+			{
+				$this->toggleTables(false);
 			}
 
 			// Only execute the query if there are tokens to insert
 			if ($query->values !== null)
 			{
-				$db->setQuery($query)->execute();
-			}
-
-			// Check if we're approaching the memory limit of the token table.
-			if ($values > static::$state->options->get('memory_table_limit', 10000))
-			{
-				$this->toggleTables(false);
+				$this->db->setQuery($query)->execute();
 			}
 		}
 
-		return $values;
+		return $count;
 	}
 
 	/**
