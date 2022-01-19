@@ -145,7 +145,7 @@ class ApiRouter extends Router
 		/**
 		 * In some environments (e.g. CLI we can't form a valid base URL). In this case we catch the exception thrown
 		 * by URI and set an empty base URI for further work.
-		 * TODO: This should probably be handled better
+		 * @todo: This should probably be handled better
 		 */
 		try
 		{
@@ -209,7 +209,7 @@ class ApiRouter extends Router
 		// Extract routes matching $routePath from all known routes.
 		return array_filter($this->routes,
 			function ($route) use ($routePath) {
-				return preg_match($route->getRegex(), ltrim($routePath, '/'), $matches) === 1;
+				return preg_match($route->getRegex(), ltrim($routePath, '/')) === 1;
 			}
 		);
 	}

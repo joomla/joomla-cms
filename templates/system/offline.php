@@ -22,14 +22,14 @@ $app = Factory::getApplication();
 $wa  = $this->getWebAssetManager();
 
 // Styles
-$wa->registerAndUseStyle('template.system.offline', 'templates/system/css/offline.css');
+$wa->registerAndUseStyle('template.system.offline', 'media/system/css/system-site-offline.css');
 
 if ($this->direction === 'rtl')
 {
-	$wa->registerAndUseStyle('template.system.offline_rtl', 'templates/system/css/offline_rtl.css');
+	$wa->registerAndUseStyle('template.system.offline_rtl', 'media/system/css/system-site-offline_rtl.css');
 }
 
-$wa->registerAndUseStyle('template.system.general', 'templates/system/css/general.css');
+$wa->registerAndUseStyle('template.system.general', 'media/system/css/system-site-general.css');
 
 $twofactormethods = AuthenticationHelper::getTwoFactorMethods();
 
@@ -75,7 +75,7 @@ $twofactormethods = AuthenticationHelper::getTwoFactorMethods();
 			</p>
 		<?php endif; ?>
 		<p id="submit-button">
-			<input type="submit" name="Submit" class="button login" value="<?php echo Text::_('JLOGIN'); ?>" />
+			<button type="submit" name="Submit" class="button login"><?php echo Text::_('JLOGIN'); ?></button>
 		</p>
 		<input type="hidden" name="option" value="com_users" />
 		<input type="hidden" name="task" value="user.login" />

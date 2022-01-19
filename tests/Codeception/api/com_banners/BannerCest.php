@@ -29,27 +29,8 @@ class BannerCest
 	 */
 	public function _before(ApiTester $I)
 	{
-		// TODO: Improve this to retrieve a specific ID to replace with a known ID
-		$desiredUserId = 3;
-		$I->updateInDatabase('users', ['id' => 3], []);
-		$I->updateInDatabase('user_usergroup_map', ['user_id' => 3], []);
-		$enabledData = ['user_id' => $desiredUserId, 'profile_key' => 'joomlatoken.enabled', 'profile_value' => 1];
-		$tokenData = ['user_id' => $desiredUserId, 'profile_key' => 'joomlatoken.token', 'profile_value' => 'dOi2m1NRrnBHlhaWK/WWxh3B5tqq1INbdf4DhUmYTI4='];
-		$I->haveInDatabase('user_profiles', $enabledData);
-		$I->haveInDatabase('user_profiles', $tokenData);
-	}
-
-	/**
-	 * Api test after running.
-	 *
-	 * @param   mixed   ApiTester  $I  Api tester
-	 *
-	 * @return void
-	 *
-	 * @since   4.0.0
-	 */
-	public function _after(ApiTester $I)
-	{
+		$I->deleteFromDatabase('banners');
+		$I->deleteFromDatabase('categories', ['id >' => 7]);
 	}
 
 	/**
@@ -65,7 +46,7 @@ class BannerCest
 	 */
 	public function testCrudOnBanner(ApiTester $I)
 	{
-		$I->amBearerAuthenticated('c2hhMjU2OjM6ZTJmMjJlYTNlNTU0NmM1MDJhYTIzYzMwN2MxYzAwZTQ5NzJhMWRmOTUyNjY5MTk2YjE5ODJmZWMwZTcxNzgwMQ==');
+		$I->amBearerAuthenticated($I->getBearerToken());
 		$I->haveHttpHeader('Content-Type', 'application/json');
 		$I->haveHttpHeader('Accept', 'application/vnd.api+json');
 
@@ -86,23 +67,24 @@ class BannerCest
 		$I->sendPOST('/banners', $testBanner);
 
 		$I->seeResponseCodeIs(HttpCode::OK);
+		$id = $I->grabDataFromResponseByJsonPath('$.data.id')[0];
 
-		$I->amBearerAuthenticated('c2hhMjU2OjM6ZTJmMjJlYTNlNTU0NmM1MDJhYTIzYzMwN2MxYzAwZTQ5NzJhMWRmOTUyNjY5MTk2YjE5ODJmZWMwZTcxNzgwMQ==');
+		$I->amBearerAuthenticated($I->getBearerToken());
 		$I->haveHttpHeader('Accept', 'application/vnd.api+json');
-		$I->sendGET('/banners/1');
+		$I->sendGET('/banners/' . $id);
 		$I->seeResponseCodeIs(HttpCode::OK);
 
-		$I->amBearerAuthenticated('c2hhMjU2OjM6ZTJmMjJlYTNlNTU0NmM1MDJhYTIzYzMwN2MxYzAwZTQ5NzJhMWRmOTUyNjY5MTk2YjE5ODJmZWMwZTcxNzgwMQ==');
+		$I->amBearerAuthenticated($I->getBearerToken());
 		$I->haveHttpHeader('Content-Type', 'application/json');
 		$I->haveHttpHeader('Accept', 'application/vnd.api+json');
 
-		// Category is a required field for this patch request for now TODO: Remove this dependency
-		$I->sendPATCH('/banners/1', ['name' => 'Different Custom Advert', 'state' => -2, 'catid' => 3]);
+		// Category is a required field for this patch request for now @todo: Remove this dependency
+		$I->sendPATCH('/banners/' . $id, ['name' => 'Different Custom Advert', 'state' => -2, 'catid' => 3]);
 		$I->seeResponseCodeIs(HttpCode::OK);
 
-		$I->amBearerAuthenticated('c2hhMjU2OjM6ZTJmMjJlYTNlNTU0NmM1MDJhYTIzYzMwN2MxYzAwZTQ5NzJhMWRmOTUyNjY5MTk2YjE5ODJmZWMwZTcxNzgwMQ==');
+		$I->amBearerAuthenticated($I->getBearerToken());
 		$I->haveHttpHeader('Accept', 'application/vnd.api+json');
-		$I->sendDELETE('/banners/1');
+		$I->sendDELETE('/banners/' . $id);
 		$I->seeResponseCodeIs(HttpCode::NO_CONTENT);
 	}
 
@@ -119,7 +101,7 @@ class BannerCest
 	 */
 	public function testCrudOnCategory(ApiTester $I)
 	{
-		$I->amBearerAuthenticated('c2hhMjU2OjM6ZTJmMjJlYTNlNTU0NmM1MDJhYTIzYzMwN2MxYzAwZTQ5NzJhMWRmOTUyNjY5MTk2YjE5ODJmZWMwZTcxNzgwMQ==');
+		$I->amBearerAuthenticated($I->getBearerToken());
 		$I->haveHttpHeader('Content-Type', 'application/json');
 		$I->haveHttpHeader('Accept', 'application/vnd.api+json');
 
@@ -133,20 +115,20 @@ class BannerCest
 		$I->seeResponseCodeIs(HttpCode::OK);
 		$categoryId = $I->grabDataFromResponseByJsonPath('$.data.id')[0];
 
-		$I->amBearerAuthenticated('c2hhMjU2OjM6ZTJmMjJlYTNlNTU0NmM1MDJhYTIzYzMwN2MxYzAwZTQ5NzJhMWRmOTUyNjY5MTk2YjE5ODJmZWMwZTcxNzgwMQ==');
+		$I->amBearerAuthenticated($I->getBearerToken());
 		$I->haveHttpHeader('Accept', 'application/vnd.api+json');
 		$I->sendGET('/banners/categories/' . $categoryId);
 		$I->seeResponseCodeIs(HttpCode::OK);
 
-		$I->amBearerAuthenticated('c2hhMjU2OjM6ZTJmMjJlYTNlNTU0NmM1MDJhYTIzYzMwN2MxYzAwZTQ5NzJhMWRmOTUyNjY5MTk2YjE5ODJmZWMwZTcxNzgwMQ==');
+		$I->amBearerAuthenticated($I->getBearerToken());
 		$I->haveHttpHeader('Content-Type', 'application/json');
 		$I->haveHttpHeader('Accept', 'application/vnd.api+json');
 
-		// Unpublish in order to allow the delete in the next step
+		// Trash in order to allow the delete in the next step
 		$I->sendPATCH('/banners/categories/' . $categoryId, ['title' => 'Another Title', 'published' => -2]);
 		$I->seeResponseCodeIs(HttpCode::OK);
 
-		$I->amBearerAuthenticated('c2hhMjU2OjM6ZTJmMjJlYTNlNTU0NmM1MDJhYTIzYzMwN2MxYzAwZTQ5NzJhMWRmOTUyNjY5MTk2YjE5ODJmZWMwZTcxNzgwMQ==');
+		$I->amBearerAuthenticated($I->getBearerToken());
 		$I->haveHttpHeader('Accept', 'application/vnd.api+json');
 		$I->sendDELETE('/banners/categories/' . $categoryId);
 		$I->seeResponseCodeIs(HttpCode::NO_CONTENT);

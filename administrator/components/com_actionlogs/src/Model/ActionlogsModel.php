@@ -166,8 +166,8 @@ class ActionlogsModel extends ListModel
 			else
 			{
 				$search = '%' . $search . '%';
-				$query->where($db->quoteName('u.username') . ' LIKE :username')
-					->bind(':username', $search);
+				$query->where($db->quoteName('a.message') . ' LIKE :message')
+					->bind(':message', $search);
 			}
 		}
 
@@ -269,7 +269,7 @@ class ActionlogsModel extends ListModel
 	}
 
 	/**
-	 * Get logs data into JTable object
+	 * Get logs data into Table object
 	 *
 	 * @param   integer[]|null  $pks  An optional array of log record IDs to load
 	 *
