@@ -500,7 +500,7 @@ class UpdateModel extends BaseDatabaseModel
 		// Download the package
 		try
 		{
-			$result = HttpFactory::getHttp([], ['curl', 'stream'])->get($url);
+			$result = HttpFactory::getHttp([], ['curl', 'stream'])->get($url, [], 30);
 		}
 		catch (\RuntimeException $e)
 		{
