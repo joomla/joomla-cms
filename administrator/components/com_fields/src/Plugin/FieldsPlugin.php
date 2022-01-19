@@ -264,8 +264,8 @@ abstract class FieldsPlugin extends CMSPlugin
 	/**
 	 * Returns the path of the XML definition file for the field parameters
 	 *
-	 * @param   Form      $form  The form
-	 * @param   stdClass  $data  The data
+	 * @param   Form       $form  The form
+	 * @param   \stdClass  $data  The data
 	 *
 	 * @return  string
 	 *
