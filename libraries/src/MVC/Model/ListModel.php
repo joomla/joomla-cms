@@ -14,6 +14,7 @@ use Exception;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\Form\Form;
+use Joomla\CMS\Form\FormFactoryAwareInterface;
 use Joomla\CMS\Form\FormFactoryAwareTrait;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\Pagination\Pagination;
@@ -24,7 +25,7 @@ use Joomla\Database\DatabaseQuery;
  *
  * @since  1.6
  */
-class ListModel extends BaseDatabaseModel implements ListModelInterface
+class ListModel extends BaseDatabaseModel implements FormFactoryAwareInterface, ListModelInterface
 {
 	use FormBehaviorTrait;
 	use FormFactoryAwareTrait;
