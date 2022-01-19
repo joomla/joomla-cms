@@ -25,18 +25,19 @@ class RouteHelper
 	/**
 	 * Method to get the route for a search page.
 	 *
-	 * @param   integer  $f  The search filter id. [optional]
-	 * @param   string   $q  The search query string. [optional]
+	 * @param   integer  $f       The search filter id. [optional]
+	 * @param   string   $q       The search query string. [optional]
+	 * @param   integer  $itemid  An optional Itemid to use
 	 *
 	 * @return  string  The search route.
 	 *
 	 * @since   2.5
 	 */
-	public static function getSearchRoute($f = null, $q = null)
+	public static function getSearchRoute($f = null, $q = null, $itemid = null)
 	{
 		// Get the menu item id.
 		$query = array('view' => 'search', 'q' => $q, 'f' => $f);
-		$item = self::getItemid($query);
+		$item = $itemid ? $itemid : self::getItemid($query);
 
 		// Get the base route.
 		$uri = clone Uri::getInstance('index.php?option=com_finder&view=search');
