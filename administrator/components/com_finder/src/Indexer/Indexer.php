@@ -430,7 +430,7 @@ class Indexer
 						$count += $this->tokenizeToDb($ip, $group, $item->language, $format);
 
 						// Check if we're approaching the memory limit of the token table.
-						if ($count > static::$state->options->get('memory_table_limit', 30000))
+						if ($count > static::$state->options->get('memory_table_limit', 7500))
 						{
 							$this->toggleTables(false);
 						}
@@ -950,19 +950,19 @@ class Indexer
 				}
 
 				$query->values(
-					$query->quote($token->term) . ', '
-					. $query->quote($token->stem) . ', '
+					$this->db->quote($token->term) . ', '
+					. $this->db->quote($token->stem) . ', '
 					. (int) $token->common . ', '
 					. (int) $token->phrase . ', '
-					. $query->quote($token->weight) . ', '
+					. $this->db->quote($token->weight) . ', '
 					. (int) $context . ', '
-					. $query->quote($token->language)
+					. $this->db->quote($token->language)
 				);
 				$count++;
 			}
 
 			// Check if we're approaching the memory limit of the token table.
-			if ($count > static::$state->options->get('memory_table_limit', 10000))
+			if ($count > static::$state->options->get('memory_table_limit', 7500))
 			{
 				$this->toggleTables(false);
 			}
