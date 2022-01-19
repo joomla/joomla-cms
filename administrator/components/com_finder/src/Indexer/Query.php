@@ -175,6 +175,14 @@ class Query
 	public $when2;
 
 	/**
+	 * Match search terms exactly or with a LIKE scheme
+	 *
+	 * @var    integer
+	 * @since  4.2
+	 */
+	public $wordmode;
+
+	/**
 	 * Method to instantiate the query object.
 	 *
 	 * @param   array  $options  An array of query options.
@@ -195,6 +203,9 @@ class Query
 
 		// Get the matching mode.
 		$this->mode = 'AND';
+
+		// Set the word matching mode
+		$this->wordmode = !empty($options['word_match']) ? $options['word_match'] : 0;
 
 		// Initialize the temporary date storage.
 		$this->dates = new Registry;
@@ -750,11 +761,6 @@ class Query
 	 */
 	protected function processString($input, $lang, $mode)
 	{
-		if ($input === null)
-		{
-			$input = '';
-		}
-
 		// Clean up the input string.
 		$input  = html_entity_decode($input, ENT_QUOTES, 'UTF-8');
 		$input  = StringHelper::strtolower($input);
@@ -1004,7 +1010,7 @@ class Query
 					// Tokenize the current term.
 					$token = Helper::tokenize($terms[$i], $lang, true);
 
-					// @todo: The previous function call may return an array, which seems not to be handled by the next one, which expects an object
+					// Todo: The previous function call may return an array, which seems not to be handled by the next one, which expects an object
 					$token = $this->getTokenData(array_shift($token));
 
 					if ($params->get('filter_commonwords', 0) && $token->common)
@@ -1346,8 +1352,22 @@ class Query
 		else
 		{
 			// Add the term to the query.
-			$query->where('(t.term = ' . $db->quote($token->term) . ' OR t.stem = ' . $db->quote($token->stem) . ')')
-				->where('t.phrase = 0')
+			if ($this->wordmode == 1)
+			{
+				$query->where('(t.term LIKE ' . $db->quote($token->term . '%') . ' OR t.stem LIKE ' . $db->quote($token->stem . '%') . ')')
+					->where('t.common = 0');
+			}
+			elseif ($this->wordmode == 2)
+			{
+				$query->where('(t.term LIKE ' . $db->quote('%' . $token->term . '%') . ' OR t.stem = ' . $db->quote('%' . $token->stem . '%') . ')')
+					->where('t.common = 0');
+			}
+			else
+			{
+				$query->where('(t.term = ' . $db->quote($token->term) . ' OR t.stem = ' . $db->quote($token->stem) . ')');
+			}
+
+			$query->where('t.phrase = 0')
 				->where('t.language IN (\'*\',' . $db->quote($token->language) . ')');
 		}
 
