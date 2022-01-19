@@ -45,14 +45,11 @@ class IndexController extends AdminController
 	 *
 	 * @return  boolean  True on success.
 	 *
-	 * @since   4.1
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function optimise()
 	{
 		$this->checkToken();
-
-		/** @var \Joomla\Component\Finder\Administrator\Model\IndexModel $model */
-		$model = $this->getModel('Index', 'Administrator');
 
 		// Optimise the index by first running the garbage collection
 		$app = Factory::getApplication();

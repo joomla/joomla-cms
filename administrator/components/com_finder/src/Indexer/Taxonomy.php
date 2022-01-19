@@ -390,7 +390,7 @@ class Taxonomy
 	 *
 	 * @return  integer  The number of deleted rows.
 	 *
-	 * @since   4.1.0
+	 * @since   __DEPLOY_VERSION__
 	 * @throws  \RuntimeException on database error.
 	 */
 	public static function removeOrphanMaps()

@@ -267,7 +267,7 @@ abstract class Adapter extends CMSPlugin
 	 *
 	 * @return  integer
 	 *
-	 * @since   4.1
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function onFinderGarbageCollection()
 	{
@@ -282,8 +282,7 @@ abstract class Adapter extends CMSPlugin
 			->from($db->quoteName('#__finder_links', 'l'))
 			->where($db->quoteName('l.type_id') . ' = ' . $type_id)
 			->where($db->quoteName('l.url') . ' LIKE ' . $db->quote($this->getUrl('%', $this->extension, $this->layout)))
-			->where($db->quoteName('l.url') . ' NOT IN (' . $subquery . ')')
-		;
+			->where($db->quoteName('l.url') . ' NOT IN (' . $subquery . ')');
 		$db->setQuery($query);
 		$items = $db->loadColumn();
 
