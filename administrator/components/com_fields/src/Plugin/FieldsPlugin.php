@@ -194,11 +194,16 @@ abstract class FieldsPlugin extends CMSPlugin
 		$node->setAttribute('name', $field->name);
 		$node->setAttribute('type', $field->type);
 		$node->setAttribute('label', $field->label);
-		$node->setAttribute('labelclass', $field->params->get('label_class'));
+		$node->setAttribute('labelclass', $field->params->get('label_class', ''));
 		$node->setAttribute('description', $field->description);
-		$node->setAttribute('class', $field->params->get('class'));
-		$node->setAttribute('hint', $field->params->get('hint'));
+		$node->setAttribute('class', $field->params->get('class', ''));
+		$node->setAttribute('hint', $field->params->get('hint', ''));
 		$node->setAttribute('required', $field->required ? 'true' : 'false');
+
+		if ($layout = $field->params->get('form_layout'))
+		{
+			$node->setAttribute('layout', $layout);
+		}
 
 		if ($field->default_value !== '')
 		{

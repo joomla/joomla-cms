@@ -141,7 +141,7 @@ class JHtmlStringTest extends UnitTestCase
 				'...',
 			],
 			/*
-			 *  TODO: Check these tests: 'Plain html over the limit splitting first word'
+			 *  @todo: Check these tests: 'Plain html over the limit splitting first word'
 				(duplicate keys, only the last of the duplicates gets executed) Don't return invalid HTML
 			 */
 			'Plain html over the limit splitting first word' => [
@@ -152,7 +152,7 @@ class JHtmlStringTest extends UnitTestCase
 				'...',
 			],
 			/*
-			 *  TODO: Check these tests: 'Plain html over the limit splitting first word'
+			 *  @todo: Check these tests: 'Plain html over the limit splitting first word'
 				(duplicate keys, only the last of the duplicates gets executed) Don't return invalid HTML
 			 */
 			'Plain html over the limit splitting first word' => [
@@ -183,7 +183,7 @@ class JHtmlStringTest extends UnitTestCase
 				false,
 				'Plain te...',
 			],
-			// TODO: Check these tests: 'HTML not allowed, no split' (duplicate keys, only the last of the duplicates gets executed)
+			// @todo: Check these tests: 'HTML not allowed, no split' (duplicate keys, only the last of the duplicates gets executed)
 			'HTML not allowed, no split' => [
 				'<div><span><i>Plain</i> <b>text</b> foo</span></div>',
 				4,
@@ -198,7 +198,7 @@ class JHtmlStringTest extends UnitTestCase
 				false,
 				'...',
 			],
-			// TODO: Check these tests: 'HTML not allowed, no split' (duplicate keys, only the last of the duplicates gets executed)
+			// @todo: Check these tests: 'HTML not allowed, no split' (duplicate keys, only the last of the duplicates gets executed)
 			'HTML not allowed, no split' => [
 				'<div><span><i>Plain</i> <b>text</b> foo</span></div>',
 				5,
@@ -213,7 +213,7 @@ class JHtmlStringTest extends UnitTestCase
 				true,
 				'...',
 			],
-			// TODO: Check these tests: 'HTML not allowed, no split' (duplicate keys, only the last of the duplicates gets executed)
+			// @todo: Check these tests: 'HTML not allowed, no split' (duplicate keys, only the last of the duplicates gets executed)
 			'HTML not allowed, no split' => [
 				'<div><span><i>Plain</i></span></div>',
 				5,
@@ -329,7 +329,7 @@ class JHtmlStringTest extends UnitTestCase
 				'<span>Plain</span>...'
 			],
 			/*
-			 *  TODO: Check these tests: 'Plain html over the limit splitting first word'
+			 *  @todo: Check these tests: 'Plain html over the limit splitting first word'
 				(duplicate keys, only the last of the duplicates gets executed) Don't return invalid HTML
 			 */
 			'Plain html over the limit splitting first word' => [
@@ -339,7 +339,7 @@ class JHtmlStringTest extends UnitTestCase
 				'<span>P</span>...'
 			],
 			/*
-			 *  TODO: Check these tests: 'Plain html over the limit splitting first word'
+			 *  @todo: Check these tests: 'Plain html over the limit splitting first word'
 				(duplicate keys, only the last of the duplicates gets executed) Don't return invalid HTML
 			 */
 			'Plain html over the limit splitting first word' => [

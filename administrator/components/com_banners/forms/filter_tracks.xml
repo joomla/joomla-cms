@@ -62,7 +62,6 @@
 			label="COM_BANNERS_BEGIN_LABEL"
 			hint="COM_BANNERS_BEGIN_HINT"
 			format="%Y-%m-%d"
-			size="10"
 			filter="user_utc"
 		/>
 
@@ -72,10 +71,9 @@
 			label="COM_BANNERS_END_LABEL"
 			hint="COM_BANNERS_END_HINT"
 			format="%Y-%m-%d"
-			size="10"
 			filter="user_utc"
 		/>
-    </fields>
+	</fields>
 	<fields name="list">
 		<field
 			name="fullordering"

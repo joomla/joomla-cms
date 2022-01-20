@@ -9,6 +9,7 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Installer\Installer;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\Database\DatabaseDriver;
@@ -22,21 +23,22 @@ use Joomla\Database\ParameterType;
 class PlgExtensionJoomla extends CMSPlugin
 {
 	/**
-	 * Database driver
-	 *
 	 * @var    DatabaseDriver
+	 *
 	 * @since  4.0.0
 	 */
 	protected $db;
 
 	/**
-	 * @var    integer Extension Identifier
+	 * @var    integer
+	 *
 	 * @since  1.6
 	 */
 	private $eid = 0;
 
 	/**
-	 * @var    JInstaller Installer object
+	 * @var    Installer
+	 *
 	 * @since  1.6
 	 */
 	private $installer = null;
@@ -45,6 +47,7 @@ class PlgExtensionJoomla extends CMSPlugin
 	 * Load the language file on instantiation.
 	 *
 	 * @var    boolean
+	 *
 	 * @since  3.1
 	 */
 	protected $autoloadLanguage = true;
@@ -139,8 +142,8 @@ class PlgExtensionJoomla extends CMSPlugin
 	/**
 	 * Handle post extension install update sites
 	 *
-	 * @param   JInstaller  $installer  Installer object
-	 * @param   integer     $eid        Extension Identifier
+	 * @param   Installer  $installer  Installer object
+	 * @param   integer    $eid        Extension Identifier
 	 *
 	 * @return  void
 	 *
@@ -161,9 +164,9 @@ class PlgExtensionJoomla extends CMSPlugin
 	/**
 	 * Handle extension uninstall
 	 *
-	 * @param   JInstaller  $installer  Installer instance
-	 * @param   integer     $eid        Extension id
-	 * @param   boolean     $removed    Installation result
+	 * @param   Installer  $installer  Installer instance
+	 * @param   integer    $eid        Extension id
+	 * @param   boolean    $removed    Installation result
 	 *
 	 * @return  void
 	 *
@@ -218,7 +221,7 @@ class PlgExtensionJoomla extends CMSPlugin
 				if (is_array($update_sites_pending_delete) && count($update_sites_pending_delete))
 				{
 					// Nuke any pending updates with this site before we delete it
-					// TODO: investigate alternative of using a query after the delete below with a query and not in like above
+					// @todo: investigate alternative of using a query after the delete below with a query and not in like above
 					$query->clear()
 						->delete($db->quoteName('#__updates'))
 						->whereIn($db->quoteName('update_site_id'), $update_sites_pending_delete);
@@ -246,8 +249,8 @@ class PlgExtensionJoomla extends CMSPlugin
 	/**
 	 * After update of an extension
 	 *
-	 * @param   JInstaller  $installer  Installer object
-	 * @param   integer     $eid        Extension identifier
+	 * @param   Installer  $installer  Installer object
+	 * @param   integer    $eid        Extension identifier
 	 *
 	 * @return  void
 	 *
@@ -283,7 +286,7 @@ class PlgExtensionJoomla extends CMSPlugin
 		}
 		else
 		{
-			$children = array();
+			$children = [];
 		}
 
 		if (count($children))

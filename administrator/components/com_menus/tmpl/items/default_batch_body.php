@@ -20,7 +20,7 @@ $options = [
 ];
 $published = (int) $this->state->get('filter.published');
 $clientId  = (int) $this->state->get('filter.client_id');
-$menuType  = Factory::getApplication()->getUserState('com_menus.items.menutype');
+$menuType  = Factory::getApplication()->getUserState('com_menus.items.menutype', '');
 
 if ($clientId == 1)
 {

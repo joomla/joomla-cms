@@ -18,6 +18,7 @@ use Joomla\CMS\Language\Associations;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
+use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
@@ -33,7 +34,7 @@ class HtmlView extends BaseHtmlView
 	/**
 	 * The \JForm object
 	 *
-	 * @var \Joomla\CMS\Form\Form
+	 * @var  \Joomla\CMS\Form\Form
 	 */
 	protected $form;
 
@@ -54,7 +55,7 @@ class HtmlView extends BaseHtmlView
 	/**
 	 * The actions the user is authorised to perform
 	 *
-	 * @var  \JObject
+	 * @var  \Joomla\CMS\Object\CMSObject
 	 */
 	protected $canDo;
 
@@ -72,8 +73,9 @@ class HtmlView extends BaseHtmlView
 	 *
 	 * @return  void
 	 *
-	 * @throws \Exception
 	 * @since   1.6
+	 *
+	 * @throws  \Exception
 	 */
 	public function display($tpl = null)
 	{
@@ -119,8 +121,9 @@ class HtmlView extends BaseHtmlView
 	 *
 	 * @return  void
 	 *
-	 * @throws \Exception
 	 * @since   1.6
+	 *
+	 * @throws  \Exception
 	 */
 	protected function addToolbar()
 	{
@@ -213,15 +216,18 @@ class HtmlView extends BaseHtmlView
 					$toolbar->versions('com_content.article', $this->item->id);
 				}
 
-				$url = Route::link(
-					'site',
-					RouteHelper::getArticleRoute($this->item->id . ':' . $this->item->alias, $this->item->catid, $this->item->language),
-					true
-				);
+				$url = RouteHelper::getArticleRoute($this->item->id . ':' . $this->item->alias, $this->item->catid, $this->item->language);
 
-				$toolbar->preview($url, 'JGLOBAL_PREVIEW')
+				$toolbar->preview(Route::link('site', $url, true), 'JGLOBAL_PREVIEW')
 					->bodyHeight(80)
 					->modalWidth(90);
+
+				if (PluginHelper::isEnabled('system', 'jooa11y'))
+				{
+					$toolbar->jooa11y(Route::link('site', $url . '&jooa11y=1', true), 'JGLOBAL_JOOA11Y')
+						->bodyHeight(80)
+						->modalWidth(90);
+				}
 
 				if (Associations::isEnabled() && ComponentHelper::isEnabled('com_associations'))
 				{
