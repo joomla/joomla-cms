@@ -61,7 +61,6 @@ class HtmlView extends BaseHtmlView
 	 */
 	protected function addToolbar()
 	{
-		// Get the toolbar object instance
 		$toolbar = Toolbar::getInstance('toolbar');
 
 		ToolbarHelper::title(Text::_('COM_FINDER_INDEXER_TOOLBAR_TITLE'), 'search-plus finder');
