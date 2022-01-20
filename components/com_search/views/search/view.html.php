@@ -178,7 +178,7 @@ class SearchViewSearch extends JViewLegacy
 		}
 
 		// Escape strings for HTML output
-		$this->pageclass_sfx = htmlspecialchars($params->get('pageclass_sfx'));
+		$this->pageclass_sfx = htmlspecialchars($params->get('pageclass_sfx', ''));
 		$this->pagination    = &$pagination;
 		$this->results       = &$results;
 		$this->lists         = &$lists;
@@ -200,7 +200,7 @@ class SearchViewSearch extends JViewLegacy
 	 *
 	 * @param   string  $string       text to be searched
 	 * @param   string  $needle       text to search for
-	 * @param   string  $searchWords  words to be searched  
+	 * @param   string  $searchWords  words to be searched
 	 *
 	 * @return  mixed  A string.
 	 *

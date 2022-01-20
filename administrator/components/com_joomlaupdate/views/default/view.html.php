@@ -268,6 +268,12 @@ class JoomlaupdateViewDefault extends JViewLegacy
 	 */
 	public function shouldDisplayPreUpdateCheck()
 	{
+		// When the download URL is not found there is no core upgrade path
+		if (!isset($this->updateInfo['object']->downloadurl->_data))
+		{
+			return false;
+		}
+
 		$nextMinor = JVersion::MAJOR_VERSION . '.' . (JVersion::MINOR_VERSION + 1);
 
 		// Show only when we found a download URL, we have an update and when we update to the next minor or greater.

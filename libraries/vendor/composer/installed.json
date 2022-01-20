@@ -802,17 +802,17 @@
         },
         {
             "name": "joomla/registry",
-            "version": "1.6.3",
-            "version_normalized": "1.6.3.0",
+            "version": "1.6.4",
+            "version_normalized": "1.6.4.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-framework/registry.git",
-                "reference": "51c08b18838aaf2104e38c3846e34b4706e83644"
+                "reference": "87450394f093efcb3ac5fc978e73d1403ebe8a38"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-framework/registry/zipball/51c08b18838aaf2104e38c3846e34b4706e83644",
-                "reference": "51c08b18838aaf2104e38c3846e34b4706e83644",
+                "url": "https://api.github.com/repos/joomla-framework/registry/zipball/87450394f093efcb3ac5fc978e73d1403ebe8a38",
+                "reference": "87450394f093efcb3ac5fc978e73d1403ebe8a38",
                 "shasum": ""
             },
             "require": {
@@ -824,13 +824,13 @@
             "require-dev": {
                 "joomla/coding-standards": "~2.0@alpha",
                 "joomla/test": "~1.0",
-                "phpunit/phpunit": "^4.8.35|^5.4.3|~6.0",
+                "phpunit/phpunit": "^4.8.35|^5.4.3|~6.0|~7.0|~8.0",
                 "symfony/yaml": "~2.0|~3.0|~4.0|~5.0"
             },
             "suggest": {
                 "symfony/yaml": "Install symfony/yaml if you require YAML support."
             },
-            "time": "2019-11-27T16:58:55+00:00",
+            "time": "2022-01-08T18:33:07+00:00",
             "type": "joomla-package",
             "extra": {
                 "branch-alias": {
@@ -856,8 +856,18 @@
             ],
             "support": {
                 "issues": "https://github.com/joomla-framework/registry/issues",
-                "source": "https://github.com/joomla-framework/registry/tree/1.6.3"
+                "source": "https://github.com/joomla-framework/registry/tree/1.6.4"
             },
+            "funding": [
+                {
+                    "url": "https://community.joomla.org/sponsorship-campaigns.html",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://github.com/joomla",
+                    "type": "github"
+                }
+            ],
             "install-path": "../joomla/registry"
         },
         {
@@ -1246,17 +1256,17 @@
         },
         {
             "name": "paragonie/sodium_compat",
-            "version": "v1.9.1",
-            "version_normalized": "1.9.1.0",
+            "version": "v1.17.0",
+            "version_normalized": "1.17.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/paragonie/sodium_compat.git",
-                "reference": "87125d5b265f98c4d1b8d83a1f0726607c229421"
+                "reference": "c59cac21abbcc0df06a3dd18076450ea4797b321"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/paragonie/sodium_compat/zipball/87125d5b265f98c4d1b8d83a1f0726607c229421",
-                "reference": "87125d5b265f98c4d1b8d83a1f0726607c229421",
+                "url": "https://api.github.com/repos/paragonie/sodium_compat/zipball/c59cac21abbcc0df06a3dd18076450ea4797b321",
+                "reference": "c59cac21abbcc0df06a3dd18076450ea4797b321",
                 "shasum": ""
             },
             "require": {
@@ -1264,13 +1274,13 @@
                 "php": "^5.2.4|^5.3|^5.4|^5.5|^5.6|^7|^8"
             },
             "require-dev": {
-                "phpunit/phpunit": "^3|^4|^5"
+                "phpunit/phpunit": "^3|^4|^5|^6|^7|^8|^9"
             },
             "suggest": {
                 "ext-libsodium": "PHP < 7.0: Better performance, password hashing (Argon2i), secure memory management (memzero), and better security.",
                 "ext-sodium": "PHP >= 7.0: Better performance, password hashing (Argon2i), secure memory management (memzero), and better security."
             },
-            "time": "2019-03-20T17:19:05+00:00",
+            "time": "2021-08-10T02:43:50+00:00",
             "type": "library",
             "installation-source": "dist",
             "autoload": {
@@ -1329,7 +1339,7 @@
             ],
             "support": {
                 "issues": "https://github.com/paragonie/sodium_compat/issues",
-                "source": "https://github.com/paragonie/sodium_compat/tree/master"
+                "source": "https://github.com/paragonie/sodium_compat/tree/v1.17.0"
             },
             "install-path": "../paragonie/sodium_compat"
         },
@@ -1524,23 +1534,23 @@
         },
         {
             "name": "simplepie/simplepie",
-            "version": "1.3.1",
-            "version_normalized": "1.3.1.0",
+            "version": "1.3.3",
+            "version_normalized": "1.3.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/simplepie/simplepie.git",
-                "reference": "ce53709778bc1e2e4deda1651b66e5081398d5cc"
+                "reference": "9f6fdaa79d9888ae8f1626b4f2e6b5ff7ca29bb3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/simplepie/simplepie/zipball/ce53709778bc1e2e4deda1651b66e5081398d5cc",
-                "reference": "ce53709778bc1e2e4deda1651b66e5081398d5cc",
+                "url": "https://api.github.com/repos/simplepie/simplepie/zipball/9f6fdaa79d9888ae8f1626b4f2e6b5ff7ca29bb3",
+                "reference": "9f6fdaa79d9888ae8f1626b4f2e6b5ff7ca29bb3",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.2.0"
             },
-            "time": "2012-10-30T17:54:03+00:00",
+            "time": "2021-12-24T02:44:57+00:00",
             "type": "library",
             "installation-source": "dist",
             "autoload": {
@@ -1579,7 +1589,7 @@
             ],
             "support": {
                 "issues": "https://github.com/simplepie/simplepie/issues",
-                "source": "https://github.com/simplepie/simplepie/tree/1.3.1"
+                "source": "https://github.com/simplepie/simplepie/tree/1.3.3"
             },
             "install-path": "../simplepie/simplepie"
         },
@@ -2120,17 +2130,17 @@
         },
         {
             "name": "typo3/phar-stream-wrapper",
-            "version": "v2.2.1",
-            "version_normalized": "2.2.1.0",
+            "version": "v2.2.2",
+            "version_normalized": "2.2.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/TYPO3/phar-stream-wrapper.git",
-                "reference": "2e519bb30e24c405674b4d2dc4b4a1de292887d2"
+                "reference": "cf7728109e0cab28da9ad357c3009e38d371116e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/TYPO3/phar-stream-wrapper/zipball/2e519bb30e24c405674b4d2dc4b4a1de292887d2",
-                "reference": "2e519bb30e24c405674b4d2dc4b4a1de292887d2",
+                "url": "https://api.github.com/repos/TYPO3/phar-stream-wrapper/zipball/cf7728109e0cab28da9ad357c3009e38d371116e",
+                "reference": "cf7728109e0cab28da9ad357c3009e38d371116e",
                 "shasum": ""
             },
             "require": {
@@ -2145,7 +2155,7 @@
             "suggest": {
                 "ext-fileinfo": "For PHP builtin file type guessing, otherwise uses internal processing"
             },
-            "time": "2020-11-11T14:34:18+00:00",
+            "time": "2021-09-20T19:19:38+00:00",
             "type": "library",
             "installation-source": "dist",
             "autoload": {
@@ -2167,7 +2177,7 @@
             ],
             "support": {
                 "issues": "https://github.com/TYPO3/phar-stream-wrapper/issues",
-                "source": "https://github.com/TYPO3/phar-stream-wrapper/tree/v2.2.1"
+                "source": "https://github.com/TYPO3/phar-stream-wrapper/tree/v2.2.2"
             },
             "install-path": "../typo3/phar-stream-wrapper"
         }

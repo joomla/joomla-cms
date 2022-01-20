@@ -140,7 +140,7 @@ class FinderViewSearch extends JViewLegacy
 		$this->explained = JHtml::_('query.explained', $query);
 
 		// Escape strings for HTML output
-		$this->pageclass_sfx = htmlspecialchars($params->get('pageclass_sfx'));
+		$this->pageclass_sfx = htmlspecialchars($params->get('pageclass_sfx', ''));
 
 		// Check for layout override only if this is not the active menu item
 		// If it is the active menu item, then the view and category id will match

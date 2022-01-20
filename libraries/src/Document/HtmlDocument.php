@@ -11,6 +11,7 @@ namespace Joomla\CMS\Document;
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Cache\Cache;
+use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ModuleHelper;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\Uri\Uri;
@@ -471,8 +472,19 @@ class HtmlDocument extends Document
 
 		if ($this->_caching == true && $type == 'modules' && $name !== 'debug')
 		{
-			$cache = \JFactory::getCache('com_modules', '');
-			$hash = md5(serialize(array($name, $attribs, null, get_class($renderer))));
+			$cache  = Factory::getCache('com_modules', '');
+			$itemId = (int) Factory::getApplication()->input->get('Itemid', 0, 'int');
+
+			$hash = md5(
+				serialize(
+					array(
+						$name,
+						$attribs,
+						\get_class($renderer),
+						$itemId
+					)
+				)
+			);
 			$cbuffer = $cache->get('cbuffer_' . $type);
 
 			if (isset($cbuffer[$hash]))
