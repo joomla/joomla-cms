@@ -14,7 +14,6 @@
 			name="name"
 			type="text"
 			label="COM_CONTACT_FIELD_NAME_LABEL"
-			size="40"
 			required="true"
 		 />
 
@@ -23,7 +22,6 @@
 			type="text"
 			label="JFIELD_ALIAS_LABEL"
 			description="JFIELD_ALIAS_DESC"
-			size="45"
 			hint="JFIELD_ALIAS_PLACEHOLDER"
 		/>
 
@@ -31,7 +29,6 @@
 			name="version_note"
 			type="text"
 			label="JGLOBAL_FIELD_VERSION_NOTE_LABEL"
-			size="45"
 			maxlength="255"
 		/>
 
@@ -48,7 +45,6 @@
 			label="JSTATUS"
 			default="1"
 			class="form-select-color-state"
-			size="1"
 			validate="options"
 			>
 			<option value="1">JPUBLISHED</option>
@@ -96,14 +92,12 @@
 			name="created_by_alias"
 			type="text"
 			label="COM_CONTACT_FIELD_CREATED_BY_ALIAS_LABEL"
-			size="20"
 		/>
 
 		<field
 			name="created"
 			type="calendar"
 			label="COM_CONTACT_FIELD_CREATED_LABEL"
-			size="22"
 			translateformat="true"
 			showtime="true"
 			filter="user_utc"
@@ -114,7 +108,6 @@
 			type="calendar"
 			label="JGLOBAL_FIELD_MODIFIED_LABEL"
 			class="readonly"
-			size="22"
 			readonly="true"
 			translateformat="true"
 			showtime="true"
@@ -156,7 +149,6 @@
 			label="COM_CONTACT_FIELD_PUBLISH_UP_LABEL"
 			translateformat="true"
 			showtime="true"
-			size="22"
 			filter="user_utc"
 		/>
 
@@ -166,7 +158,6 @@
 			label="COM_CONTACT_FIELD_PUBLISH_DOWN_LABEL"
 			translateformat="true"
 			showtime="true"
-			size="22"
 			filter="user_utc"
 		/>
 
@@ -228,7 +219,6 @@
 			name="con_position"
 			type="text"
 			label="COM_CONTACT_FIELD_INFORMATION_POSITION_LABEL"
-			size="30"
 		/>
 
 		<field
@@ -236,7 +226,6 @@
 			type="email"
 			label="JGLOBAL_EMAIL"
 			validate="email"
-			size="30"
 		/>
 
 		<field
@@ -251,56 +240,48 @@
 			name="suburb"
 			type="text"
 			label="COM_CONTACT_FIELD_INFORMATION_SUBURB_LABEL"
-			size="30"
 		/>
 
 		<field
 			name="state"
 			type="text"
 			label="COM_CONTACT_FIELD_INFORMATION_STATE_LABEL"
-			size="30"
 		/>
 
 		<field
 			name="postcode"
 			type="text"
 			label="COM_CONTACT_FIELD_INFORMATION_POSTCODE_LABEL"
-			size="30"
 		/>
 
 		<field
 			name="country"
 			type="text"
 			label="COM_CONTACT_FIELD_INFORMATION_COUNTRY_LABEL"
-			size="30"
 		/>
 
 		<field
 			name="telephone"
 			type="text"
 			label="COM_CONTACT_FIELD_INFORMATION_TELEPHONE_LABEL"
-			size="30"
 		/>
 
 		<field
 			name="mobile"
 			type="text"
 			label="COM_CONTACT_FIELD_INFORMATION_MOBILE_LABEL"
-			size="30"
 		/>
 
 		<field
 			name="fax"
 			type="text"
 			label="COM_CONTACT_FIELD_INFORMATION_FAX_LABEL"
-			size="30"
 		/>
 
 		<field
 			name="webpage"
 			type="url"
 			label="COM_CONTACT_FIELD_INFORMATION_WEBPAGE_LABEL"
-			size="30"
 			filter="url"
 			validate="url"
 		/>
@@ -309,21 +290,18 @@
 			name="sortname1"
 			type="text"
 			label="COM_CONTACT_FIELD_SORTNAME1_LABEL"
-			size="30"
 		/>
 
 		<field
 			name="sortname2"
 			type="text"
 			label="COM_CONTACT_FIELD_SORTNAME2_LABEL"
-			size="30"
 		/>
 
 		<field
 			name="sortname3"
 			type="text"
 			label="COM_CONTACT_FIELD_SORTNAME3_LABEL"
-			size="30"
 		/>
 	</fieldset>
 
@@ -654,14 +632,12 @@
 					name="linka_name"
 					type="text"
 					label="COM_CONTACT_FIELD_LINKA_NAME_LABEL"
-					size="30"
 				/>
 
 				<field
 					name="linka"
 					type="url"
 					label="COM_CONTACT_FIELD_LINKA_LABEL"
-					size="30"
 					filter="url"
 					validate="url"
 				/>
@@ -670,14 +646,12 @@
 					name="linkb_name"
 					type="text"
 					label="COM_CONTACT_FIELD_LINKB_NAME_LABEL"
-					size="30"
 				/>
 
 				<field
 					name="linkb"
 					type="url"
 					label="COM_CONTACT_FIELD_LINKB_LABEL"
-					size="30"
 					filter="url"
 					validate="url"
 				/>
@@ -686,14 +660,12 @@
 					name="linkc_name"
 					type="text"
 					label="COM_CONTACT_FIELD_LINKC_NAME_LABEL"
-					size="30"
 				/>
 
 				<field
 					name="linkc"
 					type="url"
 					label="COM_CONTACT_FIELD_LINKC_LABEL"
-					size="30"
 					filter="url"
 					validate="url"
 				/>
@@ -702,14 +674,12 @@
 					name="linkd_name"
 					type="text"
 					label="COM_CONTACT_FIELD_LINKD_NAME_LABEL"
-					size="30"
 				/>
 
 				<field
 					name="linkd"
 					type="url"
 					label="COM_CONTACT_FIELD_LINKD_LABEL"
-					size="30"
 					filter="url"
 					validate="url"
 				/>
@@ -718,14 +688,12 @@
 					name="linke_name"
 					type="text"
 					label="COM_CONTACT_FIELD_LINKE_NAME_LABEL"
-					size="30"
 				/>
 
 				<field
 					name="linke"
 					type="url"
 					label="COM_CONTACT_FIELD_LINKE_LABEL"
-					size="30"
 					filter="url"
 					validate="url"
 				/>
@@ -782,7 +750,6 @@
 					name="redirect"
 					type="text"
 					label="COM_CONTACT_FIELD_CONFIG_REDIRECT_LABEL"
-					size="30"
 				/>
 			</fieldset>
 		</fieldset>
@@ -807,7 +774,6 @@
 				name="rights"
 				type="text"
 				label="JFIELD_METADATA_RIGHTS_LABEL"
-				size="20"
 			/>
 		</fieldset>
 	</fields>
@@ -826,7 +792,6 @@
 		type="text"
 		label="COM_CONTACT_FIELD_VERSION_LABEL"
 		class="readonly"
-		size="6"
 		readonly="true"
 		filter="unset"
 	/>
