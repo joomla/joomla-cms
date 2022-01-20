@@ -26,7 +26,7 @@ use Joomla\CMS\Toolbar\ToolbarHelper;
 class HtmlView extends BaseHtmlView
 {
 	/**
-	 * @var Form $form
+	 * @var   Form  $form
 	 *
 	 * @since  __DEPLOY_VERSION__
 	 */
