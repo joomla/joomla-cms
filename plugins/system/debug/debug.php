@@ -695,7 +695,7 @@ class PlgSystemDebug extends CMSPlugin
 			$desc = str_ireplace('after', '', $desc);
 
 			$name     = preg_replace('/[^\da-z]/i', '', $desc);
-			$metrics .= sprintf('%s;dur=%f;desc="%s", ', $index . $name, $mark->time, $desc);
+			$metrics .= sprintf('%s;dur=%f;desc="%s:", ', $index . $name, $mark->time, $desc);
 		}
 
 		$this->app->setHeader('Server-Timing', $metrics);
