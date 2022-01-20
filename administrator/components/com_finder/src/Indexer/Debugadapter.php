@@ -637,7 +637,7 @@ abstract class Adapter extends CMSPlugin
 	/**
 	 * Method to get the SQL query used to retrieve the list of content items.
 	 *
-	 * @param   mixed  $query  A QueryInterface object. [optional]
+	 * @param   mixed|null  $query  A QueryInterface object
 	 *
 	 * @return  QueryInterface  A database object.
 	 *
