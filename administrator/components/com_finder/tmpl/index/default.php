@@ -22,6 +22,13 @@ HTMLHelper::_('behavior.multiselect');
 $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
 $lang      = Factory::getLanguage();
+
+Text::script('COM_FINDER_INDEX_CONFIRM_PURGE_PROMPT');
+Text::script('COM_FINDER_INDEX_CONFIRM_DELETE_PROMPT');
+
+/** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
+$wa = $this->document->getWebAssetManager();
+$wa->useScript('com_finder.index');
 ?>
 <form action="<?php echo Route::_('index.php?option=com_finder&view=index'); ?>" method="post" name="adminForm" id="adminForm">
 	<div class="row">
