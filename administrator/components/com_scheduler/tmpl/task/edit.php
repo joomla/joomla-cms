@@ -32,7 +32,7 @@ $app = $this->app;
 $input = $app->getInput();
 
 // Fieldsets to be ignored by the `joomla.edit.params` template.
-$this->ignore_fieldsets = ['aside', 'details', 'exec_hist', 'custom-cron-rules', 'basic', 'advanced', 'priority', 'task-params'];
+$this->ignore_fieldsets = ['aside', 'details', 'exec_hist', 'custom-cron-rules', 'basic', 'advanced', 'priority'];
 
 // Used by the `joomla.edit.params` template to render the right template for UI tabs.
 $this->useCoreUI = true;
@@ -40,21 +40,18 @@ $this->useCoreUI = true;
 $advancedFieldsets = $this->form->getFieldsets('params');
 
 // Don't show the params fieldset, they will be loaded later
-foreach ($advancedFieldsets as $fieldset) :
-	if (!empty($fieldset->showFront) || $fieldset->name === 'task_params') :
+foreach ($advancedFieldsets as $name => $fieldset) :
+	if ($name === 'task_params') :
+		unset($advancedFieldsets[$name]);
 		continue;
 	endif;
 
 	$this->ignore_fieldsets[] = $fieldset->name;
 endforeach;
 
-// ? : Are these of use here?
-$isModal = $input->get('layout') === 'modal';
-$layout = $isModal ? 'modal' : 'edit';
-$tmpl = $isModal || $input->get('tmpl', '') === 'component' ? '&tmpl=component' : '';
 ?>
 
-<form action="<?php echo Route::_('index.php?option=com_scheduler&layout=' . $layout . $tmpl . '&id=' . (int) $this->item->id); ?>"
+<form action="<?php echo Route::_('index.php?option=com_scheduler&view=task&layout=edit&id=' . (int) $this->item->id); ?>"
 	  method="post" name="adminForm" id="task-form"
 	  aria-label="<?php echo Text::_('COM_SCHEDULER_FORM_TITLE_' . ((int) $this->item->id === 0 ? 'NEW' : 'EDIT'), true); ?>"
 	  class="form-validate">
@@ -85,13 +82,35 @@ $tmpl = $isModal || $input->get('tmpl', '') === 'component' ? '&tmpl=component' 
 						<h2 id="taskOptionTitle">
 							<?php echo $taskOption->title ?>
 						</h2>
-						<p id="taskOptionDesc">
-							<?php
-							// @todo: For long descriptions, we'll want a "read more" functionality like com_modules
-							$desc = HTMLHelper::_('string.truncate', $this->escape(strip_tags($taskOption->desc)), 250);
-							echo $desc;
-							?>
-						</p>
+						<?php
+							$this->fieldset    = 'description';
+							$short_description = Text::_($taskOption->desc);
+							$long_description  = LayoutHelper::render('joomla.edit.fieldset', $this);
+
+							if (!$long_description)
+							{
+								$truncated = HTMLHelper::_('string.truncate', $short_description, 550, true, false);
+
+								if (strlen($truncated) > 500)
+								{
+									$long_description  = $short_description;
+									$short_description = HTMLHelper::_('string.truncate', $truncated, 250);
+
+									if ($short_description == $long_description)
+									{
+										$long_description = '';
+									}
+								}
+							}
+						?>
+						<p><?php echo $short_description; ?></p>
+						<?php if ($long_description) : ?>
+							<p class="readmore">
+								<a href="#" onclick="document.getElementById('myTab').activateTab(document.getElementById('description'));">
+									<?php echo Text::_('JGLOBAL_SHOW_FULL_DESCRIPTION'); ?>
+								</a>
+							</p>
+						<?php endif; ?>
 					</div>
 					<!-- If TaskOption does not exist -->
 				<?php else:
@@ -109,7 +128,6 @@ $tmpl = $isModal || $input->get('tmpl', '') === 'component' ? '&tmpl=component' 
 					<legend><?php echo Text::_('COM_SCHEDULER_FIELDSET_CRON_OPTIONS'); ?></legend>
 					<?php echo $this->form->renderFieldset('custom-cron-rules'); ?>
 				</fieldset>
-
 				<?php echo LayoutHelper::render('joomla.edit.params', $this); ?>
 			</div>
 
@@ -118,7 +136,15 @@ $tmpl = $isModal || $input->get('tmpl', '') === 'component' ? '&tmpl=component' 
 			</div>
 		</div>
 		<?php echo HTMLHelper::_('uitab.endTab'); ?>
-
+		<?php if (isset($long_description) && $long_description != '') : ?>
+			<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'description', Text::_('JGLOBAL_FIELDSET_DESCRIPTION')); ?>
+				<div class="card">
+					<div class="card-body">
+						<?php echo $long_description; ?>
+					</div>
+				</div>
+			<?php echo HTMLHelper::_('uitab.endTab'); ?>
+		<?php endif; ?>
 		<!-- Tab for advanced options -->
 		<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'advanced', Text::_('JGLOBAL_FIELDSET_ADVANCED')) ?>
 		<div class="row">
@@ -128,9 +154,6 @@ $tmpl = $isModal || $input->get('tmpl', '') === 'component' ? '&tmpl=component' 
 				<?php echo $this->form->renderFieldset('priority') ?>
 			</fieldset>
 			<?php foreach ($advancedFieldsets as $fieldset) : ?>
-				<?php if (!empty($fieldset->showFront)) :
-					continue;
-				endif; ?>
 				<fieldset class="options-form">
 					<legend><?php echo Text::_($fieldset->label ?: 'COM_SCHEDULER_FIELDSET_' . $fieldset->name) ?></legend>
 					<?php echo $this->form->renderFieldset($fieldset->name) ?>

@@ -366,7 +366,6 @@
 				name="linka_name"
 				type="text"
 				label="COM_CONTACT_FIELD_LINKA_NAME_LABEL"
-				size="30"
 				useglobal="true"
 			/>
 
@@ -374,7 +373,6 @@
 				name="linkb_name"
 				type="text"
 				label="COM_CONTACT_FIELD_LINKB_NAME_LABEL"
-				size="30"
 				useglobal="true"
 			/>
 
@@ -382,7 +380,6 @@
 				name="linkc_name"
 				type="text"
 				label="COM_CONTACT_FIELD_LINKC_NAME_LABEL"
-				size="30"
 				useglobal="true"
 			/>
 
@@ -390,7 +387,6 @@
 				name="linkd_name"
 				type="text"
 				label="COM_CONTACT_FIELD_LINKD_NAME_LABEL"
-				size="30"
 				useglobal="true"
 			/>
 
@@ -398,7 +394,6 @@
 				name="linke_name"
 				type="text"
 				label="COM_CONTACT_FIELD_LINKE_NAME_LABEL"
-				size="30"
 				useglobal="true"
 			/>
 		</fieldset>
@@ -461,7 +456,6 @@
 				name="redirect"
 				type="text"
 				label="COM_CONTACT_FIELD_CONFIG_REDIRECT_LABEL"
-				size="30"
 				useglobal="true"
 			/>
 		</fieldset>

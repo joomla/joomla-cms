@@ -11,11 +11,8 @@ namespace Joomla\Component\Media\Administrator\Model;
 
 \defined('_JEXEC') or die;
 
-use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;
-use Joomla\CMS\Plugin\PluginHelper;
-use Joomla\Component\Media\Administrator\Event\MediaProviderEvent;
-use Joomla\Component\Media\Administrator\Provider\ProviderManager;
+use Joomla\Component\Media\Administrator\Provider\ProviderManagerHelperTrait;
 
 /**
  * Media View Model
@@ -24,6 +21,8 @@ use Joomla\Component\Media\Administrator\Provider\ProviderManager;
  */
 class MediaModel extends BaseDatabaseModel
 {
+	use ProviderManagerHelperTrait;
+
 	/**
 	 * Obtain list of supported providers
 	 *
@@ -33,17 +32,9 @@ class MediaModel extends BaseDatabaseModel
 	 */
 	public function getProviders()
 	{
-		// Setup provider manager and event parameters
-		$providerManager = new ProviderManager;
-		$eventParameters = ['context' => 'AdapterManager', 'providerManager' => $providerManager];
-		$event           = new MediaProviderEvent('onSetupProviders', $eventParameters);
-		$results         = [];
+		$results = [];
 
-		// Import plugin group and fire the event
-		PluginHelper::importPlugin('filesystem');
-		Factory::getApplication()->triggerEvent('onSetupProviders', $event);
-
-		foreach ($providerManager->getProviders() as $provider)
+		foreach ($this->getProviderManager()->getProviders() as $provider)
 		{
 			$result               = new \stdClass;
 			$result->name         = $provider->getID();

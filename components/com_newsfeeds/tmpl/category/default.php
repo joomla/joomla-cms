@@ -12,9 +12,9 @@ defined('_JEXEC') or die;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\FileLayout;
+use Joomla\CMS\Layout\LayoutHelper;
 
-$pageClass = $this->params->get('pageclass_sfx');
-$htag    = $this->params->get('show_page_heading') ? 'h2' : 'h1';
+$htag = $this->params->get('show_page_heading') ? 'h2' : 'h1';
 ?>
 <div class="com-newsfeeds-category newsfeed-category">
 	<?php if ($this->params->get('show_page_heading')) : ?>
@@ -34,7 +34,13 @@ $htag    = $this->params->get('show_page_heading') ? 'h2' : 'h1';
 	<?php if ($this->params->get('show_description', 1) || $this->params->def('show_description_image', 1)) : ?>
 		<div class="com-newsfeeds-category__description category-desc">
 			<?php if ($this->params->get('show_description_image') && $this->category->getParams()->get('image')) : ?>
-				<img src="<?php echo $this->category->getParams()->get('image'); ?>">
+				<?php echo LayoutHelper::render(
+					'joomla.html.image',
+					[
+						'src' => $this->category->getParams()->get('image'),
+						'alt' => empty($this->category->getParams()->get('image_alt')) && empty($this->category->getParams()->get('image_alt_empty')) ? false : $this->category->getParams()->get('image_alt'),
+					]
+				); ?>
 			<?php endif; ?>
 			<?php if ($this->params->get('show_description') && $this->category->description) : ?>
 				<?php echo HTMLHelper::_('content.prepare', $this->category->description, '', 'com_newsfeeds.category'); ?>

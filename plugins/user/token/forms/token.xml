@@ -33,7 +33,6 @@
 				label="PLG_USER_TOKEN_TOKEN_LABEL"
 				description="PLG_USER_TOKEN_TOKEN_DESC"
 				default=""
-				size="30"
 				algo="sha256"
 				readonly="true"
 			/>
