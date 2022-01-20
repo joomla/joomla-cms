@@ -82,7 +82,7 @@ class ItemModel extends BaseDatabaseModel
 	/**
 	 * Get taxonomies associated with a finder link
 	 *
-	 * @return  object[]
+	 * @return  \stdClass[]
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
