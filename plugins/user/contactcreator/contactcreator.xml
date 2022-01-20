@@ -24,7 +24,6 @@
 					type="text"
 					label="PLG_CONTACTCREATOR_FIELD_AUTOMATIC_WEBPAGE_LABEL"
 					description="PLG_CONTACTCREATOR_FIELD_AUTOMATIC_WEBPAGE_DESC"
-					size="40"
 				/>
 
 				<field
