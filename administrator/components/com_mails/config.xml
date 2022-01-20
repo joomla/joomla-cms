@@ -44,7 +44,6 @@
 			type="text"
 			label="COM_MAILS_CONFIG_FIELD_ATTACHMENT_FOLDER_LABEL"
 			description="COM_MAILS_CONFIG_FIELD_ATTACHMENT_FOLDER_DESC"
-			size="40"
 			validate="folderPathExists"
 			exclude="administrator|api|cache|cli|components|includes|language|layouts|libraries|modules|plugins|templates|tmp"
 		/>

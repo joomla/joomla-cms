@@ -115,7 +115,7 @@ class ApplicationController extends ApiController
 		$oldData = $model->getData();
 		$data = array_replace($oldData, $data);
 
-		// TODO: Not the cleanest thing ever but it works...
+		// @todo: Not the cleanest thing ever but it works...
 		Form::addFormPath(JPATH_COMPONENT_ADMINISTRATOR . '/forms');
 
 		// Must load after serving service-requests

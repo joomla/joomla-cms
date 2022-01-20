@@ -15,7 +15,6 @@
 				name="q"
 				type="text"
 				label="COM_FINDER_SEARCH_SEARCH_QUERY_LABEL"
-				size="30"
 			/>
 			<field
 				name="f"
@@ -94,9 +93,42 @@
 				label="COM_FINDER_CONFIG_DESCRIPTION_LENGTH_LABEL"
 				filter="integer"
 				default=""
-				size="5"
 				useglobal="true"
 			/>
+			<field
+				name="show_image"
+				type="list"
+				label="COM_FINDER_CONFIG_SHOW_IMAGE_LABEL"
+				default=""
+				useglobal="true"
+				class="form-select-color-state"
+				validate="options"
+				>
+				<option value="1">JSHOW</option>
+				<option value="0">JHIDE</option>
+			</field>
+			<field
+				name="image_class"
+				type="text"
+				label="COM_FINDER_CONFIG_IMAGE_CLASS_LABEL"
+				default=""
+				useglobal="true"
+				validate="CssIdentifier"
+				showon="show_image!:0"
+			/>
+			<field
+				name="link_image"
+				type="list"
+				label="COM_FINDER_CONFIG_LINKED_IMAGE_LABEL"
+				default=""
+				useglobal="true"
+				class="form-select-color-state"
+				validate="options"
+				showon="show_image!:0"
+			>
+				<option value="0">JNO</option>
+				<option value="1">JYES</option>
+			</field>
 			<field
 				name="show_date"
 				type="list"

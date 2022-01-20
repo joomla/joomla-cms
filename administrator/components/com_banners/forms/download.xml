@@ -19,7 +19,6 @@
 			type="text"
 			label="COM_BANNERS_FIELD_BASENAME_LABEL"
 			description="COM_BANNERS_FIELD_BASENAME_DESC"
-			size="40"
 		/>
 	</fieldset>
 </form>
