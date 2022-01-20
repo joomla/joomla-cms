@@ -27,7 +27,6 @@
 					name="url"
 					type="text"
 					label="MOD_WRAPPER_FIELD_URL_LABEL"
-					size="30"
 					required="true"
 				/>
 
@@ -47,7 +46,6 @@
 					name="width"
 					type="text"
 					label="MOD_WRAPPER_FIELD_WIDTH_LABEL"
-					size="5"
 					default="100%"
 				/>
 
@@ -55,7 +53,6 @@
 					name="height"
 					type="text"
 					label="MOD_WRAPPER_FIELD_HEIGHT_LABEL"
-					size="5"
 					default="200"
 				/>
 
@@ -75,7 +72,6 @@
 					name="target"
 					type="text"
 					label="MOD_WRAPPER_FIELD_TARGET_LABEL"
-					size="30"
 				/>
 
 				<field
