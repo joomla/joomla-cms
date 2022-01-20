@@ -25,7 +25,6 @@
 					label="PLG_SYSTEM_UPDATENOTIFICATION_EMAIL_LBL"
 					description="PLG_SYSTEM_UPDATENOTIFICATION_EMAIL_DESC"
 					default=""
-					size="40"
 				/>
 
 				<field
@@ -43,7 +42,6 @@
 					name="lastrun"
 					type="hidden"
 					default="0"
-					size="15"
 				/>
 			</fieldset>
 		</fields>
