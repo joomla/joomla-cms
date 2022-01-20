@@ -58,10 +58,11 @@ class TasksRunCommand extends AbstractCommand
 		 * load the namespace when it's time to do that (why?)
 		 */
 		static $outTextMap = [
-			Status::OK         => 'Task#%1$02d \'%2$s\' processed in %3$.2f seconds.',
-			Status::NO_RUN    => '<warning>Task#%1$02d \'%2$s\' failed to run. Is it already running?</warning>',
-			Status::NO_ROUTINE => '<error>Task#%1$02d \'%2$s\' is orphaned! Visit the backend to resolve.</error>',
-			'N/A'              => '<error>Task#%1$02d \'%2$s\' exited with code %4$d in %3$.2f seconds.</error>',
+			Status::OK          => 'Task#%1$02d \'%2$s\' processed in %3$.2f seconds.',
+			Status::WILL_RESUME => '<notice>Task#%1$02d \'%2$s\' ran for %3$.2f seconds, will resume next time.</notice>',
+			Status::NO_RUN      => '<warning>Task#%1$02d \'%2$s\' failed to run. Is it already running?</warning>',
+			Status::NO_ROUTINE  => '<error>Task#%1$02d \'%2$s\' is orphaned! Visit the backend to resolve.</error>',
+			'N/A'               => '<error>Task#%1$02d \'%2$s\' exited with code %4$d in %3$.2f seconds.</error>',
 		];
 
 		$this->configureIo($input, $output);
