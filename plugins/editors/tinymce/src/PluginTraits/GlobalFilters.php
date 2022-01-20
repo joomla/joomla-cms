@@ -17,7 +17,7 @@ use Joomla\CMS\Filter\InputFilter;
 /**
  * Handles the Joomla filters for the TinyMCE editor.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.1.0
  */
 trait GlobalFilters
 {
@@ -27,7 +27,7 @@ trait GlobalFilters
 	 *
 	 * @return  InputFilter
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.1.0
 	 */
 	protected static function getGlobalFilters($user)
 	{

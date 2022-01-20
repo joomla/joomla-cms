@@ -41,7 +41,7 @@ if ($saveOrder && !empty($this->items))
 						<?php echo Text::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
 					</div>
 				<?php else : ?>
-					<table class="table" id="contentList">
+					<table class="table" id="languageList">
 						<caption class="visually-hidden">
 							<?php echo Text::_('COM_LANGUAGES_CONTENT_TABLE_CAPTION'); ?>,
 							<span id="orderedBy"><?php echo Text::_('JGLOBAL_SORTED_BY'); ?> </span>,

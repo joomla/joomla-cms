@@ -13,7 +13,7 @@ namespace Joomla\Plugin\Editors\TinyMCE\PluginTraits;
 /**
  * The ToolbarPresets trait holds the default presets for the toolbar.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.1.0
  */
 trait ToolbarPresets
 {
@@ -22,7 +22,7 @@ trait ToolbarPresets
 	 *
 	 * @return array
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.1.0
 	 */
 	public static function getToolbarPreset()
 	{
