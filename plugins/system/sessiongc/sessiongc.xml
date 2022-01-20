@@ -12,9 +12,9 @@
 	<files>
 		<filename plugin="sessiongc">sessiongc.php</filename>
 	</files>
-	<languages folder="language">
-		<language tag="en-GB">en-GB/en-GB.plg_system_sessiongc.ini</language>
-		<language tag="en-GB">en-GB/en-GB.plg_system_sessiongc.sys.ini</language>
+	<languages>
+		<language tag="en-GB">language/en-GB/plg_system_sessiongc.ini</language>
+		<language tag="en-GB">language/en-GB/plg_system_sessiongc.sys.ini</language>
 	</languages>
 	<config>
 		<fields name="params">

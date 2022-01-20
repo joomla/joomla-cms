@@ -92,6 +92,19 @@
 					<option value="1">JSHOW</option>
 					<option value="2">MOD_QUICKICON_WITH_COUNT</option>
 				</field>
+
+				<field
+					name="show_tags"
+					type="list"
+					label="MOD_QUICKICON_SHOW_TAGS_LABEL"
+					default="0"
+					validate="options"
+					>
+					<option value="0">JHIDE</option>
+					<option value="1">JSHOW</option>
+					<option value="2">MOD_QUICKICON_WITH_COUNT</option>
+				</field>
+
 				<field
 					name="show_modules"
 					type="list"
@@ -202,6 +215,8 @@
 					label="COM_MODULES_FIELD_CACHE_TIME_LABEL"
 					default="900"
 					filter="integer"
+					min="1"
+					validate="number"
 				/>
 			</fieldset>
 		</fields>

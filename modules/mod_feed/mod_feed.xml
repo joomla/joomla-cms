@@ -27,7 +27,6 @@
 					name="rssurl"
 					type="url"
 					label="MOD_FEED_FIELD_RSSURL_LABEL"
-					size="50"
 					filter="url"
 					required="true"
 					validate="url"
@@ -98,6 +97,8 @@
 					label="MOD_FEED_FIELD_ITEMS_LABEL"
 					default="3"
 					filter="integer"
+					min="1"
+					validate="number"
 				/>
 
 				<field
@@ -129,7 +130,6 @@
 					type="text"
 					label="MOD_FEED_FIELD_WORDCOUNT_LABEL"
 					description="MOD_FEED_FIELD_WORDCOUNT_DESC"
-					size="6"
 					default="0"
 					filter="integer"
 				/>

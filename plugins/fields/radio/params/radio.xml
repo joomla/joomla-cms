@@ -15,14 +15,12 @@
 						name="name"
 						type="text"
 						label="PLG_FIELDS_RADIO_PARAMS_OPTIONS_NAME_LABEL"
-						size="30"
 					/>
 
 					<field
 						name="value"
 						type="text"
 						label="PLG_FIELDS_RADIO_PARAMS_OPTIONS_VALUE_LABEL"
-						size="30"
 					/>
 				</form>
 			</field>
@@ -35,10 +33,20 @@
 				name="class"
 				type="textarea"
 				label="COM_FIELDS_FIELD_CLASS_LABEL"
-				size="40"
 				default="btn-group"
 				validate="CssIdentifier"
 			/>
+			<fieldset name="formoptions">
+				<field
+					name="form_layout"
+					type="list"
+					label="COM_FIELDS_FIELD_FORM_LAYOUT_LABEL"
+					class="form-select"
+					>
+					<option value="joomla.form.field.radio.buttons">PLG_FIELDS_RADIO_PARAMS_FORM_LAYOUT_BUTTONS</option>
+					<option value="joomla.form.field.radio.switcher">PLG_FIELDS_RADIO_PARAMS_FORM_LAYOUT_SWITCHER</option>
+				</field>
+			</fieldset>
 		</fieldset>
 	</fields>
 </form>

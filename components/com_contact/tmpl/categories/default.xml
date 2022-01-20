@@ -167,7 +167,7 @@
 				type="list"
 				label="COM_CONTACT_NO_CONTACTS_LABEL"
 				useglobal="true"
-				class="custom-select-color-state"
+				class="form-select-color-state"
 				validate="options"
 				>
 				<option value="0">JHIDE</option>
@@ -179,7 +179,7 @@
 				type="list"
 				label="JGLOBAL_SHOW_SUBCATEGORY_HEADING"
 				useglobal="true"
-				class="custom-select-color-state"
+				class="form-select-color-state"
 				validate="options"
 				>
 				<option value="0">JHIDE</option>
@@ -667,7 +667,6 @@
 				name="linka_name"
 				type="text"
 				label="COM_CONTACT_FIELD_LINKA_NAME_LABEL"
-				size="30"
 				useglobal="true"
 			/>
 
@@ -675,7 +674,6 @@
 				name="linkb_name"
 				type="text"
 				label="COM_CONTACT_FIELD_LINKB_NAME_LABEL"
-				size="30"
 				useglobal="true"
 			/>
 
@@ -683,7 +681,6 @@
 				name="linkc_name"
 				type="text"
 				label="COM_CONTACT_FIELD_LINKC_NAME_LABEL"
-				size="30"
 				useglobal="true"
 			/>
 
@@ -691,7 +688,6 @@
 				name="linkd_name"
 				type="text"
 				label="COM_CONTACT_FIELD_LINKD_NAME_LABEL"
-				size="30"
 				useglobal="true"
 			/>
 
@@ -699,7 +695,6 @@
 				name="linke_name"
 				type="text"
 				label="COM_CONTACT_FIELD_LINKE_NAME_LABEL"
-				size="30"
 				useglobal="true"
 			/>
 		</fieldset>
@@ -757,7 +752,6 @@
 				name="redirect"
 				type="text"
 				label="COM_CONTACT_FIELD_CONFIG_REDIRECT_LABEL"
-				size="30"
 				useglobal="true"
 			/>
 		</fieldset>

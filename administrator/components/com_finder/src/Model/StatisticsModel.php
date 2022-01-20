@@ -26,7 +26,7 @@ class StatisticsModel extends BaseDatabaseModel
 	/**
 	 * Method to get the component statistics
 	 *
-	 * @return  \JObject  The component statistics
+	 * @return  CMSObject The component statistics
 	 *
 	 * @since   2.5
 	 */

@@ -28,7 +28,6 @@
 					type="url"
 					label="MOD_FEED_FIELD_RSSURL_LABEL"
 					filter="url"
-					size="50"
 					required="true"
 					validate="url"
 				/>
@@ -86,6 +85,8 @@
 					label="MOD_FEED_FIELD_ITEMS_LABEL"
 					default="3"
 					filter="integer"
+					min="1"
+					validate="number"
 				/>
 
 				<field
@@ -147,6 +148,8 @@
 					label="COM_MODULES_FIELD_CACHE_TIME_LABEL"
  					default="900"
 					filter="integer"
+					min="1"
+					validate="number"
 				/>
 			</fieldset>
 		</fields>

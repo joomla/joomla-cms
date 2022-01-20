@@ -12,24 +12,25 @@ const gridItemSizes = ['sm', 'md', 'lg', 'xl'];
 export default {
 
   /**
-     * Select a directory
-     * @param state
-     * @param payload
-     */
+   * Select a directory
+   * @param state
+   * @param payload
+   */
   [types.SELECT_DIRECTORY]: (state, payload) => {
     state.selectedDirectory = payload;
+    state.search = '';
   },
 
   /**
-     * The load content success mutation
-     * @param state
-     * @param payload
-     */
+   * The load content success mutation
+   * @param state
+   * @param payload
+   */
   [types.LOAD_CONTENTS_SUCCESS]: (state, payload) => {
     /**
-         * Create the directory structure
-         * @param path
-         */
+     * Create the directory structure
+     * @param path
+     */
     function createDirectoryStructureFromPath(path) {
       const exists = state.directories.some((existing) => (existing.path === path));
       if (!exists) {
@@ -51,9 +52,9 @@ export default {
     }
 
     /**
-         * Create a directory from a path
-         * @param path
-         */
+     * Create a directory from a path
+     * @param path
+     */
     function directoryFromPath(path) {
       const parts = path.split('/');
       let directory = dirname(path);
@@ -72,10 +73,10 @@ export default {
     }
 
     /**
-         * Add a directory
-         * @param state
-         * @param directory
-         */
+     * Add a directory
+     * @param state
+     * @param directory
+     */
     // eslint-disable-next-line no-shadow
     function addDirectory(state, directory) {
       const parentDirectory = state.directories
@@ -92,17 +93,22 @@ export default {
       // Update the relation to the parent directory
       if (parentDirectoryIndex !== -1) {
         state.directories
-          .splice(parentDirectoryIndex,
+          .splice(
+            parentDirectoryIndex,
             1,
-            { ...parentDirectory, directories: [...parentDirectory.directories, directory.path] });
+            {
+              ...parentDirectory,
+              directories: [...parentDirectory.directories, directory.path],
+            },
+          );
       }
     }
 
     /**
-         * Add a file
-         * @param state
-         * @param directory
-         */
+     * Add a file
+     * @param state
+     * @param directory
+     */
     // eslint-disable-next-line no-shadow
     function addFile(state, file) {
       const parentDirectory = state.directories
@@ -119,9 +125,14 @@ export default {
       // Update the relation to the parent directory
       if (parentDirectoryIndex !== -1) {
         state.directories
-          .splice(parentDirectoryIndex,
+          .splice(
+            parentDirectoryIndex,
             1,
-            { ...parentDirectory, files: [...parentDirectory.files, file.path] });
+            {
+              ...parentDirectory,
+              files: [...parentDirectory.files, file.path],
+            },
+          );
       }
     }
 
@@ -140,15 +151,15 @@ export default {
   },
 
   /**
-     * The upload success mutation
-     * @param state
-     * @param payload
-     */
+   * The upload success mutation
+   * @param state
+   * @param payload
+   */
   [types.UPLOAD_SUCCESS]: (state, payload) => {
     const file = payload;
     const isNew = (!state.files.some((existing) => (existing.path === file.path)));
 
-    // TODO handle file_exists
+    // @todo handle file_exists
     if (isNew) {
       const parentDirectory = state.directories
         .find((existing) => (existing.path === file.directory));
@@ -158,17 +169,22 @@ export default {
       state.files.push(file);
 
       // Update the relation to the parent directory
-      state.directories.splice(parentDirectoryIndex,
+      state.directories.splice(
+        parentDirectoryIndex,
         1,
-        { ...parentDirectory, files: [...parentDirectory.files, file.path] });
+        {
+          ...parentDirectory,
+          files: [...parentDirectory.files, file.path],
+        },
+      );
     }
   },
 
   /**
-     * The create directory success mutation
-     * @param state
-     * @param payload
-     */
+   * The create directory success mutation
+   * @param state
+   * @param payload
+   */
   [types.CREATE_DIRECTORY_SUCCESS]: (state, payload) => {
     const directory = payload;
     const isNew = (!state.directories.some((existing) => (existing.path === directory.path)));
@@ -182,17 +198,22 @@ export default {
       state.directories.push(directory);
 
       // Update the relation to the parent directory
-      state.directories.splice(parentDirectoryIndex,
+      state.directories.splice(
+        parentDirectoryIndex,
         1,
-        { ...parentDirectory, directories: [...parentDirectory.directories, directory.path] });
+        {
+          ...parentDirectory,
+          directories: [...parentDirectory.directories, directory.path],
+        },
+      );
     }
   },
 
   /**
-     * The rename success handler
-     * @param state
-     * @param payload
-     */
+   * The rename success handler
+   * @param state
+   * @param payload
+   */
   [types.RENAME_SUCCESS]: (state, payload) => {
     state.selectedItems[state.selectedItems.length - 1].name = payload.newName;
     const { item } = payload;
@@ -207,10 +228,10 @@ export default {
   },
 
   /**
-     * The delete success mutation
-     * @param state
-     * @param payload
-     */
+   * The delete success mutation
+   * @param state
+   * @param payload
+   */
   [types.DELETE_SUCCESS]: (state, payload) => {
     const item = payload;
 
@@ -230,28 +251,28 @@ export default {
   },
 
   /**
-     * Select a browser item
-     * @param state
-     * @param payload the item
-     */
+   * Select a browser item
+   * @param state
+   * @param payload the item
+   */
   [types.SELECT_BROWSER_ITEM]: (state, payload) => {
     state.selectedItems.push(payload);
   },
 
   /**
-     * Select browser items
-     * @param state
-     * @param payload the items
-     */
+   * Select browser items
+   * @param state
+   * @param payload the items
+   */
   [types.SELECT_BROWSER_ITEMS]: (state, payload) => {
     state.selectedItems = payload;
   },
 
   /**
-     * Unselect a browser item
-     * @param state
-     * @param payload the item
-     */
+   * Unselect a browser item
+   * @param state
+   * @param payload the item
+   */
   [types.UNSELECT_BROWSER_ITEM]: (state, payload) => {
     const item = payload;
     state.selectedItems.splice(state.selectedItems.findIndex(
@@ -260,123 +281,123 @@ export default {
   },
 
   /**
-     * Unselect all browser items
-     * @param state
-     * @param payload the item
-     */
+   * Unselect all browser items
+   * @param state
+   * @param payload the item
+   */
   [types.UNSELECT_ALL_BROWSER_ITEMS]: (state) => {
     state.selectedItems = [];
   },
 
   /**
-     * Show the create folder modal
-     * @param state
-     */
+   * Show the create folder modal
+   * @param state
+   */
   [types.SHOW_CREATE_FOLDER_MODAL]: (state) => {
     state.showCreateFolderModal = true;
   },
 
   /**
-     * Hide the create folder modal
-     * @param state
-     */
+   * Hide the create folder modal
+   * @param state
+   */
   [types.HIDE_CREATE_FOLDER_MODAL]: (state) => {
     state.showCreateFolderModal = false;
   },
 
   /**
-     * Show the info bar
-     * @param state
-     */
+   * Show the info bar
+   * @param state
+   */
   [types.SHOW_INFOBAR]: (state) => {
     state.showInfoBar = true;
   },
 
   /**
-     * Show the info bar
-     * @param state
-     */
+   * Show the info bar
+   * @param state
+   */
   [types.HIDE_INFOBAR]: (state) => {
     state.showInfoBar = false;
   },
 
   /**
-     * Define the list grid view
-     * @param state
-     */
+   * Define the list grid view
+   * @param state
+   */
   [types.CHANGE_LIST_VIEW]: (state, view) => {
     state.listView = view;
   },
 
   /**
-     * FUll content is loaded
-     * @param state
-     * @param payload
-     */
+   * FUll content is loaded
+   * @param state
+   * @param payload
+   */
   [types.LOAD_FULL_CONTENTS_SUCCESS]: (state, payload) => {
     state.previewItem = payload;
   },
 
   /**
-     * Show the preview modal
-     * @param state
-     */
+   * Show the preview modal
+   * @param state
+   */
   [types.SHOW_PREVIEW_MODAL]: (state) => {
     state.showPreviewModal = true;
   },
 
   /**
-     * Hide the preview modal
-     * @param state
-     */
+   * Hide the preview modal
+   * @param state
+   */
   [types.HIDE_PREVIEW_MODAL]: (state) => {
     state.showPreviewModal = false;
   },
 
   /**
-     * Set the is loading state
-     * @param state
-     */
+   * Set the is loading state
+   * @param state
+   */
   [types.SET_IS_LOADING]: (state, payload) => {
     state.isLoading = payload;
   },
 
   /**
-     * Show the rename modal
-     * @param state
-     */
+   * Show the rename modal
+   * @param state
+   */
   [types.SHOW_RENAME_MODAL]: (state) => {
     state.showRenameModal = true;
   },
 
   /**
-     * Hide the rename modal
-     * @param state
-     */
+   * Hide the rename modal
+   * @param state
+   */
   [types.HIDE_RENAME_MODAL]: (state) => {
     state.showRenameModal = false;
   },
 
   /**
-     * Show the share modal
-     * @param state
-     */
+   * Show the share modal
+   * @param state
+   */
   [types.SHOW_SHARE_MODAL]: (state) => {
     state.showShareModal = true;
   },
 
   /**
-     * Hide the share modal
-     * @param state
-     */
+   * Hide the share modal
+   * @param state
+   */
   [types.HIDE_SHARE_MODAL]: (state) => {
     state.showShareModal = false;
   },
 
   /**
-     * Increase the size of the grid items
-     * @param state
-     */
+   * Increase the size of the grid items
+   * @param state
+   */
   [types.INCREASE_GRID_SIZE]: (state) => {
     let currentSizeIndex = gridItemSizes.indexOf(state.gridSize);
     if (currentSizeIndex >= 0 && currentSizeIndex < gridItemSizes.length - 1) {
@@ -386,9 +407,9 @@ export default {
   },
 
   /**
-     * Increase the size of the grid items
-     * @param state
-     */
+   * Increase the size of the grid items
+   * @param state
+   */
   [types.DECREASE_GRID_SIZE]: (state) => {
     let currentSizeIndex = gridItemSizes.indexOf(state.gridSize);
     if (currentSizeIndex > 0 && currentSizeIndex < gridItemSizes.length) {
@@ -398,26 +419,26 @@ export default {
   },
 
   /**
-    * Set search query
-    * @param state
-    * @param query
-    */
+   * Set search query
+   * @param state
+   * @param query
+   */
   [types.SET_SEARCH_QUERY]: (state, query) => {
     state.search = query;
   },
 
   /**
-     * Show the confirm modal
-     * @param state
-     */
+   * Show the confirm modal
+   * @param state
+   */
   [types.SHOW_CONFIRM_DELETE_MODAL]: (state) => {
     state.showConfirmDeleteModal = true;
   },
 
   /**
-     * Hide the confirm modal
-     * @param state
-     */
+   * Hide the confirm modal
+   * @param state
+   */
   [types.HIDE_CONFIRM_DELETE_MODAL]: (state) => {
     state.showConfirmDeleteModal = false;
   },
