@@ -15,7 +15,7 @@
     const token = `&${document.getElementById('finder-indexer-token').getAttribute('name')}=1`;
 
     Joomla.debugIndexing = () => {
-      let formEls = new URLSearchParams(Array.from(new FormData(document.getElementById('debug-form')))).toString()
+      const formEls = new URLSearchParams(Array.from(new FormData(document.getElementById('debug-form')))).toString();
       Joomla.request({
         url: `${path}${token}&${formEls}`,
         method: 'GET',
