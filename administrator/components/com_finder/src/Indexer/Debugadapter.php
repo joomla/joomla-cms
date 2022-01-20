@@ -347,7 +347,7 @@ abstract class Adapter extends CMSPlugin
 	/**
 	 * Method to reindex an item.
 	 *
-	 * @param   integer  $id  The ID of the item to reindex.
+	 * @param   int  $id  The ID of the item to reindex.
 	 *
 	 * @return  void
 	 *
