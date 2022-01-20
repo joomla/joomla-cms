@@ -178,7 +178,7 @@ class Query
 	 * Match search terms exactly or with a LIKE scheme
 	 *
 	 * @var    integer
-	 * @since  4.2
+	 * @since  __DEPLOY_VERSION__
 	 */
 	public $wordmode;
 
