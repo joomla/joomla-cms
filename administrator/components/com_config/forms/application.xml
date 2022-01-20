@@ -56,7 +56,6 @@
 			type="text"
 			label="COM_CONFIG_FIELD_CACHE_PATH_LABEL"
 			filter="path"
-			size="50"
 			showon="cache_handler:file[AND]caching:1,2"
 		/>
 
@@ -93,7 +92,6 @@
 			default="localhost"
 			showon="cache_handler:memcached[AND]caching:1,2"
 			filter="string"
-			size="25"
 		/>
 
 		<field
@@ -128,7 +126,6 @@
 			default="localhost"
 			filter="string"
 			showon="cache_handler:redis[AND]caching:1,2"
-			size="25"
 		/>
 
 		<field
@@ -151,7 +148,6 @@
 			filter="raw"
 			showon="cache_handler:redis[AND]caching:1,2"
 			autocomplete="off"
-			size="30"
 			hint="***************"
 			lock="true"
 		/>
@@ -175,6 +171,7 @@
 			name="dbtype"
 			type="databaseconnection"
 			label="COM_CONFIG_FIELD_DATABASE_TYPE_LABEL"
+			description="COM_CONFIG_FIELD_DATABASE_TYPE_DESC"
 			supported="mysql,mysqli,pgsql,postgresql"
 			filter="string" />
 
@@ -184,7 +181,6 @@
 			label="COM_CONFIG_FIELD_DATABASE_HOST_LABEL"
 			required="true"
 			filter="string"
-			size="30"
 		/>
 
 		<field
@@ -193,7 +189,6 @@
 			label="COM_CONFIG_FIELD_DATABASE_USERNAME_LABEL"
 			required="true"
 			filter="string"
-			size="30"
 		/>
 
 		<field
@@ -203,7 +198,6 @@
 			description="COM_CONFIG_FIELD_DATABASE_PASSWORD_DESC"
 			filter="raw"
 			autocomplete="off"
-			size="30"
 			lock="true"
 		/>
 
@@ -213,7 +207,6 @@
 			label="COM_CONFIG_FIELD_DATABASE_NAME_LABEL"
 			required="true"
 			filter="string"
-			size="30"
 		/>
 
 		<field
@@ -222,7 +215,6 @@
 			label="COM_CONFIG_FIELD_DATABASE_PREFIX_LABEL"
 			default="jos_"
 			filter="string"
-			size="10"
 		/>
 
 		<field
@@ -293,6 +285,7 @@
 			name="debug"
 			type="radio"
 			label="COM_CONFIG_FIELD_DEBUG_SYSTEM_LABEL"
+			description="COM_CONFIG_FIELD_DEBUG_SYSTEM_DESC"
 			layout="joomla.form.field.radio.switcher"
 			default="0"
 			filter="boolean"
@@ -305,6 +298,7 @@
 			name="debug_lang"
 			type="radio"
 			label="COM_CONFIG_FIELD_DEBUG_LANG_LABEL"
+			description="COM_CONFIG_FIELD_DEBUG_LANG_DESC"
 			layout="joomla.form.field.radio.switcher"
 			default="0"
 			filter="boolean"
@@ -394,6 +388,7 @@
 			name="proxy_enable"
 			type="radio"
 			label="COM_CONFIG_FIELD_PROXY_ENABLE_LABEL"
+			description="COM_CONFIG_FIELD_PROXY_ENABLE_DESC"
 			layout="joomla.form.field.radio.switcher"
 			default="0"
 			filter="boolean"
@@ -406,9 +401,9 @@
 			name="proxy_host"
 			type="text"
 			label="COM_CONFIG_FIELD_PROXY_HOST_LABEL"
+			description="COM_CONFIG_FIELD_PROXY_HOST_DESC"
 			filter="string"
 			showon="proxy_enable:1"
-			size="14"
 		/>
 
 		<field
@@ -427,10 +422,10 @@
 			name="proxy_user"
 			type="text"
 			label="COM_CONFIG_FIELD_PROXY_USERNAME_LABEL"
+			description="COM_CONFIG_FIELD_PROXY_USERNAME_DESC"
 			filter="string"
 			showon="proxy_enable:1"
 			autocomplete="off"
-			size="25"
 		/>
 
 		<field
@@ -440,7 +435,6 @@
 			filter="raw"
 			showon="proxy_enable:1"
 			autocomplete="off"
-			size="25"
 			lock="true"
 		/>
 
@@ -454,6 +448,7 @@
 			name="offset"
 			type="timezone"
 			label="COM_CONFIG_FIELD_SERVER_TIMEZONE_LABEL"
+			description="COM_CONFIG_FIELD_SERVER_TIMEZONE_DESC"
 			default="UTC"
 			>
 			<option value="UTC">JLIB_FORM_VALUE_TIMEZONE_UTC</option>
@@ -481,6 +476,7 @@
 			name="massmailoff"
 			type="radio"
 			label="COM_CONFIG_FIELD_MAIL_MASSMAILOFF_LABEL"
+			description="COM_CONFIG_FIELD_MAIL_MASSMAILOFF_DESC"
 			layout="joomla.form.field.radio.switcher"
 			default="0"
 			filter="boolean"
@@ -495,7 +491,6 @@
 			type="email"
 			label="COM_CONFIG_FIELD_MAIL_FROM_EMAIL_LABEL"
 			filter="string"
-			size="30"
 			validate="email"
 			showon="mailonline:1"
 		/>
@@ -505,7 +500,6 @@
 			type="text"
 			label="COM_CONFIG_FIELD_MAIL_FROM_NAME_LABEL"
 			filter="string"
-			size="30"
 			showon="mailonline:1"
 		/>
 
@@ -514,7 +508,6 @@
 			type="email"
 			label="COM_CONFIG_FIELD_MAIL_REPLY_TO_EMAIL_LABEL"
 			filter="string"
-			size="30"
 			validate="email"
 			showon="mailonline:1"
 		/>
@@ -524,7 +517,6 @@
 			type="text"
 			label="COM_CONFIG_FIELD_MAIL_REPLY_TO_NAME_LABEL"
 			filter="string"
-			size="30"
 			showon="mailonline:1"
 		/>
 
@@ -549,7 +541,6 @@
 			default="/usr/sbin/sendmail"
 			showon="mailonline:1[AND]mailer:sendmail"
 			filter="string"
-			size="30"
 		/>
 
 		<field
@@ -559,7 +550,6 @@
 			default="localhost"
 			showon="mailonline:1[AND]mailer:smtp"
 			filter="string"
-			size="30"
 		/>
 
 		<field
@@ -609,7 +599,6 @@
 			showon="mailonline:1[AND]mailer:smtp[AND]smtpauth:1"
 			filter="string"
 			autocomplete="off"
-			size="30"
 		/>
 
 		<field
@@ -619,7 +608,6 @@
 			showon="mailonline:1[AND]mailer:smtp[AND]smtpauth:1"
 			filter="raw"
 			autocomplete="off"
-			size="30"
 			lock="true"
 		/>
 
@@ -657,6 +645,7 @@
 			name="MetaRights"
 			type="textarea"
 			label="JFIELD_META_RIGHTS_LABEL"
+			description="JFIELD_META_RIGHTS_DESC"
 			filter="string"
 			cols="60"
 			rows="2"
@@ -678,6 +667,7 @@
 			name="MetaVersion"
 			type="radio"
 			label="COM_CONFIG_FIELD_METAVERSION_LABEL"
+			description="COM_CONFIG_FIELD_METAVERSION_DESC"
 			layout="joomla.form.field.radio.switcher"
 			default="0"
 			filter="boolean"
@@ -696,6 +686,7 @@
 			name="sef"
 			type="radio"
 			label="COM_CONFIG_FIELD_SEF_URL_LABEL"
+			description="COM_CONFIG_FIELD_SEF_URL_DESC"
 			layout="joomla.form.field.radio.switcher"
 			default="1"
 			filter="boolean"
@@ -708,6 +699,7 @@
 			name="sef_rewrite"
 			type="radio"
 			label="COM_CONFIG_FIELD_SEF_REWRITE_LABEL"
+			description="COM_CONFIG_FIELD_SEF_REWRITE_DESC"
 			layout="joomla.form.field.radio.switcher"
 			default="0"
 			filter="boolean"
@@ -720,7 +712,7 @@
 		<field
 			name="sef_note"
 			type="note"
-			label="COM_CONFIG_FIELD_SEF_REWRITE_DESC"
+			label="COM_CONFIG_FIELD_SEF_REWRITE_NOTE"
 			heading="p"
 			class="small"
 			showon="sef:1[AND]sef_rewrite:1"
@@ -730,6 +722,7 @@
 			name="sef_suffix"
 			type="radio"
 			label="COM_CONFIG_FIELD_SEF_SUFFIX_LABEL"
+			description="COM_CONFIG_FIELD_SEF_SUFFIX_DESC"
 			layout="joomla.form.field.radio.switcher"
 			default="0"
 			filter="boolean"
@@ -743,6 +736,7 @@
 			name="unicodeslugs"
 			type="radio"
 			label="COM_CONFIG_FIELD_UNICODESLUGS_LABEL"
+			description="COM_CONFIG_FIELD_UNICODESLUGS_DESC"
 			layout="joomla.form.field.radio.switcher"
 			default="0"
 			filter="boolean"
@@ -775,14 +769,15 @@
 			name="tmp_path"
 			type="text"
 			label="COM_CONFIG_FIELD_TEMP_PATH_LABEL"
+			description="COM_CONFIG_FIELD_TEMP_PATH_DESC"
 			filter="string"
-			size="50"
 		/>
 
 		<field
 			name="gzip"
 			type="radio"
 			label="COM_CONFIG_FIELD_GZIP_COMPRESSION_LABEL"
+			description="COM_CONFIG_FIELD_GZIP_COMPRESSION_DESC"
 			layout="joomla.form.field.radio.switcher"
 			default="0"
 			filter="boolean"
@@ -795,6 +790,7 @@
 			name="error_reporting"
 			type="list"
 			label="COM_CONFIG_FIELD_ERROR_REPORTING_LABEL"
+			description="COM_CONFIG_FIELD_ERROR_REPORTING_DESC"
 			default="default"
 			filter="cmd"
 			validate="options"
@@ -850,7 +846,6 @@
 			default="localhost"
 			filter="string"
 			showon="session_handler:memcached"
-			size="25"
 		/>
 
 		<field
@@ -885,7 +880,6 @@
 			default="localhost"
 			filter="string"
 			showon="session_handler:redis"
-			size="25"
 		/>
 
 		<field
@@ -908,7 +902,6 @@
 			filter="raw"
 			showon="session_handler:redis"
 			autocomplete="off"
-			size="30"
 			lock="true"
 		/>
 
@@ -970,7 +963,6 @@
 			label="COM_CONFIG_FIELD_SITE_NAME_LABEL"
 			required="true"
 			filter="string"
-			size="50"
 		/>
 
 		<field
@@ -1020,6 +1012,7 @@
 			name="frontediting"
 			type="list"
 			label="COM_CONFIG_FRONTEDITING_LABEL"
+			description="COM_CONFIG_FRONTEDITING_DESC"
 			default="1"
 			filter="integer"
 			validate="options"
@@ -1033,6 +1026,7 @@
 			name="editor"
 			type="plugins"
 			label="COM_CONFIG_FIELD_DEFAULT_EDITOR_LABEL"
+			description="COM_CONFIG_FIELD_DEFAULT_EDITOR_DESC"
 			folder="editors"
 			default="tinymce"
 			filter="cmd"
@@ -1042,6 +1036,7 @@
 			name="captcha"
 			type="plugins"
 			label="COM_CONFIG_FIELD_DEFAULT_CAPTCHA_LABEL"
+			description="COM_CONFIG_FIELD_DEFAULT_CAPTCHA_DESC"
 			folder="captcha"
 			default="0"
 			filter="cmd"
@@ -1053,6 +1048,7 @@
 			name="access"
 			type="accesslevel"
 			label="COM_CONFIG_FIELD_DEFAULT_ACCESS_LEVEL_LABEL"
+			description="COM_CONFIG_FIELD_DEFAULT_ACCESS_LEVEL_DESC"
 			default="1"
 			filter="UINT"
 			validate="options"
@@ -1082,6 +1078,7 @@
 			name="feed_limit"
 			type="list"
 			label="COM_CONFIG_FIELD_DEFAULT_FEED_LIMIT_LABEL"
+			description="COM_CONFIG_FIELD_DEFAULT_FEED_LIMIT_DESC"
 			default="10"
 			filter="integer"
 			validate="options"
@@ -1135,7 +1132,6 @@
 			label="COM_CONFIG_FIELD_LOG_PATH_LABEL"
 			required="true"
 			filter="string"
-			size="50"
 		/>
 
 		<field
@@ -1193,7 +1189,6 @@
 			type="text"
 			label="COM_CONFIG_FIELD_LOG_CATEGORIES_LABEL"
 			description="COM_CONFIG_FIELD_LOG_CATEGORIES_DESC"
-			size="60"
 			default=""
 		/>
 
@@ -1221,7 +1216,6 @@
 			label="COM_CONFIG_FIELD_COOKIE_DOMAIN_LABEL"
 			description="COM_CONFIG_FIELD_COOKIE_DOMAIN_DESC"
 			filter="string"
-			size="40"
 		/>
 
 		<field
@@ -1229,7 +1223,6 @@
 			type="text"
 			label="COM_CONFIG_FIELD_COOKIE_PATH_LABEL"
 			filter="string"
-			size="40"
 		/>
 
 	</fieldset>

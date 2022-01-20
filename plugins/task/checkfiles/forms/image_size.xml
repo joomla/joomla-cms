@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<form>
+	<fields name="params">
+		<fieldset name="task_params">
+			<field
+				name="path"
+				type="folderlist"
+				label="PLG_TASK_CHECK_FILES_LABEL_DIRECTORY"
+				directory="images"
+				hide_default="true"
+				hide_none="true"
+				required="true"
+				validate="options"
+				>
+				<option value="">JOPTION_DO_NOT_USE</option>
+			</field>
+			<field
+				name="dimension"
+				type="list"
+				label="PLG_TASK_CHECK_FILES_LABEL_IMAGE_DIMENSION"
+				required="true"
+				default="width"
+				>
+				<option value="width">JFIELD_MEDIA_WIDTH_LABEL</option>
+				<option value="height">JFIELD_MEDIA_HEIGHT_LABEL</option>
+			</field>
+			<field
+				name="limit"
+				type="number"
+				label="PLG_TASK_CHECK_FILES_LABEL_DIMENSION_LIMIT"
+				required="true"
+				default="1080"
+				min="1"
+				step="1"
+				filter="int"
+			/>
+			<field
+				name="numImages"
+				type="number"
+				label="PLG_TASK_CHECK_FILES_LABEL_MAXIMAGES"
+				description="PLG_TASK_CHECK_FILES_LABEL_MAXIMAGES_DESC"
+				required="true"
+				min="1"
+				step="1"
+				default="1"
+				filter="int"
+			/>
+		</fieldset>
+	</fields>
+</form>
