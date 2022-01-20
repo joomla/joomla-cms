@@ -86,7 +86,7 @@ if ($lock)
 }
 
 $ariaDescribedBy = $rules ? $name . '-rules ' : '';
-$ariaDescribedBy .= !empty($description) ? $name . '-desc' : '';
+$ariaDescribedBy .= !empty($description) ? (($id ?: $name) . '-desc') : '';
 
 $attributes = array(
 	strlen($hint) ? 'placeholder="' . htmlspecialchars($hint, ENT_COMPAT, 'UTF-8') . '"' : '',

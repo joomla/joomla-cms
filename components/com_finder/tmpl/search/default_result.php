@@ -16,8 +16,9 @@ use Joomla\CMS\Router\Route;
 use Joomla\Component\Finder\Administrator\Indexer\Helper;
 use Joomla\Component\Finder\Administrator\Indexer\Taxonomy;
 use Joomla\String\StringHelper;
+use Joomla\Utilities\ArrayHelper;
 
-$user = Factory::getUser();
+$user = Factory::getApplication()->getIdentity();
 
 $show_description = $this->params->get('show_description', 1);
 
@@ -48,6 +49,22 @@ if ($show_description)
 	$description = HTMLHelper::_('string.truncate', StringHelper::substr($full_description, $start), $desc_length, true);
 }
 
+$showImage = $this->params->get('show_image', 0);
+
+if ($showImage && !empty($this->result->imageUrl))
+{
+	$imageclass        = $this->params->get('image_class', '');
+	$image             = HTMLHelper::cleanImageURL($this->result->imageUrl);
+	$extraAttr         = '';
+
+	// Set lazyloading only for images which have width and height attributes
+	if ((isset($image->attributes['width']) && (int) $image->attributes['width'] > 0)
+		&& (isset($image->attributes['height']) && (int) $image->attributes['height'] > 0))
+	{
+		$extraAttr = ArrayHelper::toString($image->attributes) . ' loading="lazy"';
+	}
+}
+
 $icon = '';
 if (!empty($this->result->mime)) :
 	$icon = '<span class="icon-file-' . $this->result->mime . '" aria-hidden="true"></span> ';
@@ -59,6 +76,23 @@ if ($this->params->get('show_url', 1)) :
 endif;
 ?>
 <li class="result__item">
+	<?php if (isset($image)) : ?>
+		<figure class="<?php echo htmlspecialchars($imageclass, ENT_COMPAT, 'UTF-8'); ?> result__image">
+			<?php if ($this->params->get('link_image') && $this->result->route) : ?>
+				<a href="<?php echo Route::_($this->result->route); ?>">
+					<img src="<?php echo htmlspecialchars($image->url, ENT_COMPAT, 'UTF-8'); ?>"
+						 alt="<?php echo htmlspecialchars($this->result->imageAlt, ENT_COMPAT, 'UTF-8'); ?>"
+							<?php echo $extraAttr; ?>
+					/>
+				</a>
+			<?php else : ?>
+				<img src="<?php echo htmlspecialchars($image->url, ENT_COMPAT, 'UTF-8'); ?>"
+					 alt="<?php echo htmlspecialchars($this->result->imageAlt, ENT_COMPAT, 'UTF-8'); ?>"
+						<?php echo $extraAttr; ?>
+				/>
+			<?php endif; ?>
+		</figure>
+	<?php endif; ?>
 	<p class="result__title">
 		<?php if ($this->result->route) : ?>
 			<?php echo HTMLHelper::link(

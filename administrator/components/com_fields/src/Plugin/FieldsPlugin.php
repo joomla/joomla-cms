@@ -200,6 +200,11 @@ abstract class FieldsPlugin extends CMSPlugin
 		$node->setAttribute('hint', $field->params->get('hint', ''));
 		$node->setAttribute('required', $field->required ? 'true' : 'false');
 
+		if ($layout = $field->params->get('form_layout'))
+		{
+			$node->setAttribute('layout', $layout);
+		}
+
 		if ($field->default_value !== '')
 		{
 			$defaultNode = $node->appendChild(new \DOMElement('default'));

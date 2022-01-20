@@ -13,7 +13,6 @@
 			name="title"
 			type="text"
 			label="JGLOBAL_TITLE"
-			size="40"
 			maxlength="100"
 			required="true"
 		/>
@@ -23,7 +22,6 @@
 			type="text"
 			label="COM_MODULES_FIELD_NOTE_LABEL"
 			maxlength="255"
-			size="40"
 		/>
 
 		<field
@@ -31,7 +29,6 @@
 			type="hidden"
 			label="COM_MODULES_FIELD_MODULE_LABEL"
 			readonly="readonly"
-			size="20"
 		/>
 
 		<field
@@ -51,7 +48,6 @@
 			label="JSTATUS"
 			class="form-select-color-state"
 			default="1"
-			size="1"
 			validate="options"
 			>
 			<option value="1">JPUBLISHED</option>
@@ -66,7 +62,6 @@
 			filter="user_utc"
 			translateformat="true"
 			showtime="true"
-			size="22"
 		/>
 
 		<field
@@ -76,7 +71,6 @@
 			filter="user_utc"
 			translateformat="true"
 			showtime="true"
-			size="22"
 		/>
 
 		<field
@@ -84,7 +78,6 @@
 			type="hidden"
 			label="COM_MODULES_FIELD_CLIENT_ID_LABEL"
 			readonly="true"
-			size="1"
 		/>
 
 		<field

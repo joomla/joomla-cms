@@ -336,7 +336,7 @@ class MediaField extends FormField
 
 		$mediaTypes   = array_map('trim', explode(',', $this->types));
 		$types        = [];
-		$imagesExt    = $imagesExt = array_map(
+		$imagesExt    = array_map(
 			'trim',
 			explode(
 				',',

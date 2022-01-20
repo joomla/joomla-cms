@@ -49,7 +49,7 @@ extract($displayData);
 
 $attributes = array(
 	!empty($size) ? 'size="' . $size . '"' : '',
-	!empty($description) ? 'aria-describedby="' . $name . '-desc"' : '',
+	!empty($description) ? 'aria-describedby="' . ($id ?: $name) . '-desc"' : '',
 	$disabled ? 'disabled' : '',
 	$readonly ? 'readonly' : '',
 	strlen($hint) ? 'placeholder="' . htmlspecialchars($hint, ENT_COMPAT, 'UTF-8') . '"' : '',
