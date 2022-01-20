@@ -17,7 +17,6 @@
 			name="menutype"
 			type="text"
 			label="COM_MENUS_MENU_MENUTYPE_LABEL"
-			size="30"
 			maxlength="24"
 			required="true"
 		/>
@@ -25,7 +24,6 @@
 			name="title"
 			type="text"
 			label="JGLOBAL_TITLE"
-			size="30"
 			maxlength="48"
 			required="true"
 		/>
@@ -34,7 +32,6 @@
 			type="text"
 			label="JGLOBAL_DESCRIPTION"
 			id="menudescription"
-			size="30"
 			maxlength="255"
 		/>
 		<field
