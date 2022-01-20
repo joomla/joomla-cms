@@ -1,0 +1,29 @@
+/**
+* Back to Top
+*/
+
+.back-to-top-link {
+  position: absolute;
+  inset-inline-end: 1rem;
+  bottom: 1rem;
+  z-index: 10000;
+  padding: $cassiopeia-grid-gutter/2;
+  color: var(--cassiopeia-color-primary, $standard-color-primary);
+  pointer-events: all;
+  background-color: var(--white, $white);
+  border: 1px solid var(--cassiopeia-color-primary, $standard-color-primary);
+  border-radius: $border-radius;
+  opacity: 0;
+  transition: opacity 200ms ease-in;
+
+  &.visible {
+    opacity: 1;
+  }
+
+  &:hover,
+  &:focus {
+    color: var(--white, $white);
+    background-color: var(--cassiopeia-color-hover);
+    border-color: var(--white, $white);
+  }
+}

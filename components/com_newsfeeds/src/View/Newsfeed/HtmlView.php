@@ -31,6 +31,7 @@ class HtmlView extends BaseHtmlView
 	 * The model state
 	 *
 	 * @var     object
+	 *
 	 * @since   1.6
 	 */
 	protected $state;
@@ -39,6 +40,7 @@ class HtmlView extends BaseHtmlView
 	 * The newsfeed item
 	 *
 	 * @var     object
+	 *
 	 * @since   1.6
 	 */
 	protected $item;
@@ -47,6 +49,7 @@ class HtmlView extends BaseHtmlView
 	 * UNUSED?
 	 *
 	 * @var     boolean
+	 *
 	 * @since   1.6
 	 */
 	protected $print;
@@ -54,7 +57,8 @@ class HtmlView extends BaseHtmlView
 	/**
 	 * The current user instance
 	 *
-	 * @var    \JUser|null
+	 * @var    \Joomla\CMS\User\User|null
+	 *
 	 * @since  4.0.0
 	 */
 	protected $user = null;
@@ -63,6 +67,7 @@ class HtmlView extends BaseHtmlView
 	 * The page class suffix
 	 *
 	 * @var    string
+	 *
 	 * @since  4.0.0
 	 */
 	protected $pageclass_sfx = '';
@@ -71,6 +76,7 @@ class HtmlView extends BaseHtmlView
 	 * The page parameters
 	 *
 	 * @var    \Joomla\Registry\Registry|null
+	 *
 	 * @since  4.0.0
 	 */
 	protected $params;
@@ -204,7 +210,7 @@ class HtmlView extends BaseHtmlView
 		}
 
 		// Escape strings for HTML output
-		$this->pageclass_sfx = htmlspecialchars($params->get('pageclass_sfx'));
+		$this->pageclass_sfx = htmlspecialchars($params->get('pageclass_sfx', ''));
 
 		$this->params = $params;
 		$this->state  = $state;

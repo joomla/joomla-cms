@@ -258,7 +258,7 @@ class Mail extends PHPMailer
 	{
 		/*
 		 * Filter the Body
-		 * TODO: Check for XSS
+		 * @todo: Check for XSS
 		 */
 		$this->Body = MailHelper::cleanText($content);
 

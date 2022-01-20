@@ -12,15 +12,28 @@
       "uri": "system/core.min.js"
     },
     {
+      "name": "keepalive.es5",
+      "type": "script",
+      "dependencies": [
+        "core"
+      ],
+      "uri": "system/keepalive-es5.min.js",
+      "attributes": {
+        "defer": true,
+        "nomodule": true
+      }
+    },
+    {
       "name": "keepalive",
       "type": "script",
       "class": "KeepaliveAssetItem",
       "dependencies": [
+        "keepalive.es5",
         "core"
       ],
       "uri": "system/keepalive.min.js",
       "attributes": {
-        "defer": true
+        "type": "module"
       }
     },
     {
@@ -44,6 +57,29 @@
       },
       "dependencies": [
         "messages-legacy"
+      ]
+    },
+    {
+      "name": "inlinehelp-legacy",
+      "type": "script",
+      "uri": "system/inlinehelp-es5.min.js",
+      "attributes": {
+        "nomodule": true,
+        "defer": true
+      },
+      "dependencies": [
+        "core"
+      ]
+    },
+    {
+      "name": "inlinehelp",
+      "type": "script",
+      "uri": "system/inlinehelp.min.js",
+      "attributes": {
+        "type": "module"
+      },
+      "dependencies": [
+        "inlinehelp-legacy"
       ]
     },
     {
@@ -86,14 +122,27 @@
       "uri": ""
     },
     {
-      "name": "showon",
+      "name": "showon.es5",
       "type": "script",
       "dependencies": [
         "core"
       ],
+      "uri": "system/showon-es5.min.js",
+      "attributes": {
+        "defer": true,
+        "nomodule": true
+      }
+    },
+    {
+      "name": "showon",
+      "type": "script",
+      "dependencies": [
+        "core",
+        "showon.es5"
+      ],
       "uri": "system/showon.min.js",
       "attributes": {
-        "defer": true
+        "type": "module"
       }
     },
     {

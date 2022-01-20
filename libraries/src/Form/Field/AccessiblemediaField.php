@@ -131,6 +131,16 @@ class AccessiblemediaField extends SubformField
 	public function setup(\SimpleXMLElement $element, $value, $group = null)
 	{
 		/**
+		 * When you have subforms which are not repeatable (i.e. a subform custom field with the
+		 * repeat attribute set to 0) you get an array here since the data comes from decoding the
+		 * JSON into an associative array, including the media subfield's data.
+		 *
+		 * However, this method expects an object or a string, not an array. Typecasting the array
+		 * to an object solves the data format discrepancy.
+		 */
+		$value = is_array($value) ? (object) $value : $value;
+
+		/**
 		 * If the value is not a string, it is
 		 * most likely within a custom field of type subform
 		 * and the value is a stdClass with properties

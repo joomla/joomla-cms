@@ -6,7 +6,6 @@
 			type="text"
 			label="COM_USERS_USER_FIELD_NAME_LABEL"
 			required="true"
-			size="30"
 		/>
 
 		<field
@@ -14,7 +13,6 @@
 			type="text"
 			label="COM_USERS_USER_FIELD_USERNAME_LABEL"
 			required="true"
-			size="30"
 		/>
 
 		<field
@@ -28,7 +26,6 @@
 			validate="password"
 			strengthmeter="true"
 			force="on"
-			size="30"
 		/>
 
 		<field
@@ -39,7 +36,6 @@
 			class="validate-passwordExtra"
 			filter="raw"
 			message="COM_USERS_USER_FIELD_PASSWORD1_MESSAGE"
-			size="30"
 			validate="equals"
 			field="password"
 		/>
@@ -49,7 +45,6 @@
 			type="email"
 			label="JGLOBAL_EMAIL"
 			required="true"
-			size="30"
 			validate="email"
 			validDomains="com_users.domains"
 		/>
@@ -62,7 +57,6 @@
 			readonly="true"
 			translateformat="true"
 			showtime="true"
-			size="22"
 			filter="user_utc"
 		/>
 
@@ -74,7 +68,6 @@
 			readonly="true"
 			translateformat="true"
 			showtime="true"
-			size="22"
 			filter="user_utc"
 		/>
 
@@ -86,7 +79,6 @@
 			readonly="true"
 			translateformat="true"
 			showtime="true"
-			size="22"
 			filter="user_utc"
 		/>
 

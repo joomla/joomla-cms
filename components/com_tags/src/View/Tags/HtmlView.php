@@ -28,7 +28,8 @@ class HtmlView extends BaseHtmlView
 	/**
 	 * The model state
 	 *
-	 * @var    \JObject
+	 * @var    \Joomla\CMS\Object\CMSObject
+	 *
 	 * @since  3.1
 	 */
 	protected $state;
@@ -68,7 +69,7 @@ class HtmlView extends BaseHtmlView
 	/**
 	 * The logged in user
 	 *
-	 * @var    \JUser|null
+	 * @var    \Joomla\CMS\User\User|null
 	 * @since  4.0.0
 	 */
 	protected $user = null;
@@ -110,7 +111,7 @@ class HtmlView extends BaseHtmlView
 		}
 
 		// Escape strings for HTML output
-		$this->pageclass_sfx = htmlspecialchars($this->params->get('pageclass_sfx'));
+		$this->pageclass_sfx = htmlspecialchars($this->params->get('pageclass_sfx', ''));
 
 		$active = Factory::getApplication()->getMenu()->getActive();
 

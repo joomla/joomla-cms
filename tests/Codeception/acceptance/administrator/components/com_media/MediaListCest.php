@@ -262,6 +262,46 @@ class MediaListCest
 	}
 
 	/**
+	 * Test that search is applied to the current list.
+	 *
+	 * @param   Media  $I
+	 *
+	 * @throws  Exception
+	 *
+	 * @since   4.0.6
+	 */
+	public function searchInFilesAndFolders(Media $I)
+	{
+		$I->wantToTest('that search is applied to the current list.');
+		$I->amOnPage(MediaListPage::$url);
+		$I->waitForMediaLoaded();
+		$I->fillField(MediaListPage::$searchInputField, 'joomla');
+		$I->seeElement(MediaListPage::$items);
+		$I->seeElement(MediaListPage::item('joomla_black.png'));
+		$I->dontSeeElement(MediaListPage::item('banners'));
+	}
+
+	/**
+	 * Test that search is cleared when navigating in the tree.
+	 *
+	 * @param   Media  $I
+	 *
+	 * @throws  Exception
+	 *
+	 * @since   4.0.6
+	 */
+	public function searchIsClearedOnNavigate(Media $I)
+	{
+		$I->wantToTest('that search is cleared when navigating in the tree.');
+		$I->amOnPage(MediaListPage::$url);
+		$I->waitForMediaLoaded();
+		$I->fillField(MediaListPage::$searchInputField, 'banner');
+		$I->doubleClick(MediaListPage::item('banners'));
+		$I->waitForMediaLoaded();
+		$I->seeInField(MediaListPage::$searchInputField, '');
+	}
+
+	/**
 	 * Test the upload of a single file using toolbar button.
 	 *
 	 * @param   Media $I Acceptance Helper Object
@@ -898,15 +938,18 @@ class MediaListCest
 		$I->assertContains('"showInfoBar":false', $json);
 		$I->assertContains('"listView":"grid"', $json);
 		$I->assertContains('"gridSize":"md"', $json);
+		$I->assertContains('"search":""', $json);
 		$I->clickOnLinkInTree('banners');
 		$I->waitForMediaLoaded();
 		$I->openInfobar();
 		$I->click(MediaListPage::$increaseThumbnailSizeButton);
 		$I->click(MediaListPage::$toggleListViewButton);
+		$I->fillField(MediaListPage::$searchInputField, 'joomla');
 		$json = $I->executeJS('return sessionStorage.getItem("' . MediaListPage::$storageKey . '")');
 		$I->assertContains('"selectedDirectory":"local-images:/banners"', $json);
 		$I->assertContains('"showInfoBar":true', $json);
 		$I->assertContains('"listView":"table"', $json);
 		$I->assertContains('"gridSize":"lg"', $json);
+		$I->assertContains('"search":"joomla"', $json);
 	}
 }

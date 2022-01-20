@@ -53,6 +53,7 @@ class JsonapiView extends BaseApiView
 		'count_unpublished',
 		'count_published',
 		'count_archived',
+		'params',
 	];
 
 	/**
@@ -85,6 +86,7 @@ class JsonapiView extends BaseApiView
 		'count_unpublished',
 		'count_published',
 		'count_archived',
+		'params',
 	];
 
 	/**
@@ -155,7 +157,7 @@ class JsonapiView extends BaseApiView
 	{
 		foreach (FieldsHelper::getFields('com_content.categories', $item, true) as $field)
 		{
-			$item->{$field->name} = isset($field->apivalue) ? $field->apivalue : $field->rawvalue;
+			$item->{$field->name} = $field->apivalue ?? $field->rawvalue;
 		}
 
 		return parent::prepareItem($item);

@@ -11,6 +11,7 @@ namespace Joomla\Component\Contact\Site\Controller;
 
 \defined('_JEXEC') or die;
 
+use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
@@ -23,20 +24,18 @@ use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 class DisplayController extends BaseController
 {
 	/**
-	 * Constructor.
-	 *
-	 * @param   array                $config   An optional associative array of configuration settings.
-	 * Recognized key values include 'name', 'default_task', 'model_path', and
-	 * 'view_path' (this list is not meant to be comprehensive).
-	 * @param   MVCFactoryInterface  $factory  The factory.
-	 * @param   CMSApplication       $app      The JApplication for the dispatcher
-	 * @param   \JInput              $input    Input
+	 * @param   array                         $config   An optional associative array of configuration settings.
+	 *                                                  Recognized key values include 'name', 'default_task', 'model_path', and
+	 *                                                  'view_path' (this list is not meant to be comprehensive).
+	 * @param   MVCFactoryInterface|null      $factory  The factory.
+	 * @param   CMSApplication|null           $app      The Application for the dispatcher
+	 * @param   \Joomla\CMS\Input\Input|null  $input    The Input object for the request
 	 *
 	 * @since   3.0
 	 */
 	public function __construct($config = array(), MVCFactoryInterface $factory = null, $app = null, $input = null)
 	{
-		// Contact frontpage Editor contacts proxying:
+		// Contact frontpage Editor contacts proxying.
 		$input = Factory::getApplication()->input;
 
 		if ($input->get('view') === 'contacts' && $input->get('layout') === 'modal')
@@ -53,7 +52,7 @@ class DisplayController extends BaseController
 	 * @param   boolean  $cachable   If true, the view output will be cached
 	 * @param   array    $urlparams  An array of safe URL parameters and their variable types, for valid values see {@link \JFilterInput::clean()}.
 	 *
-	 * @return  static  This object to support chaining.
+	 * @return  DisplayController  This object to support chaining.
 	 *
 	 * @since   1.5
 	 */
