@@ -535,7 +535,7 @@ class PlgEditorTinymce extends CMSPlugin
 
 			if ($this->app->isClient('site'))
 			{
-				$uploadUrl = htmlentities($uploadUrl, null, 'UTF-8', null);
+				$uploadUrl = htmlentities($uploadUrl, 0, 'UTF-8', false);
 			}
 
 			Text::script('PLG_TINY_ERR_UNSUPPORTEDBROWSER');
