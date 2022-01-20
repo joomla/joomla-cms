@@ -16,7 +16,6 @@
 			name="name"
 			type="text"
 			label="JGLOBAL_TITLE"
-			size="40"
 			required="true"
 		/>
 
@@ -25,7 +24,6 @@
 			type="text"
 			label="JFIELD_ALIAS_LABEL"
 			description="JFIELD_ALIAS_DESC"
-			size="45"
 			hint="JFIELD_ALIAS_PLACEHOLDER"
 		/>
 
@@ -35,7 +33,6 @@
 			label="JSTATUS"
 			default="1"
 			class="form-select-color-state"
-			size="1"
 			validate="options"
 			>
 			<option value="1">JPUBLISHED</option>
@@ -73,7 +70,6 @@
 			name="version_note"
 			type="text"
 			label="JGLOBAL_FIELD_VERSION_NOTE_LABEL"
-			size="45"
 			maxlength="255"
 		/>
 
@@ -90,7 +86,6 @@
 			name="link"
 			type="url"
 			label="COM_NEWSFEEDS_FIELD_LINK_LABEL"
-			size="60"
 			required="true"
 			filter="url"
 			validate="url"
@@ -125,7 +120,6 @@
 			label="JGLOBAL_FIELD_CREATED_LABEL"
 			translateformat="true"
 			showtime="true"
-			size="22"
 			filter="user_utc"
 		/>
 
@@ -140,7 +134,6 @@
 			name="created_by_alias"
 			type="text"
 			label="JGLOBAL_FIELD_CREATED_BY_ALIAS_LABEL"
-			size="20"
 		/>
 
 		<field
@@ -150,7 +143,6 @@
 			class="readonly"
 			translateformat="true"
 			showtime="true"
-			size="22"
 			readonly="true"
 			filter="user_utc"
 		/>
@@ -170,7 +162,6 @@
 			type="text"
 			label="COM_NEWSFEEDS_FIELD_VERSION_LABEL"
 			class="readonly"
-			size="6"
 			readonly="true"
 			filter="unset"
 		/>
@@ -179,7 +170,6 @@
 			name="checked_out"
 			type="Text"
 			label="JGLOBAL_FIELD_CHECKEDOUT_LABEL"
-			size="6"
 			readonly="true"
 			filter="unset"
 		/>
@@ -188,7 +178,6 @@
 			name="checked_out_time"
 			type="Text"
 			label="JGLOBAL_FIELD_CHECKEDOUT_TIME_LABEL"
-			size="6"
 			readonly="true"
 			filter="unset"
 		/>
@@ -199,7 +188,6 @@
 			label="JGLOBAL_FIELD_PUBLISH_UP_LABEL"
 			translateformat="true"
 			showtime="true"
-			size="22"
 			filter="user_utc"
 		/>
 
@@ -209,7 +197,6 @@
 			label="JGLOBAL_FIELD_PUBLISH_DOWN_LABEL"
 			translateformat="true"
 			showtime="true"
-			size="22"
 			filter="user_utc"
 		/>
 
@@ -274,7 +261,6 @@
 					name="image_first_alt"
 					type="text"
 					label="COM_NEWSFEEDS_FIELD_IMAGE_ALT_LABEL"
-					size="20"
 				/>
 
 				<field
@@ -288,7 +274,6 @@
 					name="image_first_caption"
 					type="text"
 					label="COM_NEWSFEEDS_FIELD_IMAGE_CAPTION_LABEL"
-					size="20"
 				/>
 
 				<field
@@ -319,7 +304,6 @@
 					name="image_second_alt"
 					type="text"
 					label="COM_NEWSFEEDS_FIELD_IMAGE_ALT_LABEL"
-					size="20"
 				/>
 
 				<field
@@ -333,7 +317,6 @@
 					name="image_second_caption"
 					type="text"
 					label="COM_NEWSFEEDS_FIELD_IMAGE_CAPTION_LABEL"
-					size="20"
 				/>
 			</fieldset>
 		</fields>
