@@ -21,7 +21,6 @@
 			type="text"
 			label="COM_MEDIA_FIELD_PATH_FILE_FOLDER_LABEL"
 			description="COM_MEDIA_FIELD_PATH_FILE_FOLDER_DESC"
-			size="50"
 			default="images"
 			validate="folderPathExists"
 			exclude="administrator|api|cache|cli|components|includes|language|layouts|libraries|media|modules|plugins|templates|tmp"
@@ -32,7 +31,6 @@
 			type="text"
 			label="COM_MEDIA_FIELD_PATH_IMAGE_FOLDER_LABEL"
 			description="COM_MEDIA_FIELD_PATH_IMAGE_FOLDER_DESC"
-			size="50"
 			default="images"
 			validate="folderPathExists"
 			exclude="administrator|api|cache|cli|components|includes|language|layouts|libraries|modules|plugins|templates|tmp"
@@ -55,7 +53,6 @@
 			type="text"
 			label="COM_MEDIA_FIELD_RESTRICT_UPLOADS_EXTENSIONS_LABEL"
 			description="COM_MEDIA_FIELD_RESTRICT_UPLOADS_EXTENSIONS_DESC"
-			size="50"
 			default="bmp,gif,jpg,jpeg,png,webp,ico,mp3,mp4,odg,odp,ods,odt,pdf,png,ppt,txt,xcf,xls,csv"
 			showon="restrict_uploads:1"
 		/>
@@ -78,7 +75,6 @@
 			type="text"
 			label="COM_MEDIA_FIELD_LEGAL_IMAGE_EXTENSIONS_LABEL"
 			description="COM_MEDIA_FIELD_LEGAL_IMAGE_EXTENSIONS_DESC"
-			size="50"
 			default="bmp,gif,jpg,jpeg,png,webp"
 		/>
 
@@ -87,7 +83,6 @@
 			type="text"
 			label="COM_MEDIA_FIELD_LEGAL_AUDIO_EXTENSIONS_LABEL"
 			description="COM_MEDIA_FIELD_LEGAL_AUDIO_EXTENSIONS_DESC"
-			size="50"
 			default="mp3,m4a,mp4a,ogg"
 		/>
 
@@ -96,7 +91,6 @@
 			type="text"
 			label="COM_MEDIA_FIELD_LEGAL_VIDEO_EXTENSIONS_LABEL"
 			description="COM_MEDIA_FIELD_LEGAL_VIDEO_EXTENSIONS_DESC"
-			size="50"
 			default="mp4,mp4v,mpeg,mov,webm"
 		/>
 
@@ -105,7 +99,6 @@
 			type="text"
 			label="COM_MEDIA_FIELD_LEGAL_DOCUMENT_EXTENSIONS_LABEL"
 			description="COM_MEDIA_FIELD_LEGAL_DOCUMENT_EXTENSIONS_DESC"
-			size="50"
 			default="doc,odg,odp,ods,odt,pdf,ppt,txt,xcf,xls,csv"
 		/>
 
@@ -114,7 +107,6 @@
 			type="text"
 			label="COM_MEDIA_FIELD_IGNORED_EXTENSIONS_LABEL"
 			description="COM_MEDIA_FIELD_IGNORED_EXTENSIONS_DESC"
-			size="50"
 		/>
 
 		<field
@@ -122,7 +114,6 @@
 			type="text"
 			label="COM_MEDIA_FIELD_LEGAL_MIME_TYPES_LABEL"
 			description="COM_MEDIA_FIELD_LEGAL_MIME_TYPES_DESC"
-			size="50"
 			default="image/jpeg,image/gif,image/png,image/bmp,image/webp,audio/ogg,audio/mpeg,audio/mp4,video/mp4,video/mpeg,video/quicktime,video/webm,application/msword,application/excel,application/pdf,application/powerpoint,text/plain,application/x-zip"
 			showon="restrict_uploads:1"
 		/>
@@ -132,7 +123,6 @@
 			type="text"
 			label="COM_MEDIA_FIELD_ILLEGAL_MIME_TYPES_LABEL"
 			description="COM_MEDIA_FIELD_ILLEGAL_MIME_TYPES_DESC"
-			size="50"
 			default="text/html"
 			showon="restrict_uploads:1"
 		/>
