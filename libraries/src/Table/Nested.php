@@ -547,13 +547,6 @@ class Nested extends Table
 		);
 		$this->getDispatcher()->dispatch('onBeforeDelete', $event);
 
-		// Lock the table for writing.
-		if (!$this->_lock())
-		{
-			// Error message set in lock method.
-			return false;
-		}
-
 		// If tracking assets, remove the asset first.
 		if ($this->_trackAssets)
 		{
@@ -571,16 +564,15 @@ class Nested extends Table
 
 			if ($asset->loadByName($name))
 			{
+				$asset->_unlock();
+
 				// Delete the node in assets table.
 				if (!$asset->delete(null, $children))
 				{
 					$this->setError($asset->getError());
-					$asset->_unlock();
 
 					return false;
 				}
-
-				$asset->_unlock();
 			}
 			else
 			{
@@ -589,6 +581,13 @@ class Nested extends Table
 
 				return false;
 			}
+		}
+
+		// Lock the table for writing.
+		if (!$this->_lock())
+		{
+			// Error message set in lock method.
+			return false;
 		}
 
 		// Get the node by id.
