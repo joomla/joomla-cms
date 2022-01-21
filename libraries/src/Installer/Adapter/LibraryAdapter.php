@@ -372,8 +372,8 @@ class LibraryAdapter extends InstallerAdapter
 		// Set the library root path
 		$this->parent->setPath('extension_root', JPATH_PLATFORM . '/' . $manifest->libraryname);
 
-		// Set the source path to the manifests directory so the manifest script may be found
-		$this->parent->setPath('source', JPATH_MANIFESTS . '/libraries/' . $manifest->libraryname);
+		// Set the source path to the library root, the manifest script may be found
+		$this->parent->setPath('source', $this->parent->getPath('extension_root'));
 
 		$xml = simplexml_load_file($manifestFile);
 
