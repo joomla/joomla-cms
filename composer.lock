@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "3ef32f7badc65019c62068bcb567f167",
+    "content-hash": "7e0381ac6c4c5d6b13d1d2ffbe0c823a",
     "packages": [
         {
             "name": "algo26-matthias/idna-convert",
@@ -1074,16 +1074,16 @@
         },
         {
             "name": "joomla/database",
-            "version": "2.0.1",
+            "version": "dev-2.0-dev",
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-framework/database.git",
-                "reference": "98709eec31d9a3432611adc3c87a4c9a506279d9"
+                "reference": "142a624df2f48858467de67a4542d77807cc968b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-framework/database/zipball/98709eec31d9a3432611adc3c87a4c9a506279d9",
-                "reference": "98709eec31d9a3432611adc3c87a4c9a506279d9",
+                "url": "https://api.github.com/repos/joomla-framework/database/zipball/142a624df2f48858467de67a4542d77807cc968b",
+                "reference": "142a624df2f48858467de67a4542d77807cc968b",
                 "shasum": ""
             },
             "require": {
@@ -1114,6 +1114,7 @@
                 "joomla/registry": "To use the Database ServiceProviderInterface objects, install joomla/registry.",
                 "psr/log": "To use the LoggingMonitor, install psr/log."
             },
+            "default-branch": true,
             "type": "joomla-package",
             "extra": {
                 "branch-alias": {
@@ -1138,7 +1139,7 @@
             ],
             "support": {
                 "issues": "https://github.com/joomla-framework/database/issues",
-                "source": "https://github.com/joomla-framework/database/tree/2.0.1"
+                "source": "https://github.com/joomla-framework/database/tree/2.0-dev"
             },
             "funding": [
                 {
@@ -1150,7 +1151,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2021-12-10T11:53:59+00:00"
+            "time": "2022-01-10T02:28:52+00:00"
         },
         {
             "name": "joomla/di",
@@ -9812,6 +9813,7 @@
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
+        "joomla/database": 20,
         "tobscure/json-api": 20,
         "joomla/cms-coding-standards": 20,
         "joomla/coding-standards": 20,
@@ -9829,5 +9831,5 @@
     "platform-overrides": {
         "php": "7.2.5"
     },
-    "plugin-api-version": "2.2.0"
+    "plugin-api-version": "2.1.0"
 }
