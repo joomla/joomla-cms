@@ -70,7 +70,7 @@ class RegistrationController extends BaseController
 			$loginUrl = 'index.php?option=com_users&view=login';
 
 			$this->setMessage(Text::_('COM_USERS_ACTIVATION_TOKEN_NOT_FOUND'));
-			$this->setRedirect(Route::_($loginUrl, false));
+			$this->setRedirect(Route::_('index.php?option=com_users&view=login', false));
 
 			return false;
 		}
