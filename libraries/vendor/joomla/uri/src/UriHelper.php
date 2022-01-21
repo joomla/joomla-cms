@@ -47,6 +47,11 @@ class UriHelper
 		{
 			foreach ($encodedParts as $key => $value)
 			{
+				if ($result === false)
+				{
+					$result = array();
+				}
+
 				$result[$key] = urldecode(str_replace($replacements, $entities, $value));
 			}
 		}
