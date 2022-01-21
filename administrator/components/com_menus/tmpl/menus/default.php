@@ -80,11 +80,11 @@ $wa->useScript('com_menus.admin-menus');
 									<span class="icon-trash" aria-hidden="true"></span>
 									<span class="d-none d-md-inline"><?php echo Text::_('COM_MENUS_HEADING_TRASHED_ITEMS'); ?></span>
 								</th>
-								<th scope="col" class="w-10 text-center d-none d-lg-table-cell">
+								<th scope="col" class="w-10 text-center d-none d-md-table-cell">
 									<span class="icon-cube" aria-hidden="true"></span>
 									<span class="d-none d-md-inline"><?php echo Text::_('COM_MENUS_HEADING_LINKED_MODULES'); ?></span>
 								</th>
-								<th scope="col" class="w-5 d-none d-lg-table-cell text-center">
+								<th scope="col" class="w-5 d-none d-md-table-cell text-center">
 									<?php echo HTMLHelper::_('searchtools.sort', 'JGRID_HEADING_ID', 'a.id', $listDirn, $listOrder); ?>
 								</th>
 							</tr>
@@ -172,7 +172,7 @@ $wa->useScript('com_menus.admin-menus');
 										<?php echo Text::_('COM_MENUS_COUNT_TRASHED_ITEMS'); ?>
 									</div>
 								</td>
-								<td class="text-center d-none d-lg-table-cell itemnumber">
+								<td class="text-center d-none d-md-table-cell itemnumber">
 									<?php if (isset($this->modules[$item->menutype])) : ?>
 										<div class="dropdown">
 											<button type="button" class="btn btn-secondary btn-sm dropdown-toggle" data-bs-toggle="dropdown">
@@ -249,7 +249,7 @@ $wa->useScript('com_menus.admin-menus');
 											); ?>
 									<?php endif; ?>
 								</td>
-								<td class="d-none d-lg-table-cell">
+								<td class="d-none d-md-table-cell">
 									<?php echo $item->id; ?>
 								</td>
 							</tr>
