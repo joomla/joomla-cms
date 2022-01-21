@@ -13,8 +13,8 @@
 		<filename plugin="multilang">multilang.php</filename>
 	</files>
 	<languages>
-		<language tag="en-GB">en-GB.plg_sampledata_multilang.ini</language>
-		<language tag="en-GB">en-GB.plg_sampledata_multilang.sys.ini</language>
+		<language tag="en-GB">language/en-GB/plg_sampledata_multilang.ini</language>
+		<language tag="en-GB">language/en-GB/plg_sampledata_multilang.sys.ini</language>
 	</languages>
 	<config>
 		<fields name="params">

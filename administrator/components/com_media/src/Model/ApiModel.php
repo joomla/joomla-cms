@@ -17,12 +17,13 @@ use Joomla\CMS\Filesystem\File;
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Plugin\PluginHelper;
-use Joomla\Component\Media\Administrator\Adapter\AdapterInterface;
-use Joomla\Component\Media\Administrator\Event\MediaProviderEvent;
+use Joomla\Component\Media\Administrator\Event\FetchMediaItemEvent;
+use Joomla\Component\Media\Administrator\Event\FetchMediaItemsEvent;
+use Joomla\Component\Media\Administrator\Event\FetchMediaItemUrlEvent;
 use Joomla\Component\Media\Administrator\Exception\FileExistsException;
 use Joomla\Component\Media\Administrator\Exception\FileNotFoundException;
 use Joomla\Component\Media\Administrator\Exception\InvalidPathException;
-use Joomla\Component\Media\Administrator\Provider\ProviderManager;
+use Joomla\Component\Media\Administrator\Provider\ProviderManagerHelperTrait;
 
 /**
  * Api Model
@@ -31,13 +32,7 @@ use Joomla\Component\Media\Administrator\Provider\ProviderManager;
  */
 class ApiModel extends BaseDatabaseModel
 {
-	/**
-	 * Holds the available media file adapters.
-	 *
-	 * @var   ProviderManager
-	 * @since  4.0.0
-	 */
-	private $providerManager = null;
+	use ProviderManagerHelperTrait;
 
 	/**
 	 * The available extensions.
@@ -46,32 +41,6 @@ class ApiModel extends BaseDatabaseModel
 	 * @since  4.0.0
 	 */
 	private $allowedExtensions = null;
-
-	/**
-	 * Return the requested adapter
-	 *
-	 * @param   string  $name  Name of the provider
-	 *
-	 * @since   4.0.0
-	 * @return AdapterInterface
-	 *
-	 * @throws \Exception
-	 */
-	private function getAdapter($name)
-	{
-		if ($this->providerManager == null)
-		{
-			$this->providerManager = new ProviderManager;
-
-			// Fire the event to get the results
-			$eventParameters = ['context' => 'AdapterManager', 'providerManager' => $this->providerManager];
-			$event           = new MediaProviderEvent('onSetupProviders', $eventParameters);
-			PluginHelper::importPlugin('filesystem');
-			Factory::getApplication()->triggerEvent('onSetupProviders', $event);
-		}
-
-		return $this->providerManager->getAdapter($name);
-	}
 
 	/**
 	 * Returns the requested file or folder information. More information
@@ -100,14 +69,7 @@ class ApiModel extends BaseDatabaseModel
 
 		if (isset($options['url']) && $options['url'] && $file->type == 'file')
 		{
-			if (isset($options['temp']) && $options['temp'])
-			{
-				$file->tempUrl = $this->getTemporaryUrl($adapter, $file->path);
-			}
-			else
-			{
-				$file->url = $this->getUrl($adapter, $file->path);
-			}
+			$file->url = $this->getUrl($adapter, $file->path);
 		}
 
 		if (isset($options['content']) && $options['content'] && $file->type == 'file')
@@ -123,7 +85,10 @@ class ApiModel extends BaseDatabaseModel
 		$file->path    = $adapter . ":" . $file->path;
 		$file->adapter = $adapter;
 
-		return $file;
+		$event = new FetchMediaItemEvent('onFetchMediaItem', ['item' => $file]);
+		Factory::getApplication()->getDispatcher()->dispatch($event->getName(), $event);
+
+		return $event->getArgument('item');
 	}
 
 	/**
@@ -168,14 +133,7 @@ class ApiModel extends BaseDatabaseModel
 			// Check if we need more information
 			if (isset($options['url']) && $options['url'] && $file->type == 'file')
 			{
-				if (isset($options['temp']) && $options['temp'])
-				{
-					$file->tempUrl = $this->getTemporaryUrl($adapter, $file->path);
-				}
-				else
-				{
-					$file->url = $this->getUrl($adapter, $file->path);
-				}
+				$file->url = $this->getUrl($adapter, $file->path);
 			}
 
 			if (isset($options['content']) && $options['content'] && $file->type == 'file')
@@ -192,8 +150,13 @@ class ApiModel extends BaseDatabaseModel
 			$file->adapter = $adapter;
 		}
 
-		// Return array with proper indexes
-		return array_values($files);
+		// Make proper indexes
+		$files = array_values($files);
+
+		$event = new FetchMediaItemsEvent('onFetchMediaItems', ['items' => $files]);
+		Factory::getApplication()->getDispatcher()->dispatch($event->getName(), $event);
+
+		return $event->getArgument('items');
 	}
 
 	/**
@@ -468,7 +431,12 @@ class ApiModel extends BaseDatabaseModel
 			throw new InvalidPathException;
 		}
 
-		return $this->getAdapter($adapter)->getUrl($path);
+		$url = $this->getAdapter($adapter)->getUrl($path);
+
+		$event = new FetchMediaItemUrlEvent('onFetchMediaFileUrl', ['adapter' => $adapter, 'path' => $path, 'url' => $url]);
+		Factory::getApplication()->getDispatcher()->dispatch($event->getName(), $event);
+
+		return $event->getArgument('url');
 	}
 
 	/**
@@ -487,29 +455,6 @@ class ApiModel extends BaseDatabaseModel
 	public function search($adapter, $needle, $path = '/', $recursive = true)
 	{
 		return $this->getAdapter($adapter)->search($path, $needle, $recursive);
-	}
-
-	/**
-	 * Returns a temporary url for the given path.
-	 * This is used internally in media manager
-	 *
-	 * @param   string  $adapter  The adapter
-	 * @param   string  $path     The path to file
-	 *
-	 * @return string
-	 *
-	 * @since   4.0.0
-	 * @throws \Exception
-	 */
-	public function getTemporaryUrl($adapter, $path)
-	{
-		// Check if it is a media file
-		if (!$this->isMediaFile($path))
-		{
-			throw new InvalidPathException;
-		}
-
-		return $this->getAdapter($adapter)->getTemporaryUrl($path);
 	}
 
 	/**

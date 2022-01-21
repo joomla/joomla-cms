@@ -969,7 +969,7 @@ class Nested extends Table
 			// Nothing to set publishing state on, return false.
 			else
 			{
-				$e = new \UnexpectedValueException(sprintf('%s::publish(%s, %d, %d) empty.', \get_class($this), $pks, $state, $userId));
+				$e = new \UnexpectedValueException(sprintf('%s::publish(%s, %d, %d) empty.', \get_class($this), implode(',', $pks), $state, $userId));
 				$this->setError($e);
 
 				return false;
@@ -1003,7 +1003,7 @@ class Nested extends Table
 				// Check for checked out children.
 				if ($this->_db->loadResult())
 				{
-					// TODO Convert to a conflict exception when available.
+					// @todo Convert to a conflict exception when available.
 					$e = new \RuntimeException(sprintf('%s::publish(%s, %d, %d) checked-out conflict.', \get_class($this), $pks[0], $state, $userId));
 
 					$this->setError($e);

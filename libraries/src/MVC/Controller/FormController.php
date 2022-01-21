@@ -80,7 +80,7 @@ class FormController extends BaseController implements FormFactoryAwareInterface
 	 *                                              Recognized key values include 'name', 'default_task', 'model_path', and
 	 *                                              'view_path' (this list is not meant to be comprehensive).
 	 * @param   MVCFactoryInterface   $factory      The factory.
-	 * @param   CMSApplication        $app          The JApplication for the dispatcher
+	 * @param   CMSApplication        $app          The Application for the dispatcher
 	 * @param   Input                 $input        Input
 	 * @param   FormFactoryInterface  $formFactory  The form factory.
 	 *
@@ -749,7 +749,7 @@ class FormController extends BaseController implements FormFactoryAwareInterface
 		{
 			case 'apply':
 				// Set the record data in the session.
-				$recordId = $model->getState($this->context . '.id');
+				$recordId = $model->getState($model->getName() . '.id');
 				$this->holdEditId($context, $recordId);
 				$app->setUserState($context . '.data', null);
 				$model->checkout($recordId);

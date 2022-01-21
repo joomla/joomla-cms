@@ -1209,7 +1209,15 @@ abstract class FormField
 
 		if ($this->element['label'])
 		{
-			$fieldLabel = Text::_($this->element['label']);
+			$fieldLabel = $this->element['label'];
+
+			// Try to translate label if not set to false
+			$translate = (string) $this->element['translateLabel'];
+
+			if (!($translate === 'false' || $translate === 'off' || $translate === '0'))
+			{
+				$fieldLabel = Text::_($fieldLabel);
+			}
 		}
 		else
 		{

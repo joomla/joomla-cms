@@ -6,8 +6,13 @@
  * Note: the new package must be tagged in your git repository BEFORE doing this
  * It uses the git tag for the new version, not trunk.
  *
- * This script is designed to be run in CLI on Linux or Mac OS X.
+ * This script is designed to be run in CLI on Linux, Mac OS X and WSL.
  * Make sure your default umask is 022 to create archives with correct permissions.
+ *
+ * For WSL based setups make sure there is a /etc/wsl.conf with the following content:
+ * [automount]
+ * enabled=true
+ * options=metadata,uid=1000,gid=1000,umask=022
  *
  * Steps:
  * 1. Tag new release in the local git repository (for example, "git tag 2.5.1")
@@ -55,7 +60,7 @@ function clean_checkout(string $dir)
 	system('find . -name .github | xargs rm -rf -');
 	system('find . -name .gitignore | xargs rm -rf -');
 	system('find . -name .gitmodules | xargs rm -rf -');
-	system('find . -name .php_cs | xargs rm -rf -');
+	system('find . -name .php-cs-fixer.dist.php | xargs rm -rf -');
 	system('find . -name .scrutinizer.yml | xargs rm -rf -');
 	system('find . -name .travis.yml | xargs rm -rf -');
 	system('find . -name appveyor.yml | xargs rm -rf -');
@@ -110,8 +115,14 @@ function clean_checkout(string $dir)
 	system('find libraries/vendor -name _config.yml | xargs rm -rf -');
 	system('rm -rf libraries/vendor/bin');
 
+	// aldo26-matthias/idna-convert
+	system('rm -rf libraries/vendor/algo26-matthias/idna-convert/tests');
+
 	// defuse/php-encryption
 	system('rm -rf libraries/vendor/defuse/php-encryption/docs');
+
+	// doctrine/inflector
+	system('rm -rf libraries/vendor/doctrine/inflector/docs');
 
 	// fig/link-util
 	system('rm -rf libraries/vendor/fig/link-util/test');
@@ -119,6 +130,9 @@ function clean_checkout(string $dir)
 	// google/recaptcha
 	system('rm -rf libraries/vendor/google/recaptcha/examples');
 	system('rm -rf libraries/vendor/google/recaptcha/tests');
+
+	// jakeasmith/http_build_url
+	system ('rm -rf libraries/vendor/jakeasmith/http_build_url/tests');
 
 	// joomla/*
 	system('rm -rf libraries/vendor/joomla/*/docs');
@@ -148,6 +162,9 @@ function clean_checkout(string $dir)
 
 	// wamania/php-stemmer
 	system('rm -rf libraries/vendor/wamania/php-stemmer/test');
+
+	// willdurand/negotiation
+	system('rm -rf libraries/vendor/willdurand/negotiation/tests');
 
 	echo "Cleanup complete.\n";
 
@@ -190,13 +207,14 @@ $tmp      = $here . '/tmp';
 $fullpath = $tmp . '/' . $time;
 
 // Parse input options
-$options = getopt('', ['help', 'remote::', 'exclude-zip', 'exclude-gzip', 'exclude-bzip2', 'include-zstd']);
+$options = getopt('', ['help', 'remote::', 'exclude-zip', 'exclude-gzip', 'exclude-bzip2', 'include-zstd', 'disable-patch-packages']);
 
 $remote       = $options['remote'] ?? false;
 $excludeZip   = isset($options['exclude-zip']);
 $excludeGzip  = isset($options['exclude-gzip']);
 $excludeBzip2 = isset($options['exclude-bzip2']);
 $excludeZstd  = !isset($options['include-zstd']);
+$buildPatchPackages = !isset($options['disable-patch-packages']);
 $showHelp     = isset($options['help']);
 
 // Disable the generation of extra text files
@@ -344,7 +362,7 @@ $doNotPackage = array(
 	'.editorconfig',
 	'.github',
 	'.gitignore',
-	'.php_cs.dist',
+	'.php-cs-fixer.dist.php',
 	'CODE_OF_CONDUCT.md',
 	'README.md',
 	'acceptance.suite.yml',
@@ -359,10 +377,13 @@ $doNotPackage = array(
 	'package.json',
 	'phpunit-pgsql.xml.dist',
 	'phpunit.xml.dist',
+	'plugins/sampledata/testing/testing.php',
+	'plugins/sampledata/testing/testing.xml',
+	'plugins/sampledata/testing/language/en-GB/en-GB.plg_sampledata_testing.ini',
+	'plugins/sampledata/testing/language/en-GB/en-GB.plg_sampledata_testing.sys.ini',
 	'selenium.log',
 	'tests',
 	// Media Manager Node Assets
-	'administrator/components/com_media/webpack.config.js',
 	'administrator/components/com_media/resources',
 );
 
@@ -403,6 +424,12 @@ foreach ($doNotPackage as $removeFile)
 // Count down starting with the latest release and add diff files to this array
 for ($num = $release - 1; $num >= 0; $num--)
 {
+	if (!$buildPatchPackages)
+	{
+		echo "Disabled creating patch package for $num per flag.\n";
+		continue;
+	}
+
 	echo "Create version $num update packages.\n";
 
 	// Here we get a list of all files that have changed between the two references ($previousTag and $remote) and save in diffdocs
@@ -433,8 +460,17 @@ for ($num = $release - 1; $num >= 0; $num--)
 		$doNotPatchFile         = in_array(trim($fileName), $doNotPatch);
 		$doNotPackageBaseFolder = in_array($baseFolderName, $doNotPackage);
 		$doNotPatchBaseFolder   = in_array($baseFolderName, $doNotPatch);
+		$dirtyHackForMediaCheck = false;
 
-		if ($doNotPackageFile || $doNotPatchFile || $doNotPackageBaseFolder || $doNotPatchBaseFolder)
+		// The raw files for the vue files are not packaged but are not a top level directory so aren't handled by the
+		// above checks. This is dirty but a fairly performant fix for now until we can come up with something better.
+		if (count($folderPath) >= 4)
+		{
+			$fullPath = [$folderPath[0] . '/' . $folderPath[1] . '/' . $folderPath[2] . '/' . $folderPath[3]];
+			$dirtyHackForMediaCheck = in_array('administrator/components/com_media/resources', $fullPath);
+		}
+
+		if ($dirtyHackForMediaCheck || $doNotPackageFile || $doNotPatchFile || $doNotPackageBaseFolder || $doNotPatchBaseFolder)
 		{
 			continue;
 		}
@@ -528,6 +564,12 @@ for ($num = $release - 1; $num >= 0; $num--)
 echo "Build full package files.\n";
 chdir($time);
 
+// The search package manifest should not be present for new installs, temporarily move it
+system('mv administrator/manifests/packages/pkg_search.xml ../pkg_search.xml');
+
+// The restore_finalisation.php should not be present for new installs, temporarily move it
+system('mv administrator/components/com_joomlaupdate/restore_finalisation.php ../restore_finalisation.php');
+
 // Create full archive packages.
 if (!$excludeBzip2)
 {
@@ -575,6 +617,12 @@ system('rm -r images/sampledata');
 system('rm images/joomla_black.png');
 system('rm images/powered_by.png');
 
+// Move the search manifest back
+system('mv ../pkg_search.xml administrator/manifests/packages/pkg_search.xml');
+
+// Move the restore_finalisation.php back
+system('mv ../restore_finalisation.php administrator/components/com_joomlaupdate/restore_finalisation.php');
+
 if (!$excludeBzip2)
 {
 	$packageName = 'Joomla_' . $fullVersion . '-' . $packageStability . '-Update_Package.tar.bz2';
@@ -613,7 +661,7 @@ if (!$excludeZstd)
 
 chdir('..');
 
-// Thats only needed when we release a version
+// This is only needed when we release a version
 if ($includeExtraTextfiles)
 {
 
@@ -662,6 +710,12 @@ if ($includeExtraTextfiles)
 		'MINOR'   => 'Update from Joomla! ' . $version . '.x ',
 		'UPGRADE' => 'Update from Joomla! 3.10 ',
 	);
+
+	if (!$buildPatchPackages)
+	{
+		$releaseText['UPGRADE'] = 'Update from a previous version of Joomla! ';
+	}
+
 	$githubLink = 'https://github.com/joomla/joomla-cms/releases/download/' . $tagVersion . '/';
 
 	foreach ($checksums as $packageName => $packageHashes)

@@ -11,6 +11,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Helper\MediaHelper;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
@@ -73,12 +74,19 @@ switch ($preview) {
 }
 
 // Pre fill the contents of the popover
-if ($showPreview) {
-	if ($value && file_exists(JPATH_ROOT . '/' . $value)) {
+if ($showPreview)
+{
+	$cleanValue = MediaHelper::getCleanMediaFieldValue($value);
+
+	if ($cleanValue && file_exists(JPATH_ROOT . '/' . $cleanValue))
+	{
 		$src = Uri::root() . $value;
-	} else {
+	}
+	else
+	{
 		$src = '';
 	}
+
 	$width = $previewWidth;
 	$height = $previewHeight;
 	$style = '';

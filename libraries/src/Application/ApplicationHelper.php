@@ -48,7 +48,7 @@ class ApplicationHelper
 		}
 
 		$input = Factory::getApplication()->input;
-		$option = strtolower($input->get('option'));
+		$option = strtolower($input->get('option', ''));
 
 		if (empty($option))
 		{

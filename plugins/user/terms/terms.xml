@@ -16,8 +16,8 @@
 		<folder>src</folder>
 	</files>
 	<languages>
-		<language tag="en-GB">en-GB.plg_user_terms.ini</language>
-		<language tag="en-GB">en-GB.plg_user_terms.sys.ini</language>
+		<language tag="en-GB">language/en-GB/plg_user_terms.ini</language>
+		<language tag="en-GB">language/en-GB/plg_user_terms.sys.ini</language>
 	</languages>
 	<config>
 		<fields name="params">

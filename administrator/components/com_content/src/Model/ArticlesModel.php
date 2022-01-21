@@ -14,6 +14,7 @@ namespace Joomla\Component\Content\Administrator\Model;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Associations;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Table\Table;
@@ -351,7 +352,7 @@ class ArticlesModel extends ListModel
 		// Filter by featured.
 		$featured = (string) $this->getState('filter.featured');
 
-		if (in_array($featured, ['0','1']))
+		if (\in_array($featured, ['0','1']))
 		{
 			$featured = (int) $featured;
 			$query->where($db->quoteName('a.featured') . ' = :featured')
@@ -461,6 +462,14 @@ class ArticlesModel extends ListModel
 		}
 		elseif (is_array($authorId))
 		{
+			// Check to see if by_me is in the array
+			if (\in_array('by_me', $authorId))
+
+			// Replace by_me with the current user id in the array
+			{
+				$authorId['by_me'] = $user->id;
+			}
+
 			$authorId = ArrayHelper::toInteger($authorId);
 			$query->whereIn($db->quoteName('a.created_by'), $authorId);
 		}
@@ -664,6 +673,8 @@ class ArticlesModel extends ListModel
 					{
 						unset($transitions[$key]);
 					}
+
+					$transitions[$key]['text'] = Text::_($transition['text']);
 				}
 
 				$this->cache[$store] = $transitions;

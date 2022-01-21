@@ -15,8 +15,8 @@
 		<folder>tmpl</folder>
 	</files>
 	<languages>
-		<language tag="en-GB">en-GB.plg_fields_imagelist.ini</language>
-		<language tag="en-GB">en-GB.plg_fields_imagelist.sys.ini</language>
+		<language tag="en-GB">language/en-GB/plg_fields_imagelist.ini</language>
+		<language tag="en-GB">language/en-GB/plg_fields_imagelist.sys.ini</language>
 	</languages>
 	<config>
 		<fields name="params">
@@ -52,7 +52,6 @@
 					name="image_class"
 					type="textarea"
 					label="PLG_FIELDS_IMAGELIST_PARAMS_IMAGE_CLASS_LABEL"
-					size="40"
 					validate="CssIdentifier"
 				/>
 			</fieldset>

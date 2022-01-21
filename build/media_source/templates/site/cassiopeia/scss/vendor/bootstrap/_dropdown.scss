@@ -1,0 +1,17 @@
+// Dropdown
+
+.dropdown-menu {
+  padding: .2rem 0;
+  margin-top: .5rem;
+  background-color: $white;
+  border-color: $cassiopeia-border-color;
+}
+
+.dropdown-menu-end {
+
+  &::after {
+    right: .9rem;
+    left: auto;
+  }
+
+}

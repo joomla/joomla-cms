@@ -28,7 +28,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 			<div id="j-main-container" class="j-main-container">
 				<?php echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this, 'options' => array('selectorFieldName' => 'client_id'))); ?>
 				<?php if ($this->total > 0) : ?>
-					<table class="table" id="template-mgr">
+					<table class="table" id="templateList">
 						<caption class="visually-hidden">
 							<?php echo Text::_('COM_TEMPLATES_TEMPLATES_TABLE_CAPTION'); ?>,
 							<span id="orderedBy"><?php echo Text::_('JGLOBAL_SORTED_BY'); ?> </span>,
@@ -62,8 +62,8 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 						<?php foreach ($this->items as $i => $item) : ?>
 							<tr class="row<?php echo $i % 2; ?>">
 								<td class="text-center d-none d-md-table-cell">
-									<?php echo HTMLHelper::_('templates.thumb', $item->element, $item->client_id); ?>
-									<?php echo HTMLHelper::_('templates.thumbModal', $item->element, $item->client_id); ?>
+									<?php echo HTMLHelper::_('templates.thumb', $item); ?>
+									<?php echo HTMLHelper::_('templates.thumbModal', $item); ?>
 								</td>
 								<th scope="row" class="template-name">
 									<a href="<?php echo Route::_('index.php?option=com_templates&view=template&id=' . (int) $item->extension_id . '&file=' . $this->file); ?>">
@@ -79,6 +79,18 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 											<?php echo Text::_('COM_TEMPLATES_TEMPLATE_NO_PREVIEW'); ?>
 										<?php endif; ?>
 									</div>
+									<?php if (isset($item->xmldata->inheritable) && $item->xmldata->inheritable) : ?>
+										<div class="badge bg-primary">
+											<span class="fas fa-link text-light" aria-hidden="true"></span>
+											<?php echo Text::_('COM_TEMPLATES_TEMPLATE_IS_PARENT'); ?>
+										</div>
+									<?php endif; ?>
+									<?php if (isset($item->xmldata->parent) && (string) $item->xmldata->parent !== '') : ?>
+										<div class="badge bg-info text-light">
+											<span class="fas fa-clone text-light" aria-hidden="true"></span>
+											<?php echo Text::sprintf('COM_TEMPLATES_TEMPLATE_IS_CHILD_OF', (string) $item->xmldata->parent); ?>
+										</div>
+									<?php endif; ?>
 								</th>
 								<td class="small d-none d-md-table-cell text-center">
 									<?php echo $this->escape($item->xmldata->get('version')); ?>

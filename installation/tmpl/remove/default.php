@@ -60,6 +60,7 @@ HTMLHelper::_('behavior.formvalidator');
 				<tr>
 					<td>
 						<input
+							class="form-check-input"
 							id="admin-language-cb<?php echo $i; ?>"
 							type="radio"
 							name="administratorlang"
@@ -99,6 +100,7 @@ HTMLHelper::_('behavior.formvalidator');
 				<tr>
 					<td>
 						<input
+							class="form-check-input"
 							id="site-language-cb<?php echo $i; ?>"
 							type="radio"
 							name="frontendlang"
@@ -185,8 +187,14 @@ HTMLHelper::_('behavior.formvalidator');
 				<?php echo HTMLHelper::_('form.token'); ?>
 
 				<div class="form-group j-install-last-step d-grid gap-2">
-					<a class="btn btn-primary w-100" href="<?php echo Uri::root(); ?>" title="<?php echo Text::_('JSITE'); ?>"><span class="icon-eye" aria-hidden="true"></span> <?php echo Text::_('INSTL_COMPLETE_SITE_BTN'); ?></a>
-					<a class="btn btn-primary w-100" href="<?php echo Uri::root(); ?>administrator/" title="<?php echo Text::_('JADMINISTRATOR'); ?>"><span class="icon-lock" aria-hidden="true"></span> <?php echo Text::_('INSTL_COMPLETE_ADMIN_BTN'); ?></a>
+					<button type="button" class="complete-installation btn btn-primary w-100"
+					   data-href="<?php echo Uri::root(); ?>" <?php if ($this->development): ?>data-development<?php endif; ?>>
+						<span class="icon-eye" aria-hidden="true"></span> <?php echo Text::_('INSTL_COMPLETE_SITE_BTN'); ?>
+					</button>
+					<button type="button" class="complete-installation btn btn-primary w-100"
+					   data-href="<?php echo Uri::root(); ?>administrator/" <?php if ($this->development): ?>data-development<?php endif; ?>>
+						<span class="icon-lock" aria-hidden="true"></span> <?php echo Text::_('INSTL_COMPLETE_ADMIN_BTN'); ?>
+					</button>
 				</div>
 			</div>
 		</div>
@@ -240,7 +248,7 @@ HTMLHelper::_('behavior.formvalidator');
 						<?php $language->code = $element[1]; ?>
 						<tr>
 							<td>
-								<input type="checkbox" id="cb<?php echo $i; ?>" name="cid[]" value="<?php echo $language->update_id; ?>">
+								<input class="form-check-input" type="checkbox" id="cb<?php echo $i; ?>" name="cid[]" value="<?php echo $language->update_id; ?>">
 							</td>
 							<th scope="row">
 								<label for="cb<?php echo $i; ?>"><?php echo $language->name; ?></label>
