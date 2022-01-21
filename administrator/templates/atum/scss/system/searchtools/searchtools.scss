@@ -13,16 +13,17 @@
 }
 
 .js-stools-container-bar {
-  margin-inline-start: auto;
+  margin-inline-start: initial;
 
   .btn-toolbar {
-    justify-content: flex-end;
+    justify-content: flex-start;
 
     > * {
       margin: 5px 0;
 
       + * {
         margin-inline-start: 8px;
+        padding-right: 10px;
       }
     }
 
@@ -33,6 +34,7 @@
 
   .ordering-select {
     display: flex;
+    margin-left:0px;
   }
 }
 
