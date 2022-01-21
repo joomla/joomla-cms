@@ -380,7 +380,7 @@ class JAdminCssMenu
 			}
 
 			// Exclude if link is invalid
-			if (!in_array($item->type, array('separator', 'heading', 'container')) && trim($item->link) === '')
+			if (!in_array($item->type, array('separator', 'heading', 'container')) && trim((string) $item->link) === '')
 			{
 				continue;
 			}
