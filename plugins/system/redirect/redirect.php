@@ -240,7 +240,7 @@ class PlgSystemRedirect extends CMSPlugin implements SubscriberInterface
 
 				try
 				{
-					$db->updateObject('#__redirect_links', $redirect, 'id');
+					$this->db->updateObject('#__redirect_links', $redirect, 'id');
 				}
 				catch (Exception $e)
 				{
