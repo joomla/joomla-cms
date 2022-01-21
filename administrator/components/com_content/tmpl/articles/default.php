@@ -154,7 +154,7 @@ $assoc = Associations::isEnabled();
 									<?php echo HTMLHelper::_('searchtools.sort', 'COM_CONTENT_HEADING_DATE_' . strtoupper($orderingColumn), 'a.' . $orderingColumn, $listDirn, $listOrder); ?>
 								</th>
 								<?php if ($this->hits) : ?>
-									<th scope="col" class="w-3 d-none d-lg-table-cell text-center">
+									<th scope="col" class="w-3 d-none d-md-table-cell text-center">
 										<?php echo HTMLHelper::_('searchtools.sort', 'JGLOBAL_HITS', 'a.hits', $listDirn, $listOrder); ?>
 									</th>
 								<?php endif; ?>
@@ -166,7 +166,7 @@ $assoc = Associations::isEnabled();
 										<?php echo HTMLHelper::_('searchtools.sort', 'JGLOBAL_RATINGS', 'rating', $listDirn, $listOrder); ?>
 									</th>
 								<?php endif; ?>
-								<th scope="col" class="w-3 d-none d-lg-table-cell">
+								<th scope="col" class="w-3 d-none d-md-table-cell">
 									<?php echo HTMLHelper::_('searchtools.sort', 'JGRID_HEADING_ID', 'a.id', $listDirn, $listOrder); ?>
 								</th>
 							</tr>
@@ -360,7 +360,7 @@ $assoc = Associations::isEnabled();
 									?>
 								</td>
 								<?php if ($this->hits) : ?>
-									<td class="d-none d-lg-table-cell text-center">
+									<td class="d-none d-md-table-cell text-center">
 										<span class="badge bg-info">
 											<?php echo (int) $item->hits; ?>
 										</span>
@@ -378,7 +378,7 @@ $assoc = Associations::isEnabled();
 										</span>
 									</td>
 								<?php endif; ?>
-								<td class="d-none d-lg-table-cell">
+								<td class="d-none d-md-table-cell">
 									<?php echo (int) $item->id; ?>
 								</td>
 							</tr>
