@@ -255,7 +255,7 @@ class Editor extends \JObject
 
 		foreach ($results as $result)
 		{
-			if (trim($result))
+			if (trim((string) $result))
 			{
 				// @todo remove code: $return .= $result;
 				$return = $result;
