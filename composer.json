@@ -43,7 +43,7 @@
         }
     },
     "require": {
-        "php": "^7.2.5",
+        "php": "^7.3.0",
         "joomla/application": "~2.0",
         "joomla/archive": "~2.0",
         "joomla/authentication": "~2.0",
