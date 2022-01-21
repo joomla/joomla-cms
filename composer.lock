@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "7e0381ac6c4c5d6b13d1d2ffbe0c823a",
+    "content-hash": "3ef32f7badc65019c62068bcb567f167",
     "packages": [
         {
             "name": "algo26-matthias/idna-convert",
@@ -1074,7 +1074,7 @@
         },
         {
             "name": "joomla/database",
-            "version": "dev-2.0-dev",
+            "version": "2.0.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-framework/database.git",
@@ -1114,7 +1114,6 @@
                 "joomla/registry": "To use the Database ServiceProviderInterface objects, install joomla/registry.",
                 "psr/log": "To use the LoggingMonitor, install psr/log."
             },
-            "default-branch": true,
             "type": "joomla-package",
             "extra": {
                 "branch-alias": {
@@ -1139,7 +1138,7 @@
             ],
             "support": {
                 "issues": "https://github.com/joomla-framework/database/issues",
-                "source": "https://github.com/joomla-framework/database/tree/2.0-dev"
+                "source": "https://github.com/joomla-framework/database/tree/2.0.2"
             },
             "funding": [
                 {
@@ -9813,7 +9812,6 @@
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
-        "joomla/database": 20,
         "tobscure/json-api": 20,
         "joomla/cms-coding-standards": 20,
         "joomla/coding-standards": 20,
