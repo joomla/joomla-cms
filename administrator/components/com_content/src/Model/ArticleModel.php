@@ -416,7 +416,7 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
 			$registry = new Registry($item->urls);
 			$item->urls = $registry->toArray();
 
-			$item->articletext = ($item->fulltext !== null && trim($item->fulltext) != '') ? $item->introtext . "<hr id=\"system-readmore\">" . $item->fulltext : $item->introtext;
+			$item->articletext = ($item->fulltext !== null && trim($item->fulltext) != '') ? $item->introtext . '<hr id="system-readmore">' . $item->fulltext : $item->introtext;
 
 			if (!empty($item->id))
 			{
