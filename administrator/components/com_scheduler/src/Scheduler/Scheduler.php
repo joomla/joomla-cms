@@ -39,10 +39,11 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 class Scheduler
 {
 	private const LOG_TEXT = [
-		Status::OK         => 'COM_SCHEDULER_SCHEDULER_TASK_COMPLETE',
-		Status::NO_LOCK    => 'COM_SCHEDULER_SCHEDULER_TASK_LOCKED',
-		Status::NO_RUN     => 'COM_SCHEDULER_SCHEDULER_TASK_UNLOCKED',
-		Status::NO_ROUTINE => 'COM_SCHEDULER_SCHEDULER_TASK_ROUTINE_NA',
+		Status::OK          => 'COM_SCHEDULER_SCHEDULER_TASK_COMPLETE',
+		Status::WILL_RESUME => 'COM_SCHEDULER_SCHEDULER_TASK_WILL_RESUME',
+		Status::NO_LOCK     => 'COM_SCHEDULER_SCHEDULER_TASK_LOCKED',
+		Status::NO_RUN      => 'COM_SCHEDULER_SCHEDULER_TASK_UNLOCKED',
+		Status::NO_ROUTINE  => 'COM_SCHEDULER_SCHEDULER_TASK_ROUTINE_NA',
 	];
 
 	/**
@@ -158,7 +159,7 @@ class Scheduler
 
 		if (\array_key_exists($exitCode, self::LOG_TEXT))
 		{
-			$level = $exitCode === Status::OK ? 'info' : 'warning';
+			$level = in_array($exitCode, [Status::OK, Status::WILL_RESUME]) ? 'info' : 'warning';
 			$task->log(Text::sprintf(self::LOG_TEXT[$exitCode], $taskId, $duration, $netDuration), $level);
 
 			return $task;
