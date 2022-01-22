@@ -525,7 +525,7 @@ abstract class AdminModel extends FormModel
 			);
 			$this->dispatchEvent($event);
 
-			// TODO: Deal with ordering?
+			// @todo: Deal with ordering?
 			// $this->table->ordering = 1;
 
 			// Check the row.

@@ -883,7 +883,7 @@ class Access
 
 		if (!isset(self::$groupsByUser[$storeId]))
 		{
-			// TODO: Uncouple this from ComponentHelper and allow for a configuration setting or value injection.
+			// @todo: Uncouple this from ComponentHelper and allow for a configuration setting or value injection.
 			$guestUsergroup = (int) ComponentHelper::getParams('com_users')->get('guest_usergroup', 1);
 
 			// Guest user (if only the actually assigned group is requested)

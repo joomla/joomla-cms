@@ -144,7 +144,7 @@ abstract class ToolbarHelper
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.1.0
 	 */
 	public static function jooa11y($url = '', $updateEditors = false, $icon = 'icon-universal-access', $bodyHeight = null, $modalWidth = null)
 	{
