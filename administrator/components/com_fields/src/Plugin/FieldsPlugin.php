@@ -148,11 +148,6 @@ abstract class FieldsPlugin extends CMSPlugin
 		// Get the path for the layout file
 		$path = PluginHelper::getLayoutPath('fields', $this->_name, $field->type);
 
-		if (!file_exists($path))
-		{
-			$path = PluginHelper::getLayoutPath('fields', $this->_name, $field->type);
-		}
-
 		// Render the layout
 		ob_start();
 		include $path;
