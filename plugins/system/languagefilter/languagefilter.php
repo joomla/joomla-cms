@@ -766,6 +766,7 @@ class PlgSystemLanguageFilter extends CMSPlugin
 			$remove_default_prefix = $this->params->get('remove_default_prefix', 0);
 			$server                = Uri::getInstance()->toString(array('scheme', 'host', 'port'));
 			$is_home               = false;
+
 			// Router can be injected when turned into a DI built plugin
 			$currentInternalUrl    = 'index.php?' . http_build_query(Factory::getContainer()->get(SiteRouter::class)->getVars());
 
