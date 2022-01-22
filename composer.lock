@@ -1074,16 +1074,16 @@
         },
         {
             "name": "joomla/database",
-            "version": "2.0.1",
+            "version": "2.0.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-framework/database.git",
-                "reference": "98709eec31d9a3432611adc3c87a4c9a506279d9"
+                "reference": "142a624df2f48858467de67a4542d77807cc968b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-framework/database/zipball/98709eec31d9a3432611adc3c87a4c9a506279d9",
-                "reference": "98709eec31d9a3432611adc3c87a4c9a506279d9",
+                "url": "https://api.github.com/repos/joomla-framework/database/zipball/142a624df2f48858467de67a4542d77807cc968b",
+                "reference": "142a624df2f48858467de67a4542d77807cc968b",
                 "shasum": ""
             },
             "require": {
@@ -1138,7 +1138,7 @@
             ],
             "support": {
                 "issues": "https://github.com/joomla-framework/database/issues",
-                "source": "https://github.com/joomla-framework/database/tree/2.0.1"
+                "source": "https://github.com/joomla-framework/database/tree/2.0.2"
             },
             "funding": [
                 {
@@ -1150,7 +1150,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2021-12-10T11:53:59+00:00"
+            "time": "2022-01-10T02:28:52+00:00"
         },
         {
             "name": "joomla/di",
@@ -9829,5 +9829,5 @@
     "platform-overrides": {
         "php": "7.2.5"
     },
-    "plugin-api-version": "2.2.0"
+    "plugin-api-version": "2.1.0"
 }
