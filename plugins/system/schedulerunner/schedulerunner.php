@@ -252,7 +252,7 @@ class PlgSystemSchedulerunner extends CMSPlugin implements SubscriberInterface
 	 *
 	 * @throws Exception
 	 */
-	public function runTCron(Event $event)
+	public function runTaskCron(Event $event)
 	{
 		if (!Session::checkToken('GET'))
 		{
