@@ -14,7 +14,6 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Layout\FileLayout;
 use Joomla\CMS\Layout\LayoutHelper;
-use Joomla\CMS\Log\Log;
 
 /**
  * Utility class for Bootstrap elements.
@@ -214,7 +213,7 @@ abstract class Bootstrap
 	 * Add javascript support for Bootstrap dropdowns
 	 *
 	 * @param   string  $selector  Common class for the dropdowns
-	 * @param   string  $params    The options for the dropdowns
+	 * @param   array   $params    The options for the dropdowns
 	 *
 	 * @return  void
 	 *
@@ -257,7 +256,7 @@ abstract class Bootstrap
 	}
 
 	/**
-	 * Method to render a Bootstrap modal
+	 * Add javascript support for Bootstrap modal
 	 *
 	 * @param   string  $selector  The ID selector for the modal.
 	 * @param   array   $options   An array of options for the modal.
@@ -283,7 +282,7 @@ abstract class Bootstrap
 		if ($selector !== '')
 		{
 			// Setup options object
-			$opt['backdrop'] = isset($options['backdrop']) ? (bool) $options['backdrop'] : true;
+			$opt['backdrop'] = isset($options['backdrop']) ? $options['backdrop'] : false;
 			$opt['keyboard'] = isset($options['keyboard']) ? (bool) $options['keyboard'] : true;
 			$opt['focus']    = isset($options['focus']) ? (bool) $options['focus'] : true;
 
@@ -295,6 +294,48 @@ abstract class Bootstrap
 			->getDocument()
 			->getWebAssetManager()
 			->useScript('bootstrap.modal');
+
+		static::$loaded[__METHOD__][$selector] = true;
+	}
+
+	/**
+	 * Add javascript support for Bootstrap offcanvas
+	 *
+	 * @param   string  $selector  The ID selector for the offcanvas.
+	 * @param   array   $options   An array of options for the offcanvas.
+	 *
+	 * @return  void
+	 *
+	 * @since   4.0.0
+	 *
+	 * Options for the offcanvas can be:
+	 * - backdrop     boolean  true   Apply a backdrop on body while offcanvas is open
+	 * - keyboard     boolean  true   Closes the offcanvas when escape key is pressed
+	 * - scroll       boolean  false  Allow body scrolling while offcanvas is open
+	 */
+	public static function offcanvas($selector = '', $options = []) :void
+	{
+		// Only load once
+		if (!empty(static::$loaded[__METHOD__][$selector]))
+		{
+			return;
+		}
+
+		if ($selector !== '')
+		{
+			// Setup options object
+			$opt['backdrop'] = isset($options['backdrop']) ? (bool) $options['backdrop'] : true;
+			$opt['keyboard'] = isset($options['keyboard']) ? (bool) $options['keyboard'] : true;
+			$opt['scroll']   = isset($options['scroll']) ? (bool) $options['scroll'] : false;
+
+			Factory::getDocument()->addScriptOptions('bootstrap.offcanvas', [$selector => (object) array_filter((array) $opt)]);
+		}
+
+		// Include the Bootstrap component
+		Factory::getApplication()
+			->getDocument()
+			->getWebAssetManager()
+			->useScript('bootstrap.offcanvas');
 
 		static::$loaded[__METHOD__][$selector] = true;
 	}
@@ -575,7 +616,7 @@ abstract class Bootstrap
 			function ($script) use ($wa) {
 				$wa->useScript('bootstrap.' . $script);
 			},
-			['alert', 'button', 'carousel', 'collapse', 'dropdown', 'modal', 'popover', 'scrollspy', 'tab', 'toast']
+			['alert', 'button', 'carousel', 'collapse', 'dropdown', 'modal', 'offcanvas', 'popover', 'scrollspy', 'tab', 'toast']
 		);
 	}
 

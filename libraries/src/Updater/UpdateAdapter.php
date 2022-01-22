@@ -45,7 +45,7 @@ abstract class UpdateAdapter extends AdapterInstance
 	/**
 	 * ID of update site
 	 *
-	 * @var    string
+	 * @var    integer
 	 * @since  3.0.0
 	 */
 	protected $updateSiteId = 0;
@@ -97,7 +97,7 @@ abstract class UpdateAdapter extends AdapterInstance
 	/**
 	 * Gets the reference to the current direct parent
 	 *
-	 * @return  object
+	 * @return  string
 	 *
 	 * @since   1.7.0
 	 */
@@ -211,7 +211,7 @@ abstract class UpdateAdapter extends AdapterInstance
 	 *
 	 * @param   array  $options  The update options, see findUpdate() in children classes
 	 *
-	 * @return  boolean|\JHttpResponse  False if we can't connect to the site, JHttpResponse otherwise
+	 * @return  \Joomla\CMS\Http\Response|bool  False if we can't connect to the site, HTTP Response object otherwise
 	 *
 	 * @throws  \Exception
 	 */

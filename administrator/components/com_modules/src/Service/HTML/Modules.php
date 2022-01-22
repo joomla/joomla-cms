@@ -187,7 +187,7 @@ class Modules
 
 		$app = Factory::getApplication();
 
-		$position = $app->getUserState('com_modules.modules.filter.position');
+		$position = $app->getUserState('com_modules.modules.' . $clientId . '.filter.position');
 
 		if ($position)
 		{

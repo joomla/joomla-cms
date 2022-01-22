@@ -124,6 +124,9 @@ abstract class TagsPopularHelper
 
 			if ($params->get('order_value', 'title') === 'title')
 			{
+				// Backup bound parameters array of the original query
+				$bounded = $query->getBounded();
+
 				$query->setLimit($maximum);
 				$query->order($db->quoteName('count') . ' DESC');
 				$equery = $db->getQuery(true)
@@ -142,6 +145,12 @@ abstract class TagsPopularHelper
 					->order($db->quoteName('a.title') . ' ' . $order_direction);
 
 				$query = $equery;
+
+				// Rebind parameters
+				foreach ($bounded as $key => $obj)
+				{
+					$query->bind($key, $obj->value, $obj->dataType);
+				}
 			}
 			else
 			{

@@ -9,29 +9,32 @@ const { nodeResolve } = require('@rollup/plugin-node-resolve');
 const replace = require('@rollup/plugin-replace');
 const { babel } = require('@rollup/plugin-babel');
 const commonjs = require('@rollup/plugin-commonjs');
+const bsVersion = require('../../../package.json').dependencies.bootstrap.replace(/^\^|~/, '');
 
 const tasks = [];
 const inputFolder = 'build/media_source/vendor/bootstrap/js';
 const outputFolder = 'media/vendor/bootstrap/js';
 
-const getCurrentUnixTime = Math.round((new Date()).getTime() / 1000);
-
 const createMinified = async (file) => {
   const initial = await readFile(resolve(outputFolder, file), { encoding: 'utf8' });
-  const mini = await minify(initial.replace('./popper.js', `./popper.min.js?${getCurrentUnixTime}`).replace('./dom.js', `./dom.min.js?${getCurrentUnixTime}`), { sourceMap: false, format: { comments: false } });
-  await writeFile(resolve(outputFolder, file), initial.replace('./popper.js', `./popper.js?${getCurrentUnixTime}`).replace('./dom.js', `./dom.js?${getCurrentUnixTime}`), { encoding: 'utf8' });
-  await writeFile(resolve(outputFolder, file.replace('.js', '.min.js')), mini.code, { encoding: 'utf8' });
+  const mini = await minify(initial.replace('./popper.js', `./popper.min.js?${bsVersion}`).replace('./dom.js', `./dom.min.js?${bsVersion}`), { sourceMap: false, format: { comments: false } });
+  await writeFile(resolve(outputFolder, file), initial.replace('./popper.js', `./popper.js?${bsVersion}`).replace('./dom.js', `./dom.js?${bsVersion}`), { encoding: 'utf8', mode: 0o644 });
+  await writeFile(resolve(outputFolder, file.replace('.js', '.min.js')), mini.code, { encoding: 'utf8', mode: 0o644 });
 };
 
 const build = async () => {
   // eslint-disable-next-line no-console
   console.log('Building ES6 Components...');
 
+  const domImports = await readdir(resolve('node_modules/bootstrap', 'js/src/dom'));
+  const utilImports = await readdir(resolve('node_modules/bootstrap', 'js/src/util'));
+
   const bundle = await rollup.rollup({
     input: resolve(inputFolder, 'index.es6.js'),
     plugins: [
       nodeResolve(),
       replace({
+        preventAssignment: true,
         'process.env.NODE_ENV': '\'production\'',
       }),
       babel({
@@ -43,7 +46,11 @@ const build = async () => {
             '@babel/preset-env',
             {
               targets: {
-                esmodules: true,
+                browsers: [
+                  '> 1%',
+                  'not ie 11',
+                  'not op_mini all',
+                ],
               },
             },
           ],
@@ -52,11 +59,9 @@ const build = async () => {
     ],
     external: [
       './base-component.js',
-      './dom/data.js',
-      './event-handler.js',
-      './dom/manipulator.js',
-      './selector-engine.js',
-      './util/index.js',
+      ...domImports.map((file) => `./dom/${file}`),
+      ...domImports.map((file) => `./${file}`),
+      ...utilImports.map((file) => `./util/${file}`),
     ],
     manualChunks: {
       alert: ['build/media_source/vendor/bootstrap/js/alert.es6.js'],
@@ -65,6 +70,7 @@ const build = async () => {
       collapse: ['build/media_source/vendor/bootstrap/js/collapse.es6.js'],
       dropdown: ['build/media_source/vendor/bootstrap/js/dropdown.es6.js'],
       modal: ['build/media_source/vendor/bootstrap/js/modal.es6.js'],
+      offcanvas: ['build/media_source/vendor/bootstrap/js/offcanvas.es6.js'],
       popover: ['build/media_source/vendor/bootstrap/js/popover.es6.js'],
       scrollspy: ['build/media_source/vendor/bootstrap/js/scrollspy.es6.js'],
       tab: ['build/media_source/vendor/bootstrap/js/tab.es6.js'],
@@ -72,11 +78,8 @@ const build = async () => {
       popper: ['@popperjs/core'],
       dom: [
         'node_modules/bootstrap/js/src/base-component.js',
-        'node_modules/bootstrap/js/src/dom/data.js',
-        'node_modules/bootstrap/js/src/dom/event-handler.js',
-        'node_modules/bootstrap/js/src/dom/manipulator.js',
-        'node_modules/bootstrap/js/src/dom/selector-engine.js',
-        'node_modules/bootstrap/js/src/util/index.js',
+        ...domImports.map((file) => `node_modules/bootstrap/js/src/dom/${file}`),
+        ...utilImports.map((file) => `node_modules/bootstrap/js/src/util/${file}`),
       ],
     },
   });
@@ -102,6 +105,7 @@ const buildLegacy = async () => {
       commonjs(),
       nodeResolve(),
       replace({
+        preventAssignment: true,
         'process.env.NODE_ENV': '\'production\'',
       }),
       babel({
@@ -132,7 +136,7 @@ const buildLegacy = async () => {
   await bundle.write({
     format: 'iife',
     sourcemap: false,
-    name: 'Bootstrap',
+    name: 'bootstrap',
     file: resolve(outputFolder, 'bootstrap-es5.js'),
   });
 
@@ -158,15 +162,15 @@ module.exports.bootstrapJs = async () => {
 
   return Promise.all(tasks).then(async () => {
     // eslint-disable-next-line no-console
-    console.log('ES6 components ready ✅');
+    console.log('✅ ES6 components ready');
 
     try {
       await buildLegacy(inputFolder, 'index.es6.js');
       const es5File = await readFile(resolve(outputFolder, 'bootstrap-es5.js'), { encoding: 'utf8' });
       const mini = await minify(es5File, { sourceMap: false, format: { comments: false } });
-      await writeFile(resolve(outputFolder, 'bootstrap-es5.min.js'), mini.code, { encoding: 'utf8' });
+      await writeFile(resolve(outputFolder, 'bootstrap-es5.min.js'), mini.code, { encoding: 'utf8', mode: 0o644 });
       // eslint-disable-next-line no-console
-      console.log('Legacy done! ✅');
+      console.log('✅ Legacy done!');
     } catch (error) {
       // eslint-disable-next-line no-console
       console.error(error);

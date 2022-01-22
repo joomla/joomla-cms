@@ -2,7 +2,7 @@
 <metadata>
 	<layout title="COM_CONTACT_CATEGORY_VIEW_DEFAULT_TITLE" option="COM_CONTACT_CATEGORY_VIEW_DEFAULT_OPTION">
 		<help
-			key = "JHELP_MENUS_MENU_ITEM_CONTACT_CATEGORY"
+			key = "Menu_Item:_List_Contacts_in_a_Category"
 		/>
 		<message>
 			<![CDATA[COM_CONTACT_CATEGORY_VIEW_DEFAULT_DESC]]>
@@ -31,7 +31,11 @@
 
 	<!-- Add fields to the parameters object for the layout. -->
 	<fields name="params">
-		<fieldset name="basic" label="JGLOBAL_CATEGORY_OPTIONS" description="JGLOBAL_SUBSLIDER_DRILL_CATEGORIES_LABEL">
+		<fieldset
+			name="basic"
+			label="JGLOBAL_CATEGORY_OPTIONS"
+			description="JGLOBAL_SUBSLIDER_DRILL_CATEGORIES_LABEL"
+			>
 
 			<field
 				name="show_category_title"
@@ -97,6 +101,29 @@
 				<option value="1">JSHOW</option>
 			</field>
 
+			<field
+				name="show_no_contacts"
+				type="list"
+				label="COM_CONTACT_NO_CONTACTS_LABEL"
+				useglobal="true"
+				class="form-select-color-state"
+				validate="options"
+				>
+				<option value="0">JHIDE</option>
+				<option value="1">JSHOW</option>
+			</field>
+
+			<field
+				name="show_category_heading_title_text"
+				type="list"
+				label="JGLOBAL_SHOW_SUBCATEGORY_HEADING"
+				useglobal="true"
+				class="form-select-color-state"
+				validate="options"
+				>
+				<option value="0">JHIDE</option>
+				<option value="1">JSHOW</option>
+			</field>
 
 			<field
 				name="show_subcat_desc"
@@ -123,7 +150,11 @@
 			</field>
 		</fieldset>
 
-		<fieldset name="advanced" label="JGLOBAL_LIST_LAYOUT_OPTIONS" description="JGLOBAL_SUBSLIDER_DRILL_CATEGORIES_LABEL">
+		<fieldset
+			name="advanced"
+			label="JGLOBAL_LIST_LAYOUT_OPTIONS"
+			description="JGLOBAL_SUBSLIDER_DRILL_CATEGORIES_LABEL"
+			>
 
 			<field
 				name="filter_field"
@@ -292,8 +323,25 @@
 				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
-
 			</field>
+
+			<field
+ 				name="contacts_display_num"
+ 				type="list"
+ 				label="COM_CONTACT_NUMBER_CONTACTS_LIST_LABEL"
+ 				useglobal="true"
+				validate="options"
+ 				>
+ 				<option value="5">J5</option>
+ 				<option value="10">J10</option>
+ 				<option value="15">J15</option>
+ 				<option value="20">J20</option>
+ 				<option value="25">J25</option>
+ 				<option value="30">J30</option>
+ 				<option value="50">J50</option>
+ 				<option value="100">J100</option>
+ 				<option value="0">JALL</option>
+ 			</field>
 
 			<field
 				name="initial_sort"
@@ -309,8 +357,11 @@
 			</field>
 		</fieldset>
 
-		<fieldset name="contact" label="COM_CONTACT_BASIC_OPTIONS_FIELDSET_LABEL"
-			addfieldprefix="Joomla\Component\Fields\Administrator\Field">
+		<fieldset
+			name="contact"
+			label="COM_CONTACT_BASIC_OPTIONS_FIELDSET_LABEL"
+			addfieldprefix="Joomla\Component\Fields\Administrator\Field"
+			>
 
 			<field
 				name="contact_layout"
@@ -629,7 +680,6 @@
 				name="linka_name"
 				type="text"
 				label="COM_CONTACT_FIELD_LINKA_NAME_LABEL"
-				size="30"
 				useglobal="true"
 			/>
 
@@ -637,7 +687,6 @@
 				name="linkb_name"
 				type="text"
 				label="COM_CONTACT_FIELD_LINKB_NAME_LABEL"
-				size="30"
 				useglobal="true"
 			/>
 
@@ -645,7 +694,6 @@
 				name="linkc_name"
 				type="text"
 				label="COM_CONTACT_FIELD_LINKC_NAME_LABEL"
-				size="30"
 				useglobal="true"
 			/>
 
@@ -653,7 +701,6 @@
 				name="linkd_name"
 				type="text"
 				label="COM_CONTACT_FIELD_LINKD_NAME_LABEL"
-				size="30"
 				useglobal="true"
 			/>
 
@@ -661,12 +708,14 @@
 				name="linke_name"
 				type="text"
 				label="COM_CONTACT_FIELD_LINKE_NAME_LABEL"
-				size="30"
 				useglobal="true"
 			/>
 		</fieldset>
 		<!-- Form options. -->
-		<fieldset name="Contact_Form" label="COM_CONTACT_MAIL_FIELDSET_LABEL">
+		<fieldset
+			name="Contact_Form"
+			label="COM_CONTACT_MAIL_FIELDSET_LABEL"
+			>
 
 			<field
 				name="show_email_form"
@@ -720,7 +769,6 @@
 				name="redirect"
 				type="text"
 				label="COM_CONTACT_FIELD_CONFIG_REDIRECT_LABEL"
-				size="30"
 				useglobal="true"
 			/>
 		</fieldset>

@@ -50,7 +50,11 @@ class DisplayController extends BaseController
 		if ($view == 'tag' && $layout == 'edit' && !$this->checkEditId('com_tags.edit.tag', $id))
 		{
 			// Somehow the person just went to the form - we don't allow that.
-			$this->setMessage(Text::sprintf('JLIB_APPLICATION_ERROR_UNHELD_ID', $id), 'error');
+			if (!\count($this->app->getMessageQueue()))
+			{
+				$this->setMessage(Text::sprintf('JLIB_APPLICATION_ERROR_UNHELD_ID', $id), 'error');
+			}
+
 			$this->setRedirect(Route::_('index.php?option=com_tags&view=tags', false));
 
 			return false;

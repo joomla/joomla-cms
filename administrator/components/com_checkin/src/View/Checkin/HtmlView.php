@@ -41,14 +41,15 @@ class HtmlView extends BaseHtmlView
 	/**
 	 * The model state
 	 *
-	 * @var  \JObject
+	 * @var  \Joomla\CMS\Object\CMSObject
 	 */
 	protected $state;
 
 	/**
 	 * Form object for search filters
 	 *
-	 * @var    \JForm
+	 * @var    \Joomla\CMS\Form\Form
+	 *
 	 * @since  4.0.0
 	 */
 	public $filterForm;
@@ -57,16 +58,26 @@ class HtmlView extends BaseHtmlView
 	 * The active search filters
 	 *
 	 * @var    array
+	 *
 	 * @since  4.0.0
 	 */
 	public $activeFilters;
+
+	/**
+	 * Is this view an Empty State
+	 *
+	 * @var   boolean
+	 *
+	 * @since 4.0.0
+	 */
+	private $isEmptyState = false;
 
 	/**
 	 * Execute and display a template script.
 	 *
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
 	 *
-	 * @return  mixed  A string if successful, otherwise an Error object.
+	 * @return  void
 	 */
 	public function display($tpl = null)
 	{
@@ -77,15 +88,21 @@ class HtmlView extends BaseHtmlView
 		$this->filterForm    = $this->get('FilterForm');
 		$this->activeFilters = $this->get('ActiveFilters');
 
+		if (!\count($this->items))
+		{
+			$this->isEmptyState = true;
+			$this->setLayout('emptystate');
+		}
+
 		// Check for errors.
-		if (count($errors = $this->get('Errors')))
+		if (\count($errors = $this->get('Errors')))
 		{
 			throw new GenericDataException(implode("\n", $errors), 500);
 		}
 
 		$this->addToolbar();
 
-		return parent::display($tpl);
+		parent::display($tpl);
 	}
 
 	/**
@@ -99,15 +116,18 @@ class HtmlView extends BaseHtmlView
 	{
 		ToolbarHelper::title(Text::_('COM_CHECKIN_GLOBAL_CHECK_IN'), 'check-square');
 
-		ToolbarHelper::custom('checkin', 'checkin', '', 'JTOOLBAR_CHECKIN', true);
+		if (!$this->isEmptyState)
+		{
+			ToolbarHelper::custom('checkin', 'checkin', '', 'JTOOLBAR_CHECKIN', true);
+		}
 
-		if (Factory::getUser()->authorise('core.admin', 'com_checkin'))
+		if (Factory::getApplication()->getIdentity()->authorise('core.admin', 'com_checkin'))
 		{
 			ToolbarHelper::divider();
 			ToolbarHelper::preferences('com_checkin');
 			ToolbarHelper::divider();
 		}
 
-		ToolbarHelper::help('JHELP_SITE_MAINTENANCE_GLOBAL_CHECK-IN');
+		ToolbarHelper::help('Maintenance:_Global_Check-in');
 	}
 }

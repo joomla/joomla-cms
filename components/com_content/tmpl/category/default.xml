@@ -2,7 +2,7 @@
 <metadata>
 	<layout title="COM_CONTENT_CATEGORY_VIEW_DEFAULT_TITLE" option="COM_CONTENT_CATEGORY_VIEW_DEFAULT_OPTION">
 		<help
-			key = "JHELP_MENUS_MENU_ITEM_ARTICLE_CATEGORY_LIST"
+			key = "Menu_Item:_Category_List"
 		/>
 		<message>
 			<![CDATA[COM_CONTENT_CATEGORY_VIEW_DEFAULT_DESC]]>
@@ -119,7 +119,7 @@
 			<field
 				name="show_category_heading_title_text"
 				type="list"
-				label="JGLOBAL_SHOW_CATEGORY_HEADING_TITLE_TEXT_LABEL"
+				label="JGLOBAL_SHOW_SUBCATEGORY_HEADING"
 				useglobal="true"
 				class="form-select-color-state"
 				validate="options"
@@ -164,13 +164,6 @@
 				<option value="1">JSHOW</option>
 			</field>
 
-			<field
-				name="page_subheading"
-				type="text"
-				label="JGLOBAL_SUBHEADING_LABEL"
-				size="20"
-			/>
-
 		</fieldset>
 
 		<fieldset name="advanced" label="JGLOBAL_LIST_LAYOUT_OPTIONS"
@@ -198,7 +191,7 @@
 				<option value="hide">JHIDE</option>
 				<option value="title">JGLOBAL_TITLE</option>
 				<option value="author">JAUTHOR</option>
-				<option value="hits">JGLOBAL_HITS</option>
+				<option value="hits" requires="hits">JGLOBAL_HITS</option>
 	 			<option value="tag">JTAG</option>
 	 			<option value="month">JMONTH_PUBLISHED</option>
 			</field>
@@ -233,7 +226,6 @@
 				type="text"
 				label="JGLOBAL_DATE_FORMAT_LABEL"
 				description="JGLOBAL_DATE_FORMAT_DESC"
-				size="15"
 				useglobal="true"
 			/>
 
@@ -318,8 +310,8 @@
 				<option value="ralpha">JGLOBAL_TITLE_REVERSE_ALPHABETICAL</option>
 				<option value="author">JGLOBAL_AUTHOR_ALPHABETICAL</option>
 				<option value="rauthor">JGLOBAL_AUTHOR_REVERSE_ALPHABETICAL</option>
-				<option value="hits">JGLOBAL_MOST_HITS</option>
-				<option value="rhits">JGLOBAL_LEAST_HITS</option>
+				<option value="hits" requires="hits">JGLOBAL_MOST_HITS</option>
+				<option value="rhits" requires="hits">JGLOBAL_LEAST_HITS</option>
 				<option value="random">JGLOBAL_RANDOM_ORDER</option>
 				<option value="order">JGLOBAL_ORDERING</option>
 				<option	value="rorder">JGLOBAL_REVERSE_ORDERING</option>
@@ -404,7 +396,8 @@
 		>
 
 			<field
-				name="article_layout" type="componentlayout"
+				name="article_layout"
+				type="componentlayout"
 				label="JGLOBAL_FIELD_LAYOUT_LABEL"
 				description="JGLOBAL_FIELD_LAYOUT_DESC"
 				class="form-select"
@@ -582,7 +575,7 @@
 
 			<field
 				name="show_vote"
-				type="list"
+				type="votelist"
 				label="JGLOBAL_SHOW_VOTE_LABEL"
 				useglobal="true"
 				class="form-select-color-state"

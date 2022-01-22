@@ -78,7 +78,7 @@ class MenuModel extends FormModel
 	 * @param   string  $prefix  A prefix for the table class name. Optional.
 	 * @param   array   $config  Configuration array for model. Optional.
 	 *
-	 * @return  \JTable    A database object
+	 * @return  Table   A database object
 	 *
 	 * @since   1.6
 	 */
@@ -208,7 +208,7 @@ class MenuModel extends FormModel
 	/**
 	 * Method to validate the form data.
 	 *
-	 * @param   JForm   $form   The form to validate against.
+	 * @param   Form    $form   The form to validate against.
 	 * @param   array   $data   The data to validate.
 	 * @param   string  $group  The name of the field group to validate.
 	 *
@@ -334,7 +334,7 @@ class MenuModel extends FormModel
 				// Trigger the after delete event.
 				Factory::getApplication()->triggerEvent('onContentAfterDelete', array($this->_context, $table));
 
-				// TODO: Delete the menu associations - Menu items and Modules
+				// @todo: Delete the menu associations - Menu items and Modules
 			}
 		}
 
@@ -395,7 +395,7 @@ class MenuModel extends FormModel
 	 * Custom clean the cache
 	 *
 	 * @param   string   $group     Cache group name.
-	 * @param   integer  $clientId  Application client id.
+	 * @param   integer  $clientId  @deprecated  5.0  No Longer used.
 	 *
 	 * @return  void
 	 *
@@ -403,9 +403,8 @@ class MenuModel extends FormModel
 	 */
 	protected function cleanCache($group = null, $clientId = 0)
 	{
-		parent::cleanCache('com_menus', 0);
+		parent::cleanCache('com_menus');
 		parent::cleanCache('com_modules');
-		parent::cleanCache('mod_menu', 0);
-		parent::cleanCache('mod_menu', 1);
+		parent::cleanCache('mod_menu');
 	}
 }

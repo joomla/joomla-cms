@@ -112,7 +112,7 @@ class TinymcebuilderField extends FormField
 
 			Factory::getApplication()->enqueueMessage(Text::sprintf('PLG_TINY_LEGACY_WARNING', '#'), 'warning');
 
-			if (is_object($plugin) && !empty($plugin->params))
+			if (\is_object($plugin) && !empty($plugin->params))
 			{
 				$setParams = (object) json_decode($plugin->params);
 			}
@@ -139,10 +139,10 @@ class TinymcebuilderField extends FormField
 				 * Set 0: for Administrator, Editor, Super Users (4,7,8)
 				 * Set 1: for Registered, Manager (2,6), all else are public
 				 */
-				$formValues->access = !$num ? array(4,7,8) : ($num === 1 ? array(2,6) : array());
+				$formValues->access = !$num ? array(4, 7, 8) : ($num === 1 ? array(2, 6) : array());
 
 				// Assign Public to the new Set, but only when it not in use already
-				if (empty($formValues->access) && !in_array(1, $groupsInUse))
+				if (empty($formValues->access) && !\in_array(1, $groupsInUse))
 				{
 					$formValues->access = array(1);
 				}
@@ -161,8 +161,6 @@ class TinymcebuilderField extends FormField
 			// Bind the values
 			$setsForms[$num]->bind($formValues);
 		}
-
-		krsort($data['setsNames']);
 
 		$data['setsForms'] = $setsForms;
 

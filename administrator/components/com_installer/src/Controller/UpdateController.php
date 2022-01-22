@@ -19,6 +19,7 @@ use Joomla\CMS\Router\Route;
 use Joomla\CMS\Session\Session;
 use Joomla\CMS\Updater\Updater;
 use Joomla\CMS\Uri\Uri;
+use Joomla\Component\Installer\Administrator\Model\UpdateModel;
 use Joomla\Utilities\ArrayHelper;
 
 /**
@@ -40,7 +41,7 @@ class UpdateController extends BaseController
 		// Check for request forgeries.
 		$this->checkToken();
 
-		/** @var \Joomla\Component\Installer\Administrator\Model\UpdateModel $model */
+		/** @var UpdateModel $model */
 		$model = $this->getModel('update');
 
 		$uid = $this->input->get('cid', array(), 'array');
@@ -96,8 +97,11 @@ class UpdateController extends BaseController
 		$minimum_stability = (int) $params->get('minimum_stability', Updater::STABILITY_STABLE);
 
 		// Find updates.
-		/** @var \Joomla\Component\Installer\Administrator\Model\UpdateModel $model */
+		/** @var UpdateModel $model */
 		$model = $this->getModel('update');
+
+		// Purge the table before checking again
+		$model->purge();
 
 		$disabledUpdateSites = $model->getDisabledUpdateSites();
 
@@ -108,30 +112,17 @@ class UpdateController extends BaseController
 		}
 
 		$model->findUpdates(0, $cache_timeout, $minimum_stability);
+
+		if (0 === $model->getTotal())
+		{
+			$this->setMessage(Text::_('COM_INSTALLER_MSG_UPDATE_NOUPDATES'), 'info');
+		}
+
 		$this->setRedirect(Route::_('index.php?option=com_installer&view=update', false));
 	}
 
 	/**
-	 * Purges updates.
-	 *
-	 * @return  void
-	 *
-	 * @since   1.6
-	 */
-	public function purge()
-	{
-		// Check for request forgeries.
-		$this->checkToken();
-
-		/** @var \Joomla\Component\Installer\Administrator\Model\UpdateModel $model */
-		$model = $this->getModel('update');
-		$model->purge();
-
-		$this->setRedirect(Route::_('index.php?option=com_installer&view=update', false), $model->_message);
-	}
-
-	/**
-	 * Fetch and report updates in \JSON format, for A\JAX requests
+	 * Fetch and report updates in \JSON format, for AJAX requests
 	 *
 	 * @return void
 	 *
@@ -170,7 +161,7 @@ class UpdateController extends BaseController
 			$minimum_stability = (int) $params->get('minimum_stability', Updater::STABILITY_STABLE);
 		}
 
-		/** @var \Joomla\Component\Installer\Administrator\Model\UpdateModel $model */
+		/** @var UpdateModel $model */
 		$model = $this->getModel('update');
 		$model->findUpdates($eid, $cache_timeout, $minimum_stability);
 

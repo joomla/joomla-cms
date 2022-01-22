@@ -27,9 +27,9 @@ use Joomla\CMS\Toolbar\ToolbarHelper;
 class HtmlView extends BaseHtmlView
 {
 	/**
-	 * The \JForm object
+	 * The Form object
 	 *
-	 * @var  \JForm
+	 * @var  \Joomla\CMS\Form\Form
 	 */
 	protected $form;
 
@@ -90,8 +90,15 @@ class HtmlView extends BaseHtmlView
 	 */
 	public function display($tpl = null)
 	{
+		// If no item found, dont show the edit screen, redirect with message
+		if (false === $this->item = $this->get('Item'))
+		{
+			$app = Factory::getApplication();
+			$app->enqueueMessage(Text::_('JLIB_APPLICATION_ERROR_NOT_EXIST'), 'error');
+			$app->redirect('index.php?option=com_users&view=users');
+		}
+
 		$this->form      = $this->get('Form');
-		$this->item      = $this->get('Item');
 		$this->state     = $this->get('State');
 		$this->tfaform   = $this->get('Twofactorform');
 		$this->otpConfig = $this->get('otpConfig');
@@ -103,7 +110,7 @@ class HtmlView extends BaseHtmlView
 		}
 
 		// Prevent user from modifying own group(s)
-		$user = Factory::getUser();
+		$user = Factory::getApplication()->getIdentity();
 
 		if ((int) $user->id != (int) $this->item->id || $user->authorise('core.admin'))
 		{
@@ -130,7 +137,7 @@ class HtmlView extends BaseHtmlView
 	{
 		Factory::getApplication()->input->set('hidemainmenu', true);
 
-		$user      = Factory::getUser();
+		$user      = Factory::getApplication()->getIdentity();
 		$canDo     = ContentHelper::getActions('com_users');
 		$isNew     = ($this->item->id == 0);
 		$isProfile = $this->item->id == $user->id;
@@ -144,7 +151,7 @@ class HtmlView extends BaseHtmlView
 
 		$toolbarButtons = [];
 
-		if ($canDo->get('core.edit') || $canDo->get('core.create'))
+		if ($canDo->get('core.edit') || $canDo->get('core.create') || $isProfile)
 		{
 			ToolbarHelper::apply('user.apply');
 			$toolbarButtons[] = ['save', 'user.save'];
@@ -170,6 +177,6 @@ class HtmlView extends BaseHtmlView
 		}
 
 		ToolbarHelper::divider();
-		ToolbarHelper::help('JHELP_USERS_USER_MANAGER_EDIT');
+		ToolbarHelper::help('Users:_Edit_Profile');
 	}
 }

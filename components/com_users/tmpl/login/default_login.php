@@ -59,14 +59,12 @@ $usersConfig = ComponentHelper::getParams('com_users');
 			<?php endif; ?>
 
 			<?php if (PluginHelper::isEnabled('system', 'remember')) : ?>
-				<div  class="com-users-login__remember control-group">
-					<div class="control-label">
-						<label for="remember">
+				<div class="com-users-login__remember">
+					<div class="form-check">
+						<input class="form-check-input" id="remember" type="checkbox" name="remember" value="yes">
+						<label class="form-check-label" for="remember">
 							<?php echo Text::_('COM_USERS_LOGIN_REMEMBER_ME'); ?>
 						</label>
-					</div>
-					<div class="controls">
-						<input id="remember" type="checkbox" name="remember" class="inputbox" value="yes">
 					</div>
 				</div>
 			<?php endif; ?>

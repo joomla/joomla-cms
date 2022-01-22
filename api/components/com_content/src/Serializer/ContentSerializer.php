@@ -31,19 +31,19 @@ class ContentSerializer extends JoomlaSerializer
 	 *
 	 * @return  Relationship
 	 *
-	 * @since 4.0
+	 * @since 4.0.0
 	 */
 	public function languageAssociations($model)
 	{
 		$resources = [];
 
-		// TODO: This can't be hardcoded in the future?
+		// @todo: This can't be hardcoded in the future?
 		$serializer = new JoomlaSerializer($this->type);
 
 		foreach ($model->associations as $association)
 		{
 			$resources[] = (new Resource($association, $serializer))
-				->addLink('self', Route::link('site', Uri::root() . 'api/index.php/v1/content/article/' . $association->id));
+				->addLink('self', Route::link('site', Uri::root() . 'api/index.php/v1/content/articles/' . $association->id));
 		}
 
 		$collection = new Collection($resources, $serializer);
@@ -58,7 +58,7 @@ class ContentSerializer extends JoomlaSerializer
 	 *
 	 * @return  Relationship
 	 *
-	 * @since 4.0
+	 * @since 4.0.0
 	 */
 	public function category($model)
 	{
@@ -77,7 +77,7 @@ class ContentSerializer extends JoomlaSerializer
 	 *
 	 * @return  Relationship
 	 *
-	 * @since 4.0
+	 * @since 4.0.0
 	 */
 	public function createdBy($model)
 	{
@@ -90,39 +90,13 @@ class ContentSerializer extends JoomlaSerializer
 	}
 
 	/**
-	 * Build tags relationship
-	 *
-	 * @param   \stdClass  $model  Item model
-	 *
-	 * @return  Relationship
-	 *
-	 * @since 4.0
-	 */
-	public function tags($model)
-	{
-		$resources = [];
-
-		$serializer = new JoomlaSerializer('tags');
-
-		foreach ($model->tags as $id => $tagName)
-		{
-			$resources[] = (new Resource($id, $serializer))
-				->addLink('self', Route::link('site', Uri::root() . 'api/index.php/v1/tags/' . $id));
-		}
-
-		$collection = new Collection($resources, $serializer);
-
-		return new Relationship($collection);
-	}
-
-	/**
 	 * Build editor relationship
 	 *
 	 * @param   \stdClass  $model  Item model
 	 *
 	 * @return  Relationship
 	 *
-	 * @since 4.0
+	 * @since 4.0.0
 	 */
 	public function modifiedBy($model)
 	{

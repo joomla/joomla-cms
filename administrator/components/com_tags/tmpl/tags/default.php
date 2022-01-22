@@ -68,7 +68,7 @@ if ($saveOrder && !empty($this->items))
 				<?php echo Text::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
 			</div>
 		<?php else : ?>
-			<table class="table" id="categoryList">
+			<table class="table" id="tagList">
 				<caption class="visually-hidden">
 					<?php echo Text::_('COM_TAGS_TABLE_CAPTION'); ?>,
 							<span id="orderedBy"><?php echo Text::_('JGLOBAL_SORTED_BY'); ?> </span>,
@@ -79,7 +79,7 @@ if ($saveOrder && !empty($this->items))
 						<td class="w-1 text-center">
 							<?php echo HTMLHelper::_('grid.checkall'); ?>
 						</td>
-						<th scope="col" class="w-1 d-none d-md-table-cell center">
+						<th scope="col" class="w-1 d-none d-md-table-cell text-center">
 							<?php echo HTMLHelper::_('searchtools.sort', '', 'a.lft', $listDirn, $listOrder, null, 'asc', 'JGRID_HEADING_ORDERING', 'icon-sort'); ?>
 						</th>
 						<th scope="col" class="w-1 text-center">
@@ -161,7 +161,9 @@ if ($saveOrder && !empty($this->items))
 						$parentsStr = '';
 					}
 					?>
-						<tr class="row<?php echo $i % 2; ?>" data-draggable-group="<?php echo $item->parent_id; ?>" item-id="<?php echo $item->id; ?>" parents="<?php echo $parentsStr; ?>" level="<?php echo $item->level; ?>">
+						<tr class="row<?php echo $i % 2; ?>" data-draggable-group="<?php echo $item->parent_id; ?>"
+							data-item-id="<?php echo $item->id; ?>" data-parents="<?php echo $parentsStr; ?>"
+							data-level="<?php echo $item->level; ?>">
 							<td class="text-center">
 								<?php echo HTMLHelper::_('grid.id', $i, $item->id, false, 'cid', 'cb', $item->title); ?>
 							</td>
@@ -198,13 +200,13 @@ if ($saveOrder && !empty($this->items))
 								<?php else : ?>
 									<?php echo $this->escape($item->title); ?>
 								<?php endif; ?>
-								<span class="small" title="<?php echo $this->escape($item->path); ?>">
+								<div class="small" title="<?php echo $this->escape($item->path); ?>">
 									<?php if (empty($item->note)) : ?>
 										<?php echo Text::sprintf('JGLOBAL_LIST_ALIAS', $this->escape($item->alias)); ?>
 									<?php else : ?>
 										<?php echo Text::sprintf('JGLOBAL_LIST_ALIAS_NOTE', $this->escape($item->alias), $this->escape($item->note)); ?>
 									<?php endif; ?>
-								</span>
+								</div>
 							</th>
 
 						<?php if (isset($this->items[0]) && property_exists($this->items[0], 'count_published')) : ?>

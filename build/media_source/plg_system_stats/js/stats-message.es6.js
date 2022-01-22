@@ -9,6 +9,19 @@ Joomla = window.Joomla || {};
 ((Joomla, document) => {
   'use strict';
 
+  const allowed = {
+    input: ['type', 'name', 'value'],
+    'joomla-alert': ['type', 'dismiss', 'role'],
+    button: ['type'],
+    table: [],
+    tbody: [],
+    thead: [],
+    caption: [],
+    th: ['scope'],
+    tr: [],
+    td: [],
+  };
+
   const initStatsEvents = (callback) => {
     const messageContainer = document.getElementById('system-message-container');
     const joomlaAlert = messageContainer.querySelector('.js-pstats-alert');
@@ -31,18 +44,6 @@ Joomla = window.Joomla || {};
         joomlaAlert.close();
 
         callback({ plugin: 'sendAlways' });
-      }
-    });
-
-    // Allow once
-    document.addEventListener('click', (event) => {
-      if (event.target.classList.contains('js-pstats-btn-allow-once')) {
-        event.preventDefault();
-
-        // Remove message
-        joomlaAlert.close();
-
-        callback({ plugin: 'sendOnce' });
       }
     });
 
@@ -71,7 +72,7 @@ Joomla = window.Joomla || {};
         try {
           const json = JSON.parse(response);
           if (json && json.html) {
-            messageContainer.insertAdjacentHTML('beforeend', json.html);
+            messageContainer.insertAdjacentHTML('beforeend', Joomla.sanitizeHtml(json.html, allowed));
             messageContainer.querySelector('.js-pstats-alert').classList.remove('hidden');
             initStatsEvents(getJson);
           }

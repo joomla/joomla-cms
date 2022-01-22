@@ -106,6 +106,14 @@ class CategoryView extends HtmlView
 	protected $runPlugins = false;
 
 	/**
+	 * The flag to mark if the active menu item is linked to the category being displayed
+	 *
+	 * @var bool
+	 * @since 4.0.0
+	 */
+	protected $menuItemMatchCategory = false;
+
+	/**
 	 * Method with common display elements used in category list displays
 	 *
 	 * @return  void
@@ -165,7 +173,7 @@ class CategoryView extends HtmlView
 		$children = array($category->id => $children);
 
 		// Escape strings for HTML output
-		$this->pageclass_sfx = htmlspecialchars($params->get('pageclass_sfx'));
+		$this->pageclass_sfx = htmlspecialchars($params->get('pageclass_sfx', ''));
 
 		if ($this->runPlugins)
 		{
@@ -231,6 +239,8 @@ class CategoryView extends HtmlView
 			{
 				$this->setLayout($active->query['layout']);
 			}
+
+			$this->menuItemMatchCategory = true;
 		}
 		elseif ($layout = $category->params->get('category_layout'))
 		{

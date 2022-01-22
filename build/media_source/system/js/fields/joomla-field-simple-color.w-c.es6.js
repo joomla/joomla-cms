@@ -237,7 +237,7 @@
         el.style.backgroundColor = color;
         el.setAttribute('type', 'button');
         const a11yColor = color === 'transparent' ? this.textTransp : this.getColorName(color);
-        el.innerHTML = `<span class="visually-hidden">${a11yColor}</span>`;
+        el.innerHTML = Joomla.sanitizeHtml(`<span class="visually-hidden">${a11yColor}</span>`);
 
         this.buttons.push(el);
       });
@@ -246,7 +246,7 @@
       const close = document.createElement('button');
       close.setAttribute('class', 'btn-close');
       close.setAttribute('type', 'button');
-      close.innerHTML = this.textClose;
+      close.innerHTML = Joomla.sanitizeHtml(this.textClose);
 
       this.buttons.push(close);
 
@@ -268,7 +268,7 @@
       this.icon.setAttribute('type', 'button');
       this.icon.setAttribute('tabindex', '0');
       this.icon.style.backgroundColor = color;
-      this.icon.innerHTML = `<span class="visually-hidden">${this.textSelect}</span>`;
+      this.icon.innerHTML = Joomla.sanitizeHtml(`<span class="visually-hidden">${this.textSelect}</span>`);
       this.icon.id = uniqueId;
       this.select.insertAdjacentElement('beforebegin', this.icon);
       this.icon.addEventListener('click', this.show.bind(this));

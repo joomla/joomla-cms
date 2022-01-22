@@ -28,9 +28,12 @@ $listDirn = $this->escape($this->state->get('list.direction'));
 				echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this));
 				?>
 				<?php if (empty($this->items)) : ?>
-					<joomla-alert type="warning"><?php echo Text::_('JGLOBAL_NO_MATCHING_RESULTS'); ?></joomla-alert>
+					<div class="alert alert-info">
+						<span class="icon-info-circle" aria-hidden="true"></span><span class="visually-hidden"><?php echo Text::_('INFO'); ?></span>
+						<?php echo Text::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
+					</div>
 				<?php else : ?>
-					<table class="table" id="templateList">
+					<table class="table" id="mailtemplateList">
 						<caption class="visually-hidden">
 							<?php echo Text::_('COM_MAILS_TABLE_CAPTION'); ?>,
 							<span id="orderedBy"><?php echo Text::_('JGLOBAL_SORTED_BY'); ?> </span>,
@@ -42,14 +45,13 @@ $listDirn = $this->escape($this->state->get('list.direction'));
 									<?php echo Text::_('JGLOBAL_TITLE'); ?>
 								</th>
 								<th scope="col" class="w-15 d-none d-md-table-cell">
-									<?php echo Text::_('COM_MAILS_HEADING_COMPONENT'); ?>
+									<?php echo Text::_('COM_MAILS_HEADING_EXTENSION'); ?>
 								</th>
-								<th scope="col" class="w-10 d-none d-md-table-cell">
-									<?php echo Text::_('COM_MAILS_HEADING_TEMPLATES_FOR_LANGUAGES'); ?>
+								<?php if (count($this->languages) > 1) : ?>
+								<th scope="col" class="w-10 text-center">
+									<?php echo Text::_('COM_MAILS_HEADING_EDIT_TEMPLATES'); ?>
 								</th>
-								<th scope="col" class="w-10 d-none d-md-table-cell">
-									<?php echo Text::_('COM_MAILS_HEADING_NO_TEMPLATES_FOR_LANGUAGES'); ?>
-								</th>
+								<?php endif; ?>
 								<th scope="col" class="w-25 d-none d-md-table-cell">
 									<?php echo Text::_('COM_MAILS_HEADING_DESCRIPTION'); ?>
 								</th>
@@ -64,49 +66,31 @@ $listDirn = $this->escape($this->state->get('list.direction'));
 							$sub_id = str_replace('.', '_', $sub_id);
 							?>
 							<tr class="row<?php echo $i % 2; ?>">
-								<td class="break-word">
-									<div class="dropdown">
-										<a class="dropdown-toggle" href="#" role="button" id="mTemplate<?php echo $i; ?>"  data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-											<?php echo Text::_($component . '_MAIL_' . $sub_id . '_TITLE'); ?>
-										</a>
-										<div class="dropdown-menu" aria-labelledby="mTemplate<?php echo $i; ?>">
-											<?php foreach ($this->languages as $language) : ?>
-												<a class="dropdown-item" href="<?php echo Route::_('index.php?option=com_mails&task=template.edit&template_id=' . $item->template_id . '&language=' . $language->lang_code); ?>">
-													<?php if (in_array($language->lang_code, $item->languages)) : ?>
-														<?php echo Text::sprintf('COM_MAILS_LIST_EDIT_TEMPLATE', $language->title); ?>
-													<?php else: ?>
-														<?php echo Text::sprintf('COM_MAILS_LIST_CREATE_TEMPLATE', $language->title); ?>
-													<?php endif; ?>
-												</a>
-											<?php endforeach; ?>
-										</div>
-									</div>
-								</td>
+								<th scope="row">
+									<a href="<?php echo Route::_('index.php?option=com_mails&task=template.edit&template_id=' . $item->template_id . '&language=' . $this->defaultLanguage->lang_code); ?>">
+										<?php echo Text::_($component . '_MAIL_' . $sub_id . '_TITLE'); ?>
+									</a>
+								</th>
 								<td class="d-none d-md-table-cell">
 									<?php echo Text::_($component); ?>
 								</td>
-								<td class="d-none d-md-table-cell">
-									<?php foreach ($this->languages as $language) : ?>
-										<?php if (in_array($language->lang_code, $item->languages)) : ?>
-											<?php if ($language->image) : ?>
-												<?php echo HTMLHelper::_('image', 'mod_languages/' . $language->image . '.gif', $language->title_native, array('title' => $language->title_native), true); ?>
-											<?php else : ?>
-												<span class="badge bg-secondary" title="<?php echo $language->title_native; ?>"><?php echo $language->lang_code; ?></span>
-											<?php endif; ?>
-										<?php endif; ?>
-									<?php endforeach; ?>
-								</td>
-								<td class="d-none d-md-table-cell">
-									<?php foreach ($this->languages as $language) : ?>
-										<?php if (!in_array($language->lang_code, $item->languages)) : ?>
-											<?php if ($language->image) : ?>
-												<?php echo HTMLHelper::_('image', 'mod_languages/' . $language->image . '.gif', $language->title_native, array('title' => $language->title_native), true); ?>
-											<?php else : ?>
-												<span class="badge bg-secondary"><?php echo $language->lang_code; ?></span>
-											<?php endif; ?>
-										<?php endif; ?>
-									<?php endforeach; ?>
-								</td>
+								<?php if (count($this->languages) > 1) : ?>
+									<td>
+										<ul class="list-unstyled d-flex justify-content-center">
+										<?php foreach ($this->languages as $language) : ?>
+											<li class="p-1">
+												<a href="<?php echo Route::_('index.php?option=com_mails&task=template.edit&template_id=' . $item->template_id . '&language=' . $language->lang_code); ?>">
+													<?php if ($language->image) : ?>
+														<?php echo HTMLHelper::_('image', 'mod_languages/' . $language->image . '.gif', $language->title_native, array('title' => $language->title_native), true); ?>
+													<?php else : ?>
+														<span class="badge bg-secondary" title="<?php echo $language->title_native; ?>"><?php echo $language->lang_code; ?></span>
+													<?php endif; ?>
+												</a>
+											</li>
+										<?php endforeach; ?>
+										</ul>
+									</td>
+								<?php endif; ?>
 								<td class="d-none d-md-table-cell">
 									<?php echo Text::_($component . '_MAIL_' . $sub_id . '_DESC'); ?>
 								</td>

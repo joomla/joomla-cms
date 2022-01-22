@@ -48,7 +48,7 @@ class ApplicationHelper
 		}
 
 		$input = Factory::getApplication()->input;
-		$option = strtolower($input->get('option'));
+		$option = strtolower($input->get('option', ''));
 
 		if (empty($option))
 		{
@@ -90,7 +90,7 @@ class ApplicationHelper
 	{
 		if (Factory::getApplication()->get('unicodeslugs') == 1)
 		{
-			$output = OutputFilter::stringURLUnicodeSlug($string);
+			$output = OutputFilter::stringUrlUnicodeSlug($string);
 		}
 		else
 		{

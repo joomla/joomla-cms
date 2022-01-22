@@ -136,7 +136,7 @@ class CryptoCipher implements CipherInterface
 	{
 		try
 		{
-			\Crypto::runtimeTest();
+			\Crypto::RuntimeTest();
 
 			return true;
 		}

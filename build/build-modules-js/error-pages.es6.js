@@ -44,7 +44,7 @@ module.exports.createErrorPages = async (options) => {
     const languageStrings = Ini.parse(await readFile(file, { encoding: 'utf8' }));
 
     // Build the variables into json for the unsupported page
-    if (languageStrings.MIN_PHP_ERROR_LANGUAGE) {
+    if (languageStrings.BUILD_MIN_PHP_ERROR_LANGUAGE) {
       const name = dirname(file).replace(/.+\//, '').replace(/.+\\/, '');
       global.unsupportedObj = {
         ...global.unsupportedObj,
@@ -102,6 +102,9 @@ module.exports.createErrorPages = async (options) => {
 
   const files = await Recurs(dir);
   files.sort().forEach((file) => {
+    if (file.endsWith('langmetadata.xml')) {
+      return;
+    }
     iniFilesProcess.push(processIni(file));
   });
 
@@ -112,7 +115,8 @@ module.exports.createErrorPages = async (options) => {
   });
 
   const processPage = async (name) => {
-    const jsonContent = `window.errorLocale=${JSON.stringify(global[`${name}Obj`])};`;
+    const sortedJson = Object.fromEntries(Object.entries(global[`${name}Obj`]).sort());
+    const jsonContent = `window.errorLocale=${JSON.stringify(sortedJson)};`;
 
     let template = initTemplate;
 
@@ -140,22 +144,22 @@ module.exports.createErrorPages = async (options) => {
     }
 
     if (!mediaExists) {
-      await mkdir(dirname(`${RootPath}${options.settings.errorPages[name].destFile}`), { recursive: true });
+      await mkdir(dirname(`${RootPath}${options.settings.errorPages[name].destFile}`), { recursive: true, mode: 0o755 });
     }
 
     await writeFile(
       `${RootPath}${options.settings.errorPages[name].destFile}`,
       template,
-      { encoding: 'utf8' },
+      { encoding: 'utf8', mode: 0o644 },
     );
 
     // eslint-disable-next-line no-console
-    console.error(`Created the file: ${options.settings.errorPages[name].destFile}`);
+    console.error(`✅ Created the file: ${options.settings.errorPages[name].destFile}`);
   };
 
   Object.keys(options.settings.errorPages).forEach((name) => processPages.push(processPage(name)));
 
-  await Promise.all(processPages).catch((err) => {
+  return Promise.all(processPages).catch((err) => {
     // eslint-disable-next-line no-console
     console.error(err);
     process.exit(-1);

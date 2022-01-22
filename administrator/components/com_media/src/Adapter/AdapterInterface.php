@@ -209,17 +209,4 @@ interface AdapterInterface
 	 * @since   4.0.0
 	 */
 	public function search(string $path, string $needle, bool $recursive = false): array;
-
-	/**
-	 * Returns a temporary url for the given path.
-	 * This is used internally in media manager
-	 *
-	 * @param   string  $path  The path to file
-	 *
-	 * @return  string
-	 *
-	 * @since   4.0.0
-	 * @throws  \Joomla\Component\Media\Administrator\Exception\FileNotFoundException
-	 */
-	public function getTemporaryUrl(string $path): string;
 }

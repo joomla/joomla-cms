@@ -100,8 +100,10 @@ $this->document->addScriptOptions('associations-modal', ['func' => $function]);
 				?>
 				<tr class="row<?php echo $i % 2; ?>">
 					<?php if (!empty($this->typeSupports['state'])) : ?>
-						<td class="text-center tbody-icon">
-							<span class="<?php echo $iconStates[$this->escape($item->state)]; ?>" aria-hidden="true"></span>
+						<td class="text-center">
+							<span class="tbody-icon">
+								<span class="<?php echo $iconStates[$this->escape($item->state)]; ?>" aria-hidden="true"></span>
+							</span>
 						</td>
 					<?php endif; ?>
 					<th scope="row" class="has-context">
@@ -166,4 +168,4 @@ $this->document->addScriptOptions('associations-modal', ['func' => $function]);
 		<input type="hidden" name="forcedLanguage" value="<?php echo $app->input->get('forcedLanguage', '', 'cmd'); ?>">
 		<?php echo HTMLHelper::_('form.token'); ?>
 	</form>
-</div
+</div>

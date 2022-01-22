@@ -2,7 +2,7 @@
 <metadata>
 	<layout title="COM_WRAPPER_WRAPPER_VIEW_DEFAULT_TITLE" option="COM_WRAPPER_WRAPPER_VIEW_DEFAULT_OPTION">
 		<help
-			key="JHELP_MENUS_MENU_ITEM_WRAPPER"
+			key="Menu_Item:_Iframe_Wrapper"
 		/>
 		<message>
 			<![CDATA[COM_WRAPPER_WRAPPER_VIEW_DEFAULT_DESC]]>
@@ -17,7 +17,6 @@
 				name="url"
 				type="url"
 				label="COM_WRAPPER_FIELD_URL_LABEL"
-				size="30"
 				required="true"
 				filter="url"
 				validate="url"
@@ -28,23 +27,10 @@
 		<!-- Scroll. -->
 		<fieldset name="basic" label="COM_WRAPPER_FIELD_LABEL_SCROLLBARSPARAMS">
 			<field
-				name="scrolling"
-				type="list"
-				label="COM_WRAPPER_FIELD_SCROLLBARS_LABEL"
-				default="auto"
-				validate="options"
-				>
-				<option value="no">JNO</option>
-				<option value="yes">JYES</option>
-				<option value="auto">COM_WRAPPER_FIELD_VALUE_AUTO</option>
-			</field>
-
-			<field
 				name="width"
 				type="text"
 				label="JGLOBAL_WIDTH"
 				default="100%"
-				size="5"
 			/>
 
 			<field
@@ -81,14 +67,15 @@
 			</field>
 
 			<field
-				name="frameborder"
+				name="lazyloading"
 				type="radio"
-				label="COM_WRAPPER_FIELD_FRAME_LABEL"
+				label="COM_WRAPPER_FIELD_LAZYLOADING_LABEL"
+				default="lazy"
 				layout="joomla.form.field.radio.switcher"
-				default="1"
+				validate="options"
 				>
-				<option value="0">JNO</option>
-				<option value="1">JYES</option>
+				<option value="eager">JNO</option>
+				<option value="lazy">JYES</option>
 			</field>
 		</fieldset>
 	</fields>

@@ -19,7 +19,7 @@
 		<language tag="en-GB">language/en-GB/en-GB.mod_multilangstatus.sys.ini</language>
 	</languages>
 
-	<help key="JHELP_EXTENSIONS_MODULE_MANAGER_ADMIN_MULTILANG" />
+	<help key="Admin_Modules:_Multilingual_Status" />
 
 	<config>
 
@@ -32,6 +32,7 @@
 					type="modulelayout"
 					label="JFIELD_ALT_LAYOUT_LABEL"
 					class="form-select"
+					validate="moduleLayout"
 				/>
 
 				<field

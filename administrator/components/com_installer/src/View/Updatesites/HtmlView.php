@@ -103,11 +103,6 @@ class HtmlView extends InstallerViewDefault
 		// Get the toolbar object instance
 		$toolbar = Toolbar::getInstance('toolbar');
 
-		if ($canDo->get('core.edit'))
-		{
-			ToolbarHelper::editList('updatesite.edit');
-		}
-
 		if ($canDo->get('core.edit.state'))
 		{
 			$dropdown = $toolbar->dropdownButton('status-group')
@@ -137,6 +132,6 @@ class HtmlView extends InstallerViewDefault
 
 		parent::addToolbar();
 
-		ToolbarHelper::help('JHELP_EXTENSIONS_EXTENSION_MANAGER_UPDATESITES');
+		ToolbarHelper::help('Extensions:_Update_Sites');
 	}
 }

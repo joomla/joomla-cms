@@ -33,9 +33,10 @@ class HtmlView extends BaseHtmlView
 	protected $state;
 
 	/**
-	 * From object to generate fields
+	 * Form object to generate fields
 	 *
-	 * @var     \JForm
+	 * @var    \Joomla\CMS\Form\Form
+	 *
 	 * @since  4.0.0
 	 */
 	protected $form;
@@ -43,7 +44,7 @@ class HtmlView extends BaseHtmlView
 	/**
 	 * Items array
 	 *
-	 * @var     object
+	 * @var    object
 	 * @since  4.0.0
 	 */
 	protected $item;
@@ -51,7 +52,7 @@ class HtmlView extends BaseHtmlView
 	/**
 	 * That is object of Application
 	 *
-	 * @var     CMSApplication
+	 * @var    \Joomla\CMS\Application\CMSApplication
 	 * @since  4.0.0
 	 */
 	protected $app;
@@ -59,7 +60,7 @@ class HtmlView extends BaseHtmlView
 	/**
 	 * The application input object.
 	 *
-	 * @var    Input
+	 * @var    \Joomla\CMS\Input\Input
 	 * @since  4.0.0
 	 */
 	protected $input;
@@ -67,7 +68,7 @@ class HtmlView extends BaseHtmlView
 	/**
 	 * The ID of current workflow
 	 *
-	 * @var     integer
+	 * @var    integer
 	 * @since  4.0.0
 	 */
 	protected $workflowID;
@@ -75,7 +76,7 @@ class HtmlView extends BaseHtmlView
 	/**
 	 * The name of current extension
 	 *
-	 * @var     string
+	 * @var    string
 	 * @since  4.0.0
 	 */
 	protected $extension;
@@ -99,12 +100,6 @@ class HtmlView extends BaseHtmlView
 	 */
 	public function display($tpl = null)
 	{
-		// Check for errors.
-		if (count($errors = $this->get('Errors')))
-		{
-			throw new GenericDataException(implode("\n", $errors), 500);
-		}
-
 		$this->app = Factory::getApplication();
 		$this->input = $this->app->input;
 
@@ -112,6 +107,12 @@ class HtmlView extends BaseHtmlView
 		$this->state      = $this->get('State');
 		$this->form       = $this->get('Form');
 		$this->item       = $this->get('Item');
+
+		// Check for errors.
+		if (count($errors = $this->get('Errors')))
+		{
+			throw new GenericDataException(implode("\n", $errors), 500);
+		}
 
 		$extension = $this->state->get('filter.extension');
 
@@ -128,7 +129,7 @@ class HtmlView extends BaseHtmlView
 		$this->workflowID = $this->input->getCmd("workflow_id");
 
 		// Set the toolbar
-		$this->addToolBar();
+		$this->addToolbar();
 
 		// Display the template
 		parent::display($tpl);
@@ -170,6 +171,10 @@ class HtmlView extends BaseHtmlView
 				$toolbarButtons,
 				'btn-success'
 			);
+
+			ToolbarHelper::cancel(
+				'transition.cancel'
+			);
 		}
 		else
 		{
@@ -200,9 +205,13 @@ class HtmlView extends BaseHtmlView
 			{
 				ToolbarHelper::save('transition.save');
 			}
+
+			ToolbarHelper::cancel(
+				'transition.cancel',
+				'JTOOLBAR_CLOSE'
+			);
 		}
 
-		ToolbarHelper::cancel('transition.cancel');
 		ToolbarHelper::divider();
 	}
 }

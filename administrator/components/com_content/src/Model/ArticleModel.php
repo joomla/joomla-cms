@@ -13,6 +13,8 @@ namespace Joomla\Component\Content\Administrator\Model;
 
 use Joomla\CMS\Event\AbstractEvent;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Filter\InputFilter;
+use Joomla\CMS\Filter\OutputFilter;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Form\FormFactoryInterface;
 use Joomla\CMS\Helper\TagsHelper;
@@ -25,7 +27,6 @@ use Joomla\CMS\MVC\Model\WorkflowBehaviorTrait;
 use Joomla\CMS\MVC\Model\WorkflowModelInterface;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\String\PunycodeHelper;
-use Joomla\CMS\Table\Table;
 use Joomla\CMS\Table\TableInterface;
 use Joomla\CMS\Tag\TaggableTableInterface;
 use Joomla\CMS\UCM\UCMType;
@@ -75,7 +76,7 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
 	 * The event to trigger before changing featured status one or more items.
 	 *
 	 * @var    string
-	 * @since  4.0
+	 * @since  4.0.0
 	 */
 	protected $event_before_change_featured = null;
 
@@ -83,7 +84,7 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
 	 * The event to trigger after changing featured status one or more items.
 	 *
 	 * @var    string
-	 * @since  4.0
+	 * @since  4.0.0
 	 */
 	protected $event_after_change_featured = null;
 
@@ -415,7 +416,7 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
 			$registry = new Registry($item->urls);
 			$item->urls = $registry->toArray();
 
-			$item->articletext = trim($item->fulltext) != '' ? $item->introtext . "<hr id=\"system-readmore\">" . $item->fulltext : $item->introtext;
+			$item->articletext = ($item->fulltext !== null && trim($item->fulltext) != '') ? $item->introtext . '<hr id="system-readmore">' . $item->fulltext : $item->introtext;
 
 			if (!empty($item->id))
 			{
@@ -498,7 +499,9 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
 		$record = new \stdClass;
 
 		// Get ID of the article from input, for frontend, we use a_id while backend uses id
-		$articleIdFromInput = $app->input->getInt('a_id') ?: $app->input->getInt('id', 0);
+		$articleIdFromInput = $app->isClient('site')
+			? $app->input->getInt('a_id', 0)
+			: $app->input->getInt('id', 0);
 
 		// On edit article, we get ID of article from article.id state, but on save, we use data from input
 		$id = (int) $this->getState('article.id', $articleIdFromInput);
@@ -539,6 +542,29 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
 			// Store ID of the category uses for edit state permission check
 			$record->catid = $assignedCatids;
 		}
+		else
+		{
+			// Get the category which the article is being added to
+			if (!empty($data['catid']))
+			{
+				$catId = (int) $data['catid'];
+			}
+			else
+			{
+				$catIds  = $form->getValue('catid');
+
+				$catId = is_array($catIds)
+					? (int) reset($catIds)
+					: (int) $catIds;
+
+				if (!$catId)
+				{
+					$catId = (int) $form->getFieldAttribute('catid', 'default', 0);
+				}
+			}
+
+			$record->catid = $catId;
+		}
 
 		// Modify the form based on Edit State access controls.
 		if (!$this->canEditState($record))
@@ -561,6 +587,12 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
 			$form->setFieldAttribute('publish_up', 'filter', 'unset');
 			$form->setFieldAttribute('publish_down', 'filter', 'unset');
 			$form->setFieldAttribute('state', 'filter', 'unset');
+		}
+
+		// Don't allow to change the created_by user if not allowed to access com_users.
+		if (!Factory::getUser()->authorise('core.manage', 'com_users'))
+		{
+			$form->setFieldAttribute('created_by', 'filter', 'unset');
 		}
 
 		return $form;
@@ -633,20 +665,6 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
 	 */
 	public function validate($form, $data, $group = null)
 	{
-		// Don't allow to change the users if not allowed to access com_users.
-		if (Factory::getApplication()->isClient('administrator') && !Factory::getUser()->authorise('core.manage', 'com_users'))
-		{
-			if (isset($data['created_by']))
-			{
-				unset($data['created_by']);
-			}
-
-			if (isset($data['modified_by']))
-			{
-				unset($data['modified_by']);
-			}
-		}
-
 		if (!Factory::getUser()->authorise('core.admin', 'com_content'))
 		{
 			if (isset($data['rules']))
@@ -669,10 +687,9 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
 	 */
 	public function save($data)
 	{
-		$input  = Factory::getApplication()->input;
-		$filter = \JFilterInput::getInstance();
-		$db     = $this->getDbo();
-		$user	= Factory::getUser();
+		$app    = Factory::getApplication();
+		$input  = $app->input;
+		$filter = InputFilter::getInstance();
 
 		if (isset($data['metadata']) && isset($data['metadata']['author']))
 		{
@@ -765,8 +782,29 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
 		// Alter the title for save as copy
 		if ($input->get('task') == 'save2copy')
 		{
-			$origTable = clone $this->getTable();
-			$origTable->load($input->getInt('id'));
+			$origTable = $this->getTable();
+
+			if ($app->isClient('site'))
+			{
+				$origTable->load($input->getInt('a_id'));
+
+				if ($origTable->title === $data['title'])
+				{
+					/**
+					 * If title of article is not changed, set alias to original article alias so that Joomla! will generate
+					 * new Title and Alias for the copied article
+					 */
+					$data['alias'] = $origTable->alias;
+				}
+				else
+				{
+					$data['alias'] = '';
+				}
+			}
+			else
+			{
+				$origTable->load($input->getInt('id'));
+			}
 
 			if ($data['title'] == $origTable->title)
 			{
@@ -774,12 +812,9 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
 				$data['title'] = $title;
 				$data['alias'] = $alias;
 			}
-			else
+			elseif ($data['alias'] == $origTable->alias)
 			{
-				if ($data['alias'] == $origTable->alias)
-				{
-					$data['alias'] = '';
-				}
+				$data['alias'] = '';
 			}
 		}
 
@@ -788,16 +823,16 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
 		{
 			if ($data['alias'] == null)
 			{
-				if (Factory::getApplication()->get('unicodeslugs') == 1)
+				if ($app->get('unicodeslugs') == 1)
 				{
-					$data['alias'] = \JFilterOutput::stringURLUnicodeSlug($data['title']);
+					$data['alias'] = OutputFilter::stringUrlUnicodeSlug($data['title']);
 				}
 				else
 				{
-					$data['alias'] = \JFilterOutput::stringURLSafe($data['title']);
+					$data['alias'] = OutputFilter::stringURLSafe($data['title']);
 				}
 
-				$table = Table::getInstance('Content', 'JTable');
+				$table = $this->getTable();
 
 				if ($table->load(array('alias' => $data['alias'], 'catid' => $data['catid'])))
 				{
@@ -809,7 +844,7 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
 
 				if (isset($msg))
 				{
-					Factory::getApplication()->enqueueMessage($msg, 'warning');
+					$app->enqueueMessage($msg, 'warning');
 				}
 			}
 		}
@@ -883,7 +918,7 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
 
 		// Trigger the before change state event.
 		$eventResult = Factory::getApplication()->getDispatcher()->dispatch(
-			'onAfterDisplay',
+			$this->event_before_change_featured,
 			AbstractEvent::create(
 				$this->event_before_change_featured,
 				[
@@ -998,7 +1033,7 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
 
 		// Trigger the change state event.
 		Factory::getApplication()->getDispatcher()->dispatch(
-			'onAfterDisplay',
+			$this->event_after_change_featured,
 			AbstractEvent::create(
 				$this->event_after_change_featured,
 				[
@@ -1094,7 +1129,7 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
 	 * Custom clean the cache of com_content and content modules
 	 *
 	 * @param   string   $group     The cache group
-	 * @param   integer  $clientId  The ID of the client
+	 * @param   integer  $clientId  @deprecated   5.0   No longer used.
 	 *
 	 * @return  void
 	 *

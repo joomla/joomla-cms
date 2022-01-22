@@ -12,6 +12,8 @@ namespace Joomla\CMS\Mail;
 
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Filesystem\File;
+use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Mail\Exception\MailDisabledException;
 use Joomla\Database\ParameterType;
@@ -178,6 +180,7 @@ class MailTemplate
 	 * @return  boolean  True on success
 	 *
 	 * @since   4.0.0
+	 * @throws  \Exception
 	 * @throws  MailDisabledException
 	 * @throws  phpmailerException
 	 */
@@ -186,6 +189,12 @@ class MailTemplate
 		$config = ComponentHelper::getParams('com_mails');
 
 		$mail = self::getTemplate($this->template_id, $this->language);
+
+		// If the Mail Template was not found in the db, we cannot send an email.
+		if ($mail === null)
+		{
+			return false;
+		}
 
 		/** @var Registry $params */
 		$params = $mail->params;
@@ -246,12 +255,12 @@ class MailTemplate
 
 		if ($mailStyle === 'html' || $mailStyle === 'both')
 		{
-			$this->mailer->IsHTML(true);
+			$this->mailer->isHtml(true);
 
 			// If HTML body is empty try to convert the Plain template to html
 			if (!$htmlBody)
 			{
-				$htmlBody = nl2br($plainBody);
+				$htmlBody = nl2br($plainBody, false);
 			}
 
 			$this->mailer->setBody($htmlBody);
@@ -267,7 +276,7 @@ class MailTemplate
 			switch ($recipient->type)
 			{
 				case 'cc':
-					$this->mailer->addcc($recipient->mail, $recipient->name);
+					$this->mailer->addCc($recipient->mail, $recipient->name);
 					break;
 				case 'bcc':
 					$this->mailer->addBcc($recipient->mail, $recipient->name);
@@ -283,13 +292,21 @@ class MailTemplate
 			$this->mailer->addReplyTo($this->replyto->mail, $this->replyto->name);
 		}
 
-		$path = JPATH_ROOT . '/' . $config->get('attachment_folder') . '/';
-
-		foreach ((array) json_decode($mail->attachments)  as $attachment)
+		if (trim($config->get('attachment_folder')))
 		{
-			if (is_file($path . $attachment->file))
+			$folderPath = rtrim(Path::check(JPATH_ROOT . '/' . $config->get('attachment_folder')), \DIRECTORY_SEPARATOR);
+
+			if ($folderPath && $folderPath !== Path::clean(JPATH_ROOT) && is_dir($folderPath))
 			{
-				$this->mailer->addAttachment($path . $attachment->file, $attachment->name ?? $attachment->file);
+				foreach ((array) json_decode($mail->attachments) as $attachment)
+				{
+					$filePath = Path::check($folderPath . '/' . $attachment->file);
+
+					if (is_file($filePath))
+					{
+						$this->mailer->addAttachment($filePath, $this->getAttachmentName($filePath, $attachment->name));
+					}
+				}
 			}
 		}
 
@@ -297,11 +314,11 @@ class MailTemplate
 		{
 			if (is_file($attachment->file))
 			{
-				$this->mailer->addAttachment($attachment->file, $attachment->name);
+				$this->mailer->addAttachment($attachment->file, $this->getAttachmentName($attachment->file, $attachment->name));
 			}
 			else
 			{
-				$this->mailer->AddStringAttachment($attachment->file, $attachment->name);
+				$this->mailer->addStringAttachment($attachment->file, $attachment->name);
 			}
 		}
 
@@ -359,13 +376,13 @@ class MailTemplate
 	 * @param   string  $key       Template identifier
 	 * @param   string  $language  Language code of the template
 	 *
-	 * @return  object  An object with the data of the mail
+	 * @return  object|null  An object with the data of the mail, or null if the template not found in the db.
 	 *
 	 * @since   4.0.0
 	 */
 	public static function getTemplate($key, $language)
 	{
-		$db = Factory::getDBO();
+		$db = Factory::getDbo();
 		$query = $db->getQuery(true);
 		$query->select('*')
 			->from($db->quoteName('#__mail_templates'))
@@ -407,6 +424,7 @@ class MailTemplate
 		$template->subject = $subject;
 		$template->body = $body;
 		$template->htmlbody = $htmlbody;
+		$template->attachments = '';
 		$params = new \stdClass;
 		$params->tags = array($tags);
 		$template->params = json_encode($params);
@@ -464,5 +482,33 @@ class MailTemplate
 
 		return $db->execute();
 	}
-}
 
+	/**
+	 * Check and if necessary fix the file name of an attachment so that the attached file
+	 * has the same extension as the source file, and not a different file extension
+	 *
+	 * @param   string  $file  Path to the file to be attached
+	 * @param   string  $name  The file name to be used for the attachment
+	 *
+	 * @return  string  The corrected file name for the attachment
+	 *
+	 * @since   4.0.0
+	 */
+	protected function getAttachmentName(string $file, string $name): string
+	{
+		// If no name is given, do not process it further
+		if (!trim($name))
+		{
+			return '';
+		}
+
+		// Replace any placeholders.
+		$name = $this->replaceTags($name, $this->data);
+
+		// Get the file extension.
+		$ext = File::getExt($file);
+
+		// Strip off extension from $name and append extension of $file, if any
+		return File::stripExt($name) . ($ext ? '.' . $ext : '');
+	}
+}

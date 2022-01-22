@@ -1,0 +1,22 @@
+// com_config
+
+.com_config {
+
+  #fieldset-permissions {
+    grid-template-columns: 1fr;
+  }
+
+  #page-filters .form-select {
+    width: auto;
+  }
+
+  .tab-description {
+    grid-column: 1 / -1;
+  }
+
+  .options-menu {
+    .revert-controls .controls {
+      margin-inline-start: 0;
+    }
+  }
+}

@@ -17,14 +17,15 @@
 			onchange="this.form.submit();"
 			>
 			<option value="">JOPTION_SELECT_LANGUAGE</option>
-			<option value="*">JALL</option>
 		</field>
 
 		<field
 			name="extension"
 			type="sql"
-			label="COM_MAILS_HEADING_COMPONENT"
-			query="SELECT SUBSTRING(template_id, 1, POSITION('.' IN template_id) - 1) AS value, SUBSTRING(template_id, 1, POSITION('.' IN template_id) - 1) AS extension FROM #__mail_templates GROUP BY extension ORDER BY extension ASC"
+			label="COM_MAILS_HEADING_EXTENSION"
+			query="SELECT DISTINCT extension FROM #__mail_templates WHERE extension IN (SELECT name FROM #__extensions WHERE enabled = 1) ORDER BY extension ASC"
+			key_field="extension"
+			value_field="extension"
 			translate="true"
 			onchange="this.form.submit();"
 			>
@@ -41,7 +42,7 @@
 			default="a.template_id ASC"
 			validate="options"
 			>
-			<option value="">JGLOBAL_SORT_BY</option>						
+			<option value="">JGLOBAL_SORT_BY</option>
 			<option value="a.template_id ASC">JGRID_HEADING_ID_ASC</option>
 			<option value="a.template_id DESC">JGRID_HEADING_ID_DESC</option>
 		</field>

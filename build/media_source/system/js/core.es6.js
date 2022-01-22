@@ -3,6 +3,56 @@
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+import { sanitizeHtml } from 'bootstrap/js/src/util/sanitizer.js';
+
+const ARIA_ATTRIBUTE_PATTERN = /^aria-[\w-]*$/i;
+const DATA_ATTRIBUTE_PATTERN = /^data-[\w-]*$/i;
+
+const DefaultAllowlist = {
+  // Global attributes allowed on any supplied element below.
+  '*': ['class', 'dir', 'id', 'lang', 'role', ARIA_ATTRIBUTE_PATTERN, DATA_ATTRIBUTE_PATTERN],
+  a: ['target', 'href', 'title', 'rel'],
+  area: [],
+  b: [],
+  br: [],
+  col: [],
+  code: [],
+  div: [],
+  em: [],
+  hr: [],
+  h1: [],
+  h2: [],
+  h3: [],
+  h4: [],
+  h5: [],
+  h6: [],
+  i: [],
+  img: ['src', 'srcset', 'alt', 'title', 'width', 'height'],
+  li: [],
+  ol: [],
+  p: [],
+  pre: [],
+  s: [],
+  small: [],
+  span: [],
+  sub: [],
+  sup: [],
+  strong: [],
+  u: [],
+  ul: [],
+  button: ['type'],
+  input: [
+    'accept', 'alt', 'autocomplete', 'autofocus', 'capture',
+    'checked', 'dirname', 'disabled', 'height', 'list', 'max',
+    'maxlength', 'min', 'minlength', 'multiple', 'type', 'name',
+    'pattern', 'placeholder', 'readonly', 'required', 'size', 'src',
+    'step', 'value', 'width', 'inputmode',
+  ],
+  select: ['name'],
+  textarea: ['name'],
+  option: ['value', 'selected'],
+};
+
 // Only define the Joomla namespace if not defined.
 window.Joomla = window.Joomla || {};
 
@@ -363,7 +413,10 @@ window.Joomla.Modal = window.Joomla.Modal || {
 
     if (checkbox.form.boxchecked) {
       checkbox.form.boxchecked.value = state;
-      Joomla.Event.dispatch(checkbox.form.boxchecked, 'change');
+      checkbox.form.boxchecked.dispatchEvent(new CustomEvent('change', {
+        bubbles: true,
+        cancelable: true,
+      }));
     }
 
     return true;
@@ -393,7 +446,10 @@ window.Joomla.Modal = window.Joomla.Modal || {
       ? parseInt(newForm.boxchecked.value, 10) + 1
       : parseInt(newForm.boxchecked.value, 10) - 1;
 
-    Joomla.Event.dispatch(newForm.boxchecked, 'change');
+    newForm.boxchecked.dispatchEvent(new CustomEvent('change', {
+      bubbles: true,
+      cancelable: true,
+    }));
 
     // If we don't have a checkall-toggle, done.
     if (!newForm.elements['checkall-toggle']) {
@@ -525,6 +581,7 @@ window.Joomla.Modal = window.Joomla.Modal || {
    *    onBefore:  (xhr) => {}            // Callback on before the request
    *    onSuccess: (response, xhr) => {}, // Callback on the request success
    *    onError:   (xhr) => {},           // Callback on the request error
+   *    onComplete: (xhr) => {},          // Callback on the request completed, with/without error
    * }
    *
    * @return XMLHttpRequest|Boolean
@@ -567,7 +624,7 @@ window.Joomla.Modal = window.Joomla.Modal || {
           xhr.setRequestHeader('X-CSRF-Token', token);
         }
 
-        if (!newOptions.headers || !newOptions.headers['Content-Type']) {
+        if (typeof newOptions.data === 'string' && (!newOptions.headers || !newOptions.headers['Content-Type'])) {
           xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
         }
       }
@@ -599,6 +656,10 @@ window.Joomla.Modal = window.Joomla.Modal || {
         } else if (newOptions.onError) {
           newOptions.onError.call(window, xhr);
         }
+
+        if (newOptions.onComplete) {
+          newOptions.onComplete.call(window, xhr);
+        }
       };
 
       // Do request
@@ -620,110 +681,17 @@ window.Joomla.Modal = window.Joomla.Modal || {
   };
 
   /**
-   * Render messages send via JSON
-   * Used by some javascripts such as validate.js
    *
-   * @param   {object}  messages JavaScript object containing the messages to render.
-   *          Example:
-   *          const messages = {
-   *              "message": ["This will be a green message", "So will this"],
-   *              "error": ["This will be a red message", "So will this"],
-   *              "info": ["This will be a blue message", "So will this"],
-   *              "notice": ["This will be same as info message", "So will this"],
-   *              "warning": ["This will be a orange message", "So will this"],
-   *              "my_custom_type": ["This will be same as info message", "So will this"]
-   *          };
-   * @param  {string} selector The selector of the container where the message will be rendered
-   * @param  {bool}   keepOld  If we shall discard old messages
-   * @param  {int}    timeout  The milliseconds before the message self destruct
-   * @return  void
+   * @param {string} unsafeHtml The html for sanitization
+   * @param {object} allowList The list of HTMLElements with an array of allowed attributes
+   * @param {function} sanitizeFn A custom sanitization function
+   *
+   * @return string
    */
-  Joomla.renderMessages = (messages, selector, keepOld, timeout) => {
-    let messageContainer;
-    let typeMessages;
-    let messagesBox;
-    let title;
-    let titleWrapper;
-    let messageWrapper;
-    let alertClass;
-
-    if (typeof selector === 'undefined' || (selector && selector === '#system-message-container')) {
-      messageContainer = document.getElementById('system-message-container');
-    } else {
-      messageContainer = document.querySelector(selector);
-    }
-
-    if (typeof keepOld === 'undefined' || (keepOld && keepOld === false)) {
-      Joomla.removeMessages(messageContainer);
-    }
-
-    [].slice.call(Object.keys(messages)).forEach((type) => {
-      // Array of messages of this type
-      typeMessages = messages[type];
-      messagesBox = document.createElement('joomla-alert');
-
-      if (['notice', 'message', 'error', 'warning'].indexOf(type) > -1) {
-        alertClass = (type === 'notice') ? 'info' : type;
-        alertClass = (type === 'message') ? 'success' : alertClass;
-        alertClass = (type === 'error') ? 'danger' : alertClass;
-        alertClass = (type === 'warning') ? 'warning' : alertClass;
-      } else {
-        alertClass = 'info';
-      }
-
-      messagesBox.setAttribute('type', alertClass);
-      messagesBox.setAttribute('dismiss', 'true');
-
-      if (timeout && parseInt(timeout, 10) > 0) {
-        messagesBox.setAttribute('autodismiss', timeout);
-      }
-
-      // Title
-      title = Joomla.Text._(type);
-
-      // Skip titles with untranslated strings
-      if (typeof title !== 'undefined') {
-        titleWrapper = document.createElement('div');
-        titleWrapper.className = 'alert-heading';
-        titleWrapper.innerHTML = `<span class="${type}"></span><span class="visually-hidden">${Joomla.Text._(type) ? Joomla.Text._(type) : type}</span>`;
-        messagesBox.appendChild(titleWrapper);
-      }
-
-      // Add messages to the message box
-      messageWrapper = document.createElement('div');
-      messageWrapper.className = 'alert-wrapper';
-      typeMessages.forEach((typeMessage) => {
-        messageWrapper.innerHTML += `<div class="alert-message">${typeMessage}</div>`;
-      });
-      messagesBox.appendChild(messageWrapper);
-
-      messageContainer.appendChild(messagesBox);
-    });
-  };
-
-  /**
-   * Remove messages
-   *
-   * @param  {element} container The element of the container of the message
-   * to be removed
-   *
-   * @return  {void}
-   */
-  Joomla.removeMessages = (container) => {
-    let messageContainer;
-
-    if (container) {
-      messageContainer = container;
-    } else {
-      messageContainer = document.getElementById('system-message-container');
-    }
-
-    const alerts = [].slice.call(messageContainer.querySelectorAll('joomla-alert'));
-    if (alerts.length) {
-      alerts.forEach((alert) => {
-        alert.close();
-      });
-    }
+  Joomla.sanitizeHtml = (unsafeHtml, allowList, sanitizeFn) => {
+    const allowed = (allowList === undefined || allowList === null)
+      ? DefaultAllowlist : { ...DefaultAllowlist, ...allowList };
+    return sanitizeHtml(unsafeHtml, allowed, sanitizeFn);
   };
 
   /**
@@ -774,88 +742,3 @@ window.Joomla.Modal = window.Joomla.Modal || {
     return msg;
   };
 })(Joomla);
-
-/**
- * Joomla! Custom events
- *
- * @since  4.0.0
- */
-((window, Joomla) => {
-  'use strict';
-
-  if (Joomla.Event) {
-    return;
-  }
-
-  Joomla.Event = {};
-
-  /**
-   * Dispatch custom event.
-   *
-   * An event name convention:
-   *     The event name has at least two part, separated ":", eg `foo:bar`.
-   *     Where the first part is an "event supporter",
-   *     and second part is the event name which happened.
-   *     Which is allow us to avoid possible collisions with another scripts
-   *     and native DOM events.
-   *     Joomla! CMS standard events should start from `joomla:`.
-   *
-   * Joomla! events:
-   *     `joomla:updated`  Dispatch it over the changed container,
-   *      example after the content was updated via ajax
-   *     `joomla:removed`  The container was removed
-   *
-   * @param {HTMLElement|string}  element  DOM element, the event target. Or the event name,
-   * then the target will be a Window
-   * @param {String|Object}       name     The event name, or an optional parameters in case
-   * when "element" is an event name
-   * @param {Object}              params   An optional parameters. Allow to send a custom data
-   * through the event.
-   *
-   * @example
-   *
-   *   Joomla.Event.dispatch(myElement, 'joomla:updated', {for: 'bar', foo2: 'bar2'});
-   *   // Will dispatch event to myElement
-   *   or:
-   *   Joomla.Event.dispatch('joomla:updated', {for: 'bar', foo2: 'bar2'});
-   *   // Will dispatch event to Window
-   *
-   * @since   4.0.0
-   */
-  Joomla.Event.dispatch = (element, name, params) => {
-    let newElement = element;
-    let newName = name;
-    let newParams = params;
-    if (typeof element === 'string') {
-      newParams = name;
-      newName = element;
-      newElement = window;
-    }
-    newParams = newParams || {};
-
-    newElement.dispatchEvent(new CustomEvent(newName, {
-      detail: newParams,
-      bubbles: true,
-      cancelable: true,
-    }));
-  };
-
-  /**
-   * Once listener. Add EventListener to the Element and auto-remove it
-   * after the event was dispatched.
-   *
-   * @param {HTMLElement}  element   DOM element
-   * @param {String}       name      The event name
-   * @param {Function}     callback  The event callback
-   *
-   * @since   4.0.0
-   */
-  Joomla.Event.listenOnce = (element, name, callback) => {
-    const onceCallback = (event) => {
-      element.removeEventListener(name, onceCallback);
-      return callback.call(element, event);
-    };
-
-    element.addEventListener(name, onceCallback);
-  };
-})(window, Joomla);

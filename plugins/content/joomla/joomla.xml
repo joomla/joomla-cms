@@ -13,8 +13,8 @@
 		<filename plugin="joomla">joomla.php</filename>
 	</files>
 	<languages>
-		<language tag="en-GB">en-GB.plg_content_joomla.ini</language>
-		<language tag="en-GB">en-GB.plg_content_joomla.sys.ini</language>
+		<language tag="en-GB">language/en-GB/plg_content_joomla.ini</language>
+		<language tag="en-GB">language/en-GB/plg_content_joomla.sys.ini</language>
 	</languages>
 	<config>
 		<fields name="params">

@@ -9,6 +9,7 @@
 				directory="images"
 				hide_none="true"
 				recursive="true"
+				validate="options"
 			/>
 
 			<field
@@ -27,7 +28,6 @@
 				name="image_class"
 				type="textarea"
 				label="PLG_FIELDS_MEDIA_PARAMS_IMAGE_CLASS_LABEL"
-				size="40"
 				validate="CssIdentifier"
 			/>
 		</fieldset>

@@ -292,6 +292,7 @@ class Date extends \DateTime
 	 *
 	 * @since   1.7.0
 	 */
+	#[\ReturnTypeWillChange]
 	public function format($format, $local = false, $translate = true)
 	{
 		if ($translate)
@@ -336,7 +337,7 @@ class Date extends \DateTime
 			}
 		}
 
-		if ($local == false)
+		if ($local == false && $this->tz !== null)
 		{
 			parent::setTimezone($this->tz);
 		}
@@ -409,6 +410,7 @@ class Date extends \DateTime
 	 * @since   1.7.0
 	 * @note    This method can't be type hinted due to a PHP bug: https://bugs.php.net/bug.php?id=61483
 	 */
+	#[\ReturnTypeWillChange]
 	public function setTimezone($tz)
 	{
 		$this->tz = $tz;
@@ -429,7 +431,7 @@ class Date extends \DateTime
 	 */
 	public function toISO8601($local = false)
 	{
-		return $this->format(\DateTime::RFC3339, $local, false);
+		return $this->format(\DateTimeInterface::RFC3339, $local, false);
 	}
 
 	/**
@@ -466,7 +468,7 @@ class Date extends \DateTime
 	 */
 	public function toRFC822($local = false)
 	{
-		return $this->format(\DateTime::RFC2822, $local, false);
+		return $this->format(\DateTimeInterface::RFC2822, $local, false);
 	}
 
 	/**

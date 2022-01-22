@@ -50,7 +50,7 @@ const getWcMinifiedCss = async (file) => {
  */
 module.exports.handleESMFile = async (file) => {
   // eslint-disable-next-line no-console
-  console.log(`Tranpiling ES2017 file: ${basename(file).replace('.es6.js', '.js')}...`);
+  console.log(`Transpiling ES2017 file: ${basename(file).replace('.es6.js', '.js')}...`);
   const newPath = file.replace(/\.w-c\.es6\.js$/, '').replace(/\.es6\.js$/, '').replace(`${sep}build${sep}media_source${sep}`, `${sep}media${sep}`);
   const minifiedCss = await getWcMinifiedCss(file);
   const bundle = await rollup.rollup({
@@ -60,6 +60,7 @@ module.exports.handleESMFile = async (file) => {
         preferBuiltins: false,
       }),
       replace({
+        preventAssignment: true,
         CSS_CONTENTS_PLACEHOLDER: minifiedCss,
         delimiters: ['{{', '}}'],
       }),
@@ -72,7 +73,11 @@ module.exports.handleESMFile = async (file) => {
             '@babel/preset-env',
             {
               targets: {
-                esmodules: true,
+                browsers: [
+                  '> 1%',
+                  'not ie 11',
+                  'not op_mini all',
+                ],
               },
               bugfixes: true,
               loose: true,
@@ -91,7 +96,7 @@ module.exports.handleESMFile = async (file) => {
   });
 
   // eslint-disable-next-line no-console
-  console.log(`ES2017 file: ${basename(file).replace('.es6.js', '.js')}: transpiled ✅`);
+  console.log(`ES2017 file: ${basename(file).replace('.es6.js', '.js')}: ✅ transpiled`);
 
   await handleESMToLegacy(resolve(`${newPath}.js`));
   await minifyJs(resolve(`${newPath}.js`));
