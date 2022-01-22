@@ -555,17 +555,8 @@ class Nested extends Table
 			/** @var Asset $asset */
 			$asset = Table::getInstance('Asset', 'JTable', array('dbo' => $this->getDbo()));
 
-			// Lock the table for writing.
-			if (!$asset->_lock())
-			{
-				// Error message set in lock method.
-				return false;
-			}
-
 			if ($asset->loadByName($name))
 			{
-				$asset->_unlock();
-
 				// Delete the node in assets table.
 				if (!$asset->delete(null, $children))
 				{
@@ -577,7 +568,6 @@ class Nested extends Table
 			else
 			{
 				$this->setError($asset->getError());
-				$asset->_unlock();
 
 				return false;
 			}
