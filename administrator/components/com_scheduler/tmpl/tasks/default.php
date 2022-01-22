@@ -10,6 +10,7 @@
 // Restrict direct access
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Application\CMSWebApplicationInterface;
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
@@ -37,8 +38,10 @@ Text::script('JLIB_JS_AJAX_ERROR_PARSE');
 
 try
 {
+	/** @var CMSWebApplicationInterface $app */
 	$app = Factory::getApplication();
-} catch (Exception $e)
+}
+catch (Exception $e)
 {
 	die('Failed to get app');
 }
@@ -57,7 +60,9 @@ if ($saveOrder && !empty($this->items))
 	HTMLHelper::_('draggablelist.draggable');
 }
 
-$app->getDocument()->getWebAssetManager()->useScript('com_scheduler.test-task');
+$document = $app->getDocument();
+$document->addScriptOptions('com_scheduler.test-task.token', Session::getFormToken());
+$document->getWebAssetManager()->useScript('com_scheduler.test-task');
 ?>
 
 <form action="<?php echo Route::_('index.php?option=com_scheduler&view=tasks'); ?>" method="post" name="adminForm"

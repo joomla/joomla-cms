@@ -69,7 +69,7 @@ export default {
     },
     /* Edit an item */
     editItem() {
-      // TODO should we use relative urls here?
+      // @todo should we use relative urls here?
       const fileBaseUrl = `${Joomla.getOptions('com_media').editViewUrl}&path=`;
 
       window.location.href = fileBaseUrl + this.item.path;

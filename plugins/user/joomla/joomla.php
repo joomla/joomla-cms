@@ -150,7 +150,7 @@ class PlgUserJoomla extends CMSPlugin
 			return;
 		}
 
-		// TODO: Suck in the frontend registration emails here as well. Job for a rainy day.
+		// @todo: Suck in the frontend registration emails here as well. Job for a rainy day.
 		// The method check here ensures that if running as a CLI Application we don't get any errors
 		if (method_exists($this->app, 'isClient') && !$this->app->isClient('administrator'))
 		{
@@ -412,7 +412,7 @@ class PlgUserJoomla extends CMSPlugin
 			return $instance;
 		}
 
-		// TODO : move this out of the plugin
+		// @todo : move this out of the plugin
 		$params = ComponentHelper::getParams('com_users');
 
 		// Read the default user group option from com_users

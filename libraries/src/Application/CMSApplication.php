@@ -199,7 +199,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 	public function enqueueMessage($msg, $type = self::MSG_INFO)
 	{
 		// Don't add empty messages.
-		if (trim($msg) === '')
+		if ($msg === null || trim($msg) === '')
 		{
 			return;
 		}
