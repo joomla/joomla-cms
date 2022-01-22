@@ -560,7 +560,7 @@
       // Handle drag action, move element to hovered position
       this.addEventListener('dragenter', ({ target }) => {
         // Make sure the target in the correct container
-        if (!item || target.parentElement.closest('joomla-field-subform') !== that){
+        if (!item || target.parentElement.closest('joomla-field-subform') !== that) {
           return;
         }
 
