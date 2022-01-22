@@ -557,8 +557,6 @@ class Nested extends Table
 
 			if ($asset->loadByName($name))
 			{
-				$asset->_unlock();
-
 				// Delete the node in assets table.
 				if (!$asset->delete(null, $children))
 				{
