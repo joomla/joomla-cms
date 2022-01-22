@@ -18,7 +18,7 @@ if (!window.Joomla) {
 const initRunner = () => {
   const paths = Joomla.getOptions('system.paths');
   const token = Joomla.getOptions('com_scheduler.test-task.token');
-  const uri = `${paths ? `${paths.base}/index.php` : window.location.pathname}?option=com_ajax&format=json&plugin=RunSchedulerTest&group=system&id=%d${token ? `&${token}=1` : ''}`;
+  const uri = `${paths ? `${paths.base}/index.php` : window.location.pathname}?option=com_ajax&format=json&plugin=RunSchedulerTask&group=system&id=%d${token ? `&${token}=1` : ''}`;
   const modal = document.getElementById('scheduler-task-modal');
 
   // Task output template
