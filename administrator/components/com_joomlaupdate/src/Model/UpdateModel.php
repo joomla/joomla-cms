@@ -1073,7 +1073,7 @@ ENDDATA;
 
 		foreach ($files as $file)
 		{
-			if (File::exists($file))
+			if ($file !== null && File::exists($file))
 			{
 				File::delete($file);
 			}
