@@ -89,7 +89,7 @@ class PlgSystemSchedulerunner extends CMSPlugin implements SubscriberInterface
 				$mapping['onContentPrepareForm'] = 'enhanceSchedulerConfig';
 				$mapping['onExtensionBeforeSave'] = 'generateWebcronKey';
 
-				$mapping['onAjaxRunSchedulerTest'] = 'runTaskCron';
+				$mapping['onAjaxRunSchedulerTask'] = 'runTaskCron';
 			}
 		}
 
