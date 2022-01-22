@@ -148,11 +148,6 @@ abstract class FieldsPlugin extends CMSPlugin
 		// Get the path for the layout file
 		$path = PluginHelper::getLayoutPath('fields', $this->_name, $field->type);
 
-		if (!file_exists($path))
-		{
-			$path = PluginHelper::getLayoutPath('fields', $this->_name, $field->type);
-		}
-
 		// Render the layout
 		ob_start();
 		include $path;
@@ -264,8 +259,8 @@ abstract class FieldsPlugin extends CMSPlugin
 	/**
 	 * Returns the path of the XML definition file for the field parameters
 	 *
-	 * @param   Form      $form  The form
-	 * @param   stdClass  $data  The data
+	 * @param   Form       $form  The form
+	 * @param   \stdClass  $data  The data
 	 *
 	 * @return  string
 	 *

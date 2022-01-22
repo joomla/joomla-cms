@@ -117,6 +117,7 @@
 			default="en"
 			hide_default="1"
 			fileFilter="\.js$"
+			exclude="\.min\.js$"
 			showon="lang_mode:0"
 			validate="options"
 		/>
