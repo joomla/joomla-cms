@@ -531,6 +531,12 @@ class Access
 
 				foreach ($ancestors as $id)
 				{
+					// Skip if no permission parent ID mapping for the ancestor
+					if (!isset(self::$assetPermissionsParentIdMapping[$extensionName][$id]))
+					{
+						continue;
+					}
+
 					// If full recursive mode, but not recursive parent mode, do not add the extension asset rules.
 					if ($recursive && !$recursiveParentAsset && self::$assetPermissionsParentIdMapping[$extensionName][$id]->name === $extensionName)
 					{
