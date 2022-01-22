@@ -305,7 +305,7 @@ class BaseController implements ControllerInterface
 		else
 		{
 			// Base controller.
-			$type = null;
+			$type = '';
 
 			// Define the controller filename and path.
 			$file       = self::createFileName('controller', array('name' => 'controller', 'format' => $format));
@@ -375,8 +375,8 @@ class BaseController implements ControllerInterface
 		$this->redirect = null;
 		$this->taskMap = array();
 
-		$this->app   = $app ? $app : Factory::getApplication();
-		$this->input = $input ? $input : $this->app->input;
+		$this->app   = $app ?: Factory::getApplication();
+		$this->input = $input ?: $this->app->input;
 
 		if (\defined('JDEBUG') && JDEBUG)
 		{

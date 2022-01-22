@@ -87,13 +87,13 @@ class OverridesController extends ApiController
 		/** @var \Joomla\CMS\MVC\Model\AdminModel $model */
 		$model = $this->getModel(Inflector::singularize($this->contentType));
 
-		$model->setState('filter.language', $this->input->post->get('lang_code'));
-		$model->setState('filter.client', $this->input->post->get('app'));
-
 		if (!$model)
 		{
 			throw new \RuntimeException(Text::_('JLIB_APPLICATION_ERROR_MODEL_CREATE'));
 		}
+
+		$model->setState('filter.language', $this->input->post->get('lang_code'));
+		$model->setState('filter.client', $this->input->post->get('app'));
 
 		$data = $this->input->get('data', json_decode($this->input->json->getRaw(), true), 'array');
 

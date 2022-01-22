@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "ef91bd09b51a45a3f71421d757c6d34d",
+    "content-hash": "3ef32f7badc65019c62068bcb567f167",
     "packages": [
         {
             "name": "algo26-matthias/idna-convert",
@@ -1074,16 +1074,16 @@
         },
         {
             "name": "joomla/database",
-            "version": "2.0.1",
+            "version": "2.0.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-framework/database.git",
-                "reference": "98709eec31d9a3432611adc3c87a4c9a506279d9"
+                "reference": "142a624df2f48858467de67a4542d77807cc968b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-framework/database/zipball/98709eec31d9a3432611adc3c87a4c9a506279d9",
-                "reference": "98709eec31d9a3432611adc3c87a4c9a506279d9",
+                "url": "https://api.github.com/repos/joomla-framework/database/zipball/142a624df2f48858467de67a4542d77807cc968b",
+                "reference": "142a624df2f48858467de67a4542d77807cc968b",
                 "shasum": ""
             },
             "require": {
@@ -1138,7 +1138,7 @@
             ],
             "support": {
                 "issues": "https://github.com/joomla-framework/database/issues",
-                "source": "https://github.com/joomla-framework/database/tree/2.0.1"
+                "source": "https://github.com/joomla-framework/database/tree/2.0.2"
             },
             "funding": [
                 {
@@ -1150,7 +1150,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2021-12-10T11:53:59+00:00"
+            "time": "2022-01-10T02:28:52+00:00"
         },
         {
             "name": "joomla/di",
@@ -2461,16 +2461,16 @@
         },
         {
             "name": "paragonie/sodium_compat",
-            "version": "v1.9.4",
+            "version": "v1.17.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/paragonie/sodium_compat.git",
-                "reference": "91c1362bb0084c02828d43bbc9ee38831297329e"
+                "reference": "c59cac21abbcc0df06a3dd18076450ea4797b321"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/paragonie/sodium_compat/zipball/91c1362bb0084c02828d43bbc9ee38831297329e",
-                "reference": "91c1362bb0084c02828d43bbc9ee38831297329e",
+                "url": "https://api.github.com/repos/paragonie/sodium_compat/zipball/c59cac21abbcc0df06a3dd18076450ea4797b321",
+                "reference": "c59cac21abbcc0df06a3dd18076450ea4797b321",
                 "shasum": ""
             },
             "require": {
@@ -2478,7 +2478,7 @@
                 "php": "^5.2.4|^5.3|^5.4|^5.5|^5.6|^7|^8"
             },
             "require-dev": {
-                "phpunit/phpunit": "^3|^4|^5"
+                "phpunit/phpunit": "^3|^4|^5|^6|^7|^8|^9"
             },
             "suggest": {
                 "ext-libsodium": "PHP < 7.0: Better performance, password hashing (Argon2i), secure memory management (memzero), and better security.",
@@ -2541,9 +2541,9 @@
             ],
             "support": {
                 "issues": "https://github.com/paragonie/sodium_compat/issues",
-                "source": "https://github.com/paragonie/sodium_compat/tree/master"
+                "source": "https://github.com/paragonie/sodium_compat/tree/v1.17.0"
             },
-            "time": "2019-05-09T23:30:36+00:00"
+            "time": "2021-08-10T02:43:50+00:00"
         },
         {
             "name": "php-http/message-factory",
@@ -4662,16 +4662,16 @@
         },
         {
             "name": "tobscure/json-api",
-            "version": "v0.4.1",
+            "version": "dev-joomla-backports",
             "source": {
                 "type": "git",
-                "url": "https://github.com/tobscure/json-api.git",
-                "reference": "d4ba8437977c33a5189d95d9ffa751997f13b104"
+                "url": "https://github.com/joomla-backports/json-api-php.git",
+                "reference": "e2ad4287b17cc2872d75c85857306371f3de5514"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/tobscure/json-api/zipball/d4ba8437977c33a5189d95d9ffa751997f13b104",
-                "reference": "d4ba8437977c33a5189d95d9ffa751997f13b104",
+                "url": "https://api.github.com/repos/joomla-backports/json-api-php/zipball/e2ad4287b17cc2872d75c85857306371f3de5514",
+                "reference": "e2ad4287b17cc2872d75c85857306371f3de5514",
                 "shasum": ""
             },
             "require": {
@@ -4680,6 +4680,7 @@
             "require-dev": {
                 "phpunit/phpunit": "^4.8 || ^5.0"
             },
+            "default-branch": true,
             "type": "library",
             "extra": {
                 "branch-alias": {
@@ -4691,7 +4692,11 @@
                     "Tobscure\\JsonApi\\": "src/"
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
+            "autoload-dev": {
+                "psr-4": {
+                    "Tobscure\\Tests\\JsonApi\\": "tests/"
+                }
+            },
             "license": [
                 "MIT"
             ],
@@ -4708,11 +4713,7 @@
                 "jsonapi",
                 "standard"
             ],
-            "support": {
-                "issues": "https://github.com/tobscure/json-api/issues",
-                "source": "https://github.com/tobscure/json-api/tree/v0.4.1"
-            },
-            "time": "2017-03-05T21:16:24+00:00"
+            "time": "2022-01-08T20:57:18+00:00"
         },
         {
             "name": "typo3/phar-stream-wrapper",
@@ -4751,7 +4752,11 @@
                     "TYPO3\\PharStreamWrapper\\": "src/"
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
+            "autoload-dev": {
+                "psr-4": {
+                    "Tobscure\\Tests\\JsonApi\\": "tests/"
+                }
+            },
             "license": [
                 "MIT"
             ],
@@ -9811,6 +9816,7 @@
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
+        "tobscure/json-api": 20,
         "joomla/cms-coding-standards": 20,
         "joomla/coding-standards": 20,
         "joomla-projects/joomla-browser": 20
@@ -9827,5 +9833,5 @@
     "platform-overrides": {
         "php": "7.2.5"
     },
-    "plugin-api-version": "2.1.0"
+    "plugin-api-version": "2.2.0"
 }

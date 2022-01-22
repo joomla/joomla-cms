@@ -45,7 +45,7 @@ class FormRule
 	 * @var    string
 	 * @since  1.6
 	 */
-	protected $modifiers;
+	protected $modifiers = '';
 
 	/**
 	 * Method to test the value.

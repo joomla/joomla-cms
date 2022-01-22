@@ -542,7 +542,12 @@ class User extends Table
 			}
 		}
 
-		// If no timestamp value is passed to function, than current time is used.
+		// If no timestamp value is passed to function, then current time is used.
+		if ($timeStamp === null)
+		{
+			$timeStamp = 'now';
+		}
+
 		$date      = Factory::getDate($timeStamp);
 		$userId    = (int) $userId;
 		$lastVisit = $date->toSql();
