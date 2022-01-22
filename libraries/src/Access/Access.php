@@ -531,7 +531,7 @@ class Access
 
 				foreach ($ancestors as $id)
 				{
-					// Skip if no permission parent ID mapping for the ancestor
+					// There are no rules for this ancestor
 					if (!isset(self::$assetPermissionsParentIdMapping[$extensionName][$id]))
 					{
 						continue;
