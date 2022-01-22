@@ -89,7 +89,7 @@ class PlgSystemSchedulerunner extends CMSPlugin implements SubscriberInterface
 				$mapping['onContentPrepareForm'] = 'enhanceSchedulerConfig';
 				$mapping['onExtensionBeforeSave'] = 'generateWebcronKey';
 
-				$mapping['onAjaxRunSchedulerTest'] = 'runTestCron';
+				$mapping['onAjaxRunSchedulerTest'] = 'runTaskCron';
 			}
 		}
 
@@ -252,7 +252,7 @@ class PlgSystemSchedulerunner extends CMSPlugin implements SubscriberInterface
 	 *
 	 * @throws Exception
 	 */
-	public function runTestCron(Event $event)
+	public function runTaskCron(Event $event)
 	{
 		if (!Session::checkToken('GET'))
 		{
