@@ -31,7 +31,7 @@ class OverrideModel extends AdminModel
 	 * @param   array    $data      Data for the form.
 	 * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
 	 *
-	 * @return  mixed A \JForm object on success, false on failure.
+	 * @return  \Joomla\CMS\Form\Form|bool  A Form object on success, false on failure.
 	 *
 	 * @since   2.5
 	 */

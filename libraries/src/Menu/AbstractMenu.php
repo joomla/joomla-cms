@@ -26,6 +26,7 @@ abstract class AbstractMenu
 	 * Array to hold the menu items
 	 *
 	 * @var    MenuItem[]
+	 *
 	 * @since  4.0.0
 	 */
 	protected $items = array();
@@ -34,6 +35,7 @@ abstract class AbstractMenu
 	 * Identifier of the default menu item. Key of the array is the language.
 	 *
 	 * @var    integer[]
+	 *
 	 * @since  4.0.0
 	 */
 	protected $default = array();
@@ -42,6 +44,7 @@ abstract class AbstractMenu
 	 * Identifier of the active menu item
 	 *
 	 * @var    integer
+	 *
 	 * @since  4.0.0
 	 */
 	protected $active = 0;
@@ -50,6 +53,7 @@ abstract class AbstractMenu
 	 * Menu instances container.
 	 *
 	 * @var    AbstractMenu[]
+	 *
 	 * @since  1.7
 	 */
 	protected static $instances = array();
@@ -58,6 +62,7 @@ abstract class AbstractMenu
 	 * User object to check access levels for
 	 *
 	 * @var    User
+	 *
 	 * @since  3.9.26
 	 */
 	protected $storedUser;
@@ -66,6 +71,7 @@ abstract class AbstractMenu
 	 * Flag for checking if the menu items have been loaded
 	 *
 	 * @var    boolean
+	 *
 	 * @since  4.0.0
 	 */
 	private $itemsLoaded = false;
@@ -86,9 +92,10 @@ abstract class AbstractMenu
 		 * but the user can be updated later (by the Remember me plugin for instance). As the stored
 		 * user object is not updated, the menu will render incorrectly, not complying with
 		 * menu items access levels.
-		 * See https://github.com/joomla/joomla-cms/issues/11541
+		 *
+		 * @see https://github.com/joomla/joomla-cms/issues/11541
 		 */
-		$this->storedUser = isset($options['user']) && $options['user'] instanceof \JUser ? $options['user'] : null;
+		$this->storedUser = isset($options['user']) && $options['user'] instanceof User ? $options['user'] : null;
 	}
 
 	/**
@@ -99,8 +106,10 @@ abstract class AbstractMenu
 	 *
 	 * @return  AbstractMenu  A menu object.
 	 *
-	 * @throws      \Exception
 	 * @since       1.5
+	 *
+	 * @throws      \Exception
+	 *
 	 * @deprecated  5.0 Use the MenuFactoryInterface from the container instead
 	 */
 	public static function getInstance($client, $options = array())
@@ -123,7 +132,7 @@ abstract class AbstractMenu
 	 *
 	 * @param   User  $user  The new user to set.
 	 *
-	 * @return null
+	 * @return  void
 	 *
 	 * @since 3.9.26
 	 */
@@ -180,7 +189,7 @@ abstract class AbstractMenu
 	 *
 	 * @param   string  $language  The language code, default value of * means all.
 	 *
-	 * @return  MenuItem|null  The item object or null when not found for given language
+	 * @return  MenuItem|void  The item object or null when not found for given language
 	 *
 	 * @since   1.5
 	 */
@@ -205,7 +214,7 @@ abstract class AbstractMenu
 	 *
 	 * @param   integer  $id  The item id
 	 *
-	 * @return  MenuItem|null  The menu item representing the given ID if present or null otherwise
+	 * @return  MenuItem|void  The menu item representing the given ID if present or null otherwise
 	 *
 	 * @since   1.5
 	 */
@@ -222,7 +231,7 @@ abstract class AbstractMenu
 	/**
 	 * Get menu item by id.
 	 *
-	 * @return  MenuItem|null  The item object if an active menu item has been set or null
+	 * @return  MenuItem|void  The item object if an active menu item has been set or null
 	 *
 	 * @since   1.5
 	 */
@@ -421,4 +430,3 @@ abstract class AbstractMenu
 		return null;
 	}
 }
-

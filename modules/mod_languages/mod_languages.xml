@@ -19,7 +19,7 @@
 		<language tag="en-GB">language/en-GB/mod_languages.ini</language>
 		<language tag="en-GB">language/en-GB/mod_languages.sys.ini</language>
 	</languages>
-	<help key="JHELP_EXTENSIONS_MODULE_MANAGER_LANGUAGE_SWITCHER" />
+	<help key="Site_Modules:_Language_Switcher" />
 	<config>
 		<fieldset>
 			<field

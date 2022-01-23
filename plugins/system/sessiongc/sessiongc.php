@@ -32,7 +32,7 @@ class PlgSystemSessionGc extends CMSPlugin
 	/**
 	 * Database driver
 	 *
-	 * @var    JDatabaseDriver
+	 * @var    \Joomla\Database\DatabaseDriver
 	 * @since  3.8.6
 	 */
 	protected $db;

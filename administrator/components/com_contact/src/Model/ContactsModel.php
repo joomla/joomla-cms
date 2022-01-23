@@ -137,7 +137,7 @@ class ContactsModel extends ListModel
 	/**
 	 * Build an SQL query to load the list data.
 	 *
-	 * @return  \JDatabaseQuery
+	 * @return  \Joomla\Database\DatabaseQuery
 	 *
 	 * @since   1.6
 	 */
@@ -346,7 +346,7 @@ class ContactsModel extends ListModel
 			$categoryTable = Table::getInstance('Category', 'JTable');
 			$subCatItemsWhere = array();
 
-			// TODO: Convert to prepared statement
+			// @todo: Convert to prepared statement
 			foreach ($categoryId as $filter_catid)
 			{
 				$categoryTable->load($filter_catid);

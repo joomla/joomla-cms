@@ -104,9 +104,9 @@ class PluginsModel extends ListModel
 	/**
 	 * Returns an object list.
 	 *
-	 * @param   \JDatabaseQuery  $query       A database query object.
-	 * @param   integer          $limitstart  Offset.
-	 * @param   integer          $limit       The number of records.
+	 * @param   \Joomla\Database\DatabaseQuery  $query       A database query object.
+	 * @param   integer                         $limitstart  Offset.
+	 * @param   integer                         $limit       The number of records.
 	 *
 	 * @return  array
 	 */
@@ -202,7 +202,7 @@ class PluginsModel extends ListModel
 	/**
 	 * Build an SQL query to load the list data.
 	 *
-	 * @return  \JDatabaseQuery
+	 * @return  \Joomla\Database\DatabaseQuery
 	 */
 	protected function getListQuery()
 	{
@@ -295,7 +295,7 @@ class PluginsModel extends ListModel
 	{
 		$data = parent::loadFormData();
 
-		// Set the selected filter values for pages that use the \JLayouts for filtering
+		// Set the selected filter values for pages that use the Layouts for filtering
 		$data->list['sortTable'] = $this->state->get('list.ordering');
 		$data->list['directionTable'] = $this->state->get('list.direction');
 
