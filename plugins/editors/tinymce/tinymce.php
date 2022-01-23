@@ -600,7 +600,7 @@ class PlgEditorTinymce extends JPlugin
 
 			if ($app->isClient('site'))
 			{
-				$uploadUrl = htmlentities($uploadUrl, null, 'UTF-8', null);
+				$uploadUrl = htmlentities((string) $uploadUrl, null, 'UTF-8', null);
 			}
 
 			// Is Joomla installed in subdirectory
