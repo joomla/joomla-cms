@@ -112,10 +112,11 @@ $wa->useScript('com_finder.maps');
 							<?php if (!$branchFilter) : ?>
 							<td class="text-center btns itemnumber">
 							<?php if ($item->rgt - $item->lft > 1) : ?>
-								<a href="<?php echo Route::_('index.php?option=com_finder&view=maps&filter[branch]=' . $item->id); ?>">
+								<a href="<?php echo Route::_('index.php?option=com_finder&view=maps&filter[branch]=' . $item->id); ?>"
+									aria-describedby="tip-map<?php echo $i; ?>">
 									<span class="btn btn-info"><?php echo floor(($item->rgt - $item->lft) / 2); ?></span>
 								</a>
-								<div role="tooltip" id="tip-unpublish<?php echo $i; ?>">
+								<div role="tooltip" id="tip-map<?php echo $i; ?>">
 									<?php echo Text::_('COM_FINDER_HEADING_CHILDREN'); ?>
 								</div>
 							<?php else : ?>
