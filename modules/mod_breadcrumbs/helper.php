@@ -51,7 +51,7 @@ class ModBreadCrumbsHelper
 		{
 			$crumbs[$i]       = new stdClass;
 			$crumbs[$i]->name = stripslashes(htmlspecialchars($items[$i]->name, ENT_COMPAT, 'UTF-8'));
-			$crumbs[$i]->link = JRoute::_($items[$i]->link);
+			$crumbs[$i]->link = !is_null($items[$i]->link) ? JRoute::_($items[$i]->link) : '';
 		}
 
 		if ($params->get('showHome', 1))
