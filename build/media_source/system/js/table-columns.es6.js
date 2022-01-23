@@ -54,7 +54,7 @@ class TableColumns {
     const $button = document.createElement('button');
     $button.type = 'button';
     $button.textContent = Joomla.Text._('JGLOBAL_COLUMNS');
-    $button.classList.add('btn', 'btn-primary', 'btn-sm');
+    $button.classList.add('btn', 'btn-primary', 'btn-sm', 'dropdown-toggle');
     $button.setAttribute('data-bs-toggle', 'dropdown');
     $button.setAttribute('data-bs-auto-close', 'false');
     $button.setAttribute('aria-haspopup', 'true');
