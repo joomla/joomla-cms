@@ -121,7 +121,7 @@ class Route
 	public static function link($client, $url, $xhtml = true, $tls = self::TLS_IGNORE, $absolute = false)
 	{
 		// If we cannot process this $url exit early.
-		if (is_null($url) || (!is_array($url) && (strpos($url, '&') !== 0) && (strpos($url, 'index.php') !== 0)))
+		if (!is_array($url) && (strpos($url, '&') !== 0) && (strpos($url, 'index.php') !== 0))
 		{
 			return $url;
 		}
