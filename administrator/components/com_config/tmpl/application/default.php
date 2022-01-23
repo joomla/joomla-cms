@@ -26,16 +26,7 @@ Text::script('MESSAGE');
 
 <form action="<?php echo Route::_('index.php?option=com_config'); ?>" id="application-form" method="post" name="adminForm" class="main-card form-validate">
 	<div class="row main-card-columns">
-		<div id="sidebar" class="col-md-3">
-			<button class="btn btn-sm btn-secondary my-2 options-menu d-md-none" type="button" data-bs-toggle="collapse" data-bs-target=".sidebar-nav" aria-controls="sidebar-nav" aria-expanded="false" aria-label="<?php echo Text::_('JTOGGLE_SIDEBAR_MENU'); ?>">
-				<span class="icon-align-justify" aria-hidden="true"></span>
-				<?php echo Text::_('JTOGGLE_SIDEBAR_MENU'); ?>
-			</button>
-			<div id="sidebar-nav" class="sidebar-nav">
-				<?php echo $this->loadTemplate('navigation'); ?>
-			</div>
-		</div>
-		<div class="col-md-9">
+		<div class="col-md-12">
 			<?php echo HTMLHelper::_('uitab.startTabSet', 'configTabs', ['active' => 'page-site', 'recall' => true, 'breakpoint' => 768]); ?>
 				<?php echo HTMLHelper::_('uitab.addTab', 'configTabs', 'page-site', Text::_('JSITE')); ?>
 					<?php echo $this->loadTemplate('site'); ?>

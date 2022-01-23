@@ -40,19 +40,7 @@ $xml = $this->form->getXml();
 
 <form action="<?php echo Route::_('index.php?option=com_config'); ?>" id="component-form" method="post" class="form-validate main-card" name="adminForm" autocomplete="off">
 	<div class="row main-card-columns">
-		<?php // Begin Sidebar ?>
-		<div class="col-md-3" id="sidebar">
-			<button class="btn btn-sm btn-secondary my-2 options-menu d-md-none" type="button" data-bs-toggle="collapse" data-bs-target=".sidebar-nav" aria-controls="sidebar-nav" aria-expanded="false">
-				 <span class="icon-align-justify" aria-hidden="true"></span>
-				 <?php echo Text::_('JTOGGLE_SIDEBAR_MENU'); ?>
-			</button>
-			<div id="sidebar-nav" class="sidebar-nav">
-				<?php echo $this->loadTemplate('navigation'); ?>
-			</div>
-		</div>
-		<?php // End Sidebar ?>
-
-		<div class="col-md-9" id="config">
+		<div class="col-md-12" id="config">
 			<?php if ($this->fieldsets) : ?>
 				<?php $opentab = 0; ?>
 
