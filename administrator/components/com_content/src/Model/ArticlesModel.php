@@ -88,7 +88,7 @@ class ArticlesModel extends ListModel
 	 * @param   array    $data      data
 	 * @param   boolean  $loadData  load current data
 	 *
-	 * @return  Form|null  The \JForm object or null if the form can't be found
+	 * @return  \Joomla\CMS\Form\Form|null  The Form object or null if the form can't be found
 	 *
 	 * @since   3.2
 	 */
