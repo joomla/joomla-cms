@@ -240,7 +240,7 @@ class PlgSystemSchedulerunner extends CMSPlugin implements SubscriberInterface
 	}
 
 	/**
-	 * This method is responsible for the "test run" functionality in the Scheduler administrator backend interface.
+	 * This method is responsible for the "run task" functionality in the Scheduler administrator backend interface.
 	 * Acting on a `com_ajax` call, this method requires the URL to have a `id` query parameter (corresponding to an
 	 * existing Task ID).
 	 *
@@ -294,7 +294,7 @@ class PlgSystemSchedulerunner extends CMSPlugin implements SubscriberInterface
 		{
 			/**
 			 * Placeholder result, but the idea is if we failed to fetch the task, it's likely because another task was
-			 * already running. This is a fair assumption if this test run was triggered through the administrator backend,
+			 * already running. This is a fair assumption if this run task was triggered through the administrator backend,
 			 * so we know the task probably exists and is either enabled/disabled (not trashed).
 			 */
 			// @todo language constant + review if this is done right.

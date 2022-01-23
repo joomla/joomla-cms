@@ -61,8 +61,8 @@ if ($saveOrder && !empty($this->items))
 }
 
 $document = $app->getDocument();
-$document->addScriptOptions('com_scheduler.test-task.token', Session::getFormToken());
-$document->getWebAssetManager()->useScript('com_scheduler.test-task');
+$document->addScriptOptions('com_scheduler.run-task.token', Session::getFormToken());
+$document->getWebAssetManager()->useScript('com_scheduler.run-task');
 ?>
 
 <form action="<?php echo Route::_('index.php?option=com_scheduler&view=tasks'); ?>" method="post" name="adminForm"
@@ -129,7 +129,7 @@ $document->getWebAssetManager()->useScript('com_scheduler.test-task');
 						<?php echo Text::_('COM_SCHEDULER_LAST_RUN_DATE'); ?>
 					</th>
 
-					<!-- Test task -->
+					<!-- Run task -->
 					<th scope="col">
 						<?php echo Text::_('COM_SCHEDULER_TASK_RUN'); ?>
 					</th>
@@ -222,7 +222,7 @@ $document->getWebAssetManager()->useScript('com_scheduler.test-task');
 							<?php echo $item->last_execution ? HTMLHelper::_('date', $item->last_execution, 'DATE_FORMAT_LC5') : '-'; ?>
 						</td>
 
-						<!-- Test task -->
+						<!-- Run task -->
 						<td class="small d-none d-md-table-cell">
 							<button type="button" class="btn btn-sm btn-warning" <?php echo $item->state < 0 ? 'disabled' : ''; ?> data-id="<?php echo (int) $item->id; ?>" data-title="<?php echo htmlspecialchars($item->title); ?>" data-bs-toggle="modal" data-bs-backdrop="static" data-bs-target="#scheduler-task-modal">
 								<span class="fa fa-play fa-sm me-2"></span>
@@ -243,7 +243,7 @@ $document->getWebAssetManager()->useScript('com_scheduler.test-task');
 				// Load the pagination. (@todo: testing)
 				echo $this->pagination->getListFooter();
 
-				// Modal for test runs
+				// Modal for task runs
 				$modalparams = [
 					'title' => '',
 				];
