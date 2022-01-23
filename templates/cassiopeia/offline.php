@@ -26,7 +26,7 @@ $wa               = $this->getWebAssetManager();
 $fullWidth = 1;
 
 // Template path
-$templatePath = 'templates/' . $this->template;
+$templatePath = 'media/templates/site/cassiopeia';
 
 // Color Theme
 $paramsColorName = $this->params->get('colorName', 'colors_standard');
