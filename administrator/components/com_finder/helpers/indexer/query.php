@@ -172,7 +172,7 @@ class FinderIndexerQuery
 	public function __construct($options)
 	{
 		// Get the input string.
-		$this->input = isset($options['input']) ? $options['input'] : null;
+		$this->input = isset($options['input']) ? $options['input'] : '';
 
 		// Get the empty query setting.
 		$this->empty = isset($options['empty']) ? (bool) $options['empty'] : false;
@@ -730,7 +730,7 @@ class FinderIndexerQuery
 	protected function processString($input, $lang, $mode)
 	{
 		// Clean up the input string.
-		$input = html_entity_decode((string) $input, ENT_QUOTES, 'UTF-8');
+		$input = html_entity_decode($input, ENT_QUOTES, 'UTF-8');
 		$input = StringHelper::strtolower($input);
 		$input = preg_replace('#\s+#mi', ' ', $input);
 		$input = trim($input);
