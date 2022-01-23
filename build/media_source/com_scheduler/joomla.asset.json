@@ -8,7 +8,7 @@
     {
       "name": "com_scheduler.run-task.es5",
       "type": "script",
-      "uri": "com_scheduler/admin-view-run-run-task-es5.js",
+      "uri": "com_scheduler/admin-view-run-task-es5.js",
       "dependencies": [
         "core"
       ],
@@ -20,7 +20,7 @@
     {
       "name": "com_scheduler.run-task",
       "type": "script",
-      "uri": "com_scheduler/admin-view-run-run-task.js",
+      "uri": "com_scheduler/admin-view-run-task.js",
       "dependencies": [
         "com_scheduler.run-task.es5"
       ],
