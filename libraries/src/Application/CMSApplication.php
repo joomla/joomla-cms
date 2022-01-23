@@ -1140,8 +1140,6 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 		{
 			return $registry->set($key, $value);
 		}
-
-		return;
 	}
 
 	/**
