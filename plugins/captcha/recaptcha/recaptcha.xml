@@ -24,7 +24,6 @@
 					type="list"
 					label="PLG_RECAPTCHA_VERSION_LABEL"
 					default="2.0"
-					size="1"
 					validate="options"
 					>
 					<option value="2.0">PLG_RECAPTCHA_VERSION_V2</option>
@@ -37,7 +36,6 @@
 					default=""
 					required="true"
 					filter="string"
-					size="100"
 					class="input-xxlarge"
 				/>
 
@@ -48,7 +46,6 @@
 					default=""
 					required="true"
 					filter="string"
-					size="100"
 					class="input-xxlarge"
 				/>
 

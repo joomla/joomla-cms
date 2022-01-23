@@ -79,6 +79,7 @@ class ExtensionHelper
 		array('component', 'com_postinstall', '', 1),
 		array('component', 'com_privacy', '', 1),
 		array('component', 'com_redirect', '', 1),
+		array('component', 'com_scheduler', '', 1),
 		array('component', 'com_tags', '', 1),
 		array('component', 'com_templates', '', 1),
 		array('component', 'com_users', '', 1),
@@ -283,12 +284,20 @@ class ExtensionHelper
 		array('plugin', 'privacyconsent', 'system', 0),
 		array('plugin', 'redirect', 'system', 0),
 		array('plugin', 'remember', 'system', 0),
+		array('plugin', 'schedulerunner', 'system', 0),
 		array('plugin', 'sef', 'system', 0),
 		array('plugin', 'sessiongc', 'system', 0),
 		array('plugin', 'skipto', 'system', 0),
 		array('plugin', 'stats', 'system', 0),
+		array('plugin', 'tasknotification', 'system', 0),
 		array('plugin', 'updatenotification', 'system', 0),
 		array('plugin', 'webauthn', 'system', 0),
+
+		// Core plugin extensions - task scheduler
+		array('plugin', 'checkfiles', 'task', 0),
+		array('plugin', 'demotasks', 'task', 0),
+		array('plugin', 'requests', 'task', 0),
+		array('plugin', 'sitestatus', 'task', 0),
 
 		// Core plugin extensions - two factor authentication
 		array('plugin', 'totp', 'twofactorauth', 0),
