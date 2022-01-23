@@ -210,7 +210,7 @@ $wa->useStyle('com_scheduler.admin-view-tasks-css');
 									 <?php echo $this->escape($item->title); ?>
 								<?php endif; ?>
 								<?php if (!in_array($item->last_exit_code, [Status::OK, Status::WILL_RESUME])): ?>
-									<span class="failure-indicator icon-solid icon-exclamation-triangle hasTooltip"></span>
+									<span class="failure-indicator icon-solid icon-exclamation-triangle hasTooltip" aria-hidden="true"></span>
 									<div role="tooltip">
         								<?php echo Text::sprintf("COM_SCHEDULER_MANAGER_TOOLTIP_TASK_FAILING", $item->last_exit_code); ?>
     								</div>
