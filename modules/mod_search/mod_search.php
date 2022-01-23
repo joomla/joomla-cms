@@ -41,7 +41,7 @@ $width           = (int) $params->get('width');
 $maxlength       = $upper_limit;
 $text            = htmlspecialchars($params->get('text', JText::_('MOD_SEARCH_SEARCHBOX_TEXT')), ENT_COMPAT, 'UTF-8');
 $label           = htmlspecialchars($params->get('label', JText::_('MOD_SEARCH_LABEL_TEXT')), ENT_COMPAT, 'UTF-8');
-$moduleclass_sfx = htmlspecialchars($params->get('moduleclass_sfx'), ENT_COMPAT, 'UTF-8');
+$moduleclass_sfx = htmlspecialchars($params->get('moduleclass_sfx', ''), ENT_COMPAT, 'UTF-8');
 
 if ($imagebutton)
 {

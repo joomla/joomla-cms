@@ -44,7 +44,7 @@ function modChrome_well($module, &$params, &$attribs)
 
 	if ($module->content)
 	{
-		echo '<' . $moduleTag . ' class="well ' . htmlspecialchars($params->get('moduleclass_sfx'), ENT_COMPAT, 'UTF-8') . $moduleClass . '">';
+		echo '<' . $moduleTag . ' class="well ' . htmlspecialchars($params->get('moduleclass_sfx', ''), ENT_COMPAT, 'UTF-8') . $moduleClass . '">';
 
 			if ($module->showtitle)
 			{
