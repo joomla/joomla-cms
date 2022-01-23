@@ -209,7 +209,6 @@
 				type="text"
 				label="JGLOBAL_BLOG_CLASS_LEADING"
 				useglobal="true"
-				size="3"
 				validate="CssIdentifier"
 			/>
 
@@ -218,7 +217,6 @@
 				type="text"
 				label="JGLOBAL_BLOG_CLASS"
 				useglobal="true"
-				size="3"
 				validate="CssIdentifier"
 			/>
 
@@ -375,7 +373,6 @@
 				name="date_format"
 				type="text"
 				label="JGLOBAL_DATE_FORMAT_LABEL"
-				size="15"
 				useglobal="true"
 			/>
 
