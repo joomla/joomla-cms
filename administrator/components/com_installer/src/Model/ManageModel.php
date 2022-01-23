@@ -118,7 +118,7 @@ class ManageModel extends InstallerModel
 
 		/*
 		 * Ensure eid is an array of extension ids
-		 * TODO: If it isn't an array do we want to set an error and fail?
+		 * @todo: If it isn't an array do we want to set an error and fail?
 		 */
 		if (!is_array($eid))
 		{
@@ -140,6 +140,14 @@ class ManageModel extends InstallerModel
 				if ($style->load(array('template' => $table->element, 'client_id' => $table->client_id, 'home' => 1)))
 				{
 					Factory::getApplication()->enqueueMessage(Text::_('COM_INSTALLER_ERROR_DISABLE_DEFAULT_TEMPLATE_NOT_PERMITTED'), 'notice');
+					unset($eid[$i]);
+					continue;
+				}
+
+				// Parent template cannot be disabled if there are children
+				if ($style->load(['parent' => $table->element, 'client_id' => $table->client_id]))
+				{
+					Factory::getApplication()->enqueueMessage(Text::_('COM_INSTALLER_ERROR_DISABLE_PARENT_TEMPLATE_NOT_PERMITTED'), 'notice');
 					unset($eid[$i]);
 					continue;
 				}
@@ -226,7 +234,7 @@ class ManageModel extends InstallerModel
 
 		/*
 		 * Ensure eid is an array of extension ids in the form id => client_id
-		 * TODO: If it isn't an array do we want to set an error and fail?
+		 * @todo: If it isn't an array do we want to set an error and fail?
 		 */
 		if (!is_array($eid))
 		{
