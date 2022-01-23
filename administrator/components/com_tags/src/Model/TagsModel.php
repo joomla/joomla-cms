@@ -29,11 +29,10 @@ class TagsModel extends ListModel
 	/**
 	 * Constructor.
 	 *
-	 * @param   MVCFactoryInterface  $factory  The factory.
+	 * @param  MVCFactoryInterface  $factory  The factory.
+	 * @param  array                $config   An optional associative array of configuration settings.
 	 *
-	 * @param   array                $config   An optional associative array of configuration settings.
-	 *
-	 * @since   1.6
+	 * @since  1.6
 	 */
 	public function __construct($config = array(), MVCFactoryInterface $factory = null)
 	{
@@ -84,9 +83,9 @@ class TagsModel extends ListModel
 	 * @param   string  $ordering   An optional ordering field.
 	 * @param   string  $direction  An optional direction (asc|desc).
 	 *
-	 * @return    void
+	 * @return  void
 	 *
-	 * @since    3.1
+	 * @since   3.1
 	 */
 	protected function populateState($ordering = 'a.lft', $direction = 'asc')
 	{
@@ -138,9 +137,9 @@ class TagsModel extends ListModel
 	/**
 	 * Method to create a query for a list of items.
 	 *
-	 * @return  string
+	 * @return  DatabaseQuery
 	 *
-	 * @since  3.1
+	 * @since   3.1
 	 */
 	protected function getListQuery()
 	{
@@ -328,9 +327,9 @@ class TagsModel extends ListModel
 	/**
 	 * Manipulate the query to be used to evaluate if this is an Empty State to provide specific conditions for this extension.
 	 *
-	 * @return DatabaseQuery
+	 * @return  DatabaseQuery
 	 *
-	 * @since 4.0.0
+	 * @since   4.0.0
 	 */
 	protected function getEmptyStateQuery()
 	{

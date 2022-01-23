@@ -63,7 +63,7 @@ class WorkflowsModel extends ListModel
 	 *
 	 * @return  void
 	 *
-	 * @since  4.0.0
+	 * @since   4.0.0
 	 */
 	protected function populateState($ordering = 'w.ordering', $direction = 'asc')
 	{
@@ -91,7 +91,7 @@ class WorkflowsModel extends ListModel
 	 *
 	 * @return  \Joomla\CMS\Table\Table  A Table object
 	 *
-	 * @since  4.0.0
+	 * @since   4.0.0
 	 */
 	public function getTable($type = 'Workflow', $prefix = 'Administrator', $config = array())
 	{
@@ -103,7 +103,7 @@ class WorkflowsModel extends ListModel
 	 *
 	 * @return  mixed  An array of data items on success, false on failure.
 	 *
-	 * @since  4.0.0
+	 * @since   4.0.0
 	 */
 	public function getItems()
 	{
@@ -146,7 +146,7 @@ class WorkflowsModel extends ListModel
 	 *
 	 * @return  mixed  An array of data items on success, false on failure.
 	 *
-	 * @since  4.0.0
+	 * @since   4.0.0
 	 */
 	protected function countItems($items)
 	{
@@ -209,9 +209,9 @@ class WorkflowsModel extends ListModel
 	/**
 	 * Method to get the data that should be injected in the form.
 	 *
-	 * @return  string  The query to database.
+	 * @return  \Joomla\Database\DatabaseQuery
 	 *
-	 * @since  4.0.0
+	 * @since   4.0.0
 	 */
 	public function getListQuery()
 	{

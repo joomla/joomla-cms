@@ -138,7 +138,7 @@ class CategoryModel extends ListModel
 	/**
 	 * Method to build an SQL query to load the list data.
 	 *
-	 * @return  string    An SQL query
+	 * @return  \Joomla\Database\DatabaseQuery
 	 *
 	 * @since   1.6
 	 */

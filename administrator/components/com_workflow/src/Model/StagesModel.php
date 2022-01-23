@@ -119,9 +119,9 @@ class StagesModel extends ListModel
 	/**
 	 * Method to get the data that should be injected in the form.
 	 *
-	 * @return  string  The query to database.
+	 * @return  \Joomla\Database\DatabaseQuery
 	 *
-	 * @since  4.0.0
+	 * @since   4.0.0
 	 */
 	public function getListQuery()
 	{
@@ -187,7 +187,7 @@ class StagesModel extends ListModel
 	 *
 	 * @return  object  The workflow
 	 *
-	 * @since  4.0.0
+	 * @since   4.0.0
 	 */
 	public function getWorkflow()
 	{

@@ -19,6 +19,7 @@ use Joomla\CMS\Helper\TagsHelper;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\CMS\Table\Table;
+use Joomla\Database\DatabaseQuery;
 use Joomla\Database\ParameterType;
 use Joomla\Registry\Registry;
 
@@ -149,7 +150,7 @@ class CategoryModel extends ListModel
 	/**
 	 * Method to build an SQL query to load the list data.
 	 *
-	 * @return  string    An SQL query
+	 * @return  DatabaseQuery
 	 *
 	 * @since   1.6
 	 */
@@ -462,9 +463,9 @@ class CategoryModel extends ListModel
 	/**
 	 * Generate column expression for slug or catslug.
 	 *
-	 * @param   \Joomla\Database\DatabaseQuery  $query  Current query instance.
-	 * @param   string                          $id     Column id name.
-	 * @param   string                          $alias  Column alias name.
+	 * @param   DatabaseQuery  $query  Current query instance.
+	 * @param   string         $id     Column id name.
+	 * @param   string         $alias  Column alias name.
 	 *
 	 * @return  string
 	 *

@@ -61,7 +61,7 @@ class TransitionsModel extends ListModel
 	 *
 	 * @return  void
 	 *
-	 * @since  4.0.0
+	 * @since   4.0.0
 	 */
 	protected function populateState($ordering = 't.ordering', $direction = 'ASC')
 	{
@@ -94,7 +94,7 @@ class TransitionsModel extends ListModel
 	 *
 	 * @return  \Joomla\CMS\Table\Table  A Table object
 	 *
-	 * @since  4.0.0
+	 * @since   4.0.0
 	 */
 	public function getTable($type = 'Transition', $prefix = 'Administrator', $config = array())
 	{
@@ -120,9 +120,9 @@ class TransitionsModel extends ListModel
 	/**
 	 * Method to get the data that should be injected in the form.
 	 *
-	 * @return  string  The query to database.
+	 * @return  \Joomla\Database\DatabaseQuery
 	 *
-	 * @since  4.0.0
+	 * @since   4.0.0
 	 */
 	public function getListQuery()
 	{
@@ -237,7 +237,7 @@ class TransitionsModel extends ListModel
 	 *
 	 * @return  object  The workflow
 	 *
-	 * @since  4.0.0
+	 * @since   4.0.0
 	 */
 	public function getWorkflow()
 	{
@@ -252,5 +252,4 @@ class TransitionsModel extends ListModel
 
 		return (object) $table->getProperties();
 	}
-
 }

@@ -132,7 +132,7 @@ class TagModel extends ListModel
 	/**
 	 * Method to build an SQL query to load the list data of all items with a given tag.
 	 *
-	 * @return  string  An SQL query
+	 * @return  \Joomla\Database\DatabaseQuery
 	 *
 	 * @since   3.1
 	 */
