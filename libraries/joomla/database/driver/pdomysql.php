@@ -464,7 +464,7 @@ class JDatabaseDriverPdomysql extends JDatabaseDriverPdo
 		if (is_float($text))
 		{
 			// Force the dot as a decimal point.
-			return str_replace(',', '.', $text);
+			return str_replace(',', '.', (string) $text);
 		}
 
 		$this->connect();
