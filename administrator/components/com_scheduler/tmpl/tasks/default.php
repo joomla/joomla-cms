@@ -204,8 +204,9 @@ $wa->useStyle('com_scheduler.admin-view-tasks-css');
 							<?php endif; ?>
 							<span class="task-title">
 								<?php if ($canEdit): ?>
-									 <a href="<?php echo Route::_('index.php?option=com_scheduler&task=task.edit&id=' . $item->id); ?>"
-										 title="<?php echo Text::_('JACTION_EDIT'); ?> <?php echo $this->escape($item->title); ?>"> <?php echo $this->escape($item->title); ?></a>
+									<a href="<?php echo Route::_('index.php?option=com_scheduler&task=task.edit&id=' . $item->id); ?>"
+										title="<?php echo Text::_('JACTION_EDIT'); ?> <?php echo $this->escape($item->title); ?>"> <?php echo $this->escape($item->title); ?>
+									</a>
 								<?php else: ?>
 									 <?php echo $this->escape($item->title); ?>
 								<?php endif; ?>
