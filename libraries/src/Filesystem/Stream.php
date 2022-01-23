@@ -894,7 +894,7 @@ class Stream extends CMSObject
 	/**
 	 * Get the stream metadata
 	 *
-	 * @return  array  header/metadata
+	 * @return  array|boolean  header/metadata
 	 *
 	 * @link    https://www.php.net/manual/en/function.stream-get-meta-data.php
 	 * @since   1.7.0
