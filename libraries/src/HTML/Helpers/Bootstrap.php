@@ -656,7 +656,7 @@ abstract class Bootstrap
 	 * - toggle  boolean   Toggles the collapsible element on invocation
 	 * - active  string    Sets the active slide during load
 	 */
-	public static function startAccordion($selector = 'myAccordian', $options = []) :string
+	public static function startAccordion($selector = 'myAccordion', $options = []) :string
 	{
 		// Only load once
 		if (isset(static::$loaded[__METHOD__][$selector]))
