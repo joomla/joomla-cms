@@ -300,13 +300,13 @@ final class InstallationApplication extends CMSApplication
 	 */
 	private function executeController()
 	{
-		$task = $this->input->get('task');
+		$task = $this->input->getCmd('task', '');
 
 		// The name of the controller
 		$controllerName = 'display';
 
 		// Parse task in format controller.task
-		if ($task)
+		if ($task !== '')
 		{
 			list($controllerName, $task) = explode('.', $task, 2);
 		}

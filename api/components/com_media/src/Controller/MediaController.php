@@ -18,7 +18,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\ApiController;
 use Joomla\Component\Media\Administrator\Exception\FileExistsException;
 use Joomla\Component\Media\Administrator\Exception\InvalidPathException;
-use Joomla\Component\Media\Api\Helper\AdapterTrait;
+use Joomla\Component\Media\Administrator\Provider\ProviderManagerHelperTrait;
 use Joomla\Component\Media\Api\Model\MediumModel;
 use Joomla\String\Inflector;
 use Tobscure\JsonApi\Exception\InvalidParameterException;
@@ -30,7 +30,7 @@ use Tobscure\JsonApi\Exception\InvalidParameterException;
  */
 class MediaController extends ApiController
 {
-	use AdapterTrait;
+	use ProviderManagerHelperTrait;
 
 	/**
 	 * The content type of the item.

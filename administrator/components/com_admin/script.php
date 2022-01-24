@@ -6115,7 +6115,7 @@ class JoomlaInstallerScript
 			'/media/vendor/codemirror/lib/#codemirror.js#',
 			// From 4.0.5 to 4.0.6
 			'/media/vendor/mediaelement/css/mejs-controls.png',
-			// From 4.0.x to 4.1.0
+			// From 4.0.x to 4.1.0-beta1
 			'/administrator/templates/atum/css/system/searchtools/searchtools.css',
 			'/administrator/templates/atum/css/system/searchtools/searchtools.min.css',
 			'/administrator/templates/atum/css/system/searchtools/searchtools.min.css.gz',
@@ -6330,6 +6330,8 @@ class JoomlaInstallerScript
 			'/templates/system/scss/general.scss',
 			'/templates/system/scss/offline.scss',
 			'/templates/system/scss/offline_rtl.scss',
+			// From 4.1.0-beta3 to 4.1.0-rc1
+			'/api/components/com_media/src/Helper/AdapterTrait.php',
 		);
 
 		$folders = array(
@@ -7589,7 +7591,7 @@ class JoomlaInstallerScript
 			'/libraries/vendor/algo26-matthias/idna-convert/tests',
 			// From 4.0.3 to 4.0.4
 			'/templates/cassiopeia/images/system',
-			// From 4.0.5 to 4.1.0
+			// From 4.0.x to 4.1.0-beta1
 			'/templates/system/scss',
 			'/templates/system/css',
 			'/templates/cassiopeia/scss/vendor/metismenu',
@@ -7640,6 +7642,8 @@ class JoomlaInstallerScript
 			'/administrator/templates/atum/css/system/searchtools',
 			'/administrator/templates/atum/css/system',
 			'/administrator/templates/atum/css',
+			// From 4.1.0-beta3 to 4.1.0-rc1
+			'/api/components/com_media/src/Helper',
 		);
 
 		$status['files_checked'] = $files;

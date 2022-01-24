@@ -1516,7 +1516,7 @@ class FtpClient
 		$data = null;
 		$regs = null;
 
-		// TODO: Deal with recurse -- nightmare
+		// @todo: Deal with recurse -- nightmare
 		// For now we will just set it to false
 		$recurse = false;
 
