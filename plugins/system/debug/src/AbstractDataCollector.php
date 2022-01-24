@@ -56,12 +56,12 @@ abstract class AbstractDataCollector extends DataCollector implements Renderable
 	 */
 	public function getDataFormatter(): DataFormatter
 	{
-		if ($this->dataFormater === null)
+		if ($this->dataFormatter === null)
 		{
-			$this->dataFormater = self::getDefaultDataFormatter();
+			$this->dataFormatter = self::getDefaultDataFormatter();
 		}
 
-		return $this->dataFormater;
+		return $this->dataFormatter;
 	}
 
 	/**
