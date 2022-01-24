@@ -58,6 +58,9 @@ class JoomlaInstallerScript
 				{
 					$this->fromVersion = $manifestValues['version'];
 
+					// Ensure templates are moved to the correct mode
+					$this->fixTemplateMode();
+
 					return true;
 				}
 			}
@@ -99,9 +102,6 @@ class JoomlaInstallerScript
 		$this->deleteUnexistingFiles();
 		$this->updateManifestCaches();
 		$this->updateDatabase();
-
-		// Ensure templates are moved to the correct mode
-		$this->fixTemplateMode();
 		$this->updateAssets($installer);
 		$this->clearStatsCache();
 		$this->convertTablesToUtf8mb4(true);
