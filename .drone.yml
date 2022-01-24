@@ -50,13 +50,13 @@ steps:
       - php -v
       - ./libraries/vendor/bin/phpunit --testsuite Unit
 
-  - name: php81-unit
-    depends_on: [ phpcs ]
-    image: joomlaprojects/docker-images:php8.1
-    failure: ignore
-    commands:
-      - php -v
-      - ./libraries/vendor/bin/phpunit --testsuite Unit
+#  - name: php81-unit
+#    depends_on: [ phpcs ]
+#    image: joomlaprojects/docker-images:php8.1
+#    failure: ignore
+#    commands:
+#      - php -v
+#      - ./libraries/vendor/bin/phpunit --testsuite Unit
 
   - name: php73-integration
     depends_on: [ npm ]
@@ -399,6 +399,6 @@ steps:
 
 ---
 kind: signature
-hmac: daa8e5588cc88058bc57aadf35e3d9dd55eefaa9419c457ce374a0dd19eb7cda
+hmac: a6f3f2ed21261b612d052724e5f43a5dd55168f98cbaa48eeaa358816bb255df
 
 ...
