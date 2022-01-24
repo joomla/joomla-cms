@@ -64,6 +64,13 @@ abstract class LatestHelper
 		{
 			$model->setState('filter.category_id', $categoryId);
 		}
+  //set workflow filter
+		$workflowId = $params->get('workflow_id');
+
+		if (is_numeric($workflowId))
+		{
+			$model->setState('filter.workflow_id', $workflowId);
+		}
 
 		// Set User Filter.
 		$userId = $user->get('id');

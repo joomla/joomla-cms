@@ -66,6 +66,22 @@
 					<option value="by_me">MOD_LATEST_FIELD_VALUE_AUTHORS_BY_ME</option>
 					<option value="not_me">MOD_LATEST_FIELD_VALUE_AUTHORS_NOT_BY_ME</option>
 				</field>
+
+				<field 
+				    name="workflowId"
+					type="list"
+					label="JWORKFLOW_TITLE"
+					extension="com_content.article"
+					
+					default=""
+					filter="integer"
+				
+					>
+					
+				<option value="">JOPTION_ANY_CATEGORY</option>
+					
+				</field	>
+
 			</fieldset>
 			<fieldset name="advanced">
 				<field
