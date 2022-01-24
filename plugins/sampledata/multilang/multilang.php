@@ -1183,8 +1183,6 @@ class PlgSampledataMultilang extends CMSPlugin
 			if ($tableLanguage->load(array('lang_code' => $siteLang->language, 'published' => 0)) && !$tableLanguage->publish())
 			{
 				$this->app->enqueueMessage(Text::sprintf('INSTL_DEFAULTLANGUAGE_COULD_NOT_CREATE_CONTENT_LANGUAGE', $siteLang->name), 'warning');
-
-				continue;
 			}
 		}
 
