@@ -1357,21 +1357,22 @@ class Query
 		else
 		{
 			// Add the term to the query.
+
+			$searchTerm = $token->term;
+			$searchStem = $token->stem;
+			
 			if ($this->wordmode == 1)
 			{
-				$query->where('(t.term LIKE ' . $db->quote($token->term . '%') . ' OR t.stem LIKE ' . $db->quote($token->stem . '%') . ')')
-					->where('t.common = 0');
+				$searchTerm .= '%';
+				$searchStem .= '%';
 			}
 			elseif ($this->wordmode == 2)
 			{
-				$query->where('(t.term LIKE ' . $db->quote('%' . $token->term . '%') . ' OR t.stem = ' . $db->quote('%' . $token->stem . '%') . ')')
-					->where('t.common = 0');
+				$searchTerm = '% . $searchTerm . '%';
+				$searchStem = '% . $searchStem . '%';
 			}
-			else
-			{
-				$query->where('(t.term = ' . $db->quote($token->term) . ' OR t.stem = ' . $db->quote($token->stem) . ')');
-			}
-
+			
+			$query->where('(t.term = ' . $db->quote($searchTerm) . ' OR t.stem = ' . $db->quote($searchStem) . ')');
 			$query->where('t.phrase = 0')
 				->where('t.language IN (\'*\',' . $db->quote($token->language) . ')');
 		}
