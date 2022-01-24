@@ -28,7 +28,8 @@
 			name="htmlbody"
 			type="editor"
 			label="COM_MAILS_FIELD_HTMLBODY_LABEL"
-			buttons="false"
+			buttons="true"
+			hide="fields,pagebreak,readmore,module"
 			class="inputbox"
 			filter="JComponentHelper::filterText"
 		/>
