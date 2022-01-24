@@ -17,7 +17,7 @@ use Joomla\Plugin\Editors\TinyMCE\PluginTraits\ActiveSiteTemplate;
 /**
  * Handles the editor.css files.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.1.0
  */
 trait ResolveFiles
 {
