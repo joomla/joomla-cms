@@ -380,8 +380,8 @@ class BaseController implements ControllerInterface, DispatcherAwareInterface
 		$this->redirect = null;
 		$this->taskMap = array();
 
-		$this->app   = $app ? $app : Factory::getApplication();
-		$this->input = $input ? $input : $this->app->input;
+		$this->app   = $app ?: Factory::getApplication();
+		$this->input = $input ?: $this->app->input;
 
 		if (\defined('JDEBUG') && JDEBUG)
 		{
