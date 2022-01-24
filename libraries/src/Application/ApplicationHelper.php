@@ -182,8 +182,6 @@ class ApplicationHelper
 				}
 			}
 		}
-
-		return;
 	}
 
 	/**
