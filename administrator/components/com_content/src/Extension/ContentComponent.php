@@ -331,7 +331,7 @@ class ContentComponent extends MVCComponent implements
 			'state_col'     => ($section === 'category' ? 'published' : 'state'),
 			'group_col'     => 'tag_id',
 			'extension'     => $extension,
-			'relation_type' => 'tag_assigments',
+			'relation_type' => 'tag_assignments',
 		);
 
 		LibraryContentHelper::countRelations($items, $config);

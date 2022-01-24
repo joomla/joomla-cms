@@ -39,7 +39,7 @@ trait TagServiceTrait
 			'state_col'     => $this->getStateColumnForSection($section),
 			'group_col'     => 'tag_id',
 			'extension'     => $extension,
-			'relation_type' => 'tag_assigments',
+			'relation_type' => 'tag_assignments',
 		);
 
 		ContentHelper::countRelations($items, $config);

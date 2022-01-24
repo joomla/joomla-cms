@@ -90,7 +90,7 @@ class ContentHelper
 		// Supported cases
 		switch ($config->relation_type)
 		{
-			case 'tag_assigments':
+			case 'tag_assignments':
 				$recid_col = 'ct.' . $config->group_col;
 
 				$query = $db->getQuery(true)
