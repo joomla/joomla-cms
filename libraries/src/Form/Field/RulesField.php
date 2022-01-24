@@ -173,6 +173,10 @@ class RulesField extends FormField
 			"/access/section[@name='" . $section . "']/"
 		);
 
+		if ($this->actions === false) {
+			$this->actions = [];
+		}
+
 		// Iterate over the children and add to the actions.
 		foreach ($this->element->children() as $el)
 		{
