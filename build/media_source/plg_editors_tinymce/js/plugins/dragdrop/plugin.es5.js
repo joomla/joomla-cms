@@ -53,10 +53,10 @@
               var _Joomla$getOptions = Joomla.getOptions('system.paths'),
                   rootFull = _Joomla$getOptions.rootFull;
 
-              urlPath = "" + response.data.thumb_path.split(rootFull)[1];
-            } else if (responseData.thumb_path) {
+              urlPath = "" + response.data.url.split(rootFull)[1];
+            } else if (responseData.url) {
               // Absolute path for different domain
-              urlPath = responseData.thumb_path;
+              urlPath = responseData.url;
             }
 
             var dialogClose = function dialogClose(api) {
