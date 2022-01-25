@@ -155,9 +155,8 @@ final class SiteApplication extends CMSApplication
 		switch ($document->getType())
 		{
 			case 'html':
-				// Get language
-				$lang_code = $this->getLanguage()->getTag();
-				$languages = LanguageHelper::getLanguages('lang_code');
+				// Set up the language
+				LanguageHelper::getLanguages('lang_code');
 
 				// Set metadata
 				$document->setMetaData('rights', $this->get('MetaRights'));

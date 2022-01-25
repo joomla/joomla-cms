@@ -992,7 +992,7 @@ class Nested extends Table
 				// Check for checked out children.
 				if ($this->_db->loadResult())
 				{
-					// TODO Convert to a conflict exception when available.
+					// @todo Convert to a conflict exception when available.
 					$e = new \RuntimeException(sprintf('%s::publish(%s, %d, %d) checked-out conflict.', \get_class($this), $pks[0], $state, $userId));
 
 					$this->setError($e);

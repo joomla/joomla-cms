@@ -287,7 +287,7 @@ class ItemModel extends AdminModel
 			// Set the new location in the tree for the node.
 			$table->setLocation($table->parent_id, 'last-child');
 
-			// TODO: Deal with ordering?
+			// @todo: Deal with ordering?
 			// $table->ordering = 1;
 			$table->level = null;
 			$table->lft   = null;
