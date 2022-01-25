@@ -14,7 +14,7 @@ use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\String\StringHelper;
 
 /**
- * Email cloack plugin class.
+ * Email cloak plugin class.
  *
  * @since  1.5
  */
