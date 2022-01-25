@@ -235,7 +235,7 @@ stepExtract = function(data)
 
 	if(data.done)
 	{
-		finalizeUpdate();
+		setTimeout(finalizeUpdate, 6000);
 	}
 	else
 	{
