@@ -19,7 +19,6 @@ use Joomla\CMS\Document\HtmlDocument;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\Log\LogEntry;
 use Joomla\CMS\Plugin\CMSPlugin;
-use Joomla\CMS\Profiler\Profiler;
 use Joomla\CMS\Session\Session;
 use Joomla\CMS\Uri\Uri;
 use Joomla\Database\DatabaseDriver;
@@ -665,39 +664,5 @@ class PlgSystemDebug extends CMSPlugin
 		}
 
 		return $this;
-	}
-
-	/**
-	 * Add server timing headers when profile is activated.
-	 *
-	 * @return  void
-	 *
-	 * @since   __DEPLOY_VERSION__
-	 */
-	public function onBeforeRespond(): void
-	{
-		if (!JDEBUG || !$this->params->get('profile', 1))
-		{
-			return;
-		}
-
-		$metrics = '';
-
-		foreach (Profiler::getInstance('Application')->getMarks() as $index => $mark)
-		{
-			// Ignore the before mark as the after one contains the timing of the action
-			if (stripos($mark->label, 'before') !== false)
-			{
-				continue;
-			}
-
-			$desc = $mark->label;
-			$desc = str_ireplace('after', '', $desc);
-
-			$name     = preg_replace('/[^\da-z]/i', '', $desc);
-			$metrics .= sprintf('%s;dur=%f;desc="%s:", ', $index . $name, $mark->time, $desc);
-		}
-
-		$this->app->setHeader('Server-Timing', $metrics);
 	}
 }
