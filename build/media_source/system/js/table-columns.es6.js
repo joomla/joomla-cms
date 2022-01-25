@@ -21,7 +21,7 @@ class TableColumns {
         if ($el.nodeName === 'TH') {
           this.protectedCols.push(index);
 
-          // Make sure its not in the list of hidden
+          // Make sure it's not in the list of hidden
           const ih = this.listOfHidden.indexOf(index);
           if (ih !== -1) {
             this.listOfHidden.splice(ih, 1);
@@ -33,7 +33,7 @@ class TableColumns {
     // Set up toggle menu
     this.createControls();
 
-    // Restore sate
+    // Restore state
     this.listOfHidden.forEach((index) => {
       this.toggleColumn(index, true);
     });
