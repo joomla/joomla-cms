@@ -24,6 +24,8 @@ use Joomla\CMS\MVC\Model\BaseModel;
 use Joomla\CMS\MVC\View\ViewInterface;
 use Joomla\CMS\Session\Session;
 use Joomla\CMS\Uri\Uri;
+use Joomla\Event\DispatcherAwareInterface;
+use Joomla\Event\DispatcherAwareTrait;
 use Joomla\Input\Input;
 
 /**
@@ -34,8 +36,10 @@ use Joomla\Input\Input;
  *
  * @since  2.5.5
  */
-class BaseController implements ControllerInterface
+class BaseController implements ControllerInterface, DispatcherAwareInterface
 {
+	use DispatcherAwareTrait;
+
 	/**
 	 * The base path of the controller
 	 *
@@ -181,6 +185,7 @@ class BaseController implements ControllerInterface
 	 * @return  void
 	 *
 	 * @since   3.0
+	 * @deprecated  5.0 See \Joomla\CMS\MVC\Model\LegacyModelLoaderTrait::getInstance
 	 */
 	public static function addModelPath($path, $prefix = '')
 	{
