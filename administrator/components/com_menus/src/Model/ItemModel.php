@@ -1213,7 +1213,7 @@ class ItemModel extends AdminModel
 						$formFile = $path;
 					}
 				}
-				else
+				elseif ($base)
 				{
 					// Now check for a component manifest file
 					$path = Path::clean($base . '/metadata.xml');

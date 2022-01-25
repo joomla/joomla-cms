@@ -58,6 +58,9 @@ class JoomlaInstallerScript
 				{
 					$this->fromVersion = $manifestValues['version'];
 
+					// Ensure templates are moved to the correct mode
+					$this->fixTemplateMode();
+
 					return true;
 				}
 			}
@@ -8536,5 +8539,41 @@ class JoomlaInstallerScript
 				}
 			}
 		}
+	}
+
+	/**
+	 * Ensure the core templates are correctly moved to the new mode.
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	protected function fixTemplateMode(): void
+	{
+		$db = Factory::getContainer()->get('DatabaseDriver');
+
+		array_map(
+			function ($template) use ($db)
+			{
+				$clientId = $template === 'atum' ? 1 : 0;
+				$query = $db->getQuery(true)
+					->update($db->quoteName('#__template_styles'))
+					->set($db->quoteName('inheritable') . ' = 1')
+					->where($db->quoteName('template') . ' = ' . $db->quote($template))
+					->where($db->quoteName('client_id') . ' = ' . $clientId);
+
+				try
+				{
+					$db->setQuery($query)->execute();
+				}
+				catch (Exception $e)
+				{
+					echo Text::sprintf('JLIB_DATABASE_ERROR_FUNCTION_FAILED', $e->getCode(), $e->getMessage()) . '<br>';
+
+					return;
+				}
+			},
+			['atum', 'cassiopeia']
+		);
 	}
 }
