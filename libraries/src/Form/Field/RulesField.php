@@ -173,7 +173,8 @@ class RulesField extends FormField
 			"/access/section[@name='" . $section . "']/"
 		);
 
-		if ($this->actions === false) {
+		if ($this->actions === false)
+		{
 			$this->actions = [];
 		}
 
