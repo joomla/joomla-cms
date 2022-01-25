@@ -1054,7 +1054,7 @@ class ComponentAdapter extends InstallerAdapter
 				// Remove existing menu items if overwrite has been enabled
 				if ($option)
 				{
-					// If something goes wrong, there's no way to rollback TODO: Search for better solution
+					// If something goes wrong, there's no way to rollback @todo: Search for better solution
 					$this->_removeAdminMenus($componentrow->extension_id);
 				}
 			}

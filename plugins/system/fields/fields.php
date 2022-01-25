@@ -84,16 +84,16 @@ class PlgSystemFields extends CMSPlugin
 	/**
 	 * The save event.
 	 *
-	 * @param   string   $context  The context
-	 * @param   JTable   $item     The table
-	 * @param   boolean  $isNew    Is new item
-	 * @param   array    $data     The validated data
+	 * @param   string                   $context  The context
+	 * @param   \Joomla\CMS\Table\Table  $item     The table
+	 * @param   boolean                  $isNew    Is new item
+	 * @param   array                    $data     The validated data
 	 *
 	 * @return  void
 	 *
 	 * @since   3.7.0
 	 */
-	public function onContentAfterSave($context, $item, $isNew, $data = array()): void
+	public function onContentAfterSave($context, $item, $isNew, $data = []): void
 	{
 		// Check if data is an array and the item has an id
 		if (!is_array($data) || empty($item->id) || empty($data['com_fields']))
@@ -503,9 +503,7 @@ class PlgSystemFields extends CMSPlugin
 	}
 
 	/**
-	 * The finder event.
-	 *
-	 * @param   stdClass  $item  The item
+	 * @param   \Joomla\Component\Finder\Administrator\Indexer\Result  $item  The item
 	 *
 	 * @return  boolean
 	 *
