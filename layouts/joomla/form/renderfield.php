@@ -22,7 +22,7 @@ extract($displayData);
  * @var   string  $label        The html code for the label
  * @var   string  $input        The input field html code
  * @var   string  $description  An optional description to use as in–line help text
- * @var   string  $descClass    The class name ot use for the description
+ * @var   string  $descClass    The class name to use for the description
  */
 
 if (!empty($options['showonEnabled']))
