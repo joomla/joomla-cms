@@ -51,12 +51,12 @@
 
             var _Joomla$getOptions = Joomla.getOptions('system.paths'),
             rootFull = _Joomla$getOptions.rootFull;
-            var parts = response.data.thumb_path.split(rootFull);
+            var parts = response.data.url.split(rootFull);
             if (parts.length > 1) {
               urlPath = "" + parts[1];
-            } else if (responseData.thumb_path) {
+            } else if (responseData.url) {
               // Absolute path for different domain
-              urlPath = responseData.thumb_path;
+              urlPath = responseData.url;
             }
 
             var dialogClose = function dialogClose(api) {
