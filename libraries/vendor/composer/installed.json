@@ -147,38 +147,40 @@
         },
         {
             "name": "joomla/application",
-            "version": "1.9.2",
-            "version_normalized": "1.9.2.0",
+            "version": "1.9.3",
+            "version_normalized": "1.9.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-framework/application.git",
-                "reference": "6c89fdde878f7ebb7d6455f664133e9497163e2e"
+                "reference": "2a2fee9fa2ebb07c0d28da07f6e4ea3c56b77d16"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-framework/application/zipball/6c89fdde878f7ebb7d6455f664133e9497163e2e",
-                "reference": "6c89fdde878f7ebb7d6455f664133e9497163e2e",
+                "url": "https://api.github.com/repos/joomla-framework/application/zipball/2a2fee9fa2ebb07c0d28da07f6e4ea3c56b77d16",
+                "reference": "2a2fee9fa2ebb07c0d28da07f6e4ea3c56b77d16",
                 "shasum": ""
             },
             "require": {
-                "joomla/input": "~1.2",
-                "joomla/registry": "^1.4.5|~2.0",
-                "php": "^5.3.10|~7.0",
-                "psr/log": "~1.0"
+                "joomla/input": "^1.2",
+                "joomla/registry": "^1.4.5|^2.0",
+                "php": "^5.3.10|^7.0|^8.0",
+                "psr/log": "^1.0"
             },
             "require-dev": {
-                "joomla/coding-standards": "~2.0@alpha",
-                "joomla/event": "~1.2|~2.0",
-                "joomla/session": "^1.2.1|~2.0",
-                "joomla/test": "~1.1",
-                "joomla/uri": "~1.1",
-                "phpunit/phpunit": "^4.8.35|^5.4.3|~6.0"
+                "joomla/coding-standards": "^2.0@alpha",
+                "joomla/event": "^1.2",
+                "joomla/session": "^1.2.1",
+                "joomla/test": "^1.1",
+                "joomla/uri": "^1.1",
+                "phpunit/phpunit": "^4.8.35|^5.4.3|^6.0|^7.0|^8.0",
+                "symfony/phpunit-bridge": "^3.4.26|^4.1.12|^4.2.7|^5.0",
+                "symfony/polyfill-php72": "^1.5"
             },
             "suggest": {
                 "joomla/session": "To use AbstractWebApplication with session support, install joomla/session",
                 "joomla/uri": "To use AbstractWebApplication, install joomla/uri"
             },
-            "time": "2019-03-28T14:55:36+00:00",
+            "time": "2022-01-25T17:10:25+00:00",
             "type": "joomla-package",
             "extra": {
                 "branch-alias": {
@@ -204,8 +206,18 @@
             ],
             "support": {
                 "issues": "https://github.com/joomla-framework/application/issues",
-                "source": "https://github.com/joomla-framework/application/tree/1.9.2"
+                "source": "https://github.com/joomla-framework/application/tree/1.9.3"
             },
+            "funding": [
+                {
+                    "url": "https://community.joomla.org/sponsorship-campaigns.html",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://github.com/joomla",
+                    "type": "github"
+                }
+            ],
             "install-path": "../joomla/application"
         },
         {
@@ -945,31 +957,31 @@
         },
         {
             "name": "joomla/string",
-            "version": "1.4.5",
-            "version_normalized": "1.4.5.0",
+            "version": "1.4.6",
+            "version_normalized": "1.4.6.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-framework/string.git",
-                "reference": "21269bfcddef4e676c6a1a49b7d959f896522a96"
+                "reference": "728ba9e39a8f1bd15b75ab878f57fa505184b8ab"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-framework/string/zipball/21269bfcddef4e676c6a1a49b7d959f896522a96",
-                "reference": "21269bfcddef4e676c6a1a49b7d959f896522a96",
+                "url": "https://api.github.com/repos/joomla-framework/string/zipball/728ba9e39a8f1bd15b75ab878f57fa505184b8ab",
+                "reference": "728ba9e39a8f1bd15b75ab878f57fa505184b8ab",
                 "shasum": ""
             },
             "require": {
-                "php": "^5.3.10|~7.0"
+                "php": "^5.3.10|^7.0|^8.0"
             },
             "require-dev": {
-                "joomla/coding-standards": "~2.0@alpha",
-                "joomla/test": "~1.0",
-                "phpunit/phpunit": "^4.8.35|^5.4.3|~6.0"
+                "joomla/coding-standards": "^2.0@alpha",
+                "joomla/test": "^1.0",
+                "phpunit/phpunit": "^4.8.35|^5.4.3|^6.0|^7.0|^8.0"
             },
             "suggest": {
                 "ext-mbstring": "For improved processing"
             },
-            "time": "2020-10-07T08:01:44+00:00",
+            "time": "2022-01-25T15:16:52+00:00",
             "type": "joomla-package",
             "extra": {
                 "branch-alias": {
@@ -1012,7 +1024,7 @@
             ],
             "support": {
                 "issues": "https://github.com/joomla-framework/string/issues",
-                "source": "https://github.com/joomla-framework/string/tree/1.4.5"
+                "source": "https://github.com/joomla-framework/string/tree/1.4.6"
             },
             "funding": [
                 {
@@ -1028,28 +1040,28 @@
         },
         {
             "name": "joomla/uri",
-            "version": "1.2.0",
-            "version_normalized": "1.2.0.0",
+            "version": "1.2.1",
+            "version_normalized": "1.2.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-framework/uri.git",
-                "reference": "848a31dc895a9c8c9d7ea67571d6a4dd634a9dc1"
+                "reference": "e3968e05d3b741378c106b44d8d72b230a43f845"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-framework/uri/zipball/848a31dc895a9c8c9d7ea67571d6a4dd634a9dc1",
-                "reference": "848a31dc895a9c8c9d7ea67571d6a4dd634a9dc1",
+                "url": "https://api.github.com/repos/joomla-framework/uri/zipball/e3968e05d3b741378c106b44d8d72b230a43f845",
+                "reference": "e3968e05d3b741378c106b44d8d72b230a43f845",
                 "shasum": ""
             },
             "require": {
-                "php": "^5.3.10|~7.0"
+                "php": "^5.3.10|^7.0|^8.0"
             },
             "require-dev": {
                 "joomla/coding-standards": "~2.0@alpha",
                 "joomla/test": "~1.0",
-                "phpunit/phpunit": "^4.8.35|^5.4.3|~6.0"
+                "phpunit/phpunit": "^4.8.35|^5.4.3|^6.0|^7.0|^8.0"
             },
-            "time": "2018-07-01T00:12:15+00:00",
+            "time": "2022-01-24T19:44:53+00:00",
             "type": "joomla-package",
             "extra": {
                 "branch-alias": {
@@ -1075,8 +1087,18 @@
             ],
             "support": {
                 "issues": "https://github.com/joomla-framework/uri/issues",
-                "source": "https://github.com/joomla-framework/uri/tree/1.2.0"
+                "source": "https://github.com/joomla-framework/uri/tree/1.2.1"
             },
+            "funding": [
+                {
+                    "url": "https://community.joomla.org/sponsorship-campaigns.html",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://github.com/joomla",
+                    "type": "github"
+                }
+            ],
             "install-path": "../joomla/uri"
         },
         {
