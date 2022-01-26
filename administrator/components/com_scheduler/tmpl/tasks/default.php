@@ -61,12 +61,12 @@ if ($saveOrder && !empty($this->items))
 	HTMLHelper::_('draggablelist.draggable');
 }
 
-$document = $app->getDocument();
-$document->addScriptOptions('com_scheduler.test-task.token', Session::getFormToken());
+$this->document->addScriptOptions('com_scheduler.test-task.token', Session::getFormToken());
 
-$wa = $document->getWebAssetManager();
-$wa->useScript('com_scheduler.test-task');
-$wa->useStyle('com_scheduler.admin-view-tasks-css');
+/** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
+$wa = $this->document->getWebAssetManager();
+$wa->useScript('com_scheduler.test-task')
+	->useStyle('com_scheduler.admin-view-tasks-css');
 ?>
 
 <form action="<?php echo Route::_('index.php?option=com_scheduler&view=tasks'); ?>" method="post" name="adminForm"
