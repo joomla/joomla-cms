@@ -38,7 +38,7 @@ export const getContents = (context, payload) => {
       context.commit(types.SET_IS_LOADING, false);
     })
     .catch((error) => {
-      // TODO error handling
+      // @todo error handling
       context.commit(types.SET_IS_LOADING, false);
       // eslint-disable-next-line no-console
       console.log('error', error);
@@ -58,7 +58,7 @@ export const getFullContents = (context, payload) => {
       context.commit(types.SET_IS_LOADING, false);
     })
     .catch((error) => {
-      // TODO error handling
+      // @todo error handling
       context.commit(types.SET_IS_LOADING, false);
       // eslint-disable-next-line no-console
       console.log('error', error);
@@ -137,7 +137,7 @@ export const createDirectory = (context, payload) => {
       context.commit(types.SET_IS_LOADING, false);
     })
     .catch((error) => {
-      // TODO error handling
+      // @todo error handling
       context.commit(types.SET_IS_LOADING, false);
       // eslint-disable-next-line no-console
       console.log('error', error);
@@ -187,7 +187,7 @@ export const renameItem = (context, payload) => {
       context.commit(types.SET_IS_LOADING, false);
     })
     .catch((error) => {
-      // TODO error handling
+      // @todo error handling
       context.commit(types.SET_IS_LOADING, false);
       // eslint-disable-next-line no-console
       console.log('error', error);
@@ -211,13 +211,13 @@ export const deleteSelectedItems = (context) => {
           context.commit(types.SET_IS_LOADING, false);
         })
         .catch((error) => {
-          // TODO error handling
+          // @todo error handling
           context.commit(types.SET_IS_LOADING, false);
           // eslint-disable-next-line no-console
           console.log('error', error);
         });
     });
   } else {
-    // TODO notify the user that he has to select at least one item
+    // @todo notify the user that he has to select at least one item
   }
 };
