@@ -1208,19 +1208,6 @@
 
 		</field>
 
-		<field
-			name="block_floc"
-			type="radio"
-			label="COM_CONFIG_FIELD_FLOC_BLOCKER_LABEL"
-			description="COM_CONFIG_FIELD_FLOC_BLOCKER_DESC"
-			class="btn-group btn-group-yesno"
-			default="1"
-			filter="integer"
-			>
-			<option value="1">JYES</option>
-			<option value="0">JNO</option>
-		</field>
-
 	</fieldset>
 
 	<fieldset
