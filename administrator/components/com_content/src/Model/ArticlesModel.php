@@ -158,7 +158,7 @@ class ArticlesModel extends ListModel
 		$language = $this->getUserStateFromRequest($this->context . '.filter.language', 'filter_language', '');
 		$this->setState('filter.language', $language);
 
-		$formSubmited = $app->input->post->get('form_submited');
+		$formSubmitted = $app->input->post->get('form_submitted');
 
 		// Gets the value of a user state variable and sets it in the session
 		$this->getUserStateFromRequest($this->context . '.filter.access', 'filter_access');
@@ -166,7 +166,7 @@ class ArticlesModel extends ListModel
 		$this->getUserStateFromRequest($this->context . '.filter.category_id', 'filter_category_id');
 		$this->getUserStateFromRequest($this->context . '.filter.tag', 'filter_tag', '');
 
-		if ($formSubmited)
+		if ($formSubmitted)
 		{
 			$access = $app->input->post->get('access');
 			$this->setState('filter.access', $access);
