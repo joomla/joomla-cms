@@ -12,9 +12,9 @@
 			description="COM_FINDER_CONFIG_WORD_MATCH_DESC"
 			default="0"
 			>
-			<option value="0">COM_FINDER_CONFIG_WORD_MATCH_OPTION_EXACT</option>
-			<option value="1">COM_FINDER_CONFIG_WORD_MATCH_OPTION_BEGIN</option>
-			<option value="2">COM_FINDER_CONFIG_WORD_MATCH_OPTION_FUZZY</option>
+			<option value="exact">COM_FINDER_CONFIG_WORD_MATCH_OPTION_EXACT</option>
+			<option value="begin">COM_FINDER_CONFIG_WORD_MATCH_OPTION_BEGIN</option>
+			<option value="fuzzy">COM_FINDER_CONFIG_WORD_MATCH_OPTION_FUZZY</option>
 		</field>
 
 		<field

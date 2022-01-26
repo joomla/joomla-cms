@@ -403,7 +403,7 @@ class SearchModel extends ListModel
 		$options['language'] = $request->getCmd('l', $params->get('l', $language->getTag()));
 
 		// Set the word match mode
-		$options['word_match'] = $params->get('word_match', 0);
+		$options['word_match'] = $params->get('word_match', 'exact');
 
 		// Get the start date and start date modifier filters.
 		$options['date1'] = $request->getString('d1', $params->get('d1', ''));

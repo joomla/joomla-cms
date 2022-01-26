@@ -177,7 +177,7 @@ class Query
 	/**
 	 * Match search terms exactly or with a LIKE scheme
 	 *
-	 * @var    integer
+	 * @var    string
 	 * @since  __DEPLOY_VERSION__
 	 */
 	public $wordmode;
@@ -205,7 +205,7 @@ class Query
 		$this->mode = 'AND';
 
 		// Set the word matching mode
-		$this->wordmode = !empty($options['word_match']) ? $options['word_match'] : 0;
+		$this->wordmode = !empty($options['word_match']) ? $options['word_match'] : 'exact';
 
 		// Initialize the temporary date storage.
 		$this->dates = new Registry;
@@ -1357,18 +1357,18 @@ class Query
 
 			$searchTerm = $token->term;
 			$searchStem = $token->stem;
-			
-			if ($this->wordmode == 1)
+
+			if ($this->wordmode == 'begin')
 			{
 				$searchTerm .= '%';
 				$searchStem .= '%';
 			}
-			elseif ($this->wordmode == 2)
+			elseif ($this->wordmode == 'fuzzy')
 			{
-				$searchTerm = '% . $searchTerm . '%';
-				$searchStem = '% . $searchStem . '%';
+				$searchTerm = '%' . $searchTerm . '%';
+				$searchStem = '%' . $searchStem . '%';
 			}
-			
+
 			$query->where('(t.term = ' . $db->quote($searchTerm) . ' OR t.stem = ' . $db->quote($searchStem) . ')');
 			$query->where('t.phrase = 0')
 				->where('t.language IN (\'*\',' . $db->quote($token->language) . ')');
