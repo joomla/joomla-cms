@@ -66,8 +66,8 @@ class TableColumns {
 
     // Collect a list of headers for dropdown
     this.$headers.forEach(($el, index) => {
-      // Skip the first column as we dont want to display the checkboxes
-      if (index === 0) return;
+      // Skip the first column, unless its a th, as we don't want to display the checkboxes
+      if (index === 0 && $el.nodeName !== 'TH') return;
 
       const $li = document.createElement('li');
       const $label = document.createElement('label');
@@ -109,7 +109,7 @@ class TableColumns {
       this.saveState();
     });
 
-    // Remove "media query" classes, which may prevent toggling to work.
+    // Remove "media query" classes, which may prevent toggling from working.
     this.$headers.forEach(($el) => {
       $el.classList.remove('d-none', 'd-md-table-cell', 'd-lg-table-cell', 'd-xl-table-cell');
     });
