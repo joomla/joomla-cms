@@ -10,7 +10,7 @@
 			type="list"
 			label="COM_FINDER_CONFIG_WORD_MATCH_LABEL"
 			description="COM_FINDER_CONFIG_WORD_MATCH_DESC"
-			default="0"
+			default="exact"
 			>
 			<option value="exact">COM_FINDER_CONFIG_WORD_MATCH_OPTION_EXACT</option>
 			<option value="begin">COM_FINDER_CONFIG_WORD_MATCH_OPTION_BEGIN</option>
