@@ -185,10 +185,10 @@ class MediaHelper
 			return false;
 		}
 
-		$allowable = array_map('trim', explode(',', $params->get('restrict_uploads_extensions', 'bmp,gif,jpg,jpeg,png,webp,ico,mp3,m4a,mp4a,ogg,mp4,mp4v,mpeg,mov,odg,odp,ods,odt,pdf,png,ppt,txt,xcf,xls,csv')));
+		$allowable = array_map('trim', explode(',', $params->get('restrict_uploads_extensions', 'bmp,gif,jpg,jpeg,png,webp,ico,mp3,m4a,mp4a,ogg,mp4,mp4v,mpeg,mov,odg,odp,ods,odt,pdf,ppt,txt,xcf,xls,csv')));
 		$ignored   = array_map('trim', explode(',', $params->get('ignore_extensions', '')));
 
-		if ($extension == '' || $extension == false || (!\in_array($extension, $allowable, true) && !\in_array($filetype, $ignored, true)))
+		if ($extension == '' || $extension == false || (!\in_array($extension, $allowable, true) && !\in_array($extension, $ignored, true)))
 		{
 			return false;
 		}
