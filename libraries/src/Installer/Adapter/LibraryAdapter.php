@@ -286,7 +286,7 @@ class LibraryAdapter extends InstallerAdapter
 		$this->parent->removeFiles($this->getManifest()->files, -1);
 		File::delete(JPATH_MANIFESTS . '/libraries/' . $this->extension->element . '.xml');
 
-		// TODO: Change this so it walked up the path backwards so we clobber multiple empties
+		// @todo: Change this so it walked up the path backwards so we clobber multiple empties
 		// If the folder is empty, let's delete it
 		if (Folder::exists($this->parent->getPath('extension_root')))
 		{
@@ -337,7 +337,7 @@ class LibraryAdapter extends InstallerAdapter
 		}
 
 		// Don't install libraries which would override core folders
-		$restrictedFolders = array('cms', 'fof', 'idna_convert', 'joomla', 'legacy', 'php-encryption', 'phpass', 'phputf8', 'src', 'vendor');
+		$restrictedFolders = array('php-encryption', 'phpass', 'src', 'vendor');
 
 		if (in_array($group, $restrictedFolders))
 		{

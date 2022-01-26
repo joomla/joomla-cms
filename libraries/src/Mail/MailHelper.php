@@ -18,7 +18,7 @@ use Joomla\CMS\Uri\Uri;
  * Email helper class, provides static methods to perform various tasks relevant
  * to the Joomla email routines.
  *
- * TODO: Test these methods as the regex work is first run and not tested thoroughly
+ * @todo: Test these methods as the regex work is first run and not tested thoroughly
  *
  * @since  1.7.0
  */
