@@ -66,7 +66,7 @@ class TableColumns {
 
     // Collect a list of headers for dropdown
     this.$headers.forEach(($el, index) => {
-      // Skip the first column, unless its a th, as we don't want to display the checkboxes
+      // Skip the first column, unless it's a th, as we don't want to display the checkboxes
       if (index === 0 && $el.nodeName !== 'TH') return;
 
       const $li = document.createElement('li');
