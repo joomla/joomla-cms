@@ -11,6 +11,7 @@ namespace Joomla\CMS\Document;
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Cache\Cache;
+use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ModuleHelper;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\Uri\Uri;
@@ -469,32 +470,41 @@ class HtmlDocument extends Document
 
 		$renderer = $this->loadRenderer($type);
 
-		if ($this->_caching == true && $type == 'modules')
+		if ($this->_caching == true && $type == 'modules' && $name !== 'debug')
 		{
-			$cache = \JFactory::getCache('com_modules', '');
-			$hash = md5(serialize(array($name, $attribs, null, $renderer)));
+			$cache  = Factory::getCache('com_modules', '');
+			$itemId = (int) Factory::getApplication()->input->get('Itemid', 0, 'int');
+
+			$hash = md5(
+				serialize(
+					array(
+						$name,
+						$attribs,
+						\get_class($renderer),
+						$itemId
+					)
+				)
+			);
 			$cbuffer = $cache->get('cbuffer_' . $type);
 
 			if (isset($cbuffer[$hash]))
 			{
 				return Cache::getWorkarounds($cbuffer[$hash], array('mergehead' => 1));
 			}
-			else
-			{
-				$options = array();
-				$options['nopathway'] = 1;
-				$options['nomodules'] = 1;
-				$options['modulemode'] = 1;
 
-				$this->setBuffer($renderer->render($name, $attribs, null), $type, $name);
-				$data = parent::$_buffer[$type][$name][$title];
+			$options = array();
+			$options['nopathway'] = 1;
+			$options['nomodules'] = 1;
+			$options['modulemode'] = 1;
 
-				$tmpdata = Cache::setWorkarounds($data, $options);
+			$this->setBuffer($renderer->render($name, $attribs, null), $type, $name);
+			$data = parent::$_buffer[$type][$name][$title];
 
-				$cbuffer[$hash] = $tmpdata;
+			$tmpdata = Cache::setWorkarounds($data, $options);
 
-				$cache->store($cbuffer, 'cbuffer_' . $type);
-			}
+			$cbuffer[$hash] = $tmpdata;
+
+			$cache->store($cbuffer, 'cbuffer_' . $type);
 		}
 		else
 		{
@@ -582,7 +592,7 @@ class HtmlDocument extends Document
 	public function countModules($condition)
 	{
 		$operators = '(\+|\-|\*|\/|==|\!=|\<\>|\<|\>|\<=|\>=|and|or|xor)';
-		$words = preg_split('# ' . $operators . ' #', $condition, null, PREG_SPLIT_DELIM_CAPTURE);
+		$words = preg_split('# ' . $operators . ' #', $condition, -1, PREG_SPLIT_DELIM_CAPTURE);
 
 		if (count($words) === 1)
 		{
@@ -719,7 +729,7 @@ class HtmlDocument extends Document
 
 		// 1.5 or core then 1.6
 		$lang->load('tpl_' . $template, JPATH_BASE, null, false, true)
-			|| $lang->load('tpl_' . $template, $directory . '/' . $template, null, false, true);
+		|| $lang->load('tpl_' . $template, $directory . '/' . $template, null, false, true);
 
 		// Assign the variables
 		$this->template = $template;

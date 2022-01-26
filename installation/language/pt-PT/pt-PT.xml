@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<metafile
-	version="3.7"
-	client="installation">
+<metafile version="3.10" client="installation">
 	<name>Portuguese (pt-PT)</name>
-	<version>3.7.0</version>
-	<creationDate>2017-02-04</creationDate>
-	<author>Projeto Joomla!</author>
+	<version>3.10.0</version>
+	<creationDate>13.08.2021</creationDate>
+	<author>Comunidade JoomlaPortugal</author>
 	<copyright>(C) 2006 Open Source Matters, Inc.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<files>

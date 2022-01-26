@@ -121,7 +121,7 @@ class ContentHelper
 
 		$relationsAll = $db->setQuery($query)->loadObjectList();
 
-		// Loop through the DB data overwritting the above zeros with the found count
+		// Loop through the DB data overwriting the above zeros with the found count
 		foreach ($relationsAll as $relation)
 		{
 			// Sanity check in case someone removes the state IN above ... and some views may start throwing warnings

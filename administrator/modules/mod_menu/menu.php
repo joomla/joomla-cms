@@ -359,6 +359,11 @@ class JAdminCssMenu
 			{
 				continue;
 			}
+			elseif (($item->link === 'index.php?option=com_installer&view=install' || $item->link === 'index.php?option=com_installer&view=languages')
+				&& !$this->user->authorise('core.admin'))
+			{
+				continue;
+			}
 			elseif ($item->element === 'com_admin')
 			{
 				parse_str($item->link, $query);
@@ -375,7 +380,7 @@ class JAdminCssMenu
 			}
 
 			// Exclude if link is invalid
-			if (!in_array($item->type, array('separator', 'heading', 'container')) && trim($item->link) === '')
+			if (is_null($item->link) || (!in_array($item->type, array('separator', 'heading', 'container')) && trim($item->link) === ''))
 			{
 				continue;
 			}

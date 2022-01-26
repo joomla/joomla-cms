@@ -46,7 +46,6 @@ class JoomlaupdateModelDefault extends JModelLegacy
 		switch ($params->get('updatesource', 'nochange'))
 		{
 			// "Minor & Patch Release for Current version AND Next Major Release".
-			case 'sts':
 			case 'next':
 				$updateURL = 'https://update.joomla.org/core/sts/list_sts.xml';
 				break;
@@ -74,6 +73,7 @@ class JoomlaupdateModelDefault extends JModelLegacy
 			 * The commented "case" below are for documenting where 'default' and legacy options falls
 			 * case 'default':
 			 * case 'lts':
+			 * case 'sts': (It's shown as "Default" because that option does not exist any more)
 			 * case 'nochange':
 			 */
 			default:
@@ -1203,8 +1203,10 @@ ENDDATA;
 		$option->notice = null;
 		$options[] = $option;
 
+		$updateInformation = $this->getUpdateInformation();
+
 		// Check if configured database is compatible with Joomla 4
-		if (version_compare($this->getUpdateInformation()['latest'], '4', '>='))
+		if (version_compare($updateInformation['latest'], '4', '>='))
 		{
 			$option = new stdClass;
 			$option->label  = JText::sprintf('INSTL_DATABASE_SUPPORTED', $this->getConfiguredDatabaseType());
@@ -1313,7 +1315,10 @@ ENDDATA;
 	 */
 	public function isDatabaseTypeSupported()
 	{
-		if (version_compare($this->getUpdateInformation()['latest'], '4', '>='))
+		$updateInformation = $this->getUpdateInformation();
+
+		// Check if configured database is compatible with Joomla 4
+		if (version_compare($updateInformation['latest'], '4', '>='))
 		{
 			$unsupportedDatabaseTypes = array('sqlsrv', 'sqlazure');
 			$currentDatabaseType = $this->getConfiguredDatabaseType();
@@ -1347,8 +1352,10 @@ ENDDATA;
 	 */
 	private function getTargetMinimumPHPVersion()
 	{
-		return isset($this->getUpdateInformation()['object']->php_minimum) ?
-			$this->getUpdateInformation()['object']->php_minimum->_data :
+		$updateInformation = $this->getUpdateInformation();
+
+		return isset($updateInformation['object']->php_minimum) ?
+			$updateInformation['object']->php_minimum->_data :
 			JOOMLA_MINIMUM_PHP;
 	}
 
@@ -1416,8 +1423,10 @@ ENDDATA;
 		// Get the schema change set
 		$changeSet = $model->getItems();
 
+		$changeSetCheck = $changeSet->check();
+
 		// Check if schema errors found
-		if (!empty($changeSet->check()))
+		if (!empty($changeSetCheck))
 		{
 			return false;
 		}
@@ -1466,8 +1475,10 @@ ENDDATA;
 		{
 			$decode = json_decode($extension->manifest_cache);
 
-			// Removed description so that CDATA content does not cause javascript error during pre-update check
-			$decode->description = '';
+			// Remove unused fields so they do not cause javascript errors during pre-update check
+			unset($decode->description);
+			unset($decode->copyright);
+			unset($decode->creationDate);
 
 			$this->translateExtensionName($extension);
 			$extension->version = isset($decode->version)
@@ -1540,8 +1551,10 @@ ENDDATA;
 		{
 			$decode = json_decode($plugin->manifest_cache);
 
-			// Removed description so that CDATA content does not cause javascript error during pre-update check
-			$decode->description = '';
+			// Remove unused fields so they do not cause javascript errors during pre-update check
+			unset($decode->description);
+			unset($decode->copyright);
+			unset($decode->creationDate);
 
 			$this->translateExtensionName($plugin);
 			$plugin->version = isset($decode->version)
@@ -1581,34 +1594,18 @@ ENDDATA;
 
 				foreach ($updateFileUrls as $updateFileUrl)
 				{
-					$compatibleVersion = $this->checkCompatibility($updateFileUrl, $joomlaTargetVersion);
+					$compatibleVersions = $this->checkCompatibility($updateFileUrl, $joomlaTargetVersion);
 
-					if ($compatibleVersion)
-					{
-						// Return the compatible version
-						return (object) array('state' => 1, 'compatibleVersion' => $compatibleVersion->_data);
-					}
-					else
-					{
-						// Return the compatible version as false so we can say update server is supported but no compatible version found
-						return (object) array('state' => 1, 'compatibleVersion' => false);
-					}
+					// Return the compatible versions
+					return (object) array('state' => 1, 'compatibleVersions' => $compatibleVersions);
 				}
 			}
 			else
 			{
-				$compatibleVersion = $this->checkCompatibility($updateSite['location'], $joomlaTargetVersion);
+				$compatibleVersions = $this->checkCompatibility($updateSite['location'], $joomlaTargetVersion);
 
-				if ($compatibleVersion)
-				{
-					// Return the compatible version
-					return (object) array('state' => 1, 'compatibleVersion' => $compatibleVersion->_data);
-				}
-				else
-				{
-					// Return the compatible version as false so we can say update server is supported but no compatible version found
-					return (object) array('state' => 1, 'compatibleVersion' => false);
-				}
+				// Return the compatible versions
+				return (object) array('state' => 1, 'compatibleVersions' => $compatibleVersions);
 			}
 		}
 
@@ -1722,19 +1719,33 @@ ENDDATA;
 	 * @param   string  $updateFileUrl        The items update XML url.
 	 * @param   string  $joomlaTargetVersion  The Joomla! version to test against
 	 *
-	 * @return  mixed  An array of data items or false.
+	 * @return  array  An array of strings with compatible version numbers
 	 *
 	 * @since   3.10.0
 	 */
 	private function checkCompatibility($updateFileUrl, $joomlaTargetVersion)
 	{
+		// Get the minimum stability information from com_installer
+		$minimumStability = JComponentHelper::getParams('com_installer')->get('minimum_stability', JUpdater::STABILITY_STABLE);
+
 		$update = new JUpdate;
 		$update->set('jversion.full', $joomlaTargetVersion);
-		$update->loadFromXML($updateFileUrl);
+		$update->loadFromXML($updateFileUrl, $minimumStability);
 
-		$downloadUrl = $update->get('downloadurl');
+		$compatibleVersions = $update->get('compatibleVersions');
 
-		return !empty($downloadUrl) && !empty($downloadUrl->_data) ? $update->get('version') : false;
+		// Check if old version of the updater library
+		if (!isset($compatibleVersions))
+		{
+			$downloadUrl = $update->get('downloadurl');
+			$updateVersion = $update->get('version');
+
+			return empty($downloadUrl) || empty($downloadUrl->_data) || empty($updateVersion) ? array() : array($updateVersion->_data);
+		}
+
+		usort($compatibleVersions, 'version_compare');
+
+		return $compatibleVersions;
 	}
 
 	/**
@@ -1786,6 +1797,65 @@ ENDDATA;
 		|| $lang->load($extension, $source, null, false, true);
 
 		// Translate the extension name if possible
-		$item->name = JText::_($item->name);
+		$item->name = strip_tags(JText::_($item->name));
+	}
+
+	/**
+	 * Checks whether a given template is active
+	 *
+	 * @param   string  $template  The template name to be checked
+	 *
+	 * @return  boolean
+	 *
+	 * @since   3.10.4
+	 */
+	public function isTemplateActive($template)
+	{
+		$db = $this->getDbo();
+		$query = $db->getQuery(true);
+
+		$query->select(
+			$db->qn(
+				array(
+					'id',
+					'home'
+				)
+			)
+		)->from(
+			$db->qn('#__template_styles')
+		)->where(
+			$db->qn('template') . ' = ' . $db->q($template)
+		);
+
+		$templates = $db->setQuery($query)->loadObjectList();
+
+		$home = array_filter(
+			$templates,
+			function($value)
+			{
+				return $value->home > 0;
+			}
+		);
+
+		$ids = JArrayHelper::getColumn($templates, 'id');
+
+		$menu = false;
+
+		if (count($ids))
+		{
+			$query = $db->getQuery(true);
+
+			$query->select(
+				'COUNT(*)'
+			)->from(
+				$db->qn('#__menu')
+			)->where(
+				$db->qn('template_style_id') . ' IN(' . implode(',', $ids) . ')'
+			);
+
+			$menu = $db->setQuery($query)->loadResult() > 0;
+		}
+
+		return $home || $menu;
 	}
 }

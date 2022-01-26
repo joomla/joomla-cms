@@ -58,6 +58,24 @@ class JInstallerAdapterTest extends TestCaseDatabase
 	}
 
 	/**
+	 * Gets a mock database object.
+	 *
+	 * @param   string  $driver        Optional driver to create a sub-class of JDatabaseDriver
+	 * @param   array   $extraMethods  An array of additional methods to add to the mock
+	 * @param   string  $nullDate      A null date string for the driver.
+	 * @param   string  $dateFormat    A date format for the driver.
+	 *
+	 * @return  JDatabaseDriver
+	 *
+	 * @since   3.10.4
+	 */
+	public function getMockDatabase($driver = '', array $extraMethods = array(), $nullDate = '0000-00-00 00:00:00', $dateFormat = 'Y-m-d H:i:s')
+	{
+		// Make sure we are creating an sqlite and not a dummy class here
+		return parent::getMockDatabase('sqlite', $extraMethods, $nullDate, $dateFormat);
+	}
+
+	/**
 	 * @testdox Tests the public constructor
 	 *
 	 * @covers  JInstallerAdapter::__construct

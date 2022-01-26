@@ -711,6 +711,12 @@ files:
   - source: /administrator/language/en-GB/en-GB.plg_privacy_user.sys.ini
     translation: /administrator/language/%locale%/%locale%.plg_privacy_user.sys.ini
     update_option: update_as_unapproved
+  - source: /administrator/language/en-GB/en-GB.plg_quickicon_eos310.ini
+    translation: /administrator/language/%locale%/%locale%.plg_quickicon_eos310.ini
+    update_option: update_as_unapproved
+  - source: /administrator/language/en-GB/en-GB.plg_quickicon_eos310.sys.ini
+    translation: /administrator/language/%locale%/%locale%.plg_quickicon_eos310.sys.ini
+    update_option: update_as_unapproved
   - source: /administrator/language/en-GB/en-GB.plg_quickicon_extensionupdate.ini
     translation: /administrator/language/%locale%/%locale%.plg_quickicon_extensionupdate.ini
     update_option: update_as_unapproved

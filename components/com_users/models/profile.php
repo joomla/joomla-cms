@@ -9,6 +9,7 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\User\UserHelper;
 use Joomla\Registry\Registry;
 
 /**
@@ -389,6 +390,12 @@ class UsersModelProfile extends JModelForm
 			$this->setError($user->getError());
 
 			return false;
+		}
+
+		// Destroy all active sessions for the user after changing the password
+		if ($data['password'])
+		{
+			UserHelper::destroyUserSessions($user->id, true);
 		}
 
 		return $user->id;

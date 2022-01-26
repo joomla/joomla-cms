@@ -7,7 +7,7 @@
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
-	<version>3.6.2</version>
+	<version>3.10.1</version>
 	<description>COM_JOOMLAUPDATE_XML_DESCRIPTION</description>
 	<media destination="com_joomlaupdate" folder="media">
 		<folder>js</folder>
@@ -15,7 +15,6 @@
 	<administration>
 		<menu img="class:joomlaupdate">com_joomlaupdate</menu>
 		<files folder="admin">
-			<filename>access.xml</filename>
 			<filename>config.xml</filename>
 			<filename>controller.php</filename>
 			<filename>joomlaupdate.php</filename>

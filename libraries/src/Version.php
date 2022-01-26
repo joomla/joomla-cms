@@ -49,7 +49,7 @@ final class Version
 	 * @var    integer
 	 * @since  3.8.0
 	 */
-	const PATCH_VERSION = 0;
+	const PATCH_VERSION = 6;
 
 	/**
 	 * Extra release version info.
@@ -60,7 +60,7 @@ final class Version
 	 * @var    string
 	 * @since  3.8.0
 	 */
-	const EXTRA_VERSION = 'alpha8-dev';
+	const EXTRA_VERSION = 'dev';
 
 	/**
 	 * Release version.
@@ -78,7 +78,7 @@ final class Version
 	 * @since  3.5
 	 * @deprecated  4.0  Use separated version constants instead
 	 */
-	const DEV_LEVEL = '0-alpha8-dev';
+	const DEV_LEVEL = '6-dev';
 
 	/**
 	 * Development status.
@@ -103,7 +103,7 @@ final class Version
 	 * @var    string
 	 * @since  3.5
 	 */
-	const CODENAME = 'Amani';
+	const CODENAME = 'Daraja';
 
 	/**
 	 * Release date.
@@ -111,7 +111,7 @@ final class Version
 	 * @var    string
 	 * @since  3.5
 	 */
-	const RELDATE = '13-June-2021';
+	const RELDATE = '15-January-2022';
 
 	/**
 	 * Release time.
@@ -119,7 +119,7 @@ final class Version
 	 * @var    string
 	 * @since  3.5
 	 */
-	const RELTIME = '14:09';
+	const RELTIME = '14:47';
 
 	/**
 	 * Release timezone.

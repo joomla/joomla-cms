@@ -306,7 +306,13 @@ class JFormFieldRules extends JFormField
 				$html[] = '<select onchange="sendPermissions.call(this, event)" data-chosen="true" class="input-small novalidate"'
 					. ' name="' . $this->name . '[' . $action->name . '][' . $group->value . ']"'
 					. ' id="' . $this->id . '_' . $action->name	. '_' . $group->value . '"'
-					. ' title="' . strip_tags(JText::sprintf('JLIB_RULES_SELECT_ALLOW_DENY_GROUP', JText::_($action->title), trim($group->text))) . '">';
+					. ' title="' . strip_tags(
+						JText::sprintf(
+							'JLIB_RULES_SELECT_ALLOW_DENY_GROUP',
+							JText::_($action->title),
+							htmlspecialchars(trim($group->text), ENT_QUOTES, 'UTF-8')
+						)
+					) . '">';
 
 				/**
 				 * Possible values:

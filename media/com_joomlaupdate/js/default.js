@@ -75,7 +75,7 @@ function extractionMethodHandler(target, prefix)
 			}
 		});
 
-		PreUpdateChecker.nonCoreCriticalPlugins = typeof nonCoreCriticalPlugins !== 'undefined' ? Object.values(JSON.parse(nonCoreCriticalPlugins)) : [];
+		PreUpdateChecker.nonCoreCriticalPlugins = Joomla.getOptions('nonCoreCriticalPlugins', []);
 
 		// If there are no non Core Critical Plugins installed then disable the warnings upfront
 		if (PreUpdateChecker.nonCoreCriticalPlugins.length === 0)
@@ -285,13 +285,17 @@ function extractionMethodHandler(target, prefix)
 		// Process the nonCoreCriticalPlugin list
 		if (extensionData.compatibilityData.resultGroup === 3)
 		{
-			for (var cpi in PreUpdateChecker.nonCoreCriticalPlugins)
+			var pluginInfo;
+
+			for (var i = PreUpdateChecker.nonCoreCriticalPlugins.length - 1; i >= 0; i--)
 			{
-				if(PreUpdateChecker.nonCoreCriticalPlugins[cpi].package_id == extensionId || PreUpdateChecker.nonCoreCriticalPlugins[cpi].extension_id == extensionId)
-				{
-					$('#plg_' + PreUpdateChecker.nonCoreCriticalPlugins[cpi].extension_id).remove();
-					PreUpdateChecker.nonCoreCriticalPlugins.splice(cpi,1);
-				}
+			  pluginInfo = PreUpdateChecker.nonCoreCriticalPlugins[i];
+
+			  if (pluginInfo.package_id == extensionId || pluginInfo.extension_id == extensionId)
+			  {
+				$('#plg_' + pluginInfo.extension_id).remove();
+				PreUpdateChecker.nonCoreCriticalPlugins.splice(i, 1);
+			  }
 			}
 		}
 
@@ -321,7 +325,7 @@ function extractionMethodHandler(target, prefix)
 						+ Joomla.JText._('COM_JOOMLAUPDATE_VIEW_DEFAULT_POTENTIALLY_DANGEROUS_PLUGIN')
 						+ '</span>'
 
-						+ '<span class="label label-important hasPopover" '
+						+ '<span class="label label-info hasPopover" '
 						+ ' title="' + Joomla.JText._('COM_JOOMLAUPDATE_VIEW_DEFAULT_POTENTIALLY_DANGEROUS_PLUGIN') +'"'
 						+ ' data-content="' + Joomla.JText._('COM_JOOMLAUPDATE_VIEW_DEFAULT_POTENTIALLY_DANGEROUS_PLUGIN_DESC')  +'"'
 						+ '>'

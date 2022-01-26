@@ -329,23 +329,29 @@ class FinderIndexerTaxonomy
 	{
 		// Delete all orphaned nodes.
 		$db = JFactory::getDbo();
-		$query     = $db->getQuery(true);
-		$subquery  = $db->getQuery(true);
-		$subquery1 = $db->getQuery(true);
 
-		$subquery1->select($db->quoteName('t.id'))
+		$query = $db->getQuery(true)
+			->select($db->quoteName('t.id'))
 			->from($db->quoteName('#__finder_taxonomy', 't'))
 			->join('LEFT', $db->quoteName('#__finder_taxonomy_map', 'm') . ' ON ' . $db->quoteName('m.node_id') . '=' . $db->quoteName('t.id'))
 			->where($db->quoteName('t.parent_id') . ' > 1 ')
 			->where($db->quoteName('m.link_id') . ' IS NULL');
 
-		$subquery->select($db->quoteName('id'))
-			->from('(' . $subquery1 . ') temp');
+		$db->setQuery($query);
+		
+		$ids = $db->loadColumn();
 
-		$query->delete($db->quoteName('#__finder_taxonomy'))
-			->where($db->quoteName('id') . ' IN (' . $subquery . ')');
+		if (empty($ids))
+		{
+			return 0;
+		}
+
+		$query->clear()
+			->delete($db->quoteName('#__finder_taxonomy'))
+			->where($db->quoteName('id') . ' IN (' . implode(',', $ids) . ')');
 
 		$db->setQuery($query);
+		
 		$db->execute();
 
 		return $db->getAffectedRows();

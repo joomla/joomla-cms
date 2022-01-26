@@ -686,7 +686,7 @@ class CMSApplication extends WebApplication
 				'deprecated'
 			);
 		}
-		catch (RuntimeException $exception)
+		catch (\RuntimeException $exception)
 		{
 			// Informational log only
 		}
@@ -712,7 +712,7 @@ class CMSApplication extends WebApplication
 				'deprecated'
 			);
 		}
-		catch (RuntimeException $exception)
+		catch (\RuntimeException $exception)
 		{
 			// Informational log only
 		}

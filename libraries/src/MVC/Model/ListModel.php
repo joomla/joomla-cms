@@ -54,6 +54,14 @@ class ListModel extends BaseDatabaseModel
 	protected $query = array();
 
 	/**
+	 * The cache ID used when last populating $this->query
+	 *
+	 * @var   null|string
+	 * @since 3.10.4
+	 */
+	protected $lastQueryStoreId = null;
+
+	/**
 	 * Name of the filter form to load
 	 *
 	 * @var    string
@@ -122,17 +130,14 @@ class ListModel extends BaseDatabaseModel
 	 */
 	protected function _getListQuery()
 	{
-		// Capture the last store id used.
-		static $lastStoreId;
-
 		// Compute the current store id.
 		$currentStoreId = $this->getStoreId();
 
 		// If the last store id is different from the current, refresh the query.
-		if ($lastStoreId != $currentStoreId || empty($this->query))
+		if ($this->lastQueryStoreId !== $currentStoreId || empty($this->query))
 		{
-			$lastStoreId = $currentStoreId;
-			$this->query = $this->getListQuery();
+			$this->lastQueryStoreId = $currentStoreId;
+			$this->query            = $this->getListQuery();
 		}
 
 		return $this->query;
