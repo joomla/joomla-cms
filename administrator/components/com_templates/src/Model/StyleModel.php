@@ -366,7 +366,7 @@ class StyleModel extends AdminModel
 				return false;
 			}
 
-			// Convert to the \JObject before adding other data.
+			// Convert to the \Joomla\CMS\Object\CMSObject before adding other data.
 			$properties        = $table->getProperties(1);
 			$this->_cache[$pk] = ArrayHelper::toObject($properties, CMSObject::class);
 
@@ -418,7 +418,9 @@ class StyleModel extends AdminModel
 		$formFile = Path::clean($client->path . '/templates/' . $template . '/templateDetails.xml');
 
 		// Load the core and/or local language file(s).
-			$lang->load('tpl_' . $template, $client->path)
+		$lang->load('tpl_' . $template, $client->path)
+		||	(!empty($data->parent) && $lang->load('tpl_' . $data->parent, $client->path))
+		||	(!empty($data->parent) && $lang->load('tpl_' . $data->parent, $client->path . '/templates/' . $data->parent))
 		||	$lang->load('tpl_' . $template, $client->path . '/templates/' . $template);
 
 		if (file_exists($formFile))

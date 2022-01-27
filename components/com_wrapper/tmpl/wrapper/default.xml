@@ -17,7 +17,6 @@
 				name="url"
 				type="url"
 				label="COM_WRAPPER_FIELD_URL_LABEL"
-				size="30"
 				required="true"
 				filter="url"
 				validate="url"
@@ -32,7 +31,6 @@
 				type="text"
 				label="JGLOBAL_WIDTH"
 				default="100%"
-				size="5"
 			/>
 
 			<field

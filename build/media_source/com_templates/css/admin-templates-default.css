@@ -92,15 +92,6 @@
   background-color: #F0F0EE;
 }
 
-#jform_show_core {
-  display: inline;
-}
-
-#jform_show_diff {
-  display: inline;
-  margin-left: 3.5em;
-}
-
 .switcher-label-0, .switcher-label-1 {
   white-space: nowrap;
 }
