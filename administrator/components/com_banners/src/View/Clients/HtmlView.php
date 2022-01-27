@@ -175,6 +175,6 @@ class HtmlView extends BaseHtmlView
 			$toolbar->preferences('com_banners');
 		}
 
-		$toolbar->help('JHELP_COMPONENTS_BANNERS_CLIENTS');
+		$toolbar->help('Banners:_Clients');
 	}
 }

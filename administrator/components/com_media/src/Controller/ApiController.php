@@ -221,7 +221,10 @@ class ApiController extends BaseController
 			$name = $this->getModel()->createFolder($adapter, $name, $path, $override);
 		}
 
-		return $this->getModel()->getFile($adapter, $path . '/' . $name);
+		$options        = [];
+		$options['url'] = $this->input->getBool('url', false);
+
+		return $this->getModel()->getFile($adapter, $path . '/' . $name, $options);
 	}
 
 	/**
@@ -359,15 +362,19 @@ class ApiController extends BaseController
 	 */
 	private function checkContent()
 	{
-		$params = ComponentHelper::getParams('com_media');
+		$helper              = new MediaHelper;
+		$contentLength       = $this->input->server->getInt('CONTENT_LENGTH');
+		$params              = ComponentHelper::getParams('com_media');
+		$paramsUploadMaxsize = $params->get('upload_maxsize', 0) * 1024 * 1024;
+		$uploadMaxFilesize   = $helper->toBytes(ini_get('upload_max_filesize'));
+		$postMaxSize         = $helper->toBytes(ini_get('post_max_size'));
+		$memoryLimit         = $helper->toBytes(ini_get('memory_limit'));
 
-		$helper       = new MediaHelper;
-		$serverlength = $this->input->server->getInt('CONTENT_LENGTH');
-
-		if (($params->get('upload_maxsize', 0) > 0 && $serverlength > ($params->get('upload_maxsize', 0) * 1024 * 1024))
-			|| $serverlength > $helper->toBytes(ini_get('upload_max_filesize'))
-			|| $serverlength > $helper->toBytes(ini_get('post_max_size'))
-			|| $serverlength > $helper->toBytes(ini_get('memory_limit')))
+		if (($paramsUploadMaxsize > 0 && $contentLength > $paramsUploadMaxsize)
+			|| ($uploadMaxFilesize > 0 && $contentLength > $uploadMaxFilesize)
+			|| ($postMaxSize > 0 && $contentLength > $postMaxSize)
+			|| ($memoryLimit > -1 && $contentLength > $memoryLimit)
+		)
 		{
 			throw new \Exception(Text::_('COM_MEDIA_ERROR_WARNFILETOOLARGE'), 403);
 		}

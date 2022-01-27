@@ -120,6 +120,25 @@ class QuickIconHelper
 				$this->buttons[$key][] = $tmp;
 			}
 
+			if ($params->get('show_tags'))
+			{
+				$tmp = [
+					'image'   => 'icon-tag',
+					'link'    => Route::_('index.php?option=com_tags&view=tags'),
+					'linkadd' => Route::_('index.php?option=com_tags&task=tag.edit'),
+					'name'    => 'MOD_QUICKICON_TAGS_MANAGER',
+					'access'  => array('core.manage', 'com_tags', 'core.create', 'com_tags'),
+					'group'   => 'MOD_QUICKICON_SITE',
+				];
+
+				if ($params->get('show_tags') == 2)
+				{
+					$tmp['ajaxurl'] = 'index.php?option=com_tags&amp;task=tags.getQuickiconContent&amp;format=json';
+				}
+
+				$this->buttons[$key][] = $tmp;
+			}
+
 			if ($params->get('show_categories'))
 			{
 				$tmp = [

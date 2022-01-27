@@ -2,12 +2,12 @@
 <extension type="component" method="upgrade">
 	<name>com_joomlaupdate</name>
 	<author>Joomla! Project</author>
-	<creationDate>February 2012</creationDate>
+	<creationDate>August 2021</creationDate>
 	<copyright>(C) 2012 Open Source Matters, Inc.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
-	<version>4.0.2</version>
+	<version>4.0.3</version>
 	<description>COM_JOOMLAUPDATE_XML_DESCRIPTION</description>
 	<namespace path="src">Joomla\Component\Joomlaupdate</namespace>
 	<media destination="com_joomlaupdate" folder="media">
@@ -16,8 +16,8 @@
 	<administration>
 		<files folder="admin">
 			<filename>config.xml</filename>
-			<filename>restore.php</filename>
-			<filename>restore_finalisation.php</filename>
+			<filename>extract.php</filename>
+			<filename>finalisation.php</filename>
 			<folder>services</folder>
 			<folder>src</folder>
 			<folder>tmpl</folder>

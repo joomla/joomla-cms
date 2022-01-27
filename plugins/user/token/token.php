@@ -114,7 +114,7 @@ class PlgUserToken extends CMSPlugin
 		}
 
 		// Get the user ID
-		$userId = isset($data->id) ? intval($data->id) : 0;
+		$userId = intval($data->id);
 
 		// Make sure we have a positive integer user ID
 		if ($userId <= 0)

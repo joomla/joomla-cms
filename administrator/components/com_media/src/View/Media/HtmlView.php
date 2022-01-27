@@ -128,7 +128,7 @@ class HtmlView extends BaseHtmlView
 
 		if ($tmpl !== 'component')
 		{
-			ToolbarHelper::help('JHELP_CONTENT_MEDIA_MANAGER');
+			ToolbarHelper::help('Media');
 		}
 	}
 }

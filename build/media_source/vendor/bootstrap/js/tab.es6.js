@@ -1,4 +1,4 @@
-import Tab from '../../../../../node_modules/bootstrap/js/src/tab';
+import Tab from 'bootstrap/js/src/tab';
 
 window.Joomla = window.Joomla || {};
 window.bootstrap = window.bootstrap || {};

@@ -2,7 +2,7 @@
 <metadata>
 	<layout title="COM_WRAPPER_WRAPPER_VIEW_DEFAULT_TITLE" option="COM_WRAPPER_WRAPPER_VIEW_DEFAULT_OPTION">
 		<help
-			key="JHELP_MENUS_MENU_ITEM_WRAPPER"
+			key="Menu_Item:_Iframe_Wrapper"
 		/>
 		<message>
 			<![CDATA[COM_WRAPPER_WRAPPER_VIEW_DEFAULT_DESC]]>
@@ -17,7 +17,6 @@
 				name="url"
 				type="url"
 				label="COM_WRAPPER_FIELD_URL_LABEL"
-				size="30"
 				required="true"
 				filter="url"
 				validate="url"
@@ -32,7 +31,6 @@
 				type="text"
 				label="JGLOBAL_WIDTH"
 				default="100%"
-				size="5"
 			/>
 
 			<field
