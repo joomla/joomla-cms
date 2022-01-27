@@ -319,7 +319,7 @@ class HtmlView extends BaseHtmlView
 			}
 
 			// Add a Compile Button
-			if ($ext == 'scss')
+			if ($ext === 'scss')
 			{
 				ToolbarHelper::custom('template.scss', 'icon-play', 'icon-play', 'COM_TEMPLATES_BUTTON_SCSS', false);
 			}
