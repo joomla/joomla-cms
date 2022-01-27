@@ -28,7 +28,6 @@
 				name="image_class"
 				type="textarea"
 				label="PLG_FIELDS_MEDIA_PARAMS_IMAGE_CLASS_LABEL"
-				size="40"
 				validate="CssIdentifier"
 			/>
 		</fieldset>

@@ -20,7 +20,6 @@
 			name="title"
 			type="text"
 			label="JGLOBAL_TITLE"
-			size="40"
 			required="true"
 			maxlength="255"
 		/>
@@ -31,14 +30,12 @@
 			label="JFIELD_ALIAS_LABEL"
 			description="JFIELD_ALIAS_DESC"
 			hint="JFIELD_ALIAS_PLACEHOLDER"
-			size="40"
 		/>
 
 		<field
 			name="note"
 			type="text"
 			label="COM_CONTENT_FIELD_NOTE_LABEL"
-			size="40"
 			maxlength="255"
 		/>
 
@@ -47,7 +44,6 @@
 			type="text"
 			label="JGLOBAL_FIELD_VERSION_NOTE_LABEL"
 			maxlength="255"
-			size="45"
 		/>
 
 		<field
@@ -72,7 +68,6 @@
 			type="list"
 			label="JSTATUS"
 			class="form-select-color-state"
-			size="1"
 			default="1"
 			validate="options"
 			>
@@ -95,7 +90,6 @@
 			label="COM_CONTENT_FIELD_CREATED_LABEL"
 			translateformat="true"
 			showtime="true"
-			size="22"
 			filter="user_utc"
 		/>
 
@@ -110,7 +104,6 @@
 			name="created_by_alias"
 			type="text"
 			label="COM_CONTENT_FIELD_CREATED_BY_ALIAS_LABEL"
-			size="20"
 		/>
 
 		<field
@@ -120,7 +113,6 @@
 			class="form-control"
 			translateformat="true"
 			showtime="true"
-			size="22"
 			readonly="true"
 			filter="user_utc"
 		/>
@@ -153,7 +145,6 @@
 			label="COM_CONTENT_FIELD_PUBLISH_UP_LABEL"
 			translateformat="true"
 			showtime="true"
-			size="22"
 			filter="user_utc"
 		/>
 
@@ -163,7 +154,6 @@
 			label="COM_CONTENT_FIELD_PUBLISH_DOWN_LABEL"
 			translateformat="true"
 			showtime="true"
-			size="22"
 			filter="user_utc"
 		/>
 
@@ -173,7 +163,6 @@
 			label="COM_CONTENT_FIELD_FEATURED_UP_LABEL"
 			translateformat="true"
 			showtime="true"
-			size="22"
 			filter="user_utc"
 		/>
 
@@ -183,7 +172,6 @@
 			label="COM_CONTENT_FIELD_FEATURED_DOWN_LABEL"
 			translateformat="true"
 			showtime="true"
-			size="22"
 			filter="user_utc"
 		/>
 
@@ -191,7 +179,6 @@
 			name="version"
 			type="text"
 			label="COM_CONTENT_FIELD_VERSION_LABEL"
-			size="6"
 			class="readonly"
 			readonly="true"
 			filter="unset"
@@ -201,7 +188,6 @@
 			name="ordering"
 			type="text"
 			label="JFIELD_ORDERING_LABEL"
-			size="6"
 			default="0"
 		/>
 
@@ -551,14 +537,12 @@
 					type="text"
 					label="JFIELD_READMORE_LABEL"
 					description="JFIELD_READMORE_DESC"
-					size="25"
 				/>
 
 				<field
 					name="article_page_title"
 					type="text"
 					label="COM_CONTENT_FIELD_BROWSER_PAGE_TITLE_LABEL"
-					size="25"
 				/>
 			</fieldset>
 
@@ -717,7 +701,6 @@
 				type="hidden"
 				label="JFIELD_READMORE_LABEL"
 				description="JFIELD_READMORE_DESC"
-				size="25"
 			/>
 
 			<field
@@ -742,7 +725,6 @@
 				name="image_intro_alt"
 				type="text"
 				label="COM_CONTENT_FIELD_IMAGE_ALT_LABEL"
-				size="20"
 			/>
 
 			<field
@@ -756,14 +738,12 @@
 				name="float_intro"
 				type="text"
 				label="COM_CONTENT_FIELD_IMAGE_CLASS_LABEL"
-				size="20"
 			/>
 
 			<field
 				name="image_intro_caption"
 				type="text"
 				label="COM_CONTENT_FIELD_IMAGE_CAPTION_LABEL"
-				size="20"
 			/>
 
 		</fieldset>
@@ -779,7 +759,6 @@
 				name="image_fulltext_alt"
 				type="text"
 				label="COM_CONTENT_FIELD_IMAGE_ALT_LABEL"
-				size="20"
 			/>
 
 			<field
@@ -793,14 +772,13 @@
 				name="float_fulltext"
 				type="text"
 				label="COM_CONTENT_FIELD_IMAGE_CLASS_LABEL"
-				size="20"
+				description="COM_CONTENT_FIELD_IMAGE_CLASS_DESC"
 			/>
 
 			<field
 				name="image_fulltext_caption"
 				type="text"
 				label="COM_CONTENT_FIELD_IMAGE_CAPTION_LABEL"
-				size="20"
 			/>
 		</fieldset>
 	</fields>
@@ -820,7 +798,6 @@
 				name="urlatext"
 				type="text"
 				label="COM_CONTENT_FIELD_URLA_LINK_TEXT_LABEL"
-				size="20"
 			/>
 
 			<field
@@ -853,7 +830,6 @@
 				name="urlbtext"
 				type="text"
 				label="COM_CONTENT_FIELD_URLB_LINK_TEXT_LABEL"
-				size="20"
 			/>
 
 			<field
@@ -886,7 +862,6 @@
 				name="urlctext"
 				type="text"
 				label="COM_CONTENT_FIELD_URLC_LINK_TEXT_LABEL"
-				size="20"
 			/>
 
 			<field
@@ -908,7 +883,7 @@
 
 	<fields name="metadata" label="JGLOBAL_FIELDSET_METADATA_OPTIONS">
 		<fieldset name="jmetadata"
-				  label="JGLOBAL_FIELDSET_METADATA_OPTIONS">
+				label="JGLOBAL_FIELDSET_METADATA_OPTIONS">
 
 			<field
 				name="robots"
@@ -927,7 +902,6 @@
 				name="author"
 				type="text"
 				label="JAUTHOR"
-				size="20"
 			/>
 
 			<field
@@ -946,11 +920,13 @@
 		<field
 			name="introtext"
 			label="COM_CONTENT_FIELD_INTROTEXT"
+			filter="JComponentHelper::filterText"
 		/>
 
 		<field
 			name="fulltext"
 			label="COM_CONTENT_FIELD_FULLTEXT"
+			filter="JComponentHelper::filterText"
 		/>
 	</fields>
 

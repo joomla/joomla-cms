@@ -8,7 +8,7 @@ tests
 .drone.yml
 .editorconfig
 .gitignore
-.php_cs.dist
+.php-cs-fixer.dist.php
 build.xml
 codeception.yml
 composer.json

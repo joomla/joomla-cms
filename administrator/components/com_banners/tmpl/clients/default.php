@@ -123,20 +123,40 @@ $params     = $this->state->params ?? new CMSObject;
 										<?php echo $item->contact; ?>
 									</td>
 									<td class="text-center btns d-none d-md-table-cell itemnumber">
-										<a class="btn <?php echo ($item->count_published > 0) ? 'btn-success' : 'btn-secondary'; ?>" href="<?php echo Route::_('index.php?option=com_banners&view=banners&filter[client_id]=' . (int) $item->id . '&filter[published]=1'); ?>">
-											<?php echo $item->count_published; ?></a>
+										<a class="btn <?php echo ($item->count_published > 0) ? 'btn-success' : 'btn-secondary'; ?>" href="<?php echo Route::_('index.php?option=com_banners&view=banners&filter[client_id]=' . (int) $item->id . '&filter[published]=1'); ?>"
+										aria-describedby="tip-publish<?php echo $i; ?>">
+											<?php echo $item->count_published; ?>
+										</a>
+										<div role="tooltip" id="tip-publish<?php echo $i; ?>">
+											<?php echo Text::_('COM_BANNERS_COUNT_PUBLISHED_ITEMS'); ?>
+										</div>
 									</td>
 									<td class="text-center btns d-none d-md-table-cell itemnumber">
-										<a class="btn <?php echo ($item->count_unpublished > 0) ? 'btn-danger' : 'btn-secondary'; ?>" href="<?php echo Route::_('index.php?option=com_banners&view=banners&filter[client_id]=' . (int) $item->id . '&filter[published]=0'); ?>">
-											<?php echo $item->count_unpublished; ?></a>
+										<a class="btn <?php echo ($item->count_unpublished > 0) ? 'btn-danger' : 'btn-secondary'; ?>" href="<?php echo Route::_('index.php?option=com_banners&view=banners&filter[client_id]=' . (int) $item->id . '&filter[published]=0'); ?>"
+										aria-describedby="tip-unpublish<?php echo $i; ?>">
+											<?php echo $item->count_unpublished; ?>
+										</a>
+										<div role="tooltip" id="tip-unpublish<?php echo $i; ?>">
+											<?php echo Text::_('COM_BANNERS_COUNT_UNPUBLISHED_ITEMS'); ?>
+										</div>
 									</td>
 									<td class="text-center btns d-none d-md-table-cell itemnumber">
-										<a class="btn <?php echo ($item->count_archived > 0) ? 'btn-info' : 'btn-secondary'; ?>" href="<?php echo Route::_('index.php?option=com_banners&view=banners&filter[client_id]=' . (int) $item->id . '&filter[published]=2'); ?>">
-											<?php echo $item->count_archived; ?></a>
+										<a class="btn <?php echo ($item->count_archived > 0) ? 'btn-info' : 'btn-secondary'; ?>" href="<?php echo Route::_('index.php?option=com_banners&view=banners&filter[client_id]=' . (int) $item->id . '&filter[published]=2'); ?>"
+										aria-describedby="tip-archived<?php echo $i; ?>">
+											<?php echo $item->count_archived; ?>
+										</a>
+										<div role="tooltip" id="tip-archived<?php echo $i; ?>">
+											<?php echo Text::_('COM_BANNERS_COUNT_ARCHIVED_ITEMS'); ?>
+										</div>
 									</td>
 									<td class="text-center btns d-none d-md-table-cell itemnumber">
-										<a class="btn <?php echo ($item->count_trashed > 0) ? 'btn-inverse' : 'btn-secondary'; ?>" href="<?php echo Route::_('index.php?option=com_banners&view=banners&filter[client_id]=' . (int) $item->id . '&filter[published]=-2'); ?>">
-											<?php echo $item->count_trashed; ?></a>
+										<a class="btn <?php echo ($item->count_trashed > 0) ? 'btn-dark' : 'btn-secondary'; ?>" href="<?php echo Route::_('index.php?option=com_banners&view=banners&filter[client_id]=' . (int) $item->id . '&filter[published]=-2'); ?>"
+										aria-describedby="tip-trashed<?php echo $i; ?>">
+											<?php echo $item->count_trashed; ?>
+										</a>
+										<div role="tooltip" id="tip-trashed<?php echo $i; ?>">
+											<?php echo Text::_('COM_BANNERS_COUNT_TRASHED_ITEMS'); ?>
+										</div>
 									</td>
 									<td class="small d-none d-md-table-cell">
 										<?php if ($item->purchase_type < 0) : ?>

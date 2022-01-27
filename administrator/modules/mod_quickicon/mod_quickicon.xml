@@ -20,7 +20,7 @@
 		<language tag="en-GB">language/en-GB/mod_quickicon.ini</language>
 		<language tag="en-GB">language/en-GB/mod_quickicon.sys.ini</language>
 	</languages>
-	<help key="JHELP_EXTENSIONS_MODULE_MANAGER_ADMIN_QUICKICON" />
+	<help key="Admin_Modules:_Quick_Icons" />
 	<config>
 		<fields name="params">
 			<fieldset name="basic">
@@ -215,6 +215,8 @@
 					label="COM_MODULES_FIELD_CACHE_TIME_LABEL"
 					default="900"
 					filter="integer"
+					min="1"
+					validate="number"
 				/>
 			</fieldset>
 		</fields>

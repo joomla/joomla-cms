@@ -1,0 +1,189 @@
+.subhead {
+  position: sticky;
+  top: 0;
+  right: 0;
+  left: 0;
+  z-index: $zindex-toolbar;
+  width: auto;
+  min-height: 43px;
+  padding: 10px 0;
+  color: #495057; //#0c192e;
+  background: $white;
+  box-shadow: -3px -2px 22px #ddd;
+
+  .row {
+    margin-right: 0;
+    margin-left: 0;
+  }
+
+  &.noshadow {
+    box-shadow: none;
+  }
+
+  joomla-toolbar-button,
+  .btn-group {
+    margin-inline-start: .75rem;
+
+    &:first-child {
+      margin-inline-start: 0;
+    }
+  }
+
+  joomla-toolbar-button {
+
+    .btn > span,
+    .dropdown-item > span {
+      margin-inline-end: .5rem;
+      width: 1.25em;
+      text-align: center;
+    }
+  }
+
+  .btn {
+    --subhead-btn-accent: #495057;
+    padding: 0 1rem;
+    margin: 5px 0;
+    font-size: 1rem;
+    line-height: 2.45rem;
+    color: #495057;
+    background: $white;
+    border-color: $gray-500;
+
+    > span {
+      display: inline-block;
+      color: var(--subhead-btn-accent);
+    }
+
+    &:not([disabled]):hover,
+    &:not([disabled]):active,
+    &:not([disabled]):focus {
+      color: rgba(255, 255, 255, .9);
+      background-color: var(--subhead-btn-accent);
+      border-color: var(--subhead-btn-accent);
+
+      > span {
+        color: rgba(255, 255, 255, .9);
+      }
+    }
+
+    &.btn-success {
+      --subhead-btn-accent: var(--success);
+    }
+
+    &.btn-danger {
+      --subhead-btn-accent: var(--danger);
+    }
+
+    &.btn-primary {
+      --subhead-btn-accent: #2a69b8;
+    }
+
+    &.btn-secondary {
+      --subhead-btn-accent: #001b4c;
+    }
+
+    &.btn-info {
+      --subhead-btn-accent: #132f53;
+    }
+
+    &.btn-action {
+      --subhead-btn-accent: #132f53;
+      display: flex;
+      align-items: center;
+
+      &::after {
+        width: 2.375rem;
+        font-family: "Font Awesome 5 Free";
+        font-weight: 900;
+        content: "\f078";
+        border: 0;
+
+      }
+    }
+
+    &[disabled],
+    &.dropdown-toggle[disabled] {
+      --subhead-btn-accent: #132f53;
+      background: rgba($gray-300, .8);
+      opacity: .5;
+
+      &:hover,
+      &:active,
+      &:focus {
+        cursor: not-allowed;
+      }
+    }
+  }
+
+  .dropdown-toggle {
+    &.btn {
+      padding-inline-end: 0;
+    }
+  }
+
+  .btn-group:not(:last-child) > .dropdown-toggle-split {
+    order: 1;
+    margin-inline-start: -$border-radius;
+
+    [dir="ltr"] & {
+      border-radius: 0 $border-radius $border-radius 0;
+    }
+
+    [dir="rtl"] & {
+      border-radius: $border-radius 0 0 $border-radius;
+    }
+  }
+
+  .dropdown-menu joomla-toolbar-button,
+  .btn-group joomla-toolbar-button {
+    margin-inline-start: 0;
+  }
+}
+
+@include media-breakpoint-down(md) {
+  joomla-tab[view=accordion] .col-md-9,
+  joomla-tab[view=accordion] .col-md-3 {
+    padding: .5rem 1rem !important;
+  }
+
+  #myTab {
+    margin-top: 1rem;
+    margin-bottom: 1.5rem;
+  }
+
+  joomla-tab[view=accordion] ul li {
+    width: 100%;
+  }
+
+  .subhead {
+
+    joomla-toolbar-button,
+    .btn-group,
+    .btn {
+      width: 100%;
+      margin-left: 0;
+      text-align: left;
+    }
+
+    .btn-toolbar > .btn-group,
+    .btn-toolbar > joomla-toolbar-button {
+      margin-left: 0;
+    }
+
+    .btn.btn-action::after {
+      text-align: center;
+      margin-inline-start: auto;
+    }
+
+    .dropdown-toggle-split {
+      width: auto;
+    }
+  }
+}
+
+// In Microsoft Edge, sticky positioning doesn't work when combined with dir "rtl" attribute
+@supports (-ms-ime-align: auto) {
+  [dir=rtl] .subhead {
+    position: relative;
+  }
+}

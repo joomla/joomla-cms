@@ -199,7 +199,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 	public function enqueueMessage($msg, $type = self::MSG_INFO)
 	{
 		// Don't add empty messages.
-		if (trim($msg) === '')
+		if ($msg === null || trim($msg) === '')
 		{
 			return;
 		}
@@ -475,7 +475,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 			}
 			elseif (class_exists($classname))
 			{
-				// TODO - This creates an implicit hard requirement on the JApplicationCms constructor
+				// @todo This creates an implicit hard requirement on the ApplicationCms constructor
 				static::$instances[$name] = new $classname(null, null, null, $container);
 			}
 			else
@@ -930,7 +930,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 	 */
 	public function logout($userid = null, $options = array())
 	{
-		// Get a user object from the \JApplication.
+		// Get a user object from the Application.
 		$user = Factory::getUser($userid);
 
 		// Build the credentials array.
@@ -1095,8 +1095,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 
 					$this->setHeader('Expires', 'Wed, 17 Aug 2005 00:00:00 GMT', true);
 					$this->setHeader('Last-Modified', gmdate('D, d M Y H:i:s') . ' GMT', true);
-					$this->setHeader('Cache-Control', 'no-store, no-cache, must-revalidate, post-check=0, pre-check=0', false);
-					$this->setHeader('Pragma', 'no-cache');
+					$this->setHeader('Cache-Control', 'no-store, no-cache, must-revalidate', false);
 					$this->sendHeaders();
 
 					$this->redirect((string) $oldUri, 301);
@@ -1138,8 +1137,6 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 		{
 			return $registry->set($key, $value);
 		}
-
-		return;
 	}
 
 	/**
@@ -1162,9 +1159,6 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 		if ($this->allowCache() === false)
 		{
 			$this->setHeader('Cache-Control', 'no-cache', false);
-
-			// HTTP 1.0
-			$this->setHeader('Pragma', 'no-cache');
 		}
 
 		$this->sendHeaders();
