@@ -32,7 +32,7 @@ class CategoriesModel extends ListModel
 	 * Does an association exist? Caches the result of getAssoc().
 	 *
 	 * @var   boolean|null
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.0.5
 	 */
 	private $hasAssociation;
 
@@ -156,7 +156,7 @@ class CategoriesModel extends ListModel
 	/**
 	 * Method to get a database query to list categories.
 	 *
-	 * @return  \JDatabaseQuery object.
+	 * @return  \Joomla\Database\DatabaseQuery
 	 *
 	 * @since   1.6
 	 */

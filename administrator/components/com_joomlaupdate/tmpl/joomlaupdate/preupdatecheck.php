@@ -14,6 +14,7 @@ use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Uri\Uri;
+use Joomla\CMS\Version;
 use Joomla\Component\Joomlaupdate\Administrator\View\Joomlaupdate\HtmlView;
 
 /** @var HtmlView $this */
@@ -78,6 +79,16 @@ $currentJoomlaVersion = isset($this->updateInfo['current']) ? $this->updateInfo[
 
 $updatePossible = true;
 
+if (version_compare($this->updateInfo['latest'], Version::MAJOR_VERSION + 1, '>=') && $this->isDefaultBackendTemplate === false)
+{
+	Factory::getApplication()->enqueueMessage(
+		Text::sprintf(
+			'COM_JOOMLAUPDATE_VIEW_DEFAULT_NON_CORE_BACKEND_TEMPLATE_USED_NOTICE',
+			ucfirst($this->defaultBackendTemplate)
+		),
+		'info'
+	);
+}
 ?>
 
 <div id="joomlaupdate-wrapper" class="main-card p-3 mt-3" data-joomla-target-version="<?php echo $latestJoomlaVersion; ?>" data-joomla-current-version="<?php echo $currentJoomlaVersion; ?>">
@@ -272,7 +283,7 @@ $updatePossible = true;
 										</th>
 										<th class="upcomp hidden" scope="col">
 											<?php echo Text::sprintf('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSION_COMPATIBLE_WITH_JOOMLA_VERSION', $this->escape($this->updateInfo['latest'])); ?>
-										</td>
+										</th>
 									</tr>
 								</thead>
 								<tbody class="row-fluid">
@@ -282,14 +293,14 @@ $updatePossible = true;
 										<tr>
 											<th class="exname" scope="row">
 												<?php echo $extension->name; ?>
-											</td>
+											</th>
 											<td class="extype">
 												<?php echo Text::_('COM_INSTALLER_TYPE_' . strtoupper($extension->type)); ?>
 											</td>
 											<td class="instver hidden">
 												<?php echo $extension->version; ?>
 											</td>
-											<td id="available-version-<?php echo $extension->extension_id; ?>" class="currcomp hidden" />
+											<td id="available-version-<?php echo $extension->extension_id; ?>" class="currcomp hidden"></td>
 											<td
 												class="extension-check upcomp hidden"
 												data-extension-id="<?php echo $extension->extension_id; ?>"

@@ -27,9 +27,9 @@ use Joomla\CMS\Plugin\PluginHelper;
 class HtmlView extends BaseHtmlView
 {
 	/**
-	 * The JForm object
+	 * The Form object
 	 *
-	 * @var  \JForm
+	 * @var  \Joomla\CMS\Form\Form
 	 */
 	protected $form;
 
@@ -50,7 +50,7 @@ class HtmlView extends BaseHtmlView
 	/**
 	 * The model state
 	 *
-	 * @var  \JObject
+	 * @var  \Joomla\CMS\Object\CMSObject
 	 */
 	protected $state;
 
@@ -58,6 +58,7 @@ class HtmlView extends BaseHtmlView
 	 * The page parameters
 	 *
 	 * @var    \Joomla\Registry\Registry|null
+	 *
 	 * @since  4.0.0
 	 */
 	protected $params = null;
@@ -66,6 +67,7 @@ class HtmlView extends BaseHtmlView
 	 * The page class suffix
 	 *
 	 * @var    string
+	 *
 	 * @since  4.0.0
 	 */
 	protected $pageclass_sfx = '';
@@ -73,7 +75,8 @@ class HtmlView extends BaseHtmlView
 	/**
 	 * The user object
 	 *
-	 * @var    \JUser
+	 * @var \Joomla\CMS\User\User
+	 *
 	 * @since  4.0.0
 	 */
 	protected $user = null;
@@ -82,9 +85,18 @@ class HtmlView extends BaseHtmlView
 	 * Should we show a captcha form for the submission of the article?
 	 *
 	 * @var    boolean
+	 *
 	 * @since  3.7.0
 	 */
 	protected $captchaEnabled = false;
+
+	/**
+	 * Should we show Save As Copy button?
+	 *
+	 * @var    boolean
+	 * @since  4.1.0
+	 */
+	protected $showSaveAsCopy = false;
 
 	/**
 	 * Execute and display a template script.
@@ -95,8 +107,8 @@ class HtmlView extends BaseHtmlView
 	 */
 	public function display($tpl = null)
 	{
-		$user = Factory::getUser();
 		$app  = Factory::getApplication();
+		$user = $app->getIdentity();
 
 		// Get model data.
 		$this->state       = $this->get('State');
@@ -155,7 +167,7 @@ class HtmlView extends BaseHtmlView
 		$params = &$this->state->params;
 
 		// Escape strings for HTML output
-		$this->pageclass_sfx = htmlspecialchars($params->get('pageclass_sfx'));
+		$this->pageclass_sfx = htmlspecialchars($params->get('pageclass_sfx', ''));
 
 		$this->params = $params;
 
@@ -181,7 +193,15 @@ class HtmlView extends BaseHtmlView
 			}
 		}
 
+		// If the article is being edited and the current user has permission to create article
+		if ($this->item->id
+			&& ($user->authorise('core.create', 'com_content') || \count($user->getAuthorisedCategories('com_content', 'core.create'))))
+		{
+			$this->showSaveAsCopy = true;
+		}
+
 		$this->_prepareDocument();
+
 		parent::display($tpl);
 	}
 

@@ -71,7 +71,7 @@ class CategoryModel extends AdminModel
 	 * Does an association exist? Caches the result of getAssoc().
 	 *
 	 * @var   boolean|null
-	 * @since __DEPLOY_VERSION__
+	 * @since 3.10.4
 	 */
 	private $hasAssociation;
 
@@ -150,7 +150,7 @@ class CategoryModel extends AdminModel
 	 * @param   string  $prefix  The class prefix. Optional.
 	 * @param   array   $config  Configuration array for model. Optional.
 	 *
-	 * @return  \Joomla\CMS\Table\Table  A JTable object
+	 * @return  \Joomla\CMS\Table\Table  A Table object
 	 *
 	 * @since   1.6
 	 */
@@ -345,7 +345,7 @@ class CategoryModel extends AdminModel
 			if (!$data->id)
 			{
 				// Check for which extension the Category Manager is used and get selected fields
-				$extension = substr($app->getUserState('com_categories.categories.filter.extension'), 4);
+				$extension = substr($app->getUserState('com_categories.categories.filter.extension', ''), 4);
 				$filters = (array) $app->getUserState('com_categories.categories.' . $extension . '.filter');
 
 				$data->set(
@@ -397,15 +397,17 @@ class CategoryModel extends AdminModel
 	/**
 	 * Method to preprocess the form.
 	 *
-	 * @param   \JForm  $form   A JForm object.
-	 * @param   mixed   $data   The data expected for the form.
-	 * @param   string  $group  The name of the plugin group to import.
+	 * @param   Form    $form  A Form object.
+	 * @param   mixed   $data  The data expected for the form.
+	 * @param   string  $group The name of the plugin group to import.
 	 *
 	 * @return  mixed
 	 *
-	 * @see     \Joomla\CMS\Form\FormField
 	 * @since   1.6
+	 *
 	 * @throws  \Exception if there is an error in the form event.
+	 *
+	 * @see     \Joomla\CMS\Form\FormField
 	 */
 	protected function preprocessForm(Form $form, $data, $group = 'content')
 	{
