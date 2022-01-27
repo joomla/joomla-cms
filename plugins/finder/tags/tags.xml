@@ -25,7 +25,7 @@
 					label="PLG_FINDER_TAGS_TAXONOMIES_LABEL"
 					default="type,language,author"
 					multiple="true"
-				>
+					>
 					<option value="author">PLG_FINDER_TAGS_TAXONOMIES_AUTHOR</option>
 					<option value="language">PLG_FINDER_TAGS_TAXONOMIES_LANGUAGE</option>
 					<option value="type">PLG_FINDER_TAGS_TAXONOMIES_TYPE</option>
