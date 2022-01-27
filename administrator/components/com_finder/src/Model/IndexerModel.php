@@ -33,7 +33,7 @@ class IndexerModel extends FormModel
 	 *
 	 * @throws \Exception
 	 */
-	public function getForm($data = array(), $loadData = true)
+	public function getForm($data = [], $loadData = true)
 	{
 		// Get the form.
 		$form = $this->loadForm('com_finder.indexer', 'indexer', array('control' => '', 'load_data' => $loadData));
