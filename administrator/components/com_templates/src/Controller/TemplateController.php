@@ -1119,7 +1119,7 @@ class TemplateController extends BaseController
 			$this->app->enqueueMessage(Text::_('COM_TEMPLATES_COMPILE_ERROR'), 'error');
 		}
 
-		$url = 'index.php?option=com_templates&view=template&id=' . $id . '&file=' . $file;
+		$url = 'index.php?option=com_templates&view=template&id=' . $id . '&file=' . $file . '&isMedia=' . $this->input->getInt('isMedia', 0);
 		$this->setRedirect(Route::_($url, false));
 	}
 }

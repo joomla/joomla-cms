@@ -2228,8 +2228,10 @@ class TemplateModel extends FormModel
 		if ($template = $this->getTemplate())
 		{
 			$app          = Factory::getApplication();
-			$client       = ApplicationHelper::getClientInfo($template->client_id);
-			$path         = Path::clean($client->path . '/templates/' . $template->element . '/');
+			$isMedia  = $app->input->getInt('isMedia', 0);
+			$path = $isMedia ? JPATH_ROOT . '/media/templates/' . ($template->client_id === 0 ? 'site' : 'administrator') . '/' . $template->element :
+				JPATH_ROOT . '/' . ($template->client_id === 0 ? '' : 'administrator/') . 'templates/' . $template->element;
+			$path         = Path::clean($path);
 			$inFile       = urldecode(base64_decode($input));
 			$explodeArray = explode('/', $inFile);
 			$fileName     = end($explodeArray);
@@ -2238,17 +2240,17 @@ class TemplateModel extends FormModel
 			try
 			{
 				$compiler = new SCSS_Compiler;
-				$compiler->setImportPaths($path . 'scss/');
+				$compiler->setImportPaths($path . '/scss/');
 				$compiler->setSourceMap(SCSS_Compiler::SOURCE_MAP_FILE);
 				$compiler->setOutputStyle(SCSS_OutputStyle::EXPANDED);
 				$compiler->setSourceMapOptions([
-					'sourceMapWriteTo'  => $path . 'css/' . $outFile . '.map',
-					'sourceMapURL'      => $path . 'css/' . $outFile . '.map',
+					'sourceMapWriteTo'  => $path . '/css/' . $outFile . '.map',
+					'sourceMapURL'      => $path . '/css/' . $outFile . '.map',
 					'sourceMapFilename' => $outFile . '.css',
 					'sourceMapBasepath' => '/'
 				]);
 				$compiledCss = $compiler->compile('@import \'' . $outFile . '\';');
-				File::write($path . 'css/' . $outFile . '.css', $compiledCss);
+				File::write($path . '/css/' . $outFile . '.css', $compiledCss);
 
 				return true;
 			}
