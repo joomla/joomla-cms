@@ -155,7 +155,7 @@ class AssociationsModel extends ListModel
 	/**
 	 * Build an SQL query to load the list data.
 	 *
-	 * @return  \JDatabaseQuery|boolean
+	 * @return  \Joomla\Database\DatabaseQuery|boolean
 	 *
 	 * @since  3.7.0
 	 */

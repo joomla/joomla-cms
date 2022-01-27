@@ -126,4 +126,4 @@ spl_autoload_register([new \Joomla\CMS\Autoload\ClassLoader($loader), 'loadClass
 require_once JPATH_LIBRARIES . '/classmap.php';
 
 // Define the Joomla version if not already defined.
-defined('JVERSION') or define('JVERSION', (new JVersion)->getShortVersion());
+defined('JVERSION') or define('JVERSION', (new \Joomla\CMS\Version)->getShortVersion());

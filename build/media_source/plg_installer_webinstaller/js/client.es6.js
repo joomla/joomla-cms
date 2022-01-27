@@ -57,8 +57,9 @@ class WebInstaller {
       return false;
     }
 
+    // eslint-disable-next-line prefer-regex-literals
     const pattern1 = new RegExp(webInstallerOptions.options.base_url);
-    const pattern2 = new RegExp('^index.php');
+    const pattern2 = /^index\.php/;
 
     if (!(pattern1.test(url) || pattern2.test(url))) {
       window.open(url, '_blank');
@@ -290,7 +291,7 @@ class WebInstaller {
 
   processLinkClick(url) {
     const pattern1 = new RegExp(webInstallerOptions.options.base_url);
-    const pattern2 = new RegExp('^index.php');
+    const pattern2 = /^index\.php/;
 
     if (pattern1.test(url) || pattern2.test(url)) {
       webInstallerOptions.view = url.replace(/^.+[&?]view=(\w+).*$/, '$1');

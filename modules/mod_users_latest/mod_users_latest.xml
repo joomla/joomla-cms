@@ -29,6 +29,8 @@
 					label="MOD_USERS_LATEST_FIELD_NUMBER_LABEL"
 					default="5"
 					filter="integer"
+					min="1"
+					validate="number"
 				/>
 
 				<field
