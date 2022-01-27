@@ -360,11 +360,11 @@ class ResetModel extends FormModel
 		 */
 		$months = floor(($diff - $years * 365 * 60 * 60 * 24) / (30 * 60 * 60 * 24));
 
-		/*
-		To get the day, subtract it with years and
-		months and divide the resultant date into
-		total seconds in a days (60 * 60 * 24)
-		*/
+		/**
+		 * To get the day, subtract it with years and
+		 * months and divide the resultant date into
+		 * total seconds in a days (60 * 60 * 24)
+		 */
 		$days = floor(($diff - $years * 365 * 60 * 60 * 24 - $months * 30 * 60 * 60 * 24) / (60 * 60 * 24));
 
 		if ($days > 3)
