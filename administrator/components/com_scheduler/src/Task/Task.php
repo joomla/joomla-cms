@@ -412,7 +412,7 @@ class Task implements LoggerAwareInterface
 
 			if (!in_array($exitCode, [Status::OK, Status::WILL_RESUME]))
 			{
-				$query->set('times_failed = t.times_failed + 1');
+				$query->set('times_failed = t.times_failed');
 			}
 		}
 
