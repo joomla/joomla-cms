@@ -1022,12 +1022,10 @@ class Language
 				return $this->paths[$extension];
 			}
 
-			return;
+			return [];
 		}
-		else
-		{
-			return $this->paths;
-		}
+
+		return $this->paths;
 	}
 
 	/**

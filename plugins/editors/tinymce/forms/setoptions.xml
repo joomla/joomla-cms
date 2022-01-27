@@ -72,13 +72,9 @@
 
 		<field
 			name="content_template_path"
-			type="folderlist"
+			type="templateslist"
 			label="PLG_TINY_FIELD_CUSTOM_CONTENT_TEMPLATE_PATH_LABEL"
 			description="PLG_TINY_FIELD_CUSTOM_CONTENT_TEMPLATE_PATH_DESC"
-			directory="/templates"
-			hide_none="true"
-			recursive="true"
-			exclude="system"
 			default=""
 			folderFilter="^tinymce"
 			validate="options"
@@ -117,6 +113,7 @@
 			default="en"
 			hide_default="1"
 			fileFilter="\.js$"
+			exclude="\.min\.js$"
 			showon="lang_mode:0"
 			validate="options"
 		/>
@@ -299,6 +296,57 @@
 		</field>
 
 		<field
+			name="paste_as_text"
+			type="radio"
+			label="PLG_TINY_FIELD_PASTE_AS_TEXT_LABEL"
+			layout="joomla.form.field.radio.switcher"
+			default="0"
+			>
+			<option value="0">JOFF</option>
+			<option value="1">JON</option>
+		</field>
+
+		<field
+			name="sourcecode"
+			type="radio"
+			label="PLG_TINY_FIELD_SOURCECODE_LABEL"
+			layout="joomla.form.field.radio.switcher"
+			default="1"
+			>
+			<option value="0">JOFF</option>
+			<option value="1">JON</option>
+		</field>
+
+		<field
+			name="content_languages"
+			type="subform"
+			label="PLG_TINY_FIELD_CONTENTLANGS_LABEL"
+			description="PLG_TINY_FIELD_CONTENTLANGS_DESC"
+			layout="joomla.form.field.subform.repeatable-table"
+			icon="list"
+			multiple="true"
+			default=''
+  		>
+			<form hidden="true" name="content_languages" repeat="true">
+				<field
+					name="content_language_name"
+					type="text"
+					label="PLG_TINY_FIELD_CONTENTLANGUAGE_LABEL"
+					size="30"
+					filter="string"
+				/>
+
+				<field
+					name="content_language_code"
+					type="text"
+					label="PLG_TINY_FIELD_CONTENTCODE_LABEL"
+					size="10"
+					filter="string"
+				/>
+			</form>
+		</field>
+
+		<field
 			name="custom_plugin"
 			type="text"
 			label="PLG_TINY_FIELD_CUSTOMPLUGIN_LABEL"
@@ -324,14 +372,12 @@
 					name="name"
 					type="text"
 					label="PLG_TINY_FIELD_EXTERNALPLUGINS_NAME_LABEL"
-					size="15"
 				/>
 
 				<field
 					name="path"
 					type="text"
 					label="PLG_TINY_FIELD_EXTERNALPLUGINS_PATH_LABEL"
-					size="30"
 				/>
 			</form>
 		</field>
