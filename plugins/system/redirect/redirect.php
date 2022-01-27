@@ -224,13 +224,15 @@ class PlgSystemRedirect extends CMSPlugin implements SubscriberInterface
 
 				$oldUrlParts = parse_url($redirect->old_url);
 
+				$new_url = $redirect->new_url;
+
 				if ($urlQuery !== '' && empty($oldUrlParts['query']))
 				{
-					$redirect->new_url .= '?' . $urlQuery;
+					$new_url .= '?' . $urlQuery;
 				}
 
-				$dest = Uri::isInternal($redirect->new_url) || strpos($redirect->new_url, 'http') === false ?
-					Route::_($redirect->new_url) : $redirect->new_url;
+				$dest = Uri::isInternal($new_url) || strpos($new_url, 'http') === false ?
+					Route::_($new_url) : $new_url;
 
 				// In case the url contains double // lets remove it
 				$destination = str_replace(Uri::root() . '/', Uri::root(), $dest);
