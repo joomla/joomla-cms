@@ -75,7 +75,7 @@
         "paragonie/sodium_compat": "~1.17.0",
         "phpmailer/phpmailer": "~6.0",
         "psr/link": "~1.0",
-        "scssphp/scssphp": "^1.6",
+        "scssphp/scssphp": "^1.10",
         "symfony/console": "~5.0",
         "symfony/error-handler": "^5.2",
         "symfony/ldap": "~5.0",

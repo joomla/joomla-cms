@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "1bc051f8327d43f2ea9ff9aca3cccef3",
+    "content-hash": "7f243005ac4ce081c0a69fab2e7dd2a1",
     "packages": [
         {
             "name": "algo26-matthias/idna-convert",
@@ -3155,16 +3155,16 @@
         },
         {
             "name": "scssphp/scssphp",
-            "version": "v1.6.0",
+            "version": "v1.10.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/scssphp/scssphp.git",
-                "reference": "b83594e2323c5d6e80785df3f91b9d1d32aad530"
+                "reference": "9699a52a862da4efb43985943afa17150155dd3d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/scssphp/scssphp/zipball/b83594e2323c5d6e80785df3f91b9d1d32aad530",
-                "reference": "b83594e2323c5d6e80785df3f91b9d1d32aad530",
+                "url": "https://api.github.com/repos/scssphp/scssphp/zipball/9699a52a862da4efb43985943afa17150155dd3d",
+                "reference": "9699a52a862da4efb43985943afa17150155dd3d",
                 "shasum": ""
             },
             "require": {
@@ -3178,8 +3178,9 @@
                 "sass/sass-spec": "*",
                 "squizlabs/php_codesniffer": "~3.5",
                 "symfony/phpunit-bridge": "^5.1",
+                "thoughtbot/bourbon": "^7.0",
                 "twbs/bootstrap": "~5.0",
-                "twbs/bootstrap4": "4.6.0",
+                "twbs/bootstrap4": "4.6.1",
                 "zurb/foundation": "~6.5"
             },
             "suggest": {
@@ -3222,9 +3223,9 @@
             ],
             "support": {
                 "issues": "https://github.com/scssphp/scssphp/issues",
-                "source": "https://github.com/scssphp/scssphp/tree/v1.6.0"
+                "source": "https://github.com/scssphp/scssphp/tree/v1.10.0"
             },
-            "time": "2021-07-02T16:28:10+00:00"
+            "time": "2022-01-06T18:16:18+00:00"
         },
         {
             "name": "spomky-labs/base64url",
