@@ -20,12 +20,12 @@
 		<fields name="params">
 			<fieldset name="basic" addfieldprefix="Joomla\Component\Finder\Administrator\Field">
 				<field
-						name="taxonomies"
-						type="taxonomytypes"
-						label="PLG_FINDER_CATEGORIES_TAXONOMIES_LABEL"
-						default="type,language"
-						multiple="true"
-				>
+					name="taxonomies"
+					type="taxonomytypes"
+					label="PLG_FINDER_CATEGORIES_TAXONOMIES_LABEL"
+					default="type,language"
+					multiple="true"
+					>
 					<option value="language">PLG_FINDER_CATEGORIES_TAXONOMIES_LANGUAGE</option>
 					<option value="type">PLG_FINDER_CATEGORIES_TAXONOMIES_TYPE</option>
 				</field>
