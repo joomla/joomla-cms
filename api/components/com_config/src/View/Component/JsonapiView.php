@@ -43,7 +43,7 @@ class JsonapiView extends BaseApiView
 
 			if ($component === null || !$component->enabled)
 			{
-				// TODO: exception component unavailable
+				// @todo: exception component unavailable
 				throw new \RuntimeException(Text::_('JLIB_APPLICATION_ERROR_INVALID_COMPONENT_NAME'), 400);
 			}
 
