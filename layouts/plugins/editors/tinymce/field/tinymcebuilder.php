@@ -11,8 +11,10 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Document\HtmlDocument;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Form\Form;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Layout\FileLayout;
 
 extract($displayData);
 
@@ -49,9 +51,9 @@ extract($displayData);
  * @var   array        $toolbarPreset  Toolbar preset (default values)
  * @var   int          $setsAmount     Amount of sets
  * @var   array        $setsNames      List of Sets names
- * @var   JForm[]      $setsForms      Form with extra options for an each set
+ * @var   Form[]       $setsForms      Form with extra options for an each set
  * @var   string       $languageFile   TinyMCE language file to translate the buttons
- * @var   JLayoutFile  $this           Context
+ * @var   FileLayout   $this           Context
  */
 
 /** @var HtmlDocument $doc */
@@ -61,7 +63,9 @@ $wa  = $doc->getWebAssetManager();
 // Add assets
 $wa->registerAndUseStyle('tinymce.skin', 'media/vendor/tinymce/skins/ui/oxide/skin.min.css')
 	->registerAndUseStyle('plg_editors_tinymce.builder', 'plg_editors_tinymce/tinymce-builder.css', [], [], ['tinymce.skin', 'dragula'])
-	->registerAndUseScript('plg_editors_tinymce.builder', 'plg_editors_tinymce/tinymce-builder.js', [], ['type' => 'module'], ['core', 'dragula']);
+	->registerAndUseScript('plg_editors_tinymce.builder', 'plg_editors_tinymce/tinymce-builder.js', [], ['type' => 'module'], ['core', 'dragula'])
+	->useStyle('webcomponent.joomla-tab')
+	->useScript('webcomponent.joomla-tab');
 
 // Add TinyMCE language file to translate the buttons
 if ($languageFile)
@@ -79,120 +83,101 @@ $doc->addScriptOptions('plg_editors_tinymce_builder',
 	]
 );
 
-HTMLHelper::_('bootstrap.tab', '#setTabs')
 ?>
 <div id="joomla-tinymce-builder">
-
+	<h3><?php echo Text::_('PLG_TINY_SET_TARGET_PANEL_TITLE'); ?></h3>
+	<p><?php echo Text::_('PLG_TINY_SET_TARGET_PANEL_DESCRIPTION'); ?></p>
 	<p><?php echo Text::_('PLG_TINY_SET_SOURCE_PANEL_DESCRIPTION'); ?></p>
-
 	<div class="tox tox-tinymce">
 		<div class="tox-editor-container">
-
 			<div class="tox-menubar tinymce-builder-menu source" data-group="menu"
 				data-value="<?php echo $this->escape(json_encode($menubarSource)); ?>">
 			</div>
-
 			<div class="tox-toolbar tinymce-builder-toolbar source" data-group="toolbar"
 				data-value="<?php echo $this->escape(json_encode($buttonsSource)); ?>">
 			</div>
-
 		</div>
 	</div>
-
 	<hr>
-	<h3><?php echo Text::_('PLG_TINY_SET_TARGET_PANEL_TITLE'); ?></h3>
-	<p><?php echo Text::_('PLG_TINY_SET_TARGET_PANEL_DESCRIPTION'); ?></p>
+	<joomla-tab orientation="vertical" id="joomla-tinymce-builder-sets" recall breakpoint="974">
+		<?php foreach ($setsNames as $num => $title) : ?>
+		<?php $isActive = $num === $setsAmount - 1; ?>
+			<joomla-tab-element class="tab-pane" id="set-<?php echo $num; ?>" <?php echo $isActive; ?> name="<?php echo $title; ?>">
+				<?php // Render tab content for each set ?>
+					<?php
+						$presetButtonClasses = [
+							'simple'   => 'btn-success',
+							'medium'   => 'btn-info',
+							'advanced' => 'btn-warning',
+						];
+						// Check whether the values exists, and if empty then use from preset
+						if (empty($value['toolbars'][$num]['menu'])
+							&& empty($value['toolbars'][$num]['toolbar1'])
+							&& empty($value['toolbars'][$num]['toolbar2']))
+						{
+							// Take the preset for default value
+							switch ($num) {
+								case 0:
+									$preset = $toolbarPreset['advanced'];
+									break;
+								case 1:
+									$preset = $toolbarPreset['medium'];
+									break;
+								default:
+									$preset = $toolbarPreset['simple'];
+							}
 
-	<?php // Render tabs for each set ?>
-	<ul class="nav nav-tabs" id="setTabs">
-		<?php foreach ($setsNames as $num => $title) :
-			$isActive = $num === $setsAmount - 1;
-		?>
-		<li class="nav-item" role="presentation">
-			<a class="nav-link <?php echo $isActive ? 'active' : ''; ?>" id="set-<?php echo $num; ?>-tab" data-bs-toggle="tab" href="#set-<?php echo $num; ?>" role="tab" aria-controls="set-<?php echo $num; ?>">
-				<?php echo $title; ?></a>
-		</li>
-		<?php endforeach; ?>
-	</ul>
+							$value['toolbars'][$num] = $preset;
+						}
 
-	<?php // Render tab content for each set ?>
-	<div class="tab-content" id="setTabsContent">
-		<?php
-		$presetButtonClases = array(
-			'simple'   => 'btn-success',
-			'medium'   => 'btn-info',
-			'advanced' => 'btn-warning',
-		);
-		foreach ($setsNames as $num => $title) :
+						// Take existing values
+						$valMenu = empty($value['toolbars'][$num]['menu'])     ? array() : $value['toolbars'][$num]['menu'];
+						$valBar1 = empty($value['toolbars'][$num]['toolbar1']) ? array() : $value['toolbars'][$num]['toolbar1'];
+						$valBar2 = empty($value['toolbars'][$num]['toolbar2']) ? array() : $value['toolbars'][$num]['toolbar2'];
 
-			// Check whether the values exists, and if empty then use from preset
-			if (empty($value['toolbars'][$num]['menu'])
-				&& empty($value['toolbars'][$num]['toolbar1'])
-				&& empty($value['toolbars'][$num]['toolbar2']))
-			{
-				// Take the preset for default value
-				switch ($num) {
-					case 0:
-						$preset = $toolbarPreset['advanced'];
-						break;
-					case 1:
-						$preset = $toolbarPreset['medium'];
-						break;
-					default:
-						$preset = $toolbarPreset['simple'];
-				}
+					?>
+					<?php echo $this->sublayout('setaccess', array('form' => $setsForms[$num])); ?>
+					<div class="btn-toolbar float-end mt-3">
+						<div class="btn-group btn-group-sm">
 
-				$value['toolbars'][$num] = $preset;
-			}
+						<?php foreach(array_keys($toolbarPreset) as $presetName) :
+							$btnClass = empty($presetButtonClasses[$presetName]) ? 'btn-primary' : $presetButtonClasses[$presetName];
+							?>
+							<button type="button" class="btn <?php echo $btnClass; ?> button-action"
+								data-action="setPreset" data-preset="<?php echo $presetName; ?>" data-set="<?php echo $num; ?>">
+								<?php echo Text::_('PLG_TINY_SET_PRESET_BUTTON_' . $presetName); ?>
+							</button>
+						<?php endforeach; ?>
 
-			// Take existing values
-			$valMenu = empty($value['toolbars'][$num]['menu'])     ? array() : $value['toolbars'][$num]['menu'];
-			$valBar1 = empty($value['toolbars'][$num]['toolbar1']) ? array() : $value['toolbars'][$num]['toolbar1'];
-			$valBar2 = empty($value['toolbars'][$num]['toolbar2']) ? array() : $value['toolbars'][$num]['toolbar2'];
-		?>
-			<div class="tab-pane <?php echo $num === $setsAmount - 1 ? 'active' : ''; ?>" role="tabpanel" id="set-<?php echo $num; ?>" aria-labelledby="set-<?php echo $num; ?>-tab">
-				<?php echo $this->sublayout('setaccess', array('form' => $setsForms[$num])); ?>
-				<div class="btn-toolbar float-end mt-3">
-					<div class="btn-group btn-group-sm">
-
-					<?php foreach(array_keys($toolbarPreset) as $presetName) :
-						$btnClass = empty($presetButtonClases[$presetName]) ? 'btn-primary' : $presetButtonClases[$presetName];
-						?>
-						<button type="button" class="btn <?php echo $btnClass; ?> button-action"
-							data-action="setPreset" data-preset="<?php echo $presetName; ?>" data-set="<?php echo $num; ?>">
-							<?php echo Text::_('PLG_TINY_SET_PRESET_BUTTON_' . $presetName); ?>
-						</button>
-					<?php endforeach; ?>
-
-						<button type="button" class="btn btn-danger button-action"
-							 data-action="clearPane" data-set="<?php echo $num; ?>">
-							<?php echo Text::_('JCLEAR'); ?>
-						</button>
-					</div>
-				</div>
-
-				<div class="clearfix mb-1"></div>
-
-				<div class="tox tox-tinymce mb-3">
-					<div class="tox-editor-container">
-						<div class="tox-menubar tinymce-builder-menu target"
-							data-group="menu" data-set="<?php echo $num; ?>"
-							data-value="<?php echo $this->escape(json_encode($valMenu)); ?>">
-						</div>
-						<div class="tox-toolbar tinymce-builder-toolbar target"
-						    data-group="toolbar1" data-set="<?php echo $num; ?>"
-						    data-value="<?php echo $this->escape(json_encode($valBar1)); ?>">
-						</div>
-						<div class="tox-toolbar tinymce-builder-toolbar target"
-						    data-group="toolbar2" data-set="<?php echo $num; ?>"
-						    data-value="<?php echo $this->escape(json_encode($valBar2)); ?>">
+							<button type="button" class="btn btn-danger button-action"
+								data-action="clearPane" data-set="<?php echo $num; ?>">
+								<?php echo Text::_('JCLEAR'); ?>
+							</button>
 						</div>
 					</div>
-				</div>
 
-				<?php // Render the form for extra options ?>
-				<?php echo $this->sublayout('setoptions', array('form' => $setsForms[$num])); ?>
-			</div>
+					<div class="clearfix mb-1"></div>
+
+					<div class="tox tox-tinymce mb-3">
+						<div class="tox-editor-container">
+							<div class="tox-menubar tinymce-builder-menu target"
+								data-group="menu" data-set="<?php echo $num; ?>"
+								data-value="<?php echo $this->escape(json_encode($valMenu)); ?>">
+							</div>
+							<div class="tox-toolbar tinymce-builder-toolbar target"
+								data-group="toolbar1" data-set="<?php echo $num; ?>"
+								data-value="<?php echo $this->escape(json_encode($valBar1)); ?>">
+							</div>
+							<div class="tox-toolbar tinymce-builder-toolbar target"
+								data-group="toolbar2" data-set="<?php echo $num; ?>"
+								data-value="<?php echo $this->escape(json_encode($valBar2)); ?>">
+							</div>
+						</div>
+					</div>
+
+					<?php // Render the form for extra options ?>
+					<?php echo $this->sublayout('setoptions', array('form' => $setsForms[$num])); ?>
+			</joomla-tab-element>
 		<?php endforeach; ?>
-	</div>
+	</joomla-tab>
 </div>

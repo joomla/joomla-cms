@@ -103,7 +103,7 @@ class StreamTransport extends AbstractTransport implements TransportInterface
 			$options['request_fulluri'] = true;
 
 			// Put any required authorization into the headers array to be handled later
-			// TODO: do we need to support any auth type other than Basic?
+			// @todo: do we need to support any auth type other than Basic?
 			if ($user = $app->get('proxy_user'))
 			{
 				$auth = base64_encode($app->get('proxy_user') . ':' . $app->get('proxy_pass'));

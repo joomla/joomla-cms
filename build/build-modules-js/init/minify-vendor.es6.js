@@ -10,6 +10,7 @@ const folders = [
   'media/vendor/chosen/js',
   'media/vendor/codemirror',
   'media/vendor/debugbar',
+  'media/vendor/diff/js',
   'media/vendor/qrcode/js',
   'media/vendor/short-and-sweet/js',
   'media/vendor/webcomponentsjs/js',
@@ -75,7 +76,7 @@ const minifyJS = async (file) => {
   await writeFile(
     newFile,
     minified,
-    { encoding: 'utf8' },
+    { encoding: 'utf8', mode: 0o644 },
   );
 };
 

@@ -30,7 +30,7 @@ services:
 ## Install PHP and composer, and run the appropriate composer command
 install:
     - IF EXIST C:\tools\php (SET PHP=0)
-    # TODO: This is a workaround for https://github.com/chocolatey/choco/issues/1843. Once this is fixed we
+    # @todo: This is a workaround for https://github.com/chocolatey/choco/issues/1843. Once this is fixed we
     #       should go back to latest version in appveyor saving ourselves test time
     - ps: choco upgrade chocolatey -y --version 0.10.13 --allow-downgrade --no-progress
     - ps: >-
