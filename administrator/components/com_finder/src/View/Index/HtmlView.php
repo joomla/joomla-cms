@@ -41,7 +41,7 @@ class HtmlView extends BaseHtmlView
 	/**
 	 * The pagination object
 	 *
-	 * @var  \Joomla\CMS\Pagination\Pagination
+	 * @var    \Joomla\CMS\Pagination\Pagination
 	 *
 	 * @since  3.6.1
 	 */
@@ -60,6 +60,7 @@ class HtmlView extends BaseHtmlView
 	 * The id of the content - finder plugin in mysql
 	 *
 	 * @var    integer
+	 *
 	 * @since  4.0.0
 	 */
 	protected $finderPluginId = 0;
@@ -67,7 +68,7 @@ class HtmlView extends BaseHtmlView
 	/**
 	 * The model state
 	 *
-	 * @var  mixed
+	 * @var    mixed
 	 *
 	 * @since  3.6.1
 	 */
@@ -76,7 +77,7 @@ class HtmlView extends BaseHtmlView
 	/**
 	 * The total number of items
 	 *
-	 * @var  integer
+	 * @var    integer
 	 *
 	 * @since  3.6.1
 	 */
@@ -85,7 +86,8 @@ class HtmlView extends BaseHtmlView
 	/**
 	 * Form object for search filters
 	 *
-	 * @var    \JForm
+	 * @var    \Joomla\CMS\Form\Form
+	 *
 	 * @since  4.0.0
 	 */
 	public $filterForm;
@@ -94,6 +96,7 @@ class HtmlView extends BaseHtmlView
 	 * The active search filters
 	 *
 	 * @var    array
+	 *
 	 * @since  4.0.0
 	 */
 	public $activeFilters;
@@ -110,7 +113,7 @@ class HtmlView extends BaseHtmlView
 	 *
 	 * @param   string  $tpl  A template file to load. [optional]
 	 *
-	 * @return  mixed  A string if successful, otherwise an \Exception object.
+	 * @return  void
 	 *
 	 * @since   2.5
 	 */
@@ -154,7 +157,7 @@ class HtmlView extends BaseHtmlView
 		// Configure the toolbar.
 		$this->addToolbar();
 
-		return parent::display($tpl);
+		parent::display($tpl);
 	}
 
 	/**
@@ -214,6 +217,6 @@ class HtmlView extends BaseHtmlView
 			ToolbarHelper::preferences('com_finder');
 		}
 
-		ToolbarHelper::help('JHELP_COMPONENTS_FINDER_MANAGE_INDEXED_CONTENT');
+		ToolbarHelper::help('Smart_Search:_Indexed_Content');
 	}
 }

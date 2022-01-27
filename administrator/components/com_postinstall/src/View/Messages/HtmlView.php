@@ -30,7 +30,7 @@ class HtmlView extends BaseHtmlView
 	 *
 	 * @param   string  $tpl  Subtemplate to use
 	 *
-	 * @return  boolean  Return true to allow rendering of the page
+	 * @return  void
 	 *
 	 * @since   3.2
 	 */
@@ -61,7 +61,7 @@ class HtmlView extends BaseHtmlView
 
 		ToolbarHelper::title(Text::sprintf('COM_POSTINSTALL_MESSAGES_TITLE', $model->getExtensionName($this->eid)), 'bell');
 
-		return parent::display($tpl);
+		parent::display($tpl);
 	}
 
 	/**
@@ -84,7 +84,7 @@ class HtmlView extends BaseHtmlView
 		if (Factory::getUser()->authorise('core.admin', 'com_postinstall'))
 		{
 			$toolbar->preferences('com_postinstall');
-			$toolbar->help('JHELP_COMPONENTS_POST_INSTALLATION_MESSAGES');
+			$toolbar->help('Post-installation_Messages_for_Joomla_CMS');
 		}
 	}
 }

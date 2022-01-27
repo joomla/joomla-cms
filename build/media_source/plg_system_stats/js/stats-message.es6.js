@@ -47,18 +47,6 @@ Joomla = window.Joomla || {};
       }
     });
 
-    // Allow once
-    document.addEventListener('click', (event) => {
-      if (event.target.classList.contains('js-pstats-btn-allow-once')) {
-        event.preventDefault();
-
-        // Remove message
-        joomlaAlert.close();
-
-        callback({ plugin: 'sendOnce' });
-      }
-    });
-
     // Never allow
     document.addEventListener('click', (event) => {
       if (event.target.classList.contains('js-pstats-btn-allow-never')) {

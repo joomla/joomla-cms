@@ -82,7 +82,7 @@ class AdminPage extends AcceptanceTester
 	 * @var    array
 	 * @since  3.7.3
 	 */
-	public static $tabsLocator = ['xpath' => "//ul[@id='myTabTabs']/li/a"];
+	public static $tabsLocator = ['xpath' => "//div[@role='tablist']/button"];
 
 	/**
 	 * Locator for the Check All checkbox.

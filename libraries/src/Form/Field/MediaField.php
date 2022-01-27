@@ -108,7 +108,7 @@ class MediaField extends FormField
 	 * Possible values: images,audios,videos,documents
 	 *
 	 * @var    string
-	 * @since  __VERSION_DEPLOY__
+	 * @since  4.0.0
 	 */
 	protected $types;
 
@@ -321,7 +321,7 @@ class MediaField extends FormField
 				$this->folder = 'local-' . $adapterName . ':/' . implode('/', $paths);
 			}
 		}
-		elseif ($this->directory && strpos(':', $this->directory))
+		elseif ($this->directory && strpos($this->directory, ':'))
 		{
 			/**
 			 * Directory contains adapter information and path, for example via programming or directly defined in xml
@@ -336,7 +336,7 @@ class MediaField extends FormField
 
 		$mediaTypes   = array_map('trim', explode(',', $this->types));
 		$types        = [];
-		$imagesExt    = $imagesExt = array_map(
+		$imagesExt    = array_map(
 			'trim',
 			explode(
 				',',
@@ -372,7 +372,7 @@ class MediaField extends FormField
 				',',
 				ComponentHelper::getParams('com_media')->get(
 					'doc_extensions',
-					'doc,odg,odp,ods,odt,pdf,png,ppt,txt,xcf,xls,csv'
+					'doc,odg,odp,ods,odt,pdf,ppt,txt,xcf,xls,csv'
 				)
 			)
 		);

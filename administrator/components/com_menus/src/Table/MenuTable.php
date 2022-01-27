@@ -20,7 +20,7 @@ use Joomla\Database\ParameterType;
  *
  * @since  1.6
  */
-class MenuTable extends \JTableMenu
+class MenuTable extends \Joomla\CMS\Table\Menu
 {
 	/**
 	 * Method to delete a node and, optionally, its child nodes from the table.

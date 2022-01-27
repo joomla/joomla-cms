@@ -40,21 +40,21 @@ class HtmlView extends BaseHtmlView
 	/**
 	 * The pagination object
 	 *
-	 * @var  \JPagination
+	 * @var  \Joomla\CMS\Pagination\Pagination
 	 */
 	protected $pagination;
 
 	/**
 	 * The model state
 	 *
-	 * @var  \JObject
+	 * @var   \Joomla\CMS\Object\CMSObject
 	 */
 	protected $state;
 
 	/**
 	 * Form object for search filters
 	 *
-	 * @var  \JForm
+	 * @var  \Joomla\CMS\Form\Form
 	 */
 	public $filterForm;
 
@@ -75,7 +75,7 @@ class HtmlView extends BaseHtmlView
 	/**
 	 * Is this view an Empty State
 	 *
-	 * @var  boolean
+	 * @var   boolean
 	 * @since 4.0.0
 	 */
 	private $isEmptyState = false;
@@ -85,7 +85,7 @@ class HtmlView extends BaseHtmlView
 	 *
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
 	 *
-	 * @return  mixed  A string if successful, otherwise an Error object.
+	 * @return  void
 	 */
 	public function display($tpl = null)
 	{
@@ -145,7 +145,7 @@ class HtmlView extends BaseHtmlView
 			}
 		}
 
-		return parent::display($tpl);
+		parent::display($tpl);
 	}
 
 	/**
@@ -215,7 +215,7 @@ class HtmlView extends BaseHtmlView
 					->task('articles.featured')
 					->listCheck(true);
 
-				$childBar->standardButton('circle')
+				$childBar->standardButton('unfeatured')
 					->text('JUNFEATURE')
 					->task('articles.unfeatured')
 					->listCheck(true);
@@ -255,6 +255,6 @@ class HtmlView extends BaseHtmlView
 			$toolbar->preferences('com_content');
 		}
 
-		$toolbar->help('JHELP_CONTENT_ARTICLE_MANAGER');
+		$toolbar->help('Articles');
 	}
 }

@@ -42,7 +42,7 @@ final class Version
 	 * @var    integer
 	 * @since  3.8.0
 	 */
-	const MINOR_VERSION = 0;
+	const MINOR_VERSION = 1;
 
 	/**
 	 * Patch release version.
@@ -61,7 +61,7 @@ final class Version
 	 * @var    string
 	 * @since  3.8.0
 	 */
-	const EXTRA_VERSION = 'rc4-dev';
+	const EXTRA_VERSION = 'dev';
 
 	/**
 	 * Development status.
@@ -77,7 +77,7 @@ final class Version
 	 * @var    string
 	 * @since  3.5
 	 */
-	const CODENAME = 'Mañana';
+	const CODENAME = 'Kuamini';
 
 	/**
 	 * Release date.
@@ -85,7 +85,7 @@ final class Version
 	 * @var    string
 	 * @since  3.5
 	 */
-	const RELDATE = '29-June-2021';
+	const RELDATE = '18-January-2022';
 
 	/**
 	 * Release time.
@@ -93,7 +93,7 @@ final class Version
 	 * @var    string
 	 * @since  3.5
 	 */
-	const RELTIME = '19:04';
+	const RELTIME = '18:00';
 
 	/**
 	 * Release timezone.

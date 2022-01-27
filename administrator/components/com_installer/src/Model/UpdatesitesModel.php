@@ -12,7 +12,6 @@ namespace Joomla\Component\Installer\Administrator\Model;
 \defined('_JEXEC') or die;
 
 use Exception;
-use JDatabaseQuery;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\Folder;
 use Joomla\CMS\Installer\Installer;
@@ -380,8 +379,13 @@ class UpdatesitesModel extends InstallerModel
 					{
 						/**
 						 * Search if the extension exists in the extensions table. Excluding Joomla
-						 * core extensions (id < 10000) and discovered extensions.
+						 * core extensions and discovered but not yet installed extensions.
 						 */
+
+						$name    = (string) $manifest->name;
+						$pkgName = (string) $manifest->packagename;
+						$type    = (string) $manifest['type'];
+
 						$query = $db->getQuery(true)
 							->select($db->quoteName('extension_id'))
 							->from($db->quoteName('#__extensions'))
@@ -400,9 +404,9 @@ class UpdatesitesModel extends InstallerModel
 								'OR'
 							)
 							->whereNotIn($db->quoteName('extension_id'), $joomlaCoreExtensionIds)
-							->bind(':name', $manifest->name)
-							->bind(':pkgname', $manifest->packagename)
-							->bind(':type', $manifest['type']);
+							->bind(':name', $name)
+							->bind(':pkgname', $pkgName)
+							->bind(':type', $type);
 						$db->setQuery($query);
 
 						$eid = (int) $db->loadResult();
@@ -535,7 +539,7 @@ class UpdatesitesModel extends InstallerModel
 	/**
 	 * Method to get the database query
 	 *
-	 * @return  JDatabaseQuery  The database query
+	 * @return  \Joomla\Database\DatabaseQuery  The database query
 	 *
 	 * @since   3.4
 	 */
