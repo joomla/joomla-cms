@@ -34,7 +34,7 @@ class PlgButtonPagebreak extends CMSPlugin
 	 *
 	 * @param   string  $name  The name of the button to add
 	 *
-	 * @return  CMSObject  The button options as JObject
+	 * @return  CMSObject|void  The button options as CMSObject
 	 *
 	 * @since   1.5
 	 */

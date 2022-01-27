@@ -11,6 +11,7 @@ namespace Joomla\CMS\Document;
 \defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Cache\Cache;
+use Joomla\CMS\Cache\CacheControllerFactoryInterface;
 use Joomla\CMS\Factory as CmsFactory;
 use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\Helper\ModuleHelper;
@@ -325,7 +326,7 @@ class HtmlDocument extends Document
 	 *
 	 * @param   array  $data  The document head data in array form
 	 *
-	 * @return  HtmlDocument|null instance of $this to allow chaining or null for empty input data
+	 * @return  HtmlDocument|void instance of $this to allow chaining or void for empty input data
 	 *
 	 * @since   1.7.0
 	 */
@@ -556,33 +557,44 @@ class HtmlDocument extends Document
 
 		$renderer = $this->loadRenderer($type);
 
-		if ($this->_caching == true && $type === 'modules')
+		if ($this->_caching == true && $type === 'modules' && $name !== 'debug')
 		{
 			/** @var  \Joomla\CMS\Document\Renderer\Html\ModulesRenderer  $renderer */
-			$cache = CmsFactory::getCache('com_modules', '');
-			$hash = md5(serialize(array($name, $attribs, null, get_class($renderer))));
+			/** @var  \Joomla\CMS\Cache\Controller\OutputController  $cache */
+			$cache = CmsFactory::getContainer()->get(CacheControllerFactoryInterface::class)
+				->createCacheController('output', ['defaultgroup' => 'com_modules']);
+			$itemId = (int) CmsFactory::getApplication()->input->get('Itemid', 0, 'int');
+
+			$hash = md5(
+				serialize(
+					[
+						$name,
+						$attribs,
+						\get_class($renderer),
+						$itemId,
+					]
+				)
+			);
 			$cbuffer = $cache->get('cbuffer_' . $type);
 
 			if (isset($cbuffer[$hash]))
 			{
 				return Cache::getWorkarounds($cbuffer[$hash], array('mergehead' => 1));
 			}
-			else
-			{
-				$options = array();
-				$options['nopathway'] = 1;
-				$options['nomodules'] = 1;
-				$options['modulemode'] = 1;
 
-				$this->setBuffer($renderer->render($name, $attribs, null), $type, $name);
-				$data = parent::$_buffer[$type][$name][$title];
+			$options = array();
+			$options['nopathway'] = 1;
+			$options['nomodules'] = 1;
+			$options['modulemode'] = 1;
 
-				$tmpdata = Cache::setWorkarounds($data, $options);
+			$this->setBuffer($renderer->render($name, $attribs, null), $type, $name);
+			$data = parent::$_buffer[$type][$name][$title];
 
-				$cbuffer[$hash] = $tmpdata;
+			$tmpdata = Cache::setWorkarounds($data, $options);
 
-				$cache->store($cbuffer, 'cbuffer_' . $type);
-			}
+			$cbuffer[$hash] = $tmpdata;
+
+			$cache->store($cbuffer, 'cbuffer_' . $type);
 		}
 		else
 		{

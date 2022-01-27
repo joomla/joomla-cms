@@ -34,14 +34,12 @@
 							name="name"
 							type="text"
 							label="PLG_FIELDS_CHECKBOXES_PARAMS_OPTIONS_NAME_LABEL"
-							size="30"
 						/>
 
 						<field
 							name="value"
 							type="text"
 							label="PLG_FIELDS_CHECKBOXES_PARAMS_OPTIONS_VALUE_LABEL"
-							size="30"
 						/>
 					</form>
 				</field>
