@@ -14,6 +14,7 @@ use Joomla\CMS\Filter\OutputFilter;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\FileLayout;
+use Joomla\CMS\Layout\LayoutHelper;
 
 ?>
 
@@ -61,30 +62,37 @@ use Joomla\CMS\Layout\FileLayout;
 		<!-- Show Images from Component -->
 		<?php if (isset($images->image_first) && !empty($images->image_first)) : ?>
 			<?php $imgfloat = empty($images->float_first) ? $this->params->get('float_first') : $images->float_first; ?>
-			<?php $alt = empty($images->image_first_alt) && empty($images->image_first_alt_empty)
-				? ''
-				: 'alt="' . htmlspecialchars($images->image_first_alt, ENT_COMPAT, 'UTF-8') . '"'; ?>
-
-			<div class="com-newsfeeds-newsfeed__first-image img-intro-<?php echo htmlspecialchars($imgfloat, ENT_COMPAT, 'UTF-8'); ?>">
-				<img
-				<?php if ($images->image_first_caption) : ?>
-					<?php echo 'class="caption" title="' . htmlspecialchars($images->image_first_caption, ENT_COMPAT, 'UTF-8') . '"'; ?>
-				<?php endif; ?>
-				src="<?php echo htmlspecialchars($images->image_first, ENT_COMPAT, 'UTF-8'); ?>" <?php echo $alt; ?>>
+			<div class="com-newsfeeds-newsfeed__first-image img-intro-<?php echo $this->escape($imgfloat); ?>">
+				<figure>
+					<?php echo LayoutHelper::render(
+						'joomla.html.image',
+						[
+							'src' => $images->image_first,
+							'alt' => empty($images->image_first_alt) && empty($images->image_first_alt_empty) ? false : $images->image_first_alt,
+						]
+					); ?>
+					<?php if ($images->image_first_caption) : ?>
+						<figcaption class="caption"><?php echo $this->escape($images->image_first_caption); ?></figcaption>
+					<?php endif; ?>
+				</figure>
 			</div>
 		<?php endif; ?>
 
 		<?php if (isset($images->image_second) and !empty($images->image_second)) : ?>
 			<?php $imgfloat = empty($images->float_second) ? $this->params->get('float_second') : $images->float_second; ?>
-			<?php $alt = empty($images->image_second_alt) && empty($images->image_second_alt_empty)
-				? ''
-				: 'alt="' . htmlspecialchars($images->image_second_alt, ENT_COMPAT, 'UTF-8') . '"'; ?>
-			<div class="com-newsfeeds-newsfeed__second-image float-<?php echo htmlspecialchars($imgfloat, ENT_COMPAT, 'UTF-8'); ?> item-image">
-				<img
-				<?php if ($images->image_second_caption) : ?>
-					<?php echo 'class="caption" title="' . htmlspecialchars($images->image_second_caption) . '"'; ?>
-				<?php endif; ?>
-				src="<?php echo htmlspecialchars($images->image_second, ENT_COMPAT, 'UTF-8'); ?>" <?php echo $alt; ?>>
+			<div class="com-newsfeeds-newsfeed__second-image float-<?php echo $this->escape($imgfloat); ?> item-image">
+				<figure>
+					<?php echo LayoutHelper::render(
+						'joomla.html.image',
+						[
+							'src' => $images->image_second,
+							'alt' => empty($images->image_second_alt) && empty($images->image_second_alt_empty) ? false : $images->image_second_alt,
+						]
+					); ?>
+					<?php if ($images->image_second_caption) : ?>
+						<figcaption class="caption"><?php echo $this->escape($images->image_second_caption); ?></figcaption>
+					<?php endif; ?>
+				</figure>
 			</div>
 		<?php endif; ?>
 		<!-- Show Description from Component -->
@@ -98,9 +106,15 @@ use Joomla\CMS\Layout\FileLayout;
 		<?php endif; ?>
 
 		<!-- Show Image -->
-	  <?php if ($this->rssDoc->image && $this->params->get('show_feed_image')) : ?>
+		<?php if ($this->rssDoc->image && $this->params->get('show_feed_image')) : ?>
 			<div class="com-newsfeeds-newsfeed__feed-image">
-				<img src="<?php echo $this->rssDoc->image->uri; ?>" alt="<?php echo $this->rssDoc->image->title; ?>" />
+				<?php echo LayoutHelper::render(
+					'joomla.html.image',
+					[
+						'src' => $this->rssDoc->image->uri,
+						'alt' => $this->rssDoc->image->title,
+					]
+				); ?>
 			</div>
 		<?php endif; ?>
 

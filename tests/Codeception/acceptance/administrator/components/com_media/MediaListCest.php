@@ -12,9 +12,9 @@ use Page\Acceptance\Administrator\MediaListPage;
 use Step\Acceptance\Administrator\Media;
 
 /*
- * @todo test d&d upload of files
- * @todo test download of files
- * @todo enable skipped tests
+ * TODO test d&d upload of files
+ * TODO test download of files
+ * TODO enable skipped tests
  */
 
 /**
@@ -268,7 +268,7 @@ class MediaListCest
 	 *
 	 * @throws  Exception
 	 *
-	 * @since   4.1.0
+	 * @since   4.0.6
 	 */
 	public function searchInFilesAndFolders(Media $I)
 	{
@@ -288,7 +288,7 @@ class MediaListCest
 	 *
 	 * @throws  Exception
 	 *
-	 * @since   4.1.0
+	 * @since   4.0.6
 	 */
 	public function searchIsClearedOnNavigate(Media $I)
 	{
