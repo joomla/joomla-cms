@@ -1,8 +1,8 @@
 const {
-  stat, copy, existsSync, emptyDirSync 
+  stat, copy, existsSync, emptyDirSync,
 } = require('fs-extra');
 const {
-  readFile, writeFile, readdir
+  readFile, writeFile, readdir,
 } = require('fs').promises;
 const { join, extname } = require('path');
 const recursive = require('recursive-readdir');
