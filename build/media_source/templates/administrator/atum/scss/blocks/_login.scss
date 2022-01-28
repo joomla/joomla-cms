@@ -84,30 +84,18 @@
 
     .form-control-feedback {
       position: absolute;
-      right: 0;
+      inset-inline-end: 0;
       bottom: -1.5rem;
       font-size: ($font-size-base * .75);
-      text-align: right;
-
-      [dir=rtl] & {
-        right: auto;
-        left: 0;
-        text-align: left;
-      }
+      text-align: end;
     }
 
     .form-control-hint {
       position: absolute;
       top: .1rem;
-      right: 0;
+      inset-inline-end: 0;
       font-size: ($font-size-base * .75);
-      text-align: right;
-
-      [dir=rtl] & {
-        right: auto;
-        left: 0;
-        text-align: left;
-      }
+      text-align: end;
     }
   }
 

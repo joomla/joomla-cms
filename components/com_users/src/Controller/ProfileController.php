@@ -72,7 +72,7 @@ class ProfileController extends BaseController
 	/**
 	 * Method to save a user's profile data.
 	 *
-	 * @return  void
+	 * @return  void|boolean
 	 *
 	 * @since   1.6
 	 * @throws  \Exception

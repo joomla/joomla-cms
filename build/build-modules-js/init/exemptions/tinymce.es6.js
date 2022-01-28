@@ -74,17 +74,17 @@ module.exports.tinyMCE = async (packageName, version) => {
   let cssContent = await readFile('build/media_source/plg_editors_tinymce/js/plugins/highlighter/source.css', { encoding: 'utf8' });
   cssContent = await Postcss([CssNano()]).process(cssContent, { from: undefined });
   // Get the JS
-  let jsContent = await readFile('build/media_source/plg_editors_tinymce/js/plugins/highlighter/source.es5.js', { encoding: 'utf8' });
+  let jsContent = await readFile('build/media_source/plg_editors_tinymce/js/plugins/highlighter/source.es6.js', { encoding: 'utf8' });
   jsContent = await minify(jsContent, { sourceMap: false, format: { comments: false } });
   // Write the HTML file
   const htmlContent = `<!DOCTYPE html>
 <html>
   <head>
     <meta charset="UTF-8">
-    <script>${jsContent.code}</script>
+    <script type="module">${jsContent.code}</script>
     <style type="text/css">${cssContent.css}</style>
   </head>
-  <body></body>
+  <body style="height: 100vh"></body>
 </html>
 `;
 

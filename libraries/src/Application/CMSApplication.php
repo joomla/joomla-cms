@@ -199,7 +199,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 	public function enqueueMessage($msg, $type = self::MSG_INFO)
 	{
 		// Don't add empty messages.
-		if (trim($msg) === '')
+		if ($msg === null || trim($msg) === '')
 		{
 			return;
 		}
@@ -311,11 +311,14 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 			ExceptionHandler::handleException($event->getError());
 		}
 
+		// Trigger the onBeforeRespond event.
+		$this->getDispatcher()->dispatch('onBeforeRespond');
+
 		// Send the application response.
 		$this->respond();
 
 		// Trigger the onAfterRespond event.
-		$this->triggerEvent('onAfterRespond');
+		$this->getDispatcher()->dispatch('onAfterRespond');
 	}
 
 	/**
@@ -1137,8 +1140,6 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 		{
 			return $registry->set($key, $value);
 		}
-
-		return;
 	}
 
 	/**

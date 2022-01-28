@@ -98,7 +98,7 @@ class HtmlView extends BaseHtmlView
 		}
 
 		// Preprocess the list of items to find ordering divisions.
-		// TODO: Complete the ordering stuff with nested sets
+		// @todo: Complete the ordering stuff with nested sets
 		foreach ($this->items as &$item)
 		{
 			$item->order_up = true;
