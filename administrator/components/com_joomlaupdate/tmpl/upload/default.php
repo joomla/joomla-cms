@@ -84,7 +84,7 @@ $currentJoomlaVersion = isset($this->updateInfo['current']) ? $this->updateInfo[
 	</div>
 
 	<div class="form-check mb-3">
-		<input class="form-check-input me-2" type="checkbox" onchange="document.getElementById('uploadButton').disabled = !this.checked;" value="" id="joomlaupdate-confirm-backup">
+		<input class="form-check-input me-2" type="checkbox" value="" id="joomlaupdate-confirm-backup">
 		<label class="form-check-label" for="joomlaupdate-confirm-backup">
 			<?php echo Text::_('COM_JOOMLAUPDATE_UPDATE_CONFIRM_BACKUP'); ?>
 		</label>
