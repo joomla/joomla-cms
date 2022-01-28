@@ -52,9 +52,9 @@ Joomla = window.Joomla || {};
     const task = form ? form.querySelector('[name=task]', form) : null;
     if (uploadButton) {
       uploadButton.addEventListener('click', Joomla.submitbuttonUpload);
-      updateCheck.addEventListener('change',()=>{
+      updateCheck.addEventListener('change', () => {
         uploadButton.disabled = !updateCheck.checked;
-      })
+      });
     }
     if (uploadField) {
       uploadField.addEventListener('change', Joomla.installpackageChange);
