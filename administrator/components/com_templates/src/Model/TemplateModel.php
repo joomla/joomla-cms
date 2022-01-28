@@ -273,9 +273,9 @@ class TemplateModel extends FormModel
 	/**
 	 * Prepare core files.
 	 *
-	 * @param   string    $dir       The path of the directory to scan.
-	 * @param   string    $element   The path of the template element.
-	 * @param   stdClass  $template  The stdClass object of template.
+	 * @param   string     $dir       The path of the directory to scan.
+	 * @param   string     $element   The path of the template element.
+	 * @param   \stdClass  $template  The stdClass object of template.
 	 *
 	 * @return  array
 	 *
