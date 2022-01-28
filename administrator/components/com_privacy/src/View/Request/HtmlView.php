@@ -129,7 +129,7 @@ class HtmlView extends BaseHtmlView
 
 			ToolbarHelper::save('request.save');
 			ToolbarHelper::cancel('request.cancel');
-			ToolbarHelper::help('JHELP_COMPONENTS_PRIVACY_REQUEST_EDIT');
+			ToolbarHelper::help('Privacy:_New_Information_Request');
 		}
 		else
 		{
@@ -185,7 +185,7 @@ class HtmlView extends BaseHtmlView
 			}
 
 			ToolbarHelper::cancel('request.cancel', 'JTOOLBAR_CLOSE');
-			ToolbarHelper::help('JHELP_COMPONENTS_PRIVACY_REQUEST');
+			ToolbarHelper::help('Privacy:_Review_Information_Request');
 		}
 	}
 }

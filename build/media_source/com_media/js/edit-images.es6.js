@@ -26,6 +26,7 @@ class Edit {
       extension: this.extension,
       contents: `data:image/${this.fileType};base64,${this.options.contents}`,
     };
+    // eslint-disable-next-line no-promise-executor-return
     this.previousPluginDeactivated = new Promise((resolve) => resolve);
     this.history = {};
     this.current = this.original;
@@ -56,6 +57,7 @@ class Edit {
 
         link.addEventListener('joomla.tab.hidden', ({ target }) => {
           if (!target) {
+            // eslint-disable-next-line no-promise-executor-return
             this.previousPluginDeactivated = new Promise((resolve) => resolve);
             return;
           }

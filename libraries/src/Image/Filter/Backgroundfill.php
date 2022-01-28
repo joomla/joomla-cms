@@ -15,8 +15,6 @@ use Joomla\CMS\Image\ImageFilter;
 /**
  * Image Filter class fill background with color;
  *
- * @package     Joomla.Platform
- * @subpackage  Image
  * @since       3.4
  */
 class Backgroundfill extends ImageFilter

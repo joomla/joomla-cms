@@ -104,7 +104,7 @@ class AtomRenderer extends DocumentRenderer
 			}
 		}
 
-		$feed .= "	<link rel=\"alternate\" type=\"text/html\" href=\"" . $url . "\">\n";
+		$feed .= "	<link rel=\"alternate\" type=\"text/html\" href=\"" . $url . "\"/>\n";
 		$feed .= "	<id>" . str_replace(' ', '%20', $data->getBase()) . "</id>\n";
 		$feed .= "	<updated>" . htmlspecialchars($now->toISO8601(true), ENT_COMPAT, 'UTF-8') . "</updated>\n";
 
@@ -130,7 +130,7 @@ class AtomRenderer extends DocumentRenderer
 		}
 
 		$feed .= "	<generator uri=\"https://www.joomla.org\"" . $versionHtmlEscaped . ">" . $data->getGenerator() . "</generator>\n";
-		$feed .= "	<link rel=\"self\" type=\"application/atom+xml\" href=\"" . str_replace(' ', '%20', $url . $syndicationURL) . "\">\n";
+		$feed .= "	<link rel=\"self\" type=\"application/atom+xml\" href=\"" . str_replace(' ', '%20', $url . $syndicationURL) . "\"/>\n";
 
 		for ($i = 0, $count = \count($data->items); $i < $count; $i++)
 		{
@@ -143,7 +143,7 @@ class AtomRenderer extends DocumentRenderer
 
 			$feed .= "	<entry>\n";
 			$feed .= "		<title>" . htmlspecialchars(strip_tags($data->items[$i]->title), ENT_COMPAT, 'UTF-8') . "</title>\n";
-			$feed .= "		<link rel=\"alternate\" type=\"text/html\" href=\"" . $url . $itemlink . "\">\n";
+			$feed .= "		<link rel=\"alternate\" type=\"text/html\" href=\"" . $url . $itemlink . "\"/>\n";
 
 			if ($data->items[$i]->date == '')
 			{
@@ -203,7 +203,7 @@ class AtomRenderer extends DocumentRenderer
 			if ($data->items[$i]->enclosure != null)
 			{
 				$feed .= "		<link rel=\"enclosure\" href=\"" . $data->items[$i]->enclosure->url . "\" type=\""
-					. $data->items[$i]->enclosure->type . "\"  length=\"" . $data->items[$i]->enclosure->length . "\">\n";
+					. $data->items[$i]->enclosure->type . "\"  length=\"" . $data->items[$i]->enclosure->length . "\"/>\n";
 			}
 
 			$feed .= "	</entry>\n";

@@ -294,7 +294,7 @@ class ArticleController extends FormController
 			$append .= '&tmpl=' . $tmpl;
 		}
 
-		// TODO This is a bandaid, not a long term solution.
+		// @todo This is a bandaid, not a long term solution.
 		/**
 		 * if ($layout)
 		 * {
@@ -391,6 +391,10 @@ class ArticleController extends FormController
 				$this->setRedirect(Route::_('index.php?Itemid=' . $menuitem . $lang, false));
 			}
 		}
+		elseif ($this->getTask() === 'save2copy')
+		{
+			// Redirect to the article page, use the redirect url set from parent controller
+		}
 		else
 		{
 			// If ok, redirect to the return page.
@@ -415,7 +419,7 @@ class ArticleController extends FormController
 	 */
 	public function reload($key = null, $urlVar = 'a_id')
 	{
-		return parent::reload($key, $urlVar);
+		parent::reload($key, $urlVar);
 	}
 
 	/**
