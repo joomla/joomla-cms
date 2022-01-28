@@ -1,6 +1,6 @@
-const { existsSync } = require('fs');
-const { stat, copy, emptyDirSync } = require('fs-extra');
+const { stat, copy, existsSync, emptyDirSync, readFile, writeFile } = require('fs-extra');
 const { join, extname } = require('path');
+const recursive = require('recursive-readdir');
 
 const RootPath = process.cwd();
 
@@ -49,4 +49,13 @@ module.exports.recreateMediaFolder = async (options) => {
   };
 
   await copy(join(RootPath, 'build/media_source'), join(RootPath, 'media'), { filter: filterFunc, preserveTimestamps: true });
+
+  const SCSSMediafolders = await recursive(join(RootPath, 'media/templates'), ['!*.+(scss)']);
+
+  // Patch the scss files
+  for (const file in SCSSMediafolders) {
+    const contents = await readFile(SCSSMediafolders[file], 'utf8');
+    // Transform this `../../../../../../media/` to `../../../../`
+    await writeFile(SCSSMediafolders[file], contents.replace(/\.\.\/\.\.\/\.\.\/\.\.\/\.\.\/\.\.\/media\//g, '../../../../'));
+  }
 };
