@@ -85,7 +85,7 @@ class UploaddirsField extends FolderlistField
 		}
 
 		// Create a regular list.
-		$html[] = HTMLHelper::_('select.genericlist', $options, $this->name, 'class="custom-select"', 'value', 'text', $this->value, $this->id);
+		$html[] = HTMLHelper::_('select.genericlist', $options, $this->name, 'class="form-select"', 'value', 'text', $this->value, $this->id);
 
 		return implode($html);
 	}

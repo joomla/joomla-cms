@@ -51,10 +51,9 @@ class OrderingField extends FormField
 	 */
 	public function __get($name)
 	{
-		switch ($name)
+		if ($name === 'contentType')
 		{
-			case 'contentType':
-				return $this->contentType;
+			return $this->contentType;
 		}
 
 		return parent::__get($name);
@@ -122,7 +121,7 @@ class OrderingField extends FormField
 		$attr = '';
 
 		// Initialize some field attributes.
-		$attr .= !empty($this->class) ? ' class="custom-select' . $this->class . '"' : ' class="custom-select"';
+		$attr .= !empty($this->class) ? ' class="form-select' . $this->class . '"' : ' class="form-select"';
 		$attr .= $this->disabled ? ' disabled' : '';
 		$attr .= !empty($this->size) ? ' size="' . $this->size . '"' : '';
 

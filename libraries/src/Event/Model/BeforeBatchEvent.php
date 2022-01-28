@@ -16,7 +16,7 @@ use Joomla\CMS\Event\AbstractImmutableEvent;
 /**
  * Event class for modifying a table object before a batch event is applied
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 class BeforeBatchEvent extends AbstractImmutableEvent
 {
@@ -28,7 +28,7 @@ class BeforeBatchEvent extends AbstractImmutableEvent
 	 *
 	 * @throws  BadMethodCallException
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function __construct($name, array $arguments = array())
 	{

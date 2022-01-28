@@ -19,10 +19,10 @@
 		<folder>js</folder>
 	</media>
 	<languages>
-		<language tag="en-GB">en-GB.mod_sampledata.ini</language>
-		<language tag="en-GB">en-GB.mod_sampledata.sys.ini</language>
+		<language tag="en-GB">language/en-GB/mod_sampledata.ini</language>
+		<language tag="en-GB">language/en-GB/mod_sampledata.sys.ini</language>
 	</languages>
-	<help key="JHELP_EXTENSIONS_MODULE_MANAGER_ADMIN_SAMPLE_DATA" />
+	<help key="Admin_Modules:_Sample_Data" />
 	<config>
 		<fields name="params">
 			<fieldset name="advanced">
@@ -31,7 +31,8 @@
 					type="modulelayout"
 					label="JFIELD_ALT_LAYOUT_LABEL"
 					description="JFIELD_ALT_MODULE_LAYOUT_DESC"
-					class="custom-select"
+					class="form-select"
+					validate="moduleLayout"
 				/>
 			</fieldset>
 		</fields>

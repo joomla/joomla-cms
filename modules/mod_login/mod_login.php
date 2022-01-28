@@ -17,7 +17,7 @@ use Joomla\Module\Login\Site\Helper\LoginHelper;
 $params->def('greeting', 1);
 
 // HTML IDs
-$formId           = "login-form-{$module->id}";
+$formId           = 'login-form-' . $module->id;
 $type             = LoginHelper::getType();
 $return           = LoginHelper::getReturnUrl($params, $type);
 $registerLink     = LoginHelper::getRegistrationUrl($params);

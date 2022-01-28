@@ -45,11 +45,11 @@ class Dispatcher extends ComponentDispatcher
 	{
 		parent::checkAccess();
 
-		if ($this->input->get('view') === 'items'
-			&& $this->input->get('layout') === 'modal'
-			&& !$this->app->getIdentity()->authorise('core.create', 'com_menus'))
+		if ($this->input->get('view') !== 'items'
+			|| $this->input->get('layout') !== 'modal'
+			|| !$this->app->getIdentity()->authorise('core.create', 'com_menus'))
 		{
-			throw new NotAllowed;
+			throw new NotAllowed($this->app->getLanguage()->_('JERROR_ALERTNOAUTHOR'), 403);
 		}
 	}
 

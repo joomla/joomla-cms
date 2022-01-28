@@ -60,7 +60,7 @@ class PlgSystemLanguagecode extends CMSPlugin
 				);
 				$replace = array(
 					'${1}' . strtolower($new_code) . '${3}',
-					'${1}' . strtolower($new_code) . '${3}'
+					'${1}' . strtolower($new_code) . '${3}',
 				);
 			}
 			else

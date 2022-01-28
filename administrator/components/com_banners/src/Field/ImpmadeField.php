@@ -32,7 +32,7 @@ class ImpmadeField extends FormField
 	/**
 	 * Method to get the field input markup.
 	 *
-	 * @return  string	The field input markup.
+	 * @return  string  The field input markup.
 	 *
 	 * @since   1.6
 	 */
@@ -42,7 +42,7 @@ class ImpmadeField extends FormField
 
 		return '<div class="input-group"><input class="form-control" type="text" name="' . $this->name . '" id="' . $this->id . '" value="'
 			. htmlspecialchars($this->value, ENT_COMPAT, 'UTF-8') . '" readonly="readonly">'
-			. '<span class="input-group-append"><button type="button" class="btn btn-secondary" ' . $onclick . '>'
-			. '<span class="icon-sync" aria-hidden="true"></span> ' . Text::_('COM_BANNERS_RESET_IMPMADE') . '</button></span></div>';
+			. '<button type="button" class="btn btn-secondary" ' . $onclick . '>'
+			. '<span class="icon-sync" aria-hidden="true"></span> ' . Text::_('JRESET') . '</button></div>';
 	}
 }

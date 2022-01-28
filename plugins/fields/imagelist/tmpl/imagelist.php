@@ -37,7 +37,7 @@ foreach ($value as $path)
 
 	if ($fieldParams->get('directory', '/') !== '/')
 	{
-		$imageInfo = Image::getImageFileProperties('images/' . $fieldParams->get('directory') . '/' . $imageFilePath);
+		$imageInfo = Image::getImageFileProperties(JPATH_ROOT . '/images/' . $fieldParams->get('directory') . '/' . $imageFilePath);
 
 		$buffer .= sprintf('<img loading="lazy" width="%s" height="%s" src="images/%s/%s"%s alt="">',
 			$imageInfo->width,
@@ -49,7 +49,7 @@ foreach ($value as $path)
 	}
 	else
 	{
-		$imageInfo = Image::getImageFileProperties('images/' . $imageFilePath);
+		$imageInfo = Image::getImageFileProperties(JPATH_ROOT . '/images/' . $imageFilePath);
 
 		$buffer .= sprintf('<img loading="lazy" width="%s" height="%s" src="images/%s"%s>',
 			$imageInfo->width,

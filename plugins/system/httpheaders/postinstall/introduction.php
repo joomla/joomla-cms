@@ -17,7 +17,7 @@ use Joomla\CMS\Factory;
  *
  * @return  integer
  *
- * @since   4.0
+ * @since   4.0.0
  */
 function httpheaders_postinstall_condition()
 {
@@ -29,7 +29,7 @@ function httpheaders_postinstall_condition()
  *
  * @return  void
  *
- * @since   4.0
+ * @since   4.0.0
  */
 function httpheaders_postinstall_action()
 {

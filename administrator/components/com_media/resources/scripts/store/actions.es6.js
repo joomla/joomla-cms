@@ -2,29 +2,23 @@ import { api } from '../app/Api.es6';
 import * as types from './mutation-types.es6';
 import translate from '../plugins/translate.es6';
 import { notifications } from '../app/Notifications.es6';
-import * as FileSaver from '../../../../../../node_modules/file-saver/src/FileSaver';
 
-// Actions are similar to mutations, the difference being that:
-// - Instead of mutating the state, actions commit mutations.
-// - Actions can contain arbitrary asynchronous operations.
+const updateUrlPath = (path) => {
+  const currentPath = path === null ? '' : path;
+  const url = new URL(window.location.href);
 
-// TODO move to utils
-function updateUrlPath(path) {
-  if (path == null) {
-    // eslint-disable-next-line no-param-reassign
-    path = '';
-  }
-  const url = window.location.href;
-  const pattern = new RegExp('\\b(path=).*?(&|$)');
-
-  if (url.search(pattern) >= 0) {
-    // eslint-disable-next-line no-restricted-globals
-    history.pushState(null, '', url.replace(pattern, `$1${path}$2`));
+  if (url.searchParams.has('path')) {
+    window.history.pushState(null, '', url.href.replace(/\b(path=).*?(&|$)/, `$1${currentPath}$2`));
   } else {
-    // eslint-disable-next-line no-restricted-globals
-    history.pushState(null, '', `${url + (url.indexOf('?') > 0 ? '&' : '?')}path=${path}`);
+    window.history.pushState(null, '', `${url.href + (url.href.indexOf('?') > 0 ? '&' : '?')}path=${currentPath}`);
   }
-}
+};
+
+/**
+ * Actions are similar to mutations, the difference being that:
+ * Instead of mutating the state, actions commit mutations.
+ * Actions can contain arbitrary asynchronous operations.
+ */
 
 /**
  * Get contents of a directory from the api
@@ -44,7 +38,7 @@ export const getContents = (context, payload) => {
       context.commit(types.SET_IS_LOADING, false);
     })
     .catch((error) => {
-      // TODO error handling
+      // @todo error handling
       context.commit(types.SET_IS_LOADING, false);
       // eslint-disable-next-line no-console
       console.log('error', error);
@@ -64,7 +58,7 @@ export const getFullContents = (context, payload) => {
       context.commit(types.SET_IS_LOADING, false);
     })
     .catch((error) => {
-      // TODO error handling
+      // @todo error handling
       context.commit(types.SET_IS_LOADING, false);
       // eslint-disable-next-line no-console
       console.log('error', error);
@@ -81,7 +75,7 @@ export const download = (context, payload) => {
     .then((contents) => {
       const file = contents.files[0];
 
-      // Converte the base 64 encoded string to a blob
+      // Convert the base 64 encoded string to a blob
       const byteCharacters = atob(file.content);
       const byteArrays = [];
 
@@ -99,8 +93,14 @@ export const download = (context, payload) => {
         byteArrays.push(byteArray);
       }
 
-      // Open the save as file dialog
-      FileSaver.saveAs(new Blob(byteArrays, { type: file.mime_type }), file.name);
+      // Download file
+      const blobURL = URL.createObjectURL(new Blob(byteArrays, { type: file.mime_type }));
+      const a = document.createElement('a');
+      a.href = blobURL;
+      a.download = file.name;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
     })
     .catch((error) => {
       // eslint-disable-next-line no-console
@@ -137,7 +137,7 @@ export const createDirectory = (context, payload) => {
       context.commit(types.SET_IS_LOADING, false);
     })
     .catch((error) => {
-      // TODO error handling
+      // @todo error handling
       context.commit(types.SET_IS_LOADING, false);
       // eslint-disable-next-line no-console
       console.log('error', error);
@@ -187,7 +187,7 @@ export const renameItem = (context, payload) => {
       context.commit(types.SET_IS_LOADING, false);
     })
     .catch((error) => {
-      // TODO error handling
+      // @todo error handling
       context.commit(types.SET_IS_LOADING, false);
       // eslint-disable-next-line no-console
       console.log('error', error);
@@ -211,13 +211,13 @@ export const deleteSelectedItems = (context) => {
           context.commit(types.SET_IS_LOADING, false);
         })
         .catch((error) => {
-          // TODO error handling
+          // @todo error handling
           context.commit(types.SET_IS_LOADING, false);
           // eslint-disable-next-line no-console
           console.log('error', error);
         });
     });
   } else {
-    // TODO notify the user that he has to select at least one item
+    // @todo notify the user that he has to select at least one item
   }
 };

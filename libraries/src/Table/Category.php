@@ -47,8 +47,8 @@ class Category extends Nested implements VersionableTableInterface, TaggableTabl
 	 */
 	public function __construct(DatabaseDriver $db)
 	{
-		// @deprecated This format was used by tags and versioning before 4.0 before the introduction of the
-		//             getTypeAlias function. This notation with the {} will be removed in Joomla 5
+		// @deprecated 5.0 This format was used by tags and versioning before 4.0 before the introduction of the
+		//                 getTypeAlias function. This notation with the {} will be removed in Joomla 5
 		$this->typeAlias = '{extension}.category';
 		parent::__construct('#__categories', 'id', $db);
 		$this->access = (int) Factory::getApplication()->get('access');
@@ -85,7 +85,7 @@ class Category extends Nested implements VersionableTableInterface, TaggableTabl
 	/**
 	 * Get the parent asset id for the record
 	 *
-	 * @param   Table    $table  A JTable object for the asset parent.
+	 * @param   Table    $table  A Table object for the asset parent.
 	 * @param   integer  $id     The id for the asset
 	 *
 	 * @return  integer  The id of the asset's parent

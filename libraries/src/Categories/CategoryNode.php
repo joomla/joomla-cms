@@ -234,7 +234,7 @@ class CategoryNode extends CMSObject implements NodeInterface
 	public $childrennumitems = null;
 
 	/**
-	 * Slug fo the category (used in URL)
+	 * Slug for the category (used in URL)
 	 *
 	 * @var    string
 	 * @since  1.6
@@ -457,7 +457,7 @@ class CategoryNode extends CMSObject implements NodeInterface
 	 *
 	 * @param   boolean  $modifiedUser  Returns the modified_user when set to true
 	 *
-	 * @return  \JUser  A \JUser object containing a userid
+	 * @return  \Joomla\CMS\User\User  A User object containing a userid
 	 *
 	 * @since   1.6
 	 */

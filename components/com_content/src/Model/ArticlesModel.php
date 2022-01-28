@@ -183,7 +183,7 @@ class ArticlesModel extends ListModel
 	/**
 	 * Get the master query for retrieving a list of articles subject to the model state.
 	 *
-	 * @return  \JDatabaseQuery
+	 * @return  \Joomla\Database\DatabaseQuery
 	 *
 	 * @since   1.6
 	 */
@@ -310,7 +310,7 @@ class ArticlesModel extends ListModel
 			// Join on voting table
 			$query->select(
 				[
-					'COALESCE(NULLIF(ROUND(' . $db->quoteName('v.rating_sum') . ' / ' . $db->quoteName('v.rating_count') . ', 0), 0), 0)'
+					'COALESCE(NULLIF(ROUND(' . $db->quoteName('v.rating_sum') . ' / ' . $db->quoteName('v.rating_count') . ', 1), 0), 0)'
 						. ' AS ' . $db->quoteName('rating'),
 					'COALESCE(NULLIF(' . $db->quoteName('v.rating_count') . ', 0), 0) AS ' . $db->quoteName('rating_count'),
 				]
@@ -572,7 +572,7 @@ class ArticlesModel extends ListModel
 				$relativeDate = (int) $this->getState('filter.relative_date', 0);
 				$query->where(
 					$db->quoteName($dateField) . ' IS NOT NULL AND '
-					. $db->quoteName($dateField) . ' >= ' . $query->dateAdd($nowDate, -1 * $relativeDate, 'DAY')
+					. $db->quoteName($dateField) . ' >= ' . $query->dateAdd($db->quote($nowDate), -1 * $relativeDate, 'DAY')
 				);
 				break;
 

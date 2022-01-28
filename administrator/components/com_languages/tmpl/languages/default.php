@@ -37,12 +37,12 @@ if ($saveOrder && !empty($this->items))
 				<?php echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
 				<?php if (empty($this->items)) : ?>
 					<div class="alert alert-info">
-						<span class="icon-info-circle" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('INFO'); ?></span>
+						<span class="icon-info-circle" aria-hidden="true"></span><span class="visually-hidden"><?php echo Text::_('INFO'); ?></span>
 						<?php echo Text::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
 					</div>
 				<?php else : ?>
-					<table class="table" id="contentList">
-						<caption class="sr-only">
+					<table class="table" id="languageList">
+						<caption class="visually-hidden">
 							<?php echo Text::_('COM_LANGUAGES_CONTENT_TABLE_CAPTION'); ?>,
 							<span id="orderedBy"><?php echo Text::_('JGLOBAL_SORTED_BY'); ?> </span>,
 							<span id="filteredBy"><?php echo Text::_('JGLOBAL_FILTERED_BY'); ?></span>
@@ -70,7 +70,7 @@ if ($saveOrder && !empty($this->items))
 								<th scope="col" class="w-10 d-none d-md-table-cell text-center">
 									<?php echo HTMLHelper::_('searchtools.sort', 'COM_LANGUAGES_HEADING_LANG_CODE', 'a.sef', $listDirn, $listOrder); ?>
 								</th>
-								<th scope="col" class="w-10 d-none d-md-table-cell text-center">
+								<th scope="col" class="w-10 d-none d-md-table-cell">
 									<?php echo HTMLHelper::_('searchtools.sort', 'COM_LANGUAGES_HEADING_LANG_IMAGE', 'a.image', $listDirn, $listOrder); ?>
 								</th>
 								<th scope="col" class="w-10 d-none d-md-table-cell text-center">
@@ -93,7 +93,7 @@ if ($saveOrder && !empty($this->items))
 						?>
 							<tr class="row<?php echo $i % 2; ?>">
 								<td>
-									<?php echo HTMLHelper::_('grid.id', $i, $item->lang_id); ?>
+									<?php echo HTMLHelper::_('grid.id', $i, $item->lang_id, false, 'cid', 'cb', $item->title); ?>
 								</td>
 								<td class="text-center d-none d-md-table-cell">
 									<?php if ($canChange) :
@@ -134,9 +134,9 @@ if ($saveOrder && !empty($this->items))
 								<td class="d-none d-md-table-cell text-center">
 									<?php echo $this->escape($item->sef); ?>
 								</td>
-								<td class="d-none d-md-table-cell text-center">
+								<td class="d-none d-md-table-cell">
 									<?php if ($item->image) : ?>
-										<?php echo HTMLHelper::_('image', 'mod_languages/' . $item->image . '.gif', $item->image, null, true); ?>&nbsp;<?php echo $this->escape($item->image); ?>
+										<?php echo HTMLHelper::_('image', 'mod_languages/' . $item->image . '.gif', $item->image, array('class'=>'me-1'), true); ?><?php echo $this->escape($item->image); ?>
 									<?php else : ?>
 										<?php echo Text::_('JNONE'); ?>
 									<?php endif; ?>

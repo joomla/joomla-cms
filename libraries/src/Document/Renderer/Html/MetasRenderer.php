@@ -1,7 +1,6 @@
 <?php
 /**
- * @package     Joomla.Platform
- * @subpackage  Document
+ * Joomla! Content Management System
  *
  * @copyright   (C) 2005 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE
@@ -48,7 +47,6 @@ class MetasRenderer extends DocumentRenderer
 		/** @var \Joomla\CMS\Application\CMSApplication $app */
 		$app = Factory::getApplication();
 		$wa  = $this->_doc->getWebAssetManager();
-		$wc  = $this->_doc->getScriptOptions('webcomponents');
 
 		// Check for AttachBehavior and web components
 		foreach ($wa->getAssets('script', true) as $asset)
@@ -57,16 +55,6 @@ class MetasRenderer extends DocumentRenderer
 			{
 				$asset->onAttachCallback($this->_doc);
 			}
-
-			if ($asset->getOption('webcomponent'))
-			{
-				$wc[] = $asset->getUri();
-			}
-		}
-
-		if ($wc)
-		{
-			$this->_doc->addScriptOptions('webcomponents', array_unique($wc));
 		}
 
 		// Trigger the onBeforeCompileHead event
@@ -79,7 +67,7 @@ class MetasRenderer extends DocumentRenderer
 		{
 			$prettyPrint = (JDEBUG && \defined('JSON_PRETTY_PRINT') ? JSON_PRETTY_PRINT : false);
 			$jsonOptions = json_encode($scriptOptions, $prettyPrint);
-			$jsonOptions = $jsonOptions ? $jsonOptions : '{}';
+			$jsonOptions = $jsonOptions ?: '{}';
 
 			$wa->addInlineScript(
 				$jsonOptions,

@@ -77,7 +77,7 @@ class BannerModel extends AdminModel
 		// Set the variables
 		$user = Factory::getUser();
 
-		/** @var \Joomla\Component\Banners\Administrator\Table\Banner $table */
+		/** @var \Joomla\Component\Banners\Administrator\Table\BannerTable $table */
 		$table = $this->getTable();
 
 		foreach ($pks as $pk)
@@ -210,6 +210,12 @@ class BannerModel extends AdminModel
 			$form->setFieldAttribute('sticky', 'filter', 'unset');
 		}
 
+		// Don't allow to change the created_by user if not allowed to access com_users.
+		if (!Factory::getUser()->authorise('core.manage', 'com_users'))
+		{
+			$form->setFieldAttribute('created_by', 'filter', 'unset');
+		}
+
 		return $form;
 	}
 
@@ -257,7 +263,7 @@ class BannerModel extends AdminModel
 	 */
 	public function stick(&$pks, $value = 1)
 	{
-		/** @var \Joomla\Component\Banners\Administrator\Table\Banner $table */
+		/** @var \Joomla\Component\Banners\Administrator\Table\BannerTable $table */
 		$table = $this->getTable();
 		$pks   = (array) $pks;
 

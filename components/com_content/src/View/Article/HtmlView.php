@@ -24,6 +24,7 @@ use Joomla\CMS\Router\Route;
 use Joomla\CMS\Uri\Uri;
 use Joomla\Component\Content\Site\Helper\AssociationHelper;
 use Joomla\Component\Content\Site\Helper\RouteHelper;
+use Joomla\Event\Event;
 
 /**
  * HTML Article View class for the Content component
@@ -43,6 +44,7 @@ class HtmlView extends BaseHtmlView
 	 * The page parameters
 	 *
 	 * @var    \Joomla\Registry\Registry|null
+	 *
 	 * @since  4.0.0
 	 */
 	protected $params = null;
@@ -50,21 +52,21 @@ class HtmlView extends BaseHtmlView
 	/**
 	 * Should the print button be displayed or not?
 	 *
-	 * @var  boolean
+	 * @var   boolean
 	 */
 	protected $print = false;
 
 	/**
 	 * The model state
 	 *
-	 * @var  \JObject
+	 * @var   \Joomla\CMS\Object\CMSObject
 	 */
 	protected $state;
 
 	/**
 	 * The user object
 	 *
-	 * @var  \JUser|null
+	 * @var   \Joomla\CMS\User\User|null
 	 */
 	protected $user = null;
 
@@ -72,26 +74,36 @@ class HtmlView extends BaseHtmlView
 	 * The page class suffix
 	 *
 	 * @var    string
+	 *
 	 * @since  4.0.0
 	 */
 	protected $pageclass_sfx = '';
+
+	/**
+	 * The flag to mark if the active menu item is linked to the being displayed article
+	 *
+	 * @var boolean
+	 */
+	protected $menuItemMatchArticle = false;
 
 	/**
 	 * Execute and display a template script.
 	 *
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
 	 *
-	 * @return  mixed  A string if successful, otherwise an Error object.
+	 * @return  void
 	 */
 	public function display($tpl = null)
 	{
 		if ($this->getLayout() == 'pagebreak')
 		{
-			return parent::display($tpl);
+			parent::display($tpl);
+
+			return;
 		}
 
-		$app        = Factory::getApplication();
-		$user       = Factory::getUser();
+		$app  = Factory::getApplication();
+		$user = Factory::getUser();
 
 		$this->item  = $this->get('Item');
 		$this->print = $app->input->getBool('print', false);
@@ -117,7 +129,7 @@ class HtmlView extends BaseHtmlView
 			$item->parent_id = null;
 		}
 
-		// TODO: Change based on shownoauth
+		// @todo Change based on shownoauth
 		$item->readmore_link = Route::_(RouteHelper::getArticleRoute($item->slug, $item->catid, $item->language));
 
 		// Merge article params. If this is single-article view, menu params override article params
@@ -126,47 +138,35 @@ class HtmlView extends BaseHtmlView
 		$active       = $app->getMenu()->getActive();
 		$temp         = clone $this->params;
 
-		// Check to see which parameters should take priority
-		if ($active)
+		// Check to see which parameters should take priority. If the active menu item link to the current article, then
+		// the menu item params take priority
+		if ($active
+			&& $active->component == 'com_content'
+			&& isset($active->query['view'], $active->query['id'])
+			&& $active->query['view'] == 'article'
+			&& $active->query['id'] == $item->id)
 		{
-			$currentLink = $active->link;
+			$this->menuItemMatchArticle = true;
 
-			// If the current view is the active item and an article view for this article, then the menu item params take priority
-			if (strpos($currentLink, 'view=article') && strpos($currentLink, '&id=' . (string) $item->id))
+			// Load layout from active query (in case it is an alternative menu item)
+			if (isset($active->query['layout']))
 			{
-				// Load layout from active query (in case it is an alternative menu item)
-				if (isset($active->query['layout']))
-				{
-					$this->setLayout($active->query['layout']);
-				}
-				// Check for alternative layout of article
-				elseif ($layout = $item->params->get('article_layout'))
-				{
-					$this->setLayout($layout);
-				}
-
-				// $item->params are the article params, $temp are the menu item params
-				// Merge so that the menu item params take priority
-				$item->params->merge($temp);
+				$this->setLayout($active->query['layout']);
 			}
-			else
+			// Check for alternative layout of article
+			elseif ($layout = $item->params->get('article_layout'))
 			{
-				// Current view is not a single article, so the article params take priority here
-				// Merge the menu item params with the article params so that the article params take priority
-				$temp->merge($item->params);
-				$item->params = $temp;
-
-				// Check for alternative layouts (since we are not in a single-article menu item)
-				// Single-article menu item layout takes priority over alt layout for an article
-				if ($layout = $item->params->get('article_layout'))
-				{
-					$this->setLayout($layout);
-				}
+				$this->setLayout($layout);
 			}
+
+			// $item->params are the article params, $temp are the menu item params
+			// Merge so that the menu item params take priority
+			$item->params->merge($temp);
 		}
 		else
 		{
-			// Merge so that article params take priority
+			// The active menu item is not linked to this article, so the article params take priority here
+			// Merge the menu item params with the article params so that the article params take priority
 			$temp->merge($item->params);
 			$item->params = $temp;
 
@@ -240,7 +240,7 @@ class HtmlView extends BaseHtmlView
 
 		// Process the content plugins.
 		PluginHelper::importPlugin('content');
-		Factory::getApplication()->triggerEvent('onContentPrepare', array('com_content.article', &$item, &$item->params, $offset));
+		$this->dispatchEvent(new Event('onContentPrepare', array('com_content.article', &$item, &$item->params, $offset)));
 
 		$item->event = new \stdClass;
 		$results = Factory::getApplication()->triggerEvent('onContentAfterTitle', array('com_content.article', &$item, &$item->params, $offset));
@@ -253,7 +253,7 @@ class HtmlView extends BaseHtmlView
 		$item->event->afterDisplayContent = trim(implode("\n", $results));
 
 		// Escape strings for HTML output
-		$this->pageclass_sfx = htmlspecialchars($this->item->params->get('pageclass_sfx'));
+		$this->pageclass_sfx = htmlspecialchars($this->item->params->get('pageclass_sfx', ''));
 
 		$this->_prepareDocument();
 
@@ -268,15 +268,13 @@ class HtmlView extends BaseHtmlView
 	protected function _prepareDocument()
 	{
 		$app     = Factory::getApplication();
-		$menus   = $app->getMenu();
 		$pathway = $app->getPathway();
-		$title   = null;
 
 		/**
 		 * Because the application sets a default page title,
 		 * we need to get it from the menu item itself
 		 */
-		$menu = $menus->getActive();
+		$menu = $app->getMenu()->getActive();
 
 		if ($menu)
 		{
@@ -289,20 +287,27 @@ class HtmlView extends BaseHtmlView
 
 		$title = $this->params->get('page_title', '');
 
-		$id = (int) @$menu->query['id'];
-
-		// If the menu item does not concern this article
-		if ($menu && (!isset($menu->query['option']) || $menu->query['option'] !== 'com_content' || $menu->query['view'] !== 'article'
-			|| $id != $this->item->id))
+		// If the menu item is not linked to this article
+		if (!$this->menuItemMatchArticle)
 		{
 			// If a browser page title is defined, use that, then fall back to the article title if set, then fall back to the page_title option
 			$title = $this->item->params->get('article_page_title', $this->item->title ?: $title);
 
+			// Get ID of the category from active menu item
+			if ($menu && $menu->component == 'com_content' && isset($menu->query['view'])
+				&& in_array($menu->query['view'], ['categories', 'category']))
+			{
+				$id = $menu->query['id'];
+			}
+			else
+			{
+				$id = 0;
+			}
+
 			$path     = array(array('title' => $this->item->title, 'link' => ''));
 			$category = Categories::getInstance('Content')->get($this->item->catid);
 
-			while ($category && (!isset($menu->query['option']) || $menu->query['option'] !== 'com_content' || $menu->query['view'] === 'article'
-				|| $id != $category->id) && $category->id > 1)
+			while ($category !== null && $category->id != $id && $category->id !== 'root')
 			{
 				$path[]   = array('title' => $category->title, 'link' => RouteHelper::getCategoryRoute($category->id, $category->language));
 				$category = $category->getParent();
@@ -316,26 +321,12 @@ class HtmlView extends BaseHtmlView
 			}
 		}
 
-		// Check for empty title and add site name if param is set
-		if (empty($title))
-		{
-			$title = $app->get('sitename');
-		}
-		elseif ($app->get('sitename_pagetitles', 0) == 1)
-		{
-			$title = Text::sprintf('JPAGETITLE', $app->get('sitename'), $title);
-		}
-		elseif ($app->get('sitename_pagetitles', 0) == 2)
-		{
-			$title = Text::sprintf('JPAGETITLE', $title, $app->get('sitename'));
-		}
-
 		if (empty($title))
 		{
 			$title = $this->item->title;
 		}
 
-		$this->document->setTitle($title);
+		$this->setDocumentTitle($title);
 
 		if ($this->item->metadesc)
 		{
@@ -371,7 +362,7 @@ class HtmlView extends BaseHtmlView
 		if (!empty($this->item->page_title))
 		{
 			$this->item->title = $this->item->title . ' - ' . $this->item->page_title;
-			$this->document->setTitle(
+			$this->setDocumentTitle(
 				$this->item->page_title . ' - ' . Text::sprintf('PLG_CONTENT_PAGEBREAK_PAGE_NUM', $this->state->get('list.offset') + 1)
 			);
 		}

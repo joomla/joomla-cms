@@ -13,9 +13,9 @@
     try {
       const copy = document.execCommand('copy');
       if (copy) {
-        Joomla.renderMessages({ message: [Joomla.JText._('PLG_USER_TOKEN_COPY_SUCCESS')] });
+        Joomla.renderMessages({ message: [Joomla.Text._('PLG_USER_TOKEN_COPY_SUCCESS')] });
       } else {
-        Joomla.renderMessages({ error: [Joomla.JText._('PLG_USER_TOKEN_COPY_FAIL')] });
+        Joomla.renderMessages({ error: [Joomla.Text._('PLG_USER_TOKEN_COPY_FAIL')] });
       }
     } catch (err) {
       Joomla.renderMessages({ error: [err] });
@@ -26,7 +26,7 @@
     const button = document.getElementById('token-copy');
 
     button.addEventListener('click', ({ currentTarget }) => {
-      const input = currentTarget.parentNode.previousElementSibling;
+      const input = currentTarget.previousElementSibling;
 
       if (!navigator.clipboard) {
         copyToClipboardFallback(input);
@@ -34,9 +34,9 @@
       }
 
       navigator.clipboard.writeText(input.value).then(() => {
-        Joomla.renderMessages({ message: [Joomla.JText._('PLG_USER_TOKEN_COPY_SUCCESS')] });
+        Joomla.renderMessages({ message: [Joomla.Text._('PLG_USER_TOKEN_COPY_SUCCESS')] });
       }, () => {
-        Joomla.renderMessages({ error: [Joomla.JText._('PLG_USER_TOKEN_COPY_FAIL')] });
+        Joomla.renderMessages({ error: [Joomla.Text._('PLG_USER_TOKEN_COPY_FAIL')] });
       });
     });
   };

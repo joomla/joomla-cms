@@ -29,7 +29,7 @@ class FeaturedButton extends ActionButton
 	 */
 	protected function preprocess()
 	{
-		$this->addState(0, 'featured', 'icon-color-unfeatured icon-star',
+		$this->addState(0, 'featured', 'icon-unfeatured',
 			Text::_('JGLOBAL_TOGGLE_FEATURED'), ['tip_title' => Text::_('JUNFEATURED')]
 		);
 		$this->addState(1, 'unfeatured', 'icon-color-featured icon-star',
@@ -63,12 +63,12 @@ class FeaturedButton extends ActionButton
 
 			if (!is_null($featuredUp))
 			{
-				$featuredUp = Factory::getDate($featuredUp, 'UTC')->setTimeZone($tz);
+				$featuredUp = Factory::getDate($featuredUp, 'UTC')->setTimezone($tz);
 			}
 
 			if (!is_null($featuredDown))
 			{
-				$featuredDown = Factory::getDate($featuredDown, 'UTC')->setTimeZone($tz);
+				$featuredDown = Factory::getDate($featuredDown, 'UTC')->setTimezone($tz);
 			}
 
 			// Add tips and special titles

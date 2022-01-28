@@ -37,15 +37,15 @@ $currentDate = Factory::getDate()->format('Y-m-d H:i:s');
 		<?php endif; ?>
 
 		<?php if ($displayData->state == 0) : ?>
-			<span class="badge badge-warning"><?php echo Text::_('JUNPUBLISHED'); ?></span>
+			<span class="badge bg-warning"><?php echo Text::_('JUNPUBLISHED'); ?></span>
 		<?php endif; ?>
 
 		<?php if ($displayData->publish_up > $currentDate) : ?>
-			<span class="badge badge-warning"><?php echo Text::_('JNOTPUBLISHEDYET'); ?></span>
+			<span class="badge bg-warning"><?php echo Text::_('JNOTPUBLISHEDYET'); ?></span>
 		<?php endif; ?>
 
 		<?php if ($displayData->publish_down !== null && $displayData->publish_down < $currentDate) : ?>
-			<span class="badge badge-warning"><?php echo Text::_('JEXPIRED'); ?></span>
+			<span class="badge bg-warning"><?php echo Text::_('JEXPIRED'); ?></span>
 		<?php endif; ?>
 	</div>
 <?php endif; ?>

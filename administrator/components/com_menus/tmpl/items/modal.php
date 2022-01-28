@@ -49,12 +49,12 @@ if (!empty($editor))
 
 		<?php if (empty($this->items)) : ?>
 			<div class="alert alert-info">
-				<span class="icon-info-circle" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('INFO'); ?></span>
+				<span class="icon-info-circle" aria-hidden="true"></span><span class="visually-hidden"><?php echo Text::_('INFO'); ?></span>
 				<?php echo Text::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
 			</div>
 		<?php else : ?>
 			<table class="table table-sm">
-				<caption class="sr-only">
+				<caption class="visually-hidden">
 					<?php echo Text::_('COM_MENUS_ITEMS_TABLE_CAPTION'); ?>,
 							<span id="orderedBy"><?php echo Text::_('JGLOBAL_SORTED_BY'); ?> </span>,
 							<span id="filteredBy"><?php echo Text::_('JGLOBAL_FILTERED_BY'); ?></span>
@@ -137,7 +137,7 @@ if (!empty($editor))
 							</div>
 							<?php if ($item->type === 'component' && !$item->enabled) : ?>
 								<div>
-									<span class="badge badge-secondary">
+									<span class="badge bg-secondary">
 										<?php echo Text::_($item->enabled === null ? 'JLIB_APPLICATION_ERROR_COMPONENT_NOT_FOUND' : 'COM_MENUS_LABEL_DISABLED'); ?>
 									</span>
 								</div>
@@ -154,7 +154,7 @@ if (!empty($editor))
 									<?php if ($item->language_image) : ?>
 										<?php echo HTMLHelper::_('image', 'mod_languages/' . $item->language_image . '.gif', $item->language_title, array('title' => $item->language_title), true); ?>
 									<?php else : ?>
-										<span class="badge badge-secondary" title="<?php echo $item->language_title; ?>"><?php echo $item->language; ?></span>
+										<span class="badge bg-secondary" title="<?php echo $item->language_title; ?>"><?php echo $item->language; ?></span>
 									<?php endif; ?>
 								<?php endif; ?>
 							<?php endif; ?>

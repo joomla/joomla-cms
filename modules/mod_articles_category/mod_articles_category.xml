@@ -16,10 +16,10 @@
 		<folder>tmpl</folder>
 	</files>
 	<languages>
-		<language tag="en-GB">en-GB.mod_articles_category.ini</language>
-		<language tag="en-GB">en-GB.mod_articles_category.sys.ini</language>
+		<language tag="en-GB">language/en-GB/mod_articles_category.ini</language>
+		<language tag="en-GB">language/en-GB/mod_articles_category.sys.ini</language>
 	</languages>
-	<help key="JHELP_EXTENSIONS_MODULE_MANAGER_ARTICLES_CATEGORY" />
+	<help key="Site_Modules:_Articles_-_Category" />
 	<config>
 		<fields name="params">
 			<fieldset name="basic">
@@ -251,7 +251,6 @@
 					label="MOD_ARTICLES_CATEGORY_FIELD_STARTDATE_LABEL"
 					translateformat="true"
 					showtime="true"
-					size="22"
 					filter="user_utc"
 					showon="date_filtering:range"
 				/>
@@ -262,7 +261,6 @@
 					label="MOD_ARTICLES_CATEGORY_FIELD_ENDDATE_LABEL"
 					translateformat="true"
 					showtime="true"
-					size="22"
 					filter="user_utc"
 					showon="date_filtering:range"
 				/>
@@ -292,7 +290,7 @@
 					>
 					<option value="a.ordering">MOD_ARTICLES_CATEGORY_OPTION_ORDERING_VALUE</option>
 					<option value="fp.ordering">MOD_ARTICLES_CATEGORY_OPTION_ORDERINGFEATURED_VALUE</option>
-					<option value="a.hits">MOD_ARTICLES_CATEGORY_OPTION_HITS_VALUE</option>
+					<option value="a.hits" requires="hits">MOD_ARTICLES_CATEGORY_OPTION_HITS_VALUE</option>
 					<option value="a.title">JGLOBAL_TITLE</option>
 					<option value="a.id">MOD_ARTICLES_CATEGORY_OPTION_ID_VALUE</option>
 					<option value="a.alias">JFIELD_ALIAS_LABEL</option>
@@ -536,7 +534,8 @@
 					name="layout"
 					type="modulelayout"
 					label="JFIELD_ALT_LAYOUT_LABEL"
-					class="custom-select"
+					class="form-select"
+					validate="moduleLayout"
 				/>
 
 				<field

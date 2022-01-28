@@ -22,7 +22,6 @@ use Joomla\DI\ContainerAwareTrait;
 use Joomla\Event\DispatcherAwareInterface;
 use Joomla\Event\DispatcherAwareTrait;
 use Joomla\Event\DispatcherInterface;
-use Joomla\Input\Cli;
 use Joomla\Input\Input;
 use Joomla\Registry\Registry;
 use Joomla\Session\SessionInterface;
@@ -35,7 +34,7 @@ use Joomla\Session\SessionInterface;
  */
 abstract class CliApplication extends AbstractApplication implements DispatcherAwareInterface, CMSApplicationInterface
 {
-	use DispatcherAwareTrait, EventAware, IdentityAware, ContainerAwareTrait, ExtensionManagerTrait;
+	use DispatcherAwareTrait, EventAware, IdentityAware, ContainerAwareTrait, ExtensionManagerTrait, ExtensionNamespaceMapper;
 
 	/**
 	 * Output object
@@ -73,7 +72,7 @@ abstract class CliApplication extends AbstractApplication implements DispatcherA
 	 * The application message queue.
 	 *
 	 * @var    array
-	 * @since  4.0
+	 * @since  4.0.0
 	 */
 	protected $messages = [];
 
@@ -116,16 +115,21 @@ abstract class CliApplication extends AbstractApplication implements DispatcherA
 
 		$container = $container ?: Factory::getContainer();
 		$this->setContainer($container);
+		$this->setDispatcher($dispatcher ?: $container->get(\Joomla\Event\DispatcherInterface::class));
+
+		if (!$container->has('session'))
+		{
+			$container->alias('session', 'session.cli')
+				->alias('JSession', 'session.cli')
+				->alias(\Joomla\CMS\Session\Session::class, 'session.cli')
+				->alias(\Joomla\Session\Session::class, 'session.cli')
+				->alias(\Joomla\Session\SessionInterface::class, 'session.cli');
+		}
 
 		$this->input    = new \Joomla\CMS\Input\Cli;
 		$this->language = Factory::getLanguage();
 		$this->output   = $output ?: new Stdout;
 		$this->cliInput = $cliInput ?: new CliInput;
-
-		if ($dispatcher)
-		{
-			$this->setDispatcher($dispatcher);
-		}
 
 		parent::__construct($config);
 
@@ -201,7 +205,7 @@ abstract class CliApplication extends AbstractApplication implements DispatcherA
 	 *
 	 * This method must be invoked as: $cli = CliApplication::getInstance();
 	 *
-	 * @param   string  $name  The name (optional) of the JApplicationCli class to instantiate.
+	 * @param   string  $name  The name (optional) of the Application Cli class to instantiate.
 	 *
 	 * @return  CliApplication
 	 *
@@ -234,6 +238,8 @@ abstract class CliApplication extends AbstractApplication implements DispatcherA
 	 */
 	public function execute()
 	{
+		$this->createExtensionNamespaceMap();
+
 		// Trigger the onBeforeExecute event
 		$this->triggerEvent('onBeforeExecute');
 

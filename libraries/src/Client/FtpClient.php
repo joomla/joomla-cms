@@ -279,7 +279,7 @@ class FtpClient
 	 * Method to connect to a FTP server
 	 *
 	 * @param   string  $host  Host to connect to [Default: 127.0.0.1]
-	 * @param   string  $port  Port to connect on [Default: port 21]
+	 * @param   int     $port  Port to connect on [Default: port 21]
 	 *
 	 * @return  boolean  True if successful
 	 *
@@ -477,7 +477,7 @@ class FtpClient
 		{
 			if (($ret = @ftp_systype($this->_conn)) === false)
 			{
-				Log::add(Text::sprintf('JLIB_CLIENT_ERROR_JFTP_CLIENT_BAD_RESPONSE', __METHOD__), Log::WARNING, 'jerror');
+				Log::add(Text::sprintf('JLIB_CLIENT_ERROR_FTP_BAD_RESPONSE', __METHOD__), Log::WARNING, 'jerror');
 
 				return false;
 			}
@@ -1080,7 +1080,7 @@ class FtpClient
 
 			if (@ftp_put($this->_conn, $remote, $local, $mode) === false)
 			{
-				Log::add(Text::sprintf('JLIB_CLIENT_ERROR_JFTP_CLIENT_BAD_RESPONSE', __METHOD__), Log::WARNING, 'jerror');
+				Log::add(Text::sprintf('JLIB_CLIENT_ERROR_FTP_BAD_RESPONSE', __METHOD__), Log::WARNING, 'jerror');
 
 				return false;
 			}
@@ -1193,7 +1193,7 @@ class FtpClient
 			if (@ftp_fput($this->_conn, $remote, $tmp, $mode) === false)
 			{
 				fclose($tmp);
-				Log::add(Text::sprintf('JLIB_CLIENT_ERROR_JFTP_CLIENT_BAD_RESPONSE', __METHOD__), Log::WARNING, 'jerror');
+				Log::add(Text::sprintf('JLIB_CLIENT_ERROR_FTP_BAD_RESPONSE', __METHOD__), Log::WARNING, 'jerror');
 
 				return false;
 			}
@@ -1516,7 +1516,7 @@ class FtpClient
 		$data = null;
 		$regs = null;
 
-		// TODO: Deal with recurse -- nightmare
+		// @todo: Deal with recurse -- nightmare
 		// For now we will just set it to false
 		$recurse = false;
 

@@ -16,7 +16,7 @@ use Joomla\CMS\Table\TableInterface;
 /**
  * Interface for a taggable Table class
  *
- * @since  __DEPLOY_VERSION__
+ * @since  3.10.0
  */
 interface TaggableTableInterface extends TableInterface
 {
@@ -28,7 +28,7 @@ interface TaggableTableInterface extends TableInterface
 	 *
 	 * @return  string  The alias as described above
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function getTypeAlias();
 
@@ -37,7 +37,7 @@ interface TaggableTableInterface extends TableInterface
 	 *
 	 * @return  ?TagsHelper  The tags helper object
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function getTagsHelper(): ?TagsHelper;
 
@@ -48,7 +48,7 @@ interface TaggableTableInterface extends TableInterface
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function setTagsHelper(TagsHelper $tagsHelper): void;
 
@@ -57,7 +57,7 @@ interface TaggableTableInterface extends TableInterface
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function clearTagsHelper(): void;
 }

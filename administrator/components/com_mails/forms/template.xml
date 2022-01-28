@@ -5,70 +5,34 @@
 			name="template_id"
 			type="hidden"
 		/>
-
 		<field
 			name="language"
 			type="hidden"
 		/>
-
 		<field
 			name="subject"
 			type="text"
 			label="COM_MAILS_FIELD_SUBJECT_LABEL"
-			size="40"
 		/>
-
-		<field
-			name="subject_switcher"
-			type="radio"
-			label="COM_MAILS_FIELD_SUBJECT_SWITCHER_LABEL"
-			layout="joomla.form.field.radio.switcher"
-			default="0"
-			>
-			<option value="0">JNO</option>
-			<option value="1">JYES</option>
-		</field>
-
 		<field
 			name="body"
-			type="editor"
+			type="textarea"
 			label="COM_MAILS_FIELD_BODY_LABEL"
 			editor="none"
 			buttons="false"
-			class="inputbox"
+			rows="20"
+			class="form-control"
 			filter="JComponentHelper::filterText"
 		/>
-
-		<field
-			name="body_switcher"
-			type="radio"
-			label="COM_MAILS_FIELD_BODY_SWITCHER_LABEL"
-			layout="joomla.form.field.radio.switcher"
-			default="0"
-			>
-			<option value="0">JNO</option>
-			<option value="1">JYES</option>
-		</field>
-
 		<field
 			name="htmlbody"
 			type="editor"
 			label="COM_MAILS_FIELD_HTMLBODY_LABEL"
-			buttons="false"
+			buttons="true"
+			hide="fields,pagebreak,readmore,module"
 			class="inputbox"
 			filter="JComponentHelper::filterText"
 		/>
-
-		<field
-			name="htmlbody_switcher"
-			type="radio"
-			label="COM_MAILS_FIELD_HTMLBODY_SWITCHER_LABEL"
-			layout="joomla.form.field.radio.switcher"
-			default="0"
-			>
-			<option value="0">JNO</option>
-			<option value="1">JYES</option>
-		</field>
 	</fieldset>
 	<field
 		name="attachments"
@@ -81,7 +45,9 @@
 			<field
 				name="file"
 				type="filelist"
+				hide_default="true"
 				label="COM_MAILS_FIELD_FILE_LABEL"
+				validate="options"
 			/>
 			<field
 				name="name"
@@ -111,7 +77,6 @@
 				type="email"
 				label="COM_MAILS_FIELD_MAIL_FROM_EMAIL_LABEL"
 				filter="string"
-				size="30"
 				validate="email"
 				showon="alternative_mailconfig:1"
 			/>
@@ -121,7 +86,6 @@
 				type="text"
 				label="COM_MAILS_FIELD_MAIL_FROM_NAME_LABEL"
 				filter="string"
-				size="30"
 				showon="alternative_mailconfig:1"
 			/>
 
@@ -130,7 +94,6 @@
 				type="email"
 				label="COM_MAILS_FIELD_MAIL_REPLY_TO_EMAIL_LABEL"
 				filter="string"
-				size="30"
 				validate="email"
 				showon="alternative_mailconfig:1"
 			/>
@@ -140,7 +103,6 @@
 				type="text"
 				label="COM_MAILS_FIELD_MAIL_REPLY_TO_NAME_LABEL"
 				filter="string"
-				size="30"
 				showon="alternative_mailconfig:1"
 			/>
 
@@ -165,7 +127,6 @@
 				default="/usr/sbin/sendmail"
 				showon="alternative_mailconfig:1[AND]mailer:sendmail"
 				filter="string"
-				size="30"
 			/>
 
 			<field
@@ -175,7 +136,6 @@
 				default="localhost"
 				showon="alternative_mailconfig:1[AND]mailer:smtp"
 				filter="string"
-				size="30"
 			/>
 
 			<field
@@ -225,7 +185,6 @@
 				showon="alternative_mailconfig:1[AND]mailer:smtp[AND]smtpauth:1"
 				filter="string"
 				autocomplete="off"
-				size="30"
 			/>
 
 			<field
@@ -235,7 +194,7 @@
 				showon="alternative_mailconfig:1[AND]mailer:smtp[AND]smtpauth:1"
 				filter="raw"
 				autocomplete="off"
-				size="30"
+				lock="true"
 			/>
 
 			<field
@@ -245,7 +204,6 @@
 				validate="email"
 				default=""
 				filter="string"
-				size="30"
 			/>
 		</fieldset>
 	</fields>

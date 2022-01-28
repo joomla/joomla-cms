@@ -51,7 +51,7 @@ trait MVCFactoryServiceTrait
 	 *
 	 * @since  4.0.0
 	 */
-	public function setMvcFactory(MVCFactoryInterface $mvcFactory)
+	public function setMVCFactory(MVCFactoryInterface $mvcFactory)
 	{
 		$this->mvcFactory = $mvcFactory;
 	}

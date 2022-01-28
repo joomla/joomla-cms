@@ -225,7 +225,7 @@ class LanguagesModel extends ListModel
 	 * Custom clean cache method, 2 places for 2 clients.
 	 *
 	 * @param   string   $group     Optional cache group name.
-	 * @param   integer  $clientId  Application client id.
+	 * @param   integer  $clientId  @deprecated   5.0   No longer used.
 	 *
 	 * @return  void
 	 *

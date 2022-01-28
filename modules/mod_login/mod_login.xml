@@ -16,10 +16,10 @@
 		<folder>tmpl</folder>
 	</files>
 	<languages>
-		<language tag="en-GB">en-GB.mod_login.ini</language>
-		<language tag="en-GB">en-GB.mod_login.sys.ini</language>
+		<language tag="en-GB">language/en-GB/mod_login.ini</language>
+		<language tag="en-GB">language/en-GB/mod_login.sys.ini</language>
 	</languages>
-	<help key="JHELP_EXTENSIONS_MODULE_MANAGER_LOGIN" />
+	<help key="Site_Modules:_Login" />
 	<config>
 		<fields name="params">
 			<fieldset name="basic" addfieldprefix="Joomla\Component\Menus\Administrator\Field">
@@ -45,26 +45,28 @@
 					name="login"
 					type="modal_menu"
 					label="MOD_LOGIN_FIELD_LOGIN_REDIRECTURL_LABEL"
+					description="MOD_LOGIN_FIELD_LOGIN_REDIRECTURL_DESC"
 					disable="separator,alias,heading,url"
 					select="true"
 					new="true"
 					edit="true"
 					clear="true"
 					>
-					<option value="">JDEFAULT</option>
+					<option value="">JOPTION_SELECT_MENU_ITEM</option>
 				</field>
 
 				<field
 					name="logout"
 					type="modal_menu"
 					label="MOD_LOGIN_FIELD_LOGOUT_REDIRECTURL_LABEL"
+					description="MOD_LOGIN_FIELD_LOGOUT_REDIRECTURL_DESC"
 					disable="separator,alias,heading,url"
 					select="true"
 					new="true"
 					edit="true"
 					clear="true"
 					>
-					<option value="">JDEFAULT</option>
+					<option value="">JOPTION_SELECT_MENU_ITEM</option>
 				</field>
 
 				<field
@@ -77,7 +79,7 @@
 					edit="true"
 					clear="true"
 					>
-					<option value="">JDEFAULT</option>
+					<option value="">JOPTION_SELECT_MENU_ITEM</option>
 				</field>
 
 				<field
@@ -135,7 +137,8 @@
 					name="layout"
 					type="modulelayout"
 					label="JFIELD_ALT_LAYOUT_LABEL"
-					class="custom-select"
+					class="form-select"
+					validate="moduleLayout"
 				/>
 
 				<field

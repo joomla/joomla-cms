@@ -12,6 +12,7 @@ namespace Joomla\CMS\Console;
 
 use Joomla\CMS\Factory;
 use Joomla\Console\Command\AbstractCommand;
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
@@ -86,7 +87,7 @@ class ListUserCommand extends AbstractCommand
 
 		$this->ioStyle->table(['id', 'username', 'name', 'email', 'blocked', 'groups'], $users);
 
-		return 0;
+		return Command::SUCCESS;
 	}
 
 	/**

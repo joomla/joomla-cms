@@ -27,33 +27,32 @@ if ($this->params->get('show_autosuggest', 1))
 <form action="<?php echo Route::_($this->query->toUri()); ?>" method="get" class="js-finder-searchform">
 	<?php echo $this->getFields(); ?>
 	<fieldset class="com-finder__search word mb-3">
-		<legend class="com-finder__search-legend sr-only">
+		<legend class="com-finder__search-legend visually-hidden">
 			<?php echo Text::_('COM_FINDER_SEARCH_FORM_LEGEND'); ?>
 		</legend>
 		<div class="form-inline">
-			<label for="q" class="mr-2">
+			<label for="q" class="me-2">
 				<?php echo Text::_('COM_FINDER_SEARCH_TERMS'); ?>
 			</label>
 			<div class="input-group">
 				<input type="text" name="q" id="q" class="js-finder-search-query form-control" value="<?php echo $this->escape($this->query->input); ?>">
-				<span class="input-group-append">
 				<button type="submit" class="btn btn-primary">
 					<span class="icon-search icon-white" aria-hidden="true"></span>
 					<?php echo Text::_('JSEARCH_FILTER_SUBMIT'); ?>
 				</button>
 				<?php if ($this->params->get('show_advanced', 1)) : ?>
-					<a href="#advancedSearch" data-toggle="collapse" class="btn btn-secondary">
+					<?php HTMLHelper::_('bootstrap.collapse'); ?>
+					<button class="btn btn-secondary" type="button" data-bs-toggle="collapse" data-bs-target="#advancedSearch" aria-expanded="<?php echo ($this->params->get('expand_advanced', 0) ? 'true' : 'false'); ?>">
 						<span class="icon-search-plus" aria-hidden="true"></span>
-						<?php echo Text::_('COM_FINDER_ADVANCED_SEARCH_TOGGLE'); ?></a>
+						<?php echo Text::_('COM_FINDER_ADVANCED_SEARCH_TOGGLE'); ?></button>
 				<?php endif; ?>
-				</span>
 			</div>
 		</div>
 	</fieldset>
 
 	<?php if ($this->params->get('show_advanced', 1)) : ?>
 		<fieldset id="advancedSearch" class="com-finder__advanced js-finder-advanced collapse<?php if ($this->params->get('expand_advanced', 0)) echo ' show'; ?>">
-			<legend class="com-finder__search-advanced sr-only">
+			<legend class="com-finder__search-advanced visually-hidden">
 				<?php echo Text::_('COM_FINDER_SEARCH_ADVANCED_LEGEND'); ?>
 			</legend>
 			<?php if ($this->params->get('show_advanced_tips', 1)) : ?>

@@ -19,6 +19,7 @@ use Joomla\CMS\Language\Language;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\Mail\Exception\MailDisabledException;
+use Joomla\CMS\Mail\MailTemplate;
 use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Table\Asset;
@@ -217,7 +218,7 @@ class MessageModel extends AdminModel
 	 * @param   array    $data      Data for the form.
 	 * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
 	 *
-	 * @return  \JForm   A \JForm object on success, false on failure
+	 * @return  \Joomla\CMS\Form\Form|bool  A Form object on success, false on failure
 	 *
 	 * @since   1.6
 	 */
@@ -410,48 +411,25 @@ class MessageModel extends AdminModel
 			$subject  = html_entity_decode($table->subject, ENT_COMPAT, 'UTF-8');
 			$message  = strip_tags(html_entity_decode($table->message, ENT_COMPAT, 'UTF-8'));
 
-			$subj	  = sprintf($lang->_('COM_MESSAGES_NEW_MESSAGE'), $fromName, $sitename);
-			$msg 	  = $subject . "\n\n" . $message . "\n\n" . sprintf($lang->_('COM_MESSAGES_PLEASE_LOGIN'), $siteURL);
-
 			// Send the email
-			$mailer = Factory::getMailer();
+			$mailer = new MailTemplate('com_messages.new_message', $lang->getTag());
+			$data = [
+				'subject' => $subject,
+				'message' => $message,
+				'fromname' => $fromName,
+				'sitename' => $sitename,
+				'siteurl' => $siteURL,
+				'fromemail' => $fromUser->email,
+				'toname' => $toUser->name,
+				'toemail' => $toUser->email
+			];
+			$mailer->addTemplateData($data);
+			$mailer->setReplyTo($fromUser->email, $fromUser->name);
+			$mailer->addRecipient($toUser->email, $toUser->name);
 
 			try
 			{
-				if (!$mailer->addReplyTo($fromUser->email, $fromUser->name))
-				{
-					try
-					{
-						Log::add(Text::_('COM_MESSAGES_ERROR_COULD_NOT_SEND_INVALID_REPLYTO'), Log::WARNING, 'jerror');
-					}
-					catch (\RuntimeException $exception)
-					{
-						Factory::getApplication()->enqueueMessage(Text::_('COM_MESSAGES_ERROR_COULD_NOT_SEND_INVALID_REPLYTO'), 'warning');
-					}
-
-					// The message is still saved in the database, we do not allow this failure to cause the entire save routine to fail
-					return true;
-				}
-
-				if (!$mailer->addRecipient($toUser->email, $toUser->name))
-				{
-					try
-					{
-						Log::add(Text::_('COM_MESSAGES_ERROR_COULD_NOT_SEND_INVALID_RECIPIENT'), Log::WARNING, 'jerror');
-					}
-					catch (\RuntimeException $exception)
-					{
-						Factory::getApplication()->enqueueMessage(Text::_('COM_MESSAGES_ERROR_COULD_NOT_SEND_INVALID_RECIPIENT'), 'warning');
-					}
-
-					// The message is still saved in the database, we do not allow this failure to cause the entire save routine to fail
-					return true;
-				}
-
-				$mailer->setSubject($subj);
-				$mailer->setBody($msg);
-
-				$mailer->Send();
+				$mailer->send();
 			}
 			catch (MailDisabledException | phpMailerException $exception)
 			{

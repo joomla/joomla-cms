@@ -25,7 +25,7 @@ HTMLHelper::_('behavior.formvalidator');
 			<?php endif; ?>
 			<?php $fields = $this->form->getFieldset($fieldset->name); ?>
 			<?php if (count($fields)) : ?>
-				<fieldset>
+				<fieldset class="m-0">
 					<?php if (isset($fieldset->label) && ($legend = trim(Text::_($fieldset->label))) !== '') : ?>
 						<legend><?php echo $legend; ?></legend>
 					<?php endif; ?>
