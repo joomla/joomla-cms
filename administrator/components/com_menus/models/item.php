@@ -1145,7 +1145,7 @@ class MenusModelItem extends JModelAdmin
 						$formFile = $path;
 					}
 				}
-				else
+				elseif ($base)
 				{
 					// Now check for a component manifest file
 					$path = JPath::clean($base . '/metadata.xml');
