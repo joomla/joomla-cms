@@ -409,7 +409,6 @@ class Task implements LoggerAwareInterface
 				->bind(':nextExec', $nextExec)
 				->bind(':times_executed', $timesExecuted)
 				->bind(':times_failed', $timesFailed);
-
 		}
 
 		try
