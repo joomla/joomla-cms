@@ -72,7 +72,7 @@ php build/build.php
 cd build/tmp/packages
 cat build/tmp/checksums.txt
 ```
-- [ ] Upload the packages to a private location and make provide download links in `CMS Release Team` and `JSST - Joomla! Security Strike Team` Glip Channels
+- [ ] Upload the packages to a private location and provide download links in `CMS Release Team` and `JSST - Joomla! Security Strike Team` Glip Channels
 
 ## Checklist (Stable - Preperation)
 If any extra code changes have been applied since the Release Candidate consider tagging a building a fresh Release Candidate alongside the final packages to help as many people test as possible.
@@ -103,7 +103,7 @@ php build/bump.php -v 3.10.(X+1)-dev
 git commit -am 'reset to dev'
 # DO NOT PUSH YET!
 ```
-- [ ] Upload the packages to a private location and make provide download links in `CMS Release Team` (and `JSST - Joomla! Security Strike Team` if a security release) Glip Channel(s)
+- [ ] Upload the packages to a private location and provide download links in `CMS Release Team` (and `JSST - Joomla! Security Strike Team` if a security release) Glip Channel(s)
 - [ ] Upload release packages to AWS S3
 - [ ] Execute the `ars-create-cms-release.php` script on downloads server (`ssh` to the server and `cd` to the web root)
 ```
@@ -116,7 +116,7 @@ If any updates to packages are required at this point due to critical issues unc
 
 - [ ] Follow the new release package following the steps previously made
 - [ ] If a non-security release tag a fresh release candidate and publish to Github following the documented process
-- [ ] Upload the packages to a private location and make provide download links in `CMS Release Team` (and `JSST - Joomla! Security Strike Team` if a security release) Glip Channel(s)
+- [ ] Upload the packages to a private location and provide download links in `CMS Release Team` (and `JSST - Joomla! Security Strike Team` if a security release) Glip Channel(s)
 - [ ] Upload release packages to AWS S3
 - [ ] Execute the `ars-get-hashes.php` script on downloads server (`ssh` to the server and `cd` to the web root)
 ```
