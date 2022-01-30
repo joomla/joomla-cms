@@ -81,7 +81,7 @@ export default {
   methods: {
     opened() {
       this.$nextTick(() => {
-        const focusableElements = 'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])';
+        const focusableElements = 'button:not([disabled]), [href], input:not([disabled]), select, textarea, [tabindex]:not([tabindex="-1"])';
         const modal = document.querySelector('.modal-content');
         const firstFocusableElement = modal.querySelectorAll(focusableElements)[0];
         const focusableContent = modal.querySelectorAll(focusableElements);
