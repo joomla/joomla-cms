@@ -17,5 +17,5 @@ namespace Page\Acceptance\Administrator;
  */
 class AdminListPage extends AdminPage
 {
-	// Todo.
+	// @todo.
 }

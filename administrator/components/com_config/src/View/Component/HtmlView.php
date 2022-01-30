@@ -60,9 +60,6 @@ class HtmlView extends BaseHtmlView
 	 */
 	public function display($tpl = null)
 	{
-		$form = null;
-		$component = null;
-
 		try
 		{
 			$component = $this->get('component');
