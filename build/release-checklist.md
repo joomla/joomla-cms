@@ -133,6 +133,7 @@ php cli/ars-get-hashes.php --release=<ars_release_id>
 - [ ] Upload the packages to the GitHub release
 - [ ] Publish GitHub release
 - [ ] Merge the [joomla/update.joomla.org PR](https://github.com/joomla/update.joomla.org/pulls)
+- [ ] Wait for `.org build notifications` to report back and validate update.joomla.org CDN Cache has flushed
 - [ ] Merge the [joomla/statistics-server PR](https://github.com/joomla/statistics-server/pulls)
 - [ ] Wait for `.org build notifications` to report back
 - [ ] Publish the release on [downloads.joomla.org](https://downloads.joomla.org/administrator/index.php?option=com_ars&view=Releases)
