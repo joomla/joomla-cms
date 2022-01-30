@@ -107,7 +107,7 @@ git commit -am 'reset to dev'
 - [ ] Upload release packages to AWS S3
 - [ ] Execute the `ars-create-cms-release.php` script on downloads server (`ssh` to the server and `cd` to the web root)
 ```
-php cli/ars-create-cms-release.php --releaseVersion=3.10.X --releaseUrl=https://joomla.org/<insert_url> --userId=<downloads_user_name>
+php cli/ars-create-cms-release.php --releaseVersion=3.10.X --releaseUrl=https://joomla.org/<insert_url> --userId=<downloads_site_user_name>
 ```
 - [ ] Update hashes in the [update.joomla.org PR](https://github.com/joomla/update.joomla.org/pulls)
 
@@ -120,7 +120,7 @@ If any updates to packages are required at this point due to critical issues unc
 - [ ] Upload release packages to AWS S3
 - [ ] Execute the `ars-get-hashes.php` script on downloads server (`ssh` to the server and `cd` to the web root)
 ```
-php cli/ars-get-hashes.php --releaseVersion=3.10.X
+php cli/ars-get-hashes.php --release=<ars_release_id>
 ```
 - [ ] Update hashes in the [update.joomla.org PR](https://github.com/joomla/update.joomla.org/pulls)
 
@@ -133,6 +133,7 @@ php cli/ars-get-hashes.php --releaseVersion=3.10.X
 - [ ] Upload the packages to the GitHub release
 - [ ] Publish GitHub release
 - [ ] Merge the [joomla/update.joomla.org PR](https://github.com/joomla/update.joomla.org/pulls)
+- [ ] Wait for `.org build notifications` to report back and validate update.joomla.org CDN Cache has flushed
 - [ ] Merge the [joomla/statistics-server PR](https://github.com/joomla/statistics-server/pulls)
 - [ ] Wait for `.org build notifications` to report back
 - [ ] Publish the release on [downloads.joomla.org](https://downloads.joomla.org/administrator/index.php?option=com_ars&view=Releases)
@@ -144,7 +145,7 @@ php cli/ars-get-hashes.php --releaseVersion=3.10.X
 - [ ] Trigger new nightly build: [https://build.joomla.org](https://build.joomla.org:8443/job/cms_packaging/)
 - [ ] Trigger new api docs build: [https://build.joomla.org](https://build.joomla.org:8443/job/api.joomla.org/)
 - [ ] Wait for `.org build notifications` to report back
-- [ ] Inform `Contact the Social Media Team`, `CMS Release Team` and `CMS Maintenance Team` (and `JSST - Joomla! Security Strike Team` if a security release) Glip channels the release process has started
+- [ ] Inform `Contact the Social Media Team`, `CMS Release Team` and `CMS Maintenance Team` (and `JSST - Joomla! Security Strike Team` if a security release) Glip channels the release process is complete
 - [ ] Check next release date with other release leads, Create Google Calendar + meet invites
 - [ ] Inform `CMS Release Team` Glip Channel of the next expected release candidate and stable release date
 - [ ] Update the Joomla Roadmap on [developer.joomla.org](https://developer.joomla.org/administrator/index.php?option=com_content&view=articles)
