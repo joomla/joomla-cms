@@ -196,9 +196,9 @@ class Aes
 			return false;
 		}
 
-		$algorightms = hash_algos();
+		$algorithms = hash_algos();
 
-		if (!\in_array('sha256', $algorightms))
+		if (!\in_array('sha256', $algorithms))
 		{
 			return false;
 		}
