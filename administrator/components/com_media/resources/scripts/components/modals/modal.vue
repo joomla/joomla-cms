@@ -24,6 +24,7 @@
                 type="button"
                 class="btn-close"
                 aria-label="Close"
+                @open="opened()"
                 @click="close()"
               />
             </div>
@@ -69,6 +70,7 @@ export default {
     },
   },
   mounted() {
+    this.opened();
     // Listen to keydown events on the document
     document.addEventListener('keydown', this.onKeyDown);
   },
@@ -77,6 +79,35 @@ export default {
     document.removeEventListener('keydown', this.onKeyDown);
   },
   methods: {
+    opened() {
+      this.$nextTick(() => {
+        const focusableElements = 'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])';
+        const modal = document.querySelector('.modal-content');
+        const firstFocusableElement = modal.querySelectorAll(focusableElements)[0];
+        const focusableContent = modal.querySelectorAll(focusableElements);
+        const lastFocusableElement = focusableContent[focusableContent.length - 1];
+
+        document.addEventListener('keydown', (e) => {
+          let isTabPressed = e.key === 'Tab' || e.keyCode === 9;
+          if (!isTabPressed) {
+            return;
+          }
+          if (e.shiftKey) { // if shift key pressed for shift + tab combination
+            if (document.activeElement === firstFocusableElement) {
+              lastFocusableElement.focus(); // add focus for the last focusable element
+              e.preventDefault();
+            }
+          } else {
+            if (document.activeElement === lastFocusableElement) {
+              firstFocusableElement.focus();
+              e.preventDefault;
+            }
+          }
+        });
+        firstFocusableElement.focus();
+        
+      });
+    },
     /* Close the modal instance */
     close() {
       this.$emit('close');
