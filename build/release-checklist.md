@@ -107,7 +107,7 @@ git commit -am 'reset to dev'
 - [ ] Upload release packages to AWS S3
 - [ ] Execute the `ars-create-cms-release.php` script on downloads server (`ssh` to the server and `cd` to the web root)
 ```
-php cli/ars-create-cms-release.php --releaseVersion=3.10.X --releaseUrl=https://joomla.org/<insert_url> --userId=<downloads_user_name>
+php cli/ars-create-cms-release.php --releaseVersion=3.10.X --releaseUrl=https://joomla.org/<insert_url> --userId=<downloads_site_user_name>
 ```
 - [ ] Update hashes in the [update.joomla.org PR](https://github.com/joomla/update.joomla.org/pulls)
 
@@ -120,7 +120,7 @@ If any updates to packages are required at this point due to critical issues unc
 - [ ] Upload release packages to AWS S3
 - [ ] Execute the `ars-get-hashes.php` script on downloads server (`ssh` to the server and `cd` to the web root)
 ```
-php cli/ars-get-hashes.php --releaseVersion=3.10.X
+php cli/ars-get-hashes.php --release=<ars_release_id>
 ```
 - [ ] Update hashes in the [update.joomla.org PR](https://github.com/joomla/update.joomla.org/pulls)
 
