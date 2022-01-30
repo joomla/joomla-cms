@@ -145,7 +145,7 @@ php cli/ars-get-hashes.php --release=<ars_release_id>
 - [ ] Trigger new nightly build: [https://build.joomla.org](https://build.joomla.org:8443/job/cms_packaging/)
 - [ ] Trigger new api docs build: [https://build.joomla.org](https://build.joomla.org:8443/job/api.joomla.org/)
 - [ ] Wait for `.org build notifications` to report back
-- [ ] Inform `Contact the Social Media Team`, `CMS Release Team` and `CMS Maintenance Team` (and `JSST - Joomla! Security Strike Team` if a security release) Glip channels the release process has started
+- [ ] Inform `Contact the Social Media Team`, `CMS Release Team` and `CMS Maintenance Team` (and `JSST - Joomla! Security Strike Team` if a security release) Glip channels the release process is complete
 - [ ] Check next release date with other release leads, Create Google Calendar + meet invites
 - [ ] Inform `CMS Release Team` Glip Channel of the next expected release candidate and stable release date
 - [ ] Update the Joomla Roadmap on [developer.joomla.org](https://developer.joomla.org/administrator/index.php?option=com_content&view=articles)
