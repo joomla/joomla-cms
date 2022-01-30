@@ -88,7 +88,7 @@ export default {
         const lastFocusableElement = focusableContent[focusableContent.length - 1];
 
         document.addEventListener('keydown', (e) => {
-          let isTabPressed = e.key === 'Tab' || e.keyCode === 9;
+          const isTabPressed = e.key === 'Tab' || e.keyCode === 9;
           if (!isTabPressed) {
             return;
           }
@@ -97,15 +97,12 @@ export default {
               lastFocusableElement.focus(); // add focus for the last focusable element
               e.preventDefault();
             }
-          } else {
-            if (document.activeElement === lastFocusableElement) {
-              firstFocusableElement.focus();
-              e.preventDefault;
-            }
+          } else if (document.activeElement === lastFocusableElement) {
+            firstFocusableElement.focus();
+            e.preventDefault();
           }
         });
         firstFocusableElement.focus();
-        
       });
     },
     /* Close the modal instance */
