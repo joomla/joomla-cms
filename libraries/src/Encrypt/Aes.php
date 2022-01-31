@@ -169,16 +169,16 @@ class Aes
 	 */
 	public static function isSupported()
 	{
-		$adapter = new Mcrypt;
+		$adapter = new OpenSSL;
 
 		if (!$adapter->isSupported())
 		{
-			$adapter = new OpenSSL;
-		}
+			$adapter = new Mcrypt;
 
-		if (!$adapter->isSupported())
-		{
-			return false;
+			if (!$adapter->isSupported())
+			{
+				return false;
+			}
 		}
 
 		if (!\function_exists('base64_encode'))
@@ -196,9 +196,9 @@ class Aes
 			return false;
 		}
 
-		$algorightms = hash_algos();
+		$algorithms = hash_algos();
 
-		if (!\in_array('sha256', $algorightms))
+		if (!\in_array('sha256', $algorithms))
 		{
 			return false;
 		}

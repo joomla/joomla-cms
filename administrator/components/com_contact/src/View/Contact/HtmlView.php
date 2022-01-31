@@ -18,6 +18,7 @@ use Joomla\CMS\Language\Associations;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
+use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 
 /**
@@ -28,9 +29,9 @@ use Joomla\CMS\Toolbar\ToolbarHelper;
 class HtmlView extends BaseHtmlView
 {
 	/**
-	 * The \JForm object
+	 * The Form object
 	 *
-	 * @var  \JForm
+	 * @var  \Joomla\CMS\Form\Form
 	 */
 	protected $form;
 
@@ -44,7 +45,7 @@ class HtmlView extends BaseHtmlView
 	/**
 	 * The model state
 	 *
-	 * @var  \JObject
+	 * @var  \Joomla\CMS\Object\CMSObject
 	 */
 	protected $state;
 
@@ -106,6 +107,8 @@ class HtmlView extends BaseHtmlView
 		// Since we don't track these assets at the item level, use the category id.
 		$canDo = ContentHelper::getActions('com_contact', 'category', $this->item->catid);
 
+		$toolbar = Toolbar::getInstance();
+
 		ToolbarHelper::title($isNew ? Text::_('COM_CONTACT_MANAGER_CONTACT_NEW') : Text::_('COM_CONTACT_MANAGER_CONTACT_EDIT'), 'address-book contact');
 
 		// Build the actions for new and existing records.
@@ -116,12 +119,20 @@ class HtmlView extends BaseHtmlView
 			{
 				ToolbarHelper::apply('contact.apply');
 
-				ToolbarHelper::saveGroup(
-					[
-						['save', 'contact.save'],
-						['save2new', 'contact.save2new']
-					],
-					'btn-success'
+				$saveGroup = $toolbar->dropdownButton('save-group');
+
+				$saveGroup->configure(
+					function (Toolbar $childBar) use ($user)
+					{
+						$childBar->save('contact.save');
+
+						if ($user->authorise('core.create', 'com_menus.menu'))
+						{
+							$childBar->save('contact.save2menu', 'JTOOLBAR_SAVE_TO_MENU');
+						}
+
+						$childBar->save2new('contact.save2new');
+					}
 				);
 			}
 
@@ -132,31 +143,41 @@ class HtmlView extends BaseHtmlView
 			// Since it's an existing record, check the edit permission, or fall back to edit own if the owner.
 			$itemEditable = $canDo->get('core.edit') || ($canDo->get('core.edit.own') && $this->item->created_by == $userId);
 
-			$toolbarButtons = [];
-
 			// Can't save the record if it's checked out and editable
 			if (!$checkedOut && $itemEditable)
 			{
-				ToolbarHelper::apply('contact.apply');
+				$toolbar->apply('contact.apply');
+			}
 
-				$toolbarButtons[] = ['save', 'contact.save'];
+			$saveGroup = $toolbar->dropdownButton('save-group');
 
-				// We can save this record, but check the create permission to see if we can return to make a new one.
-				if ($canDo->get('core.create'))
+			$saveGroup->configure(
+				function (Toolbar $childBar) use ($checkedOut, $itemEditable, $canDo, $user)
 				{
-					$toolbarButtons[] = ['save2new', 'contact.save2new'];
+					// Can't save the record if it's checked out and editable
+					if (!$checkedOut && $itemEditable)
+					{
+						$childBar->save('contact.save');
+
+						// We can save this record, but check the create permission to see if we can return to make a new one.
+						if ($canDo->get('core.create'))
+						{
+							$childBar->save2new('contact.save2new');
+						}
+					}
+
+					// If checked out, we can still save2menu
+					if ($user->authorise('core.create', 'com_menus.menu'))
+					{
+						$childBar->save('contact.save2menu', 'JTOOLBAR_SAVE_TO_MENU');
+					}
+
+					// If checked out, we can still save
+					if ($canDo->get('core.create'))
+					{
+						$childBar->save2copy('contact.save2copy');
+					}
 				}
-			}
-
-			// If checked out, we can still save
-			if ($canDo->get('core.create'))
-			{
-				$toolbarButtons[] = ['save2copy', 'contact.save2copy'];
-			}
-
-			ToolbarHelper::saveGroup(
-				$toolbarButtons,
-				'btn-success'
 			);
 
 			ToolbarHelper::cancel('contact.cancel', 'JTOOLBAR_CLOSE');

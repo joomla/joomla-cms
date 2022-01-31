@@ -10,10 +10,13 @@ namespace Joomla\CMS\Application;
 
 \defined('JPATH_PLATFORM') or die;
 
+use InvalidArgumentException;
 use Joomla\CMS\Console;
 use Joomla\CMS\Extension\ExtensionManagerTrait;
+use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Language;
 use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\CMS\Router\Router;
 use Joomla\CMS\Version;
 use Joomla\Console\Application;
 use Joomla\DI\Container;
@@ -433,5 +436,28 @@ class ConsoleApplication extends Application implements DispatcherAwareInterface
 	public function setName(string $name): void
 	{
 		throw new \RuntimeException('The console application name cannot be changed');
+	}
+
+	/**
+	 * Returns the application Router object.
+	 *
+	 * @param   string  $name     The name of the application.
+	 * @param   array   $options  An optional associative array of configuration settings.
+	 *
+	 * @return  Router
+	 *
+	 * @since   4.0.6
+	 * @throws  \InvalidArgumentException
+	 */
+	public static function getRouter($name = null, array $options = array())
+	{
+		if (empty($name))
+		{
+			throw new InvalidArgumentException('A router name must be set in console application.');
+		}
+
+		$options['mode'] = Factory::getApplication()->get('sef');
+
+		return Router::getInstance($name, $options);
 	}
 }

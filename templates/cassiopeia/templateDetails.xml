@@ -7,6 +7,7 @@
 	<authorEmail>admin@joomla.org</authorEmail>
 	<copyright>(C) 2017 Open Source Matters, Inc.</copyright>
 	<description>TPL_CASSIOPEIA_XML_DESCRIPTION</description>
+	<inheritable>1</inheritable>
 	<files>
 		<filename>component.php</filename>
 		<filename>error.php</filename>
@@ -14,14 +15,14 @@
 		<filename>joomla.asset.json</filename>
 		<filename>offline.php</filename>
 		<filename>templateDetails.xml</filename>
-		<filename>template_preview.png</filename>
-		<filename>template_thumbnail.png</filename>
-		<folder>css</folder>
 		<folder>html</folder>
-		<folder>images</folder>
-		<folder>js</folder>
-		<folder>scss</folder>
 	</files>
+	<media destination="templates/site/cassiopeia" folder="media">
+		<folder>js</folder>
+		<folder>css</folder>
+		<folder>scss</folder>
+		<folder>images</folder>
+	</media>
 	<positions>
 		<position>topbar</position>
 		<position>below-top</position>
@@ -80,7 +81,8 @@
 					name="siteDescription"
 					type="text"
 					default=""
-					label="TPL_CASSIOPEIA_TAGLINE"
+					label="TPL_CASSIOPEIA_TAGLINE_LABEL"
+					description="TPL_CASSIOPEIA_TAGLINE_DESC"
 					filter="string"
 					showon="brand:1"
 				/>
@@ -93,7 +95,7 @@
 					>
 					<option value="0">JNONE</option>
 					<group label="TPL_CASSIOPEIA_FONT_GROUP_LOCAL">
-						<option value="templates/cassiopeia/css/global/fonts-local_roboto.css">Roboto (local)</option>
+						<option value="media/templates/site/cassiopeia/css/global/fonts-local_roboto.css">Roboto (local)</option>
 					</group>
 					<group label="TPL_CASSIOPEIA_FONT_GROUP_WEB">
 						<option value="https://fonts.googleapis.com/css2?family=Fira+Sans:wght@100;300;400;700&amp;display=swap">Fira Sans (web)</option>
@@ -110,9 +112,16 @@
 
 				<field
 					name="colorName"
-					type="list"
-					default="colors_standard"
+					type="filelist"
 					label="TPL_CASSIOPEIA_COLOR_NAME_LABEL"
+					default="colors_standard"
+					fileFilter="^custom.+[^min]\.css$"
+					exclude="^colors.+"
+					stripext="true"
+					hide_none="true"
+					hide_default="true"
+					directory="media/templates/site/cassiopeia/css/global/"
+					validate="options"
 					>
 					<option value="colors_standard">TPL_CASSIOPEIA_COLOR_NAME_STANDARD</option>
 					<option value="colors_alternative">TPL_CASSIOPEIA_COLOR_NAME_ALTERNATIVE</option>
