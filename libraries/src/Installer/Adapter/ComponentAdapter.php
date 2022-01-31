@@ -1054,7 +1054,7 @@ class ComponentAdapter extends InstallerAdapter
 				// Remove existing menu items if overwrite has been enabled
 				if ($option)
 				{
-					// If something goes wrong, there's no way to rollback TODO: Search for better solution
+					// If something goes wrong, there's no way to rollback @todo: Search for better solution
 					$this->_removeAdminMenus($componentrow->extension_id);
 				}
 			}
@@ -1097,63 +1097,42 @@ class ComponentAdapter extends InstallerAdapter
 		// Let's figure out what the menu item data should look like
 		$data = array();
 
-		if ($menuElement)
+		// I have a menu element, use this information
+		$data['menutype']     = 'main';
+		$data['client_id']    = 1;
+		$data['title']        = (string) trim($menuElement);
+		$data['alias']        = (string) $menuElement;
+		$data['type']         = 'component';
+		$data['published']    = 1;
+		$data['parent_id']    = 1;
+		$data['component_id'] = $componentId;
+		$data['img']          = ((string) $menuElement->attributes()->img) ?: 'class:component';
+		$data['home']         = 0;
+		$data['path']         = '';
+		$data['params']       = '';
+
+		if ($params = $menuElement->params)
 		{
-			// I have a menu element, use this information
-			$data['menutype']     = 'main';
-			$data['client_id']    = 1;
-			$data['title']        = (string) trim($menuElement);
-			$data['alias']        = (string) $menuElement;
-			$data['type']         = 'component';
-			$data['published']    = 1;
-			$data['parent_id']    = 1;
-			$data['component_id'] = $componentId;
-			$data['img']          = ((string) $menuElement->attributes()->img) ?: 'class:component';
-			$data['home']         = 0;
-			$data['path']         = '';
-			$data['params']       = '';
-
-			if ($params = $menuElement->params)
-			{
-				// Pass $params through Registry to convert to JSON.
-				$params = new Registry($params);
-				$data['params'] = $params->toString();
-			}
-
-			// Set the menu link
-			$request = [];
-
-			if ((string) $menuElement->attributes()->task)
-			{
-				$request[] = 'task=' . $menuElement->attributes()->task;
-			}
-
-			if ((string) $menuElement->attributes()->view)
-			{
-				$request[] = 'view=' . $menuElement->attributes()->view;
-			}
-
-			$qstring = \count($request) ? '&' . implode('&', $request) : '';
-			$data['link'] = 'index.php?option=' . $option . $qstring;
+			// Pass $params through Registry to convert to JSON.
+			$params = new Registry($params);
+			$data['params'] = $params->toString();
 		}
-		else
+
+		// Set the menu link
+		$request = [];
+
+		if ((string) $menuElement->attributes()->task)
 		{
-			// No menu element was specified, Let's make a generic menu item
-			$data                 = array();
-			$data['menutype']     = 'main';
-			$data['client_id']    = 1;
-			$data['title']        = $option;
-			$data['alias']        = $option;
-			$data['link']         = 'index.php?option=' . $option;
-			$data['type']         = 'component';
-			$data['published']    = 1;
-			$data['parent_id']    = 1;
-			$data['component_id'] = $componentId;
-			$data['img']          = 'class:component';
-			$data['home']         = 0;
-			$data['path']         = '';
-			$data['params']       = '';
+			$request[] = 'task=' . $menuElement->attributes()->task;
 		}
+
+		if ((string) $menuElement->attributes()->view)
+		{
+			$request[] = 'view=' . $menuElement->attributes()->view;
+		}
+
+		$qstring = \count($request) ? '&' . implode('&', $request) : '';
+		$data['link'] = 'index.php?option=' . $option . $qstring;
 
 		// Try to create the menu item in the database
 		$parent_id = $this->_createAdminMenuItem($data, 1);

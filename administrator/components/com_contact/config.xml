@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <config>
+	<help key="Contacts:_Options"/>
 	<fieldset
 		name="contact"
 		label="COM_CONTACT_FIELD_CONFIG_INDIVIDUAL_CONTACT_DISPLAY"
@@ -352,7 +353,6 @@
 			name="linka_name"
 			type="text"
 			label="COM_CONTACT_FIELD_LINKA_NAME_LABEL"
-			size="30"
 			default=""
 			showon="show_links:1"
 		/>
@@ -361,7 +361,6 @@
 			name="linkb_name"
 			type="text"
 			label="COM_CONTACT_FIELD_LINKB_NAME_LABEL"
-			size="30"
 			default=""
 			showon="show_links:1"
 		/>
@@ -370,7 +369,6 @@
 			name="linkc_name"
 			type="text"
 			label="COM_CONTACT_FIELD_LINKC_NAME_LABEL"
-			size="30"
 			default=""
 			showon="show_links:1"
 		/>
@@ -379,7 +377,6 @@
 			name="linkd_name"
 			type="text"
 			label="COM_CONTACT_FIELD_LINKD_NAME_LABEL"
-			size="30"
 			default=""
 			showon="show_links:1"
 		/>
@@ -388,7 +385,6 @@
 			name="linke_name"
 			type="text"
 			label="COM_CONTACT_FIELD_LINKE_NAME_LABEL"
-			size="30"
 			default=""
 			showon="show_links:1"
 		/>
@@ -396,7 +392,7 @@
 	<fieldset
 		name="Icons"
 		label="COM_CONTACT_ICONS_SETTINGS"
-		description="COM_CONTACT_FIELD_CONFIG_INDIVIDUAL_CONTACT_DESC"
+		description="COM_CONTACT_ICONS_SETTINGS_DESC"
 		>
 		<field
 			name="contact_icons"
@@ -489,17 +485,6 @@
 		/>
 
 		<field
-			name="show_category_heading_title_text"
-			type="radio"
-			label="JGLOBAL_SHOW_CATEGORY_HEADING_TITLE_TEXT_LABEL"
-			layout="joomla.form.field.radio.switcher"
-			default="1"
-			>
-			<option value="0">JHIDE</option>
-			<option value="1">JSHOW</option>
-		</field>
-
-		<field
 			name="show_category_title"
 			type="radio"
 			layout="joomla.form.field.radio.switcher"
@@ -552,6 +537,17 @@
 			name="show_no_contacts"
 			type="radio"
 			label="COM_CONTACT_NO_CONTACTS_LABEL"
+			layout="joomla.form.field.radio.switcher"
+			default="1"
+			>
+			<option value="0">JHIDE</option>
+			<option value="1">JSHOW</option>
+		</field>
+
+		<field
+			name="show_category_heading_title_text"
+			type="radio"
+			label="JGLOBAL_SHOW_SUBCATEGORY_HEADING"
 			layout="joomla.form.field.radio.switcher"
 			default="1"
 			>
@@ -842,6 +838,24 @@
 		</field>
 
 		<field
+ 			name="contacts_display_num"
+ 			type="list"
+ 			label="COM_CONTACT_NUMBER_CONTACTS_LIST_LABEL"
+ 			default="10"
+			validate="options"
+ 			>
+ 			<option value="5">J5</option>
+ 			<option value="10">J10</option>
+ 			<option value="15">J15</option>
+ 			<option value="20">J20</option>
+ 			<option value="25">J25</option>
+ 			<option value="30">J30</option>
+ 			<option value="50">J50</option>
+ 			<option value="100">J100</option>
+ 			<option value="0">JALL</option>
+ 		</field>
+
+		<field
 			name="initial_sort"
 			type="list"
 			label="COM_CONTACT_FIELD_INITIAL_SORT_LABEL"
@@ -955,7 +969,6 @@
 			type="text"
 			label="COM_CONTACT_FIELD_CONFIG_REDIRECT_LABEL"
 			default=""
-			size="30"
 			showon="show_email_form:1"
 		/>
 	</fieldset>

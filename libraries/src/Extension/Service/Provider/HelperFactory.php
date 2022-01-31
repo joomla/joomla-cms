@@ -17,7 +17,7 @@ use Joomla\DI\ServiceProviderInterface;
 /**
  * Service provider for the service helper factory.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 class HelperFactory implements ServiceProviderInterface
 {
@@ -26,7 +26,7 @@ class HelperFactory implements ServiceProviderInterface
 	 *
 	 * @var  string
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	private $namespace;
 
@@ -49,7 +49,7 @@ class HelperFactory implements ServiceProviderInterface
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function register(Container $container)
 	{

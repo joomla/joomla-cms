@@ -1,9 +1,8 @@
 <?php
 /**
- * @package     Joomla.Libraries
- * @subpackage  Service
+ * Joomla! Content Management System
  *
- * @copyright   (C) 2005 Open Source Matters, Inc. <https://www.joomla.org>
+ * @copyright   (C) 2018 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -36,13 +35,11 @@ use Joomla\Session\SessionEvents;
 use Joomla\Session\SessionInterface;
 use Joomla\Session\Storage\RuntimeStorage;
 use Joomla\Session\StorageInterface;
-use Joomla\Session\Validator\AddressValidator;
-use Joomla\Session\Validator\ForwardedValidator;
 
 /**
  * Service provider for the application's session dependency
  *
- * @since  4.0
+ * @since  4.0.0
  */
 class Session implements ServiceProviderInterface
 {
@@ -53,7 +50,7 @@ class Session implements ServiceProviderInterface
 	 *
 	 * @return  void
 	 *
-	 * @since   4.0
+	 * @since   4.0.0
 	 */
 	public function register(Container $container)
 	{
@@ -214,7 +211,19 @@ class Session implements ServiceProviderInterface
 					$options['force_ssl'] = true;
 				}
 
-				return $this->buildSession(new RuntimeStorage, $app, $container->get(DispatcherInterface::class), $options);
+				$handler = $container->get('session.factory')->createSessionHandler($options);
+
+				if (!$container->has('session.handler'))
+				{
+					$this->registerSessionHandlerAsService($container, $handler);
+				}
+
+				return $this->buildSession(
+					new RuntimeStorage,
+					$app,
+					$container->get(DispatcherInterface::class),
+					$options
+				);
 			},
 			true
 		);
@@ -301,7 +310,7 @@ class Session implements ServiceProviderInterface
 	 *
 	 * @return  SessionInterface
 	 *
-	 * @since   4.0
+	 * @since   4.0.0
 	 */
 	private function buildSession(
 		StorageInterface $storage,
@@ -318,8 +327,6 @@ class Session implements ServiceProviderInterface
 		}
 
 		$session = new \Joomla\CMS\Session\Session($storage, $dispatcher, $options);
-		$session->addValidator(new AddressValidator($input, $session));
-		$session->addValidator(new ForwardedValidator($input, $session));
 
 		return $session;
 	}
@@ -332,7 +339,7 @@ class Session implements ServiceProviderInterface
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	private function registerSessionHandlerAsService(Container $container, \SessionHandlerInterface $sessionHandler): void
 	{

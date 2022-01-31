@@ -28,28 +28,28 @@ class GetConfigurationCommand extends AbstractCommand
 	 * The default command name
 	 *
 	 * @var    string
-	 * @since  4.0
+	 * @since  4.0.0
 	 */
 	protected static $defaultName = 'config:get';
 
 	/**
 	 * Stores the Input Object
 	 * @var Input
-	 * @since 4.0
+	 * @since 4.0.0
 	 */
 	private $cliInput;
 
 	/**
 	 * SymfonyStyle Object
 	 * @var SymfonyStyle
-	 * @since 4.0
+	 * @since 4.0.0
 	 */
 	private $ioStyle;
 
 	/**
 	 * Constant defining the Database option group
 	 * @var array
-	 * @since 4.0
+	 * @since 4.0.0
 	 */
 	public const DB_GROUP = [
 		'name' => 'db',
@@ -72,7 +72,7 @@ class GetConfigurationCommand extends AbstractCommand
 	/**
 	 * Constant defining the Session option group
 	 * @var array
-	 * @since 4.0
+	 * @since 4.0.0
 	 */
 	public const SESSION_GROUP = [
 		'name' => 'session',
@@ -86,7 +86,7 @@ class GetConfigurationCommand extends AbstractCommand
 	/**
 	 * Constant defining the Mail option group
 	 * @var array
-	 * @since 4.0
+	 * @since 4.0.0
 	 */
 	public const MAIL_GROUP = [
 		'name' => 'mail',
@@ -107,25 +107,25 @@ class GetConfigurationCommand extends AbstractCommand
 
 	/**
 	 * Return code if configuration is get successfully
-	 * @since 4.0
+	 * @since 4.0.0
 	 */
 	public const CONFIG_GET_SUCCESSFUL = 0;
 
 	/**
 	 * Return code if configuration group option is not found
-	 * @since 4.0
+	 * @since 4.0.0
 	 */
 	public const CONFIG_GET_GROUP_NOT_FOUND = 1;
 
 	/**
 	 * Return code if configuration option is not found
-	 * @since 4.0
+	 * @since 4.0.0
 	 */
 	public const CONFIG_GET_OPTION_NOT_FOUND = 2;
 
 	/**
 	 * Return code if the command has been invoked with wrong options
-	 * @since 4.0
+	 * @since 4.0.0
 	 */
 	public const CONFIG_GET_OPTION_FAILED = 3;
 
@@ -137,7 +137,7 @@ class GetConfigurationCommand extends AbstractCommand
 	 *
 	 * @return void
 	 *
-	 * @since 4.0
+	 * @since 4.0.0
 	 *
 	 */
 	private function configureIO(InputInterface $input, OutputInterface $output)
@@ -154,7 +154,7 @@ class GetConfigurationCommand extends AbstractCommand
 	 *
 	 * @return integer
 	 *
-	 * @since 4.0
+	 * @since 4.0.0
 	 */
 	public function processGroupOptions($group): int
 	{
@@ -196,7 +196,7 @@ class GetConfigurationCommand extends AbstractCommand
 	 *
 	 * @return array
 	 *
-	 * @since 4.0
+	 * @since 4.0.0
 	 */
 	public function getGroups()
 	{
@@ -214,7 +214,7 @@ class GetConfigurationCommand extends AbstractCommand
 	 *
 	 * @return array
 	 *
-	 * @since 4.0
+	 * @since 4.0.0
 	 */
 	public function formatConfig(Array $configs): array
 	{
@@ -241,7 +241,7 @@ class GetConfigurationCommand extends AbstractCommand
 	 *
 	 * @return integer
 	 *
-	 * @since 4.0
+	 * @since 4.0.0
 	 */
 	public function processSingleOption($option): int
 	{
@@ -283,6 +283,14 @@ class GetConfigurationCommand extends AbstractCommand
 		elseif ($value === null)
 		{
 			return 'Not Set';
+		}
+		elseif (\is_array($value))
+		{
+			return \json_encode($value);
+		}
+		elseif (\is_object($value))
+		{
+			return \json_encode(\get_object_vars($value));
 		}
 		else
 		{
@@ -356,7 +364,7 @@ class GetConfigurationCommand extends AbstractCommand
 			array_walk(
 				$configs,
 				function ($value, $key) use (&$options) {
-					$options[] = [$key, $value];
+					$options[] = [$key, $this->formatConfigValue($value)];
 				}
 			);
 

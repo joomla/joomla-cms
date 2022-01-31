@@ -15,7 +15,7 @@
       </h3>
     </template>
     <template #body>
-      <div>
+      <div class="p-3">
         <div class="desc">
           {{ translate('COM_MEDIA_SHARE_DESC') }}
 
@@ -107,7 +107,7 @@ export default {
       try {
         document.execCommand('copy');
       } catch (err) {
-        // TODO Error handling in joomla way
+        // @todo Error handling in joomla way
         // eslint-disable-next-line no-undef
         alert(translate('COM_MEDIA_SHARE_COPY_FAILED_ERROR'));
       }

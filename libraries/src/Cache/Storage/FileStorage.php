@@ -11,6 +11,7 @@ namespace Joomla\CMS\Cache\Storage;
 \defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Cache\CacheStorage;
+use Joomla\CMS\Filesystem\File;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
 
@@ -68,6 +69,7 @@ class FileStorage extends CacheStorage
 				// Delete only the existing file if it is empty.
 				if (@filesize($path) === 0)
 				{
+					File::invalidateFileCache($path);
 					@unlink($path);
 				}
 
@@ -240,6 +242,7 @@ class FileStorage extends CacheStorage
 	{
 		$path = $this->_getFilePath($id, $group);
 
+		File::invalidateFileCache($path);
 		if (!@unlink($path))
 		{
 			return false;
@@ -319,6 +322,7 @@ class FileStorage extends CacheStorage
 
 			if (($time + $this->_lifetime) < $this->_now || empty($time))
 			{
+				File::invalidateFileCache($file);
 				$result |= @unlink($file);
 			}
 		}
@@ -437,6 +441,7 @@ class FileStorage extends CacheStorage
 
 			if (($time + $this->_lifetime) < $this->_now || empty($time))
 			{
+				File::invalidateFileCache($path);
 				@unlink($path);
 
 				return false;
@@ -523,6 +528,7 @@ class FileStorage extends CacheStorage
 
 		if (!empty($files) && !\is_array($files))
 		{
+			File::invalidateFileCache($files);
 			if (@unlink($files) !== true)
 			{
 				return false;
@@ -534,7 +540,9 @@ class FileStorage extends CacheStorage
 			{
 				$file = $this->_cleanPath($file);
 
-				// In case of restricted permissions we zap it one way or the other as long as the owner is either the webserver or the ftp
+				// In case of restricted permissions we delete it one way or the other as long as the owner is either the webserver or the ftp
+				File::invalidateFileCache($file);
+
 				if (@unlink($file) !== true)
 				{
 					Log::add(__METHOD__ . ' ' . Text::sprintf('JLIB_FILESYSTEM_DELETE_FAILED', basename($file)), Log::WARNING, 'jerror');
@@ -569,7 +577,7 @@ class FileStorage extends CacheStorage
 			return true;
 		}
 
-		Log::add(Text::sprintf('JLIB_FILESYSTEM_ERROR_FOLDER_DELETE', __METHOD__, $path), Log::WARNING, 'jerror');
+		Log::add(Text::sprintf('JLIB_FILESYSTEM_ERROR_FOLDER_DELETE', $path), Log::WARNING, 'jerror');
 
 		return false;
 	}

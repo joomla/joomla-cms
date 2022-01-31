@@ -55,7 +55,7 @@ class PlgSystemPrivacyconsent extends CMSPlugin
 	/**
 	 * Database object.
 	 *
-	 * @var    JDatabaseDriver
+	 * @var    \Joomla\Database\DatabaseDriver
 	 * @since  3.9.0
 	 */
 	protected $db;
@@ -83,7 +83,7 @@ class PlgSystemPrivacyconsent extends CMSPlugin
 		// We only display this if user has not consented before
 		if (is_object($data))
 		{
-			$userId = isset($data->id) ? $data->id : 0;
+			$userId = $data->id ?? 0;
 
 			if ($userId > 0 && $this->isUserConsented($userId))
 			{
@@ -739,7 +739,7 @@ class PlgSystemPrivacyconsent extends CMSPlugin
 					$options = [
 						'defaultgroup' => $group,
 						'cachebase'    => $client_id ? JPATH_ADMINISTRATOR . '/cache' :
-							Factory::getApplication()->get('cache_path', JPATH_SITE . '/cache')
+							Factory::getApplication()->get('cache_path', JPATH_SITE . '/cache'),
 					];
 
 					$cache = Cache::getInstance('callback', $options);

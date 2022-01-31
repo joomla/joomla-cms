@@ -27,15 +27,15 @@ class HtmlView extends BaseHtmlView
 	/**
 	 * The model state
 	 *
-	 * @var     object
+	 * @var    object
 	 * @since  4.0.0
 	 */
 	protected $state;
 
 	/**
-	 * The \JForm object
+	 * The Form object
 	 *
-	 * @var  \JForm
+	 * @var  \Joomla\CMS\Form\Form
 	 */
 	protected $form;
 
@@ -49,7 +49,7 @@ class HtmlView extends BaseHtmlView
 	/**
 	 * The ID of current workflow
 	 *
-	 * @var     integer
+	 * @var    integer
 	 * @since  4.0.0
 	 */
 	protected $workflowID;
@@ -57,7 +57,7 @@ class HtmlView extends BaseHtmlView
 	/**
 	 * The name of current extension
 	 *
-	 * @var     string
+	 * @var    string
 	 * @since  4.0.0
 	 */
 	protected $extension;
@@ -86,6 +86,12 @@ class HtmlView extends BaseHtmlView
 		$this->form       = $this->get('Form');
 		$this->item       = $this->get('Item');
 
+		// Check for errors.
+		if (count($errors = $this->get('Errors')))
+		{
+			throw new GenericDataException(implode("\n", $errors), 500);
+		}
+
 		$extension = $this->state->get('filter.extension');
 
 		$parts = explode('.', $extension);
@@ -97,14 +103,8 @@ class HtmlView extends BaseHtmlView
 			$this->section = array_shift($parts);
 		}
 
-		// Check for errors.
-		if (count($errors = $this->get('Errors')))
-		{
-			throw new GenericDataException(implode("\n", $errors), 500);
-		}
-
 		// Set the toolbar
-		$this->addToolBar();
+		$this->addToolbar();
 
 		// Display the template
 		parent::display($tpl);
@@ -144,6 +144,10 @@ class HtmlView extends BaseHtmlView
 				$toolbarButtons,
 				'btn-success'
 			);
+
+			ToolbarHelper::cancel(
+				'workflow.cancel'
+			);
 		}
 		else
 		{
@@ -167,8 +171,11 @@ class HtmlView extends BaseHtmlView
 				$toolbarButtons,
 				'btn-success'
 			);
-		}
 
-		ToolbarHelper::cancel('workflow.cancel');
+			ToolbarHelper::cancel(
+				'workflow.cancel',
+				'JTOOLBAR_CLOSE'
+			);
+		}
 	}
 }

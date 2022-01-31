@@ -89,8 +89,8 @@ class PlgQuickiconExtensionupdate extends CMSPlugin
 				'icon'  => '',
 				'text'  => Text::_('PLG_QUICKICON_EXTENSIONUPDATE_CHECKING'),
 				'id'    => 'plg_quickicon_extensionupdate',
-				'group' => 'MOD_QUICKICON_MAINTENANCE'
-			)
+				'group' => 'MOD_QUICKICON_MAINTENANCE',
+			),
 		);
 	}
 }

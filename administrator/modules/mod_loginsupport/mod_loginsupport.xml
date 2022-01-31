@@ -15,10 +15,10 @@
 		<folder>tmpl</folder>
 	</files>
 	<languages>
-		<language tag="en-GB">en-GB.mod_loginsupport.ini</language>
-		<language tag="en-GB">en-GB.mod_loginsupport.sys.ini</language>
+		<language tag="en-GB">language/en-GB/mod_loginsupport.ini</language>
+		<language tag="en-GB">language/en-GB/mod_loginsupport.sys.ini</language>
 	</languages>
-	<help key="JHELP_EXTENSIONS_MODULE_MANAGER_ADMIN_LOGIN_SUPPORT" />
+	<help key="Admin_Modules:_Login_Support_Information" />
 	<config>
 		<fields name="params">
 			<fieldset name="basic">
@@ -27,7 +27,6 @@
 					type="url"
 					label="MOD_LOGINSUPPORT_FIELD_FORUM_URL_LABEL"
 					filter="url"
-					size="50"
 					default="https://forum.joomla.org/"
 				/>
 
@@ -36,7 +35,6 @@
 					type="url"
 					label="MOD_LOGINSUPPORT_FIELD_DOCUMENTATION_URL_LABEL"
 					filter="url"
-					size="50"
 					default="https://docs.joomla.org/"
 				/>
 
@@ -45,8 +43,7 @@
 					type="url"
 					label="MOD_LOGINSUPPORT_FIELD_NEWS_URL_LABEL"
 					filter="url"
-					size="50"
-					default="https://www.joomla.org/"
+					default="https://www.joomla.org/announcements.html"
 				/>
 			</fieldset>
 
@@ -96,6 +93,8 @@
 					label="COM_MODULES_FIELD_CACHE_TIME_LABEL"
 					default="0"
 					filter="integer"
+					min="0"
+					validate="number"
 				/>
 
 				<field

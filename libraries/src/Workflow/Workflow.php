@@ -179,8 +179,6 @@ class Workflow
 			if ($workflow_id == 'inherit')
 			{
 				$workflow_id = 0;
-
-				continue;
 			}
 			elseif ($workflow_id == 'use_default')
 			{
@@ -496,7 +494,7 @@ class Workflow
 	}
 
 	/**
-	 * Removes associations form the workflow_associations table
+	 * Removes associations from the workflow_associations table
 	 *
 	 * @param   integer[]  $pks  ID of content
 	 *

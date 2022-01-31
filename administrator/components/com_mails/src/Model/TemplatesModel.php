@@ -129,7 +129,7 @@ class TemplatesModel extends ListModel
 			->where($db->quoteName('a.language') . ' = ' . $db->quote(''));
 
 		// Filter by search in title.
-		if ($search = trim($this->getState('filter.search')))
+		if ($search = trim($this->getState('filter.search', '')))
 		{
 			if (stripos($search, 'id:') === 0)
 			{
@@ -153,9 +153,18 @@ class TemplatesModel extends ListModel
 		// Filter on the extension.
 		if ($extension = $this->getState('filter.extension'))
 		{
-			$extension .= '.%';
-			$query->where($db->quoteName('a.template_id') . ' LIKE :extension')
+			$query->where($db->quoteName('a.extension') . ' = :extension')
 				->bind(':extension', $extension);
+		}
+		else
+		{
+			// Only show mail template from enabled extensions
+			$subQuery = $db->getQuery(true)
+				->select($db->quoteName('name'))
+				->from($db->quoteName('#__extensions'))
+				->where($db->quoteName('enabled') . ' = 1');
+
+			$query->where($db->quoteName('a.extension') . ' IN(' . $subQuery . ')');
 		}
 
 		// Filter on the language.
@@ -184,17 +193,20 @@ class TemplatesModel extends ListModel
 	 *
 	 * @return array
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function getExtensions()
 	{
-		$db    = $this->getDbo();
+		$db       = $this->getDbo();
+		$subQuery = $db->getQuery(true)
+			->select($db->quoteName('name'))
+			->from($db->quoteName('#__extensions'))
+			->where($db->quoteName('enabled') . ' = 1');
+
 		$query = $db->getQuery(true)
-			->select(
-				'DISTINCT SUBSTRING(' . $db->quoteName('template_id')
-				. ', 1, POSITION(' . $db->quote('.') . ' IN ' . $db->quoteName('template_id') . ') - 1) AS ' . $db->quoteName('extension')
-			)
-			->from($db->quoteName('#__mail_templates'));
+			->select('DISTINCT ' . $db->quoteName('extension'))
+			->from($db->quoteName('#__mail_templates'))
+			->where($db->quoteName('extension') . ' IN (' . $subQuery . ')');
 		$db->setQuery($query);
 
 		return $db->loadColumn();

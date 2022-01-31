@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <config>
+	<help key="Articles:_Options"/>
 	<fieldset
 		name="articles"
 		label="JGLOBAL_ARTICLES"
@@ -258,6 +259,7 @@
 			name="readmore_limit"
 			type="number"
 			label="JGLOBAL_SHOW_READMORE_LIMIT_LABEL"
+			filter="integer"
 			default="100"
 			showon="show_readmore:1[AND]show_readmore_title:1"
 		/>
@@ -296,7 +298,6 @@
 			label="JGLOBAL_SHOW_HITS_LABEL"
 			layout="joomla.form.field.radio.switcher"
 			default="1"
-			showon="record_hits:1"
 			>
 			<option value="0">JHIDE</option>
 			<option value="1">JSHOW</option>
@@ -503,7 +504,6 @@
 			name="float_intro"
 			type="text"
 			label="COM_CONTENT_IMAGE_INTRO_CLASS_LABEL"
-			size="20"
 			showon="show_urls_images_backend:1[OR]show_urls_images_frontend:1"
 		/>
 
@@ -511,7 +511,6 @@
 			name="float_fulltext"
 			type="text"
 			label="COM_CONTENT_IMAGE_FULLTEXT_CLASS_LABEL"
-			size="20"
 			showon="show_urls_images_backend:1[OR]show_urls_images_frontend:1"
 		/>
 	</fieldset>
@@ -529,17 +528,6 @@
 			extension="com_content"
 			view="category"
 		/>
-
-		<field
-			name="show_category_heading_title_text"
-			type="radio"
-			label="JGLOBAL_SHOW_CATEGORY_HEADING_TITLE_TEXT_LABEL"
-			layout="joomla.form.field.radio.switcher"
-			default="1"
-			>
-			<option value="0">JHIDE</option>
-			<option value="1">JSHOW</option>
-		</field>
 
 		<field
 			name="show_category_title"
@@ -605,6 +593,17 @@
 			name="show_no_articles"
 			type="radio"
 			label="COM_CONTENT_NO_ARTICLES_LABEL"
+			layout="joomla.form.field.radio.switcher"
+			default="1"
+			>
+			<option value="0">JHIDE</option>
+			<option value="1">JSHOW</option>
+		</field>
+
+		<field
+			name="show_category_heading_title_text"
+			type="radio"
+			label="JGLOBAL_SHOW_SUBCATEGORY_HEADING"
 			layout="joomla.form.field.radio.switcher"
 			default="1"
 			>
@@ -717,47 +716,63 @@
 		label="COM_CONTENT_CONFIG_BLOG_SETTINGS_LABEL"
 		description="COM_CONTENT_CONFIG_BLOG_SETTINGS_DESC"
 		>
-		<field
-			name="blog_class_leading"
-			type="text"
-			label="JGLOBAL_BLOG_CLASS_LEADING"
-			size="3"
-			validate="CssIdentifier"
-		/>
-
-		<field
-			name="blog_class"
-			type="text"
-			label="JGLOBAL_BLOG_CLASS"
-			size="3"
-			validate="CssIdentifier"
-		/>
 
 		<field
 			name="num_leading_articles"
 			type="number"
 			label="JGLOBAL_NUM_LEADING_ARTICLES_LABEL"
+			filter="integer"
 			default="1"
+		/>
+
+		<field
+			name="blog_class_leading"
+			type="text"
+			label="JGLOBAL_BLOG_CLASS_LEADING"
+			validate="CssIdentifier"
 		/>
 
 		<field
 			name="num_intro_articles"
 			type="number"
 			label="JGLOBAL_NUM_INTRO_ARTICLES_LABEL"
+			filter="integer"
 			default="4"
 		/>
+
+		<field
+			name="blog_class"
+			type="text"
+			label="JGLOBAL_BLOG_CLASS"
+			description="JGLOBAL_BLOG_CLASS_NOTE_DESC"
+			validate="CssIdentifier"
+		/>
+
+		<field
+			name="num_columns"
+			type="number"
+			label="JGLOBAL_NUM_COLUMNS_LABEL"
+			filter="integer"
+			default="1"
+		/>
+
+		<field
+			name="multi_column_order"
+			type="list"
+			label="JGLOBAL_MULTI_COLUMN_ORDER_LABEL"
+			default="0"
+			validate="options"
+			>
+			<option value="0">JGLOBAL_BLOG_DOWN_OPTION</option>
+			<option value="1">JGLOBAL_BLOG_ACROSS_OPTION</option>
+		</field>
 
 		<field
 			name="num_links"
 			type="number"
 			label="JGLOBAL_NUM_LINKS_LABEL"
+			filter="integer"
 			default="4"
-		/>
-
-		<field
-			name="spacer1"
-			type="spacer"
-			hr="true"
 		/>
 
 		<field
@@ -775,12 +790,6 @@
 			<option value="4">J4</option>
 			<option value="5">J5</option>
 		</field>
-
-		<field
-			name="spacer2"
-			type="spacer"
-			hr="true"
-		/>
 
 		<field
 			name="link_intro_image"
@@ -820,7 +829,7 @@
 			<option value="hide">JHIDE</option>
 			<option value="title">JGLOBAL_TITLE</option>
 			<option value="author">JAUTHOR</option>
-			<option value="hits">JGLOBAL_HITS</option>
+			<option value="hits" requires="hits">JGLOBAL_HITS</option>
 			<option value="tag">JTAG</option>
 			<option value="month">JMONTH_PUBLISHED</option>
 		</field>
@@ -853,7 +862,6 @@
 			name="date_format"
 			type="text"
 			label="JGLOBAL_DATE_FORMAT_LABEL"
-			size="15"
 			showon="list_show_date:created,modified,published"
 		/>
 
@@ -877,6 +885,24 @@
 			>
 			<option value="0">JHIDE</option>
 			<option value="1">JSHOW</option>
+		</field>
+
+		<field
+			name="display_num"
+			type="list"
+			label="JGLOBAL_NUMBER_ITEMS_LIST_LABEL"
+			default="10"
+			validate="options"
+			>
+			<option value="5">J5</option>
+			<option value="10">J10</option>
+			<option value="15">J15</option>
+			<option value="20">J20</option>
+			<option value="25">J25</option>
+			<option value="30">J30</option>
+			<option value="50">J50</option>
+			<option value="100">J100</option>
+			<option value="0">JALL</option>
 		</field>
 
 		<field
@@ -932,8 +958,8 @@
 			<option value="ralpha">JGLOBAL_TITLE_REVERSE_ALPHABETICAL</option>
 			<option value="author">JGLOBAL_AUTHOR_ALPHABETICAL</option>
 			<option value="rauthor">JGLOBAL_AUTHOR_REVERSE_ALPHABETICAL</option>
-			<option value="hits">JGLOBAL_MOST_HITS</option>
-			<option value="rhits">JGLOBAL_LEAST_HITS</option>
+			<option value="hits" requires="hits">JGLOBAL_MOST_HITS</option>
+			<option value="rhits" requires="hits">JGLOBAL_LEAST_HITS</option>
 			<option value="order">JGLOBAL_ARTICLE_MANAGER_ORDER</option>
 			<option value="rorder">JGLOBAL_ARTICLE_MANAGER_REVERSE_ORDER</option>
 			<option value="vote" requires="vote">JGLOBAL_VOTES_DESC</option>
@@ -946,7 +972,6 @@
 			name="order_date"
 			type="list"
 			label="JGLOBAL_ORDERING_DATE_LABEL"
-			showon="orderby_sec:rdate,date"
 			default="published"
 			validate="options"
 			>

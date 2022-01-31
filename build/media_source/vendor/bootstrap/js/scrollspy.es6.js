@@ -1,4 +1,4 @@
-import Scrollspy from '../../../../../node_modules/bootstrap/js/src/scrollspy';
+import Scrollspy from 'bootstrap/js/src/scrollspy';
 
 window.bootstrap = window.bootstrap || {};
 window.bootstrap.Scrollspy = Scrollspy;

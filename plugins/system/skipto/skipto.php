@@ -98,8 +98,8 @@ class PlgSystemSkipto extends CMSPlugin
 						// Selectors for landmark and headings sections
 						'headings'  => 'h1, h2, h3',
 						'landmarks' => 'main, nav, search, aside, header, footer, form',
-					]
-				]
+					],
+				],
 			]
 		);
 

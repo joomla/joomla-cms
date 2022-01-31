@@ -52,7 +52,7 @@ class PlgCaptchaRecaptcha_Invisible extends CMSPlugin
 		return array(
 			Text::_('PLG_CAPTCHA_RECAPTCHA_INVISIBLE') => array(
 				Text::_('PLG_RECAPTCHA_INVISIBLE_PRIVACY_CAPABILITY_IP_ADDRESS'),
-			)
+			),
 		);
 	}
 
@@ -169,7 +169,7 @@ class PlgCaptchaRecaptcha_Invisible extends CMSPlugin
 	public function onSetupField(\Joomla\CMS\Form\Field\CaptchaField $field, \SimpleXMLElement $element)
 	{
 		// Hide the label for the invisible recaptcha type
-		$element['hiddenLabel'] = true;
+		$element['hiddenLabel'] = 'true';
 	}
 
 	/**

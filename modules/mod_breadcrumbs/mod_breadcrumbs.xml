@@ -16,10 +16,10 @@
 		<folder>tmpl</folder>
 	</files>
 	<languages>
-		<language tag="en-GB">en-GB.mod_breadcrumbs.ini</language>
-		<language tag="en-GB">en-GB.mod_breadcrumbs.sys.ini</language>
+		<language tag="en-GB">language/en-GB/mod_breadcrumbs.ini</language>
+		<language tag="en-GB">language/en-GB/mod_breadcrumbs.sys.ini</language>
 	</languages>
-	<help key="JHELP_EXTENSIONS_MODULE_MANAGER_BREADCRUMBS" />
+	<help key="Site_Modules:_Breadcrumbs" />
 	<config>
 		<fields name="params">
 			<fieldset name="basic">
@@ -73,6 +73,7 @@
 					type="modulelayout"
 					label="JFIELD_ALT_LAYOUT_LABEL"
 					class="form-select"
+					validate="moduleLayout"
 				/>
 
 				<field

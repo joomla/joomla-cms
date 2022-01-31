@@ -16,7 +16,7 @@ use Tobscure\JsonApi\Exception\Handler\ResponseBag;
 /**
  * Handler for invalid param
  *
- * @since  4.0
+ * @since  4.0.0
  */
 class InvalidParameterExceptionHandler extends \Tobscure\JsonApi\Exception\Handler\InvalidParameterExceptionHandler
 {

@@ -2,7 +2,7 @@
 <metadata>
 	<layout title="COM_CONTENT_CATEGORIES_VIEW_DEFAULT_TITLE" option="COM_CONTENT_CATEGORIES_VIEW_DEFAULT_OPTION">
 		<help
-			key = "JHELP_MENUS_MENU_ITEM_ARTICLE_CATEGORIES"
+			key = "Menu_Item:_List_All_Categories"
 		/>
 		<message>
 			<![CDATA[COM_CONTENT_CATEGORIES_VIEW_DEFAULT_DESC]]>
@@ -25,8 +25,8 @@
 	</fields>
 
 	<!-- Add fields to the parameters object for the layout. -->
-<fields name="params">
-	<fieldset name="basic" label="JGLOBAL_CATEGORIES_OPTIONS">
+	<fields name="params">
+		<fieldset name="basic" label="JGLOBAL_CATEGORIES_OPTIONS">
 
 			<field
 				name="show_base_description"
@@ -209,7 +209,6 @@
 				type="text"
 				label="JGLOBAL_BLOG_CLASS_LEADING"
 				useglobal="true"
-				size="3"
 				validate="CssIdentifier"
 			/>
 
@@ -218,7 +217,6 @@
 				type="text"
 				label="JGLOBAL_BLOG_CLASS"
 				useglobal="true"
-				size="3"
 				validate="CssIdentifier"
 			/>
 
@@ -226,6 +224,7 @@
 				name="num_leading_articles"
 				type="number"
 				label="JGLOBAL_NUM_LEADING_ARTICLES_LABEL"
+				filter="integer"
 				useglobal="true"
 			/>
 
@@ -233,6 +232,7 @@
 				name="num_intro_articles"
 				type="number"
 				label="JGLOBAL_NUM_INTRO_ARTICLES_LABEL"
+				filter="integer"
 				useglobal="true"
 			/>
 
@@ -240,6 +240,7 @@
 				name="num_links"
 				type="number"
 				label="JGLOBAL_NUM_LINKS_LABEL"
+				filter="integer"
 				useglobal="true"
 			/>
 
@@ -292,8 +293,8 @@
 				<option value="ralpha">JGLOBAL_TITLE_REVERSE_ALPHABETICAL</option>
 				<option value="author">JGLOBAL_AUTHOR_ALPHABETICAL</option>
 				<option value="rauthor">JGLOBAL_AUTHOR_REVERSE_ALPHABETICAL</option>
-				<option value="hits">JGLOBAL_MOST_HITS</option>
-				<option value="rhits">JGLOBAL_LEAST_HITS</option>
+				<option value="hits" requires="hits">JGLOBAL_MOST_HITS</option>
+				<option value="rhits" requires="hits">JGLOBAL_LEAST_HITS</option>
 				<option value="order">JGLOBAL_ORDERING</option>
 				<option	value="rorder">JGLOBAL_REVERSE_ORDERING</option>
 				<option value="vote" requires="vote">JGLOBAL_VOTES_DESC</option>
@@ -339,7 +340,7 @@
 				<option value="hide">JHIDE</option>
 				<option value="title">JGLOBAL_TITLE</option>
 				<option value="author">JAUTHOR</option>
-				<option value="hits">JGLOBAL_HITS</option>
+				<option value="hits" requires="hits">JGLOBAL_HITS</option>
 			</field>
 
 			<field
@@ -372,7 +373,6 @@
 				name="date_format"
 				type="text"
 				label="JGLOBAL_DATE_FORMAT_LABEL"
-				size="15"
 				useglobal="true"
 			/>
 
@@ -404,7 +404,8 @@
 				name="display_num"
 				type="list"
 				label="JGLOBAL_NUMBER_ITEMS_LIST_LABEL"
-				default="10"
+				default=""
+				useglobal="true"
 				validate="options"
 				>
 				<option value="5">J5</option>
@@ -448,7 +449,9 @@
 			</field>
 		</fieldset>
 
-	<fieldset name="article" label="COM_CONTENT_ATTRIBS_FIELDSET_LABEL">
+		<fieldset name="article" label="COM_CONTENT_ATTRIBS_FIELDSET_LABEL"
+			addfieldprefix="Joomla\Component\Content\Administrator\Field"
+		>
 
 			<field
 				name="article_layout"
@@ -619,7 +622,7 @@
 
 			<field
 				name="show_vote"
-				type="list"
+				type="votelist"
 				label="JGLOBAL_SHOW_VOTE_LABEL"
 				useglobal="true"
 				class="form-select-color-state"
@@ -677,9 +680,9 @@
 				>
 				<option value="0">JNO</option>
 				<option value="1">JYES</option>
-		</field>
-	</fieldset>
-	<fieldset name="integration">
+			</field>
+		</fieldset>
+		<fieldset name="integration">
 
 			<field
 				name="show_feed_link"
@@ -704,5 +707,5 @@
 				<option value="1">JGLOBAL_FULL_TEXT</option>
 			</field>
 		</fieldset>
-</fields>
+	</fields>
 </metadata>

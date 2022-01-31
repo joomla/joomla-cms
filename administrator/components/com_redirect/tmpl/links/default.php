@@ -40,13 +40,13 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 					'closeButton' => false,
 					'backdrop'    => 'static',
 					'keyboard'    => false,
-					'footer'      => '<button type="button" class="btn" data-bs-dismiss="modal"'
+					'footer'      => '<button type="button" class="btn btn-secondary" data-bs-dismiss="modal"'
 						. ' onclick="Joomla.iframeButtonClick({iframeSelector: \'#plugin' . $this->redirectPluginId . 'Modal\', buttonSelector: \'#closeBtn\'})">'
 						. Text::_('JLIB_HTML_BEHAVIOR_CLOSE') . '</button>'
 						. '<button type="button" class="btn btn-primary" data-bs-dismiss="modal" onclick="Joomla.iframeButtonClick({iframeSelector: \'#plugin' . $this->redirectPluginId . 'Modal\', buttonSelector: \'#saveBtn\'})">'
-						. Text::_("JSAVE") . '</button>'
+						. Text::_('JSAVE') . '</button>'
 						. '<button type="button" class="btn btn-success" onclick="Joomla.iframeButtonClick({iframeSelector: \'#plugin' . $this->redirectPluginId . 'Modal\', buttonSelector: \'#applyBtn\'}); return false;">'
-						. Text::_("JAPPLY") . '</button>'
+						. Text::_('JAPPLY') . '</button>'
 				)
 			); ?>
 		<?php endif; ?>
@@ -104,9 +104,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 							<?php echo HTMLHelper::_('grid.id', $i, $item->id, false, 'cid', 'cb', $item->old_url); ?>
 						</td>
 						<td class="text-center">
-							<div class="btn-group">
-								<?php echo HTMLHelper::_('redirect.published', $item->published, $i); ?>
-							</div>
+							<?php echo HTMLHelper::_('redirect.published', $item->published, $i); ?>
 						</td>
 						<th scope="row" class="break-word">
 							<?php if ($canEdit) : ?>

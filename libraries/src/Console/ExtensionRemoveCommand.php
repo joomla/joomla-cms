@@ -31,7 +31,7 @@ class ExtensionRemoveCommand extends AbstractCommand
 	 * The default command name
 	 *
 	 * @var    string
-	 * @since  4.0
+	 * @since  4.0.0
 	 */
 	protected static $defaultName = 'extension:remove';
 
@@ -97,7 +97,7 @@ class ExtensionRemoveCommand extends AbstractCommand
 	 *
 	 * @return void
 	 *
-	 * @since 4.0
+	 * @since 4.0.0
 	 *
 	 */
 	private function configureIO(InputInterface $input, OutputInterface $output): void

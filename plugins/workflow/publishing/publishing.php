@@ -79,7 +79,7 @@ class PlgWorkflowPublishing extends CMSPlugin implements SubscriberInterface
 			'onTableBeforeStore'              => 'onTableBeforeStore',
 			'onWorkflowAfterTransition'       => 'onWorkflowAfterTransition',
 			'onWorkflowBeforeTransition'      => 'onWorkflowBeforeTransition',
-			'onWorkflowFunctionalityUsed'     => 'onWorkflowFunctionalityUsed'
+			'onWorkflowFunctionalityUsed'     => 'onWorkflowFunctionalityUsed',
 		];
 	}
 
@@ -165,7 +165,7 @@ class PlgWorkflowPublishing extends CMSPlugin implements SubscriberInterface
 
 		$options = $form->getField($fieldname)->options;
 
-		$value = isset($data->$fieldname) ? $data->$fieldname : $form->getValue($fieldname, null, 0);
+		$value = $data->$fieldname ?? $form->getValue($fieldname, null, 0);
 
 		$text = '-';
 
@@ -236,20 +236,20 @@ class PlgWorkflowPublishing extends CMSPlugin implements SubscriberInterface
 			'unpublish',
 			'archive',
 			'trash',
-			'report'
+			'report',
 		];
 
 		$js = "
 			document.addEventListener('DOMContentLoaded', function()
 			{
-				var dropdown = document.getElementById('toolbar-dropdown-status-group');
+				var dropdown = document.getElementById('toolbar-status-group');
 
 				if (!dropdown)
 				{
 					return;
 				}
 
-				" . \json_encode($states) . ".forEach((action) => {
+				" . json_encode($states) . ".forEach((action) => {
 					var button = document.getElementById('status-group-children-' + action);
 
 					if (button)
@@ -303,14 +303,14 @@ class PlgWorkflowPublishing extends CMSPlugin implements SubscriberInterface
 		$result = $this->app->triggerEvent('onContentBeforeChangeState', [
 			$context,
 			$pks,
-			$value
+			$value,
 			]
 		);
 
 		// Release allowed pks, the job is done
 		$this->app->set('plgWorkflowPublishing.' . $context, []);
 
-		if (\in_array(false, $result, true))
+		if (in_array(false, $result, true))
 		{
 			$event->setStopTransition();
 
@@ -353,7 +353,7 @@ class PlgWorkflowPublishing extends CMSPlugin implements SubscriberInterface
 		$options = [
 			'ignore_request'            => true,
 			// We already have triggered onContentBeforeChangeState, so use our own
-			'event_before_change_state' => 'onWorkflowBeforeChangeState'
+			'event_before_change_state' => 'onWorkflowBeforeChangeState',
 		];
 
 		$modelName = $component->getModelName($context);

@@ -62,7 +62,7 @@ trait UserProfileFields
 	 */
 	public static function renderWebauthnProfileField($value): string
 	{
-		if (is_null(self::$userFromFormData))
+		if (\is_null(self::$userFromFormData))
 		{
 			return '';
 		}
@@ -76,7 +76,7 @@ trait UserProfileFields
 			$credentials
 		);
 
-		return Text::plural('PLG_SYSTEM_WEBAUTHN_FIELD_N_AUTHENTICATORS_REGISTERED', count($authenticators), implode(', ', $authenticators));
+		return Text::plural('PLG_SYSTEM_WEBAUTHN_FIELD_N_AUTHENTICATORS_REGISTERED', \count($authenticators), implode(', ', $authenticators));
 	}
 
 	/**
@@ -102,10 +102,10 @@ trait UserProfileFields
 		$name = $form->getName();
 
 		$allowedForms = [
-			'com_users.user', 'com_users.profile', 'com_users.registration'
+			'com_users.user', 'com_users.profile', 'com_users.registration',
 		];
 
-		if (!in_array($name, $allowedForms))
+		if (!\in_array($name, $allowedForms))
 		{
 			return true;
 		}
@@ -114,7 +114,7 @@ trait UserProfileFields
 		$user = $this->getUserFromData($data);
 
 		// Make sure the loaded user is the correct one
-		if (is_null($user))
+		if (\is_null($user))
 		{
 			return true;
 		}
@@ -151,17 +151,17 @@ trait UserProfileFields
 	{
 		$id = null;
 
-		if (is_array($data))
+		if (\is_array($data))
 		{
-			$id = isset($data['id']) ? $data['id'] : null;
+			$id = $data['id'] ?? null;
 		}
-		elseif (is_object($data) && ($data instanceof Registry))
+		elseif (\is_object($data) && ($data instanceof Registry))
 		{
 			$id = $data->get('id');
 		}
-		elseif (is_object($data))
+		elseif (\is_object($data))
 		{
-			$id = isset($data->id) ? $data->id : null;
+			$id = $data->id ?? null;
 		}
 
 		$user = empty($id) ? Factory::getApplication()->getIdentity() : Factory::getContainer()
@@ -187,7 +187,7 @@ trait UserProfileFields
 	 */
 	public function onContentPrepareData(?string $context, $data): bool
 	{
-		if (!in_array($context, ['com_users.profile', 'com_users.user']))
+		if (!\in_array($context, ['com_users.profile', 'com_users.user']))
 		{
 			return true;
 		}

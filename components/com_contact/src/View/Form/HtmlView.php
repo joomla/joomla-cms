@@ -66,9 +66,9 @@ class HtmlView extends BaseHtmlView
 	 *
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
 	 *
-	 * @return  mixed  A string if successful, otherwise an Error object.
+	 * @return  void|boolean
 	 *
-	 * @throws Exception
+	 * @throws \Exception
 	 * @since  4.0.0
 	 */
 	public function display($tpl = null)
@@ -120,7 +120,7 @@ class HtmlView extends BaseHtmlView
 		$this->params = $this->state->params;
 
 		// Escape strings for HTML output
-		$this->pageclass_sfx = htmlspecialchars($this->params->get('pageclass_sfx'));
+		$this->pageclass_sfx = htmlspecialchars($this->params->get('pageclass_sfx', ''));
 
 		// Override global params with contact specific params
 		$this->params->merge($this->item->params);
@@ -142,19 +142,17 @@ class HtmlView extends BaseHtmlView
 	 *
 	 * @return  void
 	 *
-	 * @throws Exception
+	 * @throws \Exception
 	 *
 	 * @since  4.0.0
 	 */
 	protected function _prepareDocument()
 	{
-		$app   = Factory::getApplication();
-		$menus = $app->getMenu();
-		$title = null;
+		$app = Factory::getApplication();
 
 		// Because the application sets a default page title,
 		// we need to get it from the menu item itself
-		$menu = $menus->getActive();
+		$menu = $app->getMenu()->getActive();
 
 		if ($menu)
 		{
@@ -167,16 +165,7 @@ class HtmlView extends BaseHtmlView
 
 		$title = $this->params->def('page_title', Text::_('COM_CONTACT_FORM_EDIT_CONTACT'));
 
-		if ($app->get('sitename_pagetitles', 0) === 1)
-		{
-			$title = Text::sprintf('JPAGETITLE', $app->get('sitename'), $title);
-		}
-		elseif ($app->get('sitename_pagetitles', 0) == 2)
-		{
-			$title = Text::sprintf('JPAGETITLE', $title, $app->get('sitename'));
-		}
-
-		$this->document->setTitle($title);
+		$this->setDocumentTitle($title);
 
 		$pathway = $app->getPathWay();
 		$pathway->addItem($title, '');
@@ -188,12 +177,12 @@ class HtmlView extends BaseHtmlView
 
 		if ($this->params->get('menu-meta_keywords'))
 		{
-			$this->document->setMetadata('keywords', $this->params->get('menu-meta_keywords'));
+			$this->document->setMetaData('keywords', $this->params->get('menu-meta_keywords'));
 		}
 
 		if ($this->params->get('robots'))
 		{
-			$this->document->setMetadata('robots', $this->params->get('robots'));
+			$this->document->setMetaData('robots', $this->params->get('robots'));
 		}
 	}
 }

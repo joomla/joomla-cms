@@ -136,7 +136,7 @@ class LanguageModel extends AdminModel
 	 * @param   array    $data      Data for the form.
 	 * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
 	 *
-	 * @return  mixed  A \JForm object on success, false on failure.
+	 * @return  \Joomla\CMS\Form\Form|bool  A Form object on success, false on failure.
 	 *
 	 * @since   1.6
 	 */
@@ -220,7 +220,7 @@ class LanguageModel extends AdminModel
 		// Prevent saving an empty url language code
 		if ($data['sef'] === '')
 		{
-			$this->setError(JText::_('COM_LANGUAGES_ERROR_SEF'));
+			$this->setError(Text::_('COM_LANGUAGES_ERROR_SEF'));
 
 			return false;
 		}
@@ -275,7 +275,7 @@ class LanguageModel extends AdminModel
 	 * Custom clean cache method.
 	 *
 	 * @param   string   $group     Optional cache group name.
-	 * @param   integer  $clientId  Application client id.
+	 * @param   integer  $clientId  @deprecated   5.0   No longer used.
 	 *
 	 * @return  void
 	 *

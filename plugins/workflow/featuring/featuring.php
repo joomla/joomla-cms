@@ -81,7 +81,7 @@ class PlgWorkflowFeaturing extends CMSPlugin implements SubscriberInterface
 			'onTableBeforeStore'              => 'onTableBeforeStore',
 			'onWorkflowAfterTransition'       => 'onWorkflowAfterTransition',
 			'onWorkflowBeforeTransition'      => 'onWorkflowBeforeTransition',
-			'onWorkflowFunctionalityUsed'     => 'onWorkflowFunctionalityUsed'
+			'onWorkflowFunctionalityUsed'     => 'onWorkflowFunctionalityUsed',
 		];
 	}
 
@@ -143,7 +143,7 @@ class PlgWorkflowFeaturing extends CMSPlugin implements SubscriberInterface
 
 		$options = $form->getField($fieldname)->options;
 
-		$value = isset($data->$fieldname) ? $data->$fieldname : $form->getValue($fieldname, null, 0);
+		$value = $data->$fieldname ?? $form->getValue($fieldname, null, 0);
 
 		$text = '-';
 
@@ -215,20 +215,20 @@ class PlgWorkflowFeaturing extends CMSPlugin implements SubscriberInterface
 		// List of related batch functions we need to hide
 		$states = [
 			'featured',
-			'unfeatured'
+			'unfeatured',
 		];
 
 		$js = "
 			document.addEventListener('DOMContentLoaded', function()
 			{
-				var dropdown = document.getElementById('toolbar-dropdown-status-group');
+				var dropdown = document.getElementById('toolbar-status-group');
 
 				if (!dropdown)
 				{
 					return;
 				}
 
-				" . \json_encode($states) . ".forEach((action) => {
+				" . json_encode($states) . ".forEach((action) => {
 					var button = document.getElementById('status-group-children-' + action);
 
 					if (button)
@@ -281,7 +281,7 @@ class PlgWorkflowFeaturing extends CMSPlugin implements SubscriberInterface
 
 		// Trigger the change state event.
 		$eventResult = $this->app->getDispatcher()->dispatch(
-			'onAfterDisplay',
+			'onContentBeforeChangeFeatured',
 			AbstractEvent::create(
 				'onContentBeforeChangeFeatured',
 				[
@@ -342,7 +342,7 @@ class PlgWorkflowFeaturing extends CMSPlugin implements SubscriberInterface
 		$options = [
 			'ignore_request'               => true,
 			// We already have triggered onContentBeforeChangeFeatured, so use our own
-			'event_before_change_featured' => 'onWorkflowBeforeChangeFeatured'
+			'event_before_change_featured' => 'onWorkflowBeforeChangeFeatured',
 		];
 
 		$modelName = $component->getModelName($context);

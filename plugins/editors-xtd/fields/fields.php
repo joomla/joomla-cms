@@ -15,7 +15,6 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Session\Session;
-use Joomla\Component\Fields\Administrator\Helper\FieldsHelper;
 
 /**
  * Editor Fields button
@@ -37,7 +36,7 @@ class PlgButtonFields extends CMSPlugin
 	 *
 	 * @param   string  $name  The name of the button to add
 	 *
-	 * @return  CMSObject  The button options as JObject
+	 * @return  CMSObject|void  The button options as CMSObject
 	 *
 	 * @since  3.7.0
 	 */
@@ -53,21 +52,15 @@ class PlgButtonFields extends CMSPlugin
 		$jinput = Factory::getApplication()->input;
 		$context = $jinput->get('option') . '.' . $jinput->get('view');
 
-		// Validate context.
-		$context = implode('.', FieldsHelper::extract($context));
-		if (!FieldsHelper::getFields($context))
-		{
-			return;
-		}
-
 		$link = 'index.php?option=com_fields&amp;view=fields&amp;layout=modal&amp;tmpl=component&amp;context='
 			. $context . '&amp;editor=' . $name . '&amp;' . Session::getFormToken() . '=1';
 
-		$button          = new CMSObject;
+		$button = new CMSObject;
 		$button->modal   = true;
 		$button->link    = $link;
 		$button->text    = Text::_('PLG_EDITORS-XTD_FIELDS_BUTTON_FIELD');
-		$button->name    = 'puzzle';
+		$button->name    = $this->_type . '_' . $this->_name;
+		$button->icon    = 'puzzle';
 		$button->iconSVG = '<svg viewBox="0 0 576 512" width="24" height="24"><path d="M519.442 288.651c-41.519 0-59.5 31.593-82.058 31.593C377.'
 							. '409 320.244 432 144 432 144s-196.288 80-196.288-3.297c0-35.827 36.288-46.25 36.288-85.985C272 19.216 243.885 0 210.'
 							. '539 0c-34.654 0-66.366 18.891-66.366 56.346 0 41.364 31.711 59.277 31.711 81.75C175.885 207.719 0 166.758 0 166.758'

@@ -14,7 +14,6 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Layout\FileLayout;
 use Joomla\CMS\Layout\LayoutHelper;
-use Joomla\CMS\Log\Log;
 
 /**
  * Utility class for Bootstrap elements.
@@ -214,7 +213,7 @@ abstract class Bootstrap
 	 * Add javascript support for Bootstrap dropdowns
 	 *
 	 * @param   string  $selector  Common class for the dropdowns
-	 * @param   string  $params    The options for the dropdowns
+	 * @param   array   $params    The options for the dropdowns
 	 *
 	 * @return  void
 	 *
@@ -283,7 +282,7 @@ abstract class Bootstrap
 		if ($selector !== '')
 		{
 			// Setup options object
-			$opt['backdrop'] = isset($options['backdrop']) ? (bool) $options['backdrop'] : true;
+			$opt['backdrop'] = isset($options['backdrop']) ? $options['backdrop'] : false;
 			$opt['keyboard'] = isset($options['keyboard']) ? (bool) $options['keyboard'] : true;
 			$opt['focus']    = isset($options['focus']) ? (bool) $options['focus'] : true;
 

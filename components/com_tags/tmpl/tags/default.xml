@@ -2,7 +2,7 @@
 <metadata>
 	<layout title="COM_TAGS_TAGS_VIEW_DEFAULT_TITLE" option="COM_TAGS_TAG_VIEW_DEFAULT_OPTION">
 		<help
-			key="JHELP_MENUS_MENU_ITEM_TAGS_ITEMS_LIST_ALL"
+			key="Menu_Item:_List_All_Tags"
 		/>
 		<message>
 			<![CDATA[COM_TAGS_TAGS_VIEW_DEFAULT_DESC]]>
@@ -74,6 +74,18 @@
 				label="COM_TAGS_ALL_TAGS_MEDIA_LABEL"
 			/>
 
+			<field
+				name="all_tags_description_image_alt"
+				type="text"
+				label="COM_TAGS_TAG_LIST_MEDIA_ALT_LABEL"
+			/>
+
+			<field
+				name="all_tags_description_image_alt_empty"
+				type="checkbox"
+				label="COM_TAGS_TAG_LIST_MEDIA_ALT_EMPTY_LABEL"
+				description="COM_TAGS_TAG_LIST_MEDIA_ALT_EMPTY_DESC"
+			/>
 			<field
 				name="all_tags_orderby"
 				type="list"

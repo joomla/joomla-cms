@@ -25,31 +25,23 @@ $this->useCoreUI = true;
 
 ?>
 
-<form action="<?php echo Route::_('index.php?option=com_tags&layout=edit&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="item-form" aria-label="<?php echo Text::_('COM_TAGS_FORM_TITLE_' . ( (int) $this->item->id === 0 ? 'NEW' : 'EDIT'), true); ?>" class="form-validate">
+<form action="<?php echo Route::_('index.php?option=com_tags&layout=edit&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="item-form" aria-label="<?php echo Text::_('COM_TAGS_FORM_TITLE_' . ((int) $this->item->id === 0 ? 'NEW' : 'EDIT'), true); ?>" class="form-validate">
 
 	<?php echo LayoutHelper::render('joomla.edit.title_alias', $this); ?>
 
-	<div>
-		<?php echo HTMLHelper::_('uitab.startTabSet', 'myTab', array('active' => 'details')); ?>
+	<div class="main-card">
+		<?php echo HTMLHelper::_('uitab.startTabSet', 'myTab', ['active' => 'details', 'recall' => true, 'breakpoint' => 768]); ?>
 
 		<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'details', Text::_('COM_TAGS_FIELDSET_DETAILS')); ?>
 		<div class="row">
 			<div class="col-lg-9">
 				<div class="form-vertical">
-					<div class="card">
-						<div class="card-body">
-						<?php echo $this->form->getLabel('description'); ?>
-						<?php echo $this->form->getInput('description'); ?>
-						</div>
-					</div>
+					<?php echo $this->form->getLabel('description'); ?>
+					<?php echo $this->form->getInput('description'); ?>
 				</div>
 			</div>
 			<div class="col-lg-3">
-				<div class="card">
-					<div class="card-body">
-						<?php echo LayoutHelper::render('joomla.edit.global', $this); ?>
-					</div>
-				</div>
+				<?php echo LayoutHelper::render('joomla.edit.global', $this); ?>
 			</div>
 		</div>
 		<?php echo HTMLHelper::_('uitab.endTab'); ?>

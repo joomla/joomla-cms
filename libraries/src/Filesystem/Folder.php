@@ -381,7 +381,7 @@ abstract class Folder
 		}
 		else
 		{
-			Log::add(Text::sprintf('JLIB_FILESYSTEM_ERROR_FOLDER_DELETE', __METHOD__, $path), Log::WARNING, 'jerror');
+			Log::add(Text::sprintf('JLIB_FILESYSTEM_ERROR_FOLDER_DELETE', $path), Log::WARNING, 'jerror');
 			$ret = false;
 		}
 
@@ -489,7 +489,7 @@ abstract class Folder
 	 * @param   array    $excludeFilter  Array of filter to exclude
 	 * @param   boolean  $naturalSort    False for asort, true for natsort
 	 *
-	 * @return  array  Files in the given folder.
+	 * @return  array|boolean  Files in the given folder.
 	 *
 	 * @since   1.7.0
 	 */
