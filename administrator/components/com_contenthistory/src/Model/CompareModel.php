@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_contenthistory
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2013 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -11,6 +11,7 @@ namespace Joomla\Component\Contenthistory\Administrator\Model;
 
 \defined('_JEXEC') or die;
 
+use Joomla\CMS\Access\Exception\NotAllowed;
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
@@ -33,6 +34,8 @@ class CompareModel extends ListModel
 	 * @return  array|boolean    On success, array of populated tables. False on failure.
 	 *
 	 * @since   3.2
+	 *
+	 * @throws  NotAllowed   Thrown if not authorised to edit an item
 	 */
 	public function getItems()
 	{
@@ -46,81 +49,86 @@ class CompareModel extends ListModel
 
 		$id1 = $input->getInt('id1');
 		$id2 = $input->getInt('id2');
-		$result = array();
 
-		if ($table1->load($id1) && $table2->load($id2))
+		if (!$id1 || \is_array($id1) || !$id2 || \is_array($id2))
 		{
-			// Get the first history record's content type record so we can check ACL
-			/** @var ContentType $contentTypeTable */
-			$contentTypeTable = $this->getTable('ContentType');
-			$ucmTypeId        = $table1->ucm_type_id;
+			$this->setError(Text::_('COM_CONTENTHISTORY_ERROR_INVALID_ID'));
 
-			if (!$contentTypeTable->load($ucmTypeId))
-			{
-				// Assume a failure to load the content type means broken data, abort mission
-				return false;
-			}
-
-			$user = Factory::getUser();
-
-			// Access check
-			if ($user->authorise('core.edit', $contentTypeTable->type_alias . '.' . (int) $table1->ucm_item_id) || $this->canEdit($table1))
-			{
-				$return = true;
-			}
-			else
-			{
-				$this->setError(Text::_('JERROR_ALERTNOAUTHOR'));
-
-				return false;
-			}
-
-			// All's well, process the records
-			if ($return == true)
-			{
-				$nullDate = $this->getDbo()->getNullDate();
-
-				foreach (array($table1, $table2) as $table)
-				{
-					$object = new \stdClass;
-					$object->data = ContenthistoryHelper::prepareData($table);
-					$object->version_note = $table->version_note;
-
-					// Let's use custom calendars when present
-					$object->save_date = HTMLHelper::_('date', $table->save_date, Text::_('DATE_FORMAT_LC6'));
-
-					$dateProperties = array (
-						'modified_time',
-						'created_time',
-						'modified',
-						'created',
-						'checked_out_time',
-						'publish_up',
-						'publish_down',
-					);
-
-					foreach ($dateProperties as $dateProperty)
-					{
-						if (property_exists($object->data, $dateProperty)
-							&& $object->data->$dateProperty->value !== null
-							&& $object->data->$dateProperty->value !== $nullDate)
-						{
-							$object->data->$dateProperty->value = HTMLHelper::_(
-								'date',
-								$object->data->$dateProperty->value,
-								Text::_('DATE_FORMAT_LC6')
-							);
-						}
-					}
-
-					$result[] = $object;
-				}
-
-				return $result;
-			}
+			return false;
 		}
 
-		return false;
+		$result = array();
+
+		if (!$table1->load($id1) || !$table2->load($id2))
+		{
+			$this->setError(Text::_('COM_CONTENTHISTORY_ERROR_VERSION_NOT_FOUND'));
+
+			// Assume a failure to load the content means broken data, abort mission
+			return false;
+		}
+
+		// Get the first history record's content type record so we can check ACL
+		/** @var ContentType $contentTypeTable */
+		$contentTypeTable = $this->getTable('ContentType');
+		$typeAlias        = explode('.', $table1->item_id);
+		array_pop($typeAlias);
+		$typeAlias        = implode('.', $typeAlias);
+
+		if (!$contentTypeTable->load(array('type_alias' => $typeAlias)))
+		{
+			$this->setError(Text::_('COM_CONTENTHISTORY_ERROR_FAILED_LOADING_CONTENT_TYPE'));
+
+			// Assume a failure to load the content type means broken data, abort mission
+			return false;
+		}
+
+		$user = Factory::getUser();
+
+		// Access check
+		if (!$user->authorise('core.edit', $table1->item_id) && !$this->canEdit($table1))
+		{
+			throw new NotAllowed(Text::_('JERROR_ALERTNOAUTHOR'), 403);
+		}
+
+		$nullDate = $this->getDbo()->getNullDate();
+
+		foreach (array($table1, $table2) as $table)
+		{
+			$object = new \stdClass;
+			$object->data = ContenthistoryHelper::prepareData($table);
+			$object->version_note = $table->version_note;
+
+			// Let's use custom calendars when present
+			$object->save_date = HTMLHelper::_('date', $table->save_date, Text::_('DATE_FORMAT_LC6'));
+
+			$dateProperties = array (
+				'modified_time',
+				'created_time',
+				'modified',
+				'created',
+				'checked_out_time',
+				'publish_up',
+				'publish_down',
+			);
+
+			foreach ($dateProperties as $dateProperty)
+			{
+				if (property_exists($object->data, $dateProperty)
+					&& $object->data->$dateProperty->value !== null
+					&& $object->data->$dateProperty->value !== $nullDate)
+				{
+					$object->data->$dateProperty->value = HTMLHelper::_(
+						'date',
+						$object->data->$dateProperty->value,
+						Text::_('DATE_FORMAT_LC6')
+					);
+				}
+			}
+
+			$result[] = $object;
+		}
+
+		return $result;
 	}
 
 	/**
@@ -142,7 +150,7 @@ class CompareModel extends ListModel
 	/**
 	 * Method to test whether a record is editable
 	 *
-	 * @param   ContentHistory  $record  A \JTable object.
+	 * @param   ContentHistory  $record  A Table object.
 	 *
 	 * @return  boolean  True if allowed to edit the record. Defaults to the permission set in the component.
 	 *
@@ -152,30 +160,27 @@ class CompareModel extends ListModel
 	{
 		$result = false;
 
-		if (!empty($record->ucm_type_id))
+		if (!empty($record->item_id))
 		{
-			// Check that the type id matches the type alias
-			$typeAlias = Factory::getApplication()->input->get('type_alias');
-
-			/** @var ContentType $contentTypeTable */
-			$contentTypeTable = $this->getTable('ContentType');
-
-			if ($contentTypeTable->getTypeId($typeAlias) == $record->ucm_type_id)
-			{
-				/**
-				 * Make sure user has edit privileges for this content item. Note that we use edit permissions
-				 * for the content item, not delete permissions for the content history row.
-				 */
-				$user   = Factory::getUser();
-				$result = $user->authorise('core.edit', $typeAlias . '.' . (int) $record->ucm_item_id);
-			}
+			/**
+			 * Make sure user has edit privileges for this content item. Note that we use edit permissions
+			 * for the content item, not delete permissions for the content history row.
+			 */
+			$user   = Factory::getUser();
+			$result = $user->authorise('core.edit', $record->item_id);
 
 			// Finally try session (this catches edit.own case too)
 			if (!$result)
 			{
-				$contentTypeTable->load($record->ucm_type_id);
+				/** @var ContentType $contentTypeTable */
+				$contentTypeTable = $this->getTable('ContentType');
+
+				$typeAlias        = explode('.', $record->item_id);
+				$id = array_pop($typeAlias);
+				$typeAlias        = implode('.', $typeAlias);
+				$contentTypeTable->load(array('type_alias' => $typeAlias));
 				$typeEditables = (array) Factory::getApplication()->getUserState(str_replace('.', '.edit.', $contentTypeTable->type_alias) . '.id');
-				$result = in_array((int) $record->ucm_item_id, $typeEditables);
+				$result = in_array((int) $id, $typeEditables);
 			}
 		}
 

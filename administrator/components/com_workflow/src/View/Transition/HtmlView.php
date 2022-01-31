@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_workflow
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2018 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 namespace Joomla\Component\Workflow\Administrator\View\Transition;
@@ -33,9 +33,10 @@ class HtmlView extends BaseHtmlView
 	protected $state;
 
 	/**
-	 * From object to generate fields
+	 * Form object to generate fields
 	 *
-	 * @var     \JForm
+	 * @var    \Joomla\CMS\Form\Form
+	 *
 	 * @since  4.0.0
 	 */
 	protected $form;
@@ -43,7 +44,7 @@ class HtmlView extends BaseHtmlView
 	/**
 	 * Items array
 	 *
-	 * @var     object
+	 * @var    object
 	 * @since  4.0.0
 	 */
 	protected $item;
@@ -51,7 +52,7 @@ class HtmlView extends BaseHtmlView
 	/**
 	 * That is object of Application
 	 *
-	 * @var     CMSApplication
+	 * @var    \Joomla\CMS\Application\CMSApplication
 	 * @since  4.0.0
 	 */
 	protected $app;
@@ -59,7 +60,7 @@ class HtmlView extends BaseHtmlView
 	/**
 	 * The application input object.
 	 *
-	 * @var    Input
+	 * @var    \Joomla\CMS\Input\Input
 	 * @since  4.0.0
 	 */
 	protected $input;
@@ -67,10 +68,26 @@ class HtmlView extends BaseHtmlView
 	/**
 	 * The ID of current workflow
 	 *
-	 * @var     integer
+	 * @var    integer
 	 * @since  4.0.0
 	 */
 	protected $workflowID;
+
+	/**
+	 * The name of current extension
+	 *
+	 * @var    string
+	 * @since  4.0.0
+	 */
+	protected $extension;
+
+	/**
+	 * The section of the current extension
+	 *
+	 * @var    string
+	 * @since  4.0.0
+	 */
+	protected $section;
 
 	/**
 	 * Display item view
@@ -83,12 +100,6 @@ class HtmlView extends BaseHtmlView
 	 */
 	public function display($tpl = null)
 	{
-		// Check for errors.
-		if (count($errors = $this->get('Errors')))
-		{
-			throw new GenericDataException(implode("\n", $errors), 500);
-		}
-
 		$this->app = Factory::getApplication();
 		$this->input = $this->app->input;
 
@@ -96,13 +107,29 @@ class HtmlView extends BaseHtmlView
 		$this->state      = $this->get('State');
 		$this->form       = $this->get('Form');
 		$this->item       = $this->get('Item');
-		$this->extension  = $this->state->get('filter.extension');
+
+		// Check for errors.
+		if (count($errors = $this->get('Errors')))
+		{
+			throw new GenericDataException(implode("\n", $errors), 500);
+		}
+
+		$extension = $this->state->get('filter.extension');
+
+		$parts = explode('.', $extension);
+
+		$this->extension = array_shift($parts);
+
+		if (!empty($parts))
+		{
+			$this->section = array_shift($parts);
+		}
 
 		// Get the ID of workflow
 		$this->workflowID = $this->input->getCmd("workflow_id");
 
 		// Set the toolbar
-		$this->addToolBar();
+		$this->addToolbar();
 
 		// Display the template
 		parent::display($tpl);
@@ -129,10 +156,12 @@ class HtmlView extends BaseHtmlView
 
 		$toolbarButtons = [];
 
+		$canCreate = $canDo->get('core.create');
+
 		if ($isNew)
 		{
 			// For new records, check the create permission.
-			if ($canDo->get('core.edit'))
+			if ($canCreate)
 			{
 				ToolbarHelper::apply('transition.apply');
 				$toolbarButtons = [['save', 'transition.save'], ['save2new', 'transition.save2new']];
@@ -141,6 +170,10 @@ class HtmlView extends BaseHtmlView
 			ToolbarHelper::saveGroup(
 				$toolbarButtons,
 				'btn-success'
+			);
+
+			ToolbarHelper::cancel(
+				'transition.cancel'
 			);
 		}
 		else
@@ -151,23 +184,34 @@ class HtmlView extends BaseHtmlView
 			if ($itemEditable)
 			{
 				ToolbarHelper::apply('transition.apply');
-				$toolbarButtons = [['save', 'transition.save']];
+				$toolbarButtons[] = ['save', 'transition.save'];
 
 				// We can save this record, but check the create permission to see if we can return to make a new one.
-				if ($canDo->get('core.create'))
+				if ($canCreate)
 				{
 					$toolbarButtons[] = ['save2new', 'transition.save2new'];
 					$toolbarButtons[] = ['save2copy', 'transition.save2copy'];
 				}
 			}
 
-			ToolbarHelper::saveGroup(
-				$toolbarButtons,
-				'btn-success'
+			if (count($toolbarButtons) > 1)
+			{
+				ToolbarHelper::saveGroup(
+					$toolbarButtons,
+					'btn-success'
+				);
+			}
+			else
+			{
+				ToolbarHelper::save('transition.save');
+			}
+
+			ToolbarHelper::cancel(
+				'transition.cancel',
+				'JTOOLBAR_CLOSE'
 			);
 		}
 
-		ToolbarHelper::cancel('transition.cancel');
 		ToolbarHelper::divider();
 	}
 }

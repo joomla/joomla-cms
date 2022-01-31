@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  Template.system
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2005 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 /** @var Joomla\CMS\Document\HtmlDocument $this */
 
 // Styles
-$this->getWebAssetManager()->registerAndUseStyle('template.system.general', 'templates/system/css/general.css');
+$this->getWebAssetManager()->registerAndUseStyle('template.system.general', 'media/system/css/system-site-general.css');
 
 ?>
 <!DOCTYPE html>

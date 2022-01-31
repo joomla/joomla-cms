@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_languages
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2009 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -28,32 +28,34 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 				<?php echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
 				<?php if (empty($this->rows)) : ?>
 					<div class="alert alert-info">
-						<span class="fas fa-info-circle" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('INFO'); ?></span>
+						<span class="icon-info-circle" aria-hidden="true"></span><span class="visually-hidden"><?php echo Text::_('INFO'); ?></span>
 						<?php echo Text::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
 					</div>
 				<?php else : ?>
 				<table class="table">
-					<caption id="captionTable" class="sr-only">
-						<?php echo Text::_('COM_LANGUAGES_INSTALLED_TABLE_CAPTION'); ?>, <?php echo Text::_('JGLOBAL_SORTED_BY'); ?>
+					<caption class="visually-hidden">
+						<?php echo Text::_('COM_LANGUAGES_INSTALLED_TABLE_CAPTION'); ?>,
+							<span id="orderedBy"><?php echo Text::_('JGLOBAL_SORTED_BY'); ?> </span>,
+							<span id="filteredBy"><?php echo Text::_('JGLOBAL_FILTERED_BY'); ?></span>
 					</caption>
 					<thead>
 						<tr>
-							<td style="width:1%">
+							<td class="w-1">
 								&#160;
 							</td>
-							<th scope="col" style="width:15%">
+							<th scope="col" class="w-15">
 								<?php echo HTMLHelper::_('searchtools.sort', 'JGLOBAL_TITLE', 'name', $listDirn, $listOrder); ?>
 							</th>
-							<th scope="col" style="width:15%" class="d-none d-md-table-cell">
+							<th scope="col" class="w-15 d-none d-md-table-cell">
 								<?php echo HTMLHelper::_('searchtools.sort', 'COM_LANGUAGES_HEADING_TITLE_NATIVE', 'nativeName', $listDirn, $listOrder); ?>
 							</th>
 							<th scope="col" class="text-center">
 								<?php echo HTMLHelper::_('searchtools.sort', 'COM_LANGUAGES_HEADING_LANG_TAG', 'language', $listDirn, $listOrder); ?>
 							</th>
-							<th scope="col" style="width:5%" class="text-center">
+							<th scope="col" class="w-5 text-center">
 								<?php echo HTMLHelper::_('searchtools.sort', 'COM_LANGUAGES_HEADING_DEFAULT', 'published', $listDirn, $listOrder); ?>
 							</th>
-							<th scope="col" style="width:5%" class="d-none d-md-table-cell text-center">
+							<th scope="col" class="w-5 d-none d-md-table-cell text-center">
 								<?php echo HTMLHelper::_('searchtools.sort', 'COM_LANGUAGES_HEADING_VERSION', 'version', $listDirn, $listOrder); ?>
 							</th>
 							<th scope="col" class="w-10 d-none d-md-table-cell text-center">
@@ -65,7 +67,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 							<th scope="col" class="w-10 d-none d-md-table-cell text-center">
 								<?php echo HTMLHelper::_('searchtools.sort', 'COM_LANGUAGES_HEADING_AUTHOR_EMAIL', 'authorEmail', $listDirn, $listOrder); ?>
 							</th>
-							<th scope="col" style="width:5%" class="d-none d-md-table-cell text-center">
+							<th scope="col" class="w-5 d-none d-md-table-cell text-center">
 								<?php echo HTMLHelper::_('searchtools.sort', 'JGRID_HEADING_ID', 'extension_id', $listDirn, $listOrder); ?>
 							</th>
 						</tr>
@@ -101,9 +103,9 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 							<?php $minorVersion = $version::MAJOR_VERSION . '.' . $version::MINOR_VERSION; ?>
 							<?php // Display a Note if language pack version is not equal to Joomla version ?>
 							<?php if (strpos($row->version, $minorVersion) !== 0 || strpos($row->version, $currentShortVersion) !== 0) : ?>
-								<span class="badge badge-warning" title="<?php echo Text::_('JGLOBAL_LANGUAGE_VERSION_NOT_PLATFORM'); ?>"><?php echo $row->version; ?></span>
+								<span class="badge bg-warning text-dark" title="<?php echo Text::_('JGLOBAL_LANGUAGE_VERSION_NOT_PLATFORM'); ?>"><?php echo $row->version; ?></span>
 							<?php else : ?>
-								<span class="badge badge-success"><?php echo $row->version; ?></span>
+								<span class="badge bg-success"><?php echo $row->version; ?></span>
 							<?php endif; ?>
 							</td>
 							<td class="d-none d-md-table-cell text-center">

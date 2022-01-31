@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <config>
+	<help key="Users:_Options"/>
 	<fieldset
 		name="user_options"
 		label="COM_USERS_CONFIG_USER_OPTIONS" >
@@ -113,6 +114,7 @@
 			name="enforce_2fa_options"
 			type="list"
 			label="COM_USERS_CONFIG_FIELD_ENFORCE_2FA_FIELD_LABEL"
+			description="COM_USERS_CONFIG_FIELD_ENFORCE_2FA_FIELD_DESC"
 			default="0"
 			filter="integer"
 			validate="options"
@@ -123,18 +125,28 @@
 			<option value="3">COM_USERS_CONFIG_FIELD_ENFORCE_2FA_FIELD_BOTH</option>
 		</field>
 
+		<field
+			name="enforce_2fa_usergroups"
+			type="usergrouplist"
+			label="COM_USERS_CONFIG_FIELD_ENFORCE_2FA_GROUPS_LABEL"
+			multiple="true"
+			filter="int_array"
+			size="10"
+			showon="enforce_2fa_options!:0"
+		/>
+
 	</fieldset>
 
 	<fieldset
 		name="domain_options"
 		label="COM_USERS_CONFIG_DOMAIN_OPTIONS"
+		description="COM_USERS_CONFIG_FIELD_DOMAINS_DESC"
 		>
 
 		<field
 			name="domains"
 			type="subform"
 			label="COM_USERS_CONFIG_FIELD_DOMAINS_LABEL"
-			description="COM_USERS_CONFIG_FIELD_DOMAINS_DESC"
 			hiddenLabel="true"
 			multiple="true"
 			layout="joomla.form.field.subform.repeatable-table"
@@ -147,72 +159,81 @@
 		label="COM_USERS_CONFIG_PASSWORD_OPTIONS" >
 		<field
 			name="reset_count"
-			type="integer"
+			type="number"
 			label="COM_USERS_CONFIG_FIELD_FRONTEND_RESET_COUNT_LABEL"
-			first="0"
-			last="20"
+			filter="integer"
+			min="0"
+			max="20"
 			step="1"
 			default="10"
+			validate="number"
 		/>
 
 		<field
 			name="reset_time"
-			type="integer"
+			type="number"
 			label="COM_USERS_CONFIG_FIELD_FRONTEND_RESET_TIME_LABEL"
-			first="1"
-			last="24"
+			filter="integer"
+			min="1"
+			max="24"
 			step="1"
 			default="1"
+			validate="number"
 		/>
 
 		<field
 			name="minimum_length"
-			type="integer"
+			type="number"
 			label="COM_USERS_CONFIG_FIELD_MINIMUM_PASSWORD_LENGTH"
-			first="4"
-			last="99"
+			filter="integer"
+			min="8"
 			step="1"
-			default="4"
+			default="12"
+			validate="number"
 		/>
 
 		<field
 			name="minimum_integers"
-			type="integer"
+			type="number"
 			label="COM_USERS_CONFIG_FIELD_MINIMUM_INTEGERS"
-			first="0"
-			last="98"
+			filter="integer"
+			min="0"
 			step="1"
 			default="0"
+			validate="number"
 		/>
 
 		<field
 			name="minimum_symbols"
-			type="integer"
+			type="number"
 			label="COM_USERS_CONFIG_FIELD_MINIMUM_SYMBOLS"
-			first="0"
-			last="98"
+			filter="integer"
+			min="0"
 			step="1"
 			default="0"
+			validate="number"
 		/>
 
 		<field
 			name="minimum_uppercase"
-			type="integer"
+			type="number"
 			label="COM_USERS_CONFIG_FIELD_MINIMUM_UPPERCASE"
-			first="0"
-			last="98"
+			filter="integer"
+			min="0"
 			step="1"
 			default="0"
+			validate="number"
 		/>
 
 		<field
 			name="minimum_lowercase"
-			type="integer"
+			type="number"
 			label="COM_USERS_CONFIG_FIELD_MINIMUM_LOWERCASE"
-			first="0"
-			last="98"
+			filter="integer"
+			min="0"
 			step="1"
 			default="0"
+			validate="number"
 		/>
 	</fieldset>
 

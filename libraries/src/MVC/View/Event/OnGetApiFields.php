@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2020 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -16,7 +16,7 @@ use Joomla\CMS\Event\AbstractImmutableEvent;
 /**
  * Event for getting extra API Fields and Relations to render with an entity
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 final class OnGetApiFields extends AbstractImmutableEvent
 {

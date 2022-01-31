@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2015 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -59,7 +59,7 @@ class RssRenderer extends DocumentRenderer
 		{
 			// Gets and sets timezone offset from site configuration
 			$data->lastBuildDate = Factory::getDate();
-			$data->lastBuildDate->setTimeZone(new \DateTimeZone($app->get('offset')));
+			$data->lastBuildDate->setTimezone(new \DateTimeZone($app->get('offset')));
 		}
 
 		$url = Uri::getInstance()->toString(array('scheme', 'user', 'pass', 'host', 'port'));
@@ -143,7 +143,7 @@ class RssRenderer extends DocumentRenderer
 		if ($data->pubDate != '')
 		{
 			$pubDate = Factory::getDate($data->pubDate);
-			$pubDate->setTimeZone($tz);
+			$pubDate->setTimezone($tz);
 			$feed .= "		<pubDate>" . htmlspecialchars($pubDate->toRFC822(true), ENT_COMPAT, 'UTF-8') . "</pubDate>\n";
 		}
 
@@ -253,7 +253,7 @@ class RssRenderer extends DocumentRenderer
 			if ($data->items[$i]->date != '')
 			{
 				$itemDate = Factory::getDate($data->items[$i]->date);
-				$itemDate->setTimeZone($tz);
+				$itemDate->setTimezone($tz);
 				$feed .= "			<pubDate>" . htmlspecialchars($itemDate->toRFC822(true), ENT_COMPAT, 'UTF-8') . "</pubDate>\n";
 			}
 

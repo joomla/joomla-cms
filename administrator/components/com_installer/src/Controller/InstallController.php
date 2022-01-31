@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_installer
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2009 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -11,9 +11,12 @@ namespace Joomla\Component\Installer\Administrator\Controller;
 
 \defined('_JEXEC') or die;
 
+use Joomla\CMS\Access\Exception\NotAllowed;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\CMS\Response\JsonResponse;
 use Joomla\CMS\Router\Route;
+use Joomla\CMS\Session\Session;
 use Joomla\CMS\Uri\Uri;
 
 /**
@@ -35,10 +38,15 @@ class InstallController extends BaseController
 		// Check for request forgeries.
 		$this->checkToken();
 
+		if (!$this->app->getIdentity()->authorise('core.admin'))
+		{
+			throw new NotAllowed(Text::_('JERROR_ALERTNOAUTHOR'), 403);
+		}
+
 		/** @var \Joomla\Component\Installer\Administrator\Model\InstallModel $model */
 		$model = $this->getModel('install');
 
-		// TODO: Reset the users acl here as well to kill off any missing bits.
+		// @todo: Reset the users acl here as well to kill off any missing bits.
 		$result = $model->install();
 
 		$app = $this->app;
@@ -46,7 +54,7 @@ class InstallController extends BaseController
 
 		if (!$redirect_url)
 		{
-			$redirect_url = base64_decode($this->input->get('return'));
+			$redirect_url = base64_decode($this->input->getBase64('return'));
 		}
 
 		// Don't redirect to an external URL.
@@ -81,8 +89,15 @@ class InstallController extends BaseController
 	 */
 	public function ajax_upload()
 	{
-		$app = $this->app;
-		$message = $app->getUserState('com_installer.message');
+		// Check for request forgeries.
+		Session::checkToken() or jexit(Text::_('JINVALID_TOKEN'));
+
+		if (!$this->app->getIdentity()->authorise('core.admin'))
+		{
+			throw new NotAllowed(Text::_('JERROR_ALERTNOAUTHOR'), 403);
+		}
+
+		$message = $this->app->getUserState('com_installer.message');
 
 		// Do install
 		$result = $this->install();
@@ -92,12 +107,12 @@ class InstallController extends BaseController
 
 		// Push message queue to session because we will redirect page by \Javascript, not $app->redirect().
 		// The "application.queue" is only set in redirect() method, so we must manually store it.
-		$app->getSession()->set('application.queue', $app->getMessageQueue());
+		$this->app->getSession()->set('application.queue', $this->app->getMessageQueue());
 
 		header('Content-Type: application/json');
 
 		echo new JsonResponse(array('redirect' => $redirect), $message, !$result);
 
-		$app->close();
+		$this->app->close();
 	}
 }

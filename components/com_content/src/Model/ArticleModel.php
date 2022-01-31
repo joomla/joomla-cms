@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2006 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -52,7 +52,7 @@ class ArticleModel extends ItemModel
 		$pk = $app->input->getInt('id');
 		$this->setState('article.id', $pk);
 
-		$offset = $app->input->getUInt('limitstart');
+		$offset = $app->input->getUint('limitstart');
 		$this->setState('list.offset', $offset);
 
 		// Load the parameters.
@@ -138,7 +138,6 @@ class ArticleModel extends ItemModel
 						[
 							$db->quoteName('fp.featured_up'),
 							$db->quoteName('fp.featured_down'),
-							$db->quoteName('ws.condition'),
 							$db->quoteName('c.title', 'category_title'),
 							$db->quoteName('c.alias', 'category_alias'),
 							$db->quoteName('c.access', 'category_access'),
@@ -150,22 +149,12 @@ class ArticleModel extends ItemModel
 							$db->quoteName('parent.path', 'parent_route'),
 							$db->quoteName('parent.alias', 'parent_alias'),
 							$db->quoteName('parent.language', 'parent_language'),
-							'ROUND(' . $db->quoteName('v.rating_sum') . ' / ' . $db->quoteName('v.rating_count') . ', 0) AS '
+							'ROUND(' . $db->quoteName('v.rating_sum') . ' / ' . $db->quoteName('v.rating_count') . ', 1) AS '
 								. $db->quoteName('rating'),
 							$db->quoteName('v.rating_count', 'rating_count'),
 						]
 					)
 					->from($db->quoteName('#__content', 'a'))
-					->join(
-						'INNER',
-						$db->quoteName('#__workflow_associations', 'wa'),
-						$db->quoteName('a.id') . ' = ' . $db->quoteName('wa.item_id')
-					)
-					->join(
-						'INNER',
-						$db->quoteName('#__workflow_stages', 'ws'),
-						$db->quoteName('wa.stage_id') . ' = ' . $db->quoteName('ws.id')
-					)
 					->join(
 						'INNER',
 						$db->quoteName('#__categories', 'c'),
@@ -178,7 +167,6 @@ class ArticleModel extends ItemModel
 					->where(
 						[
 							$db->quoteName('a.id') . ' = :pk',
-							$db->quoteName('wa.extension') . ' = ' . $db->quote('com_content'),
 							$db->quoteName('c.published') . ' > 0',
 						]
 					)
@@ -222,7 +210,7 @@ class ArticleModel extends ItemModel
 
 				if (is_numeric($published))
 				{
-					$query->whereIn($db->quoteName('ws.condition'), [(int) $published, (int) $archived]);
+					$query->whereIn($db->quoteName('a.state'), [(int) $published, (int) $archived]);
 				}
 
 				$db->setQuery($query);
@@ -235,7 +223,7 @@ class ArticleModel extends ItemModel
 				}
 
 				// Check for published state if filter set.
-				if ((is_numeric($published) || is_numeric($archived)) && ($data->condition != $published && $data->condition != $archived))
+				if ((is_numeric($published) || is_numeric($archived)) && ($data->state != $published && $data->state != $archived))
 				{
 					throw new \Exception(Text::_('COM_CONTENT_ERROR_ARTICLE_NOT_FOUND'), 404);
 				}
@@ -300,7 +288,7 @@ class ArticleModel extends ItemModel
 				if ($e->getCode() == 404)
 				{
 					// Need to go through the error handler to allow Redirect to work.
-					throw new \Exception($e->getMessage(), 404);
+					throw $e;
 				}
 				else
 				{
@@ -330,7 +318,6 @@ class ArticleModel extends ItemModel
 			$pk = (!empty($pk)) ? $pk : (int) $this->getState('article.id');
 
 			$table = Table::getInstance('Content', 'JTable');
-			$table->load($pk);
 			$table->hit($pk);
 		}
 
@@ -467,7 +454,7 @@ class ArticleModel extends ItemModel
 	 * Cleans the cache of com_content and content modules
 	 *
 	 * @param   string   $group     The cache group
-	 * @param   integer  $clientId  The ID of the client
+	 * @param   integer  $clientId  @deprecated   5.0   No longer used.
 	 *
 	 * @return  void
 	 *

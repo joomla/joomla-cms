@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_newsfeeds
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2006 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -214,7 +214,7 @@ class CategoryModel extends ListModel
 		// Filter by language
 		if ($this->getState('filter.language'))
 		{
-			$query->whereIn($db->quoteName('a.language'), [Factory::getLanguage()->getTag(), '*']);
+			$query->whereIn($db->quoteName('a.language'), [Factory::getLanguage()->getTag(), '*'], ParameterType::STRING);
 		}
 
 		// Add the list ordering clause.
@@ -418,7 +418,6 @@ class CategoryModel extends ListModel
 		{
 			$pk    = (!empty($pk)) ? $pk : (int) $this->getState('category.id');
 			$table = Table::getInstance('Category', 'JTable');
-			$table->load($pk);
 			$table->hit($pk);
 		}
 

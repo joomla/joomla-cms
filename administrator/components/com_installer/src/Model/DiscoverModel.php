@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_installer
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2008 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -87,7 +87,7 @@ class DiscoverModel extends InstallerModel
 	/**
 	 * Method to get the database query.
 	 *
-	 * @return  DatabaseQuery  the database query
+	 * @return  DatabaseQuery  The database query
 	 *
 	 * @since   3.1
 	 */
@@ -147,7 +147,7 @@ class DiscoverModel extends InstallerModel
 	 *
 	 * Finds uninstalled extensions
 	 *
-	 * @return  void
+	 * @return  int  The count of discovered extensions
 	 *
 	 * @since   1.6
 	 */
@@ -169,22 +169,41 @@ class DiscoverModel extends InstallerModel
 
 		foreach ($installedtmp as $install)
 		{
-			$key = implode(':', array($install->type, $install->element, $install->folder, $install->client_id));
+			$key = implode(':',
+				[
+					$install->type,
+					str_replace('\\', '/', $install->element),
+					$install->folder,
+					$install->client_id
+				]
+			);
 			$extensions[$key] = $install;
 		}
+
+		$count = 0;
 
 		foreach ($results as $result)
 		{
 			// Check if we have a match on the element
-			$key = implode(':', array($result->type, $result->element, $result->folder, $result->client_id));
+			$key = implode(':',
+				[
+					$result->type,
+					str_replace('\\', '/', $result->element),
+					$result->folder,
+					$result->client_id
+				]
+			);
 
 			if (!array_key_exists($key, $extensions))
 			{
 				// Put it into the table
 				$result->check();
 				$result->store();
+				$count++;
 			}
 		}
+
+		return $count;
 	}
 
 	/**
@@ -223,7 +242,7 @@ class DiscoverModel extends InstallerModel
 				}
 			}
 
-			// TODO - We are only receiving the message for the last Installer instance
+			// @todo - We are only receiving the message for the last Installer instance
 			$this->setState('action', 'remove');
 			$this->setState('name', $installer->get('name'));
 			$app->setUserState('com_installer.message', $installer->message);
@@ -269,5 +288,21 @@ class DiscoverModel extends InstallerModel
 		$this->_message = Text::_('COM_INSTALLER_MSG_DISCOVER_PURGEDDISCOVEREDEXTENSIONS');
 
 		return true;
+	}
+
+	/**
+	 * Manipulate the query to be used to evaluate if this is an Empty State to provide specific conditions for this extension.
+	 *
+	 * @return DatabaseQuery
+	 *
+	 * @since 4.0.0
+	 */
+	protected function getEmptyStateQuery()
+	{
+		$query = parent::getEmptyStateQuery();
+
+		$query->where($this->_db->quoteName('state') . ' = -1');
+
+		return $query;
 	}
 }

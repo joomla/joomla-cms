@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2006 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -24,6 +24,17 @@ use Joomla\Filter\InputFilter as BaseInputFilter;
 class InputFilter extends BaseInputFilter
 {
 	/**
+	 * An array containing a list of extensions for files that are typically
+	 * executable directly in the webserver context, potentially resulting in code executions
+	 *
+	 * @since 4.0.0
+	 */
+	public const FORBIDDEN_FILE_EXTENSIONS = [
+		'php', 'phps', 'pht', 'phtml', 'php3', 'php4', 'php5', 'php6', 'php7', 'asp',
+		'php8', 'phar', 'inc', 'pl', 'cgi', 'fcgi', 'java', 'jar', 'py', 'aspx'
+	];
+
+	/**
 	 * A flag for Unicode Supplementary Characters (4-byte Unicode character) stripping.
 	 *
 	 * @var    integer
@@ -35,7 +46,7 @@ class InputFilter extends BaseInputFilter
 	 * A container for InputFilter instances.
 	 *
 	 * @var    InputFilter[]
-	 * @since  __DEPOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected static $instances = array();
 	/**
@@ -43,9 +54,9 @@ class InputFilter extends BaseInputFilter
 	 *
 	 * @param   array    $tagsArray   List of user-defined tags
 	 * @param   array    $attrArray   List of user-defined attributes
-	 * @param   integer  $tagsMethod  WhiteList method = 0, BlackList method = 1
-	 * @param   integer  $attrMethod  WhiteList method = 0, BlackList method = 1
-	 * @param   integer  $xssAuto     Only auto clean essentials = 0, Allow clean blacklisted tags/attr = 1
+	 * @param   integer  $tagsMethod  The constant static::ONLY_ALLOW_DEFINED_TAGS or static::BLOCK_DEFINED_TAGS
+	 * @param   integer  $attrMethod  The constant static::ONLY_ALLOW_DEFINED_ATTRIBUTES or static::BLOCK_DEFINED_ATTRIBUTES
+	 * @param   integer  $xssAuto     Only auto clean essentials = 0, Allow clean blocked tags/attributes = 1
 	 * @param   integer  $stripUSC    Strip 4-byte unicode characters = 1, no strip = 0
 	 *
 	 * @since   1.7.0
@@ -63,9 +74,9 @@ class InputFilter extends BaseInputFilter
 	 *
 	 * @param   array    $tagsArray   List of user-defined tags
 	 * @param   array    $attrArray   List of user-defined attributes
-	 * @param   integer  $tagsMethod  WhiteList method = 0, BlackList method = 1
-	 * @param   integer  $attrMethod  WhiteList method = 0, BlackList method = 1
-	 * @param   integer  $xssAuto     Only auto clean essentials = 0, Allow clean blacklisted tags/attr = 1
+	 * @param   integer  $tagsMethod  The constant static::ONLY_ALLOW_DEFINED_TAGS or static::BLOCK_DEFINED_TAGS
+	 * @param   integer  $attrMethod  The constant static::ONLY_ALLOW_DEFINED_ATTRIBUTES or static::BLOCK_DEFINED_ATTRIBUTES
+	 * @param   integer  $xssAuto     Only auto clean essentials = 0, Allow clean blocked tags/attributes = 1
 	 * @param   integer  $stripUSC    Strip 4-byte unicode characters = 1, no strip = 0
 	 *
 	 * @return  InputFilter  The InputFilter object.
@@ -180,9 +191,7 @@ class InputFilter extends BaseInputFilter
 			'null_byte'                  => true,
 
 			// Forbidden string in extension (e.g. php matched .php, .xxx.php, .php.xxx and so on)
-			'forbidden_extensions'       => array(
-				'php', 'phps', 'pht', 'phtml', 'php3', 'php4', 'php5', 'php6', 'php7', 'phar', 'inc', 'pl', 'cgi', 'fcgi', 'java', 'jar', 'py',
-			),
+			'forbidden_extensions'       => self::FORBIDDEN_FILE_EXTENSIONS,
 
 			// <?php tag in file contents
 			'php_tag_in_content'         => true,
@@ -195,7 +204,7 @@ class InputFilter extends BaseInputFilter
 
 			// Which file extensions to scan for short tags
 			'shorttag_extensions'        => array(
-				'inc', 'phps', 'class', 'php3', 'php4', 'php5', 'txt', 'dat', 'tpl', 'tmpl',
+				'inc', 'phps', 'class', 'php3', 'php4', 'php5', 'php6', 'php7', 'php8', 'txt', 'dat', 'tpl', 'tmpl',
 			),
 
 			// Forbidden extensions anywhere in the content
@@ -298,7 +307,7 @@ class InputFilter extends BaseInputFilter
 					|| $options['shorttag_in_content'] || $options['phar_stub_in_content']
 					|| ($options['fobidden_ext_in_content'] && !empty($options['forbidden_extensions'])))
 				{
-					$fp = @fopen($tempName, 'r');
+					$fp = strlen($tempName) ? @fopen($tempName, 'r') : false;
 
 					if ($fp !== false)
 					{

@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2020 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -13,7 +13,7 @@ namespace Joomla\CMS\Mail\Exception;
 /**
  * Exception class defining an error for disabled mail functionality.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 final class MailDisabledException extends \RuntimeException
 {
@@ -21,7 +21,7 @@ final class MailDisabledException extends \RuntimeException
 	 * Send Mail option is disabled by the user.
 	 *
 	 * @var    string
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public const REASON_USER_DISABLED = 'user_disabled';
 
@@ -29,7 +29,7 @@ final class MailDisabledException extends \RuntimeException
 	 * Mail() function is not available on the system.
 	 *
 	 * @var    string
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public const REASON_MAIL_FUNCTION_NOT_AVAILABLE = 'mail_function_not_available';
 
@@ -37,7 +37,7 @@ final class MailDisabledException extends \RuntimeException
 	 * Reason mail is disabled.
 	 *
 	 * @var    string
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	private $reason;
 
@@ -49,7 +49,7 @@ final class MailDisabledException extends \RuntimeException
 	 * @param   integer     $code      The Exception code.
 	 * @param   \Throwable  $previous  The previous exception used for the exception chaining.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function __construct(string $reason, string $message = '', int $code = 0, \Throwable $previous = null)
 	{
@@ -63,7 +63,7 @@ final class MailDisabledException extends \RuntimeException
 	 *
 	 * @return  string
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function getReason(): string
 	{

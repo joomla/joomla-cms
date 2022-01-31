@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2012 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -15,17 +15,17 @@ use Joomla\CMS\Date\Date;
 /**
  * Class to encapsulate a feed for the Joomla Platform.
  *
- * @property  FeedPerson  $author         Person responsible for feed content.
- * @property  array       $categories     Categories to which the feed belongs.
- * @property  array       $contributors   People who contributed to the feed content.
- * @property  string      $copyright      Information about rights, e.g. copyrights, held in and over the feed.
- * @property  string      $description    A phrase or sentence describing the feed.
- * @property  string      $generator      A string indicating the program used to generate the feed.
- * @property  string      $image          Specifies a GIF, JPEG or PNG image that should be displayed with the feed.
- * @property  Date        $publishedDate  The publication date for the feed content.
- * @property  string      $title          A human readable title for the feed.
- * @property  Date        $updatedDate    The last time the content of the feed changed.
- * @property  string      $uri            Universal, permanent identifier for the feed.
+ * @property  FeedPerson     $author         Person responsible for feed content.
+ * @property  array          $categories     Categories to which the feed belongs.
+ * @property  array          $contributors   People who contributed to the feed content.
+ * @property  string         $copyright      Information about rights, e.g. copyrights, held in and over the feed.
+ * @property  string         $description    A phrase or sentence describing the feed.
+ * @property  string         $generator      A string indicating the program used to generate the feed.
+ * @property  FeedLink|null  $image          FeedLink object containing feed image properties.
+ * @property  Date           $publishedDate  The publication date for the feed content.
+ * @property  string         $title          A human readable title for the feed.
+ * @property  Date           $updatedDate    The last time the content of the feed changed.
+ * @property  string         $uri            Universal, permanent identifier for the feed.
  *
  * @since  3.1.4
  */
@@ -191,6 +191,7 @@ class Feed implements \ArrayAccess, \Countable
 	 *
 	 * @return  integer number of entries in the feed.
 	 */
+	#[\ReturnTypeWillChange]
 	public function count()
 	{
 		return \count($this->entries);
@@ -207,6 +208,7 @@ class Feed implements \ArrayAccess, \Countable
 	 * @see     ArrayAccess::offsetExists()
 	 * @since   3.1.4
 	 */
+	#[\ReturnTypeWillChange]
 	public function offsetExists($offset)
 	{
 		return isset($this->entries[$offset]);
@@ -222,6 +224,7 @@ class Feed implements \ArrayAccess, \Countable
 	 * @see     ArrayAccess::offsetGet()
 	 * @since   3.1.4
 	 */
+	#[\ReturnTypeWillChange]
 	public function offsetGet($offset)
 	{
 		return $this->entries[$offset];
@@ -239,6 +242,7 @@ class Feed implements \ArrayAccess, \Countable
 	 * @since   3.1.4
 	 * @throws  \InvalidArgumentException
 	 */
+	#[\ReturnTypeWillChange]
 	public function offsetSet($offset, $value)
 	{
 		if (!($value instanceof FeedEntry))
@@ -267,6 +271,7 @@ class Feed implements \ArrayAccess, \Countable
 	 * @see     ArrayAccess::offsetUnset()
 	 * @since   3.1.4
 	 */
+	#[\ReturnTypeWillChange]
 	public function offsetUnset($offset)
 	{
 		unset($this->entries[$offset]);

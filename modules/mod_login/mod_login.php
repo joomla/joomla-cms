@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  mod_login
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2005 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -17,7 +17,7 @@ use Joomla\Module\Login\Site\Helper\LoginHelper;
 $params->def('greeting', 1);
 
 // HTML IDs
-$formId           = "login-form-{$module->id}";
+$formId           = 'login-form-' . $module->id;
 $type             = LoginHelper::getType();
 $return           = LoginHelper::getReturnUrl($params, $type);
 $registerLink     = LoginHelper::getRegistrationUrl($params);

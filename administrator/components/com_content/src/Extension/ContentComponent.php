@@ -3,13 +3,13 @@
  * @package     Joomla.Administrator
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2018 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\Component\Content\Administrator\Extension;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Application\SiteApplication;
 use Joomla\CMS\Association\AssociationServiceInterface;
@@ -52,6 +52,12 @@ class ContentComponent extends MVCComponent implements
 		CategoryServiceTrait::getTableNameForSection insteadof TagServiceTrait;
 		CategoryServiceTrait::getStateColumnForSection insteadof TagServiceTrait;
 	}
+
+	/** @var array Supported functionality */
+	protected $supportedFunctionality = [
+		'core.featured' => true,
+		'core.state' => true,
+	];
 
 	/**
 	 * The trashed condition
@@ -172,6 +178,40 @@ class ContentComponent extends MVCComponent implements
 	}
 
 	/**
+	 * Returns valid contexts
+	 *
+	 * @return  array
+	 *
+	 * @since   4.0.0
+	 */
+	public function getWorkflowContexts(): array
+	{
+		Factory::getLanguage()->load('com_content', JPATH_ADMINISTRATOR);
+
+		$contexts = array(
+			'com_content.article'    => Text::_('COM_CONTENT')
+		);
+
+		return $contexts;
+	}
+
+	/**
+	 * Returns the workflow context based on the given category section
+	 *
+	 * @param   string  $section  The section
+	 *
+	 * @return  string|null
+	 *
+	 * @since   4.0.0
+	 */
+	public function getCategoryWorkflowContext(?string $section = null): string
+	{
+		$context = $this->getWorkflowContexts();
+
+		return array_key_first($context);
+	}
+
+	/**
 	 * Returns the table for the count items functions for the given section.
 	 *
 	 * @param   string  $section  The section
@@ -197,6 +237,38 @@ class ContentComponent extends MVCComponent implements
 	public function getWorkflowTableBySection(?string $section = null): string
 	{
 		return '#__content';
+	}
+
+	/**
+	 * Returns the model name, based on the context
+	 *
+	 * @param   string  $context  The context of the workflow
+	 *
+	 * @return string
+	 */
+	public function getModelName($context): string
+	{
+		$parts = explode('.', $context);
+
+		if (count($parts) < 2)
+		{
+			return '';
+		}
+
+		array_shift($parts);
+
+		$modelname = array_shift($parts);
+
+		if ($modelname === 'article' && Factory::getApplication()->isClient('site'))
+		{
+			return 'Form';
+		}
+		elseif ($modelname === 'featured' && Factory::getApplication()->isClient('administrator'))
+		{
+			return 'Article';
+		}
+
+		return ucfirst($modelname);
 	}
 
 	/**
@@ -228,7 +300,7 @@ class ContentComponent extends MVCComponent implements
 	{
 		$config = (object) array(
 			'related_tbl'    => 'content',
-			'state_col'      => 'condition',
+			'state_col'      => 'state',
 			'group_col'      => 'catid',
 			'relation_type'  => 'category_or_group',
 			'uses_workflows' => true,
@@ -276,20 +348,5 @@ class ContentComponent extends MVCComponent implements
 	public function prepareForm(Form $form, $data)
 	{
 		ContentHelper::onPrepareForm($form, $data);
-	}
-
-	/**
-	 * Method to change state of multiple ids
-	 *
-	 * @param   array  $pks        Array of IDs
-	 * @param   int    $condition  Condition of the workflow state
-	 *
-	 * @return  boolean
-	 *
-	 * @since   4.0.0
-	 */
-	public static function updateContentState(array $pks, int $condition): bool
-	{
-		return ContentHelper::updateContentState($pks, $condition);
 	}
 }

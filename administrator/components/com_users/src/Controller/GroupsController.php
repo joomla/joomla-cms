@@ -3,12 +3,12 @@
  * @package     Joomla.Administrator
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2009 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 namespace Joomla\Component\Users\Administrator\Controller;
 
-use Joomla\CMS\Access\Exception\Notallowed;
+use Joomla\CMS\Access\Exception\NotAllowed;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\AdminController;
 
@@ -56,7 +56,7 @@ class GroupsController extends AdminController
 	{
 		if (!$this->app->getIdentity()->authorise('core.admin', $this->option))
 		{
-			throw new Notallowed(Text::_('JERROR_ALERTNOAUTHOR'), 403);
+			throw new NotAllowed(Text::_('JERROR_ALERTNOAUTHOR'), 403);
 		}
 
 		parent::delete();
@@ -75,7 +75,7 @@ class GroupsController extends AdminController
 	{
 		if (!$this->app->getIdentity()->authorise('core.admin', $this->option))
 		{
-			throw new Notallowed(Text::_('JERROR_ALERTNOAUTHOR'), 403);
+			throw new NotAllowed(Text::_('JERROR_ALERTNOAUTHOR'), 403);
 		}
 
 		parent::publish();
@@ -94,7 +94,7 @@ class GroupsController extends AdminController
 	{
 		if (!$this->app->getIdentity()->authorise('core.admin', $this->option))
 		{
-			throw new Notallowed(Text::_('JERROR_ALERTNOAUTHOR'), 403);
+			throw new NotAllowed(Text::_('JERROR_ALERTNOAUTHOR'), 403);
 		}
 
 		return parent::reorder();
@@ -113,7 +113,7 @@ class GroupsController extends AdminController
 	{
 		if (!$this->app->getIdentity()->authorise('core.admin', $this->option))
 		{
-			throw new Notallowed(Text::_('JERROR_ALERTNOAUTHOR'), 403);
+			throw new NotAllowed(Text::_('JERROR_ALERTNOAUTHOR'), 403);
 		}
 
 		return parent::saveorder();
@@ -132,7 +132,7 @@ class GroupsController extends AdminController
 	{
 		if (!$this->app->getIdentity()->authorise('core.admin', $this->option))
 		{
-			throw new Notallowed(Text::_('JERROR_ALERTNOAUTHOR'), 403);
+			throw new NotAllowed(Text::_('JERROR_ALERTNOAUTHOR'), 403);
 		}
 
 		return parent::checkin();

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_plugins
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2017 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -15,6 +15,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Installer\Installer;
+use Joomla\CMS\Object\CMSObject;
 
 /**
  * Plugins component helper.
@@ -28,7 +29,7 @@ class PluginsHelper
 	/**
 	 * Returns an array of standard published state filter options.
 	 *
-	 * @return  string    The HTML code for the select tag
+	 * @return  array    The HTML code for the select tag
 	 */
 	public static function publishedOptions()
 	{
@@ -101,11 +102,11 @@ class PluginsHelper
 	 * @param   string  $templateBaseDir  Base path to the template directory.
 	 * @param   string  $templateDir      Template directory.
 	 *
-	 * @return  \JObject
+	 * @return  CMSObject|bool
 	 */
 	public function parseXMLTemplateFile($templateBaseDir, $templateDir)
 	{
-		$data = new \JObject;
+		$data = new CMSObject;
 
 		// Check of the xml file exists.
 		$filePath = Path::clean($templateBaseDir . '/templates/' . $templateDir . '/templateDetails.xml');

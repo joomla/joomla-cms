@@ -3,14 +3,14 @@
  * @package     Joomla.Plugin
  * @subpackage  System.Webauthn
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2020 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\Plugin\System\Webauthn\PluginTraits;
 
 // Protect from unauthorized access
-defined('_JEXEC') or die();
+\defined('_JEXEC') or die();
 
 use CBOR\Decoder;
 use CBOR\OtherObject\OtherObjectManager;
@@ -259,7 +259,7 @@ trait AjaxHandlerLogin
 			throw new RuntimeException(Text::_('PLG_SYSTEM_WEBAUTHN_ERR_CREATE_INVALID_LOGIN_REQUEST'));
 		}
 
-		if (!is_object($publicKeyCredentialCreationOptions)
+		if (!\is_object($publicKeyCredentialCreationOptions)
 			|| !($publicKeyCredentialCreationOptions instanceof PublicKeyCredentialRequestOptions))
 		{
 			throw new RuntimeException(Text::_('PLG_SYSTEM_WEBAUTHN_ERR_CREATE_INVALID_LOGIN_REQUEST'));

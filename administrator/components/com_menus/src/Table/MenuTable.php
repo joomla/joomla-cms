@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_menus
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2011 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -20,7 +20,7 @@ use Joomla\Database\ParameterType;
  *
  * @since  1.6
  */
-class MenuTable extends \JTableMenu
+class MenuTable extends \Joomla\CMS\Table\Menu
 {
 	/**
 	 * Method to delete a node and, optionally, its child nodes from the table.

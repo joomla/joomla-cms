@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2011 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -145,20 +145,20 @@ class Taxonomy
 	/**
 	 * A helper method to store a node in the taxonomy
 	 *
-	 * @param   object   $node       The node data to include
-	 * @param   integer  $parent_id  The parent id of the node to add.
+	 * @param   object   $node      The node data to include
+	 * @param   integer  $parentId  The parent id of the node to add.
 	 *
 	 * @return  integer  The id of the inserted node.
 	 *
 	 * @since   4.0.0
 	 * @throws  \RuntimeException
 	 */
-	protected static function storeNode($node, $parent_id)
+	protected static function storeNode($node, $parentId)
 	{
 		// Check to see if the node is in the cache.
-		if (isset(static::$nodes[$parent_id . ':' . $node->title]))
+		if (isset(static::$nodes[$parentId . ':' . $node->title]))
 		{
-			return static::$nodes[$parent_id . ':' . $node->title]->id;
+			return static::$nodes[$parentId . ':' . $node->title]->id;
 		}
 
 		// Check to see if the node is in the table.
@@ -166,7 +166,7 @@ class Taxonomy
 		$query = $db->getQuery(true)
 			->select('*')
 			->from($db->quoteName('#__finder_taxonomy'))
-			->where($db->quoteName('parent_id') . ' = ' . $db->quote($parent_id))
+			->where($db->quoteName('parent_id') . ' = ' . $db->quote($parentId))
 			->where($db->quoteName('title') . ' = ' . $db->quote($node->title))
 			->where($db->quoteName('language') . ' = ' . $db->quote($node->language));
 
@@ -179,16 +179,16 @@ class Taxonomy
 		if ((bool) $result && $result->state == $node->state && $result->access == $node->access)
 		{
 			// The data matches, add the item to the cache.
-			static::$nodes[$parent_id . ':' . $node->title] = $result;
+			static::$nodes[$parentId . ':' . $node->title] = $result;
 
-			return static::$nodes[$parent_id . ':' . $node->title]->id;
+			return static::$nodes[$parentId . ':' . $node->title]->id;
 		}
 
 		/*
 		 * The database did not match the input. This could be because the
 		 * state has changed or because the node does not exist. Let's figure
 		 * out which case is true and deal with it.
-		 * TODO: use factory?
+		 * @todo: use factory?
 		 */
 		$nodeTable = new MapTable($db);
 
@@ -199,14 +199,14 @@ class Taxonomy
 			$nodeTable->state = (int) $node->state;
 			$nodeTable->access = (int) $node->access;
 			$nodeTable->language = $node->language;
-			$nodeTable->setLocation((int) $parent_id, 'last-child');
+			$nodeTable->setLocation((int) $parentId, 'last-child');
 		}
 		else
 		{
 			// Prepare the node object.
 			$nodeTable->id = (int) $result->id;
 			$nodeTable->title = $result->title;
-			$nodeTable->state = (int) $result->title;
+			$nodeTable->state = (int) ($node->state > 0 ? $node->state : $result->state);
 			$nodeTable->access = (int) $result->access;
 			$nodeTable->language = $node->language;
 			$nodeTable->setLocation($result->parent_id, 'last-child');
@@ -255,9 +255,9 @@ class Taxonomy
 		$nodeTable->rebuildPath($nodeTable->id);
 
 		// Add the node to the cache.
-		static::$nodes[$parent_id . ':' . $nodeTable->title] = (object) $nodeTable->getProperties();
+		static::$nodes[$parentId . ':' . $nodeTable->title] = (object) $nodeTable->getProperties();
 
-		return static::$nodes[$parent_id . ':' . $nodeTable->title]->id;
+		return static::$nodes[$parentId . ':' . $nodeTable->title]->id;
 	}
 
 	/**

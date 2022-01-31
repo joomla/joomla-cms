@@ -3,11 +3,11 @@
  * @package     Joomla.Plugin
  * @subpackage  System.webauthn
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2020 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('JPATH_BASE') or die;
+defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
@@ -57,6 +57,19 @@ $defaultDisplayData = [
 ];
 extract(array_merge($defaultDisplayData, $displayData));
 
+if ($displayData['allow_add'] === false)
+{
+	$error = Text::_('PLG_SYSTEM_WEBAUTHN_CANNOT_ADD_FOR_A_USER');
+	$allow_add = false;
+}
+
+// Ensure the GMP or BCmath extension is loaded in PHP - as this is required by third party library
+if ($allow_add && function_exists('gmp_intval') === false && function_exists('bccomp') === false)
+{
+	$error = Text::_('PLG_SYSTEM_WEBAUTHN_REQUIRES_GMP');
+	$allow_add = false;
+}
+
 /**
  * Why not push these configuration variables directly to JavaScript?
  *
@@ -69,6 +82,7 @@ $randomId    = 'plg_system_webauthn_' . UserHelper::genRandomPassword(32);
 // phpcs:ignore
 $publicKey   = $allow_add ? base64_encode(CredentialsCreation::createPublicKey($user)) : '{}';
 $postbackURL = base64_encode(rtrim(Uri::base(), '/') . '/index.php?' . Joomla::getToken() . '=1');
+
 ?>
 <div class="plg_system_webauthn" id="plg_system_webauthn-management-interface">
 	<span id="<?php echo $randomId ?>"
@@ -84,7 +98,7 @@ $postbackURL = base64_encode(rtrim(Uri::base(), '/') . '/index.php?' . Joomla::g
 	<?php endif; ?>
 
 	<table class="table table-striped">
-		<thead class="thead-dark">
+		<thead class="table-dark">
 		<tr>
 			<th><?php echo Text::_('PLG_SYSTEM_WEBAUTHN_MANAGE_FIELD_KEYLABEL_LABEL') ?></th>
 			<th><?php echo Text::_('PLG_SYSTEM_WEBAUTHN_MANAGE_HEADER_ACTIONS_LABEL') ?></th>
@@ -96,14 +110,12 @@ $postbackURL = base64_encode(rtrim(Uri::base(), '/') . '/index.php?' . Joomla::g
 			<tr data-credential_id="<?php echo $method['id'] ?>">
 				<td><?php echo htmlentities($method['label']) ?></td>
 				<td>
-					<button onclick="return plgSystemWebauthnEditLabel(this, '<?php echo $randomId ?>');"
-					   class="btn btn-secondary">
-						<span class="icon-edit icon-white" aria-hidden="true"></span>
+					<button data-random-id="<?php echo $randomId; ?>" class="plg_system_webauthn-manage-edit btn btn-secondary">
+						<span class="icon-edit" aria-hidden="true"></span>
 						<?php echo Text::_('PLG_SYSTEM_WEBAUTHN_MANAGE_BTN_EDIT_LABEL') ?>
 					</button>
-					<button onclick="return plgSystemWebauthnDelete(this, '<?php echo $randomId ?>');"
-					   class="btn btn-danger">
-						<span class="icon-minus-sign icon-white" aria-hidden="true"></span>
+					<button data-random-id="<?php echo $randomId; ?>" class="plg_system_webauthn-manage-delete btn btn-danger">
+						<span class="icon-minus" aria-hidden="true"></span>
 						<?php echo Text::_('PLG_SYSTEM_WEBAUTHN_MANAGE_BTN_DELETE_LABEL') ?>
 					</button>
 				</td>
@@ -125,9 +137,10 @@ $postbackURL = base64_encode(rtrim(Uri::base(), '/') . '/index.php?' . Joomla::g
 		<p class="plg_system_webauthn-manage-add-container">
 			<button
 				type="button"
-				onclick="plgSystemWebauthnCreateCredentials('<?php echo $randomId ?>', '#plg_system_webauthn-management-interface'); return false;"
-				class="btn btn-success btn-block">
-				<span class="icon-plus icon-white" aria-hidden="true"></span>
+				id="plg_system_webauthn-manage-add"
+				class="btn btn-success w-100"
+				data-random-id="<?php echo $randomId; ?>">
+				<span class="icon-plus" aria-hidden="true"></span>
 				<?php echo Text::_('PLG_SYSTEM_WEBAUTHN_MANAGE_BTN_ADD_LABEL') ?>
 			</button>
 		</p>

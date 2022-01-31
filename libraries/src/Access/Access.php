@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2009 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -840,7 +840,7 @@ class Access
 	 *
 	 * @param   integer  $groupId  Id of the group for which to get the title of.
 	 *
-	 * @return  string  Tthe title of the group
+	 * @return  string  The title of the group
 	 *
 	 * @since   3.5
 	 */
@@ -883,7 +883,7 @@ class Access
 
 		if (!isset(self::$groupsByUser[$storeId]))
 		{
-			// TODO: Uncouple this from ComponentHelper and allow for a configuration setting or value injection.
+			// @todo: Uncouple this from ComponentHelper and allow for a configuration setting or value injection.
 			$guestUsergroup = (int) ComponentHelper::getParams('com_users')->get('guest_usergroup', 1);
 
 			// Guest user (if only the actually assigned group is requested)
@@ -1045,7 +1045,7 @@ class Access
 				}
 			}
 
-			return $authorised;
+			return array_unique($authorised);
 		}
 
 		// Get all groups that the user is mapped to recursively.
@@ -1070,7 +1070,7 @@ class Access
 			}
 		}
 
-		return $authorised;
+		return array_unique($authorised);
 	}
 
 	/**

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_associations
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2017 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -26,6 +26,10 @@ if ($app->isClient('site'))
 
 HTMLHelper::_('behavior.multiselect');
 
+/** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
+$wa = $this->document->getWebAssetManager();
+$wa->useScript('com_associations.admin-associations-modal');
+
 $function         = $app->input->getCmd('function', 'jSelectAssociation');
 $listOrder        = $this->escape($this->state->get('list.ordering'));
 $listDirn         = $this->escape($this->state->get('list.direction'));
@@ -33,13 +37,13 @@ $canManageCheckin = Factory::getUser()->authorise('core.manage', 'com_checkin');
 
 $iconStates = array(
 	-2 => 'icon-trash',
-	0  => 'icon-unpublish',
-	1  => 'icon-publish',
-	2  => 'icon-archive',
+	0  => 'icon-times',
+	1  => 'icon-check',
+	2  => 'icon-folder',
 );
 
 $this->document->addScriptOptions('associations-modal', ['func' => $function]);
-HTMLHelper::_('script', 'com_associations/admin-associations-modal.min.js', ['version' => 'auto', 'relative' => true]);
+
 ?>
 <div class="container-popup">
 	<form action="<?php echo Route::_('index.php?option=com_associations&view=associations&layout=modal&tmpl=component&function='
@@ -47,28 +51,30 @@ HTMLHelper::_('script', 'com_associations/admin-associations-modal.min.js', ['ve
 		<?php echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
 		<?php if (empty($this->items)) : ?>
 			<div class="alert alert-info">
-				<span class="fas fa-info-circle" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('INFO'); ?></span>
+				<span class="icon-info-circle" aria-hidden="true"></span><span class="visually-hidden"><?php echo Text::_('INFO'); ?></span>
 				<?php echo Text::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
 			</div>
 		<?php else : ?>
 			<table class="table" id="associationsList">
-				<caption id="captionTable" class="sr-only">
-					<?php echo Text::_('COM_ASSOCIATIONS_TABLE_CAPTION'); ?>, <?php echo Text::_('JGLOBAL_SORTED_BY'); ?>
+				<caption class="visually-hidden">
+					<?php echo Text::_('COM_ASSOCIATIONS_TABLE_CAPTION'); ?>,
+							<span id="orderedBy"><?php echo Text::_('JGLOBAL_SORTED_BY'); ?> </span>,
+							<span id="filteredBy"><?php echo Text::_('JGLOBAL_FILTERED_BY'); ?></span>
 				</caption>
 			<thead>
 				<tr>
 					<?php if (!empty($this->typeSupports['state'])) : ?>
-						<th scope="col" style="width:1%" class="center">
+						<th scope="col" class="w-1 text-center">
 							<?php echo HTMLHelper::_('searchtools.sort', 'JSTATUS', 'state', $listDirn, $listOrder); ?>
 						</th>
 					<?php endif; ?>
 					<th scope="col">
 						<?php echo HTMLHelper::_('searchtools.sort', 'JGLOBAL_TITLE', 'title', $listDirn, $listOrder); ?>
 					</th>
-					<th scope="col" style="width:15%">
+					<th scope="col" class="w-15">
 						<?php echo Text::_('JGRID_HEADING_LANGUAGE'); ?>
 					</th>
-					<th scope="col" style="width:5%">
+					<th scope="col" class="w-5">
 						<?php echo HTMLHelper::_('searchtools.sort', 'COM_ASSOCIATIONS_HEADING_ASSOCIATION', 'association', $listDirn, $listOrder); ?>
 					</th>
 					<?php if (!empty($this->typeFields['menutype'])) : ?>
@@ -77,11 +83,11 @@ HTMLHelper::_('script', 'com_associations/admin-associations-modal.min.js', ['ve
 						</th>
 					<?php endif; ?>
 					<?php if (!empty($this->typeSupports['acl'])) : ?>
-						<th scope="col" style="width:5%" class="d-none d-sm-table-cell">
+						<th scope="col" class="w-5 d-none d-sm-table-cell">
 							<?php echo HTMLHelper::_('searchtools.sort', 'JGRID_HEADING_ACCESS', 'access_level', $listDirn, $listOrder); ?>
 						</th>
 					<?php endif; ?>
-					<th scope="col" style="width:1%" class="d-none d-sm-table-cell">
+					<th scope="col" class="w-1 d-none d-sm-table-cell">
 						<?php echo HTMLHelper::_('searchtools.sort', 'JGRID_HEADING_ID', 'id', $listDirn, $listOrder); ?>
 					</th>
 				</tr>
@@ -94,8 +100,10 @@ HTMLHelper::_('script', 'com_associations/admin-associations-modal.min.js', ['ve
 				?>
 				<tr class="row<?php echo $i % 2; ?>">
 					<?php if (!empty($this->typeSupports['state'])) : ?>
-						<td class="text-center tbody-icon">
-							<span class="<?php echo $iconStates[$this->escape($item->state)]; ?>" aria-hidden="true"></span>
+						<td class="text-center">
+							<span class="tbody-icon">
+								<span class="<?php echo $iconStates[$this->escape($item->state)]; ?>" aria-hidden="true"></span>
+							</span>
 						</td>
 					<?php endif; ?>
 					<th scope="row" class="has-context">
@@ -160,4 +168,4 @@ HTMLHelper::_('script', 'com_associations/admin-associations-modal.min.js', ['ve
 		<input type="hidden" name="forcedLanguage" value="<?php echo $app->input->get('forcedLanguage', '', 'cmd'); ?>">
 		<?php echo HTMLHelper::_('form.token'); ?>
 	</form>
-</div
+</div>

@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2011 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -17,7 +17,7 @@ use Joomla\CMS\Form\FormField;
  * Color Form Field class for the Joomla Platform.
  * This implementation is designed to be compatible with HTML5's `<input type="color">`
  *
- * @link   http://www.w3.org/TR/html-markup/input.color.html
+ * @link   https://html.spec.whatwg.org/multipage/input.html#color-state-(type=color)
  * @since  1.7.3
  */
 class ColorField extends FormField
@@ -42,7 +42,7 @@ class ColorField extends FormField
 	 * Default color when there is no value.
 	 *
 	 * @var    string
-	 * @since  4.0
+	 * @since  4.0.0
 	 */
 	protected $default;
 
@@ -50,7 +50,7 @@ class ColorField extends FormField
 	 * The type of value the slider should display: 'hue', 'saturation' or 'light'.
 	 *
 	 * @var    string
-	 * @since  4.0
+	 * @since  4.0.0
 	 */
 	protected $display = 'hue';
 
@@ -90,7 +90,7 @@ class ColorField extends FormField
 	 * Shows preview of the selected color
 	 *
 	 * @var    boolean
-	 * @since  4.0
+	 * @since  4.0.0
 	 */
 	protected $preview = false;
 
@@ -98,7 +98,7 @@ class ColorField extends FormField
 	 * Color format to use when value gets saved
 	 *
 	 * @var    string
-	 * @since  4.0
+	 * @since  4.0.0
 	 */
 	protected $saveFormat = 'hex';
 
@@ -255,7 +255,7 @@ class ColorField extends FormField
 		$color = !$color && $color !== '0' ? '' : $color;
 
 		// Position of the panel can be: right (default), left, top or bottom (default RTL is left)
-		$position = ' data-position="' . (($lang->isRTL() && $this->position === 'default') ? 'left' : $this->position) . '"';
+		$position = ' data-position="' . (($lang->isRtl() && $this->position === 'default') ? 'left' : $this->position) . '"';
 
 		if ($color === '' || \in_array($color, array('none', 'transparent')))
 		{
@@ -341,7 +341,7 @@ class ColorField extends FormField
 			}
 		}
 
-		$split = $this->split ? $this->split : 3;
+		$split = $this->split ?: 3;
 
 		return array(
 			'colors' => $colors,
@@ -372,7 +372,7 @@ class ColorField extends FormField
 	 *
 	 * @return  array
 	 *
-	 * @since   4.0
+	 * @since   4.0.0
 	 */
 	protected function getSliderModeLayoutData()
 	{

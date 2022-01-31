@@ -2,7 +2,7 @@
 <metadata>
 	<layout title="COM_TAGS_TAG_VIEW_DEFAULT_TITLE" option="COM_TAGS_TAG_VIEW_DEFAULT_OPTION">
 		<help
-			key="JHELP_MENUS_MENU_ITEM_TAGS_ITEMS_LIST"
+			key="Menu_Item:_Tagged_Items"
 		/>
 		<message>
 			<![CDATA[COM_TAGS_TAG_VIEW_DEFAULT_DESC]]>
@@ -53,7 +53,8 @@
 				type="list"
 				label="COM_TAGS_SHOW_TAG_TITLE_LABEL"
 				useglobal="true"
-				class="custom-select-color-state"
+				class="form-select-color-state"
+				validate="options"
 				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
@@ -64,7 +65,8 @@
 				type="list"
 				label="COM_TAGS_SHOW_TAG_IMAGE_LABEL"
 				useglobal="true"
-				class="custom-select-color-state"
+				class="form-select-color-state"
+				validate="options"
 				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
@@ -75,7 +77,8 @@
 				type="list"
 				label="COM_TAGS_SHOW_TAG_DESCRIPTION_LABEL"
 				useglobal="true"
-				class="custom-select-color-state"
+				class="form-select-color-state"
+				validate="options"
 				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
@@ -85,6 +88,19 @@
 				name="tag_list_image"
 				type="media"
 				label="COM_TAGS_TAG_LIST_MEDIA_LABEL"
+			/>
+
+			<field
+				name="tag_list_image_alt"
+				type="text"
+				label="COM_TAGS_TAG_LIST_MEDIA_ALT_LABEL"
+			/>
+
+			<field
+				name="tag_list_image_alt_empty"
+				type="checkbox"
+				label="COM_TAGS_TAG_LIST_MEDIA_ALT_EMPTY_LABEL"
+				description="COM_TAGS_TAG_LIST_MEDIA_ALT_EMPTY_DESC"
 			/>
 
 			<field
@@ -103,6 +119,7 @@
 				label="JGLOBAL_FIELD_FIELD_ORDERING_LABEL"
 				default=""
 				useglobal="true"
+				validate="options"
 				>
 				<option value="c.core_title">JGLOBAL_TITLE</option>
 				<option value="match_count">COM_TAGS_MATCH_COUNT</option>
@@ -116,6 +133,7 @@
 				type="list"
 				label="JGLOBAL_ORDER_DIRECTION_LABEL"
 				useglobal="true"
+				validate="options"
 				>
 				<option value="ASC">JGLOBAL_ORDER_ASCENDING</option>
 				<option value="DESC">JGLOBAL_ORDER_DESCENDING</option>
@@ -130,7 +148,8 @@
 				type="list"
 				label="COM_TAGS_TAG_LIST_SHOW_ITEM_IMAGE_LABEL"
 				useglobal="true"
-				class="custom-select-color-state"
+				class="form-select-color-state"
+				validate="options"
 				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
@@ -141,7 +160,8 @@
 				type="list"
 				label="COM_TAGS_TAG_LIST_SHOW_ITEM_DESCRIPTION_LABEL"
 				useglobal="true"
-				class="custom-select-color-state"
+				class="form-select-color-state"
+				validate="options"
 				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
@@ -161,7 +181,8 @@
 				label="JGLOBAL_FILTER_FIELD_LABEL"
 				default=""
 				useglobal="true"
-				class="custom-select-color-state"
+				class="form-select-color-state"
+				validate="options"
 				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
@@ -175,7 +196,8 @@
 				type="list"
 				label="JGLOBAL_DISPLAY_SELECT_LABEL"
 				useglobal="true"
-				class="custom-select-color-state"
+				class="form-select-color-state"
+				validate="options"
 				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
@@ -186,7 +208,8 @@
 				type="list"
 				label="JGLOBAL_PAGINATION_LABEL"
 				useglobal="true"
-				class="custom-select-color-state"
+				class="form-select-color-state"
+				validate="options"
 				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
@@ -198,7 +221,8 @@
 				type="list"
 				label="JGLOBAL_PAGINATION_RESULTS_LABEL"
 				useglobal="true"
-				class="custom-select-color-state"
+				class="form-select-color-state"
+				validate="options"
 				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
@@ -213,6 +237,7 @@
 				type="list"
 				label="COM_TAGS_SEARCH_TYPE_LABEL"
 				useglobal="true"
+				validate="options"
 				>
 				<option value="0">COM_TAGS_ALL</option>
 				<option value="1">COM_TAGS_ANY</option>
@@ -224,6 +249,7 @@
 				label="COM_TAGS_INCLUDE_CHILDREN_LABEL"
 				default=""
 				useglobal="true"
+				validate="options"
 				>
 				<option value="0">COM_TAGS_EXCLUDE</option>
 				<option value="1">COM_TAGS_INCLUDE</option>
@@ -238,7 +264,8 @@
 				type="list"
 				label="JGLOBAL_SHOW_FEED_LINK_LABEL"
 				useglobal="true"
-				class="custom-select-color-state"
+				class="form-select-color-state"
+				validate="options"
 				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>

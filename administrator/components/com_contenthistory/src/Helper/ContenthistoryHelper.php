@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_contenthistory
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2017 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -65,7 +65,7 @@ class ContenthistoryHelper
 	/**
 	 * Method to decode JSON-encoded fields in a standard object. Used to unpack JSON strings in the content history data column.
 	 *
-	 * @param   \stdClass  $jsonString  Standard class object that may contain one or more JSON-encoded fields.
+	 * @param   string  $jsonString  JSON String to convert to an object.
 	 *
 	 * @return  \stdClass  Object with any JSON-encoded fields unpacked.
 	 *
@@ -169,8 +169,6 @@ class ContenthistoryHelper
 	 */
 	public static function getFormFile(ContentType $typesTable)
 	{
-		$result = false;
-
 		// First, see if we have a file name in the $typesTable
 		$options = json_decode($typesTable->content_history_options);
 
@@ -181,14 +179,11 @@ class ContenthistoryHelper
 		else
 		{
 			$aliasArray = explode('.', $typesTable->type_alias);
-
-			if (count($aliasArray) == 2)
-			{
-				$component = ($aliasArray[1] == 'category') ? 'com_categories' : $aliasArray[0];
-				$path  = Folder::makeSafe(JPATH_ADMINISTRATOR . '/components/' . $component . '/models/forms/');
-				$file = File::makeSafe($aliasArray[1] . '.xml');
-				$result = File::exists($path . $file) ? $path . $file : false;
-			}
+			$component = ($aliasArray[1] == 'category') ? 'com_categories' : $aliasArray[0];
+			$path  = Folder::makeSafe(JPATH_ADMINISTRATOR . '/components/' . $component . '/models/forms/');
+			array_shift($aliasArray);
+			$file = File::makeSafe(implode('.', $aliasArray) . '.xml');
+			$result = File::exists($path . $file) ? $path . $file : false;
 		}
 
 		return $result;
@@ -351,8 +346,10 @@ class ContenthistoryHelper
 	public static function prepareData(ContentHistory $table)
 	{
 		$object = static::decodeFields($table->version_data);
-		$typesTable = Table::getInstance('Contenttype', 'Joomla\\CMS\\Table\\');
-		$typesTable->load(array('type_id' => $table->ucm_type_id));
+		$typesTable = Table::getInstance('ContentType', 'Joomla\\CMS\\Table\\');
+		$typeAlias = explode('.', $table->item_id);
+		array_pop($typeAlias);
+		$typesTable->load(array('type_alias' => implode('.', $typeAlias)));
 		$formValues = static::getFormValues($object, $typesTable);
 		$object = static::mergeLabels($object, $formValues);
 		$object = static::hideFields($object, $typesTable);

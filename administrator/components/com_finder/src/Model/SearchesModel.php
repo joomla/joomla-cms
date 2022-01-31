@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2018 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -36,7 +36,7 @@ class SearchesModel extends ListModel
 		if (empty($config['filter_fields']))
 		{
 			$config['filter_fields'] = array(
-				'search_term', 'a.search_term',
+				'searchterm', 'a.searchterm',
 				'hits', 'a.hits',
 			);
 		}
@@ -94,7 +94,7 @@ class SearchesModel extends ListModel
 	/**
 	 * Build an SQL query to load the list data.
 	 *
-	 * @return  \JDatabaseQuery
+	 * @return  \Joomla\Database\DatabaseQuery
 	 *
 	 * @since   4.0.0
 	 */
@@ -139,7 +139,14 @@ class SearchesModel extends ListModel
 
 		foreach ($items as $item)
 		{
-			$item->query = unserialize($item->query);
+			if (is_resource($item->query))
+			{
+				$item->query = unserialize(stream_get_contents($item->query));
+			}
+			else
+			{
+				$item->query = unserialize($item->query);
+			}
 		}
 
 		return $items;

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_templates
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2015 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -17,7 +17,7 @@ use Joomla\CMS\Router\Route;
 $input = Factory::getApplication()->input;
 ?>
 <form action="<?php echo Route::_('index.php?option=com_templates&view=template&id=' . $input->getInt('id') . '&file=' . $this->file); ?>" method="post" name="adminForm" id="adminForm">
-	<?php echo HTMLHelper::_('uitab.startTabSet', 'myTab', array('active' => 'description')); ?>
+	<?php echo HTMLHelper::_('uitab.startTabSet', 'myTab', ['active' => 'description', 'recall' => true, 'breakpoint' => 768]); ?>
 		<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'description', Text::_('COM_TEMPLATES_TAB_DESCRIPTION')); ?>
 		<div class="card">
 			<div class="card-body">

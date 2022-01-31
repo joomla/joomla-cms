@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  mod_menu
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2006 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -13,6 +13,7 @@ namespace Joomla\Module\Menu\Administrator\Menu;
 
 use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Language\Associations;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Menu\AdministratorMenuItem;
 use Joomla\CMS\Table\Table;
@@ -142,7 +143,7 @@ class CssMenu
 				$uri = clone Uri::getInstance();
 				$uri->setVar('recover_menu', 0);
 
-				$this->root->addChild(new AdministratorMenuItem(['title' => 'MOD_MENU_RECOVERY_EXIT', 'type' => 'url', 'url' => $uri->toString()]));
+				$this->root->addChild(new AdministratorMenuItem(['title' => 'MOD_MENU_RECOVERY_EXIT', 'type' => 'url', 'link' => $uri->toString()]));
 
 				return $this->root;
 			}
@@ -309,8 +310,32 @@ class CssMenu
 				}
 			}
 
+			$uri   = new Uri($item->link);
+			$query = $uri->getQuery(true);
+
+			/**
+			 * If component is passed in the link via option variable, we set $item->element to this value for further
+			 * processing. It is needed for links from menu items of third party extensions link to Joomla! core
+			 * components like com_categories, com_fields...
+			 */
+			if ($option = $uri->getVar('option'))
+			{
+				$item->element = $option;
+			}
+
 			// Exclude item if is not enabled
 			if ($item->element && !ComponentHelper::isEnabled($item->element))
+			{
+				$parent->removeChild($item);
+				continue;
+			}
+
+			/*
+			 * Multilingual Associations if the site is not set as multilingual and/or Associations is not enabled in
+			 * the Language Filter plugin
+			 */
+
+			if ($item->element === 'com_associations' && !Associations::isEnabled())
 			{
 				$parent->removeChild($item);
 				continue;
@@ -328,13 +353,10 @@ class CssMenu
 
 			if ($item->element === 'com_categories')
 			{
-				parse_str($item->link, $query);
 				$assetName = $query['extension'] ?? 'com_content';
 			}
 			elseif ($item->element === 'com_fields')
 			{
-				parse_str($item->link, $query);
-
 				// Only display Fields menus when enabled in the component
 				$createFields = null;
 
@@ -369,14 +391,14 @@ class CssMenu
 			}
 			elseif ($item->element === 'com_workflow')
 			{
-				parse_str($item->link, $query);
-
 				// Only display Workflow menus when enabled in the component
 				$workflow = null;
 
 				if (isset($query['extension']))
 				{
-					$workflow = ComponentHelper::getParams($query['extension'])->get('workflows_enable', 1);
+					$parts = explode('.', $query['extension']);
+
+					$workflow = ComponentHelper::getParams($parts[0])->get('workflow_enabled') && $user->authorise('core.manage.workflow', $parts[0]);
 				}
 
 				if (!$workflow)
@@ -398,10 +420,13 @@ class CssMenu
 				$parent->removeChild($item);
 				continue;
 			}
+			elseif (($item->link === 'index.php?option=com_installer&view=install' || $item->link === 'index.php?option=com_installer&view=languages')
+				&& !$user->authorise('core.admin'))
+			{
+				continue;
+			}
 			elseif ($item->element === 'com_admin')
 			{
-				parse_str($item->link, $query);
-
 				if (isset($query['view']) && $query['view'] === 'sysinfo' && !$user->authorise('core.admin'))
 				{
 					$parent->removeChild($item);
@@ -533,7 +558,7 @@ class CssMenu
 			$class = preg_replace('#\.\.[^A-Za-z0-9\.\_\- ]#', '', $class);
 		}
 
-		$html = 'fas fa-' . $class . ' fa-fw';
+		$html = 'icon-' . $class . ' icon-fw';
 
 		return $html;
 	}

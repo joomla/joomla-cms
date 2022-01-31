@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_installer
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2017 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -135,7 +135,7 @@ class InstallerHelper
 		?string $folder = null
 	): ?SimpleXMLElement
 	{
-		$path = $clientId ? JPATH_ADMINISTRATOR : JPATH_ROOT;
+		$path = [0 => JPATH_SITE, 1 => JPATH_ADMINISTRATOR, 3 => JPATH_API][$clientId] ?? JPATH_SITE;
 
 		switch ($type)
 		{
@@ -159,6 +159,9 @@ class InstallerHelper
 				break;
 			case 'package':
 				$path = JPATH_ADMINISTRATOR . '/manifests/packages/' . $element . '.xml';
+				break;
+			case 'language':
+				$path .= '/language/' . $element . '/install.xml';
 		}
 
 		if (file_exists($path) === false)
@@ -419,7 +422,7 @@ class InstallerHelper
 
 		if ($onlyEnabled)
 		{
-			$enabled = $onlyEnabled ? 1 : 0;
+			$enabled = 1;
 			$query->where($db->quoteName('s.enabled') . ' = :enabled')
 				->bind(':enabled', $enabled, ParameterType::INTEGER);
 		}

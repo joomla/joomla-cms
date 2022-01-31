@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  User.contactcreator
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2010 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -11,7 +11,6 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\CMSPlugin;
-use Joomla\CMS\Table\Table;
 use Joomla\Component\Contact\Administrator\Table\ContactTable;
 use Joomla\String\StringHelper;
 
@@ -36,7 +35,7 @@ class PlgUserContactCreator extends CMSPlugin
 	 * Application Instance
 	 *
 	 * @var    \Joomla\CMS\Application\CMSApplication
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $app;
 
@@ -44,7 +43,7 @@ class PlgUserContactCreator extends CMSPlugin
 	 * Database Driver Instance
 	 *
 	 * @var    \Joomla\Database\DatabaseDriver
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $db;
 
@@ -58,22 +57,22 @@ class PlgUserContactCreator extends CMSPlugin
 	 * @param   boolean  $success  True if user was successfully stored in the database.
 	 * @param   string   $msg      Message.
 	 *
-	 * @return  boolean
+	 * @return  void
 	 *
 	 * @since   1.6
 	 */
-	public function onUserAfterSave($user, $isnew, $success, $msg)
+	public function onUserAfterSave($user, $isnew, $success, $msg): void
 	{
 		// If the user wasn't stored we don't resync
 		if (!$success)
 		{
-			return false;
+			return;
 		}
 
 		// If the user isn't new we don't sync
 		if (!$isnew)
 		{
-			return false;
+			return;
 		}
 
 		// Ensure the user id is really an int
@@ -82,7 +81,7 @@ class PlgUserContactCreator extends CMSPlugin
 		// If the user id appears invalid then bail out just in case
 		if (empty($user_id))
 		{
-			return false;
+			return;
 		}
 
 		$categoryId = $this->params->get('category', 0);
@@ -91,7 +90,7 @@ class PlgUserContactCreator extends CMSPlugin
 		{
 			$this->app->enqueueMessage(Text::_('PLG_CONTACTCREATOR_ERR_NO_CATEGORY'), 'error');
 
-			return false;
+			return;
 		}
 
 		if ($contact = $this->getContactTable())
@@ -138,13 +137,11 @@ class PlgUserContactCreator extends CMSPlugin
 
 			if ($contact->check() && $contact->store())
 			{
-				return true;
+				return;
 			}
 		}
 
 		$this->app->enqueueMessage(Text::_('PLG_CONTACTCREATOR_ERR_FAILED_CREATING_CONTACT'), 'error');
-
-		return false;
 	}
 
 	/**

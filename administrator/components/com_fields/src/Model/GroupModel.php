@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_fields
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2016 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -74,7 +74,7 @@ class GroupModel extends AdminModel
 	 * @param   string  $prefix   The class prefix. Optional.
 	 * @param   array   $options  Configuration array for model. Optional.
 	 *
-	 * @return  Table  A JTable object
+	 * @return  Table  A Table object
 	 *
 	 * @since   3.7.0
 	 * @throws  \Exception
@@ -125,7 +125,9 @@ class GroupModel extends AdminModel
 			$data['context'] = $context;
 		}
 
-		if (!Factory::getUser()->authorise('core.edit.state', $context . '.fieldgroup.' . $jinput->get('id')))
+		$user = Factory::getUser();
+
+		if (!$user->authorise('core.edit.state', $context . '.fieldgroup.' . $jinput->get('id')))
 		{
 			// Disable fields for display.
 			$form->setFieldAttribute('ordering', 'disabled', 'true');
@@ -134,6 +136,12 @@ class GroupModel extends AdminModel
 			// Disable fields while saving. The controller has already verified this is a record you can edit.
 			$form->setFieldAttribute('ordering', 'filter', 'unset');
 			$form->setFieldAttribute('state', 'filter', 'unset');
+		}
+
+		// Don't allow to change the created_by user if not allowed to access com_users.
+		if (!$user->authorise('core.manage', 'com_users'))
+		{
+			$form->setFieldAttribute('created_by', 'filter', 'unset');
 		}
 
 		return $form;
@@ -266,6 +274,32 @@ class GroupModel extends AdminModel
 	}
 
 	/**
+	 * Method to validate the form data.
+	 *
+	 * @param   Form    $form   The form to validate against.
+	 * @param   array   $data   The data to validate.
+	 * @param   string  $group  The name of the field group to validate.
+	 *
+	 * @return  array|boolean  Array of filtered data if valid, false otherwise.
+	 *
+	 * @see     JFormRule
+	 * @see     JFilterInput
+	 * @since   3.9.23
+	 */
+	public function validate($form, $data, $group = null)
+	{
+		if (!Factory::getUser()->authorise('core.admin', 'com_fields'))
+		{
+			if (isset($data['rules']))
+			{
+				unset($data['rules']);
+			}
+		}
+
+		return parent::validate($form, $data, $group);
+	}
+
+	/**
 	 * Method to get the data that should be injected in the form.
 	 *
 	 * @return  array    The default data is an empty array.
@@ -340,14 +374,14 @@ class GroupModel extends AdminModel
 	/**
 	 * Clean the cache
 	 *
-	 * @param   string   $group      The cache group
-	 * @param   integer  $client_id  The ID of the client
+	 * @param   string   $group     The cache group
+	 * @param   integer  $clientId  @deprecated   5.0   No longer used.
 	 *
 	 * @return  void
 	 *
 	 * @since   3.7.0
 	 */
-	protected function cleanCache($group = null, $client_id = 0)
+	protected function cleanCache($group = null, $clientId = 0)
 	{
 		$context = Factory::getApplication()->input->get('context');
 

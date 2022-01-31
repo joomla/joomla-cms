@@ -1,94 +1,100 @@
 /**
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2018 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
-
 /* global Cropper */
+let formElements;
+let activated = false;
+let instance;
 
-Joomla = window.Joomla || {};
+const addListeners = () => {
+  formElements.cropX.addEventListener('change', ({ currentTarget }) => {
+    instance.setData({ x: parseInt(currentTarget.value, 10) });
+  });
+  formElements.cropY.addEventListener('change', ({ currentTarget }) => {
+    instance.setData({ y: parseInt(currentTarget.value, 10) });
+  });
+  formElements.cropWidth.addEventListener('change', ({ currentTarget }) => {
+    instance.setData({ width: parseInt(currentTarget.value, 10) });
+  });
+  formElements.cropHeight.addEventListener('change', ({ currentTarget }) => {
+    instance.setData({ height: parseInt(currentTarget.value, 10) });
+  });
+  formElements.aspectRatio.addEventListener('change', ({ currentTarget }) => {
+    instance.setAspectRatio(currentTarget.value);
+  });
+  activated = true;
+};
 
-Joomla.MediaManager = Joomla.MediaManager || {};
-Joomla.MediaManager.Edit = Joomla.MediaManager.Edit || {};
+const init = (image) => {
+  // Set default aspect ratio after numeric check, option has a dummy value
+  const defaultCropFactor = image.naturalWidth / image.naturalHeight;
+  if (!Number.isNaN(defaultCropFactor) && Number.isFinite(defaultCropFactor)) {
+    formElements.cropAspectRatioOption.value = defaultCropFactor;
+  }
 
-(() => {
-  'use strict';
+  // Initiate the cropper
+  instance = new Cropper(image, {
+    viewMode: 1,
+    responsive: true,
+    restore: true,
+    autoCrop: true,
+    movable: false,
+    zoomable: false,
+    rotatable: false,
+    autoCropArea: 1,
+    // scalable: false,
+    crop(e) {
+      formElements.cropX.value = Math.round(e.detail.x);
+      formElements.cropY.value = Math.round(e.detail.y);
+      formElements.cropWidth.value = Math.round(e.detail.width);
+      formElements.cropHeight.value = Math.round(e.detail.height);
+      const format = Joomla.MediaManager.Edit.original.extension === 'jpg' ? 'jpeg' : Joomla.MediaManager.Edit.original.extension;
+      const quality = formElements.cropQuality.value;
 
-  const initCrop = () => {
-    const image = document.getElementById('image-preview');
+      // Update the store
+      Joomla.MediaManager.Edit.current.contents = this.cropper.getCroppedCanvas().toDataURL(`image/${format}`, quality);
 
-    // Initiate the cropper
-    Joomla.MediaManager.Edit.crop.cropper = new Cropper(image, {
-      viewMode: 1,
-      responsive: true,
-      restore: true,
-      autoCrop: true,
-      movable: false,
-      zoomable: false,
-      rotatable: false,
-      autoCropArea: 1,
-      // scalable: false,
-      minContainerWidth: image.offsetWidth,
-      minContainerHeight: image.offsetHeight,
-      crop(e) {
-        document.getElementById('jform_crop_x').value = Math.round(e.detail.x);
-        document.getElementById('jform_crop_y').value = Math.round(e.detail.y);
-        document.getElementById('jform_crop_width').value = Math.round(e.detail.width);
-        document.getElementById('jform_crop_height').value = Math.round(e.detail.height);
-
-        const format = Joomla.MediaManager.Edit.original.extension === 'jpg' ? 'jpeg' : Joomla.MediaManager.Edit.original.extension;
-
-        const quality = document.getElementById('jform_crop_quality').value;
-
-        // Update the store
-        Joomla.MediaManager.Edit.current.contents = this.cropper.getCroppedCanvas().toDataURL(`image/${format}`, quality);
-
-        // Notify the app that a change has been made
-        window.dispatchEvent(new Event('mediaManager.history.point'));
-      },
-    });
-
-    document.getElementById('jform_crop_x').addEventListener('change', (event) => {
-      Joomla.MediaManager.Edit.crop.cropper.setData({ x: parseInt(event.target.value, 10) });
-    });
-    document.getElementById('jform_crop_y').addEventListener('change', (event) => {
-      Joomla.MediaManager.Edit.crop.cropper.setData({ y: parseInt(event.target.value, 10) });
-    });
-    document.getElementById('jform_crop_width').addEventListener('change', (event) => {
-      Joomla.MediaManager.Edit.crop.cropper.setData({ width: parseInt(event.target.value, 10) });
-    });
-    document.getElementById('jform_crop_height').addEventListener('change', (event) => {
-      Joomla.MediaManager.Edit.crop.cropper.setData({ height: parseInt(event.target.value, 10) });
-    });
-    document.getElementById('jform_aspectRatio').addEventListener('change', (event) => {
-      Joomla.MediaManager.Edit.crop.cropper.setAspectRatio(event.target.value);
-    });
-
-    // Wait for the image to load its data
-    image.addEventListener('load', () => {
-      // Get all option elements if future need
-      const elements = [].slice.call(document.querySelectorAll('.crop-aspect-ratio-option'));
-
-      // Set default aspect ratio after numeric check, option has a dummy value
-      const defaultCropFactor = image.naturalWidth / image.naturalHeight;
-      if (!Number.isNaN(defaultCropFactor) && Number.isFinite(defaultCropFactor)) {
-        elements[0].value = defaultCropFactor;
-      }
-      Joomla.MediaManager.Edit.crop.cropper.setAspectRatio(elements[0].value);
-    });
-  };
-
-  // Register the Events
-  Joomla.MediaManager.Edit.crop = {
-    Activate(mediaData) {
-      // Initialize
-      initCrop(mediaData);
+      // Notify the app that a change has been made
+      window.dispatchEvent(new Event('mediaManager.history.point'));
     },
-    Deactivate() {
-      if (!Joomla.MediaManager.Edit.crop.cropper) {
-        return;
-      }
-      // Destroy the instance
-      Joomla.MediaManager.Edit.crop.cropper.destroy();
+  });
+
+  // Add listeners
+  if (!activated) {
+    addListeners();
+  }
+
+  instance.setAspectRatio(formElements.cropAspectRatioOption.value);
+};
+
+// Register the Events
+window.addEventListener('media-manager-edit-init', () => {
+  formElements = {
+    aspectRatio: document.getElementById('jform_aspectRatio'),
+    cropHeight: document.getElementById('jform_crop_height'),
+    cropWidth: document.getElementById('jform_crop_width'),
+    cropY: document.getElementById('jform_crop_y'),
+    cropX: document.getElementById('jform_crop_x'),
+    cropQuality: document.getElementById('jform_crop_quality'),
+    cropAspectRatioOption: document.querySelector('.crop-aspect-ratio-option'),
+  };
+  Joomla.MediaManager.Edit.plugins.crop = {
+    Activate(image) {
+      return new Promise((resolve /* , reject */) => {
+        init(image);
+
+        resolve();
+      });
+    },
+    Deactivate(image) {
+      return new Promise((resolve /* , reject */) => {
+        if (image.cropper) {
+          image.cropper.destroy();
+          instance = null;
+        }
+        resolve();
+      });
     },
   };
-})();
+}, { once: true });

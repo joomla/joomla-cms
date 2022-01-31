@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_menus
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2009 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -53,14 +53,15 @@ class HtmlView extends BaseHtmlView
 	/**
 	 * The model state
 	 *
-	 * @var  \JObject
+	 * @var  \Joomla\CMS\Object\CMSObject
 	 */
 	protected $state;
 
 	/**
 	 * Form object for search filters
 	 *
-	 * @var    \JForm
+	 * @var    \Joomla\CMS\Form\Form
+	 *
 	 * @since  4.0.0
 	 */
 	public $filterForm;
@@ -195,18 +196,20 @@ class HtmlView extends BaseHtmlView
 							}
 							else
 							{
+								$base = $this->state->get('filter.client_id') == 0 ? JPATH_SITE : JPATH_ADMINISTRATOR;
+
 								// Get XML file from component folder for standard layouts
-								$file = JPATH_SITE . '/components/' . $item->componentname . '/tmpl/' . $vars['view']
+								$file = $base . '/components/' . $item->componentname . '/tmpl/' . $vars['view']
 									. '/' . $vars['layout'] . '.xml';
 
 								if (!file_exists($file))
 								{
-									$file = JPATH_SITE . '/components/' . $item->componentname . '/views/'
+									$file = $base . '/components/' . $item->componentname . '/views/'
 										. $vars['view'] . '/tmpl/' . $vars['layout'] . '.xml';
 
 									if (!file_exists($file))
 									{
-										$file = JPATH_SITE . '/components/' . $item->componentname . '/view/'
+										$file = $base . '/components/' . $item->componentname . '/view/'
 											. $vars['view'] . '/tmpl/' . $vars['layout'] . '.xml';
 									}
 								}
@@ -347,7 +350,7 @@ class HtmlView extends BaseHtmlView
 			$dropdown = $toolbar->dropdownButton('status-group')
 				->text('JTOOLBAR_CHANGE_STATUS')
 				->toggleSplit(false)
-				->icon('fas fa-ellipsis-h')
+				->icon('icon-ellipsis-h')
 				->buttonClass('btn btn-action')
 				->listCheck(true);
 
@@ -410,6 +413,6 @@ class HtmlView extends BaseHtmlView
 			$toolbar->preferences('com_menus');
 		}
 
-		$toolbar->help('JHELP_MENUS_MENU_ITEM_MANAGER');
+		$toolbar->help('Menus:_Items');
 	}
 }

@@ -3,7 +3,7 @@
 	<name>plg_fields_editor</name>
 	<author>Joomla! Project</author>
 	<creationDate>March 2016</creationDate>
-	<copyright>Copyright (C) 2005 - 2019 Open Source Matters. All rights reserved.</copyright>
+	<copyright>(C) 2016 Open Source Matters, Inc.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
@@ -15,8 +15,8 @@
 		<folder>tmpl</folder>
 	</files>
 	<languages>
-		<language tag="en-GB">en-GB.plg_fields_editor.ini</language>
-		<language tag="en-GB">en-GB.plg_fields_editor.sys.ini</language>
+		<language tag="en-GB">language/en-GB/plg_fields_editor.ini</language>
+		<language tag="en-GB">language/en-GB/plg_fields_editor.sys.ini</language>
 	</languages>
 	<config>
 		<fields name="params">
@@ -47,7 +47,6 @@
 					type="text"
 					label="PLG_FIELDS_EDITOR_PARAMS_WIDTH_LABEL"
 					default="100%"
-					size="5"
 				/>
 
 				<field
@@ -55,7 +54,6 @@
 					type="text"
 					label="PLG_FIELDS_EDITOR_PARAMS_HEIGHT_LABEL"
 					default="250px"
-					size="5"
 				/>
 
 				<field

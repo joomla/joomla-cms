@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_contact
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2008 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -14,6 +14,7 @@ namespace Joomla\Component\Contact\Administrator\Model;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Associations;
 use Joomla\CMS\MVC\Model\ListModel;
+use Joomla\CMS\Table\Table;
 use Joomla\Database\ParameterType;
 use Joomla\Utilities\ArrayHelper;
 
@@ -29,7 +30,6 @@ class ContactsModel extends ListModel
 	 *
 	 * @param   array  $config  An optional associative array of configuration settings.
 	 *
-	 * @see     \JControllerLegacy
 	 * @since   1.6
 	 */
 	public function __construct($config = array())
@@ -137,7 +137,7 @@ class ContactsModel extends ListModel
 	/**
 	 * Build an SQL query to load the list data.
 	 *
-	 * @return  \JDatabaseQuery
+	 * @return  \Joomla\Database\DatabaseQuery
 	 *
 	 * @since   1.6
 	 */
@@ -256,19 +256,6 @@ class ContactsModel extends ListModel
 			$query->where('(' . $db->quoteName('a.published') . ' = 0 OR ' . $db->quoteName('a.published') . ' = 1)');
 		}
 
-		// Filter by a single or group of categories.
-		$categoryId = $this->getState('filter.category_id');
-
-		if (is_numeric($categoryId))
-		{
-			$query->where($db->quoteName('a.catid') . ' = :catid');
-			$query->bind(':catid', $categoryId, ParameterType::INTEGER);
-		}
-		elseif (is_array($categoryId))
-		{
-			$query->whereIn($db->quoteName('a.catid'), ArrayHelper::toInteger($categoryId));
-		}
-
 		// Filter by search in name.
 		$search = $this->getState('filter.search');
 
@@ -343,8 +330,37 @@ class ContactsModel extends ListModel
 				->bind(':tag', $tag, ParameterType::INTEGER);
 		}
 
-		// Filter on the level.
-		if ($level = $this->getState('filter.level'))
+		// Filter by categories and by level
+		$categoryId = $this->getState('filter.category_id', array());
+		$level = $this->getState('filter.level');
+
+		if (!is_array($categoryId))
+		{
+			$categoryId = $categoryId ? array($categoryId) : array();
+		}
+
+		// Case: Using both categories filter and by level filter
+		if (count($categoryId))
+		{
+			$categoryId = ArrayHelper::toInteger($categoryId);
+			$categoryTable = Table::getInstance('Category', 'JTable');
+			$subCatItemsWhere = array();
+
+			// @todo: Convert to prepared statement
+			foreach ($categoryId as $filter_catid)
+			{
+				$categoryTable->load($filter_catid);
+				$subCatItemsWhere[] = '(' .
+					($level ? 'c.level <= ' . ((int) $level + (int) $categoryTable->level - 1) . ' AND ' : '') .
+					'c.lft >= ' . (int) $categoryTable->lft . ' AND ' .
+					'c.rgt <= ' . (int) $categoryTable->rgt . ')';
+			}
+
+			$query->where('(' . implode(' OR ', $subCatItemsWhere) . ')');
+		}
+
+		// Case: Using only the by level filter
+		elseif ($level)
 		{
 			$query->where($db->quoteName('c.level') . ' <= :level');
 			$query->bind(':level', $level, ParameterType::INTEGER);

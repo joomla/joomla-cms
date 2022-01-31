@@ -2,16 +2,17 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2020 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Console;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\Component\Joomlaupdate\Administrator\Model\UpdateModel;
 use Joomla\Console\Command\AbstractCommand;
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
@@ -27,14 +28,15 @@ class CheckJoomlaUpdatesCommand extends AbstractCommand
 	 * The default command name
 	 *
 	 * @var    string
-	 * @since  4.0
+	 * @since  4.0.0
 	 */
 	protected static $defaultName = 'core:check-updates';
 
 	/**
 	 * Stores the Update Information
-	 * @var UpdateModel
-	 * @since 4.0
+	 *
+	 * @var    UpdateModel
+	 * @since  4.0.0
 	 */
 	private $updateInfo;
 
@@ -47,12 +49,10 @@ class CheckJoomlaUpdatesCommand extends AbstractCommand
 	 */
 	protected function configure(): void
 	{
-		$help = <<<'EOF'
-The <info>%command.name%</info> Checks for Joomla updates.
+		$help = "<info>%command.name%</info> will check for Joomla updates
+		\nUsage: <info>php %command.full_name%</info>";
 
-  <info>php %command.full_name%</info>
-EOF;
-		$this->setDescription('Checks for Joomla updates');
+		$this->setDescription('Check for Joomla updates');
 		$this->setHelp($help);
 	}
 
@@ -61,7 +61,7 @@ EOF;
 	 *
 	 * @return mixed
 	 *
-	 * @since 4.0
+	 * @since 4.0.0
 	 */
 	private function getUpdateInformationFromModel()
 	{
@@ -78,7 +78,7 @@ EOF;
 	 *
 	 * @return mixed
 	 *
-	 * @since 4.0
+	 * @since 4.0.0
 	 */
 	public function getUpdateInfo()
 	{
@@ -97,7 +97,7 @@ EOF;
 	 *
 	 * @return void
 	 *
-	 * @since 4.0
+	 * @since 4.0.0
 	 */
 	public function setUpdateInfo($info = null): void
 	{
@@ -119,7 +119,7 @@ EOF;
 	 *
 	 * @return  integer  The command exit code
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	protected function doExecute(InputInterface $input, OutputInterface $output): int
 	{
@@ -133,7 +133,7 @@ EOF;
 		{
 			$symfonyStyle->success('You already have the latest Joomla version ' . $data['latest']);
 
-			return 0;
+			return Command::SUCCESS;
 		}
 
 		$symfonyStyle->note('New Joomla Version ' . $data['latest'] . ' is available.');
@@ -143,6 +143,6 @@ EOF;
 			$symfonyStyle->warning('We cannot find an update URL');
 		}
 
-		return 0;
+		return Command::SUCCESS;
 	}
 }

@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Fields.Sql
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2017 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 defined('_JEXEC') or die;
@@ -31,13 +31,13 @@ $query->setQuery($sql . ' HAVING ' . $db->quoteName('value') . ' IN (' . implode
 try
 {
 	$db->setQuery($query);
-	$items = $db->loadObjectlist();
+	$items = $db->loadObjectList();
 }
 catch (Exception $e)
 {
 	// If the query failed, we fetch all elements
 	$db->setQuery($sql);
-	$items = $db->loadObjectlist();
+	$items = $db->loadObjectList();
 }
 
 $texts = array();

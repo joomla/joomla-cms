@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2009 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -16,6 +16,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
+use Joomla\CMS\Mail\MailTemplate;
 use Joomla\CMS\MVC\Model\FormModel;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\String\PunycodeHelper;
@@ -23,7 +24,7 @@ use Joomla\CMS\User\User;
 use Joomla\CMS\User\UserHelper;
 
 /**
- * Rest model class for Users.
+ * Reset model class for Users.
  *
  * @since  1.5
  */
@@ -240,6 +241,9 @@ class ResetModel extends FormModel
 			return new \Exception(Text::sprintf('COM_USERS_USER_SAVE_FAILED', $user->getError()), 500);
 		}
 
+		// Destroy all active sessions for the user
+		UserHelper::destroyUserSessions($user->id);
+
 		// Flush the user data from the session.
 		$app->setUserState('com_users.reset.token', null);
 		$app->setUserState('com_users.reset.user', null);
@@ -413,7 +417,7 @@ class ResetModel extends FormModel
 		}
 		catch (\RuntimeException $e)
 		{
-			$this->setError(Text::sprintf('COM_USERS_DATABASE_ERROR', $e->getMessage()), 500);
+			$this->setError(Text::sprintf('COM_USERS_DATABASE_ERROR', $e->getMessage()));
 
 			return false;
 		}
@@ -472,29 +476,19 @@ class ResetModel extends FormModel
 
 		// Put together the email template data.
 		$data = $user->getProperties();
-		$data['fromname'] = $app->get('fromname');
-		$data['mailfrom'] = $app->get('mailfrom');
 		$data['sitename'] = $app->get('sitename');
 		$data['link_text'] = Route::_($link, false, $mode);
 		$data['link_html'] = Route::_($link, true, $mode);
 		$data['token'] = $token;
 
-		$subject = Text::sprintf(
-			'COM_USERS_EMAIL_PASSWORD_RESET_SUBJECT',
-			$data['sitename']
-		);
-
-		$body = Text::sprintf(
-			'COM_USERS_EMAIL_PASSWORD_RESET_BODY',
-			$data['sitename'],
-			$data['token'],
-			$data['link_text']
-		);
+		$mailer = new MailTemplate('com_users.password_reset', $app->getLanguage()->getTag());
+		$mailer->addTemplateData($data);
+		$mailer->addRecipient($user->email, $user->name);
 
 		// Try to send the password reset request email.
 		try
 		{
-			$return = Factory::getMailer()->sendMail($data['mailfrom'], $data['fromname'], $user->email, $subject, $body);
+			$return = $mailer->send();
 		}
 		catch (\Exception $exception)
 		{

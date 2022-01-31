@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_categories
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2008 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -44,10 +44,10 @@ class DisplayController extends BaseController
 	/**
 	 * Constructor.
 	 *
-	 * @param   array                $config   An optional associative array of configuration settings.
-	 * @param   MVCFactoryInterface  $factory  The factory.
-	 * @param   CMSApplication       $app      The JApplication for the dispatcher
-	 * @param   Input                $input    Input
+	 * @param   array                     $config   An optional associative array of configuration settings.
+	 * @param   MVCFactoryInterface|null  $factory  The factory.
+	 * @param   CMSApplication|null       $app      The Application for the dispatcher
+	 * @param   Input|null                $input    Input
 	 *
 	 * @since   3.0
 	 */
@@ -87,7 +87,11 @@ class DisplayController extends BaseController
 		if ($vName == 'category' && $lName == 'edit' && !$this->checkEditId('com_categories.edit.category', $id))
 		{
 			// Somehow the person just went to the form - we don't allow that.
-			$this->setMessage(Text::sprintf('JLIB_APPLICATION_ERROR_UNHELD_ID', $id), 'error');
+			if (!\count($this->app->getMessageQueue()))
+			{
+				$this->setMessage(Text::sprintf('JLIB_APPLICATION_ERROR_UNHELD_ID', $id), 'error');
+			}
+
 			$this->setRedirect(Route::_('index.php?option=com_categories&view=categories&extension=' . $this->extension, false));
 
 			return false;

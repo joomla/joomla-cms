@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Editors.none
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2006 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -63,7 +63,8 @@ class PlgEditorNone extends CMSPlugin
 			->registerAndUseScript(
 				'webcomponent.editor-none',
 				'plg_editors_none/joomla-editor-none.min.js',
-				['webcomponent' => true]
+				[],
+				['type' => 'module']
 			);
 
 		return '<joomla-editor-none>'
@@ -85,8 +86,6 @@ class PlgEditorNone extends CMSPlugin
 	 */
 	public function _displayButtons($name, $buttons, $asset, $author)
 	{
-		$return = '';
-
 		if (is_array($buttons) || (is_bool($buttons) && $buttons))
 		{
 			$buttonsEvent = new Event(

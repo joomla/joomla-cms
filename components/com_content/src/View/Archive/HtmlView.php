@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2006 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -28,21 +28,21 @@ class HtmlView extends BaseHtmlView
 	/**
 	 * The model state
 	 *
-	 * @var    \JObject
+	 * @var   \Joomla\CMS\Object\CMSObject
 	 */
 	protected $state = null;
 
 	/**
 	 * An array containing archived articles
 	 *
-	 * @var    \stdClass[]
+	 * @var   \stdClass[]
 	 */
 	protected $items = array();
 
 	/**
 	 * The pagination object
 	 *
-	 * @var  \JPagination|null
+	 * @var   \Joomla\CMS\Pagination\Pagination|null
 	 */
 	protected $pagination = null;
 
@@ -50,6 +50,7 @@ class HtmlView extends BaseHtmlView
 	 * The years that are available to filter on.
 	 *
 	 * @var   array
+	 *
 	 * @since 3.6.0
 	 */
 	protected $years = array();
@@ -58,6 +59,7 @@ class HtmlView extends BaseHtmlView
 	 * Object containing the year, month and limit field to be displayed
 	 *
 	 * @var    \stdClass|null
+	 *
 	 * @since  4.0.0
 	 */
 	protected $form = null;
@@ -66,6 +68,7 @@ class HtmlView extends BaseHtmlView
 	 * The page parameters
 	 *
 	 * @var    \Joomla\Registry\Registry|null
+	 *
 	 * @since  4.0.0
 	 */
 	protected $params = null;
@@ -75,6 +78,7 @@ class HtmlView extends BaseHtmlView
 	 * filter_field component parameter)
 	 *
 	 * @var    string
+	 *
 	 * @since  4.0.0
 	 */
 	protected $filter = '';
@@ -82,7 +86,8 @@ class HtmlView extends BaseHtmlView
 	/**
 	 * The user object
 	 *
-	 * @var    \JUser
+	 * @var    \Joomla\CMS\User\User
+	 *
 	 * @since  4.0.0
 	 */
 	protected $user = null;
@@ -91,6 +96,7 @@ class HtmlView extends BaseHtmlView
 	 * The page class suffix
 	 *
 	 * @var    string
+	 *
 	 * @since  4.0.0
 	 */
 	protected $pageclass_sfx = '';
@@ -180,7 +186,7 @@ class HtmlView extends BaseHtmlView
 			$months,
 			'month',
 			array(
-				'list.attr' => 'class="form-control"',
+				'list.attr' => 'class="form-select"',
 				'list.select' => $state->get('filter.month'),
 				'option.key' => null
 			)
@@ -200,12 +206,12 @@ class HtmlView extends BaseHtmlView
 			'select.genericlist',
 			$years,
 			'year',
-			array('list.attr' => 'class="form-control"', 'list.select' => $state->get('filter.year'))
+			array('list.attr' => 'class="form-select"', 'list.select' => $state->get('filter.year'))
 		);
 		$form->limitField = $pagination->getLimitBox();
 
 		// Escape strings for HTML output
-		$this->pageclass_sfx = htmlspecialchars($params->get('pageclass_sfx'));
+		$this->pageclass_sfx = htmlspecialchars($params->get('pageclass_sfx', ''));
 
 		$this->filter     = $state->get('list.filter');
 		$this->form       = &$form;
@@ -228,13 +234,9 @@ class HtmlView extends BaseHtmlView
 	 */
 	protected function _prepareDocument()
 	{
-		$app   = Factory::getApplication();
-		$menus = $app->getMenu();
-		$title = null;
-
 		// Because the application sets a default page title,
 		// we need to get it from the menu item itself
-		$menu = $menus->getActive();
+		$menu = Factory::getApplication()->getMenu()->getActive();
 
 		if ($menu)
 		{
@@ -245,22 +247,7 @@ class HtmlView extends BaseHtmlView
 			$this->params->def('page_heading', Text::_('JGLOBAL_ARTICLES'));
 		}
 
-		$title = $this->params->get('page_title', '');
-
-		if (empty($title))
-		{
-			$title = $app->get('sitename');
-		}
-		elseif ($app->get('sitename_pagetitles', 0) == 1)
-		{
-			$title = Text::sprintf('JPAGETITLE', $app->get('sitename'), $title);
-		}
-		elseif ($app->get('sitename_pagetitles', 0) == 2)
-		{
-			$title = Text::sprintf('JPAGETITLE', $title, $app->get('sitename'));
-		}
-
-		$this->document->setTitle($title);
+		$this->setDocumentTitle($this->params->get('page_title', ''));
 
 		if ($this->params->get('menu-meta_description'))
 		{

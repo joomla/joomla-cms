@@ -13,15 +13,15 @@
 			name="search"
 			type="text"
 			inputmode="search"
+			label="COM_FIELDS_GROUPS_FILTER_SEARCH_LABEL"
 			description="COM_FIELDS_GROUPS_FILTER_SEARCH_DESC"
 			hint="JSEARCH_FILTER"
-			class="js-stools-search-string"
 		/>
 
 		<field
 			name="state"
 			type="status"
-			label="JOPTION_SELECT_PUBLISHED"
+			label="JSTATUS"
 			onchange="this.form.submit();"
 			>
 			<option value="">JOPTION_SELECT_PUBLISHED</option>
@@ -30,7 +30,7 @@
 		<field
 			name="access"
 			type="accesslevel"
-			label="JOPTION_SELECT_ACCESS"
+			label="JGRID_HEADING_ACCESS"
 			onchange="this.form.submit();"
 			>
 			<option value="">JOPTION_SELECT_ACCESS</option>
@@ -39,7 +39,7 @@
 		<field
 			name="language"
 			type="contentlanguage"
-			label="JOPTION_SELECT_LANGUAGE"
+			label="JGRID_HEADING_LANGUAGE"
 			onchange="this.form.submit();"
 			>
 			<option value="">JOPTION_SELECT_LANGUAGE</option>

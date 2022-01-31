@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_templates
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2008 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -14,7 +14,6 @@ use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
-use Joomla\CMS\Uri\Uri;
 
 HTMLHelper::_('behavior.multiselect');
 
@@ -29,16 +28,18 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 			<div id="j-main-container" class="j-main-container">
 				<?php echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this, 'options' => array('selectorFieldName' => 'client_id'))); ?>
 				<?php if ($this->total > 0) : ?>
-					<table class="table" id="template-mgr">
-						<caption id="captionTable" class="sr-only">
-							<?php echo Text::_('COM_TEMPLATES_TEMPLATES_TABLE_CAPTION'); ?>, <?php echo Text::_('JGLOBAL_SORTED_BY'); ?>
+					<table class="table" id="templateList">
+						<caption class="visually-hidden">
+							<?php echo Text::_('COM_TEMPLATES_TEMPLATES_TABLE_CAPTION'); ?>,
+							<span id="orderedBy"><?php echo Text::_('JGLOBAL_SORTED_BY'); ?> </span>,
+							<span id="filteredBy"><?php echo Text::_('JGLOBAL_FILTERED_BY'); ?></span>
 						</caption>
 						<thead>
 							<tr>
-								<th scope="col" class="col1template d-none d-md-table-cell" style="width:20%">
+								<th scope="col" class="w-20 col1template d-none d-md-table-cell">
 									<?php echo Text::_('COM_TEMPLATES_HEADING_IMAGE'); ?>
 								</th>
-								<th scope="col" style="width:30%">
+								<th scope="col" class="w-30">
 									<?php echo HTMLHelper::_('searchtools.sort', 'COM_TEMPLATES_HEADING_TEMPLATE', 'a.element', $listDirn, $listOrder); ?>
 								</th>
 								<th scope="col" class="w-10 d-none d-md-table-cell text-center">
@@ -51,7 +52,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 									<?php echo Text::_('JAUTHOR'); ?>
 								</th>
 								<?php if ($this->pluginState) : ?>
-									<th class="w-10 d-none d-md-table-cell text-center">
+									<th scope="col" class="w-10 d-none d-md-table-cell text-center">
 										<?php echo Text::_('COM_TEMPLATES_OVERRIDES'); ?>
 									</th>
 								<?php endif; ?>
@@ -61,24 +62,35 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 						<?php foreach ($this->items as $i => $item) : ?>
 							<tr class="row<?php echo $i % 2; ?>">
 								<td class="text-center d-none d-md-table-cell">
-									<?php echo HTMLHelper::_('templates.thumb', $item->element, $item->client_id); ?>
-									<?php echo HTMLHelper::_('templates.thumbModal', $item->element, $item->client_id); ?>
+									<?php echo HTMLHelper::_('templates.thumb', $item); ?>
+									<?php echo HTMLHelper::_('templates.thumbModal', $item); ?>
 								</td>
 								<th scope="row" class="template-name">
 									<a href="<?php echo Route::_('index.php?option=com_templates&view=template&id=' . (int) $item->extension_id . '&file=' . $this->file); ?>">
 										<?php echo Text::sprintf('COM_TEMPLATES_TEMPLATE_DETAILS', ucfirst($item->name)); ?></a>
 									<div>
-									<?php if ($item->client_id === 0) : ?>
 										<?php if ($this->preview) : ?>
-											<a href="<?php echo Route::_(Uri::root() . 'index.php?tp=1&template=' . $item->element); ?>" target="_blank"
-											title="<?php echo Text::sprintf('JBROWSERTARGET_NEW_TITLE', Text::_($item->name)); ?>">
-											<?php echo Text::_('COM_TEMPLATES_TEMPLATE_PREVIEW'); ?>
+											<?php $client = (int) $item->client_id === 1 ? 'administrator' : 'site'; ?>
+											<a href="<?php echo Route::link($client, 'index.php?tp=1&template=' . $item->element); ?>" target="_blank" aria-labelledby="preview-<?php echo $item->extension_id; ?>">
+												<?php echo Text::_('COM_TEMPLATES_TEMPLATE_PREVIEW'); ?>
 											</a>
+											<div role="tooltip" id="preview-<?php echo $item->extension_id; ?>"><?php echo Text::sprintf('COM_TEMPLATES_TEMPLATE_NEW_PREVIEW', $item->name); ?></div>
 										<?php else : ?>
 											<?php echo Text::_('COM_TEMPLATES_TEMPLATE_NO_PREVIEW'); ?>
 										<?php endif; ?>
-									<?php endif; ?>
 									</div>
+									<?php if (isset($item->xmldata->inheritable) && $item->xmldata->inheritable) : ?>
+										<div class="badge bg-primary">
+											<span class="fas fa-link text-light" aria-hidden="true"></span>
+											<?php echo Text::_('COM_TEMPLATES_TEMPLATE_IS_PARENT'); ?>
+										</div>
+									<?php endif; ?>
+									<?php if (isset($item->xmldata->parent) && (string) $item->xmldata->parent !== '') : ?>
+										<div class="badge bg-info text-light">
+											<span class="fas fa-clone text-light" aria-hidden="true"></span>
+											<?php echo Text::sprintf('COM_TEMPLATES_TEMPLATE_IS_CHILD_OF', (string) $item->xmldata->parent); ?>
+										</div>
+									<?php endif; ?>
 								</th>
 								<td class="small d-none d-md-table-cell text-center">
 									<?php echo $this->escape($item->xmldata->get('version')); ?>
@@ -102,9 +114,9 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 								<?php if ($this->pluginState) : ?>
 									<td class="d-none d-md-table-cell text-center">
 										<?php if (!empty($item->updated)) : ?>
-											<span class="badge badge-warning"><?php echo Text::plural('COM_TEMPLATES_N_CONFLICT', $item->updated); ?></span>
+											<span class="badge bg-warning text-dark"><?php echo Text::plural('COM_TEMPLATES_N_CONFLICT', $item->updated); ?></span>
 										<?php else : ?>
-											<span class="badge badge-success"><?php echo Text::_('COM_TEMPLATES_UPTODATE'); ?></span>
+											<span class="badge bg-success"><?php echo Text::_('COM_TEMPLATES_UPTODATE'); ?></span>
 										<?php endif; ?>
 									</td>
 								<?php endif; ?>

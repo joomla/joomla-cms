@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2009 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -45,6 +45,26 @@ class LevelModel extends AdminModel
 	 */
 	protected function canDelete($record)
 	{
+		$groups = json_decode($record->rules);
+
+		if ($groups === null)
+		{
+			throw new \RuntimeException('Invalid rules schema');
+		}
+
+		$isAdmin = Factory::getUser()->authorise('core.admin');
+
+		// Check permissions
+		foreach ($groups as $group)
+		{
+			if (!$isAdmin && Access::checkGroup($group, 'core.admin'))
+			{
+				$this->setError(Text::_('JERROR_ALERTNOAUTHOR'));
+
+				return false;
+			}
+		}
+
 		// Check if the access level is being used by any content.
 		if ($this->levelsInUse === null)
 		{
@@ -89,7 +109,7 @@ class LevelModel extends AdminModel
 
 					$this->levelsInUse = array_merge($this->levelsInUse, $values);
 
-					// TODO Could assemble an array of the tables used by each view level list those,
+					// @todo Could assemble an array of the tables used by each view level list those,
 					// giving the user a clue in the error where to look.
 				}
 			}
@@ -153,7 +173,7 @@ class LevelModel extends AdminModel
 	 * @param   array    $data      An optional array of data for the form to interrogate.
 	 * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
 	 *
-	 * @return  Form|bool	A \JForm object on success, false on failure
+	 * @return  Form|bool  A Form object on success, false on failure
 	 *
 	 * @since   1.6
 	 */
@@ -276,11 +296,11 @@ class LevelModel extends AdminModel
 			{
 				if (Access::checkGroup((int) $groups[$i]->id, 'core.admin'))
 				{
-					if (in_array($groups[$i]->id, $rules) && !in_array($groups[$i]->id, $data['rules']))
+					if (in_array((int) $groups[$i]->id, $rules) && !in_array((int) $groups[$i]->id, $data['rules']))
 					{
 						$data['rules'][] = (int) $groups[$i]->id;
 					}
-					elseif (!in_array($groups[$i]->id, $rules) && in_array($groups[$i]->id, $data['rules']))
+					elseif (!in_array((int) $groups[$i]->id, $rules) && in_array((int) $groups[$i]->id, $data['rules']))
 					{
 						$this->setError(Text::_('JLIB_USER_ERROR_NOT_SUPERADMIN'));
 

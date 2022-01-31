@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_templates
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2016 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -20,12 +20,12 @@ use Joomla\CMS\Language\Text;
 					<label for="new_name">
 						<?php echo Text::_('COM_TEMPLATES_TEMPLATE_NEW_NAME_LABEL'); ?>
 					</label>
-					<small class="text-muted">
-						<?php echo Text::_('COM_TEMPLATES_TEMPLATE_NEW_NAME_DESC'); ?>
-					</small>
 				</div>
 				<div class="controls">
-					<input class="form-control" type="text" id="new_name" name="new_name">
+					<input class="form-control" type="text" id="new_name" name="new_name" required>
+					<small class="form-text">
+						<?php echo Text::_('COM_TEMPLATES_TEMPLATE_NEW_NAME_DESC'); ?>
+					</small>
 				</div>
 			</div>
 		</div>

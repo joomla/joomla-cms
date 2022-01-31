@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <config>
+	<help key="News_Feed:_Options"/>
 
 	<fieldset
 		name="newsfeed"
@@ -11,7 +12,7 @@
 			name="newsfeed_layout"
 			type="componentlayout"
 			label="JGLOBAL_FIELD_LAYOUT_LABEL"
-			class="custom-select"
+			class="form-select"
 			menuitems="true"
 			extension="com_newsfeeds"
 			view="newsfeed"
@@ -42,7 +43,6 @@
 			type="radio"
 			layout="joomla.form.field.radio.switcher"
 			label="COM_NEWSFEEDS_FIELD_SHOW_FEED_IMAGE_LABEL"
-			id="show_feed_image"
 			default="1"
 			>
 			<option value="0">JHIDE</option>
@@ -54,7 +54,6 @@
 			type="radio"
 			layout="joomla.form.field.radio.switcher"
 			label="COM_NEWSFEEDS_FIELD_SHOW_FEED_DESCRIPTION_LABEL"
-			id="show_feed_description"
 			default="1"
 			>
 			<option value="0">JHIDE</option>
@@ -66,7 +65,6 @@
 			type="radio"
 			layout="joomla.form.field.radio.switcher"
 			label="COM_NEWSFEEDS_FIELD_SHOW_ITEM_DESCRIPTION_LABEL"
-			id="show_item_description"
 			default="1"
 			>
 			<option value="0">JHIDE</option>
@@ -78,7 +76,7 @@
 			type="number"
 			label="COM_NEWSFEEDS_FIELD_CHARACTER_COUNT_LABEL"
 			description="COM_NEWSFEEDS_FIELD_CHARACTER_COUNT_DESC"
-			id="feed_character_count"
+			filter="integer"
 			default="0"
 		/>
 
@@ -86,7 +84,6 @@
 			name="feed_display_order"
 			type="list"
 			label="COM_NEWSFEEDS_FIELD_FEED_DISPLAY_ORDER_LABEL"
-			id="feed_display_order"
 			validate="options"
 			>
 			<option value="des">JGLOBAL_MOST_RECENT_FIRST</option>
@@ -120,7 +117,6 @@
 			type="radio"
 			layout="joomla.form.field.radio.switcher"
 			label="COM_NEWSFEEDS_FIELD_SHOW_TAGS_LABEL"
-			id="show_tags"
 			default="1"
 			>
 			<option value="0">JHIDE</option>
@@ -138,7 +134,7 @@
 			name="category_layout"
 			type="componentlayout"
 			label="JGLOBAL_FIELD_LAYOUT_LABEL"
-			class="custom-select"
+			class="form-select"
 			menuitems="true"
 			extension="com_newsfeeds"
 			view="category"
@@ -160,7 +156,6 @@
 			type="radio"
 			layout="joomla.form.field.radio.switcher"
 			label="JGLOBAL_SHOW_CATEGORY_DESCRIPTION_LABEL"
-			id="show_description"
 			default="1"
 			>
 			<option value="0">JHIDE</option>
@@ -223,7 +218,6 @@
 			type="radio"
 			layout="joomla.form.field.radio.switcher"
 			label="COM_NEWSFEEDS_FIELD_SHOW_CAT_ITEMS_LABEL"
-			id="show_cat_items"
 			default="1"
 			>
 			<option value="0">JHIDE</option>
@@ -344,7 +338,6 @@
 			type="radio"
 			layout="joomla.form.field.radio.switcher"
 			label="JGLOBAL_SHOW_HEADINGS_LABEL"
-			id="show_headings"
 			default="1"
 			>
 			<option value="0">JHIDE</option>
@@ -356,7 +349,6 @@
 			type="radio"
 			layout="joomla.form.field.radio.switcher"
 			label="COM_NEWSFEEDS_FIELD_NUM_ARTICLES_COLUMN_LABEL"
-			id="show_articles"
 			default="1"
 			>
 			<option value="0">JHIDE</option>
@@ -368,7 +360,6 @@
 			type="radio"
 			layout="joomla.form.field.radio.switcher"
 			label="COM_NEWSFEEDS_FIELD_SHOW_LINKS_LABEL"
-			id="show_link"
 			default="1"
 			>
 			<option value="0">JHIDE</option>

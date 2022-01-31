@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_contact
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2006 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -166,7 +166,7 @@ class CategoryModel extends ListModel
 			->select($this->getSlugColumn($query, 'a.id', 'a.alias') . ' AS slug')
 			->select($this->getSlugColumn($query, 'c.id', 'c.alias') . ' AS catslug')
 		/**
-		 * TODO: we actually should be doing it but it's wrong this way
+		 * @todo: we actually should be doing it but it's wrong this way
 		 *	. ' CASE WHEN CHAR_LENGTH(a.alias) THEN CONCAT_WS(\':\', a.id, a.alias) ELSE a.id END as slug, '
 		 *	. ' CASE WHEN CHAR_LENGTH(c.alias) THEN CONCAT_WS(\':\', c.id, c.alias) ELSE c.id END AS catslug ');
 		 */
@@ -227,10 +227,9 @@ class CategoryModel extends ListModel
 		}
 
 		// Filter on the language.
-		if ($language = $this->getState('filter.language'))
+		if ($this->getState('filter.language'))
 		{
-			$language = [Factory::getLanguage()->getTag(), '*'];
-			$query->whereIn($db->quoteName('a.language'), $language);
+			$query->whereIn($db->quoteName('a.language'), [Factory::getLanguage()->getTag(), '*'], ParameterType::STRING);
 		}
 
 		// Set sortname ordering if selected
@@ -286,19 +285,18 @@ class CategoryModel extends ListModel
 		// List state information
 		$format = $app->input->getWord('format');
 
-		$numberOfContactsToDisplay = $mergedParams->get('contacts_display_num');
-
 		if ($format === 'feed')
 		{
 			$limit = $app->get('feed_limit');
 		}
-		elseif (isset($numberOfContactsToDisplay))
-		{
-			$limit = $numberOfContactsToDisplay;
-		}
 		else
 		{
-			$limit = $app->getUserStateFromRequest('global.list.limit', 'limit', $app->get('list_limit'), 'uint');
+			$limit = $app->getUserStateFromRequest(
+				'com_contact.category.list',
+				'limit',
+				$mergedParams->get('contacts_display_num', $app->get('list_limit')),
+				'uint'
+			);
 		}
 
 		$this->setState('list.limit', $limit);
@@ -464,9 +462,9 @@ class CategoryModel extends ListModel
 	/**
 	 * Generate column expression for slug or catslug.
 	 *
-	 * @param   \JDatabaseQuery  $query  Current query instance.
-	 * @param   string           $id     Column id name.
-	 * @param   string           $alias  Column alias name.
+	 * @param   \Joomla\Database\DatabaseQuery  $query  Current query instance.
+	 * @param   string                          $id     Column id name.
+	 * @param   string                          $alias  Column alias name.
 	 *
 	 * @return  string
 	 *
@@ -501,7 +499,6 @@ class CategoryModel extends ListModel
 			$pk = (!empty($pk)) ? $pk : (int) $this->getState('category.id');
 
 			$table = Table::getInstance('Category');
-			$table->load($pk);
 			$table->hit($pk);
 		}
 

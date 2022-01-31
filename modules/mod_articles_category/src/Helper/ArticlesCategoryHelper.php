@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  mod_articles_category
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2010 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -52,7 +52,7 @@ abstract class ArticlesCategoryHelper
 		$articles->setState('params', $appParams);
 
 		$articles->setState('list.start', 0);
-		$articles->setState('filter.condition', ContentComponent::CONDITION_PUBLISHED);
+		$articles->setState('filter.published', ContentComponent::CONDITION_PUBLISHED);
 
 		// Set the filters based on the module params
 		$articles->setState('list.limit', (int) $params->get('count', 0));
@@ -68,7 +68,7 @@ abstract class ArticlesCategoryHelper
 
 		switch ($mode)
 		{
-			case 'dynamic' :
+			case 'dynamic':
 				$option = $input->get('option');
 				$view   = $input->get('view');
 
@@ -76,11 +76,11 @@ abstract class ArticlesCategoryHelper
 				{
 					switch ($view)
 					{
-						case 'category' :
-						case 'categories' :
+						case 'category':
+						case 'categories':
 							$catids = array($input->getInt('id'));
 							break;
-						case 'article' :
+						case 'article':
 							if ($params->get('show_on_article_page', 1))
 							{
 								$article_id = $input->getInt('id');
@@ -109,7 +109,6 @@ abstract class ArticlesCategoryHelper
 							}
 							break;
 
-						case 'featured' :
 						default:
 							// Return right away if not on the category or article views
 							return;
@@ -123,7 +122,6 @@ abstract class ArticlesCategoryHelper
 
 				break;
 
-			case 'normal' :
 			default:
 				$catids = $params->get('catid');
 				$articles->setState('filter.category_id.include', (bool) $params->get('category_filtering_type', 1));
@@ -330,7 +328,7 @@ abstract class ArticlesCategoryHelper
 	public static function _cleanIntrotext($introtext)
 	{
 		$introtext = str_replace(array('<p>', '</p>'), ' ', $introtext);
-		$introtext = strip_tags($introtext, '<a><em><strong>');
+		$introtext = strip_tags($introtext, '<a><em><strong><joomla-hidden-mail>');
 		$introtext = trim($introtext);
 
 		return $introtext;
@@ -343,7 +341,7 @@ abstract class ArticlesCategoryHelper
 	 * the html intact as possible with all tags properly closed.
 	 *
 	 * @param   string   $html       The content of the introtext to be truncated
-	 * @param   integer  $maxLength  The maximum number of charactes to render
+	 * @param   integer  $maxLength  The maximum number of characters to render
 	 *
 	 * @return  string  The truncated string
 	 *
@@ -388,16 +386,16 @@ abstract class ArticlesCategoryHelper
 	/**
 	 * Groups items by field
 	 *
-	 * @param   array   $list                        list of items
-	 * @param   string  $fieldName                   name of field that is used for grouping
-	 * @param   string  $article_grouping_direction  ordering direction
-	 * @param   null    $fieldNameToKeep             field name to keep
+	 * @param   array   $list             list of items
+	 * @param   string  $fieldName        name of field that is used for grouping
+	 * @param   string  $direction        ordering direction
+	 * @param   null    $fieldNameToKeep  field name to keep
 	 *
 	 * @return  array
 	 *
 	 * @since   1.6
 	 */
-	public static function groupBy($list, $fieldName, $article_grouping_direction, $fieldNameToKeep = null)
+	public static function groupBy($list, $fieldName, $direction, $fieldNameToKeep = null)
 	{
 		$grouped = array();
 
@@ -430,7 +428,7 @@ abstract class ArticlesCategoryHelper
 			unset($list[$key]);
 		}
 
-		$article_grouping_direction($grouped);
+		$direction($grouped);
 
 		return $grouped;
 	}
@@ -438,17 +436,17 @@ abstract class ArticlesCategoryHelper
 	/**
 	 * Groups items by date
 	 *
-	 * @param   array   $list                        list of items
-	 * @param   string  $article_grouping_direction  ordering direction
-	 * @param   string  $type                        type of grouping
-	 * @param   string  $month_year_format           date format to use
-	 * @param   string  $field                       date field to group by
+	 * @param   array   $list             list of items
+	 * @param   string  $direction        ordering direction
+	 * @param   string  $type             type of grouping
+	 * @param   string  $monthYearFormat  date format to use
+	 * @param   string  $field            date field to group by
 	 *
 	 * @return  array
 	 *
 	 * @since   1.6
 	 */
-	public static function groupByDate($list, $article_grouping_direction = 'ksort', $type = 'year', $month_year_format = 'F Y', $field = 'created')
+	public static function groupByDate($list, $direction = 'ksort', $type = 'year', $monthYearFormat = 'F Y', $field = 'created')
 	{
 		$grouped = array();
 
@@ -466,7 +464,7 @@ abstract class ArticlesCategoryHelper
 		{
 			switch ($type)
 			{
-				case 'month_year' :
+				case 'month_year':
 					$month_year = StringHelper::substr($item->$field, 0, 7);
 
 					if (!isset($grouped[$month_year]))
@@ -477,7 +475,6 @@ abstract class ArticlesCategoryHelper
 					$grouped[$month_year][$key] = $item;
 					break;
 
-				case 'year' :
 				default:
 					$year = StringHelper::substr($item->$field, 0, 4);
 
@@ -493,14 +490,14 @@ abstract class ArticlesCategoryHelper
 			unset($list[$key]);
 		}
 
-		$article_grouping_direction($grouped);
+		$direction($grouped);
 
 		if ($type === 'month_year')
 		{
 			foreach ($grouped as $group => $items)
 			{
 				$date                      = new Date($group);
-				$formatted_group           = $date->format($month_year_format);
+				$formatted_group           = $date->format($monthYearFormat);
 				$grouped[$formatted_group] = $items;
 
 				unset($grouped[$group]);

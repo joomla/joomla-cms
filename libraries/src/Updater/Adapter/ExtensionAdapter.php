@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2008 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -14,7 +14,6 @@ use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\Log\Log;
 use Joomla\CMS\Table\Table;
 use Joomla\CMS\Updater\UpdateAdapter;
 use Joomla\CMS\Updater\Updater;
@@ -159,8 +158,8 @@ class ExtensionAdapter extends UpdateAdapter
 						// Do we have an entry for the database?
 						if (\array_key_exists($dbType, $supportedDbs))
 						{
-							$minumumVersion = $supportedDbs[$dbType];
-							$dbMatch        = version_compare($dbVersion, $minumumVersion, '>=');
+							$minimumVersion = $supportedDbs[$dbType];
+							$dbMatch        = version_compare($dbVersion, $minimumVersion, '>=');
 
 							if (!$dbMatch)
 							{
@@ -171,7 +170,7 @@ class ExtensionAdapter extends UpdateAdapter
 									$this->currentUpdate->version,
 									Text::_($db->name),
 									$dbVersion,
-									$minumumVersion
+									$minimumVersion
 								);
 
 								Factory::getApplication()->enqueueMessage($dbMsg, 'warning');

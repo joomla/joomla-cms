@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  mod_post_installation_messages
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2019 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -15,20 +15,22 @@ use Joomla\CMS\Helper\ModuleHelper;
 // Try to get the items from the post-installation model
 try
 {
-	$messagesModel = new \Joomla\Component\Postinstall\Administrator\Model\MessagesModel(['ignore_request' => true]);
-	$messages      = $messagesModel->getItems();
+	/** @var \Joomla\Component\Postinstall\Administrator\Model\MessagesModel $messagesModel */
+	$messagesModel = $app->bootComponent('com_postinstall')->getMVCFactory()
+		->createModel('Messages', 'Administrator', ['ignore_request' => true]);
+	$messagesCount = $messagesModel->getItemsCount();
 }
 catch (RuntimeException $e)
 {
-	$messages = [];
+	$messagesCount = 0;
 
 	// Still render the error message from the Exception object
 	$app->enqueueMessage($e->getMessage(), 'error');
 }
 
-$joomlaFilesExtensionId = ExtensionHelper::getExtensionRecord('files_joomla')->extension_id;
+$joomlaFilesExtensionId = ExtensionHelper::getExtensionRecord('joomla', 'file')->extension_id;
 
 // Load the com_postinstall language file
-$app->getLanguage()->load('com_postinstall', JPATH_ADMINISTRATOR, 'en-GB', true);
+$app->getLanguage()->load('com_postinstall', JPATH_ADMINISTRATOR);
 
 require ModuleHelper::getLayoutPath('mod_post_installation_messages', $params->get('layout', 'default'));

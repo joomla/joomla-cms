@@ -5,29 +5,26 @@
 	<creationDate>September 2016</creationDate>
 	<author>Joomla! Project</author>
 	<authorEmail>admin@joomla.org</authorEmail>
-	<copyright>Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.</copyright>
+	<copyright>(C) 2016 Open Source Matters, Inc.</copyright>
 	<description>TPL_ATUM_XML_DESCRIPTION</description>
+	<inheritable>1</inheritable>
 	<files>
 		<filename>component.php</filename>
 		<filename>cpanel.php</filename>
 		<filename>error.php</filename>
 		<filename>error_full.php</filename>
 		<filename>error_login.php</filename>
-		<filename>favicon.ico</filename>
 		<filename>index.php</filename>
 		<filename>joomla.asset.json</filename>
 		<filename>login.php</filename>
 		<filename>templateDetails.xml</filename>
-		<filename>template_preview.png</filename>
-		<filename>template_thumbnail.png</filename>
-		<folder>css</folder>
 		<folder>html</folder>
-		<folder>images</folder>
-		<folder>Service</folder>
-		<folder>scss</folder>
 	</files>
-	<media destination="templates/atum" folder="media">
+	<media destination="templates/administrator/atum" folder="media">
 		<folder>js</folder>
+		<folder>css</folder>
+		<folder>scss</folder>
+		<folder>images</folder>
 	</media>
 	<positions>
 		<!-- used directly in the template -->
@@ -73,7 +70,7 @@
 					name="text-dark"
 					type="color"
 					label="TPL_ATUM_COLORS_SETTINGS_TEXT_DARK_LABEL"
-					default="#3b4a5c"
+					default="#495057"
 					filter="color"
 				/>
 				<field
@@ -88,13 +85,6 @@
 					type="color"
 					label="TPL_ATUM_COLORS_SETTINGS_LINK_COLOR_LABEL"
 					default="#2a69b8"
-					filter="color"
-				/>
-				<field
-					name="sidebar-link-color"
-					type="color"
-					label="TPL_ATUM_COLORS_SETTINGS_LINK_SIDEBAR_COLOR_LABEL"
-					default="#3b4a5c"
 					filter="color"
 				/>
 				<field
@@ -117,36 +107,60 @@
 			</fieldset>
 
 			<fieldset name="images" label="TPL_ATUM_IMAGE_SETTINGS_LABEL">
-				<field
-					name="siteLogo"
-					type="media"
-					label="TPL_ATUM_SITE_LOGO_LABEL"
-				/>
-				<field
-					name="altSiteLogo"
-					type="text"
-					label="TPL_ATUM_ALTTEXT_SITE_LOGO_LABEL"
-				/>
-				<field
-					name="smallLogo"
-					type="media"
-					label="TPL_ATUM_SITE_LOGO_SMALL_LABEL"
-				/>
-				<field
-					name="altSmallLogo"
-					type="text"
-					label="TPL_ATUM_ALTTEXT_SMALL_LOGO_LABEL"
-				/>
-				<field
-					name="loginLogo"
-					type="media"
-					label="TPL_ATUM_LOGIN_LOGO_LABEL"
-				 />
-				<field
-					name="altLoginLogo"
-					type="text"
-					label="TPL_ATUM_ALTTEXT_LOGIN_LOGO_LABEL"
-				/>
+				<fieldset name="loginLogo" label="TPL_ATUM_LOGIN_LOGO_LABEL">
+					<field
+						name="loginLogo"
+						type="media"
+						label="TPL_ATUM_IMAGE_LABEL"
+					/>
+					<field
+						name="loginLogoAlt"
+						type="text"
+						label="TPL_ATUM_LOGO_ALT_LABEL"
+					/>
+					<field
+						name="emptyLoginLogoAlt"
+						type="checkbox"
+						label="TPL_ATUM_LOGO_ALT_EMPTY_LABEL"
+						description="TPL_ATUM_LOGO_ALT_EMPTY_DESC"
+					/>
+				</fieldset>
+				<fieldset name="logoBrandLarge" label="TPL_ATUM_SITE_LOGO_LABEL">
+					<field
+						name="logoBrandLarge"
+						type="media"
+						label="TPL_ATUM_IMAGE_LABEL"
+					/>
+					<field
+						name="logoBrandLargeAlt"
+						type="text"
+						label="TPL_ATUM_LOGO_ALT_LABEL"
+					/>
+					<field
+						name="emptyLogoBrandLargeAlt"
+						type="checkbox"
+						label="TPL_ATUM_LOGO_ALT_EMPTY_LABEL"
+						description="TPL_ATUM_LOGO_ALT_EMPTY_DESC"
+					/>
+				</fieldset>
+				<fieldset name="logoBrandSmall" label="TPL_ATUM_SITE_LOGO_SMALL_LABEL">
+					<field
+						name="logoBrandSmall"
+						type="media"
+						label="TPL_ATUM_IMAGE_LABEL"
+					/>
+					<field
+						name="logoBrandSmallAlt"
+						type="text"
+						label="TPL_ATUM_LOGO_ALT_LABEL"
+					/>
+					<field
+						name="emptyLogoBrandSmallAlt"
+						type="checkbox"
+						label="TPL_ATUM_LOGO_ALT_EMPTY_LABEL"
+						description="TPL_ATUM_LOGO_ALT_EMPTY_DESC"
+					/>
+				</fieldset>
 			</fieldset>
 		</fields>
 	</config>

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_banners
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2009 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -26,20 +26,22 @@ $listDirn   = $this->escape($this->state->get('list.direction'));
 				<?php echo LayoutHelper::render('joomla.searchtools.default', ['view' => $this]); ?>
 				<?php if (empty($this->items)) : ?>
 					<div class="alert alert-info">
-						<span class="fas fa-info-circle" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('INFO'); ?></span>
+						<span class="icon-info-circle" aria-hidden="true"></span><span class="visually-hidden"><?php echo Text::_('INFO'); ?></span>
 						<?php echo Text::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
 					</div>
 				<?php else : ?>
 					<table class="table">
-						<caption id="captionTable" class="sr-only">
-							<?php echo Text::_('COM_BANNERS_TRACKS_TABLE_CAPTION'); ?>, <?php echo Text::_('JGLOBAL_SORTED_BY'); ?>
+						<caption class="visually-hidden">
+							<?php echo Text::_('COM_BANNERS_TRACKS_TABLE_CAPTION'); ?>,
+							<span id="orderedBy"><?php echo Text::_('JGLOBAL_SORTED_BY'); ?> </span>,
+							<span id="filteredBy"><?php echo Text::_('JGLOBAL_FILTERED_BY'); ?></span>
 						</caption>
 						<thead>
 							<tr>
 								<th scope="col" class="title">
 									<?php echo HTMLHelper::_('searchtools.sort', 'COM_BANNERS_HEADING_NAME', 'b.name', $listDirn, $listOrder); ?>
 								</th>
-								<th scope="col" style="width:20%">
+								<th scope="col" class="w-20">
 									<?php echo HTMLHelper::_('searchtools.sort', 'COM_BANNERS_HEADING_CLIENT', 'cl.name', $listDirn, $listOrder); ?>
 								</th>
 								<th scope="col" class="w-10 d-none d-md-table-cell">
@@ -83,24 +85,6 @@ $listDirn   = $this->escape($this->state->get('list.direction'));
 					<?php echo $this->pagination->getListFooter(); ?>
 
 				<?php endif; ?>
-				<?php // Load the export form ?>
-				<?php echo HTMLHelper::_(
-					'bootstrap.renderModal',
-					'downloadModal',
-					[
-						'title'       => Text::_('COM_BANNERS_TRACKS_DOWNLOAD'),
-						'url'         => Route::_('index.php?option=com_banners&amp;view=download&amp;tmpl=component'),
-						'height'      => '370px',
-						'width'       => '300px',
-						'modalWidth'  => '40',
-						'footer'      => '<button type="button" class="btn" data-dismiss="modal"'
-								. ' onclick="Joomla.iframeButtonClick({iframeSelector: \'#downloadModal\', buttonSelector: \'#closeBtn\'})">'
-								. Text::_('COM_BANNERS_CANCEL') . '</button>'
-								. '<button type="button" class="btn btn-success"'
-								. ' onclick="Joomla.iframeButtonClick({iframeSelector: \'#downloadModal\', buttonSelector: \'#exportBtn\'})">'
-								. Text::_('COM_BANNERS_TRACKS_EXPORT') . '</button>',
-					]
-				); ?>
 				<input type="hidden" name="task" value="">
 				<input type="hidden" name="boxchecked" value="0">
 				<?php echo HTMLHelper::_('form.token'); ?>

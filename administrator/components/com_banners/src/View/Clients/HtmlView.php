@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_banners
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2008 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -21,6 +21,7 @@ use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Pagination\Pagination;
 use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
+use Joomla\Component\Banners\Administrator\Model\ClientsModel;
 
 /**
  * View class for a list of clients.
@@ -70,6 +71,14 @@ class HtmlView extends BaseHtmlView
 	protected $state;
 
 	/**
+	 * Is this view an Empty State
+	 *
+	 * @var  boolean
+	 * @since 4.0.0
+	 */
+	private $isEmptyState = false;
+
+	/**
 	 * Display the view
 	 *
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
@@ -89,6 +98,11 @@ class HtmlView extends BaseHtmlView
 		$this->state         = $model->getState();
 		$this->filterForm    = $model->getFilterForm();
 		$this->activeFilters = $model->getActiveFilters();
+
+		if (!count($this->items) && $this->isEmptyState = $this->get('IsEmptyState'))
+		{
+			$this->setLayout('emptystate');
+		}
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
@@ -122,12 +136,12 @@ class HtmlView extends BaseHtmlView
 			$toolbar->addNew('client.add');
 		}
 
-		if ($canDo->get('core.edit.state') || $canDo->get('core.admin'))
+		if (!$this->isEmptyState && ($canDo->get('core.edit.state') || $canDo->get('core.admin')))
 		{
 			$dropdown = $toolbar->dropdownButton('status-group')
 				->text('JTOOLBAR_CHANGE_STATUS')
 				->toggleSplit(false)
-				->icon('fas fa-ellipsis-h')
+				->icon('icon-ellipsis-h')
 				->buttonClass('btn btn-action')
 				->listCheck(true);
 
@@ -148,7 +162,7 @@ class HtmlView extends BaseHtmlView
 			}
 		}
 
-		if ($this->state->get('filter.state') == -2 && $canDo->get('core.delete'))
+		if (!$this->isEmptyState && $this->state->get('filter.state') == -2 && $canDo->get('core.delete'))
 		{
 			$toolbar->delete('clients.delete')
 				->text('JTOOLBAR_EMPTY_TRASH')
@@ -161,6 +175,6 @@ class HtmlView extends BaseHtmlView
 			$toolbar->preferences('com_banners');
 		}
 
-		$toolbar->help('JHELP_COMPONENTS_BANNERS_CLIENTS');
+		$toolbar->help('Banners:_Clients');
 	}
 }

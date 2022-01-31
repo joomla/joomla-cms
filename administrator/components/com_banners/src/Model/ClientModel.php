@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_banners
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2008 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -14,6 +14,7 @@ namespace Joomla\Component\Banners\Administrator\Model;
 use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\CMS\Table\Table;
+use Joomla\CMS\Versioning\VersionableModelTrait;
 
 /**
  * Client model.
@@ -22,6 +23,8 @@ use Joomla\CMS\Table\Table;
  */
 class ClientModel extends AdminModel
 {
+	use VersionableModelTrait;
+
 	/**
 	 * The type alias for this content type.
 	 *
@@ -82,7 +85,7 @@ class ClientModel extends AdminModel
 	 * @param   array    $data      Data for the form.
 	 * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
 	 *
-	 * @return  \JForm|boolean  A \JForm object on success, false on failure
+	 * @return  \Joomla\CMS\Form\Form|boolean  A Form object on success, false on failure
 	 *
 	 * @since   1.6
 	 */

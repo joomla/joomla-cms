@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_contact
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2020 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -11,34 +11,38 @@ namespace Joomla\Component\Contact\Site\Model;
 
 \defined('_JEXEC') or die;
 
+use Exception;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Helper\TagsHelper;
 use Joomla\CMS\Language\Associations;
 use Joomla\CMS\Language\Multilanguage;
+use Joomla\CMS\Table\Table;
 use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
 
 /**
  * Contact Component Contact Model
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 class FormModel extends \Joomla\Component\Contact\Administrator\Model\ContactModel
 {
 	/**
 	 * Model typeAlias string. Used for version history.
 	 *
-	 * @var  string
-	 * @since  __DEPLOY_VERSION__
+	 * @var    string
+	 *
+	 * @since  4.0.0
 	 */
 	public $typeAlias = 'com_contact.contact';
 
 	/**
 	 * Name of the form
 	 *
-	 * @var string
-	 * @since  __DEPLOY_VERSION__
+	 * @var    string
+	 *
+	 * @since  4.0.0
 	 */
 	protected $formName = 'form';
 
@@ -48,9 +52,9 @@ class FormModel extends \Joomla\Component\Contact\Administrator\Model\ContactMod
 	 * @param   array    $data      Data for the form.
 	 * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
 	 *
-	 * @return  \JForm|boolean  A \JForm object on success, false on failure
+	 * @return  Form|boolean  A Form object on success, false on failure
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function getForm($data = array(), $loadData = true)
 	{
@@ -81,7 +85,7 @@ class FormModel extends \Joomla\Component\Contact\Administrator\Model\ContactMod
 	 *
 	 * @throws  Exception
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function getItem($itemId = null)
 	{
@@ -106,7 +110,7 @@ class FormModel extends \Joomla\Component\Contact\Administrator\Model\ContactMod
 		}
 
 		$properties = $table->getProperties();
-		$value      = ArrayHelper::toObject($properties, 'JObject');
+		$value      = ArrayHelper::toObject($properties, \Joomla\CMS\Object\CMSObject::class);
 
 		// Convert field to Registry.
 		$value->params = new Registry($value->params);
@@ -130,7 +134,7 @@ class FormModel extends \Joomla\Component\Contact\Administrator\Model\ContactMod
 	 *
 	 * @return  string  The return URL.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function getReturnPage()
 	{
@@ -144,8 +148,9 @@ class FormModel extends \Joomla\Component\Contact\Administrator\Model\ContactMod
 	 *
 	 * @return  boolean  True on success.
 	 *
-	 * @throws Exception
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
+	 *
+	 * @throws  Exception
 	 */
 	public function save($data)
 	{
@@ -171,9 +176,9 @@ class FormModel extends \Joomla\Component\Contact\Administrator\Model\ContactMod
 	 *
 	 * @return  void
 	 *
-	 * @throws  Exception
+	 * @since   4.0.0
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @throws  Exception
 	 */
 	protected function populateState()
 	{
@@ -204,7 +209,7 @@ class FormModel extends \Joomla\Component\Contact\Administrator\Model\ContactMod
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	protected function preprocessForm(Form $form, $data, $group = 'contact')
 	{
@@ -214,7 +219,7 @@ class FormModel extends \Joomla\Component\Contact\Administrator\Model\ContactMod
 			$form->setFieldAttribute('language', 'default', '*');
 		}
 
-		return parent::preprocessForm($form, $data, $group);
+		parent::preprocessForm($form, $data, $group);
 	}
 
 	/**
@@ -224,10 +229,11 @@ class FormModel extends \Joomla\Component\Contact\Administrator\Model\ContactMod
 	 * @param   string  $prefix   The class prefix. Optional.
 	 * @param   array   $options  Configuration array for model. Optional.
 	 *
-	 * @return  Table  A Table object
+	 * @return  bool|Table  A Table object
 	 *
-	 * @since   __DEPLOY_VERSION__
-	 * @throws  \Exception
+	 * @since   4.0.0
+
+	 * @throws  Exception
 	 */
 	public function getTable($name = 'Contact', $prefix = 'Administrator', $options = array())
 	{

@@ -3,7 +3,7 @@
 	<name>plg_content_pagenavigation</name>
 	<author>Joomla! Project</author>
 	<creationDate>January 2006</creationDate>
-	<copyright>Copyright (C) 2005 - 2019 Open Source Matters. All rights reserved.</copyright>
+	<copyright>(C) 2006 Open Source Matters, Inc.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
@@ -14,8 +14,8 @@
 		<folder>tmpl</folder>
 	</files>
 	<languages>
-		<language tag="en-GB">en-GB.plg_content_pagenavigation.ini</language>
-		<language tag="en-GB">en-GB.plg_content_pagenavigation.sys.ini</language>
+		<language tag="en-GB">language/en-GB/plg_content_pagenavigation.ini</language>
+		<language tag="en-GB">language/en-GB/plg_content_pagenavigation.sys.ini</language>
 	</languages>
 	<config>
 		<fields name="params">

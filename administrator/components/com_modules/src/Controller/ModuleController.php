@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_modules
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2009 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -19,6 +19,7 @@ use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Joomla\CMS\Response\JsonResponse;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Session\Session;
+use Joomla\CMS\Uri\Uri;
 use Joomla\Database\ParameterType;
 
 /**
@@ -85,7 +86,15 @@ class ModuleController extends FormController
 
 		if ($return = $this->input->get('return', '', 'BASE64'))
 		{
-			$this->app->redirect(base64_decode($return));
+			$return = base64_decode($return);
+
+			// Don't redirect to an external URL.
+			if (!Uri::isInternal($return))
+			{
+				$return = Uri::base();
+			}
+
+			$this->app->redirect($return);
 		}
 
 		return $result;
@@ -268,6 +277,17 @@ class ModuleController extends FormController
 
 		$clientId = $this->input->getValue('client_id');
 		$position = $this->input->getValue('position');
+		$moduleId = $this->input->getValue('module_id');
+
+		// Access check.
+		if (!$this->app->getIdentity()->authorise('core.create', 'com_modules')
+			&& !$this->app->getIdentity()->authorise('core.edit.state', 'com_modules')
+			&& ($moduleId && !$this->app->getIdentity()->authorise('core.edit.state', 'com_modules.module.' . $moduleId)))
+		{
+			$app->enqueueMessage(Text::_('JLIB_APPLICATION_ERROR_ACCESS_FORBIDDEN'), 'error');
+			echo new JsonResponse;
+			$app->close();
+		}
 
 		$db    = Factory::getDbo();
 		$clientId = (int) $clientId;

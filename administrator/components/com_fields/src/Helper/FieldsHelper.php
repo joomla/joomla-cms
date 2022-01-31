@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_fields
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2018 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -87,16 +87,20 @@ class FieldsHelper
 	 * The values of the fields can be overridden by an associative array where the keys
 	 * have to be a name and its corresponding value.
 	 *
-	 * @param   string     $context           The context of the content passed to the helper
-	 * @param   \stdClass  $item              item
-	 * @param   int|bool   $prepareValue      (if int is display event): 1 - AfterTitle, 2 - BeforeDisplay, 3 - AfterDisplay, 0 - OFF
-	 * @param   array      $valuesToOverride  The values to override
+	 * @param   string      $context              The context of the content passed to the helper
+	 * @param   null        $item                 The item being edited in the form
+	 * @param   int|bool    $prepareValue         (if int is display event): 1 - AfterTitle, 2 - BeforeDisplay, 3 - AfterDisplay, 0 - OFF
+	 * @param   array|null  $valuesToOverride     The values to override
+	 * @param   bool        $includeSubformFields Should I include fields marked as Only Use In Subform?
 	 *
 	 * @return  array
 	 *
+	 * @throws \Exception
 	 * @since   3.7.0
 	 */
-	public static function getFields($context, $item = null, $prepareValue = false, array $valuesToOverride = null)
+	public static function getFields(
+		$context, $item = null, $prepareValue = false, array $valuesToOverride = null, bool $includeSubformFields = false
+	)
 	{
 		if (self::$fieldsCache === null)
 		{
@@ -106,6 +110,15 @@ class FieldsHelper
 
 			self::$fieldsCache->setState('filter.state', 1);
 			self::$fieldsCache->setState('list.limit', 0);
+		}
+
+		if ($includeSubformFields)
+		{
+			self::$fieldsCache->setState('filter.only_use_in_subform', '');
+		}
+		else
+		{
+			self::$fieldsCache->setState('filter.only_use_in_subform', 0);
 		}
 
 		if (is_array($item))
@@ -316,17 +329,15 @@ class FieldsHelper
 		{
 			$assignedCatids = $formField->getAttribute('default', null);
 
-			// Choose the first category available
-			$xml = new \DOMDocument;
-			libxml_use_internal_errors(true);
-			$xml->loadHTML($formField->__get('input'));
-			libxml_clear_errors();
-			libxml_use_internal_errors(false);
-			$options = $xml->getElementsByTagName('option');
-
-			if (!$assignedCatids && $firstChoice = $options->item(0))
+			if (!$assignedCatids)
 			{
-				$assignedCatids = $firstChoice->getAttribute('value');
+				// Choose the first category available
+				$catOptions = $formField->options;
+
+				if ($catOptions && !empty($catOptions[0]->value))
+				{
+					$assignedCatids = (int) $catOptions[0]->value;
+				}
 			}
 
 			$data->fieldscatid = $assignedCatids;

@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2009 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -99,6 +99,12 @@ class ListField extends FormField
 
 				// Requires vote plugin
 				if (\in_array('vote', $requires) && !PluginHelper::isEnabled('content', 'vote'))
+				{
+					continue;
+				}
+
+				// Requires record hits
+				if (\in_array('hits', $requires) && !ComponentHelper::getParams('com_content')->get('record_hits', 1))
 				{
 					continue;
 				}

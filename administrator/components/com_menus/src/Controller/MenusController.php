@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_menus
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2009 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -108,38 +108,6 @@ class MenusController extends BaseController
 		}
 
 		$this->setRedirect('index.php?option=com_menus&view=menus');
-	}
-
-	/**
-	 * Rebuild the menu tree.
-	 *
-	 * @return  boolean  False on failure or error, true on success.
-	 *
-	 * @since   1.6
-	 */
-	public function rebuild()
-	{
-		$this->checkToken();
-
-		$this->setRedirect('index.php?option=com_menus&view=menus');
-
-		/** @var \Joomla\Component\Menus\Administrator\Model\ItemModel $model */
-		$model = $this->getModel('Item');
-
-		if ($model->rebuild())
-		{
-			// Reorder succeeded.
-			$this->setMessage(Text::_('JTOOLBAR_REBUILD_SUCCESS'));
-
-			return true;
-		}
-		else
-		{
-			// Rebuild failed.
-			$this->setMessage(Text::sprintf('JTOOLBAR_REBUILD_FAILED', $model->getError()), 'error');
-
-			return false;
-		}
 	}
 
 	/**

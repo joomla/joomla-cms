@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_contenthistory
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2013 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -51,7 +51,7 @@ class HistoryController extends AdminController
 	{
 		$this->checkToken();
 
-		// Get items to remove from the request.
+		// Get items to toggle keep forever from the request.
 		$cid = $this->input->get('cid', array(), 'array');
 
 		if (!is_array($cid) || count($cid) < 1)
@@ -66,7 +66,7 @@ class HistoryController extends AdminController
 			// Make sure the item ids are integers
 			$cid = ArrayHelper::toInteger($cid);
 
-			// Remove the items.
+			// Toggle keep forever status of the selected items.
 			if ($model->keep($cid))
 			{
 				$this->setMessage(Text::plural('COM_CONTENTHISTORY_N_ITEMS_KEEP_TOGGLE', count($cid)));
@@ -80,8 +80,7 @@ class HistoryController extends AdminController
 		$this->setRedirect(
 			Route::_(
 				'index.php?option=com_contenthistory&view=history&layout=modal&tmpl=component&item_id='
-				. $this->input->getInt('item_id') . '&type_id=' . $this->input->getInt('type_id')
-				. '&type_alias=' . $this->input->getCmd('type_alias') . '&' . Session::getFormToken() . '=1', false
+				. $this->input->getCmd('item_id') . '&' . Session::getFormToken() . '=1', false
 			)
 		);
 	}
@@ -95,8 +94,6 @@ class HistoryController extends AdminController
 	 */
 	protected function getRedirectToListAppend()
 	{
-		return '&layout=modal&tmpl=component&item_id='
-			. $this->input->getInt('item_id') . '&type_id=' . $this->input->getInt('type_id')
-			. '&type_alias=' . $this->input->getCmd('type_alias') . '&' . Session::getFormToken() . '=1';
+		return '&layout=modal&tmpl=component&item_id=' . $this->input->get('item_id') . '&' . Session::getFormToken() . '=1';
 	}
 }

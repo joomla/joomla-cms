@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_tags
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2013 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -13,6 +13,7 @@ namespace Joomla\Component\Tags\Administrator\Controller;
 
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\AdminController;
+use Joomla\CMS\Response\JsonResponse;
 use Joomla\CMS\Router\Route;
 
 /**
@@ -68,5 +69,29 @@ class TagsController extends AdminController
 
 			return false;
 		}
+	}
+
+	/**
+	 * Method to get the JSON-encoded amount of published tags for quickicons
+	 *
+	 * @return  void
+	 *
+	 * @since   4.1.0
+	 */
+	public function getQuickiconContent()
+	{
+		$model = $this->getModel('tags');
+
+		$model->setState('filter.published', 1);
+
+		$amount = (int) $model->getTotal();
+
+		$result = [];
+
+		$result['amount'] = $amount;
+		$result['sronly'] = Text::plural('COM_TAGS_N_QUICKICON_SRONLY', $amount);
+		$result['name'] = Text::plural('COM_TAGS_N_QUICKICON', $amount);
+
+		echo new JsonResponse($result);
 	}
 }

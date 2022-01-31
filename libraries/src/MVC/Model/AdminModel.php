@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2010 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -11,6 +11,7 @@ namespace Joomla\CMS\MVC\Model;
 \defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Event\Model\BeforeBatchEvent;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\FormFactoryInterface;
 use Joomla\CMS\Language\Associations;
@@ -22,6 +23,8 @@ use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Table\Table;
+use Joomla\CMS\Table\TableInterface;
+use Joomla\CMS\Tag\TaggableTableInterface;
 use Joomla\CMS\UCM\UCMType;
 use Joomla\Database\ParameterType;
 use Joomla\Registry\Registry;
@@ -100,6 +103,14 @@ abstract class AdminModel extends FormModel
 	protected $event_change_state = null;
 
 	/**
+	 * The event to trigger before batch.
+	 *
+	 * @var    string
+	 * @since  4.0.0
+	 */
+	protected $event_before_batch = null;
+
+	/**
 	 * Batch copy/move command. If set to false,
 	 * the batch copy/move command is not supported
 	 *
@@ -117,8 +128,7 @@ abstract class AdminModel extends FormModel
 	protected $batch_commands = array(
 		'assetgroup_id' => 'batchAccess',
 		'language_id' => 'batchLanguage',
-		'tag' => 'batchTag',
-		'workflowstage_id' => 'batchWorkflowStage',
+		'tag' => 'batchTag'
 	);
 
 	/**
@@ -243,6 +253,15 @@ abstract class AdminModel extends FormModel
 		elseif (empty($this->event_change_state))
 		{
 			$this->event_change_state = 'onContentChangeState';
+		}
+
+		if (isset($config['event_before_batch']))
+		{
+			$this->event_before_batch = $config['event_before_batch'];
+		}
+		elseif (empty($this->event_before_batch))
+		{
+			$this->event_before_batch = 'onBeforeBatch';
 		}
 
 		$config['events_map'] = $config['events_map'] ?? array();
@@ -382,6 +401,20 @@ abstract class AdminModel extends FormModel
 				$this->table->load($pk);
 				$this->table->access = (int) $value;
 
+				$event = new BeforeBatchEvent(
+					$this->event_before_batch,
+					['src' => $this->table, 'type' => 'access']
+				);
+				$this->dispatchEvent($event);
+
+				// Check the row.
+				if (!$this->table->check())
+				{
+					$this->setError($this->table->getError());
+
+					return false;
+				}
+
 				if (!$this->table->store())
 				{
 					$this->setError($this->table->getError());
@@ -486,7 +519,13 @@ abstract class AdminModel extends FormModel
 			// New category ID
 			$this->table->catid = $categoryId;
 
-			// TODO: Deal with ordering?
+			$event = new BeforeBatchEvent(
+				$this->event_before_batch,
+				['src' => $this->table, 'type' => 'copy']
+			);
+			$this->dispatchEvent($event);
+
+			// @todo: Deal with ordering?
 			// $this->table->ordering = 1;
 
 			// Check the row.
@@ -510,15 +549,30 @@ abstract class AdminModel extends FormModel
 
 			if (!empty($oldAssetId))
 			{
+				$dbType = strtolower($db->getServerType());
+
 				// Copy rules
 				$query = $db->getQuery(true);
 				$query->clear()
-					->update($db->quoteName('#__assets', 't'))
-					->join('INNER', $db->quoteName('#__assets', 's') .
-						' ON ' . $db->quoteName('s.id') . ' = ' . $oldAssetId
-					)
-					->set($db->quoteName('t.rules') . ' = ' . $db->quoteName('s.rules'))
-					->where($db->quoteName('t.id') . ' = ' . $this->table->asset_id);
+					->update($db->quoteName('#__assets', 't'));
+
+				if ($dbType === 'mysql')
+				{
+					$query->set($db->quoteName('t.rules') . ' = ' . $db->quoteName('s.rules'));
+				}
+				else
+				{
+					$query->set($db->quoteName('rules') . ' = ' . $db->quoteName('s.rules'));
+				}
+
+				$query->join(
+					'INNER',
+					$db->quoteName('#__assets', 's'),
+					$db->quoteName('s.id') . ' = :oldassetid'
+				)
+					->where($db->quoteName('t.id') . ' = :assetid')
+					->bind(':oldassetid', $oldAssetId, ParameterType::INTEGER)
+					->bind(':assetid', $this->table->asset_id, ParameterType::INTEGER);
 
 				$db->setQuery($query)->execute();
 			}
@@ -536,17 +590,17 @@ abstract class AdminModel extends FormModel
 	}
 
 	/**
-	 * Function that can be overriden to do any data cleanup after batch copying data
+	 * Function that can be overridden to do any data cleanup after batch copying data
 	 *
-	 * @param   \JTableInterface  $table  The table object containing the newly created item
-	 * @param   integer           $newId  The id of the new item
-	 * @param   integer           $oldId  The original item id
+	 * @param   TableInterface  $table  The table object containing the newly created item
+	 * @param   integer         $newId  The id of the new item
+	 * @param   integer         $oldId  The original item id
 	 *
 	 * @return  void
 	 *
 	 * @since  3.8.12
 	 */
-	protected function cleanupPostBatchCopy(\JTableInterface $table, $newId, $oldId)
+	protected function cleanupPostBatchCopy(TableInterface $table, $newId, $oldId)
 	{
 	}
 
@@ -573,6 +627,20 @@ abstract class AdminModel extends FormModel
 				$this->table->reset();
 				$this->table->load($pk);
 				$this->table->language = $value;
+
+				$event = new BeforeBatchEvent(
+					$this->event_before_batch,
+					['src' => $this->table, 'type' => 'language']
+				);
+				$this->dispatchEvent($event);
+
+				// Check the row.
+				if (!$this->table->check())
+				{
+					$this->setError($this->table->getError());
+
+					return false;
+				}
 
 				if (!$this->table->store())
 				{
@@ -648,6 +716,12 @@ abstract class AdminModel extends FormModel
 
 			// Set the new category ID
 			$this->table->catid = $categoryId;
+
+			$event = new BeforeBatchEvent(
+				$this->event_before_batch,
+				['src' => $this->table, 'type' => 'move']
+			);
+			$this->dispatchEvent($event);
 
 			// Check the row.
 			if (!$this->table->check())
@@ -955,15 +1029,15 @@ abstract class AdminModel extends FormModel
 	/**
 	 * Method to change the title & alias.
 	 *
-	 * @param   integer  $category_id  The id of the category.
-	 * @param   string   $alias        The alias.
-	 * @param   string   $title        The title.
+	 * @param   integer  $categoryId  The id of the category.
+	 * @param   string   $alias       The alias.
+	 * @param   string   $title       The title.
 	 *
 	 * @return	array  Contains the modified title and alias.
 	 *
 	 * @since	1.7
 	 */
-	protected function generateNewTitle($category_id, $alias, $title)
+	protected function generateNewTitle($categoryId, $alias, $title)
 	{
 		// Alter the title & alias
 		$table      = $this->getTable();
@@ -971,7 +1045,7 @@ abstract class AdminModel extends FormModel
 		$catidField = $table->getColumnAlias('catid');
 		$titleField = $table->getColumnAlias('title');
 
-		while ($table->load(array($aliasField => $alias, $catidField => $category_id)))
+		while ($table->load(array($aliasField => $alias, $catidField => $categoryId)))
 		{
 			if ($title === $table->$titleField)
 			{
@@ -1004,9 +1078,17 @@ abstract class AdminModel extends FormModel
 			$return = $table->load($pk);
 
 			// Check for a table object error.
-			if ($return === false && $table->getError())
+			if ($return === false)
 			{
-				$this->setError($table->getError());
+				// If there was no underlying error, then the false means there simply was not a row in the db for this $pk.
+				if (!$table->getError())
+				{
+					$this->setError(Text::_('JLIB_APPLICATION_ERROR_NOT_EXIST'));
+				}
+				else
+				{
+					$this->setError($table->getError());
+				}
 
 				return false;
 			}
@@ -1028,7 +1110,7 @@ abstract class AdminModel extends FormModel
 	/**
 	 * A protected method to get a set of ordering conditions.
 	 *
-	 * @param   Table  $table  A \JTable object.
+	 * @param   Table  $table  A Table object.
 	 *
 	 * @return  array  An array of conditions to add to ordering queries.
 	 *
@@ -1063,7 +1145,7 @@ abstract class AdminModel extends FormModel
 	/**
 	 * Prepare and sanitise the table data prior to saving.
 	 *
-	 * @param   Table  $table  A reference to a \JTable object.
+	 * @param   Table  $table  A reference to a Table object.
 	 *
 	 * @return  void
 	 *
@@ -1132,8 +1214,6 @@ abstract class AdminModel extends FormModel
 				if (property_exists($table, $publishedColumnName) && $table->get($publishedColumnName, $value) == $value)
 				{
 					unset($pks[$i]);
-
-					continue;
 				}
 			}
 		}
@@ -1270,7 +1350,7 @@ abstract class AdminModel extends FormModel
 		}
 
 		$key = $table->getKeyName();
-		$pk = (!empty($data[$key])) ? $data[$key] : (int) $this->getState($this->getName() . '.id');
+		$pk = (isset($data[$key])) ? $data[$key] : (int) $this->getState($this->getName() . '.id');
 		$isNew = true;
 
 		// Include the plugins for the save events.
@@ -1447,83 +1527,7 @@ abstract class AdminModel extends FormModel
 
 		if ($app->input->get('task') == 'editAssociations')
 		{
-			$id = $data['id'];
-
-			// Deal with categories associations
-			if ($this->text_prefix === 'COM_CATEGORIES')
-			{
-				$extension       = $app->input->get('extension', 'com_content');
-				$this->typeAlias = $extension . '.category';
-				$component       = strtolower($this->text_prefix);
-				$view            = 'category';
-			}
-			else
-			{
-				$aliasArray = explode('.', $this->typeAlias);
-				$component  = $aliasArray[0];
-				$view       = $aliasArray[1];
-				$extension  = '';
-			}
-
-			// Menu item redirect needs admin client
-			$client = $component === 'com_menus' ? '&client_id=0' : '';
-
-			if ($id == 0)
-			{
-				$app->enqueueMessage(Text::_('JGLOBAL_ASSOCIATIONS_NEW_ITEM_WARNING'), 'error');
-				$app->redirect(
-					\JRoute::_('index.php?option=' . $component . '&view=' . $view . $client . '&layout=edit&id=' . $id . $extension, false)
-				);
-
-				return false;
-			}
-
-			if ($data['language'] === '*')
-			{
-				$app->enqueueMessage(Text::_('JGLOBAL_ASSOC_NOT_POSSIBLE'), 'notice');
-				$app->redirect(
-					\JRoute::_('index.php?option=' . $component . '&view=' . $view . $client . '&layout=edit&id=' . $id . $extension, false)
-				);
-
-				return false;
-			}
-
-			$languages = LanguageHelper::getContentLanguages(array(0, 1));
-			$target    = '';
-
-			/*
-			 * If the site contains only 2 languages and an association exists for the item
-			 * load directly the associated target item in the side by side view
-			 * otherwise select already the target language
-			 */
-			if (count($languages) === 2)
-			{
-				foreach ($languages as $language)
-				{
-					$lang_code[] = $language->lang_code;
-				}
-
-				$refLang    = array($data['language']);
-				$targetLang = array_diff($lang_code, $refLang);
-				$targetLang = implode(',', $targetLang);
-				$targetId   = $data['associations'][$targetLang];
-
-				if ($targetId)
-				{
-					$target = '&target=' . $targetLang . '%3A' . $targetId . '%3Aedit';
-				}
-				else
-				{
-					$target = '&target=' . $targetLang . '%3A0%3Aadd';
-				}
-			}
-
-			$app->redirect(
-				\JRoute::_(
-					'index.php?option=com_associations&view=association&layout=edit&itemtype=' . $this->typeAlias
-					. '&task=association.edit&id=' . $id . $target, false
-				)
-			);
+			return $this->redirectToAssociations($data);
 		}
 
 		return true;
@@ -1559,6 +1563,12 @@ abstract class AdminModel extends FormModel
 		foreach ($pks as $i => $pk)
 		{
 			$this->table->load((int) $pk);
+
+			// We don't want to modify tags on reorder, not removing the tagsHelper removes all associated tags
+			if ($this->table instanceof TaggableTableInterface)
+			{
+				$this->table->clearTagsHelper();
+			}
 
 			// Access checks.
 			if (!$this->canEditState($this->table))
@@ -1733,5 +1743,99 @@ abstract class AdminModel extends FormModel
 	{
 		// Save the item
 		return $this->save($data);
+	}
+
+	/**
+	 * Method to load an item in com_associations.
+	 *
+	 * @param   array  $data  The form data.
+	 *
+	 * @return  boolean  True if successful, false otherwise.
+	 *
+	 * @throws \Exception
+	 * @since   3.9.17
+	 */
+	protected function redirectToAssociations($data)
+	{
+		$app = Factory::getApplication();
+		$id  = $data['id'];
+
+		// Deal with categories associations
+		if ($this->text_prefix === 'COM_CATEGORIES')
+		{
+			$extension       = $app->input->get('extension', 'com_content');
+			$this->typeAlias = $extension . '.category';
+			$component       = strtolower($this->text_prefix);
+			$view            = 'category';
+		}
+		else
+		{
+			$aliasArray = explode('.', $this->typeAlias);
+			$component  = $aliasArray[0];
+			$view       = $aliasArray[1];
+			$extension  = '';
+		}
+
+		// Menu item redirect needs admin client
+		$client = $component === 'com_menus' ? '&client_id=0' : '';
+
+		if ($id == 0)
+		{
+			$app->enqueueMessage(Text::_('JGLOBAL_ASSOCIATIONS_NEW_ITEM_WARNING'), 'error');
+			$app->redirect(
+				Route::_('index.php?option=' . $component . '&view=' . $view . $client . '&layout=edit&id=' . $id . $extension, false)
+			);
+
+			return false;
+		}
+
+		if ($data['language'] === '*')
+		{
+			$app->enqueueMessage(Text::_('JGLOBAL_ASSOC_NOT_POSSIBLE'), 'notice');
+			$app->redirect(
+				Route::_('index.php?option=' . $component . '&view=' . $view . $client . '&layout=edit&id=' . $id . $extension, false)
+			);
+
+			return false;
+		}
+
+		$languages = LanguageHelper::getContentLanguages(array(0, 1));
+		$target    = '';
+
+		/**
+		 * If the site contains only 2 languages and an association exists for the item
+		 * load directly the associated target item in the side by side view
+		 * otherwise select already the target language
+		 */
+		if (count($languages) === 2)
+		{
+			foreach ($languages as $language)
+			{
+				$lang_code[] = $language->lang_code;
+			}
+
+			$refLang    = array($data['language']);
+			$targetLang = array_diff($lang_code, $refLang);
+			$targetLang = implode(',', $targetLang);
+			$targetId   = $data['associations'][$targetLang];
+
+			if ($targetId)
+			{
+				$target = '&target=' . $targetLang . '%3A' . $targetId . '%3Aedit';
+			}
+			else
+			{
+				$target = '&target=' . $targetLang . '%3A0%3Aadd';
+			}
+		}
+
+		$app->redirect(
+			Route::_(
+				'index.php?option=com_associations&view=association&layout=edit&itemtype=' . $this->typeAlias
+				. '&task=association.edit&id=' . $id . $target, false
+			)
+		);
+
+		return true;
 	}
 }

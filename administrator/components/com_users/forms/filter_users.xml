@@ -12,7 +12,7 @@
 		<field
 			name="state"
 			type="userstate"
-			label="COM_USERS_FILTER_STATE"
+			label="JSTATUS"
 			onchange="this.form.submit();"
 			>
 			<option value="">COM_USERS_FILTER_STATE</option>
@@ -20,7 +20,7 @@
 		<field
 			name="active"
 			type="useractive"
-			label="COM_USERS_FILTER_ACTIVE"
+			label="COM_USERS_HEADING_ACTIVATED"
 			onchange="this.form.submit();"
 			>
 			<option value="">COM_USERS_FILTER_ACTIVE</option>
@@ -28,7 +28,7 @@
 		<field
 			name="group_id"
 			type="usergrouplist"
-			label="COM_USERS_FILTER_USERGROUP"
+			label="COM_USERS_HEADING_GROUPS"
 			onchange="this.form.submit();"
 			>
 			<option value="">COM_USERS_FILTER_USERGROUP</option>
@@ -36,7 +36,7 @@
 		<field
 			name="lastvisitrange"
 			type="lastvisitdaterange"
-			label="COM_USERS_OPTION_FILTER_LAST_VISIT_DATE"
+			label="COM_USERS_HEADING_LAST_VISIT_DATE"
 			onchange="this.form.submit();"
 			>
 			<option value="">COM_USERS_OPTION_FILTER_LAST_VISIT_DATE</option>
@@ -44,7 +44,7 @@
 		<field
 			name="range"
 			type="registrationdaterange"
-			label="COM_USERS_OPTION_FILTER_DATE"
+			label="COM_USERS_HEADING_REGISTRATION_DATE"
 			onchange="this.form.submit();"
 			>
 			<option value="">COM_USERS_OPTION_FILTER_DATE</option>

@@ -3,7 +3,7 @@
  * @package     Joomla.API
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2019 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -34,6 +34,12 @@ class JsonapiView extends BaseApiView
 		'name',
 		'username',
 		'email',
+		'registerDate',
+		'lastvisitDate',
+		'lastResetTime',
+		'resetCount',
+		'sendEmail',
+		'block',
 	];
 
 	/**
@@ -49,6 +55,12 @@ class JsonapiView extends BaseApiView
 		'email',
 		'group_count',
 		'group_names',
+		'registerDate',
+		'lastvisitDate',
+		'lastResetTime',
+		'resetCount',
+		'sendEmail',
+		'block',
 	];
 
 	/**
@@ -107,7 +119,7 @@ class JsonapiView extends BaseApiView
 
 		foreach (FieldsHelper::getFields('com_users.user', $item, true) as $field)
 		{
-			$item->{$field->name} = isset($field->apivalue) ? $field->apivalue : $field->rawvalue;
+			$item->{$field->name} = $field->apivalue ?? $field->rawvalue;
 		}
 
 		return parent::prepareItem($item);

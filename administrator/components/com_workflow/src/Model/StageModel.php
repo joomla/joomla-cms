@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_workflow
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2018 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  * @since       4.0.0
  */
@@ -12,7 +12,9 @@ namespace Joomla\Component\Workflow\Administrator\Model;
 \defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
+use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Log\Log;
 use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\String\StringHelper;
 
@@ -46,15 +48,15 @@ class StageModel extends AdminModel
 	/**
 	 * Method to change the title
 	 *
-	 * @param   integer  $category_id  The id of the category.
-	 * @param   string   $alias        The alias.
-	 * @param   string   $title        The title.
+	 * @param   integer  $categoryId  The id of the category.
+	 * @param   string   $alias       The alias.
+	 * @param   string   $title       The title.
 	 *
 	 * @return	array  Contains the modified title and alias.
 	 *
 	 * @since	4.0.0
 	 */
-	protected function generateNewTitle($category_id, $alias, $title)
+	protected function generateNewTitle($categoryId, $alias, $title)
 	{
 		// Alter the title & alias
 		$table = $this->getTable();
@@ -78,14 +80,41 @@ class StageModel extends AdminModel
 	 */
 	public function save($data)
 	{
-		$context             = $this->option . '.' . $this->name;
-		$app                 = Factory::getApplication();
-		$input               = $app->input;
-		$workflowID          = $app->getUserStateFromRequest($context . '.filter.workflow_id', 'workflow_id', 0, 'int');
+		$table      = $this->getTable();
+		$context    = $this->option . '.' . $this->name;
+		$app        = Factory::getApplication();
+		$user       = $app->getIdentity();
+		$input      = $app->input;
+		$workflowID = $app->getUserStateFromRequest($context . '.filter.workflow_id', 'workflow_id', 0, 'int');
 
 		if (empty($data['workflow_id']))
 		{
 			$data['workflow_id'] = $workflowID;
+		}
+
+		$workflow = $this->getTable('Workflow');
+
+		$workflow->load($data['workflow_id']);
+
+		$parts = explode('.', $workflow->extension);
+
+		if (isset($data['rules']) && !$user->authorise('core.admin', $parts[0]))
+		{
+			unset($data['rules']);
+		}
+
+		// Make sure we use the correct extension when editing an existing workflow
+		$key = $table->getKeyName();
+		$pk  = (isset($data[$key])) ? $data[$key] : (int) $this->getState($this->getName() . '.id');
+
+		if ($pk > 0)
+		{
+			$table->load($pk);
+
+			if ((int) $table->workflow_id)
+			{
+				$data['workflow_id'] = (int) $table->workflow_id;
+			}
 		}
 
 		if ($input->get('task') == 'save2copy')
@@ -121,7 +150,7 @@ class StageModel extends AdminModel
 
 		$table->load($record->workflow_id);
 
-		if (empty($record->id) || $record->published != -2 || $table->core)
+		if (empty($record->id) || $record->published != -2)
 		{
 			return false;
 		}
@@ -165,15 +194,6 @@ class StageModel extends AdminModel
 			$record->workflow_id = $workflowID;
 		}
 
-		$table = $this->getTable('Workflow', 'Administrator');
-
-		$table->load($record->workflow_id);
-
-		if ($table->core)
-		{
-			return false;
-		}
-
 		// Check for existing workflow.
 		if (!empty($record->id))
 		{
@@ -190,9 +210,9 @@ class StageModel extends AdminModel
 	 * @param   array    $data      Data for the form.
 	 * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
 	 *
-	 * @return \JForm|boolean  A JForm object on success, false on failure
+	 * @return  Form|boolean A Form object on success, false on failure
 	 *
-	 * @since  4.0.0
+	 * @since   4.0.0
 	 */
 	public function getForm($data = array(), $loadData = true)
 	{
@@ -211,30 +231,25 @@ class StageModel extends AdminModel
 			return false;
 		}
 
-		if ($loadData)
-		{
-			$data = $this->loadFormData();
-		}
+		$id = $data['id'] ?? $form->getValue('id');
 
-		$item = $this->getItem($form->getValue('id'));
+		$item = $this->getItem($id);
 
-		// Deactivate switcher if default
-		// Use $item, otherwise we'll be locked when we get the data from the request
-		if (!empty($item->default))
-		{
-			$form->setValue('default', null, 1);
-			$form->setFieldAttribute('default', 'readonly', 'true');
-		}
+		$canEditState = $this->canEditState((object) $item);
 
 		// Modify the form based on access controls.
-		if (!$this->canEditState((object) $data))
+		if (!$canEditState || !empty($item->default))
 		{
-			// Disable fields for display.
-			$form->setFieldAttribute('published', 'disabled', 'true');
+			if (!$canEditState)
+			{
+				$form->setFieldAttribute('published', 'disabled', 'true');
+				$form->setFieldAttribute('published', 'required', 'false');
+				$form->setFieldAttribute('published', 'filter', 'unset');
+			}
 
-			// Disable fields while saving.
-			// The controller has already verified this is a record you can edit.
-			$form->setFieldAttribute('published', 'filter', 'unset');
+			$form->setFieldAttribute('default', 'disabled', 'true');
+			$form->setFieldAttribute('default', 'required', 'false');
+			$form->setFieldAttribute('default', 'filter', 'unset');
 		}
 
 		return $form;
@@ -277,14 +292,21 @@ class StageModel extends AdminModel
 	{
 		$table = $this->getTable();
 
-		if ($table->load(array('id' => $pk)))
+		if ($table->load($pk))
 		{
 			if (!$table->published)
 			{
-				$this->setError(Text::_("COM_WORKFLOW_ITEM_MUST_PUBLISHED"));
+				$this->setError(Text::_('COM_WORKFLOW_ITEM_MUST_PUBLISHED'));
 
 				return false;
 			}
+		}
+
+		if (empty($table->id) || !$this->canEditState($table))
+		{
+			Log::add(Text::_('JLIB_APPLICATION_ERROR_EDITSTATE_NOT_PERMITTED'), Log::WARNING, 'jerror');
+
+			return false;
 		}
 
 		if ($value)
@@ -297,7 +319,7 @@ class StageModel extends AdminModel
 			}
 		}
 
-		if ($table->load(array('id' => $pk)))
+		if ($table->load($pk))
 		{
 			$table->default = $value;
 			$table->store();
@@ -334,12 +356,38 @@ class StageModel extends AdminModel
 				if ($table->load($pk) && $table->default)
 				{
 					// Prune items that you can't change.
-					$app->enqueueMessage(Text::_('COM_WORKFLOW_MSG_DELETE_DEFAULT'), 'error');
+					$app->enqueueMessage(Text::_('COM_WORKFLOW_MSG_DISABLE_DEFAULT'), 'error');
+
 					unset($pks[$i]);
 				}
 			}
 		}
 
 		return parent::publish($pks, $value);
+	}
+
+	/**
+	 * Method to preprocess the form.
+	 *
+	 * @param   Form    $form  A Form object.
+	 * @param   mixed   $data  The data expected for the form.
+	 * @param   string  $group The name of the plugin group to import (defaults to "content").
+	 *
+	 * @return  void
+	 *
+	 * @since  4.0.0
+	 */
+	protected function preprocessForm(Form $form, $data, $group = 'content')
+	{
+		$extension = Factory::getApplication()->input->get('extension');
+
+		$parts = explode('.', $extension);
+
+		$extension = array_shift($parts);
+
+		// Set the access control rules field component value.
+		$form->setFieldAttribute('rules', 'component', $extension);
+
+		parent::preprocessForm($form, $data, $group);
 	}
 }

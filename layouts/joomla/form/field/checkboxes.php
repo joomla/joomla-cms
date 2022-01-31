@@ -3,11 +3,11 @@
  * @package     Joomla.Site
  * @subpackage  Layout
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2015 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('JPATH_BASE') or die;
+defined('_JEXEC') or die;
 
 extract($displayData);
 
@@ -40,6 +40,8 @@ extract($displayData);
  * @var   array    $checkedOptions  Options that will be set as checked.
  * @var   boolean  $hasValue        Has this field a value assigned?
  * @var   array    $options         Options available for this field.
+ * @var   string   $dataAttribute   Miscellaneous data attributes preprocessed for HTML output
+ * @var   array    $dataAttributes  Miscellaneous data attributes for eg, data-*.
  */
 
 /**
@@ -57,8 +59,9 @@ $alt = preg_replace('/[^a-zA-Z0-9_\-]/', '_', $name);
 
 <fieldset id="<?php echo $id; ?>" class="<?php echo trim($class . ' checkboxes'); ?>"
 	<?php echo $required ? 'required' : ''; ?>
-	<?php echo $autofocus ? 'autofocus' : ''; ?>>
-	<legend class="sr-only"><?php echo $label; ?></legend>
+	<?php echo $autofocus ? 'autofocus' : ''; ?>
+	<?php echo $dataAttribute; ?>>
+	<legend class="visually-hidden"><?php echo $label; ?></legend>
 
 	<?php foreach ($options as $i => $option) : ?>
 		<?php

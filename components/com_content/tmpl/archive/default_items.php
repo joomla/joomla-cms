@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2006 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -91,7 +91,7 @@ $params = $this->params;
 				<?php if ($params->get('show_publish_date')) : ?>
 					<dd>
 						<div class="published">
-							<span class="fas fa-calendar-alt" aria-hidden="true"></span>
+							<span class="icon-calendar-alt" aria-hidden="true"></span>
 							<time datetime="<?php echo HTMLHelper::_('date', $item->publish_up, 'c'); ?>" itemprop="datePublished">
 								<?php echo Text::sprintf('COM_CONTENT_PUBLISHED_DATE_ON', HTMLHelper::_('date', $item->publish_up, Text::_('DATE_FORMAT_LC3'))); ?>
 							</time>
@@ -103,7 +103,7 @@ $params = $this->params;
 					<?php if ($params->get('show_modify_date')) : ?>
 						<dd>
 							<div class="modified">
-								<span class="fas fa-calendar-alt" aria-hidden="true"></span>
+								<span class="icon-calendar-alt" aria-hidden="true"></span>
 								<time datetime="<?php echo HTMLHelper::_('date', $item->modified, 'c'); ?>" itemprop="dateModified">
 									<?php echo Text::sprintf('COM_CONTENT_LAST_UPDATED', HTMLHelper::_('date', $item->modified, Text::_('DATE_FORMAT_LC3'))); ?>
 								</time>
@@ -113,7 +113,7 @@ $params = $this->params;
 					<?php if ($params->get('show_create_date')) : ?>
 						<dd>
 							<div class="create">
-								<span class="fas fa-calendar-alt" aria-hidden="true"></span>
+								<span class="icon-calendar-alt" aria-hidden="true"></span>
 								<time datetime="<?php echo HTMLHelper::_('date', $item->created, 'c'); ?>" itemprop="dateCreated">
 									<?php echo Text::sprintf('COM_CONTENT_CREATED_DATE_ON', HTMLHelper::_('date', $item->created, Text::_('DATE_FORMAT_LC3'))); ?>
 								</time>
@@ -124,7 +124,7 @@ $params = $this->params;
 					<?php if ($params->get('show_hits')) : ?>
 						<dd>
 							<div class="hits">
-								<span class="fas fa-eye"></span>
+								<span class="icon-eye"></span>
 								<meta itemprop="interactionCount" content="UserPageVisits:<?php echo $item->hits; ?>">
 								<?php echo Text::sprintf('COM_CONTENT_ARTICLE_HITS', $item->hits); ?>
 							</div>
@@ -182,7 +182,7 @@ $params = $this->params;
 					<?php if ($params->get('show_publish_date')) : ?>
 						<dd>
 							<div class="published">
-								<span class="fas fa-calendar-alt" aria-hidden="true"></span>
+								<span class="icon-calendar-alt" aria-hidden="true"></span>
 								<time datetime="<?php echo HTMLHelper::_('date', $item->publish_up, 'c'); ?>" itemprop="datePublished">
 									<?php echo Text::sprintf('COM_CONTENT_PUBLISHED_DATE_ON', HTMLHelper::_('date', $item->publish_up, Text::_('DATE_FORMAT_LC3'))); ?>
 								</time>
@@ -194,7 +194,7 @@ $params = $this->params;
 				<?php if ($params->get('show_create_date')) : ?>
 					<dd>
 						<div class="create">
-							<span class="fas fa-calendar-alt" aria-hidden="true"></span>
+							<span class="icon-calendar-alt" aria-hidden="true"></span>
 							<time datetime="<?php echo HTMLHelper::_('date', $item->created, 'c'); ?>" itemprop="dateCreated">
 								<?php echo Text::sprintf('COM_CONTENT_CREATED_DATE_ON', HTMLHelper::_('date', $item->modified, Text::_('DATE_FORMAT_LC3'))); ?>
 							</time>
@@ -204,7 +204,7 @@ $params = $this->params;
 				<?php if ($params->get('show_modify_date')) : ?>
 					<dd>
 						<div class="modified">
-							<span class="fas fa-calendar-alt" aria-hidden="true"></span>
+							<span class="icon-calendar-alt" aria-hidden="true"></span>
 							<time datetime="<?php echo HTMLHelper::_('date', $item->modified, 'c'); ?>" itemprop="dateModified">
 								<?php echo Text::sprintf('COM_CONTENT_LAST_UPDATED', HTMLHelper::_('date', $item->modified, Text::_('DATE_FORMAT_LC3'))); ?>
 							</time>
@@ -214,7 +214,7 @@ $params = $this->params;
 				<?php if ($params->get('show_hits')) : ?>
 					<dd>
 						<div class="hits">
-							<span class="fas fa-eye"></span>
+							<span class="icon-eye"></span>
 							<meta content="UserPageVisits:<?php echo $item->hits; ?>" itemprop="interactionCount">
 							<?php echo Text::sprintf('COM_CONTENT_ARTICLE_HITS', $item->hits); ?>
 						</div>
@@ -230,7 +230,7 @@ $params = $this->params;
 </div>
 <div class="com-content-archive__navigation w-100">
 	<?php if ($this->params->def('show_pagination_results', 1)) : ?>
-		<p class="com-content-archive__counter counter float-right pt-3 pr-2">
+		<p class="com-content-archive__counter counter float-end pt-3 pe-2">
 			<?php echo $this->pagination->getPagesCounter(); ?>
 		</p>
 	<?php endif; ?>

@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2009 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -62,6 +62,14 @@ class Usergroup extends Table
 			return false;
 		}
 
+		// The parent_id can not be equal to the current id
+		if ($this->id === (int) $this->parent_id)
+		{
+			$this->setError(Text::_('JLIB_DATABASE_ERROR_USERGROUP_PARENT_ID_NOT_VALID'));
+
+			return false;
+		}
+
 		// Check for a duplicate parent_id, title.
 		// There is a unique index on the (parent_id, title) field in the table.
 		$db       = $this->_db;
@@ -84,6 +92,42 @@ class Usergroup extends Table
 			$this->setError(Text::_('JLIB_DATABASE_ERROR_USERGROUP_TITLE_EXISTS'));
 
 			return false;
+		}
+
+		// We do not allow to move non public to root and public to non-root
+		if (!empty($this->id))
+		{
+			$table = self::getInstance('Usergroup', 'JTable', array('dbo' => $this->getDbo()));
+
+			$table->load($this->id);
+
+			if ((!$table->parent_id && $this->parent_id) || ($table->parent_id && !$this->parent_id))
+			{
+				$this->setError(Text::_('JLIB_DATABASE_ERROR_USERGROUP_PARENT_ID_NOT_VALID'));
+
+				return false;
+			}
+		}
+		// New entry should always be greater 0
+		elseif (!$this->parent_id)
+		{
+			$this->setError(Text::_('JLIB_DATABASE_ERROR_USERGROUP_PARENT_ID_NOT_VALID'));
+
+			return false;
+		}
+
+		// The new parent_id has to be a valid group
+		if ($this->parent_id)
+		{
+			$table = self::getInstance('Usergroup', 'JTable', array('dbo' => $this->getDbo()));
+			$table->load($this->parent_id);
+
+			if ($table->id != $this->parent_id)
+			{
+				$this->setError(Text::_('JLIB_DATABASE_ERROR_USERGROUP_PARENT_ID_NOT_VALID'));
+
+				return false;
+			}
 		}
 
 		return true;
@@ -112,7 +156,7 @@ class Usergroup extends Table
 			->from($db->quoteName($this->_tbl))
 			->where($db->quoteName('parent_id') . ' = :parentid')
 			->bind(':parentid', $parentId, ParameterType::INTEGER)
-			->order($db->quoteName('parent_id'), $db->quoteName('title'));
+			->order([$db->quoteName('parent_id'), $db->quoteName('title')]);
 
 		$db->setQuery($query);
 		$children = $db->loadColumn();
@@ -242,6 +286,9 @@ class Usergroup extends Table
 			->whereIn($db->quoteName('id'), $ids);
 		$db->setQuery($query);
 		$db->execute();
+
+		// Rebuild the nested set tree.
+		$this->rebuild();
 
 		// Delete the usergroup in view levels
 		$replace = array();

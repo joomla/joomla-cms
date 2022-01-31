@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2018 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -78,6 +78,13 @@ abstract class AbstractModuleDispatcher extends Dispatcher
 			{
 				extract($displayData);
 			}
+
+			/**
+			 * Extracted variables
+			 * -----------------
+			 * @var   \stdClass  $module
+			 * @var   Registry   $params
+			 */
 
 			require ModuleHelper::getLayoutPath($module->module, $params->get('layout', 'default'));
 		};

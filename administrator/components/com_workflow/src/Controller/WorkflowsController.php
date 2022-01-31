@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_workflow
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2018 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 namespace Joomla\Component\Workflow\Administrator\Controller;
@@ -15,7 +15,6 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\AdminController;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\Router\Route;
-use Joomla\CMS\Session\Session;
 use Joomla\Input\Input;
 use Joomla\Utilities\ArrayHelper;
 
@@ -35,11 +34,19 @@ class WorkflowsController extends AdminController
 	protected $extension;
 
 	/**
+	 * The section of the current extension
+	 *
+	 * @var    string
+	 * @since  4.0.0
+	 */
+	protected $section;
+
+	/**
 	 * Constructor.
 	 *
 	 * @param   array                $config   An optional associative array of configuration settings.
 	 * @param   MVCFactoryInterface  $factory  The factory.
-	 * @param   CMSApplication       $app      The JApplication for the dispatcher
+	 * @param   CMSApplication       $app      The Application for the dispatcher
 	 * @param   Input                $input    Input
 	 *
 	 * @since   4.0.0
@@ -52,7 +59,16 @@ class WorkflowsController extends AdminController
 		// If extension is not set try to get it from input or throw an exception
 		if (empty($this->extension))
 		{
-			$this->extension = $this->input->getCmd('extension');
+			$extension = $this->input->getCmd('extension');
+
+			$parts = explode('.', $extension);
+
+			$this->extension = array_shift($parts);
+
+			if (!empty($parts))
+			{
+				$this->section = array_shift($parts);
+			}
 
 			if (empty($this->extension))
 			{
@@ -60,7 +76,7 @@ class WorkflowsController extends AdminController
 			}
 		}
 
-		$this->registerTask('unsetDefault',	'setDefault');
+		$this->registerTask('unsetDefault', 'setDefault');
 	}
 
 	/**
@@ -89,7 +105,7 @@ class WorkflowsController extends AdminController
 	public function setDefault()
 	{
 		// Check for request forgeries
-		Session::checkToken('request') or die(Text::_('JINVALID_TOKEN'));
+		$this->checkToken();
 
 		// Get items to publish from the request.
 		$cid   = $this->input->get('cid', array(), 'array');
@@ -103,7 +119,7 @@ class WorkflowsController extends AdminController
 			$this->setRedirect(
 				Route::_(
 					'index.php?option=' . $this->option . '&view=' . $this->view_list
-					. '&extension=' . $this->extension, false
+					. '&extension=' . $this->extension . ($this->section ? '.' . $this->section : ''), false
 				)
 			);
 
@@ -149,25 +165,7 @@ class WorkflowsController extends AdminController
 		$this->setRedirect(
 			Route::_(
 				'index.php?option=' . $this->option . '&view=' . $this->view_list
-				. '&extension=' . $this->extension, false
-			)
-		);
-	}
-
-	/**
-	 * Deletes and returns correctly.
-	 *
-	 * @return  void
-	 *
-	 * @since  4.0.0
-	 */
-	public function delete()
-	{
-		parent::delete();
-		$this->setRedirect(
-			Route::_(
-				'index.php?option=' . $this->option . '&view=' . $this->view_list
-				. '&extension=' . $this->extension, false
+				. '&extension=' . $this->extension . ($this->section ? '.' . $this->section : ''), false
 			)
 		);
 	}
@@ -181,6 +179,6 @@ class WorkflowsController extends AdminController
 	 */
 	protected function getRedirectToListAppend()
 	{
-		return '&extension=' . $this->extension;
+		return '&extension=' . $this->extension . ($this->section ? '.' . $this->section : '');
 	}
 }

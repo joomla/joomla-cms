@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_templates
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2013 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -17,12 +17,12 @@ use Joomla\Component\Templates\Administrator\Helper\TemplatesHelper;
 ?>
 
 <div class="clearfix">
-	<div class="float-left mr-1 text-center">
-		<?php echo HTMLHelper::_('templates.thumb', $this->template->element, $this->template->client_id); ?>
-		<?php echo HTMLHelper::_('templates.thumbModal', $this->template->element, $this->template->client_id); ?>
+	<div class="float-start me-3 text-center">
+		<?php echo HTMLHelper::_('templates.thumb', $this->template); ?>
+		<?php echo HTMLHelper::_('templates.thumbModal', $this->template); ?>
 	</div>
 	<h2><?php echo ucfirst($this->template->element); ?></h2>
 	<?php $client = ApplicationHelper::getClientInfo($this->template->client_id); ?>
 	<p><?php $this->template->xmldata = TemplatesHelper::parseXMLTemplateFile($client->path, $this->template->element); ?></p>
-	<p><?php echo Text::_($this->template->xmldata->description); ?></p>
+	<p><?php echo Text::_($this->template->xmldata->get('description')); ?></p>
 </div>

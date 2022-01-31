@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_associations
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2017 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -106,7 +106,7 @@ class AssociationsHelper extends ContentHelper
 	{
 		if (!self::hasSupport($extensionName))
 		{
-			return array();
+			return null;
 		}
 
 		// Get the extension specific helper method
@@ -176,7 +176,7 @@ class AssociationsHelper extends ContentHelper
 	 *
 	 * @param   string  $extensionName  The extension name with com_
 	 *
-	 * @return  boolean
+	 * @return  string
 	 *
 	 * @since  3.7.0
 	 */
@@ -299,7 +299,7 @@ class AssociationsHelper extends ContentHelper
 					$additional = '<strong>' . Text::sprintf('COM_MENUS_MENU_SPRINTF', $menutypeTitle) . '</strong><br>';
 				}
 
-				$labelClass  = 'badge-secondary';
+				$labelClass  = 'bg-secondary';
 				$target      = $langCode . ':' . $items[$langCode]['id'] . ':edit';
 				$allow       = $canEditReference
 								&& self::allowEdit($extensionName, $typeName, $items[$langCode]['id'])
@@ -313,7 +313,7 @@ class AssociationsHelper extends ContentHelper
 
 				$title      = Text::_('COM_ASSOCIATIONS_NO_ASSOCIATION');
 				$additional = $addLink ? Text::_('COM_ASSOCIATIONS_ADD_NEW_ASSOCIATION') : '';
-				$labelClass = 'badge-warning';
+				$labelClass = 'bg-warning text-dark';
 				$target     = $langCode . ':0:add';
 				$allow      = $canCreate;
 			}
@@ -331,7 +331,7 @@ class AssociationsHelper extends ContentHelper
 
 			$url     = Route::_('index.php?' . http_build_query($options));
 			$url     = $allow && $addLink ? $url : '';
-			$text    = strtoupper($language->sef);
+			$text    = $language->lang_code;
 
 			$tooltip = '<strong>' . htmlspecialchars($language->title, ENT_QUOTES, 'UTF-8') . '</strong><br>'
 				. htmlspecialchars($title, ENT_QUOTES, 'UTF-8') . '<br><br>' . $additional;

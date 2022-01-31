@@ -2,13 +2,13 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2010 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\HTML\Helpers;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\String\StringHelper as FrameworkStringHelper;
@@ -196,7 +196,7 @@ abstract class StringHelper
 				return substr($html, 0, $l) . '</' . $tag . '...';
 			}
 
-			// TODO: $character doesn't seem to be used...
+			// @todo: $character doesn't seem to be used...
 			$character = substr(strip_tags($html), 0, 1);
 
 			return substr($html, 0, $l) . '</' . $tag . '...';

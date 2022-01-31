@@ -2,7 +2,7 @@
 <metadata>
 	<layout title="COM_CONTENT_ARCHIVE_VIEW_DEFAULT_TITLE" option="COM_CONTENT_ARCHIVE_VIEW_DEFAULT_OPTION">
 		<help
-			key = "JHELP_MENUS_MENU_ITEM_ARTICLE_ARCHIVED"
+			key = "Menu_Item:_Article_Archived"
 		/>
 		<message>
 			<![CDATA[COM_CONTENT_ARCHIVE_VIEW_DEFAULT_DESC]]>
@@ -37,6 +37,7 @@
 				type="list"
 				label="JGLOBAL_ARTICLE_ORDER_LABEL"
 				default="alpha"
+				validate="options"
 				>
 				<option value="date">JGLOBAL_OLDEST_FIRST</option>
 				<option value="rdate">JGLOBAL_MOST_RECENT_FIRST</option>
@@ -44,8 +45,8 @@
 				<option value="ralpha">JGLOBAL_TITLE_REVERSE_ALPHABETICAL</option>
 				<option value="author">JGLOBAL_AUTHOR_ALPHABETICAL</option>
 				<option value="rauthor">JGLOBAL_AUTHOR_REVERSE_ALPHABETICAL</option>
-				<option value="hits">JGLOBAL_MOST_HITS</option>
-				<option value="rhits">JGLOBAL_LEAST_HITS</option>
+				<option value="hits" requires="hits">JGLOBAL_MOST_HITS</option>
+				<option value="rhits" requires="hits">JGLOBAL_LEAST_HITS</option>
 				<option value="order">JGLOBAL_ARTICLE_MANAGER_ORDER</option>
 				<option value="vote" requires="vote">JGLOBAL_VOTES_DESC</option>
 				<option value="rvote" requires="vote">JGLOBAL_VOTES_ASC</option>
@@ -58,6 +59,7 @@
 				type="list"
 				label="JGLOBAL_ORDERING_DATE_LABEL"
 				default="created"
+				validate="options"
 				>
 				<option value="created">JGLOBAL_Created</option>
 				<option value="modified">JGLOBAL_Modified</option>
@@ -68,7 +70,9 @@
 				name="display_num"
 				type="list"
 				label="JGLOBAL_NUMBER_ITEMS_LIST_LABEL"
-				default="5"
+				default=""
+				useglobal="true"
+				validate="options"
 				>
 				<option value="5">J5</option>
 				<option value="10">J10</option>
@@ -87,6 +91,7 @@
 				label="JGLOBAL_FILTER_FIELD_LABEL"
 				default=""
 				useglobal="true"
+				validate="options"
 				>
 				<option value="hide">JHIDE</option>
 				<option value="1">JSHOW</option>
@@ -96,6 +101,7 @@
 				name="introtext_limit"
 				type="number"
 				label="JGLOBAL_ARCHIVE_ARTICLES_FIELD_INTROTEXTLIMIT_LABEL"
+				filter="integer"
 				default="100"
 			/>
 
@@ -111,7 +117,8 @@
 				type="list"
 				label="JGLOBAL_SHOW_INTRO_LABEL"
 				useglobal="true"
-				class="custom-select-color-state"
+				class="form-select-color-state"
+				validate="options"
 				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
@@ -123,7 +130,8 @@
 				label="COM_CONTENT_FIELD_INFOBLOCK_POSITION_LABEL"
 				default=""
 				useglobal="true"
-				class="custom-select-color-state"
+				class="form-select-color-state"
+				validate="options"
 				>
 				<option value="use_article">COM_CONTENT_FIELD_VALUE_USE_ARTICLE_SETTINGS</option>
 				<option value="0">COM_CONTENT_FIELD_OPTION_ABOVE</option>
@@ -136,7 +144,8 @@
 				type="list"
 				label="COM_CONTENT_FIELD_INFOBLOCK_TITLE_LABEL"
 				useglobal="true"
-				class="custom-select-color-state"
+				class="form-select-color-state"
+				validate="options"
 				>
 				<option	value="0">JHIDE</option>
 				<option	value="1">JSHOW</option>
@@ -147,7 +156,8 @@
 				type="list"
 				label="JGLOBAL_SHOW_CATEGORY_LABEL"
 				useglobal="true"
-				class="custom-select-color-state"
+				class="form-select-color-state"
+				validate="options"
 				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
@@ -158,7 +168,8 @@
 				type="list"
 				label="JGLOBAL_LINK_CATEGORY_LABEL"
 				useglobal="true"
-				class="custom-select-color-state"
+				class="form-select-color-state"
+				validate="options"
 				>
 				<option value="0">JNO</option>
 				<option value="1">JYES</option>
@@ -169,7 +180,8 @@
 				type="list"
 				label="JGLOBAL_SHOW_PARENT_CATEGORY_LABEL"
 				useglobal="true"
-				class="custom-select-color-state"
+				class="form-select-color-state"
+				validate="options"
 				>
 				<option	value="0">JHIDE</option>
 				<option	value="1">JSHOW</option>
@@ -180,7 +192,8 @@
 				type="list"
 				label="JGLOBAL_LINK_PARENT_CATEGORY_LABEL"
 				useglobal="true"
-				class="custom-select-color-state"
+				class="form-select-color-state"
+				validate="options"
 				>
 				<option	value="0">JNO</option>
 				<option	value="1">JYES</option>
@@ -192,7 +205,8 @@
 				label="JGLOBAL_LINKED_TITLES_LABEL"
 				description="JGLOBAL_LINKED_TITLES_DESC"
 				useglobal="true"
-				class="custom-select-color-state"
+				class="form-select-color-state"
+				validate="options"
 				>
 				<option value="0">JNO</option>
 				<option value="1">JYES</option>
@@ -203,7 +217,8 @@
 				type="list"
 				label="JGLOBAL_SHOW_AUTHOR_LABEL"
 				useglobal="true"
-				class="custom-select-color-state"
+				class="form-select-color-state"
+				validate="options"
 				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
@@ -214,7 +229,8 @@
 				type="list"
 				label="JGLOBAL_LINK_AUTHOR_LABEL"
 				useglobal="true"
-				class="custom-select-color-state"
+				class="form-select-color-state"
+				validate="options"
 				>
 				<option	value="0">JNO</option>
 				<option	value="1">JYES</option>
@@ -225,7 +241,8 @@
 				type="list"
 				label="JGLOBAL_SHOW_CREATE_DATE_LABEL"
 				useglobal="true"
-				class="custom-select-color-state"
+				class="form-select-color-state"
+				validate="options"
 				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
@@ -236,7 +253,8 @@
 				type="list"
 				label="JGLOBAL_SHOW_MODIFY_DATE_LABEL"
 				useglobal="true"
-				class="custom-select-color-state"
+				class="form-select-color-state"
+				validate="options"
 				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
@@ -247,7 +265,8 @@
 				type="list"
 				label="JGLOBAL_SHOW_PUBLISH_DATE_LABEL"
 				useglobal="true"
-				class="custom-select-color-state"
+				class="form-select-color-state"
+				validate="options"
 				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
@@ -258,7 +277,8 @@
 				type="list"
 				label="JGLOBAL_SHOW_NAVIGATION_LABEL"
 				useglobal="true"
-				class="custom-select-color-state"
+				class="form-select-color-state"
+				validate="options"
 				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
@@ -269,7 +289,8 @@
 				type="list"
 				label="JGLOBAL_SHOW_HITS_LABEL"
 				useglobal="true"
-				class="custom-select-color-state"
+				class="form-select-color-state"
+				validate="options"
 				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>

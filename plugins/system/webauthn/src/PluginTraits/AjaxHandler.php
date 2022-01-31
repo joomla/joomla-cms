@@ -3,14 +3,14 @@
  * @package     Joomla.Plugin
  * @subpackage  System.Webauthn
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2020 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\Plugin\System\Webauthn\PluginTraits;
 
 // Protect from unauthorized access
-defined('_JEXEC') or die();
+\defined('_JEXEC') or die();
 
 use Exception;
 use Joomla\CMS\Application\CMSApplication;
@@ -64,7 +64,6 @@ trait AjaxHandler
 				throw new AjaxNonCmsAppException;
 			}
 
-			$input    = $app->input;
 			$akaction = $input->getCmd('akaction');
 			$token    = Joomla::getToken();
 
@@ -83,11 +82,10 @@ trait AjaxHandler
 			$eventName = 'onAjaxWebauthn' . ucfirst($akaction);
 
 			$results = $app->triggerEvent($eventName, []);
-			$result = null;
 
 			foreach ($results as $r)
 			{
-				if (is_null($r))
+				if (\is_null($r))
 				{
 					continue;
 				}
@@ -100,8 +98,6 @@ trait AjaxHandler
 		catch (AjaxNonCmsAppException $e)
 		{
 			Joomla::log('system', "This is not a CMS application", Log::NOTICE);
-
-			$result = null;
 		}
 		catch (Exception $e)
 		{
@@ -113,17 +109,10 @@ trait AjaxHandler
 			return;
 		}
 
-		if (!is_null($result))
+		if (!\is_null($result))
 		{
 			switch ($input->getCmd('encoding', 'json'))
 			{
-				default:
-				case 'json':
-					Joomla::log('system', "Callback complete, returning JSON.");
-					echo json_encode($result);
-
-					break;
-
 				case 'jsonhash':
 					Joomla::log('system', "Callback complete, returning JSON inside ### markers.");
 					echo '###' . json_encode($result) . '###';
@@ -141,7 +130,7 @@ trait AjaxHandler
 
 					if (isset($result['message']))
 					{
-						$type = isset($result['type']) ? $result['type'] : 'info';
+						$type = $result['type'] ?? 'info';
 						$app->enqueueMessage($result['message'], $type);
 
 						$modifiers = " and setting a system message of type $type";
@@ -157,6 +146,11 @@ trait AjaxHandler
 					$app->redirect($result);
 
 					return;
+
+				default:
+					Joomla::log('system', "Callback complete, returning JSON.");
+					echo json_encode($result);
+
 					break;
 			}
 

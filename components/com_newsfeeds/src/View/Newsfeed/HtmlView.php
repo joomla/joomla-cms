@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_newsfeeds
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2006 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -31,6 +31,7 @@ class HtmlView extends BaseHtmlView
 	 * The model state
 	 *
 	 * @var     object
+	 *
 	 * @since   1.6
 	 */
 	protected $state;
@@ -39,6 +40,7 @@ class HtmlView extends BaseHtmlView
 	 * The newsfeed item
 	 *
 	 * @var     object
+	 *
 	 * @since   1.6
 	 */
 	protected $item;
@@ -47,6 +49,7 @@ class HtmlView extends BaseHtmlView
 	 * UNUSED?
 	 *
 	 * @var     boolean
+	 *
 	 * @since   1.6
 	 */
 	protected $print;
@@ -54,7 +57,8 @@ class HtmlView extends BaseHtmlView
 	/**
 	 * The current user instance
 	 *
-	 * @var    \JUser|null
+	 * @var    \Joomla\CMS\User\User|null
+	 *
 	 * @since  4.0.0
 	 */
 	protected $user = null;
@@ -63,6 +67,7 @@ class HtmlView extends BaseHtmlView
 	 * The page class suffix
 	 *
 	 * @var    string
+	 *
 	 * @since  4.0.0
 	 */
 	protected $pageclass_sfx = '';
@@ -71,6 +76,7 @@ class HtmlView extends BaseHtmlView
 	 * The page parameters
 	 *
 	 * @var    \Joomla\Registry\Registry|null
+	 *
 	 * @since  4.0.0
 	 */
 	protected $params;
@@ -80,7 +86,7 @@ class HtmlView extends BaseHtmlView
 	 *
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
 	 *
-	 * @return  mixed  A string if successful, otherwise an Error object.
+	 * @return  void
 	 *
 	 * @since   1.6
 	 */
@@ -95,19 +101,6 @@ class HtmlView extends BaseHtmlView
 		// Get model data.
 		$state = $this->get('State');
 		$item  = $this->get('Item');
-
-		if ($item)
-		{
-			// Get Category Model data
-			$categoryModel = $app->bootComponent('com_newsfeeds')
-				->getMVCFactory()->createModel('Category', 'Site', ['ignore_request' => true]);
-			$categoryModel->setState('category.id', $item->catid);
-			$categoryModel->setState('list.ordering', 'a.name');
-			$categoryModel->setState('list.direction', 'asc');
-
-			// @TODO: $items is not used. Remove this line?
-			$items = $categoryModel->getItems();
-		}
 
 		// Check for errors.
 		// @TODO: Maybe this could go into ComponentHelper::raiseErrors($this->get('Errors'))
@@ -217,7 +210,7 @@ class HtmlView extends BaseHtmlView
 		}
 
 		// Escape strings for HTML output
-		$this->pageclass_sfx = htmlspecialchars($params->get('pageclass_sfx'));
+		$this->pageclass_sfx = htmlspecialchars($params->get('pageclass_sfx', ''));
 
 		$this->params = $params;
 		$this->state  = $state;
@@ -240,7 +233,7 @@ class HtmlView extends BaseHtmlView
 
 		$this->_prepareDocument();
 
-		return parent::display($tpl);
+		parent::display($tpl);
 	}
 
 	/**
@@ -253,13 +246,11 @@ class HtmlView extends BaseHtmlView
 	protected function _prepareDocument()
 	{
 		$app     = Factory::getApplication();
-		$menus   = $app->getMenu();
 		$pathway = $app->getPathway();
-		$title   = null;
 
 		// Because the application sets a default page title,
 		// we need to get it from the menu item itself
-		$menu = $menus->getActive();
+		$menu = $app->getMenu()->getActive();
 
 		if ($menu)
 		{
@@ -304,23 +295,10 @@ class HtmlView extends BaseHtmlView
 
 		if (empty($title))
 		{
-			$title = $app->get('sitename');
-		}
-		elseif ($app->get('sitename_pagetitles', 0) == 1)
-		{
-			$title = Text::sprintf('JPAGETITLE', $app->get('sitename'), $title);
-		}
-		elseif ($app->get('sitename_pagetitles', 0) == 2)
-		{
-			$title = Text::sprintf('JPAGETITLE', $title, $app->get('sitename'));
-		}
-
-		if (empty($title))
-		{
 			$title = $this->item->name;
 		}
 
-		$this->document->setTitle($title);
+		$this->setDocumentTitle($title);
 
 		if ($this->item->metadesc)
 		{
@@ -334,11 +312,6 @@ class HtmlView extends BaseHtmlView
 		if ($this->params->get('robots'))
 		{
 			$this->document->setMetaData('robots', $this->params->get('robots'));
-		}
-
-		if ($app->get('MetaTitle') == '1')
-		{
-			$this->document->setMetaData('title', $this->item->name);
 		}
 
 		if ($app->get('MetaAuthor') == '1')

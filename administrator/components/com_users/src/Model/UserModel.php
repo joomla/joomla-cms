@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2008 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -26,7 +26,6 @@ use Joomla\CMS\Table\Table;
 use Joomla\CMS\User\User;
 use Joomla\CMS\User\UserHelper;
 use Joomla\Database\ParameterType;
-use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
 
 /**
@@ -117,7 +116,7 @@ class UserModel extends AdminModel
 	 * @param   array    $data      An optional array of data for the form to interrogate.
 	 * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
 	 *
-	 * @return  mixed  A \JForm object on success, false on failure
+	 * @return  Form|bool  A Form object on success, false on failure
 	 *
 	 * @since   1.6
 	 */
@@ -131,8 +130,10 @@ class UserModel extends AdminModel
 			return false;
 		}
 
+		$user = Factory::getUser();
+
 		// If the user needs to change their password, mark the password fields as required
-		if (Factory::getUser()->requireReset)
+		if ($user->requireReset)
 		{
 			$form->setFieldAttribute('password', 'required', 'true');
 			$form->setFieldAttribute('password2', 'required', 'true');
@@ -144,12 +145,31 @@ class UserModel extends AdminModel
 			$form->setFieldAttribute('language', 'type', 'frontend_language', 'params');
 		}
 
-		$userId = $form->getValue('id');
+		$userId = (int) $form->getValue('id');
 
 		// The user should not be able to set the requireReset value on their own account
-		if ((int) $userId === (int) Factory::getUser()->id)
+		if ($userId === (int) $user->id)
 		{
 			$form->removeField('requireReset');
+		}
+
+		/**
+		 * If users without core.manage permission editing their own account, remove some fields which they should
+		 * not be allowed to change and prevent them to change user name if configured
+		 */
+		if (!$user->authorise('core.manage', 'com_users') && (int) $user->id === $userId)
+		{
+			if (!ComponentHelper::getParams('com_users')->get('change_login_name'))
+			{
+				$form->setFieldAttribute('username', 'required', 'false');
+				$form->setFieldAttribute('username', 'readonly', 'true');
+				$form->setFieldAttribute('username', 'description', 'COM_USERS_USER_FIELD_NOCHANGE_USERNAME_DESC');
+			}
+
+			$form->removeField('lastResetTime');
+			$form->removeField('resetCount');
+			$form->removeField('sendEmail');
+			$form->removeField('block');
 		}
 
 		return $form;
@@ -181,13 +201,14 @@ class UserModel extends AdminModel
 	/**
 	 * Override Joomla\CMS\MVC\Model\AdminModel::preprocessForm to ensure the correct plugin group is loaded.
 	 *
-	 * @param   \JForm  $form   A \JForm object.
+	 * @param   Form    $form   A Form object.
 	 * @param   mixed   $data   The data expected for the form.
 	 * @param   string  $group  The name of the plugin group to import (defaults to "content").
 	 *
 	 * @return  void
 	 *
 	 * @since   1.6
+	 *
 	 * @throws  \Exception if there is an error in the form event.
 	 */
 	protected function preprocessForm(Form $form, $data, $group = 'user')
@@ -258,7 +279,7 @@ class UserModel extends AdminModel
 		}
 
 		// Handle the two factor authentication setup
-		if (array_key_exists('twofactor', $data))
+		if (isset($data['twofactor']['method']))
 		{
 			$twoFactorMethod = $data['twofactor']['method'];
 
@@ -322,6 +343,12 @@ class UserModel extends AdminModel
 			$this->setError($user->getError());
 
 			return false;
+		}
+
+		// Destroy all active sessions for the user after changing the password or blocking him
+		if ($data['password2'] || $data['block'])
+		{
+			UserHelper::destroyUserSessions($user->id, true);
 		}
 
 		$this->setState('user.id', $user->id);
@@ -495,8 +522,13 @@ class UserModel extends AdminModel
 							return false;
 						}
 
+						if ($table->block)
+						{
+							UserHelper::destroyUserSessions($table->id);
+						}
+
 						// Trigger the after save event
-						Factory::getApplication()->triggerEvent($this->event_after_save, array($table->getProperties(), false, true, null));
+						Factory::getApplication()->triggerEvent($this->event_after_save, [$table->getProperties(), false, true, null]);
 					}
 					catch (\Exception $e)
 					{
@@ -593,7 +625,7 @@ class UserModel extends AdminModel
 						}
 
 						// Fire the after save event
-						Factory::getApplication()->triggerEvent($this->event_after_save, array($table->getProperties(), false, true, null));
+						Factory::getApplication()->triggerEvent($this->event_after_save, [$table->getProperties(), false, true, null]);
 					}
 					catch (\Exception $e)
 					{
@@ -684,22 +716,22 @@ class UserModel extends AdminModel
 	/**
 	 * Batch flag users as being required to reset their passwords
 	 *
-	 * @param   array   $user_ids  An array of user IDs on which to operate
-	 * @param   string  $action    The action to perform
+	 * @param   array   $userIds  An array of user IDs on which to operate
+	 * @param   string  $action   The action to perform
 	 *
 	 * @return  boolean  True on success, false on failure
 	 *
 	 * @since   3.2
 	 */
-	public function batchReset($user_ids, $action)
+	public function batchReset($userIds, $action)
 	{
-		$user_ids = ArrayHelper::toInteger($user_ids);
+		$userIds = ArrayHelper::toInteger($userIds);
 
 		// Check if I am a Super Admin
 		$iAmSuperAdmin = Factory::getUser()->authorise('core.admin');
 
 		// Non-super super user cannot work with super-admin user.
-		if (!$iAmSuperAdmin && UserHelper::checkSuperUserInUsers($user_ids))
+		if (!$iAmSuperAdmin && UserHelper::checkSuperUserInUsers($userIds))
 		{
 			$this->setError(Text::_('COM_USERS_ERROR_CANNOT_BATCH_SUPERUSER'));
 
@@ -717,9 +749,9 @@ class UserModel extends AdminModel
 		}
 
 		// Prune out the current user if they are in the supplied user ID array
-		$user_ids = array_diff($user_ids, array(Factory::getUser()->id));
+		$userIds = array_diff($userIds, array(Factory::getUser()->id));
 
-		if (empty($user_ids))
+		if (empty($userIds))
 		{
 			$this->setError(Text::_('COM_USERS_USERS_ERROR_CANNOT_REQUIRERESET_SELF'));
 
@@ -729,14 +761,14 @@ class UserModel extends AdminModel
 		// Get the DB object
 		$db = $this->getDbo();
 
-		$user_ids = ArrayHelper::toInteger($user_ids);
+		$userIds = ArrayHelper::toInteger($userIds);
 
 		$query = $db->getQuery(true);
 
 		// Update the reset flag
 		$query->update($db->quoteName('#__users'))
 			->set($db->quoteName('requireReset') . ' = :requireReset')
-			->whereIn($db->quoteName('id'), $user_ids)
+			->whereIn($db->quoteName('id'), $userIds)
 			->bind(':requireReset', $value, ParameterType::INTEGER);
 
 		$db->setQuery($query);
@@ -758,23 +790,23 @@ class UserModel extends AdminModel
 	/**
 	 * Perform batch operations
 	 *
-	 * @param   integer  $group_id  The group ID which assignments are being edited
-	 * @param   array    $user_ids  An array of user IDs on which to operate
-	 * @param   string   $action    The action to perform
+	 * @param   integer  $groupId  The group ID which assignments are being edited
+	 * @param   array    $userIds  An array of user IDs on which to operate
+	 * @param   string   $action   The action to perform
 	 *
 	 * @return  boolean  True on success, false on failure
 	 *
 	 * @since   1.6
 	 */
-	public function batchUser($group_id, $user_ids, $action)
+	public function batchUser($groupId, $userIds, $action)
 	{
-		$user_ids = ArrayHelper::toInteger($user_ids);
+		$userIds = ArrayHelper::toInteger($userIds);
 
 		// Check if I am a Super Admin
 		$iAmSuperAdmin = Factory::getUser()->authorise('core.admin');
 
 		// Non-super super user cannot work with super-admin user.
-		if (!$iAmSuperAdmin && UserHelper::checkSuperUserInUsers($user_ids))
+		if (!$iAmSuperAdmin && UserHelper::checkSuperUserInUsers($userIds))
 		{
 			$this->setError(Text::_('COM_USERS_ERROR_CANNOT_BATCH_SUPERUSER'));
 
@@ -782,7 +814,7 @@ class UserModel extends AdminModel
 		}
 
 		// Non-super admin cannot work with super-admin group.
-		if ((!$iAmSuperAdmin && Access::checkGroup($group_id, 'core.admin')) || $group_id < 1)
+		if ((!$iAmSuperAdmin && Access::checkGroup($groupId, 'core.admin')) || $groupId < 1)
 		{
 			$this->setError(Text::_('COM_USERS_ERROR_INVALID_GROUP'));
 
@@ -819,13 +851,13 @@ class UserModel extends AdminModel
 
 			// Remove users from the group
 			$query->delete($db->quoteName('#__user_usergroup_map'))
-				->whereIn($db->quoteName('user_id'), $user_ids);
+				->whereIn($db->quoteName('user_id'), $userIds);
 
 			// Only remove users from selected group
 			if ($doDelete == 'group')
 			{
 				$query->where($db->quoteName('group_id') . ' = :group_id')
-					->bind(':group_id', $group_id, ParameterType::INTEGER);
+					->bind(':group_id', $groupId, ParameterType::INTEGER);
 			}
 
 			$db->setQuery($query);
@@ -851,7 +883,7 @@ class UserModel extends AdminModel
 			$query->select($db->quoteName('user_id'))
 				->from($db->quoteName('#__user_usergroup_map'))
 				->where($db->quoteName('group_id') . ' = :group_id')
-				->bind(':group_id', $group_id, ParameterType::INTEGER);
+				->bind(':group_id', $groupId, ParameterType::INTEGER);
 			$db->setQuery($query);
 			$users = $db->loadColumn();
 
@@ -859,11 +891,11 @@ class UserModel extends AdminModel
 			$query->clear();
 			$groups = false;
 
-			foreach ($user_ids as $id)
+			foreach ($userIds as $id)
 			{
 				if (!in_array($id, $users))
 				{
-					$query->values($id . ',' . $group_id);
+					$query->values($id . ',' . $groupId);
 					$groups = true;
 				}
 			}
@@ -968,15 +1000,15 @@ class UserModel extends AdminModel
 	 * Returns the one time password (OTP) – a.k.a. two factor authentication –
 	 * configuration for a particular user.
 	 *
-	 * @param   integer  $user_id  The numeric ID of the user
+	 * @param   integer  $userId  The numeric ID of the user
 	 *
 	 * @return  \stdClass  An object holding the OTP configuration for this user
 	 *
 	 * @since   3.2
 	 */
-	public function getOtpConfig($user_id = null)
+	public function getOtpConfig($userId = null)
 	{
-		$user_id = (!empty($user_id)) ? $user_id : (int) $this->getState('user.id');
+		$userId = (!empty($userId)) ? $userId : (int) $this->getState('user.id');
 
 		// Initialise
 		$otpConfig = (object) array(
@@ -994,7 +1026,7 @@ class UserModel extends AdminModel
 			->select('*')
 			->from($db->quoteName('#__users'))
 			->where($db->quoteName('id') . ' = :id')
-			->bind(':id', $user_id, ParameterType::INTEGER);
+			->bind(':id', $userId, ParameterType::INTEGER);
 		$db->setQuery($query);
 		$item = $db->loadObject();
 
@@ -1011,22 +1043,45 @@ class UserModel extends AdminModel
 		// Get the secret key, yes the thing that is saved in the configuration file
 		$key = $this->getOtpConfigEncryptionKey();
 
+		// Cleanup old encryption methods, and convert to using openssl as the adapter to use.
 		if (strpos($config, '{') === false)
 		{
-			$openssl         = new Aes($key, 256);
-			$mcrypt          = new Aes($key, 256, 'cbc', null, 'mcrypt');
+			/**
+			 * This part of the if statement block of code has been reviewed just before 4.0.0 release and determined that it is wrong,
+			 * and has never worked.
+			 *
+			 * The aim is/was to migrate away from mcrypt encrypted data by decrypting the data and then re-encrypting
+			 * it with the openssl adapter, but there has been a bug for a long time in the constructing of the
+			 * mcrypt Aes class, where the number of parameters passed were wrong, meaning it was actually returning
+			 * an openssl adapter not an mcrypt one.
+			 *
+			 * Rather than fix this just before 4.0.0 release, we will deprecate this block and remove it in 5.0.0
+			 *
+			 * @deprecated 4.0.0 Will be removed in 5.0.0 - always use the openssl (default) adapter with the Aes class from now on.
+			 */
 
+			// We use the openssl adapter by default now.
+			$openssl = new Aes($key, 256);
+
+			/**
+			 * Deal with legacy mcrypt encrypted data
+			 * NOTE THIS NEXT LINE IS WRONG and contains wrong number of params, thus returns the openssl adapter and not the mcrypt adapter.
+			 */
+			$mcrypt = new Aes($key, 256, 'cbc', null, 'mcrypt');
+
+			// Attempt to decrypt using the mcrypt adapter, under normal circumstances this should fail (We no longer use mcrypt adapter to encrypt).
 			$decryptedConfig = $mcrypt->decryptString($config);
 
+			// If we were able to decrypt using the mcrypt adapter, { will be in the config (JSON String), so lets update to openssl adapter use.
 			if (strpos($decryptedConfig, '{') !== false)
 			{
-				// Data encrypted with mcrypt
+				// Data encrypted with mcrypt, decrypt it, and then convert to openssl.
 				$decryptedOtep = $mcrypt->decryptString($encryptedOtep);
 				$encryptedOtep = $openssl->encryptString($decryptedOtep);
 			}
 			else
 			{
-				// Config data seems to be save encrypted, this can happen with 3.6.3 and openssl, lets get the data
+				// Config data seems to be save encrypted, this can happen with 3.6.3 and openssl, lets get the data.
 				$decryptedConfig = $openssl->decryptString($config);
 			}
 
@@ -1039,7 +1094,7 @@ class UserModel extends AdminModel
 				->where($db->quoteName('id') . ' = :id')
 				->bind(':otep', $encryptedOtep)
 				->bind(':otpKey', $otpKey)
-				->bind(':id', $user_id, ParameterType::INTEGER);
+				->bind(':id', $userId, ParameterType::INTEGER);
 			$db->setQuery($query);
 			$db->execute();
 		}
@@ -1097,19 +1152,19 @@ class UserModel extends AdminModel
 	 * configuration for a particular user. The $otpConfig object is the same as
 	 * the one returned by the getOtpConfig method.
 	 *
-	 * @param   integer    $user_id    The numeric ID of the user
+	 * @param   integer    $userId     The numeric ID of the user
 	 * @param   \stdClass  $otpConfig  The OTP configuration object
 	 *
 	 * @return  boolean  True on success
 	 *
 	 * @since   3.2
 	 */
-	public function setOtpConfig($user_id, $otpConfig)
+	public function setOtpConfig($userId, $otpConfig)
 	{
-		$user_id = (!empty($user_id)) ? $user_id : (int) $this->getState('user.id');
+		$userId = (!empty($userId)) ? $userId : (int) $this->getState('user.id');
 
 		$updates = (object) array(
-			'id'     => $user_id,
+			'id'     => $userId,
 			'otpKey' => '',
 			'otep'   => ''
 		);
@@ -1150,43 +1205,43 @@ class UserModel extends AdminModel
 	 * Gets the configuration forms for all two-factor authentication methods
 	 * in an array.
 	 *
-	 * @param   integer  $user_id  The user ID to load the forms for (optional)
+	 * @param   integer  $userId  The user ID to load the forms for (optional)
 	 *
 	 * @return  array
 	 *
 	 * @since   3.2
 	 * @throws  \Exception
 	 */
-	public function getTwofactorform($user_id = null)
+	public function getTwofactorform($userId = null)
 	{
-		$user_id = (!empty($user_id)) ? $user_id : (int) $this->getState('user.id');
+		$userId = (!empty($userId)) ? $userId : (int) $this->getState('user.id');
 
-		$otpConfig = $this->getOtpConfig($user_id);
+		$otpConfig = $this->getOtpConfig($userId);
 
 		PluginHelper::importPlugin('twofactorauth');
 
-		return Factory::getApplication()->triggerEvent('onUserTwofactorShowConfiguration', array($otpConfig, $user_id));
+		return Factory::getApplication()->triggerEvent('onUserTwofactorShowConfiguration', array($otpConfig, $userId));
 	}
 
 	/**
 	 * Generates a new set of One Time Emergency Passwords (OTEPs) for a given user.
 	 *
-	 * @param   integer  $user_id  The user ID
-	 * @param   integer  $count    How many OTEPs to generate? Default: 10
+	 * @param   integer  $userId  The user ID
+	 * @param   integer  $count   How many OTEPs to generate? Default: 10
 	 *
 	 * @return  array  The generated OTEPs
 	 *
 	 * @since   3.2
 	 */
-	public function generateOteps($user_id, $count = 10)
+	public function generateOteps($userId, $count = 10)
 	{
-		$user_id = (!empty($user_id)) ? $user_id : (int) $this->getState('user.id');
+		$userId = (!empty($userId)) ? $userId : (int) $this->getState('user.id');
 
 		// Initialise
 		$oteps = array();
 
 		// Get the OTP configuration for the user
-		$otpConfig = $this->getOtpConfig($user_id);
+		$otpConfig = $this->getOtpConfig($userId);
 
 		// If two factor authentication is not enabled, abort
 		if (empty($otpConfig->method) || ($otpConfig->method == 'none'))
@@ -1216,7 +1271,7 @@ class UserModel extends AdminModel
 		$otpConfig->otep = $oteps;
 
 		// Save the now modified OTP configuration
-		$this->setOtpConfig($user_id, $otpConfig);
+		$this->setOtpConfig($userId, $otpConfig);
 
 		return $oteps;
 	}
@@ -1240,8 +1295,8 @@ class UserModel extends AdminModel
 	 *					authentication method enabled.
 	 * warn_irq_msg		The string to use for the warn_if_not_req warning
 	 *
-	 * @param   integer  $user_id    The user's numeric ID
-	 * @param   string   $secretkey  The secret key you want to check
+	 * @param   integer  $userId     The user's numeric ID
+	 * @param   string   $secretKey  The secret key you want to check
 	 * @param   array    $options    Options; see above
 	 *
 	 * @return  boolean  True if it's a valid secret key for this user.
@@ -1249,12 +1304,12 @@ class UserModel extends AdminModel
 	 * @since   3.2
 	 * @throws  \Exception
 	 */
-	public function isValidSecretKey($user_id, $secretkey, $options = array())
+	public function isValidSecretKey($userId, $secretKey, $options = array())
 	{
 		// Load the user's OTP (one time password, a.k.a. two factor auth) configuration
 		if (!array_key_exists('otp_config', $options))
 		{
-			$otpConfig = $this->getOtpConfig($user_id);
+			$otpConfig = $this->getOtpConfig($userId);
 			$options['otp_config'] = $otpConfig;
 		}
 		else
@@ -1288,7 +1343,7 @@ class UserModel extends AdminModel
 
 			// Warn the user if they are using a secret code but they have not
 			// enabled two factor auth in their account.
-			if (!empty($secretkey) && $warn)
+			if (!empty($secretKey) && $warn)
 			{
 				try
 				{
@@ -1307,7 +1362,7 @@ class UserModel extends AdminModel
 		}
 
 		$credentials = array(
-			'secretkey' => $secretkey,
+			'secretkey' => $secretKey,
 		);
 
 		// Try to validate the OTP
@@ -1333,7 +1388,7 @@ class UserModel extends AdminModel
 		// Fall back to one time emergency passwords
 		if (!$check)
 		{
-			$check = $this->isValidOtep($user_id, $secretkey, $otpConfig);
+			$check = $this->isValidOtep($userId, $secretKey, $otpConfig);
 		}
 
 		return $check;
@@ -1344,7 +1399,7 @@ class UserModel extends AdminModel
 	 * (OTEP) for this user. If it is it will be automatically removed from the
 	 * user's list of OTEPs.
 	 *
-	 * @param   integer  $user_id    The user ID against which you are checking
+	 * @param   integer  $userId     The user ID against which you are checking
 	 * @param   string   $otep       The string you want to test for validity
 	 * @param   object   $otpConfig  Optional; the two factor authentication configuration (automatically fetched if not set)
 	 *
@@ -1353,11 +1408,11 @@ class UserModel extends AdminModel
 	 *
 	 * @since   3.2
 	 */
-	public function isValidOtep($user_id, $otep, $otpConfig = null)
+	public function isValidOtep($userId, $otep, $otpConfig = null)
 	{
 		if (is_null($otpConfig))
 		{
-			$otpConfig = $this->getOtpConfig($user_id);
+			$otpConfig = $this->getOtpConfig($userId);
 		}
 
 		// Did the user use an OTEP instead?
@@ -1393,7 +1448,7 @@ class UserModel extends AdminModel
 			// Remove the OTEP from the array
 			$otpConfig->otep = array_diff($otpConfig->otep, array($otep));
 
-			$this->setOtpConfig($user_id, $otpConfig);
+			$this->setOtpConfig($userId, $otpConfig);
 
 			// Return true; the OTEP was a valid one
 			$check = true;

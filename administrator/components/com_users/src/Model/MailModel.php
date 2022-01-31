@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2009 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -19,6 +19,7 @@ use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\Mail\Exception\MailDisabledException;
+use Joomla\CMS\Mail\MailTemplate;
 use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\Database\ParameterType;
 use PHPMailer\PHPMailer\Exception as phpMailerException;
@@ -36,7 +37,7 @@ class MailModel extends AdminModel
 	 * @param   array    $data      An optional array of data for the form to interrogate.
 	 * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
 	 *
-	 * @return  Form	A \JForm object on success, false on failure
+	 * @return  Form	A Form object on success, false on failure
 	 *
 	 * @since   1.6
 	 */
@@ -74,7 +75,7 @@ class MailModel extends AdminModel
 	/**
 	 * Method to preprocess the form
 	 *
-	 * @param   \JForm  $form   A form object.
+	 * @param   Form    $form   A form object.
 	 * @param   mixed   $data   The data expected for the form.
 	 * @param   string  $group  The name of the plugin group to import (defaults to "content").
 	 *
@@ -97,11 +98,12 @@ class MailModel extends AdminModel
 	 */
 	public function send()
 	{
-		$app    = Factory::getApplication();
-		$data   = $app->input->post->get('jform', array(), 'array');
-		$user   = Factory::getUser();
-		$access = new Access;
-		$db     = $this->getDbo();
+		$app      = Factory::getApplication();
+		$data     = $app->input->post->get('jform', array(), 'array');
+		$user     = Factory::getUser();
+		$access   = new Access;
+		$db       = $this->getDbo();
+		$language = Factory::getLanguage();
 
 		$mode         = array_key_exists('mode', $data) ? (int) $data['mode'] : 0;
 		$subject      = array_key_exists('subject', $data) ? $data['subject'] : '';
@@ -139,7 +141,12 @@ class MailModel extends AdminModel
 			// Get all users email and group except for senders
 			$uid = (int) $user->id;
 			$query = $db->getQuery(true)
-				->select($db->quoteName('email'))
+				->select(
+					[
+						$db->quoteName('email'),
+						$db->quoteName('name'),
+					]
+				)
 				->from($db->quoteName('#__users'))
 				->where($db->quoteName('id') . ' != :id')
 				->bind(':id', $uid, ParameterType::INTEGER);
@@ -155,7 +162,7 @@ class MailModel extends AdminModel
 			}
 
 			$db->setQuery($query);
-			$rows = $db->loadColumn();
+			$rows = $db->loadObjectList();
 		}
 
 		// Check to see if there are any users in this group before we continue
@@ -176,30 +183,35 @@ class MailModel extends AdminModel
 		}
 
 		// Get the Mailer
-		$mailer = Factory::getMailer();
+		$mailer = new MailTemplate('com_users.massmail.mail', $language->getTag());
 		$params = ComponentHelper::getParams('com_users');
 
 		try
 		{
 			// Build email message format.
-			$mailer->setSender(array($app->get('mailfrom'), $app->get('fromname')));
-			$mailer->setSubject($params->get('mailSubjectPrefix') . stripslashes($subject));
-			$mailer->setBody($message_body . $params->get('mailBodySuffix'));
-			$mailer->IsHtml($mode);
+			$data = [
+				'subject' => stripslashes($subject),
+				'body' => $message_body,
+				'subjectprefix' => $params->get('mailSubjectPrefix', ''),
+				'bodysuffix' => $params->get('mailBodySuffix', '')
+			];
+			$mailer->addTemplateData($data);
+
+			$recipientType = $bcc ? 'bcc' : 'to';
 
 			// Add recipients
+			foreach ($rows as $row)
+			{
+				$mailer->addRecipient($row->email, $row->name, $recipientType);
+			}
+
 			if ($bcc)
 			{
-				$mailer->addBcc($rows);
-				$mailer->addRecipient($app->get('mailfrom'));
-			}
-			else
-			{
-				$mailer->addRecipient($rows);
+				$mailer->addRecipient($app->get('mailfrom'), $app->get('fromname'));
 			}
 
 			// Send the Mail
-			$rs = $mailer->Send();
+			$rs = $mailer->send();
 		}
 		catch (MailDisabledException | phpMailerException $exception)
 		{

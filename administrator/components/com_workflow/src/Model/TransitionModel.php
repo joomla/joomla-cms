@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_workflow
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2018 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  * @since       4.0.0
  */
@@ -12,8 +12,10 @@ namespace Joomla\Component\Workflow\Administrator\Model;
 \defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
-use Joomla\CMS\Language\Text;
+use Joomla\CMS\Form\Form;
 use Joomla\CMS\MVC\Model\AdminModel;
+use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\Registry\Registry;
 use Joomla\String\StringHelper;
 
 /**
@@ -54,11 +56,7 @@ class TransitionModel extends AdminModel
 	 */
 	protected function canDelete($record)
 	{
-		$table = $this->getTable('Workflow', 'Administrator');
-
-		$table->load($record->workflow_id);
-
-		if (empty($record->id) || $record->published != -2 || $table->core)
+		if (empty($record->id) || $record->published != -2)
 		{
 			return false;
 		}
@@ -91,15 +89,6 @@ class TransitionModel extends AdminModel
 			$record->workflow_id = $workflowID;
 		}
 
-		$table = $this->getTable('Workflow', 'Administrator');
-
-		$table->load($record->workflow_id);
-
-		if ($table->core)
-		{
-			return false;
-		}
-
 		// Check for existing workflow.
 		if (!empty($record->id))
 		{
@@ -108,6 +97,28 @@ class TransitionModel extends AdminModel
 
 		// Default to component settings if workflow isn't known.
 		return $user->authorise('core.edit.state', $extension);
+	}
+
+	/**
+	 * Method to get a single record.
+	 *
+	 * @param   integer  $pk  The id of the primary key.
+	 *
+	 * @return  \Joomla\CMS\Object\CMSObject|boolean  Object on success, false on failure.
+	 *
+	 * @since   4.0.0
+	 */
+	public function getItem($pk = null)
+	{
+		$item = parent::getItem($pk);
+
+		if (property_exists($item, 'options'))
+		{
+			$registry = new Registry($item->options);
+			$item->options = $registry->toArray();
+		}
+
+		return $item;
 	}
 
 	/**
@@ -121,51 +132,42 @@ class TransitionModel extends AdminModel
 	 */
 	public function save($data)
 	{
-		$pk         = (!empty($data['id'])) ? $data['id'] : (int) $this->getState($this->getName() . '.id');
-		$isNew      = true;
+		$table      = $this->getTable();
 		$context    = $this->option . '.' . $this->name;
 		$app		= Factory::getApplication();
+		$user       = $app->getIdentity();
 		$input		= $app->input;
-
-		if ($pk > 0)
-		{
-			$isNew = false;
-		}
-
-		if ($data['to_stage_id'] == $data['from_stage_id'])
-		{
-			$this->setError(Text::_('COM_WORKFLOW_MSG_FROM_TO_STAGE'));
-
-			return false;
-		}
-
-		$db = $this->getDbo();
-		$query = $db->getQuery(true)
-			->select($db->quoteName('id'))
-			->from($db->quoteName('#__workflow_transitions'))
-			->where($db->quoteName('from_stage_id') . ' = ' . (int) $data['from_stage_id'])
-			->where($db->quoteName('to_stage_id') . ' = ' . (int) $data['to_stage_id']);
-
-		if (!$isNew)
-		{
-			$query->where($db->quoteName('id') . ' <> ' . (int) $data['id']);
-		}
-
-		$db->setQuery($query);
-		$duplicate = $db->loadResult();
-
-		if (!empty($duplicate))
-		{
-			$this->setError(Text::_("COM_WORKFLOW_TRANSITION_DUPLICATE"));
-
-			return false;
-		}
 
 		$workflowID = $app->getUserStateFromRequest($context . '.filter.workflow_id', 'workflow_id', 0, 'int');
 
 		if (empty($data['workflow_id']))
 		{
 			$data['workflow_id'] = $workflowID;
+		}
+
+		$workflow = $this->getTable('Workflow');
+
+		$workflow->load($data['workflow_id']);
+
+		$parts = explode('.', $workflow->extension);
+
+		if (isset($data['rules']) && !$user->authorise('core.admin', $parts[0]))
+		{
+			unset($data['rules']);
+		}
+
+		// Make sure we use the correct workflow_id when editing an existing transition
+		$key = $table->getKeyName();
+		$pk  = (isset($data[$key])) ? $data[$key] : (int) $this->getState($this->getName() . '.id');
+
+		if ($pk > 0)
+		{
+			$table->load($pk);
+
+			if ((int) $table->workflow_id)
+			{
+				$data['workflow_id'] = (int) $table->workflow_id;
+			}
 		}
 
 		if ($input->get('task') == 'save2copy')
@@ -188,15 +190,15 @@ class TransitionModel extends AdminModel
 	/**
 	 * Method to change the title
 	 *
-	 * @param   integer  $category_id  The id of the category.
-	 * @param   string   $alias        The alias.
-	 * @param   string   $title        The title.
+	 * @param   integer  $categoryId  The id of the category.
+	 * @param   string   $alias       The alias.
+	 * @param   string   $title       The title.
 	 *
 	 * @return	array  Contains the modified title and alias.
 	 *
 	 * @since	4.0.0
 	 */
-	protected function generateNewTitle($category_id, $alias, $title)
+	protected function generateNewTitle($categoryId, $alias, $title)
 	{
 		// Alter the title & alias
 		$table = $this->getTable();
@@ -215,9 +217,9 @@ class TransitionModel extends AdminModel
 	 * @param   array    $data      Data for the form.
 	 * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
 	 *
-	 * @return \JForm|boolean  A JForm object on success, false on failure
+	 * @return  \Joomla\CMS\Form\Form|boolean  A Form object on success, false on failure
 	 *
-	 * @since  4.0.0
+	 * @since   4.0.0
 	 */
 	public function getForm($data = array(), $loadData = true)
 	{
@@ -236,26 +238,38 @@ class TransitionModel extends AdminModel
 			return false;
 		}
 
-		if ($loadData)
-		{
-			$data = (object) $this->loadFormData();
-		}
+		$id = $data['id'] ?? $form->getValue('id');
 
-		if (!$this->canEditState((object) $data))
+		$item = $this->getItem($id);
+
+		$canEditState = $this->canEditState((object) $item);
+
+		// Modify the form based on access controls.
+		if (!$canEditState)
 		{
-			// Disable fields for display.
 			$form->setFieldAttribute('published', 'disabled', 'true');
-
-			// Disable fields while saving.
-			// The controller has already verified this is a record you can edit.
+			$form->setFieldAttribute('published', 'required', 'false');
 			$form->setFieldAttribute('published', 'filter', 'unset');
 		}
 
-		$app = Factory::getApplication();
+		if (!empty($item->workflow_id))
+		{
+			$data['workflow_id'] = (int) $item->workflow_id;
+		}
 
-		$workflow_id = $app->input->getInt('workflow_id');
+		if (empty($data['workflow_id']))
+		{
+			$context = $this->option . '.' . $this->name;
 
-		$where = $this->getDbo()->quoteName('workflow_id') . ' = ' . $workflow_id . ' AND ' . $this->getDbo()->quoteName('published') . ' = 1';
+			$data['workflow_id'] = (int) Factory::getApplication()->getUserStateFromRequest(
+				$context . '.filter.workflow_id', 'workflow_id',
+				0,
+				'int'
+			);
+		}
+
+		$where = $this->getDbo()->quoteName('workflow_id') . ' = ' . (int) $data['workflow_id'];
+		$where .= ' AND ' . $this->getDbo()->quoteName('published') . ' = 1';
 
 		$form->setFieldAttribute('from_stage_id', 'sql_where', $where);
 		$form->setFieldAttribute('to_stage_id', 'sql_where', $where);
@@ -284,5 +298,50 @@ class TransitionModel extends AdminModel
 		}
 
 		return $data;
+	}
+
+	public function getWorkflow()
+	{
+		$app = Factory::getApplication();
+
+		$context = $this->option . '.' . $this->name;
+
+		$workflow_id = (int) $app->getUserStateFromRequest($context . '.filter.workflow_id', 'workflow_id', 0, 'int');
+
+		$workflow = $this->getTable('Workflow');
+
+		$workflow->load($workflow_id);
+
+		return (object) $workflow->getProperties();
+	}
+
+	/**
+	 * Trigger the form preparation for the workflow group
+	 *
+	 * @param   Form    $form   A Form object.
+	 * @param   mixed   $data   The data expected for the form.
+	 * @param   string  $group  The name of the plugin group to import (defaults to "content").
+	 *
+	 * @return  void
+	 *
+	 * @see     FormField
+	 * @since   4.0.0
+	 * @throws  \Exception if there is an error in the form event.
+	 */
+	protected function preprocessForm(Form $form, $data, $group = 'content')
+	{
+		$extension = Factory::getApplication()->input->get('extension');
+
+		$parts = explode('.', $extension);
+
+		$extension = array_shift($parts);
+
+		// Set the access control rules field component value.
+		$form->setFieldAttribute('rules', 'component', $extension);
+
+		// Import the appropriate plugin group.
+		PluginHelper::importPlugin('workflow');
+
+		parent::preprocessForm($form, $data, $group);
 	}
 }

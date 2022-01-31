@@ -3,13 +3,13 @@
  * @package     Joomla.Administrator
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2016 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\Component\Finder\Administrator\Field;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Field\GroupedlistField;
@@ -79,7 +79,7 @@ class ContentmapField extends GroupedlistField
 		}
 		catch (\RuntimeException $e)
 		{
-			return;
+			return [];
 		}
 
 		// Build the grouped list array.
@@ -98,7 +98,7 @@ class ContentmapField extends GroupedlistField
 				{
 					$levelPrefix = str_repeat('- ', max(0, $branch->level - 1));
 
-					if (trim($name, '**') === 'Language')
+					if (trim($name, '*') === 'Language')
 					{
 						$text = LanguageHelper::branchLanguageTitle($branch->text);
 					}

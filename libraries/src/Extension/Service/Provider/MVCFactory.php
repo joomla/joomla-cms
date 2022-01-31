@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2018 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -15,6 +15,7 @@ use Joomla\CMS\MVC\Factory\ApiMVCFactory;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\DI\Container;
 use Joomla\DI\ServiceProviderInterface;
+use Joomla\Event\DispatcherInterface;
 
 /**
  * Service provider for the service MVC factory.
@@ -69,6 +70,7 @@ class MVCFactory implements ServiceProviderInterface
 				}
 
 				$factory->setFormFactory($container->get(FormFactoryInterface::class));
+				$factory->setDispatcher($container->get(DispatcherInterface::class));
 
 				return $factory;
 			}

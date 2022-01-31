@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_contact
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2008 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -18,6 +18,7 @@ use Joomla\CMS\Language\Associations;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
+use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 
 /**
@@ -28,9 +29,9 @@ use Joomla\CMS\Toolbar\ToolbarHelper;
 class HtmlView extends BaseHtmlView
 {
 	/**
-	 * The \JForm object
+	 * The Form object
 	 *
-	 * @var  \JForm
+	 * @var  \Joomla\CMS\Form\Form
 	 */
 	protected $form;
 
@@ -44,7 +45,7 @@ class HtmlView extends BaseHtmlView
 	/**
 	 * The model state
 	 *
-	 * @var  \JObject
+	 * @var  \Joomla\CMS\Object\CMSObject
 	 */
 	protected $state;
 
@@ -53,7 +54,7 @@ class HtmlView extends BaseHtmlView
 	 *
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
 	 *
-	 * @return  mixed  A string if successful, otherwise an Error object.
+	 * @return  void
 	 */
 	public function display($tpl = null)
 	{
@@ -84,7 +85,7 @@ class HtmlView extends BaseHtmlView
 
 		$this->addToolbar();
 
-		return parent::display($tpl);
+		parent::display($tpl);
 	}
 
 	/**
@@ -101,10 +102,12 @@ class HtmlView extends BaseHtmlView
 		$user       = Factory::getUser();
 		$userId     = $user->id;
 		$isNew      = ($this->item->id == 0);
-		$checkedOut = !($this->item->checked_out == 0 || $this->item->checked_out == $userId);
+		$checkedOut = !(is_null($this->item->checked_out) || $this->item->checked_out == $userId);
 
 		// Since we don't track these assets at the item level, use the category id.
 		$canDo = ContentHelper::getActions('com_contact', 'category', $this->item->catid);
+
+		$toolbar = Toolbar::getInstance();
 
 		ToolbarHelper::title($isNew ? Text::_('COM_CONTACT_MANAGER_CONTACT_NEW') : Text::_('COM_CONTACT_MANAGER_CONTACT_EDIT'), 'address-book contact');
 
@@ -112,16 +115,24 @@ class HtmlView extends BaseHtmlView
 		if ($isNew)
 		{
 			// For new records, check the create permission.
-			if ($isNew && (count($user->getAuthorisedCategories('com_contact', 'core.create')) > 0))
+			if (count($user->getAuthorisedCategories('com_contact', 'core.create')) > 0)
 			{
 				ToolbarHelper::apply('contact.apply');
 
-				ToolbarHelper::saveGroup(
-					[
-						['save', 'contact.save'],
-						['save2new', 'contact.save2new']
-					],
-					'btn-success'
+				$saveGroup = $toolbar->dropdownButton('save-group');
+
+				$saveGroup->configure(
+					function (Toolbar $childBar) use ($user)
+					{
+						$childBar->save('contact.save');
+
+						if ($user->authorise('core.create', 'com_menus.menu'))
+						{
+							$childBar->save('contact.save2menu', 'JTOOLBAR_SAVE_TO_MENU');
+						}
+
+						$childBar->save2new('contact.save2new');
+					}
 				);
 			}
 
@@ -132,31 +143,41 @@ class HtmlView extends BaseHtmlView
 			// Since it's an existing record, check the edit permission, or fall back to edit own if the owner.
 			$itemEditable = $canDo->get('core.edit') || ($canDo->get('core.edit.own') && $this->item->created_by == $userId);
 
-			$toolbarButtons = [];
-
 			// Can't save the record if it's checked out and editable
 			if (!$checkedOut && $itemEditable)
 			{
-				ToolbarHelper::apply('contact.apply');
+				$toolbar->apply('contact.apply');
+			}
 
-				$toolbarButtons[] = ['save', 'contact.save'];
+			$saveGroup = $toolbar->dropdownButton('save-group');
 
-				// We can save this record, but check the create permission to see if we can return to make a new one.
-				if ($canDo->get('core.create'))
+			$saveGroup->configure(
+				function (Toolbar $childBar) use ($checkedOut, $itemEditable, $canDo, $user)
 				{
-					$toolbarButtons[] = ['save2new', 'contact.save2new'];
+					// Can't save the record if it's checked out and editable
+					if (!$checkedOut && $itemEditable)
+					{
+						$childBar->save('contact.save');
+
+						// We can save this record, but check the create permission to see if we can return to make a new one.
+						if ($canDo->get('core.create'))
+						{
+							$childBar->save2new('contact.save2new');
+						}
+					}
+
+					// If checked out, we can still save2menu
+					if ($user->authorise('core.create', 'com_menus.menu'))
+					{
+						$childBar->save('contact.save2menu', 'JTOOLBAR_SAVE_TO_MENU');
+					}
+
+					// If checked out, we can still save
+					if ($canDo->get('core.create'))
+					{
+						$childBar->save2copy('contact.save2copy');
+					}
 				}
-			}
-
-			// If checked out, we can still save
-			if ($canDo->get('core.create'))
-			{
-				$toolbarButtons[] = ['save2copy', 'contact.save2copy'];
-			}
-
-			ToolbarHelper::saveGroup(
-				$toolbarButtons,
-				'btn-success'
 			);
 
 			ToolbarHelper::cancel('contact.cancel', 'JTOOLBAR_CLOSE');
@@ -168,11 +189,11 @@ class HtmlView extends BaseHtmlView
 
 			if (Associations::isEnabled() && ComponentHelper::isEnabled('com_associations'))
 			{
-				ToolbarHelper::custom('contact.editAssociations', 'contract', 'contract', 'JTOOLBAR_ASSOCIATIONS', false, false);
+				ToolbarHelper::custom('contact.editAssociations', 'contract', '', 'JTOOLBAR_ASSOCIATIONS', false, false);
 			}
 		}
 
 		ToolbarHelper::divider();
-		ToolbarHelper::help('JHELP_COMPONENTS_CONTACTS_CONTACTS_EDIT');
+		ToolbarHelper::help('Contacts:_New_or_Edit');
 	}
 }

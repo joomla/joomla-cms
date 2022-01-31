@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_workflow
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2018 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  * @since       4.0.0
  */
@@ -15,8 +15,8 @@ namespace Joomla\Component\Workflow\Administrator\Model;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Log\Log;
 use Joomla\CMS\MVC\Model\AdminModel;
-use Joomla\CMS\Workflow\Workflow;
 use Joomla\String\StringHelper;
 
 /**
@@ -49,15 +49,15 @@ class WorkflowModel extends AdminModel
 	/**
 	 * Method to change the title
 	 *
-	 * @param   integer  $category_id  The id of the category.
-	 * @param   string   $alias        The alias.
-	 * @param   string   $title        The title.
+	 * @param   integer  $categoryId  The id of the category.
+	 * @param   string   $alias       The alias.
+	 * @param   string   $title       The title.
 	 *
 	 * @return	array  Contains the modified title and alias.
 	 *
 	 * @since  4.0.0
 	 */
-	protected function generateNewTitle($category_id, $alias, $title)
+	protected function generateNewTitle($categoryId, $alias, $title)
 	{
 		// Alter the title & alias
 		$table = $this->getTable();
@@ -81,12 +81,29 @@ class WorkflowModel extends AdminModel
 	 */
 	public function save($data)
 	{
+		$table             = $this->getTable();
 		$app               = Factory::getApplication();
+		$user              = $app->getIdentity();
 		$input             = $app->input;
 		$context           = $this->option . '.' . $this->name;
 		$extension         = $app->getUserStateFromRequest($context . '.filter.extension', 'extension', null, 'cmd');
 		$data['extension'] = !empty($data['extension']) ? $data['extension'] : $extension;
-		$data['asset_id']  = 0;
+
+		// Make sure we use the correct extension when editing an existing workflow
+		$key = $table->getKeyName();
+		$pk  = (isset($data[$key])) ? $data[$key] : (int) $this->getState($this->getName() . '.id');
+
+		if ($pk > 0)
+		{
+			$table->load($pk);
+
+			$data['extension'] = $table->extension;
+		}
+
+		if (isset($data['rules']) && !$user->authorise('core.admin', $data['extension']))
+		{
+			unset($data['rules']);
+		}
 
 		if ($input->get('task') == 'save2copy')
 		{
@@ -101,68 +118,26 @@ class WorkflowModel extends AdminModel
 
 			// Unpublish new copy
 			$data['published'] = 0;
+			$data['default'] = 0;
 		}
 
 		$result = parent::save($data);
 
-		// Create default stages/transitions
+		// Create default stage for new workflow
 		if ($result && $input->getCmd('task') !== 'save2copy' && $this->getState($this->getName() . '.new'))
 		{
 			$workflow_id = (int) $this->getState($this->getName() . '.id');
 
-			$stages = [
-				[
-					'title' => 'JUNPUBLISHED',
-					'condition' => Workflow::CONDITION_UNPUBLISHED,
-					'default' => 1,
-					'transition' => 'Unpublish'
-				],
-				[
-					'title' => 'JPUBLISHED',
-					'condition' => Workflow::CONDITION_PUBLISHED,
-					'transition' => 'Publish'
-				],
-				[
-					'title' => 'JTRASHED',
-					'condition' => Workflow::CONDITION_TRASHED,
-					'transition' => 'Trash'
-				],
-				[
-					'title' => 'JARCHIVED',
-					'condition' => Workflow::CONDITION_ARCHIVED,
-					'transition' => 'Archive'
-				]
-			];
-
 			$table = $this->getTable('Stage');
-			$transition = $this->getTable('Transition');
 
-			foreach ($stages as $stage)
-			{
-				$table->reset();
+			$table->id = 0;
+			$table->title = 'COM_WORKFLOW_BASIC_STAGE';
+			$table->description = '';
+			$table->workflow_id = $workflow_id;
+			$table->published = 1;
+			$table->default = 1;
 
-				$table->id = 0;
-				$table->title = $stage['title'];
-				$table->workflow_id = $workflow_id;
-				$table->condition = $stage['condition'];
-				$table->published = 1;
-				$table->default = (int) !empty($stage['default']);
-				$table->description = '';
-
-				$table->store();
-
-				$transition->reset();
-
-				$transition->id = 0;
-				$transition->title = $stage['transition'];
-				$transition->description = '';
-				$transition->workflow_id = $workflow_id;
-				$transition->published = 1;
-				$transition->from_stage_id = -1;
-				$transition->to_stage_id = (int) $table->id;
-
-				$transition->store();
-			}
+			$table->store();
 		}
 
 		return $result;
@@ -174,9 +149,9 @@ class WorkflowModel extends AdminModel
 	 * @param   array    $data      Data for the form.
 	 * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
 	 *
-	 * @return \JForm|boolean  A JForm object on success, false on failure
+	 * @return  \Joomla\CMS\Form\Form|boolean A Form object on success, false on failure
 	 *
-	 * @since  4.0.0
+	 * @since   4.0.0
 	 */
 	public function getForm($data = array(), $loadData = true)
 	{
@@ -195,29 +170,25 @@ class WorkflowModel extends AdminModel
 			return false;
 		}
 
-		if ($loadData)
-		{
-			$data = $this->loadFormData();
-		}
+		$id = $data['id'] ?? $form->getValue('id');
 
-		$item = $this->getItem($form->getValue('id'));
+		$item = $this->getItem($id);
 
-		// Deactivate switcher if default
-		// Use $item, otherwise we'll be locked when we get the data from the request
-		if (!empty($item->default))
-		{
-			$form->setFieldAttribute('default', 'readonly', 'true');
-		}
+		$canEditState = $this->canEditState((object) $item);
 
 		// Modify the form based on access controls.
-		if (!$this->canEditState((object) $data))
+		if (!$canEditState || !empty($item->default))
 		{
-			// Disable fields for display.
-			$form->setFieldAttribute('published', 'disabled', 'true');
+			if (!$canEditState)
+			{
+				$form->setFieldAttribute('published', 'disabled', 'true');
+				$form->setFieldAttribute('published', 'required', 'false');
+				$form->setFieldAttribute('published', 'filter', 'unset');
+			}
 
-			// Disable fields while saving.
-			// The controller has already verified this is a record you can edit.
-			$form->setFieldAttribute('published', 'filter', 'unset');
+			$form->setFieldAttribute('default', 'disabled', 'true');
+			$form->setFieldAttribute('default', 'required', 'false');
+			$form->setFieldAttribute('default', 'filter', 'unset');
 		}
 
 		$form->setFieldAttribute('created', 'default', Factory::getDate()->format('Y-m-d H:i:s'));
@@ -252,7 +223,7 @@ class WorkflowModel extends AdminModel
 	/**
 	 * Method to preprocess the form.
 	 *
-	 * @param   \JForm  $form   A \JForm object.
+	 * @param   Form    $form   Form object.
 	 * @param   mixed   $data   The data expected for the form.
 	 * @param   string  $group  The name of the plugin group to import (defaults to "content").
 	 *
@@ -264,9 +235,12 @@ class WorkflowModel extends AdminModel
 	{
 		$extension = Factory::getApplication()->input->get('extension');
 
+		$parts = explode('.', $extension);
+
+		$extension = array_shift($parts);
+
 		// Set the access control rules field component value.
 		$form->setFieldAttribute('rules', 'component', $extension);
-		$form->setFieldAttribute('rules', 'section', 'workflow');
 
 		parent::preprocessForm($form, $data, $group);
 	}
@@ -301,7 +275,7 @@ class WorkflowModel extends AdminModel
 	{
 		$table = $this->getTable();
 
-		if ($table->load(array('id' => $pk)))
+		if ($table->load($pk))
 		{
 			if ($table->published !== 1)
 			{
@@ -311,12 +285,24 @@ class WorkflowModel extends AdminModel
 			}
 		}
 
+		if (empty($table->id) || !$this->canEditState($table))
+		{
+			Log::add(Text::_('JLIB_APPLICATION_ERROR_EDITSTATE_NOT_PERMITTED'), Log::WARNING, 'jerror');
+
+			return false;
+		}
+
 		$date = Factory::getDate()->toSql();
 
 		if ($value)
 		{
 			// Unset other default item
-			if ($table->load(array('default' => '1')))
+			if ($table->load(
+				[
+					'default' => '1',
+					'extension' => $table->get('extension')
+				]
+			))
 			{
 				$table->default = 0;
 				$table->modified = $date;
@@ -324,7 +310,7 @@ class WorkflowModel extends AdminModel
 			}
 		}
 
-		if ($table->load(array('id' => $pk)))
+		if ($table->load($pk))
 		{
 			$table->modified = $date;
 			$table->default  = $value;
@@ -348,7 +334,7 @@ class WorkflowModel extends AdminModel
 	 */
 	protected function canDelete($record)
 	{
-		if (empty($record->id) || $record->published != -2 || $record->core)
+		if (empty($record->id) || $record->published != -2)
 		{
 			return false;
 		}
@@ -368,11 +354,6 @@ class WorkflowModel extends AdminModel
 	protected function canEditState($record)
 	{
 		$user = Factory::getUser();
-
-		if (!empty($record->core))
-		{
-			return false;
-		}
 
 		// Check for existing workflow.
 		if (!empty($record->id))

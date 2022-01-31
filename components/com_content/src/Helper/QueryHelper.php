@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2007 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -36,19 +36,19 @@ class QueryHelper
 	{
 		switch ($orderby)
 		{
-			case 'alpha' :
+			case 'alpha':
 				$orderby = 'c.path, ';
 				break;
 
-			case 'ralpha' :
+			case 'ralpha':
 				$orderby = 'c.path DESC, ';
 				break;
 
-			case 'order' :
+			case 'order':
 				$orderby = 'c.lft, ';
 				break;
 
-			default :
+			default:
 				$orderby = '';
 				break;
 		}
@@ -75,55 +75,51 @@ class QueryHelper
 
 		switch ($orderby)
 		{
-			case 'date' :
+			case 'date':
 				$orderby = $queryDate;
 				break;
 
-			case 'rdate' :
+			case 'rdate':
 				$orderby = $queryDate . ' DESC ';
 				break;
 
-			case 'alpha' :
+			case 'alpha':
 				$orderby = 'a.title';
 				break;
 
-			case 'ralpha' :
+			case 'ralpha':
 				$orderby = 'a.title DESC';
 				break;
 
-			case 'hits' :
+			case 'hits':
 				$orderby = 'a.hits DESC';
 				break;
 
-			case 'rhits' :
+			case 'rhits':
 				$orderby = 'a.hits';
 				break;
 
-			case 'order' :
-				$orderby = 'a.ordering';
-				break;
-
-			case 'rorder' :
+			case 'rorder':
 				$orderby = 'a.ordering DESC';
 				break;
 
-			case 'author' :
+			case 'author':
 				$orderby = 'author';
 				break;
 
-			case 'rauthor' :
+			case 'rauthor':
 				$orderby = 'author DESC';
 				break;
 
-			case 'front' :
+			case 'front':
 				$orderby = 'a.featured DESC, fp.ordering, ' . $queryDate . ' DESC ';
 				break;
 
-			case 'random' :
+			case 'random':
 				$orderby = $db->getQuery(true)->rand();
 				break;
 
-			case 'vote' :
+			case 'vote':
 				$orderby = 'a.id DESC ';
 
 				if (PluginHelper::isEnabled('content', 'vote'))
@@ -132,7 +128,7 @@ class QueryHelper
 				}
 				break;
 
-			case 'rvote' :
+			case 'rvote':
 				$orderby = 'a.id ASC ';
 
 				if (PluginHelper::isEnabled('content', 'vote'))
@@ -141,7 +137,7 @@ class QueryHelper
 				}
 				break;
 
-			case 'rank' :
+			case 'rank':
 				$orderby = 'a.id DESC ';
 
 				if (PluginHelper::isEnabled('content', 'vote'))
@@ -150,7 +146,7 @@ class QueryHelper
 				}
 				break;
 
-			case 'rrank' :
+			case 'rrank':
 				$orderby = 'a.id ASC ';
 
 				if (PluginHelper::isEnabled('content', 'vote'))
@@ -159,7 +155,7 @@ class QueryHelper
 				}
 				break;
 
-			default :
+			default:
 				$orderby = 'a.ordering';
 				break;
 		}
@@ -184,7 +180,7 @@ class QueryHelper
 		switch ($orderDate)
 		{
 			case 'modified' :
-				$queryDate = ' CASE WHEN a.modified = ' . $db->quote($db->getNullDate()) . ' THEN a.created ELSE a.modified END';
+				$queryDate = ' CASE WHEN a.modified IS NULL THEN a.created ELSE a.modified END';
 				break;
 
 			// Use created if publish_up is not set

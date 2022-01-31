@@ -18,6 +18,7 @@
 			name="MetaRights"
 			type="textarea"
 			label="JFIELD_META_RIGHTS_LABEL"
+			description="JFIELD_META_RIGHTS_DESC"
 			filter="string"
 			cols="60"
 			rows="2"
@@ -32,6 +33,7 @@
 			name="sef"
 			type="radio"
 			label="COM_CONFIG_FIELD_SEF_URL_LABEL"
+			description="COM_CONFIG_FIELD_SEF_URL_DESC"
 			default="1"
 			layout="joomla.form.field.radio.switcher"
 			filter="integer"
@@ -46,6 +48,7 @@
 			label="COM_CONFIG_FIELD_SITENAME_PAGETITLES_LABEL"
 			default="0"
 			filter="integer"
+			validate="options"
 			>
 			<option value="2">COM_CONFIG_FIELD_VALUE_AFTER</option>
 			<option value="1">COM_CONFIG_FIELD_VALUE_BEFORE</option>
@@ -83,8 +86,10 @@
 			name="access"
 			type="accesslevel"
 			label="COM_CONFIG_FIELD_DEFAULT_ACCESS_LEVEL_LABEL"
+			description="COM_CONFIG_FIELD_DEFAULT_ACCESS_LEVEL_DESC"
 			default="1"
-			filter="integer"
+			filter="UINT"
+			validate="options"
 		/>
 
 		<field
@@ -93,6 +98,7 @@
 			label="COM_CONFIG_FIELD_DEFAULT_LIST_LIMIT_LABEL"
 			default="20"
 			filter="integer"
+			validate="options"
 			>
 			<option value="5">J5</option>
 			<option value="10">J10</option>

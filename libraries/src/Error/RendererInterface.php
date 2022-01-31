@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2005 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -15,7 +15,7 @@ use Joomla\CMS\Document\Document;
 /**
  * Interface defining the rendering engine for the error handling layer
  *
- * @since  4.0
+ * @since  4.0.0
  */
 interface RendererInterface
 {
@@ -24,7 +24,7 @@ interface RendererInterface
 	 *
 	 * @return  Document
 	 *
-	 * @since   4.0
+	 * @since   4.0.0
 	 */
 	public function getDocument(): Document;
 
@@ -35,7 +35,7 @@ interface RendererInterface
 	 *
 	 * @return  string
 	 *
-	 * @since   4.0
+	 * @since   4.0.0
 	 */
 	public function render(\Throwable $error): string;
 }

@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Finder.Contacts
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2011 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -113,12 +113,12 @@ class PlgFinderContacts extends Adapter
 	 * @param   string  $context  The context of the action being performed.
 	 * @param   Table   $table    A Table object containing the record to be deleted
 	 *
-	 * @return  boolean  True on success.
+	 * @return  void
 	 *
 	 * @since   2.5
 	 * @throws  Exception on database error.
 	 */
-	public function onFinderAfterDelete($context, $table)
+	public function onFinderAfterDelete($context, $table): void
 	{
 		if ($context === 'com_contact.contact')
 		{
@@ -130,11 +130,11 @@ class PlgFinderContacts extends Adapter
 		}
 		else
 		{
-			return true;
+			return;
 		}
 
 		// Remove the items.
-		return $this->remove($id);
+		$this->remove($id);
 	}
 
 	/**
@@ -144,12 +144,12 @@ class PlgFinderContacts extends Adapter
 	 * @param   Table    $row      A Table object
 	 * @param   boolean  $isNew    If the content has just been created
 	 *
-	 * @return  boolean  True on success.
+	 * @return  void
 	 *
 	 * @since   2.5
 	 * @throws  Exception on database error.
 	 */
-	public function onFinderAfterSave($context, $row, $isNew)
+	public function onFinderAfterSave($context, $row, $isNew): void
 	{
 		// We only want to handle contacts here
 		if ($context === 'com_contact.contact')
@@ -174,8 +174,6 @@ class PlgFinderContacts extends Adapter
 				$this->categoryAccessChange($row);
 			}
 		}
-
-		return true;
 	}
 
 	/**
@@ -363,6 +361,13 @@ class PlgFinderContacts extends Adapter
 		// Add the category taxonomy data.
 		$categories = Categories::getInstance('com_contact', ['published' => false, 'access' => false]);
 		$category = $categories->get($item->catid);
+
+		// Category does not exist, stop here
+		if (!$category)
+		{
+			return;
+		}
+
 		$item->addNestedTaxonomy('Category', $category, $this->translateState($category->published), $category->access, $category->language);
 
 		// Add the language taxonomy data.

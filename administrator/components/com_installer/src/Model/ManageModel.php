@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_installer
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2008 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -118,7 +118,7 @@ class ManageModel extends InstallerModel
 
 		/*
 		 * Ensure eid is an array of extension ids
-		 * TODO: If it isn't an array do we want to set an error and fail?
+		 * @todo: If it isn't an array do we want to set an error and fail?
 		 */
 		if (!is_array($eid))
 		{
@@ -140,6 +140,14 @@ class ManageModel extends InstallerModel
 				if ($style->load(array('template' => $table->element, 'client_id' => $table->client_id, 'home' => 1)))
 				{
 					Factory::getApplication()->enqueueMessage(Text::_('COM_INSTALLER_ERROR_DISABLE_DEFAULT_TEMPLATE_NOT_PERMITTED'), 'notice');
+					unset($eid[$i]);
+					continue;
+				}
+
+				// Parent template cannot be disabled if there are children
+				if ($style->load(['parent' => $table->element, 'client_id' => $table->client_id]))
+				{
+					Factory::getApplication()->enqueueMessage(Text::_('COM_INSTALLER_ERROR_DISABLE_PARENT_TEMPLATE_NOT_PERMITTED'), 'notice');
 					unset($eid[$i]);
 					continue;
 				}
@@ -168,12 +176,9 @@ class ManageModel extends InstallerModel
 		}
 
 		// Clear the cached extension data and menu cache
-		$this->cleanCache('_system', 0);
-		$this->cleanCache('_system', 1);
-		$this->cleanCache('com_modules', 0);
-		$this->cleanCache('com_modules', 1);
-		$this->cleanCache('mod_menu', 0);
-		$this->cleanCache('mod_menu', 1);
+		$this->cleanCache('_system');
+		$this->cleanCache('com_modules');
+		$this->cleanCache('mod_menu');
 
 		return $result;
 	}
@@ -229,7 +234,7 @@ class ManageModel extends InstallerModel
 
 		/*
 		 * Ensure eid is an array of extension ids in the form id => client_id
-		 * TODO: If it isn't an array do we want to set an error and fail?
+		 * @todo: If it isn't an array do we want to set an error and fail?
 		 */
 		if (!is_array($eid))
 		{
@@ -253,7 +258,7 @@ class ManageModel extends InstallerModel
 			// Do not allow to uninstall locked extensions.
 			if ((int) $row->locked === 1)
 			{
-				$msgs[] = Text::_('COM_INSTALLER_UNINSTALL_ERROR_LOCKED_EXTENSION');
+				$msgs[] = Text::sprintf('COM_INSTALLER_UNINSTALL_ERROR_LOCKED_EXTENSION', $row->name, $id);
 
 				continue;
 			}
@@ -299,14 +304,10 @@ class ManageModel extends InstallerModel
 		$app->setUserState('com_installer.extension_message', $installer->get('extension_message'));
 
 		// Clear the cached extension data and menu cache
-		$this->cleanCache('_system', 0);
-		$this->cleanCache('_system', 1);
-		$this->cleanCache('com_modules', 0);
-		$this->cleanCache('com_modules', 1);
-		$this->cleanCache('com_plugins', 0);
-		$this->cleanCache('com_plugins', 1);
-		$this->cleanCache('mod_menu', 0);
-		$this->cleanCache('mod_menu', 1);
+		$this->cleanCache('_system');
+		$this->cleanCache('com_modules');
+		$this->cleanCache('com_plugins');
+		$this->cleanCache('mod_menu');
 
 		return $result;
 	}
@@ -328,11 +329,11 @@ class ManageModel extends InstallerModel
 			->where('state = 0');
 
 		// Process select filters.
-		$status   = $this->getState('filter.status');
+		$status   = $this->getState('filter.status', '');
 		$type     = $this->getState('filter.type');
-		$clientId = $this->getState('filter.client_id');
+		$clientId = $this->getState('filter.client_id', '');
 		$folder   = $this->getState('filter.folder');
-		$core     = $this->getState('filter.core');
+		$core     = $this->getState('filter.core', '');
 
 		if ($status !== '')
 		{
@@ -366,34 +367,19 @@ class ManageModel extends InstallerModel
 				->bind(':clientid', $clientId, ParameterType::INTEGER);
 		}
 
-		if ($folder !== '')
+		if ($folder)
 		{
 			$folder = $folder === '*' ? '' : $folder;
 			$query->where($db->quoteName('folder') . ' = :folder')
 				->bind(':folder', $folder);
 		}
 
-		if ($core !== '')
+		// Filter by core extensions.
+		if ($core === '1' || $core === '0')
 		{
-			$coreExtensions = ExtensionHelper::getCoreExtensions();
-			$elements       = array();
-
-			foreach ($coreExtensions as $extension)
-			{
-				$elements[] = $extension[1];
-			}
-
-			if ($elements)
-			{
-				if ($core === '1')
-				{
-					$query->whereIn($db->quoteName('element'), $elements, ParameterType::STRING);
-				}
-				elseif ($core === '0')
-				{
-					$query->whereNotIn($db->quoteName('element'), $elements, ParameterType::STRING);
-				}
-			}
+			$coreExtensionIds = ExtensionHelper::getCoreExtensionIds();
+			$method = $core === '1' ? 'whereIn' : 'whereNotIn';
+			$query->$method($db->quoteName('extension_id'), $coreExtensionIds);
 		}
 
 		// Process search filter (extension id).

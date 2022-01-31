@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2019 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -87,7 +87,7 @@ class ApiRouter extends Router
 	{
 		$method = strtoupper($method);
 
-		$validMethods = ["GET", "POST", "PUT", "DELETE", "HEAD", "OPTIONS", "TRACE", "PATCH"];
+		$validMethods = ["GET", "POST", "PUT", "DELETE", "HEAD", "TRACE", "PATCH"];
 
 		if (!\in_array($method, $validMethods))
 		{
@@ -95,38 +95,7 @@ class ApiRouter extends Router
 		}
 
 		// Get the path from the route and remove and leading or trailing slash.
-		$uri = Uri::getInstance();
-		$path = urldecode($uri->getPath());
-
-		/**
-		 * In some environments (e.g. CLI we can't form a valid base URL). In this case we catch the exception thrown
-		 * by URI and set an empty base URI for further work.
-		 * TODO: This should probably be handled better
-		 */
-		try
-		{
-			$baseUri = Uri::base(true);
-		}
-		catch (\RuntimeException $e)
-		{
-			$baseUri = '';
-		}
-
-		// Remove the base URI path.
-		$path = substr_replace($path, '', 0, \strlen($baseUri));
-
-		if (!$this->app->get('sef_rewrite'))
-		{
-			// Transform the route
-			if ($path === 'index.php')
-			{
-				$path = '';
-			}
-			else
-			{
-				$path = str_replace('index.php/', '', $path);
-			}
-		}
+		$routePath = $this->getRoutePath();
 
 		$query = Uri::getInstance()->getQuery(true);
 
@@ -135,7 +104,7 @@ class ApiRouter extends Router
 		{
 			if (\in_array($method, $route->getMethods()))
 			{
-				if (preg_match($route->getRegex(), ltrim($path, '/'), $matches))
+				if (preg_match($route->getRegex(), ltrim($routePath, '/'), $matches))
 				{
 					// If we have gotten this far then we have a positive match.
 					$vars = $route->getDefaults();
@@ -157,6 +126,91 @@ class ApiRouter extends Router
 			}
 		}
 
-		throw new RouteNotFoundException(sprintf('Unable to handle request for route `%s`.', $path));
+		throw new RouteNotFoundException(sprintf('Unable to handle request for route `%s`.', $routePath));
+	}
+
+	/**
+	 * Get the path from the route and remove and leading or trailing slash.
+	 *
+	 * @return string
+	 *
+	 * @since 4.0.0
+	 */
+	public function getRoutePath()
+	{
+		// Get the path from the route and remove and leading or trailing slash.
+		$uri  = Uri::getInstance();
+		$path = urldecode($uri->getPath());
+
+		/**
+		 * In some environments (e.g. CLI we can't form a valid base URL). In this case we catch the exception thrown
+		 * by URI and set an empty base URI for further work.
+		 * @todo: This should probably be handled better
+		 */
+		try
+		{
+			$baseUri = Uri::base(true);
+		}
+		catch (\RuntimeException $e)
+		{
+			$baseUri = '';
+		}
+
+		// Remove the base URI path.
+		$path = substr_replace($path, '', 0, \strlen($baseUri));
+
+		// Transform the route
+		$path = $this->removeIndexPhpFromPath($path);
+
+		return $path;
+	}
+
+	/**
+	 * Removes the index.php from the route's path.
+	 *
+	 * @param   string  $path  The path
+	 *
+	 * @return  string
+	 *
+	 * @since   4.0.0
+	 */
+	private function removeIndexPhpFromPath(string $path): string
+	{
+		// Normalize the path
+		$path = ltrim($path, '/');
+
+		// We can only remove index.php if it's present in the beginning of the route
+		if (strpos($path, 'index.php') !== 0)
+		{
+			return $path;
+		}
+
+		// Edge case: the route is index.php without a trailing slash. Bad idea but we can still map it to a null route.
+		if ($path === 'index.php')
+		{
+			return '';
+		}
+
+		// Remove the "index.php/" part of the route and return the result.
+		return substr($path, 10);
+	}
+
+	/**
+	 * Extract routes matching current route from all known routes.
+	 *
+	 * @return \Joomla\Router\Route[]
+	 *
+	 * @since 4.0.0
+	 */
+	public function getMatchingRoutes()
+	{
+		$routePath = $this->getRoutePath();
+
+		// Extract routes matching $routePath from all known routes.
+		return array_filter($this->routes,
+			function ($route) use ($routePath) {
+				return preg_match($route->getRegex(), ltrim($routePath, '/')) === 1;
+			}
+		);
 	}
 }

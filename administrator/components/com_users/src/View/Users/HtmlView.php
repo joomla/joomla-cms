@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2007 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -53,9 +53,10 @@ class HtmlView extends BaseHtmlView
 	protected $state;
 
 	/**
-	 * A \JForm instance with filter fields.
+	 * A Form instance with filter fields.
 	 *
-	 * @var    \JForm
+	 * @var    \Joomla\CMS\Form\Form
+	 *
 	 * @since  3.6.3
 	 */
 	public $filterForm;
@@ -138,7 +139,7 @@ class HtmlView extends BaseHtmlView
 			$dropdown = $toolbar->dropdownButton('status-group')
 				->text('JTOOLBAR_CHANGE_STATUS')
 				->toggleSplit(false)
-				->icon('fas fa-ellipsis-h')
+				->icon('icon-ellipsis-h')
 				->buttonClass('btn btn-action')
 				->listCheck(true);
 
@@ -176,6 +177,6 @@ class HtmlView extends BaseHtmlView
 			$toolbar->preferences('com_users');
 		}
 
-		$toolbar->help('JHELP_USERS_USER_MANAGER');
+		$toolbar->help('Users');
 	}
 }

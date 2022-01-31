@@ -3,11 +3,11 @@
  * @package     Joomla.Site
  * @subpackage  Layout
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2013 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('JPATH_BASE') or die;
+defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\FormHelper;
@@ -23,7 +23,7 @@ $wa = Factory::getApplication()->getDocument()->getWebAssetManager();
 		<p><?php echo $displayData->description; ?></p>
 	<?php endif; ?>
 	<?php $fieldsnames = explode(',', $displayData->fieldsname); ?>
-		<div>
+		<div class="form-grid">
 		<?php foreach ($fieldsnames as $fieldname) : ?>
 			<?php foreach ($displayData->form->getFieldset($fieldname) as $field) : ?>
 				<?php $datashowon = ''; ?>

@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  System.Debug
  *
- * @copyright   Copyright (C) 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2019 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -16,7 +16,7 @@ use Joomla\CMS\Factory;
 /**
  * Custom JavascriptRenderer for DebugBar
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 class JavascriptRenderer extends DebugBarJavascriptRenderer
 {
@@ -27,7 +27,7 @@ class JavascriptRenderer extends DebugBarJavascriptRenderer
 	 * @param   string              $baseUrl   The base URL from which assets will be served
 	 * @param   string              $basePath  The path which assets are relative to
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public function __construct(DebugBar $debugBar, $baseUrl = null, $basePath = null)
 	{
@@ -46,7 +46,7 @@ class JavascriptRenderer extends DebugBarJavascriptRenderer
 	 *
 	 * @return string
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public function renderHead()
 	{
@@ -61,7 +61,7 @@ class JavascriptRenderer extends DebugBarJavascriptRenderer
 
 		foreach ($inlineCss as $content)
 		{
-			$html .= sprintf('<style type="text/css">%s</style>' . "\n", $content);
+			$html .= sprintf('<style>%s</style>' . "\n", $content);
 		}
 
 		foreach ($jsFiles as $file)
@@ -99,7 +99,7 @@ class JavascriptRenderer extends DebugBarJavascriptRenderer
 	 *
 	 * @return string
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public function render($initialize = true, $renderStackedData = true)
 	{

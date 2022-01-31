@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_messages
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2008 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -42,14 +42,15 @@ class HtmlView extends BaseHtmlView
 	/**
 	 * The model state
 	 *
-	 * @var  \JObject
+	 * @var  \Joomla\CMS\Object\CMSObject
 	 */
 	protected $state;
 
 	/**
 	 * Form object for search filters
 	 *
-	 * @var    \JForm
+	 * @var    \Joomla\CMS\Form\Form
+	 *
 	 * @since  4.0.0
 	 */
 	public $filterForm;
@@ -63,11 +64,19 @@ class HtmlView extends BaseHtmlView
 	public $activeFilters;
 
 	/**
+	 * Is this view an Empty State
+	 *
+	 * @var  boolean
+	 * @since 4.0.0
+	 */
+	private $isEmptyState = false;
+
+	/**
 	 * Execute and display a template script.
 	 *
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
 	 *
-	 * @return  mixed  A string if successful, otherwise an Error object.
+	 * @return  void
 	 *
 	 * @since   1.6
 	 */
@@ -79,8 +88,13 @@ class HtmlView extends BaseHtmlView
 		$this->filterForm    = $this->get('FilterForm');
 		$this->activeFilters = $this->get('ActiveFilters');
 
+		if (!\count($this->items) && $this->isEmptyState = $this->get('IsEmptyState'))
+		{
+			$this->setLayout('emptystate');
+		}
+
 		// Check for errors.
-		if (count($errors = $this->get('Errors')))
+		if (\count($errors = $this->get('Errors')))
 		{
 			throw new GenericDataException(implode("\n", $errors), 500);
 		}
@@ -112,12 +126,12 @@ class HtmlView extends BaseHtmlView
 			$toolbar->addNew('message.add');
 		}
 
-		if ($canDo->get('core.edit.state'))
+		if (!$this->isEmptyState && $canDo->get('core.edit.state'))
 		{
 			$dropdown = $toolbar->dropdownButton('status-group')
 				->text('JTOOLBAR_CHANGE_STATUS')
 				->toggleSplit(false)
-				->icon('fas fa-ellipsis-h')
+				->icon('icon-ellipsis-h')
 				->buttonClass('btn btn-action')
 				->listCheck(true);
 
@@ -137,27 +151,10 @@ class HtmlView extends BaseHtmlView
 			}
 		}
 
-		$toolbar->appendButton(
-			'Popup',
-			'cog',
-			'COM_MESSAGES_TOOLBAR_MY_SETTINGS',
-			'index.php?option=com_messages&amp;view=config&amp;tmpl=component',
-			500,
-			250,
-			0,
-			0,
-			'',
-			Text::_('COM_MESSAGES_TOOLBAR_MY_SETTINGS'),
-			'<button type="button" class="btn btn-secondary" data-dismiss="modal">'
-			. Text::_('JCANCEL')
-			. '</button>'
-			. '<button type="button" class="btn btn-success" data-dismiss="modal"'
-			. ' onclick="Joomla.iframeButtonClick({iframeSelector: \'#modal-cog\', buttonSelector: \'#saveBtn\'})">'
-			. Text::_('JSAVE')
-			. '</button>'
-		);
+		$toolbar->appendButton('Link', 'cog', 'COM_MESSAGES_TOOLBAR_MY_SETTINGS', 'index.php?option=com_messages&amp;view=config');
+		ToolbarHelper::divider();
 
-		if ($this->state->get('filter.state') == -2 && $canDo->get('core.delete'))
+		if (!$this->isEmptyState && $this->state->get('filter.state') == -2 && $canDo->get('core.delete'))
 		{
 			$toolbar->delete('messages.delete')
 				->text('JTOOLBAR_EMPTY_TRASH')
@@ -170,6 +167,6 @@ class HtmlView extends BaseHtmlView
 			$toolbar->preferences('com_messages');
 		}
 
-		$toolbar->help('JHELP_COMPONENTS_MESSAGING_INBOX');
+		$toolbar->help('Private_Messages');
 	}
 }

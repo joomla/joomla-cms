@@ -3,7 +3,7 @@
 	<name>mod_banners</name>
 	<author>Joomla! Project</author>
 	<creationDate>July 2006</creationDate>
-	<copyright>Copyright (C) 2005 - 2019 Open Source Matters. All rights reserved.</copyright>
+	<copyright>(C) 2006 Open Source Matters, Inc.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
@@ -16,10 +16,10 @@
 		<folder>tmpl</folder>
 	</files>
 	<languages>
-		<language tag="en-GB">en-GB.mod_banners.ini</language>
-		<language tag="en-GB">en-GB.mod_banners.sys.ini</language>
+		<language tag="en-GB">language/en-GB/mod_banners.ini</language>
+		<language tag="en-GB">language/en-GB/mod_banners.sys.ini</language>
 	</languages>
-	<help key="JHELP_EXTENSIONS_MODULE_MANAGER_BANNERS" />
+	<help key="Site_Modules:_Banners" />
 	<config>
 		<fields name="params">
 			<fieldset
@@ -33,6 +33,7 @@
 					label="MOD_BANNERS_FIELD_TARGET_LABEL"
 					default="1"
 					filter="integer"
+					validate="options"
 					>
 					<option value="0">JBROWSERTARGET_PARENT</option>
 					<option value="1">JBROWSERTARGET_NEW</option>
@@ -47,6 +48,8 @@
 					default="5"
 					filter="integer"
 					class="validate-numeric"
+					min="1"
+					validate="number"
 				/>
 
 				<field
@@ -85,6 +88,7 @@
 					type="list"
 					label="MOD_BANNERS_FIELD_RANDOMISE_LABEL"
 					default="0"
+					validate="options"
 					>
 					<option value="0">MOD_BANNERS_VALUE_STICKYORDERING</option>
 					<option value="random">MOD_BANNERS_VALUE_STICKYRANDOMISE</option>
@@ -113,7 +117,8 @@
 					name="layout"
 					type="modulelayout"
 					label="JFIELD_ALT_LAYOUT_LABEL"
-					class="custom-select"
+					class="form-select"
+					validate="moduleLayout"
 				/>
 
 				<field
@@ -121,6 +126,7 @@
 					type="textarea"
 					label="COM_MODULES_FIELD_MODULECLASS_SFX_LABEL"
 					rows="3"
+					validate="CssIdentifier"
 				/>
 
 				<field
@@ -129,6 +135,7 @@
 					label="COM_MODULES_FIELD_CACHING_LABEL"
 					default="1"
 					filter="integer"
+					validate="options"
 					>
 					<option value="1">JGLOBAL_USE_GLOBAL</option>
 					<option value="0">COM_MODULES_FIELD_VALUE_NOCACHING</option>

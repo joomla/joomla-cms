@@ -3,7 +3,7 @@
 	<name>mod_languages</name>
 	<author>Joomla! Project</author>
 	<creationDate>February 2010</creationDate>
-	<copyright>Copyright (C) 2005 - 2019 Open Source Matters. All rights reserved.</copyright>
+	<copyright>(C) 2010 Open Source Matters, Inc.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
@@ -16,10 +16,10 @@
 		<folder>tmpl</folder>
 	</files>
 	<languages>
-		<language tag="en-GB">en-GB.mod_languages.ini</language>
-		<language tag="en-GB">en-GB.mod_languages.sys.ini</language>
+		<language tag="en-GB">language/en-GB/mod_languages.ini</language>
+		<language tag="en-GB">language/en-GB/mod_languages.sys.ini</language>
 	</languages>
-	<help key="JHELP_EXTENSIONS_MODULE_MANAGER_LANGUAGE_SWITCHER" />
+	<help key="Site_Modules:_Language_Switcher" />
 	<config>
 		<fieldset>
 			<field
@@ -27,6 +27,7 @@
 				type="list"
 				label="JFIELD_LANGUAGE_LABEL"
 				description="JFIELD_MODULE_LANGUAGE_DESC"
+				validate="options"
 				>
 				<option value="*">JALL</option>
 			</field>
@@ -103,18 +104,6 @@
 				</field>
 
 				<field
-					name="lineheight"
-					type="radio"
-					layout="joomla.form.field.radio.switcher"
-					label="MOD_LANGUAGES_FIELD_LINEHEIGHT_LABEL"
-					default="0"
-					showon="dropdown:1[AND]dropdownimage:1"
-					>
-					<option value="0">JNO</option>
-					<option value="1">JYES</option>
-				</field>
-
-				<field
 					name="show_active"
 					type="radio"
 					layout="joomla.form.field.radio.switcher"
@@ -145,7 +134,8 @@
 					name="layout"
 					type="modulelayout"
 					label="JFIELD_ALT_LAYOUT_LABEL"
-					class="custom-select"
+					class="form-select"
+					validate="moduleLayout"
 				/>
 
 				<field
@@ -153,6 +143,7 @@
 					type="textarea"
 					label="COM_MODULES_FIELD_MODULECLASS_SFX_LABEL"
 					rows="3"
+					validate="CssIdentifier"
 				/>
 			</fieldset>
 		</fields>

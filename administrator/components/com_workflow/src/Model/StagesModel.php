@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_workflow
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2018 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  * @since       4.0.0
  */
@@ -13,6 +13,7 @@ namespace Joomla\Component\Workflow\Administrator\Model;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\Model\ListModel;
+use Joomla\Database\ParameterType;
 
 /**
  * Model class for stages
@@ -37,7 +38,6 @@ class StagesModel extends ListModel
 				'id', 's.id',
 				'title', 's.title',
 				'ordering','s.ordering',
-				'condition','s.condition',
 				'published', 's.published'
 			);
 		}
@@ -107,7 +107,7 @@ class StagesModel extends ListModel
 	 * @param   string  $prefix  The class prefix. Optional.
 	 * @param   array   $config  Configuration array for model. Optional.
 	 *
-	 * @return  \Joomla\CMS\Table\Table  A JTable object
+	 * @return  \Joomla\CMS\Table\Table  A Table object
 	 *
 	 * @since  4.0.0
 	 */
@@ -125,54 +125,43 @@ class StagesModel extends ListModel
 	 */
 	public function getListQuery()
 	{
-		$db = $this->getDbo();
-
-		$query = parent::getListQuery();
-
-		$select = $db->quoteName(
-			array(
-				's.id',
-				's.title',
-				's.ordering',
-				's.condition',
-				's.default',
-				's.published',
-				's.checked_out',
-				's.checked_out_time',
-				's.description'
-			)
-		);
+		$db    = $this->getDbo();
+		$query = $db->getQuery(true);
 
 		$query
-			->select($select)
-			->from($db->quoteName('#__workflow_stages', 's'));
+			->select(
+				[
+					$db->quoteName('s.id'),
+					$db->quoteName('s.title'),
+					$db->quoteName('s.ordering'),
+					$db->quoteName('s.default'),
+					$db->quoteName('s.published'),
+					$db->quoteName('s.checked_out'),
+					$db->quoteName('s.checked_out_time'),
+					$db->quoteName('s.description'),
+					$db->quoteName('uc.name', 'editor'),
+				]
+			)
+			->from($db->quoteName('#__workflow_stages', 's'))
+			->join('LEFT', $db->quoteName('#__users', 'uc'), $db->quoteName('uc.id') . ' = ' . $db->quoteName('s.checked_out'));
 
 		// Filter by extension
 		if ($workflowID = (int) $this->getState('filter.workflow_id'))
 		{
-			$query->where($db->quoteName('s.workflow_id') . ' = ' . $workflowID);
+			$query->where($db->quoteName('s.workflow_id') . ' = :id')
+				->bind(':id', $workflowID, ParameterType::INTEGER);
 		}
-
-		$condition = $this->getState('filter.condition');
-
-		// Filter by condition
-		if (is_numeric($condition))
-		{
-			$query->where($db->quoteName('s.condition') . ' = ' . (int) $db->escape($condition));
-		}
-
-		// Join over the users for the checked out user.
-		$query->select($db->quoteName('uc.name', 'editor'))
-			->join('LEFT', $db->quoteName('#__users', 'uc'), $db->quoteName('uc.id') . ' = ' . $db->quoteName('s.checked_out'));
 
 		$status = (string) $this->getState('filter.published');
 
-		// Filter by condition
+		// Filter by publish state
 		if (is_numeric($status))
 		{
-			$query->where($db->quoteName('s.published') . ' = ' . (int) $status);
+			$status = (int) $status;
+			$query->where($db->quoteName('s.published') . ' = :status')
+				->bind(':status', $status, ParameterType::INTEGER);
 		}
-		elseif ($status == '')
+		elseif ($status === '')
 		{
 			$query->where($db->quoteName('s.published') . ' IN (0, 1)');
 		}
@@ -182,8 +171,9 @@ class StagesModel extends ListModel
 
 		if (!empty($search))
 		{
-			$search = $db->quote('%' . str_replace(' ', '%', $db->escape(trim($search), true) . '%'));
-			$query->where('(' . $db->quoteName('s.title') . ' LIKE ' . $search . ' OR ' . $db->quoteName('s.description') . ' LIKE ' . $search . ')');
+			$search = '%' . str_replace(' ', '%', trim($search)) . '%';
+			$query->where('(' . $db->quoteName('s.title') . ' LIKE :search1 OR ' . $db->quoteName('s.description') . ' LIKE :search2)')
+				->bind([':search1', ':search2'], $search);
 		}
 
 		// Add the list ordering clause.

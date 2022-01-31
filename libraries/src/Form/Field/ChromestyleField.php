@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2012 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -52,10 +52,9 @@ class ChromestyleField extends GroupedlistField
 	 */
 	public function __get($name)
 	{
-		switch ($name)
+		if ($name === 'clientId')
 		{
-			case 'clientId':
-				return $this->clientId;
+			return $this->clientId;
 		}
 
 		return parent::__get($name);

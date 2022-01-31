@@ -1,5 +1,5 @@
 /**
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2018 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -23,6 +23,9 @@
  * min-term-length="1"   The minimum length a search value should be before choices are searched.
  * placeholder=""        The value of the inputs placeholder.
  * search-placeholder="" The value of the search inputs placeholder.
+ *
+ * data-max-results="30" The maximum amount of search results to be displayed.
+ * data-max-render="30"  The maximum amount of items to be rendered, critical for large lists.
  */
 window.customElements.define('joomla-field-fancy-select', class extends HTMLElement {
   // Attributes to monitor
@@ -34,7 +37,7 @@ window.customElements.define('joomla-field-fancy-select', class extends HTMLElem
 
   get termKey() { return this.getAttribute('term-key') || 'term'; }
 
-  get minTermLength() { return parseInt(this.getAttribute('min-term-length')) || 1; }
+  get minTermLength() { return parseInt(this.getAttribute('min-term-length'), 10) || 1; }
 
   get newItemPrefix() { return this.getAttribute('new-item-prefix') || ''; }
 
@@ -42,7 +45,7 @@ window.customElements.define('joomla-field-fancy-select', class extends HTMLElem
 
   get searchPlaceholder() { return this.getAttribute('search-placeholder'); }
 
-  get value() {return this.choicesInstance.getValue(true); }
+  get value() { return this.choicesInstance.getValue(true); }
 
   set value($val) { this.choicesInstance.setChoiceByValue($val); }
 
@@ -117,15 +120,17 @@ window.customElements.define('joomla-field-fancy-select', class extends HTMLElem
     }
 
     // Init Choices
+    // eslint-disable-next-line no-undef
     this.choicesInstance = new Choices(this.select, {
       placeholderValue: this.placeholder,
       searchPlaceholderValue: this.searchPlaceholder,
       removeItemButton: true,
       searchFloor: this.minTermLength,
-      searchResultLimit: 10,
+      searchResultLimit: parseInt(this.select.dataset.maxResults, 10) || 10,
+      renderChoiceLimit: parseInt(this.select.dataset.maxRender, 10) || -1,
       shouldSort: false,
       fuseOptions: {
-        threshold: 0.3 // Strict search
+        threshold: 0.3, // Strict search
       },
       noResultsText: Joomla.Text._('JGLOBAL_SELECT_NO_RESULTS_MATCH', 'No results found'),
       noChoicesText: Joomla.Text._('JGLOBAL_SELECT_NO_RESULTS_MATCH', 'No results found'),
@@ -133,12 +138,50 @@ window.customElements.define('joomla-field-fancy-select', class extends HTMLElem
 
       // Redefine some classes
       classNames: {
-        button: 'choices__button_joomla' // It is need because an original styling use unavailable Icon.svg file
-      }
+        button: 'choices__button_joomla', // It is need because an original styling use unavailable Icon.svg file
+      },
     });
 
-    // Handle typing of custom term
+    // Handle typing of custom Term
     if (this.allowCustom) {
+      // START Work around for issue https://github.com/joomla/joomla-cms/issues/29459
+      // The choices.js always auto-highlights the first element
+      // in the dropdown that not allow to add a custom Term.
+      //
+      // This workaround can be removed when choices.js
+      // will have an option that allow to disable it.
+
+      // eslint-disable-next-line no-underscore-dangle, prefer-destructuring
+      const _highlightChoice = this.choicesInstance._highlightChoice;
+      // eslint-disable-next-line no-underscore-dangle
+      this.choicesInstance._highlightChoice = (el) => {
+        // Prevent auto-highlight of first element, if nothing actually highlighted
+        if (!el) return;
+
+        // Call original highlighter
+        _highlightChoice.call(this.choicesInstance, el);
+      };
+
+      // Unhighlight any highlighted items, when mouse leave the dropdown
+      this.addEventListener('mouseleave', () => {
+        if (!this.choicesInstance.dropdown.isActive) {
+          return;
+        }
+
+        const highlighted = Array.from(this.choicesInstance.dropdown.element
+          .querySelectorAll(`.${this.choicesInstance.config.classNames.highlightedState}`));
+
+        highlighted.forEach((choice) => {
+          choice.classList.remove(this.choicesInstance.config.classNames.highlightedState);
+          choice.setAttribute('aria-selected', 'false');
+        });
+
+        // eslint-disable-next-line no-underscore-dangle
+        this.choicesInstance._highlightPosition = 0;
+      });
+      // END workaround for issue #29459
+
+      // Add custom term on ENTER keydown
       this.addEventListener('keydown', (event) => {
         if (event.keyCode !== this.keyCode.ENTER
           || event.target !== this.choicesInstance.input.element) {
@@ -146,31 +189,67 @@ window.customElements.define('joomla-field-fancy-select', class extends HTMLElem
         }
         event.preventDefault();
 
-        if (this.choicesInstance.highlightPosition || !event.target.value || this.choicesCache[event.target.value]) {
+        // eslint-disable-next-line no-underscore-dangle
+        if (this.choicesInstance._highlightPosition || !event.target.value) {
           return;
         }
 
         // Make sure nothing is highlighted
-        const highlighted = this.choicesInstance.dropdown.element.querySelector(`.${this.choicesInstance.config.classNames.highlightedState}`);
+        const highlighted = this.choicesInstance.dropdown.element
+          .querySelector(`.${this.choicesInstance.config.classNames.highlightedState}`);
+
         if (highlighted) {
           return;
         }
 
+        // Check if value already exist
+        const lowerValue = event.target.value.toLowerCase();
+        let valueInCache = false;
+
+        // Check if value in existing choices
+        this.choicesInstance.config.choices.some((choiceItem) => {
+          if (choiceItem.value.toLowerCase() === lowerValue
+            || choiceItem.label.toLowerCase() === lowerValue) {
+            valueInCache = choiceItem.value;
+            return true;
+          }
+          return false;
+        });
+
+        if (valueInCache === false) {
+          // Check if value in cache
+          Object.keys(this.choicesCache).some((key) => {
+            if (key.toLowerCase() === lowerValue
+              || this.choicesCache[key].toLowerCase() === lowerValue) {
+              valueInCache = key;
+              return true;
+            }
+            return false;
+          });
+        }
+
+        // Make choice based on existing value
+        if (valueInCache !== false) {
+          this.choicesInstance.setChoiceByValue(valueInCache);
+          event.target.value = null;
+          this.choicesInstance.hideDropdown();
+          return;
+        }
+
+        // Create and add new
         this.choicesInstance.setChoices([{
           value: this.newItemPrefix + event.target.value,
           label: event.target.value,
           selected: true,
           customProperties: {
-            value: event.target.value // Store real value, just in case
-          }
+            value: event.target.value, // Store real value, just in case
+          },
         }], 'value', 'label', false);
 
         this.choicesCache[event.target.value] = event.target.value;
 
         event.target.value = null;
         this.choicesInstance.hideDropdown();
-
-        return false;
       });
     }
 
@@ -183,7 +262,7 @@ window.customElements.define('joomla-field-fancy-select', class extends HTMLElem
 
       const lookupDelay = 300;
       let lookupTimeout = null;
-      this.select.addEventListener('search', (event) => {
+      this.select.addEventListener('search', () => {
         clearTimeout(lookupTimeout);
         lookupTimeout = setTimeout(this.requestLookup.bind(this), lookupDelay);
       });
@@ -207,7 +286,7 @@ window.customElements.define('joomla-field-fancy-select', class extends HTMLElem
   }
 
   requestLookup() {
-    let url = this.url;
+    let { url } = this;
     url += (url.indexOf('?') === -1 ? '?' : '&');
     url += `${encodeURIComponent(this.termKey)}=${encodeURIComponent(this.choicesInstance.input.value)}`;
 
@@ -217,7 +296,7 @@ window.customElements.define('joomla-field-fancy-select', class extends HTMLElem
     }
 
     this.activeXHR = Joomla.request({
-      url: url,
+      url,
       onSuccess: (response) => {
         this.activeXHR = null;
         const items = response ? JSON.parse(response) : [];
@@ -247,7 +326,7 @@ window.customElements.define('joomla-field-fancy-select', class extends HTMLElem
       },
       onError: () => {
         this.activeXHR = null;
-      }
+      },
     });
   }
 

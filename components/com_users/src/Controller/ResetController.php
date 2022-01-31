@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2009 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 namespace Joomla\Component\Users\Site\Controller;
@@ -94,7 +94,7 @@ class ResetController extends BaseController
 
 		$app   = $this->app;
 
-		/** @var \Joomla\Component\Users\Site\Model\Reset $model */
+		/** @var \Joomla\Component\Users\Site\Model\ResetModel $model */
 		$model = $this->getModel('Reset', 'Site');
 		$data  = $this->input->get('jform', array(), 'array');
 

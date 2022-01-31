@@ -1,131 +1,92 @@
 /**
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2017 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 .sidebyside .outer-panel {
-	float: left;
-	width: 50%;
+  float: left;
+  width: 50%;
 }
 
 .sidebyside #left-panel .inner-panel {
-	padding: 0 10px 0 0;
+  padding-inline-end: 10px;
 }
 
 .sidebyside #right-panel .inner-panel {
-	padding: 0 0 0 10px;
+  padding-inline-end: 10px;
 }
 
 .sidebyside .full-width {
-	float: none !important;
-	width: 100% !important;
+  float: none !important;
+  width: 100% !important;
 }
 
 .sidebyside .full-width .inner-panel {
-	padding: 0 !important;
+  padding: 0 !important;
 }
 
 #reference-association, #target-association {
-	width: 100%;
-	height: 1500px;
-	overflow-y: auto;
-	border: 0 !important;
+  width: 100%;
+  height: 1500px;
+  overflow-y: auto;
+  border: 0 !important;
 }
 
 .sidebyside .langtarget {
-	float: left;
+  float: left;
 }
 
 .sidebyside .modaltarget {
-	float: left;
-	margin-left: .5rem;
+  float: left;
+  margin-inline-start: .5rem;
 }
 
 .sidebyside #target-association {
-	margin-top: .5rem;
+  margin-top: .5rem;
 }
 
 .sidebyside #reference-association {
-	margin-top: 3.35rem;
+  margin-top: 3.35rem;
 }
 
 .target-text {
-	float: left;
-	width: auto;
+  float: left;
+  width: auto;
 }
 
 /* RTL overrides */
-html[dir=rtl] .sidebyside .outer-panel {
-	float: right;
+[dir=rtl] .sidebyside .outer-panel {
+  float: right;
 }
 
-html[dir=rtl] .sidebyside #left-panel .inner-panel {
-	padding: 0 0 0 10px;
+[dir=rtl] .sidebyside .langtarget {
+  float: right;
 }
 
-html[dir=rtl] .sidebyside #right-panel .inner-panel {
-	padding: 0 10px 0 0;
+[dir=rtl] .sidebyside .modaltarget {
+  float: right;
 }
 
-html[dir=rtl] .sidebyside .full-width .inner-panel {
-	padding: 0 !important;
-}
-
-html[dir=rtl] .sidebyside .langtarget {
-	float: right;
-}
-
-html[dir=rtl] .sidebyside .modaltarget {
-	float: right;
-	margin-left: 0;
-	margin-right: .5rem;
-}
-
-html[dir=rtl] .target-text {
-	float: right;
+[dir=rtl] .target-text {
+  float: right;
 }
 
 /* Responsive layout */
-@media (max-width: 1140px) {
-	.sidebyside #reference-association {
-		margin-top: 6.2rem;
-	}
-
-	.sidebyside .langtarget {
-		float: none;
-	}
-
-	.sidebyside .modaltarget {
-		float: left;
-		margin-left: 0;
-	}
-
-	html[dir=rtl] .sidebyside .langtarget {
-		float: none;
-	}
-
-	html[dir=rtl] .sidebyside .modaltarget {
-		float: right;
-		margin-left: 0;
-		margin-right: 0;
-	}
-}
-
 @media (max-width: 767.98px) {
-	.sidebyside .outer-panel {
-		float: none;
-		width: 100%;
-	}
+  .sidebyside .outer-panel {
+    float: none;
+    width: 100%;
+  }
 
-	.sidebyside #reference-association {
-		margin-top: 0;
-	}
+  .sidebyside #reference-association {
+    margin-top: 0;
+  }
 
-	.sidebyside #left-panel .inner-panel {
-		padding: 0;
-	}
+  .sidebyside #left-panel .inner-panel {
+    padding: 0;
+  }
 
-	.sidebyside #right-panel .inner-panel {
-		padding: 0;
-	}
+  .sidebyside #right-panel .inner-panel {
+    padding: 0;
+  }
 }

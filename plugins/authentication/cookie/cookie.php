@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Authentication.cookie
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2013 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -55,8 +55,8 @@ class PlgAuthenticationCookie extends CMSPlugin
 
 		return array(
 			Text::_('PLG_AUTHENTICATION_COOKIE') => array(
-				Text::_('PLG_AUTH_COOKIE_PRIVACY_CAPABILITY_COOKIE'),
-			)
+				Text::_('PLG_AUTHENTICATION_COOKIE_PRIVACY_CAPABILITY_COOKIE'),
+			),
 		);
 	}
 
@@ -190,7 +190,7 @@ class PlgAuthenticationCookie extends CMSPlugin
 			$this->app->input->cookie->set($cookieName, '', 1, $this->app->get('cookie_path', '/'), $this->app->get('cookie_domain', ''));
 
 			// Issue warning by email to user and/or admin?
-			Log::add(Text::sprintf('PLG_AUTH_COOKIE_ERROR_LOG_LOGIN_FAILED', $results[0]->user_id), Log::WARNING, 'security');
+			Log::add(Text::sprintf('PLG_AUTHENTICATION_COOKIE_ERROR_LOG_LOGIN_FAILED', $results[0]->user_id), Log::WARNING, 'security');
 			$response->status = Authentication::STATUS_FAILURE;
 
 			return false;
@@ -239,7 +239,7 @@ class PlgAuthenticationCookie extends CMSPlugin
 	}
 
 	/**
-	 * We set the authentication cookie only after login is successfullly finished.
+	 * We set the authentication cookie only after login is successfully finished.
 	 * We set a new cookie either for a user with no cookies or one
 	 * where the user used a cookie to authenticate.
 	 *

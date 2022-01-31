@@ -3,12 +3,13 @@
  * @package     Joomla.Plugin
  * @subpackage  Editors-xtd.image
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2006 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Object\CMSObject;
@@ -43,6 +44,7 @@ class PlgButtonImage extends CMSPlugin
 	public function onDisplay($name, $asset, $author)
 	{
 		$app       = Factory::getApplication();
+		$doc       = $app->getDocument();
 		$user      = Factory::getUser();
 		$extension = $app->input->get('option');
 
@@ -55,33 +57,115 @@ class PlgButtonImage extends CMSPlugin
 
 		$asset = $asset !== '' ? $asset : $extension;
 
-		if ($user->authorise('core.edit', $asset)
+		if (
+			$user->authorise('core.edit', $asset)
 			|| $user->authorise('core.create', $asset)
 			|| (count($user->getAuthorisedCategories($asset, 'core.create')) > 0)
 			|| ($user->authorise('core.edit.own', $asset) && $author === $user->id)
 			|| (count($user->getAuthorisedCategories($extension, 'core.edit')) > 0)
-			|| (count($user->getAuthorisedCategories($extension, 'core.edit.own')) > 0 && $author === $user->id))
+			|| (count($user->getAuthorisedCategories($extension, 'core.edit.own')) > 0 && $author === $user->id)
+		)
 		{
-			$app->getDocument()->getWebAssetManager()->useScript('webcomponent.field-media');
+			$doc->getWebAssetManager()
+				->useScript('webcomponent.media-select')
+				->useScript('webcomponent.field-media')
+				->useStyle('webcomponent.media-select');
 
-			$link = 'index.php?option=com_media&amp;tmpl=component&amp;e_name=' . $name . '&amp;asset=' . $asset . '&amp;author=' . $author;
+			$doc->addScriptOptions('xtdImageModal', [
+				$name . '_ImageModal',
+			]);
+
+			if (count($doc->getScriptOptions('media-picker')) === 0)
+			{
+				$imagesExt = array_map(
+					'trim',
+					explode(
+						',',
+						ComponentHelper::getParams('com_media')->get(
+							'image_extensions',
+							'bmp,gif,jpg,jpeg,png,webp'
+						)
+					)
+				);
+				$audiosExt = array_map(
+					'trim',
+					explode(
+						',',
+						ComponentHelper::getParams('com_media')->get(
+							'audio_extensions',
+							'mp3,m4a,mp4a,ogg'
+						)
+					)
+				);
+				$videosExt = array_map(
+					'trim',
+					explode(
+						',',
+						ComponentHelper::getParams('com_media')->get(
+							'video_extensions',
+							'mp4,mp4v,mpeg,mov,webm'
+						)
+					)
+				);
+				$documentsExt = array_map(
+					'trim',
+					explode(
+						',',
+						ComponentHelper::getParams('com_media')->get(
+							'doc_extensions',
+							'doc,odg,odp,ods,odt,pdf,ppt,txt,xcf,xls,csv'
+						)
+					)
+				);
+
+				$doc->addScriptOptions('media-picker', [
+					'images'    => $imagesExt,
+					'audios'    => $audiosExt,
+					'videos'    => $videosExt,
+					'documents' => $documentsExt
+				]);
+			}
+
+			Text::script('JFIELD_MEDIA_LAZY_LABEL');
+			Text::script('JFIELD_MEDIA_ALT_LABEL');
+			Text::script('JFIELD_MEDIA_ALT_CHECK_LABEL');
+			Text::script('JFIELD_MEDIA_ALT_CHECK_DESC_LABEL');
+			Text::script('JFIELD_MEDIA_CLASS_LABEL');
+			Text::script('JFIELD_MEDIA_FIGURE_CLASS_LABEL');
+			Text::script('JFIELD_MEDIA_FIGURE_CAPTION_LABEL');
+			Text::script('JFIELD_MEDIA_LAZY_LABEL');
+			Text::script('JFIELD_MEDIA_SUMMARY_LABEL');
+			Text::script('JFIELD_MEDIA_EMBED_CHECK_DESC_LABEL');
+			Text::script('JFIELD_MEDIA_DOWNLOAD_CHECK_DESC_LABEL');
+			Text::script('JFIELD_MEDIA_DOWNLOAD_CHECK_LABEL');
+			Text::script('JFIELD_MEDIA_EMBED_CHECK_LABEL');
+			Text::script('JFIELD_MEDIA_WIDTH_LABEL');
+			Text::script('JFIELD_MEDIA_TITLE_LABEL');
+			Text::script('JFIELD_MEDIA_HEIGHT_LABEL');
+			Text::script('JFIELD_MEDIA_UNSUPPORTED');
+			Text::script('JFIELD_MEDIA_DOWNLOAD_FILE');
+
+			$link = 'index.php?option=com_media&view=media&tmpl=component&e_name=' . $name . '&asset=' . $asset . '&mediatypes=0,1,2,3' . '&author=' . $author;
 
 			$button = new CMSObject;
 			$button->modal   = true;
 			$button->link    = $link;
 			$button->text    = Text::_('PLG_IMAGE_BUTTON_IMAGE');
-			$button->name    = 'pictures';
-			$button->iconSVG = '<svg viewBox="0 0 32 32" width="24" height="24"><path d="M4 8v20h28v-20h-28zM30 24.667l-4-6.667-4.533 3.778-3.46'
-								. '7-5.778-12 10v-16h24v14.667zM8 15c0-1.657 1.343-3 3-3s3 1.343 3 3v0c0 1.657-1.343 3-3 3s-3-1.343-3-3v0zM28 4h-'
-								. '28v20h2v-18h26z"></path></svg>';
+			$button->name    = $this->_type . '_' . $this->_name;
+			$button->icon    = 'pictures';
+			$button->iconSVG = '<svg width="24" height="24" viewBox="0 0 512 512"><path d="M464 64H48C21.49 64 0 85.49 0 112v288c0 26.51 21.49 48'
+				. ' 48 48h416c26.51 0 48-21.49 48-48V112c0-26.51-21.49-48-48-48zm-6 336H54a6 6 0 0 1-6-6V118a6 6 0 0 1 6-6h404a6 6'
+				. ' 0 0 1 6 6v276a6 6 0 0 1-6 6zM128 152c-22.091 0-40 17.909-40 40s17.909 40 40 40 40-17.909 40-40-17.909-40-40-40'
+				. 'zM96 352h320v-80l-87.515-87.515c-4.686-4.686-12.284-4.686-16.971 0L192 304l-39.515-39.515c-4.686-4.686-12.284-4'
+				. '.686-16.971 0L96 304v48z"></path></svg>';
 			$button->options = [
-				'height'     => '400px',
-				'width'      => '800px',
-				'bodyHeight' => '70',
-				'modalWidth' => '80',
-				'tinyPath'   => $link,
-				'confirmCallback' => 'Joomla.getImage(Joomla.selectedFile, \'' . $name . '\')',
-				'confirmText' => Text::_('PLG_IMAGE_BUTTON_INSERT')
+				'height'          => '400px',
+				'width'           => '800px',
+				'bodyHeight'      => '70',
+				'modalWidth'      => '80',
+				'tinyPath'        => $link,
+				'confirmCallback' => 'Joomla.getImage(Joomla.selectedMediaFile, \'' . $name . '\', this)',
+				'confirmText'     => Text::_('PLG_IMAGE_BUTTON_INSERT'),
 			];
 
 			return $button;

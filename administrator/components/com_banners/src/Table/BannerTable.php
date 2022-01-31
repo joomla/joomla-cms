@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_banners
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2005 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -16,6 +16,7 @@ use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Table\Table;
+use Joomla\CMS\Versioning\VersionableTableInterface;
 use Joomla\Database\DatabaseDriver;
 use Joomla\Database\ParameterType;
 use Joomla\Registry\Registry;
@@ -26,7 +27,7 @@ use Joomla\Utilities\ArrayHelper;
  *
  * @since  1.5
  */
-class BannerTable extends Table
+class BannerTable extends Table implements VersionableTableInterface
 {
 	/**
 	 * Indicates that columns fully support the NULL value in the database
@@ -114,6 +115,12 @@ class BannerTable extends Table
 			$this->setError(Text::_('JLIB_DATABASE_ERROR_CATEGORY_REQUIRED'));
 
 			return false;
+		}
+
+		// Set created date if not set.
+		if (!(int) $this->created)
+		{
+			$this->created = Factory::getDate()->toSql();
 		}
 
 		// Set publish_up, publish_down to null if not set
@@ -352,11 +359,11 @@ class BannerTable extends Table
 			}
 
 			// Verify checkout
-			if ($table->checked_out == 0 || $table->checked_out == $userId)
+			if (is_null($table->checked_out) || $table->checked_out == $userId)
 			{
 				// Change the state
 				$table->sticky = $state;
-				$table->checked_out = 0;
+				$table->checked_out = null;
 				$table->checked_out_time = null;
 
 				// Check the row
@@ -371,5 +378,17 @@ class BannerTable extends Table
 		}
 
 		return count($this->getErrors()) == 0;
+	}
+
+	/**
+	 * Get the type alias for the history table
+	 *
+	 * @return  string  The alias as described above
+	 *
+	 * @since   4.0.0
+	 */
+	public function getTypeAlias()
+	{
+		return $this->typeAlias;
 	}
 }

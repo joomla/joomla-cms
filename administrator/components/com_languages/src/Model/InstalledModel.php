@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_languages
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2009 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,7 +12,6 @@ namespace Joomla\Component\Languages\Administrator\Model;
 \defined('_JEXEC') or die;
 
 use Joomla\CMS\Application\ApplicationHelper;
-use Joomla\CMS\Client\ClientHelper;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\Folder;
@@ -34,11 +33,6 @@ class InstalledModel extends ListModel
 	 * @var object user object
 	 */
 	protected $user = null;
-
-	/**
-	 * @var boolean|\JExeption True, if FTP settings should be shown, or an exeption
-	 */
-	protected $ftp = null;
 
 	/**
 	 * @var string option name
@@ -156,23 +150,6 @@ class InstalledModel extends ListModel
 	}
 
 	/**
-	 * Method to get the ftp credentials.
-	 *
-	 * @return  object
-	 *
-	 * @since   1.6
-	 */
-	public function getFtp()
-	{
-		if (is_null($this->ftp))
-		{
-			$this->ftp = ClientHelper::setCredentialsFromRequest('ftp');
-		}
-
-		return $this->ftp;
-	}
-
-	/**
 	 * Method to get the option.
 	 *
 	 * @return  object
@@ -222,7 +199,7 @@ class InstalledModel extends ListModel
 					$row->authorEmail  = $lang->manifest['authorEmail'];
 					$row->version      = $lang->manifest['version'];
 					$row->published    = $defaultLanguage === $row->language ? 1 : 0;
-					$row->checked_out  = 0;
+					$row->checked_out  = null;
 
 					// Fix wrongly set parentheses in RTL languages
 					if ($isCurrentLanguageRtl)
@@ -262,7 +239,6 @@ class InstalledModel extends ListModel
 					&& stripos($installedLanguage->language, $search) === false)
 				{
 					unset($installedLanguages[$key]);
-					continue;
 				}
 			}
 		}
@@ -361,8 +337,7 @@ class InstalledModel extends ListModel
 
 		// Clean the cache of com_languages and component cache.
 		$this->cleanCache();
-		$this->cleanCache('_system', 0);
-		$this->cleanCache('_system', 1);
+		$this->cleanCache('_system');
 
 		return true;
 	}

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_postinstall
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2013 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -14,6 +14,7 @@ namespace Joomla\Component\Postinstall\Administrator\View\Messages;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
+use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\Component\Postinstall\Administrator\Model\MessagesModel;
 
@@ -29,7 +30,7 @@ class HtmlView extends BaseHtmlView
 	 *
 	 * @param   string  $tpl  Subtemplate to use
 	 *
-	 * @return  boolean  Return true to allow rendering of the page
+	 * @return  void
 	 *
 	 * @since   3.2
 	 */
@@ -40,8 +41,13 @@ class HtmlView extends BaseHtmlView
 
 		$this->items = $model->getItems();
 
+		if (!\count($this->items))
+		{
+			$this->setLayout('emptystate');
+		}
+
 		$this->joomlaFilesExtensionId = $model->getJoomlaFilesExtensionId();
-		$this->eid                    = (int) $model->getState('eid', $this->joomlaFilesExtensionId, 'int');
+		$this->eid                    = (int) $model->getState('eid', $this->joomlaFilesExtensionId);
 
 		if (empty($this->eid))
 		{
@@ -53,9 +59,9 @@ class HtmlView extends BaseHtmlView
 		$this->token = Factory::getSession()->getFormToken();
 		$this->extension_options = $model->getComponentOptions();
 
-		ToolbarHelper::title(Text::sprintf('COM_POSTINSTALL_MESSAGES_TITLE', $model->getExtensionName($this->eid)));
+		ToolbarHelper::title(Text::sprintf('COM_POSTINSTALL_MESSAGES_TITLE', $model->getExtensionName($this->eid)), 'bell');
 
-		return parent::display($tpl);
+		parent::display($tpl);
 	}
 
 	/**
@@ -67,16 +73,18 @@ class HtmlView extends BaseHtmlView
 	 */
 	private function toolbar()
 	{
+		$toolbar = Toolbar::getInstance('toolbar');
+
 		if (!empty($this->items))
 		{
-			ToolbarHelper::custom('message.hideAll', 'unpublish.png', 'unpublish_f2.png', 'COM_POSTINSTALL_HIDE_ALL_MESSAGES', false);
+			$toolbar->unpublish('message.hideAll', 'COM_POSTINSTALL_HIDE_ALL_MESSAGES');
 		}
 
 		// Options button.
 		if (Factory::getUser()->authorise('core.admin', 'com_postinstall'))
 		{
-			ToolbarHelper::preferences('com_postinstall', 550, 875);
-			ToolbarHelper::help('JHELP_COMPONENTS_POST_INSTALLATION_MESSAGES');
+			$toolbar->preferences('com_postinstall');
+			$toolbar->help('Post-installation_Messages_for_Joomla_CMS');
 		}
 	}
 }

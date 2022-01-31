@@ -3,7 +3,7 @@
 	<name>mod_articles_popular</name>
 	<author>Joomla! Project</author>
 	<creationDate>July 2006</creationDate>
-	<copyright>Copyright (C) 2005 - 2019 Open Source Matters. All rights reserved.</copyright>
+	<copyright>(C) 2006 Open Source Matters, Inc.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
@@ -16,10 +16,10 @@
 		<folder>tmpl</folder>
 	</files>
 	<languages>
-		<language tag="en-GB">en-GB.mod_articles_popular.ini</language>
-		<language tag="en-GB">en-GB.mod_articles_popular.sys.ini</language>
+		<language tag="en-GB">language/en-GB/mod_articles_popular.ini</language>
+		<language tag="en-GB">language/en-GB/mod_articles_popular.sys.ini</language>
 	</languages>
-	<help key="JHELP_EXTENSIONS_MODULE_MANAGER_MOST_READ" />
+	<help key="Site_Modules:_Articles_-_Most_Read" />
 	<config>
 		<fields name="params">
 			<fieldset name="basic">
@@ -90,7 +90,6 @@
 					label="MOD_POPULAR_FIELD_STARTDATE_LABEL"
 					translateformat="true"
 					showtime="true"
-					size="22"
 					filter="user_utc"
 					showon="date_filtering:range"
 				/>
@@ -101,7 +100,6 @@
 					label="MOD_POPULAR_FIELD_ENDDATE_LABEL"
 					translateformat="true"
 					showtime="true"
-					size="22"
 					filter="user_utc"
 					showon="date_filtering:range"
 				/>
@@ -121,7 +119,8 @@
 					name="layout"
 					type="modulelayout"
 					label="JFIELD_ALT_LAYOUT_LABEL"
-					class="custom-select"
+					class="form-select"
+					validate="moduleLayout"
  				/>
 
 				<field
@@ -129,6 +128,7 @@
 					type="textarea"
 					label="COM_MODULES_FIELD_MODULECLASS_SFX_LABEL"
 					rows="3"
+					validate="CssIdentifier"
 				/>
 
 				<field
@@ -137,6 +137,7 @@
 					label="COM_MODULES_FIELD_CACHING_LABEL"
 					default="1"
 					filter="integer"
+					validate="options"
 					>
 					<option value="1">JGLOBAL_USE_GLOBAL</option>
 					<option value="0">COM_MODULES_FIELD_VALUE_NOCACHING</option>

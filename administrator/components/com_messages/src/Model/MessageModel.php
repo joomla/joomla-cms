@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_messages
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2008 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -19,6 +19,7 @@ use Joomla\CMS\Language\Language;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\Mail\Exception\MailDisabledException;
+use Joomla\CMS\Mail\MailTemplate;
 use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Table\Asset;
@@ -133,6 +134,14 @@ class MessageModel extends AdminModel
 		{
 			if ($this->item = parent::getItem($pk))
 			{
+				// Invalid message_id returns 0
+				if ($this->item->user_id_to === '0')
+				{
+					$this->setError(Text::_('JERROR_ALERTNOAUTHOR'));
+
+					return false;
+				}
+
 				// Prime required properties.
 				if (empty($this->item->message_id))
 				{
@@ -142,12 +151,7 @@ class MessageModel extends AdminModel
 						// If replying to a message, preload some data.
 						$db    = $this->getDbo();
 						$query = $db->getQuery(true)
-							->select(
-								[
-									$db->quoteName('subject'),
-									$db->quoteName('user_id_from'),
-								]
-							)
+							->select($db->quoteName(['subject', 'user_id_from', 'user_id_to']))
 							->from($db->quoteName('#__messages'))
 							->where($db->quoteName('message_id') . ' = :messageid')
 							->bind(':messageid', $replyId, ParameterType::INTEGER);
@@ -163,12 +167,19 @@ class MessageModel extends AdminModel
 							return false;
 						}
 
+						if (!$message || $message->user_id_to != Factory::getUser()->id)
+						{
+							$this->setError(Text::_('JERROR_ALERTNOAUTHOR'));
+
+							return false;
+						}
+
 						$this->item->set('user_id_to', $message->user_id_from);
 						$re = Text::_('COM_MESSAGES_RE');
 
 						if (stripos($message->subject, $re) !== 0)
 						{
-							$this->item->set('subject', $re . $message->subject);
+							$this->item->set('subject', $re . ' ' . $message->subject);
 						}
 					}
 				}
@@ -191,7 +202,7 @@ class MessageModel extends AdminModel
 				}
 			}
 
-			// Get the user name for an existing messasge.
+			// Get the user name for an existing message.
 			if ($this->item->user_id_from && $fromUser = new User($this->item->user_id_from))
 			{
 				$this->item->set('from_user_name', $fromUser->name);
@@ -207,7 +218,7 @@ class MessageModel extends AdminModel
 	 * @param   array    $data      Data for the form.
 	 * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
 	 *
-	 * @return  \JForm   A \JForm object on success, false on failure
+	 * @return  \Joomla\CMS\Form\Form|bool  A Form object on success, false on failure
 	 *
 	 * @since   1.6
 	 */
@@ -331,6 +342,17 @@ class MessageModel extends AdminModel
 			return false;
 		}
 
+		// Load the user details (already valid from table check).
+		$toUser = User::getInstance($table->user_id_to);
+
+		// Check if recipient can access com_messages.
+		if (!$toUser->authorise('core.login.admin') || !$toUser->authorise('core.manage', 'com_messages'))
+		{
+			$this->setError(Text::_('COM_MESSAGES_ERROR_RECIPIENT_NOT_AUTHORISED'));
+
+			return false;
+		}
+
 		// Load the recipient user configuration.
 		$model  = $this->bootComponent('com_messages')
 			->getMVCFactory()->createModel('Config', 'Administrator', ['ignore_request' => true]);
@@ -344,7 +366,7 @@ class MessageModel extends AdminModel
 			return false;
 		}
 
-		if ($config->get('locked', false))
+		if ($config->get('lock', false))
 		{
 			$this->setError(Text::_('COM_MESSAGES_ERR_SEND_FAILED'));
 
@@ -368,9 +390,7 @@ class MessageModel extends AdminModel
 
 		if ($config->get('mail_on_new', true))
 		{
-			// Load the user details (already valid from table check).
 			$fromUser         = User::getInstance($table->user_id_from);
-			$toUser           = User::getInstance($table->user_id_to);
 			$debug            = Factory::getApplication()->get('debug_lang');
 			$default_language = ComponentHelper::getParams('com_languages')->get('administrator');
 			$lang             = Language::getInstance($toUser->getParam('admin_language', $default_language), $debug);
@@ -391,48 +411,25 @@ class MessageModel extends AdminModel
 			$subject  = html_entity_decode($table->subject, ENT_COMPAT, 'UTF-8');
 			$message  = strip_tags(html_entity_decode($table->message, ENT_COMPAT, 'UTF-8'));
 
-			$subj	  = sprintf($lang->_('COM_MESSAGES_NEW_MESSAGE'), $fromName, $sitename);
-			$msg 	  = $subject . "\n\n" . $message . "\n\n" . sprintf($lang->_('COM_MESSAGES_PLEASE_LOGIN'), $siteURL);
-
 			// Send the email
-			$mailer = Factory::getMailer();
+			$mailer = new MailTemplate('com_messages.new_message', $lang->getTag());
+			$data = [
+				'subject' => $subject,
+				'message' => $message,
+				'fromname' => $fromName,
+				'sitename' => $sitename,
+				'siteurl' => $siteURL,
+				'fromemail' => $fromUser->email,
+				'toname' => $toUser->name,
+				'toemail' => $toUser->email
+			];
+			$mailer->addTemplateData($data);
+			$mailer->setReplyTo($fromUser->email, $fromUser->name);
+			$mailer->addRecipient($toUser->email, $toUser->name);
 
 			try
 			{
-				if (!$mailer->addReplyTo($fromUser->email, $fromUser->name))
-				{
-					try
-					{
-						Log::add(Text::_('COM_MESSAGES_ERROR_COULD_NOT_SEND_INVALID_REPLYTO'), Log::WARNING, 'jerror');
-					}
-					catch (\RuntimeException $exception)
-					{
-						Factory::getApplication()->enqueueMessage(Text::_('COM_MESSAGES_ERROR_COULD_NOT_SEND_INVALID_REPLYTO'), 'warning');
-					}
-
-					// The message is still saved in the database, we do not allow this failure to cause the entire save routine to fail
-					return true;
-				}
-
-				if (!$mailer->addRecipient($toUser->email, $toUser->name))
-				{
-					try
-					{
-						Log::add(Text::_('COM_MESSAGES_ERROR_COULD_NOT_SEND_INVALID_RECIPIENT'), Log::WARNING, 'jerror');
-					}
-					catch (\RuntimeException $exception)
-					{
-						Factory::getApplication()->enqueueMessage(Text::_('COM_MESSAGES_ERROR_COULD_NOT_SEND_INVALID_RECIPIENT'), 'warning');
-					}
-
-					// The message is still saved in the database, we do not allow this failure to cause the entire save routine to fail
-					return true;
-				}
-
-				$mailer->setSubject($subj);
-				$mailer->setBody($msg);
-
-				$mailer->Send();
+				$mailer->send();
 			}
 			catch (MailDisabledException | phpMailerException $exception)
 			{

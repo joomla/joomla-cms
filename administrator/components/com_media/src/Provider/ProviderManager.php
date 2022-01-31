@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_media
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2017 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -53,6 +53,32 @@ class ProviderManager
 	public function registerProvider(ProviderInterface $provider)
 	{
 		$this->providers[$provider->getID()] = $provider;
+	}
+
+	/**
+	 * Unregister a provider from the ProviderManager.
+	 * When no provider, or null is passed in, then all providers are cleared.
+	 *
+	 * @param   ProviderInterface|null  $provider  The provider to be unregistered
+	 *
+	 * @return  void
+	 *
+	 * @since   4.0.6
+	 */
+	public function unregisterProvider(ProviderInterface $provider = null): void
+	{
+		if ($provider === null)
+		{
+			$this->providers = [];
+			return;
+		}
+
+		if (!array_key_exists($provider->getID(), $this->providers))
+		{
+			return;
+		}
+
+		unset($this->providers[$provider->getID()]);
 	}
 
 	/**

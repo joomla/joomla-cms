@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2005 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -11,13 +11,14 @@ namespace Joomla\CMS\Document;
 \defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Cache\Cache;
+use Joomla\CMS\Cache\CacheControllerFactoryInterface;
 use Joomla\CMS\Factory as CmsFactory;
 use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\Helper\ModuleHelper;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\Log\Log;
 use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\Utility\Utility;
+use Joomla\CMS\WebAsset\WebAssetManager;
 use Joomla\Database\ParameterType;
 use Joomla\Registry\Registry;
 
@@ -112,7 +113,7 @@ class HtmlDocument extends Document
 	 * Set to true when the document should be output as HTML5
 	 *
 	 * @var    boolean
-	 * @since  4.0
+	 * @since  4.0.0
 	 */
 	private $html5 = true;
 
@@ -159,6 +160,30 @@ class HtmlDocument extends Document
 		$data['scriptText']    = Text::getScriptStrings();
 
 		$data['scriptOptions'] = $this->scriptOptions;
+
+		// Get Asset manager state
+		$wa      = $this->getWebAssetManager();
+		$waState = $wa->getManagerState();
+
+		// Get asset objects and filter only manually added/enabled assets,
+		// Dependencies will be picked up from registry files
+		$waState['assets'] = [];
+
+		foreach ($waState['activeAssets'] as $assetType => $assetNames)
+		{
+			foreach ($assetNames as $assetName => $assetState)
+			{
+				if ($assetState === WebAssetManager::ASSET_STATE_ACTIVE)
+				{
+					$waState['assets'][$assetType][] = $wa->getAsset($assetType, $assetName);
+				}
+			}
+		}
+
+		// We have loaded asset objects, now can remove unused stuff
+		unset($waState['activeAssets']);
+
+		$data['assetManager'] = $waState;
 
 		return $data;
 	}
@@ -269,6 +294,30 @@ class HtmlDocument extends Document
 		$this->_custom       = $data['custom'] ?? $this->_custom;
 		$this->scriptOptions = (isset($data['scriptOptions']) && !empty($data['scriptOptions'])) ? $data['scriptOptions'] : $this->scriptOptions;
 
+		// Restore asset manager state
+		$wa = $this->getWebAssetManager();
+
+		if (!empty($data['assetManager']['registryFiles']))
+		{
+			$waRegistry = $wa->getRegistry();
+
+			foreach ($data['assetManager']['registryFiles'] as $registryFile)
+			{
+				$waRegistry->addRegistryFile($registryFile);
+			}
+		}
+
+		if (!empty($data['assetManager']['assets']))
+		{
+			foreach ($data['assetManager']['assets'] as $assetType => $assets)
+			{
+				foreach ($assets as $asset)
+				{
+					$wa->registerAsset($assetType, $asset)->useAsset($assetType, $asset->getName());
+				}
+			}
+		}
+
 		return $this;
 	}
 
@@ -277,7 +326,7 @@ class HtmlDocument extends Document
 	 *
 	 * @param   array  $data  The document head data in array form
 	 *
-	 * @return  HtmlDocument|null instance of $this to allow chaining or null for empty input data
+	 * @return  HtmlDocument|void instance of $this to allow chaining or void for empty input data
 	 *
 	 * @since   1.7.0
 	 */
@@ -318,11 +367,14 @@ class HtmlDocument extends Document
 
 		if (isset($data['style']))
 		{
-			foreach ($data['style'] as $type => $stdata)
+			foreach ($data['style'] as $type => $styles)
 			{
-				if (!isset($this->_style[strtolower($type)]) || !stristr($stdata, $this->_style[strtolower($type)]))
+				foreach ($styles as $hash => $style)
 				{
-					$this->addStyleDeclaration($stdata, $type);
+					if (!isset($this->_style[strtolower($type)][$hash]))
+					{
+						$this->addStyleDeclaration($style, $type);
+					}
 				}
 			}
 		}
@@ -333,11 +385,14 @@ class HtmlDocument extends Document
 
 		if (isset($data['script']))
 		{
-			foreach ($data['script'] as $type => $sdata)
+			foreach ($data['script'] as $type => $scripts)
 			{
-				if (!isset($this->_script[strtolower($type)]) || !stristr($sdata, $this->_script[strtolower($type)]))
+				foreach ($scripts as $hash => $script)
 				{
-					$this->addScriptDeclaration($sdata, $type);
+					if (!isset($this->_script[strtolower($type)][$hash]))
+					{
+						$this->addScriptDeclaration($script, $type);
+					}
 				}
 			}
 		}
@@ -351,6 +406,30 @@ class HtmlDocument extends Document
 			foreach ($data['scriptOptions'] as $key => $scriptOptions)
 			{
 				$this->addScriptOptions($key, $scriptOptions, true);
+			}
+		}
+
+		// Restore asset manager state
+		$wa = $this->getWebAssetManager();
+
+		if (!empty($data['assetManager']['registryFiles']))
+		{
+			$waRegistry = $wa->getRegistry();
+
+			foreach ($data['assetManager']['registryFiles'] as $registryFile)
+			{
+				$waRegistry->addRegistryFile($registryFile);
+			}
+		}
+
+		if (!empty($data['assetManager']['assets']))
+		{
+			foreach ($data['assetManager']['assets'] as $assetType => $assets)
+			{
+				foreach ($assets as $asset)
+				{
+					$wa->registerAsset($assetType, $asset)->useAsset($assetType, $asset->getName());
+				}
 			}
 		}
 
@@ -478,33 +557,44 @@ class HtmlDocument extends Document
 
 		$renderer = $this->loadRenderer($type);
 
-		if ($this->_caching == true && $type === 'modules')
+		if ($this->_caching == true && $type === 'modules' && $name !== 'debug')
 		{
 			/** @var  \Joomla\CMS\Document\Renderer\Html\ModulesRenderer  $renderer */
-			$cache = CmsFactory::getCache('com_modules', '');
-			$hash = md5(serialize(array($name, $attribs, null, get_class($renderer))));
+			/** @var  \Joomla\CMS\Cache\Controller\OutputController  $cache */
+			$cache = CmsFactory::getContainer()->get(CacheControllerFactoryInterface::class)
+				->createCacheController('output', ['defaultgroup' => 'com_modules']);
+			$itemId = (int) CmsFactory::getApplication()->input->get('Itemid', 0, 'int');
+
+			$hash = md5(
+				serialize(
+					[
+						$name,
+						$attribs,
+						\get_class($renderer),
+						$itemId,
+					]
+				)
+			);
 			$cbuffer = $cache->get('cbuffer_' . $type);
 
 			if (isset($cbuffer[$hash]))
 			{
 				return Cache::getWorkarounds($cbuffer[$hash], array('mergehead' => 1));
 			}
-			else
-			{
-				$options = array();
-				$options['nopathway'] = 1;
-				$options['nomodules'] = 1;
-				$options['modulemode'] = 1;
 
-				$this->setBuffer($renderer->render($name, $attribs, null), $type, $name);
-				$data = parent::$_buffer[$type][$name][$title];
+			$options = array();
+			$options['nopathway'] = 1;
+			$options['nomodules'] = 1;
+			$options['modulemode'] = 1;
 
-				$tmpdata = Cache::setWorkarounds($data, $options);
+			$this->setBuffer($renderer->render($name, $attribs, null), $type, $name);
+			$data = parent::$_buffer[$type][$name][$title];
 
-				$cbuffer[$hash] = $tmpdata;
+			$tmpdata = Cache::setWorkarounds($data, $options);
 
-				$cache->store($cbuffer, 'cbuffer_' . $type);
-			}
+			$cbuffer[$hash] = $tmpdata;
+
+			$cache->store($cbuffer, 'cbuffer_' . $type);
 		}
 		else
 		{
@@ -617,7 +707,7 @@ class HtmlDocument extends Document
 		{
 			if (empty($module->contentRendered))
 			{
-				$renderer->render($module, array('style' => 'raw'));
+				$renderer->render($module, ['contentOnly' => true]);
 			}
 
 			if (trim($module->content) !== '')
@@ -683,7 +773,7 @@ class HtmlDocument extends Document
 		$contents = '';
 
 		// Check to see if we have a valid template file
-		if (file_exists($directory . '/' . $filename))
+		if (is_file($directory . '/' . $filename))
 		{
 			// Store the file path
 			$this->_file = $directory . '/' . $filename;
@@ -693,20 +783,6 @@ class HtmlDocument extends Document
 			require $directory . '/' . $filename;
 			$contents = ob_get_contents();
 			ob_end_clean();
-		}
-
-		// Try to find a favicon by checking the template and root folder
-		$icon = '/favicon.ico';
-
-		foreach (array(JPATH_BASE, $directory) as $dir)
-		{
-			if (file_exists($dir . $icon))
-			{
-				$path = str_replace(JPATH_BASE, '', $dir);
-				$path = str_replace('\\', '/', $path);
-				$this->addFavicon(Uri::base(true) . $path . $icon);
-				break;
-			}
 		}
 
 		return $contents;
@@ -728,15 +804,25 @@ class HtmlDocument extends Document
 		$filter = InputFilter::getInstance();
 		$template = $filter->clean($params['template'], 'cmd');
 		$file = $filter->clean($params['file'], 'cmd');
+		$inherits = $params['templateInherits'] ?? '';
+		$baseDir = $directory . '/' . $template;
 
-		if (!file_exists($directory . '/' . $template . '/' . $file))
+		if (!is_file($directory . '/' . $template . '/' . $file))
 		{
-			$template = 'system';
-		}
+			if ($inherits !== '' && is_file($directory . '/' . $inherits . '/' . $file))
+			{
+				$baseDir = $directory . '/' . $inherits;
+			}
+			else
+			{
+				$baseDir  = $directory . '/system';
+				$template = 'system';
 
-		if (!file_exists($directory . '/' . $template . '/' . $file))
-		{
-			$file = 'index.php';
+				if ($file !== 'index.php' && !is_file($baseDir . '/' . $file))
+				{
+					$file = 'index.php';
+				}
+			}
 		}
 
 		// Load the language file for the template
@@ -744,15 +830,16 @@ class HtmlDocument extends Document
 
 		// 1.5 or core then 1.6
 		$lang->load('tpl_' . $template, JPATH_BASE)
+			|| ($inherits !== '' && $lang->load('tpl_' . $inherits, $directory . '/' . $inherits))
 			|| $lang->load('tpl_' . $template, $directory . '/' . $template);
 
 		// Assign the variables
-		$this->template = $template;
 		$this->baseurl = Uri::base(true);
 		$this->params = $params['params'] ?? new Registry;
+		$this->template = $template;
 
 		// Load
-		$this->_template = $this->_loadTemplate($directory . '/' . $template, $file);
+		$this->_template = $this->_loadTemplate($baseDir, $file);
 
 		return $this;
 	}

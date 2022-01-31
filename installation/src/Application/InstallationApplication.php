@@ -3,13 +3,13 @@
  * @package     Joomla.Installation
  * @subpackage  Application
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2013 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Installation\Application;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\Application\Web\WebClient;
 use Joomla\CMS\Application\CMSApplication;
@@ -42,16 +42,16 @@ final class InstallationApplication extends CMSApplication
 	/**
 	 * Class constructor.
 	 *
-	 * @param   Input      $input      An optional argument to provide dependency injection for the application's input
-	 *                                 object.  If the argument is a JInput object that object will become the
-	 *                                 application's input object, otherwise a default input object is created.
-	 * @param   Registry   $config     An optional argument to provide dependency injection for the application's
-	 *                                 config object.  If the argument is a Registry object that object will become
-	 *                                 the application's config object, otherwise a default config object is created.
-	 * @param   WebClient  $client     An optional argument to provide dependency injection for the application's
-	 *                                 client object.  If the argument is a WebClient object that object will become the
-	 *                                 application's client object, otherwise a default client object is created.
-	 * @param   Container  $container  Dependency injection container.
+	 * @param   Input|null      $input      An optional argument to provide dependency injection for the application's input
+	 *                                      object.  If the argument is a JInput object that object will become the
+	 *                                      application's input object, otherwise a default input object is created.
+	 * @param   Registry|null   $config     An optional argument to provide dependency injection for the application's
+	 *                                      config object.  If the argument is a Registry object that object will become
+	 *                                      the application's config object, otherwise a default config object is created.
+	 * @param   WebClient|null  $client     An optional argument to provide dependency injection for the application's
+	 *                                      client object.  If the argument is a WebClient object that object will become the
+	 *                                      application's client object, otherwise a default client object is created.
+	 * @param   Container|null  $container  Dependency injection container.
 	 *
 	 * @since   3.1
 	 */
@@ -85,7 +85,7 @@ final class InstallationApplication extends CMSApplication
 	 *
 	 * @return  void
 	 *
-	 * @since   4.0
+	 * @since   4.0.0
 	 */
 	public function afterSessionStart(SessionEvent $event)
 	{
@@ -142,7 +142,7 @@ final class InstallationApplication extends CMSApplication
 
 			$guesses = array();
 
-			foreach ($orphans as $key => $occurance)
+			foreach ($orphans as $key => $occurrence)
 			{
 				$guess = str_replace('_', ' ', $key);
 
@@ -195,9 +195,9 @@ final class InstallationApplication extends CMSApplication
 		Factory::$document = $document;
 
 		// Define component path.
-		define('JPATH_COMPONENT', JPATH_BASE);
-		define('JPATH_COMPONENT_SITE', JPATH_SITE);
-		define('JPATH_COMPONENT_ADMINISTRATOR', JPATH_ADMINISTRATOR);
+		\define('JPATH_COMPONENT', JPATH_BASE);
+		\define('JPATH_COMPONENT_SITE', JPATH_SITE);
+		\define('JPATH_COMPONENT_ADMINISTRATOR', JPATH_ADMINISTRATOR);
 
 		// Execute the task.
 		ob_start();
@@ -241,7 +241,7 @@ final class InstallationApplication extends CMSApplication
 	 *
 	 * @return  void
 	 *
-	 * @since   4.0
+	 * @since   4.0.0
 	 */
 	public function execute()
 	{
@@ -300,13 +300,13 @@ final class InstallationApplication extends CMSApplication
 	 */
 	private function executeController()
 	{
-		$task = $this->input->get('task');
+		$task = $this->input->getCmd('task', '');
 
 		// The name of the controller
 		$controllerName = 'display';
 
 		// Parse task in format controller.task
-		if ($task)
+		if ($task !== '')
 		{
 			list($controllerName, $task) = explode('.', $task, 2);
 		}
@@ -356,7 +356,7 @@ final class InstallationApplication extends CMSApplication
 	/**
 	 * Returns the installed language files in the administrative and frontend area.
 	 *
-	 * @param   DatabaseInterface  $db  Database driver.
+	 * @param   DatabaseInterface|null  $db  Database driver.
 	 *
 	 * @return  array  Array with installed language packs in admin and site area.
 	 *
@@ -394,7 +394,7 @@ final class InstallationApplication extends CMSApplication
 	 *
 	 * @param   boolean  $params  True to return the template parameters
 	 *
-	 * @return  string  The name of the template.
+	 * @return  string|\stdClass  The name of the template.
 	 *
 	 * @since   3.1
 	 */
@@ -405,6 +405,8 @@ final class InstallationApplication extends CMSApplication
 			$template = new \stdClass;
 			$template->template = 'template';
 			$template->params = new Registry;
+			$template->inheritable = 0;
+			$template->parent = '';
 
 			return $template;
 		}
@@ -492,7 +494,7 @@ final class InstallationApplication extends CMSApplication
 	 * but for many applications it will make sense to override this method and create a document,
 	 * if required, based on more specific needs.
 	 *
-	 * @param   Document  $document  An optional document object. If omitted, the factory document is created.
+	 * @param   Document|null  $document  An optional document object. If omitted, the factory document is created.
 	 *
 	 * @return  InstallationApplication This method is chainable.
 	 *
@@ -544,10 +546,11 @@ final class InstallationApplication extends CMSApplication
 			$file = $this->input->getCmd('tmpl', 'index');
 
 			$options = [
-				'template'  => 'template',
-				'file'      => $file . '.php',
-				'directory' => JPATH_THEMES,
-				'params'    => '{}',
+				'template'         => 'template',
+				'file'             => $file . '.php',
+				'directory'        => JPATH_THEMES,
+				'params'           => '{}',
+				"templateInherits" => ''
 			];
 		}
 
@@ -579,10 +582,10 @@ final class InstallationApplication extends CMSApplication
 	/**
 	 * Returns the application \JMenu object.
 	 *
-	 * @param   string  $name     The name of the application/client.
-	 * @param   array   $options  An optional associative array of configuration settings.
+	 * @param   string|null  $name     The name of the application/client.
+	 * @param   array        $options  An optional associative array of configuration settings.
 	 *
-	 * @return  AbstractMenu
+	 * @return  null
 	 *
 	 * @since   3.2
 	 */

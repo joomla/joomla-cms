@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  User.token
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2020 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -17,10 +17,18 @@ use Joomla\CMS\Form\Field\TextField;
 /**
  * Joomlatoken field class
  *
- * @since  4.0
+ * @since  4.0.0
  */
 class JoomlatokenField extends TextField
 {
+	/**
+	 * Name of the layout being used to render the field
+	 *
+	 * @var    string
+	 * @since  4.0.0
+	 */
+	protected $layout = 'plugins.user.token.token';
+
 	/**
 	 * Method to attach a Form object to the field.
 	 *
@@ -59,7 +67,6 @@ class JoomlatokenField extends TextField
 		return $ret;
 	}
 
-
 	/**
 	 * Method to get the field input markup.
 	 *
@@ -74,8 +81,6 @@ class JoomlatokenField extends TextField
 		{
 			return '';
 		}
-
-		$this->value = $this->getTokenForDisplay($this->value);
 
 		return parent::getInput();
 	}
@@ -123,5 +128,37 @@ class JoomlatokenField extends TextField
 		}
 
 		return $message;
+	}
+
+	/**
+	 * Get the data for the layout
+	 *
+	 * @return  array
+	 *
+	 * @since   4.0.0
+	 */
+	protected function getLayoutData()
+	{
+		$data          = parent::getLayoutData();
+		$data['value'] = $this->getTokenForDisplay($this->value);
+
+		return $data;
+	}
+
+	/**
+	 * Get the layout paths
+	 *
+	 * @return  array
+	 *
+	 * @since   4.0.0
+	 */
+	protected function getLayoutPaths()
+	{
+		$template = Factory::getApplication()->getTemplate();
+
+		return [
+			JPATH_THEMES . '/' . $template . '/html/layouts',
+			JPATH_SITE . '/layouts',
+		];
 	}
 }

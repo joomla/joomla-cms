@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_contact
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2006 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -13,7 +13,6 @@ namespace Joomla\Component\Contact\Site\View\Contact;
 
 use Joomla\CMS\Categories\Categories;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Helper\TagsHelper;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\GenericDataException;
@@ -33,6 +32,7 @@ class HtmlView extends BaseHtmlView
 	 * The item model state
 	 *
 	 * @var    \Joomla\Registry\Registry
+	 *
 	 * @since  1.6
 	 */
 	protected $state;
@@ -40,7 +40,8 @@ class HtmlView extends BaseHtmlView
 	/**
 	 * The form object for the contact item
 	 *
-	 * @var    \JForm
+	 * @var    \Joomla\CMS\Form\Form
+	 *
 	 * @since  1.6
 	 */
 	protected $form;
@@ -48,25 +49,29 @@ class HtmlView extends BaseHtmlView
 	/**
 	 * The item object details
 	 *
-	 * @var    \JObject
+	 * @var    \Joomla\CMS\Object\CMSObject
+	 *
 	 * @since  1.6
 	 */
 	protected $item;
 
 	/**
 	 * The page to return to on submission
-	 * TODO: Implement this functionality
 	 *
-	 * @var         string
-	 * @since       1.6
+	 * @var    string
+	 *
+	 * @since  1.6
+	 *
+	 * @todo Implement this functionality
 	 */
 	protected $return_page = '';
 
 	/**
 	 * Should we show a captcha form for the submission of the contact request?
 	 *
-	 * @var   boolean
-	 * @since 3.6.3
+	 * @var    boolean
+	 *
+	 * @since  3.6.3
 	 */
 	protected $captchaEnabled = false;
 
@@ -74,6 +79,7 @@ class HtmlView extends BaseHtmlView
 	 * The page parameters
 	 *
 	 * @var    \Joomla\Registry\Registry|null
+	 *
 	 * @since  4.0.0
 	 */
 	protected $params = null;
@@ -81,16 +87,18 @@ class HtmlView extends BaseHtmlView
 	/**
 	 * The user object
 	 *
-	 * @var   \JUser
-	 * @since 4.0.0
+	 * @var    \Joomla\CMS\User\User
+	 *
+	 * @since  4.0.0
 	 */
 	protected $user;
 
 	/**
 	 * Other contacts in this contacts category
 	 *
-	 * @var   array
-	 * @since 4.0.0
+	 * @var    array
+	 *
+	 * @since  4.0.0
 	 */
 	protected $contacts;
 
@@ -98,16 +106,26 @@ class HtmlView extends BaseHtmlView
 	 * The page class suffix
 	 *
 	 * @var    string
+	 *
 	 * @since  4.0.0
 	 */
 	protected $pageclass_sfx = '';
+
+	/**
+	 * The flag to mark if the active menu item is linked to the contact being displayed
+	 *
+	 * @var    boolean
+	 *
+	 * @since  4.0.0
+	 */
+	protected $menuItemMatchContact = false;
 
 	/**
 	 * Execute and display a template script.
 	 *
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
 	 *
-	 * @return  mixed  A string if successful, otherwise an Error object.
+	 * @return  void|boolean
 	 */
 	public function display($tpl = null)
 	{
@@ -117,49 +135,61 @@ class HtmlView extends BaseHtmlView
 		$item       = $this->get('Item');
 		$this->form = $this->get('Form');
 		$params     = $state->get('params');
-		$contacts   = array();
+		$contacts   = [];
 
 		$temp = clone $params;
 
 		$active = $app->getMenu()->getActive();
 
 		// Get submitted values
-		$data = $app->getUserState('com_contact.contact.data', array());
+		$data = $app->getUserState('com_contact.contact.data', []);
 
 		// Add catid for selecting custom fields
 		$data['catid'] = $item->catid;
 
 		$app->setUserState('com_contact.contact.data', $data);
 
-		if ($active)
+		// If the current view is the active item and a contact view for this contact, then the menu item params take priority
+		if ($active
+			&& $active->component == 'com_contact'
+			&& isset($active->query['view'], $active->query['id'])
+			&& $active->query['view'] == 'contact'
+			&& $active->query['id'] == $item->id)
 		{
-			// If the current view is the active item and a contact view for this contact, then the menu item params take priority
-			if (strpos($active->link, 'view=contact') && strpos($active->link, '&id=' . (int) $item->id))
+			$this->menuItemMatchContact = true;
+
+			// Load layout from active query (in case it is an alternative menu item)
+			if (isset($active->query['layout']))
 			{
-				// $item->params are the contact params, $temp are the menu item params
-				// Merge so that the menu item params take priority
-				$item->params->merge($temp);
+				$this->setLayout($active->query['layout']);
 			}
-			else
+			// Check for alternative layout of contact
+			elseif ($layout = $item->params->get('contact_layout'))
 			{
-				// Current view is not a single contact, so the contact params take priority here
-				// Merge the menu item params with the contact params so that the contact params take priority
-				$temp->merge($item->params);
-				$item->params = $temp;
+				$this->setLayout($layout);
 			}
+
+			$item->params->merge($temp);
 		}
 		else
 		{
 			// Merge so that contact params take priority
 			$temp->merge($item->params);
 			$item->params = $temp;
+
+			if ($layout = $item->params->get('contact_layout'))
+			{
+				$this->setLayout($layout);
+			}
 		}
 
 		// Collect extra contact information when this information is required
 		if ($item && $item->params->get('show_contact_list'))
 		{
 			// Get Category Model data
-			$categoryModel = new \Joomla\Component\Contact\Site\Model\CategoryModel(array('ignore_request' => true));
+			/** @var \Joomla\Component\Contact\Site\Model\CategoryModel $categoryModel */
+			$categoryModel = $app->bootComponent('com_contact')->getMVCFactory()
+				->createModel('Category', 'Site', ['ignore_request' => true]);
 
 			$categoryModel->setState('category.id', $item->catid);
 			$categoryModel->setState('list.ordering', 'a.name');
@@ -178,7 +208,7 @@ class HtmlView extends BaseHtmlView
 		// Check if access is not public
 		$groups = $user->getAuthorisedViewLevels();
 
-		if ((!in_array($item->access, $groups)) || (!in_array($item->category_access, $groups)))
+		if (!in_array($item->access, $groups) || !in_array($item->category_access, $groups))
 		{
 			$app->enqueueMessage(Text::_('JERROR_ALERTNOAUTHOR'), 'error');
 			$app->setHeader('status', 403, true);
@@ -218,18 +248,19 @@ class HtmlView extends BaseHtmlView
 		// Manage the display mode for contact detail groups
 		switch ($item->params->get('contact_icons'))
 		{
-			case 1 :
+			case 1:
 				// Text
 				$item->params->set('marker_address',   Text::_('COM_CONTACT_ADDRESS') . ': ');
 				$item->params->set('marker_email',     Text::_('JGLOBAL_EMAIL') . ': ');
 				$item->params->set('marker_telephone', Text::_('COM_CONTACT_TELEPHONE') . ': ');
 				$item->params->set('marker_fax',       Text::_('COM_CONTACT_FAX') . ': ');
 				$item->params->set('marker_mobile',    Text::_('COM_CONTACT_MOBILE') . ': ');
+				$item->params->set('marker_webpage',   Text::_('COM_CONTACT_WEBPAGE') . ': ');
 				$item->params->set('marker_misc',      Text::_('COM_CONTACT_OTHER_INFORMATION') . ': ');
 				$item->params->set('marker_class',     'jicons-text');
 				break;
 
-			case 2 :
+			case 2:
 				// None
 				$item->params->set('marker_address',   '');
 				$item->params->set('marker_email',     '');
@@ -237,127 +268,67 @@ class HtmlView extends BaseHtmlView
 				$item->params->set('marker_mobile',    '');
 				$item->params->set('marker_fax',       '');
 				$item->params->set('marker_misc',      '');
+				$item->params->set('marker_webpage',   '');
 				$item->params->set('marker_class',     'jicons-none');
 				break;
 
-			default :
+			default:
 				if ($item->params->get('icon_address'))
 				{
-					$image1 = HTMLHelper::_(
-						'image',
-						$item->params->get('icon_address', 'con_address.png'),
-						Text::_('COM_CONTACT_ADDRESS'),
-						null,
-						false
-					);
-				}
-				else
-				{
-					$image1 = HTMLHelper::_(
-						'image', 'contacts/' . $item->params->get('icon_address', 'con_address.png'),
-						Text::_('COM_CONTACT_ADDRESS'),
-						null,
-						true
+					$item->params->set(
+						'marker_address',
+						HTMLHelper::_('image', $item->params->get('icon_address', ''), Text::_('COM_CONTACT_ADDRESS'), false)
 					);
 				}
 
 				if ($item->params->get('icon_email'))
 				{
-					$image2 = HTMLHelper::_(
-						'image',
-						$item->params->get('icon_email', 'emailButton.png'),
-						Text::_('JGLOBAL_EMAIL'),
-						null,
-						false
-					);
-				}
-				else
-				{
-					$image2 = HTMLHelper::_(
-						'image',
-						'contacts/' . $item->params->get('icon_email', 'emailButton.png'),
-						Text::_('JGLOBAL_EMAIL'),
-						null,
-						true
+					$item->params->set(
+						'marker_email',
+						HTMLHelper::_('image', $item->params->get('icon_email', ''), Text::_('COM_CONTACT_EMAIL'), false)
 					);
 				}
 
 				if ($item->params->get('icon_telephone'))
 				{
-					$image3 = HTMLHelper::_(
-						'image',
-						$item->params->get('icon_telephone', 'con_tel.png'),
-						Text::_('COM_CONTACT_TELEPHONE'),
-						null,
-						false
-					);
-				}
-				else
-				{
-					$image3 = HTMLHelper::_(
-						'image',
-						'contacts/' . $item->params->get('icon_telephone', 'con_tel.png'),
-						Text::_('COM_CONTACT_TELEPHONE'),
-						null,
-						true
+					$item->params->set(
+						'marker_telephone',
+						HTMLHelper::_('image', $item->params->get('icon_telephone', ''), Text::_('COM_CONTACT_TELEPHONE'), false)
 					);
 				}
 
-				if ($item->params->get('icon_fax'))
+				if ($item->params->get('icon_fax', ''))
 				{
-					$image4 = HTMLHelper::_('image', $item->params->get('icon_fax', 'con_fax.png'), Text::_('COM_CONTACT_FAX'), null, false);
-				}
-				else
-				{
-					$image4 = HTMLHelper::_(
-						'image',
-						'contacts/' . $item->params->get('icon_fax', 'con_fax.png'),
-						Text::_('COM_CONTACT_FAX'),
-						null,
-						true
+					$item->params->set(
+						'marker_fax',
+						HTMLHelper::_('image', $item->params->get('icon_fax', ''), Text::_('COM_CONTACT_FAX'), false)
 					);
 				}
 
 				if ($item->params->get('icon_misc'))
 				{
-					$image5 = HTMLHelper::_(
-						'image',
-						$item->params->get('icon_misc', 'con_info.png'),
-						Text::_('COM_CONTACT_OTHER_INFORMATION'),
-						null,
-						false
-					);
-				}
-				else
-				{
-					$image5 = HTMLHelper::_(
-						'image',
-						'contacts/' . $item->params->get('icon_misc', 'con_info.png'),
-						Text::_('COM_CONTACT_OTHER_INFORMATION'), null, true
+					$item->params->set(
+						'marker_misc',
+						HTMLHelper::_('image', $item->params->get('icon_misc', ''), Text::_('COM_CONTACT_OTHER_INFORMATION'), false)
 					);
 				}
 
 				if ($item->params->get('icon_mobile'))
 				{
-					$image6 = HTMLHelper::_('image', $item->params->get('icon_mobile', 'con_mobile.png'), Text::_('COM_CONTACT_MOBILE'), null, false);
-				}
-				else
-				{
-					$image6 = HTMLHelper::_(
-						'image',
-						'contacts/' . $item->params->get('icon_mobile', 'con_mobile.png'),
-						Text::_('COM_CONTACT_MOBILE'),
-						null,
-						true
+					$item->params->set(
+						'marker_mobile',
+						HTMLHelper::_('image', $item->params->get('icon_mobile', ''),  Text::_('COM_CONTACT_MOBILE'), false)
 					);
 				}
 
-				$item->params->set('marker_address',   $image1);
-				$item->params->set('marker_email',     $image2);
-				$item->params->set('marker_telephone', $image3);
-				$item->params->set('marker_fax',       $image4);
-				$item->params->set('marker_misc',      $image5);
-				$item->params->set('marker_mobile',    $image6);
+				if ($item->params->get('icon_webpage'))
+				{
+					$item->params->set(
+						'marker_webpage',
+						HTMLHelper::_('image', $item->params->get('icon_webpage', ''),  Text::_('COM_CONTACT_WEBPAGE'), false)
+					);
+				}
+
 				$item->params->set('marker_class',     'jicons-icons');
 				break;
 		}
@@ -385,7 +356,7 @@ class HtmlView extends BaseHtmlView
 			$item->text = $item->misc;
 		}
 
-		$app->triggerEvent('onContentPrepare', array ('com_contact.contact', &$item, &$this->params, $offset));
+		$app->triggerEvent('onContentPrepare', array ('com_contact.contact', &$item, &$item->params, $offset));
 
 		// Store the events for later
 		$item->event = new \stdClass;
@@ -417,7 +388,7 @@ class HtmlView extends BaseHtmlView
 		}
 
 		// Escape strings for HTML output
-		$this->pageclass_sfx = htmlspecialchars($item->params->get('pageclass_sfx'));
+		$this->pageclass_sfx = htmlspecialchars($item->params->get('pageclass_sfx', ''));
 
 		$this->params      = &$item->params;
 		$this->state       = &$state;
@@ -425,24 +396,6 @@ class HtmlView extends BaseHtmlView
 		$this->user        = &$user;
 		$this->contacts    = &$contacts;
 		$this->contactUser = $contactUser;
-
-		$item->tags = new TagsHelper;
-		$item->tags->getItemTags('com_contact.contact', $this->item->id);
-
-		// Override the layout only if this is not the active menu item
-		// If it is the active menu item, then the view and item id will match
-		if ((!$active) || ((strpos($active->link, 'view=contact') === false) || (strpos($active->link, '&id=' . (string) $this->item->id) === false)))
-		{
-			if (($layout = $item->params->get('contact_layout')))
-			{
-				$this->setLayout($layout);
-			}
-		}
-		elseif (isset($active->query['layout']))
-		{
-			// We need to set the layout in case this is an alternative menu item (with an alternative layout)
-			$this->setLayout($active->query['layout']);
-		}
 
 		$model = $this->getModel();
 		$model->hit();
@@ -460,7 +413,7 @@ class HtmlView extends BaseHtmlView
 
 		$this->_prepareDocument();
 
-		return parent::display($tpl);
+		parent::display($tpl);
 	}
 
 	/**
@@ -473,13 +426,11 @@ class HtmlView extends BaseHtmlView
 	protected function _prepareDocument()
 	{
 		$app     = Factory::getApplication();
-		$menus   = $app->getMenu();
 		$pathway = $app->getPathway();
-		$title   = null;
 
 		// Because the application sets a default page title,
 		// we need to get it from the menu item itself
-		$menu = $menus->getActive();
+		$menu = $app->getMenu()->getActive();
 
 		if ($menu)
 		{
@@ -492,11 +443,8 @@ class HtmlView extends BaseHtmlView
 
 		$title = $this->params->get('page_title', '');
 
-		$id = (int) @$menu->query['id'];
-
 		// If the menu item does not concern this contact
-		if ($menu && (!isset($menu->query['option']) || $menu->query['option'] !== 'com_contact' || $menu->query['view'] !== 'contact'
-			|| $id != $this->item->id))
+		if (!$this->menuItemMatchContact)
 		{
 			// If this is not a single contact menu item, set the page title to the contact title
 			if ($this->item->name)
@@ -504,11 +452,21 @@ class HtmlView extends BaseHtmlView
 				$title = $this->item->name;
 			}
 
+			// Get ID of the category from active menu item
+			if ($menu && $menu->component == 'com_contact' && isset($menu->query['view'])
+				&& in_array($menu->query['view'], ['categories', 'category']))
+			{
+				$id = $menu->query['id'];
+			}
+			else
+			{
+				$id = 0;
+			}
+
 			$path = array(array('title' => $this->item->name, 'link' => ''));
 			$category = Categories::getInstance('Contact')->get($this->item->catid);
 
-			while ($category && (!isset($menu->query['option']) || $menu->query['option'] !== 'com_contact' || $menu->query['view'] === 'contact'
-				|| $id != $category->id) && $category->id > 1)
+			while ($category !== null && $category->id != $id && $category->id !== 'root')
 			{
 				$path[] = array('title' => $category->title, 'link' => RouteHelper::getCategoryRoute($category->id, $category->language));
 				$category = $category->getParent();
@@ -524,23 +482,10 @@ class HtmlView extends BaseHtmlView
 
 		if (empty($title))
 		{
-			$title = $app->get('sitename');
-		}
-		elseif ($app->get('sitename_pagetitles', 0) == 1)
-		{
-			$title = Text::sprintf('JPAGETITLE', $app->get('sitename'), $title);
-		}
-		elseif ($app->get('sitename_pagetitles', 0) == 2)
-		{
-			$title = Text::sprintf('JPAGETITLE', $title, $app->get('sitename'));
-		}
-
-		if (empty($title))
-		{
 			$title = $this->item->name;
 		}
 
-		$this->document->setTitle($title);
+		$this->setDocumentTitle($title);
 
 		if ($this->item->metadesc)
 		{

@@ -32,7 +32,7 @@ CREATE TABLE IF NOT EXISTS "#__categories" (
   "note" varchar(255) DEFAULT '' NOT NULL,
   "description" text,
   "published" smallint DEFAULT 0 NOT NULL,
-  "checked_out" bigint DEFAULT 0 NOT NULL,
+  "checked_out" integer,
   "checked_out_time" timestamp without time zone,
   "access" bigint DEFAULT 0 NOT NULL,
   "params" text,
@@ -65,13 +65,13 @@ COMMENT ON COLUMN "#__categories"."metadata" IS 'JSON encoded metadata propertie
 -- Dumping data for table `#__categories`
 --
 
-INSERT INTO "#__categories" ("id", "asset_id", "parent_id", "lft", "rgt", "level", "path", "extension", "title", "alias", "note", "description", "published", "checked_out", "checked_out_time", "access", "params", "metadesc", "metakey", "metadata", "created_user_id", "created_time", "modified_user_id", "modified_time", "hits", "language", "version") VALUES
-(1, 0, 0, 0, 11, 0, '', 'system', 'ROOT', 'root', '', '', 1, 0, NULL, 1, '{}', '', '', '{}', 42, CURRENT_TIMESTAMP, 42, CURRENT_TIMESTAMP, 0, '*', 1),
-(2, 27, 1, 1, 2, 1, 'uncategorised', 'com_content', 'Uncategorised', 'uncategorised', '', '', 1, 0, NULL, 1, '{"category_layout":"","image":"","workflow_id":"use_default"}', '', '', '{"author":"","robots":""}', 42, CURRENT_TIMESTAMP, 42, CURRENT_TIMESTAMP, 0, '*', 1),
-(3, 28, 1, 3, 4, 1, 'uncategorised', 'com_banners', 'Uncategorised', 'uncategorised', '', '', 1, 0, NULL, 1, '{"category_layout":"","image":""}', '', '', '{"author":"","robots":""}', 42, CURRENT_TIMESTAMP, 42, CURRENT_TIMESTAMP, 0, '*', 1),
-(4, 29, 1, 5, 6, 1, 'uncategorised', 'com_contact', 'Uncategorised', 'uncategorised', '', '', 1, 0, NULL, 1, '{"category_layout":"","image":""}', '', '', '{"author":"","robots":""}', 42, CURRENT_TIMESTAMP, 42, CURRENT_TIMESTAMP, 0, '*', 1),
-(5, 30, 1, 7, 8, 1, 'uncategorised', 'com_newsfeeds', 'Uncategorised', 'uncategorised', '', '', 1, 0, NULL, 1, '{"category_layout":"","image":""}', '', '', '{"author":"","robots":""}', 42, CURRENT_TIMESTAMP, 42, CURRENT_TIMESTAMP, 0, '*', 1),
-(7, 32, 1, 9, 10, 1, 'uncategorised', 'com_users', 'Uncategorised', 'uncategorised', '', '', 1, 0, NULL, 1, '{"category_layout":"","image":""}', '', '', '{"author":"","robots":""}', 42, CURRENT_TIMESTAMP, 42, CURRENT_TIMESTAMP, 0, '*', 1);
+INSERT INTO "#__categories" ("id", "asset_id", "parent_id", "lft", "rgt", "level", "path", "extension", "title", "alias", "note", "description", "published", "access", "params", "metadesc", "metakey", "metadata", "created_user_id", "created_time", "modified_user_id", "modified_time", "hits", "language", "version") VALUES
+(1, 0, 0, 0, 11, 0, '', 'system', 'ROOT', 'root', '', '', 1, 1, '{}', '', '', '{}', 42, CURRENT_TIMESTAMP, 42, CURRENT_TIMESTAMP, 0, '*', 1),
+(2, 27, 1, 1, 2, 1, 'uncategorised', 'com_content', 'Uncategorised', 'uncategorised', '', '', 1, 1, '{"category_layout":"","image":"","workflow_id":"use_default"}', '', '', '{"author":"","robots":""}', 42, CURRENT_TIMESTAMP, 42, CURRENT_TIMESTAMP, 0, '*', 1),
+(3, 28, 1, 3, 4, 1, 'uncategorised', 'com_banners', 'Uncategorised', 'uncategorised', '', '', 1, 1, '{"category_layout":"","image":""}', '', '', '{"author":"","robots":""}', 42, CURRENT_TIMESTAMP, 42, CURRENT_TIMESTAMP, 0, '*', 1),
+(4, 29, 1, 5, 6, 1, 'uncategorised', 'com_contact', 'Uncategorised', 'uncategorised', '', '', 1, 1, '{"category_layout":"","image":""}', '', '', '{"author":"","robots":""}', 42, CURRENT_TIMESTAMP, 42, CURRENT_TIMESTAMP, 0, '*', 1),
+(5, 30, 1, 7, 8, 1, 'uncategorised', 'com_newsfeeds', 'Uncategorised', 'uncategorised', '', '', 1, 1, '{"category_layout":"","image":""}', '', '', '{"author":"","robots":""}', 42, CURRENT_TIMESTAMP, 42, CURRENT_TIMESTAMP, 0, '*', 1),
+(7, 32, 1, 9, 10, 1, 'uncategorised', 'com_users', 'Uncategorised', 'uncategorised', '', '', 1, 1, '{"category_layout":"","image":""}', '', '', '{"author":"","robots":""}', 42, CURRENT_TIMESTAMP, 42, CURRENT_TIMESTAMP, 0, '*', 1);
 
 SELECT setval('#__categories_id_seq', 8, false);
 
@@ -138,24 +138,6 @@ COMMENT ON COLUMN "#__contentitem_tag_map"."tag_id" IS 'PK from the tag table';
 COMMENT ON COLUMN "#__contentitem_tag_map"."tag_date" IS 'Date of most recent save for this tag-item';
 COMMENT ON COLUMN "#__contentitem_tag_map"."type_id" IS 'PK from the content_type table';
 
--- --------------------------------------------------------
-
---
--- Table structure for table `#__csp`
---
-
-CREATE TABLE IF NOT EXISTS "#__csp" (
-  "id" serial NOT NULL,
-  "document_uri" varchar(500) NOT NULL DEFAULT '',
-  "blocked_uri" varchar(500) NOT NULL DEFAULT '',
-  "directive" varchar(500) NOT NULL DEFAULT '',
-  "client" varchar(500) NOT NULL DEFAULT '',
-  "created" timestamp without time zone NOT NULL,
-  "modified"  timestamp without time zone NOT NULL,
-  "published" smallint DEFAULT 0 NOT NULL,
-  PRIMARY KEY ("id")
-);
-
 --
 -- Table structure for table `#__fields`
 --
@@ -174,7 +156,8 @@ CREATE TABLE IF NOT EXISTS "#__fields" (
   "description" text NOT NULL,
   "state" smallint DEFAULT 0 NOT NULL,
   "required" smallint DEFAULT 0 NOT NULL,
-  "checked_out" integer DEFAULT 0 NOT NULL,
+  "only_use_in_subform" smallint DEFAULT 0 NOT NULL,
+  "checked_out" integer,
   "checked_out_time" timestamp without time zone,
   "ordering" bigint DEFAULT 0 NOT NULL,
   "params" text NOT NULL,
@@ -216,7 +199,7 @@ CREATE TABLE IF NOT EXISTS "#__fields_groups" (
   "note" varchar(255) DEFAULT '' NOT NULL,
   "description" text NOT NULL,
   "state" smallint DEFAULT 0 NOT NULL,
-  "checked_out" integer DEFAULT 0 NOT NULL,
+  "checked_out" integer,
   "checked_out_time" timestamp without time zone,
   "ordering" integer DEFAULT 0 NOT NULL,
   "params" text NOT NULL,
@@ -308,6 +291,8 @@ INSERT INTO "#__postinstall_messages" ("extension_id", "title_key", "description
 SELECT "extension_id", 'PLG_SYSTEM_UPDATENOTIFICATION_POSTINSTALL_UPDATECACHETIME', 'PLG_SYSTEM_UPDATENOTIFICATION_POSTINSTALL_UPDATECACHETIME_BODY', 'PLG_SYSTEM_UPDATENOTIFICATION_POSTINSTALL_UPDATECACHETIME_ACTION', 'plg_system_updatenotification', 1, 'action', 'site://plugins/system/updatenotification/postinstall/updatecachetime.php', 'updatecachetime_postinstall_action', 'site://plugins/system/updatenotification/postinstall/updatecachetime.php', 'updatecachetime_postinstall_condition', '3.6.3', 1 FROM "#__extensions" WHERE "name" = 'files_joomla';
 INSERT INTO "#__postinstall_messages" ("extension_id", "title_key", "description_key", "action_key", "language_extension", "language_client_id", "type", "action_file", "action", "condition_file", "condition_method", "version_introduced", "enabled")
 SELECT "extension_id", 'PLG_SYSTEM_HTTPHEADERS_POSTINSTALL_INTRODUCTION_TITLE', 'PLG_SYSTEM_HTTPHEADERS_POSTINSTALL_INTRODUCTION_BODY', 'PLG_SYSTEM_HTTPHEADERS_POSTINSTALL_INTRODUCTION_ACTION', 'plg_system_httpheaders', 1, 'action', 'site://plugins/system/httpheaders/postinstall/introduction.php', 'httpheaders_postinstall_action', 'site://plugins/system/httpheaders/postinstall/introduction.php', 'httpheaders_postinstall_condition', '4.0.0', 1 FROM "#__extensions" WHERE "name" = 'files_joomla';
+INSERT INTO "#__postinstall_messages" ("extension_id", "title_key", "description_key", "action_key", "language_extension", "language_client_id", "type", "action_file", "action", "condition_file", "condition_method", "version_introduced", "enabled")
+SELECT "extension_id", 'COM_ADMIN_POSTINSTALL_MSG_FLOC_BLOCKER_TITLE', 'COM_ADMIN_POSTINSTALL_MSG_FLOC_BLOCKER_DESCRIPTION', '', 'com_admin', 1, 'message', '', '', '', '', '3.9.27', 1 FROM "#__extensions" WHERE "name" = 'files_joomla';
 
 --
 -- Table structure for table `#__ucm_base`
@@ -336,7 +321,7 @@ CREATE TABLE IF NOT EXISTS "#__ucm_content" (
   "core_body" text,
   "core_state" smallint DEFAULT 0 NOT NULL,
   "core_checked_out_time" timestamp without time zone,
-  "core_checked_out_user_id" bigint DEFAULT 0 NOT NULL,
+  "core_checked_out_user_id" integer,
   "core_access" bigint DEFAULT 0 NOT NULL,
   "core_params" text,
   "core_featured" smallint DEFAULT 0 NOT NULL,
@@ -377,13 +362,12 @@ CREATE INDEX "#__ucm_content_idx_core_created_user_id" ON "#__ucm_content" ("cor
 CREATE INDEX "#__ucm_content_idx_core_type_id" ON "#__ucm_content" ("core_type_id");
 
 --
--- Table structure for table `#__ucm_history`
+-- Table structure for table `#__history`
 --
 
-CREATE TABLE IF NOT EXISTS "#__ucm_history" (
+CREATE TABLE IF NOT EXISTS "#__history" (
   "version_id" serial NOT NULL,
-  "ucm_item_id" integer NOT NULL,
-  "ucm_type_id" integer NOT NULL,
+  "item_id" varchar(50) NOT NULL,
   "version_note" varchar(255) NOT NULL DEFAULT '',
   "save_date" timestamp with time zone NOT NULL,
   "editor_user_id" integer  NOT NULL DEFAULT 0,
@@ -393,14 +377,14 @@ CREATE TABLE IF NOT EXISTS "#__ucm_history" (
   "keep_forever" smallint NOT NULL DEFAULT 0,
   PRIMARY KEY ("version_id")
 );
-CREATE INDEX "#__ucm_history_idx_ucm_item_id" ON "#__ucm_history" ("ucm_type_id", "ucm_item_id");
-CREATE INDEX "#__ucm_history_idx_save_date" ON "#__ucm_history" ("save_date");
+CREATE INDEX "#__history_idx_ucm_item_id" ON "#__history" ("item_id");
+CREATE INDEX "#__history_idx_save_date" ON "#__history" ("save_date");
 
-COMMENT ON COLUMN "#__ucm_history"."version_note" IS 'Optional version name';
-COMMENT ON COLUMN "#__ucm_history"."character_count" IS 'Number of characters in this version.';
-COMMENT ON COLUMN "#__ucm_history"."sha1_hash" IS 'SHA1 hash of the version_data column.';
-COMMENT ON COLUMN "#__ucm_history"."version_data" IS 'json-encoded string of version data';
-COMMENT ON COLUMN "#__ucm_history"."keep_forever" IS '0=auto delete; 1=keep';
+COMMENT ON COLUMN "#__history"."version_note" IS 'Optional version name';
+COMMENT ON COLUMN "#__history"."character_count" IS 'Number of characters in this version.';
+COMMENT ON COLUMN "#__history"."sha1_hash" IS 'SHA1 hash of the version_data column.';
+COMMENT ON COLUMN "#__history"."version_data" IS 'json-encoded string of version data';
+COMMENT ON COLUMN "#__history"."keep_forever" IS '0=auto delete; 1=keep';
 
 --
 -- Table structure for table `#__webauthn_credentials`
@@ -422,6 +406,7 @@ CREATE INDEX "#__webauthn_credentials_user_id" ON "#__webauthn_credentials" ("us
 
 CREATE TABLE IF NOT EXISTS "#__mail_templates" (
   "template_id" varchar(127) NOT NULL DEFAULT '',
+  "extension" varchar(127) NOT NULL DEFAULT '',
   "language" char(7) NOT NULL DEFAULT '',
   "subject" varchar(255) NOT NULL DEFAULT '',
   "body" TEXT NOT NULL,
@@ -437,5 +422,33 @@ CREATE INDEX "#__mail_templates_idx_language" ON "#__mail_templates" ("language"
 -- Dumping data for table `#__mail_templates`
 --
 
-INSERT INTO "#__mail_templates" ("template_id", "language", "subject", "body", "htmlbody", "attachments", "params") VALUES
-('com_config.test_mail', '', 'COM_CONFIG_SENDMAIL_SUBJECT', 'COM_CONFIG_SENDMAIL_BODY', '', '', '{"tags":["sitename","method"]}');
+INSERT INTO "#__mail_templates" ("template_id", "extension", "language", "subject", "body", "htmlbody", "attachments", "params") VALUES
+('com_config.test_mail', 'com_config', '', 'COM_CONFIG_SENDMAIL_SUBJECT', 'COM_CONFIG_SENDMAIL_BODY', '', '', '{"tags":["sitename","method"]}'),
+('com_contact.mail', 'com_contact', '', 'COM_CONTACT_ENQUIRY_SUBJECT', 'COM_CONTACT_ENQUIRY_TEXT', '', '', '{"tags":["sitename","name","email","subject","body","url","customfields"]}'),
+('com_contact.mail.copy', 'com_contact', '', 'COM_CONTACT_COPYSUBJECT_OF', 'COM_CONTACT_COPYTEXT_OF', '', '', '{"tags":["sitename","name","email","subject","body","url","customfields"]}'),
+('com_users.massmail.mail', 'com_users', '', 'COM_USERS_MASSMAIL_MAIL_SUBJECT', 'COM_USERS_MASSMAIL_MAIL_BODY', '', '', '{"tags":["subject","body","subjectprefix","bodysuffix"]}'),
+('com_users.password_reset', 'com_users', '', 'COM_USERS_EMAIL_PASSWORD_RESET_SUBJECT', 'COM_USERS_EMAIL_PASSWORD_RESET_BODY', '', '', '{"tags":["name","email","sitename","link_text","link_html","token"]}'),
+('com_users.reminder', 'com_users', '', 'COM_USERS_EMAIL_USERNAME_REMINDER_SUBJECT', 'COM_USERS_EMAIL_USERNAME_REMINDER_BODY', '', '', '{"tags":["name","username","sitename","email","link_text","link_html"]}'),
+('plg_system_updatenotification.mail', 'plg_system_updatenotification', '', 'PLG_SYSTEM_UPDATENOTIFICATION_EMAIL_SUBJECT', 'PLG_SYSTEM_UPDATENOTIFICATION_EMAIL_BODY', '', '', '{"tags":["newversion","curversion","sitename","url","link","releasenews"]}'),
+('plg_user_joomla.mail', 'plg_user_joomla', '', 'PLG_USER_JOOMLA_NEW_USER_EMAIL_SUBJECT', 'PLG_USER_JOOMLA_NEW_USER_EMAIL_BODY', '', '', '{"tags":["name","sitename","url","username","password","email"]}'),
+('com_actionlogs.notification', 'com_actionlogs', '', 'COM_ACTIONLOGS_EMAIL_SUBJECT', 'COM_ACTIONLOGS_EMAIL_BODY', 'COM_ACTIONLOGS_EMAIL_HTMLBODY', '', '{"tags":["message","date","extension"]}'),
+('com_privacy.userdataexport', 'com_privacy', '', 'COM_PRIVACY_EMAIL_DATA_EXPORT_COMPLETED_SUBJECT', 'COM_PRIVACY_EMAIL_DATA_EXPORT_COMPLETED_BODY', '', '', '{"tags":["sitename","url"]}'),
+('com_privacy.notification.export', 'com_privacy', '', 'COM_PRIVACY_EMAIL_REQUEST_SUBJECT_EXPORT_REQUEST', 'COM_PRIVACY_EMAIL_REQUEST_BODY_EXPORT_REQUEST', '', '', '{"tags":["sitename","url","tokenurl","formurl","token"]}'),
+('com_privacy.notification.remove', 'com_privacy', '', 'COM_PRIVACY_EMAIL_REQUEST_SUBJECT_REMOVE_REQUEST', 'COM_PRIVACY_EMAIL_REQUEST_BODY_REMOVE_REQUEST', '', '', '{"tags":["sitename","url","tokenurl","formurl","token"]}'),
+('com_privacy.notification.admin.export', 'com_privacy', '', 'COM_PRIVACY_EMAIL_ADMIN_REQUEST_SUBJECT_EXPORT_REQUEST', 'COM_PRIVACY_EMAIL_ADMIN_REQUEST_BODY_EXPORT_REQUEST', '', '', '{"tags":["sitename","url","tokenurl","formurl","token"]}'),
+('com_privacy.notification.admin.remove', 'com_privacy', '', 'COM_PRIVACY_EMAIL_ADMIN_REQUEST_SUBJECT_REMOVE_REQUEST', 'COM_PRIVACY_EMAIL_ADMIN_REQUEST_BODY_REMOVE_REQUEST', '', '', '{"tags":["sitename","url","tokenurl","formurl","token"]}'),
+('com_users.registration.user.admin_activation', 'com_users', '', 'COM_USERS_EMAIL_ACCOUNT_DETAILS', 'COM_USERS_EMAIL_REGISTERED_WITH_ADMIN_ACTIVATION_BODY_NOPW', '', '', '{"tags":["name","sitename","activate","siteurl","username"]}'),
+('com_users.registration.user.admin_activation_w_pw', 'com_users', '', 'COM_USERS_EMAIL_ACCOUNT_DETAILS', 'COM_USERS_EMAIL_REGISTERED_WITH_ADMIN_ACTIVATION_BODY', '', '', '{"tags":["name","sitename","activate","siteurl","username","password_clear"]}'),
+('com_users.registration.user.self_activation', 'com_users', '', 'COM_USERS_EMAIL_ACCOUNT_DETAILS', 'COM_USERS_EMAIL_REGISTERED_WITH_ACTIVATION_BODY_NOPW', '', '', '{"tags":["name","sitename","activate","siteurl","username"]}'),
+('com_users.registration.user.self_activation_w_pw', 'com_users', '', 'COM_USERS_EMAIL_ACCOUNT_DETAILS', 'COM_USERS_EMAIL_REGISTERED_WITH_ACTIVATION_BODY', '', '', '{"tags":["name","sitename","activate","siteurl","username","password_clear"]}'),
+('com_users.registration.user.registration_mail', 'com_users', '', 'COM_USERS_EMAIL_ACCOUNT_DETAILS', 'COM_USERS_EMAIL_REGISTERED_BODY_NOPW', '', '', '{"tags":["name","sitename","activate","siteurl","username"]}'),
+('com_users.registration.user.registration_mail_w_pw', 'com_users', '', 'COM_USERS_EMAIL_ACCOUNT_DETAILS', 'COM_USERS_EMAIL_REGISTERED_BODY', '', '', '{"tags":["name","sitename","activate","siteurl","username","password_clear"]}'),
+('com_users.registration.admin.new_notification', 'com_users', '', 'COM_USERS_EMAIL_ACCOUNT_DETAILS', 'COM_USERS_EMAIL_REGISTERED_NOTIFICATION_TO_ADMIN_BODY', '', '', '{"tags":["name","sitename","siteurl","username"]}'),
+('com_users.registration.user.admin_activated', 'com_users', '', 'COM_USERS_EMAIL_ACTIVATED_BY_ADMIN_ACTIVATION_SUBJECT', 'COM_USERS_EMAIL_ACTIVATED_BY_ADMIN_ACTIVATION_BODY', '', '', '{"tags":["name","sitename","siteurl","username"]}'),
+('com_users.registration.admin.verification_request', 'com_users', '', 'COM_USERS_EMAIL_ACTIVATE_WITH_ADMIN_ACTIVATION_SUBJECT', 'COM_USERS_EMAIL_ACTIVATE_WITH_ADMIN_ACTIVATION_BODY', '', '', '{"tags":["name","sitename","email","username","activate"]}'),
+('plg_system_privacyconsent.request.reminder', 'plg_system_privacyconsent', '', 'PLG_SYSTEM_PRIVACYCONSENT_EMAIL_REMIND_SUBJECT', 'PLG_SYSTEM_PRIVACYCONSENT_EMAIL_REMIND_BODY', '', '', '{"tags":["sitename","url","tokenurl","formurl","token"]}'),
+('com_messages.new_message', 'com_messages', '', 'COM_MESSAGES_NEW_MESSAGE', 'COM_MESSAGES_NEW_MESSAGE_BODY', '', '', '{"tags":["subject","message","fromname","sitename","siteurl","fromemail","toname","toemail"]}'),
+('plg_system_tasknotification.failure_mail', 'plg_system_tasknotification', '', 'PLG_SYSTEM_TASK_NOTIFICATION_FAILURE_MAIL_SUBJECT', 'PLG_SYSTEM_TASK_NOTIFICATION_FAILURE_MAIL_BODY', '', '', '{"tags": ["task_id", "task_title", "exit_code", "exec_data_time", "task_output"]}'),
+('plg_system_tasknotification.fatal_recovery_mail', 'plg_system_tasknotification', '', 'PLG_SYSTEM_TASK_NOTIFICATION_FATAL_MAIL_SUBJECT', 'PLG_SYSTEM_TASK_NOTIFICATION_FATAL_MAIL_BODY', '', '', '{"tags": ["task_id", "task_title"]}'),
+('plg_system_tasknotification.orphan_mail', 'plg_system_tasknotification', '', 'PLG_SYSTEM_TASK_NOTIFICATION_ORPHAN_MAIL_SUBJECT', 'PLG_SYSTEM_TASK_NOTIFICATION_ORPHAN_MAIL_BODY', '', '', '{"tags": ["task_id", "task_title"]}'),
+('plg_system_tasknotification.success_mail', 'plg_system_tasknotification', '', 'PLG_SYSTEM_TASK_NOTIFICATION_SUCCESS_MAIL_SUBJECT', 'PLG_SYSTEM_TASK_NOTIFICATION_SUCCESS_MAIL_BODY', '', '', '{"tags":["task_id", "task_title", "exec_data_time", "task_output"]}');

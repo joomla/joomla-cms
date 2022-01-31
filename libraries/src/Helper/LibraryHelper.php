@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2013 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -102,7 +102,7 @@ class LibraryHelper
 	 * @param   string    $element  Element of the library in the extensions table.
 	 * @param   Registry  $params   Params to save
 	 *
-	 * @return  Registry  A Registry object.
+	 * @return  Registry|boolean  A Registry object.
 	 *
 	 * @see     Registry
 	 * @since   3.2

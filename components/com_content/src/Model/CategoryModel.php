@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2006 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -32,62 +32,60 @@ class CategoryModel extends ListModel
 	/**
 	 * Category items data
 	 *
-	 * @var array
+	 * @var  array
 	 */
 	protected $_item = null;
 
 	/**
 	 * Array of articles in the category
 	 *
-	 * @var    \stdClass[]
+	 * @var \stdClass[]
 	 */
 	protected $_articles = null;
 
 	/**
 	 * Category left and right of this one
 	 *
-	 * @var    CategoryNode[]|null
+	 * @var  CategoryNode[]|null
 	 */
 	protected $_siblings = null;
 
 	/**
 	 * Array of child-categories
 	 *
-	 * @var    CategoryNode[]|null
+	 * @var  CategoryNode[]|null
 	 */
 	protected $_children = null;
 
 	/**
 	 * Parent category of the current one
 	 *
-	 * @var    CategoryNode|null
+	 * @var  CategoryNode|null
 	 */
 	protected $_parent = null;
 
 	/**
 	 * Model context string.
 	 *
-	 * @var		string
+	 * @var  string
 	 */
 	protected $_context = 'com_content.category';
 
 	/**
 	 * The category that applies.
 	 *
-	 * @var	   object
+	 * @var  object
 	 */
 	protected $_category = null;
 
 	/**
 	 * The list of categories.
 	 *
-	 * @var	   array
+	 * @var  array
 	 */
 	protected $_categories = null;
 
 	/**
-	 * Constructor.
-	 *
 	 * @param   array  $config  An optional associative array of configuration settings.
 	 *
 	 * @since   1.6
@@ -169,11 +167,11 @@ class CategoryModel extends ListModel
 		if ((!$user->authorise('core.edit.state', $asset)) &&  (!$user->authorise('core.edit', $asset)))
 		{
 			// Limit to published for people who can't edit or edit.state.
-			$this->setState('filter.condition', 1);
+			$this->setState('filter.published', 1);
 		}
 		else
 		{
-			$this->setState('filter.condition', array(0, 1));
+			$this->setState('filter.published', [0, 1]);
 		}
 
 		// Process show_noauth parameter
@@ -249,7 +247,7 @@ class CategoryModel extends ListModel
 	/**
 	 * Get the articles in the category
 	 *
-	 * @return  mixed  An array of articles or false if an error occurs.
+	 * @return  array|bool  An array of articles or false if an error occurs.
 	 *
 	 * @since   1.5
 	 */
@@ -263,7 +261,7 @@ class CategoryModel extends ListModel
 				->createModel('Articles', 'Site', ['ignore_request' => true]);
 			$model->setState('params', Factory::getApplication()->getParams());
 			$model->setState('filter.category_id', $category->id);
-			$model->setState('filter.condition', $this->getState('filter.condition'));
+			$model->setState('filter.published', $this->getState('filter.published'));
 			$model->setState('filter.access', $this->getState('filter.access'));
 			$model->setState('filter.language', $this->getState('filter.language'));
 			$model->setState('filter.featured', $this->getState('filter.featured'));
@@ -345,7 +343,7 @@ class CategoryModel extends ListModel
 	/**
 	 * Method to get a JPagination object for the data set.
 	 *
-	 * @return  \JPagination  A JPagination object for the data set.
+	 * @return  \Joomla\CMS\Pagination\Pagination  A JPagination object for the data set.
 	 *
 	 * @since   3.0.1
 	 */
@@ -397,7 +395,7 @@ class CategoryModel extends ListModel
 					$this->_item->getParams()->set('access-create', true);
 				}
 
-				// TODO: Why aren't we lazy loading the children and siblings?
+				// @todo: Why aren't we lazy loading the children and siblings?
 				$this->_children = $this->_item->getChildren();
 				$this->_parent = false;
 
@@ -517,7 +515,6 @@ class CategoryModel extends ListModel
 			$pk = (!empty($pk)) ? $pk : (int) $this->getState('category.id');
 
 			$table = Table::getInstance('Category', 'JTable');
-			$table->load($pk);
 			$table->hit($pk);
 		}
 

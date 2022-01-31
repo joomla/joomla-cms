@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2012 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -39,11 +39,14 @@ class ExceptionHandler
 		// We only want to handle user deprecation messages, these will be triggered in code
 		if ($errorNumber === E_USER_DEPRECATED)
 		{
-			Log::add(
-				$errorMessage,
-				Log::WARNING,
-				'deprecated'
-			);
+			try
+			{
+				Log::add($errorMessage, Log::WARNING, 'deprecated');
+			}
+			catch (\Exception $e)
+			{
+				// Silence
+			}
 
 			// If debug mode is enabled, we want to let PHP continue to handle the error; otherwise, we can bail early
 			if (\defined('JDEBUG') && JDEBUG)
@@ -54,6 +57,21 @@ class ExceptionHandler
 
 		// Always return false, this will tell PHP to handle the error internally
 		return false;
+	}
+
+	/**
+	 * Handles exceptions: logs errors and renders error page.
+	 *
+	 * @param   \Exception|\Throwable  $error  An Exception or Throwable (PHP 7+) object for which to render the error page.
+	 *
+	 * @return  void
+	 *
+	 * @since   3.10.0
+	 */
+	public static function handleException(\Throwable $error)
+	{
+		static::logException($error);
+		static::render($error);
 	}
 
 	/**
@@ -69,25 +87,6 @@ class ExceptionHandler
 	{
 		try
 		{
-			// Try to log the error, but don't let the logging cause a fatal error
-			try
-			{
-				Log::add(
-					sprintf(
-						'Uncaught Throwable of type %1$s thrown with message "%2$s". Stack trace: %3$s',
-						\get_class($error),
-						$error->getMessage(),
-						$error->getTraceAsString()
-					),
-					Log::CRITICAL,
-					'error'
-				);
-			}
-			catch (\Throwable $e)
-			{
-				// Logging failed, don't make a stink about it though
-			}
-
 			$app = Factory::getApplication();
 
 			// Flag if we are on cli
@@ -171,8 +170,7 @@ class ExceptionHandler
 			 * $errorRendererError  - the error caused by error renderer
 			 * $error               - the main error
 			 *
-			 * Both we need to show without loosing of a trace information
-			 * So use a bit of magic to merge them.
+			 * We need to show both exceptions, without loss of trace information, so use a bit of magic to merge them.
 			 *
 			 * Use exception nesting feature: rethrow the exceptions, an exception thrown in a finally block
 			 * will take unhandled exception as previous.
@@ -199,5 +197,50 @@ class ExceptionHandler
 			throw $error;
 		}
 
+	}
+
+	/**
+	 * Checks if given error belong to PHP exception class (\Throwable for PHP 7+, \Exception for PHP 5-).
+	 *
+	 * @param   mixed  $error  Any error value.
+	 *
+	 * @return  boolean
+	 *
+	 * @since   3.10.0
+	 */
+	protected static function isException($error)
+	{
+		return $error instanceof \Throwable;
+	}
+
+	/**
+	 * Logs exception, catching all possible errors during logging.
+	 *
+	 * @param   \Throwable  $error  An Exception or Throwable (PHP 7+) object to get error message from.
+	 *
+	 * @return  void
+	 *
+	 * @since   3.10.0
+	 */
+	protected static function logException(\Throwable $error)
+	{
+		// Try to log the error, but don't let the logging cause a fatal error
+		try
+		{
+			Log::add(
+				sprintf(
+					'Uncaught Throwable of type %1$s thrown with message "%2$s". Stack trace: %3$s',
+					\get_class($error),
+					$error->getMessage(),
+					$error->getTraceAsString()
+				),
+				Log::CRITICAL,
+				'error'
+			);
+		}
+		catch (\Throwable $e)
+		{
+			// Logging failed, don't make a stink about it though
+		}
 	}
 }

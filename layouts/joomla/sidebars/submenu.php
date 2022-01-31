@@ -3,11 +3,11 @@
  * @package     Joomla.Site
  * @subpackage  Layout
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2012 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('JPATH_BASE') or die;
+defined('_JEXEC') or die;
 
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
@@ -18,11 +18,11 @@ HTMLHelper::_('behavior.core');
 <?php if ($displayData->displayMenu || $displayData->displayFilters) : ?>
 <div id="j-toggle-sidebar-wrapper">
 	<div id="sidebar" class="sidebar">
-		<button class="btn btn-sm btn-secondary my-2 options-menu d-md-none" type="button" data-toggle="collapse" data-target=".sidebar-nav" aria-controls="sidebar-nav" aria-expanded="false" aria-label="<?php echo Text::_('JTOGGLE_SIDEBAR_MENU'); ?>">
-			<span class="fas fa-align-justify" aria-hidden="true"></span>
+		<button class="btn btn-sm btn-secondary my-2 options-menu d-md-none" type="button" data-bs-toggle="collapse" data-bs-target=".sidebar-nav" aria-controls="sidebar-nav" aria-expanded="false" aria-label="<?php echo Text::_('JTOGGLE_SIDEBAR_MENU'); ?>">
+			<span class="icon-align-justify" aria-hidden="true"></span>
 			<?php echo Text::_('JTOGGLE_SIDEBAR_MENU'); ?>
 		</button>
-		<div class="sidebar-nav bg-light p-2 my-2">
+		<div class="sidebar-nav">
 			<?php if ($displayData->displayMenu) : ?>
 			<ul class="nav flex-column">
 				<?php foreach ($displayData->list as $item) :
@@ -51,8 +51,8 @@ HTMLHelper::_('behavior.core');
 			<div class="filter-select d-none d-md-block">
 				<h4 class="page-header"><?php echo Text::_('JSEARCH_FILTER_LABEL'); ?></h4>
 				<?php foreach ($displayData->filters as $filter) : ?>
-					<label for="<?php echo $filter['name']; ?>" class="sr-only"><?php echo $filter['label']; ?></label>
-					<select name="<?php echo $filter['name']; ?>" id="<?php echo $filter['name']; ?>" class="custom-select" onchange="this.form.submit()">
+					<label for="<?php echo $filter['name']; ?>" class="visually-hidden"><?php echo $filter['label']; ?></label>
+					<select name="<?php echo $filter['name']; ?>" id="<?php echo $filter['name']; ?>" class="form-select" onchange="this.form.submit()">
 						<?php if (!$filter['noDefault']) : ?>
 							<option value=""><?php echo $filter['label']; ?></option>
 						<?php endif; ?>

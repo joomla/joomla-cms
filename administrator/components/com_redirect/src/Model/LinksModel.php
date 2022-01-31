@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_redirect
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2009 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -30,7 +30,6 @@ class LinksModel extends ListModel
 	 * @param   array                $config   An optional associative array of configuration settings.
 	 * @param   MVCFactoryInterface  $factory  The factory.
 	 *
-	 * @see     \JControllerLegacy
 	 * @since   1.6
 	 */
 	public function __construct($config = array(), MVCFactoryInterface $factory = null)
@@ -129,7 +128,7 @@ class LinksModel extends ListModel
 	/**
 	 * Build an SQL query to load the list data.
 	 *
-	 * @return  \JDatabaseQuery
+	 * @return  \Joomla\Database\DatabaseQuery
 	 *
 	 * @since   1.6
 	 */
@@ -206,11 +205,11 @@ class LinksModel extends ListModel
 	/**
 	 * Add the entered URLs into the database
 	 *
-	 * @param   array  $batch_urls  Array of URLs to enter into the database
+	 * @param   array  $batchUrls  Array of URLs to enter into the database
 	 *
 	 * @return boolean
 	 */
-	public function batchProcess($batch_urls)
+	public function batchProcess($batchUrls)
 	{
 		$db    = $this->getDbo();
 		$query = $db->getQuery(true);
@@ -227,9 +226,33 @@ class LinksModel extends ListModel
 			'hits',
 			'published',
 			'created_date',
+			'modified_date',
 		];
 
-		foreach ($batch_urls as $i => $batch_url)
+		$values = [
+			':oldurl',
+			':newurl',
+			$db->quote(''),
+			$db->quote(''),
+			0,
+			':state',
+			':created',
+			':modified',
+		];
+
+		$query
+			->insert($db->quoteName('#__redirect_links'), false)
+			->columns($db->quoteName($columns))
+			->values(implode(', ', $values))
+			->bind(':oldurl', $old_url)
+			->bind(':newurl', $new_url)
+			->bind(':state', $state, ParameterType::INTEGER)
+			->bind(':created', $created)
+			->bind(':modified', $created);
+
+		$db->setQuery($query);
+
+		foreach ($batchUrls as $batch_url)
 		{
 			$old_url = $batch_url[0];
 
@@ -243,26 +266,6 @@ class LinksModel extends ListModel
 				$new_url = '';
 			}
 
-			$values = [
-				':oldurl' . $i,
-				':newurl' . $i,
-				$db->quote(''),
-				$db->quote(''),
-				0,
-				':state' . $i,
-				':created' . $i,
-			];
-
-			$query->clear()
-				->insert($db->quoteName('#__redirect_links'), false)
-				->columns($db->quoteName($columns))
-				->values(implode(', ', $values))
-				->bind(':oldurl' . $i, $old_url)
-				->bind(':newurl' . $i, $new_url)
-				->bind(':state' . $i, $state, ParameterType::INTEGER)
-				->bind(':created' . $i, $created);
-
-			$db->setQuery($query);
 			$db->execute();
 		}
 

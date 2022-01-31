@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2018 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -44,7 +44,7 @@ class Zh extends Language
 	 */
 	public function __construct($locale = null)
 	{
-		// Override parent constructor since we don't need to load an externel stemmer
+		// Override parent constructor since we don't need to load an external stemmer
 	}
 
 	/**

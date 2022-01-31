@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2013 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -66,8 +66,6 @@ class ContentHelper
 			'2'  => 'count_archived',
 		);
 
-		$usesWorkflows = (isset($config->uses_workflows) && $config->uses_workflows === true);
-
 		// Index category objects by their ID
 		$records = array();
 
@@ -87,7 +85,7 @@ class ContentHelper
 
 		// Table alias for related data table below will be 'c', and state / condition column is inside related data table
 		$related_tbl = '#__' . $config->related_tbl;
-		$state_col   = ($usesWorkflows ? 's.' : 'c.') . $config->state_col;
+		$state_col   = 'c.' . $config->state_col;
 
 		// Supported cases
 		switch ($config->relation_type)
@@ -117,24 +115,6 @@ class ContentHelper
 				return $items;
 		}
 
-		if ($usesWorkflows)
-		{
-			$query->from(
-				[
-					$db->quoteName('#__workflow_stages', 's'),
-					$db->quoteName('#__workflow_associations', 'a'),
-				]
-			)
-				->where(
-					[
-						$db->quoteName('s.id') . ' = ' . $db->quoteName('a.stage_id'),
-						$db->quoteName('a.extension') . ' = :component',
-						$db->quoteName('a.item_id') . ' = ' . $db->quoteName('c.id'),
-					]
-				)
-				->bind(':component', $config->workflows_component);
-		}
-
 		/**
 		 * Get relation counts for all category objects with single query
 		 * NOTE: 'state IN', allows counting specific states / conditions only, also prevents warnings with custom states / conditions, do not remove
@@ -153,7 +133,7 @@ class ContentHelper
 
 		$relationsAll = $db->setQuery($query)->loadObjectList();
 
-		// Loop through the DB data overwritting the above zeros with the found count
+		// Loop through the DB data overwriting the above zeros with the found count
 		foreach ($relationsAll as $relation)
 		{
 			// Sanity check in case someone removes the state IN above ... and some views may start throwing warnings

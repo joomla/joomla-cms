@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Finder.Content
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2011 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -115,12 +115,12 @@ class PlgFinderContent extends Adapter
 	 * @param   string  $context  The context of the action being performed.
 	 * @param   Table   $table    A Table object containing the record to be deleted
 	 *
-	 * @return  boolean  True on success.
+	 * @return  void
 	 *
 	 * @since   2.5
 	 * @throws  Exception on database error.
 	 */
-	public function onFinderAfterDelete($context, $table)
+	public function onFinderAfterDelete($context, $table): void
 	{
 		if ($context === 'com_content.article')
 		{
@@ -132,11 +132,11 @@ class PlgFinderContent extends Adapter
 		}
 		else
 		{
-			return true;
+			return;
 		}
 
 		// Remove item from the index.
-		return $this->remove($id);
+		$this->remove($id);
 	}
 
 	/**
@@ -149,12 +149,12 @@ class PlgFinderContent extends Adapter
 	 * @param   Table    $row      A Table object.
 	 * @param   boolean  $isNew    True if the content has just been created.
 	 *
-	 * @return  boolean  True on success.
+	 * @return  void
 	 *
 	 * @since   2.5
 	 * @throws  Exception on database error.
 	 */
-	public function onFinderAfterSave($context, $row, $isNew)
+	public function onFinderAfterSave($context, $row, $isNew): void
 	{
 		// We only want to handle articles here.
 		if ($context === 'com_content.article' || $context === 'com_content.form')
@@ -179,8 +179,6 @@ class PlgFinderContent extends Adapter
 				$this->categoryAccessChange($row);
 			}
 		}
-
-		return true;
 	}
 
 	/**
@@ -273,7 +271,7 @@ class PlgFinderContent extends Adapter
 
 		// Initialise the item parameters.
 		$registry = new Registry($item->params);
-		$item->params = ComponentHelper::getParams('com_content', true);
+		$item->params = clone ComponentHelper::getParams('com_content', true);
 		$item->params->merge($registry);
 
 		$item->metadata = new Registry($item->metadata);
@@ -297,6 +295,15 @@ class PlgFinderContent extends Adapter
 			$item->title = $title;
 		}
 
+		$images = $item->images ? json_decode($item->images) : false;
+
+		// Add the image.
+		if ($images && !empty($images->image_intro))
+		{
+			$item->imageUrl = $images->image_intro;
+			$item->imageAlt = $images->image_intro_alt ?? '';
+		}
+
 		// Add the meta author.
 		$item->metaauthor = $item->metadata->get('author');
 
@@ -316,12 +323,19 @@ class PlgFinderContent extends Adapter
 		// Add the author taxonomy data.
 		if (!empty($item->author) || !empty($item->created_by_alias))
 		{
-			$item->addTaxonomy('Author', !empty($item->created_by_alias) ? $item->created_by_alias : $item->author);
+			$item->addTaxonomy('Author', !empty($item->created_by_alias) ? $item->created_by_alias : $item->author, $item->state);
 		}
 
 		// Add the category taxonomy data.
 		$categories = Categories::getInstance('com_content', ['published' => false, 'access' => false]);
 		$category = $categories->get($item->catid);
+
+		// Category does not exist, stop here
+		if (!$category)
+		{
+			return;
+		}
+
 		$item->addNestedTaxonomy('Category', $category, $this->translateState($category->published), $category->access, $category->language);
 
 		// Add the language taxonomy data.

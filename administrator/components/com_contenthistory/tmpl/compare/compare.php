@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_contenthistory
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2013 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -21,15 +21,14 @@ $object2  = $version2->data;
 
 /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
 $wa = $this->document->getWebAssetManager();
-$wa->useScript('diff')
-	->registerAndUseScript('contenthistory.admin-compare', 'com_contenthistory/admin-compare-compare.min.js', [], ['defer' => true], ['diff']);
+$wa->useScript('com_contenthistory.admin-compare-compare');
 
 ?>
 <div role="main">
 	<h1 class="mb-3"><?php echo Text::_('COM_CONTENTHISTORY_COMPARE_TITLE'); ?></h1>
 
 	<table id="diff" class="table">
-		<caption id="captionTable" class="sr-only">
+		<caption class="visually-hidden">
 			<?php echo Text::_('COM_CONTENTHISTORY_COMPARE_CAPTION'); ?>
 		</caption>
 		<thead>
@@ -42,7 +41,7 @@ $wa->useScript('diff')
 		</thead>
 		<tbody>
 		<?php foreach ($object1 as $name => $value) : ?>
-			<?php if ($value->value != $object2->$name->value) : ?>
+			<?php if (isset($value->value) && isset($object2->$name->value) && $value->value != $object2->$name->value) : ?>
 				<?php if (is_object($value->value)) : ?>
 					<tr>
 						<td colspan="4">

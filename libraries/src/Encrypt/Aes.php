@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2013 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  * @note	This file has been modified by the Joomla! Project and no longer reflects the original work of its author.
  */
@@ -19,7 +19,6 @@ use Joomla\CMS\Encrypt\AES\OpenSSL;
  * A simple implementation of AES-128, AES-192 and AES-256 encryption using the
  * high performance mcrypt library.
  *
- * @package  FrameworkOnFramework
  * @since    1.0
  */
 class Aes
@@ -170,16 +169,16 @@ class Aes
 	 */
 	public static function isSupported()
 	{
-		$adapter = new Mcrypt;
+		$adapter = new OpenSSL;
 
 		if (!$adapter->isSupported())
 		{
-			$adapter = new OpenSSL;
-		}
+			$adapter = new Mcrypt;
 
-		if (!$adapter->isSupported())
-		{
-			return false;
+			if (!$adapter->isSupported())
+			{
+				return false;
+			}
 		}
 
 		if (!\function_exists('base64_encode'))
@@ -197,9 +196,9 @@ class Aes
 			return false;
 		}
 
-		$algorightms = hash_algos();
+		$algorithms = hash_algos();
 
-		if (!\in_array('sha256', $algorightms))
+		if (!\in_array('sha256', $algorithms))
 		{
 			return false;
 		}
@@ -241,16 +240,16 @@ if (!\function_exists('hash_pbkdf2'))
 	/**
 	 * Shim for missing hash_pbkdf2
 	 *
-	 * @param   string   $algo        Algorithm to use
-	 * @param   string   $password    Plaintext password
-	 * @param   string   $salt        Salt for the hash
-	 * @param   integer  $count       Number of iterations
-	 * @param   integer  $length      Length
-	 * @param   boolean  $raw_output  Raw output
+	 * @param   string   $algo       Algorithm to use
+	 * @param   string   $password   Plaintext password
+	 * @param   string   $salt       Salt for the hash
+	 * @param   integer  $count      Number of iterations
+	 * @param   integer  $length     Length
+	 * @param   boolean  $rawOutput  Raw output
 	 *
 	 * @return   string  Hashed string
 	 */
-	function hash_pbkdf2($algo, $password, $salt, $count, $length = 0, $raw_output = false)
+	function hash_pbkdf2($algo, $password, $salt, $count, $length = 0, $rawOutput = false)
 	{
 		if (!\in_array(strtolower($algo), hash_algos()))
 		{
@@ -278,7 +277,7 @@ if (!\function_exists('hash_pbkdf2'))
 		}
 
 		$output      = '';
-		$block_count = $length ? ceil($length / \strlen(hash($algo, '', $raw_output))) : 1;
+		$block_count = $length ? ceil($length / \strlen(hash($algo, '', $rawOutput))) : 1;
 
 		for ($i = 1; $i <= $block_count; $i++)
 		{
@@ -292,7 +291,7 @@ if (!\function_exists('hash_pbkdf2'))
 			$output .= $xorsum;
 		}
 
-		if (!$raw_output)
+		if (!$rawOutput)
 		{
 			$output = bin2hex($output);
 		}

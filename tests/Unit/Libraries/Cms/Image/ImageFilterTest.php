@@ -1,34 +1,28 @@
 <?php
 /**
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2020 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
 namespace Joomla\Tests\Unit\Libraries\Cms\Image;
 
 use Joomla\CMS\Image\Filter\Brightness as FilterBrightness;
-use Joomla\CMS\Image\Filter\Inspector as FilterInspector;
 use Joomla\Test\TestHelper;
 use Joomla\Tests\Unit\UnitTestCase;
 
 /**
  * Test class for Image.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 class ImageFilterTest extends UnitTestCase
 {
-	/**
-	 * @var  FilterInspector  The object to test.
-	 */
-	protected $instance;
-
 	/**
 	 * Setup for testing.
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	protected function setUp(): void
 	{
@@ -39,8 +33,6 @@ class ImageFilterTest extends UnitTestCase
 		{
 			$this->markTestSkipped('No GD support so skipping Image tests.');
 		}
-
-		$this->instance = new FilterInspector(imagecreate(10, 10));
 	}
 
 	/**
@@ -48,7 +40,7 @@ class ImageFilterTest extends UnitTestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function testConstructorInvalidArgument()
 	{
@@ -62,7 +54,7 @@ class ImageFilterTest extends UnitTestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function testConstructor()
 	{

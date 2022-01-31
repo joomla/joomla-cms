@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  mod_syndicate
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2006 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,16 +12,13 @@ defined('_JEXEC') or die;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 
-?>
-<a href="<?php echo $link; ?>" class="mod-syndicate syndicate-module">
-	<?php echo HTMLHelper::_('image', 'system/livemarks.png', 'feed-image', null, true); ?>
-	<?php if ($params->get('display_text', 1)) : ?>
-		<span>
-		<?php if (str_replace(' ', '', $text) !== '') : ?>
-			<?php echo $text; ?>
-		<?php else : ?>
-			<?php echo Text::_('MOD_SYNDICATE_DEFAULT_FEED_ENTRIES'); ?>
-		<?php endif; ?>
-		</span>
-	<?php endif; ?>
-</a>
+$textClass = ($params->get('display_text', 1) ? '' : 'class="visually-hidden"');
+
+$linkText = '<span class="icon-feed m-1" aria-hidden="true"></span>';
+$linkText .= '<span ' . $textClass . '>' . (!empty($text) ? $text : Text::_('MOD_SYNDICATE_DEFAULT_FEED_ENTRIES')) . '</span>';
+
+$attribs = [
+	'class' => 'mod-syndicate syndicate-module'
+];
+
+echo HTMLHelper::_('link', $link, $linkText, $attribs);

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_workflow
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2018 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 namespace Joomla\Component\Workflow\Administrator\Controller;
@@ -11,7 +11,6 @@ namespace Joomla\Component\Workflow\Administrator\Controller;
 \defined('_JEXEC') or die;
 
 use Joomla\CMS\Application\CMSApplication;
-use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\FormController;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
@@ -41,11 +40,19 @@ class StageController extends FormController
 	protected $extension;
 
 	/**
+	 * The section of the current extension
+	 *
+	 * @var    string
+	 * @since  4.0.0
+	 */
+	protected $section;
+
+	/**
 	 * Constructor.
 	 *
 	 * @param   array                $config   An optional associative array of configuration settings.
 	 * @param   MVCFactoryInterface  $factory  The factory.
-	 * @param   CMSApplication       $app      The JApplication for the dispatcher
+	 * @param   CMSApplication       $app      The Application for the dispatcher
 	 * @param   Input                $input    Input
 	 *
 	 * @since   4.0.0
@@ -69,7 +76,16 @@ class StageController extends FormController
 		// If extension is not set try to get it from input or throw an exception
 		if (empty($this->extension))
 		{
-			$this->extension = $this->input->getCmd('extension');
+			$extension = $this->input->getCmd('extension');
+
+			$parts = explode('.', $extension);
+
+			$this->extension = array_shift($parts);
+
+			if (!empty($parts))
+			{
+				$this->section = array_shift($parts);
+			}
 
 			if (empty($this->extension))
 			{
@@ -89,18 +105,7 @@ class StageController extends FormController
 	 */
 	protected function allowAdd($data = array())
 	{
-		$user = Factory::getUser();
-
-		$model = $this->getModel('Workflow');
-
-		$workflow = $model->getItem($this->workflowId);
-
-		if ($workflow->core)
-		{
-			return false;
-		}
-
-		return $user->authorise('core.create', $this->extension);
+		return $this->app->getIdentity()->authorise('core.create', $this->extension . '.workflow.' . (int) $this->workflowId);
 	}
 
 	/**
@@ -116,17 +121,11 @@ class StageController extends FormController
 	protected function allowEdit($data = array(), $key = 'id')
 	{
 		$recordId = isset($data[$key]) ? (int) $data[$key] : 0;
-		$user = Factory::getUser();
+		$user = $this->app->getIdentity();
 
-		$model = $this->getModel();
+		$record = $this->getModel()->getItem($recordId);
 
-		$item = $model->getItem($recordId);
-
-		$model = $this->getModel('Workflow');
-
-		$workflow = $model->getItem($item->workflow_id);
-
-		if ($workflow->core)
+		if (empty($record->id))
 		{
 			return false;
 		}
@@ -140,9 +139,6 @@ class StageController extends FormController
 		// Check "edit own" permission on record asset (explicit or inherited)
 		if ($user->authorise('core.edit.own', $this->extension . '.stage.' . $recordId))
 		{
-			// Need to do a lookup from the model to get the owner
-			$record = $this->getModel()->getItem($recordId);
-
 			return !empty($record) && $record->created_by == $user->id;
 		}
 
@@ -163,7 +159,7 @@ class StageController extends FormController
 	{
 		$append = parent::getRedirectToItemAppend($recordId);
 
-		$append .= '&workflow_id=' . $this->workflowId . '&extension=' . $this->extension;
+		$append .= '&workflow_id=' . $this->workflowId . '&extension=' . $this->extension . ($this->section ? '.' . $this->section : '');
 
 		return $append;
 	}
@@ -178,7 +174,7 @@ class StageController extends FormController
 	protected function getRedirectToListAppend()
 	{
 		$append = parent::getRedirectToListAppend();
-		$append .= '&workflow_id=' . $this->workflowId . '&extension=' . $this->extension;
+		$append .= '&workflow_id=' . $this->workflowId . '&extension=' . $this->extension . ($this->section ? '.' . $this->section : '');
 
 		return $append;
 	}

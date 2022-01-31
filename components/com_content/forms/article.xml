@@ -5,7 +5,6 @@
 			name="id"
 			type="hidden"
 			label="COM_CONTENT_ID_LABEL"
-			id="id"
 			size="10"
 			default="0"
 			readonly="true"
@@ -15,7 +14,6 @@
 			name="contenthistory"
 			type="contenthistory"
 			label="JTOOLBAR_VERSIONS"
-			id="contenthistory"
 			data-typeAlias="com_content.article"
 		/>
 
@@ -29,7 +27,6 @@
 			name="title"
 			type="text"
 			label="JGLOBAL_TITLE"
-			id="title"
 			size="30"
 			required="true"
 		/>
@@ -39,7 +36,6 @@
 			type="text"
 			label="JFIELD_ALIAS_LABEL"
 			description="JFIELD_ALIAS_DESC"
-			id="alias"
 			hint="JFIELD_ALIAS_PLACEHOLDER"
 			size="45"
 		/>
@@ -47,28 +43,34 @@
 		<field
 			name="articletext"
 			type="editor"
-			label="CONTENT_TEXT_LABEL"
-			description="CONTENT_TEXT_DESC"
+			label="COM_CONTENT_FIELD_ARTICLETEXT_LABEL"
+			hiddenLabel="true"
 			buttons="true"
 			filter="JComponentHelper::filterText"
 			asset_id="com_content"
 		/>
 
 		<field
-			name="transition"
-			type="transition"
-			extension="com_content"
-			addfieldprefix="Joomla\Component\Workflow\Administrator\Field"
-			label="COM_CONTENT_STATE"
-		>
+			name="state"
+			type="list"
+			label="JSTATUS"
+			class="form-select-color-state"
+			size="1"
+			default="1"
+			validate="options"
+			>
+			<option value="1">JPUBLISHED</option>
+			<option value="0">JUNPUBLISHED</option>
+			<option value="2">JARCHIVED</option>
+			<option value="-2">JTRASHED</option>
 		</field>
 
 		<field
 			name="featured"
 			type="list"
 			label="JGLOBAL_FIELD_FEATURED_LABEL"
-			id="featured"
 			default="0"
+			validate="options"
 			>
 			<option value="0">JNO</option>
 			<option value="1">JYES</option>
@@ -100,7 +102,6 @@
 			name="catid"
 			type="categoryedit"
 			label="JCATEGORY"
-			id="catid"
 			extension="com_content"
 			required="true"
 		/>
@@ -109,14 +110,12 @@
 			name="created"
 			type="calendar"
 			translateformat="true"
-			id="created"
 			filter="unset"
 		/>
 
 		<field
 			name="created_by"
 			type="text"
-			id="created_by"
 			filter="unset"
 		/>
 
@@ -124,7 +123,6 @@
 			name="created_by_alias"
 			type="text"
 			label="JGLOBAL_FIELD_CREATED_BY_ALIAS_LABEL"
-			id="created_by_alias"
 			size="20"
 		/>
 
@@ -148,7 +146,6 @@
 			name="publish_up"
 			type="calendar"
 			label="JGLOBAL_FIELD_PUBLISH_UP_LABEL"
-			id="publish_up"
 			translateformat="true"
 			showtime="true"
 			size="22"
@@ -159,7 +156,6 @@
 			name="publish_down"
 			type="calendar"
 			label="JGLOBAL_FIELD_PUBLISH_DOWN_LABEL"
-			id="publish_down"
 			translateformat="true"
 			showtime="true"
 			size="22"
@@ -186,7 +182,6 @@
 			name="metakey"
 			type="textarea"
 			label="JFIELD_META_KEYWORDS_LABEL"
-			id="metakey"
 			rows="5"
 			cols="50"
 		/>
@@ -195,7 +190,6 @@
 			name="metadesc"
 			type="textarea"
 			label="JFIELD_META_DESCRIPTION_LABEL"
-			id="metadesc"
 			rows="5"
 			cols="50"
 			maxlength="160"
@@ -206,8 +200,8 @@
 			name="access"
 			type="accesslevel"
 			label="JFIELD_ACCESS_LABEL"
-			id="access"
-			size="1"
+			filter="UINT"
+			validate="options"
 		/>
 
 		<field
@@ -234,6 +228,13 @@
 			/>
 
 			<field
+				name="image_intro_alt_empty"
+				type="checkbox"
+				label="COM_CONTENT_FIELD_IMAGE_ALT_EMPTY_LABEL"
+				description="COM_CONTENT_FIELD_IMAGE_ALT_EMPTY_DESC"
+			/>
+
+			<field
 				name="image_intro_caption"
 				type="text"
 				label="COM_CONTENT_FIELD_IMAGE_CAPTION_LABEL"
@@ -242,14 +243,10 @@
 
 			<field
 				name="float_intro"
-				type="list"
-				label="COM_CONTENT_FLOAT_INTRO_LABEL"
-				useglobal="true"
-				>
-				<option value="right">COM_CONTENT_RIGHT</option>
-				<option value="left">COM_CONTENT_LEFT</option>
-				<option value="none">COM_CONTENT_NONE</option>
-			</field>
+				type="text"
+				label="COM_CONTENT_FIELD_IMAGE_CLASS_LABEL"
+				size="20"
+			/>
 		</fieldset>
 		<fieldset name="image-full">
 			<field
@@ -266,6 +263,13 @@
 			/>
 
 			<field
+				name="image_fulltext_alt_empty"
+				type="checkbox"
+				label="COM_CONTENT_FIELD_IMAGE_ALT_EMPTY_LABEL"
+				description="COM_CONTENT_FIELD_IMAGE_ALT_EMPTY_DESC"
+			/>
+
+			<field
 				name="image_fulltext_caption"
 				type="text"
 				label="COM_CONTENT_FIELD_IMAGE_CAPTION_LABEL"
@@ -274,14 +278,10 @@
 
 			<field
 				name="float_fulltext"
-				type="list"
-				label="COM_CONTENT_FLOAT_FULLTEXT_LABEL"
-				useglobal="true"
-				>
-				<option value="right">COM_CONTENT_RIGHT</option>
-				<option value="left">COM_CONTENT_LEFT</option>
-				<option value="none">COM_CONTENT_NONE</option>
-			</field>
+				type="text"
+				label="COM_CONTENT_FIELD_IMAGE_CLASS_LABEL"
+				size="20"
+			/>
 		</fieldset>
 	</fields>
 	<fields name="urls">
@@ -360,10 +360,10 @@
 					filter="unset"
 					>
 					<option value="">JGLOBAL_USE_GLOBAL</option>
-					<option value="index, follow">JGLOBAL_INDEX_FOLLOW</option>
-					<option value="noindex, follow">JGLOBAL_NOINDEX_FOLLOW</option>
-					<option value="index, nofollow">JGLOBAL_INDEX_NOFOLLOW</option>
-					<option value="noindex, nofollow">JGLOBAL_NOINDEX_NOFOLLOW</option>
+					<option value="index, follow"></option>
+					<option value="noindex, follow"></option>
+					<option value="index, nofollow"></option>
+					<option value="noindex, nofollow"></option>
 				</field>
 
 				<field

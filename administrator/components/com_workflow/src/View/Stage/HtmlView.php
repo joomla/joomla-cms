@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_workflow
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2018 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 namespace Joomla\Component\Workflow\Administrator\View\Stage;
@@ -28,14 +28,15 @@ class HtmlView extends BaseHtmlView
 	 * The model state
 	 *
 	 * @var     object
-	 * @since   4.0
+	 * @since   4.0.0
 	 */
 	protected $state;
 
 	/**
 	 * From object to generate fields
 	 *
-	 * @var     \JForm
+	 * @var    \Joomla\CMS\Form\Form
+	 *
 	 * @since  4.0.0
 	 */
 	protected $form;
@@ -43,7 +44,7 @@ class HtmlView extends BaseHtmlView
 	/**
 	 * Items array
 	 *
-	 * @var     object
+	 * @var    object
 	 * @since  4.0.0
 	 */
 	protected $item;
@@ -52,9 +53,17 @@ class HtmlView extends BaseHtmlView
 	 * The name of current extension
 	 *
 	 * @var     string
-	 * @since   4.0
+	 * @since   4.0.0
 	 */
 	protected $extension;
+
+	/**
+	 * The section of the current extension
+	 *
+	 * @var    string
+	 * @since  4.0.0
+	 */
+	protected $section;
 
 	/**
 	 * Display item view
@@ -67,20 +76,30 @@ class HtmlView extends BaseHtmlView
 	 */
 	public function display($tpl = null)
 	{
+		// Get the Data
+		$this->state      = $this->get('State');
+		$this->form       = $this->get('Form');
+		$this->item       = $this->get('Item');
+
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
 			throw new GenericDataException(implode("\n", $errors), 500);
 		}
 
-		// Get the Data
-		$this->state      = $this->get('State');
-		$this->form       = $this->get('Form');
-		$this->item       = $this->get('Item');
-		$this->extension  = $this->state->get('filter.extension');
+		$extension = $this->state->get('filter.extension');
+
+		$parts = explode('.', $extension);
+
+		$this->extension = array_shift($parts);
+
+		if (!empty($parts))
+		{
+			$this->section = array_shift($parts);
+		}
 
 		// Set the toolbar
-		$this->addToolBar();
+		$this->addToolbar();
 
 		// Display the template
 		parent::display($tpl);
@@ -101,7 +120,7 @@ class HtmlView extends BaseHtmlView
 		$userId     = $user->id;
 		$isNew      = empty($this->item->id);
 
-		$canDo = StageHelper::getActions($this->extension, 'state', $this->item->id);
+		$canDo = StageHelper::getActions($this->extension, 'stage', $this->item->id);
 
 		ToolbarHelper::title(empty($this->item->id) ? Text::_('COM_WORKFLOW_STAGE_ADD') : Text::_('COM_WORKFLOW_STAGE_EDIT'), 'address');
 
@@ -110,7 +129,7 @@ class HtmlView extends BaseHtmlView
 		if ($isNew)
 		{
 			// For new records, check the create permission.
-			if ($canDo->get('core.edit'))
+			if ($canDo->get('core.create'))
 			{
 				ToolbarHelper::apply('stage.apply');
 				$toolbarButtons = [['save', 'stage.save'], ['save2new', 'stage.save2new']];
@@ -119,6 +138,10 @@ class HtmlView extends BaseHtmlView
 			ToolbarHelper::saveGroup(
 				$toolbarButtons,
 				'btn-success'
+			);
+
+			ToolbarHelper::cancel(
+				'stage.cancel'
 			);
 		}
 		else
@@ -143,9 +166,13 @@ class HtmlView extends BaseHtmlView
 				$toolbarButtons,
 				'btn-success'
 			);
+
+			ToolbarHelper::cancel(
+				'stage.cancel',
+				'JTOOLBAR_CLOSE'
+			);
 		}
 
-		ToolbarHelper::cancel('stage.cancel');
 		ToolbarHelper::divider();
 	}
 }

@@ -3,18 +3,18 @@
 	<name>plg_authentication_cookie</name>
 	<author>Joomla! Project</author>
 	<creationDate>July 2013</creationDate>
-	<copyright>Copyright (C) 2005 - 2019 Open Source Matters. All rights reserved.</copyright>
+	<copyright>(C) 2013 Open Source Matters, Inc.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>3.0.0</version>
-	<description>PLG_AUTH_COOKIE_XML_DESCRIPTION</description>
+	<description>PLG_AUTHENTICATION_COOKIE_XML_DESCRIPTION</description>
 	<files>
 		<filename plugin="cookie">cookie.php</filename>
 	</files>
 	<languages>
-		<language tag="en-GB">en-GB.plg_authentication_cookie.ini</language>
-		<language tag="en-GB">en-GB.plg_authentication_cookie.sys.ini</language>
+		<language tag="en-GB">language/en-GB/plg_authentication_cookie.ini</language>
+		<language tag="en-GB">language/en-GB/plg_authentication_cookie.sys.ini</language>
 	</languages>
 	<config>
 		<fields name="params">
@@ -22,7 +22,7 @@
 				<field
 					name="cookie_lifetime"
 					type="number"
-					label="PLG_AUTH_COOKIE_FIELD_COOKIE_LIFETIME_LABEL"
+					label="PLG_AUTHENTICATION_COOKIE_FIELD_COOKIE_LIFETIME_LABEL"
 					default="60"
 					filter="integer"
 					required="true"
@@ -31,7 +31,7 @@
 				<field
 					name="key_length"
 					type="list"
-					label="PLG_AUTH_COOKIE_FIELD_KEY_LENGTH_LABEL"
+					label="PLG_AUTHENTICATION_COOKIE_FIELD_KEY_LENGTH_LABEL"
 					default="16"
 					filter="integer"
 					required="true"

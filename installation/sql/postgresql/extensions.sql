@@ -25,7 +25,7 @@ CREATE TABLE IF NOT EXISTS "#__banners" (
   "purchase_type" smallint DEFAULT -1 NOT NULL,
   "track_clicks" smallint DEFAULT -1 NOT NULL,
   "track_impressions" smallint DEFAULT -1 NOT NULL,
-  "checked_out" bigint DEFAULT 0 NOT NULL,
+  "checked_out" integer,
   "checked_out_time" timestamp without time zone,
   "publish_up" timestamp without time zone,
   "publish_down" timestamp without time zone,
@@ -56,7 +56,7 @@ CREATE TABLE IF NOT EXISTS "#__banner_clients" (
   "email" varchar(255) DEFAULT '' NOT NULL,
   "extrainfo" text NOT NULL,
   "state" smallint DEFAULT 0 NOT NULL,
-  "checked_out" bigint DEFAULT 0 NOT NULL,
+  "checked_out" integer,
   "checked_out_time" timestamp without time zone,
   "metakey" text,
   "own_prefix" smallint DEFAULT 0 NOT NULL,
@@ -105,7 +105,7 @@ CREATE TABLE IF NOT EXISTS "#__contact_details" (
   "email_to" varchar(255),
   "default_con" smallint NOT NULL DEFAULT 0,
   "published" smallint NOT NULL DEFAULT 0,
-  "checked_out" bigint NOT NULL DEFAULT 0,
+  "checked_out" integer,
   "checked_out_time" timestamp without time zone,
   "ordering" bigint NOT NULL DEFAULT 0,
   "params" text NOT NULL,
@@ -161,7 +161,7 @@ CREATE TABLE IF NOT EXISTS "#__content" (
   "created_by_alias" varchar(255) DEFAULT '' NOT NULL,
   "modified" timestamp without time zone NOT NULL,
   "modified_by" bigint DEFAULT 0 NOT NULL,
-  "checked_out" bigint DEFAULT 0 NOT NULL,
+  "checked_out" integer,
   "checked_out_time" timestamp without time zone,
   "publish_up" timestamp without time zone,
   "publish_down" timestamp without time zone,
@@ -232,7 +232,7 @@ CREATE TABLE IF NOT EXISTS "#__finder_filters" (
   "created_by_alias" varchar(255) DEFAULT '' NOT NULL,
   "modified" timestamp without time zone NOT NULL,
   "modified_by" integer DEFAULT 0 NOT NULL,
-  "checked_out" integer DEFAULT 0 NOT NULL,
+  "checked_out" integer,
   "checked_out_time" timestamp without time zone,
   "map_count" integer DEFAULT 0 NOT NULL,
   "data" text,
@@ -323,6 +323,7 @@ CREATE TABLE IF NOT EXISTS "#__finder_taxonomy" (
 CREATE INDEX "#__finder_taxonomy_state" on "#__finder_taxonomy" ("state");
 CREATE INDEX "#__finder_taxonomy_access" on "#__finder_taxonomy" ("access");
 CREATE INDEX "#__finder_taxonomy_path" on "#__finder_taxonomy" ("path");
+CREATE INDEX "#__finder_taxonomy_level" on "#__finder_taxonomy" ("level");
 CREATE INDEX "#__finder_taxonomy_lft_rgt" on "#__finder_taxonomy" ("lft", "rgt");
 CREATE INDEX "#__finder_taxonomy_alias" on "#__finder_taxonomy" ("alias");
 CREATE INDEX "#__finder_taxonomy_language" on "#__finder_taxonomy" ("language");
@@ -654,7 +655,7 @@ CREATE TABLE IF NOT EXISTS "#__newsfeeds" (
   "published" smallint DEFAULT 0 NOT NULL,
   "numarticles" bigint DEFAULT 1 NOT NULL,
   "cache_time" bigint DEFAULT 3600 NOT NULL,
-  "checked_out" integer DEFAULT 0 NOT NULL,
+  "checked_out" integer,
   "checked_out_time" timestamp without time zone,
   "ordering" bigint DEFAULT 0 NOT NULL,
   "rtl" smallint DEFAULT 0 NOT NULL,
@@ -786,7 +787,8 @@ INSERT INTO "#__action_logs_extensions" ("id", "extension") VALUES
 (15, 'com_tags'),
 (16, 'com_templates'),
 (17, 'com_users'),
-(18, 'com_checkin');
+(18, 'com_checkin'),
+(19, 'com_scheduler');
 
 SELECT setval('#__action_logs_extensions_id_seq', 19, false);
 -- --------------------------------------------------------
@@ -827,7 +829,8 @@ INSERT INTO "#__action_log_config" ("id", "type_title", "type_alias", "id_holder
 (16, 'module', 'com_modules.module', 'id' ,'title', '#__modules', 'PLG_ACTIONLOG_JOOMLA'),
 (17, 'access_level', 'com_users.level', 'id' , 'title', '#__viewlevels', 'PLG_ACTIONLOG_JOOMLA'),
 (18, 'banner_client', 'com_banners.client', 'id', 'name', '#__banner_clients', 'PLG_ACTIONLOG_JOOMLA'),
-(19, 'application_config', 'com_config.application', '', 'name', '', 'PLG_ACTIONLOG_JOOMLA');
+(19, 'application_config', 'com_config.application', '', 'name', '', 'PLG_ACTIONLOG_JOOMLA'),
+(20, 'task', 'com_scheduler.task', 'id', 'title', '#__scheduler_tasks', 'PLG_ACTIONLOG_JOOMLA');
 
 
 SELECT setval('#__action_log_config_id_seq', 20, false);
@@ -844,6 +847,50 @@ CREATE TABLE "#__action_logs_users" (
 );
 
 CREATE INDEX "#__action_logs_users_idx_notify" ON "#__action_logs_users" ("notify");
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table "#__scheduler_tasks"
+--
+
+CREATE TABLE IF NOT EXISTS "#__scheduler_tasks"
+(
+  "id" serial NOT NULL,
+  "asset_id" bigint DEFAULT 0 NOT NULL,
+  "title" varchar(255) NOT NULL,
+  "type" varchar(128) NOT NULL,
+  "execution_rules" text,
+  "cron_rules" text,
+  "state" smallint DEFAULT 0 NOT NULL,
+  "last_exit_code" integer DEFAULT 0 NOT NULL,
+  "last_execution" timestamp without time zone,
+  "next_execution" timestamp without time zone,
+  "times_executed" integer DEFAULT 0 NOT NULL,
+  "times_failed" integer DEFAULT 0,
+  "locked" timestamp without time zone,
+  "priority" smallint DEFAULT 0 NOT NULL,
+  "ordering" bigint DEFAULT 0 NOT NULL,
+  "cli_exclusive" smallint DEFAULT 0 NOT NULL,
+  "params" text NOT NULL,
+  "note" text,
+  "created" timestamp without time zone NOT NULL,
+  "created_by" bigint DEFAULT 0 NOT NULL,
+  "checked_out" integer,
+  "checked_out_time" timestamp without time zone,
+  PRIMARY KEY ("id")
+);
+
+CREATE INDEX "#__scheduler_tasks_idx_type" ON "#__scheduler_tasks" ("type");
+CREATE INDEX "#__scheduler_tasks_idx_state" ON "#__scheduler_tasks" ("state");
+CREATE INDEX "#__scheduler_tasks_idx_last_exit" ON "#__scheduler_tasks" ("last_exit_code");
+CREATE INDEX "#__scheduler_tasks_idx_next_exec" ON "#__scheduler_tasks" ("next_execution");
+CREATE INDEX "#__scheduler_tasks_idx_locked" ON "#__scheduler_tasks" ("locked");
+CREATE INDEX "#__scheduler_tasks_idx_priority" ON "#__scheduler_tasks" ("priority");
+CREATE INDEX "#__scheduler_tasks_idx_cli_exclusive" ON "#__scheduler_tasks" ("cli_exclusive");
+CREATE INDEX "#__scheduler_tasks_idx_checked_out" ON "#__scheduler_tasks" ("checked_out");
+
+-- --------------------------------------------------------
 
 --
 -- Here is SOUNDEX replacement for those who can't enable fuzzystrmatch module

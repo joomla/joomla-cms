@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2020 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -16,7 +16,7 @@ use Tobscure\JsonApi\Relationship;
 /**
  * Event for getting information on an API Relationship
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 final class OnGetApiRelation extends AbstractImmutableEvent
 {
@@ -24,7 +24,7 @@ final class OnGetApiRelation extends AbstractImmutableEvent
 	 * The relationship
 	 *
 	 * @var     Relationship
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	private $relationship;
 
@@ -39,7 +39,7 @@ final class OnGetApiRelation extends AbstractImmutableEvent
 	 * @param   string  $name       The event name.
 	 * @param   array   $arguments  The event arguments.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 * @throws  \BadMethodCallException
 	 */
 	public function __construct($name, array $arguments = array())
@@ -67,7 +67,7 @@ final class OnGetApiRelation extends AbstractImmutableEvent
 	 *
 	 * @return  Relationship
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function getRelationship(): ?Relationship
 	{
@@ -80,7 +80,7 @@ final class OnGetApiRelation extends AbstractImmutableEvent
 	 * @param   Relationship  $relationship  The relationship object that should be rendered.
 	 *
 	 * @return  void
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function setRelationship(Relationship $relationship): void
 	{

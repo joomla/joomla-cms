@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2007 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,7 +12,6 @@ namespace Joomla\CMS\Language;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
-use Joomla\CMS\Log\Log;
 
 /**
  * Text handling class.
@@ -111,7 +110,7 @@ class Text
 
 		$first_part = array_shift($string_parts);
 
-		// Replace custom named placeholders with sprinftf style placeholders
+		// Replace custom named placeholders with sprintf style placeholders
 		$first_part = preg_replace('/\[\[%([0-9]+):[^\]]*\]\]/', '%\1$s', $first_part);
 
 		// Check if string contains sprintf placeholders
@@ -201,23 +200,16 @@ class Text
 		$args = \func_get_args();
 		$count = \count($args);
 
-		if ($count < 1)
-		{
-			return '';
-		}
-
-		if ($count == 1)
-		{
-			// Default to the normal sprintf handling.
-			$args[0] = $lang->_($string);
-
-			return \call_user_func_array('sprintf', $args);
-		}
-
 		// Try the key from the language plural potential suffixes
 		$found = false;
 		$suffixes = $lang->getPluralSuffixes((int) $n);
-		array_unshift($suffixes, (int) $n);
+
+		// Add the count as possible suffix to allow for eg "a dozen" with suffix _12.
+		// Only do that if it is a real plural (more than one) to avoid issues with languages. See https://github.com/joomla/joomla-cms/pull/29029
+		if ($n != 1)
+		{
+			array_unshift($suffixes, (int) $n);
+		}
 
 		foreach ($suffixes as $suffix)
 		{
@@ -285,11 +277,6 @@ class Text
 		$args = \func_get_args();
 		$count = \count($args);
 
-		if ($count < 1)
-		{
-			return '';
-		}
-
 		if (\is_array($args[$count - 1]))
 		{
 			$args[0] = $lang->_(
@@ -332,11 +319,6 @@ class Text
 		$args = \func_get_args();
 		$count = \count($args);
 
-		if ($count < 1)
-		{
-			return '';
-		}
-
 		if (\is_array($args[$count - 1]))
 		{
 			$args[0] = $lang->_(
@@ -359,7 +341,7 @@ class Text
 	 * @param   boolean  $jsSafe                Ensure the output is JavaScript safe.
 	 * @param   boolean  $interpretBackSlashes  Interpret \t and \n.
 	 *
-	 * @return  string
+	 * @return  array
 	 *
 	 * @since   1.7.0
 	 */
@@ -367,15 +349,14 @@ class Text
 	{
 		if ($string === null)
 		{
-			Log::add(
+			@trigger_error(
 				sprintf(
 					'As of 3.7.0, passing a null value for the first argument of %1$s() is deprecated and will not be supported in 4.0.'
 					. ' Use the %2$s::getScriptStrings() method to get the strings from the JavaScript language store instead.',
 					__METHOD__,
 					__CLASS__
 				),
-				Log::WARNING,
-				'deprecated'
+				E_USER_DEPRECATED
 			);
 		}
 

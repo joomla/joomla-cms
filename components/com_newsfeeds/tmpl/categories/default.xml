@@ -2,7 +2,7 @@
 <metadata>
 	<layout title="COM_NEWSFEEDS_CATEGORIES_VIEW_DEFAULT_TITLE" option="COM_NEWSFEEDS_CATEGORIES_VIEW_DEFAULT_OPTION">
 		<help
-			key = "JHELP_MENUS_MENU_ITEM_NEWSFEED_CATEGORIES"
+			key = "Menu_Item:_List_All_News_Feed_Categories"
 		/>
 		<message>
 			<![CDATA[COM_NEWSFEEDS_CATEGORIES_VIEW_DEFAULT_DESC]]>
@@ -32,7 +32,8 @@
 				type="list"
 				label="JGLOBAL_FIELD_SHOW_BASE_DESCRIPTION_LABEL"
 				useglobal="true"
-				class="custom-select-color-state"
+				class="form-select-color-state"
+				validate="options"
 				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
@@ -51,6 +52,7 @@
 				type="list"
 				label="JGLOBAL_MAXIMUM_CATEGORY_LEVELS_LABEL"
 				useglobal="true"
+				validate="options"
 				>
 				<option value="-1">JALL</option>
 				<option value="1">J1</option>
@@ -65,7 +67,8 @@
 				type="list"
 				label="JGLOBAL_SHOW_EMPTY_CATEGORIES_LABEL"
 				useglobal="true"
-				class="custom-select-color-state"
+				class="form-select-color-state"
+				validate="options"
 				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
@@ -76,7 +79,8 @@
 				type="list"
 				label="JGLOBAL_SHOW_SUBCATEGORIES_DESCRIPTION_LABEL"
 				useglobal="true"
-				class="custom-select-color-state"
+				class="form-select-color-state"
+				validate="options"
 				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
@@ -87,7 +91,8 @@
 				type="list"
 				label="COM_NEWSFEEDS_FIELD_SHOW_CAT_ITEMS_LABEL"
 				useglobal="true"
-				class="custom-select-color-state"
+				class="form-select-color-state"
+				validate="options"
 				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
@@ -101,7 +106,8 @@
 				type="list"
 				label="JGLOBAL_SHOW_CATEGORY_TITLE"
 				useglobal="true"
-				class="custom-select-color-state"
+				class="form-select-color-state"
+				validate="options"
 				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
@@ -112,7 +118,8 @@
 				type="list"
 				label="JGLOBAL_SHOW_CATEGORY_DESCRIPTION_LABEL"
 				useglobal="true"
-				class="custom-select-color-state"
+				class="form-select-color-state"
+				validate="options"
 				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
@@ -123,7 +130,8 @@
 				type="list"
 				label="JGLOBAL_SHOW_CATEGORY_IMAGE_LABEL"
 				useglobal="true"
-				class="custom-select-color-state"
+				class="form-select-color-state"
+				validate="options"
 				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
@@ -134,6 +142,7 @@
 				type="list"
 				label="JGLOBAL_MAXIMUM_CATEGORY_LEVELS_LABEL"
 				useglobal="true"
+				validate="options"
 				>
 				<option value="-1">JALL</option>
 				<option value="0">JNONE</option>
@@ -149,7 +158,8 @@
 				type="list"
 				label="JGLOBAL_SHOW_EMPTY_CATEGORIES_LABEL"
 				useglobal="true"
-				class="custom-select-color-state"
+				class="form-select-color-state"
+				validate="options"
 				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
@@ -160,7 +170,8 @@
 				type="list"
 				label="JGLOBAL_SHOW_SUBCATEGORIES_DESCRIPTION_LABEL"
 				useglobal="true"
-				class="custom-select-color-state"
+				class="form-select-color-state"
+				validate="options"
 				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
@@ -170,9 +181,9 @@
 				name="show_cat_items"
 				type="list"
 				label="COM_NEWSFEEDS_FIELD_SHOW_CAT_ITEMS_LABEL"
-				id="show_cat_items"
 				useglobal="true"
-				class="custom-select-color-state"
+				class="form-select-color-state"
+				validate="options"
 				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
@@ -188,7 +199,8 @@
 				label="JGLOBAL_FILTER_FIELD_LABEL"
 				default=""
 				useglobal="true"
-				class="custom-select-color-state"
+				class="form-select-color-state"
+				validate="options"
 				>
 				<option value="hide">JHIDE</option>
 				<option value="1">JSHOW</option>
@@ -199,7 +211,8 @@
 				type="list"
 				label="JGLOBAL_DISPLAY_SELECT_LABEL"
 				useglobal="true"
-				class="custom-select-color-state"
+				class="form-select-color-state"
+				validate="options"
 				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
@@ -209,9 +222,9 @@
 				name="show_headings"
 				type="list"
 				label="JGLOBAL_SHOW_HEADINGS_LABEL"
-				id="show_headings"
 				useglobal="true"
-				class="custom-select-color-state"
+				class="form-select-color-state"
+				validate="options"
 				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
@@ -221,9 +234,9 @@
 				name="show_articles"
 				type="list"
 				label="COM_NEWSFEEDS_FIELD_NUM_ARTICLES_COLUMN_LABEL"
-				id="show_articles"
 				useglobal="true"
-				class="custom-select-color-state"
+				class="form-select-color-state"
+				validate="options"
 				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
@@ -233,9 +246,9 @@
 				name="show_link"
 				type="list"
 				label="COM_NEWSFEEDS_FIELD_SHOW_LINKS_LABEL"
-				id="show_link"
 				useglobal="true"
-				class="custom-select-color-state"
+				class="form-select-color-state"
+				validate="options"
 				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
@@ -246,7 +259,8 @@
 				type="list"
 				label="JGLOBAL_PAGINATION_LABEL"
 				useglobal="true"
-				class="custom-select-color-state"
+				class="form-select-color-state"
+				validate="options"
 				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
@@ -258,7 +272,8 @@
 				type="list"
 				label="JGLOBAL_PAGINATION_RESULTS_LABEL"
 				useglobal="true"
-				class="custom-select-color-state"
+				class="form-select-color-state"
+				validate="options"
 				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
@@ -272,7 +287,8 @@
 				type="list"
 				label="COM_NEWSFEEDS_FIELD_SHOW_FEED_IMAGE_LABEL"
 				useglobal="true"
-				class="custom-select-color-state"
+				class="form-select-color-state"
+				validate="options"
 				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
@@ -283,7 +299,8 @@
 				type="list"
 				label="COM_NEWSFEEDS_FIELD_SHOW_FEED_DESCRIPTION_LABEL"
 				useglobal="true"
-				class="custom-select-color-state"
+				class="form-select-color-state"
+				validate="options"
 				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
@@ -294,7 +311,8 @@
 				type="list"
 				label="COM_NEWSFEEDS_FIELD_SHOW_ITEM_DESCRIPTION_LABEL"
 				useglobal="true"
-				class="custom-select-color-state"
+				class="form-select-color-state"
+				validate="options"
 				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
@@ -305,6 +323,7 @@
 				type="number"
 				label="COM_NEWSFEEDS_FIELD_CHARACTER_COUNT_LABEL"
 				description="COM_NEWSFEEDS_FIELD_CHARACTER_COUNT_DESC"
+				filter="integer"
 				useglobal="true"
 			/>
 		</fieldset>

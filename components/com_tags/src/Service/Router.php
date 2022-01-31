@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_tags
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2013 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,7 +12,7 @@ namespace Joomla\Component\Tags\Site\Service;
 \defined('_JEXEC') or die;
 
 use Joomla\CMS\Application\SiteApplication;
-use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Categories\CategoryFactoryInterface;
 use Joomla\CMS\Component\Router\RouterBase;
 use Joomla\CMS\Menu\AbstractMenu;
 use Joomla\Database\DatabaseInterface;
@@ -26,6 +26,15 @@ use Joomla\Utilities\ArrayHelper;
 class Router extends RouterBase
 {
 	/**
+	 * The db
+	 *
+	 * @var DatabaseInterface
+	 *
+	 * @since  4.0.0
+	 */
+	private $db;
+
+	/**
 	 * Tags Component router constructor
 	 *
 	 * @param   SiteApplication           $app              The application object
@@ -33,9 +42,9 @@ class Router extends RouterBase
 	 * @param   CategoryFactoryInterface  $categoryFactory  The category object
 	 * @param   DatabaseInterface         $db               The database object
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
-	public function __construct(SiteApplication $app, AbstractMenu $menu, CategoryFactoryInterface $categoryFactory = null, DatabaseInterface $db)
+	public function __construct(SiteApplication $app, AbstractMenu $menu, ?CategoryFactoryInterface $categoryFactory, DatabaseInterface $db)
 	{
 		$this->db = $db;
 
@@ -56,7 +65,6 @@ class Router extends RouterBase
 		$segments = array();
 
 		// Get a menu item based on Itemid or currently active
-		$params = ComponentHelper::getParams('com_tags');
 
 		// We need a menu item.  Either the one specified in the query, or the current active one if none specified
 		if (empty($query['Itemid']))

@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2009 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -52,7 +52,6 @@ class ArticlesModel extends ListModel
 				'checked_out_time', 'a.checked_out_time',
 				'catid', 'a.catid', 'category_title',
 				'state', 'a.state',
-				'stage_condition', 'ws.condition',
 				'access', 'a.access', 'access_level',
 				'created', 'a.created',
 				'created_by', 'a.created_by',
@@ -126,7 +125,7 @@ class ArticlesModel extends ListModel
 		if ((!$user->authorise('core.edit.state', 'com_content')) && (!$user->authorise('core.edit', 'com_content')))
 		{
 			// Filter on published for those who do not have edit or edit.state rights.
-			$this->setState('filter.condition', ContentComponent::CONDITION_PUBLISHED);
+			$this->setState('filter.published', ContentComponent::CONDITION_PUBLISHED);
 		}
 
 		$this->setState('filter.language', Multilanguage::isEnabled());
@@ -160,7 +159,7 @@ class ArticlesModel extends ListModel
 	protected function getStoreId($id = '')
 	{
 		// Compile the store id.
-		$id .= ':' . serialize($this->getState('filter.condition'));
+		$id .= ':' . serialize($this->getState('filter.published'));
 		$id .= ':' . $this->getState('filter.access');
 		$id .= ':' . $this->getState('filter.featured');
 		$id .= ':' . serialize($this->getState('filter.article_id'));
@@ -184,7 +183,7 @@ class ArticlesModel extends ListModel
 	/**
 	 * Get the master query for retrieving a list of articles subject to the model state.
 	 *
-	 * @return  \JDatabaseQuery
+	 * @return  \Joomla\Database\DatabaseQuery
 	 *
 	 * @since   1.6
 	 */
@@ -243,13 +242,10 @@ class ArticlesModel extends ListModel
 				[
 					$db->quoteName('fp.featured_up'),
 					$db->quoteName('fp.featured_down'),
-					$db->quoteName('wa.stage_id', 'stage_id'),
-					$db->quoteName('ws.title', 'state_title'),
-					$db->quoteName('ws.condition', 'stage_condition'),
 					// Published/archived article in archived category is treated as archived article. If category is not published then force 0.
-					'CASE WHEN ' . $db->quoteName('c.published') . ' = 2 AND ' . $db->quoteName('ws.condition') . ' > 0 THEN ' . $conditionArchived
+					'CASE WHEN ' . $db->quoteName('c.published') . ' = 2 AND ' . $db->quoteName('a.state') . ' > 0 THEN ' . $conditionArchived
 						. ' WHEN ' . $db->quoteName('c.published') . ' != 1 THEN ' . $conditionUnpublished
-						. ' ELSE ' . $db->quoteName('ws.condition') . ' END AS ' . $db->quoteName('state'),
+						. ' ELSE ' . $db->quoteName('a.state') . ' END AS ' . $db->quoteName('state'),
 					$db->quoteName('c.title', 'category_title'),
 					$db->quoteName('c.path', 'category_route'),
 					$db->quoteName('c.access', 'category_access'),
@@ -270,8 +266,6 @@ class ArticlesModel extends ListModel
 				]
 			)
 			->from($db->quoteName('#__content', 'a'))
-			->join('LEFT', $db->quoteName('#__workflow_associations', 'wa'), $db->quoteName('wa.item_id') . ' = ' . $db->quoteName('a.id'))
-			->join('LEFT', $db->quoteName('#__workflow_stages', 'ws'), $db->quoteName('ws.id') . ' = ' . $db->quoteName('wa.stage_id'))
 			->join('LEFT', $db->quoteName('#__categories', 'c'), $db->quoteName('c.id') . ' = ' . $db->quoteName('a.catid'))
 			->join('LEFT', $db->quoteName('#__users', 'ua'), $db->quoteName('ua.id') . ' = ' . $db->quoteName('a.created_by'))
 			->join('LEFT', $db->quoteName('#__users', 'uam'), $db->quoteName('uam.id') . ' = ' . $db->quoteName('a.modified_by'))
@@ -316,7 +310,7 @@ class ArticlesModel extends ListModel
 			// Join on voting table
 			$query->select(
 				[
-					'COALESCE(NULLIF(ROUND(' . $db->quoteName('v.rating_sum') . ' / ' . $db->quoteName('v.rating_count') . ', 0), 0), 0)'
+					'COALESCE(NULLIF(ROUND(' . $db->quoteName('v.rating_sum') . ' / ' . $db->quoteName('v.rating_count') . ', 1), 0), 0)'
 						. ' AS ' . $db->quoteName('rating'),
 					'COALESCE(NULLIF(' . $db->quoteName('v.rating_count') . ', 0), 0) AS ' . $db->quoteName('rating_count'),
 				]
@@ -327,22 +321,22 @@ class ArticlesModel extends ListModel
 		// Filter by access level.
 		if ($this->getState('filter.access', true))
 		{
-			$groups = $user->getAuthorisedViewLevels();
+			$groups = $this->getState('filter.viewlevels', $user->getAuthorisedViewLevels());
 			$query->whereIn($db->quoteName('a.access'), $groups)
 				->whereIn($db->quoteName('c.access'), $groups);
 		}
 
 		// Filter by published state
-		$condition = $this->getState('filter.condition');
+		$condition = $this->getState('filter.published');
 
 		if (is_numeric($condition) && $condition == 2)
 		{
 			/**
 			 * If category is archived then article has to be published or archived.
-			 * Or categogy is published then article has to be archived.
+			 * Or category is published then article has to be archived.
 			 */
-			$query->where('((' . $db->quoteName('c.published') . ' = 2 AND ' . $db->quoteName('ws.condition') . ' > :conditionUnpublished)'
-				. ' OR (' . $db->quoteName('c.published') . ' = 1 AND ' . $db->quoteName('ws.condition') . ' = :conditionArchived))'
+			$query->where('((' . $db->quoteName('c.published') . ' = 2 AND ' . $db->quoteName('a.state') . ' > :conditionUnpublished)'
+				. ' OR (' . $db->quoteName('c.published') . ' = 1 AND ' . $db->quoteName('a.state') . ' = :conditionArchived))'
 			)
 				->bind(':conditionUnpublished', $conditionUnpublished, ParameterType::INTEGER)
 				->bind(':conditionArchived', $conditionArchived, ParameterType::INTEGER);
@@ -352,14 +346,14 @@ class ArticlesModel extends ListModel
 			$condition = (int) $condition;
 
 			// Category has to be published
-			$query->where($db->quoteName('c.published') . ' = 1 AND ' . $db->quoteName('ws.condition') . ' = :wsCondition')
-				->bind(':wsCondition', $condition, ParameterType::INTEGER);
+			$query->where($db->quoteName('c.published') . ' = 1 AND ' . $db->quoteName('a.state') . ' = :condition')
+				->bind(':condition', $condition, ParameterType::INTEGER);
 		}
 		elseif (is_array($condition))
 		{
 			// Category has to be published
 			$query->where(
-				$db->quoteName('c.published') . ' = 1 AND ' . $db->quoteName('ws.condition')
+				$db->quoteName('c.published') . ' = 1 AND ' . $db->quoteName('a.state')
 					. ' IN (' . implode(',', $query->bindArray($condition)) . ')'
 			);
 		}
@@ -511,26 +505,11 @@ class ArticlesModel extends ListModel
 			$authorAliasWhere = $db->quoteName('a.created_by_alias') . $type . ':authorAlias';
 			$query->bind(':authorAlias', $authorAlias);
 		}
-		elseif (is_array($authorAlias))
+		elseif (\is_array($authorAlias) && !empty($authorAlias))
 		{
-			$first = current($authorAlias);
-
-			if (!empty($first))
-			{
-				foreach ($authorAlias as $key => $alias)
-				{
-					$authorAlias[$key] = $db->quote($alias);
-				}
-
-				$authorAlias = implode(',', $authorAlias);
-
-				if ($authorAlias)
-				{
-					$type             = $this->getState('filter.author_alias.include', true) ? ' IN' : ' NOT IN';
-					$authorAliasWhere = $db->quoteName('a.created_by_alias') . $type
-						. ' (' . implode(',', $query->bindArray($authorAlias, ParameterType::STRING)) . ')';
-				}
-			}
+			$type             = $this->getState('filter.author_alias.include', true) ? ' IN' : ' NOT IN';
+			$authorAliasWhere = $db->quoteName('a.created_by_alias') . $type
+				. ' (' . implode(',', $query->bindArray($authorAlias, ParameterType::STRING)) . ')';
 		}
 
 		if (!empty($authorWhere) && !empty($authorAliasWhere))
@@ -593,7 +572,7 @@ class ArticlesModel extends ListModel
 				$relativeDate = (int) $this->getState('filter.relative_date', 0);
 				$query->where(
 					$db->quoteName($dateField) . ' IS NOT NULL AND '
-					. $db->quoteName($dateField) . ' >= ' . $query->dateAdd($nowDate, -1 * $relativeDate, 'DAY')
+					. $db->quoteName($dateField) . ' >= ' . $query->dateAdd($db->quote($nowDate), -1 * $relativeDate, 'DAY')
 				);
 				break;
 
@@ -675,8 +654,12 @@ class ArticlesModel extends ListModel
 				$subQuery = $db->getQuery(true)
 					->select('DISTINCT ' . $db->quoteName('content_item_id'))
 					->from($db->quoteName('#__contentitem_tag_map'))
-					->whereIn($db->quoteName('tag_id'), $tagId)
-					->where($db->quoteName('type_alias') . ' = ' . $db->quote('com_content.article'));
+					->where(
+						[
+							$db->quoteName('tag_id') . ' IN (' . implode(',', $query->bindArray($tagId)) . ')',
+							$db->quoteName('type_alias') . ' = ' . $db->quote('com_content.article'),
+						]
+					);
 
 				$query->join(
 					'INNER',
@@ -708,7 +691,7 @@ class ArticlesModel extends ListModel
 	/**
 	 * Method to get a list of articles.
 	 *
-	 * Overridden to inject convert the attribs field into a \JParameter object.
+	 * Overridden to inject convert the attribs field into a Registry object.
 	 *
 	 * @return  mixed  An array of objects on success, false on failure.
 	 *

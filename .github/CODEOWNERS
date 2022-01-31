@@ -17,7 +17,7 @@ plugins/finder/*  @hackwar
 plugins/editors/codemirror/*  @okonomiyaki3000
 
 # Statistics Server
-plugins/system/stats/*  @mbabker @wilsonge
+plugins/system/stats/*  @wilsonge
 
 # Release Tools
 build.xml  @wilsonge
@@ -45,12 +45,35 @@ RoboFile.php  @rdeutz @hackwar
 
 # CSP Tooling
 plugins/system/httpheaders/*  @zero-24
-administrator/components/com_csp/* @zero-24
-components/com_csp/* @zero-24
 
 # Web Authentication (WebAuthn)
-
 plugins/system/webauthn/*   @nikosdion
 media/plg_system_webauthn/*   @nikosdion
-language/administrator/en-GB/en-GB.plg_system_webauthn.ini   @nikosdion
-language/administrator/en-GB/en-GB.plg_system_webauthn.sys.ini   @nikosdion
+administrator/language/en-GB/plg_system_webauthn.ini   @nikosdion
+administrator/language/en-GB/plg_system_webauthn.sys.ini   @nikosdion
+
+# Workflow
+administrator/components/com_workflow/*	@bembelimen @hleithner
+administrator/language/en-GB/com_workflow.ini	@bembelimen @hleithner
+administrator/language/en-GB/com_workflow.sys.ini	@bembelimen @hleithner
+administrator/language/en-GB/plg_workflow_publishing.ini	@bembelimen @hleithner
+administrator/language/en-GB/plg_workflow_publishing.sys.ini	@bembelimen @hleithner
+libraries/src/Form/Field/TransitionField.php	@bembelimen @hleithner
+libraries/src/Form/Field/Workflow*	@bembelimen @hleithner
+libraries/src/HTML/Helpers/Workflow*	@bembelimen @hleithner
+libraries/src/MVC/Model/Workflow*	@bembelimen @hleithner
+libraries/src/MVC/Model/Workflow*	@bembelimen @hleithner
+libraries/src/Workflow/*	@bembelimen @hleithner
+build/media_source/com_workflow/*	@bembelimen @hleithner
+plugins/workflow/*	@bembelimen @hleithner
+
+# Joomla! Accessibility Team
+administrator/*/components/*/tmpl/* @chmst
+administrator/*/modules/*/tmpl/* @chmst
+administrator/templates/atum/* @chmst
+components/*/tmpl/* @chmst
+modules/*/tmpl/* @chmst
+plugins/*/tmpl/* @chmst
+templates/cassiopeia/* @chmst
+layouts/* @chmst
+installation/tmpl/* @chmst

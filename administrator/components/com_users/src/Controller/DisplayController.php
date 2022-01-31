@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2005 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -11,7 +11,7 @@ namespace Joomla\Component\Users\Administrator\Controller;
 
 \defined('_JEXEC') or die;
 
-use Joomla\CMS\Access\Exception\Notallowed;
+use Joomla\CMS\Access\Exception\NotAllowed;
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\BaseController;
@@ -53,7 +53,6 @@ class DisplayController extends BaseController
 			case 'levels':
 			case 'level':
 				return $canDo->get('core.admin');
-				break;
 
 			// Default permissions.
 			default:
@@ -80,14 +79,18 @@ class DisplayController extends BaseController
 
 		if (!$this->canView($view))
 		{
-			throw new Notallowed(Text::_('JERROR_ALERTNOAUTHOR'), 403);
+			throw new NotAllowed(Text::_('JERROR_ALERTNOAUTHOR'), 403);
 		}
 
 		// Check for edit form.
 		if ($view == 'user' && $layout == 'edit' && !$this->checkEditId('com_users.edit.user', $id))
 		{
 			// Somehow the person just went to the form - we don't allow that.
-			$this->setMessage(Text::sprintf('JLIB_APPLICATION_ERROR_UNHELD_ID', $id), 'error');
+			if (!\count($this->app->getMessageQueue()))
+			{
+				$this->setMessage(Text::sprintf('JLIB_APPLICATION_ERROR_UNHELD_ID', $id), 'error');
+			}
+
 			$this->setRedirect(Route::_('index.php?option=com_users&view=users', false));
 
 			return false;
@@ -95,7 +98,11 @@ class DisplayController extends BaseController
 		elseif ($view == 'group' && $layout == 'edit' && !$this->checkEditId('com_users.edit.group', $id))
 		{
 			// Somehow the person just went to the form - we don't allow that.
-			$this->setMessage(Text::sprintf('JLIB_APPLICATION_ERROR_UNHELD_ID', $id), 'error');
+			if (!\count($this->app->getMessageQueue()))
+			{
+				$this->setMessage(Text::sprintf('JLIB_APPLICATION_ERROR_UNHELD_ID', $id), 'error');
+			}
+
 			$this->setRedirect(Route::_('index.php?option=com_users&view=groups', false));
 
 			return false;
@@ -103,7 +110,11 @@ class DisplayController extends BaseController
 		elseif ($view == 'level' && $layout == 'edit' && !$this->checkEditId('com_users.edit.level', $id))
 		{
 			// Somehow the person just went to the form - we don't allow that.
-			$this->setMessage(Text::sprintf('JLIB_APPLICATION_ERROR_UNHELD_ID', $id), 'error');
+			if (!\count($this->app->getMessageQueue()))
+			{
+				$this->setMessage(Text::sprintf('JLIB_APPLICATION_ERROR_UNHELD_ID', $id), 'error');
+			}
+
 			$this->setRedirect(Route::_('index.php?option=com_users&view=levels', false));
 
 			return false;
@@ -111,7 +122,11 @@ class DisplayController extends BaseController
 		elseif ($view == 'note' && $layout == 'edit' && !$this->checkEditId('com_users.edit.note', $id))
 		{
 			// Somehow the person just went to the form - we don't allow that.
-			$this->setMessage(Text::sprintf('JLIB_APPLICATION_ERROR_UNHELD_ID', $id), 'error');
+			if (!\count($this->app->getMessageQueue()))
+			{
+				$this->setMessage(Text::sprintf('JLIB_APPLICATION_ERROR_UNHELD_ID', $id), 'error');
+			}
+
 			$this->setRedirect(Route::_('index.php?option=com_users&view=notes', false));
 
 			return false;

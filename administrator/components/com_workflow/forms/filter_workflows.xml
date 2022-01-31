@@ -1,5 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<form>
+<form addfieldprefix="Joomla\Component\Workflow\Administrator\Field">
+	<fieldset name="group">
+		<field
+			name="extension"
+			type="workflowcontexts"
+			filtermode="selector"
+			onchange="this.form.submit();"
+		/>
+	</fieldset>
 	<fields name="filter">
 		<field
 			name="search"
@@ -12,9 +20,9 @@
 		<field
 			name="published"
 			type="status"
-			label="JOPTION_SELECT_PUBLISHED"
+			label="JSTATUS"
 			onchange="this.form.submit();"
-			filter="-2,0,1"
+			optionsFilter="-2,0,1"
 			>
 			<option value="">JOPTION_SELECT_PUBLISHED</option>
 		</field>

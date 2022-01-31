@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_ajax
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2013 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -28,6 +28,9 @@ use Joomla\CMS\Table\Table;
 /** @var \Joomla\CMS\Application\CMSApplication $app */
 $app = Factory::getApplication();
 $app->allowCache(false);
+
+// Prevent the api url from being indexed
+$app->setHeader('X-Robots-Tag', 'noindex, nofollow');
 
 // JInput object
 $input = $app->input;
@@ -89,7 +92,14 @@ elseif ($input->get('module'))
 
 		$method = $input->get('method') ?: 'get';
 
-		if (is_file($helperFile))
+		$moduleInstance = $app->bootModule('mod_' . $module, $app->getName());
+
+		if ($moduleInstance instanceof \Joomla\CMS\Helper\HelperFactoryInterface && $helper = $moduleInstance->getHelper(substr($class, 3)))
+		{
+			$results = method_exists($helper, $method . 'Ajax') ? $helper->{$method . 'Ajax'}() : null;
+		}
+
+		if ($results === null && is_file($helperFile))
 		{
 			JLoader::register($class, $helperFile);
 
@@ -117,7 +127,7 @@ elseif ($input->get('module'))
 			}
 		}
 		// The helper file does not exist
-		else
+		elseif ($results === null)
 		{
 			$results = new RuntimeException(Text::sprintf('COM_AJAX_FILE_NOT_EXISTS', 'mod_' . $module . '/helper.php'), 404);
 		}
@@ -241,13 +251,13 @@ elseif ($input->get('template'))
 switch ($format)
 {
 	// JSONinzed
-	case 'json' :
+	case 'json':
 		echo new JsonResponse($results, null, false, $input->get('ignoreMessages', true, 'bool'));
 
 		break;
 
 	// Handle as raw format
-	default :
+	default:
 		// Output exception
 		if ($results instanceof Exception)
 		{

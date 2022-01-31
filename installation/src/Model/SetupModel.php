@@ -3,18 +3,15 @@
  * @package     Joomla.Installation
  * @subpackage  Model
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2009 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Installation\Model;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
-use Joomla\CMS\Filesystem\File;
-use Joomla\CMS\Filesystem\Folder;
-use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Installation\Helper\DatabaseHelper;
 use Joomla\CMS\Language\LanguageHelper;
@@ -64,7 +61,7 @@ class SetupModel extends BaseInstallationModel
 		}
 
 		// Store passwords as a separate key that is not used in the forms
-		foreach (array('admin_password', 'db_pass', 'ftp_pass') as $passwordField)
+		foreach (array('admin_password', 'db_pass') as $passwordField)
 		{
 			if (isset($options[$passwordField]))
 			{
@@ -90,7 +87,7 @@ class SetupModel extends BaseInstallationModel
 	/**
 	 * Method to get the form.
 	 *
-	 * @param   string  $view  The view being processed.
+	 * @param   string|null  $view  The view being processed.
 	 *
 	 * @return  Form|boolean  JForm object on success, false on failure.
 	 *
@@ -163,7 +160,7 @@ class SetupModel extends BaseInstallationModel
 	/**
 	 * Generate a panel of language choices for the user to select their language.
 	 *
-	 * @return  boolean True if successful.
+	 * @return  array
 	 *
 	 * @since   3.1
 	 */
@@ -199,8 +196,8 @@ class SetupModel extends BaseInstallationModel
 	/**
 	 * Method to validate the form data.
 	 *
-	 * @param   array   $data  The form data.
-	 * @param   string  $view  The view.
+	 * @param   array        $data  The form data.
+	 * @param   string|null  $view  The view.
 	 *
 	 * @return  array|boolean  Array of filtered data if valid, false otherwise.
 	 *
@@ -272,8 +269,6 @@ class SetupModel extends BaseInstallationModel
 		$lang = Factory::getLanguage();
 		$currentLang = $lang->getTag();
 
-		$optionsChanged = false;
-
 		// Load the selected language
 		if (LanguageHelper::exists($currentLang, JPATH_ADMINISTRATOR))
 		{
@@ -285,223 +280,22 @@ class SetupModel extends BaseInstallationModel
 			$lang->load('joomla', JPATH_ADMINISTRATOR, 'en-GB', true);
 		}
 
-		// Ensure a database type was selected.
-		if (empty($options->db_type))
+		// Validate and clean up connection parameters
+		$paramsCheck = DatabaseHelper::validateConnectionParameters($options);
+
+		if ($paramsCheck)
 		{
-			Factory::getApplication()->enqueueMessage(Text::_('INSTL_DATABASE_INVALID_TYPE'), 'error');
+			// Validation error: Enqueue the error message
+			Factory::getApplication()->enqueueMessage($paramsCheck, 'error');
 
 			return false;
 		}
 
-		// Ensure that a hostname and user name were input.
-		if (empty($options->db_host) || empty($options->db_user))
+		// Security check for remote db hosts
+		if (!DatabaseHelper::checkRemoteDbHost($options))
 		{
-			Factory::getApplication()->enqueueMessage(Text::_('INSTL_DATABASE_INVALID_DB_DETAILS'), 'error');
-
+			// Messages have been enqueued in the called function.
 			return false;
-		}
-
-		// Ensure that a database name was input.
-		if (empty($options->db_name))
-		{
-			Factory::getApplication()->enqueueMessage(Text::_('INSTL_DATABASE_EMPTY_NAME'), 'error');
-
-			return false;
-		}
-
-		// Validate database table prefix.
-		if (!preg_match('#^[a-zA-Z]+[a-zA-Z0-9_]*$#', $options->db_prefix))
-		{
-			Factory::getApplication()->enqueueMessage(Text::_('INSTL_DATABASE_PREFIX_MSG'), 'error');
-
-			return false;
-		}
-
-		// Validate length of database table prefix.
-		if (strlen($options->db_prefix) > 15)
-		{
-			Factory::getApplication()->enqueueMessage(Text::_('INSTL_DATABASE_FIX_TOO_LONG'), 'error');
-
-			return false;
-		}
-
-		// Validate length of database name.
-		if (strlen($options->db_name) > 64)
-		{
-			Factory::getApplication()->enqueueMessage(Text::_('INSTL_DATABASE_NAME_TOO_LONG'), 'error');
-
-			return false;
-		}
-
-		// Validate database name.
-		if (in_array($options->db_type, ['pgsql', 'postgresql']) && !preg_match('#^[a-zA-Z_][0-9a-zA-Z_$]*$#', $options->db_name))
-		{
-			Factory::getApplication()->enqueueMessage(Text::_('INSTL_DATABASE_NAME_MSG_POSTGRESQL'), 'error');
-
-			return false;
-		}
-
-		if (in_array($options->db_type, ['mysql', 'mysqli']) && preg_match('#[\\\\\/\.]#', $options->db_name))
-		{
-			Factory::getApplication()->enqueueMessage(Text::_('INSTL_DATABASE_NAME_MSG_MYSQL'), 'error');
-
-			return false;
-		}
-
-		// Workaround for UPPERCASE table prefix for postgresql
-		if (in_array($options->db_type, ['pgsql', 'postgresql']))
-		{
-			if (strtolower($options->db_prefix) != $options->db_prefix)
-			{
-				Factory::getApplication()->enqueueMessage(Text::_('INSTL_DATABASE_FIX_LOWERCASE'), 'error');
-
-				return false;
-			}
-		}
-
-		// Validate database connection encryption options
-		if ($options->db_encryption === 0)
-		{
-			// Reset unused options
-			if (!empty($options->db_sslkey))
-			{
-				$options->db_sslkey = '';
-				$optionsChanged     = true;
-			}
-
-			if (!empty($options->db_sslcert))
-			{
-				$options->db_sslcert = '';
-				$optionsChanged      = true;
-			}
-
-			if ($options->db_sslverifyservercert)
-			{
-				$options->db_sslverifyservercert = false;
-				$optionsChanged                  = true;
-			}
-
-			if (!empty($options->db_sslca))
-			{
-				$options->db_sslca = '';
-				$optionsChanged    = true;
-			}
-
-			if (!empty($options->db_sslcipher))
-			{
-				$options->db_sslcipher = '';
-				$optionsChanged        = true;
-			}
-		}
-		else
-		{
-			// Check localhost
-			if (strtolower($options->db_host) === 'localhost')
-			{
-				Factory::getApplication()->enqueueMessage(Text::_('INSTL_DATABASE_ENCRYPTION_MSG_LOCALHOST'), 'error');
-
-				return false;
-			}
-
-			// Check CA file and folder depending on database type if server certificate verification
-			if ($options->db_sslverifyservercert)
-			{
-				if (empty($options->db_sslca))
-				{
-					Factory::getApplication()->enqueueMessage(
-						Text::sprintf('INSTL_DATABASE_ENCRYPTION_MSG_FILE_FIELD_EMPTY', Text::_('INSTL_DATABASE_ENCRYPTION_CA_LABEL')),
-						'error'
-					);
-
-					return false;
-				}
-
-				if (!File::exists(Path::clean($options->db_sslca)))
-				{
-					Factory::getApplication()->enqueueMessage(
-						Text::sprintf('INSTL_DATABASE_ENCRYPTION_MSG_FILE_FIELD_BAD', Text::_('INSTL_DATABASE_ENCRYPTION_CA_LABEL')),
-						'error'
-					);
-
-					return false;
-				}
-			}
-			else
-			{
-				// Reset unused option
-				if (!empty($options->db_sslca))
-				{
-					$options->db_sslca = '';
-					$optionsChanged    = true;
-				}
-			}
-
-			// Check key and certificate if two-way encryption
-			if ($options->db_encryption === 2)
-			{
-				if (empty($options->db_sslkey))
-				{
-					Factory::getApplication()->enqueueMessage(
-						Text::sprintf('INSTL_DATABASE_ENCRYPTION_MSG_FILE_FIELD_EMPTY', Text::_('INSTL_DATABASE_ENCRYPTION_KEY_LABEL')),
-						'error'
-					);
-
-					return false;
-				}
-
-				if (!File::exists(Path::clean($options->db_sslkey)))
-				{
-					Factory::getApplication()->enqueueMessage(
-						Text::sprintf('INSTL_DATABASE_ENCRYPTION_MSG_FILE_FIELD_BAD', Text::_('INSTL_DATABASE_ENCRYPTION_KEY_LABEL')),
-						'error'
-					);
-
-					return false;
-				}
-
-				if (empty($options->db_sslcert))
-				{
-					Factory::getApplication()->enqueueMessage(
-						Text::sprintf('INSTL_DATABASE_ENCRYPTION_MSG_FILE_FIELD_EMPTY', Text::_('INSTL_DATABASE_ENCRYPTION_CERT_LABEL')),
-						'error'
-					);
-
-					return false;
-				}
-
-				if (!File::exists(Path::clean($options->db_sslcert)))
-				{
-					Factory::getApplication()->enqueueMessage(
-						Text::sprintf('INSTL_DATABASE_ENCRYPTION_MSG_FILE_FIELD_BAD', Text::_('INSTL_DATABASE_ENCRYPTION_CERT_LABEL')),
-						'error'
-					);
-
-					return false;
-				}
-			}
-			else
-			{
-				// Reset unused options
-				if (!empty($options->db_sslkey))
-				{
-					$options->db_sslkey = '';
-					$optionsChanged     = true;
-				}
-
-				if (!empty($options->db_sslcert))
-				{
-					$options->db_sslcert = '';
-					$optionsChanged      = true;
-				}
-			}
-		}
-
-		// Save options to session data if changed
-		if ($optionsChanged)
-		{
-			$session = Factory::getSession();
-			$optsArr = ArrayHelper::fromObject($options);
-			$session->set('setup.options', $optsArr);
 		}
 
 		// Get a database object.
@@ -534,51 +328,13 @@ class SetupModel extends BaseInstallationModel
 			return false;
 		}
 
-		$dbVersion = $db->getVersion();
+		// Check database server parameters
+		$dbServerCheck = DatabaseHelper::checkDbServerParameters($db, $options);
 
-		// Get required database version
-		$minDbVersionRequired = DatabaseHelper::getMinimumServerVersion($db, $options);
-
-		// Check minimum database version
-		if (version_compare($dbVersion, $minDbVersionRequired) < 0)
+		if ($dbServerCheck)
 		{
-			if (in_array($options->db_type, ['mysql', 'mysqli']) && $db->isMariaDb())
-			{
-				$errorMessage = Text::sprintf(
-					'INSTL_DATABASE_INVALID_MARIADB_VERSION',
-					$minDbVersionRequired,
-					$dbVersion
-				);
-			}
-			else
-			{
-				$errorMessage = Text::sprintf(
-					'INSTL_DATABASE_INVALID_' . strtoupper($options->db_type) . '_VERSION',
-					$minDbVersionRequired,
-					$dbVersion
-				);
-			}
-
-			Factory::getApplication()->enqueueMessage($errorMessage, 'error');
-
-			$db->disconnect();
-
-			return false;
-		}
-
-		// Check database connection encryption
-		if ($options->db_encryption !== 0 && empty($db->getConnectionEncryption()))
-		{
-			if ($db->isConnectionEncryptionSupported())
-			{
-				Factory::getApplication()->enqueueMessage(Text::_('INSTL_DATABASE_ENCRYPTION_MSG_CONN_NOT_ENCRYPT'), 'error');
-			}
-			else
-			{
-				Factory::getApplication()->enqueueMessage(Text::_('INSTL_DATABASE_ENCRYPTION_MSG_SRV_NOT_SUPPORTS'), 'error');
-			}
-
-			$db->disconnect();
+			// Some server parameter is not ok: Enqueue the error message
+			Factory::getApplication()->enqueueMessage($dbServerCheck, 'error');
 
 			return false;
 		}

@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_tags
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2017 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,8 +12,8 @@ namespace Joomla\Component\Tags\Site\Helper;
 \defined('_JEXEC') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
-use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\RouteHelper as CMSRouteHelper;
+use Joomla\CMS\Menu\AbstractMenu;
 
 /**
  * Tags Component Route Helper.
@@ -153,8 +153,7 @@ class RouteHelper extends CMSRouteHelper
 	 */
 	protected static function _findItem($needles = null)
 	{
-		$app      = Factory::getApplication();
-		$menus    = $app->getMenu('site');
+		$menus    = AbstractMenu::getInstance('site');
 		$language = $needles['language'] ?? '*';
 
 		// Prepare the reverse lookup array.

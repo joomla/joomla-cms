@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  System.stats
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2015 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -14,6 +14,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Http\HttpFactory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\FileLayout;
+use Joomla\CMS\Log\Log;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\User\UserHelper;
@@ -33,38 +34,30 @@ class PlgSystemStats extends CMSPlugin
 	 * Indicates sending statistics is always allowed.
 	 *
 	 * @var    integer
+	 *
 	 * @since  3.5
 	 */
 	const MODE_ALLOW_ALWAYS = 1;
 
 	/**
-	 * Indicates sending statistics is only allowed one time.
-	 *
-	 * @var    integer
-	 * @since  3.5
-	 */
-	const MODE_ALLOW_ONCE = 2;
-
-	/**
 	 * Indicates sending statistics is never allowed.
 	 *
 	 * @var    integer
+	 *
 	 * @since  3.5
 	 */
 	const MODE_ALLOW_NEVER = 3;
 
 	/**
-	 * Application object
+	 * @var    \Joomla\CMS\Application\CMSApplication
 	 *
-	 * @var    JApplicationCms
 	 * @since  3.5
 	 */
 	protected $app;
 
 	/**
-	 * Database object
+	 * @var    \Joomla\Database\DatabaseDriver
 	 *
-	 * @var    JDatabaseDriver
 	 * @since  3.5
 	 */
 	protected $db;
@@ -73,6 +66,7 @@ class PlgSystemStats extends CMSPlugin
 	 * URL to send the statistics.
 	 *
 	 * @var    string
+	 *
 	 * @since  3.5
 	 */
 	protected $serverUrl = 'https://developer.joomla.org/stats/submit';
@@ -81,6 +75,7 @@ class PlgSystemStats extends CMSPlugin
 	 * Unique identifier for this site
 	 *
 	 * @var    string
+	 *
 	 * @since  3.5
 	 */
 	protected $uniqueId;
@@ -170,9 +165,7 @@ class PlgSystemStats extends CMSPlugin
 			throw new RuntimeException('Unable to save plugin settings', 500);
 		}
 
-		$this->sendStats();
-
-		echo json_encode(['sent' => 1]);
+		echo json_encode(['sent' => (int) $this->sendStats()]);
 	}
 
 	/**
@@ -199,36 +192,12 @@ class PlgSystemStats extends CMSPlugin
 			throw new RuntimeException('Unable to save plugin settings', 500);
 		}
 
+		if (!$this->disablePlugin())
+		{
+			throw new RuntimeException('Unable to disable the statistics plugin', 500);
+		}
+
 		echo json_encode(['sent' => 0]);
-	}
-
-	/**
-	 * User selected to send data once.
-	 *
-	 * @return  void
-	 *
-	 * @since   3.5
-	 *
-	 * @throws  Exception         If user is not allowed.
-	 * @throws  RuntimeException  If there is an error saving the params or sending the data.
-	 */
-	public function onAjaxSendOnce()
-	{
-		if (!$this->isAllowedUser() || !$this->isAjaxRequest())
-		{
-			throw new Exception(Text::_('JGLOBAL_AUTH_ACCESS_DENIED'), 403);
-		}
-
-		$this->params->set('mode', static::MODE_ALLOW_ONCE);
-
-		if (!$this->saveParams())
-		{
-			throw new RuntimeException('Unable to save plugin settings', 500);
-		}
-
-		$this->sendStats();
-
-		echo json_encode(['sent' => 1]);
 	}
 
 	/**
@@ -240,7 +209,7 @@ class PlgSystemStats extends CMSPlugin
 	 * @since   3.5
 	 *
 	 * @throws  Exception         If user is not allowed.
-	 * @throws  RuntimeException  If there is an error saving the params or sending the data.
+	 * @throws  RuntimeException  If there is an error saving the params, disabling the plugin or sending the data.
 	 */
 	public function onAjaxSendStats()
 	{
@@ -267,9 +236,7 @@ class PlgSystemStats extends CMSPlugin
 			throw new RuntimeException('Unable to save plugin settings', 500);
 		}
 
-		$this->sendStats();
-
-		echo json_encode(['sent' => 1]);
+		echo json_encode(['sent' => (int) $this->sendStats()]);
 	}
 
 	/**
@@ -341,7 +308,7 @@ class PlgSystemStats extends CMSPlugin
 	 *
 	 * @param   string  $layoutId  Layout identifier
 	 *
-	 * @return  JLayout
+	 * @return  \Joomla\CMS\Layout\LayoutInterface
 	 *
 	 * @since   3.5
 	 */
@@ -446,7 +413,7 @@ class PlgSystemStats extends CMSPlugin
 			return true;
 		}
 
-		return (abs(time() - $last) > $interval * 3600);
+		return abs(time() - $last) > $interval * 3600;
 	}
 
 	/**
@@ -550,36 +517,56 @@ class PlgSystemStats extends CMSPlugin
 	 *
 	 * @since   3.5
 	 *
-	 * @throws  RuntimeException  If there is an error sending the data.
+	 * @throws  RuntimeException  If there is an error sending the data and debug mode enabled.
 	 */
 	private function sendStats()
 	{
+		$error = false;
+
 		try
 		{
 			// Don't let the request take longer than 2 seconds to avoid page timeout issues
 			$response = HttpFactory::getHttp()->post($this->serverUrl, $this->getStatsData(), [], 2);
+
+			if (!$response)
+			{
+				$error = 'Could not send site statistics to remote server: No response';
+			}
+			elseif ($response->code !== 200)
+			{
+				$data = json_decode($response->body);
+
+				$error = 'Could not send site statistics to remote server: ' . $data->message;
+			}
 		}
 		catch (UnexpectedValueException $e)
 		{
 			// There was an error sending stats. Should we do anything?
-			throw new RuntimeException('Could not send site statistics to remote server: ' . $e->getMessage(), 500);
+			$error = 'Could not send site statistics to remote server: ' . $e->getMessage();
 		}
 		catch (RuntimeException $e)
 		{
 			// There was an error connecting to the server or in the post request
-			throw new RuntimeException('Could not connect to statistics server: ' . $e->getMessage(), 500);
+			$error = 'Could not connect to statistics server: ' . $e->getMessage();
 		}
 		catch (Exception $e)
 		{
 			// An unexpected error in processing; don't let this failure kill the site
-			throw new RuntimeException('Unexpected error connecting to statistics server: ' . $e->getMessage(), 500);
+			$error = 'Unexpected error connecting to statistics server: ' . $e->getMessage();
 		}
 
-		if ($response->code !== 200)
+		if ($error !== false)
 		{
-			$data = json_decode($response->body);
+			// Log any errors if logging enabled.
+			Log::add($error, Log::WARNING, 'jerror');
 
-			throw new RuntimeException('Could not send site statistics to remote server: ' . $data->message, $response->code);
+			// If Stats debug mode enabled, or Global Debug mode enabled, show error to the user.
+			if ($this->isDebugEnabled() || $this->app->get('debug'))
+			{
+				throw new RuntimeException($error, 500);
+			}
+
+			return false;
 		}
 
 		return true;
@@ -613,5 +600,63 @@ class PlgSystemStats extends CMSPlugin
 				// Ignore it
 			}
 		}
+	}
+
+	/**
+	 * Disable this plugin, if user selects once or never, to stop Joomla loading the plugin on every page load and
+	 * therefore regaining a tiny bit of performance
+	 *
+	 * @since   4.0.0
+	 *
+	 * @return  boolean
+	 */
+	private function disablePlugin()
+	{
+		$db = $this->db;
+
+		$query = $db->getQuery(true)
+			->update($db->quoteName('#__extensions'))
+			->set($db->quoteName('enabled') . ' = 0')
+			->where($db->quoteName('type') . ' = ' . $db->quote('plugin'))
+			->where($db->quoteName('folder') . ' = ' . $db->quote('system'))
+			->where($db->quoteName('element') . ' = ' . $db->quote('stats'));
+
+		try
+		{
+			// Lock the tables to prevent multiple plugin executions causing a race condition
+			$db->lockTable('#__extensions');
+		}
+		catch (Exception $e)
+		{
+			// If we can't lock the tables it's too risky to continue execution
+			return false;
+		}
+
+		try
+		{
+			// Update the plugin parameters
+			$result = $db->setQuery($query)->execute();
+
+			$this->clearCacheGroups(['com_plugins']);
+		}
+		catch (Exception $exc)
+		{
+			// If we failed to execute
+			$db->unlockTables();
+			$result = false;
+		}
+
+		try
+		{
+			// Unlock the tables after writing
+			$db->unlockTables();
+		}
+		catch (Exception $e)
+		{
+			// If we can't lock the tables assume we have somehow failed
+			$result = false;
+		}
+
+		return $result;
 	}
 }

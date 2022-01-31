@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  mod_syndicate
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2006 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -28,7 +28,7 @@ class SyndicateHelper
 	 * @param   Registry      $params    The module parameters
 	 * @param   HtmlDocument  $document  The document
 	 *
-	 * @return  array  The link as a string
+	 * @return  string|null  The link as a string, if found
 	 *
 	 * @since   1.5
 	 */
@@ -43,5 +43,7 @@ class SyndicateHelper
 				return $link;
 			}
 		}
+
+		return null;
 	}
 }

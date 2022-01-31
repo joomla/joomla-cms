@@ -1,5 +1,5 @@
 /**
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2018 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 (() => {
@@ -21,7 +21,7 @@
       onChange(element.value);
 
       // Check for changes in the state
-      element.addEventListener('change', (event) => { onChange(event.target.value); });
+      element.addEventListener('change', ({ target }) => { onChange(target.value); });
     }
 
     document.removeEventListener('DOMContentLoaded', onBoot);

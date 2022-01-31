@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_banners
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2009 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 namespace Joomla\Component\Banners\Administrator\Model;
@@ -18,6 +18,7 @@ use Joomla\CMS\Filesystem\Folder;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\Database\ParameterType;
+use Joomla\String\StringHelper;
 
 /**
  * Methods supporting a list of tracks.
@@ -39,7 +40,6 @@ class TracksModel extends ListModel
 	 *
 	 * @param   array  $config  An optional associative array of configuration settings.
 	 *
-	 * @see     JControllerLegacy
 	 * @since   1.6
 	 */
 	public function __construct($config = array())
@@ -84,7 +84,7 @@ class TracksModel extends ListModel
 	/**
 	 * Build an SQL query to load the list data.
 	 *
-	 * @return  \JDatabaseQuery
+	 * @return  \Joomla\Database\DatabaseQuery
 	 *
 	 * @since   1.6
 	 */
@@ -170,7 +170,7 @@ class TracksModel extends ListModel
 		// Filter by search in banner name or client name.
 		if ($search = $this->getState('filter.search'))
 		{
-			$search = '%' . strtolower($search) . '%';
+			$search = '%' . StringHelper::strtolower($search) . '%';
 			$query->where('(LOWER(' . $db->quoteName('b.name') . ') LIKE :search1 OR LOWER(' . $db->quoteName('cl.name') . ') LIKE :search2)')
 				->bind([':search1', ':search2'], $search);
 		}
@@ -502,7 +502,7 @@ class TracksModel extends ListModel
 
 				$files = array(
 					'track' => array(
-						'name' => $this->getBasename() . '.csv',
+						'name' => $this->getBaseName() . '.csv',
 						'data' => $this->content,
 						'time' => time()
 					)
@@ -539,6 +539,9 @@ class TracksModel extends ListModel
 				}
 
 				$this->content = file_get_contents($ziproot);
+
+				// Remove tmp zip file, it's no longer needed.
+				File::delete($ziproot);
 			}
 		}
 

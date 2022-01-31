@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_contenthistory
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2017 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -43,14 +43,14 @@ class Dispatcher extends ComponentDispatcher
 	 *
 	 * @return  void
 	 *
-	 * @throws  \Exception|Notallowed
+	 * @throws  \Exception|NotAllowed
 	 */
 	protected function checkAccess()
 	{
 		// Check the user has permission to access this component if in the backend
 		if ($this->app->getIdentity()->guest)
 		{
-			throw new Notallowed($this->app->getLanguage()->_('JERROR_ALERTNOAUTHOR'), 403);
+			throw new NotAllowed($this->app->getLanguage()->_('JERROR_ALERTNOAUTHOR'), 403);
 		}
 	}
 

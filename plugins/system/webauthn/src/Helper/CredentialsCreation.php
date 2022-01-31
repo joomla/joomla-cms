@@ -3,14 +3,14 @@
  * @package     Joomla.Plugin
  * @subpackage  System.Webauthn
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2020 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\Plugin\System\Webauthn\Helper;
 
 // Protect from unauthorized access
-defined('_JEXEC') or die();
+\defined('_JEXEC') or die();
 
 use CBOR\Decoder;
 use CBOR\OtherObject\OtherObjectManager;
@@ -75,7 +75,7 @@ abstract class CredentialsCreation
 		try
 		{
 			$app      = Factory::getApplication();
-			$siteName = $app->getConfig()->get('sitename');
+			$siteName = $app->getConfig()->get('sitename', 'Joomla! Site');
 		}
 		catch (Exception $e)
 		{
@@ -96,8 +96,7 @@ abstract class CredentialsCreation
 		$userEntity = new PublicKeyCredentialUserEntity(
 			$user->username,
 			$repository->getHandleFromUserId($user->id),
-			$user->name,
-			self::getAvatar($user, 64)
+			$user->name
 		);
 
 		// Challenge
@@ -191,7 +190,7 @@ abstract class CredentialsCreation
 			$publicKeyCredentialCreationOptions = null;
 		}
 
-		if (!is_object($publicKeyCredentialCreationOptions) || !($publicKeyCredentialCreationOptions instanceof PublicKeyCredentialCreationOptions))
+		if (!\is_object($publicKeyCredentialCreationOptions) || !($publicKeyCredentialCreationOptions instanceof PublicKeyCredentialCreationOptions))
 		{
 			throw new RuntimeException(Text::_('PLG_SYSTEM_WEBAUTHN_ERR_CREATE_NO_PK'));
 		}
@@ -349,29 +348,11 @@ abstract class CredentialsCreation
 			}
 		}
 
-		if (!isset($relFile) || is_null($relFile))
+		if (!isset($relFile) || \is_null($relFile))
 		{
 			return null;
 		}
 
 		return rtrim(Uri::base(), '/') . '/' . ltrim($relFile, '/');
-	}
-
-	/**
-	 * Get the user's avatar (through Gravatar)
-	 *
-	 * @param   User  $user  The Joomla user object
-	 * @param   int   $size  The dimensions of the image to fetch (default: 64 pixels)
-	 *
-	 * @return  string  The URL to the user's avatar
-	 *
-	 * @since   4.0.0
-	 */
-	public static function getAvatar(User $user, int $size = 64)
-	{
-		$scheme = Uri::getInstance()->getScheme();
-		$subdomain = ($scheme == 'https') ? 'secure' : 'www';
-
-		return sprintf('%s://%s.gravatar.com/avatar/%s.jpg?s=%u&d=mm', $scheme, $subdomain, md5($user->email), $size);
 	}
 }

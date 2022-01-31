@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_templates
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2008 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -13,11 +13,11 @@ namespace Joomla\Component\Templates\Administrator\Model;
 
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Component\ComponentHelper;
-use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\Component\Templates\Administrator\Helper\TemplatesHelper;
 use Joomla\Database\ParameterType;
+use Joomla\String\StringHelper;
 
 /**
  * Methods supporting a list of template extension records.
@@ -92,7 +92,7 @@ class TemplatesModel extends ListModel
 	 */
 	public function updated($exid)
 	{
-		$db = Factory::getDbo();
+		$db = $this->getDbo();
 
 		// Select the required fields from the table
 		$query = $db->getQuery(true)
@@ -119,7 +119,7 @@ class TemplatesModel extends ListModel
 	/**
 	 * Build an SQL query to load the list data.
 	 *
-	 * @return  \JDatabaseQuery
+	 * @return  \Joomla\Database\DatabaseQuery
 	 *
 	 * @since   1.6
 	 */
@@ -154,7 +154,7 @@ class TemplatesModel extends ListModel
 			}
 			else
 			{
-				$search = '%' . strtolower($search) . '%';
+				$search = '%' . StringHelper::strtolower($search) . '%';
 				$query->extendWhere(
 					'AND',
 					[

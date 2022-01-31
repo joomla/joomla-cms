@@ -3,7 +3,7 @@
 	<name>mod_quickicon</name>
 	<author>Joomla! Project</author>
 	<creationDate>November 2005</creationDate>
-	<copyright>Copyright (C) 2005 - 2019 Open Source Matters. All rights reserved.</copyright>
+	<copyright>(C) 2005 Open Source Matters, Inc.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
@@ -17,10 +17,10 @@
 		<folder>tmpl</folder>
 	</files>
 	<languages>
-		<language tag="en-GB">en-GB.mod_quickicon.ini</language>
-		<language tag="en-GB">en-GB.mod_quickicon.sys.ini</language>
+		<language tag="en-GB">language/en-GB/mod_quickicon.ini</language>
+		<language tag="en-GB">language/en-GB/mod_quickicon.sys.ini</language>
 	</languages>
-	<help key="JHELP_EXTENSIONS_MODULE_MANAGER_ADMIN_QUICKICON" />
+	<help key="Admin_Modules:_Quick_Icons" />
 	<config>
 		<fields name="params">
 			<fieldset name="basic">
@@ -35,7 +35,7 @@
 					name="header_icon"
 					type="text"
 					label="MOD_QUICKICON_HEADER_ICON_LABEL"
-					hint="fas fa-crosshairs"
+					hint="icon-crosshairs"
 					default=""
 				/>
 				<field
@@ -92,6 +92,19 @@
 					<option value="1">JSHOW</option>
 					<option value="2">MOD_QUICKICON_WITH_COUNT</option>
 				</field>
+
+				<field
+					name="show_tags"
+					type="list"
+					label="MOD_QUICKICON_SHOW_TAGS_LABEL"
+					default="0"
+					validate="options"
+					>
+					<option value="0">JHIDE</option>
+					<option value="1">JSHOW</option>
+					<option value="2">MOD_QUICKICON_WITH_COUNT</option>
+				</field>
+
 				<field
 					name="show_modules"
 					type="list"
@@ -147,9 +160,19 @@
 					<option value="2">MOD_QUICKICON_WITH_COUNT</option>
 				</field>
 				<field
-					name="show_templates"
+					name="show_template_styles"
 					type="radio"
-					label="MOD_QUICKICON_SHOW_TEMPLATES_LABEL"
+					label="MOD_QUICKICON_SHOW_TEMPLATE_STYLES_LABEL"
+					layout="joomla.form.field.radio.switcher"
+					default="0"
+					>
+					<option value="0">JHIDE</option>
+					<option value="1">JSHOW</option>
+				</field>
+				<field
+					name="show_template_code"
+					type="radio"
+					label="MOD_QUICKICON_SHOW_TEMPLATE_CODE_LABEL"
 					layout="joomla.form.field.radio.switcher"
 					default="0"
 					>
@@ -162,7 +185,8 @@
 					name="layout"
 					type="modulelayout"
 					label="JFIELD_ALT_LAYOUT_LABEL"
-					class="custom-select"
+					class="form-select"
+					validate="moduleLayout"
 				/>
 
 				<field
@@ -170,6 +194,7 @@
 					type="textarea"
 					label="COM_MODULES_FIELD_MODULECLASS_SFX_LABEL"
 					rows="3"
+					validate="CssIdentifier"
 				/>
 
 				<field
@@ -190,6 +215,8 @@
 					label="COM_MODULES_FIELD_CACHE_TIME_LABEL"
 					default="900"
 					filter="integer"
+					min="1"
+					validate="number"
 				/>
 			</fieldset>
 		</fields>

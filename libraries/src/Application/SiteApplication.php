@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2005 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -37,7 +37,7 @@ final class SiteApplication extends CMSApplication
 	 * Option to filter by language
 	 *
 	 * @var    boolean
-	 * @since  4.0
+	 * @since  4.0.0
 	 */
 	protected $language_filter = false;
 
@@ -45,7 +45,7 @@ final class SiteApplication extends CMSApplication
 	 * Option to detect language by the browser
 	 *
 	 * @var    boolean
-	 * @since  4.0
+	 * @since  4.0.0
 	 */
 	protected $detect_browser = false;
 
@@ -145,7 +145,6 @@ final class SiteApplication extends CMSApplication
 
 		// Set up the params
 		$document = $this->getDocument();
-		$router   = static::getRouter();
 		$params   = $this->getParams();
 
 		// Register the document object with Factory
@@ -154,9 +153,8 @@ final class SiteApplication extends CMSApplication
 		switch ($document->getType())
 		{
 			case 'html':
-				// Get language
-				$lang_code = $this->getLanguage()->getTag();
-				$languages = LanguageHelper::getLanguages('lang_code');
+				// Set up the language
+				LanguageHelper::getLanguages('lang_code');
 
 				// Set metadata
 				$document->setMetaData('rights', $this->get('MetaRights'));
@@ -169,9 +167,19 @@ final class SiteApplication extends CMSApplication
 				$this->set('themeParams', $template->params);
 
 				// Add Asset registry files
-				$document->getWebAssetManager()->getRegistry()
-					->addExtensionRegistryFile($component)
-					->addTemplateRegistryFile($template->template, $this->getClientId());
+				$wr = $document->getWebAssetManager()->getRegistry();
+
+				if ($component)
+				{
+					$wr->addExtensionRegistryFile($component);
+				}
+
+				if ($template->parent)
+				{
+					$wr->addTemplateRegistryFile($template->parent, $this->getClientId());
+				}
+
+				$wr->addTemplateRegistryFile($template->template, $this->getClientId());
 
 				break;
 
@@ -389,7 +397,17 @@ final class SiteApplication extends CMSApplication
 	{
 		if (\is_object($this->template))
 		{
-			if (!file_exists(JPATH_THEMES . '/' . $this->template->template . '/index.php'))
+			if ($this->template->parent)
+			{
+				if (!is_file(JPATH_THEMES . '/' . $this->template->template . '/index.php'))
+				{
+					if (!is_file(JPATH_THEMES . '/' . $this->template->parent . '/index.php'))
+					{
+						throw new \InvalidArgumentException(Text::sprintf('JERROR_COULD_NOT_FIND_TEMPLATE', $this->template->template));
+					}
+				}
+			}
+			elseif (!is_file(JPATH_THEMES . '/' . $this->template->template . '/index.php'))
 			{
 				throw new \InvalidArgumentException(Text::sprintf('JERROR_COULD_NOT_FIND_TEMPLATE', $this->template->template));
 			}
@@ -448,8 +466,9 @@ final class SiteApplication extends CMSApplication
 		{
 			// Load styles
 			$db = Factory::getDbo();
+
 			$query = $db->getQuery(true)
-				->select($db->quoteName(['id', 'home', 'template', 's.params']))
+				->select($db->quoteName(['id', 'home', 'template', 's.params', 'inheritable', 'parent']))
 				->from($db->quoteName('#__template_styles', 's'))
 				->where(
 					[
@@ -507,7 +526,7 @@ final class SiteApplication extends CMSApplication
 		// Only set template override if it is a valid template (= it exists and is enabled)
 		if (!empty($template_override))
 		{
-			if (file_exists(JPATH_THEMES . '/' . $template_override . '/index.php'))
+			if (is_file(JPATH_THEMES . '/' . $template_override . '/index.php'))
 			{
 				foreach ($templates as $tmpl)
 				{
@@ -524,7 +543,35 @@ final class SiteApplication extends CMSApplication
 		$template->template = InputFilter::getInstance()->clean($template->template, 'cmd');
 
 		// Fallback template
-		if (!file_exists(JPATH_THEMES . '/' . $template->template . '/index.php'))
+		if (!empty($template->parent))
+		{
+			if (!is_file(JPATH_THEMES . '/' . $template->template . '/index.php'))
+			{
+				if (!is_file(JPATH_THEMES . '/' . $template->parent . '/index.php'))
+				{
+					$this->enqueueMessage(Text::_('JERROR_ALERTNOTEMPLATE'), 'error');
+
+					// Try to find data for 'cassiopeia' template
+					$original_tmpl = $template->template;
+
+					foreach ($templates as $tmpl)
+					{
+						if ($tmpl->template === 'cassiopeia')
+						{
+							$template = $tmpl;
+							break;
+						}
+					}
+
+					// Check, the data were found and if template really exists
+					if (!is_file(JPATH_THEMES . '/' . $template->template . '/index.php'))
+					{
+						throw new \InvalidArgumentException(Text::sprintf('JERROR_COULD_NOT_FIND_TEMPLATE', $original_tmpl));
+					}
+				}
+			}
+		}
+		elseif (!is_file(JPATH_THEMES . '/' . $template->template . '/index.php'))
 		{
 			$this->enqueueMessage(Text::_('JERROR_ALERTNOTEMPLATE'), 'error');
 
@@ -541,7 +588,7 @@ final class SiteApplication extends CMSApplication
 			}
 
 			// Check, the data were found and if template really exists
-			if (!file_exists(JPATH_THEMES . '/' . $template->template . '/index.php'))
+			if (!is_file(JPATH_THEMES . '/' . $template->template . '/index.php'))
 			{
 				throw new \InvalidArgumentException(Text::sprintf('JERROR_COULD_NOT_FIND_TEMPLATE', $original_tmpl));
 			}
@@ -746,6 +793,9 @@ final class SiteApplication extends CMSApplication
 					$this->set('themeFile', $file . '.php');
 				}
 
+				// Pass the parent template to the state
+				$this->set('themeInherits', $template->parent);
+
 				break;
 		}
 
@@ -810,8 +860,8 @@ final class SiteApplication extends CMSApplication
 	/**
 	 * Overrides the default template that would be used
 	 *
-	 * @param   string  $template     The template name
-	 * @param   mixed   $styleParams  The template style parameters
+	 * @param   \stdClass|string $template    The template name or definition
+	 * @param   mixed            $styleParams The template style parameters
 	 *
 	 * @return  void
 	 *
@@ -819,19 +869,45 @@ final class SiteApplication extends CMSApplication
 	 */
 	public function setTemplate($template, $styleParams = null)
 	{
-		if (is_dir(JPATH_THEMES . '/' . $template))
+		if (is_object($template))
+		{
+			$templateName        = empty($template->template)
+				? ''
+				: $template->template;
+			$templateInheritable = empty($template->inheritable)
+				? 0
+				: $template->inheritable;
+			$templateParent      = empty($template->parent)
+				? ''
+				: $template->parent;
+			$templateParams      = empty($template->params)
+				? $styleParams
+				: $template->params;
+		}
+		else
+		{
+			$templateName        = $template;
+			$templateInheritable = 0;
+			$templateParent      = '';
+			$templateParams      = $styleParams;
+		}
+
+		if (is_dir(JPATH_THEMES . '/' . $templateName))
 		{
 			$this->template = new \stdClass;
-			$this->template->template = $template;
+			$this->template->template = $templateName;
 
-			if ($styleParams instanceof Registry)
+			if ($templateParams instanceof Registry)
 			{
-				$this->template->params = $styleParams;
+				$this->template->params = $templateParams;
 			}
 			else
 			{
-				$this->template->params = new Registry($styleParams);
+				$this->template->params = new Registry($templateParams);
 			}
+
+			$this->template->inheritable = $templateInheritable;
+			$this->template->parent      = $templateParent;
 
 			// Store the template and its params to the config
 			$this->set('theme', $this->template->template);

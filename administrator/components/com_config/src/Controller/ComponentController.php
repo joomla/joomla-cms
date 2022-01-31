@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_config
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2017 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,12 +12,10 @@ namespace Joomla\Component\Config\Administrator\Controller;
 \defined('_JEXEC') or die;
 
 use Joomla\CMS\Application\CMSApplication;
-use Joomla\CMS\Client\ClientHelper;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\MVC\Controller\BaseController;
+use Joomla\CMS\MVC\Controller\FormController;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\Router\Route;
-use Joomla\CMS\Session\Session;
 use Joomla\CMS\Uri\Uri;
 use Joomla\Input\Input;
 
@@ -26,7 +24,7 @@ use Joomla\Input\Input;
  *
  * @since  1.5
  */
-class ComponentController extends BaseController
+class ComponentController extends FormController
 {
 	/**
 	 * Constructor.
@@ -35,7 +33,7 @@ class ComponentController extends BaseController
 	 * Recognized key values include 'name', 'default_task', 'model_path', and
 	 * 'view_path' (this list is not meant to be comprehensive).
 	 * @param   MVCFactoryInterface  $factory  The factory.
-	 * @param   CMSApplication       $app      The JApplication for the dispatcher
+	 * @param   CMSApplication       $app      The Application for the dispatcher
 	 * @param   Input                $input    Input
 	 *
 	 * @since   3.0
@@ -49,42 +47,41 @@ class ComponentController extends BaseController
 	}
 
 	/**
-	 * Method to save global configuration.
+	 * Method to save component configuration.
 	 *
-	 * @return  mixed  Calls $app->redirect()
+	 * @param   string  $key     The name of the primary key of the URL variable.
+	 * @param   string  $urlVar  The name of the URL variable if different from the primary key (sometimes required to avoid router collisions).
+	 *
+	 * @return  boolean
 	 *
 	 * @since   3.2
 	 */
-	public function save()
+	public function save($key = null, $urlVar = null)
 	{
 		// Check for request forgeries.
-		if (!Session::checkToken())
-		{
-			$this->setRedirect(Route::_('index.php'), Text::_('JINVALID_TOKEN'), 'error');
-		}
+		$this->checkToken();
 
-		// Set FTP credentials, if given.
-		ClientHelper::setCredentialsFromRequest('ftp');
+		$data    = $this->input->get('jform', [], 'ARRAY');
+		$id      = $this->input->get('id', null, 'INT');
+		$option  = $this->input->get('component');
+		$user    = $this->app->getIdentity();
+		$context = "$this->option.edit.$this->context.$option";
 
 		/** @var \Joomla\Component\Config\Administrator\Model\ComponentModel $model */
 		$model = $this->getModel('Component', 'Administrator');
-		$form   = $model->getForm();
-		$data   = $this->input->get('jform', array(), 'array');
-		$id     = $this->input->getInt('id');
-		$option = $this->input->get('component');
-		$user   = $this->app->getIdentity();
+		$model->setState('component.option', $option);
+		$form  = $model->getForm();
 
 		// Make sure com_joomlaupdate and com_privacy can only be accessed by SuperUser
-		if (in_array(strtolower($option), ['com_joomlaupdate', 'com_privacy'])
-			&& !$user->authorise('core.admin'))
+		if (\in_array(strtolower($option), ['com_joomlaupdate', 'com_privacy'], true) && !$user->authorise('core.admin'))
 		{
-			$this->setRedirect(Route::_('index.php'), Text::_('JERROR_ALERTNOAUTHOR'), 'error');
+			$this->setRedirect(Route::_('index.php', false), Text::_('JERROR_ALERTNOAUTHOR'), 'error');
 		}
 
 		// Check if the user is authorised to do this.
 		if (!$user->authorise('core.admin', $option) && !$user->authorise('core.options', $option))
 		{
-			$this->setRedirect(Route::_('index.php'), Text::_('JERROR_ALERTNOAUTHOR'), 'error');
+			$this->setRedirect(Route::_('index.php', false), Text::_('JERROR_ALERTNOAUTHOR'), 'error');
 		}
 
 		// Remove the permissions rules data if user isn't allowed to edit them.
@@ -108,23 +105,25 @@ class ComponentController extends BaseController
 		// Check for validation errors.
 		if ($return === false)
 		{
-			/*
-			 * The validate method enqueued all messages for us, so we just need to redirect back.
-			 */
-
 			// Save the data in the session.
-			$this->app->setUserState('com_config.config.global.data', $data);
+			$this->app->setUserState($context . '.data', $data);
 
 			// Redirect back to the edit screen.
-			$this->setRedirect(Route::_('index.php?option=com_config&view=component&component=' . $option . $redirect, false));
+			$this->setRedirect(
+				Route::_('index.php?option=com_config&view=component&component=' . $option . $redirect, false),
+				$model->getError(),
+				'error'
+			);
+
+			return false;
 		}
 
 		// Attempt to save the configuration.
-		$data = array(
+		$data = [
 			'params' => $return,
 			'id'     => $id,
-			'option' => $option
-		);
+			'option' => $option,
+		];
 
 		try
 		{
@@ -133,26 +132,35 @@ class ComponentController extends BaseController
 		catch (\RuntimeException $e)
 		{
 			// Save the data in the session.
-			$this->app->setUserState('com_config.config.global.data', $data);
+			$this->app->setUserState($context . '.data', $data);
 
 			// Save failed, go back to the screen and display a notice.
 			$this->setRedirect(
-				Route::_('index.php?option=com_config&view=component&component=' . $option . $redirect),
+				Route::_('index.php?option=com_config&view=component&component=' . $option . $redirect, false),
 				Text::_('JERROR_SAVE_FAILED', $e->getMessage()),
 				'error'
 			);
+
+			return false;
 		}
 
+		// Clear session data.
+		$this->app->setUserState($context . '.data', null);
+
 		// Set the redirect based on the task.
-		switch ($this->input->getCmd('task'))
+		switch ($this->input->get('task'))
 		{
 			case 'apply':
-				$this->app->enqueueMessage(Text::_('COM_CONFIG_SAVE_SUCCESS'), 'message');
-				$this->app->redirect(Route::_('index.php?option=com_config&view=component&component=' . $option . $redirect, false));
+				$this->setRedirect(
+					Route::_('index.php?option=com_config&view=component&component=' . $option . $redirect, false),
+					Text::_('COM_CONFIG_SAVE_SUCCESS'),
+					'message'
+				);
 
 				break;
 
 			case 'save':
+				$this->setMessage(Text::_('COM_CONFIG_SAVE_SUCCESS'), 'message');
 			default:
 				$redirect = 'index.php?option=' . $option;
 
@@ -168,8 +176,6 @@ class ComponentController extends BaseController
 				}
 
 				$this->setRedirect(Route::_($redirect, false));
-
-				break;
 		}
 
 		return true;
@@ -178,14 +184,37 @@ class ComponentController extends BaseController
 	/**
 	 * Method to cancel global configuration component.
 	 *
-	 * @return  void
+	 * @param   string  $key  The name of the primary key of the URL variable.
+	 *
+	 * @return  boolean
 	 *
 	 * @since   3.2
 	 */
-	public function cancel()
+	public function cancel($key = null)
 	{
-		$component = $this->input->getCmd('component');
+		$component = $this->input->get('component');
 
-		$this->setRedirect('index.php?option=' . $component);
+		// Clear session data.
+		$this->app->setUserState("$this->option.edit.$this->context.$component.data", null);
+
+		// Calculate redirect URL
+		$returnUri = $this->input->post->get('return', null, 'base64');
+
+		$redirect = 'index.php?option=' . $component;
+
+		if (!empty($returnUri))
+		{
+			$redirect = base64_decode($returnUri);
+		}
+
+		// Don't redirect to an external URL.
+		if (!Uri::isInternal($redirect))
+		{
+			$redirect = Uri::base();
+		}
+
+		$this->setRedirect(Route::_($redirect, false));
+
+		return true;
 	}
 }

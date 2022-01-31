@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_categories
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2009 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -15,6 +15,7 @@ use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\MVC\Controller\FormController;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;
+use Joomla\CMS\Versioning\VersionableControllerTrait;
 use Joomla\Input\Input;
 use Joomla\Registry\Registry;
 
@@ -25,6 +26,8 @@ use Joomla\Registry\Registry;
  */
 class CategoryController extends FormController
 {
+	use VersionableControllerTrait;
+
 	/**
 	 * The extension for which the categories apply.
 	 *
@@ -36,15 +39,15 @@ class CategoryController extends FormController
 	/**
 	 * Constructor.
 	 *
-	 * @param   array                $config   An optional associative array of configuration settings.
-	 * @param   MVCFactoryInterface  $factory  The factory.
-	 * @param   CMSApplication       $app      The JApplication for the dispatcher
-	 * @param   Input                $input    Input
+	 * @param   array                     $config   An optional associative array of configuration settings.
+	 * @param   MVCFactoryInterface|null  $factory  The factory.
+	 * @param   CMSApplication|null       $app      The Application for the dispatcher
+	 * @param   Input|null                $input    Input
 	 *
 	 * @since  1.6
-	 * @see    \JControllerLegacy
+	 * @throws \Exception
 	 */
-	public function __construct($config = array(), MVCFactoryInterface $factory = null, $app = null, $input = null)
+	public function __construct($config = array(), MVCFactoryInterface $factory = null, CMSApplication $app = null, Input $input = null)
 	{
 		parent::__construct($config, $factory, $app, $input);
 
@@ -115,9 +118,49 @@ class CategoryController extends FormController
 	}
 
 	/**
+	 * Override parent save method to store form data with right key as expected by edit category page
+	 *
+	 * @param   string  $key     The name of the primary key of the URL variable.
+	 * @param   string  $urlVar  The name of the URL variable if different from the primary key (sometimes required to avoid router collisions).
+	 *
+	 * @return  boolean  True if successful, false otherwise.
+	 *
+	 * @since   3.10.3
+	 */
+	public function save($key = null, $urlVar = null)
+	{
+		$result = parent::save($key, $urlVar);
+
+		$oldKey = $this->option . '.edit.category.data';
+		$newKey = $this->option . '.edit.category.' . substr($this->extension, 4) . '.data';
+		$this->app->setUserState($newKey, $this->app->getUserState($oldKey));
+
+		return $result;
+	}
+
+	/**
+	 * Override cancel method to clear form data for a failed edit action
+	 *
+	 * @param   string  $key  The name of the primary key of the URL variable.
+	 *
+	 * @return  boolean  True if access level checks pass, false otherwise.
+	 *
+	 * @since   3.10.3
+	 */
+	public function cancel($key = null)
+	{
+		$result = parent::cancel($key);
+
+		$newKey = $this->option . '.edit.category.' . substr($this->extension, 4) . '.data';
+		$this->app->setUserState($newKey, null);
+
+		return $result;
+	}
+
+	/**
 	 * Method to run batch operations.
 	 *
-	 * @param   object  $model  The model.
+	 * @param   object|null  $model  The model.
 	 *
 	 * @return  boolean  True if successful, false otherwise and internal error is set.
 	 *
@@ -139,8 +182,8 @@ class CategoryController extends FormController
 	/**
 	 * Gets the URL arguments to append to an item redirect.
 	 *
-	 * @param   integer  $recordId  The primary key id for the item.
-	 * @param   string   $urlVar    The name of the URL variable for the id.
+	 * @param   integer|null  $recordId  The primary key id for the item.
+	 * @param   string        $urlVar    The name of the URL variable for the id.
 	 *
 	 * @return  string  The arguments to append to the redirect URL.
 	 *
@@ -149,6 +192,18 @@ class CategoryController extends FormController
 	protected function getRedirectToItemAppend($recordId = null, $urlVar = 'id')
 	{
 		$append = parent::getRedirectToItemAppend($recordId);
+
+		// In case extension is not passed in the URL, get it directly from category instead of default to com_content
+		if (!$this->input->exists('extension') && $recordId > 0)
+		{
+			$table = $this->getModel('Category')->getTable();
+
+			if ($table->load($recordId))
+			{
+				$this->extension = $table->extension;
+			}
+		}
+
 		$append .= '&extension=' . $this->extension;
 
 		return $append;

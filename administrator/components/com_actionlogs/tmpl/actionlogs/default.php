@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_actionlogs
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2018 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -16,12 +16,18 @@ use Joomla\CMS\Router\Route;
 use Joomla\Component\Actionlogs\Administrator\Helper\ActionlogsHelper;
 use Joomla\Component\Actionlogs\Administrator\View\Actionlogs\HtmlView;
 
+HTMLHelper::_('behavior.multiselect');
+
 /** @var HtmlView $this */
 
 $listOrder  = $this->escape($this->state->get('list.ordering'));
 $listDirn   = $this->escape($this->state->get('list.direction'));
 
-HTMLHelper::_('script', 'com_actionlogs/admin-actionlogs-default.js', ['relative' => true, 'version' => 'auto']);
+/** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
+$wa = $this->document->getWebAssetManager();
+$wa->useScript('keepalive')
+	->useScript('com_actionlogs.admin-actionlogs');
+
 ?>
 
 <form action="<?php echo Route::_('index.php?option=com_actionlogs&view=actionlogs'); ?>" method="post" name="adminForm" id="adminForm">
@@ -30,37 +36,39 @@ HTMLHelper::_('script', 'com_actionlogs/admin-actionlogs-default.js', ['relative
 		<?php echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
 		<?php if (empty($this->items)) : ?>
 			<div class="alert alert-info">
-				<span class="fas fa-info-circle" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('INFO'); ?></span>
+				<span class="icon-info-circle" aria-hidden="true"></span><span class="visually-hidden"><?php echo Text::_('INFO'); ?></span>
 				<?php echo Text::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
 			</div>
 		<?php else : ?>
 			<table class="table" id="logsList">
-				<caption id="captionTable" class="sr-only">
-					<?php echo Text::_('COM_ACTIONLOGS_TABLE_CAPTION'); ?>, <?php echo Text::_('JGLOBAL_SORTED_BY'); ?>
+				<caption class="visually-hidden">
+					<?php echo Text::_('COM_ACTIONLOGS_TABLE_CAPTION'); ?>,
+							<span id="orderedBy"><?php echo Text::_('JGLOBAL_SORTED_BY'); ?> </span>,
+							<span id="filteredBy"><?php echo Text::_('JGLOBAL_FILTERED_BY'); ?></span>
 				</caption>
 				<thead>
 					<tr>
-						<td width="1%" class="text-center">
+						<td class="w-1 text-center">
 							<?php echo HTMLHelper::_('grid.checkall'); ?>
 						</td>
 						<th scope="col" class="d-md-table-cell">
 							<?php echo HTMLHelper::_('searchtools.sort', 'COM_ACTIONLOGS_ACTION', 'a.message', $listDirn, $listOrder); ?>
 						</th>
-						<th scope="col" width="15%" class="d-none d-md-table-cell">
+						<th scope="col" class="w-15 d-none d-md-table-cell">
 							<?php echo HTMLHelper::_('searchtools.sort', 'COM_ACTIONLOGS_EXTENSION', 'a.extension', $listDirn, $listOrder); ?>
 						</th>
-						<th scope="col" width="15%" class="d-none d-md-table-cell">
+						<th scope="col" class="w-15 d-none d-md-table-cell">
 							<?php echo HTMLHelper::_('searchtools.sort', 'COM_ACTIONLOGS_DATE', 'a.log_date', $listDirn, $listOrder); ?>
 						</th>
-						<th scope="col" width="10%" class="d-md-table-cell">
+						<th scope="col" class="w-10 d-md-table-cell">
 							<?php echo HTMLHelper::_('searchtools.sort', 'COM_ACTIONLOGS_NAME', 'a.user_id', $listDirn, $listOrder); ?>
 						</th>
 						<?php if ($this->showIpColumn) : ?>
-							<th scope="col" width="10%" class="d-none d-md-table-cell">
+							<th scope="col" class="w-10 d-none d-md-table-cell">
 								<?php echo HTMLHelper::_('searchtools.sort', 'COM_ACTIONLOGS_IP_ADDRESS', 'a.ip_address', $listDirn, $listOrder); ?>
 							</th>
 						<?php endif; ?>
-						<th scope="col" width="1%" class="d-none d-md-table-cell">
+						<th scope="col" class="w-1 d-none d-md-table-cell">
 							<?php echo HTMLHelper::_('searchtools.sort', 'JGRID_HEADING_ID', 'a.id', $listDirn, $listOrder); ?>
 						</th>
 					</tr>
@@ -69,8 +77,8 @@ HTMLHelper::_('script', 'com_actionlogs/admin-actionlogs-default.js', ['relative
 					<?php foreach ($this->items as $i => $item) :
 						$extension = strtok($item->extension, '.');
 						ActionlogsHelper::loadTranslationFiles($extension); ?>
-						<tr>
-							<td class="center">
+						<tr class="row<?php echo $i % 2; ?>">
+							<td class="text-center">
 								<?php echo HTMLHelper::_('grid.id', $i, $item->id); ?>
 							</td>
 							<th scope="row" class="d-md-table-cell">
@@ -80,10 +88,14 @@ HTMLHelper::_('script', 'com_actionlogs/admin-actionlogs-default.js', ['relative
 								<?php echo $this->escape(Text::_($extension)); ?>
 							</td>
 							<td class="d-none d-md-table-cell">
-								<?php echo HTMLHelper::_('date.relative', $item->log_date); ?>
-								<div class="small">
+								<?php if ($this->dateRelative) : ?>
+									<?php echo HTMLHelper::_('date.relative', $item->log_date); ?>
+									<div class="small">
+								<?php endif; ?>
 									<?php echo HTMLHelper::_('date', $item->log_date, Text::_('DATE_FORMAT_LC6')); ?>
-								</div>
+								<?php if ($this->dateRelative) : ?>
+									</div>
+								<?php endif; ?>
 							</td>
 							<td class="d-md-table-cell">
 								<?php echo $this->escape($item->name); ?>

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_associations
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2017 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -91,8 +91,6 @@ class AssociationsController extends AdminController
 		$this->setRedirect(Route::_('index.php?option=' . $this->option . '&view=' . $this->view_list, false));
 
 		// Figure out if the item supports checking and check it in
-		$type = null;
-
 		list($extensionName, $typeName) = explode('.', $this->input->get('itemtype'));
 
 		$extension = AssociationsHelper::getSupportedExtension($extensionName);
@@ -133,7 +131,5 @@ class AssociationsController extends AdminController
 			Route::_('index.php?option=' . $this->option . '&view=' . $this->view_list),
 			Text::_('COM_ASSOCIATIONS_YOU_ARE_NOT_ALLOWED_TO_CHECKIN_THIS_ITEM')
 		);
-
-		return;
 	}
 }

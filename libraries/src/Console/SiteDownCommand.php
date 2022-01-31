@@ -2,13 +2,13 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2020 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Console;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\Console\Command\AbstractCommand;
 use Symfony\Component\Console\Input\ArrayInput;
@@ -27,26 +27,26 @@ class SiteDownCommand extends AbstractCommand
 	 * The default command name
 	 *
 	 * @var    string
-	 * @since  4.0
+	 * @since  4.0.0
 	 */
 	protected static $defaultName = 'site:down';
 
 	/**
 	 * SymfonyStyle Object
 	 * @var SymfonyStyle
-	 * @since 4.0
+	 * @since 4.0.0
 	 */
 	private $ioStyle;
 
 	/**
 	 * Return code if site:down failed
-	 * @since 4.0
+	 * @since 4.0.0
 	 */
 	const SITE_DOWN_FAILED = 1;
 
 	/**
 	 * Return code if site:down was successful
-	 * @since 4.0
+	 * @since 4.0.0
 	 */
 	const SITE_DOWN_SUCCESSFUL = 0;
 
@@ -58,7 +58,7 @@ class SiteDownCommand extends AbstractCommand
 	 *
 	 * @return void
 	 *
-	 * @since 4.0
+	 * @since 4.0.0
 	 *
 	 */
 	private function configureIO(InputInterface $input, OutputInterface $output)
@@ -75,13 +75,10 @@ class SiteDownCommand extends AbstractCommand
 	 */
 	protected function configure(): void
 	{
-		$this->setDescription('Puts the site into offline mode');
+		$help = "<info>%command.name%</info> puts the site into offline mode
+		\nUsage: <info>php %command.full_name%</info>";
 
-		$help = <<<'EOF'
-The <info>%command.name%</info> is used to place the site offline.
-
-  <info>php %command.full_name%</info>
-EOF;
+		$this->setDescription('Put the site into offline mode');
 		$this->setHelp($help);
 	}
 
@@ -93,7 +90,7 @@ EOF;
 	 *
 	 * @return  integer  The command exit code
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	protected function doExecute(InputInterface $input, OutputInterface $output): int
 	{

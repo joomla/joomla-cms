@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_privacy
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2018 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -16,6 +16,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Mail\Exception\MailDisabledException;
+use Joomla\CMS\Mail\MailTemplate;
 use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\String\PunycodeHelper;
@@ -46,8 +47,10 @@ class RequestModel extends AdminModel
 	 */
 	public function createRequest($data)
 	{
+		$app = Factory::getApplication();
+
 		// Creating requests requires the site's email sending be enabled
-		if (!Factory::getConfig()->get('mailonline', 1))
+		if (!$app->get('mailonline', 1))
 		{
 			$this->setError(Text::_('COM_PRIVACY_ERROR_CANNOT_CREATE_REQUEST_WHEN_SENDMAIL_DISABLED'));
 
@@ -55,8 +58,7 @@ class RequestModel extends AdminModel
 		}
 
 		// Get the form.
-		$form          = $this->getForm();
-		$data['email'] = PunycodeHelper::emailToPunycode($data['email']);
+		$form = $this->getForm();
 
 		// Check for an error.
 		if ($form instanceof \Exception)
@@ -86,6 +88,8 @@ class RequestModel extends AdminModel
 			return false;
 		}
 
+		$email = Factory::getUser()->email;
+
 		// Search for an open information request matching the email and type
 		$db    = $this->getDbo();
 		$query = $db->getQuery(true)
@@ -94,7 +98,7 @@ class RequestModel extends AdminModel
 			->where($db->quoteName('email') . ' = :email')
 			->where($db->quoteName('request_type') . ' = :requesttype')
 			->whereIn($db->quoteName('status'), [0, 1])
-			->bind(':email', $data['email'])
+			->bind(':email', $email)
 			->bind(':requesttype', $data['request_type']);
 
 		try
@@ -131,40 +135,35 @@ class RequestModel extends AdminModel
 
 		// Push a notification to the site's super users, deliberately ignoring if this process fails so the below message goes out
 		/** @var MessageModel $messageModel */
-		$messageModel = Factory::getApplication()->bootComponent('com_messages')->getMVCFactory()->createModel('Message', 'Administrator');
+		$messageModel = $app->bootComponent('com_messages')->getMVCFactory()->createModel('Message', 'Administrator');
 
 		$messageModel->notifySuperUsers(
 			Text::_('COM_PRIVACY_ADMIN_NOTIFICATION_USER_CREATED_REQUEST_SUBJECT'),
-			Text::sprintf('COM_PRIVACY_ADMIN_NOTIFICATION_USER_CREATED_REQUEST_MESSAGE', $data['email'])
+			Text::sprintf('COM_PRIVACY_ADMIN_NOTIFICATION_USER_CREATED_REQUEST_MESSAGE', $email)
 		);
 
 		// The mailer can be set to either throw Exceptions or return boolean false, account for both
 		try
 		{
-			$app = Factory::getApplication();
-
 			$linkMode = $app->get('force_ssl', 0) == 2 ? Route::TLS_FORCE : Route::TLS_IGNORE;
 
-			$substitutions = [
-				'[SITENAME]' => $app->get('sitename'),
-				'[URL]'      => Uri::root(),
-				'[TOKENURL]' => Route::link('site', 'index.php?option=com_privacy&view=confirm&confirm_token=' . $token, false, $linkMode, true),
-				'[FORMURL]'  => Route::link('site', 'index.php?option=com_privacy&view=confirm', false, $linkMode, true),
-				'[TOKEN]'    => $token,
-				'\\n'        => "\n",
+			$templateData = [
+				'sitename' => $app->get('sitename'),
+				'url'      => Uri::root(),
+				'tokenurl' => Route::link('site', 'index.php?option=com_privacy&view=confirm&confirm_token=' . $token, false, $linkMode, true),
+				'formurl'  => Route::link('site', 'index.php?option=com_privacy&view=confirm', false, $linkMode, true),
+				'token'    => $token,
 			];
 
 			switch ($data['request_type'])
 			{
 				case 'export':
-					$emailSubject = Text::_('COM_PRIVACY_EMAIL_REQUEST_SUBJECT_EXPORT_REQUEST');
-					$emailBody    = Text::_('COM_PRIVACY_EMAIL_REQUEST_BODY_EXPORT_REQUEST');
+					$mailer = new MailTemplate('com_privacy.notification.export', $app->getLanguage()->getTag());
 
 					break;
 
 				case 'remove':
-					$emailSubject = Text::_('COM_PRIVACY_EMAIL_REQUEST_SUBJECT_REMOVE_REQUEST');
-					$emailBody    = Text::_('COM_PRIVACY_EMAIL_REQUEST_BODY_REMOVE_REQUEST');
+					$mailer = new MailTemplate('com_privacy.notification.remove', $app->getLanguage()->getTag());
 
 					break;
 
@@ -174,25 +173,10 @@ class RequestModel extends AdminModel
 					return false;
 			}
 
-			foreach ($substitutions as $k => $v)
-			{
-				$emailSubject = str_replace($k, $v, $emailSubject);
-				$emailBody    = str_replace($k, $v, $emailBody);
-			}
+			$mailer->addTemplateData($templateData);
+			$mailer->addRecipient($email);
 
-			$mailer = Factory::getMailer();
-			$mailer->setSubject($emailSubject);
-			$mailer->setBody($emailBody);
-			$mailer->addRecipient($data['email']);
-
-			$mailResult = $mailer->Send();
-
-			if ($mailer->Send() === false)
-			{
-				$this->setError($mailer->ErrorInfo);
-
-				return false;
-			}
+			$mailer->send();
 
 			/** @var RequestTable $table */
 			$table = $this->getTable();
@@ -248,7 +232,7 @@ class RequestModel extends AdminModel
 	 * @param   string  $prefix   The class prefix. Optional.
 	 * @param   array   $options  Configuration array for model. Optional.
 	 *
-	 * @return  Table  A JTable object
+	 * @return  Table  A Table object
 	 *
 	 * @throws  \Exception
 	 * @since   3.9.0

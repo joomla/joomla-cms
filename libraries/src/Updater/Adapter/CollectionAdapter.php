@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2008 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -44,7 +44,7 @@ class CollectionAdapter extends UpdateAdapter
 	/**
 	 * Used to control if an item has a child or not
 	 *
-	 * @var    boolean
+	 * @var    integer
 	 * @since  1.7.0
 	 */
 	protected $pop_parent = 0;
@@ -66,7 +66,7 @@ class CollectionAdapter extends UpdateAdapter
 	/**
 	 * Gets the reference to the current direct parent
 	 *
-	 * @return  object
+	 * @return  string
 	 *
 	 * @since   1.7.0
 	 */
@@ -204,15 +204,10 @@ class CollectionAdapter extends UpdateAdapter
 	{
 		array_pop($this->stack);
 
-		switch ($name)
+		if ($name === 'CATEGORY' && $this->pop_parent)
 		{
-			case 'CATEGORY':
-				if ($this->pop_parent)
-				{
-					$this->pop_parent = 0;
-					array_pop($this->parent);
-				}
-				break;
+			$this->pop_parent = 0;
+			array_pop($this->parent);
 		}
 	}
 
@@ -257,7 +252,7 @@ class CollectionAdapter extends UpdateAdapter
 			return false;
 		}
 
-		// TODO: Decrement the bad counter if non-zero
+		// @todo: Decrement the bad counter if non-zero
 		return array('update_sites' => $this->update_sites, 'updates' => $this->updates);
 	}
 }

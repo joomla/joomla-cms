@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2005 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -13,9 +13,10 @@ namespace Joomla\CMS\Session;
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\Log\Log;
 use Joomla\CMS\Router\Route;
+use Joomla\Event\DispatcherInterface;
 use Joomla\Session\Session as BaseSession;
+use Joomla\Session\StorageInterface;
 
 /**
  * Class for managing HTTP sessions
@@ -24,6 +25,29 @@ use Joomla\Session\Session as BaseSession;
  */
 class Session extends BaseSession
 {
+	/**
+	 * Constructor
+	 *
+	 * @param   StorageInterface     $store       A StorageInterface implementation.
+	 * @param   DispatcherInterface  $dispatcher  DispatcherInterface for the session to use.
+	 * @param   array                $options     Optional parameters. Supported keys include:
+	 *                                            - name: The session name
+	 *                                            - id: The session ID
+	 *                                            - expire: The session lifetime in seconds
+	 *
+	 * @since   1.0
+	 */
+	public function __construct(StorageInterface $store = null, DispatcherInterface $dispatcher = null, array $options = [])
+	{
+		// Extra hash the name of the session for b/c with Joomla 3.x or the session is never found.
+		if (isset($options['name']))
+		{
+			$options['name'] = md5($options['name']);
+		}
+
+		parent::__construct($store, $dispatcher, $options);
+	}
+
 	/**
 	 * Checks for a form token in the request.
 	 *
@@ -85,7 +109,7 @@ class Session extends BaseSession
 	 *
 	 * @return  array  An array of available session handlers
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public static function getHandlers(): array
 	{
@@ -134,10 +158,9 @@ class Session extends BaseSession
 	 */
 	public static function getInstance()
 	{
-		Log::add(
+		@trigger_error(
 			__METHOD__ . '() is deprecated. Load the session from the dependency injection container or via Factory::getApplication()->getSession().',
-			Log::WARNING,
-			'deprecated'
+			E_USER_DEPRECATED
 		);
 
 		return Factory::getApplication()->getSession();
@@ -162,18 +185,41 @@ class Session extends BaseSession
 
 			if (!empty($args[2]))
 			{
-				Log::add(
+				@trigger_error(
 					'Passing a namespace as a parameter to ' . __METHOD__ . '() is deprecated. '
 					. 'The namespace should be prepended to the name instead.',
-					Log::WARNING,
-					'deprecated'
+					E_USER_DEPRECATED
 				);
 
 				$name = $args[2] . '.' . $name;
 			}
 		}
 
-		return parent::get($name, $default);
+		if (parent::has($name))
+		{
+			// Parent is used because of b/c, can be changed in Joomla 5
+			return parent::get($name, $default);
+		}
+
+		/*
+		 * B/C for retrieving sessions that originated in Joomla 3.
+		 * A namespace before Joomla 4 has a prefix of 2 underscores (__).
+		 * This is no longer the case in Joomla 4 and will be converted
+		 * when saving new values in `self::set()`
+		 */
+		if (strpos($name, '.') !== false && parent::has('__' . $name))
+		{
+			return parent::get('__' . $name, $default);
+		}
+
+		// More b/c for retrieving sessions that originated in Joomla 3. This will be removed in Joomla 5
+		// as no sessions should have this format anymore!
+		if (parent::has('__default.' . $name))
+		{
+			return parent::get('__default.' . $name, $default);
+		}
+
+		return $default;
 	}
 
 	/**
@@ -195,11 +241,10 @@ class Session extends BaseSession
 
 			if (!empty($args[2]))
 			{
-				Log::add(
+				@trigger_error(
 					'Passing a namespace as a parameter to ' . __METHOD__ . '() is deprecated. '
 					. 'The namespace should be prepended to the name instead.',
-					Log::WARNING,
-					'deprecated'
+					E_USER_DEPRECATED
 				);
 
 				$name = $args[2] . '.' . $name;
@@ -227,18 +272,35 @@ class Session extends BaseSession
 
 			if (!empty($args[1]))
 			{
-				Log::add(
+				@trigger_error(
 					'Passing a namespace as a parameter to ' . __METHOD__ . '() is deprecated. '
 					. 'The namespace should be prepended to the name instead.',
-					Log::WARNING,
-					'deprecated'
+					E_USER_DEPRECATED
 				);
 
 				$name = $args[1] . '.' . $name;
 			}
 		}
 
-		return parent::has($name);
+		if (parent::has($name))
+		{
+			return true;
+		}
+
+		/*
+		 * B/C for retrieving sessions that originated in Joomla 3.
+		 * A namespace before Joomla 4 has a prefix of 2 underscores (__).
+		 * This is no longer the case in Joomla 4 and will be converted
+		 * when saving new values in `self::set()`
+		 */
+		if (strpos($name, '.') !== false && parent::has('__' . $name))
+		{
+			return true;
+		}
+
+		// More b/c for retrieving sessions that originated in Joomla 3. This will be removed in Joomla 5
+		// as no sessions should have this format anymore!
+		return parent::has('__default.' . $name);
 	}
 
 	/**
@@ -257,10 +319,9 @@ class Session extends BaseSession
 
 			if (!empty($args[0]))
 			{
-				Log::add(
+				@trigger_error(
 					'Using ' . __METHOD__ . '() to remove a single element from the session is deprecated.  Use ' . __CLASS__ . '::remove() instead.',
-					Log::WARNING,
-					'deprecated'
+					E_USER_DEPRECATED
 				);
 
 				$name = $args[0];
@@ -268,20 +329,28 @@ class Session extends BaseSession
 				// Also check for a namespace
 				if (\func_num_args() > 1 && !empty($args[1]))
 				{
-					Log::add(
+					@trigger_error(
 						'Passing a namespace as a parameter to ' . __METHOD__ . '() is deprecated. '
 						 . 'The namespace should be prepended to the name instead.',
-						Log::WARNING,
-						'deprecated'
+						E_USER_DEPRECATED
 					);
 
 					$name = $args[1] . '.' . $name;
 				}
 
-				return $this->remove($name);
+				$this->remove($name);
+
+				/*
+				 * B/C for cleaning sessions that originated in Joomla 3.
+				 * A namespace before Joomla 4 has a prefix of 2 underscores (__).
+				 * This is no longer the case in Joomla 4 so we clean both variants.
+				 */
+				$this->remove('__' . $name);
+
+				return;
 			}
 		}
 
-		return parent::clear();
+		parent::clear();
 	}
 }

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  mod_popular
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2010 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -87,7 +87,8 @@ abstract class PopularHelper
 		{
 			$item->link = '';
 
-			if ($user->authorise('core.edit', 'com_content.article.' . $item->id))
+			if ($user->authorise('core.edit', 'com_content.article.' . $item->id)
+				|| ($user->authorise('core.edit.own', 'com_content.article.' . $item->id) && ($userId === $item->created_by)))
 			{
 				$item->link = Route::_('index.php?option=com_content&task=article.edit&id=' . $item->id);
 			}

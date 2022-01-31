@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_menus
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2006 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -78,7 +78,7 @@ class MenuModel extends FormModel
 	 * @param   string  $prefix  A prefix for the table class name. Optional.
 	 * @param   array   $config  Configuration array for model. Optional.
 	 *
-	 * @return  \JTable    A database object
+	 * @return  Table   A database object
 	 *
 	 * @since   1.6
 	 */
@@ -206,6 +206,32 @@ class MenuModel extends FormModel
 	}
 
 	/**
+	 * Method to validate the form data.
+	 *
+	 * @param   Form    $form   The form to validate against.
+	 * @param   array   $data   The data to validate.
+	 * @param   string  $group  The name of the field group to validate.
+	 *
+	 * @return  array|boolean  Array of filtered data if valid, false otherwise.
+	 *
+	 * @see     JFormRule
+	 * @see     JFilterInput
+	 * @since   3.9.23
+	 */
+	public function validate($form, $data, $group = null)
+	{
+		if (!Factory::getUser()->authorise('core.admin', 'com_menus'))
+		{
+			if (isset($data['rules']))
+			{
+				unset($data['rules']);
+			}
+		}
+
+		return parent::validate($form, $data, $group);
+	}
+
+	/**
 	 * Method to save the form data.
 	 *
 	 * @param   array  $data  The form data.
@@ -308,7 +334,7 @@ class MenuModel extends FormModel
 				// Trigger the after delete event.
 				Factory::getApplication()->triggerEvent('onContentAfterDelete', array($this->_context, $table));
 
-				// TODO: Delete the menu associations - Menu items and Modules
+				// @todo: Delete the menu associations - Menu items and Modules
 			}
 		}
 
@@ -368,18 +394,17 @@ class MenuModel extends FormModel
 	/**
 	 * Custom clean the cache
 	 *
-	 * @param   string   $group      Cache group name.
-	 * @param   integer  $client_id  Application client id.
+	 * @param   string   $group     Cache group name.
+	 * @param   integer  $clientId  @deprecated  5.0  No Longer used.
 	 *
 	 * @return  void
 	 *
 	 * @since   1.6
 	 */
-	protected function cleanCache($group = null, $client_id = 0)
+	protected function cleanCache($group = null, $clientId = 0)
 	{
-		parent::cleanCache('com_menus', 0);
+		parent::cleanCache('com_menus');
 		parent::cleanCache('com_modules');
-		parent::cleanCache('mod_menu', 0);
-		parent::cleanCache('mod_menu', 1);
+		parent::cleanCache('mod_menu');
 	}
 }

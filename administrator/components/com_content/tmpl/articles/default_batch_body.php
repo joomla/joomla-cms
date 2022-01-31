@@ -3,26 +3,32 @@
  * @package     Joomla.Administrator
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2015 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Layout\LayoutHelper;
 
-$published = $this->state->get('filter.published');
+$params = ComponentHelper::getParams('com_content');
+
+$published = (int) $this->state->get('filter.published');
 
 $user = Factory::getUser();
 ?>
 
-<div class="container">
+<div class="p-3">
 	<div class="row">
-		<div class="form-group col-md-6">
-			<div class="controls">
-				<?php echo LayoutHelper::render('joomla.html.batch.language', []); ?>
+		<?php if (Multilanguage::isEnabled()) : ?>
+			<div class="form-group col-md-6">
+				<div class="controls">
+					<?php echo LayoutHelper::render('joomla.html.batch.language', []); ?>
+				</div>
 			</div>
-		</div>
+		<?php endif; ?>
 		<div class="form-group col-md-6">
 			<div class="controls">
 				<?php echo LayoutHelper::render('joomla.html.batch.access', []); ?>
@@ -42,7 +48,7 @@ $user = Factory::getUser();
 				<?php echo LayoutHelper::render('joomla.html.batch.tag', []); ?>
 			</div>
 		</div>
-		<?php if ($user->authorise('core.admin', 'com_content')) : ?>
+		<?php if ($user->authorise('core.admin', 'com_content') && $params->get('workflow_enabled')) : ?>
 		<div class="form-group col-md-6">
 			<div class="controls">
 				<?php echo LayoutHelper::render('joomla.html.batch.workflowstage', ['extension' => 'com_content']); ?>

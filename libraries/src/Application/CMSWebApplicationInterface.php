@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2020 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -18,7 +18,7 @@ use Joomla\CMS\Router\Router;
 /**
  * Interface defining a Joomla! CMS Application class for web applications.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 interface CMSWebApplicationInterface extends SessionAwareWebApplicationInterface, CMSApplicationInterface
 {
@@ -27,7 +27,7 @@ interface CMSWebApplicationInterface extends SessionAwareWebApplicationInterface
 	 *
 	 * @return  Document  The document object
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function getDocument();
 
@@ -39,7 +39,7 @@ interface CMSWebApplicationInterface extends SessionAwareWebApplicationInterface
 	 *
 	 * @return  AbstractMenu|null  An AbstractMenu object or null if not set.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function getMenu($name = null, $options = array());
 
@@ -51,7 +51,7 @@ interface CMSWebApplicationInterface extends SessionAwareWebApplicationInterface
 	 *
 	 * @return  Router
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public static function getRouter($name = null, array $options = array());
 
@@ -63,7 +63,7 @@ interface CMSWebApplicationInterface extends SessionAwareWebApplicationInterface
 	 *
 	 * @return  mixed  The user state or null.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function getUserState($key, $default = null);
 
@@ -77,7 +77,7 @@ interface CMSWebApplicationInterface extends SessionAwareWebApplicationInterface
 	 *
 	 * @return  mixed  The request user state.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function getUserStateFromRequest($key, $request, $default = null, $type = 'none');
 
@@ -89,7 +89,7 @@ interface CMSWebApplicationInterface extends SessionAwareWebApplicationInterface
 	 *
 	 * @return  mixed|void  The previous state, if one existed. Void otherwise.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function setUserState($key, $value);
 }
