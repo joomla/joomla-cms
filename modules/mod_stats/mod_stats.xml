@@ -19,7 +19,7 @@
 		<language tag="en-GB">language/en-GB/mod_stats.ini</language>
 		<language tag="en-GB">language/en-GB/mod_stats.sys.ini</language>
 	</languages>
-	<help key="JHELP_EXTENSIONS_MODULE_MANAGER_STATISTICS" />
+	<help key="Site_Modules:_Statistics" />
 	<config>
 		<fields name="params">
 			<fieldset name="basic">

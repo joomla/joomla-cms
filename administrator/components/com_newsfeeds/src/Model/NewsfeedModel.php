@@ -102,7 +102,7 @@ class NewsfeedModel extends AdminModel
 	 * @param   array    $data      Data for the form.
 	 * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
 	 *
-	 * @return  \JForm    A \JForm object on success, false on failure
+	 * @return  Form|bool  A Form object on success, false on failure
 	 *
 	 * @since   1.6
 	 */
@@ -292,7 +292,7 @@ class NewsfeedModel extends AdminModel
 			$item->tags = new  TagsHelper;
 			$item->tags->getTagIds($item->id, 'com_newsfeeds.newsfeed');
 
-			// TODO: We probably don't need this in any client - but needs careful validation
+			// @todo: We probably don't need this in any client - but needs careful validation
 			if (!Factory::getApplication()->isClient('api'))
 			{
 				$item->metadata['tags'] = $item->tags;
@@ -305,7 +305,7 @@ class NewsfeedModel extends AdminModel
 	/**
 	 * Prepare and sanitise the table prior to saving.
 	 *
-	 * @param   \JTable  $table  The table object
+	 * @param   \Joomla\CMS\Table\Table  $table  The table object
 	 *
 	 * @return  void
 	 */
@@ -390,11 +390,11 @@ class NewsfeedModel extends AdminModel
 	/**
 	 * A protected method to get a set of ordering conditions.
 	 *
-	 * @param   \JForm  $form   The form object.
+	 * @param   Form    $form   The form object.
 	 * @param   array   $data   The data to be injected into the form
 	 * @param   string  $group  The plugin group to process
 	 *
-	 * @return  array  An array of conditions to add to add to ordering queries.
+	 * @return  array  An array of conditions to add to ordering queries.
 	 *
 	 * @since   1.6
 	 */
