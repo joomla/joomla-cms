@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <metafile client="installation">
 	<name>Hungarian (Magyar)</name>
-	<version>4.0.0</version>
-	<creationDate>August 2021</creationDate>
+	<version>4.0.7</version>
+	<creationDate>January 2022</creationDate>
 	<author>Joomla! Magyarország</author>
 	<copyright>(C) 2005 Open Source Matters, Inc.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
@@ -10,8 +10,8 @@
 		<filename>joomla.ini</filename>
 	</files>
 	<metadata>
-		<name>Hungarian (Hungary)</name>
-		<nativeName>Hungarian (Magyar)</nativeName>
+		<name>Hungarian (hu-HU)</name>
+		<nativeName>Magyar (Magyarország)</nativeName>
 		<tag>hu-HU</tag>
 		<rtl>0</rtl>
 	</metadata>

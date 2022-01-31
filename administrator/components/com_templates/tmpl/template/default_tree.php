@@ -18,7 +18,7 @@ ksort($this->files, SORT_NATURAL);
 	<?php foreach ($this->files as $key => $value) : ?>
 		<?php if (is_array($value)) : ?>
 			<?php
-			$keyArray  = explode('/', $key);
+			$keyArray  = explode('/', rtrim($key, '\\'));
 			$fileArray = explode('/', $this->fileName);
 			$count     = 0;
 
@@ -58,7 +58,7 @@ ksort($this->files, SORT_NATURAL);
 		<?php endif; ?>
 		<?php if (is_object($value)) : ?>
 			<li>
-				<a class="file" href='<?php echo Route::_('index.php?option=com_templates&view=template&id=' . $this->id . '&file=' . $value->id); ?>'>
+				<a class="file" href='<?php echo Route::_('index.php?option=com_templates&view=template&id=' . $this->id . '&file=' . $value->id . '&isMedia=0'); ?>'>
 					<span class="icon-file-alt" aria-hidden="true"></span>&nbsp;<?php echo $this->escape($value->name); ?>
 				</a>
 			</li>

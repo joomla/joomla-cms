@@ -50,10 +50,9 @@ class ModulepositionField extends TextField
 	 */
 	public function __get($name)
 	{
-		switch ($name)
+		if ($name === 'clientId')
 		{
-			case 'clientId':
-				return $this->clientId;
+			return $this->clientId;
 		}
 
 		return parent::__get($name);
