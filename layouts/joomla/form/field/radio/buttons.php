@@ -45,25 +45,19 @@ extract($displayData);
 $alt         = preg_replace('/[^a-zA-Z0-9_\-]/', '_', $name);
 $isBtnGroup  = strpos(trim($class), 'btn-group') !== false;
 $isBtnYesNo  = strpos(trim($class), 'btn-group-yesno') !== false;
-$divClass    = $isBtnGroup ? 'btn-group' : '';
 $classToggle = $isBtnGroup ? 'btn-check' : 'form-check-input';
 $btnClass    = $isBtnGroup ? 'btn btn-outline-secondary' : 'form-check-label';
 $blockStart  = $isBtnGroup ? '' : '<div class="form-check">';
 $blockEnd    = $isBtnGroup ? '' : '</div>';
 
 // Add the attributes of the fieldset in an array
-$attribs = ['class="' . trim(
-		$divClass . ' radio' . ($readonly || $disabled ? ' disabled' : '') . ($readonly ? ' readonly' : '')
-	) . '"',];
+$containerClass = trim($class . ' radio' . ($readonly || $disabled ? ' disabled' : '') . ($readonly ? ' readonly' : ''));
+
+$attribs = ['id="' . $id . '"'];
 
 if (!empty($disabled))
 {
 	$attribs[] = 'disabled';
-}
-
-if (!empty($required))
-{
-	$attribs[] = 'required';
 }
 
 if (!empty($autofocus))
@@ -81,16 +75,16 @@ if ($dataAttribute)
 	$attribs[] = $dataAttribute;
 }
 ?>
-<fieldset id="<?php echo $id; ?>" >
+<fieldset <?php echo implode(' ', $attribs); ?>>
 	<legend class="visually-hidden">
 		<?php echo $label; ?>
 	</legend>
-	<div <?php echo implode(' ', $attribs); ?>>
+	<div class="<?php echo $containerClass; ?>">
 		<?php foreach ($options as $i => $option) : ?>
 			<?php echo $blockStart; ?>
 				<?php
 				$disabled = !empty($option->disable) ? 'disabled' : '';
-				$style    = $disabled ? 'style="pointer-events: none"' : '';
+				$style    = $disabled ? ' style="pointer-events: none"' : '';
 
 				// Initialize some option attributes.
 				if ($isBtnYesNo)
@@ -119,13 +113,13 @@ if ($dataAttribute)
 				$onchange   = !empty($option->onchange) ? 'onchange="' . $option->onchange . '"' : '';
 				$oid        = $id . $i;
 				$ovalue     = htmlspecialchars($option->value, ENT_COMPAT, 'UTF-8');
-				$attributes = array_filter(array($checked, $disabled, $style, $onchange, $onclick));
+				$attributes = array_filter(array($checked, $disabled, ltrim($style), $onchange, $onclick));
 				?>
 				<?php if ($required) : ?>
 					<?php $attributes[] = 'required'; ?>
 				<?php endif; ?>
 				<input class="<?php echo $classToggle; ?>" type="radio" id="<?php echo $oid; ?>" name="<?php echo $name; ?>" value="<?php echo $ovalue; ?>" <?php echo implode(' ', $attributes); ?>>
-				<label for="<?php echo $oid; ?>" class="<?php echo trim($optionClass . ' ' . $style); ?>"> 
+				<label for="<?php echo $oid; ?>" class="<?php echo trim($optionClass); ?>"<?php echo $style; ?>>
 					<?php echo $option->text; ?>
 				</label>
 			<?php echo $blockEnd; ?>

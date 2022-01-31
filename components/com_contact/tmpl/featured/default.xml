@@ -3,7 +3,7 @@
 <metadata>
 	<layout title="COM_CONTACT_FEATURED_VIEW_DEFAULT_TITLE" option="COM_CONTACT_FEATURED_VIEW_DEFAULT_OPTION">
 		<help
-			key = "JHELP_MENUS_MENU_ITEM_CONTACT_FEATURED"
+			key = "Menu_Item:_Featured_Contacts"
 		/>
 		<message>
 			<![CDATA[COM_CONTACT_FEATURED_VIEW_DEFAULT_DESC]]>
@@ -11,170 +11,177 @@
 	</layout>
 
 	<!-- Add fields to the parameters object for the layout. -->
-<fields name="params">
-	<fieldset name="advanced" label="JGLOBAL_LIST_LAYOUT_OPTIONS" description="JGLOBAL_SUBSLIDER_DRILL_CATEGORIES_LABEL">
-
-		<field
-			name="filter_field"
-			type="list"
-			label="JGLOBAL_FILTER_FIELD_LABEL"
-			default=""
-			useglobal="true"
-			class="form-select-color-state"
-			validate="options"
+	<fields name="params">
+		<fieldset
+			name="advanced"
+			label="JGLOBAL_LIST_LAYOUT_OPTIONS"
+			description="JGLOBAL_SUBSLIDER_DRILL_CATEGORIES_LABEL"
 			>
-			<option value="0">JHIDE</option>
-			<option value="1">JSHOW</option>
-		</field>
 
-		<field
-			name="show_pagination_limit"
-			type="list"
-			label="JGLOBAL_DISPLAY_SELECT_LABEL"
-			useglobal="true"
-			class="form-select-color-state"
-			validate="options"
+			<field
+				name="filter_field"
+				type="list"
+				label="JGLOBAL_FILTER_FIELD_LABEL"
+				default=""
+				useglobal="true"
+				class="form-select-color-state"
+				validate="options"
+				>
+				<option value="0">JHIDE</option>
+				<option value="1">JSHOW</option>
+			</field>
+
+			<field
+				name="show_pagination_limit"
+				type="list"
+				label="JGLOBAL_DISPLAY_SELECT_LABEL"
+				useglobal="true"
+				class="form-select-color-state"
+				validate="options"
+				>
+				<option value="0">JHIDE</option>
+				<option value="1">JSHOW</option>
+			</field>
+
+			<field
+				name="show_headings"
+				type="list"
+				label="JGLOBAL_SHOW_HEADINGS_LABEL"
+				useglobal="true"
+				class="form-select-color-state"
+				validate="options"
+				>
+				<option value="0">JHIDE</option>
+				<option value="1">JSHOW</option>
+			</field>
+
+			<field
+				name="show_position_headings"
+				type="list"
+				label="COM_CONTACT_FIELD_CONFIG_POSITION_LABEL"
+				useglobal="true"
+				class="form-select-color-state"
+				validate="options"
+				>
+				<option value="0">JHIDE</option>
+				<option value="1">JSHOW</option>
+			</field>
+
+			<field
+				name="show_email_headings"
+				type="list"
+				label="JGLOBAL_EMAIL"
+				useglobal="true"
+				class="form-select-color-state"
+				validate="options"
+				>
+				<option value="0">JHIDE</option>
+				<option value="1">JSHOW</option>
+			</field>
+
+			<field
+				name="show_telephone_headings"
+				type="list"
+				label="COM_CONTACT_FIELD_CONFIG_PHONE_LABEL"
+				useglobal="true"
+				class="form-select-color-state"
+				validate="options"
+				>
+				<option value="0">JHIDE</option>
+				<option value="1">JSHOW</option>
+			</field>
+
+			<field
+				name="show_mobile_headings"
+				type="list"
+				label="COM_CONTACT_FIELD_CONFIG_MOBILE_LABEL"
+				useglobal="true"
+				class="form-select-color-state"
+				validate="options"
+				>
+				<option value="0">JHIDE</option>
+				<option value="1">JSHOW</option>
+			</field>
+
+			<field
+				name="show_fax_headings"
+				type="list"
+				label="COM_CONTACT_FIELD_CONFIG_FAX_LABEL"
+				useglobal="true"
+				class="form-select-color-state"
+				validate="options"
+				>
+				<option value="0">JHIDE</option>
+				<option value="1">JSHOW</option>
+			</field>
+
+			<field
+				name="show_suburb_headings"
+				type="list"
+				label="COM_CONTACT_FIELD_CONFIG_SUBURB_LABEL"
+				useglobal="true"
+				class="form-select-color-state"
+				validate="options"
+				>
+				<option value="0">JHIDE</option>
+				<option value="1">JSHOW</option>
+			</field>
+
+			<field
+				name="show_state_headings"
+				type="list"
+				label="COM_CONTACT_FIELD_CONFIG_STATE_LABEL"
+				useglobal="true"
+				class="form-select-color-state"
+				validate="options"
+				>
+				<option value="0">JHIDE</option>
+				<option value="1">JSHOW</option>
+			</field>
+
+			<field
+				name="show_country_headings"
+				type="list"
+				label="COM_CONTACT_FIELD_CONFIG_COUNTRY_LABEL"
+				useglobal="true"
+				class="form-select-color-state"
+				validate="options"
+				>
+				<option value="0">JHIDE</option>
+				<option value="1">JSHOW</option>
+			</field>
+
+			<field
+				name="show_pagination"
+				type="list"
+				label="JGLOBAL_PAGINATION_LABEL"
+				useglobal="true"
+				class="form-select-color-state"
+				validate="options"
+				>
+				<option value="0">JHIDE</option>
+				<option value="1">JSHOW</option>
+				<option value="2">JGLOBAL_AUTO</option>
+			</field>
+
+			<field
+				name="show_pagination_results"
+				type="list"
+				label="JGLOBAL_PAGINATION_RESULTS_LABEL"
+				useglobal="true"
+				class="form-select-color-state"
+				validate="options"
+				>
+				<option value="0">JHIDE</option>
+				<option value="1">JSHOW</option>
+			</field>
+
+		</fieldset>
+
+		<fieldset
+			name="contact"
+			label="COM_CONTACT_FIELDSET_CONTACT_LABEL"
 			>
-			<option value="0">JHIDE</option>
-			<option value="1">JSHOW</option>
-		</field>
-
-		<field
-			name="show_headings"
-			type="list"
-			label="JGLOBAL_SHOW_HEADINGS_LABEL"
-			useglobal="true"
-			class="form-select-color-state"
-			validate="options"
-			>
-			<option value="0">JHIDE</option>
-			<option value="1">JSHOW</option>
-		</field>
-
-		<field
-			name="show_position_headings"
-			type="list"
-			label="COM_CONTACT_FIELD_CONFIG_POSITION_LABEL"
-			useglobal="true"
-			class="form-select-color-state"
-			validate="options"
-			>
-			<option value="0">JHIDE</option>
-			<option value="1">JSHOW</option>
-		</field>
-
-		<field
-			name="show_email_headings"
-			type="list"
-			label="JGLOBAL_EMAIL"
-			useglobal="true"
-			class="form-select-color-state"
-			validate="options"
-			>
-			<option value="0">JHIDE</option>
-			<option value="1">JSHOW</option>
-		</field>
-
-		<field
-			name="show_telephone_headings"
-			type="list"
-			label="COM_CONTACT_FIELD_CONFIG_PHONE_LABEL"
-			useglobal="true"
-			class="form-select-color-state"
-			validate="options"
-			>
-			<option value="0">JHIDE</option>
-			<option value="1">JSHOW</option>
-		</field>
-
-		<field
-			name="show_mobile_headings"
-			type="list"
-			label="COM_CONTACT_FIELD_CONFIG_MOBILE_LABEL"
-			useglobal="true"
-			class="form-select-color-state"
-			validate="options"
-			>
-			<option value="0">JHIDE</option>
-			<option value="1">JSHOW</option>
-		</field>
-
-		<field
-			name="show_fax_headings"
-			type="list"
-			label="COM_CONTACT_FIELD_CONFIG_FAX_LABEL"
-			useglobal="true"
-			class="form-select-color-state"
-			validate="options"
-			>
-			<option value="0">JHIDE</option>
-			<option value="1">JSHOW</option>
-		</field>
-
-		<field
-			name="show_suburb_headings"
-			type="list"
-			label="COM_CONTACT_FIELD_CONFIG_SUBURB_LABEL"
-			useglobal="true"
-			class="form-select-color-state"
-			validate="options"
-			>
-			<option value="0">JHIDE</option>
-			<option value="1">JSHOW</option>
-		</field>
-
-		<field
-			name="show_state_headings"
-			type="list"
-			label="COM_CONTACT_FIELD_CONFIG_STATE_LABEL"
-			useglobal="true"
-			class="form-select-color-state"
-			validate="options"
-			>
-			<option value="0">JHIDE</option>
-			<option value="1">JSHOW</option>
-		</field>
-
-		<field
-			name="show_country_headings"
-			type="list"
-			label="COM_CONTACT_FIELD_CONFIG_COUNTRY_LABEL"
-			useglobal="true"
-			class="form-select-color-state"
-			validate="options"
-			>
-			<option value="0">JHIDE</option>
-			<option value="1">JSHOW</option>
-		</field>
-
-		<field
-			name="show_pagination"
-			type="list"
-			label="JGLOBAL_PAGINATION_LABEL"
-			useglobal="true"
-			class="form-select-color-state"
-			validate="options"
-			>
-			<option value="0">JHIDE</option>
-			<option value="1">JSHOW</option>
-			<option value="2">JGLOBAL_AUTO</option>
-		</field>
-
-		<field
-			name="show_pagination_results"
-			type="list"
-			label="JGLOBAL_PAGINATION_RESULTS_LABEL"
-			useglobal="true"
-			class="form-select-color-state"
-			validate="options"
-			>
-			<option value="0">JHIDE</option>
-			<option value="1">JSHOW</option>
-		</field>
-
-	</fieldset>
-
-	<fieldset name="contact" label="COM_CONTACT_FIELDSET_CONTACT_LABEL">
 
 			<field
 				name="show_tags"
@@ -224,7 +231,6 @@
 				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
-
 			</field>
 
 			<field
@@ -447,7 +453,6 @@
 				name="linka_name"
 				type="text"
 				label="COM_CONTACT_FIELD_LINKA_NAME_LABEL"
-				size="30"
 				useglobal="true"
 			/>
 
@@ -455,7 +460,6 @@
 				name="linkb_name"
 				type="text"
 				label="COM_CONTACT_FIELD_LINKB_NAME_LABEL"
-				size="30"
 				useglobal="true"
 			/>
 
@@ -463,7 +467,6 @@
 				name="linkc_name"
 				type="text"
 				label="COM_CONTACT_FIELD_LINKC_NAME_LABEL"
-				size="30"
 				useglobal="true"
 			/>
 
@@ -471,7 +474,6 @@
 				name="linkd_name"
 				type="text"
 				label="COM_CONTACT_FIELD_LINKD_NAME_LABEL"
-				size="30"
 				useglobal="true"
 			/>
 
@@ -479,12 +481,14 @@
 				name="linke_name"
 				type="text"
 				label="COM_CONTACT_FIELD_LINKE_NAME_LABEL"
-				size="30"
 				useglobal="true"
 			/>
-	</fieldset>
+		</fieldset>
 
-	<fieldset name="Contact_Form" label="COM_CONTACT_FIELDSET_CONTACTFORM_LABEL">
+		<fieldset
+			name="Contact_Form"
+			label="COM_CONTACT_FIELDSET_CONTACTFORM_LABEL"
+			>
 
 			<field
 				name="show_email_form"
@@ -538,10 +542,9 @@
 				name="redirect"
 				type="text"
 				label="COM_CONTACT_FIELD_CONFIG_REDIRECT_LABEL"
-				size="30"
 				useglobal="true"
 			/>
-	</fieldset>
+		</fieldset>
 
-</fields>
+	</fields>
 </metadata>

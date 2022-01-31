@@ -25,8 +25,7 @@ $jicon-css-prefix: icon !default;
 
 // Create brand icons mapping array
 $jicons-brand: (
-  joomla : $fa-var-joomla,
-  accessible : $fa-var-accessible-icon
+  joomla : $fa-var-joomla
 ) !default;
 
 // Parse brands mapping array
@@ -75,9 +74,10 @@ $jicons-special: (
 
 // Create standard icons mapping array
 $jicons: (
+  accessible : $fa-var-universal-access,
   add : $fa-var-plus,
   address-book : $fa-var-address-book,
-  address : $fa-var-file-alt,
+  address : $fa-var-address-book,
   align-justify : $fa-var-align-justify,
   angle-double-left : $fa-var-angle-double-left,
   angle-double-right : $fa-var-angle-double-right,
@@ -427,7 +427,7 @@ $jicons: (
   unblock : $fa-var-sync,
   undo-2 : $fa-var-undo,
   undo : $fa-var-undo,
-  unfeatured : $fa-var-star,
+  unfeatured : $fa-var-circle,
   universal : $fa-var-universal-access,
   universal-access : $fa-var-universal-access,
   unlock-alt : $fa-var-unlock-alt,
@@ -442,7 +442,7 @@ $jicons: (
   user : $fa-var-user,
   users-cog : $fa-var-users-cog,
   users : $fa-var-users,
-  vcard : $fa-var-file-alt,
+  vcard : $fa-var-address-card,
   video-2 : $fa-var-play,
   video : $fa-var-video,
   wand : $fa-var-magic,

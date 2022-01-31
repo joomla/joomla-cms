@@ -14,6 +14,7 @@ use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\FileLayout;
+use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\Component\Contact\Site\Helper\RouteHelper;
@@ -76,7 +77,7 @@ $htag    = $tparams->get('show_page_heading') ? 'h2' : 'h1';
 				'select.genericlist',
 				$this->contacts,
 				'select_contact',
-				'class="inputbox" onchange="document.location.href = this.value"', 'link', 'name', $this->item->link);
+				'class="form-select" onchange="document.location.href = this.value"', 'link', 'name', $this->item->link);
 			?>
 		</form>
 	<?php endif; ?>
@@ -91,35 +92,43 @@ $htag    = $tparams->get('show_page_heading') ? 'h2' : 'h1';
 	<?php echo $this->item->event->beforeDisplayContent; ?>
 
 	<?php if ($this->params->get('show_info', 1)) : ?>
-		<?php echo '<h3>' . Text::_('COM_CONTACT_DETAILS') . '</h3>'; ?>
 
-		<?php if ($this->item->image && $tparams->get('show_image')) : ?>
-			<div class="com-contact__thumbnail thumbnail float-end">
-				<?php echo HTMLHelper::_(
-					'image',
-					$this->item->image,
-					htmlspecialchars($this->item->name,  ENT_QUOTES, 'UTF-8'),
-					array('itemprop' => 'image')
-				); ?>
+		<div class="com-contact__container">
+			<?php echo '<h3>' . Text::_('COM_CONTACT_DETAILS') . '</h3>'; ?>
+
+			<?php if ($this->item->image && $tparams->get('show_image')) : ?>
+				<div class="com-contact__thumbnail thumbnail">
+					<?php echo LayoutHelper::render(
+						'joomla.html.image',
+						[
+							'src'      => $this->item->image,
+							'alt'      => $this->item->name,
+							'itemprop' => 'image',
+						]
+					); ?>
+				</div>
+			<?php endif; ?>
+
+			<?php if ($this->item->con_position && $tparams->get('show_position')) : ?>
+				<dl class="com-contact__position contact-position dl-horizontal">
+					<dt><?php echo Text::_('COM_CONTACT_POSITION'); ?>:</dt>
+					<dd itemprop="jobTitle">
+						<?php echo $this->item->con_position; ?>
+					</dd>
+				</dl>
+			<?php endif; ?>
+
+			<div class="com-contact__info">
+				<?php echo $this->loadTemplate('address'); ?>
+
+				<?php if ($tparams->get('allow_vcard')) : ?>
+					<?php echo Text::_('COM_CONTACT_DOWNLOAD_INFORMATION_AS'); ?>
+					<a href="<?php echo Route::_('index.php?option=com_contact&amp;view=contact&amp;id=' . $this->item->id . '&amp;format=vcf'); ?>">
+					<?php echo Text::_('COM_CONTACT_VCARD'); ?></a>
+				<?php endif; ?>
 			</div>
-		<?php endif; ?>
+		</div>
 
-		<?php if ($this->item->con_position && $tparams->get('show_position')) : ?>
-			<dl class="com-contact__position contact-position dl-horizontal">
-				<dt><?php echo Text::_('COM_CONTACT_POSITION'); ?>:</dt>
-				<dd itemprop="jobTitle">
-					<?php echo $this->item->con_position; ?>
-				</dd>
-			</dl>
-		<?php endif; ?>
-
-		<?php echo $this->loadTemplate('address'); ?>
-
-		<?php if ($tparams->get('allow_vcard')) : ?>
-			<?php echo Text::_('COM_CONTACT_DOWNLOAD_INFORMATION_AS'); ?>
-			<a href="<?php echo Route::_('index.php?option=com_contact&amp;view=contact&amp;id=' . $this->item->id . '&amp;format=vcf'); ?>">
-			<?php echo Text::_('COM_CONTACT_VCARD'); ?></a>
-		<?php endif; ?>
 	<?php endif; ?>
 
 	<?php if ($tparams->get('show_email_form') && ($this->item->email_to || $this->item->user_id)) : ?>

@@ -16,6 +16,7 @@ use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
+use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 
 /**
@@ -28,21 +29,21 @@ class HtmlView extends BaseHtmlView
 	/**
 	 * The item object for the newsfeed
 	 *
-	 * @var    \JObject
+	 * @var   CMSObject
 	 */
 	protected $item;
 
 	/**
 	 * The form object for the newsfeed
 	 *
-	 * @var    \JForm
+	 * @var  \Joomla\CMS\Form\Form
 	 */
 	protected $form;
 
 	/**
 	 * The model state of the newsfeed
 	 *
-	 * @var    \JObject
+	 * @var   CMSObject
 	 */
 	protected $state;
 
@@ -51,7 +52,7 @@ class HtmlView extends BaseHtmlView
 	 *
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
 	 *
-	 * @return  mixed  A string if successful, otherwise an Error object.
+	 * @return  void
 	 */
 	public function display($tpl = null)
 	{

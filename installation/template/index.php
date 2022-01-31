@@ -13,8 +13,7 @@ use Joomla\CMS\Router\Route;
 use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\Version;
 
-/** @var JDocumentHtml $this */
-
+/** @var \Joomla\CMS\Document\HtmlDocument $this */
 // Add required assets
 $this->getWebAssetManager()
 	->registerAndUseStyle('template.installation', 'template' . ($this->direction === 'rtl' ? '-rtl' : '') . '.css')
@@ -26,8 +25,15 @@ $this->getWebAssetManager()
 $this->getWebAssetManager()
 	->useStyle('webcomponent.joomla-alert')
 	->useScript('messages')
-	->useScript('webcomponent.core-loader');
-
+	->useScript('webcomponent.core-loader')
+	->addInlineStyle(':root {
+		--hue: 214;
+		--template-bg-light: #f0f4fb;
+		--template-text-dark: #495057;
+		--template-text-light: #ffffff;
+		--template-link-color: #2a69b8;
+		--template-special-color: #001b4c;
+	}');
 
 // Add script options
 $this->addScriptOptions('system.installation', ['url' => Route::_('index.php')]);
@@ -64,15 +70,17 @@ Text::script('INSTL_COMPLETE_REMOVE_FOLDER');
 		<div class="j-install">
 			<?php // Header ?>
 			<header id="header" class="header">
-				<div class="d-flex ">
-					<div class="logo d-none d-md-block col">
-						<img src="<?php echo $this->baseurl; ?>/template/images/Joomla-logo-monochrome-horizontal-white.svg" alt="">
+				<div class="row me-0">
+					<div class="col">
+						<div class="logo d-none d-md-block col">
+							<img src="<?php echo $this->baseurl; ?>/template/images/Joomla-logo-monochrome-horizontal-white.svg" alt="">
+						</div>
+						<div class="mx-2 my-3 d-flex d-md-none">
+							<img class="logo-small d-flex d-md-none" src="<?php echo $this->baseurl; ?>/template/images/Joomla-brandmark-monochrome-white-RGB.svg" alt="">
+						</div>
 					</div>
-					<div class="mx-2 my-3 d-flex d-md-none">
-						<img class="logo-small d-flex d-md-none" src="<?php echo $this->baseurl; ?>/template/images/Joomla-brandmark-monochrome-white-RGB.svg" alt="">
-					</div>
-					<div class="d-flex flex-wrap align-items-center mx-auto col-md-auto justify-content-center">
-						<h1 class="h2 mx-1 d-flex align-items-baseline">
+					<div class="d-flex flex-wrap align-items-center col justify-content-center">
+						<h1 class="h2 mx-1 d-flex align-items-baseline text-white">
 							<span class="icon-cogs d-none d-md-block mx-2 align-items-center" aria-hidden="true"></span>
 							<?php echo Text::_('INSTL_PAGE_TITLE'); ?>
 						</h1>

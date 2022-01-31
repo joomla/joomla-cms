@@ -38,21 +38,22 @@ class HtmlView extends BaseHtmlView
 	/**
 	 * The pagination object
 	 *
-	 * @var  \JPagination
+	 * @var  \Joomla\CMS\Pagination\Pagination
 	 */
 	protected $pagination;
 
 	/**
 	 * The model state
 	 *
-	 * @var  \JObject
+	 * @var  \Joomla\CMS\Object\CMSObject
 	 */
 	protected $state;
 
 	/**
 	 * Form object for search filters
 	 *
-	 * @var    \JForm
+	 * @var    \Joomla\CMS\Form\Form
+	 *
 	 * @since  4.0.0
 	 */
 	public $filterForm;
@@ -69,7 +70,7 @@ class HtmlView extends BaseHtmlView
 	 * Is this view an Empty State
 	 *
 	 * @var  boolean
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.0.0
 	 */
 	private $isEmptyState = false;
 
@@ -78,7 +79,7 @@ class HtmlView extends BaseHtmlView
 	 *
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
 	 *
-	 * @return  mixed  A string if successful, otherwise an Error object.
+	 * @return  void
 	 *
 	 * @since   1.6
 	 */
@@ -95,6 +96,35 @@ class HtmlView extends BaseHtmlView
 		if (!count($this->items) && $this->isEmptyState = $this->get('IsEmptyState'))
 		{
 			$this->setLayout('emptystate');
+		}
+
+		/**
+		 * The code below make sure the remembered position will be available from filter dropdown even if there are no
+		 * modules available for this position. This will make the UI less confusing for users in case there is only one
+		 * module in the selected position and user:
+		 * 1. Edit the module, change it to new position, save it and come back to Modules Management Screen
+		 * 2. Or move that module to new position using Batch action
+		 */
+		if (count($this->items) === 0 && $this->state->get('filter.position'))
+		{
+			$selectedPosition = $this->state->get('filter.position');
+			$positionField    = $this->filterForm->getField('position', 'filter');
+
+			$positionExists = false;
+
+			foreach ($positionField->getOptions() as $option)
+			{
+				if ($option->value === $selectedPosition)
+				{
+					$positionExists = true;
+					break;
+				}
+			}
+
+			if ($positionExists === false)
+			{
+				$positionField->addOption($selectedPosition, ['value' => $selectedPosition]);
+			}
 		}
 
 		// Check for errors.
@@ -136,7 +166,7 @@ class HtmlView extends BaseHtmlView
 			}
 		}
 
-		return parent::display($tpl);
+		parent::display($tpl);
 	}
 
 	/**
@@ -230,6 +260,6 @@ class HtmlView extends BaseHtmlView
 			$toolbar->preferences('com_modules');
 		}
 
-		$toolbar->help('JHELP_EXTENSIONS_MODULE_MANAGER');
+		$toolbar->help('Modules');
 	}
 }

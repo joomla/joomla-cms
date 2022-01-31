@@ -31,7 +31,7 @@ HTMLHelper::_('behavior.formvalidator');
 								</div>
 								<div class="alert-text">
 									<strong><?php echo $option->label; ?></strong>
-									<p class="form-text text-muted small"><?php echo $option->notice; ?></p>
+									<p class="form-text small"><?php echo $option->notice; ?></p>
 								</div>
 							</div>
 						<?php endif; ?>

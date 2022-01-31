@@ -30,7 +30,7 @@ class HtmlView extends BaseHtmlView
 	 *
 	 * @param   string  $tpl  Subtemplate to use
 	 *
-	 * @return  boolean  Return true to allow rendering of the page
+	 * @return  void
 	 *
 	 * @since   3.2
 	 */
@@ -41,8 +41,13 @@ class HtmlView extends BaseHtmlView
 
 		$this->items = $model->getItems();
 
+		if (!\count($this->items))
+		{
+			$this->setLayout('emptystate');
+		}
+
 		$this->joomlaFilesExtensionId = $model->getJoomlaFilesExtensionId();
-		$this->eid                    = (int) $model->getState('eid', $this->joomlaFilesExtensionId, 'int');
+		$this->eid                    = (int) $model->getState('eid', $this->joomlaFilesExtensionId);
 
 		if (empty($this->eid))
 		{
@@ -54,9 +59,9 @@ class HtmlView extends BaseHtmlView
 		$this->token = Factory::getSession()->getFormToken();
 		$this->extension_options = $model->getComponentOptions();
 
-		ToolbarHelper::title(Text::sprintf('COM_POSTINSTALL_MESSAGES_TITLE', $model->getExtensionName($this->eid)));
+		ToolbarHelper::title(Text::sprintf('COM_POSTINSTALL_MESSAGES_TITLE', $model->getExtensionName($this->eid)), 'bell');
 
-		return parent::display($tpl);
+		parent::display($tpl);
 	}
 
 	/**
@@ -79,7 +84,7 @@ class HtmlView extends BaseHtmlView
 		if (Factory::getUser()->authorise('core.admin', 'com_postinstall'))
 		{
 			$toolbar->preferences('com_postinstall');
-			$toolbar->help('JHELP_COMPONENTS_POST_INSTALLATION_MESSAGES');
+			$toolbar->help('Post-installation_Messages_for_Joomla_CMS');
 		}
 	}
 }

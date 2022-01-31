@@ -71,6 +71,7 @@
 			label="COM_FIELDS_FIELDS_FILTER_ONLY_USE_IN_SUBFORM_LABEL"
 			onchange="this.form.submit();"
 			default=""
+			validate="options"
 			>
 			<option value="">COM_FIELDS_ONLY_USE_IN_SUBFORM</option>
 			<option value="0">JNO</option>

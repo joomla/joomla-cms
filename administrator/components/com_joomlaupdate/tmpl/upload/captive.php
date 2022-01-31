@@ -40,13 +40,13 @@ Text::script('JHIDEPASSWORD');
 
 <hr>
 
-<form action="<?php echo Route::_('index.php', true); ?>" method="post" id="form-login" class="text-center">
-	<fieldset class="loginform">
-		<legend><?php echo Text::_('COM_JOOMLAUPDATE_LOGIN'); ?></legend>
+<form action="<?php echo Route::_('index.php', true); ?>" method="post" id="form-login" class="text-center card">
+	<fieldset class="loginform card-body">
+		<legend class="h2 mb-3"><?php echo Text::_('COM_JOOMLAUPDATE_CAPTIVE_HEADLINE'); ?></legend>
 		<div class="control-group">
 			<div class="controls">
 				<div class="input-group">
-					<input name="username" id="mod-login-username" type="text" class="form-control" placeholder="<?php echo Text::_('JGLOBAL_USERNAME'); ?>" size="15" autofocus="true">
+					<input name="username" id="mod-login-username" type="text" class="form-control" required="required" autocomplete="username" placeholder="<?php echo Text::_('JGLOBAL_USERNAME'); ?>" size="15" autofocus="true">
 					<span class="input-group-text">
 						<span class="icon-user icon-fw" aria-hidden="true"></span>
 						<label for="mod-login-username" class="visually-hidden">
@@ -59,7 +59,7 @@ Text::script('JHIDEPASSWORD');
 		<div class="control-group">
 			<div class="controls">
 				<div class="input-group">
-					<input name="passwd" id="mod-login-password" type="password" class="form-control" placeholder="<?php echo Text::_('JGLOBAL_PASSWORD'); ?>" size="15">
+					<input name="passwd" id="mod-login-password" type="password" class="form-control" required="required" autocomplete="current-password" placeholder="<?php echo Text::_('JGLOBAL_PASSWORD'); ?>" size="15">
 					<button type="button" class="btn btn-secondary input-password-toggle">
 						<span class="icon-eye icon-fw" aria-hidden="true"></span>
 						<span class="visually-hidden"><?php echo Text::_('JSHOWPASSWORD'); ?></span>

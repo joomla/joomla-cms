@@ -50,7 +50,7 @@ class HistoryController extends ApiController
 	{
 		$this->modelState->set('type_alias', $this->getTypeAliasFromInput());
 		$this->modelState->set('type_id', $this->getTypeIdFromInput());
-		$this->modelState->set('item_id', $this->getItemIdFromInput());
+		$this->modelState->set('item_id', $this->getTypeAliasFromInput() . '.' . $this->getItemIdFromInput());
 		$this->modelState->set('list.ordering', 'h.save_date');
 		$this->modelState->set('list.direction', 'DESC');
 
@@ -96,7 +96,7 @@ class HistoryController extends ApiController
 	 *
 	 * @return string
 	 *
-	 * @since 4.0
+	 * @since 4.0.0
 	 */
 	private function getItemIdFromInput()
 	{
@@ -109,7 +109,7 @@ class HistoryController extends ApiController
 	 *
 	 * @return string
 	 *
-	 * @since 4.0
+	 * @since 4.0.0
 	 */
 	private function getTypeIdFromInput()
 	{
@@ -122,7 +122,7 @@ class HistoryController extends ApiController
 	 *
 	 * @return string
 	 *
-	 * @since 4.0
+	 * @since 4.0.0
 	 */
 	private function getTypeAliasFromInput()
 	{

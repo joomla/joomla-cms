@@ -34,7 +34,7 @@ class AdministratorService
 	 *
 	 * @return  string  The language HTML
 	 *
-	 * @throws  Exception
+	 * @throws  \Exception
 	 */
 	public function association($contactid)
 	{
@@ -132,19 +132,20 @@ class AdministratorService
 		);
 		$state = ArrayHelper::getValue($states, (int) $value, $states[1]);
 		$icon = $state[0] === 'featured' ? 'star featured' : 'circle';
+		$onclick = 'onclick="return Joomla.listItemTask(\'cb' . $i . '\',\'' . $state[1] . '\')"';
+		$tooltipText = Text::_($state[3]);
 
-		if ($canChange)
+		if (!$canChange)
 		{
-			$html = '<a href="#" onclick="return Joomla.listItemTask(\'cb' . $i . '\',\'' . $state[1] . '\')" class="tbody-icon'
-				. ($value == 1 ? ' active' : '') . '" aria-labelledby="cb' . $i . '-desc">'
-				. '<span class="icon-' . $icon . '" aria-hidden="true"></span></a>'
-				. '<div role="tooltip" id="cb' . $i . '-desc">' . Text::_($state[3]);
+			$onclick     = 'disabled';
+			$tooltipText = Text::_($state[2]);
 		}
-		else
-		{
-			$html = '<a class="tbody-icon disabled' . ($value == 1 ? ' active' : '')
-				. '" title="' . Text::_($state[2]) . '"><span class="icon-' . $icon . '" aria-hidden="true"></span></a>';
-		}
+
+		$html = '<button type="submit" class="tbody-icon' . ($value == 1 ? ' active' : '') . '"'
+			. ' aria-labelledby="cb' . $i . '-desc" ' . $onclick . '>'
+			. '<span class="icon-' . $icon . '" aria-hidden="true"></span>'
+			. '</button>'
+			. '<div role="tooltip" id="cb' . $i . '-desc">' . $tooltipText . '</div>';
 
 		return $html;
 	}

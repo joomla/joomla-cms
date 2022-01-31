@@ -15,8 +15,8 @@
 		<folder>tmpl</folder>
 	</files>
 	<languages>
-		<language tag="en-GB">en-GB.plg_fields_editor.ini</language>
-		<language tag="en-GB">en-GB.plg_fields_editor.sys.ini</language>
+		<language tag="en-GB">language/en-GB/plg_fields_editor.ini</language>
+		<language tag="en-GB">language/en-GB/plg_fields_editor.sys.ini</language>
 	</languages>
 	<config>
 		<fields name="params">
@@ -47,7 +47,6 @@
 					type="text"
 					label="PLG_FIELDS_EDITOR_PARAMS_WIDTH_LABEL"
 					default="100%"
-					size="5"
 				/>
 
 				<field
@@ -55,7 +54,6 @@
 					type="text"
 					label="PLG_FIELDS_EDITOR_PARAMS_HEIGHT_LABEL"
 					default="250px"
-					size="5"
 				/>
 
 				<field

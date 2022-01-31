@@ -45,8 +45,6 @@ RoboFile.php  @rdeutz @hackwar
 
 # CSP Tooling
 plugins/system/httpheaders/*  @zero-24
-administrator/components/com_csp/* @zero-24
-components/com_csp/* @zero-24
 
 # Web Authentication (WebAuthn)
 plugins/system/webauthn/*   @nikosdion
@@ -68,3 +66,14 @@ libraries/src/MVC/Model/Workflow*	@bembelimen @hleithner
 libraries/src/Workflow/*	@bembelimen @hleithner
 build/media_source/com_workflow/*	@bembelimen @hleithner
 plugins/workflow/*	@bembelimen @hleithner
+
+# Joomla! Accessibility Team
+administrator/*/components/*/tmpl/* @chmst
+administrator/*/modules/*/tmpl/* @chmst
+administrator/templates/atum/* @chmst
+components/*/tmpl/* @chmst
+modules/*/tmpl/* @chmst
+plugins/*/tmpl/* @chmst
+templates/cassiopeia/* @chmst
+layouts/* @chmst
+installation/tmpl/* @chmst

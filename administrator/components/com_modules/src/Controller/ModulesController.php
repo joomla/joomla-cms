@@ -78,7 +78,7 @@ class ModulesController extends AdminController
 	 *
 	 * @return  void
 	 *
-	 * @since   4.0
+	 * @since   4.0.0
 	 */
 	public function getQuickiconContent()
 	{
@@ -96,5 +96,20 @@ class ModulesController extends AdminController
 		$result['name'] = Text::plural('COM_MODULES_N_QUICKICON', $amount);
 
 		echo new JsonResponse($result);
+	}
+
+	/**
+	 * Gets the URL arguments to append to a list redirect.
+	 *
+	 * @return  string  The arguments to append to the redirect URL.
+	 *
+	 * @since   4.0.0
+	 */
+	protected function getRedirectToListAppend()
+	{
+		$append = parent::getRedirectToListAppend();
+		$append .= '&client_id=' . $this->input->getInt('client_id');
+
+		return $append;
 	}
 }

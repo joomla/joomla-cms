@@ -64,7 +64,7 @@ class PlgSampledataTesting extends CMSPlugin
 	/**
 	 * Holds the menuitem model
 	 *
-	 * @var    MenusModelItem
+	 * @var    \Joomla\Component\Menus\Administrator\Model\ItemModel
 	 *
 	 * @since  3.8.0
 	 */
@@ -92,7 +92,7 @@ class PlgSampledataTesting extends CMSPlugin
 	/**
 	 * First step to enter the sampledata. Tags
 	 *
-	 * @return  array or void  Will be converted into the JSON response to the module.
+	 * @return  array|void  Will be converted into the JSON response to the module.
 	 *
 	 * @since  3.8.0
 	 */
@@ -200,7 +200,7 @@ class PlgSampledataTesting extends CMSPlugin
 	/**
 	 * Second step to enter the sampledata. Banners
 	 *
-	 * @return  array or void  Will be converted into the JSON response to the module.
+	 * @return  array|void  Will be converted into the JSON response to the module.
 	 *
 	 * @since  3.8.0
 	 */
@@ -312,8 +312,7 @@ class PlgSampledataTesting extends CMSPlugin
 		$banners[] = array(
 			'cid'         => $clientIds[2],
 			'name'        => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_BANNERS_BANNER_1_NAME'),
-			// TODO: Link invalid now
-			'clickurl'    => 'http://shop.joomla.org/amazoncom-bookstores.html',
+			'clickurl'    => 'https://community.joomla.org/the-joomla-shop.html',
 			'catid'       => $catIds[0],
 			'description' => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_BANNERS_BANNER_1_DESC'),
 			'ordering'    => 1,
@@ -380,7 +379,7 @@ class PlgSampledataTesting extends CMSPlugin
 	/**
 	 * Third step to enter the sampledata. Content 1/2
 	 *
-	 * @return  array or void  Will be converted into the JSON response to the module.
+	 * @return  array|void  Will be converted into the JSON response to the module.
 	 *
 	 * @since  3.8.0
 	 */
@@ -616,7 +615,7 @@ class PlgSampledataTesting extends CMSPlugin
 	/**
 	 * Fourth step to enter the sampledata. Content 2/2
 	 *
-	 * @return  array or void  Will be converted into the JSON response to the module.
+	 * @return  array|void  Will be converted into the JSON response to the module.
 	 *
 	 * @since  4.0.0
 	 */
@@ -1030,7 +1029,7 @@ class PlgSampledataTesting extends CMSPlugin
 	/**
 	 * Fifth step to enter the sampledata. Contacts
 	 *
-	 * @return  array or void  Will be converted into the JSON response to the module.
+	 * @return  array|void  Will be converted into the JSON response to the module.
 	 *
 	 * @since  3.8.0
 	 */
@@ -1382,7 +1381,7 @@ class PlgSampledataTesting extends CMSPlugin
 	/**
 	 * Sixth step to enter the sampledata. Newsfeed.
 	 *
-	 * @return  array or void  Will be converted into the JSON response to the module.
+	 * @return  array|void  Will be converted into the JSON response to the module.
 	 *
 	 * @since  3.8.0
 	 */
@@ -1510,7 +1509,7 @@ class PlgSampledataTesting extends CMSPlugin
 	/**
 	 * Seventh step to enter the sampledata. Menus.
 	 *
-	 * @return  array or void  Will be converted into the JSON response to the module.
+	 * @return  array|void  Will be converted into the JSON response to the module.
 	 *
 	 * @since  3.8.0
 	 */
@@ -3222,7 +3221,7 @@ class PlgSampledataTesting extends CMSPlugin
 	/**
 	 * Eighth step to enter the sampledata. Modules.
 	 *
-	 * @return  array or void  Will be converted into the JSON response to the module.
+	 * @return  array|void  Will be converted into the JSON response to the module.
 	 *
 	 * @since  3.8.0
 	 */
@@ -4527,7 +4526,7 @@ class PlgSampledataTesting extends CMSPlugin
 	/**
 	 * Final step to show completion of sampledata.
 	 *
-	 * @return  array or void  Will be converted into the JSON response to the module.
+	 * @return  array|void  Will be converted into the JSON response to the module.
 	 *
 	 * @since  4.0.0
 	 */

@@ -29,21 +29,21 @@ class ExtensionInstallCommand extends AbstractCommand
 	 * The default command name
 	 *
 	 * @var    string
-	 * @since  4.0
+	 * @since  4.0.0
 	 */
 	protected static $defaultName = 'extension:install';
 
 	/**
 	 * Stores the Input Object
 	 * @var InputInterface
-	 * @since 4.0
+	 * @since 4.0.0
 	 */
 	private $cliInput;
 
 	/**
 	 * SymfonyStyle Object
 	 * @var SymfonyStyle
-	 * @since 4.0
+	 * @since 4.0.0
 	 */
 	private $ioStyle;
 
@@ -67,7 +67,7 @@ class ExtensionInstallCommand extends AbstractCommand
 	 *
 	 * @return void
 	 *
-	 * @since 4.0
+	 * @since 4.0.0
 	 *
 	 */
 	private function configureIO(InputInterface $input, OutputInterface $output): void
@@ -107,7 +107,7 @@ class ExtensionInstallCommand extends AbstractCommand
 	 *
 	 * @return boolean
 	 *
-	 * @since 4.0
+	 * @since 4.0.0
 	 *
 	 * @throws \Exception
 	 */
@@ -144,7 +144,7 @@ class ExtensionInstallCommand extends AbstractCommand
 	 *
 	 * @return boolean
 	 *
-	 * @since 4.0
+	 * @since 4.0.0
 	 *
 	 * @throws \Exception
 	 */

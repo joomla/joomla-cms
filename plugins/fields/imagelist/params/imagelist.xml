@@ -11,6 +11,7 @@
 				hide_none="true"
 				hide_default="true"
 				recursive="true"
+				validate="options"
 				>
 				<option value="">COM_FIELDS_FIELD_USE_GLOBAL</option>
 				<option value="/">/</option>
@@ -32,7 +33,6 @@
 				name="image_class"
 				type="textarea"
 				label="PLG_FIELDS_IMAGELIST_PARAMS_IMAGE_CLASS_LABEL"
-				size="40"
 				validate="CssIdentifier"
 			/>
 		</fieldset>

@@ -37,21 +37,21 @@ class HtmlView extends BaseHtmlView
 	/**
 	 * The pagination object
 	 *
-	 * @var  \JPagination
+	 * @var  \Joomla\CMS\Pagination\Pagination
 	 */
 	protected $pagination;
 
 	/**
 	 * The model state
 	 *
-	 * @var  \JObject
+	 * @var  \Joomla\CMS\Object\CMSObject
 	 */
 	protected $state;
 
 	/**
 	 * Form object for search filters
 	 *
-	 * @var  \JForm
+	 * @var  \Joomla\CMS\Form\Form
 	 */
 	public $filterForm;
 
@@ -65,8 +65,9 @@ class HtmlView extends BaseHtmlView
 	/**
 	 * Is this view an Empty State
 	 *
-	 * @var  boolean
-	 * @since __DEPLOY_VERSION__
+	 * @var   boolean
+	 *
+	 * @since 4.0.0
 	 */
 	private $isEmptyState = false;
 
@@ -75,7 +76,7 @@ class HtmlView extends BaseHtmlView
 	 *
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
 	 *
-	 * @return  mixed  A string if successful, otherwise an Error object.
+	 * @return  void
 	 */
 	public function display($tpl = null)
 	{
@@ -97,7 +98,7 @@ class HtmlView extends BaseHtmlView
 		}
 
 		// Preprocess the list of items to find ordering divisions.
-		// TODO: Complete the ordering stuff with nested sets
+		// @todo: Complete the ordering stuff with nested sets
 		foreach ($this->items as &$item)
 		{
 			$item->order_up = true;
@@ -134,7 +135,7 @@ class HtmlView extends BaseHtmlView
 			}
 		}
 
-		return parent::display($tpl);
+		parent::display($tpl);
 	}
 
 	/**
@@ -178,7 +179,7 @@ class HtmlView extends BaseHtmlView
 				->text('JFEATURE')
 				->task('contacts.featured')
 				->listCheck(true);
-			$childBar->standardButton('circle')
+			$childBar->standardButton('unfeatured')
 				->text('JUNFEATURE')
 				->task('contacts.unfeatured')
 				->listCheck(true);
@@ -207,7 +208,7 @@ class HtmlView extends BaseHtmlView
 			}
 		}
 
-		if ($this->state->get('filter.published') == -2 && $canDo->get('core.delete'))
+		if (!$this->isEmptyState && $this->state->get('filter.published') == -2 && $canDo->get('core.delete'))
 		{
 			$toolbar->delete('contacts.delete')
 				->text('JTOOLBAR_EMPTY_TRASH')
@@ -220,6 +221,6 @@ class HtmlView extends BaseHtmlView
 			$toolbar->preferences('com_contact');
 		}
 
-		$toolbar->help('JHELP_COMPONENTS_CONTACTS_CONTACTS');
+		$toolbar->help('Contacts');
 	}
 }
