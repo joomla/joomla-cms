@@ -21,8 +21,8 @@ HTMLHelper::_('behavior.multiselect');
 $hash           = $this->state->get('sha1_hash');
 $formUrl        = 'index.php?option=com_contenthistory&view=history&layout=modal&tmpl=component&item_id=' . $this->state->get('item_id') . '&' . Session::getFormToken() . '=1';
 
-Text::script('COM_CONTENTHISTORY_BUTTON_SELECT_ONE', true);
-Text::script('COM_CONTENTHISTORY_BUTTON_SELECT_TWO', true);
+Text::script('COM_CONTENTHISTORY_BUTTON_SELECT_ONE_VERSION', true);
+Text::script('COM_CONTENTHISTORY_BUTTON_SELECT_TWO_VERSIONS', true);
 Text::script('JLIB_HTML_PLEASE_MAKE_A_SELECTION_FROM_THE_LIST');
 
 /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
@@ -81,15 +81,14 @@ $wa->useScript('com_contenthistory.admin-history-modal');
 					</td>
 					<td>
 						<?php if ($item->keep_forever) : ?>
-							<a class="btn btn-secondary btn-sm active" rel="tooltip" href="javascript:void(0);"
-								onclick="return Joomla.listItemTask('cb<?php echo $i; ?>','history.keep')">
-								<?php echo Text::_('JYES'); ?>&nbsp;<span class="icon-lock" aria-hidden="true"></span>
-							</a>
+							<button type="button" class="btn btn-secondary btn-sm" onclick="return Joomla.listItemTask('cb<?php echo $i; ?>','history.keep')">
+								<?php echo Text::_('JYES'); ?>
+								&nbsp;<span class="icon-lock" aria-hidden="true"></span>
+							</button>
 						<?php else : ?>
-							<a class="btn btn-secondary btn-sm active" rel="tooltip" href="javascript:void(0);"
-								onclick="return Joomla.listItemTask('cb<?php echo $i; ?>','history.keep')">
+							<button type="buttton" class="btn btn-secondary btn-sm" onclick="return Joomla.listItemTask('cb<?php echo $i; ?>','history.keep')">
 								<?php echo Text::_('JNO'); ?>
-							</a>
+							</button>
 						<?php endif; ?>
 					</td>
 					<td class="d-none d-md-table-cell">

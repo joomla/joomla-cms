@@ -13,6 +13,7 @@ namespace Joomla\Component\Mails\Administrator\Model;
 
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\Language\Text;
@@ -113,23 +114,39 @@ class TemplateModel extends AdminModel
 			$form->removeField('copyto', 'params');
 		}
 
-		if (!$params->get('attachment_folder') || !is_dir(JPATH_ROOT . '/' . $params->get('attachment_folder')))
+		if (!trim($params->get('attachment_folder', '')))
 		{
 			$form->removeField('attachments');
+
+			return $form;
 		}
-		else
+
+		try
 		{
-			$field = $form->getField('attachments');
-			$subform = new \SimpleXMLElement($field->formsource);
-			$files = $subform->xpath('field[@name="file"]');
-			$files[0]->addAttribute('directory', JPATH_ROOT . '/' . $params->get('attachment_folder'));
-			$form->load('<form><field name="attachments" type="subform" '
-				. 'label="COM_MAILS_FIELD_ATTACHMENTS_LABEL" multiple="true" '
-				. 'layout="joomla.form.field.subform.repeatable-table">'
-				. str_replace('<?xml version="1.0"?>', '', $subform->asXML())
-				. '</field></form>'
-			);
+			$attachmentPath = rtrim(Path::check(JPATH_ROOT . '/' . $params->get('attachment_folder')), \DIRECTORY_SEPARATOR);
 		}
+		catch (\Exception $e)
+		{
+			$attachmentPath = '';
+		}
+
+		if (!$attachmentPath || $attachmentPath === Path::clean(JPATH_ROOT) || !is_dir($attachmentPath))
+		{
+			$form->removeField('attachments');
+
+			return $form;
+		}
+
+		$field = $form->getField('attachments');
+		$subform = new \SimpleXMLElement($field->formsource);
+		$files = $subform->xpath('field[@name="file"]');
+		$files[0]->addAttribute('directory', $attachmentPath);
+		$form->load('<form><field name="attachments" type="subform" '
+			. 'label="COM_MAILS_FIELD_ATTACHMENTS_LABEL" multiple="true" '
+			. 'layout="joomla.form.field.subform.repeatable-table">'
+			. str_replace('<?xml version="1.0"?>', '', $subform->asXML())
+			. '</field></form>'
+		);
 
 		return $form;
 	}
@@ -234,7 +251,7 @@ class TemplateModel extends AdminModel
 	 * @param   string  $prefix   The class prefix. Optional.
 	 * @param   array   $options  Configuration array for model. Optional.
 	 *
-	 * @return  Table  A JTable object
+	 * @return  Table  A Table object
 	 *
 	 * @since   4.0.0
 	 * @throws  \Exception
@@ -312,7 +329,7 @@ class TemplateModel extends AdminModel
 		$isNew = true;
 
 		// Include the plugins for the save events.
-		\JPluginHelper::importPlugin($this->events_map['save']);
+		\Joomla\CMS\Plugin\PluginHelper::importPlugin($this->events_map['save']);
 
 		// Allow an exception to be thrown.
 		try
@@ -386,7 +403,7 @@ class TemplateModel extends AdminModel
 	/**
 	 * Prepare and sanitise the table data prior to saving.
 	 *
-	 * @param   Table  $table  A reference to a \JTable object.
+	 * @param   Table  $table  A reference to a Table object.
 	 *
 	 * @return  void
 	 *

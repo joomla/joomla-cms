@@ -54,16 +54,13 @@ class HtmlView extends BaseHtmlView
 	 *
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
 	 *
-	 * @return  mixed  A string if successful, otherwise an Error object.
+	 * @return  void
 	 *
 	 * @see     \JViewLegacy::loadTemplate()
 	 * @since   3.0
 	 */
 	public function display($tpl = null)
 	{
-		$form = null;
-		$data = null;
-
 		try
 		{
 			// Load Form and Data
@@ -75,7 +72,7 @@ class HtmlView extends BaseHtmlView
 		{
 			Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
 
-			return false;
+			return;
 		}
 
 		// Bind data
@@ -101,7 +98,7 @@ class HtmlView extends BaseHtmlView
 
 		$this->addToolbar();
 
-		return parent::display($tpl);
+		parent::display($tpl);
 	}
 
 	/**
@@ -120,6 +117,7 @@ class HtmlView extends BaseHtmlView
 		ToolbarHelper::divider();
 		ToolbarHelper::cancel('application.cancel', 'JTOOLBAR_CLOSE');
 		ToolbarHelper::divider();
-		ToolbarHelper::help('JHELP_SITE_GLOBAL_CONFIGURATION');
+		ToolbarHelper::inlinehelp();
+		ToolbarHelper::help('Site_Global_Configuration');
 	}
 }

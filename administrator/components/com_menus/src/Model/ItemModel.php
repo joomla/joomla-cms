@@ -61,7 +61,7 @@ class ItemModel extends AdminModel
 	 * @var    string  The help screen key for the menu item.
 	 * @since  1.6
 	 */
-	protected $helpKey = 'JHELP_MENUS_MENU_ITEM_MANAGER_EDIT';
+	protected $helpKey = 'Menu_Item:_New_Item';
 
 	/**
 	 * @var    string  The help screen base URL for the menu item.
@@ -287,7 +287,7 @@ class ItemModel extends AdminModel
 			// Set the new location in the tree for the node.
 			$table->setLocation($table->parent_id, 'last-child');
 
-			// TODO: Deal with ordering?
+			// @todo: Deal with ordering?
 			// $table->ordering = 1;
 			$table->level = null;
 			$table->lft   = null;
@@ -756,7 +756,7 @@ class ItemModel extends AdminModel
 		// We have a valid type, inject it into the state for forms to use.
 		$this->setState('item.type', $table->type);
 
-		// Convert to the \JObject before adding the params.
+		// Convert to the \Joomla\CMS\Object\CMSObject before adding the params.
 		$properties = $table->getProperties(1);
 		$result = ArrayHelper::toObject($properties);
 
@@ -959,7 +959,7 @@ class ItemModel extends AdminModel
 	 * A protected method to get the where clause for the reorder.
 	 * This ensures that the row will be moved relative to a row with the same menutype.
 	 *
-	 * @param   \JTableMenu  $table  instance.
+	 * @param   \Joomla\CMS\Table\Menu  $table
 	 *
 	 * @return  array  An array of conditions to add to add to ordering queries.
 	 *
@@ -1213,7 +1213,7 @@ class ItemModel extends AdminModel
 						$formFile = $path;
 					}
 				}
-				else
+				elseif ($base)
 				{
 					// Now check for a component manifest file
 					$path = Path::clean($base . '/metadata.xml');
@@ -1248,7 +1248,7 @@ class ItemModel extends AdminModel
 		else
 		{
 			// We don't have a component. Load the form XML to get the help path
-			$xmlFile = Path::find(JPATH_ADMINISTRATOR . '/components/com_menus/models/forms', $typeFile . '.xml');
+			$xmlFile = Path::find(JPATH_ADMINISTRATOR . '/components/com_menus/forms', $typeFile . '.xml');
 
 			if ($xmlFile)
 			{
@@ -1904,7 +1904,7 @@ class ItemModel extends AdminModel
 	 * Custom clean the cache
 	 *
 	 * @param   string   $group     Cache group name.
-	 * @param   integer  $clientId  Application client id.
+	 * @param   integer  $clientId  @deprecated  5.0  No Longer Used.
 	 *
 	 * @return  void
 	 *
@@ -1912,9 +1912,8 @@ class ItemModel extends AdminModel
 	 */
 	protected function cleanCache($group = null, $clientId = 0)
 	{
-		parent::cleanCache('com_menus', 0);
+		parent::cleanCache('com_menus');
 		parent::cleanCache('com_modules');
-		parent::cleanCache('mod_menu', 0);
-		parent::cleanCache('mod_menu', 1);
+		parent::cleanCache('mod_menu');
 	}
 }

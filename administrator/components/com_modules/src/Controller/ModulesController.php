@@ -78,7 +78,7 @@ class ModulesController extends AdminController
 	 *
 	 * @return  void
 	 *
-	 * @since   4.0
+	 * @since   4.0.0
 	 */
 	public function getQuickiconContent()
 	{
@@ -103,7 +103,7 @@ class ModulesController extends AdminController
 	 *
 	 * @return  string  The arguments to append to the redirect URL.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	protected function getRedirectToListAppend()
 	{

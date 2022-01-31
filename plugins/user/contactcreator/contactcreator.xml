@@ -13,8 +13,8 @@
 		<filename plugin="contactcreator">contactcreator.php</filename>
 	</files>
 	<languages>
-		<language tag="en-GB">en-GB.plg_user_contactcreator.ini</language>
-		<language tag="en-GB">en-GB.plg_user_contactcreator.sys.ini</language>
+		<language tag="en-GB">language/en-GB/plg_user_contactcreator.ini</language>
+		<language tag="en-GB">language/en-GB/plg_user_contactcreator.sys.ini</language>
 	</languages>
 	<config>
 		<fields name="params">
@@ -24,7 +24,6 @@
 					type="text"
 					label="PLG_CONTACTCREATOR_FIELD_AUTOMATIC_WEBPAGE_LABEL"
 					description="PLG_CONTACTCREATOR_FIELD_AUTOMATIC_WEBPAGE_DESC"
-					size="40"
 				/>
 
 				<field

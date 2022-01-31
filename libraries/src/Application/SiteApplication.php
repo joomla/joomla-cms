@@ -37,7 +37,7 @@ final class SiteApplication extends CMSApplication
 	 * Option to filter by language
 	 *
 	 * @var    boolean
-	 * @since  4.0
+	 * @since  4.0.0
 	 */
 	protected $language_filter = false;
 
@@ -45,7 +45,7 @@ final class SiteApplication extends CMSApplication
 	 * Option to detect language by the browser
 	 *
 	 * @var    boolean
-	 * @since  4.0
+	 * @since  4.0.0
 	 */
 	protected $detect_browser = false;
 
@@ -145,7 +145,6 @@ final class SiteApplication extends CMSApplication
 
 		// Set up the params
 		$document = $this->getDocument();
-		$router   = static::getRouter();
 		$params   = $this->getParams();
 
 		// Register the document object with Factory
@@ -154,9 +153,8 @@ final class SiteApplication extends CMSApplication
 		switch ($document->getType())
 		{
 			case 'html':
-				// Get language
-				$lang_code = $this->getLanguage()->getTag();
-				$languages = LanguageHelper::getLanguages('lang_code');
+				// Set up the language
+				LanguageHelper::getLanguages('lang_code');
 
 				// Set metadata
 				$document->setMetaData('rights', $this->get('MetaRights'));

@@ -16,7 +16,7 @@ use Tobscure\JsonApi\Exception\Handler\ResponseBag;
 /**
  * Handler for error when send email
  *
- * @since  4.0
+ * @since  4.0.0
  */
 class SendEmailExceptionHandler implements ExceptionHandlerInterface
 {

@@ -27,7 +27,7 @@ $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
 $ordering  = ($listOrder == 'a.lft');
 $saveOrder = ($listOrder == 'a.lft' && strtolower($listDirn) == 'asc');
-$menuType  = (string) $app->getUserState('com_menus.items.menutype', '', 'string');
+$menuType  = (string) $app->getUserState('com_menus.items.menutype', '');
 
 if ($saveOrder && $menuType && !empty($this->items))
 {
@@ -46,7 +46,7 @@ $assoc   = Associations::isEnabled() && $this->state->get('filter.client_id') ==
 			<div id="j-main-container" class="j-main-container">
 				<?php echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this, 'options' => array('selectorFieldName' => 'menutype'))); ?>
 				<?php if (!empty($this->items)) : ?>
-					<table class="table" id="itemList">
+					<table class="table" id="menuitemList">
 						<caption class="visually-hidden">
 							<?php echo Text::_('COM_MENUS_ITEMS_TABLE_CAPTION'); ?>,
 							<span id="orderedBy"><?php echo Text::_('JGLOBAL_SORTED_BY'); ?> </span>,
@@ -134,8 +134,8 @@ $assoc   = Associations::isEnabled() && $this->state->get('filter.client_id') ==
 							}
 							?>
 							<tr class="row<?php echo $i % 2; ?>" data-draggable-group="<?php echo $item->parent_id; ?>"
-								item-id="<?php echo $item->id; ?>" parents="<?php echo $parentsStr; ?>"
-								level="<?php echo $item->level; ?>">
+								data-item-id="<?php echo $item->id; ?>" data-parents="<?php echo $parentsStr; ?>"
+								data-level="<?php echo $item->level; ?>">
 								<td class="text-center">
 									<?php echo HTMLHelper::_('grid.id', $i, $item->id, false, 'cid', 'cb', $item->title); ?>
 								</td>
@@ -182,15 +182,15 @@ $assoc   = Associations::isEnabled() && $this->state->get('filter.client_id') ==
 									<div>
 										<?php echo $prefix; ?>
 										<span class="small">
-										<?php if ($item->type != 'url') : ?>
-											<?php if (empty($item->note)) : ?>
-												<?php echo Text::sprintf('JGLOBAL_LIST_ALIAS', $this->escape($item->alias)); ?>
-											<?php else : ?>
-												<?php echo Text::sprintf('JGLOBAL_LIST_ALIAS_NOTE', $this->escape($item->alias), $this->escape($item->note)); ?>
+											<?php if ($item->type != 'url') : ?>
+												<?php if (empty($item->note)) : ?>
+													<?php echo Text::sprintf('JGLOBAL_LIST_ALIAS', $this->escape($item->alias)); ?>
+												<?php else : ?>
+													<?php echo Text::sprintf('JGLOBAL_LIST_ALIAS_NOTE', $this->escape($item->alias), $this->escape($item->note)); ?>
+												<?php endif; ?>
+											<?php elseif ($item->type == 'url' && $item->note) : ?>
+												<?php echo Text::sprintf('JGLOBAL_LIST_NOTE', $this->escape($item->note)); ?>
 											<?php endif; ?>
-										<?php elseif ($item->type == 'url' && $item->note) : ?>
-											<?php echo Text::sprintf('JGLOBAL_LIST_NOTE', $this->escape($item->note)); ?>
-										<?php endif; ?>
 										</span>
 									</div>
 									<div title="<?php echo $this->escape($item->path); ?>">

@@ -4,7 +4,7 @@
  * @subpackage  Templates.Atum
  * @copyright   (C) 2018 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
- * @since       4.0
+ * @since       4.0.0
  */
 
 defined('_JEXEC') or die;
@@ -13,7 +13,6 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
-use Joomla\CMS\Router\Route;
 use Joomla\CMS\Uri\Uri;
 
 /** @var \Joomla\CMS\Document\ErrorDocument $this */
@@ -38,10 +37,10 @@ $this->addHeadLink(HTMLHelper::_('image', 'joomla-favicon-pinned.svg', '', [], t
 // Template params
 $logoBrandLarge  = $this->params->get('logoBrandLarge')
 	? Uri::root() . htmlspecialchars($this->params->get('logoBrandLarge'), ENT_QUOTES)
-	: $this->baseurl . '/templates/' . $this->template . '/images/logos/brand-large.svg';
+	: Uri::root() . 'media/templates/administrator/atum/images/logos/brand-large.svg';
 $logoBrandSmall = $this->params->get('logoBrandSmall')
 	? Uri::root() . htmlspecialchars($this->params->get('logoBrandSmall'), ENT_QUOTES)
-	: $this->baseurl . '/templates/' . $this->template . '/images/logos/brand-small.svg';
+	: Uri::root() . 'media/templates/administrator/atum/images/logos/brand-small.svg';
 
 $logoBrandLargeAlt = empty($this->params->get('logoBrandLargeAlt')) && empty($this->params->get('emptyLogoBrandLargeAlt'))
 	? 'alt=""'
@@ -59,11 +58,11 @@ $logoBrandSmallAlt = empty($this->params->get('logoBrandSmallAlt')) && empty($th
 		->useStyle('template.user')
 		->addInlineStyle(':root {
 			--hue: ' . $matches[1] . ';
-			--atum-bg-light: ' . $this->params->get('bg-light', '#f0f4fb') . ';
-			--atum-text-dark: ' . $this->params->get('text-dark', '#495057') . ';
-			--atum-text-light: ' . $this->params->get('text-light', '#ffffff') . ';
-			--atum-link-color: ' . $this->params->get('link-color', '#2a69b8') . ';
-			--atum-special-color: ' . $this->params->get('special-color', '#001B4C') . ';
+			--template-bg-light: ' . $this->params->get('bg-light', '#f0f4fb') . ';
+			--template-text-dark: ' . $this->params->get('text-dark', '#495057') . ';
+			--template-text-light: ' . $this->params->get('text-light', '#ffffff') . ';
+			--template-link-color: ' . $this->params->get('link-color', '#2a69b8') . ';
+			--template-special-color: ' . $this->params->get('special-color', '#001B4C') . ';
 		}');
 
 // Override 'template.active' asset to set correct ltr/rtl dependency
@@ -123,7 +122,7 @@ $statusModules = LayoutHelper::render('status', ['modules' => 'status']);
 			<?php endif; ?>
 			<section id="content" class="content">
 				<jdoc:include type="message" />
-				<jdoc:include type="modules" name="top" style="xhtml" />
+				<jdoc:include type="modules" name="top" style="html5" />
 				<div class="row">
 					<div class="col-md-12">
 						<h1><?php echo Text::_('JERROR_AN_ERROR_HAS_OCCURRED'); ?></h1>
@@ -159,7 +158,7 @@ $statusModules = LayoutHelper::render('status', ['modules' => 'status']);
 					</div>
 
 					<?php if ($this->countModules('bottom')) : ?>
-						<jdoc:include type="modules" name="bottom" style="xhtml" />
+						<jdoc:include type="modules" name="bottom" style="html5" />
 					<?php endif; ?>
 				</div>
 			</section>

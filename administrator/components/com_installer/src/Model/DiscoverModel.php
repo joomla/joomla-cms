@@ -87,7 +87,7 @@ class DiscoverModel extends InstallerModel
 	/**
 	 * Method to get the database query.
 	 *
-	 * @return  DatabaseQuery  the database query
+	 * @return  DatabaseQuery  The database query
 	 *
 	 * @since   3.1
 	 */
@@ -147,7 +147,7 @@ class DiscoverModel extends InstallerModel
 	 *
 	 * Finds uninstalled extensions
 	 *
-	 * @return  void
+	 * @return  int  The count of discovered extensions
 	 *
 	 * @since   1.6
 	 */
@@ -169,22 +169,41 @@ class DiscoverModel extends InstallerModel
 
 		foreach ($installedtmp as $install)
 		{
-			$key = implode(':', array($install->type, $install->element, $install->folder, $install->client_id));
+			$key = implode(':',
+				[
+					$install->type,
+					str_replace('\\', '/', $install->element),
+					$install->folder,
+					$install->client_id
+				]
+			);
 			$extensions[$key] = $install;
 		}
+
+		$count = 0;
 
 		foreach ($results as $result)
 		{
 			// Check if we have a match on the element
-			$key = implode(':', array($result->type, $result->element, $result->folder, $result->client_id));
+			$key = implode(':',
+				[
+					$result->type,
+					str_replace('\\', '/', $result->element),
+					$result->folder,
+					$result->client_id
+				]
+			);
 
 			if (!array_key_exists($key, $extensions))
 			{
 				// Put it into the table
 				$result->check();
 				$result->store();
+				$count++;
 			}
 		}
+
+		return $count;
 	}
 
 	/**
@@ -223,7 +242,7 @@ class DiscoverModel extends InstallerModel
 				}
 			}
 
-			// TODO - We are only receiving the message for the last Installer instance
+			// @todo - We are only receiving the message for the last Installer instance
 			$this->setState('action', 'remove');
 			$this->setState('name', $installer->get('name'));
 			$app->setUserState('com_installer.message', $installer->message);
@@ -276,7 +295,7 @@ class DiscoverModel extends InstallerModel
 	 *
 	 * @return DatabaseQuery
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.0.0
 	 */
 	protected function getEmptyStateQuery()
 	{

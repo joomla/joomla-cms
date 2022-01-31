@@ -34,7 +34,7 @@ class ApplicationController extends BaseController
 	 * Recognized key values include 'name', 'default_task', 'model_path', and
 	 * 'view_path' (this list is not meant to be comprehensive).
 	 * @param   MVCFactoryInterface  $factory  The factory.
-	 * @param   CMSApplication       $app      The JApplication for the dispatcher
+	 * @param   CMSApplication       $app      The Application for the dispatcher
 	 * @param   Input                $input    Input
 	 *
 	 * @since   3.0
@@ -309,7 +309,7 @@ class ApplicationController extends BaseController
 			$this->app->close();
 		}
 
-		/** @var \Joomla\Component\Config\Administrator\Model\Application $model */
+		/** @var \Joomla\Component\Config\Administrator\Model\ApplicationModel $model */
 		$model = $this->getModel('Application', 'Administrator');
 		echo new JsonResponse($model->storePermissions());
 		$this->app->close();

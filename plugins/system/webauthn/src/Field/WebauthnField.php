@@ -12,6 +12,7 @@ namespace Joomla\Plugin\System\Webauthn\Field;
 // Protect from unauthorized access
 \defined('_JEXEC') or die();
 
+use Exception;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\FormField;
 use Joomla\CMS\Language\Text;

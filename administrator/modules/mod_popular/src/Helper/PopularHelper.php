@@ -87,7 +87,8 @@ abstract class PopularHelper
 		{
 			$item->link = '';
 
-			if ($user->authorise('core.edit', 'com_content.article.' . $item->id))
+			if ($user->authorise('core.edit', 'com_content.article.' . $item->id)
+				|| ($user->authorise('core.edit.own', 'com_content.article.' . $item->id) && ($userId === $item->created_by)))
 			{
 				$item->link = Route::_('index.php?option=com_content&task=article.edit&id=' . $item->id);
 			}

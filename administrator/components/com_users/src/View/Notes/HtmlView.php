@@ -63,7 +63,8 @@ class HtmlView extends BaseHtmlView
 	/**
 	 * Form object for search filters
 	 *
-	 * @var    \JForm
+	 * @var    \Joomla\CMS\Form\Form
+	 *
 	 * @since  4.0.0
 	 */
 	public $filterForm;
@@ -80,7 +81,7 @@ class HtmlView extends BaseHtmlView
 	 * Is this view an Empty State
 	 *
 	 * @var  boolean
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.0.0
 	 */
 	private $isEmptyState = false;
 
@@ -183,6 +184,6 @@ class HtmlView extends BaseHtmlView
 			$toolbar->preferences('com_users');
 		}
 
-		$toolbar->help('JHELP_USERS_USER_NOTES');
+		$toolbar->help('User_Notes');
 	}
 }

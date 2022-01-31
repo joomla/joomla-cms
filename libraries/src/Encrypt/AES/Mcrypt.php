@@ -16,6 +16,8 @@ use Joomla\CMS\Encrypt\Randval;
  * Mcrypt implementation
  *
  * @since    4.0.0
+ *
+ * @deprecated 4.0.0 will be removed in 5.0.0
  */
 class Mcrypt extends AbstractAES implements AesInterface
 {

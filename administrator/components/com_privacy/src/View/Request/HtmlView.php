@@ -14,6 +14,7 @@ namespace Joomla\Component\Privacy\Administrator\View\Request;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Router\Route;
@@ -82,7 +83,7 @@ class HtmlView extends BaseHtmlView
 		// Variables only required for the default layout
 		if ($this->getLayout() === 'default')
 		{
-			/** @var \ActionlogsModelActionlogs $logsModel */
+			/** @var \Joomla\Component\Actionlogs\Administrator\Model\ActionlogsModel $logsModel */
 			$logsModel = $this->getModel('actionlogs');
 
 			$this->actionlogs = $logsModel->getLogsForItem('com_privacy.request', $this->item->id);
@@ -102,7 +103,7 @@ class HtmlView extends BaseHtmlView
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
-			throw new \JViewGenericdataexception(implode("\n", $errors), 500);
+			throw new GenericDataException(implode("\n", $errors), 500);
 		}
 
 		$this->addToolbar();
@@ -119,7 +120,7 @@ class HtmlView extends BaseHtmlView
 	 */
 	protected function addToolbar()
 	{
-		Factory::getApplication('administrator')->set('hidemainmenu', true);
+		Factory::getApplication()->input->set('hidemainmenu', true);
 
 		// Set the title and toolbar based on the layout
 		if ($this->getLayout() === 'edit')
@@ -128,7 +129,7 @@ class HtmlView extends BaseHtmlView
 
 			ToolbarHelper::save('request.save');
 			ToolbarHelper::cancel('request.cancel');
-			ToolbarHelper::help('JHELP_COMPONENTS_PRIVACY_REQUEST_EDIT');
+			ToolbarHelper::help('Privacy:_New_Information_Request');
 		}
 		else
 		{
@@ -184,7 +185,7 @@ class HtmlView extends BaseHtmlView
 			}
 
 			ToolbarHelper::cancel('request.cancel', 'JTOOLBAR_CLOSE');
-			ToolbarHelper::help('JHELP_COMPONENTS_PRIVACY_REQUEST');
+			ToolbarHelper::help('Privacy:_Review_Information_Request');
 		}
 	}
 }

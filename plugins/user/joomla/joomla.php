@@ -16,7 +16,6 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\Mail\MailTemplate;
 use Joomla\CMS\Plugin\CMSPlugin;
-use Joomla\CMS\Session\SessionManager;
 use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\User\User;
 use Joomla\CMS\User\UserHelper;
@@ -32,17 +31,15 @@ use Joomla\Registry\Registry;
 class PlgUserJoomla extends CMSPlugin
 {
 	/**
-	 * Application object
+	 * @var    \Joomla\CMS\Application\CMSApplication
 	 *
-	 * @var    \Joomla\CMS\Application\CMSApplicationInterface
 	 * @since  3.2
 	 */
 	protected $app;
 
 	/**
-	 * Database object
+	 * @var    \Joomla\Database\DatabaseDriver
 	 *
-	 * @var    \Joomla\Database\DatabaseInterface
 	 * @since  3.2
 	 */
 	protected $db;
@@ -50,8 +47,8 @@ class PlgUserJoomla extends CMSPlugin
 	/**
 	 * Set as required the passwords fields when mail to user is set to No
 	 *
-	 * @param   JForm  $form  The form to be altered.
-	 * @param   mixed  $data  The associated data for the form.
+	 * @param   \Joomla\CMS\Form\Form  $form  The form to be altered.
+	 * @param   mixed                  $data  The associated data for the form.
 	 *
 	 * @return  boolean
 	 *
@@ -112,23 +109,7 @@ class PlgUserJoomla extends CMSPlugin
 		// Only execute this if the session metadata is tracked
 		if ($this->app->get('session_metadata', true))
 		{
-			// Fetch all session IDs for the user account so they can be destroyed
-			try
-			{
-				$sessionIds = $this->getSessionIds($userId);
-
-				/** @var SessionManager $sessionManager */
-				$sessionManager = Factory::getContainer()->get('session.manager');
-
-				if (!$sessionManager->destroySessions($sessionIds))
-				{
-					return;
-				}
-			}
-			catch (ExecutionFailureException $e)
-			{
-				// Continue.
-			}
+			UserHelper::destroyUserSessions($userId, true);
 		}
 
 		try
@@ -169,7 +150,7 @@ class PlgUserJoomla extends CMSPlugin
 			return;
 		}
 
-		// TODO: Suck in the frontend registration emails here as well. Job for a rainy day.
+		// @todo: Suck in the frontend registration emails here as well. Job for a rainy day.
 		// The method check here ensures that if running as a CLI Application we don't get any errors
 		if (method_exists($this->app, 'isClient') && !$this->app->isClient('administrator'))
 		{
@@ -394,23 +375,8 @@ class PlgUserJoomla extends CMSPlugin
 
 		if ($forceLogout)
 		{
-			try
-			{
-				$clientId = $sharedSessions ? null : (int) $options['clientid'];
-				$sessionIds = $this->getSessionIds($userid, $clientId);
-			}
-			catch (ExecutionFailureException $e)
-			{
-				return false;
-			}
-
-			/** @var SessionManager $sessionManager */
-			$sessionManager = Factory::getContainer()->get('session.manager');
-
-			if (!$sessionManager->destroySessions($sessionIds))
-			{
-				return false;
-			}
+			$clientId = $sharedSessions ? null : (int) $options['clientid'];
+			UserHelper::destroyUserSessions($user['id'], false, $clientId);
 		}
 
 		// Delete "user state" cookie used for reverse caching proxies like Varnish, Nginx etc.
@@ -446,7 +412,7 @@ class PlgUserJoomla extends CMSPlugin
 			return $instance;
 		}
 
-		// TODO : move this out of the plugin
+		// @todo : move this out of the plugin
 		$params = ComponentHelper::getParams('com_users');
 
 		// Read the default user group option from com_users
@@ -478,40 +444,5 @@ class PlgUserJoomla extends CMSPlugin
 		}
 
 		return $instance;
-	}
-
-	/**
-	 * Fetch all session IDs for the user account
-	 *
-	 * @param  int   $userId The User id
-	 * @param  int|null  $clientId The client id
-	 *
-	 * @return array
-	 */
-	private function getSessionIds(int $userId, $clientId = null): array
-	{
-		$query = $this->db->getQuery(true)
-			->select($this->db->quoteName('session_id'))
-			->from($this->db->quoteName('#__session'))
-			->where($this->db->quoteName('userid') . ' = :userid')
-			->bind(':userid', $userId, ParameterType::INTEGER);
-
-		if ($clientId !== null)
-		{
-			$query->where($this->db->quoteName('client_id') . ' = :clientId')
-				->bind(':clientId', $clientId, ParameterType::INTEGER);
-		}
-
-		$sessionIds = $this->db->setQuery($query)->loadColumn();
-
-		foreach ($sessionIds as &$sessionId)
-		{
-			if (is_resource($sessionId) && get_resource_type($sessionId) === 'stream')
-			{
-				$sessionId = stream_get_contents($sessionId);
-			}
-		}
-
-		return $sessionIds;
 	}
 }

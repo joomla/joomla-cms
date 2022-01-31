@@ -286,7 +286,7 @@ class SqlField extends ListField
 
 			try
 			{
-				$items = $db->loadObjectlist();
+				$items = $db->loadObjectList();
 			}
 			catch (ExecutionFailureException $e)
 			{

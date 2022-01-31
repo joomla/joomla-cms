@@ -32,35 +32,35 @@ use Joomla\Component\Fields\Administrator\Helper\FieldsHelper;
 class HtmlView extends BaseHtmlView
 {
 	/**
-	 * @var  \JForm
+	 * @var    \Joomla\CMS\Form\Form
 	 *
 	 * @since  3.7.0
 	 */
 	public $filterForm;
 
 	/**
-	 * @var  array
+	 * @var    array
 	 *
 	 * @since  3.7.0
 	 */
 	public $activeFilters;
 
 	/**
-	 * @var  array
+	 * @var    array
 	 *
 	 * @since  3.7.0
 	 */
 	protected $items;
 
 	/**
-	 * @var  \JPagination
+	 * @var    \Joomla\CMS\Pagination\Pagination
 	 *
 	 * @since  3.7.0
 	 */
 	protected $pagination;
 
 	/**
-	 * @var  \JObject
+	 * @var    \Joomla\CMS\Object\CMSObject
 	 *
 	 * @since  3.7.0
 	 */
@@ -71,9 +71,10 @@ class HtmlView extends BaseHtmlView
 	 *
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
 	 *
-	 * @return  mixed  A string if successful, otherwise an Error object.
+	 * @return  void
 	 *
 	 * @see     HtmlView::loadTemplate()
+	 *
 	 * @since   3.7.0
 	 */
 	public function display($tpl = null)
@@ -106,7 +107,7 @@ class HtmlView extends BaseHtmlView
 			$this->filterForm->removeField('language', 'filter');
 		}
 
-		return parent::display($tpl);
+		parent::display($tpl);
 	}
 
 	/**
@@ -206,6 +207,6 @@ class HtmlView extends BaseHtmlView
 			$toolbar->preferences($component);
 		}
 
-		$toolbar->help('JHELP_COMPONENTS_FIELDS_FIELD_GROUPS');
+		$toolbar->help('Component:_Field_Groups');
 	}
 }
