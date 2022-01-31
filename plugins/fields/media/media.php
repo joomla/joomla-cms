@@ -9,6 +9,7 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
 
 /**
@@ -39,7 +40,12 @@ class PlgFieldsMedia extends \Joomla\Component\Fields\Administrator\Plugin\Field
 		}
 
 		$fieldNode->setAttribute('type', 'accessiblemedia');
-
+		
+		if (Factory::getApplication()->getIdentity()->authorise('core.create', 'com_media'))
+		{
+			$fieldNode->setAttribute('disabled', 'false');
+		}
+		
 		return $fieldNode;
 	}
 

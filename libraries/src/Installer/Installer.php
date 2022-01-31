@@ -1419,7 +1419,7 @@ class Installer extends Adapter
 	 */
 	public function parseLanguages(\SimpleXMLElement $element, $cid = 0)
 	{
-		// TODO: work out why the below line triggers 'node no longer exists' errors with files
+		// @todo: work out why the below line triggers 'node no longer exists' errors with files
 		if (!$element || !\count($element->children()))
 		{
 			// Either the tag does not exist or has no children therefore we return zero files processed.
@@ -2317,6 +2317,17 @@ class Installer extends Adapter
 		$data['description'] = (string) $xml->description;
 		$data['group'] = (string) $xml->group;
 
+		// Child template specific fields.
+		if (isset($xml->inheritable))
+		{
+			$data['inheritable'] = (string) $xml->inheritable === '0' ? false : true;
+		}
+
+		if (isset($xml->parent) && (string) $xml->parent !== '')
+		{
+			$data['parent'] = (string) $xml->parent;
+		}
+
 		if ($xml->files && \count($xml->files->children()))
 		{
 			$filename = basename($path);
@@ -2393,7 +2404,7 @@ class Installer extends Adapter
 			foreach ($custom as $adapter)
 			{
 				// Setup the class name
-				// TODO - Can we abstract this to not depend on the Joomla class namespace without PHP namespaces?
+				// @todo - Can we abstract this to not depend on the Joomla class namespace without PHP namespaces?
 				$class = $this->_classprefix . ucfirst(trim($adapter));
 
 				// If the class doesn't exist we have nothing left to do but look at the next type. We did our best.
