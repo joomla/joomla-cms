@@ -16,8 +16,6 @@ use Joomla\CMS\Router\Route;
 use Joomla\Component\Actionlogs\Administrator\Helper\ActionlogsHelper;
 use Joomla\Component\Actionlogs\Administrator\View\Actionlogs\HtmlView;
 
-HTMLHelper::_('behavior.multiselect');
-
 /** @var HtmlView $this */
 
 $listOrder  = $this->escape($this->state->get('list.ordering'));
@@ -26,6 +24,7 @@ $listDirn   = $this->escape($this->state->get('list.direction'));
 /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
 $wa = $this->document->getWebAssetManager();
 $wa->useScript('keepalive')
+	->useScript('multiselect')
 	->useScript('com_actionlogs.admin-actionlogs');
 
 ?>
@@ -88,10 +87,14 @@ $wa->useScript('keepalive')
 								<?php echo $this->escape(Text::_($extension)); ?>
 							</td>
 							<td class="d-none d-md-table-cell">
-								<?php echo HTMLHelper::_('date.relative', $item->log_date); ?>
-								<div class="small">
+								<?php if ($this->dateRelative) : ?>
+									<?php echo HTMLHelper::_('date.relative', $item->log_date); ?>
+									<div class="small">
+								<?php endif; ?>
 									<?php echo HTMLHelper::_('date', $item->log_date, Text::_('DATE_FORMAT_LC6')); ?>
-								</div>
+								<?php if ($this->dateRelative) : ?>
+									</div>
+								<?php endif; ?>
 							</td>
 							<td class="d-md-table-cell">
 								<?php echo $this->escape($item->name); ?>

@@ -45,6 +45,18 @@ class PlgWebservicesUsers extends CMSPlugin
 		);
 
 		$this->createFieldsRoutes($router);
+
+		$router->createCRUDRoutes(
+			'v1/users/groups',
+			'groups',
+			['component' => 'com_users']
+		);
+
+		$router->createCRUDRoutes(
+			'v1/users/levels',
+			'levels',
+			['component' => 'com_users']
+		);
 	}
 
 	/**

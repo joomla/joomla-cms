@@ -203,10 +203,10 @@ class CategoryField extends FormField
 		}
 
 		// Propagate category button
-		if ($allowPropagate && count($languages) > 2)
+		if ($allowPropagate && \count($languages) > 2)
 		{
 			// Strip off language tag at the end
-			$tagLength = (int) strlen($this->element['language']);
+			$tagLength = (int) \strlen($this->element['language']);
 			$callbackFunctionStem = substr("jSelectCategory_" . $this->id, 0, -$tagLength);
 
 			$html .= '<button'

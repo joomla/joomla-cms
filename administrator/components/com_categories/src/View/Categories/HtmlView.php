@@ -61,7 +61,7 @@ class HtmlView extends BaseHtmlView
 	/**
 	 * Form object for search filters
 	 *
-	 * @var  \JForm
+	 * @var  \Joomla\CMS\Form\Form
 	 */
 	public $filterForm;
 
@@ -287,6 +287,9 @@ class HtmlView extends BaseHtmlView
 			$path = Path::clean(JPATH_ADMINISTRATOR . "/components/$component/models/forms/$name.xml");
 		}
 
+		$ref_key = '';
+		$url     = '';
+
 		// Look first in form for help key and url
 		if (file_exists($path))
 		{
@@ -302,9 +305,20 @@ class HtmlView extends BaseHtmlView
 		if (!$ref_key)
 		{
 			// Compute the ref_key if it does exist in the component
-			if (!$lang->hasKey($ref_key = strtoupper($component . ($section ? "_$section" : '')) . '_CATEGORIES_HELP_KEY'))
+			$languageKey = strtoupper($component . ($section ? "_$section" : '')) . '_CATEGORIES_HELP_KEY';
+
+			if ($lang->hasKey($languageKey))
 			{
-				$ref_key = 'JHELP_COMPONENTS_' . strtoupper(substr($component, 4) . ($section ? "_$section" : '')) . '_CATEGORIES';
+				$ref_key = $languageKey;
+			}
+			else
+			{
+				$languageKey = 'JHELP_COMPONENTS_' . strtoupper(substr($component, 4) . ($section ? "_$section" : '')) . '_CATEGORIES';
+
+				if ($lang->hasKey($languageKey))
+				{
+					$ref_key = $languageKey;
+				}
 			}
 		}
 
@@ -325,6 +339,6 @@ class HtmlView extends BaseHtmlView
 			}
 		}
 
-		$toolbar->help($ref_key, ComponentHelper::getParams($component)->exists('helpURL'), $url);
+		ToolbarHelper::help($ref_key, ComponentHelper::getParams($component)->exists('helpURL'), $url);
 	}
 }

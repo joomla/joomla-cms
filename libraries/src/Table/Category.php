@@ -85,7 +85,7 @@ class Category extends Nested implements VersionableTableInterface, TaggableTabl
 	/**
 	 * Get the parent asset id for the record
 	 *
-	 * @param   Table    $table  A JTable object for the asset parent.
+	 * @param   Table    $table  A Table object for the asset parent.
 	 * @param   integer  $id     The id for the asset
 	 *
 	 * @return  integer  The id of the asset's parent

@@ -13,6 +13,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\FileLayout;
+use Joomla\CMS\Layout\LayoutHelper;
 
 $app = Factory::getApplication();
 
@@ -54,8 +55,13 @@ $htag    = $this->params->get('show_page_heading') ? 'h2' : 'h1';
 	<?php if ($beforeDisplayContent || $afterDisplayContent || $this->params->get('show_description', 1) || $this->params->def('show_description_image', 1)) : ?>
 		<div class="category-desc clearfix">
 			<?php if ($this->params->get('show_description_image') && $this->category->getParams()->get('image')) : ?>
-				<?php $alt = empty($this->category->getParams()->get('image_alt')) && empty($this->category->getParams()->get('image_alt_empty')) ? '' : 'alt="' . htmlspecialchars($this->category->getParams()->get('image_alt'), ENT_COMPAT, 'UTF-8') . '"'; ?>
-				<img src="<?php echo $this->category->getParams()->get('image'); ?>" <?php echo $alt; ?>>
+				<?php echo LayoutHelper::render(
+					'joomla.html.image',
+					[
+						'src' => $this->category->getParams()->get('image'),
+						'alt' => empty($this->category->getParams()->get('image_alt')) && empty($this->category->getParams()->get('image_alt_empty')) ? false : $this->category->getParams()->get('image_alt'),
+					]
+				); ?>
 			<?php endif; ?>
 			<?php echo $beforeDisplayContent; ?>
 			<?php if ($this->params->get('show_description') && $this->category->description) : ?>
@@ -67,7 +73,10 @@ $htag    = $this->params->get('show_page_heading') ? 'h2' : 'h1';
 
 	<?php if (empty($this->lead_items) && empty($this->link_items) && empty($this->intro_items)) : ?>
 		<?php if ($this->params->get('show_no_articles', 1)) : ?>
-			<p><?php echo Text::_('COM_CONTENT_NO_ARTICLES'); ?></p>
+			<div class="alert alert-info">
+				<span class="icon-info-circle" aria-hidden="true"></span><span class="visually-hidden"><?php echo Text::_('INFO'); ?></span>
+					<?php echo Text::_('COM_CONTENT_NO_ARTICLES'); ?>
+			</div>
 		<?php endif; ?>
 	<?php endif; ?>
 
@@ -75,12 +84,11 @@ $htag    = $this->params->get('show_page_heading') ? 'h2' : 'h1';
 	<?php if (!empty($this->lead_items)) : ?>
 		<div class="com-content-category-blog__items blog-items items-leading <?php echo $this->params->get('blog_class_leading'); ?>">
 			<?php foreach ($this->lead_items as &$item) : ?>
-				<div class="com-content-category-blog__item blog-item"
-					itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-						<?php
-						$this->item = & $item;
-						echo $this->loadTemplate('item');
-						?>
+				<div class="com-content-category-blog__item blog-item" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+					<?php
+					$this->item = &$item;
+					echo $this->loadTemplate('item');
+					?>
 				</div>
 				<?php $leadingcount++; ?>
 			<?php endforeach; ?>
