@@ -14,6 +14,7 @@ namespace Joomla\Component\Finder\Administrator\Model;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\MVC\Model\AdminModel;
+use Joomla\Component\Finder\Administrator\Table\FilterTable;
 
 /**
  * Filter model class for Finder.
@@ -42,21 +43,21 @@ class FilterModel extends AdminModel
 	 * Custom clean cache method.
 	 *
 	 * @param   string   $group     The component name. [optional]
-	 * @param   integer  $clientId  The client ID. [optional]
+	 * @param   integer  $clientId  @deprecated   5.0   No longer used.
 	 *
 	 * @return  void
 	 *
 	 * @since   2.5
 	 */
-	protected function cleanCache($group = 'com_finder', $clientId = 1)
+	protected function cleanCache($group = 'com_finder', $clientId = 0)
 	{
-		parent::cleanCache($group, $clientId);
+		parent::cleanCache($group);
 	}
 
 	/**
 	 * Method to get the filter data.
 	 *
-	 * @return  \Joomla\Component\Finder\Administrator\Table\Filter|boolean  The filter data or false on a failure.
+	 * @return  FilterTable|boolean  The filter data or false on a failure.
 	 *
 	 * @since   2.5
 	 */
@@ -97,7 +98,7 @@ class FilterModel extends AdminModel
 	 * @param   array    $data      Data for the form. [optional]
 	 * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not. [optional]
 	 *
-	 * @return  Form|boolean  A \JForm object on success, false on failure
+	 * @return  Form|boolean  A Form object on success, false on failure
 	 *
 	 * @since   2.5
 	 */
@@ -145,7 +146,7 @@ class FilterModel extends AdminModel
 	 */
 	public function getTotal()
 	{
-		$db    = Factory::getDbo();
+		$db    = $this->getDbo();
 		$query = $db->getQuery(true)
 			->select('MAX(link_id)')
 			->from('#__finder_links');

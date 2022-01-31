@@ -16,6 +16,7 @@ use Joomla\CMS\Date\Date;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Router\Route;
 use Joomla\String\StringHelper;
 
@@ -30,6 +31,7 @@ class ActionlogsHelper
 	 * Array of characters starting a formula
 	 *
 	 * @var    array
+	 *
 	 * @since  3.9.7
 	 */
 	private static $characters = array('=', '+', '-', '@');
@@ -42,6 +44,7 @@ class ActionlogsHelper
 	 * @return  Generator
 	 *
 	 * @since   3.9.0
+	 *
 	 * @throws  \InvalidArgumentException
 	 */
 	public static function getCsvData($data): Generator
@@ -173,8 +176,8 @@ class ActionlogsHelper
 	/**
 	 * Get human readable log message for a User Action Log
 	 *
-	 * @param   stdClass  $log            A User Action log message record
-	 * @param   boolean   $generateLinks  Flag to disable link generation when creating a message
+	 * @param   \stdClass  $log            A User Action log message record
+	 * @param   boolean    $generateLinks  Flag to disable link generation when creating a message
 	 *
 	 * @return  string
 	 *
@@ -233,16 +236,17 @@ class ActionlogsHelper
 	/**
 	 * Get link to an item of given content type
 	 *
-	 * @param   string   $component
-	 * @param   string   $contentType
-	 * @param   integer  $id
-	 * @param   string   $urlVar
+	 * @param   string     $component
+	 * @param   string     $contentType
+	 * @param   integer    $id
+	 * @param   string     $urlVar
+	 * @param   CMSObject  $object
 	 *
 	 * @return  string  Link to the content item
 	 *
 	 * @since   3.9.0
 	 */
-	public static function getContentTypeLink($component, $contentType, $id, $urlVar = 'id')
+	public static function getContentTypeLink($component, $contentType, $id, $urlVar = 'id', $object = null)
 	{
 		// Try to find the component helper.
 		$eName = str_replace('com_', '', $component);
@@ -257,7 +261,7 @@ class ActionlogsHelper
 
 			if (class_exists($cName) && is_callable(array($cName, 'getContentTypeLink')))
 			{
-				return $cName::getContentTypeLink($contentType, $id);
+				return $cName::getContentTypeLink($contentType, $id, $object);
 			}
 		}
 

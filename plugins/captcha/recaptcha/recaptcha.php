@@ -54,7 +54,7 @@ class PlgCaptchaRecaptcha extends CMSPlugin
 		return array(
 			Text::_('PLG_CAPTCHA_RECAPTCHA') => array(
 				Text::_('PLG_RECAPTCHA_PRIVACY_CAPABILITY_IP_ADDRESS'),
-			)
+			),
 		);
 	}
 
@@ -115,6 +115,7 @@ class PlgCaptchaRecaptcha extends CMSPlugin
 		$ele->setAttribute('data-error-callback', $this->params->get('error_callback', ''));
 
 		$dom->appendChild($ele);
+
 		return $dom->saveHTML($ele);
 	}
 

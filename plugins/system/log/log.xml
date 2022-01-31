@@ -13,8 +13,8 @@
 		<filename plugin="log">log.php</filename>
 	</files>
 	<languages>
-		<language tag="en-GB">en-GB.plg_system_log.ini</language>
-		<language tag="en-GB">en-GB.plg_system_log.sys.ini</language>
+		<language tag="en-GB">language/en-GB/plg_system_log.ini</language>
+		<language tag="en-GB">language/en-GB/plg_system_log.sys.ini</language>
 	</languages>
 	<config>
 		<fields name="params">

@@ -74,7 +74,7 @@ class GroupModel extends AdminModel
 	 * @param   string  $prefix   The class prefix. Optional.
 	 * @param   array   $options  Configuration array for model. Optional.
 	 *
-	 * @return  Table  A JTable object
+	 * @return  Table  A Table object
 	 *
 	 * @since   3.7.0
 	 * @throws  \Exception
@@ -125,7 +125,9 @@ class GroupModel extends AdminModel
 			$data['context'] = $context;
 		}
 
-		if (!Factory::getUser()->authorise('core.edit.state', $context . '.fieldgroup.' . $jinput->get('id')))
+		$user = Factory::getUser();
+
+		if (!$user->authorise('core.edit.state', $context . '.fieldgroup.' . $jinput->get('id')))
 		{
 			// Disable fields for display.
 			$form->setFieldAttribute('ordering', 'disabled', 'true');
@@ -134,6 +136,12 @@ class GroupModel extends AdminModel
 			// Disable fields while saving. The controller has already verified this is a record you can edit.
 			$form->setFieldAttribute('ordering', 'filter', 'unset');
 			$form->setFieldAttribute('state', 'filter', 'unset');
+		}
+
+		// Don't allow to change the created_by user if not allowed to access com_users.
+		if (!$user->authorise('core.manage', 'com_users'))
+		{
+			$form->setFieldAttribute('created_by', 'filter', 'unset');
 		}
 
 		return $form;
@@ -268,7 +276,7 @@ class GroupModel extends AdminModel
 	/**
 	 * Method to validate the form data.
 	 *
-	 * @param   JForm   $form   The form to validate against.
+	 * @param   Form    $form   The form to validate against.
 	 * @param   array   $data   The data to validate.
 	 * @param   string  $group  The name of the field group to validate.
 	 *
@@ -367,7 +375,7 @@ class GroupModel extends AdminModel
 	 * Clean the cache
 	 *
 	 * @param   string   $group     The cache group
-	 * @param   integer  $clientId  The ID of the client
+	 * @param   integer  $clientId  @deprecated   5.0   No longer used.
 	 *
 	 * @return  void
 	 *

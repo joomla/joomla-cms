@@ -12,7 +12,6 @@ namespace Joomla\Component\Tags\Site\View\Tag;
 \defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
-use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Plugin\PluginHelper;
@@ -30,7 +29,8 @@ class HtmlView extends BaseHtmlView
 	/**
 	 * The model state
 	 *
-	 * @var    \JObject
+	 * @var    \Joomla\CMS\Object\CMSObject
+	 *
 	 * @since  3.1
 	 */
 	protected $state;
@@ -39,6 +39,7 @@ class HtmlView extends BaseHtmlView
 	 * List of items associated with the tag
 	 *
 	 * @var    \stdClass[]|false
+	 *
 	 * @since  3.1
 	 */
 	protected $items;
@@ -46,7 +47,8 @@ class HtmlView extends BaseHtmlView
 	/**
 	 * Tag data for the current tag or tags (on success, false on failure)
 	 *
-	 * @var    \JObject|boolean
+	 * @var    \Joomla\CMS\Object\CMSObject|boolean
+	 *
 	 * @since  3.1
 	 */
 	protected $item;
@@ -55,6 +57,7 @@ class HtmlView extends BaseHtmlView
 	 * UNUSED
 	 *
 	 * @var    null
+	 *
 	 * @since  3.1
 	 */
 	protected $children;
@@ -63,6 +66,7 @@ class HtmlView extends BaseHtmlView
 	 * UNUSED
 	 *
 	 * @var    null
+	 *
 	 * @since  3.1
 	 */
 	protected $parent;
@@ -71,6 +75,7 @@ class HtmlView extends BaseHtmlView
 	 * The pagination object
 	 *
 	 * @var    \Joomla\CMS\Pagination\Pagination
+	 *
 	 * @since  3.1
 	 */
 	protected $pagination;
@@ -79,6 +84,7 @@ class HtmlView extends BaseHtmlView
 	 * The page parameters
 	 *
 	 * @var    \Joomla\Registry\Registry|null
+	 *
 	 * @since  3.1
 	 */
 	protected $params;
@@ -87,6 +93,7 @@ class HtmlView extends BaseHtmlView
 	 * Array of tags title
 	 *
 	 * @var    array
+	 *
 	 * @since  3.1
 	 */
 	protected $tags_title;
@@ -95,6 +102,7 @@ class HtmlView extends BaseHtmlView
 	 * The page class suffix
 	 *
 	 * @var    string
+	 *
 	 * @since  4.0.0
 	 */
 	protected $pageclass_sfx = '';
@@ -103,6 +111,7 @@ class HtmlView extends BaseHtmlView
 	 * The logged in user
 	 *
 	 * @var    User|null
+	 *
 	 * @since  4.0.0
 	 */
 	protected $user = null;
@@ -112,7 +121,7 @@ class HtmlView extends BaseHtmlView
 	 *
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
 	 *
-	 * @return  mixed  A string if successful, otherwise an Error object.
+	 * @return  void
 	 *
 	 * @since   3.1
 	 */
@@ -218,7 +227,7 @@ class HtmlView extends BaseHtmlView
 		$this->item       = $item;
 
 		// Escape strings for HTML output
-		$this->pageclass_sfx = htmlspecialchars($params->get('pageclass_sfx'));
+		$this->pageclass_sfx = htmlspecialchars($params->get('pageclass_sfx', ''));
 
 		// Merge tag params. If this is single-tag view, menu params override tag params
 		// Otherwise, article params override menu item params
@@ -313,28 +322,9 @@ class HtmlView extends BaseHtmlView
 		{
 			$this->params->def('page_heading', $this->params->get('page_title', $menu->title));
 			$title = $title ?: $this->params->get('page_title', $menu->title);
-
-			if (!isset($menu->query['option']) || $menu->query['option'] !== 'com_tags')
-			{
-				$this->params->set('page_subheading', $menu->title);
-			}
 		}
 
-		if (empty($title))
-		{
-			$title = $app->get('sitename');
-		}
-		elseif ($app->get('sitename_pagetitles', 0) == 1)
-		{
-			$title = Text::sprintf('JPAGETITLE', $app->get('sitename'), $title);
-		}
-		elseif ($app->get('sitename_pagetitles', 0) == 2)
-		{
-			$title = Text::sprintf('JPAGETITLE', $title, $app->get('sitename'));
-		}
-
-		$this->document->setTitle($title);
-
+		$this->setDocumentTitle($title);
 		$pathway->addItem($title);
 
 		foreach ($this->item as $itemElement)
@@ -360,7 +350,7 @@ class HtmlView extends BaseHtmlView
 			{
 				if ($v)
 				{
-					$this->document->setMetadata($k, $v);
+					$this->document->setMetaData($k, $v);
 				}
 			}
 		}

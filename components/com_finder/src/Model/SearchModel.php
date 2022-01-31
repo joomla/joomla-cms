@@ -125,7 +125,7 @@ class SearchModel extends ListModel
 	/**
 	 * Method to build a database query to load the list data.
 	 *
-	 * @return  \JDatabaseQuery  A database query.
+	 * @return  \Joomla\Database\DatabaseQuery  A database query.
 	 *
 	 * @since   2.5
 	 */
@@ -286,7 +286,7 @@ class SearchModel extends ListModel
 			return $query;
 		}
 
-		$included = call_user_func_array('array_merge', $this->includedTerms);
+		$included = call_user_func_array('array_merge', array_values($this->includedTerms));
 		$query->join('INNER', $this->_db->quoteName('#__finder_links_terms') . ' AS m ON m.link_id = l.link_id')
 			->where('m.term_id IN (' . implode(',', $included) . ')');
 
@@ -394,7 +394,7 @@ class SearchModel extends ListModel
 		$options['filter'] = $request->getInt('f', $params->get('f', ''));
 
 		// Get the dynamic taxonomy filters.
-		$options['filters'] = $request->get('t', $params->get('t', array()), '', 'array');
+		$options['filters'] = $request->get('t', $params->get('t', array()), 'array');
 
 		// Get the query string.
 		$options['input'] = $request->getString('q', $params->get('q', ''));

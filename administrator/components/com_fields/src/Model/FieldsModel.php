@@ -49,6 +49,7 @@ class FieldsModel extends ListModel
 				'state', 'a.state',
 				'access', 'a.access',
 				'access_level',
+				'only_use_in_subform',
 				'language', 'a.language',
 				'ordering', 'a.ordering',
 				'checked_out', 'a.checked_out',
@@ -121,14 +122,15 @@ class FieldsModel extends ListModel
 		$id .= ':' . $this->getState('filter.state');
 		$id .= ':' . $this->getState('filter.group_id');
 		$id .= ':' . serialize($this->getState('filter.language'));
+		$id .= ':' . $this->getState('filter.only_use_in_subform');
 
 		return parent::getStoreId($id);
 	}
 
 	/**
-	 * Method to get a JDatabaseQuery object for retrieving the data set from a database.
+	 * Method to get a DatabaseQuery object for retrieving the data set from a database.
 	 *
-	 * @return  \JDatabaseQuery   A JDatabaseQuery object to retrieve the data set.
+	 * @return  \Joomla\Database\DatabaseQuery   A DatabaseQuery object to retrieve the data set.
 	 *
 	 * @since   3.7.0
 	 */
@@ -147,7 +149,7 @@ class FieldsModel extends ListModel
 				'DISTINCT a.id, a.title, a.name, a.checked_out, a.checked_out_time, a.note' .
 				', a.state, a.access, a.created_time, a.created_user_id, a.ordering, a.language' .
 				', a.fieldparams, a.params, a.type, a.default_value, a.context, a.group_id' .
-				', a.label, a.description, a.required'
+				', a.label, a.description, a.required, a.only_use_in_subform'
 			)
 		);
 		$query->from('#__fields AS a');
@@ -348,6 +350,15 @@ class FieldsModel extends ListModel
 				->bind(':groupid', $groupId, ParameterType::INTEGER);
 		}
 
+		$onlyUseInSubForm = $this->getState('filter.only_use_in_subform');
+
+		if (is_numeric($onlyUseInSubForm))
+		{
+			$onlyUseInSubForm = (int) $onlyUseInSubForm;
+			$query->where($db->quoteName('a.only_use_in_subform') . ' = :only_use_in_subform')
+				->bind(':only_use_in_subform', $onlyUseInSubForm, ParameterType::INTEGER);
+		}
+
 		// Filter by search in title
 		$search = $this->getState('filter.search');
 
@@ -438,7 +449,7 @@ class FieldsModel extends ListModel
 	 * @param   array    $data      data
 	 * @param   boolean  $loadData  load current data
 	 *
-	 * @return  \JForm|false  the JForm object or false
+	 * @return  \Joomla\CMS\Form\Form|bool  the Form object or false
 	 *
 	 * @since   3.7.0
 	 */

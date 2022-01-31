@@ -60,17 +60,18 @@ echo HTMLHelper::_(
 		'width'  => '100%',
 		'modalWidth'  => '80',
 		'bodyHeight'  => '60',
-		'footer' => '<button type="button" class="btn btn-secondary" data-dismiss="modal" aria-hidden="true">'
-			. Text::_("JLIB_HTML_BEHAVIOR_CLOSE") . '</button>'
+		'footer' => '<button type="button" class="btn btn-secondary" data-bs-dismiss="modal" aria-hidden="true">'
+			. Text::_('JLIB_HTML_BEHAVIOR_CLOSE') . '</button>'
 	)
 );
 
 ?>
 <button
 	type="button"
-	onclick="document.getElementById('versionsModal').open()"
 	class="btn btn-secondary"
-	data-toggle="modal"<?php echo $dataAttribute; ?>>
+	data-bs-toggle="modal"
+	data-bs-target="#versionsModal"
+	<?php echo $dataAttribute; ?>>
 		<span class="icon-code-branch" aria-hidden="true"></span>
 		<?php echo $label; ?>
 </button>

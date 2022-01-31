@@ -13,8 +13,6 @@ use Joomla\CMS\Filter\OutputFilter;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 
-HTMLHelper::_('bootstrap.framework');
-
 // Check if feed URL has been set
 if (empty ($rssurl))
 {
@@ -85,7 +83,7 @@ else
 
 		<?php // Feed image ?>
 		<?php if ($params->get('rssimage', 1) && $feed->image) : ?>
-			<img src="<?php echo $feed->image->uri; ?>" alt="<?php echo $feed->image->title; ?>"/>
+			<img class="w-100" src="<?php echo $feed->image->uri; ?>" alt="<?php echo $feed->image->title; ?>"/>
 		<?php endif; ?>
 
 

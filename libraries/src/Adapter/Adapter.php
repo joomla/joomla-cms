@@ -58,7 +58,7 @@ class Adapter extends CMSObject
 	/**
 	 * Database Connector Object
 	 *
-	 * @var    \JDatabaseDriver
+	 * @var    \Joomla\Database\DatabaseDriver
 	 * @since  1.6
 	 */
 	protected $_db;
@@ -75,8 +75,8 @@ class Adapter extends CMSObject
 	public function __construct($basepath, $classprefix = null, $adapterfolder = null)
 	{
 		$this->_basepath = $basepath;
-		$this->_classprefix = $classprefix ? $classprefix : 'J';
-		$this->_adapterfolder = $adapterfolder ? $adapterfolder : 'adapters';
+		$this->_classprefix = $classprefix ?: 'J';
+		$this->_adapterfolder = $adapterfolder ?: 'adapters';
 
 		$this->_db = Factory::getDbo();
 	}
@@ -84,7 +84,7 @@ class Adapter extends CMSObject
 	/**
 	 * Get the database connector object
 	 *
-	 * @return  \JDatabaseDriver  Database connector object
+	 * @return  \Joomla\Database\DatabaseDriver  Database connector object
 	 *
 	 * @since   1.6
 	 */

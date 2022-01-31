@@ -102,6 +102,14 @@ class EditorField extends TextareaField
 	protected $editorType;
 
 	/**
+	 * The parent class of the field
+	 *
+	 * @var  string
+	 * @since 4.0.0
+	 */
+	protected $parentclass;
+
+	/**
 	 * Method to get certain otherwise inaccessible properties from the form field object.
 	 *
 	 * @param   string  $name  The property name for which to get the value.

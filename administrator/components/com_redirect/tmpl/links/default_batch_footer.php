@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Language\Text;
 
 ?>
-<button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="document.getElementById('batch_urls').value='';">
+<button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onclick="document.getElementById('batch_urls').value='';">
 	<?php echo Text::_('JCANCEL'); ?>
 </button>
 <button type="submit" class="btn btn-success" onclick="Joomla.submitbutton('links.batch');return false;">

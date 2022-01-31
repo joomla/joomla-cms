@@ -123,12 +123,12 @@ foreach ($fieldSets as $name => $fieldSet)
 		if (!empty($fieldSet->description))
 		{
 			echo '<div class="alert alert-info">';
-			echo '<span class="icon-info-circle" aria-hidden="true"></span><span class="sr-only">' . Text::_('INFO') . '</span> ';
+			echo '<span class="icon-info-circle" aria-hidden="true"></span><span class="visually-hidden">' . Text::_('INFO') . '</span> ';
 			echo Text::_($fieldSet->description);
 			echo '</div>';
 		}
 
-		echo '<div class="column-count-md-2 column-count-lg-3">';
+		echo '<div class="form-grid">';
 	}
 	// Tabs
 	elseif (!$hasParent)
@@ -160,12 +160,12 @@ foreach ($fieldSets as $name => $fieldSet)
 			if (!empty($fieldSet->description))
 			{
 				echo '<div class="alert alert-info">';
-				echo '<span class="icon-info-circle" aria-hidden="true"></span><span class="sr-only">' . Text::_('INFO') . '</span> ';
+				echo '<span class="icon-info-circle" aria-hidden="true"></span><span class="visually-hidden">' . Text::_('INFO') . '</span> ';
 				echo Text::_($fieldSet->description);
 				echo '</div>';
 			}
 
-			echo '<div class="column-count-md-2 column-count-lg-3">';
+			echo '<div class="form-grid">';
 
 			$opentab = 2;
 		}
@@ -173,7 +173,7 @@ foreach ($fieldSets as $name => $fieldSet)
 		elseif (!empty($fieldSet->description))
 		{
 			echo '<div class="alert alert-info alert-parent">';
-			echo '<span class="icon-info-circle" aria-hidden="true"></span><span class="sr-only">' . Text::_('INFO') . '</span> ';
+			echo '<span class="icon-info-circle" aria-hidden="true"></span><span class="visually-hidden">' . Text::_('INFO') . '</span> ';
 			echo Text::_($fieldSet->description);
 			echo '</div>';
 		}

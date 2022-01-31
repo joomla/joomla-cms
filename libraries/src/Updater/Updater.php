@@ -10,18 +10,17 @@ namespace Joomla\CMS\Updater;
 
 \defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Adapter\Adapter;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Table\Table;
 use Joomla\Database\ParameterType;
-
-\JLoader::import('joomla.base.adapter');
 
 /**
  * Updater Class
  *
  * @since  1.7.0
  */
-class Updater extends \JAdapter
+class Updater extends Adapter
 {
 	/**
 	 * Development snapshots, nightly builds, pre-release versions and so on

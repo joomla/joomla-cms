@@ -30,7 +30,7 @@ $wa->useScript('joomla.treeselectmenu')
 		<?php $id = 'jform_params_hideitems'; ?>
 
 		<div class="form-inline">
-			<span class="small mr-2"><?php echo Text::_('COM_MENUS_ACTION_EXPAND'); ?>:
+			<span class="small me-2"><?php echo Text::_('COM_MENUS_ACTION_EXPAND'); ?>:
 				<a id="treeExpandAll" href="javascript://"><?php echo Text::_('JALL'); ?></a>,
 				<a id="treeCollapseAll" href="javascript://"><?php echo Text::_('JNONE'); ?></a> |
 				<?php echo Text::_('JSHOW'); ?>:
@@ -44,7 +44,7 @@ $wa->useScript('joomla.treeselectmenu')
 
 		<hr>
 		<div class="alert alert-info">
-			<span class="icon-info-circle" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('INFO'); ?></span>
+			<span class="icon-info-circle" aria-hidden="true"></span><span class="visually-hidden"><?php echo Text::_('INFO'); ?></span>
 			<?php echo Text::_('COM_MENUS_ITEM_FIELD_COMPONENTS_CONTAINER_HIDE_ITEMS_DESC'); ?>
 		</div>
 			<?php if (count($menuLinks)) : ?>

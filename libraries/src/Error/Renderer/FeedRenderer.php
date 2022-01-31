@@ -13,7 +13,7 @@ namespace Joomla\CMS\Error\Renderer;
 /**
  * RSS/Atom feed error page renderer
  *
- * @since  4.0
+ * @since  4.0.0
  */
 class FeedRenderer extends XmlRenderer
 {

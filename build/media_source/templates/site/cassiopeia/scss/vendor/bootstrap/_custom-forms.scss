@@ -1,0 +1,74 @@
+// Custom Forms
+
+.custom-select {
+  @extend .form-select;
+}
+
+.form-select {
+  max-width: $input-max-width;
+  cursor: pointer;
+  background: $form-select-background;
+  background-color: $form-select-bg;
+  border: $input-border;
+  // var needed
+  box-shadow: $input-box-shadow;
+
+  &:focus {
+    border-color: #000;
+    box-shadow: $cassiopeia-input-focus-shadow;
+  }
+
+  [dir=rtl] & {
+    padding: $form-select-padding-y $form-select-padding-x $form-select-padding-y ($form-select-padding-x + $form-select-indicator-padding);
+    background: $form-select-background-rtl;
+    background-color: $form-select-bg;
+  }
+
+  &[multiple] {
+    padding: 0;
+    background-color: $white;
+
+    option {
+      padding: $form-select-multiple-padding-y $form-select-padding-x;
+      background-color: $white;
+
+      &:checked {
+        color: $white;
+        background-color: var(--cassiopeia-color-primary) !important;
+      }
+    }
+  }
+
+  &.form-select-success,
+  &.custom-select-success {
+    color: $success;
+    background-color: $success;
+
+    option {
+      color: $form-select-color;
+      background-color: $white;
+    }
+  }
+
+  &.form-select-danger,
+  &.custom-select-danger {
+    color: $danger;
+    background-color: $danger;
+
+    option {
+      color: $form-select-color;
+      background-color: $white;
+    }
+  }
+
+  optgroup,
+  option {
+    color: var(--dark);
+    background-color: $white;
+  }
+}
+
+// Backwards compat with BS4
+.form-group {
+  @extend .mb-3;
+}

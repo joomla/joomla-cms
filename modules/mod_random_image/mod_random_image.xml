@@ -16,10 +16,10 @@
 		<folder>tmpl</folder>
 	</files>
 	<languages>
-		<language tag="en-GB">en-GB.mod_random_image.ini</language>
-		<language tag="en-GB">en-GB.mod_random_image.sys.ini</language>
+		<language tag="en-GB">language/en-GB/mod_random_image.ini</language>
+		<language tag="en-GB">language/en-GB/mod_random_image.sys.ini</language>
 	</languages>
-	<help key="JHELP_EXTENSIONS_MODULE_MANAGER_RANDOM_IMAGE" />
+	<help key="Site_Modules:_Random_Image" />
 	<config>
 		<fields name="params">
 			<fieldset name="basic">
@@ -64,7 +64,8 @@
 					name="layout"
 					type="modulelayout"
 					label="JFIELD_ALT_LAYOUT_LABEL"
-					class="custom-select"
+					class="form-select"
+					validate="moduleLayout"
 				/>
 
 				<field

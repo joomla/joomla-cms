@@ -51,7 +51,7 @@ class HistoryController extends AdminController
 	{
 		$this->checkToken();
 
-		// Get items to remove from the request.
+		// Get items to toggle keep forever from the request.
 		$cid = $this->input->get('cid', array(), 'array');
 
 		if (!is_array($cid) || count($cid) < 1)
@@ -66,7 +66,7 @@ class HistoryController extends AdminController
 			// Make sure the item ids are integers
 			$cid = ArrayHelper::toInteger($cid);
 
-			// Remove the items.
+			// Toggle keep forever status of the selected items.
 			if ($model->keep($cid))
 			{
 				$this->setMessage(Text::plural('COM_CONTENTHISTORY_N_ITEMS_KEEP_TOGGLE', count($cid)));

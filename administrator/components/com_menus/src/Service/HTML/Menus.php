@@ -93,7 +93,7 @@ class Menus
 						$url     = Route::_('index.php?option=com_menus&task=item.edit&id=' . (int) $item->id);
 						$tooltip = '<strong>' . htmlspecialchars($item->language_title, ENT_QUOTES, 'UTF-8') . '</strong><br>'
 							. htmlspecialchars($item->title, ENT_QUOTES, 'UTF-8') . '<br>' . Text::sprintf('COM_MENUS_MENU_SPRINTF', $item->menu_title);
-						$classes = 'badge badge-secondary';
+						$classes = 'badge bg-secondary';
 
 						$item->link = '<a href="' . $url . '" class="' . $classes . '">' . $text . '</a>'
 							. '<div role="tooltip" id="tip-' . (int) $itemid . '-' . (int) $item->id . '">' . $tooltip . '</div>';
@@ -136,6 +136,6 @@ class Menus
 
 		$show_menu = $registry->get('menu_show');
 
-		return ($show_menu === 0) ? '<span class="badge badge-secondary">' . Text::_('COM_MENUS_LABEL_HIDDEN') . '</span>' : '';
+		return ($show_menu === 0) ? '<span class="badge bg-secondary">' . Text::_('COM_MENUS_LABEL_HIDDEN') . '</span>' : '';
 	}
 }

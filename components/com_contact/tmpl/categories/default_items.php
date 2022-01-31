@@ -23,7 +23,7 @@ if ($this->maxLevelcat != 0 && count($this->items[$this->parent->id]) > 0) :
 					<a href="<?php echo Route::_(RouteHelper::getCategoryRoute($item->id, $item->language)); ?>">
 					<?php echo $this->escape($item->title); ?></a>
 					<?php if ($this->params->get('show_cat_items_cat') == 1) :?>
-						<span class="badge badge-info">
+						<span class="badge bg-info">
 							<?php echo Text::_('COM_CONTACT_NUM_ITEMS'); ?>&nbsp;
 							<?php echo $item->numitems; ?>
 						</span>
@@ -32,9 +32,9 @@ if ($this->maxLevelcat != 0 && count($this->items[$this->parent->id]) > 0) :
 						<button
 							type="button"
 							id="category-btn-<?php echo $item->id; ?>"
-							data-target="#category-<?php echo $item->id; ?>"
-							data-toggle="collapse"
-							class="btn btn-secondary btn-sm float-right"
+							data-bs-target="#category-<?php echo $item->id; ?>"
+							data-bs-toggle="collapse"
+							class="btn btn-secondary btn-sm float-end"
 							aria-label="<?php echo Text::_('JGLOBAL_EXPAND_CATEGORIES'); ?>"
 						>
 							<span class="icon-plus" aria-hidden="true"></span>

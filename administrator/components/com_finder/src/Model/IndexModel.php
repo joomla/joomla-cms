@@ -184,7 +184,7 @@ class IndexModel extends ListModel
 	/**
 	 * Build an SQL query to load the list data.
 	 *
-	 * @return  \JDatabaseQuery  A \JDatabaseQuery object
+	 * @return  \Joomla\Database\DatabaseQuery
 	 *
 	 * @since   2.5
 	 */
@@ -327,19 +327,17 @@ class IndexModel extends ListModel
 			->from($db->quoteName('#__finder_links'));
 		$db->setQuery($query);
 
-		$db->execute();
-
 		return (int) $db->loadResult();
 	}
 
 	/**
-	 * Returns a \JTable object, always creating it.
+	 * Returns a Table object, always creating it.
 	 *
 	 * @param   string  $type    The table type to instantiate. [optional]
 	 * @param   string  $prefix  A prefix for the table class name. [optional]
 	 * @param   array   $config  Configuration array for model. [optional]
 	 *
-	 * @return  \JTable  A database object
+	 * @return  \Joomla\CMS\Table\Table  A database object
 	 *
 	 * @since   2.5
 	 */

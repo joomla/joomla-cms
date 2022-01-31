@@ -321,7 +321,7 @@ abstract class Folder
 		// Is this really a folder?
 		if (!is_dir($path))
 		{
-			Log::add(Text::sprintf('JLIB_FILESYSTEM_ERROR_PATH_IS_NOT_A_FOLDER', $path), Log::WARNING, 'jerror');
+			Log::add(Text::sprintf('JLIB_FILESYSTEM_ERROR_PATH_IS_NOT_A_FOLDER', __METHOD__, $path), Log::WARNING, 'jerror');
 
 			return false;
 		}
@@ -489,7 +489,7 @@ abstract class Folder
 	 * @param   array    $excludeFilter  Array of filter to exclude
 	 * @param   boolean  $naturalSort    False for asort, true for natsort
 	 *
-	 * @return  array  Files in the given folder.
+	 * @return  array|boolean  Files in the given folder.
 	 *
 	 * @since   1.7.0
 	 */
@@ -503,7 +503,7 @@ abstract class Folder
 		// Is the path a folder?
 		if (!is_dir($path))
 		{
-			Log::add(Text::sprintf('JLIB_FILESYSTEM_ERROR_PATH_IS_NOT_A_FOLDER_FILES', $path), Log::WARNING, 'jerror');
+			Log::add(Text::sprintf('JLIB_FILESYSTEM_ERROR_PATH_IS_NOT_A_FOLDER', __METHOD__, $path), Log::WARNING, 'jerror');
 
 			return false;
 		}
@@ -558,7 +558,7 @@ abstract class Folder
 		// Is the path a folder?
 		if (!is_dir($path))
 		{
-			Log::add(Text::sprintf('JLIB_FILESYSTEM_ERROR_PATH_IS_NOT_A_FOLDER_FOLDER', $path), Log::WARNING, 'jerror');
+			Log::add(Text::sprintf('JLIB_FILESYSTEM_ERROR_PATH_IS_NOT_A_FOLDER', __METHOD__, $path), Log::WARNING, 'jerror');
 
 			return false;
 		}

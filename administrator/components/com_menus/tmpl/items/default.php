@@ -27,7 +27,7 @@ $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
 $ordering  = ($listOrder == 'a.lft');
 $saveOrder = ($listOrder == 'a.lft' && strtolower($listDirn) == 'asc');
-$menuType  = (string) $app->getUserState('com_menus.items.menutype', '', 'string');
+$menuType  = (string) $app->getUserState('com_menus.items.menutype', '');
 
 if ($saveOrder && $menuType && !empty($this->items))
 {
@@ -46,8 +46,8 @@ $assoc   = Associations::isEnabled() && $this->state->get('filter.client_id') ==
 			<div id="j-main-container" class="j-main-container">
 				<?php echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this, 'options' => array('selectorFieldName' => 'menutype'))); ?>
 				<?php if (!empty($this->items)) : ?>
-					<table class="table" id="itemList">
-						<caption id="captionTable" class="sr-only">
+					<table class="table" id="menuitemList">
+						<caption class="visually-hidden">
 							<?php echo Text::_('COM_MENUS_ITEMS_TABLE_CAPTION'); ?>,
 							<span id="orderedBy"><?php echo Text::_('JGLOBAL_SORTED_BY'); ?> </span>,
 							<span id="filteredBy"><?php echo Text::_('JGLOBAL_FILTERED_BY'); ?></span>
@@ -82,7 +82,7 @@ $assoc   = Associations::isEnabled() && $this->state->get('filter.client_id') ==
 								</th>
 							<?php endif; ?>
 							<?php if ($assoc) : ?>
-								<th scope="col" class="w-10 d-none d-md-table-cell text-center">
+								<th scope="col" class="w-10 d-none d-md-table-cell">
 									<?php echo HTMLHelper::_('searchtools.sort', 'COM_MENUS_HEADING_ASSOCIATION', 'association', $listDirn, $listOrder); ?>
 								</th>
 							<?php endif; ?>
@@ -134,10 +134,10 @@ $assoc   = Associations::isEnabled() && $this->state->get('filter.client_id') ==
 							}
 							?>
 							<tr class="row<?php echo $i % 2; ?>" data-draggable-group="<?php echo $item->parent_id; ?>"
-								item-id="<?php echo $item->id; ?>" parents="<?php echo $parentsStr; ?>"
-								level="<?php echo $item->level; ?>">
+								data-item-id="<?php echo $item->id; ?>" data-parents="<?php echo $parentsStr; ?>"
+								data-level="<?php echo $item->level; ?>">
 								<td class="text-center">
-									<?php echo HTMLHelper::_('grid.id', $i, $item->id); ?>
+									<?php echo HTMLHelper::_('grid.id', $i, $item->id, false, 'cid', 'cb', $item->title); ?>
 								</td>
 								<?php if ($menuType) : ?>
 									<td class="text-center d-none d-md-table-cell">
@@ -178,27 +178,31 @@ $assoc   = Associations::isEnabled() && $this->state->get('filter.client_id') ==
 									<?php else : ?>
 										<?php echo $this->escape($item->title); ?>
 									<?php endif; ?>
-									<span class="small">
-									<?php if ($item->type != 'url') : ?>
-										<?php if (empty($item->note)) : ?>
-											<?php echo Text::sprintf('JGLOBAL_LIST_ALIAS', $this->escape($item->alias)); ?>
-										<?php else : ?>
-											<?php echo Text::sprintf('JGLOBAL_LIST_ALIAS_NOTE', $this->escape($item->alias), $this->escape($item->note)); ?>
-										<?php endif; ?>
-									<?php elseif ($item->type == 'url' && $item->note) : ?>
-										<?php echo Text::sprintf('JGLOBAL_LIST_NOTE', $this->escape($item->note)); ?>
-									<?php endif; ?>
-									</span>
 									<?php echo HTMLHelper::_('menus.visibility', $item->params); ?>
+									<div>
+										<?php echo $prefix; ?>
+										<span class="small">
+											<?php if ($item->type != 'url') : ?>
+												<?php if (empty($item->note)) : ?>
+													<?php echo Text::sprintf('JGLOBAL_LIST_ALIAS', $this->escape($item->alias)); ?>
+												<?php else : ?>
+													<?php echo Text::sprintf('JGLOBAL_LIST_ALIAS_NOTE', $this->escape($item->alias), $this->escape($item->note)); ?>
+												<?php endif; ?>
+											<?php elseif ($item->type == 'url' && $item->note) : ?>
+												<?php echo Text::sprintf('JGLOBAL_LIST_NOTE', $this->escape($item->note)); ?>
+											<?php endif; ?>
+										</span>
+									</div>
 									<div title="<?php echo $this->escape($item->path); ?>">
 										<?php echo $prefix; ?>
 										<span class="small"
 											  title="<?php echo isset($item->item_type_desc) ? htmlspecialchars($this->escape($item->item_type_desc), ENT_COMPAT, 'UTF-8') : ''; ?>">
-											<?php echo $this->escape($item->item_type); ?></span>
+											<?php echo $this->escape($item->item_type); ?>
+										</span>
 									</div>
 									<?php if ($item->type === 'component' && !$item->enabled) : ?>
 										<div>
-											<span class="badge badge-secondary">
+											<span class="badge bg-secondary">
 												<?php echo Text::_($item->enabled === null ? 'JLIB_APPLICATION_ERROR_COMPONENT_NOT_FOUND' : 'COM_MENUS_LABEL_DISABLED'); ?>
 											</span>
 										</div>
@@ -217,7 +221,7 @@ $assoc   = Associations::isEnabled() && $this->state->get('filter.client_id') ==
 													<?php if ($item->language_image) : ?>
 														<?php echo HTMLHelper::_('image', 'mod_languages/' . $item->language_image . '.gif', $item->language_title, array('title' => Text::sprintf('COM_MENUS_GRID_UNSET_LANGUAGE', $item->language_title)), true); ?>
 													<?php else : ?>
-														<span class="badge badge-secondary"
+														<span class="badge bg-secondary"
 															  title="<?php echo Text::sprintf('COM_MENUS_GRID_UNSET_LANGUAGE', $item->language_title); ?>"><?php echo $item->language; ?></span>
 													<?php endif; ?>
 												</a>
@@ -225,7 +229,7 @@ $assoc   = Associations::isEnabled() && $this->state->get('filter.client_id') ==
 												<?php if ($item->language_image) : ?>
 													<?php echo HTMLHelper::_('image', 'mod_languages/' . $item->language_image . '.gif', $item->language_title, array('title' => $item->language_title), true); ?>
 												<?php else : ?>
-													<span class="badge badge-secondary"
+													<span class="badge bg-secondary"
 														  title="<?php echo $item->language_title; ?>"><?php echo $item->language; ?></span>
 												<?php endif; ?>
 											<?php endif; ?>
@@ -238,7 +242,7 @@ $assoc   = Associations::isEnabled() && $this->state->get('filter.client_id') ==
 									</td>
 								<?php endif; ?>
 								<?php if ($assoc) : ?>
-									<td class="small d-none d-md-table-cell text-center">
+									<td class="small d-none d-md-table-cell">
 										<?php if ($item->association) : ?>
 											<?php echo HTMLHelper::_('menus.association', $item->id); ?>
 										<?php endif; ?>

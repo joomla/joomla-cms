@@ -10,7 +10,6 @@ namespace Joomla\Component\Users\Site\Controller;
 
 \defined('_JEXEC') or die;
 
-use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\CMS\Router\Route;
@@ -34,11 +33,10 @@ class ProfileController extends BaseController
 	public function edit()
 	{
 		$app         = $this->app;
-		$user        = Factory::getUser();
+		$user        = $this->app->getIdentity();
 		$loginUserId = (int) $user->get('id');
 
-		// Get the previous user id (if any) and the current user id.
-		$previousId = (int) $app->getUserState('com_users.edit.profile.id');
+		// Get the current user id.
 		$userId     = $this->input->getInt('user_id');
 
 		// Check if the user is trying to edit another users profile.
@@ -65,21 +63,6 @@ class ProfileController extends BaseController
 		// Set the user id for the user to edit in the session.
 		$app->setUserState('com_users.edit.profile.id', $userId);
 
-		/** @var \Joomla\Component\Users\Site\Model\ProfileModel $model */
-		$model = $this->getModel('Profile', 'Site');
-
-		// Check out the user.
-		if ($userId)
-		{
-			$model->checkout($userId);
-		}
-
-		// Check in the previous user.
-		if ($previousId)
-		{
-			$model->checkin($previousId);
-		}
-
 		// Redirect to the edit screen.
 		$this->setRedirect(Route::_('index.php?option=com_users&view=profile&layout=edit', false));
 
@@ -89,7 +72,7 @@ class ProfileController extends BaseController
 	/**
 	 * Method to save a user's profile data.
 	 *
-	 * @return  void
+	 * @return  void|boolean
 	 *
 	 * @since   1.6
 	 * @throws  \Exception
@@ -103,7 +86,7 @@ class ProfileController extends BaseController
 
 		/** @var \Joomla\Component\Users\Site\Model\ProfileModel $model */
 		$model  = $this->getModel('Profile', 'Site');
-		$user   = Factory::getUser();
+		$user   = $this->app->getIdentity();
 		$userId = (int) $user->get('id');
 
 		// Get the user data.
@@ -186,7 +169,6 @@ class ProfileController extends BaseController
 			case 'apply':
 				// Check out the profile.
 				$app->setUserState('com_users.edit.profile.id', $return);
-				$model->checkout($return);
 
 				// Redirect back to the edit screen.
 				$this->setMessage(Text::_('COM_USERS_PROFILE_SAVE_SUCCESS'));
@@ -208,14 +190,6 @@ class ProfileController extends BaseController
 				break;
 
 			default:
-				// Check in the profile.
-				$userId = (int) $app->getUserState('com_users.edit.profile.id');
-
-				if ($userId)
-				{
-					$model->checkin($userId);
-				}
-
 				// Clear the profile id from the session.
 				$app->setUserState('com_users.edit.profile.id', null);
 

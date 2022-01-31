@@ -1,5 +1,5 @@
 --
--- Step 1: Convert all tables to utf8mb4 chracter set with utf8mb4_unicode_ci collation
+-- Step 1: Convert all tables to utf8mb4 character set with utf8mb4_unicode_ci collation
 -- except of #__finder_xxx tables, those are handled with 4.0.0-2018-07-29.sql at update.
 --
 

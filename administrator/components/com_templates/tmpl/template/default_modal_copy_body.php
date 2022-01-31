@@ -20,12 +20,12 @@ use Joomla\CMS\Language\Text;
 					<label for="new_name">
 						<?php echo Text::_('COM_TEMPLATES_TEMPLATE_NEW_NAME_LABEL'); ?>
 					</label>
-					<small class="text-muted">
-						<?php echo Text::_('COM_TEMPLATES_TEMPLATE_NEW_NAME_DESC'); ?>
-					</small>
 				</div>
 				<div class="controls">
-					<input class="form-control" type="text" id="new_name" name="new_name">
+					<input class="form-control" type="text" id="new_name" name="new_name" required>
+					<small class="form-text">
+						<?php echo Text::_('COM_TEMPLATES_TEMPLATE_NEW_NAME_DESC'); ?>
+					</small>
 				</div>
 			</div>
 		</div>

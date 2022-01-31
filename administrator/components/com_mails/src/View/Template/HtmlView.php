@@ -88,27 +88,39 @@ class HtmlView extends BaseHtmlView
 		$this->templateData = array();
 		$language = Factory::getLanguage();
 		$language->load($component, JPATH_SITE, $this->item->language, true);
+		$language->load($component, JPATH_SITE . '/components/' . $component, $this->item->language, true);
 		$language->load($component, JPATH_ADMINISTRATOR, $this->item->language, true);
+		$language->load($component, JPATH_ADMINISTRATOR . '/components/' . $component, $this->item->language, true);
+
+		$this->master->subject = Text::_($this->master->subject);
+		$this->master->body    = Text::_($this->master->body);
+
+		if ($this->master->htmlbody)
+		{
+			$this->master->htmlbody = Text::_($this->master->htmlbody);
+		}
+		else
+		{
+			$this->master->htmlbody = nl2br($this->master->body, false);
+		}
+
+		$this->templateData = [
+			'subject'  => $this->master->subject,
+			'body'     => $this->master->body,
+			'htmlbody' => $this->master->htmlbody,
+		];
 
 		foreach ($fields as $field)
 		{
-			$this->templateData[$field] = (object) ['master' => $this->master->$field, 'translated' => Text::_($this->master->$field)];
-
-			if (is_null($this->item->$field)
-				|| $this->item->$field == ''
-				|| $this->item->$field == $this->master->$field)
+			if (is_null($this->item->$field) || $this->item->$field == '')
 			{
 				$this->item->$field = $this->master->$field;
-				$this->form->setFieldAttribute($field, 'disabled', 'true');
-				$this->form->setValue($field, null, $this->master->$field);
-			}
-			else
-			{
-				$this->form->setValue($field . '_switcher', null, 1);
+				$this->form->setValue($field, null, $this->item->$field);
 			}
 		}
 
 		$this->addToolbar();
+
 		parent::display($tpl);
 	}
 
@@ -142,6 +154,6 @@ class HtmlView extends BaseHtmlView
 		$toolbar->cancel('template.cancel', 'JTOOLBAR_CLOSE');
 
 		$toolbar->divider();
-		$toolbar->help('JHELP_COMPONENTS_MAILS_TEMPLATE_EDIT');
+		$toolbar->help('Mail_Template:_Edit');
 	}
 }

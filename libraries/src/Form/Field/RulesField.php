@@ -66,6 +66,14 @@ class RulesField extends FormField
 	protected $assetField;
 
 	/**
+	 * The parent class of the field
+	 *
+	 * @var  string
+	 * @since 4.0.0
+	 */
+	protected $parentclass;
+
+	/**
 	 * Method to get certain otherwise inaccessible properties from the form field object.
 	 *
 	 * @param   string  $name  The property name for which to get the value.
@@ -182,7 +190,6 @@ class RulesField extends FormField
 		// Note that for global configuration, com_config injects asset_id = 1 into the form.
 		$this->assetId = (int) $this->form->getValue($assetField);
 		$this->newItem = empty($this->assetId) && $this->isGlobalConfig === false && $section !== 'component';
-		$parentAssetId = null;
 
 		// If the asset id is empty (component or new item).
 		if (empty($this->assetId))
@@ -200,7 +207,7 @@ class RulesField extends FormField
 			$this->assetId = (int) $db->loadResult();
 
 			/**
-			 * @to do: incorrect info
+			 * @todo: incorrect info
 			 * When creating a new item (not saving) it uses the calculated permissions from the component (item <-> component <-> global config).
 			 * But if we have a section too (item <-> section(s) <-> component <-> global config) this is not correct.
 			 * Also, currently it uses the component permission, but should use the calculated permissions for achild of the component/section.

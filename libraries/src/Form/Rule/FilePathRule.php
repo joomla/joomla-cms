@@ -49,9 +49,24 @@ class FilePathRule extends FormRule
 			return true;
 		}
 
-		// Append the root path
+		// Get the exclude setting from the xml
+		$exclude = (array) explode('|', (string) $element['exclude']);
+
+		// Exclude current folder '.' to be safe from full path disclosure
+		$exclude[] = '.';
+
+		// Check the exclude setting
+		$path = preg_split('/[\/\\\\]/', $value);
+
+		if (in_array(strtolower($path[0]), $exclude) || empty($path[0]))
+		{
+			return false;
+		}
+
+		// Prepend the root path
 		$value = JPATH_ROOT . '/' . $value;
 
+		// Check if $value is a valid path, which includes not allowing to break out of the current path
 		try
 		{
 			Path::check($value);
