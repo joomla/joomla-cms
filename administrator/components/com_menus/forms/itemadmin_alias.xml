@@ -28,6 +28,12 @@
 			/>
 
 			<field
+				name="menu-anchor_title"
+				type="text"
+				label="COM_MENUS_ITEM_FIELD_ICON_TITLE_LABEL"
+			/>
+
+			<field
 				name="menu_icon"
 				type="text"
 				label="COM_MENUS_ITEM_FIELD_ICON_TITLE_LABEL"

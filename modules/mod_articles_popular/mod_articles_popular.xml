@@ -90,7 +90,6 @@
 					label="MOD_POPULAR_FIELD_STARTDATE_LABEL"
 					translateformat="true"
 					showtime="true"
-					size="22"
 					filter="user_utc"
 					showon="date_filtering:range"
 				/>
@@ -101,7 +100,6 @@
 					label="MOD_POPULAR_FIELD_ENDDATE_LABEL"
 					translateformat="true"
 					showtime="true"
-					size="22"
 					filter="user_utc"
 					showon="date_filtering:range"
 				/>

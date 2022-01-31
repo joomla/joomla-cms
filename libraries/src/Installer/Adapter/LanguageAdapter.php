@@ -67,7 +67,7 @@ class LanguageAdapter extends InstallerAdapter
 	 */
 	protected function copyBaseFiles()
 	{
-		// TODO - Refactor adapter to use common code
+		// @todo - Refactor adapter to use common code
 	}
 
 	/**
@@ -80,7 +80,7 @@ class LanguageAdapter extends InstallerAdapter
 	 */
 	protected function finaliseInstall()
 	{
-		// TODO - Refactor adapter to use common code
+		// @todo - Refactor adapter to use common code
 	}
 
 	/**
@@ -167,7 +167,7 @@ class LanguageAdapter extends InstallerAdapter
 	 */
 	protected function setupInstallPaths()
 	{
-		// TODO - Refactor adapter to use common code
+		// @todo - Refactor adapter to use common code
 	}
 
 	/**
@@ -226,7 +226,7 @@ class LanguageAdapter extends InstallerAdapter
 	 */
 	protected function storeExtension()
 	{
-		// TODO - Refactor adapter to use common code
+		// @todo - Refactor adapter to use common code
 	}
 
 	/**
@@ -665,13 +665,13 @@ class LanguageAdapter extends InstallerAdapter
 	 * Custom discover method
 	 * Finds language files
 	 *
-	 * @return  boolean  True on success
+	 * @return  \Joomla\CMS\Table\Extension[]  Array of discovered extensions.
 	 *
 	 * @since  3.1
 	 */
 	public function discover()
 	{
-		$results = array();
+		$results = [];
 		$clients = [0 => JPATH_SITE, 1 => JPATH_ADMINISTRATOR, 3 => JPATH_API];
 
 		foreach ($clients as $clientId => $basePath)

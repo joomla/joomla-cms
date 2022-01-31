@@ -794,7 +794,7 @@ class PlgSystemLanguageFilter extends CMSPlugin
 			else
 			{
 				$cName = ucfirst(substr($option, 4)) . 'HelperAssociation';
-				JLoader::register($cName, JPath::clean(JPATH_SITE . '/components/' . $option . '/helpers/association.php'));
+				JLoader::register($cName, \Joomla\CMS\Filesystem\Path::clean(JPATH_SITE . '/components/' . $option . '/helpers/association.php'));
 
 				if (class_exists($cName) && is_callable(array($cName, 'getAssociations')))
 				{
