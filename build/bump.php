@@ -47,8 +47,9 @@ $languageXmlFiles = array(
 	'/language/en-GB/install.xml',
 	'/administrator/language/en-GB/langmetadata.xml',
 	'/administrator/language/en-GB/install.xml',
-	'/installation/language/en-GB/en-GB.xml',
-	'/api/language/en-GB/langmetadata.xml'
+	'/installation/language/en-GB/langmetadata.xml',
+	'/api/language/en-GB/langmetadata.xml',
+	'/api/language/en-GB/install.xml',
 );
 
 $languagePackXmlFile = '/administrator/manifests/packages/pkg_en-GB.xml';

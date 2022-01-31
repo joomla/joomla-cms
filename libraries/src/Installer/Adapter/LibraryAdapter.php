@@ -77,7 +77,7 @@ class LibraryAdapter extends InstallerAdapter
 	{
 		if ($this->parent->parseFiles($this->getManifest()->files, -1) === false)
 		{
-			throw new \RuntimeException(Text::_('JLIB_INSTALLER_ABORT_LIB_COPY_FILES'));
+			throw new \RuntimeException(Text::sprintf('JLIB_INSTALLER_ABORT_LIB_COPY_FILES', $this->element));
 		}
 	}
 
@@ -286,7 +286,7 @@ class LibraryAdapter extends InstallerAdapter
 		$this->parent->removeFiles($this->getManifest()->files, -1);
 		File::delete(JPATH_MANIFESTS . '/libraries/' . $this->extension->element . '.xml');
 
-		// TODO: Change this so it walked up the path backwards so we clobber multiple empties
+		// @todo: Change this so it walked up the path backwards so we clobber multiple empties
 		// If the folder is empty, let's delete it
 		if (Folder::exists($this->parent->getPath('extension_root')))
 		{
@@ -309,8 +309,13 @@ class LibraryAdapter extends InstallerAdapter
 		// Delete empty vendor folders
 		if (2 === \count($elementParts))
 		{
-			Folder::delete(JPATH_MANIFESTS . '/libraries/' . $elementParts[0]);
-			Folder::delete(JPATH_PLATFORM . '/' . $elementParts[0]);
+			$folders = Folder::folders(JPATH_PLATFORM . '/' . $elementParts[0]);
+
+			if (empty($folders))
+			{
+				Folder::delete(JPATH_MANIFESTS . '/libraries/' . $elementParts[0]);
+				Folder::delete(JPATH_PLATFORM . '/' . $elementParts[0]);
+			}
 		}
 	}
 
@@ -332,7 +337,7 @@ class LibraryAdapter extends InstallerAdapter
 		}
 
 		// Don't install libraries which would override core folders
-		$restrictedFolders = array('cms', 'fof', 'idna_convert', 'joomla', 'legacy', 'php-encryption', 'phpass', 'phputf8', 'src', 'vendor');
+		$restrictedFolders = array('php-encryption', 'phpass', 'src', 'vendor');
 
 		if (in_array($group, $restrictedFolders))
 		{
@@ -367,8 +372,8 @@ class LibraryAdapter extends InstallerAdapter
 		// Set the library root path
 		$this->parent->setPath('extension_root', JPATH_PLATFORM . '/' . $manifest->libraryname);
 
-		// Set the source path to the manifests directory so the manifest script may be found
-		$this->parent->setPath('source', JPATH_MANIFESTS . '/libraries/' . $manifest->libraryname);
+		// Set the source path to the library root, the manifest script may be found
+		$this->parent->setPath('source', $this->parent->getPath('extension_root'));
 
 		$xml = simplexml_load_file($manifestFile);
 

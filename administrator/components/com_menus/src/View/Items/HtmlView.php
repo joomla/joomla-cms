@@ -53,14 +53,15 @@ class HtmlView extends BaseHtmlView
 	/**
 	 * The model state
 	 *
-	 * @var  \JObject
+	 * @var  \Joomla\CMS\Object\CMSObject
 	 */
 	protected $state;
 
 	/**
 	 * Form object for search filters
 	 *
-	 * @var    \JForm
+	 * @var    \Joomla\CMS\Form\Form
+	 *
 	 * @since  4.0.0
 	 */
 	public $filterForm;
@@ -412,6 +413,6 @@ class HtmlView extends BaseHtmlView
 			$toolbar->preferences('com_menus');
 		}
 
-		$toolbar->help('JHELP_MENUS_MENU_ITEM_MANAGER');
+		$toolbar->help('Menus:_Items');
 	}
 }

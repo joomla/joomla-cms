@@ -16,6 +16,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Toolbar\ToolbarHelper;
+use Joomla\CMS\Version;
 
 /**
  * Joomla! Update's Default View
@@ -63,7 +64,8 @@ class HtmlView extends BaseHtmlView
 	/**
 	 * The model state
 	 *
-	 * @var    \JObject
+	 * @var    \Joomla\CMS\Object\CMSObject
+	 *
 	 * @since  4.0.0
 	 */
 	protected $state;
@@ -78,6 +80,25 @@ class HtmlView extends BaseHtmlView
 	protected $selfUpdateAvailable = false;
 
 	/**
+	 * The default admin template for the major version of Joomla that should be used when
+	 * upgrading to the next major version of Joomla
+	 *
+	 * @var string
+	 *
+	 * @since 4.0.0
+	 */
+	protected $defaultBackendTemplate = 'atum';
+
+	/**
+	 * Flag if default backend template is being used
+	 *
+	 * @var boolean  True when default backend template is being used
+	 *
+	 * @since 4.0.0
+	 */
+	protected $isDefaultBackendTemplate = false;
+
+	/**
 	 * A special prefix used for the emptystate layout variable
 	 *
 	 * @var string  The prefix
@@ -85,6 +106,14 @@ class HtmlView extends BaseHtmlView
 	 * @since 4.0.0
 	 */
 	protected $messagePrefix = '';
+
+	/**
+	 * List of non core critical plugins
+	 *
+	 * @var    \stdClass[]
+	 * @since  4.0.0
+	 */
+	protected $nonCoreCriticalPlugins = [];
 
 	/**
 	 * Renders the view
@@ -101,10 +130,18 @@ class HtmlView extends BaseHtmlView
 		$this->selfUpdateAvailable = $this->get('CheckForSelfUpdate');
 
 		// Get results of pre update check evaluations
-		$this->phpOptions             = $this->get('PhpOptions');
-		$this->phpSettings            = $this->get('PhpSettings');
-		$this->nonCoreExtensions      = $this->get('NonCoreExtensions');
-		$this->nonCoreCriticalPlugins = $this->get('NonCorePlugins');
+		$model                          = $this->getModel();
+		$this->phpOptions               = $this->get('PhpOptions');
+		$this->phpSettings              = $this->get('PhpSettings');
+		$this->nonCoreExtensions        = $this->get('NonCoreExtensions');
+		$this->isDefaultBackendTemplate = (bool) $model->isTemplateActive($this->defaultBackendTemplate);
+		$nextMajorVersion               = Version::MAJOR_VERSION + 1;
+
+		// The critical plugins check is only available for major updates.
+		if (version_compare($this->updateInfo['latest'], (string) $nextMajorVersion, '>='))
+		{
+			$this->nonCoreCriticalPlugins = $this->get('NonCorePlugins');
+		}
 
 		// Set to true if a required PHP option is not ok
 		$isCritical = false;
@@ -153,9 +190,13 @@ class HtmlView extends BaseHtmlView
 			}
 		}
 		// Here we have now two options: preupdatecheck or update
-		elseif ($this->getLayout() != 'update' || $isCritical)
+		elseif ($this->getLayout() != 'update' && ($isCritical || $this->shouldDisplayPreUpdateCheck()))
 		{
 			$this->setLayout('preupdatecheck');
+		}
+		else
+		{
+			$this->setLayout('update');
 		}
 
 		if (in_array($this->getLayout(), ['preupdatecheck', 'update', 'upload']))
@@ -172,7 +213,6 @@ class HtmlView extends BaseHtmlView
 		switch ($params->get('updatesource', 'default'))
 		{
 			// "Minor & Patch Release for Current version AND Next Major Release".
-			case 'sts':
 			case 'next':
 				$this->langKey         = 'COM_JOOMLAUPDATE_VIEW_DEFAULT_UPDATES_INFO_NEXT';
 				$this->updateSourceKey = Text::_('COM_JOOMLAUPDATE_CONFIG_UPDATESOURCE_NEXT');
@@ -194,6 +234,7 @@ class HtmlView extends BaseHtmlView
 			 * "Minor & Patch Release for Current version (recommended and default)".
 			 * The commented "case" below are for documenting where 'default' and legacy options falls
 			 * case 'default':
+			 * case 'sts':
 			 * case 'lts':
 			 * case 'nochange':
 			 */
@@ -243,7 +284,7 @@ class HtmlView extends BaseHtmlView
 		}
 
 		ToolbarHelper::divider();
-		ToolbarHelper::help('JHELP_COMPONENTS_JOOMLA_UPDATE');
+		ToolbarHelper::help('Joomla_Update');
 	}
 
 	/**
@@ -255,7 +296,16 @@ class HtmlView extends BaseHtmlView
 	 */
 	public function shouldDisplayPreUpdateCheck()
 	{
-		return isset($this->updateInfo['object']->downloadurl->_data)
-			&& !empty($this->updateInfo['hasUpdate']);
+		// When the download URL is not found there is no core upgrade path
+		if (!isset($this->updateInfo['object']->downloadurl->_data))
+		{
+			return false;
+		}
+
+		$nextMinor = Version::MAJOR_VERSION . '.' . (Version::MINOR_VERSION + 1);
+
+		// Show only when we found a download URL, we have an update and when we update to the next minor or greater.
+		return $this->updateInfo['hasUpdate']
+			&& version_compare($this->updateInfo['latest'], $nextMinor, '>=');
 	}
 }

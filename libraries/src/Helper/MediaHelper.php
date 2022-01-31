@@ -13,6 +13,7 @@ namespace Joomla\CMS\Helper;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\File;
+use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\Registry\Registry;
@@ -24,6 +25,20 @@ use Joomla\Registry\Registry;
  */
 class MediaHelper
 {
+	/**
+	 * A special list of blocked executable extensions, skipping executables that are
+	 * typically executable in the webserver context as those are fetched from
+	 * Joomla\CMS\Filter\InputFilter
+	 *
+	 * @var    string[]
+	 * @since  4.0.0
+	 */
+	public const EXECUTABLES = array(
+		'js', 'exe', 'dll', 'go', 'ade', 'adp', 'bat', 'chm', 'cmd', 'com', 'cpl', 'hta',
+		'ins', 'isp', 'jse', 'lib', 'mde', 'msc', 'msp', 'mst', 'pif', 'scr', 'sct', 'shb',
+		'sys', 'vb', 'vbe', 'vbs', 'vxd', 'wsc', 'wsf', 'wsh', 'html', 'htm', 'msi'
+	);
+
 	/**
 	 * Checks if the file is an image
 	 *
@@ -143,6 +158,47 @@ class MediaHelper
 	}
 
 	/**
+	 * Checks the file extension
+	 *
+	 * @param   string  $extension  The extension to be checked
+	 * @param   string  $component  The optional name for the component storing the parameters
+	 *
+	 * @return  boolean  true if it passes the checks else false
+	 *
+	 * @since   4.0.0
+	 */
+	public static function checkFileExtension($extension, $component = 'com_media', $allowedExecutables = array()): bool
+	{
+		$params = ComponentHelper::getParams($component);
+
+		// Media file names should never have executable extensions buried in them.
+		$executables = array_merge(self::EXECUTABLES, InputFilter::FORBIDDEN_FILE_EXTENSIONS);
+
+		// Remove allowed executables from array
+		if (count($allowedExecutables))
+		{
+			$executables = array_diff($executables, $allowedExecutables);
+		}
+
+		if (in_array($extension, $executables, true))
+		{
+			return false;
+		}
+
+		$allowable = array_map('trim', explode(',', $params->get('restrict_uploads_extensions', 'bmp,gif,jpg,jpeg,png,webp,ico,mp3,m4a,mp4a,ogg,mp4,mp4v,mpeg,mov,odg,odp,ods,odt,pdf,ppt,txt,xcf,xls,csv')));
+		$ignored   = array_map('trim', explode(',', $params->get('ignore_extensions', '')));
+
+		if ($extension == '' || $extension == false || (!\in_array($extension, $allowable, true) && !\in_array($extension, $ignored, true)))
+		{
+			return false;
+		}
+
+		// We don't check mime at all or it passes the checks
+		return true;
+	}
+
+
+	/**
 	 * Checks if the file can be uploaded
 	 *
 	 * @param   array   $file                File information
@@ -185,18 +241,15 @@ class MediaHelper
 		array_shift($filetypes);
 
 		// Media file names should never have executable extensions buried in them.
-		$executable = array(
-			'php', 'js', 'exe', 'phtml', 'java', 'perl', 'py', 'asp', 'dll', 'go', 'ade', 'adp', 'bat', 'chm', 'cmd', 'com', 'cpl', 'hta', 'ins', 'isp',
-			'jse', 'lib', 'mde', 'msc', 'msp', 'mst', 'pif', 'scr', 'sct', 'shb', 'sys', 'vb', 'vbe', 'vbs', 'vxd', 'wsc', 'wsf', 'wsh', 'html', 'htm',
-		);
+		$executables = array_merge(self::EXECUTABLES, InputFilter::FORBIDDEN_FILE_EXTENSIONS);
 
 		// Remove allowed executables from array
 		if (count($allowedExecutables))
 		{
-			$executable = array_diff($executable, $allowedExecutables);
+			$executables = array_diff($executables, $allowedExecutables);
 		}
 
-		$check = array_intersect($filetypes, $executable);
+		$check = array_intersect($filetypes, $executables);
 
 		if (!empty($check))
 		{
@@ -208,7 +261,7 @@ class MediaHelper
 		$filetype = array_pop($filetypes);
 
 		$allowable = array_map('trim', explode(',', $params->get('restrict_uploads_extensions', 'bmp,gif,jpg,jpeg,png,webp,ico,mp3,m4a,mp4a,ogg,mp4,mp4v,mpeg,mov,odg,odp,ods,odt,pdf,png,ppt,txt,xcf,xls,csv')));
-		$ignored   = array_map('trim', explode(',', $params->get('ignore_extensions')));
+		$ignored   = array_map('trim', explode(',', $params->get('ignore_extensions', '')));
 
 		if ($filetype == '' || $filetype == false || (!\in_array($filetype, $allowable) && !\in_array($filetype, $ignored)))
 		{
@@ -474,7 +527,7 @@ class MediaHelper
 	 *
 	 * @return  string
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public static function getCleanMediaFieldValue($value)
 	{

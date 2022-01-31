@@ -14,8 +14,8 @@
 		<folder>tmpl</folder>
 	</files>
 	<languages>
-		<language tag="en-GB">en-GB.plg_content_pagenavigation.ini</language>
-		<language tag="en-GB">en-GB.plg_content_pagenavigation.sys.ini</language>
+		<language tag="en-GB">language/en-GB/plg_content_pagenavigation.ini</language>
+		<language tag="en-GB">language/en-GB/plg_content_pagenavigation.sys.ini</language>
 	</languages>
 	<config>
 		<fields name="params">

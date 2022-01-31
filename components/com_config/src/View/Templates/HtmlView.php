@@ -12,6 +12,7 @@ namespace Joomla\Component\Config\Site\View\Templates;
 \defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
+use Joomla\CMS\Form\Form;
 use Joomla\CMS\MVC\Factory\MVCFactory;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\Component\Config\Administrator\Controller\RequestController;
@@ -27,6 +28,7 @@ class HtmlView extends BaseHtmlView
 	 * The data to be displayed in the form
 	 *
 	 * @var   array
+	 *
 	 * @since 3.2
 	 */
 	public $item;
@@ -34,7 +36,8 @@ class HtmlView extends BaseHtmlView
 	/**
 	 * The form object
 	 *
-	 * @var   \JForm
+	 * @var   Form
+	 *
 	 * @since 3.2
 	 */
 	public $form;
@@ -43,6 +46,7 @@ class HtmlView extends BaseHtmlView
 	 * Is the current user a super administrator?
 	 *
 	 * @var   boolean
+	 *
 	 * @since 3.2
 	 */
 	protected $userIsSuperAdmin;
@@ -51,6 +55,7 @@ class HtmlView extends BaseHtmlView
 	 * The page class suffix
 	 *
 	 * @var    string
+	 *
 	 * @since  4.0.0
 	 */
 	protected $pageclass_sfx = '';
@@ -59,6 +64,7 @@ class HtmlView extends BaseHtmlView
 	 * The page parameters
 	 *
 	 * @var    \Joomla\Registry\Registry|null
+	 *
 	 * @since  4.0.0
 	 */
 	protected $params = null;
@@ -100,7 +106,7 @@ class HtmlView extends BaseHtmlView
 
 		$data = array_merge($configData, $serviceData);
 
-		/** @var \JForm $form */
+		/** @var Form $form */
 		$form = $this->getForm();
 
 		if ($form)
@@ -130,7 +136,6 @@ class HtmlView extends BaseHtmlView
 
 		// Because the application sets a default page title, we need to get it
 		// right from the menu item itself
-
 		$this->setDocumentTitle($params->get('page_title', ''));
 
 		if ($params->get('menu-meta_description'))
@@ -144,7 +149,7 @@ class HtmlView extends BaseHtmlView
 		}
 
 		// Escape strings for HTML output
-		$this->pageclass_sfx = htmlspecialchars($params->get('pageclass_sfx'));
+		$this->pageclass_sfx = htmlspecialchars($params->get('pageclass_sfx', ''));
 		$this->params        = &$params;
 	}
 }
