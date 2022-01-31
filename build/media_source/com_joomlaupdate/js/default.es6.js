@@ -61,7 +61,7 @@ Joomla = window.Joomla || {};
       uploadField.addEventListener('change', Joomla.installpackageChange);
       uploadField.addEventListener('change', () => {
         const fileSize = uploadForm.install_package.files[0].size;
-        const allowedSize = uploadForm.max_upload_size.value
+        const allowedSize = uploadForm.max_upload_size.value;
         if (fileSize <= allowedSize && updateCheck.disabled) {
           updateCheck.disabled = !updateCheck.disabled;
         }
