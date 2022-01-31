@@ -11,7 +11,7 @@ namespace Joomla\Component\Banners\Administrator\Controller;
 
 \defined('_JEXEC') or die;
 
-use Joomla\CMS\Application\CmsApplication;
+use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\AdminController;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
@@ -38,7 +38,7 @@ class BannersController extends AdminController
 	 *
 	 * @param   array                $config   An optional associative array of configuration settings.
 	 * @param   MVCFactoryInterface  $factory  The factory.
-	 * @param   CmsApplication       $app      The JApplication for the dispatcher
+	 * @param   CMSApplication       $app      The Application for the dispatcher
 	 * @param   Input                $input    Input
 	 *
 	 * @since   3.0
@@ -109,7 +109,7 @@ class BannersController extends AdminController
 					$ntext = 'COM_BANNERS_N_BANNERS_UNSTUCK';
 				}
 
-				$this->setMessage(Text::plural($ntext, count($ids)));
+				$this->setMessage(Text::plural($ntext, \count($ids)));
 			}
 		}
 

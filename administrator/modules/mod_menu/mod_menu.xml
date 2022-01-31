@@ -16,10 +16,10 @@
 		<folder>tmpl</folder>
 	</files>
 	<languages>
-		<language tag="en-GB">en-GB.mod_menu.ini</language>
-		<language tag="en-GB">en-GB.mod_menu.sys.ini</language>
+		<language tag="en-GB">language/en-GB/mod_menu.ini</language>
+		<language tag="en-GB">language/en-GB/mod_menu.sys.ini</language>
 	</languages>
-	<help key="JHELP_EXTENSIONS_MODULE_MANAGER_ADMIN_MENU" />
+	<help key="Admin_Modules:_Administrator_Menu" />
 	<config>
 		<fields name="params">
 			<fieldset name="basic" addfieldprefix="Joomla\Component\Menus\Administrator\Field">
@@ -87,7 +87,6 @@
 					label="MOD_MENU_FIELD_FORUMURL_LABEL"
 					description="MOD_MENU_FIELD_FORUMURL_DESC"
 					filter="url"
-					size="30"
 					default=""
 					showon="menutype:*"
 					validate="url"

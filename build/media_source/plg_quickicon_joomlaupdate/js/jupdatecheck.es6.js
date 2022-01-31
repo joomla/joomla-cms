@@ -4,8 +4,6 @@
  */
 
 if (Joomla && Joomla.getOptions('js-extensions-update')) {
-  const options = Joomla.getOptions('js-joomla-update');
-
   const update = (type, text) => {
     const link = document.getElementById('plg_quickicon_joomlaupdate');
     const linkSpans = [].slice.call(link.querySelectorAll('span.j-links-link'));
@@ -15,39 +13,48 @@ if (Joomla && Joomla.getOptions('js-extensions-update')) {
 
     if (linkSpans.length) {
       linkSpans.forEach((span) => {
-        span.innerHTML = text;
+        span.innerHTML = Joomla.sanitizeHtml(text);
       });
     }
   };
 
-  fetch(options.ajaxUrl, { method: 'GET' })
-    .then((response) => {
-      response.json().then((updateInfoList) => {
-        if (Array.isArray(updateInfoList)) {
-          if (updateInfoList.length === 0) {
-            // No updates
-            update('success', Joomla.Text._('PLG_QUICKICON_JOOMLAUPDATE_UPTODATE'));
-          } else {
-            const updateInfo = updateInfoList.shift();
+  const fetchUpdate = () => {
+    const options = Joomla.getOptions('js-joomla-update');
 
-            if (updateInfo.version !== options.version) {
-              update('danger', Joomla.Text._('PLG_QUICKICON_JOOMLAUPDATE_UPDATEFOUND').replace('%s', `<span class="badge text-dark bg-light"> \u200E ${updateInfo.version}</span>`));
-            } else {
+    fetch(options.ajaxUrl, { method: 'GET' })
+      .then((response) => {
+        response.json().then((updateInfoList) => {
+          if (Array.isArray(updateInfoList)) {
+            if (updateInfoList.length === 0) {
+              // No updates
               update('success', Joomla.Text._('PLG_QUICKICON_JOOMLAUPDATE_UPTODATE'));
+            } else {
+              const updateInfo = updateInfoList.shift();
+
+              if (updateInfo.version !== options.version) {
+                update('danger', Joomla.Text._('PLG_QUICKICON_JOOMLAUPDATE_UPDATEFOUND').replace('%s', `<span class="badge text-dark bg-light"> \u200E ${updateInfo.version}</span>`));
+              } else {
+                update('success', Joomla.Text._('PLG_QUICKICON_JOOMLAUPDATE_UPTODATE'));
+              }
             }
+          } else {
+            // An error occurred
+            update('danger', Joomla.Text._('PLG_QUICKICON_JOOMLAUPDATE_ERROR'));
           }
-        } else {
-          // An error occurred
-          update('danger', Joomla.Text._('PLG_QUICKICON_JOOMLAUPDATE_ERROR'));
-        }
+        })
+          .catch(() => {
+            // An error occurred
+            update('danger', Joomla.Text._('PLG_QUICKICON_JOOMLAUPDATE_ERROR'));
+          });
       })
-        .catch(() => {
-          // An error occurred
-          update('danger', Joomla.Text._('PLG_QUICKICON_JOOMLAUPDATE_ERROR'));
-        });
-    })
-    .catch(() => {
-      // An error occurred
-      update('danger', Joomla.Text._('PLG_QUICKICON_JOOMLAUPDATE_ERROR'));
-    });
+      .catch(() => {
+        // An error occurred
+        update('danger', Joomla.Text._('PLG_QUICKICON_JOOMLAUPDATE_ERROR'));
+      });
+  };
+
+  // Give some times to the layout and other scripts to settle their stuff
+  window.addEventListener('load', () => {
+    setTimeout(fetchUpdate, 300);
+  });
 }

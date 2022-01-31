@@ -159,7 +159,7 @@ class Filter
 
 			foreach ($nodes as $nk => $nv)
 			{
-				if (trim($nv->parent_title, '**') === 'Language')
+				if (trim($nv->parent_title, '*') === 'Language')
 				{
 					$title = LanguageHelper::branchLanguageTitle($nv->title);
 				}
@@ -182,9 +182,7 @@ class Filter
 			);
 
 			// Populate the toggle button.
-			// @todo Remove jQuery
-			$html .= '<button class="btn btn-secondary" type="button" onclick="jQuery(\'[id=&quot;tax-'
-				. $bk . '&quot;]\').each(function(){this.click();});"><span class="icon-square" aria-hidden="true"></span> '
+			$html .= '<button class="btn btn-secondary js-filter" type="button" data-id="tax-' . $bk . '"><span class="icon-square" aria-hidden="true"></span> '
 				. Text::_('JGLOBAL_SELECTION_INVERT') . '</button><hr>';
 
 			// Populate the group with nodes.
@@ -196,8 +194,8 @@ class Filter
 				// Build a node.
 				$html .= '<div class="form-check">';
 				$html .= '<label class="form-check-label">';
-				$html .= '<input type="checkbox" class="form-check-input selector filter-node' . $classSuffix . '" value="' . $nk . '" name="t[]" id="tax-'
-					. $bk . '"' . $checked . '> ' . str_repeat('&mdash;', $nv->level - 2) . $nv->title;
+				$html .= '<input type="checkbox" class="form-check-input selector filter-node' . $classSuffix
+					. ' tax-' . $bk . '" value="' . $nk . '" name="t[]"' . $checked . '> ' . str_repeat('&mdash;', $nv->level - 2) . $nv->title;
 				$html .= '</label>';
 				$html .= '</div>';
 			}
@@ -322,11 +320,11 @@ class Filter
 				$query->clear()
 					->select('t.*')
 					->from($db->quoteName('#__finder_taxonomy') . ' AS t')
-					->where('t.lft >= ' . (int) $bv->lft)
-					->where('t.rgt <= ' . (int) $bv->rgt)
+					->where('t.lft > ' . (int) $bv->lft)
+					->where('t.rgt < ' . (int) $bv->rgt)
 					->where('t.state = 1')
 					->where('t.access IN (' . $groups . ')')
-					->order('t.lft, t.title');
+					->order('t.title');
 
 				// Self-join to get the parent title.
 				$query->select('e.title AS parent_title')
@@ -355,7 +353,7 @@ class Filter
 
 				foreach ($branches[$bk]->nodes as $node_id => $node)
 				{
-					if (trim($node->parent_title, '**') === 'Language')
+					if (trim($node->parent_title, '*') === 'Language')
 					{
 						$title = LanguageHelper::branchLanguageTitle($node->title);
 					}

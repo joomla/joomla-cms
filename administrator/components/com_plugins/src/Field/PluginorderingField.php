@@ -32,7 +32,7 @@ class PluginorderingField extends OrderingField
 	/**
 	 * Builds the query for the ordering list.
 	 *
-	 * @return  \JDatabaseQuery  The query for the ordering form field.
+	 * @return  \Joomla\Database\DatabaseQuery  The query for the ordering form field.
 	 */
 	protected function getQuery()
 	{

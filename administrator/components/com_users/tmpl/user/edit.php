@@ -30,12 +30,12 @@ $settings  = array();
 
 $this->useCoreUI = true;
 ?>
-<form action="<?php echo Route::_('index.php?option=com_users&layout=edit&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="user-form" enctype="multipart/form-data" aria-label="<?php echo Text::_('COM_USERS_USER_FORM_' . ( (int) $this->item->id === 0 ? 'NEW' : 'EDIT'), true); ?>" class="form-validate">
+<form action="<?php echo Route::_('index.php?option=com_users&layout=edit&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="user-form" enctype="multipart/form-data" aria-label="<?php echo Text::_('COM_USERS_USER_FORM_' . ((int) $this->item->id === 0 ? 'NEW' : 'EDIT'), true); ?>" class="form-validate">
 
 	<h2><?php echo $this->form->getValue('name', null, Text::_('COM_USERS_USER_NEW_USER_TITLE')); ?></h2>
 
 	<div class="main-card">
-		<?php echo HTMLHelper::_('uitab.startTabSet', 'myTab', array('active' => 'details')); ?>
+		<?php echo HTMLHelper::_('uitab.startTabSet', 'myTab', ['active' => 'details', 'recall' => true, 'breakpoint' => 768]); ?>
 
 		<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'details', Text::_('COM_USERS_USER_ACCOUNT_DETAILS')); ?>
 			<fieldset class="options-form">
@@ -85,30 +85,28 @@ $this->useCoreUI = true;
 						</div>
 					<?php endforeach; ?>
 				</div>
-
-				<fieldset>
-					<legend>
-						<?php echo Text::_('COM_USERS_USER_OTEPS'); ?>
-					</legend>
-					<div class="alert alert-info">
-						<span class="icon-info-circle" aria-hidden="true"></span><span class="visually-hidden"><?php echo Text::_('INFO'); ?></span>
-						<?php echo Text::_('COM_USERS_USER_OTEPS_DESC'); ?>
-					</div>
-					<?php if (empty($this->otpConfig->otep)) : ?>
-						<div class="alert alert-warning">
-							<span class="icon-exclamation-circle" aria-hidden="true"></span><span class="visually-hidden"><?php echo Text::_('WARNING'); ?></span>
-							<?php echo Text::_('COM_USERS_USER_OTEPS_WAIT_DESC'); ?>
-						</div>
-					<?php else : ?>
-						<?php foreach ($this->otpConfig->otep as $otep) : ?>
-							<span class="col-lg-3">
-								<?php echo substr($otep, 0, 4); ?>-<?php echo substr($otep, 4, 4); ?>-<?php echo substr($otep, 8, 4); ?>-<?php echo substr($otep, 12, 4); ?>
-							</span>
-						<?php endforeach; ?>
-					<?php endif; ?>
-				</fieldset>
 			</fieldset>
-			
+			<hr>
+
+			<h3>
+				<?php echo Text::_('COM_USERS_USER_OTEPS'); ?>
+			</h3>
+
+			<div class="alert alert-info">
+				<span class="icon-info-circle" aria-hidden="true"></span><span class="visually-hidden"><?php echo Text::_('INFO'); ?></span>
+				<?php echo Text::_('COM_USERS_USER_OTEPS_DESC'); ?>
+			</div>
+			<?php if (empty($this->otpConfig->otep)) : ?>
+				<div class="alert alert-warning">
+					<span class="icon-exclamation-circle" aria-hidden="true"></span><span class="visually-hidden"><?php echo Text::_('WARNING'); ?></span>
+					<?php echo Text::_('COM_USERS_USER_OTEPS_WAIT_DESC'); ?>
+				</div>
+			<?php else : ?>
+				<?php foreach ($this->otpConfig->otep as $otep) : ?>
+					<?php echo wordwrap($otep, 4, '-', true); ?><br>
+				<?php endforeach; ?>
+			<?php endif; ?>
+
 		<?php echo HTMLHelper::_('uitab.endTab'); ?>
 		<?php endif; ?>
 

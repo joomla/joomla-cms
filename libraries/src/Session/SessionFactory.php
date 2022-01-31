@@ -1,7 +1,6 @@
 <?php
 /**
- * @package     Joomla.Libraries
- * @subpackage  Service
+ * Joomla! Content Management System
  *
  * @copyright   (C) 2018 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE
@@ -106,7 +105,7 @@ class SessionFactory implements ContainerAwareInterface
 				$host  = $config->get('session_redis_server_host', '127.0.0.1');
 
 				// Use default port if connecting over a socket whatever the config value
-				$port = $host[0] === '/' ? $config->get('session_redis_server_port', 6379) : 6379;
+				$port = $host[0] === '/' ? 0 : $config->get('session_redis_server_port', 6379);
 
 				if ($config->get('session_redis_persist', true))
 				{

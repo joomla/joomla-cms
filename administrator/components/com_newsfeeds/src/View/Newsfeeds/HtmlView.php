@@ -17,6 +17,7 @@ use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
+use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 
@@ -30,7 +31,8 @@ class HtmlView extends BaseHtmlView
 	/**
 	 * The list of newsfeeds
 	 *
-	 * @var    \JObject
+	 * @var    CMSObject
+	 *
 	 * @since  1.6
 	 */
 	protected $items;
@@ -39,6 +41,7 @@ class HtmlView extends BaseHtmlView
 	 * The pagination object
 	 *
 	 * @var    \Joomla\CMS\Pagination\Pagination
+	 *
 	 * @since  1.6
 	 */
 	protected $pagination;
@@ -46,7 +49,8 @@ class HtmlView extends BaseHtmlView
 	/**
 	 * The model state
 	 *
-	 * @var    \JObject
+	 * @var    CMSObject
+	 *
 	 * @since  1.6
 	 */
 	protected $state;
@@ -54,8 +58,9 @@ class HtmlView extends BaseHtmlView
 	/**
 	 * Is this view an Empty State
 	 *
-	 * @var  boolean
-	 * @since __DEPLOY_VERSION__
+	 * @var    boolean
+	 *
+	 * @since  4.0.0
 	 */
 	private $isEmptyState = false;
 
@@ -64,7 +69,7 @@ class HtmlView extends BaseHtmlView
 	 *
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
 	 *
-	 * @return  mixed  A string if successful, otherwise an Error object.
+	 * @return  void
 	 *
 	 * @since   1.6
 	 */
@@ -180,7 +185,7 @@ class HtmlView extends BaseHtmlView
 			}
 		}
 
-		if ($state->get('filter.published') == -2 && $canDo->get('core.delete'))
+		if (!$this->isEmptyState && $state->get('filter.published') == -2 && $canDo->get('core.delete'))
 		{
 			$toolbar->delete('newsfeeds.delete')
 				->text('JTOOLBAR_EMPTY_TRASH')
@@ -193,6 +198,6 @@ class HtmlView extends BaseHtmlView
 			$toolbar->preferences('com_newsfeeds');
 		}
 
-		$toolbar->help('JHELP_COMPONENTS_NEWSFEEDS_FEEDS');
+		$toolbar->help('News_Feeds');
 	}
 }

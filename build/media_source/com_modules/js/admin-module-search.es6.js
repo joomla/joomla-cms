@@ -36,6 +36,8 @@
 // Make sure the element exists i.e. a template override has not removed it.
 const elSearch = document.getElementById('comModulesSelectSearch');
 const elSearchContainer = document.getElementById('comModulesSelectSearchContainer');
+const elSearchHeader = document.getElementById('comModulesSelectTypeHeader');
+const elSearchResults = document.getElementById('comModulesSelectResultsContainer');
 const alertElement = document.querySelector('.modules-alert');
 const elCards = [].slice.call(document.querySelectorAll('.comModulesSelectCard'));
 
@@ -77,8 +79,12 @@ if (elSearch && elSearchContainer) {
 
     if (hasSearchResults || !partialSearch) {
       alertElement.classList.add('d-none');
+      elSearchHeader.classList.remove('d-none');
+      elSearchResults.classList.remove('d-none');
     } else {
       alertElement.classList.remove('d-none');
+      elSearchHeader.classList.add('d-none');
+      elSearchResults.classList.add('d-none');
     }
   });
 

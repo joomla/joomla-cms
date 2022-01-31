@@ -4,7 +4,7 @@
  * @subpackage  Templates.Atum
  * @copyright   (C) 2018 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
- * @since       4.0
+ * @since       4.0.0
  */
 
 defined('_JEXEC') or die;
@@ -26,7 +26,6 @@ $option = $input->get('option', '');
 $view   = $input->get('view', '');
 $layout = $input->get('layout', 'default');
 $task   = $input->get('task', 'display');
-$params = $app->getTemplate(true)->params;
 
 // Browsers support SVG favicons
 $this->addHeadLink(HTMLHelper::_('image', 'joomla-favicon.svg', '', [], true, 1), 'icon', 'rel', ['type' => 'image/svg+xml']);
@@ -34,28 +33,28 @@ $this->addHeadLink(HTMLHelper::_('image', 'favicon.ico', '', [], true, 1), 'alte
 $this->addHeadLink(HTMLHelper::_('image', 'joomla-favicon-pinned.svg', '', [], true, 1), 'mask-icon', 'rel', ['color' => '#000']);
 
 // Template params
-$logoBrandLarge  = $params->get('logoBrandLarge')
-	? Uri::root() . htmlspecialchars($params->get('logoBrandLarge'), ENT_QUOTES)
-	: $this->baseurl . '/templates/' . $this->template . '/images/logos/brand-large.svg';
-$loginLogo = $params->get('loginLogo')
-	? Uri::root() . $params->get('loginLogo')
-	: $this->baseurl . '/templates/' . $this->template . '/images/logos/login.svg';
-$logoBrandSmall = $params->get('logoBrandSmall')
-	? Uri::root() . htmlspecialchars($params->get('logoBrandSmall'), ENT_QUOTES)
-	: $this->baseurl . '/templates/' . $this->template . '/images/logos/brand-small.svg';
+$logoBrandLarge  = $this->params->get('logoBrandLarge')
+	? Uri::root() . htmlspecialchars($this->params->get('logoBrandLarge'), ENT_QUOTES)
+	: Uri::root() . 'media/templates/administrator/atum/images/logos/brand-large.svg';
+$loginLogo = $this->params->get('loginLogo')
+	? Uri::root() . $this->params->get('loginLogo')
+	: Uri::root() . 'media/templates/administrator/atum/images/logos/login.svg';
+$logoBrandSmall = $this->params->get('logoBrandSmall')
+	? Uri::root() . htmlspecialchars($this->params->get('logoBrandSmall'), ENT_QUOTES)
+	: Uri::root() . 'media/templates/administrator/atum/images/logos/brand-small.svg';
 
-$logoBrandLargeAlt = empty($params->get('logoBrandLargeAlt')) && empty($params->get('emptyLogoBrandLargeAlt'))
+$logoBrandLargeAlt = empty($this->params->get('logoBrandLargeAlt')) && empty($this->params->get('emptyLogoBrandLargeAlt'))
 	? 'alt=""'
-	: 'alt="' . htmlspecialchars($params->get('logoBrandLargeAlt'), ENT_COMPAT, 'UTF-8') . '"';
-$logoBrandSmallAlt = empty($params->get('logoBrandSmallAlt')) && empty($params->get('emptyLogoBrandSmallAlt'))
+	: 'alt="' . htmlspecialchars($this->params->get('logoBrandLargeAlt'), ENT_COMPAT, 'UTF-8') . '"';
+$logoBrandSmallAlt = empty($this->params->get('logoBrandSmallAlt')) && empty($this->params->get('emptyLogoBrandSmallAlt'))
 	? 'alt=""'
-	: 'alt="' . htmlspecialchars($params->get('logoBrandSmallAlt'), ENT_COMPAT, 'UTF-8') . '"';
-$loginLogoAlt = empty($params->get('loginLogoAlt')) && empty($params->get('emptyLoginLogoAlt'))
+	: 'alt="' . htmlspecialchars($this->params->get('logoBrandSmallAlt'), ENT_COMPAT, 'UTF-8') . '"';
+$loginLogoAlt = empty($this->params->get('loginLogoAlt')) && empty($this->params->get('emptyLoginLogoAlt'))
 	? 'alt=""'
-	: 'alt="' . htmlspecialchars($params->get('loginLogoAlt'), ENT_COMPAT, 'UTF-8') . '"';
+	: 'alt="' . htmlspecialchars($this->params->get('loginLogoAlt'), ENT_COMPAT, 'UTF-8') . '"';
 
-// Get the hue value
-preg_match('#^hsla?\(([0-9]+)[\D]+([0-9]+)[\D]+([0-9]+)[\D]+([0-9](?:.\d+)?)?\)$#i', $params->get('hue', 'hsl(214, 63%, 20%)'), $matches);
+	// Get the hue value
+preg_match('#^hsla?\(([0-9]+)[\D]+([0-9]+)[\D]+([0-9]+)[\D]+([0-9](?:.\d+)?)?\)$#i', $this->params->get('hue', 'hsl(214, 63%, 20%)'), $matches);
 
 // Enable assets
 $wa->usePreset('template.atum.' . ($this->direction === 'rtl' ? 'rtl' : 'ltr'))
@@ -63,11 +62,11 @@ $wa->usePreset('template.atum.' . ($this->direction === 'rtl' ? 'rtl' : 'ltr'))
 	->useStyle('template.user')
 	->addInlineStyle(':root {
 		--hue: ' . $matches[1] . ';
-		--atum-bg-light: ' . $params->get('bg-light', '#f0f4fb') . ';
-		--atum-text-dark: ' . $params->get('text-dark', '#495057') . ';
-		--atum-text-light: ' . $params->get('text-light', '#ffffff') . ';
-		--atum-link-color: ' . $params->get('link-color', '#2a69b8') . ';
-		--atum-special-color: ' . $params->get('special-color', '#001B4C') . ';
+		--template-bg-light: ' . $this->params->get('bg-light', '#f0f4fb') . ';
+		--template-text-dark: ' . $this->params->get('text-dark', '#495057') . ';
+		--template-text-light: ' . $this->params->get('text-light', '#ffffff') . ';
+		--template-link-color: ' . $this->params->get('link-color', '#2a69b8') . ';
+		--template-special-color: ' . $this->params->get('special-color', '#001B4C') . ';
 	}');
 
 // Override 'template.active' asset to set correct ltr/rtl dependency
@@ -76,7 +75,7 @@ $wa->registerStyle('template.active', '', [], [], ['template.atum.' . ($this->di
 // Set some meta data
 $this->setMetaData('viewport', 'width=device-width, initial-scale=1');
 
-$monochrome = (bool) $params->get('monochrome');
+$monochrome = (bool) $this->params->get('monochrome');
 
 // @see administrator/templates/atum/html/layouts/status.php
 $statusModules = LayoutHelper::render('status', ['modules' => 'status']);

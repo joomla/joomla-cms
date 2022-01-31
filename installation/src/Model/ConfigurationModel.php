@@ -34,7 +34,7 @@ class ConfigurationModel extends BaseInstallationModel
 	 * The generated user ID.
 	 *
 	 * @var    integer
-	 * @since  4.0
+	 * @since  4.0.0
 	 */
 	protected static $userId = 0;
 
@@ -453,7 +453,6 @@ class ConfigurationModel extends BaseInstallationModel
 
 		// Meta settings.
 		$registry->set('MetaDesc', '');
-		$registry->set('MetaTitle', true);
 		$registry->set('MetaAuthor', true);
 		$registry->set('MetaVersion', false);
 		$registry->set('robots', '');
@@ -666,7 +665,7 @@ class ConfigurationModel extends BaseInstallationModel
 
 		if (file_exists($path))
 		{
-			unlink($path);
+			File::delete($path);
 		}
 	}
 }

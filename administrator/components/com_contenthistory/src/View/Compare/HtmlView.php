@@ -31,7 +31,7 @@ class HtmlView extends BaseHtmlView
 	/**
 	 * The model state
 	 *
-	 * @var  \JObject
+	 * @var  \Joomla\CMS\Object\CMSObject
 	 */
 	protected $state;
 
@@ -40,7 +40,7 @@ class HtmlView extends BaseHtmlView
 	 *
 	 * @param   string  $tpl  A template file to load. [optional]
 	 *
-	 * @return  mixed  \Exception on failure, void on success.
+	 * @return  void
 	 *
 	 * @since   3.2
 	 */
@@ -55,6 +55,6 @@ class HtmlView extends BaseHtmlView
 			throw new GenericDataException(implode("\n", $errors), 500);
 		}
 
-		return parent::display($tpl);
+		parent::display($tpl);
 	}
 }

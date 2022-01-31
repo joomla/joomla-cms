@@ -73,23 +73,6 @@ class ActionlogsModel extends ListModel
 	 */
 	protected function populateState($ordering = 'a.id', $direction = 'desc')
 	{
-		$app = Factory::getApplication();
-
-		$search = $app->getUserStateFromRequest($this->context . 'filter.search', 'filter_search', '', 'string');
-		$this->setState('filter.search', $search);
-
-		$user = $app->getUserStateFromRequest($this->context . 'filter.user', 'filter_user', '', 'string');
-		$this->setState('filter.user', $user);
-
-		$extension = $app->getUserStateFromRequest($this->context . 'filter.extension', 'filter_extension', '', 'string');
-		$this->setState('filter.extension', $extension);
-
-		$ip_address = $app->getUserStateFromRequest($this->context . 'filter.ip_address', 'filter_ip_address', '', 'string');
-		$this->setState('filter.ip_address', $ip_address);
-
-		$dateRange = $app->getUserStateFromRequest($this->context . 'filter.dateRange', 'filter_dateRange', '', 'string');
-		$this->setState('filter.dateRange', $dateRange);
-
 		parent::populateState($ordering, $direction);
 	}
 
@@ -183,8 +166,8 @@ class ActionlogsModel extends ListModel
 			else
 			{
 				$search = '%' . $search . '%';
-				$query->where($db->quoteName('u.username') . ' LIKE :username')
-					->bind(':username', $search);
+				$query->where($db->quoteName('a.message') . ' LIKE :message')
+					->bind(':message', $search);
 			}
 		}
 
@@ -286,7 +269,7 @@ class ActionlogsModel extends ListModel
 	}
 
 	/**
-	 * Get logs data into JTable object
+	 * Get logs data into Table object
 	 *
 	 * @param   integer[]|null  $pks  An optional array of log record IDs to load
 	 *
@@ -341,7 +324,7 @@ class ActionlogsModel extends ListModel
 			->from($db->quoteName('#__action_logs', 'a'))
 			->join('INNER', $db->quoteName('#__users', 'u') . ' ON ' . $db->quoteName('a.user_id') . ' = ' . $db->quoteName('u.id'));
 
-		if (is_array($pks) && count($pks) > 0)
+		if (\is_array($pks) && \count($pks) > 0)
 		{
 			$pks = ArrayHelper::toInteger($pks);
 			$query->whereIn($db->quoteName('a.id'), $pks);

@@ -24,7 +24,7 @@ $route = 'index.php?option=com_messages&view=messages';
 <a class="header-item-content" href="<?php echo Route::_($route); ?>" title="<?php echo Text::_('MOD_MESSAGES_PRIVATE_MESSAGES'); ?>">
 	<div class="header-item-icon">
 		<div class="w-auto">
-			<span class="fa-fw icon-envelope" aria-hidden="true"></span>
+			<span class="icon-envelope icon-fw" aria-hidden="true"></span>
 			<small class="header-item-count"><?php echo $countUnread; ?></small>
 		</div>
 	</div>

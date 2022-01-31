@@ -2,7 +2,7 @@
 .media-browser {
   position: relative;
   min-height: 70vh;
-  border-left: 1px solid $border-color;
+  border-inline-start: 1px solid $border-color;
   transition: width .3s cubic-bezier(.4, 0, .2, 1);
 }
 
@@ -291,26 +291,24 @@
 }
 
 .media-browser-table {
-  .name {
-    width: calc(30% - 40px);
-  }
   .size {
-    width: 15%;
+    width: 10%;
     text-align: right;
   }
   .dimension {
     width: 15%;
   }
   .created {
-    width: 20%;
+    width: 15%;
   }
   .modified {
-    width: 20%;
+    width: 15%;
   }
   .type {
     position: relative;
     z-index: 0;
-    width: 50px;
+    width: 49px;
+    min-width: 49px;
     padding: .6rem 0;
     font-size: $table-item-icon-size;
     line-height: $table-item-height;
@@ -379,7 +377,8 @@
   &[data-type="jpeg" i],
   &[data-type="tiff" i],
   &[data-type="bmp" i],
-  &[data-type="svg" i] {
+  &[data-type="svg" i],
+  &[data-type="webp" i] {
     &::before {
       content: $icon-type-images;
     }

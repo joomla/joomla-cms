@@ -13,8 +13,8 @@
 		<filename plugin="updatenotification">updatenotification.php</filename>
 	</files>
 	<languages folder="language">
-		<language tag="en-GB">en-GB.plg_system_updatenotification.ini</language>
-		<language tag="en-GB">en-GB.plg_system_updatenotification.sys.ini</language>
+		<language tag="en-GB">language/en-GB/plg_system_updatenotification.ini</language>
+		<language tag="en-GB">language/en-GB/plg_system_updatenotification.sys.ini</language>
 	</languages>
 	<config>
 		<fields name="params">
@@ -25,7 +25,6 @@
 					label="PLG_SYSTEM_UPDATENOTIFICATION_EMAIL_LBL"
 					description="PLG_SYSTEM_UPDATENOTIFICATION_EMAIL_DESC"
 					default=""
-					size="40"
 				/>
 
 				<field
@@ -43,7 +42,6 @@
 					name="lastrun"
 					type="hidden"
 					default="0"
-					size="15"
 				/>
 			</fieldset>
 		</fields>
