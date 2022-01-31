@@ -256,10 +256,7 @@
           "public/assets/styles/choices.css": "css/choices.css",
           "public/assets/styles/choices.min.css": "css/choices.min.css"
         },
-        "filesExtra": {
-          "src/styles/base.scss": "scss/base.scss",
-          "src/styles/choices.scss": "scss/choices.scss"
-        },
+        "comment": "filesExtra = src/styles/base.scss:scss/base.scss, src/styles/choices.scss:scss/choices.scss",
         "provideAssets": [
           {
             "name": "choicesjs",
