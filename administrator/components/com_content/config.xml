@@ -504,7 +504,6 @@
 			name="float_intro"
 			type="text"
 			label="COM_CONTENT_IMAGE_INTRO_CLASS_LABEL"
-			size="20"
 			showon="show_urls_images_backend:1[OR]show_urls_images_frontend:1"
 		/>
 
@@ -512,7 +511,6 @@
 			name="float_fulltext"
 			type="text"
 			label="COM_CONTENT_IMAGE_FULLTEXT_CLASS_LABEL"
-			size="20"
 			showon="show_urls_images_backend:1[OR]show_urls_images_frontend:1"
 		/>
 	</fieldset>
@@ -864,7 +862,6 @@
 			name="date_format"
 			type="text"
 			label="JGLOBAL_DATE_FORMAT_LABEL"
-			size="15"
 			showon="list_show_date:created,modified,published"
 		/>
 
@@ -888,6 +885,24 @@
 			>
 			<option value="0">JHIDE</option>
 			<option value="1">JSHOW</option>
+		</field>
+
+		<field
+			name="display_num"
+			type="list"
+			label="JGLOBAL_NUMBER_ITEMS_LIST_LABEL"
+			default="10"
+			validate="options"
+			>
+			<option value="5">J5</option>
+			<option value="10">J10</option>
+			<option value="15">J15</option>
+			<option value="20">J20</option>
+			<option value="25">J25</option>
+			<option value="30">J30</option>
+			<option value="50">J50</option>
+			<option value="100">J100</option>
+			<option value="0">JALL</option>
 		</field>
 
 		<field

@@ -17,9 +17,14 @@ use Joomla\CMS\Language\Text;
 	<legend><?php echo Text::_('COM_CONFIG_METADATA_SETTINGS'); ?></legend>
 
 	<?php foreach ($this->form->getFieldset('metadata') as $field) : ?>
-		<div class="control-group">
-			<div class="control-label"><?php echo $field->label; ?></div>
-			<div class="controls"><?php echo $field->input; ?></div>
+		<div class="mb-3">
+			<?php echo $field->label; ?>
+			<?php echo $field->input; ?>
+			<?php if ($field->description): ?>
+				<div class="form-text hide-aware-inline-help" id="<?php echo $field->id ?>-desc">
+					<?php echo Text::_($field->description) ?>
+				</div>
+			<?php endif; ?>
 		</div>
 	<?php endforeach; ?>
 

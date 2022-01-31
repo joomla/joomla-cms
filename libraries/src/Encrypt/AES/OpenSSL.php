@@ -203,16 +203,16 @@ class OpenSSL extends AbstractAES implements AesInterface
 			return false;
 		}
 
-		$algorightms = openssl_get_cipher_methods();
+		$algorithms = openssl_get_cipher_methods();
 
-		if (!\in_array('aes-128-cbc', $algorightms))
+		if (!\in_array('aes-128-cbc', $algorithms))
 		{
 			return false;
 		}
 
-		$algorightms = hash_algos();
+		$algorithms = hash_algos();
 
-		if (!\in_array('sha256', $algorightms))
+		if (!\in_array('sha256', $algorithms))
 		{
 			return false;
 		}
