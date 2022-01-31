@@ -12,7 +12,6 @@ namespace Joomla\Component\Config\Administrator\Controller;
 \defined('_JEXEC') or die;
 
 use Joomla\CMS\Application\CMSApplication;
-use Joomla\CMS\Client\ClientHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\FormController;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
@@ -34,7 +33,7 @@ class ComponentController extends FormController
 	 * Recognized key values include 'name', 'default_task', 'model_path', and
 	 * 'view_path' (this list is not meant to be comprehensive).
 	 * @param   MVCFactoryInterface  $factory  The factory.
-	 * @param   CMSApplication       $app      The JApplication for the dispatcher
+	 * @param   CMSApplication       $app      The Application for the dispatcher
 	 * @param   Input                $input    Input
 	 *
 	 * @since   3.0
@@ -61,9 +60,6 @@ class ComponentController extends FormController
 	{
 		// Check for request forgeries.
 		$this->checkToken();
-
-		// Set FTP credentials, if given.
-		ClientHelper::setCredentialsFromRequest('ftp');
 
 		$data    = $this->input->get('jform', [], 'ARRAY');
 		$id      = $this->input->get('id', null, 'INT');

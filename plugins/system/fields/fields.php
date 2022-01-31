@@ -84,16 +84,16 @@ class PlgSystemFields extends CMSPlugin
 	/**
 	 * The save event.
 	 *
-	 * @param   string   $context  The context
-	 * @param   JTable   $item     The table
-	 * @param   boolean  $isNew    Is new item
-	 * @param   array    $data     The validated data
+	 * @param   string                   $context  The context
+	 * @param   \Joomla\CMS\Table\Table  $item     The table
+	 * @param   boolean                  $isNew    Is new item
+	 * @param   array                    $data     The validated data
 	 *
 	 * @return  void
 	 *
 	 * @since   3.7.0
 	 */
-	public function onContentAfterSave($context, $item, $isNew, $data = array()): void
+	public function onContentAfterSave($context, $item, $isNew, $data = []): void
 	{
 		// Check if data is an array and the item has an id
 		if (!is_array($data) || empty($item->id) || empty($data['com_fields']))
@@ -130,13 +130,16 @@ class PlgSystemFields extends CMSPlugin
 		}
 
 		// Loading the model
-		$model = new \Joomla\Component\Fields\Administrator\Model\FieldModel(array('ignore_request' => true));
+
+		/** @var \Joomla\Component\Fields\Administrator\Model\FieldModel $model */
+		$model = Factory::getApplication()->bootComponent('com_fields')->getMVCFactory()
+			->createModel('Field', 'Administrator', ['ignore_request' => true]);
 
 		// Loop over the fields
 		foreach ($fields as $field)
 		{
 			// Determine the value if it is (un)available from the data
-			if (key_exists($field->name, $data['com_fields']))
+			if (array_key_exists($field->name, $data['com_fields']))
 			{
 				$value = $data['com_fields'][$field->name] === false ? null : $data['com_fields'][$field->name];
 			}
@@ -219,7 +222,9 @@ class PlgSystemFields extends CMSPlugin
 
 		$context = $parts[0] . '.' . $parts[1];
 
-		$model = new \Joomla\Component\Fields\Administrator\Model\FieldModel(array('ignore_request' => true));
+		/** @var \Joomla\Component\Fields\Administrator\Model\FieldModel $model */
+		$model = Factory::getApplication()->bootComponent('com_fields')->getMVCFactory()
+			->createModel('Field', 'Administrator', ['ignore_request' => true]);
 		$model->cleanupValues($context, $item->id);
 	}
 
@@ -227,14 +232,14 @@ class PlgSystemFields extends CMSPlugin
 	 * The user delete event.
 	 *
 	 * @param   stdClass  $user    The context
-	 * @param   boolean   $succes  Is success
+	 * @param   boolean   $success Is success
 	 * @param   string    $msg     The message
 	 *
 	 * @return  void
 	 *
 	 * @since   3.7.0
 	 */
-	public function onUserAfterDelete($user, $succes, $msg): void
+	public function onUserAfterDelete($user, $success, $msg): void
 	{
 		$item     = new stdClass;
 		$item->id = $user['id'];
@@ -260,9 +265,10 @@ class PlgSystemFields extends CMSPlugin
 		if (strpos($context, 'com_categories.category') === 0)
 		{
 			$context = str_replace('com_categories.category', '', $context) . '.categories';
+			$data    = $data ?: Factory::getApplication()->input->get('jform', [], 'array');
 
 			// Set the catid on the category to get only the fields which belong to this category
-			if (is_array($data) && key_exists('id', $data))
+			if (is_array($data) && array_key_exists('id', $data))
 			{
 				$data['catid'] = $data['id'];
 			}
@@ -439,7 +445,7 @@ class PlgSystemFields extends CMSPlugin
 				array(
 					'item'            => $item,
 					'context'         => $context,
-					'fields'          => $fields
+					'fields'          => $fields,
 				)
 			);
 		}
@@ -497,9 +503,7 @@ class PlgSystemFields extends CMSPlugin
 	}
 
 	/**
-	 * The finder event.
-	 *
-	 * @param   stdClass  $item  The item
+	 * @param   \Joomla\Component\Finder\Administrator\Indexer\Result  $item  The item
 	 *
 	 * @return  boolean
 	 *

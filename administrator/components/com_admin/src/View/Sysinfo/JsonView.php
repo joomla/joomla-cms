@@ -50,7 +50,7 @@ class JsonView extends AbstractView
 
 		$data = $this->getLayoutData();
 
-		echo json_encode($data);
+		echo json_encode($data, JSON_PRETTY_PRINT);
 
 		Factory::getApplication()->close();
 	}

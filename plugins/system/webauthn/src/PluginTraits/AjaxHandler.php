@@ -64,7 +64,6 @@ trait AjaxHandler
 				throw new AjaxNonCmsAppException;
 			}
 
-			$input    = $app->input;
 			$akaction = $input->getCmd('akaction');
 			$token    = Joomla::getToken();
 
@@ -83,11 +82,10 @@ trait AjaxHandler
 			$eventName = 'onAjaxWebauthn' . ucfirst($akaction);
 
 			$results = $app->triggerEvent($eventName, []);
-			$result = null;
 
 			foreach ($results as $r)
 			{
-				if (is_null($r))
+				if (\is_null($r))
 				{
 					continue;
 				}
@@ -100,8 +98,6 @@ trait AjaxHandler
 		catch (AjaxNonCmsAppException $e)
 		{
 			Joomla::log('system', "This is not a CMS application", Log::NOTICE);
-
-			$result = null;
 		}
 		catch (Exception $e)
 		{
@@ -113,7 +109,7 @@ trait AjaxHandler
 			return;
 		}
 
-		if (!is_null($result))
+		if (!\is_null($result))
 		{
 			switch ($input->getCmd('encoding', 'json'))
 			{
@@ -134,7 +130,7 @@ trait AjaxHandler
 
 					if (isset($result['message']))
 					{
-						$type = isset($result['type']) ? $result['type'] : 'info';
+						$type = $result['type'] ?? 'info';
 						$app->enqueueMessage($result['message'], $type);
 
 						$modifiers = " and setting a system message of type $type";

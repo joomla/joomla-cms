@@ -239,9 +239,9 @@ abstract class Joomla
 	 */
 	public static function isCli(CMSApplication $app = null): bool
 	{
-		if (is_null(self::$isCli))
+		if (\is_null(self::$isCli))
 		{
-			if (is_null($app))
+			if (\is_null($app))
 			{
 				try
 				{
@@ -253,12 +253,12 @@ abstract class Joomla
 				}
 			}
 
-			if (is_null($app))
+			if (\is_null($app))
 			{
 				self::$isCli = true;
 			}
 
-			if (is_object($app))
+			if (\is_object($app))
 			{
 				self::$isCli = $app instanceof Exception;
 
@@ -281,7 +281,7 @@ abstract class Joomla
 	 */
 	protected static function getFakeSession(): Registry
 	{
-		if (!is_object(self::$fakeSession))
+		if (!\is_object(self::$fakeSession))
 		{
 			self::$fakeSession = new Registry;
 		}
@@ -305,7 +305,7 @@ abstract class Joomla
 			$token = self::getSessionVar('session.token');
 
 			// Create a token
-			if (is_null($token))
+			if (\is_null($token))
 			{
 				$token = UserHelper::genRandomPassword(32);
 
@@ -379,7 +379,7 @@ abstract class Joomla
 	public static function addLogger(string $plugin): void
 	{
 		// Make sure this logger is not already registered
-		if (in_array($plugin, self::$registeredLoggers))
+		if (\in_array($plugin, self::$registeredLoggers))
 		{
 			return;
 		}
@@ -397,9 +397,9 @@ abstract class Joomla
 		// Add a formatted text logger
 		Log::addLogger([
 			'text_file'         => "webauthn_{$plugin}.php",
-			'text_entry_format' => '{DATETIME}	{PRIORITY} {CLIENTIP}	{MESSAGE}'
+			'text_entry_format' => '{DATETIME}	{PRIORITY} {CLIENTIP}	{MESSAGE}',
 			], $logLevels, [
-				"webauthn.{$plugin}"
+				"webauthn.{$plugin}",
 			]
 		);
 	}
@@ -423,7 +423,7 @@ abstract class Joomla
 		class_exists('Joomla\\CMS\\Authentication\\Authentication', true);
 
 		// Fake a successful login message
-		if (!is_object($app))
+		if (!\is_object($app))
 		{
 			$app = Factory::getApplication();
 		}
@@ -490,7 +490,7 @@ abstract class Joomla
 		$results = $app->triggerEvent('onUserLogin', [(array) $response, $options]);
 
 		// If there is no boolean FALSE result from any plugin the login is successful.
-		if (in_array(false, $results, true) == false)
+		if (\in_array(false, $results, true) == false)
 		{
 			// Set the user in the session, letting Joomla! know that we are logged in.
 			$app->getSession()->set('user', $user);
@@ -547,9 +547,9 @@ abstract class Joomla
 	 */
 	public static function isAdminPage(CMSApplication $app = null): bool
 	{
-		if (is_null(self::$isAdmin))
+		if (\is_null(self::$isAdmin))
 		{
-			if (is_null($app))
+			if (\is_null($app))
 			{
 				$app = Factory::getApplication();
 			}
@@ -583,7 +583,7 @@ abstract class Joomla
 		// Import the user plugin group.
 		PluginHelper::importPlugin('user');
 
-		if (!is_object($app))
+		if (!\is_object($app))
 		{
 			$app = Factory::getApplication();
 		}
@@ -658,7 +658,7 @@ abstract class Joomla
 
 		if ($tzAware !== false)
 		{
-			$userId = is_bool($tzAware) ? null : (int) $tzAware;
+			$userId = \is_bool($tzAware) ? null : (int) $tzAware;
 
 			try
 			{
@@ -723,7 +723,7 @@ abstract class Joomla
 	 */
 	public static function getDocumentType(): string
 	{
-		if (is_null(self::$joomlaDocumentType))
+		if (\is_null(self::$joomlaDocumentType))
 		{
 			try
 			{
@@ -736,7 +736,7 @@ abstract class Joomla
 				$document = null;
 			}
 
-			self::$joomlaDocumentType = (is_null($document)) ? 'error' : $document->getType();
+			self::$joomlaDocumentType = (\is_null($document)) ? 'error' : $document->getType();
 		}
 
 		return self::$joomlaDocumentType;

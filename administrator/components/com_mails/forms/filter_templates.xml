@@ -42,7 +42,7 @@
 			default="a.template_id ASC"
 			validate="options"
 			>
-			<option value="">JGLOBAL_SORT_BY</option>						
+			<option value="">JGLOBAL_SORT_BY</option>
 			<option value="a.template_id ASC">JGRID_HEADING_ID_ASC</option>
 			<option value="a.template_id DESC">JGRID_HEADING_ID_DESC</option>
 		</field>

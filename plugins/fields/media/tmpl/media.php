@@ -10,7 +10,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\HTML\HTMLHelper;
 
-if ($field->value == '')
+if (empty($field->value) || empty($field->value['imagefile']))
 {
 	return;
 }
@@ -30,28 +30,24 @@ if ($value)
 	$imgUrl    = htmlentities($img->url, ENT_COMPAT, 'UTF-8', true);
 	$alt       = empty($value['alt_text']) && empty($value['alt_empty']) ? '' : ' alt="' . htmlspecialchars($value['alt_text'], ENT_COMPAT, 'UTF-8') . '"';
 
-	if (file_exists($img->url))
+	if ($img->attributes['width'] > 0 && $img->attributes['height'] > 0)
 	{
-		if ($img->attributes['width'] > 0 && $img->attributes['height'] > 0)
-		{
-			$buffer = sprintf('<img loading="lazy" width="%s" height="%s" src="%s"%s%s>',
-				$img->attributes['width'],
-				$img->attributes['height'],
-				$imgUrl,
-				$class,
-				$alt
-			);
-		}
-		else
-		{
-			$buffer = sprintf('<img src="%s"%s%s>',
-				$imgUrl,
-				$class,
-				$alt
-			);
-		}
-
-		echo $buffer;
+		$buffer = sprintf('<img loading="lazy" width="%s" height="%s" src="%s"%s%s>',
+			$img->attributes['width'],
+			$img->attributes['height'],
+			$imgUrl,
+			$class,
+			$alt
+		);
 	}
-}
+	else
+	{
+		$buffer = sprintf('<img src="%s"%s%s>',
+			$imgUrl,
+			$class,
+			$alt
+		);
+	}
 
+	echo $buffer;
+}

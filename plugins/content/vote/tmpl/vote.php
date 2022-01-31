@@ -36,7 +36,7 @@ for ($i = 1; $i < 6; $i++)
 }
 
 ?>
-<form method="post" action="<?php echo htmlspecialchars($uri->toString(), ENT_COMPAT, 'UTF-8'); ?>" class="form-inline">
+<form method="post" action="<?php echo htmlspecialchars($uri->toString(), ENT_COMPAT, 'UTF-8'); ?>" class="form-inline mb-2">
 	<span class="content_vote">
 		<label class="visually-hidden" for="content_vote_<?php echo (int) $row->id; ?>"><?php echo Text::_('PLG_VOTE_LABEL'); ?></label>
 		<?php echo HTMLHelper::_('select.genericlist', $options, 'user_rating', 'class="form-select form-select-sm w-auto"', 'value', 'text', '5', 'content_vote_' . (int) $row->id); ?>

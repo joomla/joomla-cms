@@ -196,7 +196,7 @@ abstract class FormField
 	 * The validation text of invalid value of the form field.
 	 *
 	 * @var    string
-	 * @since  4.0
+	 * @since  4.0.0
 	 */
 	protected $validationtext;
 
@@ -335,7 +335,7 @@ abstract class FormField
 	 * The parent class of the field
 	 *
 	 * @var  string
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.0.0
 	 */
 	protected $parentclass;
 
@@ -489,8 +489,6 @@ abstract class FormField
 					return $this->dataAttributes[$name];
 				}
 		}
-
-		return;
 	}
 
 	/**
@@ -525,6 +523,7 @@ abstract class FormField
 			case 'showon':
 			case 'parentclass':
 			case 'default':
+			case 'autocomplete':
 				$this->$name = (string) $value;
 				break;
 
@@ -553,10 +552,6 @@ abstract class FormField
 			case 'hidden':
 				$value = (string) $value;
 				$this->$name = ($value === 'true' || $value === $name || $value === '1');
-				break;
-
-			case 'autocomplete':
-				$this->$name = (string) $value;
 				break;
 
 			case 'spellcheck':
@@ -686,7 +681,7 @@ abstract class FormField
 		$this->repeat = ($repeat === 'true' || $repeat === 'multiple' || (!empty($this->form->repeat) && $this->form->repeat == 1));
 
 		// Set the visibility.
-		$this->hidden = ($this->hidden || (string) $element['type'] === 'hidden');
+		$this->hidden = ($this->hidden || strtolower((string) $this->element['type']) === 'hidden');
 
 		$this->layout = !empty($this->element['layout']) ? (string) $this->element['layout'] : $this->layout;
 
@@ -752,11 +747,11 @@ abstract class FormField
 		// If we already have an id segment add the field id/name as another level.
 		if ($id)
 		{
-			$id .= '_' . ($fieldId ? $fieldId : $fieldName);
+			$id .= '_' . ($fieldId ?: $fieldName);
 		}
 		else
 		{
-			$id .= ($fieldId ? $fieldId : $fieldName);
+			$id .= ($fieldId ?: $fieldName);
 		}
 
 		// Clean up any invalid characters.
@@ -1212,7 +1207,15 @@ abstract class FormField
 
 		if ($this->element['label'])
 		{
-			$fieldLabel = Text::_($this->element['label']);
+			$fieldLabel = $this->element['label'];
+
+			// Try to translate label if not set to false
+			$translate = (string) $this->element['translateLabel'];
+
+			if (!($translate === 'false' || $translate === 'off' || $translate === '0'))
+			{
+				$fieldLabel = Text::_($fieldLabel);
+			}
 		}
 		else
 		{
@@ -1314,8 +1317,8 @@ abstract class FormField
 	protected function getLayoutData()
 	{
 		// Label preprocess
-		$label = $this->element['label'] ? (string) $this->element['label'] : (string) $this->element['name'];
-		$label = $this->translateLabel ? Text::_($label) : $label;
+		$label = !empty($this->element['label']) ? (string) $this->element['label'] : null;
+		$label = $label && $this->translateLabel ? Text::_($label) : $label;
 
 		// Description preprocess
 		$description = !empty($this->description) ? $this->description : null;

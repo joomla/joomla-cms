@@ -29,17 +29,15 @@ use Joomla\Database\ParameterType;
 class PlgSystemActionLogs extends CMSPlugin
 {
 	/**
-	 * Application object.
+	 * @var    \Joomla\CMS\Application\CMSApplication
 	 *
-	 * @var    JApplicationCms
 	 * @since  3.9.0
 	 */
 	protected $app;
 
 	/**
-	 * Database object.
+	 * @var    \Joomla\Database\DatabaseDriver
 	 *
-	 * @var    JDatabaseDriver
 	 * @since  3.9.0
 	 */
 	protected $db;
@@ -65,7 +63,7 @@ class PlgSystemActionLogs extends CMSPlugin
 	 *
 	 * @return  void
 	 *
-	 * @since   4.0
+	 * @since   4.0.0
 	 */
 	public function onAfterInitialise()
 	{
@@ -100,8 +98,8 @@ class PlgSystemActionLogs extends CMSPlugin
 		}
 
 		/**
-		 * We only allow users who has Super User permission change this setting for himself or for other users
-		 * who has same Super User permission
+		 * We only allow users who have Super User permission to change this setting for themselves or for other
+		 * users who have the same Super User permission
 		 */
 
 		$user = Factory::getUser();
@@ -144,6 +142,8 @@ class PlgSystemActionLogs extends CMSPlugin
 		}
 
 		$form->loadFile('actionlogs', false);
+
+		return true;
 	}
 
 	/**
@@ -343,7 +343,7 @@ class PlgSystemActionLogs extends CMSPlugin
 					$options = [
 						'defaultgroup' => $group,
 						'cachebase'    => $clientId ? JPATH_ADMINISTRATOR . '/cache' :
-							Factory::getApplication()->get('cache_path', JPATH_SITE . '/cache')
+							Factory::getApplication()->get('cache_path', JPATH_SITE . '/cache'),
 					];
 
 					$cache = Cache::getInstance('callback', $options);

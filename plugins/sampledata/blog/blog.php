@@ -12,7 +12,6 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Extension\ExtensionHelper;
-use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Language\Text;
@@ -29,18 +28,14 @@ use Joomla\Database\ParameterType;
 class PlgSampledataBlog extends CMSPlugin
 {
 	/**
-	 * Database object
-	 *
-	 * @var    JDatabaseDriver
+	 * @var    \Joomla\Database\DatabaseDriver
 	 *
 	 * @since  3.8.0
 	 */
 	protected $db;
 
 	/**
-	 * Application object
-	 *
-	 * @var    JApplicationCms
+	 * @var    \Joomla\CMS\Application\CMSApplication
 	 *
 	 * @since  3.8.0
 	 */
@@ -58,7 +53,7 @@ class PlgSampledataBlog extends CMSPlugin
 	/**
 	 * Holds the menuitem model
 	 *
-	 * @var    MenusModelItem
+	 * @var    \Joomla\Component\Menus\Administrator\Model\ItemModel
 	 *
 	 * @since  3.8.0
 	 */
@@ -67,13 +62,13 @@ class PlgSampledataBlog extends CMSPlugin
 	/**
 	 * Get an overview of the proposed sampledata.
 	 *
-	 * @return  boolean  True on success.
+	 * @return  stdClass|void  Will be converted into the JSON response to the module.
 	 *
 	 * @since  3.8.0
 	 */
 	public function onSampledataGetOverview()
 	{
-		if (!Factory::getUser()->authorise('core.create', 'com_content'))
+		if (!$this->app->getIdentity()->authorise('core.create', 'com_content'))
 		{
 			return;
 		}
@@ -91,7 +86,7 @@ class PlgSampledataBlog extends CMSPlugin
 	/**
 	 * First step to enter the sampledata. Content.
 	 *
-	 * @return  array or void  Will be converted into the JSON response to the module.
+	 * @return  array|void  Will be converted into the JSON response to the module.
 	 *
 	 * @since  3.8.0
 	 */
@@ -104,7 +99,7 @@ class PlgSampledataBlog extends CMSPlugin
 
 		if (!ComponentHelper::isEnabled('com_tags'))
 		{
-			$response            = array();
+			$response            = [];
 			$response['success'] = true;
 			$response['message'] = Text::sprintf('PLG_SAMPLEDATA_BLOG_STEP_SKIPPED', 1, 'com_tags');
 
@@ -113,23 +108,24 @@ class PlgSampledataBlog extends CMSPlugin
 
 		// Get some metadata.
 		$access = (int) $this->app->get('access', 1);
-		$user   = Factory::getUser();
+		$user   = $this->app->getIdentity();
 
 		// Detect language to be used.
-		$language   = Multilanguage::isEnabled() ? Factory::getLanguage()->getTag() : '*';
+		$language   = Multilanguage::isEnabled() ? $this->app->getLanguage()->getTag() : '*';
 		$langSuffix = ($language !== '*') ? ' (' . $language . ')' : '';
 
 		/** @var \Joomla\Component\Tags\Administrator\Model\TagModel $model */
-		$modelTag = $this->app->bootComponent('com_tags')->getMVCFactory()->createModel('Tag', 'Administrator', ['ignore_request' => true]);
+		$modelTag = $this->app->bootComponent('com_tags')->getMVCFactory()
+			->createModel('Tag', 'Administrator', ['ignore_request' => true]);
 
-		$tagIds = array();
+		$tagIds = [];
 
 		// Create first three tags.
 		for ($i = 0; $i <= 3; $i++)
 		{
 			$title = Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_TAG_' . $i . '_TITLE') . $langSuffix;
 
-			$tag   = array(
+			$tag   = [
 				'id'              => 0,
 				'title'           => $title,
 				'alias'           => ApplicationHelper::stringURLSafe($title),
@@ -140,19 +136,19 @@ class PlgSampledataBlog extends CMSPlugin
 				'created_user_id' => $user->id,
 				'language'        => $language,
 				'description'     => '',
-			);
+			];
 
 			try
 			{
 				if (!$modelTag->save($tag))
 				{
-					Factory::getLanguage()->load('com_tags');
+					$this->app->getLanguage()->load('com_tags');
 					throw new Exception(Text::_($modelTag->getError()));
 				}
 			}
 			catch (Exception $e)
 			{
-				$response            = array();
+				$response            = [];
 				$response['success'] = false;
 				$response['message'] = Text::sprintf('PLG_SAMPLEDATA_BLOG_STEP_FAILED', 1, $e->getMessage());
 
@@ -162,9 +158,9 @@ class PlgSampledataBlog extends CMSPlugin
 			$tagIds[] = $modelTag->getItem()->id;
 		}
 
-		if (!ComponentHelper::isEnabled('com_content') || !Factory::getUser()->authorise('core.create', 'com_content'))
+		if (!ComponentHelper::isEnabled('com_content') || !$this->app->getIdentity()->authorise('core.create', 'com_content'))
 		{
-			$response            = array();
+			$response            = [];
 			$response['success'] = true;
 			$response['message'] = Text::sprintf('PLG_SAMPLEDATA_BLOG_STEP_SKIPPED', 1, 'com_content');
 
@@ -173,7 +169,7 @@ class PlgSampledataBlog extends CMSPlugin
 
 		if (ComponentHelper::isEnabled('com_fields') && $user->authorise('core.create', 'com_fields'))
 		{
-			Factory::getLanguage()->load('com_fields');
+			$this->app->getLanguage()->load('com_fields');
 
 			$mvcFactory = $this->app->bootComponent('com_fields')->getMVCFactory();
 
@@ -222,8 +218,8 @@ class PlgSampledataBlog extends CMSPlugin
 						'rows'      => 3,
 						'cols'      => 80,
 						'maxlength' => 400,
-						'filter'    => ''
-					]
+						'filter'    => '',
+					],
 				],
 			];
 
@@ -259,7 +255,7 @@ class PlgSampledataBlog extends CMSPlugin
 					'prefix'             => '',
 					'suffix'             => '',
 					'layout'             => '',
-					'display_readonly'   => '2'
+					'display_readonly'   => '2',
 				];
 
 				try
@@ -283,7 +279,7 @@ class PlgSampledataBlog extends CMSPlugin
 			}
 		}
 
-		if (ComponentHelper::isEnabled('com_workflow') && Factory::getUser()->authorise('core.create', 'com_workflow'))
+		if (ComponentHelper::isEnabled('com_workflow') && $this->app->getIdentity()->authorise('core.create', 'com_workflow'))
 		{
 			$this->app->bootComponent('com_workflow');
 
@@ -302,7 +298,7 @@ class PlgSampledataBlog extends CMSPlugin
 			{
 				$response            = array();
 				$response['success'] = false;
-				$response['message'] = Text::sprintf('PLG_SAMPLEDATA_BLOG_STEP_FAILED', 1, Text::_($stageTable->getError()));
+				$response['message'] = Text::sprintf('PLG_SAMPLEDATA_BLOG_STEP_FAILED', 1, Text::_($workflowTable->getError()));
 
 				return $response;
 			}
@@ -397,7 +393,7 @@ class PlgSampledataBlog extends CMSPlugin
 							'featuring' => 1,
 							'notification_send_mail' => true,
 							'notification_text' => Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_CONTENT_WORKFLOW_STAGE6_TEXT'),
-							'notification_groups' => ["7"]
+							'notification_groups' => ["7"],
 						)
 					),
 				),
@@ -453,7 +449,7 @@ class PlgSampledataBlog extends CMSPlugin
 							'featuring' => 0,
 							'notification_send_mail' => true,
 							'notification_text' => Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_CONTENT_WORKFLOW_STAGE6_TEXT'),
-							'notification_groups' => ["7"]
+							'notification_groups' => ["7"],
 						)
 					),
 				),
@@ -524,14 +520,14 @@ class PlgSampledataBlog extends CMSPlugin
 				'associations'    => array(),
 				'description'     => '',
 				'language'        => $language,
-				'params'          => $params
+				'params'          => $params,
 			];
 
 			try
 			{
 				if (!$categoryModel->save($category))
 				{
-					Factory::getLanguage()->load('com_categories');
+					$this->app->getLanguage()->load('com_categories');
 					throw new Exception($categoryModel->getError());
 				}
 			}
@@ -569,17 +565,19 @@ class PlgSampledataBlog extends CMSPlugin
 				'featured' => 1,
 				'tags'     => array_map('strval', $tagIds),
 				'images'   => array(
-					'image_intro'               => 'images/sampledata/cassiopeia/nasa1-1200.jpg',
+					'image_intro'               => 'images/sampledata/cassiopeia/nasa1-1200.jpg#'
+												. 'joomlaImage://local-images/sampledata/cassiopeia/nasa1-1200.jpg?width=1200&height=400',
 					'float_intro'               => '',
 					'image_intro_alt'           => Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_CONTENT_ARTICLE_2_INTROIMAGE_ALT'),
 					'image_intro_alt_empty'     => '',
 					'image_intro_caption'       => '',
-					'image_fulltext'            => 'images/sampledata/cassiopeia/nasa1-400.jpg',
+					'image_fulltext'            => 'images/sampledata/cassiopeia/nasa1-400.jpg#'
+												. 'joomlaImage://local-images/sampledata/cassiopeia/nasa1-400.jpg?width=400&height=400',
 					'float_fulltext'            => 'float-start',
 					'image_fulltext_alt'        => '',
 					'image_fulltext_alt_empty'  => 1,
-					'image_fulltext_caption'    => 'www.nasa.gov/multimedia/imagegallery'
-				)
+					'image_fulltext_caption'    => 'www.nasa.gov/multimedia/imagegallery',
+				),
 			),
 			array(
 				// Article 3 - About your home page
@@ -587,16 +585,18 @@ class PlgSampledataBlog extends CMSPlugin
 				'featured' => 1,
 				'tags'     => array_map('strval', $tagIds),
 				'images'   => array(
-					'image_intro'               => 'images/sampledata/cassiopeia/nasa2-1200.jpg',
+					'image_intro'               => 'images/sampledata/cassiopeia/nasa2-1200.jpg#'
+												. 'joomlaImage://local-images/sampledata/cassiopeia/nasa2-1200.jpg?width=1200&height=400',
 					'float_intro'               => '',
 					'image_intro_alt'           => '',
 					'image_intro_alt_empty'     => 1,
 					'image_intro_caption'       => '',
-					'image_fulltext'            => 'images/sampledata/cassiopeia/nasa2-400.jpg',
+					'image_fulltext'            => 'images/sampledata/cassiopeia/nasa2-400.jpg#'
+												. 'joomlaImage://local-images/sampledata/cassiopeia/nasa2-400.jpg?width=400&height=400',
 					'float_fulltext'            => 'float-start',
 					'image_fulltext_alt'        => '',
 					'image_fulltext_alt_empty'  => 1,
-					'image_fulltext_caption'    => 'www.nasa.gov/multimedia/imagegallery'
+					'image_fulltext_caption'    => 'www.nasa.gov/multimedia/imagegallery',
 				),
 				'authorValue' => Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_CONTENT_ARTICLE_3_FIELD_0'),
 			),
@@ -606,17 +606,19 @@ class PlgSampledataBlog extends CMSPlugin
 				'featured' => 1,
 				'tags'     => array_map('strval', $tagIds),
 				'images'   => array(
-					'image_intro'               => 'images/sampledata/cassiopeia/nasa3-1200.jpg',
+					'image_intro'               => 'images/sampledata/cassiopeia/nasa3-1200.jpg#'
+												. 'joomlaImage://local-images/sampledata/cassiopeia/nasa3-1200.jpg?width=1200&height=400',
 					'float_intro'               => '',
 					'image_intro_alt'           => '',
 					'image_intro_alt_empty'     => 1,
 					'image_intro_caption'       => '',
-					'image_fulltext'            => 'images/sampledata/cassiopeia/nasa3-400.jpg',
+					'image_fulltext'            => 'images/sampledata/cassiopeia/nasa3-400.jpg#'
+												. 'joomlaImage://local-images/sampledata/cassiopeia/nasa3-400.jpg?width=400&height=400',
 					'float_fulltext'            => 'float-start',
 					'image_fulltext_alt'        => Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_CONTENT_ARTICLE_4_FULLTEXTIMAGE_ALT'),
 					'image_fulltext_alt_empty'  => '',
-					'image_fulltext_caption'    => 'www.nasa.gov/multimedia/imagegallery'
-				)
+					'image_fulltext_caption'    => 'www.nasa.gov/multimedia/imagegallery',
+				),
 			),
 			array(
 				// Article 5 - Your Template
@@ -624,51 +626,56 @@ class PlgSampledataBlog extends CMSPlugin
 				'featured' => 1,
 				'tags'     => array_map('strval', $tagIds),
 				'images'   => array(
-					'image_intro'               => 'images/sampledata/cassiopeia/nasa4-1200.jpg',
+					'image_intro'               => 'images/sampledata/cassiopeia/nasa4-1200.jpg#'
+												. 'joomlaImage://local-images/sampledata/cassiopeia/nasa4-1200.jpg?width=1200&height=400',
 					'float_intro'               => '',
 					'image_intro_alt'           => '',
 					'image_intro_alt_empty'     => 1,
 					'image_intro_caption'       => '',
-					'image_fulltext'            => 'images/sampledata/cassiopeia/nasa4-400.jpg',
+					'image_fulltext'            => 'images/sampledata/cassiopeia/nasa4-400.jpg#'
+												. 'joomlaImage://local-images/sampledata/cassiopeia/nasa4-400.jpg?width=400&height=400',
 					'float_fulltext'            => 'float-start',
 					'image_fulltext_alt'        => '',
 					'image_fulltext_alt_empty'  => 1,
-					'image_fulltext_caption' => 'www.nasa.gov/multimedia/imagegallery'
-				)
+					'image_fulltext_caption'    => 'www.nasa.gov/multimedia/imagegallery',
+				),
 			),
 			// Category 2 = Joomla - marketing texts
 			array(
 				// Article 6 - Millions
 				'catid'    => $catIds[2],
 				'images'   => array(
-					'image_intro'            => 'images/sampledata/cassiopeia/nasa1-640.jpg',
+					'image_intro'            => 'images/sampledata/cassiopeia/nasa1-640.jpg#'
+											. 'joomlaImage://local-images/sampledata/cassiopeia/nasa1-640.jpg?width=640&height=320',
 					'float_intro'            => '',
 					'image_intro_alt'        => '',
 					'image_intro_alt_empty'  => 1,
 					'image_intro_caption'    => '',
-				)
+				),
 			),
 			array(
 				// Article 7 - Love
 				'catid'    => $catIds[2],
 				'images'   => array(
-					'image_intro'            => 'images/sampledata/cassiopeia/nasa2-640.jpg',
+					'image_intro'            => 'images/sampledata/cassiopeia/nasa2-640.jpg#'
+											. 'joomlaImage://local-images/sampledata/cassiopeia/nasa2-640.jpg?width=640&height=320',
 					'float_intro'            => '',
 					'image_intro_alt'        => '',
 					'image_intro_alt_empty'  => 1,
 					'image_intro_caption'    => '',
-				)
+				),
 			),
 			array(
 				// Article 8 - Joomla
 				'catid'    => $catIds[2],
 				'images'   => array(
-					'image_intro'            => 'images/sampledata/cassiopeia/nasa3-640.jpg',
+					'image_intro'            => 'images/sampledata/cassiopeia/nasa3-640.jpg#'
+											. 'joomlaImage://local-images/sampledata/cassiopeia/nasa3-640.jpg?width=640&height=320',
 					'float_intro'            => '',
 					'image_intro_alt'        => '',
 					'image_intro_alt_empty'  => 1,
 					'image_intro_caption'    => '',
-				)
+				),
 			),
 			array(
 				// Article 9 - Workflows
@@ -679,11 +686,12 @@ class PlgSampledataBlog extends CMSPlugin
 					'image_intro_alt'           => '',
 					'image_intro_alt_empty'     => '',
 					'image_intro_caption'       => '',
-					'image_fulltext'            => 'images/sampledata/cassiopeia/nasa4-400.jpg',
+					'image_fulltext'            => 'images/sampledata/cassiopeia/nasa4-400.jpg#'
+												. 'joomlaImage://local-images/sampledata/cassiopeia/nasa4-400.jpg?width=400&height=400',
 					'float_fulltext'            => 'float-end',
 					'image_fulltext_alt'        => '',
 					'image_fulltext_alt_empty'  => 1,
-					'image_fulltext_caption'    => 'www.nasa.gov/multimedia/imagegallery'
+					'image_fulltext_caption'    => 'www.nasa.gov/multimedia/imagegallery',
 				),
 				'authorValue' => Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_CONTENT_ARTICLE_9_FIELD_0'),
 			),
@@ -766,25 +774,24 @@ class PlgSampledataBlog extends CMSPlugin
 				&& ComponentHelper::getParams('com_content')->get('workflow_enabled'))
 			{
 				// Set the article featured in #__content_frontpage
-				$query = $this->db->getQuery(true);
+				$this->db->getQuery(true);
 
 				$featuredItem = (object) [
 					'content_id'      => $articleModel->getItem()->id,
 					'ordering'        => 0,
 					'featured_up'     => null,
-					'featured_down'   => null
+					'featured_down'   => null,
 				];
 
 				$this->db->insertObject('#__content_frontpage', $featuredItem);
 			}
 
 			// Add a value to the custom field if a value is given
-			if (ComponentHelper::isEnabled('com_fields') && Factory::getUser()->authorise('core.create', 'com_fields'))
+			if (ComponentHelper::isEnabled('com_fields') && $this->app->getIdentity()->authorise('core.create', 'com_fields'))
 			{
 				if (!empty($article['authorValue']))
 				{
 					// Store a field value
-					$query = $this->db->getQuery(true);
 
 					$valueAuthor = (object) [
 						'item_id'  => $articleModel->getItem()->id,
@@ -800,9 +807,9 @@ class PlgSampledataBlog extends CMSPlugin
 		$this->app->setUserState('sampledata.blog.articles', $ids);
 		$this->app->setUserState('sampledata.blog.articles.catIds', $catIds);
 
-		$response          = new stdClass;
-		$response->success = true;
-		$response->message = Text::_('PLG_SAMPLEDATA_BLOG_STEP1_SUCCESS');
+		$response            = [];
+		$response['success'] = true;
+		$response['message'] = Text::_('PLG_SAMPLEDATA_BLOG_STEP1_SUCCESS');
 
 		return $response;
 	}
@@ -810,7 +817,7 @@ class PlgSampledataBlog extends CMSPlugin
 	/**
 	 * Second step to enter the sampledata. Menus.
 	 *
-	 * @return  array or void  Will be converted into the JSON response to the module.
+	 * @return  array|void  Will be converted into the JSON response to the module.
 	 *
 	 * @since  3.8.0
 	 */
@@ -821,7 +828,7 @@ class PlgSampledataBlog extends CMSPlugin
 			return;
 		}
 
-		if (!ComponentHelper::isEnabled('com_menus') || !Factory::getUser()->authorise('core.create', 'com_menus'))
+		if (!ComponentHelper::isEnabled('com_menus') || !$this->app->getIdentity()->authorise('core.create', 'com_menus'))
 		{
 			$response            = array();
 			$response['success'] = true;
@@ -831,7 +838,7 @@ class PlgSampledataBlog extends CMSPlugin
 		}
 
 		// Detect language to be used.
-		$language   = Multilanguage::isEnabled() ? Factory::getLanguage()->getTag() : '*';
+		$language   = Multilanguage::isEnabled() ? $this->app->getLanguage()->getTag() : '*';
 		$langSuffix = ($language !== '*') ? ' (' . $language . ')' : '';
 
 		// Create the menu types.
@@ -858,7 +865,7 @@ class PlgSampledataBlog extends CMSPlugin
 
 				if (!$menuTable->check())
 				{
-					Factory::getLanguage()->load('com_menu');
+					$this->app->getLanguage()->load('com_menu');
 					throw new Exception($menuTable->getError());
 				}
 
@@ -883,7 +890,8 @@ class PlgSampledataBlog extends CMSPlugin
 		$articleIds = $this->app->getUserState('sampledata.blog.articles');
 
 		// Get MenuItemModel.
-		$this->menuItemModel = new \Joomla\Component\Menus\Administrator\Model\ItemModel;
+		$this->menuItemModel = $this->app->bootComponent('com_menus')->getMVCFactory()
+			->createModel('Item', 'Administrator', ['ignore_request' => true]);
 
 		// Get previously entered categories ids
 		$catIds = $this->app->getUserState('sampledata.blog.articles.catIds');
@@ -1200,6 +1208,7 @@ class PlgSampledataBlog extends CMSPlugin
 				'link'         => 'index.php?option=com_config&view=templates',
 				'parent_id'    => $menuIdsLevel1[6],
 				'component_id' => ExtensionHelper::getExtensionRecord('com_config', 'component')->extension_id,
+				'access'       => 6,
 				'params'       => array(
 					'menu_text'         => 1,
 					'show_page_heading' => 0,
@@ -1376,25 +1385,20 @@ class PlgSampledataBlog extends CMSPlugin
 	/**
 	 * Third step to enter the sampledata. Modules.
 	 *
-	 * @return  array or void  Will be converted into the JSON response to the module.
+	 * @return  array|void  Will be converted into the JSON response to the module.
 	 *
 	 * @since  3.8.0
 	 */
 	public function onAjaxSampledataApplyStep3()
 	{
-		$app = Factory::getApplication();
-
-		// Get previously entered categories ids
-		$catIds = $this->app->getUserState('sampledata.blog.articles.catIds');
-
 		if (!Session::checkToken('get') || $this->app->input->get('type') != $this->_name)
 		{
 			return;
 		}
 
-		Factory::getLanguage()->load('com_modules');
+		$this->app->getLanguage()->load('com_modules');
 
-		if (!ComponentHelper::isEnabled('com_modules') || !Factory::getUser()->authorise('core.create', 'com_modules'))
+		if (!ComponentHelper::isEnabled('com_modules') || !$this->app->getIdentity()->authorise('core.create', 'com_modules'))
 		{
 			$response            = array();
 			$response['success'] = true;
@@ -1404,11 +1408,13 @@ class PlgSampledataBlog extends CMSPlugin
 		}
 
 		// Detect language to be used.
-		$language   = Multilanguage::isEnabled() ? Factory::getLanguage()->getTag() : '*';
+		$language   = Multilanguage::isEnabled() ? $this->app->getLanguage()->getTag() : '*';
 		$langSuffix = ($language !== '*') ? ' (' . $language . ')' : '';
 
 		// Add Include Paths.
-		$model  = new \Joomla\Component\Modules\Administrator\Model\ModuleModel;
+		/** @var \Joomla\Component\Modules\Administrator\Model\ModuleModel $model */
+		$model = $this->app->bootComponent('com_modules')->getMVCFactory()
+			->createModel('Module', 'Administrator', ['ignore_request' => true]);
 		$access = (int) $this->app->get('access', 1);
 
 		// Get previously entered Data from UserStates.
@@ -1417,6 +1423,7 @@ class PlgSampledataBlog extends CMSPlugin
 		// Get previously entered Data from UserStates
 		$menuTypes = $this->app->getUserState('sampledata.blog.menutypes');
 
+		// Get previously entered categories ids
 		$catIds = $this->app->getUserState('sampledata.blog.articles.catIds');
 
 		// Link to article "typography" in banner module
@@ -1432,7 +1439,7 @@ class PlgSampledataBlog extends CMSPlugin
 				'showtitle' => 0,
 				'params'    => array(
 					'menutype'        => $menuTypes[0],
-					'layout'          => 'cassiopeia:dropdown-metismenu',
+					'layout'          => 'cassiopeia:collapse-metismenu',
 					'startLevel'      => 1,
 					'endLevel'        => 0,
 					'showAllChildren' => 1,
@@ -1535,7 +1542,7 @@ class PlgSampledataBlog extends CMSPlugin
 					'module_tag'        => 'div',
 					'bootstrap_size'    => '0',
 					'header_tag'        => 'h3',
-					'header_class'      => ''
+					'header_class'      => '',
 				),
 			),
 			array(
@@ -1640,7 +1647,7 @@ class PlgSampledataBlog extends CMSPlugin
 				'showtitle'  => 0,
 				'params'     => array(
 					'prepare_content' => 0,
-					'backgroundimage' => 'images/banners/banner.jpg',
+					'backgroundimage' => 'images/banners/banner.jpg#joomlaImage://local-images/banners/banner.jpg?width=1140&height=600',
 					'layout'          => 'cassiopeia:banner',
 					'moduleclass_sfx' => '',
 					'cache'           => 1,
@@ -1650,7 +1657,7 @@ class PlgSampledataBlog extends CMSPlugin
 					'module_tag'      => 'div',
 					'bootstrap_size'  => '0',
 					'header_tag'      => 'h3',
-					'header_class'    => ''
+					'header_class'    => '',
 				),
 			),
 			array(
@@ -1677,10 +1684,9 @@ class PlgSampledataBlog extends CMSPlugin
 				),
 			),
 			array(
-				// Similiar Items
+				// Similar Items
 				'title'    => Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_MODULES_MODULE_10_TITLE'),
 				'ordering' => 0,
-				'position' => '',
 				'module'   => 'mod_tags_similar',
 				'position' => 'bottom-b',
 				'params'   => array(
@@ -1712,31 +1718,6 @@ class PlgSampledataBlog extends CMSPlugin
 					'cache_time'     => 900,
 					'cachemode'      => 'static',
 					'module_tag'     => 'div',
-					'bootstrap_size' => 6,
-					'header_tag'     => 'h3',
-					'style'          => 0,
-				),
-			),
-			array(
-				// Backend - Release News
-				'title'     => Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_MODULES_MODULE_12_TITLE'),
-				'ordering'  => 1,
-				'position'  => 'postinstall',
-				'module'    => 'mod_feed',
-				'client_id' => 1,
-				'params'    => array(
-					'rssurl'         => 'https://www.joomla.org/announcements/release-news.feed',
-					'rssrtl'         => 0,
-					'rsstitle'       => 1,
-					'rssdesc'        => 1,
-					'rssimage'       => 1,
-					'rssitems'       => 3,
-					'rssitemdesc'    => 1,
-					'word_count'     => 0,
-					'layout'         => '_:default',
-					'cache'          => 1,
-					'cache_time'     => 900,
-					'module_tag'     => 'div',
 					'bootstrap_size' => 0,
 					'header_tag'     => 'h3',
 					'style'          => 0,
@@ -1757,7 +1738,7 @@ class PlgSampledataBlog extends CMSPlugin
 
 		if (!isset($home))
 		{
-			$home = $app->getMenu('site')->getDefault()->id;
+			$home = $this->app->getMenu('site')->getDefault()->id;
 		}
 
 		foreach ($modules as $module)
@@ -1857,7 +1838,7 @@ class PlgSampledataBlog extends CMSPlugin
 	/**
 	 * Final step to show completion of sampledata.
 	 *
-	 * @return  array or void  Will be converted into the JSON response to the module.
+	 * @return  array|void  Will be converted into the JSON response to the module.
 	 *
 	 * @since  4.0.0
 	 */
@@ -1890,11 +1871,10 @@ class PlgSampledataBlog extends CMSPlugin
 	{
 		$itemIds = array();
 		$access  = (int) $this->app->get('access', 1);
-		$user    = Factory::getUser();
-		$app     = Factory::getApplication();
+		$user    = $this->app->getIdentity();
 
 		// Detect language to be used.
-		$language   = Multilanguage::isEnabled() ? Factory::getLanguage()->getTag() : '*';
+		$language   = Multilanguage::isEnabled() ? $this->app->getLanguage()->getTag() : '*';
 		$langSuffix = ($language !== '*') ? ' (' . $language . ')' : '';
 
 		foreach ($menuItems as $menuItem)
@@ -1910,9 +1890,9 @@ class PlgSampledataBlog extends CMSPlugin
 			// Set unicodeslugs if alias is empty
 			if (trim(str_replace('-', '', $menuItem['alias']) == ''))
 			{
-				$unicode = $app->set('unicodeslugs', 1);
+				$unicode = $this->app->set('unicodeslugs', 1);
 				$menuItem['alias'] = ApplicationHelper::stringURLSafe($menuItem['title']);
-				$app->set('unicodeslugs', $unicode);
+				$this->app->set('unicodeslugs', $unicode);
 			}
 
 			// Append language suffix to title.
@@ -1974,7 +1954,7 @@ class PlgSampledataBlog extends CMSPlugin
 			}
 
 			// Get ID from menuitem we just added
-			$itemIds[] = $this->menuItemModel->getstate('item.id');
+			$itemIds[] = $this->menuItemModel->getState('item.id');
 		}
 
 		return $itemIds;

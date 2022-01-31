@@ -186,7 +186,7 @@ class PlgFieldsSubform extends FieldsPlugin
 			foreach ($this->getSubfieldsFromField($field) as $subfield)
 			{
 				// Fill value (and rawvalue) if we have data for this subfield in the current row, otherwise set them to empty
-				$subfield->rawvalue = $subfield->value = isset($row[$subfield->name]) ? $row[$subfield->name] : '';
+				$subfield->rawvalue = $subfield->value = $row[$subfield->name] ?? '';
 
 				// Do we want to render the value of this field, and is the value non-empty?
 				if ($subfield->value !== '' && $subfield->render_values == '1')
@@ -291,6 +291,11 @@ class PlgFieldsSubform extends FieldsPlugin
 		$parent_fieldset->setAttribute('hidden', 'true');
 		$parent_fieldset->setAttribute('name', ($field->name . '_modal'));
 
+		if ($field_params->get('max_rows'))
+		{
+			$parent_field->setAttribute('max', $field_params->get('max_rows'));
+		}
+
 		// If this field should be repeatable, set some attributes on the modal
 		if ($field_params->get('repeat', '1') == '1')
 		{
@@ -383,7 +388,7 @@ class PlgFieldsSubform extends FieldsPlugin
 			static::$customFieldsCache = array();
 
 			// Get all custom field instances
-			$customFields = FieldsHelper::getFields('');
+			$customFields = FieldsHelper::getFields('', null, false, null, true);
 
 			foreach ($customFields as $customField)
 			{

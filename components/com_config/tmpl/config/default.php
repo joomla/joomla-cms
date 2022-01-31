@@ -17,11 +17,29 @@ use Joomla\CMS\Router\Route;
 $wa = $this->document->getWebAssetManager();
 $wa->useScript('keepalive')
 	->useScript('form.validate')
-	->useScript('com_config.config');
+	->useScript('com_config.config')
+	->useScript('inlinehelp');
 
 ?>
-
+<?php if ($this->params->get('show_page_heading')) : ?>
+	<div class="page-header">
+		<h1>
+			<?php if ($this->escape($this->params->get('page_heading'))) : ?>
+				<?php echo $this->escape($this->params->get('page_heading')); ?>
+			<?php else : ?>
+				<?php echo $this->escape($this->params->get('page_title')); ?>
+			<?php endif; ?>
+		</h1>
+	</div>
+<?php endif; ?>
 <form action="<?php echo Route::_('index.php?option=com_config'); ?>" id="application-form" method="post" name="adminForm" class="form-validate">
+
+	<div class="mb-2 d-flex">
+		<button type="button" class="btn btn-sm btn-outline-info button-inlinehelp ms-auto">
+			<span class="fa fa-question-circle" aria-hidden="true"></span>
+			<?php echo Text::_('JINLINEHELP') ?>
+		</button>
+	</div>
 
 	<?php echo $this->loadTemplate('site'); ?>
 	<?php echo $this->loadTemplate('seo'); ?>
@@ -30,7 +48,6 @@ $wa->useScript('keepalive')
 	<input type="hidden" name="task" value="">
 	<?php echo HTMLHelper::_('form.token'); ?>
 
-	<hr>
 	<div class="mb-2">
 	<button type="button" class="btn btn-primary" data-submit-task="config.apply">
 		<span class="icon-check" aria-hidden="true"></span>

@@ -32,6 +32,15 @@
 		/>
 
 		<menuitem
+			title="MOD_MENU_SYSTEM_INFORMATION_DATABASE"
+			type="component"
+			element="com_installer"
+			link="index.php?option=com_installer&amp;view=database"
+			permission="core.manage;com_installer"
+			ajax-badge="index.php?option=com_installer&amp;task=database.getMenuBadgeData&amp;format=json"
+		/>
+
+		<menuitem
 			title="MOD_MENU_GLOBAL_CHECKIN"
 			type="component"
 			element="com_checkin"
@@ -70,15 +79,6 @@
 			element="com_admin"
 			link="index.php?option=com_admin&amp;view=sysinfo"
 			permission="core.admin"
-		/>
-
-		<menuitem
-			title="MOD_MENU_SYSTEM_INFORMATION_DATABASE"
-			type="component"
-			element="com_installer"
-			link="index.php?option=com_installer&amp;view=database"
-			permission="core.manage;com_installer"
-			ajax-badge="index.php?option=com_installer&amp;task=database.getMenuBadgeData&amp;format=json"
 		/>
 	</menuitem>
 
@@ -149,14 +149,6 @@
 		/>
 
 		<menuitem
-			title="MOD_MENU_MANAGE_CSP"
-			type="component"
-			element="com_csp"
-			link="index.php?option=com_csp"
-			permission="core.manage;com_csp"
-		/>
-
-		<menuitem
 			title="MOD_MENU_MANAGE_PLUGINS"
 			type="component"
 			element="com_plugins"
@@ -170,6 +162,14 @@
 			element="com_redirect"
 			link="index.php?option=com_redirect"
 			permission="core.manage;com_redirect"
+		/>
+
+		<menuitem
+			title="MOD_MENU_MANAGE_SCHEDULED_TASKS"
+			type="component"
+			element="com_scheduler"
+			link="index.php?option=com_scheduler&amp;view=tasks"
+			permission="core.manage;com_scheduler"
 		/>
 
 		<menuitem

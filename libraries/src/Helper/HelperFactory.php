@@ -13,7 +13,7 @@ namespace Joomla\CMS\Helper;
 /**
  * Namespace based implementation of the HelperFactoryInterface
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 class HelperFactory implements HelperFactoryInterface
 {
@@ -22,7 +22,7 @@ class HelperFactory implements HelperFactoryInterface
 	 *
 	 * @var  string
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	private $namespace;
 
@@ -31,7 +31,7 @@ class HelperFactory implements HelperFactoryInterface
 	 *
 	 * @param   string  $namespace  The namespace
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function __construct(string $namespace)
 	{
@@ -46,7 +46,7 @@ class HelperFactory implements HelperFactoryInterface
 	 *
 	 * @return  \stdClass
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function getHelper(string $name, array $config = [])
 	{

@@ -63,7 +63,7 @@ abstract class FeedParser
 	public function __construct(\XMLReader $stream, InputFilter $inputFilter = null)
 	{
 		$this->stream      = $stream;
-		$this->inputFilter = $inputFilter ? $inputFilter : InputFilter::getInstance(array(), array(), 1, 1);
+		$this->inputFilter = $inputFilter ?: InputFilter::getInstance([], [], 1, 1);
 	}
 
 	/**
@@ -127,7 +127,7 @@ abstract class FeedParser
 	 * @param   string                    $prefix     The XML namespace prefix for which to register the namespace object.
 	 * @param   NamespaceParserInterface  $namespace  The namespace object to register.
 	 *
-	 * @return  JFeed
+	 * @return  FeedParser
 	 *
 	 * @since   3.1.4
 	 */

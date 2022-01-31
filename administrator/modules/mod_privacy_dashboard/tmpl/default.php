@@ -38,7 +38,7 @@ $activeRequests = 0;
 					<a href="<?php echo Route::_('index.php?option=com_privacy&view=requests&filter[request_type]=' . $item->request_type . '&filter[status]=' . $item->status); ?>">
 						<?php echo Text::_('COM_PRIVACY_HEADING_REQUEST_TYPE_TYPE_' . $item->request_type); ?>
 					</a>
-				</td>
+				</th>
 				<td>
 					<?php echo HTMLHelper::_('privacy.statusLabel', $item->status); ?>
 				</td>
@@ -57,7 +57,7 @@ $activeRequests = 0;
 	</tbody>
 </table>
 <?php if (count($list)) : ?>
-	<div class="row">
+	<div class="row p-3">
 		<div class="col-md-6"><?php echo Text::plural('COM_PRIVACY_DASHBOARD_BADGE_TOTAL_REQUESTS', $totalRequests); ?></div>
 		<div class="col-md-6"><?php echo Text::plural('COM_PRIVACY_DASHBOARD_BADGE_ACTIVE_REQUESTS', $activeRequests); ?></div>
 	</div>

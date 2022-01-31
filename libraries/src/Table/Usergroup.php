@@ -156,7 +156,7 @@ class Usergroup extends Table
 			->from($db->quoteName($this->_tbl))
 			->where($db->quoteName('parent_id') . ' = :parentid')
 			->bind(':parentid', $parentId, ParameterType::INTEGER)
-			->order($db->quoteName('parent_id'), $db->quoteName('title'));
+			->order([$db->quoteName('parent_id'), $db->quoteName('title')]);
 
 		$db->setQuery($query);
 		$children = $db->loadColumn();

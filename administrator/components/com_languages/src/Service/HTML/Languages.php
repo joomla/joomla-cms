@@ -49,6 +49,7 @@ class Languages
 	public function id($rowNum, $language)
 	{
 		return '<input'
+			. ' class="form-check-input"'
 			. ' type="radio"'
 			. ' id="cb' . $rowNum . '"'
 			. ' name="cid"'

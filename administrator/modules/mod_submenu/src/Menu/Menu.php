@@ -13,8 +13,10 @@ namespace Joomla\Module\Submenu\Administrator\Menu;
 
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Associations;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Menu\MenuItem;
+use Joomla\CMS\Uri\Uri;
 use Joomla\Component\Menus\Administrator\Helper\MenusHelper;
 use Joomla\Utilities\ArrayHelper;
 
@@ -51,7 +53,41 @@ abstract class Menu
 
 		foreach ($children as $item)
 		{
+			if (substr($item->link, 0, 8) === 'special:')
+			{
+				$special = substr($item->link, 8);
+
+				if ($special === 'language-forum')
+				{
+					$item->link = 'index.php?option=com_admin&amp;view=help&amp;layout=langforum';
+				}
+			}
+
+			$uri   = new Uri($item->link);
+			$query = $uri->getQuery(true);
+
+			/**
+			 * This is needed to populate the element property when the component is no longer
+			 * installed but its core menu items are left behind.
+			 */
+			if ($option = $uri->getVar('option'))
+			{
+				$item->element = $option;
+			}
+
+			// Exclude item if is not enabled
 			if ($item->element && !ComponentHelper::isEnabled($item->element))
+			{
+				$parent->removeChild($item);
+				continue;
+			}
+
+			/*
+			 * Multilingual Associations if the site is not set as multilingual and/or Associations is not enabled in
+			 * the Language Filter plugin
+			 */
+
+			if ($item->element === 'com_associations' && !Associations::isEnabled())
 			{
 				$parent->removeChild($item);
 				continue;
@@ -146,7 +182,7 @@ abstract class Menu
 					continue;
 				}
 
-				list($assetName) = isset($query['extension']) ? explode('.', $query['extension'], 2) : array('com_workflow');
+				[$assetName] = isset($query['extension']) ? explode('.', $query['extension'], 2) : array('com_workflow');
 			}
 			// Special case for components which only allow super user access
 			elseif (\in_array($item->element, array('com_config', 'com_privacy', 'com_actionlogs'), true) && !$user->authorise('core.admin'))
@@ -157,6 +193,11 @@ abstract class Menu
 			elseif ($item->element === 'com_joomlaupdate' && !$user->authorise('core.admin'))
 			{
 				$parent->removeChild($item);
+				continue;
+			}
+			elseif (($item->link === 'index.php?option=com_installer&view=install' || $item->link === 'index.php?option=com_installer&view=languages')
+				&& !$user->authorise('core.admin'))
+			{
 				continue;
 			}
 			elseif ($item->element === 'com_admin')

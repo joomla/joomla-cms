@@ -31,7 +31,7 @@ $wa->useScript('joomla.batch-copymove');
 
 ?>
 
-<div class="container">
+<div class="p-3">
 	<form>
 		<div class="form-group">
 			<label id="batch-choose-action-lbl" class="control-label" for="batch-group-id">

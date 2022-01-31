@@ -9,6 +9,19 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
+
+/** @var \Joomla\CMS\WebAsset\WebAssetManager $wa */
+$wa = Factory::getApplication()->getDocument()->getWebAssetManager();
+$wa->addInlineScript('
+    document.addEventListener("DOMContentLoaded", function() {
+        const saveCloseButton = window.parent.document.getElementById("btnModalSaveAndClose");
+        if (saveCloseButton) {
+          saveCloseButton.classList.remove("hidden");
+        }
+    });
+');
+
 ?>
 <button id="applyBtn" type="button" class="hidden" onclick="Joomla.submitbutton('module.apply');"></button>
 <button id="saveBtn" type="button" class="hidden" onclick="Joomla.submitbutton('module.save');"></button>
