@@ -256,10 +256,10 @@ Joomla = window.Joomla || {};
     // Request the server to check the compatibility for the passed extension and joomla version
     Joomla.request({
       url: `${PreUpdateChecker.config.serverUrl
-        }&joomla-target-version=${encodeURIComponent(PreUpdateChecker.joomlaTargetVersion)
-        }&joomla-current-version=${PreUpdateChecker.joomlaCurrentVersion
-        }&extension-version=${node.getAttribute('data-extension-current-version')
-        }&extension-id=${encodeURIComponent(node.getAttribute('data-extension-id'))}`,
+      }&joomla-target-version=${encodeURIComponent(PreUpdateChecker.joomlaTargetVersion)
+      }&joomla-current-version=${PreUpdateChecker.joomlaCurrentVersion
+      }&extension-version=${node.getAttribute('data-extension-current-version')
+      }&extension-id=${encodeURIComponent(node.getAttribute('data-extension-id'))}`,
       onSuccess(data) {
         const response = JSON.parse(data);
         // Extract the data from the JResponseJson object
