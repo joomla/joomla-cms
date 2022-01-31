@@ -3,13 +3,14 @@
  * @package     Joomla.Plugin
  * @subpackage  Workflow.Publishing
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2020 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Application\CMSApplicationInterface;
+use Joomla\CMS\Event\Table\BeforeStoreEvent;
 use Joomla\CMS\Event\View\DisplayEvent;
 use Joomla\CMS\Event\Workflow\WorkflowFunctionalityUsedEvent;
 use Joomla\CMS\Event\Workflow\WorkflowTransitionEvent;
@@ -18,11 +19,13 @@ use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Model\DatabaseModelInterface;
 use Joomla\CMS\Plugin\CMSPlugin;
+use Joomla\CMS\Table\ContentHistory;
 use Joomla\CMS\Table\TableInterface;
 use Joomla\CMS\Workflow\WorkflowPluginTrait;
 use Joomla\CMS\Workflow\WorkflowServiceInterface;
 use Joomla\Event\EventInterface;
 use Joomla\Event\SubscriberInterface;
+use Joomla\Registry\Registry;
 use Joomla\String\Inflector;
 
 /**
@@ -68,13 +71,15 @@ class PlgWorkflowPublishing extends CMSPlugin implements SubscriberInterface
 	public static function getSubscribedEvents(): array
 	{
 		return [
-			'onContentPrepareForm'        => 'onContentPrepareForm',
-			'onAfterDisplay'              => 'onAfterDisplay',
-			'onWorkflowBeforeTransition'  => 'onWorkflowBeforeTransition',
-			'onWorkflowAfterTransition'   => 'onWorkflowAfterTransition',
-			'onContentBeforeChangeState'  => 'onContentBeforeChangeState',
-			'onContentBeforeSave'         => 'onContentBeforeSave',
-			'onWorkflowFunctionalityUsed' => 'onWorkflowFunctionalityUsed',
+			'onAfterDisplay'                  => 'onAfterDisplay',
+			'onContentBeforeChangeState'      => 'onContentBeforeChangeState',
+			'onContentBeforeSave'             => 'onContentBeforeSave',
+			'onContentPrepareForm'            => 'onContentPrepareForm',
+			'onContentVersioningPrepareTable' => 'onContentVersioningPrepareTable',
+			'onTableBeforeStore'              => 'onTableBeforeStore',
+			'onWorkflowAfterTransition'       => 'onWorkflowAfterTransition',
+			'onWorkflowBeforeTransition'      => 'onWorkflowBeforeTransition',
+			'onWorkflowFunctionalityUsed'     => 'onWorkflowFunctionalityUsed',
 		];
 	}
 
@@ -160,7 +165,7 @@ class PlgWorkflowPublishing extends CMSPlugin implements SubscriberInterface
 
 		$options = $form->getField($fieldname)->options;
 
-		$value = isset($data->$fieldname) ? $data->$fieldname : $form->getValue($fieldname, null, 0);
+		$value = $data->$fieldname ?? $form->getValue($fieldname, null, 0);
 
 		$text = '-';
 
@@ -231,20 +236,20 @@ class PlgWorkflowPublishing extends CMSPlugin implements SubscriberInterface
 			'unpublish',
 			'archive',
 			'trash',
-			'report'
+			'report',
 		];
 
 		$js = "
 			document.addEventListener('DOMContentLoaded', function()
 			{
-				var dropdown = document.getElementById('toolbar-dropdown-status-group');
+				var dropdown = document.getElementById('toolbar-status-group');
 
 				if (!dropdown)
 				{
 					return;
 				}
 
-				" . \json_encode($states) . ".forEach((action) => {
+				" . json_encode($states) . ".forEach((action) => {
 					var button = document.getElementById('status-group-children-' + action);
 
 					if (button)
@@ -298,14 +303,14 @@ class PlgWorkflowPublishing extends CMSPlugin implements SubscriberInterface
 		$result = $this->app->triggerEvent('onContentBeforeChangeState', [
 			$context,
 			$pks,
-			$value
+			$value,
 			]
 		);
 
-		// Release whitelist, the job is done
+		// Release allowed pks, the job is done
 		$this->app->set('plgWorkflowPublishing.' . $context, []);
 
-		if (\in_array(false, $result, true))
+		if (in_array(false, $result, true))
 		{
 			$event->setStopTransition();
 
@@ -348,7 +353,7 @@ class PlgWorkflowPublishing extends CMSPlugin implements SubscriberInterface
 		$options = [
 			'ignore_request'            => true,
 			// We already have triggered onContentBeforeChangeState, so use our own
-			'event_before_change_state' => 'onWorkflowBeforeChangeState'
+			'event_before_change_state' => 'onWorkflowBeforeChangeState',
 		];
 
 		$modelName = $component->getModelName($context);
@@ -378,7 +383,7 @@ class PlgWorkflowPublishing extends CMSPlugin implements SubscriberInterface
 			return true;
 		}
 
-		// We have whitelisted the pks, so we're the one who triggered
+		// We have allowed the pks, so we're the one who triggered
 		// With onWorkflowBeforeTransition => free pass
 		if ($this->app->get('plgWorkflowPublishing.' . $context) === $pks)
 		{
@@ -433,6 +438,82 @@ class PlgWorkflowPublishing extends CMSPlugin implements SubscriberInterface
 	}
 
 	/**
+	 * We remove the publishing field from the versioning
+	 *
+	 * @param   EventInterface  $event
+	 *
+	 * @return  boolean
+	 *
+	 * @since   4.0.0
+	 */
+	public function onContentVersioningPrepareTable(EventInterface $event)
+	{
+		$subject = $event->getArgument('subject');
+		$context = $event->getArgument('extension');
+
+		if (!$this->isSupported($context))
+		{
+			return true;
+		}
+
+		$parts = explode('.', $context);
+
+		$component = $this->app->bootComponent($parts[0]);
+
+		$modelName = $component->getModelName($context);
+
+		$model = $component->getMVCFactory()->createModel($modelName, $this->app->getName(), ['ignore_request' => true]);
+
+		$table = $model->getTable();
+
+		$subject->ignoreChanges[] = $table->getColumnAlias('published');
+	}
+
+	/**
+	 * Pre-processor for $table->store($updateNulls)
+	 *
+	 * @param   BeforeStoreEvent  $event  The event to handle
+	 *
+	 * @return  void
+	 *
+	 * @since   4.0.0
+	 */
+	public function onTableBeforeStore(BeforeStoreEvent $event)
+	{
+		$subject = $event->getArgument('subject');
+
+		if (!($subject instanceof ContentHistory))
+		{
+			return;
+		}
+
+		$parts = explode('.', $subject->item_id);
+
+		$typeAlias = $parts[0] . (isset($parts[1]) ? '.' . $parts[1] : '');
+
+		if (!$this->isSupported($typeAlias))
+		{
+			return;
+		}
+
+		$component = $this->app->bootComponent($parts[0]);
+
+		$modelName = $component->getModelName($typeAlias);
+
+		$model = $component->getMVCFactory()->createModel($modelName, $this->app->getName(), ['ignore_request' => true]);
+
+		$table = $model->getTable();
+
+		$field = $table->getColumnAlias('published');
+
+		$versionData = new Registry($subject->version_data);
+
+		$versionData->remove($field);
+
+		$subject->version_data = $versionData->toString();
+	}
+
+	/**
 	 * Check if the current plugin should execute workflow related activities
 	 *
 	 * @param   string  $context
@@ -443,7 +524,7 @@ class PlgWorkflowPublishing extends CMSPlugin implements SubscriberInterface
 	 */
 	protected function isSupported($context)
 	{
-		if (!$this->checkWhiteAndBlacklist($context) || !$this->checkExtensionSupport($context, $this->supportFunctionality))
+		if (!$this->checkAllowedAndForbiddenlist($context) || !$this->checkExtensionSupport($context, $this->supportFunctionality))
 		{
 			return false;
 		}

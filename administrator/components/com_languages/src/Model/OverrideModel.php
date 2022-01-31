@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_languages
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2011 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -31,7 +31,7 @@ class OverrideModel extends AdminModel
 	 * @param   array    $data      Data for the form.
 	 * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
 	 *
-	 * @return  mixed A \JForm object on success, false on failure.
+	 * @return  \Joomla\CMS\Form\Form|bool  A Form object on success, false on failure.
 	 *
 	 * @since   2.5
 	 */
@@ -123,14 +123,14 @@ class OverrideModel extends AdminModel
 	/**
 	 * Method to save the form data.
 	 *
-	 * @param   array    $data             The form data.
-	 * @param   boolean  $opposite_client  Indicates whether the override should not be created for the current client.
+	 * @param   array    $data            The form data.
+	 * @param   boolean  $oppositeClient  Indicates whether the override should not be created for the current client.
 	 *
 	 * @return  boolean  True on success, false otherwise.
 	 *
 	 * @since   2.5
 	 */
-	public function save($data, $opposite_client = false)
+	public function save($data, $oppositeClient = false)
 	{
 		$app = Factory::getApplication();
 
@@ -146,7 +146,7 @@ class OverrideModel extends AdminModel
 		}
 
 		// If the override should be created for both.
-		if ($opposite_client)
+		if ($oppositeClient)
 		{
 			$client = 1 - $client;
 		}
@@ -163,7 +163,7 @@ class OverrideModel extends AdminModel
 
 		$client = $client ? 'administrator' : 'site';
 
-		// Parse the override.ini file in oder to get the keys and strings.
+		// Parse the override.ini file in order to get the keys and strings.
 		$fileName = constant('JPATH_' . strtoupper($client)) . '/language/overrides/' . $language . '.override.ini';
 		$strings  = LanguageHelper::parseIniFile($fileName);
 
@@ -197,7 +197,7 @@ class OverrideModel extends AdminModel
 
 		// If the override should be stored for both clients save
 		// it also for the other one and prevent endless recursion.
-		if (isset($data['both']) && $data['both'] && !$opposite_client)
+		if (isset($data['both']) && $data['both'] && !$oppositeClient)
 		{
 			return $this->save($data, true);
 		}

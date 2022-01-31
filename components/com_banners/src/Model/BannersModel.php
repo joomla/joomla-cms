@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_banners
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2009 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -77,6 +77,7 @@ class BannersModel extends ListModel
 				$db->quoteName('a.type'),
 				$db->quoteName('a.name'),
 				$db->quoteName('a.clickurl'),
+				$db->quoteName('a.sticky'),
 				$db->quoteName('a.cid'),
 				$db->quoteName('a.description'),
 				$db->quoteName('a.params'),
@@ -108,7 +109,7 @@ class BannersModel extends ListModel
 				'AND',
 				[
 					$db->quoteName('a.imptotal') . ' = 0',
-					$db->quoteName('a.impmade') . ' <= ' . $db->quoteName('a.imptotal'),
+					$db->quoteName('a.impmade') . ' < ' . $db->quoteName('a.imptotal'),
 				],
 				'OR'
 			)
@@ -254,7 +255,7 @@ class BannersModel extends ListModel
 		// Filter by language
 		if ($this->getState('filter.language'))
 		{
-			$query->whereIn($db->quoteName('a.language'), [Factory::getLanguage()->getTag(), '*']);
+			$query->whereIn($db->quoteName('a.language'), [Factory::getLanguage()->getTag(), '*'], ParameterType::STRING);
 		}
 
 		$query->order($db->quoteName('a.sticky') . ' DESC, ' . ($randomise ? $query->rand() : $db->quoteName('a.ordering')));

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_fields
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2016 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 defined('_JEXEC') or die;
@@ -43,21 +43,29 @@ if ($saveOrder && !empty($this->items))
 }
 
 $context = $this->escape($this->state->get('filter.context'));
+
+$searchToolsOptions = [];
+
+// Only show field contexts filter if there are more than one option
+if (count($this->filterForm->getField('context')->options) > 1)
+{
+	$searchToolsOptions['selectorFieldName'] = 'context';
+}
 ?>
 
 <form action="<?php echo Route::_('index.php?option=com_fields&view=groups&context=' . $context); ?>" method="post" name="adminForm" id="adminForm">
 	<div class="row">
 		<div class="col-md-12">
 			<div id="j-main-container" class="j-main-container">
-				<?php echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this, 'options' => array('selectorFieldName' => 'context'))); ?>
+				<?php echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this, 'options' => $searchToolsOptions)); ?>
 				<?php if (empty($this->items)) : ?>
 					<div class="alert alert-info">
-						<span class="icon-info-circle" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('INFO'); ?></span>
+						<span class="icon-info-circle" aria-hidden="true"></span><span class="visually-hidden"><?php echo Text::_('INFO'); ?></span>
 						<?php echo Text::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
 					</div>
 				<?php else : ?>
-					<table class="table" id="groupList">
-						<caption id="captionTable" class="sr-only">
+					<table class="table" id="fieldgroupList">
+						<caption class="visually-hidden">
 							<?php echo Text::_('COM_FIELDS_GROUPS_TABLE_CAPTION'); ?>,
 							<span id="orderedBy"><?php echo Text::_('JGLOBAL_SORTED_BY'); ?> </span>,
 							<span id="filteredBy"><?php echo Text::_('JGLOBAL_FILTERED_BY'); ?></span>
@@ -98,7 +106,7 @@ $context = $this->escape($this->state->get('filter.context'));
 								<?php $canChange  = $user->authorise('core.edit.state', $component . '.fieldgroup.' . $item->id) && $canCheckin; ?>
 								<tr class="row<?php echo $i % 2; ?>" data-draggable-group="0" item-id="<?php echo $item->id; ?>">
 									<td class="text-center">
-										<?php echo HTMLHelper::_('grid.id', $i, $item->id); ?>
+										<?php echo HTMLHelper::_('grid.id', $i, $item->id, false, 'cid', 'cb', $item->title); ?>
 									</td>
 									<td class="text-center d-none d-md-table-cell">
 										<?php $iconClass = ''; ?>
@@ -118,7 +126,7 @@ $context = $this->escape($this->state->get('filter.context'));
 										<?php echo HTMLHelper::_('jgrid.published', $item->state, $i, 'groups.', $canChange, 'cb'); ?>
 									</td>
 									<th scope="row">
-										<div class="float-left break-word">
+										<div class="break-word">
 											<?php if ($item->checked_out) : ?>
 												<?php echo HTMLHelper::_('jgrid.checkedout', $i, $item->editor, $item->checked_out_time, 'groups.', $canCheckin); ?>
 											<?php endif; ?>
@@ -128,11 +136,11 @@ $context = $this->escape($this->state->get('filter.context'));
 											<?php else : ?>
 												<?php echo $this->escape($item->title); ?>
 											<?php endif; ?>
-											<span class="small break-word">
+											<div class="small break-word">
 												<?php if ($item->note) : ?>
 													<?php echo Text::sprintf('JGLOBAL_LIST_NOTE', $this->escape($item->note)); ?>
 												<?php endif; ?>
-											</span>
+											</div>
 										</div>
 									</th>
 									<td class="small d-none d-md-table-cell">

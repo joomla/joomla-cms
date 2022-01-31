@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_installer
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2006 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -11,7 +11,6 @@ namespace Joomla\Component\Installer\Administrator\Model;
 
 \defined('_JEXEC') or die;
 
-use Joomla\CMS\Client\ClientHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\File;
 use Joomla\CMS\Filesystem\Path;
@@ -22,6 +21,7 @@ use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Updater\Update;
+use Joomla\CMS\Uri\Uri;
 
 /**
  * Extension Manager Install Model
@@ -79,8 +79,6 @@ class InstallModel extends BaseDatabaseModel
 	{
 		$this->setState('action', 'install');
 
-		// Set FTP credentials, if given.
-		ClientHelper::setCredentialsFromRequest('ftp');
 		$app = Factory::getApplication();
 
 		// Load installer plugins for assistance if required:
@@ -151,7 +149,7 @@ class InstallModel extends BaseDatabaseModel
 		// Check if package was uploaded successfully.
 		if (!\is_array($package))
 		{
-			$app->enqueueMessage(JText::_('COM_INSTALLER_UNABLE_TO_FIND_INSTALL_PACKAGE'), 'error');
+			$app->enqueueMessage(Text::_('COM_INSTALLER_UNABLE_TO_FIND_INSTALL_PACKAGE'), 'error');
 
 			return false;
 		}
@@ -240,14 +238,10 @@ class InstallModel extends BaseDatabaseModel
 		InstallerHelper::cleanupInstall($package['packagefile'], $package['extractdir']);
 
 		// Clear the cached extension data and menu cache
-		$this->cleanCache('_system', 0);
-		$this->cleanCache('_system', 1);
-		$this->cleanCache('com_modules', 0);
-		$this->cleanCache('com_modules', 1);
-		$this->cleanCache('com_plugins', 0);
-		$this->cleanCache('com_plugins', 1);
-		$this->cleanCache('mod_menu', 0);
-		$this->cleanCache('mod_menu', 1);
+		$this->cleanCache('_system');
+		$this->cleanCache('com_modules');
+		$this->cleanCache('com_plugins');
+		$this->cleanCache('mod_menu');
 
 		return $result;
 	}
@@ -376,7 +370,7 @@ class InstallModel extends BaseDatabaseModel
 	/**
 	 * Install an extension from a URL.
 	 *
-	 * @return  Package details or false on failure.
+	 * @return  bool|array  Package details or false on failure.
 	 *
 	 * @since   1.5
 	 */
@@ -391,6 +385,16 @@ class InstallModel extends BaseDatabaseModel
 		if (!$url)
 		{
 			Factory::getApplication()->enqueueMessage(Text::_('COM_INSTALLER_MSG_INSTALL_ENTER_A_URL'), 'error');
+
+			return false;
+		}
+
+		// We only allow http & https here
+		$uri = new Uri($url);
+
+		if (!in_array($uri->getScheme(), ['http', 'https']))
+		{
+			Factory::getApplication()->enqueueMessage(Text::_('COM_INSTALLER_MSG_INSTALL_INVALID_URL_SCHEME'), 'error');
 
 			return false;
 		}

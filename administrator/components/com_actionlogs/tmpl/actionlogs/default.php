@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_actionlogs
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2018 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -15,6 +15,8 @@ use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\Component\Actionlogs\Administrator\Helper\ActionlogsHelper;
 use Joomla\Component\Actionlogs\Administrator\View\Actionlogs\HtmlView;
+
+HTMLHelper::_('behavior.multiselect');
 
 /** @var HtmlView $this */
 
@@ -34,12 +36,12 @@ $wa->useScript('keepalive')
 		<?php echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
 		<?php if (empty($this->items)) : ?>
 			<div class="alert alert-info">
-				<span class="icon-info-circle" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('INFO'); ?></span>
+				<span class="icon-info-circle" aria-hidden="true"></span><span class="visually-hidden"><?php echo Text::_('INFO'); ?></span>
 				<?php echo Text::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
 			</div>
 		<?php else : ?>
 			<table class="table" id="logsList">
-				<caption id="captionTable" class="sr-only">
+				<caption class="visually-hidden">
 					<?php echo Text::_('COM_ACTIONLOGS_TABLE_CAPTION'); ?>,
 							<span id="orderedBy"><?php echo Text::_('JGLOBAL_SORTED_BY'); ?> </span>,
 							<span id="filteredBy"><?php echo Text::_('JGLOBAL_FILTERED_BY'); ?></span>
@@ -75,7 +77,7 @@ $wa->useScript('keepalive')
 					<?php foreach ($this->items as $i => $item) :
 						$extension = strtok($item->extension, '.');
 						ActionlogsHelper::loadTranslationFiles($extension); ?>
-						<tr>
+						<tr class="row<?php echo $i % 2; ?>">
 							<td class="text-center">
 								<?php echo HTMLHelper::_('grid.id', $i, $item->id); ?>
 							</td>
@@ -86,10 +88,14 @@ $wa->useScript('keepalive')
 								<?php echo $this->escape(Text::_($extension)); ?>
 							</td>
 							<td class="d-none d-md-table-cell">
-								<?php echo HTMLHelper::_('date.relative', $item->log_date); ?>
-								<div class="small">
+								<?php if ($this->dateRelative) : ?>
+									<?php echo HTMLHelper::_('date.relative', $item->log_date); ?>
+									<div class="small">
+								<?php endif; ?>
 									<?php echo HTMLHelper::_('date', $item->log_date, Text::_('DATE_FORMAT_LC6')); ?>
-								</div>
+								<?php if ($this->dateRelative) : ?>
+									</div>
+								<?php endif; ?>
 							</td>
 							<td class="d-md-table-cell">
 								<?php echo $this->escape($item->name); ?>

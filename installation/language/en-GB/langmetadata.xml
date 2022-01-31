@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <metafile client="installation">
 	<name>English (United Kingdom)</name>
-	<version>4.0.0</version>
-	<creationDate>October 2019</creationDate>
+	<version>4.1.0</version>
+	<creationDate>January 2022</creationDate>
 	<author>Joomla! Project</author>
-	<copyright>Copyright (C) 2005 - 2020 Open Source Matters. All rights reserved.</copyright>
+	<copyright>(C) 2005 Open Source Matters, Inc.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<files>
 		<filename>joomla.ini</filename>

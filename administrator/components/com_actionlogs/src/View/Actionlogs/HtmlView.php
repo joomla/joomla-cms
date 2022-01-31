@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_actionlogs
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2018 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -79,6 +79,14 @@ class HtmlView extends BaseHtmlView
 	protected $showIpColumn = false;
 
 	/**
+	 * Setting if the date should be displayed relative to the current date.
+	 *
+	 * @var    boolean
+	 * @since  4.1.0
+	 */
+	protected $dateRelative = false;
+
+	/**
 	 * Method to display the view.
 	 *
 	 * @param   string  $tpl  A template file to load. [optional]
@@ -100,13 +108,14 @@ class HtmlView extends BaseHtmlView
 		$this->activeFilters = $model->getActiveFilters();
 		$params              = ComponentHelper::getParams('com_actionlogs');
 		$this->showIpColumn  = (bool) $params->get('ip_logging', 0);
+		$this->dateRelative  = (bool) $params->get('date_relative', 1);
 
 		if (count($errors = $model->getErrors()))
 		{
 			throw new GenericDataException(implode("\n", $errors), 500);
 		}
 
-		$this->addToolBar();
+		$this->addToolbar();
 
 		// Load all actionlog plugins language files
 		ActionlogsHelper::loadActionLogPluginsLanguage();
@@ -123,7 +132,7 @@ class HtmlView extends BaseHtmlView
 	 */
 	protected function addToolbar()
 	{
-		ToolbarHelper::title(Text::_('COM_ACTIONLOGS_MANAGER_USERLOGS'), 'icon-list-ul');
+		ToolbarHelper::title(Text::_('COM_ACTIONLOGS_MANAGER_USERLOGS'), 'icon-list-2');
 
 		ToolbarHelper::custom('actionlogs.exportSelectedLogs', 'download', '', 'COM_ACTIONLOGS_EXPORT_CSV', true);
 		ToolbarHelper::custom('actionlogs.exportLogs', 'download', '', 'COM_ACTIONLOGS_EXPORT_ALL_CSV', false);
@@ -131,6 +140,6 @@ class HtmlView extends BaseHtmlView
 		$bar = Toolbar::getInstance('toolbar');
 		$bar->appendButton('Confirm', 'COM_ACTIONLOGS_PURGE_CONFIRM', 'delete', 'COM_ACTIONLOGS_TOOLBAR_PURGE', 'actionlogs.purge', false);
 		ToolbarHelper::preferences('com_actionlogs');
-		ToolbarHelper::help('JHELP_COMPONENTS_ACTIONLOGS');
+		ToolbarHelper::help('User_Actions_Log');
 	}
 }

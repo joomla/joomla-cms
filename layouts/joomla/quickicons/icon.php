@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  Layout
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2013 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -16,10 +16,8 @@ $target  = empty($displayData['target']) ? '' : (' target="' . $displayData['tar
 $onclick = empty($displayData['onclick']) ? '' : (' onclick="' . $displayData['onclick'] . '"');
 
 if (isset($displayData['ajaxurl'])) {
-	$size = 'small';
 	$dataUrl = 'data-url="' . $displayData['ajaxurl'] . '"';
 } else {
-	$size = 'big';
 	$dataUrl = '';
 }
 
@@ -29,49 +27,33 @@ $title = empty($displayData['title']) ? '' : (' title="' . $this->escape($displa
 // The information
 $text = empty($displayData['text']) ? '' : ('<span class="j-links-link">' . $displayData['text'] . '</span>');
 
-$tmp = [];
-
-// Set id and class pulse for update icons
-if ($id && ($displayData['id'] === 'plg_quickicon_joomlaupdate'
-	|| $displayData['id'] === 'plg_quickicon_extensionupdate'
-	|| $displayData['id'] === 'plg_quickicon_privacycheck'
-	|| $displayData['id'] === 'plg_quickicon_overridecheck'
-	|| !empty($displayData['class'])))
-{
-	$tmp[] = 'pulse';
-}
-
-// Add the button class
-if (!empty($displayData['class']))
-{
-	$tmp[] = $this->escape($displayData['class']);
-}
-
 // Make the class string
-$class = !empty($tmp) ? ' class="' . implode(' ', array_unique($tmp)) . '"' : '';
+$class = empty($displayData['class']) ? '' : (' class="' . $this->escape($displayData['class']) . '"');
 
 ?>
 <?php // If it is a button with two links: make it a list
 	if (isset($displayData['linkadd'])): ?>
-		<li class="quickicon-group col mb-3 d-flex">
+		<li class="quickicon-group">
 		<ul class="list-unstyled d-flex w-100">
-			<li class="quickicon flex-grow-1">
+			<li class="quickicon">
 	<?php else: ?>
-		<li class="quickicon quickicon-single col mb-3">
+		<li class="quickicon quickicon-single">
 	<?php endif; ?>
 
 		<a <?php echo $id . $class; ?> href="<?php echo $displayData['link']; ?>"<?php echo $target . $onclick . $title; ?>>
-			<?php if (isset($displayData['image'])): ?>
-				<div class="quickicon-icon d-flex align-items-end <?php echo $size ?>">
-					<div class="<?php echo $displayData['image']; ?>" aria-hidden="true"></div>
-				</div>
-			<?php endif; ?>
-			<?php if (isset($displayData['ajaxurl'])) : ?>
-				<div class="quickicon-amount" <?php echo $dataUrl ?> aria-hidden="true">
-					<span class="icon-spinner" aria-hidden="true"></span>
-				</div>
-				<div class="quickicon-sr-desc sr-only"></div>
-			<?php endif; ?>
+			<div class="quickicon-info">
+				<?php if (isset($displayData['image'])): ?>
+					<div class="quickicon-icon">
+						<div class="<?php echo $displayData['image']; ?>" aria-hidden="true"></div>
+					</div>
+				<?php endif; ?>
+				<?php if (isset($displayData['ajaxurl'])) : ?>
+					<div class="quickicon-amount" <?php echo $dataUrl ?> aria-hidden="true">
+						<span class="icon-spinner" aria-hidden="true"></span>
+					</div>
+					<div class="quickicon-sr-desc visually-hidden"></div>
+				<?php endif; ?>
+			</div>
 			<?php // Name indicates the component
 			if (isset($displayData['name'])): ?>
 				<div class="quickicon-name d-flex align-items-end" <?php echo isset($displayData['ajaxurl']) ? ' aria-hidden="true"' : ''; ?>>
@@ -88,8 +70,8 @@ $class = !empty($tmp) ? ' class="' . implode(' ', array_unique($tmp)) . '"' : ''
 	</li>
 	<?php // Add the link to the edit-form
 	if (isset($displayData['linkadd'])): ?>
-		<li class="btn-block quickicon-linkadd j-links-link d-flex">
-			<a class="d-flex align-items-center" href="<?php echo $displayData['linkadd']; ?>" title="<?php echo Text::_($displayData['name'] . '_ADD'); ?>">
+		<li class="quickicon-linkadd j-links-link d-flex">
+			<a class="d-flex" href="<?php echo $displayData['linkadd']; ?>" title="<?php echo Text::_($displayData['name'] . '_ADD'); ?>">
 				<span class="icon-plus" aria-hidden="true"></span>
 			</a>
 		</li>

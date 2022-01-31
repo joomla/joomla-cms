@@ -30,7 +30,7 @@ services:
 ## Install PHP and composer, and run the appropriate composer command
 install:
     - IF EXIST C:\tools\php (SET PHP=0)
-    # TODO: This is a workaround for https://github.com/chocolatey/choco/issues/1843. Once this is fixed we
+    # @todo: This is a workaround for https://github.com/chocolatey/choco/issues/1843. Once this is fixed we
     #       should go back to latest version in appveyor saving ourselves test time
     - ps: choco upgrade chocolatey -y --version 0.10.13 --allow-downgrade --no-progress
     - ps: >-
@@ -71,7 +71,7 @@ install:
     - IF %PHP%==1 echo opcache.enable_cli=1 >> php.ini
     - IF %PHP%==1 echo extension=php_ldap.dll >> php.ini
     - IF %PHP%==1 echo @php %%~dp0composer.phar %%* > composer.bat
-    - IF %PHP%==1 php -r "readfile('https://getcomposer.org/composer-1.phar');" > composer.phar
+    - IF %PHP%==1 appveyor-retry appveyor DownloadFile https://getcomposer.org/download/latest-1.x/composer.phar
     - cd C:\projects\joomla-cms
     - appveyor-retry composer install --no-progress --profile
 before_test:

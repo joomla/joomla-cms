@@ -3,7 +3,7 @@
  * @package     Joomla.API
  * @subpackage  com_config
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2019 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -114,7 +114,7 @@ class ComponentController extends ApiController
 
 		$option = $this->input->get('component_name');
 
-		// TODO: Not the cleanest thing ever but it works...
+		// @todo: Not the cleanest thing ever but it works...
 		Form::addFormPath(JPATH_ADMINISTRATOR . '/components/' . $option);
 
 		// Must load after serving service-requests

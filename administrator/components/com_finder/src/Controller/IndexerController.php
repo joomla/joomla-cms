@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2011 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -261,9 +261,9 @@ class IndexerController extends BaseController
 	/**
 	 * Method to handle a send a \JSON response. The body parameter
 	 * can be an \Exception object for when an error has occurred or
-	 * a \JObject for a good response.
+	 * a CMSObject for a good response.
 	 *
-	 * @param   mixed  $data  \JObject on success, \Exception on error. [optional]
+	 * @param   \Joomla\CMS\Object\CMSObject|\Exception  $data  CMSObject on success, \Exception on error. [optional]
 	 *
 	 * @return  void
 	 *

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_installer
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2014 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -103,11 +103,6 @@ class HtmlView extends InstallerViewDefault
 		// Get the toolbar object instance
 		$toolbar = Toolbar::getInstance('toolbar');
 
-		if ($canDo->get('core.edit'))
-		{
-			ToolbarHelper::editList('updatesite.edit');
-		}
-
 		if ($canDo->get('core.edit.state'))
 		{
 			$dropdown = $toolbar->dropdownButton('status-group')
@@ -132,11 +127,11 @@ class HtmlView extends InstallerViewDefault
 
 		if ($canDo->get('core.admin') || $canDo->get('core.options'))
 		{
-			ToolbarHelper::custom('updatesites.rebuild', 'refresh.png', 'refresh_f2.png', 'JTOOLBAR_REBUILD', false);
+			ToolbarHelper::custom('updatesites.rebuild', 'refresh', '', 'JTOOLBAR_REBUILD', false);
 		}
 
 		parent::addToolbar();
 
-		ToolbarHelper::help('JHELP_EXTENSIONS_EXTENSION_MANAGER_UPDATESITES');
+		ToolbarHelper::help('Extensions:_Update_Sites');
 	}
 }

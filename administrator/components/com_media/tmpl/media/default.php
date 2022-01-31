@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_media
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2007 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 defined('_JEXEC') or die;
@@ -15,6 +15,7 @@ use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Uri\Uri;
 
 $params = ComponentHelper::getParams('com_media');
+$input  = Factory::getApplication()->input;
 
 /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
 $wa = $this->document->getWebAssetManager();
@@ -25,7 +26,7 @@ $wa->useScript('keepalive')
 // Populate the language
 $this->loadTemplate('texts');
 
-$tmpl = Factory::getApplication()->input->getCmd('tmpl');
+$tmpl = $input->getCmd('tmpl');
 
 // Load the toolbar when we are in an iframe
 if ($tmpl === 'component')
@@ -35,20 +36,24 @@ if ($tmpl === 'component')
 	echo '</div>';
 }
 
+$mediaTypes = '&mediatypes=' . $input->getString('mediatypes', '0,1,2,3');
+
 // Populate the media config
 $config = array(
-	'apiBaseUrl'              => Uri::base() . 'index.php?option=com_media&format=json',
-	'csrfToken'               => Session::getFormToken(),
-	'filePath'                => $params->get('file_path', 'images'),
-	'fileBaseUrl'             => Uri::root() . $params->get('file_path', 'images'),
-	'fileBaseRelativeUrl'     => $params->get('file_path', 'images'),
-	'editViewUrl'             => Uri::base() . 'index.php?option=com_media&view=file' . ($tmpl ? '&tmpl=' . $tmpl : ''),
-	'allowedUploadExtensions' => $params->get('upload_extensions', ''),
-	'imagesExtensions'        => $params->get('image_extensions', ''),
-	'maxUploadSizeMb'         => $params->get('upload_maxsize', 10),
-	'providers'               => (array) $this->providers,
-	'currentPath'             => $this->currentPath,
-	'isModal'                 => $tmpl === 'component',
+	'apiBaseUrl'          => Uri::base() . 'index.php?option=com_media&format=json' . $mediaTypes,
+	'csrfToken'           => Session::getFormToken(),
+	'filePath'            => $params->get('file_path', 'images'),
+	'fileBaseUrl'         => Uri::root() . $params->get('file_path', 'images'),
+	'fileBaseRelativeUrl' => $params->get('file_path', 'images'),
+	'editViewUrl'         => Uri::base() . 'index.php?option=com_media&view=file' . ($tmpl ? '&tmpl=' . $tmpl : '')  . $mediaTypes,
+	'imagesExtensions'    => explode(',', $params->get('image_extensions', 'bmp,gif,jpg,jpeg,png,webp')),
+	'audioExtensions'     => explode(',', $params->get('audio_extensions', 'mp3,m4a,mp4a,ogg')),
+	'videoExtensions'     => explode(',', $params->get('video_extensions', 'mp4,mp4v,mpeg,mov,webm')),
+	'documentExtensions'  => explode(',', $params->get('doc_extensions', 'doc,odg,odp,ods,odt,pdf,ppt,txt,xcf,xls,csv')),
+	'maxUploadSizeMb'     => $params->get('upload_maxsize', 10),
+	'providers'           => (array) $this->providers,
+	'currentPath'         => $this->currentPath,
+	'isModal'             => $tmpl === 'component',
 );
 $this->document->addScriptOptions('com_media', $config);
 ?>

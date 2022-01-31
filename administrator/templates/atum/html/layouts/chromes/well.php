@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  Templates.Atum
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2019 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -31,7 +31,7 @@ $canEdit   = $user->authorise('core.edit', 'com_modules.module.' . $id) && $user
 $canChange = $user->authorise('core.edit.state', 'com_modules.module.' . $id) && $user->authorise('core.manage', 'com_modules');
 
 $moduleTag      = $params->get('module_tag', 'div');
-$bootstrapSize  = (int) $params->get('bootstrap_size', 6);
+$bootstrapSize  = (int) $params->get('bootstrap_size', 12);
 $moduleClass    = $bootstrapSize ? 'col-md-' . $bootstrapSize : 'col-md-12';
 $headerTag      = htmlspecialchars($params->get('header_tag', 'h2'), ENT_QUOTES, 'UTF-8');
 $moduleClassSfx = $params->get('moduleclass_sfx', '');
@@ -43,16 +43,16 @@ $headerClass = $params->get('header_class') ? ' class="' . htmlspecialchars($par
 $headerIcon = $params->get('header_icon') ? '<span class="' . htmlspecialchars($params->get('header_icon'), ENT_QUOTES, 'UTF-8') . '" aria-hidden="true"></span>' : '';
 
 ?>
-<div class="module-wrapper">
-	<<?php echo $moduleTag; ?> class="card mb-3<?php echo $moduleClassSfx; ?>">
+<div class="<?php echo $moduleClass; ?> module-wrapper">
+	<<?php echo $moduleTag; ?> class="card mb-3 <?php echo $moduleClassSfx; ?>">
 		<?php if ($canEdit || $canChange || $headerIcon || $module->showtitle) : ?>
 			<div class="card-header">
 				<?php if ($canEdit || $canChange) : ?>
-					<?php $dropdownPosition = Factory::getLanguage()->isRTL() ? 'left' : 'right'; ?>
+					<?php $dropdownPosition = Factory::getLanguage()->isRtl() ? 'start' : 'end'; ?>
 					<div class="module-actions dropdown">
-						<button type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="btn" id="dropdownMenuButton-<?php echo $id; ?>">
-							<span class="icon-cog" aria-hidden="true"></span>
-							<span class="sr-only"><?php echo Text::sprintf('JACTION_EDIT_MODULE', $module->title); ?></span>
+						<button type="button" data-bs-toggle="dropdown" data-bs-display="static" aria-haspopup="true" aria-expanded="false" class="btn" id="dropdownMenuButton-<?php echo $id; ?>">
+							<span class="icon-cogs" aria-hidden="true"></span>
+							<span class="visually-hidden"><?php echo Text::sprintf('JACTION_EDIT_MODULE', $module->title); ?></span>
 						</button>
 						<div class="dropdown-menu dropdown-menu-<?php echo $dropdownPosition; ?>" aria-labelledby="dropdownMenuButton-<?php echo $id; ?>">
 							<?php if ($canEdit) : ?>
@@ -68,10 +68,10 @@ $headerIcon = $params->get('header_icon') ? '<span class="' . htmlspecialchars($
 				<?php endif; ?>
 
 				<?php if ($module->showtitle) : ?>
-					<h2 <?php echo $headerClass; ?>>
+					<<?php echo $headerTag; ?><?php echo $headerClass; ?>>
 						<?php echo $headerIcon; ?>
 						<?php echo htmlspecialchars($module->title, ENT_QUOTES, 'UTF-8'); ?>
-					</h2>
+					</<?php echo $headerTag; ?>>
 				<?php endif; ?>
 			</div>
 		<?php endif; ?>

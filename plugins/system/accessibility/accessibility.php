@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  System.accessibility
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2020 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -21,9 +21,8 @@ use Joomla\CMS\Plugin\CMSPlugin;
 class PlgSystemAccessibility extends CMSPlugin
 {
 	/**
-	 * Application object.
+	 * @var    \Joomla\CMS\Application\CMSApplication
 	 *
-	 * @var    JApplicationCms
 	 * @since  4.0.0
 	 */
 	protected $app;
@@ -52,11 +51,20 @@ class PlgSystemAccessibility extends CMSPlugin
 			return;
 		}
 
+		// Are we in a modal?
+		if ($this->app->input->get('tmpl', '', 'cmd') === 'component')
+		{
+			return;
+		}
+
 		// Load language file.
 		$this->loadLanguage();
 
 		// Determine if it is an LTR or RTL language
-		$direction = Factory::getLanguage()->isRTL() ? 'right' : 'left';
+		$direction = Factory::getLanguage()->isRtl() ? 'right' : 'left';
+
+		// Detect the current active language
+		$lang = Factory::getLanguage()->getTag();
 
 		/**
 		* Add strings for translations in Javascript.
@@ -78,15 +86,23 @@ class PlgSystemAccessibility extends CMSPlugin
 					'readingGuide'        => Text::_('PLG_SYSTEM_ACCESSIBILITY_READING'),
 					'textToSpeech'        => Text::_('PLG_SYSTEM_ACCESSIBILITY_TTS'),
 					'speechToText'        => Text::_('PLG_SYSTEM_ACCESSIBILITY_STT'),
+					'resetTitle'          => Text::_('PLG_SYSTEM_ACCESSIBILITY_RESET'),
+					'closeTitle'          => Text::_('PLG_SYSTEM_ACCESSIBILITY_CLOSE'),
 				],
 				'icon' => [
 					'position' => [
 						$direction => [
 							'size' => '0',
 							'units' => 'px',
-						]
-					]
-				]
+						],
+					],
+				],
+				'hotkeys' => [
+					'enabled' => true,
+					'helpTitles' => true,
+				],
+				'textToSpeechLang' => [$lang],
+				'speechToTextLang' => [$lang],
 			]
 		);
 

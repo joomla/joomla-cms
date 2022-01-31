@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2008 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -18,6 +18,7 @@ use Joomla\CMS\Language\Associations;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
+use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
@@ -33,7 +34,7 @@ class HtmlView extends BaseHtmlView
 	/**
 	 * The \JForm object
 	 *
-	 * @var \Joomla\CMS\Form\Form
+	 * @var  \Joomla\CMS\Form\Form
 	 */
 	protected $form;
 
@@ -54,7 +55,7 @@ class HtmlView extends BaseHtmlView
 	/**
 	 * The actions the user is authorised to perform
 	 *
-	 * @var  \JObject
+	 * @var  \Joomla\CMS\Object\CMSObject
 	 */
 	protected $canDo;
 
@@ -70,16 +71,19 @@ class HtmlView extends BaseHtmlView
 	 *
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
 	 *
-	 * @return  mixed  A string if successful, otherwise an Error object.
+	 * @return  void
 	 *
-	 * @throws \Exception
 	 * @since   1.6
+	 *
+	 * @throws  \Exception
 	 */
 	public function display($tpl = null)
 	{
 		if ($this->getLayout() == 'pagebreak')
 		{
-			return parent::display($tpl);
+			parent::display($tpl);
+
+			return;
 		}
 
 		$this->form  = $this->get('Form');
@@ -109,7 +113,7 @@ class HtmlView extends BaseHtmlView
 
 		$this->addToolbar();
 
-		return parent::display($tpl);
+		parent::display($tpl);
 	}
 
 	/**
@@ -117,8 +121,9 @@ class HtmlView extends BaseHtmlView
 	 *
 	 * @return  void
 	 *
-	 * @throws \Exception
 	 * @since   1.6
+	 *
+	 * @throws  \Exception
 	 */
 	protected function addToolbar()
 	{
@@ -159,7 +164,7 @@ class HtmlView extends BaseHtmlView
 				}
 			);
 
-			$toolbar->cancel('article.cancel', 'JTOOLBAR_CLOSE');
+			$toolbar->cancel('article.cancel', 'JTOOLBAR_CANCEL');
 		}
 		else
 		{
@@ -204,22 +209,25 @@ class HtmlView extends BaseHtmlView
 
 			$toolbar->cancel('article.cancel', 'JTOOLBAR_CLOSE');
 
-			if (ComponentHelper::isEnabled('com_contenthistory') && $this->state->params->get('save_history', 0) && $itemEditable)
-			{
-				$toolbar->versions('com_content.article', $this->item->id);
-			}
-
 			if (!$isNew)
 			{
-				$url = Route::link(
-					'site',
-					RouteHelper::getArticleRoute($this->item->id . ':' . $this->item->alias, $this->item->catid, $this->item->language),
-					true
-				);
+				if (ComponentHelper::isEnabled('com_contenthistory') && $this->state->params->get('save_history', 0) && $itemEditable)
+				{
+					$toolbar->versions('com_content.article', $this->item->id);
+				}
 
-				$toolbar->preview($url, 'JGLOBAL_PREVIEW')
+				$url = RouteHelper::getArticleRoute($this->item->id . ':' . $this->item->alias, $this->item->catid, $this->item->language);
+
+				$toolbar->preview(Route::link('site', $url, true), 'JGLOBAL_PREVIEW')
 					->bodyHeight(80)
 					->modalWidth(90);
+
+				if (PluginHelper::isEnabled('system', 'jooa11y'))
+				{
+					$toolbar->jooa11y(Route::link('site', $url . '&jooa11y=1', true), 'JGLOBAL_JOOA11Y')
+						->bodyHeight(80)
+						->modalWidth(90);
+				}
 
 				if (Associations::isEnabled() && ComponentHelper::isEnabled('com_associations'))
 				{
@@ -231,6 +239,6 @@ class HtmlView extends BaseHtmlView
 		}
 
 		$toolbar->divider();
-		$toolbar->help('JHELP_CONTENT_ARTICLE_MANAGER_EDIT');
+		$toolbar->help('Articles:_Edit');
 	}
 }

@@ -2,7 +2,7 @@
 /**
  * @package	Joomla.Installation
  *
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2016 Open Source Matters, Inc. <https://www.joomla.org>
  * @license	GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -11,8 +11,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 
-/** @var JDocumentError $this */
-
+/** @var \Joomla\CMS\Document\ErrorDocument $this */
 // Add required assets
 $this->getWebAssetManager()
 	->registerAndUseStyle('template.installation', 'template' . ($this->direction === 'rtl' ? '-rtl' : '') . '.css')
@@ -21,7 +20,7 @@ $this->getWebAssetManager()
 
 $this->getWebAssetManager()
 	->useStyle('webcomponent.joomla-alert')
-	->useScript('webcomponent.joomla-alert');
+	->useScript('messages');
 
 // Add script options
 $this->addScriptOptions('system.installation', ['url' => Route::_('index.php')]);
@@ -48,7 +47,7 @@ $this->setMetaData('viewport', 'width=device-width, initial-scale=1');
 				<div class="j-header-help">
 					<a href="https://docs.joomla.org/Special:MyLanguage/J4.x:Installing_Joomla">
 						<span class="icon-lightbulb" aria-hidden="true"></span>
-						<span class="sr-only"><?php echo Text::_('INSTL_HELP_LINK'); ?></span>
+						<span class="visually-hidden"><?php echo Text::_('INSTL_HELP_LINK'); ?></span>
 					</a>
 				</div>
 			</header>
@@ -72,7 +71,7 @@ $this->setMetaData('viewport', 'width=device-width, initial-scale=1');
 								</div>
 								<div class="alert-text">
 									<h2><?php echo Text::_('JERROR_LAYOUT_ERROR_HAS_OCCURRED_WHILE_PROCESSING_YOUR_REQUEST'); ?></h2>
-									<p class="form-text text-muted small"><span class="badge badge-default"><?php echo $this->error->getCode(); ?></span> <?php echo htmlspecialchars($this->error->getMessage(), ENT_QUOTES, 'UTF-8'); ?></p>
+									<p class="form-text small"><span class="badge bg-secondary"><?php echo $this->error->getCode(); ?></span> <?php echo htmlspecialchars($this->error->getMessage(), ENT_QUOTES, 'UTF-8'); ?></p>
 								</div>
 							</div>
 							<?php if ($this->debug) : ?>

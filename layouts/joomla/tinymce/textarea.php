@@ -3,14 +3,27 @@
  * @package     Joomla.Site
  * @subpackage  Layout
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2013 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
-
 defined('_JEXEC') or die;
 
-$data = $displayData;
+use Joomla\CMS\Factory;
 
+$data = $displayData;
+$wa   = Factory::getDocument()->getWebAssetManager();
+
+if (!$wa->assetExists('script', 'tinymce'))
+{
+	$wa->registerScript('tinymce', 'media/vendor/tinymce/tinymce.min.js', [], ['defer' => true]);
+}
+
+if (!$wa->assetExists('script', 'plg_editors_tinymce'))
+{
+	$wa->registerScript('plg_editors_tinymce', 'plg_editors_tinymce/tinymce.min.js', [], ['defer' => true], ['core', 'tinymce']);
+}
+
+$wa->useScript('tinymce')->useScript('plg_editors_tinymce');
 ?>
 <textarea
 	name="<?php echo $data->name; ?>"

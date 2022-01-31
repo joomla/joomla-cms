@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2013 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -13,7 +13,6 @@ namespace Joomla\CMS\Encrypt;
 /**
  * Base32 encryption class
  *
- * @package  FrameworkOnFramework
  * @since    1.0
  */
 class Base32
@@ -183,7 +182,7 @@ class Base32
 	{
 		$str = strtoupper($str);
 
-		return $this->bin2str($this->tobin($str));
+		return $this->bin2str($this->toBin($str));
 	}
 
 	/**

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_installer
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2014 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,7 +12,6 @@ namespace Joomla\Component\Installer\Administrator\Model;
 \defined('_JEXEC') or die;
 
 use Exception;
-use JDatabaseQuery;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\Folder;
 use Joomla\CMS\Installer\Installer;
@@ -322,6 +321,13 @@ class UpdatesitesModel extends InstallerModel
 		// Gets Joomla core update sites Ids.
 		$joomlaUpdateSitesIds = $this->getJoomlaUpdateSitesIds(0);
 
+		// First backup any custom extra_query for the sites
+		$query = $db->getQuery(true)
+			->select('TRIM(' . $db->quoteName('location') . ') AS ' . $db->quoteName('location') . ', ' . $db->quoteName('extra_query'))
+			->from($db->quoteName('#__update_sites'));
+		$db->setQuery($query);
+		$backupExtraQuerys = $db->loadAssocList('location');
+
 		// Delete from all tables (except joomla core update sites).
 		$query = $db->getQuery(true)
 			->delete($db->quoteName('#__update_sites'))
@@ -373,8 +379,13 @@ class UpdatesitesModel extends InstallerModel
 					{
 						/**
 						 * Search if the extension exists in the extensions table. Excluding Joomla
-						 * core extensions (id < 10000) and discovered extensions.
+						 * core extensions and discovered but not yet installed extensions.
 						 */
+
+						$name    = (string) $manifest->name;
+						$pkgName = (string) $manifest->packagename;
+						$type    = (string) $manifest['type'];
+
 						$query = $db->getQuery(true)
 							->select($db->quoteName('extension_id'))
 							->from($db->quoteName('#__extensions'))
@@ -393,9 +404,9 @@ class UpdatesitesModel extends InstallerModel
 								'OR'
 							)
 							->whereNotIn($db->quoteName('extension_id'), $joomlaCoreExtensionIds)
-							->bind(':name', $manifest->name)
-							->bind(':pkgname', $manifest->packagename)
-							->bind(':type', $manifest['type']);
+							->bind(':name', $name)
+							->bind(':pkgname', $pkgName)
+							->bind(':type', $type);
 						$db->setQuery($query);
 
 						$eid = (int) $db->loadResult();
@@ -405,6 +416,16 @@ class UpdatesitesModel extends InstallerModel
 							// Set the manifest object and path
 							$tmpInstaller->manifest = $manifest;
 							$tmpInstaller->setPath('manifest', $file);
+
+							// Remove last extra_query as we are in a foreach
+							$tmpInstaller->extraQuery = '';
+
+							if ($tmpInstaller->manifest->updateservers
+								&& $tmpInstaller->manifest->updateservers->server
+								&& isset($backupExtraQuerys[trim((string) $tmpInstaller->manifest->updateservers->server)]))
+							{
+								$tmpInstaller->extraQuery = $backupExtraQuerys[trim((string) $tmpInstaller->manifest->updateservers->server)]['extra_query'];
+							}
 
 							// Load the extension plugin (if not loaded yet).
 							PluginHelper::importPlugin('extension', 'joomla');
@@ -427,6 +448,9 @@ class UpdatesitesModel extends InstallerModel
 		{
 			$app->enqueueMessage(Text::_('COM_INSTALLER_MSG_UPDATESITES_REBUILD_MESSAGE'), 'message');
 		}
+
+		// Flush the system cache to ensure extra_query is correctly loaded next time.
+		$this->cleanCache('_system');
 	}
 
 	/**
@@ -471,7 +495,7 @@ class UpdatesitesModel extends InstallerModel
 			'enabled'   => 'string',
 			'type'      => 'string',
 			'folder'    => 'string',
-			'supported' => 'bool',
+			'supported' => 'int',
 		];
 
 		foreach ($stateKeys as $key => $filterType)
@@ -500,10 +524,22 @@ class UpdatesitesModel extends InstallerModel
 		parent::populateState($ordering, $direction);
 	}
 
+	protected function getStoreId($id = '')
+	{
+		$id .= ':' . $this->getState('search');
+		$id .= ':' . $this->getState('client_id');
+		$id .= ':' . $this->getState('enabled');
+		$id .= ':' . $this->getState('type');
+		$id .= ':' . $this->getState('folder');
+		$id .= ':' . $this->getState('supported');
+
+		return parent::getStoreId($id);
+	}
+
 	/**
 	 * Method to get the database query
 	 *
-	 * @return  JDatabaseQuery  The database query
+	 * @return  \Joomla\Database\DatabaseQuery  The database query
 	 *
 	 * @since   3.4
 	 */
@@ -615,7 +651,7 @@ class UpdatesitesModel extends InstallerModel
 				->bind(':siteId', $uid, ParameterType::INTEGER);
 		}
 
-		if ($supported != 0)
+		if (is_numeric($supported))
 		{
 			switch ($supported)
 			{

@@ -2,13 +2,13 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2007 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\HTML\Helpers;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
@@ -101,12 +101,12 @@ abstract class ListHelper
 
 		if (empty($items))
 		{
-			$options[] = HTMLHelper::_('select.option', 1, Text::_('JOPTION_ORDER_FIRST'));
+			$options[] = HTMLHelper::_('select.option', 1, Text::_('JLIB_FORM_FIELD_PARAM_INTEGER_FIRST_LABEL'));
 
 			return $options;
 		}
 
-		$options[] = HTMLHelper::_('select.option', 0, '0. ' . Text::_('JOPTION_ORDER_FIRST'));
+		$options[] = HTMLHelper::_('select.option', 0, ' - ' . Text::_('JLIB_FORM_FIELD_PARAM_INTEGER_FIRST_LABEL') . ' - ');
 
 		for ($i = 0, $n = count($items); $i < $n; $i++)
 		{
@@ -121,10 +121,10 @@ abstract class ListHelper
 				$text = $items[$i]->text;
 			}
 
-			$options[] = HTMLHelper::_('select.option', $items[$i]->value, $items[$i]->value . '. ' . $text);
+			$options[] = HTMLHelper::_('select.option', $items[$i]->value, $text);
 		}
 
-		$options[] = HTMLHelper::_('select.option', $items[$i - 1]->value + 1, ($items[$i - 1]->value + 1) . '. ' . Text::_('JOPTION_ORDER_LAST'));
+		$options[] = HTMLHelper::_('select.option', $items[$i - 1]->value + 1, ' - ' . Text::_('JLIB_FORM_FIELD_PARAM_INTEGER_LAST_LABEL') . ' - ');
 
 		return $options;
 	}

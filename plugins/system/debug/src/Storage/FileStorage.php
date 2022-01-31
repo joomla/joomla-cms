@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  System.Debug
  *
- * @copyright   Copyright (C) 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2018 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -80,7 +80,7 @@ class FileStorage extends \DebugBar\Storage\FileStorage
 			{
 				$files[] = [
 					'time' => $file->getMTime(),
-					'id' => $file->getBasename('.php')
+					'id' => $file->getBasename('.php'),
 				];
 			}
 		}
@@ -89,7 +89,12 @@ class FileStorage extends \DebugBar\Storage\FileStorage
 		usort(
 			$files,
 			function ($a, $b) {
-				return $a['time'] < $b['time'];
+				if ($a['time'] === $b['time'])
+				{
+					return 0;
+				}
+
+				return $a['time'] < $b['time'] ? 1 : -1;
 			}
 		);
 

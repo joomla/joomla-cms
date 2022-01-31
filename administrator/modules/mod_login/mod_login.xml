@@ -3,7 +3,7 @@
 	<name>mod_login</name>
 	<author>Joomla! Project</author>
 	<creationDate>March 2005</creationDate>
-	<copyright>Copyright (C) 2005 - 2020 Open Source Matters. All rights reserved.</copyright>
+	<copyright>(C) 2005 Open Source Matters, Inc.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
@@ -16,10 +16,10 @@
 		<folder>tmpl</folder>
 	</files>
 	<languages>
-		<language tag="en-GB">en-GB.mod_login.ini</language>
-		<language tag="en-GB">en-GB.mod_login.sys.ini</language>
+		<language tag="en-GB">language/en-GB/mod_login.ini</language>
+		<language tag="en-GB">language/en-GB/mod_login.sys.ini</language>
 	</languages>
-	<help key="JHELP_EXTENSIONS_MODULE_MANAGER_ADMIN_LOGIN" />
+	<help key="Admin_Modules:_Login_Form" />
 	<config>
 		<fields name="params">
 			<fieldset name="advanced">
@@ -27,7 +27,8 @@
 					name="layout"
 					type="modulelayout"
 					label="JFIELD_ALT_LAYOUT_LABEL"
-					class="custom-select"
+					class="form-select"
+					validate="moduleLayout"
 				/>
 
 				<field

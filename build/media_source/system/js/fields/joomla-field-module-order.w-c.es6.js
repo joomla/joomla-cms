@@ -1,6 +1,6 @@
 /**
  * @package         Joomla.JavaScript
- * @copyright       Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright       (C) 2019 Open Source Matters, Inc. <https://www.joomla.org>
  * @license         GNU General Public License version 2 or later; see LICENSE.txt
  */
 customElements.define('joomla-field-module-order', class extends HTMLElement {
@@ -74,7 +74,7 @@ customElements.define('joomla-field-module-order', class extends HTMLElement {
       // eslint-disable-next-line prefer-destructuring
       node.value = item[1];
       // eslint-disable-next-line prefer-destructuring
-      node.innerHTML = item[2];
+      node.innerHTML = Joomla.sanitizeHtml(item[2]);
 
       if ((originalPositionName && originalPositionValue === item[1])
         || (!originalPositionName && i === 0)) {
@@ -94,13 +94,14 @@ customElements.define('joomla-field-module-order', class extends HTMLElement {
     const clientId = this.getAttribute('data-client-id');
     const originalOrder = this.getAttribute('data-ordering');
     const name = this.getAttribute('data-name');
-    const attr = this.getAttribute('data-client-attr') ? this.getAttribute('data-client-attr') : 'custom-select';
+    const attr = this.getAttribute('data-client-attr') ? this.getAttribute('data-client-attr') : 'form-select';
     const id = `${this.getAttribute('data-id')}`;
+    const moduleId = `${this.getAttribute('data-module-id')}`;
     const orders = [];
     const that = this;
 
     Joomla.request({
-      url: `${url}&client_id=${clientId}&position=${originalPosition}`,
+      url: `${url}&client_id=${clientId}&position=${originalPosition}&module_id=${moduleId}`,
       method: 'GET',
       perform: true,
       headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
@@ -120,14 +121,16 @@ customElements.define('joomla-field-module-order', class extends HTMLElement {
               orders[i] = response.data[i].split(',');
             }
 
-            that.writeDynaList({
-              name,
-              id,
-              itemClass: attr,
-            },
-            orders,
-            that.originalPosition,
-            originalOrder);
+            that.writeDynaList(
+              {
+                name,
+                id,
+                itemClass: attr,
+              },
+              orders,
+              that.originalPosition,
+              originalOrder,
+            );
           }
         }
 

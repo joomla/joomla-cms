@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <config>
+	<help key="Users:_Options"/>
 	<fieldset
 		name="user_options"
 		label="COM_USERS_CONFIG_USER_OPTIONS" >
@@ -113,6 +114,7 @@
 			name="enforce_2fa_options"
 			type="list"
 			label="COM_USERS_CONFIG_FIELD_ENFORCE_2FA_FIELD_LABEL"
+			description="COM_USERS_CONFIG_FIELD_ENFORCE_2FA_FIELD_DESC"
 			default="0"
 			filter="integer"
 			validate="options"
@@ -123,18 +125,28 @@
 			<option value="3">COM_USERS_CONFIG_FIELD_ENFORCE_2FA_FIELD_BOTH</option>
 		</field>
 
+		<field
+			name="enforce_2fa_usergroups"
+			type="usergrouplist"
+			label="COM_USERS_CONFIG_FIELD_ENFORCE_2FA_GROUPS_LABEL"
+			multiple="true"
+			filter="int_array"
+			size="10"
+			showon="enforce_2fa_options!:0"
+		/>
+
 	</fieldset>
 
 	<fieldset
 		name="domain_options"
 		label="COM_USERS_CONFIG_DOMAIN_OPTIONS"
+		description="COM_USERS_CONFIG_FIELD_DOMAINS_DESC"
 		>
 
 		<field
 			name="domains"
 			type="subform"
 			label="COM_USERS_CONFIG_FIELD_DOMAINS_LABEL"
-			description="COM_USERS_CONFIG_FIELD_DOMAINS_DESC"
 			hiddenLabel="true"
 			multiple="true"
 			layout="joomla.form.field.subform.repeatable-table"
@@ -149,6 +161,7 @@
 			name="reset_count"
 			type="number"
 			label="COM_USERS_CONFIG_FIELD_FRONTEND_RESET_COUNT_LABEL"
+			filter="integer"
 			min="0"
 			max="20"
 			step="1"
@@ -160,6 +173,7 @@
 			name="reset_time"
 			type="number"
 			label="COM_USERS_CONFIG_FIELD_FRONTEND_RESET_TIME_LABEL"
+			filter="integer"
 			min="1"
 			max="24"
 			step="1"
@@ -171,6 +185,7 @@
 			name="minimum_length"
 			type="number"
 			label="COM_USERS_CONFIG_FIELD_MINIMUM_PASSWORD_LENGTH"
+			filter="integer"
 			min="8"
 			step="1"
 			default="12"
@@ -181,6 +196,7 @@
 			name="minimum_integers"
 			type="number"
 			label="COM_USERS_CONFIG_FIELD_MINIMUM_INTEGERS"
+			filter="integer"
 			min="0"
 			step="1"
 			default="0"
@@ -191,6 +207,7 @@
 			name="minimum_symbols"
 			type="number"
 			label="COM_USERS_CONFIG_FIELD_MINIMUM_SYMBOLS"
+			filter="integer"
 			min="0"
 			step="1"
 			default="0"
@@ -201,6 +218,7 @@
 			name="minimum_uppercase"
 			type="number"
 			label="COM_USERS_CONFIG_FIELD_MINIMUM_UPPERCASE"
+			filter="integer"
 			min="0"
 			step="1"
 			default="0"
@@ -211,6 +229,7 @@
 			name="minimum_lowercase"
 			type="number"
 			label="COM_USERS_CONFIG_FIELD_MINIMUM_LOWERCASE"
+			filter="integer"
 			min="0"
 			step="1"
 			default="0"

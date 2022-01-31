@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2018 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -14,7 +14,6 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\Database\ParameterType;
-use Joomla\Utilities\ArrayHelper;
 
 /**
  * Components Category field.
@@ -154,8 +153,10 @@ class TransitionField extends ListField
 				}
 			);
 
-			// Sort by transition name
-			$items = ArrayHelper::sortObjects($items, 'value', 1, true, true);
+			foreach ($items as $item)
+			{
+				$item->text = Text::_($item->text);
+			}
 		}
 
 		// Get workflow stage title

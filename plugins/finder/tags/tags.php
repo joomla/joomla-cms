@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Finder.Tags
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2013 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -220,7 +220,7 @@ class PlgFinderTags extends Adapter
 
 		// Initialize the item parameters.
 		$registry = new Registry($item->params);
-		$item->params = ComponentHelper::getParams('com_tags', true);
+		$item->params = clone ComponentHelper::getParams('com_tags', true);
 		$item->params->merge($registry);
 
 		$item->metadata = new Registry($item->metadata);

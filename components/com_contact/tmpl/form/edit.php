@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_contact
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2020 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -34,7 +34,7 @@ $this->useCoreUI        = true;
 	<form action="<?php echo Route::_('index.php?option=com_contact&id=' . (int) $this->item->id); ?>" method="post"
 		name="adminForm" id="adminForm" class="form-validate form-vertical">
 		<fieldset>
-			<?php echo HTMLHelper::_('uitab.startTabSet', $this->tab_name, array('active' => 'details')); ?>
+			<?php echo HTMLHelper::_('uitab.startTabSet', $this->tab_name, ['active' => 'details', 'recall' => true, 'breakpoint' => 768]); ?>
 			<?php echo HTMLHelper::_('uitab.addTab', $this->tab_name, 'details', empty($this->item->id) ? Text::_('COM_CONTACT_NEW_CONTACT') : Text::_('COM_CONTACT_EDIT_CONTACT')); ?>
 			<?php echo $this->form->renderField('name'); ?>
 
@@ -70,7 +70,7 @@ $this->useCoreUI        = true;
 				<?php echo Text::_('JSAVE'); ?>
 			</button>
 			<button type="button" class="btn btn-danger" onclick="Joomla.submitbutton('contact.cancel')">
-				<span class="icon-times-cancel" aria-hidden="true"></span>
+				<span class="icon-times" aria-hidden="true"></span>
 				<?php echo Text::_('JCANCEL'); ?>
 			</button>
 			<?php if ($this->params->get('save_history', 0) && $this->item->id) : ?>

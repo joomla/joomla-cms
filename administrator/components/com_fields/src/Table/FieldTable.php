@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_fields
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2016 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -73,8 +73,8 @@ class FieldTable extends Table
 
 		if (isset($src['fieldparams']) && is_array($src['fieldparams']))
 		{
-			// Make sure $registry->options contains no duplicates when the field type is subfields
-			if (isset($src['type']) && $src['type'] == 'subfields' && isset($src['fieldparams']['options']))
+			// Make sure $registry->options contains no duplicates when the field type is subform
+			if (isset($src['type']) && $src['type'] == 'subform' && isset($src['fieldparams']['options']))
 			{
 				// Fast lookup map to check which custom field ids we have already seen
 				$seen_customfields = array();
@@ -269,7 +269,7 @@ class FieldTable extends Table
 	 * The extended class can define a table and id to lookup.  If the
 	 * asset does not exist it will be created.
 	 *
-	 * @param   Table    $table  A JTable object for the asset parent.
+	 * @param   Table    $table  A Table object for the asset parent.
 	 * @param   integer  $id     Id to look up
 	 *
 	 * @return  integer

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_menus
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2006 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -61,7 +61,7 @@ class ItemModel extends AdminModel
 	 * @var    string  The help screen key for the menu item.
 	 * @since  1.6
 	 */
-	protected $helpKey = 'JHELP_MENUS_MENU_ITEM_MANAGER_EDIT';
+	protected $helpKey = 'Menu_Item:_New_Item';
 
 	/**
 	 * @var    string  The help screen base URL for the menu item.
@@ -287,7 +287,7 @@ class ItemModel extends AdminModel
 			// Set the new location in the tree for the node.
 			$table->setLocation($table->parent_id, 'last-child');
 
-			// TODO: Deal with ordering?
+			// @todo: Deal with ordering?
 			// $table->ordering = 1;
 			$table->level = null;
 			$table->lft   = null;
@@ -712,6 +712,7 @@ class ItemModel extends AdminModel
 		switch ($table->type)
 		{
 			case 'alias':
+			case 'url':
 				$table->component_id = 0;
 				$args = array();
 
@@ -723,13 +724,6 @@ class ItemModel extends AdminModel
 			case 'container':
 				$table->link = '';
 				$table->component_id = 0;
-				break;
-
-			case 'url':
-				$table->component_id = 0;
-
-				$args = array();
-				parse_str(parse_url($table->link, PHP_URL_QUERY), $args);
 				break;
 
 			case 'component':
@@ -762,7 +756,7 @@ class ItemModel extends AdminModel
 		// We have a valid type, inject it into the state for forms to use.
 		$this->setState('item.type', $table->type);
 
-		// Convert to the \JObject before adding the params.
+		// Convert to the \Joomla\CMS\Object\CMSObject before adding the params.
 		$properties = $table->getProperties(1);
 		$result = ArrayHelper::toObject($properties);
 
@@ -965,7 +959,7 @@ class ItemModel extends AdminModel
 	 * A protected method to get the where clause for the reorder.
 	 * This ensures that the row will be moved relative to a row with the same menutype.
 	 *
-	 * @param   \JTableMenu  $table  instance.
+	 * @param   \Joomla\CMS\Table\Menu  $table
 	 *
 	 * @return  array  An array of conditions to add to add to ordering queries.
 	 *
@@ -1219,7 +1213,7 @@ class ItemModel extends AdminModel
 						$formFile = $path;
 					}
 				}
-				else
+				elseif ($base)
 				{
 					// Now check for a component manifest file
 					$path = Path::clean($base . '/metadata.xml');
@@ -1254,7 +1248,7 @@ class ItemModel extends AdminModel
 		else
 		{
 			// We don't have a component. Load the form XML to get the help path
-			$xmlFile = Path::find(JPATH_ADMINISTRATOR . '/components/com_menus/models/forms', $typeFile . '.xml');
+			$xmlFile = Path::find(JPATH_ADMINISTRATOR . '/components/com_menus/forms', $typeFile . '.xml');
 
 			if ($xmlFile)
 			{
@@ -1723,19 +1717,19 @@ class ItemModel extends AdminModel
 	 * First we save the new order values in the lft values of the changed ids.
 	 * Then we invoke the table rebuild to implement the new ordering.
 	 *
-	 * @param   array  $idArray    Rows identifiers to be reordered
-	 * @param   array  $lft_array  lft values of rows to be reordered
+	 * @param   array  $idArray   Rows identifiers to be reordered
+	 * @param   array  $lftArray  lft values of rows to be reordered
 	 *
 	 * @return  boolean false on failure or error, true otherwise.
 	 *
 	 * @since   1.6
 	 */
-	public function saveorder($idArray = null, $lft_array = null)
+	public function saveorder($idArray = null, $lftArray = null)
 	{
 		// Get an instance of the table object.
 		$table = $this->getTable();
 
-		if (!$table->saveorder($idArray, $lft_array))
+		if (!$table->saveorder($idArray, $lftArray))
 		{
 			$this->setError($table->getError());
 
@@ -1880,20 +1874,20 @@ class ItemModel extends AdminModel
 	/**
 	 * Method to change the title & alias.
 	 *
-	 * @param   integer  $parent_id  The id of the parent.
-	 * @param   string   $alias      The alias.
-	 * @param   string   $title      The title.
+	 * @param   integer  $parentId  The id of the parent.
+	 * @param   string   $alias     The alias.
+	 * @param   string   $title     The title.
 	 *
 	 * @return  array  Contains the modified title and alias.
 	 *
 	 * @since   1.6
 	 */
-	protected function generateNewTitle($parent_id, $alias, $title)
+	protected function generateNewTitle($parentId, $alias, $title)
 	{
 		// Alter the title & alias
 		$table = $this->getTable();
 
-		while ($table->load(array('alias' => $alias, 'parent_id' => $parent_id)))
+		while ($table->load(array('alias' => $alias, 'parent_id' => $parentId)))
 		{
 			if ($title == $table->title)
 			{
@@ -1909,18 +1903,17 @@ class ItemModel extends AdminModel
 	/**
 	 * Custom clean the cache
 	 *
-	 * @param   string   $group      Cache group name.
-	 * @param   integer  $client_id  Application client id.
+	 * @param   string   $group     Cache group name.
+	 * @param   integer  $clientId  @deprecated  5.0  No Longer Used.
 	 *
 	 * @return  void
 	 *
 	 * @since   1.6
 	 */
-	protected function cleanCache($group = null, $client_id = 0)
+	protected function cleanCache($group = null, $clientId = 0)
 	{
-		parent::cleanCache('com_menus', 0);
+		parent::cleanCache('com_menus');
 		parent::cleanCache('com_modules');
-		parent::cleanCache('mod_menu', 0);
-		parent::cleanCache('mod_menu', 1);
+		parent::cleanCache('mod_menu');
 	}
 }

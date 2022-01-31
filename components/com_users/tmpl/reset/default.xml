@@ -2,7 +2,7 @@
 <metadata>
 	<layout title="COM_USERS_RESET_VIEW_DEFAULT_TITLE" option="COM_USERS_RESET_VIEW_DEFAULT_OPTION">
 		<help
-			key="JHELP_MENUS_MENU_ITEM_USER_PASSWORD_RESET"
+			key="Menu_Item:_Password_Reset"
 		/>
 		<message>
 			<![CDATA[COM_USERS_RESET_VIEW_DEFAULT_DESC]]>

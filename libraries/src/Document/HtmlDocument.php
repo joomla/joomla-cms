@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2005 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -11,6 +11,7 @@ namespace Joomla\CMS\Document;
 \defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Cache\Cache;
+use Joomla\CMS\Cache\CacheControllerFactoryInterface;
 use Joomla\CMS\Factory as CmsFactory;
 use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\Helper\ModuleHelper;
@@ -112,7 +113,7 @@ class HtmlDocument extends Document
 	 * Set to true when the document should be output as HTML5
 	 *
 	 * @var    boolean
-	 * @since  4.0
+	 * @since  4.0.0
 	 */
 	private $html5 = true;
 
@@ -325,7 +326,7 @@ class HtmlDocument extends Document
 	 *
 	 * @param   array  $data  The document head data in array form
 	 *
-	 * @return  HtmlDocument|null instance of $this to allow chaining or null for empty input data
+	 * @return  HtmlDocument|void instance of $this to allow chaining or void for empty input data
 	 *
 	 * @since   1.7.0
 	 */
@@ -556,33 +557,44 @@ class HtmlDocument extends Document
 
 		$renderer = $this->loadRenderer($type);
 
-		if ($this->_caching == true && $type === 'modules')
+		if ($this->_caching == true && $type === 'modules' && $name !== 'debug')
 		{
 			/** @var  \Joomla\CMS\Document\Renderer\Html\ModulesRenderer  $renderer */
-			$cache = CmsFactory::getCache('com_modules', '');
-			$hash = md5(serialize(array($name, $attribs, null, get_class($renderer))));
+			/** @var  \Joomla\CMS\Cache\Controller\OutputController  $cache */
+			$cache = CmsFactory::getContainer()->get(CacheControllerFactoryInterface::class)
+				->createCacheController('output', ['defaultgroup' => 'com_modules']);
+			$itemId = (int) CmsFactory::getApplication()->input->get('Itemid', 0, 'int');
+
+			$hash = md5(
+				serialize(
+					[
+						$name,
+						$attribs,
+						\get_class($renderer),
+						$itemId,
+					]
+				)
+			);
 			$cbuffer = $cache->get('cbuffer_' . $type);
 
 			if (isset($cbuffer[$hash]))
 			{
 				return Cache::getWorkarounds($cbuffer[$hash], array('mergehead' => 1));
 			}
-			else
-			{
-				$options = array();
-				$options['nopathway'] = 1;
-				$options['nomodules'] = 1;
-				$options['modulemode'] = 1;
 
-				$this->setBuffer($renderer->render($name, $attribs, null), $type, $name);
-				$data = parent::$_buffer[$type][$name][$title];
+			$options = array();
+			$options['nopathway'] = 1;
+			$options['nomodules'] = 1;
+			$options['modulemode'] = 1;
 
-				$tmpdata = Cache::setWorkarounds($data, $options);
+			$this->setBuffer($renderer->render($name, $attribs, null), $type, $name);
+			$data = parent::$_buffer[$type][$name][$title];
 
-				$cbuffer[$hash] = $tmpdata;
+			$tmpdata = Cache::setWorkarounds($data, $options);
 
-				$cache->store($cbuffer, 'cbuffer_' . $type);
-			}
+			$cbuffer[$hash] = $tmpdata;
+
+			$cache->store($cbuffer, 'cbuffer_' . $type);
 		}
 		else
 		{
@@ -695,7 +707,7 @@ class HtmlDocument extends Document
 		{
 			if (empty($module->contentRendered))
 			{
-				$renderer->render($module, array('style' => 'raw'));
+				$renderer->render($module, ['contentOnly' => true]);
 			}
 
 			if (trim($module->content) !== '')
@@ -771,38 +783,6 @@ class HtmlDocument extends Document
 			require $directory . '/' . $filename;
 			$contents = ob_get_contents();
 			ob_end_clean();
-		}
-
-		$app      = CmsFactory::getApplication();
-		$client   = $app->isClient('administrator') === true ? 'administrator/' : 'site/';
-		$template = $app->getTemplate(true);
-
-		// Try to find a favicon by checking the template and root folder
-		$icon = '/favicon.ico';
-		$foldersToCheck = [
-			JPATH_BASE,
-			JPATH_ROOT . '/media/templates/' . $client . $template->template,
-			$directory,
-		];
-
-		foreach ($foldersToCheck as $base => $dir)
-		{
-			if ($template->parent !== ''
-				&& $base === 1
-				&& !is_file(JPATH_ROOT . '/media/templates/' . $client . $template->template . $icon))
-			{
-				$dir = JPATH_ROOT . '/media/templates/' . $client . $template->parent;
-			}
-
-			if (is_file($dir . $icon))
-			{
-				$urlBase = in_array($base, [0, 2]) ? Uri::base(true) : Uri::root(true);
-				$base    = in_array($base, [0, 2]) ? JPATH_BASE : JPATH_ROOT;
-				$path    = str_replace($base, '', $dir);
-				$path    = str_replace('\\', '/', $path);
-				$this->addFavicon($urlBase . $path . $icon);
-				break;
-			}
 		}
 
 		return $contents;

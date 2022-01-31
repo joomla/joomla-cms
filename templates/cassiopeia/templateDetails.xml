@@ -5,25 +5,27 @@
 	<creationDate>February 2017</creationDate>
 	<author>Joomla! Project</author>
 	<authorEmail>admin@joomla.org</authorEmail>
-	<copyright>Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.</copyright>
+	<copyright>(C) 2017 Open Source Matters, Inc.</copyright>
 	<description>TPL_CASSIOPEIA_XML_DESCRIPTION</description>
+	<inheritable>1</inheritable>
 	<files>
 		<filename>component.php</filename>
 		<filename>error.php</filename>
-		<filename>favicon.ico</filename>
 		<filename>index.php</filename>
 		<filename>joomla.asset.json</filename>
 		<filename>offline.php</filename>
 		<filename>templateDetails.xml</filename>
-		<filename>template_preview.png</filename>
-		<filename>template_thumbnail.png</filename>
-		<folder>css</folder>
 		<folder>html</folder>
-		<folder>images</folder>
-		<folder>js</folder>
-		<folder>scss</folder>
 	</files>
+	<media destination="templates/site/cassiopeia" folder="media">
+		<folder>js</folder>
+		<folder>css</folder>
+		<folder>scss</folder>
+		<folder>images</folder>
+	</media>
 	<positions>
+		<position>topbar</position>
+		<position>below-top</position>
 		<position>menu</position>
 		<position>search</position>
 		<position>banner</position>
@@ -47,27 +49,83 @@
 		<fields name="params">
 			<fieldset name="advanced">
 				<field
+					name="brand"
+					type="radio"
+					label="TPL_CASSIOPEIA_BRAND_LABEL"
+					default="1"
+					layout="joomla.form.field.radio.switcher"
+					filter="boolean"
+					>
+					<option value="0">JNO</option>
+					<option value="1">JYES</option>
+				</field>
+
+				<field
 					name="logoFile"
 					type="media"
 					default=""
 					label="TPL_CASSIOPEIA_LOGO_LABEL"
+					showon="brand:1"
 				/>
 
 				<field
 					name="siteTitle"
 					type="text"
 					default=""
-					label="JGLOBAL_TITLE"
+					label="TPL_CASSIOPEIA_TITLE"
 					filter="string"
+					showon="brand:1"
 				/>
 
 				<field
 					name="siteDescription"
 					type="text"
 					default=""
-					label="JGLOBAL_DESCRIPTION"
+					label="TPL_CASSIOPEIA_TAGLINE_LABEL"
+					description="TPL_CASSIOPEIA_TAGLINE_DESC"
 					filter="string"
+					showon="brand:1"
 				/>
+
+				<field
+					name="useFontScheme"
+					type="groupedlist"
+					label="TPL_CASSIOPEIA_FONT_LABEL"
+					default="0"
+					>
+					<option value="0">JNONE</option>
+					<group label="TPL_CASSIOPEIA_FONT_GROUP_LOCAL">
+						<option value="media/templates/site/cassiopeia/css/global/fonts-local_roboto.css">Roboto (local)</option>
+					</group>
+					<group label="TPL_CASSIOPEIA_FONT_GROUP_WEB">
+						<option value="https://fonts.googleapis.com/css2?family=Fira+Sans:wght@100;300;400;700&amp;display=swap">Fira Sans (web)</option>
+						<option value="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@100;300;400;700&amp;family=Roboto:wght@100;300;400;700&amp;display=swap">Roboto + Noto Sans (web)</option>
+					</group>
+				</field>
+
+				<field
+					name="noteFontScheme"
+					type="note"
+					description="TPL_CASSIOPEIA_FONT_NOTE_TEXT"
+					class="alert alert-warning"
+				/>
+
+				<field
+					name="colorName"
+					type="filelist"
+					label="TPL_CASSIOPEIA_COLOR_NAME_LABEL"
+					default="colors_standard"
+					fileFilter="^custom.+[^min]\.css$"
+					exclude="^colors.+"
+					stripext="true"
+					hide_none="true"
+					hide_default="true"
+					directory="media/templates/site/cassiopeia/css/global/"
+					validate="options"
+					>
+					<option value="colors_standard">TPL_CASSIOPEIA_COLOR_NAME_STANDARD</option>
+					<option value="colors_alternative">TPL_CASSIOPEIA_COLOR_NAME_ALTERNATIVE</option>
+				</field>
 
 				<field
 					name="fluidContainer"

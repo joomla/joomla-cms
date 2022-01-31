@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2011 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -63,7 +63,8 @@ class HtmlView extends BaseHtmlView
 	/**
 	 * Form object for search filters
 	 *
-	 * @var    \JForm
+	 * @var    \Joomla\CMS\Form\Form
+	 *
 	 * @since  4.0.0
 	 */
 	public $filterForm;
@@ -75,6 +76,14 @@ class HtmlView extends BaseHtmlView
 	 * @since  4.0.0
 	 */
 	public $activeFilters;
+
+	/**
+	 * Is this view an Empty State
+	 *
+	 * @var  boolean
+	 * @since 4.0.0
+	 */
+	private $isEmptyState = false;
 
 	/**
 	 * Override the display method for the view.
@@ -95,8 +104,13 @@ class HtmlView extends BaseHtmlView
 		$this->filterForm    = $this->get('FilterForm');
 		$this->activeFilters = $this->get('ActiveFilters');
 
+		if (!\count($this->items) && $this->isEmptyState = $this->get('IsEmptyState'))
+		{
+			$this->setLayout('emptystate');
+		}
+
 		// Check for errors.
-		if (count($errors = $this->get('Errors')))
+		if (\count($errors = $this->get('Errors')))
 		{
 			throw new GenericDataException(implode("\n", $errors), 500);
 		}
@@ -132,7 +146,7 @@ class HtmlView extends BaseHtmlView
 			$toolbar->addNew('note.add');
 		}
 
-		if ($canDo->get('core.edit.state') || $canDo->get('core.admin'))
+		if (!$this->isEmptyState && ($canDo->get('core.edit.state') || $canDo->get('core.admin')))
 		{
 			$dropdown = $toolbar->dropdownButton('status-group')
 				->text('JTOOLBAR_CHANGE_STATUS')
@@ -151,13 +165,13 @@ class HtmlView extends BaseHtmlView
 				$childBar->checkin('notes.checkin')->listCheck(true);
 			}
 
-			if (!$this->state->get('filter.published') == -2 && $canDo->get('core.edit.state'))
+			if ($this->state->get('filter.published') != -2 && $canDo->get('core.edit.state'))
 			{
 				$childBar->trash('notes.trash');
 			}
 		}
 
-		if ($this->state->get('filter.published') == -2 && $canDo->get('core.delete'))
+		if (!$this->isEmptyState && $this->state->get('filter.published') == -2 && $canDo->get('core.delete'))
 		{
 			$toolbar->delete('notes.delete')
 				->text('JTOOLBAR_EMPTY_TRASH')
@@ -170,6 +184,6 @@ class HtmlView extends BaseHtmlView
 			$toolbar->preferences('com_users');
 		}
 
-		$toolbar->help('JHELP_USERS_USER_NOTES');
+		$toolbar->help('User_Notes');
 	}
 }

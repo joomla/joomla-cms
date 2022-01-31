@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Content.pagenavigation
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2006 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -89,8 +89,8 @@ class PlgContentPagenavigation extends CMSPlugin
 				{
 					// Use created if modified is not set
 					case 'modified':
-						$orderby = $db->quoteName('a.modified') . ' IS NULL THEN ' .
-						$db->quoteName('a.created') . ' ELSE ' . $db->quoteName('a.modified') . ' END';
+						$orderby = 'CASE WHEN ' . $db->quoteName('a.modified') . ' IS NULL THEN ' .
+							$db->quoteName('a.created') . ' ELSE ' . $db->quoteName('a.modified') . ' END';
 						break;
 
 					// Use created if publish_up is not set

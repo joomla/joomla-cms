@@ -2,13 +2,13 @@
 /**
  * @package    Joomla.Installation
  *
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2009 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Installation\Helper;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\File;
@@ -235,10 +235,10 @@ abstract class DatabaseHelper
 		// Validate database name.
 		if (in_array($options->db_type, ['pgsql', 'postgresql']) && !preg_match('#^[a-zA-Z_][0-9a-zA-Z_$]*$#', $options->db_name))
 		{
-			return Text::_('INSTL_DATABASE_NAME_MSG_POSTGRESQL');
+			return Text::_('INSTL_DATABASE_NAME_MSG_POSTGRES');
 		}
 
-		if (in_array($options->db_type, ['mysql', 'mysqli']) && preg_match('#[\\\\\/\.]#', $options->db_name))
+		if (in_array($options->db_type, ['mysql', 'mysqli']) && preg_match('#[\\\\\/]#', $options->db_name))
 		{
 			return Text::_('INSTL_DATABASE_NAME_MSG_MYSQL');
 		}

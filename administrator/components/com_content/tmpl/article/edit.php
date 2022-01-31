@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2009 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -37,14 +37,20 @@ $this->useCoreUI = true;
 $params = clone $this->state->get('params');
 $params->merge(new Registry($this->item->attribs));
 
-$app = Factory::getApplication();
-$input = $app->input;
+$input = Factory::getApplication()->input;
 
-$assoc = Associations::isEnabled();
+$assoc              = Associations::isEnabled();
+$showArticleOptions = $params->get('show_article_options', 1);
 
-if (!$assoc)
+if (!$assoc || !$showArticleOptions)
 {
 	$this->ignore_fieldsets[] = 'frontendassociations';
+}
+
+if (!$showArticleOptions)
+{
+	// Ignore fieldsets inside Options tab
+	$this->ignore_fieldsets = array_merge($this->ignore_fieldsets, ['attribs', 'basic', 'category', 'author', 'date', 'other']);
 }
 
 // In case of modal
@@ -52,30 +58,24 @@ $isModal = $input->get('layout') === 'modal';
 $layout  = $isModal ? 'modal' : 'edit';
 $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=component' : '';
 ?>
-
-<form action="<?php echo Route::_('index.php?option=com_content&layout=' . $layout . $tmpl . '&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="item-form" class="form-validate">
-
+<form action="<?php echo Route::_('index.php?option=com_content&layout=' . $layout . $tmpl . '&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="item-form" aria-label="<?php echo Text::_('COM_CONTENT_FORM_TITLE_' . ((int) $this->item->id === 0 ? 'NEW' : 'EDIT'), true); ?>" class="form-validate">
 	<?php echo LayoutHelper::render('joomla.edit.title_alias', $this); ?>
 
-	<div>
-		<?php echo HTMLHelper::_('uitab.startTabSet', 'myTab', array('active' => 'general')); ?>
+	<div class="main-card">
+		<?php echo HTMLHelper::_('uitab.startTabSet', 'myTab', ['active' => 'general', 'recall' => true, 'breakpoint' => 768]); ?>
 
 		<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'general', Text::_('COM_CONTENT_ARTICLE_CONTENT')); ?>
 		<div class="row">
 			<div class="col-lg-9">
 				<div>
-					<div class="card-body">
-						<fieldset class="adminform">
-							<?php echo $this->form->getLabel('articletext'); ?>
-							<?php echo $this->form->getInput('articletext'); ?>
-						</fieldset>
-					</div>
+					<fieldset class="adminform">
+						<?php echo $this->form->getLabel('articletext'); ?>
+						<?php echo $this->form->getInput('articletext'); ?>
+					</fieldset>
 				</div>
 			</div>
 			<div class="col-lg-3">
-				<div class="bg-white px-3">
 				<?php echo LayoutHelper::render('joomla.edit.global', $this); ?>
-				</div>
 			</div>
 		</div>
 
@@ -110,9 +110,7 @@ $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=c
 			<?php echo HTMLHelper::_('uitab.endTab'); ?>
 		<?php endif; ?>
 
-		<?php if ($params->get('show_article_options', 1) == 1) : ?>
-			<?php echo LayoutHelper::render('joomla.edit.params', $this); ?>
-		<?php endif; ?>
+		<?php echo LayoutHelper::render('joomla.edit.params', $this); ?>
 
 		<?php // Do not show the publishing options if the edit form is configured not to. ?>
 		<?php if ($params->get('show_publishing_options', 1) == 1) : ?>
@@ -155,7 +153,7 @@ $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=c
 			<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'editor', Text::_('COM_CONTENT_SLIDER_EDITOR_CONFIG')); ?>
 			<fieldset id="fieldset-editor" class="options-form">
 				<legend><?php echo Text::_('COM_CONTENT_SLIDER_EDITOR_CONFIG'); ?></legend>
-				<div class="column-count-md-2 column-count-lg-3">
+				<div class="form-grid">
 				<?php echo $this->form->renderFieldset('editorConfig'); ?>
 				</div>
 			</fieldset>
@@ -182,7 +180,7 @@ $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=c
 		<?php endif; ?>
 
 		<input type="hidden" name="task" value="">
-		<input type="hidden" name="return" value="<?php echo $input->getCmd('return'); ?>">
+		<input type="hidden" name="return" value="<?php echo $input->getBase64('return'); ?>">
 		<input type="hidden" name="forcedLanguage" value="<?php echo $input->get('forcedLanguage', '', 'cmd'); ?>">
 		<?php echo HTMLHelper::_('form.token'); ?>
 	</div>

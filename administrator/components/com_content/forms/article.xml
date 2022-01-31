@@ -3,7 +3,7 @@
 	<fieldset addfieldprefix="Joomla\Component\Content\Administrator\Field">
 		<field
 			name="id"
-			type="number"
+			type="text"
 			label="JGLOBAL_FIELD_ID_LABEL"
 			class="readonly"
 			default="0"
@@ -20,7 +20,6 @@
 			name="title"
 			type="text"
 			label="JGLOBAL_TITLE"
-			size="40"
 			required="true"
 			maxlength="255"
 		/>
@@ -31,14 +30,12 @@
 			label="JFIELD_ALIAS_LABEL"
 			description="JFIELD_ALIAS_DESC"
 			hint="JFIELD_ALIAS_PLACEHOLDER"
-			size="40"
 		/>
 
 		<field
 			name="note"
 			type="text"
 			label="COM_CONTENT_FIELD_NOTE_LABEL"
-			size="40"
 			maxlength="255"
 		/>
 
@@ -47,7 +44,6 @@
 			type="text"
 			label="JGLOBAL_FIELD_VERSION_NOTE_LABEL"
 			maxlength="255"
-			size="45"
 		/>
 
 		<field
@@ -71,9 +67,9 @@
 			name="state"
 			type="list"
 			label="JSTATUS"
-			class="custom-select-color-state"
-			size="1"
+			class="form-select-color-state"
 			default="1"
+			validate="options"
 			>
 			<option value="1">JPUBLISHED</option>
 			<option value="0">JUNPUBLISHED</option>
@@ -94,7 +90,6 @@
 			label="COM_CONTENT_FIELD_CREATED_LABEL"
 			translateformat="true"
 			showtime="true"
-			size="22"
 			filter="user_utc"
 		/>
 
@@ -102,13 +97,13 @@
 			name="created_by"
 			type="user"
 			label="COM_CONTENT_FIELD_CREATED_BY_LABEL"
+			validate="UserId"
 		/>
 
 		<field
 			name="created_by_alias"
 			type="text"
 			label="COM_CONTENT_FIELD_CREATED_BY_ALIAS_LABEL"
-			size="20"
 		/>
 
 		<field
@@ -118,7 +113,6 @@
 			class="form-control"
 			translateformat="true"
 			showtime="true"
-			size="22"
 			readonly="true"
 			filter="user_utc"
 		/>
@@ -130,6 +124,7 @@
 			class="readonly"
 			readonly="true"
 			filter="unset"
+			validate="UserId"
 		/>
 
 		<field
@@ -150,7 +145,6 @@
 			label="COM_CONTENT_FIELD_PUBLISH_UP_LABEL"
 			translateformat="true"
 			showtime="true"
-			size="22"
 			filter="user_utc"
 		/>
 
@@ -160,7 +154,6 @@
 			label="COM_CONTENT_FIELD_PUBLISH_DOWN_LABEL"
 			translateformat="true"
 			showtime="true"
-			size="22"
 			filter="user_utc"
 		/>
 
@@ -170,7 +163,6 @@
 			label="COM_CONTENT_FIELD_FEATURED_UP_LABEL"
 			translateformat="true"
 			showtime="true"
-			size="22"
 			filter="user_utc"
 		/>
 
@@ -180,7 +172,6 @@
 			label="COM_CONTENT_FIELD_FEATURED_DOWN_LABEL"
 			translateformat="true"
 			showtime="true"
-			size="22"
 			filter="user_utc"
 		/>
 
@@ -188,7 +179,6 @@
 			name="version"
 			type="text"
 			label="COM_CONTENT_FIELD_VERSION_LABEL"
-			size="6"
 			class="readonly"
 			readonly="true"
 			filter="unset"
@@ -198,7 +188,6 @@
 			name="ordering"
 			type="text"
 			label="JFIELD_ORDERING_LABEL"
-			size="6"
 			default="0"
 		/>
 
@@ -230,7 +219,7 @@
 
 		<field
 			name="hits"
-			type="number"
+			type="text"
 			label="JGLOBAL_HITS"
 			class="readonly"
 			readonly="true"
@@ -278,7 +267,7 @@
 					name="article_layout"
 					type="componentlayout"
 					label="JFIELD_ALT_LAYOUT_LABEL"
-					class="custom-select"
+					class="form-select"
 					useglobal="true"
 					extension="com_content"
 					view="article"
@@ -310,7 +299,7 @@
 					name="show_tags"
 					type="list"
 					label="COM_CONTENT_FIELD_SHOW_TAGS_LABEL"
-					class="custom-select-color"
+					class="form-select-color"
 					useglobal="true"
 					validate="options"
 					>
@@ -322,7 +311,7 @@
 					name="show_intro"
 					type="list"
 					label="JGLOBAL_SHOW_INTRO_LABEL"
-					class="custom-select-color"
+					class="form-select-color"
 					useglobal="true"
 					validate="options"
 					>
@@ -498,7 +487,7 @@
 
 				<field
 					name="show_vote"
-					type="list"
+					type="votelist"
 					label="JGLOBAL_SHOW_VOTE_LABEL"
 					useglobal="true"
 					validate="options"
@@ -535,10 +524,12 @@
 					type="list"
 					label="COM_CONTENT_FIELD_URLSPOSITION_LABEL"
 					useglobal="true"
+					filter="integer"
 					validate="options"
 					>
 					<option value="0">COM_CONTENT_FIELD_OPTION_ABOVE</option>
 					<option value="1">COM_CONTENT_FIELD_OPTION_BELOW</option>
+					<option value="-1">JHIDE</option>
 				</field>
 
 				<field
@@ -546,14 +537,12 @@
 					type="text"
 					label="JFIELD_READMORE_LABEL"
 					description="JFIELD_READMORE_DESC"
-					size="25"
 				/>
 
 				<field
 					name="article_page_title"
 					type="text"
 					label="COM_CONTENT_FIELD_BROWSER_PAGE_TITLE_LABEL"
-					size="25"
 				/>
 			</fieldset>
 
@@ -712,7 +701,6 @@
 				type="hidden"
 				label="JFIELD_READMORE_LABEL"
 				description="JFIELD_READMORE_DESC"
-				size="25"
 			/>
 
 			<field
@@ -737,7 +725,6 @@
 				name="image_intro_alt"
 				type="text"
 				label="COM_CONTENT_FIELD_IMAGE_ALT_LABEL"
-				size="20"
 			/>
 
 			<field
@@ -751,14 +738,12 @@
 				name="float_intro"
 				type="text"
 				label="COM_CONTENT_FIELD_IMAGE_CLASS_LABEL"
-				size="20"
 			/>
 
 			<field
 				name="image_intro_caption"
 				type="text"
 				label="COM_CONTENT_FIELD_IMAGE_CAPTION_LABEL"
-				size="20"
 			/>
 
 		</fieldset>
@@ -774,7 +759,6 @@
 				name="image_fulltext_alt"
 				type="text"
 				label="COM_CONTENT_FIELD_IMAGE_ALT_LABEL"
-				size="20"
 			/>
 
 			<field
@@ -788,14 +772,13 @@
 				name="float_fulltext"
 				type="text"
 				label="COM_CONTENT_FIELD_IMAGE_CLASS_LABEL"
-				size="20"
+				description="COM_CONTENT_FIELD_IMAGE_CLASS_DESC"
 			/>
 
 			<field
 				name="image_fulltext_caption"
 				type="text"
 				label="COM_CONTENT_FIELD_IMAGE_CAPTION_LABEL"
-				size="20"
 			/>
 		</fieldset>
 	</fields>
@@ -815,7 +798,6 @@
 				name="urlatext"
 				type="text"
 				label="COM_CONTENT_FIELD_URLA_LINK_TEXT_LABEL"
-				size="20"
 			/>
 
 			<field
@@ -848,7 +830,6 @@
 				name="urlbtext"
 				type="text"
 				label="COM_CONTENT_FIELD_URLB_LINK_TEXT_LABEL"
-				size="20"
 			/>
 
 			<field
@@ -881,7 +862,6 @@
 				name="urlctext"
 				type="text"
 				label="COM_CONTENT_FIELD_URLC_LINK_TEXT_LABEL"
-				size="20"
 			/>
 
 			<field
@@ -903,7 +883,7 @@
 
 	<fields name="metadata" label="JGLOBAL_FIELDSET_METADATA_OPTIONS">
 		<fieldset name="jmetadata"
-				  label="JGLOBAL_FIELDSET_METADATA_OPTIONS">
+				label="JGLOBAL_FIELDSET_METADATA_OPTIONS">
 
 			<field
 				name="robots"
@@ -912,17 +892,16 @@
 				validate="options"
 				>
 				<option value="">JGLOBAL_USE_GLOBAL</option>
-				<option value="index, follow">JGLOBAL_INDEX_FOLLOW</option>
-				<option value="noindex, follow">JGLOBAL_NOINDEX_FOLLOW</option>
-				<option value="index, nofollow">JGLOBAL_INDEX_NOFOLLOW</option>
-				<option value="noindex, nofollow">JGLOBAL_NOINDEX_NOFOLLOW</option>
+				<option value="index, follow" />
+				<option value="noindex, follow" />
+				<option value="index, nofollow" />
+				<option value="noindex, nofollow" />
 			</field>
 
 			<field
 				name="author"
 				type="text"
 				label="JAUTHOR"
-				size="20"
 			/>
 
 			<field
@@ -941,13 +920,14 @@
 		<field
 			name="introtext"
 			label="COM_CONTENT_FIELD_INTROTEXT"
+			filter="JComponentHelper::filterText"
 		/>
 
 		<field
 			name="fulltext"
 			label="COM_CONTENT_FIELD_FULLTEXT"
+			filter="JComponentHelper::filterText"
 		/>
 	</fields>
 
 </form>
-

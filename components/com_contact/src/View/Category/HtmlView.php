@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_contact
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2006 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -54,7 +54,7 @@ class HtmlView extends CategoryView
 	 *
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
 	 *
-	 * @return  mixed  A string if successful, otherwise an Error object.
+	 * @return  void
 	 */
 	public function display($tpl = null)
 	{
@@ -87,7 +87,7 @@ class HtmlView extends CategoryView
 			}
 		}
 
-		return parent::display($tpl);
+		parent::display($tpl);
 	}
 
 	/**
@@ -99,30 +99,41 @@ class HtmlView extends CategoryView
 	{
 		parent::prepareDocument();
 
-		$menu = $this->menu;
-		$id = (int) @$menu->query['id'];
+		parent::addFeed();
 
-		if ($menu && (!isset($menu->query['option']) || $menu->query['option'] != $this->extension || $menu->query['view'] == $this->viewName
-			|| $id != $this->category->id))
+		if ($this->menuItemMatchCategory)
 		{
-			$path = array(array('title' => $this->category->title, 'link' => ''));
-			$category = $this->category->getParent();
-
-			while ((!isset($menu->query['option']) || $menu->query['option'] !== 'com_contact' || $menu->query['view'] === 'contact'
-				|| $id != $category->id) && $category->id > 1)
-			{
-				$path[] = array('title' => $category->title, 'link' => RouteHelper::getCategoryRoute($category->id, $category->language));
-				$category = $category->getParent();
-			}
-
-			$path = array_reverse($path);
-
-			foreach ($path as $item)
-			{
-				$this->pathway->addItem($item['title'], $item['link']);
-			}
+			// If the active menu item is linked directly to the category being displayed, no further process is needed
+			return;
 		}
 
-		parent::addFeed();
+		// Get ID of the category from active menu item
+		$menu = $this->menu;
+
+		if ($menu && $menu->component == 'com_contact' && isset($menu->query['view'])
+			&& in_array($menu->query['view'], ['categories', 'category']))
+		{
+			$id = $menu->query['id'];
+		}
+		else
+		{
+			$id = 0;
+		}
+
+		$path     = [['title' => $this->category->title, 'link' => '']];
+		$category = $this->category->getParent();
+
+		while ($category !== null && $category->id != $id && $category->id !== 'root')
+		{
+			$path[]   = ['title' => $category->title, 'link' => RouteHelper::getCategoryRoute($category->id, $category->language)];
+			$category = $category->getParent();
+		}
+
+		$path = array_reverse($path);
+
+		foreach ($path as $item)
+		{
+			$this->pathway->addItem($item['title'], $item['link']);
+		}
 	}
 }

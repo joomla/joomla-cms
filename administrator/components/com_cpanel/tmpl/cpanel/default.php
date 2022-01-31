@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_cpanel
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2008 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -41,9 +41,9 @@ echo HTMLHelper::_(
 		'url'         => Route::_('index.php?option=com_cpanel&task=addModule&function=jSelectModuleType&position=' . $this->escape($this->position)),
 		'bodyHeight'  => '70',
 		'modalWidth'  => '80',
-		'footer'      => '<button type="button" class="button-cancel btn btn-sm btn-danger" data-dismiss="modal" data-target="#closeBtn"><span class="icon-times" aria-hidden="true"></span>'
+		'footer'      => '<button type="button" class="button-cancel btn btn-danger" data-bs-dismiss="modal" data-bs-target="#closeBtn">'
 			. Text::_('JLIB_HTML_BEHAVIOR_CLOSE') . '</button>'
-			. '<button type="button" class="button-save btn btn-sm btn-success hidden" data-target="#saveBtn"><span class="icon-copy" aria-hidden="true"></span>'
+			. '<button type="button" id="btnModalSaveAndClose" class="button-save btn btn-success hidden" data-bs-target="#saveBtn">'
 			. Text::_('JSAVE') . '</button>',
 	)
 );
@@ -63,12 +63,16 @@ echo HTMLHelper::_(
 		}
 		?>
 		<?php if ($user->authorise('core.manage', 'com_modules')) : ?>
-			<button type="button" data-toggle="modal" data-target="#moduleDashboardAddModal" class="cpanel-add-module text-center py-5 w-100 d-block">
-				<div class="cpanel-add-module-icon text-center">
-					<span class="icon-plus-square text-light mt-2"></span>
+			<div class="module-wrapper">
+				<div class="card">
+					<button type="button" data-bs-toggle="modal" data-bs-target="#moduleDashboardAddModal" class="cpanel-add-module">
+						<div class="cpanel-add-module-icon">
+							<span class="icon-plus-square" aria-hidden="true"></span>
+						</div>
+						<span><?php echo Text::_('COM_CPANEL_ADD_DASHBOARD_MODULE'); ?></span>
+					</button>
 				</div>
-				<span><?php echo Text::_('COM_CPANEL_ADD_DASHBOARD_MODULE'); ?></span>
-			</button>
+			</div>
 		<?php endif; ?>
 		</div>
 	</div>

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_installer
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2008 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -14,6 +14,7 @@ namespace Joomla\Component\Installer\Administrator\Model;
 use Joomla\CMS\Extension\ExtensionHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\File;
+use Joomla\CMS\Form\Form;
 use Joomla\CMS\Installer\Installer;
 use Joomla\CMS\Installer\InstallerHelper;
 use Joomla\CMS\Language\Text;
@@ -22,6 +23,7 @@ use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Updater\Update;
 use Joomla\CMS\Updater\Updater;
+use Joomla\Database\DatabaseQuery;
 use Joomla\Database\Exception\ExecutionFailureException;
 use Joomla\Database\ParameterType;
 use Joomla\Utilities\ArrayHelper;
@@ -89,7 +91,7 @@ class UpdateModel extends ListModel
 	/**
 	 * Method to get the database query
 	 *
-	 * @return  \JDatabaseQuery  The database query
+	 * @return  \Joomla\Database\DatabaseQuery  The database query
 	 *
 	 * @since   1.6
 	 */
@@ -214,9 +216,9 @@ class UpdateModel extends ListModel
 	/**
 	 * Returns an object list
 	 *
-	 * @param   \JDatabaseQuery  $query       The query
-	 * @param   int              $limitstart  Offset
-	 * @param   int              $limit       The number of records
+	 * @param   DatabaseQuery  $query       The query
+	 * @param   int            $limitstart  Offset
+	 * @param   int            $limit       The number of records
 	 *
 	 * @return  array
 	 *
@@ -280,17 +282,17 @@ class UpdateModel extends ListModel
 	/**
 	 * Finds updates for an extension.
 	 *
-	 * @param   int  $eid                Extension identifier to look for
-	 * @param   int  $cache_timeout      Cache timout
-	 * @param   int  $minimum_stability  Minimum stability for updates {@see Updater} (0=dev, 1=alpha, 2=beta, 3=rc, 4=stable)
+	 * @param   int  $eid               Extension identifier to look for
+	 * @param   int  $cacheTimeout      Cache timeout
+	 * @param   int  $minimumStability  Minimum stability for updates {@see Updater} (0=dev, 1=alpha, 2=beta, 3=rc, 4=stable)
 	 *
 	 * @return  boolean Result
 	 *
 	 * @since   1.6
 	 */
-	public function findUpdates($eid = 0, $cache_timeout = 0, $minimum_stability = Updater::STABILITY_STABLE)
+	public function findUpdates($eid = 0, $cacheTimeout = 0, $minimumStability = Updater::STABILITY_STABLE)
 	{
-		Updater::getInstance()->findUpdates($eid, $cache_timeout, $minimum_stability);
+		Updater::getInstance()->findUpdates($eid, $cacheTimeout, $minimumStability);
 
 		return true;
 	}
@@ -325,7 +327,7 @@ class UpdateModel extends ListModel
 		$db->execute();
 
 		// Clear the administrator cache
-		$this->cleanCache('_system', 1);
+		$this->cleanCache('_system');
 
 		$this->_message = Text::_('JLIB_INSTALLER_PURGED_UPDATES');
 
@@ -337,14 +339,14 @@ class UpdateModel extends ListModel
 	 *
 	 * Sets the "result" state with the result of the operation.
 	 *
-	 * @param   array  $uids               Array[int] List of updates to apply
-	 * @param   int    $minimum_stability  The minimum allowed stability for installed updates {@see Updater}
+	 * @param   int[]  $uids              List of updates to apply
+	 * @param   int    $minimumStability  The minimum allowed stability for installed updates {@see Updater}
 	 *
 	 * @return  void
 	 *
 	 * @since   1.6
 	 */
-	public function update($uids, $minimum_stability = Updater::STABILITY_STABLE)
+	public function update($uids, $minimumStability = Updater::STABILITY_STABLE)
 	{
 		$result = true;
 
@@ -352,9 +354,23 @@ class UpdateModel extends ListModel
 		{
 			$update = new Update;
 			$instance = new \Joomla\CMS\Table\Update($this->getDbo());
-			$instance->load($uid);
-			$update->loadFromXml($instance->detailsurl, $minimum_stability);
-			$update->set('extra_query', $instance->extra_query);
+
+			if (!$instance->load($uid))
+			{
+				// Update no longer available, maybe already updated by a package.
+				continue;
+			}
+
+			$update->loadFromXml($instance->detailsurl, $minimumStability);
+
+			// Find and use extra_query from update_site if available
+			$updateSiteInstance = new \Joomla\CMS\Table\UpdateSite($this->getDbo());
+			$updateSiteInstance->load($instance->update_site_id);
+
+			if ($updateSiteInstance->extra_query)
+			{
+				$update->set('extra_query', $updateSiteInstance->extra_query);
+			}
 
 			$this->preparePreUpdate($update, $instance);
 
@@ -370,14 +386,10 @@ class UpdateModel extends ListModel
 		}
 
 		// Clear the cached extension data and menu cache
-		$this->cleanCache('_system', 0);
-		$this->cleanCache('_system', 1);
-		$this->cleanCache('com_modules', 0);
-		$this->cleanCache('com_modules', 1);
-		$this->cleanCache('com_plugins', 0);
-		$this->cleanCache('com_plugins', 1);
-		$this->cleanCache('mod_menu', 0);
-		$this->cleanCache('mod_menu', 1);
+		$this->cleanCache('_system');
+		$this->cleanCache('com_modules');
+		$this->cleanCache('com_plugins');
+		$this->cleanCache('mod_menu');
 
 		// Set the final state
 		$this->setState('result', $result);
@@ -445,6 +457,13 @@ class UpdateModel extends ListModel
 		// Unpack the downloaded package file
 		$package = InstallerHelper::unpack($tmp_dest . '/' . $p_file);
 
+		if (empty($package))
+		{
+			$app->enqueueMessage(Text::sprintf('COM_INSTALLER_UNPACK_ERROR', $p_file), 'error');
+
+			return false;
+		}
+
 		// Get an installer instance
 		$installer = Installer::getInstance();
 		$update->set('type', $package['type']);
@@ -481,7 +500,7 @@ class UpdateModel extends ListModel
 			$app->enqueueMessage(
 				Text::sprintf('COM_INSTALLER_MSG_UPDATE_SUCCESS',
 					Text::_('COM_INSTALLER_TYPE_TYPE_' . strtoupper($package['type']))
-				)
+				), 'success'
 			);
 			$result = true;
 		}
@@ -489,7 +508,7 @@ class UpdateModel extends ListModel
 		// Quick change
 		$this->type = $package['type'];
 
-		// TODO: Reconfigure this code when you have more battery life left
+		// @todo: Reconfigure this code when you have more battery life left
 		$this->setState('name', $installer->get('name'));
 		$this->setState('result', $result);
 		$app->setUserState('com_installer.message', $installer->message);
@@ -512,16 +531,16 @@ class UpdateModel extends ListModel
 	 * @param   array    $data      Data for the form.
 	 * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
 	 *
-	 * @return  mixed  A \JForm object on success, false on failure
+	 * @return  Form|bool  A Form object on success, false on failure
 	 *
 	 * @since	2.5.2
 	 */
 	public function getForm($data = array(), $loadData = true)
 	{
 		// Get the form.
-		\JForm::addFormPath(JPATH_COMPONENT . '/models/forms');
-		\JForm::addFieldPath(JPATH_COMPONENT . '/models/fields');
-		$form = \JForm::getInstance('com_installer.update', 'update', array('load_data' => $loadData));
+		Form::addFormPath(JPATH_COMPONENT . '/models/forms');
+		Form::addFieldPath(JPATH_COMPONENT . '/models/fields');
+		$form = Form::getInstance('com_installer.update', 'update', array('load_data' => $loadData));
 
 		// Check for an error.
 		if ($form == false)
@@ -616,5 +635,21 @@ class UpdateModel extends ListModel
 				PluginHelper::importPlugin($table->folder, $cname);
 				break;
 		}
+	}
+
+	/**
+	 * Manipulate the query to be used to evaluate if this is an Empty State to provide specific conditions for this extension.
+	 *
+	 * @return DatabaseQuery
+	 *
+	 * @since 4.0.0
+	 */
+	protected function getEmptyStateQuery()
+	{
+		$query = parent::getEmptyStateQuery();
+
+		$query->where($this->_db->quoteName('extension_id') . ' != 0');
+
+		return $query;
 	}
 }

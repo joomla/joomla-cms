@@ -57,7 +57,7 @@
 			name="db_type"
 			type="databaseconnection"
 			label="INSTL_DATABASE_TYPE_DESC"
-			class="custom-select"
+			class="form-select"
 			supported="mysql,mysqli,pgsql,postgresql"
 			required="true"
 			default="mysqli"
@@ -118,10 +118,11 @@
 			name="db_encryption"
 			type="list"
 			label="INSTL_DATABASE_ENCRYPTION_MODE_LABEL"
-			class="custom-select"
+			class="form-select"
 			required="true"
 			default="0"
 			filter="integer"
+			validate="options"
 			>
 			<option value="0">INSTL_DATABASE_ENCRYPTION_MODE_VALUE_NONE</option>
 			<option value="1">INSTL_DATABASE_ENCRYPTION_MODE_VALUE_ONE_WAY</option>

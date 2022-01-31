@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2009 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -125,7 +125,7 @@ class ArticlesModel extends ListModel
 		if ((!$user->authorise('core.edit.state', 'com_content')) && (!$user->authorise('core.edit', 'com_content')))
 		{
 			// Filter on published for those who do not have edit or edit.state rights.
-			$this->setState('filter.condition', ContentComponent::CONDITION_PUBLISHED);
+			$this->setState('filter.published', ContentComponent::CONDITION_PUBLISHED);
 		}
 
 		$this->setState('filter.language', Multilanguage::isEnabled());
@@ -159,7 +159,7 @@ class ArticlesModel extends ListModel
 	protected function getStoreId($id = '')
 	{
 		// Compile the store id.
-		$id .= ':' . serialize($this->getState('filter.condition'));
+		$id .= ':' . serialize($this->getState('filter.published'));
 		$id .= ':' . $this->getState('filter.access');
 		$id .= ':' . $this->getState('filter.featured');
 		$id .= ':' . serialize($this->getState('filter.article_id'));
@@ -183,7 +183,7 @@ class ArticlesModel extends ListModel
 	/**
 	 * Get the master query for retrieving a list of articles subject to the model state.
 	 *
-	 * @return  \JDatabaseQuery
+	 * @return  \Joomla\Database\DatabaseQuery
 	 *
 	 * @since   1.6
 	 */
@@ -310,7 +310,7 @@ class ArticlesModel extends ListModel
 			// Join on voting table
 			$query->select(
 				[
-					'COALESCE(NULLIF(ROUND(' . $db->quoteName('v.rating_sum') . ' / ' . $db->quoteName('v.rating_count') . ', 0), 0), 0)'
+					'COALESCE(NULLIF(ROUND(' . $db->quoteName('v.rating_sum') . ' / ' . $db->quoteName('v.rating_count') . ', 1), 0), 0)'
 						. ' AS ' . $db->quoteName('rating'),
 					'COALESCE(NULLIF(' . $db->quoteName('v.rating_count') . ', 0), 0) AS ' . $db->quoteName('rating_count'),
 				]
@@ -327,7 +327,7 @@ class ArticlesModel extends ListModel
 		}
 
 		// Filter by published state
-		$condition = $this->getState('filter.condition');
+		$condition = $this->getState('filter.published');
 
 		if (is_numeric($condition) && $condition == 2)
 		{
@@ -572,7 +572,7 @@ class ArticlesModel extends ListModel
 				$relativeDate = (int) $this->getState('filter.relative_date', 0);
 				$query->where(
 					$db->quoteName($dateField) . ' IS NOT NULL AND '
-					. $db->quoteName($dateField) . ' >= ' . $query->dateAdd($nowDate, -1 * $relativeDate, 'DAY')
+					. $db->quoteName($dateField) . ' >= ' . $query->dateAdd($db->quote($nowDate), -1 * $relativeDate, 'DAY')
 				);
 				break;
 

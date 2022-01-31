@@ -3,13 +3,13 @@
  * @package     Joomla.Installation
  * @subpackage  Model
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2017 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Installation\Model;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
@@ -130,7 +130,7 @@ class ChecksModel extends BaseInstallationModel
 		$option = new \stdClass;
 		$option->label  = Text::sprintf('INSTL_WRITABLE', 'configuration.php');
 		$option->state  = $writable;
-		$option->notice = $option->state ? null : Text::_('INSTL_NOTICEYOUCANSTILLINSTALL');
+		$option->notice = $option->state ? null : Text::_('INSTL_NOTICE_NEEDSTOBEWRITABLE');
 		$options[] = $option;
 
 		return $options;
@@ -201,6 +201,27 @@ class ChecksModel extends BaseInstallationModel
 		$setting = new \stdClass;
 		$setting->label = Text::_('INSTL_ZIP_SUPPORT_AVAILABLE');
 		$setting->state = function_exists('zip_open') && function_exists('zip_read');
+		$setting->recommended = true;
+		$settings[] = $setting;
+
+		// Check for GD support
+		$setting = new \stdClass;
+		$setting->label = Text::sprintf('INSTL_EXTENSION_AVAILABLE', 'GD');
+		$setting->state = extension_loaded('gd');
+		$setting->recommended = true;
+		$settings[] = $setting;
+
+		// Check for iconv support
+		$setting = new \stdClass;
+		$setting->label = Text::sprintf('INSTL_EXTENSION_AVAILABLE', 'iconv');
+		$setting->state = function_exists('iconv');
+		$setting->recommended = true;
+		$settings[] = $setting;
+
+		// Check for intl support
+		$setting = new \stdClass;
+		$setting->label = Text::sprintf('INSTL_EXTENSION_AVAILABLE', 'intl');
+		$setting->state = function_exists('transliterator_transliterate');
 		$setting->recommended = true;
 		$settings[] = $setting;
 

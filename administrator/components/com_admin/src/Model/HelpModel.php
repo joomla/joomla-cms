@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_admin
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2009 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -93,7 +93,7 @@ class HelpModel extends BaseDatabaseModel
 	{
 		if (is_null($this->page))
 		{
-			$this->page = Help::createUrl(Factory::getApplication()->input->get('page', 'JHELP_START_HERE'));
+			$this->page = Help::createUrl(Factory::getApplication()->input->get('page', 'Start_Here'));
 		}
 
 		return $this->page;

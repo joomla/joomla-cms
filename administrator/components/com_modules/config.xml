@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <config>
+	<help key="Module:_Options"/>
 	<fieldset
 		name="modules"
 		label="COM_MODULES_GENERAL"

@@ -1,0 +1,65 @@
+/**
+ * @copyright	Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ */
+
+/* System Messages */
+#system-message {
+  padding: 0;
+  margin-bottom: 10px;
+}
+
+#system-message > dt {
+  display: none;
+  font-weight: bold;
+}
+
+#system-message > dd {
+  margin: 0;
+  font-weight: bold;
+  text-indent: 30px;
+}
+
+#system-message > dd > ul {
+  padding: 10px;
+  margin-bottom: 10px;
+  color: #05b;
+  list-style: none;
+  background-repeat: no-repeat;
+  background-position: 4px top;
+  border-top: 3px solid #84a7db;
+  border-bottom: 3px solid #84a7db;
+}
+
+#system-message > dd > ul > li {
+  line-height: 1.5em;
+}
+
+/* System Standard Messages */
+#system-message > .message > ul {
+  background-color: #c3d2e5;
+}
+
+/* System Error Messages */
+#system-message > .error > ul,
+#system-message > .warning > ul,
+#system-message > .notice > ul {
+  color: #c00;
+}
+
+#system-message > .error > ul {
+  background-color: #e6c0c0;
+  border-color: #de7a7b;
+}
+
+/* System Warning Messages */
+#system-message > .warning > ul {
+  background-color: #e6c8a6;
+  border-color: #fb0;
+}
+
+/* System Notice Messages */
+#system-message > .notice > ul {
+  background-color: #efe7b8;
+  border-color: #f0dc7e;
+}

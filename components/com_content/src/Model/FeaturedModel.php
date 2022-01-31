@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2006 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -47,12 +47,12 @@ class FeaturedModel extends ArticlesModel
 	{
 		parent::populateState($ordering, $direction);
 
-		$input = Factory::getApplication()->input;
-		$user  = Factory::getUser();
-		$app   = Factory::getApplication('site');
+		$app   = Factory::getApplication();
+		$input = $app->input;
+		$user  = $app->getIdentity();
 
 		// List state information
-		$limitstart = $input->getUInt('limitstart', 0);
+		$limitstart = $input->getUint('limitstart', 0);
 		$this->setState('list.start', $limitstart);
 
 		$params = $this->state->params;
@@ -80,11 +80,11 @@ class FeaturedModel extends ArticlesModel
 		if ((!$user->authorise('core.edit.state', 'com_content')) &&  (!$user->authorise('core.edit', 'com_content')))
 		{
 			// Filter on published for those who do not have edit or edit.state rights.
-			$this->setState('filter.condition', ContentComponent::CONDITION_PUBLISHED);
+			$this->setState('filter.published', ContentComponent::CONDITION_PUBLISHED);
 		}
 		else
 		{
-			$this->setState('filter.condition', [ContentComponent::CONDITION_UNPUBLISHED, ContentComponent::CONDITION_PUBLISHED]);
+			$this->setState('filter.published', [ContentComponent::CONDITION_UNPUBLISHED, ContentComponent::CONDITION_PUBLISHED]);
 		}
 
 		// Process show_noauth parameter
@@ -157,7 +157,7 @@ class FeaturedModel extends ArticlesModel
 	/**
 	 * Get the list of items.
 	 *
-	 * @return  \JDatabaseQuery
+	 * @return  \Joomla\Database\DatabaseQuery
 	 */
 	protected function getListQuery()
 	{

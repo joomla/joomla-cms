@@ -2,7 +2,7 @@
 /**
  * @package	Joomla.Installation
  *
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2006 Open Source Matters, Inc. <https://www.joomla.org>
  * @license	GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -13,8 +13,7 @@ use Joomla\CMS\Router\Route;
 use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\Version;
 
-/** @var JDocumentHtml $this */
-
+/** @var \Joomla\CMS\Document\HtmlDocument $this */
 // Add required assets
 $this->getWebAssetManager()
 	->registerAndUseStyle('template.installation', 'template' . ($this->direction === 'rtl' ? '-rtl' : '') . '.css')
@@ -25,9 +24,16 @@ $this->getWebAssetManager()
 
 $this->getWebAssetManager()
 	->useStyle('webcomponent.joomla-alert')
-	->useScript('webcomponent.joomla-alert')
-	->useScript('webcomponent.core-loader');
-
+	->useScript('messages')
+	->useScript('webcomponent.core-loader')
+	->addInlineStyle(':root {
+		--hue: 214;
+		--template-bg-light: #f0f4fb;
+		--template-text-dark: #495057;
+		--template-text-light: #ffffff;
+		--template-link-color: #2a69b8;
+		--template-special-color: #001b4c;
+	}');
 
 // Add script options
 $this->addScriptOptions('system.installation', ['url' => Route::_('index.php')]);
@@ -48,7 +54,6 @@ Text::script('INSTL_DATABASE_RESPONSE_ERROR');
 
 // Load the JavaScript translated messages
 Text::script('INSTL_PROCESS_BUSY');
-Text::script('INSTL_FTP_SETTINGS_CORRECT');
 
 // Load strings for translated messages (directory removal)
 Text::script('INSTL_REMOVE_INST_FOLDER');
@@ -65,15 +70,17 @@ Text::script('INSTL_COMPLETE_REMOVE_FOLDER');
 		<div class="j-install">
 			<?php // Header ?>
 			<header id="header" class="header">
-				<div class="d-flex ">
-					<div class="logo d-none d-md-block col">
-						<img src="<?php echo $this->baseurl; ?>/template/images/Joomla-logo-monochrome-horizontal-white.svg" alt="">
+				<div class="row me-0">
+					<div class="col">
+						<div class="logo d-none d-md-block col">
+							<img src="<?php echo $this->baseurl; ?>/template/images/Joomla-logo-monochrome-horizontal-white.svg" alt="">
+						</div>
+						<div class="mx-2 my-3 d-flex d-md-none">
+							<img class="logo-small d-flex d-md-none" src="<?php echo $this->baseurl; ?>/template/images/Joomla-brandmark-monochrome-white-RGB.svg" alt="">
+						</div>
 					</div>
-					<div class="mx-2 my-3 d-flex d-md-none">
-						<img class="logo-small d-flex d-md-none" src="<?php echo $this->baseurl; ?>/template/images/Joomla-brandmark-monochrome-white-RGB.svg" alt="">
-					</div>
-					<div class="d-flex flex-wrap align-items-center mx-auto col-md-auto justify-content-center">
-						<h1 class="h2 mx-1 d-flex align-items-baseline">
+					<div class="d-flex flex-wrap align-items-center col justify-content-center">
+						<h1 class="h2 mx-1 d-flex align-items-baseline text-white">
 							<span class="icon-cogs d-none d-md-block mx-2 align-items-center" aria-hidden="true"></span>
 							<?php echo Text::_('INSTL_PAGE_TITLE'); ?>
 						</h1>
@@ -84,7 +91,7 @@ Text::script('INSTL_COMPLETE_REMOVE_FOLDER');
 					<div class="m-2 d-flex align-items-center col justify-content-end">
 						<a href="https://docs.joomla.org/Special:MyLanguage/J4.x:Installing_Joomla" target="_blank">
 							<span class="icon-question" aria-hidden="true"></span>
-							<span class="sr-only"><?php echo Text::_('INSTL_HELP_LINK'); ?></span>
+							<span class="visually-hidden"><?php echo Text::_('INSTL_HELP_LINK'); ?></span>
 						</a>
 					</div>
 				</div>

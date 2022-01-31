@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_modules
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2009 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -27,25 +27,20 @@ if ($function) :
 endif;
 
 ?>
-<h2 class="mb-3"><?php echo Text::_('COM_MODULES_TYPE_CHOOSE'); ?></h2>
 
-<div class="container d-none" id="comModulesSelectSearchContainer">
-	<div class="row">
-		<div class="col-sm-6 offset-sm-2 col-md-4 offset-sm-4 offset-md-5 offset-lg-4">
-			<div class="form-inline">
-				<label class="sr-only" for="comModulesSelectSearch">
-					<?php echo Text::_('COM_MODULES_TYPE_CHOOSE'); ?>
-				</label>
-				<div class="input-group mb-5 mr-sm-2">
-					<input type="text" value=""
-						   class="form-control" id="comModulesSelectSearch"
-						   placeholder="<?php echo Text::_('JSEARCH_FILTER'); ?>"
-					>
-					<div class="input-group-append" aria-hidden="true">
-						<div class="input-group-text">
-							<span class="icon-search" aria-hidden="true"></span>
-						</div>
-					</div>
+<div class="d-none" id="comModulesSelectSearchContainer">
+	<div class="d-flex mt-2">
+		<div class="ms-auto me-auto">
+			<label class="visually-hidden" for="comModulesSelectSearch">
+				<?php echo Text::_('COM_MODULES_TYPE_CHOOSE'); ?>
+			</label>
+			<div class="input-group mb-3 me-sm-2">
+				<input type="text" value=""
+					class="form-control" id="comModulesSelectSearch"
+					placeholder="<?php echo Text::_('JSEARCH_FILTER'); ?>"
+				>
+				<div class="input-group-text">
+					<span class="icon-search" aria-hidden="true"></span>
 				</div>
 			</div>
 		</div>
@@ -54,27 +49,30 @@ endif;
 
 <div id="new-modules-list">
 	<div class="new-modules">
-		<div class="card-columns">
+		<div class="modules-alert alert alert-info d-none">
+			<span class="icon-info-circle" aria-hidden="true"></span><span class="visually-hidden"><?php echo Text::_('INFO'); ?></span>
+			<?php echo Text::_('COM_MODULES_MSG_MANAGE_NO_MODULES'); ?>
+		</div>
+		<h2 class="pb-3 ms-3" id="comModulesSelectTypeHeader">
+			<?php echo Text::_('COM_MODULES_TYPE_CHOOSE'); ?>
+		</h2>
+		<div class="main-card card-columns p-4" id="comModulesSelectResultsContainer">
 			<?php foreach ($this->items as &$item) : ?>
-				<div class="card mb-4 comModulesSelectCard">
-					<?php // Prepare variables for the link. ?>
+				<?php // Prepare variables for the link. ?>
 					<?php $link = 'index.php?option=com_modules&task=module.add&client_id=' . $this->state->get('client_id', 0) . $this->modalLink . '&eid=' . $item->extension_id; ?>
 					<?php $name = $this->escape($item->name); ?>
 					<?php $desc = HTMLHelper::_('string.truncate', $this->escape(strip_tags($item->desc)), 200); ?>
-
-					<div class="card-header">
-						<h3><?php echo $name; ?></h3>
-					</div>
-
-					<div class="card-body">
-						<p class="text-muted">
+				<a href="<?php echo Route::_($link); ?>" class="new-module mb-3 comModulesSelectCard" data-function="' . $this->escape($function) : ''; ?>" aria-label="<?php echo Text::sprintf('COM_MODULES_SELECT_MODULE', $name); ?>">
+					<div class="new-module-details">
+						<h3 class="new-module-title"><?php echo $name; ?></h3>
+						<p class="card-body new-module-caption p-0">
 							<?php echo $desc; ?>
 						</p>
 					</div>
-					<a href="<?php echo Route::_($link); ?>" class="btn btn-primary <?php echo $function ? ' select-link" data-function="' . $this->escape($function) : ''; ?>" aria-label="<?php echo Text::sprintf('COM_MODULES_SELECT_MODULE', $name); ?>">
-						<?php echo Text::_('JSELECT'); ?>
-					</a>
-				</div>
+					<span class="new-module-link">
+						<span class="icon-plus" aria-hidden="true"></span>
+					</span>
+				</a>
 			<?php endforeach; ?>
 		</div>
 	</div>

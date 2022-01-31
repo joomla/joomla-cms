@@ -6,13 +6,37 @@
   "license": "GPL-2.0-or-later",
   "assets": [
     {
-      "name": "com_modules.admin-module-edit",
+      "name": "com_modules.admin-module-edit.es5",
       "type": "script",
-      "uri": "com_modules/admin-module-edit.min.js",
+      "uri": "com_modules/admin-module-edit-es5.min.js",
       "dependencies": [
         "core"
       ],
       "attributes": {
+        "nomodule": true,
+        "defer": true
+      }
+    },
+    {
+      "name": "com_modules.admin-module-edit",
+      "type": "script",
+      "uri": "com_modules/admin-module-edit.min.js",
+      "dependencies": [
+        "com_modules.admin-module-edit.es5"
+      ],
+      "attributes": {
+        "type": "module"
+      }
+    },
+    {
+      "name": "com_modules.admin-module-edit-assignment.es5",
+      "type": "script",
+      "uri": "com_modules/admin-module-edit_assignment-es5.min.js",
+      "dependencies": [
+        "core"
+      ],
+      "attributes": {
+        "nomodule": true,
         "defer": true
       }
     },
@@ -21,9 +45,21 @@
       "type": "script",
       "uri": "com_modules/admin-module-edit_assignment.min.js",
       "dependencies": [
+        "com_modules.admin-module-edit-assignment.es5"
+      ],
+      "attributes": {
+        "type": "module"
+      }
+    },
+    {
+      "name": "com_modules.admin-module-search.es5",
+      "type": "script",
+      "uri": "com_modules/admin-module-search-es5.min.js",
+      "dependencies": [
         "core"
       ],
       "attributes": {
+        "nomodule": true,
         "defer": true
       }
     },
@@ -32,9 +68,21 @@
       "type": "script",
       "uri": "com_modules/admin-module-search.min.js",
       "dependencies": [
+        "com_modules.admin-module-search.es5"
+      ],
+      "attributes": {
+        "type": "module"
+      }
+    },
+    {
+      "name": "com_modules.admin-modules-modal.es5",
+      "type": "script",
+      "uri": "com_modules/admin-modules-modal-es5.min.js",
+      "dependencies": [
         "core"
       ],
       "attributes": {
+        "nomodule": true,
         "defer": true
       }
     },
@@ -43,9 +91,21 @@
       "type": "script",
       "uri": "com_modules/admin-modules-modal.min.js",
       "dependencies": [
+        "com_modules.admin-modules-modal.es5"
+      ],
+      "attributes": {
+        "type": "module"
+      }
+    },
+    {
+      "name": "com_modules.admin-select-modal.es5",
+      "type": "script",
+      "uri": "com_modules/admin-select-modal-es5.min.js",
+      "dependencies": [
         "core"
       ],
       "attributes": {
+        "nomodule": true,
         "defer": true
       }
     },
@@ -54,10 +114,10 @@
       "type": "script",
       "uri": "com_modules/admin-select-modal.min.js",
       "dependencies": [
-        "core"
+        "com_modules.admin-select-modal.es5"
       ],
       "attributes": {
-        "defer": true
+        "type": "module"
       }
     }
   ]

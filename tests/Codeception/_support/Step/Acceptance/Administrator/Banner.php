@@ -3,7 +3,7 @@
  * @package     Joomla.Tests
  * @subpackage  AcceptanceTester.Step
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2019 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 namespace Step\Acceptance\Administrator;
@@ -201,7 +201,15 @@ class Banner extends Admin
 		$I = $this;
 		$I->amOnPage(BannerListPage::$url);
 		$I->waitForElement(BannerListPage::$searchField, $I->getConfig('timeout'));
-		$I->selectOptionInChosenByIdUsingJs('filter_published', "Trashed");
+
+		// Make sure that the element js-stools-container-filters is visible. 
+		// Filter is a toggle button and I never know what happened before.
+		$I->executeJS("[].forEach.call(document.querySelectorAll('.js-stools-container-filters'), function (el) {
+			el.classList.add('js-stools-container-filters-visible');
+		  });");
+		$I->selectOption('//*[@id="filter_published"]', "-2");
+		$I->wait(2);
+
 		$I->fillField(BannerListPage::$searchField, $bannerTitle);
 		$I->Click(BannerListPage::$filterSearch);
 		$I->checkAllResults();

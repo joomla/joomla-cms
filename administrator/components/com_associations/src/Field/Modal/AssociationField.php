@@ -3,13 +3,13 @@
  * @package     Joomla.Administrator
  * @subpackage  com_associations
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2017 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\Component\Associations\Administrator\Field\Modal;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\FormField;
@@ -41,7 +41,7 @@ class AssociationField extends FormField
 	 */
 	protected function getInput()
 	{
-		// @TODO USE JLayouts here!!!
+		// @todo USE Layouts here!!!
 		// The active item id field.
 		$value = (int) $this->value ?: '';
 
@@ -66,10 +66,10 @@ class AssociationField extends FormField
 			. ' type="button"'
 			. ' id="select-change"'
 			. ' class="btn btn-secondary' . ($value ? '' : ' hidden') . '"'
-			. ' data-toggle="modal"'
+			. ' data-bs-toggle="modal"'
 			. ' data-select="' . Text::_('COM_ASSOCIATIONS_SELECT_TARGET') . '"'
 			. ' data-change="' . Text::_('COM_ASSOCIATIONS_CHANGE_TARGET') . '"'
-			. ' data-target="#associationSelect' . $this->id . 'Modal">'
+			. ' data-bs-target="#associationSelect' . $this->id . 'Modal">'
 			. '<span class="icon-file" aria-hidden="true"></span> '
 			. '<span id="select-change-text"></span>'
 			. '</button>';
@@ -97,8 +97,8 @@ class AssociationField extends FormField
 				'width'       => '800px',
 				'bodyHeight'  => 70,
 				'modalWidth'  => 80,
-				'footer'      => '<button type="button" class="btn btn-secondary" data-dismiss="modal">'
-						. Text::_("JLIB_HTML_BEHAVIOR_CLOSE") . '</button>',
+				'footer'      => '<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">'
+						. Text::_('JLIB_HTML_BEHAVIOR_CLOSE') . '</button>',
 			)
 		);
 

@@ -3,7 +3,7 @@
  * Bootstrap file for the Joomla! CMS [with legacy libraries].
  * Including this file into your application will make Joomla libraries available for use.
  *
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2016 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -54,9 +54,13 @@ require_once JPATH_LIBRARIES . '/classmap.php';
  * Do not remove the variable, to allow to use it further, after including this file.
  */
 $errorHandler = \Symfony\Component\ErrorHandler\ErrorHandler::register();
+\Symfony\Component\ErrorHandler\ErrorRenderer\HtmlErrorRenderer::setTemplate(__DIR__ . '/../templates/system/fatal.php');
 
 // Register the error handler which processes E_USER_DEPRECATED errors
-set_error_handler(['JErrorPage', 'handleUserDeprecatedErrors'], E_USER_DEPRECATED);
+if (error_reporting() & E_USER_DEPRECATED)
+{
+	set_error_handler(['Joomla\CMS\Exception\ExceptionHandler', 'handleUserDeprecatedErrors'], E_USER_DEPRECATED);
+}
 
 // Suppress phar stream wrapper for non .phar files
 $behavior = new \TYPO3\PharStreamWrapper\Behavior;
@@ -71,12 +75,12 @@ if (in_array('phar', stream_get_wrappers()))
 }
 
 // Define the Joomla version if not already defined.
-defined('JVERSION') or define('JVERSION', (new JVersion)->getShortVersion());
+defined('JVERSION') or define('JVERSION', (new \Joomla\CMS\Version)->getShortVersion());
 
 // Set up the message queue logger for web requests
 if (array_key_exists('REQUEST_METHOD', $_SERVER))
 {
-	JLog::addLogger(['logger' => 'messagequeue'], JLog::ALL, ['jerror']);
+	\Joomla\CMS\Log\Log::addLogger(['logger' => 'messagequeue'], \Joomla\CMS\Log\Log::ALL, ['jerror']);
 }
 
 // Register the Crypto lib

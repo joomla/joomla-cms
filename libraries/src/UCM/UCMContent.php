@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2013 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -181,7 +181,7 @@ class UCMContent extends UCMBase
 	 * Store data to the appropriate table
 	 *
 	 * @param   array           $data        Data to be stored
-	 * @param   TableInterface  $table       JTable Object
+	 * @param   TableInterface  $table       Table Object
 	 * @param   boolean         $primaryKey  Flag that is true for data that are using #__ucm_content as their primary table
 	 *
 	 * @return  boolean  true on success
