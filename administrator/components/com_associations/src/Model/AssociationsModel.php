@@ -155,7 +155,7 @@ class AssociationsModel extends ListModel
 	/**
 	 * Build an SQL query to load the list data.
 	 *
-	 * @return  \JDatabaseQuery|boolean
+	 * @return  \Joomla\Database\DatabaseQuery|boolean
 	 *
 	 * @since  3.7.0
 	 */
@@ -168,12 +168,12 @@ class AssociationsModel extends ListModel
 		$extension = AssociationsHelper::getSupportedExtension($extensionName);
 		$types     = $extension->get('types');
 
-		if (array_key_exists($typeName, $types))
+		if (\array_key_exists($typeName, $types))
 		{
 			$type = $types[$typeName];
 		}
 
-		if (is_null($type))
+		if (\is_null($type))
 		{
 			return false;
 		}
@@ -185,14 +185,14 @@ class AssociationsModel extends ListModel
 
 		$details = $type->get('details');
 
-		if (!array_key_exists('support', $details))
+		if (!\array_key_exists('support', $details))
 		{
 			return false;
 		}
 
 		$support = $details['support'];
 
-		if (!array_key_exists('fields', $details))
+		if (!\array_key_exists('fields', $details))
 		{
 			return false;
 		}
@@ -204,7 +204,7 @@ class AssociationsModel extends ListModel
 			->select($db->quoteName($fields['title'], 'title'))
 			->select($db->quoteName($fields['alias'], 'alias'));
 
-		if (!array_key_exists('tables', $details))
+		if (!\array_key_exists('tables', $details))
 		{
 			return false;
 		}
@@ -216,7 +216,7 @@ class AssociationsModel extends ListModel
 			$query->from($db->quoteName($table, $key));
 		}
 
-		if (!array_key_exists('joins', $details))
+		if (!\array_key_exists('joins', $details))
 		{
 			return false;
 		}
@@ -352,7 +352,7 @@ class AssociationsModel extends ListModel
 		}
 
 		// If component item type supports access level, select the access level also.
-		if (array_key_exists('acl', $support) && $support['acl'] == true && !empty($fields['access']))
+		if (\array_key_exists('acl', $support) && $support['acl'] == true && !empty($fields['access']))
 		{
 			$query->select($db->quoteName($fields['access'], 'access'));
 
@@ -390,7 +390,7 @@ class AssociationsModel extends ListModel
 		}
 		elseif ($typeNameExploded = explode('.', $typeName))
 		{
-			if (count($typeNameExploded) > 1 && array_pop($typeNameExploded) === 'category')
+			if (\count($typeNameExploded) > 1 && array_pop($typeNameExploded) === 'category')
 			{
 				$section = implode('.', $typeNameExploded);
 				$extensionNameSection = $extensionName . '.' . $section;

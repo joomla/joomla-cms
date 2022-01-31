@@ -287,7 +287,7 @@ class ItemModel extends AdminModel
 			// Set the new location in the tree for the node.
 			$table->setLocation($table->parent_id, 'last-child');
 
-			// TODO: Deal with ordering?
+			// @todo: Deal with ordering?
 			// $table->ordering = 1;
 			$table->level = null;
 			$table->lft   = null;
@@ -756,7 +756,7 @@ class ItemModel extends AdminModel
 		// We have a valid type, inject it into the state for forms to use.
 		$this->setState('item.type', $table->type);
 
-		// Convert to the \JObject before adding the params.
+		// Convert to the \Joomla\CMS\Object\CMSObject before adding the params.
 		$properties = $table->getProperties(1);
 		$result = ArrayHelper::toObject($properties);
 
@@ -959,7 +959,7 @@ class ItemModel extends AdminModel
 	 * A protected method to get the where clause for the reorder.
 	 * This ensures that the row will be moved relative to a row with the same menutype.
 	 *
-	 * @param   \JTableMenu  $table  instance.
+	 * @param   \Joomla\CMS\Table\Menu  $table
 	 *
 	 * @return  array  An array of conditions to add to add to ordering queries.
 	 *
@@ -1213,7 +1213,7 @@ class ItemModel extends AdminModel
 						$formFile = $path;
 					}
 				}
-				else
+				elseif ($base)
 				{
 					// Now check for a component manifest file
 					$path = Path::clean($base . '/metadata.xml');

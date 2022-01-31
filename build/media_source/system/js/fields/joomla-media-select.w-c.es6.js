@@ -124,10 +124,11 @@ const getImageSize = (url) => new Promise((resolve, reject) => {
 
 const insertAsImage = async (media, editor, fieldClass) => {
   if (media.url) {
-    if (/local-/.test(media.adapter)) {
-      const { rootFull } = Joomla.getOptions('system.paths');
+    const { rootFull } = Joomla.getOptions('system.paths');
+    const parts = media.url.split(rootFull);
+    if (parts.length > 1) {
       // eslint-disable-next-line prefer-destructuring
-      Joomla.selectedMediaFile.url = media.url.split(rootFull)[1];
+      Joomla.selectedMediaFile.url = parts[1];
       if (media.thumb_path) {
         Joomla.selectedMediaFile.thumb = media.thumb_path;
       } else {
@@ -160,7 +161,7 @@ const insertAsImage = async (media, editor, fieldClass) => {
         }
         alt = attribs.getAttribute('alt-value') ? ` alt="${attribs.getAttribute('alt-value')}"` : appendAlt;
         classes = attribs.getAttribute('img-classes') ? ` class="${attribs.getAttribute('img-classes')}"` : '';
-        figClasses = attribs.getAttribute('fig-classes') ? ` class="${attribs.getAttribute('fig-classes')}"` : '';
+        figClasses = attribs.getAttribute('fig-classes') ? ` class="image ${attribs.getAttribute('fig-classes')}"` : ' class="image"';
         figCaption = attribs.getAttribute('fig-caption') ? `${attribs.getAttribute('fig-caption')}` : '';
         if (attribs.getAttribute('is-lazy') === 'true') {
           isLazy = ` loading="lazy" width="${Joomla.selectedMediaFile.width}" height="${Joomla.selectedMediaFile.height}"`;
@@ -204,10 +205,11 @@ const insertAsImage = async (media, editor, fieldClass) => {
 
 const insertAsOther = (media, editor, fieldClass, type) => {
   if (media.url) {
-    if (/local-/.test(media.adapter)) {
-      const { rootFull } = Joomla.getOptions('system.paths');
+    const { rootFull } = Joomla.getOptions('system.paths');
+    const parts = media.url.split(rootFull);
+    if (parts.length > 1) {
       // eslint-disable-next-line prefer-destructuring
-      Joomla.selectedMediaFile.url = `${media.url.split(rootFull)[1]}`;
+      Joomla.selectedMediaFile.url = parts[1];
     } else {
       Joomla.selectedMediaFile.url = media.url;
     }

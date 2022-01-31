@@ -150,7 +150,7 @@ class CompareModel extends ListModel
 	/**
 	 * Method to test whether a record is editable
 	 *
-	 * @param   ContentHistory  $record  A \JTable object.
+	 * @param   ContentHistory  $record  A Table object.
 	 *
 	 * @return  boolean  True if allowed to edit the record. Defaults to the permission set in the component.
 	 *

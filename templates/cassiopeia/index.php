@@ -34,13 +34,10 @@ $sitename = htmlspecialchars($app->get('sitename'), ENT_QUOTES, 'UTF-8');
 $menu     = $app->getMenu()->getActive();
 $pageclass = $menu !== null ? $menu->getParams()->get('pageclass_sfx', '') : '';
 
-// Template path
-$templatePath = 'templates/' . $this->template;
-
 // Color Theme
 $paramsColorName = $this->params->get('colorName', 'colors_standard');
 $assetColorName  = 'theme.' . $paramsColorName;
-$wa->registerAndUseStyle($assetColorName, $templatePath . '/css/global/' . $paramsColorName . '.css');
+$wa->registerAndUseStyle($assetColorName, 'media/templates/site/cassiopeia/css/global/' . $paramsColorName . '.css');
 
 // Use a font scheme if set in the template style options
 $paramsFontScheme = $this->params->get('useFontScheme', false);
@@ -50,10 +47,10 @@ if ($paramsFontScheme)
 {
 	if (stripos($paramsFontScheme, 'https://') === 0)
 	{
-		$this->getPreloadManager()->preconnect('https://fonts.googleapis.com/', []);
-		$this->getPreloadManager()->preconnect('https://fonts.gstatic.com/', []);
-		$this->getPreloadManager()->preload($paramsFontScheme, ['as' => 'style']);
-		$wa->registerAndUseStyle('fontscheme.current', $paramsFontScheme, [], ['media' => 'print', 'rel' => 'lazy-stylesheet', 'onload' => 'this.media=\'all\'']);
+		$this->getPreloadManager()->preconnect('https://fonts.googleapis.com/', ['crossorigin' => 'anonymous']);
+		$this->getPreloadManager()->preconnect('https://fonts.gstatic.com/', ['crossorigin' => 'anonymous']);
+		$this->getPreloadManager()->preload($paramsFontScheme, ['as' => 'style', 'crossorigin' => 'anonymous']);
+		$wa->registerAndUseStyle('fontscheme.current', $paramsFontScheme, [], ['media' => 'print', 'rel' => 'lazy-stylesheet', 'onload' => 'this.media=\'all\'', 'crossorigin' => 'anonymous']);
 
 		if (preg_match_all('/family=([^?:]*):/i', $paramsFontScheme, $matches) > 0)
 		{

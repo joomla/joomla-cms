@@ -76,5 +76,5 @@
 			filter="array"
 		/>
 	</fields>
-	<help key="JHELP_MENUS_MENU_ITEM_MENU_ITEM_CONTAINER"/>
+	<help key="Menu_Item:_Components_Menu_Container"/>
 </form>
