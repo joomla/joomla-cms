@@ -72,7 +72,7 @@ class UpdateModel extends BaseDatabaseModel
 				break;
 
 			// "Custom"
-			// TODO: check if the customurl is valid and not just "not empty".
+			// @todo: check if the customurl is valid and not just "not empty".
 			case 'custom':
 				if (trim($params->get('customurl', '')) != '')
 				{
@@ -1073,7 +1073,7 @@ ENDDATA;
 
 		foreach ($files as $file)
 		{
-			if (File::exists($file))
+			if ($file !== null && File::exists($file))
 			{
 				File::delete($file);
 			}
@@ -1082,7 +1082,7 @@ ENDDATA;
 
 	/**
 	 * Gets PHP options.
-	 * TODO: Outsource, build common code base for pre install and pre update check
+	 * @todo: Outsource, build common code base for pre install and pre update check
 	 *
 	 * @return array Array of PHP config options
 	 *
@@ -1174,7 +1174,7 @@ ENDDATA;
 
 	/**
 	 * Gets PHP Settings.
-	 * TODO: Outsource, build common code base for pre install and pre update check
+	 * @todo: Outsource, build common code base for pre install and pre update check
 	 *
 	 * @return  array
 	 *
@@ -1312,7 +1312,7 @@ ENDDATA;
 
 	/**
 	 * Checks the availability of the parse_ini_file and parse_ini_string functions.
-	 * TODO: Outsource, build common code base for pre install and pre update check
+	 * @todo: Outsource, build common code base for pre install and pre update check
 	 *
 	 * @return  boolean  True if the method exists.
 	 *
@@ -1706,7 +1706,7 @@ ENDDATA;
 	 */
 	protected function translateExtensionName(&$item)
 	{
-		// ToDo: Cleanup duplicated code. from com_installer/models/extension.php
+		// @todo: Cleanup duplicated code. from com_installer/models/extension.php
 		$lang = Factory::getLanguage();
 		$path = $item->client_id ? JPATH_ADMINISTRATOR : JPATH_SITE;
 

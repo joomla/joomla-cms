@@ -595,7 +595,7 @@ class Cache
 	 * @param   string  $data     Cached data
 	 * @param   array   $options  Array of options
 	 *
-	 * @return  array
+	 * @return  array  Data to be cached
 	 *
 	 * @since   1.7.0
 	 */
@@ -688,9 +688,13 @@ class Cache
 								{
 									$oldScriptStr = $options['headerbefore'][$now][strtolower($type)];
 
-									if ($oldScriptStr != $currentScriptStr)
+									// Save only the appended declaration.
+									if (\is_array($oldScriptStr) && \is_array($currentScriptStr))
 									{
-										// Save only the appended declaration.
+										$newvalue[strtolower($type)] = array_diff_key($currentScriptStr, $oldScriptStr);
+									}
+									else
+									{
 										$newvalue[strtolower($type)] = StringHelper::substr($currentScriptStr, StringHelper::strlen($oldScriptStr));
 									}
 								}

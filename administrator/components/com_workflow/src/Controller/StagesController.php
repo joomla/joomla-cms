@@ -103,7 +103,7 @@ class StagesController extends AdminController
 			}
 		}
 
-		$this->registerTask('unsetDefault',	'setDefault');
+		$this->registerTask('unsetDefault', 'setDefault');
 	}
 
 	/**
