@@ -212,7 +212,7 @@ class StageModel extends AdminModel
 	 *
 	 * @return  Form|boolean A Form object on success, false on failure
 	 *
-	 * @since  4.0.0
+	 * @since   4.0.0
 	 */
 	public function getForm($data = array(), $loadData = true)
 	{

@@ -208,6 +208,7 @@ class UserModel extends AdminModel
 	 * @return  void
 	 *
 	 * @since   1.6
+	 *
 	 * @throws  \Exception if there is an error in the form event.
 	 */
 	protected function preprocessForm(Form $form, $data, $group = 'user')

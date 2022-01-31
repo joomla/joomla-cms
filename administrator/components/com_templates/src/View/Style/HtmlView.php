@@ -27,9 +27,9 @@ use Joomla\CMS\Toolbar\ToolbarHelper;
 class HtmlView extends BaseHtmlView
 {
 	/**
-	 * The Object (on success, false on failure)
+	 * The CMSObject (on success, false on failure)
 	 *
-	 * @var  CMSObject
+	 * @var   CMSObject
 	 */
 	protected $item;
 
@@ -51,6 +51,7 @@ class HtmlView extends BaseHtmlView
 	 * The actions the user is authorised to perform
 	 *
 	 * @var    CMSObject
+	 *
 	 * @since  4.0.0
 	 */
 	protected $canDo;

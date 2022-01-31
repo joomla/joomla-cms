@@ -104,7 +104,7 @@ class TransitionModel extends AdminModel
 	 *
 	 * @param   integer  $pk  The id of the primary key.
 	 *
-	 * @return  CMSObject|boolean  Object on success, false on failure.
+	 * @return  \Joomla\CMS\Object\CMSObject|boolean  Object on success, false on failure.
 	 *
 	 * @since   4.0.0
 	 */
@@ -219,7 +219,7 @@ class TransitionModel extends AdminModel
 	 *
 	 * @return  \Joomla\CMS\Form\Form|boolean  A Form object on success, false on failure
 	 *
-	 * @since  4.0.0
+	 * @since   4.0.0
 	 */
 	public function getForm($data = array(), $loadData = true)
 	{

@@ -151,7 +151,7 @@ class WorkflowModel extends AdminModel
 	 *
 	 * @return  \Joomla\CMS\Form\Form|boolean A Form object on success, false on failure
 	 *
-	 * @since  4.0.0
+	 * @since   4.0.0
 	 */
 	public function getForm($data = array(), $loadData = true)
 	{
@@ -223,7 +223,7 @@ class WorkflowModel extends AdminModel
 	/**
 	 * Method to preprocess the form.
 	 *
-	 * @param   \Joomla\CMS\Form\Form  $form  A Form object.
+	 * @param   Form    $form   Form object.
 	 * @param   mixed   $data   The data expected for the form.
 	 * @param   string  $group  The name of the plugin group to import (defaults to "content").
 	 *
@@ -297,7 +297,12 @@ class WorkflowModel extends AdminModel
 		if ($value)
 		{
 			// Unset other default item
-			if ($table->load(array('default' => '1')))
+			if ($table->load(
+				[
+					'default' => '1',
+					'extension' => $table->get('extension')
+				]
+			))
 			{
 				$table->default = 0;
 				$table->modified = $date;

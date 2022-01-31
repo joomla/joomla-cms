@@ -28,7 +28,7 @@ use Joomla\CMS\Toolbar\ToolbarHelper;
 class HtmlView extends BaseHtmlView
 {
 	/**
-	 * The \JForm object
+	 * The Form object
 	 *
 	 * @var  \Joomla\CMS\Form\Form
 	 */
@@ -59,6 +59,7 @@ class HtmlView extends BaseHtmlView
 	 * The actions the user is authorised to perform
 	 *
 	 * @var    CMSObject
+	 *
 	 * @since  4.0.0
 	 */
 	protected $canDo;

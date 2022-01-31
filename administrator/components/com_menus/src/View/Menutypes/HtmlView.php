@@ -37,6 +37,7 @@ class HtmlView extends BaseHtmlView
 	 * Array of menu types
 	 *
 	 * @var    CMSObject[]
+	 *
 	 * @since  3.7.0
 	 */
 	protected $types;

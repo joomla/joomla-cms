@@ -15,7 +15,6 @@
 			name="name"
 			type="text"
 			label="COM_BANNERS_FIELD_NAME_LABEL"
-			size="40"
 			required="true"
 		/>
 
@@ -24,7 +23,6 @@
 			type="text"
 			label="JFIELD_ALIAS_LABEL"
 			description="JFIELD_ALIAS_DESC"
-			size="40"
 			hint="JFIELD_ALIAS_PLACEHOLDER"
 		/>
 
@@ -44,7 +42,6 @@
 			type="list"
 			label="JSTATUS"
 			class="form-select-color-state"
-			size="1"
 			default="1"
 			validate="options"
 			>
@@ -74,7 +71,6 @@
 			type="text"
 			label="JGLOBAL_FIELD_VERSION_NOTE_LABEL"
 			maxlength="255"
-			size="45"
 		/>
 
 		<field
@@ -121,7 +117,6 @@
 			name="created"
 			type="calendar"
 			label="COM_BANNERS_FIELD_CREATED_LABEL"
-			size="22"
 			translateformat="true"
 			showtime="true"
 			filter="user_utc"
@@ -138,7 +133,6 @@
 			name="created_by_alias"
 			type="text"
 			label="COM_BANNERS_FIELD_CREATED_BY_ALIAS_LABEL"
-			size="20"
 		/>
 
 		<field
@@ -146,7 +140,6 @@
 			type="calendar"
 			label="JGLOBAL_FIELD_MODIFIED_LABEL"
 			class="readonly"
-			size="22"
 			readonly="true"
 			translateformat="true"
 			showtime="true"
@@ -168,7 +161,6 @@
 			type="text"
 			label="COM_BANNERS_FIELD_VERSION_LABEL"
 			class="readonly"
-			size="6"
 			readonly="true"
 			filter="unset"
 		/>
@@ -179,7 +171,6 @@
 			label="COM_BANNERS_FIELD_PUBLISH_UP_LABEL"
 			translateformat="true"
 			showtime="true"
-			size="22"
 			filter="user_utc"
 		/>
 
@@ -189,7 +180,6 @@
 			label="COM_BANNERS_FIELD_PUBLISH_DOWN_LABEL"
 			translateformat="true"
 			showtime="true"
-			size="22"
 			filter="user_utc"
 		/>
 	</fieldset>
@@ -314,7 +304,6 @@
 				label="COM_BANNERS_FIELD_IMAGE_LABEL"
 				directory="banners"
 				hide_none="1"
-				size="40"
 			/>
 
 			<field

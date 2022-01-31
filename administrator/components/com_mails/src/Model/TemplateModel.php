@@ -251,7 +251,7 @@ class TemplateModel extends AdminModel
 	 * @param   string  $prefix   The class prefix. Optional.
 	 * @param   array   $options  Configuration array for model. Optional.
 	 *
-	 * @return  Table  A JTable object
+	 * @return  Table  A Table object
 	 *
 	 * @since   4.0.0
 	 * @throws  \Exception
@@ -403,7 +403,7 @@ class TemplateModel extends AdminModel
 	/**
 	 * Prepare and sanitise the table data prior to saving.
 	 *
-	 * @param   Table  $table  A reference to a \JTable object.
+	 * @param   Table  $table  A reference to a Table object.
 	 *
 	 * @return  void
 	 *

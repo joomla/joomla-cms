@@ -16,6 +16,7 @@ use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
+use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 
 /**
@@ -28,7 +29,7 @@ class HtmlView extends BaseHtmlView
 	/**
 	 * The item object for the newsfeed
 	 *
-	 * @var  \Joomla\CMS\Object\CMSObject
+	 * @var   CMSObject
 	 */
 	protected $item;
 
@@ -42,7 +43,7 @@ class HtmlView extends BaseHtmlView
 	/**
 	 * The model state of the newsfeed
 	 *
-	 * @var  \Joomla\CMS\Object\CMSObject
+	 * @var   CMSObject
 	 */
 	protected $state;
 

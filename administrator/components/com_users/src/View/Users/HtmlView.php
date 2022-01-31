@@ -56,6 +56,7 @@ class HtmlView extends BaseHtmlView
 	 * A Form instance with filter fields.
 	 *
 	 * @var    \Joomla\CMS\Form\Form
+	 *
 	 * @since  3.6.3
 	 */
 	public $filterForm;

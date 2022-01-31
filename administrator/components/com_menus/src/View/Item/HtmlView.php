@@ -18,6 +18,7 @@ use Joomla\CMS\Language\Associations;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
+use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 
 /**
@@ -28,7 +29,7 @@ use Joomla\CMS\Toolbar\ToolbarHelper;
 class HtmlView extends BaseHtmlView
 {
 	/**
-	 * The \JForm object
+	 * The Form object
 	 *
 	 * @var  \Joomla\CMS\Form\Form
 	 */
@@ -37,7 +38,7 @@ class HtmlView extends BaseHtmlView
 	/**
 	 * The active item
 	 *
-	 * @var  \Joomla\CMS\Object\CMSObject
+	 * @var   CMSObject
 	 */
 	protected $item;
 
@@ -49,14 +50,14 @@ class HtmlView extends BaseHtmlView
 	/**
 	 * The model state
 	 *
-	 * @var  \Joomla\CMS\Object\CMSObject
+	 * @var   CMSObject
 	 */
 	protected $state;
 
 	/**
 	 * The actions the user is authorised to perform
 	 *
-	 * @var    \Joomla\CMS\Object\CMSObject
+	 * @var    CMSObject
 	 * @since  3.7.0
 	 */
 	protected $canDo;
