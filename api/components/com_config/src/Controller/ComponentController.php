@@ -114,7 +114,7 @@ class ComponentController extends ApiController
 
 		$option = $this->input->get('component_name');
 
-		// TODO: Not the cleanest thing ever but it works...
+		// @todo: Not the cleanest thing ever but it works...
 		Form::addFormPath(JPATH_ADMINISTRATOR . '/components/' . $option);
 
 		// Must load after serving service-requests
@@ -134,7 +134,7 @@ class ComponentController extends ApiController
 			$errors   = $model->getErrors();
 			$messages = [];
 
-			for ($i = 0, $n = count($errors); $i < $n && $i < 3; $i++)
+			for ($i = 0, $n = \count($errors); $i < $n && $i < 3; $i++)
 			{
 				if ($errors[$i] instanceof \Exception)
 				{
@@ -153,7 +153,7 @@ class ComponentController extends ApiController
 		$data = [
 			'params' => $validData,
 			'id'     => ExtensionHelper::getExtensionRecord($option, 'component')->extension_id,
-			'option' => $option
+			'option' => $option,
 		];
 
 		if (!$model->save($data))

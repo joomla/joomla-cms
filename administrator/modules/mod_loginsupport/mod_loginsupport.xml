@@ -27,7 +27,6 @@
 					type="url"
 					label="MOD_LOGINSUPPORT_FIELD_FORUM_URL_LABEL"
 					filter="url"
-					size="50"
 					default="https://forum.joomla.org/"
 				/>
 
@@ -36,7 +35,6 @@
 					type="url"
 					label="MOD_LOGINSUPPORT_FIELD_DOCUMENTATION_URL_LABEL"
 					filter="url"
-					size="50"
 					default="https://docs.joomla.org/"
 				/>
 
@@ -45,7 +43,6 @@
 					type="url"
 					label="MOD_LOGINSUPPORT_FIELD_NEWS_URL_LABEL"
 					filter="url"
-					size="50"
 					default="https://www.joomla.org/announcements.html"
 				/>
 			</fieldset>
@@ -96,6 +93,8 @@
 					label="COM_MODULES_FIELD_CACHE_TIME_LABEL"
 					default="0"
 					filter="integer"
+					min="0"
+					validate="number"
 				/>
 
 				<field
