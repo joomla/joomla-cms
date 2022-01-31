@@ -16,7 +16,7 @@ use Joomla\CMS\Dispatcher\ComponentDispatcher;
 /**
  * ComponentDispatcher class for com_users
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 class Dispatcher extends ComponentDispatcher
 {
@@ -25,7 +25,7 @@ class Dispatcher extends ComponentDispatcher
 	 *
 	 * @return  void
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected function checkAccess()
 	{

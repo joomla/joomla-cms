@@ -13,7 +13,6 @@
 			name="subject"
 			type="text"
 			label="COM_MAILS_FIELD_SUBJECT_LABEL"
-			size="40"
 		/>
 		<field
 			name="body"
@@ -29,7 +28,8 @@
 			name="htmlbody"
 			type="editor"
 			label="COM_MAILS_FIELD_HTMLBODY_LABEL"
-			buttons="false"
+			buttons="true"
+			hide="fields,pagebreak,readmore,module"
 			class="inputbox"
 			filter="JComponentHelper::filterText"
 		/>
@@ -47,6 +47,7 @@
 				type="filelist"
 				hide_default="true"
 				label="COM_MAILS_FIELD_FILE_LABEL"
+				validate="options"
 			/>
 			<field
 				name="name"
@@ -76,7 +77,6 @@
 				type="email"
 				label="COM_MAILS_FIELD_MAIL_FROM_EMAIL_LABEL"
 				filter="string"
-				size="30"
 				validate="email"
 				showon="alternative_mailconfig:1"
 			/>
@@ -86,7 +86,6 @@
 				type="text"
 				label="COM_MAILS_FIELD_MAIL_FROM_NAME_LABEL"
 				filter="string"
-				size="30"
 				showon="alternative_mailconfig:1"
 			/>
 
@@ -95,7 +94,6 @@
 				type="email"
 				label="COM_MAILS_FIELD_MAIL_REPLY_TO_EMAIL_LABEL"
 				filter="string"
-				size="30"
 				validate="email"
 				showon="alternative_mailconfig:1"
 			/>
@@ -105,7 +103,6 @@
 				type="text"
 				label="COM_MAILS_FIELD_MAIL_REPLY_TO_NAME_LABEL"
 				filter="string"
-				size="30"
 				showon="alternative_mailconfig:1"
 			/>
 
@@ -130,7 +127,6 @@
 				default="/usr/sbin/sendmail"
 				showon="alternative_mailconfig:1[AND]mailer:sendmail"
 				filter="string"
-				size="30"
 			/>
 
 			<field
@@ -140,7 +136,6 @@
 				default="localhost"
 				showon="alternative_mailconfig:1[AND]mailer:smtp"
 				filter="string"
-				size="30"
 			/>
 
 			<field
@@ -190,7 +185,6 @@
 				showon="alternative_mailconfig:1[AND]mailer:smtp[AND]smtpauth:1"
 				filter="string"
 				autocomplete="off"
-				size="30"
 			/>
 
 			<field
@@ -200,7 +194,6 @@
 				showon="alternative_mailconfig:1[AND]mailer:smtp[AND]smtpauth:1"
 				filter="raw"
 				autocomplete="off"
-				size="30"
 				lock="true"
 			/>
 
@@ -211,7 +204,6 @@
 				validate="email"
 				default=""
 				filter="string"
-				size="30"
 			/>
 		</fieldset>
 	</fields>

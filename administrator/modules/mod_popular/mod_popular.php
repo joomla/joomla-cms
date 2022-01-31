@@ -23,26 +23,31 @@ if ($params->get('automatic_title', 0))
 	$module->title = PopularHelper::getTitle($params);
 }
 
-if (!ComponentHelper::getParams('com_content')->get('record_hits'))
+// If recording of hits is disabled.
+if (!ComponentHelper::getParams('com_content')->get('record_hits', 1))
 {
 	echo LayoutHelper::render('joomla.content.emptystate_module', [
 		'title'      => 'JGLOBAL_RECORD_HITS_DISABLED',
 		'icon'       => 'icon-minus-circle',
 		]
 	);
+
+	return;
 }
-elseif (count($list))
+
+// If there are some articles to display.
+if (count($list))
 {
 	require ModuleHelper::getLayoutPath('mod_popular', $params->get('layout', 'default'));
-}
-else
-{
-	$app->getLanguage()->load('com_content');
 
-	echo LayoutHelper::render('joomla.content.emptystate_module', [
-			'textPrefix' => 'COM_CONTENT',
-			'textSuffix' => '_POPULAR',
-			'icon'       => 'icon-copy',
-		]
-	);
+	return;
 }
+
+// If there are no articles to display, show empty state.
+$app->getLanguage()->load('com_content');
+
+echo LayoutHelper::render('joomla.content.emptystate_module', [
+		'textPrefix' => 'COM_CONTENT',
+		'icon'       => 'icon-copy',
+	]
+);

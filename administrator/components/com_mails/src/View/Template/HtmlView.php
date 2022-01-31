@@ -88,7 +88,9 @@ class HtmlView extends BaseHtmlView
 		$this->templateData = array();
 		$language = Factory::getLanguage();
 		$language->load($component, JPATH_SITE, $this->item->language, true);
+		$language->load($component, JPATH_SITE . '/components/' . $component, $this->item->language, true);
 		$language->load($component, JPATH_ADMINISTRATOR, $this->item->language, true);
+		$language->load($component, JPATH_ADMINISTRATOR . '/components/' . $component, $this->item->language, true);
 
 		$this->master->subject = Text::_($this->master->subject);
 		$this->master->body    = Text::_($this->master->body);
@@ -99,7 +101,7 @@ class HtmlView extends BaseHtmlView
 		}
 		else
 		{
-			$this->master->htmlbody = nl2br($this->master->body);
+			$this->master->htmlbody = nl2br($this->master->body, false);
 		}
 
 		$this->templateData = [
@@ -152,6 +154,6 @@ class HtmlView extends BaseHtmlView
 		$toolbar->cancel('template.cancel', 'JTOOLBAR_CLOSE');
 
 		$toolbar->divider();
-		$toolbar->help('JHELP_COMPONENTS_MAILS_TEMPLATE_EDIT');
+		$toolbar->help('Mail_Template:_Edit');
 	}
 }

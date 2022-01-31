@@ -104,7 +104,7 @@ class ListField extends FormField
 				}
 
 				// Requires record hits
-				if (\in_array('hits', $requires) && !ComponentHelper::getParams('com_content')->get('record_hits'))
+				if (\in_array('hits', $requires) && !ComponentHelper::getParams('com_content')->get('record_hits', 1))
 				{
 					continue;
 				}

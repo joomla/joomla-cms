@@ -335,7 +335,7 @@ abstract class FormField
 	 * The parent class of the field
 	 *
 	 * @var  string
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.0.0
 	 */
 	protected $parentclass;
 
@@ -489,8 +489,6 @@ abstract class FormField
 					return $this->dataAttributes[$name];
 				}
 		}
-
-		return;
 	}
 
 	/**
@@ -749,11 +747,11 @@ abstract class FormField
 		// If we already have an id segment add the field id/name as another level.
 		if ($id)
 		{
-			$id .= '_' . ($fieldId ? $fieldId : $fieldName);
+			$id .= '_' . ($fieldId ?: $fieldName);
 		}
 		else
 		{
-			$id .= ($fieldId ? $fieldId : $fieldName);
+			$id .= ($fieldId ?: $fieldName);
 		}
 
 		// Clean up any invalid characters.
@@ -1209,7 +1207,15 @@ abstract class FormField
 
 		if ($this->element['label'])
 		{
-			$fieldLabel = Text::_($this->element['label']);
+			$fieldLabel = $this->element['label'];
+
+			// Try to translate label if not set to false
+			$translate = (string) $this->element['translateLabel'];
+
+			if (!($translate === 'false' || $translate === 'off' || $translate === '0'))
+			{
+				$fieldLabel = Text::_($fieldLabel);
+			}
 		}
 		else
 		{
@@ -1311,8 +1317,8 @@ abstract class FormField
 	protected function getLayoutData()
 	{
 		// Label preprocess
-		$label = $this->element['label'] ? (string) $this->element['label'] : (string) $this->element['name'];
-		$label = $this->translateLabel ? Text::_($label) : $label;
+		$label = !empty($this->element['label']) ? (string) $this->element['label'] : null;
+		$label = $label && $this->translateLabel ? Text::_($label) : $label;
 
 		// Description preprocess
 		$description = !empty($this->description) ? $this->description : null;

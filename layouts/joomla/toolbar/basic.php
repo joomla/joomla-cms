@@ -63,7 +63,7 @@ elseif (!empty($onclick))
 
 $direction = Factory::getLanguage()->isRtl() ? 'dropdown-menu-end' : '';
 ?>
-<joomla-toolbar-button <?php echo $idAttr.$taskAttr.$listAttr.$formAttr.$validate.$msgAttr; ?>>
+<joomla-toolbar-button <?php echo $idAttr . $taskAttr . $listAttr . $formAttr . $validate . $msgAttr; ?>>
 <<?php echo $tagName; ?>
 	class="<?php echo $btnClass ?? ''; ?>"
 	<?php echo $htmlAttributes ?? ''; ?>

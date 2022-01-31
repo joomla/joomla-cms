@@ -50,19 +50,11 @@ if (sidebar && !sidebar.getAttribute('data-hidden')) {
       elem.classList.remove('child-open');
     }
 
-    if (wrapper.classList.contains('closed')) {
-      window.dispatchEvent(new CustomEvent('joomla:menu-toggle', {
-        detail: 'closed',
-        bubbles: true,
-        cancelable: true,
-      }));
-    } else {
-      window.dispatchEvent(new CustomEvent('joomla:menu-toggle', {
-        detail: 'open',
-        bubbles: true,
-        cancelable: true,
-      }));
-    }
+    window.dispatchEvent(new CustomEvent('joomla:menu-toggle', {
+      detail: wrapper.classList.contains('closed') ? 'closed' : 'open',
+      bubbles: true,
+      cancelable: true,
+    }));
   });
 
   // Sidebar Nav
@@ -74,7 +66,9 @@ if (sidebar && !sidebar.getAttribute('data-hidden')) {
 
   // Set active class
   allLinks.forEach((link) => {
-    if (currentUrl === link.href) {
+    if (
+      (!link.href.match(/index\.php$/) && currentUrl.indexOf(link.href) === 0)
+      || (link.href.match(/index\.php$/) && currentUrl.match(/index\.php$/))) {
       link.setAttribute('aria-current', 'page');
       link.classList.add('mm-active');
 

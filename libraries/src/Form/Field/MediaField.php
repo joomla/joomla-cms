@@ -104,6 +104,15 @@ class MediaField extends FormField
 	protected $previewHeight;
 
 	/**
+	 * Comma separated types of files for Media Manager
+	 * Possible values: images,audios,videos,documents
+	 *
+	 * @var    string
+	 * @since  4.0.0
+	 */
+	protected $types;
+
+	/**
 	 * Layout to render
 	 *
 	 * @var    string
@@ -115,7 +124,7 @@ class MediaField extends FormField
 	 * The parent class of the field
 	 *
 	 * @var  string
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.0.0
 	 */
 	protected $parentclass;
 
@@ -141,6 +150,7 @@ class MediaField extends FormField
 			case 'directory':
 			case 'previewWidth':
 			case 'previewHeight':
+			case 'types':
 				return $this->$name;
 		}
 
@@ -168,6 +178,7 @@ class MediaField extends FormField
 			case 'height':
 			case 'preview':
 			case 'directory':
+			case 'types':
 				$this->$name = (string) $value;
 				break;
 
@@ -212,6 +223,7 @@ class MediaField extends FormField
 			$this->directory     = (string) $this->element['directory'];
 			$this->previewWidth  = isset($this->element['preview_width']) ? (int) $this->element['preview_width'] : 200;
 			$this->previewHeight = isset($this->element['preview_height']) ? (int) $this->element['preview_height'] : 200;
+			$this->types         = isset($this->element['types']) ? (string) $this->element['types'] : 'images';
 		}
 
 		return $result;
@@ -306,10 +318,10 @@ class MediaField extends FormField
 			if (MediaHelper::isValidLocalDirectory($paths[0]))
 			{
 				$adapterName  = array_shift($paths);
-				$this->folder = 'local-' . $adapterName . '/' . implode('/', $paths);
+				$this->folder = 'local-' . $adapterName . ':/' . implode('/', $paths);
 			}
 		}
-		elseif ($this->directory && strpos(':', $this->directory))
+		elseif ($this->directory && strpos($this->directory, ':'))
 		{
 			/**
 			 * Directory contains adapter information and path, for example via programming or directly defined in xml
@@ -322,15 +334,102 @@ class MediaField extends FormField
 			$this->folder = '';
 		}
 
+		$mediaTypes   = array_map('trim', explode(',', $this->types));
+		$types        = [];
+		$imagesExt    = array_map(
+			'trim',
+			explode(
+				',',
+				ComponentHelper::getParams('com_media')->get(
+					'image_extensions',
+					'bmp,gif,jpg,jpeg,png,webp'
+				)
+			)
+		);
+		$audiosExt = array_map(
+			'trim',
+			explode(
+				',',
+				ComponentHelper::getParams('com_media')->get(
+					'audio_extensions',
+					'mp3,m4a,mp4a,ogg'
+				)
+			)
+		);
+		$videosExt = array_map(
+			'trim',
+			explode(
+				',',
+				ComponentHelper::getParams('com_media')->get(
+					'video_extensions',
+					'mp4,mp4v,mpeg,mov,webm'
+				)
+			)
+		);
+		$documentsExt = array_map(
+			'trim',
+			explode(
+				',',
+				ComponentHelper::getParams('com_media')->get(
+					'doc_extensions',
+					'doc,odg,odp,ods,odt,pdf,ppt,txt,xcf,xls,csv'
+				)
+			)
+		);
+
+		$imagesAllowedExt    = [];
+		$audiosAllowedExt    = [];
+		$videosAllowedExt    = [];
+		$documentsAllowedExt = [];
+
+		// Cleanup the media types
+		array_map(
+			function ($mediaType) use (&$types, &$imagesAllowedExt, &$audiosAllowedExt, &$videosAllowedExt, &$documentsAllowedExt, $imagesExt, $audiosExt, $videosExt, $documentsExt) {
+				switch ($mediaType)
+				{
+					case 'images':
+						$types[] = '0';
+						$imagesAllowedExt = $imagesExt;
+						break;
+					case 'audios':
+						$types[] = '1';
+						$audiosAllowedExt = $audiosExt;
+						break;
+					case 'videos':
+						$types[] = '2';
+						$videosAllowedExt = $videosExt;
+						break;
+					case 'documents':
+						$types[] = '3';
+						$documentsAllowedExt = $documentsExt;
+						break;
+					default:
+						break;
+				}
+			},
+			$mediaTypes
+		);
+
+		sort($types);
+
 		$extraData = array(
-			'asset'         => $asset,
-			'authorField'   => $this->authorField,
-			'authorId'      => $this->form->getValue($this->authorField),
-			'folder'        => $this->folder,
-			'link'          => $this->link,
-			'preview'       => $this->preview,
-			'previewHeight' => $this->previewHeight,
-			'previewWidth'  => $this->previewWidth,
+			'asset'               => $asset,
+			'authorField'         => $this->authorField,
+			'authorId'            => $this->form->getValue($this->authorField),
+			'folder'              => $this->folder,
+			'link'                => $this->link,
+			'preview'             => $this->preview,
+			'previewHeight'       => $this->previewHeight,
+			'previewWidth'        => $this->previewWidth,
+			'mediaTypes'          => implode(',', $types),
+			'imagesExt'           => $imagesExt,
+			'audiosExt'           => $audiosExt,
+			'videosExt'           => $videosExt,
+			'documentsExt'        => $documentsExt,
+			'imagesAllowedExt'    => $imagesAllowedExt,
+			'audiosAllowedExt'    => $audiosAllowedExt,
+			'videosAllowedExt'    => $videosAllowedExt,
+			'documentsAllowedExt' => $documentsAllowedExt,
 		);
 
 		return array_merge($data, $extraData);

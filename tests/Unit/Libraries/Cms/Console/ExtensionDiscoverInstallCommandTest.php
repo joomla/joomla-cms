@@ -14,7 +14,7 @@ use Joomla\Database\DatabaseInterface;
 /**
  * Test class for Joomla\CMS\Console\ExtensionDiscoverInstallCommand.
  *
- * @since   __DEPLOY_VERSION__
+ * @since   4.0.0
  */
 class ExtensionDiscoverInstallCommandTest extends \PHPUnit\Framework\TestCase
 {
@@ -23,7 +23,7 @@ class ExtensionDiscoverInstallCommandTest extends \PHPUnit\Framework\TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function testIsConstructable()
 	{
@@ -36,7 +36,7 @@ class ExtensionDiscoverInstallCommandTest extends \PHPUnit\Framework\TestCase
 	 *
 	 * @return  void
 	 * 
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function testProcessDiscoverReturnIsInt()
 	{
@@ -57,7 +57,7 @@ class ExtensionDiscoverInstallCommandTest extends \PHPUnit\Framework\TestCase
 	 *
 	 * @return  void
 	 * 
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function testGetNote()
 	{
@@ -85,7 +85,7 @@ class ExtensionDiscoverInstallCommandTest extends \PHPUnit\Framework\TestCase
 	 *
 	 * @return  ExtensionDiscoverInstallCommand
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	protected function createExtensionDiscoverInstallCommand(): ExtensionDiscoverInstallCommand
 	{

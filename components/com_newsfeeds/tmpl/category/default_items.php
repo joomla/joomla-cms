@@ -45,13 +45,9 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 					<?php endif; ?>
 				</fieldset>
 			<?php endif; ?>
-			<ul class="com-newsfeeds-category__category category list-striped list-condensed">
-				<?php foreach ($this->items as $i => $item) : ?>
-					<?php if ($this->items[$i]->published == 0) : ?>
-						<li class="system-unpublished cat-list-row<?php echo $i % 2; ?>">
-					<?php else : ?>
-						<li class="cat-list-row<?php echo $i % 2; ?>">
-					<?php endif; ?>
+			<ul class="com-newsfeeds-category__category list-group list-unstyled">
+				<?php foreach ($this->items as $item) : ?>
+					<li class="list-group-item">
 					<?php if ($this->params->get('show_articles')) : ?>
 						<span class="list-hits badge bg-info float-end">
 							<?php echo Text::sprintf('COM_NEWSFEEDS_NUM_ARTICLES_COUNT', $item->numarticles); ?>
@@ -64,7 +60,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 							</a>
 						</div>
 					</span>
-					<?php if ($this->items[$i]->published == 0) : ?>
+					<?php if ($item->published == 0) : ?>
 						<span class="badge bg-warning text-light">
 							<?php echo Text::_('JUNPUBLISHED'); ?>
 						</span>

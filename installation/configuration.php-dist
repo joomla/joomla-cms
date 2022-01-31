@@ -52,7 +52,7 @@ class JConfig
 	public $dbsslcipher = '';
 
 	/* Server Settings */
-	public $secret = 'FBVtggIk5lAzEU9H';     // Change this to something more secure
+	public $secret = '';     // Use something very secure. For example on linux the following command `cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w ${1:-16} | head -n 1`
 	public $gzip = false;
 	public $error_reporting = 'default';
 	public $helpurl = 'https://help.joomla.org/proxy?keyref=Help{major}{minor}:{keyref}&lang={langcode}';
@@ -116,7 +116,7 @@ class JConfig
 	/* Debug Settings */
 	public $debug = true;
 	public $debug_lang = false;
-	public $debug_lang_const = 1;
+	public $debug_lang_const = true;
 
 	/* Meta Settings */
 	public $MetaDesc = 'Joomla! - the dynamic portal engine and content management system';

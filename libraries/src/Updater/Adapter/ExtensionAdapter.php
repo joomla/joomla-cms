@@ -158,8 +158,8 @@ class ExtensionAdapter extends UpdateAdapter
 						// Do we have an entry for the database?
 						if (\array_key_exists($dbType, $supportedDbs))
 						{
-							$minumumVersion = $supportedDbs[$dbType];
-							$dbMatch        = version_compare($dbVersion, $minumumVersion, '>=');
+							$minimumVersion = $supportedDbs[$dbType];
+							$dbMatch        = version_compare($dbVersion, $minimumVersion, '>=');
 
 							if (!$dbMatch)
 							{
@@ -170,7 +170,7 @@ class ExtensionAdapter extends UpdateAdapter
 									$this->currentUpdate->version,
 									Text::_($db->name),
 									$dbVersion,
-									$minumumVersion
+									$minimumVersion
 								);
 
 								Factory::getApplication()->enqueueMessage($dbMsg, 'warning');

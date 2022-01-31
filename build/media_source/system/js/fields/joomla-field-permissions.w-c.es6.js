@@ -137,7 +137,7 @@ window.customElements.define('joomla-field-permissions', class extends HTMLEleme
           const badgeSpan = target.parentNode.parentNode.nextElementSibling.querySelector('span');
           badgeSpan.removeAttribute('class');
           badgeSpan.setAttribute('class', response.data.class);
-          badgeSpan.innerHTML = response.data.text;
+          badgeSpan.innerHTML = Joomla.sanitizeHtml(response.data.text);
         }
 
         // Render messages, if any. There are only message in case of errors.

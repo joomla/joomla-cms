@@ -33,11 +33,13 @@
           toggleButton.removeAttribute('disabled');
           toggleButton.addEventListener('click', () => {
             if (Joomla.editors.instances[currentEditor.id].instance.isHidden()) {
-              toggleIcon.setAttribute('class', 'icon-eye');
               Joomla.editors.instances[currentEditor.id].instance.show();
             } else {
-              toggleIcon.setAttribute('class', 'icon-eye-slash');
               Joomla.editors.instances[currentEditor.id].instance.hide();
+            }
+
+            if (toggleIcon) {
+              toggleIcon.setAttribute('class', Joomla.editors.instances[currentEditor.id].instance.isHidden() ? 'icon-eye' : 'icon-eye-slash');
             }
           });
         }
@@ -125,7 +127,7 @@
           });
 
           editor.ui.registry.addMenuButton('jxtdbuttons', {
-            text: Joomla.JText._('PLG_TINY_CORE_BUTTONS'),
+            text: Joomla.Text._('PLG_TINY_CORE_BUTTONS'),
             icon: 'joomla',
             fetch: (callback) => callback(buttonValues),
           });
