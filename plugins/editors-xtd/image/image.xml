@@ -13,7 +13,7 @@
 		<filename plugin="image">image.php</filename>
 	</files>
 	<languages>
-		<language tag="en-GB">en-GB.plg_editors-xtd_image.ini</language>
-		<language tag="en-GB">en-GB.plg_editors-xtd_image.sys.ini</language>
+		<language tag="en-GB">language/en-GB/plg_editors-xtd_image.ini</language>
+		<language tag="en-GB">language/en-GB/plg_editors-xtd_image.sys.ini</language>
 	</languages>
 </extension>

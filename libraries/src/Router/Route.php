@@ -12,7 +12,6 @@ namespace Joomla\CMS\Router;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\Log\Log;
 use Joomla\CMS\Uri\Uri;
 
 /**
@@ -74,7 +73,11 @@ class Route
 			// @deprecated  4.0 Before 3.9.7 this method silently converted $tls to integer
 			if (!is_int($tls))
 			{
-				Log::add(__METHOD__ . '() called with incompatible variable type on parameter $tls.', Log::WARNING, 'deprecated');
+				@trigger_error(
+					__METHOD__ . '() called with incompatible variable type on parameter $tls.',
+					E_USER_DEPRECATED
+				);
+
 				$tls = (int) $tls;
 			}
 

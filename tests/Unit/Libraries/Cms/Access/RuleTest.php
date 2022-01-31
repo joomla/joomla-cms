@@ -14,8 +14,6 @@ use Joomla\Tests\Unit\UnitTestCase;
 /**
  * Test class for \Joomla\CMS\Access\Rule.
  *
- * @package  Joomla.Platform
- *
  * @since    1.7.0
  */
 class RuleTest extends UnitTestCase

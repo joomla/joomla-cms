@@ -29,8 +29,6 @@ class TagsModel extends ListModel
 	/**
 	 * Constructor.
 	 *
-	 * @see     \JControllerLegacy
-	 *
 	 * @param   MVCFactoryInterface  $factory  The factory.
 	 *
 	 * @param   array                $config   An optional associative array of configuration settings.

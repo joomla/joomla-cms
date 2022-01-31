@@ -67,7 +67,7 @@ class HtmlView extends BaseHtmlView
 	/**
 	 * The model state
 	 *
-	 * @var  \JObject
+	 * @var  \Joomla\CMS\Object\CMSObject
 	 */
 	protected $state;
 
@@ -81,7 +81,8 @@ class HtmlView extends BaseHtmlView
 	/**
 	 * Form object for search filters
 	 *
-	 * @var    \JForm
+	 * @var    \Joomla\CMS\Form\Form
+	 *
 	 * @since  4.0.0
 	 */
 	public $filterForm;
@@ -107,7 +108,7 @@ class HtmlView extends BaseHtmlView
 	 *
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
 	 *
-	 * @return  mixed  False if unsuccessful, otherwise void.
+	 * @return  void
 	 *
 	 * @throws  GenericDataException
 	 * @since   1.6
@@ -140,7 +141,7 @@ class HtmlView extends BaseHtmlView
 
 		$this->addToolbar();
 
-		return parent::display($tpl);
+		parent::display($tpl);
 	}
 
 	/**
@@ -228,6 +229,6 @@ class HtmlView extends BaseHtmlView
 			$toolbar->preferences('com_redirect');
 		}
 
-		$toolbar->help('JHELP_COMPONENTS_REDIRECT_MANAGER');
+		$toolbar->help('Redirects:_Links');
 	}
 }

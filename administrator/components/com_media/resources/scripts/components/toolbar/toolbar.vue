@@ -9,17 +9,13 @@
       class="media-loader"
     />
     <div class="media-view-icons">
-      <a
-        href="#"
+      <input
+        ref="mediaToolbarSelectAll"
+        type="checkbox"
         class="media-toolbar-icon media-toolbar-select-all"
         :aria-label="translate('COM_MEDIA_SELECT_ALL')"
-        @click.stop.prevent="toggleSelectAll()"
+        @click.stop="toggleSelectAll"
       >
-        <span
-          :class="toggleSelectAllBtnIcon"
-          aria-hidden="true"
-        />
-      </a>
     </div>
     <media-breadcrumb />
     <div
@@ -35,6 +31,7 @@
         class="form-control"
         type="text"
         :placeholder="translate('COM_MEDIA_SEARCH')"
+        :value="search"
         @input="changeSearch"
       >
     </div>
@@ -102,9 +99,6 @@ export default {
     toggleListViewBtnIcon() {
       return (this.isGridView) ? 'icon-list' : 'icon-th';
     },
-    toggleSelectAllBtnIcon() {
-      return (this.allItemsSelected) ? 'icon-check-square' : 'icon-square';
-    },
     isLoading() {
       return this.$store.state.isLoading;
     },
@@ -117,6 +111,17 @@ export default {
     allItemsSelected() {
       // eslint-disable-next-line max-len
       return (this.$store.getters.getSelectedDirectoryContents.length === this.$store.state.selectedItems.length);
+    },
+    search() {
+      return this.$store.state.search;
+    },
+  },
+  watch: {
+    // eslint-disable-next-line
+    '$store.state.selectedItems'() {
+      if (!this.allItemsSelected) {
+        this.$refs.mediaToolbarSelectAll.checked = false;
+      }
     },
   },
   methods: {
@@ -150,6 +155,16 @@ export default {
       } else {
         // eslint-disable-next-line max-len
         this.$store.commit(types.SELECT_BROWSER_ITEMS, this.$store.getters.getSelectedDirectoryContents);
+        window.parent.document.dispatchEvent(
+          new CustomEvent(
+            'onMediaFileSelected',
+            {
+              bubbles: true,
+              cancelable: false,
+              detail: {},
+            },
+          ),
+        );
       }
     },
     isGridSize(size) {

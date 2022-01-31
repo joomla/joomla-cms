@@ -226,7 +226,7 @@ class OverridesModel extends ListModel
 			$client = $filterclient == 0 ? 'site' : 'administrator';
 		}
 
-		// Parse the override.ini file in oder to get the keys and strings.
+		// Parse the override.ini file in order to get the keys and strings.
 		$fileName = constant('JPATH_' . strtoupper($client)) . '/language/overrides/' . $this->getState('filter.language') . '.override.ini';
 		$strings  = LanguageHelper::parseIniFile($fileName);
 
@@ -259,7 +259,7 @@ class OverridesModel extends ListModel
 	 */
 	public function purge()
 	{
-		$db = Factory::getDbo();
+		$db = $this->getDbo();
 
 		// Note: TRUNCATE is a DDL operation
 		// This may or may not mean depending on your database

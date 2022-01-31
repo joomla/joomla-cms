@@ -13,8 +13,8 @@
 		<filename plugin="cache">cache.php</filename>
 	</files>
 	<languages>
-		<language tag="en-GB">en-GB.plg_system_cache.ini</language>
-		<language tag="en-GB">en-GB.plg_system_cache.sys.ini</language>
+		<language tag="en-GB">language/en-GB/plg_system_cache.ini</language>
+		<language tag="en-GB">language/en-GB/plg_system_cache.sys.ini</language>
 	</languages>
 	<config>
 		<fields name="params">
