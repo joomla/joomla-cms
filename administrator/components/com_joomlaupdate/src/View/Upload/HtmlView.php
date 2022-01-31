@@ -95,6 +95,6 @@ class HtmlView extends BaseHtmlView
 		$arrow = Factory::getLanguage()->isRtl() ? 'arrow-right' : 'arrow-left';
 		ToolbarHelper::link('index.php?option=com_joomlaupdate&' . ($this->getLayout() == 'captive' ? 'view=upload' : ''), 'JTOOLBAR_BACK', $arrow);
 		ToolbarHelper::divider();
-		ToolbarHelper::help('JHELP_COMPONENTS_JOOMLA_UPDATE');
+		ToolbarHelper::help('Joomla_Update');
 	}
 }

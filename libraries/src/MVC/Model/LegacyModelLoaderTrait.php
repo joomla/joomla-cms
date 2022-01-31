@@ -40,16 +40,7 @@ trait LegacyModelLoaderTrait
 	 */
 	protected static function _createFileName($type, $parts = array())
 	{
-		$filename = '';
-
-		switch ($type)
-		{
-			case 'model':
-				$filename = strtolower($parts['name']) . '.php';
-				break;
-		}
-
-		return $filename;
+		return $type === 'model' ? strtolower($parts['name']) . '.php' : '';
 	}
 
 	/**

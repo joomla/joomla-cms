@@ -16,18 +16,17 @@ use Joomla\CMS\Session\Session;
 
 Session::checkToken('get') or die(Text::_('JINVALID_TOKEN'));
 
-HTMLHelper::_('behavior.multiselect');
-
 $hash           = $this->state->get('sha1_hash');
 $formUrl        = 'index.php?option=com_contenthistory&view=history&layout=modal&tmpl=component&item_id=' . $this->state->get('item_id') . '&' . Session::getFormToken() . '=1';
 
-Text::script('COM_CONTENTHISTORY_BUTTON_SELECT_ONE', true);
-Text::script('COM_CONTENTHISTORY_BUTTON_SELECT_TWO', true);
+Text::script('COM_CONTENTHISTORY_BUTTON_SELECT_ONE_VERSION', true);
+Text::script('COM_CONTENTHISTORY_BUTTON_SELECT_TWO_VERSIONS', true);
 Text::script('JLIB_HTML_PLEASE_MAKE_A_SELECTION_FROM_THE_LIST');
 
 /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
 $wa = $this->document->getWebAssetManager();
-$wa->useScript('com_contenthistory.admin-history-modal');
+$wa->useScript('multiselect')
+	->useScript('com_contenthistory.admin-history-modal');
 ?>
 <div class="container-popup">
 	<div id="subhead" class="subhead noshadow mb-3">

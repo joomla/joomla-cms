@@ -80,7 +80,7 @@ class ArchiveModel extends ArticlesModel
 	/**
 	 * Get the master query for retrieving a list of articles subject to the model state.
 	 *
-	 * @return  \JDatabaseQuery
+	 * @return  \Joomla\Database\DatabaseQuery
 	 *
 	 * @since   1.6
 	 */
@@ -202,9 +202,9 @@ class ArchiveModel extends ArticlesModel
 	/**
 	 * Generate column expression for slug or catslug.
 	 *
-	 * @param   \JDatabaseQuery  $query  Current query instance.
-	 * @param   string           $id     Column id name.
-	 * @param   string           $alias  Column alias name.
+	 * @param   \Joomla\Database\DatabaseQuery  $query  Current query instance.
+	 * @param   string                          $id     Column id name.
+	 * @param   string                          $alias  Column alias name.
 	 *
 	 * @return  string
 	 *
