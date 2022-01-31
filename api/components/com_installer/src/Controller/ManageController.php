@@ -49,7 +49,7 @@ class ManageController extends ApiController
 	{
 		$requestBool = $this->input->get('core', $this->input->get->get('core'));
 
-		if (!is_null($requestBool) && $requestBool !== 'true' && $requestBool !== 'false')
+		if (!\is_null($requestBool) && $requestBool !== 'true' && $requestBool !== 'false')
 		{
 			// Send the error response
 			$error = Text::sprintf('JLIB_FORM_VALIDATE_FIELD_INVALID', 'core');
@@ -57,7 +57,7 @@ class ManageController extends ApiController
 			throw new InvalidParameterException($error, 400, null, 'core');
 		}
 
-		if (!is_null($requestBool))
+		if (!\is_null($requestBool))
 		{
 			$this->modelState->set('filter.core', ($requestBool === 'true') ? '1' : '0', 'STRING');
 		}

@@ -1,11 +1,11 @@
 // Variables
-@import "../../../administrator/templates/atum/scss/variables";
+@import "../../../build/media_source/templates/administrator/atum/scss/variables";
 $jicon-css-prefix: icon;
 $fa-css-prefix: fa;
 $fa-font-path: "../../../media/vendor/fontawesome-free/webfonts";
 
 // Font Awesome
-@import "../../../administrator/templates/atum/scss/vendor/fontawesome-free/fontawesome";
+@import "../../../build/media_source/templates/administrator/atum/scss/vendor/fontawesome-free/fontawesome";
 
 // "Font Awesome 5 Free"
 @import "../../../media/vendor/fontawesome-free/scss/fontawesome";
@@ -20,19 +20,19 @@ $fa-font-path: "../../../media/vendor/fontawesome-free/webfonts";
 @import "../../../media/vendor/bootstrap/scss/functions";
 
 // Variables from the Atum template
-@import "../../../administrator/templates/atum/scss/variables";
+@import "../../../build/media_source/templates/administrator/atum/scss/variables";
 
-// Bootstrap with the root.scss overriden
-@import "../../../administrator/templates/atum/scss/vendor/bootstrap";
+// Bootstrap with the root.scss overridden
+@import "../../../build/media_source/templates/administrator/atum/scss/vendor/bootstrap";
 
 // Backend Template stuff
-@import "../../../administrator/templates/atum/scss/blocks/global";
-@import "../../../administrator/templates/atum/scss/blocks/header";
-@import "../../../administrator/templates/atum/scss/vendor/bootstrap/custom-forms";
-@import "../../../administrator/templates/atum/scss/vendor/joomla-custom-elements/joomla-alert";
+@import "../../../build/media_source/templates/administrator/atum/scss/blocks/global";
+@import "../../../build/media_source/templates/administrator/atum/scss/blocks/header";
+@import "../../../build/media_source/templates/administrator/atum/scss/vendor/bootstrap/custom-forms";
+@import "../../../build/media_source/templates/administrator/atum/scss/vendor/joomla-custom-elements/joomla-alert";
 
 // Safari fix
-@import "../../../administrator/templates/atum/scss/vendor/bootstrap/reboot";
+@import "../../../build/media_source/templates/administrator/atum/scss/vendor/bootstrap/reboot";
 
 body {
   background: var(--template-bg-light);
