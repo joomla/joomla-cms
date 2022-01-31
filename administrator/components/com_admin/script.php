@@ -7705,12 +7705,12 @@ class JoomlaInstallerScript
 			File::delete(JPATH_ROOT . '/administrator/manifests/packages/pkg_search.xml');
 		}
 
-		if ($suppressOutput === false && \count($status['folders_errors']))
+		if ($suppressOutput === false && count($status['folders_errors']))
 		{
 			echo implode('<br>', $status['folders_errors']);
 		}
 
-		if ($suppressOutput === false && \count($status['files_errors']))
+		if ($suppressOutput === false && count($status['files_errors']))
 		{
 			echo implode('<br>', $status['files_errors']);
 		}
@@ -7802,7 +7802,7 @@ class JoomlaInstallerScript
 		}
 
 		// Nothing to do if the table doesn't exist because the CMS has never been updated from a pre-4.0 version
-		if (\count($rows) === 0)
+		if (count($rows) === 0)
 		{
 			return;
 		}
@@ -7811,7 +7811,8 @@ class JoomlaInstallerScript
 		$converted = 5;
 
 		// Check conversion status in database
-		$db->setQuery('SELECT ' . $db->quoteName('converted')
+		$db->setQuery(
+			'SELECT ' . $db->quoteName('converted')
 			. ' FROM ' . $db->quoteName('#__utf8_conversion')
 		);
 
@@ -7898,7 +7899,7 @@ class JoomlaInstallerScript
 
 								$rows = $db->loadRowList(0);
 
-								if (\count($rows) > 0)
+								if (count($rows) > 0)
 								{
 									$db->setQuery($query2)->execute();
 								}
@@ -8515,8 +8516,8 @@ class JoomlaInstallerScript
 		{
 			if (Folder::exists(JPATH_ROOT . $oldFolder))
 			{
-				$oldPath   = \realpath(JPATH_ROOT . $oldFolder);
-				$newPath   = \realpath(JPATH_ROOT . $newFolder);
+				$oldPath   = realpath(JPATH_ROOT . $oldFolder);
+				$newPath   = realpath(JPATH_ROOT . $newFolder);
 				$directory = new \RecursiveDirectoryIterator($oldPath);
 				$directory->setFlags(RecursiveDirectoryIterator::SKIP_DOTS);
 				$iterator  = new \RecursiveIteratorIterator($directory);
@@ -8532,7 +8533,7 @@ class JoomlaInstallerScript
 					$newFile = $newPath . substr($oldFile, strlen($oldPath));
 
 					// Create target folder and parent folders if they don't exist yet
-					if (is_dir(\dirname($newFile)) || @mkdir(\dirname($newFile), 0755, true))
+					if (is_dir(dirname($newFile)) || @mkdir(dirname($newFile), 0755, true))
 					{
 						File::move($oldFile, $newFile);
 					}
