@@ -15,8 +15,6 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 
-HTMLHelper::_('behavior.multiselect');
-
 $user      = Factory::getUser();
 $userId    = $user->get('id');
 $listOrder = $this->escape($this->state->get('list.ordering'));
@@ -28,6 +26,8 @@ Text::script('COM_FINDER_INDEX_CONFIRM_DELETE_PROMPT');
 $wa = $this->document->getWebAssetManager();
 $wa->useScript('com_finder.filters')
 	->useScript('table.columns');
+	->useScript('multiselect')
+
 ?>
 <form action="<?php echo Route::_('index.php?option=com_finder&view=filters'); ?>" method="post" name="adminForm" id="adminForm">
 	<div class="row">

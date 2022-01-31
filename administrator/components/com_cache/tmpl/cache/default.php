@@ -14,8 +14,6 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 
-HTMLHelper::_('behavior.multiselect');
-
 /** @var \Joomla\Component\Cache\Administrator\View\Cache\HtmlView $this */
 
 $listOrder = $this->escape($this->state->get('list.ordering'));
@@ -25,6 +23,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 $wa = $this->document->getWebAssetManager();
 $wa->useScript('keepalive')
 	->useScript('table.columns')
+	->useScript('multiselect')
 	->useScript('com_cache.admin-cache');
 
 ?>

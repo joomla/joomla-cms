@@ -17,8 +17,6 @@ use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\Component\Finder\Administrator\Helper\LanguageHelper;
 
-HTMLHelper::_('behavior.multiselect');
-
 $listOrder     = $this->escape($this->state->get('list.ordering'));
 $listDirn      = $this->escape($this->state->get('list.direction'));
 $lang          = Factory::getLanguage();
@@ -29,7 +27,8 @@ Text::script('COM_FINDER_MAPS_CONFIRM_DELETE_PROMPT');
 /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
 $wa = $this->document->getWebAssetManager();
 $wa->useScript('com_finder.maps')
-	->useScript('table.columns');
+	->useScript('table.columns')
+	->useScript('multiselect');
 
 ?>
 <form action="<?php echo Route::_('index.php?option=com_finder&view=maps'); ?>" method="post" name="adminForm" id="adminForm">

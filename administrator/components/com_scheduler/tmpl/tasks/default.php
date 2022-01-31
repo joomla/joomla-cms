@@ -21,11 +21,10 @@ use Joomla\Component\Scheduler\Administrator\View\Tasks\HtmlView;
 
 /** @var  HtmlView  $this*/
 
-HTMLHelper::_('behavior.multiselect');
-
 /** @var \Joomla\CMS\WebAsset\WebAssetManager $wa */
 $wa = $this->document->getWebAssetManager();
-$wa->useScript('table.columns');
+$wa->useScript('table.columns')
+	->useScript('multiselect');
 
 Text::script('COM_SCHEDULER_TEST_RUN_TITLE');
 Text::script('COM_SCHEDULER_TEST_RUN_TASK');
@@ -64,9 +63,12 @@ if ($saveOrder && !empty($this->items))
 	HTMLHelper::_('draggablelist.draggable');
 }
 
-$document = $app->getDocument();
-$document->addScriptOptions('com_scheduler.test-task.token', Session::getFormToken());
-$document->getWebAssetManager()->useScript('com_scheduler.test-task');
+$this->document->addScriptOptions('com_scheduler.test-task.token', Session::getFormToken());
+
+/** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
+$wa = $this->document->getWebAssetManager();
+$wa->useScript('multiselect')
+	->useScript('com_scheduler.test-task');
 ?>
 
 <form action="<?php echo Route::_('index.php?option=com_scheduler&view=tasks'); ?>" method="post" name="adminForm"

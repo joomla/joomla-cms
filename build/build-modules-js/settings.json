@@ -605,7 +605,9 @@
               "nomodule": true,
               "defer": true
             },
-            "dependencies": ["core"]
+            "dependencies": [
+              "core"
+            ]
           }
         ]
       },
@@ -790,67 +792,6 @@
         "linkText": "Help me resolve this",
         "destFile": "/templates/system/fatal-error.html"
       }
-    },
-    "cleanUpFolders": [
-      "com_actionlogs",
-      "com_admin",
-      "com_associations",
-      "com_banners",
-      "com_cache",
-      "com_categories",
-      "com_config",
-      "com_contact",
-      "com_content",
-      "com_contenthistory",
-      "com_cpanel",
-      "com_fields",
-      "com_finder",
-      "com_installer",
-      "com_joomlaupdate",
-      "com_languages",
-      "com_mails",
-      "com_media",
-      "com_menus",
-      "com_modules",
-      "com_tags",
-      "com_templates",
-      "com_users",
-      "com_workflow",
-      "com_wrapper",
-      "layouts",
-      "legacy",
-      "mailto",
-      "mod_articles_news",
-      "mod_languages",
-      "mod_login",
-      "mod_menu",
-      "mod_multilangstatus",
-      "mod_quickicon",
-      "mod_sampledata",
-      "plg_captcha_recaptcha",
-      "plg_captcha_recaptcha_invisible",
-      "plg_content_vote",
-      "plg_editors_codemirror",
-      "plg_editors_none",
-      "plg_editors_tinymce",
-      "plg_installer_folderinstaller",
-      "plg_installer_packageinstaller",
-      "plg_installer_urlinstaller",
-      "plg_installer_webinstaller",
-      "plg_media-action_crop",
-      "plg_media-action_resize",
-      "plg_media-action_rotate",
-      "plg_quickicon_extensionupdate",
-      "plg_quickicon_joomlaupdate",
-      "plg_quickicon_overridecheck",
-      "plg_quickicon_privacycheck",
-      "plg_system_debug",
-      "plg_system_stats",
-      "plg_system_webauthn",
-      "plg_user_token",
-      "system",
-      "templates/site/cassiopeia",
-      "templates/administrator/atum"
-    ]
+    }
   }
 }
