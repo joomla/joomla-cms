@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Application\CMSApplicationInterface;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\Table\User as JTableUser;
+use Joomla\CMS\Table\User as TableUser;
 use Joomla\CMS\User\User;
 use Joomla\CMS\User\UserHelper;
 use Joomla\Component\Privacy\Administrator\Plugin\PrivacyPlugin;
@@ -89,7 +89,7 @@ class PlgPrivacyUser extends PrivacyPlugin
 			return array();
 		}
 
-		/** @var JTableUser $userTable */
+		/** @var TableUser $userTable */
 		$userTable = User::getTable();
 		$userTable->load($user->id);
 
@@ -140,13 +140,13 @@ class PlgPrivacyUser extends PrivacyPlugin
 	/**
 	 * Create the domain for the user notes data
 	 *
-	 * @param   JTableUser  $user  The JTableUser object to process
+	 * @param   TableUser  $user  The TableUser object to process
 	 *
 	 * @return  \Joomla\Component\Privacy\Administrator\Export\Domain
 	 *
 	 * @since   3.9.0
 	 */
-	private function createNotesDomain(JTableUser $user)
+	private function createNotesDomain(TableUser $user)
 	{
 		$domain = $this->createDomain('user_notes', 'joomla_user_notes_data');
 		$db     = $this->db;
@@ -176,13 +176,13 @@ class PlgPrivacyUser extends PrivacyPlugin
 	/**
 	 * Create the domain for the user profile data
 	 *
-	 * @param   JTableUser  $user  The JTableUser object to process
+	 * @param   TableUser  $user  The TableUser object to process
 	 *
 	 * @return  \Joomla\Component\Privacy\Administrator\Export\Domain
 	 *
 	 * @since   3.9.0
 	 */
-	private function createProfileDomain(JTableUser $user)
+	private function createProfileDomain(TableUser $user)
 	{
 		$domain = $this->createDomain('user_profile', 'joomla_user_profile_data');
 		$db     = $this->db;
@@ -207,13 +207,13 @@ class PlgPrivacyUser extends PrivacyPlugin
 	/**
 	 * Create the domain for the user record
 	 *
-	 * @param   JTableUser  $user  The JTableUser object to process
+	 * @param   TableUser  $user  The TableUser object to process
 	 *
 	 * @return  \Joomla\Component\Privacy\Administrator\Export\Domain
 	 *
 	 * @since   3.9.0
 	 */
-	private function createUserDomain(JTableUser $user)
+	private function createUserDomain(TableUser $user)
 	{
 		$domain = $this->createDomain('users', 'joomla_users_data');
 		$domain->addItem($this->createItemForUserTable($user));
@@ -222,15 +222,15 @@ class PlgPrivacyUser extends PrivacyPlugin
 	}
 
 	/**
-	 * Create an item object for a JTableUser object
+	 * Create an item object for a TableUser object
 	 *
-	 * @param   JTableUser  $user  The JTableUser object to convert
+	 * @param   TableUser  $user  The TableUser object to convert
 	 *
 	 * @return  \Joomla\Component\Privacy\Administrator\Export\Item
 	 *
 	 * @since   3.9.0
 	 */
-	private function createItemForUserTable(JTableUser $user)
+	private function createItemForUserTable(TableUser $user)
 	{
 		$data    = [];
 		$exclude = ['password', 'otpKey', 'otep'];

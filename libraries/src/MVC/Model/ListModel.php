@@ -14,6 +14,7 @@ use Exception;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\Form\Form;
+use Joomla\CMS\Form\FormFactoryAwareInterface;
 use Joomla\CMS\Form\FormFactoryAwareTrait;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\Pagination\Pagination;
@@ -24,7 +25,7 @@ use Joomla\Database\DatabaseQuery;
  *
  * @since  1.6
  */
-class ListModel extends BaseDatabaseModel implements ListModelInterface
+class ListModel extends BaseDatabaseModel implements FormFactoryAwareInterface, ListModelInterface
 {
 	use FormBehaviorTrait;
 	use FormFactoryAwareTrait;
@@ -61,6 +62,14 @@ class ListModel extends BaseDatabaseModel implements ListModelInterface
 	 * @since  1.6
 	 */
 	protected $query = array();
+
+	/**
+	 * The cache ID used when last populating $this->query
+	 *
+	 * @var   null|string
+	 * @since 3.10.4
+	 */
+	protected $lastQueryStoreId = null;
 
 	/**
 	 * Name of the filter form to load
@@ -199,17 +208,14 @@ class ListModel extends BaseDatabaseModel implements ListModelInterface
 	 */
 	protected function _getListQuery()
 	{
-		// Capture the last store id used.
-		static $lastStoreId;
-
 		// Compute the current store id.
 		$currentStoreId = $this->getStoreId();
 
 		// If the last store id is different from the current, refresh the query.
-		if ($lastStoreId != $currentStoreId || empty($this->query))
+		if ($this->lastQueryStoreId !== $currentStoreId || empty($this->query))
 		{
-			$lastStoreId = $currentStoreId;
-			$this->query = $this->getListQuery();
+			$this->lastQueryStoreId = $currentStoreId;
+			$this->query            = $this->getListQuery();
 		}
 
 		return $this->query;
@@ -664,7 +670,7 @@ class ListModel extends BaseDatabaseModel implements ListModelInterface
 	/**
 	 * Gets the value of a user state variable and sets it in the session
 	 *
-	 * This is the same as the method in \JApplication except that this also can optionally
+	 * This is the same as the method in Application except that this also can optionally
 	 * force you back to the first page when a filter has changed
 	 *
 	 * @param   string   $key        The key of the user state variable.

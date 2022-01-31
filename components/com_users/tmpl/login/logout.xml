@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <metadata>
 	<layout title="COM_USERS_LOGOUT_VIEW_DEFAULT_TITLE" option="COM_USERS_LOGOUT_VIEW_DEFAULT_OPTION">
-		<help key = "JHELP_MENUS_MENU_ITEM_USER_LOGOUT"/>
+		<help key = "Menu_Item:_Logout"/>
 		<message>
 			<![CDATA[COM_USERS_LOGOUT_VIEW_DEFAULT_DESC]]>
 		</message>
