@@ -1,4 +1,4 @@
-Joomla! CMS™ [![Analytics](https://ga-beacon.appspot.com/UA-544070-3/joomla-cms/readme)](https://github.com/igrigorik/ga-beacon)
+Joomla! CMS™ 
 ====================
 
 Build Status
@@ -11,7 +11,7 @@ Overview
 ---------------------
 * This is the source of Joomla! 4.x.
 * Joomla's [Official website](https://www.joomla.org).
-* Joomla! 4.0 [version history](https://docs.joomla.org/Special:MyLanguage/Joomla_4.0_version_history).
+* Joomla! 4.1 [version history](https://docs.joomla.org/Special:MyLanguage/Joomla_4.1_version_history).
 * Detailed changes are in the [changelog](https://github.com/joomla/joomla-cms/commits/4.0-dev).
 
 What is Joomla?
@@ -70,6 +70,7 @@ Do you want to improve Joomla?
 * Get Involved: Joomla! is community developed software. [Join the community](https://volunteers.joomla.org).
 * Documentation for [Developers](https://docs.joomla.org/Special:MyLanguage/Portal:Developers).
 * Documentation for [Web designers](https://docs.joomla.org/Special:MyLanguage/Web_designers).
+* Provide a translation for Joomla: [Joomla Crowdin Project](https://joomla.crowdin.com/cms)
 
 Copyright
 ---------------------

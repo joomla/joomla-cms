@@ -17,7 +17,7 @@ Joomla = window.Joomla || {};
       if (el) {
         const attribute = el.getAttribute('for');
 
-        if (attribute.replace(new RegExp('_name$'), '') === `${formControl}_associations_${languageCode.replace('-', '_')}`) {
+        if (attribute.replace(/_name$/, '') === `${formControl}_associations_${languageCode.replace('-', '_')}`) {
           element.classList.add('hidden');
         }
       }
@@ -69,7 +69,6 @@ Joomla = window.Joomla || {};
       if (result.data.length !== 0) {
         [].slice.call(Object.keys(result.data)).forEach((lang) => {
           functionName = callbackFunctionPrefix + lang.replace('-', '_');
-          // eslint-disable-next-line max-len
           window[functionName](result.data[lang].id, result.data[lang].title, result.data[lang].catid, null, null, lang);
         });
       }

@@ -13,7 +13,6 @@ namespace Joomla\Component\Config\Site\Controller;
 
 use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Client\ClientHelper;
-use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
@@ -28,14 +27,14 @@ use Joomla\CMS\Uri\Uri;
 class TemplatesController extends BaseController
 {
 	/**
-	 * Constructor.
+	 * @param   array                         $config   An optional associative array of configuration settings.
+	 *                                                  Recognized key values include 'name', 'default_task', 'model_path', and
+	 *                                                  'view_path' (this list is not meant to be comprehensive).
+	 * @param   MVCFactoryInterface|null      $factory  The factory.
+	 * @param   CMSApplication|null           $app      The Application for the dispatcher
+	 * @param   \Joomla\CMS\Input\Input|null  $input    The Input object for the request
 	 *
-	 * @param   array                $config   An optional associative array of configuration settings.
-	 * @param   MVCFactoryInterface  $factory  The factory.
-	 * @param   CMSApplication       $app      The JApplication for the dispatcher
-	 * @param   \JInput              $input    Input
-	 *
-	 * @since  1.6
+	 * @since   1.6
 	 */
 	public function __construct($config = array(), MVCFactoryInterface $factory = null, $app = null, $input = null)
 	{
@@ -71,7 +70,7 @@ class TemplatesController extends BaseController
 		$this->checkToken();
 
 		// Check if the user is authorized to do this.
-		if (!Factory::getUser()->authorise('core.admin'))
+		if (!$this->app->getIdentity()->authorise('core.admin'))
 		{
 			$this->setRedirect('index.php', Text::_('JERROR_ALERTNOAUTHOR'));
 

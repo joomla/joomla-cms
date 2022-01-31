@@ -38,7 +38,7 @@ $context = $this->escape($this->state->get('filter.context'));
 	</div>
 	<div class="row">
 		<div class="form-group col-md-6">
-			<div class="control-group">
+			<div class="controls">
 				<?php $options = array(
 					HTMLHelper::_('select.option', 'c', Text::_('JLIB_HTML_BATCH_COPY')),
 					HTMLHelper::_('select.option', 'm', Text::_('JLIB_HTML_BATCH_MOVE'))

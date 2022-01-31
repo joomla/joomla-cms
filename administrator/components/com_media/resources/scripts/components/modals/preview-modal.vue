@@ -40,7 +40,7 @@
         />
         <img
           v-if="isImage()"
-          :src="item.url"
+          :src="getHashedURL"
           :type="item.mime_type"
         >
       </div>
@@ -58,6 +58,7 @@
 </template>
 
 <script>
+import { api } from '../../app/Api.es6';
 import * as types from '../../store/mutation-types.es6';
 
 export default {
@@ -67,6 +68,13 @@ export default {
     item() {
       // Use the currently selected directory as a fallback
       return this.$store.state.previewItem;
+    },
+    /* Get the hashed URL */
+    getHashedURL() {
+      if (this.item.adapter.startsWith('local-')) {
+        return `${this.item.url}?${api.mediaVersion}`;
+      }
+      return this.item.url;
     },
   },
   methods: {
