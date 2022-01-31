@@ -99,6 +99,11 @@
       "name": "searchtools",
       "type": "style",
       "uri": "system/searchtools/searchtools.min.css"
+    },
+    {
+      "name": "fontawesome",
+      "type": "style",
+      "uri": "system/joomla-fontawesome.min.css"
     }
   ]
 }

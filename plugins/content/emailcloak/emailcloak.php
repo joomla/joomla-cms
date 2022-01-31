@@ -14,16 +14,15 @@ use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\String\StringHelper;
 
 /**
- * Email cloack plugin class.
+ * Email cloak plugin class.
  *
  * @since  1.5
  */
 class PlgContentEmailcloak extends CMSPlugin
 {
 	/**
-	 * The Application object
+	 * @var    \Joomla\CMS\Application\SiteApplication
 	 *
-	 * @var    JApplicationSite
 	 * @since  3.9.0
 	 */
 	protected $app;
@@ -33,20 +32,16 @@ class PlgContentEmailcloak extends CMSPlugin
 	 *
 	 * @param   string   $context  The context of the content being passed to the plugin.
 	 * @param   mixed    &$row     An object with a "text" property or the string to be cloaked.
-	 * @param   mixed    &$params  Additional parameters. See {@see PlgContentEmailcloak()}.
+	 * @param   mixed    &$params  Additional parameters.
 	 * @param   integer  $page     Optional page number. Unused. Defaults to zero.
 	 *
 	 * @return  void
 	 */
 	public function onContentPrepare($context, &$row, &$params, $page = 0)
 	{
-		if ($this->app->isClient('api'))
-		{
-			return true;
-		}
-
+		// Don't run if in the API Application
 		// Don't run this plugin when the content is being indexed
-		if ($context === 'com_finder.indexer')
+		if ($this->app->isClient('api') || $context === 'com_finder.indexer')
 		{
 			return;
 		}

@@ -66,8 +66,11 @@ $previousReleaseExclude = [
 	$options['from'] . '/components/com_search',
 	$options['from'] . '/images/sampledata',
 	$options['from'] . '/installation',
+	$options['from'] . '/media/plg_quickicon_eos310',
+	$options['from'] . '/media/system/images',
 	$options['from'] . '/modules/mod_search',
 	$options['from'] . '/plugins/fields/repeatable',
+	$options['from'] . '/plugins/quickicon/eos310',
 	$options['from'] . '/plugins/search',
 ];
 
@@ -152,12 +155,15 @@ $foldersDifference = array_diff($previousReleaseFolders, $newReleaseFolders);
 
 // Specific files (e.g. language files) that we want to keep on upgrade
 $filesToKeep = [
+	"'/administrator/components/com_joomlaupdate/restore_finalisation.php',",
 	"'/administrator/language/en-GB/en-GB.com_search.ini',",
 	"'/administrator/language/en-GB/en-GB.com_search.sys.ini',",
 	"'/administrator/language/en-GB/en-GB.plg_editors-xtd_weblink.ini',",
 	"'/administrator/language/en-GB/en-GB.plg_editors-xtd_weblink.sys.ini',",
 	"'/administrator/language/en-GB/en-GB.plg_fields_repeatable.ini',",
 	"'/administrator/language/en-GB/en-GB.plg_fields_repeatable.sys.ini',",
+	"'/administrator/language/en-GB/en-GB.plg_quickicon_eos310.ini',",
+	"'/administrator/language/en-GB/en-GB.plg_quickicon_eos310.sys.ini',",
 	"'/administrator/language/en-GB/en-GB.plg_search_categories.ini',",
 	"'/administrator/language/en-GB/en-GB.plg_search_categories.sys.ini',",
 	"'/administrator/language/en-GB/en-GB.plg_search_contacts.ini',",

@@ -16,10 +16,10 @@
 		<folder>tmpl</folder>
 	</files>
 	<languages>
-		<language tag="en-GB">en-GB.mod_articles_archive.ini</language>
-		<language tag="en-GB">en-GB.mod_articles_archive.sys.ini</language>
+		<language tag="en-GB">language/en-GB/mod_articles_archive.ini</language>
+		<language tag="en-GB">language/en-GB/mod_articles_archive.sys.ini</language>
 	</languages>
-	<help key="JHELP_EXTENSIONS_MODULE_MANAGER_ARTICLES_ARCHIVE" />
+	<help key="Site_Modules:_Articles_-_Archived" />
 	<config>
 		<fields name="params">
 			<fieldset name="basic">
@@ -29,6 +29,8 @@
 					label="MOD_ARTICLES_ARCHIVE_FIELD_COUNT_LABEL"
 					default="10"
 					filter="integer"
+					min="1"
+					validate="number"
 				/>
 			</fieldset>
 

@@ -12,18 +12,16 @@ namespace Joomla\CMS\Event\Table;
 
 use BadMethodCallException;
 use Joomla\CMS\Event\AbstractImmutableEvent;
-use JTableInterface;
+use Joomla\CMS\Table\TableInterface;
 
 /**
- * Event class for JTable's events
+ * Event class for the Table's events
  *
  * @since  4.0.0
  */
 abstract class AbstractEvent extends AbstractImmutableEvent
 {
 	/**
-	 * Constructor.
-	 *
 	 * @param   string  $name       The event name.
 	 * @param   array   $arguments  The event arguments.
 	 *
@@ -31,7 +29,7 @@ abstract class AbstractEvent extends AbstractImmutableEvent
 	 *
 	 * @since   1.0
 	 */
-	public function __construct($name, array $arguments = array())
+	public function __construct($name, array $arguments = [])
 	{
 		if (!\array_key_exists('subject', $arguments))
 		{
@@ -44,15 +42,15 @@ abstract class AbstractEvent extends AbstractImmutableEvent
 	/**
 	 * Setter for the subject argument
 	 *
-	 * @param   JTableInterface  $value  The value to set
+	 * @param   TableInterface  $value  The value to set
 	 *
-	 * @return  JTableInterface
+	 * @return  TableInterface
 	 *
-	 * @throws  BadMethodCallException  if the argument is not of the expected type
+	 * @throws  BadMethodCallException  If the argument is not of the expected type.
 	 */
 	protected function setSubject($value)
 	{
-		if (!\is_object($value) || !($value instanceof JTableInterface))
+		if (!\is_object($value) || !($value instanceof TableInterface))
 		{
 			throw new BadMethodCallException("Argument 'subject' of event {$this->name} is not of the expected type");
 		}
