@@ -17,7 +17,7 @@
 		<language tag="en-GB">language/en-GB/mod_frontend.ini</language>
 		<language tag="en-GB">language/en-GB/mod_frontend.sys.ini</language>
 	</languages>
-	<help key="JHELP_EXTENSIONS_MODULE_MANAGER_ADMIN_FRONTEND" />
+	<help key="Admin_Modules:_Frontend_Link" />
 	<config>
 		<fields name="params">
 			<fieldset name="advanced">

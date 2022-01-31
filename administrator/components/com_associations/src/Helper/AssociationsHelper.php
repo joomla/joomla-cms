@@ -106,7 +106,7 @@ class AssociationsHelper extends ContentHelper
 	{
 		if (!self::hasSupport($extensionName))
 		{
-			return array();
+			return null;
 		}
 
 		// Get the extension specific helper method
@@ -126,12 +126,12 @@ class AssociationsHelper extends ContentHelper
 	 */
 	public static function hasSupport($extensionName)
 	{
-		if (is_null(self::$extensionsSupport))
+		if (\is_null(self::$extensionsSupport))
 		{
 			self::getSupportedExtensions();
 		}
 
-		return in_array($extensionName, self::$supportedExtensionsList);
+		return \in_array($extensionName, self::$supportedExtensionsList);
 	}
 
 	/**
@@ -176,7 +176,7 @@ class AssociationsHelper extends ContentHelper
 	 *
 	 * @param   string  $extensionName  The extension name with com_
 	 *
-	 * @return  boolean
+	 * @return  string
 	 *
 	 * @since  3.7.0
 	 */
@@ -229,7 +229,7 @@ class AssociationsHelper extends ContentHelper
 		// Display warning if Content Language is trashed or deleted
 		foreach ($items as $item)
 		{
-			if (!in_array($item['language'], $content_languages))
+			if (!\in_array($item['language'], $content_languages))
 			{
 				Factory::getApplication()->enqueueMessage(Text::sprintf('JGLOBAL_ASSOCIATIONS_CONTENTLANGUAGE_WARNING', $item['language']), 'warning');
 			}
@@ -353,7 +353,7 @@ class AssociationsHelper extends ContentHelper
 	 */
 	public static function getSupportedExtensions()
 	{
-		if (!is_null(self::$extensionsSupport))
+		if (!\is_null(self::$extensionsSupport))
 		{
 			return self::$extensionsSupport;
 		}
