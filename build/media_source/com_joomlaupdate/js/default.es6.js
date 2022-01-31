@@ -60,8 +60,15 @@ Joomla = window.Joomla || {};
     if (uploadField) {
       uploadField.addEventListener('change', Joomla.installpackageChange);
       uploadField.addEventListener('change', () => {
-        if (uploadForm.install_package.files[0].size <= uploadForm.max_upload_size.value) {
+        if (uploadForm.install_package.files[0].size <= uploadForm.max_upload_size.value && updateCheck.disabled) {
           updateCheck.disabled = !updateCheck.disabled;
+        }
+        else if(uploadForm.install_package.files[0].size <= uploadForm.max_upload_size.value && !updateCheck.disabled && !updateCheck.checked) {
+          updateCheck.disabled = false;
+        }
+        else if(uploadForm.install_package.files[0].size <= uploadForm.max_upload_size.value && updateCheck.checked) {
+          updateCheck.checked = false;
+          uploadButton.disabled = true;
         }
         else if (uploadForm.install_package.files[0].size > uploadForm.max_upload_size.value && !updateCheck.disabled) {
           updateCheck.disabled = !updateCheck.disabled;
