@@ -166,8 +166,8 @@ class ActionlogsModel extends ListModel
 			else
 			{
 				$search = '%' . $search . '%';
-				$query->where($db->quoteName('u.username') . ' LIKE :username')
-					->bind(':username', $search);
+				$query->where($db->quoteName('a.message') . ' LIKE :message')
+					->bind(':message', $search);
 			}
 		}
 
@@ -324,7 +324,7 @@ class ActionlogsModel extends ListModel
 			->from($db->quoteName('#__action_logs', 'a'))
 			->join('INNER', $db->quoteName('#__users', 'u') . ' ON ' . $db->quoteName('a.user_id') . ' = ' . $db->quoteName('u.id'));
 
-		if (is_array($pks) && count($pks) > 0)
+		if (\is_array($pks) && \count($pks) > 0)
 		{
 			$pks = ArrayHelper::toInteger($pks);
 			$query->whereIn($db->quoteName('a.id'), $pks);
