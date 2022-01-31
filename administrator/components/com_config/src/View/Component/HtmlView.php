@@ -60,16 +60,13 @@ class HtmlView extends BaseHtmlView
 	 */
 	public function display($tpl = null)
 	{
-		$form = null;
-		$component = null;
-
 		try
 		{
 			$component = $this->get('component');
 
 			if (!$component->enabled)
 			{
-				return false;
+				return;
 			}
 
 			$form = $this->get('form');
@@ -79,7 +76,7 @@ class HtmlView extends BaseHtmlView
 		{
 			Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
 
-			return false;
+			return;
 		}
 
 		$this->fieldsets   = $form ? $form->getFieldsets() : null;

@@ -29,7 +29,7 @@ $options = [
 	'id'       => $this->referenceId,
 ];
 ?>
-<button id="toogle-left-panel" class="btn btn-sm btn-secondary"
+<button id="toggle-left-panel" class="btn btn-sm btn-secondary"
 		data-show-reference="<?php echo Text::_('COM_ASSOCIATIONS_EDIT_SHOW_REFERENCE'); ?>"
 		data-hide-reference="<?php echo Text::_('COM_ASSOCIATIONS_EDIT_HIDE_REFERENCE'); ?>"><?php echo Text::_('COM_ASSOCIATIONS_EDIT_HIDE_REFERENCE'); ?>
 </button>
