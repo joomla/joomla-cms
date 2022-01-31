@@ -173,6 +173,17 @@ class SubformField extends FormField
 
 				break;
 
+			case 'value':
+				// We allow a json encoded string or an array
+				if (is_string($value))
+				{
+					$value = json_decode($value, true);
+				}
+
+				$this->value = $value !== null ? (array) $value : null;
+
+				break;
+
 			default:
 				parent::__set($name, $value);
 		}
@@ -196,9 +207,14 @@ class SubformField extends FormField
 			return false;
 		}
 
-		foreach (array('fieldname', 'formsource', 'min', 'max', 'layout', 'groupByFieldset', 'buttons') as $attributeName)
+		foreach (array('formsource', 'min', 'max', 'layout', 'groupByFieldset', 'buttons') as $attributeName)
 		{
 			$this->__set($attributeName, $element[$attributeName]);
+		}
+
+		if ((string) $element['fieldname'])
+		{
+			$this->__set('fieldname', $element['fieldname']);
 		}
 
 		if ($this->value && \is_string($this->value))
@@ -226,7 +242,7 @@ class SubformField extends FormField
 	protected function getInput()
 	{
 		// Prepare data for renderer
-		$data    = parent::getLayoutData();
+		$data    = $this->getLayoutData();
 		$tmpl    = null;
 		$control = $this->name;
 
@@ -247,6 +263,7 @@ class SubformField extends FormField
 		$data['control']   = $control;
 		$data['buttons']   = $this->buttons;
 		$data['fieldname'] = $this->fieldname;
+		$data['fieldId']   = $this->id;
 		$data['groupByFieldset'] = $this->groupByFieldset;
 
 		/**
@@ -369,13 +386,13 @@ class SubformField extends FormField
 	/**
 	 * Binds given data to the subform and its elements.
 	 *
-	 * @param   Form  &$subForm  Form instance of the subform.
+	 * @param   Form  $subForm  Form instance of the subform.
 	 *
 	 * @return  Form[]  Array of Form instances for the rows.
 	 *
 	 * @since   3.9.7
 	 */
-	private function loadSubFormData(Form &$subForm)
+	protected function loadSubFormData(Form $subForm)
 	{
 		$value = $this->value ? (array) $this->value : array();
 

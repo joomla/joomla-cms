@@ -30,14 +30,14 @@ class SiteRouter extends Router
 	 * Component-router objects
 	 *
 	 * @var    array
+	 *
 	 * @since  3.3
 	 */
-	protected $componentRouters = array();
+	protected $componentRouters = [];
 
 	/**
-	 * Current Application-Object
-	 *
 	 * @var    CMSApplication
+	 *
 	 * @since  3.4
 	 */
 	protected $app;
@@ -46,6 +46,7 @@ class SiteRouter extends Router
 	 * Current Menu-Object
 	 *
 	 * @var    AbstractMenu
+	 *
 	 * @since  3.4
 	 */
 	protected $menu;
@@ -53,8 +54,8 @@ class SiteRouter extends Router
 	/**
 	 * Class constructor
 	 *
-	 * @param   CMSApplication  $app   JApplicationCms Object
-	 * @param   AbstractMenu    $menu  JMenu object
+	 * @param   CMSApplication  $app   Application Object
+	 * @param   AbstractMenu    $menu  Menu object
 	 *
 	 * @since   3.4
 	 */
@@ -135,7 +136,7 @@ class SiteRouter extends Router
 		/**
 		 * In some environments (e.g. CLI we can't form a valid base URL). In this case we catch the exception thrown
 		 * by URI and set an empty base URI for further work.
-		 * TODO: This should probably be handled better
+		 * @todo: This should probably be handled better
 		 */
 		try
 		{
@@ -482,7 +483,7 @@ class SiteRouter extends Router
 		{
 			if (!$item->home)
 			{
-				$tmp = $item->route . '/' . $tmp;
+				$tmp = $tmp ? $item->route . '/' . $tmp : $item->route;
 			}
 
 			unset($query['Itemid']);
@@ -493,14 +494,16 @@ class SiteRouter extends Router
 		}
 
 		// Get the route
-		$route = $uri->getPath() . '/' . $tmp;
+		if ($tmp)
+		{
+			$uri->setPath($uri->getPath() . '/' . $tmp);
+		}
 
 		// Unset unneeded query information
 		unset($query['option']);
 
 		// Set query again in the URI
 		$uri->setQuery($query);
-		$uri->setPath(trim($route, '/'));
 	}
 
 	/**

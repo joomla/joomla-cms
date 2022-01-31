@@ -196,7 +196,7 @@ abstract class StringHelper
 				return substr($html, 0, $l) . '</' . $tag . '...';
 			}
 
-			// TODO: $character doesn't seem to be used...
+			// @todo: $character doesn't seem to be used...
 			$character = substr(strip_tags($html), 0, 1);
 
 			return substr($html, 0, $l) . '</' . $tag . '...';

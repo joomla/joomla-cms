@@ -134,7 +134,7 @@ class TosField extends RadioField
 					'modalWidth'  => '800',
 					'bodyHeight'  => '500',
 					'footer' => '<button type="button" class="btn btn-secondary" data-bs-dismiss="modal" aria-hidden="true">'
-						. Text::_("JLIB_HTML_BEHAVIOR_CLOSE") . '</button>',
+						. Text::_('JLIB_HTML_BEHAVIOR_CLOSE') . '</button>',
 				]
 			);
 		}
@@ -144,7 +144,7 @@ class TosField extends RadioField
 		}
 
 		// Add the label text and closing tag.
-		$label .= '>' . $link . '<span class="star">&#160;*</span></label>';
+		$label .= '>' . $link . '<span class="star" aria-hidden="true">&#160;*</span></label>';
 
 		return $label;
 	}

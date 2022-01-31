@@ -2,7 +2,7 @@
 <metadata>
 	<layout title="COM_CONTENT_ARCHIVE_VIEW_DEFAULT_TITLE" option="COM_CONTENT_ARCHIVE_VIEW_DEFAULT_OPTION">
 		<help
-			key = "JHELP_MENUS_MENU_ITEM_ARTICLE_ARCHIVED"
+			key = "Menu_Item:_Article_Archived"
 		/>
 		<message>
 			<![CDATA[COM_CONTENT_ARCHIVE_VIEW_DEFAULT_DESC]]>
@@ -70,7 +70,8 @@
 				name="display_num"
 				type="list"
 				label="JGLOBAL_NUMBER_ITEMS_LIST_LABEL"
-				default="5"
+				default=""
+				useglobal="true"
 				validate="options"
 				>
 				<option value="5">J5</option>

@@ -27,7 +27,9 @@ use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Updater\Update;
 use Joomla\CMS\Updater\Updater;
 use Joomla\CMS\User\UserHelper;
+use Joomla\CMS\Version;
 use Joomla\Database\ParameterType;
+use Joomla\Utilities\ArrayHelper;
 
 /**
  * Joomla! update overview Model
@@ -60,7 +62,6 @@ class UpdateModel extends BaseDatabaseModel
 		switch ($params->get('updatesource', 'nochange'))
 		{
 			// "Minor & Patch Release for Current version AND Next Major Release".
-			case 'sts':
 			case 'next':
 				$updateURL = 'https://update.joomla.org/core/sts/list_sts.xml';
 				break;
@@ -71,7 +72,7 @@ class UpdateModel extends BaseDatabaseModel
 				break;
 
 			// "Custom"
-			// TODO: check if the customurl is valid and not just "not empty".
+			// @todo: check if the customurl is valid and not just "not empty".
 			case 'custom':
 				if (trim($params->get('customurl', '')) != '')
 				{
@@ -79,7 +80,9 @@ class UpdateModel extends BaseDatabaseModel
 				}
 				else
 				{
-					return Factory::getApplication()->enqueueMessage(Text::_('COM_JOOMLAUPDATE_CONFIG_UPDATESOURCE_CUSTOM_ERROR'), 'error');
+					Factory::getApplication()->enqueueMessage(Text::_('COM_JOOMLAUPDATE_CONFIG_UPDATESOURCE_CUSTOM_ERROR'), 'error');
+
+					return;
 				}
 				break;
 
@@ -88,6 +91,7 @@ class UpdateModel extends BaseDatabaseModel
 			 * The commented "case" below are for documenting where 'default' and legacy options falls
 			 * case 'default':
 			 * case 'lts':
+			 * case 'sts': (It's shown as "Default" because that option does not exist any more)
 			 * case 'nochange':
 			 */
 			default:
@@ -170,6 +174,69 @@ class UpdateModel extends BaseDatabaseModel
 		{
 			$updater->findUpdates(ExtensionHelper::getExtensionRecord('joomla', 'file')->extension_id, $cache_timeout, $minimumStability);
 		}
+	}
+
+	/**
+	 * Makes sure that the Joomla! Update Component Update is in the database and check if there is a new version.
+	 *
+	 * @return  boolean  True if there is an update else false
+	 *
+	 * @since   4.0.0
+	 */
+	public function getCheckForSelfUpdate()
+	{
+		$db = $this->getDbo();
+
+		$query = $db->getQuery(true)
+			->select($db->quoteName('extension_id'))
+			->from($db->quoteName('#__extensions'))
+			->where($db->quoteName('element') . ' = ' . $db->quote('com_joomlaupdate'));
+		$db->setQuery($query);
+
+		try
+		{
+			// Get the component extension ID
+			$joomlaUpdateComponentId = $db->loadResult();
+		}
+		catch (\RuntimeException $e)
+		{
+			// Something is wrong here!
+			$joomlaUpdateComponentId = 0;
+			Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+		}
+
+		// Try the update only if we have an extension id
+		if ($joomlaUpdateComponentId != 0)
+		{
+			// Always force to check for an update!
+			$cache_timeout = 0;
+
+			$updater = Updater::getInstance();
+			$updater->findUpdates($joomlaUpdateComponentId, $cache_timeout, Updater::STABILITY_STABLE);
+
+			// Fetch the update information from the database.
+			$query = $db->getQuery(true)
+				->select('*')
+				->from($db->quoteName('#__updates'))
+				->where($db->quoteName('extension_id') . ' = :id')
+				->bind(':id', $joomlaUpdateComponentId, ParameterType::INTEGER);
+			$db->setQuery($query);
+
+			try
+			{
+				$joomlaUpdateComponentObject = $db->loadObject();
+			}
+			catch (\RuntimeException $e)
+			{
+				// Something is wrong here!
+				$joomlaUpdateComponentObject = null;
+				Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+			}
+
+			return !empty($joomlaUpdateComponentObject);
+		}
+
+		return false;
 	}
 
 	/**
@@ -452,8 +519,26 @@ class UpdateModel extends BaseDatabaseModel
 	}
 
 	/**
-	 * Create restoration file and trigger onJoomlaBeforeUpdate event, which find the updated core files
-	 * which have changed during the update, where there are override for.
+	 * Backwards compatibility. Use createUpdateFile() instead.
+	 *
+	 * @param   null  $basename The basename of the file to create
+	 *
+	 * @return  boolean
+	 * @since   2.5.1
+	 * @deprecated 5.0
+	 */
+	public function createRestorationFile($basename = null): bool
+	{
+		return $this->createUpdateFile($basename);
+	}
+
+	/**
+	 * Create the update.php file and trigger onJoomlaBeforeUpdate event.
+	 *
+	 * The onJoomlaBeforeUpdate event stores the core files for which overrides have been defined.
+	 * This will be compared in the onJoomlaAfterUpdate event with the current filesystem state,
+	 * thereby determining how many and which overrides need to be checked and possibly updated
+	 * after Joomla installed an update.
 	 *
 	 * @param   string  $basename  Optional base path to the file.
 	 *
@@ -461,7 +546,7 @@ class UpdateModel extends BaseDatabaseModel
 	 *
 	 * @since  2.5.4
 	 */
-	public function createRestorationFile($basename = null)
+	public function createUpdateFile($basename = null): bool
 	{
 		// Load overrides plugin.
 		PluginHelper::importPlugin('installer');
@@ -493,31 +578,26 @@ class UpdateModel extends BaseDatabaseModel
 		$app->setUserState('com_joomlaupdate.password', $password);
 		$app->setUserState('com_joomlaupdate.filesize', $filesize);
 
-		$data = "<?php\ndefined('_AKEEBA_RESTORATION') or die('Restricted access');\n";
-		$data .= '$restoration_setup = array(' . "\n";
+		$data = "<?php\ndefined('_JOOMLA_UPDATE') or die('Restricted access');\n";
+		$data .= '$extractionSetup = [' . "\n";
 		$data .= <<<ENDDATA
-	'kickstart.security.password' => '$password',
-	'kickstart.tuning.max_exec_time' => '5',
-	'kickstart.tuning.run_time_bias' => '75',
-	'kickstart.tuning.min_exec_time' => '0',
-	'kickstart.procengine' => 'direct',
-	'kickstart.setup.sourcefile' => '$file',
-	'kickstart.setup.destdir' => '$siteroot',
-	'kickstart.setup.restoreperms' => '0',
-	'kickstart.setup.filetype' => 'zip',
-	'kickstart.setup.dryrun' => '0',
-	'kickstart.setup.renamefiles' => array(),
-	'kickstart.setup.postrenamefiles' => false
+	'security.password' => '$password',
+	'setup.sourcefile' => '$file',
+	'setup.destdir' => '$siteroot',
 ENDDATA;
 
-		$data .= ');';
+		$data .= '];';
 
 		// Remove the old file, if it's there...
-		$configpath = JPATH_COMPONENT_ADMINISTRATOR . '/restoration.php';
+		$configpath = JPATH_COMPONENT_ADMINISTRATOR . '/update.php';
 
 		if (File::exists($configpath))
 		{
-			File::delete($configpath);
+			if (!File::delete($configpath))
+			{
+				File::invalidateFileCache($configpath);
+				@unlink($configpath);
+			}
 		}
 
 		// Write new file. First try with File.
@@ -557,9 +637,14 @@ ENDDATA;
 	}
 
 	/**
-	 * Runs the schema update SQL files, the PHP update script and updates the
-	 * manifest cache and #__extensions entry. Essentially, it is identical to
-	 * InstallerFile::install() without the file copy.
+	 * Finalise the upgrade.
+	 *
+	 * This method will do the following:
+	 * * Run the schema update SQL files.
+	 * * Run the Joomla post-update script.
+	 * * Update the manifest cache and #__extensions entry for Joomla itself.
+	 *
+	 * It performs essentially the same function as InstallerFile::install() without the file copy.
 	 *
 	 * @return  boolean True on success.
 	 *
@@ -578,12 +663,15 @@ ENDDATA;
 			return false;
 		}
 
+		// Re-create namespace map. It is needed when updating to a Joomla! version has new extension added
+		(new \JNamespacePsr4Map)->create();
+
 		$installer->manifest = $manifest;
 
 		$installer->setUpgrade(true);
 		$installer->setOverwrite(true);
 
-		$installer->extension = new \Joomla\CMS\Table\Extension(Factory::getDbo());
+		$installer->extension = new \Joomla\CMS\Table\Extension($this->getDbo());
 		$installer->extension->load(ExtensionHelper::getExtensionRecord('joomla', 'file')->extension_id);
 
 		$installer->setAdapter($installer->extension->type);
@@ -650,7 +738,7 @@ ENDDATA;
 		}
 
 		$id = $db->loadResult();
-		$row = new \Joomla\CMS\Table\Extension(Factory::getDbo());
+		$row = new \Joomla\CMS\Table\Extension($this->getDbo());
 
 		if ($id)
 		{
@@ -715,6 +803,9 @@ ENDDATA;
 			return false;
 		}
 
+		// Reinitialise the installer's extensions table's properties.
+		$installer->extension->getFields(true);
+
 		// Start Joomla! 1.6.
 		ob_start();
 		ob_implicit_flush(false);
@@ -740,7 +831,7 @@ ENDDATA;
 		ob_end_clean();
 
 		// Clobber any possible pending updates.
-		$update = new \Joomla\CMS\Table\Update(Factory::getDbo());
+		$update = new \Joomla\CMS\Table\Update($this->getDbo());
 		$uid = $update->find(
 			array('element' => 'joomla', 'type' => 'file', 'client_id' => '0', 'folder' => '')
 		);
@@ -775,8 +866,12 @@ ENDDATA;
 	}
 
 	/**
-	 * Removes the extracted package file and trigger onJoomlaAfterUpdate event, which find the updated core files
-	 * which have changed during the update, where there are override for.
+	 * Removes the extracted package file and trigger onJoomlaAfterUpdate event.
+	 *
+	 * The onJoomlaAfterUpdate event compares the stored list of files previously overridden with
+	 * the updated core files, finding out which files have changed during the update, thereby
+	 * determining how many and which override files need to be checked and possibly updated after
+	 * the Joomla update.
 	 *
 	 * @return  void
 	 *
@@ -796,27 +891,30 @@ ENDDATA;
 		$tempdir = $app->get('tmp_path');
 
 		$file = $app->getUserState('com_joomlaupdate.file', null);
-		$target = $tempdir . '/' . $file;
+		File::delete($tempdir . '/' . $file);
 
-		if (!@unlink($target))
+		// Remove the update.php file used in Joomla 4.0.3 and later.
+		if (File::exists(JPATH_COMPONENT_ADMINISTRATOR . '/update.php'))
 		{
-			File::delete($target);
+			File::delete(JPATH_COMPONENT_ADMINISTRATOR . '/update.php');
 		}
 
-		// Remove the restoration.php file.
-		$target = JPATH_COMPONENT_ADMINISTRATOR . '/restoration.php';
-
-		if (!@unlink($target))
+		// Remove the legacy restoration.php file (when updating from Joomla 4.0.2 and earlier).
+		if (File::exists(JPATH_COMPONENT_ADMINISTRATOR . '/restoration.php'))
 		{
-			File::delete($target);
+			File::delete(JPATH_COMPONENT_ADMINISTRATOR . '/restoration.php');
+		}
+
+		// Remove the legacy restore_finalisation.php file used in Joomla 4.0.2 and earlier.
+		if (File::exists(JPATH_COMPONENT_ADMINISTRATOR . '/restore_finalisation.php'))
+		{
+			File::delete(JPATH_COMPONENT_ADMINISTRATOR . '/restore_finalisation.php');
 		}
 
 		// Remove joomla.xml from the site's root.
-		$target = JPATH_ROOT . '/joomla.xml';
-
-		if (!@unlink($target))
+		if (File::exists(JPATH_ROOT . '/joomla.xml'))
 		{
-			File::delete($target);
+			File::delete(JPATH_ROOT . '/joomla.xml');
 		}
 
 		// Unset the update filename from the session.
@@ -975,19 +1073,16 @@ ENDDATA;
 
 		foreach ($files as $file)
 		{
-			if (File::exists($file))
+			if ($file !== null && File::exists($file))
 			{
-				if (!@unlink($file))
-				{
-					File::delete($file);
-				}
+				File::delete($file);
 			}
 		}
 	}
 
 	/**
 	 * Gets PHP options.
-	 * TODO: Outsource, build common code base for pre install and pre update check
+	 * @todo: Outsource, build common code base for pre install and pre update check
 	 *
 	 * @return array Array of PHP config options
 	 *
@@ -1053,9 +1148,12 @@ ENDDATA;
 		$option->state  = function_exists('json_encode') && function_exists('json_decode');
 		$option->notice = null;
 		$options[] = $option;
+		$updateInformation = $this->getUpdateInformation();
 
-		// Check if configured database is compatible with Joomla 4
-		if (version_compare($this->getUpdateInformation()['latest'], '4', '>='))
+		// Check if configured database is compatible with the next major version of Joomla
+		$nextMajorVersion = Version::MAJOR_VERSION + 1;
+
+		if (version_compare($updateInformation['latest'], (string) $nextMajorVersion, '>='))
 		{
 			$option = new \stdClass;
 			$option->label  = Text::sprintf('INSTL_DATABASE_SUPPORTED', $this->getConfiguredDatabaseType());
@@ -1076,7 +1174,7 @@ ENDDATA;
 
 	/**
 	 * Gets PHP Settings.
-	 * TODO: Outsource, build common code base for pre install and pre update check
+	 * @todo: Outsource, build common code base for pre install and pre update check
 	 *
 	 * @return  array
 	 *
@@ -1167,7 +1265,11 @@ ENDDATA;
 	 */
 	public function isDatabaseTypeSupported()
 	{
-		if (version_compare($this->getUpdateInformation()['latest'], '4', '>='))
+		$updateInformation = $this->getUpdateInformation();
+		$nextMajorVersion  = Version::MAJOR_VERSION + 1;
+
+		// Check if configured database is compatible with Joomla 4
+		if (version_compare($updateInformation['latest'], (string) $nextMajorVersion, '>='))
 		{
 			$unsupportedDatabaseTypes = array('sqlsrv', 'sqlazure');
 			$currentDatabaseType = $this->getConfiguredDatabaseType();
@@ -1201,14 +1303,16 @@ ENDDATA;
 	 */
 	private function getTargetMinimumPHPVersion()
 	{
-		return isset($this->getUpdateInformation()['object']->php_minimum) ?
-			$this->getUpdateInformation()['object']->php_minimum->_data :
+		$updateInformation = $this->getUpdateInformation();
+
+		return isset($updateInformation['object']->php_minimum) ?
+			$updateInformation['object']->php_minimum->_data :
 			JOOMLA_MINIMUM_PHP;
 	}
 
 	/**
 	 * Checks the availability of the parse_ini_file and parse_ini_string functions.
-	 * TODO: Outsource, build common code base for pre install and pre update check
+	 * @todo: Outsource, build common code base for pre install and pre update check
 	 *
 	 * @return  boolean  True if the method exists.
 	 *
@@ -1328,6 +1432,12 @@ ENDDATA;
 		foreach ($rows as $extension)
 		{
 			$decode = json_decode($extension->manifest_cache);
+
+			// Remove unused fields so they do not cause javascript errors during pre-update check
+			unset($decode->description);
+			unset($decode->copyright);
+			unset($decode->creationDate);
+
 			$this->translateExtensionName($extension);
 			$extension->version
 				= isset($decode->version) ? $decode->version : Text::_('COM_JOOMLAUPDATE_PREUPDATE_UNKNOWN_EXTENSION_MANIFESTCACHE_VERSION');
@@ -1345,9 +1455,9 @@ ENDDATA;
 	 *
 	 * @return  array  name,version,updateserver
 	 *
-	 * @since   4.0.0
+	 * @since   3.10.0
 	 */
-	public function getNonCorePlugins($folderFilter = array())
+	public function getNonCorePlugins($folderFilter = ['system','user','authentication','actionlog','twofactorauth'])
 	{
 		$db    = $this->getDbo();
 		$query = $db->getQuery(true);
@@ -1384,6 +1494,12 @@ ENDDATA;
 		foreach ($rows as $plugin)
 		{
 			$decode = json_decode($plugin->manifest_cache);
+
+			// Remove unused fields so they do not cause javascript errors during pre-update check
+			unset($decode->description);
+			unset($decode->copyright);
+			unset($decode->creationDate);
+
 			$this->translateExtensionName($plugin);
 			$plugin->version = $decode->version ?? Text::_('COM_JOOMLAUPDATE_PREUPDATE_UNKNOWN_EXTENSION_MANIFESTCACHE_VERSION');
 			unset($plugin->manifest_cache);
@@ -1420,34 +1536,18 @@ ENDDATA;
 
 				foreach ($updateFileUrls as $updateFileUrl)
 				{
-					$compatibleVersion = $this->checkCompatibility($updateFileUrl, $joomlaTargetVersion);
+					$compatibleVersions = $this->checkCompatibility($updateFileUrl, $joomlaTargetVersion);
 
-					if ($compatibleVersion)
-					{
-						// Return the compatible version
-						return (object) array('state' => 1, 'compatibleVersion' => $compatibleVersion->_data);
-					}
-					else
-					{
-						// Return the compatible version as false so we can say update server is supported but no compatible version found
-						return (object) array('state' => 1, 'compatibleVersion' => false);
-					}
+					// Return the compatible versions
+					return (object) array('state' => 1, 'compatibleVersions' => $compatibleVersions);
 				}
 			}
 			else
 			{
-				$compatibleVersion = $this->checkCompatibility($updateSite['location'], $joomlaTargetVersion);
+				$compatibleVersions = $this->checkCompatibility($updateSite['location'], $joomlaTargetVersion);
 
-				if ($compatibleVersion)
-				{
-					// Return the compatible version
-					return (object) array('state' => 1, 'compatibleVersion' => $compatibleVersion->_data);
-				}
-				else
-				{
-					// Return the compatible version as false so we can say update server is supported but no compatible version found
-					return (object) array('state' => 1, 'compatibleVersion' => false);
-				}
+				// Return the compatible versions
+				return (object) array('state' => 1, 'compatibleVersions' => $compatibleVersions);
 			}
 		}
 
@@ -1567,19 +1667,32 @@ ENDDATA;
 	 * @param   string  $updateFileUrl        The items update XML url.
 	 * @param   string  $joomlaTargetVersion  The Joomla! version to test against
 	 *
-	 * @return  mixed  An array of data items or false.
+	 * @return  array  An array of strings with compatible version numbers
 	 *
 	 * @since   3.10.0
 	 */
 	private function checkCompatibility($updateFileUrl, $joomlaTargetVersion)
 	{
-		$update = new \Joomla\CMS\Updater\Update;
+		$minimumStability = ComponentHelper::getParams('com_installer')->get('minimum_stability', Updater::STABILITY_STABLE);
+
+		$update = new Update;
 		$update->set('jversion.full', $joomlaTargetVersion);
-		$update->loadFromXml($updateFileUrl);
+		$update->loadFromXml($updateFileUrl, $minimumStability);
 
-		$downloadUrl = $update->get('downloadurl');
+		$compatibleVersions = $update->get('compatibleVersions');
 
-		return !empty($downloadUrl) && !empty($downloadUrl->_data) ? $update->get('version') : false;
+		// Check if old version of the updater library
+		if (!isset($compatibleVersions))
+		{
+			$downloadUrl = $update->get('downloadurl');
+			$updateVersion = $update->get('version');
+
+			return empty($downloadUrl) || empty($downloadUrl->_data) || empty($updateVersion) ? array() : array($updateVersion->_data);
+		}
+
+		usort($compatibleVersions, 'version_compare');
+
+		return $compatibleVersions;
 	}
 
 	/**
@@ -1593,7 +1706,7 @@ ENDDATA;
 	 */
 	protected function translateExtensionName(&$item)
 	{
-		// ToDo: Cleanup duplicated code. from com_installer/models/extension.php
+		// @todo: Cleanup duplicated code. from com_installer/models/extension.php
 		$lang = Factory::getLanguage();
 		$path = $item->client_id ? JPATH_ADMINISTRATOR : JPATH_SITE;
 
@@ -1631,6 +1744,65 @@ ENDDATA;
 		|| $lang->load($extension, $source);
 
 		// Translate the extension name if possible
-		$item->name = Text::_($item->name);
+		$item->name = strip_tags(Text::_($item->name));
+	}
+
+	/**
+	 * Checks whether a given template is active
+	 *
+	 * @param   string  $template  The template name to be checked
+	 *
+	 * @return  boolean
+	 *
+	 * @since   3.10.4
+	 */
+	public function isTemplateActive($template)
+	{
+		$db = $this->getDbo();
+		$query = $db->getQuery(true);
+
+		$query->select(
+			$db->qn(
+				array(
+					'id',
+					'home'
+				)
+			)
+		)->from(
+			$db->qn('#__template_styles')
+		)->where(
+			$db->qn('template') . ' = :template'
+		)->bind(':template', $template, ParameterType::STRING);
+
+		$templates = $db->setQuery($query)->loadObjectList();
+
+		$home = array_filter(
+			$templates,
+			function ($value)
+			{
+				return $value->home > 0;
+			}
+		);
+
+		$ids = ArrayHelper::getColumn($templates, 'id');
+
+		$menu = false;
+
+		if (count($ids))
+		{
+			$query = $db->getQuery(true);
+
+			$query->select(
+				'COUNT(*)'
+			)->from(
+				$db->qn('#__menu')
+			)->whereIn(
+				$db->qn('template_style_id'), $ids
+			);
+
+			$menu = $db->setQuery($query)->loadResult() > 0;
+		}
+
+		return $home || $menu;
 	}
 }

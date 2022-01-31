@@ -113,7 +113,7 @@ class SetConfigurationCommand extends AbstractCommand
 	/**
 	 * Collects options from user input
 	 *
-	 * @param   array  $options  Options inputed by users
+	 * @param   array  $options  Options input by users
 	 *
 	 * @return boolean
 	 *
@@ -341,7 +341,7 @@ class SetConfigurationCommand extends AbstractCommand
 
 		if (!$model->validateDbConnection($options))
 		{
-			$this->ioStyle->error(Text::_('Failed to validate the db connection encription properties'));
+			$this->ioStyle->error(Text::_('Failed to validate the db connection encryption properties'));
 
 			return false;
 		}

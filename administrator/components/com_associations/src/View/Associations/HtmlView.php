@@ -244,6 +244,6 @@ class HtmlView extends BaseHtmlView
 			ToolbarHelper::preferences('com_associations');
 		}
 
-		ToolbarHelper::help('JHELP_COMPONENTS_ASSOCIATIONS');
+		ToolbarHelper::help('Multilingual_Associations');
 	}
 }

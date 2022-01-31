@@ -188,7 +188,7 @@ class Taxonomy
 		 * The database did not match the input. This could be because the
 		 * state has changed or because the node does not exist. Let's figure
 		 * out which case is true and deal with it.
-		 * TODO: use factory?
+		 * @todo: use factory?
 		 */
 		$nodeTable = new MapTable($db);
 

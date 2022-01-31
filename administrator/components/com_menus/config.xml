@@ -5,6 +5,8 @@
 		label="COM_MENUS_PAGE_OPTIONS_LABEL"
 		>
 
+		<help key="Menus:_Options"/>
+
 		<field
 			name="page_title"
 			type="text"
