@@ -44,6 +44,7 @@ Joomla = window.Joomla || {};
   };
 
   document.addEventListener('DOMContentLoaded', () => {
+    const uploadForm = document.getElementById('uploadForm');
     const uploadButton = document.getElementById('uploadButton');
     const uploadField = document.getElementById('install_package');
     const installButton = document.querySelector('.emptystate-btnadd', document.getElementById('joomlaupdate-wrapper'));
@@ -58,6 +59,14 @@ Joomla = window.Joomla || {};
     }
     if (uploadField) {
       uploadField.addEventListener('change', Joomla.installpackageChange);
+      uploadField.addEventListener('change', () => {
+        if (uploadForm.install_package.files[0].size <= uploadForm.max_upload_size.value) {
+          updateCheck.disabled = !updateCheck.disabled;
+        }
+        else if (uploadForm.install_package.files[0].size > uploadForm.max_upload_size.value && !updateCheck.disabled) {
+          updateCheck.disabled = !updateCheck.disabled;
+        }
+      });
     }
     // Trigger (re-) install (including checkbox confirm if we update)
     if (installButton && installButton.getAttribute('href') === '#' && task) {
@@ -247,10 +256,10 @@ Joomla = window.Joomla || {};
     // Request the server to check the compatibility for the passed extension and joomla version
     Joomla.request({
       url: `${PreUpdateChecker.config.serverUrl
-      }&joomla-target-version=${encodeURIComponent(PreUpdateChecker.joomlaTargetVersion)
-      }&joomla-current-version=${PreUpdateChecker.joomlaCurrentVersion
-      }&extension-version=${node.getAttribute('data-extension-current-version')
-      }&extension-id=${encodeURIComponent(node.getAttribute('data-extension-id'))}`,
+        }&joomla-target-version=${encodeURIComponent(PreUpdateChecker.joomlaTargetVersion)
+        }&joomla-current-version=${PreUpdateChecker.joomlaCurrentVersion
+        }&extension-version=${node.getAttribute('data-extension-current-version')
+        }&extension-id=${encodeURIComponent(node.getAttribute('data-extension-id'))}`,
       onSuccess(data) {
         const response = JSON.parse(data);
         // Extract the data from the JResponseJson object
