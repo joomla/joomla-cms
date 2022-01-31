@@ -46,7 +46,7 @@ $assoc   = Associations::isEnabled() && $this->state->get('filter.client_id') ==
 			<div id="j-main-container" class="j-main-container">
 				<?php echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this, 'options' => array('selectorFieldName' => 'menutype'))); ?>
 				<?php if (!empty($this->items)) : ?>
-					<table class="table" id="itemList">
+					<table class="table" id="menuitemList">
 						<caption class="visually-hidden">
 							<?php echo Text::_('COM_MENUS_ITEMS_TABLE_CAPTION'); ?>,
 							<span id="orderedBy"><?php echo Text::_('JGLOBAL_SORTED_BY'); ?> </span>,

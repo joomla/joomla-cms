@@ -79,7 +79,7 @@ class ContentmapField extends GroupedlistField
 		}
 		catch (\RuntimeException $e)
 		{
-			return;
+			return [];
 		}
 
 		// Build the grouped list array.

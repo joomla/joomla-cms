@@ -101,7 +101,7 @@ trait ProviderManagerHelperTrait
 	 *
 	 * @throws  \InvalidArgumentException
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.1.0
 	 */
 	protected function resolveAdapterAndPath(String $path): array
 	{
