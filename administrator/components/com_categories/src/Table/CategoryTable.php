@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_categories
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2008 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -16,7 +16,7 @@ namespace Joomla\Component\Categories\Administrator\Table;
  *
  * @since  1.6
  */
-class CategoryTable extends \JTableCategory
+class CategoryTable extends \Joomla\CMS\Table\Category
 {
 	/**
 	 * Method to delete a node and, optionally, its child nodes from the table.

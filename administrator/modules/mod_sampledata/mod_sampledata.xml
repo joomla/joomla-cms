@@ -3,7 +3,7 @@
 	<name>mod_sampledata</name>
 	<author>Joomla! Project</author>
 	<creationDate>July 2017</creationDate>
-	<copyright>Copyright (C) 2005 - 2020 Open Source Matters. All rights reserved.</copyright>
+	<copyright>(C) 2017 Open Source Matters, Inc.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
@@ -19,10 +19,10 @@
 		<folder>js</folder>
 	</media>
 	<languages>
-		<language tag="en-GB">en-GB.mod_sampledata.ini</language>
-		<language tag="en-GB">en-GB.mod_sampledata.sys.ini</language>
+		<language tag="en-GB">language/en-GB/mod_sampledata.ini</language>
+		<language tag="en-GB">language/en-GB/mod_sampledata.sys.ini</language>
 	</languages>
-	<help key="JHELP_EXTENSIONS_MODULE_MANAGER_SAMPLE_DATA" />
+	<help key="Admin_Modules:_Sample_Data" />
 	<config>
 		<fields name="params">
 			<fieldset name="advanced">
@@ -31,7 +31,8 @@
 					type="modulelayout"
 					label="JFIELD_ALT_LAYOUT_LABEL"
 					description="JFIELD_ALT_MODULE_LAYOUT_DESC"
-					class="custom-select"
+					class="form-select"
+					validate="moduleLayout"
 				/>
 			</fieldset>
 		</fields>

@@ -3,17 +3,16 @@
  * @package     Joomla.Administrator
  * @subpackage  com_config
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2013 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\Component\Config\Administrator\Field;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\FormField;
-use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 
@@ -35,7 +34,7 @@ class FiltersField extends FormField
 	/**
 	 * Method to get the field input markup.
 	 *
-	 * TODO: Add access check.
+	 * @todo: Add access check.
 	 *
 	 * @return	string	The field input markup.
 	 *
@@ -43,47 +42,11 @@ class FiltersField extends FormField
 	 */
 	protected function getInput()
 	{
-		// Load Framework
-		HTMLHelper::_('jquery.framework');
-
 		// Add translation string for notification
 		Text::script('COM_CONFIG_TEXT_FILTERS_NOTE');
 
 		// Add Javascript
-		$doc = Factory::getDocument();
-		$doc->addScriptDeclaration('
-			jQuery( document ).ready(function( $ ) {
-				$("#filter-config select").change(function() {
-					var currentFilter = $(this).children("option:selected").val();
-
-					if($(this).children("option:selected").val() === "NONE") {
-						var child = $("#filter-config select[data-parent=" + $(this).attr("data-id") + "]");
-
-						while(child.length !== 0) {
-							if(child.children("option:selected").val() !== "NONE") {
-								alert(Joomla.JText._("COM_CONFIG_TEXT_FILTERS_NOTE"));
-								break;
-							}
-
-							child = $("#filter-config select[data-parent=" + child.attr("data-id") + "]");
-						}
-
-						return;
-					}
-
-					var parent = $("#filter-config select[data-id=" + $(this).attr("data-parent") + "]");
-
-					while(parent.length !== 0) {
-						if(parent.children("option:selected").val() === "NONE") {
-							alert(Joomla.JText._("COM_CONFIG_TEXT_FILTERS_NOTE"));
-							break;
-						}
-
-						parent = $("#filter-config select[data-id=" + parent.attr("data-parent") + "]")
-					}
-				});
-			});'
-		);
+		Factory::getDocument()->getWebAssetManager()->useScript('com_config.filters');
 
 		// Get the available user groups.
 		$groups = $this->getUserGroups();
@@ -132,21 +95,21 @@ class FiltersField extends FormField
 			$html[] = '			' . LayoutHelper::render('joomla.html.treeprefix', array('level' => $group->level + 1)) . $group->text;
 			$html[] = '		</td>';
 			$html[] = '		<td>';
-			$html[] = '			<label for="' . $this->id . $group->value . '_filter_type" class="sr-only">'
+			$html[] = '			<label for="' . $this->id . $group->value . '_filter_type" class="visually-hidden">'
 				. Text::_('JGLOBAL_FILTER_TYPE_LABEL') . '</label>';
 			$html[] = '				<select'
 				. ' name="' . $this->name . '[' . $group->value . '][filter_type]"'
 				. ' id="' . $this->id . $group->value . '_filter_type"'
 				. ' data-parent="' . ($group->parent) . '" '
 				. ' data-id="' . ($group->value) . '" '
-				. ' class="novalidate custom-select"'
+				. ' class="novalidate form-select"'
 				. '>';
 			$html[] = '					<option value="BL"' . ($group_filter['filter_type'] == 'BL' ? ' selected="selected"' : '') . '>'
-				. Text::_('COM_CONFIG_FIELD_FILTERS_DEFAULT_BLACK_LIST') . '</option>';
+				. Text::_('COM_CONFIG_FIELD_FILTERS_DEFAULT_FORBIDDEN_LIST') . '</option>';
 			$html[] = '					<option value="CBL"' . ($group_filter['filter_type'] == 'CBL' ? ' selected="selected"' : '') . '>'
-				. Text::_('COM_CONFIG_FIELD_FILTERS_CUSTOM_BLACK_LIST') . '</option>';
+				. Text::_('COM_CONFIG_FIELD_FILTERS_CUSTOM_FORBIDDEN_LIST') . '</option>';
 			$html[] = '					<option value="WL"' . ($group_filter['filter_type'] == 'WL' ? ' selected="selected"' : '') . '>'
-				. Text::_('COM_CONFIG_FIELD_FILTERS_WHITE_LIST') . '</option>';
+				. Text::_('COM_CONFIG_FIELD_FILTERS_ALLOWED_LIST') . '</option>';
 			$html[] = '					<option value="NH"' . ($group_filter['filter_type'] == 'NH' ? ' selected="selected"' : '') . '>'
 				. Text::_('COM_CONFIG_FIELD_FILTERS_NO_HTML') . '</option>';
 			$html[] = '					<option value="NONE"' . ($group_filter['filter_type'] == 'NONE' ? ' selected="selected"' : '') . '>'
@@ -154,7 +117,7 @@ class FiltersField extends FormField
 			$html[] = '				</select>';
 			$html[] = '		</td>';
 			$html[] = '		<td>';
-			$html[] = '			<label for="' . $this->id . $group->value . '_filter_tags" class="sr-only">'
+			$html[] = '			<label for="' . $this->id . $group->value . '_filter_tags" class="visually-hidden">'
 				. Text::_('JGLOBAL_FILTER_TAGS_LABEL') . '</label>';
 			$html[] = '				<input'
 				. ' name="' . $this->name . '[' . $group->value . '][filter_tags]"'
@@ -165,7 +128,7 @@ class FiltersField extends FormField
 			$html[] = '		</td>';
 			$html[] = '		<td>';
 			$html[] = '			<label for="' . $this->id . $group->value . '_filter_attributes"'
-				. ' class="sr-only">' . Text::_('JGLOBAL_FILTER_ATTRIBUTES_LABEL') . '</label>';
+				. ' class="visually-hidden">' . Text::_('JGLOBAL_FILTER_ATTRIBUTES_LABEL') . '</label>';
 			$html[] = '				<input'
 				. ' name="' . $this->name . '[' . $group->value . '][filter_attributes]"'
 				. ' type="text"'

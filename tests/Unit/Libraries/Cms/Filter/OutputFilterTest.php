@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Access
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2020 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 namespace Joomla\Tests\Unit\Libraries\Cms\Filter;
@@ -13,8 +13,6 @@ use Joomla\Tests\Unit\UnitTestCase;
 
 /**
  * Test class for \Joomla\CMS\Filter\OutputFilter.
- *
- * @package  Joomla.Platform
  *
  * @since    4.0.0
  */
@@ -63,11 +61,17 @@ class OutputFilterTest extends UnitTestCase
 			OutputFilter::stringURLSafe('`1234567890-=~!@#$%^&*()_+	qwertyuiop[]\QWERTYUIOP{}|asdfghjkl;\'ASDFGHJKL:"zxcvbnm,./ZXCVBNM<>?'),
 			'Should clean keyboard string down to ASCII-7'
 		);
+
+		$this->assertEquals(
+			'joomlas-version',
+			OutputFilter::stringURLSafe('joomla\'s version'),
+			'Should remove apostrophe from the string'
+		);
 	}
 
 	/**
 	 * Tests replacing single ampersands with the entity, but leaving double ampersands
-	 * and ampsersand-octothorpe combinations intact.
+	 * and ampersand-octothorpe combinations intact.
 	 *
 	 * @return  void
 	 * @since   4.0.0

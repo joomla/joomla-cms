@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_workflow
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2018 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -55,7 +55,7 @@ class DisplayController extends BaseController
 	 *
 	 * @param   array                $config   An optional associative array of configuration settings.
 	 * @param   MVCFactoryInterface  $factory  The factory.
-	 * @param   CMSApplication       $app      The JApplication for the dispatcher
+	 * @param   CMSApplication       $app      The Application for the dispatcher
 	 * @param   Input                $input    Input
 	 *
 	 * @since   4.0.0
@@ -106,7 +106,10 @@ class DisplayController extends BaseController
 		if (in_array($view, ['workflow', 'stage', 'transition']) && $layout == 'edit' && !$this->checkEditId('com_workflow.edit.' . $view, $id))
 		{
 			// Somehow the person just went to the form - we don't allow that.
-			$this->setMessage(Text::sprintf('JLIB_APPLICATION_ERROR_UNHELD_ID', $id), 'error');
+			if (!\count($this->app->getMessageQueue()))
+			{
+				$this->setMessage(Text::sprintf('JLIB_APPLICATION_ERROR_UNHELD_ID', $id), 'error');
+			}
 
 			$url = 'index.php?option=com_workflow&view=' . Inflector::pluralize($view) . '&extension=' . $this->input->getCmd('extension');
 

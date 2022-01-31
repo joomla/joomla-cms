@@ -1,96 +1,107 @@
 /**
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2018 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
-Joomla = window.Joomla || {};
+let activated = false;
 
-Joomla.MediaManager = Joomla.MediaManager || {};
-Joomla.MediaManager.Edit = Joomla.MediaManager.Edit || {};
+// Update image
+const rotate = (angle, image) => {
+  // The canvas where we will rotate the image
+  let canvas = document.createElement('canvas');
 
-(() => {
-  'use strict';
+  // Pseudo rectangle calculation
+  if ((angle >= 0 && angle < 45)
+    || (angle >= 135 && angle < 225)
+    || (angle >= 315 && angle <= 360)) {
+    canvas.width = image.naturalWidth;
+    canvas.height = image.naturalHeight;
+  } else {
+    // swap
+    canvas.width = image.naturalHeight;
+    canvas.height = image.naturalWidth;
+  }
 
-  // Update image
-  const rotate = (angle) => {
-    // The image element
-    const image = document.getElementById('image-source');
+  const ctx = canvas.getContext('2d');
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  ctx.translate(canvas.width / 2, canvas.height / 2);
+  ctx.rotate((angle * Math.PI) / 180);
+  ctx.drawImage(image, -image.naturalWidth / 2, -image.naturalHeight / 2);
 
-    // The canvas where we will resize the image
-    const canvas = document.createElement('canvas');
+  // The format
+  const format = Joomla.MediaManager.Edit.original.extension === 'jpg' ? 'jpeg' : 'jpg';
 
-    // Pseudo rectangle calculation
-    if ((angle >= 0 && angle < 45)
-      || (angle >= 135 && angle < 225)
-      || (angle >= 315 && angle <= 360)) {
-      canvas.width = image.width;
-      canvas.height = image.height;
-    } else {
-      // swap
-      canvas.width = image.height;
-      canvas.height = image.width;
-    }
-    const ctx = canvas.getContext('2d');
-    ctx.translate(canvas.width / 2, canvas.height / 2);
-    ctx.rotate((angle * Math.PI) / 180);
-    ctx.drawImage(image, -image.width / 2, -image.height / 2);
+  // The quality
+  const quality = document.getElementById('jform_rotate_quality').value;
 
-    // The format
-    const format = Joomla.MediaManager.Edit.original.extension === 'jpg' ? 'jpeg' : 'jpg';
+  // Creating the data from the canvas
+  Joomla.MediaManager.Edit.current.contents = canvas.toDataURL(`image/${format}`, quality);
 
-    // The quality
-    const quality = document.getElementById('jform_rotate_quality').value;
+  // Updating the preview element
+  image.width = canvas.width;
+  image.height = canvas.height;
+  image.src = '';
+  requestAnimationFrame(
+    () => requestAnimationFrame(() => {
+      image.src = Joomla.MediaManager.Edit.current.contents;
+    }),
+  );
 
-    // Creating the data from the canvas
-    Joomla.MediaManager.Edit.current.contents = canvas.toDataURL(`image/${format}`, quality);
+  // Update the angle input box
+  document.getElementById('jform_rotate_a').value = angle;
 
-    // Updating the preview element
-    const preview = document.getElementById('image-preview');
-    preview.width = canvas.width;
-    preview.height = canvas.height;
-    preview.src = Joomla.MediaManager.Edit.current.contents;
+  // Notify the app that a change has been made
+  window.dispatchEvent(new Event('mediaManager.history.point'));
+  canvas = null;
+};
 
-    // Update the height input box
-    document.getElementById('jform_rotate_a').value = angle;
+const initRotate = (image) => {
+  if (!activated) {
+    // The number input listener
+    document.getElementById('jform_rotate_a').addEventListener('change', ({ target }) => {
+      rotate(parseInt(target.value, 10), image);
 
-    // Notify the app that a change has been made
-    window.dispatchEvent(new Event('mediaManager.history.point'));
-  };
-
-  const initRotate = () => {
-    const funct = () => {
-      // The number input listener
-      document.getElementById('jform_rotate_a').addEventListener('input', ({ target }) => {
-        rotate(parseInt(target.value, 10));
-
-        // Deselect all buttons
-        const elements = [].slice.call(document.querySelectorAll('#jform_rotate_distinct label'));
-        elements.forEach((element) => {
+      target.value = 0;
+      // Deselect all buttons
+      [].slice.call(document.querySelectorAll('#jform_rotate_distinct label'))
+        .forEach((element) => {
           element.classList.remove('active');
           element.classList.remove('focus');
         });
-      });
+    });
 
-      // The 90 degree rotate buttons listeners
-      const elements = [].slice.call(document.querySelectorAll('#jform_rotate_distinct label'));
-      elements.forEach((element) => {
+    // The 90 degree rotate buttons listeners
+    [].slice.call(document.querySelectorAll('#jform_rotate_distinct [type=radio]'))
+      .forEach((element) => {
         element.addEventListener('click', ({ target }) => {
-          const inputElement = target.querySelector('input');
-          if (inputElement) {
-            rotate(parseInt(inputElement.value, 10));
-          }
+          rotate(parseInt(target.value, 10), image);
+
+          // Deselect all buttons
+          [].slice.call(document.querySelectorAll('#jform_rotate_distinct label'))
+            .forEach((el) => {
+              el.classList.remove('active');
+              el.classList.remove('focus');
+            });
         });
       });
-    };
-    setTimeout(funct, 1000);
-  };
 
+    activated = true;
+  }
+};
+
+window.addEventListener('media-manager-edit-init', () => {
   // Register the Events
-  Joomla.MediaManager.Edit.rotate = {
-    Activate(mediaData) {
-      // Initialize
-      initRotate(mediaData);
+  Joomla.MediaManager.Edit.plugins.rotate = {
+    Activate(image) {
+      return new Promise((resolve) => {
+        // Initialize
+        initRotate(image);
+        resolve();
+      });
     },
-    Deactivate() {
+    Deactivate(/* image */) {
+      return new Promise((resolve) => {
+        resolve();
+      });
     },
   };
-})();
+}, { once: true });

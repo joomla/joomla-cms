@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_fields
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2016 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 defined('_JEXEC') or die;
@@ -35,12 +35,12 @@ $editor    = Factory::getApplication()->input->get('editor', '', 'cmd');
 		<?php echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
 		<?php if (empty($this->items)) : ?>
 			<div class="alert alert-info">
-				<span class="fas fa-info-circle" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('INFO'); ?></span>
+				<span class="icon-info-circle" aria-hidden="true"></span><span class="visually-hidden"><?php echo Text::_('INFO'); ?></span>
 				<?php echo Text::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
 			</div>
 		<?php else : ?>
-			<table class="table" id="moduleList">
-				<caption id="captionTable" class="sr-only">
+			<table class="table" id="fieldList">
+				<caption class="visually-hidden">
 					<?php echo Text::_('COM_FIELDS_FIELDS_TABLE_CAPTION'); ?>,
 							<span id="orderedBy"><?php echo Text::_('JGLOBAL_SORTED_BY'); ?> </span>,
 							<span id="filteredBy"><?php echo Text::_('JGLOBAL_FILTERED_BY'); ?></span>
@@ -73,22 +73,24 @@ $editor    = Factory::getApplication()->input->get('editor', '', 'cmd');
 				<tbody>
 					<?php
 					$iconStates = array(
-						-2 => 'fas fa-trash',
-						0  => 'fas fa-times',
-						1  => 'fas fa-check',
-						2  => 'fas fa-folder',
+						-2 => 'icon-trash',
+						0  => 'icon-times',
+						1  => 'icon-check',
+						2  => 'icon-folder',
 					);
 					foreach ($this->items as $i => $item) :
 					?>
 					<tr class="row<?php echo $i % 2; ?>">
-						<td class="text-center tbody-icon">
-							<span class="<?php echo $iconStates[$this->escape($item->state)]; ?>" aria-hidden="true"></span>
+						<td class="text-center">
+							<span class="tbody-icon">
+								<span class="<?php echo $iconStates[$this->escape($item->state)]; ?>" aria-hidden="true"></span>
+							</span>
 						</td>
 						<th scope="row" class="has-context">
-							<a class="btn btn-sm btn-block btn-success" href="#" onclick="Joomla.fieldIns('<?php echo $this->escape($item->id); ?>', '<?php echo $this->escape($editor); ?>');"><?php echo $this->escape($item->title); ?></a>
+							<a class="btn btn-sm btn-success w-100" href="#" onclick="Joomla.fieldIns('<?php echo $this->escape($item->id); ?>', '<?php echo $this->escape($editor); ?>');"><?php echo $this->escape($item->title); ?></a>
 						</th>
 						<td class="small d-none d-md-table-cell">
-							<a class="btn btn-sm btn-block btn-warning" href="#" onclick="Joomla.fieldgroupIns('<?php echo $this->escape($item->group_id); ?>', '<?php echo $this->escape($editor); ?>');"><?php echo $item->group_id ? $this->escape($item->group_title) : Text::_('JNONE'); ?></a>
+							<a class="btn btn-sm btn-warning w-100" href="#" onclick="Joomla.fieldgroupIns('<?php echo $this->escape($item->group_id); ?>', '<?php echo $this->escape($editor); ?>');"><?php echo $item->group_id ? $this->escape($item->group_title) : Text::_('JNONE'); ?></a>
 						</td>
 						<td class="small d-none d-md-table-cell">
 							<?php echo $item->type; ?>

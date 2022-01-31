@@ -2,8 +2,9 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2013 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
+ * @note	This file has been modified by the Joomla! Project and no longer reflects the original work of its author.
  */
 
 namespace Joomla\CMS\Encrypt;
@@ -33,11 +34,13 @@ class Totp
 	private $_pinModulo;
 
 	/**
-	 * Secret length
+	 * The length of the secret in bytes.
+	 * RFC 4226: "The length of the shared secret MUST be at least 128 bits. This document RECOMMENDs a shared secret length of 160 bits."
+	 * The original value was 10 bytes (80 bits) this value has been increased to 20 (160 bits) with Joomla! 3.9.25
 	 *
 	 * @var   integer
 	 */
-	private $_secretLength = 10;
+	private $_secretLength = 20;
 
 	/**
 	 * Timestep
@@ -191,18 +194,13 @@ class Totp
 	 * Generates a (semi-)random Secret Key for TOTP generation
 	 *
 	 * @return  string
+	 *
+	 * @note Since 3.9.25 we use the secure method "random_bytes" over the original insecure "rand" function.
+	 *       The random_bytes function has been backported to outdated PHP versions by the core shipped library paragonie/random_compat
 	 */
 	public function generateSecret()
 	{
-		$secret = "";
-
-		for ($i = 1; $i <= $this->_secretLength; $i++)
-		{
-			$c = rand(0, 255);
-			$secret .= pack("c", $c);
-		}
-
-		$base32 = new Base32;
+		$secret = random_bytes($this->_secretLength);
 
 		return $this->_base32->encode($secret);
 	}

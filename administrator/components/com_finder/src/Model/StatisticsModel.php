@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2011 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -26,7 +26,7 @@ class StatisticsModel extends BaseDatabaseModel
 	/**
 	 * Method to get the component statistics
 	 *
-	 * @return  \JObject  The component statistics
+	 * @return  CMSObject The component statistics
 	 *
 	 * @since   2.5
 	 */

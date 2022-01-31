@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2010 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -11,6 +11,7 @@ namespace Joomla\CMS\MVC\Model;
 \defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Event\Model\BeforeBatchEvent;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\FormFactoryInterface;
 use Joomla\CMS\Language\Associations;
@@ -23,6 +24,7 @@ use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Table\Table;
 use Joomla\CMS\Table\TableInterface;
+use Joomla\CMS\Tag\TaggableTableInterface;
 use Joomla\CMS\UCM\UCMType;
 use Joomla\Database\ParameterType;
 use Joomla\Registry\Registry;
@@ -99,6 +101,14 @@ abstract class AdminModel extends FormModel
 	 * @since  1.6
 	 */
 	protected $event_change_state = null;
+
+	/**
+	 * The event to trigger before batch.
+	 *
+	 * @var    string
+	 * @since  4.0.0
+	 */
+	protected $event_before_batch = null;
 
 	/**
 	 * Batch copy/move command. If set to false,
@@ -245,6 +255,15 @@ abstract class AdminModel extends FormModel
 			$this->event_change_state = 'onContentChangeState';
 		}
 
+		if (isset($config['event_before_batch']))
+		{
+			$this->event_before_batch = $config['event_before_batch'];
+		}
+		elseif (empty($this->event_before_batch))
+		{
+			$this->event_before_batch = 'onBeforeBatch';
+		}
+
 		$config['events_map'] = $config['events_map'] ?? array();
 
 		$this->events_map = array_merge(
@@ -382,6 +401,20 @@ abstract class AdminModel extends FormModel
 				$this->table->load($pk);
 				$this->table->access = (int) $value;
 
+				$event = new BeforeBatchEvent(
+					$this->event_before_batch,
+					['src' => $this->table, 'type' => 'access']
+				);
+				$this->dispatchEvent($event);
+
+				// Check the row.
+				if (!$this->table->check())
+				{
+					$this->setError($this->table->getError());
+
+					return false;
+				}
+
 				if (!$this->table->store())
 				{
 					$this->setError($this->table->getError());
@@ -486,7 +519,13 @@ abstract class AdminModel extends FormModel
 			// New category ID
 			$this->table->catid = $categoryId;
 
-			// TODO: Deal with ordering?
+			$event = new BeforeBatchEvent(
+				$this->event_before_batch,
+				['src' => $this->table, 'type' => 'copy']
+			);
+			$this->dispatchEvent($event);
+
+			// @todo: Deal with ordering?
 			// $this->table->ordering = 1;
 
 			// Check the row.
@@ -510,15 +549,30 @@ abstract class AdminModel extends FormModel
 
 			if (!empty($oldAssetId))
 			{
+				$dbType = strtolower($db->getServerType());
+
 				// Copy rules
 				$query = $db->getQuery(true);
 				$query->clear()
-					->update($db->quoteName('#__assets', 't'))
-					->join('INNER', $db->quoteName('#__assets', 's') .
-						' ON ' . $db->quoteName('s.id') . ' = ' . $oldAssetId
-					)
-					->set($db->quoteName('t.rules') . ' = ' . $db->quoteName('s.rules'))
-					->where($db->quoteName('t.id') . ' = ' . $this->table->asset_id);
+					->update($db->quoteName('#__assets', 't'));
+
+				if ($dbType === 'mysql')
+				{
+					$query->set($db->quoteName('t.rules') . ' = ' . $db->quoteName('s.rules'));
+				}
+				else
+				{
+					$query->set($db->quoteName('rules') . ' = ' . $db->quoteName('s.rules'));
+				}
+
+				$query->join(
+					'INNER',
+					$db->quoteName('#__assets', 's'),
+					$db->quoteName('s.id') . ' = :oldassetid'
+				)
+					->where($db->quoteName('t.id') . ' = :assetid')
+					->bind(':oldassetid', $oldAssetId, ParameterType::INTEGER)
+					->bind(':assetid', $this->table->asset_id, ParameterType::INTEGER);
 
 				$db->setQuery($query)->execute();
 			}
@@ -573,6 +627,20 @@ abstract class AdminModel extends FormModel
 				$this->table->reset();
 				$this->table->load($pk);
 				$this->table->language = $value;
+
+				$event = new BeforeBatchEvent(
+					$this->event_before_batch,
+					['src' => $this->table, 'type' => 'language']
+				);
+				$this->dispatchEvent($event);
+
+				// Check the row.
+				if (!$this->table->check())
+				{
+					$this->setError($this->table->getError());
+
+					return false;
+				}
 
 				if (!$this->table->store())
 				{
@@ -648,6 +716,12 @@ abstract class AdminModel extends FormModel
 
 			// Set the new category ID
 			$this->table->catid = $categoryId;
+
+			$event = new BeforeBatchEvent(
+				$this->event_before_batch,
+				['src' => $this->table, 'type' => 'move']
+			);
+			$this->dispatchEvent($event);
 
 			// Check the row.
 			if (!$this->table->check())
@@ -955,15 +1029,15 @@ abstract class AdminModel extends FormModel
 	/**
 	 * Method to change the title & alias.
 	 *
-	 * @param   integer  $category_id  The id of the category.
-	 * @param   string   $alias        The alias.
-	 * @param   string   $title        The title.
+	 * @param   integer  $categoryId  The id of the category.
+	 * @param   string   $alias       The alias.
+	 * @param   string   $title       The title.
 	 *
 	 * @return	array  Contains the modified title and alias.
 	 *
 	 * @since	1.7
 	 */
-	protected function generateNewTitle($category_id, $alias, $title)
+	protected function generateNewTitle($categoryId, $alias, $title)
 	{
 		// Alter the title & alias
 		$table      = $this->getTable();
@@ -971,7 +1045,7 @@ abstract class AdminModel extends FormModel
 		$catidField = $table->getColumnAlias('catid');
 		$titleField = $table->getColumnAlias('title');
 
-		while ($table->load(array($aliasField => $alias, $catidField => $category_id)))
+		while ($table->load(array($aliasField => $alias, $catidField => $categoryId)))
 		{
 			if ($title === $table->$titleField)
 			{
@@ -1004,9 +1078,17 @@ abstract class AdminModel extends FormModel
 			$return = $table->load($pk);
 
 			// Check for a table object error.
-			if ($return === false && $table->getError())
+			if ($return === false)
 			{
-				$this->setError($table->getError());
+				// If there was no underlying error, then the false means there simply was not a row in the db for this $pk.
+				if (!$table->getError())
+				{
+					$this->setError(Text::_('JLIB_APPLICATION_ERROR_NOT_EXIST'));
+				}
+				else
+				{
+					$this->setError($table->getError());
+				}
 
 				return false;
 			}
@@ -1028,7 +1110,7 @@ abstract class AdminModel extends FormModel
 	/**
 	 * A protected method to get a set of ordering conditions.
 	 *
-	 * @param   Table  $table  A \JTable object.
+	 * @param   Table  $table  A Table object.
 	 *
 	 * @return  array  An array of conditions to add to ordering queries.
 	 *
@@ -1063,7 +1145,7 @@ abstract class AdminModel extends FormModel
 	/**
 	 * Prepare and sanitise the table data prior to saving.
 	 *
-	 * @param   Table  $table  A reference to a \JTable object.
+	 * @param   Table  $table  A reference to a Table object.
 	 *
 	 * @return  void
 	 *
@@ -1132,8 +1214,6 @@ abstract class AdminModel extends FormModel
 				if (property_exists($table, $publishedColumnName) && $table->get($publishedColumnName, $value) == $value)
 				{
 					unset($pks[$i]);
-
-					continue;
 				}
 			}
 		}
@@ -1483,6 +1563,12 @@ abstract class AdminModel extends FormModel
 		foreach ($pks as $i => $pk)
 		{
 			$this->table->load((int) $pk);
+
+			// We don't want to modify tags on reorder, not removing the tagsHelper removes all associated tags
+			if ($this->table instanceof TaggableTableInterface)
+			{
+				$this->table->clearTagsHelper();
+			}
 
 			// Access checks.
 			if (!$this->canEditState($this->table))

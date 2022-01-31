@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_languages
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2011 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -24,8 +24,8 @@ $wa->useScript('keepalive')
 
 ?>
 
-<form action="<?php echo Route::_('index.php?option=com_languages&id=' . $this->item->key); ?>" method="post" name="adminForm" id="override-form" class="form-validate">
-	<div class="row mt-3">
+<form action="<?php echo Route::_('index.php?option=com_languages&id=' . $this->item->key); ?>" method="post" name="adminForm" id="override-form" aria-label="<?php echo Text::_('COM_LANGUAGES_VIEW_OVERRIDE_FORM_' . ((int) $this->item->key === 0 ? 'NEW' : 'EDIT'), true); ?>" class="main-card form-validate p-4 mt-4">
+	<div class="row">
 		<div class="col-md-6">
 			<fieldset id="fieldset-override" class="options-form">
 				<legend><?php echo empty($this->item->key) ? Text::_('COM_LANGUAGES_VIEW_OVERRIDE_EDIT_NEW_OVERRIDE_LEGEND') : Text::_('COM_LANGUAGES_VIEW_OVERRIDE_EDIT_EDIT_OVERRIDE_LEGEND'); ?></legend>
@@ -42,7 +42,6 @@ $wa->useScript('keepalive')
 				<?php echo $this->form->renderField('file'); ?>
 				</div>
 			</fieldset>
-
 		</div>
 
 		<div class="col-md-6">
@@ -50,7 +49,7 @@ $wa->useScript('keepalive')
 				<legend><?php echo Text::_('COM_LANGUAGES_VIEW_OVERRIDE_SEARCH_LEGEND'); ?></legend>
 				<div>
 				<div class="alert alert-info">
-					<span class="fas fa-info-circle" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('INFO'); ?></span>
+					<span class="icon-info-circle" aria-hidden="true"></span><span class="visually-hidden"><?php echo Text::_('INFO'); ?></span>
 					<?php echo Text::_('COM_LANGUAGES_VIEW_OVERRIDE_SEARCH_TIP'); ?>
 				</div>
 				<?php echo $this->form->renderField('searchtype'); ?>
@@ -61,13 +60,11 @@ $wa->useScript('keepalive')
 					<div class="controls">
 						<div class="input-group">
 							<?php echo $this->form->getInput('searchstring'); ?>
-							<span class="input-group-append">
-								<button type="submit" class="btn btn-primary" onclick="Joomla.overrider.searchStrings();return false;" formnovalidate>
-									<?php echo Text::_('COM_LANGUAGES_VIEW_OVERRIDE_SEARCH_BUTTON'); ?>
-								</button>
-							</span>
+							<button type="submit" class="btn btn-primary" onclick="Joomla.overrider.searchStrings();return false;" formnovalidate>
+								<?php echo Text::_('COM_LANGUAGES_VIEW_OVERRIDE_SEARCH_BUTTON'); ?>
+							</button>
 							<span id="refresh-status" class="form-text">
-								<span class="fas fa-sync fa-spin" aria-hidden="true"></span>
+								<span class="icon-sync icon-spin" aria-hidden="true"></span>
 								<?php echo Text::_('COM_LANGUAGES_VIEW_OVERRIDE_REFRESHING'); ?>
 							</span>
 						</div>
@@ -78,10 +75,10 @@ $wa->useScript('keepalive')
 
 			<fieldset id="results-container" class="adminform">
 				<legend><?php echo Text::_('COM_LANGUAGES_VIEW_OVERRIDE_RESULTS_LEGEND'); ?></legend>
-				<div id="overrider-spinner" class="overrider-spinner text-center" data-search-string-expired="<?php echo $expired; ?>"><span class="fas fa-spinner fa-spin" aria-hidden="true"></span></div>
+				<div id="overrider-spinner" class="overrider-spinner text-center" data-search-string-expired="<?php echo $expired; ?>"><span class="icon-spinner icon-spin" aria-hidden="true"></span></div>
 				<span id="more-results" class="mt-2">
 					<button type="button" id="more-results-button" class="btn btn-secondary" disabled>
-						<span id="overrider-spinner-btn" class="overrider-spinner-btn fas fa-spinner fa-spin" aria-hidden="true"></span>
+						<span id="overrider-spinner-btn" class="overrider-spinner-btn icon-spinner icon-spin" aria-hidden="true"></span>
 						<?php echo Text::_('COM_LANGUAGES_VIEW_OVERRIDE_MORE_RESULTS'); ?>
 					</button>
 				</span>

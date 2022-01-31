@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2005 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -45,7 +45,7 @@ class LanguageAdapter extends InstallerAdapter
 	 * The language tag for the package
 	 *
 	 * @var    string
-	 * @since  4.0
+	 * @since  4.0.0
 	 */
 	protected $tag;
 
@@ -67,7 +67,7 @@ class LanguageAdapter extends InstallerAdapter
 	 */
 	protected function copyBaseFiles()
 	{
-		// TODO - Refactor adapter to use common code
+		// @todo - Refactor adapter to use common code
 	}
 
 	/**
@@ -80,7 +80,7 @@ class LanguageAdapter extends InstallerAdapter
 	 */
 	protected function finaliseInstall()
 	{
-		// TODO - Refactor adapter to use common code
+		// @todo - Refactor adapter to use common code
 	}
 
 	/**
@@ -167,7 +167,7 @@ class LanguageAdapter extends InstallerAdapter
 	 */
 	protected function setupInstallPaths()
 	{
-		// TODO - Refactor adapter to use common code
+		// @todo - Refactor adapter to use common code
 	}
 
 	/**
@@ -226,7 +226,7 @@ class LanguageAdapter extends InstallerAdapter
 	 */
 	protected function storeExtension()
 	{
-		// TODO - Refactor adapter to use common code
+		// @todo - Refactor adapter to use common code
 	}
 
 	/**
@@ -304,7 +304,7 @@ class LanguageAdapter extends InstallerAdapter
 
 		// Get the language name
 		// Set the extensions name
-		$this->name = InputFilter::getInstance()->clean((string) $this->getManifest()->name, 'cmd');
+		$this->name = InputFilter::getInstance()->clean((string) $this->getManifest()->name, 'string');
 
 		// Get the Language tag [ISO tag, eg. en-GB]
 		$tag = (string) $this->getManifest()->tag;
@@ -424,20 +424,6 @@ class LanguageAdapter extends InstallerAdapter
 
 		// Parse optional tags
 		$this->parent->parseMedia($this->getManifest()->media);
-
-		// Copy all the necessary font files to the common pdf_fonts directory
-		$this->parent->setPath('extension_site', $basePath . '/language/pdf_fonts');
-		$overwrite = $this->parent->setOverwrite(true);
-
-		if ($this->parent->parseFiles($this->getManifest()->fonts) === false)
-		{
-			// Install failed, rollback changes
-			$this->parent->abort();
-
-			return false;
-		}
-
-		$this->parent->setOverwrite($overwrite);
 
 		// Get the language description
 		$description = (string) $this->getManifest()->description;
@@ -567,7 +553,7 @@ class LanguageAdapter extends InstallerAdapter
 		// Get the language name
 		// Set the extensions name
 		$name = (string) $this->getManifest()->name;
-		$name = InputFilter::getInstance()->clean($name, 'cmd');
+		$name = InputFilter::getInstance()->clean($name, 'string');
 		$this->name = $name;
 
 		// Get the Language tag [ISO tag, eg. en-GB]
@@ -610,20 +596,6 @@ class LanguageAdapter extends InstallerAdapter
 
 		// Parse optional tags
 		$this->parent->parseMedia($xml->media);
-
-		// Copy all the necessary font files to the common pdf_fonts directory
-		$this->parent->setPath('extension_site', $basePath . '/language/pdf_fonts');
-		$overwrite = $this->parent->setOverwrite(true);
-
-		if ($this->parent->parseFiles($xml->fonts) === false)
-		{
-			// Install failed, rollback changes
-			$this->parent->abort();
-
-			return false;
-		}
-
-		$this->parent->setOverwrite($overwrite);
 
 		// Get the language description and set it as message
 		$this->parent->set('message', (string) $xml->description);
@@ -693,13 +665,13 @@ class LanguageAdapter extends InstallerAdapter
 	 * Custom discover method
 	 * Finds language files
 	 *
-	 * @return  boolean  True on success
+	 * @return  \Joomla\CMS\Table\Extension[]  Array of discovered extensions.
 	 *
 	 * @since  3.1
 	 */
 	public function discover()
 	{
-		$results = array();
+		$results = [];
 		$clients = [0 => JPATH_SITE, 1 => JPATH_ADMINISTRATOR, 3 => JPATH_API];
 
 		foreach ($clients as $clientId => $basePath)

@@ -2,23 +2,23 @@
 /**
  * @package    Joomla.Cli
  *
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2017 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 // We are a valid entry point.
 const _JEXEC = 1;
 
-/**
- * Define the application's minimum supported PHP version as a constant so it can be referenced within the application.
- */
+// Define the application's minimum supported PHP version as a constant so it can be referenced within the application.
 const JOOMLA_MINIMUM_PHP = '7.2.5';
 
 if (version_compare(PHP_VERSION, JOOMLA_MINIMUM_PHP, '<'))
 {
 	echo 'Sorry, your PHP version is not supported.' . PHP_EOL;
-	echo 'Your host needs to use PHP version ' . JOOMLA_MINIMUM_PHP . ' or newer to run this version of Joomla!' . PHP_EOL;
-	echo 'You are currently running PHP version ' . PHP_VERSION . '.' . PHP_EOL;
+	echo 'Your command line php needs to be version ' . JOOMLA_MINIMUM_PHP . ' or newer to run the Joomla! CLI Tools' . PHP_EOL;
+	echo 'The version of PHP currently running this code, at the command line, is PHP version ' . PHP_VERSION . '.' . PHP_EOL;
+	echo 'Please note, the version of PHP running your commands here, may be different to the version that is used by ';
+	echo 'your web server to run the Joomla! Web Application' . PHP_EOL;
 
 	exit;
 }
@@ -41,6 +41,15 @@ if (!file_exists(JPATH_LIBRARIES . '/vendor/autoload.php') || !is_dir(JPATH_ROOT
 	echo 'It looks like you are trying to run Joomla! from our git repository.' . PHP_EOL;
 	echo 'To do so requires you complete a couple of extra steps first.' . PHP_EOL;
 	echo 'Please see https://docs.joomla.org/Special:MyLanguage/J4.x:Setting_Up_Your_Local_Environment for further details.' . PHP_EOL;
+
+	exit;
+}
+
+// Check if installed
+if (!file_exists(JPATH_CONFIGURATION . '/configuration.php')
+	|| (filesize(JPATH_CONFIGURATION . '/configuration.php') < 10))
+{
+	echo 'Install Joomla to run cli commands' . PHP_EOL;
 
 	exit;
 }

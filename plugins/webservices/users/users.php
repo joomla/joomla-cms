@@ -3,7 +3,7 @@
  * @package     Joomla.Users
  * @subpackage  Webservices.Users
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2019 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -45,6 +45,18 @@ class PlgWebservicesUsers extends CMSPlugin
 		);
 
 		$this->createFieldsRoutes($router);
+
+		$router->createCRUDRoutes(
+			'v1/users/groups',
+			'groups',
+			['component' => 'com_users']
+		);
+
+		$router->createCRUDRoutes(
+			'v1/users/levels',
+			'levels',
+			['component' => 'com_users']
+		);
 	}
 
 	/**

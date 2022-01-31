@@ -1,7 +1,18 @@
 /**
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2019 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
+
+/**
+ * Debounce
+ * https://gist.github.com/nmsdvid/8807205
+ *
+ * @param { function } callback  The callback function to be executed
+ * @param { int }  time      The time to wait before firing the callback
+ * @param { int }  interval  The interval
+ */
+// eslint-disable-next-line no-param-reassign, no-return-assign, default-param-last
+const debounce = (callback, time = 250, interval) => (...args) => clearTimeout(interval, interval = setTimeout(callback, time, ...args));
 
 ((window, document, Joomla) => {
   Joomla.unpublishModule = (element) => {
@@ -20,12 +31,12 @@
         wrapper.parentNode.removeChild(wrapper);
 
         Joomla.renderMessages({
-          message: [Joomla.JText._('COM_CPANEL_UNPUBLISH_MODULE_SUCCESS')],
+          message: [Joomla.Text._('COM_CPANEL_UNPUBLISH_MODULE_SUCCESS')],
         });
       },
       onError: () => {
         Joomla.renderMessages({
-          error: [Joomla.JText._('COM_CPANEL_UNPUBLISH_MODULE_ERROR')],
+          error: [Joomla.Text._('COM_CPANEL_UNPUBLISH_MODULE_ERROR')],
         });
       },
     });
@@ -50,6 +61,8 @@
   // Masonry layout for cpanel cards
   const MasonryLayout = {
     $gridBox: null,
+    gridAutoRows: 0,
+    gridRowGap: 10,
 
     // Calculate "grid-row-end" property
     resizeGridItem($cell, rowHeight, rowGap) {
@@ -64,30 +77,37 @@
 
     // Check a size of every cell in the grid
     resizeAllGridItems() {
-      const $gridCells = [].slice.call(MasonryLayout.$gridBox.children);
-      const gridStyle = window.getComputedStyle(MasonryLayout.$gridBox);
-      const gridAutoRows = parseInt(gridStyle.getPropertyValue('grid-auto-rows'), 10) || 0;
-      const gridRowGap = parseInt(gridStyle.getPropertyValue('grid-row-gap'), 10) || 10;
+      const $gridCells = [].slice.call(this.$gridBox.children);
 
       $gridCells.forEach(($cell) => {
-        MasonryLayout.resizeGridItem($cell, gridAutoRows, gridRowGap);
+        this.resizeGridItem($cell, this.gridAutoRows, this.gridRowGap);
       });
     },
 
     initialise() {
-      MasonryLayout.$gridBox = document.querySelector('#cpanel-modules .card-columns');
-      MasonryLayout.resizeAllGridItems();
+      this.$gridBox = document.querySelector('#cpanel-modules .card-columns');
+
+      const gridStyle = window.getComputedStyle(this.$gridBox);
+      this.gridAutoRows = parseInt(gridStyle.getPropertyValue('grid-auto-rows'), 10) || this.gridAutoRows;
+      this.gridRowGap = parseInt(gridStyle.getPropertyValue('grid-row-gap'), 10) || this.gridRowGap;
+
+      this.resizeAllGridItems();
+
+      // Recheck the layout after all content (fonts and images) is loaded.
+      window.addEventListener('load', () => this.resizeAllGridItems());
+
+      // Recheck the layout when the menu is toggled
+      window.addEventListener('joomla:menu-toggle', () => {
+        // 300ms is animation time, need to wait for the animation to end
+        setTimeout(() => this.resizeAllGridItems(), 330);
+      });
 
       // Watch on window resize
-      let resizeTimer;
-      window.addEventListener('resize', () => {
-        window.clearTimeout(resizeTimer);
-        resizeTimer = window.setTimeout(MasonryLayout.resizeAllGridItems, 300);
-      });
+      window.addEventListener('resize', debounce(() => this.resizeAllGridItems(), 50));
     },
   };
 
-  // Initialise Masonry layout on full load,
-  // to be sure all images/fonts are loaded, and so cards have a "final" size
-  window.addEventListener('load', MasonryLayout.initialise);
+  // Initialise Masonry layout at the very beginning, to avoid jumping.
+  // We can do this because the script is deferred.
+  MasonryLayout.initialise();
 })(window, document, window.Joomla);

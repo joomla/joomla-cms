@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2009 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -65,50 +65,50 @@ if (!empty($this->items))
 		}
 	}
 }
+
+$currentDate = Factory::getDate()->format('Y-m-d H:i:s');
 ?>
 
 <form action="<?php echo htmlspecialchars(Uri::getInstance()->toString()); ?>" method="post" name="adminForm" id="adminForm" class="com-content-category__articles">
 	<?php if ($this->params->get('filter_field') !== 'hide') : ?>
 		<div class="com-content__filter btn-group">
 			<?php if ($this->params->get('filter_field') === 'tag') : ?>
-				<span class="sr-only">
+				<span class="visually-hidden">
 					<label class="filter-search-lbl" for="filter-search">
 						<?php echo Text::_('JOPTION_SELECT_TAG'); ?>
 					</label>
 				</span>
-				<select name="filter_tag" id="filter-search" class="custom-select" onchange="document.adminForm.submit();" >
+				<select name="filter_tag" id="filter-search" class="form-select" onchange="document.adminForm.submit();" >
 					<option value=""><?php echo Text::_('JOPTION_SELECT_TAG'); ?></option>
 					<?php echo HTMLHelper::_('select.options', HTMLHelper::_('tag.options', array('filter.published' => array(1), 'filter.language' => $langFilter), true), 'value', 'text', $this->state->get('filter.tag')); ?>
 				</select>
 			<?php elseif ($this->params->get('filter_field') === 'month') : ?>
-				<span class="sr-only">
+				<span class="visually-hidden">
 					<label class="filter-search-lbl" for="filter-search">
 						<?php echo Text::_('JOPTION_SELECT_MONTH'); ?>
 					</label>
 				</span>
-				<select name="filter-search" id="filter-search" class="custom-select" onchange="document.adminForm.submit();">
+				<select name="filter-search" id="filter-search" class="form-select" onchange="document.adminForm.submit();">
 					<option value=""><?php echo Text::_('JOPTION_SELECT_MONTH'); ?></option>
-					<?php echo HtmlHelper::_('select.options', HtmlHelper::_('content.months', $this->state), 'value', 'text', $this->state->get('list.filter')); ?>
+					<?php echo HTMLHelper::_('select.options', HTMLHelper::_('content.months', $this->state), 'value', 'text', $this->state->get('list.filter')); ?>
 				</select>
 			<?php else : ?>
-				<label class="filter-search-lbl sr-only" for="filter-search">
+				<label class="filter-search-lbl visually-hidden" for="filter-search">
 					<?php echo Text::_('COM_CONTENT_' . $this->params->get('filter_field') . '_FILTER_LABEL'); ?>
 				</label>
 				<input type="text" name="filter-search" id="filter-search" value="<?php echo $this->escape($this->state->get('list.filter')); ?>" class="inputbox" onchange="document.adminForm.submit();" placeholder="<?php echo Text::_('COM_CONTENT_' . $this->params->get('filter_field') . '_FILTER_LABEL'); ?>">
 			<?php endif; ?>
 
-			<span class="input-group-append">
-				<?php if ($this->params->get('filter_field') !== 'tag' && $this->params->get('filter_field') !== 'month') : ?>
-					<button type="submit" name="filter_submit" class="btn btn-primary"><?php echo Text::_('JGLOBAL_FILTER_BUTTON'); ?></button>
-				<?php endif; ?>
-				<button type="reset" name="filter-clear-button" class="btn btn-secondary"><?php echo Text::_('JSEARCH_FILTER_CLEAR'); ?></button>
-			</span>
+			<?php if ($this->params->get('filter_field') !== 'tag' && $this->params->get('filter_field') !== 'month') : ?>
+				<button type="submit" name="filter_submit" class="btn btn-primary"><?php echo Text::_('JGLOBAL_FILTER_BUTTON'); ?></button>
+			<?php endif; ?>
+			<button type="reset" name="filter-clear-button" class="btn btn-secondary"><?php echo Text::_('JSEARCH_FILTER_CLEAR'); ?></button>
 		</div>
 	<?php endif; ?>
 
 	<?php if ($this->params->get('show_pagination_limit')) : ?>
-		<div class="com-content-category__pagination btn-group float-right">
-			<label for="limit" class="sr-only">
+		<div class="com-content-category__pagination btn-group float-end">
+			<label for="limit" class="visually-hidden">
 				<?php echo Text::_('JGLOBAL_DISPLAY_NUM'); ?>
 			</label>
 			<?php echo $this->pagination->getLimitBox(); ?>
@@ -116,13 +116,15 @@ if (!empty($this->items))
 	<?php endif; ?>
 
 	<?php if (empty($this->items)) : ?>
-		<div class="alert alert-info">
-			<span class="fas fa-info-circle" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('INFO'); ?></span>
-				<?php echo Text::_('COM_CONTENT_NO_ARTICLES'); ?>
-		</div>
+		<?php if ($this->params->get('show_no_articles', 1)) : ?>
+			<div class="alert alert-info">
+				<span class="icon-info-circle" aria-hidden="true"></span><span class="visually-hidden"><?php echo Text::_('INFO'); ?></span>
+					<?php echo Text::_('COM_CONTENT_NO_ARTICLES'); ?>
+			</div>
+		<?php endif; ?>
 	<?php else : ?>
 		<table class="com-content-category__table category table table-striped table-bordered table-hover">
-			<caption id="captionTable" class="sr-only">
+			<caption class="visually-hidden">
 				<?php echo Text::_('COM_CONTENT_ARTICLES_TABLE_CAPTION'); ?>
 			</caption>
 			<?php if ($this->params->get('show_headings')) : ?>
@@ -175,21 +177,23 @@ if (!empty($this->items))
 				<?php else : ?>
 					<tr class="cat-list-row<?php echo $i % 2; ?>" >
 				<?php endif; ?>
-				<td headers="categorylist_header_title" class="list-title">
+				<th class="list-title" scope="row">
 					<?php if (in_array($article->access, $this->user->getAuthorisedViewLevels())) : ?>
 						<a href="<?php echo Route::_(RouteHelper::getArticleRoute($article->slug, $article->catid, $article->language)); ?>">
 							<?php echo $this->escape($article->title); ?>
 						</a>
 						<?php if (Associations::isEnabled() && $this->params->get('show_associations')) : ?>
-							<div>
+							<div class="cat-list-association">
 							<?php $associations = AssociationHelper::displayAssociations($article->id); ?>
 							<?php foreach ($associations as $association) : ?>
 								<?php if ($this->params->get('flags', 1) && $association['language']->image) : ?>
 									<?php $flag = HTMLHelper::_('image', 'mod_languages/' . $association['language']->image . '.gif', $association['language']->title_native, array('title' => $association['language']->title_native), true); ?>
-									&nbsp;<a href="<?php echo Route::_($association['item']); ?>"><?php echo $flag; ?></a>&nbsp;
+									<a href="<?php echo Route::_($association['item']); ?>"><?php echo $flag; ?></a>
 								<?php else : ?>
-									<?php $class = 'badge badge-secondary badge-' . $association['language']->sef; ?>
-									&nbsp;<a class="<?php echo $class; ?>" title="<?php echo $association['language']->title_native; ?>" href="<?php echo Route::_($association['item']); ?>"><?php echo strtoupper($association['language']->sef); ?></a>&nbsp;
+									<?php $class = 'btn btn-secondary btn-sm btn-' . strtolower($association['language']->lang_code); ?>
+									<a class="<?php echo $class; ?>" title="<?php echo $association['language']->title_native; ?>" href="<?php echo Route::_($association['item']); ?>"><?php echo $association['language']->lang_code; ?>
+										<span class="visually-hidden"><?php echo $association['language']->title_native; ?></span>
+									</a>
 								<?php endif; ?>
 							<?php endforeach; ?>
 							</div>
@@ -205,15 +209,17 @@ if (!empty($this->items))
 							<?php echo Text::_('COM_CONTENT_REGISTER_TO_READ_MORE'); ?>
 						</a>
 						<?php if (Associations::isEnabled() && $this->params->get('show_associations')) : ?>
-							<div>
+							<div class="cat-list-association">
 							<?php $associations = AssociationHelper::displayAssociations($article->id); ?>
 							<?php foreach ($associations as $association) : ?>
 								<?php if ($this->params->get('flags', 1)) : ?>
 									<?php $flag = HTMLHelper::_('image', 'mod_languages/' . $association['language']->image . '.gif', $association['language']->title_native, array('title' => $association['language']->title_native), true); ?>
-									&nbsp;<a href="<?php echo Route::_($association['item']); ?>"><?php echo $flag; ?></a>&nbsp;
+									<a href="<?php echo Route::_($association['item']); ?>"><?php echo $flag; ?></a>
 								<?php else : ?>
-									<?php $class = 'badge badge-secondary badge-' . $association['language']->sef; ?>
-									&nbsp;<a class="<?php echo $class; ?>" title="<?php echo $association['language']->title_native; ?>" href="<?php echo Route::_($association['item']); ?>"><?php echo strtoupper($association['language']->sef); ?></a>&nbsp;
+									<?php $class = 'btn btn-secondary btn-sm btn-' . strtolower($association['language']->lang_code); ?>
+									<a class="<?php echo $class; ?>" title="<?php echo $association['language']->title_native; ?>" href="<?php echo Route::_($association['item']); ?>"><?php echo $association['language']->lang_code; ?>
+										<span class="visually-hidden"><?php echo $association['language']->title_native; ?></span>
+									</a>
 								<?php endif; ?>
 							<?php endforeach; ?>
 							</div>
@@ -221,28 +227,28 @@ if (!empty($this->items))
 					<?php endif; ?>
 					<?php if ($article->state == ContentComponent::CONDITION_UNPUBLISHED) : ?>
 						<div>
-							<span class="list-published badge badge-warning">
+							<span class="list-published badge bg-warning text-light">
 								<?php echo Text::_('JUNPUBLISHED'); ?>
 							</span>
 						</div>
 					<?php endif; ?>
-					<?php if (strtotime($article->publish_up) > strtotime(Factory::getDate())) : ?>
+					<?php if ($article->publish_up > $currentDate) : ?>
 						<div>
-							<span class="list-published badge badge-warning">
+							<span class="list-published badge bg-warning text-light">
 								<?php echo Text::_('JNOTPUBLISHEDYET'); ?>
 							</span>
 						</div>
 					<?php endif; ?>
-					<?php if (!is_null($article->publish_down) && strtotime($article->publish_down) < strtotime(Factory::getDate())) : ?>
+					<?php if (!is_null($article->publish_down) && $article->publish_down < $currentDate) : ?>
 						<div>
-							<span class="list-published badge badge-warning">
+							<span class="list-published badge bg-warning text-light">
 								<?php echo Text::_('JEXPIRED'); ?>
 							</span>
 						</div>
 					<?php endif; ?>
-				</td>
+				</th>
 				<?php if ($this->params->get('list_show_date')) : ?>
-					<td headers="categorylist_header_date" class="list-date small">
+					<td class="list-date small">
 						<?php
 						echo HTMLHelper::_(
 							'date', $article->displayDate,
@@ -251,41 +257,61 @@ if (!empty($this->items))
 					</td>
 				<?php endif; ?>
 				<?php if ($this->params->get('list_show_author', 1)) : ?>
-					<td headers="categorylist_header_author" class="list-author">
+					<td class="list-author">
 						<?php if (!empty($article->author) || !empty($article->created_by_alias)) : ?>
 							<?php $author = $article->author ?>
 							<?php $author = $article->created_by_alias ?: $author; ?>
 							<?php if (!empty($article->contact_link) && $this->params->get('link_author') == true) : ?>
-								<?php echo Text::sprintf('COM_CONTENT_WRITTEN_BY', HTMLHelper::_('link', $article->contact_link, $author)); ?>
+								<?php if ($this->params->get('show_headings')) : ?>
+									<?php echo HTMLHelper::_('link', $article->contact_link, $author); ?>
+								<?php else : ?>
+									<?php echo Text::sprintf('COM_CONTENT_WRITTEN_BY', HTMLHelper::_('link', $article->contact_link, $author)); ?>
+								<?php endif; ?>
 							<?php else : ?>
-								<?php echo Text::sprintf('COM_CONTENT_WRITTEN_BY', $author); ?>
+								<?php if ($this->params->get('show_headings')) : ?>
+									<?php echo $author; ?>
+								<?php else : ?>
+									<?php echo Text::sprintf('COM_CONTENT_WRITTEN_BY', $author); ?>
+								<?php endif; ?>
 							<?php endif; ?>
 						<?php endif; ?>
 					</td>
 				<?php endif; ?>
 				<?php if ($this->params->get('list_show_hits', 1)) : ?>
-					<td headers="categorylist_header_hits" class="list-hits">
-						<span class="badge badge-info">
-							<?php echo Text::sprintf('JGLOBAL_HITS_COUNT', $article->hits); ?>
+					<td class="list-hits">
+						<span class="badge bg-info">
+							<?php if ($this->params->get('show_headings')) : ?>
+								<?php echo $article->hits; ?>
+							<?php else : ?>
+								<?php echo Text::sprintf('JGLOBAL_HITS_COUNT', $article->hits); ?>
+							<?php endif; ?>
 						</span>
 					</td>
 				<?php endif; ?>
 				<?php if ($this->params->get('list_show_votes', 0) && $this->vote) : ?>
-					<td headers="categorylist_header_votes" class="list-votes">
-						<span class="badge badge-success">
-							<?php echo Text::sprintf('COM_CONTENT_VOTES_COUNT', $article->rating_count); ?>
+					<td class="list-votes">
+						<span class="badge bg-success">
+							<?php if ($this->params->get('show_headings')) : ?>
+								<?php echo $article->rating_count; ?>
+							<?php else : ?>
+								<?php echo Text::sprintf('COM_CONTENT_VOTES_COUNT', $article->rating_count); ?>
+							<?php endif; ?>
 						</span>
 					</td>
 				<?php endif; ?>
 				<?php if ($this->params->get('list_show_ratings', 0) && $this->vote) : ?>
-					<td headers="categorylist_header_ratings" class="list-ratings">
-						<span class="badge badge-warning">
-							<?php echo Text::sprintf('COM_CONTENT_RATINGS_COUNT', $article->rating); ?>
+					<td class="list-ratings">
+						<span class="badge bg-warning text-light">
+							<?php if ($this->params->get('show_headings')) : ?>
+								<?php echo $article->rating; ?>
+							<?php else : ?>
+								<?php echo Text::sprintf('COM_CONTENT_RATINGS_COUNT', $article->rating); ?>
+							<?php endif; ?>
 						</span>
 					</td>
 				<?php endif; ?>
 				<?php if ($isEditable) : ?>
-					<td headers="categorylist_header_edit" class="list-edit">
+					<td class="list-edit">
 						<?php if ($article->params->get('access-edit')) : ?>
 							<?php echo HTMLHelper::_('contenticon.edit', $article, $article->params); ?>
 						<?php endif; ?>
@@ -307,7 +333,7 @@ if (!empty($this->items))
 		<?php if (($this->params->def('show_pagination', 2) == 1  || ($this->params->get('show_pagination') == 2)) && ($this->pagination->pagesTotal > 1)) : ?>
 			<div class="com-content-category__navigation w-100">
 				<?php if ($this->params->def('show_pagination_results', 1)) : ?>
-					<p class="com-content-category__counter counter float-right pt-3 pr-2">
+					<p class="com-content-category__counter counter float-end pt-3 pe-2">
 						<?php echo $this->pagination->getPagesCounter(); ?>
 					</p>
 				<?php endif; ?>

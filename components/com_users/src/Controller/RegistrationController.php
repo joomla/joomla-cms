@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2009 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -34,7 +34,7 @@ class RegistrationController extends BaseController
 	 */
 	public function activate()
 	{
-		$user  	 = Factory::getUser();
+		$user  	 = $this->app->getIdentity();
 		$input 	 = $this->input;
 		$uParams = ComponentHelper::getParams('com_users');
 
@@ -50,8 +50,6 @@ class RegistrationController extends BaseController
 		if ($uParams->get('useractivation') == 0 || $uParams->get('allowUserRegistration') == 0)
 		{
 			throw new \Exception(Text::_('JLIB_APPLICATION_ERROR_ACCESS_FORBIDDEN'), 403);
-
-			return false;
 		}
 
 		/** @var \Joomla\Component\Users\Site\Model\RegistrationModel $model */
@@ -62,8 +60,6 @@ class RegistrationController extends BaseController
 		if ($token === null || strlen($token) !== 32)
 		{
 			throw new \Exception(Text::_('JINVALID_TOKEN'), 403);
-
-			return false;
 		}
 
 		// Get the User ID
@@ -71,7 +67,8 @@ class RegistrationController extends BaseController
 
 		if (!$userIdToActivate)
 		{
-			throw new \Exception(Text::_('COM_USERS_ACTIVATION_TOKEN_NOT_FOUND'), 403);
+			$this->setMessage(Text::_('COM_USERS_ACTIVATION_TOKEN_NOT_FOUND'));
+			$this->setRedirect(Route::_('index.php?option=com_users&view=login', false));
 
 			return false;
 		}
@@ -179,8 +176,6 @@ class RegistrationController extends BaseController
 		if (!$form)
 		{
 			throw new \Exception($model->getError(), 500);
-
-			return false;
 		}
 
 		$data = $model->validate($form, $requestData);

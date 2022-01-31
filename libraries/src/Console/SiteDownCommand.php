@@ -2,13 +2,13 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2020 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Console;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\Console\Command\AbstractCommand;
 use Symfony\Component\Console\Input\ArrayInput;
@@ -27,26 +27,26 @@ class SiteDownCommand extends AbstractCommand
 	 * The default command name
 	 *
 	 * @var    string
-	 * @since  4.0
+	 * @since  4.0.0
 	 */
 	protected static $defaultName = 'site:down';
 
 	/**
 	 * SymfonyStyle Object
 	 * @var SymfonyStyle
-	 * @since 4.0
+	 * @since 4.0.0
 	 */
 	private $ioStyle;
 
 	/**
 	 * Return code if site:down failed
-	 * @since 4.0
+	 * @since 4.0.0
 	 */
 	const SITE_DOWN_FAILED = 1;
 
 	/**
 	 * Return code if site:down was successful
-	 * @since 4.0
+	 * @since 4.0.0
 	 */
 	const SITE_DOWN_SUCCESSFUL = 0;
 
@@ -58,7 +58,7 @@ class SiteDownCommand extends AbstractCommand
 	 *
 	 * @return void
 	 *
-	 * @since 4.0
+	 * @since 4.0.0
 	 *
 	 */
 	private function configureIO(InputInterface $input, OutputInterface $output)

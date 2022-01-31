@@ -3,13 +3,13 @@
  * @package     Joomla.Installation
  * @subpackage  Model
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2009 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Installation\Model;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Installation\Helper\DatabaseHelper;
@@ -195,7 +195,7 @@ class DatabaseModel extends BaseInstallationModel
 				// Try to create the database now using the alternate driver
 				try
 				{
-					$this->createDb($altDB, $options, $altDB->hasUTFSupport());
+					$this->createDb($altDB, $options, $altDB->hasUtfSupport());
 				}
 				catch (\RuntimeException $e)
 				{
@@ -243,7 +243,7 @@ class DatabaseModel extends BaseInstallationModel
 		}
 
 		// Get database's UTF support.
-		$utfSupport = $db->hasUTFSupport();
+		$utfSupport = $db->hasUtfSupport();
 
 		// Try to select the database.
 		try

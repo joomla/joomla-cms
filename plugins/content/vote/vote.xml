@@ -3,7 +3,7 @@
 	<name>plg_content_vote</name>
 	<author>Joomla! Project</author>
 	<creationDate>November 2005</creationDate>
-	<copyright>Copyright (C) 2005 - 2020 Open Source Matters. All rights reserved.</copyright>
+	<copyright>(C) 2005 Open Source Matters, Inc.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
@@ -14,8 +14,8 @@
 		<folder>tmpl</folder>
 	</files>
 	<languages>
-		<language tag="en-GB">en-GB.plg_content_vote.ini</language>
-		<language tag="en-GB">en-GB.plg_content_vote.sys.ini</language>
+		<language tag="en-GB">language/en-GB/plg_content_vote.ini</language>
+		<language tag="en-GB">language/en-GB/plg_content_vote.sys.ini</language>
 	</languages>
 	<config>
 		<fields name="params">
@@ -29,6 +29,17 @@
 					>
 					<option value="top">PLG_VOTE_TOP</option>
 					<option value="bottom">PLG_VOTE_BOTTOM</option>
+				</field>
+				<field
+					name="show_total_votes"
+					type="radio"
+					label="PLG_VOTE_TOTAL_VOTES_LABEL"
+					layout="joomla.form.field.radio.switcher"
+					default="0"
+					filter="integer"
+					>
+					<option value="0">JHIDE</option>
+					<option value="1">JSHOW</option>
 				</field>
 			</fieldset>
 		</fields>

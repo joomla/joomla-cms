@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2009 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -18,7 +18,7 @@ use Joomla\CMS\Form\FormField;
  * Form Field class for the Joomla Platform.
  * Text field for passwords
  *
- * @link   http://www.w3.org/TR/html-markup/input.password.html#input.password
+ * @link   https://html.spec.whatwg.org/multipage/input.html#password-state-(type=password)
  * @note   Two password fields may be validated as matching using \Joomla\CMS\Form\Rule\EqualsRule
  * @since  1.7.0
  */
@@ -73,6 +73,15 @@ class PasswordField extends FormField
 	protected $layout = 'joomla.form.field.password';
 
 	/**
+	 * Attach an unlock button and disable the input field,
+	 * also remove the value from the output.
+	 *
+	 * @var    boolean
+	 * @since  3.9.24
+	 */
+	protected $lock = false;
+
+	/**
 	 * Method to get certain otherwise inaccessible properties from the form field object.
 	 *
 	 * @param   string  $name  The property name for which to get the value.
@@ -85,6 +94,7 @@ class PasswordField extends FormField
 	{
 		switch ($name)
 		{
+			case 'lock':
 			case 'threshold':
 			case 'maxLength':
 			case 'meter':
@@ -116,9 +126,10 @@ class PasswordField extends FormField
 				$this->$name = $value;
 				break;
 
+			case 'lock':
 			case 'meter':
 			case 'force':
-				$this->meter = ($value === 'true' || $value === $name || $value === '1');
+				$this->$name = ($value === 'true' || $value === $name || $value === '1');
 				break;
 
 			default:
@@ -146,6 +157,8 @@ class PasswordField extends FormField
 
 		if ($return)
 		{
+			$lock               = (string) $this->element['lock'];
+			$this->lock         = ($lock === 'true' || $lock === 'on' || $lock === '1');
 			$this->maxLength    = $this->element['maxlength'] ? (int) $this->element['maxlength'] : 99;
 			$this->threshold    = $this->element['threshold'] ? (int) $this->element['threshold'] : 66;
 			$meter              = (string) $this->element['strengthmeter'];
@@ -201,6 +214,7 @@ class PasswordField extends FormField
 
 		// Initialize some field attributes.
 		$extraData = array(
+			'lock'           => $this->lock,
 			'maxLength'      => $this->maxLength,
 			'meter'          => $this->meter,
 			'threshold'      => $this->threshold,

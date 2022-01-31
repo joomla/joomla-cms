@@ -3,7 +3,7 @@
 	<name>mod_finder</name>
 	<author>Joomla! Project</author>
 	<creationDate>August 2011</creationDate>
-	<copyright>(C) 2005 - 2020 Open Source Matters. All rights reserved.</copyright>
+	<copyright>(C) 2011 Open Source Matters, Inc.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
@@ -19,7 +19,7 @@
 		<language tag="en-GB">language/en-GB/en-GB.mod_finder.ini</language>
 		<language tag="en-GB">language/en-GB/en-GB.mod_finder.sys.ini</language>
 	</languages>
-	<help key="JHELP_EXTENSIONS_MODULE_MANAGER_SMART_SEARCH" />
+	<help key="Site_Modules:_Smart_Search" />
 	<config>
 		<fields name="params" addfieldprefix="Joomla\Component\Finder\Administrator\Field">
 			<fieldset name="basic">
@@ -119,7 +119,8 @@
 					name="layout"
 					type="modulelayout"
 					label="JFIELD_ALT_LAYOUT_LABEL"
-					class="custom-select"
+					class="form-select"
+					validate="moduleLayout"
 				/>
 
 				<field
@@ -127,7 +128,7 @@
 					type="textarea"
 					label="COM_MODULES_FIELD_MODULECLASS_SFX_LABEL"
 					rows="3"
-					default=""
+					validate="CssIdentifier"
 				/>
 			</fieldset>
 		</fields>

@@ -1,5 +1,5 @@
 /**
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2020 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -38,7 +38,12 @@ Joomla.toggleAllNextElements = (element, className) => {
   'use strict';
 
   document.addEventListener('DOMContentLoaded', () => {
-    const dropDownBtn = document.getElementById('toolbar-dropdown-status-group');
+    const dropDownBtn = document.getElementById('toolbar-status-group');
+
+    if (!dropDownBtn) {
+      return;
+    }
+
     const transitions = [].slice.call(dropDownBtn.querySelectorAll('.button-transition'));
     const headline = dropDownBtn.querySelector('.button-transition-headline');
     const separator = dropDownBtn.querySelector('.button-transition-separator');

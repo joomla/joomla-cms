@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_categories
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2008 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -13,6 +13,7 @@ namespace Joomla\Component\Categories\Administrator\View\Categories;
 
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Language\Text;
@@ -60,7 +61,7 @@ class HtmlView extends BaseHtmlView
 	/**
 	 * Form object for search filters
 	 *
-	 * @var  \JForm
+	 * @var  \Joomla\CMS\Form\Form
 	 */
 	public $filterForm;
 
@@ -72,11 +73,21 @@ class HtmlView extends BaseHtmlView
 	public $activeFilters;
 
 	/**
+	 * Is this view an Empty State
+	 *
+	 * @var  boolean
+	 * @since 4.0.0
+	 */
+	private $isEmptyState = false;
+
+	/**
 	 * Display the view
 	 *
 	 * @param   string|null  $tpl  The name of the template file to parse; automatically searches through the template paths.
 	 *
-	 * @return  mixed  A string if successful, otherwise an Error object.
+	 * @throws  GenericDataException
+	 *
+	 * @return  void
 	 */
 	public function display($tpl = null)
 	{
@@ -86,6 +97,12 @@ class HtmlView extends BaseHtmlView
 		$this->assoc         = $this->get('Assoc');
 		$this->filterForm    = $this->get('FilterForm');
 		$this->activeFilters = $this->get('ActiveFilters');
+
+		// Written this way because we only want to call IsEmptyState if no items, to prevent always calling it when not needed.
+		if (!count($this->items) && $this->isEmptyState = $this->get('IsEmptyState'))
+		{
+			$this->setLayout('emptystate');
+		}
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
@@ -125,7 +142,7 @@ class HtmlView extends BaseHtmlView
 			}
 		}
 
-		return parent::display($tpl);
+		parent::display($tpl);
 	}
 
 	/**
@@ -133,6 +150,7 @@ class HtmlView extends BaseHtmlView
 	 *
 	 * @return  void
 	 *
+	 * @throws \Exception
 	 * @since   1.6
 	 */
 	protected function addToolbar()
@@ -141,7 +159,7 @@ class HtmlView extends BaseHtmlView
 		$component  = $this->state->get('filter.component');
 		$section    = $this->state->get('filter.section');
 		$canDo      = ContentHelper::getActions($component, 'category', $categoryId);
-		$user       = Factory::getUser();
+		$user       = Factory::getApplication()->getIdentity();
 
 		// Get the toolbar object instance
 		$toolbar = Toolbar::getInstance('toolbar');
@@ -163,7 +181,7 @@ class HtmlView extends BaseHtmlView
 			$title = Text::_($component_title_key);
 		}
 		elseif ($lang->hasKey($component_section_key = strtoupper($component . ($section ? "_$section" : ''))))
-		// Else if the component section string exits, let's use it
+		// Else if the component section string exists, let's use it.
 		{
 			$title = Text::sprintf('COM_CATEGORIES_CATEGORIES_TITLE', $this->escape(Text::_($component_section_key)));
 		}
@@ -195,12 +213,12 @@ class HtmlView extends BaseHtmlView
 			$toolbar->addNew('category.add');
 		}
 
-		if ($canDo->get('core.edit.state') || Factory::getUser()->authorise('core.admin'))
+		if (!$this->isEmptyState && ($canDo->get('core.edit.state') || $user->authorise('core.admin')))
 		{
 			$dropdown = $toolbar->dropdownButton('status-group')
 				->text('JTOOLBAR_CHANGE_STATUS')
 				->toggleSplit(false)
-				->icon('fas fa-ellipsis-h')
+				->icon('icon-ellipsis-h')
 				->buttonClass('btn btn-action')
 				->listCheck(true);
 
@@ -215,7 +233,7 @@ class HtmlView extends BaseHtmlView
 				$childBar->archive('categories.archive')->listCheck(true);
 			}
 
-			if (Factory::getUser()->authorise('core.admin'))
+			if ($user->authorise('core.admin'))
 			{
 				$childBar->checkin('categories.checkin')->listCheck(true);
 			}
@@ -237,14 +255,14 @@ class HtmlView extends BaseHtmlView
 			}
 		}
 
-		if ($canDo->get('core.admin'))
+		if (!$this->isEmptyState && $canDo->get('core.admin'))
 		{
 			$toolbar->standardButton('refresh')
 				->text('JTOOLBAR_REBUILD')
 				->task('categories.rebuild');
 		}
 
-		if ($this->state->get('filter.published') == -2 && $canDo->get('core.delete', $component))
+		if (!$this->isEmptyState && $this->state->get('filter.published') == -2 && $canDo->get('core.delete', $component))
 		{
 			$toolbar->delete('categories.delete')
 				->text('JTOOLBAR_EMPTY_TRASH')
@@ -257,29 +275,70 @@ class HtmlView extends BaseHtmlView
 			$toolbar->preferences($component);
 		}
 
-		// Compute the ref_key if it does exist in the component
-		if (!$lang->hasKey($ref_key = strtoupper($component . ($section ? "_$section" : '')) . '_CATEGORIES_HELP_KEY'))
+		// Get the component form if it exists for the help key/url
+		$name = 'category' . ($section ? ('.' . $section) : '');
+
+		// Looking first in the component forms folder
+		$path = Path::clean(JPATH_ADMINISTRATOR . "/components/$component/forms/$name.xml");
+
+		// Looking in the component models/forms folder (J! 3)
+		if (!file_exists($path))
 		{
-			$ref_key = 'JHELP_COMPONENTS_' . strtoupper(substr($component, 4) . ($section ? "_$section" : '')) . '_CATEGORIES';
+			$path = Path::clean(JPATH_ADMINISTRATOR . "/components/$component/models/forms/$name.xml");
+		}
+
+		$ref_key = '';
+		$url     = '';
+
+		// Look first in form for help key and url
+		if (file_exists($path))
+		{
+			if (!$xml = simplexml_load_file($path))
+			{
+				throw new \Exception(Text::_('JERROR_LOADFILE_FAILED'));
+			}
+
+			$ref_key = (string) $xml->listhelp['key'];
+			$url     = (string) $xml->listhelp['url'];
+		}
+
+		if (!$ref_key)
+		{
+			// Compute the ref_key if it does exist in the component
+			$languageKey = strtoupper($component . ($section ? "_$section" : '')) . '_CATEGORIES_HELP_KEY';
+
+			if ($lang->hasKey($languageKey))
+			{
+				$ref_key = $languageKey;
+			}
+			else
+			{
+				$languageKey = 'JHELP_COMPONENTS_' . strtoupper(substr($component, 4) . ($section ? "_$section" : '')) . '_CATEGORIES';
+
+				if ($lang->hasKey($languageKey))
+				{
+					$ref_key = $languageKey;
+				}
+			}
 		}
 
 		/*
 		 * Get help for the categories view for the component by
+		 * -remotely searching in a URL defined in the category form
 		 * -remotely searching in a language defined dedicated URL: *component*_HELP_URL
 		 * -locally  searching in a component help file if helpURL param exists in the component and is set to ''
 		 * -remotely searching in a component URL if helpURL param exists in the component and is NOT set to ''
 		 */
-		if ($lang->hasKey($lang_help_url = strtoupper($component) . '_HELP_URL'))
+		if (!$url)
 		{
-			$debug = $lang->setDebug(false);
-			$url = Text::_($lang_help_url);
-			$lang->setDebug($debug);
-		}
-		else
-		{
-			$url = null;
+			if ($lang->hasKey($lang_help_url = strtoupper($component) . '_HELP_URL'))
+			{
+				$debug = $lang->setDebug(false);
+				$url   = Text::_($lang_help_url);
+				$lang->setDebug($debug);
+			}
 		}
 
-		$toolbar->help($ref_key, ComponentHelper::getParams($component)->exists('helpURL'), $url);
+		ToolbarHelper::help($ref_key, ComponentHelper::getParams($component)->exists('helpURL'), $url);
 	}
 }

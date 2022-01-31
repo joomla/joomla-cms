@@ -3,7 +3,7 @@
  * @package     Joomla.API
  * @subpackage  com_languages
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2019 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -87,17 +87,17 @@ class OverridesController extends ApiController
 		/** @var \Joomla\CMS\MVC\Model\AdminModel $model */
 		$model = $this->getModel(Inflector::singularize($this->contentType));
 
-		$model->setState('filter.language', $this->input->post->get('lang_code'));
-		$model->setState('filter.client', $this->input->post->get('app'));
-
 		if (!$model)
 		{
 			throw new \RuntimeException(Text::_('JLIB_APPLICATION_ERROR_MODEL_CREATE'));
 		}
 
+		$model->setState('filter.language', $this->input->post->get('lang_code'));
+		$model->setState('filter.client', $this->input->post->get('app'));
+
 		$data = $this->input->get('data', json_decode($this->input->json->getRaw(), true), 'array');
 
-		// TODO: Not the cleanest thing ever but it works...
+		// @todo: Not the cleanest thing ever but it works...
 		Form::addFormPath(JPATH_COMPONENT_ADMINISTRATOR . '/forms');
 
 		// Validate the posted data.
@@ -171,7 +171,7 @@ class OverridesController extends ApiController
 	 *
 	 * @return string
 	 *
-	 * @since 4.0
+	 * @since 4.0.0
 	 */
 	private function getClientFromInput()
 	{
@@ -183,7 +183,7 @@ class OverridesController extends ApiController
 	 *
 	 * @return string
 	 *
-	 * @since 4.0
+	 * @since 4.0.0
 	 */
 	private function getLanguageFromInput()
 	{

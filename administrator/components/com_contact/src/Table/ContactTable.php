@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_contact
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2005 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -13,9 +13,12 @@ namespace Joomla\Component\Contact\Administrator\Table;
 
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\String\PunycodeHelper;
 use Joomla\CMS\Table\Table;
+use Joomla\CMS\Tag\TaggableTableInterface;
+use Joomla\CMS\Tag\TaggableTableTrait;
 use Joomla\CMS\Versioning\VersionableTableInterface;
 use Joomla\Database\DatabaseDriver;
 use Joomla\String\StringHelper;
@@ -25,8 +28,10 @@ use Joomla\String\StringHelper;
  *
  * @since  1.0
  */
-class ContactTable extends Table implements VersionableTableInterface
+class ContactTable extends Table implements VersionableTableInterface, TaggableTableInterface
 {
+	use TaggableTableTrait;
+
 	/**
 	 * Indicates that columns fully support the NULL value in the database
 	 *
@@ -73,6 +78,12 @@ class ContactTable extends Table implements VersionableTableInterface
 		$date   = Factory::getDate()->toSql();
 		$userId = Factory::getUser()->id;
 
+		// Set created date if not set.
+		if (!(int) $this->created)
+		{
+			$this->created = $date;
+		}
+
 		if ($this->id)
 		{
 			// Existing item
@@ -81,13 +92,7 @@ class ContactTable extends Table implements VersionableTableInterface
 		}
 		else
 		{
-			// New contact. A contact created and created_by field can be set by the user,
-			// so we don't touch either of these if they are set.
-			if (!(int) $this->created)
-			{
-				$this->created = $date;
-			}
-
+			// Field created_by field can be set by the user, so we don't touch it if it's set.
 			if (empty($this->created_by))
 			{
 				$this->created_by = $userId;
@@ -146,7 +151,7 @@ class ContactTable extends Table implements VersionableTableInterface
 
 		$this->default_con = (int) $this->default_con;
 
-		if (\JFilterInput::checkAttribute(array('href', $this->webpage)))
+		if (InputFilter::checkAttribute(array('href', $this->webpage)))
 		{
 			$this->setError(Text::_('COM_CONTACT_WARNING_PROVIDE_VALID_URL'));
 
@@ -271,6 +276,6 @@ class ContactTable extends Table implements VersionableTableInterface
 	 */
 	public function getTypeAlias()
 	{
-		return 'com_contact.contact';
+		return $this->typeAlias;
 	}
 }

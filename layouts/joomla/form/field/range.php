@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  Layout
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2016 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -48,8 +48,8 @@ extract($displayData);
 
 // Initialize some field attributes.
 $attributes = array(
-	$class ? 'class="form-control ' . $class . '"' : 'class="form-control"',
-	!empty($description) ? 'aria-describedby="' . $name . '-desc"' : '',
+	$class ? 'class="form-range ' . $class . '"' : 'class="form-range"',
+	!empty($description) ? 'aria-describedby="' . ($id ?: $name) . '-desc"' : '',
 	$disabled ? 'disabled' : '',
 	$readonly ? 'readonly' : '',
 	!empty($onchange) ? 'onchange="' . $onchange . '"' : '',

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_tags
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2013 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -17,6 +17,7 @@ use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
+use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 
@@ -44,14 +45,15 @@ class HtmlView extends BaseHtmlView
 	/**
 	 * The model state
 	 *
-	 * @var  \JObject
+	 * @var   CMSObject
 	 */
 	protected $state;
 
 	/**
 	 * Form object for search filters
 	 *
-	 * @var    \JForm
+	 * @var    \Joomla\CMS\Form\Form
+	 *
 	 * @since  4.0.0
 	 */
 	public $filterForm;
@@ -60,9 +62,19 @@ class HtmlView extends BaseHtmlView
 	 * The active search filters
 	 *
 	 * @var    array
+	 *
 	 * @since  4.0.0
 	 */
 	public $activeFilters;
+
+	/**
+	 * Is this view an Empty State
+	 *
+	 * @var  boolean
+	 *
+	 * @since 4.0.0
+	 */
+	private $isEmptyState = false;
 
 	/**
 	 * Execute and display a template script.
@@ -79,8 +91,13 @@ class HtmlView extends BaseHtmlView
 		$this->filterForm    = $this->get('FilterForm');
 		$this->activeFilters = $this->get('ActiveFilters');
 
+		if (!\count($this->items) && $this->isEmptyState = $this->get('IsEmptyState'))
+		{
+			$this->setLayout('emptystate');
+		}
+
 		// Check for errors.
-		if (count($errors = $this->get('Errors')))
+		if (\count($errors = $this->get('Errors')))
 		{
 			throw new GenericDataException(implode("\n", $errors), 500);
 		}
@@ -117,7 +134,7 @@ class HtmlView extends BaseHtmlView
 	protected function addToolbar()
 	{
 		$canDo = ContentHelper::getActions('com_tags');
-		$user  = Factory::getUser();
+		$user  = Factory::getApplication()->getIdentity();
 
 		// Get the toolbar object instance
 		$toolbar = Toolbar::getInstance('toolbar');
@@ -129,12 +146,12 @@ class HtmlView extends BaseHtmlView
 			$toolbar->addNew('tag.add');
 		}
 
-		if ($canDo->get('core.edit.state') || $user->authorise('core.admin'))
+		if (!$this->isEmptyState && ($canDo->get('core.edit.state') || $user->authorise('core.admin')))
 		{
 			$dropdown = $toolbar->dropdownButton('status-group')
 				->text('JTOOLBAR_CHANGE_STATUS')
 				->toggleSplit(false)
-				->icon('fas fa-ellipsis-h')
+				->icon('icon-ellipsis-h')
 				->buttonClass('btn btn-action')
 				->listCheck(true);
 
@@ -152,7 +169,7 @@ class HtmlView extends BaseHtmlView
 				$childBar->checkin('tags.checkin')->listCheck(true);
 			}
 
-			if ($canDo->get('core.edit.state') && !$this->state->get('filter.published') == -2)
+			if ($canDo->get('core.edit.state') && $this->state->get('filter.published') != -2)
 			{
 				$childBar->trash('tags.trash')->listCheck(true);
 			}
@@ -165,14 +182,14 @@ class HtmlView extends BaseHtmlView
 					->selector('collapseModal')
 					->listCheck(true);
 			}
+		}
 
-			if ($this->state->get('filter.published') == -2 && $canDo->get('core.delete'))
-			{
-				$childBar->delete('tags.delete')
-					->text('JTOOLBAR_EMPTY_TRASH')
-					->message('JGLOBAL_CONFIRM_DELETE')
-					->listCheck(true);
-			}
+		if (!$this->isEmptyState && $this->state->get('filter.published') == -2 && $canDo->get('core.delete'))
+		{
+			$toolbar->delete('tags.delete')
+				->text('JTOOLBAR_EMPTY_TRASH')
+				->message('JGLOBAL_CONFIRM_DELETE')
+				->listCheck(true);
 		}
 
 		if ($canDo->get('core.admin') || $canDo->get('core.options'))
@@ -180,6 +197,6 @@ class HtmlView extends BaseHtmlView
 			$toolbar->preferences('com_tags');
 		}
 
-		$toolbar->help('JHELP_COMPONENTS_TAGS_MANAGER');
+		$toolbar->help('Tags');
 	}
 }

@@ -3,13 +3,13 @@
  * @package     Joomla.Installation
  * @subpackage  Application
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2013 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Installation\Application;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\Application\Web\WebClient;
 use Joomla\CMS\Application\CMSApplication;
@@ -85,7 +85,7 @@ final class InstallationApplication extends CMSApplication
 	 *
 	 * @return  void
 	 *
-	 * @since   4.0
+	 * @since   4.0.0
 	 */
 	public function afterSessionStart(SessionEvent $event)
 	{
@@ -142,7 +142,7 @@ final class InstallationApplication extends CMSApplication
 
 			$guesses = array();
 
-			foreach ($orphans as $key => $occurence)
+			foreach ($orphans as $key => $occurrence)
 			{
 				$guess = str_replace('_', ' ', $key);
 
@@ -195,9 +195,9 @@ final class InstallationApplication extends CMSApplication
 		Factory::$document = $document;
 
 		// Define component path.
-		define('JPATH_COMPONENT', JPATH_BASE);
-		define('JPATH_COMPONENT_SITE', JPATH_SITE);
-		define('JPATH_COMPONENT_ADMINISTRATOR', JPATH_ADMINISTRATOR);
+		\define('JPATH_COMPONENT', JPATH_BASE);
+		\define('JPATH_COMPONENT_SITE', JPATH_SITE);
+		\define('JPATH_COMPONENT_ADMINISTRATOR', JPATH_ADMINISTRATOR);
 
 		// Execute the task.
 		ob_start();
@@ -241,7 +241,7 @@ final class InstallationApplication extends CMSApplication
 	 *
 	 * @return  void
 	 *
-	 * @since   4.0
+	 * @since   4.0.0
 	 */
 	public function execute()
 	{
@@ -300,13 +300,13 @@ final class InstallationApplication extends CMSApplication
 	 */
 	private function executeController()
 	{
-		$task = $this->input->get('task');
+		$task = $this->input->getCmd('task', '');
 
 		// The name of the controller
 		$controllerName = 'display';
 
 		// Parse task in format controller.task
-		if ($task)
+		if ($task !== '')
 		{
 			list($controllerName, $task) = explode('.', $task, 2);
 		}
@@ -394,7 +394,7 @@ final class InstallationApplication extends CMSApplication
 	 *
 	 * @param   boolean  $params  True to return the template parameters
 	 *
-	 * @return  string  The name of the template.
+	 * @return  string|\stdClass  The name of the template.
 	 *
 	 * @since   3.1
 	 */

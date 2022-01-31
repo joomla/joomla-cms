@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2017 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -63,7 +63,6 @@ class ExtensionHelper
 		array('component', 'com_content', '', 1),
 		array('component', 'com_contenthistory', '', 1),
 		array('component', 'com_cpanel', '', 1),
-		array('component', 'com_csp', '', 1),
 		array('component', 'com_fields', '', 1),
 		array('component', 'com_finder', '', 1),
 		array('component', 'com_installer', '', 1),
@@ -80,6 +79,7 @@ class ExtensionHelper
 		array('component', 'com_postinstall', '', 1),
 		array('component', 'com_privacy', '', 1),
 		array('component', 'com_redirect', '', 1),
+		array('component', 'com_scheduler', '', 1),
 		array('component', 'com_tags', '', 1),
 		array('component', 'com_templates', '', 1),
 		array('component', 'com_users', '', 1),
@@ -219,7 +219,7 @@ class ExtensionHelper
 		array('plugin', 'media', 'fields', 0),
 		array('plugin', 'radio', 'fields', 0),
 		array('plugin', 'sql', 'fields', 0),
-		array('plugin', 'subfields', 'fields', 0),
+		array('plugin', 'subform', 'fields', 0),
 		array('plugin', 'text', 'fields', 0),
 		array('plugin', 'textarea', 'fields', 0),
 		array('plugin', 'url', 'fields', 0),
@@ -276,6 +276,7 @@ class ExtensionHelper
 		array('plugin', 'fields', 'system', 0),
 		array('plugin', 'highlight', 'system', 0),
 		array('plugin', 'httpheaders', 'system', 0),
+		array('plugin', 'jooa11y', 'system', 0),
 		array('plugin', 'languagecode', 'system', 0),
 		array('plugin', 'languagefilter', 'system', 0),
 		array('plugin', 'log', 'system', 0),
@@ -284,12 +285,20 @@ class ExtensionHelper
 		array('plugin', 'privacyconsent', 'system', 0),
 		array('plugin', 'redirect', 'system', 0),
 		array('plugin', 'remember', 'system', 0),
+		array('plugin', 'schedulerunner', 'system', 0),
 		array('plugin', 'sef', 'system', 0),
 		array('plugin', 'sessiongc', 'system', 0),
 		array('plugin', 'skipto', 'system', 0),
 		array('plugin', 'stats', 'system', 0),
+		array('plugin', 'tasknotification', 'system', 0),
 		array('plugin', 'updatenotification', 'system', 0),
 		array('plugin', 'webauthn', 'system', 0),
+
+		// Core plugin extensions - task scheduler
+		array('plugin', 'checkfiles', 'task', 0),
+		array('plugin', 'demotasks', 'task', 0),
+		array('plugin', 'requests', 'task', 0),
+		array('plugin', 'sitestatus', 'task', 0),
 
 		// Core plugin extensions - two factor authentication
 		array('plugin', 'totp', 'twofactorauth', 0),
@@ -309,6 +318,7 @@ class ExtensionHelper
 		array('plugin', 'content', 'webservices', 0),
 		array('plugin', 'installer', 'webservices', 0),
 		array('plugin', 'languages', 'webservices', 0),
+		array('plugin', 'media', 'webservices', 0),
 		array('plugin', 'menus', 'webservices', 0),
 		array('plugin', 'messages', 'webservices', 0),
 		array('plugin', 'modules', 'webservices', 0),
@@ -393,18 +403,18 @@ class ExtensionHelper
 	/**
 	 * Check if an extension is core or not
 	 *
-	 * @param   string   $type       The extension's type.
-	 * @param   string   $element    The extension's element name.
-	 * @param   integer  $client_id  The extension's client ID. Default 0.
-	 * @param   string   $folder     The extension's folder. Default ''.
+	 * @param   string   $type      The extension's type.
+	 * @param   string   $element   The extension's element name.
+	 * @param   integer  $clientId  The extension's client ID. Default 0.
+	 * @param   string   $folder    The extension's folder. Default ''.
 	 *
 	 * @return  boolean  True if core, false if not.
 	 *
 	 * @since   3.7.4
 	 */
-	public static function checkIfCoreExtension($type, $element, $client_id = 0, $folder = '')
+	public static function checkIfCoreExtension($type, $element, $clientId = 0, $folder = '')
 	{
-		return \in_array(array($type, $element, $folder, $client_id), self::$coreExtensions);
+		return \in_array(array($type, $element, $folder, $clientId), self::$coreExtensions);
 	}
 
 	/**

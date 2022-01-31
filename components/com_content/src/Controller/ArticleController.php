@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2009 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -93,7 +93,7 @@ class ArticleController extends FormController
 	 */
 	protected function allowAdd($data = array())
 	{
-		$user       = Factory::getUser();
+		$user       = $this->app->getIdentity();
 		$categoryId = ArrayHelper::getValue($data, 'catid', $this->input->getInt('catid'), 'int');
 		$allow      = null;
 
@@ -127,7 +127,7 @@ class ArticleController extends FormController
 	protected function allowEdit($data = array(), $key = 'id')
 	{
 		$recordId = (int) isset($data[$key]) ? $data[$key] : 0;
-		$user = Factory::getUser();
+		$user = $this->app->getIdentity();
 
 		// Zero record (id:0), return component edit permission by calling parent controller method
 		if (!$recordId)
@@ -294,7 +294,7 @@ class ArticleController extends FormController
 			$append .= '&tmpl=' . $tmpl;
 		}
 
-		// TODO This is a bandaid, not a long term solution.
+		// @todo This is a bandaid, not a long term solution.
 		/**
 		 * if ($layout)
 		 * {
@@ -391,6 +391,10 @@ class ArticleController extends FormController
 				$this->setRedirect(Route::_('index.php?Itemid=' . $menuitem . $lang, false));
 			}
 		}
+		elseif ($this->getTask() === 'save2copy')
+		{
+			// Redirect to the article page, use the redirect url set from parent controller
+		}
 		else
 		{
 			// If ok, redirect to the return page.
@@ -415,7 +419,7 @@ class ArticleController extends FormController
 	 */
 	public function reload($key = null, $urlVar = 'a_id')
 	{
-		return parent::reload($key, $urlVar);
+		parent::reload($key, $urlVar);
 	}
 
 	/**
@@ -438,6 +442,12 @@ class ArticleController extends FormController
 			$id = $this->input->getInt('id', 0);
 			$viewName = $this->input->getString('view', $this->default_view);
 			$model = $this->getModel($viewName);
+
+			// Don't redirect to an external URL.
+			if (!Uri::isInternal($url))
+			{
+				$url = Route::_('index.php');
+			}
 
 			if ($model->storeVote($id, $user_rating))
 			{

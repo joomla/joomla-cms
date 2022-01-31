@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2009 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -80,7 +80,7 @@ class FormController extends BaseController implements FormFactoryAwareInterface
 	 *                                              Recognized key values include 'name', 'default_task', 'model_path', and
 	 *                                              'view_path' (this list is not meant to be comprehensive).
 	 * @param   MVCFactoryInterface   $factory      The factory.
-	 * @param   CMSApplication        $app          The JApplication for the dispatcher
+	 * @param   CMSApplication        $app          The Application for the dispatcher
 	 * @param   Input                 $input        Input
 	 * @param   FormFactoryInterface  $formFactory  The form factory.
 	 *
@@ -119,7 +119,7 @@ class FormController extends BaseController implements FormFactoryAwareInterface
 
 			if (!preg_match('/(.*)' . $match . '(.*)/i', \get_class($this), $r))
 			{
-				throw new \Exception(Text::_('JLIB_APPLICATION_ERROR_CONTROLLER_GET_NAME'), 500);
+				throw new \Exception(Text::sprintf('JLIB_APPLICATION_ERROR_GET_NAME', __METHOD__), 500);
 			}
 
 			// Remove the backslashes and the suffix controller
@@ -749,7 +749,7 @@ class FormController extends BaseController implements FormFactoryAwareInterface
 		{
 			case 'apply':
 				// Set the record data in the session.
-				$recordId = $model->getState($this->context . '.id');
+				$recordId = $model->getState($model->getName() . '.id');
 				$this->holdEditId($context, $recordId);
 				$app->setUserState($context . '.data', null);
 				$model->checkout($recordId);

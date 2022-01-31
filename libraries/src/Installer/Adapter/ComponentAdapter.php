@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2005 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -240,7 +240,7 @@ class ComponentAdapter extends InstallerAdapter
 				{
 					throw new \RuntimeException(
 						Text::sprintf(
-							'JLIB_INSTALLER_ABORT_COMP_COPY_MANIFEST',
+							'JLIB_INSTALLER_ABORT_MANIFEST',
 							Text::_('JLIB_INSTALLER_' . strtoupper($this->route))
 						)
 					);
@@ -268,7 +268,7 @@ class ComponentAdapter extends InstallerAdapter
 			{
 				throw new \RuntimeException(
 					Text::sprintf(
-						'JLIB_INSTALLER_ERROR_COMP_FAILED_TO_CREATE_DIRECTORY',
+						'JLIB_INSTALLER_ABORT_CREATE_DIRECTORY',
 						Text::_('JLIB_INSTALLER_' . strtoupper($this->route)),
 						$this->parent->getPath('extension_site')
 					)
@@ -299,7 +299,7 @@ class ComponentAdapter extends InstallerAdapter
 			{
 				throw new \RuntimeException(
 					Text::sprintf(
-						'JLIB_INSTALLER_ERROR_COMP_FAILED_TO_CREATE_DIRECTORY',
+						'JLIB_INSTALLER_ABORT_CREATE_DIRECTORY',
 						Text::_('JLIB_INSTALLER_' . strtoupper($this->route)),
 						$this->parent->getPath('extension_administrator')
 					)
@@ -330,7 +330,7 @@ class ComponentAdapter extends InstallerAdapter
 			{
 				throw new \RuntimeException(
 					Text::sprintf(
-						'JLIB_INSTALLER_ERROR_COMP_FAILED_TO_CREATE_DIRECTORY',
+						'JLIB_INSTALLER_ABORT_CREATE_DIRECTORY',
 						Text::_('JLIB_INSTALLER_' . strtoupper($this->route)),
 						$this->parent->getPath('extension_api')
 					)
@@ -388,7 +388,7 @@ class ComponentAdapter extends InstallerAdapter
 				// Install failed, roll back changes
 				throw new \RuntimeException(
 					Text::sprintf(
-						'JLIB_INSTALLER_ABORT_COMP_COPY_SETUP',
+						'JLIB_INSTALLER_ABORT_COPY_SETUP',
 						Text::_('JLIB_INSTALLER_' . strtoupper($this->route))
 					)
 				);
@@ -1003,13 +1003,13 @@ class ComponentAdapter extends InstallerAdapter
 	/**
 	 * Method to build menu database entries for a component
 	 *
-	 * @param   int|null  $component_id  The component ID for which I'm building menus
+	 * @param   int|null  $componentId  The component ID for which I'm building menus
 	 *
 	 * @return  boolean  True if successful
 	 *
 	 * @since   3.1
 	 */
-	protected function _buildAdminMenus($component_id = null)
+	protected function _buildAdminMenus($componentId = null)
 	{
 		$db     = $this->parent->getDbo();
 		$option = $this->element;
@@ -1054,14 +1054,14 @@ class ComponentAdapter extends InstallerAdapter
 				// Remove existing menu items if overwrite has been enabled
 				if ($option)
 				{
-					// If something goes wrong, there's no way to rollback TODO: Search for better solution
+					// If something goes wrong, there's no way to rollback @todo: Search for better solution
 					$this->_removeAdminMenus($componentrow->extension_id);
 				}
 			}
 		}
 
 		// Only try to detect the component ID if it's not provided
-		if (empty($component_id))
+		if (empty($componentId))
 		{
 			// Lets find the extension id
 			$query->clear()
@@ -1076,7 +1076,7 @@ class ComponentAdapter extends InstallerAdapter
 				->bind(':element', $option);
 
 			$db->setQuery($query);
-			$component_id = $db->loadResult();
+			$componentId = $db->loadResult();
 		}
 
 		// Ok, now its time to handle the menus.  Start with the component root menu, then handle submenus.
@@ -1097,63 +1097,42 @@ class ComponentAdapter extends InstallerAdapter
 		// Let's figure out what the menu item data should look like
 		$data = array();
 
-		if ($menuElement)
+		// I have a menu element, use this information
+		$data['menutype']     = 'main';
+		$data['client_id']    = 1;
+		$data['title']        = (string) trim($menuElement);
+		$data['alias']        = (string) $menuElement;
+		$data['type']         = 'component';
+		$data['published']    = 1;
+		$data['parent_id']    = 1;
+		$data['component_id'] = $componentId;
+		$data['img']          = ((string) $menuElement->attributes()->img) ?: 'class:component';
+		$data['home']         = 0;
+		$data['path']         = '';
+		$data['params']       = '';
+
+		if ($params = $menuElement->params)
 		{
-			// I have a menu element, use this information
-			$data['menutype']     = 'main';
-			$data['client_id']    = 1;
-			$data['title']        = (string) trim($menuElement);
-			$data['alias']        = (string) $menuElement;
-			$data['type']         = 'component';
-			$data['published']    = 1;
-			$data['parent_id']    = 1;
-			$data['component_id'] = $component_id;
-			$data['img']          = ((string) $menuElement->attributes()->img) ?: 'class:component';
-			$data['home']         = 0;
-			$data['path']         = '';
-			$data['params']       = '';
-
-			if ($params = $menuElement->params)
-			{
-				// Pass $params through Registry to convert to JSON.
-				$params = new Registry($params);
-				$data['params'] = $params->toString();
-			}
-
-			// Set the menu link
-			$request = [];
-
-			if ((string) $menuElement->attributes()->task)
-			{
-				$request[] = 'task=' . $menuElement->attributes()->task;
-			}
-
-			if ((string) $menuElement->attributes()->view)
-			{
-				$request[] = 'view=' . $menuElement->attributes()->view;
-			}
-
-			$qstring = \count($request) ? '&' . implode('&', $request) : '';
-			$data['link'] = 'index.php?option=' . $option . $qstring;
+			// Pass $params through Registry to convert to JSON.
+			$params = new Registry($params);
+			$data['params'] = $params->toString();
 		}
-		else
+
+		// Set the menu link
+		$request = [];
+
+		if ((string) $menuElement->attributes()->task)
 		{
-			// No menu element was specified, Let's make a generic menu item
-			$data                 = array();
-			$data['menutype']     = 'main';
-			$data['client_id']    = 1;
-			$data['title']        = $option;
-			$data['alias']        = $option;
-			$data['link']         = 'index.php?option=' . $option;
-			$data['type']         = 'component';
-			$data['published']    = 1;
-			$data['parent_id']    = 1;
-			$data['component_id'] = $component_id;
-			$data['img']          = 'class:component';
-			$data['home']         = 0;
-			$data['path']         = '';
-			$data['params']       = '';
+			$request[] = 'task=' . $menuElement->attributes()->task;
 		}
+
+		if ((string) $menuElement->attributes()->view)
+		{
+			$request[] = 'view=' . $menuElement->attributes()->view;
+		}
+
+		$qstring = \count($request) ? '&' . implode('&', $request) : '';
+		$data['link'] = 'index.php?option=' . $option . $qstring;
 
 		// Try to create the menu item in the database
 		$parent_id = $this->_createAdminMenuItem($data, 1);
@@ -1183,7 +1162,7 @@ class ComponentAdapter extends InstallerAdapter
 			$data['type']         = 'component';
 			$data['published']    = 1;
 			$data['parent_id']    = $parent_id;
-			$data['component_id'] = $component_id;
+			$data['component_id'] = $componentId;
 			$data['img']          = ((string) $child->attributes()->img) ?: 'class:component';
 			$data['home']         = 0;
 			$data['params']       = '';
@@ -1249,7 +1228,7 @@ class ComponentAdapter extends InstallerAdapter
 			 * Since we have created a menu item, we add it to the installation step stack
 			 * so that if we have to rollback the changes we can undo it.
 			 */
-			$this->parent->pushStep(array('type' => 'menu', 'id' => $component_id));
+			$this->parent->pushStep(array('type' => 'menu', 'id' => $componentId));
 		}
 
 		return true;
@@ -1270,7 +1249,7 @@ class ComponentAdapter extends InstallerAdapter
 	{
 		$db = $this->parent->getDbo();
 
-		/** @var  \JTableMenu  $table */
+		/** @var  \Joomla\CMS\Table\Menu  $table */
 		$table = Table::getInstance('menu');
 
 		// Get the ids of the menu items
@@ -1316,28 +1295,28 @@ class ComponentAdapter extends InstallerAdapter
 	 * Method to update menu database entries for a component in case the component has been uninstalled before.
 	 * NOTE: This will not update admin menus. Use _updateMenus() instead to update admin menus ase well.
 	 *
-	 * @param   int|null  $component_id  The component ID.
+	 * @param   int|null  $componentId  The component ID.
 	 *
 	 * @return  boolean  True if successful
 	 *
 	 * @since   3.4.2
 	 */
-	protected function _updateSiteMenus($component_id = null)
+	protected function _updateSiteMenus($componentId = null)
 	{
-		return $this->_updateMenus($component_id, 0);
+		return $this->_updateMenus($componentId, 0);
 	}
 
 	/**
 	 * Method to update menu database entries for a component in case if the component has been uninstalled before.
 	 *
-	 * @param   int|null  $component_id  The component ID.
-	 * @param   int       $clientId      The client id
+	 * @param   int|null  $componentId  The component ID.
+	 * @param   int       $clientId     The client id
 	 *
 	 * @return  boolean  True if successful
 	 *
 	 * @since   3.7.0
 	 */
-	protected function _updateMenus($component_id, $clientId = null)
+	protected function _updateMenus($componentId, $clientId = null)
 	{
 		$db        = $this->parent->getDbo();
 		$option    = $this->element;
@@ -1358,7 +1337,7 @@ class ComponentAdapter extends InstallerAdapter
 				],
 				'OR'
 			)
-			->bind(':componentId', $component_id, ParameterType::INTEGER)
+			->bind(':componentId', $componentId, ParameterType::INTEGER)
 			->bind(':link', $link)
 			->bind(':linkMatch', $linkMatch);
 
@@ -1530,7 +1509,7 @@ class ComponentAdapter extends InstallerAdapter
 	{
 		$db = $this->parent->getDbo();
 
-		/** @var  \JTableMenu  $table */
+		/** @var  \Joomla\CMS\Table\Menu  $table */
 		$table  = Table::getInstance('menu');
 
 		try
@@ -1584,7 +1563,7 @@ class ComponentAdapter extends InstallerAdapter
 			}
 			else
 			{
-				/** @var  \JTableMenu $temporaryTable */
+				/** @var  \Joomla\CMS\Table\Menu $temporaryTable */
 				$temporaryTable = Table::getInstance('menu');
 				$temporaryTable->delete($menu_id, true);
 				$temporaryTable->load($parentId);

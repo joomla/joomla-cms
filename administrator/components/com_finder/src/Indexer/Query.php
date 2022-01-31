@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2011 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -11,6 +11,7 @@ namespace Joomla\Component\Finder\Administrator\Indexer;
 
 \defined('_JEXEC') or die;
 
+use Exception;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
@@ -749,6 +750,11 @@ class Query
 	 */
 	protected function processString($input, $lang, $mode)
 	{
+		if ($input === null)
+		{
+			$input = '';
+		}
+
 		// Clean up the input string.
 		$input  = html_entity_decode($input, ENT_QUOTES, 'UTF-8');
 		$input  = StringHelper::strtolower($input);
@@ -998,7 +1004,7 @@ class Query
 					// Tokenize the current term.
 					$token = Helper::tokenize($terms[$i], $lang, true);
 
-					// Todo: The previous function call may return an array, which seems not to be handled by the next one, which expects an object
+					// @todo: The previous function call may return an array, which seems not to be handled by the next one, which expects an object
 					$token = $this->getTokenData(array_shift($token));
 
 					if ($params->get('filter_commonwords', 0) && $token->common)
@@ -1048,7 +1054,6 @@ class Query
 
 					// Adjust the loop.
 					$i += 2;
-					continue;
 				}
 				// Handle the OR operator.
 				elseif ($op === 'OR' && isset($terms[$i + 2]))
@@ -1118,7 +1123,6 @@ class Query
 
 					// Adjust the loop.
 					$i += 2;
-					continue;
 				}
 			}
 			// Handle an orphaned OR operator.
@@ -1166,7 +1170,6 @@ class Query
 
 				// Adjust the loop.
 				$i++;
-				continue;
 			}
 			// Handle the NOT operator.
 			elseif (isset($terms[$i + 1]) && array_search($terms[$i], $operators, true) === 'NOT')
@@ -1212,7 +1215,6 @@ class Query
 
 				// Adjust the loop.
 				$i++;
-				continue;
 			}
 		}
 

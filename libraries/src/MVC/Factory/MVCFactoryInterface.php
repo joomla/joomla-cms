@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2017 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -17,7 +17,7 @@ use Joomla\Input\Input;
 /**
  * Factory to create MVC objects.
  *
- * @since  4.0.0
+ * @since  3.10.0
  */
 interface MVCFactoryInterface
 {
@@ -46,7 +46,7 @@ interface MVCFactoryInterface
 	 *
 	 * @return  ModelInterface  The model object
 	 *
-	 * @since   4.0.0
+	 * @since   3.10.0
 	 * @throws  \Exception
 	 */
 	public function createModel($name, $prefix = '', array $config = []);
@@ -61,7 +61,7 @@ interface MVCFactoryInterface
 	 *
 	 * @return  \Joomla\CMS\MVC\View\ViewInterface  The view object
 	 *
-	 * @since   4.0.0
+	 * @since   3.10.0
 	 * @throws  \Exception
 	 */
 	public function createView($name, $prefix = '', $type = '', array $config = []);
@@ -75,7 +75,7 @@ interface MVCFactoryInterface
 	 *
 	 * @return  \Joomla\CMS\Table\Table  The table object
 	 *
-	 * @since   4.0.0
+	 * @since   3.10.0
 	 * @throws  \Exception
 	 */
 	public function createTable($name, $prefix = '', array $config = []);

@@ -2,16 +2,18 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2019 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Mail;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Filesystem\File;
+use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Mail\Exception\MailDisabledException;
 use Joomla\Database\ParameterType;
@@ -81,15 +83,15 @@ class MailTemplate
 	/**
 	 * Constructor for the mail templating class
 	 *
-	 * @param   string  $template_id  Id of the mail template.
-	 * @param   string  $language     Language of the template to use.
-	 * @param   Mail    $mailer       Mail object to send the mail with.
+	 * @param   string  $templateId  Id of the mail template.
+	 * @param   string  $language    Language of the template to use.
+	 * @param   Mail    $mailer      Mail object to send the mail with.
 	 *
 	 * @since   4.0.0
 	 */
-	public function __construct($template_id, $language, Mail $mailer = null)
+	public function __construct($templateId, $language, Mail $mailer = null)
 	{
-		$this->template_id = $template_id;
+		$this->template_id = $templateId;
 		$this->language = $language;
 
 		if ($mailer)
@@ -178,6 +180,7 @@ class MailTemplate
 	 * @return  boolean  True on success
 	 *
 	 * @since   4.0.0
+	 * @throws  \Exception
 	 * @throws  MailDisabledException
 	 * @throws  phpmailerException
 	 */
@@ -187,9 +190,15 @@ class MailTemplate
 
 		$mail = self::getTemplate($this->template_id, $this->language);
 
+		// If the Mail Template was not found in the db, we cannot send an email.
+		if ($mail === null)
+		{
+			return false;
+		}
+
 		/** @var Registry $params */
 		$params = $mail->params;
-		$app = Factory::getApplication();
+		$app    = Factory::getApplication();
 
 		if ($config->get('alternative_mailconfig'))
 		{
@@ -220,29 +229,43 @@ class MailTemplate
 
 		$app->triggerEvent('onMailBeforeRendering', array($this->template_id, &$this));
 
-		$mail->subject = $this->replaceTags(Text::_($mail->subject), $this->data);
-		$this->mailer->setSubject($mail->subject);
+		$subject = $this->replaceTags(Text::_($mail->subject), $this->data);
+		$this->mailer->setSubject($subject);
 
-		if ($config->get('mail_style', 'plaintext') === 'plaintext')
+		$mailStyle = $config->get('mail_style', 'plaintext');
+		$plainBody = $this->replaceTags(Text::_($mail->body), $this->data);
+		$htmlBody  = $this->replaceTags(Text::_($mail->htmlbody), $this->data);
+
+		if ($mailStyle === 'plaintext' || $mailStyle === 'both')
 		{
-			$mail->body = $this->replaceTags(Text::_($mail->body), $this->data);
-			$this->mailer->setBody($mail->body);
+			// If the Plain template is empty try to convert the HTML template to a Plain text
+			if (!$plainBody)
+			{
+				$plainBody = strip_tags(str_replace(['<br>', '<br />', '<br/>'], "\n", $htmlBody));
+			}
+
+			$this->mailer->setBody($plainBody);
+
+			// Set alt body, use $mailer->Body directly because it was filtered by $mailer->setBody()
+			if ($mailStyle === 'both')
+			{
+				$this->mailer->AltBody = $this->mailer->Body;
+			}
 		}
 
-		if ($config->get('mail_style', 'plaintext') === 'html')
+		if ($mailStyle === 'html' || $mailStyle === 'both')
 		{
-			$this->mailer->IsHTML(true);
-			$mail->htmlbody = $this->replaceTags(Text::_($mail->htmlbody), $this->data);
-			$this->mailer->setBody($mail->htmlbody);
-		}
+			$this->mailer->isHtml(true);
 
-		if ($config->get('mail_style', 'plaintext') === 'both')
-		{
-			$this->mailer->IsHTML(true);
-			$mail->htmlbody = $this->replaceTags(Text::_($mail->htmlbody), $this->data);
-			$this->mailer->setBody($mail->htmlbody);
-			$mail->body = $this->replaceTags(Text::_($mail->body), $this->data);
-			$this->mailer->AltBody = $mail->body;
+			// If HTML body is empty try to convert the Plain template to html
+			if (!$htmlBody)
+			{
+				$htmlBody = nl2br($plainBody, false);
+			}
+
+			$htmlBody = MailHelper::convertRelativeToAbsoluteUrls($htmlBody);
+
+			$this->mailer->setBody($htmlBody);
 		}
 
 		if ($config->get('copy_mails') && $params->get('copyto'))
@@ -255,7 +278,7 @@ class MailTemplate
 			switch ($recipient->type)
 			{
 				case 'cc':
-					$this->mailer->addcc($recipient->mail, $recipient->name);
+					$this->mailer->addCc($recipient->mail, $recipient->name);
 					break;
 				case 'bcc':
 					$this->mailer->addBcc($recipient->mail, $recipient->name);
@@ -271,13 +294,21 @@ class MailTemplate
 			$this->mailer->addReplyTo($this->replyto->mail, $this->replyto->name);
 		}
 
-		$path = JPATH_ROOT . '/' . $config->get('attachment_folder') . '/';
-
-		foreach ((array) json_decode($mail->attachments)  as $attachment)
+		if (trim($config->get('attachment_folder')))
 		{
-			if (is_file($path . $attachment->file))
+			$folderPath = rtrim(Path::check(JPATH_ROOT . '/' . $config->get('attachment_folder')), \DIRECTORY_SEPARATOR);
+
+			if ($folderPath && $folderPath !== Path::clean(JPATH_ROOT) && is_dir($folderPath))
 			{
-				$this->mailer->addAttachment($path . $attachment->file, $attachment->name ?? $attachment->file);
+				foreach ((array) json_decode($mail->attachments) as $attachment)
+				{
+					$filePath = Path::check($folderPath . '/' . $attachment->file);
+
+					if (is_file($filePath))
+					{
+						$this->mailer->addAttachment($filePath, $this->getAttachmentName($filePath, $attachment->name));
+					}
+				}
 			}
 		}
 
@@ -285,11 +316,11 @@ class MailTemplate
 		{
 			if (is_file($attachment->file))
 			{
-				$this->mailer->addAttachment($attachment->file, $attachment->name);
+				$this->mailer->addAttachment($attachment->file, $this->getAttachmentName($attachment->file, $attachment->name));
 			}
 			else
 			{
-				$this->mailer->AddStringAttachment($attachment->file, $attachment->name);
+				$this->mailer->addStringAttachment($attachment->file, $attachment->name);
 			}
 		}
 
@@ -347,13 +378,13 @@ class MailTemplate
 	 * @param   string  $key       Template identifier
 	 * @param   string  $language  Language code of the template
 	 *
-	 * @return  object  An object with the data of the mail
+	 * @return  object|null  An object with the data of the mail, or null if the template not found in the db.
 	 *
 	 * @since   4.0.0
 	 */
 	public static function getTemplate($key, $language)
 	{
-		$db = Factory::getDBO();
+		$db = Factory::getDbo();
 		$query = $db->getQuery(true);
 		$query->select('*')
 			->from($db->quoteName('#__mail_templates'))
@@ -376,10 +407,10 @@ class MailTemplate
 	 * Insert a new mail template into the system
 	 *
 	 * @param   string  $key       Mail template key
-	 * @param   string  $subject   A default subject (normally a translateable string)
-	 * @param   string  $body      A default body (normally a translateable string)
+	 * @param   string  $subject   A default subject (normally a translatable string)
+	 * @param   string  $body      A default body (normally a translatable string)
 	 * @param   array   $tags      Associative array of tags to replace
-	 * @param   string  $htmlbody  A default htmlbody (normally a translateable string)
+	 * @param   string  $htmlbody  A default htmlbody (normally a translatable string)
 	 *
 	 * @return  boolean  True on success, false on failure
 	 *
@@ -395,6 +426,7 @@ class MailTemplate
 		$template->subject = $subject;
 		$template->body = $body;
 		$template->htmlbody = $htmlbody;
+		$template->attachments = '';
 		$params = new \stdClass;
 		$params->tags = array($tags);
 		$template->params = json_encode($params);
@@ -406,10 +438,10 @@ class MailTemplate
 	 * Update an existing mail template
 	 *
 	 * @param   string  $key       Mail template key
-	 * @param   string  $subject   A default subject (normally a translateable string)
-	 * @param   string  $body      A default body (normally a translateable string)
+	 * @param   string  $subject   A default subject (normally a translatable string)
+	 * @param   string  $body      A default body (normally a translatable string)
 	 * @param   array   $tags      Associative array of tags to replace
-	 * @param   string  $htmlbody  A default htmlbody (normally a translateable string)
+	 * @param   string  $htmlbody  A default htmlbody (normally a translatable string)
 	 *
 	 * @return  boolean  True on success, false on failure
 	 *
@@ -452,5 +484,33 @@ class MailTemplate
 
 		return $db->execute();
 	}
-}
 
+	/**
+	 * Check and if necessary fix the file name of an attachment so that the attached file
+	 * has the same extension as the source file, and not a different file extension
+	 *
+	 * @param   string  $file  Path to the file to be attached
+	 * @param   string  $name  The file name to be used for the attachment
+	 *
+	 * @return  string  The corrected file name for the attachment
+	 *
+	 * @since   4.0.0
+	 */
+	protected function getAttachmentName(string $file, string $name): string
+	{
+		// If no name is given, do not process it further
+		if (!trim($name))
+		{
+			return '';
+		}
+
+		// Replace any placeholders.
+		$name = $this->replaceTags($name, $this->data);
+
+		// Get the file extension.
+		$ext = File::getExt($file);
+
+		// Strip off extension from $name and append extension of $file, if any
+		return File::stripExt($name) . ($ext ? '.' . $ext : '');
+	}
+}

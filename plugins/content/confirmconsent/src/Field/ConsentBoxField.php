@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Content.confirmconsent
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2018 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -56,7 +56,7 @@ class ConsentBoxField extends CheckboxesField
 	 * The menu item ID.
 	 *
 	 * @var    integer
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $menuItemId;
 
@@ -64,7 +64,7 @@ class ConsentBoxField extends CheckboxesField
 	 * Type of the privacy policy.
 	 *
 	 * @var    string
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $privacyType;
 
@@ -155,7 +155,7 @@ class ConsentBoxField extends CheckboxesField
 		$data = $this->getLayoutData();
 
 		// Forcing the Alias field to display the tip below
-		$position = $this->element['name'] == 'alias' ? ' data-placement="bottom" ' : '';
+		$position = $this->element['name'] == 'alias' ? ' data-bs-placement="bottom" ' : '';
 
 		// When we have an article let's add the modal and make the title clickable
 		$hasLink = ($data['privacyType'] === 'article' && $data['articleid'])
@@ -163,7 +163,7 @@ class ConsentBoxField extends CheckboxesField
 
 		if ($hasLink)
 		{
-			$attribs['data-toggle'] = 'modal';
+			$attribs['data-bs-toggle'] = 'modal';
 
 			$data['label'] = HTMLHelper::_(
 				'link',
@@ -203,8 +203,10 @@ class ConsentBoxField extends CheckboxesField
 		{
 			$modalParams['title']  = $layoutData['label'];
 			$modalParams['url']    = ($this->privacyType === 'menu_item') ? $this->getAssignedMenuItemUrl() : $this->getAssignedArticleUrl();
-			$modalParams['height'] = 800;
+			$modalParams['height'] = '100%';
 			$modalParams['width']  = '100%';
+			$modalParams['bodyHeight'] = 70;
+			$modalParams['modalWidth'] = 80;
 			$modalHtml = HTMLHelper::_('bootstrap.renderModal', 'modal-' . $this->id, $modalParams);
 		}
 
@@ -262,7 +264,7 @@ class ConsentBoxField extends CheckboxesField
 			);
 		}
 
-		if (!is_object($article))
+		if (!\is_object($article))
 		{
 			// We have not found the article object lets show a 404 to the user
 			return Route::_(
@@ -285,7 +287,7 @@ class ConsentBoxField extends CheckboxesField
 		$associatedArticles = Associations::getAssociations('com_content', '#__content', 'com_content.item', $article->id);
 		$currentLang        = Factory::getLanguage()->getTag();
 
-		if (isset($associatedArticles) && $currentLang !== $article->language && array_key_exists($currentLang, $associatedArticles))
+		if (isset($associatedArticles) && $currentLang !== $article->language && \array_key_exists($currentLang, $associatedArticles))
 		{
 			return Route::_(
 				RouteHelper::getArticleRoute(
@@ -310,7 +312,7 @@ class ConsentBoxField extends CheckboxesField
 	 *
 	 * @return  string
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	private function getAssignedMenuItemUrl()
 	{

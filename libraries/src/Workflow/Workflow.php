@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2018 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -10,11 +10,13 @@ namespace Joomla\CMS\Workflow;
 
 \defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Event\AbstractEvent;
 use Joomla\CMS\Extension\ComponentInterface;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Table\Category;
+use Joomla\Database\DatabaseDriver;
 use Joomla\Database\ParameterType;
 use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
@@ -42,14 +44,18 @@ class Workflow
 	protected $extension = null;
 
 	/**
-	 * Workflow options
+	 * Application Object
 	 *
-	 * @var array
+	 * @var    CMSApplication
+	 * @since  4.0.0
 	 */
-	protected $options = [];
+	protected $app;
 
 	/**
-	 * @var \Joomla\Database\DatabaseDriver
+	 * Database Driver
+	 *
+	 * @var    DatabaseDriver
+	 * @since  4.0.0
 	 */
 	protected $db;
 
@@ -88,21 +94,19 @@ class Workflow
 	/**
 	 * Class constructor
 	 *
-	 * @param   array  $options  Array of options
+	 * @param   string           $extension  The extension name
+	 * @param   ?CMSApplication  $app        Application Object
+	 * @param   ?DatabaseDriver  $db         Database Driver Object
 	 *
 	 * @since   4.0.0
 	 */
-	public function __construct($options)
+	public function __construct(string $extension, ?CMSApplication $app = null, ?DatabaseDriver $db = null)
 	{
-		// Required options
-		$this->extension = $options['extension'];
+		$this->extension = $extension;
 
-		// Default some optional options
-		$this->options['access']     = true;
-		$this->options['published']  = true;
-		$this->options['countItems'] = false;
-
-		$this->setOptions($options);
+		// Initialise default objects if none have been provided
+		$this->app = $app ?: Factory::getApplication();
+		$this->db = $db ?: Factory::getDbo();
 	}
 
 	/**
@@ -143,7 +147,7 @@ class Workflow
 		{
 			$parts = explode('.', $this->extension);
 
-			$this->component = Factory::getApplication()->bootComponent($parts[0]);
+			$this->component = $this->app->bootComponent($parts[0]);
 		}
 
 		return $this->component;
@@ -159,10 +163,8 @@ class Workflow
 	 */
 	public function getDefaultStageByCategory($catId = 0)
 	{
-		$db = Factory::getContainer()->get('DatabaseDriver');
-
 		// Let's check if a workflow ID is assigned to a category
-		$category = new Category($db);
+		$category = new Category($this->db);
 
 		$categories = array_reverse($category->getPath($catId));
 
@@ -177,8 +179,6 @@ class Workflow
 			if ($workflow_id == 'inherit')
 			{
 				$workflow_id = 0;
-
-				continue;
 			}
 			elseif ($workflow_id == 'use_default')
 			{
@@ -195,33 +195,33 @@ class Workflow
 		// Check if the workflow exists
 		if ($workflow_id = (int) $workflow_id)
 		{
-			$query = $db->getQuery(true);
+			$query = $this->db->getQuery(true);
 
 			$query->select(
 				[
-					$db->quoteName('ws.id')
+					$this->db->quoteName('ws.id')
 				]
 			)
 				->from(
 					[
-						$db->quoteName('#__workflow_stages', 'ws'),
-						$db->quoteName('#__workflows', 'w'),
+						$this->db->quoteName('#__workflow_stages', 'ws'),
+						$this->db->quoteName('#__workflows', 'w'),
 					]
 				)
 				->where(
 					[
-						$db->quoteName('ws.workflow_id') . ' = ' . $db->quoteName('w.id'),
-						$db->quoteName('ws.default') . ' = 1',
-						$db->quoteName('w.published') . ' = 1',
-						$db->quoteName('ws.published') . ' = 1',
-						$db->quoteName('w.id') . ' = :workflowId',
-						$db->quoteName('w.extension') . ' = :extension',
+						$this->db->quoteName('ws.workflow_id') . ' = ' . $this->db->quoteName('w.id'),
+						$this->db->quoteName('ws.default') . ' = 1',
+						$this->db->quoteName('w.published') . ' = 1',
+						$this->db->quoteName('ws.published') . ' = 1',
+						$this->db->quoteName('w.id') . ' = :workflowId',
+						$this->db->quoteName('w.extension') . ' = :extension',
 					]
 				)
 				->bind(':workflowId', $workflow_id, ParameterType::INTEGER)
 				->bind(':extension', $this->extension);
 
-			$stage_id = (int) $db->setQuery($query)->loadResult();
+			$stage_id = (int) $this->db->setQuery($query)->loadResult();
 
 			if (!empty($stage_id))
 			{
@@ -230,32 +230,32 @@ class Workflow
 		}
 
 		// Use default workflow
-		$query  = $db->getQuery(true);
+		$query  = $this->db->getQuery(true);
 
 		$query->select(
 			[
-				$db->quoteName('ws.id')
+				$this->db->quoteName('ws.id')
 			]
 		)
 			->from(
 				[
-					$db->quoteName('#__workflow_stages', 'ws'),
-					$db->quoteName('#__workflows', 'w'),
+					$this->db->quoteName('#__workflow_stages', 'ws'),
+					$this->db->quoteName('#__workflows', 'w'),
 				]
 			)
 			->where(
 				[
-					$db->quoteName('ws.default') . ' = 1',
-					$db->quoteName('ws.workflow_id') . ' = ' . $db->quoteName('w.id'),
-					$db->quoteName('w.published') . ' = 1',
-					$db->quoteName('ws.published') . ' = 1',
-					$db->quoteName('w.default') . ' = 1',
-					$db->quoteName('w.extension') . ' = :extension'
+					$this->db->quoteName('ws.default') . ' = 1',
+					$this->db->quoteName('ws.workflow_id') . ' = ' . $this->db->quoteName('w.id'),
+					$this->db->quoteName('w.published') . ' = 1',
+					$this->db->quoteName('ws.published') . ' = 1',
+					$this->db->quoteName('w.default') . ' = 1',
+					$this->db->quoteName('w.extension') . ' = :extension'
 				]
 			)
 			->bind(':extension', $this->extension);
 
-		$stage_id = (int) $db->setQuery($query)->loadResult();
+		$stage_id = (int) $this->db->setQuery($query)->loadResult();
 
 		// Last check if we have a workflow ID
 		if (!empty($stage_id))
@@ -269,12 +269,12 @@ class Workflow
 	/**
 	 * Check if a transition can be executed
 	 *
-	 * @param   integer[]  $pks            The item IDs, which should use the transition
-	 * @param   integer    $transition_id  The transition which should be executed
+	 * @param   integer[]  $pks           The item IDs, which should use the transition
+	 * @param   integer    $transitionId  The transition which should be executed
 	 *
 	 * @return  object | null
 	 */
-	public function getValidTransition(array $pks, int $transition_id)
+	public function getValidTransition(array $pks, int $transitionId)
 	{
 		$pks = ArrayHelper::toInteger($pks);
 		$pks = array_filter($pks);
@@ -284,40 +284,42 @@ class Workflow
 			return null;
 		}
 
-		$db    = Factory::getDbo();
-		$query = $db->getQuery(true);
+		$query = $this->db->getQuery(true);
 
-		$app = Factory::getApplication();
-		$user = $app->getIdentity();
+		$user = $this->app->getIdentity();
 
 		$query->select(
 			[
-				$db->quoteName('t.id'),
-				$db->quoteName('t.to_stage_id'),
-				$db->quoteName('t.from_stage_id'),
-				$db->quoteName('t.options'),
-				$db->quoteName('t.workflow_id'),
+				$this->db->quoteName('t.id'),
+				$this->db->quoteName('t.to_stage_id'),
+				$this->db->quoteName('t.from_stage_id'),
+				$this->db->quoteName('t.options'),
+				$this->db->quoteName('t.workflow_id'),
 			]
 		)
 			->from(
 				[
-					$db->quoteName('#__workflow_transitions', 't'),
+					$this->db->quoteName('#__workflow_transitions', 't'),
 				]
 			)
-			->join('INNER', $db->quoteName('#__workflows', 'w'))
-			->join('LEFT', $db->quoteName('#__workflow_stages', 's'), $db->quoteName('s.id') . ' = ' . $db->quoteName('t.to_stage_id'))
+			->join('INNER', $this->db->quoteName('#__workflows', 'w'))
+			->join(
+				'LEFT',
+				$this->db->quoteName('#__workflow_stages', 's'),
+				$this->db->quoteName('s.id') . ' = ' . $this->db->quoteName('t.to_stage_id')
+			)
 			->where(
 				[
-					$db->quoteName('t.id') . ' = :id',
-					$db->quoteName('t.workflow_id') . ' = ' . $db->quoteName('w.id'),
-					$db->quoteName('t.published') . ' = 1',
-					$db->quoteName('w.extension') . ' = :extension'
+					$this->db->quoteName('t.id') . ' = :id',
+					$this->db->quoteName('t.workflow_id') . ' = ' . $this->db->quoteName('w.id'),
+					$this->db->quoteName('t.published') . ' = 1',
+					$this->db->quoteName('w.extension') . ' = :extension'
 				]
 			)
-			->bind(':id', $transition_id, ParameterType::INTEGER)
+			->bind(':id', $transitionId, ParameterType::INTEGER)
 			->bind(':extension', $this->extension);
 
-		$transition = $db->setQuery($query)->loadObject();
+		$transition = $this->db->setQuery($query)->loadObject();
 
 		$parts = explode('.', $this->extension);
 		$option = reset($parts);
@@ -333,12 +335,12 @@ class Workflow
 	/**
 	 * Executes a transition to change the current state in the association table
 	 *
-	 * @param   integer[]  $pks            The item IDs, which should use the transition
-	 * @param   integer    $transition_id  The transition which should be executed
+	 * @param   integer[]  $pks           The item IDs, which should use the transition
+	 * @param   integer    $transitionId  The transition which should be executed
 	 *
 	 * @return  boolean
 	 */
-	public function executeTransition(array $pks, int $transition_id): bool
+	public function executeTransition(array $pks, int $transitionId): bool
 	{
 		$pks = ArrayHelper::toInteger($pks);
 		$pks = array_filter($pks);
@@ -348,7 +350,7 @@ class Workflow
 			return true;
 		}
 
-		$transition = $this->getValidTransition($pks, $transition_id);
+		$transition = $this->getValidTransition($pks, $transitionId);
 
 		if (is_null($transition))
 		{
@@ -373,11 +375,9 @@ class Workflow
 			}
 		}
 
-		$app = Factory::getApplication();
-
 		PluginHelper::importPlugin('workflow');
 
-		$eventResult = $app->getDispatcher()->dispatch(
+		$eventResult = $this->app->getDispatcher()->dispatch(
 			'onWorkflowBeforeTransition',
 			AbstractEvent::create(
 				'onWorkflowBeforeTransition',
@@ -401,7 +401,7 @@ class Workflow
 
 		if ($success)
 		{
-			$app->getDispatcher()->dispatch(
+			$this->app->getDispatcher()->dispatch(
 				'onWorkflowAfterTransition',
 				AbstractEvent::create(
 					'onWorkflowAfterTransition',
@@ -433,15 +433,14 @@ class Workflow
 	{
 		try
 		{
-			$db    = Factory::getDbo();
-			$query = $db->getQuery(true);
+			$query = $this->db->getQuery(true);
 
-			$query->insert($db->quoteName('#__workflow_associations'))
+			$query->insert($this->db->quoteName('#__workflow_associations'))
 				->columns(
 					[
-						$db->quoteName('item_id'),
-						$db->quoteName('stage_id'),
-						$db->quoteName('extension'),
+						$this->db->quoteName('item_id'),
+						$this->db->quoteName('stage_id'),
+						$this->db->quoteName('extension'),
 					]
 				)
 				->values(':pk, :state, :extension')
@@ -449,7 +448,7 @@ class Workflow
 				->bind(':state', $state, ParameterType::INTEGER)
 				->bind(':extension', $this->extension);
 
-			$db->setQuery($query)->execute();
+			$this->db->setQuery($query)->execute();
 		}
 		catch (\Exception $e)
 		{
@@ -475,17 +474,16 @@ class Workflow
 
 		try
 		{
-			$db    = Factory::getDbo();
-			$query = $db->getQuery(true);
+			$query = $this->db->getQuery(true);
 
-			$query->update($db->quoteName('#__workflow_associations'))
-				->set($db->quoteName('stage_id') . ' = :state')
-				->whereIn($db->quoteName('item_id'), $pks)
-				->where($db->quoteName('extension') . ' = :extension')
+			$query->update($this->db->quoteName('#__workflow_associations'))
+				->set($this->db->quoteName('stage_id') . ' = :state')
+				->whereIn($this->db->quoteName('item_id'), $pks)
+				->where($this->db->quoteName('extension') . ' = :extension')
 				->bind(':state', $state, ParameterType::INTEGER)
 				->bind(':extension', $this->extension);
 
-			$db->setQuery($query)->execute();
+			$this->db->setQuery($query)->execute();
 		}
 		catch (\Exception $e)
 		{
@@ -496,7 +494,7 @@ class Workflow
 	}
 
 	/**
-	 * Removes associations form the workflow_associations table
+	 * Removes associations from the workflow_associations table
 	 *
 	 * @param   integer[]  $pks  ID of content
 	 *
@@ -510,16 +508,15 @@ class Workflow
 
 		try
 		{
-			$db    = Factory::getDbo();
-			$query = $db->getQuery(true);
+			$query = $this->db->getQuery(true);
 
 			$query
-				->delete($db->quoteName('#__workflow_associations'))
-				->whereIn($db->quoteName('item_id'), $pks)
-				->where($db->quoteName('extension') . ' = :extension')
+				->delete($this->db->quoteName('#__workflow_associations'))
+				->whereIn($this->db->quoteName('item_id'), $pks)
+				->where($this->db->quoteName('extension') . ' = :extension')
 				->bind(':extension', $this->extension);
 
-			$db->setQuery($query)->execute();
+			$this->db->setQuery($query)->execute();
 		}
 		catch (\Exception $e)
 		{
@@ -532,65 +529,37 @@ class Workflow
 	/**
 	 * Loads an existing association item with state and item ID
 	 *
-	 * @param   integer  $item_id  The item ID to load
+	 * @param   integer  $itemId  The item ID to load
 	 *
 	 * @return  \stdClass|null
 	 *
 	 * @since  4.0.0
 	 */
-	public function getAssociation(int $item_id): ?\stdClass
+	public function getAssociation(int $itemId): ?\stdClass
 	{
-		$db    = Factory::getDbo();
-		$query = $db->getQuery(true);
+		$query = $this->db->getQuery(true);
 
 		$query->select(
 			[
-				$db->quoteName('a.item_id'),
-				$db->quoteName('a.stage_id'),
-				$db->quoteName('s.workflow_id'),
+				$this->db->quoteName('a.item_id'),
+				$this->db->quoteName('a.stage_id'),
+				$this->db->quoteName('s.workflow_id'),
 			]
 		)
-			->from($db->quoteName('#__workflow_associations', 'a'))
+			->from($this->db->quoteName('#__workflow_associations', 'a'))
 			->innerJoin(
-				$db->quoteName('#__workflow_stages', 's'),
-				$db->quoteName('a.stage_id') . ' = ' . $db->quoteName('s.id')
+				$this->db->quoteName('#__workflow_stages', 's'),
+				$this->db->quoteName('a.stage_id') . ' = ' . $this->db->quoteName('s.id')
 			)
 			->where(
 				[
-					  $db->quoteName('item_id') . ' = :id',
-					  $db->quoteName('extension') . ' = :extension',
-				  ]
+					$this->db->quoteName('item_id') . ' = :id',
+					$this->db->quoteName('extension') . ' = :extension',
+				]
 			)
-			->bind(':id', $item_id, ParameterType::INTEGER)
+			->bind(':id', $itemId, ParameterType::INTEGER)
 			->bind(':extension', $this->extension);
 
-		return $db->setQuery($query)->loadObject();
-	}
-
-	/**
-	 * Allows to set some optional options, eg. if the access level should be considered.
-	 *
-	 * @param   array  $options  The new options
-	 *
-	 * @return  void
-	 *
-	 * @since  4.0.0
-	 */
-	public function setOptions(array $options): void
-	{
-		if (isset($options['access']))
-		{
-			$this->options['access'] = (bool) $options['access'];
-		}
-
-		if (isset($options['published']))
-		{
-			$this->options['published'] = (bool) $options['published'];
-		}
-
-		if (isset($options['countItems']))
-		{
-			$this->options['countItems'] = (bool) $options['countItems'];
-		}
+		return $this->db->setQuery($query)->loadObject();
 	}
 }

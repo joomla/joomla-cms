@@ -3,7 +3,7 @@
 	<name>plg_system_languagefilter</name>
 	<author>Joomla! Project</author>
 	<creationDate>July 2010</creationDate>
-	<copyright>Copyright (C) 2005 - 2020 Open Source Matters. All rights reserved.</copyright>
+	<copyright>(C) 2010 Open Source Matters, Inc.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
@@ -13,8 +13,8 @@
 		<filename plugin="languagefilter">languagefilter.php</filename>
 	</files>
 	<languages>
-		<language tag="en-GB">en-GB.plg_system_languagefilter.ini</language>
-		<language tag="en-GB">en-GB.plg_system_languagefilter.sys.ini</language>
+		<language tag="en-GB">language/en-GB/plg_system_languagefilter.ini</language>
+		<language tag="en-GB">language/en-GB/plg_system_languagefilter.sys.ini</language>
 	</languages>
 	<config>
 		<fields name="params">

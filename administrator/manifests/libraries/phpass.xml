@@ -6,10 +6,10 @@
 	<creationDate>2004-2006</creationDate>
 	<author>Solar Designer</author>
 	<authorEmail>solar@openwall.com</authorEmail>
-	<authorUrl>http://www.openwall.com/phpass/</authorUrl>
+	<authorUrl>https://www.openwall.com/phpass/</authorUrl>
 	<license>PD / GWC</license>
 	<version>0.3</version>
-	<packagerurl>http://www.openwall.com/phpass/</packagerurl>
+	<packagerurl>https://www.openwall.com/phpass/</packagerurl>
 
 	<files folder="phpass">
 		<file>PasswordHash.php</file>

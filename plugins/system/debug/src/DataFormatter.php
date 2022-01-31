@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  System.Debug
  *
- * @copyright   Copyright (C) 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2018 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -51,7 +51,7 @@ class DataFormatter extends DebugBarDataFormatter
 			// If entry has Class/Method print it.
 			$string .= htmlspecialchars($call['class'] . $call['type'] . $call['function']) . '()';
 		}
-		elseif (isset($call['args']) && \is_array($call['args'][0]))
+		elseif (isset($call['args'][0]) && \is_array($call['args'][0]))
 		{
 			$string .= htmlspecialchars($call['function']) . ' (';
 
@@ -63,12 +63,18 @@ class DataFormatter extends DebugBarDataFormatter
 					$arg = \get_class($arg);
 				}
 
+				// Keep only the size of array
+				if (\is_array($arg))
+				{
+					$arg = 'Array(count=' . \count($arg) . ')';
+				}
+
 				$string .= htmlspecialchars($arg) . ', ';
 			}
 
 			$string = rtrim($string, ', ') . ')';
 		}
-		elseif (isset($call['args']))
+		elseif (isset($call['args'][0]))
 		{
 			$string .= htmlspecialchars($call['function']) . ' ' . $call['args'][0];
 		}

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_banners
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2005 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -115,6 +115,12 @@ class BannerTable extends Table implements VersionableTableInterface
 			$this->setError(Text::_('JLIB_DATABASE_ERROR_CATEGORY_REQUIRED'));
 
 			return false;
+		}
+
+		// Set created date if not set.
+		if (!(int) $this->created)
+		{
+			$this->created = Factory::getDate()->toSql();
 		}
 
 		// Set publish_up, publish_down to null if not set
@@ -383,6 +389,6 @@ class BannerTable extends Table implements VersionableTableInterface
 	 */
 	public function getTypeAlias()
 	{
-		return 'com_banners.banner';
+		return $this->typeAlias;
 	}
 }

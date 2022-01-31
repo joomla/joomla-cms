@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_menus
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2009 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -18,6 +18,7 @@ use Joomla\CMS\Language\Associations;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
+use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 
 /**
@@ -28,16 +29,16 @@ use Joomla\CMS\Toolbar\ToolbarHelper;
 class HtmlView extends BaseHtmlView
 {
 	/**
-	 * The \JForm object
+	 * The Form object
 	 *
-	 * @var  \JForm
+	 * @var  \Joomla\CMS\Form\Form
 	 */
 	protected $form;
 
 	/**
 	 * The active item
 	 *
-	 * @var  \JObject
+	 * @var   CMSObject
 	 */
 	protected $item;
 
@@ -49,14 +50,14 @@ class HtmlView extends BaseHtmlView
 	/**
 	 * The model state
 	 *
-	 * @var  \JObject
+	 * @var   CMSObject
 	 */
 	protected $state;
 
 	/**
 	 * The actions the user is authorised to perform
 	 *
-	 * @var    \JObject
+	 * @var    CMSObject
 	 * @since  3.7.0
 	 */
 	protected $canDo;
@@ -175,7 +176,7 @@ class HtmlView extends BaseHtmlView
 
 		if (!$isNew && Associations::isEnabled() && ComponentHelper::isEnabled('com_associations') && $clientId != 1)
 		{
-			ToolbarHelper::custom('item.editAssociations', 'contract', 'contract', 'JTOOLBAR_ASSOCIATIONS', false, false);
+			ToolbarHelper::custom('item.editAssociations', 'contract', '', 'JTOOLBAR_ASSOCIATIONS', false, false);
 		}
 
 		if ($isNew)

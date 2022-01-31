@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_contact
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2006 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -70,11 +70,11 @@ class ContactModel extends FormModel
 		/** @var SiteApplication $app */
 		$app = Factory::getContainer()->get(SiteApplication::class);
 
-		if (\JFactory::getApplication()->isClient('api'))
+		if (Factory::getApplication()->isClient('api'))
 		{
-			// TODO: remove this
+			// @todo: remove this
 			$app->loadLanguage();
-			$this->setState('contact.id', \JFactory::getApplication()->input->post->getInt('id'));
+			$this->setState('contact.id', Factory::getApplication()->input->post->getInt('id'));
 		}
 		else
 		{

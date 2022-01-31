@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  mod_latestactions
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2018 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -11,9 +11,9 @@ namespace Joomla\Module\LatestActions\Administrator\Helper;
 
 \defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\Component\Actionlogs\Administrator\Helper\ActionlogsHelper;
-use Joomla\Component\Actionlogs\Administrator\Model\ActionlogsModel;
 use Joomla\Registry\Registry;
 
 /**
@@ -32,12 +32,13 @@ abstract class LatestActionsHelper
 	 *
 	 * @since   3.9.1
 	 *
-	 * @throws  Exception
+	 * @throws  \Exception
 	 */
 	public static function getList(&$params)
 	{
-		/** @var ActionlogsModel $model */
-		$model = new ActionlogsModel(['ignore_request' => true]);
+		/** @var \Joomla\Component\Actionlogs\Administrator\Model\ActionlogsModel $model */
+		$model = Factory::getApplication()->bootComponent('com_actionlogs')->getMVCFactory()
+			->createModel('Actionlogs', 'Administrator', ['ignore_request' => true]);
 
 		// Set the Start and Limit
 		$model->setState('list.start', 0);

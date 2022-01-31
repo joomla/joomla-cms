@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_plugins
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2009 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -34,7 +34,7 @@ class PluginModel extends AdminModel
 	 * @var     string  The help screen key for the module.
 	 * @since   1.6
 	 */
-	protected $helpKey = 'JHELP_EXTENSIONS_PLUGIN_MANAGER_EDIT';
+	protected $helpKey = 'Plugins:_Name_of_Plugin';
 
 	/**
 	 * @var     string  The help screen base URL for the module.
@@ -78,7 +78,7 @@ class PluginModel extends AdminModel
 	 * @param   array    $data      Data for the form.
 	 * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
 	 *
-	 * @return  \JForm    A \JForm object on success, false on failure.
+	 * @return  Form|bool  A Form object on success, false on failure.
 	 *
 	 * @since   1.6
 	 */
@@ -175,7 +175,7 @@ class PluginModel extends AdminModel
 				return false;
 			}
 
-			// Convert to the \JObject before adding other data.
+			// Convert to the \Joomla\CMS\Object\CMSObject before adding other data.
 			$properties = $table->getProperties(1);
 			$this->_cache[$pk] = ArrayHelper::toObject($properties, CMSObject::class);
 
@@ -237,14 +237,15 @@ class PluginModel extends AdminModel
 	/**
 	 * Preprocess the form.
 	 *
-	 * @param   \JForm  $form   A form object.
+	 * @param   Form    $form   A form object.
 	 * @param   mixed   $data   The data expected for the form.
 	 * @param   string  $group  Cache group name.
 	 *
 	 * @return  mixed  True if successful.
 	 *
-	 * @throws	\Exception if there is an error in the form event.
 	 * @since   1.6
+	 *
+	 * @throws	\Exception if there is an error in the form event.
 	 */
 	protected function preprocessForm(Form $form, $data, $group = 'content')
 	{
@@ -366,16 +367,15 @@ class PluginModel extends AdminModel
 	/**
 	 * Custom clean cache method, plugins are cached in 2 places for different clients.
 	 *
-	 * @param   string   $group      Cache group name.
-	 * @param   integer  $client_id  Application client id.
+	 * @param   string   $group     Cache group name.
+	 * @param   integer  $clientId  @deprecated   5.0   No longer used.
 	 *
 	 * @return  void
 	 *
 	 * @since   1.6
 	 */
-	protected function cleanCache($group = null, $client_id = 0)
+	protected function cleanCache($group = null, $clientId = 0)
 	{
-		parent::cleanCache('com_plugins', 0);
-		parent::cleanCache('com_plugins', 1);
+		parent::cleanCache('com_plugins');
 	}
 }

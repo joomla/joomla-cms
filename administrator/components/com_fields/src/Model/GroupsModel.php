@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_fields
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2016 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -116,9 +116,9 @@ class GroupsModel extends ListModel
 	}
 
 	/**
-	 * Method to get a JDatabaseQuery object for retrieving the data set from a database.
+	 * Method to get a DatabaseQuery object for retrieving the data set from a database.
 	 *
-	 * @return  \JDatabaseQuery   A JDatabaseQuery object to retrieve the data set.
+	 * @return  \Joomla\Database\DatabaseQuery   A DatabaseQuery object to retrieve the data set.
 	 *
 	 * @since   3.7.0
 	 */

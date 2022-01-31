@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2009 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -196,7 +196,7 @@ abstract class FormField
 	 * The validation text of invalid value of the form field.
 	 *
 	 * @var    string
-	 * @since  4.0
+	 * @since  4.0.0
 	 */
 	protected $validationtext;
 
@@ -332,6 +332,14 @@ abstract class FormField
 	protected $showon;
 
 	/**
+	 * The parent class of the field
+	 *
+	 * @var  string
+	 * @since 4.0.0
+	 */
+	protected $parentclass;
+
+	/**
 	 * The count value for generated name field
 	 *
 	 * @var    integer
@@ -450,6 +458,7 @@ abstract class FormField
 			case 'spellcheck':
 			case 'validationtext':
 			case 'showon':
+			case 'parentclass':
 				return $this->$name;
 
 			case 'input':
@@ -480,8 +489,6 @@ abstract class FormField
 					return $this->dataAttributes[$name];
 				}
 		}
-
-		return;
 	}
 
 	/**
@@ -514,7 +521,9 @@ abstract class FormField
 			case 'validationtext':
 			case 'group':
 			case 'showon':
+			case 'parentclass':
 			case 'default':
+			case 'autocomplete':
 				$this->$name = (string) $value;
 				break;
 
@@ -543,10 +552,6 @@ abstract class FormField
 			case 'hidden':
 				$value = (string) $value;
 				$this->$name = ($value === 'true' || $value === $name || $value === '1');
-				break;
-
-			case 'autocomplete':
-				$this->$name = (string) $value;
 				break;
 
 			case 'spellcheck':
@@ -676,9 +681,11 @@ abstract class FormField
 		$this->repeat = ($repeat === 'true' || $repeat === 'multiple' || (!empty($this->form->repeat) && $this->form->repeat == 1));
 
 		// Set the visibility.
-		$this->hidden = ($this->hidden || (string) $element['type'] === 'hidden');
+		$this->hidden = ($this->hidden || strtolower((string) $this->element['type']) === 'hidden');
 
 		$this->layout = !empty($this->element['layout']) ? (string) $this->element['layout'] : $this->layout;
+
+		$this->parentclass = isset($this->element['parentclass']) ? (string) $this->element['parentclass'] : $this->parentclass;
 
 		// Add required to class list if field is required.
 		if ($this->required)
@@ -740,11 +747,11 @@ abstract class FormField
 		// If we already have an id segment add the field id/name as another level.
 		if ($id)
 		{
-			$id .= '_' . ($fieldId ? $fieldId : $fieldName);
+			$id .= '_' . ($fieldId ?: $fieldName);
 		}
 		else
 		{
-			$id .= ($fieldId ? $fieldId : $fieldName);
+			$id .= ($fieldId ?: $fieldName);
 		}
 
 		// Clean up any invalid characters.
@@ -822,7 +829,7 @@ abstract class FormField
 		$data = $this->getLayoutData();
 
 		// Forcing the Alias field to display the tip below
-		$position = $this->element['name'] === 'alias' ? ' data-placement="bottom" ' : '';
+		$position = $this->element['name'] === 'alias' ? ' data-bs-placement="bottom" ' : '';
 
 		// Here mainly for B/C with old layouts. This can be done in the layouts directly
 		$extraData = array(
@@ -1135,6 +1142,18 @@ abstract class FormField
 			{
 				$subForm = $this->loadSubForm();
 
+				// Subform field may have a default value, that is a JSON string
+				if ($value && is_string($value))
+				{
+					$value = json_decode($value, true);
+
+					// The string is invalid json
+					if (!$value)
+					{
+						return null;
+					}
+				}
+
 				if ($this->multiple)
 				{
 					$return = array();
@@ -1188,7 +1207,15 @@ abstract class FormField
 
 		if ($this->element['label'])
 		{
-			$fieldLabel = Text::_($this->element['label']);
+			$fieldLabel = $this->element['label'];
+
+			// Try to translate label if not set to false
+			$translate = (string) $this->element['translateLabel'];
+
+			if (!($translate === 'false' || $translate === 'off' || $translate === '0'))
+			{
+				$fieldLabel = Text::_($fieldLabel);
+			}
 		}
 		else
 		{
@@ -1229,7 +1256,7 @@ abstract class FormField
 		if ($valid !== false && $this instanceof SubformField)
 		{
 			// Load the subform validation rule.
-			$rule = FormHelper::loadRuleType('SubForm');
+			$rule = FormHelper::loadRuleType('Subform');
 
 			try
 			{
@@ -1290,8 +1317,8 @@ abstract class FormField
 	protected function getLayoutData()
 	{
 		// Label preprocess
-		$label = $this->element['label'] ? (string) $this->element['label'] : (string) $this->element['name'];
-		$label = $this->translateLabel ? Text::_($label) : $label;
+		$label = !empty($this->element['label']) ? (string) $this->element['label'] : null;
+		$label = $label && $this->translateLabel ? Text::_($label) : $label;
 
 		// Description preprocess
 		$description = !empty($this->description) ? $this->description : null;
@@ -1327,6 +1354,7 @@ abstract class FormField
 			'value'          => $this->value,
 			'dataAttribute'  => $this->renderDataAttributes(),
 			'dataAttributes' => $this->dataAttributes,
+			'parentclass'    => $this->parentclass,
 		];
 	}
 

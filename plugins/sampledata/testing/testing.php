@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Sampledata.Testing
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2017 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -64,7 +64,7 @@ class PlgSampledataTesting extends CMSPlugin
 	/**
 	 * Holds the menuitem model
 	 *
-	 * @var    MenusModelItem
+	 * @var    \Joomla\Component\Menus\Administrator\Model\ItemModel
 	 *
 	 * @since  3.8.0
 	 */
@@ -92,7 +92,7 @@ class PlgSampledataTesting extends CMSPlugin
 	/**
 	 * First step to enter the sampledata. Tags
 	 *
-	 * @return  array or void  Will be converted into the JSON response to the module.
+	 * @return  array|void  Will be converted into the JSON response to the module.
 	 *
 	 * @since  3.8.0
 	 */
@@ -200,7 +200,7 @@ class PlgSampledataTesting extends CMSPlugin
 	/**
 	 * Second step to enter the sampledata. Banners
 	 *
-	 * @return  array or void  Will be converted into the JSON response to the module.
+	 * @return  array|void  Will be converted into the JSON response to the module.
 	 *
 	 * @since  3.8.0
 	 */
@@ -312,8 +312,7 @@ class PlgSampledataTesting extends CMSPlugin
 		$banners[] = array(
 			'cid'         => $clientIds[2],
 			'name'        => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_BANNERS_BANNER_1_NAME'),
-			// TODO: Link invalid now
-			'clickurl'    => 'http://shop.joomla.org/amazoncom-bookstores.html',
+			'clickurl'    => 'https://community.joomla.org/the-joomla-shop.html',
 			'catid'       => $catIds[0],
 			'description' => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_BANNERS_BANNER_1_DESC'),
 			'ordering'    => 1,
@@ -380,7 +379,7 @@ class PlgSampledataTesting extends CMSPlugin
 	/**
 	 * Third step to enter the sampledata. Content 1/2
 	 *
-	 * @return  array or void  Will be converted into the JSON response to the module.
+	 * @return  array|void  Will be converted into the JSON response to the module.
 	 *
 	 * @since  3.8.0
 	 */
@@ -616,7 +615,7 @@ class PlgSampledataTesting extends CMSPlugin
 	/**
 	 * Fourth step to enter the sampledata. Content 2/2
 	 *
-	 * @return  array or void  Will be converted into the JSON response to the module.
+	 * @return  array|void  Will be converted into the JSON response to the module.
 	 *
 	 * @since  4.0.0
 	 */
@@ -678,7 +677,7 @@ class PlgSampledataTesting extends CMSPlugin
 			array(
 				'catid'    => $catIdsLevel2[0],
 				'ordering' => 4,
-				'featured' => 1
+				'featured' => 1,
 			),
 			array(
 				'catid'    => $catIdsLevel4[0],
@@ -697,7 +696,7 @@ class PlgSampledataTesting extends CMSPlugin
 					'image_fulltext'         => 'images/sampledata/parks/landscape/250px_cradle_mountain_seen_from_barn_bluff.jpg',
 					'image_fulltext_alt'     => 'Cradle Mountain',
 					'image_fulltext_caption' => 'Source: https://commons.wikimedia.org/wiki/File:Rainforest,bluemountainsNSW.jpg'
-						. ' Author: Alan J.W.C. License: GNU Free Documentation License v. 1.2 or later'
+						. ' Author: Alan J.W.C. License: GNU Free Documentation License v. 1.2 or later',
 				),
 				'ordering' => 1,
 			),
@@ -754,7 +753,7 @@ class PlgSampledataTesting extends CMSPlugin
 				'catid'    => $catIdsLevel2[0],
 				'ordering' => 2,
 				'tags'     => array_map('strval', $tagIds),
-				'featured' => 1
+				'featured' => 1,
 			),
 			array(
 				'catid'    => $catIdsLevel5[4],
@@ -764,7 +763,7 @@ class PlgSampledataTesting extends CMSPlugin
 					'image_fulltext'         => 'images/sampledata/parks/animals/800px_koala_ag1.jpg',
 					'image_fulltext_alt'     => 'Koala Climbing Tree',
 					'image_fulltext_caption' => 'Source: https://en.wikipedia.org/wiki/File:Koala-ag1.jpg'
-						. ' Author: Arnaud Gaillard License: Creative Commons Share Alike Attribution Generic 1.0'
+						. ' Author: Arnaud Gaillard License: Creative Commons Share Alike Attribution Generic 1.0',
 				),
 				'ordering' => 2,
 			),
@@ -805,7 +804,7 @@ class PlgSampledataTesting extends CMSPlugin
 					'image_fulltext'         => 'images/sampledata/parks/animals/800px_phyllopteryx_taeniolatus1.jpg',
 					'image_fulltext_alt'     => 'Phyllopteryx',
 					'image_fulltext_caption' => 'Source: https://en.wikipedia.org/wiki/File:Phyllopteryx_taeniolatus1.jpg'
-						. ' Author: Richard Ling License: GNU Free Documentation License v 1.2 or later'
+						. ' Author: Richard Ling License: GNU Free Documentation License v 1.2 or later',
 				),
 				'ordering' => 3,
 			),
@@ -817,14 +816,14 @@ class PlgSampledataTesting extends CMSPlugin
 					'image_fulltext'         => 'images/sampledata/parks/landscape/800px_pinnacles_western_australia.jpg',
 					'image_fulltext_alt'     => 'Kings Canyon',
 					'image_fulltext_caption' => 'Source: https://commons.wikimedia.org/wiki/File:Pinnacles_Western_Australia.jpg'
-						. ' Author: Martin Gloss License: GNU Free Documentation license v 1.2 or later.'
+						. ' Author: Martin Gloss License: GNU Free Documentation license v 1.2 or later.',
 				),
 				'ordering' => 4,
 			),
 			array(
 				'catid'    => $catIdsLevel2[0],
 				'ordering' => 5,
-				'featured' => 1
+				'featured' => 1,
 			),
 			array(
 				'catid'    => $catIdsLevel5[2],
@@ -863,7 +862,7 @@ class PlgSampledataTesting extends CMSPlugin
 					'image_fulltext'         => 'images/sampledata/parks/animals/789px_spottedquoll_2005_seanmcclean.jpg',
 					'image_fulltext_alt'     => 'Spotted Quoll',
 					'image_fulltext_caption' => 'Source: https://en.wikipedia.org/wiki/File:SpottedQuoll_2005_SeanMcClean.jpg'
-						. ' Author: Sean McClean License: GNU Free Documentation License v 1.2 or later'
+						. ' Author: Sean McClean License: GNU Free Documentation License v 1.2 or later',
 				),
 				'ordering' => 4,
 			),
@@ -894,7 +893,7 @@ class PlgSampledataTesting extends CMSPlugin
 			array(
 				'catid'    => $catIdsLevel2[0],
 				'ordering' => 6,
-				'featured' => 1
+				'featured' => 1,
 			),
 			// Articles 50 - 59
 			array(
@@ -921,7 +920,7 @@ class PlgSampledataTesting extends CMSPlugin
 					'image_fulltext'         => 'images/sampledata/parks/animals/800px_wobbegong.jpg',
 					'image_fulltext_alt'     => 'Wobbegon',
 					'image_fulltext_caption' => 'Source: https://en.wikipedia.org/wiki/File:Wobbegong.jpg'
-						. ' Author: Richard Ling License: GNU Free Documentation License v 1.2 or later'
+						. ' Author: Richard Ling License: GNU Free Documentation License v 1.2 or later',
 				),
 				'ordering' => 1,
 			),
@@ -955,7 +954,7 @@ class PlgSampledataTesting extends CMSPlugin
 					'image_fulltext'         => 'images/sampledata/parks/landscape/727px_rainforest_bluemountainsnsw.jpg',
 					'image_fulltext_alt'     => 'Rain Forest Blue Mountains',
 					'image_fulltext_caption' => 'Source: https://commons.wikimedia.org/wiki/File:Rainforest,bluemountainsNSW.jpg'
-						. ' Author: Adam J.W.C. License: GNU Free Public Documentation License'
+						. ' Author: Adam J.W.C. License: GNU Free Public Documentation License',
 				),
 				'ordering' => 2,
 			),
@@ -968,7 +967,7 @@ class PlgSampledataTesting extends CMSPlugin
 					'image_fulltext'         => 'images/sampledata/parks/landscape/800px_ormiston_pound.jpg',
 					'image_fulltext_alt'     => 'Ormiston Pound',
 					'image_fulltext_caption' => 'Source: https://commons.wikimedia.org/wiki/File:Ormiston_Pound.JPG'
-						. ' Author: License: GNU Free Public Documentation License'
+						. ' Author: License: GNU Free Public Documentation License',
 				),
 				'ordering' => 3,
 			),
@@ -1001,7 +1000,7 @@ class PlgSampledataTesting extends CMSPlugin
 			array(
 				'catid'    => $catIdsLevel5[0],
 				'ordering' => 0,
-			)
+			),
 		);
 
 		try
@@ -1030,7 +1029,7 @@ class PlgSampledataTesting extends CMSPlugin
 	/**
 	 * Fifth step to enter the sampledata. Contacts
 	 *
-	 * @return  array or void  Will be converted into the JSON response to the module.
+	 * @return  array|void  Will be converted into the JSON response to the module.
 	 *
 	 * @since  3.8.0
 	 */
@@ -1300,7 +1299,7 @@ class PlgSampledataTesting extends CMSPlugin
 
 			// Reset some fields if not specified.
 			$fields = array('con_position', 'address', 'suburb', 'state', 'country', 'postcode', 'telephone', 'fax',
-				'misc', 'sortname1', 'sortname2', 'sortname3', 'email_to', 'image');
+				'misc', 'sortname1', 'sortname2', 'sortname3', 'email_to', 'image', );
 
 			// Temporary, they are waiting for PR #14112
 			$fields[] = 'metakey';
@@ -1382,7 +1381,7 @@ class PlgSampledataTesting extends CMSPlugin
 	/**
 	 * Sixth step to enter the sampledata. Newsfeed.
 	 *
-	 * @return  array or void  Will be converted into the JSON response to the module.
+	 * @return  array|void  Will be converted into the JSON response to the module.
 	 *
 	 * @since  3.8.0
 	 */
@@ -1510,7 +1509,7 @@ class PlgSampledataTesting extends CMSPlugin
 	/**
 	 * Seventh step to enter the sampledata. Menus.
 	 *
-	 * @return  array or void  Will be converted into the JSON response to the module.
+	 * @return  array|void  Will be converted into the JSON response to the module.
 	 *
 	 * @since  3.8.0
 	 */
@@ -2135,7 +2134,7 @@ class PlgSampledataTesting extends CMSPlugin
 				'menutype'     => $menuTypes[6],
 				'title'        => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_44_TITLE'),
 				'link'         => 'index.php?option=com_users&view=login',
-				'component_id' => 25,
+				'component_id' => ComponentHelper::getComponent('com_users')->id,
 				'params'       => array(
 					'logindescription_show'  => 1,
 					'logoutdescription_show' => 1,
@@ -2416,7 +2415,7 @@ class PlgSampledataTesting extends CMSPlugin
 					'show_page_heading'    => 0,
 					'secure'               => 0,
 				),
-				'home'         => 1
+				'home'         => 1,
 			),
 			array(
 				'menutype'     => $menuTypes[2],
@@ -2690,7 +2689,7 @@ class PlgSampledataTesting extends CMSPlugin
 				'component_id' => 0,
 				'params'       => array(
 					'aliasoptions' => $menuIdsLevel1[7],
-					'menu_text'    => 1
+					'menu_text'    => 1,
 				),
 			),
 			array(
@@ -2701,7 +2700,7 @@ class PlgSampledataTesting extends CMSPlugin
 				'component_id' => 0,
 				'params'       => array(
 					'aliasoptions' => $menuIdsLevel1[56],
-					'menu_text'    => 1
+					'menu_text'    => 1,
 				),
 			),
 		);
@@ -2741,7 +2740,7 @@ class PlgSampledataTesting extends CMSPlugin
 					'num_intro_articles'        => 4,
 					'num_columns'               => 2,
 					'num_links'                 => 4,
-					'secure'                    => 0
+					'secure'                    => 0,
 				),
 			),
 			array(
@@ -2939,7 +2938,7 @@ class PlgSampledataTesting extends CMSPlugin
 					'show_page_heading'    => 0,
 					'secure'               => 0,
 				),
-			)
+			),
 		);
 
 		try
@@ -2998,7 +2997,7 @@ class PlgSampledataTesting extends CMSPlugin
 				'component_id' => ComponentHelper::getComponent('com_content')->id,
 				'params'       => array(
 					'show_page_heading' => 0,
-					'secure'            => 0
+					'secure'            => 0,
 				),
 			),
 			array(
@@ -3222,7 +3221,7 @@ class PlgSampledataTesting extends CMSPlugin
 	/**
 	 * Eighth step to enter the sampledata. Modules.
 	 *
-	 * @return  array or void  Will be converted into the JSON response to the module.
+	 * @return  array|void  Will be converted into the JSON response to the module.
 	 *
 	 * @since  3.8.0
 	 */
@@ -3272,7 +3271,7 @@ class PlgSampledataTesting extends CMSPlugin
 					'moduleclass_sfx' => '_menu',
 					'cache'           => 1,
 					'cache_time'      => 900,
-					'cachemode'       => 'itemid'
+					'cachemode'       => 'itemid',
 				),
 			),
 			array(
@@ -3291,7 +3290,7 @@ class PlgSampledataTesting extends CMSPlugin
 					'ordering'    => 0,
 					'footer_text' => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MODULES_MODULE_1_FOOTEER_TEXT'),
 					'cache'       => 1,
-					'cache_time'  => 900
+					'cache_time'  => 900,
 				),
 			),
 			array(
@@ -3325,7 +3324,7 @@ class PlgSampledataTesting extends CMSPlugin
 					'moduleclass_sfx' => '_menu',
 					'cache'           => 1,
 					'cache_time'      => 900,
-					'cachemode'       => 'itemid'
+					'cachemode'       => 'itemid',
 				),
 			),
 			array(
@@ -3368,7 +3367,7 @@ class PlgSampledataTesting extends CMSPlugin
 					'showAllChildren' => 0,
 					'cache'           => 0,
 					'cache_time'      => 900,
-					'cachemode'       => 'itemid'
+					'cachemode'       => 'itemid',
 				),
 			),
 			array(
@@ -3403,7 +3402,7 @@ class PlgSampledataTesting extends CMSPlugin
 					'moduleclass_sfx' => '_menu',
 					'cache'           => 0,
 					'cache_time'      => 900,
-					'cachemode'       => 'itemid'
+					'cachemode'       => 'itemid',
 				),
 			),
 			array(
@@ -3422,7 +3421,7 @@ class PlgSampledataTesting extends CMSPlugin
 					'class_sfx'       => 'sitemap',
 					'cache'           => 0,
 					'cache_time'      => 900,
-					'cachemode'       => 'itemid'
+					'cachemode'       => 'itemid',
 				),
 			),
 			array(
@@ -3457,7 +3456,7 @@ class PlgSampledataTesting extends CMSPlugin
 					'moduleclass_sfx' => '_menu',
 					'cache'           => 0,
 					'cache_time'      => 900,
-					'cachemode'       => 'itemid'
+					'cachemode'       => 'itemid',
 				),
 			),
 			array(
@@ -3473,7 +3472,7 @@ class PlgSampledataTesting extends CMSPlugin
 					'count'      => '10',
 					'cache'      => 1,
 					'cache_time' => 900,
-					'cachemode'  => 'static'
+					'cachemode'  => 'static',
 				),
 			),
 			array(
@@ -3492,7 +3491,7 @@ class PlgSampledataTesting extends CMSPlugin
 					'user_id'    => 0,
 					'cache'      => 1,
 					'cache_time' => 900,
-					'cachemode'  => 'static'
+					'cachemode'  => 'static',
 				),
 			),
 			array(
@@ -3510,7 +3509,7 @@ class PlgSampledataTesting extends CMSPlugin
 					'show_front' => 1,
 					'cache'      => 1,
 					'cache_time' => 900,
-					'cachemode'  => 'static'
+					'cachemode'  => 'static',
 				),
 			),
 			array(
@@ -3532,7 +3531,7 @@ class PlgSampledataTesting extends CMSPlugin
 					'rssitemdesc' => 1,
 					'word_count'  => 0,
 					'cache'       => 1,
-					'cache_time'  => 900
+					'cache_time'  => 900,
 				),
 			),
 			array(
@@ -3555,7 +3554,7 @@ class PlgSampledataTesting extends CMSPlugin
 					'ordering'          => 'a.publish_up',
 					'cache'             => 1,
 					'cache_time'        => 900,
-					'cachemode'         => 'itemid'
+					'cachemode'         => 'itemid',
 				),
 			),
 			array(
@@ -3571,7 +3570,7 @@ class PlgSampledataTesting extends CMSPlugin
 					'type'   => 'jpg',
 					'folder' => 'images/sampledata/parks/animals',
 					'width'  => 180,
-					'cache'  => 0
+					'cache'  => 0,
 				),
 			),
 			array(
@@ -3585,7 +3584,7 @@ class PlgSampledataTesting extends CMSPlugin
 				),
 				'params'     => array(
 					'showDate' => 0,
-					'owncache' => 1
+					'owncache' => 1,
 				),
 			),
 			array(
@@ -3603,7 +3602,7 @@ class PlgSampledataTesting extends CMSPlugin
 					'opensearch' => 1,
 					'cache'      => 1,
 					'cache_time' => 900,
-					'cachemode'  => 'itemid'
+					'cachemode'  => 'itemid',
 				),
 			),
 			array(
@@ -3622,7 +3621,7 @@ class PlgSampledataTesting extends CMSPlugin
 					'increase'   => 0,
 					'cache'      => 1,
 					'cache_time' => 900,
-					'cachemode'  => 'static'
+					'cachemode'  => 'static',
 				),
 			),
 			array(
@@ -3638,7 +3637,7 @@ class PlgSampledataTesting extends CMSPlugin
 				'params'     => array(
 					'text'   => 'Feed Entries',
 					'format' => 'rss',
-					'cache'  => 0
+					'cache'  => 0,
 				),
 			),
 			array(
@@ -3655,7 +3654,7 @@ class PlgSampledataTesting extends CMSPlugin
 					'linknames'  => 0,
 					'cache'      => 0,
 					'cache_time' => 900,
-					'cachemode'  => 'static'
+					'cachemode'  => 'static',
 				),
 			),
 			array(
@@ -3670,7 +3669,7 @@ class PlgSampledataTesting extends CMSPlugin
 				'params'     => array(
 					'showmode'  => 2,
 					'linknames' => 0,
-					'cache'     => 0
+					'cache'     => 0,
 				),
 			),
 			array(
@@ -3691,7 +3690,7 @@ class PlgSampledataTesting extends CMSPlugin
 					'height_auto' => 1,
 					'cache'       => 1,
 					'cache_time'  => 900,
-					'cachemode'   => 'static'
+					'cachemode'   => 'static',
 				),
 			),
 			array(
@@ -3706,7 +3705,7 @@ class PlgSampledataTesting extends CMSPlugin
 				'params'     => array(
 					'cache'      => 1,
 					'cache_time' => 900,
-					'cachemode'  => 'static'
+					'cachemode'  => 'static',
 				),
 			),
 			array(
@@ -3724,7 +3723,7 @@ class PlgSampledataTesting extends CMSPlugin
 					'greeting'  => 1,
 					'name'      => 0,
 					'usesecure' => 0,
-					'cache'     => 0
+					'cache'     => 0,
 				),
 			),
 			array(
@@ -3743,7 +3742,7 @@ class PlgSampledataTesting extends CMSPlugin
 					'showAllChildren' => 0,
 					'cache'           => 0,
 					'cache_time'      => 900,
-					'cachemode'       => 'itemid'
+					'cachemode'       => 'itemid',
 				),
 			),
 			array(
@@ -3768,7 +3767,7 @@ class PlgSampledataTesting extends CMSPlugin
 					'user_id'    => 0,
 					'show_front' => 1,
 					'cache'      => 1,
-					'cache_time' => 900
+					'cache_time' => 900,
 				),
 			),
 			array(
@@ -3784,7 +3783,7 @@ class PlgSampledataTesting extends CMSPlugin
 					'prepare_content' => 1,
 					'cache'           => 1,
 					'cache_time'      => 900,
-					'cachemode'       => 'static'
+					'cachemode'       => 'static',
 				),
 			),
 			array(
@@ -3802,7 +3801,7 @@ class PlgSampledataTesting extends CMSPlugin
 					'showLast'   => 1,
 					'cache'      => 0,
 					'cache_time' => 900,
-					'cachemode'  => 'itemid'
+					'cachemode'  => 'itemid',
 				),
 			),
 			array(
@@ -3821,7 +3820,7 @@ class PlgSampledataTesting extends CMSPlugin
 					'tag_search' => 0,
 					'ordering'   => 'random',
 					'cache'      => 1,
-					'cache_time' => 900
+					'cache_time' => 900,
 				),
 			),
 			array(
@@ -3849,7 +3848,7 @@ class PlgSampledataTesting extends CMSPlugin
 					'showAllChildren' => 0,
 					'cache'           => 0,
 					'cache_time'      => 900,
-					'cachemode'       => 'itemid'
+					'cachemode'       => 'itemid',
 				),
 			),
 			array(
@@ -3874,7 +3873,7 @@ class PlgSampledataTesting extends CMSPlugin
 					'prepare_content' => 1,
 					'cache'           => 1,
 					'cache_time'      => 900,
-					'cachemode'       => 'static'
+					'cachemode'       => 'static',
 				),
 			),
 			array(
@@ -3894,7 +3893,7 @@ class PlgSampledataTesting extends CMSPlugin
 					'maxlevel'         => 0,
 					'item_heading'     => 4,
 					'owncache'         => 1,
-					'cache_time'       => 900
+					'cache_time'       => 900,
 				),
 			),
 			array(
@@ -3917,7 +3916,7 @@ class PlgSampledataTesting extends CMSPlugin
 					'image'      => 1,
 					'cache'      => 1,
 					'cache_time' => 900,
-					'cachemode'  => 'static'
+					'cachemode'  => 'static',
 				),
 			),
 			array(
@@ -3932,7 +3931,7 @@ class PlgSampledataTesting extends CMSPlugin
 					'imagebutton' => 1,
 					'cache'       => 1,
 					'cache_time'  => 900,
-					'cachemode'   => 'itemid'
+					'cachemode'   => 'itemid',
 				),
 			),
 			array(
@@ -3950,7 +3949,7 @@ class PlgSampledataTesting extends CMSPlugin
 					'image'      => 1,
 					'cache'      => 1,
 					'cache_time' => 900,
-					'cachemode'  => 'static'
+					'cachemode'  => 'static',
 				),
 			),
 			array(
@@ -3974,7 +3973,7 @@ class PlgSampledataTesting extends CMSPlugin
 					'prepare_content' => 1,
 					'cache'           => 1,
 					'cache_time'      => 900,
-					'cachemode'       => 'static'
+					'cachemode'       => 'static',
 				),
 			),
 			array(
@@ -3993,7 +3992,7 @@ class PlgSampledataTesting extends CMSPlugin
 					'class_sfx'       => '-menu',
 					'cache'           => 0,
 					'cache_time'      => 900,
-					'cachemode'       => 'itemid'
+					'cachemode'       => 'itemid',
 				),
 			),
 			array(
@@ -4011,7 +4010,7 @@ class PlgSampledataTesting extends CMSPlugin
 					'prepare_content' => 1,
 					'cache'           => 1,
 					'cache_time'      => 900,
-					'cachemode'       => 'static'
+					'cachemode'       => 'static',
 				),
 			),
 			array(
@@ -4058,7 +4057,7 @@ class PlgSampledataTesting extends CMSPlugin
 					'show_readmore_title'          => 1,
 					'readmore_limit'               => 15,
 					'owncache'                     => 1,
-					'cache_time'                   => 900
+					'cache_time'                   => 900,
 				),
 			),
 			array(
@@ -4078,7 +4077,7 @@ class PlgSampledataTesting extends CMSPlugin
 					'button_pos' => 'right',
 					'cache'      => 1,
 					'cache_time' => 900,
-					'cachemode'  => 'itemid'
+					'cachemode'  => 'itemid',
 				),
 			),
 			array(
@@ -4100,7 +4099,7 @@ class PlgSampledataTesting extends CMSPlugin
 					'showAllChildren' => 0,
 					'cache'           => 1,
 					'cache_time'      => 900,
-					'cachemode'       => 'itemid'
+					'cachemode'       => 'itemid',
 				),
 			),
 			array(
@@ -4120,7 +4119,7 @@ class PlgSampledataTesting extends CMSPlugin
 					'prepare_content' => 1,
 					'cache'           => 1,
 					'cache_time'      => 900,
-					'cachemode'       => 'static'
+					'cachemode'       => 'static',
 				),
 			),
 			array(
@@ -4140,7 +4139,7 @@ class PlgSampledataTesting extends CMSPlugin
 					'prepare_content' => 1,
 					'cache'           => 1,
 					'cache_time'      => 900,
-					'cachemode'       => 'static'
+					'cachemode'       => 'static',
 				),
 			),
 			array(
@@ -4160,7 +4159,7 @@ class PlgSampledataTesting extends CMSPlugin
 					'prepare_content' => 1,
 					'cache'           => 1,
 					'cache_time'      => 900,
-					'cachemode'       => 'static'
+					'cachemode'       => 'static',
 				),
 			),
 			array(
@@ -4180,7 +4179,7 @@ class PlgSampledataTesting extends CMSPlugin
 					'prepare_content' => 1,
 					'cache'           => 1,
 					'cache_time'      => 900,
-					'cachemode'       => 'static'
+					'cachemode'       => 'static',
 				),
 			),
 			array(
@@ -4199,7 +4198,7 @@ class PlgSampledataTesting extends CMSPlugin
 					'greeting'  => 1,
 					'name'      => 0,
 					'usesecure' => 0,
-					'cache'     => 0
+					'cache'     => 0,
 				),
 			),
 			array(
@@ -4218,7 +4217,7 @@ class PlgSampledataTesting extends CMSPlugin
 					'ordering'    => 0,
 					'footer_text' => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MODULES_MODULE_45_FOOTER_TEXT'),
 					'cache'       => 1,
-					'cache_time'  => 900
+					'cache_time'  => 900,
 				),
 			),
 			array(
@@ -4237,7 +4236,7 @@ class PlgSampledataTesting extends CMSPlugin
 					'ordering'    => 0,
 					'footer_text' => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MODULES_MODULE_46_FOOTER_TEXT'),
 					'cache'       => 1,
-					'cache_time'  => 900
+					'cache_time'  => 900,
 				),
 			),
 			array(
@@ -4527,7 +4526,7 @@ class PlgSampledataTesting extends CMSPlugin
 	/**
 	 * Final step to show completion of sampledata.
 	 *
-	 * @return  array or void  Will be converted into the JSON response to the module.
+	 * @return  array|void  Will be converted into the JSON response to the module.
 	 *
 	 * @since  4.0.0
 	 */

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_installer
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2006 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -35,23 +35,23 @@ $tabs = $app->triggerEvent('onInstallerAddInstallationTab', []);
 <div id="installer-install" class="clearfix">
 
 	<form enctype="multipart/form-data" action="<?php echo Route::_('index.php?option=com_installer&view=install'); ?>" method="post" name="adminForm" id="adminForm">
+		<?php // Render messages set by extension install scripts here ?>
+		<?php if ($this->showMessage) : ?>
+			<?php echo $this->loadTemplate('message'); ?>
+		<?php endif; ?>
+
 		<div class="row">
 			<div class="col-md-12">
-				<div id="j-main-container" class="j-main-container">
-					<?php // Render messages set by extension install scripts here ?>
-					<?php if ($this->showMessage) : ?>
-						<?php echo $this->loadTemplate('message'); ?>
-					<?php endif; ?>
-
+				<div id="j-main-container" class="j-main-container main-card">
 					<?php if (!$tabs) : ?>
 						<div class="alert alert-warning">
-							<span class="fas fa-exclamation-circle" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('WARNING'); ?></span>
+							<span class="icon-exclamation-circle" aria-hidden="true"></span><span class="visually-hidden"><?php echo Text::_('WARNING'); ?></span>
 							<?php echo Text::_('COM_INSTALLER_NO_INSTALLATION_PLUGINS_FOUND'); ?>
 						</div>
 					<?php endif; ?>
 
-					<?php if ($tabs || $this->ftp) : ?>
-						<?php echo HTMLHelper::_('uitab.startTabSet', 'myTab', ['active' => $tabs[0]['name'] ?? '']); ?>
+					<?php if ($tabs) : ?>
+						<?php echo HTMLHelper::_('uitab.startTabSet', 'myTab', ['active' => $tabs[0]['name'] ?? '', 'recall' => true, 'breakpoint' => 768]); ?>
 						<?php // Show installation tabs ?>
 						<?php foreach ($tabs as $tab) : ?>
 							<?php echo HTMLHelper::_('uitab.addTab', 'myTab', $tab['name'], $tab['label']); ?>
@@ -61,11 +61,6 @@ $tabs = $app->triggerEvent('onInstallerAddInstallationTab', []);
 							<?php echo HTMLHelper::_('uitab.endTab'); ?>
 						<?php endforeach; ?>
 
-						<?php if ($this->ftp) : ?>
-							<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'ftp', Text::_('COM_INSTALLER_MSG_DESCFTPTITLE')); ?>
-							<?php echo $this->loadTemplate('ftp'); ?>
-							<?php echo HTMLHelper::_('uitab.endTab'); ?>
-						<?php endif; ?>
 						<?php echo HTMLHelper::_('uitab.endTabSet'); ?>
 					<?php endif; ?>
 

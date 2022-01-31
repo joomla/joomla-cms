@@ -3,13 +3,13 @@
  * @package     Joomla.Administrator
  * @subpackage  com_banners
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2011 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\Component\Banners\Administrator\Service\Html;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
@@ -38,7 +38,7 @@ class Banner
 				'<label id="batch-client-lbl" for="batch-client-id">',
 				Text::_('COM_BANNERS_BATCH_CLIENT_LABEL'),
 				'</label>',
-				'<select class="custom-select" name="batch[client_id]" id="batch-client-id">',
+				'<select class="form-select" name="batch[client_id]" id="batch-client-id">',
 				'<option value="">' . Text::_('COM_BANNERS_BATCH_CLIENT_NOCHANGE') . '</option>',
 				'<option value="0">' . Text::_('COM_BANNERS_NO_CLIENT') . '</option>',
 				HTMLHelper::_('select.options', static::clientlist(), 'value', 'text'),

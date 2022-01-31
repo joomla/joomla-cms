@@ -3,7 +3,7 @@
 	<name>plg_filesystem_local</name>
 	<author>Joomla! Project</author>
 	<creationDate>April 2017</creationDate>
-	<copyright>Copyright (C) 2005 - 2020 Open Source Matters. All rights reserved.</copyright>
+	<copyright>(C) 2017 Open Source Matters, Inc.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
@@ -30,7 +30,7 @@
 					multiple="true"
 					layout="joomla.form.field.subform.repeatable-table"
 					buttons="add,remove,move"
-					default='{"directories0":{"directory":"images"}}'
+					default='[{"directory":"images"}]'
 				>
 					<form>
 						<field
@@ -42,6 +42,7 @@
 							exclude=""
 							stripext=""
 							hide_none="true"
+							validate="options"
 						/>
 					</form>
 				</field>

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2011 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -11,6 +11,7 @@ namespace Joomla\Component\Finder\Administrator\Indexer;
 
 \defined('_JEXEC') or die;
 
+use Exception;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Multilanguage;
@@ -111,7 +112,7 @@ class Helper
 		$tokens = array();
 		$terms = $language->tokenise($input);
 
-		// TODO: array_filter removes any number 0's from the terms. Not sure this is entirely intended
+		// @todo: array_filter removes any number 0's from the terms. Not sure this is entirely intended
 		$terms = array_filter($terms);
 		$terms = array_values($terms);
 

@@ -3,7 +3,7 @@
 	<name>plg_system_updatenotification</name>
 	<author>Joomla! Project</author>
 	<creationDate>May 2015</creationDate>
-	<copyright>Copyright (C) 2005 - 2020 Open Source Matters. All rights reserved.</copyright>
+	<copyright>(C) 2015 Open Source Matters, Inc.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
@@ -13,8 +13,8 @@
 		<filename plugin="updatenotification">updatenotification.php</filename>
 	</files>
 	<languages folder="language">
-		<language tag="en-GB">en-GB.plg_system_updatenotification.ini</language>
-		<language tag="en-GB">en-GB.plg_system_updatenotification.sys.ini</language>
+		<language tag="en-GB">language/en-GB/plg_system_updatenotification.ini</language>
+		<language tag="en-GB">language/en-GB/plg_system_updatenotification.sys.ini</language>
 	</languages>
 	<config>
 		<fields name="params">
@@ -25,7 +25,6 @@
 					label="PLG_SYSTEM_UPDATENOTIFICATION_EMAIL_LBL"
 					description="PLG_SYSTEM_UPDATENOTIFICATION_EMAIL_DESC"
 					default=""
-					size="40"
 				/>
 
 				<field
@@ -43,7 +42,6 @@
 					name="lastrun"
 					type="hidden"
 					default="0"
-					size="15"
 				/>
 			</fieldset>
 		</fields>

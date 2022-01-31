@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2009 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -47,7 +47,7 @@ if (!$editoroptions)
 
 	<form action="<?php echo Route::_('index.php?option=com_content&a_id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="adminForm" class="form-validate form-vertical">
 		<fieldset>
-			<?php echo HTMLHelper::_('uitab.startTabSet', $this->tab_name, array('active' => 'editor')); ?>
+			<?php echo HTMLHelper::_('uitab.startTabSet', $this->tab_name, ['active' => 'editor', 'recall' => true, 'breakpoint' => 768]); ?>
 
 			<?php echo HTMLHelper::_('uitab.addTab', $this->tab_name, 'editor', Text::_('COM_CONTENT_ARTICLE_CONTENT')); ?>
 				<?php echo $this->form->renderField('title'); ?>
@@ -56,7 +56,7 @@ if (!$editoroptions)
 					<?php echo $this->form->renderField('alias'); ?>
 				<?php endif; ?>
 
-				<?php echo $this->form->getInput('articletext'); ?>
+				<?php echo $this->form->renderField('articletext'); ?>
 
 				<?php if ($this->captchaEnabled) : ?>
 					<?php echo $this->form->renderField('captcha'); ?>
@@ -67,10 +67,12 @@ if (!$editoroptions)
 			<?php echo HTMLHelper::_('uitab.addTab', $this->tab_name, 'images', Text::_('COM_CONTENT_IMAGES_AND_URLS')); ?>
 				<?php echo $this->form->renderField('image_intro', 'images'); ?>
 				<?php echo $this->form->renderField('image_intro_alt', 'images'); ?>
+				<?php echo $this->form->renderField('image_intro_alt_empty', 'images'); ?>
 				<?php echo $this->form->renderField('image_intro_caption', 'images'); ?>
 				<?php echo $this->form->renderField('float_intro', 'images'); ?>
 				<?php echo $this->form->renderField('image_fulltext', 'images'); ?>
 				<?php echo $this->form->renderField('image_fulltext_alt', 'images'); ?>
+				<?php echo $this->form->renderField('image_fulltext_alt_empty', 'images'); ?>
 				<?php echo $this->form->renderField('image_fulltext_caption', 'images'); ?>
 				<?php echo $this->form->renderField('float_fulltext', 'images'); ?>
 				<?php echo $this->form->renderField('urla', 'urls'); ?>
@@ -156,11 +158,17 @@ if (!$editoroptions)
 		</fieldset>
 		<div class="mb-2">
 			<button type="button" class="btn btn-primary" data-submit-task="article.save">
-				<span class="fas fa-check" aria-hidden="true"></span>
+				<span class="icon-check" aria-hidden="true"></span>
 				<?php echo Text::_('JSAVE'); ?>
 			</button>
+			<?php if ($this->showSaveAsCopy) : ?>
+				<button type="button" class="btn btn-primary" data-submit-task="article.save2copy">
+					<span class="icon-copy" aria-hidden="true"></span>
+					<?php echo Text::_('JSAVEASCOPY'); ?>
+				</button>
+			<?php endif; ?>
 			<button type="button" class="btn btn-danger" data-submit-task="article.cancel">
-				<span class="fas fa-times" aria-hidden="true"></span>
+				<span class="icon-times" aria-hidden="true"></span>
 				<?php echo Text::_('JCANCEL'); ?>
 			</button>
 			<?php if ($params->get('save_history', 0) && $this->item->id) : ?>

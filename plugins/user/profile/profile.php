@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  User.profile
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2009 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -16,7 +16,6 @@ use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\String\PunycodeHelper;
-use Joomla\Database\DatabaseInterface;
 use Joomla\Database\ParameterType;
 use Joomla\Utilities\ArrayHelper;
 
@@ -28,17 +27,24 @@ use Joomla\Utilities\ArrayHelper;
 class PlgUserProfile extends CMSPlugin
 {
 	/**
-	 * Application object.
+	 * @var    \Joomla\CMS\Application\CMSApplication
 	 *
-	 * @var    JApplicationCms
-	 * @since  4.0
+	 * @since  4.0.0
 	 */
 	protected $app;
+
+	/**
+	 * @var    \Joomla\Database\DatabaseDriver
+	 *
+	 * @since  4.0.0
+	 */
+	protected $db;
 
 	/**
 	 * Load the language file on instantiation.
 	 *
 	 * @var    boolean
+	 *
 	 * @since  3.1
 	 */
 	protected $autoloadLanguage = true;
@@ -47,17 +53,10 @@ class PlgUserProfile extends CMSPlugin
 	 * Date of birth.
 	 *
 	 * @var    string
+	 *
 	 * @since  3.1
 	 */
 	private $date = '';
-
-	/**
-	 * Database object
-	 *
-	 * @var    DatabaseInterface
-	 * @since  4.0
-	 */
-	protected $db;
 
 	/**
 	 * Runs on content preparation
@@ -72,7 +71,7 @@ class PlgUserProfile extends CMSPlugin
 	public function onContentPrepareData($context, $data)
 	{
 		// Check we are manipulating a valid form.
-		if (!in_array($context, ['com_users.profile', 'com_users.user', 'com_users.registration', 'com_admin.profile']))
+		if (!in_array($context, ['com_users.profile', 'com_users.user', 'com_users.registration']))
 		{
 			return true;
 		}
@@ -239,7 +238,7 @@ class PlgUserProfile extends CMSPlugin
 		// Check we are manipulating a valid form.
 		$name = $form->getName();
 
-		if (!in_array($name, ['com_admin.profile', 'com_users.user', 'com_users.profile', 'com_users.registration']))
+		if (!in_array($name, ['com_users.user', 'com_users.profile', 'com_users.registration']))
 		{
 			return true;
 		}
@@ -310,7 +309,7 @@ class PlgUserProfile extends CMSPlugin
 				}
 			}
 			// Case profile in site or admin
-			elseif ($name === 'com_users.profile' || $name === 'com_admin.profile')
+			elseif ($name === 'com_users.profile')
 			{
 				// Toggle whether the field is required.
 				if ($this->params->get('profile-require_' . $field, 1) > 0)
@@ -451,13 +450,13 @@ class PlgUserProfile extends CMSPlugin
 								$userId,
 								'profile.' . $k,
 								json_encode($v),
-								$order++
+								$order++,
 							],
 							[
 								ParameterType::INTEGER,
 								ParameterType::STRING,
 								ParameterType::STRING,
-								ParameterType::INTEGER
+								ParameterType::INTEGER,
 							]
 						)
 					)

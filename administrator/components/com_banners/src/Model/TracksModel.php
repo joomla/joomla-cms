@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_banners
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2009 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 namespace Joomla\Component\Banners\Administrator\Model;
@@ -40,7 +40,6 @@ class TracksModel extends ListModel
 	 *
 	 * @param   array  $config  An optional associative array of configuration settings.
 	 *
-	 * @see     JControllerLegacy
 	 * @since   1.6
 	 */
 	public function __construct($config = array())
@@ -85,7 +84,7 @@ class TracksModel extends ListModel
 	/**
 	 * Build an SQL query to load the list data.
 	 *
-	 * @return  \JDatabaseQuery
+	 * @return  \Joomla\Database\DatabaseQuery
 	 *
 	 * @since   1.6
 	 */
@@ -503,7 +502,7 @@ class TracksModel extends ListModel
 
 				$files = array(
 					'track' => array(
-						'name' => $this->getBasename() . '.csv',
+						'name' => $this->getBaseName() . '.csv',
 						'data' => $this->content,
 						'time' => time()
 					)
@@ -540,6 +539,9 @@ class TracksModel extends ListModel
 				}
 
 				$this->content = file_get_contents($ziproot);
+
+				// Remove tmp zip file, it's no longer needed.
+				File::delete($ziproot);
 			}
 		}
 

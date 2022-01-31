@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2006 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -23,6 +23,11 @@ use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Factory\MVCFactoryServiceInterface;
 use Joomla\CMS\Table\Table;
 use Joomla\Database\DatabaseQuery;
+use Joomla\Event\DispatcherAwareInterface;
+use Joomla\Event\DispatcherAwareTrait;
+use Joomla\Event\DispatcherInterface;
+use Joomla\Event\Event;
+use Joomla\Event\EventInterface;
 
 /**
  * Base class for a database aware Joomla Model
@@ -31,10 +36,9 @@ use Joomla\Database\DatabaseQuery;
  *
  * @since  2.5.5
  */
-abstract class BaseDatabaseModel extends BaseModel implements DatabaseModelInterface
+abstract class BaseDatabaseModel extends BaseModel implements DatabaseModelInterface, DispatcherAwareInterface
 {
-	use DatabaseAwareTrait;
-	use MVCFactoryAwareTrait;
+	use DatabaseAwareTrait, MVCFactoryAwareTrait, DispatcherAwareTrait;
 
 	/**
 	 * The URL option for the component.
@@ -72,7 +76,7 @@ abstract class BaseDatabaseModel extends BaseModel implements DatabaseModelInter
 
 			if (!preg_match('/(.*)Model/i', \get_class($this), $r))
 			{
-				throw new \Exception(Text::_('JLIB_APPLICATION_ERROR_MODEL_GET_NAME'), 500);
+				throw new \Exception(Text::sprintf('JLIB_APPLICATION_ERROR_GET_NAME', __METHOD__), 500);
 			}
 
 			$this->option = ComponentHelper::getComponentName($this, $r[1]);
@@ -178,11 +182,11 @@ abstract class BaseDatabaseModel extends BaseModel implements DatabaseModelInter
 
 		// Otherwise fall back to inefficient way of counting all results.
 
-		// Remove the limit and offset part if it's a DatabaseQuery object
+		// Remove the limit, offset and order parts if it's a DatabaseQuery object
 		if ($query instanceof DatabaseQuery)
 		{
 			$query = clone $query;
-			$query->clear('limit')->clear('offset');
+			$query->clear('limit')->clear('offset')->clear('order');
 		}
 
 		$this->getDbo()->setQuery($query);
@@ -298,7 +302,7 @@ abstract class BaseDatabaseModel extends BaseModel implements DatabaseModelInter
 		}
 
 		// Trigger the onContentCleanCache event.
-		$app->triggerEvent($this->event_clean_cache, $options);
+		$this->dispatchEvent(new Event($this->event_clean_cache, $options));
 	}
 
 	/**
@@ -313,5 +317,26 @@ abstract class BaseDatabaseModel extends BaseModel implements DatabaseModelInter
 	protected function bootComponent($component): ComponentInterface
 	{
 		return Factory::getApplication()->bootComponent($component);
+	}
+
+	/**
+	 * Dispatches the given event on the internal dispatcher, does a fallback to the global one.
+	 *
+	 * @param   EventInterface  $event  The event
+	 *
+	 * @return  void
+	 *
+	 * @since   4.1.0
+	 */
+	protected function dispatchEvent(EventInterface $event)
+	{
+		try
+		{
+			$this->getDispatcher()->dispatch($event->getName(), $event);
+		}
+		catch (\UnexpectedValueException $e)
+		{
+			Factory::getContainer()->get(DispatcherInterface::class)->dispatch($event->getName(), $event);
+		}
 	}
 }

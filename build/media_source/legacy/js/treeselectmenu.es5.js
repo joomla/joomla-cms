@@ -1,5 +1,5 @@
 /**
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2012 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 jQuery(function($)
@@ -17,7 +17,7 @@ jQuery(function($)
 
 		if ($li.find('ul.treeselect-sub').length) {
 			// Add classes to Expand/Collapse icons
-			$li.find('span.icon-').addClass('treeselect-toggle fa-chevron-down');
+			$li.find('span.icon-').addClass('treeselect-toggle icon-chevron-down');
 
 			// Append drop down menu in nodes
 			$div.find('label:first').after(treeselectmenu);
@@ -34,20 +34,20 @@ jQuery(function($)
 		$i = $(this);
 
 		if (direction === 'rtl') {
-			var chevron = 'fa-chevron-left';
+			var chevron = 'icon-chevron-left';
 		} else {
-			var chevron = 'fa-chevron-right';
+			var chevron = 'icon-chevron-right';
 		}
 
 		// Take care of parent UL
 		if ($i.parent().find('ul.treeselect-sub').is(':visible')) {
-			$i.removeClass('fa-chevron-down').addClass(chevron);
+			$i.removeClass('icon-chevron-down').addClass(chevron);
 			$i.parent().find('ul.treeselect-sub').hide();
-			$i.parent().find('ul.treeselect-sub i.treeselect-toggle').removeClass('fa-chevron-down').addClass(chevron);
+			$i.parent().find('ul.treeselect-sub i.treeselect-toggle').removeClass('icon-chevron-down').addClass(chevron);
 		} else {
-			$i.removeClass(chevron).addClass('fa-chevron-down');
+			$i.removeClass(chevron).addClass('icon-chevron-down');
 			$i.parent().find('ul.treeselect-sub').show();
-			$i.parent().find('ul.treeselect-sub i.treeselect-toggle').removeClass(chevron).addClass('fa-chevron-down');
+			$i.parent().find('ul.treeselect-sub i.treeselect-toggle').removeClass(chevron).addClass('icon-chevron-down');
 		}
 	});
 
@@ -90,23 +90,23 @@ jQuery(function($)
 	$('#treeExpandAll').click(function()
 	{
 		$('ul.treeselect ul.treeselect-sub').show();
-		$('ul.treeselect i.treeselect-toggle').removeClass('fa-chevron-right').addClass('fa-chevron-down');
+		$('ul.treeselect i.treeselect-toggle').removeClass('icon-chevron-right').addClass('icon-chevron-down');
 	});
 
 	// Unchecks all checkboxes the tree
 	$('#treeCollapseAll').click(function()
 	{
 		$('ul.treeselect ul.treeselect-sub').hide();
-		$('ul.treeselect i.treeselect-toggle').removeClass('fa-chevron-down').addClass('fa-chevron-right');
+		$('ul.treeselect i.treeselect-toggle').removeClass('icon-chevron-down').addClass('icon-chevron-right');
 	});
 	// Take care of children check/uncheck all
 	$('a.checkall').click(function()
 	{
-		$(this).parents().eq(5).find('ul.treeselect-sub input').attr('checked', 'checked');
+		$(this).parents().eq(4).find('ul.treeselect-sub input').attr('checked', 'checked');
 	});
 	$('a.uncheckall').click(function()
 	{
-		$(this).parents().eq(5).find('ul.treeselect-sub input').attr('checked', false);
+		$(this).parents().eq(4).find('ul.treeselect-sub input').attr('checked', false);
 	});
 
 	// Take care of children toggle all
@@ -114,12 +114,12 @@ jQuery(function($)
 	{
 		var $parent = $(this).parents().eq(6);
 		$parent.find('ul.treeselect-sub').show();
-		$parent.find('ul.treeselect-sub i.treeselect-toggle').removeClass('fa-chevron-right').addClass('fa-chevron-down');
+		$parent.find('ul.treeselect-sub i.treeselect-toggle').removeClass('icon-chevron-right').addClass('icon-chevron-down');
 	});
 	$('a.collapseall').click(function()
 	{
 		var $parent = $(this).parents().eq(6);
 		$parent.find('li ul.treeselect-sub').hide();
-		$parent.find('li i.treeselect-toggle').removeClass('fa-chevron-down').addClass('fa-chevron-right');
+		$parent.find('li i.treeselect-toggle').removeClass('icon-chevron-down').addClass('icon-chevron-right');
 	});
 });

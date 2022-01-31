@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_contact
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2010 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -143,8 +143,7 @@ class FeaturedModel extends ListModel
 		// Filter by language
 		if ($this->getState('filter.language'))
 		{
-			$language = [Factory::getLanguage()->getTag(), '*'];
-			$query->whereIn($db->quoteName('a.language'), $language, ParameterType::STRING);
+			$query->whereIn($db->quoteName('a.language'), [Factory::getLanguage()->getTag(), '*'], ParameterType::STRING);
 		}
 
 		// Add the list ordering clause.

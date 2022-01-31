@@ -3,9 +3,8 @@
 	<fieldset addfieldprefix="Joomla\Component\Redirect\Administrator\Field">
 		<field
 			name="id"
-			type="number"
+			type="text"
 			label="JGLOBAL_FIELD_ID_LABEL"
-			id="id"
 			default="0"
 			readonly="true"
 			class="readonly"
@@ -16,7 +15,6 @@
 			type="text"
 			label="COM_REDIRECT_FIELD_OLD_URL_LABEL"
 			description="COM_REDIRECT_FIELD_OLD_URL_DESC"
-			size="50"
 			required="true"
 		/>
 
@@ -25,7 +23,6 @@
 			type="text"
 			label="COM_REDIRECT_FIELD_NEW_URL_LABEL"
 			description="COM_REDIRECT_FIELD_NEW_URL_DESC"
-			size="50"
 			required="true"
 		/>
 
@@ -33,15 +30,13 @@
 			name="comment"
 			type="text"
 			label="COM_REDIRECT_FIELD_COMMENT_LABEL"
-			size="40"
 		/>
 
 		<field
 			name="published"
 			type="list"
 			label="JSTATUS"
-			class="custom-select-color-state"
-			size="1"
+			class="form-select-color-state"
 			default="1"
 			validate="options"
 			>
@@ -55,8 +50,6 @@
 			name="referer"
 			type="text"
 			label="COM_REDIRECT_FIELD_REFERRER_LABEL"
-			id="referer"
-			size="50"
 			readonly="true"
 		/>
 
@@ -64,9 +57,7 @@
 			name="created_date"
 			type="text"
 			label="COM_REDIRECT_FIELD_CREATED_DATE_LABEL"
-			id="created_date"
 			class="readonly"
-			size="20"
 			readonly="true"
 		/>
 
@@ -74,17 +65,14 @@
 			name="modified_date"
 			type="text"
 			label="COM_REDIRECT_FIELD_UPDATED_DATE_LABEL"
-			id="modified_date"
 			class="readonly"
-			size="20"
 			readonly="true"
 		/>
 
 		<field
 			name="hits"
-			type="number"
+			type="text"
 			label="JGLOBAL_HITS"
-			id="hits"
 			class="readonly"
 			readonly="true"
 			filter="unset"
@@ -97,6 +85,7 @@
 			label="COM_REDIRECT_FIELD_REDIRECT_STATUS_CODE_LABEL"
 			description="COM_REDIRECT_FIELD_REDIRECT_STATUS_CODE_DESC"
 			default="301"
+			validate="options"
 		/>
 	</fieldset>
 </form>

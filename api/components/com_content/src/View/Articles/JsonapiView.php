@@ -3,7 +3,7 @@
  * @package     Joomla.API
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2019 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -43,8 +43,6 @@ class JsonapiView extends BaseApiView
 		'language',
 		'state',
 		'category',
-		'created',
-		'author',
 		'images',
 		'metakey',
 		'metadesc',
@@ -83,8 +81,6 @@ class JsonapiView extends BaseApiView
 		'language',
 		'state',
 		'category',
-		'created',
-		'author',
 		'images',
 		'metakey',
 		'metadesc',
@@ -100,7 +96,6 @@ class JsonapiView extends BaseApiView
 		'created_by',
 		'created_by_alias',
 		'modified',
-		'modified_by',
 		'hits',
 		'version',
 		'featured_up',
@@ -115,7 +110,8 @@ class JsonapiView extends BaseApiView
 	 */
 	protected $relationship = [
 		'category',
-		'author',
+		'created_by',
+		'tags',
 	];
 
 	/**
@@ -166,6 +162,8 @@ class JsonapiView extends BaseApiView
 	 */
 	public function displayItem($item = null)
 	{
+		$this->relationship[] = 'modified_by';
+
 		foreach (FieldsHelper::getFields('com_content.article') as $field)
 		{
 			$this->fieldsToRenderItem[] = $field->name;
@@ -199,7 +197,7 @@ class JsonapiView extends BaseApiView
 
 		foreach (FieldsHelper::getFields('com_content.article', $item, true) as $field)
 		{
-			$item->{$field->name} = isset($field->apivalue) ? $field->apivalue : $field->rawvalue;
+			$item->{$field->name} = $field->apivalue ?? $field->rawvalue;
 		}
 
 		if (Multilanguage::isEnabled() && !empty($item->associations))
