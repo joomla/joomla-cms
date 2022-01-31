@@ -65,6 +65,8 @@ Joomla = window.Joomla || {};
         }
         else if (uploadForm.install_package.files[0].size > uploadForm.max_upload_size.value && !updateCheck.disabled) {
           updateCheck.disabled = !updateCheck.disabled;
+          updateCheck.checked = false;
+          uploadButton.disabled = true;
         }
       });
     }
