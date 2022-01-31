@@ -34,7 +34,7 @@ class RegistrationController extends BaseController
 	 */
 	public function activate()
 	{
-		$user  	 = Factory::getUser();
+		$user  	 = $this->app->getIdentity();
 		$input 	 = $this->input;
 		$uParams = ComponentHelper::getParams('com_users');
 
@@ -67,7 +67,10 @@ class RegistrationController extends BaseController
 
 		if (!$userIdToActivate)
 		{
-			throw new \Exception(Text::_('COM_USERS_ACTIVATION_TOKEN_NOT_FOUND'), 403);
+			$this->setMessage(Text::_('COM_USERS_ACTIVATION_TOKEN_NOT_FOUND'));
+			$this->setRedirect(Route::_('index.php?option=com_users&view=login', false));
+
+			return false;
 		}
 
 		// Get the user we want to activate

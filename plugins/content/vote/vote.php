@@ -20,9 +20,8 @@ use Joomla\CMS\Plugin\PluginHelper;
 class PlgContentVote extends CMSPlugin
 {
 	/**
-	 * Application object
+	 * @var    \Joomla\CMS\Application\CMSApplication
 	 *
-	 * @var    JApplicationCms
 	 * @since  3.7.0
 	 */
 	protected $app;
@@ -31,13 +30,12 @@ class PlgContentVote extends CMSPlugin
 	 * The position the voting data is displayed in relative to the article.
 	 *
 	 * @var    string
+	 *
 	 * @since  3.7.0
 	 */
 	protected $votingPosition;
 
 	/**
-	 * Constructor.
-	 *
 	 * @param   object  &$subject  The object to observe
 	 * @param   array   $config    An optional associative array of configuration settings.
 	 *

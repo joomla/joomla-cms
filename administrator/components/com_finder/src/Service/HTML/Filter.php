@@ -159,7 +159,7 @@ class Filter
 
 			foreach ($nodes as $nk => $nv)
 			{
-				if (trim($nv->parent_title, '**') === 'Language')
+				if (trim($nv->parent_title, '*') === 'Language')
 				{
 					$title = LanguageHelper::branchLanguageTitle($nv->title);
 				}
@@ -353,7 +353,7 @@ class Filter
 
 				foreach ($branches[$bk]->nodes as $node_id => $node)
 				{
-					if (trim($node->parent_title, '**') === 'Language')
+					if (trim($node->parent_title, '*') === 'Language')
 					{
 						$title = LanguageHelper::branchLanguageTitle($node->title);
 					}

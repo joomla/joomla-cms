@@ -25,7 +25,8 @@ abstract class PluginHelper
 	/**
 	 * A persistent cache of the loaded plugins.
 	 *
-	 * @var    array
+	 * @var    array|null
+	 *
 	 * @since  1.7
 	 */
 	protected static $plugins = null;
@@ -67,18 +68,18 @@ abstract class PluginHelper
 		{
 			return $tPath;
 		}
-		elseif (!empty($templateObj->parent) && is_file($iPath))
+
+		if (!empty($templateObj->parent) && is_file($iPath))
 		{
 			return $iPath;
 		}
-		elseif (is_file($bPath))
+
+		if (is_file($bPath))
 		{
 			return $bPath;
 		}
-		else
-		{
-			return $dPath;
-		}
+
+		return $dPath;
 	}
 
 	/**
@@ -94,7 +95,7 @@ abstract class PluginHelper
 	 */
 	public static function getPlugin($type, $plugin = null)
 	{
-		$result = array();
+		$result = [];
 		$plugins = static::load();
 
 		// Find the correct plugin(s) to return.
@@ -157,7 +158,7 @@ abstract class PluginHelper
 	 */
 	public static function importPlugin($type, $plugin = null, $autocreate = true, DispatcherInterface $dispatcher = null)
 	{
-		static $loaded = array();
+		static $loaded = [];
 
 		// Check for the default args, if so we can optimise cheaply
 		$defaults = false;
@@ -175,7 +176,7 @@ abstract class PluginHelper
 
 		if (!isset($loaded[$dispatcherHash]))
 		{
-			$loaded[$dispatcherHash] = array();
+			$loaded[$dispatcherHash] = [];
 		}
 
 		if (!$defaults || !isset($loaded[$dispatcherHash][$type]))
@@ -220,7 +221,7 @@ abstract class PluginHelper
 	 */
 	protected static function import($plugin, $autocreate = true, DispatcherInterface $dispatcher = null)
 	{
-		static $plugins = array();
+		static $plugins = [];
 
 		// Get the dispatcher's hash to allow paths to be tracked against unique dispatchers
 		$hash = spl_object_hash($dispatcher) . $plugin->type . $plugin->name;
@@ -263,7 +264,7 @@ abstract class PluginHelper
 
 		$levels = Factory::getUser()->getAuthorisedViewLevels();
 
-		/** @var \JCacheControllerCallback $cache */
+		/** @var \Joomla\CMS\Cache\Controller\CallbackController $cache */
 		$cache = Factory::getCache('com_plugins', 'callback');
 
 		$loader = function () use ($levels)

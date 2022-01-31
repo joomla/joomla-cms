@@ -421,7 +421,7 @@ class CssMenu
 				continue;
 			}
 			elseif (($item->link === 'index.php?option=com_installer&view=install' || $item->link === 'index.php?option=com_installer&view=languages')
-				&& !$this->user->authorise('core.admin'))
+				&& !$user->authorise('core.admin'))
 			{
 				continue;
 			}

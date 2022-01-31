@@ -1,7 +1,6 @@
 <?php
 /**
- * @package     Joomla.Platform
- * @subpackage  Document
+ * Joomla! Content Management System
  *
  * @copyright   (C) 2005 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE
@@ -68,7 +67,7 @@ class MetasRenderer extends DocumentRenderer
 		{
 			$prettyPrint = (JDEBUG && \defined('JSON_PRETTY_PRINT') ? JSON_PRETTY_PRINT : false);
 			$jsonOptions = json_encode($scriptOptions, $prettyPrint);
-			$jsonOptions = $jsonOptions ? $jsonOptions : '{}';
+			$jsonOptions = $jsonOptions ?: '{}';
 
 			$wa->addInlineScript(
 				$jsonOptions,
