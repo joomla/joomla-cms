@@ -221,7 +221,7 @@ class PlgExtensionJoomla extends CMSPlugin
 				if (is_array($update_sites_pending_delete) && count($update_sites_pending_delete))
 				{
 					// Nuke any pending updates with this site before we delete it
-					// TODO: investigate alternative of using a query after the delete below with a query and not in like above
+					// @todo: investigate alternative of using a query after the delete below with a query and not in like above
 					$query->clear()
 						->delete($db->quoteName('#__updates'))
 						->whereIn($db->quoteName('update_site_id'), $update_sites_pending_delete);
