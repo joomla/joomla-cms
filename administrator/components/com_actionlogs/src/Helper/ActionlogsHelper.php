@@ -55,7 +55,7 @@ class ActionlogsHelper
 				sprintf(
 					'%s() requires an array or object implementing the Traversable interface, a %s was given.',
 					__METHOD__,
-					gettype($data) === 'object' ? get_class($data) : gettype($data)
+					\gettype($data) === 'object' ? \get_class($data) : \gettype($data)
 				)
 			);
 		}
@@ -122,7 +122,7 @@ class ActionlogsHelper
 			case 'plg':
 				$parts = explode('_', $extension, 3);
 
-				if (count($parts) > 2)
+				if (\count($parts) > 2)
 				{
 					$source = JPATH_PLUGINS . '/' . $parts[1] . '/' . $parts[2];
 				}
@@ -259,7 +259,7 @@ class ActionlogsHelper
 
 			\JLoader::register($cName, $file);
 
-			if (class_exists($cName) && is_callable(array($cName, 'getContentTypeLink')))
+			if (class_exists($cName) && \is_callable(array($cName, 'getContentTypeLink')))
 			{
 				return $cName::getContentTypeLink($contentType, $id, $object);
 			}
@@ -367,7 +367,7 @@ class ActionlogsHelper
 			return $value;
 		}
 
-		if (in_array($value[0], self::$characters, true))
+		if (\in_array($value[0], self::$characters, true))
 		{
 			$value = ' ' . $value;
 		}

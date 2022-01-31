@@ -1004,7 +1004,7 @@ class Query
 					// Tokenize the current term.
 					$token = Helper::tokenize($terms[$i], $lang, true);
 
-					// Todo: The previous function call may return an array, which seems not to be handled by the next one, which expects an object
+					// @todo: The previous function call may return an array, which seems not to be handled by the next one, which expects an object
 					$token = $this->getTokenData(array_shift($token));
 
 					if ($params->get('filter_commonwords', 0) && $token->common)
@@ -1054,7 +1054,6 @@ class Query
 
 					// Adjust the loop.
 					$i += 2;
-					continue;
 				}
 				// Handle the OR operator.
 				elseif ($op === 'OR' && isset($terms[$i + 2]))
@@ -1124,7 +1123,6 @@ class Query
 
 					// Adjust the loop.
 					$i += 2;
-					continue;
 				}
 			}
 			// Handle an orphaned OR operator.
@@ -1172,7 +1170,6 @@ class Query
 
 				// Adjust the loop.
 				$i++;
-				continue;
 			}
 			// Handle the NOT operator.
 			elseif (isset($terms[$i + 1]) && array_search($terms[$i], $operators, true) === 'NOT')

@@ -39,6 +39,7 @@ class HtmlView extends BaseHtmlView
 	 * List of items associated with the tag
 	 *
 	 * @var    \stdClass[]|false
+	 *
 	 * @since  3.1
 	 */
 	protected $items;
@@ -56,6 +57,7 @@ class HtmlView extends BaseHtmlView
 	 * UNUSED
 	 *
 	 * @var    null
+	 *
 	 * @since  3.1
 	 */
 	protected $children;
@@ -64,6 +66,7 @@ class HtmlView extends BaseHtmlView
 	 * UNUSED
 	 *
 	 * @var    null
+	 *
 	 * @since  3.1
 	 */
 	protected $parent;
@@ -72,6 +75,7 @@ class HtmlView extends BaseHtmlView
 	 * The pagination object
 	 *
 	 * @var    \Joomla\CMS\Pagination\Pagination
+	 *
 	 * @since  3.1
 	 */
 	protected $pagination;
@@ -80,6 +84,7 @@ class HtmlView extends BaseHtmlView
 	 * The page parameters
 	 *
 	 * @var    \Joomla\Registry\Registry|null
+	 *
 	 * @since  3.1
 	 */
 	protected $params;
@@ -88,6 +93,7 @@ class HtmlView extends BaseHtmlView
 	 * Array of tags title
 	 *
 	 * @var    array
+	 *
 	 * @since  3.1
 	 */
 	protected $tags_title;
@@ -96,6 +102,7 @@ class HtmlView extends BaseHtmlView
 	 * The page class suffix
 	 *
 	 * @var    string
+	 *
 	 * @since  4.0.0
 	 */
 	protected $pageclass_sfx = '';
@@ -104,6 +111,7 @@ class HtmlView extends BaseHtmlView
 	 * The logged in user
 	 *
 	 * @var    User|null
+	 *
 	 * @since  4.0.0
 	 */
 	protected $user = null;
