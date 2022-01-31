@@ -19,6 +19,7 @@ use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\CMS\MVC\View\JsonApiView;
 use Joomla\CMS\Object\CMSObject;
+use Joomla\CMS\Filter\InputFilter;
 use Joomla\Input\Input;
 use Joomla\String\Inflector;
 use Tobscure\JsonApi\Exception\InvalidParameterException;
@@ -78,6 +79,13 @@ class ApiController extends BaseController
 	 * @var  CMSObject
 	 */
 	protected $modelState;
+
+	/**
+	 * Query filter parameters => model state mappings
+	 *
+	 * @var  array
+	 */
+	protected $modelFilterStateMap = [];
 
 	/**
 	 * Constructor.
@@ -214,6 +222,9 @@ class ApiController extends BaseController
 			$limit = $paginationInfo['limit'];
 			$this->modelState->set($this->context . '.list.limit', $limit);
 		}
+
+		// Set model filter state from request query.
+		$this->setModelFilterStateFromRequest();
 
 		$viewType   = $this->app->getDocument()->getType();
 		$viewName   = $this->input->get('view', $this->default_view);
@@ -574,5 +585,31 @@ class ApiController extends BaseController
 	protected function preprocessSaveData(array $data): array
 	{
 		return $data;
+	}
+
+	/**
+	 * Method to set request filter parameters in model state.
+	 *
+	 * @param   array  $data  An array of input data.
+	 *
+	 * @return  void
+	 */
+	protected function setModelFilterStateFromRequest()
+	{
+		$apiFilterInfo = $this->input->get('filter', [], 'array');
+		$filter        = InputFilter::getInstance();
+
+		foreach ($this->modelFilterStateMap as $apiFilterName => $modelState)
+		{
+			if (!array_key_exists($apiFilterName, $apiFilterInfo) || trim($apiFilterInfo[$apiFilterName]) !== '')
+			{
+				continue;
+			}
+
+			$this->modelState->set(
+				$modelState['name'],
+				$filter->clean($apiFilterInfo[$apiFilterName], $modelState['type'])
+			);
+		}
 	}
 }

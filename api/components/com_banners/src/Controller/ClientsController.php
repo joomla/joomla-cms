@@ -35,4 +35,24 @@ class ClientsController extends ApiController
 	 * @since  3.0
 	 */
 	protected $default_view = 'clients';
+
+	/**
+	 * Query filter parameters => model state mappings
+	 *
+	 * @var  array
+	 */
+	protected $queryFilterModelStateMap = [
+		'purchase_type' => [
+			'name' => 'filter.purchase_type',
+			'type' => 'INT'
+		],
+		'search' => [
+			'name' => 'filter.search',
+			'type' => 'STRING'
+		],
+		'state' => [
+			'name' => 'filter.published',
+			'type' => 'INT'
+		]
+	];
 }
