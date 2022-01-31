@@ -19,7 +19,7 @@
 		<language tag="en-GB">language/en-GB/en-GB.mod_version.ini</language>
 		<language tag="en-GB">language/en-GB/en-GB.mod_version.sys.ini</language>
 	</languages>
-	<help key="JHELP_EXTENSIONS_MODULE_MANAGER_ADMIN_VERSION" />
+	<help key="Admin_Modules:_Joomla_Version_Information" />
 	<config>
 		<fields name="params">
 			<fieldset name="advanced">

@@ -24,6 +24,7 @@ use Joomla\CMS\Router\Route;
 use Joomla\CMS\Uri\Uri;
 use Joomla\Component\Content\Site\Helper\AssociationHelper;
 use Joomla\Component\Content\Site\Helper\RouteHelper;
+use Joomla\Event\Event;
 
 /**
  * HTML Article View class for the Content component
@@ -43,6 +44,7 @@ class HtmlView extends BaseHtmlView
 	 * The page parameters
 	 *
 	 * @var    \Joomla\Registry\Registry|null
+	 *
 	 * @since  4.0.0
 	 */
 	protected $params = null;
@@ -50,21 +52,21 @@ class HtmlView extends BaseHtmlView
 	/**
 	 * Should the print button be displayed or not?
 	 *
-	 * @var  boolean
+	 * @var   boolean
 	 */
 	protected $print = false;
 
 	/**
 	 * The model state
 	 *
-	 * @var  \JObject
+	 * @var   \Joomla\CMS\Object\CMSObject
 	 */
 	protected $state;
 
 	/**
 	 * The user object
 	 *
-	 * @var  \JUser|null
+	 * @var   \Joomla\CMS\User\User|null
 	 */
 	protected $user = null;
 
@@ -72,6 +74,7 @@ class HtmlView extends BaseHtmlView
 	 * The page class suffix
 	 *
 	 * @var    string
+	 *
 	 * @since  4.0.0
 	 */
 	protected $pageclass_sfx = '';
@@ -88,17 +91,19 @@ class HtmlView extends BaseHtmlView
 	 *
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
 	 *
-	 * @return  mixed  A string if successful, otherwise an Error object.
+	 * @return  void
 	 */
 	public function display($tpl = null)
 	{
 		if ($this->getLayout() == 'pagebreak')
 		{
-			return parent::display($tpl);
+			parent::display($tpl);
+
+			return;
 		}
 
-		$app        = Factory::getApplication();
-		$user       = Factory::getUser();
+		$app  = Factory::getApplication();
+		$user = Factory::getUser();
 
 		$this->item  = $this->get('Item');
 		$this->print = $app->input->getBool('print', false);
@@ -124,7 +129,7 @@ class HtmlView extends BaseHtmlView
 			$item->parent_id = null;
 		}
 
-		// TODO: Change based on shownoauth
+		// @todo Change based on shownoauth
 		$item->readmore_link = Route::_(RouteHelper::getArticleRoute($item->slug, $item->catid, $item->language));
 
 		// Merge article params. If this is single-article view, menu params override article params
@@ -235,7 +240,7 @@ class HtmlView extends BaseHtmlView
 
 		// Process the content plugins.
 		PluginHelper::importPlugin('content');
-		Factory::getApplication()->triggerEvent('onContentPrepare', array('com_content.article', &$item, &$item->params, $offset));
+		$this->dispatchEvent(new Event('onContentPrepare', array('com_content.article', &$item, &$item->params, $offset)));
 
 		$item->event = new \stdClass;
 		$results = Factory::getApplication()->triggerEvent('onContentAfterTitle', array('com_content.article', &$item, &$item->params, $offset));
@@ -248,7 +253,7 @@ class HtmlView extends BaseHtmlView
 		$item->event->afterDisplayContent = trim(implode("\n", $results));
 
 		// Escape strings for HTML output
-		$this->pageclass_sfx = htmlspecialchars($this->item->params->get('pageclass_sfx'));
+		$this->pageclass_sfx = htmlspecialchars($this->item->params->get('pageclass_sfx', ''));
 
 		$this->_prepareDocument();
 

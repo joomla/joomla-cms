@@ -156,6 +156,6 @@ class HtmlView extends BaseHtmlView
 			ToolbarHelper::preferences('com_banners');
 		}
 
-		ToolbarHelper::help('JHELP_COMPONENTS_BANNERS_TRACKS');
+		ToolbarHelper::help('Banners:_Tracks');
 	}
 }

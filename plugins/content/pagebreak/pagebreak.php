@@ -221,7 +221,7 @@ class PlgContentPagebreak extends CMSPlugin
 
 				if ($style === 'tabs')
 				{
-					$t[] = (string) HTMLHelper::_('uitab.startTabSet', 'myTab', array('active' => 'article' . $row->id . '-' . $style . '0'));
+					$t[] = (string) HTMLHelper::_('uitab.startTabSet', 'myTab', ['active' => 'article' . $row->id . '-' . $style . '0', 'view' => 'tabs']);
 				}
 				else
 				{
