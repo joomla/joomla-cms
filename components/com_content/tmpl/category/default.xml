@@ -226,7 +226,6 @@
 				type="text"
 				label="JGLOBAL_DATE_FORMAT_LABEL"
 				description="JGLOBAL_DATE_FORMAT_DESC"
-				size="15"
 				useglobal="true"
 			/>
 
@@ -363,7 +362,8 @@
 				name="display_num"
 				type="list"
 				label="JGLOBAL_NUMBER_ITEMS_LIST_LABEL"
-				default="10"
+				default=""
+				useglobal="true"
 				validate="options"
 				>
 				<option value="5">J5</option>
