@@ -86,8 +86,6 @@ class PlgEditorNone extends CMSPlugin
 	 */
 	public function _displayButtons($name, $buttons, $asset, $author)
 	{
-		$return = '';
-
 		if (is_array($buttons) || (is_bool($buttons) && $buttons))
 		{
 			$buttonsEvent = new Event(

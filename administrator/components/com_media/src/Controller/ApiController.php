@@ -160,6 +160,11 @@ class ApiController extends BaseController
 	 */
 	public function deleteFiles()
 	{
+		if (!$this->app->getIdentity()->authorise('core.delete', 'com_media'))
+		{
+			throw new \Exception(Text::_('JLIB_APPLICATION_ERROR_DELETE_NOT_PERMITTED'), 403);
+		}
+
 		$this->getModel()->delete($this->getAdapter(), $this->getPath());
 
 		return null;
@@ -191,6 +196,11 @@ class ApiController extends BaseController
 	 */
 	public function postFiles()
 	{
+		if (!$this->app->getIdentity()->authorise('core.create', 'com_media'))
+		{
+			throw new \Exception(Text::_('JLIB_APPLICATION_ERROR_CREATE_RECORD_NOT_PERMITTED'), 403);
+		}
+
 		$adapter      = $this->getAdapter();
 		$path         = $this->getPath();
 		$content      = $this->input->json;
@@ -211,7 +221,10 @@ class ApiController extends BaseController
 			$name = $this->getModel()->createFolder($adapter, $name, $path, $override);
 		}
 
-		return $this->getModel()->getFile($adapter, $path . '/' . $name);
+		$options        = [];
+		$options['url'] = $this->input->getBool('url', false);
+
+		return $this->getModel()->getFile($adapter, $path . '/' . $name, $options);
 	}
 
 	/**
@@ -257,6 +270,11 @@ class ApiController extends BaseController
 	 */
 	public function putFiles()
 	{
+		if (!$this->app->getIdentity()->authorise('core.edit', 'com_media'))
+		{
+			throw new \Exception(Text::_('JLIB_APPLICATION_ERROR_EDIT_NOT_PERMITTED'), 403);
+		}
+
 		$adapter = $this->getAdapter();
 		$path    = $this->getPath();
 
@@ -344,20 +362,19 @@ class ApiController extends BaseController
 	 */
 	private function checkContent()
 	{
-		if (!$this->app->getIdentity()->authorise('core.create', 'com_media'))
-		{
-			throw new \Exception(Text::_('COM_MEDIA_ERROR_CREATE_NOT_PERMITTED'), 403);
-		}
+		$helper              = new MediaHelper;
+		$contentLength       = $this->input->server->getInt('CONTENT_LENGTH');
+		$params              = ComponentHelper::getParams('com_media');
+		$paramsUploadMaxsize = $params->get('upload_maxsize', 0) * 1024 * 1024;
+		$uploadMaxFilesize   = $helper->toBytes(ini_get('upload_max_filesize'));
+		$postMaxSize         = $helper->toBytes(ini_get('post_max_size'));
+		$memoryLimit         = $helper->toBytes(ini_get('memory_limit'));
 
-		$params = ComponentHelper::getParams('com_media');
-
-		$helper       = new MediaHelper;
-		$serverlength = $this->input->server->getInt('CONTENT_LENGTH');
-
-		if (($params->get('upload_maxsize', 0) > 0 && $serverlength > ($params->get('upload_maxsize', 0) * 1024 * 1024))
-			|| $serverlength > $helper->toBytes(ini_get('upload_max_filesize'))
-			|| $serverlength > $helper->toBytes(ini_get('post_max_size'))
-			|| $serverlength > $helper->toBytes(ini_get('memory_limit')))
+		if (($paramsUploadMaxsize > 0 && $contentLength > $paramsUploadMaxsize)
+			|| ($uploadMaxFilesize > 0 && $contentLength > $uploadMaxFilesize)
+			|| ($postMaxSize > 0 && $contentLength > $postMaxSize)
+			|| ($memoryLimit > -1 && $contentLength > $memoryLimit)
+		)
 		{
 			throw new \Exception(Text::_('COM_MEDIA_ERROR_WARNFILETOOLARGE'), 403);
 		}

@@ -342,7 +342,7 @@ class User extends Table
 		$k = $this->_tbl_key;
 		$key = $this->$k;
 
-		// TODO: This is a dumb way to handle the groups.
+		// @todo: This is a dumb way to handle the groups.
 		// Store groups locally so as to not update directly.
 		$groups = $this->groups;
 		unset($this->groups);
@@ -542,7 +542,12 @@ class User extends Table
 			}
 		}
 
-		// If no timestamp value is passed to function, than current time is used.
+		// If no timestamp value is passed to function, then current time is used.
+		if ($timeStamp === null)
+		{
+			$timeStamp = 'now';
+		}
+
 		$date      = Factory::getDate($timeStamp);
 		$userId    = (int) $userId;
 		$lastVisit = $date->toSql();

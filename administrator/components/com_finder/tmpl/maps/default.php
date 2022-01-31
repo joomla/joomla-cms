@@ -91,7 +91,7 @@ $wa->useScript('com_finder.maps');
 							</td>
 							<th scope="row">
 								<?php
-								if (trim($item->branch_title, '**') === 'Language')
+								if (trim($item->branch_title, '*') === 'Language')
 								{
 									$title = LanguageHelper::branchLanguageTitle($item->title);
 								}
@@ -103,7 +103,7 @@ $wa->useScript('com_finder.maps');
 								?>
 								<?php echo str_repeat('<span class="gi">&mdash;</span>', $item->level - 1); ?>
 								<?php echo $this->escape($title); ?>
-								<?php if ($this->escape(trim($title, '**')) === 'Language' && Multilanguage::isEnabled()) : ?>
+								<?php if ($this->escape(trim($title, '*')) === 'Language' && Multilanguage::isEnabled()) : ?>
 								<div class="small">
 									<strong><?php echo Text::_('COM_FINDER_MAPS_MULTILANG'); ?></strong>
 								</div>
@@ -112,8 +112,13 @@ $wa->useScript('com_finder.maps');
 							<?php if (!$branchFilter) : ?>
 							<td class="text-center btns itemnumber">
 							<?php if ($item->rgt - $item->lft > 1) : ?>
-								<a href="<?php echo Route::_('index.php?option=com_finder&view=maps&filter[branch]=' . $item->id); ?>">
-									<span class="btn btn-info"><?php echo floor(($item->rgt - $item->lft) / 2); ?></span></a>
+								<a href="<?php echo Route::_('index.php?option=com_finder&view=maps&filter[branch]=' . $item->id); ?>"
+									aria-describedby="tip-map<?php echo $i; ?>">
+									<span class="btn btn-info"><?php echo floor(($item->rgt - $item->lft) / 2); ?></span>
+								</a>
+								<div role="tooltip" id="tip-map<?php echo $i; ?>">
+									<?php echo Text::_('COM_FINDER_HEADING_CHILDREN'); ?>
+								</div>
 							<?php else : ?>
 								-
 							<?php endif; ?>

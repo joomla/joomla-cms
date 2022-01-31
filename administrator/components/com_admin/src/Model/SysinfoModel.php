@@ -535,6 +535,7 @@ class SysinfoModel extends BaseDatabaseModel
 		$cparams  = ComponentHelper::getParams('com_media');
 
 		$this->addDirectory('administrator/components', JPATH_ADMINISTRATOR . '/components');
+		$this->addDirectory('administrator/components/com_joomlaupdate', JPATH_ADMINISTRATOR . '/components/com_joomlaupdate');
 		$this->addDirectory('administrator/language', JPATH_ADMINISTRATOR . '/language');
 
 		// List all admin languages
@@ -731,22 +732,22 @@ class SysinfoModel extends BaseDatabaseModel
 
 		for ($i = 1; $i < $count; $i++)
 		{
-			if (preg_match('/<h2[^>]*>([^<]+)<\/h2>/', $t[$i], $matchs))
+			if (preg_match('/<h2[^>]*>([^<]+)<\/h2>/', $t[$i], $matches))
 			{
-				$name = trim($matchs[1]);
+				$name = trim($matches[1]);
 				$vals = explode("\n", $t[$i + 1]);
 
 				foreach ($vals AS $val)
 				{
 					// 3cols
-					if (preg_match($p2, $val, $matchs))
+					if (preg_match($p2, $val, $matches))
 					{
-						$r[$name][trim($matchs[1])] = [trim($matchs[2]), trim($matchs[3]),];
+						$r[$name][trim($matches[1])] = [trim($matches[2]), trim($matches[3]),];
 					}
 					// 2cols
-					elseif (preg_match($p3, $val, $matchs))
+					elseif (preg_match($p3, $val, $matches))
 					{
-						$r[$name][trim($matchs[1])] = trim($matchs[2]);
+						$r[$name][trim($matches[1])] = trim($matches[2]);
 					}
 				}
 			}
