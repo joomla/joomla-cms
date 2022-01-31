@@ -1,0 +1,80 @@
+// Bootstrap functions
+@import "../../../../../../media/vendor/bootstrap/scss/functions";
+
+// Atum Variables
+@import "variables";
+
+// Bootstrap other
+@import "vendor/bootstrap";
+
+// Fonts
+@import "../../../../../../media/vendor/roboto-fontface/scss/roboto/sass/roboto-fontface";
+
+@import "blocks/global"; // Leave this first
+
+// jQuery Minicolors
+@import "../../../../../../media/system/scss/jquery-minicolors";
+
+// Vendor overrides
+@import "vendor/bootstrap/badge";
+@import "vendor/bootstrap/buttons";
+@import "vendor/bootstrap/card";
+@import "vendor/bootstrap/custom-forms";
+@import "vendor/bootstrap/collapse";
+@import "vendor/bootstrap/dropdown";
+@import "vendor/bootstrap/form";
+@import "vendor/bootstrap/lists";
+@import "vendor/bootstrap/modal";
+@import "vendor/bootstrap/pagination";
+@import "vendor/bootstrap/reboot";
+@import "vendor/bootstrap/table";
+
+// Blocks
+@import "blocks/alerts";
+@import "blocks/edit";
+@import "blocks/header";
+@import "blocks/form";
+@import "blocks/icons";
+@import "blocks/iframe";
+@import "blocks/layout";
+@import "blocks/login";
+@import "blocks/modals";
+@import "blocks/quickicons";
+@import "blocks/lists";
+@import "blocks/sidebar";
+@import "blocks/sidebar-nav";
+@import "blocks/switcher";
+@import "blocks/toolbar";
+@import "blocks/treeselect";
+@import "blocks/utilities";
+
+// These DO NOT BELONG HERE!!!
+@import "vendor/codemirror";
+@import "vendor/dragula";
+@import "vendor/tinymce";
+
+// Also these DO NOT BELONG HERE!!!
+// Page specifics
+@import "pages/com_config";
+@import "pages/com_content";
+@import "pages/com_cpanel";
+@import "pages/com_joomlaupdate";
+@import "pages/com_modules";
+@import "pages/com_tags";
+@import "pages/com_privacy";
+@import "pages/com_templates";
+@import "pages/com_users";
+
+// Forcing reduced motion when set in the user OS
+@media (prefers-reduced-motion: reduce) {
+  *, ::before, ::after {
+    background-attachment: initial !important;
+    transition-delay: 0s !important;
+    // temp fix until https://github.com/onokumus/metismenujs/issues/9 is addressed
+    transition-duration: .001ms !important;
+    animation-duration: 1ms !important;
+    animation-delay: -1ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+  }
+}

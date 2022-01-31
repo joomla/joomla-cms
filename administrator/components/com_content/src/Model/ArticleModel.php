@@ -11,6 +11,7 @@ namespace Joomla\Component\Content\Administrator\Model;
 
 \defined('_JEXEC') or die;
 
+use Joomla\CMS\Date\Date;
 use Joomla\CMS\Event\AbstractEvent;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filter\InputFilter;
@@ -27,7 +28,6 @@ use Joomla\CMS\MVC\Model\WorkflowBehaviorTrait;
 use Joomla\CMS\MVC\Model\WorkflowModelInterface;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\String\PunycodeHelper;
-use Joomla\CMS\Table\Table;
 use Joomla\CMS\Table\TableInterface;
 use Joomla\CMS\Tag\TaggableTableInterface;
 use Joomla\CMS\UCM\UCMType;
@@ -417,7 +417,7 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
 			$registry = new Registry($item->urls);
 			$item->urls = $registry->toArray();
 
-			$item->articletext = trim($item->fulltext) != '' ? $item->introtext . "<hr id=\"system-readmore\">" . $item->fulltext : $item->introtext;
+			$item->articletext = ($item->fulltext !== null && trim($item->fulltext) != '') ? $item->introtext . '<hr id="system-readmore">' . $item->fulltext : $item->introtext;
 
 			if (!empty($item->id))
 			{
@@ -688,7 +688,8 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
 	 */
 	public function save($data)
 	{
-		$input  = Factory::getApplication()->input;
+		$app    = Factory::getApplication();
+		$input  = $app->input;
 		$filter = InputFilter::getInstance();
 
 		if (isset($data['metadata']) && isset($data['metadata']['author']))
@@ -782,8 +783,29 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
 		// Alter the title for save as copy
 		if ($input->get('task') == 'save2copy')
 		{
-			$origTable = clone $this->getTable();
-			$origTable->load($input->getInt('id'));
+			$origTable = $this->getTable();
+
+			if ($app->isClient('site'))
+			{
+				$origTable->load($input->getInt('a_id'));
+
+				if ($origTable->title === $data['title'])
+				{
+					/**
+					 * If title of article is not changed, set alias to original article alias so that Joomla! will generate
+					 * new Title and Alias for the copied article
+					 */
+					$data['alias'] = $origTable->alias;
+				}
+				else
+				{
+					$data['alias'] = '';
+				}
+			}
+			else
+			{
+				$origTable->load($input->getInt('id'));
+			}
 
 			if ($data['title'] == $origTable->title)
 			{
@@ -791,12 +813,9 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
 				$data['title'] = $title;
 				$data['alias'] = $alias;
 			}
-			else
+			elseif ($data['alias'] == $origTable->alias)
 			{
-				if ($data['alias'] == $origTable->alias)
-				{
-					$data['alias'] = '';
-				}
+				$data['alias'] = '';
 			}
 		}
 
@@ -805,7 +824,7 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
 		{
 			if ($data['alias'] == null)
 			{
-				if (Factory::getApplication()->get('unicodeslugs') == 1)
+				if ($app->get('unicodeslugs') == 1)
 				{
 					$data['alias'] = OutputFilter::stringUrlUnicodeSlug($data['title']);
 				}
@@ -814,7 +833,7 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
 					$data['alias'] = OutputFilter::stringURLSafe($data['title']);
 				}
 
-				$table = Table::getInstance('Content', 'JTable');
+				$table = $this->getTable();
 
 				if ($table->load(array('alias' => $data['alias'], 'catid' => $data['catid'])))
 				{
@@ -826,7 +845,7 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
 
 				if (isset($msg))
 				{
-					Factory::getApplication()->enqueueMessage($msg, 'warning');
+					$app->enqueueMessage($msg, 'warning');
 				}
 			}
 		}

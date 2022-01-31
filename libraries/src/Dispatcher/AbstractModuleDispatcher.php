@@ -79,6 +79,13 @@ abstract class AbstractModuleDispatcher extends Dispatcher
 				extract($displayData);
 			}
 
+			/**
+			 * Extracted variables
+			 * -----------------
+			 * @var   \stdClass  $module
+			 * @var   Registry   $params
+			 */
+
 			require ModuleHelper::getLayoutPath($module->module, $params->get('layout', 'default'));
 		};
 

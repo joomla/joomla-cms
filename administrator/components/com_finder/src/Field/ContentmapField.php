@@ -79,7 +79,7 @@ class ContentmapField extends GroupedlistField
 		}
 		catch (\RuntimeException $e)
 		{
-			return;
+			return [];
 		}
 
 		// Build the grouped list array.
@@ -98,7 +98,7 @@ class ContentmapField extends GroupedlistField
 				{
 					$levelPrefix = str_repeat('- ', max(0, $branch->level - 1));
 
-					if (trim($name, '**') === 'Language')
+					if (trim($name, '*') === 'Language')
 					{
 						$text = LanguageHelper::branchLanguageTitle($branch->text);
 					}
