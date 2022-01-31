@@ -31,17 +31,15 @@ use Joomla\Registry\Registry;
 class PlgUserJoomla extends CMSPlugin
 {
 	/**
-	 * Application object
+	 * @var    \Joomla\CMS\Application\CMSApplication
 	 *
-	 * @var    \Joomla\CMS\Application\CMSApplicationInterface
 	 * @since  3.2
 	 */
 	protected $app;
 
 	/**
-	 * Database object
+	 * @var    \Joomla\Database\DatabaseDriver
 	 *
-	 * @var    \Joomla\Database\DatabaseInterface
 	 * @since  3.2
 	 */
 	protected $db;
@@ -49,8 +47,8 @@ class PlgUserJoomla extends CMSPlugin
 	/**
 	 * Set as required the passwords fields when mail to user is set to No
 	 *
-	 * @param   JForm  $form  The form to be altered.
-	 * @param   mixed  $data  The associated data for the form.
+	 * @param   \Joomla\CMS\Form\Form  $form  The form to be altered.
+	 * @param   mixed                  $data  The associated data for the form.
 	 *
 	 * @return  boolean
 	 *
@@ -152,7 +150,7 @@ class PlgUserJoomla extends CMSPlugin
 			return;
 		}
 
-		// TODO: Suck in the frontend registration emails here as well. Job for a rainy day.
+		// @todo: Suck in the frontend registration emails here as well. Job for a rainy day.
 		// The method check here ensures that if running as a CLI Application we don't get any errors
 		if (method_exists($this->app, 'isClient') && !$this->app->isClient('administrator'))
 		{
@@ -414,7 +412,7 @@ class PlgUserJoomla extends CMSPlugin
 			return $instance;
 		}
 
-		// TODO : move this out of the plugin
+		// @todo : move this out of the plugin
 		$params = ComponentHelper::getParams('com_users');
 
 		// Read the default user group option from com_users

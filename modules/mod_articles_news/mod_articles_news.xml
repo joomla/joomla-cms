@@ -165,6 +165,8 @@
 					label="MOD_ARTICLES_NEWS_FIELD_ITEMS_LABEL"
 					default="5"
 					filter="integer"
+					min="1"
+					validate="number"
 				/>
 
 				<field

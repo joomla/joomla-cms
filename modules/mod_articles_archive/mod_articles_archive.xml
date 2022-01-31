@@ -29,6 +29,8 @@
 					label="MOD_ARTICLES_ARCHIVE_FIELD_COUNT_LABEL"
 					default="10"
 					filter="integer"
+					min="1"
+					validate="number"
 				/>
 			</fieldset>
 

@@ -50,9 +50,8 @@ class PlgWorkflowNotification extends CMSPlugin implements SubscriberInterface
 	protected $app;
 
 	/**
-	 * Database object.
+	 * @var    \Joomla\Database\DatabaseDriver
 	 *
-	 * @var    JDatabaseDriver
 	 * @since  3.9.0
 	 */
 	protected $db;
@@ -180,7 +179,7 @@ class PlgWorkflowNotification extends CMSPlugin implements SubscriberInterface
 
 		$toStage = $model_stage->getItem($transition->to_stage_id)->title;
 
-		// Get the nameif the transition
+		// Get the name of the transition
 		$model_transition = $this->app->bootComponent('com_workflow')
 			->getMVCFactory()->createModel('Transition', 'Administrator');
 
@@ -191,12 +190,13 @@ class PlgWorkflowNotification extends CMSPlugin implements SubscriberInterface
 
 		foreach ($pks as $pk)
 		{
-			// Get the title of the item which has changed
-			$title = '';
+			// Get the title of the item which has changed, unknown as fallback
+			$title = Text::_('PLG_WORKFLOW_NOTIFICATION_NO_TITLE');
 
 			if ($hasGetItem)
 			{
-				$title = $model->getItem($pk)->title;
+				$item = $model->getItem($pk);
+				$title = !empty($item->title) ? $item->title : $title;
 			}
 
 			// Send Email to receivers
@@ -225,7 +225,7 @@ class PlgWorkflowNotification extends CMSPlugin implements SubscriberInterface
 					$message = [
 						'id' => 0,
 						'user_id_to' => $receiver->id,
-						'subject' => sprintf($lang->_('PLG_WORKFLOW_NOTIFICATION_ON_TRANSITION_SUBJECT'), $modelName),
+						'subject' => sprintf($lang->_('PLG_WORKFLOW_NOTIFICATION_ON_TRANSITION_SUBJECT'), $title),
 						'message' => $messageText,
 					];
 

@@ -167,9 +167,9 @@ class ModulesModel extends ListModel
 	/**
 	 * Returns an object list
 	 *
-	 * @param   \JDatabaseQuery  $query       The query
-	 * @param   int              $limitstart  Offset
-	 * @param   int              $limit       The number of records
+	 * @param   DatabaseQuery  $query       The query
+	 * @param   int            $limitstart  Offset
+	 * @param   int            $limit       The number of records
 	 *
 	 * @return  array
 	 */
@@ -271,7 +271,7 @@ class ModulesModel extends ListModel
 	/**
 	 * Build an SQL query to load the list data.
 	 *
-	 * @return  \JDatabaseQuery
+	 * @return  DatabaseQuery
 	 */
 	protected function getListQuery()
 	{
