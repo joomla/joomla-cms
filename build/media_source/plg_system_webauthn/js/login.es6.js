@@ -141,14 +141,12 @@ window.Joomla = window.Joomla || {};
     };
 
     if (!publicKey.challenge) {
-      handleLoginError(Joomla.JText._('PLG_SYSTEM_WEBAUTHN_ERR_INVALID_USERNAME'));
+      handleLoginError(Joomla.Text._('PLG_SYSTEM_WEBAUTHN_ERR_INVALID_USERNAME'));
 
       return;
     }
 
-    publicKey.challenge = Uint8Array.from(
-      window.atob(base64url2base64(publicKey.challenge)), (c) => c.charCodeAt(0),
-    );
+    publicKey.challenge = Uint8Array.from(window.atob(base64url2base64(publicKey.challenge)), (c) => c.charCodeAt(0));
 
     if (publicKey.allowCredentials) {
       publicKey.allowCredentials = publicKey.allowCredentials.map((data) => {
@@ -202,7 +200,7 @@ window.Joomla = window.Joomla || {};
     const elReturn = lookForField(elFormContainer, 'input[name=return]');
 
     if (elUsername === null) {
-      Joomla.renderMessages({ error: [Joomla.JText._('PLG_SYSTEM_WEBAUTHN_ERR_CANNOT_FIND_USERNAME')] });
+      Joomla.renderMessages({ error: [Joomla.Text._('PLG_SYSTEM_WEBAUTHN_ERR_CANNOT_FIND_USERNAME')] });
 
       return false;
     }
@@ -212,7 +210,7 @@ window.Joomla = window.Joomla || {};
 
     // No username? We cannot proceed. We need a username to find the acceptable public keys :(
     if (username === '') {
-      Joomla.renderMessages({ error: [Joomla.JText._('PLG_SYSTEM_WEBAUTHN_ERR_EMPTY_USERNAME')] });
+      Joomla.renderMessages({ error: [Joomla.Text._('PLG_SYSTEM_WEBAUTHN_ERR_EMPTY_USERNAME')] });
 
       return false;
     }

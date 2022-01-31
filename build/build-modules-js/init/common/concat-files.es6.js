@@ -22,5 +22,5 @@ module.exports.concatFiles = async (files, output) => {
 
   const res = await Promise.all(promises);
 
-  await writeFile(`${RootPath}/${output}`, res.join(' '));
+  await writeFile(`${RootPath}/${output}`, res.join(' '), { encoding: 'utf8', mode: 0o644 });
 };

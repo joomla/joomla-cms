@@ -14,7 +14,6 @@ namespace Joomla\Module\ArticlesPopular\Site\Helper;
 use Joomla\CMS\Access\Access;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 use Joomla\Component\Content\Administrator\Extension\ContentComponent;
 use Joomla\Component\Content\Site\Helper\RouteHelper;
@@ -36,14 +35,6 @@ abstract class ArticlesPopularHelper
 	public static function getList(&$params)
 	{
 		$app = Factory::getApplication();
-
-		// Exit early if hits are disabled
-		if (!ComponentHelper::getParams('com_content')->get('record_hits', 1))
-		{
-			echo Text::_('JGLOBAL_RECORD_HITS_DISABLED');
-
-			return;
-		}
 
 		// Get an instance of the generic articles model
 		$model = $app->bootComponent('com_content')

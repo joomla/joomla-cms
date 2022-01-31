@@ -62,9 +62,9 @@ if ($user->authorise('core.create', 'com_redirect')
 				. ' onclick="Joomla.iframeButtonClick({iframeSelector: \'#plugin' . $this->redirectPluginId . 'Modal\', buttonSelector: \'#closeBtn\'})">'
 				. Text::_('JLIB_HTML_BEHAVIOR_CLOSE') . '</button>'
 				. '<button type="button" class="btn btn-primary" data-bs-dismiss="modal" onclick="Joomla.iframeButtonClick({iframeSelector: \'#plugin' . $this->redirectPluginId . 'Modal\', buttonSelector: \'#saveBtn\'})">'
-				. Text::_("JSAVE") . '</button>'
+				. Text::_('JSAVE') . '</button>'
 				. '<button type="button" class="btn btn-success" onclick="Joomla.iframeButtonClick({iframeSelector: \'#plugin' . $this->redirectPluginId . 'Modal\', buttonSelector: \'#applyBtn\'}); return false;">'
-				. Text::_("JAPPLY") . '</button>'
+				. Text::_('JAPPLY') . '</button>'
 		)
 	); ?>
 <?php endif; ?>

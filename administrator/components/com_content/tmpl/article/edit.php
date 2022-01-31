@@ -37,14 +37,20 @@ $this->useCoreUI = true;
 $params = clone $this->state->get('params');
 $params->merge(new Registry($this->item->attribs));
 
-$app = Factory::getApplication();
-$input = $app->input;
+$input = Factory::getApplication()->input;
 
-$assoc = Associations::isEnabled();
+$assoc              = Associations::isEnabled();
+$showArticleOptions = $params->get('show_article_options', 1);
 
-if (!$assoc)
+if (!$assoc || !$showArticleOptions)
 {
 	$this->ignore_fieldsets[] = 'frontendassociations';
+}
+
+if (!$showArticleOptions)
+{
+	// Ignore fieldsets inside Options tab
+	$this->ignore_fieldsets = array_merge($this->ignore_fieldsets, ['attribs', 'basic', 'category', 'author', 'date', 'other']);
 }
 
 // In case of modal
@@ -56,7 +62,7 @@ $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=c
 	<?php echo LayoutHelper::render('joomla.edit.title_alias', $this); ?>
 
 	<div class="main-card">
-		<?php echo HTMLHelper::_('uitab.startTabSet', 'myTab', array('active' => 'general')); ?>
+		<?php echo HTMLHelper::_('uitab.startTabSet', 'myTab', ['active' => 'general', 'recall' => true, 'breakpoint' => 768]); ?>
 
 		<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'general', Text::_('COM_CONTENT_ARTICLE_CONTENT')); ?>
 		<div class="row">
@@ -104,9 +110,7 @@ $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=c
 			<?php echo HTMLHelper::_('uitab.endTab'); ?>
 		<?php endif; ?>
 
-		<?php if ($params->get('show_article_options', 1) == 1) : ?>
-			<?php echo LayoutHelper::render('joomla.edit.params', $this); ?>
-		<?php endif; ?>
+		<?php echo LayoutHelper::render('joomla.edit.params', $this); ?>
 
 		<?php // Do not show the publishing options if the edit form is configured not to. ?>
 		<?php if ($params->get('show_publishing_options', 1) == 1) : ?>

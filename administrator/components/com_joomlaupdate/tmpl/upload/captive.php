@@ -40,9 +40,9 @@ Text::script('JHIDEPASSWORD');
 
 <hr>
 
-<form action="<?php echo Route::_('index.php', true); ?>" method="post" id="form-login" class="text-center">
-	<fieldset class="loginform">
-		<legend><?php echo Text::_('COM_JOOMLAUPDATE_LOGIN'); ?></legend>
+<form action="<?php echo Route::_('index.php', true); ?>" method="post" id="form-login" class="text-center card">
+	<fieldset class="loginform card-body">
+		<legend class="h2 mb-3"><?php echo Text::_('COM_JOOMLAUPDATE_CAPTIVE_HEADLINE'); ?></legend>
 		<div class="control-group">
 			<div class="controls">
 				<div class="input-group">
