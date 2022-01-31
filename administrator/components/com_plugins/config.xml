@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <config>
+	<help key="Plugin:_Options"/>
 	<fieldset
 		name="permissions"
 		label="JCONFIG_PERMISSIONS_LABEL"
@@ -12,7 +13,7 @@
 			filter="rules"
 			validate="rules"
 			component="com_plugins"
-			section="component" 
+			section="component"
 		/>
 	</fieldset>
 </config>

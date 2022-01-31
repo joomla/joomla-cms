@@ -79,8 +79,8 @@ export default {
     save() {
       // Check if the form is valid
       if (!this.isValid()) {
-        // TODO show an error message to user for insert a folder name
-        // TODO mark the field as invalid
+        // @todo show an error message to user for insert a folder name
+        // @todo mark the field as invalid
         return;
       }
 

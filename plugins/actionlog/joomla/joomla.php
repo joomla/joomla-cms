@@ -11,6 +11,8 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Installer\Installer;
+use Joomla\CMS\Table\Table;
 use Joomla\CMS\User\User;
 use Joomla\Component\Actionlogs\Administrator\Helper\ActionlogsHelper;
 use Joomla\Component\Actionlogs\Administrator\Plugin\ActionLogPlugin;
@@ -297,7 +299,7 @@ class PlgActionlogJoomla extends ActionLogPlugin
 	 * On Saving application configuration logging method
 	 * Method is called when the application config is being saved
 	 *
-	 * @param   JRegistry  $config  JRegistry object with the new config
+	 * @param   \Joomla\Registry\Registry  $config  Registry object with the new config
 	 *
 	 * @return  void
 	 *
@@ -330,7 +332,7 @@ class PlgActionlogJoomla extends ActionLogPlugin
 	 * This method adds a record to #__action_logs contains (message, date, context, user)
 	 * Method is called when an extension is installed
 	 *
-	 * @param   JInstaller  $installer  Installer object
+	 * @param   Installer   $installer  Installer object
 	 * @param   integer     $eid        Extension Identifier
 	 *
 	 * @return  void
@@ -381,9 +383,9 @@ class PlgActionlogJoomla extends ActionLogPlugin
 	 * This method adds a record to #__action_logs contains (message, date, context, user)
 	 * Method is called when an extension is uninstalled
 	 *
-	 * @param   JInstaller  $installer  Installer instance
-	 * @param   integer     $eid        Extension id
-	 * @param   integer     $result     Installation result
+	 * @param   Installer  $installer  Installer instance
+	 * @param   integer    $eid        Extension id
+	 * @param   integer    $result     Installation result
 	 *
 	 * @return  void
 	 *
@@ -439,8 +441,8 @@ class PlgActionlogJoomla extends ActionLogPlugin
 	 * This method adds a record to #__action_logs contains (message, date, context, user)
 	 * Method is called when an extension is updated
 	 *
-	 * @param   JInstaller  $installer  Installer instance
-	 * @param   integer     $eid        Extension id
+	 * @param   Installer  $installer  Installer instance
+	 * @param   integer    $eid        Extension id
 	 *
 	 * @return  void
 	 *
@@ -490,7 +492,7 @@ class PlgActionlogJoomla extends ActionLogPlugin
 	 * Method is called when an extension is being saved
 	 *
 	 * @param   string   $context  The extension
-	 * @param   JTable   $table    DataBase Table object
+	 * @param   Table    $table    DataBase Table object
 	 * @param   boolean  $isNew    If the extension is new or not
 	 *
 	 * @return  void
@@ -555,7 +557,7 @@ class PlgActionlogJoomla extends ActionLogPlugin
 	 * Method is called when an extension is being deleted
 	 *
 	 * @param   string  $context  The extension
-	 * @param   JTable  $table    DataBase Table object
+	 * @param   Table   $table    DataBase Table object
 	 *
 	 * @return  void
 	 *
@@ -708,7 +710,7 @@ class PlgActionlogJoomla extends ActionLogPlugin
 	 * Method is called after user group is stored into the database
 	 *
 	 * @param   string   $context  The context
-	 * @param   JTable   $table    DataBase Table object
+	 * @param   Table    $table    DataBase Table object
 	 * @param   boolean  $isNew    Is new or not
 	 *
 	 * @return  void
@@ -847,7 +849,7 @@ class PlgActionlogJoomla extends ActionLogPlugin
 		{
 			$loggedInUser = $this->db->loadObject();
 		}
-		catch (JDatabaseExceptionExecuting $e)
+		catch (\Joomla\Database\Exception\ExecutionFailureException $e)
 		{
 			return;
 		}
@@ -1151,7 +1153,7 @@ class PlgActionlogJoomla extends ActionLogPlugin
 
 		if (empty($oldVersion))
 		{
-			$oldVersion = JText::_('JLIB_UNKNOWN');
+			$oldVersion = \Joomla\CMS\Language\Text::_('JLIB_UNKNOWN');
 		}
 
 		$message = array(
