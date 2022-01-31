@@ -26,7 +26,7 @@ Text::script('COM_USERS_GROUPS_CONFIRM_DELETE', true);
 $wa = $this->document->getWebAssetManager();
 $wa->useScript('com_users.admin-users-groups')
 	->useScript('multiselect')
-  ->useScript('table.columns');
+	->useScript('table.columns');
 
 ?>
 <form action="<?php echo Route::_('index.php?option=com_users&view=groups'); ?>" method="post" name="adminForm" id="adminForm">
