@@ -27,7 +27,13 @@ use Joomla\CMS\Layout\LayoutHelper;
 
 <?php if ($params->get('img_intro_full') !== 'none' && !empty($item->imageSrc)) : ?>
 	<figure class="newsflash-image">
-		<img src="<?php echo $item->imageSrc; ?>" alt="<?php echo $item->imageAlt; ?>">
+		<?php echo LayoutHelper::render(
+			'joomla.html.image',
+			[
+				'src' => $item->imageSrc,
+				'alt' => $item->imageAlt,
+			]
+		); ?>
 		<?php if (!empty($item->imageCaption)) : ?>
 			<figcaption>
 				<?php echo $item->imageCaption; ?>

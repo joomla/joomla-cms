@@ -43,7 +43,7 @@ class JsonapiView extends BaseApiView
 
 			if ($component === null || !$component->enabled)
 			{
-				// TODO: exception component unavailable
+				// @todo: exception component unavailable
 				throw new \RuntimeException(Text::_('JLIB_APPLICATION_ERROR_INVALID_COMPONENT_NAME'), 400);
 			}
 
@@ -69,7 +69,7 @@ class JsonapiView extends BaseApiView
 
 		$offset              = $currentPageQuery['offset'];
 		$limit               = $currentPageQuery['limit'];
-		$totalItemsCount     = count($items);
+		$totalItemsCount     = \count($items);
 		$totalPagesAvailable = ceil($totalItemsCount / $limit);
 
 		$items = array_splice($items, $offset, $limit);
