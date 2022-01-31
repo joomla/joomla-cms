@@ -19,8 +19,8 @@ use Joomla\Component\Associations\Administrator\Helper\AssociationsHelper;
 /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
 $wa = $this->document->getWebAssetManager();
 $wa->useScript('com_associations.admin-associations-default')
-	->useScript('table.columns');
-	->useScript('multiselect')
+	->useScript('table.columns')
+	->useScript('multiselect');
 
 $listOrder        = $this->escape($this->state->get('list.ordering'));
 $listDirn         = $this->escape($this->state->get('list.direction'));
