@@ -66,7 +66,7 @@ class HtmlView extends BaseHtmlView
 	 *
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
 	 *
-	 * @return  mixed  A string if successful, otherwise an Error object.
+	 * @return  void|boolean
 	 *
 	 * @throws \Exception
 	 * @since  4.0.0
@@ -120,7 +120,7 @@ class HtmlView extends BaseHtmlView
 		$this->params = $this->state->params;
 
 		// Escape strings for HTML output
-		$this->pageclass_sfx = htmlspecialchars($this->params->get('pageclass_sfx'));
+		$this->pageclass_sfx = htmlspecialchars($this->params->get('pageclass_sfx', ''));
 
 		// Override global params with contact specific params
 		$this->params->merge($this->item->params);

@@ -25,7 +25,8 @@ class HtmlView extends BaseHtmlView
 	/**
 	 * The form object
 	 *
-	 * @var   \JForm
+	 * @var   \Joomla\CMS\Form\Form
+	 *
 	 * @since 3.2
 	 */
 	public $form;
@@ -34,6 +35,7 @@ class HtmlView extends BaseHtmlView
 	 * The data to be displayed in the form
 	 *
 	 * @var   array
+	 *
 	 * @since 3.2
 	 */
 	public $data;
@@ -42,6 +44,7 @@ class HtmlView extends BaseHtmlView
 	 * Is the current user a super administrator?
 	 *
 	 * @var   boolean
+	 *
 	 * @since 3.2
 	 */
 	protected $userIsSuperAdmin;
@@ -50,7 +53,8 @@ class HtmlView extends BaseHtmlView
 	 * The page class suffix
 	 *
 	 * @var    string
-	 * @since  __DEPLOY_VERSION__
+	 *
+	 * @since  4.0.0
 	 */
 	protected $pageclass_sfx = '';
 
@@ -58,7 +62,8 @@ class HtmlView extends BaseHtmlView
 	 * The page parameters
 	 *
 	 * @var    \Joomla\Registry\Registry|null
-	 * @since  __DEPLOY_VERSION__
+	 *
+	 * @since  4.0.0
 	 */
 	protected $params = null;
 
@@ -67,7 +72,7 @@ class HtmlView extends BaseHtmlView
 	 *
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
 	 *
-	 * @return  mixed  A string if successful, otherwise an Error object.
+	 * @return  void
 	 *
 	 * @since   3.2
 	 */
@@ -102,7 +107,7 @@ class HtmlView extends BaseHtmlView
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	protected function _prepareDocument()
 	{
@@ -124,7 +129,7 @@ class HtmlView extends BaseHtmlView
 		}
 
 		// Escape strings for HTML output
-		$this->pageclass_sfx = htmlspecialchars($params->get('pageclass_sfx'));
+		$this->pageclass_sfx = htmlspecialchars($params->get('pageclass_sfx', ''));
 		$this->params        = &$params;
 	}
 }

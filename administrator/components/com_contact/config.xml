@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <config>
+	<help key="Contacts:_Options"/>
 	<fieldset
 		name="contact"
 		label="COM_CONTACT_FIELD_CONFIG_INDIVIDUAL_CONTACT_DISPLAY"
@@ -352,7 +353,6 @@
 			name="linka_name"
 			type="text"
 			label="COM_CONTACT_FIELD_LINKA_NAME_LABEL"
-			size="30"
 			default=""
 			showon="show_links:1"
 		/>
@@ -361,7 +361,6 @@
 			name="linkb_name"
 			type="text"
 			label="COM_CONTACT_FIELD_LINKB_NAME_LABEL"
-			size="30"
 			default=""
 			showon="show_links:1"
 		/>
@@ -370,7 +369,6 @@
 			name="linkc_name"
 			type="text"
 			label="COM_CONTACT_FIELD_LINKC_NAME_LABEL"
-			size="30"
 			default=""
 			showon="show_links:1"
 		/>
@@ -379,7 +377,6 @@
 			name="linkd_name"
 			type="text"
 			label="COM_CONTACT_FIELD_LINKD_NAME_LABEL"
-			size="30"
 			default=""
 			showon="show_links:1"
 		/>
@@ -388,7 +385,6 @@
 			name="linke_name"
 			type="text"
 			label="COM_CONTACT_FIELD_LINKE_NAME_LABEL"
-			size="30"
 			default=""
 			showon="show_links:1"
 		/>
@@ -396,7 +392,7 @@
 	<fieldset
 		name="Icons"
 		label="COM_CONTACT_ICONS_SETTINGS"
-		description="COM_CONTACT_FIELD_CONFIG_INDIVIDUAL_CONTACT_DESC"
+		description="COM_CONTACT_ICONS_SETTINGS_DESC"
 		>
 		<field
 			name="contact_icons"
@@ -973,7 +969,6 @@
 			type="text"
 			label="COM_CONTACT_FIELD_CONFIG_REDIRECT_LABEL"
 			default=""
-			size="30"
 			showon="show_email_form:1"
 		/>
 	</fieldset>

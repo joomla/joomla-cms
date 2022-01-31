@@ -14,7 +14,7 @@ use Joomla\Database\DatabaseInterface;
 /**
  * Test class for Joomla\CMS\Console\ExtensionDiscoverCommand.
  *
- * @since   __DEPLOY_VERSION__
+ * @since   4.0.0
  */
 class ExtensionDiscoverListCommandTest extends \PHPUnit\Framework\TestCase
 {
@@ -23,7 +23,7 @@ class ExtensionDiscoverListCommandTest extends \PHPUnit\Framework\TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function testIsConstructable()
 	{
@@ -36,7 +36,7 @@ class ExtensionDiscoverListCommandTest extends \PHPUnit\Framework\TestCase
 	 *
 	 * @return  void
 	 * 
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function testFilterExtensions()
 	{
@@ -76,9 +76,9 @@ class ExtensionDiscoverListCommandTest extends \PHPUnit\Framework\TestCase
 	/**
 	 * Helper function to create a ExtensionDiscoverCommand
 	 *
-	 * @return  ExtensionDiscoverCommand
+	 * @return  ExtensionDiscoverListCommand
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	protected function createExtensionDiscoverListCommand(): ExtensionDiscoverListCommand
 	{

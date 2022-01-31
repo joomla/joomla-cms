@@ -21,9 +21,8 @@ use Joomla\CMS\Plugin\CMSPlugin;
 class PlgSystemAccessibility extends CMSPlugin
 {
 	/**
-	 * Application object.
+	 * @var    \Joomla\CMS\Application\CMSApplication
 	 *
-	 * @var    JApplicationCms
 	 * @since  4.0.0
 	 */
 	protected $app;

@@ -27,7 +27,8 @@ class HtmlView extends BaseHtmlView
 	/**
 	 * The model state
 	 *
-	 * @var    \JObject
+	 * @var    \Joomla\CMS\Object\CMSObject
+	 *
 	 * @since  4.0.0
 	 */
 	public $state;
@@ -36,6 +37,7 @@ class HtmlView extends BaseHtmlView
 	 * True if there are extension messages to be displayed
 	 *
 	 * @var    boolean
+	 *
 	 * @since  4.0.0
 	 */
 	public $showMessage;

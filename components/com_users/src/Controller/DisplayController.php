@@ -12,7 +12,6 @@ namespace Joomla\Component\Users\Site\Controller;
 \defined('_JEXEC') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
-use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\CMS\Router\Route;
 
@@ -28,9 +27,9 @@ class DisplayController extends BaseController
 	 *
 	 * @param   boolean        $cachable   If true, the view output will be cached
 	 * @param   array|boolean  $urlparams  An array of safe URL parameters and their variable types,
-	 *                                     for valid values see {@link Joomla\CMS\Filter\InputFilter::clean()}.
+	 *                                     for valid values see {@link \Joomla\CMS\Filter\InputFilter::clean()}.
 	 *
-	 * @return  static  This object to support chaining.
+	 * @return  void
 	 *
 	 * @since   1.5
 	 * @throws  \Exception
@@ -52,7 +51,7 @@ class DisplayController extends BaseController
 			{
 				case 'registration':
 					// If the user is already logged in, redirect to the profile page.
-					$user = Factory::getUser();
+					$user = $this->app->getIdentity();
 
 					if ($user->get('guest') != 1)
 					{
@@ -79,7 +78,7 @@ class DisplayController extends BaseController
 				case 'profile':
 
 					// If the user is a guest, redirect to the login page.
-					$user = Factory::getUser();
+					$user = $this->app->getIdentity();
 
 					if ($user->get('guest') == 1)
 					{
@@ -100,7 +99,7 @@ class DisplayController extends BaseController
 				case 'remind':
 				case 'reset':
 					// If the user is already logged in, redirect to the profile page.
-					$user = Factory::getUser();
+					$user = $this->app->getIdentity();
 
 					if ($user->get('guest') != 1)
 					{

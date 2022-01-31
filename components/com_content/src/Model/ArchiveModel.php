@@ -80,7 +80,7 @@ class ArchiveModel extends ArticlesModel
 	/**
 	 * Get the master query for retrieving a list of articles subject to the model state.
 	 *
-	 * @return  \JDatabaseQuery
+	 * @return  \Joomla\Database\DatabaseQuery
 	 *
 	 * @since   1.6
 	 */
@@ -130,30 +130,31 @@ class ArchiveModel extends ArticlesModel
 	}
 
 	/**
-	 * Model override to add alternating value for $odd
+	 * Method to get the archived article list
 	 *
-	 * @param   string   $query       The query.
-	 * @param   integer  $limitstart  Offset.
-	 * @param   integer  $limit       The number of records.
-	 *
-	 * @return  array  An array of results.
-	 *
-	 * @since   3.0.1
-	 * @throws  \RuntimeException
+	 * @access public
+	 * @return array
 	 */
-	protected function _getList($query, $limitstart=0, $limit=0)
+	public function getData()
 	{
-		$result = parent::_getList($query, $limitstart, $limit);
+		$app = Factory::getApplication();
 
-		$odd = 1;
-
-		foreach ($result as $k => $row)
+		// Lets load the content if it doesn't already exist
+		if (empty($this->_data))
 		{
-			$result[$k]->odd = $odd;
-			$odd = 1 - $odd;
+			// Get the page/component configuration
+			$params = $app->getParams();
+
+			// Get the pagination request variables
+			$limit      = $app->input->get('limit', $params->get('display_num', 20), 'uint');
+			$limitstart = $app->input->get('limitstart', 0, 'uint');
+
+			$query = $this->_buildQuery();
+
+			$this->_data = $this->_getList($query, $limitstart, $limit);
 		}
 
-		return $result;
+		return $this->_data;
 	}
 
 	/**
@@ -201,9 +202,9 @@ class ArchiveModel extends ArticlesModel
 	/**
 	 * Generate column expression for slug or catslug.
 	 *
-	 * @param   \JDatabaseQuery  $query  Current query instance.
-	 * @param   string           $id     Column id name.
-	 * @param   string           $alias  Column alias name.
+	 * @param   \Joomla\Database\DatabaseQuery  $query  Current query instance.
+	 * @param   string                          $id     Column id name.
+	 * @param   string                          $alias  Column alias name.
 	 *
 	 * @return  string
 	 *

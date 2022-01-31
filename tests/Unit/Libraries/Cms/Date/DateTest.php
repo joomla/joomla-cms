@@ -17,7 +17,7 @@ class DateTest extends UnitTestCase
 	 * @testdox  Test that the Date class can init and has the right timezones
 	 *
 	 * @return void
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function testConstruct()
 	{
@@ -46,7 +46,7 @@ class DateTest extends UnitTestCase
 	 * @testdox  Test that the date is cast correctly to ISO8601
 	 *
 	 * @return void
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function testtoISO8601()
 	{
@@ -59,7 +59,7 @@ class DateTest extends UnitTestCase
 	 * @testdox  Test that the date is cast correctly to RFC822
 	 *
 	 * @return void
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function testtoRFC822()
 	{
@@ -72,7 +72,7 @@ class DateTest extends UnitTestCase
 	 * @testdox  Test that the date is cast correctly for use in SQL
 	 *
 	 * @return void
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function testtoSql()
 	{
@@ -85,7 +85,7 @@ class DateTest extends UnitTestCase
 	 * @testdox  Test that the date is cast correctly to a unix timestamp
 	 *
 	 * @return void
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function testtoUnix()
 	{
@@ -98,7 +98,7 @@ class DateTest extends UnitTestCase
 	 * @testdox  Test that timezones can be changed on the fly
 	 *
 	 * @return void
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function testTzChange()
 	{
@@ -117,7 +117,7 @@ class DateTest extends UnitTestCase
 	 * @testdox  Test that timezones can be cast to string
 	 *
 	 * @return void
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function testCastToString()
 	{
@@ -130,7 +130,7 @@ class DateTest extends UnitTestCase
 	 * @testdox  Test that Sunday is zero - because it should be
 	 *
 	 * @return void
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function testdayToString()
 	{
@@ -144,7 +144,7 @@ class DateTest extends UnitTestCase
 	 * @testdox  Test magic getter
 	 *
 	 * @return void
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function testMagicGetter()
 	{
@@ -172,7 +172,7 @@ class DateTest extends UnitTestCase
 	 * @testdox  Test getting an instance
 	 *
 	 * @return void
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function testGetInstance()
 	{

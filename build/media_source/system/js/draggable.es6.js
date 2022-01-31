@@ -9,7 +9,6 @@ let isNested;
 let dragElementIndex;
 let dropElementIndex;
 let container = document.querySelector('.js-draggable');
-const orderRows = container.querySelectorAll('[name="order[]"]');
 
 if (container) {
   /** The script expects a form with a class js-form
@@ -37,11 +36,6 @@ if (container) {
 }
 
 if (container) {
-  // Add data order attribute for initial ordering
-  for (let i = 0, l = orderRows.length; l > i; i += 1) {
-    orderRows[i].dataset.order = i + 1;
-  }
-
   // IOS 10 BUG
   document.addEventListener('touchstart', () => {}, false);
 
@@ -53,28 +47,18 @@ if (container) {
     if (dragIndex < dropIndex) {
       rows[dropIndex].setAttribute('value', rows[dropIndex - 1].value);
 
-      // Move down
       for (i = dragIndex; i < dropIndex; i += 1) {
         if (direction === 'asc') {
           rows[i].setAttribute('value', parseInt(rows[i].value, 10) - 1);
         } else {
           rows[i].setAttribute('value', parseInt(rows[i].value, 10) + 1);
         }
-
-        result.push(`order[]=${encodeURIComponent(rows[i].value)}`);
-        result.push(`cid[]=${encodeURIComponent(inputRows[i].value)}`);
       }
-
-      result.push(`order[]=${encodeURIComponent(rows[dropIndex].value)}`);
-      result.push(`cid[]=${encodeURIComponent(inputRows[dropIndex].value)}`);
     } else {
       // Element is moved up
 
       rows[dropIndex].setAttribute('value', rows[dropIndex + 1].value);
       rows[dropIndex].value = rows[dropIndex + 1].value;
-
-      result.push(`order[]=${encodeURIComponent(rows[dropIndex].value)}`);
-      result.push(`cid[]=${encodeURIComponent(inputRows[dropIndex].value)}`);
 
       for (i = dropIndex + 1; i <= dragIndex; i += 1) {
         if (direction === 'asc') {
@@ -82,13 +66,81 @@ if (container) {
         } else {
           rows[i].value = parseInt(rows[i].value, 10) - 1;
         }
-
-        result.push(`order[]=${encodeURIComponent(rows[i].value)}`);
-        result.push(`cid[]=${encodeURIComponent(inputRows[i].value)}`);
       }
     }
 
+    for (i = 0; i < rows.length - 1; i += 1) {
+      result.push(`order[]=${encodeURIComponent(rows[i].value)}`);
+      result.push(`cid[]=${encodeURIComponent(inputRows[i].value)}`);
+    }
+
     return result;
+  };
+
+  const rearrangeChildren = ($parent) => {
+    if (!$parent.dataset.itemId) {
+      return;
+    }
+    const parentId = $parent.dataset.itemId;
+    // Get children list. Each child row should have
+    // an attribute data-parents=" 1 2 3" where the number is id of parent
+    const $children = container.querySelectorAll(`tr[data-parents~="${parentId}"]`);
+
+    if ($children.length) {
+      $parent.after(...$children);
+    }
+  };
+
+  const saveTheOrder = (el) => {
+    let orderSelector;
+    let inputSelector;
+    let rowSelector;
+
+    const groupId = el.dataset.draggableGroup;
+
+    if (groupId) {
+      rowSelector = `tr[data-draggable-group="${groupId}"]`;
+      orderSelector = `[data-draggable-group="${groupId}"] [name="order[]"]`;
+      inputSelector = `[data-draggable-group="${groupId}"] [name="cid[]"]`;
+    } else {
+      rowSelector = 'tr';
+      orderSelector = '[name="order[]"]';
+      inputSelector = '[name="cid[]"]';
+    }
+
+    const rowElements = [].slice.call(container.querySelectorAll(rowSelector));
+    const rows = [].slice.call(container.querySelectorAll(orderSelector));
+    const inputRows = [].slice.call(container.querySelectorAll(inputSelector));
+
+    dropElementIndex = rowElements.indexOf(el);
+
+    if (url) {
+      // Detach task field if exists
+      const task = document.querySelector('[name="task"]');
+
+      // Detach task field if exists
+      if (task) {
+        task.setAttribute('name', 'some__Temporary__Name__');
+      }
+
+      // Prepare the options
+      const ajaxOptions = {
+        url,
+        method: 'POST',
+        data: getOrderData(rows, inputRows, dragElementIndex, dropElementIndex).join('&'),
+        perform: true,
+      };
+
+      Joomla.request(ajaxOptions);
+
+      // Re-Append original task field
+      if (task) {
+        task.setAttribute('name', 'task');
+      }
+    }
+
+    // Update positions for a children of the moved item
+    rearrangeChildren(el);
   };
 
   // eslint-disable-next-line no-undef
@@ -120,64 +172,20 @@ if (container) {
     mirrorContainer: container,
   })
     .on('drag', (el) => {
-      dragElementIndex = parseInt(el.querySelector('[name="order[]"]').dataset.order, 10) - 1;
-    })
-    .on('cloned', () => {
+      let rowSelector;
+      const groupId = el.dataset.draggableGroup;
 
+      if (groupId) {
+        rowSelector = `tr[data-draggable-group="${groupId}"]`;
+      } else {
+        rowSelector = 'tr';
+      }
+
+      const rowElements = [].slice.call(container.querySelectorAll(rowSelector));
+
+      dragElementIndex = rowElements.indexOf(el);
     })
     .on('drop', (el) => {
-      let orderSelector;
-      let inputSelector;
-
-      const groupId = el.dataset.draggableGroup;
-      if (groupId) {
-        orderSelector = `[data-draggable-group="${groupId}"] [name="order[]"]`;
-        inputSelector = `[data-draggable-group="${groupId}"] [name="cid[]"]`;
-      } else {
-        orderSelector = '[name="order[]"]';
-        inputSelector = '[name="cid[]"]';
-      }
-
-      const rows = [].slice.call(container.querySelectorAll(orderSelector));
-      const inputRows = [].slice.call(container.querySelectorAll(inputSelector));
-
-      for (let i = 0, l = rows.length - 1; l > i; i += 1) {
-        if (rows[i].dataset.order === el.querySelector('[name="order[]"]').dataset.order) {
-          dropElementIndex = i;
-          break;
-        }
-      }
-
-      if (url) {
-        // Detach task field if exists
-        const task = document.querySelector('[name="task"]');
-
-        // Detach task field if exists
-        if (task) {
-          task.setAttribute('name', 'some__Temporary__Name__');
-        }
-
-        // Prepare the options
-        const ajaxOptions = {
-          url,
-          method: 'POST',
-          data: getOrderData(rows, inputRows, dragElementIndex, dropElementIndex).join('&'),
-          perform: true,
-        };
-
-        Joomla.request(ajaxOptions);
-
-        // Re-Append original task field
-        if (task) {
-          task.setAttribute('name', 'task');
-        }
-      }
-    })
-    .on('dragend', () => {
-      const elements = container.querySelectorAll('[name="order[]"]');
-      // Reset data order attribute for initial ordering
-      for (let i = 0, l = elements.length; l > i; i += 1) {
-        elements[i].dataset.order = i + 1;
-      }
+      saveTheOrder(el);
     });
 }

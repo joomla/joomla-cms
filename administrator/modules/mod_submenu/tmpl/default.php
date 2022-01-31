@@ -20,7 +20,9 @@ use Joomla\CMS\Router\Route;
 		<div class="module-wrapper">
 			<div class="card">
 				<?php
-				if (substr($child->img, 0, 6) === 'class:')
+					$child->img = $child->img ?? '';
+
+					if (substr($child->img, 0, 6) === 'class:')
 					{
 						$iconImage = '<span class="icon-' . substr($child->img, 6) . '" aria-hidden="true"></span>';
 					}
@@ -63,13 +65,14 @@ use Joomla\CMS\Router\Route;
 										?>
 										<?php echo HTMLHelper::_('image', $image, $alt, 'class="' . $class . '"'); ?>
 									<?php endif; ?>
-									<?php echo ($params->get('menu_text', 1)) ? htmlspecialchars(Text::_($item->title), ENT_QUOTES, 'UTF-8') . $item->iconImage : ''; ?>
+									<?php echo ($params->get('menu_text', 1)) ? htmlspecialchars(Text::_($item->title), ENT_QUOTES, 'UTF-8') : ''; ?>
 									<?php if ($item->ajaxbadge) : ?>
 										<span class="menu-badge">
 											<span class="icon-spin icon-spinner mt-1 system-counter float-end" data-url="<?php echo $item->ajaxbadge; ?>"></span>
 										</span>
 									<?php endif; ?>
 								</a>
+								<?php echo $item->iconImage; ?>
 								<?php if ($params->get('menu-quicktask')) : ?>
 									<?php $permission = $params->get('menu-quicktask-permission'); ?>
 									<?php $scope = $item->scope !== 'default' ? $item->scope : null; ?>

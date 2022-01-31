@@ -28,7 +28,7 @@ $title = empty($displayData['title']) ? '' : (' title="' . $this->escape($displa
 $text = empty($displayData['text']) ? '' : ('<span class="j-links-link">' . $displayData['text'] . '</span>');
 
 // Make the class string
-$class = !empty($tmp) ? ' class="' . implode(' ', array_unique($tmp)) . '"' : '';
+$class = empty($displayData['class']) ? '' : (' class="' . $this->escape($displayData['class']) . '"');
 
 ?>
 <?php // If it is a button with two links: make it a list
