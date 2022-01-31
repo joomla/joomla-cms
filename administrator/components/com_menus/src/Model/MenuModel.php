@@ -334,7 +334,7 @@ class MenuModel extends FormModel
 				// Trigger the after delete event.
 				Factory::getApplication()->triggerEvent('onContentAfterDelete', array($this->_context, $table));
 
-				// TODO: Delete the menu associations - Menu items and Modules
+				// @todo: Delete the menu associations - Menu items and Modules
 			}
 		}
 

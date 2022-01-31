@@ -31,7 +31,7 @@ COMMENT ON COLUMN "#__assets"."rules" IS 'JSON encoded access control.';
 --
 
 INSERT INTO "#__assets" ("id", "parent_id", "lft", "rgt", "level", "name", "title", "rules") VALUES
-(1, 0, 0, 163, 0, 'root.1', 'Root Asset', '{"core.login.site":{"6":1,"2":1},"core.login.admin":{"6":1},"core.login.api":{"8":1},"core.login.offline":{"6":1},"core.admin":{"8":1},"core.manage":{"7":1},"core.create":{"6":1,"3":1},"core.delete":{"6":1},"core.edit":{"6":1,"4":1},"core.edit.state":{"6":1,"5":1},"core.edit.own":{"6":1,"3":1}}'),
+(1, 0, 0, 165, 0, 'root.1', 'Root Asset', '{"core.login.site":{"6":1,"2":1},"core.login.admin":{"6":1},"core.login.api":{"8":1},"core.login.offline":{"6":1},"core.admin":{"8":1},"core.manage":{"7":1},"core.create":{"6":1,"3":1},"core.delete":{"6":1},"core.edit":{"6":1,"4":1},"core.edit.state":{"6":1,"5":1},"core.edit.own":{"6":1,"3":1}}'),
 (2, 1, 1, 2, 1, 'com_admin', 'com_admin', '{}'),
 (3, 1, 3, 6, 1, 'com_banners', 'com_banners', '{"core.admin":{"7":1},"core.manage":{"6":1}}'),
 (4, 1, 7, 8, 1, 'com_cache', 'com_cache', '{"core.admin":{"7":1},"core.manage":{"7":1}}'),
@@ -61,7 +61,7 @@ INSERT INTO "#__assets" ("id", "parent_id", "lft", "rgt", "level", "name", "titl
 (32, 24, 146, 147, 2, 'com_users.category.7', 'Uncategorised', '{}'),
 (33, 1, 151, 152, 1, 'com_finder', 'com_finder', '{"core.admin":{"7":1},"core.manage":{"6":1}}'),
 (34, 1, 153, 154, 1, 'com_joomlaupdate', 'com_joomlaupdate', '{}'),
-(35, 1, 153, 154, 1, 'com_tags', 'com_tags', '{}'),
+(35, 1, 155, 156, 1, 'com_tags', 'com_tags', '{}'),
 (36, 1, 157, 158, 1, 'com_contenthistory', 'com_contenthistory', '{}'),
 (37, 1, 159, 160, 1, 'com_ajax', 'com_ajax', '{}'),
 (38, 1, 161, 162, 1, 'com_postinstall', 'com_postinstall', '{}'),
@@ -112,9 +112,10 @@ INSERT INTO "#__assets" ("id", "parent_id", "lft", "rgt", "level", "name", "titl
 (86, 18, 122, 123, 2, 'com_modules.module.96', 'Popular Articles', '{}'),
 (87, 18, 124, 125, 2, 'com_modules.module.97', 'Recently Added Articles', '{}'),
 (88, 18, 126, 127, 2, 'com_modules.module.98', 'Logged-in Users', '{}'),
-(89, 18, 128, 129, 2, 'com_modules.module.90', 'Login Support', '{}');
+(89, 18, 128, 129, 2, 'com_modules.module.90', 'Login Support', '{}'),
+(90, 1, 163, 164, 1, 'com_scheduler', 'com_scheduler', '{}');
 
-SELECT setval('#__assets_id_seq', 90, false);
+SELECT setval('#__assets_id_seq', 91, false);
 
 --
 -- Table structure for table `#__extensions`
@@ -186,7 +187,8 @@ INSERT INTO "#__extensions" ("package_id", "name", "type", "element", "folder", 
 (0, 'com_privacy', 'component', 'com_privacy', '', 1, 1, 1, 0, 1, '', '', '', 0, 0),
 (0, 'com_actionlogs', 'component', 'com_actionlogs', '', 1, 1, 1, 0, 1, '', '{"ip_logging":0,"csv_delimiter":",","loggable_extensions":["com_banners","com_cache","com_categories","com_checkin","com_config","com_contact","com_content","com_installer","com_media","com_menus","com_messages","com_modules","com_newsfeeds","com_plugins","com_redirect","com_tags","com_templates","com_users"]}', '', 0, 0),
 (0, 'com_workflow', 'component', 'com_workflow', '', 1, 1, 0, 1, 1, '', '{}', '', 0, 0),
-(0, 'com_mails', 'component', 'com_mails', '', 1, 1, 1, 1, 1, '', '', '', 0, 0);
+(0, 'com_mails', 'component', 'com_mails', '', 1, 1, 1, 1, 1, '', '', '', 0, 0),
+(0, 'com_scheduler', 'component', 'com_scheduler', '', 1, 1, 1, 0, 1, '', '{}', '', 0, 0);
 
 -- Libraries
 INSERT INTO "#__extensions" ("package_id", "name", "type", "element", "folder", "client_id", "enabled", "access", "protected", "locked", "manifest_cache", "params", "custom_data", "ordering", "state") VALUES
@@ -333,20 +335,27 @@ INSERT INTO "#__extensions" ("package_id", "name", "type", "element", "folder", 
 (0, 'plg_system_fields', 'plugin', 'fields', 'system', 0, 1, 1, 0, 1, '', '', '', 5, 0),
 (0, 'plg_system_highlight', 'plugin', 'highlight', 'system', 0, 1, 1, 0, 1, '', '', '', 6, 0),
 (0, 'plg_system_httpheaders', 'plugin', 'httpheaders', 'system', 0, 1, 1, 0, 1, '', '{}', '', 7, 0),
-(0, 'plg_system_languagecode', 'plugin', 'languagecode', 'system', 0, 0, 1, 0, 1, '', '', '', 8, 0),
-(0, 'plg_system_languagefilter', 'plugin', 'languagefilter', 'system', 0, 0, 1, 0, 1, '', '', '', 9, 0),
-(0, 'plg_system_log', 'plugin', 'log', 'system', 0, 1, 1, 0, 1, '', '', '', 10, 0),
-(0, 'plg_system_logout', 'plugin', 'logout', 'system', 0, 1, 1, 0, 1, '', '', '', 11, 0),
-(0, 'plg_system_logrotation', 'plugin', 'logrotation', 'system', 0, 1, 1, 0, 1, '', '{}', '', 12, 0),
-(0, 'plg_system_privacyconsent', 'plugin', 'privacyconsent', 'system', 0, 0, 1, 0, 1, '', '{}', '', 13, 0),
-(0, 'plg_system_redirect', 'plugin', 'redirect', 'system', 0, 0, 1, 0, 1, '', '', '', 14, 0),
-(0, 'plg_system_remember', 'plugin', 'remember', 'system', 0, 1, 1, 0, 1, '', '', '', 15, 0),
-(0, 'plg_system_sef', 'plugin', 'sef', 'system', 0, 1, 1, 0, 1, '', '', '', 16, 0),
-(0, 'plg_system_sessiongc', 'plugin', 'sessiongc', 'system', 0, 1, 1, 0, 1, '', '', '', 17, 0),
-(0, 'plg_system_skipto', 'plugin', 'skipto', 'system', 0, 1, 1, 0, 1, '', '{}', '', 18, 0),
-(0, 'plg_system_stats', 'plugin', 'stats', 'system', 0, 1, 1, 0, 1, '', '', '', 19, 0),
-(0, 'plg_system_updatenotification', 'plugin', 'updatenotification', 'system', 0, 1, 1, 0, 1, '', '', '', 20, 0),
-(0, 'plg_system_webauthn', 'plugin', 'webauthn', 'system', 0, 1, 1, 0, 1, '', '{}', '', 21, 0),
+(0, 'plg_system_jooa11y', 'plugin', 'jooa11y', 'system', 0, 1, 1, 0, 1, '', '', '', 8, 0),
+(0, 'plg_system_languagecode', 'plugin', 'languagecode', 'system', 0, 0, 1, 0, 1, '', '', '', 9, 0),
+(0, 'plg_system_languagefilter', 'plugin', 'languagefilter', 'system', 0, 0, 1, 0, 1, '', '', '', 10, 0),
+(0, 'plg_system_log', 'plugin', 'log', 'system', 0, 1, 1, 0, 1, '', '', '', 11, 0),
+(0, 'plg_system_logout', 'plugin', 'logout', 'system', 0, 1, 1, 0, 1, '', '', '', 12, 0),
+(0, 'plg_system_logrotation', 'plugin', 'logrotation', 'system', 0, 1, 1, 0, 1, '', '{}', '', 13, 0),
+(0, 'plg_system_privacyconsent', 'plugin', 'privacyconsent', 'system', 0, 0, 1, 0, 1, '', '{}', '', 14, 0),
+(0, 'plg_system_redirect', 'plugin', 'redirect', 'system', 0, 0, 1, 0, 1, '', '', '', 15, 0),
+(0, 'plg_system_remember', 'plugin', 'remember', 'system', 0, 1, 1, 0, 1, '', '', '', 16, 0),
+(0, 'plg_system_schedulerunner', 'plugin', 'schedulerunner', 'system', 0, 1, 1, 0, 0, '', '{}', '', 17, 0),
+(0, 'plg_system_sef', 'plugin', 'sef', 'system', 0, 1, 1, 0, 1, '', '', '', 18, 0),
+(0, 'plg_system_sessiongc', 'plugin', 'sessiongc', 'system', 0, 1, 1, 0, 1, '', '', '', 19, 0),
+(0, 'plg_system_skipto', 'plugin', 'skipto', 'system', 0, 1, 1, 0, 1, '', '{}', '', 20, 0),
+(0, 'plg_system_stats', 'plugin', 'stats', 'system', 0, 1, 1, 0, 1, '', '', '', 21, 0),
+(0, 'plg_system_tasknotification', 'plugin', 'tasknotification', 'system', 0, 1, 1, 0, 1, '', '', '', 22, 0),
+(0, 'plg_system_updatenotification', 'plugin', 'updatenotification', 'system', 0, 1, 1, 0, 1, '', '', '', 23, 0),
+(0, 'plg_system_webauthn', 'plugin', 'webauthn', 'system', 0, 1, 1, 0, 1, '', '{}', '', 23, 0),
+(0, 'plg_task_checkfiles', 'plugin', 'checkfiles', 'task', 0, 1, 1, 0, 0, '', '{}', '', 1, 0),
+(0, 'plg_task_demotasks', 'plugin', 'demotasks', 'task', 0, 1, 1, 0, 0, '', '{}', '', 2, 0),
+(0, 'plg_task_requests', 'plugin', 'requests', 'task', 0, 1, 1, 0, 0, '', '{}', '', 3, 0),
+(0, 'plg_task_sitestatus', 'plugin', 'sitestatus', 'task', 0, 1, 1, 0, 0, '', '{}', '', 4, 0),
 (0, 'plg_twofactorauth_totp', 'plugin', 'totp', 'twofactorauth', 0, 0, 1, 0, 1, '', '', '', 1, 0),
 (0, 'plg_twofactorauth_yubikey', 'plugin', 'yubikey', 'twofactorauth', 0, 0, 1, 0, 1, '', '', '', 2, 0),
 (0, 'plg_user_contactcreator', 'plugin', 'contactcreator', 'user', 0, 0, 1, 0, 1, '', '{"autowebpage":"","category":"4","autopublish":"0"}', '', 1, 0),
@@ -360,6 +369,7 @@ INSERT INTO "#__extensions" ("package_id", "name", "type", "element", "folder", 
 (0, 'plg_webservices_content', 'plugin', 'content', 'webservices', 0, 1, 1, 0, 1, '', '{}', '', 4, 0),
 (0, 'plg_webservices_installer', 'plugin', 'installer', 'webservices', 0, 1, 1, 0, 1, '', '{}', '', 5, 0),
 (0, 'plg_webservices_languages', 'plugin', 'languages', 'webservices', 0, 1, 1, 0, 1, '', '{}', '', 6, 0),
+(0, 'plg_webservices_media', 'plugin', 'media', 'webservices', 0, 1, 1, 0, 1, '', '{}', '', 7, 0),
 (0, 'plg_webservices_menus', 'plugin', 'menus', 'webservices', 0, 1, 1, 0, 1, '', '{}', '', 7, 0),
 (0, 'plg_webservices_messages', 'plugin', 'messages', 'webservices', 0, 1, 1, 0, 1, '', '{}', '', 8, 0),
 (0, 'plg_webservices_modules', 'plugin', 'modules', 'webservices', 0, 1, 1, 0, 1, '', '{}', '', 9, 0),
@@ -815,8 +825,8 @@ CREATE INDEX "#__template_styles_idx_client_id_home" ON "#__template_styles" ("c
 -- Dumping data for table `#__template_styles`
 --
 INSERT INTO "#__template_styles" ("id", "template", "client_id", "home", "title", "inheritable", "parent", "params") VALUES
-(10, 'atum', 1, '1', 'Atum - Default', 0, '', '{"hue":"hsl(214, 63%, 20%)","bg-light":"#f0f4fb","text-dark":"#495057","text-light":"#ffffff","link-color":"#2a69b8","special-color":"#001b4c","monochrome":"0","loginLogo":"","loginLogoAlt":"","logoBrandLarge":"","logoBrandLargeAlt":"","logoBrandSmall":"","logoBrandSmallAlt":""}'),
-(11, 'cassiopeia', 0, '1', 'Cassiopeia - Default', 0, '', '{"brand":"1","logoFile":"","siteTitle":"","siteDescription":"","useFontScheme":"0","colorName":"colors_standard","fluidContainer":"0","stickyHeader":0,"backTop":0}');
+(10, 'atum', 1, '1', 'Atum - Default', 1, '', '{"hue":"hsl(214, 63%, 20%)","bg-light":"#f0f4fb","text-dark":"#495057","text-light":"#ffffff","link-color":"#2a69b8","special-color":"#001b4c","monochrome":"0","loginLogo":"","loginLogoAlt":"","logoBrandLarge":"","logoBrandLargeAlt":"","logoBrandSmall":"","logoBrandSmallAlt":""}'),
+(11, 'cassiopeia', 0, '1', 'Cassiopeia - Default', 1, '', '{"brand":"1","logoFile":"","siteTitle":"","siteDescription":"","useFontScheme":"0","colorName":"colors_standard","fluidContainer":"0","stickyHeader":0,"backTop":0}');
 
 SELECT setval('#__template_styles_id_seq', 12, false);
 

@@ -12,7 +12,6 @@ namespace Joomla\CMS\MVC\Controller;
 
 use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Component\ComponentHelper;
-use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;
@@ -224,7 +223,7 @@ class AdminController extends BaseController
 				{
 					if ($errors)
 					{
-						Factory::getApplication()->enqueueMessage(Text::plural($this->text_prefix . '_N_ITEMS_FAILED_PUBLISHING', \count($cid)), 'error');
+						$this->app->enqueueMessage(Text::plural($this->text_prefix . '_N_ITEMS_FAILED_PUBLISHING', \count($cid)), 'error');
 					}
 					else
 					{

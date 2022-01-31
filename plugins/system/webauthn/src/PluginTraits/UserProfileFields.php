@@ -154,7 +154,7 @@ trait UserProfileFields
 
 		if (\is_array($data))
 		{
-			$id = isset($data['id']) ? $data['id'] : null;
+			$id = $data['id'] ?? null;
 		}
 		elseif (\is_object($data) && ($data instanceof Registry))
 		{
@@ -162,7 +162,7 @@ trait UserProfileFields
 		}
 		elseif (\is_object($data))
 		{
-			$id = isset($data->id) ? $data->id : null;
+			$id = $data->id ?? null;
 		}
 
 		$user = empty($id) ? Factory::getApplication()->getIdentity() : Factory::getContainer()
