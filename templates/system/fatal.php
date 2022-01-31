@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  Template.system
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2020 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -29,7 +29,7 @@ $template = '{{statusCode_statusText}}';
 // Joomla supplied fatal error page
 if (file_exists(__DIR__ . '/fatal-error.html'))
 {
-	$template = file_get_contents( __DIR__ . '/fatal-error.html');
+	$template = file_get_contents(__DIR__ . '/fatal-error.html');
 }
 
 /**
@@ -40,7 +40,9 @@ if (file_exists(__DIR__ . '/fatal-error.html'))
  */
 if (file_exists(__DIR__ . '/fatal-error.custom.php'))
 {
-	$template = file_get_contents(__DIR__ . '/fatal-error.custom.php');
+	require __DIR__ . '/fatal-error.custom.php';
+
+	return;
 }
 
 echo str_replace(

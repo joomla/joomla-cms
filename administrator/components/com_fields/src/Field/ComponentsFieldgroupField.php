@@ -61,7 +61,7 @@ class ComponentsFieldgroupField extends ListField
 
 			$components = [];
 
-			// Search for components supporting Fieldgroups - suppose that these componets support fields as well
+			// Search for components supporting Fieldgroups - suppose that these components support fields as well
 			foreach ($items as &$item)
 			{
 				$availableActions = Access::getActionsFromFile(

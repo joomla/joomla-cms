@@ -125,7 +125,7 @@ class SearchModel extends ListModel
 	/**
 	 * Method to build a database query to load the list data.
 	 *
-	 * @return  \JDatabaseQuery  A database query.
+	 * @return  \Joomla\Database\DatabaseQuery  A database query.
 	 *
 	 * @since   2.5
 	 */

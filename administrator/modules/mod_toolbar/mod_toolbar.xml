@@ -17,7 +17,7 @@
 		<language tag="en-GB">language/en-GB/mod_toolbar.ini</language>
 		<language tag="en-GB">language/en-GB/mod_toolbar.sys.ini</language>
 	</languages>
-	<help key="JHELP_EXTENSIONS_MODULE_MANAGER_ADMIN_TOOLBAR" />
+	<help key="Admin_Modules:_Toolbar" />
 	<config>
 		<fields name="params">
 			<fieldset name="advanced">
