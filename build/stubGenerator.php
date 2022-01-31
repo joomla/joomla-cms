@@ -61,6 +61,7 @@ class StubGenerator extends CliApplication
 	public function doExecute()
 	{
 		$this->createExtensionNamespaceMap();
+		$contentsByNamespace = [];
 
 		$file = "<?php\n";
 
@@ -77,18 +78,36 @@ class StubGenerator extends CliApplication
 			$modifier   = (!$reflection->isInterface() && $reflection->isFinal()) ? 'final ' : '';
 			$modifier   = ($reflection->isAbstract() && !$reflection->isInterface()) ? $modifier . 'abstract ' : $modifier;
 
+			$namespaceSegments = explode('\\', $oldName);
+			$className         = array_pop($namespaceSegments);
+			$targetNamespace   = ltrim(implode('\\', $namespaceSegments), '\\');
+
 			// If a deprecated version is available, write a stub class doc block with a deprecated tag
 			if ($deprecatedVersion !== false)
 			{
-				$file .= <<<PHP
-/**
- * @deprecated $deprecatedVersion Use $newName instead.
- */
+				$fileContents = <<<PHP
+	/**
+	 * @deprecated $deprecatedVersion Use $newName instead.
+	 */
 
 PHP;
 			}
 
-			$file .= "$modifier$type $oldName extends $newName {}\n\n";
+			$fileContents .= "\t$modifier$type $className extends \\$newName {}\n\n";
+
+			if (!array_key_exists($targetNamespace, $contentsByNamespace))
+			{
+				$contentsByNamespace[$targetNamespace] = '';
+			}
+
+			$contentsByNamespace[$targetNamespace] .= $fileContents;
+		}
+
+		foreach ($contentsByNamespace as $namespace => $contents)
+		{
+			$file .= "namespace $namespace {\n";
+			$file .= $contents;
+			$file .= "}\n\n";
 		}
 
 		// And save the file locally

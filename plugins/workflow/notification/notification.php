@@ -50,9 +50,8 @@ class PlgWorkflowNotification extends CMSPlugin implements SubscriberInterface
 	protected $app;
 
 	/**
-	 * Database object.
+	 * @var    \Joomla\Database\DatabaseDriver
 	 *
-	 * @var    JDatabaseDriver
 	 * @since  3.9.0
 	 */
 	protected $db;
