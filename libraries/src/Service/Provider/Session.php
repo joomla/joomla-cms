@@ -35,8 +35,6 @@ use Joomla\Session\SessionEvents;
 use Joomla\Session\SessionInterface;
 use Joomla\Session\Storage\RuntimeStorage;
 use Joomla\Session\StorageInterface;
-use Joomla\Session\Validator\AddressValidator;
-use Joomla\Session\Validator\ForwardedValidator;
 
 /**
  * Service provider for the application's session dependency
@@ -329,8 +327,6 @@ class Session implements ServiceProviderInterface
 		}
 
 		$session = new \Joomla\CMS\Session\Session($storage, $dispatcher, $options);
-		$session->addValidator(new AddressValidator($input, $session));
-		$session->addValidator(new ForwardedValidator($input, $session));
 
 		return $session;
 	}

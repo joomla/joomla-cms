@@ -94,7 +94,7 @@ class ResetController extends BaseController
 
 		$app   = $this->app;
 
-		/** @var \Joomla\Component\Users\Site\Model\Reset $model */
+		/** @var \Joomla\Component\Users\Site\Model\ResetModel $model */
 		$model = $this->getModel('Reset', 'Site');
 		$data  = $this->input->get('jform', array(), 'array');
 

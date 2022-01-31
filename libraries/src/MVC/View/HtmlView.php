@@ -15,7 +15,6 @@ use Joomla\CMS\Event\AbstractEvent;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\Log\Log;
 use Joomla\CMS\Uri\Uri;
 
 /**
@@ -112,7 +111,10 @@ class HtmlView extends AbstractView
 		// Set the charset (used by the variable escaping functions)
 		if (\array_key_exists('charset', $config))
 		{
-			Log::add('Setting a custom charset for escaping is deprecated. Override \JViewLegacy::escape() instead.', Log::WARNING, 'deprecated');
+			@trigger_error(
+				'Setting a custom charset for escaping is deprecated. Override \JViewLegacy::escape() instead.',
+				E_USER_DEPRECATED
+			);
 			$this->_charset = $config['charset'];
 		}
 
@@ -502,7 +504,11 @@ class HtmlView extends AbstractView
 				// Set the alternative template search dir
 				if (isset($app))
 				{
-					$component = preg_replace('/[^A-Z0-9_\.-]/i', '', $component);
+					if ($component)
+					{
+						$component = preg_replace('/[^A-Z0-9_\.-]/i', '', $component);
+					}
+
 					$name = $this->getName();
 
 					if (!empty($template->parent))
