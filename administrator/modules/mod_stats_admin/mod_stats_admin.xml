@@ -16,10 +16,10 @@
 		<folder>tmpl</folder>
 	</files>
 	<languages>
-		<language tag="en-GB">en-GB.mod_stats.ini</language>
-		<language tag="en-GB">en-GB.mod_stats.sys.ini</language>
+		<language tag="en-GB">language/en-GB/mod_stats.ini</language>
+		<language tag="en-GB">language/en-GB/mod_stats.sys.ini</language>
 	</languages>
-	<help key="JHELP_EXTENSIONS_MODULE_MANAGER_STATISTICS" />
+	<help key="Site_Modules:_Statistics" />
 	<config>
 		<fields name="params">
 			<fieldset name="basic">
@@ -53,7 +53,8 @@
 					type="modulelayout"
 					label="JFIELD_ALT_LAYOUT_LABEL"
 					class="form-select"
- 				/>
+					validate="moduleLayout"
+				/>
 
 				<field
 					name="moduleclass_sfx"
@@ -81,6 +82,8 @@
 					label="COM_MODULES_FIELD_CACHE_TIME_LABEL"
 					default="900"
 					filter="integer"
+					min="1"
+					validate="number"
 				/>
 
 				<field

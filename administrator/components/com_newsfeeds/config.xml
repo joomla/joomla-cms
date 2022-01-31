@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <config>
+	<help key="News_Feed:_Options"/>
 
 	<fieldset
 		name="newsfeed"
@@ -75,6 +76,7 @@
 			type="number"
 			label="COM_NEWSFEEDS_FIELD_CHARACTER_COUNT_LABEL"
 			description="COM_NEWSFEEDS_FIELD_CHARACTER_COUNT_DESC"
+			filter="integer"
 			default="0"
 		/>
 

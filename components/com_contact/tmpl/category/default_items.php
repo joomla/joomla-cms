@@ -12,6 +12,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Uri\Uri;
 use Joomla\Component\Contact\Administrator\Helper\ContactHelper;
@@ -99,7 +100,14 @@ $listDirn   = $this->escape($this->state->get('list.direction'));
 							<a href="<?php echo Route::_(RouteHelper::getContactRoute($item->slug, $item->catid, $item->language)); ?>">
 								<?php if ($this->params->get('show_image_heading')) : ?>
 									<?php if ($item->image) : ?>
-										<?php echo HTMLHelper::_('image', $item->image, '', array('class' => 'contact-thumbnail img-thumbnail')); ?>
+										<?php echo LayoutHelper::render(
+											'joomla.html.image',
+											[
+												'src'   => $item->image,
+												'alt'   => '',
+												'class' => 'contact-thumbnail img-thumbnail',
+											]
+										); ?>
 									<?php endif; ?>
 								<?php endif; ?>
 								<?php echo $this->escape($item->name); ?>
@@ -123,7 +131,7 @@ $listDirn   = $this->escape($this->state->get('list.direction'));
 									<span class="list-published badge bg-warning text-light">
 										<?php echo Text::_('JEXPIRED'); ?>
 									</span>
-								</div
+								</div>
 							<?php endif; ?>
 							<?php if ($item->published == -2) : ?>
 								<div>
@@ -146,29 +154,29 @@ $listDirn   = $this->escape($this->state->get('list.direction'));
 								<?php echo Text::sprintf('COM_CONTACT_MOBILE_NUMBER', $item->mobile); ?><br>
 							<?php endif; ?>
 
-							<?php if ($this->params->get('show_fax_headings') && !empty($item->fax) ) : ?>
+							<?php if ($this->params->get('show_fax_headings') && !empty($item->fax)) : ?>
 								<?php echo Text::sprintf('COM_CONTACT_FAX_NUMBER', $item->fax); ?><br>
 							<?php endif; ?>
 
-							<?php if ($this->params->get('show_position_headings')) : ?>
+							<?php if ($this->params->get('show_position_headings') && !empty($item->con_position)) : ?>
 								<?php echo $item->con_position; ?><br>
 							<?php endif; ?>
 
-							<?php if ($this->params->get('show_email_headings')) : ?>
+							<?php if ($this->params->get('show_email_headings') && !empty($item->email_to)) : ?>
 								<?php echo $item->email_to; ?><br>
 							<?php endif; ?>
 
 							<?php $location = array(); ?>
 							<?php if ($this->params->get('show_suburb_headings') && !empty($item->suburb)) : ?>
-								<?php $location[] = $item->suburb; ?><br>
+								<?php $location[] = $item->suburb; ?>
 							<?php endif; ?>
 
 							<?php if ($this->params->get('show_state_headings') && !empty($item->state)) : ?>
-								<?php $location[] = $item->state; ?><br>
+								<?php $location[] = $item->state; ?>
 							<?php endif; ?>
 
 							<?php if ($this->params->get('show_country_headings') && !empty($item->country)) : ?>
-								<?php $location[] = $item->country; ?><br>
+								<?php $location[] = $item->country; ?>
 							<?php endif; ?>
 							<?php echo implode(', ', $location); ?>
 
@@ -189,7 +197,7 @@ $listDirn   = $this->escape($this->state->get('list.direction'));
 		<?php endif; ?>
 
 		<?php if ($this->params->get('show_pagination', 2)) : ?>
-			<div class="com-contact-category__counter w-100">
+			<div class="com-contact-category__pagination w-100">
 				<?php if ($this->params->def('show_pagination_results', 1)) : ?>
 					<p class="com-contact-category__counter counter float-end pt-3 pe-2">
 						<?php echo $this->pagination->getPagesCounter(); ?>

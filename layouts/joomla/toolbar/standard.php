@@ -54,7 +54,7 @@ elseif (!empty($onclick))
 
 ?>
 
-<joomla-toolbar-button <?php echo $idAttr.$taskAttr.$listAttr.$formAttr.$validate.$msgAttr; ?>>
+<joomla-toolbar-button <?php echo $idAttr . $taskAttr . $listAttr . $formAttr . $validate . $msgAttr; ?>>
 <?php if (!empty($group)) : ?>
 <a href="#" class="dropdown-item">
 	<span class="<?php echo trim($class ?? ''); ?>"></span>

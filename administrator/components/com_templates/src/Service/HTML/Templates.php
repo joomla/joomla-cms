@@ -15,6 +15,7 @@ use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Uri\Uri;
+use Joomla\Component\Templates\Administrator\Helper\TemplatesHelper;
 
 /**
  * Html helper class.
@@ -26,31 +27,74 @@ class Templates
 	/**
 	 * Display the thumb for the template.
 	 *
-	 * @param   string   $template  The name of the template.
-	 * @param   integer  $clientId  The application client ID the template applies to
+	 * @param   string|object  $template  The name of the template or the template object.
+	 * @param   integer        $clientId  The application client ID the template applies to
 	 *
 	 * @return  string  The html string
 	 *
 	 * @since   1.6
+	 *
+	 * @deprecated  5.0  The argument $template should be object and $clientId will be removed
 	 */
 	public function thumb($template, $clientId = 0)
 	{
-		$client = ApplicationHelper::getClientInfo($clientId);
-		$basePath = $client->path . '/templates/' . $template;
-		$thumb = $basePath . '/template_thumbnail.png';
-		$preview = $basePath . '/template_preview.png';
-		$html = '';
-
-		if (file_exists($thumb))
+		if (is_string($template))
 		{
-			$clientPath = ($clientId == 0) ? '' : 'administrator/';
-			$thumb = $clientPath . 'templates/' . $template . '/template_thumbnail.png';
-			$html = HTMLHelper::_('image', $thumb, Text::_('COM_TEMPLATES_PREVIEW'));
+			return HTMLHelper::_('image', 'template_thumbnail.png', Text::_('COM_TEMPLATES_PREVIEW'), [], true, -1);
+		}
 
-			if (file_exists($preview))
+		$client = ApplicationHelper::getClientInfo($template->client_id);
+
+		if (!isset($template->xmldata))
+		{
+			$template->xmldata = TemplatesHelper::parseXMLTemplateFile($client->id === 0 ? JPATH_ROOT : JPATH_ROOT . '/administrator', $template->name);
+		}
+
+		if ((isset($template->xmldata->inheritable) && (bool) $template->xmldata->inheritable) || isset($template->xmldata->parent))
+		{
+			if (isset($template->xmldata->parent) && (string) $template->xmldata->parent !== '' && file_exists(JPATH_ROOT . '/media/templates/' . $client->name . '/' . (string) $template->xmldata->parent . '/images/template_thumbnail.png'))
 			{
-				$html = '<button type="button" data-bs-target="#' . $template . '-Modal" class="thumbnail" data-bs-toggle="modal" title="'. Text::_('COM_TEMPLATES_CLICK_TO_ENLARGE') . '">' . $html . '</button>';
+				if (file_exists(JPATH_ROOT . '/media/templates/' . $client->name . '/' . $template->name . '/images/template_preview.png'))
+				{
+					$html = HTMLHelper::_('image', 'media/templates/' . $client->name . '/' . $template->name . '/images/template_thumbnail.png', Text::_('COM_TEMPLATES_PREVIEW'));
+					$html = '<button type="button" data-bs-target="#' . $template->name . '-Modal" class="thumbnail" data-bs-toggle="modal" title="' . Text::_('COM_TEMPLATES_CLICK_TO_ENLARGE') . '">' . $html . '</button>';
+				}
+				elseif ((file_exists(JPATH_ROOT . '/media/templates/' . $client->name . '/' . (string) $template->xmldata->parent . '/images/template_preview.png')))
+				{
+					$html = HTMLHelper::_('image', 'media/templates/' . $client->name . '/' . (string) $template->xmldata->parent . '/images/template_thumbnail.png', Text::_('COM_TEMPLATES_PREVIEW'));
+					$html = '<button type="button" data-bs-target="#' . $template->name . '-Modal" class="thumbnail" data-bs-toggle="modal" title="' . Text::_('COM_TEMPLATES_CLICK_TO_ENLARGE') . '">' . $html . '</button>';
+				}
+				else
+				{
+					$html = HTMLHelper::_('image', 'template_thumb.svg', Text::_('COM_TEMPLATES_PREVIEW'), ['style' => 'width:200px; height:120px;']);
+				}
 			}
+			elseif (file_exists(JPATH_ROOT . '/media/templates/' . $client->name . '/' . $template->name . '/images/template_thumbnail.png'))
+			{
+				$html = HTMLHelper::_('image', 'media/templates/' . $client->name . '/' . $template->name . '/images/template_thumbnail.png', Text::_('COM_TEMPLATES_PREVIEW'));
+
+				if (file_exists(JPATH_ROOT . '/media/templates/' . $client->name . '/' . $template->name . '/images/template_preview.png'))
+				{
+					$html = '<button type="button" data-bs-target="#' . $template->name . '-Modal" class="thumbnail" data-bs-toggle="modal" title="' . Text::_('COM_TEMPLATES_CLICK_TO_ENLARGE') . '">' . $html . '</button>';
+				}
+			}
+			else
+			{
+				$html = HTMLHelper::_('image', 'template_thumb.svg', Text::_('COM_TEMPLATES_PREVIEW'), ['style' => 'width:200px; height:120px;']);
+			}
+		}
+		elseif (file_exists($client->path . '/templates/' . $template->name . '/template_thumbnail.png'))
+		{
+			$html = HTMLHelper::_('image', (($template->client_id == 0) ? Uri::root(true) : Uri::root(true) . '/administrator/') . '/templates/' . $template->name . '/template_thumbnail.png', Text::_('COM_TEMPLATES_PREVIEW'), [], false, -1);
+
+			if (file_exists($client->path . '/templates/' . $template->name . '/template_preview.png'))
+			{
+				$html = '<button type="button" data-bs-target="#' . $template->name . '-Modal" class="thumbnail" data-bs-toggle="modal" title="' . Text::_('COM_TEMPLATES_CLICK_TO_ENLARGE') . '">' . $html . '</button>';
+			}
+		}
+		else
+		{
+			$html = HTMLHelper::_('image', 'template_thumb.svg', Text::_('COM_TEMPLATES_PREVIEW'), ['style' => 'width:200px; height:120px;']);
 		}
 
 		return $html;
@@ -59,38 +103,90 @@ class Templates
 	/**
 	 * Renders the html for the modal linked to thumb.
 	 *
-	 * @param   string   $template  The name of the template.
-	 * @param   integer  $clientId  The application client ID the template applies to
+	 * @param   string|object  $template  The name of the template or the template object.
+	 * @param   integer        $clientId  The application client ID the template applies to
 	 *
 	 * @return  string  The html string
 	 *
 	 * @since   3.4
+	 *
+	 * @deprecated  5.0  The argument $template should be object and $clientId will be removed
 	 */
 	public function thumbModal($template, $clientId = 0)
 	{
-		$client = ApplicationHelper::getClientInfo($clientId);
-		$basePath = $client->path . '/templates/' . $template;
-		$baseUrl = ($clientId == 0) ? Uri::root(true) : Uri::root(true) . '/administrator';
-		$thumb = $basePath . '/template_thumbnail.png';
-		$preview = $basePath . '/template_preview.png';
-		$html = '';
-
-		if (file_exists($thumb) && file_exists($preview))
+		if (is_string($template))
 		{
-			$preview = $baseUrl . '/templates/' . $template . '/template_preview.png';
+			return HTMLHelper::_('image', 'template_thumbnail.png', Text::_('COM_TEMPLATES_PREVIEW'), [], true, -1);
+		}
+
+		$html    = '';
+		$thumb   = '';
+		$preview = '';
+		$client  = ApplicationHelper::getClientInfo($template->client_id);
+
+		if (!isset($template->xmldata))
+		{
+			$template->xmldata = TemplatesHelper::parseXMLTemplateFile($client->id === 0 ? JPATH_ROOT : JPATH_ROOT . '/administrator', $template->name);
+		}
+
+		if ((isset($template->xmldata->inheritable) && (bool) $template->xmldata->inheritable) || isset($template->xmldata->parent))
+		{
+			if (isset($template->xmldata->parent) && (string) $template->xmldata->parent !== '')
+			{
+				if (file_exists(JPATH_ROOT . '/media/templates/' . $client->name . '/' . $template->name . '/images/template_thumbnail.png'))
+				{
+					$thumb = ($template->client_id == 0 ? Uri::root(true) : Uri::root(true) . 'administrator') . 'media/templates/' . $client->name . '/' . $template->name . '/images/template_thumbnail.png';
+
+					if (file_exists(JPATH_ROOT . '/media/templates/' . $client->name . '/' . $template->name. '/images/template_preview.png'))
+					{
+						$preview = ($template->client_id == 0 ? Uri::root(true) : Uri::root(true) . '/administrator') . '/media/templates/' . $client->name . '/' . $template->name. '/images/template_preview.png';
+					}
+				}
+				else
+				{
+					$thumb = ($template->client_id == 0 ? Uri::root(true) : Uri::root(true) . 'administrator') . 'media/templates/' . $client->name . '/' . (string) $template->xmldata->parent . '/images/template_thumbnail.png';
+
+					if (file_exists(JPATH_ROOT . '/media/templates/' . $client->name . '/' . (string) $template->xmldata->parent. '/images/template_preview.png'))
+					{
+						$preview = ($template->client_id == 0 ? Uri::root(true) : Uri::root(true) . '/administrator') . '/media/templates/' . $client->name . '/' . (string) $template->xmldata->parent. '/images/template_preview.png';
+					}
+				}
+			}
+			elseif (file_exists(JPATH_ROOT . '/media/templates/' . $client->name . '/' . $template->name . '/images/template_thumbnail.png'))
+			{
+				$thumb = ($template->client_id == 0 ? Uri::root(true) : Uri::root(true) . '/administrator') . '/media/templates/' . $client->name . '/' . $template->name . '/images/template_thumbnail.png';
+
+				if (file_exists(JPATH_ROOT . '/media/templates/' . $client->name . '/' . $template->name . '/images/template_preview.png'))
+				{
+					$preview = Uri::root(true) . '/media/templates/' . $client->name . '/' . $template->name . '/images/template_preview.png';
+				}
+			}
+		}
+		elseif (file_exists($client->path . '/templates/' . $template->name . '/template_thumbnail.png'))
+		{
+			$thumb = (($template->client_id == 0) ? Uri::root(true) : Uri::root(true) . 'administrator') . '/templates/' . $template->name . '/template_thumbnail.png';
+
+			if (file_exists($client->path . '/templates/' . $template->name . '/template_preview.png'))
+			{
+				$preview = (($template->client_id == 0) ? Uri::root(true) : Uri::root(true) . '/administrator') . '/templates/' . $template->name . '/template_preview.png';
+			}
+		}
+
+		if ($thumb !== '' && $preview !== '')
+		{
 			$footer = '<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">'
-				. Text::_('JTOOLBAR_CLOSE') . '</button>';
+			. Text::_('JTOOLBAR_CLOSE') . '</button>';
 
 			$html .= HTMLHelper::_(
 				'bootstrap.renderModal',
-				$template . '-Modal',
+				$template->name . '-Modal',
 				array(
-					'title'  => Text::sprintf('COM_TEMPLATES_SCREENSHOT', ucfirst($template)),
+					'title'  => Text::sprintf('COM_TEMPLATES_SCREENSHOT', ucfirst($template->name)),
 					'height' => '500px',
 					'width'  => '800px',
 					'footer' => $footer,
 				),
-				$body = '<div><img src="' . $preview . '" style="max-width:100%" alt="' . $template . '"></div>'
+				'<div><img src="' . $preview . '" class="mw-100" alt="' . $template->name . '"></div>'
 			);
 		}
 

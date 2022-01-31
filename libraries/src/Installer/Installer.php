@@ -23,6 +23,7 @@ use Joomla\CMS\Table\Extension;
 use Joomla\CMS\Table\Table;
 use Joomla\Database\DatabaseDriver;
 use Joomla\Database\Exception\ExecutionFailureException;
+use Joomla\Database\Exception\PrepareStatementFailureException;
 use Joomla\Database\ParameterType;
 
 /**
@@ -120,6 +121,14 @@ class Installer extends Adapter
 	 * @since  3.7.0
 	 */
 	protected $packageUninstall = false;
+
+	/**
+	 * Backup extra_query during update_sites rebuild
+	 *
+	 * @var    string
+	 * @since  3.9.26
+	 */
+	public $extraQuery = '';
 
 	/**
 	 * JInstaller instances container.
@@ -513,17 +522,6 @@ class Installer extends Adapter
 
 		// Make sure Joomla can figure out what has changed
 		clearstatcache();
-
-		/**
-		 * Flush the opcache regardless of result to ensure consistency
-		 *
-		 * In some (most?) systems PHP's CLI has a separate opcode cache to the one used by the web server or FPM process,
-		 * which means running opcache_reset() in the CLI won't reset the webserver/fpm opcode cache, and vice versa.
-		 */
-		if (function_exists('opcache_reset'))
-		{
-			\opcache_reset();
-		}
 
 		// Fire the onExtensionAfterInstall
 		Factory::getApplication()->triggerEvent(
@@ -1177,6 +1175,9 @@ class Installer extends Adapter
 						$version = '0.0.0';
 					}
 
+					Log::add(Text::_('JLIB_INSTALLER_SQL_BEGIN'), Log::INFO, 'Update');
+					Log::add(Text::sprintf('JLIB_INSTALLER_SQL_BEGIN_SCHEMA', $version), Log::INFO, 'Update');
+
 					foreach ($files as $file)
 					{
 						if (version_compare($file, $version) > 0)
@@ -1203,19 +1204,28 @@ class Installer extends Adapter
 							// Process each query in the $queries array (split out of sql file).
 							foreach ($queries as $query)
 							{
+								$queryString = (string) $query;
+								$queryString = str_replace(array("\r", "\n"), array('', ' '), substr($queryString, 0, 80));
+
 								try
 								{
 									$db->setQuery($query)->execute();
 								}
-								catch (ExecutionFailureException $e)
+								catch (ExecutionFailureException | PrepareStatementFailureException $e)
 								{
-									Log::add(Text::sprintf('JLIB_INSTALLER_ERROR_SQL_ERROR', $e->getMessage()), Log::WARNING, 'jerror');
+									$errorMessage = Text::sprintf('JLIB_INSTALLER_ERROR_SQL_ERROR', $e->getMessage());
+
+									// Log the error in the update log file
+									Log::add(Text::sprintf('JLIB_INSTALLER_UPDATE_LOG_QUERY', $file, $queryString), Log::INFO, 'Update');
+									Log::add($errorMessage, Log::INFO, 'Update');
+									Log::add(Text::_('JLIB_INSTALLER_SQL_END_NOT_COMPLETE'), Log::INFO, 'Update');
+
+									// Show the error message to the user
+									Log::add($errorMessage, Log::WARNING, 'jerror');
 
 									return false;
 								}
 
-								$queryString = (string) $query;
-								$queryString = str_replace(array("\r", "\n"), array('', ' '), substr($queryString, 0, 80));
 								Log::add(Text::sprintf('JLIB_INSTALLER_UPDATE_LOG_QUERY', $file, $queryString), Log::INFO, 'Update');
 
 								$update_count++;
@@ -1251,6 +1261,8 @@ class Installer extends Adapter
 
 						return false;
 					}
+
+					Log::add(Text::_('JLIB_INSTALLER_SQL_END'), Log::INFO, 'Update');
 				}
 			}
 		}
@@ -1363,7 +1375,7 @@ class Installer extends Adapter
 
 			/*
 			 * Before we can add a file to the copyfiles array we need to ensure
-			 * that the folder we are copying our file to exits and if it doesn't,
+			 * that the folder we are copying our file to exists and if it doesn't,
 			 * we need to create it.
 			 */
 
@@ -1407,7 +1419,7 @@ class Installer extends Adapter
 	 */
 	public function parseLanguages(\SimpleXMLElement $element, $cid = 0)
 	{
-		// TODO: work out why the below line triggers 'node no longer exists' errors with files
+		// @todo: work out why the below line triggers 'node no longer exists' errors with files
 		if (!$element || !\count($element->children()))
 		{
 			// Either the tag does not exist or has no children therefore we return zero files processed.
@@ -1487,7 +1499,7 @@ class Installer extends Adapter
 
 			/*
 			 * Before we can add a file to the copyfiles array we need to ensure
-			 * that the folder we are copying our file to exits and if it doesn't,
+			 * that the folder we are copying our file to exists and if it doesn't,
 			 * we need to create it.
 			 */
 
@@ -1576,7 +1588,7 @@ class Installer extends Adapter
 
 			/*
 			 * Before we can add a file to the copyfiles array we need to ensure
-			 * that the folder we are copying our file to exits and if it doesn't,
+			 * that the folder we are copying our file to exists and if it doesn't,
 			 * we need to create it.
 			 */
 
@@ -2305,6 +2317,17 @@ class Installer extends Adapter
 		$data['description'] = (string) $xml->description;
 		$data['group'] = (string) $xml->group;
 
+		// Child template specific fields.
+		if (isset($xml->inheritable))
+		{
+			$data['inheritable'] = (string) $xml->inheritable === '0' ? false : true;
+		}
+
+		if (isset($xml->parent) && (string) $xml->parent !== '')
+		{
+			$data['parent'] = (string) $xml->parent;
+		}
+
 		if ($xml->files && \count($xml->files->children()))
 		{
 			$filename = basename($path);
@@ -2381,7 +2404,7 @@ class Installer extends Adapter
 			foreach ($custom as $adapter)
 			{
 				// Setup the class name
-				// TODO - Can we abstract this to not depend on the Joomla class namespace without PHP namespaces?
+				// @todo - Can we abstract this to not depend on the Joomla class namespace without PHP namespaces?
 				$class = $this->_classprefix . ucfirst(trim($adapter));
 
 				// If the class doesn't exist we have nothing left to do but look at the next type. We did our best.

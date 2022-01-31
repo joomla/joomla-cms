@@ -17,6 +17,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Associations;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\ListModel;
+use Joomla\Database\DatabaseQuery;
 use Joomla\Database\ParameterType;
 use Joomla\Utilities\ArrayHelper;
 
@@ -28,12 +29,19 @@ use Joomla\Utilities\ArrayHelper;
 class CategoriesModel extends ListModel
 {
 	/**
+	 * Does an association exist? Caches the result of getAssoc().
+	 *
+	 * @var   boolean|null
+	 * @since 4.0.5
+	 */
+	private $hasAssociation;
+
+	/**
 	 * Constructor.
 	 *
 	 * @param   array                     $config   An optional associative array of configuration settings.
 	 * @param   MVCFactoryInterface|null  $factory  The factory.
 	 *
-	 * @see     \JControllerLegacy
 	 * @since   1.6
 	 */
 	public function __construct($config = array(), MVCFactoryInterface $factory = null)
@@ -148,7 +156,7 @@ class CategoriesModel extends ListModel
 	/**
 	 * Method to get a database query to list categories.
 	 *
-	 * @return  \JDatabaseQuery object.
+	 * @return  \Joomla\Database\DatabaseQuery
 	 *
 	 * @since   1.6
 	 */
@@ -402,42 +410,42 @@ class CategoriesModel extends ListModel
 	 */
 	public function getAssoc()
 	{
-		static $assoc = null;
-
-		if (!is_null($assoc))
+		if (!is_null($this->hasAssociation))
 		{
-			return $assoc;
+			return $this->hasAssociation;
 		}
 
 		$extension = $this->getState('filter.extension');
 
-		$assoc = Associations::isEnabled();
+		$this->hasAssociation = Associations::isEnabled();
 		$extension = explode('.', $extension);
 		$component = array_shift($extension);
 		$cname = str_replace('com_', '', $component);
 
-		if (!$assoc || !$component || !$cname)
+		if (!$this->hasAssociation || !$component || !$cname)
 		{
-			$assoc = false;
+			$this->hasAssociation = false;
 
-			return $assoc;
+			return $this->hasAssociation;
 		}
 
 		$componentObject = $this->bootComponent($component);
 
 		if ($componentObject instanceof AssociationServiceInterface && $componentObject instanceof CategoryServiceInterface)
 		{
-			$assoc = true;
+			$this->hasAssociation = true;
 
-			return $assoc;
+			return $this->hasAssociation;
 		}
 
 		$hname = $cname . 'HelperAssociation';
 		\JLoader::register($hname, JPATH_SITE . '/components/' . $component . '/helpers/association.php');
 
-		$assoc = class_exists($hname) && !empty($hname::$category_association);
+		/* @codingStandardsIgnoreStart */
+		$this->hasAssociation = class_exists($hname) && !empty($hname::$category_association);
+		/* @codingStandardsIgnoreEnd */
 
-		return $assoc;
+		return $this->hasAssociation;
 	}
 
 	/**
@@ -490,30 +498,22 @@ class CategoriesModel extends ListModel
 	}
 
 	/**
-	 * Is this an empty state, I.e: no items of this type regardless of the searched for states.
+	 * Manipulate the query to be used to evaluate if this is an Empty State to provide specific conditions for this extension.
 	 *
-	 * @return boolean
+	 * @return DatabaseQuery
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.0.0
 	 */
-	public function getisEmptyState()
+	protected function getEmptyStateQuery()
 	{
+		$query = parent::getEmptyStateQuery();
+
+		// Get the extension from the filter
 		$extension = $this->getState('filter.extension');
 
-		$sql = $this->query
-			->clear('select')
-			->clear('values')
-			->clear('bounded')
-			->clear('limit')
-			->clear('order')
-			->clear('where')
-			->select('count(*)');
-
-		$sql->where($this->_db->quoteName('extension') . ' = :extension')
+		$query->where($this->_db->quoteName('extension') . ' = :extension')
 			->bind(':extension', $extension);
 
-		$this->_db->setQuery($sql);
-
-		return !($this->_db->loadResult() > 0);
+		return $query;
 	}
 }

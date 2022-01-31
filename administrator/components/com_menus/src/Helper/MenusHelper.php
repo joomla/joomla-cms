@@ -136,7 +136,7 @@ class MenusHelper extends ContentHelper
 	 * @param   array    $languages  Optional array of specify which languages we want to filter
 	 * @param   int      $clientId   Optional client id - viz 0 = site, 1 = administrator, can be NULL for all (used only if menutype not given)
 	 *
-	 * @return  array
+	 * @return  array|boolean
 	 *
 	 * @since   1.6
 	 */
@@ -451,7 +451,7 @@ class MenusHelper extends ContentHelper
 			throw new \Exception(Text::_('COM_MENUS_PRESET_LOAD_FAILED'));
 		}
 
-		static::installPresetItems($root, $menutype, 1);
+		static::installPresetItems($root, $menutype);
 	}
 
 	/**
@@ -492,7 +492,7 @@ class MenusHelper extends ContentHelper
 
 		foreach ($items as $item)
 		{
-			/** @var  \JTableMenu  $table */
+			/** @var \Joomla\CMS\Table\Menu $table */
 			$table = Table::getInstance('Menu');
 
 			$item->alias = $menutype . '-' . $item->title;
@@ -515,7 +515,7 @@ class MenusHelper extends ContentHelper
 					'menutype'  => $menutype,
 					'type'      => $item->type,
 					'title'     => $item->title,
-					'parent_id' => $item->getParent()->id,
+					'parent_id' => (int) $item->getParent()->id,
 					'client_id' => 1,
 				);
 				$table->load($keys);
@@ -541,7 +541,7 @@ class MenusHelper extends ContentHelper
 					'menutype'  => $menutype,
 					'type'      => $item->type,
 					'link'      => $item->link,
-					'parent_id' => $item->getParent()->id,
+					'parent_id' => (int) $item->getParent()->id,
 					'client_id' => 1,
 				);
 				$table->load($keys);
@@ -577,7 +577,7 @@ class MenusHelper extends ContentHelper
 				'img'          => $item->class,
 				'access'       => $item->access,
 				'component_id' => array_search($item->element, $components) ?: 0,
-				'parent_id'    => $item->getParent()->id,
+				'parent_id'    => (int) $item->getParent()->id,
 				'client_id'    => 1,
 				'published'    => 1,
 				'language'     => '*',

@@ -16,7 +16,7 @@ use Tobscure\JsonApi\Exception\Handler\ResponseBag;
 /**
  * Handler for invalid checkin/checkout exceptions
  *
- * @since  4.0
+ * @since  4.0.0
  */
 class SaveExceptionHandler implements ExceptionHandlerInterface
 {
@@ -53,7 +53,10 @@ class SaveExceptionHandler implements ExceptionHandlerInterface
 			$status = $e->getCode();
 		}
 
-		$error = ['title' => $e->getMessage()];
+		$error = [
+			'title' => $e->getMessage(),
+			'code' => $status,
+		];
 
 		return new ResponseBag($status, [$error]);
 	}

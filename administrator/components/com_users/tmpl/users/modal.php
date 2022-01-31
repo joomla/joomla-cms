@@ -94,7 +94,7 @@ $onClick         = "window.parent.jSelectUser(this);window.parent.Joomla.Modal.g
 							</span>
 						</td>
 						<td>
-							<?php echo nl2br($item->group_names); ?>
+							<?php echo nl2br($item->group_names, false); ?>
 						</td>
 						<td>
 							<?php echo (int) $item->id; ?>

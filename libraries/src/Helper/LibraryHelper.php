@@ -102,7 +102,7 @@ class LibraryHelper
 	 * @param   string    $element  Element of the library in the extensions table.
 	 * @param   Registry  $params   Params to save
 	 *
-	 * @return  Registry  A Registry object.
+	 * @return  Registry|boolean  A Registry object.
 	 *
 	 * @see     Registry
 	 * @since   3.2

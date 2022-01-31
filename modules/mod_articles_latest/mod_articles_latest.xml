@@ -16,10 +16,10 @@
 		<folder>tmpl</folder>
 	</files>
 	<languages>
-		<language tag="en-GB">en-GB.mod_articles_latest.ini</language>
-		<language tag="en-GB">en-GB.mod_articles_latest.sys.ini</language>
+		<language tag="en-GB">language/en-GB/mod_articles_latest.ini</language>
+		<language tag="en-GB">language/en-GB/mod_articles_latest.sys.ini</language>
 	</languages>
-	<help key="JHELP_EXTENSIONS_MODULE_MANAGER_LATEST_NEWS" />
+	<help key="Site_Modules:_Articles_-_Latest" />
 	<config>
 		<fields name="params">
 			<fieldset name="basic">
@@ -39,6 +39,8 @@
 					label="MOD_LATEST_NEWS_FIELD_COUNT_LABEL"
 					default="5"
 					filter="integer"
+					min="1"
+					validate="number"
 				/>
 
 				<field
@@ -97,6 +99,7 @@
 					type="modulelayout"
 					label="JFIELD_ALT_LAYOUT_LABEL"
 					class="form-select"
+					validate="moduleLayout"
 				/>
 
 				<field

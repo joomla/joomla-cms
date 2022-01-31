@@ -14,8 +14,6 @@ use Joomla\Tests\Unit\UnitTestCase;
 /**
  * Test class for \Joomla\CMS\Filter\OutputFilter.
  *
- * @package  Joomla.Platform
- *
  * @since    4.0.0
  */
 class OutputFilterTest extends UnitTestCase

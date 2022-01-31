@@ -60,6 +60,7 @@ HTMLHelper::_('behavior.formvalidator');
 				<tr>
 					<td>
 						<input
+							class="form-check-input"
 							id="admin-language-cb<?php echo $i; ?>"
 							type="radio"
 							name="administratorlang"
@@ -99,6 +100,7 @@ HTMLHelper::_('behavior.formvalidator');
 				<tr>
 					<td>
 						<input
+							class="form-check-input"
 							id="site-language-cb<?php echo $i; ?>"
 							type="radio"
 							name="frontendlang"
@@ -135,37 +137,39 @@ HTMLHelper::_('behavior.formvalidator');
 			<?php endforeach; ?>
 			<?php
 			if ($displayTable) : ?>
-				<p class="install-text"><?php echo Text::_('INSTL_PRECHECK_RECOMMENDED_SETTINGS_DESC'); ?></p>
 				<table class="table table-sm">
+					<caption>
+						<?php echo Text::_('INSTL_PRECHECK_RECOMMENDED_SETTINGS_DESC'); ?>
+					</caption>
 					<thead>
-					<tr>
-						<th>
-							<?php echo Text::_('INSTL_PRECHECK_DIRECTIVE'); ?>
-						</th>
-						<th>
-							<?php echo Text::_('INSTL_PRECHECK_RECOMMENDED'); ?>
-						</th>
-						<th>
-							<?php echo Text::_('INSTL_PRECHECK_ACTUAL'); ?>
-						</th>
-					</tr>
+						<tr>
+							<th scope="col">
+								<?php echo Text::_('INSTL_PRECHECK_DIRECTIVE'); ?>
+							</th>
+							<th scope="col">
+								<?php echo Text::_('INSTL_PRECHECK_RECOMMENDED'); ?>
+							</th>
+							<th scope="col">
+								<?php echo Text::_('INSTL_PRECHECK_ACTUAL'); ?>
+							</th>
+						</tr>
 					</thead>
 					<tbody>
 					<?php foreach ($this->phpsettings as $setting) : ?>
 						<?php if ($setting->state !== $setting->recommended) : ?>
 							<tr>
-								<td>
+								<th scope="row">
 									<?php echo $setting->label; ?>
+								</th>
+								<td>
+									<span class="badge bg-success disabled">
+										<?php echo Text::_($setting->recommended ? 'JON' : 'JOFF'); ?>
+									</span>
 								</td>
 								<td>
-							<span class="badge bg-success disabled">
-								<?php echo Text::_($setting->recommended ? 'JON' : 'JOFF'); ?>
-							</span>
-								</td>
-								<td>
-							<span class="badge bg-<?php echo ($setting->state === $setting->recommended) ? 'success' : 'warning'; ?>">
-								<?php echo Text::_($setting->state ? 'JON' : 'JOFF'); ?>
-							</span>
+									<span class="badge bg-<?php echo ($setting->state === $setting->recommended) ? 'success' : 'warning'; ?>">
+										<?php echo Text::_($setting->state ? 'JON' : 'JOFF'); ?>
+									</span>
 								</td>
 							</tr>
 						<?php endif; ?>
@@ -183,8 +187,14 @@ HTMLHelper::_('behavior.formvalidator');
 				<?php echo HTMLHelper::_('form.token'); ?>
 
 				<div class="form-group j-install-last-step d-grid gap-2">
-					<a class="btn btn-primary w-100" href="<?php echo Uri::root(); ?>" title="<?php echo Text::_('JSITE'); ?>"><span class="icon-eye" aria-hidden="true"></span> <?php echo Text::_('INSTL_COMPLETE_SITE_BTN'); ?></a>
-					<a class="btn btn-primary w-100" href="<?php echo Uri::root(); ?>administrator/" title="<?php echo Text::_('JADMINISTRATOR'); ?>"><span class="icon-lock" aria-hidden="true"></span> <?php echo Text::_('INSTL_COMPLETE_ADMIN_BTN'); ?></a>
+					<button type="button" class="complete-installation btn btn-primary w-100"
+					   data-href="<?php echo Uri::root(); ?>" <?php if ($this->development): ?>data-development<?php endif; ?>>
+						<span class="icon-eye" aria-hidden="true"></span> <?php echo Text::_('INSTL_COMPLETE_SITE_BTN'); ?>
+					</button>
+					<button type="button" class="complete-installation btn btn-primary w-100"
+					   data-href="<?php echo Uri::root(); ?>administrator/" <?php if ($this->development): ?>data-development<?php endif; ?>>
+						<span class="icon-lock" aria-hidden="true"></span> <?php echo Text::_('INSTL_COMPLETE_ADMIN_BTN'); ?>
+					</button>
 				</div>
 			</div>
 		</div>
@@ -199,7 +209,7 @@ HTMLHelper::_('behavior.formvalidator');
 				<p>
 					<a href="#"
 							class="btn btn-primary"
-							onclick="return Install.goToPage('remove');">
+							onclick="return Joomla.goToPage('remove');">
 						<span class="icon-arrow-left icon-white" aria-hidden="true"></span>
 						<?php echo Text::_('INSTL_LANGUAGES_WARNING_BACK_BUTTON'); ?>
 					</a>
@@ -238,7 +248,7 @@ HTMLHelper::_('behavior.formvalidator');
 						<?php $language->code = $element[1]; ?>
 						<tr>
 							<td>
-								<input type="checkbox" id="cb<?php echo $i; ?>" name="cid[]" value="<?php echo $language->update_id; ?>">
+								<input class="form-check-input" type="checkbox" id="cb<?php echo $i; ?>" name="cid[]" value="<?php echo $language->update_id; ?>">
 							</td>
 							<th scope="row">
 								<label for="cb<?php echo $i; ?>"><?php echo $language->name; ?></label>

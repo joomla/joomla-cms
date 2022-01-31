@@ -98,7 +98,7 @@ abstract class InstallerAdapter
 	 * Installer used with this adapter
 	 *
 	 * @var    Installer
-	 * @since  4.0
+	 * @since  4.0.0
 	 */
 	protected $parent = null;
 
@@ -627,7 +627,7 @@ abstract class InstallerAdapter
 	 *
 	 * @return  Installer
 	 *
-	 * @since   4.0
+	 * @since   4.0.0
 	 */
 	public function getParent()
 	{

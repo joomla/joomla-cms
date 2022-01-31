@@ -36,7 +36,7 @@ class DisplayController extends BaseController
 	 * @param   string  $prefix  The class prefix. Optional.
 	 * @param   array   $config  Configuration array for view. Optional.
 	 *
-	 * @return  \Joomla\CMS\MVC\View\AbstractView  Reference to the view or an error.
+	 * @return  \Joomla\CMS\MVC\View\ViewInterface  Reference to the view or an error.
 	 *
 	 * @since   3.0
 	 * @throws  \Exception

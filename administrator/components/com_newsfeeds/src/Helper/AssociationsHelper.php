@@ -108,7 +108,7 @@ class AssociationsHelper extends AssociationExtensionHelper
 	 * @param   string  $typeName  The item type
 	 * @param   int     $id        The id of item for which we need the associated items
 	 *
-	 * @return  JTable|null
+	 * @return  Table|null
 	 *
 	 * @since    3.7.0
 	 */

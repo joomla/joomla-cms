@@ -41,7 +41,7 @@ class AssociationField extends FormField
 	 */
 	protected function getInput()
 	{
-		// @TODO USE JLayouts here!!!
+		// @todo USE Layouts here!!!
 		// The active item id field.
 		$value = (int) $this->value ?: '';
 
@@ -98,7 +98,7 @@ class AssociationField extends FormField
 				'bodyHeight'  => 70,
 				'modalWidth'  => 80,
 				'footer'      => '<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">'
-						. Text::_("JLIB_HTML_BEHAVIOR_CLOSE") . '</button>',
+						. Text::_('JLIB_HTML_BEHAVIOR_CLOSE') . '</button>',
 			)
 		);
 

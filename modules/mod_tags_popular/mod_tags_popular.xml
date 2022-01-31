@@ -16,10 +16,10 @@
 		<folder>tmpl</folder>
 	</files>
 	<languages>
-		<language tag="en-GB">en-GB.mod_tags_popular.ini</language>
-		<language tag="en-GB">en-GB.mod_tags_popular.sys.ini</language>
+		<language tag="en-GB">language/en-GB/mod_tags_popular.ini</language>
+		<language tag="en-GB">language/en-GB/mod_tags_popular.sys.ini</language>
 	</languages>
-	<help key="JHELP_EXTENSIONS_MODULE_MANAGER_TAGS_POPULAR" />
+	<help key="Site_Modules:_Tags_-_Popular" />
 	<config>
 		<fields name="params">
 			<fieldset name="basic">
@@ -35,13 +35,12 @@
 
 				<field
 					name="maximum"
-					type="integer"
+					type="number"
 					label="MOD_TAGS_POPULAR_MAX_LABEL"
 					default="5"
 					filter="integer"
-					first="1"
-					last="20"
-					step="1"
+					min="0"
+					validate="number"
 				/>
 
 				<field
@@ -136,6 +135,7 @@
 					label="JFIELD_ALT_LAYOUT_LABEL"
 					class="form-select"
 					default="_:default"
+					validate="moduleLayout"
 				/>
 
 				<field

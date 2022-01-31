@@ -9,8 +9,6 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Factory;
-use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
@@ -20,56 +18,21 @@ Session::checkToken('get') or die(Text::_('JINVALID_TOKEN'));
 
 HTMLHelper::_('behavior.multiselect');
 
-$input          = Factory::getApplication()->input;
-$field          = $input->getCmd('field');
-$function       = 'jSelectContenthistory_' . $field;
-$listOrder      = $this->escape($this->state->get('list.ordering'));
-$listDirn       = $this->escape($this->state->get('list.direction'));
-$deleteMessage  = "alert(Joomla.Text._('JLIB_HTML_PLEASE_MAKE_A_SELECTION_FROM_THE_LIST'));";
-$aliasArray     = explode('.', $this->state->item_id);
-$option         = ($aliasArray[1] == 'category') ? 'com_categories&amp;extension=' . implode('.', array_slice($aliasArray, 0, count($aliasArray) - 2)) : $aliasArray[0];
-$filter         = InputFilter::getInstance();
-$task           = $filter->clean($aliasArray[1]) . '.loadhistory';
-$loadUrl        = Route::_('index.php?option=' . $filter->clean($option) . '&amp;task=' . $task);
-$deleteUrl      = Route::_('index.php?option=com_contenthistory&task=history.delete');
 $hash           = $this->state->get('sha1_hash');
 $formUrl        = 'index.php?option=com_contenthistory&view=history&layout=modal&tmpl=component&item_id=' . $this->state->get('item_id') . '&' . Session::getFormToken() . '=1';
 
-Text::script('COM_CONTENTHISTORY_BUTTON_SELECT_ONE', true);
-Text::script('COM_CONTENTHISTORY_BUTTON_SELECT_TWO', true);
+Text::script('COM_CONTENTHISTORY_BUTTON_SELECT_ONE_VERSION', true);
+Text::script('COM_CONTENTHISTORY_BUTTON_SELECT_TWO_VERSIONS', true);
 Text::script('JLIB_HTML_PLEASE_MAKE_A_SELECTION_FROM_THE_LIST');
 
 /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
 $wa = $this->document->getWebAssetManager();
 $wa->useScript('com_contenthistory.admin-history-modal');
-
 ?>
 <div class="container-popup">
-	<nav aria-label="toolbar">
-		<div class="float-end mb-3">
-			<button id="toolbar-load" type="submit" class="btn btn-secondary" aria-label="<?php echo Text::_('COM_CONTENTHISTORY_BUTTON_LOAD_DESC'); ?>" title="<?php echo Text::_('COM_CONTENTHISTORY_BUTTON_LOAD_DESC'); ?>" data-url="<?php echo Route::_($loadUrl); ?>">
-				<span class="icon-upload" aria-hidden="true"></span>
-				<span class="d-none d-md-inline"><?php echo Text::_('COM_CONTENTHISTORY_BUTTON_LOAD'); ?></span>
-			</button>
-			<button id="toolbar-preview" type="button" class="btn btn-secondary" aria-label="<?php echo Text::_('COM_CONTENTHISTORY_BUTTON_PREVIEW_DESC'); ?>" title="<?php echo Text::_('COM_CONTENTHISTORY_BUTTON_PREVIEW_DESC'); ?>" data-url="<?php echo Route::_('index.php?option=com_contenthistory&view=preview&layout=preview&tmpl=component&' . Session::getFormToken() . '=1'); ?>">
-				<span class="icon-search" aria-hidden="true"></span>
-				<span class="d-none d-md-inline"><?php echo Text::_('COM_CONTENTHISTORY_BUTTON_PREVIEW'); ?></span>
-			</button>
-			<button id="toolbar-compare" type="button" class="btn btn-secondary" aria-label="<?php echo Text::_('COM_CONTENTHISTORY_BUTTON_COMPARE_DESC'); ?>" title="<?php echo Text::_('COM_CONTENTHISTORY_BUTTON_COMPARE_DESC'); ?>" data-url="<?php echo Route::_('index.php?option=com_contenthistory&view=compare&layout=compare&tmpl=component&' . Session::getFormToken() . '=1'); ?>">
-				<span class="icon-search-plus" aria-hidden="true"></span>
-				<span class="d-none d-md-inline"><?php echo Text::_('COM_CONTENTHISTORY_BUTTON_COMPARE'); ?></span>
-			</button>
-			<button onclick="if (document.adminForm.boxchecked.value==0){<?php echo $deleteMessage; ?>}else{ Joomla.submitbutton('history.keep')}" class="btn btn-secondary pointer" aria-label="<?php echo Text::_('COM_CONTENTHISTORY_BUTTON_KEEP_DESC'); ?>" title="<?php echo Text::_('COM_CONTENTHISTORY_BUTTON_KEEP_DESC'); ?>">
-				<span class="icon-lock" aria-hidden="true"></span>
-				<span class="d-none d-md-inline"><?php echo Text::_('COM_CONTENTHISTORY_BUTTON_KEEP'); ?></span>
-			</button>
-			<button onclick="if (document.adminForm.boxchecked.value==0){<?php echo $deleteMessage; ?>}else{ Joomla.submitbutton('history.delete')}" class="btn btn-secondary pointer" aria-label="<?php echo Text::_('COM_CONTENTHISTORY_BUTTON_DELETE_DESC'); ?>" title="<?php echo Text::_('COM_CONTENTHISTORY_BUTTON_DELETE_DESC'); ?>">
-				<span class="icon-times" aria-hidden="true"></span>
-				<span class="d-none d-md-inline"><?php echo Text::_('COM_CONTENTHISTORY_BUTTON_DELETE'); ?></span>
-			</button>
-		</div>
-	</nav>
-
+	<div id="subhead" class="subhead noshadow mb-3">
+		<?php echo $this->toolbar->render(); ?>
+	</div>
 	<form action="<?php echo Route::_($formUrl); ?>" method="post" name="adminForm" id="adminForm">
 		<table class="table table-sm">
 			<caption class="visually-hidden">
@@ -118,15 +81,14 @@ $wa->useScript('com_contenthistory.admin-history-modal');
 					</td>
 					<td>
 						<?php if ($item->keep_forever) : ?>
-							<a class="btn btn-secondary btn-sm active" rel="tooltip" href="javascript:void(0);"
-								onclick="return Joomla.listItemTask('cb<?php echo $i; ?>','history.keep')">
-								<?php echo Text::_('JYES'); ?>&nbsp;<span class="icon-lock" aria-hidden="true"></span>
-							</a>
+							<button type="button" class="btn btn-secondary btn-sm" onclick="return Joomla.listItemTask('cb<?php echo $i; ?>','history.keep')">
+								<?php echo Text::_('JYES'); ?>
+								&nbsp;<span class="icon-lock" aria-hidden="true"></span>
+							</button>
 						<?php else : ?>
-							<a class="btn btn-secondary btn-sm active" rel="tooltip" href="javascript:void(0);"
-								onclick="return Joomla.listItemTask('cb<?php echo $i; ?>','history.keep')">
+							<button type="buttton" class="btn btn-secondary btn-sm" onclick="return Joomla.listItemTask('cb<?php echo $i; ?>','history.keep')">
 								<?php echo Text::_('JNO'); ?>
-							</a>
+							</button>
 						<?php endif; ?>
 					</td>
 					<td class="d-none d-md-table-cell">

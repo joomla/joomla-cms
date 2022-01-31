@@ -27,26 +27,26 @@ class SiteUpCommand extends AbstractCommand
 	 * The default command name
 	 *
 	 * @var    string
-	 * @since  4.0
+	 * @since  4.0.0
 	 */
 	protected static $defaultName = 'site:up';
 
 	/**
 	 * SymfonyStyle Object
 	 * @var SymfonyStyle
-	 * @since 4.0
+	 * @since 4.0.0
 	 */
 	private $ioStyle;
 
 	/**
 	 * Return code if site:up failed
-	 * @since 4.0
+	 * @since 4.0.0
 	 */
 	const SITE_UP_FAILED = 1;
 
 	/**
 	 * Return code if site:up was successful
-	 * @since 4.0
+	 * @since 4.0.0
 	 */
 	const SITE_UP_SUCCESSFUL = 0;
 
@@ -58,7 +58,7 @@ class SiteUpCommand extends AbstractCommand
 	 *
 	 * @return void
 	 *
-	 * @since 4.0
+	 * @since 4.0.0
 	 *
 	 */
 	private function configureIO(InputInterface $input, OutputInterface $output)

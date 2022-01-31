@@ -58,7 +58,7 @@ if (Multilanguage::isEnabled())
 			</div>
 			<hr>
 
-			<div class="row">
+			<div class="row mb-4">
 				<div class="col-md-12">
 
 					<div class="control-group">
@@ -170,7 +170,6 @@ if (Multilanguage::isEnabled())
 				<input type="hidden" name="return" value="<?php echo Factory::getApplication()->input->get('return', null, 'base64'); ?>">
 				<input type="hidden" name="task" value="">
 				<?php echo HTMLHelper::_('form.token'); ?>
-				<hr>
 			</div>
 			<div class="mb-2">
 			<button type="button" class="btn btn-primary" data-submit-task="modules.apply">

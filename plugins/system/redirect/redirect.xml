@@ -14,8 +14,8 @@
 		<filename plugin="redirect">redirect.php</filename>
 	</files>
 	<languages>
-		<language tag="en-GB">en-GB.plg_system_redirect.ini</language>
-		<language tag="en-GB">en-GB.plg_system_redirect.sys.ini</language>
+		<language tag="en-GB">language/en-GB/plg_system_redirect.ini</language>
+		<language tag="en-GB">language/en-GB/plg_system_redirect.sys.ini</language>
 	</languages>
 	<config>
 		<fields name="params">
@@ -48,6 +48,7 @@
 					label="PLG_SYSTEM_REDIRECT_FIELD_EXCLUDE_URLS_LABEL"
 					multiple="true"
 					formsource="plugins/system/redirect/form/excludes.xml"
+					layout="joomla.form.field.subform.repeatable-table"
 				/>
 			</fieldset>
 		</fields>

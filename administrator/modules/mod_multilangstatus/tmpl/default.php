@@ -35,18 +35,14 @@ $modalHTML = HTMLHelper::_(
 );
 
 $app->getDocument()->getWebAssetManager()
-	->registerAndUseScript('mod_multilangstatus.admin', 'mod_multilangstatus/admin-multilangstatus.min.js', [], ['defer' => true]);
-
+	->registerAndUseScript('mod_multilangstatus.admin', 'mod_multilangstatus/admin-multilangstatus.min.js', [], ['type' => 'module', 'defer' => true]);
 ?>
-<div class="header-item-content multilanguage">
-	<a class="d-flex align-items-stretch" href="#multiLangModal" title="<?php echo Text::_('MOD_MULTILANGSTATUS'); ?>" data-bs-toggle="modal" role="button">
-		<div class="d-flex align-items-end mx-auto">
-			<span class="icon-language" aria-hidden="true"></span>
-		</div>
-		<div class="tiny">
-			<?php echo Text::_('MOD_MULTILANGSTATUS'); ?>
-		</div>
-	</a>
-
-	<?php echo $modalHTML; ?>
-</div>
+<a data-bs-target="#multiLangModal" class="header-item-content multilanguage" title="<?php echo Text::_('MOD_MULTILANGSTATUS'); ?>" data-bs-toggle="modal" role="button">
+	<div class="header-item-icon">
+		<span class="icon-language" aria-hidden="true"></span>
+	</div>
+	<div class="header-item-text">
+		<?php echo Text::_('MOD_MULTILANGSTATUS'); ?>
+	</div>
+</a>
+<?php echo $modalHTML; ?>

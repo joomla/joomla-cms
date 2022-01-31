@@ -129,7 +129,7 @@ class TemplatesModel extends ListModel
 			->where($db->quoteName('a.language') . ' = ' . $db->quote(''));
 
 		// Filter by search in title.
-		if ($search = trim($this->getState('filter.search')))
+		if ($search = trim($this->getState('filter.search', '')))
 		{
 			if (stripos($search, 'id:') === 0)
 			{
@@ -193,7 +193,7 @@ class TemplatesModel extends ListModel
 	 *
 	 * @return array
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function getExtensions()
 	{

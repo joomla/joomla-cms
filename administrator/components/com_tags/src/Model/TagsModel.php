@@ -16,6 +16,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\CMS\Tag\TagServiceInterface;
+use Joomla\Database\DatabaseQuery;
 use Joomla\Database\ParameterType;
 
 /**
@@ -27,8 +28,6 @@ class TagsModel extends ListModel
 {
 	/**
 	 * Constructor.
-	 *
-	 * @see     \JControllerLegacy
 	 *
 	 * @param   MVCFactoryInterface  $factory  The factory.
 	 *
@@ -327,27 +326,18 @@ class TagsModel extends ListModel
 	}
 
 	/**
-	 * Is this an empty state, I.e: no items of this type regardless of the searched for states.
+	 * Manipulate the query to be used to evaluate if this is an Empty State to provide specific conditions for this extension.
 	 *
-	 * @return boolean
+	 * @return DatabaseQuery
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.0.0
 	 */
-	public function getisEmptyState()
+	protected function getEmptyStateQuery()
 	{
-		$sql = $this->query
-			->clear('select')
-			->clear('values')
-			->clear('bounded')
-			->clear('limit')
-			->clear('order')
-			->clear('where')
-			->select('count(*)');
+		$query = parent::getEmptyStateQuery();
 
-		$sql->where($this->_db->quoteName('alias') . ' != ' . $this->_db->quote('root'));
+		$query->where($this->_db->quoteName('alias') . ' != ' . $this->_db->quote('root'));
 
-		$this->_db->setQuery($sql);
-
-		return !($this->_db->loadResult() > 0);
+		return $query;
 	}
 }
