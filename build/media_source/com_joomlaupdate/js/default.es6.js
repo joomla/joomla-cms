@@ -60,17 +60,19 @@ Joomla = window.Joomla || {};
     if (uploadField) {
       uploadField.addEventListener('change', Joomla.installpackageChange);
       uploadField.addEventListener('change', () => {
-        if (uploadForm.install_package.files[0].size <= uploadForm.max_upload_size.value && updateCheck.disabled) {
+        const fileSize = uploadForm.install_package.files[0].size;
+        const allowedSize = uploadForm.max_upload_size.value
+        if (fileSize <= allowedSize && updateCheck.disabled) {
           updateCheck.disabled = !updateCheck.disabled;
         }
-        else if(uploadForm.install_package.files[0].size <= uploadForm.max_upload_size.value && !updateCheck.disabled && !updateCheck.checked) {
+        else if (fileSize <= allowedSize && !updateCheck.disabled && !updateCheck.checked) {
           updateCheck.disabled = false;
         }
-        else if(uploadForm.install_package.files[0].size <= uploadForm.max_upload_size.value && updateCheck.checked) {
+        else if (fileSize <= allowedSize && updateCheck.checked) {
           updateCheck.checked = false;
           uploadButton.disabled = true;
         }
-        else if (uploadForm.install_package.files[0].size > uploadForm.max_upload_size.value && !updateCheck.disabled) {
+        else if (fileSize > allowedSize && !updateCheck.disabled) {
           updateCheck.disabled = !updateCheck.disabled;
           updateCheck.checked = false;
           uploadButton.disabled = true;
