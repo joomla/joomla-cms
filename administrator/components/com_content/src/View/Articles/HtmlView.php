@@ -40,21 +40,21 @@ class HtmlView extends BaseHtmlView
 	/**
 	 * The pagination object
 	 *
-	 * @var  \JPagination
+	 * @var  \Joomla\CMS\Pagination\Pagination
 	 */
 	protected $pagination;
 
 	/**
 	 * The model state
 	 *
-	 * @var  \JObject
+	 * @var   \Joomla\CMS\Object\CMSObject
 	 */
 	protected $state;
 
 	/**
 	 * Form object for search filters
 	 *
-	 * @var  \JForm
+	 * @var  \Joomla\CMS\Form\Form
 	 */
 	public $filterForm;
 
@@ -75,7 +75,7 @@ class HtmlView extends BaseHtmlView
 	/**
 	 * Is this view an Empty State
 	 *
-	 * @var  boolean
+	 * @var   boolean
 	 * @since 4.0.0
 	 */
 	private $isEmptyState = false;

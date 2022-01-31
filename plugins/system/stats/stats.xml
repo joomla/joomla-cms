@@ -32,7 +32,6 @@
 					name="unique_id"
 					type="uniqueid"
 					label="PLG_SYSTEM_STATS_UNIQUE_ID_LABEL"
-					size="10"
 				/>
 
 				<field
@@ -50,8 +49,8 @@
 					default="1"
 					validate="options"
 					>
-					<option value="1">PLG_SYSTEM_STATS_MODE_OPTION_ALWAYS_SEND</option>
 					<option value="2">PLG_SYSTEM_STATS_MODE_OPTION_ON_DEMAND</option>
+					<option value="1">PLG_SYSTEM_STATS_MODE_OPTION_ALWAYS_SEND</option>
 					<option value="3">PLG_SYSTEM_STATS_MODE_OPTION_NEVER_SEND</option>
 				</field>
 
@@ -59,7 +58,6 @@
 					name="lastrun"
 					type="hidden"
 					default="0"
-					size="15"
 				/>
 			</fieldset>
 		</fields>

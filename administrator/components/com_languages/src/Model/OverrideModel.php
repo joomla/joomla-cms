@@ -31,7 +31,7 @@ class OverrideModel extends AdminModel
 	 * @param   array    $data      Data for the form.
 	 * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
 	 *
-	 * @return  mixed A \JForm object on success, false on failure.
+	 * @return  \Joomla\CMS\Form\Form|bool  A Form object on success, false on failure.
 	 *
 	 * @since   2.5
 	 */
@@ -163,7 +163,7 @@ class OverrideModel extends AdminModel
 
 		$client = $client ? 'administrator' : 'site';
 
-		// Parse the override.ini file in oder to get the keys and strings.
+		// Parse the override.ini file in order to get the keys and strings.
 		$fileName = constant('JPATH_' . strtoupper($client)) . '/language/overrides/' . $language . '.override.ini';
 		$strings  = LanguageHelper::parseIniFile($fileName);
 
