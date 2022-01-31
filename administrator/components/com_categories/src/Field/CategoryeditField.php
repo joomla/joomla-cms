@@ -169,7 +169,7 @@ class CategoryeditField extends ListField
 		}
 
 		// Account for case that a submitted form has a multi-value category id field (e.g. a filtering form), just use the first category
-		$oldCat = is_array($oldCat)
+		$oldCat = \is_array($oldCat)
 			? (int) reset($oldCat)
 			: (int) $oldCat;
 
@@ -259,7 +259,7 @@ class CategoryeditField extends ListField
 		}
 
 		// Pad the option text with spaces using depth level as a multiplier.
-		for ($i = 0, $n = count($options); $i < $n; $i++)
+		for ($i = 0, $n = \count($options); $i < $n; $i++)
 		{
 			// Translate ROOT
 			if ($this->element['parent'] == true || $jinput->get('option') == 'com_categories')
