@@ -32,6 +32,7 @@ class HtmlView extends BaseHtmlView
 	 * The item model state
 	 *
 	 * @var    \Joomla\Registry\Registry
+	 *
 	 * @since  1.6
 	 */
 	protected $state;
@@ -39,7 +40,8 @@ class HtmlView extends BaseHtmlView
 	/**
 	 * The form object for the contact item
 	 *
-	 * @var    \JForm
+	 * @var    \Joomla\CMS\Form\Form
+	 *
 	 * @since  1.6
 	 */
 	protected $form;
@@ -47,25 +49,29 @@ class HtmlView extends BaseHtmlView
 	/**
 	 * The item object details
 	 *
-	 * @var    \JObject
+	 * @var    \Joomla\CMS\Object\CMSObject
+	 *
 	 * @since  1.6
 	 */
 	protected $item;
 
 	/**
 	 * The page to return to on submission
-	 * TODO: Implement this functionality
 	 *
-	 * @var         string
-	 * @since       1.6
+	 * @var    string
+	 *
+	 * @since  1.6
+	 *
+	 * @todo Implement this functionality
 	 */
 	protected $return_page = '';
 
 	/**
 	 * Should we show a captcha form for the submission of the contact request?
 	 *
-	 * @var   boolean
-	 * @since 3.6.3
+	 * @var    boolean
+	 *
+	 * @since  3.6.3
 	 */
 	protected $captchaEnabled = false;
 
@@ -73,6 +79,7 @@ class HtmlView extends BaseHtmlView
 	 * The page parameters
 	 *
 	 * @var    \Joomla\Registry\Registry|null
+	 *
 	 * @since  4.0.0
 	 */
 	protected $params = null;
@@ -80,16 +87,18 @@ class HtmlView extends BaseHtmlView
 	/**
 	 * The user object
 	 *
-	 * @var   \JUser
-	 * @since 4.0.0
+	 * @var    \Joomla\CMS\User\User
+	 *
+	 * @since  4.0.0
 	 */
 	protected $user;
 
 	/**
 	 * Other contacts in this contacts category
 	 *
-	 * @var   array
-	 * @since 4.0.0
+	 * @var    array
+	 *
+	 * @since  4.0.0
 	 */
 	protected $contacts;
 
@@ -97,6 +106,7 @@ class HtmlView extends BaseHtmlView
 	 * The page class suffix
 	 *
 	 * @var    string
+	 *
 	 * @since  4.0.0
 	 */
 	protected $pageclass_sfx = '';
@@ -105,6 +115,7 @@ class HtmlView extends BaseHtmlView
 	 * The flag to mark if the active menu item is linked to the contact being displayed
 	 *
 	 * @var    boolean
+	 *
 	 * @since  4.0.0
 	 */
 	protected $menuItemMatchContact = false;
@@ -124,14 +135,14 @@ class HtmlView extends BaseHtmlView
 		$item       = $this->get('Item');
 		$this->form = $this->get('Form');
 		$params     = $state->get('params');
-		$contacts   = array();
+		$contacts   = [];
 
 		$temp = clone $params;
 
 		$active = $app->getMenu()->getActive();
 
 		// Get submitted values
-		$data = $app->getUserState('com_contact.contact.data', array());
+		$data = $app->getUserState('com_contact.contact.data', []);
 
 		// Add catid for selecting custom fields
 		$data['catid'] = $item->catid;

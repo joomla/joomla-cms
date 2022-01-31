@@ -2,13 +2,16 @@ actor: ApiTester
 modules:
     enabled:
         - Helper\JoomlaDb
-        - \Helper\Api
+        - Helper\Api
     config:
         Helper\JoomlaDb:
             dsn: 'mysql:host=mysql;dbname=test_joomla'
             user: 'root'
             password: 'joomla_ut'
             prefix: 'jos_'
+        Helper\Api:
+            MicrosoftEdgeInsiders: false           # set this to true, if you are on Windows Insiders       # ; If you want to setup your test website (document root) in a different folder, you can do that here.
+            localUser: 'www-data'
 
 env:
   mysql:
@@ -18,6 +21,10 @@ env:
             url: http://localhost/mysql/api/index.php/v1
             depends: PhpBrowser
             part: Json
+      config:
+        Helper\Api:
+          url: 'http://localhost/mysql'
+          cmsPath: '/tests/www/mysql'
   postgres:
     modules:
       enabled:
@@ -29,6 +36,9 @@ env:
         Helper\JoomlaDb:
           dsn: 'pgsql:host=postgres;dbname=test_joomla'
           prefix: 'jos_'
+        Helper\Api:
+          url: 'http://localhost/postgres'
+          cmsPath: '/tests/www/postgres'
   postgresphpmax:
     modules:
       enabled:
@@ -40,6 +50,9 @@ env:
         Helper\JoomlaDb:
           dsn: 'pgsql:host=postgres;dbname=test_joomla'
           prefix: 'phpmax_'
+        Helper\Api:
+          url: 'http://localhost/postgresphpmax'
+          cmsPath: '/tests/www/postgresphpmax'
   mysqlphpmax:
     modules:
       enabled:
@@ -50,3 +63,33 @@ env:
       config:
         Helper\JoomlaDb:
           prefix: 'phpmax_'
+        Helper\Api:
+          url: 'http://localhost/mysqlphpmax'
+          cmsPath: '/tests/www/mysqlphpmax'
+  postgresphpnext:
+    modules:
+      enabled:
+        - REST:
+            url: http://localhost/postgresphpnext/api/index.php/v1
+            depends: PhpBrowser
+            part: Json
+      config:
+        Helper\JoomlaDb:
+          dsn: 'pgsql:host=postgres;dbname=test_joomla'
+          prefix: 'phpnext_'
+        Helper\Api:
+            url: 'http://localhost/postgresphpnext'
+            cmsPath: '/tests/www/postgresphpnext'
+  mysqlphpnext:
+    modules:
+      enabled:
+        - REST:
+            url: http://localhost/mysqlphpnext/api/index.php/v1
+            depends: PhpBrowser
+            part: Json
+      config:
+        Helper\JoomlaDb:
+          prefix: 'phpnext_'
+        Helper\Api:
+          url: 'http://localhost/mysqlphpnext'
+          cmsPath: '/tests/www/mysqlphpnext'

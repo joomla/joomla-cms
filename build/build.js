@@ -1,8 +1,7 @@
 /**
  * Command line helper
  *
- * To get the complete functional media folder please run
- *
+ * To get the complete functional media folder please run:
  * npm ci
  *
  * For dedicated tasks, please run:
@@ -12,7 +11,7 @@
  * node build.js --compile-css      will compile all the scss defined files and also create a minified version of the css
  * node build.js --compile-bs       will compile all the Bootstrap javascript components
  * node build.js --com-media        will compile the media manager Vue application
- * node build.js --watch-com-media  will compile the media manager Vue application
+ * node build.js --watch-com-media  will watch and compile the media manager Vue application
  * node build.js --gzip             will create gzip files for all the minified stylesheets and scripts.
  * node build.js --versioning       will update all the joomla.assets.json files providing accurate versions for stylesheets and scripts.
  */

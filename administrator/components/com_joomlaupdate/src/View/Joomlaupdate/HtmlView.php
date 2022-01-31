@@ -64,7 +64,8 @@ class HtmlView extends BaseHtmlView
 	/**
 	 * The model state
 	 *
-	 * @var    \JObject
+	 * @var    \Joomla\CMS\Object\CMSObject
+	 *
 	 * @since  4.0.0
 	 */
 	protected $state;
@@ -295,6 +296,12 @@ class HtmlView extends BaseHtmlView
 	 */
 	public function shouldDisplayPreUpdateCheck()
 	{
+		// When the download URL is not found there is no core upgrade path
+		if (!isset($this->updateInfo['object']->downloadurl->_data))
+		{
+			return false;
+		}
+
 		$nextMinor = Version::MAJOR_VERSION . '.' . (Version::MINOR_VERSION + 1);
 
 		// Show only when we found a download URL, we have an update and when we update to the next minor or greater.

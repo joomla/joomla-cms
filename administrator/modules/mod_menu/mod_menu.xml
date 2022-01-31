@@ -87,7 +87,6 @@
 					label="MOD_MENU_FIELD_FORUMURL_LABEL"
 					description="MOD_MENU_FIELD_FORUMURL_DESC"
 					filter="url"
-					size="30"
 					default=""
 					showon="menutype:*"
 					validate="url"
