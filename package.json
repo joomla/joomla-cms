@@ -32,7 +32,7 @@
   ],
   "dependencies": {
     "@claviska/jquery-minicolors": "^2.3.6",
-    "@fortawesome/fontawesome-free": "^5.15.4",
+    "@fortawesome/fontawesome-free": "^6.0.0-beta3",
     "@popperjs/core": "^2.11.0",
     "@webcomponents/webcomponentsjs": "^2.6.0",
     "accessibility": "^3.0.14",
@@ -100,6 +100,7 @@
     "rollup-plugin-vue": "^6.0.0",
     "sass": "^1.45.0",
     "selenium-standalone": "^8.0.8",
+    "semver": "^7.3.5",
     "stylelint": "^14.1.0",
     "stylelint-config-standard": "^24.0.0",
     "stylelint-order": "^5.0.0",

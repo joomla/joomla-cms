@@ -84,7 +84,7 @@ a {
 .btn-group {
   margin-bottom: $cassiopeia-grid-gutter;
   > input {
-    padding: $cassiopeia-grid-gutter/2;
+    padding: $cassiopeia-grid-gutter * .5;
     border: 1px solid $gray-400;
     @include border-start-radius($border-radius);
     @include border-end-radius(0);

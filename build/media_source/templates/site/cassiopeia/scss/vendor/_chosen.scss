@@ -97,7 +97,7 @@ $chosen-select-padding-y: $form-select-padding-y + .21;
         &::before {
           position: absolute;
           top: 6px;
-          right: ($chosen-multi-close-width / 4);
+          right: ($chosen-multi-close-width * .25);
           font-size: $font-size-base;
           color: $white;
           content: "\00d7";
