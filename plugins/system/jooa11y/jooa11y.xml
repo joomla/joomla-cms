@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension type="plugin" group="system" method="upgrade">
+	<name>plg_system_jooa11y</name>
+	<author>Joomla! Project</author>
+	<creationDate>November 2021</creationDate>
+	<copyright>(C) 2021 Open Source Matters, Inc.</copyright>
+	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
+	<authorEmail>admin@joomla.org</authorEmail>
+	<authorUrl>www.joomla.org</authorUrl>
+	<version>4.1.0</version>
+	<description>PLG_SYSTEM_JOOA11Y_XML_DESCRIPTION</description>
+	<files>
+		<filename plugin="jooa11y">jooa11y.php</filename>
+	</files>
+	<languages>
+		<language tag="en-GB">language/en-GB/plg_system_jooa11y.ini</language>
+		<language tag="en-GB">language/en-GB/plg_system_jooa11y.sys.ini</language>
+	</languages>
+	<config>
+		<fields name="params">
+			<fieldset name="basic">
+				<field
+					name="showAlways"
+					type="radio"
+					label="PLG_SYSTEM_JOOA11Y_FIELD_SHOW_ALWAYS"
+					description="PLG_SYSTEM_JOOA11Y_FIELD_SHOW_ALWAYS_DESC"
+					layout="joomla.form.field.radio.switcher"
+					default="0"
+					filter="integer"
+					>
+					<option value="0">JOFF</option>
+					<option value="1">JON</option>
+				</field>
+				<field
+					name="checkRoot"
+					type="text"
+					label="PLG_SYSTEM_JOOA11Y_FIELD_CHECK_ROOT"
+					description="PLG_SYSTEM_JOOA11Y_FIELD_CHECK_ROOT_DESC"
+					default="main"
+					filter="string"
+				/>
+				<field
+					name="readabilityRoot"
+					type="text"
+					label="PLG_SYSTEM_JOOA11Y_FIELD_READABILITY_ROOT"
+					description="PLG_SYSTEM_JOOA11Y_FIELD_READABILITY_ROOT_DESC"
+					default="main"
+					filter="string"
+				/>
+				<field
+					name="containerIgnore"
+					type="text"
+					label="PLG_SYSTEM_JOOA11Y_FIELD_CONTAINER_IGNORE"
+					description="PLG_SYSTEM_JOOA11Y_FIELD_CONTAINER_IGNORE_DESC"
+					filter="string"
+				/>
+			</fieldset>
+		</fields>
+	</config>
+</extension>

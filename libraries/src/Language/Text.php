@@ -12,7 +12,6 @@ namespace Joomla\CMS\Language;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
-use Joomla\CMS\Log\Log;
 
 /**
  * Text handling class.
@@ -350,15 +349,14 @@ class Text
 	{
 		if ($string === null)
 		{
-			Log::add(
+			@trigger_error(
 				sprintf(
 					'As of 3.7.0, passing a null value for the first argument of %1$s() is deprecated and will not be supported in 4.0.'
 					. ' Use the %2$s::getScriptStrings() method to get the strings from the JavaScript language store instead.',
 					__METHOD__,
 					__CLASS__
 				),
-				Log::WARNING,
-				'deprecated'
+				E_USER_DEPRECATED
 			);
 		}
 

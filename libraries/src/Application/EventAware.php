@@ -110,7 +110,7 @@ trait EventAware
 
 		$result = $dispatcher->dispatch($eventName, $event);
 
-		// TODO - There are still test cases where the result isn't defined, temporarily leave the isset check in place
+		// @todo - There are still test cases where the result isn't defined, temporarily leave the isset check in place
 		return !isset($result['result']) || \is_null($result['result']) ? [] : $result['result'];
 	}
 }

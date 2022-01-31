@@ -12,31 +12,31 @@
    * Regex for hex values e.g. #FF3929
    * @type {RegExp}
    */
-  const hexRegex = new RegExp(/^#([a-z0-9]{1,2})([a-z0-9]{1,2})([a-z0-9]{1,2})$/i);
+  const hexRegex = /^#([a-z0-9]{1,2})([a-z0-9]{1,2})([a-z0-9]{1,2})$/i;
 
   /**
    * Regex for rgb values e.g. rgba(255, 0, 24, 0.5);
    * @type {RegExp}
    */
-  const rgbRegex = new RegExp(/^rgba?\(([0-9]+)[\D]+([0-9]+)[\D]+([0-9]+)(?:[\D]+([0-9](?:.\d+)?))?\)$/i);
+  const rgbRegex = /^rgba?\(([0-9]+)[\D]+([0-9]+)[\D]+([0-9]+)(?:[\D]+([0-9](?:.\d+)?))?\)$/i;
 
   /**
    * Regex for hsl values e.g. hsl(255,0,24);
    * @type {RegExp}
    */
-  const hslRegex = new RegExp(/^hsla?\(([0-9]+)[\D]+([0-9]+)[\D]+([0-9]+)[\D]+([0-9](?:.\d+)?)?\)$/i);
+  const hslRegex = /^hsla?\(([0-9]+)[\D]+([0-9]+)[\D]+([0-9]+)[\D]+([0-9](?:.\d+)?)?\)$/i;
 
   /**
    * Regex for saturation and lightness of hsl - only accepts 1 or 0 or 0.4 or 40
    * @type {RegExp}
    */
-  const hslNumberRegex = new RegExp(/^(([0-1])|(0\\.[0-9]+)|([0-9]{1,2})|(100))$/);
+  const hslNumberRegex = /^(([0-1])|(0\\.[0-9]+)|([0-9]{1,2})|(100))$/;
 
   /**
    * Regex for hue values - one to three numbers
    * @type {RegExp}
    */
-  const hueRegex = new RegExp(/^[0-9]{1,3}$/);
+  const hueRegex = /^[0-9]{1,3}$/;
 
   /**
    * Creates a slider for the color values hue, saturation and light.
