@@ -15,7 +15,7 @@
 	</files>
 
 	<languages>
-		<language tag="en-GB">en-GB.plg_installer_packageinstaller.ini</language>
-		<language tag="en-GB">en-GB.plg_installer_packageinstaller.sys.ini</language>
+		<language tag="en-GB">language/en-GB/plg_installer_packageinstaller.ini</language>
+		<language tag="en-GB">language/en-GB/plg_installer_packageinstaller.sys.ini</language>
 	</languages>
 </extension>

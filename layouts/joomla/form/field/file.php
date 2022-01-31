@@ -45,7 +45,6 @@ extract($displayData);
  * @var   boolean  $hasValue        Has this field a value assigned?
  * @var   array    $options         Options available for this field.
  * @var   array    $inputType       Options available for this field.
- * @var   array    $spellcheck      Options available for this field.
  * @var   string   $accept          File types that are accepted.
  * @var   string   $dataAttribute   Miscellaneous data attributes preprocessed for HTML output
  * @var   array    $dataAttributes  Miscellaneous data attribute for eg, data-*

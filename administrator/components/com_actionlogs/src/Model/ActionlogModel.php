@@ -13,9 +13,10 @@ namespace Joomla\Component\Actionlogs\Administrator\Model;
 
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
+use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\Layout\FileLayout;
 use Joomla\CMS\Mail\Exception\MailDisabledException;
+use Joomla\CMS\Mail\MailTemplate;
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Joomla\Component\Actionlogs\Administrator\Helper\ActionlogsHelper;
 use Joomla\Utilities\IpHelper;
@@ -113,14 +114,15 @@ class ActionlogModel extends BaseDatabaseModel
 	 */
 	protected function sendNotificationEmails($messages, $username, $context)
 	{
-		$db           = $this->getDbo();
-		$query        = $db->getQuery(true);
-		$params       = ComponentHelper::getParams('com_actionlogs');
-		$showIpColumn = (bool) $params->get('ip_logging', 0);
+		$app   = Factory::getApplication();
+		$lang  = $app->getLanguage();
+		$db    = $this->getDbo();
+		$query = $db->getQuery(true);
 
 		$query
 			->select($db->quoteName(array('u.email', 'l.extensions')))
 			->from($db->quoteName('#__users', 'u'))
+			->where($db->quoteName('u.block') . ' = 0')
 			->join(
 				'INNER',
 				$db->quoteName('#__action_logs_users', 'l') . ' ON ( ' . $db->quoteName('l.notify') . ' = 1 AND '
@@ -148,29 +150,33 @@ class ActionlogModel extends BaseDatabaseModel
 			return;
 		}
 
-		$layout    = new FileLayout('components.com_actionlogs.layouts.logstable', JPATH_ADMINISTRATOR);
 		$extension = strtok($context, '.');
+		$lang->load('com_actionlogs', JPATH_ADMINISTRATOR);
 		ActionlogsHelper::loadTranslationFiles($extension);
+		$temp      = [];
 
 		foreach ($messages as $message)
 		{
-			$message->extension = Text::_($extension);
-			$message->message   = ActionlogsHelper::getHumanReadableLogMessage($message);
+			$m = [];
+			$m['extension'] = Text::_($extension);
+			$m['message']   = ActionlogsHelper::getHumanReadableLogMessage($message);
+			$m['date']      = HTMLHelper::_('date', $message->log_date, 'Y-m-d H:i:s T', 'UTC');
+			$m['username']  = $username;
+			$temp[] = $m;
 		}
 
-		$displayData = array(
-			'messages'     => $messages,
-			'username'     => $username,
-			'showIpColumn' => $showIpColumn,
-		);
+		$templateData = [
+			'messages'     => $temp
+		];
 
-		$body   = $layout->render($displayData);
-		$mailer = Factory::getMailer();
-		$mailer->addRecipient($recipients);
-		$mailer->setSubject(Text::_('COM_ACTIONLOGS_EMAIL_SUBJECT'));
-		$mailer->isHTML(true);
-		$mailer->Encoding = 'base64';
-		$mailer->setBody($body);
-		$mailer->Send();
+		$mailer = new MailTemplate('com_actionlogs.notification', $app->getLanguage()->getTag());
+		$mailer->addTemplateData($templateData);
+
+		foreach ($recipients as $recipient)
+		{
+			$mailer->addRecipient($recipient);
+		}
+
+		$mailer->send();
 	}
 }

@@ -170,7 +170,7 @@ class User extends Table
 				->select($this->_db->quoteName('id'))
 				->select($this->_db->quoteName('title'))
 				->from($this->_db->quoteName('#__usergroups'))
-				->whereIn($this->_db->quoteName('id'), $this->groups);
+				->whereIn($this->_db->quoteName('id'), array_values($this->groups));
 			$this->_db->setQuery($query);
 
 			// Set the titles for the user groups.
@@ -200,7 +200,7 @@ class User extends Table
 			return false;
 		}
 
-		// Set user id to null istead of 0, if needed
+		// Set user id to null instead of 0, if needed
 		if ($this->id === 0)
 		{
 			$this->id = null;
@@ -342,7 +342,7 @@ class User extends Table
 		$k = $this->_tbl_key;
 		$key = $this->$k;
 
-		// TODO: This is a dumb way to handle the groups.
+		// @todo: This is a dumb way to handle the groups.
 		// Store groups locally so as to not update directly.
 		$groups = $this->groups;
 		unset($this->groups);
@@ -542,7 +542,12 @@ class User extends Table
 			}
 		}
 
-		// If no timestamp value is passed to function, than current time is used.
+		// If no timestamp value is passed to function, then current time is used.
+		if ($timeStamp === null)
+		{
+			$timeStamp = 'now';
+		}
+
 		$date      = Factory::getDate($timeStamp);
 		$userId    = (int) $userId;
 		$lastVisit = $date->toSql();

@@ -5,7 +5,7 @@
 			name="language"
 			type="installation.language"
 			label="INSTL_SELECT_LANGUAGE_TITLE"
-			class="custom-select required ml-2"
+			class="form-select required ms-2"
 			default="en-GB"
 		/>
 	</fieldset>

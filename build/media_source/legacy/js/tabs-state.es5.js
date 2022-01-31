@@ -92,7 +92,7 @@ jQuery(function ($) {
 			// get this tabs own href
 			var href = $(event.target).attr("href");
 
-			// find the collection of tabs this tab belongs to, and calcuate the unique xpath to it
+			// find the collection of tabs this tab belongs to, and calculate the unique xpath to it
 			var tabCollection = $.getXpath($(event.target).closest(".nav-tabs").first().get(0));
 
 			// error handling

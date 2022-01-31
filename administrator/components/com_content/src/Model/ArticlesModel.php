@@ -14,6 +14,7 @@ namespace Joomla\Component\Content\Administrator\Model;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Associations;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Table\Table;
@@ -87,7 +88,7 @@ class ArticlesModel extends ListModel
 	 * @param   array    $data      data
 	 * @param   boolean  $loadData  load current data
 	 *
-	 * @return  Form|null  The \JForm object or null if the form can't be found
+	 * @return  \Joomla\CMS\Form\Form|null  The Form object or null if the form can't be found
 	 *
 	 * @since   3.2
 	 */
@@ -157,7 +158,7 @@ class ArticlesModel extends ListModel
 		$language = $this->getUserStateFromRequest($this->context . '.filter.language', 'filter_language', '');
 		$this->setState('filter.language', $language);
 
-		$formSubmited = $app->input->post->get('form_submited');
+		$formSubmitted = $app->input->post->get('form_submitted');
 
 		// Gets the value of a user state variable and sets it in the session
 		$this->getUserStateFromRequest($this->context . '.filter.access', 'filter_access');
@@ -165,7 +166,7 @@ class ArticlesModel extends ListModel
 		$this->getUserStateFromRequest($this->context . '.filter.category_id', 'filter_category_id');
 		$this->getUserStateFromRequest($this->context . '.filter.tag', 'filter_tag', '');
 
-		if ($formSubmited)
+		if ($formSubmitted)
 		{
 			$access = $app->input->post->get('access');
 			$this->setState('filter.access', $access);
@@ -273,7 +274,6 @@ class ArticlesModel extends ListModel
 				[
 					$db->quoteName('fp.featured_up'),
 					$db->quoteName('fp.featured_down'),
-					$db->quoteName('fp.ordering'),
 					$db->quoteName('l.title', 'language_title'),
 					$db->quoteName('l.image', 'language_image'),
 					$db->quoteName('uc.name', 'editor'),
@@ -352,7 +352,7 @@ class ArticlesModel extends ListModel
 		// Filter by featured.
 		$featured = (string) $this->getState('filter.featured');
 
-		if (in_array($featured, ['0','1']))
+		if (\in_array($featured, ['0','1']))
 		{
 			$featured = (int) $featured;
 			$query->where($db->quoteName('a.featured') . ' = :featured')
@@ -462,6 +462,14 @@ class ArticlesModel extends ListModel
 		}
 		elseif (is_array($authorId))
 		{
+			// Check to see if by_me is in the array
+			if (\in_array('by_me', $authorId))
+
+			// Replace by_me with the current user id in the array
+			{
+				$authorId['by_me'] = $user->id;
+			}
+
 			$authorId = ArrayHelper::toInteger($authorId);
 			$query->whereIn($db->quoteName('a.created_by'), $authorId);
 		}
@@ -665,6 +673,8 @@ class ArticlesModel extends ListModel
 					{
 						unset($transitions[$key]);
 					}
+
+					$transitions[$key]['text'] = Text::_($transition['text']);
 				}
 
 				$this->cache[$store] = $transitions;

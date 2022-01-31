@@ -9,6 +9,7 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Extension\Service\Provider\HelperFactory;
 use Joomla\CMS\Extension\Service\Provider\Module;
 use Joomla\CMS\Extension\Service\Provider\ModuleDispatcherFactory;
 use Joomla\DI\Container;
@@ -33,6 +34,7 @@ return new class implements ServiceProviderInterface
 	public function register(Container $container)
 	{
 		$container->registerServiceProvider(new ModuleDispatcherFactory('\\Joomla\\Module\\Quickicon'));
+		$container->registerServiceProvider(new HelperFactory('\\Joomla\\Module\\Quickicon\\Administrator\\Helper'));
 
 		$container->registerServiceProvider(new Module);
 	}

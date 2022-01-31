@@ -40,21 +40,21 @@ class HtmlView extends BaseHtmlView
 	/**
 	 * The pagination object
 	 *
-	 * @var  \JPagination
+	 * @var  \Joomla\CMS\Pagination\Pagination
 	 */
 	protected $pagination;
 
 	/**
 	 * The model state
 	 *
-	 * @var  \JObject
+	 * @var   \Joomla\CMS\Object\CMSObject
 	 */
 	protected $state;
 
 	/**
 	 * Form object for search filters
 	 *
-	 * @var  \JForm
+	 * @var  \Joomla\CMS\Form\Form
 	 */
 	public $filterForm;
 
@@ -73,11 +73,19 @@ class HtmlView extends BaseHtmlView
 	protected $transitions = [];
 
 	/**
+	 * Is this view an Empty State
+	 *
+	 * @var   boolean
+	 * @since 4.0.0
+	 */
+	private $isEmptyState = false;
+
+	/**
 	 * Display the view
 	 *
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
 	 *
-	 * @return  mixed  A string if successful, otherwise an Error object.
+	 * @return  void
 	 */
 	public function display($tpl = null)
 	{
@@ -87,6 +95,12 @@ class HtmlView extends BaseHtmlView
 		$this->filterForm    = $this->get('FilterForm');
 		$this->activeFilters = $this->get('ActiveFilters');
 		$this->vote          = PluginHelper::isEnabled('content', 'vote');
+		$this->hits          = ComponentHelper::getParams('com_content')->get('record_hits', 1);
+
+		if (!\count($this->items) && $this->isEmptyState = $this->get('IsEmptyState'))
+		{
+			$this->setLayout('emptystate');
+		}
 
 		if (ComponentHelper::getParams('com_content')->get('workflow_enabled'))
 		{
@@ -96,7 +110,7 @@ class HtmlView extends BaseHtmlView
 		}
 
 		// Check for errors.
-		if ((count($errors = $this->get('Errors'))) || $this->transitions === false)
+		if (\count($errors = $this->get('Errors')) || $this->transitions === false)
 		{
 			throw new GenericDataException(implode("\n", $errors), 500);
 		}
@@ -131,7 +145,7 @@ class HtmlView extends BaseHtmlView
 			}
 		}
 
-		return parent::display($tpl);
+		parent::display($tpl);
 	}
 
 	/**
@@ -144,19 +158,19 @@ class HtmlView extends BaseHtmlView
 	protected function addToolbar()
 	{
 		$canDo = ContentHelper::getActions('com_content', 'category', $this->state->get('filter.category_id'));
-		$user  = Factory::getUser();
+		$user  = Factory::getApplication()->getIdentity();
 
 		// Get the toolbar object instance
 		$toolbar = Toolbar::getInstance('toolbar');
 
 		ToolbarHelper::title(Text::_('COM_CONTENT_ARTICLES_TITLE'), 'copy article');
 
-		if ($canDo->get('core.create') || count($user->getAuthorisedCategories('com_content', 'core.create')) > 0)
+		if ($canDo->get('core.create') || \count($user->getAuthorisedCategories('com_content', 'core.create')) > 0)
 		{
 			$toolbar->addNew('article.add');
 		}
 
-		if ($canDo->get('core.edit.state') || count($this->transitions))
+		if (!$this->isEmptyState && ($canDo->get('core.edit.state') || \count($this->transitions)))
 		{
 			$dropdown = $toolbar->dropdownButton('status-group')
 				->text('JTOOLBAR_CHANGE_STATUS')
@@ -167,7 +181,7 @@ class HtmlView extends BaseHtmlView
 
 			$childBar = $dropdown->getChildToolbar();
 
-			if (count($this->transitions))
+			if (\count($this->transitions))
 			{
 				$childBar->separatorButton('transition-headline')
 					->text('COM_CONTENT_RUN_TRANSITIONS')
@@ -210,7 +224,7 @@ class HtmlView extends BaseHtmlView
 
 				$childBar->checkin('articles.checkin')->listCheck(true);
 
-				if (!$this->state->get('filter.published') == ContentComponent::CONDITION_TRASHED)
+				if ($this->state->get('filter.published') != ContentComponent::CONDITION_TRASHED)
 				{
 					$childBar->trash('articles.trash')->listCheck(true);
 				}
@@ -228,7 +242,7 @@ class HtmlView extends BaseHtmlView
 			}
 		}
 
-		if ($this->state->get('filter.published') == ContentComponent::CONDITION_TRASHED && $canDo->get('core.delete'))
+		if (!$this->isEmptyState && $this->state->get('filter.published') == ContentComponent::CONDITION_TRASHED && $canDo->get('core.delete'))
 		{
 			$toolbar->delete('articles.delete')
 				->text('JTOOLBAR_EMPTY_TRASH')
@@ -241,6 +255,6 @@ class HtmlView extends BaseHtmlView
 			$toolbar->preferences('com_content');
 		}
 
-		$toolbar->help('JHELP_CONTENT_ARTICLE_MANAGER');
+		$toolbar->help('Articles');
 	}
 }

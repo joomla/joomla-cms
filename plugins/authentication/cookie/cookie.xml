@@ -13,8 +13,8 @@
 		<filename plugin="cookie">cookie.php</filename>
 	</files>
 	<languages>
-		<language tag="en-GB">en-GB.plg_authentication_cookie.ini</language>
-		<language tag="en-GB">en-GB.plg_authentication_cookie.sys.ini</language>
+		<language tag="en-GB">language/en-GB/plg_authentication_cookie.ini</language>
+		<language tag="en-GB">language/en-GB/plg_authentication_cookie.sys.ini</language>
 	</languages>
 	<config>
 		<fields name="params">

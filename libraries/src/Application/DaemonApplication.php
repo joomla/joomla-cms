@@ -96,7 +96,7 @@ abstract class DaemonApplication extends CliApplication
 	/**
 	 * Class constructor.
 	 *
-	 * @param   \JInputCli           $input       An optional argument to provide dependency injection for the application's
+	 * @param   Cli                  $input       An optional argument to provide dependency injection for the application's
 	 *                                            input object.  If the argument is a JInputCli object that object will become
 	 *                                            the application's input object, otherwise a default input object is created.
 	 * @param   Registry             $config      An optional argument to provide dependency injection for the application's
@@ -107,7 +107,6 @@ abstract class DaemonApplication extends CliApplication
 	 *                                            the application's event dispatcher, if it is null then the default event dispatcher
 	 *                                            will be created based on the application's loadDispatcher() method.
 	 *
-	 * @see     JApplicationBase::loadDispatcher()
 	 * @since   1.7.0
 	 */
 	public function __construct(Cli $input = null, Registry $config = null, DispatcherInterface $dispatcher = null)
@@ -265,9 +264,6 @@ abstract class DaemonApplication extends CliApplication
 	 */
 	public function loadConfiguration($data)
 	{
-		// Execute the parent load method.
-		parent::loadConfiguration($data);
-
 		/*
 		 * Setup some application metadata options.  This is useful if we ever want to write out startup scripts
 		 * or just have some sort of information available to share about things.
@@ -467,17 +463,17 @@ abstract class DaemonApplication extends CliApplication
 		}
 
 		// Change the user id for the process necessary.
-		if ($uid && (posix_getuid($file) != $uid) && (!@ posix_setuid($uid)))
+		if ($uid && (posix_getuid() != $uid) && (!@ posix_setuid($uid)))
 		{
-			Log::add('Unable to change user ownership of the proccess.', Log::ERROR);
+			Log::add('Unable to change user ownership of the process.', Log::ERROR);
 
 			return false;
 		}
 
 		// Change the group id for the process necessary.
-		if ($gid && (posix_getgid($file) != $gid) && (!@ posix_setgid($gid)))
+		if ($gid && (posix_getgid() != $gid) && (!@ posix_setgid($gid)))
 		{
-			Log::add('Unable to change group ownership of the proccess.', Log::ERROR);
+			Log::add('Unable to change group ownership of the process.', Log::ERROR);
 
 			return false;
 		}
@@ -809,15 +805,15 @@ abstract class DaemonApplication extends CliApplication
 		// Write the process id file out to disk.
 		if (!file_put_contents($file, $this->processId))
 		{
-			Log::add('Unable to write proccess id file: ' . $file, Log::ERROR);
+			Log::add('Unable to write process id file: ' . $file, Log::ERROR);
 
 			return false;
 		}
 
-		// Make sure the permissions for the proccess id file are accurate.
+		// Make sure the permissions for the process id file are accurate.
 		if (!chmod($file, 0644))
 		{
-			Log::add('Unable to adjust permissions for the proccess id file: ' . $file, Log::ERROR);
+			Log::add('Unable to adjust permissions for the process id file: ' . $file, Log::ERROR);
 
 			return false;
 		}

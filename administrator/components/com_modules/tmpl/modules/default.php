@@ -37,7 +37,7 @@ if ($saveOrder && !empty($this->items))
 		<?php echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
 		<?php if ($this->total > 0) : ?>
 			<table class="table" id="moduleList">
-				<caption id="captionTable" class="sr-only">
+				<caption class="visually-hidden">
 					<?php echo Text::_('COM_MODULES_TABLE_CAPTION'); ?>,
 							<span id="orderedBy"><?php echo Text::_('JGLOBAL_SORTED_BY'); ?> </span>,
 							<span id="filteredBy"><?php echo Text::_('JGLOBAL_FILTERED_BY'); ?></span>
@@ -50,7 +50,7 @@ if ($saveOrder && !empty($this->items))
 						<th scope="col" class="w-1 text-center d-none d-md-table-cell">
 							<?php echo HTMLHelper::_('searchtools.sort', '', 'a.ordering', $listDirn, $listOrder, null, 'asc', 'JGRID_HEADING_ORDERING', 'icon-sort'); ?>
 						</th>
-						<th scope="col" style="min-width:85px" class="w-1 text-center">
+						<th scope="col" class="w-1 text-center">
 							<?php echo HTMLHelper::_('searchtools.sort', 'JSTATUS', 'a.published', $listDirn, $listOrder); ?>
 						</th>
 						<th scope="col" class="title">
@@ -94,9 +94,7 @@ if ($saveOrder && !empty($this->items))
 				?>
 					<tr class="row<?php echo $i % 2; ?>" data-draggable-group="<?php echo $item->position ?: 'none'; ?>">
 						<td class="text-center">
-							<?php if ($item->enabled > 0) : ?>
-								<?php echo HTMLHelper::_('grid.id', $i, $item->id); ?>
-							<?php endif; ?>
+							<?php echo HTMLHelper::_('grid.id', $i, $item->id, false, 'cid', 'cb', $item->title); ?>
 						</td>
 						<td class="text-center d-none d-md-table-cell">
 							<?php
@@ -149,11 +147,11 @@ if ($saveOrder && !empty($this->items))
 						</th>
 						<td class="d-none d-md-table-cell">
 							<?php if ($item->position) : ?>
-								<span class="badge badge-info">
+								<span class="badge bg-info">
 									<?php echo $item->position; ?>
 								</span>
 							<?php else : ?>
-								<span class="badge badge-secondary">
+								<span class="badge bg-secondary">
 									<?php echo Text::_('JNONE'); ?>
 								</span>
 							<?php endif; ?>

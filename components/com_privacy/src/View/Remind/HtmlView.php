@@ -14,6 +14,7 @@ namespace Joomla\Component\Privacy\Site\View\Remind;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Object\CMSObject;
 use Joomla\Registry\Registry;
@@ -62,11 +63,11 @@ class HtmlView extends BaseHtmlView
 	 *
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
 	 *
-	 * @return  mixed  A string if successful, otherwise an Error object.
+	 * @return  void
 	 *
 	 * @see     BaseHtmlView::loadTemplate()
 	 * @since   3.9.0
-	 * @throws  Exception
+	 * @throws  \Exception
 	 */
 	public function display($tpl = null)
 	{
@@ -78,15 +79,15 @@ class HtmlView extends BaseHtmlView
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
-			throw new \JViewGenericdataexception(implode("\n", $errors), 500);
+			throw new GenericDataException(implode("\n", $errors), 500);
 		}
 
 		// Escape strings for HTML output
-		$this->pageclass_sfx = htmlspecialchars($this->params->get('pageclass_sfx'), ENT_COMPAT, 'UTF-8');
+		$this->pageclass_sfx = htmlspecialchars($this->params->get('pageclass_sfx', ''), ENT_COMPAT, 'UTF-8');
 
 		$this->prepareDocument();
 
-		return parent::display($tpl);
+		parent::display($tpl);
 	}
 
 	/**
@@ -98,13 +99,9 @@ class HtmlView extends BaseHtmlView
 	 */
 	protected function prepareDocument()
 	{
-		$app   = Factory::getApplication();
-		$menus = $app->getMenu();
-		$title = null;
-
 		// Because the application sets a default page title,
 		// we need to get it from the menu item itself
-		$menu = $menus->getActive();
+		$menu = Factory::getApplication()->getMenu()->getActive();
 
 		if ($menu)
 		{
@@ -115,22 +112,7 @@ class HtmlView extends BaseHtmlView
 			$this->params->def('page_heading', Text::_('COM_PRIVACY_VIEW_REMIND_PAGE_TITLE'));
 		}
 
-		$title = $this->params->get('page_title', '');
-
-		if (empty($title))
-		{
-			$title = $app->get('sitename');
-		}
-		elseif ($app->get('sitename_pagetitles', 0) == 1)
-		{
-			$title = Text::sprintf('JPAGETITLE', $app->get('sitename'), $title);
-		}
-		elseif ($app->get('sitename_pagetitles', 0) == 2)
-		{
-			$title = Text::sprintf('JPAGETITLE', $title, $app->get('sitename'));
-		}
-
-		$this->document->setTitle($title);
+		$this->setDocumentTitle($this->params->get('page_title', ''));
 
 		if ($this->params->get('menu-meta_description'))
 		{
@@ -139,7 +121,7 @@ class HtmlView extends BaseHtmlView
 
 		if ($this->params->get('robots'))
 		{
-			$this->document->setMetadata('robots', $this->params->get('robots'));
+			$this->document->setMetaData('robots', $this->params->get('robots'));
 		}
 	}
 }

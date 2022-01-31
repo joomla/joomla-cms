@@ -15,6 +15,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\User\User;
 use Joomla\CMS\User\UserHelper;
 use Joomla\Console\Command\AbstractCommand;
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Exception\InvalidOptionException;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -92,7 +93,7 @@ class AddUserToGroupCommand extends AbstractCommand
 		{
 			$this->ioStyle->error("The user " . $this->username . " does not exist!");
 
-			return 1;
+			return Command::FAILURE;
 		}
 
 		// Fetch user
@@ -115,17 +116,17 @@ class AddUserToGroupCommand extends AbstractCommand
 
 			if (UserHelper::addUserToGroup($user->id, $userGroup))
 			{
-				$this->ioStyle->success("Add '" . $user->username . "' to group '" . $result . "'!");
+				$this->ioStyle->success("Added '" . $user->username . "' to group '" . $result . "'!");
 			}
 			else
 			{
 				$this->ioStyle->error("Can't add '" . $user->username . "' to group '" . $result . "'!");
 
-				return 1;
+				return Command::FAILURE;
 			}
 		}
 
-		return 0;
+		return Command::SUCCESS;
 	}
 
 

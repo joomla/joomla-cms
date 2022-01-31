@@ -14,6 +14,8 @@ use Joomla\CMS\Access\Rules;
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Tag\TaggableTableInterface;
+use Joomla\CMS\Tag\TaggableTableTrait;
 use Joomla\CMS\Versioning\VersionableTableInterface;
 use Joomla\Database\DatabaseDriver;
 use Joomla\Database\ParameterType;
@@ -25,8 +27,10 @@ use Joomla\String\StringHelper;
  *
  * @since  1.5
  */
-class Content extends Table implements VersionableTableInterface
+class Content extends Table implements VersionableTableInterface, TaggableTableInterface
 {
+	use TaggableTableTrait;
+
 	/**
 	 * Indicates that columns fully support the NULL value in the database
 	 *
@@ -45,6 +49,7 @@ class Content extends Table implements VersionableTableInterface
 	public function __construct(DatabaseDriver $db)
 	{
 		$this->typeAlias = 'com_content.article';
+
 		parent::__construct('#__content', 'id', $db);
 
 		// Set the alias since the column is called state
@@ -389,7 +394,7 @@ class Content extends Table implements VersionableTableInterface
 	}
 
 	/**
-	 * Get the type alias for the history table
+	 * Get the type alias for UCM features
 	 *
 	 * @return  string  The alias as described above
 	 *
@@ -397,6 +402,6 @@ class Content extends Table implements VersionableTableInterface
 	 */
 	public function getTypeAlias()
 	{
-		return 'com_content.article';
+		return $this->typeAlias;
 	}
 }

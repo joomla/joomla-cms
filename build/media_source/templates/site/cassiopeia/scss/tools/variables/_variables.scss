@@ -1,0 +1,271 @@
+// Global
+$cassiopeia-container-main-bg:        hsl(0, 0%, 95%) !default;
+$cassiopeia-border-color:             hsl(210, 14%, 89%) !default;
+$cassiopeia-box-shadow:               1px 1px 4px hsla(0, 0%, 0%, .1) !default;
+$cassiopeia-block-header-bg:          hsl(0, 0%, 96%) !default;
+$cassiopeia-header-grad:              linear-gradient(135deg, var(--cassiopeia-color-primary) 0%, var(--cassiopeia-color-hover) 100%);
+$cassiopeia-header-grad-rtl:          linear-gradient(135deg, var(--cassiopeia-color-hover) 0%, var(--cassiopeia-color-primary) 100%);
+$cassiopeia-inverted-text-color:      var(--cassiopeia-color-hover);
+
+// Remove prefix added in BS5 for compat with Joomla beta's shipped with Betas
+$variable-prefix:                     "";
+
+// Color system
+
+// Standard
+$standard-color-primary:              hsl(220, 67%, 20%);
+$standard-color-link:                 hsl(220, 67%, 40%);
+$standard-color-hover:                hsl(242, 30%, 36%);
+
+// Alternative
+$alternative-color-primary:           hsl(351, 54%, 37%);
+$alternative-color-link:              hsl(207, 49%, 37%);
+$alternative-color-hover:             hsl(351, 33%, 44%);
+
+$white:                               hsl(0, 0%, 100%);
+$gray-100:                            hsl(210, 17%, 98%);
+$gray-200:                            hsl(210, 16%, 93%);
+$gray-300:                            hsl(210, 14%, 89%);
+$gray-400:                            hsl(210, 14%, 83%);
+$gray-500:                            hsl(210, 11%, 71%);
+$gray-600:                            hsl(210, 7%, 46%);
+$gray-700:                            hsl(210, 9%, 31%);
+$gray-800:                            hsl(210, 10%, 23%);
+$gray-900:                            hsl(210, 11%, 15%);
+$black:                               hsl(0, 0%, 0%);
+
+$grays: (
+  100:                                $gray-100,
+  200:                                $gray-200,
+  300:                                $gray-300,
+  400:                                $gray-400,
+  500:                                $gray-500,
+  600:                                $gray-600,
+  700:                                $gray-700,
+  800:                                $gray-800,
+  900:                                $gray-900
+);
+
+$blue:                                hsl(240, 98%, 17%);
+$indigo:                              hsl(263, 90%, 51%);
+$purple:                              hsl(261, 51%, 51%);
+$pink:                                hsl(332, 79%, 58%);
+$red:                                 hsl(3, 75%, 37%);
+$orange:                              hsl(27, 98%, 54%);
+$yellow:                              hsl(34, 100%, 34%);
+$green:                               hsl(120, 32%, 39%);
+$teal:                                hsl(194, 66%, 61%);
+$cyan:                                hsl(207, 49%, 37%);
+
+$colors: (
+  "blue":                             $blue,
+  "indigo":                           $indigo,
+  "purple":                           $purple,
+  "pink":                             $pink,
+  "red":                              $red,
+  "orange":                           $orange,
+  "yellow":                           $yellow,
+  "green":                            $green,
+  "teal":                             $teal,
+  "cyan":                             $cyan,
+  "white":                            $white
+);
+
+$primary:                             var(--cassiopeia-color-primary);
+$primaryBS:                           $blue;
+$secondary:                           $gray-600;
+$success:                             $green;
+$info:                                $cyan;
+$warning:                             $yellow;
+$danger:                              $red;
+$light:                               $gray-100;
+$dark:                                $gray-800;
+
+
+$theme-colors: (
+  primary:                            $primaryBS,
+  secondary:                          $secondary,
+  success:                            $success,
+  info:                               $info,
+  warning:                            $warning,
+  danger:                             $danger,
+  light:                              $light,
+  dark:                               $dark
+);
+
+$colors: (
+  card-bg:                         rgba(255, 255, 255, .7),
+  bluegray:                        #b2bfcd,
+  lightbluegray:                   #f6f9fc,
+  toolbar-bg:                      $white,
+  success-border:                  var(--success),
+  info-border:                     var(--info),
+  warning-border:                  var(--warning),
+  danger-border:                   var(--danger),
+  border:                          $gray-400,
+  "white":                         $white, // the key here must be in quotes to avoid scss compilation warnings.
+  white-offset:                    #fefefe,
+  focus:                           #39f,
+  focus-shadow:                    0 0 0 .2rem #eaeaea,
+  toggle-color:                    $white, //used in sidebar
+  template-sidebar-bg:                 var(--template-bg-dark-80),
+  template-sidebar-font-color:         $white,
+  template-sidebar-link-color:         $white,
+  template-bg-light:                   #f0f4fb, //light background color, frontend dashboard background
+  template-text-light:                 $white,
+  template-special-color:              #132f53,
+  template-link-color:                 #2a69b8,
+  template-link-hover-color:           darken(#2a69b8, 20%),
+  template-contrast:                   #2a69b8,
+  template-bg-dark:                    hsl(var(--hue), 40%, 20%),
+  template-bg-dark-3:                  hsl(var(--hue), 40%, 97%),
+  template-bg-dark-5:                  hsl(var(--hue), 40%, 95%),
+  template-bg-dark-7:                  hsl(var(--hue), 40%, 93%),
+  template-bg-dark-10:                 hsl(var(--hue), 40%, 90%),
+  template-bg-dark-15:                 hsl(var(--hue), 40%, 85%),
+  template-bg-dark-20:                 hsl(var(--hue), 40%, 80%),
+  template-bg-dark-30:                 hsl(var(--hue), 40%, 70%),
+  template-bg-dark-40:                 hsl(var(--hue), 40%, 60%),
+  template-bg-dark-50:                 hsl(var(--hue), 40%, 50%),
+  template-bg-dark-60:                 hsl(var(--hue), 40%, 40%),
+  template-bg-dark-65:                 hsl(var(--hue), 40%, 35%),
+  template-bg-dark-70:                 hsl(var(--hue), 40%, 30%),
+  template-bg-dark-75:                 hsl(var(--hue), 40%, 25%),
+  template-bg-dark-80:                 hsl(var(--hue), 40%, 20%),
+  template-bg-dark-90:                 hsl(var(--hue), 40%, 10%)
+);
+
+// Links
+$link-color:                          var(--cassiopeia-color-link);
+$link-hover-color:                    var(--cassiopeia-color-hover);
+
+// Breadcrumbs
+$breadcrumb-active-color:             $gray-700;
+
+// Grid columns
+$grid-gutter-width:                   1em !default;
+$cassiopeia-grid-gutter:              $grid-gutter-width;
+
+// Components
+$fa-font-path:                        "../../../media/vendor/fontawesome-free/webfonts";
+
+// Treeselect
+$treeselect-line-height:              2.2rem;
+
+// MetisMenu
+$metismenu:                           true !default;
+
+// Toolbar
+$cassiopeia-toolbar-line-height:      1.8rem;
+
+// Typography
+$font-family-sans-serif:             -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji" !default;
+$font-family-base:                    var(--cassiopeia-font-family-body, $font-family-sans-serif);
+
+// Icons
+$jicon-css-prefix:                    icon !default;
+$fa-css-prefix:                       fa !default;
+
+// Tables
+$table-bg-scale:                      -80% !default;
+
+// This should be the same as bootstrap's default. But we override primary colour from $primary (which is a CSS Var)
+// to the SCSS variable matching
+$table-variants: (
+  "primary":    shift-color($standard-color-primary, $table-bg-scale),
+  "secondary":  shift-color($secondary, $table-bg-scale),
+  "success":    shift-color($success, $table-bg-scale),
+  "info":       shift-color($info, $table-bg-scale),
+  "warning":    shift-color($warning, $table-bg-scale),
+  "danger":     shift-color($danger, $table-bg-scale),
+  "light":      $light,
+  "dark":       $dark,
+);
+
+// Forms
+$input-padding:                       .6rem 1rem;
+$input-border:                        solid 1px $gray-400;
+$input-btn-padding-y:                 .6rem;
+$input-btn-padding-x:                 1rem;
+$input-max-width:                     100%;
+$input-focus-border-color:            tint-color($standard-color-primary, 50%);
+
+$cassiopeia-input-focus-shadow:       0 0 0 .2rem hsla(0, 0%, 0%, .1);
+
+$form-select-indicator-padding:     3rem;
+$form-select-bg:                    $gray-200;
+$form-select-bg-size:               116rem;
+$form-select-bg-size-sm:            75rem;
+$form-select-indicator:             url("../images/select-bg.svg");
+$form-select-indicator-rtl:         url("../images/select-bg-rtl.svg");
+$form-select-indicator-active:      url("../../../images/select-bg.svg");
+$form-select-indicator-active-rtl:  url("../../../images/select-bg-rtl.svg");
+$form-select-background:            $form-select-indicator no-repeat right center / $form-select-bg-size; // Used so we can have multiple background elements (e.g., arrow and feedback icon)
+$form-select-background-rtl:        $form-select-indicator-rtl no-repeat left center / $form-select-bg-size; // Used so we can have multiple background elements (e.g., arrow and feedback icon)
+$form-select-multiple-padding-y:    .3rem;
+
+$form-range-thumb-active-bg:        tint-color($standard-color-primary, 70%);
+
+// Z-index master list
+$zindex-negative:                     -1;
+$zindex-actions:                      auto;
+$zindex-toolbar:                      1000;
+$zindex-sidebar:                      1010;
+$zindex-header:                       1020;
+$zindex-alerts:                       1030;
+$zindex-modal-backdrop:               1040;
+$zindex-modal:                        1050;
+$zindex-popover:                      1060;
+$zindex-tooltip:                      1070;
+$zindex-mobile-bottom:                8000;
+$zindex-mobile-toggle:                9999;
+$zindex-mobile-menu:                  9000;
+
+// Navs
+$nav-link-padding-y:                  .5rem;
+
+// Navs
+$cassiopeia-tabs-header-bg:           $cassiopeia-block-header-bg;
+$cassiopeia-tabs-active-bg:           hsla(0, 0%, 0%, .3);
+$cassiopeia-tabs-active-highlight:    $primaryBS;
+
+// Navbar
+$nav-link-height:                     1.5rem + $nav-link-padding-y * 2;
+
+// Cards
+$cassiopeia-card-title-bg:            $cassiopeia-block-header-bg;
+$cassiopeia-card-title-icon-bg:       $cassiopeia-block-header-bg;
+$cassiopeia-card-title-icon-bg-hover: scale-color($cassiopeia-card-title-bg, $lightness: 2%);
+$card-bg-color-light:                 $gray-100;
+$card-bg-color-dark:                  var(--cassiopeia-color-primary);
+$card-border-color:                   $cassiopeia-border-color;
+
+// Badges
+$badge-default-bg:                    $gray-600;
+
+// Modals
+$modal-header-height:                 3rem;
+
+// Accordion
+$accordion-button-active-bg:          tint-color($standard-color-primary, 90%);
+$accordion-button-active-color:       shade-color($standard-color-primary, 10%);
+
+// Alerts
+$state-success-text:                  $white !default;
+$state-success-bg:                    $success !default;
+$state-success-border:                scale-color($success, $lightness: -5%) !default;
+
+$state-info-text:                     $white !default;
+$state-info-bg:                       $info !default;
+$state-info-border:                   scale-color($info, $lightness: -7%) !default;
+
+$state-warning-text:                  $white !default;
+$state-warning-bg:                    $warning !default;
+$state-warning-border:                scale-color($warning, $lightness: -5%) !default;
+
+$state-danger-text:                   $white !default;
+$state-danger-bg:                     $danger !default;
+$state-danger-border:                 scale-color($danger, $lightness: -5%) !default;
+
+// Mark element
+$mark-bg: #fbeea8 !default;

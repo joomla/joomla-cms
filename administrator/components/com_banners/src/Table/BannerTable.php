@@ -389,6 +389,6 @@ class BannerTable extends Table implements VersionableTableInterface
 	 */
 	public function getTypeAlias()
 	{
-		return 'com_banners.banner';
+		return $this->typeAlias;
 	}
 }

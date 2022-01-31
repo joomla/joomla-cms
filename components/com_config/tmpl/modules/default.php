@@ -47,34 +47,18 @@ if (Multilanguage::isEnabled())
 <form action="<?php echo Route::_('index.php?option=com_config'); ?>" method="post" name="adminForm" id="modules-form" class="form-validate">
 	<div class="row">
 		<div class="col-md-12">
-
-			<button type="button" class="btn btn-primary" data-submit-task="modules.apply">
-				<span class="icon-check" aria-hidden="true"></span>
-				<?php echo Text::_('JAPPLY'); ?>
-			</button>
-			<button type="button" class="btn btn-primary" data-submit-task="modules.save">
-				<span class="icon-check" aria-hidden="true"></span>
-				<?php echo Text::_('JSAVE'); ?>
-			</button>
-			<button type="button" class="btn btn-danger" data-submit-task="modules.cancel">
-				<span class="icon-times" aria-hidden="true"></span>
-				<?php echo Text::_('JCANCEL'); ?>
-			</button>
-
-			<hr>
-
 			<legend><?php echo Text::_('COM_CONFIG_MODULES_SETTINGS_TITLE'); ?></legend>
 
 			<div>
 				<?php echo Text::_('COM_CONFIG_MODULES_MODULE_NAME'); ?>
-				<span class="badge badge-secondary"><?php echo $this->item['title']; ?></span>
+				<span class="badge bg-secondary"><?php echo $this->item['title']; ?></span>
 				&nbsp;&nbsp;
 				<?php echo Text::_('COM_CONFIG_MODULES_MODULE_TYPE'); ?>
-				<span class="badge badge-secondary"><?php echo $this->item['module']; ?></span>
+				<span class="badge bg-secondary"><?php echo $this->item['module']; ?></span>
 			</div>
 			<hr>
 
-			<div class="row">
+			<div class="row mb-4">
 				<div class="col-md-12">
 
 					<div class="control-group">
@@ -186,9 +170,21 @@ if (Multilanguage::isEnabled())
 				<input type="hidden" name="return" value="<?php echo Factory::getApplication()->input->get('return', null, 'base64'); ?>">
 				<input type="hidden" name="task" value="">
 				<?php echo HTMLHelper::_('form.token'); ?>
-
 			</div>
-
+			<div class="mb-2">
+			<button type="button" class="btn btn-primary" data-submit-task="modules.apply">
+				<span class="icon-check" aria-hidden="true"></span>
+				<?php echo Text::_('JAPPLY'); ?>
+			</button>
+			<button type="button" class="btn btn-primary" data-submit-task="modules.save">
+				<span class="icon-check" aria-hidden="true"></span>
+				<?php echo Text::_('JSAVE'); ?>
+			</button>
+			<button type="button" class="btn btn-danger" data-submit-task="modules.cancel">
+				<span class="icon-times" aria-hidden="true"></span>
+				<?php echo Text::_('JCANCEL'); ?>
+			</button>
+			</div>
 		</div>
 	</div>
 </form>

@@ -9,6 +9,7 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Text;
 
 extract($displayData);
@@ -16,7 +17,7 @@ extract($displayData);
 /**
  * Layout variables
  * -----------------
- * @var   JForm   $form       The form instance for render the section
+ * @var   Form    $form       The form instance for render the section
  * @var   string  $basegroup  The base group name
  * @var   string  $group      Current group name
  * @var   array   $buttons    Array of the buttons that will be rendered
@@ -26,7 +27,7 @@ extract($displayData);
 <tr class="subform-repeatable-group" data-base-name="<?php echo $basegroup; ?>" data-group="<?php echo $group; ?>">
 	<?php foreach ($form->getGroup('') as $field) : ?>
 		<td data-column="<?php echo strip_tags($field->label); ?>">
-			<?php echo $field->renderField(array('hiddenLabel' => true)); ?>
+			<?php echo $field->renderField(array('hiddenLabel' => true, 'hiddenDescription' => true)); ?>
 		</td>
 	<?php endforeach; ?>
 	<?php if (!empty($buttons)) : ?>

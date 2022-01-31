@@ -61,7 +61,7 @@ $alt = preg_replace('/[^a-zA-Z0-9_\-]/', '_', $name);
 	<?php echo $required ? 'required' : ''; ?>
 	<?php echo $autofocus ? 'autofocus' : ''; ?>
 	<?php echo $dataAttribute; ?>>
-	<legend class="sr-only"><?php echo $label; ?></legend>
+	<legend class="visually-hidden"><?php echo $label; ?></legend>
 
 	<?php foreach ($options as $i => $option) : ?>
 		<?php

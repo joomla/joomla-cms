@@ -65,6 +65,11 @@ if (!defined('JPATH_ADMINISTRATOR'))
 	define('JPATH_ADMINISTRATOR', JPATH_ROOT . '/administrator');
 }
 
+if (!defined('JPATH_API'))
+{
+	define('JPATH_API', JPATH_ROOT . '/api');
+}
+
 if (!defined('JPATH_INSTALLATION'))
 {
 	define('JPATH_INSTALLATION', JPATH_ROOT . '/installation');
@@ -121,4 +126,4 @@ spl_autoload_register([new \Joomla\CMS\Autoload\ClassLoader($loader), 'loadClass
 require_once JPATH_LIBRARIES . '/classmap.php';
 
 // Define the Joomla version if not already defined.
-defined('JVERSION') or define('JVERSION', (new JVersion)->getShortVersion());
+defined('JVERSION') or define('JVERSION', (new \Joomla\CMS\Version)->getShortVersion());

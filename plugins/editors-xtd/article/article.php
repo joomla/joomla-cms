@@ -35,7 +35,7 @@ class PlgButtonArticle extends CMSPlugin
 	 *
 	 * @param   string  $name  The name of the button to add
 	 *
-	 * @return  CMSObject  The button options as JObject
+	 * @return  CMSObject|void  The button options as CMSObject, void if ACL check fails.
 	 *
 	 * @since   1.5
 	 */
@@ -61,15 +61,15 @@ class PlgButtonArticle extends CMSPlugin
 		$link = 'index.php?option=com_content&amp;view=articles&amp;layout=modal&amp;tmpl=component&amp;'
 			. Session::getFormToken() . '=1&amp;editor=' . $name;
 
-		$button           = new CMSObject;
-		$button->modal    = true;
-		$button->link     = $link;
-		$button->text     = Text::_('PLG_ARTICLE_BUTTON_ARTICLE');
-		$button->name     = 'file-add';
-		$button->iconSVG  = '<svg viewBox="0 0 32 32" width="24" height="24"><path d="M28 24v-4h-4v4h-4v4h4v4h4v-4h4v-4zM2 2h18v6h6v10h2v-10l-8-'
+		$button = new CMSObject;
+		$button->modal   = true;
+		$button->link    = $link;
+		$button->text    = Text::_('PLG_ARTICLE_BUTTON_ARTICLE');
+		$button->name    = $this->_type . '_' . $this->_name;
+		$button->icon    = 'file-add';
+		$button->iconSVG = '<svg viewBox="0 0 32 32" width="24" height="24"><path d="M28 24v-4h-4v4h-4v4h4v4h4v-4h4v-4zM2 2h18v6h6v10h2v-10l-8-'
 								. '8h-20v32h18v-2h-16z"></path></svg>';
-		$button->realName = 'PlgButtonArticle';
-		$button->options  = [
+		$button->options = [
 			'height'     => '300px',
 			'width'      => '800px',
 			'bodyHeight' => '70',

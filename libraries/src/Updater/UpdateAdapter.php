@@ -10,6 +10,7 @@ namespace Joomla\CMS\Updater;
 
 \defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Adapter\AdapterInstance;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Http\HttpFactory;
 use Joomla\CMS\Language\Text;
@@ -18,14 +19,12 @@ use Joomla\CMS\Version;
 use Joomla\Database\ParameterType;
 use Joomla\Registry\Registry;
 
-\JLoader::import('joomla.base.adapterinstance');
-
 /**
  * UpdateAdapter class.
  *
  * @since  1.7.0
  */
-abstract class UpdateAdapter extends \JAdapterInstance
+abstract class UpdateAdapter extends AdapterInstance
 {
 	/**
 	 * Resource handle for the XML Parser
@@ -46,7 +45,7 @@ abstract class UpdateAdapter extends \JAdapterInstance
 	/**
 	 * ID of update site
 	 *
-	 * @var    string
+	 * @var    integer
 	 * @since  3.0.0
 	 */
 	protected $updateSiteId = 0;
@@ -98,7 +97,7 @@ abstract class UpdateAdapter extends \JAdapterInstance
 	/**
 	 * Gets the reference to the current direct parent
 	 *
-	 * @return  object
+	 * @return  string
 	 *
 	 * @since   1.7.0
 	 */
@@ -212,7 +211,7 @@ abstract class UpdateAdapter extends \JAdapterInstance
 	 *
 	 * @param   array  $options  The update options, see findUpdate() in children classes
 	 *
-	 * @return  boolean|\JHttpResponse  False if we can't connect to the site, JHttpResponse otherwise
+	 * @return  \Joomla\CMS\Http\Response|bool  False if we can't connect to the site, HTTP Response object otherwise
 	 *
 	 * @throws  \Exception
 	 */

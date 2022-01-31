@@ -15,6 +15,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\User\User;
 use Joomla\CMS\User\UserHelper;
 use Joomla\Console\Command\AbstractCommand;
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Exception\InvalidOptionException;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -134,7 +135,7 @@ class RemoveUserFromGroupCommand extends AbstractCommand
 						. $result . " needs at least one active user!"
 					);
 
-					return 1;
+					return Command::FAILURE;
 				}
 			}
 
@@ -142,20 +143,20 @@ class RemoveUserFromGroupCommand extends AbstractCommand
 			{
 				$this->ioStyle->error("Can't remove '" . $user->username . "' from group '" . $result . "'! Every user needs at least one group");
 
-				return 1;
+				return Command::FAILURE;
 			}
 
 			if (!UserHelper::removeUserFromGroup($user->id, $userGroup))
 			{
 				$this->ioStyle->error("Can't remove '" . $user->username . "' from group '" . $result . "'!");
 
-				return 1;
+				return Command::FAILURE;
 			}
 
 			$this->ioStyle->success("Removed '" . $user->username . "' from group '" . $result . "'!");
 		}
 
-		return 0;
+		return Command::SUCCESS;
 	}
 
 	/**

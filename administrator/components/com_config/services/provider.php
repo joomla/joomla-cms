@@ -9,12 +9,14 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Component\Router\RouterFactoryInterface;
 use Joomla\CMS\Dispatcher\ComponentDispatcherFactoryInterface;
 use Joomla\CMS\Extension\ComponentInterface;
-use Joomla\CMS\Extension\MVCComponent;
 use Joomla\CMS\Extension\Service\Provider\ComponentDispatcherFactory;
 use Joomla\CMS\Extension\Service\Provider\MVCFactory;
+use Joomla\CMS\Extension\Service\Provider\RouterFactory;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
+use Joomla\Component\Config\Administrator\Extension\ConfigComponent;
 use Joomla\DI\Container;
 use Joomla\DI\ServiceProviderInterface;
 
@@ -38,14 +40,16 @@ return new class implements ServiceProviderInterface
 	{
 		$container->registerServiceProvider(new MVCFactory('\\Joomla\\Component\\Config'));
 		$container->registerServiceProvider(new ComponentDispatcherFactory('\\Joomla\\Component\\Config'));
+		$container->registerServiceProvider(new RouterFactory('\\Joomla\\Component\\Config'));
 
 		$container->set(
 			ComponentInterface::class,
 			function (Container $container)
 			{
-				$component = new MVCComponent($container->get(ComponentDispatcherFactoryInterface::class));
+				$component = new ConfigComponent($container->get(ComponentDispatcherFactoryInterface::class));
 
 				$component->setMVCFactory($container->get(MVCFactoryInterface::class));
+				$component->setRouterFactory($container->get(RouterFactoryInterface::class));
 
 				return $component;
 			}

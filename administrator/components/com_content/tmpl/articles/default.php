@@ -69,7 +69,7 @@ $js = <<<JS
 	  var elements = [].slice.call(document.querySelectorAll('.article-status'));
 
 	  elements.forEach(function (element) {
-	    element.addEventListener('click', function(event) {
+		element.addEventListener('click', function(event) {
 			event.stopPropagation();
 		});
 	  });
@@ -102,12 +102,12 @@ $assoc = Associations::isEnabled();
 				?>
 				<?php if (empty($this->items)) : ?>
 					<div class="alert alert-info">
-						<span class="icon-info-circle" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('INFO'); ?></span>
+						<span class="icon-info-circle" aria-hidden="true"></span><span class="visually-hidden"><?php echo Text::_('INFO'); ?></span>
 						<?php echo Text::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
 					</div>
 				<?php else : ?>
 					<table class="table itemList" id="articleList">
-						<caption id="captionTable" class="sr-only">
+						<caption class="visually-hidden">
 							<?php echo Text::_('COM_CONTENT_ARTICLES_TABLE_CAPTION'); ?>,
 							<span id="orderedBy"><?php echo Text::_('JGLOBAL_SORTED_BY'); ?> </span>,
 							<span id="filteredBy"><?php echo Text::_('JGLOBAL_FILTERED_BY'); ?></span>
@@ -135,10 +135,10 @@ $assoc = Associations::isEnabled();
 									<?php echo HTMLHelper::_('searchtools.sort', 'JGLOBAL_TITLE', 'a.title', $listDirn, $listOrder); ?>
 								</th>
 								<th scope="col" class="w-10 d-none d-md-table-cell">
-									<?php echo HTMLHelper::_('searchtools.sort',  'JGRID_HEADING_ACCESS', 'a.access', $listDirn, $listOrder); ?>
+									<?php echo HTMLHelper::_('searchtools.sort', 'JGRID_HEADING_ACCESS', 'a.access', $listDirn, $listOrder); ?>
 								</th>
 								<th scope="col" class="w-10 d-none d-md-table-cell">
-									<?php echo HTMLHelper::_('searchtools.sort',  'JAUTHOR', 'a.created_by', $listDirn, $listOrder); ?>
+									<?php echo HTMLHelper::_('searchtools.sort', 'JAUTHOR', 'a.created_by', $listDirn, $listOrder); ?>
 								</th>
 								<?php if ($assoc) : ?>
 									<th scope="col" class="w-5 d-none d-md-table-cell">
@@ -153,9 +153,11 @@ $assoc = Associations::isEnabled();
 								<th scope="col" class="w-10 d-none d-md-table-cell text-center">
 									<?php echo HTMLHelper::_('searchtools.sort', 'COM_CONTENT_HEADING_DATE_' . strtoupper($orderingColumn), 'a.' . $orderingColumn, $listDirn, $listOrder); ?>
 								</th>
-								<th scope="col" class="w-3 d-none d-lg-table-cell text-center">
-									<?php echo HTMLHelper::_('searchtools.sort', 'JGLOBAL_HITS', 'a.hits', $listDirn, $listOrder); ?>
-								</th>
+								<?php if ($this->hits) : ?>
+									<th scope="col" class="w-3 d-none d-lg-table-cell text-center">
+										<?php echo HTMLHelper::_('searchtools.sort', 'JGLOBAL_HITS', 'a.hits', $listDirn, $listOrder); ?>
+									</th>
+								<?php endif; ?>
 								<?php if ($this->vote) : ?>
 									<th scope="col" class="w-3 d-none d-md-table-cell text-center">
 										<?php echo HTMLHelper::_('searchtools.sort', 'JGLOBAL_VOTES', 'rating_count', $listDirn, $listOrder); ?>
@@ -169,13 +171,13 @@ $assoc = Associations::isEnabled();
 								</th>
 							</tr>
 						</thead>
-						<tbody <?php if ($saveOrder) :?> class="js-draggable" data-url="<?php echo $saveOrderingUrl; ?>" data-direction="<?php echo strtolower($listDirn); ?>" data-nested="true"<?php endif; ?>>
+						<tbody<?php if ($saveOrder) : ?> class="js-draggable" data-url="<?php echo $saveOrderingUrl; ?>" data-direction="<?php echo strtolower($listDirn); ?>" data-nested="true"<?php endif; ?>>
 						<?php foreach ($this->items as $i => $item) :
 							$item->max_ordering = 0;
-							$canEdit    = $user->authorise('core.edit', 'com_content.article.' . $item->id);
-							$canCheckin = $user->authorise('core.manage', 'com_checkin') || $item->checked_out == $userId || is_null($item->checked_out);
-							$canEditOwn = $user->authorise('core.edit.own', 'com_content.article.' . $item->id) && $item->created_by == $userId;
-							$canChange  = $user->authorise('core.edit.state', 'com_content.article.' . $item->id) && $canCheckin;
+							$canEdit          = $user->authorise('core.edit',       'com_content.article.' . $item->id);
+							$canCheckin       = $user->authorise('core.manage',     'com_checkin') || $item->checked_out == $userId || is_null($item->checked_out);
+							$canEditOwn       = $user->authorise('core.edit.own',   'com_content.article.' . $item->id) && $item->created_by == $userId;
+							$canChange        = $user->authorise('core.edit.state', 'com_content.article.' . $item->id) && $canCheckin;
 							$canEditCat       = $user->authorise('core.edit',       'com_content.category.' . $item->catid);
 							$canEditOwnCat    = $user->authorise('core.edit.own',   'com_content.category.' . $item->catid) && $item->category_uid == $userId;
 							$canEditParCat    = $user->authorise('core.edit',       'com_content.category.' . $item->parent_category_id);
@@ -187,8 +189,7 @@ $assoc = Associations::isEnabled();
 							$transition_ids = ArrayHelper::toInteger($transition_ids);
 
 							?>
-							<tr class="row<?php echo $i % 2; ?>"
-								data-draggable-group="<?php echo $item->catid; ?>"
+							<tr class="row<?php echo $i % 2; ?>" data-draggable-group="<?php echo $item->catid; ?>"
 								data-transitions="<?php echo implode(',', $transition_ids); ?>"
 							>
 								<td class="text-center">
@@ -214,26 +215,27 @@ $assoc = Associations::isEnabled();
 									<?php endif; ?>
 								</td>
 								<?php if ($workflow_enabled) : ?>
-								<td class="article-stage">
-									<div class="d-flex align-items-center tbody-icon small">
-									<?php
-									$options = [
-										'transitions' => $transitions,
-										'title' => Text::_($item->stage_title),
-										'tip_content' => Text::sprintf('JWORKFLOW', Text::_($item->workflow_title))
-									];
+								<td class="article-stage text-center">
+								<?php
+								$options = [
+									'transitions' => $transitions,
+									'title' => Text::_($item->stage_title),
+									'tip_content' => Text::sprintf('JWORKFLOW', Text::_($item->workflow_title)),
+									'id' => 'workflow-' . $item->id,
+									'task' => 'articles.runTransition'
+								];
 
-									echo (new TransitionButton($options))
-										->render(0, $i);
-									?>
-									</div>
+								echo (new TransitionButton($options))
+									->render(0, $i);
+								?>
 								</td>
 								<?php endif; ?>
 								<td class="text-center d-none d-md-table-cell">
 								<?php
 									$options = [
 										'task_prefix' => 'articles.',
-										'disabled' => $workflow_featured || !$canChange
+										'disabled' => $workflow_featured || !$canChange,
+										'id' => 'featured-' . $item->id
 									];
 
 									echo (new FeaturedButton)
@@ -244,7 +246,8 @@ $assoc = Associations::isEnabled();
 								<?php
 									$options = [
 										'task_prefix' => 'articles.',
-										'disabled' => $workflow_state || !$canChange
+										'disabled' => $workflow_state || !$canChange,
+										'id' => 'state-' . $item->id
 									];
 
 									echo (new PublishedButton)->render((int) $item->state, $i, $options, $item->publish_up, $item->publish_down);
@@ -261,66 +264,66 @@ $assoc = Associations::isEnabled();
 										<?php else : ?>
 											<span title="<?php echo Text::sprintf('JFIELD_ALIAS_LABEL', $this->escape($item->alias)); ?>"><?php echo $this->escape($item->title); ?></span>
 										<?php endif; ?>
-											<div class="small break-word">
-												<?php if (empty($item->note)) : ?>
-													<?php echo Text::sprintf('JGLOBAL_LIST_ALIAS', $this->escape($item->alias)); ?>
-												<?php else : ?>
-													<?php echo Text::sprintf('JGLOBAL_LIST_ALIAS_NOTE', $this->escape($item->alias), $this->escape($item->note)); ?>
-												<?php endif; ?>
-											</div>
-											<div class="small">
-												<?php
-												$ParentCatUrl = Route::_('index.php?option=com_categories&task=category.edit&id=' . $item->parent_category_id . '&extension=com_content');
-												$CurrentCatUrl = Route::_('index.php?option=com_categories&task=category.edit&id=' . $item->catid . '&extension=com_content');
-												$EditCatTxt = Text::_('COM_CONTENT_EDIT_CATEGORY');
-												echo Text::_('JCATEGORY') . ': ';
+										<div class="small break-word">
+											<?php if (empty($item->note)) : ?>
+												<?php echo Text::sprintf('JGLOBAL_LIST_ALIAS', $this->escape($item->alias)); ?>
+											<?php else : ?>
+												<?php echo Text::sprintf('JGLOBAL_LIST_ALIAS_NOTE', $this->escape($item->alias), $this->escape($item->note)); ?>
+											<?php endif; ?>
+										</div>
+										<div class="small">
+											<?php
+											$ParentCatUrl = Route::_('index.php?option=com_categories&task=category.edit&id=' . $item->parent_category_id . '&extension=com_content');
+											$CurrentCatUrl = Route::_('index.php?option=com_categories&task=category.edit&id=' . $item->catid . '&extension=com_content');
+											$EditCatTxt = Text::_('COM_CONTENT_EDIT_CATEGORY');
+											echo Text::_('JCATEGORY') . ': ';
+											if ($item->category_level != '1') :
+												if ($item->parent_category_level != '1') :
+													echo ' &#187; ';
+												endif;
+											endif;
+											if (Factory::getLanguage()->isRtl())
+											{
+												if ($canEditCat || $canEditOwnCat) :
+													echo '<a href="' . $CurrentCatUrl . '" title="' . $EditCatTxt . '">';
+												endif;
+												echo $this->escape($item->category_title);
+												if ($canEditCat || $canEditOwnCat) :
+													echo '</a>';
+												endif;
 												if ($item->category_level != '1') :
-													if ($item->parent_category_level != '1') :
-														echo ' &#187; ';
+													echo ' &#171; ';
+													if ($canEditParCat || $canEditOwnParCat) :
+														echo '<a href="' . $ParentCatUrl . '" title="' . $EditCatTxt . '">';
+													endif;
+													echo $this->escape($item->parent_category_title);
+													if ($canEditParCat || $canEditOwnParCat) :
+														echo '</a>';
 													endif;
 												endif;
-												if (Factory::getLanguage()->isRtl())
-												{
-													if ($canEditCat || $canEditOwnCat) :
-														echo '<a href="' . $CurrentCatUrl . '" title="' . $EditCatTxt . '">';
+											}
+											else
+											{
+												if ($item->category_level != '1') :
+													if ($canEditParCat || $canEditOwnParCat) :
+														echo '<a href="' . $ParentCatUrl . '" title="' . $EditCatTxt . '">';
 													endif;
-													echo $this->escape($item->category_title);
-													if ($canEditCat || $canEditOwnCat) :
+													echo $this->escape($item->parent_category_title);
+													if ($canEditParCat || $canEditOwnParCat) :
 														echo '</a>';
 													endif;
-													if ($item->category_level != '1') :
-														echo ' &#171; ';
-														if ($canEditParCat || $canEditOwnParCat) :
-															echo '<a href="' . $ParentCatUrl . '" title="' . $EditCatTxt . '">';
-														endif;
-														echo $this->escape($item->parent_category_title);
-														if ($canEditParCat || $canEditOwnParCat) :
-															echo '</a>';
-														endif;
-													endif;
-												}
-												else
-												{
-													if ($item->category_level != '1') :
-														if ($canEditParCat || $canEditOwnParCat) :
-															echo '<a href="' . $ParentCatUrl . '" title="' . $EditCatTxt . '">';
-														endif;
-														echo $this->escape($item->parent_category_title);
-														if ($canEditParCat || $canEditOwnParCat) :
-															echo '</a>';
-														endif;
-														echo ' &#187; ';
-													endif;
-													if ($canEditCat || $canEditOwnCat) :
-														echo '<a href="' . $CurrentCatUrl . '" title="' . $EditCatTxt . '">';
-													endif;
-													echo $this->escape($item->category_title);
-													if ($canEditCat || $canEditOwnCat) :
-														echo '</a>';
-													endif;
-												}
-												?>
-											</div>
+													echo ' &#187; ';
+												endif;
+												if ($canEditCat || $canEditOwnCat) :
+													echo '<a href="' . $CurrentCatUrl . '" title="' . $EditCatTxt . '">';
+												endif;
+												echo $this->escape($item->category_title);
+												if ($canEditCat || $canEditOwnCat) :
+													echo '</a>';
+												endif;
+											}
+											?>
+										</div>
 									</div>
 								</th>
 								<td class="small d-none d-md-table-cell">
@@ -356,20 +359,22 @@ $assoc = Associations::isEnabled();
 									echo $date > 0 ? HTMLHelper::_('date', $date, Text::_('DATE_FORMAT_LC4')) : '-';
 									?>
 								</td>
-								<td class="d-none d-lg-table-cell text-center">
-									<span class="badge badge-info">
-										<?php echo (int) $item->hits; ?>
-									</span>
-								</td>
+								<?php if ($this->hits) : ?>
+									<td class="d-none d-lg-table-cell text-center">
+										<span class="badge bg-info">
+											<?php echo (int) $item->hits; ?>
+										</span>
+									</td>
+								<?php endif; ?>
 								<?php if ($this->vote) : ?>
 									<td class="d-none d-md-table-cell text-center">
-										<span class="badge badge-success">
-										<?php echo (int) $item->rating_count; ?>
+										<span class="badge bg-success">
+											<?php echo (int) $item->rating_count; ?>
 										</span>
 									</td>
 									<td class="d-none d-md-table-cell text-center">
-										<span class="badge badge-warning">
-										<?php echo (int) $item->rating; ?>
+										<span class="badge bg-warning text-dark">
+											<?php echo (int) $item->rating; ?>
 										</span>
 									</td>
 								<?php endif; ?>
@@ -377,7 +382,7 @@ $assoc = Associations::isEnabled();
 									<?php echo (int) $item->id; ?>
 								</td>
 							</tr>
-							<?php endforeach; ?>
+						<?php endforeach; ?>
 						</tbody>
 					</table>
 

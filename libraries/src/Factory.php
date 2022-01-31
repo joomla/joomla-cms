@@ -18,7 +18,6 @@ use Joomla\CMS\Date\Date;
 use Joomla\CMS\Document\Document;
 use Joomla\CMS\Document\FactoryInterface;
 use Joomla\CMS\Filesystem\Stream;
-use Joomla\CMS\Input\Input;
 use Joomla\CMS\Language\Language;
 use Joomla\CMS\Language\LanguageFactoryInterface;
 use Joomla\CMS\Log\Log;
@@ -68,7 +67,7 @@ abstract class Factory
 	 * Global container object
 	 *
 	 * @var    Container
-	 * @since  4.0
+	 * @since  4.0.0
 	 */
 	public static $container = null;
 
@@ -213,7 +212,7 @@ abstract class Factory
 	 *
 	 * @return  Container
 	 *
-	 * @since   4.0
+	 * @since   4.0.0
 	 */
 	public static function getContainer(): Container
 	{
@@ -418,8 +417,7 @@ abstract class Factory
 		@trigger_error(
 			sprintf(
 				'%1$s() is deprecated. Load the database from the dependency injection container.',
-				__METHOD__,
-				__CLASS__
+				__METHOD__
 			),
 			E_USER_DEPRECATED
 		);
@@ -569,7 +567,7 @@ abstract class Factory
 	 *
 	 * @return  Container
 	 *
-	 * @since   4.0
+	 * @since   4.0.0
 	 */
 	protected static function createContainer(): Container
 	{
@@ -596,49 +594,6 @@ abstract class Factory
 			->registerServiceProvider(new \Joomla\CMS\Service\Provider\User);
 
 		return $container;
-	}
-
-	/**
-	 * Create a session object
-	 *
-	 * @param   array  $options  An array containing session options
-	 *
-	 * @return  Session object
-	 *
-	 * @since       1.7.0
-	 * @deprecated  5.0  Load the session service from the dependency injection container or via $app->getSession()
-	 */
-	protected static function createSession(array $options = array())
-	{
-		@trigger_error(
-			sprintf(
-				'%1$s() is deprecated. The session should be a service in the dependency injection container.',
-				__METHOD__
-			),
-			E_USER_DEPRECATED
-		);
-
-		// Get the Joomla configuration settings
-		$conf    = self::getConfig();
-		$handler = $conf->get('session_handler', 'none');
-
-		// Config time is in minutes
-		$options['expire'] = ($conf->get('lifetime')) ? $conf->get('lifetime') * 60 : 900;
-
-		// The session handler needs a JInput object, we can inject it without having a hard dependency to an application instance
-		$input = self::$application ? self::getApplication()->input : new Input;
-
-		$sessionHandler = new \JSessionHandlerJoomla($options);
-		$sessionHandler->input = $input;
-
-		$session = Session::getInstance($handler, $options, $sessionHandler);
-
-		if ($session->getState() === 'expired')
-		{
-			$session->restart();
-		}
-
-		return $session;
 	}
 
 	/**

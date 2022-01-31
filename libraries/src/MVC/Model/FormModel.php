@@ -139,7 +139,15 @@ abstract class FormModel extends BaseDatabaseModel implements FormFactoryAwareIn
 
 			if (!$table->load($pk))
 			{
-				$this->setError($table->getError());
+				if ($table->getError() === false)
+				{
+					// There was no error returned, but false indicates that the row did not exist in the db, so probably previously deleted.
+					$this->setError(Text::_('JLIB_APPLICATION_ERROR_NOT_EXIST'));
+				}
+				else
+				{
+					$this->setError($table->getError());
+				}
 
 				return false;
 			}

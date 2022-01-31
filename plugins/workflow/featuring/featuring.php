@@ -81,7 +81,7 @@ class PlgWorkflowFeaturing extends CMSPlugin implements SubscriberInterface
 			'onTableBeforeStore'              => 'onTableBeforeStore',
 			'onWorkflowAfterTransition'       => 'onWorkflowAfterTransition',
 			'onWorkflowBeforeTransition'      => 'onWorkflowBeforeTransition',
-			'onWorkflowFunctionalityUsed'     => 'onWorkflowFunctionalityUsed'
+			'onWorkflowFunctionalityUsed'     => 'onWorkflowFunctionalityUsed',
 		];
 	}
 
@@ -143,7 +143,7 @@ class PlgWorkflowFeaturing extends CMSPlugin implements SubscriberInterface
 
 		$options = $form->getField($fieldname)->options;
 
-		$value = isset($data->$fieldname) ? $data->$fieldname : $form->getValue($fieldname, null, 0);
+		$value = $data->$fieldname ?? $form->getValue($fieldname, null, 0);
 
 		$text = '-';
 
@@ -212,23 +212,23 @@ class PlgWorkflowFeaturing extends CMSPlugin implements SubscriberInterface
 			return true;
 		}
 
-		// List of releated batch functions we need to hide
+		// List of related batch functions we need to hide
 		$states = [
 			'featured',
-			'unfeatured'
+			'unfeatured',
 		];
 
 		$js = "
 			document.addEventListener('DOMContentLoaded', function()
 			{
-				var dropdown = document.getElementById('toolbar-dropdown-status-group');
+				var dropdown = document.getElementById('toolbar-status-group');
 
 				if (!dropdown)
 				{
 					return;
 				}
 
-				" . \json_encode($states) . ".forEach((action) => {
+				" . json_encode($states) . ".forEach((action) => {
 					var button = document.getElementById('status-group-children-' + action);
 
 					if (button)
@@ -281,7 +281,7 @@ class PlgWorkflowFeaturing extends CMSPlugin implements SubscriberInterface
 
 		// Trigger the change state event.
 		$eventResult = $this->app->getDispatcher()->dispatch(
-			'onAfterDisplay',
+			'onContentBeforeChangeFeatured',
 			AbstractEvent::create(
 				'onContentBeforeChangeFeatured',
 				[
@@ -296,7 +296,7 @@ class PlgWorkflowFeaturing extends CMSPlugin implements SubscriberInterface
 			)
 		);
 
-		// Release whitelist, the job is done
+		// Release allowed pks, the job is done
 		$this->app->set('plgWorkflowFeaturing.' . $context, []);
 
 		if ($eventResult->getArgument('abort'))
@@ -342,7 +342,7 @@ class PlgWorkflowFeaturing extends CMSPlugin implements SubscriberInterface
 		$options = [
 			'ignore_request'               => true,
 			// We already have triggered onContentBeforeChangeFeatured, so use our own
-			'event_before_change_featured' => 'onWorkflowBeforeChangeFeatured'
+			'event_before_change_featured' => 'onWorkflowBeforeChangeFeatured',
 		];
 
 		$modelName = $component->getModelName($context);
@@ -372,7 +372,7 @@ class PlgWorkflowFeaturing extends CMSPlugin implements SubscriberInterface
 			return true;
 		}
 
-		// We have whitelisted the pks, so we're the one who triggered
+		// We have allowed the pks, so we're the one who triggered
 		// With onWorkflowBeforeTransition => free pass
 		if ($this->app->get('plgWorkflowFeaturing.' . $extension) === $pks)
 		{
@@ -513,7 +513,7 @@ class PlgWorkflowFeaturing extends CMSPlugin implements SubscriberInterface
 	 */
 	protected function isSupported($context)
 	{
-		if (!$this->checkWhiteAndBlacklist($context) || !$this->checkExtensionSupport($context, $this->supportFunctionality))
+		if (!$this->checkAllowedAndForbiddenlist($context) || !$this->checkExtensionSupport($context, $this->supportFunctionality))
 		{
 			return false;
 		}

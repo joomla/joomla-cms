@@ -34,7 +34,7 @@ class DisplayController extends BaseController
 	/**
 	 * Method to get The Cache Size
 	 *
-	 * @since   4.0
+	 * @since   4.0.0
 	 */
 	public function getQuickiconContent()
 	{

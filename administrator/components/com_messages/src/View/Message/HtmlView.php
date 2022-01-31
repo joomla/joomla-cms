@@ -26,9 +26,9 @@ use Joomla\CMS\User\User;
 class HtmlView extends BaseHtmlView
 {
 	/**
-	 * The \JForm object
+	 * The Form object
 	 *
-	 * @var  \JForm
+	 * @var  \Joomla\CMS\Form\Form
 	 */
 	protected $form;
 
@@ -42,7 +42,7 @@ class HtmlView extends BaseHtmlView
 	/**
 	 * The model state
 	 *
-	 * @var  \JObject
+	 * @var  \Joomla\CMS\Object\CMSObject
 	 */
 	protected $state;
 
@@ -66,6 +66,10 @@ class HtmlView extends BaseHtmlView
 		{
 			throw new GenericDataException(implode("\n", $errors), 500);
 		}
+		elseif ($this->getLayout() !== 'edit' && empty($this->item->message_id))
+		{
+			throw new GenericDataException(Text::_('JERROR_ALERTNOAUTHOR'), 403);
+		}
 
 		parent::display($tpl);
 		$this->addToolbar();
@@ -80,26 +84,30 @@ class HtmlView extends BaseHtmlView
 	 */
 	protected function addToolbar()
 	{
+		$app = Factory::getApplication();
+
 		if ($this->getLayout() == 'edit')
 		{
-			Factory::getApplication()->input->set('hidemainmenu', true);
+			$app->input->set('hidemainmenu', true);
 			ToolbarHelper::title(Text::_('COM_MESSAGES_WRITE_PRIVATE_MESSAGE'), 'envelope-open-text new-privatemessage');
 			ToolbarHelper::custom('message.save', 'envelope', '', 'COM_MESSAGES_TOOLBAR_SEND', false);
-			ToolbarHelper::cancel('message.cancel', 'JTOOLBAR_CLOSE');
-			ToolbarHelper::help('JHELP_COMPONENTS_MESSAGING_WRITE');
+			ToolbarHelper::cancel('message.cancel');
+			ToolbarHelper::help('Private_Messages:_Write');
 		}
 		else
 		{
 			ToolbarHelper::title(Text::_('COM_MESSAGES_VIEW_PRIVATE_MESSAGE'), 'envelope inbox');
 			$sender = User::getInstance($this->item->user_id_from);
 
-			if ($sender->authorise('core.admin') || $sender->authorise('core.manage', 'com_messages') && $sender->authorise('core.login.admin'))
+			if ($sender->id !== $app->getIdentity()->get('id') && ($sender->authorise('core.admin')
+				|| $sender->authorise('core.manage', 'com_messages') && $sender->authorise('core.login.admin'))
+			)
 			{
 				ToolbarHelper::custom('message.reply', 'redo', '', 'COM_MESSAGES_TOOLBAR_REPLY', false);
 			}
 
 			ToolbarHelper::cancel('message.cancel');
-			ToolbarHelper::help('JHELP_COMPONENTS_MESSAGING_READ');
+			ToolbarHelper::help('Private_Messages:_Read');
 		}
 	}
 }

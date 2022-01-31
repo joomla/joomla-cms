@@ -56,7 +56,7 @@ class HtmlView extends BaseHtmlView
 	/**
 	 * Selected item type properties.
 	 *
-	 * @var    Registry
+	 * @var    \Joomla\Registry\Registry
 	 *
 	 * @since  3.7.0
 	 */
@@ -244,6 +244,6 @@ class HtmlView extends BaseHtmlView
 			ToolbarHelper::preferences('com_associations');
 		}
 
-		ToolbarHelper::help('JHELP_COMPONENTS_ASSOCIATIONS');
+		ToolbarHelper::help('Multilingual_Associations');
 	}
 }

@@ -82,7 +82,7 @@ class AssociationController extends FormController
 
 			foreach ($ids as $key => $id)
 			{
-				AssociationsHelper::getItem($extensionName, $typeName, $id)->checkin();
+				AssociationsHelper::getItem($extensionName, $typeName, $id)->checkIn();
 			}
 		}
 

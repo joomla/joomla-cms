@@ -7,7 +7,7 @@
 --
 
 --
--- Step 1: Convert all tables to utf8mb4 chracter set with utf8mb4_unicode_ci collation.
+-- Step 1: Convert all tables to utf8mb4 character set with utf8mb4_unicode_ci collation.
 --
 
 ALTER TABLE `#__core_log_searches` CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;

@@ -15,13 +15,12 @@ use Joomla\CMS\Language\Associations;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
+use Joomla\CMS\Workflow\WorkflowServiceInterface;
 
 /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
 $wa = $this->document->getWebAssetManager();
-$wa->getRegistry()->addExtensionRegistryFile('com_contenthistory');
 $wa->useScript('keepalive')
-	->useScript('form.validate')
-	->useScript('com_contenthistory.admin-history-versions');
+	->useScript('form.validate');
 
 $app = Factory::getApplication();
 $input = $app->input;
@@ -32,6 +31,19 @@ $extensionassoc = array_key_exists('item_associations', $this->form->getFieldset
 
 // Fieldsets to not automatically render by /layouts/joomla/edit/params.php
 $this->ignore_fieldsets = ['jmetadata', 'item_associations'];
+
+$c = Factory::getApplication()->bootComponent($this->state->get('category.extension'));
+
+if ($c instanceof WorkflowServiceInterface)
+{
+	$wcontext = $c->getCategoryWorkflowContext($this->state->get('category.section'));
+
+	if (!$c->isWorkflowActive($wcontext))
+	{
+		$this->ignore_fieldsets[] = 'workflow';
+	}
+}
+
 $this->useCoreUI = true;
 
 // In case of modal
@@ -40,28 +52,20 @@ $layout  = $isModal ? 'modal' : 'edit';
 $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=component' : '';
 ?>
 
-<form action="<?php echo Route::_('index.php?option=com_categories&extension=' . $input->getCmd('extension', 'com_content') . '&layout=' . $layout . $tmpl . '&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="item-form" class="form-validate">
+<form action="<?php echo Route::_('index.php?option=com_categories&extension=' . $input->getCmd('extension', 'com_content') . '&layout=' . $layout . $tmpl . '&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="item-form" aria-label="<?php echo Text::_('COM_CATEGORIES_FORM_TITLE_' . ((int) $this->item->id === 0 ? 'NEW' : 'EDIT'), true); ?>" class="form-validate">
 
 	<?php echo LayoutHelper::render('joomla.edit.title_alias', $this); ?>
 
-	<div>
-		<?php echo HTMLHelper::_('uitab.startTabSet', 'myTab', array('active' => 'general')); ?>
+	<div class="main-card">
+		<?php echo HTMLHelper::_('uitab.startTabSet', 'myTab', ['active' => 'general', 'recall' => true, 'breakpoint' => 768]); ?>
 		<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'general', Text::_('JCATEGORY')); ?>
 		<div class="row">
 			<div class="col-lg-9">
-				<div class="card">
-					<div class="card-body">
-						<?php echo $this->form->getLabel('description'); ?>
-						<?php echo $this->form->getInput('description'); ?>
-					</div>
-				</div>
+				<?php echo $this->form->getLabel('description'); ?>
+				<?php echo $this->form->getInput('description'); ?>
 			</div>
 			<div class="col-lg-3">
-				<div class="card card-block">
-					<div class="card-body">
-					<?php echo LayoutHelper::render('joomla.edit.global', $this); ?>
-					</div>
-				</div>
+				<?php echo LayoutHelper::render('joomla.edit.global', $this); ?>
 			</div>
 		</div>
 
@@ -120,6 +124,7 @@ $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=c
 
 		<?php echo $this->form->getInput('extension'); ?>
 		<input type="hidden" name="task" value="">
+		<input type="hidden" name="return" value="<?php echo $input->getBase64('return'); ?>">
 		<input type="hidden" name="forcedLanguage" value="<?php echo $input->get('forcedLanguage', '', 'cmd'); ?>">
 		<?php echo HTMLHelper::_('form.token'); ?>
 	</div>

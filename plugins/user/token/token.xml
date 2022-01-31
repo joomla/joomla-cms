@@ -16,8 +16,8 @@
 		<folder>src</folder>
 	</files>
 	<languages>
-		<language tag="en-GB">plg_user_token.ini</language>
-		<language tag="en-GB">plg_user_token.sys.ini</language>
+		<language tag="en-GB">language/en-GB/plg_user_token.ini</language>
+		<language tag="en-GB">language/en-GB/plg_user_token.sys.ini</language>
 	</languages>
 	<config>
 		<fields name="params">
@@ -27,9 +27,10 @@
 					type="UserGroupList"
 					label="PLG_USER_TOKEN_ALLOWEDUSERGROUPS_LABEL"
 					description="PLG_USER_TOKEN_ALLOWEDUSERGROUPS_DESC"
+					layout="joomla.form.field.list-fancy-select"
+					multiple="true"
 					checksuperusergroup="0"
 					default="8"
-					multiple="true"
 				/>
 			</fieldset>
 		</fields>

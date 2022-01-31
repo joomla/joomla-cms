@@ -230,7 +230,7 @@ $params = $this->params;
 </div>
 <div class="com-content-archive__navigation w-100">
 	<?php if ($this->params->def('show_pagination_results', 1)) : ?>
-		<p class="com-content-archive__counter counter float-right pt-3 pr-2">
+		<p class="com-content-archive__counter counter float-end pt-3 pe-2">
 			<?php echo $this->pagination->getPagesCounter(); ?>
 		</p>
 	<?php endif; ?>

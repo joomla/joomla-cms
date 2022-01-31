@@ -34,7 +34,7 @@ class RemindModel extends FormModel
 	 * @param   array    $data      An optional array of data for the form to interrogate.
 	 * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
 	 *
-	 * @return  \JForm     A Form object on success, false on failure
+	 * @return  Form|bool A Form object on success, false on failure
 	 *
 	 * @since   1.6
 	 */
@@ -77,6 +77,7 @@ class RemindModel extends FormModel
 	 * @return  void
 	 *
 	 * @since   1.6
+	 *
 	 * @throws  \Exception
 	 */
 	protected function populateState()
@@ -148,7 +149,7 @@ class RemindModel extends FormModel
 		}
 		catch (\RuntimeException $e)
 		{
-			$this->setError(Text::sprintf('COM_USERS_DATABASE_ERROR', $e->getMessage()), 500);
+			$this->setError(Text::sprintf('COM_USERS_DATABASE_ERROR', $e->getMessage()));
 
 			return false;
 		}
@@ -209,7 +210,7 @@ class RemindModel extends FormModel
 		// Check for an error.
 		if ($return !== true)
 		{
-			$this->setError(Text::_('COM_USERS_MAIL_FAILED'), 500);
+			$this->setError(Text::_('COM_USERS_MAIL_FAILED'));
 
 			return false;
 		}

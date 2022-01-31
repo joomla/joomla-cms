@@ -19,6 +19,8 @@ if (!$list)
 ?>
 <div class="mod-articlesnews newsflash">
 	<?php foreach ($list as $item) : ?>
-		<?php require ModuleHelper::getLayoutPath('mod_articles_news', '_item'); ?>
+		<div class="mod-articlesnews__item" itemscope itemtype="https://schema.org/Article">
+			<?php require ModuleHelper::getLayoutPath('mod_articles_news', '_item'); ?>
+		</div>
 	<?php endforeach; ?>
 </div>

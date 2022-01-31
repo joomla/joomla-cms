@@ -116,7 +116,7 @@ class UserModel extends AdminModel
 	 * @param   array    $data      An optional array of data for the form to interrogate.
 	 * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
 	 *
-	 * @return  mixed  A \JForm object on success, false on failure
+	 * @return  Form|bool  A Form object on success, false on failure
 	 *
 	 * @since   1.6
 	 */
@@ -130,8 +130,10 @@ class UserModel extends AdminModel
 			return false;
 		}
 
+		$user = Factory::getUser();
+
 		// If the user needs to change their password, mark the password fields as required
-		if (Factory::getUser()->requireReset)
+		if ($user->requireReset)
 		{
 			$form->setFieldAttribute('password', 'required', 'true');
 			$form->setFieldAttribute('password2', 'required', 'true');
@@ -143,12 +145,31 @@ class UserModel extends AdminModel
 			$form->setFieldAttribute('language', 'type', 'frontend_language', 'params');
 		}
 
-		$userId = $form->getValue('id');
+		$userId = (int) $form->getValue('id');
 
 		// The user should not be able to set the requireReset value on their own account
-		if ((int) $userId === (int) Factory::getUser()->id)
+		if ($userId === (int) $user->id)
 		{
 			$form->removeField('requireReset');
+		}
+
+		/**
+		 * If users without core.manage permission editing their own account, remove some fields which they should
+		 * not be allowed to change and prevent them to change user name if configured
+		 */
+		if (!$user->authorise('core.manage', 'com_users') && (int) $user->id === $userId)
+		{
+			if (!ComponentHelper::getParams('com_users')->get('change_login_name'))
+			{
+				$form->setFieldAttribute('username', 'required', 'false');
+				$form->setFieldAttribute('username', 'readonly', 'true');
+				$form->setFieldAttribute('username', 'description', 'COM_USERS_USER_FIELD_NOCHANGE_USERNAME_DESC');
+			}
+
+			$form->removeField('lastResetTime');
+			$form->removeField('resetCount');
+			$form->removeField('sendEmail');
+			$form->removeField('block');
 		}
 
 		return $form;
@@ -180,13 +201,14 @@ class UserModel extends AdminModel
 	/**
 	 * Override Joomla\CMS\MVC\Model\AdminModel::preprocessForm to ensure the correct plugin group is loaded.
 	 *
-	 * @param   \JForm  $form   A \JForm object.
+	 * @param   Form    $form   A Form object.
 	 * @param   mixed   $data   The data expected for the form.
 	 * @param   string  $group  The name of the plugin group to import (defaults to "content").
 	 *
 	 * @return  void
 	 *
 	 * @since   1.6
+	 *
 	 * @throws  \Exception if there is an error in the form event.
 	 */
 	protected function preprocessForm(Form $form, $data, $group = 'user')
@@ -257,7 +279,7 @@ class UserModel extends AdminModel
 		}
 
 		// Handle the two factor authentication setup
-		if (array_key_exists('twofactor', $data))
+		if (isset($data['twofactor']['method']))
 		{
 			$twoFactorMethod = $data['twofactor']['method'];
 
@@ -321,6 +343,12 @@ class UserModel extends AdminModel
 			$this->setError($user->getError());
 
 			return false;
+		}
+
+		// Destroy all active sessions for the user after changing the password or blocking him
+		if ($data['password2'] || $data['block'])
+		{
+			UserHelper::destroyUserSessions($user->id, true);
 		}
 
 		$this->setState('user.id', $user->id);
@@ -492,6 +520,11 @@ class UserModel extends AdminModel
 							$this->setError($table->getError());
 
 							return false;
+						}
+
+						if ($table->block)
+						{
+							UserHelper::destroyUserSessions($table->id);
 						}
 
 						// Trigger the after save event
@@ -1010,22 +1043,45 @@ class UserModel extends AdminModel
 		// Get the secret key, yes the thing that is saved in the configuration file
 		$key = $this->getOtpConfigEncryptionKey();
 
+		// Cleanup old encryption methods, and convert to using openssl as the adapter to use.
 		if (strpos($config, '{') === false)
 		{
-			$openssl         = new Aes($key, 256);
-			$mcrypt          = new Aes($key, 256, 'cbc', null, 'mcrypt');
+			/**
+			 * This part of the if statement block of code has been reviewed just before 4.0.0 release and determined that it is wrong,
+			 * and has never worked.
+			 *
+			 * The aim is/was to migrate away from mcrypt encrypted data by decrypting the data and then re-encrypting
+			 * it with the openssl adapter, but there has been a bug for a long time in the constructing of the
+			 * mcrypt Aes class, where the number of parameters passed were wrong, meaning it was actually returning
+			 * an openssl adapter not an mcrypt one.
+			 *
+			 * Rather than fix this just before 4.0.0 release, we will deprecate this block and remove it in 5.0.0
+			 *
+			 * @deprecated 4.0.0 Will be removed in 5.0.0 - always use the openssl (default) adapter with the Aes class from now on.
+			 */
 
+			// We use the openssl adapter by default now.
+			$openssl = new Aes($key, 256);
+
+			/**
+			 * Deal with legacy mcrypt encrypted data
+			 * NOTE THIS NEXT LINE IS WRONG and contains wrong number of params, thus returns the openssl adapter and not the mcrypt adapter.
+			 */
+			$mcrypt = new Aes($key, 256, 'cbc', null, 'mcrypt');
+
+			// Attempt to decrypt using the mcrypt adapter, under normal circumstances this should fail (We no longer use mcrypt adapter to encrypt).
 			$decryptedConfig = $mcrypt->decryptString($config);
 
+			// If we were able to decrypt using the mcrypt adapter, { will be in the config (JSON String), so lets update to openssl adapter use.
 			if (strpos($decryptedConfig, '{') !== false)
 			{
-				// Data encrypted with mcrypt
+				// Data encrypted with mcrypt, decrypt it, and then convert to openssl.
 				$decryptedOtep = $mcrypt->decryptString($encryptedOtep);
 				$encryptedOtep = $openssl->encryptString($decryptedOtep);
 			}
 			else
 			{
-				// Config data seems to be save encrypted, this can happen with 3.6.3 and openssl, lets get the data
+				// Config data seems to be save encrypted, this can happen with 3.6.3 and openssl, lets get the data.
 				$decryptedConfig = $openssl->decryptString($config);
 			}
 

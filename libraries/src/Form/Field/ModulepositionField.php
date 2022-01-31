@@ -50,10 +50,9 @@ class ModulepositionField extends TextField
 	 */
 	public function __get($name)
 	{
-		switch ($name)
+		if ($name === 'clientId')
 		{
-			case 'clientId':
-				return $this->clientId;
+			return $this->clientId;
 		}
 
 		return parent::__get($name);
@@ -154,8 +153,8 @@ class ModulepositionField extends TextField
 		// The current user display field.
 		$html[] = '<div class="input-append">';
 		$html[] = parent::getInput()
-			. '<a class="btn" title="' . Text::_('COM_MODULES_CHANGE_POSITION_TITLE') . '"  href="' . $link
-			. '"  data-toggle="modal" data-target="#modulePositionModal">'
+			. '<a class="btn" title="' . Text::_('COM_MODULES_CHANGE_POSITION_TITLE') . '" href="' . $link
+			. '" data-bs-toggle="modal" data-bs-target="#modulePositionModal">'
 			. Text::_('COM_MODULES_CHANGE_POSITION_BUTTON') . '</a>';
 
 		$html[] = HTMLHelper::_(
@@ -168,8 +167,8 @@ class ModulepositionField extends TextField
 				'width'  => '100%',
 				'modalWidth'  => '800',
 				'bodyHeight'  => '450',
-				'footer' => '<button type="button" class="btn btn-secondary" data-dismiss="modal" aria-hidden="true">'
-					. Text::_("JLIB_HTML_BEHAVIOR_CLOSE") . '</button>'
+				'footer' => '<button type="button" class="btn btn-secondary" data-bs-dismiss="modal" aria-hidden="true">'
+					. Text::_('JLIB_HTML_BEHAVIOR_CLOSE') . '</button>'
 			)
 		);
 		$html[] = '</div>';
