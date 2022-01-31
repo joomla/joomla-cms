@@ -28,7 +28,7 @@
 			type="logtype"
 			label="COM_ACTIONLOGS_LOG_EXTENSIONS_LABEL"
 			multiple="true"
-			default="com_banners,com_cache,com_categories,com_checkin,com_config,com_contact,com_content,com_installer,com_media,com_menus,com_messages,com_modules,com_newsfeeds,com_plugins,com_redirect,com_tags,com_templates,com_users"
+			default="com_banners,com_cache,com_categories,com_checkin,com_config,com_contact,com_content,com_installer,com_media,com_menus,com_messages,com_modules,com_newsfeeds,com_plugins,com_redirect,com_scheduler,com_tags,com_templates,com_users"
 		/>
 		<field
 			name="loggable_api"
@@ -56,6 +56,17 @@
 			<option value="DELETE">COM_ACTIONLOGS_FIELD_VALUE_DELETE</option>
 			<option value="PUT">COM_ACTIONLOGS_FIELD_VALUE_PUT</option>
 			<option value="PATCH">COM_ACTIONLOGS_FIELD_VALUE_PATCH</option>
+		</field>
+		<field
+			name="date_relative"
+			type="radio"
+			label="COM_ACTIONLOGS_DATE_RELATIVE_LABEL"
+			layout="joomla.form.field.radio.switcher"
+			default="1"
+			filter="integer"
+			>
+			<option value="0">JHIDE</option>
+			<option value="1">JSHOW</option>
 		</field>
 	</fieldset>
 </config>

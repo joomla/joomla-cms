@@ -23,7 +23,6 @@ $wa->useScript('core')
 	->useScript('com_joomlaupdate.default')
 	->useScript('bootstrap.popover');
 
-HTMLHelper::_('behavior.core');
 Text::script('COM_INSTALLER_MSG_INSTALL_PLEASE_SELECT_A_PACKAGE', true);
 Text::script('COM_INSTALLER_MSG_WARNINGS_UPLOADFILETOOBIG', true);
 Text::script('JGLOBAL_SELECTED_UPLOAD_FILE_SIZE', true);
@@ -77,7 +76,7 @@ $currentJoomlaVersion = isset($this->updateInfo['current']) ? $this->updateInfo[
 		<?php $maxSize = HTMLHelper::_('number.bytes', $maxSizeBytes); ?>
 		<input id="max_upload_size" name="max_upload_size" type="hidden" value="<?php echo $maxSizeBytes; ?>"/>
 		<div class="form-text"><?php echo Text::sprintf('JGLOBAL_MAXIMUM_UPLOAD_SIZE_LIMIT', '&#x200E;' . $maxSize); ?></div>
-		<div class="form-text hidden" id="file_size" name="file_size"><?php echo Text::sprintf('JGLOBAL_SELECTED_UPLOAD_FILE_SIZE', '&#x200E;' . ''); ?></div>
+		<div class="form-text hidden" id="file_size"><?php echo Text::sprintf('JGLOBAL_SELECTED_UPLOAD_FILE_SIZE', '&#x200E;' . ''); ?></div>
 		<div class="alert alert-warning hidden" id="max_upload_size_warn">
 			<?php echo Text::_('COM_INSTALLER_MSG_WARNINGS_UPLOADFILETOOBIG'); ?>
 		</div>

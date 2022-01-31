@@ -54,13 +54,15 @@ module.exports.codeMirror = async (packageName, version) => {
     'media/vendor/codemirror/lib/addons.js',
   );
 
-  await concatFiles([
-    'media/vendor/codemirror/addon/display/fullscreen.css',
-    'media/vendor/codemirror/addon/fold/foldgutter.css',
-    'media/vendor/codemirror/addon/search/matchesonscrollbar.css',
-    'media/vendor/codemirror/addon/scroll/simplescrollbars.css',
-  ],
-  'media/vendor/codemirror/lib/addons.css');
+  await concatFiles(
+    [
+      'media/vendor/codemirror/addon/display/fullscreen.css',
+      'media/vendor/codemirror/addon/fold/foldgutter.css',
+      'media/vendor/codemirror/addon/search/matchesonscrollbar.css',
+      'media/vendor/codemirror/addon/scroll/simplescrollbars.css',
+    ],
+    'media/vendor/codemirror/lib/addons.css',
+  );
 
   // Update the XML file for Codemirror
   let codemirrorXml = await readFile(`${RootPath}/plugins/editors/codemirror/codemirror.xml`, { encoding: 'utf8' });

@@ -146,9 +146,7 @@ window.Joomla = window.Joomla || {};
       return;
     }
 
-    publicKey.challenge = Uint8Array.from(
-      window.atob(base64url2base64(publicKey.challenge)), (c) => c.charCodeAt(0),
-    );
+    publicKey.challenge = Uint8Array.from(window.atob(base64url2base64(publicKey.challenge)), (c) => c.charCodeAt(0));
 
     if (publicKey.allowCredentials) {
       publicKey.allowCredentials = publicKey.allowCredentials.map((data) => {
