@@ -18,11 +18,10 @@ use Joomla\CMS\Router\Route;
 
 /** @var \Joomla\Component\Privacy\Administrator\View\Consents\HtmlView $this */
 
-HTMLHelper::_('behavior.multiselect');
-
 /** @var \Joomla\CMS\WebAsset\WebAssetManager $wa */
 $wa = $this->document->getWebAssetManager();
-$wa->useScript('table.columns');
+$wa->useScript('table.columns')
+	->useScript('multiselect');
 
 $user       = Factory::getUser();
 $listOrder  = $this->escape($this->state->get('list.ordering'));

@@ -15,12 +15,11 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 
-HTMLHelper::_('behavior.multiselect');
-HTMLHelper::_('bootstrap.popover', 'span.hasPopover', ['trigger' => 'hover focus']);
-
 /** @var \Joomla\CMS\WebAsset\WebAssetManager $wa */
 $wa = $this->document->getWebAssetManager();
-$wa->useScript('table.columns');
+$wa->useScript('table.columns')
+	->useScript('multiselect')
+	->useScript('bootstrap.popover');
 
 $user      = Factory::getApplication()->getIdentity();
 $userId    = $user->get('id');
