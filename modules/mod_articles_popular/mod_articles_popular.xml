@@ -19,7 +19,7 @@
 		<language tag="en-GB">language/en-GB/mod_articles_popular.ini</language>
 		<language tag="en-GB">language/en-GB/mod_articles_popular.sys.ini</language>
 	</languages>
-	<help key="JHELP_EXTENSIONS_MODULE_MANAGER_MOST_READ" />
+	<help key="Site_Modules:_Articles_-_Most_Read" />
 	<config>
 		<fields name="params">
 			<fieldset name="basic">
@@ -90,7 +90,6 @@
 					label="MOD_POPULAR_FIELD_STARTDATE_LABEL"
 					translateformat="true"
 					showtime="true"
-					size="22"
 					filter="user_utc"
 					showon="date_filtering:range"
 				/>
@@ -101,7 +100,6 @@
 					label="MOD_POPULAR_FIELD_ENDDATE_LABEL"
 					translateformat="true"
 					showtime="true"
-					size="22"
 					filter="user_utc"
 					showon="date_filtering:range"
 				/>

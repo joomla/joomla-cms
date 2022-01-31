@@ -19,7 +19,7 @@
 		<language tag="en-GB">language/en-GB/mod_articles_categories.ini</language>
 		<language tag="en-GB">language/en-GB/mod_articles_categories.sys.ini</language>
 	</languages>
-	<help key="JHELP_EXTENSIONS_MODULE_MANAGER_ARTICLES_CATEGORIES" />
+	<help key="Site_Modules:_Articles_-_Categories" />
 	<config>
 		<fields name="params">
 			<fieldset name="basic" addfieldprefix="Joomla\Component\Categories\Administrator\Field">

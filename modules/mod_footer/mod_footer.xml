@@ -18,7 +18,7 @@
 		<language tag="en-GB">language/en-GB/mod_footer.ini</language>
 		<language tag="en-GB">language/en-GB/mod_footer.sys.ini</language>
 	</languages>
-	<help key="JHELP_EXTENSIONS_MODULE_MANAGER_FOOTER" />
+	<help key="Site_Modules:_Footer" />
 	<config>
 		<fields name="params">
 			<fieldset name="advanced">

@@ -193,6 +193,16 @@ class Language
 		$this->metadata = LanguageHelper::getMetadata($this->lang);
 		$this->setDebug($debug);
 
+		/*
+		 * Let's load the default override once, so we can profit from that, too
+		 * But make sure, that we don't enforce it on each language file load.
+		 * So don't put it in $this->override
+		 */
+		if (!$this->debug && $lang !== $this->default)
+		{
+			$this->loadLanguage(JPATH_BASE . '/language/overrides/' . $this->default . '.override.ini');
+		}
+
 		$this->override = $this->parse(JPATH_BASE . '/language/overrides/' . $lang . '.override.ini');
 
 		// Look for a language specific localise class
@@ -875,7 +885,7 @@ class Language
 			}
 
 			// Check that the line passes the necessary format.
-			if (!preg_match('#^[A-Z][A-Z0-9_\*\-\.]*\s*=\s*".*"(\s*;.*)?$#', $line))
+			if (!preg_match('#^[A-Z][A-Z0-9_:\*\-\.]*\s*=\s*".*"(\s*;.*)?$#', $line))
 			{
 				$errors[] = $realNumber;
 				continue;
@@ -1012,12 +1022,10 @@ class Language
 				return $this->paths[$extension];
 			}
 
-			return;
+			return [];
 		}
-		else
-		{
-			return $this->paths;
-		}
+
+		return $this->paths;
 	}
 
 	/**

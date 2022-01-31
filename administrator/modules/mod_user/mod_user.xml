@@ -17,7 +17,7 @@
 		<language tag="en-GB">language/en-GB/mod_user.ini</language>
 		<language tag="en-GB">language/en-GB/mod_user.sys.ini</language>
 	</languages>
-	<help key="JHELP_EXTENSIONS_MODULE_MANAGER_ADMIN_STATUS_USER" />
+	<help key="Admin_Modules:_User_Menu" />
 	<config>
 		<fields name="params">
 			<fieldset name="advanced">

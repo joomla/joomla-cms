@@ -19,7 +19,7 @@
 		<language tag="en-GB">language/en-GB/mod_syndicate.ini</language>
 		<language tag="en-GB">language/en-GB/mod_syndicate.sys.ini</language>
 	</languages>
-	<help key="JHELP_EXTENSIONS_MODULE_MANAGER_SYNDICATION_FEEDS" />
+	<help key="Site_Modules:_Syndication_Feeds" />
 	<config>
 		<fields name="params">
 			<fieldset name="basic">

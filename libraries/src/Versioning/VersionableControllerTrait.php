@@ -24,7 +24,7 @@ trait VersionableControllerTrait
 	/**
 	 * Method to load a row from version history
 	 *
-	 * @return  mixed  True if the record can be added, an error object if not.
+	 * @return  boolean  True if the record can be loaded, False if it cannot.
 	 *
 	 * @since   4.0.0
 	 */
