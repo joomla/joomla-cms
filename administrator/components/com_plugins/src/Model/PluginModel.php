@@ -78,7 +78,7 @@ class PluginModel extends AdminModel
 	 * @param   array    $data      Data for the form.
 	 * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
 	 *
-	 * @return  \JForm    A \JForm object on success, false on failure.
+	 * @return  Form|bool  A Form object on success, false on failure.
 	 *
 	 * @since   1.6
 	 */
@@ -175,7 +175,7 @@ class PluginModel extends AdminModel
 				return false;
 			}
 
-			// Convert to the \JObject before adding other data.
+			// Convert to the \Joomla\CMS\Object\CMSObject before adding other data.
 			$properties = $table->getProperties(1);
 			$this->_cache[$pk] = ArrayHelper::toObject($properties, CMSObject::class);
 
@@ -237,14 +237,15 @@ class PluginModel extends AdminModel
 	/**
 	 * Preprocess the form.
 	 *
-	 * @param   \JForm  $form   A form object.
+	 * @param   Form    $form   A form object.
 	 * @param   mixed   $data   The data expected for the form.
 	 * @param   string  $group  Cache group name.
 	 *
 	 * @return  mixed  True if successful.
 	 *
-	 * @throws	\Exception if there is an error in the form event.
 	 * @since   1.6
+	 *
+	 * @throws	\Exception if there is an error in the form event.
 	 */
 	protected function preprocessForm(Form $form, $data, $group = 'content')
 	{

@@ -1,4 +1,4 @@
-import Modal from '../../../../../node_modules/bootstrap/js/src/modal';
+import Modal from 'bootstrap/js/src/modal';
 
 Joomla = Joomla || {};
 Joomla.Modal = Joomla.Modal || {};
