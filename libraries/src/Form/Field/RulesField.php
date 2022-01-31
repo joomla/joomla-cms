@@ -173,6 +173,11 @@ class RulesField extends FormField
 			"/access/section[@name='" . $section . "']/"
 		);
 
+		if ($this->actions === false)
+		{
+			$this->actions = [];
+		}
+
 		// Iterate over the children and add to the actions.
 		foreach ($this->element->children() as $el)
 		{
@@ -190,7 +195,6 @@ class RulesField extends FormField
 		// Note that for global configuration, com_config injects asset_id = 1 into the form.
 		$this->assetId = (int) $this->form->getValue($assetField);
 		$this->newItem = empty($this->assetId) && $this->isGlobalConfig === false && $section !== 'component';
-		$parentAssetId = null;
 
 		// If the asset id is empty (component or new item).
 		if (empty($this->assetId))
@@ -208,7 +212,7 @@ class RulesField extends FormField
 			$this->assetId = (int) $db->loadResult();
 
 			/**
-			 * @to do: incorrect info
+			 * @todo: incorrect info
 			 * When creating a new item (not saving) it uses the calculated permissions from the component (item <-> component <-> global config).
 			 * But if we have a section too (item <-> section(s) <-> component <-> global config) this is not correct.
 			 * Also, currently it uses the component permission, but should use the calculated permissions for achild of the component/section.

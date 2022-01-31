@@ -79,6 +79,14 @@ class HtmlView extends BaseHtmlView
 	protected $showIpColumn = false;
 
 	/**
+	 * Setting if the date should be displayed relative to the current date.
+	 *
+	 * @var    boolean
+	 * @since  4.1.0
+	 */
+	protected $dateRelative = false;
+
+	/**
 	 * Method to display the view.
 	 *
 	 * @param   string  $tpl  A template file to load. [optional]
@@ -100,8 +108,9 @@ class HtmlView extends BaseHtmlView
 		$this->activeFilters = $model->getActiveFilters();
 		$params              = ComponentHelper::getParams('com_actionlogs');
 		$this->showIpColumn  = (bool) $params->get('ip_logging', 0);
+		$this->dateRelative  = (bool) $params->get('date_relative', 1);
 
-		if (count($errors = $model->getErrors()))
+		if (\count($errors = $model->getErrors()))
 		{
 			throw new GenericDataException(implode("\n", $errors), 500);
 		}

@@ -710,6 +710,12 @@ if ($includeExtraTextfiles)
 		'MINOR'   => 'Update from Joomla! ' . $version . '.x ',
 		'UPGRADE' => 'Update from Joomla! 3.10 ',
 	);
+
+	if (!$buildPatchPackages)
+	{
+		$releaseText['UPGRADE'] = 'Update from a previous version of Joomla! ';
+	}
+
 	$githubLink = 'https://github.com/joomla/joomla-cms/releases/download/' . $tagVersion . '/';
 
 	foreach ($checksums as $packageName => $packageHashes)
