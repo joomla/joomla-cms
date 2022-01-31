@@ -271,7 +271,7 @@ class PlgFinderContent extends Adapter
 
 		// Initialise the item parameters.
 		$registry = new Registry($item->params);
-		$item->params = ComponentHelper::getParams('com_content', true);
+		$item->params = clone ComponentHelper::getParams('com_content', true);
 		$item->params->merge($registry);
 
 		$item->metadata = new Registry($item->metadata);
@@ -293,6 +293,15 @@ class PlgFinderContent extends Adapter
 		if (!empty($title) && $this->params->get('use_menu_title', true))
 		{
 			$item->title = $title;
+		}
+
+		$images = $item->images ? json_decode($item->images) : false;
+
+		// Add the image.
+		if ($images && !empty($images->image_intro))
+		{
+			$item->imageUrl = $images->image_intro;
+			$item->imageAlt = $images->image_intro_alt ?? '';
 		}
 
 		// Add the meta author.

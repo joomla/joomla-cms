@@ -32,18 +32,14 @@ use Joomla\Database\ParameterType;
 class PlgSampledataMultilang extends CMSPlugin
 {
 	/**
-	 * Database object
-	 *
-	 * @var    JDatabaseDriver
+	 * @var     \Joomla\Database\DatabaseDriver
 	 *
 	 * @since   4.0.0
 	 */
 	protected $db;
 
 	/**
-	 * Application object
-	 *
-	 * @var    JApplicationCms
+	 * @var     \Joomla\CMS\Application\CMSApplication
 	 *
 	 * @since   4.0.0
 	 */
@@ -52,14 +48,14 @@ class PlgSampledataMultilang extends CMSPlugin
 	/**
 	 * Affects constructor behavior. If true, language files will be loaded automatically.
 	 *
-	 * @var    boolean
+	 * @var     boolean
 	 *
 	 * @since   4.0.0
 	 */
 	protected $autoloadLanguage = true;
 
 	/**
-	 * @var     string language path
+	 * @var     string
 	 *
 	 * @since   4.0.0
 	 */
@@ -737,11 +733,10 @@ class PlgSampledataMultilang extends CMSPlugin
 	 *
 	 * @param   stdClass  $itemLanguage  Language Object.
 	 *
-	 * @return  JTable|boolean  Menu Item Object. False otherwise.
+	 * @return  Table|boolean Menu Item Object. False otherwise.
 	 *
 	 * @since   4.0.0
 	 */
-
 	private function addAllCategoriesMenuItem($itemLanguage)
 	{
 		// Add Menu Item.
@@ -817,7 +812,7 @@ class PlgSampledataMultilang extends CMSPlugin
 	 * @param   stdClass  $itemLanguage  Language Object.
 	 * @param   integer   $categoryId    The id of the category displayed by the blog.
 	 *
-	 * @return  JTable|boolean  Menu Item Object. False otherwise.
+	 * @return  Table|boolean Menu Item Object. False otherwise.
 	 *
 	 * @since   4.0.0
 	 */
@@ -983,7 +978,7 @@ class PlgSampledataMultilang extends CMSPlugin
 	 *
 	 * @param   stdClass  $itemLanguage  Language Object.
 	 *
-	 * @return  JTable|boolean  Category Object. False otherwise.
+	 * @return  Table|boolean Category Object. False otherwise.
 	 *
 	 * @since   4.0.0
 	 */
@@ -1058,7 +1053,7 @@ class PlgSampledataMultilang extends CMSPlugin
 	 * @param   stdClass  $itemLanguage  Language Object.
 	 * @param   integer   $categoryId    The id of the category where we want to add the article.
 	 *
-	 * @return  JTable|boolean  Article Object. False otherwise.
+	 * @return  Table|boolean Article Object. False otherwise.
 	 *
 	 * @since   4.0.0
 	 */
@@ -1188,8 +1183,6 @@ class PlgSampledataMultilang extends CMSPlugin
 			if ($tableLanguage->load(array('lang_code' => $siteLang->language, 'published' => 0)) && !$tableLanguage->publish())
 			{
 				$this->app->enqueueMessage(Text::sprintf('INSTL_DEFAULTLANGUAGE_COULD_NOT_CREATE_CONTENT_LANGUAGE', $siteLang->name), 'warning');
-
-				continue;
 			}
 		}
 

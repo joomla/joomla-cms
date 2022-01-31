@@ -113,7 +113,7 @@ class SetConfigurationCommand extends AbstractCommand
 	/**
 	 * Collects options from user input
 	 *
-	 * @param   array  $options  Options inputed by users
+	 * @param   array  $options  Options input by users
 	 *
 	 * @return boolean
 	 *

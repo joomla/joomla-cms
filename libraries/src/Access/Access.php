@@ -883,7 +883,7 @@ class Access
 
 		if (!isset(self::$groupsByUser[$storeId]))
 		{
-			// TODO: Uncouple this from ComponentHelper and allow for a configuration setting or value injection.
+			// @todo: Uncouple this from ComponentHelper and allow for a configuration setting or value injection.
 			$guestUsergroup = (int) ComponentHelper::getParams('com_users')->get('guest_usergroup', 1);
 
 			// Guest user (if only the actually assigned group is requested)
@@ -1045,7 +1045,7 @@ class Access
 				}
 			}
 
-			return $authorised;
+			return array_unique($authorised);
 		}
 
 		// Get all groups that the user is mapped to recursively.
@@ -1070,7 +1070,7 @@ class Access
 			}
 		}
 
-		return $authorised;
+		return array_unique($authorised);
 	}
 
 	/**

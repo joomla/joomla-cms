@@ -58,6 +58,9 @@ class JoomlaInstallerScript
 				{
 					$this->fromVersion = $manifestValues['version'];
 
+					// Ensure templates are moved to the correct mode
+					$this->fixTemplateMode();
+
 					return true;
 				}
 			}
@@ -1456,6 +1459,7 @@ class JoomlaInstallerScript
 			'/administrator/components/com_joomlaupdate/helpers/select.php',
 			'/administrator/components/com_joomlaupdate/joomlaupdate.php',
 			'/administrator/components/com_joomlaupdate/models/default.php',
+			'/administrator/components/com_joomlaupdate/restore.php',
 			'/administrator/components/com_joomlaupdate/views/default/tmpl/complete.php',
 			'/administrator/components/com_joomlaupdate/views/default/tmpl/default.php',
 			'/administrator/components/com_joomlaupdate/views/default/tmpl/default.xml',
@@ -4020,8 +4024,12 @@ class JoomlaInstallerScript
 			'/media/com_contenthistory/js/jquery.pretty-text-diff.js',
 			'/media/com_contenthistory/js/jquery.pretty-text-diff.min.js',
 			'/media/com_finder/js/autocompleter.js',
+			'/media/com_joomlaupdate/js/encryption.js',
+			'/media/com_joomlaupdate/js/encryption.min.js',
 			'/media/com_joomlaupdate/js/json2.js',
 			'/media/com_joomlaupdate/js/json2.min.js',
+			'/media/com_joomlaupdate/js/update.js',
+			'/media/com_joomlaupdate/js/update.min.js',
 			'/media/contacts/images/con_address.png',
 			'/media/contacts/images/con_fax.png',
 			'/media/contacts/images/con_info.png',
@@ -5943,7 +5951,6 @@ class JoomlaInstallerScript
 			'/administrator/components/com_fields/tmpl/field/modal.php',
 			'/administrator/templates/atum/scss/pages/_com_admin.scss',
 			'/administrator/templates/atum/scss/pages/_com_finder.scss',
-			'/administrator/templates/atum/scss/pages/_com_joomlaupdate.scss',
 			'/libraries/src/Error/JsonApi/InstallLanguageExceptionHandler.php',
 			'/libraries/src/MVC/Controller/Exception/InstallLanguage.php',
 			'/media/com_fields/js/admin-field-edit-modal-es5.js',
@@ -6099,13 +6106,232 @@ class JoomlaInstallerScript
 			'/templates/cassiopeia/scss/global/fonts-web_fira-sans.scss',
 			'/templates/cassiopeia/scss/global/fonts-web_roboto+noto-sans.scss',
 			// From 4.0.3 to 4.0.4
-			'/administrator/components/com_joomlaupdate/restore.php',
-			'/media/com_joomlaupdate/js/encryption.js',
-			'/media/com_joomlaupdate/js/encryption.min.js',
+			'/administrator/templates/atum/scss/_mixin.scss',
 			'/media/com_joomlaupdate/js/encryption.min.js.gz',
-			'/media/com_joomlaupdate/js/update.js',
-			'/media/com_joomlaupdate/js/update.min.js',
 			'/media/com_joomlaupdate/js/update.min.js.gz',
+			'/templates/cassiopeia/images/system/sort_asc.png',
+			'/templates/cassiopeia/images/system/sort_desc.png',
+			// From 4.0.4 to 4.0.5
+			'/media/vendor/codemirror/lib/#codemirror.js#',
+			// From 4.0.5 to 4.0.6
+			'/media/vendor/mediaelement/css/mejs-controls.png',
+			// From 4.0.x to 4.1.0-beta1
+			'/administrator/templates/atum/css/system/searchtools/searchtools.css',
+			'/administrator/templates/atum/css/system/searchtools/searchtools.min.css',
+			'/administrator/templates/atum/css/system/searchtools/searchtools.min.css.gz',
+			'/administrator/templates/atum/css/template-rtl.css',
+			'/administrator/templates/atum/css/template-rtl.min.css',
+			'/administrator/templates/atum/css/template-rtl.min.css.gz',
+			'/administrator/templates/atum/css/template.css',
+			'/administrator/templates/atum/css/template.min.css',
+			'/administrator/templates/atum/css/template.min.css.gz',
+			'/administrator/templates/atum/css/vendor/awesomplete/awesomplete.css',
+			'/administrator/templates/atum/css/vendor/awesomplete/awesomplete.min.css',
+			'/administrator/templates/atum/css/vendor/awesomplete/awesomplete.min.css.gz',
+			'/administrator/templates/atum/css/vendor/choicesjs/choices.css',
+			'/administrator/templates/atum/css/vendor/choicesjs/choices.min.css',
+			'/administrator/templates/atum/css/vendor/choicesjs/choices.min.css.gz',
+			'/administrator/templates/atum/css/vendor/fontawesome-free/fontawesome.css',
+			'/administrator/templates/atum/css/vendor/fontawesome-free/fontawesome.min.css',
+			'/administrator/templates/atum/css/vendor/fontawesome-free/fontawesome.min.css.gz',
+			'/administrator/templates/atum/css/vendor/joomla-custom-elements/joomla-alert.css',
+			'/administrator/templates/atum/css/vendor/joomla-custom-elements/joomla-alert.min.css',
+			'/administrator/templates/atum/css/vendor/joomla-custom-elements/joomla-alert.min.css.gz',
+			'/administrator/templates/atum/css/vendor/joomla-custom-elements/joomla-tab.css',
+			'/administrator/templates/atum/css/vendor/joomla-custom-elements/joomla-tab.min.css',
+			'/administrator/templates/atum/css/vendor/joomla-custom-elements/joomla-tab.min.css.gz',
+			'/administrator/templates/atum/css/vendor/minicolors/minicolors.css',
+			'/administrator/templates/atum/css/vendor/minicolors/minicolors.min.css',
+			'/administrator/templates/atum/css/vendor/minicolors/minicolors.min.css.gz',
+			'/administrator/templates/atum/images/joomla-pattern.svg',
+			'/administrator/templates/atum/images/logos/brand-large.svg',
+			'/administrator/templates/atum/images/logos/brand-small.svg',
+			'/administrator/templates/atum/images/logos/login.svg',
+			'/administrator/templates/atum/images/select-bg-active-rtl.svg',
+			'/administrator/templates/atum/images/select-bg-active.svg',
+			'/administrator/templates/atum/images/select-bg-rtl.svg',
+			'/administrator/templates/atum/images/select-bg.svg',
+			'/administrator/templates/atum/scss/_root.scss',
+			'/administrator/templates/atum/scss/_variables.scss',
+			'/administrator/templates/atum/scss/blocks/_alerts.scss',
+			'/administrator/templates/atum/scss/blocks/_edit.scss',
+			'/administrator/templates/atum/scss/blocks/_form.scss',
+			'/administrator/templates/atum/scss/blocks/_global.scss',
+			'/administrator/templates/atum/scss/blocks/_header.scss',
+			'/administrator/templates/atum/scss/blocks/_icons.scss',
+			'/administrator/templates/atum/scss/blocks/_iframe.scss',
+			'/administrator/templates/atum/scss/blocks/_layout.scss',
+			'/administrator/templates/atum/scss/blocks/_lists.scss',
+			'/administrator/templates/atum/scss/blocks/_login.scss',
+			'/administrator/templates/atum/scss/blocks/_modals.scss',
+			'/administrator/templates/atum/scss/blocks/_quickicons.scss',
+			'/administrator/templates/atum/scss/blocks/_sidebar-nav.scss',
+			'/administrator/templates/atum/scss/blocks/_sidebar.scss',
+			'/administrator/templates/atum/scss/blocks/_switcher.scss',
+			'/administrator/templates/atum/scss/blocks/_toolbar.scss',
+			'/administrator/templates/atum/scss/blocks/_treeselect.scss',
+			'/administrator/templates/atum/scss/blocks/_utilities.scss',
+			'/administrator/templates/atum/scss/pages/_com_config.scss',
+			'/administrator/templates/atum/scss/pages/_com_content.scss',
+			'/administrator/templates/atum/scss/pages/_com_cpanel.scss',
+			'/administrator/templates/atum/scss/pages/_com_joomlaupdate.scss',
+			'/administrator/templates/atum/scss/pages/_com_modules.scss',
+			'/administrator/templates/atum/scss/pages/_com_privacy.scss',
+			'/administrator/templates/atum/scss/pages/_com_tags.scss',
+			'/administrator/templates/atum/scss/pages/_com_templates.scss',
+			'/administrator/templates/atum/scss/pages/_com_users.scss',
+			'/administrator/templates/atum/scss/system/searchtools/searchtools.scss',
+			'/administrator/templates/atum/scss/template-rtl.scss',
+			'/administrator/templates/atum/scss/template.scss',
+			'/administrator/templates/atum/scss/vendor/_bootstrap.scss',
+			'/administrator/templates/atum/scss/vendor/_codemirror.scss',
+			'/administrator/templates/atum/scss/vendor/_dragula.scss',
+			'/administrator/templates/atum/scss/vendor/_tinymce.scss',
+			'/administrator/templates/atum/scss/vendor/awesomplete/awesomplete.scss',
+			'/administrator/templates/atum/scss/vendor/bootstrap/_badge.scss',
+			'/administrator/templates/atum/scss/vendor/bootstrap/_bootstrap-rtl.scss',
+			'/administrator/templates/atum/scss/vendor/bootstrap/_buttons.scss',
+			'/administrator/templates/atum/scss/vendor/bootstrap/_card.scss',
+			'/administrator/templates/atum/scss/vendor/bootstrap/_collapse.scss',
+			'/administrator/templates/atum/scss/vendor/bootstrap/_custom-forms.scss',
+			'/administrator/templates/atum/scss/vendor/bootstrap/_dropdown.scss',
+			'/administrator/templates/atum/scss/vendor/bootstrap/_form.scss',
+			'/administrator/templates/atum/scss/vendor/bootstrap/_lists.scss',
+			'/administrator/templates/atum/scss/vendor/bootstrap/_modal.scss',
+			'/administrator/templates/atum/scss/vendor/bootstrap/_pagination.scss',
+			'/administrator/templates/atum/scss/vendor/bootstrap/_reboot.scss',
+			'/administrator/templates/atum/scss/vendor/bootstrap/_table.scss',
+			'/administrator/templates/atum/scss/vendor/choicesjs/choices.scss',
+			'/administrator/templates/atum/scss/vendor/fontawesome-free/fontawesome.scss',
+			'/administrator/templates/atum/scss/vendor/joomla-custom-elements/joomla-alert.scss',
+			'/administrator/templates/atum/scss/vendor/joomla-custom-elements/joomla-tab.scss',
+			'/administrator/templates/atum/scss/vendor/minicolors/minicolors.scss',
+			'/administrator/templates/atum/template_preview.png',
+			'/administrator/templates/atum/template_thumbnail.png',
+			'/administrator/templates/system/css/error.css',
+			'/administrator/templates/system/css/error.min.css',
+			'/administrator/templates/system/css/error.min.css.gz',
+			'/administrator/templates/system/css/system.css',
+			'/administrator/templates/system/css/system.min.css',
+			'/administrator/templates/system/css/system.min.css.gz',
+			'/administrator/templates/system/images/calendar.png',
+			'/administrator/templates/system/scss/error.scss',
+			'/administrator/templates/system/scss/system.scss',
+			'/templates/cassiopeia/css/editor.css',
+			'/templates/cassiopeia/css/editor.min.css',
+			'/templates/cassiopeia/css/editor.min.css.gz',
+			'/templates/cassiopeia/css/global/colors_alternative.css',
+			'/templates/cassiopeia/css/global/colors_alternative.min.css',
+			'/templates/cassiopeia/css/global/colors_alternative.min.css.gz',
+			'/templates/cassiopeia/css/global/colors_standard.css',
+			'/templates/cassiopeia/css/global/colors_standard.min.css',
+			'/templates/cassiopeia/css/global/colors_standard.min.css.gz',
+			'/templates/cassiopeia/css/global/fonts-local_roboto.css',
+			'/templates/cassiopeia/css/global/fonts-local_roboto.min.css',
+			'/templates/cassiopeia/css/global/fonts-local_roboto.min.css.gz',
+			'/templates/cassiopeia/css/offline.css',
+			'/templates/cassiopeia/css/offline.min.css',
+			'/templates/cassiopeia/css/offline.min.css.gz',
+			'/templates/cassiopeia/css/system/searchtools/searchtools.css',
+			'/templates/cassiopeia/css/system/searchtools/searchtools.min.css',
+			'/templates/cassiopeia/css/system/searchtools/searchtools.min.css.gz',
+			'/templates/cassiopeia/css/template-rtl.css',
+			'/templates/cassiopeia/css/template-rtl.min.css',
+			'/templates/cassiopeia/css/template-rtl.min.css.gz',
+			'/templates/cassiopeia/css/template.css',
+			'/templates/cassiopeia/css/template.min.css',
+			'/templates/cassiopeia/css/template.min.css.gz',
+			'/templates/cassiopeia/css/vendor/choicesjs/choices.css',
+			'/templates/cassiopeia/css/vendor/choicesjs/choices.min.css',
+			'/templates/cassiopeia/css/vendor/choicesjs/choices.min.css.gz',
+			'/templates/cassiopeia/css/vendor/joomla-custom-elements/joomla-alert.css',
+			'/templates/cassiopeia/css/vendor/joomla-custom-elements/joomla-alert.min.css',
+			'/templates/cassiopeia/css/vendor/joomla-custom-elements/joomla-alert.min.css.gz',
+			'/templates/cassiopeia/images/logo.svg',
+			'/templates/cassiopeia/images/select-bg-active-rtl.svg',
+			'/templates/cassiopeia/images/select-bg-active.svg',
+			'/templates/cassiopeia/images/select-bg-rtl.svg',
+			'/templates/cassiopeia/images/select-bg.svg',
+			'/templates/cassiopeia/js/template.es5.js',
+			'/templates/cassiopeia/js/template.js',
+			'/templates/cassiopeia/js/template.min.js',
+			'/templates/cassiopeia/js/template.min.js.gz',
+			'/templates/cassiopeia/scss/blocks/_alerts.scss',
+			'/templates/cassiopeia/scss/blocks/_back-to-top.scss',
+			'/templates/cassiopeia/scss/blocks/_banner.scss',
+			'/templates/cassiopeia/scss/blocks/_css-grid.scss',
+			'/templates/cassiopeia/scss/blocks/_footer.scss',
+			'/templates/cassiopeia/scss/blocks/_form.scss',
+			'/templates/cassiopeia/scss/blocks/_frontend-edit.scss',
+			'/templates/cassiopeia/scss/blocks/_global.scss',
+			'/templates/cassiopeia/scss/blocks/_header.scss',
+			'/templates/cassiopeia/scss/blocks/_icons.scss',
+			'/templates/cassiopeia/scss/blocks/_iframe.scss',
+			'/templates/cassiopeia/scss/blocks/_layout.scss',
+			'/templates/cassiopeia/scss/blocks/_legacy.scss',
+			'/templates/cassiopeia/scss/blocks/_modals.scss',
+			'/templates/cassiopeia/scss/blocks/_modifiers.scss',
+			'/templates/cassiopeia/scss/blocks/_tags.scss',
+			'/templates/cassiopeia/scss/blocks/_toolbar.scss',
+			'/templates/cassiopeia/scss/blocks/_utilities.scss',
+			'/templates/cassiopeia/scss/editor.scss',
+			'/templates/cassiopeia/scss/global/colors_alternative.scss',
+			'/templates/cassiopeia/scss/global/colors_standard.scss',
+			'/templates/cassiopeia/scss/global/fonts-local_roboto.scss',
+			'/templates/cassiopeia/scss/offline.scss',
+			'/templates/cassiopeia/scss/system/searchtools/searchtools.scss',
+			'/templates/cassiopeia/scss/template-rtl.scss',
+			'/templates/cassiopeia/scss/template.scss',
+			'/templates/cassiopeia/scss/tools/_tools.scss',
+			'/templates/cassiopeia/scss/tools/functions/_max-width.scss',
+			'/templates/cassiopeia/scss/tools/variables/_variables.scss',
+			'/templates/cassiopeia/scss/vendor/_awesomplete.scss',
+			'/templates/cassiopeia/scss/vendor/_chosen.scss',
+			'/templates/cassiopeia/scss/vendor/_dragula.scss',
+			'/templates/cassiopeia/scss/vendor/_minicolors.scss',
+			'/templates/cassiopeia/scss/vendor/_tinymce.scss',
+			'/templates/cassiopeia/scss/vendor/bootstrap/_bootstrap-rtl.scss',
+			'/templates/cassiopeia/scss/vendor/bootstrap/_buttons.scss',
+			'/templates/cassiopeia/scss/vendor/bootstrap/_collapse.scss',
+			'/templates/cassiopeia/scss/vendor/bootstrap/_custom-forms.scss',
+			'/templates/cassiopeia/scss/vendor/bootstrap/_dropdown.scss',
+			'/templates/cassiopeia/scss/vendor/bootstrap/_forms.scss',
+			'/templates/cassiopeia/scss/vendor/bootstrap/_lists.scss',
+			'/templates/cassiopeia/scss/vendor/bootstrap/_modal.scss',
+			'/templates/cassiopeia/scss/vendor/bootstrap/_nav.scss',
+			'/templates/cassiopeia/scss/vendor/bootstrap/_pagination.scss',
+			'/templates/cassiopeia/scss/vendor/bootstrap/_table.scss',
+			'/templates/cassiopeia/scss/vendor/choicesjs/choices.scss',
+			'/templates/cassiopeia/scss/vendor/joomla-custom-elements/joomla-alert.scss',
+			'/templates/cassiopeia/scss/vendor/metismenu/_metismenu.scss',
+			'/templates/cassiopeia/template_preview.png',
+			'/templates/cassiopeia/template_thumbnail.png',
+			'/templates/system/css/editor.css',
+			'/templates/system/css/editor.min.css',
+			'/templates/system/css/editor.min.css.gz',
+			'/templates/system/css/error.css',
+			'/templates/system/css/error.min.css',
+			'/templates/system/css/error.min.css.gz',
+			'/templates/system/css/error_rtl.css',
+			'/templates/system/css/error_rtl.min.css',
+			'/templates/system/css/error_rtl.min.css.gz',
+			'/templates/system/css/general.css',
+			'/templates/system/css/general.min.css',
+			'/templates/system/css/general.min.css.gz',
+			'/templates/system/css/offline.css',
+			'/templates/system/css/offline.min.css',
+			'/templates/system/css/offline.min.css.gz',
+			'/templates/system/css/offline_rtl.css',
+			'/templates/system/css/offline_rtl.min.css',
+			'/templates/system/css/offline_rtl.min.css.gz',
+			'/templates/system/scss/editor.scss',
+			'/templates/system/scss/error.scss',
+			'/templates/system/scss/error_rtl.scss',
+			'/templates/system/scss/general.scss',
+			'/templates/system/scss/offline.scss',
+			'/templates/system/scss/offline_rtl.scss',
+			// From 4.1.0-beta3 to 4.1.0-rc1
+			'/api/components/com_media/src/Helper/AdapterTrait.php',
 		);
 
 		$folders = array(
@@ -7363,6 +7589,61 @@ class JoomlaInstallerScript
 			'/libraries/vendor/algo26-matthias/idna-convert/tests/unit',
 			'/libraries/vendor/algo26-matthias/idna-convert/tests/integration',
 			'/libraries/vendor/algo26-matthias/idna-convert/tests',
+			// From 4.0.3 to 4.0.4
+			'/templates/cassiopeia/images/system',
+			// From 4.0.x to 4.1.0-beta1
+			'/templates/system/scss',
+			'/templates/system/css',
+			'/templates/cassiopeia/scss/vendor/metismenu',
+			'/templates/cassiopeia/scss/vendor/joomla-custom-elements',
+			'/templates/cassiopeia/scss/vendor/choicesjs',
+			'/templates/cassiopeia/scss/vendor/bootstrap',
+			'/templates/cassiopeia/scss/vendor',
+			'/templates/cassiopeia/scss/tools/variables',
+			'/templates/cassiopeia/scss/tools/functions',
+			'/templates/cassiopeia/scss/tools',
+			'/templates/cassiopeia/scss/system/searchtools',
+			'/templates/cassiopeia/scss/system',
+			'/templates/cassiopeia/scss/global',
+			'/templates/cassiopeia/scss/blocks',
+			'/templates/cassiopeia/scss',
+			'/templates/cassiopeia/js',
+			'/templates/cassiopeia/images',
+			'/templates/cassiopeia/css/vendor/joomla-custom-elements',
+			'/templates/cassiopeia/css/vendor/choicesjs',
+			'/templates/cassiopeia/css/vendor',
+			'/templates/cassiopeia/css/system/searchtools',
+			'/templates/cassiopeia/css/system',
+			'/templates/cassiopeia/css/global',
+			'/templates/cassiopeia/css',
+			'/administrator/templates/system/scss',
+			'/administrator/templates/system/images',
+			'/administrator/templates/system/css',
+			'/administrator/templates/atum/scss/vendor/minicolors',
+			'/administrator/templates/atum/scss/vendor/joomla-custom-elements',
+			'/administrator/templates/atum/scss/vendor/fontawesome-free',
+			'/administrator/templates/atum/scss/vendor/choicesjs',
+			'/administrator/templates/atum/scss/vendor/bootstrap',
+			'/administrator/templates/atum/scss/vendor/awesomplete',
+			'/administrator/templates/atum/scss/vendor',
+			'/administrator/templates/atum/scss/system/searchtools',
+			'/administrator/templates/atum/scss/system',
+			'/administrator/templates/atum/scss/pages',
+			'/administrator/templates/atum/scss/blocks',
+			'/administrator/templates/atum/scss',
+			'/administrator/templates/atum/images/logos',
+			'/administrator/templates/atum/images',
+			'/administrator/templates/atum/css/vendor/minicolors',
+			'/administrator/templates/atum/css/vendor/joomla-custom-elements',
+			'/administrator/templates/atum/css/vendor/fontawesome-free',
+			'/administrator/templates/atum/css/vendor/choicesjs',
+			'/administrator/templates/atum/css/vendor/awesomplete',
+			'/administrator/templates/atum/css/vendor',
+			'/administrator/templates/atum/css/system/searchtools',
+			'/administrator/templates/atum/css/system',
+			'/administrator/templates/atum/css',
+			// From 4.1.0-beta3 to 4.1.0-rc1
+			'/api/components/com_media/src/Helper',
 		);
 
 		$status['files_checked'] = $files;
@@ -7387,6 +7668,8 @@ class JoomlaInstallerScript
 				}
 			}
 		}
+
+		$this->moveRemainingTemplateFiles();
 
 		foreach ($folders as $folder)
 		{
@@ -7422,12 +7705,12 @@ class JoomlaInstallerScript
 			File::delete(JPATH_ROOT . '/administrator/manifests/packages/pkg_search.xml');
 		}
 
-		if ($suppressOutput === false && \count($status['folders_errors']))
+		if ($suppressOutput === false && count($status['folders_errors']))
 		{
 			echo implode('<br>', $status['folders_errors']);
 		}
 
-		if ($suppressOutput === false && \count($status['files_errors']))
+		if ($suppressOutput === false && count($status['files_errors']))
 		{
 			echo implode('<br>', $status['files_errors']);
 		}
@@ -7453,7 +7736,7 @@ class JoomlaInstallerScript
 
 		foreach ($newComponents as $component)
 		{
-			/** @var JTableAsset $asset */
+			/** @var \Joomla\CMS\Table\Asset $asset */
 			$asset = Table::getInstance('Asset');
 
 			if ($asset->loadByName($component))
@@ -7519,7 +7802,7 @@ class JoomlaInstallerScript
 		}
 
 		// Nothing to do if the table doesn't exist because the CMS has never been updated from a pre-4.0 version
-		if (\count($rows) === 0)
+		if (count($rows) === 0)
 		{
 			return;
 		}
@@ -7528,7 +7811,8 @@ class JoomlaInstallerScript
 		$converted = 5;
 
 		// Check conversion status in database
-		$db->setQuery('SELECT ' . $db->quoteName('converted')
+		$db->setQuery(
+			'SELECT ' . $db->quoteName('converted')
 			. ' FROM ' . $db->quoteName('#__utf8_conversion')
 		);
 
@@ -7615,7 +7899,7 @@ class JoomlaInstallerScript
 
 								$rows = $db->loadRowList(0);
 
-								if (\count($rows) > 0)
+								if (count($rows) > 0)
 								{
 									$db->setQuery($query2)->execute();
 								}
@@ -8205,5 +8489,92 @@ class JoomlaInstallerScript
 				}
 			}
 		}
+	}
+
+	/**
+	 * Move core template (s)css or js or image files which are left after deleting
+	 * obsolete core files to the right place in media folder.
+	 *
+	 * @return  void
+	 *
+	 * @since   4.1.0
+	 */
+	protected function moveRemainingTemplateFiles()
+	{
+		$folders = [
+			'/administrator/templates/atum/css' => '/media/templates/administrator/atum/css',
+			'/administrator/templates/atum/images' => '/media/templates/administrator/atum/images',
+			'/administrator/templates/atum/js' => '/media/templates/administrator/atum/js',
+			'/administrator/templates/atum/scss' => '/media/templates/administrator/atum/scss',
+			'/templates/cassiopeia/css' => '/media/templates/site/cassiopeia/css',
+			'/templates/cassiopeia/images' => '/media/templates/site/cassiopeia/images',
+			'/templates/cassiopeia/js' => '/media/templates/site/cassiopeia/js',
+			'/templates/cassiopeia/scss' => '/media/templates/site/cassiopeia/scss',
+		];
+
+		foreach ($folders as $oldFolder => $newFolder)
+		{
+			if (Folder::exists(JPATH_ROOT . $oldFolder))
+			{
+				$oldPath   = realpath(JPATH_ROOT . $oldFolder);
+				$newPath   = realpath(JPATH_ROOT . $newFolder);
+				$directory = new \RecursiveDirectoryIterator($oldPath);
+				$directory->setFlags(RecursiveDirectoryIterator::SKIP_DOTS);
+				$iterator  = new \RecursiveIteratorIterator($directory);
+
+				// Handle all files in this folder and all sub-folders
+				foreach ($iterator as $oldFile)
+				{
+					if ($oldFile->isDir())
+					{
+						continue;
+					}
+
+					$newFile = $newPath . substr($oldFile, strlen($oldPath));
+
+					// Create target folder and parent folders if they don't exist yet
+					if (is_dir(dirname($newFile)) || @mkdir(dirname($newFile), 0755, true))
+					{
+						File::move($oldFile, $newFile);
+					}
+				}
+			}
+		}
+	}
+
+	/**
+	 * Ensure the core templates are correctly moved to the new mode.
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	protected function fixTemplateMode(): void
+	{
+		$db = Factory::getContainer()->get('DatabaseDriver');
+
+		array_map(
+			function ($template) use ($db)
+			{
+				$clientId = $template === 'atum' ? 1 : 0;
+				$query = $db->getQuery(true)
+					->update($db->quoteName('#__template_styles'))
+					->set($db->quoteName('inheritable') . ' = 1')
+					->where($db->quoteName('template') . ' = ' . $db->quote($template))
+					->where($db->quoteName('client_id') . ' = ' . $clientId);
+
+				try
+				{
+					$db->setQuery($query)->execute();
+				}
+				catch (Exception $e)
+				{
+					echo Text::sprintf('JLIB_DATABASE_ERROR_FUNCTION_FAILED', $e->getCode(), $e->getMessage()) . '<br>';
+
+					return;
+				}
+			},
+			['atum', 'cassiopeia']
+		);
 	}
 }
