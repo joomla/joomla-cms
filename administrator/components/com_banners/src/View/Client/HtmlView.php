@@ -83,7 +83,7 @@ class HtmlView extends BaseHtmlView
 		$this->canDo = ContentHelper::getActions('com_banners');
 
 		// Check for errors.
-		if (count($errors = $this->get('Errors')))
+		if (\count($errors = $this->get('Errors')))
 		{
 			throw new GenericDataException(implode("\n", $errors), 500);
 		}
@@ -108,7 +108,7 @@ class HtmlView extends BaseHtmlView
 
 		$user       = Factory::getUser();
 		$isNew      = ($this->item->id == 0);
-		$checkedOut = !(is_null($this->item->checked_out) || $this->item->checked_out == $user->id);
+		$checkedOut = !(\is_null($this->item->checked_out) || $this->item->checked_out == $user->id);
 		$canDo      = $this->canDo;
 
 		ToolbarHelper::title(
