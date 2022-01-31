@@ -64,7 +64,7 @@ if (count($this->filterForm->getField('context')->options) > 1)
 						<?php echo Text::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
 					</div>
 				<?php else : ?>
-					<table class="table" id="groupList">
+					<table class="table" id="fieldgroupList">
 						<caption class="visually-hidden">
 							<?php echo Text::_('COM_FIELDS_GROUPS_TABLE_CAPTION'); ?>,
 							<span id="orderedBy"><?php echo Text::_('JGLOBAL_SORTED_BY'); ?> </span>,

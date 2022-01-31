@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <config>
+	<help key="News_Feed:_Options"/>
 
 	<fieldset
 		name="newsfeed"

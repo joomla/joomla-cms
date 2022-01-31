@@ -168,4 +168,4 @@ $this->document->addScriptOptions('associations-modal', ['func' => $function]);
 		<input type="hidden" name="forcedLanguage" value="<?php echo $app->input->get('forcedLanguage', '', 'cmd'); ?>">
 		<?php echo HTMLHelper::_('form.token'); ?>
 	</form>
-</div
+</div>

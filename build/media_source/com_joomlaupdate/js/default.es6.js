@@ -123,8 +123,8 @@ Joomla = window.Joomla || {};
       default:
     }
     if (infoIcon) {
-      infoIcon.classList.remove('fa-spinner', 'fa-spin', 'text-info');
-      infoIcon.classList.add(`fa-${iconClass}`, `text-${iconColor}`);
+      infoIcon.classList.remove('fa-spinner', 'fa-spin');
+      infoIcon.classList.add(`fa-${iconClass}`, `text-${iconColor}`, 'bg-white');
     }
     // Hide table of addons to load
     const checkedExtensions = document.querySelector('#compatibilityTable0');
