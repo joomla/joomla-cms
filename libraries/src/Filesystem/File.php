@@ -26,7 +26,7 @@ class File
 {
 	/**
 	 * @var    boolean  true if OPCache enabled, and we have permission to invalidate files
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.1
 	 */
 	protected static $canFlushFileCache;
 
@@ -92,7 +92,7 @@ class File
 		if (function_exists('transliterator_transliterate') && function_exists('iconv'))
 		{
 			// Using iconv to ignore characters that can't be transliterated
-			$file = iconv("UTF-8", "ASCII//TRANSLIT//IGNORE", transliterator_transliterate('Any-Latin; Latin-ASCII; Lower()', $file));
+			$file = iconv("UTF-8", "ASCII//TRANSLIT//IGNORE", transliterator_transliterate('Any-Latin; Latin-ASCII', $file));
 		}
 
 		$regex = array('#(\.){2,}#', '#[^A-Za-z0-9\.\_\- ]#', '#^\.#');
@@ -198,7 +198,7 @@ class File
 	 *                 or FALSE if the opcode cache is disabled or other conditions returning
 	 *                 FALSE from opcache_invalidate (like file not found).
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.0.1
 	 */
 	public static function invalidateFileCache($filepath, $force = true)
 	{
@@ -222,7 +222,7 @@ class File
 	 *
 	 * @return boolean TRUE if we can proceed to use opcache_invalidate to flush a file from the OPCache
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.0.1
 	 */
 	public static function canFlushFileCache()
 	{

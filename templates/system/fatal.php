@@ -40,7 +40,9 @@ if (file_exists(__DIR__ . '/fatal-error.html'))
  */
 if (file_exists(__DIR__ . '/fatal-error.custom.php'))
 {
-	$template = file_get_contents(__DIR__ . '/fatal-error.custom.php');
+	require __DIR__ . '/fatal-error.custom.php';
+
+	return;
 }
 
 echo str_replace(

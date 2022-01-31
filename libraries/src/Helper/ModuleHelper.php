@@ -84,12 +84,10 @@ abstract class ModuleHelper
 	public static function &getModules($position)
 	{
 		$position = strtolower($position);
-		$result = array();
-		$input  = Factory::getApplication()->input;
-
-		$modules =& static::load();
-
-		$total = \count($modules);
+		$result   = array();
+		$input    = Factory::getApplication()->input;
+		$modules  = &static::load();
+		$total    = \count($modules);
 
 		for ($i = 0; $i < $total; $i++)
 		{
@@ -99,14 +97,16 @@ abstract class ModuleHelper
 			}
 		}
 
-		if (\count($result) === 0)
+		// Prepend a dummy module for template preview
+		if ($input->getBool('tp') && ComponentHelper::getParams('com_templates')->get('template_positions_display'))
 		{
-			if ($input->getBool('tp') && ComponentHelper::getParams('com_templates')->get('template_positions_display'))
-			{
-				$result[0] = static::createDummyModule();
-				$result[0]->title = $position;
-				$result[0]->position = $position;
-			}
+			$dummy = static::createDummyModule();
+			$dummy->title = $position;
+			$dummy->position = $position;
+			$dummy->content = $position;
+			$dummy->contentRendered = true;
+
+			array_unshift($result, $dummy);
 		}
 
 		return $result;
@@ -166,7 +166,8 @@ abstract class ModuleHelper
 		// Render the module content
 		static::renderRawModule($module, $params, $attribs);
 
-		if (!empty($attribs['style']) && $attribs['style'] === 'raw')
+		// Return early if only the content is required
+		if (!empty($attribs['contentOnly']))
 		{
 			return $module->content;
 		}
@@ -593,6 +594,11 @@ abstract class ModuleHelper
 			$cacheparams->cachegroup = $module->module;
 		}
 
+		if (!isset($cacheparams->cachesuffix))
+		{
+			$cacheparams->cachesuffix = '';
+		}
+
 		$user = Factory::getUser();
 		$app  = Factory::getApplication();
 
@@ -623,7 +629,7 @@ abstract class ModuleHelper
 				$ret = $cache->get(
 					array($cacheparams->class, $cacheparams->method),
 					$cacheparams->methodparams,
-					$cacheparams->modeparams,
+					$cacheparams->modeparams . $cacheparams->cachesuffix,
 					$wrkarounds,
 					$wrkaroundoptions
 				);
@@ -653,7 +659,7 @@ abstract class ModuleHelper
 				$ret = $cache->get(
 					array($cacheparams->class, $cacheparams->method),
 					$cacheparams->methodparams,
-					$module->id . $view_levels . $secureid,
+					$module->id . $view_levels . $secureid . $cacheparams->cachesuffix,
 					$wrkarounds,
 					$wrkaroundoptions
 				);
@@ -663,7 +669,7 @@ abstract class ModuleHelper
 				$ret = $cache->get(
 					array($cacheparams->class, $cacheparams->method),
 					$cacheparams->methodparams,
-					$module->module . md5(serialize($cacheparams->methodparams)),
+					$module->module . md5(serialize($cacheparams->methodparams)) . $cacheparams->cachesuffix,
 					$wrkarounds,
 					$wrkaroundoptions
 				);
@@ -674,7 +680,7 @@ abstract class ModuleHelper
 				$ret = $cache->get(
 					array($cacheparams->class, $cacheparams->method),
 					$cacheparams->methodparams,
-					$module->id . $view_levels . $app->input->getInt('Itemid', null),
+					$module->id . $view_levels . $app->input->getInt('Itemid', null) . $cacheparams->cachesuffix,
 					$wrkarounds,
 					$wrkaroundoptions
 				);

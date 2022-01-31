@@ -19,7 +19,7 @@
 		<language tag="en-GB">language/en-GB/mod_whosonline.ini</language>
 		<language tag="en-GB">language/en-GB/mod_whosonline.sys.ini</language>
 	</languages>
-	<help key="JHELP_EXTENSIONS_MODULE_MANAGER_WHO_ONLINE" />
+	<help key="Site_Modules:_Who%27s_Online" />
 	<config>
 		<fields name="params">
 			<fieldset name="basic">
