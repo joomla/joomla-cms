@@ -46,7 +46,7 @@ $assoc   = Associations::isEnabled() && $this->state->get('filter.client_id') ==
 			<div id="j-main-container" class="j-main-container">
 				<?php echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this, 'options' => array('selectorFieldName' => 'menutype'))); ?>
 				<?php if (!empty($this->items)) : ?>
-					<table class="table" id="itemList">
+					<table class="table" id="menuitemList">
 						<caption class="visually-hidden">
 							<?php echo Text::_('COM_MENUS_ITEMS_TABLE_CAPTION'); ?>,
 							<span id="orderedBy"><?php echo Text::_('JGLOBAL_SORTED_BY'); ?> </span>,
@@ -182,15 +182,15 @@ $assoc   = Associations::isEnabled() && $this->state->get('filter.client_id') ==
 									<div>
 										<?php echo $prefix; ?>
 										<span class="small">
-										<?php if ($item->type != 'url') : ?>
-											<?php if (empty($item->note)) : ?>
-												<?php echo Text::sprintf('JGLOBAL_LIST_ALIAS', $this->escape($item->alias)); ?>
-											<?php else : ?>
-												<?php echo Text::sprintf('JGLOBAL_LIST_ALIAS_NOTE', $this->escape($item->alias), $this->escape($item->note)); ?>
+											<?php if ($item->type != 'url') : ?>
+												<?php if (empty($item->note)) : ?>
+													<?php echo Text::sprintf('JGLOBAL_LIST_ALIAS', $this->escape($item->alias)); ?>
+												<?php else : ?>
+													<?php echo Text::sprintf('JGLOBAL_LIST_ALIAS_NOTE', $this->escape($item->alias), $this->escape($item->note)); ?>
+												<?php endif; ?>
+											<?php elseif ($item->type == 'url' && $item->note) : ?>
+												<?php echo Text::sprintf('JGLOBAL_LIST_NOTE', $this->escape($item->note)); ?>
 											<?php endif; ?>
-										<?php elseif ($item->type == 'url' && $item->note) : ?>
-											<?php echo Text::sprintf('JGLOBAL_LIST_NOTE', $this->escape($item->note)); ?>
-										<?php endif; ?>
 										</span>
 									</div>
 									<div title="<?php echo $this->escape($item->path); ?>">

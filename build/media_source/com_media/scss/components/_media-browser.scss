@@ -2,7 +2,7 @@
 .media-browser {
   position: relative;
   min-height: 70vh;
-  border-left: 1px solid $border-color;
+  border-inline-start: 1px solid $border-color;
   transition: width .3s cubic-bezier(.4, 0, .2, 1);
 }
 
@@ -377,7 +377,8 @@
   &[data-type="jpeg" i],
   &[data-type="tiff" i],
   &[data-type="bmp" i],
-  &[data-type="svg" i] {
+  &[data-type="svg" i],
+  &[data-type="webp" i] {
     &::before {
       content: $icon-type-images;
     }

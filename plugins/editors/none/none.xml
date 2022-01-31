@@ -13,7 +13,7 @@
 		<filename plugin="none">none.php</filename>
 	</files>
 	<languages>
-		<language tag="en-GB">en-GB.plg_editors_none.ini</language>
-		<language tag="en-GB">en-GB.plg_editors_none.sys.ini</language>
+		<language tag="en-GB">language/en-GB/plg_editors_none.ini</language>
+		<language tag="en-GB">language/en-GB/plg_editors_none.sys.ini</language>
 	</languages>
 </extension>

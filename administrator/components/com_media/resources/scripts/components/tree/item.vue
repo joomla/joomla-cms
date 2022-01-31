@@ -80,6 +80,16 @@ export default {
     /* Handle the on item click event */
     onItemClick() {
       this.navigateTo(this.item.path);
+      window.parent.document.dispatchEvent(
+        new CustomEvent(
+          'onMediaFileSelected',
+          {
+            bubbles: true,
+            cancelable: false,
+            detail: {},
+          },
+        ),
+      );
     },
   },
 };

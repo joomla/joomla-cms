@@ -32,7 +32,7 @@ $tmpl     = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=
 <form action="<?php echo Route::_('index.php?option=com_plugins&view=plugin&layout=' . $layout . $tmpl . '&extension_id=' . (int) $this->item->extension_id); ?>" method="post" name="adminForm" id="style-form" aria-label="<?php echo Text::_('COM_PLUGINS_FORM_EDIT'); ?>" class="form-validate">
 	<div class="main-card">
 
-		<?php echo HTMLHelper::_('uitab.startTabSet', 'myTab', array('active' => 'general')); ?>
+		<?php echo HTMLHelper::_('uitab.startTabSet', 'myTab', ['active' => 'general', 'recall' => true, 'breakpoint' => 768]); ?>
 
 		<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'general', Text::_('COM_PLUGINS_PLUGIN')); ?>
 
@@ -85,7 +85,7 @@ $tmpl     = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=
 							<p><?php echo $short_description; ?></p>
 							<?php if ($long_description) : ?>
 								<p class="readmore">
-									<a href="#" onclick="document.querySelector('#tab-description').click();">
+									<a href="#" onclick="document.querySelector('[aria-controls=description]').click();">
 										<?php echo Text::_('JGLOBAL_SHOW_FULL_DESCRIPTION'); ?>
 									</a>
 								</p>

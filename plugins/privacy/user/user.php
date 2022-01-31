@@ -10,12 +10,10 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Application\CMSApplicationInterface;
-use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\Session\SessionManager;
-use Joomla\Database\Exception\ExecutionFailureException;
-use Joomla\CMS\Table\User as JTableUser;
+use Joomla\CMS\Table\User as TableUser;
 use Joomla\CMS\User\User;
+use Joomla\CMS\User\UserHelper;
 use Joomla\Component\Privacy\Administrator\Plugin\PrivacyPlugin;
 use Joomla\Component\Privacy\Administrator\Removal\Status;
 use Joomla\Component\Privacy\Administrator\Table\RequestTable;
@@ -91,7 +89,7 @@ class PlgPrivacyUser extends PrivacyPlugin
 			return array();
 		}
 
-		/** @var JTableUser $userTable */
+		/** @var TableUser $userTable */
 		$userTable = User::getTable();
 		$userTable->load($user->id);
 
@@ -124,8 +122,6 @@ class PlgPrivacyUser extends PrivacyPlugin
 			return;
 		}
 
-		$db = $this->db;
-
 		$pseudoanonymisedData = [
 			'name'      => 'User ID ' . $user->id,
 			'username'  => bin2hex(random_bytes(12)),
@@ -137,63 +133,20 @@ class PlgPrivacyUser extends PrivacyPlugin
 
 		$user->save();
 
-		// Destroy all sessions for the user account if able
-		if (!$this->app->get('session_metadata', true))
-		{
-			return;
-		}
-
-		try
-		{
-			$userId = (int) $user->id;
-
-			$sessionIds = $this->db->setQuery(
-				$this->db->getQuery(true)
-					->select($this->db->quoteName('session_id'))
-					->from($this->db->quoteName('#__session'))
-					->where($this->db->quoteName('userid') . ' = :userid')
-					->bind(':userid', $userId, ParameterType::INTEGER)
-			)->loadColumn();
-		}
-		catch (ExecutionFailureException $e)
-		{
-			return;
-		}
-
-		// If there aren't any active sessions then there's nothing to do here
-		if (empty($sessionIds))
-		{
-			return;
-		}
-
-		/** @var SessionManager $sessionManager */
-		$sessionManager = Factory::getContainer()->get('session.manager');
-		$sessionManager->destroySessions($sessionIds);
-
-		try
-		{
-			$this->db->setQuery(
-				$this->db->getQuery(true)
-					->delete($this->db->quoteName('#__session'))
-					->whereIn($this->db->quoteName('session_id'), $sessionIds, ParameterType::LARGE_OBJECT)
-			)->execute();
-		}
-		catch (ExecutionFailureException $e)
-		{
-			// No issue, let things go
-		}
+		// Destroy all sessions for the user account
+		UserHelper::destroyUserSessions($user->id);
 	}
 
 	/**
 	 * Create the domain for the user notes data
 	 *
-	 * @param   JTableUser  $user  The JTableUser object to process
+	 * @param   TableUser  $user  The TableUser object to process
 	 *
 	 * @return  \Joomla\Component\Privacy\Administrator\Export\Domain
 	 *
 	 * @since   3.9.0
 	 */
-	private function createNotesDomain(JTableUser $user)
+	private function createNotesDomain(TableUser $user)
 	{
 		$domain = $this->createDomain('user_notes', 'joomla_user_notes_data');
 		$db     = $this->db;
@@ -223,13 +176,13 @@ class PlgPrivacyUser extends PrivacyPlugin
 	/**
 	 * Create the domain for the user profile data
 	 *
-	 * @param   JTableUser  $user  The JTableUser object to process
+	 * @param   TableUser  $user  The TableUser object to process
 	 *
 	 * @return  \Joomla\Component\Privacy\Administrator\Export\Domain
 	 *
 	 * @since   3.9.0
 	 */
-	private function createProfileDomain(JTableUser $user)
+	private function createProfileDomain(TableUser $user)
 	{
 		$domain = $this->createDomain('user_profile', 'joomla_user_profile_data');
 		$db     = $this->db;
@@ -254,13 +207,13 @@ class PlgPrivacyUser extends PrivacyPlugin
 	/**
 	 * Create the domain for the user record
 	 *
-	 * @param   JTableUser  $user  The JTableUser object to process
+	 * @param   TableUser  $user  The TableUser object to process
 	 *
 	 * @return  \Joomla\Component\Privacy\Administrator\Export\Domain
 	 *
 	 * @since   3.9.0
 	 */
-	private function createUserDomain(JTableUser $user)
+	private function createUserDomain(TableUser $user)
 	{
 		$domain = $this->createDomain('users', 'joomla_users_data');
 		$domain->addItem($this->createItemForUserTable($user));
@@ -269,15 +222,15 @@ class PlgPrivacyUser extends PrivacyPlugin
 	}
 
 	/**
-	 * Create an item object for a JTableUser object
+	 * Create an item object for a TableUser object
 	 *
-	 * @param   JTableUser  $user  The JTableUser object to convert
+	 * @param   TableUser  $user  The TableUser object to convert
 	 *
 	 * @return  \Joomla\Component\Privacy\Administrator\Export\Item
 	 *
 	 * @since   3.9.0
 	 */
-	private function createItemForUserTable(JTableUser $user)
+	private function createItemForUserTable(TableUser $user)
 	{
 		$data    = [];
 		$exclude = ['password', 'otpKey', 'otep'];

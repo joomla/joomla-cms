@@ -28,7 +28,7 @@ class HtmlView extends BaseHtmlView
 	/**
 	 * An array of workflows
 	 *
-	 * @var     array
+	 * @var    array
 	 * @since  4.0.0
 	 */
 	protected $workflows;
@@ -36,7 +36,7 @@ class HtmlView extends BaseHtmlView
 	/**
 	 * The model state
 	 *
-	 * @var     object
+	 * @var    object
 	 * @since  4.0.0
 	 */
 	protected $state;
@@ -44,7 +44,7 @@ class HtmlView extends BaseHtmlView
 	/**
 	 * The pagination object
 	 *
-	 * @var     \JPagination
+	 * @var    \Joomla\CMS\Pagination\Pagination
 	 * @since  4.0.0
 	 */
 	protected $pagination;
@@ -52,7 +52,7 @@ class HtmlView extends BaseHtmlView
 	/**
 	 * The HTML for displaying sidebar
 	 *
-	 * @var     string
+	 * @var    string
 	 * @since  4.0.0
 	 */
 	protected $sidebar;
@@ -60,7 +60,7 @@ class HtmlView extends BaseHtmlView
 	/**
 	 * Form object for search filters
 	 *
-	 * @var     \JForm
+	 * @var    \Joomla\CMS\Form\Form
 	 * @since  4.0.0
 	 */
 	public $filterForm;
@@ -68,7 +68,7 @@ class HtmlView extends BaseHtmlView
 	/**
 	 * The active search filters
 	 *
-	 * @var     array
+	 * @var    array
 	 * @since  4.0.0
 	 */
 	public $activeFilters;
@@ -76,7 +76,7 @@ class HtmlView extends BaseHtmlView
 	/**
 	 * The name of current extension
 	 *
-	 * @var     string
+	 * @var    string
 	 * @since  4.0.0
 	 */
 	protected $extension;
@@ -94,7 +94,7 @@ class HtmlView extends BaseHtmlView
 	 *
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
 	 *
-	 * @return  mixed  A string if successful, otherwise an Error object.
+	 * @return  void
 	 *
 	 * @since  4.0.0
 	 */
@@ -125,7 +125,7 @@ class HtmlView extends BaseHtmlView
 
 		$this->addToolbar();
 
-		return parent::display($tpl);
+		parent::display($tpl);
 	}
 
 	/**
@@ -190,6 +190,6 @@ class HtmlView extends BaseHtmlView
 			$toolbar->preferences($this->extension);
 		}
 
-		$toolbar->help('JHELP_COMPONENTS_WORKFLOW_WORKFLOWS_LIST');
+		$toolbar->help('Workflows_List');
 	}
 }

@@ -9,10 +9,10 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Log\Log;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\User\UserHelper;
-use Joomla\CMS\Log\Log;
 
 /**
  * Joomla! System Remember Me Plugin
@@ -23,17 +23,15 @@ use Joomla\CMS\Log\Log;
 class PlgSystemRemember extends CMSPlugin
 {
 	/**
-	 * Application object.
+	 * @var    \Joomla\CMS\Application\CMSApplication
 	 *
-	 * @var    JApplicationCms
 	 * @since  3.2
 	 */
 	protected $app;
 
 	/**
-	 * Database object
+	 * @var    \Joomla\Database\DatabaseDriver
 	 *
-	 * @var    \Joomla\Database\DatabaseInterface
 	 * @since  4.0.0
 	 */
 	protected $db;
@@ -45,6 +43,7 @@ class PlgSystemRemember extends CMSPlugin
 	 * @return  void
 	 *
 	 * @since   1.5
+	 *
 	 * @throws  InvalidArgumentException
 	 */
 	public function onAfterInitialise()
@@ -104,7 +103,7 @@ class PlgSystemRemember extends CMSPlugin
 	 * @param   boolean  $isnew  True if a new user is stored.
 	 * @param   array    $data   Holds the new user data.
 	 *
-	 * @return    boolean
+	 * @return  boolean
 	 *
 	 * @since   3.8.6
 	 */
@@ -122,10 +121,7 @@ class PlgSystemRemember extends CMSPlugin
 			return true;
 		}
 
-		/*
-		 * But now, we need to do something
-		 * Delete all tokens for this user!
-		 */
+		// But now, we need to do something - Delete all tokens for this user!
 		$db    = $this->db;
 		$query = $db->getQuery(true)
 			->delete($db->quoteName('#__user_keys'))
