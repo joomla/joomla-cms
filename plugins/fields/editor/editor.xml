@@ -47,7 +47,6 @@
 					type="text"
 					label="PLG_FIELDS_EDITOR_PARAMS_WIDTH_LABEL"
 					default="100%"
-					size="5"
 				/>
 
 				<field
@@ -55,7 +54,6 @@
 					type="text"
 					label="PLG_FIELDS_EDITOR_PARAMS_HEIGHT_LABEL"
 					default="250px"
-					size="5"
 				/>
 
 				<field

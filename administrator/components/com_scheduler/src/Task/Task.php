@@ -116,9 +116,10 @@ class Task implements LoggerAwareInterface
 	 * @since  4.1.0
 	 */
 	protected const EVENTS_MAP = [
-		Status::OK         => 'onTaskExecuteSuccess',
-		Status::NO_ROUTINE => 'onTaskRoutineNotFound',
-		'NA'               => 'onTaskExecuteFailure',
+		Status::OK          => 'onTaskExecuteSuccess',
+		Status::NO_ROUTINE  => 'onTaskRoutineNotFound',
+		Status::WILL_RESUME => 'onTaskRoutineWillResume',
+		'NA'                => 'onTaskExecuteFailure',
 	];
 
 	/**
@@ -246,11 +247,29 @@ class Task implements LoggerAwareInterface
 		// @todo make the ExecRuleHelper usage less ugly, perhaps it should be composed into Task
 		// Update object state.
 		$this->set('last_execution', Factory::getDate('@' . (int) $this->snapshot['taskStart'])->toSql());
-		$this->set('next_execution', (new ExecRuleHelper($this->taskRegistry->toObject()))->nextExec());
 		$this->set('last_exit_code', $this->snapshot['status']);
-		$this->set('times_executed', $this->get('times_executed') + 1);
 
-		if ($this->snapshot['status'] !== Status::OK)
+		if ($this->snapshot['status'] !== Status::WILL_RESUME)
+		{
+			$this->set('next_execution', (new ExecRuleHelper($this->taskRegistry->toObject()))->nextExec());
+			$this->set('times_executed', $this->get('times_executed') + 1);
+		}
+		else
+		{
+			/**
+			 * Resumable tasks need special handling.
+			 *
+			 * They are rescheduled as soon as possible to let their next step to be executed without
+			 * a very large temporal gap to the previous step.
+			 *
+			 * Moreover, the times executed does NOT increase for each step. It will increase once,
+			 * after the last step, when they return Status::OK.
+			 */
+			$this->set('next_execution', Factory::getDate('now', 'UTC')->sub(new \DateInterval('PT1M'))->toSql());
+		}
+
+		// The only acceptable "successful" statuses are either clean exit or resuming execution.
+		if (!in_array($this->snapshot['status'], [Status::WILL_RESUME, Status::OK]))
 		{
 			$this->set('times_failed', $this->get('times_failed') + 1);
 		}
@@ -391,7 +410,7 @@ class Task implements LoggerAwareInterface
 				->bind(':times_executed', $timesExecuted)
 				->bind(':times_failed', $timesFailed);
 
-			if ($exitCode !== Status::OK)
+			if (!in_array($exitCode, [Status::OK, Status::WILL_RESUME]))
 			{
 				$query->set('times_failed = t.times_failed + 1');
 			}
@@ -495,7 +514,7 @@ class Task implements LoggerAwareInterface
 	 */
 	public function isSuccess(): bool
 	{
-		return ($this->snapshot['status'] ?? null) === Status::OK;
+		return in_array(($this->snapshot['status'] ?? null), [Status::OK, Status::WILL_RESUME]);
 	}
 
 	/**
