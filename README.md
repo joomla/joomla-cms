@@ -1,4 +1,4 @@
-Joomla! CMS™ 
+Joomla! CMS™
 ====================
 
 Build Status
@@ -11,8 +11,8 @@ Overview
 ---------------------
 * This is the source of Joomla! 4.x.
 * Joomla's [Official website](https://www.joomla.org).
-* Joomla! 4.1 [version history](https://docs.joomla.org/Special:MyLanguage/Joomla_4.1_version_history).
-* Detailed changes are in the [changelog](https://github.com/joomla/joomla-cms/commits/4.1-dev).
+* Joomla! 4.2 [version history](https://docs.joomla.org/Special:MyLanguage/Joomla_4.2_version_history).
+* Detailed changes are in the [changelog](https://github.com/joomla/joomla-cms/commits/4.2-dev).
 
 What is Joomla?
 ---------------------
@@ -47,7 +47,7 @@ cd joomla-cms
 ```
 - Go to the 4.1-dev branch:
 ```bash
-git checkout 4.1-dev
+git checkout 4.2-dev
 ```
 - Install all the needed composer packages:
 ```bash
