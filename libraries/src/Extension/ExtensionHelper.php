@@ -276,6 +276,7 @@ class ExtensionHelper
 		array('plugin', 'fields', 'system', 0),
 		array('plugin', 'highlight', 'system', 0),
 		array('plugin', 'httpheaders', 'system', 0),
+		array('plugin', 'jooa11y', 'system', 0),
 		array('plugin', 'languagecode', 'system', 0),
 		array('plugin', 'languagefilter', 'system', 0),
 		array('plugin', 'log', 'system', 0),

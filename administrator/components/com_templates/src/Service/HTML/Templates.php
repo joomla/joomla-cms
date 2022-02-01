@@ -158,7 +158,7 @@ class Templates
 
 				if (file_exists(JPATH_ROOT . '/media/templates/' . $client->name . '/' . $template->name . '/images/template_preview.png'))
 				{
-					$preview = ($template->client_id == 0 ? Uri::root(true) : Uri::root(true) . '/administrator') . '/media/templates/' . $client->name . '/' . $template->name . '/images/template_preview.png';
+					$preview = Uri::root(true) . '/media/templates/' . $client->name . '/' . $template->name . '/images/template_preview.png';
 				}
 			}
 		}
