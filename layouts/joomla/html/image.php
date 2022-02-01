@@ -19,9 +19,12 @@ defined('_JEXEC') or die;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\Utilities\ArrayHelper;
 
-$img = HTMLHelper::_('cleanImageURL', $displayData['src']);
+if (isset($displayData['src']))
+{
+	$displayData['src'] = $this->escape($displayData['src']);
+}
 
-$displayData['src'] = $this->escape($img->url);
+$img = HTMLHelper::_('cleanImageURL', $displayData['src']);
 
 if (isset($displayData['alt']))
 {
