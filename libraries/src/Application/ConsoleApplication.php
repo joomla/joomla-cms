@@ -446,7 +446,7 @@ class ConsoleApplication extends Application implements DispatcherAwareInterface
 	 *
 	 * @return  Router
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.6
 	 * @throws  \InvalidArgumentException
 	 */
 	public static function getRouter($name = null, array $options = array())
