@@ -112,6 +112,11 @@ function getQueryParam($key, $default = null)
 	if (array_key_exists($key, $_REQUEST))
 	{
 		$value = $_REQUEST[$key];
+
+		if (PHP_VERSION_ID < 50400 && get_magic_quotes_gpc() && !is_null($value))
+		{
+			$value = stripslashes($value);
+		}
 	}
 
 	return $value;
