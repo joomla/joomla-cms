@@ -15,7 +15,7 @@ use Joomla\CMS\Language\Text;
 /**
  * Returns a list of known TinyMCE buttons.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.1.0
  */
 trait KnownButtons
 {
@@ -26,7 +26,7 @@ trait KnownButtons
 	 *
 	 * @return array
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.1.0
 	 */
 	public static function getKnownButtons()
 	{

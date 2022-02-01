@@ -19,9 +19,11 @@ INSERT INTO `#__extensions` (`name`, `type`, `element`, `folder`, `client_id`, `
 ('atum', 'template', 'atum', '', 1, 1, 1, 0, '{}', '{}', '', '', 0, '0000-00-00 00:00:00', 0, 0),
 ('cassiopeia', 'template', 'cassiopeia', '', 0, 1, 1, 0, '{}', '{}', '', '', 0, '0000-00-00 00:00:00', 0, 0);
 
-INSERT INTO `#__template_styles` (`template`, `client_id`, `home`, `title`, `params`) VALUES
-('atum', 1, (CASE WHEN (SELECT b.`count` FROM (SELECT count(a.`id`) AS `count` FROM `#__template_styles` a WHERE a.`home` = '1' AND a.`client_id` = 1 AND a.`template` IN ('isis', 'hathor')) AS b) = 0 THEN '0' ELSE '1' END), 'atum - Default', '{}'),
-('cassiopeia', 0, (CASE WHEN (SELECT d.`count` FROM (SELECT count(c.`id`) AS `count` FROM `#__template_styles` c WHERE c.`home` = '1' AND c.`client_id` = 0 AND c.`template` IN ('protostar', 'beez3')) AS d) = 0 THEN '0' ELSE '1' END), 'cassiopeia - Default', '{}');
+-- The following statement had to be modified for 4.1 by adding the `inheritable` and `parent` columns.
+-- See https://github.com/joomla/joomla-cms/pull/36585 .
+INSERT INTO `#__template_styles` (`template`, `client_id`, `home`, `title`, `inheritable`, `parent`, `params`) VALUES
+('atum', 1, (CASE WHEN (SELECT b.`count` FROM (SELECT count(a.`id`) AS `count` FROM `#__template_styles` a WHERE a.`home` = '1' AND a.`client_id` = 1 AND a.`template` IN ('isis', 'hathor')) AS b) = 0 THEN '0' ELSE '1' END), 'atum - Default', 1, '', '{}'),
+('cassiopeia', 0, (CASE WHEN (SELECT d.`count` FROM (SELECT count(c.`id`) AS `count` FROM `#__template_styles` c WHERE c.`home` = '1' AND c.`client_id` = 0 AND c.`template` IN ('protostar', 'beez3')) AS d) = 0 THEN '0' ELSE '1' END), 'cassiopeia - Default', 1, '', '{}');
 
 --
 -- Move mod_version to the right position for the atum template
