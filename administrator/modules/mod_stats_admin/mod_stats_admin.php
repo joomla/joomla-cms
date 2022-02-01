@@ -9,12 +9,13 @@
 
 defined('_JEXEC') or die;
 
-// Include the mod_stats functions only once
-JLoader::register('ModStatsHelper', __DIR__ . '/helper.php');
+use Joomla\CMS\Factory;
+use Joomla\CMS\Helper\ModuleHelper;
+use Joomla\Database\DatabaseInterface;
+use Joomla\Module\StatsAdmin\Administrator\Helper\StatsAdminHelper;
 
 $serverinfo      = $params->get('serverinfo');
 $siteinfo        = $params->get('siteinfo');
-$list            = ModStatsHelper::getStats($params);
-$moduleclass_sfx = htmlspecialchars($params->get('moduleclass_sfx', ''), ENT_COMPAT, 'UTF-8');
+$list            = StatsAdminHelper::getStats($params, $app, Factory::getContainer()->get(DatabaseInterface::class));
 
-require JModuleHelper::getLayoutPath('mod_stats_admin', $params->get('layout', 'default'));
+require ModuleHelper::getLayoutPath('mod_stats_admin', $params->get('layout', 'default'));
