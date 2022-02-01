@@ -4,7 +4,8 @@
     @dblclick="openPreview()"
     @mouseleave="hideActions()"
   >
-    <div class="media-browser-item-preview">
+    <div class="media-browser-item-preview"
+    :title="item.name">
       <div class="image-background">
         <div
           class="image-cropped"
@@ -12,7 +13,8 @@
         />
       </div>
     </div>
-    <div class="media-browser-item-info">
+    <div class="media-browser-item-info"
+    :title="item.name">
       {{ item.name }} {{ item.filetype }}
     </div>
     <span
@@ -73,7 +75,7 @@ export default {
     },
     /* Edit an item */
     editItem() {
-      // TODO should we use relative urls here?
+      // @todo should we use relative urls here?
       const fileBaseUrl = `${Joomla.getOptions('com_media').editViewUrl}&path=`;
 
       window.location.href = fileBaseUrl + this.item.path;

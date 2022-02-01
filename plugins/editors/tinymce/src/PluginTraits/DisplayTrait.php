@@ -6,6 +6,7 @@
  * @copyright   (C) 2021 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Plugin\Editors\TinyMCE\PluginTraits;
 
 \defined('_JEXEC') or die();
@@ -23,15 +24,15 @@ use stdClass;
 /**
  * Handles the onDisplay event for the TinyMCE editor.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.1.0
  */
 trait DisplayTrait
 {
-  use GlobalFilters;
-  use KnownButtons;
-  use ResolveFiles;
-  use ToolbarPresets;
-  use XTDButtons;
+	use GlobalFilters;
+	use KnownButtons;
+	use ResolveFiles;
+	use ToolbarPresets;
+	use XTDButtons;
 
 	/**
 	 * Display the editor area.
@@ -169,11 +170,11 @@ trait DisplayTrait
 
 		if ($levelParams->get('lang_mode', 1))
 		{
-			if (file_exists(JPATH_ROOT . '/media/vendor/tinymce/langs/' . $language->getTag() . '.js'))
+			if (file_exists(JPATH_ROOT . '/media/vendor/tinymce/langs/' . $language->getTag() . (JDEBUG ? '.js' : '.min.js')))
 			{
 				$langPrefix = $language->getTag();
 			}
-			elseif (file_exists(JPATH_ROOT . '/media/vendor/tinymce/langs/' . substr($language->getTag(), 0, strpos($language->getTag(), '-')) . '.js'))
+			elseif (file_exists(JPATH_ROOT . '/media/vendor/tinymce/langs/' . substr($language->getTag(), 0, strpos($language->getTag(), '-')) . (JDEBUG ? '.js' : '.min.js')))
 			{
 				$langPrefix = substr($language->getTag(), 0, strpos($language->getTag(), '-'));
 			}
@@ -367,7 +368,7 @@ trait DisplayTrait
 		// Use CodeMirror in the code view instead of plain text to provide syntax highlighting
 		if ($levelParams->get('highlightPlus', 1))
 		{
-			$externalPlugins['highlightPlus'] = HTMLHelper::_('script', 'plg_editors_tinymce/plugins/highlighter/plugin.min.js', ['relative' => true, 'version' => 'auto', 'pathOnly' => true]);
+			$externalPlugins['highlightPlus'] = HTMLHelper::_('script', 'plg_editors_tinymce/plugins/highlighter/plugin-es5.min.js', ['relative' => true, 'version' => 'auto', 'pathOnly' => true]);
 		}
 
 		$dragdrop = $levelParams->get('drag_drop', 1);
@@ -375,7 +376,7 @@ trait DisplayTrait
 		if ($dragdrop && $user->authorise('core.create', 'com_media'))
 		{
 			$externalPlugins['jdragndrop'] = HTMLHelper::_('script', 'plg_editors_tinymce/plugins/dragdrop/plugin.min.js', ['relative' => true, 'version' => 'auto', 'pathOnly' => true]);
-			$uploadUrl                     = Uri::base(false) . 'index.php?option=com_media&format=json&task=api.files';
+			$uploadUrl                     = Uri::base(false) . 'index.php?option=com_media&format=json&url=1&task=api.files';
 			$uploadUrl                     = $this->app->isClient('site') ? htmlentities($uploadUrl, null, 'UTF-8', null) : $uploadUrl;
 
 			Text::script('PLG_TINY_ERR_UNSUPPORTEDBROWSER');
@@ -432,10 +433,10 @@ trait DisplayTrait
 			$scriptOptions,
 			[
 				'deprecation_warnings' => JDEBUG ? true : false,
-				'suffix'   => '.min',
+				'suffix'   => JDEBUG ? '' : '.min',
 				'baseURL'  => Uri::root(true) . '/media/vendor/tinymce',
 				'directionality' => $language->isRtl() ? 'rtl' : 'ltr',
-				'language' => $langPrefix,
+				'language' => $langPrefix . (JDEBUG ? '' : '.min'),
 				'autosave_restore_when_empty' => false,
 				'skin'     => $skin,
 				'theme'    => $theme,
@@ -454,8 +455,9 @@ trait DisplayTrait
 
 				// Cleanup/Output
 				'browser_spellcheck' => true,
-				'entity_encoding'  => $levelParams->get('entity_encoding', 'raw'),
-				'verify_html'      => !$ignore_filter,
+				'entity_encoding'    => $levelParams->get('entity_encoding', 'raw'),
+				'verify_html'        => !$ignore_filter,
+				'paste_as_text'      => (bool) $levelParams->get('paste_as_text', false),
 
 				'valid_elements'          => $valid_elements,
 				'extended_valid_elements' => implode(',', $elements),

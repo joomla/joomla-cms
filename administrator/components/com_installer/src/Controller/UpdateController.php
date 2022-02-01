@@ -108,14 +108,14 @@ class UpdateController extends BaseController
 		if ($disabledUpdateSites)
 		{
 			$updateSitesUrl = Route::_('index.php?option=com_installer&view=updatesites');
-			$this->setMessage(Text::sprintf('COM_INSTALLER_MSG_UPDATE_SITES_COUNT_CHECK', $updateSitesUrl), 'warning');
+			$this->app->enqueueMessage(Text::sprintf('COM_INSTALLER_MSG_UPDATE_SITES_COUNT_CHECK', $updateSitesUrl), 'warning');
 		}
 
 		$model->findUpdates(0, $cache_timeout, $minimum_stability);
 
 		if (0 === $model->getTotal())
 		{
-			$this->setMessage(Text::_('COM_INSTALLER_MSG_UPDATE_NOUPDATES'), 'info');
+			$this->app->enqueueMessage(Text::_('COM_INSTALLER_MSG_UPDATE_NOUPDATES'), 'info');
 		}
 
 		$this->setRedirect(Route::_('index.php?option=com_installer&view=update', false));
