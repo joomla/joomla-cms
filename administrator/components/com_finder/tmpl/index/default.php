@@ -26,8 +26,9 @@ Text::script('COM_FINDER_INDEX_CONFIRM_DELETE_PROMPT');
 
 /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
 $wa = $this->document->getWebAssetManager();
-$wa->useScript('multiselect')
-	->useScript('com_finder.index');
+$wa->useScript('com_finder.index')
+	->useScript('multiselect')
+	->useScript('table.columns');
 
 ?>
 <form action="<?php echo Route::_('index.php?option=com_finder&view=index'); ?>" method="post" name="adminForm" id="adminForm">
