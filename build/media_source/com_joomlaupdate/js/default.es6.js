@@ -67,11 +67,11 @@ Joomla = window.Joomla || {};
       }
         else if (fileSize <= allowedSize && !updateCheck.disabled && !updateCheck.checked) {
           updateCheck.disabled = false;
-      }
+        }
         else if (fileSize <= allowedSize && updateCheck.checked) {
           updateCheck.checked = false;
           uploadButton.disabled = true;
-      }
+        }
         else if (fileSize > allowedSize && !updateCheck.disabled) {
           updateCheck.disabled = !updateCheck.disabled;
           updateCheck.checked = false;
