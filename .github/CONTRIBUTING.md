@@ -14,7 +14,7 @@ If it is a PR, include what the issue is, what the PR is addressing, testing ins
 Please be patient as not all items will be tested immediately (remember, all bug testing for the Joomla! CMS is done by volunteers) and be receptive to feedback about your code.
 
 #### Branches
-PRs should usually be made to the `4.0-dev` branch as this contains the most recent version of the code.
+PRs should usually be made to the `4.1-dev` branch as this contains the most recent version of the code.
 There are other branches available which serve specific purposes.
 
 | Branch | Purpose |

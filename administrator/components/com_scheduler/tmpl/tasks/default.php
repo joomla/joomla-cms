@@ -22,8 +22,6 @@ use Joomla\Component\Scheduler\Administrator\View\Tasks\HtmlView;
 
 /** @var  HtmlView  $this*/
 
-HTMLHelper::_('behavior.multiselect');
-
 Text::script('COM_SCHEDULER_TEST_RUN_TITLE');
 Text::script('COM_SCHEDULER_TEST_RUN_TASK');
 Text::script('COM_SCHEDULER_TEST_RUN_DURATION');
@@ -65,7 +63,8 @@ $this->document->addScriptOptions('com_scheduler.test-task.token', Session::getF
 
 /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
 $wa = $this->document->getWebAssetManager();
-$wa->useScript('com_scheduler.test-task')
+$wa->useScript('multiselect')
+	->useScript('com_scheduler.test-task')
 	->useStyle('com_scheduler.admin-view-tasks-css');
 ?>
 
