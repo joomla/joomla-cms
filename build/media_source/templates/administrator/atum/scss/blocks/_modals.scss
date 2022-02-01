@@ -23,7 +23,8 @@
   }
 
   .btn-primary:not([href]) {
-    &:hover {
+    &:hover,
+    &:focus {
       color: var(--white);
       background: var(--primary);
       border-color: var(--primary);
@@ -31,7 +32,8 @@
   }
 
   .btn-secondary:not([href]) {
-    &:hover {
+    &:hover,
+    &:focus {
       color: var(--white);
       background: var(--secondary);
       border-color: var(--secondary);
@@ -39,7 +41,8 @@
   }
 
   .btn-success:not([href]) {
-    &:hover {
+    &:hover,
+    &:focus {
       color: var(--white);
       background: var(--success);
       border-color: var(--success);
@@ -47,7 +50,8 @@
   }
 
   .btn-danger:not([href]) {
-    &:hover {
+    &:hover,
+    &:focus {
       color: var(--white);
       background: var(--danger);
       border-color: var(--danger);

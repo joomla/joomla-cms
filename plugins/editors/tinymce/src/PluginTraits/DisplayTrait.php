@@ -377,7 +377,7 @@ trait DisplayTrait
 		{
 			$externalPlugins['jdragndrop'] = HTMLHelper::_('script', 'plg_editors_tinymce/plugins/dragdrop/plugin.min.js', ['relative' => true, 'version' => 'auto', 'pathOnly' => true]);
 			$uploadUrl                     = Uri::base(false) . 'index.php?option=com_media&format=json&url=1&task=api.files';
-			$uploadUrl                     = $this->app->isClient('site') ? htmlentities($uploadUrl, null, 'UTF-8', null) : $uploadUrl;
+			$uploadUrl                     = $this->app->isClient('site') ? htmlentities($uploadUrl, 0, 'UTF-8', 0) : $uploadUrl;
 
 			Text::script('PLG_TINY_ERR_UNSUPPORTEDBROWSER');
 			Text::script('ERROR');
