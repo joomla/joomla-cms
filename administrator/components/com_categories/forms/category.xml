@@ -31,6 +31,7 @@
 		name="parent_id"
 		type="categoryedit"
 		label="COM_CATEGORIES_FIELD_PARENT_LABEL"
+		layout="joomla.form.field.list-fancy-select"
 	/>
 
 	<field
