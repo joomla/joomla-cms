@@ -64,7 +64,7 @@ Joomla = window.Joomla || {};
         const allowedSize = uploadForm.max_upload_size.value;
         if (fileSize <= allowedSize && updateCheck.disabled) {
           updateCheck.disabled = !updateCheck.disabled;
-      }
+        }
         else if (fileSize <= allowedSize && !updateCheck.disabled && !updateCheck.checked) {
           updateCheck.disabled = false;
         }
@@ -76,9 +76,9 @@ Joomla = window.Joomla || {};
           updateCheck.disabled = !updateCheck.disabled;
           updateCheck.checked = false;
           uploadButton.disabled = true;
-      }
-      });
-    }
+        }
+    });
+  }
     // Trigger (re-) install (including checkbox confirm if we update)
     if (installButton && installButton.getAttribute('href') === '#' && task) {
       installButton.addEventListener('click', (e) => {
