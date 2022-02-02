@@ -68,6 +68,19 @@ abstract class Status
 	public const KNOCKOUT = 5;
 
 	/**
+	 * Exit code used when a task needs to resume (reschedule it to run a.s.a.p.).
+	 *
+	 * Use this for long running tasks, e.g. batch processing of hundreds or thousands of files,
+	 * sending newsletters with thousands of subscribers etc. These are tasks which might run out of
+	 * memory and/or hit a time limit when lazy scheduling or web triggering of tasks is being used.
+	 * Split them into smaller batches which return Status::WILL_RESUME. When the last batch is
+	 * executed return Status::OK.
+	 *
+	 * @since 4.1.0
+	 */
+	public const WILL_RESUME = 123;
+
+	/**
 	 * Exit code used when a task times out.
 	 *
 	 * @since 4.1.0
