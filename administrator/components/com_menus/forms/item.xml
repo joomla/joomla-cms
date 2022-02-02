@@ -98,6 +98,7 @@
 			default="1"
 			filter="int"
 			clientid="0"
+			layout="joomla.form.field.list-fancy-select"
 			>
 			<option value="1">JGLOBAL_ROOT_PARENT</option>
 		</field>
