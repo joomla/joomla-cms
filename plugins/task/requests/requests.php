@@ -10,6 +10,7 @@
 // Restrict direct access
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Filesystem\File;
 use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Http\HttpFactory;
@@ -42,6 +43,12 @@ class PlgTaskRequests extends CMSPlugin implements SubscriberInterface
 			'method'          => 'makeGetRequest',
 		],
 	];
+
+	/**
+	 * @var  CMSApplication
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $app;
 
 	/**
 	 * @var boolean
@@ -82,9 +89,10 @@ class PlgTaskRequests extends CMSPlugin implements SubscriberInterface
 
 		$url      = $params->url;
 		$timeout  = $params->timeout;
-		$auth     = (string) $params->auth ?? 0;
+		$auth     = ($params->auth ?? 0) === 1;
 		$authType = (string) $params->authType ?? '';
 		$authKey  = (string) $params->authKey ?? '';
+		$saveResponse = ($params->saveResponse ?? 0) === 1;
 		$headers  = [];
 
 		if ($auth && $authType && $authKey)
@@ -108,20 +116,15 @@ class PlgTaskRequests extends CMSPlugin implements SubscriberInterface
 		$responseCode = $response->code;
 		$responseBody = $response->body;
 
-		// @todo this handling must be rethought and made safe. stands as a good demo right now.
-		$responseFilename = Path::clean(JPATH_ROOT . "/tmp/task_{$id}_response.html");
+		$responseSaved = false;
 
-		if (File::write($responseFilename, $responseBody))
+		if ($saveResponse)
 		{
-			$this->snapshot['output_file'] = $responseFilename;
-			$responseStatus = 'SAVED';
-		}
-		else
-		{
-			$this->logTask('PLG_TASK_REQUESTS_TASK_GET_REQUEST_LOG_UNWRITEABLE_OUTPUT', 'error');
-			$responseStatus = 'NOT_SAVED';
+			$this->saveResponse($id, $url, $responseCode, $responseBody);
+			$responseSaved = true;
 		}
 
+		$responseStatus = $saveResponse && $responseSaved ? 'SAVED' : 'NOT_SAVED';
 		$this->snapshot['output']      = <<< EOF
 ======= Task Output Body =======
 > URL: $url
@@ -137,5 +140,36 @@ EOF;
 		}
 
 		return TaskStatus::OK;
+	}
+
+	/**
+	 * Save request response to task snapshot.
+	 *
+	 * @param   integer  $taskId        ID of the task spawning the request routine.
+	 * @param   string   $url			Request URL.
+	 * @param   integer  $responseCode  Request response code.
+	 * @param   string   $responseBody	Response body.
+	 *
+	 *
+	 * @return boolean  Returns false on failure to save the response.
+	 *
+	 * @since __DEPLOY_VERSION__
+	 * @throws Exception
+	 */
+	protected function saveResponse(int $taskId, string $url, int $responseCode, string $responseBody): bool
+	{
+		$tmpdir = $this->app->getConfig()->get('tmp_path');
+		$responseFilename = Path::check("${tmpdir}/task_{$taskId}_GET_response.html");
+
+		if (File::write($responseFilename, $responseBody))
+		{
+			$this->snapshot['output_file'] = $responseFilename;
+
+			return true;
+		}
+
+		$this->logTask('PLG_TASK_REQUESTS_TASK_GET_REQUEST_LOG_UNWRITEABLE_OUTPUT', 'error');
+
+		return false;
 	}
 }
