@@ -28,7 +28,7 @@ steps:
     depends_on: [ phpcs ]
     commands:
       - apk add git
-      - npm ci --unsafe-perm
+      - npm i --unsafe-perm
 
   - name: php72-unit
     depends_on: [ phpcs ]
