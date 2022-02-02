@@ -12,6 +12,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Uri\Uri;
 use Joomla\Component\Contact\Administrator\Helper\ContactHelper;
@@ -19,9 +20,9 @@ use Joomla\Component\Contact\Site\Helper\RouteHelper;
 
 /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
 $wa = $this->document->getWebAssetManager();
-$wa->useScript('com_contact.contacts-list');
+$wa->useScript('com_contact.contacts-list')
+	->useScript('core');
 
-HTMLHelper::_('behavior.core');
 $canDo   = ContactHelper::getActions('com_contact', 'category', $this->category->id);
 $canEdit = $canDo->get('core.edit');
 $userId  = Factory::getUser()->id;
@@ -99,7 +100,14 @@ $listDirn   = $this->escape($this->state->get('list.direction'));
 							<a href="<?php echo Route::_(RouteHelper::getContactRoute($item->slug, $item->catid, $item->language)); ?>">
 								<?php if ($this->params->get('show_image_heading')) : ?>
 									<?php if ($item->image) : ?>
-										<?php echo HTMLHelper::_('image', $item->image, '', array('class' => 'contact-thumbnail img-thumbnail')); ?>
+										<?php echo LayoutHelper::render(
+											'joomla.html.image',
+											[
+												'src'   => $item->image,
+												'alt'   => '',
+												'class' => 'contact-thumbnail img-thumbnail',
+											]
+										); ?>
 									<?php endif; ?>
 								<?php endif; ?>
 								<?php echo $this->escape($item->name); ?>
@@ -123,7 +131,7 @@ $listDirn   = $this->escape($this->state->get('list.direction'));
 									<span class="list-published badge bg-warning text-light">
 										<?php echo Text::_('JEXPIRED'); ?>
 									</span>
-								</div
+								</div>
 							<?php endif; ?>
 							<?php if ($item->published == -2) : ?>
 								<div>
@@ -189,7 +197,7 @@ $listDirn   = $this->escape($this->state->get('list.direction'));
 		<?php endif; ?>
 
 		<?php if ($this->params->get('show_pagination', 2)) : ?>
-			<div class="com-contact-category__counter w-100">
+			<div class="com-contact-category__pagination w-100">
 				<?php if ($this->params->def('show_pagination_results', 1)) : ?>
 					<p class="com-contact-category__counter counter float-end pt-3 pe-2">
 						<?php echo $this->pagination->getPagesCounter(); ?>

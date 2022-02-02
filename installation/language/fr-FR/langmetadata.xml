@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <metafile client="installation">
-	<name>French (France)</name>
-	<version>4.0.1</version>
-	<creationDate>August 2021</creationDate>
+	<name>French (fr-FR)</name>
+	<version>4.1.0</version>
+	<creationDate>January 2022</creationDate>
 	<author>Joomla! Project - French translation team</author>
 	<copyright>(C) 2005 Open Source Matters, Inc.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
@@ -11,7 +11,7 @@
 	</files>
 	<metadata>
 		<name>French (fr-FR)</name>
-		<nativeName>French (France)</nativeName>
+		<nativeName>Français (France)</nativeName>
 		<tag>fr-FR</tag>
 		<rtl>0</rtl>
 	</metadata>

@@ -29,6 +29,14 @@ use Joomla\Utilities\ArrayHelper;
 class CategoriesModel extends ListModel
 {
 	/**
+	 * Does an association exist? Caches the result of getAssoc().
+	 *
+	 * @var   boolean|null
+	 * @since 4.0.5
+	 */
+	private $hasAssociation;
+
+	/**
 	 * Constructor.
 	 *
 	 * @param   array                     $config   An optional associative array of configuration settings.
@@ -106,7 +114,7 @@ class CategoriesModel extends ListModel
 		$this->setState('filter.component', $parts[0]);
 
 		// Extract the optional section name
-		$this->setState('filter.section', (count($parts) > 1) ? $parts[1] : null);
+		$this->setState('filter.section', (\count($parts) > 1) ? $parts[1] : null);
 
 		// List state information.
 		parent::populateState($ordering, $direction);
@@ -148,7 +156,7 @@ class CategoriesModel extends ListModel
 	/**
 	 * Method to get a database query to list categories.
 	 *
-	 * @return  \JDatabaseQuery object.
+	 * @return  \Joomla\Database\DatabaseQuery
 	 *
 	 * @since   1.6
 	 */
@@ -402,42 +410,42 @@ class CategoriesModel extends ListModel
 	 */
 	public function getAssoc()
 	{
-		static $assoc = null;
-
-		if (!is_null($assoc))
+		if (!\is_null($this->hasAssociation))
 		{
-			return $assoc;
+			return $this->hasAssociation;
 		}
 
 		$extension = $this->getState('filter.extension');
 
-		$assoc = Associations::isEnabled();
+		$this->hasAssociation = Associations::isEnabled();
 		$extension = explode('.', $extension);
 		$component = array_shift($extension);
 		$cname = str_replace('com_', '', $component);
 
-		if (!$assoc || !$component || !$cname)
+		if (!$this->hasAssociation || !$component || !$cname)
 		{
-			$assoc = false;
+			$this->hasAssociation = false;
 
-			return $assoc;
+			return $this->hasAssociation;
 		}
 
 		$componentObject = $this->bootComponent($component);
 
 		if ($componentObject instanceof AssociationServiceInterface && $componentObject instanceof CategoryServiceInterface)
 		{
-			$assoc = true;
+			$this->hasAssociation = true;
 
-			return $assoc;
+			return $this->hasAssociation;
 		}
 
 		$hname = $cname . 'HelperAssociation';
 		\JLoader::register($hname, JPATH_SITE . '/components/' . $component . '/helpers/association.php');
 
-		$assoc = class_exists($hname) && !empty($hname::$category_association);
+		/* @codingStandardsIgnoreStart */
+		$this->hasAssociation = class_exists($hname) && !empty($hname::$category_association);
+		/* @codingStandardsIgnoreEnd */
 
-		return $assoc;
+		return $this->hasAssociation;
 	}
 
 	/**
@@ -476,7 +484,7 @@ class CategoriesModel extends ListModel
 		$parts     = explode('.', $extension, 2);
 		$section   = '';
 
-		if (count($parts) > 1)
+		if (\count($parts) > 1)
 		{
 			$section = $parts[1];
 		}
