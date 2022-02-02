@@ -113,7 +113,7 @@ class UpdateModel extends BaseDatabaseModel
 		$db->setQuery($query);
 		$update_site = $db->loadObject();
 
-		if ($update_site->location != $updateURL)
+		if ($update_site && $update_site->location != $updateURL)
 		{
 			// Modify the database record.
 			$update_site->last_check_timestamp = 0;
