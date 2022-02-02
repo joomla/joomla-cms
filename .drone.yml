@@ -27,6 +27,7 @@ steps:
     image: node:14-alpine
     depends_on: [ phpcs ]
     commands:
+      - apt-get update && apt-get install git
       - npm ci --unsafe-perm
 
   - name: php72-unit
