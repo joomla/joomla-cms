@@ -1358,12 +1358,12 @@ class Query
 			$searchTerm = $token->term;
 			$searchStem = $token->stem;
 
-			if ($this->wordmode == 'begin')
+			if ($this->wordmode === 'begin')
 			{
 				$searchTerm .= '%';
 				$searchStem .= '%';
 			}
-			elseif ($this->wordmode == 'fuzzy')
+			elseif ($this->wordmode === 'fuzzy')
 			{
 				$searchTerm = '%' . $searchTerm . '%';
 				$searchStem = '%' . $searchStem . '%';
