@@ -139,7 +139,7 @@ export default {
       }
       return api.canEdit;
     },
-	canOpenEditView() {
+    canOpenEditView() {
       return ['jpg', 'jpeg', 'png'].includes(this.item.extension.toLowerCase());
     },
     canDelete() {
