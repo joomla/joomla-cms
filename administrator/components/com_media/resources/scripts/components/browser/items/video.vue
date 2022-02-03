@@ -18,6 +18,8 @@
       ref="container"
       :focused="focused"
       :item="item"
+      :editable="canEdit"
+      :deletable="canDelete"
       :previewable="true"
       :downloadable="true"
       :shareable="true"
@@ -26,6 +28,8 @@
 </template>
 
 <script>
+import { api } from '../../../app/Api.es6';
+
 export default {
   name: 'MediaBrowserItemVideo',
   // eslint-disable-next-line vue/require-prop-types
@@ -36,6 +40,12 @@ export default {
     };
   },
   methods: {
+    canEdit() {
+      return api.canEdit;
+    },
+    canDelete() {
+      return api.canDelete;
+    },
     /* Hide actions dropdown */
     hideActions() {
       this.$refs.container.hideActions();
