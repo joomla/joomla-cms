@@ -418,7 +418,7 @@ class TaskModel extends AdminModel
 		$activeRoutines = array_map(
 			static function (TaskOption $taskOption): string
 			{
-				return $taskOption->type;
+				return $taskOption->id;
 			},
 			SchedulerHelper::getTaskOptions()->options
 		);
