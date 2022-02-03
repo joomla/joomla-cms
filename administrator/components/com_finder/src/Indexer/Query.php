@@ -193,7 +193,7 @@ class Query
 	public function __construct($options)
 	{
 		// Get the input string.
-		$this->input = $options['input'] ?? null;
+		$this->input = $options['input'] ?? '';
 
 		// Get the empty query setting.
 		$this->empty = isset($options['empty']) ? (bool) $options['empty'] : false;
