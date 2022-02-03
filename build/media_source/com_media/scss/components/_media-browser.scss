@@ -204,10 +204,10 @@
 }
 
 .image-cropped {
-  padding-bottom: 100%;
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: contain;
+  aspect-ratio: 1/1;
+  max-width: 100%;
+  height: auto;
+  object-fit: contain;
   border-radius: $grid-item-border-radius;
 }
 

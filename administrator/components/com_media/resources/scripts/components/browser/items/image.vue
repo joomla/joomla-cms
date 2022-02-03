@@ -7,10 +7,14 @@
     <div class="media-browser-item-preview"
     :title="item.name">
       <div class="image-background">
-        <div
+        <img
           class="image-cropped"
-          :style="{ backgroundImage: getHashedURL }"
-        />
+          :src="getURL"
+          :alt="altTag"
+          loading="lazy"
+          :width="width"
+          :height="height"
+        >
       </div>
     </div>
     <div class="media-browser-item-info"
@@ -40,20 +44,39 @@ import { api } from '../../../app/Api.es6';
 
 export default {
   name: 'MediaBrowserItemImage',
-  // eslint-disable-next-line vue/require-prop-types
-  props: ['item', 'focused'],
+  props: {
+    item: {
+      type: Object,
+      required: true,
+    },
+    focused: {
+      type: Boolean,
+      required: true,
+      default: false,
+    },
+  },
   data() {
     return {
-      showActions: false,
+      showActions: {
+        type: Boolean,
+        default: false,
+      },
     };
   },
   computed: {
-    /* Get the hashed URL */
-    getHashedURL() {
-      if (this.item.adapter.startsWith('local-')) {
-        return `url(${this.item.thumb_path}?${api.mediaVersion})`;
-      }
-      return `url(${this.item.thumb_path})`;
+    getURL() {
+      return this.item.thumb_path.split(Joomla.getOptions('system.paths').rootFull).length > 1
+        ? `${this.item.thumb_path}?${api.mediaVersion}`
+        : `${this.item.thumb_path}`;
+    },
+    width() {
+      return this.item.width;
+    },
+    height() {
+      return this.item.height;
+    },
+    altTag() {
+      return this.item.name;
     },
   },
   methods: {
