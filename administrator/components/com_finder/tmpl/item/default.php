@@ -27,14 +27,14 @@ use Joomla\CMS\Language\Text;
 		<table class="table">
 			<thead>
 			<tr>
-				<td>id</td>
-				<td>term</td>
-				<td>stem</td>
-				<td>common</td>
-				<td>phrase</td>
-				<td>weight</td>
-				<td>links</td>
-				<td>language</td>
+				<th scope="col">id</th>
+				<th scope="col">term</th>
+				<th scope="col">stem</th>
+				<th scope="col">common</th>
+				<th scope="col">phrase</th>
+				<th scope="col">weight</th>
+				<th scope="col">links</th>
+				<th scope="col">language</th>
 			</tr>
 			</thead>
 			<tbody>
@@ -58,14 +58,14 @@ use Joomla\CMS\Language\Text;
 		<table class="table">
 			<thead>
 				<tr>
-					<td>id</td>
-					<td>title</td>
-					<td>alias</td>
-					<td>lft</td>
-					<td>path</td>
-					<td>state</td>
-					<td>access</td>
-					<td>language</td>
+					<th scope="col">id</th>
+					<th scope="col">title</th>
+					<th scope="col">alias</th>
+					<th scope="col">lft</th>
+					<th scope="col">path</th>
+					<th scope="col">state</th>
+					<th scope="col">access</th>
+					<th scope="col">language</th>
 				</tr>
 			</thead>
 			<tbody>
