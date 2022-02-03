@@ -18,8 +18,6 @@
     </div>
     <media-browser-action-items-container
       ref="container"
-      :editable="canEdit"
-      :deletable="canDelete"
       :focused="focused"
       :item="item"
     />
@@ -27,7 +25,6 @@
 </template>
 <script>
 import navigable from '../../../mixins/navigable.es6';
-import { api } from '../../../app/Api.es6';
 
 export default {
   name: 'MediaBrowserItemDirectory',
@@ -40,12 +37,6 @@ export default {
     };
   },
   methods: {
-    canEdit() {
-      return api.canEdit;
-    },
-    canDelete() {
-      return api.canDelete;
-    },
     /* Handle the on preview double click event */
     onPreviewDblClick() {
       this.navigateTo(this.item.path);

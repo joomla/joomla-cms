@@ -17,7 +17,6 @@
     <media-browser-action-items-container
       ref="container"
       :focused="focused"
-      :deleteable="canDelete"
       :item="item"
       :previewable="true"
       :downloadable="true"
@@ -27,8 +26,6 @@
 </template>
 
 <script>
-import { api } from '../../../app/Api.es6';
-
 export default {
   name: 'MediaBrowserItemAudio',
   // eslint-disable-next-line vue/require-prop-types
@@ -39,12 +36,6 @@ export default {
     };
   },
   methods: {
-    canEdit() {
-      return api.canEdit;
-    },
-    canDelete() {
-      return api.canDelete;
-    },
     /* Hide actions dropdown */
     hideActions() {
       this.$refs.container.hideActions();

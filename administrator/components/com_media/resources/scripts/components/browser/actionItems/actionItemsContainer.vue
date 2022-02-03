@@ -65,7 +65,7 @@
         </li>
         <li>
           <media-browser-action-item-edit
-            v-if="canEdit"
+            v-if="canEdit && canOpenEditView"
             ref="actionEdit"
             :on-focused="focused"
             :main-action="editItem"
@@ -115,6 +115,7 @@
 
 <script>
 import * as types from '../../../store/mutation-types.es6';
+import { api } from '../../../app/Api.es6';
 
 export default {
   name: 'MediaBrowserActionItemsContainer',
@@ -122,8 +123,6 @@ export default {
     item: { type: Object, default: () => {} },
     onFocused: { type: Function, default: () => {} },
     edit: { type: Function, default: () => {} },
-    editable: { type: Boolean, default: false },
-    deletable: { type: Boolean, default: false },
     previewable: { type: Boolean, default: false },
     downloadable: { type: Boolean, default: false },
     shareable: { type: Boolean, default: false },
@@ -134,12 +133,20 @@ export default {
     };
   },
   computed: {
-    /* Check if the item is an document to edit */
-    canEdit() {
-      return this.editable();
+   canEdit() {
+	  if (typeof this.item.canEdit !== 'undefined') {
+		  return this.item.canEdit;
+	  }
+      return api.canEdit;
+    },
+	canOpenEditView() {
+      return ['jpg', 'jpeg', 'png'].includes(this.item.extension.toLowerCase());
     },
     canDelete() {
-      return this.deletable();
+	  if (typeof this.item.canDelete !== 'undefined') {
+		  return this.item.canDelete;
+	  }
+      return api.canDelete;
     },
   },
   watch: {
