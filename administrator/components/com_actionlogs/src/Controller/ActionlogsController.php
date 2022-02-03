@@ -84,7 +84,7 @@ class ActionlogsController extends AdminController
 		// Get the logs data
 		$data = $model->getLogDataAsIterator($pks);
 
-		if (count($data))
+		if (\count($data))
 		{
 			try
 			{

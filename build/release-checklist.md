@@ -1,11 +1,11 @@
 # Joomla Release Checklist
-The following document is intended to be a checklist for each release for use by the release lead. It should not include detailed explanations. These belong in the Release Proceedure Documentation here: https://docs.joomla.org/Joomla:Release_procedure_and_checklist.
+The following document is intended to be a checklist for each release for use by the release lead. It should not include detailed explanations. These belong in the Release Procedure Documentation here: https://docs.joomla.org/Joomla:Release_procedure_and_checklist.
 
 At all stages here it is assumed you have a copy of the joomla-cms repo downloaded. Your release branch is clean and in the code snippets below that you have two remotes - an `upstream` remote that points to this repo and a `security` remote which points to the security private repository. You should also ensure all your commits and tags are signed by a GPG key that GitHub recognises.
 
 ## Checklist (Release Candidate - Preparation)
 
-- [ ] Agree Stable Announcment URL with the marketing team
+- [ ] Agree Stable Announcement URL with the marketing team
 - [ ] Create Release Candidate PR for joomla/update.joomla.org
 - [ ] Check with Joomla Security Strike Team for any security patches
 - [ ] Ensure Release FAQ Pages have been created on Documentation Site
@@ -41,7 +41,7 @@ php build/bump.php -v 3.10.X-rc2-dev
 git commit -am 'reset to dev'
 git push upstream --tags
 ```
-- [ ] Create the RC release on github
+- [ ] Create the RC release on GitHub
 - [ ] Upload the packages to the GitHub release
 - [ ] Publish GitHub release (remember to mark it as a pre-release!)
 - [ ] `git push upstream 3.10-dev`
@@ -72,9 +72,9 @@ php build/build.php
 cd build/tmp/packages
 cat build/tmp/checksums.txt
 ```
-- [ ] Upload the packages to a private location and make provide download links in `CMS Release Team` and `JSST - Joomla! Security Strike Team` Glip Channels
+- [ ] Upload the packages to a private location and provide download links in `CMS Release Team` and `JSST - Joomla! Security Strike Team` Glip Channels
 
-## Checklist (Stable - Preperation)
+## Checklist (Stable - Preparation)
 If any extra code changes have been applied since the Release Candidate consider tagging a building a fresh Release Candidate alongside the final packages to help as many people test as possible.
 
 - [ ] Create Stable PR for joomla/update.joomla.org:
@@ -87,7 +87,7 @@ git fetch upstream
 git pull
 php build/deleted_file_check.php --from=3.10.X
 ```
-- [ ] Build the release (if any new security patches have arrived - apply them following the "Extra Steps" proceedure above)
+- [ ] Build the release (if any new security patches have arrived - apply them following the "Extra Steps" procedure above)
 ```
 git checkout 3.10-dev
 git fetch upstream
@@ -103,11 +103,11 @@ php build/bump.php -v 3.10.(X+1)-dev
 git commit -am 'reset to dev'
 # DO NOT PUSH YET!
 ```
-- [ ] Upload the packages to a private location and make provide download links in `CMS Release Team` (and `JSST - Joomla! Security Strike Team` if a security release) Glip Channel(s)
+- [ ] Upload the packages to a private location and provide download links in `CMS Release Team` (and `JSST - Joomla! Security Strike Team` if a security release) Glip Channel(s)
 - [ ] Upload release packages to AWS S3
 - [ ] Execute the `ars-create-cms-release.php` script on downloads server (`ssh` to the server and `cd` to the web root)
 ```
-php cli/ars-create-cms-release.php --releaseVersion=3.10.X --releaseUrl=https://joomla.org/<insert_url> --userId=<downloads_user_name>
+php cli/ars-create-cms-release.php --releaseVersion=3.10.X --releaseUrl=https://joomla.org/<insert_url> --userId=<downloads_site_user_name>
 ```
 - [ ] Update hashes in the [update.joomla.org PR](https://github.com/joomla/update.joomla.org/pulls)
 
@@ -115,12 +115,12 @@ php cli/ars-create-cms-release.php --releaseVersion=3.10.X --releaseUrl=https://
 If any updates to packages are required at this point due to critical issues uncovered:
 
 - [ ] Follow the new release package following the steps previously made
-- [ ] If a non-security release tag a fresh release candidate and publish to Github following the documented process
-- [ ] Upload the packages to a private location and make provide download links in `CMS Release Team` (and `JSST - Joomla! Security Strike Team` if a security release) Glip Channel(s)
+- [ ] If a non-security release tag a fresh release candidate and publish to GitHub following the documented process
+- [ ] Upload the packages to a private location and provide download links in `CMS Release Team` (and `JSST - Joomla! Security Strike Team` if a security release) Glip Channel(s)
 - [ ] Upload release packages to AWS S3
 - [ ] Execute the `ars-get-hashes.php` script on downloads server (`ssh` to the server and `cd` to the web root)
 ```
-php cli/ars-get-hashes.php --releaseVersion=3.10.X
+php cli/ars-get-hashes.php --release=<ars_release_id>
 ```
 - [ ] Update hashes in the [update.joomla.org PR](https://github.com/joomla/update.joomla.org/pulls)
 
@@ -133,6 +133,7 @@ php cli/ars-get-hashes.php --releaseVersion=3.10.X
 - [ ] Upload the packages to the GitHub release
 - [ ] Publish GitHub release
 - [ ] Merge the [joomla/update.joomla.org PR](https://github.com/joomla/update.joomla.org/pulls)
+- [ ] Wait for `.org build notifications` to report back and validate update.joomla.org CDN Cache has flushed
 - [ ] Merge the [joomla/statistics-server PR](https://github.com/joomla/statistics-server/pulls)
 - [ ] Wait for `.org build notifications` to report back
 - [ ] Publish the release on [downloads.joomla.org](https://downloads.joomla.org/administrator/index.php?option=com_ars&view=Releases)
@@ -144,7 +145,7 @@ php cli/ars-get-hashes.php --releaseVersion=3.10.X
 - [ ] Trigger new nightly build: [https://build.joomla.org](https://build.joomla.org:8443/job/cms_packaging/)
 - [ ] Trigger new api docs build: [https://build.joomla.org](https://build.joomla.org:8443/job/api.joomla.org/)
 - [ ] Wait for `.org build notifications` to report back
-- [ ] Inform `Contact the Social Media Team`, `CMS Release Team` and `CMS Maintenance Team` (and `JSST - Joomla! Security Strike Team` if a security release) Glip channels the release process has started
+- [ ] Inform `Contact the Social Media Team`, `CMS Release Team` and `CMS Maintenance Team` (and `JSST - Joomla! Security Strike Team` if a security release) Glip channels the release process is complete
 - [ ] Check next release date with other release leads, Create Google Calendar + meet invites
 - [ ] Inform `CMS Release Team` Glip Channel of the next expected release candidate and stable release date
 - [ ] Update the Joomla Roadmap on [developer.joomla.org](https://developer.joomla.org/administrator/index.php?option=com_content&view=articles)
