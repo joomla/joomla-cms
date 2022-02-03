@@ -66,7 +66,7 @@ export default {
   //   modal: document.querySelector('.modal-content'),
   //   firstFocusableElement: modal.querySelectorAll(this.focusableElements)[0],
   //   focusableContent: modal.querySelectorAll(this.focusableElements),
-  //   lastFocusableElement: focusableContent[this.focusableContent.length - 1]   
+  //   lastFocusableElement: focusableContent[this.focusableContent.length - 1]
   // },
   computed: {
     /* Get the modal css class */
@@ -78,14 +78,12 @@ export default {
   },
   mounted() {
     // Listen to keydown events on the document
-    const focusableElements='button:not([disabled]), [href], input:not([disabled]), select, textarea, [tabindex]:not([tabindex="-1"])';
+    const focusableElements = 'button:not([disabled]), [href], input:not([disabled]), select, textarea, [tabindex]:not([tabindex="-1"])';
     const modal = document.querySelector('.modal-content');
-    const firstFocusableElement= modal.querySelectorAll(focusableElements)[0];
-    const focusableContent= modal.querySelectorAll(focusableElements);
-    const lastFocusableElement= focusableContent[focusableContent.length - 1];
+    const firstFocusableElement = modal.querySelectorAll(focusableElements)[0];
     document.addEventListener('keydown', this.onKeyPress);
     firstFocusableElement.focus();
-    
+
     // this.firstFocusableElement.focus();
   },
   beforeUnmount() {
@@ -94,11 +92,11 @@ export default {
   },
   methods: {
     onKeyPress(e) {
-      const focusableElements='button:not([disabled]), [href], input:not([disabled]), select, textarea, [tabindex]:not([tabindex="-1"])';
+      const focusableElements = 'button:not([disabled]), [href], input:not([disabled]), select, textarea, [tabindex]:not([tabindex="-1"])';
       const modal = document.querySelector('.modal-content');
-      const firstFocusableElement= modal.querySelectorAll(focusableElements)[0];
-      const focusableContent= modal.querySelectorAll(focusableElements);
-      const lastFocusableElement= focusableContent[focusableContent.length - 1];
+      const firstFocusableElement = modal.querySelectorAll(focusableElements)[0];
+      const focusableContent = modal.querySelectorAll(focusableElements);
+      const lastFocusableElement = focusableContent[focusableContent.length - 1];
       const isTabPressed = e.key === 'Tab' || e.keyCode === 9;
       if (!isTabPressed) {
         return;
@@ -112,7 +110,6 @@ export default {
         firstFocusableElement.focus();
         e.preventDefault();
       }
-      
     },
     /* Close the modal instance */
     close() {
