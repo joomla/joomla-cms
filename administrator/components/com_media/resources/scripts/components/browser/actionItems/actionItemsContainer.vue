@@ -134,18 +134,18 @@ export default {
   },
   computed: {
    canEdit() {
-	  if (typeof this.item.canEdit !== 'undefined') {
-		  return this.item.canEdit;
-	  }
+      if (typeof this.item.canEdit !== 'undefined') {
+        return this.item.canEdit;
+      }
       return api.canEdit;
     },
 	canOpenEditView() {
       return ['jpg', 'jpeg', 'png'].includes(this.item.extension.toLowerCase());
     },
     canDelete() {
-	  if (typeof this.item.canDelete !== 'undefined') {
-		  return this.item.canDelete;
-	  }
+      if (typeof this.item.canDelete !== 'undefined') {
+        return this.item.canDelete;
+      }
       return api.canDelete;
     },
   },

@@ -17,6 +17,7 @@ use Joomla\CMS\Uri\Uri;
 $app    = Factory::getApplication();
 $params = ComponentHelper::getParams('com_media');
 $input  = $app->input;
+$user   = $app->getIdentity();
 
 /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
 $wa = $this->document->getWebAssetManager();
@@ -55,9 +56,9 @@ $config = [
 	'providers'           => (array) $this->providers,
 	'currentPath'         => $this->currentPath,
 	'isModal'             => $tmpl === 'component',
-	'canCreate'           => $app->getIdentity()->authorise('core.create', 'com_media'),
-	'canEdit'             => $app->getIdentity()->authorise('core.edit', 'com_media'),
-	'canDelete'           => $app->getIdentity()->authorise('core.delete', 'com_media'),
+	'canCreate'           => $user->authorise('core.create', 'com_media'),
+	'canEdit'             => $user->authorise('core.edit', 'com_media'),
+	'canDelete'           => $user->authorise('core.delete', 'com_media'),
 ];
 $this->document->addScriptOptions('com_media', $config);
 ?>
