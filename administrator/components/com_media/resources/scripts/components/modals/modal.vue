@@ -61,13 +61,6 @@ export default {
     },
   },
   emits: ['close'],
-  // data: {
-  //   focusableElements:'button:not([disabled]), [href], input:not([disabled]), select, textarea, [tabindex]:not([tabindex="-1"])',
-  //   modal: document.querySelector('.modal-content'),
-  //   firstFocusableElement: modal.querySelectorAll(this.focusableElements)[0],
-  //   focusableContent: modal.querySelectorAll(this.focusableElements),
-  //   lastFocusableElement: focusableContent[this.focusableContent.length - 1]
-  // },
   computed: {
     /* Get the modal css class */
     modalClass() {
@@ -83,14 +76,13 @@ export default {
     const firstFocusableElement = modal.querySelectorAll(focusableElements)[0];
     document.addEventListener('keydown', this.onKeyPress);
     firstFocusableElement.focus();
-
-    // this.firstFocusableElement.focus();
   },
   beforeUnmount() {
     // Remove the keydown event listener
     document.removeEventListener('keydown', this.onKeyPress);
   },
   methods: {
+    /* Handle KeyDown events */
     onKeyPress(e) {
       const focusableElements = 'button:not([disabled]), [href], input:not([disabled]), select, textarea, [tabindex]:not([tabindex="-1"])';
       const modal = document.querySelector('.modal-content');
@@ -100,6 +92,9 @@ export default {
       const isTabPressed = e.key === 'Tab' || e.keyCode === 9;
       if (!isTabPressed) {
         return;
+      }
+      if (e.keyCode === 27) {
+        this.close();
       }
       if (e.shiftKey) { // if shift key pressed for shift + tab combination
         if (document.activeElement === firstFocusableElement) {
@@ -114,12 +109,6 @@ export default {
     /* Close the modal instance */
     close() {
       this.$emit('close');
-    },
-    /* Handle keydown events */
-    onKeyDown(event) {
-      if (event.keyCode === 27) {
-        this.close();
-      }
     },
   },
 };
