@@ -151,8 +151,7 @@ EOF;
 	 * @param   integer  $responseCode  Request response code.
 	 * @param   string   $responseBody  Response body.
 	 *
-	 *
-	 * @return boolean  Returns false on failure to save the response.
+	 * @return  boolean  Returns false on failure to save the response.
 	 *
 	 * @since __DEPLOY_VERSION__
 	 * @throws Exception
