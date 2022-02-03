@@ -28,7 +28,6 @@
 					type="url"
 					label="MOD_FEED_FIELD_RSSURL_LABEL"
 					filter="url"
-					size="50"
 					required="true"
 					validate="url"
 				/>

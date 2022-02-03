@@ -232,14 +232,14 @@ class PlgSystemFields extends CMSPlugin
 	 * The user delete event.
 	 *
 	 * @param   stdClass  $user    The context
-	 * @param   boolean   $succes  Is success
+	 * @param   boolean   $success Is success
 	 * @param   string    $msg     The message
 	 *
 	 * @return  void
 	 *
 	 * @since   3.7.0
 	 */
-	public function onUserAfterDelete($user, $succes, $msg): void
+	public function onUserAfterDelete($user, $success, $msg): void
 	{
 		$item     = new stdClass;
 		$item->id = $user['id'];
