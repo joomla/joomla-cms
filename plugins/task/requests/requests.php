@@ -87,13 +87,13 @@ class PlgTaskRequests extends CMSPlugin implements SubscriberInterface
 		$id     = $event->getTaskId();
 		$params = $event->getArgument('params');
 
-		$url      = $params->url;
-		$timeout  = $params->timeout;
-		$auth     = ($params->auth ?? 0) === 1;
-		$authType = (string) $params->authType ?? '';
-		$authKey  = (string) $params->authKey ?? '';
+		$url          = $params->url;
+		$timeout      = $params->timeout;
+		$auth         = ($params->auth ?? 0) === 1;
+		$authType     = (string) $params->authType ?? '';
+		$authKey      = (string) $params->authKey ?? '';
 		$saveResponse = ($params->saveResponse ?? 0) === 1;
-		$headers  = [];
+		$headers      = [];
 
 		if ($auth && $authType && $authKey)
 		{
@@ -125,7 +125,8 @@ class PlgTaskRequests extends CMSPlugin implements SubscriberInterface
 		}
 
 		$responseStatus = $saveResponse && $responseSaved ? 'SAVED' : 'NOT_SAVED';
-		$this->snapshot['output']      = <<< EOF
+
+		$this->snapshot['output'] = <<< EOF
 ======= Task Output Body =======
 > URL: $url
 > Response Code: $responseCode
@@ -146,9 +147,9 @@ EOF;
 	 * Save request response to task snapshot.
 	 *
 	 * @param   integer  $taskId        ID of the task spawning the request routine.
-	 * @param   string   $url			Request URL.
+	 * @param   string   $url           Request URL.
 	 * @param   integer  $responseCode  Request response code.
-	 * @param   string   $responseBody	Response body.
+	 * @param   string   $responseBody  Response body.
 	 *
 	 *
 	 * @return boolean  Returns false on failure to save the response.
@@ -158,7 +159,7 @@ EOF;
 	 */
 	protected function saveResponse(int $taskId, string $url, int $responseCode, string $responseBody): bool
 	{
-		$tmpdir = $this->app->getConfig()->get('tmp_path');
+		$tmpdir           = $this->app->getConfig()->get('tmp_path');
 		$responseFilename = Path::check("${tmpdir}/task_{$taskId}_GET_response.html");
 
 		if (File::write($responseFilename, $responseBody))
