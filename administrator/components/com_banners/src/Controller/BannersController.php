@@ -109,7 +109,7 @@ class BannersController extends AdminController
 					$ntext = 'COM_BANNERS_N_BANNERS_UNSTUCK';
 				}
 
-				$this->setMessage(Text::plural($ntext, count($ids)));
+				$this->setMessage(Text::plural($ntext, \count($ids)));
 			}
 		}
 
