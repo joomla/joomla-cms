@@ -29,7 +29,7 @@ class DisplayController extends BaseController
 	 * @param   array|boolean  $urlparams  An array of safe URL parameters and their variable types,
 	 *                                     for valid values see {@link \Joomla\CMS\Filter\InputFilter::clean()}.
 	 *
-	 * @return  static  This object to support chaining.
+	 * @return  void
 	 *
 	 * @since   1.5
 	 * @throws  \Exception
