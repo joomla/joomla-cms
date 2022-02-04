@@ -118,8 +118,6 @@ class HtmlView extends BaseHtmlView
 	 */
 	protected function addToolbar(): void
 	{
-		$canDo = ContentHelper::getActions('com_scheduler');
-
 		/*
 		* Get the global Toolbar instance
 		* @todo : Replace usage with ToolbarFactoryInterface. but how?
