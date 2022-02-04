@@ -74,7 +74,7 @@ export default {
     },
   },
   methods: {
-    /* Check if the item is a document to edit */
+    /* Check if the item is an image to edit */
     canEdit() {
       return ['jpg', 'jpeg', 'png'].includes(this.item.extension.toLowerCase());
     },
