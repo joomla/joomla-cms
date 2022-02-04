@@ -9,6 +9,7 @@ return array(
     'Brumann\\Polyfill\\DisallowedClassesSubstitutor' => $vendorDir . '/brumann/polyfill-unserialize/src/DisallowedClassesSubstitutor.php',
     'Brumann\\Polyfill\\Unserialize' => $vendorDir . '/brumann/polyfill-unserialize/src/Unserialize.php',
     'CallbackFilterIterator' => $vendorDir . '/joomla/compat/src/CallbackFilterIterator.php',
+    'Composer\\InstalledVersions' => $vendorDir . '/composer/InstalledVersions.php',
     'EasyPeasyICS' => $vendorDir . '/phpmailer/phpmailer/extras/EasyPeasyICS.php',
     'Joomla\\Application\\AbstractApplication' => $vendorDir . '/joomla/application/src/AbstractApplication.php',
     'Joomla\\Application\\AbstractCliApplication' => $vendorDir . '/joomla/application/src/AbstractCliApplication.php',

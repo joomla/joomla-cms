@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2006 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -239,7 +239,7 @@ class Mail extends \PHPMailer
 				// If it is neither, we log a message and throw an exception
 				Log::add(\JText::sprintf('JLIB_MAIL_INVALID_EMAIL_SENDER', $from), Log::WARNING, 'jerror');
 
-				throw new \UnexpectedValueException(sprintf('Invalid email Sender: %s, Mail::setSender(%s)', $from));
+				throw new \UnexpectedValueException(sprintf('Invalid email sender: %s', $from));
 			}
 
 			// Check for boolean false return if exception handling is disabled

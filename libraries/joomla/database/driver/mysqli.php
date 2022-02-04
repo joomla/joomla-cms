@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Database
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2005 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -246,12 +246,12 @@ class JDatabaseDriverMysqli extends JDatabaseDriver
 		if (is_float($text))
 		{
 			// Force the dot as a decimal point.
-			return str_replace(',', '.', $text);
+			return str_replace(',', '.', (string) $text);
 		}
 
 		$this->connect();
 
-		$result = mysqli_real_escape_string($this->getConnection(), $text);
+		$result = mysqli_real_escape_string($this->getConnection(), (string) $text);
 
 		if ($extra)
 		{

@@ -2,7 +2,7 @@
 /**
  * @package    FrameworkOnFramework
  * @subpackage encrypt
- * @copyright   Copyright (C) 2010-2016 Nicholas K. Dionysopoulos / Akeeba Ltd. All rights reserved.
+ * @copyright  Copyright (C) 2010-2016 Nicholas K. Dionysopoulos / Akeeba Ltd. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 defined('FOF_INCLUDED') or die;
@@ -139,7 +139,7 @@ class FOFEncryptBase32
 		// Remove the extra 0's we added
 		$str = preg_replace('/000(.{5})/', '$1', $str);
 
-		// Unpad if nessicary
+		// Unpad if necessary
 		$length = strlen($str);
 		$rbits = $length & 7;
 

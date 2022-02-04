@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_joomlaupdate
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2012 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -44,6 +44,33 @@ class JoomlaupdateViewDefault extends JViewLegacy
 	protected $methodSelectUpload = null;
 
 	/**
+	 * PHP options.
+	 *
+	 * @var   array  Array of PHP config options
+	 *
+	 * @since 3.10.0
+	 */
+	protected $phpOptions = null;
+
+	/**
+	 * PHP settings.
+	 *
+	 * @var   array  Array of PHP settings
+	 *
+	 * @since 3.10.0
+	 */
+	protected $phpSettings = null;
+
+	/**
+	 * Non Core Extensions.
+	 *
+	 * @var   array  Array of Non-Core-Extensions
+	 *
+	 * @since 3.10.0
+	 */
+	protected $nonCoreExtensions = null;
+
+	/**
 	 * Renders the view
 	 *
 	 * @param   string  $tpl  Template name
@@ -70,6 +97,20 @@ class JoomlaupdateViewDefault extends JViewLegacy
 		$this->methodSelect       = JoomlaupdateHelperSelect::getMethods($defaultMethod);
 		$this->methodSelectUpload = JoomlaupdateHelperSelect::getMethods($defaultMethod, 'method', 'upload_method');
 
+		// Get results of pre update check evaluations
+		$this->phpOptions             = $model->getPhpOptions();
+		$this->phpSettings            = $model->getPhpSettings();
+		$this->nonCoreExtensions      = $model->getNonCoreExtensions();
+		$this->isBackendTemplateIsis  = (bool) $model->isTemplateActive('isis');
+
+		// Disable the critical plugins check for non-major updates.
+		$this->nonCoreCriticalPlugins = array();
+
+		if (version_compare($this->updateInfo['latest'], '4', '>='))
+		{
+			$this->nonCoreCriticalPlugins = $model->getNonCorePlugins(array('system','user','authentication','actionlog','twofactorauth'));
+		}
+
 		// Set the toolbar information.
 		JToolbarHelper::title(JText::_('COM_JOOMLAUPDATE_OVERVIEW'), 'loop install');
 		JToolbarHelper::custom('update.purge', 'loop', 'loop', 'COM_JOOMLAUPDATE_TOOLBAR_CHECK', false);
@@ -95,7 +136,6 @@ class JoomlaupdateViewDefault extends JViewLegacy
 		switch ($params->get('updatesource', 'default'))
 		{
 			// "Minor & Patch Release for Current version AND Next Major Release".
-			case 'sts':
 			case 'next':
 				$this->langKey         = 'COM_JOOMLAUPDATE_VIEW_DEFAULT_UPDATES_INFO_NEXT';
 				$this->updateSourceKey = JText::_('COM_JOOMLAUPDATE_CONFIG_UPDATESOURCE_NEXT');
@@ -118,6 +158,7 @@ class JoomlaupdateViewDefault extends JViewLegacy
 			 * The commented "case" below are for documenting where 'default' and legacy options falls
 			 * case 'default':
 			 * case 'lts':
+			 * case 'sts':
 			 * case 'nochange':
 			 */
 			default:
@@ -215,4 +256,29 @@ class JoomlaupdateViewDefault extends JViewLegacy
 			return true;
 		}
 	}
+
+	/**
+	 * Returns true, if the pre update check should be displayed.
+	 * This logic is not hardcoded in tmpl files, because it is
+	 * used by the Hathor tmpl too.
+	 *
+	 * @return boolean
+	 *
+	 * @since 3.10.0
+	 */
+	public function shouldDisplayPreUpdateCheck()
+	{
+		// When the download URL is not found there is no core upgrade path
+		if (!isset($this->updateInfo['object']->downloadurl->_data))
+		{
+			return false;
+		}
+
+		$nextMinor = JVersion::MAJOR_VERSION . '.' . (JVersion::MINOR_VERSION + 1);
+
+		// Show only when we found a download URL, we have an update and when we update to the next minor or greater.
+		return $this->updateInfo['hasUpdate']
+				&& version_compare($this->updateInfo['latest'], $nextMinor, '>=');
+	}
 }
+

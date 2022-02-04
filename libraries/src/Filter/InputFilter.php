@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2006 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -493,7 +493,8 @@ class InputFilter extends BaseInputFilter
 
 			// Forbidden string in extension (e.g. php matched .php, .xxx.php, .php.xxx and so on)
 			'forbidden_extensions'       => array(
-				'php', 'phps', 'pht', 'phtml', 'php3', 'php4', 'php5', 'php6', 'php7', 'phar', 'inc', 'pl', 'cgi', 'fcgi', 'java', 'jar', 'py',
+				'php', 'phps', 'pht', 'phtml', 'php3', 'php4', 'php5', 'php6', 'php7',
+				'php8', 'phar', 'inc', 'pl', 'cgi', 'fcgi', 'java', 'jar', 'py',
 			),
 
 			// <?php tag in file contents
@@ -507,7 +508,7 @@ class InputFilter extends BaseInputFilter
 
 			// Which file extensions to scan for short tags
 			'shorttag_extensions'        => array(
-				'inc', 'phps', 'class', 'php3', 'php4', 'php5', 'txt', 'dat', 'tpl', 'tmpl',
+				'inc', 'phps', 'class', 'php3', 'php4', 'php5', 'php6', 'php7', 'php8', 'txt', 'dat', 'tpl', 'tmpl',
 			),
 
 			// Forbidden extensions anywhere in the content

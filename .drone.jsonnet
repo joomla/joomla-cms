@@ -167,7 +167,7 @@ local pipeline(phpversion, ignore_result) = {
 				image: "rips/rips-cli:3.2.2",
 				when: {
 					repo: ["joomla/joomla-cms", "joomla/cms-security"],
-					branch: ["staging"]
+					branch: ["3.10-dev"]
 				},
 				commands: [
 					"export RIPS_BASE_URI='https://api.rips.joomla.org'",

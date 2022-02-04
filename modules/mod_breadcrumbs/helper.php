@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  mod_breadcrumbs
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2006 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -51,7 +51,7 @@ class ModBreadCrumbsHelper
 		{
 			$crumbs[$i]       = new stdClass;
 			$crumbs[$i]->name = stripslashes(htmlspecialchars($items[$i]->name, ENT_COMPAT, 'UTF-8'));
-			$crumbs[$i]->link = JRoute::_($items[$i]->link);
+			$crumbs[$i]->link = !is_null($items[$i]->link) ? JRoute::_($items[$i]->link) : '';
 		}
 
 		if ($params->get('showHome', 1))

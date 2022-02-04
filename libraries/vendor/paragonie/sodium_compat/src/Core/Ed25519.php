@@ -11,6 +11,7 @@ abstract class ParagonIE_Sodium_Core_Ed25519 extends ParagonIE_Sodium_Core_Curve
 {
     const KEYPAIR_BYTES = 96;
     const SEED_BYTES = 32;
+    const SCALAR_BYTES = 32;
 
     /**
      * @internal You should not use this directly from another application
@@ -276,7 +277,7 @@ abstract class ParagonIE_Sodium_Core_Ed25519 extends ParagonIE_Sodium_Core_Curve
         if (self::strlen($sig) < 64) {
             throw new SodiumException('Signature is too short');
         }
-        if (self::check_S_lt_L(self::substr($sig, 32, 32))) {
+        if ((self::chrToInt($sig[63]) & 240) && self::check_S_lt_L(self::substr($sig, 32, 32))) {
             throw new SodiumException('S < L - Invalid signature');
         }
         if (self::small_order($sig)) {
@@ -376,8 +377,8 @@ abstract class ParagonIE_Sodium_Core_Ed25519 extends ParagonIE_Sodium_Core_Curve
      */
     public static function small_order($R)
     {
-        /** @var array<int, array<int, int>> $blacklist */
-        $blacklist = array(
+        /** @var array<int, array<int, int>> $blocklist */
+        $blocklist = array(
             /* 0 (order 4) */
             array(
                 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
@@ -463,18 +464,88 @@ abstract class ParagonIE_Sodium_Core_Ed25519 extends ParagonIE_Sodium_Core_Curve
                 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff
             )
         );
-        /** @var int $countBlacklist */
-        $countBlacklist = count($blacklist);
+        /** @var int $countBlocklist */
+        $countBlocklist = count($blocklist);
 
-        for ($i = 0; $i < $countBlacklist; ++$i) {
+        for ($i = 0; $i < $countBlocklist; ++$i) {
             $c = 0;
             for ($j = 0; $j < 32; ++$j) {
-                $c |= self::chrToInt($R[$j]) ^ (int) $blacklist[$i][$j];
+                $c |= self::chrToInt($R[$j]) ^ (int) $blocklist[$i][$j];
             }
             if ($c === 0) {
                 return true;
             }
         }
         return false;
+    }
+
+    /**
+     * @param string $s
+     * @return string
+     * @throws SodiumException
+     */
+    public static function scalar_complement($s)
+    {
+        $t_ = self::L . str_repeat("\x00", 32);
+        sodium_increment($t_);
+        $s_ = $s . str_repeat("\x00", 32);
+        ParagonIE_Sodium_Compat::sub($t_, $s_);
+        return self::sc_reduce($t_);
+    }
+
+    /**
+     * @return string
+     * @throws SodiumException
+     */
+    public static function scalar_random()
+    {
+        do {
+            $r = ParagonIE_Sodium_Compat::randombytes_buf(self::SCALAR_BYTES);
+            $r[self::SCALAR_BYTES - 1] = self::intToChr(
+                self::chrToInt($r[self::SCALAR_BYTES - 1]) & 0x1f
+            );
+        } while (
+            !self::check_S_lt_L($r) || ParagonIE_Sodium_Compat::is_zero($r)
+        );
+        return $r;
+    }
+
+    /**
+     * @param string $s
+     * @return string
+     * @throws SodiumException
+     */
+    public static function scalar_negate($s)
+    {
+        $t_ = self::L . str_repeat("\x00", 32) ;
+        $s_ = $s . str_repeat("\x00", 32) ;
+        ParagonIE_Sodium_Compat::sub($t_, $s_);
+        return self::sc_reduce($t_);
+    }
+
+    /**
+     * @param string $a
+     * @param string $b
+     * @return string
+     * @throws SodiumException
+     */
+    public static function scalar_add($a, $b)
+    {
+        $a_ = $a . str_repeat("\x00", 32);
+        $b_ = $b . str_repeat("\x00", 32);
+        ParagonIE_Sodium_Compat::add($a_, $b_);
+        return self::sc_reduce($a_);
+    }
+
+    /**
+     * @param string $x
+     * @param string $y
+     * @return string
+     * @throws SodiumException
+     */
+    public static function scalar_sub($x, $y)
+    {
+        $yn = self::scalar_negate($y);
+        return self::scalar_add($x, $yn);
     }
 }

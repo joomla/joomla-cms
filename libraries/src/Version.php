@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2005 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -41,7 +41,7 @@ final class Version
 	 * @var    integer
 	 * @since  3.8.0
 	 */
-	const MINOR_VERSION = 9;
+	const MINOR_VERSION = 10;
 
 	/**
 	 * Patch release version.
@@ -49,7 +49,7 @@ final class Version
 	 * @var    integer
 	 * @since  3.8.0
 	 */
-	const PATCH_VERSION = 27;
+	const PATCH_VERSION = 6;
 
 	/**
 	 * Extra release version info.
@@ -69,7 +69,7 @@ final class Version
 	 * @since  3.5
 	 * @deprecated  4.0  Use separated version constants instead
 	 */
-	const RELEASE = '3.9';
+	const RELEASE = '3.10';
 
 	/**
 	 * Maintenance version.
@@ -78,7 +78,7 @@ final class Version
 	 * @since  3.5
 	 * @deprecated  4.0  Use separated version constants instead
 	 */
-	const DEV_LEVEL = '27-dev';
+	const DEV_LEVEL = '6-dev';
 
 	/**
 	 * Development status.
@@ -103,7 +103,7 @@ final class Version
 	 * @var    string
 	 * @since  3.5
 	 */
-	const CODENAME = 'Amani';
+	const CODENAME = 'Daraja';
 
 	/**
 	 * Release date.
@@ -111,7 +111,7 @@ final class Version
 	 * @var    string
 	 * @since  3.5
 	 */
-	const RELDATE = '19-May-2021';
+	const RELDATE = '15-January-2022';
 
 	/**
 	 * Release time.
@@ -119,7 +119,7 @@ final class Version
 	 * @var    string
 	 * @since  3.5
 	 */
-	const RELTIME = '12:03';
+	const RELTIME = '14:47';
 
 	/**
 	 * Release timezone.
@@ -135,7 +135,7 @@ final class Version
 	 * @var    string
 	 * @since  3.5
 	 */
-	const COPYRIGHT = 'Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.';
+	const COPYRIGHT = '(C) 2005 Open Source Matters, Inc. <https://www.joomla.org>';
 
 	/**
 	 * Link text.
