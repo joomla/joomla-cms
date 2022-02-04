@@ -65,6 +65,10 @@ export default {
   },
   computed: {
     getURL() {
+      if(!this.item.thumb_path) {
+        return '';
+      }
+
       return this.item.thumb_path.split(Joomla.getOptions('system.paths').rootFull).length > 1
         ? `${this.item.thumb_path}?${api.mediaVersion}`
         : `${this.item.thumb_path}`;
