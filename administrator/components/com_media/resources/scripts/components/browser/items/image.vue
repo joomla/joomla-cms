@@ -4,8 +4,10 @@
     @dblclick="openPreview()"
     @mouseleave="hideActions()"
   >
-    <div class="media-browser-item-preview"
-    :title="item.name">
+    <div
+      class="media-browser-item-preview"
+      :title="item.name"
+    >
       <div class="image-background">
         <img
           class="image-cropped"
@@ -17,8 +19,10 @@
         >
       </div>
     </div>
-    <div class="media-browser-item-info"
-    :title="item.name">
+    <div
+      class="media-browser-item-info"
+      :title="item.name"
+    >
       {{ item.name }} {{ item.filetype }}
     </div>
     <span
@@ -45,17 +49,17 @@ import { api } from '../../../app/Api.es6';
 export default {
   name: 'MediaBrowserItemImage',
   props: {
-    item: { type: Object, required: true, },
-    focused: { type: Boolean, required: true, default: false, },
+    item: { type: Object, required: true },
+    focused: { type: Boolean, required: true, default: false },
   },
   data() {
     return {
-      showActions: { type: Boolean, default: false, },
+      showActions: { type: Boolean, default: false },
     };
   },
   computed: {
     getURL() {
-      if(!this.item.thumb_path) {
+      if (!this.item.thumb_path) {
         return '';
       }
 
