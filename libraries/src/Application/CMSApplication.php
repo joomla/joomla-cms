@@ -311,11 +311,14 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 			ExceptionHandler::handleException($event->getError());
 		}
 
+		// Trigger the onBeforeRespond event.
+		$this->getDispatcher()->dispatch('onBeforeRespond');
+
 		// Send the application response.
 		$this->respond();
 
 		// Trigger the onAfterRespond event.
-		$this->triggerEvent('onAfterRespond');
+		$this->getDispatcher()->dispatch('onAfterRespond');
 	}
 
 	/**
