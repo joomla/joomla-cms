@@ -45,22 +45,12 @@ import { api } from '../../../app/Api.es6';
 export default {
   name: 'MediaBrowserItemImage',
   props: {
-    item: {
-      type: Object,
-      required: true,
-    },
-    focused: {
-      type: Boolean,
-      required: true,
-      default: false,
-    },
+    item: { type: Object, required: true, },
+    focused: { type: Boolean, required: true, default: false, },
   },
   data() {
     return {
-      showActions: {
-        type: Boolean,
-        default: false,
-      },
+      showActions: { type: Boolean, default: false, },
     };
   },
   computed: {
