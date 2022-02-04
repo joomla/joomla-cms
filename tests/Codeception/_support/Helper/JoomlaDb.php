@@ -165,6 +165,23 @@ class JoomlaDb extends Db
 	}
 
 	/**
+	 * Deletes records in a database.
+	 *
+	 * @param   string  $table     Table name
+	 * @param   array   $criteria  Search criteria [Optional]
+	 *
+	 * @return  void
+	 *
+	 * @since   4.1.0
+	 */
+	public function deleteFromDatabase($table, $criteria = []): void
+	{
+		$table = $this->addPrefix($table);
+
+		$this->driver->deleteQueryByCriteria($table, $criteria);
+	}
+
+	/**
 	 * Add the table prefix.
 	 *
 	 * @param   string  $table  Table without prefix
