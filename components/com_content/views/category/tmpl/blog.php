@@ -36,12 +36,23 @@ $afterDisplayContent = trim(implode("\n", $results));
 		</div>
 	<?php endif; ?>
 
-	<?php if ($this->params->get('show_category_title', 1) or $this->params->get('page_subheading')) : ?>
-		<h2> <?php echo $this->escape($this->params->get('page_subheading')); ?>
-			<?php if ($this->params->get('show_category_title')) : ?>
-				<span class="subheading-category"><?php echo $this->category->title; ?></span>
-			<?php endif; ?>
-		</h2>
+	<?php if ($this->params->get('show_category_title')) : ?>
+		<?php
+			if(!$this->params->get('show_page_heading')){
+				$head_tag_start = "<h1>";
+				$head_tag_end = "</h1>";
+			} else {
+				$head_tag_start = "<h2>";
+				$head_tag_end = "</h2>";
+			};?>
+		<?php echo $head_tag_start;?>
+			<?php echo $this->category->title; ?>
+			<?php if ($this->params->get('page_subheading')) : ?>
+				<span class="subheading-category">
+					<?php echo $this->escape($this->params->get('page_subheading')); ?>
+				</span>
+			<?php endif;?>
+		<?php echo $head_tag_end;?>
 	<?php endif; ?>
 	<?php echo $afterDisplayTitle; ?>
 
