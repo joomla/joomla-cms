@@ -603,4 +603,34 @@ class JoomlaupdateControllerUpdate extends JControllerLegacy
 
 		$this->app->close();
 	}
+
+	/**
+	 * Fetch and report updates in JSON format, for AJAX requests
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function ajax()
+	{
+		$app = JFactory::getApplication();
+
+		if (!JSession::checkToken('get'))
+		{
+			$app->setHeader('status', 403, true);
+			$app->sendHeaders();
+			echo JText::_('JINVALID_TOKEN_NOTICE');
+			$app->close();
+		}
+
+		$model = $this->getModel('default');
+		$updateInfo = $model->getUpdateInformation();
+
+		$update   = array();
+		$update[] = array('version' => $updateInfo['latest']);
+
+		echo json_encode($update);
+
+		$app->close();
+	}
 }

@@ -210,7 +210,7 @@ if (version_compare($this->updateInfo['latest'], '4', '>=') && $this->isBackendT
 								<?php echo JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSION_INSTALLED_VERSION'); ?>
 							</th>
 							<th class="upcomp hidden">
-								<?php echo JText::sprintf('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSION_COMPATIBLE_WITH_JOOMLA_VERSION', isset($this->updateInfo['current']) ? $this->updateInfo['current'] : JVERSION); ?>
+								<?php echo JText::sprintf('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSION_COMPATIBLE_WITH_JOOMLA_VERSION', isset($this->updateInfo['installed']) ? $this->updateInfo['installed'] : JVERSION); ?>
 							</th>
 							<th class="currcomp hidden">
 								<?php echo JText::sprintf('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSION_COMPATIBLE_WITH_JOOMLA_VERSION', $this->updateInfo['latest']); ?>

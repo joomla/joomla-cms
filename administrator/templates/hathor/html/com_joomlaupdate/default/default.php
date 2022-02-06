@@ -23,7 +23,7 @@ JText::script('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSION_WARNING_UNKNOWN');
 JText::script('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSION_SERVER_ERROR');
 
 $latestJoomlaVersion  = $this->updateInfo['latest'];
-$currentJoomlaVersion = $this->updateInfo['current'];
+$currentJoomlaVersion = $this->updateInfo['installed'];
 
 JFactory::getDocument()->addScriptDeclaration(
 <<<JS
