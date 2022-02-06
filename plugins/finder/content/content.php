@@ -318,7 +318,7 @@ class PlgFinderContent extends Adapter
 		$item->state = $this->translateState($item->state, $item->cat_state);
 
 		// Get taxonomies to display
-		$taxonomies = $this->params->get('taxonomies', ['type', 'author', 'category', 'language', 'tags']);
+		$taxonomies = $this->params->get('taxonomies', ['type', 'author', 'category', 'language']);
 
 		// Add the type taxonomy data.
 		if (in_array('type', $taxonomies))
