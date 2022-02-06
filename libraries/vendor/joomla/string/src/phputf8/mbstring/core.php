@@ -91,9 +91,9 @@ function utf8_strrpos($str, $search, $offset = FALSE){
 */
 function utf8_substr($str, $offset, $length = FALSE){
     if ( $length === FALSE ) {
-        return mb_substr($str, $offset);
+        return mb_substr($str, (int)$offset);
     } else {
-        return mb_substr($str, $offset, $length);
+        return mb_substr($str, (int)$offset, (int)$length);
     }
 }
 
