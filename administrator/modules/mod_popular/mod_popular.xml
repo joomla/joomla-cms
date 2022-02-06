@@ -55,6 +55,18 @@
 					<option value="by_me">MOD_POPULAR_FIELD_VALUE_ADDED_OR_MODIFIED_BY_ME</option>
 					<option value="not_me">MOD_POPULAR_FIELD_VALUE_NOT_ADDED_OR_MODIFIED_BY_ME</option>
 				</field>
+
+				<field
+					name="automatic_title"
+					type="radio"
+					label="COM_MODULES_FIELD_AUTOMATIC_TITLE_LABEL"
+					layout="joomla.form.field.radio.switcher"
+					default="1"
+					filter="integer"
+					>
+					<option value="0">JNO</option>
+					<option value="1">JYES</option>
+				</field>
 			</fieldset>
 
 			<fieldset name="advanced">
@@ -73,18 +85,6 @@
 					rows="3"
 					validate="CssIdentifier"
 				/>
-
-				<field
-					name="automatic_title"
-					type="radio"
-					label="COM_MODULES_FIELD_AUTOMATIC_TITLE_LABEL"
-					layout="joomla.form.field.radio.switcher"
-					default="1"
-					filter="integer"
-					>
-					<option value="0">JNO</option>
-					<option value="1">JYES</option>
-				</field>
 			</fieldset>
 		</fields>
 	</config>
