@@ -186,7 +186,7 @@ export const renameItem = (context, payload) => {
   }
 
   if (typeof payload.item.canEdit !== 'undefined' && payload.item.canEdit === false) {
-	return;
+    return;
   }
   context.commit(types.SET_IS_LOADING, true);
   api.rename(payload.item.path, payload.newPath)
