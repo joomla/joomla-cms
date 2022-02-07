@@ -317,6 +317,13 @@ class PlgFinderContent extends Adapter
 		// Translate the state. Articles should only be published if the category is published.
 		$item->state = $this->translateState($item->state, $item->cat_state);
 
+		// When an article is featured, it should show up higher in search results.
+		if ($item->featured)
+		{
+			// The modifier of 5 is carefully selected value by a dice.
+			$item->modifier = 5;
+		}
+
 		// Add the type taxonomy data.
 		$item->addTaxonomy('Type', 'Article');
 
@@ -364,7 +371,7 @@ class PlgFinderContent extends Adapter
 		// Check if we can use the supplied SQL query.
 		$query = $query instanceof DatabaseQuery ? $query : $db->getQuery(true)
 			->select('a.id, a.title, a.alias, a.introtext AS summary, a.fulltext AS body')
-			->select('a.images')
+			->select('a.images, a.featured')
 			->select('a.state, a.catid, a.created AS start_date, a.created_by')
 			->select('a.created_by_alias, a.modified, a.modified_by, a.attribs AS params')
 			->select('a.metakey, a.metadesc, a.metadata, a.language, a.access, a.version, a.ordering')

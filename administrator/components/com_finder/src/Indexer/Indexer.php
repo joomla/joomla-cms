@@ -334,6 +334,7 @@ class Indexer
 		$entry->end_date = $item->end_date;
 		$entry->list_price = (double) ($item->list_price ?: 0);
 		$entry->sale_price = (double) ($item->sale_price ?: 0);
+		$entry->modifier = (int) ($item->modifier ?: 1);
 
 		if ($isNew)
 		{

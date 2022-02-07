@@ -172,6 +172,14 @@ class Result implements \Serializable
 	public $sale_price;
 
 	/**
+	 * A modifier to influence the placement in search results
+	 *
+	 * @var    integer
+	 * @since  __DEPLOY_VERSION__
+	 */
+	public $modifier = 1;
+
+	/**
 	 * The content type id. This is set by the adapter.
 	 *
 	 * @var    integer
@@ -502,6 +510,7 @@ class Result implements \Serializable
 			$this->published,
 			$this->route,
 			$this->sale_price,
+			$this->modifier,
 			$this->start_date,
 			$this->state,
 			$taxonomy,
@@ -537,6 +546,7 @@ class Result implements \Serializable
 			$this->published,
 			$this->route,
 			$this->sale_price,
+			$this->modifier,
 			$this->start_date,
 			$this->state,
 			$this->taxonomy,

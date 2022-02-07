@@ -242,7 +242,7 @@ class SearchModel extends ListModel
 		if ($ordering === 'm.weight')
 		{
 			// Get the base query and add the ordering information.
-			$query->select('SUM(' . $db->escape($ordering) . ') AS ordering');
+			$query->select('(SUM(' . $db->escape($ordering) . ') * l.modifier) AS ordering');
 		}
 		/*
 		 * If we are not ordering by relevance, we just have to add

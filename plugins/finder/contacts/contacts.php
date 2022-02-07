@@ -355,6 +355,13 @@ class PlgFinderContacts extends Adapter
 		// Handle the contact user name.
 		$item->addInstruction(Indexer::META_CONTEXT, 'user');
 
+		// When an article is featured, it should show up higher in search results.
+		if ($item->featured)
+		{
+			// The modifier of 5 is carefully selected value by a dice.
+			$item->modifier = 5;
+		}
+
 		// Add the type taxonomy data.
 		$item->addTaxonomy('Type', 'Contact');
 
@@ -420,7 +427,7 @@ class PlgFinderContacts extends Adapter
 		// Check if we can use the supplied SQL query.
 		$query = $query instanceof DatabaseQuery ? $query : $db->getQuery(true)
 			->select('a.id, a.name AS title, a.alias, a.con_position AS position, a.address, a.created AS start_date')
-			->select('a.created_by_alias, a.modified, a.modified_by')
+			->select('a.created_by_alias, a.modified, a.modified_by, a.featured')
 			->select('a.metakey, a.metadesc, a.metadata, a.language')
 			->select('a.sortname1, a.sortname2, a.sortname3')
 			->select('a.publish_up AS publish_start_date, a.publish_down AS publish_end_date')

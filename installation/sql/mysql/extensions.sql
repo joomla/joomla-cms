@@ -274,6 +274,7 @@ CREATE TABLE IF NOT EXISTS `#__finder_links` (
   `end_date` datetime,
   `list_price` double unsigned NOT NULL DEFAULT 0,
   `sale_price` double unsigned NOT NULL DEFAULT 0,
+  `modifier` int unsigned NOT NULL DEFAULT 1,
   `type_id` int NOT NULL,
   `object` mediumblob,
   PRIMARY KEY (`link_id`),
