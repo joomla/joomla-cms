@@ -170,6 +170,9 @@ class HtmlView extends BaseHtmlView
 			}
 
 			$item->params->merge($temp);
+			
+			make your change
+			
 		}
 		else
 		{
