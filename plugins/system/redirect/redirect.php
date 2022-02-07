@@ -278,11 +278,11 @@ class PlgSystemRedirect extends JPlugin
 
 				if ($urlQuery !== '' && empty($oldUrlParts['query']))
 				{
-					$new_url .= '?' . $urlQuery;
+					$newUrl .= '?' . $urlQuery;
 				}
 
-				$dest = JUri::isInternal($new_url) || strpos($new_url, 'http') === false ?
-					JRoute::_($new_url) : $new_url;
+				$dest = JUri::isInternal($newUrl) || strpos($newUrl, 'http') === false ?
+					JRoute::_($newUrl) : $newUrl;
 
 				// In case the url contains double // lets remove it
 				$destination = str_replace(JUri::root() . '/', JUri::root(), $dest);
