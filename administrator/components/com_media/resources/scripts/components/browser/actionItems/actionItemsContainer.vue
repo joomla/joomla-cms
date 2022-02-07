@@ -137,7 +137,7 @@ export default {
       return api.canEdit && (typeof this.item.canEdit !== 'undefined' ? this.item.canEdit : true);
     },
     canDelete() {
-      return api.canEdit && (typeof this.item.canDelete !== 'undefined' ? this.item.canDelete : true);
+      return api.canDelete && (typeof this.item.canDelete !== 'undefined' ? this.item.canDelete : true);
     },
     canOpenEditView() {
       return ['jpg', 'jpeg', 'png'].includes(this.item.extension.toLowerCase());
