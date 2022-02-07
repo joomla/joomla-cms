@@ -45,7 +45,7 @@ git clone git@github.com:joomla/joomla-cms.git
 ```bash
 cd joomla-cms
 ```
-- Go to the 4.1-dev branch:
+- Go to the 4.2-dev branch:
 ```bash
 git checkout 4.2-dev
 ```
