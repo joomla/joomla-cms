@@ -211,6 +211,16 @@
   border-radius: $grid-item-border-radius;
 }
 
+.image-placeholder {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  aspect-ratio: 1/1;
+  max-width: 100%;
+  height: auto;
+  color: #9d9d9d;
+}
+
 .file-background, .folder-background {
   padding-bottom: 100%;
   background-color: hsl(var(--hue), 20%, 97%);

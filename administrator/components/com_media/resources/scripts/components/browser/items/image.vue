@@ -10,13 +10,15 @@
     >
       <div class="image-background">
         <img
+          v-if="getURL"
           class="image-cropped"
           :src="getURL"
           :alt="altTag"
           loading="lazy"
           :width="width"
           :height="height"
-        >
+        />
+        <span v-if="!getURL" class="icon-eye-slash image-placeholder"></span>
       </div>
     </div>
     <div
