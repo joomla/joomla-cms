@@ -153,7 +153,7 @@ export const createDirectory = (context, payload) => {
  * @param payload object with the new folder name and its parent directory
  */
 export const uploadFile = (context, payload) => {
-  if (!api.canEdit) {
+  if (!api.canCreate) {
     return;
   }
   context.commit(types.SET_IS_LOADING, true);
@@ -178,18 +178,22 @@ export const uploadFile = (context, payload) => {
 /**
  * Rename an item
  * @param context
- * @param payload object: the old and the new path
+ * @param payload object: the item and the new path
  */
 export const renameItem = (context, payload) => {
   if (!api.canEdit) {
     return;
   }
+
+  if (typeof payload.item.canEdit !== 'undefined' && payload.item.canEdit === false) {
+	return;
+  }
   context.commit(types.SET_IS_LOADING, true);
-  api.rename(payload.path, payload.newPath)
+  api.rename(payload.item.path, payload.newPath)
     .then((item) => {
       context.commit(types.RENAME_SUCCESS, {
         item,
-        oldPath: payload.path,
+        oldPath: payload.item.path,
         newName: payload.newName,
       });
       context.commit(types.HIDE_RENAME_MODAL);
