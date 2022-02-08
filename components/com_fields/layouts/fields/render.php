@@ -8,6 +8,8 @@
  */
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
 use Joomla\Component\Fields\Administrator\Helper\FieldsHelper;
 
 // Check if we have all the data
@@ -86,7 +88,11 @@ foreach ($fields as $field)
 	if (!array_key_exists($field->group_id, $groupFields))
 	{
 	    $groupFields[$field->group_id] = array();
-	    $groupTitles[$field->group_id] = $field->group_title; // TODO translate if it is a language key
+	    if (Factory::getLanguage()->hasKey($field->group_title)) {
+	        $groupTitles[$field->group_id] = Text::_($field->group_title);
+	    } else {
+		$groupTitles[$field->group_id] = $field->group_title;
+	    }
 	}
 	
 	$groupFields[$field->group_id][] = '<li class="field-entry ' . $class . '">' . $content . '</li>';
