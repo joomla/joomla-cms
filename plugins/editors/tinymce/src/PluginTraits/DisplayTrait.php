@@ -370,8 +370,6 @@ trait DisplayTrait
 		{
 			$externalPlugins['highlightPlus'] = HTMLHelper::_('script', 'plg_editors_tinymce/plugins/highlighter/plugin-es5.min.js', ['relative' => true, 'version' => 'auto', 'pathOnly' => true]);
 		}
-		$externalPlugins['dummy'] = HTMLHelper::_('script', 'plg_editors_tinymce/plugins/dummy/plugin.js', ['relative' => true, 'version' => 'auto', 'pathOnly' => true]);
-		$externalPlugins['dummyimage'] = HTMLHelper::_('script', 'plg_editors_tinymce/plugins/dummyimage/plugin.js', ['relative' => true, 'version' => 'auto', 'pathOnly' => true]);
 
 		$dragdrop = $levelParams->get('drag_drop', 1);
 
