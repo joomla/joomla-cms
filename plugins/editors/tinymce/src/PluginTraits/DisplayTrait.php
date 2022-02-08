@@ -172,15 +172,15 @@ trait DisplayTrait
 		{
 			if (file_exists(JPATH_ROOT . '/media/vendor/tinymce/langs/' . $language->getTag() . (JDEBUG ? '.js' : '.min.js')))
 			{
-				$langPrefix = $language->getTag() . (JDEBUG ? '.js' : '.min.js');
+				$langPrefix = $language->getTag() . (JDEBUG ? '' : '.min');
 			}
 			elseif (file_exists(JPATH_ROOT . '/media/vendor/tinymce/langs/' . substr($language->getTag(), 0, strpos($language->getTag(), '-')) . (JDEBUG ? '.js' : '.min.js')))
 			{
-				$langPrefix = substr($language->getTag(), 0, strpos($language->getTag(), '-')) . (JDEBUG ? '.js' : '.min.js');
+				$langPrefix = substr($language->getTag(), 0, strpos($language->getTag(), '-')) . (JDEBUG ? '' : '.min');
 			}
 			else
 			{
-				$langPrefix = 'en.js';
+				$langPrefix = 'en';
 			}
 		}
 
