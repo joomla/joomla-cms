@@ -370,6 +370,8 @@ trait DisplayTrait
 		{
 			$externalPlugins['highlightPlus'] = HTMLHelper::_('script', 'plg_editors_tinymce/plugins/highlighter/plugin-es5.min.js', ['relative' => true, 'version' => 'auto', 'pathOnly' => true]);
 		}
+		$externalPlugins['dummy'] = HTMLHelper::_('script', 'plg_editors_tinymce/plugins/dummy/plugin.js', ['relative' => true, 'version' => 'auto', 'pathOnly' => true]);
+		$externalPlugins['dummyimage'] = HTMLHelper::_('script', 'plg_editors_tinymce/plugins/dummyimage/plugin.js', ['relative' => true, 'version' => 'auto', 'pathOnly' => true]);
 
 		$dragdrop = $levelParams->get('drag_drop', 1);
 
@@ -489,6 +491,12 @@ trait DisplayTrait
 				'a11y_advanced_options' => true,
 				'image_advtab'          => (bool) $levelParams->get('image_advtab', false),
 				'image_title'           => true,
+				'image_class_list' => [
+					['title'=> 'None', 'value' => 'float-none'],
+					['title'=> 'Left', 'value' => 'float-start'],
+					['title'=> 'Right', 'value' => 'float-end'],
+					['title'=> 'Center', 'value' => 'mx-auto d-block'],
+				],
 
 				// Drag and drop specific
 				'dndEnabled' => $dragdrop,
