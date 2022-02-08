@@ -385,7 +385,7 @@ class UpdateModel extends BaseDatabaseModel
 		// Follow the Location headers until the actual download URL is known
 		while (isset($head->headers['location']))
 		{
-			$packageURL = $head->headers['location'];
+			$packageURL = (string) $head->headers['location'][0];
 
 			try
 			{
