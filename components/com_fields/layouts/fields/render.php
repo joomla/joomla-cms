@@ -51,6 +51,16 @@ if (empty($fields))
 
 $output = array();
 
+// organize the fields according to their group
+
+$groupFields = array(
+    0 => array()
+);
+
+$groupTitles = array(
+    0 => ''
+);
+
 foreach ($fields as $field)
 {
 	// If the value is empty do nothing
@@ -59,7 +69,11 @@ foreach ($fields as $field)
 		continue;
 	}
 
-	$class = $field->name . ' ' . $field->params->get('render_class');
+	$class = $field->name;
+	if ($field->params->get('render_class'))
+	{
+	    $class .= ' ' . $field->params->get('render_class');
+	}
 	$layout = $field->params->get('layout', 'render');
 	$content = FieldsHelper::render($context, 'field.' . $layout, array('field' => $field));
 
@@ -68,8 +82,42 @@ foreach ($fields as $field)
 	{
 		continue;
 	}
+	
+	if (!array_key_exists($field->group_id, $groupFields))
+	{
+	    $groupFields[$field->group_id] = array();
+	    $groupTitles[$field->group_id] = $field->group_title; // TODO translate if it is a language key
+	}
+	
+	$groupFields[$field->group_id][] = '<li class="field-entry ' . $class . '">' . $content . '</li>';
+}
 
-	$output[] = '<li class="field-entry ' . $class . '">' . $content . '</li>';
+// loop trough the groups
+
+foreach ($groupFields as $group_id => $group_fields)
+{    
+    if (!$group_fields)
+    {
+        continue;
+    }
+    
+    if ($groupTitles[$group_id])
+    {
+        $output[] = '<li class="field-group group_' . $group_id . '">';
+        $output[] = '<span id="group_' . $group_id . '">' . $groupTitles[$group_id] . '</span>';
+        $output[] = '<ul aria-labelledby="group_' . $group_id . '">';
+    }
+    
+    foreach ($group_fields as $field)
+    {
+        $output[] = $field;
+    }
+    
+    if ($groupTitles[$group_id])
+    {
+        $output[] = '</ul>';
+        $output[] = '</li>';
+    }
 }
 
 if (empty($output))
