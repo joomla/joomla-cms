@@ -262,7 +262,7 @@ CREATE TABLE IF NOT EXISTS "#__finder_links" (
   "end_date" timestamp without time zone,
   "list_price" numeric(8,2) DEFAULT 0 NOT NULL,
   "sale_price" numeric(8,2) DEFAULT 0 NOT NULL,
-  "modifier" integer unsigned DEFAULT 1 NOT NULL,
+  "modifier" integer DEFAULT 1 NOT NULL,
   "type_id" bigint NOT NULL,
   "object" bytea,
   PRIMARY KEY ("link_id")
