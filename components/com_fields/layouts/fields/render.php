@@ -88,7 +88,8 @@ foreach ($fields as $field)
 	if (!array_key_exists($field->group_id, $groupFields))
 	{
 		$groupFields[$field->group_id] = array();
-		if (Factory::getLanguage()->hasKey($field->group_title)) {
+		if (Factory::getLanguage()->hasKey($field->group_title))
+		{
 			$groupTitles[$field->group_id] = Text::_($field->group_title);
 		}
 		else
