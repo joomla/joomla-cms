@@ -371,6 +371,9 @@ trait DisplayTrait
 			$externalPlugins['highlightPlus'] = HTMLHelper::_('script', 'plg_editors_tinymce/plugins/highlighter/plugin-es5.min.js', ['relative' => true, 'version' => 'auto', 'pathOnly' => true]);
 		}
 
+		// Load the placeholder image plugin
+		$externalPlugins['placeholderimage'] = HTMLHelper::_('script', 'plg_editors_tinymce/plugins/placeholderimage/plugin.min.js', ['relative' => true, 'version' => 'auto', 'pathOnly' => true]);
+
 		$dragdrop = $levelParams->get('drag_drop', 1);
 
 		if ($dragdrop && $user->authorise('core.create', 'com_media'))

@@ -98,7 +98,8 @@ trait KnownButtons
 			'template'       => ['label' => 'Insert template', 'plugin' => 'template'],
 			'searchreplace'  => ['label' => 'Find and replace', 'plugin' => 'searchreplace'],
 			'insertdatetime' => ['label' => 'Insert date/time', 'plugin' => 'insertdatetime'],
-			'help'           => ['label' => 'Help', 'plugin' => 'help'],
+			'placeholderimage'  => ['label' => 'Placeholder image'],
+			'help'              => ['label' => 'Help', 'plugin' => 'help'],
 		];
 	}
 }
