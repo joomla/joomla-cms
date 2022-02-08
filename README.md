@@ -5,7 +5,7 @@ Build Status
 ---------------------
 | Drone-CI      | AppVeyor      | PHP           |  Node         | npm           |
 | ------------- | ------------- | ------------- | ------------- | ------------- |
-| [![Build Status](https://ci.joomla.org/api/badges/joomla/joomla-cms/status.svg?branch=4.0-dev)](https://ci.joomla.org/joomla/joomla-cms) | [![Build status](https://ci.appveyor.com/api/projects/status/ru6sxal8jmfckvjc/branch/4.0-dev?svg=true)](https://ci.appveyor.com/project/release-joomla/joomla-cms) | [![PHP](https://img.shields.io/badge/PHP-V7.2.5-green)](https://www.php.net/) | [![node-lts](https://img.shields.io/badge/Node-V12.0-green)](https://nodejs.org/en/) | [![npm](https://img.shields.io/badge/npm-v6.13.4-green)](https://nodejs.org/en/) |
+| [![Build Status](https://ci.joomla.org/api/badges/joomla/joomla-cms/status.svg?branch=4.1-dev)](https://ci.joomla.org/joomla/joomla-cms) | [![Build status](https://ci.appveyor.com/api/projects/status/ru6sxal8jmfckvjc/branch/4.1-dev?svg=true)](https://ci.appveyor.com/project/release-joomla/joomla-cms) | [![PHP](https://img.shields.io/badge/PHP-V7.2.5-green)](https://www.php.net/) | [![node-lts](https://img.shields.io/badge/Node-V12.0-green)](https://nodejs.org/en/) | [![npm](https://img.shields.io/badge/npm-v6.13.4-green)](https://nodejs.org/en/) |
 
 Overview
 ---------------------
@@ -45,7 +45,7 @@ git clone git@github.com:joomla/joomla-cms.git
 ```bash
 cd joomla-cms
 ```
-- Go to the 4.0-dev branch:
+- Go to the 4.2-dev branch:
 ```bash
 git checkout 4.2-dev
 ```
