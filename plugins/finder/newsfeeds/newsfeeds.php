@@ -307,13 +307,10 @@ class PlgFinderNewsfeeds extends Adapter
 
 			$category = $categories->get($item->catid);
 
-			// Category does not exist, stop here
-			if (!$category)
+			if ($category)
 			{
-				return;
+				$item->addNestedTaxonomy('Category', $category, $this->translateState($category->published), $category->access, $category->language);
 			}
-
-			$item->addNestedTaxonomy('Category', $category, $this->translateState($category->published), $category->access, $category->language);
 		}
 
 		// Add the language taxonomy data.

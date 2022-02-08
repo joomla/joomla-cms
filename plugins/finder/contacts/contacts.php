@@ -371,7 +371,6 @@ class PlgFinderContacts extends Adapter
 
 			$category = $categories->get($item->catid);
 
-			// Category does not exist, stop here
 			if (!$category)
 			{
 				return;

@@ -338,7 +338,6 @@ class PlgFinderContent extends Adapter
 			$categories = Categories::getInstance('com_content', ['published' => false, 'access' => false]);
 			$category   = $categories->get($item->catid);
 
-			// Category does not exist, skip category taxonomy
 			if ($category)
 			{
 				$item->addNestedTaxonomy('Category', $category, $this->translateState($category->published), $category->access, $category->language);
