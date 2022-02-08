@@ -53,7 +53,7 @@ if (empty($fields))
 
 $output = array();
 
-// organize the fields according to their group
+// Organize the fields according to their group
 
 $groupFields = array(
 	0 => array()
@@ -101,7 +101,7 @@ foreach ($fields as $field)
 	$groupFields[$field->group_id][] = '<li class="field-entry ' . $class . '">' . $content . '</li>';
 }
 
-// loop trough the groups
+// Loop through the groups
 
 foreach ($groupFields as $group_id => $group_fields)
 {
