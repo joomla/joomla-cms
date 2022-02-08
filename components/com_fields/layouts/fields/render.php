@@ -56,11 +56,11 @@ $output = array();
 // Organize the fields according to their group
 
 $groupFields = array(
-	0 => array()
+	0 => [],
 );
 
 $groupTitles = array(
-	0 => ''
+	0 => '',
 );
 
 foreach ($fields as $field)
@@ -72,10 +72,12 @@ foreach ($fields as $field)
 	}
 
 	$class = $field->name;
+
 	if ($field->params->get('render_class'))
 	{
 		$class .= ' ' . $field->params->get('render_class');
 	}
+
 	$layout = $field->params->get('layout', 'render');
 	$content = FieldsHelper::render($context, 'field.' . $layout, array('field' => $field));
 
@@ -87,7 +89,8 @@ foreach ($fields as $field)
 
 	if (!array_key_exists($field->group_id, $groupFields))
 	{
-		$groupFields[$field->group_id] = array();
+		$groupFields[$field->group_id] = [];
+
 		if (Factory::getLanguage()->hasKey($field->group_title))
 		{
 			$groupTitles[$field->group_id] = Text::_($field->group_title);
