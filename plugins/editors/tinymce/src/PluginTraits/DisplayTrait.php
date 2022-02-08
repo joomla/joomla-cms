@@ -374,6 +374,9 @@ trait DisplayTrait
 		// Load the placeholder image plugin
 		$externalPlugins['placeholderimage'] = HTMLHelper::_('script', 'plg_editors_tinymce/plugins/placeholderimage/plugin.min.js', ['relative' => true, 'version' => 'auto', 'pathOnly' => true]);
 
+		Text::script('PLG_TINY_PLACEHOLDER_IMAGE');
+		Text::script('PLG_TINY_PLACEHOLDER_IMAGE_SIZE');
+
 		$dragdrop = $levelParams->get('drag_drop', 1);
 
 		if ($dragdrop && $user->authorise('core.create', 'com_media'))
