@@ -90,7 +90,7 @@ foreach ($fields as $field)
 		$groupFields[$field->group_id] = array();
 		if (Factory::getLanguage()->hasKey($field->group_title)) {
 			$groupTitles[$field->group_id] = Text::_($field->group_title);
-		} 
+		}
 		else
 		{
 			$groupTitles[$field->group_id] = $field->group_title;
