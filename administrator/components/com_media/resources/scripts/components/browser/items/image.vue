@@ -17,8 +17,8 @@
           loading="lazy"
           :width="width"
           :height="height"
-        />
-        <span v-if="!getURL" class="icon-eye-slash image-placeholder"></span>
+        >
+        <span v-if="!getURL" class="icon-eye-slash image-placeholder" aria-hidden="true"></span>
       </div>
     </div>
     <div
