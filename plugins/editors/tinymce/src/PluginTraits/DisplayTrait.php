@@ -172,11 +172,11 @@ trait DisplayTrait
 		{
 			if (file_exists(JPATH_ROOT . '/media/vendor/tinymce/langs/' . $language->getTag() . (JDEBUG ? '.js' : '.min.js')))
 			{
-				$langPrefix = $language->getTag();
+				$langPrefix = $language->getTag() . (JDEBUG ? '' : '.min');
 			}
 			elseif (file_exists(JPATH_ROOT . '/media/vendor/tinymce/langs/' . substr($language->getTag(), 0, strpos($language->getTag(), '-')) . (JDEBUG ? '.js' : '.min.js')))
 			{
-				$langPrefix = substr($language->getTag(), 0, strpos($language->getTag(), '-'));
+				$langPrefix = substr($language->getTag(), 0, strpos($language->getTag(), '-')) . (JDEBUG ? '' : '.min');
 			}
 			else
 			{
@@ -371,6 +371,16 @@ trait DisplayTrait
 			$externalPlugins['highlightPlus'] = HTMLHelper::_('script', 'plg_editors_tinymce/plugins/highlighter/plugin-es5.min.js', ['relative' => true, 'version' => 'auto', 'pathOnly' => true]);
 		}
 
+		// Load the placeholder text plugin
+		$externalPlugins['placeholdertext'] = HTMLHelper::_('script', 'plg_editors_tinymce/plugins/placeholdertext/plugin.min.js', ['relative' => true, 'version' => 'auto', 'pathOnly' => true]);
+
+		Text::script('PLG_TINY_PLACEHOLDER');
+		Text::script('PLG_TINY_PLACEHOLDER_ALL_VALUE');
+		Text::script('PLG_TINY_PLACEHOLDER_ORDERED_VALUE');
+		Text::script('PLG_TINY_PLACEHOLDER_PARA1_VALUE');
+		Text::script('PLG_TINY_PLACEHOLDER_PARA2_VALUE');
+		Text::script('PLG_TINY_PLACEHOLDER_UNORDERED_VALUE');
+
 		$dragdrop = $levelParams->get('drag_drop', 1);
 
 		if ($dragdrop && $user->authorise('core.create', 'com_media'))
@@ -436,7 +446,7 @@ trait DisplayTrait
 				'suffix'   => JDEBUG ? '' : '.min',
 				'baseURL'  => Uri::root(true) . '/media/vendor/tinymce',
 				'directionality' => $language->isRtl() ? 'rtl' : 'ltr',
-				'language' => $langPrefix . (JDEBUG ? '' : '.min'),
+				'language' => $langPrefix,
 				'autosave_restore_when_empty' => false,
 				'skin'     => $skin,
 				'theme'    => $theme,
