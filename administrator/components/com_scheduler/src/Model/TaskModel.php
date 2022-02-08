@@ -665,7 +665,7 @@ class TaskModel extends AdminModel
 			$buildExpression = sprintf($intervalStringMap[$intervalType], $interval);
 		}
 
-		if ($ruleClass === 'cron')
+		if ($ruleClass === 'cron-expression')
 		{
 			// ! custom matches are disabled in the form
 			$matches         = $executionRules['cron-expression'];
