@@ -180,7 +180,7 @@ trait DisplayTrait
 			}
 			else
 			{
-				$langPrefix = 'en';
+				$langPrefix = 'en.js';
 			}
 		}
 
