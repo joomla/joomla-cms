@@ -97,7 +97,7 @@ foreach ($fields as $field)
 		}
 		else
 		{
-			$groupTitles[$field->group_id] = $field->group_title;
+			$groupTitles[$field->group_id] = htmlentities($field->group_title, ENT_QUOTES | ENT_IGNORE, 'UTF-8');
 		}
 	}
 
