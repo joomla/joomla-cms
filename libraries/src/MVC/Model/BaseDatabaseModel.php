@@ -13,6 +13,7 @@ defined('JPATH_PLATFORM') or die;
 use Joomla\CMS\MVC\Factory\LegacyFactory;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\Utilities\ArrayHelper;
+use Joomla\CMS\Plugin\PluginHelper;
 
 /**
  * Base class for a database aware Joomla Model
@@ -619,5 +620,28 @@ abstract class BaseDatabaseModel extends \JObject
 
 		// Trigger the onContentCleanCache event.
 		\JEventDispatcher::getInstance()->trigger($this->event_clean_cache, $options);
+	}
+
+	/**
+	 * Trigger an event.
+	 *
+	 * @param   string  $event  The event to trigger.
+	 * @param   array   $args   An array of arguments.
+	 * @param   string  $group  The name of the plugin group to import
+	 *
+	 * @return  array  An array of results from each event call.
+	 *
+	 * @since   3.0
+	 */
+
+	protected function triggerEvent($event, $args = array(), $group = null)
+	{
+		if(isset($group))
+		{
+			PluginHelper::importPlugin($group);
+		}
+
+		$dispatcher = \JEventDispatcher::getInstance();
+		return $dispatcher->trigger($event, $args);
 	}
 }

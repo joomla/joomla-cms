@@ -94,6 +94,14 @@ class ListModel extends BaseDatabaseModel
 	protected $listBlacklist = array('select');
 
 	/**
+	 * The event that is triggered after the request is created
+	 *
+	 * @var    string
+	 * @since  1.6
+	 */
+	protected $event_prepare_list_query = null;
+
+	/**
 	 * Constructor.
 	 *
 	 * @param   array                $config   An optional associative array of configuration settings.
@@ -105,6 +113,15 @@ class ListModel extends BaseDatabaseModel
 	public function __construct($config = array(), MVCFactoryInterface $factory = null)
 	{
 		parent::__construct($config, $factory);
+
+		if (isset($config['event_prepare_list_query']))
+		{
+			$this->event_prepare_list_query = $config['event_prepare_list_query'];
+		}
+		elseif (empty($this->event_prepare_list_query))
+		{
+			$this->event_prepare_list_query = 'onPrepareListQuery';
+		}
 
 		// Add the ordering filtering fields whitelist.
 		if (isset($config['filter_fields']))
@@ -190,8 +207,13 @@ class ListModel extends BaseDatabaseModel
 
 		try
 		{
+			$query = $this->_getListQuery();
+			$args = [$this->context, &$query, $this];
+
+			$this->triggerEvent($this->event_prepare_list_query, $args);
+
 			// Load the list items and add the items to the internal cache.
-			$this->cache[$store] = $this->_getList($this->_getListQuery(), $this->getStart(), $this->getState('list.limit'));
+			$this->cache[$store] = $this->_getList($query, $this->getStart(), $this->getState('list.limit'));
 		}
 		catch (\RuntimeException $e)
 		{
@@ -285,8 +307,13 @@ class ListModel extends BaseDatabaseModel
 
 		try
 		{
+			$query = $this->_getListQuery();
+			$args = [$this->context, &$query, $this];
+
+			$this->triggerEvent($this->event_prepare_list_query, $args);
+
 			// Load the total and add the total to the internal cache.
-			$this->cache[$store] = (int) $this->_getListCount($this->_getListQuery());
+			$this->cache[$store] = (int) $this->_getListCount($query);
 		}
 		catch (\RuntimeException $e)
 		{
