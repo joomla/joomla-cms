@@ -27,7 +27,6 @@ $fa-css-prefix:    fa;
   dl {
     display: flex;
     flex-wrap: wrap;
-    // margin-right: calc((-$col-gutter-width) / 2);
     margin-right: calc(calc($col-gutter-width / 2) * -1);
     margin-left: calc(calc($col-gutter-width / 2) * -1);
   }
