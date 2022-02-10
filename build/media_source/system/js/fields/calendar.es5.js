@@ -699,16 +699,15 @@
 			cell = createElement("td", row);
 			cell.className = "time time-title";
 			cell.colSpan = 1;
-			cell.style.verticalAlign = 'middle';
-			cell.innerHTML = " ";
+			cell.innerHTML = "";
 
 			var cell1 = createElement("td", row);
 			cell1.className = "time hours-select";
-			cell1.colSpan = 2;
+			cell1.colSpan = 3;
 
 			var cell2 = createElement("td", row);
 			cell2.className = "time minutes-select";
-			cell2.colSpan = 2;
+			cell2.colSpan = 3;
 
 			(function () {
 				function makeTimePart(className, selected, range_start, range_end, cellTml) {
@@ -744,8 +743,8 @@
 					hrs -= 12;
 				}
 
-				var H = makeTimePart("time time-hours", hrs, t12 ? 1 : 0, t12 ? 12 : 23, cell1),
-					M = makeTimePart("time time-minutes", mins, 0, 59, cell2),
+				var H = makeTimePart("time time-hours form-select form-select-sm w-auto", hrs, t12 ? 1 : 0, t12 ? 12 : 23, cell1),
+					M = makeTimePart("time time-minutes form-select form-select-sm w-auto", mins, 0, 59, cell2),
 					AP = null;
 
 				cell = createElement("td", row);
