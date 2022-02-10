@@ -631,7 +631,7 @@ class UsersModelRegistration extends JModelForm
 				return false;
 			}
 
-			// Send mail to all users with users creating permissions and receiving system emails
+			// Send mail to all users with user creating permissions and receiving system emails
 			foreach ($rows as $row)
 			{
 				$usercreator = JFactory::getUser($row->id);
