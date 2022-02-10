@@ -15,12 +15,14 @@ if (!array_key_exists('field', $displayData))
 	return;
 }
 
-$field     = $displayData['field'];
-$label     = Text::_($field->label);
-$value     = $field->value;
-$class     = $field->params->get('render_class');
+$field = $displayData['field'];
+$label = Text::_($field->label);
+$value = $field->value;
 $showLabel = $field->params->get('showlabel');
+$prefix = Text::plural($field->params->get('prefix'), $value);
+$suffix = Text::plural($field->params->get('suffix'), $value);
 $labelClass = $field->params->get('label_render_class');
+$valueClass = $field->params->get('render_class');
 
 if ($field->context == 'com_contact.mail')
 {
@@ -31,17 +33,19 @@ if ($field->context == 'com_contact.mail')
 	return;
 }
 
-if (!strlen($value))
+if ($value == '')
 {
 	return;
 }
 
 ?>
-<dt class="contact-field-entry <?php echo $class; ?>">
-	<?php if ($showLabel == 1) : ?>
-		<span class="field-label <?php echo $labelClass; ?>"><?php echo htmlentities($label, ENT_QUOTES | ENT_IGNORE, 'UTF-8'); ?>: </span>
-	<?php endif; ?>
-</dt>
-<dd class="contact-field-entry <?php echo $class; ?>">
-	<span class="field-value"><?php echo $value; ?></span>
-</dd>
+<?php if ($showLabel == 1) : ?>
+	<span class="field-label <?php echo $labelClass; ?>"><?php echo htmlentities($label, ENT_QUOTES | ENT_IGNORE, 'UTF-8'); ?>: </span>
+<?php endif; ?>
+<?php if ($prefix) : ?>
+	<span class="field-prefix"><?php echo htmlentities($prefix, ENT_QUOTES | ENT_IGNORE, 'UTF-8'); ?></span>
+<?php endif; ?>
+<span class="field-value <?php echo $valueClass; ?>"><?php echo $value; ?></span>
+<?php if ($suffix) : ?>
+	<span class="field-suffix"><?php echo htmlentities($suffix, ENT_QUOTES | ENT_IGNORE, 'UTF-8'); ?></span>
+<?php endif; ?>
