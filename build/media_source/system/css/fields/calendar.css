@@ -15,7 +15,7 @@
   z-index: 1100 !important;
 }
 .calendar-container table {
-  margin: 0px 0px 0px 55px;
+  margin: 0 0 0 55px;
   table-layout: fixed;
   max-width: 290px;
   border-radius: 5px;
