@@ -27,8 +27,8 @@
   position: relative;
   width: 100%;
   min-height: 1px;
-  padding-right: ($col-gutter-width / 2);
-  padding-left: ($col-gutter-width / 2);
+  padding-right: calc($col-gutter-width / 2);
+  padding-left: calc($col-gutter-width / 2);
 }
 
 @media (min-width: var(--breakpoint-md)) {

@@ -12,12 +12,12 @@
   }
 
   .grid-child {
-    padding: ($cassiopeia-grid-gutter / 2);
+    padding: calc($cassiopeia-grid-gutter / 2);
   }
 
   nav {
     padding: 0;
-    margin-top: $cassiopeia-grid-gutter / 2;
+    margin-top: calc($cassiopeia-grid-gutter / 2);
   }
 
   .site-description {
