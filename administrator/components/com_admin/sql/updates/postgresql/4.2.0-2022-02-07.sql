@@ -1,5 +1,5 @@
 -- Add the modifier column to the finder links table. Set this to something bigger than 1 to position it further up in the search results.
-ALTER TABLE "#__finder_links" ADD COLUMN "modifier" INT UNSIGNED NOT NULL DEFAULT 1;
+ALTER TABLE "#__finder_links" ADD COLUMN "modifier" INTEGER NOT NULL DEFAULT 1;
 
 -- Adding the above column invalidates the serialised objects in this table. Clearing the md5sum allows to re-index everything without having to clear the index first.
 UPDATE "#__finder_links" SET "md5sum" = '';
