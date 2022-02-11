@@ -35,8 +35,8 @@ $fa-css-prefix:    fa;
     direction: ltr;
     width: 100%;
     min-height: 1px;
-    padding-right: ($col-gutter-width * .5);
-    padding-left: ($col-gutter-width * .5);
+    padding-right: $col-gutter-width * .5;
+    padding-left: $col-gutter-width * .5;
     [dir=rtl] & {
       text-align: end;
     }
