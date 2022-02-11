@@ -138,8 +138,8 @@
             position: relative;
             top: 0;
             flex-basis: calc(100% + #{$cassiopeia-grid-gutter});
-            margin-top: ($cassiopeia-grid-gutter * .5);
-            margin-bottom: ($cassiopeia-grid-gutter * -.5);
+            margin-top: $cassiopeia-grid-gutter * .5;
+            margin-bottom: $cassiopeia-grid-gutter * -.5;
             background-color: hsla(0, 0%, 0%, .03);
             box-shadow: none;
           }
