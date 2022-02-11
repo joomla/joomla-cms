@@ -10,6 +10,9 @@ $fa-font-path:                     "../../../../../../vendor/fontawesome-free/we
 // Brands must be imported last
 @import "../../../../../../../../media/vendor/fontawesome-free/scss/brands";
 
+// B/C with Font Awesome 5
+@import "../../../../../../../../media/vendor/fontawesome-free/scss/shims";
+
 // B/C for Icomoon
 @import "../../../../../../system/scss/icomoon";
 

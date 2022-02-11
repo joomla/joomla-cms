@@ -29,4 +29,11 @@ module.exports.patchPackages = async (options) => {
   let ShortandsweetJs = await readFile(shortandsweetPath, { encoding: 'utf8' });
   ShortandsweetJs = ShortandsweetJs.concat('shortAndSweet(\'textarea.charcount\', {counterClassName: \'small text-muted\'});');
   await writeFile(shortandsweetPath, ShortandsweetJs, { encoding: 'utf8', mode: 0o644 });
+
+  // Include the v5 shim for Font Awesome
+  const faPath = join(mediaVendorPath, 'fontawesome-free/scss/fontawesome.scss');
+  let newScss = (await readFile(faPath, { encoding: 'utf8' })).concat(`
+@import 'shims';
+`);
+  await writeFile(faPath, newScss, { encoding: 'utf8', mode: 0o644 });
 };
