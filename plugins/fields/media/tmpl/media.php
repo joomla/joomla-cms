@@ -15,10 +15,11 @@ if (empty($field->value) || empty($field->value['imagefile']))
 	return;
 }
 
-$options        = [];
-$options['src'] = $field->value['imagefile'];
-$options['alt'] = empty($field->value['alt_text']) && empty($field->value['alt_empty']) ? false : $field->value['alt_text'];
-$class          = $fieldParams->get('image_class');
+$class   = $fieldParams->get('image_class');
+$options = [
+	'src' => $field->value['imagefile'],
+	'alt' => empty($field->value['alt_text']) && empty($field->value['alt_empty']) ? false : $field->value['alt_text'],
+];
 
 if ($class)
 {
