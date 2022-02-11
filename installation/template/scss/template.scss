@@ -13,6 +13,9 @@ $fa-font-path: "../../../media/vendor/fontawesome-free/webfonts";
 @import "../../../media/vendor/fontawesome-free/scss/solid";
 @import "../../../media/vendor/fontawesome-free/scss/brands"; // order of loading is important.
 
+// B/C with Font Awesome 5
+@import "../../../media/vendor/fontawesome-free/scss/shims";
+
 // B/C for Icomoon
 @import "../../../build/media_source/system/scss/icomoon";
 
