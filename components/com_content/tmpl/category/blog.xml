@@ -222,7 +222,7 @@
 				name="multi_column_order"
 				type="list"
 				label="JGLOBAL_MULTI_COLUMN_ORDER_LABEL"
-				parentclass="stack span-1-inline"
+				parentclass="stack span-2-inline"
 				useglobal="true"
 				validate="options"
 				>

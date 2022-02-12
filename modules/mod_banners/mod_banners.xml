@@ -48,6 +48,8 @@
 					default="5"
 					filter="integer"
 					class="validate-numeric"
+					min="1"
+					validate="number"
 				/>
 
 				<field

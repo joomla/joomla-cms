@@ -934,6 +934,12 @@ class Indexer
 
 			foreach ($tokens as $token)
 			{
+				// Database size for a term field
+				if ($token->length > 75)
+				{
+					continue;
+				}
+
 				if ($filterCommon && $token->common)
 				{
 					continue;

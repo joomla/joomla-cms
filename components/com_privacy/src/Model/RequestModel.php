@@ -58,8 +58,7 @@ class RequestModel extends AdminModel
 		}
 
 		// Get the form.
-		$form          = $this->getForm();
-		$data['email'] = PunycodeHelper::emailToPunycode($data['email']);
+		$form = $this->getForm();
 
 		// Check for an error.
 		if ($form instanceof \Exception)
@@ -88,6 +87,8 @@ class RequestModel extends AdminModel
 
 			return false;
 		}
+
+		$data['email'] = Factory::getUser()->email;
 
 		// Search for an open information request matching the email and type
 		$db    = $this->getDbo();
@@ -231,7 +232,7 @@ class RequestModel extends AdminModel
 	 * @param   string  $prefix   The class prefix. Optional.
 	 * @param   array   $options  Configuration array for model. Optional.
 	 *
-	 * @return  Table  A JTable object
+	 * @return  Table  A Table object
 	 *
 	 * @throws  \Exception
 	 * @since   3.9.0

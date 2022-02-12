@@ -29,6 +29,8 @@ use Joomla\CMS\Updater\Updater;
 use Joomla\CMS\User\UserHelper;
 use Joomla\CMS\Version;
 use Joomla\Database\ParameterType;
+use Joomla\Registry\Registry;
+use Joomla\Utilities\ArrayHelper;
 
 /**
  * Joomla! update overview Model
@@ -71,7 +73,7 @@ class UpdateModel extends BaseDatabaseModel
 				break;
 
 			// "Custom"
-			// TODO: check if the customurl is valid and not just "not empty".
+			// @todo: check if the customurl is valid and not just "not empty".
 			case 'custom':
 				if (trim($params->get('customurl', '')) != '')
 				{
@@ -79,7 +81,9 @@ class UpdateModel extends BaseDatabaseModel
 				}
 				else
 				{
-					return Factory::getApplication()->enqueueMessage(Text::_('COM_JOOMLAUPDATE_CONFIG_UPDATESOURCE_CUSTOM_ERROR'), 'error');
+					Factory::getApplication()->enqueueMessage(Text::_('COM_JOOMLAUPDATE_CONFIG_UPDATESOURCE_CUSTOM_ERROR'), 'error');
+
+					return;
 				}
 				break;
 
@@ -361,13 +365,39 @@ class UpdateModel extends BaseDatabaseModel
 		$updateInfo = $this->getUpdateInformation();
 		$packageURL = trim($updateInfo['object']->downloadurl->_data);
 		$sources    = $updateInfo['object']->get('downloadSources', array());
-		$headers    = get_headers($packageURL, 1);
+
+		// We have to manually follow the redirects here so we set the option to false.
+		$httpOptions = new Registry;
+		$httpOptions->set('follow_location', false);
+
+		try
+		{
+			$head = HttpFactory::getHttp($httpOptions)->head($packageURL);
+		}
+		catch (\RuntimeException $e)
+		{
+			// Passing false here -> download failed message
+			$response['basename'] = false;
+
+			return $response;
+		}
 
 		// Follow the Location headers until the actual download URL is known
-		while (isset($headers['Location']))
+		while (isset($head->headers['location']))
 		{
-			$packageURL = $headers['Location'];
-			$headers    = get_headers($packageURL, 1);
+			$packageURL = (string) $head->headers['location'][0];
+
+			try
+			{
+				$head = HttpFactory::getHttp($httpOptions)->head($packageURL);
+			}
+			catch (\RuntimeException $e)
+			{
+				// Passing false here -> download failed message
+				$response['basename'] = false;
+
+				return $response;
+			}
 		}
 
 		// Remove protocol, path and query string from URL
@@ -659,6 +689,9 @@ ENDDATA;
 
 			return false;
 		}
+
+		// Re-create namespace map. It is needed when updating to a Joomla! version has new extension added
+		(new \JNamespacePsr4Map)->create();
 
 		$installer->manifest = $manifest;
 
@@ -1067,7 +1100,7 @@ ENDDATA;
 
 		foreach ($files as $file)
 		{
-			if (File::exists($file))
+			if ($file !== null && File::exists($file))
 			{
 				File::delete($file);
 			}
@@ -1076,7 +1109,7 @@ ENDDATA;
 
 	/**
 	 * Gets PHP options.
-	 * TODO: Outsource, build common code base for pre install and pre update check
+	 * @todo: Outsource, build common code base for pre install and pre update check
 	 *
 	 * @return array Array of PHP config options
 	 *
@@ -1168,7 +1201,7 @@ ENDDATA;
 
 	/**
 	 * Gets PHP Settings.
-	 * TODO: Outsource, build common code base for pre install and pre update check
+	 * @todo: Outsource, build common code base for pre install and pre update check
 	 *
 	 * @return  array
 	 *
@@ -1306,7 +1339,7 @@ ENDDATA;
 
 	/**
 	 * Checks the availability of the parse_ini_file and parse_ini_string functions.
-	 * TODO: Outsource, build common code base for pre install and pre update check
+	 * @todo: Outsource, build common code base for pre install and pre update check
 	 *
 	 * @return  boolean  True if the method exists.
 	 *
@@ -1700,7 +1733,7 @@ ENDDATA;
 	 */
 	protected function translateExtensionName(&$item)
 	{
-		// ToDo: Cleanup duplicated code. from com_installer/models/extension.php
+		// @todo: Cleanup duplicated code. from com_installer/models/extension.php
 		$lang = Factory::getLanguage();
 		$path = $item->client_id ? JPATH_ADMINISTRATOR : JPATH_SITE;
 
@@ -1739,5 +1772,64 @@ ENDDATA;
 
 		// Translate the extension name if possible
 		$item->name = strip_tags(Text::_($item->name));
+	}
+
+	/**
+	 * Checks whether a given template is active
+	 *
+	 * @param   string  $template  The template name to be checked
+	 *
+	 * @return  boolean
+	 *
+	 * @since   3.10.4
+	 */
+	public function isTemplateActive($template)
+	{
+		$db = $this->getDbo();
+		$query = $db->getQuery(true);
+
+		$query->select(
+			$db->qn(
+				array(
+					'id',
+					'home'
+				)
+			)
+		)->from(
+			$db->qn('#__template_styles')
+		)->where(
+			$db->qn('template') . ' = :template'
+		)->bind(':template', $template, ParameterType::STRING);
+
+		$templates = $db->setQuery($query)->loadObjectList();
+
+		$home = array_filter(
+			$templates,
+			function ($value)
+			{
+				return $value->home > 0;
+			}
+		);
+
+		$ids = ArrayHelper::getColumn($templates, 'id');
+
+		$menu = false;
+
+		if (count($ids))
+		{
+			$query = $db->getQuery(true);
+
+			$query->select(
+				'COUNT(*)'
+			)->from(
+				$db->qn('#__menu')
+			)->whereIn(
+				$db->qn('template_style_id'), $ids
+			);
+
+			$menu = $db->setQuery($query)->loadResult() > 0;
+		}
+
+		return $home || $menu;
 	}
 }

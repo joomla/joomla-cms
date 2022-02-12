@@ -341,14 +341,9 @@ class Media extends Admin
 	 */
 	protected function getLocalUser()
 	{
-		try
-		{
-			return $this->getSuiteConfiguration()['modules']['config']['Helper\Acceptance']['localUser'];
-		}
-		catch (Exception $e)
-		{
-			return '';
-		}
+		$I = $this;
+
+		return $I->getConfig('localUser');
 	}
 
 	/**
@@ -362,13 +357,8 @@ class Media extends Admin
 	 */
 	protected function getCmsPath()
 	{
-		try
-		{
-			return $this->getSuiteConfiguration()['modules']['config']['Helper\Acceptance']['cmsPath'];
-		}
-		catch (Exception $e)
-		{
-			throw new Exception('cmsPath is not defined in acceptance.suite.yml.');
-		}
+		$I = $this;
+
+		return $I->getConfig('cmsPath');
 	}
 }

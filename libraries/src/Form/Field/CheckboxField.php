@@ -58,10 +58,9 @@ class CheckboxField extends FormField
 	 */
 	public function __get($name)
 	{
-		switch ($name)
+		if ($name === 'checked')
 		{
-			case 'checked':
-				return $this->checked;
+			return $this->checked;
 		}
 
 		return parent::__get($name);
@@ -79,16 +78,15 @@ class CheckboxField extends FormField
 	 */
 	public function __set($name, $value)
 	{
-		switch ($name)
+		if ($name === 'checked')
 		{
-			case 'checked':
-				$value = (string) $value;
-				$this->checked = ($value === 'true' || $value == $name || $value === '1');
-				break;
+			$value = (string) $value;
+			$this->checked = ($value === 'true' || $value == $name || $value === '1');
 
-			default:
-				parent::__set($name, $value);
+			return;
 		}
+
+		parent::__set($name, $value);
 	}
 
 	/**
