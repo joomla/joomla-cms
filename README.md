@@ -1,4 +1,4 @@
-Joomla! CMS™ 
+Joomla! CMS™
 ====================
 
 Build Status
@@ -36,9 +36,12 @@ You will need:
 - Node.js - for compiling Joomla's Javascript and SASS files. For help installing Node.js please follow the instructions available on https://nodejs.org/en/
 - Git - for version management. Download from here https://git-scm.com/downloads (MacOS users can also use Brew and Linux users can use the built-in package manager, eg apt, yum, etc).
 
-**Steps to setup the local environment:**
-- Clone the repository:
+Alternatively, you can use *Docker Engine* instead of installing the *PHP cli*, *Git*, *Composer* and/or *Node.js*. For installing Docker Engine see https://docs.docker.com/engine/install/
+
+**Steps to setup the local environment *(Variant 1, with git, composer and node.js/npm installed)*:**
+- Clone the repository using **one** of the following two commands (first one for any user, second one for Joomla committers):
 ```bash
+git clone https://github.com/joomla/joomla-cms.git
 git clone git@github.com:joomla/joomla-cms.git
 ```
 - Go to the joomla-cms folder:
@@ -56,6 +59,15 @@ composer install
 - Install all the needed npm packages:
 ```bash
 npm ci
+```
+**Steps to setup the local environment *(Variant 2, running git, composer and node.js/npm inside a Docker container, without installing them)*:**
+```bash
+docker run -ti --rm --name my-joomla-git --volume "${HOME}":/root --volume "$PWD":/usr/src/app --user $(id -u):$(id -g) --workdir /usr/src/app alpine/git clone https://github.com/joomla/joomla-cms.git
+cd joomla-cms
+docker run -ti --rm --name my-joomla-git --volume "${HOME}":/root --volume "$PWD":/usr/src/app --user $(id -u):$(id -g) --workdir /usr/src/app alpine/git checkout 4.1-dev
+docker run -it --rm --name my-joomla-composer --volume "$PWD":/usr/src/app --user $(id -u):$(id -g) --workdir /usr/src/app  composer --ignore-platform-reqs install
+docker run -it --rm --name my-joomla-npm --volume "$PWD":/usr/src/app --user $(id -u):$(id -g) --workdir /usr/src/app node npm ci
+docker image rm alpine/git composer node
 ```
 
 **Things to be aware of when pulling:**
