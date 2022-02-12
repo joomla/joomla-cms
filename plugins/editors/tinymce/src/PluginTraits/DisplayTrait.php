@@ -172,11 +172,11 @@ trait DisplayTrait
 		{
 			if (file_exists(JPATH_ROOT . '/media/vendor/tinymce/langs/' . $language->getTag() . (JDEBUG ? '.js' : '.min.js')))
 			{
-				$langPrefix = $language->getTag();
+				$langPrefix = $language->getTag() . (JDEBUG ? '' : '.min');
 			}
 			elseif (file_exists(JPATH_ROOT . '/media/vendor/tinymce/langs/' . substr($language->getTag(), 0, strpos($language->getTag(), '-')) . (JDEBUG ? '.js' : '.min.js')))
 			{
-				$langPrefix = substr($language->getTag(), 0, strpos($language->getTag(), '-'));
+				$langPrefix = substr($language->getTag(), 0, strpos($language->getTag(), '-')) . (JDEBUG ? '' : '.min');
 			}
 			else
 			{
@@ -436,7 +436,7 @@ trait DisplayTrait
 				'suffix'   => JDEBUG ? '' : '.min',
 				'baseURL'  => Uri::root(true) . '/media/vendor/tinymce',
 				'directionality' => $language->isRtl() ? 'rtl' : 'ltr',
-				'language' => $langPrefix . (JDEBUG ? '' : '.min'),
+				'language' => $langPrefix,
 				'autosave_restore_when_empty' => false,
 				'skin'     => $skin,
 				'theme'    => $theme,
