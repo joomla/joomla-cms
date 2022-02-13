@@ -39,7 +39,7 @@ You will need:
 Alternatively, you can use *Docker Engine* instead of installing the *PHP cli*, *Git*, *Composer* and/or *Node.js*. For installing Docker Engine see https://docs.docker.com/engine/install/
 
 **Steps to setup the local environment *(Variant 1, with git, composer and node.js/npm installed)*:**
-- Clone the repository using **one** of the following two commands (first one for any user, second one for Joomla committers):
+- Clone the repository using **one** of the following two commands (https read access is public, ssh access [requires a Github account with an active SSH key](https://docs.github.com/en/get-started/getting-started-with-git/about-remote-repositories)):
 ```bash
 git clone https://github.com/joomla/joomla-cms.git
 git clone git@github.com:joomla/joomla-cms.git
