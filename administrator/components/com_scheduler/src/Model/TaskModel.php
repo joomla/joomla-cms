@@ -25,10 +25,8 @@ use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Table\Table;
-use Joomla\Component\Scheduler\Administrator\Helper\ExecRuleHelper;
 use Joomla\Component\Scheduler\Administrator\Helper\SchedulerHelper;
 use Joomla\Component\Scheduler\Administrator\Table\TaskTable;
-use Joomla\Component\Scheduler\Administrator\Task\TaskOption;
 use Joomla\Database\ParameterType;
 use Symfony\Component\OptionsResolver\Exception\AccessException;
 use Symfony\Component\OptionsResolver\Exception\InvalidOptionsException;
@@ -417,18 +415,6 @@ class TaskModel extends AdminModel
 		$lockQuery->update($db->quoteName(self::TASK_TABLE))
 			->set($db->quoteName('locked') . ' = :now1')
 			->bind(':now1', $now);
-
-		// Array of all active routine ids
-		$activeRoutines = array_map(
-			static function (TaskOption $taskOption): string
-			{
-				return $taskOption->type;
-			},
-			SchedulerHelper::getTaskOptions()->options
-		);
-
-		// "Orphaned" tasks are not a part of the task queue!
-		$lockQuery->whereIn($db->quoteName('type'), $activeRoutines, ParameterType::STRING);
 
 		// If directed, exclude CLI exclusive tasks
 		if (!$options['includeCliExclusive'])
