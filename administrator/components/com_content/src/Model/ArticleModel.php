@@ -610,7 +610,11 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
 	{
 		// Check the session for previously entered form data.
 		$app = Factory::getApplication();
-		$data = $app->getUserState('com_content.edit.article.data', array());
+		
+		if (!$app->isClient('cli'))
+		{
+			$data = $app->getUserState('com_content.edit.article.data', array());
+		}
 
 		if (empty($data))
 		{
