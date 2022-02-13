@@ -37,7 +37,6 @@
       :focused="focused"
       :item="item"
       :edit="editItem"
-      :editable="canEdit"
       :previewable="true"
       :downloadable="true"
       :shareable="true"
