@@ -36,13 +36,12 @@ You will need:
 - Node.js - for compiling Joomla's Javascript and SASS files. For help installing Node.js please follow the instructions available on https://nodejs.org/en/
 - Git - for version management. Download from here https://git-scm.com/downloads (MacOS users can also use Brew and Linux users can use the built-in package manager, eg apt, yum, etc).
 
-Alternatively, you can use *Docker Engine* instead of installing the *PHP cli*, *Git*, *Composer* and/or *Node.js*. For installing Docker Engine see https://docs.docker.com/engine/install/
+Alternatively, installation *Variant 2* below uses *Docker Engine* instead of installing the *PHP cli*, *Git*, *Composer* and/or *Node.js*. For installing Docker Engine see https://docs.docker.com/engine/install/
 
 **Steps to setup the local environment *(Variant 1, with git, composer and node.js/npm installed)*:**
-- Clone the repository using **one** of the following two commands (https read access is public, ssh access [requires a Github account with an active SSH key](https://docs.github.com/en/get-started/getting-started-with-git/about-remote-repositories)):
+- Clone the repository:
 ```bash
 git clone https://github.com/joomla/joomla-cms.git
-git clone git@github.com:joomla/joomla-cms.git
 ```
 - Go to the joomla-cms folder:
 ```bash
