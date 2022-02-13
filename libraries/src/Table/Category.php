@@ -277,8 +277,15 @@ class Category extends Nested implements VersionableTableInterface, TaggableTabl
 		if ($table->load(array('alias' => $this->alias, 'parent_id' => (int) $this->parent_id, 'extension' => $this->extension))
 			&& ($table->id != $this->id || $this->id == 0))
 		{
-			$this->setError(Text::_('JLIB_DATABASE_ERROR_CATEGORY_UNIQUE_ALIAS'));
-
+			// Is the existing category trashed?
+			if ($table->published === -2)
+			{
+				$this->setError(Text::_('JLIB_DATABASE_ERROR_CATEGORY_UNIQUE_ALIAS_TRASHED'));
+			}
+			else
+			{
+				$this->setError(Text::_('JLIB_DATABASE_ERROR_CATEGORY_UNIQUE_ALIAS'));
+			}
 			return false;
 		}
 
