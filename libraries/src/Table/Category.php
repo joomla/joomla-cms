@@ -286,6 +286,7 @@ class Category extends Nested implements VersionableTableInterface, TaggableTabl
 			{
 				$this->setError(Text::_('JLIB_DATABASE_ERROR_CATEGORY_UNIQUE_ALIAS'));
 			}
+
 			return false;
 		}
 
