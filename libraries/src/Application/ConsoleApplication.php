@@ -460,26 +460,4 @@ class ConsoleApplication extends Application implements DispatcherAwareInterface
 
 		return Router::getInstance($name, $options);
 	}
-
-	/**
-	 * Gets a user state.
-	 *
-	 * @param   string  $key      The path of the state.
-	 * @param   mixed   $default  Optional default value, returned if the internal value is null.
-	 *
-	 * @return  mixed  The user state or null.
-	 *
-	 * @since   __DEPLOY_VERSION__
-	 */
-	public function getUserState($key, $default = null)
-	{
-		$registry = $this->getSession()->get('registry');
-
-		if ($registry !== null)
-		{
-			return $registry->get($key, $default);
-		}
-
-		return $default;
-	}
 }
