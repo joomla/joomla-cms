@@ -267,7 +267,16 @@ class Menu extends Nested
 				$menuTypeTable = Table::getInstance('MenuType', 'JTable', array('dbo' => $db));
 				$menuTypeTable->load(array('menutype' => $table->menutype));
 				$url     = Route::_('index.php?option=com_menus&task=item.edit&id=' . (int) $table->id);
-				$this->setError(Text::sprintf('JLIB_DATABASE_ERROR_MENU_UNIQUE_ALIAS', $this->alias, $table->title, $menuTypeTable->title, $url));
+
+				// Is the existing menu item trashed?
+				if ($table->published == -2)
+				{
+					$this->setError(Text::sprintf('JLIB_DATABASE_ERROR_MENU_UNIQUE_ALIAS_TRASHED', $this->alias, $table->title, $menuTypeTable->title, $url));
+				}
+				else
+				{
+					$this->setError(Text::sprintf('JLIB_DATABASE_ERROR_MENU_UNIQUE_ALIAS', $this->alias, $table->title, $menuTypeTable->title, $url));
+				}
 
 				return false;
 			}
