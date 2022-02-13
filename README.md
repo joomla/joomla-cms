@@ -41,7 +41,7 @@ Alternatively, installation *Variant 2* below uses *Docker Engine* instead of in
 **Steps to setup the local environment *(Variant 1, with git, composer and node.js/npm installed)*:**
 - Clone the repository:
 ```bash
-git clone https://github.com/joomla/joomla-cms.git
+git clone git@github.com:joomla/joomla-cms.git
 ```
 - Go to the joomla-cms folder:
 ```bash
