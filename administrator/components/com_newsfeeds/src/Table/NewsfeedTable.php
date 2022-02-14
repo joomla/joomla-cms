@@ -190,11 +190,18 @@ class NewsfeedTable extends Table implements VersionableTableInterface, Taggable
 
 		if ($table->load(array('alias' => $this->alias, 'catid' => $this->catid)) && ($table->id != $this->id || $this->id == 0))
 		{
-			$this->setError(Text::_('COM_NEWSFEEDS_ERROR_UNIQUE_ALIAS'));
+			// Is the existing contact trashed?
+			if ($table->published === -2)
+			{
+				$this->setError(Text::_('COM_NEWSFEEDS_ERROR_UNIQUE_ALIAS_TRASHED'));
+			}
+			else
+			{
+				$this->setError(Text::_('COM_NEWSFEEDS_ERROR_UNIQUE_ALIAS'));
+			}
 
 			return false;
 		}
-
 		// Save links as punycode.
 		$this->link = PunycodeHelper::urlToPunycode($this->link);
 
