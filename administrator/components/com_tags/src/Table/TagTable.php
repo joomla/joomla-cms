@@ -228,6 +228,7 @@ class TagTable extends Nested implements VersionableTableInterface
 
 			return false;
 		}
+
 		return parent::store($updateNulls);
 	}
 

@@ -202,6 +202,7 @@ class NewsfeedTable extends Table implements VersionableTableInterface, Taggable
 
 			return false;
 		}
+
 		// Save links as punycode.
 		$this->link = PunycodeHelper::urlToPunycode($this->link);
 
