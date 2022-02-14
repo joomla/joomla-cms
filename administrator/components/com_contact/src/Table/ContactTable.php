@@ -127,8 +127,9 @@ class ContactTable extends Table implements VersionableTableInterface, TaggableT
 			}
 			else
 			{
-			$this->setError(Text::_('COM_CONTACT_ERROR_UNIQUE_ALIAS'));
+				$this->setError(Text::_('COM_CONTACT_ERROR_UNIQUE_ALIAS'));
 			}
+
 			return false;
 		}
 
