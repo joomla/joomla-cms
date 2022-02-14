@@ -2,7 +2,7 @@
 $fa-css-prefix:                    fa;
 $fa-font-path:                     "../../../../../../vendor/fontawesome-free/webfonts" !default;
 
-// Font Awesome 5 Free
+// Font Awesome 6 Free
 @import "../../../../../../../../media/vendor/fontawesome-free/scss/fontawesome";
 @import "../../../../../../../../media/vendor/fontawesome-free/scss/regular";
 @import "../../../../../../../../media/vendor/fontawesome-free/scss/solid";
@@ -14,7 +14,7 @@ $fa-font-path:                     "../../../../../../vendor/fontawesome-free/we
 @import "../../../../../../../../media/vendor/fontawesome-free/scss/shims";
 
 // B/C for Icomoon
-@import "../../../../../../system/scss/icomoon";
+@import "../../../../../../../../media/system/scss/icomoon";
 
 // RTL override
 html[dir=rtl] .float-right {
