@@ -52,7 +52,7 @@ $showImage  = $this->params->get('show_image', 0);
 $imageClass = $this->params->get('image_class', '');
 $extraAttr  = [];
 
-if ($showImage && !empty($this->result->imageUrl) && '' !== $imageClass)
+if ($showImage && !empty($this->result->imageUrl) && $imageClass !== '')
 {
 	$extraAttr['class'] = $imageClass;
 }
