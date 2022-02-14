@@ -159,5 +159,4 @@ class JConfig
 	/* Miscellaneous Settings */
 	public $asset_id = 1;
 	public $behind_loadbalancer = false;
-	public $block_floc = 1;
 }
