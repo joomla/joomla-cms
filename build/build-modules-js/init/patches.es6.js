@@ -32,7 +32,7 @@ module.exports.patchPackages = async (options) => {
 
   // Include the v5 shim for Font Awesome
   const faPath = join(mediaVendorPath, 'fontawesome-free/scss/fontawesome.scss');
-  let newScss = (await readFile(faPath, { encoding: 'utf8' })).concat(`
+  const newScss = (await readFile(faPath, { encoding: 'utf8' })).concat(`
 @import 'shims';
 `);
   await writeFile(faPath, newScss, { encoding: 'utf8', mode: 0o644 });
