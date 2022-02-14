@@ -498,10 +498,12 @@ class TaskModel extends AdminModel
 		}
 		finally
 		{
+			$affectedRows = $db->getAffectedRows();
+
 			$db->unlockTables();
 		}
 
-		if ($db->getAffectedRows() != 1)
+		if ($affectedRows != 1)
 		{
 			/*
 			 // @todo
