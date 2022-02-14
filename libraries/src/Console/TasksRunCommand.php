@@ -106,7 +106,7 @@ class TasksRunCommand extends AbstractCommand
 		foreach ($records as $record)
 		{
 			$cStart   = microtime(true);
-			$task     = $scheduler->runTask(['id' => $record->id, 'allowDisabled' => true, 'allowConcurrent' => true]);
+			$task     = $scheduler->runTask(['id' => (int) $record->id, 'allowDisabled' => true, 'allowConcurrent' => true]);
 			$exit     = empty($task) ? Status::NO_RUN : $task->getContent()['status'];
 			$duration = microtime(true) - $cStart;
 			$key      = (\array_key_exists($exit, $outTextMap)) ? $exit : 'N/A';
