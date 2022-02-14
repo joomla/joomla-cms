@@ -216,11 +216,18 @@ class TagTable extends Nested implements VersionableTableInterface
 
 		if ($table->load(array('alias' => $this->alias)) && ($table->id != $this->id || $this->id == 0))
 		{
-			$this->setError(Text::_('COM_TAGS_ERROR_UNIQUE_ALIAS'));
+			// Is the existing tag trashed?
+			if ($table->published === -2)
+			{
+				$this->setError(Text::_('COM_TAGS_ERROR_UNIQUE_ALIAS_TRASHED'));
+			}
+			else
+			{
+				$this->setError(Text::_('COM_TAGS_ERROR_UNIQUE_ALIAS'));
+			}
 
 			return false;
 		}
-
 		return parent::store($updateNulls);
 	}
 
