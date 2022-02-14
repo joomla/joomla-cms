@@ -120,13 +120,39 @@ class ContactTable extends Table implements VersionableTableInterface, TaggableT
 
 		if ($table->load(array('alias' => $this->alias, 'catid' => $this->catid)) && ($table->id != $this->id || $this->id == 0))
 		{
+			// Is the existing contact trashed?
+			if ($table->published === -2)
+			{
+				$this->setError(Text::_('COM_CONTACT_ERROR_UNIQUE_ALIAS_TRASHED'));
+			}
+			else
+			{
 			$this->setError(Text::_('COM_CONTACT_ERROR_UNIQUE_ALIAS'));
-
+			}
 			return false;
 		}
 
 		return parent::store($updateNulls);
 	}
+
+	// $menuTypeTable = Table::getInstance('MenuType', 'JTable', array('dbo' => $db));
+	// $menuTypeTable->load(array('menutype' => $table->menutype));
+	// $url     = Route::_('index.php?option=com_menus&task=item.edit&id=' . (int) $table->id);
+
+	// // Is the existing menu item trashed?
+	// if ($table->published == -2)
+	// {
+	// 	$this->setError(Text::sprintf('JLIB_DATABASE_ERROR_MENU_UNIQUE_ALIAS_TRASHED', $this->alias, $table->title, $menuTypeTable->title, $url));
+	// }
+	// else
+	// {
+	// 	$this->setError(Text::sprintf('JLIB_DATABASE_ERROR_MENU_UNIQUE_ALIAS', $this->alias, $table->title, $menuTypeTable->title, $url));
+	// }
+
+	// return false;
+
+
+
 
 	/**
 	 * Overloaded check function
