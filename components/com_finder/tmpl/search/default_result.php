@@ -54,7 +54,7 @@ $extraAttr  = [];
 
 if ($showImage && !empty($this->result->imageUrl) && '' !== $imageClass)
 {
-	$extraAttr['class'] = $this->params->get('image_class', '');
+	$extraAttr['class'] = $imageClass;
 }
 
 $icon = '';
