@@ -399,11 +399,15 @@ class TaskModel extends AdminModel
 			}
 			catch (\RuntimeException $e)
 			{
+				$db->unlockTables();
+
 				return null;
 			}
 
 			if ($runningCount !== 0)
 			{
+				$db->unlockTables();
+
 				return null;
 			}
 		}
@@ -470,6 +474,15 @@ class TaskModel extends AdminModel
 			}
 			catch (\RuntimeException $e)
 			{
+				$db->unlockTables();
+
+				return null;
+			}
+
+			if (count($ids) === 0)
+			{
+				$db->unlockTables();
+
 				return null;
 			}
 
