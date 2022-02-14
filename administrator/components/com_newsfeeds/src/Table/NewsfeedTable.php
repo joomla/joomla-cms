@@ -190,7 +190,7 @@ class NewsfeedTable extends Table implements VersionableTableInterface, Taggable
 
 		if ($table->load(array('alias' => $this->alias, 'catid' => $this->catid)) && ($table->id != $this->id || $this->id == 0))
 		{
-			// Is the existing contact trashed?
+			// Is the existing newsfeed trashed?
 			if ($table->published === -2)
 			{
 				$this->setError(Text::_('COM_NEWSFEEDS_ERROR_UNIQUE_ALIAS_TRASHED'));
