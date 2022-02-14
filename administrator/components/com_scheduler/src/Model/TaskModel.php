@@ -554,7 +554,7 @@ class TaskModel extends AdminModel
 				'includeCliExclusive' => true,
 			]
 		)
-			->setAllowedTypes('id', 'int')
+			->setAllowedTypes('id', 'numeric')
 			->setAllowedTypes('allowDisabled', 'bool')
 			->setAllowedTypes('bypassScheduling', 'bool')
 			->setAllowedTypes('allowConcurrent', 'bool')
