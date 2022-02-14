@@ -566,7 +566,7 @@ class FieldsHelper
 		$app = Factory::getApplication();
 
 		// Detect if the field should be shown at all
-		if ($field->params->get('show_on') == 1 && $app->isClient('administrator'))
+		if ($field->params->get('show_on') == 1 && $app->isClient('administrator') || $app->isClient('api'))
 		{
 			return false;
 		}
