@@ -19,7 +19,7 @@ HTMLHelper::_('behavior.keepalive');
 HTMLHelper::_('behavior.formvalidator');
 
 ?>
-<div class="request-form<?php echo $this->pageclass_sfx; ?>">
+<div class="request-form <?php echo $this->pageclass_sfx; ?>">
 	<?php if ($this->params->get('show_page_heading')) : ?>
 		<div class="page-header">
 			<h1>
