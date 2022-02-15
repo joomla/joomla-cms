@@ -267,9 +267,6 @@ class BannerTable extends Table implements VersionableTableInterface
 					$this->reset = $date->toSql();
 					break;
 			}
-
-			// Store the row
-			parent::store($updateNulls);
 		}
 		else
 		{
@@ -281,27 +278,27 @@ class BannerTable extends Table implements VersionableTableInterface
 			{
 				$this->setError($oldrow->getError());
 			}
+		}
 
-			// Verify that the alias is unique
-			/** @var BannerTable $table */
-			$table = Table::getInstance('BannerTable', __NAMESPACE__ . '\\', array('dbo' => $db));
+		// Verify that the alias is unique
+		/** @var BannerTable $table */
+		$table = Table::getInstance('BannerTable', __NAMESPACE__ . '\\', array('dbo' => $db));
 
-			if ($table->load(array('alias' => $this->alias, 'catid' => $this->catid)) && ($table->id != $this->id || $this->id == 0))
-			{
-				$this->setError(Text::_('COM_BANNERS_ERROR_UNIQUE_ALIAS'));
+		if ($table->load(array('alias' => $this->alias, 'catid' => $this->catid)) && ($table->id != $this->id || $this->id == 0))
+		{
+			$this->setError(Text::_('COM_BANNERS_ERROR_UNIQUE_ALIAS'));
 
-				return false;
-			}
+			return false;
+		}
 
-			// Store the new row
-			parent::store($updateNulls);
+		// Store the row
+		parent::store($updateNulls);
 
-			// Need to reorder ?
-			if ($oldrow->state >= 0 && ($this->state < 0 || $oldrow->catid != $this->catid))
-			{
-				// Reorder the oldrow
-				$this->reorder($this->_db->quoteName('catid') . ' = ' . ((int) $oldrow->catid) . ' AND ' . $this->_db->quoteName('state') . ' >= 0');
-			}
+		// Need to reorder ?
+		if (!empty($this->id) && $oldrow->state >= 0 && ($this->state < 0 || $oldrow->catid != $this->catid))
+		{
+			// Reorder the oldrow
+			$this->reorder($this->_db->quoteName('catid') . ' = ' . ((int) $oldrow->catid) . ' AND ' . $this->_db->quoteName('state') . ' >= 0');
 		}
 
 		return \count($this->getErrors()) == 0;
