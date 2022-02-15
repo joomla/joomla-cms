@@ -73,7 +73,7 @@ $icon = $this->params->get('contact_icons') == 0;
 <?php if ($this->item->email_to && $this->params->get('show_email')) : ?>
 	<dt>
 		<?php if ($icon && !$this->params->get('marker_email')) : ?>
-			<span class="icon-envelope" aria-hidden="true"></span><span class="visually-hidden"><?php echo Text::_('COM_CONTACT_EMAIL'); ?></span>
+			<span class="icon-envelope" aria-hidden="true"></span><span class="visually-hidden"><?php echo Text::_('COM_CONTACT_EMAIL_LABEL'); ?></span>
 		<?php else : ?>
 			<span class="<?php echo $this->params->get('marker_class'); ?>">
 				<?php echo $this->params->get('marker_email'); ?>
