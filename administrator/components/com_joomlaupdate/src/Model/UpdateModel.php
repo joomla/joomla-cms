@@ -114,7 +114,30 @@ class UpdateModel extends BaseDatabaseModel
 		$db->setQuery($query);
 		$update_site = $db->loadObject();
 
-		if ($update_site && $update_site->location != $updateURL)
+		if (empty($update_site))
+		{
+			$db = $this->getDbo();
+			$db->transactionStart();
+
+			$update_site = new \Joomla\CMS\Table\UpdateSite($this->getDbo());
+			$update_site->name = "Joomla";
+			$update_site->type = "collection";
+			$update_site->last_check_timestamp = 0;
+			$update_site->location = $updateURL;
+			$update_site->enabled = 1;
+			$update_site->store();
+
+			$update_site_extensions = new \stdClass();
+			$update_site_extensions->update_site_id = $update_site->update_site_id;
+			$update_site_extensions->extension_id = $id;
+			$db->insertObject('#__update_sites_extensions', $update_site_extensions);
+
+			$db->transactionCommit();
+
+			return;
+		}
+
+		if ($update_site->location != $updateURL)
 		{
 			// Modify the database record.
 			$update_site->last_check_timestamp = 0;
