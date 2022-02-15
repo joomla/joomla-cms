@@ -1439,6 +1439,11 @@ class AKPostprocDirect extends AKAbstractPostproc
 			@touch($this->filename, $this->timestamp);
 		}
 
+		if (substr($this->filename, -4) === '.php')
+		{
+			$this->clearFileInOPCache($this->filename);
+		}
+
 		return true;
 	}
 
