@@ -127,7 +127,7 @@ class UpdateModel extends BaseDatabaseModel
 			$update_site->enabled = 1;
 			$update_site->store();
 
-			$update_site_extensions = new \stdClass();
+			$update_site_extensions = new \stdClass;
 			$update_site_extensions->update_site_id = $update_site->update_site_id;
 			$update_site_extensions->extension_id = $id;
 			$db->insertObject('#__update_sites_extensions', $update_site_extensions);
