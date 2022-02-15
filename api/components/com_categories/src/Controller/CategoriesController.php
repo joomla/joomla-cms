@@ -51,7 +51,7 @@ class CategoriesController extends ApiController
 		$extension = $this->getExtensionFromInput();
 		$data['extension'] = $extension;
 
-		// @todo: This is a hack to drop the extension into the global input object - to satisfy how state is built
+		// TODO: This is a hack to drop the extension into the global input object - to satisfy how state is built
 		//       we should be able to improve this in the future
 		$this->input->set('extension', $extension);
 
@@ -65,7 +65,7 @@ class CategoriesController extends ApiController
 	 *
 	 * @return  integer  The record ID on success, false on failure
 	 *
-	 * @since   4.1.0
+	 * @since   4.0.6
 	 */
 	protected function save($recordKey = null)
 	{

@@ -58,6 +58,9 @@ class JoomlaInstallerScript
 				{
 					$this->fromVersion = $manifestValues['version'];
 
+					// Ensure templates are moved to the correct mode
+					$this->fixTemplateMode();
+
 					return true;
 				}
 			}
@@ -6112,7 +6115,7 @@ class JoomlaInstallerScript
 			'/media/vendor/codemirror/lib/#codemirror.js#',
 			// From 4.0.5 to 4.0.6
 			'/media/vendor/mediaelement/css/mejs-controls.png',
-			// From 4.0.x to 4.1.0
+			// From 4.0.x to 4.1.0-beta1
 			'/administrator/templates/atum/css/system/searchtools/searchtools.css',
 			'/administrator/templates/atum/css/system/searchtools/searchtools.min.css',
 			'/administrator/templates/atum/css/system/searchtools/searchtools.min.css.gz',
@@ -6327,6 +6330,8 @@ class JoomlaInstallerScript
 			'/templates/system/scss/general.scss',
 			'/templates/system/scss/offline.scss',
 			'/templates/system/scss/offline_rtl.scss',
+			// From 4.1.0-beta3 to 4.1.0-rc1
+			'/api/components/com_media/src/Helper/AdapterTrait.php',
 		);
 
 		$folders = array(
@@ -7586,7 +7591,7 @@ class JoomlaInstallerScript
 			'/libraries/vendor/algo26-matthias/idna-convert/tests',
 			// From 4.0.3 to 4.0.4
 			'/templates/cassiopeia/images/system',
-			// From 4.0.5 to 4.1.0
+			// From 4.0.x to 4.1.0-beta1
 			'/templates/system/scss',
 			'/templates/system/css',
 			'/templates/cassiopeia/scss/vendor/metismenu',
@@ -7637,6 +7642,8 @@ class JoomlaInstallerScript
 			'/administrator/templates/atum/css/system/searchtools',
 			'/administrator/templates/atum/css/system',
 			'/administrator/templates/atum/css',
+			// From 4.1.0-beta3 to 4.1.0-rc1
+			'/api/components/com_media/src/Helper',
 		);
 
 		$status['files_checked'] = $files;
@@ -7698,12 +7705,12 @@ class JoomlaInstallerScript
 			File::delete(JPATH_ROOT . '/administrator/manifests/packages/pkg_search.xml');
 		}
 
-		if ($suppressOutput === false && \count($status['folders_errors']))
+		if ($suppressOutput === false && count($status['folders_errors']))
 		{
 			echo implode('<br>', $status['folders_errors']);
 		}
 
-		if ($suppressOutput === false && \count($status['files_errors']))
+		if ($suppressOutput === false && count($status['files_errors']))
 		{
 			echo implode('<br>', $status['files_errors']);
 		}
@@ -7795,7 +7802,7 @@ class JoomlaInstallerScript
 		}
 
 		// Nothing to do if the table doesn't exist because the CMS has never been updated from a pre-4.0 version
-		if (\count($rows) === 0)
+		if (count($rows) === 0)
 		{
 			return;
 		}
@@ -7804,7 +7811,8 @@ class JoomlaInstallerScript
 		$converted = 5;
 
 		// Check conversion status in database
-		$db->setQuery('SELECT ' . $db->quoteName('converted')
+		$db->setQuery(
+			'SELECT ' . $db->quoteName('converted')
 			. ' FROM ' . $db->quoteName('#__utf8_conversion')
 		);
 
@@ -7891,7 +7899,7 @@ class JoomlaInstallerScript
 
 								$rows = $db->loadRowList(0);
 
-								if (\count($rows) > 0)
+								if (count($rows) > 0)
 								{
 									$db->setQuery($query2)->execute();
 								}
@@ -8508,8 +8516,8 @@ class JoomlaInstallerScript
 		{
 			if (Folder::exists(JPATH_ROOT . $oldFolder))
 			{
-				$oldPath   = \realpath(JPATH_ROOT . $oldFolder);
-				$newPath   = \realpath(JPATH_ROOT . $newFolder);
+				$oldPath   = realpath(JPATH_ROOT . $oldFolder);
+				$newPath   = realpath(JPATH_ROOT . $newFolder);
 				$directory = new \RecursiveDirectoryIterator($oldPath);
 				$directory->setFlags(RecursiveDirectoryIterator::SKIP_DOTS);
 				$iterator  = new \RecursiveIteratorIterator($directory);
@@ -8525,12 +8533,48 @@ class JoomlaInstallerScript
 					$newFile = $newPath . substr($oldFile, strlen($oldPath));
 
 					// Create target folder and parent folders if they don't exist yet
-					if (is_dir(\dirname($newFile)) || @mkdir(\dirname($newFile), 0755, true))
+					if (is_dir(dirname($newFile)) || @mkdir(dirname($newFile), 0755, true))
 					{
 						File::move($oldFile, $newFile);
 					}
 				}
 			}
 		}
+	}
+
+	/**
+	 * Ensure the core templates are correctly moved to the new mode.
+	 *
+	 * @return  void
+	 *
+	 * @since   4.1.0
+	 */
+	protected function fixTemplateMode(): void
+	{
+		$db = Factory::getContainer()->get('DatabaseDriver');
+
+		array_map(
+			function ($template) use ($db)
+			{
+				$clientId = $template === 'atum' ? 1 : 0;
+				$query = $db->getQuery(true)
+					->update($db->quoteName('#__template_styles'))
+					->set($db->quoteName('inheritable') . ' = 1')
+					->where($db->quoteName('template') . ' = ' . $db->quote($template))
+					->where($db->quoteName('client_id') . ' = ' . $clientId);
+
+				try
+				{
+					$db->setQuery($query)->execute();
+				}
+				catch (Exception $e)
+				{
+					echo Text::sprintf('JLIB_DATABASE_ERROR_FUNCTION_FAILED', $e->getCode(), $e->getMessage()) . '<br>';
+
+					return;
+				}
+			},
+			['atum', 'cassiopeia']
+		);
 	}
 }
