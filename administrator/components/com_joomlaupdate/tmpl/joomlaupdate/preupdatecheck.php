@@ -283,7 +283,7 @@ if (version_compare($this->updateInfo['latest'], Version::MAJOR_VERSION + 1, '>=
 										</th>
 										<th class="upcomp hidden" scope="col">
 											<?php echo Text::sprintf('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSION_COMPATIBLE_WITH_JOOMLA_VERSION', $this->escape($this->updateInfo['latest'])); ?>
-										</td>
+										</th>
 									</tr>
 								</thead>
 								<tbody class="row-fluid">
@@ -293,14 +293,14 @@ if (version_compare($this->updateInfo['latest'], Version::MAJOR_VERSION + 1, '>=
 										<tr>
 											<th class="exname" scope="row">
 												<?php echo $extension->name; ?>
-											</td>
+											</th>
 											<td class="extype">
 												<?php echo Text::_('COM_INSTALLER_TYPE_' . strtoupper($extension->type)); ?>
 											</td>
 											<td class="instver hidden">
 												<?php echo $extension->version; ?>
 											</td>
-											<td id="available-version-<?php echo $extension->extension_id; ?>" class="currcomp hidden" />
+											<td id="available-version-<?php echo $extension->extension_id; ?>" class="currcomp hidden"></td>
 											<td
 												class="extension-check upcomp hidden"
 												data-extension-id="<?php echo $extension->extension_id; ?>"

@@ -18,7 +18,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\ApiController;
 use Joomla\Component\Media\Administrator\Exception\FileExistsException;
 use Joomla\Component\Media\Administrator\Exception\InvalidPathException;
-use Joomla\Component\Media\Api\Helper\AdapterTrait;
+use Joomla\Component\Media\Administrator\Provider\ProviderManagerHelperTrait;
 use Joomla\Component\Media\Api\Model\MediumModel;
 use Joomla\String\Inflector;
 use Tobscure\JsonApi\Exception\InvalidParameterException;
@@ -30,7 +30,7 @@ use Tobscure\JsonApi\Exception\InvalidParameterException;
  */
 class MediaController extends ApiController
 {
-	use AdapterTrait;
+	use ProviderManagerHelperTrait;
 
 	/**
 	 * The content type of the item.
@@ -130,7 +130,7 @@ class MediaController extends ApiController
 		$filter        = InputFilter::getInstance();
 
 		// Search for files matching (part of) a name or glob pattern.
-		if ($doSearch = array_key_exists('search', $apiFilterInfo))
+		if (\array_key_exists('search', $apiFilterInfo))
 		{
 			$this->modelState->set('search', $filter->clean($apiFilterInfo['search'], 'STRING'));
 
@@ -173,7 +173,7 @@ class MediaController extends ApiController
 	/**
 	 * Set model state using a list of mappings between query parameters and model state names.
 	 *
-	 * @param   array  $mappings  A list of mappings between query parameters and model state names..
+	 * @param   array  $mappings  A list of mappings between query parameters and model state names.
 	 *
 	 * @return  void
 	 *

@@ -13,7 +13,6 @@ namespace Joomla\CMS\Session;
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\Log\Log;
 use Joomla\CMS\Router\Route;
 use Joomla\Event\DispatcherInterface;
 use Joomla\Session\Session as BaseSession;
@@ -352,6 +351,6 @@ class Session extends BaseSession
 			}
 		}
 
-		return parent::clear();
+		parent::clear();
 	}
 }

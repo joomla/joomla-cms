@@ -79,7 +79,7 @@ if ($dataAttribute)
 	<legend class="visually-hidden">
 		<?php echo $label; ?>
 	</legend>
-	<div <?php echo $containerClass; ?>>
+	<div class="<?php echo $containerClass; ?>">
 		<?php foreach ($options as $i => $option) : ?>
 			<?php echo $blockStart; ?>
 				<?php

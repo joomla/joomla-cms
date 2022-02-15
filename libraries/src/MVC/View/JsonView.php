@@ -10,8 +10,6 @@ namespace Joomla\CMS\MVC\View;
 
 \defined('JPATH_PLATFORM') or die;
 
-use Joomla\CMS\Log\Log;
-
 /**
  * Base class for a Joomla Json View
  *

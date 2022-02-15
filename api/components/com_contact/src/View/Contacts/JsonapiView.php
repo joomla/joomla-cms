@@ -115,7 +115,7 @@ class JsonapiView extends BaseApiView
 	 */
 	public function __construct($config = [])
 	{
-		if (array_key_exists('contentType', $config))
+		if (\array_key_exists('contentType', $config))
 		{
 			$this->serializer = new ContactSerializer($config['contentType']);
 		}
@@ -180,7 +180,7 @@ class JsonapiView extends BaseApiView
 	{
 		foreach (FieldsHelper::getFields('com_contact.contact', $item, true) as $field)
 		{
-			$item->{$field->name} = isset($field->apivalue) ? $field->apivalue : $field->rawvalue;
+			$item->{$field->name} = $field->apivalue ?? $field->rawvalue;
 		}
 
 		if (Multilanguage::isEnabled() && !empty($item->associations))

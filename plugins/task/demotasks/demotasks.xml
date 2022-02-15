@@ -8,7 +8,7 @@
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>4.1</version>
-	<description>Demo task routines for com_scheduler</description>
+	<description>PLG_TASK_DEMO_TASKS_XML_DESCRIPTION</description>
 	<files>
 		<filename plugin="demotasks">demotasks.php</filename>
 		<folder>language</folder>

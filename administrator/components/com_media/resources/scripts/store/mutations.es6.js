@@ -18,6 +18,7 @@ export default {
    */
   [types.SELECT_DIRECTORY]: (state, payload) => {
     state.selectedDirectory = payload;
+    state.search = '';
   },
 
   /**
@@ -92,9 +93,14 @@ export default {
       // Update the relation to the parent directory
       if (parentDirectoryIndex !== -1) {
         state.directories
-          .splice(parentDirectoryIndex,
+          .splice(
+            parentDirectoryIndex,
             1,
-            { ...parentDirectory, directories: [...parentDirectory.directories, directory.path] });
+            {
+              ...parentDirectory,
+              directories: [...parentDirectory.directories, directory.path],
+            },
+          );
       }
     }
 
@@ -119,9 +125,14 @@ export default {
       // Update the relation to the parent directory
       if (parentDirectoryIndex !== -1) {
         state.directories
-          .splice(parentDirectoryIndex,
+          .splice(
+            parentDirectoryIndex,
             1,
-            { ...parentDirectory, files: [...parentDirectory.files, file.path] });
+            {
+              ...parentDirectory,
+              files: [...parentDirectory.files, file.path],
+            },
+          );
       }
     }
 
@@ -148,7 +159,7 @@ export default {
     const file = payload;
     const isNew = (!state.files.some((existing) => (existing.path === file.path)));
 
-    // TODO handle file_exists
+    // @todo handle file_exists
     if (isNew) {
       const parentDirectory = state.directories
         .find((existing) => (existing.path === file.directory));
@@ -158,9 +169,14 @@ export default {
       state.files.push(file);
 
       // Update the relation to the parent directory
-      state.directories.splice(parentDirectoryIndex,
+      state.directories.splice(
+        parentDirectoryIndex,
         1,
-        { ...parentDirectory, files: [...parentDirectory.files, file.path] });
+        {
+          ...parentDirectory,
+          files: [...parentDirectory.files, file.path],
+        },
+      );
     }
   },
 
@@ -182,9 +198,14 @@ export default {
       state.directories.push(directory);
 
       // Update the relation to the parent directory
-      state.directories.splice(parentDirectoryIndex,
+      state.directories.splice(
+        parentDirectoryIndex,
         1,
-        { ...parentDirectory, directories: [...parentDirectory.directories, directory.path] });
+        {
+          ...parentDirectory,
+          directories: [...parentDirectory.directories, directory.path],
+        },
+      );
     }
   },
 
