@@ -1,10 +1,10 @@
 <?php
 /**
- * @package     Joomla.Plugin
- * @subpackage  System.jooa11y
+ * @package         Joomla.Plugin
+ * @subpackage      System.jooa11y
  *
  * @copyright   (C) 2021 Open Source Matters, Inc. <https://www.joomla.org>
- * @license     GNU General Public License version 2 or later; see LICENSE.txt
+ * @license         GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
@@ -31,21 +31,13 @@ class PlgSystemJooa11y extends CMSPlugin implements SubscriberInterface
 	protected $app;
 
 	/**
-	 * Affects constructor behavior. If true, language files will be loaded automatically.
-	 *
-	 * @var    boolean
-	 * @since  4.1.0
-	 */
-	protected $autoloadLanguage = true;
-
-	/**
 	 * Subscribe to certain events
 	 *
 	 * @return string[]  An array of event mappings
 	 *
+	 * @throws Exception
 	 * @since 4.1.0
 	 *
-	 * @throws Exception
 	 */
 	public static function getSubscribedEvents(): array
 	{
@@ -54,46 +46,35 @@ class PlgSystemJooa11y extends CMSPlugin implements SubscriberInterface
 		// Only trigger in frontend
 		if (Factory::getApplication()->isClient('site'))
 		{
-			$mapping['onBeforeCompileHead'] = 'initJooa11y';
+			$mapping['onAfterRoute'] = 'checkJooa11y';
 		}
 
 		return $mapping;
 	}
 
 	/**
-	 * Method to check if the current user is allowed to see the debug information or not.
+	 * @return  void
 	 *
-	 * @return  boolean  True if access is allowed.
-	 *
-	 * @since   4.1.0
+	 * @since   __DEPLOY_VERSION__
 	 */
-	private function isAuthorisedDisplayChecker(): bool
+	public function checkJooa11y()
 	{
-		static $result;
+		// Check if we are in a preview modal or the plugin has enforced loading
+		$showJooa11y = $this->app->input->get('jooa11y', $this->params->get('showAlways', 0));
 
-		if (is_bool($result))
+		// Load the checker if authorised
+		if (!$showJooa11y || !$this->isAuthorisedDisplayChecker())
 		{
-			return $result;
+			return;
 		}
 
-		// If the user is not allowed to view the output then end here.
-		$filterGroups = (array) $this->params->get('filter_groups', []);
+		// Disable page cache
+		$this->app->registerEvent('onPageCacheSetCaching', static function () {
+			return false;
+		});
 
-		if (!empty($filterGroups))
-		{
-			$userGroups = $this->app->getIdentity()->get('groups');
-
-			if (!array_intersect($filterGroups, $userGroups))
-			{
-				$result = false;
-
-				return $result;
-			}
-		}
-
-		$result = true;
-
-		return $result;
+		// Register actual init.
+		$this->app->registerEvent('onBeforeCompileHead', [$this, 'initJooa11y']);
 	}
 
 	/**
@@ -105,23 +86,11 @@ class PlgSystemJooa11y extends CMSPlugin implements SubscriberInterface
 	 */
 	public function initJooa11y()
 	{
-		// Check if we are in a preview modal or the plugin has enforced loading
-		$showJooa11y = $this->app->input->get('jooa11y', $this->params->get('showAlways', 0));
-
-		// Load the checker if authorised
-		if (!$showJooa11y || !$this->isAuthorisedDisplayChecker())
-		{
-			return;
-		}
-
 		// Get the document object.
 		$document = $this->app->getDocument();
 
-		// Determine if it is an LTR or RTL language
-		$direction = Factory::getLanguage()->isRtl() ? 'right' : 'left';
-
-		// Detect the current active language
-		$lang = Factory::getLanguage()->getTag();
+		// Load language.
+		$this->loadLanguage();
 
 		// Add the language constants
 		$constants = [
@@ -260,14 +229,46 @@ class PlgSystemJooa11y extends CMSPlugin implements SubscriberInterface
 			Text::script($constant);
 		}
 
-		/** @var Joomla\CMS\WebAsset\WebAssetManager $wa*/
+		/** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
 		$wa = $document->getWebAssetManager();
 
 		$wa->getRegistry()->addRegistryFile('media/plg_system_jooa11y/joomla.asset.json');
 
 		$wa->useScript('plg_system_jooa11y.jooa11y')
 			->useStyle('plg_system_jooa11y.jooa11y');
+	}
 
-		return true;
+	/**
+	 * Method to check if the current user is allowed to see the debug information or not.
+	 *
+	 * @return  boolean  True if access is allowed.
+	 *
+	 * @since   4.1.0
+	 */
+	private function isAuthorisedDisplayChecker(): bool
+	{
+		static $result;
+
+		if ($result !== null)
+		{
+			return $result;
+		}
+
+		$result = true;
+
+		// If the user is not allowed to view the output then end here.
+		$filterGroups = (array) $this->params->get('filter_groups', []);
+
+		if (!empty($filterGroups))
+		{
+			$userGroups = $this->app->getIdentity()->get('groups');
+
+			if (!array_intersect($filterGroups, $userGroups))
+			{
+				$result = false;
+			}
+		}
+
+		return $result;
 	}
 }
