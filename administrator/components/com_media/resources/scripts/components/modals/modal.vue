@@ -24,7 +24,6 @@
                 type="button"
                 class="btn-close"
                 aria-label="Close"
-                @open="onKeyPress()"
                 @click="close()"
               />
             </div>
@@ -70,39 +69,59 @@ export default {
     },
   },
   mounted() {
-    // Listen to keydown events on the document
-    const focusableElements = 'button:not([disabled]), [href], input:not([disabled]), select, textarea, [tabindex]:not([tabindex="-1"])';
-    const modal = document.querySelector('.modal-content');
-    const firstFocusableElement = modal.querySelectorAll(focusableElements)[0];
+    /* Listen to keydown events on the document */
+    this.focusableElements = 'button:not([disabled]), [href], input:not([disabled]), select, textarea, [tabindex]:not([tabindex="-1"])';
+    this.modal = document.querySelector('.modal-dialog');
+    this.focusableContent = this.modal.querySelectorAll(this.focusableElements);
+    this.firstFocusableElement = this.focusableContent[0];
+    this.lastFocusableElement = this.focusableContent[this.focusableContent.length - 1];
     document.addEventListener('keydown', this.onKeyPress);
-    firstFocusableElement.focus();
+    this.firstFocusableElement.focus();
+
+    /* Setting up the MutationObserver on the modal-footer */
+    this.targetNode = document.querySelector('.modal-footer');
+    this.config = { attributes: true, childList: true, subtree: true };
+    this.observer = new MutationObserver(this.callBack);
+    this.observer.observe(this.targetNode, this.config);
   },
   beforeUnmount() {
-    // Remove the keydown event listener
+    /* Disconnect the mutation observer */
+    this.observer.disconnect();
+
+    /* Remove the keydown event listener */
     document.removeEventListener('keydown', this.onKeyPress);
   },
   methods: {
+    /* Callback function, to be executed when changes in the DOM are observed */
+    callBack(mutationsList) {
+      for( var mutation of mutationsList ) {
+        if ( mutation.type === 'attributes' ) {
+          document.removeEventListener('keydown', this.onKeyPress);
+          this.focusableElements = 'button:not([disabled]), [href], input:not([disabled]), select, textarea, [tabindex]:not([tabindex="-1"])';
+          this.modal = document.querySelector('.modal-dialog');
+          this.focusableContent = this.modal.querySelectorAll(this.focusableElements);
+          this.firstFocusableElement = this.focusableContent[0];
+          this.lastFocusableElement = this.focusableContent[this.focusableContent.length - 1];
+          document.addEventListener('keydown', this.onKeyPress);
+        }
+      }
+    },
     /* Handle KeyDown events */
     onKeyPress(e) {
-      const focusableElements = 'button:not([disabled]), [href], input:not([disabled]), select, textarea, [tabindex]:not([tabindex="-1"])';
-      const modal = document.querySelector('.modal-content');
-      const firstFocusableElement = modal.querySelectorAll(focusableElements)[0];
-      const focusableContent = modal.querySelectorAll(focusableElements);
-      const lastFocusableElement = focusableContent[focusableContent.length - 1];
       const isTabPressed = e.key === 'Tab' || e.keyCode === 9;
       if (!isTabPressed) {
         return;
       }
-      if (e.keyCode === 27) {
+      if (e.keyCode === 27 || e.key === 'Escape') {
         this.close();
       }
       if (e.shiftKey) { // if shift key pressed for shift + tab combination
-        if (document.activeElement === firstFocusableElement) {
-          lastFocusableElement.focus(); // add focus for the last focusable element
+        if (document.activeElement === this.firstFocusableElement) {
+          this.lastFocusableElement.focus(); // add focus for the last focusable element
           e.preventDefault();
         }
-      } else if (document.activeElement === lastFocusableElement) {
-        firstFocusableElement.focus();
+      } else if (document.activeElement === this.lastFocusableElement) {
+        this.firstFocusableElement.focus();
         e.preventDefault();
       }
     },
