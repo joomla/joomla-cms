@@ -22,7 +22,7 @@ $this->tab_name         = 'com-contact-form';
 $this->ignore_fieldsets = array('details', 'item_associations', 'language');
 $this->useCoreUI        = true;
 ?>
-<div class="edit item-page <?php echo $this->pageclass_sfx; ?>">
+<div class="edit item-page<?php echo $this->pageclass_sfx ? ' ' . $this->pageclass_sfx : ''; ?>">
 	<?php if ($this->params->get('show_page_heading')) : ?>
 		<div class="page-header">
 			<h1>
