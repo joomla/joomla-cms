@@ -68,6 +68,9 @@ class PlgSystemJooa11y extends CMSPlugin implements SubscriberInterface
 			return;
 		}
 
+		// Disable system cache
+		$this->app->set('caching', 0);
+
 		// Disable page cache
 		$this->app->registerEvent('onPageCacheSetCaching', static function () {
 			return false;
