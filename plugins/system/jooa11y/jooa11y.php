@@ -72,9 +72,11 @@ class PlgSystemJooa11y extends CMSPlugin implements SubscriberInterface
 		$this->app->set('caching', 0);
 
 		// Disable page cache
-		$this->app->registerEvent('onPageCacheSetCaching', static function () {
-			return false;
-		});
+		$this->app->registerEvent('onPageCacheSetCaching',
+			static function () {
+				return false;
+			}
+		);
 
 		// Register actual init.
 		$this->app->registerEvent('onBeforeCompileHead', [$this, 'initJooa11y']);
