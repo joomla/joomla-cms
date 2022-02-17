@@ -1,7 +1,7 @@
 <?php
 /**
- * @package         Joomla.Plugin
- * @subpackage      System.jooa11y
+ * @package     Joomla.Plugin
+ * @subpackage  System.jooa11y
  *
  * @copyright   (C) 2021 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
