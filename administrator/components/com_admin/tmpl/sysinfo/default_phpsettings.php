@@ -145,7 +145,7 @@ use Joomla\CMS\Language\Text;
 			</tr>
 			<tr>
 				<th scope="row">
-				<?php echo Text::sprintf('COM_ADMIN_EXTENSION_AVAILABLE', 'Fileinfo'); ?>
+					<?php echo Text::sprintf('COM_ADMIN_EXTENSION_AVAILABLE', 'Fileinfo'); ?>
 				</th>
 				<td class="break-word">
 					<?php echo HTMLHelper::_('phpsetting.set', $this->phpSettings['fileinfo']); ?>
