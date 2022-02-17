@@ -166,22 +166,24 @@ trait DisplayTrait
 		// Check that selected skin exists.
 		$skin = Folder::exists(JPATH_ROOT . '/media/vendor/tinymce/skins/ui/' . $skin) ? $skin : 'oxide';
 
-		$langPrefix = $levelParams->get('lang_code', 'en');
-
-		if ($levelParams->get('lang_mode', 1))
+		// Reflect the current language
+		if (file_exists(JPATH_ROOT . '/media/vendor/tinymce/langs/' . $language->getTag() . '.js'))
 		{
-			if (file_exists(JPATH_ROOT . '/media/vendor/tinymce/langs/' . $language->getTag() . (JDEBUG ? '.js' : '.min.js')))
-			{
-				$langPrefix = $language->getTag() . (JDEBUG ? '' : '.min');
-			}
-			elseif (file_exists(JPATH_ROOT . '/media/vendor/tinymce/langs/' . substr($language->getTag(), 0, strpos($language->getTag(), '-')) . (JDEBUG ? '.js' : '.min.js')))
-			{
-				$langPrefix = substr($language->getTag(), 0, strpos($language->getTag(), '-')) . (JDEBUG ? '' : '.min');
-			}
-			else
-			{
-				$langPrefix = 'en';
-			}
+			$langPrefix = $language->getTag();
+		}
+		elseif (file_exists(JPATH_ROOT . '/media/vendor/tinymce/langs/' . substr($language->getTag(), 0, strpos($language->getTag(), '-')) . '.js'))
+		{
+			$langPrefix = substr($language->getTag(), 0, strpos($language->getTag(), '-'));
+		}
+		else
+		{
+			$langPrefix = 'en';
+		}
+
+		// Admin selected language
+		if (!$levelParams->get('lang_mode', 1))
+		{
+			$langPrefix = $levelParams->get('lang_code', 'en');
 		}
 
 		$use_content_css    = $levelParams->get('content_css', 1);
