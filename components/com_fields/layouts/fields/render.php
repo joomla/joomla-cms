@@ -115,9 +115,9 @@ foreach ($groupFields as $group_id => $group_fields)
 
 	if ($groupTitles[$group_id])
 	{
-		$output[] = '<li class="field-group group_' . $group_id . '">';
-		$output[] = '<span id="group_' . $group_id . '">' . $groupTitles[$group_id] . '</span>';
-		$output[] = '<ul aria-labelledby="group_' . $group_id . '">';
+		$output[] = '<li class="field-group group-' . $group_id . '">';
+		$output[] = '<span id="group-' . $group_id . '">' . $groupTitles[$group_id] . '</span>';
+		$output[] = '<ul aria-labelledby="group-' . $group_id . '">';
 	}
 
 	foreach ($group_fields as $field)
