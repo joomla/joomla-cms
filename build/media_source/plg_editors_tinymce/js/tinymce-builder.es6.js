@@ -435,7 +435,7 @@ const options = Joomla.getOptions ? Joomla.getOptions('plg_editors_tinymce_build
 
 const builder = document.getElementById('joomla-tinymce-builder');
 
-TinyMCEBuilder(builder, options);
+document.addEventListener('DOMContentLoaded', () => TinyMCEBuilder(builder, options))
 
 const selects = builder.querySelectorAll('.access-select');
 
