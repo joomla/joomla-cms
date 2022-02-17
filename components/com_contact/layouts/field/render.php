@@ -15,12 +15,12 @@ if (!array_key_exists('field', $displayData))
 	return;
 }
 
-$field     = $displayData['field'];
-$label     = Text::_($field->label);
-$value     = $field->value;
-$showLabel = $field->params->get('showlabel');
-$prefix = Text::plural($field->params->get('prefix'), $value);
-$suffix = Text::plural($field->params->get('suffix'), $value);
+$field      = $displayData['field'];
+$label      = Text::_($field->label);
+$value      = $field->value;
+$showLabel  = $field->params->get('showlabel');
+$prefix     = Text::plural($field->params->get('prefix'), $value);
+$suffix     = Text::plural($field->params->get('suffix'), $value);
 $labelClass = $field->params->get('label_render_class');
 $valueClass = $field->params->get('value_render_class');
 
