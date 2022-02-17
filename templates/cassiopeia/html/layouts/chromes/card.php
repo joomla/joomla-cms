@@ -34,7 +34,7 @@ if ($moduleClassSuffix)
 	$moduleClassSuffix = ' ' . $moduleClassSuffix;
 }
 
-$moduleAttribs['class'] = $module->position . ' no-card' . $moduleClassSuffix;
+$moduleAttribs['class'] = $module->position . ' card' . $moduleClassSuffix;
 
 // Only output a header class if it is not card-title
 if ($headerClass !== 'card-title') :
