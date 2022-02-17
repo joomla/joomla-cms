@@ -74,13 +74,6 @@ foreach ($fields as $field)
 		continue;
 	}
 
-	$class = $field->name;
-
-	if ($field->params->get('render_class'))
-	{
-		$class .= ' ' . $field->params->get('render_class');
-	}
-
 	$layout = $field->params->get('layout', 'render');
 	$content = FieldsHelper::render($context, 'field.' . $layout, array('field' => $field));
 
@@ -104,14 +97,7 @@ foreach ($fields as $field)
 		}
 	}
 
-	if ($isMail)
-	{
-		$groupFields[$field->group_id][] = $content;
-	}
-	else
-	{
-		$groupFields[$field->group_id][] = '<li class="field-entry ' . $class . '">' . $content . '</li>';
-	}
+	$groupFields[$field->group_id][] = $content;
 }
 
 // Loop through the groups
@@ -131,9 +117,9 @@ foreach ($groupFields as $group_id => $group_fields)
 		}
 		else
 		{
-			$output[] = '<li class="field-group group_' . $group_id . '">';
-			$output[] = '<span id="group_' . $group_id . '">' . $groupTitles[$group_id] . '</span>';
-			$output[] = '<ul aria-labelledby="group_' . $group_id . '">';
+			$output[] = '<dd class="contact-field-group group-' . $group_id . '">';
+			$output[] = '<span id="group-' . $group_id . '">' . $groupTitles[$group_id] . '</span>';
+			$output[] = '<dl class="fields-container" aria-labelledby="group-' . $group_id . '">';
 		}
 	}
 
@@ -144,8 +130,8 @@ foreach ($groupFields as $group_id => $group_fields)
 
 	if ($groupTitles[$group_id] && !$isMail)
 	{
-		$output[] = '</ul>';
-		$output[] = '</li>';
+		$output[] = '</dl>';
+		$output[] = '</dd>';
 	}
 }
 
@@ -155,9 +141,9 @@ if (empty($output))
 }
 ?>
 <?php if (!$isMail) : ?>
-	<ul class="fields-container contact-fields">
+	<dl class="fields-container contact-fields dl-horizontal">
 <?php endif; ?>
 <?php echo implode("\n", $output); ?>
 <?php if (!$isMail) : ?>
-	</ul>
+	</dl>
 <?php endif; ?>
