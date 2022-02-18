@@ -25,6 +25,7 @@ use Joomla\Database\DatabaseDriver;
 use Joomla\Database\Exception\ExecutionFailureException;
 use Joomla\Database\Exception\PrepareStatementFailureException;
 use Joomla\Database\ParameterType;
+use Joomla\DI\ContainerAwareInterface;
 
 /**
  * Joomla base installer class
@@ -2455,6 +2456,13 @@ class Installer extends Adapter
 			return Factory::getContainer()->get($class);
 		}
 
-		return new $class($this, $this->getDbo(), $options);
+		$adapter = new $class($this, $this->getDbo(), $options);
+
+		if ($adapter instanceof ContainerAwareInterface)
+		{
+			$adapter->setContainer(Factory::getContainer());
+		}
+
+		return $adapter;
 	}
 }

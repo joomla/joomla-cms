@@ -21,6 +21,8 @@ use Joomla\CMS\Table\Table;
 use Joomla\CMS\Table\TableInterface;
 use Joomla\Database\DatabaseDriver;
 use Joomla\DI\Container;
+use Joomla\DI\ContainerAwareInterface;
+use Joomla\DI\ContainerAwareTrait;
 use Joomla\DI\ServiceProviderInterface;
 
 /**
@@ -28,8 +30,10 @@ use Joomla\DI\ServiceProviderInterface;
  *
  * @since  3.4
  */
-abstract class InstallerAdapter
+abstract class InstallerAdapter implements ContainerAwareInterface
 {
+	use ContainerAwareTrait;
+
 	/**
 	 * Changelog URL of extensions
 	 *
@@ -1015,8 +1019,8 @@ abstract class InstallerAdapter
 			return;
 		}
 
-		// The container, will be injected later
-		$container = Factory::getContainer();
+		// The container
+		$container = $this->getContainer();
 
 		// The ral location of the file
 		$manifestScriptFile = $this->parent->getPath('source') . '/' . $manifestScript;
