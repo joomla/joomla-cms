@@ -18,11 +18,11 @@ use Joomla\CMS\Log\Log;
 use Joomla\Database\ParameterType;
 
 /**
- * Base install script for use by extensions providing helper methods for common behaviours.
+ * Base install script for use by extensions providing helper methods for common behaviors.
  *
  * @since  3.6
  */
-class InstallerScript
+class InstallerScript implements InstallerScriptInterface
 {
 	/**
 	 * The version number of the extension.
@@ -421,5 +421,62 @@ class InstallerScript
 		{
 			Factory::getApplication()->enqueueMessage(Text::sprintf('JLIB_INSTALLER_ERROR_COMP_INSTALL_FAILED_TO_CREATE_DASHBOARD', $model->getError()));
 		}
+	}
+
+	/**
+	 * Function called after the extension is installed.
+	 *
+	 * @param   InstallerAdapter  $parent  The class calling this method
+	 *
+	 * @return  boolean  True on success
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function install(InstallerAdapter $parent): bool
+	{
+		return true;
+	}
+
+	/**
+	 * Function called after the extension is updated.
+	 *
+	 * @param   InstallerAdapter  $parent  The class calling this method
+	 *
+	 * @return  boolean  True on success
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function update(InstallerAdapter $parent): bool
+	{
+		return true;
+	}
+
+	/**
+	 * Function called after the extension is uninstalled.
+	 *
+	 * @param   InstallerAdapter  $parent  The class calling this method
+	 *
+	 * @return  boolean  True on success
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function uninstall(InstallerAdapter $parent): bool
+	{
+		return true;
+	}
+
+	/**
+	 * Function called after extension installation/update/removal procedure commences.
+	 *
+	 * @param   string            $type    The type of change (install, update or discover_install, not uninstall)
+	 * @param   InstallerAdapter  $parent  The class calling this method
+	 *
+	 * @return  boolean  True on success
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function postflight(string $type, InstallerAdapter $parent)
+	{
+		return true;
 	}
 }

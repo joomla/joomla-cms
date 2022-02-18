@@ -20,6 +20,8 @@ use Joomla\CMS\Table\Extension;
 use Joomla\CMS\Table\Table;
 use Joomla\CMS\Table\TableInterface;
 use Joomla\Database\DatabaseDriver;
+use Joomla\DI\Container;
+use Joomla\DI\ServiceProviderInterface;
 
 /**
  * Abstract adapter for the installer.
@@ -1007,23 +1009,56 @@ abstract class InstallerAdapter
 		// If there is a manifest class file, lets load it; we'll copy it later (don't have dest yet)
 		$manifestScript = (string) $this->getManifest()->scriptfile;
 
-		if ($manifestScript)
+		// When no script file, do nothing
+		if (!$manifestScript)
 		{
-			$manifestScriptFile = $this->parent->getPath('source') . '/' . $manifestScript;
+			return;
+		}
 
+		// The container, will be injected later
+		$container = Factory::getContainer();
+
+		// The ral location of the file
+		$manifestScriptFile = $this->parent->getPath('source') . '/' . $manifestScript;
+
+		// Load the file
+		$installer = require $manifestScriptFile;
+
+		// When the instance is a service provider, then register the container on it
+		if ($installer instanceof ServiceProviderInterface)
+		{
+			$installer->register($container);
+		}
+
+		// When the returned object is an installer instance, use it directly
+		if ($installer instanceof InstallerScriptInterface)
+		{
+			$container->set(InstallerScriptInterface::class, $installer);
+		}
+
+		// When none is set, then use the legacy way
+		if (!$container->has(InstallerScriptInterface::class))
+		{
 			$classname = $this->getScriptClassName();
 
 			\JLoader::register($classname, $manifestScriptFile);
 
-			if (class_exists($classname))
+			if (!class_exists($classname))
 			{
-				// Create a new instance
-				$this->parent->manifestClass = new $classname($this);
-
-				// And set this so we can copy it later
-				$this->manifest_script = $manifestScript;
+				return;
 			}
+
+			$container->set(InstallerScriptInterface::class, function(Container $container) use ($classname)
+			{
+				return new LegacyInstallerScript(new $classname($this));
+			});
 		}
+
+		// Create a new instance
+		$this->parent->manifestClass = $container->get(InstallerScriptInterface::class);
+
+		// And set this so we can copy it later
+		$this->manifest_script = $manifestScript;
 	}
 
 	/**
