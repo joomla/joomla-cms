@@ -1022,7 +1022,7 @@ abstract class InstallerAdapter implements ContainerAwareInterface
 		// The container
 		$container = $this->getContainer();
 
-		// The ral location of the file
+		// The real location of the file
 		$manifestScriptFile = $this->parent->getPath('source') . '/' . $manifestScript;
 
 		// Load the file
