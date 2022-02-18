@@ -4,17 +4,27 @@
     @dblclick="openPreview()"
     @mouseleave="hideActions()"
   >
-    <div class="media-browser-item-preview"
-    :title="item.name">
+    <div
+      class="media-browser-item-preview"
+      :title="item.name"
+    >
       <div class="image-background">
-        <div
+        <img
+          v-if="getURL"
           class="image-cropped"
-          :style="{ backgroundImage: getHashedURL }"
-        />
+          :src="getURL"
+          :alt="altTag"
+          loading="lazy"
+          :width="width"
+          :height="height"
+        >
+        <span v-if="!getURL" class="icon-eye-slash image-placeholder" aria-hidden="true"></span>
       </div>
     </div>
-    <div class="media-browser-item-info"
-    :title="item.name">
+    <div
+      class="media-browser-item-info"
+      :title="item.name"
+    >
       {{ item.name }} {{ item.filetype }}
     </div>
     <span
@@ -27,7 +37,6 @@
       :focused="focused"
       :item="item"
       :edit="editItem"
-      :editable="canEdit"
       :previewable="true"
       :downloadable="true"
       :shareable="true"
@@ -40,24 +49,37 @@ import { api } from '../../../app/Api.es6';
 
 export default {
   name: 'MediaBrowserItemImage',
-  // eslint-disable-next-line vue/require-prop-types
-  props: ['item', 'focused'],
+  props: {
+    item: { type: Object, required: true },
+    focused: { type: Boolean, required: true, default: false },
+  },
   data() {
     return {
-      showActions: false,
+      showActions: { type: Boolean, default: false },
     };
   },
   computed: {
-    /* Get the hashed URL */
-    getHashedURL() {
-      if (this.item.adapter.startsWith('local-')) {
-        return `url(${this.item.thumb_path}?${api.mediaVersion})`;
+    getURL() {
+      if (!this.item.thumb_path) {
+        return '';
       }
-      return `url(${this.item.thumb_path})`;
+
+      return this.item.thumb_path.split(Joomla.getOptions('system.paths').rootFull).length > 1
+        ? `${this.item.thumb_path}?${api.mediaVersion}`
+        : `${this.item.thumb_path}`;
+    },
+    width() {
+      return this.item.width;
+    },
+    height() {
+      return this.item.height;
+    },
+    altTag() {
+      return this.item.name;
     },
   },
   methods: {
-    /* Check if the item is a document to edit */
+    /* Check if the item is an image to edit */
     canEdit() {
       return ['jpg', 'jpeg', 'png'].includes(this.item.extension.toLowerCase());
     },
