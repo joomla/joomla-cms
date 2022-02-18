@@ -1052,10 +1052,13 @@ abstract class InstallerAdapter implements ContainerAwareInterface
 				return;
 			}
 
-			$container->set(InstallerScriptInterface::class, function(Container $container) use ($classname)
-			{
-				return new LegacyInstallerScript(new $classname($this));
-			});
+			$container->set(
+				InstallerScriptInterface::class,
+				function (Container $container) use ($classname)
+				{
+					return new LegacyInstallerScript(new $classname($this));
+				}
+			);
 		}
 
 		// Create a new instance

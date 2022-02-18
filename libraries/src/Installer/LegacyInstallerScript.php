@@ -17,6 +17,9 @@ namespace Joomla\CMS\Installer;
  */
 class LegacyInstallerScript implements InstallerScriptInterface
 {
+	/**
+	 * @var object
+	 */
 	private $installerScript;
 
 	public function __construct($installerScript)
