@@ -22,18 +22,10 @@ if ($module->content === null || $module->content === '')
 
 $moduleTag              = $params->get('module_tag', 'div');
 $moduleAttribs          = [];
-$moduleClassSuffix      = htmlspecialchars($params->get('moduleclass_sfx', ''), ENT_QUOTES, 'UTF-8');
+$moduleAttribs['class'] = trim($module->position . ' no-card ' . htmlspecialchars($params->get('moduleclass_sfx', ''), ENT_QUOTES, 'UTF-8'));
 $headerTag              = htmlspecialchars($params->get('header_tag', 'h3'), ENT_QUOTES, 'UTF-8');
 $headerClass            = htmlspecialchars($params->get('header_class', ''), ENT_QUOTES, 'UTF-8');
 $headerAttribs          = [];
-
-// Add a space if the module class suffix is set
-if ($moduleClassSuffix)
-{
-	$moduleClassSuffix = ' ' . $moduleClassSuffix;
-}
-
-$moduleAttribs['class'] = $module->position . ' no-card' . $moduleClassSuffix;
 
 // Only output a header class if one is set
 if ($headerClass !== '')

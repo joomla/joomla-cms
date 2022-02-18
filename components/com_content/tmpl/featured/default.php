@@ -21,7 +21,7 @@ defined('_JEXEC') or die;
 
 	<?php $leadingcount = 0; ?>
 	<?php if (!empty($this->lead_items)) : ?>
-		<div class="blog-items items-leading<?php echo $this->params->get('blog_class_leading') ? ' ' . $this->params->get('blog_class_leading') : ''; ?>">
+		<div class="<?php echo trim('blog-items items-leading ' . $this->params->get('blog_class_leading')); ?>">
 			<?php foreach ($this->lead_items as &$item) : ?>
 				<div class="blog-item"
 					itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
@@ -41,7 +41,8 @@ defined('_JEXEC') or die;
 			<?php $blogClass .= (int) $this->params->get('multi_column_order', 0) === 0 ? ' masonry-' : ' columns-'; ?>
 			<?php $blogClass .= (int) $this->params->get('num_columns'); ?>
 		<?php endif; ?>
-		<div class="blog-items<?php echo $blogClass ? ' ' . $blogClass : ''; ?>">
+		<div class="<?php echo trim('blog-items ' . $blogClass); ?>">
+
 		<?php foreach ($this->intro_items as $key => &$item) : ?>
 			<div class="blog-item"
 				itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
