@@ -18,10 +18,14 @@ namespace Joomla\CMS\Installer;
 class LegacyInstallerScript implements InstallerScriptInterface
 {
 	/**
-	 * @var object
+	 * @var    object
+	 * @since  __DEPLOY_VERSION__
 	 */
 	private $installerScript;
 
+	/**
+	 * @param   \stdClass  $installerScript  The script instance
+	 */
 	public function __construct($installerScript)
 	{
 		$this->installerScript = $installerScript;
