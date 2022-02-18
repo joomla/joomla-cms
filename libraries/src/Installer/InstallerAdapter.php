@@ -1028,7 +1028,7 @@ abstract class InstallerAdapter implements ContainerAwareInterface
 		// Load the file
 		$installer = require $manifestScriptFile;
 
-		// When the instance is a service provider, then register the container on it
+		// When the instance is a service provider, then register the container with it
 		if ($installer instanceof ServiceProviderInterface)
 		{
 			$installer->register($container);
