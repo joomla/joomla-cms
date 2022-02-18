@@ -11,7 +11,7 @@ namespace Joomla\CMS\Installer;
 \defined('_JEXEC') or die;
 
 /**
- * Base install script interface for use by extensions providing helper methods for common behaviors.
+ * Base install script interface for use by extensions providing helper methods for common behaviours.
  *
  * @since  __DEPLOY_VERSION__
  */
