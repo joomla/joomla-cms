@@ -694,14 +694,16 @@ class PlgSystemDebug extends CMSPlugin
 			$desc = $mark->label;
 			$desc = str_ireplace('after', '', $desc);
 
-			$name     = preg_replace('/[^\da-z]/i', '', $desc);
-			$metrics .= sprintf('%s;dur=%f;desc="%s:", ', $index . $name, $mark->time, $desc);
+			$name   = preg_replace('/[^\da-z]/i', '', $desc);
+			$metric = sprintf('%s;dur=%f;desc="%s:", ', $index . $name, $mark->time, $desc);
 
 			// Headers can't be too long
-			if (strlen($metrics) > 4000)
+			if (strlen($metrics . $metric) > 4000)
 			{
 				break;
 			}
+
+			$metrics .= $metric;
 		}
 
 		$this->app->setHeader('Server-Timing', $metrics);
