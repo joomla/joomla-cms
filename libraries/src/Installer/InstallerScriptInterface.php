@@ -60,7 +60,7 @@ interface InstallerScriptInterface
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function preflight(string $type, InstallerAdapter $parent);
+	public function preflight(string $type, InstallerAdapter $parent): bool;
 
 	/**
 	 * Function called after extension installation/update/removal procedure commences.
@@ -72,5 +72,5 @@ interface InstallerScriptInterface
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function postflight(string $type, InstallerAdapter $parent);
+	public function postflight(string $type, InstallerAdapter $parent): bool;
 }

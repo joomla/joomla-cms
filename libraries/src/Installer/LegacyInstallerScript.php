@@ -21,7 +21,7 @@ class LegacyInstallerScript implements InstallerScriptInterface
 
 	public function __construct($installerScript)
 	{
-		$this->$installerScript = $installerScript;
+		$this->installerScript = $installerScript;
 	}
 
 	/**
@@ -91,7 +91,7 @@ class LegacyInstallerScript implements InstallerScriptInterface
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function preflight(string $type, InstallerAdapter $parent)
+	public function preflight(string $type, InstallerAdapter $parent): bool
 	{
 		if (!method_exists($this->installerScript, 'preflight'))
 		{
@@ -111,7 +111,7 @@ class LegacyInstallerScript implements InstallerScriptInterface
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function postflight(string $type, InstallerAdapter $parent)
+	public function postflight(string $type, InstallerAdapter $parent): bool
 	{
 		if (!method_exists($this->installerScript, 'postflight'))
 		{

@@ -108,7 +108,7 @@ class InstallerScript implements InstallerScriptInterface
 	 *
 	 * @since   3.6
 	 */
-	public function preflight($type, $parent)
+	public function preflight($type, $parent): bool
 	{
 		// Check for the minimum PHP version before continuing
 		if (!empty($this->minimumPhp) && version_compare(PHP_VERSION, $this->minimumPhp, '<'))
@@ -475,7 +475,7 @@ class InstallerScript implements InstallerScriptInterface
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function postflight(string $type, InstallerAdapter $parent)
+	public function postflight(string $type, InstallerAdapter $parent): bool
 	{
 		return true;
 	}
