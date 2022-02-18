@@ -676,12 +676,13 @@ class PlgSystemDebug extends CMSPlugin
 	 */
 	public function onBeforeRespond(): void
 	{
-		if (!JDEBUG || !$this->params->get('profile', 1))
+		if (!JDEBUG || !$this->params->get('profile', 1) || $this->app->getDocument()->getType() !== 'html')
 		{
 			return;
 		}
 
-		$metrics = '';
+		$metrics    = '';
+		$moduleTime = 0;
 
 		foreach (Profiler::getInstance('Application')->getMarks() as $index => $mark)
 		{
@@ -691,20 +692,21 @@ class PlgSystemDebug extends CMSPlugin
 				continue;
 			}
 
-			$desc = $mark->label;
-			$desc = str_ireplace('after', '', $desc);
-
-			$name   = preg_replace('/[^\da-z]/i', '', $desc);
-			$metric = sprintf('%s;dur=%f;desc="%s:", ', $index . $name, $mark->time, $desc);
-
-			// Headers can't be too long
-			if (strlen($metrics . $metric) > 4000)
+			// Collect the module render time
+			if (strpos($mark->label, 'mod_') !== false)
 			{
-				break;
+				$moduleTime += $mark->time;
+
+				continue;
 			}
 
-			$metrics .= $metric;
+			$desc     = str_ireplace('after', '', $mark->label);
+			$name     = preg_replace('/[^\da-z]/i', '', $desc);
+			$metrics .= sprintf('%s;dur=%f;desc="%s", ', $index . $name, $mark->time, $desc);
 		}
+
+		// Add the module entry
+		$metrics .= 'Modules;dur=' . $moduleTime . ';desc="Modules"';
 
 		$this->app->setHeader('Server-Timing', $metrics);
 	}
