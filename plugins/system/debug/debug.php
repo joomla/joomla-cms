@@ -704,7 +704,7 @@ class PlgSystemDebug extends CMSPlugin
 			$name     = preg_replace('/[^\da-z]/i', '', $desc);
 			$metrics .= sprintf('%s;dur=%f;desc="%s", ', $index . $name, $mark->time, $desc);
 
-			// Do not crete too large headers, some web servers don't love them
+			// Do not create too large headers, some web servers don't love them
 			if (strlen($metrics) > 3000)
 			{
 				break;
