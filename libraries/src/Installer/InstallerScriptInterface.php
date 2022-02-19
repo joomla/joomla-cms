@@ -53,7 +53,7 @@ interface InstallerScriptInterface
 	/**
 	 * Function called before extension installation/update/removal procedure commences.
 	 *
-	 * @param   string            $type    The type of change (install, update or discover_install, not uninstall)
+	 * @param   string            $type    The type of change (install or discover_install, update, uninstall)
 	 * @param   InstallerAdapter  $parent  The class calling this method
 	 *
 	 * @return  boolean  True on success
@@ -65,7 +65,7 @@ interface InstallerScriptInterface
 	/**
 	 * Function called after extension installation/update/removal procedure commences.
 	 *
-	 * @param   string            $type    The type of change (install, update or discover_install, not uninstall)
+	 * @param   string            $type    The type of change (install or discover_install, update, uninstall)
 	 * @param   InstallerAdapter  $parent  The class calling this method
 	 *
 	 * @return  boolean  True on success
