@@ -703,6 +703,12 @@ class PlgSystemDebug extends CMSPlugin
 			$desc     = str_ireplace('after', '', $mark->label);
 			$name     = preg_replace('/[^\da-z]/i', '', $desc);
 			$metrics .= sprintf('%s;dur=%f;desc="%s", ', $index . $name, $mark->time, $desc);
+
+			// Do not crete too large headers, some web servers don't love them
+			if (strlen($metrics) > 3000)
+			{
+				break;
+			}
 		}
 
 		// Add the module entry
