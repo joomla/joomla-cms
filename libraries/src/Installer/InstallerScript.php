@@ -18,7 +18,7 @@ use Joomla\CMS\Log\Log;
 use Joomla\Database\ParameterType;
 
 /**
- * Base install script for use by extensions providing helper methods for common behaviors.
+ * Base install script for use by extensions providing helper methods for common behaviours.
  *
  * @since  3.6
  */
