@@ -145,6 +145,6 @@ class HtmlView extends BaseHtmlView
 		// @todo | ? : Do we need save2new, save2copy?
 
 		$toolbar->cancel('task.cancel', $isNew ? 'JTOOLBAR_CANCEL' : 'JTOOLBAR_CLOSE');
-		$toolbar->help('JHELP_COMPONENTS_SCHEDULED_TASKS_MANAGER');
+		$toolbar->help('Scheduled_Tasks');
 	}
 }

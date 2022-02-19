@@ -143,6 +143,6 @@ class HtmlView extends BaseHtmlView
 		}
 
 		// Add help button
-		$toolbar->help('JHELP_COMPONENTS_SCHEDULED_TASKS_MANAGER');
+		$toolbar->help('Scheduled_Tasks');
 	}
 }
