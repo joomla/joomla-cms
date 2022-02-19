@@ -16,6 +16,8 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\BaseController;
+use Joomla\CMS\MVC\Model\DatabaseAwareInterface;
+use Joomla\CMS\MVC\Model\DatabaseAwareTrait;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Session\Session;
 use Joomla\CMS\Uri\Uri;
@@ -26,8 +28,10 @@ use Joomla\Database\ParameterType;
  *
  * @since  1.6
  */
-class UserController extends BaseController
+class UserController extends BaseController implements DatabaseAwareInterface
 {
+	use DatabaseAwareTrait;
+
 	/**
 	 * Method to log in a user.
 	 *
@@ -54,7 +58,7 @@ class UserController extends BaseController
 		{
 			if (Multilanguage::isEnabled())
 			{
-				$db = Factory::getDbo();
+				$db = $this->getDbo();
 				$query = $db->getQuery(true)
 					->select($db->quoteName('language'))
 					->from($db->quoteName('#__menu'))
@@ -178,7 +182,7 @@ class UserController extends BaseController
 		{
 			if (Multilanguage::isEnabled())
 			{
-				$db = Factory::getDbo();
+				$db = $this->getDbo();
 				$query = $db->getQuery(true)
 					->select($db->quoteName('language'))
 					->from($db->quoteName('#__menu'))
@@ -251,7 +255,7 @@ class UserController extends BaseController
 		{
 			if ($itemid)
 			{
-				$db = Factory::getDbo();
+				$db = $this->getDbo();
 				$query = $db->getQuery(true)
 					->select($db->quoteName('language'))
 					->from($db->quoteName('#__menu'))

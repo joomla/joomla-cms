@@ -16,6 +16,8 @@ use Joomla\CMS\Helper\ModuleHelper;
 use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\BaseController;
+use Joomla\CMS\MVC\Model\DatabaseAwareInterface;
+use Joomla\CMS\MVC\Model\DatabaseAwareTrait;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Uri\Uri;
 
@@ -24,8 +26,10 @@ use Joomla\CMS\Uri\Uri;
  *
  * @since  1.6
  */
-class DisplayController extends BaseController
+class DisplayController extends BaseController implements DatabaseAwareInterface
 {
+	use DatabaseAwareTrait;
+
 	/**
 	 * The default view.
 	 *
@@ -98,7 +102,7 @@ class DisplayController extends BaseController
 				$langCodes[$language->metadata['tag']] = $languageName;
 			}
 
-			$db    = Factory::getDbo();
+			$db    = $this->getDbo();
 			$query = $db->getQuery(true);
 
 			$query->select($db->quoteName('m.language'))

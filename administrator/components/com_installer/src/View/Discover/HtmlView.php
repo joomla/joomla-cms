@@ -12,6 +12,8 @@ namespace Joomla\Component\Installer\Administrator\View\Discover;
 \defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
+use Joomla\CMS\MVC\Model\DatabaseAwareInterface;
+use Joomla\CMS\MVC\Model\DatabaseAwareTrait;
 use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\Component\Installer\Administrator\View\Installer\HtmlView as InstallerViewDefault;
@@ -21,8 +23,10 @@ use Joomla\Component\Installer\Administrator\View\Installer\HtmlView as Installe
  *
  * @since  1.6
  */
-class HtmlView extends InstallerViewDefault
+class HtmlView extends InstallerViewDefault implements DatabaseAwareInterface
 {
+	use DatabaseAwareTrait;
+
 	/**
 	 * Is this view an Empty State
 	 *
@@ -104,7 +108,7 @@ class HtmlView extends InstallerViewDefault
 	 */
 	public function checkExtensions()
 	{
-		$db = Factory::getDbo();
+		$db = $this->getDbo();
 		$query = $db->getQuery(true)
 			->select('*')
 			->from($db->quoteName('#__extensions'))

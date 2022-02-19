@@ -14,6 +14,8 @@ namespace Joomla\Component\Menus\Administrator\Controller;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\BaseController;
+use Joomla\CMS\MVC\Model\DatabaseAwareInterface;
+use Joomla\CMS\MVC\Model\DatabaseAwareTrait;
 use Joomla\Database\ParameterType;
 use Joomla\Utilities\ArrayHelper;
 
@@ -22,8 +24,10 @@ use Joomla\Utilities\ArrayHelper;
  *
  * @since  1.6
  */
-class MenusController extends BaseController
+class MenusController extends BaseController implements DatabaseAwareInterface
 {
+	use DatabaseAwareTrait;
+
 	/**
 	 * Display the view
 	 *
@@ -119,7 +123,7 @@ class MenusController extends BaseController
 	 */
 	public function resync()
 	{
-		$db = Factory::getDbo();
+		$db = $this->getDbo();
 		$query = $db->getQuery(true);
 		$parts = null;
 

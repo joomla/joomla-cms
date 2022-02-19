@@ -93,7 +93,7 @@ class ApplicationModel extends FormModel
 		$data   = ArrayHelper::fromObject($config);
 
 		// Get the correct driver at runtime
-		$data['dbtype'] = Factory::getDbo()->getName();
+		$data['dbtype'] = $this->getDbo()->getName();
 
 		// Prime the asset_id for the rules.
 		$data['asset_id'] = 1;

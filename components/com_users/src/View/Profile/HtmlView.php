@@ -13,6 +13,8 @@ namespace Joomla\Component\Users\Site\View\Profile;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\Model\DatabaseAwareInterface;
+use Joomla\CMS\MVC\Model\DatabaseAwareTrait;
 use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Object\CMSObject;
@@ -27,8 +29,10 @@ use Joomla\Database\DatabaseDriver;
  *
  * @since  1.6
  */
-class HtmlView extends BaseHtmlView
+class HtmlView extends BaseHtmlView implements DatabaseAwareInterface
 {
+	use DatabaseAwareTrait;
+
 	/**
 	 * Profile form data for the user
 	 *
@@ -119,7 +123,7 @@ class HtmlView extends BaseHtmlView
 		$this->twofactorform    = $this->get('Twofactorform');
 		$this->twofactormethods = UsersHelper::getTwoFactorMethods();
 		$this->otpConfig        = $this->get('OtpConfig');
-		$this->db               = Factory::getDbo();
+		$this->db               = $this->getDbo();
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
