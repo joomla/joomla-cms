@@ -20,57 +20,57 @@ interface InstallerScriptInterface
 	/**
 	 * Function called after the extension is installed.
 	 *
-	 * @param   InstallerAdapter  $parent  The class calling this method
+	 * @param   InstallerAdapter  $adapter  The adapter calling this method
 	 *
 	 * @return  boolean  True on success
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function install(InstallerAdapter $parent): bool;
+	public function install(InstallerAdapter $adapter): bool;
 
 	/**
 	 * Function called after the extension is updated.
 	 *
-	 * @param   InstallerAdapter  $parent  The class calling this method
+	 * @param   InstallerAdapter  $adapter  The adapter calling this method
 	 *
 	 * @return  boolean  True on success
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function update(InstallerAdapter $parent): bool;
+	public function update(InstallerAdapter $adapter): bool;
 
 	/**
 	 * Function called after the extension is uninstalled.
 	 *
-	 * @param   InstallerAdapter  $parent  The class calling this method
+	 * @param   InstallerAdapter  $adapter  The adapter calling this method
 	 *
 	 * @return  boolean  True on success
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function uninstall(InstallerAdapter $parent): bool;
+	public function uninstall(InstallerAdapter $adapter): bool;
 
 	/**
 	 * Function called before extension installation/update/removal procedure commences.
 	 *
-	 * @param   string            $type    The type of change (install or discover_install, update, uninstall)
-	 * @param   InstallerAdapter  $parent  The class calling this method
+	 * @param   string            $type     The type of change (install or discover_install, update, uninstall)
+	 * @param   InstallerAdapter  $adapter  The adapter calling this method
 	 *
 	 * @return  boolean  True on success
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function preflight(string $type, InstallerAdapter $parent): bool;
+	public function preflight(string $type, InstallerAdapter $adapter): bool;
 
 	/**
 	 * Function called after extension installation/update/removal procedure commences.
 	 *
-	 * @param   string            $type    The type of change (install or discover_install, update, uninstall)
-	 * @param   InstallerAdapter  $parent  The class calling this method
+	 * @param   string            $type     The type of change (install or discover_install, update, uninstall)
+	 * @param   InstallerAdapter  $adapter  The adapter calling this method
 	 *
 	 * @return  boolean  True on success
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function postflight(string $type, InstallerAdapter $parent): bool;
+	public function postflight(string $type, InstallerAdapter $adapter): bool;
 }

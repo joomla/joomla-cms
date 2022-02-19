@@ -34,97 +34,97 @@ class LegacyInstallerScript implements InstallerScriptInterface
 	/**
 	 * Function called after the extension is installed.
 	 *
-	 * @param   InstallerAdapter  $parent  The class calling this method
+	 * @param   InstallerAdapter  $adapter  The adapter calling this method
 	 *
 	 * @return  boolean  True on success
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function install(InstallerAdapter $parent): bool
+	public function install(InstallerAdapter $adapter): bool
 	{
 		if (!method_exists($this->installerScript, 'install'))
 		{
 			return true;
 		}
 
-		return $this->installerScript->install($parent);
+		return $this->installerScript->install($adapter);
 	}
 
 	/**
 	 * Function called after the extension is updated.
 	 *
-	 * @param   InstallerAdapter  $parent  The class calling this method
+	 * @param   InstallerAdapter  $adapter  The adapter calling this method
 	 *
 	 * @return  boolean  True on success
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function update(InstallerAdapter $parent): bool
+	public function update(InstallerAdapter $adapter): bool
 	{
 		if (!method_exists($this->installerScript, 'update'))
 		{
 			return true;
 		}
 
-		return $this->installerScript->update($parent);
+		return $this->installerScript->update($adapter);
 	}
 
 	/**
 	 * Function called after the extension is uninstalled.
 	 *
-	 * @param   InstallerAdapter  $parent  The class calling this method
+	 * @param   InstallerAdapter  $adapter  The adapter calling this method
 	 *
 	 * @return  boolean  True on success
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function uninstall(InstallerAdapter $parent): bool
+	public function uninstall(InstallerAdapter $adapter): bool
 	{
 		if (!method_exists($this->installerScript, 'uninstall'))
 		{
 			return true;
 		}
 
-		return $this->installerScript->uninstall($parent);
+		return $this->installerScript->uninstall($adapter);
 	}
 
 	/**
 	 * Function called before extension installation/update/removal procedure commences.
 	 *
-	 * @param   string            $type    The type of change (install or discover_install, update, uninstall)
-	 * @param   InstallerAdapter  $parent  The class calling this method
+	 * @param   string            $type     The type of change (install or discover_install, update, uninstall)
+	 * @param   InstallerAdapter  $adapter  The adapter calling this method
 	 *
 	 * @return  boolean  True on success
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function preflight(string $type, InstallerAdapter $parent): bool
+	public function preflight(string $type, InstallerAdapter $adapter): bool
 	{
 		if (!method_exists($this->installerScript, 'preflight'))
 		{
 			return true;
 		}
 
-		return $this->installerScript->preflight($parent);
+		return $this->installerScript->preflight($adapter);
 	}
 
 	/**
 	 * Function called after extension installation/update/removal procedure commences.
 	 *
-	 * @param   string            $type    The type of change (install or discover_install, update, uninstall)
-	 * @param   InstallerAdapter  $parent  The class calling this method
+	 * @param   string            $type     The type of change (install or discover_install, update, uninstall)
+	 * @param   InstallerAdapter  $adapter  The adapter calling this method
 	 *
 	 * @return  boolean  True on success
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function postflight(string $type, InstallerAdapter $parent): bool
+	public function postflight(string $type, InstallerAdapter $adapter): bool
 	{
 		if (!method_exists($this->installerScript, 'postflight'))
 		{
 			return true;
 		}
 
-		return $this->installerScript->postflight($parent);
+		return $this->installerScript->postflight($adapter);
 	}
 }
