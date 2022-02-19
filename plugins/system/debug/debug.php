@@ -676,7 +676,7 @@ class PlgSystemDebug extends CMSPlugin
 	 */
 	public function onBeforeRespond(): void
 	{
-		if (!JDEBUG || !$this->params->get('profile', 1) || $this->app->getDocument()->getType() !== 'html')
+		if (!JDEBUG || !$this->params->get('profile', 1))
 		{
 			return;
 		}
