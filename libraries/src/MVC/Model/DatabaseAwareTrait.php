@@ -35,7 +35,7 @@ trait DatabaseAwareTrait
 	 * @since   4.0.0
 	 * @throws  \UnexpectedValueException
 	 */
-	public function getDbo()
+	public function getDbo(): DatabaseInterface
 	{
 		if ($this->_db)
 		{
@@ -54,7 +54,7 @@ trait DatabaseAwareTrait
 	 *
 	 * @since   4.0.0
 	 */
-	public function setDbo(DatabaseInterface $db = null)
+	public function setDbo(DatabaseInterface $db = null): void
 	{
 		$this->_db = $db;
 	}

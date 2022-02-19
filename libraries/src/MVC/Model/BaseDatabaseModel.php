@@ -36,7 +36,7 @@ use Joomla\Event\EventInterface;
  *
  * @since  2.5.5
  */
-abstract class BaseDatabaseModel extends BaseModel implements DatabaseModelInterface, DispatcherAwareInterface
+abstract class BaseDatabaseModel extends BaseModel implements DatabaseModelInterface, DatabaseAwareInterface, DispatcherAwareInterface
 {
 	use DatabaseAwareTrait, MVCFactoryAwareTrait, DispatcherAwareTrait;
 
@@ -82,6 +82,10 @@ abstract class BaseDatabaseModel extends BaseModel implements DatabaseModelInter
 			$this->option = ComponentHelper::getComponentName($this, $r[1]);
 		}
 
+		/**
+		 * @deprecated 5.0 Database instance is injected through the setter function,
+		 *                 subclasses should not use the db instance in constructor anymore
+		 */
 		$this->setDbo(\array_key_exists('dbo', $config) ? $config['dbo'] : Factory::getDbo());
 
 		// Set the default view search path
