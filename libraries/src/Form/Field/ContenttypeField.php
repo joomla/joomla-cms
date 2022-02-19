@@ -12,14 +12,18 @@ namespace Joomla\CMS\Form\Field;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\Model\DatabaseAwareInterface;
+use Joomla\CMS\MVC\Model\DatabaseAwareTrait;
 
 /**
  * Content Type field.
  *
  * @since  3.1
  */
-class ContenttypeField extends ListField
+class ContenttypeField extends ListField implements DatabaseAwareInterface
 {
+	use DatabaseAwareTrait;
+
 	/**
 	 * A flexible tag list that respects access controls
 	 *
@@ -63,7 +67,7 @@ class ContenttypeField extends ListField
 	protected function getOptions()
 	{
 		$lang = Factory::getLanguage();
-		$db    = Factory::getDbo();
+		$db    = $this->getDbo();
 		$query = $db->getQuery(true)
 			->select(
 				[

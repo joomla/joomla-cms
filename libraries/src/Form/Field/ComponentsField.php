@@ -12,6 +12,8 @@ namespace Joomla\CMS\Form\Field;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\Model\DatabaseAwareInterface;
+use Joomla\CMS\MVC\Model\DatabaseAwareTrait;
 use Joomla\Utilities\ArrayHelper;
 
 /**
@@ -19,8 +21,10 @@ use Joomla\Utilities\ArrayHelper;
  *
  * @since  3.7.0
  */
-class ComponentsField extends ListField
+class ComponentsField extends ListField implements DatabaseAwareInterface
 {
+	use DatabaseAwareTrait;
+
 	/**
 	 * The form field type.
 	 *
@@ -38,7 +42,7 @@ class ComponentsField extends ListField
 	 */
 	protected function getOptions()
 	{
-		$db    = Factory::getDbo();
+		$db    = $this->getDbo();
 		$query = $db->getQuery(true)
 			->select(
 				[

@@ -301,7 +301,9 @@ class FieldModel extends AdminModel
 		$node = $dom->appendChild(new \DOMElement('form'));
 
 		// Trigger the event to create the field dom node
-		Factory::getApplication()->triggerEvent('onCustomFieldsPrepareDom', array($obj, $node, new Form($data['context'])));
+		$form = new Form($data['context']);
+		$form->setDbo($this->getDbo());
+		Factory::getApplication()->triggerEvent('onCustomFieldsPrepareDom', array($obj, $node, $form));
 
 		// Check if a node is created
 		if (!$node->firstChild)

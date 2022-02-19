@@ -11,18 +11,21 @@ namespace Joomla\Component\Finder\Administrator\Field;
 
 \defined('_JEXEC') or die();
 
-use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Field\ListField;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\Model\DatabaseAwareInterface;
+use Joomla\CMS\MVC\Model\DatabaseAwareTrait;
 
 /**
  * Search Filter field for the Finder package.
  *
  * @since  2.5
  */
-class SearchfilterField extends ListField
+class SearchfilterField extends ListField implements DatabaseAwareInterface
 {
+	use DatabaseAwareTrait;
+
 	/**
 	 * The form field type.
 	 *
@@ -41,7 +44,7 @@ class SearchfilterField extends ListField
 	public function getOptions()
 	{
 		// Build the query.
-		$db = Factory::getDbo();
+		$db = $this->getDbo();
 		$query = $db->getQuery(true)
 			->select('f.title AS text, f.filter_id AS value')
 			->from($db->quoteName('#__finder_filters') . ' AS f')

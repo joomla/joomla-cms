@@ -15,6 +15,8 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Field\RadioField;
 use Joomla\CMS\Language\Associations;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\Model\DatabaseAwareInterface;
+use Joomla\CMS\MVC\Model\DatabaseAwareTrait;
 use Joomla\Component\Content\Site\Helper\RouteHelper;
 use Joomla\Database\ParameterType;
 
@@ -23,8 +25,10 @@ use Joomla\Database\ParameterType;
  *
  * @since  3.9.0
  */
-class TermsField extends RadioField
+class TermsField extends RadioField implements DatabaseAwareInterface
 {
+	use DatabaseAwareTrait;
+
 	/**
 	 * The form field type.
 	 *
@@ -81,7 +85,7 @@ class TermsField extends RadioField
 
 		if ($termsArticle && Factory::getApplication()->isClient('site'))
 		{
-			$db    = Factory::getDbo();
+			$db    = $this->getDbo();
 			$query = $db->getQuery(true)
 				->select($db->quoteName(['id', 'alias', 'catid', 'language']))
 				->from($db->quoteName('#__content'))

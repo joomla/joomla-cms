@@ -13,14 +13,18 @@ namespace Joomla\CMS\Form\Field;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\Model\DatabaseAwareInterface;
+use Joomla\CMS\MVC\Model\DatabaseAwareTrait;
 
 /**
  * Form Field class for the Joomla Framework.
  *
  * @since  2.5.0
  */
-class AliastagField extends ListField
+class AliastagField extends ListField implements DatabaseAwareInterface
 {
+	use DatabaseAwareTrait;
+
 	/**
 	 * The field type.
 	 *
@@ -39,7 +43,7 @@ class AliastagField extends ListField
 	protected function getOptions()
 	{
 		// Get list of tag type alias
-		$db    = Factory::getDbo();
+		$db    = $this->getDbo();
 		$query = $db->getQuery(true)
 			->select(
 				[

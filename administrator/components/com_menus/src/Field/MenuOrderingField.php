@@ -14,6 +14,8 @@ namespace Joomla\Component\Menus\Administrator\Field;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Field\ListField;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\Model\DatabaseAwareInterface;
+use Joomla\CMS\MVC\Model\DatabaseAwareTrait;
 use Joomla\Database\ParameterType;
 
 /**
@@ -21,8 +23,10 @@ use Joomla\Database\ParameterType;
  *
  * @since  1.6
  */
-class MenuOrderingField extends ListField
+class MenuOrderingField extends ListField implements DatabaseAwareInterface
 {
+	use DatabaseAwareTrait;
+
 	/**
 	 * The form field type.
 	 *
@@ -51,7 +55,7 @@ class MenuOrderingField extends ListField
 			return false;
 		}
 
-		$db = Factory::getDbo();
+		$db = $this->getDbo();
 		$query = $db->getQuery(true)
 			->select(
 				[

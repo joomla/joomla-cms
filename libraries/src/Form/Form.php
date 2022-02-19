@@ -13,7 +13,10 @@ namespace Joomla\CMS\Form;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\Model\DatabaseAwareInterface;
+use Joomla\CMS\MVC\Model\DatabaseAwareTrait;
 use Joomla\CMS\Object\CMSObject;
+use Joomla\Database\DatabaseInterface;
 use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
 
@@ -28,8 +31,10 @@ use Joomla\Utilities\ArrayHelper;
  * @link   https://html.spec.whatwg.org/multipage/forms.html
  * @since  1.7.0
  */
-class Form
+class Form implements DatabaseAwareInterface
 {
+	use DatabaseAwareTrait;
+
 	/**
 	 * The Registry data store for form fields during display.
 	 *
@@ -1612,6 +1617,18 @@ class Form
 
 		// Load the FormField object for the field.
 		$field = FormHelper::loadFieldType($type);
+
+		if ($field instanceof DatabaseAwareInterface)
+		{
+			try
+			{
+				$field->setDbo($this->getDbo());
+			}
+			catch (\UnexpectedValueException $e)
+			{
+				$field->setDbo(Factory::getContainer()->get(DatabaseInterface::class));
+			}
+		}
 
 		// If the object could not be loaded, get a text field object.
 		if ($field === false)

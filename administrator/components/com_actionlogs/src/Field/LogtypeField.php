@@ -12,10 +12,11 @@ namespace Joomla\Component\Actionlogs\Administrator\Field;
 \defined('_JEXEC') or die;
 
 use Joomla\CMS\Application\ApplicationHelper;
-use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Field\CheckboxesField;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\Model\DatabaseAwareInterface;
+use Joomla\CMS\MVC\Model\DatabaseAwareTrait;
 use Joomla\Component\Actionlogs\Administrator\Helper\ActionlogsHelper;
 
 /**
@@ -23,8 +24,10 @@ use Joomla\Component\Actionlogs\Administrator\Helper\ActionlogsHelper;
  *
  * @since  3.9.0
  */
-class LogtypeField extends CheckboxesField
+class LogtypeField extends CheckboxesField implements DatabaseAwareInterface
 {
+	use DatabaseAwareTrait;
+
 	/**
 	 * The form field type.
 	 *
@@ -42,7 +45,7 @@ class LogtypeField extends CheckboxesField
 	 */
 	public function getOptions()
 	{
-		$db    = Factory::getDbo();
+		$db    = $this->getDbo();
 		$query = $db->getQuery(true)
 			->select($db->quoteName('extension'))
 			->from($db->quoteName('#__action_logs_extensions'));

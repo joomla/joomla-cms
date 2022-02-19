@@ -11,12 +11,13 @@ namespace Joomla\Component\Fields\Administrator\Field;
 
 \defined('_JEXEC') or die;
 
-use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\Folder;
 use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Form\FormField;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\Model\DatabaseAwareInterface;
+use Joomla\CMS\MVC\Model\DatabaseAwareTrait;
 
 /**
  * Form Field to display a list of the layouts for a field from
@@ -24,8 +25,10 @@ use Joomla\CMS\Language\Text;
  *
  * @since  3.9.0
  */
-class FieldLayoutField extends FormField
+class FieldLayoutField extends FormField implements DatabaseAwareInterface
 {
+	use DatabaseAwareTrait;
+
 	/**
 	 * The form field type.
 	 *
@@ -49,7 +52,7 @@ class FieldLayoutField extends FormField
 		if ($extension)
 		{
 			// Get the database object and a new query object.
-			$db = Factory::getDbo();
+			$db = $this->getDbo();
 			$query = $db->getQuery(true);
 
 			// Build the query.

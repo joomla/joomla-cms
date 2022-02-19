@@ -11,16 +11,19 @@ namespace Joomla\Component\Plugins\Administrator\Field;
 
 \defined('_JEXEC') or die;
 
-use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Field\OrderingField;
+use Joomla\CMS\MVC\Model\DatabaseAwareInterface;
+use Joomla\CMS\MVC\Model\DatabaseAwareTrait;
 
 /**
  * Supports an HTML select list of plugins.
  *
  * @since  1.6
  */
-class PluginorderingField extends OrderingField
+class PluginorderingField extends OrderingField implements DatabaseAwareInterface
 {
+	use DatabaseAwareTrait;
+
 	/**
 	 * The form field type.
 	 *
@@ -36,7 +39,7 @@ class PluginorderingField extends OrderingField
 	 */
 	protected function getQuery()
 	{
-		$db     = Factory::getDbo();
+		$db     = $this->getDbo();
 		$folder = $this->form->getValue('folder');
 
 		// Build the query for the ordering list.

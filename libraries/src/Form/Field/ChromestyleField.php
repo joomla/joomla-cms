@@ -11,11 +11,12 @@ namespace Joomla\CMS\Form\Field;
 \defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Application\ApplicationHelper;
-use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\Folder;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\Model\DatabaseAwareInterface;
+use Joomla\CMS\MVC\Model\DatabaseAwareTrait;
 use Joomla\Database\ParameterType;
 
 /**
@@ -23,8 +24,10 @@ use Joomla\Database\ParameterType;
  *
  * @since  3.0
  */
-class ChromestyleField extends GroupedlistField
+class ChromestyleField extends GroupedlistField implements DatabaseAwareInterface
 {
+	use DatabaseAwareTrait;
+
 	/**
 	 * The form field type.
 	 *
@@ -228,7 +231,7 @@ class ChromestyleField extends GroupedlistField
 	 */
 	protected function getTemplates()
 	{
-		$db = Factory::getDbo();
+		$db = $this->getDbo();
 
 		// Get the database object and a new query object.
 		$query = $db->getQuery(true);

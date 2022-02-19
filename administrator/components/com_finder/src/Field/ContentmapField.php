@@ -15,6 +15,8 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Field\GroupedlistField;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\Model\DatabaseAwareInterface;
+use Joomla\CMS\MVC\Model\DatabaseAwareTrait;
 use Joomla\Component\Finder\Administrator\Helper\LanguageHelper;
 
 /**
@@ -22,8 +24,10 @@ use Joomla\Component\Finder\Administrator\Helper\LanguageHelper;
  *
  * @since  3.6.0
  */
-class ContentmapField extends GroupedlistField
+class ContentmapField extends GroupedlistField implements DatabaseAwareInterface
 {
+	use DatabaseAwareTrait;
+
 	/**
 	 * The form field type.
 	 *
@@ -44,7 +48,7 @@ class ContentmapField extends GroupedlistField
 		$groups = array();
 
 		// Get the database object and a new query object.
-		$db = Factory::getDbo();
+		$db = $this->getDbo();
 
 		// Levels subquery.
 		$levelQuery = $db->getQuery(true);

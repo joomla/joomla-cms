@@ -13,14 +13,18 @@ namespace Joomla\CMS\Form\Field;
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\Model\DatabaseAwareInterface;
+use Joomla\CMS\MVC\Model\DatabaseAwareTrait;
 
 /**
  * Workflow Stages field.
  *
  * @since  4.0.0
  */
-class WorkflowstageField extends GroupedlistField
+class WorkflowstageField extends GroupedlistField implements DatabaseAwareInterface
 {
+	use DatabaseAwareTrait;
+
 	/**
 	 * The form field type.
 	 *
@@ -92,7 +96,7 @@ class WorkflowstageField extends GroupedlistField
 	 */
 	protected function getGroups()
 	{
-		$db    = Factory::getDbo();
+		$db    = $this->getDbo();
 		$query = $db->getQuery(true);
 
 		// Select distinct stages for existing articles

@@ -14,6 +14,8 @@ use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\TagsHelper;
 use Joomla\CMS\Language\Multilanguage;
+use Joomla\CMS\MVC\Model\DatabaseAwareInterface;
+use Joomla\CMS\MVC\Model\DatabaseAwareTrait;
 use Joomla\Database\ParameterType;
 use Joomla\Utilities\ArrayHelper;
 
@@ -22,8 +24,10 @@ use Joomla\Utilities\ArrayHelper;
  *
  * @since  3.1
  */
-class TagField extends ListField
+class TagField extends ListField implements DatabaseAwareInterface
 {
+	use DatabaseAwareTrait;
+
 	/**
 	 * A flexible tag list that respects access controls
 	 *
@@ -136,7 +140,7 @@ class TagField extends ListField
 		$prefillLimit   = 30;
 		$isRemoteSearch = $this->isRemoteSearch();
 
-		$db    = Factory::getDbo();
+		$db    = $this->getDbo();
 		$query = $db->getQuery(true)
 			->select(
 				[

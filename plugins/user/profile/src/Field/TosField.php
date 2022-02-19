@@ -16,6 +16,8 @@ use Joomla\CMS\Form\Field\RadioField;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Associations;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\Model\DatabaseAwareInterface;
+use Joomla\CMS\MVC\Model\DatabaseAwareTrait;
 use Joomla\CMS\Router\Route;
 use Joomla\Component\Content\Site\Helper\RouteHelper;
 use Joomla\Database\ParameterType;
@@ -25,8 +27,10 @@ use Joomla\Database\ParameterType;
  *
  * @since  2.5.5
  */
-class TosField extends RadioField
+class TosField extends RadioField implements DatabaseAwareInterface
 {
+	use DatabaseAwareTrait;
+
 	/**
 	 * The form field type.
 	 *
@@ -90,7 +94,7 @@ class TosField extends RadioField
 			$attribs['data-bs-toggle'] = 'modal';
 			$attribs['data-bs-target'] = '#tosModal';
 
-			$db    = Factory::getDbo();
+			$db    = $this->getDbo();
 			$query = $db->getQuery(true);
 
 			$query->select($db->quoteName(['id', 'alias', 'catid', 'language']))

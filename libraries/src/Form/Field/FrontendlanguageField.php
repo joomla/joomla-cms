@@ -11,6 +11,8 @@ namespace Joomla\CMS\Form\Field;
 \defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Factory;
+use Joomla\CMS\MVC\Model\DatabaseAwareInterface;
+use Joomla\CMS\MVC\Model\DatabaseAwareTrait;
 
 /**
  * Provides a list of published content languages with home pages
@@ -18,8 +20,10 @@ use Joomla\CMS\Factory;
  * @see    \Joomla\CMS\Form\Field\LanguageField for a select list of application languages.
  * @since  3.5
  */
-class FrontendlanguageField extends ListField
+class FrontendlanguageField extends ListField implements DatabaseAwareInterface
 {
+	use DatabaseAwareTrait;
+
 	/**
 	 * The form field type.
 	 *
@@ -38,7 +42,7 @@ class FrontendlanguageField extends ListField
 	protected function getOptions()
 	{
 		// Get the database object and a new query object.
-		$db    = Factory::getDbo();
+		$db    = $this->getDbo();
 		$query = $db->getQuery(true);
 
 		$query->select('a.lang_code AS value, a.title AS text')

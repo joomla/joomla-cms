@@ -18,6 +18,8 @@ use Joomla\CMS\Form\Form;
 use Joomla\CMS\Form\FormField;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\Model\DatabaseAwareInterface;
+use Joomla\CMS\MVC\Model\DatabaseAwareTrait;
 use Joomla\Database\ParameterType;
 
 /**
@@ -25,8 +27,10 @@ use Joomla\Database\ParameterType;
  *
  * @since  1.6
  */
-class ModulelayoutField extends FormField
+class ModulelayoutField extends FormField implements DatabaseAwareInterface
 {
+	use DatabaseAwareTrait;
+
 	/**
 	 * The form field type.
 	 *
@@ -88,7 +92,7 @@ class ModulelayoutField extends FormField
 				|| $lang->load($module . '.sys', $client->path . '/modules/' . $module);
 
 			// Get the database object and a new query object.
-			$db = Factory::getDbo();
+			$db = $this->getDbo();
 			$query = $db->getQuery(true);
 
 			// Build the query.

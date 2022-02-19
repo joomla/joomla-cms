@@ -13,6 +13,8 @@ namespace Joomla\CMS\Form\Field;
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\Model\DatabaseAwareInterface;
+use Joomla\CMS\MVC\Model\DatabaseAwareTrait;
 use Joomla\Database\DatabaseQuery;
 use Joomla\Database\Exception\ExecutionFailureException;
 
@@ -21,8 +23,10 @@ use Joomla\Database\Exception\ExecutionFailureException;
  *
  * @since  1.7.0
  */
-class SqlField extends ListField
+class SqlField extends ListField implements DatabaseAwareInterface
 {
+	use DatabaseAwareTrait;
+
 	/**
 	 * The form field type.
 	 *
@@ -199,7 +203,7 @@ class SqlField extends ListField
 	protected function processQuery($conditions, $filters, $defaults)
 	{
 		// Get the database object.
-		$db = Factory::getDbo();
+		$db = $this->getDbo();
 
 		// Get the query object
 		$query = $db->getQuery(true);
@@ -279,7 +283,7 @@ class SqlField extends ListField
 		if ($this->query)
 		{
 			// Get the database object.
-			$db = Factory::getDbo();
+			$db = $this->getDbo();
 
 			// Set the query and get the result list.
 			$db->setQuery($this->query);

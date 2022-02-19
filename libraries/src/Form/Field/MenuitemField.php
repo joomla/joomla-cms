@@ -10,8 +10,9 @@ namespace Joomla\CMS\Form\Field;
 
 \defined('JPATH_PLATFORM') or die;
 
-use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\MVC\Model\DatabaseAwareInterface;
+use Joomla\CMS\MVC\Model\DatabaseAwareTrait;
 use Joomla\Component\Menus\Administrator\Helper\MenusHelper;
 
 // Import the com_menus helper.
@@ -22,8 +23,10 @@ require_once realpath(JPATH_ADMINISTRATOR . '/components/com_menus/helpers/menus
  *
  * @since  1.6
  */
-class MenuitemField extends GroupedlistField
+class MenuitemField extends GroupedlistField implements DatabaseAwareInterface
 {
+	use DatabaseAwareTrait;
+
 	/**
 	 * The form field type.
 	 *
@@ -180,7 +183,7 @@ class MenuitemField extends GroupedlistField
 		if ($menuType)
 		{
 			// If the menutype is empty, group the items by menutype.
-			$db    = Factory::getDbo();
+			$db    = $this->getDbo();
 			$query = $db->getQuery(true)
 				->select($db->quoteName('title'))
 				->from($db->quoteName('#__menu_types'))

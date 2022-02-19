@@ -14,6 +14,8 @@ use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\Model\DatabaseAwareInterface;
+use Joomla\CMS\MVC\Model\DatabaseAwareTrait;
 use Joomla\Database\ParameterType;
 
 /**
@@ -21,8 +23,10 @@ use Joomla\Database\ParameterType;
  *
  * @since  1.6
  */
-class TemplatestyleField extends GroupedlistField
+class TemplatestyleField extends GroupedlistField implements DatabaseAwareInterface
 {
+	use DatabaseAwareTrait;
+
 	/**
 	 * The form field type.
 	 *
@@ -141,7 +145,7 @@ class TemplatestyleField extends GroupedlistField
 		$template = $this->template;
 
 		// Get the database object and a new query object.
-		$db = Factory::getDbo();
+		$db = $this->getDbo();
 		$query = $db->getQuery(true);
 
 		// Build the query.

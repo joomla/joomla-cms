@@ -14,14 +14,18 @@ namespace Joomla\Component\Messages\Administrator\Field;
 use Joomla\CMS\Access\Access;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Field\UserField;
+use Joomla\CMS\MVC\Model\DatabaseAwareInterface;
+use Joomla\CMS\MVC\Model\DatabaseAwareTrait;
 
 /**
  * Supports a modal select of users that have access to com_messages
  *
  * @since  1.6
  */
-class UserMessagesField extends UserField
+class UserMessagesField extends UserField implements DatabaseAwareInterface
 {
+	use DatabaseAwareTrait;
+
 	/**
 	 * The form field type.
 	 *
@@ -40,7 +44,7 @@ class UserMessagesField extends UserField
 	protected function getGroups()
 	{
 		// Compute usergroups
-		$db = Factory::getDbo();
+		$db = $this->getDbo();
 		$query = $db->getQuery(true)
 			->select('id')
 			->from('#__usergroups');

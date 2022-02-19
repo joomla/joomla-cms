@@ -16,6 +16,8 @@ use Joomla\CMS\Form\FormField;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\Model\DatabaseAwareInterface;
+use Joomla\CMS\MVC\Model\DatabaseAwareTrait;
 use Joomla\CMS\Session\Session;
 use Joomla\Database\ParameterType;
 
@@ -24,8 +26,10 @@ use Joomla\Database\ParameterType;
  *
  * @since  3.7.0
  */
-class MenuField extends FormField
+class MenuField extends FormField implements DatabaseAwareInterface
 {
+	use DatabaseAwareTrait;
+
 	/**
 	 * The form field type.
 	 *
@@ -231,7 +235,7 @@ class MenuField extends FormField
 
 		if ($value)
 		{
-			$db    = Factory::getDbo();
+			$db    = $this->getDbo();
 			$query = $db->getQuery(true)
 				->select($db->quoteName('title'))
 				->from($db->quoteName('#__menu'))

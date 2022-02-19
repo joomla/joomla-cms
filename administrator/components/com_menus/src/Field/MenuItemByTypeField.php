@@ -14,6 +14,8 @@ namespace Joomla\Component\Menus\Administrator\Field;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Field\GroupedlistField;
 use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\MVC\Model\DatabaseAwareInterface;
+use Joomla\CMS\MVC\Model\DatabaseAwareTrait;
 use Joomla\Component\Menus\Administrator\Helper\MenusHelper;
 
 /**
@@ -21,8 +23,10 @@ use Joomla\Component\Menus\Administrator\Helper\MenusHelper;
  *
  * @since  3.8.0
  */
-class MenuItemByTypeField extends GroupedlistField
+class MenuItemByTypeField extends GroupedlistField implements DatabaseAwareInterface
 {
+	use DatabaseAwareTrait;
+
 	/**
 	 * The form field type.
 	 *
@@ -188,7 +192,7 @@ class MenuItemByTypeField extends GroupedlistField
 		if ($menuType)
 		{
 			// If the menutype is empty, group the items by menutype.
-			$db    = Factory::getDbo();
+			$db    = $this->getDbo();
 			$query = $db->getQuery(true)
 				->select($db->quoteName('title'))
 				->from($db->quoteName('#__menu_types'))

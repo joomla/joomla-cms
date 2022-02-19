@@ -15,6 +15,8 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Field\ListField;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\Model\DatabaseAwareInterface;
+use Joomla\CMS\MVC\Model\DatabaseAwareTrait;
 use Joomla\Database\ParameterType;
 use Joomla\Utilities\ArrayHelper;
 
@@ -23,8 +25,10 @@ use Joomla\Utilities\ArrayHelper;
  *
  * @since  1.6
  */
-class CategoryeditField extends ListField
+class CategoryeditField extends ListField implements DatabaseAwareInterface
 {
+	use DatabaseAwareTrait;
+
 	/**
 	 * To allow creation of new categories.
 	 *
@@ -173,7 +177,7 @@ class CategoryeditField extends ListField
 			? (int) reset($oldCat)
 			: (int) $oldCat;
 
-		$db   = Factory::getDbo();
+		$db   = $this->getDbo();
 		$user = Factory::getUser();
 
 		$query = $db->getQuery(true)

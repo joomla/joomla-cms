@@ -12,6 +12,7 @@ namespace Joomla\CMS\Service\Provider;
 
 use Joomla\CMS\Form\FormFactory;
 use Joomla\CMS\Form\FormFactoryInterface;
+use Joomla\Database\DatabaseInterface;
 use Joomla\DI\Container;
 use Joomla\DI\ServiceProviderInterface;
 
@@ -39,7 +40,10 @@ class Form implements ServiceProviderInterface
 				FormFactoryInterface::class,
 				function (Container $container)
 				{
-					return new FormFactory;
+					$factory = new FormFactory;
+					$factory->setDbo($container->get(DatabaseInterface::class));
+
+					return $factory;
 				},
 				true
 			);

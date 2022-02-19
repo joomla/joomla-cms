@@ -13,16 +13,19 @@ namespace Joomla\Component\Fields\Administrator\Field;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Field\ListField;
+use Joomla\CMS\MVC\Model\DatabaseAwareInterface;
+use Joomla\CMS\MVC\Model\DatabaseAwareTrait;
 use Joomla\Utilities\ArrayHelper;
-
 
 /**
  * Fields Groups
  *
  * @since  3.7.0
  */
-class FieldgroupsField extends ListField
+class FieldgroupsField extends ListField implements DatabaseAwareInterface
 {
+	use DatabaseAwareTrait;
+
 	/**
 	 * @var    string
 	 */
@@ -44,7 +47,7 @@ class FieldgroupsField extends ListField
 		$user       = Factory::getUser();
 		$viewlevels = ArrayHelper::toInteger($user->getAuthorisedViewLevels());
 
-		$db    = Factory::getDbo();
+		$db    = $this->getDbo();
 		$query = $db->getQuery(true);
 		$query->select(
 			[

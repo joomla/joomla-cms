@@ -11,16 +11,19 @@ namespace Joomla\Component\Actionlogs\Administrator\Field;
 
 \defined('_JEXEC') or die;
 
-use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Field\ListField;
+use Joomla\CMS\MVC\Model\DatabaseAwareInterface;
+use Joomla\CMS\MVC\Model\DatabaseAwareTrait;
 
 /**
  * Field to load a list of all users that have logged actions
  *
  * @since  3.9.0
  */
-class LogcreatorField extends ListField
+class LogcreatorField extends ListField implements DatabaseAwareInterface
 {
+	use DatabaseAwareTrait;
+
 	/**
 	 * Cached array of the category items.
 	 *
@@ -53,7 +56,7 @@ class LogcreatorField extends ListField
 		{
 			static::$options[$hash] = parent::getOptions();
 
-			$db = Factory::getDbo();
+			$db = $this->getDbo();
 
 			// Construct the query
 			$query = $db->getQuery(true)

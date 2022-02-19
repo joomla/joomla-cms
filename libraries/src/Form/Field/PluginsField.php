@@ -13,14 +13,18 @@ namespace Joomla\CMS\Form\Field;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
+use Joomla\CMS\MVC\Model\DatabaseAwareInterface;
+use Joomla\CMS\MVC\Model\DatabaseAwareTrait;
 
 /**
  * Form Field class for the Joomla Framework.
  *
  * @since  2.5.0
  */
-class PluginsField extends ListField
+class PluginsField extends ListField implements DatabaseAwareInterface
 {
+	use DatabaseAwareTrait;
+
 	/**
 	 * The field type.
 	 *
@@ -120,7 +124,7 @@ class PluginsField extends ListField
 		if (!empty($folder))
 		{
 			// Get list of plugins
-			$db    = Factory::getDbo();
+			$db    = $this->getDbo();
 			$query = $db->getQuery(true)
 				->select(
 					[

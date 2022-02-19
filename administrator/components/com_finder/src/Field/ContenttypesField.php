@@ -15,6 +15,8 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Field\ListField;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\Model\DatabaseAwareInterface;
+use Joomla\CMS\MVC\Model\DatabaseAwareTrait;
 use Joomla\Component\Finder\Administrator\Helper\LanguageHelper;
 use Joomla\Utilities\ArrayHelper;
 
@@ -23,8 +25,10 @@ use Joomla\Utilities\ArrayHelper;
  *
  * @since  3.6.0
  */
-class ContenttypesField extends ListField
+class ContenttypesField extends ListField implements DatabaseAwareInterface
 {
+	use DatabaseAwareTrait;
+
 	/**
 	 * The form field type.
 	 *
@@ -45,7 +49,7 @@ class ContenttypesField extends ListField
 		$lang    = Factory::getLanguage();
 		$options = array();
 
-		$db    = Factory::getDbo();
+		$db    = $this->getDbo();
 		$query = $db->getQuery(true)
 			->select($db->quoteName('id', 'value'))
 			->select($db->quoteName('title', 'text'))

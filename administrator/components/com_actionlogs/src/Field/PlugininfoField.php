@@ -11,10 +11,11 @@ namespace Joomla\Component\Actionlogs\Administrator\Field;
 
 \defined('_JEXEC') or die;
 
-use Joomla\CMS\Factory;
 use Joomla\CMS\Form\FormField;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\Model\DatabaseAwareInterface;
+use Joomla\CMS\MVC\Model\DatabaseAwareTrait;
 use Joomla\CMS\Router\Route;
 
 /**
@@ -22,8 +23,10 @@ use Joomla\CMS\Router\Route;
  *
  * @since  3.9.2
  */
-class PlugininfoField extends FormField
+class PlugininfoField extends FormField implements DatabaseAwareInterface
 {
+	use DatabaseAwareTrait;
+
 	/**
 	 * The form field type.
 	 *
@@ -41,7 +44,7 @@ class PlugininfoField extends FormField
 	 */
 	protected function getInput()
 	{
-		$db     = Factory::getDbo();
+		$db     = $this->getDbo();
 		$query  = $db->getQuery(true)
 			->select($db->quoteName('extension_id'))
 			->from($db->quoteName('#__extensions'))
