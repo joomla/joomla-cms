@@ -32,7 +32,7 @@ $app->getDocument()->addScriptOptions(
 		<?php foreach($items as $i => $item) : ?>
 			<li class="list-group-item sampledata-<?php echo $item->name; ?>">
 				<div class="d-flex justify-content-between align-items-center">
-					<div class="sample-data__title me-2">
+					<div class="sample-data__title">
 						<span class="sample-data__icon icon-<?php echo $item->icon; ?> me-1" aria-hidden="true"></span>
 						<?php echo htmlspecialchars($item->title, ENT_QUOTES, 'UTF-8'); ?>
 					</div>
