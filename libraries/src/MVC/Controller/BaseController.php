@@ -2,11 +2,14 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2006 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\MVC\Controller;
+
+use Joomla\CMS\MVC\Factory\LegacyFactory;
+use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 
 defined('JPATH_PLATFORM') or die;
 
@@ -125,6 +128,14 @@ class BaseController extends \JObject
 	protected $input;
 
 	/**
+	 * The factory.
+	 *
+	 * @var    MVCFactoryInterface
+	 * @since  3.10.0
+	 */
+	protected $factory;
+
+	/**
 	 * Instance container.
 	 *
 	 * @var    \JControllerLegacy
@@ -165,7 +176,7 @@ class BaseController extends \JObject
 	 *
 	 * @since   3.0
 	 */
-	protected static function createFileName($type, $parts = array())
+	public static function createFileName($type, $parts = array())
 	{
 		$filename = '';
 
@@ -262,7 +273,7 @@ class BaseController extends \JObject
 		else
 		{
 			// Base controller.
-			$type = null;
+			$type = '';
 
 			// Define the controller filename and path.
 			$file       = self::createFileName('controller', array('name' => 'controller', 'format' => $format));
@@ -305,13 +316,14 @@ class BaseController extends \JObject
 	/**
 	 * Constructor.
 	 *
-	 * @param   array  $config  An optional associative array of configuration settings.
+	 * @param   array                $config   An optional associative array of configuration settings.
 	 * Recognized key values include 'name', 'default_task', 'model_path', and
 	 * 'view_path' (this list is not meant to be comprehensive).
+	 * @param   MVCFactoryInterface  $factory  The factory.
 	 *
 	 * @since   3.0
 	 */
-	public function __construct($config = array())
+	public function __construct($config = array(), MVCFactoryInterface $factory = null)
 	{
 		$this->methods = array();
 		$this->message = null;
@@ -426,6 +438,8 @@ class BaseController extends \JObject
 		{
 			$this->default_view = $this->getName();
 		}
+
+		$this->factory = $factory ? : new LegacyFactory;
 	}
 
 	/**
@@ -542,11 +556,14 @@ class BaseController extends \JObject
 	 */
 	protected function createModel($name, $prefix = '', $config = array())
 	{
-		// Clean the model name
-		$modelName = preg_replace('/[^A-Z0-9_]/i', '', $name);
-		$classPrefix = preg_replace('/[^A-Z0-9_]/i', '', $prefix);
+		$model = $this->factory->createModel($name, $prefix, $config);
 
-		return \JModelLegacy::getInstance($modelName, $classPrefix, $config);
+		if ($model === null)
+		{
+			return false;
+		}
+
+		return $model;
 	}
 
 	/**
@@ -569,33 +586,8 @@ class BaseController extends \JObject
 	 */
 	protected function createView($name, $prefix = '', $type = '', $config = array())
 	{
-		// Clean the view name
-		$viewName = preg_replace('/[^A-Z0-9_]/i', '', $name);
-		$classPrefix = preg_replace('/[^A-Z0-9_]/i', '', $prefix);
-		$viewType = preg_replace('/[^A-Z0-9_]/i', '', $type);
-
-		// Build the view class name
-		$viewClass = $classPrefix . $viewName;
-
-		if (!class_exists($viewClass))
-		{
-			jimport('joomla.filesystem.path');
-			$path = \JPath::find($this->paths['view'], $this->createFileName('view', array('name' => $viewName, 'type' => $viewType)));
-
-			if (!$path)
-			{
-				return null;
-			}
-
-			require_once $path;
-
-			if (!class_exists($viewClass))
-			{
-				throw new \Exception(\JText::sprintf('JLIB_APPLICATION_ERROR_VIEW_CLASS_NOT_FOUND', $viewClass, $path), 500);
-			}
-		}
-
-		return new $viewClass($config);
+		$config['paths'] = $this->paths['view'];
+		return $this->factory->createView($name, $prefix, $type, $config);
 	}
 
 	/**
@@ -689,7 +681,7 @@ class BaseController extends \JObject
 	{
 		$this->task = $task;
 
-		$task = strtolower($task);
+		$task = strtolower((string) $task);
 
 		if (isset($this->taskMap[$task]))
 		{

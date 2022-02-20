@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2012 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -14,7 +14,7 @@ defined('JPATH_PLATFORM') or die;
  * Crypt cipher for Rijndael 256 encryption, decryption and key generation.
  *
  * @since       3.0.0
- * @deprecated  4.0   Without replacment use CryptoCipher
+ * @deprecated  4.0   Without replacement use SodiumCipher
  */
 class Rijndael256Cipher extends McryptCipher
 {

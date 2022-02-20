@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_tags
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2013 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -76,12 +76,12 @@ class TagsViewTags extends JViewLegacy
 		}
 
 		// Escape strings for HTML output
-		$this->pageclass_sfx = htmlspecialchars($this->params->get('pageclass_sfx'));
+		$this->pageclass_sfx = htmlspecialchars($this->params->get('pageclass_sfx', ''));
 
 		$active = JFactory::getApplication()->getMenu()->getActive();
 
 		// Load layout from active query (in case it is an alternative menu item)
-		if ($active && $active->query['option'] === 'com_tags' && $active->query['view'] === 'tags')
+		if ($active && isset($active->query['option']) && $active->query['option'] === 'com_tags' && $active->query['view'] === 'tags')
 		{
 			if (isset($active->query['layout']))
 			{
@@ -126,7 +126,7 @@ class TagsViewTags extends JViewLegacy
 			$this->params->def('page_heading', JText::_('COM_TAGS_DEFAULT_PAGE_TITLE'));
 		}
 
-		if ($menu && $menu->query['option'] !== 'com_tags')
+		if ($menu && (!isset($menu->query['option']) || $menu->query['option'] !== 'com_tags'))
 		{
 			$this->params->set('page_subheading', $menu->title);
 		}

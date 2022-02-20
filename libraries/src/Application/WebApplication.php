@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2011 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -182,7 +182,8 @@ class WebApplication extends BaseApplication
 		'x-content-type-options',
 		'referrer-policy',
 		'expect-ct',
-		'feature-policy',
+		'feature-policy', // @deprecated - see: https://scotthelme.co.uk/goodbye-feature-policy-and-hello-permissions-policy/
+		'permissions-policy',
 	);
 
 	/**
@@ -478,6 +479,7 @@ class WebApplication extends BaseApplication
 
 				// Set the encoding headers.
 				$this->setHeader('Content-Encoding', $encoding);
+				$this->setHeader('Vary', 'Accept-Encoding');
 
 				// Header will be removed at 4.0
 				if ($this->get('MetaVersion'))
@@ -1096,6 +1098,12 @@ class WebApplication extends BaseApplication
 	protected function header($string, $replace = true, $code = null)
 	{
 		$string = str_replace(chr(0), '', $string);
+
+		if ($code === null)
+		{
+			$code = 0;
+		}
+
 		header($string, $replace, $code);
 	}
 
@@ -1251,7 +1259,7 @@ class WebApplication extends BaseApplication
 		}
 
 		// Check to see if an explicit base URI has been set.
-		$siteUri = trim($this->get('site_uri'));
+		$siteUri = trim($this->get('site_uri', ''));
 
 		if ($siteUri != '')
 		{
@@ -1300,7 +1308,7 @@ class WebApplication extends BaseApplication
 		}
 
 		// Get an explicitly set media URI is present.
-		$mediaURI = trim($this->get('media_uri'));
+		$mediaURI = trim($this->get('media_uri', ''));
 
 		if ($mediaURI)
 		{

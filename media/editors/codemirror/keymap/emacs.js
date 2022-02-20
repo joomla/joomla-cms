@@ -233,9 +233,19 @@
     cm.setCursor(cm.getCursor());
   }
 
+  function makePrompt(msg) {
+    var fragment = document.createDocumentFragment();
+    var input = document.createElement("input");
+    input.setAttribute("type", "text");
+    input.style.width = "10em";
+    fragment.appendChild(document.createTextNode(msg + ": "));
+    fragment.appendChild(input);
+    return fragment;
+  }
+
   function getInput(cm, msg, f) {
     if (cm.openDialog)
-      cm.openDialog(msg + ": <input type=\"text\" style=\"width: 10em\"/>", f, {bottom: true});
+      cm.openDialog(makePrompt(msg), f, {bottom: true});
     else
       f(prompt(msg, ""));
   }
@@ -369,6 +379,7 @@
 
     "Ctrl-/": repeated("undo"), "Shift-Ctrl--": repeated("undo"),
     "Ctrl-Z": repeated("undo"), "Cmd-Z": repeated("undo"),
+    "Shift-Ctrl-Z": "redo",
     "Shift-Alt-,": "goDocStart", "Shift-Alt-.": "goDocEnd",
     "Ctrl-S": "findPersistentNext", "Ctrl-R": "findPersistentPrev", "Ctrl-G": quit, "Shift-Alt-5": "replace",
     "Alt-/": "autocomplete",
@@ -403,7 +414,8 @@
     "Ctrl-X H": "selectAll",
 
     "Ctrl-Q Tab": repeated("insertTab"),
-    "Ctrl-U": addPrefixMap
+    "Ctrl-U": addPrefixMap,
+    "fallthrough": "default"
   });
 
   var prefixMap = {"Ctrl-G": clearPrefix};

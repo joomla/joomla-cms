@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2007 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -235,7 +235,7 @@ class Router
 		if (strlen($uri->getPath()) > 0 && array_key_exists('option', $vars)
 			&& ComponentHelper::getParams($vars['option'])->get('sef_advanced', 0))
 		{
-			throw new RouteNotFoundException('URL invalid');
+			throw new RouteNotFoundException(\JText::_('JERROR_PAGE_NOT_FOUND'));
 		}
 
 		return array_merge($this->getVars(), $vars);

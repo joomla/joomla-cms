@@ -2,7 +2,7 @@
 /**
  * Part of the Joomla Framework Filesystem Package
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -42,8 +42,8 @@ abstract class Folder
 		}
 
 		// Eliminate trailing directory separators, if any
-		$src  = rtrim($src, DIRECTORY_SEPARATOR);
-		$dest = rtrim($dest, DIRECTORY_SEPARATOR);
+		$src  = rtrim($src, \DIRECTORY_SEPARATOR);
+		$dest = rtrim($dest, \DIRECTORY_SEPARATOR);
 
 		if (!is_dir(Path::clean($src)))
 		{
@@ -303,7 +303,7 @@ abstract class Folder
 	 * @param   string   $path        An optional base path to prefix to the file names.
 	 * @param   boolean  $useStreams  Optionally use streams.
 	 *
-	 * @return  mixed  Error message on false or boolean true on success.
+	 * @return  string|boolean  Error message on false or boolean true on success.
 	 *
 	 * @since   1.0
 	 */

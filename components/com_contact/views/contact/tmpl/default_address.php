@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_contact
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2006 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -118,6 +118,7 @@ defined('_JEXEC') or die;
 <?php if ($this->contact->webpage && $this->params->get('show_webpage')) : ?>
 	<dt>
 		<span class="<?php echo $this->params->get('marker_class'); ?>">
+			<?php echo $this->params->get('marker_webpage'); ?>
 		</span>
 	</dt>
 	<dd>

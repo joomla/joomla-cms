@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_joomlaupdate
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2016 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,6 +12,8 @@ defined('_JEXEC') or die;
 /** @var JoomlaupdateViewDefault $this */
 
 $errSelectPackage = JText::_('COM_INSTALLER_MSG_INSTALL_PLEASE_SELECT_A_PACKAGE', true);
+$errPackageTooBig = JText::_('COM_INSTALLER_MSG_WARNINGS_UPLOADFILETOOBIG', true);
+$txtPackageSize   = JText::_('JGLOBAL_SELECTED_UPLOAD_FILE_SIZE', true);
 $js               = <<< JS
 	Joomla.submitbuttonUpload = function() {
 		var form = document.getElementById("uploadForm");
@@ -20,11 +22,38 @@ $js               = <<< JS
 		if (form.install_package.value == "") {
 			alert("$errSelectPackage");
 		}
+		else if (form.install_package.files[0].size > form.max_upload_size.value) {
+			alert("$errPackageTooBig");
+		}
 		else
 		{
 			jQuery("#loading").css("display", "block");
 
 			form.submit();
+		}
+	};
+
+	Joomla.installpackageChange = function() {
+		var form = document.getElementById('uploadForm');
+		var fileSize = form.install_package.files[0].size;
+		var fileSizeMB = fileSize * 1.0 / 1024.0 / 1024.0;
+		var fileSizeText = "$txtPackageSize";
+		var fileSizeElement = document.getElementById('file_size');
+		var warningElement  = document.getElementById('max_upload_size_warn');
+
+		if (form.install_package.value == '') {
+			fileSizeElement.classList.add('hidden');
+			warningElement .classList.add('hidden');
+		}
+		else if (fileSize) {
+			fileSizeElement.classList.remove('hidden');
+			fileSizeElement.innerHTML = fileSizeText.replace('%s', fileSizeMB.toFixed(2) + ' MB');
+
+			if (fileSize > form.max_upload_size.value) {
+				warningElement .classList.remove('hidden');
+			} else {
+				warningElement .classList.add('hidden');
+			}
 		}
 	};
 
@@ -96,9 +125,15 @@ JFactory::getDocument()->addStyleDeclaration($css);
 					<?php echo JText::_('COM_JOOMLAUPDATE_VIEW_UPLOAD_PACKAGE_FILE'); ?>
 				</td>
 				<td>
-					<input class="input_box" id="install_package" name="install_package" type="file" size="57" /><br>
-					<?php $maxSize = JHtml::_('number.bytes', JUtility::getMaxUploadSize()); ?>
-					<?php echo JText::sprintf('JGLOBAL_MAXIMUM_UPLOAD_SIZE_LIMIT', '&#x200E;' . $maxSize); ?>
+					<input class="input_box" id="install_package" name="install_package" type="file" size="57" accept=".zip,application/zip" onchange="Joomla.installpackageChange()" /><br>
+					<?php $maxSizeBytes = JUtility::getMaxUploadSize(); ?>
+					<?php $maxSize = JHtml::_('number.bytes', $maxSizeBytes); ?>
+					<input id="max_upload_size" name="max_upload_size" type="hidden" value="<?php echo $maxSizeBytes; ?>" />
+					<div class="small"><?php echo JText::sprintf('JGLOBAL_MAXIMUM_UPLOAD_SIZE_LIMIT', '&#x200E;' . $maxSize); ?></div>
+					<div class="small hidden" id="file_size" name="file_size"><?php echo JText::sprintf('JGLOBAL_SELECTED_UPLOAD_FILE_SIZE', '&#x200E;' . ''); ?></div>
+					<div class="alert alert-warning hidden" id="max_upload_size_warn">
+						<?php echo JText::_('COM_INSTALLER_MSG_WARNINGS_UPLOADFILETOOBIG'); ?>
+					</div>
 				</td>
 			</tr>
 			<tr>
@@ -107,6 +142,14 @@ JFactory::getDocument()->addStyleDeclaration($css);
 				</td>
 				<td>
 					<?php echo $this->methodSelectUpload; ?>
+				</td>
+			</tr>
+			<tr id="upload_ftp_notice" <?php echo $this->ftpFieldsDisplay; ?>>
+				<td>
+					<?php echo JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_FTP_NOTICE'); ?>
+				</td>
+				<td>
+					<?php echo JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_FTP_NOTICE_MESSAGE'); ?>
 				</td>
 			</tr>
 			<tr id="upload_ftp_hostname" <?php echo $this->ftpFieldsDisplay; ?>>

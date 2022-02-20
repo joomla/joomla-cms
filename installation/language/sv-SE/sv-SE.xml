@@ -1,13 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<metafile
-	version="3.9"
-	client="installation">
+<metafile version="3.10" client="installation">
 	<name>Svenska (Sverige)</name>
-	<version>3.9.0</version>
-	<creationDate>Oktober 2018</creationDate>
-	<author>Swedish Joomla Translation Team - SvenskJoomla</author>
-	<copyright>Copyright (C) 2005 - 2019 Open Source Matters. All rights reserved.</copyright>
-	<license>GNU General Public License version 2 eller senare; Se LICENSE.txt</license>
+	<version>3.10.4</version>
+	<creationDate>November 2021</creationDate>
+	<author>Swedish Translation Team - SvenskJoomla</author>
+	<copyright>(C) 2005 Open Source Matters, Inc.</copyright>
+	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<files>
 		<filename>sv-SE.ini</filename>
 	</files>

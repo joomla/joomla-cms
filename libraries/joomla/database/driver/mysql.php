@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Database
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2005 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -99,7 +99,10 @@ class JDatabaseDriverMysql extends JDatabaseDriverMysqli
 		// Disable query cache and turn profiling ON in debug mode.
 		if ($this->debug)
 		{
-			mysql_query('SET query_cache_type = 0;', $this->connection);
+			if ($this->hasQueryCacheEnabled())
+			{
+				mysql_query('SET query_cache_type = 0;', $this->connection);
+			}
 
 			if ($this->hasProfiling())
 			{
@@ -151,12 +154,12 @@ class JDatabaseDriverMysql extends JDatabaseDriverMysqli
 		if (is_float($text))
 		{
 			// Force the dot as a decimal point.
-			return str_replace(',', '.', $text);
+			return str_replace(',', '.', (string) $text);
 		}
 
 		$this->connect();
 
-		$result = mysql_real_escape_string($text, $this->getConnection());
+		$result = mysql_real_escape_string((string) $text, $this->getConnection());
 
 		if ($extra)
 		{
@@ -499,6 +502,28 @@ class JDatabaseDriverMysql extends JDatabaseDriverMysqli
 			$row = mysql_fetch_assoc($res);
 
 			return isset($row);
+		}
+		catch (Exception $e)
+		{
+			return false;
+		}
+	}
+
+	/**
+	 * Internal function to check if query cache is enabled.
+	 *
+	 * @return  boolean
+	 *
+	 * @since   3.9.25
+	 */
+	private function hasQueryCacheEnabled()
+	{
+		try
+		{
+			$res = mysql_query("SHOW VARIABLES LIKE 'query_cache_type'", $this->connection);
+			$row = mysql_fetch_assoc($res);
+
+			return isset($row['Value']) && $row['Value'] === 'ON';
 		}
 		catch (Exception $e)
 		{

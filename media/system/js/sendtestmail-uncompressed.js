@@ -1,6 +1,6 @@
 /**
  * @package         Joomla.JavaScript
- * @copyright       Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright       (C) 2016 Open Source Matters, Inc. <https://www.joomla.org>
  * @license         GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -14,7 +14,6 @@ var sendTestMail = function ()
 	var email_data = {
 		smtpauth  : $('input[name="jform[smtpauth]"]:checked').val(),
 		smtpuser  : $('input[name="jform[smtpuser]"]').val(),
-		smtppass  : $('input[name="jform[smtppass]"]').val(),
 		smtphost  : $('input[name="jform[smtphost]"]').val(),
 		smtpsecure: $('select[name="jform[smtpsecure]"]').val(),
 		smtpport  : $('input[name="jform[smtpport]"]').val(),
@@ -23,6 +22,12 @@ var sendTestMail = function ()
 		mailer    : $('select[name="jform[mailer]"]').val(),
 		mailonline: $('input[name="jform[mailonline]"]:checked').val()
 	};
+
+	var $smtppass = $('input[name="jform[smtppass]"]');
+
+	if ($smtppass.is(':disabled') === false) {
+		email_data.smtppass = $smtppass.val();
+	}
 
 	// Remove js messages, if they exist.
 	Joomla.removeMessages();

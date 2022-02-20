@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Application
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2013 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -167,7 +167,7 @@ class JApplicationWebTest extends TestCase
 	}
 
 	/**
-	 * Tests the JApplicationWeb::__construct method with dependancy injection.
+	 * Tests the JApplicationWeb::__construct method with dependency injection.
 	 *
 	 * @return  void
 	 *
@@ -241,7 +241,7 @@ class JApplicationWebTest extends TestCase
 	 */
 	public function testAppendBody()
 	{
-		// Similulate a previous call to setBody or appendBody.
+		// Simulate a previous call to setBody or appendBody.
 		TestReflection::getValue($this->class, 'response')->body = array('foo');
 
 		$this->class->appendBody('bar');
@@ -338,7 +338,8 @@ class JApplicationWebTest extends TestCase
 		// Ensure that the compression headers were set.
 		$this->assertEquals(
 			array(
-				0 => array('name' => 'Content-Encoding', 'value' => 'gzip')
+				0 => array('name' => 'Content-Encoding', 'value' => 'gzip'),
+				1 => array('name' => 'Vary', 'value' => 'Accept-Encoding')
 			),
 			TestReflection::getValue($this->class, 'response')->headers
 		);
@@ -386,7 +387,8 @@ class JApplicationWebTest extends TestCase
 		// Ensure that the compression headers were set.
 		$this->assertEquals(
 			array(
-				0 => array('name' => 'Content-Encoding', 'value' => 'deflate')
+				0 => array('name' => 'Content-Encoding', 'value' => 'deflate'),
+				1 => array('name' => 'Vary', 'value' => 'Accept-Encoding')
 			),
 			TestReflection::getValue($this->class, 'response')->headers
 		);
@@ -835,7 +837,7 @@ class JApplicationWebTest extends TestCase
 	}
 
 	/**
-	 * Tests the JApplicationWeb::initialise method with dependancy injection.
+	 * Tests the JApplicationWeb::initialise method with dependency injection.
 	 *
 	 * @return  void
 	 *
@@ -1043,7 +1045,7 @@ class JApplicationWebTest extends TestCase
 	 */
 	public function testPrependBody()
 	{
-		// Similulate a previous call to a body method.
+		// Simulate a previous call to a body method.
 		TestReflection::getValue($this->class, 'response')->body = array('foo');
 
 		$this->class->prependBody('bar');
@@ -1442,7 +1444,7 @@ class JApplicationWebTest extends TestCase
 	 */
 	public function testSendHeaders()
 	{
-		// Similulate a previous call to a setHeader method.
+		// Simulate a previous call to a setHeader method.
 		TestReflection::getValue($this->class, 'response')->headers = array(
 			array('name' => 'Status', 'value' => 200),
 			array('name' => 'X-JWeb-SendHeaders', 'value' => 'foo'),

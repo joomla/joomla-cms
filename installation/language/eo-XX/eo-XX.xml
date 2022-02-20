@@ -4,9 +4,9 @@
 	client="installation">
 	<name>Esperanto</name>
 	<version>3.5.0</version>
-	<creationDate>Aŭgusto 2015</creationDate>
+	<creationDate>2015-08-01</creationDate>
 	<author>EsperantoSverige, Svedio</author>
-	<copyright>Kopirajto (C) 2005 - 2019 Open Source Matters. Ĉiuj rajtoj rezervitaj.</copyright>
+	<copyright>(C) 2007 Open Source Matters, Inc.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<files>
 		<filename>eo-XX.ini</filename>
