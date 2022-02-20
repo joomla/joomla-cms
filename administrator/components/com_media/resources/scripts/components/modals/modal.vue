@@ -94,8 +94,8 @@ export default {
   methods: {
     /* Callback function, to be executed when changes in the DOM are observed */
     callBack(mutationsList) {
-      for( var mutation of mutationsList ) {
-        if ( mutation.type === 'attributes' ) {
+      for (const mutation of mutationsList) {
+        if (mutation.type === 'attributes') {
           document.removeEventListener('keydown', this.onKeyPress);
           this.focusableElements = 'button:not([disabled]), [href], input:not([disabled]), select, textarea, [tabindex]:not([tabindex="-1"])';
           this.modal = document.querySelector('.modal-dialog');
