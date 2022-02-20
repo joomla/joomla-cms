@@ -148,12 +148,7 @@ class TagField extends ListField
 					$db->quoteName('a.lft'),
 				]
 			)
-			->from($db->quoteName('#__tags', 'a'))
-			->join(
-				'LEFT',
-				$db->quoteName('#__tags', 'b'),
-				$db->quoteName('a.lft') . ' > ' . $db->quoteName('b.lft') . ' AND ' . $db->quoteName('a.rgt') . ' < ' . $db->quoteName('b.rgt')
-			);
+			->from($db->quoteName('#__tags', 'a'));
 
 		// Limit Options in multilanguage
 		if ($app->isClient('site') && Multilanguage::isEnabled())
