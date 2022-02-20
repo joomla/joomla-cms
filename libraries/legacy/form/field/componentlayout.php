@@ -65,7 +65,7 @@ class JFormFieldComponentlayout extends JFormField
 		if ($this->form instanceof JForm)
 		{
 			$template_style_id = $this->form->getValue('template_style_id');
-			$template_style_id = preg_replace('#\W#', '', $template_style_id);
+			$template_style_id = preg_replace('#\W#', '', (string) $template_style_id);
 		}
 
 		$view = (string) $this->element['view'];

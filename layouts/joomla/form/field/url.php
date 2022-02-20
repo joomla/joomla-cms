@@ -69,5 +69,5 @@ echo $inputType; ?> name="<?php
 echo $name; ?>" <?php
 echo !empty($class) ? ' class="' . $class . '"' : ''; ?> id="<?php
 echo $id; ?>" value="<?php
-echo htmlspecialchars(JStringPunycode::urlToUTF8($value), ENT_COMPAT, 'UTF-8'); ?>" <?php
+echo htmlspecialchars((string) JStringPunycode::urlToUTF8($value), ENT_COMPAT, 'UTF-8'); ?>" <?php
 echo implode(' ', $attributes); ?> />

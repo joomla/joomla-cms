@@ -95,7 +95,7 @@ class Text
 	private static function passSprintf(&$string, $jsSafe = false, $interpretBackSlashes = true, $script = false)
 	{
 		// Check if string contains a comma
-		if (strpos($string, ',') === false)
+		if (strpos((string) $string, ',') === false)
 		{
 			return false;
 		}

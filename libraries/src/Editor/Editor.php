@@ -365,7 +365,7 @@ class Editor extends \JObject
 
 		foreach ($results as $result)
 		{
-			if (trim($result))
+			if (trim((string) $result))
 			{
 				$return .= $result;
 			}

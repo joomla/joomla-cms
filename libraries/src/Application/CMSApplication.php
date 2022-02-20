@@ -167,7 +167,7 @@ class CMSApplication extends WebApplication
 	public function enqueueMessage($msg, $type = 'message')
 	{
 		// Don't add empty messages.
-		if (trim($msg) === '')
+		if (trim((string) $msg) === '')
 		{
 			return;
 		}
@@ -177,7 +177,7 @@ class CMSApplication extends WebApplication
 		// Build the message array and apply the HTML InputFilter with the default blacklist to the message
 		$message = array(
 			'message' => $inputFilter->clean($msg, 'html'),
-			'type'    => $inputFilter->clean(strtolower($type), 'cmd')
+			'type'    => $inputFilter->clean(strtolower((string) $type), 'cmd')
 		);
 
 		// For empty queue, if messages exists in the session, enqueue them first.

@@ -140,7 +140,7 @@ class Uri extends \Joomla\Uri\Uri
 			$uri = static::getInstance();
 			$live_site = ($uri->isSsl()) ? str_replace('http://', 'https://', $config->get('live_site')) : $config->get('live_site');
 
-			if (trim($live_site) != '')
+			if (trim((string) $live_site) != '')
 			{
 				$uri = static::getInstance($live_site);
 				static::$base['prefix'] = $uri->toString(array('scheme', 'host', 'port'));

@@ -1169,7 +1169,7 @@ class Language
 	 */
 	public function hasKey($string)
 	{
-		$key = strtoupper($string);
+		$key = strtoupper((string) $string);
 
 		return isset($this->strings[$key]);
 	}

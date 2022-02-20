@@ -9,6 +9,8 @@
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Date\Date;
+
 /**
  * Form Field class for the Joomla Platform.
  *
@@ -249,7 +251,8 @@ class JFormFieldCalendar extends JFormField
 		{
 			$tz = date_default_timezone_get();
 			date_default_timezone_set('UTC');
-			$this->value = strftime($this->format, strtotime($this->value));
+			
+			$this->value = new Date('now', new DateTimeZone('UTC'));
 			date_default_timezone_set($tz);
 		}
 		else

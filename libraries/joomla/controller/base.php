@@ -135,4 +135,18 @@ abstract class JControllerBase implements JController
 	{
 		return $this->app->input;
 	}
+
+	/**
+	 * Magic method used for serializing.
+	 */
+	public function __serialize()
+	{
+	}
+
+	/**
+	 * Magic method used for unserializing.
+	 */
+	public function __unserialize($serialized)
+	{
+	}
 }

@@ -28,7 +28,7 @@ class JAdministratorHelper
 	public static function findOption()
 	{
 		$app = JFactory::getApplication();
-		$option = strtolower($app->input->get('option'));
+		$option = strtolower($app->input->get('option', ''));
 
 		$app->loadIdentity();
 		$user = $app->getIdentity();

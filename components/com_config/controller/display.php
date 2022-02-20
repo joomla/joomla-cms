@@ -76,7 +76,7 @@ class ConfigControllerDisplay extends JControllerBase
 		if (class_exists($viewClass))
 		{
 			$model     = new $modelClass;
-			$component = $model->getState()->get('component.option');
+			$component = $model->getState()->get('component.option', '');
 
 			// Make sure com_joomlaupdate and com_privacy can only be accessed by SuperUser
 			if (in_array(strtolower($component), array('com_joomlaupdate', 'com_privacy'))

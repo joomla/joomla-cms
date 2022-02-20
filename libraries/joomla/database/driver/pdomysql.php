@@ -469,7 +469,7 @@ class JDatabaseDriverPdomysql extends JDatabaseDriverPdo
 
 		$this->connect();
 
-		$result = substr($this->connection->quote($text), 1, -1);
+		$result = substr($this->connection->quote((string) $text), 1, -1);
 
 		if ($extra)
 		{
