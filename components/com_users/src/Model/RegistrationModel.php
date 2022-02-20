@@ -602,12 +602,12 @@ class RegistrationModel extends FormModel
 			foreach ($rows as $row)
 			{
 				$usercreator = Factory::getUser($row->id);
-				
+
 				if (!$usercreator->authorise('core.create', 'com_users') || !$usercreator->authorise('core.manage', 'com_users'))
 				{
 					continue;
 				}
-				
+
 				try
 				{
 					$mailer = new MailTemplate('com_users.registration.admin.new_notification', $app->getLanguage()->getTag());
