@@ -20,9 +20,9 @@ use Joomla\CMS\Form\FormFactoryInterface;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
-use Joomla\CMS\Mail\MailTemplate;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\FormModel;
+use Joomla\CMS\Mail\MailTemplate;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\String\PunycodeHelper;
@@ -601,7 +601,7 @@ class RegistrationModel extends FormModel
 			// Send mail to all superadministrators id
 			foreach ($rows as $row)
 			{
-				$usercreator = JFactory::getUser($row->id);
+				$usercreator = Factory::getUser($row->id);
 				
 				if (!$usercreator->authorise('core.create', 'com_users') || !$usercreator->authorise('core.manage', 'com_users'))
 				{
