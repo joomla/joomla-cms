@@ -140,7 +140,7 @@ class TagField extends ListField
 		$query = $db->getQuery(true)
 			->select(
 				[
-					'DISTINCT ' . $db->quoteName('a.id', 'value'),
+					$db->quoteName('a.id', 'value'),
 					$db->quoteName('a.path'),
 					$db->quoteName('a.title', 'text'),
 					$db->quoteName('a.level'),
