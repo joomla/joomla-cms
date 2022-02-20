@@ -246,7 +246,7 @@ class InstallerModelUpdate extends JModelList
 	 * Finds updates for an extension.
 	 *
 	 * @param   int  $eid               Extension identifier to look for
-	 * @param   int  $cacheTimeout      Cache timout
+	 * @param   int  $cacheTimeout      Cache timeout
 	 * @param   int  $minimumStability  Minimum stability for updates {@see JUpdater} (0=dev, 1=alpha, 2=beta, 3=rc, 4=stable)
 	 *
 	 * @return  boolean Result

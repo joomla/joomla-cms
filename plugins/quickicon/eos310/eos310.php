@@ -205,7 +205,7 @@ class PlgQuickiconEos310 extends CMSPlugin
 				'messageType'   => 'error',
 				'image'         => 'minus-circle',
 				'messageLink'   => 'https://docs.joomla.org/Special:MyLanguage/Planning_for_Mini-Migration_-_Joomla_3.10.x_to_4.x',
-				'groupText'     => Text::_('PLG_QUICKICON_EOS310_GROUPNAME_EOS'),
+				'groupText'     => 'PLG_QUICKICON_EOS310_GROUPNAME_EOS',
 				'snoozable'     => false,
 			);
 		}
@@ -220,7 +220,7 @@ class PlgQuickiconEos310 extends CMSPlugin
 				'messageType'   => 'warning',
 				'image'         => 'warning-circle',
 				'messageLink'   => 'https://docs.joomla.org/Special:MyLanguage/Planning_for_Mini-Migration_-_Joomla_3.10.x_to_4.x',
-				'groupText'     => Text::_('PLG_QUICKICON_EOS310_GROUPNAME_WARNING'),
+				'groupText'     => 'PLG_QUICKICON_EOS310_GROUPNAME_WARNING',
 				'snoozable'     => true,
 			);
 		}
@@ -235,7 +235,7 @@ class PlgQuickiconEos310 extends CMSPlugin
 				'messageType'   => 'warning',
 				'image'         => 'warning-circle',
 				'messageLink'   => 'https://docs.joomla.org/Special:MyLanguage/Planning_for_Mini-Migration_-_Joomla_3.10.x_to_4.x',
-				'groupText'     => Text::_('PLG_QUICKICON_EOS310_GROUPNAME_WARNING'),
+				'groupText'     => 'PLG_QUICKICON_EOS310_GROUPNAME_WARNING',
 				'snoozable'     => true,
 			);
 		}
@@ -250,7 +250,7 @@ class PlgQuickiconEos310 extends CMSPlugin
 				'messageType'   => 'info',
 				'image'         => 'info-circle',
 				'messageLink'   => 'https://docs.joomla.org/Special:MyLanguage/Pre-Update_Check',
-				'groupText'     => Text::_('PLG_QUICKICON_EOS310_GROUPNAME_INFO'),
+				'groupText'     => 'PLG_QUICKICON_EOS310_GROUPNAME_INFO',
 				'snoozable'     => true,
 			);
 		}
@@ -265,7 +265,7 @@ class PlgQuickiconEos310 extends CMSPlugin
 				'messageType'   => 'info',
 				'image'         => 'info-circle',
 				'messageLink'   => 'https://www.joomla.org/4/#features',
-				'groupText'     => Text::_('PLG_QUICKICON_EOS310_GROUPNAME_INFO'),
+				'groupText'     => 'PLG_QUICKICON_EOS310_GROUPNAME_INFO',
 				'snoozable'     => true,
 			);
 		}

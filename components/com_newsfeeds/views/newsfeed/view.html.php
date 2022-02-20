@@ -170,7 +170,7 @@ class NewsfeedsViewNewsfeed extends JViewLegacy
 		}
 
 		// Escape strings for HTML output
-		$this->pageclass_sfx = htmlspecialchars($params->get('pageclass_sfx'));
+		$this->pageclass_sfx = htmlspecialchars($params->get('pageclass_sfx', ''));
 
 		$this->params = $params;
 		$this->newsfeed = $newsfeed;

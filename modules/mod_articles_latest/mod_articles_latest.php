@@ -13,6 +13,6 @@ defined('_JEXEC') or die;
 JLoader::register('ModArticlesLatestHelper', __DIR__ . '/helper.php');
 
 $list            = ModArticlesLatestHelper::getList($params);
-$moduleclass_sfx = htmlspecialchars($params->get('moduleclass_sfx'), ENT_COMPAT, 'UTF-8');
+$moduleclass_sfx = htmlspecialchars($params->get('moduleclass_sfx', ''), ENT_COMPAT, 'UTF-8');
 
 require JModuleHelper::getLayoutPath('mod_articles_latest', $params->get('layout', 'default'));

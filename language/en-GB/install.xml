@@ -2,8 +2,8 @@
 <extension version="3.9" client="site" type="language" method="upgrade">
 	<name>English (en-GB)</name>
 	<tag>en-GB</tag>
-	<version>3.10.1</version>
-	<creationDate>August 2021</creationDate>
+	<version>3.10.7</version>
+	<creationDate>February 2022</creationDate>
 	<author>Joomla! Project</author>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>

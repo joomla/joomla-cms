@@ -11,6 +11,8 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Extension\ExtensionHelper;
 use Joomla\CMS\Filter\InputFilter;
+use Joomla\CMS\Http\HttpFactory;
+use Joomla\Registry\Registry;
 
 jimport('joomla.filesystem.folder');
 jimport('joomla.filesystem.file');
@@ -73,7 +75,7 @@ class JoomlaupdateModelDefault extends JModelLegacy
 			 * The commented "case" below are for documenting where 'default' and legacy options falls
 			 * case 'default':
 			 * case 'lts':
-			 * case 'sts': (Its shown as "Default" cause that option does not exist any more)
+			 * case 'sts': (It's shown as "Default" because that option does not exist any more)
 			 * case 'nochange':
 			 */
 			default:
@@ -298,13 +300,39 @@ class JoomlaupdateModelDefault extends JModelLegacy
 		$updateInfo = $this->getUpdateInformation();
 		$packageURL = trim($updateInfo['object']->downloadurl->_data);
 		$sources    = $updateInfo['object']->get('downloadSources', array());
-		$headers    = get_headers($packageURL, 1);
+
+		// We have to manually follow the redirects here so we set the option to false.
+		$httpOptions = new Registry;
+		$httpOptions->set('follow_location', false);
+
+		try
+		{
+			$head = HttpFactory::getHttp($httpOptions)->head($packageURL);
+		}
+		catch (RuntimeException $e)
+		{
+			// Passing false here -> download failed message
+			$response['basename'] = false;
+
+			return $response;
+		}
 
 		// Follow the Location headers until the actual download URL is known
-		while (isset($headers['Location']))
+		while (isset($head->headers['location']))
 		{
-			$packageURL = $headers['Location'];
-			$headers    = get_headers($packageURL, 1);
+			$packageURL = $head->headers['location'];
+
+			try
+			{
+				$head = HttpFactory::getHttp($httpOptions)->head($packageURL);
+			}
+			catch (RuntimeException $e)
+			{
+				// Passing false here -> download failed message
+				$response['basename'] = false;
+
+				return $response;
+			}
 		}
 
 		// Remove protocol, path and query string from URL
@@ -1594,34 +1622,18 @@ ENDDATA;
 
 				foreach ($updateFileUrls as $updateFileUrl)
 				{
-					$compatibleVersion = $this->checkCompatibility($updateFileUrl, $joomlaTargetVersion);
+					$compatibleVersions = $this->checkCompatibility($updateFileUrl, $joomlaTargetVersion);
 
-					if ($compatibleVersion)
-					{
-						// Return the compatible version
-						return (object) array('state' => 1, 'compatibleVersion' => $compatibleVersion->_data);
-					}
-					else
-					{
-						// Return the compatible version as false so we can say update server is supported but no compatible version found
-						return (object) array('state' => 1, 'compatibleVersion' => false);
-					}
+					// Return the compatible versions
+					return (object) array('state' => 1, 'compatibleVersions' => $compatibleVersions);
 				}
 			}
 			else
 			{
-				$compatibleVersion = $this->checkCompatibility($updateSite['location'], $joomlaTargetVersion);
+				$compatibleVersions = $this->checkCompatibility($updateSite['location'], $joomlaTargetVersion);
 
-				if ($compatibleVersion)
-				{
-					// Return the compatible version
-					return (object) array('state' => 1, 'compatibleVersion' => $compatibleVersion->_data);
-				}
-				else
-				{
-					// Return the compatible version as false so we can say update server is supported but no compatible version found
-					return (object) array('state' => 1, 'compatibleVersion' => false);
-				}
+				// Return the compatible versions
+				return (object) array('state' => 1, 'compatibleVersions' => $compatibleVersions);
 			}
 		}
 
@@ -1735,7 +1747,7 @@ ENDDATA;
 	 * @param   string  $updateFileUrl        The items update XML url.
 	 * @param   string  $joomlaTargetVersion  The Joomla! version to test against
 	 *
-	 * @return  mixed  An array of data items or false.
+	 * @return  array  An array of strings with compatible version numbers
 	 *
 	 * @since   3.10.0
 	 */
@@ -1748,9 +1760,20 @@ ENDDATA;
 		$update->set('jversion.full', $joomlaTargetVersion);
 		$update->loadFromXML($updateFileUrl, $minimumStability);
 
-		$downloadUrl = $update->get('downloadurl');
+		$compatibleVersions = $update->get('compatibleVersions');
 
-		return !empty($downloadUrl) && !empty($downloadUrl->_data) ? $update->get('version') : false;
+		// Check if old version of the updater library
+		if (!isset($compatibleVersions))
+		{
+			$downloadUrl = $update->get('downloadurl');
+			$updateVersion = $update->get('version');
+
+			return empty($downloadUrl) || empty($downloadUrl->_data) || empty($updateVersion) ? array() : array($updateVersion->_data);
+		}
+
+		usort($compatibleVersions, 'version_compare');
+
+		return $compatibleVersions;
 	}
 
 	/**
@@ -1803,5 +1826,64 @@ ENDDATA;
 
 		// Translate the extension name if possible
 		$item->name = strip_tags(JText::_($item->name));
+	}
+
+	/**
+	 * Checks whether a given template is active
+	 *
+	 * @param   string  $template  The template name to be checked
+	 *
+	 * @return  boolean
+	 *
+	 * @since   3.10.4
+	 */
+	public function isTemplateActive($template)
+	{
+		$db = $this->getDbo();
+		$query = $db->getQuery(true);
+
+		$query->select(
+			$db->qn(
+				array(
+					'id',
+					'home'
+				)
+			)
+		)->from(
+			$db->qn('#__template_styles')
+		)->where(
+			$db->qn('template') . ' = ' . $db->q($template)
+		);
+
+		$templates = $db->setQuery($query)->loadObjectList();
+
+		$home = array_filter(
+			$templates,
+			function($value)
+			{
+				return $value->home > 0;
+			}
+		);
+
+		$ids = JArrayHelper::getColumn($templates, 'id');
+
+		$menu = false;
+
+		if (count($ids))
+		{
+			$query = $db->getQuery(true);
+
+			$query->select(
+				'COUNT(*)'
+			)->from(
+				$db->qn('#__menu')
+			)->where(
+				$db->qn('template_style_id') . ' IN(' . implode(',', $ids) . ')'
+			);
+
+			$menu = $db->setQuery($query)->loadResult() > 0;
+		}
+
+		return $home || $menu;
 	}
 }
