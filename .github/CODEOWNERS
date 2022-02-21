@@ -37,13 +37,11 @@ tests/javascript/*  @rdeutz
 tests/Unit/*  @rdeutz
 .appveyor.yml  @rdeutz @hackwar
 .drone.yml  @rdeutz @hackwar
-.hound.yml  @wilsonge @hackwar
 codeception.yml  @rdeutz @hackwar
 phpunit.xml.dist  @rdeutz @hackwar
 phpunit-pgsql.xml.dist  @rdeutz @hackwar
-RoboFile.php  @rdeutz @hackwar
 
-# CSP Tooling
+# HttpHeaders Plugin
 plugins/system/httpheaders/*  @zero-24
 
 # Web Authentication (WebAuthn)
@@ -77,3 +75,6 @@ plugins/*/tmpl/* @chmst
 templates/cassiopeia/* @chmst
 layouts/* @chmst
 installation/tmpl/* @chmst
+
+# Translation GitHub Actions
+.github/workflows/create-translation-pull-request-v4.yml @hleithner
