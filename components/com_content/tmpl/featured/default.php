@@ -42,7 +42,6 @@ defined('_JEXEC') or die;
 			<?php $blogClass .= (int) $this->params->get('num_columns'); ?>
 		<?php endif; ?>
 		<div class="<?php echo trim('blog-items ' . $blogClass); ?>">
-
 		<?php foreach ($this->intro_items as $key => &$item) : ?>
 			<div class="blog-item"
 				itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
