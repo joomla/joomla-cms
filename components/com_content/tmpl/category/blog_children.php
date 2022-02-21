@@ -37,6 +37,7 @@ if ($this->maxLevel != 0 && count($this->children[$this->category->id]) > 0) : ?
 					<?php echo $this->escape($child->title); ?></a>
 
 					<?php if ($this->maxLevel > 1 && count($child->getChildren()) > 0) : ?>
+						<?php HTMLHelper::_('bootstrap.collapse'); ?>
 						<a href="#category-<?php echo $child->id; ?>" data-bs-toggle="collapse" class="btn btn-sm float-end" aria-label="<?php echo Text::_('JGLOBAL_EXPAND_CATEGORIES'); ?>"><span class="icon-plus" aria-hidden="true"></span></a>
 					<?php endif; ?>
 				</h3>
@@ -51,6 +52,7 @@ if ($this->maxLevel != 0 && count($this->children[$this->category->id]) > 0) : ?
 					<?php endif; ?>
 
 					<?php if ($this->maxLevel > 1 && count($child->getChildren()) > 0) : ?>
+						<?php HTMLHelper::_('bootstrap.collapse'); ?>
 						<a href="#category-<?php echo $child->id; ?>" data-bs-toggle="collapse" class="btn btn-sm float-end" aria-label="<?php echo Text::_('JGLOBAL_EXPAND_CATEGORIES'); ?>"><span class="icon-plus" aria-hidden="true"></span></a>
 					<?php endif; ?>
 				</h3>

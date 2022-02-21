@@ -29,6 +29,7 @@ if ($this->maxLevelcat != 0 && count($this->items[$this->parent->id]) > 0) :
 						</span>
 					<?php endif; ?>
 					<?php if ($this->maxLevelcat > 1 && count($item->getChildren()) > 0) : ?>
+						<?php HTMLHelper::_('bootstrap.collapse'); ?>
 						<button
 							type="button"
 							id="category-btn-<?php echo $item->id; ?>"
