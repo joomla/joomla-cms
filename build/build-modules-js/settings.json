@@ -426,7 +426,7 @@
         ],
         "licenseFilename": "LICENSE.txt"
       },
-      "joomla-a11y-checker": {
+      "@joomla/joomla-a11y-checker": {
         "name": "joomla-a11y-checker",
         "licenseFilename": "LICENSE.md"
       },
