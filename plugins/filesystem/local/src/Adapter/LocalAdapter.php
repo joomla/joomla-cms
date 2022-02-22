@@ -215,7 +215,7 @@ class LocalAdapter implements AdapterInterface
 	 *
 	 * @param   string  $name  The name
 	 * @param   string  $path  The folder
-	 * @param   binary  $data  The data
+	 * @param   string  $data  The data
 	 *
 	 * @return  string
 	 *
@@ -240,7 +240,7 @@ class LocalAdapter implements AdapterInterface
 	 *
 	 * @param   string  $name  The name
 	 * @param   string  $path  The folder
-	 * @param   binary  $data  The data
+	 * @param   string  $data  The data
 	 *
 	 * @return  void
 	 *
@@ -358,7 +358,7 @@ class LocalAdapter implements AdapterInterface
 				$obj->width  = $props->width;
 				$obj->height = $props->height;
 
-				// Todo : Change this path to an actual thumbnail path
+				// @todo : Change this path to an actual thumbnail path
 				$obj->thumb_path = $this->getUrl($obj->path);
 			}
 			catch (UnparsableImageException $e)

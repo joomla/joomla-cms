@@ -18,7 +18,7 @@ use Joomla\CMS\MVC\Model\ListModelInterface;
 use Joomla\CMS\Pagination\Pagination;
 use Joomla\Component\Media\Administrator\Exception\FileNotFoundException;
 use Joomla\Component\Media\Administrator\Model\ApiModel;
-use Joomla\Component\Media\Api\Helper\AdapterTrait;
+use Joomla\Component\Media\Administrator\Provider\ProviderManagerHelperTrait;
 
 /**
  * Media web service model supporting lists of media items.
@@ -27,7 +27,7 @@ use Joomla\Component\Media\Api\Helper\AdapterTrait;
  */
 class MediaModel extends BaseModel implements ListModelInterface
 {
-	use AdapterTrait;
+	use ProviderManagerHelperTrait;
 
 	/**
 	 * Instance of com_media's ApiModel

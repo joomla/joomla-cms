@@ -220,12 +220,12 @@ class SysinfoModel extends BaseDatabaseModel
 				$sectionValues = 'xxxxxx';
 			}
 
-			return strlen($sectionValues) ? 'xxxxxx' : '';
+			return \strlen($sectionValues) ? 'xxxxxx' : '';
 		}
 
 		foreach ($sectionValues as $setting => $value)
 		{
-			$sectionValues[$setting] = strlen($value) ? 'xxxxxx' : '';
+			$sectionValues[$setting] = \strlen($value) ? 'xxxxxx' : '';
 		}
 
 		return $sectionValues;
@@ -257,13 +257,13 @@ class SysinfoModel extends BaseDatabaseModel
 			'session.save_path'   => ini_get('session.save_path'),
 			'session.auto_start'  => ini_get('session.auto_start'),
 			'disable_functions'   => ini_get('disable_functions'),
-			'xml'                 => extension_loaded('xml'),
-			'zlib'                => extension_loaded('zlib'),
-			'zip'                 => function_exists('zip_open') && function_exists('zip_read'),
-			'mbstring'            => extension_loaded('mbstring'),
-			'gd'                  => extension_loaded('gd'),
-			'iconv'               => function_exists('iconv'),
-			'intl'                => function_exists('transliterator_transliterate'),
+			'xml'                 => \extension_loaded('xml'),
+			'zlib'                => \extension_loaded('zlib'),
+			'zip'                 => \function_exists('zip_open') && \function_exists('zip_read'),
+			'mbstring'            => \extension_loaded('mbstring'),
+			'gd'                  => \extension_loaded('gd'),
+			'iconv'               => \function_exists('iconv'),
+			'intl'                => \function_exists('transliterator_transliterate'),
 			'max_input_vars'      => ini_get('max_input_vars'),
 		];
 
@@ -393,7 +393,7 @@ class SysinfoModel extends BaseDatabaseModel
 			return $this->php_info;
 		}
 
-		if (!is_null($this->php_info))
+		if (!\is_null($this->php_info))
 		{
 			return $this->php_info;
 		}
@@ -482,7 +482,7 @@ class SysinfoModel extends BaseDatabaseModel
 
 		foreach ($extensions as $extension)
 		{
-			if (strlen($extension->name) == 0)
+			if (\strlen($extension->name) == 0)
 			{
 				continue;
 			}
@@ -732,22 +732,22 @@ class SysinfoModel extends BaseDatabaseModel
 
 		for ($i = 1; $i < $count; $i++)
 		{
-			if (preg_match('/<h2[^>]*>([^<]+)<\/h2>/', $t[$i], $matchs))
+			if (preg_match('/<h2[^>]*>([^<]+)<\/h2>/', $t[$i], $matches))
 			{
-				$name = trim($matchs[1]);
+				$name = trim($matches[1]);
 				$vals = explode("\n", $t[$i + 1]);
 
 				foreach ($vals AS $val)
 				{
 					// 3cols
-					if (preg_match($p2, $val, $matchs))
+					if (preg_match($p2, $val, $matches))
 					{
-						$r[$name][trim($matchs[1])] = [trim($matchs[2]), trim($matchs[3]),];
+						$r[$name][trim($matches[1])] = [trim($matches[2]), trim($matches[3]),];
 					}
 					// 2cols
-					elseif (preg_match($p3, $val, $matchs))
+					elseif (preg_match($p3, $val, $matches))
 					{
-						$r[$name][trim($matchs[1])] = trim($matchs[2]);
+						$r[$name][trim($matches[1])] = trim($matches[2]);
 					}
 				}
 			}

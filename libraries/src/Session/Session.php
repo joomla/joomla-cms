@@ -351,6 +351,6 @@ class Session extends BaseSession
 			}
 		}
 
-		return parent::clear();
+		parent::clear();
 	}
 }

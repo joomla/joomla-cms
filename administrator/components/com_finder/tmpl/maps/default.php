@@ -17,8 +17,6 @@ use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\Component\Finder\Administrator\Helper\LanguageHelper;
 
-HTMLHelper::_('behavior.multiselect');
-
 $listOrder     = $this->escape($this->state->get('list.ordering'));
 $listDirn      = $this->escape($this->state->get('list.direction'));
 $lang          = Factory::getLanguage();
@@ -28,7 +26,9 @@ Text::script('COM_FINDER_MAPS_CONFIRM_DELETE_PROMPT');
 
 /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
 $wa = $this->document->getWebAssetManager();
-$wa->useScript('com_finder.maps');
+$wa->useScript('com_finder.maps')
+	->useScript('table.columns')
+	->useScript('multiselect');
 
 ?>
 <form action="<?php echo Route::_('index.php?option=com_finder&view=maps'); ?>" method="post" name="adminForm" id="adminForm">
@@ -112,8 +112,13 @@ $wa->useScript('com_finder.maps');
 							<?php if (!$branchFilter) : ?>
 							<td class="text-center btns itemnumber">
 							<?php if ($item->rgt - $item->lft > 1) : ?>
-								<a href="<?php echo Route::_('index.php?option=com_finder&view=maps&filter[branch]=' . $item->id); ?>">
-									<span class="btn btn-info"><?php echo floor(($item->rgt - $item->lft) / 2); ?></span></a>
+								<a href="<?php echo Route::_('index.php?option=com_finder&view=maps&filter[branch]=' . $item->id); ?>"
+									aria-describedby="tip-map<?php echo $i; ?>">
+									<span class="btn btn-info"><?php echo floor(($item->rgt - $item->lft) / 2); ?></span>
+								</a>
+								<div role="tooltip" id="tip-map<?php echo $i; ?>">
+									<?php echo Text::_('COM_FINDER_HEADING_CHILDREN'); ?>
+								</div>
 							<?php else : ?>
 								-
 							<?php endif; ?>

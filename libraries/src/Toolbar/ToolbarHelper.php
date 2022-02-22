@@ -134,6 +134,27 @@ abstract class ToolbarHelper
 	}
 
 	/**
+	 * Writes a jooa11y accessibility checker button for a given option (opens a popup window).
+	 *
+	 * @param   string   $url            The url to open
+	 * @param   bool     $updateEditors  Unused
+	 * @param   string   $icon           The image to display.
+	 * @param   integer  $bodyHeight     The body height of the preview popup
+	 * @param   integer  $modalWidth     The modal width of the preview popup
+	 *
+	 * @return  void
+	 *
+	 * @since   4.1.0
+	 */
+	public static function jooa11y($url = '', $updateEditors = false, $icon = 'icon-universal-access', $bodyHeight = null, $modalWidth = null)
+	{
+		$bar = Toolbar::getInstance('toolbar');
+
+		// Add a button.
+		$bar->appendButton('Popup', $icon, 'Preview', $url . '&task=preview', 640, 480, $bodyHeight, $modalWidth);
+	}
+
+	/**
 	 * Writes a help button for a given option (opens a popup window).
 	 *
 	 * @param   string  $ref        The name of the popup file (excluding the file extension for an xml file).

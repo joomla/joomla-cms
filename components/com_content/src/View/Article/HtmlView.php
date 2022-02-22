@@ -44,6 +44,7 @@ class HtmlView extends BaseHtmlView
 	 * The page parameters
 	 *
 	 * @var    \Joomla\Registry\Registry|null
+	 *
 	 * @since  4.0.0
 	 */
 	protected $params = null;
@@ -51,21 +52,21 @@ class HtmlView extends BaseHtmlView
 	/**
 	 * Should the print button be displayed or not?
 	 *
-	 * @var  boolean
+	 * @var   boolean
 	 */
 	protected $print = false;
 
 	/**
 	 * The model state
 	 *
-	 * @var  \JObject
+	 * @var   \Joomla\CMS\Object\CMSObject
 	 */
 	protected $state;
 
 	/**
 	 * The user object
 	 *
-	 * @var  \JUser|null
+	 * @var   \Joomla\CMS\User\User|null
 	 */
 	protected $user = null;
 
@@ -73,6 +74,7 @@ class HtmlView extends BaseHtmlView
 	 * The page class suffix
 	 *
 	 * @var    string
+	 *
 	 * @since  4.0.0
 	 */
 	protected $pageclass_sfx = '';
@@ -100,8 +102,8 @@ class HtmlView extends BaseHtmlView
 			return;
 		}
 
-		$app        = Factory::getApplication();
-		$user       = Factory::getUser();
+		$app  = Factory::getApplication();
+		$user = Factory::getUser();
 
 		$this->item  = $this->get('Item');
 		$this->print = $app->input->getBool('print', false);
@@ -127,7 +129,7 @@ class HtmlView extends BaseHtmlView
 			$item->parent_id = null;
 		}
 
-		// TODO: Change based on shownoauth
+		// @todo Change based on shownoauth
 		$item->readmore_link = Route::_(RouteHelper::getArticleRoute($item->slug, $item->catid, $item->language));
 
 		// Merge article params. If this is single-article view, menu params override article params

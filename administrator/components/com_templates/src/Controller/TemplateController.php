@@ -35,7 +35,7 @@ class TemplateController extends BaseController
 	 *
 	 * @param   array                $config   An optional associative array of configuration settings.
 	 * @param   MVCFactoryInterface  $factory  The factory.
-	 * @param   CMSApplication       $app      The JApplication for the dispatcher
+	 * @param   CMSApplication       $app      The Application for the dispatcher
 	 * @param   Input                $input    Input
 	 *
 	 * @since  1.6
@@ -384,7 +384,7 @@ class TemplateController extends BaseController
 				// Redirect to the list screen.
 				$file = base64_encode('home');
 				$id = (int) $this->input->get('id', 0, 'int');
-				$url  = 'index.php?option=com_templates&view=template&id=' . $id . '&file=' . $file . '&isMedia' . $this->input->getInt('isMedia', 0);
+				$url  = 'index.php?option=com_templates&view=template&id=' . $id . '&file=' . $file . '&isMedia=' . $this->input->getInt('isMedia', 0);
 				$this->setRedirect(Route::_($url, false));
 				break;
 		}
