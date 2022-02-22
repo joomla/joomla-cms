@@ -202,7 +202,7 @@ abstract class MailHelper
 	 *
 	 * @return  string  The converted content which the relative urls are converted to absolute urls
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.1.0
 	 */
 	public static function convertRelativeToAbsoluteUrls($content)
 	{
@@ -252,7 +252,7 @@ abstract class MailHelper
 	 * @return  void
 	 *
 	 * @throws  \RuntimeException  If there is an error in previous regular expression function call.
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.1.0
 	 */
 	private static function checkContent($content)
 	{
