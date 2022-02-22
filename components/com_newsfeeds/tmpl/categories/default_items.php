@@ -30,7 +30,6 @@ use Joomla\Component\Newsfeeds\Site\Helper\RouteHelper;
 						</span>
 					<?php endif; ?>
 					<?php if (count($item->getChildren()) > 0 && $this->maxLevelcat > 1) : ?>
-						<?php HTMLHelper::_('bootstrap.collapse'); ?>
 						<button
 							type="button"
 							id="category-btn-<?php echo $item->id; ?>"
