@@ -97,8 +97,6 @@ export default {
       mutationsList.forEach((mutation) => {
         if (mutation.type === 'attributes') {
           document.removeEventListener('keydown', this.onKeyPress);
-          this.focusableElements = 'button:not([disabled]), [href], input:not([disabled]), select, textarea, [tabindex]:not([tabindex="-1"])';
-          this.modal = document.querySelector('.modal-dialog');
           this.focusableContent = this.modal.querySelectorAll(this.focusableElements);
           this.firstFocusableElement = this.focusableContent[0];
           this.lastFocusableElement = this.focusableContent[this.focusableContent.length - 1];
