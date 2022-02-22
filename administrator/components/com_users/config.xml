@@ -125,6 +125,16 @@
 			<option value="3">COM_USERS_CONFIG_FIELD_ENFORCE_2FA_FIELD_BOTH</option>
 		</field>
 
+		<field
+			name="enforce_2fa_usergroups"
+			type="usergrouplist"
+			label="COM_USERS_CONFIG_FIELD_ENFORCE_2FA_GROUPS_LABEL"
+			multiple="true"
+			filter="int_array"
+			size="10"
+			showon="enforce_2fa_options!:0"
+		/>
+
 	</fieldset>
 
 	<fieldset

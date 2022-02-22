@@ -199,7 +199,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 	public function enqueueMessage($msg, $type = self::MSG_INFO)
 	{
 		// Don't add empty messages.
-		if (trim($msg) === '')
+		if ($msg === null || trim($msg) === '')
 		{
 			return;
 		}
@@ -311,11 +311,14 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 			ExceptionHandler::handleException($event->getError());
 		}
 
+		// Trigger the onBeforeRespond event.
+		$this->getDispatcher()->dispatch('onBeforeRespond');
+
 		// Send the application response.
 		$this->respond();
 
 		// Trigger the onAfterRespond event.
-		$this->triggerEvent('onAfterRespond');
+		$this->getDispatcher()->dispatch('onAfterRespond');
 
 		// Mark afterRespond in the profiler.
 		JDEBUG ? $this->profiler->mark('afterRespond') : null;
@@ -478,7 +481,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 			}
 			elseif (class_exists($classname))
 			{
-				// TODO - This creates an implicit hard requirement on the JApplicationCms constructor
+				// @todo This creates an implicit hard requirement on the ApplicationCms constructor
 				static::$instances[$name] = new $classname(null, null, null, $container);
 			}
 			else
@@ -933,7 +936,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 	 */
 	public function logout($userid = null, $options = array())
 	{
-		// Get a user object from the \JApplication.
+		// Get a user object from the Application.
 		$user = Factory::getUser($userid);
 
 		// Build the credentials array.
@@ -1098,8 +1101,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 
 					$this->setHeader('Expires', 'Wed, 17 Aug 2005 00:00:00 GMT', true);
 					$this->setHeader('Last-Modified', gmdate('D, d M Y H:i:s') . ' GMT', true);
-					$this->setHeader('Cache-Control', 'no-store, no-cache, must-revalidate, post-check=0, pre-check=0', false);
-					$this->setHeader('Pragma', 'no-cache');
+					$this->setHeader('Cache-Control', 'no-store, no-cache, must-revalidate', false);
 					$this->sendHeaders();
 
 					$this->redirect((string) $oldUri, 301);
@@ -1141,8 +1143,6 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 		{
 			return $registry->set($key, $value);
 		}
-
-		return;
 	}
 
 	/**
@@ -1165,9 +1165,6 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 		if ($this->allowCache() === false)
 		{
 			$this->setHeader('Cache-Control', 'no-cache', false);
-
-			// HTTP 1.0
-			$this->setHeader('Pragma', 'no-cache');
 		}
 
 		$this->sendHeaders();
@@ -1238,9 +1235,9 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 	 */
 	protected function isTwoFactorAuthenticationRequired(): bool
 	{
-		$userId = $this->getIdentity()->id;
+		$user = $this->getIdentity();
 
-		if (!$userId)
+		if (!$user->id)
 		{
 			return false;
 		}
@@ -1251,7 +1248,22 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 			return false;
 		}
 
-		$enforce2faOptions = ComponentHelper::getComponent('com_users')->getParams()->get('enforce_2fa_options', 0);
+		$comUsersParams = ComponentHelper::getComponent('com_users')->getParams();
+
+		// Check if 2fa is enforced for the logged in user.
+		$forced2faGroups = (array) $comUsersParams->get('enforce_2fa_usergroups', []);
+
+		if (!empty($forced2faGroups))
+		{
+			$userGroups = (array) $user->get('groups', []);
+
+			if (!array_intersect($forced2faGroups, $userGroups))
+			{
+				return false;
+			}
+		}
+
+		$enforce2faOptions = $comUsersParams->get('enforce_2fa_options', 0);
 
 		if ($enforce2faOptions == 0 || !$enforce2faOptions)
 		{

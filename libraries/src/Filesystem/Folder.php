@@ -489,7 +489,7 @@ abstract class Folder
 	 * @param   array    $excludeFilter  Array of filter to exclude
 	 * @param   boolean  $naturalSort    False for asort, true for natsort
 	 *
-	 * @return  array  Files in the given folder.
+	 * @return  array|boolean  Files in the given folder.
 	 *
 	 * @since   1.7.0
 	 */
