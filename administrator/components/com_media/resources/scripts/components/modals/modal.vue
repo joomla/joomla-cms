@@ -94,7 +94,7 @@ export default {
   methods: {
     /* Callback function, to be executed when changes in the DOM are observed */
     callBack(mutationsList) {
-      for (const mutation of mutationsList) {
+      mutationsList.forEach((mutation) => {
         if (mutation.type === 'attributes') {
           document.removeEventListener('keydown', this.onKeyPress);
           this.focusableElements = 'button:not([disabled]), [href], input:not([disabled]), select, textarea, [tabindex]:not([tabindex="-1"])';
@@ -104,7 +104,7 @@ export default {
           this.lastFocusableElement = this.focusableContent[this.focusableContent.length - 1];
           document.addEventListener('keydown', this.onKeyPress);
         }
-      }
+      });
     },
     /* Handle KeyDown events */
     onKeyPress(e) {
