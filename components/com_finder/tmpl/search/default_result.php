@@ -13,6 +13,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
+use Joomla\Component\Finder\Administrator\Helper\LanguageHelper;
 use Joomla\Component\Finder\Administrator\Indexer\Helper;
 use Joomla\Component\Finder\Administrator\Indexer\Taxonomy;
 use Joomla\String\StringHelper;
@@ -130,7 +131,7 @@ endif;
 					<?php endforeach; ?>
 					<?php if (count($taxonomy_text)) : ?>
 						<li class="result__taxonomy-item result__taxonomy--<?php echo $type; ?>">
-							<span><?php echo $type; ?>:</span> <?php echo implode(',', $taxonomy_text); ?>
+							<span><?php echo Text::_(LanguageHelper::branchSingular($type)); ?>:</span> <?php echo implode(',', $taxonomy_text); ?>
 						</li>
 					<?php endif; ?>
 				<?php endif; ?>
