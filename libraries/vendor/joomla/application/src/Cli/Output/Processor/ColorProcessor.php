@@ -147,7 +147,7 @@ class ColorProcessor implements ProcessorInterface
 	 * @param   string      $match  The match.
 	 * @param   ColorStyle  $style  The color style to apply.
 	 *
-	 * @return  mixed
+	 * @return  string
 	 *
 	 * @since   1.0
 	 */

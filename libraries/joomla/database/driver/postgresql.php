@@ -212,12 +212,12 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 		if (is_float($text))
 		{
 			// Force the dot as a decimal point.
-			return str_replace(',', '.', $text);
+			return str_replace(',', '.', (string) $text);
 		}
 
 		$this->connect();
 
-		$result = pg_escape_string($this->connection, $text);
+		$result = pg_escape_string($this->connection, (string) $text);
 
 		if ($extra)
 		{
