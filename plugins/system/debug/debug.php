@@ -115,7 +115,7 @@ class PlgSystemDebug extends CMSPlugin implements SubscriberInterface
 	protected $isAjax = false;
 
 	/**
-	 * Whether displaing a logs is enabled
+	 * Whether displaying a logs is enabled
 	 *
 	 * @var   bool
 	 * @since 4.0.0
@@ -150,7 +150,7 @@ class PlgSystemDebug extends CMSPlugin implements SubscriberInterface
 			return;
 		}
 
-		$this->app->getConfig()->set('gzip', false);
+		$this->app->set('gzip', false);
 		ob_start();
 		ob_implicit_flush(false);
 
@@ -171,7 +171,7 @@ class PlgSystemDebug extends CMSPlugin implements SubscriberInterface
 		$this->isAjax = $this->app->input->get('option') === 'com_ajax'
 			&& $this->app->input->get('plugin') === 'debug' && $this->app->input->get('group') === 'system';
 
-		$this->showLogs = (bool) $this->params->get('logs', false);
+		$this->showLogs = (bool) $this->params->get('logs', true);
 
 		// Log deprecated class aliases
 		if ($this->showLogs && $this->app->get('log_deprecated'))
@@ -207,7 +207,7 @@ class PlgSystemDebug extends CMSPlugin implements SubscriberInterface
 			'onAfterDisconnect'   => 'onAfterDisconnect',
 			'onAfterRespond'      => [
 				'onAfterRespond',
-				\Joomla\Event\Priority::MIN,
+				PHP_INT_MIN,
 			],
 		];
 	}
@@ -250,37 +250,6 @@ class PlgSystemDebug extends CMSPlugin implements SubscriberInterface
 	}
 
 	/**
-	 * AJAX handler
-	 *
-	 * @return  void
-	 *
-	 * @since  4.0.0
-	 */
-	public function onAjaxDebug(Event $event)
-	{
-		// Do not render if debugging or language debug is not enabled.
-		if (!JDEBUG && !$this->debugLang)
-		{
-			return;
-		}
-
-		// User has to be authorised to see the debug information.
-		if (!$this->isAuthorisedDisplayDebug() || !Session::checkToken('request'))
-		{
-			return;
-		}
-
-		switch ($this->app->input->get('action'))
-		{
-			case 'openhandler':
-				$handler = new OpenHandler($this->debugBar);
-
-				$event['result'] = $handler->handle($this->app->input->request->getArray(), false, false);
-				break;
-		}
-	}
-
-	/**
 	 * Show the debug info.
 	 *
 	 * @return  void
@@ -289,6 +258,9 @@ class PlgSystemDebug extends CMSPlugin implements SubscriberInterface
 	 */
 	public function onAfterRespond()
 	{
+		// Mark afterRespond in the profiler.
+		JDEBUG ? Profiler::getInstance('Application')->mark('afterRespond') : null;
+
 		$endTime    = microtime(true) - $this->timeInOnAfterDisconnect;
 		$endMemory  = memory_get_peak_usage(false);
 
@@ -333,6 +305,9 @@ class PlgSystemDebug extends CMSPlugin implements SubscriberInterface
 
 			if ($this->params->get('queries', 1))
 			{
+				// Close session to collect possible session-related queries.
+				$this->app->getSession()->close();
+
 				// Call $db->disconnect() here to trigger the onAfterDisconnect() method here in this class!
 				$this->db->disconnect();
 				$this->debugBar->addCollector(new QueryCollector($this->params, $this->queryMonitor, $this->sqlShowProfileEach, $this->explains));
@@ -392,6 +367,73 @@ class PlgSystemDebug extends CMSPlugin implements SubscriberInterface
 		}
 
 		echo str_replace('</body>', $debugBarRenderer->renderHead() . $debugBarRenderer->render() . '</body>', $contents);
+	}
+
+	/**
+	 * AJAX handler
+	 *
+	 * @return  void
+	 *
+	 * @since  4.0.0
+	 */
+	public function onAjaxDebug(Event $event)
+	{
+		// Do not render if debugging or language debug is not enabled.
+		if (!JDEBUG && !$this->debugLang)
+		{
+			return;
+		}
+
+		// User has to be authorised to see the debug information.
+		if (!$this->isAuthorisedDisplayDebug() || !Session::checkToken('request'))
+		{
+			return;
+		}
+
+		switch ($this->app->input->get('action'))
+		{
+			case 'openhandler':
+				$handler = new OpenHandler($this->debugBar);
+
+				$event['result'] = $handler->handle($this->app->input->request->getArray(), false, false);
+				break;
+		}
+	}
+
+	/**
+	 * Method to check if the current user is allowed to see the debug information or not.
+	 *
+	 * @return  boolean  True if access is allowed.
+	 *
+	 * @since   3.0
+	 */
+	private function isAuthorisedDisplayDebug(): bool
+	{
+		static $result;
+
+		if ($result !== null)
+		{
+			return $result;
+		}
+
+		// If the user is not allowed to view the output then end here.
+		$filterGroups = (array) $this->params->get('filter_groups', []);
+
+		if (!empty($filterGroups))
+		{
+			$userGroups = $this->app->getIdentity()->get('groups');
+
+			if (!array_intersect($filterGroups, $userGroups))
+			{
+				$result = false;
+
+				return false;
+			}
+		}
+
+		$result = true;
+
+		return true;
 	}
 
 	/**
@@ -496,42 +538,6 @@ class PlgSystemDebug extends CMSPlugin implements SubscriberInterface
 	}
 
 	/**
-	 * Method to check if the current user is allowed to see the debug information or not.
-	 *
-	 * @return  boolean  True if access is allowed.
-	 *
-	 * @since   3.0
-	 */
-	private function isAuthorisedDisplayDebug(): bool
-	{
-		static $result = null;
-
-		if ($result !== null)
-		{
-			return $result;
-		}
-
-		// If the user is not allowed to view the output then end here.
-		$filterGroups = (array) $this->params->get('filter_groups', []);
-
-		if (!empty($filterGroups))
-		{
-			$userGroups = $this->app->getIdentity()->get('groups');
-
-			if (!array_intersect($filterGroups, $userGroups))
-			{
-				$result = false;
-
-				return false;
-			}
-		}
-
-		$result = true;
-
-		return true;
-	}
-
-	/**
 	 * Store log messages so they can be displayed later.
 	 * This function is passed log entries by JLogLoggerCallback.
 	 *
@@ -556,11 +562,11 @@ class PlgSystemDebug extends CMSPlugin implements SubscriberInterface
 	/**
 	 * Collect log messages.
 	 *
-	 * @return $this
+	 * @return void
 	 *
 	 * @since 4.0.0
 	 */
-	private function collectLogs(): self
+	private function collectLogs()
 	{
 		$loggerOptions = ['group' => 'default'];
 		$logger        = new Joomla\CMS\Log\Logger\InMemoryLogger($loggerOptions);
@@ -568,7 +574,7 @@ class PlgSystemDebug extends CMSPlugin implements SubscriberInterface
 
 		if (!$this->logEntries && !$logEntries)
 		{
-			return $this;
+			return;
 		}
 
 		if ($this->logEntries)
@@ -576,7 +582,7 @@ class PlgSystemDebug extends CMSPlugin implements SubscriberInterface
 			$logEntries = array_merge($logEntries, $this->logEntries);
 		}
 
-		$logDeprecated     = $this->app->get('log_deprecated', 0);
+		$logDeprecated = $this->app->get('log_deprecated', 0);
 		$logDeprecatedCore = $this->params->get('log-deprecated-core', 0);
 
 		$this->debugBar->addCollector(new MessagesCollector('log'));
@@ -652,7 +658,7 @@ class PlgSystemDebug extends CMSPlugin implements SubscriberInterface
 
 					$message = [
 						'message' => $entry->message,
-						'caller'  => $file . ':' . $line,
+						'caller' => $file . ':' . $line,
 						// @todo 'stack' => $entry->callStack;
 					];
 					$this->debugBar[$category]->addMessage($message, 'warning');
@@ -660,7 +666,7 @@ class PlgSystemDebug extends CMSPlugin implements SubscriberInterface
 
 				case 'databasequery':
 					// Should be collected by its own collector
-					break;
+				break;
 
 				default:
 					switch ($entry->priority)
@@ -682,8 +688,6 @@ class PlgSystemDebug extends CMSPlugin implements SubscriberInterface
 				break;
 			}
 		}
-
-		return $this;
 	}
 
 	/**
