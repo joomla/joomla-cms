@@ -130,7 +130,7 @@ class JoomlaStorage extends NativeStorage
 	public function close(): void
 	{
 		// Before storing data to the session, we serialize and encode the Registry
-		$_SESSION['joomla'] = base64_encode(serialize(clone $this->data));
+		$_SESSION['joomla'] = base64_encode(serialize($this->data));
 
 		parent::close();
 	}
