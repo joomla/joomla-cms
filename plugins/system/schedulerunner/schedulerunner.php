@@ -23,6 +23,8 @@ use Joomla\CMS\Table\Extension;
 use Joomla\CMS\User\UserHelper;
 use Joomla\Component\Scheduler\Administrator\Scheduler\Scheduler;
 use Joomla\Component\Scheduler\Administrator\Task\Task;
+use Joomla\Database\DatabaseInterface;
+use Joomla\Database\ParameterType;
 use Joomla\Event\Event;
 use Joomla\Event\EventInterface;
 use Joomla\Event\SubscriberInterface;
@@ -54,6 +56,14 @@ class PlgSystemSchedulerunner extends CMSPlugin implements SubscriberInterface
 	 * @since  4.1.0
 	 */
 	protected $app;
+
+	/**
+	 * Database object.
+	 *
+	 * @var    DatabaseInterface
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $db;
 
 	/**
 	 * @inheritDoc
@@ -120,22 +130,25 @@ class PlgSystemSchedulerunner extends CMSPlugin implements SubscriberInterface
 			return;
 		}
 
-		// Check if any task is due to decrease the load
-		$model = $this->app->bootComponent('com_scheduler')
-			->getMVCFactory()->createModel('Tasks', 'Administrator', ['ignore_request' => true]);
+		$now = Factory::getDate('now', 'UTC')->toSql();
 
-		$model->setState('filter.state', 1);
-		$model->setState('filter.due', 1);
+		$query = $this->db->getQuery(true)
+			->from('#__scheduler_tasks AS a')
+			->where($this->db->quoteName('a.state') . ' = 1')
+			->select([
+				// Count due tasks
+				'SUM(IF(`a`.`next_execution` <= :now, 1, 0)) AS due_count',
+				// Count locked tasks
+				'SUM(IF(`a`.`locked` IS NULL, 0, 1)) AS locked_count',
+			])
+			->bind(':now', $now);
 
-		$items = $model->getItems();
+		$this->db->setQuery($query);
 
-		// See if we are running currently
-		$model->setState('filter.locked', 1);
-		$model->setState('filter.due', 0);
+		$taskDetails = $this->db->loadObject();
 
-		$items2 = $model->getItems();
-
-		if (empty($items) || !empty($items2))
+		// Break if we don't have due tasks, or we have locked tasks
+		if (!$taskDetails || !$taskDetails->due_count || $taskDetails->locked_count)
 		{
 			return;
 		}
