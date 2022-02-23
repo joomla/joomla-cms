@@ -8,9 +8,9 @@
 
 namespace Joomla\CMS\MVC\Model;
 
-use Joomla\Database\DatabaseInterface;
-
 \defined('_JEXEC') or die;
+
+use Joomla\Database\DatabaseInterface;
 
 /**
  * Interface to be implemented by classes depending on a database.
