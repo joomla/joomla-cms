@@ -112,9 +112,9 @@ class Scheduler
 		// ? Sure about inferring scheduling bypass?
 		$task = $this->getTask(
 			[
-				'id'                  => $options['id'],
+				'id'                  => (int) $options['id'],
 				'allowDisabled'       => $options['allowDisabled'],
-				'bypassScheduling'    => $options['id'] !== 0,
+				'bypassScheduling'    => (int) $options['id'] !== 0,
 				'allowConcurrent'     => $options['allowConcurrent'],
 				'includeCliExclusive' => ($app->isClient('cli')),
 			]
@@ -192,7 +192,7 @@ class Scheduler
 				'allowConcurrent' => false,
 			]
 		)
-			->setAllowedTypes('id', 'int')
+			->setAllowedTypes('id', 'numeric')
 			->setAllowedTypes('allowDisabled', 'bool')
 			->setAllowedTypes('allowConcurrent', 'bool');
 	}
