@@ -130,11 +130,13 @@ class PlgSystemSchedulerunner extends CMSPlugin implements SubscriberInterface
 			return;
 		}
 
+		$state = 1;
 		$now = Factory::getDate('now', 'UTC')->toSql();
 
 		$query = $this->db->getQuery(true)
 			->from('#__scheduler_tasks AS a')
-			->where($this->db->quoteName('a.state') . ' = 1')
+			->where($this->db->quoteName('a.state') . ' = :state')
+			->bind(':state', $state)
 			// Count due tasks
 			->select('SUM(IF(`a`.`next_execution` <= :now, 1, 0)) AS due_count')
 			->bind(':now', $now)
