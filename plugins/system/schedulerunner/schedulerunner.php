@@ -135,12 +135,14 @@ class PlgSystemSchedulerunner extends CMSPlugin implements SubscriberInterface
 		$query = $this->db->getQuery(true)
 			->from('#__scheduler_tasks AS a')
 			->where($this->db->quoteName('a.state') . ' = 1')
-			->select([
-				// Count due tasks
-				'SUM(IF(`a`.`next_execution` <= :now, 1, 0)) AS due_count',
-				// Count locked tasks
-				'SUM(IF(`a`.`locked` IS NULL, 0, 1)) AS locked_count',
-			])
+			->select(
+				[
+					// Count due tasks
+					'SUM(IF(`a`.`next_execution` <= :now, 1, 0)) AS due_count',
+					// Count locked tasks
+					'SUM(IF(`a`.`locked` IS NULL, 0, 1)) AS locked_count',
+				]
+			)
 			->bind(':now', $now);
 
 		$this->db->setQuery($query);
