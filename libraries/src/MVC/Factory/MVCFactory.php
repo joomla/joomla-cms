@@ -81,7 +81,6 @@ class MVCFactory implements MVCFactoryInterface, FormFactoryAwareInterface, Disp
 		$controller = new $className($config, $this, $app, $input);
 		$this->setFormFactoryOnObject($controller);
 		$this->setDispatcherOnObject($controller);
-		$this->setDatabaseOnObject($controller);
 
 		return $controller;
 	}
@@ -127,7 +126,18 @@ class MVCFactory implements MVCFactoryInterface, FormFactoryAwareInterface, Disp
 		$model = new $className($config, $this);
 		$this->setFormFactoryOnObject($model);
 		$this->setDispatcherOnObject($model);
-		$this->setDatabaseOnObject($model);
+
+		if ($model instanceof DatabaseAwareInterface)
+		{
+			try
+			{
+				$model->setDbo($this->getDbo());
+			}
+			catch (\UnexpectedValueException $e)
+			{
+				// Ignore it
+			}
+		}
 
 		return $model;
 	}
@@ -175,7 +185,6 @@ class MVCFactory implements MVCFactoryInterface, FormFactoryAwareInterface, Disp
 		$view = new $className($config);
 		$this->setFormFactoryOnObject($view);
 		$this->setDispatcherOnObject($view);
-		$this->setDatabaseOnObject($view);
 
 		return $view;
 	}
@@ -294,32 +303,6 @@ class MVCFactory implements MVCFactoryInterface, FormFactoryAwareInterface, Disp
 		try
 		{
 			$object->setDispatcher($this->getDispatcher());
-		}
-		catch (\UnexpectedValueException $e)
-		{
-			// Ignore it
-		}
-	}
-
-	/**
-	 * Sets the internal database on the given object.
-	 *
-	 * @param   object  $object  The object
-	 *
-	 * @return  void
-	 *
-	 * @since   __DEPLOY_VERSION__
-	 */
-	private function setDatabaseOnObject($object)
-	{
-		if (!$object instanceof DatabaseAwareInterface)
-		{
-			return;
-		}
-
-		try
-		{
-			$object->setDbo($this->getDbo());
 		}
 		catch (\UnexpectedValueException $e)
 		{
