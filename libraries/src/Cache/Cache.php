@@ -700,6 +700,52 @@ class Cache
 								}
 							}
 						}
+
+						// Special treatment for the WebAssetManager assets
+						if ($now === 'assetManager'
+							&& \is_array($newvalue)
+							&& \is_array($options['headerbefore'][$now])
+							&& isset($newvalue['assets'])
+							&& \is_array($newvalue['assets'])
+							&& isset($options['headerbefore'][$now]['assets'])
+							&& \is_array($options['headerbefore'][$now]['assets'])
+						)
+						{
+							$newAssets = $newvalue['assets'];
+							$oldAssets = $options['headerbefore'][$now]['assets'];
+
+							foreach ($newAssets as $type => &$listOfNewAssets)
+							{
+								if (!array_key_exists($type, $oldAssets)
+									|| !\is_array($oldAssets[$type])
+									|| empty($oldAssets[$type] ?? [])
+									|| !\is_array($listOfNewAssets)
+									|| empty($listOfNewAssets)
+								)
+								{
+									continue;
+								}
+
+								$filter = function ($asset) use ($oldAssets, $type) {
+									return !in_array($asset, $oldAssets[$type]);
+								};
+								$listOfNewAssets = array_filter($listOfNewAssets, $filter);
+							}
+
+							$filter = function ($inner) {
+								return !empty($inner);
+							};
+							$newAssets = array_filter($newAssets, $filter);
+
+							if (empty($newAssets))
+							{
+								unset($newvalue['assets']);
+							}
+							else
+							{
+								$newvalue['assets'] = $newAssets;
+							}
+						}
 					}
 					else
 					{
