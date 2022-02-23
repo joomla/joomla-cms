@@ -16,8 +16,8 @@
 		<folder>tmpl</folder>
 	</files>
 	<languages>
-		<language tag="en-GB">language/en-GB/en-GB.mod_version.ini</language>
-		<language tag="en-GB">language/en-GB/en-GB.mod_version.sys.ini</language>
+		<language tag="en-GB">language/en-GB/mod_version.ini</language>
+		<language tag="en-GB">language/en-GB/mod_version.sys.ini</language>
 	</languages>
 	<help key="Admin_Modules:_Joomla_Version_Information" />
 	<config>
