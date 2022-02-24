@@ -706,7 +706,7 @@ class PlgSystemDebug extends CMSPlugin
 			// Do not create too large headers, some web servers don't love them
 			if (strlen($metrics) > 3000)
 			{
-				$metrics .= 'System;dur=0;desc="Data truncated to 3000 characters"';
+				$metrics .= 'System;dur=0;desc="Data truncated to 3000 characters", ';
 				break;
 			}
 		}
