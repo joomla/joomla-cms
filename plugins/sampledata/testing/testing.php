@@ -1429,22 +1429,22 @@ class PlgSampledataTesting extends CMSPlugin
 		$newsfeeds    = array(
 			array(
 				'name'     => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_NEWSFEEDS_NEWSFEED_0_NAME'),
-				'link'     => 'http://feeds.joomla.org/JoomlaAnnouncements',
+				'link'     => 'https://www.joomla.org/announcements.feed?type=rss',
 				'ordering' => 1,
 			),
 			array(
 				'name'     => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_NEWSFEEDS_NEWSFEED_1_NAME'),
-				'link'     => 'http://feeds.joomla.org/JoomlaExtensions',
+				'link'     => 'https://extensions.joomla.org/browse/new?format=feed&type=rss',
 				'ordering' => 4,
 			),
 			array(
 				'name'     => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_NEWSFEEDS_NEWSFEED_2_NAME'),
-				'link'     => 'http://feeds.joomla.org/JoomlaSecurityNews',
+				'link'     => 'https://developer.joomla.org/security-centre.feed?type=rsss',
 				'ordering' => 2,
 			),
 			array(
 				'name'     => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_NEWSFEEDS_NEWSFEED_3_NAME'),
-				'link'     => 'http://feeds.joomla.org/JoomlaConnect',
+				'link'     => 'https://community.joomla.org/blogs/community.feed',
 				'ordering' => 3,
 			),
 		);
