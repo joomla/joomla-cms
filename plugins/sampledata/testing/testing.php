@@ -1439,7 +1439,7 @@ class PlgSampledataTesting extends CMSPlugin
 			),
 			array(
 				'name'     => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_NEWSFEEDS_NEWSFEED_2_NAME'),
-				'link'     => 'https://developer.joomla.org/security-centre.feed?type=rsss',
+				'link'     => 'https://developer.joomla.org/security-centre.feed?type=rss',
 				'ordering' => 2,
 			),
 			array(
