@@ -696,7 +696,6 @@ class PlgSystemDebug extends CMSPlugin
 			if (strpos($mark->label, 'mod_') !== false)
 			{
 				$moduleTime += $mark->time;
-
 				continue;
 			}
 
