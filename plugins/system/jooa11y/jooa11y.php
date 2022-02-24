@@ -35,9 +35,7 @@ class PlgSystemJooa11y extends CMSPlugin implements SubscriberInterface
 	 *
 	 * @return string[]  An array of event mappings
 	 *
-	 * @throws Exception
 	 * @since 4.1.0
-	 *
 	 */
 	public static function getSubscribedEvents(): array
 	{
