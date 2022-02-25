@@ -720,10 +720,10 @@ class PlgSystemDebug extends CMSPlugin
 		}
 
 		// Add the module entry
-		$metrics .= 'Modules;dur=' . $moduleTime . ';desc="Modules"';
+		$metrics .= 'Modules;dur=' . $moduleTime . ';desc="Modules", ';
 
 		// Add the access entry
-		$metrics .= 'Access;dur=' . $moduleTime . ';desc="Access"';
+		$metrics .= 'Access;dur=' . $accessTime . ';desc="Access"';
 
 		$this->app->setHeader('Server-Timing', $metrics);
 	}
