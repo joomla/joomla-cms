@@ -173,10 +173,7 @@ class HtmlDocument extends Document
 		{
 			foreach ($assetNames as $assetName => $assetState)
 			{
-				if ($assetState === WebAssetManager::ASSET_STATE_ACTIVE)
-				{
-					$waState['assets'][$assetType][] = $wa->getAsset($assetType, $assetName);
-				}
+				$waState['assets'][$assetType][] = $wa->getAsset($assetType, $assetName);
 			}
 		}
 

@@ -154,6 +154,20 @@ class WebAssetManager implements WebAssetManagerInterface
 	}
 
 	/**
+	 * Clears all collected items.
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
+	public function reset(): WebAssetManagerInterface
+	{
+		$this->activeAssets = [];
+		$this->locked = false;
+		$this->dependenciesIsActual = false;
+
+		return $this;
+	}
+
+	/**
 	 * Adds support for magic method calls
 	 *
 	 * @param   string  $method     A method name
