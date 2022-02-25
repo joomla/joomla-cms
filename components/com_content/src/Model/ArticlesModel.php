@@ -707,7 +707,6 @@ class ArticlesModel extends ListModel
 		$groups = $user->getAuthorisedViewLevels();
 		$input = $app->input;
 
-
 		// Get the global params
 		$globalParams = ComponentHelper::getParams('com_content', true);
 
