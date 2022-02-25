@@ -743,6 +743,7 @@ abstract class HTMLHelper
 		if (is_string($attribs))
 		{
 			$attributes = [];
+
 			foreach (explode(' ', $attribs) as $attribute)
 			{
 				if (strpos($attribute, '=') === false)
