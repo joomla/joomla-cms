@@ -683,6 +683,7 @@ class PlgSystemDebug extends CMSPlugin
 
 		$metrics    = '';
 		$moduleTime = 0;
+		$accessTime = 0;
 
 		foreach (Profiler::getInstance('Application')->getMarks() as $index => $mark)
 		{
@@ -696,6 +697,13 @@ class PlgSystemDebug extends CMSPlugin
 			if (strpos($mark->label, 'mod_') !== false)
 			{
 				$moduleTime += $mark->time;
+				continue;
+			}
+
+			// Collect the module render time
+			if (strpos($mark->label, 'Access:') !== false)
+			{
+				$accessTime += $mark->time;
 				continue;
 			}
 
@@ -713,6 +721,9 @@ class PlgSystemDebug extends CMSPlugin
 
 		// Add the module entry
 		$metrics .= 'Modules;dur=' . $moduleTime . ';desc="Modules"';
+
+		// Add the access entry
+		$metrics .= 'Access;dur=' . $moduleTime . ';desc="Access"';
 
 		$this->app->setHeader('Server-Timing', $metrics);
 	}
