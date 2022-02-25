@@ -734,12 +734,34 @@ abstract class HTMLHelper
 		}
 
 		// Ensure we have a valid default for concatenating
-		if ($attribs === null)
+		if ($attribs === null || $attribs === false)
 		{
-			$attribs = '';
+			$attribs = [];
 		}
 
-		return '<img src="' . $file . '" alt="' . $alt . '" ' . trim((\is_array($attribs) ? ArrayHelper::toString($attribs) : $attribs)) . '>';
+		// When it is a string, we need convert it to an array
+		if (is_string($attribs))
+		{
+			$attributes = [];
+			foreach (explode(' ', $attribs) as $attribute)
+			{
+				if (strpos($attribute, '=') === false)
+				{
+					$attributes[$attribute] = '';
+					continue;
+				}
+
+				list($key, $value) = explode('=', $attribute);
+				$attributes[$key]  = trim($value, '"');
+			}
+
+			$attribs = $attributes;
+		}
+
+		$attribs['src'] = $file;
+		$attribs['alt'] = $alt;
+
+		return LayoutHelper::render('joomla.html.image', $attribs);
 	}
 
 	/**
