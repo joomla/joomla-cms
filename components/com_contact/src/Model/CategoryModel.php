@@ -36,49 +36,49 @@ class CategoryModel extends ListModel
 	 *
 	 * @var    CategoryNode
 	 */
-	protected $_item = null;
+	protected $_item;
 
 	/**
 	 * Array of contacts in the category
 	 *
 	 * @var    \stdClass[]
 	 */
-	protected $_articles = null;
+	protected $_articles;
 
 	/**
 	 * Category left and right of this one
 	 *
 	 * @var    CategoryNode[]|null
 	 */
-	protected $_siblings = null;
+	protected $_siblings;
 
 	/**
 	 * Array of child-categories
 	 *
 	 * @var    CategoryNode[]|null
 	 */
-	protected $_children = null;
+	protected $_children;
 
 	/**
 	 * Parent category of the current one
 	 *
 	 * @var    CategoryNode|null
 	 */
-	protected $_parent = null;
+	protected $_parent;
 
 	/**
 	 * The category that applies.
 	 *
 	 * @var    object
 	 */
-	protected $_category = null;
+	protected $_category;
 
 	/**
 	 * The list of other contact categories.
 	 *
 	 * @var    array
 	 */
-	protected $_categories = null;
+	protected $_categories;
 
 	/**
 	 * Constructor.
@@ -125,11 +125,11 @@ class CategoryModel extends ListModel
 			return false;
 		}
 
-		// Convert the params field into an object, saving original in _params
-		for ($i = 0, $n = count($items); $i < $n; $i++)
-		{
-			$item = &$items[$i];
+		$taggedItems = [];
 
+		// Convert the params field into an object, saving original in _params
+		foreach ($items as $item)
+		{
 			if (!isset($this->_params))
 			{
 				$item->params = new Registry($item->params);
@@ -138,8 +138,20 @@ class CategoryModel extends ListModel
 			// Some contexts may not use tags data at all, so we allow callers to disable loading tag data
 			if ($this->getState('load_tags', true))
 			{
-				$this->tags = new TagsHelper;
-				$this->tags->getItemTags('com_contact.contact', $item->id);
+				$taggedItems[$item->id] = $item;
+			}
+		}
+
+		// Load tags of all items.
+		if ($taggedItems)
+		{
+			$tagsHelper = new TagsHelper;
+			$itemIds = \array_keys($taggedItems);
+
+			foreach ($tagsHelper->getMultipleItemTags('com_contact.contact', $itemIds) as $id => $tags)
+			{
+				$taggedItems[$id]->tags = new TagsHelper;
+				$taggedItems[$id]->tags->itemTags = $tags;
 			}
 		}
 
@@ -149,17 +161,20 @@ class CategoryModel extends ListModel
 	/**
 	 * Method to build an SQL query to load the list data.
 	 *
-	 * @return  string    An SQL query
+	 * @return  \Joomla\Database\DatabaseQuery    An SQL query
 	 *
 	 * @since   1.6
 	 */
 	protected function getListQuery()
 	{
-		$user   = Factory::getUser();
+		$app = Factory::getApplication();
+		$user   = $app->getIdentity();
 		$groups = $user->getAuthorisedViewLevels();
 
 		// Create a new query object.
-		$db    = $this->getDbo();
+		$db = $this->getDbo();
+
+		/** @var \Joomla\Database\DatabaseQuery $query */
 		$query = $db->getQuery(true);
 
 		$query->select($this->getState('list.select', 'a.*'))
@@ -229,7 +244,7 @@ class CategoryModel extends ListModel
 		// Filter on the language.
 		if ($this->getState('filter.language'))
 		{
-			$query->whereIn($db->quoteName('a.language'), [Factory::getLanguage()->getTag(), '*'], ParameterType::STRING);
+			$query->whereIn($db->quoteName('a.language'), [$app->getLanguage()->getTag(), '*'], ParameterType::STRING);
 		}
 
 		// Set sortname ordering if selected
@@ -330,7 +345,7 @@ class CategoryModel extends ListModel
 		$id = $app->input->get('id', 0, 'int');
 		$this->setState('category.id', $id);
 
-		$user = Factory::getUser();
+		$user = $app->getIdentity();
 
 		if ((!$user->authorise('core.edit.state', 'com_contact')) && (!$user->authorise('core.edit', 'com_contact')))
 		{

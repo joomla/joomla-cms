@@ -17,6 +17,7 @@ use Joomla\CMS\Table\Table;
 use Joomla\CMS\Table\TableInterface;
 use Joomla\CMS\UCM\UCMContent;
 use Joomla\CMS\UCM\UCMType;
+use Joomla\Database\DatabaseDriver;
 use Joomla\Database\ParameterType;
 use Joomla\Utilities\ArrayHelper;
 
@@ -50,7 +51,15 @@ class TagsHelper extends CMSHelper
 	 * @var    string
 	 * @since  3.1
 	 */
-	public $typeAlias = null;
+	public $typeAlias;
+
+	/**
+	 * Array of item tags.
+	 *
+	 * @var    array
+	 * @since  3.1
+	 */
+	public $itemTags;
 
 	/**
 	 * Method to add tag rows to mapping table.
@@ -389,6 +398,77 @@ class TagsHelper extends CMSHelper
 		$this->itemTags = $db->loadObjectList();
 
 		return $this->itemTags;
+	}
+
+	/**
+	 * Method to get a list of tags for multiple items, optionally with the tag data.
+	 *
+	 * @param   string   $contentType  Content type alias. Dot separated.
+	 * @param   array    $ids          Id of the item to retrieve tags for.
+	 * @param   boolean  $getTagData   If true, data from the tags table will be included, defaults to true.
+	 *
+	 * @return  array    Array of of tag objects grouped by Id.
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function getMultipleItemTags($contentType, array $ids, $getTagData = true)
+	{
+		$data = [];
+
+		$ids = array_map('intval', $ids);
+
+		/** @var DatabaseDriver $db */
+		$db = Factory::getContainer()->get('DatabaseDriver');
+
+		$query = $db->getQuery(true)
+			->select($db->quoteName(['m.tag_id', 'm.content_item_id']))
+			->from($db->quoteName('#__contentitem_tag_map', 'm'))
+			->where(
+				[
+					$db->quoteName('m.type_alias') . ' = :contentType',
+					$db->quoteName('t.published') . ' = 1',
+				]
+			)
+			->whereIn($db->quoteName('m.content_item_id'), $ids)
+			->bind(':contentType', $contentType);
+
+		$query->join('INNER', $db->quoteName('#__tags', 't'), $db->quoteName('m.tag_id') . ' = ' . $db->quoteName('t.id'));
+
+		$user = Factory::getApplication()->getIdentity();
+		$groups = $user->getAuthorisedViewLevels();
+
+		$query->whereIn($db->quoteName('t.access'), $groups);
+
+		// Optionally filter on language
+		$language = ComponentHelper::getParams('com_tags')->get('tag_list_language_filter', 'all');
+
+		if ($language !== 'all')
+		{
+			if ($language === 'current_language')
+			{
+				$language = $this->getCurrentLanguage();
+			}
+
+			$query->whereIn($db->quoteName('language'), [$language, '*'], ParameterType::STRING);
+		}
+
+		if ($getTagData)
+		{
+			$query->select($db->quoteName('t') . '.*');
+		}
+
+		$db->setQuery($query);
+
+		$rows = $db->loadObjectList();
+
+		// Group data by item Id.
+		foreach ($rows as $row)
+		{
+			$data[$row->content_item_id][] = $row;
+			unset($row->content_item_id);
+		}
+
+		return $data;
 	}
 
 	/**
