@@ -156,6 +156,8 @@ class WebAssetManager implements WebAssetManagerInterface
 	/**
 	 * Clears all collected items.
 	 *
+	 * @return self
+	 *
 	 * @since  __DEPLOY_VERSION__
 	 */
 	public function reset(): WebAssetManagerInterface
