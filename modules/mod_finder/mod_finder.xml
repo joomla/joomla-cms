@@ -16,8 +16,8 @@
 		<folder>tmpl</folder>
 	</files>
 	<languages>
-		<language tag="en-GB">language/en-GB/en-GB.mod_finder.ini</language>
-		<language tag="en-GB">language/en-GB/en-GB.mod_finder.sys.ini</language>
+		<language tag="en-GB">language/en-GB/mod_finder.ini</language>
+		<language tag="en-GB">language/en-GB/mod_finder.sys.ini</language>
 	</languages>
 	<help key="Site_Modules:_Smart_Search" />
 	<config>
