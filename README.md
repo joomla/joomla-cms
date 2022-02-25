@@ -39,7 +39,7 @@ You will need:
 **Steps to setup the local environment:**
 - Clone the repository:
 ```bash
-git clone git@github.com:joomla/joomla-cms.git
+git clone https://github.com/joomla/joomla-cms.git
 ```
 - Go to the joomla-cms folder:
 ```bash
