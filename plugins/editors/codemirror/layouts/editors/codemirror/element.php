@@ -57,7 +57,7 @@ Factory::getDocument()->getWebAssetManager()
 <joomla-editor-codemirror <?php echo $editor . ' ' . $addons . ' ' . $modPath . ' ' . $fsCombo . ' ' . $option; ?>>
 <?php echo '<textarea name="', $name, '" id="', $id, '" cols="', $cols, '" rows="', $rows, '">', $content, '</textarea>'; ?>
 <p class="small float-end">
-	<?php echo Text::sprintf('PLG_CODEMIRROR_TOGGLE_FULL_SCREEN', $modifier, $params->get('fullScreen', 'F10')); ?>
+	<?php echo Text::sprintf('PLG_CODEMIRROR_TOGGLE_FULL_SCREEN', $fullScreenCombo); ?>
 </p>
 </joomla-editor-codemirror>
 <?php echo $displayData->buttons; ?>
