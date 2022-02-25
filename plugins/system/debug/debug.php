@@ -258,9 +258,6 @@ class PlgSystemDebug extends CMSPlugin implements SubscriberInterface
 	 */
 	public function onAfterRespond()
 	{
-		// Mark afterRespond in the profiler.
-		JDEBUG ? Profiler::getInstance('Application')->mark('afterRespond') : null;
-
 		$endTime    = microtime(true) - $this->timeInOnAfterDisconnect;
 		$endMemory  = memory_get_peak_usage(false);
 
