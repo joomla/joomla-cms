@@ -26,7 +26,7 @@ use Joomla\Input\Input;
  *
  * @since  3.10.0
  */
-class MVCFactory implements MVCFactoryInterface, FormFactoryAwareInterface, DispatcherAwareInterface, DatabaseAwareInterface
+class MVCFactory implements MVCFactoryInterface, FormFactoryAwareInterface, DispatcherAwareInterface
 {
 	use FormFactoryAwareTrait, DispatcherAwareTrait, DatabaseAwareTrait;
 
