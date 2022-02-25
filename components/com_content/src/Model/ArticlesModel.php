@@ -832,6 +832,7 @@ class ArticlesModel extends ListModel
 			// Some contexts may not use tags data at all, so we allow callers to disable loading tag data
 			if ($this->getState('load_tags', $item->params->get('show_tags', '1')))
 			{
+				$item->tags = new TagsHelper;
 				$taggedItems[$item->id] = $item;
 			}
 
@@ -849,7 +850,6 @@ class ArticlesModel extends ListModel
 
 			foreach ($tagsHelper->getMultipleItemTags('com_content.article', $itemIds) as $id => $tags)
 			{
-				$taggedItems[$id]->tags = new TagsHelper;
 				$taggedItems[$id]->tags->itemTags = $tags;
 			}
 		}

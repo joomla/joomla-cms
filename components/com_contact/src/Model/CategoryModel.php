@@ -138,6 +138,7 @@ class CategoryModel extends ListModel
 			// Some contexts may not use tags data at all, so we allow callers to disable loading tag data
 			if ($this->getState('load_tags', true))
 			{
+				$item->tags = new TagsHelper;
 				$taggedItems[$item->id] = $item;
 			}
 		}
@@ -150,7 +151,6 @@ class CategoryModel extends ListModel
 
 			foreach ($tagsHelper->getMultipleItemTags('com_contact.contact', $itemIds) as $id => $tags)
 			{
-				$taggedItems[$id]->tags = new TagsHelper;
 				$taggedItems[$id]->tags->itemTags = $tags;
 			}
 		}
