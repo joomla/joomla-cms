@@ -163,7 +163,6 @@ class WebAssetManager implements WebAssetManagerInterface
 	public function reset(): WebAssetManagerInterface
 	{
 		$this->activeAssets = [];
-		$this->locked = false;
 		$this->dependenciesIsActual = false;
 
 		return $this;
