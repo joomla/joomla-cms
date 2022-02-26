@@ -6,7 +6,7 @@
     :aria-level="level"
     :aria-setsize="size"
     :aria-posinset="counter"
-    :tabindex="getTabindex"
+    :tabindex="0"
   >
     <a @click.stop.prevent="onItemClick()">
       <span class="item-icon"><span :class="iconClass" /></span>
