@@ -13,6 +13,7 @@ namespace Joomla\Component\Content\Site\View\Category;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\MVC\View\CategoryFeedView;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Uri\Uri;
@@ -53,8 +54,9 @@ class FeedView extends CategoryFeedView
 
 		if (isset($introImage) && ($introImage != ''))
 		{
-			$image = preg_match('/http/', $introImage) ? $introImage : Uri::root() . $introImage;
-			$item->description = '<p><img src="' . $image . '"></p>';
+			$item->description = '<p>'
+				. LayoutHelper::render('joomla.html.image', ['src' => preg_match('/http/', $introImage) ? $introImage : Uri::root() . $introImage])
+				. '</p>';
 		}
 
 		$item->description .= ($params->get('feed_summary', 0) ? $item->introtext . $item->fulltext : $item->introtext);
