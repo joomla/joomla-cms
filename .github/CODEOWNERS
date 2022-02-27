@@ -13,9 +13,6 @@ modules/mod_finder/*  @hackwar
 plugins/content/finder/*  @hackwar
 plugins/finder/*  @hackwar
 
-# CodeMirror
-plugins/editors/codemirror/*  @okonomiyaki3000
-
 # Release Tools
 build.xml  @wilsonge
 build/build.php  @rdeutz @wilsonge
