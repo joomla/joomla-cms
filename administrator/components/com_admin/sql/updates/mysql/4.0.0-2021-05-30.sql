@@ -16,7 +16,7 @@ UPDATE `#__mail_templates`
 
 -- From 4.0.0-2021-05-10.sql
 -- The following statement was modified for 4.1.1 by adding the "/** CAN FAIL **/" installer hint.
--- See https://github.com/joomla/joomla-cms/pull/37156 .
+-- See https://github.com/joomla/joomla-cms/pull/37156
 ALTER TABLE `#__finder_taxonomy` ADD INDEX `idx_level` (`level`) /** CAN FAIL **/;
 
 -- From 4.0.0-2021-05-21.sql

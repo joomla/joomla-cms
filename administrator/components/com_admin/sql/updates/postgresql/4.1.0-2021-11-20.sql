@@ -29,7 +29,7 @@ CREATE TABLE IF NOT EXISTS "#__scheduler_tasks" (
 );
 
 -- The following 8 statements were modified for 4.1.1 by adding the "/** CAN FAIL **/" installer hint.
--- See https://github.com/joomla/joomla-cms/pull/37156 .
+-- See https://github.com/joomla/joomla-cms/pull/37156
 CREATE INDEX "#__scheduler_tasks_idx_type" ON "#__scheduler_tasks" ("type") /** CAN FAIL **/;
 CREATE INDEX "#__scheduler_tasks_idx_state" ON "#__scheduler_tasks" ("state") /** CAN FAIL **/;
 CREATE INDEX "#__scheduler_tasks_idx_last_exit" ON "#__scheduler_tasks" ("last_exit_code") /** CAN FAIL **/;
@@ -60,7 +60,7 @@ INSERT INTO "#__action_log_config" ("type_title", "type_alias", "id_holder", "ti
 
 -- Add mail templates
 -- The following statement was modified for 4.1.1 by adding the "ON CONFLICT" clause.
--- See https://github.com/joomla/joomla-cms/pull/37156 .
+-- See https://github.com/joomla/joomla-cms/pull/37156
 INSERT INTO "#__mail_templates" ("template_id", "extension", "language", "subject", "body", "htmlbody", "attachments", "params") VALUES
 ('plg_system_tasknotification.failure_mail', 'plg_system_tasknotification', '', 'PLG_SYSTEM_TASK_NOTIFICATION_FAILURE_MAIL_SUBJECT', 'PLG_SYSTEM_TASK_NOTIFICATION_FAILURE_MAIL_BODY', '', '', '{"tags": ["task_id", "task_title", "exit_code", "exec_data_time", "task_output"]}'),
 ('plg_system_tasknotification.fatal_recovery_mail', 'plg_system_tasknotification', '', 'PLG_SYSTEM_TASK_NOTIFICATION_FATAL_MAIL_SUBJECT', 'PLG_SYSTEM_TASK_NOTIFICATION_FATAL_MAIL_BODY', '', '', '{"tags": ["task_id", "task_title"]}'),

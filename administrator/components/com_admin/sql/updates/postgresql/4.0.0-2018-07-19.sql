@@ -22,7 +22,7 @@ CREATE TABLE IF NOT EXISTS "#__template_overrides" (
   PRIMARY KEY ("id")
 );
 -- The following two statements were modified for 4.1.1 by adding the "/** CAN FAIL **/" installer hint.
--- See https://github.com/joomla/joomla-cms/pull/37156 .
+-- See https://github.com/joomla/joomla-cms/pull/37156
 CREATE INDEX "#__template_overrides_idx_template" ON "#__template_overrides" ("template") /** CAN FAIL **/;
 CREATE INDEX "#__template_overrides_idx_extension_id" ON "#__template_overrides" ("extension_id") /** CAN FAIL **/;
 

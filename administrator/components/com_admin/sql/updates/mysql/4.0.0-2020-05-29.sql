@@ -4,7 +4,7 @@ INSERT INTO `#__extensions` (`package_id`, `name`, `type`, `element`, `folder`, 
 
 -- From 4.0.0-2020-04-16.sql
 -- The following statement was modified for 4.1.1 by adding the "IGNORE" keyword.
--- See https://github.com/joomla/joomla-cms/pull/37156 .
+-- See https://github.com/joomla/joomla-cms/pull/37156
 INSERT IGNORE INTO `#__mail_templates` (`template_id`, `language`, `subject`, `body`, `htmlbody`, `attachments`, `params`) VALUES
 ('com_contact.mail', '', 'COM_CONTACT_ENQUIRY_SUBJECT', 'COM_CONTACT_ENQUIRY_TEXT', '', '', '{"tags":["sitename","name","email","subject","body","url","customfields"]}'),
 ('com_contact.mail.copy', '', 'COM_CONTACT_COPYSUBJECT_OF', 'COM_CONTACT_COPYTEXT_OF', '', '', '{"tags":["sitename","name","email","subject","body","url","customfields"]}'),
@@ -16,7 +16,7 @@ INSERT IGNORE INTO `#__mail_templates` (`template_id`, `language`, `subject`, `b
 
 -- From 4.0.0-2020-05-21.sql
 -- The following 4 statements were modified for 4.1.1 by adding the "/** CAN FAIL **/" installer hint.
--- See https://github.com/joomla/joomla-cms/pull/37156 .
+-- See https://github.com/joomla/joomla-cms/pull/37156
 -- Renaming table
 RENAME TABLE `#__ucm_history` TO `#__history` /** CAN FAIL **/;
 -- Rename ucm_item_id to item_id as the new primary identifier for the original content item

@@ -13,5 +13,5 @@ UPDATE `#__menu` SET `link`='index.php?option=com_associations&view=associations
 
 -- From 4.0.0-2019-05-20.sql
 -- The following statement was modified for 4.1.1 by adding the "/** CAN FAIL **/" installer hint.
--- See https://github.com/joomla/joomla-cms/pull/37156 .
+-- See https://github.com/joomla/joomla-cms/pull/37156
 ALTER TABLE `#__extensions` ADD COLUMN `note` varchar(255) AFTER `state` /** CAN FAIL **/;

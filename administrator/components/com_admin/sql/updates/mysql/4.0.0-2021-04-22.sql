@@ -10,7 +10,7 @@ DELETE FROM `#__postinstall_messages`
 
 -- From 4.0.0-2021-04-11.sql
 -- The following statement was modified for 4.1.1 by adding the "/** CAN FAIL **/" installer hint.
--- See https://github.com/joomla/joomla-cms/pull/37156 .
+-- See https://github.com/joomla/joomla-cms/pull/37156
 ALTER TABLE `#__fields` ADD COLUMN `only_use_in_subform` tinyint NOT NULL DEFAULT 0 /** CAN FAIL **/;
 
 -- From 4.0.0-2021-04-20.sql
@@ -19,6 +19,6 @@ UPDATE `#__fields` SET `type` = 'subform' WHERE `type` = 'subfields';
 
 -- From 4.0.0-2021-04-22.sql
 -- The following statement was modified for 4.1.1 by adding the "/** CAN FAIL **/" installer hint.
--- See https://github.com/joomla/joomla-cms/pull/37156 .
+-- See https://github.com/joomla/joomla-cms/pull/37156
 ALTER TABLE `#__mail_templates` ADD COLUMN `extension` varchar(127) NOT NULL DEFAULT '' AFTER `template_id` /** CAN FAIL **/;
 UPDATE `#__mail_templates` SET `extension` = SUBSTRING(`template_id`, 1, POSITION('.' IN `template_id`) - 1);

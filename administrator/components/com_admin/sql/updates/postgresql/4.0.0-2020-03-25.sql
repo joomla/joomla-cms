@@ -1,6 +1,6 @@
 -- Add locked field to extensions table.
 -- The following statement was modified for 4.1.1 by adding the "/** CAN FAIL **/" installer hint.
--- See https://github.com/joomla/joomla-cms/pull/37156 .
+-- See https://github.com/joomla/joomla-cms/pull/37156
 ALTER TABLE "#__extensions" ADD COLUMN "locked" smallint DEFAULT 0 NOT NULL /** CAN FAIL **/;
 
 COMMENT ON COLUMN "#__extensions"."protected" IS 'Flag to indicate if the extension is protected. Protected extensions cannot be disabled.';

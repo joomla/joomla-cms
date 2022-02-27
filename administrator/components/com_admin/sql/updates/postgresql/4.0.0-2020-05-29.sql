@@ -4,7 +4,7 @@ INSERT INTO "#__extensions" ("package_id", "name", "type", "element", "folder", 
 
 -- From 4.0.0-2020-04-16.sql
 -- The following statement was modified for 4.1.1 by adding the "ON CONFLICT" clause.
--- See https://github.com/joomla/joomla-cms/pull/37156 .
+-- See https://github.com/joomla/joomla-cms/pull/37156
 INSERT INTO "#__mail_templates" ("template_id", "language", "subject", "body", "htmlbody", "attachments", "params") VALUES
 ('com_contact.mail', '', 'COM_CONTACT_ENQUIRY_SUBJECT', 'COM_CONTACT_ENQUIRY_TEXT', '', '', '{"tags":["sitename","name","email","subject","body","url","customfields"]}'),
 ('com_contact.mail.copy', '', 'COM_CONTACT_COPYSUBJECT_OF', 'COM_CONTACT_COPYTEXT_OF', '', '', '{"tags":["sitename","name","email","subject","body","url","customfields"]}'),
@@ -18,11 +18,11 @@ ON CONFLICT DO NOTHING;
 -- From 4.0.0-2020-05-21.sql
 -- Renaming table
 -- The following statement was modified for 4.1.1 by adding the "/** CAN FAIL **/" installer hint.
--- See https://github.com/joomla/joomla-cms/pull/37156 .
+-- See https://github.com/joomla/joomla-cms/pull/37156
 ALTER TABLE "#__ucm_history" RENAME TO "#__history" /** CAN FAIL **/;
 -- Rename ucm_item_id to item_id as the new primary identifier for the original content item
 -- The following statement was modified for 4.1.1 by adding the "/** CAN FAIL **/" installer hint.
--- See https://github.com/joomla/joomla-cms/pull/37156 .
+-- See https://github.com/joomla/joomla-cms/pull/37156
 ALTER TABLE "#__history" RENAME "ucm_item_id" TO "item_id" /** CAN FAIL **/;
 ALTER TABLE "#__history" ALTER COLUMN "item_id" TYPE character varying(50);
 ALTER TABLE "#__history" ALTER COLUMN "item_id" SET NOT NULL;
@@ -30,12 +30,12 @@ ALTER TABLE "#__history" ALTER COLUMN "item_id" DROP DEFAULT;
 
 -- Extend the original field content with the alias of the content type
 -- The following statement was modified for 4.1.1 by adding the "/** CAN FAIL **/" installer hint.
--- See https://github.com/joomla/joomla-cms/pull/37156 .
+-- See https://github.com/joomla/joomla-cms/pull/37156
 UPDATE "#__history" AS h SET "item_id" = CONCAT(c."type_alias", '.', "item_id") FROM "#__content_types" AS c WHERE h."ucm_type_id" = c."type_id" /** CAN FAIL **/;
 
 -- Now we don't need the ucm_type_id anymore and drop it.
 -- The following statement was modified for 4.1.1 by adding the "/** CAN FAIL **/" installer hint.
--- See https://github.com/joomla/joomla-cms/pull/37156 .
+-- See https://github.com/joomla/joomla-cms/pull/37156
 ALTER TABLE "#__history" DROP COLUMN "ucm_type_id" /** CAN FAIL **/;
 ALTER TABLE "#__history" ALTER COLUMN "save_date" DROP DEFAULT;
 

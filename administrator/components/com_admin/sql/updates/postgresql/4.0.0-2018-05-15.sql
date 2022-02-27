@@ -21,7 +21,7 @@ CREATE TABLE IF NOT EXISTS "#__workflows" (
  );
 
 -- The following 9 statements were modified for 4.1.1 by adding the "/** CAN FAIL **/" installer hint.
--- See https://github.com/joomla/joomla-cms/pull/37156 .
+-- See https://github.com/joomla/joomla-cms/pull/37156
 CREATE INDEX "#__workflows_idx_asset_id" ON "#__workflows" ("asset_id") /** CAN FAIL **/;
 CREATE INDEX "#__workflows_idx_title" ON "#__workflows" ("title") /** CAN FAIL **/;
 CREATE INDEX "#__workflows_idx_extension" ON "#__workflows" ("extension") /** CAN FAIL **/;
@@ -33,7 +33,7 @@ CREATE INDEX "#__workflows_idx_modified_by" ON "#__workflows" ("modified_by") /*
 CREATE INDEX "#__workflows_idx_checked_out" ON "#__workflows" ("checked_out") /** CAN FAIL **/;
 
 -- The following statement was modified for 4.1.1 by adding the "ON CONFLICT" clause.
--- See https://github.com/joomla/joomla-cms/pull/37156 .
+-- See https://github.com/joomla/joomla-cms/pull/37156
 INSERT INTO "#__workflows" ("id", "asset_id", "published", "title", "description", "extension", "default", "ordering", "created", "created_by", "modified", "modified_by", "checked_out_time", "checked_out") VALUES
 (1, 0, 1, 'COM_WORKFLOW_BASIC_WORKFLOW', '', 'com_content.article', 1, 1, CURRENT_TIMESTAMP, 0, CURRENT_TIMESTAMP, 0, NULL, 0)
 ON CONFLICT DO NOTHING;
@@ -51,7 +51,7 @@ CREATE TABLE IF NOT EXISTS "#__workflow_associations" (
   PRIMARY KEY ("item_id", "extension")
 );
 -- The following 4 statements were modified for 4.1.1 by adding the "/** CAN FAIL **/" installer hint.
--- See https://github.com/joomla/joomla-cms/pull/37156 .
+-- See https://github.com/joomla/joomla-cms/pull/37156
 CREATE INDEX "#__workflow_associations_idx_item_stage_extension" ON "#__workflow_associations" ("item_id", "stage_id", "extension") /** CAN FAIL **/;
 CREATE INDEX "#__workflow_associations_idx_item_id" ON "#__workflow_associations" ("item_id") /** CAN FAIL **/;
 CREATE INDEX "#__workflow_associations_idx_stage_id" ON "#__workflow_associations" ("stage_id") /** CAN FAIL **/;
@@ -78,7 +78,7 @@ CREATE TABLE IF NOT EXISTS "#__workflow_stages" (
   PRIMARY KEY ("id")
 );
 -- The following 5 statements were modified for 4.1.1 by adding the "/** CAN FAIL **/" installer hint.
--- See https://github.com/joomla/joomla-cms/pull/37156 .
+-- See https://github.com/joomla/joomla-cms/pull/37156
 CREATE INDEX "#__workflow_stages_idx_workflow_id" ON "#__workflow_stages" ("workflow_id") /** CAN FAIL **/;
 CREATE INDEX "#__workflow_stages_idx_title" ON "#__workflow_stages" ("title") /** CAN FAIL **/;
 CREATE INDEX "#__workflow_stages_idx_asset_id" ON "#__workflow_stages" ("asset_id") /** CAN FAIL **/;
@@ -90,7 +90,7 @@ CREATE INDEX "#__workflow_stages_idx_checked_out" ON "#__workflow_stages" ("chec
 --
 
 -- The following statement was modified for 4.1.1 by adding the "ON CONFLICT" clause.
--- See https://github.com/joomla/joomla-cms/pull/37156 .
+-- See https://github.com/joomla/joomla-cms/pull/37156
 INSERT INTO "#__workflow_stages" ("id", "asset_id", "ordering", "workflow_id", "published", "title", "description", "default", "checked_out_time", "checked_out") VALUES
 (1, 0, 1, 1, 1, 'COM_WORKFLOW_BASIC_STAGE', '', 1, NULL, 0)
 ON CONFLICT DO NOTHING;
@@ -117,7 +117,7 @@ CREATE TABLE IF NOT EXISTS "#__workflow_transitions" (
   PRIMARY KEY ("id")
  );
 -- The following 6 statements were modified for 4.1.1 by adding the "/** CAN FAIL **/" installer hint.
--- See https://github.com/joomla/joomla-cms/pull/37156 .
+-- See https://github.com/joomla/joomla-cms/pull/37156
 CREATE INDEX "#__workflow_transitions_idx_title" ON "#__workflow_transitions" ("title") /** CAN FAIL **/;
 CREATE INDEX "#__workflow_transitions_idx_asset_id" ON "#__workflow_transitions" ("asset_id") /** CAN FAIL **/;
 CREATE INDEX "#__workflow_transitions_idx_from_stage_id" ON "#__workflow_transitions" ("from_stage_id") /** CAN FAIL **/;
@@ -126,7 +126,7 @@ CREATE INDEX "#__workflow_transitions_idx_workflow_id" ON "#__workflow_transitio
 CREATE INDEX "#__workflow_transitions_idx_checked_out" ON "#__workflow_transitions" ("checked_out") /** CAN FAIL **/;
 
 -- The following statement was modified for 4.1.1 by adding the "ON CONFLICT" clause.
--- See https://github.com/joomla/joomla-cms/pull/37156 .
+-- See https://github.com/joomla/joomla-cms/pull/37156
 INSERT INTO "#__workflow_transitions" ("id", "asset_id", "published", "ordering", "workflow_id", "title", "description", "from_stage_id", "to_stage_id", "options", "checked_out_time", "checked_out") VALUES
 (1, 0, 1, 1, 1, 'Unpublish', '', -1, 1, '{"publishing":"0"}', NULL, 0),
 (2, 0, 1, 2, 1, 'Publish', '', -1, 1, '{"publishing":"1"}', NULL, 0),
@@ -158,7 +158,7 @@ INSERT INTO "#__extensions" ("package_id", "name", "type", "element", "folder", 
 --
 
 -- The following statement was modified for 4.1.1 by adding the "ON CONFLICT" clause.
--- See https://github.com/joomla/joomla-cms/pull/37156 .
+-- See https://github.com/joomla/joomla-cms/pull/37156
 INSERT INTO "#__workflow_associations" ("item_id", "stage_id", "extension")
 SELECT "id", 1, 'com_content.article' FROM "#__content"
 ON CONFLICT DO NOTHING;

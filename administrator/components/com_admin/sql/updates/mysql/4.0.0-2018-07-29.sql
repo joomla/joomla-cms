@@ -21,13 +21,13 @@ ALTER TABLE `#__finder_links` MODIFY `publish_end_date` datetime NULL DEFAULT NU
 ALTER TABLE `#__finder_links` MODIFY `start_date` datetime NULL DEFAULT NULL;
 ALTER TABLE `#__finder_links` MODIFY `end_date` datetime NULL DEFAULT NULL;
 -- The following statement was modified for 4.1.1 by adding the "/** CAN FAIL **/" installer hint.
--- See https://github.com/joomla/joomla-cms/pull/37156 .
+-- See https://github.com/joomla/joomla-cms/pull/37156
 ALTER TABLE `#__finder_links` ADD INDEX `idx_language` (`language`) /** CAN FAIL **/;
 ALTER TABLE `#__finder_links` CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 ALTER TABLE `#__finder_links` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- The following statement was modified for 4.1.1 by adding the "IF NOT EXISTS" keywords.
--- See https://github.com/joomla/joomla-cms/pull/37156 .
+-- See https://github.com/joomla/joomla-cms/pull/37156
 CREATE TABLE IF NOT EXISTS `#__finder_links_terms` (
 	`link_id` INT UNSIGNED NOT NULL,
 	`term_id` INT UNSIGNED NOT NULL,
@@ -38,7 +38,7 @@ CREATE TABLE IF NOT EXISTS `#__finder_links_terms` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci;
 
 -- The following 16 statements were modified for 4.1.1 by adding the "IF EXISTS" keywords.
--- See https://github.com/joomla/joomla-cms/pull/37156 .
+-- See https://github.com/joomla/joomla-cms/pull/37156
 DROP TABLE IF EXISTS `#__finder_links_terms0`;
 DROP TABLE IF EXISTS `#__finder_links_terms1`;
 DROP TABLE IF EXISTS `#__finder_links_terms2`;
@@ -69,7 +69,7 @@ ALTER TABLE `#__finder_logging` CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4
 ALTER TABLE `#__finder_logging` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- The following statement was modified for 4.1.1 by adding the "IF EXISTS" keywords.
--- See https://github.com/joomla/joomla-cms/pull/37156 .
+-- See https://github.com/joomla/joomla-cms/pull/37156
 DROP TABLE IF EXISTS `#__finder_taxonomy`;
 CREATE TABLE IF NOT EXISTS `#__finder_taxonomy` (
 	`id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
@@ -106,7 +106,7 @@ ALTER TABLE `#__finder_terms` MODIFY `term` varchar(75) CHARACTER SET utf8mb4 CO
 ALTER TABLE `#__finder_terms` MODIFY `stem` varchar(75) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL DEFAULT '';
 ALTER TABLE `#__finder_terms` MODIFY `soundex` varchar(75) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL DEFAULT '';
 -- The following 4 statements were modified for 4.1.1 by adding the "/** CAN FAIL **/" installer hint.
--- See https://github.com/joomla/joomla-cms/pull/37156 .
+-- See https://github.com/joomla/joomla-cms/pull/37156
 ALTER TABLE `#__finder_terms` DROP INDEX `idx_term` /** CAN FAIL **/;
 ALTER TABLE `#__finder_terms` ADD INDEX `idx_stem` (`stem`) /** CAN FAIL **/;
 ALTER TABLE `#__finder_terms` ADD INDEX `idx_language` (`language`) /** CAN FAIL **/;
@@ -115,7 +115,7 @@ ALTER TABLE `#__finder_terms` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unic
 
 DROP TABLE IF EXISTS `#__finder_terms_common`;
 -- The following statement was modified for 4.1.1 by adding the "IF NOT EXISTS" keywords.
--- See https://github.com/joomla/joomla-cms/pull/37156 .
+-- See https://github.com/joomla/joomla-cms/pull/37156
 CREATE TABLE IF NOT EXISTS `#__finder_terms_common` (
   `term` varchar(75) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL DEFAULT '',
   `language` char(7) NOT NULL DEFAULT '',
@@ -305,7 +305,7 @@ ALTER TABLE `#__finder_tokens` CHANGE `language` `language` CHAR(7) NOT NULL DEF
 ALTER TABLE `#__finder_tokens` MODIFY `term` varchar(75) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL;
 ALTER TABLE `#__finder_tokens` MODIFY `stem` varchar(75) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL DEFAULT '';
 -- The following 2 statements were modified for 4.1.1 by adding the "/** CAN FAIL **/" installer hint.
--- See https://github.com/joomla/joomla-cms/pull/37156 .
+-- See https://github.com/joomla/joomla-cms/pull/37156
 ALTER TABLE `#__finder_tokens` ADD INDEX `idx_stem` (`stem`) /** CAN FAIL **/;
 ALTER TABLE `#__finder_tokens` ADD INDEX `idx_language` (`language`) /** CAN FAIL **/;
 ALTER TABLE `#__finder_tokens` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
@@ -313,7 +313,7 @@ ALTER TABLE `#__finder_tokens` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_uni
 TRUNCATE TABLE `#__finder_tokens_aggregate`;
 ALTER TABLE `#__finder_tokens_aggregate` CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 -- The following statement was modified for 4.1.1 by adding the "/** CAN FAIL **/" installer hint.
--- See https://github.com/joomla/joomla-cms/pull/37156 .
+-- See https://github.com/joomla/joomla-cms/pull/37156
 ALTER TABLE `#__finder_tokens_aggregate` DROP COLUMN `map_suffix` /** CAN FAIL **/;
 ALTER TABLE `#__finder_tokens_aggregate` CHANGE `language` `language` CHAR(7) NOT NULL DEFAULT '' AFTER `total_weight`;
 ALTER TABLE `#__finder_tokens_aggregate` MODIFY `term` varchar(75) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL;
