@@ -24,7 +24,7 @@ ALTER TABLE "#__finder_links" ALTER COLUMN "start_date" DROP NOT NULL;
 ALTER TABLE "#__finder_links" ALTER COLUMN "start_date" DROP DEFAULT;
 ALTER TABLE "#__finder_links" ALTER COLUMN "end_date" DROP NOT NULL;
 ALTER TABLE "#__finder_links" ALTER COLUMN "end_date" DROP DEFAULT;
--- The following two statements were modified for 4.1.1 by adding the "/** CAN FAIL **/" installer hint.
+-- The following statement was modified for 4.1.1 by adding the "/** CAN FAIL **/" installer hint.
 -- See https://github.com/joomla/joomla-cms/pull/37156 .
 CREATE INDEX "#__finder_links_idx_language" on "#__finder_links" ("language") /** CAN FAIL **/;
 
