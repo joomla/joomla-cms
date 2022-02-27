@@ -6,9 +6,8 @@
     :aria-level="level"
     :aria-setsize="size"
     :aria-posinset="counter"
-    :tabindex="0"
   >
-    <a @click.stop.prevent="onItemClick()">
+    <a tabindex="0" @click.stop.prevent="onItemClick()" @keyup.right="onItemClick()">
       <span class="item-icon"><span :class="iconClass" /></span>
       <span class="item-name">{{ item.name }}</span>
     </a>
