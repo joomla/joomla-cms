@@ -24,17 +24,25 @@ ALTER TABLE "#__finder_links" ALTER COLUMN "start_date" DROP NOT NULL;
 ALTER TABLE "#__finder_links" ALTER COLUMN "start_date" DROP DEFAULT;
 ALTER TABLE "#__finder_links" ALTER COLUMN "end_date" DROP NOT NULL;
 ALTER TABLE "#__finder_links" ALTER COLUMN "end_date" DROP DEFAULT;
+-- The following two statements were modified for 4.1.1 by adding the "/** CAN FAIL **/" installer hint.
+-- See https://github.com/joomla/joomla-cms/pull/37156 .
 CREATE INDEX "#__finder_links_idx_language" on "#__finder_links" ("language") /** CAN FAIL **/;
 
+-- The following statement was modified for 4.1.1 by adding the "IF NOT EXISTS" keywords.
+-- See https://github.com/joomla/joomla-cms/pull/37156 .
 CREATE TABLE IF NOT EXISTS "#__finder_links_terms" (
 	"link_id" bigint NOT NULL,
 	"term_id" bigint NOT NULL,
 	"weight" REAL NOT NULL DEFAULT 0,
 	PRIMARY KEY ("link_id", "term_id")
 );
+-- The following two statements were modified for 4.1.1 by adding the "/** CAN FAIL **/" installer hint.
+-- See https://github.com/joomla/joomla-cms/pull/37156 .
 CREATE INDEX "#__finder_links_terms_idx_term_weight" on "#__finder_links_terms" ("term_id", "weight") /** CAN FAIL **/;
 CREATE INDEX "#__finder_links_terms_idx_link_term_weight" on "#__finder_links_terms" ("link_id", "term_id", "weight") /** CAN FAIL **/;
 
+-- The following 16 statements were modified for 4.1.1 by adding the "IF EXISTS" keywords.
+-- See https://github.com/joomla/joomla-cms/pull/37156 .
 DROP TABLE IF EXISTS "#__finder_links_terms0" CASCADE;
 DROP TABLE IF EXISTS "#__finder_links_terms1" CASCADE;
 DROP TABLE IF EXISTS "#__finder_links_terms2" CASCADE;
@@ -60,9 +68,13 @@ CREATE TABLE IF NOT EXISTS "#__finder_logging" (
   "results" integer NOT NULL DEFAULT 0,
   PRIMARY KEY ("md5sum")
 );
+-- The following two statements were modified for 4.1.1 by adding the "/** CAN FAIL **/" installer hint.
+-- See https://github.com/joomla/joomla-cms/pull/37156 .
 CREATE INDEX "#__finder_logging_idx_md5sum" on "#__finder_logging" ("md5sum") /** CAN FAIL **/;
 CREATE INDEX "#__finder_logging_idx_searchterm" on "#__finder_logging" ("searchterm") /** CAN FAIL **/;
 
+-- The following statement was modified for 4.1.1 by adding the "IF EXISTS" keywords.
+-- See https://github.com/joomla/joomla-cms/pull/37156 .
 DROP TABLE IF EXISTS "#__finder_taxonomy";
 CREATE TABLE IF NOT EXISTS "#__finder_taxonomy" (
   "id" serial NOT NULL,
@@ -78,6 +90,8 @@ CREATE TABLE IF NOT EXISTS "#__finder_taxonomy" (
   "language" varchar(7) DEFAULT '' NOT NULL,
   PRIMARY KEY ("id")
 );
+-- The following 7 statements were modified for 4.1.1 by adding the "/** CAN FAIL **/" installer hint.
+-- See https://github.com/joomla/joomla-cms/pull/37156 .
 CREATE INDEX "#__finder_taxonomy_state" on "#__finder_taxonomy" ("state") /** CAN FAIL **/;
 CREATE INDEX "#__finder_taxonomy_access" on "#__finder_taxonomy" ("access") /** CAN FAIL **/;
 CREATE INDEX "#__finder_taxonomy_path" on "#__finder_taxonomy" ("path") /** CAN FAIL **/;
@@ -96,18 +110,24 @@ ALTER TABLE "#__finder_terms" ALTER COLUMN "language" TYPE character varying(7);
 ALTER TABLE "#__finder_terms" ALTER COLUMN "language" SET DEFAULT '';
 ALTER TABLE "#__finder_terms" ALTER COLUMN "stem" SET DEFAULT '';
 ALTER TABLE "#__finder_terms" ALTER COLUMN "soundex" SET DEFAULT '';
+-- The following 4 statements were modified for 4.1.1 by adding the "/** CAN FAIL **/" installer hint.
+-- See https://github.com/joomla/joomla-cms/pull/37156 .
 CREATE INDEX "#__finder_terms_idx_stem" on "#__finder_terms" ("stem" /** CAN FAIL **/);
 CREATE INDEX "#__finder_terms_idx_language" on "#__finder_terms" ("language") /** CAN FAIL **/;
 ALTER TABLE "#__finder_terms" DROP CONSTRAINT "#__finder_terms_idx_term" /** CAN FAIL **/;
 ALTER TABLE "#__finder_terms" ADD CONSTRAINT "#__finder_terms_idx_term_language" UNIQUE ("term", "language") /** CAN FAIL **/;
 
 DROP TABLE IF EXISTS "#__finder_terms_common";
+-- The following statement was modified for 4.1.1 by adding the "IF NOT EXISTS" keywords.
+-- See https://github.com/joomla/joomla-cms/pull/37156 .
 CREATE TABLE IF NOT EXISTS "#__finder_terms_common" (
   "term" varchar(75) NOT NULL,
   "language" varchar(7) DEFAULT '' NOT NULL,
   "custom" integer DEFAULT 0 NOT NULL,
   CONSTRAINT "#__finder_terms_common_idx_term_language" UNIQUE ("term", "language")
 );
+-- The following statement was modified for 4.1.1 by adding the "/** CAN FAIL **/" installer hint.
+-- See https://github.com/joomla/joomla-cms/pull/37156 .
 CREATE INDEX "#__finder_terms_common_idx_lang" on "#__finder_terms_common" ("language") /** CAN FAIL **/;
 INSERT INTO "#__finder_terms_common" ("term", "language", "custom") VALUES
 	('i', 'en', 0),
@@ -289,12 +309,16 @@ TRUNCATE TABLE "#__finder_tokens";
 ALTER TABLE "#__finder_tokens" ALTER COLUMN "language" TYPE character varying(7);
 ALTER TABLE "#__finder_tokens" ALTER COLUMN "language" SET DEFAULT '';
 ALTER TABLE "#__finder_tokens" ALTER COLUMN "stem" SET DEFAULT '';
+-- The following two statements were modified for 4.1.1 by adding the "/** CAN FAIL **/" installer hint.
+-- See https://github.com/joomla/joomla-cms/pull/37156 .
 CREATE INDEX "#__finder_tokens_idx_stem" on "#__finder_tokens" ("stem") /** CAN FAIL **/;
 CREATE INDEX "#__finder_tokens_idx_language" on "#__finder_tokens" ("language") /** CAN FAIL **/;
 
 TRUNCATE TABLE "#__finder_tokens_aggregate";
 ALTER TABLE "#__finder_tokens_aggregate" ALTER COLUMN "language" TYPE character varying(7);
 ALTER TABLE "#__finder_tokens_aggregate" ALTER COLUMN "language" SET DEFAULT '';
+-- The following statement was modified for 4.1.1 by adding the "/** CAN FAIL **/" installer hint.
+-- See https://github.com/joomla/joomla-cms/pull/37156 .
 ALTER TABLE "#__finder_tokens_aggregate" DROP COLUMN "map_suffix" /** CAN FAIL **/;
 ALTER TABLE "#__finder_tokens_aggregate" ALTER COLUMN "stem" SET DEFAULT '';
 ALTER TABLE "#__finder_tokens_aggregate" ALTER COLUMN "term_weight" SET DEFAULT 0;

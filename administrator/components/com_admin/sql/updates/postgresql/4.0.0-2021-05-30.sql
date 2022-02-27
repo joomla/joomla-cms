@@ -15,6 +15,8 @@ UPDATE "#__mail_templates"
  WHERE "template_id" = 'com_privacy.userdataexport';
 
 -- From 4.0.0-2021-05-10.sql
+-- The following statement was modified for 4.1.1 by adding the "/** CAN FAIL **/" installer hint.
+-- See https://github.com/joomla/joomla-cms/pull/37156 .
 CREATE INDEX "#__finder_taxonomy_level" ON "#__finder_taxonomy" ("level") /** CAN FAIL **/;
 
 -- From 4.0.0-2021-05-21.sql

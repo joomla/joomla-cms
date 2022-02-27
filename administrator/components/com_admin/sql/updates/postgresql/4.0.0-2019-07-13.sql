@@ -7,6 +7,8 @@ CREATE TABLE IF NOT EXISTS "#__webauthn_credentials" (
     PRIMARY KEY ("id")
 );
 
+-- The following statement was modified for 4.1.1 by adding the "/** CAN FAIL **/" installer hint.
+-- See https://github.com/joomla/joomla-cms/pull/37156 .
 CREATE INDEX "#__webauthn_credentials_user_id" ON "#__webauthn_credentials" ("user_id") /** CAN FAIL **/;
 
 INSERT INTO "#__extensions" ("package_id", "name", "type", "element", "folder", "client_id", "enabled", "access", "protected", "manifest_cache", "params", "custom_data", "checked_out", "checked_out_time", "ordering", "state") VALUES

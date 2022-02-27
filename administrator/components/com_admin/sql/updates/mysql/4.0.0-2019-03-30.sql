@@ -1,3 +1,5 @@
+-- The following two statements were modified for 4.1.1 by adding the "/** CAN FAIL **/" installer hint.
+-- See https://github.com/joomla/joomla-cms/pull/37156 .
 ALTER TABLE `#__menu` ADD COLUMN `publish_up` datetime /** CAN FAIL **/;
 ALTER TABLE `#__menu` ADD COLUMN `publish_down` datetime /** CAN FAIL **/;
 

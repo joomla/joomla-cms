@@ -1,7 +1,10 @@
--- From 4.0.0-2017-03-18.sql
+-- The following statement was moved from below to here and modified for 4.1.1 by adding the "/** CAN FAIL **/" installer hint.
+-- See https://github.com/joomla/joomla-cms/pull/37156 .
 ALTER TABLE `#__extensions` DROP COLUMN `system_data` /** CAN FAIL **/;
 
 -- From 4.0.0-2016-07-03.sql
+-- The following statement was modified for 4.1.1 by removing the `system_data` column.
+-- See https://github.com/joomla/joomla-cms/pull/37156 .
 INSERT INTO `#__extensions` (`name`, `type`, `element`, `folder`, `client_id`, `enabled`, `access`, `protected`, `manifest_cache`, `params`, `custom_data`, `checked_out`, `checked_out_time`, `ordering`, `state`) VALUES
 ('plg_behaviour_taggable', 'plugin', 'taggable', 'behaviour', 0, 1, 1, 0, '', '{}', '', 0, '0000-00-00 00:00:00', 0, 0),
 ('plg_behaviour_versionable', 'plugin', 'versionable', 'behaviour', 0, 1, 1, 0, '', '{}', '', 0, '0000-00-00 00:00:00', 0, 0);
@@ -13,11 +16,16 @@ DELETE FROM `#__extensions` WHERE `type` = 'library' AND `element` = 'phputf8';
 DELETE FROM `#__extensions` WHERE `type` = 'plugin' AND `element` = 'p3p' AND `folder` = 'system';
 
 -- From 4.0.0-2016-10-02.sql
+-- The following statement was modified for 4.1.1 by adding the "/** CAN FAIL **/" installer hint.
+-- See https://github.com/joomla/joomla-cms/pull/37156 .
 ALTER TABLE `#__user_keys` DROP COLUMN `invalid` /** CAN FAIL **/;
 
 --
 -- Insert the new templates into the database. Set as home if the old template is the active one
 --
+
+-- The following statement was modified for 4.1.1 by removing the `system_data` column.
+-- See https://github.com/joomla/joomla-cms/pull/37156 .
 INSERT INTO `#__extensions` (`name`, `type`, `element`, `folder`, `client_id`, `enabled`, `access`, `protected`, `manifest_cache`, `params`, `custom_data`, `checked_out`, `checked_out_time`, `ordering`, `state`) VALUES
 ('atum', 'template', 'atum', '', 1, 1, 1, 0, '{}', '{}', '', 0, '0000-00-00 00:00:00', 0, 0),
 ('cassiopeia', 'template', 'cassiopeia', '', 0, 1, 1, 0, '{}', '{}', '', 0, '0000-00-00 00:00:00', 0, 0);
@@ -51,6 +59,11 @@ DELETE FROM `#__template_styles` WHERE `template` = 'beez3' AND `client_id` = 0;
 -- From 4.0.0-2016-10-03.sql
 DELETE FROM `#__extensions` WHERE `name` = 'mod_submenu';
 
+-- From 4.0.0-2017-03-18.sql
+-- The following statement was moved to the top for 4.1.1.
+-- See https://github.com/joomla/joomla-cms/pull/37156 .
+-- ALTER TABLE `#__extensions` DROP COLUMN `system_data`;
+
 -- From 4.0.0-2017-04-25.sql
 INSERT INTO `#__extensions` (`name`, `type`, `element`, `folder`, `client_id`, `enabled`, `access`, `protected`, `manifest_cache`, `params`, `custom_data`, `checked_out`, `checked_out_time`, `ordering`, `state`) VALUES
 ('plg_filesystem_local', 'plugin', 'local', 'filesystem', 0, 1, 1, 0, '', '{}', '', 0, '0000-00-00 00:00:00', 0, 0),
@@ -63,6 +76,8 @@ UPDATE `#__menu` SET `link` = 'index.php?option=com_config&view=config' WHERE `l
 UPDATE `#__menu` SET `link` = 'index.php?option=com_config&view=templates' WHERE `link` = 'index.php?option=com_config&view=templates&controller=config.display.templates';
 
 -- From 4.0.0-2017-06-03.sql
+-- The following two statements were modified for 4.1.1 by adding the "/** CAN FAIL **/" installer hint.
+-- See https://github.com/joomla/joomla-cms/pull/37156 .
 ALTER TABLE `#__extensions` ADD COLUMN `changelogurl` text AFTER `element` /** CAN FAIL **/;
 ALTER TABLE `#__updates` ADD COLUMN `changelogurl` text AFTER `infourl` /** CAN FAIL **/;
 

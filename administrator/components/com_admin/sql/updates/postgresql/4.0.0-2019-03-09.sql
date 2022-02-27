@@ -24,9 +24,13 @@ CREATE TABLE IF NOT EXISTS "#__mail_templates" (
   "params" TEXT NOT NULL,
   CONSTRAINT "#__mail_templates_idx_template_id_language" UNIQUE ("template_id", "language")
 );
+-- The following two statements were modified for 4.1.1 by adding the "/** CAN FAIL **/" installer hint.
+-- See https://github.com/joomla/joomla-cms/pull/37156 .
 CREATE INDEX "#__mail_templates_idx_template_id" ON "#__mail_templates" ("template_id") /** CAN FAIL **/;
 CREATE INDEX "#__mail_templates_idx_language" ON "#__mail_templates" ("language") /** CAN FAIL **/;
 
+-- The following statement was modified for 4.1.1 by adding the "ON CONFLICT" clause.
+-- See https://github.com/joomla/joomla-cms/pull/37156 .
 INSERT INTO "#__mail_templates" ("template_id", "language", "subject", "body", "htmlbody", "attachments", "params") VALUES
 ('com_config.test_mail', '', 'COM_CONFIG_SENDMAIL_SUBJECT', 'COM_CONFIG_SENDMAIL_BODY', '', '', '{"tags":["sitename","method"]}')
 ON CONFLICT DO NOTHING;

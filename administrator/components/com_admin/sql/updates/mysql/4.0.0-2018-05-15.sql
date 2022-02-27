@@ -33,6 +33,8 @@ CREATE TABLE IF NOT EXISTS `#__workflows` (
 -- Dumping data for table `#__workflows`
 --
 
+-- The following statement was modified for 4.1.1 by adding the "IGNORE" keyword.
+-- See https://github.com/joomla/joomla-cms/pull/37156 .
 INSERT IGNORE INTO `#__workflows` (`id`, `asset_id`, `published`, `title`, `description`, `extension`, `default`, `ordering`, `created`, `created_by`, `modified`, `modified_by`, `checked_out_time`, `checked_out`) VALUES
 (1, 0, 1, 'COM_WORKFLOW_BASIC_WORKFLOW', '', 'com_content.article', 1, 1, CURRENT_TIMESTAMP(), 0, CURRENT_TIMESTAMP(), 0, NULL, 0);
 
@@ -78,6 +80,8 @@ CREATE TABLE IF NOT EXISTS `#__workflow_stages` (
 -- Dumping data for table `#__workflow_stages`
 --
 
+-- The following statement was modified for 4.1.1 by adding the "IGNORE" keyword.
+-- See https://github.com/joomla/joomla-cms/pull/37156 .
 INSERT IGNORE INTO `#__workflow_stages` (`id`, `asset_id`, `ordering`, `workflow_id`, `published`, `title`, `description`, `default`, `checked_out_time`, `checked_out`) VALUES
 (1, 0, 1, 1, 1, 'COM_WORKFLOW_BASIC_STAGE', '', 1, NULL, 0);
 
@@ -111,6 +115,8 @@ CREATE TABLE IF NOT EXISTS `#__workflow_transitions` (
 -- Dumping data for table `#__workflow_transitions`
 --
 
+-- The following statement was modified for 4.1.1 by adding the "IGNORE" keyword.
+-- See https://github.com/joomla/joomla-cms/pull/37156 .
 INSERT IGNORE INTO `#__workflow_transitions` (`id`, `asset_id`, `published`, `ordering`, `workflow_id`, `title`, `description`, `from_stage_id`, `to_stage_id`, `options`, `checked_out_time`, `checked_out`) VALUES
 (1, 0, 1, 1, 1, 'Unpublish', '', -1, 1, '{"publishing":"0"}', NULL, 0),
 (2, 0, 1, 2, 1, 'Publish', '', -1, 1, '{"publishing":"1"}', NULL, 0),
@@ -137,5 +143,8 @@ INSERT INTO `#__extensions` (`package_id`, `name`, `type`, `element`, `folder`, 
 --
 -- Creating Associations for existing content
 --
+
+-- The following statement was modified for 4.1.1 by adding the "IGNORE" keyword.
+-- See https://github.com/joomla/joomla-cms/pull/37156 .
 INSERT IGNORE INTO `#__workflow_associations` (`item_id`, `stage_id`, `extension`)
 SELECT `id`, 1, 'com_content.article' FROM `#__content`;
