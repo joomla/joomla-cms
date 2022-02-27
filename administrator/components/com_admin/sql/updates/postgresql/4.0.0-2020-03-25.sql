@@ -1,5 +1,5 @@
 -- Add locked field to extensions table.
-ALTER TABLE "#__extensions" ADD COLUMN "locked" smallint DEFAULT 0 NOT NULL;
+ALTER TABLE "#__extensions" ADD COLUMN "locked" smallint DEFAULT 0 NOT NULL /** CAN FAIL **/;
 
 COMMENT ON COLUMN "#__extensions"."protected" IS 'Flag to indicate if the extension is protected. Protected extensions cannot be disabled.';
 COMMENT ON COLUMN "#__extensions"."locked" IS 'Flag to indicate if the extension is locked. Locked extensions cannot be uninstalled.';

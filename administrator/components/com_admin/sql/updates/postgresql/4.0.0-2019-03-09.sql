@@ -24,10 +24,12 @@ CREATE TABLE IF NOT EXISTS "#__mail_templates" (
   "params" TEXT NOT NULL,
   CONSTRAINT "#__mail_templates_idx_template_id_language" UNIQUE ("template_id", "language")
 );
-CREATE INDEX "#__mail_templates_idx_template_id" ON "#__mail_templates" ("template_id");
-CREATE INDEX "#__mail_templates_idx_language" ON "#__mail_templates" ("language");
+CREATE INDEX "#__mail_templates_idx_template_id" ON "#__mail_templates" ("template_id") /** CAN FAIL **/;
+CREATE INDEX "#__mail_templates_idx_language" ON "#__mail_templates" ("language") /** CAN FAIL **/;
 
-INSERT INTO "#__mail_templates" ("template_id", "language", "subject", "body", "htmlbody", "attachments", "params") VALUES ('com_config.test_mail', '', 'COM_CONFIG_SENDMAIL_SUBJECT', 'COM_CONFIG_SENDMAIL_BODY', '', '', '{"tags":["sitename","method"]}');
+INSERT INTO "#__mail_templates" ("template_id", "language", "subject", "body", "htmlbody", "attachments", "params") VALUES
+('com_config.test_mail', '', 'COM_CONFIG_SENDMAIL_SUBJECT', 'COM_CONFIG_SENDMAIL_BODY', '', '', '{"tags":["sitename","method"]}')
+ON CONFLICT DO NOTHING;
 
 -- From 4.0.0-2019-02-03.sql
 DELETE FROM "#__menu" WHERE "link" = 'index.php?option=com_postinstall' AND "menutype" = 'main';

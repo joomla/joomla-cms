@@ -1,5 +1,5 @@
-ALTER TABLE "#__menu" ADD COLUMN "publish_up" timestamp without time zone;
-ALTER TABLE "#__menu" ADD COLUMN "publish_down" timestamp without time zone;
+ALTER TABLE "#__menu" ADD COLUMN "publish_up" timestamp without time zone /** CAN FAIL **/;
+ALTER TABLE "#__menu" ADD COLUMN "publish_down" timestamp without time zone /** CAN FAIL **/;
 
 ALTER TABLE "#__menu" ALTER COLUMN "checked_out_time" DROP NOT NULL;
 ALTER TABLE "#__menu" ALTER COLUMN "checked_out_time" DROP DEFAULT;

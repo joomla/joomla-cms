@@ -12,4 +12,4 @@ UPDATE `#__menu` SET `link`='index.php?option=com_tags&view=tags' WHERE `menutyp
 UPDATE `#__menu` SET `link`='index.php?option=com_associations&view=associations' WHERE `menutype`='main' AND `path`='Multilingual Associations';
 
 -- From 4.0.0-2019-05-20.sql
-ALTER TABLE `#__extensions` ADD COLUMN `note` varchar(255) AFTER `state`;
+ALTER TABLE `#__extensions` ADD COLUMN `note` varchar(255) AFTER `state` /** CAN FAIL **/;

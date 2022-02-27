@@ -15,7 +15,7 @@ UPDATE `#__mail_templates`
  WHERE `template_id` = 'com_privacy.userdataexport';
 
 -- From 4.0.0-2021-05-10.sql
-ALTER TABLE `#__finder_taxonomy` ADD INDEX `idx_level` (`level`);
+ALTER TABLE `#__finder_taxonomy` ADD INDEX `idx_level` (`level`) /** CAN FAIL **/;
 
 -- From 4.0.0-2021-05-21.sql
 UPDATE `#__modules`

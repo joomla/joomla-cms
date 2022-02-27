@@ -3,7 +3,7 @@ INSERT INTO `#__extensions` (`package_id`, `name`, `type`, `element`, `folder`, 
 (0, 'plg_quickicon_downloadkey', 'plugin', 'downloadkey', 'quickicon', 0, 1, 1, 0, 1, '', '', '', 0, NULL, 0, 0);
 
 -- From 4.0.0-2020-04-16.sql
-INSERT INTO `#__mail_templates` (`template_id`, `language`, `subject`, `body`, `htmlbody`, `attachments`, `params`) VALUES
+INSERT IGNORE INTO `#__mail_templates` (`template_id`, `language`, `subject`, `body`, `htmlbody`, `attachments`, `params`) VALUES
 ('com_contact.mail', '', 'COM_CONTACT_ENQUIRY_SUBJECT', 'COM_CONTACT_ENQUIRY_TEXT', '', '', '{"tags":["sitename","name","email","subject","body","url","customfields"]}'),
 ('com_contact.mail.copy', '', 'COM_CONTACT_COPYSUBJECT_OF', 'COM_CONTACT_COPYTEXT_OF', '', '', '{"tags":["sitename","name","email","subject","body","url","customfields"]}'),
 ('com_users.massmail.mail', '', 'COM_USERS_MASSMAIL_MAIL_SUBJECT', 'COM_USERS_MASSMAIL_MAIL_BODY', '', '', '{"tags":["subject","body","subjectprefix","bodysuffix"]}'),
@@ -14,13 +14,13 @@ INSERT INTO `#__mail_templates` (`template_id`, `language`, `subject`, `body`, `
 
 -- From 4.0.0-2020-05-21.sql
 -- Renaming table
-RENAME TABLE `#__ucm_history` TO `#__history`;
+RENAME TABLE `#__ucm_history` TO `#__history` /** CAN FAIL **/;
 -- Rename ucm_item_id to item_id as the new primary identifier for the original content item
-ALTER TABLE `#__history` CHANGE `ucm_item_id` `item_id` VARCHAR(50) NOT NULL AFTER `version_id`;
+ALTER TABLE `#__history` CHANGE `ucm_item_id` `item_id` VARCHAR(50) NOT NULL AFTER `version_id` /** CAN FAIL **/;
 -- Extend the original field content with the alias of the content type
-UPDATE #__history AS h INNER JOIN #__content_types AS c ON h.ucm_type_id = c.type_id SET h.item_id = CONCAT(c.type_alias, '.', h.item_id);
+UPDATE #__history AS h INNER JOIN #__content_types AS c ON h.ucm_type_id = c.type_id SET h.item_id = CONCAT(c.type_alias, '.', h.item_id) /** CAN FAIL **/;
 -- Now we don't need the ucm_type_id anymore and drop it.
-ALTER TABLE `#__history` DROP COLUMN `ucm_type_id`;
+ALTER TABLE `#__history` DROP COLUMN `ucm_type_id` /** CAN FAIL **/;
 ALTER TABLE `#__history` MODIFY `save_date` datetime NOT NULL;
 
 -- From 4.0.0-2020-05-29.sql

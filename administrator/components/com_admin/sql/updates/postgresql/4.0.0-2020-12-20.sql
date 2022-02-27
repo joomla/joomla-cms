@@ -17,7 +17,7 @@ INSERT INTO "#__mail_templates" ("template_id", "language", "subject", "body", "
 ('com_users.registration.admin.verification_request', '', 'COM_USERS_EMAIL_ACTIVATE_WITH_ADMIN_ACTIVATION_SUBJECT', 'COM_USERS_EMAIL_ACTIVATE_WITH_ADMIN_ACTIVATION_BODY', '', '', '{"tags":["name","sitename","email","username","activate"]}'),
 ('plg_system_privacyconsent.request.reminder', '', 'PLG_SYSTEM_PRIVACYCONSENT_EMAIL_REMIND_SUBJECT', 'PLG_SYSTEM_PRIVACYCONSENT_EMAIL_REMIND_BODY', '', '', '{"tags":["sitename","url","tokenurl","formurl","token"]}'),
 ('com_messages.new_message', '', 'COM_MESSAGES_NEW_MESSAGE', 'COM_MESSAGES_NEW_MESSAGE_BODY', '', '', '{"tags":["subject","message","fromname","sitename","siteurl","fromemail","toname","toemail"]}')
-;
+ON CONFLICT DO NOTHING;
 
 -- From 4.0.0-2020-12-19.sql
 UPDATE "#__banners" SET "created" = '1980-01-01 00:00:00' WHERE "created" = '1970-01-01 00:00:00';

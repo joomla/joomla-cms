@@ -9,12 +9,12 @@ DELETE FROM "#__postinstall_messages"
         'TPL_HATHOR_MESSAGE_POSTINSTALL_TITLE');
 
 -- From 4.0.0-2021-04-11.sql
-ALTER TABLE "#__fields" ADD COLUMN "only_use_in_subform" smallint DEFAULT 0 NOT NULL;
+ALTER TABLE "#__fields" ADD COLUMN "only_use_in_subform" smallint DEFAULT 0 NOT NULL /** CAN FAIL **/;
 
 -- From 4.0.0-2021-04-20.sql
 UPDATE "#__extensions" SET "name" = 'plg_fields_subform', "element" = 'subform' WHERE "name" = 'plg_fields_subfields' AND "type" = 'plugin' AND "element" = 'subfields' AND "folder" = 'fields' AND "client_id" = 0;
 UPDATE "#__fields" SET "type" = 'subform' WHERE "type" = 'subfields';
 
 -- From 4.0.0-2021-04-22.sql
-ALTER TABLE "#__mail_templates" ADD COLUMN "extension" VARCHAR(127) NOT NULL DEFAULT '';
+ALTER TABLE "#__mail_templates" ADD COLUMN "extension" VARCHAR(127) NOT NULL DEFAULT '' /** CAN FAIL **/;
 UPDATE "#__mail_templates" SET "extension" = SUBSTRING("template_id", 1, POSITION('.' IN "template_id") - 1);

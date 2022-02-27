@@ -10,22 +10,23 @@ INSERT INTO "#__mail_templates" ("template_id", "language", "subject", "body", "
 ('com_users.password_reset', '', 'COM_USERS_EMAIL_PASSWORD_RESET_SUBJECT', 'COM_USERS_EMAIL_PASSWORD_RESET_BODY', '', '', '{"tags":["name","email","sitename","link_text","link_html","token"]}'),
 ('com_users.reminder', '', 'COM_USERS_EMAIL_USERNAME_REMINDER_SUBJECT', 'COM_USERS_EMAIL_USERNAME_REMINDER_BODY', '', '', '{"tags":["name","username","sitename","email","link_text","link_html"]}'),
 ('plg_system_updatenotification.mail', '', 'PLG_SYSTEM_UPDATENOTIFICATION_EMAIL_SUBJECT', 'PLG_SYSTEM_UPDATENOTIFICATION_EMAIL_BODY', '', '', '{"tags":["newversion","curversion","sitename","url","link","releasenews"]}'),
-('plg_user_joomla.mail', '', 'PLG_USER_JOOMLA_NEW_USER_EMAIL_SUBJECT', 'PLG_USER_JOOMLA_NEW_USER_EMAIL_BODY', '', '', '{"tags":["name","sitename","url","username","password","email"]}');
+('plg_user_joomla.mail', '', 'PLG_USER_JOOMLA_NEW_USER_EMAIL_SUBJECT', 'PLG_USER_JOOMLA_NEW_USER_EMAIL_BODY', '', '', '{"tags":["name","sitename","url","username","password","email"]}')
+ON CONFLICT DO NOTHING;
 
 -- From 4.0.0-2020-05-21.sql
 -- Renaming table
-ALTER TABLE "#__ucm_history" RENAME TO "#__history";
+ALTER TABLE "#__ucm_history" RENAME TO "#__history" /** CAN FAIL **/;
 -- Rename ucm_item_id to item_id as the new primary identifier for the original content item
-ALTER TABLE "#__history" RENAME "ucm_item_id" TO "item_id";
+ALTER TABLE "#__history" RENAME "ucm_item_id" TO "item_id" /** CAN FAIL **/;
 ALTER TABLE "#__history" ALTER COLUMN "item_id" TYPE character varying(50);
 ALTER TABLE "#__history" ALTER COLUMN "item_id" SET NOT NULL;
 ALTER TABLE "#__history" ALTER COLUMN "item_id" DROP DEFAULT;
 
 -- Extend the original field content with the alias of the content type
-UPDATE "#__history" AS h SET "item_id" = CONCAT(c."type_alias", '.', "item_id") FROM "#__content_types" AS c WHERE h."ucm_type_id" = c."type_id";
+UPDATE "#__history" AS h SET "item_id" = CONCAT(c."type_alias", '.', "item_id") FROM "#__content_types" AS c WHERE h."ucm_type_id" = c."type_id" /** CAN FAIL **/;
 
 -- Now we don't need the ucm_type_id anymore and drop it.
-ALTER TABLE "#__history" DROP COLUMN "ucm_type_id";
+ALTER TABLE "#__history" DROP COLUMN "ucm_type_id" /** CAN FAIL **/;
 ALTER TABLE "#__history" ALTER COLUMN "save_date" DROP DEFAULT;
 
 -- From 4.0.0-2020-05-29.sql
