@@ -700,7 +700,7 @@ class PlgSystemDebug extends CMSPlugin
 				continue;
 			}
 
-			// Collect the module render time
+			// Collect the access render time
 			if (strpos($mark->label, 'Access:') !== false)
 			{
 				$accessTime += $mark->time;
