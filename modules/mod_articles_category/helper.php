@@ -301,11 +301,12 @@ abstract class ModArticlesCategoryHelper
 
 			if ($show_introtext)
 			{
-				$item->introtext = JHtml::_('content.prepare', $item->introtext, '', 'mod_articles_category.content');
 				$item->introtext = self::_cleanIntrotext($item->introtext);
+				$item->introtext = self::truncate($item->introtext, $introtext_limit);
+				$item->introtext = JHtml::_('content.prepare', $item->introtext, '', 'mod_articles_category.content');
 			}
 
-			$item->displayIntrotext = $show_introtext ? self::truncate($item->introtext, $introtext_limit) : '';
+			$item->displayIntrotext = $show_introtext ? $item->introtext : '';
 			$item->displayReadmore  = $item->alternative_readmore;
 		}
 
