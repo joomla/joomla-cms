@@ -36,6 +36,13 @@ HTMLHelper::_('bootstrap.dropdown', '.dropdown-toggle');
 		</div>
 		<span class="icon-angle-down" aria-hidden="true"></span>
 	</button>
+	<button class="dropdown-toggle d-flex align-items-center ps-0 py-0" data-bs-toggle="dropdown" type="button"
+		title="<?php echo Text::_('MOD_USER_MENU'); ?>">
+		<?php $route = 'index.php?option=com_login&task=logout&amp;' . Session::getFormToken() . '=1'; ?>
+		<a  href="<?php echo Route::_($route); ?>">
+			<span class="icon-power-off icon-fw" aria-hidden="true"></span>
+		</a>
+	</button>
 	<div class="dropdown-menu dropdown-menu-end">
 		<div class="dropdown-header">
 			<span class="icon-user-circle icon-fw" aria-hidden="true"></span>
@@ -52,11 +59,5 @@ HTMLHelper::_('bootstrap.dropdown', '.dropdown-toggle');
 			<span class="icon-universal-access icon-fw" aria-hidden="true"></span>
 			<?php echo Text::_('MOD_USER_ACCESSIBILITY_SETTINGS'); ?>
 		</a>
-	    </div>
-		<div class="header-item-content dropdown header-profile">
-		<?php $route = 'index.php?option=com_login&task=logout&amp;' . Session::getFormToken() . '=1'; ?>
-		<a  href="<?php echo Route::_($route); ?>">
-			<span class="icon-power-off icon-fw" aria-hidden="true"></span>
-		</a>
-	</div>
+	</div>	
 </div>
