@@ -55,9 +55,8 @@ HTMLHelper::_('bootstrap.dropdown', '.dropdown-toggle');
 	    </div>
 		<div class="header-item-content dropdown header-profile">
 		<?php $route = 'index.php?option=com_login&task=logout&amp;' . Session::getFormToken() . '=1'; ?>
-		<a class="dropdown-item" href="<?php echo Route::_($route); ?>">
+		<a  href="<?php echo Route::_($route); ?>">
 			<span class="icon-power-off icon-fw" aria-hidden="true"></span>
-			
 		</a>
 	</div>
 </div>
