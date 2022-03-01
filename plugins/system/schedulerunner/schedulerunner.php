@@ -134,14 +134,13 @@ class PlgSystemSchedulerunner extends CMSPlugin implements SubscriberInterface
 		$now = Factory::getDate('now', 'UTC')->toSql();
 
 		$query = $this->db->getQuery(true)
-			->from('#__scheduler_tasks AS a')
-			->where($this->db->quoteName('a.state') . ' = :state')
-			->bind(':state', $state)
 			// Count due tasks
 			->select('SUM(CASE WHEN ' . $this->db->quoteName('a.next_execution') . ' <= :now THEN 1 ELSE 0 END) AS due_count')
-			->bind(':now', $now)
 			// Count locked tasks
-			->select('SUM(CASE WHEN ' . $this->db->quoteName('a.locked') . ' IS NULL THEN 0 ELSE 1 END) AS locked_count');
+			->select('SUM(CASE WHEN ' . $this->db->quoteName('a.locked') . ' IS NULL THEN 0 ELSE 1 END) AS locked_count')
+			->from($this->$db->quoteName('#__scheduler_tasks', 'a'))
+			->where($this->db->quoteName('a.state') . ' = 1')
+			->bind(':now', $now);
 
 		$this->db->setQuery($query);
 
