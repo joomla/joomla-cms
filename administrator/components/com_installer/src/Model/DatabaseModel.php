@@ -650,7 +650,7 @@ class DatabaseModel extends InstallerModel
 				$table->get('element'),
 				$table->get('type'),
 				$table->get('client_id'),
-				$table->get('element') === 'plugin' ? $table->get('folder') : null
+				$table->get('type') === 'plugin' ? $table->get('folder') : null
 			);
 			$extensionVersion = (string) $installationXML->version;
 		}
