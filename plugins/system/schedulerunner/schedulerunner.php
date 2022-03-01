@@ -129,7 +129,6 @@ class PlgSystemSchedulerunner extends CMSPlugin implements SubscriberInterface
 			return;
 		}
 
-		$state = 1;
 		$now = Factory::getDate('now', 'UTC')->toSql();
 
 		$query = $this->db->getQuery(true)
