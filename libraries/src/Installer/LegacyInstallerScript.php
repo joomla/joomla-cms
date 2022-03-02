@@ -105,7 +105,7 @@ class LegacyInstallerScript implements InstallerScriptInterface
 			return true;
 		}
 
-		return $this->installerScript->preflight($adapter);
+		return $this->installerScript->preflight($type, $adapter);
 	}
 
 	/**
@@ -125,6 +125,6 @@ class LegacyInstallerScript implements InstallerScriptInterface
 			return true;
 		}
 
-		return $this->installerScript->postflight($adapter);
+		return $this->installerScript->postflight($type, $adapter);
 	}
 }
