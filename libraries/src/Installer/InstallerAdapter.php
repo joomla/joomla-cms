@@ -1043,6 +1043,11 @@ abstract class InstallerAdapter implements ContainerAwareInterface
 		// When none is set, then use the legacy way
 		if (!$container->has(InstallerScriptInterface::class))
 		{
+			@trigger_error(
+				'Legacy installer files are deprecated and will be removed in 6.0. Use a service provider instead.',
+				E_USER_DEPRECATED
+			);
+
 			$classname = $this->getScriptClassName();
 
 			\JLoader::register($classname, $manifestScriptFile);
