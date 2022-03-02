@@ -1027,6 +1027,8 @@ abstract class InstallerAdapter implements ContainerAwareInterface
 		}
 		catch (ContainerNotFoundException $e)
 		{
+			@trigger_error('Container must be set in 6.0.', E_USER_DEPRECATED);
+
 			// Fallback to the global container
 			$container = Factory::getContainer();
 		}
