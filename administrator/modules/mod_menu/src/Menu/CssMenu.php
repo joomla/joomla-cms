@@ -438,6 +438,7 @@ class CssMenu
 				$parent->removeChild($item);
 				continue;
 			}
+
 			if ($assetName && !$user->authorise(($item->scope === 'edit') ? 'core.create' : 'core.manage', $assetName))
 			{
 				$parent->removeChild($item);
