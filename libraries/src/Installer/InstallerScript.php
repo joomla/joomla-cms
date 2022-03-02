@@ -22,7 +22,7 @@ use Joomla\Database\ParameterType;
  *
  * @since  3.6
  */
-class InstallerScript implements InstallerScriptInterface
+class InstallerScript
 {
 	/**
 	 * The version number of the extension.
@@ -101,14 +101,14 @@ class InstallerScript implements InstallerScriptInterface
 	/**
 	 * Function called before extension installation/update/removal procedure commences
 	 *
-	 * @param   string            $type     The type of change (install or discover_install, update, uninstall)
-	 * @param   InstallerAdapter  $adapter  The adapter calling this method
+	 * @param   string            $type    The type of change (install, update or discover_install, not uninstall)
+	 * @param   InstallerAdapter  $parent  The class calling this method
 	 *
 	 * @return  boolean  True on success
 	 *
 	 * @since   3.6
 	 */
-	public function preflight($type, $adapter): bool
+	public function preflight($type, $parent)
 	{
 		// Check for the minimum PHP version before continuing
 		if (!empty($this->minimumPhp) && version_compare(PHP_VERSION, $this->minimumPhp, '<'))
@@ -127,8 +127,8 @@ class InstallerScript implements InstallerScriptInterface
 		}
 
 		// Extension manifest file version
-		$this->extension = $adapter->getName();
-		$this->release   = $adapter->getManifest()->version;
+		$this->extension = $parent->getName();
+		$this->release   = $parent->getManifest()->version;
 		$extensionType   = substr($this->extension, 0, 3);
 
 		// Modules parameters are located in the module table - else in the extension table
@@ -421,62 +421,5 @@ class InstallerScript implements InstallerScriptInterface
 		{
 			Factory::getApplication()->enqueueMessage(Text::sprintf('JLIB_INSTALLER_ERROR_COMP_INSTALL_FAILED_TO_CREATE_DASHBOARD', $model->getError()));
 		}
-	}
-
-	/**
-	 * Function called after the extension is installed.
-	 *
-	 * @param   InstallerAdapter  $adapter  The adapter calling this method
-	 *
-	 * @return  boolean  True on success
-	 *
-	 * @since   __DEPLOY_VERSION__
-	 */
-	public function install(InstallerAdapter $adapter): bool
-	{
-		return true;
-	}
-
-	/**
-	 * Function called after the extension is updated.
-	 *
-	 * @param   InstallerAdapter  $adapter  The adapter calling this method
-	 *
-	 * @return  boolean  True on success
-	 *
-	 * @since   __DEPLOY_VERSION__
-	 */
-	public function update(InstallerAdapter $adapter): bool
-	{
-		return true;
-	}
-
-	/**
-	 * Function called after the extension is uninstalled.
-	 *
-	 * @param   InstallerAdapter  $adapter  The adapter calling this method
-	 *
-	 * @return  boolean  True on success
-	 *
-	 * @since   __DEPLOY_VERSION__
-	 */
-	public function uninstall(InstallerAdapter $adapter): bool
-	{
-		return true;
-	}
-
-	/**
-	 * Function called after extension installation/update/removal procedure commences.
-	 *
-	 * @param   string            $type     The type of change (install or discover_install, update, uninstall)
-	 * @param   InstallerAdapter  $adapter  The adapter calling this method
-	 *
-	 * @return  boolean  True on success
-	 *
-	 * @since   __DEPLOY_VERSION__
-	 */
-	public function postflight(string $type, InstallerAdapter $adapter): bool
-	{
-		return true;
 	}
 }

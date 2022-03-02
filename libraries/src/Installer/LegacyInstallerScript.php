@@ -47,7 +47,7 @@ class LegacyInstallerScript implements InstallerScriptInterface
 			return true;
 		}
 
-		return $this->installerScript->install($adapter);
+		return (bool)$this->installerScript->install($adapter);
 	}
 
 	/**
@@ -66,7 +66,7 @@ class LegacyInstallerScript implements InstallerScriptInterface
 			return true;
 		}
 
-		return $this->installerScript->update($adapter);
+		return (bool)$this->installerScript->update($adapter);
 	}
 
 	/**
@@ -85,7 +85,7 @@ class LegacyInstallerScript implements InstallerScriptInterface
 			return true;
 		}
 
-		return $this->installerScript->uninstall($adapter);
+		return (bool)$this->installerScript->uninstall($adapter);
 	}
 
 	/**
@@ -105,7 +105,7 @@ class LegacyInstallerScript implements InstallerScriptInterface
 			return true;
 		}
 
-		return $this->installerScript->preflight($type, $adapter);
+		return (bool)$this->installerScript->preflight($type, $adapter);
 	}
 
 	/**
@@ -125,6 +125,6 @@ class LegacyInstallerScript implements InstallerScriptInterface
 			return true;
 		}
 
-		return $this->installerScript->postflight($type, $adapter);
+		return (bool)$this->installerScript->postflight($type, $adapter);
 	}
 }
