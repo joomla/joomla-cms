@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Administrator
  * @subpackage  mod_user
@@ -17,8 +18,7 @@ use Joomla\CMS\Uri\Uri;
 
 $hideLinks = $app->input->getBool('hidemainmenu');
 
-if ($hideLinks)
-{
+if ($hideLinks) {
 	return;
 }
 
@@ -26,8 +26,7 @@ if ($hideLinks)
 HTMLHelper::_('bootstrap.dropdown', '.dropdown-toggle');
 ?>
 <div class="header-item-content dropdown header-profile">
-	<button class="dropdown-toggle d-flex align-items-center ps-0 py-0" data-bs-toggle="dropdown" type="button"
-		title="<?php echo Text::_('MOD_USER_MENU'); ?>">
+	<button class="dropdown-toggle d-flex align-items-center ps-0 py-0" data-bs-toggle="dropdown" type="button" title="<?php echo Text::_('MOD_USER_MENU'); ?>">
 		<div class="header-item-icon">
 			<span class="icon-user-circle" aria-hidden="true"></span>
 		</div>
@@ -58,4 +57,10 @@ HTMLHelper::_('bootstrap.dropdown', '.dropdown-toggle');
 			<?php echo Text::_('JLOGOUT'); ?>
 		</a>
 	</div>
+	<div class="header-item-content dropdown header-profile">
+		<a href="<?php echo Route::_($route); ?>" title="Log Out">
+			<span class="icon-power-off icon-fw" aria-hidden="true"></span>
+		</a>
+	</div>
+</div>
 </div>
