@@ -23,6 +23,7 @@ use Joomla\Database\DatabaseDriver;
 use Joomla\DI\Container;
 use Joomla\DI\ContainerAwareInterface;
 use Joomla\DI\ContainerAwareTrait;
+use Joomla\DI\Exception\ContainerNotFoundException;
 use Joomla\DI\ServiceProviderInterface;
 
 /**
@@ -1020,7 +1021,15 @@ abstract class InstallerAdapter implements ContainerAwareInterface
 		}
 
 		// The container
-		$container = $this->getContainer();
+		try
+		{
+			$container = $this->getContainer();
+		}
+		catch (ContainerNotFoundException $e)
+		{
+			// Fallback to the global container
+			$container = Factory::getContainer();
+		}
 
 		// The real location of the file
 		$manifestScriptFile = $this->parent->getPath('source') . '/' . $manifestScript;
