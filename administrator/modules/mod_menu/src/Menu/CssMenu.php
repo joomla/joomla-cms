@@ -433,7 +433,7 @@ class CssMenu
 					continue;
 				}
 			}
-			elseif (($item->link === 'index.php?option=com_messages&view=messages' && !$user->authorise('core.manage', 'com_users')))
+			elseif ($item->link === 'index.php?option=com_messages&view=messages' && !$user->authorise('core.manage', 'com_users'))
 			{
 				$parent->removeChild($item);
 				continue;
