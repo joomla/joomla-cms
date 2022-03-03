@@ -80,7 +80,7 @@ class TaskOption
 	 *
 	 * @param   string  $name  The object property requested.
 	 *
-	 * @return  mixed
+	 * @return  ?string
 	 *
 	 * @since  4.1.0
 	 */
@@ -89,6 +89,21 @@ class TaskOption
 		if (property_exists($this, $name))
 		{
 			return $this->$name;
+		}
+
+		// Trigger a deprecation for the 'type' property (replaced with {@see id}).
+		if ($name === 'type')
+		{
+			@trigger_error(
+				sprintf(
+					"The %1$s property is deprecated. Use %2$s instead.",
+					$name,
+					'id'
+				),
+				E_USER_DEPRECATED
+			);
+
+			return $this->id;
 		}
 
 		return null;
