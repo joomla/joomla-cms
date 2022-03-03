@@ -123,7 +123,6 @@ class PlgSystemJooa11y extends CMSPlugin implements SubscriberInterface
 		// Detect the current active language
 		$lang = Factory::getLanguage()->getTag();
 
-
 		// Add plugin settings from the xml
 		$document->addScriptOptions(
 			'jooa11yOptions',
