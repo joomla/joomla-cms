@@ -15,6 +15,7 @@ use Joomla\CMS\Categories\Categories;
 use Joomla\CMS\Document\Feed\FeedItem;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\MVC\View\AbstractView;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Uri\Uri;
@@ -67,8 +68,9 @@ class FeedView extends AbstractView
 
 			if (isset($introImage) && ($introImage != ''))
 			{
-				$image = preg_match('/http/', $introImage) ? $introImage : Uri::root() . $introImage;
-				$description = '<p><img src="' . $image . '"></p>';
+				$description = '<p>'
+				. LayoutHelper::render('joomla.html.image', ['src' => preg_match('/http/', $introImage) ? $introImage : Uri::root() . $introImage])
+				. '</p>';
 			}
 
 			$description .= ($params->get('feed_summary', 0) ? $row->introtext . $row->fulltext : $row->introtext);
