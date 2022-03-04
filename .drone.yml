@@ -282,7 +282,7 @@ steps:
       - javascript-cs
       - phpmax-api-postgres
     image: joomlaprojects/docker-images:systemtests
-    failure: ignore
+    #failure: ignore
     environment:
       JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
     commands:
@@ -439,6 +439,6 @@ steps:
 
 ---
 kind: signature
-hmac: 18e7012f7906be8add1bf9a5a653c7e0eeae5001cf81b712b0ffcf979ed029dd
+hmac: c4e9edc87150137d722b75dcfdfa907db0264585b0a715fac6898086bd7116fb
 
 ...
