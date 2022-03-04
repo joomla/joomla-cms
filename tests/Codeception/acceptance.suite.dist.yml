@@ -137,3 +137,13 @@ env:
           cmsPath: '/tests/www/mysqlphpnext'
         Helper\JoomlaDb:
           prefix: 'phpnext_'
+  mariadb:
+    modules:
+      config:
+        Joomla\Browser\JoomlaBrowser:
+          url: 'http://localhost/mariadb'
+          database host: 'mariadb'
+          database prefix: 'mariadb_'
+          cmsPath: '/tests/www/mariadb'
+        Helper\JoomlaDb:
+          prefix: 'mariadb_'
