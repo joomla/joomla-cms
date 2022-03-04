@@ -1,4 +1,4 @@
-Joomla! CMS™ 
+Joomla! CMS™
 ====================
 
 Build Status
@@ -11,8 +11,8 @@ Overview
 ---------------------
 * This is the source of Joomla! 4.x.
 * Joomla's [Official website](https://www.joomla.org).
-* Joomla! 4.1 [version history](https://docs.joomla.org/Special:MyLanguage/Joomla_4.1_version_history).
-* Detailed changes are in the [changelog](https://github.com/joomla/joomla-cms/commits/4.1-dev).
+* Joomla! 4.2 [version history](https://docs.joomla.org/Special:MyLanguage/Joomla_4.2_version_history).
+* Detailed changes are in the [changelog](https://github.com/joomla/joomla-cms/commits/4.2-dev).
 
 What is Joomla?
 ---------------------
@@ -39,15 +39,15 @@ You will need:
 **Steps to setup the local environment:**
 - Clone the repository:
 ```bash
-git clone git@github.com:joomla/joomla-cms.git
+git clone https://github.com/joomla/joomla-cms.git
 ```
 - Go to the joomla-cms folder:
 ```bash
 cd joomla-cms
 ```
-- Go to the 4.1-dev branch:
+- Go to the 4.2-dev branch:
 ```bash
-git checkout 4.1-dev
+git checkout 4.2-dev
 ```
 - Install all the needed composer packages:
 ```bash
