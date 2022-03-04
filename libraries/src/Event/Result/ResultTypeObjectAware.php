@@ -73,39 +73,26 @@ trait ResultTypeObjectAware
 			return;
 		}
 
+		if (!is_object($data))
+		{
+			throw new InvalidArgumentException(sprintf('Event %s only accepts object results.', $this->getName()));
+		}
+
 		if (empty($this->resultAcceptableClasses))
 		{
-			if (!is_object($data))
-			{
-				throw new InvalidArgumentException(sprintf('Event %s only accepts object results.', $this->getName()));
-			}
-
 			return;
 		}
 
-		$isAcceptable = function ($object)
+		foreach ($this->resultAcceptableClasses as $className)
 		{
-			if (!is_object($object))
+			if (is_a($object, $className))
 			{
-				return false;
+				return true;
 			}
-
-			foreach ($this->resultAcceptableClasses as $className)
-			{
-				if (is_a($object, $className))
-				{
-					return true;
-				}
-			}
-
-			return false;
-		};
-
-		if (!$isAcceptable($data))
-		{
-			$acceptableTypes = implode(', ', $this->resultAcceptableClasses);
-			$messageTemplate = 'Event %s only accepts object results which are instances of one of %s.';
-			throw new InvalidArgumentException(sprintf($messageTemplate, $this->getName(), $acceptableTypes));
 		}
+
+		$acceptableTypes = implode(', ', $this->resultAcceptableClasses);
+		$messageTemplate = 'Event %s only accepts object results which are instances of one of %s.';
+		throw new InvalidArgumentException(sprintf($messageTemplate, $this->getName(), $acceptableTypes));
 	}
 }
