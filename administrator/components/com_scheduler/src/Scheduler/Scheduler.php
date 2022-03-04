@@ -16,6 +16,7 @@ use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
+use Joomla\CMS\User\User;
 use Joomla\Component\Scheduler\Administrator\Extension\SchedulerComponent;
 use Joomla\Component\Scheduler\Administrator\Model\TaskModel;
 use Joomla\Component\Scheduler\Administrator\Model\TasksModel;
@@ -358,5 +359,31 @@ class Scheduler
 		}
 
 		return $model->getItems() ?: [];
+	}
+
+	/**
+	 * Determine whether a {@see User} is allowed to run a task record. Expects a task as an object from
+	 * {@see fetchTaskRecords}.
+	 *
+	 * @param   object  $taskRecord  The task record to check authorization against.
+	 * @param   User    $user        The user to check authorization for.
+	 *
+	 * @return boolean  True if the user is authorized to run the task.
+	 *
+	 * @since __DEPLOY_VERSION__
+	 */
+	public static function isAuthorizedToRun(object $taskRecord, User $user): bool
+	{
+		/**
+		 * We allow the user to run a task if they have the permission or if they created the task & still have the authority
+		 * to create tasks.
+		 */
+		if ($user->authorise('core.testrun', 'com_scheduler.task.' . $taskRecord->id)
+			|| ($user->id == $taskRecord->created_by && $user->authorise('core.create', 'com_scheduler')))
+		{
+			return true;
+		}
+
+		return false;
 	}
 }

@@ -17,6 +17,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Session\Session;
+use Joomla\Component\Scheduler\Administrator\Scheduler\Scheduler;
 use Joomla\Component\Scheduler\Administrator\View\Tasks\HtmlView;
 
 /** @var  HtmlView  $this*/
@@ -225,10 +226,22 @@ $wa->useScript('multiselect')
 
 						<!-- Test task -->
 						<td class="small d-none d-md-table-cell">
-							<button type="button" class="btn btn-sm btn-warning" <?php echo $item->state < 0 ? 'disabled' : ''; ?> data-id="<?php echo (int) $item->id; ?>" data-title="<?php echo htmlspecialchars($item->title); ?>" data-bs-toggle="modal" data-bs-backdrop="static" data-bs-target="#scheduler-test-modal">
-								<span class="fa fa-play fa-sm me-2"></span>
-								<?php echo Text::_('COM_SCHEDULER_TEST_RUN'); ?>
-							</button>
+							<div id="run-task-btn-wrapper"
+									<?php
+									$disabled = ($item->state < 0 || !Scheduler::isAuthorizedToRun($item, $user));
+									if ($disabled):
+										$reason = Text::_($item->state < 0 ? "COM_SCHEDULER_MANAGER_TOOLTIP_TASK_TRASHED" : "COM_SCHEDULER_MANAGER_TOOLTIP_NOT_AUTHORIZED");
+										echo ' data-toggle="tooltip" data-placement="top" title="' . $reason . '"';
+									endif;
+									?>
+								>
+								<button type="button" class="btn btn-sm btn-warning"
+										<?php if ($disabled): echo ' disabled '; endif;?>
+										data-id="<?php echo (int) $item->id; ?>" data-title="<?php echo htmlspecialchars($item->title); ?>" data-bs-toggle="modal" data-bs-backdrop="static" data-bs-target="#scheduler-test-modal">
+									<span class="fa fa-play fa-sm me-2"></span>
+									<?php echo Text::_('COM_SCHEDULER_TEST_RUN'); ?>
+								</button>
+							</div>
 						</td>
 
 						<!-- Item ID -->
