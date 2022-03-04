@@ -19,7 +19,9 @@ use InvalidArgumentException;
  * how many plugin events worked in earlier versions of Joomla.
  *
  * This interface is partially implemented by the ResultAware trait. The typeCheckResult method is
- * implemented by the
+ * implemented by the various ResultType*Aware traits. Your event needs to use both the ResultAware
+ * trait and one of the ResultType*Aware traits. For example, if your event returns boolean results
+ * you need to use the ResultAware and ResultTypeBooleanAware traits in your event.
  *
  * @since __DEPLOY_VERSION_
  */
