@@ -287,6 +287,22 @@ abstract class ParagonIE_Sodium_Core_Util
     }
 
     /**
+     * Catch hash_update() failures and throw instead of silently proceeding
+     *
+     * @param HashContext|resource &$hs
+     * @param string $data
+     * @return void
+     * @throws SodiumException
+     * @psalm-suppress PossiblyInvalidArgument
+     */
+    protected static function hash_update(&$hs, $data)
+    {
+        if (!hash_update($hs, $data)) {
+            throw new SodiumException('hash_update() failed');
+        }
+    }
+
+    /**
      * Convert a hexadecimal string into a binary string without cache-timing
      * leaks
      *
@@ -570,6 +586,7 @@ abstract class ParagonIE_Sodium_Core_Util
             $a <<= 1;
             $b >>= 1;
         }
+        $c = (int) @($c & -1);
 
         /**
          * If $b was negative, we then apply the same value to $c here.
@@ -817,7 +834,7 @@ abstract class ParagonIE_Sodium_Core_Util
         } else {
             $sub = (string) substr($str, $start, $length);
         }
-        if (isset($sub)) {
+        if ($sub !== '') {
             return $sub;
         }
         return '';
@@ -903,6 +920,9 @@ abstract class ParagonIE_Sodium_Core_Util
      *
      * @internal You should not use this directly from another application
      *
+     * Note: MB_OVERLOAD_STRING === 2, but we don't reference the constant
+     * (for nuisance-free PHP 8 support)
+     *
      * @return bool
      */
     protected static function isMbStringOverride()
@@ -910,9 +930,15 @@ abstract class ParagonIE_Sodium_Core_Util
         static $mbstring = null;
 
         if ($mbstring === null) {
+            if (!defined('MB_OVERLOAD_STRING')) {
+                $mbstring = false;
+                return $mbstring;
+            }
             $mbstring = extension_loaded('mbstring')
+                && defined('MB_OVERLOAD_STRING')
                 &&
-            ((int) (ini_get('mbstring.func_overload')) & MB_OVERLOAD_STRING);
+            ((int) (ini_get('mbstring.func_overload')) & 2);
+            // MB_OVERLOAD_STRING === 2
         }
         /** @var bool $mbstring */
 

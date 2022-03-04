@@ -18,7 +18,7 @@ function modChrome_beezDivision($module, &$params, &$attribs)
 {
 	$headerLevel = isset($attribs['headerLevel']) ? (int) $attribs['headerLevel'] : 3;
 	if (!empty ($module->content)) : ?>
-		<div class="moduletable<?php echo htmlspecialchars($params->get('moduleclass_sfx'), ENT_COMPAT, 'UTF-8'); ?>">
+		<div class="moduletable<?php echo htmlspecialchars($params->get('moduleclass_sfx', ''), ENT_COMPAT, 'UTF-8'); ?>">
 		<?php if ($module->showtitle) : ?>
 			<h<?php echo $headerLevel; ?>><?php echo $module->title; ?></h<?php echo $headerLevel; ?>>
 		<?php endif; ?>
@@ -39,7 +39,7 @@ function modChrome_beezHide($module, &$params, &$attribs)
 	if (!empty ($module->content)) { ?>
 
 <div
-	class="moduletable_js <?php echo htmlspecialchars($params->get('moduleclass_sfx'), ENT_COMPAT, 'UTF-8');?>"><?php if ($module->showtitle) : ?>
+	class="moduletable_js <?php echo htmlspecialchars($params->get('moduleclass_sfx', ''), ENT_COMPAT, 'UTF-8');?>"><?php if ($module->showtitle) : ?>
 <h<?php echo $headerLevel; ?> class="js_heading"> <?php echo $module->title; ?> <a href="#"
 	title="<?php echo JText::_('TPL_BEEZ3_CLICK'); ?>"
 	onclick="auf('module_<?php echo $module->id; ?>'); return false"

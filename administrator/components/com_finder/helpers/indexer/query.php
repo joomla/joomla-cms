@@ -172,7 +172,7 @@ class FinderIndexerQuery
 	public function __construct($options)
 	{
 		// Get the input string.
-		$this->input = isset($options['input']) ? $options['input'] : null;
+		$this->input = isset($options['input']) ? $options['input'] : '';
 
 		// Get the empty query setting.
 		$this->empty = isset($options['empty']) ? (bool) $options['empty'] : false;

@@ -1,10 +1,10 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <metafile version="3.10" client="installation">
-	<name>Russian (Россия)</name>
-	<version>3.10.0</version>
-	<creationDate>17/08/2021</creationDate>
+	<name>Russian (Russia)</name>
+	<version>3.10.4</version>
+	<creationDate>07/12/2021</creationDate>
 	<author>Russian Translation Team</author>
-	<copyright>(C) 2006 Open Source Matters, Inc.</copyright>
+	<copyright>(C) 2005 Open Source Matters, Inc.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<files>
 		<filename>ru-RU.ini</filename>
