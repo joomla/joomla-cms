@@ -74,7 +74,7 @@ trait ResultAware
 	 * When $this->preventSetArgumentResult is false it acts as a backwards compatibility shim for
 	 * event handlers expecting generic event classes instead of the concrete Events implemented in
 	 * this package. This allows the migration to concrete event classes throughout the lifetime of
-	 * Joomla 4.0.
+	 * Joomla 4.x.
 	 *
 	 * When $this->preventSetArgumentResult is false (which will always be the case on Joomla 5.0)
 	 * it will throw a BadMethodCallException if the developer tries to call setArgument('result', ...)
