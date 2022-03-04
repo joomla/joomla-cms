@@ -52,9 +52,9 @@ HTMLHelper::_('bootstrap.dropdown', '.dropdown-toggle');
 			<span class="icon-universal-access icon-fw" aria-hidden="true"></span>
 			<?php echo Text::_('MOD_USER_ACCESSIBILITY_SETTINGS'); ?>
 		</a>
-		<?php $route = 'index.php?option=com_login&task=logout&amp;' . Session::getFormToken() . '=1'; ?>
 	</div>
 	<div class="header-item-content dropdown header-profile">
+	<?php $route = 'index.php?option=com_login&task=logout&amp;' . Session::getFormToken() . '=1'; ?>
 		<a href="<?php echo Route::_($route); ?>" title="Log Out">
 			<span class="icon-power-off icon-fw" aria-hidden="true"></span>
 		</a>
