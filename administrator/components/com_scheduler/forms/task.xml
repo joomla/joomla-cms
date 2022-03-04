@@ -57,17 +57,13 @@
 			/>
 			<field
 				name="times_executed"
-				type="number"
+				type="executed"
 				label="COM_SCHEDULER_LABEL_TIMES_EXEC"
-				disabled="true"
-				filter="unset"
 			/>
 			<field
 				name="times_failed"
-				type="number"
+				type="failed"
 				label="COM_SCHEDULER_LABEL_TIMES_FAIL"
-				disabled="true"
-				filter="unset"
 			/>
 		</fieldset>
 
