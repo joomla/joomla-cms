@@ -1020,24 +1020,25 @@ abstract class InstallerAdapter implements ContainerAwareInterface
 			return;
 		}
 
-		// The container
+		// Build a child container, so we do not overwrite the global one
+		// and start from scratch when multiple extensions are installed
 		try
 		{
-			$container = $this->getContainer();
+			$container = new Container($this->getContainer());
 		}
 		catch (ContainerNotFoundException $e)
 		{
 			@trigger_error('Container must be set.', E_USER_DEPRECATED);
 
 			// Fallback to the global container
-			$container = Factory::getContainer();
+			$container = new Container(Factory::getContainer());
 		}
 
 		// The real location of the file
 		$manifestScriptFile = $this->parent->getPath('source') . '/' . $manifestScript;
 
 		// Load the file
-		$installer = require $manifestScriptFile;
+		$installer = require_once $manifestScriptFile;
 
 		// When the instance is a service provider, then register the container with it
 		if ($installer instanceof ServiceProviderInterface)
