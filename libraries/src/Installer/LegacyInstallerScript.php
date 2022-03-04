@@ -127,4 +127,48 @@ class LegacyInstallerScript implements InstallerScriptInterface
 
 		return (bool) $this->installerScript->postflight($type, $adapter);
 	}
+
+	/**
+	 * Sets the variable to the internal script.
+	 *
+	 * @param   string $name   The name of the variable
+	 * @param   mixed  $value  The value of the variable
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function __set(string $name, $value)
+    {
+        $this->installerScript->$name=$value;
+    }
+
+	/**
+	 * Returns the variable from the internal script.
+	 *
+	 * @param   string $name  The name of the variable
+	 *
+	 * @return  mixed
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+    public function __get(string $name)
+    {
+		return $this->installerScript->$name;
+    }
+
+	/**
+	 * Calls the function with the given name on the internal script.
+	 *
+	 * @param   string $name       The name of the function
+	 * @param   array  $arguments  The arguments
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+    public function __call(string $name, array $arguments)
+    {
+		return call_user_func([$this->installerScript, $name], $arguments);
+    }
 }
