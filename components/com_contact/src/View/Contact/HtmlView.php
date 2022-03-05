@@ -141,14 +141,6 @@ class HtmlView extends BaseHtmlView
 
 		$active = $app->getMenu()->getActive();
 
-		// Get submitted values
-		$data = $app->getUserState('com_contact.contact.data', []);
-
-		// Add catid for selecting custom fields
-		$data['catid'] = $item->catid;
-
-		$app->setUserState('com_contact.contact.data', $data);
-
 		// If the current view is the active item and a contact view for this contact, then the menu item params take priority
 		if ($active
 			&& $active->component == 'com_contact'
