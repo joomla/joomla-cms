@@ -140,7 +140,7 @@ class LegacyInstallerScript implements InstallerScriptInterface
 	 */
 	public function __set(string $name, $value)
 	{
-		$this->installerScript->$name=$value;
+		$this->installerScript->$name = $value;
 	}
 
 	/**
