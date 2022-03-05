@@ -399,11 +399,15 @@ class TaskModel extends AdminModel
 			}
 			catch (\RuntimeException $e)
 			{
+				$db->unlockTables();
+
 				return null;
 			}
 
 			if ($runningCount !== 0)
 			{
+				$db->unlockTables();
+
 				return null;
 			}
 		}
@@ -470,6 +474,15 @@ class TaskModel extends AdminModel
 			}
 			catch (\RuntimeException $e)
 			{
+				$db->unlockTables();
+
+				return null;
+			}
+
+			if (count($ids) === 0)
+			{
+				$db->unlockTables();
+
 				return null;
 			}
 
@@ -485,10 +498,12 @@ class TaskModel extends AdminModel
 		}
 		finally
 		{
+			$affectedRows = $db->getAffectedRows();
+
 			$db->unlockTables();
 		}
 
-		if ($db->getAffectedRows() != 1)
+		if ($affectedRows != 1)
 		{
 			/*
 			 // @todo
@@ -539,7 +554,7 @@ class TaskModel extends AdminModel
 				'includeCliExclusive' => true,
 			]
 		)
-			->setAllowedTypes('id', 'int')
+			->setAllowedTypes('id', 'numeric')
 			->setAllowedTypes('allowDisabled', 'bool')
 			->setAllowedTypes('bypassScheduling', 'bool')
 			->setAllowedTypes('allowConcurrent', 'bool')
@@ -665,7 +680,7 @@ class TaskModel extends AdminModel
 			$buildExpression = sprintf($intervalStringMap[$intervalType], $interval);
 		}
 
-		if ($ruleClass === 'cron')
+		if ($ruleClass === 'cron-expression')
 		{
 			// ! custom matches are disabled in the form
 			$matches         = $executionRules['cron-expression'];
