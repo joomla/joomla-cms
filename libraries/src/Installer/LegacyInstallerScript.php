@@ -139,9 +139,9 @@ class LegacyInstallerScript implements InstallerScriptInterface
 	 * @since   __DEPLOY_VERSION__
 	 */
 	public function __set(string $name, $value)
-    {
-        $this->installerScript->$name=$value;
-    }
+	{
+		$this->installerScript->$name=$value;
+	}
 
 	/**
 	 * Returns the variable from the internal script.
@@ -152,10 +152,10 @@ class LegacyInstallerScript implements InstallerScriptInterface
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-    public function __get(string $name)
-    {
+	public function __get(string $name)
+	{
 		return $this->installerScript->$name;
-    }
+	}
 
 	/**
 	 * Calls the function with the given name on the internal script.
@@ -167,8 +167,8 @@ class LegacyInstallerScript implements InstallerScriptInterface
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-    public function __call(string $name, array $arguments)
-    {
+	public function __call(string $name, array $arguments)
+	{
 		return call_user_func([$this->installerScript, $name], $arguments);
-    }
+	}
 }
