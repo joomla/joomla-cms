@@ -111,8 +111,30 @@ abstract class CredentialsCreation
 
 		// Public Key Credential Parameters
 		$publicKeyCredentialParametersList = [
+			// Prefer ECDSA (keys based on Elliptic Curve Cryptography with NIST P-521, P-384 or P-256)
+			new PublicKeyCredentialParameters('public-key', Algorithms::COSE_ALGORITHM_ES512),
+			new PublicKeyCredentialParameters('public-key', Algorithms::COSE_ALGORITHM_ES384),
 			new PublicKeyCredentialParameters('public-key', Algorithms::COSE_ALGORITHM_ES256),
+			// Fall back to RSASSA-PSS when ECC is not available. Minimal storage for resident keys available for these.
+			new PublicKeyCredentialParameters('public-key', Algorithms::COSE_ALGORITHM_PS512),
+			new PublicKeyCredentialParameters('public-key', Algorithms::COSE_ALGORITHM_PS384),
+			new PublicKeyCredentialParameters('public-key', Algorithms::COSE_ALGORITHM_PS256),
+			// Shared secret w/ HKDF and SHA-512
+			new PublicKeyCredentialParameters('public-key', Algorithms::COSE_ALGORITHM_DIRECT_HKDF_SHA_512),
+			new PublicKeyCredentialParameters('public-key', Algorithms::COSE_ALGORITHM_DIRECT_HKDF_SHA_256),
+			// Shared secret w/ AES-MAC 256-bit key
+			new PublicKeyCredentialParameters('public-key', Algorithms::COSE_ALGORITHM_DIRECT_HKDF_AES_256),
+			// RSASSA-PKCS1-v1_5 (RFC8017 article 8.1) fallback, only used by Windows Hello
+			new PublicKeyCredentialParameters('public-key', Algorithms::COSE_ALGORITHM_RS512),
+			new PublicKeyCredentialParameters('public-key', Algorithms::COSE_ALGORITHM_RS384),
+			new PublicKeyCredentialParameters('public-key', Algorithms::COSE_ALGORITHM_RS256),
 		];
+
+		// If libsodium is enabled prefer Edwards-curve Digital Signature Algorithm (EdDSA)
+		if (\function_exists('sodium_crypto_sign_seed_keypair'))
+		{
+			array_unshift($publicKeyCredentialParametersList, new PublicKeyCredentialParameters('public-key', Algorithms::COSE_ALGORITHM_EdDSA));
+		}
 
 		// Timeout: 60 seconds (given in milliseconds)
 		$timeout = 60000;
@@ -128,7 +150,11 @@ abstract class CredentialsCreation
 		}
 
 		// Authenticator Selection Criteria (we used default values)
-		$authenticatorSelectionCriteria = new AuthenticatorSelectionCriteria;
+		$authenticatorSelectionCriteria = new AuthenticatorSelectionCriteria(
+			AuthenticatorSelectionCriteria::AUTHENTICATOR_ATTACHMENT_NO_PREFERENCE,
+			false,
+			AuthenticatorSelectionCriteria::USER_VERIFICATION_REQUIREMENT_PREFERRED
+		);
 
 		// Extensions (not yet supported by the library)
 		$extensions = new AuthenticationExtensionsClientInputs;
@@ -150,7 +176,8 @@ abstract class CredentialsCreation
 		);
 
 		// Save data in the session
-		Joomla::setSessionVar('publicKeyCredentialCreationOptions',
+		Joomla::setSessionVar(
+			'publicKeyCredentialCreationOptions',
 			base64_encode(serialize($publicKeyCredentialCreationOptions)),
 			'plg_system_webauthn'
 		);
