@@ -93,7 +93,8 @@
         "ext-gd": "*",
         "web-auth/webauthn-lib": "2.1.*",
         "composer/ca-bundle": "^1.2",
-        "dragonmantank/cron-expression": "^3.1"
+        "dragonmantank/cron-expression": "^3.1",
+        "phpseclib/bcmath_compat": "^2.0.0"
     },
     "require-dev": {
         "phpunit/phpunit": "^8.5",
