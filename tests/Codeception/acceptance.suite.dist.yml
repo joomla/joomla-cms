@@ -137,3 +137,25 @@ env:
           cmsPath: '/tests/www/mysqlphpnext'
         Helper\JoomlaDb:
           prefix: 'phpnext_'
+  mariadb_min:
+    modules:
+      config:
+        Joomla\Browser\JoomlaBrowser:
+          url: 'http://localhost/mariadb_min'
+          database host: 'mariadb_min'
+          database prefix: 'mariadb_'
+          cmsPath: '/tests/www/mariadb'
+        Helper\JoomlaDb:
+          dsn: 'mysql:host=mariadb_min;dbname=test_joomla'
+          prefix: 'mariadb_'
+  mariadb_max:
+    modules:
+      config:
+        Joomla\Browser\JoomlaBrowser:
+          url: 'http://localhost/mariadb_max'
+          database host: 'mariadb_max'
+          database prefix: 'mariadb_'
+          cmsPath: '/tests/www/mariadb'
+        Helper\JoomlaDb:
+          dsn: 'mysql:host=mariadb_max;dbname=test_joomla'
+          prefix: 'mariadb_'

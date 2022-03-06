@@ -314,6 +314,24 @@ steps:
     commands:
       - bash tests/Codeception/drone-system-run.sh "$(pwd)" postgres
 
+  - name: phpmin-system-mariadb-min
+    depends_on:
+      - phpmax-system-mysql
+    image: joomlaprojects/docker-images:systemtests
+    environment:
+      JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
+    commands:
+      - bash tests/Codeception/drone-system-run.sh "$(pwd)" mariadb_min
+
+  - name: phpmin-system-mariadb-max
+    depends_on:
+      - phpmax-system-mysql
+    image: joomlaprojects/docker-images:systemtests
+    environment:
+      JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
+    commands:
+      - bash tests/Codeception/drone-system-run.sh "$(pwd)" mariadb_max
+
   - name: artifacts-system-tests
     image: cschlosser/drone-ftps
     depends_on:
@@ -326,6 +344,8 @@ steps:
       - phpmin-system-mysql
       - phpmin-system-mysql8
       - phpmin-system-postgres
+      - phpmin-system-mariadb-min
+      - phpmin-system-mariadb-max
 #      - phpnext-api-mysql
 #      - phpnext-api-postgres
       - phpmax-api-mysql
@@ -385,6 +405,22 @@ services:
       POSTGRES_PASSWORD: joomla_ut
       POSTGRES_DB: test_joomla
 
+  - name: mariadb_min
+    image: mariadb:10.1
+    environment:
+      MYSQL_USER: joomla_ut
+      MYSQL_PASSWORD: joomla_ut
+      MYSQL_ROOT_PASSWORD: joomla_ut
+      MYSQL_DATABASE: test_joomla
+
+  - name: mariadb_max
+    image: mariadb:latest
+    environment:
+      MARIADB_USER: joomla_ut
+      MARIADB_PASSWORD: joomla_ut
+      MARIADB_ROOT_PASSWORD: joomla_ut
+      MARIADB_DATABASE: test_joomla
+
 ---
 kind: pipeline
 name: package
@@ -420,6 +456,6 @@ steps:
 
 ---
 kind: signature
-hmac: d9707d261edba35bc6b70f09a1babee119cb0a88cebda40171248e5c0a8b135e
+hmac: ffd76916a8d1fa987846a0eaf48c8643fbe1d99252307ccfe5976c404936beaa
 
 ...
