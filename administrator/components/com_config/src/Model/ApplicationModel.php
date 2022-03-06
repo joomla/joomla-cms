@@ -317,6 +317,25 @@ class ApplicationModel extends FormModel
 			}
 		}
 
+		// Remove SMTP Credentials is SMTP Authentication is Off, or Mailer is not SMTP
+		if ($data['mailer'] !== 'smtp')
+		{
+			$data['smtpauth'] = false;
+		}
+
+		if ($data['mailer'] === 'smtp' && $data['smtpauth'] === false)
+		{
+			$data['smtpuser'] = '';
+			$data['smtppass'] = '';
+		}
+
+		// Remove proxy credentials if proxy not enabled
+		if ($data['proxy_enable'] === false)
+		{
+			$data['proxy_user'] = '';
+			$data['proxy_pass'] = '';
+		}
+
 		// Check that we aren't setting wrong database configuration
 		$options = array(
 			'driver'   => $data['dbtype'],
