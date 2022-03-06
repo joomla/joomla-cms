@@ -13,12 +13,6 @@ modules/mod_finder/*  @hackwar
 plugins/content/finder/*  @hackwar
 plugins/finder/*  @hackwar
 
-# CodeMirror
-plugins/editors/codemirror/*  @okonomiyaki3000
-
-# Statistics Server
-plugins/system/stats/*  @wilsonge
-
 # Release Tools
 build.xml  @wilsonge
 build/build.php  @rdeutz @wilsonge
@@ -26,9 +20,9 @@ build/bump.php  @rdeutz @wilsonge
 build/deleted_file_check.php  @rdeutz @wilsonge
 
 # Core/Extension Install/Update Tools
-administrator/components/com_joomlaupdate/*  @rdeutz @wilsonge @zero-24
-libraries/src/Installer/*  @rdeutz @wilsonge @zero-24
-libraries/src/Updater/*  @rdeutz @wilsonge @zero-24
+administrator/components/com_joomlaupdate/*  @rdeutz @zero-24
+libraries/src/Installer/*  @rdeutz @zero-24
+libraries/src/Updater/*  @rdeutz @zero-24
 
 # Automated Testing
 tests/*  @hackwar
@@ -37,13 +31,11 @@ tests/javascript/*  @rdeutz
 tests/Unit/*  @rdeutz
 .appveyor.yml  @rdeutz @hackwar
 .drone.yml  @rdeutz @hackwar
-.hound.yml  @wilsonge @hackwar
 codeception.yml  @rdeutz @hackwar
 phpunit.xml.dist  @rdeutz @hackwar
 phpunit-pgsql.xml.dist  @rdeutz @hackwar
-RoboFile.php  @rdeutz @hackwar
 
-# CSP Tooling
+# HttpHeaders Plugin
 plugins/system/httpheaders/*  @zero-24
 
 # Web Authentication (WebAuthn)
@@ -77,3 +69,6 @@ plugins/*/tmpl/* @chmst
 templates/cassiopeia/* @chmst
 layouts/* @chmst
 installation/tmpl/* @chmst
+
+# Translation GitHub Actions
+.github/workflows/create-translation-pull-request-v4.yml @hleithner
