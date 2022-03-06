@@ -575,12 +575,12 @@ class RegistrationModel extends FormModel
 			}
 		}
 
-		// Send Notification mail to administrators
+		// Send mail to all users with user creating permissions and receiving system emails
 		if (($params->get('useractivation') < 2) && ($params->get('mail_to_admin') == 1))
 		{
 			// Get all admin users
 			$query->clear()
-				->select($db->quoteName(array('name', 'email', 'sendEmail')))
+				->select($db->quoteName(array('name', 'email', 'sendEmail', 'id')))
 				->from($db->quoteName('#__users'))
 				->where($db->quoteName('sendEmail') . ' = 1')
 				->where($db->quoteName('block') . ' = 0');
@@ -601,6 +601,13 @@ class RegistrationModel extends FormModel
 			// Send mail to all superadministrators id
 			foreach ($rows as $row)
 			{
+				$usercreator = Factory::getUser($row->id);
+
+				if (!$usercreator->authorise('core.create', 'com_users') || !$usercreator->authorise('core.manage', 'com_users'))
+				{
+					continue;
+				}
+
 				try
 				{
 					$mailer = new MailTemplate('com_users.registration.admin.new_notification', $app->getLanguage()->getTag());
