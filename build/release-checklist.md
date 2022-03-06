@@ -1,11 +1,11 @@
 # Joomla Release Checklist
-The following document is intended to be a checklist for each release for use by the release lead. It should not include detailed explanations. These belong in the Release Proceedure Documentation here: https://docs.joomla.org/Joomla:Release_procedure_and_checklist.
+The following document is intended to be a checklist for each release for use by the release lead. It should not include detailed explanations. These belong in the Release Procedure Documentation here: https://docs.joomla.org/Joomla:Release_procedure_and_checklist.
 
 At all stages here it is assumed you have a copy of the joomla-cms repo downloaded. Your release branch is clean and in the code snippets below that you have two remotes - an `upstream` remote that points to this repo and a `security` remote which points to the security private repository. You should also ensure all your commits and tags are signed by a GPG key that GitHub recognises.
 
 ## Checklist (Release Candidate - Preparation)
 
-- [ ] Agree Stable Announcment URL with the marketing team
+- [ ] Agree Stable Announcement URL with the marketing team
 - [ ] Create Release Candidate PR for joomla/update.joomla.org
 - [ ] Check with Joomla Security Strike Team for any security patches
 - [ ] Ensure Release FAQ Pages have been created on Documentation Site
@@ -13,7 +13,7 @@ At all stages here it is assumed you have a copy of the joomla-cms repo download
 ## Checklist (Release Candidate - Release)
 
 - [ ] Inform CMS Release Team in Glip highlighting anything that needs specific testing
-- [ ] Inform CMS Maintainence Team in Glip that branches are locked for release. You should be the only person merging code changes at this point.
+- [ ] Inform CMS Maintenance Team in Glip that branches are locked for release. You should be the only person merging code changes at this point.
 - [ ] Run build/bump.php to fix the since tags then push so other branches don't have conflicts when merging in changes.
 ```
 git checkout 3.10-dev
@@ -41,7 +41,7 @@ php build/bump.php -v 3.10.X-rc2-dev
 git commit -am 'reset to dev'
 git push upstream --tags
 ```
-- [ ] Create the RC release on github
+- [ ] Create the RC release on GitHub
 - [ ] Upload the packages to the GitHub release
 - [ ] Publish GitHub release (remember to mark it as a pre-release!)
 - [ ] `git push upstream 3.10-dev`
@@ -74,7 +74,7 @@ cat build/tmp/checksums.txt
 ```
 - [ ] Upload the packages to a private location and provide download links in `CMS Release Team` and `JSST - Joomla! Security Strike Team` Glip Channels
 
-## Checklist (Stable - Preperation)
+## Checklist (Stable - Preparation)
 If any extra code changes have been applied since the Release Candidate consider tagging a building a fresh Release Candidate alongside the final packages to help as many people test as possible.
 
 - [ ] Create Stable PR for joomla/update.joomla.org:
@@ -87,7 +87,7 @@ git fetch upstream
 git pull
 php build/deleted_file_check.php --from=3.10.X
 ```
-- [ ] Build the release (if any new security patches have arrived - apply them following the "Extra Steps" proceedure above)
+- [ ] Build the release (if any new security patches have arrived - apply them following the "Extra Steps" procedure above)
 ```
 git checkout 3.10-dev
 git fetch upstream
@@ -115,7 +115,7 @@ php cli/ars-create-cms-release.php --releaseVersion=3.10.X --releaseUrl=https://
 If any updates to packages are required at this point due to critical issues uncovered:
 
 - [ ] Follow the new release package following the steps previously made
-- [ ] If a non-security release tag a fresh release candidate and publish to Github following the documented process
+- [ ] If a non-security release tag a fresh release candidate and publish to GitHub following the documented process
 - [ ] Upload the packages to a private location and provide download links in `CMS Release Team` (and `JSST - Joomla! Security Strike Team` if a security release) Glip Channel(s)
 - [ ] Upload release packages to AWS S3
 - [ ] Execute the `ars-get-hashes.php` script on downloads server (`ssh` to the server and `cd` to the web root)
