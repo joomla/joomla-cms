@@ -317,13 +317,14 @@ class ApplicationModel extends FormModel
 			}
 		}
 
-		// Remove SMTP Credentials is SMTP Authentication is Off, or Mailer is not SMTP
+		// If Mailer is not SMTP then ensure that we are not using SMTP Auth credentials
 		if ($data['mailer'] !== 'smtp')
 		{
 			$data['smtpauth'] = false;
 		}
 
-		if ($data['mailer'] === 'smtp' && $data['smtpauth'] === false)
+		// If SMTP Auth is off, then we don't need to store the credentials any longer
+		if ($data['smtpauth'] === false)
 		{
 			$data['smtpuser'] = '';
 			$data['smtppass'] = '';
