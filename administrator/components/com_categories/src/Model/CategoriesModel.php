@@ -114,7 +114,7 @@ class CategoriesModel extends ListModel
 		$this->setState('filter.component', $parts[0]);
 
 		// Extract the optional section name
-		$this->setState('filter.section', (count($parts) > 1) ? $parts[1] : null);
+		$this->setState('filter.section', (\count($parts) > 1) ? $parts[1] : null);
 
 		// List state information.
 		parent::populateState($ordering, $direction);
@@ -410,7 +410,7 @@ class CategoriesModel extends ListModel
 	 */
 	public function getAssoc()
 	{
-		if (!is_null($this->hasAssociation))
+		if (!\is_null($this->hasAssociation))
 		{
 			return $this->hasAssociation;
 		}
@@ -484,7 +484,7 @@ class CategoriesModel extends ListModel
 		$parts     = explode('.', $extension, 2);
 		$section   = '';
 
-		if (count($parts) > 1)
+		if (\count($parts) > 1)
 		{
 			$section = $parts[1];
 		}
