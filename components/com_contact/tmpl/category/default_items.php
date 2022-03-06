@@ -20,9 +20,9 @@ use Joomla\Component\Contact\Site\Helper\RouteHelper;
 
 /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
 $wa = $this->document->getWebAssetManager();
-$wa->useScript('com_contact.contacts-list');
+$wa->useScript('com_contact.contacts-list')
+	->useScript('core');
 
-HTMLHelper::_('behavior.core');
 $canDo   = ContactHelper::getActions('com_contact', 'category', $this->category->id);
 $canEdit = $canDo->get('core.edit');
 $userId  = Factory::getUser()->id;
