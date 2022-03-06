@@ -1,48 +1,33 @@
-[dir=ltr] .content_rating ul {
-	list-style: none;
-	padding-left: 0;
-	margin-bottom: 0.5em;
+.content_rating ul {
+  list-style: none;
+  padding-inline-start: 0;
+  margin-bottom: 0.5em;
 }
 
-[dir=rtl] .content_rating ul {
-	list-style: none;
-	padding-right: 0;
-	margin-bottom: 0.5em;
+.content_rating .vote-star,
+.content_rating .vote-star-empty,
+.content_rating .vote-star-half {
+  display: inline-block;
 }
 
-.content_rating .vote-star {
-	display: inline-block;
-}
-
-.content_rating .vote-star svg {
-	width: 1em;
-	height: 1em;
-	fill: #fd7e14;
-}
-
-.content_rating .vote-star-empty {
-	display: inline-block;
+.content_rating .vote-star svg,
+.content_rating .vote-star-half svg {
+  width: 1em;
+  height: 1em;
+  fill: #fd7e14;
 }
 
 .content_rating .vote-star-empty svg {
-	width: 1em;
-	height: 1em;
-	fill: #d3d3d3;
+  width: 1em;
+  height: 1em;
+  fill: #d3d3d3;
 }
 
-[dir=ltr] .content_rating .vote-star-half {
-	display: inline-block;
-	margin-left: -1em;
+.content_rating .vote-star-half {
+  margin-inline-start: -1em;
 }
 
 [dir=rtl] .content_rating .vote-star-half {
-	display: inline-block;
-	margin-right: -1em;
-	transform: scaleX(-1);
+  transform: scaleX(-1);
 }
 
-.content_rating .vote-star-half svg {
-	width: 1em;
-	height: 1em;
-	fill: #fd7e14;
-}

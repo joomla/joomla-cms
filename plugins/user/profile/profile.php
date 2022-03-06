@@ -16,7 +16,6 @@ use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\String\PunycodeHelper;
-use Joomla\Database\DatabaseInterface;
 use Joomla\Database\ParameterType;
 use Joomla\Utilities\ArrayHelper;
 
@@ -28,17 +27,24 @@ use Joomla\Utilities\ArrayHelper;
 class PlgUserProfile extends CMSPlugin
 {
 	/**
-	 * Application object.
+	 * @var    \Joomla\CMS\Application\CMSApplication
 	 *
-	 * @var    JApplicationCms
 	 * @since  4.0.0
 	 */
 	protected $app;
 
 	/**
+	 * @var    \Joomla\Database\DatabaseDriver
+	 *
+	 * @since  4.0.0
+	 */
+	protected $db;
+
+	/**
 	 * Load the language file on instantiation.
 	 *
 	 * @var    boolean
+	 *
 	 * @since  3.1
 	 */
 	protected $autoloadLanguage = true;
@@ -47,17 +53,10 @@ class PlgUserProfile extends CMSPlugin
 	 * Date of birth.
 	 *
 	 * @var    string
+	 *
 	 * @since  3.1
 	 */
 	private $date = '';
-
-	/**
-	 * Database object
-	 *
-	 * @var    DatabaseInterface
-	 * @since  4.0.0
-	 */
-	protected $db;
 
 	/**
 	 * Runs on content preparation

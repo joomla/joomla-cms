@@ -11,6 +11,7 @@ namespace Joomla\Component\Installer\Administrator\Controller;
 
 \defined('_JEXEC') or die;
 
+use Joomla\CMS\Access\Exception\NotAllowed;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\CMS\Response\JsonResponse;
@@ -37,10 +38,15 @@ class InstallController extends BaseController
 		// Check for request forgeries.
 		$this->checkToken();
 
+		if (!$this->app->getIdentity()->authorise('core.admin'))
+		{
+			throw new NotAllowed(Text::_('JERROR_ALERTNOAUTHOR'), 403);
+		}
+
 		/** @var \Joomla\Component\Installer\Administrator\Model\InstallModel $model */
 		$model = $this->getModel('install');
 
-		// TODO: Reset the users acl here as well to kill off any missing bits.
+		// @todo: Reset the users acl here as well to kill off any missing bits.
 		$result = $model->install();
 
 		$app = $this->app;
@@ -86,8 +92,12 @@ class InstallController extends BaseController
 		// Check for request forgeries.
 		Session::checkToken() or jexit(Text::_('JINVALID_TOKEN'));
 
-		$app = $this->app;
-		$message = $app->getUserState('com_installer.message');
+		if (!$this->app->getIdentity()->authorise('core.admin'))
+		{
+			throw new NotAllowed(Text::_('JERROR_ALERTNOAUTHOR'), 403);
+		}
+
+		$message = $this->app->getUserState('com_installer.message');
 
 		// Do install
 		$result = $this->install();
@@ -97,12 +107,12 @@ class InstallController extends BaseController
 
 		// Push message queue to session because we will redirect page by \Javascript, not $app->redirect().
 		// The "application.queue" is only set in redirect() method, so we must manually store it.
-		$app->getSession()->set('application.queue', $app->getMessageQueue());
+		$this->app->getSession()->set('application.queue', $this->app->getMessageQueue());
 
 		header('Content-Type: application/json');
 
 		echo new JsonResponse(array('redirect' => $redirect), $message, !$result);
 
-		$app->close();
+		$this->app->close();
 	}
 }

@@ -16,8 +16,8 @@ const mobile = window.matchMedia('(max-width: 992px)');
 const small = window.matchMedia('(max-width: 575.98px)');
 const tablet = window.matchMedia('(min-width: 576px) and (max-width:991.98px)');
 const menu = document.querySelector('.sidebar-menu');
-const sidebarNav = document.querySelector('.sidebar-nav');
-const subhead = document.querySelector('.subhead');
+const sidebarNav = [].slice.call(document.querySelectorAll('.sidebar-nav'));
+const subhead = document.querySelector('#subhead-container');
 const wrapper = document.querySelector('.wrapper');
 const sidebarWrapper = document.querySelector('.sidebar-wrapper');
 const logo = document.querySelector('.logo');
@@ -49,6 +49,11 @@ headerCondensedItemContainer.classList.add('d-none');
  */
 function changeLogo(change) {
   if (!logo || isLogin) {
+    return;
+  }
+
+  if (small.matches) {
+    logo.classList.add('small');
     return;
   }
 
@@ -149,11 +154,11 @@ function setMobile() {
   }
 
   if (small.matches) {
-    if (sidebarNav) sidebarNav.classList.add('collapse');
+    sidebarNav.map((el) => el.classList.add('collapse'));
     if (subhead) subhead.classList.add('collapse');
     if (sidebarWrapper) sidebarWrapper.classList.add('collapse');
   } else {
-    if (sidebarNav) sidebarNav.classList.remove('collapse');
+    sidebarNav.map((el) => el.classList.remove('collapse'));
     if (subhead) subhead.classList.remove('collapse');
     if (sidebarWrapper) sidebarWrapper.classList.remove('collapse');
   }
@@ -173,7 +178,7 @@ function setDesktop() {
     sidebarWrapper.classList.remove('collapse');
   }
 
-  if (sidebarNav) sidebarNav.classList.remove('collapse');
+  sidebarNav.map((el) => el.classList.remove('collapse'));
   if (subhead) subhead.classList.remove('collapse');
 
   toggleArrowIcon('top');
@@ -217,11 +222,23 @@ function subheadScrolling() {
 headerItemsInDropdown();
 reactToResize();
 subheadScrolling();
+if (small.matches) {
+  changeLogo('closed');
+  if (subhead) {
+    subhead.classList.remove('show');
+    subhead.classList.add('collapse');
+  }
+}
 if (!navigator.cookieEnabled) {
   Joomla.renderMessages({ error: [Joomla.Text._('JGLOBAL_WARNCOOKIES')] }, undefined, false, 6000);
 }
 window.addEventListener('joomla:menu-toggle', (event) => {
   headerItemsInDropdown();
   document.cookie = `atumSidebarState=${event.detail};`;
-  changeLogo(event.detail);
+
+  if (mobile.matches) {
+    changeLogo('closed');
+  } else {
+    changeLogo(event.detail);
+  }
 });

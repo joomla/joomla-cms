@@ -50,7 +50,7 @@ class HtmlView extends InstallerViewDefault
 
 	/**
 	 * @var boolean
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.0.0
 	 */
 	private $isEmptyState = false;
 
@@ -132,6 +132,6 @@ class HtmlView extends InstallerViewDefault
 		ToolbarHelper::divider();
 
 		parent::addToolbar();
-		ToolbarHelper::help('JHELP_EXTENSIONS_EXTENSION_MANAGER_UPDATE');
+		ToolbarHelper::help('Extensions:_Update');
 	}
 }

@@ -310,6 +310,19 @@ class CssMenu
 				}
 			}
 
+			$uri   = new Uri($item->link);
+			$query = $uri->getQuery(true);
+
+			/**
+			 * If component is passed in the link via option variable, we set $item->element to this value for further
+			 * processing. It is needed for links from menu items of third party extensions link to Joomla! core
+			 * components like com_categories, com_fields...
+			 */
+			if ($option = $uri->getVar('option'))
+			{
+				$item->element = $option;
+			}
+
 			// Exclude item if is not enabled
 			if ($item->element && !ComponentHelper::isEnabled($item->element))
 			{
@@ -340,13 +353,10 @@ class CssMenu
 
 			if ($item->element === 'com_categories')
 			{
-				parse_str($item->link, $query);
 				$assetName = $query['extension'] ?? 'com_content';
 			}
 			elseif ($item->element === 'com_fields')
 			{
-				parse_str($item->link, $query);
-
 				// Only display Fields menus when enabled in the component
 				$createFields = null;
 
@@ -381,8 +391,6 @@ class CssMenu
 			}
 			elseif ($item->element === 'com_workflow')
 			{
-				parse_str($item->link, $query);
-
 				// Only display Workflow menus when enabled in the component
 				$workflow = null;
 
@@ -412,10 +420,13 @@ class CssMenu
 				$parent->removeChild($item);
 				continue;
 			}
+			elseif (($item->link === 'index.php?option=com_installer&view=install' || $item->link === 'index.php?option=com_installer&view=languages')
+				&& !$user->authorise('core.admin'))
+			{
+				continue;
+			}
 			elseif ($item->element === 'com_admin')
 			{
-				parse_str($item->link, $query);
-
 				if (isset($query['view']) && $query['view'] === 'sysinfo' && !$user->authorise('core.admin'))
 				{
 					$parent->removeChild($item);
@@ -430,7 +441,7 @@ class CssMenu
 			}
 
 			// Exclude if link is invalid
-			if (!\in_array($item->type, array('separator', 'heading', 'container')) && trim($item->link) === '')
+			if (is_null($item->link) || !\in_array($item->type, array('separator', 'heading', 'container')) && trim($item->link) === '')
 			{
 				$parent->removeChild($item);
 				continue;

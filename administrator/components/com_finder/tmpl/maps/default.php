@@ -17,8 +17,6 @@ use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\Component\Finder\Administrator\Helper\LanguageHelper;
 
-HTMLHelper::_('behavior.multiselect');
-
 $listOrder     = $this->escape($this->state->get('list.ordering'));
 $listDirn      = $this->escape($this->state->get('list.direction'));
 $lang          = Factory::getLanguage();
@@ -28,7 +26,8 @@ Text::script('COM_FINDER_MAPS_CONFIRM_DELETE_PROMPT');
 
 /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
 $wa = $this->document->getWebAssetManager();
-$wa->useScript('com_finder.maps');
+$wa->useScript('multiselect')
+	->useScript('com_finder.maps');
 
 ?>
 <form action="<?php echo Route::_('index.php?option=com_finder&view=maps'); ?>" method="post" name="adminForm" id="adminForm">
@@ -91,7 +90,7 @@ $wa->useScript('com_finder.maps');
 							</td>
 							<th scope="row">
 								<?php
-								if (trim($item->branch_title, '**') === 'Language')
+								if (trim($item->branch_title, '*') === 'Language')
 								{
 									$title = LanguageHelper::branchLanguageTitle($item->title);
 								}
@@ -103,7 +102,7 @@ $wa->useScript('com_finder.maps');
 								?>
 								<?php echo str_repeat('<span class="gi">&mdash;</span>', $item->level - 1); ?>
 								<?php echo $this->escape($title); ?>
-								<?php if ($this->escape(trim($title, '**')) === 'Language' && Multilanguage::isEnabled()) : ?>
+								<?php if ($this->escape(trim($title, '*')) === 'Language' && Multilanguage::isEnabled()) : ?>
 								<div class="small">
 									<strong><?php echo Text::_('COM_FINDER_MAPS_MULTILANG'); ?></strong>
 								</div>
@@ -112,8 +111,13 @@ $wa->useScript('com_finder.maps');
 							<?php if (!$branchFilter) : ?>
 							<td class="text-center btns itemnumber">
 							<?php if ($item->rgt - $item->lft > 1) : ?>
-								<a href="<?php echo Route::_('index.php?option=com_finder&view=maps&filter[branch]=' . $item->id); ?>">
-									<span class="btn btn-info"><?php echo floor(($item->rgt - $item->lft) / 2); ?></span></a>
+								<a href="<?php echo Route::_('index.php?option=com_finder&view=maps&filter[branch]=' . $item->id); ?>"
+									aria-describedby="tip-map<?php echo $i; ?>">
+									<span class="btn btn-info"><?php echo floor(($item->rgt - $item->lft) / 2); ?></span>
+								</a>
+								<div role="tooltip" id="tip-map<?php echo $i; ?>">
+									<?php echo Text::_('COM_FINDER_HEADING_CHILDREN'); ?>
+								</div>
 							<?php else : ?>
 								-
 							<?php endif; ?>
@@ -121,16 +125,28 @@ $wa->useScript('com_finder.maps');
 							<?php endif; ?>
 							<td class="text-center btns itemnumber">
 							<?php if ($item->level > 1) : ?>
-								<a class="btn <?php echo ((int) $item->count_published > 0) ? 'btn-success' : 'btn-secondary'; ?>" title="<?php echo Text::_('COM_FINDER_MAPS_COUNT_PUBLISHED_ITEMS'); ?>" href="<?php echo Route::_('index.php?option=com_finder&view=index&filter[state]=1&filter[content_map]=' . $item->id); ?>">
-								<?php echo (int) $item->count_published; ?></a>
+								<a class="btn <?php echo ((int) $item->count_published > 0) ? 'btn-success' : 'btn-secondary'; ?>"
+									href="<?php echo Route::_('index.php?option=com_finder&view=index&filter[state]=1&filter[content_map]=' . $item->id); ?>"
+									aria-describedby="tip-publish<?php echo $i; ?>">
+									<?php echo (int) $item->count_published; ?>
+								</a>
+								<div role="tooltip" id="tip-publish<?php echo $i; ?>">
+									<?php echo Text::_('COM_FINDER_MAPS_COUNT_PUBLISHED_ITEMS'); ?>
+								</div>
 							<?php else : ?>
 								-
 							<?php endif; ?>
 							</td>
 							<td class="text-center btns itemnumber">
 							<?php if ($item->level > 1) : ?>
-								<a class="btn <?php echo ((int) $item->count_unpublished > 0) ? 'btn-danger' : 'btn-secondary'; ?>" title="<?php echo Text::_('COM_FINDER_MAPS_COUNT_UNPUBLISHED_ITEMS'); ?>" href="<?php echo Route::_('index.php?option=com_finder&view=index&filter[state]=0&filter[content_map]=' . $item->id); ?>">
-								<?php echo (int) $item->count_unpublished; ?></a>
+								<a class="btn <?php echo ((int) $item->count_unpublished > 0) ? 'btn-danger' : 'btn-secondary'; ?>"
+									href="<?php echo Route::_('index.php?option=com_finder&view=index&filter[state]=0&filter[content_map]=' . $item->id); ?>"
+									aria-describedby="tip-unpublish<?php echo $i; ?>">
+									<?php echo (int) $item->count_unpublished; ?>
+								</a>
+								<div role="tooltip" id="tip-unpublish<?php echo $i; ?>">
+									<?php echo Text::_('COM_FINDER_MAPS_COUNT_UNPUBLISHED_ITEMS'); ?>
+								</div>
 							<?php else : ?>
 								-
 							<?php endif; ?>

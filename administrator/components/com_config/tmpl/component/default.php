@@ -25,10 +25,8 @@ Text::script('MESSAGE');
 
 /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
 $wa = $this->document->getWebAssetManager();
-
-// Load the tooltip behavior.
-HTMLHelper::_('behavior.formvalidator');
-HTMLHelper::_('behavior.keepalive');
+$wa->useScript('form.validate')
+	->useScript('keepalive');
 
 if ($this->fieldsets)
 {
@@ -56,7 +54,7 @@ $xml = $this->form->getXml();
 			<?php if ($this->fieldsets) : ?>
 				<?php $opentab = 0; ?>
 
-				<?php echo HTMLHelper::_('uitab.startTabSet', 'configTabs'); ?>
+				<?php echo HTMLHelper::_('uitab.startTabSet', 'configTabs', ['recall' => true, 'breakpoint' => 768]); ?>
 
 				<?php foreach ($this->fieldsets as $name => $fieldSet) : ?>
 					<?php

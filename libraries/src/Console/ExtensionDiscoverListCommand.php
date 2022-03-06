@@ -10,7 +10,6 @@ namespace Joomla\CMS\Console;
 
 \defined('JPATH_PLATFORM') or die;
 
-use Joomla\Console\Command\AbstractCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -18,7 +17,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 /**
  * Console command for list discovered extensions
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 class ExtensionDiscoverListCommand extends ExtensionsListCommand
 {
@@ -27,7 +26,7 @@ class ExtensionDiscoverListCommand extends ExtensionsListCommand
 	 *
 	 * @var    string
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected static $defaultName = 'extension:discover:list';
 
@@ -36,7 +35,7 @@ class ExtensionDiscoverListCommand extends ExtensionsListCommand
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	protected function configure(): void
 	{
@@ -56,7 +55,7 @@ class ExtensionDiscoverListCommand extends ExtensionsListCommand
 	 *
 	 * @return array
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.0.0
 	 */
 	public function filterExtensionsBasedOnState($extensions, $state): array
 	{
@@ -81,7 +80,7 @@ class ExtensionDiscoverListCommand extends ExtensionsListCommand
 	 *
 	 * @return  integer  The command exit code
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	protected function doExecute(InputInterface $input, OutputInterface $output): int
 	{

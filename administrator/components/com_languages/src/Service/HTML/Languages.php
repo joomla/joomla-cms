@@ -49,12 +49,12 @@ class Languages
 	public function id($rowNum, $language)
 	{
 		return '<input'
+			. ' class="form-check-input"'
 			. ' type="radio"'
 			. ' id="cb' . $rowNum . '"'
 			. ' name="cid"'
 			. ' value="' . htmlspecialchars($language, ENT_COMPAT, 'UTF-8') . '"'
 			. ' onclick="Joomla.isChecked(this.checked);"'
-			. ' title="' . ($rowNum + 1) . '"'
 			. '>';
 	}
 

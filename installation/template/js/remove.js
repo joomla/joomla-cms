@@ -36,26 +36,68 @@ if (document.getElementById('removeInstallationFolder')) {
 			e.preventDefault();
 			let confirm = window.confirm(Joomla.Text._('INSTL_REMOVE_INST_FOLDER').replace('%s', 'installation'));
 			if (confirm) {
-				Joomla.request({
-					method: "POST",
-					url: Joomla.installationBaseUrl + '?task=installation.removeFolder&format=json',
-					perform: true,
-					token: true,
-					headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-					onSuccess: function () {
-						const customInstallation = document.getElementById('customInstallation');
-						customInstallation.parentNode.removeChild(customInstallation);
-						const removeInstallationTab = document.getElementById('removeInstallationTab');
-						removeInstallationTab.parentNode.removeChild(removeInstallationTab);
-					},
-					onError: function (xhr) {
-            Joomla.renderMessages({ error: [xhr] }, '#system-message-container');
-					}
-					}
-				);
+			    Joomla.deleteJoomlaInstallationDirectory();
 			}
-		}
-		);
+		});
+}
+
+const completeInstallationOptions = document.querySelectorAll('.complete-installation');
+
+completeInstallationOptions.forEach(function(item) {
+    item.addEventListener('click', function (e) {
+        // Once a button is clicked ensure they can't click it again...
+        completeInstallationOptions.forEach(function(nestedItem) {
+            nestedItem.disabled = true;
+        });
+
+        // In development mode we show the user a pretty button to allow them to choose whether to delete the installation
+        // directory or not. In stable release we always delete the folder. Maximum extermination!
+        if ('development' in item.dataset) {
+            window.location.href = item.dataset.href;
+        } else {
+            Joomla.deleteJoomlaInstallationDirectory(item.dataset.href);
+        }
+
+        return false;
+    });
+});
+
+Joomla.deleteJoomlaInstallationDirectory = function (redirectUrl) {
+    Joomla.request({
+        method: "POST",
+        url: Joomla.installationBaseUrl + '?task=installation.removeFolder&format=json',
+        perform: true,
+        token: true,
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        onSuccess: function (response) {
+            const successresponse = JSON.parse(response);
+            if (successresponse.error === true) {
+                if (successresponse.messages) {
+                    Joomla.renderMessages(successresponse.messages);
+                    Joomla.loadOptions({'csrf.token': successresponse.token});
+                } else {
+                    // Stuff went wrong. No error messages. Just panic bail!
+                    Joomla.renderMessages({error:['Unknown error deleting the installation folder.']});
+                }
+            } else {
+                const customInstallation = document.getElementById('customInstallation');
+                customInstallation.parentNode.removeChild(customInstallation);
+                const removeInstallationTab = document.getElementById('removeInstallationTab');
+
+                // This will only exist in debug mode
+                if (removeInstallationTab) {
+                    removeInstallationTab.parentNode.removeChild(removeInstallationTab);
+                }
+
+                if (redirectUrl) {
+                    window.location.href = redirectUrl;
+                }
+            }
+        },
+        onError: function (xhr) {
+          Joomla.renderMessages(Joomla.ajaxErrorsMessages(xhr));
+        }
+    });
 }
 
 if (document.getElementById('installLanguagesButton')) {
@@ -101,7 +143,7 @@ if (document.getElementById('defaultLanguagesButton')) {
           Joomla.loadOptions({'csrf.token': successresponse.token});
         },
         onError(xhr) {
-          Joomla.renderMessages({ error: [xhr] }, '#system-message-container');
+          Joomla.renderMessages(Joomla.ajaxErrorsMessages(xhr));
         },
       });
 

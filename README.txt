@@ -3,8 +3,8 @@ Joomla! CMS™
 1- Overview
 	* This is a Joomla! 4.x installation/upgrade package.
 	* Joomla! Official site: https://www.joomla.org
-	* Joomla! 4.0 version history - https://docs.joomla.org/Special:MyLanguage/Joomla_4.0_version_history
-	* Detailed changes in the Changelog: https://github.com/joomla/joomla-cms/commits/4.0-dev
+	* Joomla! 4.1 version history - https://docs.joomla.org/Special:MyLanguage/Joomla_4.1_version_history
+	* Detailed changes in the Changelog: https://github.com/joomla/joomla-cms/commits/4.1-dev
 
 2- What is Joomla?
 	* Joomla! is a Content Management System (CMS) which enables you to build websites and powerful online applications.
@@ -18,7 +18,7 @@ Joomla! CMS™
 	* Try out our free hosting service: https://launch.joomla.org
 
 4- How to find a Joomla! translation?
-	* Repository of accredited language packs: https://community.joomla.org/translations.html
+	* Repository of accredited language packs: https://downloads.joomla.org/language-packs
 	* You can also add languages directly to your website via your Joomla! administration panel: https://docs.joomla.org/Special:MyLanguage/J4.x:Setup_a_Multilingual_Site/Installing_New_Language
 	* Learn how to setup a Multilingual Joomla! Site: https://docs.joomla.org/Special:MyLanguage/J4.x:Setup_a_Multilingual_Site
 

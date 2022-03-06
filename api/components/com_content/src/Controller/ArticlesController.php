@@ -50,27 +50,27 @@ class ArticlesController extends ApiController
 		$apiFilterInfo = $this->input->get('filter', [], 'array');
 		$filter        = InputFilter::getInstance();
 
-		if (array_key_exists('author', $apiFilterInfo))
+		if (\array_key_exists('author', $apiFilterInfo))
 		{
 			$this->modelState->set('filter.author_id', $filter->clean($apiFilterInfo['author'], 'INT'));
 		}
 
-		if (array_key_exists('category', $apiFilterInfo))
+		if (\array_key_exists('category', $apiFilterInfo))
 		{
 			$this->modelState->set('filter.category_id', $filter->clean($apiFilterInfo['category'], 'INT'));
 		}
 
-		if (array_key_exists('search', $apiFilterInfo))
+		if (\array_key_exists('search', $apiFilterInfo))
 		{
 			$this->modelState->set('filter.search', $filter->clean($apiFilterInfo['search'], 'STRING'));
 		}
 
-		if (array_key_exists('state', $apiFilterInfo))
+		if (\array_key_exists('state', $apiFilterInfo))
 		{
 			$this->modelState->set('filter.published', $filter->clean($apiFilterInfo['state'], 'INT'));
 		}
 
-		if (array_key_exists('language', $apiFilterInfo))
+		if (\array_key_exists('language', $apiFilterInfo))
 		{
 			$this->modelState->set('filter.language', $filter->clean($apiFilterInfo['language'], 'STRING'));
 		}
@@ -79,18 +79,16 @@ class ArticlesController extends ApiController
 	}
 
 	/**
-	 * Method to save a record.
+	 * Method to allow extended classes to manipulate the data to be saved for an extension.
 	 *
-	 * @param   integer  $recordKey  The primary key of the item (if exists)
+	 * @param   array  $data  An array of input data.
 	 *
-	 * @return  integer  The record ID on success, false on failure
+	 * @return  array
 	 *
 	 * @since   4.0.0
 	 */
-	protected function save($recordKey = null)
+	protected function preprocessSaveData(array $data): array
 	{
-		$data = (array) json_decode($this->input->json->getRaw(), true);
-
 		foreach (FieldsHelper::getFields('com_content.article') as $field)
 		{
 			if (isset($data[$field->name]))
@@ -102,8 +100,6 @@ class ArticlesController extends ApiController
 			}
 		}
 
-		$this->input->set('data', $data);
-
-		return parent::save($recordKey);
+		return $data;
 	}
 }

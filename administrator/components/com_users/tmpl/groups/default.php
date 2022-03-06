@@ -16,8 +16,6 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 
-HTMLHelper::_('behavior.multiselect');
-
 $user        = Factory::getUser();
 $listOrder   = $this->escape($this->state->get('list.ordering'));
 $listDirn    = $this->escape($this->state->get('list.direction'));
@@ -26,7 +24,8 @@ Text::script('COM_USERS_GROUPS_CONFIRM_DELETE', true);
 
 /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
 $wa = $this->document->getWebAssetManager();
-$wa->useScript('com_users.admin-users-groups');
+$wa->useScript('multiselect')
+	->useScript('com_users.admin-users-groups');
 
 ?>
 <form action="<?php echo Route::_('index.php?option=com_users&view=groups'); ?>" method="post" name="adminForm" id="adminForm">
@@ -104,12 +103,24 @@ $wa->useScript('com_users.admin-users-groups');
 									</a>
 								</td>
 								<td class="text-center btns itemnumber d-none d-md-table-cell">
-									<a class="btn <?php echo $item->count_enabled > 0 ? 'btn-success' : 'btn-secondary'; ?>" href="<?php echo Route::_('index.php?option=com_users&view=users&filter[group_id]=' . (int) $item->id . '&filter[state]=0'); ?>">
-										<?php echo $item->count_enabled; ?></a>
+									<a class="btn <?php echo $item->count_enabled > 0 ? 'btn-success' : 'btn-secondary'; ?>"
+										href="<?php echo Route::_('index.php?option=com_users&view=users&filter[group_id]=' . (int) $item->id . '&filter[state]=0'); ?>"
+										aria-describedby="tip-enabled<?php echo $i; ?>">
+										<?php echo $item->count_enabled; ?>
+									</a>
+									<div role="tooltip" id="tip-enabled<?php echo $i; ?>">
+										<?php echo Text::_('COM_USERS_COUNT_ENABLED_USERS'); ?>
+									</div>
 								</td>
 								<td class="text-center btns itemnumber d-none d-md-table-cell">
-									<a class="btn <?php echo $item->count_disabled > 0 ? 'btn-danger' : 'btn-secondary'; ?>" href="<?php echo Route::_('index.php?option=com_users&view=users&filter[group_id]=' . (int) $item->id . '&filter[state]=1'); ?>">
-										<?php echo $item->count_disabled; ?></a>
+									<a class="btn <?php echo $item->count_disabled > 0 ? 'btn-danger' : 'btn-secondary'; ?>"
+										href="<?php echo Route::_('index.php?option=com_users&view=users&filter[group_id]=' . (int) $item->id . '&filter[state]=1'); ?>"
+										aria-describedby="tip-blocked<?php echo $i; ?>">
+										<?php echo $item->count_disabled; ?>
+									</a>
+									<div role="tooltip" id="tip-blocked<?php echo $i; ?>">
+										<?php echo Text::_('COM_USERS_COUNT_DISABLED_USERS'); ?>
+									</div>
 								</td>
 								<td class="d-none d-md-table-cell">
 									<?php echo (int) $item->id; ?>

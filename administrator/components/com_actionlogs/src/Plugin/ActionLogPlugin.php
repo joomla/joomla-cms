@@ -13,7 +13,6 @@ namespace Joomla\Component\Actionlogs\Administrator\Plugin;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Plugin\CMSPlugin;
-use Joomla\Component\Actionlogs\Administrator\Model\ActionlogModel;
 
 /**
  * Abstract Action Log Plugin
@@ -66,27 +65,27 @@ abstract class ActionLogPlugin extends CMSPlugin
 
 		foreach ($messages as $index => $message)
 		{
-			if (!array_key_exists('userid', $message))
+			if (!\array_key_exists('userid', $message))
 			{
 				$message['userid'] = $user->id;
 			}
 
-			if (!array_key_exists('username', $message))
+			if (!\array_key_exists('username', $message))
 			{
 				$message['username'] = $user->username;
 			}
 
-			if (!array_key_exists('accountlink', $message))
+			if (!\array_key_exists('accountlink', $message))
 			{
 				$message['accountlink'] = 'index.php?option=com_users&task=user.edit&id=' . $user->id;
 			}
 
-			if (array_key_exists('type', $message))
+			if (\array_key_exists('type', $message))
 			{
 				$message['type'] = strtoupper($message['type']);
 			}
 
-			if (array_key_exists('app', $message))
+			if (\array_key_exists('app', $message))
 			{
 				$message['app'] = strtoupper($message['app']);
 			}
@@ -94,8 +93,10 @@ abstract class ActionLogPlugin extends CMSPlugin
 			$messages[$index] = $message;
 		}
 
-		/** @var ActionlogModel $model */
-		$model = new ActionlogModel;
+		/** @var \Joomla\Component\Actionlogs\Administrator\Model\ActionlogModel $model */
+		$model = $this->app->bootComponent('com_actionlogs')
+			->getMVCFactory()->createModel('Actionlog', 'Administrator', ['ignore_request' => true]);
+
 		$model->addLog($messages, strtoupper($messageLanguageKey), $context, $userId);
 	}
 }

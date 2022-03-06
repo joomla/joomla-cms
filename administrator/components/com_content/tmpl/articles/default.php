@@ -24,8 +24,6 @@ use Joomla\CMS\Session\Session;
 use Joomla\Component\Content\Administrator\Helper\ContentHelper;
 use Joomla\Utilities\ArrayHelper;
 
-HTMLHelper::_('behavior.multiselect');
-
 $app       = Factory::getApplication();
 $user      = Factory::getUser();
 $userId    = $user->get('id');
@@ -56,6 +54,10 @@ if ($saveOrder && !empty($this->items))
 	HTMLHelper::_('draggablelist.draggable');
 }
 
+/** @var \Joomla\CMS\WebAsset\WebAssetManager $wa */
+$wa = $this->document->getWebAssetManager();
+$wa->useScript('multiselect');
+
 $workflow_enabled  = ComponentHelper::getParams('com_content')->get('workflow_enabled');
 $workflow_state    = false;
 $workflow_featured = false;
@@ -76,9 +78,6 @@ $js = <<<JS
 	});
 })();
 JS;
-
-/** @var \Joomla\CMS\WebAsset\WebAssetManager $wa */
-$wa = $this->document->getWebAssetManager();
 
 $wa->getRegistry()->addExtensionRegistryFile('com_workflow');
 $wa->useScript('com_workflow.admin-items-workflow-buttons')
@@ -153,9 +152,11 @@ $assoc = Associations::isEnabled();
 								<th scope="col" class="w-10 d-none d-md-table-cell text-center">
 									<?php echo HTMLHelper::_('searchtools.sort', 'COM_CONTENT_HEADING_DATE_' . strtoupper($orderingColumn), 'a.' . $orderingColumn, $listDirn, $listOrder); ?>
 								</th>
-								<th scope="col" class="w-3 d-none d-lg-table-cell text-center">
-									<?php echo HTMLHelper::_('searchtools.sort', 'JGLOBAL_HITS', 'a.hits', $listDirn, $listOrder); ?>
-								</th>
+								<?php if ($this->hits) : ?>
+									<th scope="col" class="w-3 d-none d-lg-table-cell text-center">
+										<?php echo HTMLHelper::_('searchtools.sort', 'JGLOBAL_HITS', 'a.hits', $listDirn, $listOrder); ?>
+									</th>
+								<?php endif; ?>
 								<?php if ($this->vote) : ?>
 									<th scope="col" class="w-3 d-none d-md-table-cell text-center">
 										<?php echo HTMLHelper::_('searchtools.sort', 'JGLOBAL_VOTES', 'rating_count', $listDirn, $listOrder); ?>
@@ -219,7 +220,8 @@ $assoc = Associations::isEnabled();
 									'transitions' => $transitions,
 									'title' => Text::_($item->stage_title),
 									'tip_content' => Text::sprintf('JWORKFLOW', Text::_($item->workflow_title)),
-									'id' => 'workflow-' . $item->id
+									'id' => 'workflow-' . $item->id,
+									'task' => 'articles.runTransition'
 								];
 
 								echo (new TransitionButton($options))
@@ -356,11 +358,13 @@ $assoc = Associations::isEnabled();
 									echo $date > 0 ? HTMLHelper::_('date', $date, Text::_('DATE_FORMAT_LC4')) : '-';
 									?>
 								</td>
-								<td class="d-none d-lg-table-cell text-center">
-									<span class="badge bg-info">
-										<?php echo (int) $item->hits; ?>
-									</span>
-								</td>
+								<?php if ($this->hits) : ?>
+									<td class="d-none d-lg-table-cell text-center">
+										<span class="badge bg-info">
+											<?php echo (int) $item->hits; ?>
+										</span>
+									</td>
+								<?php endif; ?>
 								<?php if ($this->vote) : ?>
 									<td class="d-none d-md-table-cell text-center">
 										<span class="badge bg-success">

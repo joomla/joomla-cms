@@ -37,13 +37,13 @@ class ContentSerializer extends JoomlaSerializer
 	{
 		$resources = [];
 
-		// TODO: This can't be hardcoded in the future?
+		// @todo: This can't be hardcoded in the future?
 		$serializer = new JoomlaSerializer($this->type);
 
 		foreach ($model->associations as $association)
 		{
 			$resources[] = (new Resource($association, $serializer))
-				->addLink('self', Route::link('site', Uri::root() . 'api/index.php/v1/content/article/' . $association->id));
+				->addLink('self', Route::link('site', Uri::root() . 'api/index.php/v1/content/articles/' . $association->id));
 		}
 
 		$collection = new Collection($resources, $serializer);

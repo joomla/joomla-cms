@@ -102,6 +102,12 @@ class ListField extends FormField
 				{
 					continue;
 				}
+
+				// Requires record hits
+				if (\in_array('hits', $requires) && !ComponentHelper::getParams('com_content')->get('record_hits', 1))
+				{
+					continue;
+				}
 			}
 
 			$value = (string) $option['value'];

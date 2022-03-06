@@ -75,7 +75,7 @@ class HtmlView extends BaseHtmlView
 	 * Is this view an Empty State
 	 *
 	 * @var  boolean
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.0.0
 	 */
 	private $isEmptyState = false;
 
@@ -156,6 +156,6 @@ class HtmlView extends BaseHtmlView
 			ToolbarHelper::preferences('com_banners');
 		}
 
-		ToolbarHelper::help('JHELP_COMPONENTS_BANNERS_TRACKS');
+		ToolbarHelper::help('Banners:_Tracks');
 	}
 }

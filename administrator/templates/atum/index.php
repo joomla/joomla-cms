@@ -45,10 +45,10 @@ $this->addHeadLink(HTMLHelper::_('image', 'joomla-favicon-pinned.svg', '', [], t
 // Template params
 $logoBrandLarge  = $this->params->get('logoBrandLarge')
 	? Uri::root() . htmlspecialchars($this->params->get('logoBrandLarge'), ENT_QUOTES)
-	: $this->baseurl . '/templates/' . $this->template . '/images/logos/brand-large.svg';
+	: Uri::root() . 'media/templates/administrator/atum/images/logos/brand-large.svg';
 $logoBrandSmall = $this->params->get('logoBrandSmall')
 	? Uri::root() . htmlspecialchars($this->params->get('logoBrandSmall'), ENT_QUOTES)
-	: $this->baseurl . '/templates/' . $this->template . '/images/logos/brand-small.svg';
+	: Uri::root() . 'media/templates/administrator/atum/images/logos/brand-small.svg';
 
 $logoBrandLargeAlt = empty($this->params->get('logoBrandLargeAlt')) && empty($this->params->get('emptyLogoBrandLargeAlt'))
 	? 'alt=""'
@@ -66,11 +66,11 @@ $wa->usePreset('template.atum.' . ($this->direction === 'rtl' ? 'rtl' : 'ltr'))
 	->useStyle('template.user')
 	->addInlineStyle(':root {
 		--hue: ' . $matches[1] . ';
-		--atum-bg-light: ' . $this->params->get('bg-light', '#f0f4fb') . ';
-		--atum-text-dark: ' . $this->params->get('text-dark', '#495057') . ';
-		--atum-text-light: ' . $this->params->get('text-light', '#ffffff') . ';
-		--atum-link-color: ' . $this->params->get('link-color', '#2a69b8') . ';
-		--atum-special-color: ' . $this->params->get('special-color', '#001B4C') . ';
+		--template-bg-light: ' . $this->params->get('bg-light', '#f0f4fb') . ';
+		--template-text-dark: ' . $this->params->get('text-dark', '#495057') . ';
+		--template-text-light: ' . $this->params->get('text-light', '#ffffff') . ';
+		--template-link-color: ' . $this->params->get('link-color', '#2a69b8') . ';
+		--template-special-color: ' . $this->params->get('special-color', '#001B4C') . ';
 	}');
 
 // Override 'template.active' asset to set correct ltr/rtl dependency
@@ -115,10 +115,9 @@ $statusModules = LayoutHelper::render('status', ['modules' => 'status']);
 					<img class="logo-collapsed" src="<?php echo $logoBrandSmall; ?>" <?php echo $logoBrandSmallAlt; ?>>
 					</div>
 				<?php else : ?>
-					<a class="logo <?php echo $sidebarState === 'closed' ? 'small' : ''; ?>" href="<?php echo Route::_('index.php'); ?>"
-						aria-label="<?php echo Text::_('TPL_ATUM_BACK_TO_CONTROL_PANEL'); ?>">
-						<img src="<?php echo $logoBrandLarge; ?>" <?php echo $logoBrandLargeAlt; ?>>
-						<img class="logo-collapsed" src="<?php echo $logoBrandSmall; ?>" <?php echo $logoBrandSmallAlt; ?>>
+					<a class="logo <?php echo $sidebarState === 'closed' ? 'small' : ''; ?>" href="<?php echo Route::_('index.php'); ?>">
+						<img src="<?php echo $logoBrandLarge; ?>" alt="<?php echo Text::_('TPL_ATUM_BACK_TO_CONTROL_PANEL'); ?>">
+						<img class="logo-collapsed" src="<?php echo $logoBrandSmall; ?>" alt="<?php echo Text::_('TPL_ATUM_BACK_TO_CONTROL_PANEL'); ?>">
 					</a>
 				<?php endif; ?>
 			</div>
@@ -155,11 +154,10 @@ $statusModules = LayoutHelper::render('status', ['modules' => 'status']);
 		<?php if (!$cpanel) : ?>
 			<?php // Subheader ?>
 			<?php HTMLHelper::_('bootstrap.collapse', '.toggler-toolbar'); ?>
-			<button class="navbar-toggler toggler-toolbar toggler-burger collapsed" type="button" data-bs-toggle="collapse" data-bs-target=".subhead" aria-controls="subhead" aria-expanded="false" aria-label="<?php echo Text::_('TPL_ATUM_TOOLBAR'); ?>">
+			<button class="navbar-toggler toggler-toolbar toggler-burger collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#subhead-container" aria-controls="subhead-container" aria-expanded="false" aria-label="<?php echo Text::_('TPL_ATUM_TOOLBAR'); ?>">
 				<span class="toggler-toolbar-icon"></span>
 			</button>
-			<div id="subhead" class="subhead mb-3">
-				<div id="container-collapse" class="container-collapse"></div>
+			<div id="subhead-container" class="subhead mb-3">
 				<div class="row">
 					<div class="col-md-12">
 						<jdoc:include type="modules" name="toolbar" style="none" />
