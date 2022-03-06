@@ -56,7 +56,9 @@ HTMLHelper::_('bootstrap.dropdown', '.dropdown-toggle');
 	<div class="header-item-content">
 	<?php $route = 'index.php?option=com_login&task=logout&amp;' . Session::getFormToken() . '=1'; ?>
 		<a href="<?php echo Route::_($route); ?>" title="<?php echo Text::_('JLOGOUT'); ?>">
-			<span class="icon-power-off icon-fw" aria-hidden="true"></span>
+		<div class="header-item-icon">
+			<span class="icon-exit icon-fw" aria-hidden="true"></span>
+		</div>
 		</a>
 	</div>
 </div>
