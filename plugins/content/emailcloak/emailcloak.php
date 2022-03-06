@@ -14,7 +14,7 @@ use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\String\StringHelper;
 
 /**
- * Email cloack plugin class.
+ * Email cloak plugin class.
  *
  * @since  1.5
  */
@@ -46,7 +46,14 @@ class PlgContentEmailcloak extends CMSPlugin
 			return;
 		}
 
-		$this->_cloak(is_object($row) ? $row->text : $row, $params);
+		if (is_object($row))
+		{
+			$this->_cloak($row->text, $params);
+
+			return;
+		}
+
+		$this->_cloak($row, $params);
 	}
 
 	/**
@@ -96,7 +103,7 @@ class PlgContentEmailcloak extends CMSPlugin
 		$mode = $mode === 1;
 
 		// Example: any@example.org
-		$searchEmail = '([\w\.\'\-\+]+\@(?:[a-z0-9\.\-]+\.)+(?:[a-zA-Z0-9\-]{2,10}))';
+		$searchEmail = '([\w\.\'\-\+]+\@(?:[a-z0-9\.\-]+\.)+(?:[a-zA-Z0-9\-]{2,24}))';
 
 		// Example: any@example.org?subject=anyText
 		$searchEmailLink = $searchEmail . '([?&][\x20-\x7f][^"<>]+)';

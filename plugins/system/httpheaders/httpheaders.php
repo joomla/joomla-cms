@@ -13,6 +13,8 @@ use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Uri\Uri;
 use Joomla\Database\DatabaseDriver;
+use Joomla\Event\DispatcherInterface;
+use Joomla\Event\Event;
 use Joomla\Event\SubscriberInterface;
 
 /**
@@ -127,8 +129,8 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 	/**
 	 * Constructor.
 	 *
-	 * @param   object  &$subject  The object to observe.
-	 * @param   array   $config    An optional associative array of configuration settings.
+	 * @param   DispatcherInterface  $subject  The object to observe.
+	 * @param   array                $config   An optional associative array of configuration settings.
 	 *
 	 * @since   4.0.0
 	 */
@@ -163,7 +165,7 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 	 *
 	 * @since   4.0.0
 	 */
-	public function applyHashesToCspRule(): void
+	public function applyHashesToCspRule(Event $event): void
 	{
 		// CSP is only relevant on html pages. Let's early exit here.
 		if ($this->app->getDocument()->getType() !== 'html')
@@ -252,7 +254,7 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 	 *
 	 * @since   4.0.0
 	 */
-	public function setHttpHeaders(): void
+	public function setHttpHeaders(Event $event): void
 	{
 		// Set the default header when they are enabled
 		$this->setStaticHeaders();
@@ -265,34 +267,6 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 		if ($cspEnabled && ($this->app->isClient($cspClient) || $cspClient === 'both'))
 		{
 			$this->setCspHeader();
-		}
-
-		if ($this->app->get('block_floc', 1))
-		{
-			$headers = $this->app->getHeaders();
-
-			$notPresent = true;
-
-			foreach ($headers as $header)
-			{
-				if (strtolower($header['name']) === 'permissions-policy')
-				{
-					// Append interest-cohort if the Permissions-Policy is not set
-					if (strpos($header['value'], 'interest-cohort') === false)
-					{
-						$this->app->setHeader('Permissions-Policy', $header['value'] . ', interest-cohort=()', true);
-					}
-
-					$notPresent = false;
-
-					break;
-				}
-			}
-
-			if ($notPresent)
-			{
-				$this->app->setHeader('Permissions-Policy', 'interest-cohort=()');
-			}
 		}
 	}
 
@@ -493,7 +467,7 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 		{
 			$headerAndClient = explode('#', $headerAndClient);
 			$header = $headerAndClient[0];
-			$client = isset($headerAndClient[1]) ? $headerAndClient[1] : 'both';
+			$client = $headerAndClient[1] ?? 'both';
 
 			if (!$this->app->isClient($client) && $client != 'both')
 			{

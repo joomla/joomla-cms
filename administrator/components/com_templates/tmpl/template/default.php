@@ -79,8 +79,8 @@ if ($this->type == 'font')
 		<?php if ($this->type == 'file' && !empty($this->source->coreFile)) : ?>
 			<div class="col-md-4 text-end">
 				<div id="toggle-buttons">
-					<?php echo $this->form->getInput('show_core'); ?>
-					<?php echo $this->form->getInput('show_diff'); ?>
+					<?php echo $this->form->renderField('show_core'); ?>
+					<?php echo $this->form->renderField('show_diff'); ?>
 				</div>
 			</div>
 		<?php endif; ?>

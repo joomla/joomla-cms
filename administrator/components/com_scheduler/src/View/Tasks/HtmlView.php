@@ -162,8 +162,8 @@ class HtmlView extends BaseHtmlView
 			// Add the batch Enable, Disable and Trash buttons if privileged
 			if ($canDo->get('core.edit.state'))
 			{
-				$childBar->addNew('tasks.publish', 'JTOOLBAR_ENABLE')->listCheck(true)->icon('icon-publish');
-				$childBar->addNew('tasks.unpublish', 'JTOOLBAR_DISABLE')->listCheck(true)->icon('icon-unpublish');
+				$childBar->publish('tasks.publish', 'JTOOLBAR_ENABLE')->listCheck(true);
+				$childBar->unpublish('tasks.unpublish', 'JTOOLBAR_DISABLE')->listCheck(true);
 
 				$childBar->checkin('tasks.unlock', 'COM_SCHEDULER_TOOLBAR_UNLOCK')->listCheck(true)->icon('icon-unlock');
 
@@ -190,6 +190,6 @@ class HtmlView extends BaseHtmlView
 			$toolbar->preferences('com_scheduler');
 		}
 
-		$toolbar->help('JHELP_COMPONENTS_SCHEDULED_TASKS_MANAGER');
+		$toolbar->help('Scheduled_Tasks');
 	}
 }

@@ -18,7 +18,7 @@ use Joomla\Event\SubscriberInterface;
 /**
  * Jooa11y plugin to add an accessibility checker
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.1.0
  */
 class PlgSystemJooa11y extends CMSPlugin implements SubscriberInterface
 {
@@ -26,7 +26,7 @@ class PlgSystemJooa11y extends CMSPlugin implements SubscriberInterface
 	 * Application object.
 	 *
 	 * @var    CMSApplicationInterface
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.1.0
 	 */
 	protected $app;
 
@@ -34,7 +34,7 @@ class PlgSystemJooa11y extends CMSPlugin implements SubscriberInterface
 	 * Affects constructor behavior. If true, language files will be loaded automatically.
 	 *
 	 * @var    boolean
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.1.0
 	 */
 	protected $autoloadLanguage = true;
 
@@ -43,7 +43,7 @@ class PlgSystemJooa11y extends CMSPlugin implements SubscriberInterface
 	 *
 	 * @return string[]  An array of event mappings
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.1.0
 	 *
 	 * @throws Exception
 	 */
@@ -65,7 +65,7 @@ class PlgSystemJooa11y extends CMSPlugin implements SubscriberInterface
 	 *
 	 * @return  boolean  True if access is allowed.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.1.0
 	 */
 	private function isAuthorisedDisplayChecker(): bool
 	{
@@ -101,7 +101,7 @@ class PlgSystemJooa11y extends CMSPlugin implements SubscriberInterface
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.1.0
 	 */
 	public function initJooa11y()
 	{
@@ -161,6 +161,9 @@ class PlgSystemJooa11y extends CMSPlugin implements SubscriberInterface
 			'PLG_SYSTEM_JOOA11Y_HIDE_SETTINGS',
 			'PLG_SYSTEM_JOOA11Y_HYPERLINK_ALT_LENGTH_MESSAGE',
 			'PLG_SYSTEM_JOOA11Y_HYPERLINK_ALT_LENGTH_MESSAGE_INFO',
+			'PLG_SYSTEM_JOOA11Y_IMAGE_FIGURE_DECORATIVE',
+			'PLG_SYSTEM_JOOA11Y_IMAGE_FIGURE_DECORATIVE_INFO',
+			'PLG_SYSTEM_JOOA11Y_IMAGE_FIGURE_DUPLICATE_ALT',
 			'PLG_SYSTEM_JOOA11Y_LABELS_ARIA_LABEL_INPUT_MESSAGE',
 			'PLG_SYSTEM_JOOA11Y_LABELS_ARIA_LABEL_INPUT_MESSAGE_INFO',
 			'PLG_SYSTEM_JOOA11Y_LABELS_INPUT_RESET_MESSAGE',
@@ -213,22 +216,18 @@ class PlgSystemJooa11y extends CMSPlugin implements SubscriberInterface
 			'PLG_SYSTEM_JOOA11Y_ON',
 			'PLG_SYSTEM_JOOA11Y_PAGE_OUTLINE',
 			'PLG_SYSTEM_JOOA11Y_PANEL_HEADING_MISSING_ONE',
-			'PLG_SYSTEM_JOOA11Y_PANEL_STATUS_1',
-			'PLG_SYSTEM_JOOA11Y_PANEL_STATUS_10',
-			'PLG_SYSTEM_JOOA11Y_PANEL_STATUS_11',
-			'PLG_SYSTEM_JOOA11Y_PANEL_STATUS_12',
-			'PLG_SYSTEM_JOOA11Y_PANEL_STATUS_2',
-			'PLG_SYSTEM_JOOA11Y_PANEL_STATUS_3',
-			'PLG_SYSTEM_JOOA11Y_PANEL_STATUS_4',
-			'PLG_SYSTEM_JOOA11Y_PANEL_STATUS_5',
-			'PLG_SYSTEM_JOOA11Y_PANEL_STATUS_6',
-			'PLG_SYSTEM_JOOA11Y_PANEL_STATUS_7',
-			'PLG_SYSTEM_JOOA11Y_PANEL_STATUS_8',
-			'PLG_SYSTEM_JOOA11Y_PANEL_STATUS_9',
+			'PLG_SYSTEM_JOOA11Y_PANEL_STATUS_BOTH',
+			'PLG_SYSTEM_JOOA11Y_PANEL_STATUS_ERRORS',
+			'PLG_SYSTEM_JOOA11Y_PANEL_STATUS_HIDDEN',
+			'PLG_SYSTEM_JOOA11Y_PANEL_STATUS_ICON',
+			'PLG_SYSTEM_JOOA11Y_PANEL_STATUS_NONE',
+			'PLG_SYSTEM_JOOA11Y_PANEL_STATUS_WARNINGS',
 			'PLG_SYSTEM_JOOA11Y_QA_BAD_ITALICS',
 			'PLG_SYSTEM_JOOA11Y_QA_BAD_LINK',
 			'PLG_SYSTEM_JOOA11Y_QA_BLOCKQUOTE_MESSAGE',
 			'PLG_SYSTEM_JOOA11Y_QA_BLOCKQUOTE_MESSAGE_TIP',
+			'PLG_SYSTEM_JOOA11Y_QA_DUPLICATE_ID',
+			'PLG_SYSTEM_JOOA11Y_QA_DUPLICATE_ID_TIP',
 			'PLG_SYSTEM_JOOA11Y_QA_FAKE_HEADING',
 			'PLG_SYSTEM_JOOA11Y_QA_FAKE_HEADING_INFO',
 			'PLG_SYSTEM_JOOA11Y_QA_PAGE_LANGUAGE_MESSAGE',
@@ -250,6 +249,8 @@ class PlgSystemJooa11y extends CMSPlugin implements SubscriberInterface
 			'PLG_SYSTEM_JOOA11Y_TABLES_MISSING_HEADINGS_INFO',
 			'PLG_SYSTEM_JOOA11Y_TABLES_SEMANTIC_HEADING',
 			'PLG_SYSTEM_JOOA11Y_TABLES_SEMANTIC_HEADING_INFO',
+			'PLG_SYSTEM_JOOA11Y_TEXT_UNDERLINE_WARNING',
+			'PLG_SYSTEM_JOOA11Y_TEXT_UNDERLINE_WARNING_INFO',
 			'PLG_SYSTEM_JOOA11Y_TOTAL_WORDS',
 			'PLG_SYSTEM_JOOA11Y_VERY_DIFFICULT_READABILITY',
 			'PLG_SYSTEM_JOOA11Y_WARNING',

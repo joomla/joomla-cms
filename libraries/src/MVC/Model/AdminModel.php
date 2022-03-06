@@ -525,7 +525,7 @@ abstract class AdminModel extends FormModel
 			);
 			$this->dispatchEvent($event);
 
-			// TODO: Deal with ordering?
+			// @todo: Deal with ordering?
 			// $this->table->ordering = 1;
 
 			// Check the row.
@@ -1214,8 +1214,6 @@ abstract class AdminModel extends FormModel
 				if (property_exists($table, $publishedColumnName) && $table->get($publishedColumnName, $value) == $value)
 				{
 					unset($pks[$i]);
-
-					continue;
 				}
 			}
 		}

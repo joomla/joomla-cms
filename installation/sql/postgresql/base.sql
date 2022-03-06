@@ -61,7 +61,7 @@ INSERT INTO "#__assets" ("id", "parent_id", "lft", "rgt", "level", "name", "titl
 (32, 24, 146, 147, 2, 'com_users.category.7', 'Uncategorised', '{}'),
 (33, 1, 151, 152, 1, 'com_finder', 'com_finder', '{"core.admin":{"7":1},"core.manage":{"6":1}}'),
 (34, 1, 153, 154, 1, 'com_joomlaupdate', 'com_joomlaupdate', '{}'),
-(35, 1, 153, 154, 1, 'com_tags', 'com_tags', '{}'),
+(35, 1, 155, 156, 1, 'com_tags', 'com_tags', '{}'),
 (36, 1, 157, 158, 1, 'com_contenthistory', 'com_contenthistory', '{}'),
 (37, 1, 159, 160, 1, 'com_ajax', 'com_ajax', '{}'),
 (38, 1, 161, 162, 1, 'com_postinstall', 'com_postinstall', '{}'),
