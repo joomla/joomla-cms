@@ -858,6 +858,9 @@ class ApplicationModel extends FormModel
 			}
 		}
 
+		// Sort the properties A-Z
+		ksort($data, SORT_STRING | SORT_FLAG_CASE);
+
 		// Create the new configuration object.
 		$config = new Registry($data);
 
