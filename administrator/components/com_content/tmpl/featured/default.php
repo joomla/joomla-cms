@@ -24,8 +24,6 @@ use Joomla\CMS\Session\Session;
 use Joomla\Component\Content\Administrator\Helper\ContentHelper;
 use Joomla\Utilities\ArrayHelper;
 
-HTMLHelper::_('behavior.multiselect');
-
 $app       = Factory::getApplication();
 $user      = Factory::getUser();
 $userId    = $user->get('id');
@@ -57,6 +55,10 @@ if ($saveOrder && !empty($this->items))
 	HTMLHelper::_('draggablelist.draggable');
 }
 
+/** @var \Joomla\CMS\WebAsset\WebAssetManager $wa */
+$wa = $this->document->getWebAssetManager();
+$wa->useScript('multiselect');
+
 $workflow_enabled  = ComponentHelper::getParams('com_content')->get('workflow_enabled');
 $workflow_state    = false;
 $workflow_featured = false;
@@ -77,9 +79,6 @@ $js = <<<JS
 	});
 })();
 JS;
-
-/** @var \Joomla\CMS\WebAsset\WebAssetManager $wa */
-$wa = $this->document->getWebAssetManager();
 
 $wa->getRegistry()->addExtensionRegistryFile('com_workflow');
 $wa->useScript('com_workflow.admin-items-workflow-buttons')
