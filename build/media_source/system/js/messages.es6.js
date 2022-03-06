@@ -68,6 +68,7 @@ Joomla.renderMessages = (messages, selector, keepOld, timeout) => {
     }
 
     messagesBox.setAttribute('type', alertClass);
+    messagesBox.setAttribute('close-text', Joomla.Text._('JCLOSE'));
     messagesBox.setAttribute('dismiss', true);
 
     if (timeout && parseInt(timeout, 10) > 0) {

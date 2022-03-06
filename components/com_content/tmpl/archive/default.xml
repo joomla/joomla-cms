@@ -2,7 +2,7 @@
 <metadata>
 	<layout title="COM_CONTENT_ARCHIVE_VIEW_DEFAULT_TITLE" option="COM_CONTENT_ARCHIVE_VIEW_DEFAULT_OPTION">
 		<help
-			key = "JHELP_MENUS_MENU_ITEM_ARTICLE_ARCHIVED"
+			key = "Menu_Item:_Article_Archived"
 		/>
 		<message>
 			<![CDATA[COM_CONTENT_ARCHIVE_VIEW_DEFAULT_DESC]]>
@@ -45,8 +45,8 @@
 				<option value="ralpha">JGLOBAL_TITLE_REVERSE_ALPHABETICAL</option>
 				<option value="author">JGLOBAL_AUTHOR_ALPHABETICAL</option>
 				<option value="rauthor">JGLOBAL_AUTHOR_REVERSE_ALPHABETICAL</option>
-				<option value="hits">JGLOBAL_MOST_HITS</option>
-				<option value="rhits">JGLOBAL_LEAST_HITS</option>
+				<option value="hits" requires="hits">JGLOBAL_MOST_HITS</option>
+				<option value="rhits" requires="hits">JGLOBAL_LEAST_HITS</option>
 				<option value="order">JGLOBAL_ARTICLE_MANAGER_ORDER</option>
 				<option value="vote" requires="vote">JGLOBAL_VOTES_DESC</option>
 				<option value="rvote" requires="vote">JGLOBAL_VOTES_ASC</option>
@@ -70,7 +70,8 @@
 				name="display_num"
 				type="list"
 				label="JGLOBAL_NUMBER_ITEMS_LIST_LABEL"
-				default="5"
+				default=""
+				useglobal="true"
 				validate="options"
 				>
 				<option value="5">J5</option>

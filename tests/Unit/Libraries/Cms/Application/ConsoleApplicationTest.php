@@ -23,7 +23,7 @@ class ConsoleApplicationTest extends UnitTestCase
 	 * @testdox  Test that the ConsoleApplication can init and has the right name
 	 *
 	 * @return void
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function testAppInitialisesByName()
 	{
@@ -38,7 +38,7 @@ class ConsoleApplicationTest extends UnitTestCase
 	 *
 	 * @return ConsoleApplication
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	protected function createApplication(): ConsoleApplication
 	{

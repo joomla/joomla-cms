@@ -1,9 +1,8 @@
 <?php
 /**
- * @package     Joomla.Libraries
- * @subpackage  Service
+ * Joomla! Content Management System
  *
- * @copyright   (C) 2005 Open Source Matters, Inc. <https://www.joomla.org>
+ * @copyright   (C) 2018 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -36,8 +35,6 @@ use Joomla\Session\SessionEvents;
 use Joomla\Session\SessionInterface;
 use Joomla\Session\Storage\RuntimeStorage;
 use Joomla\Session\StorageInterface;
-use Joomla\Session\Validator\AddressValidator;
-use Joomla\Session\Validator\ForwardedValidator;
 
 /**
  * Service provider for the application's session dependency
@@ -222,7 +219,7 @@ class Session implements ServiceProviderInterface
 				}
 
 				return $this->buildSession(
-					new JoomlaStorage($app->input, $handler),
+					new RuntimeStorage,
 					$app,
 					$container->get(DispatcherInterface::class),
 					$options
@@ -330,8 +327,6 @@ class Session implements ServiceProviderInterface
 		}
 
 		$session = new \Joomla\CMS\Session\Session($storage, $dispatcher, $options);
-		$session->addValidator(new AddressValidator($input, $session));
-		$session->addValidator(new ForwardedValidator($input, $session));
 
 		return $session;
 	}
@@ -344,7 +339,7 @@ class Session implements ServiceProviderInterface
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	private function registerSessionHandlerAsService(Container $container, \SessionHandlerInterface $sessionHandler): void
 	{

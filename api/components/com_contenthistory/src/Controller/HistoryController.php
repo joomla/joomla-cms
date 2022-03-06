@@ -50,7 +50,7 @@ class HistoryController extends ApiController
 	{
 		$this->modelState->set('type_alias', $this->getTypeAliasFromInput());
 		$this->modelState->set('type_id', $this->getTypeIdFromInput());
-		$this->modelState->set('item_id', $this->getItemIdFromInput());
+		$this->modelState->set('item_id', $this->getTypeAliasFromInput() . '.' . $this->getItemIdFromInput());
 		$this->modelState->set('list.ordering', 'h.save_date');
 		$this->modelState->set('list.direction', 'DESC');
 
@@ -85,7 +85,7 @@ class HistoryController extends ApiController
 
 		if (!$model->keep($cid))
 		{
-			throw new Exception\Save(Text::plural('COM_CONTENTHISTORY_N_ITEMS_KEEP_TOGGLE', count($cid)));
+			throw new Exception\Save(Text::plural('COM_CONTENTHISTORY_N_ITEMS_KEEP_TOGGLE', \count($cid)));
 		}
 
 		return $this;

@@ -73,6 +73,29 @@
       "attributes": {
         "type": "module"
       }
+    },
+    {
+      "name": "com_config.filters.es5",
+      "type": "script",
+      "uri": "com_config/config-filters-es5.min.js",
+      "dependencies": [
+        "core"
+      ],
+      "attributes": {
+        "nomodule": true,
+        "defer": true
+      }
+    },
+    {
+      "name": "com_config.filters",
+      "type": "script",
+      "uri": "com_config/config-filters.min.js",
+      "dependencies": [
+        "com_config.filters.es5"
+      ],
+      "attributes": {
+        "type": "module"
+      }
     }
   ]
 }

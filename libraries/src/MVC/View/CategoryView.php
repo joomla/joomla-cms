@@ -109,7 +109,7 @@ class CategoryView extends HtmlView
 	 * The flag to mark if the active menu item is linked to the category being displayed
 	 *
 	 * @var bool
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.0.0
 	 */
 	protected $menuItemMatchCategory = false;
 
@@ -173,7 +173,7 @@ class CategoryView extends HtmlView
 		$children = array($category->id => $children);
 
 		// Escape strings for HTML output
-		$this->pageclass_sfx = htmlspecialchars($params->get('pageclass_sfx'));
+		$this->pageclass_sfx = htmlspecialchars($params->get('pageclass_sfx', ''));
 
 		if ($this->runPlugins)
 		{

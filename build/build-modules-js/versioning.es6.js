@@ -101,7 +101,7 @@ const fixVersion = async (directory) => {
   await Promise.all(processes);
 
   jsonData.assets = final[directory];
-  await writeFile(`${RootPath}${sep}media${sep}${directory}${sep}joomla.asset.json`, JSON.stringify(jsonData, '', 2), { encoding: 'utf8' });
+  await writeFile(`${RootPath}${sep}media${sep}${directory}${sep}joomla.asset.json`, JSON.stringify(jsonData, '', 2), { encoding: 'utf8', mode: 0o644 });
 };
 
 /**

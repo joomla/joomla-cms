@@ -159,7 +159,7 @@ class Filter
 
 			foreach ($nodes as $nk => $nv)
 			{
-				if (trim($nv->parent_title, '**') === 'Language')
+				if (trim($nv->parent_title, '*') === 'Language')
 				{
 					$title = LanguageHelper::branchLanguageTitle($nv->title);
 				}
@@ -324,7 +324,7 @@ class Filter
 					->where('t.rgt < ' . (int) $bv->rgt)
 					->where('t.state = 1')
 					->where('t.access IN (' . $groups . ')')
-					->order('t.lft, t.title');
+					->order('t.title');
 
 				// Self-join to get the parent title.
 				$query->select('e.title AS parent_title')
@@ -353,7 +353,7 @@ class Filter
 
 				foreach ($branches[$bk]->nodes as $node_id => $node)
 				{
-					if (trim($node->parent_title, '**') === 'Language')
+					if (trim($node->parent_title, '*') === 'Language')
 					{
 						$title = LanguageHelper::branchLanguageTitle($node->title);
 					}

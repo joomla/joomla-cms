@@ -15,8 +15,6 @@ use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Uri\Uri;
 
-HTMLHelper::_('behavior.multiselect');
-
 $uri       = Uri::getInstance();
 $return    = base64_encode($uri);
 $user      = Factory::getUser();
@@ -37,7 +35,8 @@ $this->document->addScriptOptions('menus-default', ['items' => $itemIds]);
 
 /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
 $wa = $this->document->getWebAssetManager();
-$wa->useScript('com_menus.admin-menus');
+$wa->useScript('multiselect')
+	->useScript('com_menus.admin-menus');
 
 ?>
 <form action="<?php echo Route::_('index.php?option=com_menus&view=menus'); ?>" method="post" name="adminForm" id="adminForm">
@@ -123,30 +122,54 @@ $wa->useScript('com_menus.admin-menus');
 								</td>
 								<td class="text-center btns d-none d-md-table-cell itemnumber">
 									<?php if ($canManageItems) : ?>
-										<a class="btn<?php echo ($item->count_published > 0) ? ' btn-success' : ' btn-secondary'; ?>" href="<?php echo Route::_('index.php?option=com_menus&view=items&menutype=' . $item->menutype . '&filter[published]=1'); ?>">
-											<?php echo $item->count_published; ?></a>
-									<?php else : ?>
-										<span class="btn<?php echo ($item->count_published > 0) ? ' btn-success' : ' btn-secondary'; ?>">
-											<?php echo $item->count_published; ?></span>
+										<a class="btn<?php echo ($item->count_published > 0) ? ' btn-success' : ' btn-secondary'; ?>"
+											href="<?php echo Route::_('index.php?option=com_menus&view=items&menutype=' . $item->menutype . '&filter[published]=1'); ?>"
+											aria-describedby="tip-publish<?php echo $i; ?>">
+											<?php echo $item->count_published; ?>
+										</a>
+										<?php else : ?>
+										<span class="btn<?php echo ($item->count_published > 0) ? ' btn-success' : ' btn-secondary'; ?>" tabindex="0"
+											aria-describedby="tip-publish<?php echo $i; ?>">
+											<?php echo $item->count_published; ?>
+										</span>
 									<?php endif; ?>
+									<div role="tooltip" id="tip-publish<?php echo $i; ?>">
+										<?php echo Text::_('COM_MENUS_COUNT_PUBLISHED_ITEMS'); ?>
+									</div>
 								</td>
 								<td class="text-center btns d-none d-md-table-cell itemnumber">
 									<?php if ($canManageItems) : ?>
-										<a class="btn<?php echo ($item->count_unpublished > 0) ? ' btn-danger' : ' btn-secondary'; ?>" href="<?php echo Route::_('index.php?option=com_menus&view=items&menutype=' . $item->menutype . '&filter[published]=0'); ?>">
-											<?php echo $item->count_unpublished; ?></a>
-									<?php else : ?>
-										<span class="btn<?php echo ($item->count_unpublished > 0) ? ' btn-danger' : ' btn-secondary'; ?>">
-											<?php echo $item->count_unpublished; ?></span>
+										<a class="btn<?php echo ($item->count_unpublished > 0) ? ' btn-danger' : ' btn-secondary'; ?>"
+											href="<?php echo Route::_('index.php?option=com_menus&view=items&menutype=' . $item->menutype . '&filter[published]=0'); ?>"
+											aria-describedby="tip-unpublish<?php echo $i; ?>">
+											<?php echo $item->count_unpublished; ?>
+										</a>
+										<?php else : ?>
+										<span class="btn<?php echo ($item->count_unpublished > 0) ? ' btn-danger' : ' btn-secondary'; ?>" tabindex="0"
+											aria-describedby="tip-unpublish<?php echo $i; ?>">
+											<?php echo $item->count_unpublished; ?>
+										</span>
 									<?php endif; ?>
+									<div role="tooltip" id="tip-unpublish<?php echo $i; ?>">
+										<?php echo Text::_('COM_MENUS_COUNT_UNPUBLISHED_ITEMS'); ?>
+									</div>
 								</td>
 								<td class="text-center btns d-none d-md-table-cell itemnumber">
 									<?php if ($canManageItems) : ?>
-										<a class="btn<?php echo ($item->count_trashed > 0) ? ' btn-danger' : ' btn-secondary'; ?>" href="<?php echo Route::_('index.php?option=com_menus&view=items&menutype=' . $item->menutype . '&filter[published]=-2'); ?>">
-											<?php echo $item->count_trashed; ?></a>
+										<a class="btn<?php echo ($item->count_trashed > 0) ? ' btn-danger' : ' btn-secondary'; ?>"
+											href="<?php echo Route::_('index.php?option=com_menus&view=items&menutype=' . $item->menutype . '&filter[published]=-2'); ?>"
+											aria-describedby="tip-trash<?php echo $i; ?>">
+											<?php echo $item->count_trashed; ?>
+										</a>
 									<?php else : ?>
-										<span class="btn<?php echo ($item->count_trashed > 0) ? ' btn-danger' : ' btn-secondary'; ?>">
-											<?php echo $item->count_trashed; ?></span>
+										<span class="btn<?php echo ($item->count_trashed > 0) ? ' btn-danger' : ' btn-secondary'; ?>" tabindex="0"
+											aria-describedby="tip-trash<?php echo $i; ?>">
+											<?php echo $item->count_trashed; ?>
+										</span>
 									<?php endif; ?>
+									<div role="tooltip" id="tip-trash<?php echo $i; ?>">
+										<?php echo Text::_('COM_MENUS_COUNT_TRASHED_ITEMS'); ?>
+									</div>
 								</td>
 								<td class="text-center d-none d-lg-table-cell itemnumber">
 									<?php if (isset($this->modules[$item->menutype])) : ?>

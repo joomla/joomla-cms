@@ -14,6 +14,7 @@ namespace Joomla\Component\Installer\Administrator\Model;
 use Joomla\CMS\Extension\ExtensionHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\File;
+use Joomla\CMS\Form\Form;
 use Joomla\CMS\Installer\Installer;
 use Joomla\CMS\Installer\InstallerHelper;
 use Joomla\CMS\Language\Text;
@@ -90,7 +91,7 @@ class UpdateModel extends ListModel
 	/**
 	 * Method to get the database query
 	 *
-	 * @return  \JDatabaseQuery  The database query
+	 * @return  \Joomla\Database\DatabaseQuery  The database query
 	 *
 	 * @since   1.6
 	 */
@@ -215,9 +216,9 @@ class UpdateModel extends ListModel
 	/**
 	 * Returns an object list
 	 *
-	 * @param   \JDatabaseQuery  $query       The query
-	 * @param   int              $limitstart  Offset
-	 * @param   int              $limit       The number of records
+	 * @param   DatabaseQuery  $query       The query
+	 * @param   int            $limitstart  Offset
+	 * @param   int            $limit       The number of records
 	 *
 	 * @return  array
 	 *
@@ -282,7 +283,7 @@ class UpdateModel extends ListModel
 	 * Finds updates for an extension.
 	 *
 	 * @param   int  $eid               Extension identifier to look for
-	 * @param   int  $cacheTimeout      Cache timout
+	 * @param   int  $cacheTimeout      Cache timeout
 	 * @param   int  $minimumStability  Minimum stability for updates {@see Updater} (0=dev, 1=alpha, 2=beta, 3=rc, 4=stable)
 	 *
 	 * @return  boolean Result
@@ -499,7 +500,7 @@ class UpdateModel extends ListModel
 			$app->enqueueMessage(
 				Text::sprintf('COM_INSTALLER_MSG_UPDATE_SUCCESS',
 					Text::_('COM_INSTALLER_TYPE_TYPE_' . strtoupper($package['type']))
-				)
+				), 'success'
 			);
 			$result = true;
 		}
@@ -507,7 +508,7 @@ class UpdateModel extends ListModel
 		// Quick change
 		$this->type = $package['type'];
 
-		// TODO: Reconfigure this code when you have more battery life left
+		// @todo: Reconfigure this code when you have more battery life left
 		$this->setState('name', $installer->get('name'));
 		$this->setState('result', $result);
 		$app->setUserState('com_installer.message', $installer->message);
@@ -530,16 +531,16 @@ class UpdateModel extends ListModel
 	 * @param   array    $data      Data for the form.
 	 * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
 	 *
-	 * @return  mixed  A \JForm object on success, false on failure
+	 * @return  Form|bool  A Form object on success, false on failure
 	 *
 	 * @since	2.5.2
 	 */
 	public function getForm($data = array(), $loadData = true)
 	{
 		// Get the form.
-		\JForm::addFormPath(JPATH_COMPONENT . '/models/forms');
-		\JForm::addFieldPath(JPATH_COMPONENT . '/models/fields');
-		$form = \JForm::getInstance('com_installer.update', 'update', array('load_data' => $loadData));
+		Form::addFormPath(JPATH_COMPONENT . '/models/forms');
+		Form::addFieldPath(JPATH_COMPONENT . '/models/fields');
+		$form = Form::getInstance('com_installer.update', 'update', array('load_data' => $loadData));
 
 		// Check for an error.
 		if ($form == false)
@@ -641,7 +642,7 @@ class UpdateModel extends ListModel
 	 *
 	 * @return DatabaseQuery
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.0.0
 	 */
 	protected function getEmptyStateQuery()
 	{

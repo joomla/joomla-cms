@@ -289,8 +289,7 @@
       "diff": {
         "name": "diff",
         "js": {
-          "dist/diff.js": "js/diff.js",
-          "dist/diff.min.js": "js/diff.min.js"
+          "dist/diff.js": "js/diff.js"
         },
         "provideAssets": [
           {
@@ -427,6 +426,10 @@
         ],
         "licenseFilename": "LICENSE.txt"
       },
+      "@joomla/joomla-a11y-checker": {
+        "name": "joomla-a11y-checker",
+        "licenseFilename": "LICENSE.md"
+      },
       "joomla-ui-custom-elements": {
         "name": "joomla-custom-elements",
         "js": {
@@ -526,7 +529,6 @@
           "build/mediaelement-flash-video-hls.swf": "js/mediaelement-flash-video-hls.swf",
           "build/mediaelement-flash-video-mdash.swf": "js/mediaelement-flash-video-mdash.swf",
           "build/mediaelement-flash-video.swf": "js/mediaelement-flash-video.swf",
-          "build/mejs-controls.png": "css/mejs-controls.png",
           "build/mejs-controls.svg": "css/mejs-controls.svg"
         },
         "dependencies": [],
@@ -603,7 +605,9 @@
               "nomodule": true,
               "defer": true
             },
-            "dependencies": ["core"]
+            "dependencies": [
+              "core"
+            ]
           }
         ]
       },

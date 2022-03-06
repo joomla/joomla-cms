@@ -42,18 +42,16 @@ class UsersController extends ApiController
 	protected $default_view = 'users';
 
 	/**
-	 * Method to save a record.
+	 * Method to allow extended classes to manipulate the data to be saved for an extension.
 	 *
-	 * @param   integer  $recordKey  The primary key of the item (if exists)
+	 * @param   array  $data  An array of input data.
 	 *
-	 * @return  integer  The record ID on success, false on failure
+	 * @return  array
 	 *
 	 * @since   4.0.0
 	 */
-	protected function save($recordKey = null)
+	protected function preprocessSaveData(array $data): array
 	{
-		$data = (array) json_decode($this->input->json->getRaw(), true);
-
 		foreach (FieldsHelper::getFields('com_users.user') as $field)
 		{
 			if (isset($data[$field->name]))
@@ -65,9 +63,7 @@ class UsersController extends ApiController
 			}
 		}
 
-		$this->input->set('data', $data);
-
-		return parent::save($recordKey);
+		return $data;
 	}
 
 	/**
@@ -83,27 +79,27 @@ class UsersController extends ApiController
 		$apiFilterInfo = $this->input->get('filter', [], 'array');
 		$filter        = InputFilter::getInstance();
 
-		if (array_key_exists('state', $apiFilterInfo))
+		if (\array_key_exists('state', $apiFilterInfo))
 		{
 			$this->modelState->set('filter.state', $filter->clean($apiFilterInfo['state'], 'INT'));
 		}
 
-		if (array_key_exists('active', $apiFilterInfo))
+		if (\array_key_exists('active', $apiFilterInfo))
 		{
 			$this->modelState->set('filter.active', $filter->clean($apiFilterInfo['active'], 'INT'));
 		}
 
-		if (array_key_exists('groupid', $apiFilterInfo))
+		if (\array_key_exists('groupid', $apiFilterInfo))
 		{
 			$this->modelState->set('filter.group_id', $filter->clean($apiFilterInfo['groupid'], 'INT'));
 		}
 
-		if (array_key_exists('search', $apiFilterInfo))
+		if (\array_key_exists('search', $apiFilterInfo))
 		{
 			$this->modelState->set('filter.search', $filter->clean($apiFilterInfo['search'], 'STRING'));
 		}
 
-		if (array_key_exists('registrationDateStart', $apiFilterInfo))
+		if (\array_key_exists('registrationDateStart', $apiFilterInfo))
 		{
 			$registrationStartInput = $filter->clean($apiFilterInfo['registrationDateStart'], 'STRING');
 			$registrationStartDate  = Date::createFromFormat(\DateTimeInterface::RFC3339, $registrationStartInput);
@@ -119,7 +115,7 @@ class UsersController extends ApiController
 			$this->modelState->set('filter.registrationDateStart', $registrationStartDate);
 		}
 
-		if (array_key_exists('registrationDateEnd', $apiFilterInfo))
+		if (\array_key_exists('registrationDateEnd', $apiFilterInfo))
 		{
 			$registrationEndInput = $filter->clean($apiFilterInfo['registrationDateEnd'], 'STRING');
 			$registrationEndDate  = Date::createFromFormat(\DateTimeInterface::RFC3339, $registrationEndInput);
@@ -133,14 +129,14 @@ class UsersController extends ApiController
 
 			$this->modelState->set('filter.registrationDateEnd', $registrationEndDate);
 		}
-		elseif (array_key_exists('registrationDateStart', $apiFilterInfo)
-			&& !array_key_exists('registrationDateEnd', $apiFilterInfo))
+		elseif (\array_key_exists('registrationDateStart', $apiFilterInfo)
+			&& !\array_key_exists('registrationDateEnd', $apiFilterInfo))
 		{
 			// If no end date specified the end date is now
 			$this->modelState->set('filter.registrationDateEnd', new Date);
 		}
 
-		if (array_key_exists('lastVisitDateStart', $apiFilterInfo))
+		if (\array_key_exists('lastVisitDateStart', $apiFilterInfo))
 		{
 			$lastVisitStartInput = $filter->clean($apiFilterInfo['lastVisitDateStart'], 'STRING');
 			$lastVisitStartDate  = Date::createFromFormat(\DateTimeInterface::RFC3339, $lastVisitStartInput);
@@ -155,7 +151,7 @@ class UsersController extends ApiController
 			$this->modelState->set('filter.lastVisitStart', $lastVisitStartDate);
 		}
 
-		if (array_key_exists('lastVisitDateEnd', $apiFilterInfo))
+		if (\array_key_exists('lastVisitDateEnd', $apiFilterInfo))
 		{
 			$lastVisitEndInput = $filter->clean($apiFilterInfo['lastVisitDateEnd'], 'STRING');
 			$lastVisitEndDate  = Date::createFromFormat(\DateTimeInterface::RFC3339, $lastVisitEndInput);
@@ -170,8 +166,8 @@ class UsersController extends ApiController
 
 			$this->modelState->set('filter.lastVisitEnd', $lastVisitEndDate);
 		}
-		elseif (array_key_exists('lastVisitDateStart', $apiFilterInfo)
-			&& !array_key_exists('lastVisitDateEnd', $apiFilterInfo))
+		elseif (\array_key_exists('lastVisitDateStart', $apiFilterInfo)
+			&& !\array_key_exists('lastVisitDateEnd', $apiFilterInfo))
 		{
 			// If no end date specified the end date is now
 			$this->modelState->set('filter.lastVisitEnd', new Date);

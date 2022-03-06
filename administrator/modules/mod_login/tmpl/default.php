@@ -24,6 +24,7 @@ Text::script('JHIDEPASSWORD');
 ?>
 <form class="form-validate" action="<?php echo Route::_('index.php', true); ?>" method="post" id="form-login">
 	<fieldset>
+		<legend class="visually-hidden"><?php echo Text::_('MOD_LOGIN'); ?></legend>
 		<div class="form-group">
 			<label for="mod-login-username">
 				<?php echo Text::_('JGLOBAL_USERNAME'); ?>

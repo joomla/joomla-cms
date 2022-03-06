@@ -42,21 +42,21 @@
           try {
             response = JSON.parse(resp);
           } catch (e) {
-            editor.windowManager.alert(Joomla.Text._('JERROR') + ": {e}");
+            editor.windowManager.alert(Joomla.Text._('ERROR') + ": {e}");
           }
 
           if (response.data && response.data.path) {
             responseData = response.data;
             var urlPath; // For local adapters use relative paths
 
-            if (/local-/.test(responseData.adapter)) {
-              var _Joomla$getOptions = Joomla.getOptions('system.paths'),
-                  rootFull = _Joomla$getOptions.rootFull;
-
-              urlPath = "" + response.data.thumb_path.split(rootFull)[1];
-            } else if (responseData.thumb_path) {
+            var _Joomla$getOptions = Joomla.getOptions('system.paths'),
+            rootFull = _Joomla$getOptions.rootFull;
+            var parts = response.data.url.split(rootFull);
+            if (parts.length > 1) {
+              urlPath = "" + parts[1];
+            } else if (responseData.url) {
               // Absolute path for different domain
-              urlPath = responseData.thumb_path;
+              urlPath = responseData.url;
             }
 
             var dialogClose = function dialogClose(api) {
@@ -153,7 +153,7 @@
       });
     } else {
       Joomla.renderMessages({
-        error: [Joomla.JText._('PLG_TINY_ERR_UNSUPPORTEDBROWSER')]
+        error: [Joomla.Text._('PLG_TINY_ERR_UNSUPPORTEDBROWSER')]
       });
       editor.on('drop', function (e) {
         e.preventDefault();
