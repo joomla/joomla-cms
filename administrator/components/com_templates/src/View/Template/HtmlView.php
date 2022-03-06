@@ -156,6 +156,12 @@ class HtmlView extends BaseHtmlView
 	public function display($tpl = null)
 	{
 		$app               = Factory::getApplication();
+
+		if (false === $this->template = $this->get('Template'))
+		{
+			return;
+		}
+
 		$this->file        = $app->input->get('file');
 		$this->fileName    = InputFilter::getInstance()->clean(base64_decode($this->file), 'string');
 		$explodeArray      = explode('.', $this->fileName);
@@ -163,7 +169,6 @@ class HtmlView extends BaseHtmlView
 		$this->files       = $this->get('Files');
 		$this->mediaFiles  = $this->get('MediaFiles');
 		$this->state       = $this->get('State');
-		$this->template    = $this->get('Template');
 		$this->preview     = $this->get('Preview');
 		$this->pluginState = PluginHelper::isEnabled('installer', 'override');
 		$this->updatedList = $this->get('UpdatedList');
