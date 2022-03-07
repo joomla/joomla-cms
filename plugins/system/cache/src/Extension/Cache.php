@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Plugin
  * @subpackage  System.cache
@@ -233,7 +234,7 @@ final class Cache extends CMSPlugin implements SubscriberInterface
 	 * @return  boolean
 	 * @since   __DEPLOY_VERSION__
 	 */
-	protected function appStateSupportsCaching(): bool
+	private function appStateSupportsCaching(): bool
 	{
 		static $isSite = null;
 		static $isGET = null;
@@ -258,7 +259,7 @@ final class Cache extends CMSPlugin implements SubscriberInterface
 	 *
 	 * @since   3.7
 	 */
-	protected function getCacheKey(): string
+	private function getCacheKey(): string
 	{
 		static $key;
 
@@ -282,7 +283,7 @@ final class Cache extends CMSPlugin implements SubscriberInterface
 	 *
 	 * @since    3.5
 	 */
-	protected function isExcluded(): bool
+	private function isExcluded(): bool
 	{
 		// Check if menu items have been excluded.
 		$excludedMenuItems = $this->params->get('exclude_menu_items', []);
