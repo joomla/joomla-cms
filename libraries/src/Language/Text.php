@@ -337,29 +337,16 @@ class Text
 	/**
 	 * Translate a string into the current language and stores it in the JavaScript language store.
 	 *
-	 * @param   string   $string                The Text key.
-	 * @param   boolean  $jsSafe                Ensure the output is JavaScript safe.
-	 * @param   boolean  $interpretBackSlashes  Interpret \t and \n.
+	 * @param   string         $string                The Text key.
+	 * @param   boolean|array  $jsSafe                Ensure the output is JavaScript safe.
+	 * @param   boolean        $interpretBackSlashes  Interpret \t and \n.
 	 *
 	 * @return  array
 	 *
 	 * @since   1.7.0
 	 */
-	public static function script($string = null, $jsSafe = false, $interpretBackSlashes = true)
+	public static function script(string $string, $jsSafe = false, bool $interpretBackSlashes = true): array
 	{
-		if ($string === null)
-		{
-			@trigger_error(
-				sprintf(
-					'As of 3.7.0, passing a null value for the first argument of %1$s() is deprecated and will not be supported in 4.0.'
-					. ' Use the %2$s::getScriptStrings() method to get the strings from the JavaScript language store instead.',
-					__METHOD__,
-					__CLASS__
-				),
-				E_USER_DEPRECATED
-			);
-		}
-
 		if (\is_array($jsSafe))
 		{
 			if (\array_key_exists('interpretBackSlashes', $jsSafe))
@@ -377,18 +364,14 @@ class Text
 			}
 		}
 
-		// Add the string to the array if not null.
-		if ($string !== null)
-		{
-			// Normalize the key and translate the string.
-			static::$strings[strtoupper($string)] = Factory::getLanguage()->_($string, $jsSafe, $interpretBackSlashes);
+		// Normalize the key and translate the string.
+		static::$strings[strtoupper($string)] = Factory::getLanguage()->_($string, $jsSafe, $interpretBackSlashes);
 
-			// Load core.js dependency
-			HTMLHelper::_('behavior.core');
+		// Load core.js dependency
+		HTMLHelper::_('behavior.core');
 
-			// Update Joomla.Text script options
-			Factory::getDocument()->addScriptOptions('joomla.jtext', static::$strings, false);
-		}
+		// Update Joomla.Text script options
+		Factory::getDocument()->addScriptOptions('joomla.jtext', static::$strings, false);
 
 		return static::getScriptStrings();
 	}
