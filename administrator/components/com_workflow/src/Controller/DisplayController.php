@@ -106,10 +106,7 @@ class DisplayController extends BaseController
 		if (in_array($view, ['workflow', 'stage', 'transition']) && $layout == 'edit' && !$this->checkEditId('com_workflow.edit.' . $view, $id))
 		{
 			// Somehow the person just went to the form - we don't allow that.
-			if (!\count($this->app->getMessageQueue()))
-			{
-				$this->setMessage(Text::sprintf('JLIB_APPLICATION_ERROR_UNHELD_ID', $id), 'error');
-			}
+			$this->setMessage(Text::sprintf('JLIB_APPLICATION_ERROR_UNHELD_ID', $id), 'error');
 
 			$url = 'index.php?option=com_workflow&view=' . Inflector::pluralize($view) . '&extension=' . $this->input->getCmd('extension');
 
