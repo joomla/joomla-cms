@@ -34,7 +34,7 @@ if (!empty($options['showonEnabled']))
 
 $class           = empty($options['class']) ? '' : ' ' . $options['class'];
 $rel             = empty($options['rel']) ? '' : ' ' . $options['rel'];
-$id              = ($id ?: $name) . '-desc';
+$id              = ($id ?? $name) . '-desc';
 $hideLabel       = !empty($options['hiddenLabel']);
 $hideDescription = empty($options['hiddenDescription']) ? false : $options['hiddenDescription'];
 $descClass       = ($options['descClass'] ?? '') ?: 'hide-aware-inline-help';
