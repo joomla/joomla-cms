@@ -103,21 +103,14 @@ if (JDEBUG || $config->error_reporting === 'maximum')
 	);
 }
 
-/**
- * Correctly set the allowing of IP Overrides if behind a trusted proxy/load balancer.
- *
- * We need to do this as high up the stack as we can, as the default in \Joomla\Utilities\IpHelper is to
- * $allowIpOverride = true which is the wrong default for a generic site NOT behind a trusted proxy/load balancer.
- */
+// Correctly set the allowing of IP Overrides if known to be behind a trusted proxy/load balancer.
 if (property_exists($config, 'behind_loadbalancer') && $config->behind_loadbalancer == 1)
 {
-	// If Joomla is configured to be behind a trusted proxy/load balancer, allow HTTP Headers to override the REMOTE_ADDR
+	// Allow HTTP Headers to override the REMOTE_ADDR
 	IpHelper::setAllowIpOverrides(true);
-}
-else
-{
-	// We disable the allowing of IP overriding using headers by default.
-	IpHelper::setAllowIpOverrides(false);
+
+	// Replace REMOTE_ADDR with the real client's IP address if we need to.
+	IPHelper::workaroundIPIssues();
 }
 
 unset($config);
