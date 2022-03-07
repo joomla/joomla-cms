@@ -167,7 +167,6 @@ class Input implements \Serializable, \Countable
 	 * @since   1.0
 	 * @see     Countable::count()
 	 */
-	#[\ReturnTypeWillChange]
 	public function count()
 	{
 		return \count($this->data);
@@ -435,19 +434,5 @@ class Input implements \Serializable, \Countable
 
 			self::$loaded = true;
 		}
-	}
-
-	/**
-	 * Magic method used for serializing.
-	 */
-	public function __serialize()
-	{
-	}
-
-	/**
-	 * Magic method used for unserializing.
-	 */
-	public function __unserialize($serialized)
-	{
 	}
 }
