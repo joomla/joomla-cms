@@ -121,7 +121,7 @@ class ArticlesModel extends ListModel
 		$params = $app->getParams();
 		$this->setState('params', $params);
 
-		$user = $app->getIdentity();
+		$user = Factory::getUser();
 
 		if ((!$user->authorise('core.edit.state', 'com_content')) && (!$user->authorise('core.edit', 'com_content')))
 		{
@@ -191,7 +191,7 @@ class ArticlesModel extends ListModel
 	protected function getListQuery()
 	{
 		$app = Factory::getApplication();
-		$user = $app->getIdentity();
+		$user = Factory::getUser();
 
 		// Create a new query object.
 		$db = $this->getDbo();
@@ -701,7 +701,7 @@ class ArticlesModel extends ListModel
 		$items  = parent::getItems();
 
 		$app = Factory::getApplication();
-		$user = $app->getIdentity();
+		$user = Factory::getUser();
 		$userId = $user->get('id');
 		$guest = $user->get('guest');
 		$groups = $user->getAuthorisedViewLevels();
