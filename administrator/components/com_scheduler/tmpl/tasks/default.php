@@ -238,11 +238,11 @@ $wa->useScript('multiselect')
 
 						<!-- Priority -->
 						<td class="small d-none d-lg-table-cell">
-							<?php if ($item->priority == '-1') : ?>
+							<?php if ($item->priority === -1) : ?>
 								<span class="badge bg-info"><?php echo Text::_('COM_SCHEDULER_LABEL_TASK_PRIORITY_LOW'); ?></span>
-							<?php elseif ($item->priority == '0') : ?>
+							<?php elseif ($item->priority === 0) : ?>
 								<span class="badge bg-success"><?php echo Text::_('COM_SCHEDULER_LABEL_TASK_PRIORITY_NORMAL'); ?></span>
-							<?php elseif ($item->priority == '1') : ?>
+							<?php elseif ($item->priority === 1) : ?>
 								<span class="badge bg-danger"><?php echo Text::_('COM_SCHEDULER_LABEL_TASK_PRIORITY_HIGH'); ?></span>
 							<?php endif; ?>
 						</td>
