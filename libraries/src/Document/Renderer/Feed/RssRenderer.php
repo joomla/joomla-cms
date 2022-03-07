@@ -153,6 +153,11 @@ class RssRenderer extends DocumentRenderer
 			{
 				foreach ($data->category as $cat)
 				{
+					if ('ROOT' === $cat)
+					{
+						continue;
+					}
+
 					$feed .= "		<category>" . htmlspecialchars($cat, ENT_COMPAT, 'UTF-8') . "</category>\n";
 				}
 			}
@@ -236,6 +241,11 @@ class RssRenderer extends DocumentRenderer
 				{
 					foreach ($data->items[$i]->category as $cat)
 					{
+						if ('ROOT' === $cat)
+						{
+							continue;
+						}
+
 						$feed .= "			<category>" . htmlspecialchars($cat, ENT_COMPAT, 'UTF-8') . "</category>\n";
 					}
 				}
