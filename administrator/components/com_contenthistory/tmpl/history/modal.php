@@ -69,14 +69,14 @@ $wa->useScript('multiselect')
 					<th scope="row">
 						<a class="save-date" onclick="window.open(this.href,'win2','width=800,height=600,resizable=yes,scrollbars=yes'); return false;"
 							href="<?php echo Route::_('index.php?option=com_contenthistory&view=preview&layout=preview&tmpl=component&' . Session::getFormToken() . '=1&version_id=' . $item->version_id); ?>">
-							<?php echo HTMLHelper::_('date', $item->save_date, Text::_('DATE_FORMAT_LC6')); ?>
+							<?php echo HTMLHelper::_('date', $item->save_date, Text::_('DATE_FORMAT_LC2')); ?>
 						</a>
 						<?php if ($item->sha1_hash == $hash) : ?>
 							<span class="icon-star" aria-hidden="true"></span><span class="visually-hidden"><?php echo Text::_('JCURRENT'); ?></span>
 						<?php endif; ?>
 					</th>
 					<td class="d-none d-md-table-cell">
-						<?php echo htmlspecialchars($item->version_note); ?>
+						<?php echo $item->version_note ? htmlspecialchars($item->version_note) : Text::_('JLIB_APPLICATION_INFO_NO_VERSION_NOTE'); ?>
 					</td>
 					<td>
 						<?php if ($item->keep_forever) : ?>

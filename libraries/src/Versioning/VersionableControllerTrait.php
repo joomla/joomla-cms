@@ -10,6 +10,7 @@ namespace Joomla\CMS\Versioning;
 
 \defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 
@@ -90,7 +91,9 @@ trait VersionableControllerTrait
 
 		$this->setMessage(
 			Text::sprintf(
-				'JLIB_APPLICATION_SUCCESS_LOAD_HISTORY', $model->getState('save_date'), $model->getState('version_note')
+				'JLIB_APPLICATION_SUCCESS_LOAD_HISTORY',
+				HTMLHelper::_('date', $model->getState('save_date'), Text::_('DATE_FORMAT_LC2')),
+				$model->getState('version_note') ? $model->getState('version_note') : Text::_('JLIB_APPLICATION_INFO_NO_VERSION_NOTE')
 			)
 		);
 
