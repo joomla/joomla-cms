@@ -56,7 +56,7 @@
     "qrcode-generator": "^1.4.4",
     "roboto-fontface": "^0.10.0",
     "short-and-sweet": "^1.0.4",
-    "skipto": "^4.1.4",
+    "skipto": "^4.1.5",
     "tinymce": "^5.10.2",
     "vue": "3.2.26",
     "vuex": "^4.0.2",
