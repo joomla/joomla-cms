@@ -21,6 +21,11 @@ use Joomla\Component\Scheduler\Administrator\View\Tasks\HtmlView;
 
 /** @var  HtmlView  $this*/
 
+/** @var \Joomla\CMS\WebAsset\WebAssetManager $wa */
+$wa = $this->document->getWebAssetManager();
+$wa->useScript('table.columns')
+	->useScript('multiselect');
+
 Text::script('COM_SCHEDULER_TEST_RUN_TITLE');
 Text::script('COM_SCHEDULER_TEST_RUN_TASK');
 Text::script('COM_SCHEDULER_TEST_RUN_DURATION');

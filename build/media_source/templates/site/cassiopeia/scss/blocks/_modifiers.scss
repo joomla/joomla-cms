@@ -125,14 +125,6 @@
     }
   }
 
-  .image-left &,
-  .image-right & {
-    flex-direction: row;
-    .item-image {
-      flex: 1 0 40%;
-    }
-  }
-
   .item-image {
     margin-top: 3px;
     margin-bottom: 15px;
@@ -142,8 +134,10 @@
       margin-bottom: 0;
     }
 
-    .image-right & {
-      order: 1;
+    @include media-breakpoint-up(lg) {
+      .image-right & {
+        order: 1;
+      }
     }
 
     .image-bottom & {
@@ -168,6 +162,12 @@
 
     @include media-breakpoint-up(lg) {
       flex-direction: row;
+      .item-image {
+        flex: 1 0 40%;
+      }
+      .item-content {
+        flex: 1 0 60%;
+      }
     }
   }
 }

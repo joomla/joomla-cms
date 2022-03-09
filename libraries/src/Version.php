@@ -42,7 +42,7 @@ final class Version
 	 * @var    integer
 	 * @since  3.8.0
 	 */
-	const MINOR_VERSION = 1;
+	const MINOR_VERSION = 2;
 
 	/**
 	 * Patch release version.
@@ -50,7 +50,7 @@ final class Version
 	 * @var    integer
 	 * @since  3.8.0
 	 */
-	const PATCH_VERSION = 1;
+	const PATCH_VERSION = 0;
 
 	/**
 	 * Extra release version info.
@@ -85,7 +85,7 @@ final class Version
 	 * @var    string
 	 * @since  3.5
 	 */
-	const RELDATE = '14-February-2022';
+	const RELDATE = '23-January-2022';
 
 	/**
 	 * Release time.
@@ -93,7 +93,7 @@ final class Version
 	 * @var    string
 	 * @since  3.5
 	 */
-	const RELTIME = '23:37';
+	const RELTIME = '11:04';
 
 	/**
 	 * Release timezone.
