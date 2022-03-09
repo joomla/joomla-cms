@@ -133,6 +133,7 @@ class TasksModel extends ListModel
 					$db->quoteName('a.next_execution'),
 					$db->quoteName('a.times_executed'),
 					$db->quoteName('a.times_failed'),
+					$db->quoteName('a.priority'),
 					$db->quoteName('a.ordering'),
 					$db->quoteName('a.note'),
 					$db->quoteName('a.checked_out'),

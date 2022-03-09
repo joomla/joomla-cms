@@ -195,6 +195,6 @@ class HtmlView extends BaseHtmlView
 			$toolbar->preferences('com_scheduler');
 		}
 
-		$toolbar->help('JHELP_COMPONENTS_SCHEDULED_TASKS_MANAGER');
+		$toolbar->help('Scheduled_Tasks');
 	}
 }
