@@ -93,7 +93,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 									<?php if ($canEdit) : ?>
 										<a 
 											href="<?php echo Route::_('index.php?option=com_installer&task=updatesite.edit&update_site_id=' . (int) $item->update_site_id); ?>"
-											title="<?php echo Text::_('COM_INSTALLER_UPDATESITE_EDIT_TITLE'); ?>"
+											title="<?php echo Text::_('JACTION_EDIT'); ?> <?php echo $this->escape($item->update_site_name); ?>"
 										>
 											<?php echo Text::_($item->update_site_name); ?>
 										</a>
