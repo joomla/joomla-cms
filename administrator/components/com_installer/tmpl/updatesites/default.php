@@ -91,14 +91,12 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 										<?php echo HTMLHelper::_('jgrid.checkedout', $i, $item->editor, $item->checked_out_time, 'updatesites.', $canCheckin); ?>
 									<?php endif; ?>
 									<?php if ($canEdit) : ?>
-										<a href="<?php echo Route::_('index.php?option=com_installer&task=updatesite.edit&update_site_id=' . (int) $item->update_site_id); ?>"
-											aria-labelledby="tip<?php echo $i; ?>-desc"
+										<a 
+											href="<?php echo Route::_('index.php?option=com_installer&task=updatesite.edit&update_site_id=' . (int) $item->update_site_id); ?>"
+											title="<?php echo Text::_('COM_INSTALLER_UPDATESITE_EDIT_TITLE'); ?>"
 										>
 											<?php echo Text::_($item->update_site_name); ?>
 										</a>
-										<div role="tooltip" id="tip<?php echo $i; ?>-desc">
-											<?php echo Text::sprintf('COM_INSTALLER_UPDATESITE_EDIT_TIP', $item->update_site_name, $item->name); ?>
-										</div>
 									<?php else : ?>
 										<?php echo Text::_($item->update_site_name); ?>
 									<?php endif; ?>
