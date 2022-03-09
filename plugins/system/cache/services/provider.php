@@ -12,6 +12,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Cache\CacheControllerFactoryInterface;
 use Joomla\CMS\Extension\PluginInterface;
 use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\CMS\Profiler\Profiler;
 use Joomla\DI\Container;
 use Joomla\DI\ServiceProviderInterface;
 use Joomla\Event\DispatcherInterface;
@@ -36,8 +37,9 @@ return new class implements ServiceProviderInterface {
 				$dispatcher             = $container->get(DispatcherInterface::class);
 				$documentFactory        = $container->get('document.factory');
 				$cacheControllerFactory = $container->get(CacheControllerFactoryInterface::class);
+				$profiler               = (defined('JDEBUG') && JDEBUG) ? Profiler::getInstance('Application') : null;
 
-				return new Cache($dispatcher, (array) $plugin, $documentFactory, $cacheControllerFactory);
+				return new Cache($dispatcher, (array) $plugin, $documentFactory, $cacheControllerFactory, $profiler);
 			}
 		);
 	}

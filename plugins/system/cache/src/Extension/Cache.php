@@ -1,11 +1,11 @@
 <?php
 
 /**
- * @package     Joomla.Plugin
- * @subpackage  System.cache
+ * @package         Joomla.Plugin
+ * @subpackage      System.cache
  *
  * @copyright   (C) 2007 Open Source Matters, Inc. <https://www.joomla.org>
- * @license     GNU General Public License version 2 or later; see LICENSE.txt
+ * @license         GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\Plugin\System\Cache\Extension;
@@ -60,10 +60,18 @@ final class Cache extends CMSPlugin implements SubscriberInterface
 	/**
 	 * Cache controller factory interface
 	 *
-	 * @var CacheControllerFactoryInterface
-	 * @since __DEPLOY_VERSION__
+	 * @var    CacheControllerFactoryInterface
+	 * @since  __DEPLOY_VERSION__
 	 */
 	private $cacheControllerFactory;
+
+	/**
+	 * The application profiler, used when Debug Site is set to Yes in Global Configuration.
+	 *
+	 * @var    Profiler|null
+	 * @since  __DEPLOY_VERSION__
+	 */
+	private $profiler;
 
 	/**
 	 * Constructor
@@ -80,18 +88,23 @@ final class Cache extends CMSPlugin implements SubscriberInterface
 	 * @param   DocumentFactoryInterface         $documentFactory         The application's
 	 *                                                                    document factory
 	 * @param   CacheControllerFactoryInterface  $cacheControllerFactory  Cache controller factory
+	 * @param   Profiler|null                    $profiler                The application profiler
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function __construct(&$subject, $config,
+	public function __construct(
+		&$subject,
+		$config,
 		DocumentFactoryInterface $documentFactory,
-		CacheControllerFactoryInterface $cacheControllerFactory
+		CacheControllerFactoryInterface $cacheControllerFactory,
+		?Profiler $profiler
 	)
 	{
 		parent::__construct($subject, $config);
 
-		$this->documentFactory = $documentFactory;
+		$this->documentFactory        = $documentFactory;
 		$this->cacheControllerFactory = $cacheControllerFactory;
+		$this->profiler               = $profiler;
 	}
 
 	/**
@@ -160,59 +173,16 @@ final class Cache extends CMSPlugin implements SubscriberInterface
 				->createDocument($this->app->input->get('format', 'html'));
 			$this->app->loadDocument($document);
 
-			Profiler::getInstance('Application')->mark('afterCache');
+			if ($this->profiler)
+			{
+				$this->profiler->mark('afterCache');
+			}
+
 			$this->app->triggerEvent('onAfterRespond');
 		}
 
 		// Closes the application.
 		$this->app->close();
-	}
-
-	/**
-	 * After Render Event. Check whether the current page is excluded from cache.
-	 *
-	 * @param   Event  $event  The CMS event we are handling.
-	 *
-	 * @return  void
-	 *
-	 * @since   3.9.12
-	 */
-	public function onAfterRender(Event $event)
-	{
-		if (!$this->appStateSupportsCaching() || $this->getCacheController()->getCaching() === false)
-		{
-			return;
-		}
-
-		if ($this->isExcluded() === true)
-		{
-			$this->getCacheController()->setCaching(false);
-
-			return;
-		}
-
-		// Disable compression before caching the page.
-		$this->app->set('gzip', false);
-	}
-
-	/**
-	 * After Respond Event. Stores page in cache.
-	 *
-	 * @param   Event  $event  The application event we are handling.
-	 *
-	 * @return  void
-	 *
-	 * @since   1.5
-	 */
-	public function onAfterRespond(Event $event)
-	{
-		if (!$this->appStateSupportsCaching() || $this->getCacheController()->getCaching() === false)
-		{
-			return;
-		}
-
-		// Saves current page in cache.
-		$this->getCacheController()->store($this->app->getBody(), $this->getCacheKey());
 	}
 
 	/**
@@ -241,7 +211,8 @@ final class Cache extends CMSPlugin implements SubscriberInterface
 
 		if ($isSite === null)
 		{
-			$isSite = ($this->app instanceof CMSApplicationInterface) && $this->app->isClient('site');
+			$isSite = ($this->app instanceof CMSApplicationInterface)
+				&& $this->app->isClient('site');
 			$isGET  = $this->app->input->getMethod() === 'GET';
 		}
 
@@ -250,6 +221,32 @@ final class Cache extends CMSPlugin implements SubscriberInterface
 			&& $isGET
 			&& $this->app->getIdentity()->guest
 			&& empty($this->app->getMessageQueue());
+	}
+
+	/**
+	 * Get the cache controller
+	 *
+	 * @return  CacheController
+	 * @since   __DEPLOY_VERSION__
+	 */
+	private function getCacheController(): CacheController
+	{
+		if (!empty($this->cache))
+		{
+			return $this->cache;
+		}
+
+		// Set the cache options.
+		$options = [
+			'defaultgroup' => 'page',
+			'browsercache' => $this->params->get('browsercache', 0),
+			'caching'      => false,
+		];
+
+		// Instantiate cache with previous options.
+		$this->cache = $this->cacheControllerFactory->createCacheController('page', $options);
+
+		return $this->cache;
 	}
 
 	/**
@@ -274,6 +271,33 @@ final class Cache extends CMSPlugin implements SubscriberInterface
 		}
 
 		return $key;
+	}
+
+	/**
+	 * After Render Event. Check whether the current page is excluded from cache.
+	 *
+	 * @param   Event  $event  The CMS event we are handling.
+	 *
+	 * @return  void
+	 *
+	 * @since   3.9.12
+	 */
+	public function onAfterRender(Event $event)
+	{
+		if (!$this->appStateSupportsCaching() || $this->getCacheController()->getCaching() === false)
+		{
+			return;
+		}
+
+		if ($this->isExcluded() === true)
+		{
+			$this->getCacheController()->setCaching(false);
+
+			return;
+		}
+
+		// Disable compression before caching the page.
+		$this->app->set('gzip', false);
 	}
 
 	/**
@@ -314,15 +338,20 @@ final class Cache extends CMSPlugin implements SubscriberInterface
 			$exclusions       = array_filter($exclusions, $filterExpression);
 
 			// Gets the internal (non-SEF) and the external (possibly SEF) URIs.
-			$internalUrl = '/index.php?' . Uri::getInstance()->buildQuery($this->app->getRouter()->getVars());
+			$internalUrl = '/index.php?'
+				. Uri::getInstance()->buildQuery($this->app->getRouter()->getVars());
 			$externalUrl = Uri::getInstance()->toString();
 
-			$reduceCallback = function (bool $carry, string $exclusion) use ($internalUrl, $externalUrl)
-			{
-				// Test both external and internal URIs
-				return $carry && preg_match('#' . $exclusion . '#i', $externalUrl . ' ' . $internalUrl, $match);
-			};
-			$excluded = array_reduce($exclusions, $reduceCallback, false);
+			$reduceCallback
+				= function (bool $carry, string $exclusion) use ($internalUrl, $externalUrl)
+				{
+					// Test both external and internal URIs
+					return $carry && preg_match(
+						'#' . $exclusion . '#i',
+						$externalUrl . ' ' . $internalUrl, $match
+					);
+				};
+			$excluded       = array_reduce($exclusions, $reduceCallback, false);
 
 			if ($excluded)
 			{
@@ -339,28 +368,22 @@ final class Cache extends CMSPlugin implements SubscriberInterface
 	}
 
 	/**
-	 * Get the cache controller
+	 * After Respond Event. Stores page in cache.
 	 *
-	 * @return  CacheController
-	 * @since   __DEPLOY_VERSION__
+	 * @param   Event  $event  The application event we are handling.
+	 *
+	 * @return  void
+	 *
+	 * @since   1.5
 	 */
-	private function getCacheController(): CacheController
+	public function onAfterRespond(Event $event)
 	{
-		if (!empty($this->cache))
+		if (!$this->appStateSupportsCaching() || $this->getCacheController()->getCaching() === false)
 		{
-			return $this->cache;
+			return;
 		}
 
-		// Set the cache options.
-		$options = [
-			'defaultgroup' => 'page',
-			'browsercache' => $this->params->get('browsercache', 0),
-			'caching'      => false,
-		];
-
-		// Instantiate cache with previous options.
-		$this->cache = $this->cacheControllerFactory->createCacheController('page', $options);
-
-		return $this->cache;
+		// Saves current page in cache.
+		$this->getCacheController()->store($this->app->getBody(), $this->getCacheKey());
 	}
 }
