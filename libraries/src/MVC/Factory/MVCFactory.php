@@ -14,9 +14,10 @@ use Joomla\CMS\Application\CMSApplicationInterface;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\FormFactoryAwareInterface;
 use Joomla\CMS\Form\FormFactoryAwareTrait;
-use Joomla\CMS\MVC\Model\DatabaseAwareInterface;
-use Joomla\CMS\MVC\Model\DatabaseAwareTrait;
 use Joomla\CMS\MVC\Model\ModelInterface;
+use Joomla\Database\DatabaseAwareInterface;
+use Joomla\Database\DatabaseAwareTrait;
+use Joomla\Database\Exception\DatabaseNotFoundException;
 use Joomla\Event\DispatcherAwareInterface;
 use Joomla\Event\DispatcherAwareTrait;
 use Joomla\Input\Input;
@@ -26,7 +27,7 @@ use Joomla\Input\Input;
  *
  * @since  3.10.0
  */
-class MVCFactory implements MVCFactoryInterface, FormFactoryAwareInterface, DispatcherAwareInterface, DatabaseAwareInterface
+class MVCFactory implements MVCFactoryInterface, FormFactoryAwareInterface, DispatcherAwareInterface
 {
 	use FormFactoryAwareTrait, DispatcherAwareTrait, DatabaseAwareTrait;
 
@@ -81,7 +82,6 @@ class MVCFactory implements MVCFactoryInterface, FormFactoryAwareInterface, Disp
 		$controller = new $className($config, $this, $app, $input);
 		$this->setFormFactoryOnObject($controller);
 		$this->setDispatcherOnObject($controller);
-		$this->setDatabaseOnObject($controller);
 
 		return $controller;
 	}
@@ -127,7 +127,18 @@ class MVCFactory implements MVCFactoryInterface, FormFactoryAwareInterface, Disp
 		$model = new $className($config, $this);
 		$this->setFormFactoryOnObject($model);
 		$this->setDispatcherOnObject($model);
-		$this->setDatabaseOnObject($model);
+
+		if ($model instanceof DatabaseAwareInterface)
+		{
+			try
+			{
+				$model->setDatabase($this->getDatabase());
+			}
+			catch (DatabaseNotFoundException $e)
+			{
+				// Ignore it
+			}
+		}
 
 		return $model;
 	}
@@ -175,7 +186,6 @@ class MVCFactory implements MVCFactoryInterface, FormFactoryAwareInterface, Disp
 		$view = new $className($config);
 		$this->setFormFactoryOnObject($view);
 		$this->setDispatcherOnObject($view);
-		$this->setDatabaseOnObject($view);
 
 		return $view;
 	}
@@ -219,7 +229,7 @@ class MVCFactory implements MVCFactoryInterface, FormFactoryAwareInterface, Disp
 			return null;
 		}
 
-		return new $className(\array_key_exists('dbo', $config) ? $config['dbo'] : $this->getDbo());
+		return new $className(\array_key_exists('dbo', $config) ? $config['dbo'] : $this->getDatabase());
 	}
 
 	/**
@@ -294,32 +304,6 @@ class MVCFactory implements MVCFactoryInterface, FormFactoryAwareInterface, Disp
 		try
 		{
 			$object->setDispatcher($this->getDispatcher());
-		}
-		catch (\UnexpectedValueException $e)
-		{
-			// Ignore it
-		}
-	}
-
-	/**
-	 * Sets the internal database on the given object.
-	 *
-	 * @param   object  $object  The object
-	 *
-	 * @return  void
-	 *
-	 * @since   __DEPLOY_VERSION__
-	 */
-	private function setDatabaseOnObject($object)
-	{
-		if (!$object instanceof DatabaseAwareInterface)
-		{
-			return;
-		}
-
-		try
-		{
-			$object->setDbo($this->getDbo());
 		}
 		catch (\UnexpectedValueException $e)
 		{
