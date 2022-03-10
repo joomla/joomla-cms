@@ -94,6 +94,7 @@ abstract class BaseDatabaseModel extends BaseModel implements DatabaseModelInter
 
 		if ($db)
 		{
+			@trigger_error(sprintf('Database is not available in constructor in 5.0.'), E_USER_DEPRECATED);
 			$this->setDatabase($db);
 		}
 

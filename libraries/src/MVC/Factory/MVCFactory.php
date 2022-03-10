@@ -137,6 +137,7 @@ class MVCFactory implements MVCFactoryInterface, FormFactoryAwareInterface, Disp
 			}
 			catch (DatabaseNotFoundException $e)
 			{
+				@trigger_error(sprintf('Database must be set, this will not be catched anymore in 5.0.'), E_USER_DEPRECATED);
 				$model->setDatabase(Factory::getContainer()->get(DatabaseInterface::class));
 			}
 		}
@@ -236,6 +237,7 @@ class MVCFactory implements MVCFactoryInterface, FormFactoryAwareInterface, Disp
 		}
 		catch (DatabaseNotFoundException $e)
 		{
+			@trigger_error(sprintf('Database must be set, this will not be catched anymore in 5.0.'), E_USER_DEPRECATED);
 			$db = Factory::getContainer()->get(DatabaseInterface::class);
 		}
 
