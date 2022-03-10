@@ -16,8 +16,8 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Fields\FieldsServiceInterface;
 use Joomla\CMS\Form\Field\ListField;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\MVC\Model\DatabaseAwareInterface;
-use Joomla\CMS\MVC\Model\DatabaseAwareTrait;
+use Joomla\Database\DatabaseAwareInterface;
+use Joomla\Database\DatabaseAwareTrait;
 use Joomla\Utilities\ArrayHelper;
 
 /**
@@ -47,7 +47,7 @@ class ComponentsFieldsField extends ListField implements DatabaseAwareInterface
 	protected function getOptions()
 	{
 		// Initialise variable.
-		$db = $this->getDbo();
+		$db = $this->getDatabase();
 
 		$query = $db->getQuery(true)
 			->select('DISTINCT a.name AS text, a.element AS value')

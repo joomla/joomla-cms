@@ -12,8 +12,8 @@ namespace Joomla\CMS\Form\Field;
 
 use Joomla\CMS\Form\FormField;
 use Joomla\CMS\HTML\HTMLHelper;
-use Joomla\CMS\MVC\Model\DatabaseAwareInterface;
-use Joomla\CMS\MVC\Model\DatabaseAwareTrait;
+use Joomla\Database\DatabaseAwareInterface;
+use Joomla\Database\DatabaseAwareTrait;
 use Joomla\CMS\UCM\UCMType;
 use Joomla\Database\DatabaseQuery;
 use Joomla\Database\ParameterType;
@@ -175,7 +175,7 @@ class OrderingField extends FormField implements DatabaseAwareInterface
 			$title    = $ucmMapCommon[0]->core_title;
 		}
 
-		$db    = $this->getDbo();
+		$db    = $this->getDatabase();
 		$query = $db->getQuery(true);
 		$query->select([$db->quoteName($ordering, 'value'), $db->quoteName($title, 'text')])
 			->from($db->quoteName(json_decode($ucmRow->table)->special->dbtable))

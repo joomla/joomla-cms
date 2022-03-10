@@ -10,8 +10,8 @@ namespace Joomla\CMS\Form\Field;
 
 \defined('JPATH_PLATFORM') or die;
 
-use Joomla\CMS\MVC\Model\DatabaseAwareInterface;
-use Joomla\CMS\MVC\Model\DatabaseAwareTrait;
+use Joomla\Database\DatabaseAwareInterface;
+use Joomla\Database\DatabaseAwareTrait;
 
 /**
  * Form Field to load a list of content authors
@@ -54,7 +54,7 @@ class AuthorField extends ListField implements DatabaseAwareInterface
 		{
 			static::$options[$hash] = parent::getOptions();
 
-			$db = $this->getDbo();
+			$db = $this->getDatabase();
 
 			// Construct the query
 			$query = $db->getQuery(true)

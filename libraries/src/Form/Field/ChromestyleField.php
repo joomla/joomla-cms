@@ -15,8 +15,8 @@ use Joomla\CMS\Filesystem\Folder;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\MVC\Model\DatabaseAwareInterface;
-use Joomla\CMS\MVC\Model\DatabaseAwareTrait;
+use Joomla\Database\DatabaseAwareInterface;
+use Joomla\Database\DatabaseAwareTrait;
 use Joomla\Database\ParameterType;
 
 /**
@@ -231,7 +231,7 @@ class ChromestyleField extends GroupedlistField implements DatabaseAwareInterfac
 	 */
 	protected function getTemplates()
 	{
-		$db = $this->getDbo();
+		$db = $this->getDatabase();
 
 		// Get the database object and a new query object.
 		$query = $db->getQuery(true);

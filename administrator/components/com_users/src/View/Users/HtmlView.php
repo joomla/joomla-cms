@@ -14,8 +14,6 @@ namespace Joomla\Component\Users\Administrator\View\Users;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\MVC\Model\DatabaseAwareInterface;
-use Joomla\CMS\MVC\Model\DatabaseAwareTrait;
 use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Object\CMSObject;
@@ -28,10 +26,8 @@ use Joomla\Database\DatabaseDriver;
  *
  * @since  1.6
  */
-class HtmlView extends BaseHtmlView implements DatabaseAwareInterface
+class HtmlView extends BaseHtmlView
 {
-	use DatabaseAwareTrait;
-
 	/**
 	 * The item data.
 	 *
@@ -104,7 +100,7 @@ class HtmlView extends BaseHtmlView implements DatabaseAwareInterface
 		$this->filterForm    = $this->get('FilterForm');
 		$this->activeFilters = $this->get('ActiveFilters');
 		$this->canDo         = ContentHelper::getActions('com_users');
-		$this->db            = $this->getDbo();
+		$this->db            = Factory::getDbo();;
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))

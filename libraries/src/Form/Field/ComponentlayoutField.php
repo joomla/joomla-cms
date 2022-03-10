@@ -18,8 +18,8 @@ use Joomla\CMS\Form\Form;
 use Joomla\CMS\Form\FormField;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\MVC\Model\DatabaseAwareInterface;
-use Joomla\CMS\MVC\Model\DatabaseAwareTrait;
+use Joomla\Database\DatabaseAwareInterface;
+use Joomla\Database\DatabaseAwareTrait;
 use Joomla\Database\ParameterType;
 
 /**
@@ -94,7 +94,7 @@ class ComponentlayoutField extends FormField implements DatabaseAwareInterface
 			|| $lang->load($extension . '.sys', JPATH_ADMINISTRATOR . '/components/' . $extension);
 
 			// Get the database object and a new query object.
-			$db = $this->getDbo();
+			$db = $this->getDatabase();
 			$query = $db->getQuery(true);
 
 			// Build the query.

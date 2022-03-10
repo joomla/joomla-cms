@@ -16,8 +16,6 @@ use Joomla\CMS\Access\Exception\NotAllowed;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\FormController;
-use Joomla\CMS\MVC\Model\DatabaseAwareInterface;
-use Joomla\CMS\MVC\Model\DatabaseAwareTrait;
 use Joomla\CMS\Router\Route;
 use Joomla\Database\ParameterType;
 use Joomla\Utilities\ArrayHelper;
@@ -27,10 +25,8 @@ use Joomla\Utilities\ArrayHelper;
  *
  * @since  1.6
  */
-class LevelController extends FormController implements DatabaseAwareInterface
+class LevelController extends FormController
 {
-	use DatabaseAwareTrait;
-
 	/**
 	 * @var     string  The prefix to use with controller messages.
 	 * @since   1.6
@@ -70,7 +66,7 @@ class LevelController extends FormController implements DatabaseAwareInterface
 	{
 		// Check for if Super Admin can edit
 		$data['id'] = (int) $data['id'];
-		$db    = $this->getDbo();
+		$db    = Factory::getDbo();;
 		$query = $db->getQuery(true)
 			->select('*')
 			->from($db->quoteName('#__viewlevels'))

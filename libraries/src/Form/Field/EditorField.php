@@ -12,8 +12,8 @@ namespace Joomla\CMS\Form\Field;
 
 use Joomla\CMS\Editor\Editor;
 use Joomla\CMS\Factory;
-use Joomla\CMS\MVC\Model\DatabaseAwareInterface;
-use Joomla\CMS\MVC\Model\DatabaseAwareTrait;
+use Joomla\Database\DatabaseAwareInterface;
+use Joomla\Database\DatabaseAwareTrait;
 
 /**
  * A textarea field for content creation
@@ -296,7 +296,7 @@ class EditorField extends TextareaField implements DatabaseAwareInterface
 				$types = $this->editorType;
 
 				// Get the database object.
-				$db = $this->getDbo();
+				$db = $this->getDatabase();
 
 				// Build the query.
 				$query = $db->getQuery(true)

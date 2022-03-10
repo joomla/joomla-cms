@@ -41,7 +41,7 @@ class Form implements ServiceProviderInterface
 				function (Container $container)
 				{
 					$factory = new FormFactory;
-					$factory->setDbo($container->get(DatabaseInterface::class));
+					$factory->setDatabase($container->get(DatabaseInterface::class));
 
 					return $factory;
 				},

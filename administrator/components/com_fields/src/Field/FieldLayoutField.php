@@ -16,8 +16,8 @@ use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Form\FormField;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\MVC\Model\DatabaseAwareInterface;
-use Joomla\CMS\MVC\Model\DatabaseAwareTrait;
+use Joomla\Database\DatabaseAwareInterface;
+use Joomla\Database\DatabaseAwareTrait;
 
 /**
  * Form Field to display a list of the layouts for a field from
@@ -52,7 +52,7 @@ class FieldLayoutField extends FormField implements DatabaseAwareInterface
 		if ($extension)
 		{
 			// Get the database object and a new query object.
-			$db = $this->getDbo();
+			$db = $this->getDatabase();
 			$query = $db->getQuery(true);
 
 			// Build the query.

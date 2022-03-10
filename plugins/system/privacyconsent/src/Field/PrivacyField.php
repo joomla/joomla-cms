@@ -15,8 +15,8 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Field\RadioField;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\MVC\Model\DatabaseAwareInterface;
-use Joomla\CMS\MVC\Model\DatabaseAwareTrait;
+use Joomla\Database\DatabaseAwareInterface;
+use Joomla\Database\DatabaseAwareTrait;
 use Joomla\Component\Content\Site\Helper\RouteHelper;
 use Joomla\Database\ParameterType;
 
@@ -87,7 +87,7 @@ class PrivacyField extends RadioField implements DatabaseAwareInterface
 
 		if ($privacyArticle && Factory::getApplication()->isClient('site'))
 		{
-			$db    = $this->getDbo();
+			$db    = $this->getDatabase();
 			$query = $db->getQuery(true)
 				->select($db->quoteName(['id', 'alias', 'catid', 'language']))
 				->from($db->quoteName('#__content'))
@@ -109,7 +109,7 @@ class PrivacyField extends RadioField implements DatabaseAwareInterface
 
 			if (Multilanguage::isEnabled())
 			{
-				$db    = $this->getDbo();
+				$db    = $this->getDatabase();
 				$query = $db->getQuery(true)
 					->select($db->quoteName(['id', 'language']))
 					->from($db->quoteName('#__menu'))

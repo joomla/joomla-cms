@@ -15,8 +15,8 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Form\FormField;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
-use Joomla\CMS\MVC\Model\DatabaseAwareInterface;
-use Joomla\CMS\MVC\Model\DatabaseAwareTrait;
+use Joomla\Database\DatabaseAwareInterface;
+use Joomla\Database\DatabaseAwareTrait;
 
 /**
  * Text Filters form field.
@@ -161,7 +161,7 @@ class FiltersField extends FormField implements DatabaseAwareInterface
 	protected function getUserGroups()
 	{
 		// Get a database object.
-		$db = $this->getDbo();
+		$db = $this->getDatabase();
 
 		// Get the user groups from the database.
 		$query = $db->getQuery(true);

@@ -13,8 +13,8 @@ namespace Joomla\CMS\Form\Field;
 use Joomla\CMS\Access\Access;
 use Joomla\CMS\Form\FormField;
 use Joomla\CMS\Helper\UserGroupsHelper;
-use Joomla\CMS\MVC\Model\DatabaseAwareInterface;
-use Joomla\CMS\MVC\Model\DatabaseAwareTrait;
+use Joomla\Database\DatabaseAwareInterface;
+use Joomla\Database\DatabaseAwareTrait;
 use Joomla\Database\ParameterType;
 
 /**
@@ -203,7 +203,7 @@ class RulesField extends FormField implements DatabaseAwareInterface
 		if (empty($this->assetId))
 		{
 			// Get the component asset id as fallback.
-			$db = $this->getDbo();
+			$db = $this->getDatabase();
 			$query = $db->getQuery(true)
 				->select($db->quoteName('id'))
 				->from($db->quoteName('#__assets'))
@@ -226,7 +226,7 @@ class RulesField extends FormField implements DatabaseAwareInterface
 		if (!$this->isGlobalConfig)
 		{
 			// In this case we need to get the component rules too.
-			$db = $this->getDbo();
+			$db = $this->getDatabase();
 
 			$query = $db->getQuery(true)
 				->select($db->quoteName('parent_id'))

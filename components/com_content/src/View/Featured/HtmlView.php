@@ -13,8 +13,6 @@ namespace Joomla\Component\Content\Site\View\Featured;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\MVC\Model\DatabaseAwareInterface;
-use Joomla\CMS\MVC\Model\DatabaseAwareTrait;
 use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Plugin\PluginHelper;
@@ -25,10 +23,8 @@ use Joomla\CMS\Router\Route;
  *
  * @since  1.5
  */
-class HtmlView extends BaseHtmlView implements DatabaseAwareInterface
+class HtmlView extends BaseHtmlView
 {
-	use DatabaseAwareTrait;
-
 	/**
 	 * The model state
 	 *
@@ -206,7 +202,7 @@ class HtmlView extends BaseHtmlView implements DatabaseAwareInterface
 		$this->items      = &$items;
 		$this->pagination = &$pagination;
 		$this->user       = &$user;
-		$this->db         = $this->getDbo();
+		$this->db         = Factory::getDbo();
 
 		$this->_prepareDocument();
 

@@ -16,8 +16,8 @@ use Joomla\CMS\Form\Field\CheckboxesField;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Associations;
 use Joomla\CMS\Language\Multilanguage;
-use Joomla\CMS\MVC\Model\DatabaseAwareInterface;
-use Joomla\CMS\MVC\Model\DatabaseAwareTrait;
+use Joomla\Database\DatabaseAwareInterface;
+use Joomla\Database\DatabaseAwareTrait;
 use Joomla\CMS\Router\Route;
 use Joomla\Component\Content\Site\Helper\RouteHelper;
 use Joomla\Database\Exception\ExecutionFailureException;
@@ -246,7 +246,7 @@ class ConsentBoxField extends CheckboxesField implements DatabaseAwareInterface
 	 */
 	private function getAssignedArticleUrl()
 	{
-		$db = $this->getDbo();
+		$db = $this->getDatabase();
 
 		// Get the info from the article
 		$query = $db->getQuery(true)
@@ -335,7 +335,7 @@ class ConsentBoxField extends CheckboxesField implements DatabaseAwareInterface
 
 			if (Multilanguage::isEnabled())
 			{
-				$db    = $this->getDbo();
+				$db    = $this->getDatabase();
 				$query = $db->getQuery(true)
 					->select($db->quoteName(['id', 'language']))
 					->from($db->quoteName('#__menu'))

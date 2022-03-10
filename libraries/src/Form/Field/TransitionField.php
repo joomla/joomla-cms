@@ -13,8 +13,8 @@ namespace Joomla\CMS\Form\Field;
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\MVC\Model\DatabaseAwareInterface;
-use Joomla\CMS\MVC\Model\DatabaseAwareTrait;
+use Joomla\Database\DatabaseAwareInterface;
+use Joomla\Database\DatabaseAwareTrait;
 use Joomla\Database\ParameterType;
 
 /**
@@ -105,7 +105,7 @@ class TransitionField extends ListField implements DatabaseAwareInterface
 		$jinput = Factory::getApplication()->input;
 
 		// Initialise variable.
-		$db = $this->getDbo();
+		$db = $this->getDatabase();
 		$extension = $this->extension;
 		$workflowStage = (int) $this->workflowStage;
 

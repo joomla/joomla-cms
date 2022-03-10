@@ -16,8 +16,6 @@ use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\FormController;
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;
-use Joomla\CMS\MVC\Model\DatabaseAwareInterface;
-use Joomla\CMS\MVC\Model\DatabaseAwareTrait;
 use Joomla\CMS\Response\JsonResponse;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Session\Session;
@@ -29,10 +27,8 @@ use Joomla\Database\ParameterType;
  *
  * @since  1.6
  */
-class ModuleController extends FormController implements DatabaseAwareInterface
+class ModuleController extends FormController
 {
-	use DatabaseAwareTrait;
-
 	/**
 	 * Override parent add method.
 	 *
@@ -293,7 +289,7 @@ class ModuleController extends FormController implements DatabaseAwareInterface
 			$app->close();
 		}
 
-		$db    = $this->getDbo();
+		$db    = Factory::getDbo();;
 		$clientId = (int) $clientId;
 		$query = $db->getQuery(true)
 			->select($db->quoteName(['position', 'ordering', 'title']))

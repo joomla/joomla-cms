@@ -13,10 +13,11 @@ namespace Joomla\CMS\Form;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\MVC\Model\DatabaseAwareInterface;
-use Joomla\CMS\MVC\Model\DatabaseAwareTrait;
+use Joomla\Database\DatabaseAwareInterface;
+use Joomla\Database\DatabaseAwareTrait;
 use Joomla\CMS\Object\CMSObject;
 use Joomla\Database\DatabaseInterface;
+use Joomla\Database\Exception\DatabaseNotFoundException;
 use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
 
@@ -31,7 +32,7 @@ use Joomla\Utilities\ArrayHelper;
  * @link   https://html.spec.whatwg.org/multipage/forms.html
  * @since  1.7.0
  */
-class Form implements DatabaseAwareInterface
+class Form
 {
 	use DatabaseAwareTrait;
 
@@ -1622,11 +1623,11 @@ class Form implements DatabaseAwareInterface
 		{
 			try
 			{
-				$field->setDbo($this->getDbo());
+				$field->setDatabase($this->getDatabase());
 			}
-			catch (\UnexpectedValueException $e)
+			catch (DatabaseNotFoundException $e)
 			{
-				$field->setDbo(Factory::getContainer()->get(DatabaseInterface::class));
+				$field->setDatabase(Factory::getContainer()->get(DatabaseInterface::class));
 			}
 		}
 

@@ -13,8 +13,8 @@ namespace Joomla\Component\Newsfeeds\Administrator\Field;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Field\ListField;
-use Joomla\CMS\MVC\Model\DatabaseAwareInterface;
-use Joomla\CMS\MVC\Model\DatabaseAwareTrait;
+use Joomla\Database\DatabaseAwareInterface;
+use Joomla\Database\DatabaseAwareTrait;
 
 /**
  * News Feed List field.
@@ -44,7 +44,7 @@ class NewsfeedsField extends ListField implements DatabaseAwareInterface
 	{
 		$options = array();
 
-		$db    = $this->getDbo();
+		$db    = $this->getDatabase();
 		$query = $db->getQuery(true)
 			->select(
 				[

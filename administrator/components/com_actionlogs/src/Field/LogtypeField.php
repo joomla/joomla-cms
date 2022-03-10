@@ -15,8 +15,8 @@ use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Form\Field\CheckboxesField;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\MVC\Model\DatabaseAwareInterface;
-use Joomla\CMS\MVC\Model\DatabaseAwareTrait;
+use Joomla\Database\DatabaseAwareInterface;
+use Joomla\Database\DatabaseAwareTrait;
 use Joomla\Component\Actionlogs\Administrator\Helper\ActionlogsHelper;
 
 /**
@@ -45,7 +45,7 @@ class LogtypeField extends CheckboxesField implements DatabaseAwareInterface
 	 */
 	public function getOptions()
 	{
-		$db    = $this->getDbo();
+		$db    = $this->getDatabase();
 		$query = $db->getQuery(true)
 			->select($db->quoteName('extension'))
 			->from($db->quoteName('#__action_logs_extensions'));

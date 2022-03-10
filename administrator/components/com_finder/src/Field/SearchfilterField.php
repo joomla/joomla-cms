@@ -14,8 +14,8 @@ namespace Joomla\Component\Finder\Administrator\Field;
 use Joomla\CMS\Form\Field\ListField;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\MVC\Model\DatabaseAwareInterface;
-use Joomla\CMS\MVC\Model\DatabaseAwareTrait;
+use Joomla\Database\DatabaseAwareInterface;
+use Joomla\Database\DatabaseAwareTrait;
 
 /**
  * Search Filter field for the Finder package.
@@ -44,7 +44,7 @@ class SearchfilterField extends ListField implements DatabaseAwareInterface
 	public function getOptions()
 	{
 		// Build the query.
-		$db = $this->getDbo();
+		$db = $this->getDatabase();
 		$query = $db->getQuery(true)
 			->select('f.title AS text, f.filter_id AS value')
 			->from($db->quoteName('#__finder_filters') . ' AS f')

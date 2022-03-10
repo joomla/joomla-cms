@@ -14,8 +14,6 @@ namespace Joomla\Component\Menus\Administrator\View\Menu;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
-use Joomla\CMS\MVC\Model\DatabaseAwareInterface;
-use Joomla\CMS\MVC\Model\DatabaseAwareTrait;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Router\Route;
 use Joomla\Component\Menus\Administrator\Helper\MenusHelper;
@@ -25,10 +23,8 @@ use Joomla\Component\Menus\Administrator\Helper\MenusHelper;
  *
  * @since  3.8.0
  */
-class XmlView extends BaseHtmlView implements DatabaseAwareInterface
+class XmlView extends BaseHtmlView
 {
-	use DatabaseAwareTrait;
-
 	/**
 	 * @var  \stdClass[]
 	 *
@@ -158,7 +154,7 @@ class XmlView extends BaseHtmlView implements DatabaseAwareInterface
 
 			if ($hideitems)
 			{
-				$db    = $this->getDbo();
+				$db    = Factory::getDbo();;
 				$query = $db->getQuery(true);
 
 				$query
