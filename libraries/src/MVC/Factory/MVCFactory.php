@@ -17,6 +17,7 @@ use Joomla\CMS\Form\FormFactoryAwareTrait;
 use Joomla\CMS\MVC\Model\ModelInterface;
 use Joomla\Database\DatabaseAwareInterface;
 use Joomla\Database\DatabaseAwareTrait;
+use Joomla\Database\Exception\DatabaseNotFoundException;
 use Joomla\Event\DispatcherAwareInterface;
 use Joomla\Event\DispatcherAwareTrait;
 use Joomla\Input\Input;
@@ -133,7 +134,7 @@ class MVCFactory implements MVCFactoryInterface, FormFactoryAwareInterface, Disp
 			{
 				$model->setDatabase($this->getDatabase());
 			}
-			catch (\UnexpectedValueException $e)
+			catch (DatabaseNotFoundException $e)
 			{
 				// Ignore it
 			}
