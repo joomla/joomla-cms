@@ -90,7 +90,12 @@ abstract class BaseDatabaseModel extends BaseModel implements DatabaseModelInter
 		 * @deprecated 5.0 Database instance is injected through the setter function,
 		 *                 subclasses should not use the db instance in constructor anymore
 		 */
-		$this->setDbo(\array_key_exists('dbo', $config) ? $config['dbo'] : Factory::getDbo());
+		$db = \array_key_exists('dbo', $config) ? $config['dbo'] : Factory::getDbo();
+
+		if ($db)
+		{
+			$this->setDbo($db);
+		}
 
 		// Set the default view search path
 		if (\array_key_exists('table_path', $config))
@@ -383,6 +388,11 @@ abstract class BaseDatabaseModel extends BaseModel implements DatabaseModelInter
 	 */
 	public function setDbo(DatabaseInterface $db = null): void
 	{
+		if ($db === null)
+		{
+			return;
+		}
+
 		$this->setDatabase($db);
 	}
 
