@@ -22,7 +22,11 @@ use Joomla\CMS\MVC\Factory\MVCFactoryAwareTrait;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Factory\MVCFactoryServiceInterface;
 use Joomla\CMS\Table\Table;
+use Joomla\Database\DatabaseAwareInterface;
+use Joomla\Database\DatabaseAwareTrait;
+use Joomla\Database\DatabaseInterface;
 use Joomla\Database\DatabaseQuery;
+use Joomla\Database\Exception\DatabaseNotFoundException;
 use Joomla\Event\DispatcherAwareInterface;
 use Joomla\Event\DispatcherAwareTrait;
 use Joomla\Event\DispatcherInterface;
@@ -342,5 +346,64 @@ abstract class BaseDatabaseModel extends BaseModel implements DatabaseModelInter
 		{
 			Factory::getContainer()->get(DispatcherInterface::class)->dispatch($event->getName(), $event);
 		}
+	}
+
+	/**
+	 * Get the database driver.
+	 *
+	 * @return  DatabaseInterface  The database driver.
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 * @throws  \UnexpectedValueException
+	 *
+	 * @deprecated  5.0 Use getDatabase() instead
+	 */
+	public function getDbo(): DatabaseInterface
+	{
+		try
+		{
+			return $this->getDatabase();
+		}
+		catch (DatabaseNotFoundException $e)
+		{
+			throw new \UnexpectedValueException('Database driver not set in ' . __CLASS__);
+		}
+	}
+
+	/**
+	 * Set the database driver.
+	 *
+	 * @param   DatabaseInterface  $db  The database driver.
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 *
+	 * @deprecated  5.0 Use setDatabase() instead
+	 */
+	public function setDbo(DatabaseInterface $db = null): void
+	{
+		$this->setDatabase($db);
+	}
+
+	/**
+	 * Proxy for _db variable.
+	 *
+	 * @param   string  $name  The name of the element
+	 *
+	 * @return  mixed  The value of the element if set, null otherwise
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 *
+	 * @deprecated  5.0 Use getDatabase() instead of directly accessing _db
+	 */
+	public function __get($name)
+	{
+		if ($name === '_db')
+		{
+			return $this->getDatabase();
+		}
+
+		return $this->$name;
 	}
 }

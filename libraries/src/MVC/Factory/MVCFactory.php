@@ -14,9 +14,9 @@ use Joomla\CMS\Application\CMSApplicationInterface;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\FormFactoryAwareInterface;
 use Joomla\CMS\Form\FormFactoryAwareTrait;
-use Joomla\CMS\MVC\Model\DatabaseAwareInterface;
-use Joomla\CMS\MVC\Model\DatabaseAwareTrait;
 use Joomla\CMS\MVC\Model\ModelInterface;
+use Joomla\Database\DatabaseAwareInterface;
+use Joomla\Database\DatabaseAwareTrait;
 use Joomla\Event\DispatcherAwareInterface;
 use Joomla\Event\DispatcherAwareTrait;
 use Joomla\Input\Input;
@@ -131,7 +131,7 @@ class MVCFactory implements MVCFactoryInterface, FormFactoryAwareInterface, Disp
 		{
 			try
 			{
-				$model->setDbo($this->getDbo());
+				$model->setDatabase($this->getDatabase());
 			}
 			catch (\UnexpectedValueException $e)
 			{
@@ -228,7 +228,7 @@ class MVCFactory implements MVCFactoryInterface, FormFactoryAwareInterface, Disp
 			return null;
 		}
 
-		return new $className(\array_key_exists('dbo', $config) ? $config['dbo'] : $this->getDbo());
+		return new $className(\array_key_exists('dbo', $config) ? $config['dbo'] : $this->getDatabase());
 	}
 
 	/**

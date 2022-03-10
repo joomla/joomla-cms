@@ -72,7 +72,7 @@ class MVCFactory implements ServiceProviderInterface
 
 				$factory->setFormFactory($container->get(FormFactoryInterface::class));
 				$factory->setDispatcher($container->get(DispatcherInterface::class));
-				$factory->setDbo($container->get(DatabaseInterface::class));
+				$factory->setDatabase($container->get(DatabaseInterface::class));
 
 				return $factory;
 			}

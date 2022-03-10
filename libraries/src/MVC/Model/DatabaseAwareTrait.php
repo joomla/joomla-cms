@@ -16,6 +16,8 @@ use Joomla\Database\DatabaseInterface;
  * Database aware trait.
  *
  * @since  4.0.0
+ *
+ * @deprecated  5.0 Use the trait from the database package
  */
 trait DatabaseAwareTrait
 {
@@ -24,6 +26,8 @@ trait DatabaseAwareTrait
 	 *
 	 * @var    DatabaseInterface
 	 * @since  4.0.0
+	 *
+	 * @deprecated  5.0 Use the trait from the database package
 	 */
 	protected $_db;
 
@@ -34,6 +38,8 @@ trait DatabaseAwareTrait
 	 *
 	 * @since   4.0.0
 	 * @throws  \UnexpectedValueException
+	 *
+	 * @deprecated  5.0 Use the trait from the database package
 	 */
 	public function getDbo(): DatabaseInterface
 	{
@@ -53,6 +59,8 @@ trait DatabaseAwareTrait
 	 * @return  void
 	 *
 	 * @since   4.0.0
+	 *
+	 * @deprecated  5.0 Use the trait from the database package
 	 */
 	public function setDbo(DatabaseInterface $db = null): void
 	{
