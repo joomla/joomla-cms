@@ -66,7 +66,7 @@ class LevelController extends FormController
 	{
 		// Check for if Super Admin can edit
 		$data['id'] = (int) $data['id'];
-		$db    = Factory::getDbo();;
+		$db    = Factory::getDbo();
 		$query = $db->getQuery(true)
 			->select('*')
 			->from($db->quoteName('#__viewlevels'))

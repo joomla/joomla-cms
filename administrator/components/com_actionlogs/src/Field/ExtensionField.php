@@ -14,9 +14,9 @@ namespace Joomla\Component\Actionlogs\Administrator\Field;
 use Joomla\CMS\Form\Field\ListField;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\Component\Actionlogs\Administrator\Helper\ActionlogsHelper;
 use Joomla\Database\DatabaseAwareInterface;
 use Joomla\Database\DatabaseAwareTrait;
-use Joomla\Component\Actionlogs\Administrator\Helper\ActionlogsHelper;
 
 /**
  * Field to load a list of all extensions that have logged actions

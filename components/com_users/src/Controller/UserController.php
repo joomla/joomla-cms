@@ -54,7 +54,7 @@ class UserController extends BaseController
 		{
 			if (Multilanguage::isEnabled())
 			{
-				$db = Factory::getDbo();;
+				$db = Factory::getDbo();
 				$query = $db->getQuery(true)
 					->select($db->quoteName('language'))
 					->from($db->quoteName('#__menu'))
@@ -178,7 +178,7 @@ class UserController extends BaseController
 		{
 			if (Multilanguage::isEnabled())
 			{
-				$db = Factory::getDbo();;
+				$db = Factory::getDbo();
 				$query = $db->getQuery(true)
 					->select($db->quoteName('language'))
 					->from($db->quoteName('#__menu'))
@@ -251,7 +251,7 @@ class UserController extends BaseController
 		{
 			if ($itemid)
 			{
-				$db = Factory::getDbo();;
+				$db = Factory::getDbo();
 				$query = $db->getQuery(true)
 					->select($db->quoteName('language'))
 					->from($db->quoteName('#__menu'))

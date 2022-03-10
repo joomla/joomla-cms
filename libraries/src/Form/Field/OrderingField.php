@@ -12,9 +12,9 @@ namespace Joomla\CMS\Form\Field;
 
 use Joomla\CMS\Form\FormField;
 use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\UCM\UCMType;
 use Joomla\Database\DatabaseAwareInterface;
 use Joomla\Database\DatabaseAwareTrait;
-use Joomla\CMS\UCM\UCMType;
 use Joomla\Database\DatabaseQuery;
 use Joomla\Database\ParameterType;
 

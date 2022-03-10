@@ -289,7 +289,7 @@ class ModuleController extends FormController
 			$app->close();
 		}
 
-		$db    = Factory::getDbo();;
+		$db    = Factory::getDbo();
 		$clientId = (int) $clientId;
 		$query = $db->getQuery(true)
 			->select($db->quoteName(['position', 'ordering', 'title']))

@@ -154,7 +154,7 @@ class XmlView extends BaseHtmlView
 
 			if ($hideitems)
 			{
-				$db    = Factory::getDbo();;
+				$db    = Factory::getDbo();
 				$query = $db->getQuery(true);
 
 				$query

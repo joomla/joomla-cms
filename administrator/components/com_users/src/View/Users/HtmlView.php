@@ -100,7 +100,7 @@ class HtmlView extends BaseHtmlView
 		$this->filterForm    = $this->get('FilterForm');
 		$this->activeFilters = $this->get('ActiveFilters');
 		$this->canDo         = ContentHelper::getActions('com_users');
-		$this->db            = Factory::getDbo();;
+		$this->db            = Factory::getDbo();
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))

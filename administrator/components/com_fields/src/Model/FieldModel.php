@@ -302,7 +302,7 @@ class FieldModel extends AdminModel
 
 		// Trigger the event to create the field dom node
 		$form = new Form($data['context']);
-		$form->setDbo($this->getDbo());
+		$form->setDatabase($this->getDatabase());
 		Factory::getApplication()->triggerEvent('onCustomFieldsPrepareDom', array($obj, $node, $form));
 
 		// Check if a node is created

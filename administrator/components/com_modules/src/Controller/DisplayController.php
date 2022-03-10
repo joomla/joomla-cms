@@ -98,7 +98,7 @@ class DisplayController extends BaseController
 				$langCodes[$language->metadata['tag']] = $languageName;
 			}
 
-			$db    = Factory::getDbo();;
+			$db    = Factory::getDbo();
 			$query = $db->getQuery(true);
 
 			$query->select($db->quoteName('m.language'))
