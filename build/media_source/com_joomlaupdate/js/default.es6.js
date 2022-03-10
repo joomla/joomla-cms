@@ -44,6 +44,7 @@ Joomla = window.Joomla || {};
   };
 
   document.addEventListener('DOMContentLoaded', () => {
+    const uploadForm = document.getElementById('uploadForm');
     const uploadButton = document.getElementById('uploadButton');
     const uploadField = document.getElementById('install_package');
     const installButton = document.querySelector('.emptystate-btnadd', document.getElementById('joomlaupdate-wrapper'));
@@ -52,9 +53,28 @@ Joomla = window.Joomla || {};
     const task = form ? form.querySelector('[name=task]', form) : null;
     if (uploadButton) {
       uploadButton.addEventListener('click', Joomla.submitbuttonUpload);
+      updateCheck.addEventListener('change', () => {
+        uploadButton.disabled = !updateCheck.checked;
+      });
     }
     if (uploadField) {
       uploadField.addEventListener('change', Joomla.installpackageChange);
+      uploadField.addEventListener('change', () => {
+        const fileSize = uploadForm.install_package.files[0].size;
+        const allowedSize = uploadForm.max_upload_size.value;
+        if (fileSize <= allowedSize && updateCheck.disabled) {
+          updateCheck.disabled = !updateCheck.disabled;
+        } else if (fileSize <= allowedSize && !updateCheck.disabled && !updateCheck.checked) {
+          updateCheck.disabled = false;
+        } else if (fileSize <= allowedSize && updateCheck.checked) {
+          updateCheck.checked = false;
+          uploadButton.disabled = true;
+        } else if (fileSize > allowedSize && !updateCheck.disabled) {
+          updateCheck.disabled = !updateCheck.disabled;
+          updateCheck.checked = false;
+          uploadButton.disabled = true;
+        }
+      });
     }
     // Trigger (re-) install (including checkbox confirm if we update)
     if (installButton && installButton.getAttribute('href') === '#' && task) {
