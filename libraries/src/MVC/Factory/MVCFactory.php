@@ -230,7 +230,16 @@ class MVCFactory implements MVCFactoryInterface, FormFactoryAwareInterface, Disp
 			return null;
 		}
 
-		return new $className(\array_key_exists('dbo', $config) ? $config['dbo'] : $this->getDatabase());
+		try
+		{
+			$db = \array_key_exists('dbo', $config) ? $config['dbo'] : $this->getDatabase();
+		}
+		catch (DatabaseNotFoundException $e)
+		{
+			$db = Factory::getContainer()->get(DatabaseInterface::class);
+		}
+
+		return new $className($db);
 	}
 
 	/**
