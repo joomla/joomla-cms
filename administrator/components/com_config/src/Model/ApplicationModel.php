@@ -93,7 +93,7 @@ class ApplicationModel extends FormModel
 		$data   = ArrayHelper::fromObject($config);
 
 		// Get the correct driver at runtime
-		$data['dbtype'] = $this->getDbo()->getName();
+		$data['dbtype'] = $this->getDatabase()->getName();
 
 		// Prime the asset_id for the rules.
 		$data['asset_id'] = 1;
@@ -502,11 +502,12 @@ class ApplicationModel extends FormModel
 		// Purge the database session table if we are changing to the database handler.
 		if ($prev['session_handler'] != 'database' && $data['session_handler'] == 'database')
 		{
-			$query = $this->_db->getQuery(true)
-				->delete($this->_db->quoteName('#__session'))
-				->where($this->_db->quoteName('time') . ' < ' . (time() - 1));
-			$this->_db->setQuery($query);
-			$this->_db->execute();
+			$db    = $this->getDatabase();
+			$query = $db->getQuery(true)
+				->delete($db->quoteName('#__session'))
+				->where($db->quoteName('time') . ' < ' . (time() - 1));
+			$db->setQuery($query);
+			$db->execute();
 		}
 
 		// Purge the database session table if we are disabling session metadata
@@ -1170,16 +1171,19 @@ class ApplicationModel extends FormModel
 
 		try
 		{
+			// The database instance
+			$db = $this->getDatabase();
+
 			// Get the asset id by the name of the component.
-			$query = $this->_db->getQuery(true)
-				->select($this->_db->quoteName('id'))
-				->from($this->_db->quoteName('#__assets'))
-				->where($this->_db->quoteName('name') . ' = :component')
+			$query = $db->getQuery(true)
+				->select($db->quoteName('id'))
+				->from($db->quoteName('#__assets'))
+				->where($db->quoteName('name') . ' = :component')
 				->bind(':component', $permission['component']);
 
-			$this->_db->setQuery($query);
+			$db->setQuery($query);
 
-			$assetId = (int) $this->_db->loadResult();
+			$assetId = (int) $db->loadResult();
 
 			// Fetch the parent asset id.
 			$parentAssetId = null;
@@ -1196,38 +1200,38 @@ class ApplicationModel extends FormModel
 			{
 				// In this case we need to get the component rules too.
 				$query->clear()
-					->select($this->_db->quoteName('parent_id'))
-					->from($this->_db->quoteName('#__assets'))
-					->where($this->_db->quoteName('id') . ' = :assetid')
+					->select($db->quoteName('parent_id'))
+					->from($db->quoteName('#__assets'))
+					->where($db->quoteName('id') . ' = :assetid')
 					->bind(':assetid', $assetId, ParameterType::INTEGER);
 
-				$this->_db->setQuery($query);
+				$db->setQuery($query);
 
-				$parentAssetId = (int) $this->_db->loadResult();
+				$parentAssetId = (int) $db->loadResult();
 			}
 
 			// Get the group parent id of the current group.
 			$rule = (int) $permission['rule'];
 			$query->clear()
-				->select($this->_db->quoteName('parent_id'))
-				->from($this->_db->quoteName('#__usergroups'))
-				->where($this->_db->quoteName('id') . ' = :rule')
+				->select($db->quoteName('parent_id'))
+				->from($db->quoteName('#__usergroups'))
+				->where($db->quoteName('id') . ' = :rule')
 				->bind(':rule', $rule, ParameterType::INTEGER);
 
-			$this->_db->setQuery($query);
+			$db->setQuery($query);
 
-			$parentGroupId = (int) $this->_db->loadResult();
+			$parentGroupId = (int) $db->loadResult();
 
 			// Count the number of child groups of the current group.
 			$query->clear()
-				->select('COUNT(' . $this->_db->quoteName('id') . ')')
-				->from($this->_db->quoteName('#__usergroups'))
-				->where($this->_db->quoteName('parent_id') . ' = :rule')
+				->select('COUNT(' . $db->quoteName('id') . ')')
+				->from($db->quoteName('#__usergroups'))
+				->where($db->quoteName('parent_id') . ' = :rule')
 				->bind(':rule', $rule, ParameterType::INTEGER);
 
-			$this->_db->setQuery($query);
+			$db->setQuery($query);
 
-			$totalChildGroups = (int) $this->_db->loadResult();
+			$totalChildGroups = (int) $db->loadResult();
 		}
 		catch (\Exception $e)
 		{
