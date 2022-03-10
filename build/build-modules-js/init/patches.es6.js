@@ -30,7 +30,6 @@ module.exports.patchPackages = async (options) => {
   ShortandsweetJs = ShortandsweetJs.concat('shortAndSweet(\'textarea.charcount\', {counterClassName: \'small text-muted\'});');
   await writeFile(shortandsweetPath, ShortandsweetJs, { encoding: 'utf8', mode: 0o644 });
 
-
   // Patch the Font Awesome math.div sass deprecations
   // _larger.scss
   let faPath = join(mediaVendorPath, 'fontawesome-free/scss/_larger.scss');
