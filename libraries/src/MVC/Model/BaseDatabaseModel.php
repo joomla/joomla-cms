@@ -94,7 +94,7 @@ abstract class BaseDatabaseModel extends BaseModel implements DatabaseModelInter
 
 		if ($db)
 		{
-			$this->setDbo($db);
+			$this->setDatabase($db);
 		}
 
 		// Set the default view search path
