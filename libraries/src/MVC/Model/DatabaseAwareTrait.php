@@ -41,7 +41,7 @@ trait DatabaseAwareTrait
 	 *
 	 * @deprecated  5.0 Use the trait from the database package
 	 */
-	public function getDbo(): DatabaseInterface
+	public function getDbo()
 	{
 		if ($this->_db)
 		{
@@ -62,7 +62,7 @@ trait DatabaseAwareTrait
 	 *
 	 * @deprecated  5.0 Use the trait from the database package
 	 */
-	public function setDbo(DatabaseInterface $db = null): void
+	public function setDbo(DatabaseInterface $db = null)
 	{
 		$this->_db = $db;
 	}
