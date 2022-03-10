@@ -30,20 +30,20 @@ module.exports.patchPackages = async (options) => {
   ShortandsweetJs = ShortandsweetJs.concat('shortAndSweet(\'textarea.charcount\', {counterClassName: \'small text-muted\'});');
   await writeFile(shortandsweetPath, ShortandsweetJs, { encoding: 'utf8', mode: 0o644 });
 
-   // Patch the Font Awesome math.div sass deprecations
-  //_larger.scss
+  // Patch the Font Awesome math.div sass deprecations
+  // _larger.scss
   let faPath = join(mediaVendorPath, 'fontawesome-free/scss/_larger.scss');
   let newScss = (await readFile(faPath, { encoding: 'utf8' })).replace('(4em / 3)', '(4em * .333)').replace('(3em / 4)', '(3em * .025)');
   await writeFile(faPath, newScss, { encoding: 'utf8', mode: 0o644 });
   await writeFile(join(RootPath, '/media/vendor/fontawesome-free/scss/_larger.scss'), newScss, { encoding: 'utf8', mode: 0o644 });
-  //_list.scss
+  // _list.scss
   faPath = join(mediaVendorPath, 'fontawesome-free/scss/_list.scss');
   newScss = (await readFile(faPath, { encoding: 'utf8' })).replace('5/4', '1.25');
   await writeFile(faPath, newScss, { encoding: 'utf8', mode: 0o644 });
   await writeFile(join(RootPath, '/media/vendor/fontawesome-free/scss/_list.scss'), newScss, { encoding: 'utf8', mode: 0o644 });
-  //_variables.scss
+  // _variables.scss
   faPath = join(mediaVendorPath, 'fontawesome-free/scss/_variables.scss');
   newScss = (await readFile(faPath, { encoding: 'utf8' })).replace('(20em / 16)', '(20em * .0625)');
   await writeFile(faPath, newScss, { encoding: 'utf8', mode: 0o644 });
-    await writeFile(join(RootPath, '/media/vendor/fontawesome-free/scss/_variables.scss'), newScss, { encoding: 'utf8', mode: 0o644 });
+  await writeFile(join(RootPath, '/media/vendor/fontawesome-free/scss/_variables.scss'), newScss, { encoding: 'utf8', mode: 0o644 });
 };
