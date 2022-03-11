@@ -992,7 +992,7 @@ class PlgActionlogJoomla extends ActionLogPlugin
 			'userid'      => $user->id,
 			'username'    => $user->username,
 			'accountlink' => 'index.php?option=com_users&task=user.edit&id=' . $user->id,
-			'table'       => $table,
+			'table'       => str_replace($this->db->getPrefix(), '#__', $table),
 		);
 
 		$this->addLog(array($message), 'PLG_ACTIONLOG_JOOMLA_USER_CHECKIN', $context, $user->id);
