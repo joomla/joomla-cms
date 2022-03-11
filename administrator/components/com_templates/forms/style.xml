@@ -39,5 +39,16 @@
 			type="hidden"
 		/>
 
+				<field
+			name="inheritable"
+			type="hidden"
+			readonly="true"
+		/>
+
+		<field
+			name="parent"
+			type="hidden"
+			readonly="true"
+		/>
 	</fieldset>
 </form>
