@@ -57,13 +57,13 @@ steps:
       - php -v
       - ./libraries/vendor/bin/phpunit --testsuite Unit
 
-#  - name: php81-unit
-#    depends_on: [ phpcs ]
-#    image: joomlaprojects/docker-images:php8.1
-#    failure: ignore
-#    commands:
-#      - php -v
-#      - ./libraries/vendor/bin/phpunit --testsuite Unit
+  - name: php81-unit
+    depends_on: [ phpcs ]
+    image: joomlaprojects/docker-images:php8.1
+    failure: ignore
+    commands:
+      - php -v
+      - ./libraries/vendor/bin/phpunit --testsuite Unit
 
   - name: php72-integration
     depends_on: [ npm ]
@@ -415,11 +415,11 @@ steps:
         path: /reference
     when:
       branch:
-        - 4.1-dev
+        - 4.2-dev
 
 
 ---
 kind: signature
-hmac: a6f3f2ed21261b612d052724e5f43a5dd55168f98cbaa48eeaa358816bb255df
+hmac: d9707d261edba35bc6b70f09a1babee119cb0a88cebda40171248e5c0a8b135e
 
 ...
