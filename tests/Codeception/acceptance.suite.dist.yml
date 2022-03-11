@@ -144,7 +144,7 @@ env:
           url: 'http://localhost/mariadb_min'
           database host: 'mariadb_min'
           database prefix: 'mariadb_'
-          cmsPath: '/tests/www/mariadb'
+          cmsPath: '/tests/www/mariadb_min'
         Helper\JoomlaDb:
           dsn: 'mysql:host=mariadb_min;dbname=test_joomla'
           prefix: 'mariadb_'
@@ -155,7 +155,7 @@ env:
           url: 'http://localhost/mariadb_max'
           database host: 'mariadb_max'
           database prefix: 'mariadb_'
-          cmsPath: '/tests/www/mariadb'
+          cmsPath: '/tests/www/mariadb_max'
         Helper\JoomlaDb:
           dsn: 'mysql:host=mariadb_max;dbname=test_joomla'
           prefix: 'mariadb_'
