@@ -1051,7 +1051,7 @@ class Access
 				}
 			}
 
-			return array_unique($authorised);
+			return array_values(array_unique($authorised));
 		}
 
 		// Get all groups that the user is mapped to recursively.
@@ -1076,7 +1076,7 @@ class Access
 			}
 		}
 
-		return array_unique($authorised);
+		return array_values(array_unique($authorised));
 	}
 
 	/**
