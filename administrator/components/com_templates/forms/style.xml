@@ -39,7 +39,7 @@
 			type="hidden"
 		/>
 
-				<field
+		<field
 			name="inheritable"
 			type="hidden"
 			readonly="true"
