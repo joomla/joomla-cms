@@ -130,6 +130,7 @@ class Image implements LoggerAwareInterface
 			static::$formats[IMAGETYPE_JPEG] = ($info['JPEG Support']) ? true : false;
 			static::$formats[IMAGETYPE_PNG]  = ($info['PNG Support']) ? true : false;
 			static::$formats[IMAGETYPE_GIF]  = ($info['GIF Read Support']) ? true : false;
+			static::$formats[IMAGETYPE_WEBP]  = ($info['WEBP Support']) ? true : false;
 		}
 
 		// If the source input is a resource, set it as the image handle.
@@ -713,6 +714,32 @@ class Image implements LoggerAwareInterface
 				$this->handle = $handle;
 
 				break;
+			case 'image/webp':
+				// Make sure the image type is supported.
+				if (empty(static::$formats[IMAGETYPE_WEBP]))
+				{
+					// @codeCoverageIgnoreStart
+					$this->getLogger()->error('Attempting to load an image of unsupported type WEBP.');
+
+					throw new \RuntimeException('Attempting to load an image of unsupported type WEBP.');
+
+					// @codeCoverageIgnoreEnd
+				}
+
+				// Attempt to create the image handle.
+				$handle = imagecreatefrompng($path);
+
+				if (!$this->isValidImage($handle))
+				{
+					// @codeCoverageIgnoreStart
+					throw new \RuntimeException('Unable to process WEBP image.');
+
+					// @codeCoverageIgnoreEnd
+				}
+
+				$this->handle = $handle;
+
+				break;
 
 			default:
 				$this->getLogger()->error('Attempting to load an image of unsupported type ' . $properties->mime);
@@ -1022,6 +1049,8 @@ class Image implements LoggerAwareInterface
 
 			case IMAGETYPE_PNG:
 				return imagepng($this->getHandle(), $path, (array_key_exists('quality', $options)) ? $options['quality'] : 0);
+			case IMAGETYPE_WEBP:
+				return imagewebp($this->getHandle(), $path);
 		}
 
 		// Case IMAGETYPE_JPEG & default
