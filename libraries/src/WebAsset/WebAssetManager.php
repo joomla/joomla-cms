@@ -162,8 +162,12 @@ class WebAssetManager implements WebAssetManagerInterface
 	 */
 	public function reset(): WebAssetManagerInterface
 	{
+		if ($this->locked)
+		{
+			throw new InvalidActionException('WebAssetManager is locked');
+		}
+
 		$this->activeAssets = [];
-		$this->locked = false;
 		$this->dependenciesIsActual = false;
 
 		return $this;
