@@ -139,7 +139,7 @@ class ContactController extends ApiController
 			$errors   = $model->getErrors();
 			$messages = [];
 
-			for ($i = 0, $n = count($errors); $i < $n && $i < 3; $i++)
+			for ($i = 0, $n = \count($errors); $i < $n && $i < 3; $i++)
 			{
 				if ($errors[$i] instanceof \Exception)
 				{
@@ -217,7 +217,7 @@ class ContactController extends ApiController
 			'subject'  => $data['contact_subject'],
 			'body'     => stripslashes($data['contact_message']),
 			'url'      => Uri::base(),
-			'customfields' => ''
+			'customfields' => '',
 		];
 
 		// Load the custom fields

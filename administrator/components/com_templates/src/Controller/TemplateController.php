@@ -384,7 +384,7 @@ class TemplateController extends BaseController
 				// Redirect to the list screen.
 				$file = base64_encode('home');
 				$id = (int) $this->input->get('id', 0, 'int');
-				$url  = 'index.php?option=com_templates&view=template&id=' . $id . '&file=' . $file . '&isMedia' . $this->input->getInt('isMedia', 0);
+				$url  = 'index.php?option=com_templates&view=template&id=' . $id . '&file=' . $file . '&isMedia=' . $this->input->getInt('isMedia', 0);
 				$this->setRedirect(Route::_($url, false));
 				break;
 		}

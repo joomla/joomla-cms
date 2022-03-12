@@ -49,7 +49,7 @@ class CronField extends ListField
 	private const OPTIONS_RANGE = [
 		'minutes'    => [0, 59],
 		'hours'      => [0, 23],
-		'days_week'  => [0, 6],
+		'days_week'  => [1, 7],
 		'days_month' => [1, 31],
 		'months'     => [1, 12],
 	];
