@@ -39,7 +39,7 @@
     "accessibility": "^3.0.14",
     "awesomplete": "^1.1.5",
     "bootstrap": "^5.1.3",
-    "choices.js": "^10.0.0",
+    "choices.js": "^9.0.1",
     "chosen-js": "^1.8.7",
     "codemirror": "^5.64.0",
     "cropperjs": "^1.5.12",
