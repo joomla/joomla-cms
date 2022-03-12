@@ -27,6 +27,18 @@
 	<fields name="params">
 		<fieldset name="basic">
 			<field
+				name="show_search_form"
+				type="list"
+				label="COM_FINDER_CONFIG_SHOW_SEARCH_FORM_LABEL"
+				default=""
+				useglobal="true"
+				class="form-select-color-state"
+				validate="options"
+				>
+				<option value="0">JHIDE</option>
+				<option value="1">JSHOW</option>
+			</field>
+			<field
 				name="show_date_filters"
 				type="list"
 				label="COM_FINDER_CONFIG_SHOW_DATE_FILTERS_LABEL"
