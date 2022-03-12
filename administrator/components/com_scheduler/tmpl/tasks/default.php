@@ -21,6 +21,11 @@ use Joomla\Component\Scheduler\Administrator\View\Tasks\HtmlView;
 
 /** @var  HtmlView  $this*/
 
+/** @var \Joomla\CMS\WebAsset\WebAssetManager $wa */
+$wa = $this->document->getWebAssetManager();
+$wa->useScript('table.columns')
+	->useScript('multiselect');
+
 Text::script('COM_SCHEDULER_TEST_RUN_TITLE');
 Text::script('COM_SCHEDULER_TEST_RUN_TASK');
 Text::script('COM_SCHEDULER_TEST_RUN_DURATION');
@@ -135,6 +140,11 @@ $wa->useScript('multiselect')
 						<?php echo Text::_('COM_SCHEDULER_TEST_TASK'); ?>
 					</th>
 
+					<!-- Priority -->
+					<th scope="col">
+						<?php echo HTMLHelper::_('searchtools.sort', 'COM_SCHEDULER_TASK_PRIORITY', 'a.priority', $listDirn, $listOrder) ?>
+					</th>
+
 					<!-- Task ID -->
 					<th scope="col" class="w-5 d-none d-md-table-cell">
 						<?php echo HTMLHelper::_('searchtools.sort', 'JGRID_HEADING_ID', 'a.id', $listDirn, $listOrder); ?>
@@ -229,6 +239,17 @@ $wa->useScript('multiselect')
 								<span class="fa fa-play fa-sm me-2"></span>
 								<?php echo Text::_('COM_SCHEDULER_TEST_RUN'); ?>
 							</button>
+						</td>
+
+						<!-- Priority -->
+						<td class="small d-none d-lg-table-cell">
+							<?php if ($item->priority === -1) : ?>
+								<span class="badge bg-info"><?php echo Text::_('COM_SCHEDULER_LABEL_TASK_PRIORITY_LOW'); ?></span>
+							<?php elseif ($item->priority === 0) : ?>
+								<span class="badge bg-success"><?php echo Text::_('COM_SCHEDULER_LABEL_TASK_PRIORITY_NORMAL'); ?></span>
+							<?php elseif ($item->priority === 1) : ?>
+								<span class="badge bg-danger"><?php echo Text::_('COM_SCHEDULER_LABEL_TASK_PRIORITY_HIGH'); ?></span>
+							<?php endif; ?>
 						</td>
 
 						<!-- Item ID -->
