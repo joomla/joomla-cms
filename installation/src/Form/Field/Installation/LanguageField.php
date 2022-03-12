@@ -107,7 +107,9 @@ class LanguageField extends ListField
 	/**
 	 * Determinate the native language to select
 	 *
-	 * @return string
+	 * @return  string  The native language to use
+	 *
+	 * @since   __DEPLOY_VERSION__
 	 */
 	protected function getNativeLanguage()
 	{
