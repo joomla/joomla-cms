@@ -17,8 +17,7 @@ use Joomla\CMS\Router\Route;
 
 /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
 $wa = $this->document->getWebAssetManager();
-$wa->useScript('multiselect')
-	->useScript('bootstrap.popover');
+$wa->useScript('multiselect');
 
 $user      = Factory::getApplication()->getIdentity();
 $userId    = $user->get('id');
