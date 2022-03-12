@@ -13,6 +13,7 @@ namespace Joomla\Component\Scheduler\Administrator\Task;
 \defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Log\Log;
 
 /**
  * The TaskOption class is used as a utility container for available plugin-provided task routines.
@@ -94,14 +95,22 @@ class TaskOption
 		// Trigger a deprecation for the 'type' property (replaced with {@see id}).
 		if ($name === 'type')
 		{
-			@trigger_error(
-				sprintf(
-					"The %1$s property is deprecated. Use %2$s instead.",
-					$name,
-					'id'
-				),
-				E_USER_DEPRECATED
-			);
+			try
+			{
+				Log::add(
+					sprintf(
+						'The %1$s property is deprecated. Use %2$s instead.',
+						$name,
+						'id'
+					),
+					Log::WARNING,
+					'deprecated'
+				);
+			}
+			catch (\RuntimeException $e)
+			{
+				// Pass
+			}
 
 			return $this->id;
 		}
