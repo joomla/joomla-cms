@@ -33,7 +33,7 @@ module.exports.patchPackages = async (options) => {
   // Patch the Font Awesome math.div sass deprecations
   // _larger.scss
   let faPath = join(mediaVendorPath, 'fontawesome-free/scss/_larger.scss');
-  let newScss = (await readFile(faPath, { encoding: 'utf8' })).replace('(4em / 3)', '(4em * .333)').replace('(3em / 4)', '(3em * .025)');
+  let newScss = (await readFile(faPath, { encoding: 'utf8' })).replace('(4em / 3)', '(4em * .333)').replace('(3em / 4)', '(3em * .25)');
   await writeFile(faPath, newScss, { encoding: 'utf8', mode: 0o644 });
   await writeFile(join(RootPath, 'node_modules/@fortawesome/fontawesome-free/scss/_larger.scss'), newScss, { encoding: 'utf8', mode: 0o644 });
   // _list.scss
