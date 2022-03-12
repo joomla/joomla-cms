@@ -152,7 +152,7 @@ class PlgUserJoomla extends CMSPlugin
 
 		// @todo: Suck in the frontend registration emails here as well. Job for a rainy day.
 		// The method check here ensures that if running as a CLI Application we don't get any errors
-		if (method_exists($this->app, 'isClient') && !$this->app->isClient('administrator'))
+		if (method_exists($this->app, 'isClient') && ($this->app->isClient('site') || $this->app->isClient('cli')))
 		{
 			return;
 		}
