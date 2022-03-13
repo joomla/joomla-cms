@@ -64,7 +64,7 @@ $wa->registerScript('tinymce', 'media/vendor/tinymce/tinymce.min.js', [], ['defe
 	->registerAndUseStyle('tinymce.skin', 'media/vendor/tinymce/skins/ui/oxide/skin.min.css')
 	->registerAndUseStyle('plg_editors_tinymce.builder', 'plg_editors_tinymce/tinymce-builder.css', [], [], ['tinymce.skin', 'dragula'])
 	->registerScript('plg_editors_tinymce.builder', 'plg_editors_tinymce/tinymce-builder.js', [], ['type' => 'module'], ['dragula'])
-	->useScript('plg_editors_tinymce')
+	->useScript('plg_editors_tinymce.builder')
 	->useStyle('webcomponent.joomla-tab')
 	->useScript('webcomponent.joomla-tab');
 
