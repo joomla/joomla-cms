@@ -183,23 +183,14 @@ class FolderlistField extends ListField
 	 */
 	protected function getOptions()
 	{
-		$options = array();
+		$options = [];
 
-		$path = $this->directory;
+ 		$path = Path::clean(strpos($this->directory, '/') === 0 ? $this->directory : (JPATH_ROOT . '/' . $this->directory));
 
-		if (!is_dir($path))
-		{
-			if (is_dir(JPATH_ROOT . '/' . $path))
-			{
-				$path = JPATH_ROOT . '/' . $path;
-			}
-			else
-			{
-				return [];
-			}
-		}
-
-		$path = Path::clean($path);
+ 		if (!is_dir($path))
+ 		{
+ 			return $options;
+ 		}
 
 		// Prepend some default options based on field attributes.
 		if (!$this->hideNone)
