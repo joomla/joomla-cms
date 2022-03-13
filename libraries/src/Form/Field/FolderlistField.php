@@ -185,12 +185,12 @@ class FolderlistField extends ListField
 	{
 		$options = [];
 		$path    = $this->directory;
-		
+
 		if (strpos($path, '/') === 0)
 		{
 			$path = JPATH_ROOT . '/' . $path;
 		}
-		
+
 		$path = Path::clean($path);
 
 		if (!is_dir($path))
