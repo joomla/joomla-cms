@@ -187,16 +187,14 @@ class FilelistField extends ListField
 	 */
 	protected function getOptions()
 	{
-		$options = array();
+		$options = [];
 
-		$path = $this->directory;
+		$path = Path::clean(strpos($this->directory, '/') === 0 ? $this->directory : (JPATH_ROOT . '/' . $this->directory));
 
 		if (!is_dir($path))
 		{
-			$path = JPATH_ROOT . '/' . $path;
+			return $options;
 		}
-
-		$path = Path::clean($path);
 
 		// Prepend some default options based on field attributes.
 		if (!$this->hideNone)
