@@ -194,7 +194,7 @@ class FilelistField extends ListField
 		{
 			$path = JPATH_ROOT . '/' . $path;
 		}
-		
+
 		$path = Path::clean($path);
 
 		if (!is_dir($path))
