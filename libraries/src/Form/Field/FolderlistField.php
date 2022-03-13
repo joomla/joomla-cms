@@ -184,8 +184,7 @@ class FolderlistField extends ListField
 	protected function getOptions()
 	{
 		$options = [];
-
-		$path = $this->directory;
+		$path    = $this->directory;
 		
 		if (strpos($path, '/') === 0)
 		{
