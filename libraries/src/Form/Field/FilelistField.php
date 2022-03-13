@@ -188,9 +188,8 @@ class FilelistField extends ListField
 	protected function getOptions()
 	{
 		$options = [];
+		$path    = $this->directory;
 
-		$path = $this->directory;
-		
 		if (strpos($path, '/') === 0)
 		{
 			$path = JPATH_ROOT . '/' . $path;
