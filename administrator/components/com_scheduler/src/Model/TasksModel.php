@@ -122,7 +122,7 @@ class TasksModel extends ListModel
 			$this->getState(
 				'list.select',
 				'a.id, a.asset_id, a.title, a.type, a.execution_rules, a.state, a.last_exit_code, a.locked' .
-				', a.last_execution, a.next_execution, a.times_executed, a.times_failed, a.ordering, a.note'
+				', a.last_execution, a.next_execution, a.times_executed, a.times_failed, a.priority, a.ordering, a.note'
 			)
 		);
 
@@ -185,7 +185,7 @@ class TasksModel extends ListModel
 			$activeRoutines = array_map(
 				static function (TaskOption $taskOption): string
 				{
-					return $taskOption->type;
+					return $taskOption->id;
 				},
 				$taskOptions->options
 			);

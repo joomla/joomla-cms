@@ -172,11 +172,11 @@ trait DisplayTrait
 		{
 			if (file_exists(JPATH_ROOT . '/media/vendor/tinymce/langs/' . $language->getTag() . (JDEBUG ? '.js' : '.min.js')))
 			{
-				$langPrefix = $language->getTag();
+				$langPrefix = $language->getTag() . (JDEBUG ? '' : '.min');
 			}
 			elseif (file_exists(JPATH_ROOT . '/media/vendor/tinymce/langs/' . substr($language->getTag(), 0, strpos($language->getTag(), '-')) . (JDEBUG ? '.js' : '.min.js')))
 			{
-				$langPrefix = substr($language->getTag(), 0, strpos($language->getTag(), '-'));
+				$langPrefix = substr($language->getTag(), 0, strpos($language->getTag(), '-')) . (JDEBUG ? '' : '.min');
 			}
 			else
 			{
@@ -377,7 +377,7 @@ trait DisplayTrait
 		{
 			$externalPlugins['jdragndrop'] = HTMLHelper::_('script', 'plg_editors_tinymce/plugins/dragdrop/plugin.min.js', ['relative' => true, 'version' => 'auto', 'pathOnly' => true]);
 			$uploadUrl                     = Uri::base(false) . 'index.php?option=com_media&format=json&url=1&task=api.files';
-			$uploadUrl                     = $this->app->isClient('site') ? htmlentities($uploadUrl, null, 'UTF-8', null) : $uploadUrl;
+			$uploadUrl                     = $this->app->isClient('site') ? htmlentities($uploadUrl, 0, 'UTF-8', 0) : $uploadUrl;
 
 			Text::script('PLG_TINY_ERR_UNSUPPORTEDBROWSER');
 			Text::script('ERROR');
@@ -436,7 +436,7 @@ trait DisplayTrait
 				'suffix'   => JDEBUG ? '' : '.min',
 				'baseURL'  => Uri::root(true) . '/media/vendor/tinymce',
 				'directionality' => $language->isRtl() ? 'rtl' : 'ltr',
-				'language' => $langPrefix . (JDEBUG ? '' : '.min'),
+				'language' => $langPrefix,
 				'autosave_restore_when_empty' => false,
 				'skin'     => $skin,
 				'theme'    => $theme,
