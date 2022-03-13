@@ -185,12 +185,12 @@ class FolderlistField extends ListField
 	{
 		$options = [];
 
- 		$path = Path::clean(strpos($this->directory, '/') === 0 ? $this->directory : (JPATH_ROOT . '/' . $this->directory));
+		$path = Path::clean(strpos($this->directory, '/') === 0 ? $this->directory : (JPATH_ROOT . '/' . $this->directory));
 
- 		if (!is_dir($path))
- 		{
- 			return $options;
- 		}
+		if (!is_dir($path))
+		{
+			return $options;
+		}
 
 		// Prepend some default options based on field attributes.
 		if (!$this->hideNone)
