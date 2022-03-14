@@ -44,7 +44,7 @@ Joomla = window.Joomla || {};
   };
 
   document.addEventListener('DOMContentLoaded', () => {
-    const confirmButton = document.getElementById('confirmButton')
+    const confirmButton = document.getElementById('confirmButton');
     const uploadButton = document.getElementById('uploadButton');
     const uploadField = document.getElementById('install_package');
     const installButton = document.querySelector('.emptystate-btnadd', document.getElementById('joomlaupdate-wrapper'));
@@ -55,9 +55,9 @@ Joomla = window.Joomla || {};
       uploadButton.addEventListener('click', Joomla.submitbuttonUpload);
     }
     if (confirmButton) {
-      updateCheck.addEventListener('change',()=>{
+      updateCheck.addEventListener('change', () => {
         confirmButton.disabled = !updateCheck.checked;
-      })
+      });
     }
     if (uploadField) {
       uploadField.addEventListener('change', Joomla.installpackageChange);
