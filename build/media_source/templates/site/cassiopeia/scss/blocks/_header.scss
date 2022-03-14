@@ -1,6 +1,7 @@
 // Header
 
 .container-header {
+  color: $white;
   position: relative;
   z-index: 10;
   background-color: var(--cassiopeia-color-primary);
@@ -9,6 +10,14 @@
 
   @include media-breakpoint-down(lg) {
     position: relative !important;
+  }
+
+  a {
+    color: $white;
+
+    &:hover, &:focus {
+      color: darken($white, 10%);
+    }
   }
 
   .grid-child {
@@ -211,16 +220,5 @@
 
   .container-search {
     margin-top: $cassiopeia-grid-gutter / 2;
-  }
-
-  .mod-finder {
-    position: relative;
-    display: flex;
-    flex: 1 0 20rem;
-    max-width: 100%;
-
-    > label {
-      @include visually-hidden();
-    }
   }
 }
