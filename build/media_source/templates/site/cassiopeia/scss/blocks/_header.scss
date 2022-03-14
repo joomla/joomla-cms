@@ -228,7 +228,7 @@
       color: var(--body-color);
 
       > ul {
-        background: linear-gradient(to bottom right, white, hsla(0,0%,100%,.9));
+        background: linear-gradient(to bottom right, $white, hsla(0,0%,100%,.9));
       }
     }
   }
