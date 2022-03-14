@@ -4,7 +4,7 @@
 
 .error_site {
   .page-header {
-    margin-top: $cassiopeia-grid-gutter;
+    margin-top: $grid-gutter-width;
   }
 }
 
@@ -13,17 +13,17 @@
 [class*=" container-"] {
   .span-col-2 {
     flex: 0 0 50%;
-    max-width: calc(50% - #{$cassiopeia-grid-gutter});
+    max-width: calc(50% - #{$grid-gutter-width});
   }
 
   .span-col-3 {
     flex: 0 0 33.333%;
-    max-width: calc(33.333% - #{$cassiopeia-grid-gutter});
+    max-width: calc(33.333% - #{$grid-gutter-width});
   }
 
   .span-col-4 {
     flex: 0 0 25%;
-    max-width: calc(25% - #{$cassiopeia-grid-gutter});
+    max-width: calc(25% - #{$grid-gutter-width});
   }
 }
 
@@ -85,9 +85,9 @@
   flex-wrap: wrap;
   width: 100%;
   padding: 0;
-  margin-right: -($cassiopeia-grid-gutter / 2);
-  margin-bottom: $cassiopeia-grid-gutter;
-  margin-left: -($cassiopeia-grid-gutter / 2);
+  margin-right: -($grid-gutter-width / 2);
+  margin-bottom: $grid-gutter-width;
+  margin-left: -($grid-gutter-width / 2);
 
   @include media-breakpoint-up(lg) {
     &.columns-2 {
@@ -113,7 +113,7 @@
 .blog-item {
   display: flex;
   flex-direction: column;
-  padding: 0 ($cassiopeia-grid-gutter / 2) $cassiopeia-grid-gutter;
+  padding: 0 ($grid-gutter-width / 2) $grid-gutter-width;
   overflow: hidden;
 
   .boxed & {
@@ -181,10 +181,10 @@
 @supports (display: grid) {
   .blog-items {
     display: grid;
-    margin: 0 0 $cassiopeia-grid-gutter;
+    margin: 0 0 $grid-gutter-width;
     grid-auto-flow: row;
     grid-template-columns: 1fr;
-    grid-gap: $cassiopeia-grid-gutter;
+    grid-gap: $grid-gutter-width;
 
     .blog-item {
       padding: 0;
@@ -220,11 +220,11 @@
   &[class^="masonry-"],
   &[class*=" masonry-"] {
     display: block;
-    column-gap: $cassiopeia-grid-gutter;
+    column-gap: $grid-gutter-width;
 
     .blog-item {
       display: inline-flex;
-      margin-bottom: $cassiopeia-grid-gutter;
+      margin-bottom: $grid-gutter-width;
       page-break-inside: avoid;
       break-inside: avoid;
     }
@@ -324,7 +324,7 @@
     }
 
     .mod-menu__sub {
-      padding-left: $cassiopeia-grid-gutter;
+      padding-left: $grid-gutter-width;
     }
   }
 }

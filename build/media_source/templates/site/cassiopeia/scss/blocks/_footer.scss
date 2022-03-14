@@ -1,7 +1,7 @@
 // Footer
 
 .footer {
-  margin-top: $cassiopeia-grid-gutter;
+  margin-top: $grid-gutter-width;
   color: $white;
   background-color: var(--cassiopeia-color-primary);
   background-image: $cassiopeia-header-grad;
@@ -9,7 +9,7 @@
   .grid-child {
     align-items: center;
     justify-content: space-between;
-    padding: 2.5rem ($cassiopeia-grid-gutter/2);
+    padding: 2.5rem ($grid-gutter-width/2);
   }
 
   a {

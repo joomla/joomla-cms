@@ -8,7 +8,7 @@ body {
 
     .site-grid {
       grid-template-columns: [full-start] minmax(0, 1fr) [main-start] repeat(4, minmax(0, 25%)) [main-end] minmax(0, 1fr) [full-end];
-      grid-gap: 0 ($cassiopeia-grid-gutter*2);
+      grid-gap: 0 ($grid-gutter-width*2);
     }
 
     .grid-child {
@@ -17,8 +17,8 @@ body {
 
     header > .grid-child,
     footer > .grid-child {
-      padding-right: $cassiopeia-grid-gutter*2;
-      padding-left: $cassiopeia-grid-gutter*2;
+      padding-right: $grid-gutter-width*2;
+      padding-left: $grid-gutter-width*2;
     }
   }
 
@@ -47,13 +47,13 @@ body {
       ". bot-a bot-a bot-a bot-a ."
       ". bot-b bot-b bot-b bot-b .";
     grid-template-columns: [full-start] minmax(0, 1fr) [main-start] repeat(4, minmax(0, 19.875rem)) [main-end] minmax(0, 1fr) [full-end];
-    grid-gap: 0 $cassiopeia-grid-gutter;
+    grid-gap: 0 $grid-gutter-width;
 
     > [class^="container-"],
     > [class*=" container-"] {
       width: 100%;
       max-width: none;
-      column-gap: $cassiopeia-grid-gutter;
+      column-gap: $grid-gutter-width;
     }
 
     > .full-width {

@@ -12,12 +12,12 @@
   }
 
   .grid-child {
-    padding: ($cassiopeia-grid-gutter / 2);
+    padding: ($grid-gutter-width / 2);
   }
 
   nav {
     padding: 0;
-    margin-top: $cassiopeia-grid-gutter / 2;
+    margin-top: $grid-gutter-width / 2;
   }
 
   .site-description {
@@ -46,12 +46,12 @@
   .container-nav {
     flex-wrap: wrap;
     justify-content: space-between;
-    padding-bottom: $cassiopeia-grid-gutter;
+    padding-bottom: $grid-gutter-width;
 
     @include media-breakpoint-down(md) {
       .container-search,
       nav {
-        margin-top: $cassiopeia-grid-gutter;
+        margin-top: $grid-gutter-width;
       }
     }
 
@@ -210,7 +210,7 @@
   }
 
   .container-search {
-    margin-top: $cassiopeia-grid-gutter / 2;
+    margin-top: $grid-gutter-width / 2;
   }
 
   .mod-finder {

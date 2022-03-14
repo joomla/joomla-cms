@@ -111,9 +111,9 @@ td .form-control {
 }
 
 fieldset {
-  margin-bottom: $cassiopeia-grid-gutter*2;
+  margin-bottom: $grid-gutter-width*2;
   + fieldset {
-    margin-top: $cassiopeia-grid-gutter*2;
+    margin-top: $grid-gutter-width*2;
   }
 
   > * {
@@ -122,7 +122,7 @@ fieldset {
 }
 
 .control-group {
-  margin: $cassiopeia-grid-gutter 0;
+  margin: $grid-gutter-width 0;
 }
 .container-popup .filter-search-bar__description {
   top: 100%;
@@ -130,5 +130,5 @@ fieldset {
 }
 
 .com-users-login__options {
-  margin-top: $cassiopeia-grid-gutter*2;
+  margin-top: $grid-gutter-width*2;
 }
