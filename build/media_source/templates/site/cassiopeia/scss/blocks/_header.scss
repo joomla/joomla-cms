@@ -3,21 +3,12 @@
 .container-header {
   position: relative;
   z-index: 10;
-  color: $white;
   background-color: var(--cassiopeia-color-primary);
   background-image: $cassiopeia-header-grad;
   box-shadow: 0 5px 5px hsla(0, 0%, 0%, .03) inset;
 
   @include media-breakpoint-down(lg) {
     position: relative !important;
-  }
-
-  a {
-    color: $white;
-
-    &:hover, &:focus {
-      color: darken($white, 10%);
-    }
   }
 
   .grid-child {
@@ -220,5 +211,17 @@
 
   .container-search {
     margin-top: $cassiopeia-grid-gutter / 2;
+  }
+
+  .mod-finder {
+    color: $white;
+
+    a {
+      color: $white;
+
+      &:hover, &:focus {
+        color: darken($white, 10%);
+      }
+    }
   }
 }
