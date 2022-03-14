@@ -223,5 +223,13 @@
         color: darken($white, 10%);
       }
     }
+
+    .awesomplete {
+      color: var(--body-color);
+
+      > ul {
+        background: linear-gradient(to bottom right, white, hsla(0,0%,100%,.9));
+      }
+    }
   }
 }
