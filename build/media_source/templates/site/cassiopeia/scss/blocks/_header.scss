@@ -1,9 +1,9 @@
 // Header
 
 .container-header {
-  color: $white;
   position: relative;
   z-index: 10;
+  color: $white;
   background-color: var(--cassiopeia-color-primary);
   background-image: $cassiopeia-header-grad;
   box-shadow: 0 5px 5px hsla(0, 0%, 0%, .03) inset;
