@@ -28,12 +28,15 @@
   }
 
   &-caption {
-    display: -webkit-box;
+    display: flex;
     margin: 0;
     overflow: hidden;
     font-size: .875rem;
-    -webkit-box-orient: vertical;
-    -webkit-line-clamp: 3;
+    @supports (display: -webkit-box) {
+      display: -webkit-box;
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp: 3;
+    }
   }
 
   &-link {
