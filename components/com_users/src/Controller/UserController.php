@@ -233,7 +233,7 @@ class UserController extends BaseController
 		}
 
 		// Show a message when a user is logged out.
-		if (Factory::getUser()->get('id') === 0)
+		if ($app->getIdentity()->guest)
 		{
 			$this->app->enqueueMessage(Text::_('COM_USERS_FRONTEND_LOGOUT_SUCCESS'), 'message');
 		}
