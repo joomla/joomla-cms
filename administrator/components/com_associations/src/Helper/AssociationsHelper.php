@@ -18,6 +18,7 @@ use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
+use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\Database\ParameterType;
 use Joomla\Registry\Registry;
@@ -332,6 +333,15 @@ class AssociationsHelper extends ContentHelper
 			$url     = Route::_('index.php?' . http_build_query($options));
 			$url     = $allow && $addLink ? $url : '';
 			$text    = $language->lang_code;
+
+			if (PluginHelper::isEnabled('system', 'languagecode'))
+			{
+				$pluginEnabled = PluginHelper::getPlugin('system', 'languagecode');
+				$params        = new Registry($pluginEnabled->params);
+				$code          = strtolower($language->lang_code);
+				$new_code      = $params->get($code);
+				$text          = $new_code ? $new_code : $language->lang_code;
+			}
 
 			$tooltip = '<strong>' . htmlspecialchars($language->title, ENT_QUOTES, 'UTF-8') . '</strong><br>'
 				. htmlspecialchars($title, ENT_QUOTES, 'UTF-8') . '<br><br>' . $additional;

@@ -11,13 +11,15 @@ namespace Joomla\Component\Categories\Administrator\Service\HTML;
 
 \defined('_JEXEC') or die;
 
+use Joomla\Component\Categories\Administrator\Helper\CategoriesHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
+use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Router\Route;
-use Joomla\Component\Categories\Administrator\Helper\CategoriesHelper;
 use Joomla\Database\ParameterType;
+use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
 
 /**
@@ -90,7 +92,17 @@ class AdministratorService
 				{
 					if (in_array($item->lang_code, $content_languages))
 					{
-						$text     = $item->lang_code;
+						$text    = $item->lang_code;
+
+						if (PluginHelper::isEnabled('system', 'languagecode'))
+						{
+							$pluginEnabled = PluginHelper::getPlugin('system', 'languagecode');
+							$params        = new Registry($pluginEnabled->params);
+							$code          = strtolower($item->lang_code);
+							$new_code      = $params->get($code);
+							$text          = $new_code ? $new_code : $item->lang_code;
+						}
+
 						$url      = Route::_('index.php?option=com_categories&task=category.edit&id=' . (int) $item->id . '&extension=' . $extension);
 						$tooltip  = '<strong>' . htmlspecialchars($item->language_title, ENT_QUOTES, 'UTF-8') . '</strong><br>'
 							. htmlspecialchars($item->title, ENT_QUOTES, 'UTF-8');

@@ -15,6 +15,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
+use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\Component\Menus\Administrator\Helper\MenusHelper;
 use Joomla\Database\ParameterType;
@@ -89,7 +90,17 @@ class Menus
 				{
 					if (in_array($item->lang_code, $content_languages))
 					{
-						$text    = $item->lang_code;
+						$text = $item->lang_code;
+
+						if (PluginHelper::isEnabled('system', 'languagecode'))
+						{
+							$pluginEnabled = PluginHelper::getPlugin('system', 'languagecode');
+							$params        = new Registry($pluginEnabled->params);
+							$code          = strtolower($item->lang_code);
+							$new_code      = $params->get($code);
+							$text          = $new_code ? $new_code : $item->lang_code;
+						}
+
 						$url     = Route::_('index.php?option=com_menus&task=item.edit&id=' . (int) $item->id);
 						$tooltip = '<strong>' . htmlspecialchars($item->language_title, ENT_QUOTES, 'UTF-8') . '</strong><br>'
 							. htmlspecialchars($item->title, ENT_QUOTES, 'UTF-8') . '<br>' . Text::sprintf('COM_MENUS_MENU_SPRINTF', $item->menu_title);

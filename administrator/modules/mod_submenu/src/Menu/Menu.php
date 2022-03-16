@@ -16,8 +16,10 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Associations;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Menu\MenuItem;
+use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Uri\Uri;
 use Joomla\Component\Menus\Administrator\Helper\MenusHelper;
+use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
 
 
@@ -229,7 +231,16 @@ abstract class Menu
 					}
 					elseif (substr($iconImage, 0, 6) === 'image:')
 					{
-						$iconImage = '&nbsp;<span class="badge bg-secondary">' . substr($iconImage, 6) . '</span>';
+						if (PluginHelper::isEnabled('system', 'languagecode'))
+						{
+							$pluginEnabled = PluginHelper::getPlugin('system', 'languagecode');
+							$params        = new Registry($pluginEnabled->params);
+							$code          = strtolower(substr($iconImage, 6));
+							$new_code      = $params->get($code);
+							$text          = $new_code ? $new_code : substr($iconImage, 6);
+						}
+
+						$iconImage = '&nbsp;<span class="badge bg-secondary">' . $text . '</span>';
 					}
 
 					$item->iconImage = $iconImage;
