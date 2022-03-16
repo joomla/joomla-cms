@@ -16,11 +16,11 @@ use Joomla\CMS\Version;
 /** @var \Joomla\CMS\Document\HtmlDocument $this */
 // Add required assets
 $this->getWebAssetManager()
-	->registerAndUseStyle('template.installation', 'template' . ($this->direction === 'rtl' ? '-rtl' : '') . '.css', ['version' => 'auto', 'relative' => true], [], [])
+	->registerAndUseStyle('template.installation', 'installation/template/css/template' . ($this->direction === 'rtl' ? '-rtl' : '') . '.css', ['version' => 'auto'], [], [])
 	->useScript('core')
 	->useScript('keepalive')
 	->useScript('form.validate')
-	->registerAndUseScript('template.installation', 'template.js', ['version' => 'auto', 'relative' => true], ['defer' => true], ['core', 'form.validate']);
+	->registerAndUseScript('template.installation', 'installation/template/js/template.js', ['version' => 'auto'], ['defer' => true], ['core', 'form.validate']);
 
 $this->getWebAssetManager()
 	->useStyle('webcomponent.joomla-alert')
