@@ -65,7 +65,6 @@ use Joomla\CMS\WebAsset\WebAssetManager;
 				$class          = ' active';
 				echo '<li class="mod-breadcrumbs__item breadcrumb-item' . $class . '">' . $breadcrumbItem . '</li>';
 			endif;
-
 		endforeach; ?>
 	</ol>
 	<?php
