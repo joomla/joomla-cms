@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_templates
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2008 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -828,7 +828,7 @@ class TemplatesModelTemplate extends JModelForm
 			$inFile       = urldecode(base64_decode($input));
 			$explodeArray = explode('/', $inFile);
 			$fileName     = end($explodeArray);
-			$outFile      = reset(explode('.', $fileName));
+			$outFile      = current(explode('.', $fileName));
 
 			$less = new JLess;
 			$less->setFormatter(new JLessFormatterJoomla);

@@ -12,5 +12,5 @@
 use Symfony\Polyfill\Php71 as p;
 
 if (!function_exists('is_iterable')) {
-    function is_iterable($var) { return p\Php71::is_iterable($var); }
+    function is_iterable($value) { return p\Php71::is_iterable($value); }
 }

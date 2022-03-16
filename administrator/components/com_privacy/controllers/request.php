@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_privacy
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2018 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -135,6 +135,9 @@ class PrivacyControllerRequest extends JControllerForm
 	 */
 	public function emailexport()
 	{
+		// Check for request forgeries.
+		$this->checkToken('get');
+
 		/** @var PrivacyModelExport $model */
 		$model = $this->getModel('Export');
 

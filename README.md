@@ -1,18 +1,18 @@
-Joomla! CMS™ [![Analytics](https://ga-beacon.appspot.com/UA-544070-3/joomla-cms/readme)](https://github.com/igrigorik/ga-beacon) 
+Joomla! CMS™ [![Analytics](https://ga-beacon.appspot.com/UA-544070-3/joomla-cms/readme)](https://github.com/igrigorik/ga-beacon)
 ====================
 
 Build Status
 ---------------------
 | Drone-CI | AppVeyor |
 | ------------- | ------------- |
-|  [![Build Status](https://ci.joomla.org/api/badges/joomla/joomla-cms/status.svg)](https://ci.joomla.org/joomla/joomla-cms)  | [![Build status](https://ci.appveyor.com/api/projects/status/ru6sxal8jmfckvjc/branch/staging?svg=true)](https://ci.appveyor.com/project/release-joomla/joomla-cms)  |
+|  [![Build Status](https://ci.joomla.org/api/badges/joomla/joomla-cms/status.svg)](https://ci.joomla.org/joomla/joomla-cms)  | [![Build status](https://ci.appveyor.com/api/projects/status/ru6sxal8jmfckvjc/branch/3.10-dev?svg=true)](https://ci.appveyor.com/project/release-joomla/joomla-cms)  |
 
 What is this?
 ---------------------
 * This is a Joomla! 3.x installation/upgrade package.
 * Joomla's [Official website](https://www.joomla.org).
-* Joomla! 3.9 [version history](https://docs.joomla.org/Special:MyLanguage/Joomla_3.9_version_history).
-* Detailed changes are in the [changelog](https://github.com/joomla/joomla-cms/commits/staging).
+* Joomla! 3.10 [version history](https://docs.joomla.org/Special:MyLanguage/Joomla_3.10_version_history).
+* Detailed changes are in the [changelog](https://github.com/joomla/joomla-cms/commits/3.10-dev).
 
 What is Joomla?
 ---------------------
@@ -51,7 +51,7 @@ Is it easy to change the layout display?
 
 Ready to install Joomla?
 ---------------------
-* Check the [minimum requirements](https://downloads.joomla.org/technical-requirements). 
+* Check the [minimum requirements](https://downloads.joomla.org/technical-requirements).
 * How do you [install Joomla](https://docs.joomla.org/Special:MyLanguage/J3.x:Installing_Joomla)?
 * You could start your Joomla! experience by [building your site on a local test server](https://docs.joomla.org/Special:MyLanguage/Installing_Joomla_locally).
 When ready, it can be moved to an online hosting account of your choice.
@@ -67,7 +67,7 @@ Where can you get support and help?
 * Find the [information you need](https://docs.joomla.org/Special:MyLanguage/Start_here).
 * Find [help and other users](https://www.joomla.org/about-joomla/create-and-share.html).
 * Post questions at [our forums](https://forum.joomla.org).
-* [Joomla Resources Directory](https://resources.joomla.org) (JRD).
+* [Joomla Resources Directory](https://community.joomla.org/service-providers-directory/) (JRD).
 
 Do you already have a Joomla! site that isn't built with Joomla! 3.x?
 ---------------------
@@ -86,6 +86,6 @@ Do you want to improve Joomla?
 
 Copyright
 ---------------------
-* Copyright (C) 2005 - 2020 Open Source Matters. All rights reserved.
+* Copyright (C) 2005 - 2021 Open Source Matters. All rights reserved.
 * Distributed under the GNU General Public License version 2 or later
 * See [License details](https://docs.joomla.org/Special:MyLanguage/Joomla_Licenses)

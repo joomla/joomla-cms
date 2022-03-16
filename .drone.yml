@@ -11,6 +11,8 @@ steps:
   image: joomlaprojects/docker-images:php7.4
   commands:
   - php -v
+  - git config --global url."git://".insteadOf https://
+  - git config --global url."ssh://".insteadOf https://
   - composer install
   - composer require phpmd/phpmd
   volumes:
@@ -694,34 +696,7 @@ steps:
     HTTP_ROOT: https://ci.joomla.org/artifacts
 
 ---
-kind: pipeline
-name: Rips
-
-platform:
-  os: linux
-  arch: amd64
-
-steps:
-- name: analysis3x
-  image: rips/rips-cli:3.2.2
-  commands:
-  - export RIPS_BASE_URI='https://api.rips.joomla.org'
-  - rips-cli rips:list --table=scans --parameter filter='{"__and":[{"__lessThan":{"percent":100}}]}'
-  - rips-cli rips:scan:start --progress --application=1 --threshold=0 --path=$(pwd) --remove-code --remove-upload --tag=$DRONE_REPO_NAMESPACE-$DRONE_BRANCH || { echo "Please contact the security team at security@joomla.org"; exit 1; }
-  environment:
-    RIPS_EMAIL:
-      from_secret: RIPS_EMAIL
-    RIPS_PASSWORD:
-      from_secret: RIPS_PASSWORD
-  when:
-    branch:
-    - staging
-    repo:
-    - joomla/joomla-cms
-    - joomla/cms-security
-
----
 kind: signature
-hmac: 891055d296eb627e4c15bb3a6e672a3171d33e74f73d916075cf384b5c9a552e
+hmac: 3c5994d3c3278a6443da81dbed98b9f3d0abfdfa1dba4c1f20a2372bb6c3cfa5
 
 ...

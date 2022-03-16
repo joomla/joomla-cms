@@ -31,7 +31,7 @@ class PHPMailer
      * The PHPMailer Version number.
      * @var string
      */
-    public $Version = '5.2.28';
+    public $Version = '5.2.28+joomla2';
 
     /**
      * Email priority.
@@ -687,6 +687,12 @@ class PHPMailer
      */
     private function mailPassthru($to, $subject, $body, $header, $params)
     {
+        // Joomla Backported concept from https://github.com/PHPMailer/PHPMailer/pull/2188
+        if (PHP_VERSION_ID >= 80000 || stripos(PHP_OS, 'WIN') === 0)
+        {
+            $header = str_replace("\n", self::CRLF, $header);
+        }
+        
         //Check overloading of mail function to avoid double-encoding
         if (ini_get('mbstring.func_overload') & 1) {
             $subject = $this->secureHeader($subject);
@@ -1072,7 +1078,8 @@ class PHPMailer
         if (is_null($patternselect)) {
             $patternselect = self::$validator;
         }
-        if (is_callable($patternselect)) {
+        //Don't allow strings as callables, see CVE-2021-3603
+        if (is_callable($patternselect) && !is_string($patternselect)) {
             return call_user_func($patternselect, $address);
         }
         //Reject line breaks in addresses; it's valid RFC5322, but not RFC5321
@@ -1809,9 +1816,27 @@ class PHPMailer
             if (!self::isPermittedPath($lang_file) or !is_readable($lang_file)) {
                 $foundlang = false;
             } else {
-                // Overwrite language-specific strings.
-                // This way we'll never have missing translation keys.
-                $foundlang = include $lang_file;
+                //$foundlang = include $lang_file;
+                $lines = file($lang_file);
+                foreach ($lines as $line) {
+                    //Translation file lines look like this:
+                    //$PHPMAILER_LANG['authenticate'] = 'SMTP-Fehler: Authentifizierung fehlgeschlagen.';
+                    //These files are parsed as text and not PHP so as to avoid the possibility of code injection
+                    //See https://blog.stevenlevithan.com/archives/match-quoted-string
+                    $matches = array();
+                    if (
+                        preg_match(
+                            '/^\$PHPMAILER_LANG\[\'([a-z\d_]+)\'\]\s*=\s*(["\'])(.+)*?\2;/',
+                            $line,
+                            $matches
+                        ) &&
+                        //Ignore unknown translation keys
+                        array_key_exists($matches[1], $PHPMAILER_LANG)
+                    ) {
+                        //Overwrite language-specific strings so we'll never have missing translation keys.
+                        $PHPMAILER_LANG[$matches[1]] = (string)$matches[3];
+                    }
+                }
             }
         }
         $this->language = $PHPMAILER_LANG;
@@ -2620,9 +2645,9 @@ class PHPMailer
                 //Only include a filename property if we have one
                 if (!empty($name)) {
                     $mime[] = sprintf(
-                        'Content-Type: %s; name="%s"%s',
+                        'Content-Type: %s; name=%s%s',
                         $type,
-                        $this->encodeHeader($this->secureHeader($name)),
+                        $this->quotedString($this->encodeHeader($this->secureHeader($name))),
                         $this->LE
                     );
                 } else {
@@ -2641,34 +2666,22 @@ class PHPMailer
                     $mime[] = sprintf('Content-ID: <%s>%s', $cid, $this->LE);
                 }
 
-                // If a filename contains any of these chars, it should be quoted,
-                // but not otherwise: RFC2183 & RFC2045 5.1
-                // Fixes a warning in IETF's msglint MIME checker
-                // Allow for bypassing the Content-Disposition header totally
+                // Allow for bypassing the Content-Disposition header
                 if (!(empty($disposition))) {
                     $encoded_name = $this->encodeHeader($this->secureHeader($name));
-                    if (preg_match('/[ \(\)<>@,;:\\"\/\[\]\?=]/', $encoded_name)) {
+                    if (!empty($encoded_name)) {
                         $mime[] = sprintf(
-                            'Content-Disposition: %s; filename="%s"%s',
+                            'Content-Disposition: %s; filename=%s%s',
                             $disposition,
-                            $encoded_name,
+                            $this->quotedString($encoded_name),
                             $this->LE . $this->LE
                         );
                     } else {
-                        if (!empty($encoded_name)) {
-                            $mime[] = sprintf(
-                                'Content-Disposition: %s; filename=%s%s',
-                                $disposition,
-                                $encoded_name,
-                                $this->LE . $this->LE
-                            );
-                        } else {
-                            $mime[] = sprintf(
-                                'Content-Disposition: %s%s',
-                                $disposition,
-                                $this->LE . $this->LE
-                            );
-                        }
+                        $mime[] = sprintf(
+                            'Content-Disposition: %s%s',
+                            $disposition,
+                            $this->LE . $this->LE
+                        );
                     }
                 } else {
                     $mime[] = $this->LE;
@@ -3970,6 +3983,28 @@ class PHPMailer
     {
         //+2 to include CRLF line break for a 1000 total
         return (boolean)preg_match('/^(.{'.(self::MAX_LINE_LENGTH + 2).',})/m', $str);
+    }
+
+    /**
+     * If a string contains any "special" characters, double-quote the name,
+     * and escape any double quotes with a backslash.
+     *
+     * @param string $str
+     *
+     * @return string
+     *
+     * @see RFC822 3.4.1
+     */
+    public function quotedString($str)
+    {
+        if (preg_match('/[ ()<>@,;:"\/\[\]?=]/', $str)) {
+            //If the string contains any of these chars, it must be double-quoted
+            //and any double quotes must be escaped with a backslash
+            return '"' . str_replace('"', '\\"', $str) . '"';
+        }
+
+        //Return the string untouched, it doesn't need quoting
+        return $str;
     }
 
     /**
