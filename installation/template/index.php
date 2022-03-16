@@ -16,7 +16,7 @@ use Joomla\CMS\Version;
 /** @var \Joomla\CMS\Document\HtmlDocument $this */
 // Add required assets
 $this->getWebAssetManager()
-	->registerAndUseStyle('template.installation', 'installation/template/js/template' . ($this->direction === 'rtl' ? '-rtl' : '') . '.css')
+	->registerAndUseStyle('template.installation', 'installation/template/css/template' . ($this->direction === 'rtl' ? '-rtl' : '') . '.css')
 	->useScript('core')
 	->useScript('keepalive')
 	->useScript('form.validate')
