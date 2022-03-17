@@ -46,10 +46,10 @@ class ListField extends FormField
 	protected $layout = 'joomla.form.field.list';
 
 	/**
-	 * Does the list has showOn
+	 * Does the list have showOn
 	 *
 	 * @var    boolean
-	 * @since  4.1.1
+	 * @since  __DEPLOY_VERSION__
 	 */
 	protected $hasShowOn = false;
 
