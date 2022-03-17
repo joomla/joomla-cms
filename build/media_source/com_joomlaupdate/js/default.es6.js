@@ -59,7 +59,7 @@ Joomla = window.Joomla || {};
     }
     if (confirmButton && updateCheck) {
       updateCheck.addEventListener('change', () => {
-        if(updateCheck.checked) {
+        if (updateCheck.checked) {
           confirmButton.className = 'btn btn-primary btn-lg px-4 me-sm-3 emptystate-btnadd';
         } else {
           confirmButton.className = 'btn btn-primary btn-lg px-4 me-sm-3 emptystate-btnadd disabled';
