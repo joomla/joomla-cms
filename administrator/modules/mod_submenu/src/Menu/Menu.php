@@ -53,6 +53,12 @@ abstract class Menu
 		 */
 		$app->triggerEvent('onPreprocessMenuItems', array('administrator.module.mod_submenu', $children));
 
+		// Get languagecode params
+		if (PluginHelper::isEnabled('system', 'languagecode'))
+		{
+			$languageCodeParams = new Registry(PluginHelper::getPlugin('system', 'languagecode')->params);
+		}
+
 		foreach ($children as $item)
 		{
 			if (substr($item->link, 0, 8) === 'special:')
@@ -231,12 +237,10 @@ abstract class Menu
 					}
 					elseif (substr($iconImage, 0, 6) === 'image:')
 					{
-						if (PluginHelper::isEnabled('system', 'languagecode'))
+						if ($languageCodeParams)
 						{
-							$pluginEnabled = PluginHelper::getPlugin('system', 'languagecode');
-							$params        = new Registry($pluginEnabled->params);
-							$new_code      = $params->get(strtolower(substr($iconImage, 6)));
-							$text          = $new_code ?: substr($iconImage, 6);
+							$new_code = $languageCodeParams->get(strtolower(substr($iconImage, 6)));
+							$text     = $new_code ?: substr($iconImage, 6);
 						}
 
 						$iconImage = '&nbsp;<span class="badge bg-secondary">' . $text . '</span>';
