@@ -16,8 +16,6 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\Component\Media\Administrator\Adapter\AdapterInterface;
 use Joomla\Component\Media\Administrator\Event\MediaProviderEvent;
-use Joomla\Component\Media\Administrator\Provider\ProviderInterface;
-use Joomla\Component\Media\Administrator\Provider\ProviderManager;
 
 /**
  * Trait for classes that need adapters.
@@ -101,7 +99,7 @@ trait ProviderManagerHelperTrait
 	 *
 	 * @throws  \InvalidArgumentException
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.1.0
 	 */
 	protected function resolveAdapterAndPath(String $path): array
 	{
