@@ -274,13 +274,15 @@ class PlgSystemRedirect extends JPlugin
 
 				$oldUrlParts = parse_url($redirect->old_url);
 
+				$newUrl = $redirect->new_url;
+
 				if ($urlQuery !== '' && empty($oldUrlParts['query']))
 				{
-					$redirect->new_url .= '?' . $urlQuery;
+					$newUrl .= '?' . $urlQuery;
 				}
 
-				$dest = JUri::isInternal($redirect->new_url) || strpos($redirect->new_url, 'http') === false ?
-					JRoute::_($redirect->new_url) : $redirect->new_url;
+				$dest = JUri::isInternal($newUrl) || strpos($newUrl, 'http') === false ?
+					JRoute::_($newUrl) : $newUrl;
 
 				// In case the url contains double // lets remove it
 				$destination = str_replace(JUri::root() . '/', JUri::root(), $dest);
