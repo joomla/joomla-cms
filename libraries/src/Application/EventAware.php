@@ -104,7 +104,7 @@ trait EventAware
 		}
 		elseif (\is_array($args))
 		{
-			$className = $this->getEventClassByEventName($eventName);
+			$className = self::getEventClassByEventName($eventName);
 			$event     = new $className($eventName, $args);
 		}
 		else

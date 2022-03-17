@@ -110,7 +110,7 @@ trait CoreEventAware
 	 * @return  string The event class name
 	 * @since __DEPLOY_VERSION__
 	 */
-	protected function getEventClassByEventName(string $eventName): string
+	protected static function getEventClassByEventName(string $eventName): string
 	{
 		if (strpos($eventName, 'onWebAssetRegistryChangedAsset') === 0)
 		{
