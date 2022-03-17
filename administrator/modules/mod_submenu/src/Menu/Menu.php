@@ -235,9 +235,8 @@ abstract class Menu
 						{
 							$pluginEnabled = PluginHelper::getPlugin('system', 'languagecode');
 							$params        = new Registry($pluginEnabled->params);
-							$code          = strtolower(substr($iconImage, 6));
-							$new_code      = $params->get($code);
-							$text          = $new_code ? $new_code : substr($iconImage, 6);
+							$new_code      = $params->get(strtolower(substr($iconImage, 6)));
+							$text          = $new_code ?: substr($iconImage, 6);
 						}
 
 						$iconImage = '&nbsp;<span class="badge bg-secondary">' . $text . '</span>';

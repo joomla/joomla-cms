@@ -86,19 +86,22 @@ class Menus
 				$languages = LanguageHelper::getContentLanguages(array(0, 1));
 				$content_languages = array_column($languages, 'lang_code');
 
+				// Get languagecode params
+				if (PluginHelper::isEnabled('system', 'languagecode'))
+				{
+					$languageCodeParams = new Registry(PluginHelper::getPlugin('system', 'languagecode')->params);
+				}
+
 				foreach ($items as &$item)
 				{
 					if (in_array($item->lang_code, $content_languages))
 					{
 						$text = $item->lang_code;
 
-						if (PluginHelper::isEnabled('system', 'languagecode'))
+						if ($languageCodeParams)
 						{
-							$pluginEnabled = PluginHelper::getPlugin('system', 'languagecode');
-							$params        = new Registry($pluginEnabled->params);
-							$code          = strtolower($item->lang_code);
-							$new_code      = $params->get($code);
-							$text          = $new_code ? $new_code : $item->lang_code;
+							$new_code = $languageCodeParams->get(strtolower($item->lang_code));
+							$text     = $new_code ?: $item->lang_code;
 						}
 
 						$url     = Route::_('index.php?option=com_menus&task=item.edit&id=' . (int) $item->id);
