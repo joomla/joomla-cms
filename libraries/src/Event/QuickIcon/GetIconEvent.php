@@ -35,7 +35,7 @@ class GetIconEvent extends AbstractImmutableEvent implements ResultAwareInterfac
 	 * @param   string  $name       The event name.
 	 * @param   array   $arguments  The event arguments.
 	 *
-	 * @since   4.0.0
+	 * @since   __DEPLOY_VERSION__
 	 * @throws  BadMethodCallException
 	 */
 	public function __construct(string $name, array $arguments = [])
