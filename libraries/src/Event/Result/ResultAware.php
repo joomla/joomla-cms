@@ -82,7 +82,7 @@ trait ResultAware
 	 *
 	 * @param   array  $value  The new result array.
 	 *
-	 * @return  void
+	 * @return  array
 	 * @since   __DEPLOY_VERSION__
 	 */
 	protected function setResult(array $value)
