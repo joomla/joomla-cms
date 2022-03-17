@@ -64,7 +64,7 @@ trait ReshapeArgumentsAware
 	 *
 	 * @return  array  The reshaped arguments.
 	 *
-	 * @since   __DEPLOY_VERSION_
+	 * @since   __DEPLOY_VERSION__
 	 */
 	protected function reshapeArguments(array $arguments, array $argumentNames, array $defaults = [])
 	{

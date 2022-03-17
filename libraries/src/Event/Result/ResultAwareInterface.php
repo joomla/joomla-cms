@@ -23,7 +23,7 @@ use InvalidArgumentException;
  * trait and one of the ResultType*Aware traits. For example, if your event returns boolean results
  * you need to use the ResultAware and ResultTypeBooleanAware traits in your event.
  *
- * @since __DEPLOY_VERSION_
+ * @since __DEPLOY_VERSION__
  */
 interface ResultAwareInterface
 {
