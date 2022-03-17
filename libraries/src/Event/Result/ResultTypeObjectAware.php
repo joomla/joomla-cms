@@ -85,9 +85,9 @@ trait ResultTypeObjectAware
 
 		foreach ($this->resultAcceptableClasses as $className)
 		{
-			if (is_a($object, $className))
+			if (is_a($data, $className))
 			{
-				return true;
+				return;
 			}
 		}
 
