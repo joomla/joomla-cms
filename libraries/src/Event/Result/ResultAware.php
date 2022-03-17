@@ -96,5 +96,7 @@ trait ResultAware
 		$latestValue = array_pop($value);
 
 		$this->addResult($latestValue);
+
+		return $this->arguments['result'];
 	}
 }
