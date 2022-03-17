@@ -279,10 +279,10 @@ class AssociationsHelper extends ContentHelper
 
 					// Get the category name
 					$query = $db->getQuery(true)
-					->select($db->quoteName('title'))
-					->from($db->quoteName('#__categories'))
-					->where($db->quoteName('id') . ' = :id')
-					->bind(':id', $items[$langCode]['catid'], ParameterType::INTEGER);
+						->select($db->quoteName('title'))
+						->from($db->quoteName('#__categories'))
+						->where($db->quoteName('id') . ' = :id')
+						->bind(':id', $items[$langCode]['catid'], ParameterType::INTEGER);
 
 					$db->setQuery($query);
 					$categoryTitle = $db->loadResult();
@@ -295,10 +295,10 @@ class AssociationsHelper extends ContentHelper
 
 					// Get the menutype name
 					$query = $db->getQuery(true)
-					->select($db->quoteName('title'))
-					->from($db->quoteName('#__menu_types'))
-					->where($db->quoteName('menutype') . ' = :menutype')
-					->bind(':menutype', $items[$langCode]['menutype']);
+						->select($db->quoteName('title'))
+						->from($db->quoteName('#__menu_types'))
+						->where($db->quoteName('menutype') . ' = :menutype')
+						->bind(':menutype', $items[$langCode]['menutype']);
 
 					$db->setQuery($query);
 					$menutypeTitle = $db->loadResult();
@@ -309,8 +309,8 @@ class AssociationsHelper extends ContentHelper
 				$labelClass  = 'bg-secondary';
 				$target      = $langCode . ':' . $items[$langCode]['id'] . ':edit';
 				$allow       = $canEditReference
-				&& self::allowEdit($extensionName, $typeName, $items[$langCode]['id'])
-				&& self::canCheckinItem($extensionName, $typeName, $items[$langCode]['id']);
+								&& self::allowEdit($extensionName, $typeName, $items[$langCode]['id'])
+								&& self::canCheckinItem($extensionName, $typeName, $items[$langCode]['id']);
 
 				$additional .= $addLink && $allow ? Text::_('COM_ASSOCIATIONS_EDIT_ASSOCIATION') : '';
 			}
@@ -327,13 +327,13 @@ class AssociationsHelper extends ContentHelper
 
 			// Generate item Html.
 			$options   = array(
-					'option'   => 'com_associations',
-					'view'     => 'association',
-					'layout'   => 'edit',
-					'itemtype' => $extensionName . '.' . $typeName,
-					'task'     => 'association.edit',
-					'id'       => $itemId,
-					'target'   => $target,
+				'option'   => 'com_associations',
+				'view'     => 'association',
+				'layout'   => 'edit',
+				'itemtype' => $extensionName . '.' . $typeName,
+				'task'     => 'association.edit',
+				'id'       => $itemId,
+				'target'   => $target,
 			);
 
 			$url  = Route::_('index.php?' . http_build_query($options));
@@ -347,11 +347,11 @@ class AssociationsHelper extends ContentHelper
 			}
 
 			$tooltip = '<strong>' . htmlspecialchars($language->title, ENT_QUOTES, 'UTF-8') . '</strong><br>'
-					. htmlspecialchars($title, ENT_QUOTES, 'UTF-8') . '<br><br>' . $additional;
-					$classes = 'badge ' . $labelClass;
+				. htmlspecialchars($title, ENT_QUOTES, 'UTF-8') . '<br><br>' . $additional;
+			$classes = 'badge ' . $labelClass;
 
-					$items[$langCode]['link'] = '<a href="' . $url . '" class="' . $classes . '">' . $text . '</a>'
-							. '<div role="tooltip">' . $tooltip . '</div>';
+			$items[$langCode]['link'] = '<a href="' . $url . '" class="' . $classes . '">' . $text . '</a>'
+				. '<div role="tooltip">' . $tooltip . '</div>';
 		}
 
 		return LayoutHelper::render('joomla.content.associations', $items);
@@ -487,10 +487,10 @@ class AssociationsHelper extends ContentHelper
 		$db = Factory::getDbo();
 
 		$query = $db->getQuery(true)
-		->select('*')
-		->from($db->quoteName('#__extensions'))
-		->where($db->quoteName('type') . ' = ' . $db->quote('component'))
-		->where($db->quoteName('enabled') . ' = 1');
+			->select('*')
+			->from($db->quoteName('#__extensions'))
+			->where($db->quoteName('type') . ' = ' . $db->quote('component'))
+			->where($db->quoteName('enabled') . ' = 1');
 
 		$db->setQuery($query);
 
@@ -704,10 +704,10 @@ class AssociationsHelper extends ContentHelper
 	{
 		$db    = Factory::getDbo();
 		$query = $db->getQuery(true)
-		->select($db->quoteName('extension_id'))
-		->from($db->quoteName('#__extensions'))
-		->where($db->quoteName('folder') . ' = ' . $db->quote('system'))
-		->where($db->quoteName('element') . ' = ' . $db->quote('languagefilter'));
+			->select($db->quoteName('extension_id'))
+			->from($db->quoteName('#__extensions'))
+			->where($db->quoteName('folder') . ' = ' . $db->quote('system'))
+			->where($db->quoteName('element') . ' = ' . $db->quote('languagefilter'));
 		$db->setQuery($query);
 
 		try
