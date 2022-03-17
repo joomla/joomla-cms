@@ -44,8 +44,8 @@ $btnadd     = $displayData['btnadd'] ?? Text::_($textPrefix . '_EMPTYSTATE_BUTTO
 			</p>
 			<div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
 				<?php if ($createURL && Factory::getApplication()->input->get('tmpl') !== 'component') : ?>
-					<button href="<?php echo Route::_($createURL); ?>"
-					type="button" id="confirmButton" class="btn btn-primary btn-lg px-4 me-sm-3 emptystate-btnadd" disabled><?php echo $btnadd; ?></button>
+					<a href="<?php echo Route::_($createURL); ?>"
+					 id="confirmButton" class="btn btn-primary btn-lg px-4 me-sm-3 emptystate-btnadd"><?php echo $btnadd; ?></a>
 				<?php endif; ?>
 				<?php if ($helpURL) : ?>
 					<a href="<?php echo $helpURL; ?>" target="_blank"
