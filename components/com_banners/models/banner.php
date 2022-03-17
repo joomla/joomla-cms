@@ -78,7 +78,8 @@ class BannersModelBanner extends JModelLegacy
 
 		if ($trackClicks > 0)
 		{
-			$trackDate = JFactory::getDate()->toSql();
+			$trackDate = JFactory::getDate()->format('Y-m-d H:00:00');
+			$trackDate = JFactory::getDate($trackDate)->toSql();
 
 			$query->clear()
 				->select($db->quoteName('count'))
