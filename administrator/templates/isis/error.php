@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  Templates.isis
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2012 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -31,8 +31,8 @@ $option   = $input->get('option', '');
 $view     = $input->get('view', '');
 $layout   = $input->get('layout', '');
 $task     = $input->get('task', '');
-$itemid   = $input->get('Itemid', '', 'int');
-$sitename = $app->get('sitename');
+$itemid   = $input->get('Itemid', 0, 'int');
+$sitename = htmlspecialchars($app->get('sitename'), ENT_QUOTES, 'UTF-8');
 
 $cpanel = ($option === 'com_cpanel');
 
@@ -41,7 +41,7 @@ $this->submenumodules = JModuleHelper::getModules('submenu');
 foreach ($this->submenumodules as $submenumodule)
 {
 	$output = JModuleHelper::renderModule($submenumodule);
-	if (strlen($output))
+	if ($output !== '')
 	{
 		$showSubmenu = true;
 		break;
@@ -51,7 +51,7 @@ foreach ($this->submenumodules as $submenumodule)
 // Logo file
 if ($params->get('logoFile'))
 {
-	$logo = JUri::root() . $params->get('logoFile');
+	$logo = htmlspecialchars(JUri::root() . $params->get('logoFile'), ENT_QUOTES, 'UTF-8');
 }
 else
 {
@@ -160,7 +160,7 @@ $stickyToolbar = $params->get('stickyToolbar', '1');
 								<li>
 									<span>
 										<span class="icon-user"></span>
-										<strong><?php echo $user->name; ?></strong>
+										<strong><?php echo htmlspecialchars($user->name, ENT_QUOTES, 'UTF-8'); ?></strong>
 									</span>
 								</li>
 								<li class="divider"></li>
@@ -192,7 +192,7 @@ $stickyToolbar = $params->get('stickyToolbar', '1');
 			<h1 class="page-title"><?php echo JText::_('ERROR'); ?></h1>
 		</div>
 	</header>
-	<?php if ((!$statusFixed) && ($this->getInstance()->countModules('status'))) : ?>
+	<?php if (!$statusFixed && $this->getInstance()->countModules('status')) : ?>
 		<!-- Begin Status Module -->
 		<div id="status" class="navbar status-top hidden-phone">
 			<div class="btn-toolbar">
@@ -224,6 +224,9 @@ $stickyToolbar = $params->get('stickyToolbar', '1');
 					<h1 class="page-header"><?php echo JText::_('JERROR_AN_ERROR_HAS_OCCURRED'); ?></h1>
 					<blockquote>
 						<span class="label label-inverse"><?php echo $this->error->getCode(); ?></span> <?php echo htmlspecialchars($this->error->getMessage(), ENT_QUOTES, 'UTF-8');?>
+						<?php if ($this->debug) : ?>
+							<br/><?php echo htmlspecialchars($this->error->getFile(), ENT_QUOTES, 'UTF-8');?>:<?php echo $this->error->getLine(); ?>
+						<?php endif; ?>
 					</blockquote>
 					<?php if ($this->debug) : ?>
 						<div>
@@ -236,7 +239,10 @@ $stickyToolbar = $params->get('stickyToolbar', '1');
 								<?php $this->setError($this->_error->getPrevious()); ?>
 								<?php while ($loop === true) : ?>
 									<p><strong><?php echo JText::_('JERROR_LAYOUT_PREVIOUS_ERROR'); ?></strong></p>
-									<p><?php echo htmlspecialchars($this->_error->getMessage(), ENT_QUOTES, 'UTF-8'); ?></p>
+									<p>
+										<?php echo htmlspecialchars($this->_error->getMessage(), ENT_QUOTES, 'UTF-8'); ?>
+										<br/><?php echo htmlspecialchars($this->_error->getFile(), ENT_QUOTES, 'UTF-8');?>:<?php echo $this->_error->getLine(); ?>
+									</p>
 									<?php echo $this->renderBacktrace(); ?>
 									<?php $loop = $this->setError($this->_error->getPrevious()); ?>
 								<?php endwhile; ?>

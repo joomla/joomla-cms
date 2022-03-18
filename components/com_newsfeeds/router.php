@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_newsfeeds
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2006 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -65,6 +65,7 @@ class NewsfeedsRouter extends JComponentRouterView
 	public function getCategorySegment($id, $query)
 	{
 		$category = JCategories::getInstance($this->getName())->get($id);
+
 		if ($category)
 		{
 			$path = array_reverse($category->getPath(), true);
@@ -141,22 +142,25 @@ class NewsfeedsRouter extends JComponentRouterView
 	{
 		if (isset($query['id']))
 		{
-			$category = JCategories::getInstance($this->getName())->get($query['id']);
+			$category = JCategories::getInstance($this->getName(), array('access' => false))->get($query['id']);
 
-			foreach ($category->getChildren() as $child)
+			if ($category)
 			{
-				if ($this->noIDs)
+				foreach ($category->getChildren() as $child)
 				{
-					if ($child->alias == $segment)
+					if ($this->noIDs)
 					{
-						return $child->id;
+						if ($child->alias === $segment)
+						{
+							return $child->id;
+						}
 					}
-				}
-				else
-				{
-					if ($child->id == (int) $segment)
+					else
 					{
-						return $child->id;
+						if ($child->id == (int) $segment)
+						{
+							return $child->id;
+						}
 					}
 				}
 			}

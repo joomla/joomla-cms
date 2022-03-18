@@ -3,11 +3,11 @@
  * @package     Joomla.Site
  * @subpackage  Layout
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2014 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('JPATH_BASE') or die;
+defined('_JEXEC') or die;
 
 use Joomla\Registry\Registry;
 
@@ -65,7 +65,7 @@ if ($currentPage >= $step)
 			<?php foreach ($pages['pages'] as $k => $page) : ?>
 
 				<?php $output = JLayoutHelper::render('joomla.pagination.link', $page); ?>
-				<?php if (in_array($k, range($range * $step - ($step + 1), $range * $step))) : ?>
+				<?php if (in_array($k, range($range * $step - ($step + 1), $range * $step), true)) : ?>
 					<?php if (($k % $step === 0 || $k === $range * $step - ($step + 1)) && $k !== $currentPage && $k !== $range * $step - $step) : ?>
 						<?php $output = preg_replace('#(<a.*?>).*?(</a>)#', '$1...$2', $output); ?>
 					<?php endif; ?>

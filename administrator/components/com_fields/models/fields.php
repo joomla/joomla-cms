@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_fields
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2016 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 defined('_JEXEC') or die;
@@ -44,7 +44,7 @@ class FieldsModelFields extends JModelList
 				'checked_out_time', 'a.checked_out_time',
 				'created_time', 'a.created_time',
 				'created_user_id', 'a.created_user_id',
-				'category_title',
+				'group_title', 'g.title',
 				'category_id', 'a.category_id',
 				'group_id', 'a.group_id',
 				'assigned_cat_ids'
@@ -133,7 +133,7 @@ class FieldsModelFields extends JModelList
 		$query->select(
 			$this->getState(
 				'list.select',
-				'a.id, a.title, a.name, a.checked_out, a.checked_out_time, a.note' .
+				'DISTINCT a.id, a.title, a.name, a.checked_out, a.checked_out_time, a.note' .
 				', a.state, a.access, a.created_time, a.created_user_id, a.ordering, a.language' .
 				', a.fieldparams, a.params, a.type, a.default_value, a.context, a.group_id' .
 				', a.label, a.description, a.required'
@@ -155,7 +155,7 @@ class FieldsModelFields extends JModelList
 		$query->select('ua.name AS author_name')->join('LEFT', '#__users AS ua ON ua.id = a.created_user_id');
 
 		// Join over the field groups.
-		$query->select('g.title AS group_title, g.access as group_access, g.state AS group_state');
+		$query->select('g.title AS group_title, g.access as group_access, g.state AS group_state, g.note as group_note');
 		$query->join('LEFT', '#__fields_groups AS g ON g.id = a.group_id');
 
 		// Filter by context
@@ -187,7 +187,13 @@ class FieldsModelFields extends JModelList
 			if ($parts)
 			{
 				// Get the category
-				$cat = JCategories::getInstance(str_replace('com_', '', $parts[0]));
+				$cat = JCategories::getInstance(str_replace('com_', '', $parts[0]) . '.' . $parts[1]);
+
+				// If there is no category for the component and section, so check the component only
+				if (!$cat)
+				{
+					$cat = JCategories::getInstance(str_replace('com_', '', $parts[0]));
+				}
 
 				if ($cat)
 				{
@@ -214,8 +220,7 @@ class FieldsModelFields extends JModelList
 			$categories = array_unique($categories);
 
 			// Join over the assigned categories
-			$query->join('LEFT', $db->quoteName('#__fields_categories') . ' AS fc ON fc.field_id = a.id')
-			->group('a.id, l.title, l.image, uc.name, ag.title, ua.name, g.title, g.access, g.state');
+			$query->join('LEFT', $db->quoteName('#__fields_categories') . ' AS fc ON fc.field_id = a.id');
 
 			if (in_array('0', $categories))
 			{
@@ -241,6 +246,7 @@ class FieldsModelFields extends JModelList
 		$includeGroupState = !$app->isClient('administrator') ||
 			$app->input->get('option') != 'com_fields' ||
 			$app->input->get('view') != 'fields';
+
 		if (is_numeric($state))
 		{
 			$query->where('a.state = ' . (int) $state);
@@ -305,7 +311,7 @@ class FieldsModelFields extends JModelList
 		$listOrdering  = $this->state->get('list.ordering', 'a.ordering');
 		$orderDirn     = $this->state->get('list.direction', 'ASC');
 
-		$query->order($db->escape($listOrdering) . ' ' . $db->escape($orderDirn));		
+		$query->order($db->escape($listOrdering) . ' ' . $db->escape($orderDirn));
 
 		return $query;
 	}

@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Component
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2015 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -37,7 +37,7 @@ class JComponentRouterBaseTest extends TestCase
 		 * Test if standard setup of JComponentRouterBase works and $app and
 		 * $menu are properly populated
 		 */
-		$object = new JComponentRouterBaseInspector();
+		$object = new JComponentRouterBaseInspector;
 		$this->assertInstanceOf('JComponentRouterInterface', $object);
 		$this->assertInstanceOf('JComponentRouterBase', $object);
 		$this->assertEquals($app, $object->app);
@@ -51,13 +51,14 @@ class JComponentRouterBaseTest extends TestCase
 		$app2 = TestMockApplication::create($this);
 		$object = new JComponentRouterBaseInspector($app2);
 		$this->assertEquals($app2, $object->app);
-		//The original $app is not the same object as $app2, thus we did not use JFactory
+
+		// The original $app is not the same object as $app2, thus we did not use JFactory
 		$this->assertNotSame($app, $object->app);
 
 		/**
 		 * Test if the setup works when both an app and menu object is handed over
 		 */
-		$menu2 = new stdClass();
+		$menu2 = new stdClass;
 		$object = new JComponentRouterBaseInspector($app, $menu2);
 		$this->assertEquals($app, $object->app);
 		$this->assertEquals($menu2, $object->menu);

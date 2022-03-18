@@ -2,7 +2,7 @@
 /**
  * @package    Joomla.UnitTest
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2013 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -11,7 +11,7 @@
  *
  * @package     Joomla.UnitTest
  * @subpackage  Google
- * @since       12.3
+ * @since       3.1.4
  */
 class JGoogleDataPicasaPhotoTest extends TestCase
 {
@@ -81,7 +81,7 @@ class JGoogleDataPicasaPhotoTest extends TestCase
 		$this->input = new JInput;
 		$this->oauth = new JOAuth2Client($this->options, $this->http, $this->input);
 		$this->auth = new JGoogleAuthOauth2($this->options, $this->oauth);
-		$this->xml = new SimpleXMLElement(file_get_contents(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'photo.txt'));
+		$this->xml = new SimpleXMLElement(file_get_contents(__DIR__ . DIRECTORY_SEPARATOR . 'photo.txt'));
 		$this->object = new JGoogleDataPicasaPhoto($this->xml, $this->options, $this->auth);
 
 		$this->object->setOption('clientid', '01234567891011.apps.googleusercontent.com');
@@ -107,14 +107,7 @@ class JGoogleDataPicasaPhotoTest extends TestCase
 	protected function tearDown()
 	{
 		$_SERVER = $this->backupServer;
-		unset($this->backupServer);
-		unset($this->options);
-		unset($this->http);
-		unset($this->input);
-		unset($this->auth);
-		unset($this->oauth);
-		unset($this->xml);
-		unset($this->object);
+		unset($this->backupServer, $this->options, $this->http, $this->input, $this->auth, $this->oauth, $this->xml, $this->object);
 		parent::tearDown();
 	}
 
@@ -451,7 +444,7 @@ class JGoogleDataPicasaPhotoTest extends TestCase
  *
  * @return  JHttpResponse
  *
- * @since   12.3
+ * @since   3.1.4
  */
 function picasaPhotoCallback($url, array $headers = null, $timeout = null)
 {
@@ -459,7 +452,7 @@ function picasaPhotoCallback($url, array $headers = null, $timeout = null)
 
 	$response->code = 200;
 	$response->headers = array('Content-Type' => 'application/atom+xml');
-	$response->body = file_get_contents(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'photo.txt');
+	$response->body = file_get_contents(__DIR__ . DIRECTORY_SEPARATOR . 'photo.txt');
 
 	return $response;
 }
@@ -474,7 +467,7 @@ function picasaPhotoCallback($url, array $headers = null, $timeout = null)
  *
  * @return  JHttpResponse
  *
- * @since   12.3
+ * @since   3.1.4
  */
 function dataPicasaPhotoCallback($url, $data, array $headers = null, $timeout = null)
 {

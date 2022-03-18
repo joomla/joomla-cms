@@ -1,5 +1,5 @@
 /**
- * @copyright	Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright	(C) 2006 Open Source Matters, Inc. <https://www.joomla.org>
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -27,7 +27,12 @@
 			var o = this.getUriObject(window.self.location.href),
 				q = this.getQueryObject(o.query);
 
-			this.editor = decodeURIComponent(q.e_name);
+			var options = Joomla.getOptions('mediamanager');
+
+			this.author = options.author;
+			this.base   = options.base;
+			this.asset  = options.asset;
+			this.editor = q.e_name;
 
 			// Setup image manager fields object
 			this.fields = {
@@ -74,7 +79,7 @@
 			this.frameurl = this.frame.location.href;
 			this.setFolder(folder);
 
-			a = this.getUriObject($form.attr('action'));
+			a = this.getUriObject($form.prop('action'));
 			q = this.getQueryObject(a.query);
 			q.folder = folder;
 			a.query = $.param(q);
@@ -84,7 +89,7 @@
 				portString = ':' + a.port;
 			}
 
-			$form.attr('action', a.scheme + '://' + a.domain + portString + a.path + '?' + a.query);
+			$form.prop('action', a.scheme + '://' + a.domain + portString + a.path + '?' + a.query);
 		},
 
 		/**
@@ -206,7 +211,7 @@
 			search = path.join('/');
 
 			this.setFolder(search);
-			this.setFrameUrl(search);
+			this.setFrameUrl(search, this.asset, this.author);
 		},
 
 		/**
@@ -226,7 +231,7 @@
 			}
 		    });
 
-		    $("#f_url").val(image_base_path + file);
+		    $("#f_url").val(this.base + file);
 		},
 
 		/**
@@ -271,11 +276,12 @@
 				view: 'imagesList',
 				tmpl: 'component',
 				asset: asset,
-				author: author
+				author: author,
+				folder: folder
 			};
 
 			// Don't run folder through params because / will end up double encoded.
-			this.frameurl = 'index.php?' + $.param(qs) + '&folder=' + folder;
+			this.frameurl = 'index.php?' + $.param(qs);
 			this.frame.location.href = this.frameurl;
 		},
 
@@ -294,7 +300,7 @@
 			{
 				var keys = val.split('=');
 
-				rs[keys[0]] = keys.length == 2 ? keys[1] : null;
+				rs[ decodeURIComponent(keys[0]) ] = keys.length == 2 ? decodeURIComponent(keys[1]) : null;
 			});
 
 			return rs;

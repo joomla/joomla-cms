@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_contact
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2006 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -41,7 +41,7 @@ class ContactViewContact extends JViewLegacy
 	protected $item;
 
 	/**
-	 * The page to return to on sumission
+	 * The page to return to on submission
 	 *
 	 * @var         string
 	 * @since       1.6
@@ -71,10 +71,19 @@ class ContactViewContact extends JViewLegacy
 
 		$item = $this->get('Item');
 		$state = $this->get('State');
+		$contacts = array();
+
+		// Get submitted values
+		$data = $app->getUserState('com_contact.contact.data', array());
+
+		// Add catid for selecting custom fields
+		$data['catid'] = $item->catid;
+
+		$app->setUserState('com_contact.contact.data', $data);
 
 		$this->form = $this->get('Form');
 
- 		$params = $state->get('params');
+		$params = $state->get('params');
 
 		$temp = clone $params;
 
@@ -104,11 +113,12 @@ class ContactViewContact extends JViewLegacy
 			$item->params = $temp;
 		}
 
-		if ($item)
+		// Collect extra contact information when this information is required
+		if ($item && $item->params->get('show_contact_list'))
 		{
 			// Get Category Model data
 			$categoryModel = JModelLegacy::getInstance('Category', 'ContactModel', array('ignore_request' => true));
-			
+
 			$categoryModel->setState('category.id', $item->catid);
 			$categoryModel->setState('list.ordering', 'a.name');
 			$categoryModel->setState('list.direction', 'asc');
@@ -157,7 +167,7 @@ class ContactViewContact extends JViewLegacy
 		if ($item->params->get('show_street_address') || $item->params->get('show_suburb') || $item->params->get('show_state')
 			|| $item->params->get('show_postcode') || $item->params->get('show_country'))
 		{
-			if (!empty ($item->address) || !empty ($item->suburb) || !empty ($item->state) || !empty ($item->country) || !empty ($item->postcode))
+			if (!empty($item->address) || !empty($item->suburb) || !empty($item->state) || !empty($item->country) || !empty($item->postcode))
 			{
 				$item->params->set('address_check', 1);
 			}
@@ -177,6 +187,7 @@ class ContactViewContact extends JViewLegacy
 				$item->params->set('marker_telephone', JText::_('COM_CONTACT_TELEPHONE') . ': ');
 				$item->params->set('marker_fax',       JText::_('COM_CONTACT_FAX') . ': ');
 				$item->params->set('marker_mobile',    JText::_('COM_CONTACT_MOBILE') . ': ');
+				$item->params->set('marker_webpage',   JText::_('COM_CONTACT_WEBPAGE') . ': ');
 				$item->params->set('marker_misc',      JText::_('COM_CONTACT_OTHER_INFORMATION') . ': ');
 				$item->params->set('marker_class',     'jicons-text');
 				break;
@@ -187,6 +198,7 @@ class ContactViewContact extends JViewLegacy
 				$item->params->set('marker_email',     '');
 				$item->params->set('marker_telephone', '');
 				$item->params->set('marker_mobile',    '');
+				$item->params->set('marker_webpage',   '');
 				$item->params->set('marker_fax',       '');
 				$item->params->set('marker_misc',      '');
 				$item->params->set('marker_class',     'jicons-none');
@@ -263,6 +275,7 @@ class ContactViewContact extends JViewLegacy
 				$item->params->set('marker_fax',       $image4);
 				$item->params->set('marker_misc',      $image5);
 				$item->params->set('marker_mobile',    $image6);
+				$item->params->set('marker_webpage',   ' ');
 				$item->params->set('marker_class',     'jicons-icons');
 				break;
 		}
@@ -327,19 +340,16 @@ class ContactViewContact extends JViewLegacy
 		}
 
 		// Escape strings for HTML output
-		$this->pageclass_sfx = htmlspecialchars($item->params->get('pageclass_sfx'));
+		$this->pageclass_sfx = htmlspecialchars($item->params->get('pageclass_sfx', ''));
 
 		$this->contact     = &$item;
-		$this->params      = &$params;
+		$this->params      = &$item->params;
 		$this->return      = &$return;
 		$this->state       = &$state;
 		$this->item        = &$item;
 		$this->user        = &$user;
 		$this->contacts    = &$contacts;
 		$this->contactUser = $contactUser;
-
-		$item->tags = new JHelperTags;
-		$item->tags->getItemTags('com_contact.contact', $this->item->id);
 
 		// Override the layout only if this is not the active menu item
 		// If it is the active menu item, then the view and item id will match
@@ -371,6 +381,7 @@ class ContactViewContact extends JViewLegacy
 		}
 
 		$this->_prepareDocument();
+
 		return parent::display($tpl);
 	}
 
@@ -406,7 +417,8 @@ class ContactViewContact extends JViewLegacy
 		$id = (int) @$menu->query['id'];
 
 		// If the menu item does not concern this contact
-		if ($menu && ($menu->query['option'] !== 'com_contact' || $menu->query['view'] !== 'contact' || $id != $this->item->id))
+		if ($menu && (!isset($menu->query['option']) || $menu->query['option'] !== 'com_contact' || $menu->query['view'] !== 'contact'
+			|| $id != $this->item->id))
 		{
 			// If this is not a single contact menu item, set the page title to the contact title
 			if ($this->item->name)
@@ -417,7 +429,8 @@ class ContactViewContact extends JViewLegacy
 			$path = array(array('title' => $this->contact->name, 'link' => ''));
 			$category = JCategories::getInstance('Contact')->get($this->contact->catid);
 
-			while ($category && ($menu->query['option'] !== 'com_contact' || $menu->query['view'] === 'contact' || $id != $category->id) && $category->id > 1)
+			while ($category && (!isset($menu->query['option']) || $menu->query['option'] !== 'com_contact' || $menu->query['view'] === 'contact'
+				|| $id != $category->id) && $category->id > 1)
 			{
 				$path[] = array('title' => $category->title, 'link' => ContactHelperRoute::getCategoryRoute($this->contact->catid));
 				$category = $category->getParent();

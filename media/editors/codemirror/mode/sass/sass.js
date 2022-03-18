@@ -1,5 +1,5 @@
 // CodeMirror, copyright (c) by Marijn Haverbeke and others
-// Distributed under an MIT license: http://codemirror.net/LICENSE
+// Distributed under an MIT license: https://codemirror.net/LICENSE
 
 (function(mod) {
   if (typeof exports == "object" && typeof module == "object") // CommonJS
@@ -231,7 +231,7 @@ CodeMirror.defineMode("sass", function(config) {
       }
 
       if(ch === "@"){
-        if(stream.match(/@extend/)){
+        if(stream.match('@extend')){
           if(!stream.match(/\s*[\w]/))
             dedent(state);
         }
@@ -445,9 +445,14 @@ CodeMirror.defineMode("sass", function(config) {
 
     indent: function(state) {
       return state.scopes[0].offset;
-    }
+    },
+
+    blockCommentStart: "/*",
+    blockCommentEnd: "*/",
+    lineComment: "//",
+    fold: "indent"
   };
-});
+}, "css");
 
 CodeMirror.defineMIME("text/x-sass", "sass");
 

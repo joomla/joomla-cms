@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_contact
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2006 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -140,6 +140,12 @@ class ContactModelContact extends JModelForm
 			$data['language'] = JFactory::getLanguage()->getTag();
 		}
 
+		// Add contact id to contact form data, so fields plugin can work properly
+		if (empty($data['catid']))
+		{
+			$data['catid'] = $this->getItem()->catid;
+		}
+
 		$this->preprocessData('com_contact.contact', $data);
 
 		return $data;
@@ -207,6 +213,7 @@ class ContactModelContact extends JModelForm
 				// Filter by published state.
 				$published = $this->getState('filter.published');
 				$archived = $this->getState('filter.archived');
+
 				if (is_numeric($published))
 				{
 					$query->where('(a.published = ' . (int) $published . ' OR a.published =' . (int) $archived . ')')
@@ -241,13 +248,16 @@ class ContactModelContact extends JModelForm
 				$registry = new Registry($data->metadata);
 				$data->metadata = $registry;
 
-				$data->tags = new JHelperTags;
-				$data->tags->getItemTags('com_contact.contact', $data->id);
+				// Some contexts may not use tags data at all, so we allow callers to disable loading tag data
+				if ($this->getState('load_tags', true))
+				{
+					$data->tags = new JHelperTags;
+					$data->tags->getItemTags('com_contact.contact', $data->id);
+				}
 
 				// Compute access permissions.
 				if (($access = $this->getState('filter.access')))
 				{
-
 					// If the access filter has been set, we already know this user can view.
 					$data->params->set('access-view', true);
 				}
@@ -310,7 +320,6 @@ class ContactModelContact extends JModelForm
 		// Get the com_content articles by the linked user
 		if ((int) $contact->user_id && $this->getState('params')->get('show_articles'))
 		{
-
 			$query = $db->getQuery(true)
 				->select('a.id')
 				->select('a.title')
@@ -386,7 +395,14 @@ class ContactModelContact extends JModelForm
 		$data = $userModel->getItem((int) $contact->user_id);
 
 		JPluginHelper::importPlugin('user');
-		$form = new JForm('com_users.profile');
+
+		// Get the form.
+		JForm::addFormPath(JPATH_SITE . '/components/com_users/models/forms');
+		JForm::addFieldPath(JPATH_SITE . '/components/com_users/models/fields');
+		JForm::addFormPath(JPATH_SITE . '/components/com_users/model/form');
+		JForm::addFieldPath(JPATH_SITE . '/components/com_users/model/field');
+
+		$form = JForm::getInstance('com_users.profile', 'profile');
 
 		// Get the dispatcher.
 		$dispatcher = JEventDispatcher::getInstance();
@@ -410,6 +426,7 @@ class ContactModelContact extends JModelForm
 	 * @return  mixed    The contact object on success, false on failure
 	 *
 	 * @throws  Exception  On database failure
+	 * @deprecated  4.0    Use ContactModelContact::getItem() instead
 	 */
 	protected function getContactQuery($pk = null)
 	{
@@ -480,7 +497,6 @@ class ContactModelContact extends JModelForm
 
 			if ($result)
 			{
-
 				$contactParams = new Registry($result->params);
 
 				// If we are showing a contact list, then the contact parameters take priority
@@ -493,7 +509,6 @@ class ContactModelContact extends JModelForm
 				// Get the com_content articles by the linked user
 				if ((int) $result->user_id && $this->getState('params')->get('show_articles'))
 				{
-
 					$query = $db->getQuery(true)
 						->select('a.id')
 						->select('a.title')
@@ -611,7 +626,6 @@ class ContactModelContact extends JModelForm
 			$pk = (!empty($pk)) ? $pk : (int) $this->getState('contact.id');
 
 			$table = JTable::getInstance('Contact', 'ContactTable');
-			$table->load($pk);
 			$table->hit($pk);
 		}
 

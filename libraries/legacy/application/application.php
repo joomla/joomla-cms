@@ -3,12 +3,13 @@
  * @package     Joomla.Legacy
  * @subpackage  Application
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2005 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Application\BaseApplication;
 use Joomla\Registry\Registry;
 
 JLog::add('JApplication is deprecated.', JLog::WARNING, 'deprecated');
@@ -21,9 +22,9 @@ JLog::add('JApplication is deprecated.', JLog::WARNING, 'deprecated');
  * and render() functions.
  *
  * @since       1.5
- * @deprecated  3.2  Use JApplicationCms instead unless specified otherwise
+ * @deprecated  3.2  Use CMSApplication instead unless specified otherwise
  */
-class JApplication extends JApplicationBase
+class JApplication extends BaseApplication
 {
 	/**
 	 * The client identifier.
@@ -350,12 +351,12 @@ class JApplication extends JApplicationBase
 		 * We could validly start with something else (e.g. ftp), though this would
 		 * be unlikely and isn't supported by this API.
 		 */
-		if (!preg_match('#^http#i', $url))
+		if (stripos($url, 'http') !== 0)
 		{
 			$uri = JUri::getInstance();
 			$prefix = $uri->toString(array('scheme', 'user', 'pass', 'host', 'port'));
 
-			if ($url[0] == '/')
+			if ($url[0] === '/')
 			{
 				// We just need the prefix since we have a path relative to the root.
 				$url = $prefix . $url;
@@ -387,7 +388,7 @@ class JApplication extends JApplicationBase
 		// so we will output a javascript redirect statement.
 		if (headers_sent())
 		{
-			echo "<script>document.location.href='" . str_replace("'", '&apos;', $url) . "';</script>\n";
+			echo "<script>document.location.href=" . json_encode(str_replace("'", '&apos;', $url)) . ";</script>\n";
 		}
 		else
 		{
@@ -399,7 +400,7 @@ class JApplication extends JApplicationBase
 			{
 				// MSIE type browser and/or server cause issues when URL contains utf8 character,so use a javascript redirect method
 				echo '<html><head><meta http-equiv="content-type" content="text/html; charset=' . $document->getCharset() . '" />'
-					. '<script>document.location.href=\'' . str_replace("'", '&apos;', $url) . '\';</script></head></html>';
+					. '<script>document.location.href=' . json_encode(str_replace("'", '&apos;', $url)) . ';</script></head></html>';
 			}
 			else
 			{
@@ -472,8 +473,6 @@ class JApplication extends JApplicationBase
 	/**
 	 * Gets a configuration value.
 	 *
-	 * An example is in application/japplication-getcfg.php Getting a configuration
-	 *
 	 * @param   string  $varname  The name of the value to get.
 	 * @param   string  $default  Default value to return
 	 *
@@ -535,7 +534,7 @@ class JApplication extends JApplicationBase
 		$session = JFactory::getSession();
 		$registry = $session->get('registry');
 
-		if (!is_null($registry))
+		if ($registry !== null)
 		{
 			return $registry->get($key, $default);
 		}
@@ -559,12 +558,10 @@ class JApplication extends JApplicationBase
 		$session = JFactory::getSession();
 		$registry = $session->get('registry');
 
-		if (!is_null($registry))
+		if ($registry !== null)
 		{
 			return $registry->set($key, $value);
 		}
-
-		return;
 	}
 
 	/**
@@ -575,7 +572,7 @@ class JApplication extends JApplicationBase
 	 * @param   string  $default  The default value for the variable if not found. Optional.
 	 * @param   string  $type     Filter for the variable, for valid values see {@link JFilterInput::clean()}. Optional.
 	 *
-	 * @return  The request user state.
+	 * @return  mixed  The request user state.
 	 *
 	 * @since   1.5
 	 * @deprecated  3.2
@@ -680,7 +677,7 @@ class JApplication extends JApplicationBase
 			 */
 			$user = JFactory::getUser();
 
-			if ($response->type == 'Cookie')
+			if ($response->type === 'Cookie')
 			{
 				$user->set('cookieLogin', true);
 			}
@@ -690,7 +687,7 @@ class JApplication extends JApplicationBase
 				$options['user'] = $user;
 				$options['responseType'] = $response->type;
 
-				if (isset($response->length) && isset($response->secure) && isset($response->lifetime))
+				if (isset($response->length, $response->secure, $response->lifetime))
 				{
 					$options['length'] = $response->length;
 					$options['secure'] = $response->secure;
@@ -1005,7 +1002,7 @@ class JApplication extends JApplicationBase
 			// but fires the query less than half the time.
 			$query = $db->getQuery(true)
 				->delete($db->quoteName('#__session'))
-				->where($db->quoteName('time') . ' < ' . $db->quote((int) ($time - $session->getExpire())));
+				->where($db->quoteName('time') . ' < ' . (int) ($time - $session->getExpire()));
 
 			$db->setQuery($query);
 			$db->execute();
@@ -1014,8 +1011,7 @@ class JApplication extends JApplicationBase
 		// Check to see the the session already exists.
 		$handler = $this->get('session_handler');
 
-		if (($handler != 'database' && ($time % 2 || $session->isNew()))
-			|| ($handler == 'database' && $session->isNew()))
+		if (($handler !== 'database' && ($time % 2 || $session->isNew())) || ($handler === 'database' && $session->isNew()))
 		{
 			$this->checkSession();
 		}
@@ -1043,7 +1039,7 @@ class JApplication extends JApplicationBase
 		$query = $db->getQuery(true)
 			->select($db->quoteName('session_id'))
 			->from($db->quoteName('#__session'))
-			->where($db->quoteName('session_id') . ' = ' . $db->quote($session->getId()));
+			->where($db->quoteName('session_id') . ' = ' . $db->quoteBinary($session->getId()));
 
 		$db->setQuery($query, 0, 1);
 		$exists = $db->loadResult();
@@ -1057,7 +1053,7 @@ class JApplication extends JApplicationBase
 			{
 				$query->insert($db->quoteName('#__session'))
 					->columns($db->quoteName('session_id') . ', ' . $db->quoteName('client_id') . ', ' . $db->quoteName('time'))
-					->values($db->quote($session->getId()) . ', ' . (int) $this->getClientId() . ', ' . $db->quote((int) time()));
+					->values($db->quote($session->getId()) . ', ' . (int) $this->getClientId() . ', ' . time());
 				$db->setQuery($query);
 			}
 			else
@@ -1069,7 +1065,7 @@ class JApplication extends JApplicationBase
 					)
 					->values(
 						$db->quote($session->getId()) . ', ' . (int) $this->getClientId() . ', ' . (int) $user->get('guest') . ', ' .
-						$db->quote((int) $session->get('session.timer.start')) . ', ' . (int) $user->get('id') . ', ' . $db->quote($user->get('username'))
+						(int) $session->get('session.timer.start') . ', ' . (int) $user->get('id') . ', ' . $db->quote($user->get('username'))
 					);
 
 				$db->setQuery($query);
@@ -1184,7 +1180,7 @@ class JApplication extends JApplicationBase
 	 */
 	public function isSSLConnection()
 	{
-		return (isset($_SERVER['HTTPS']) && ($_SERVER['HTTPS'] == 'on')) || getenv('SSL_PROTOCOL_VERSION');
+		return (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on') || getenv('SSL_PROTOCOL_VERSION');
 	}
 
 	/**

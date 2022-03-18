@@ -3,12 +3,13 @@
  * @package     Joomla.Administrator
  * @subpackage  com_menus
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2006 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\Registry\Registry;
 use Joomla\String\StringHelper;
 use Joomla\Utilities\ArrayHelper;
@@ -26,40 +27,40 @@ class MenusModelItem extends JModelAdmin
 	/**
 	 * The type alias for this content type.
 	 *
-	 * @var      string
-	 * @since    3.4
+	 * @var    string
+	 * @since  3.4
 	 */
 	public $typeAlias = 'com_menus.item';
 
 	/**
 	 * The context used for the associations table
 	 *
-	 * @var      string
-	 * @since    3.4.4
+	 * @var    string
+	 * @since  3.4.4
 	 */
 	protected $associationsContext = 'com_menus.item';
 
 	/**
-	 * @var        string    The prefix to use with controller messages.
-	 * @since   1.6
+	 * @var    string  The prefix to use with controller messages.
+	 * @since  1.6
 	 */
 	protected $text_prefix = 'COM_MENUS_ITEM';
 
 	/**
-	 * @var        string    The help screen key for the menu item.
-	 * @since   1.6
+	 * @var    string  The help screen key for the menu item.
+	 * @since  1.6
 	 */
 	protected $helpKey = 'JHELP_MENUS_MENU_ITEM_MANAGER_EDIT';
 
 	/**
-	 * @var        string    The help screen base URL for the menu item.
-	 * @since   1.6
+	 * @var    string  The help screen base URL for the menu item.
+	 * @since  1.6
 	 */
 	protected $helpURL;
 
 	/**
-	 * @var        boolean    True to use local lookup for the help screen.
-	 * @since   1.6
+	 * @var    boolean  True to use local lookup for the help screen.
+	 * @since  1.6
 	 */
 	protected $helpLocal = false;
 
@@ -67,14 +68,14 @@ class MenusModelItem extends JModelAdmin
 	 * Batch copy/move command. If set to false,
 	 * the batch copy/move command is not supported
 	 *
-	 * @var string
+	 * @var   string
 	 */
 	protected $batch_copymove = 'menu_id';
 
 	/**
 	 * Allowed batch commands
 	 *
-	 * @var array
+	 * @var   array
 	 */
 	protected $batch_commands = array(
 		'assetgroup_id' => 'batchAccess',
@@ -92,27 +93,19 @@ class MenusModelItem extends JModelAdmin
 	 */
 	protected function canDelete($record)
 	{
-		$user = JFactory::getUser();
-
-		if (!empty($record->id))
+		if (empty($record->id) || $record->published != -2)
 		{
-			// Only delete trashed items
-			if ($record->published != -2)
-			{
-				return false;
-			}
-
-			$menuTypeId = 0;
-
-			if (!empty($record->menutype))
-			{
-				$menuTypeId = $this->getMenuTypeId($record->menutype);
-			}
-
-			return $user->authorise('core.delete', 'com_menus.menu.' . (int) $menuTypeId);
+			return false;
 		}
 
-		return false;
+		$menuTypeId = 0;
+
+		if (!empty($record->menutype))
+		{
+			$menuTypeId = $this->getMenuTypeId($record->menutype);
+		}
+
+		return JFactory::getUser()->authorise('core.delete', 'com_menus.menu.' . (int) $menuTypeId);
 	}
 
 	/**
@@ -296,6 +289,7 @@ class MenusModelItem extends JModelAdmin
 
 				return false;
 			}
+
 			// Store the row.
 			if (!$table->store())
 			{
@@ -592,14 +586,28 @@ class MenusModelItem extends JModelAdmin
 	 */
 	protected function loadFormData()
 	{
-		// Check the session for previously entered form data.
-		$data = array_merge((array) $this->getItem(), (array) JFactory::getApplication()->getUserState('com_menus.edit.item.data', array()));
+
+		// Check the session for previously entered form data, providing it has an ID and it is the same.
+		$itemData = (array) $this->getItem();
+		$sessionData = (array) JFactory::getApplication()->getUserState('com_menus.edit.item.data', array());
+
+		// Only merge if there is a session and itemId or itemid is null.
+		if (isset($sessionData['id']) && isset($itemData['id']) && $sessionData['id'] === $itemData['id']
+			|| is_null($itemData['id']))
+		{
+			$data = array_merge($itemData, $sessionData);
+		}
+		else
+		{
+			$data = $itemData;
+		}
 
 		// For a new menu item, pre-select some filters (Status, Language, Access) in edit form if those have been selected in Menu Manager
 		if ($this->getItem()->id == 0)
 		{
 			// Get selected fields
 			$filters = JFactory::getApplication()->getUserState('com_menus.items.filter');
+			$data['parent_id'] = (isset($filters['parent_id']) ? $filters['parent_id'] : null);
 			$data['published'] = (isset($filters['published']) ? $filters['published'] : null);
 			$data['language'] = (isset($filters['language']) ? $filters['language'] : null);
 			$data['access'] = (!empty($filters['access']) ? $filters['access'] : JFactory::getConfig()->get('access'));
@@ -611,6 +619,8 @@ class MenusModelItem extends JModelAdmin
 
 			$this->setState('item.menutypeid', $menuTypeId);
 		}
+
+		$data = (object) $data;
 
 		$this->preprocessData('com_menus.item', $data);
 
@@ -675,7 +685,7 @@ class MenusModelItem extends JModelAdmin
 		if ($link = $this->getState('item.link'))
 		{
 			// Check if we are changing away from the actual link type.
-			if (MenusHelper::getLinkKey($table->link) != MenusHelper::getLinkKey($link))
+			if (MenusHelper::getLinkKey($table->link) !== MenusHelper::getLinkKey($link) && (int) $table->id === (int) $this->getState('item.id'))
 			{
 				$table->link = $link;
 			}
@@ -849,7 +859,7 @@ class MenusModelItem extends JModelAdmin
 	/**
 	 * Get the list of all view levels
 	 *
-	 * @return  array|bool  An array of all view levels (id, title).
+	 * @return  array|boolean  An array of all view levels (id, title).
 	 *
 	 * @since   3.4
 	 */
@@ -1135,7 +1145,7 @@ class MenusModelItem extends JModelAdmin
 						$formFile = $path;
 					}
 				}
-				else
+				elseif ($base)
 				{
 					// Now check for a component manifest file
 					$path = JPath::clean($base . '/metadata.xml');
@@ -1190,8 +1200,8 @@ class MenusModelItem extends JModelAdmin
 			$helpURL = trim((string) $help[0]['url']);
 			$helpLoc = trim((string) $help[0]['local']);
 
-			$this->helpKey = $helpKey ? $helpKey : $this->helpKey;
-			$this->helpURL = $helpURL ? $helpURL : $this->helpURL;
+			$this->helpKey = $helpKey ?: $this->helpKey;
+			$this->helpURL = $helpURL ?: $this->helpURL;
 			$this->helpLocal = (($helpLoc == 'true') || ($helpLoc == '1') || ($helpLoc == 'local')) ? true : false;
 		}
 
@@ -1225,6 +1235,7 @@ class MenusModelItem extends JModelAdmin
 					$field->addAttribute('new', 'true');
 					$field->addAttribute('edit', 'true');
 					$field->addAttribute('clear', 'true');
+					$field->addAttribute('propagate', 'true');
 					$option = $field->addChild('option', 'COM_MENUS_ITEM_FIELD_ASSOCIATION_NO_VALUE');
 					$option->addAttribute('value', '');
 				}
@@ -1476,7 +1487,8 @@ class MenusModelItem extends JModelAdmin
 			if ($associations)
 			{
 				$query->where('(' . $db->quoteName('id') . ' IN (' . implode(',', $associations) . ') OR '
-					. $db->quoteName('key') . ' = ' . $db->quote($old_key) . ')');
+					. $db->quoteName('key') . ' = ' . $db->quote($old_key) . ')'
+				);
 			}
 			else
 			{
@@ -1542,6 +1554,11 @@ class MenusModelItem extends JModelAdmin
 			parent::cleanCache($option);
 		}
 
+		if (Factory::getApplication()->input->get('task') == 'editAssociations')
+		{
+			return $this->redirectToAssociations($data);
+		}
+
 		return true;
 	}
 
@@ -1550,19 +1567,19 @@ class MenusModelItem extends JModelAdmin
 	 * First we save the new order values in the lft values of the changed ids.
 	 * Then we invoke the table rebuild to implement the new ordering.
 	 *
-	 * @param   array  $idArray    Rows identifiers to be reordered
-	 * @param   array  $lft_array  lft values of rows to be reordered
+	 * @param   array  $idArray   Rows identifiers to be reordered
+	 * @param   array  $lftArray  lft values of rows to be reordered
 	 *
-	 * @return  boolean false on failuer or error, true otherwise.
+	 * @return  boolean false on failure or error, true otherwise.
 	 *
 	 * @since   1.6
 	 */
-	public function saveorder($idArray = null, $lft_array = null)
+	public function saveorder($idArray = null, $lftArray = null)
 	{
 		// Get an instance of the table object.
 		$table = $this->getTable();
 
-		if (!$table->saveorder($idArray, $lft_array))
+		if (!$table->saveorder($idArray, $lftArray))
 		{
 			$this->setError($table->getError());
 
@@ -1578,7 +1595,7 @@ class MenusModelItem extends JModelAdmin
 	/**
 	 * Method to change the home state of one or more items.
 	 *
-	 * @param   array    &$pks   A list of the primary keys to change.
+	 * @param   array    $pks    A list of the primary keys to change.
 	 * @param   integer  $value  The value of the home state.
 	 *
 	 * @return  boolean  True on success.
@@ -1665,7 +1682,7 @@ class MenusModelItem extends JModelAdmin
 	/**
 	 * Method to change the published state of one or more records.
 	 *
-	 * @param   array    &$pks   A list of the primary keys to change.
+	 * @param   array    $pks    A list of the primary keys to change.
 	 * @param   integer  $value  The value of the published state.
 	 *
 	 * @return  boolean  True on success.
@@ -1675,7 +1692,7 @@ class MenusModelItem extends JModelAdmin
 	public function publish(&$pks, $value = 1)
 	{
 		$table = $this->getTable();
-		$pks = (array) $pks;
+		$pks   = (array) $pks;
 
 		// Default menu item existence checks.
 		if ($value != 1)
@@ -1707,20 +1724,20 @@ class MenusModelItem extends JModelAdmin
 	/**
 	 * Method to change the title & alias.
 	 *
-	 * @param   integer  $parent_id  The id of the parent.
-	 * @param   string   $alias      The alias.
-	 * @param   string   $title      The title.
+	 * @param   integer  $parentId  The id of the parent.
+	 * @param   string   $alias     The alias.
+	 * @param   string   $title     The title.
 	 *
 	 * @return  array  Contains the modified title and alias.
 	 *
 	 * @since   1.6
 	 */
-	protected function generateNewTitle($parent_id, $alias, $title)
+	protected function generateNewTitle($parentId, $alias, $title)
 	{
 		// Alter the title & alias
 		$table = $this->getTable();
 
-		while ($table->load(array('alias' => $alias, 'parent_id' => $parent_id)))
+		while ($table->load(array('alias' => $alias, 'parent_id' => $parentId)))
 		{
 			if ($title == $table->title)
 			{
@@ -1736,14 +1753,14 @@ class MenusModelItem extends JModelAdmin
 	/**
 	 * Custom clean the cache
 	 *
-	 * @param   string   $group      Cache group name.
-	 * @param   integer  $client_id  Application client id.
+	 * @param   string   $group     Cache group name.
+	 * @param   integer  $clientId  Application client id.
 	 *
 	 * @return  void
 	 *
 	 * @since   1.6
 	 */
-	protected function cleanCache($group = null, $client_id = 0)
+	protected function cleanCache($group = null, $clientId = 0)
 	{
 		parent::cleanCache('com_menus', 0);
 		parent::cleanCache('com_modules');

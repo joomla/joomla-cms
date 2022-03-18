@@ -4,7 +4,9 @@
  * @subpackage  view
  * @copyright   Copyright (C) 2010-2016 Nicholas K. Dionysopoulos / Akeeba Ltd. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
+ * @note        This file has been modified by the Joomla! Project and no longer reflects the original work of its author.
  */
+
 // Protect from unauthorized access
 defined('FOF_INCLUDED') or die;
 
@@ -230,7 +232,7 @@ class FOFViewRaw extends FOFView
 	 */
 	protected function onEdit($tpl = null)
 	{
-        // This perms are used only for hestetic reasons (ie showing toolbar buttons), "real" checks
+        // This perms are used only for aesthetic reasons (ie showing toolbar buttons), "real" checks
         // are made by the controller
         // It seems that I can't edit records, maybe I can edit only this one due asset tracking?
 		if (!$this->perms->edit || !$this->perms->editown)
@@ -281,7 +283,7 @@ class FOFViewRaw extends FOFView
 	 * AJAX-powered drag and drop reordering. If they do, it will set up the
 	 * drag & drop reordering feature.
 	 *
-	 * @return  boolean|array  False if not suported, a table with necessary
+	 * @return  boolean|array  False if not supported, a table with necessary
 	 *                         information (saveOrder: should you enabled DnD
 	 *                         reordering; orderingColumn: which column has the
 	 *                         ordering information).

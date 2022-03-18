@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Twitter
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2013 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -13,55 +13,55 @@
  * @package     Joomla.UnitTest
  * @subpackage  Twitter
  *
- * @since       12.3
+ * @since       3.1.4
  */
 class JTwitterUsersTest extends TestCase
 {
 	/**
 	 * @var    JRegistry  Options for the Twitter object.
-	 * @since  12.3
+	 * @since  3.1.4
 	 */
 	protected $options;
 
 	/**
 	 * @var    JHttp  Mock client object.
-	 * @since  12.3
+	 * @since  3.1.4
 	 */
 	protected $client;
 
 	/**
 	 * @var    JInput The input object to use in retrieving GET/POST data.
-	 * @since  12.3
+	 * @since  3.1.4
 	 */
 	protected $input;
 
 	/**
 	 * @var    JTwitterUsers  Object under test.
-	 * @since  12.3
+	 * @since  3.1.4
 	 */
 	protected $object;
 
 	/**
 	 * @var    JTwitterOauth  Authentication object for the Twitter object.
-	 * @since  12.3
+	 * @since  3.1.4
 	 */
 	protected $oauth;
 
 	/**
 	 * @var    string  Sample JSON string.
-	 * @since  12.3
+	 * @since  3.1.4
 	 */
 	protected $sampleString = '{"a":1,"b":2,"c":3,"d":4,"e":5}';
 
 	/**
 	 * @var    string  Sample JSON error message.
-	 * @since  12.3
+	 * @since  3.1.4
 	 */
 	protected $errorString = '{"error":"Generic error"}';
 
 	/**
 	 * @var    string  Sample JSON string.
-	 * @since  12.3
+	 * @since  3.1.4
 	 */
 	protected $rateLimit = '{"resources":{"users":{
 			"/users/profile_banner":{"limit":180,"remaining":180,"reset":1403602426},
@@ -131,12 +131,7 @@ class JTwitterUsersTest extends TestCase
 	protected function tearDown()
 	{
 		$_SERVER = $this->backupServer;
-		unset($this->backupServer);
-		unset($this->options);
-		unset($this->input);
-		unset($this->client);
-		unset($this->oauth);
-		unset($this->object);
+		unset($this->backupServer, $this->options, $this->input, $this->client, $this->oauth, $this->object);
 	}
 
 	/**
@@ -144,7 +139,7 @@ class JTwitterUsersTest extends TestCase
 	*
 	* @return array
 	*
-	* @since 12.3
+	* @since 3.1.4
 	*/
 	public function seedFriendshipsLookup()
 	{
@@ -166,7 +161,7 @@ class JTwitterUsersTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since 12.3
+	 * @since 3.1.4
 	 * @dataProvider seedFriendshipsLookup
 	 */
 	public function testGetUsersLookup($screen_name, $id)
@@ -224,7 +219,7 @@ class JTwitterUsersTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since 12.3
+	 * @since 3.1.4
 	 * @dataProvider seedFriendshipsLookup
 	 * @expectedException  DomainException
 	 */
@@ -273,7 +268,7 @@ class JTwitterUsersTest extends TestCase
 	 *
 	 * @return array
 	 *
-	 * @since 12.3
+	 * @since 3.1.4
 	 */
 	public function seedUser()
 	{
@@ -293,7 +288,7 @@ class JTwitterUsersTest extends TestCase
 	 * @return  void
 	 *
 	 * @dataProvider seedUser
-	 * @since 12.3
+	 * @since 3.1.4
 	 */
 	public function testGetUserProfileBanner($user)
 	{
@@ -347,7 +342,7 @@ class JTwitterUsersTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since 12.3
+	 * @since 3.1.4
 	 * @dataProvider seedUser
 	 * @expectedException  DomainException
 	 */
@@ -398,7 +393,7 @@ class JTwitterUsersTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since 12.3
+	 * @since 3.1.4
 	 */
 	public function testSearchUsers()
 	{
@@ -446,7 +441,7 @@ class JTwitterUsersTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since 12.3
+	 * @since 3.1.4
 	 * @expectedException  DomainException
 	 */
 	public function testSearchUsersFailure()
@@ -488,7 +483,7 @@ class JTwitterUsersTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since 12.3
+	 * @since 3.1.4
 	 * @dataProvider seedUser
 	 */
 	public function testGetUser($user)
@@ -546,7 +541,7 @@ class JTwitterUsersTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since 12.3
+	 * @since 3.1.4
 	 * @dataProvider seedUser
 	 * @expectedException DomainException
 	 */
@@ -602,7 +597,7 @@ class JTwitterUsersTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since 12.3
+	 * @since 3.1.4
 	 * @dataProvider seedUser
 	 */
 	public function testGetContributees($user)
@@ -662,7 +657,7 @@ class JTwitterUsersTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since 12.3
+	 * @since 3.1.4
 	 * @dataProvider seedUser
 	 * @expectedException DomainException
 	 */
@@ -720,7 +715,7 @@ class JTwitterUsersTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since 12.3
+	 * @since 3.1.4
 	 * @dataProvider seedUser
 	 */
 	public function testGetContributors($user)
@@ -780,7 +775,7 @@ class JTwitterUsersTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since 12.3
+	 * @since 3.1.4
 	 * @dataProvider seedUser
 	 * @expectedException DomainException
 	 */
@@ -836,7 +831,7 @@ class JTwitterUsersTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since 12.3
+	 * @since 3.1.4
 	 */
 	public function testGetSuggestions()
 	{
@@ -878,7 +873,7 @@ class JTwitterUsersTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since 12.3
+	 * @since 3.1.4
 	 * @expectedException DomainException
 	 */
 	public function testGetSuggestionsFailure()
@@ -918,7 +913,7 @@ class JTwitterUsersTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since 12.3
+	 * @since 3.1.4
 	 */
 	public function testGetSuggestionsSlug()
 	{
@@ -961,7 +956,7 @@ class JTwitterUsersTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since 12.3
+	 * @since 3.1.4
 	 * @expectedException DomainException
 	 */
 	public function testGetSuggestionsSlugFailure()
@@ -1002,7 +997,7 @@ class JTwitterUsersTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since 12.3
+	 * @since 3.1.4
 	 */
 	public function testGetSuggestionsSlugMembers()
 	{
@@ -1041,7 +1036,7 @@ class JTwitterUsersTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since 12.3
+	 * @since 3.1.4
 	 * @expectedException DomainException
 	 */
 	public function testGetSuggestionsSlugMembersFailure()

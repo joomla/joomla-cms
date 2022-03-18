@@ -4,13 +4,14 @@
 		<field
 			name="search"
 			type="text"
+			inputmode="search"
 			label="COM_REDIRECT_FILTER_SEARCH_LABEL"
 			description="COM_REDIRECT_FILTER_SEARCH_DESC"
 			hint="JSEARCH_FILTER"
 		/>
 		<field
 			name="state"
-			type="status"
+			type="redirect_status"
 			label="COM_REDIRECT_FILTER_PUBLISHED"
 			description="COM_REDIRECT_FILTER_PUBLISHED_DESC"
 			onchange="this.form.submit();"
@@ -35,6 +36,7 @@
 			description="JGLOBAL_SORT_BY"
 			onchange="this.form.submit();"
 			default="a.old_url ASC"
+			validate="options"
 			>
 			<option value="">JGLOBAL_SORT_BY</option>
 			<option value="a.published ASC">JSTATUS_ASC</option>

@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Twitter
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2013 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,31 +12,31 @@
  *
  * @package     Joomla.UnitTest
  * @subpackage  Twitter
- * @since       12.3
+ * @since       3.1.4
  */
 class JTwitterTest extends TestCase
 {
 	/**
 	 * @var    JRegistry  Options for the Twitter object.
-	 * @since  12.3
+	 * @since  3.1.4
 	 */
 	protected $options;
 
 	/**
 	 * @var    JHttp  Mock http object.
-	 * @since  12.3
+	 * @since  3.1.4
 	 */
 	protected $client;
 
 	/**
 	 * @var    JTwitter  Object under test.
-	 * @since  12.3
+	 * @since  3.1.4
 	 */
 	protected $object;
 
 	/**
 	 * @var JTwitterOAuth Facebook OAuth 2 client
-	 * @since 12.3
+	 * @since 3.1.4
 	 */
 	protected $oauth;
 
@@ -77,10 +77,7 @@ class JTwitterTest extends TestCase
 	protected function tearDown()
 	{
 		$_SERVER = $this->backupServer;
-		unset($this->backupServer);
-		unset($this->options);
-		unset($this->client);
-		unset($this->object);
+		unset($this->backupServer, $this->options, $this->client, $this->object);
 	}
 
 	/**
@@ -88,7 +85,7 @@ class JTwitterTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function test__GetFriends()
 	{
@@ -103,7 +100,7 @@ class JTwitterTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function test__GetHelp()
 	{
@@ -114,11 +111,11 @@ class JTwitterTest extends TestCase
 	}
 
 	/**
-	 * Tests the magic __get method - other (non existant)
+	 * Tests the magic __get method - other (non existent)
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 * @expectedException  InvalidArgumentException
 	 */
 	public function test__GetOther()
@@ -131,7 +128,7 @@ class JTwitterTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function test__GetStatuses()
 	{
@@ -146,7 +143,7 @@ class JTwitterTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function test__GetUsers()
 	{
@@ -161,7 +158,7 @@ class JTwitterTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function test__GetSearch()
 	{
@@ -176,7 +173,7 @@ class JTwitterTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function test__GetFavorites()
 	{
@@ -191,7 +188,7 @@ class JTwitterTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function test__GetDirectMessages()
 	{
@@ -206,7 +203,7 @@ class JTwitterTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function test__GetLists()
 	{
@@ -221,7 +218,7 @@ class JTwitterTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function test__GetPlaces()
 	{
@@ -236,7 +233,7 @@ class JTwitterTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function test__GetTrends()
 	{
@@ -251,7 +248,7 @@ class JTwitterTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function test__GetBlock()
 	{
@@ -266,7 +263,7 @@ class JTwitterTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function test__GetProfile()
 	{
@@ -281,7 +278,7 @@ class JTwitterTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function testSetOption()
 	{
@@ -298,7 +295,7 @@ class JTwitterTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function testGetOption()
 	{

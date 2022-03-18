@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  mod_syndicate
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2006 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -21,7 +21,7 @@ if ($link === null)
 	return;
 }
 
-$moduleclass_sfx = htmlspecialchars($params->get('moduleclass_sfx'), ENT_COMPAT, 'UTF-8');
-$text            = htmlspecialchars($params->get('text'), ENT_COMPAT, 'UTF-8');
+$moduleclass_sfx = htmlspecialchars($params->get('moduleclass_sfx', ''), ENT_COMPAT, 'UTF-8');
+$text            = htmlspecialchars($params->get('text', ''), ENT_COMPAT, 'UTF-8');
 
 require JModuleHelper::getLayoutPath('mod_syndicate', $params->get('layout', 'default'));

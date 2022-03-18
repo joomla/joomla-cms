@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_newsfeeds
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2006 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -22,7 +22,7 @@ class NewsfeedsController extends JControllerLegacy
 	 * @param   boolean  $cachable   If true, the view output will be cached
 	 * @param   array    $urlparams  An array of safe URL parameters and their variable types, for valid values see {@link JFilterInput::clean()}.
 	 *
-	 * @return  JController		This object to support chaining.
+	 * @return  JControllerLegacy		This object to support chaining.
 	 *
 	 * @since   1.5
 	 */
@@ -36,7 +36,7 @@ class NewsfeedsController extends JControllerLegacy
 
 		$user = JFactory::getUser();
 
-		if ($user->get('id') || ($this->input->getMethod() == 'POST' && $vName == 'category' ))
+		if ($user->get('id') || ($this->input->getMethod() === 'POST' && $vName === 'category'))
 		{
 			$cachable = false;
 		}

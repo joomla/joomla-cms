@@ -3,11 +3,13 @@
  * @package     Joomla.Plugin
  * @subpackage  Content.pagenavigation
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2006 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
+
+JLoader::register('ContentHelperRoute', JPATH_SITE . '/components/com_content/helpers/route.php');
 
 /**
  * Pagenavigation plugin class.
@@ -39,7 +41,7 @@ class PlgContentPagenavigation extends JPlugin
 			return false;
 		}
 
-		if (($context === 'com_content.article') && ($view === 'article') && $params->get('show_item_navigation'))
+		if ($context === 'com_content.article' && $view === 'article' && $params->get('show_item_navigation'))
 		{
 			$db       = JFactory::getDbo();
 			$user     = JFactory::getUser();
@@ -136,8 +138,15 @@ class PlgContentPagenavigation extends JPlugin
 			$case_when1 .= ' ELSE ' . $c_id . ' END as catslug';
 			$query->select('a.id, a.title, a.catid, a.language,' . $case_when . ',' . $case_when1)
 				->from('#__content AS a')
-				->join('LEFT', '#__categories AS cc ON cc.id = a.catid')
-				->where(
+				->join('LEFT', '#__categories AS cc ON cc.id = a.catid');
+
+			if ($order_method === 'author' || $order_method === 'rauthor')
+			{
+				$query->select('a.created_by, u.name');
+				$query->join('LEFT', '#__users AS u ON u.id = a.created_by');
+			}
+
+			$query->where(
 					'a.catid = ' . (int) $row->catid . ' AND a.state = ' . (int) $row->state
 						. ($canPublish ? '' : ' AND a.access IN (' . implode(',', JAccess::getAuthorisedViewLevels($user->id)) . ') ') . $xwhere
 				);
@@ -217,8 +226,6 @@ class PlgContentPagenavigation extends JPlugin
 				$row->paginationrelative = $this->params->get('relative', 0);
 			}
 		}
-
-		return;
 	}
 
 	/**

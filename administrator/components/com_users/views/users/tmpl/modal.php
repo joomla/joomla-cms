@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2009 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,6 +12,7 @@ defined('_JEXEC') or die;
 JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 
 JHtml::_('bootstrap.tooltip', '.hasTooltip', array('placement' => 'bottom'));
+JHtml::_('bootstrap.popover', '.hasPopover', array('placement' => 'bottom'));
 JHtml::_('formbehavior.chosen', 'select');
 JHtml::_('behavior.multiselect');
 
@@ -104,7 +105,7 @@ if ($isMoo)
 							<span class="<?php echo $enabledStates[(int) $this->escape($item->block)]; ?>"></span>
 						</td>
 						<td class="center">
-							<span class="<?php echo $activatedStates[(int) $this->escape($item->activation)]; ?>"></span>
+							<span class="<?php echo $activatedStates[(empty($item->activation) ? 0 : 1)]; ?>"></span>
 						</td>
 						<td>
 							<?php echo nl2br($item->group_names); ?>

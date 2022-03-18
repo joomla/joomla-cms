@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  HTML
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2012 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -38,6 +38,8 @@ abstract class JHtmlBootstrap
 	 * @return  void
 	 *
 	 * @since   3.1
+	 *
+	 * @deprecated  4.0  Bootstrap 4.0 dropped this so will Joomla.
 	 */
 	public static function affix($selector = 'affix', $params = array())
 	{
@@ -262,7 +264,7 @@ abstract class JHtmlBootstrap
 			$opt['backdrop'] = isset($params['backdrop']) ? (boolean) $params['backdrop'] : true;
 			$opt['keyboard'] = isset($params['keyboard']) ? (boolean) $params['keyboard'] : true;
 			$opt['show']     = isset($params['show']) ? (boolean) $params['show'] : false;
-			$opt['remote']   = isset($params['remote']) ?  $params['remote'] : '';
+			$opt['remote']   = isset($params['remote']) ? $params['remote'] : '';
 
 			$options = JHtml::getJSObject($opt);
 
@@ -362,9 +364,13 @@ abstract class JHtmlBootstrap
 
 		$options = JHtml::getJSObject($opt);
 
+		$initFunction = 'function initPopovers (event, container) { ' .
+				'$(container || document).find(' . json_encode($selector) . ').popover(' . $options . ');' .
+			'}';
+
 		// Attach the popover to the document
 		JFactory::getDocument()->addScriptDeclaration(
-			'jQuery(function($){ $(' . json_encode($selector) . ').popover(' . $options . '); });'
+			'jQuery(function($){ initPopovers(); $("body").on("subform-row-add", initPopovers); ' . $initFunction . ' });'
 		);
 
 		static::$loaded[__METHOD__][$selector] = true;
@@ -460,7 +466,7 @@ abstract class JHtmlBootstrap
 			$options = JHtml::getJSObject($opt);
 
 			// Build the script.
-			$script = array('$(' . json_encode($selector) . ').tooltip(' . $options . ')');
+			$script = array('$(container).find(' . json_encode($selector) . ').tooltip(' . $options . ')');
 
 			if ($onShow)
 			{
@@ -482,8 +488,14 @@ abstract class JHtmlBootstrap
 				$script[] = 'on("hidden.bs.tooltip", ' . $onHidden . ')';
 			}
 
+			$initFunction = 'function initTooltips (event, container) { ' .
+				'container = container || document;' .
+				implode('.', $script) . ';' .
+				'}';
+
 			// Attach tooltips to document
-			JFactory::getDocument()->addScriptDeclaration('jQuery(function($){ ' . implode('.', $script) . '; });');
+			JFactory::getDocument()
+				->addScriptDeclaration('jQuery(function($){ initTooltips(); $("body").on("subform-row-add", initTooltips); ' . $initFunction . ' });');
 
 			// Set static array
 			static::$loaded[__METHOD__][$selector] = true;
@@ -500,6 +512,8 @@ abstract class JHtmlBootstrap
 	 * @return  void
 	 *
 	 * @since   3.6
+	 *
+	 * @deprecated  4.0 No replacement, use Bootstrap tooltips.
 	 */
 	public static function tooltipExtended($extended = true)
 	{
@@ -535,6 +549,8 @@ abstract class JHtmlBootstrap
 	 * @return  void
 	 *
 	 * @since   3.0
+	 *
+	 * @deprecated  4.0  Bootstrap 4.0 dropped this so will Joomla.
 	 */
 	public static function typeahead($selector = '.typeahead', $params = array())
 	{
@@ -567,7 +583,7 @@ abstract class JHtmlBootstrap
 	}
 
 	/**
-	 * Add javascript support for Bootstrap accordians and insert the accordian
+	 * Add javascript support for Bootstrap accordions and insert the accordion
 	 *
 	 * @param   string  $selector  The ID selector for the tooltip.
 	 * @param   array   $params    An array of options for the tooltip.
@@ -597,7 +613,7 @@ abstract class JHtmlBootstrap
 
 			// Setup options object
 			$opt['parent'] = isset($params['parent']) ? ($params['parent'] == true ? '#' . $selector : $params['parent']) : false;
-			$opt['toggle'] = isset($params['toggle']) ? (boolean) $params['toggle'] : ($opt['parent'] === false || isset($params['active']) ? false : true);
+			$opt['toggle'] = isset($params['toggle']) ? (boolean) $params['toggle'] : !($opt['parent'] === false || isset($params['active']));
 			$onShow = isset($params['onShow']) ? (string) $params['onShow'] : null;
 			$onShown = isset($params['onShown']) ? (string) $params['onShown'] : null;
 			$onHide = isset($params['onHide']) ? (string) $params['onHide'] : null;
@@ -776,8 +792,8 @@ abstract class JHtmlBootstrap
 		static $tabScriptLayout = null;
 		static $tabLayout = null;
 
-		$tabScriptLayout = is_null($tabScriptLayout) ? new JLayoutFile('libraries.cms.html.bootstrap.addtabscript') : $tabScriptLayout;
-		$tabLayout = is_null($tabLayout) ? new JLayoutFile('libraries.cms.html.bootstrap.addtab') : $tabLayout;
+		$tabScriptLayout = $tabScriptLayout === null ? new JLayoutFile('libraries.cms.html.bootstrap.addtabscript') : $tabScriptLayout;
+		$tabLayout = $tabLayout === null ? new JLayoutFile('libraries.cms.html.bootstrap.addtab') : $tabLayout;
 
 		$active = (static::$loaded['JHtmlBootstrap::startTabSet'][$selector]['active'] == $id) ? ' active' : '';
 

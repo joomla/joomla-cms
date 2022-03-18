@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <metafile
-	version="3.7"
+	version="3.10"
 	client="installation">
 	<name>Italian -Italy</name>
-	<version>3.7.0</version>
-	<creationDate>August 2016</creationDate>
+	<version>3.10.4</version>
+	<creationDate>December 2021</creationDate>
 	<author>Italian Translation team</author>
-	<copyright>Copyright (C) 2005 - 2017 Open Source Matters. All rights reserved.</copyright>
+	<copyright>(C) 2006 Open Source Matters, Inc.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<files>
 		<filename>it-IT.ini</filename>

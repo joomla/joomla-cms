@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  Templates.protostar
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2012 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -23,16 +23,8 @@ $view     = $app->input->getCmd('view', '');
 $layout   = $app->input->getCmd('layout', '');
 $task     = $app->input->getCmd('task', '');
 $itemid   = $app->input->getCmd('Itemid', '');
-$sitename = $app->get('sitename');
-
-if ($task ==='edit' || $layout === 'form')
-{
-	$fullWidth = 1;
-}
-else
-{
-	$fullWidth = 0;
-}
+$format   = $app->input->getCmd('format', 'html');
+$sitename = htmlspecialchars($app->get('sitename'), ENT_QUOTES, 'UTF-8');
 
 // Add JavaScript Frameworks
 JHtml::_('bootstrap.framework');
@@ -40,7 +32,7 @@ JHtml::_('bootstrap.framework');
 // Logo file or site title param
 if ($params->get('logoFile'))
 {
-	$logo = '<img src="' . JUri::root() . $params->get('logoFile') . '" alt="' . $sitename . '" />';
+	$logo = '<img src="' . htmlspecialchars(JUri::root() . $params->get('logoFile'), ENT_QUOTES, 'UTF-8') . '" alt="' . $sitename . '" />';
 }
 elseif ($params->get('sitetitle'))
 {
@@ -59,7 +51,7 @@ else
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<?php // Use of Google Font ?>
 	<?php if ($params->get('googleFont')) : ?>
-		<link href="//fonts.googleapis.com/css?family=<?php echo $params->get('googleFontName'); ?>" rel="stylesheet" />
+		<link href="https://fonts.googleapis.com/css?family=<?php echo $params->get('googleFontName'); ?>" rel="stylesheet" />
 		<style>
 			h1, h2, h3, h4, h5, h6, .site-title {
 				font-family: '<?php echo str_replace('+', ' ', $params->get('googleFontName')); ?>', sans-serif;
@@ -73,6 +65,9 @@ else
 	<?php // If Right-to-Left ?>
 	<?php if ($this->direction === 'rtl') : ?>
 		<link href="<?php echo JUri::root(true); ?>/media/jui/css/bootstrap-rtl.css" rel="stylesheet" />
+	<?php endif; ?>
+	<?php if (file_exists('templates/' . $this->template . '/css/user.css')) : ?>
+		<link href="<?php echo $this->baseurl; ?>/templates/<?php echo $this->template; ?>/css/user.css" rel="stylesheet" />
 	<?php endif; ?>
 	<link href="<?php echo $this->baseurl; ?>/templates/<?php echo $this->template; ?>/favicon.ico" rel="shortcut icon" type="image/vnd.microsoft.icon" />
 	<?php // Template color ?>
@@ -102,10 +97,11 @@ else
 	. ($layout ? ' layout-' . $layout : ' no-layout')
 	. ($task ? ' task-' . $task : ' no-task')
 	. ($itemid ? ' itemid-' . $itemid : '')
-	. ($params->get('fluidContainer') ? ' fluid' : '');
+	. ($params->get('fluidContainer') ? ' fluid' : '')
+	. ($this->direction === 'rtl' ? ' rtl' : '');
 ?>">
 	<!-- Body -->
-	<div class="body">
+	<div class="body" id="top">
 		<div class="container<?php echo ($params->get('fluidContainer') ? '-fluid' : ''); ?>">
 			<!-- Header -->
 			<header class="header" role="banner">
@@ -113,22 +109,28 @@ else
 					<a class="brand pull-left" href="<?php echo $this->baseurl; ?>/">
 						<?php echo $logo; ?>
 					</a>
-					<div class="header-search pull-right">
-						<?php // Display position-0 modules ?>
-						<?php echo $this->getBuffer('modules', 'position-0', array('style' => 'none')); ?>
-					</div>
+					<?php if ($format === 'html') : ?>
+						<div class="header-search pull-right">
+							<?php // Display position-0 modules ?>
+							<?php echo $this->loadRenderer('modules')->render('position-0', array('style' => 'none')); ?>
+						</div>
+					<?php endif; ?>
 				</div>
 			</header>
-			<div class="navigation">
-				<?php // Display position-1 modules ?>
-				<?php echo $this->getBuffer('modules', 'position-1', array('style' => 'none')); ?>
-			</div>
+			<?php if ($format === 'html') : ?>
+				<nav class="navigation" role="navigation">
+					<?php // Display position-1 modules ?>
+					<?php echo $this->loadRenderer('modules')->render('position-1', array('style' => 'none')); ?>
+				</nav>
+			<?php endif; ?>
 			<!-- Banner -->
-			<div class="banner">
-				<?php echo $this->getBuffer('modules', 'banner', array('style' => 'xhtml')); ?>
-			</div>
+			<?php if ($format === 'html') : ?>
+				<div class="banner">
+					<?php echo $this->loadRenderer('modules')->render('banner', array('style' => 'xhtml')); ?>
+				</div>
+			<?php endif; ?>
 			<div class="row-fluid">
-				<div id="content" class="span12">
+				<main id="content" role="main" class="span12">
 					<!-- Begin Content -->
 					<h1 class="page-header"><?php echo JText::_('JERROR_LAYOUT_PAGE_NOT_FOUND'); ?></h1>
 					<div class="well">
@@ -144,10 +146,11 @@ else
 								</ul>
 							</div>
 							<div class="span6">
-								<?php if (JModuleHelper::getModule('search')) : ?>
+								<?php if ($format === 'html' && JModuleHelper::getModule('mod_search')) : ?>
 									<p><strong><?php echo JText::_('JERROR_LAYOUT_SEARCH'); ?></strong></p>
 									<p><?php echo JText::_('JERROR_LAYOUT_SEARCH_PAGE'); ?></p>
-									<?php echo $this->getBuffer('module', 'search'); ?>
+									<?php $module = JModuleHelper::getModule('mod_search'); ?>
+									<?php echo JModuleHelper::renderModule($module); ?>
 								<?php endif; ?>
 								<p><?php echo JText::_('JERROR_LAYOUT_GO_TO_THE_HOME_PAGE'); ?></p>
 								<p><a href="<?php echo $this->baseurl; ?>/index.php" class="btn"><span class="icon-home" aria-hidden="true"></span> <?php echo JText::_('JERROR_LAYOUT_HOME_PAGE'); ?></a></p>
@@ -157,6 +160,9 @@ else
 						<p><?php echo JText::_('JERROR_LAYOUT_PLEASE_CONTACT_THE_SYSTEM_ADMINISTRATOR'); ?></p>
 						<blockquote>
 							<span class="label label-inverse"><?php echo $this->error->getCode(); ?></span> <?php echo htmlspecialchars($this->error->getMessage(), ENT_QUOTES, 'UTF-8');?>
+							<?php if ($this->debug) : ?>
+								<br/><?php echo htmlspecialchars($this->error->getFile(), ENT_QUOTES, 'UTF-8');?>:<?php echo $this->error->getLine(); ?>
+							<?php endif; ?>
 						</blockquote>
 						<?php if ($this->debug) : ?>
 							<div>
@@ -169,7 +175,10 @@ else
 									<?php $this->setError($this->_error->getPrevious()); ?>
 									<?php while ($loop === true) : ?>
 										<p><strong><?php echo JText::_('JERROR_LAYOUT_PREVIOUS_ERROR'); ?></strong></p>
-										<p><?php echo htmlspecialchars($this->_error->getMessage(), ENT_QUOTES, 'UTF-8'); ?></p>
+										<p>
+											<?php echo htmlspecialchars($this->_error->getMessage(), ENT_QUOTES, 'UTF-8'); ?>
+											<br/><?php echo htmlspecialchars($this->_error->getFile(), ENT_QUOTES, 'UTF-8');?>:<?php echo $this->_error->getLine(); ?>
+										</p>
 										<?php echo $this->renderBacktrace(); ?>
 										<?php $loop = $this->setError($this->_error->getPrevious()); ?>
 									<?php endwhile; ?>
@@ -180,15 +189,17 @@ else
 						<?php endif; ?>
 					</div>
 					<!-- End Content -->
-				</div>
+				</main>
 			</div>
 		</div>
 	</div>
 	<!-- Footer -->
-	<div class="footer">
+	<footer class="footer" role="contentinfo">
 		<div class="container<?php echo ($params->get('fluidContainer') ? '-fluid' : ''); ?>">
 			<hr />
-			<?php echo $this->getBuffer('modules', 'footer', array('style' => 'none')); ?>
+			<?php if ($format === 'html') : ?>
+				<?php echo $this->loadRenderer('modules')->render('footer', array('style' => 'none')); ?>
+			<?php endif; ?>
 			<p class="pull-right">
 				<a href="#top" id="back-top">
 					<?php echo JText::_('TPL_PROTOSTAR_BACKTOTOP'); ?>
@@ -198,7 +209,9 @@ else
 				&copy; <?php echo date('Y'); ?> <?php echo $sitename; ?>
 			</p>
 		</div>
-	</div>
-	<?php echo $this->getBuffer('modules', 'debug', array('style' => 'none')); ?>
+	</footer>
+	<?php if ($format === 'html') : ?>
+		<?php echo $this->loadRenderer('modules')->render('debug', array('style' => 'none')); ?>
+	<?php endif; ?>
 </body>
 </html>

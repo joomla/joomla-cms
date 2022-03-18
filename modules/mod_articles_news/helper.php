@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  mod_articles_news
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2010 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -39,10 +39,14 @@ abstract class ModArticlesNewsHelper
 		$appParams = $app->getParams();
 		$model->setState('params', $appParams);
 
-		// Set the filters based on the module params
 		$model->setState('list.start', 0);
-		$model->setState('list.limit', (int) $params->get('count', 5));
 		$model->setState('filter.published', 1);
+
+		// Set the filters based on the module params
+		$model->setState('list.limit', (int) $params->get('count', 5));
+
+		// This module does not use tags data
+		$model->setState('load_tags', false);
 
 		// Access filter
 		$access     = !JComponentHelper::getParams('com_content')->get('show_noauth');
@@ -55,18 +59,23 @@ abstract class ModArticlesNewsHelper
 		// Filter by language
 		$model->setState('filter.language', $app->getLanguageFilter());
 
-		//  Featured switch
-		switch ($params->get('show_featured'))
+		// Filer by tag
+		$model->setState('filter.tag', $params->get('tag', array()));
+
+		// Featured switch
+		$featured = $params->get('show_featured', '');
+
+		if ($featured === '')
 		{
-			case '1' :
-				$model->setState('filter.featured', 'only');
-				break;
-			case '0' :
-				$model->setState('filter.featured', 'hide');
-				break;
-			default :
-				$model->setState('filter.featured', 'show');
-				break;
+			$model->setState('filter.featured', 'show');
+		}
+		elseif ($featured)
+		{
+			$model->setState('filter.featured', 'only');
+		}
+		else
+		{
+			$model->setState('filter.featured', 'hide');
 		}
 
 		// Set ordering
@@ -95,7 +104,7 @@ abstract class ModArticlesNewsHelper
 			$item->readmore = strlen(trim($item->fulltext));
 			$item->slug     = $item->id . ':' . $item->alias;
 
-			/** @deprecated Catslug is deprecated, use catid instead. 4.0 **/
+			/** @deprecated Catslug is deprecated, use catid instead. 4.0 */
 			$item->catslug  = $item->catid . ':' . $item->category_alias;
 
 			if ($access || in_array($item->access, $authorised))
@@ -113,23 +122,54 @@ abstract class ModArticlesNewsHelper
 
 			$item->introtext = JHtml::_('content.prepare', $item->introtext, '', 'mod_articles_news.content');
 
+			// Remove any images belongs to the text
 			if (!$params->get('image'))
 			{
 				$item->introtext = preg_replace('/<img[^>]*>/', '', $item->introtext);
 			}
 
+			// Show the Intro/Full image field of the article
+			if ($params->get('img_intro_full') !== 'none')
+			{
+				$images = json_decode($item->images);
+				$item->imageSrc = '';
+				$item->imageAlt = '';
+				$item->imageCaption = '';
+
+				if ($params->get('img_intro_full') === 'intro' && !empty($images->image_intro))
+				{
+					$item->imageSrc = htmlspecialchars($images->image_intro, ENT_COMPAT, 'UTF-8');
+					$item->imageAlt = htmlspecialchars($images->image_intro_alt, ENT_COMPAT, 'UTF-8');
+
+					if ($images->image_intro_caption) 
+					{
+						$item->imageCaption = htmlspecialchars($images->image_intro_caption, ENT_COMPAT, 'UTF-8');
+					}
+				}
+				elseif ($params->get('img_intro_full') === 'full' && !empty($images->image_fulltext))
+				{
+					$item->imageSrc = htmlspecialchars($images->image_fulltext, ENT_COMPAT, 'UTF-8');
+					$item->imageAlt = htmlspecialchars($images->image_fulltext_alt, ENT_COMPAT, 'UTF-8');
+
+					if ($images->image_intro_caption) 
+					{
+						$item->imageCaption = htmlspecialchars($images->image_fulltext_caption, ENT_COMPAT, 'UTF-8');
+					}
+				}
+			}
+
 			if ($triggerEvents)
 			{
 				$item->text = '';
-				$app->triggerEvent('onContentPrepare', array ('com_content.article', &$item, &$params, 1));
+				$app->triggerEvent('onContentPrepare', array ('com_content.article', &$item, &$params, 0));
 
-				$results                 = $app->triggerEvent('onContentAfterTitle', array('com_content.article', &$item, &$params, 1));
+				$results                 = $app->triggerEvent('onContentAfterTitle', array('com_content.article', &$item, &$params, 0));
 				$item->afterDisplayTitle = trim(implode("\n", $results));
 
-				$results                    = $app->triggerEvent('onContentBeforeDisplay', array('com_content.article', &$item, &$params, 1));
+				$results                    = $app->triggerEvent('onContentBeforeDisplay', array('com_content.article', &$item, &$params, 0));
 				$item->beforeDisplayContent = trim(implode("\n", $results));
 
-				$results                   = $app->triggerEvent('onContentAfterDisplay', array('com_content.article', &$item, &$params, 1));
+				$results                   = $app->triggerEvent('onContentAfterDisplay', array('com_content.article', &$item, &$params, 0));
 				$item->afterDisplayContent = trim(implode("\n", $results));
 			}
 			else

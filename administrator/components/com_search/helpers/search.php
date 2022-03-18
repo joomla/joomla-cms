@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_search
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2006 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -150,19 +150,19 @@ class SearchHelper
 	/**
 	 * Logs a search term.
 	 *
-	 * @param   string  $search_term  The term being searched.
+	 * @param   string  $searchTerm  The term being searched.
 	 *
 	 * @return  void
 	 *
 	 * @since   1.5
-	 * @deprecated  4.0  Use JSearchHelper::logSearch() instead.
+	 * @deprecated  4.0  Use \Joomla\CMS\Helper\SearchHelper::logSearch() instead.
 	 */
-	public static function logSearch($search_term)
+	public static function logSearch($searchTerm)
 	{
 		try
 		{
 			JLog::add(
-				sprintf('%s() is deprecated. Use JSearchHelper::logSearch() instead.', __METHOD__),
+				sprintf('%s() is deprecated. Use \Joomla\CMS\Helper\SearchHelper::logSearch() instead.', __METHOD__),
 				JLog::WARNING,
 				'deprecated'
 			);
@@ -172,7 +172,7 @@ class SearchHelper
 			// Informational log only
 		}
 
-		JSearchHelper::logSearch($search_term, 'com_search');
+		\Joomla\CMS\Helper\SearchHelper::logSearch($searchTerm, 'com_search');
 	}
 
 	/**
@@ -287,8 +287,9 @@ class SearchHelper
 		$lsearchword = StringHelper::strtolower(self::remove_accents($searchword));
 		$wordfound   = false;
 		$pos         = 0;
+		$length      = $length > $textlen ? $textlen : $length;
 
-		while ($wordfound === false && $pos < $textlen)
+		while ($wordfound === false && $pos + $length < $textlen)
 		{
 			if (($wordpos = @StringHelper::strpos($ltext, ' ', $pos + $length)) !== false)
 			{
@@ -310,11 +311,48 @@ class SearchHelper
 
 		if ($wordfound !== false)
 		{
-			return (($pos > 0) ? '...&#160;' : '') . StringHelper::substr($text, $pos, $chunk_size) . '&#160;...';
+			// Check if original text is different length than searched text (changed by function self::remove_accents)
+			// Displayed text only, adjust $chunk_size
+			if ($pos === 0)
+			{
+				$iOriLen = StringHelper::strlen(StringHelper::substr($text, 0, $pos + $chunk_size));
+				$iModLen = StringHelper::strlen(self::remove_accents(StringHelper::substr($text, 0, $pos + $chunk_size)));
+
+				$chunk_size += $iOriLen - $iModLen;
+			}
+			else
+			{
+				$iOriSkippedLen = StringHelper::strlen(StringHelper::substr($text, 0, $pos));
+				$iModSkippedLen = StringHelper::strlen(self::remove_accents(StringHelper::substr($text, 0, $pos)));
+
+				// Adjust starting position $pos
+				if ($iOriSkippedLen !== $iModSkippedLen)
+				{
+					$pos += $iOriSkippedLen - $iModSkippedLen;
+				}
+
+				$iOriReturnLen = StringHelper::strlen(StringHelper::substr($text, $pos, $chunk_size));
+				$iModReturnLen = StringHelper::strlen(self::remove_accents(StringHelper::substr($text, $pos, $chunk_size)));
+
+				if ($iOriReturnLen !== $iModReturnLen)
+				{
+					$chunk_size += $iOriReturnLen - $iModReturnLen;
+				}
+			}
+
+			$sPre = $pos > 0 ? '...&#160;' : '';
+			$sPost = ($pos + $chunk_size) >= StringHelper::strlen($text) ? '' : '&#160;...';
+
+			return $sPre . StringHelper::substr($text, $pos, $chunk_size) . $sPost;
 		}
 		else
 		{
-			if (($wordpos = @StringHelper::strpos($text, ' ', $length)) !== false)
+			if (($mbtextlen = StringHelper::strlen($text)) < $length)
+			{
+				$length = $mbtextlen;
+			}
+
+			if (($wordpos = StringHelper::strpos($text, ' ', $length)) !== false)
 			{
 				return StringHelper::substr($text, 0, $wordpos) . '&#160;...';
 			}

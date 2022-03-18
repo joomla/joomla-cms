@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Openstreetmap
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2013 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -13,43 +13,43 @@
  * @package     Joomla.UnitTest
  * @subpackage  Openstreetmap
  *
- * @since       13.1
+ * @since       3.2.0
  */
 class JOpenstreetmapElementsTest extends TestCase
 {
 	/**
 	 * @var    JRegistry  Options for the Openstreetmap object.
-	 * @since  13.1
+	 * @since  3.2.0
 	 */
 	protected $options;
 
 	/**
 	 * @var    JHttp  Mock client object.
-	 * @since  13.1
+	 * @since  3.2.0
 	 */
 	protected $client;
 
 	/**
 	 * @var    JInput The input object to use in retrieving GET/POST data.
-	 * @since  13.1
+	 * @since  3.2.0
 	 */
 	protected $input;
 
 	/**
 	 * @var    JOpenstreetmapElements Object under test.
-	 * @since  13.1
+	 * @since  3.2.0
 	 */
 	protected $object;
 
 	/**
 	 * @var    JOpenstreetmapOauth  Authentication object for the Openstreetmap object.
-	 * @since  13.1
+	 * @since  3.2.0
 	 */
 	protected $oauth;
 
 	/**
 	 * @var    string  Sample XML.
-	 * @since  13.1
+	 * @since  3.2.0
 	 */
 	protected $sampleXml = <<<XML
 <?xml version='1.0'?>
@@ -58,7 +58,7 @@ XML;
 
 	/**
 	 * @var    string  Sample XML error message.
-	* @since  13.1
+	* @since  3.2.0
 	*/
 	protected $errorString = <<<XML
 <?xml version='1.0'?>
@@ -119,12 +119,7 @@ XML;
 	protected function tearDown()
 	{
 		$_SERVER = $this->backupServer;
-		unset($this->backupServer);
-		unset($this->options);
-		unset($this->input);
-		unset($this->client);
-		unset($this->oauth);
-		unset($this->object);
+		unset($this->backupServer, $this->options, $this->input, $this->client, $this->oauth, $this->object);
 	}
 
 	/**
@@ -132,7 +127,7 @@ XML;
 	 *
 	 * @return  array
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 */
 	public function testCreateNode()
 	{
@@ -163,7 +158,7 @@ XML;
 	 *
 	 * @return  void
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 * @expectedException DomainException
 	 */
 	public function testCreateNodeFailure()
@@ -192,7 +187,7 @@ XML;
 	 *
 	 * @return  array
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 */
 	public function testCreateWay()
 	{
@@ -222,7 +217,7 @@ XML;
 	 *
 	 * @return  void
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 * @expectedException DomainException
 	 */
 	public function testCreateWayFailure()
@@ -250,7 +245,7 @@ XML;
 	 *
 	 * @return  array
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 */
 	public function testCreateRelation()
 	{
@@ -280,7 +275,7 @@ XML;
 	 *
 	 * @return  void
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 * @expectedException DomainException
 	 */
 	public function testCreateRelationFailure()
@@ -308,7 +303,7 @@ XML;
 	 *
 	 * @return array
 	 *
-	 * @since 13.1
+	 * @since 3.2.0
 	 */
 	public function seedElement()
 	{
@@ -321,11 +316,11 @@ XML;
 	}
 
 	/**
-	 * Provides test data for element type - faliures
+	 * Provides test data for element type - failures
 	 *
 	 * @return array
 	 *
-	 * @since 13.1
+	 * @since 3.2.0
 	 */
 	public function seedElementFailure()
 	{
@@ -345,7 +340,7 @@ XML;
 	 *
 	 * @return  void
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 * @dataProvider seedElement
 	 */
 	public function testReadElement($element)
@@ -377,7 +372,7 @@ XML;
 	 *
 	 * @return  void
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 * @expectedException DomainException
 	 * @dataProvider seedElementFailure
 	 */
@@ -407,7 +402,7 @@ XML;
 	 *
 	 * @return  array
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 * @dataProvider seedElement
 	 */
 	public function testUpdateElement($element)
@@ -439,7 +434,7 @@ XML;
 	 *
 	 * @return  array
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 * @expectedException DomainException
 	 * @dataProvider seedElementFailure
 	 */
@@ -469,7 +464,7 @@ XML;
 	 * 
 	 * @return  array
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 * @dataProvider seedElement
 	 */
 	public function testDeleteElement($element)
@@ -504,7 +499,7 @@ XML;
 	 * 
 	 * @return  array
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 * @expectedException DomainException
 	 * @dataProvider seedElementFailure
 	 */
@@ -537,7 +532,7 @@ XML;
 	 * 
 	 * @return  void
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 * @dataProvider seedElement
 	 */
 	public function testHistoryOfElement($element)
@@ -569,7 +564,7 @@ XML;
 	 * 
 	 * @return  void
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 * @expectedException DomainException
 	 * @dataProvider seedElementFailure
 	 */
@@ -599,7 +594,7 @@ XML;
 	 * 
 	 * @return  void
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 * @dataProvider seedElement
 	 */
 	public function testVersionOfElement($element)
@@ -632,7 +627,7 @@ XML;
 	 * 
 	 * @return  void
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 * @expectedException DomainException
 	 * @dataProvider seedElementFailure
 	 */
@@ -661,7 +656,7 @@ XML;
 	 *
 	 * @return array
 	 *
-	 * @since 13.1
+	 * @since 3.2.0
 	 */
 	public function seedElements()
 	{
@@ -674,11 +669,11 @@ XML;
 	}
 
 	/**
-	 * Provides test data for element type - faliures
+	 * Provides test data for element type - failures
 	 *
 	 * @return array
 	 *
-	 * @since 13.1
+	 * @since 3.2.0
 	 */
 	public function seedElementsFailure()
 	{
@@ -698,7 +693,7 @@ XML;
 	 * 
 	 * @return  void
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 * @dataProvider seedElements
 	 */
 	public function testMultiFetchElements($element)
@@ -731,7 +726,7 @@ XML;
 	 * 
 	 * @return  void
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 * @expectedException DomainException
 	 * @dataProvider seedElementsFailure
 	 */
@@ -762,7 +757,7 @@ XML;
 	 * 
 	 * @return  void
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 * @dataProvider seedElement
 	 */
 	public function testRelationsForElement($element)
@@ -794,7 +789,7 @@ XML;
 	 * 
 	 * @return  void
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 * @expectedException DomainException
 	 * @dataProvider seedElementFailure
 	 */
@@ -822,7 +817,7 @@ XML;
 	 *
 	 * @return  void
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 */
 	public function testWaysForNode()
 	{
@@ -851,7 +846,7 @@ XML;
 	 *
 	 * @return  void
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 * @expectedException DomainException
 	 */
 	public function testWaysForNodeFailure()
@@ -878,7 +873,7 @@ XML;
 	 *
 	 * @return array
 	 *
-	 * @since 13.1
+	 * @since 3.2.0
 	 */
 	public function seedFullElement()
 	{
@@ -890,11 +885,11 @@ XML;
 	}
 
 	/**
-	 * Provides test data for full element type - faliures
+	 * Provides test data for full element type - failures
 	 *
 	 * @return array
 	 *
-	 * @since 13.1
+	 * @since 3.2.0
 	 */
 	public function seedFullElementFailure()
 	{
@@ -913,7 +908,7 @@ XML;
 	 * 
 	 * @return  void
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 * @dataProvider seedFullElement
 	 */
 	public function testFullElement($element)
@@ -945,7 +940,7 @@ XML;
 	 * 
 	 * @return  void
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 * @expectedException DomainException
 	 * @dataProvider seedFullElementFailure
 	 */
@@ -975,7 +970,7 @@ XML;
 	 * 
 	 * @return  void
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 * @dataProvider seedElement
 	 */
 	public function testRedaction($element)
@@ -1008,7 +1003,7 @@ XML;
 	 * 
 	 * @return  void
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 * @expectedException DomainException
 	 * @dataProvider seedElementFailure
 	 */

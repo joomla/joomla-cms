@@ -2,7 +2,7 @@
 /**
  * @package    Joomla.UnitTest
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2013 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -11,7 +11,7 @@
  *
  * @package     Joomla.UnitTest
  * @subpackage  Google
- * @since       12.3
+ * @since       3.1.4
  */
 class JGoogleEmbedMapsTest extends TestCase
 {
@@ -67,9 +67,7 @@ class JGoogleEmbedMapsTest extends TestCase
 	 */
 	protected function tearDown()
 	{
-		unset($this->options);
-		unset($this->uri);
-		unset($this->object);
+		unset($this->options, $this->uri, $this->object);
 		parent::tearDown();
 	}
 
@@ -749,7 +747,7 @@ class JGoogleEmbedMapsTest extends TestCase
  *
  * @return  JHttpResponse
  *
- * @since   12.3
+ * @since   3.1.4
  */
 function mapsGeocodeCallback($url, array $headers = null, $timeout = null)
 {
@@ -762,11 +760,11 @@ function mapsGeocodeCallback($url, array $headers = null, $timeout = null)
 	switch ($address)
 	{
 		case 'san francisco':
-		$data = file_get_contents(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'sanfrancisco.txt');
+		$data = file_get_contents(__DIR__ . DIRECTORY_SEPARATOR . 'sanfrancisco.txt');
 		break;
 
 		case 'palo alto':
-		$data = file_get_contents(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'paloalto.txt');
+		$data = file_get_contents(__DIR__ . DIRECTORY_SEPARATOR . 'paloalto.txt');
 		break;
 
 		default:
@@ -791,7 +789,7 @@ function mapsGeocodeCallback($url, array $headers = null, $timeout = null)
  *
  * @return  JHttpResponse
  *
- * @since   12.3
+ * @since   3.1.4
  */
 function mapsGeocode400Callback($url, array $headers = null, $timeout = null)
 {
@@ -813,7 +811,7 @@ function mapsGeocode400Callback($url, array $headers = null, $timeout = null)
  *
  * @return  JHttpResponse
  *
- * @since   12.3
+ * @since   3.1.4
  */
 function mapsGeocodeBadJsonCallback($url, array $headers = null, $timeout = null)
 {

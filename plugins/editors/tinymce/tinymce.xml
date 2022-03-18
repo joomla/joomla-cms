@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension version="3.2" type="plugin" group="editors" method="upgrade">
 	<name>plg_editors_tinymce</name>
-	<version>4.5.7</version>
-	<creationDate>2005-2017</creationDate>
-	<author>Ephox Corporation</author>
+	<version>4.5.12</version>
+	<creationDate>2005-2020</creationDate>
+	<author>Tiny Technologies, Inc</author>
 	<authorEmail>N/A</authorEmail>
-	<authorUrl>http://www.tinymce.com</authorUrl>
-	<copyright>Ephox Corporation</copyright>
+	<authorUrl>https://www.tiny.cloud</authorUrl>
+	<copyright>Tiny Technologies, Inc</copyright>
 	<license>LGPL</license>
 	<description>PLG_TINY_XML_DESCRIPTION</description>
 	<files>
@@ -24,10 +24,10 @@
 	<config>
 		<fields name="params">
 			<fieldset name="basic">
-				<field 
-				       name="configuration" 
-				       type="tinymcebuilder" 
-				       hiddenLabel="true" 
+				<field
+				       name="configuration"
+				       type="tinymcebuilder"
+				       hiddenLabel="true"
 				 />
 			</fieldset>
 
@@ -48,7 +48,7 @@
 					type="text"
 					label="PLG_TINY_FIELD_HTMLHEIGHT_LABEL"
 					description="PLG_TINY_FIELD_HTMLHEIGHT_DESC"
-					default="550"
+					default="550px"
 				/>
 
 				<field

@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Openstreetmap
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2013 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,31 +12,31 @@
  *
  * @package     Joomla.UnitTest
  * @subpackage  Openstreetmap
- * @since       13.1
+ * @since       3.2.0
  */
 class JOpenstreetmapTest extends TestCase
 {
 	/**
 	 * @var    JRegistry  Options for the Openstreetmap object.
-	 * @since  13.1
+	 * @since  3.2.0
 	 */
 	protected $options;
 
 	/**
 	 * @var    JHttp  Mock http object.
-	 * @since  13.1
+	 * @since  3.2.0
 	 */
 	protected $client;
 
 	/**
 	 * @var    JOpenstreetmap  Object under test.
-	 * @since  13.1
+	 * @since  3.2.0
 	 */
 	protected $object;
 
 	/**
 	 * @var JOpenstreetmapOAuth OAuth 1 client
-	 * @since 13.1
+	 * @since 3.2.0
 	 */
 	protected $oauth;
 
@@ -80,10 +80,7 @@ class JOpenstreetmapTest extends TestCase
 	protected function tearDown()
 	{
 		$_SERVER = $this->backupServer;
-		unset($this->backupServer);
-		unset($this->options);
-		unset($this->client);
-		unset($this->object);
+		unset($this->backupServer, $this->options, $this->client, $this->object);
 	}
 
 	/**
@@ -91,7 +88,7 @@ class JOpenstreetmapTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 */
 	public function test__GetChangesets()
 	{
@@ -106,7 +103,7 @@ class JOpenstreetmapTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 */
 	public function test__GetElements()
 	{
@@ -121,7 +118,7 @@ class JOpenstreetmapTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 */
 	public function test__GetGps()
 	{
@@ -136,7 +133,7 @@ class JOpenstreetmapTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 */
 	public function test__GetInfo()
 	{
@@ -151,7 +148,7 @@ class JOpenstreetmapTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 */
 	public function test__GetUser()
 	{
@@ -162,11 +159,11 @@ class JOpenstreetmapTest extends TestCase
 	}
 
 	/**
-	 * Tests the magic __get method - other (non existant)
+	 * Tests the magic __get method - other (non existent)
 	 *
 	 * @return  void
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 * @expectedException  InvalidArgumentException
 	 */
 	public function test__GetOther()
@@ -179,7 +176,7 @@ class JOpenstreetmapTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 */
 	public function testSetOption()
 	{
@@ -196,7 +193,7 @@ class JOpenstreetmapTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 */
 	public function testGetOption()
 	{

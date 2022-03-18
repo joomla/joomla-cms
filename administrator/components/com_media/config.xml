@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <config>
-	<fieldset 
+	<fieldset
 		name="component"
 		label="COM_MEDIA_FIELDSET_OPTIONS_LABEL">
 		<field
@@ -14,16 +14,18 @@
 
 		<field
 			name="upload_maxsize"
-			type="text"
+			type="number"
 			label="COM_MEDIA_FIELD_MAXIMUM_SIZE_LABEL"
-			description="COM_MEDIA_FIELD_MAXIMUM_SIZE_DESC" 
+			description="COM_MEDIA_FIELD_MAXIMUM_SIZE_DESC"
+			validate="number"
+			min="0"
 			size="50"
 			default="10"
 		/>
 
 		<field
-			name="spacer1" 
-			type="spacer" 
+			name="spacer1"
+			type="spacer"
 			label="COM_MEDIA_FOLDERS_PATH_LABEL"
 			class="text"
 		/>
@@ -32,9 +34,11 @@
 			name="file_path"
 			type="text"
 			label="COM_MEDIA_FIELD_PATH_FILE_FOLDER_LABEL"
-			description="COM_MEDIA_FIELD_PATH_FILE_FOLDER_DESC" 
+			description="COM_MEDIA_FIELD_PATH_FILE_FOLDER_DESC"
 			size="50"
 			default="images"
+			validate="filePath"
+			exclude="administrator|api|bin|cache|cli|components|includes|language|layouts|libraries|media|modules|plugins|templates|tmp"
 		/>
 
 		<field
@@ -44,6 +48,8 @@
 			description="COM_MEDIA_FIELD_PATH_IMAGE_FOLDER_DESC"
 			size="50"
 			default="images"
+			validate="filePath"
+			exclude="administrator|api|bin|cache|cli|components|includes|language|layouts|libraries|modules|plugins|templates|tmp"
 		/>
 
 		<field
@@ -65,6 +71,7 @@
 			description="COM_MEDIA_FIELD_CHECK_MIME_DESC"
 			class="btn-group btn-group-yesno"
 			default="1"
+			showon="restrict_uploads:1"
 			>
 			<option value="1">JYES</option>
 			<option value="0">JNO</option>
@@ -77,13 +84,14 @@
 			description="COM_MEDIA_FIELD_LEGAL_IMAGE_EXTENSIONS_DESC"
 			size="50"
 			default="bmp,gif,jpg,png"
+			showon="restrict_uploads:1"
 		/>
 
 		<field
 			name="ignore_extensions"
 			type="text"
 			label="COM_MEDIA_FIELD_IGNORED_EXTENSIONS_LABEL"
-			description="COM_MEDIA_FIELD_IGNORED_EXTENSIONS_DESC" 
+			description="COM_MEDIA_FIELD_IGNORED_EXTENSIONS_DESC"
 			size="50"
 		/>
 
@@ -94,6 +102,7 @@
 			description="COM_MEDIA_FIELD_LEGAL_MIME_TYPES_DESC"
 			size="50"
 			default="image/jpeg,image/gif,image/png,image/bmp,application/msword,application/excel,application/pdf,application/powerpoint,text/plain,application/x-zip"
+			showon="restrict_uploads:1"
 		/>
 
 		<field
@@ -103,7 +112,8 @@
 			description="COM_MEDIA_FIELD_ILLEGAL_MIME_TYPES_DESC"
 			size="50"
 			default="text/html"
-		 />
+			showon="restrict_uploads:1"
+		/>
 	</fieldset>
 
 	<fieldset

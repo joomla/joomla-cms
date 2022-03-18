@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Filter
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2013 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,7 +12,7 @@
  *
  * @package     Joomla.UnitTest
  * @subpackage  Filter
- * @since       11.1
+ * @since       1.7.0
  */
 class JFilterInputTest extends \PHPUnit\Framework\TestCase
 {
@@ -476,6 +476,12 @@ class JFilterInputTest extends \PHPUnit\Framework\TestCase
 				'123.567',
 				'From generic cases'
 			),
+			'string_02' => array(
+				'string',
+				'em>',
+				'em>',
+				'From generic cases'
+			),
 			'string_single_quote' => array(
 				'string',
 				"this is a 'test' of ?",
@@ -538,8 +544,8 @@ class JFilterInputTest extends \PHPUnit\Framework\TestCase
 			),
 			'unknown_03' => array(
 				'',
-				array("key" => "Value", "key2" => "This&That", "key2" => "This&amp;That"),
-				array("key" => "Value", "key2" => "This&That", "key2" => "This&That"),
+				array("key" => "Value", "key2" => "This&amp;That"),
+				array("key" => "Value", "key2" => "This&That"),
 				'From generic cases'
 			),
 			'unknown_04' => array(
@@ -552,6 +558,12 @@ class JFilterInputTest extends \PHPUnit\Framework\TestCase
 				'',
 				'<em',
 				'em',
+				'From generic cases'
+			),
+			'tag_02' => array(
+				'',
+				'em>',
+				'em>',
 				'From generic cases'
 			),
 			'Kill script' => array(
@@ -1339,19 +1351,19 @@ class JFilterInputTest extends \PHPUnit\Framework\TestCase
 			'tracker25558b' => array(
 				'string',
 				'<IMG STYLE="xss:expression(alert(\'XSS\'))" />',
-				'<IMG STYLE="xss(alert(\'XSS\'))" />',
+				'<IMG style="xss(alert(\'XSS\'))" />',
 				'Test mal-formed element from 25558b'
 			),
 			'tracker25558c' => array(
 				'string',
 				'<IMG STYLE="xss:expr/*XSS*/ession(alert(\'XSS\'))" />',
-				'<IMG STYLE="xss(alert(\'XSS\'))" />',
+				'<IMG style="xss(alert(\'XSS\'))" />',
 				'Test mal-formed element from 25558b'
 			),
 			'tracker25558d' => array(
 				'string',
 				'<IMG STYLE="xss:expr/*XSS*/ess/*another comment*/ion(alert(\'XSS\'))" />',
-				'<IMG STYLE="xss(alert(\'XSS\'))" />',
+				'<IMG style="xss(alert(\'XSS\'))" />',
 				'Test mal-formed element from 25558b'
 			),
 			'tracker25558e' => array(
@@ -1365,6 +1377,12 @@ class JFilterInputTest extends \PHPUnit\Framework\TestCase
 				"<img src='<img src='///'/> ",
 				"<img src=\"'&lt;img\" src=\"'///'/\" /> ",
 				'From specific cases'
+			),
+			'decode_01' => array(
+				'',
+				'<div&#x003e;Hello &quot;Joomla&quot;&#60;/div>',
+				'<div>Hello "Joomla"</div>',
+				'Generic test case for decode string with HTML cleaning'
 			),
 			'html_01' => array(
 				'html',

@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Editors.codemirror
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2009 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -21,7 +21,7 @@ class PlgEditorCodemirror extends JPlugin
 	 * Affects constructor behavior. If true, language files will be loaded automatically.
 	 *
 	 * @var    boolean
-	 * @since  12.3
+	 * @since  3.1.4
 	 */
 	protected $autoloadLanguage = true;
 
@@ -30,12 +30,7 @@ class PlgEditorCodemirror extends JPlugin
 	 *
 	 * @var array
 	 */
-	protected $modeAlias = array(
-			'html' => 'htmlmixed',
-			'ini'  => 'properties',
-			'json' => array('name' => 'javascript', 'json' => true),
-			'scss' => 'css',
-		);
+	protected $modeAlias = array();
 
 	/**
 	 * Initialises the Editor.
@@ -71,14 +66,14 @@ class PlgEditorCodemirror extends JPlugin
 		JLayoutHelper::render('editors.codemirror.init', $displayData, __DIR__ . '/layouts');
 		ob_end_clean();
 
-		$font = $this->params->get('fontFamily', 0);
+		$font = $this->params->get('fontFamily', '0');
 		$fontInfo = $this->getFontInfo($font);
 
 		if (isset($fontInfo))
 		{
 			if (isset($fontInfo->url))
 			{
-				$doc->addStylesheet($fontInfo->url);
+				$doc->addStyleSheet($fontInfo->url);
 			}
 
 			if (isset($fontInfo->css))
@@ -184,6 +179,9 @@ class PlgEditorCodemirror extends JPlugin
 	public function onDisplay(
 		$name, $content, $width, $height, $col, $row, $buttons = true, $id = null, $asset = null, $author = null, $params = array())
 	{
+		// True if a CodeMirror already has autofocus. Prevent multiple autofocuses.
+		static $autofocused;
+
 		$id = empty($id) ? $name : $id;
 
 		// Must pass the field id to the buttons in this editor.
@@ -203,16 +201,19 @@ class PlgEditorCodemirror extends JPlugin
 		}
 
 		// Should we focus on the editor on load?
-		$options->autofocus = (boolean) $this->params->get('autoFocus', true);
+		if (!$autofocused)
+		{
+			$options->autofocus = isset($params['autofocus']) ? (bool) $params['autofocus'] : false;
+			$autofocused = $options->autofocus;
+		}
 
-		// Until there's a fix for the overflow problem, always wrap lines.
-		$options->lineWrapping = true;
+		$options->lineWrapping = (boolean) $this->params->get('lineWrapping', 1);
 
 		// Add styling to the active line.
-		$options->styleActiveLine = (boolean) $this->params->get('activeLine', true);
+		$options->styleActiveLine = (boolean) $this->params->get('activeLine', 1);
 
-		// Add styling to the active line.
-		if ($this->params->get('selectionMatches', false))
+		// Do we highlight selection matches?
+		if ($this->params->get('selectionMatches', 1))
 		{
 			$options->highlightSelectionMatches = array(
 					'showToken' => true,
@@ -221,7 +222,7 @@ class PlgEditorCodemirror extends JPlugin
 		}
 
 		// Do we use line numbering?
-		if ($options->lineNumbers = (boolean) $this->params->get('lineNumbers', 0))
+		if ($options->lineNumbers = (boolean) $this->params->get('lineNumbers', 1))
 		{
 			$options->gutters[] = 'CodeMirror-linenumbers';
 		}
@@ -233,13 +234,15 @@ class PlgEditorCodemirror extends JPlugin
 		}
 
 		// Do we use a marker gutter?
-		if ($options->markerGutter = (boolean) $this->params->get('markerGutter', $this->params->get('marker-gutter', 0)))
+		if ($options->markerGutter = (boolean) $this->params->get('markerGutter', $this->params->get('marker-gutter', 1)))
 		{
 			$options->gutters[] = 'CodeMirror-markergutter';
 		}
 
 		// Load the syntax mode.
-		$syntax = $this->params->get('syntax', 'html');
+		$syntax = !empty($params['syntax'])
+			? $params['syntax']
+			: $this->params->get('syntax', 'html');
 		$options->mode = isset($this->modeAlias[$syntax]) ? $this->modeAlias[$syntax] : $syntax;
 
 		// Load the theme if specified.
@@ -250,29 +253,40 @@ class PlgEditorCodemirror extends JPlugin
 		}
 
 		// Special options for tagged modes (xml/html).
-		if (in_array($options->mode, array('xml', 'htmlmixed', 'htmlembedded', 'php')))
+		if (in_array($options->mode, array('xml', 'html', 'php')))
 		{
 			// Autogenerate closing tags (html/xml only).
-			$options->autoCloseTags = (boolean) $this->params->get('autoCloseTags', true);
+			$options->autoCloseTags = (boolean) $this->params->get('autoCloseTags', 1);
 
 			// Highlight the matching tag when the cursor is in a tag (html/xml only).
-			$options->matchTags = (boolean) $this->params->get('matchTags', true);
+			$options->matchTags = (boolean) $this->params->get('matchTags', 1);
 		}
 
 		// Special options for non-tagged modes.
-		if (!in_array($options->mode, array('xml', 'htmlmixed', 'htmlembedded')))
+		if (!in_array($options->mode, array('xml', 'html')))
 		{
 			// Autogenerate closing brackets.
-			$options->autoCloseBrackets = (boolean) $this->params->get('autoCloseBrackets', true);
+			$options->autoCloseBrackets = (boolean) $this->params->get('autoCloseBrackets', 1);
 
 			// Highlight the matching bracket.
-			$options->matchBrackets = (boolean) $this->params->get('matchBrackets', true);
+			$options->matchBrackets = (boolean) $this->params->get('matchBrackets', 1);
 		}
 
 		$options->scrollbarStyle = $this->params->get('scrollbarStyle', 'native');
 
-		// Vim Keybindings.
-		$options->vimMode = (boolean) $this->params->get('vimKeyBinding', 0);
+		// KeyMap settings.
+		$options->keyMap = $this->params->get('keyMap', false);
+
+		// Support for older settings.
+		if ($options->keyMap === false)
+		{
+			$options->keyMap = $this->params->get('vimKeyBinding', 0) ? 'vim' : 'default';
+		}
+
+		if ($options->keyMap && $options->keyMap != 'default')
+		{
+			$this->loadKeyMap($options->keyMap);
+		}
 
 		$displayData = (object) array(
 				'options' => $options,
@@ -359,5 +373,19 @@ class PlgEditorCodemirror extends JPlugin
 		}
 
 		return isset($fonts[$font]) ? (object) $fonts[$font] : null;
+	}
+
+	/**
+	 * Loads a keyMap file
+	 *
+	 * @param   string  $keyMap  The name of a keyMap file to load.
+	 *
+	 * @return  void
+	 */
+	protected function loadKeyMap($keyMap)
+	{
+		$basePath = $this->params->get('basePath', 'media/editors/codemirror/');
+		$ext = JDEBUG ? '.js' : '.min.js';
+		JHtml::_('script', $basePath . 'keymap/' . $keyMap . $ext, array('version' => 'auto'));
 	}
 }

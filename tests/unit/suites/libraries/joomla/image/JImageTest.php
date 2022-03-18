@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Image
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2013 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -15,16 +15,45 @@ require_once __DIR__ . '/stubs/JImageFilterInspector.php';
  *
  * @package     Joomla.UnitTest
  * @subpackage  Image
- * @since       11.3
+ * @since       1.7.3
  */
 class JImageTest extends TestCase
 {
+	/**
+	 * @var  string  TestFile-path for JPG file
+	 *
+	 * @since  3.7.3
+	 */
+	protected $testFile;
+
+	/**
+	 * @var  string  TestFile-path for GIF file
+	 *
+	 * @since  3.7.3
+	 */
+	protected $testFileGif;
+
+	/**
+	 * @var  string  TestFile-path for BMP file
+	 *
+	 * @since  3.7.3
+	 */
+	protected $testFileBmp;
+
+	/**
+	 * @var  string  TestFile-path for PNG file
+	 *
+	 * @since  3.7.3
+	 */
+	protected $testFilePng;
+
+
 	/**
 	 * Setup for testing.
 	 *
 	 * @return  void
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	protected function setUp()
 	{
@@ -56,10 +85,7 @@ class JImageTest extends TestCase
 	 */
 	protected function tearDown()
 	{
-		unset($this->testFile);
-		unset($this->testFileGif);
-		unset($this->testFilePng);
-		unset($this->testFileBmp);
+		unset($this->testFile, $this->testFileGif, $this->testFilePng, $this->testFileBmp);
 		parent::tearDown();
 	}
 
@@ -70,7 +96,7 @@ class JImageTest extends TestCase
 	 *
 	 * @return  array
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function getPrepareDimensionsData()
 	{
@@ -91,7 +117,7 @@ class JImageTest extends TestCase
 	 *
 	 * @return  array
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function getSanitizeDimensionData()
 	{
@@ -113,7 +139,7 @@ class JImageTest extends TestCase
 	 *
 	 * @return  array
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function getCropData()
 	{
@@ -130,7 +156,7 @@ class JImageTest extends TestCase
 	 *
 	 * @return  array
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function getSanitizeOffsetData()
 	{
@@ -146,7 +172,7 @@ class JImageTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function testConstructor()
 	{
@@ -173,7 +199,7 @@ class JImageTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function testloadFile()
 	{
@@ -195,7 +221,7 @@ class JImageTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.4
+	 * @since   2.5.0
 	 */
 	public function testloadFileGif()
 	{
@@ -217,7 +243,7 @@ class JImageTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.4
+	 * @since   2.5.0
 	 */
 	public function testloadFilePng()
 	{
@@ -239,7 +265,7 @@ class JImageTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.4
+	 * @since   2.5.0
 	 *
 	 * @expectedException  InvalidArgumentException
 	 */
@@ -256,7 +282,7 @@ class JImageTest extends TestCase
 	 * @return  void
 	 *
 	 * @expectedException  InvalidArgumentException
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function testloadFileWithInvalidFile()
 	{
@@ -270,7 +296,7 @@ class JImageTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.4
+	 * @since   2.5.0
 	 */
 	public function testResize()
 	{
@@ -280,7 +306,7 @@ class JImageTest extends TestCase
 
 		$image->resize(1000, 682, false);
 
-		// Verify that the resizeded image is the correct size.
+		// Verify that the resized image is the correct size.
 		$this->assertEquals(682, imagesy($image->getClassProperty('handle')));
 		$this->assertEquals(1000, imagesx($image->getClassProperty('handle')));
 	}
@@ -291,7 +317,7 @@ class JImageTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.4
+	 * @since   2.5.0
 	 */
 	public function testResizeTransparent()
 	{
@@ -305,7 +331,7 @@ class JImageTest extends TestCase
 
 		$image->resize(5, 5, false);
 
-		// Verify that the resizeed image is the correct size.
+		// Verify that the resized image is the correct size.
 		$this->assertEquals(5, imagesy($image->getClassProperty('handle')));
 		$this->assertEquals(5, imagesx($image->getClassProperty('handle')));
 
@@ -317,7 +343,7 @@ class JImageTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.4
+	 * @since   2.5.0
 	 *
 	 * @expectedException  LogicException
 	 */
@@ -336,7 +362,7 @@ class JImageTest extends TestCase
 	 * @return  void
 	 *
 	 * @expectedException  LogicException
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function testToFileInvalid()
 	{
@@ -354,11 +380,11 @@ class JImageTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function testToFileGif()
 	{
-		$outFileGif = JPATH_TESTS . '/tmp/out.gif';
+		$outFileGif = JPATH_TESTS . '/tmp/' . uniqid() . '.gif';
 
 		$image = new JImageInspector($this->testFile);
 		$image->toFile($outFileGif, IMAGETYPE_GIF);
@@ -389,11 +415,11 @@ class JImageTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function testToFilePng()
 	{
-		$outFilePng = JPATH_TESTS . '/tmp/out.png';
+		$outFilePng = JPATH_TESTS . '/tmp/' . uniqid() . '.png';
 
 		$image = new JImageInspector($this->testFile);
 		$image->toFile($outFilePng, IMAGETYPE_PNG);
@@ -424,12 +450,12 @@ class JImageTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function testToFileJpg()
 	{
 		// Write the file out to a JPG.
-		$outFileJpg = JPATH_TESTS . '/tmp/out.jpg';
+		$outFileJpg = JPATH_TESTS . '/tmp/' . uniqid() . '.jpg';
 
 		$image = new JImageInspector($this->testFile);
 		$image->toFile($outFileJpg, IMAGETYPE_JPEG);
@@ -459,12 +485,12 @@ class JImageTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function testToFileDefault()
 	{
 		// Write the file out to a JPG.
-		$outFileDefault = JPATH_TESTS . '/tmp/out.default';
+		$outFileDefault = JPATH_TESTS . '/tmp/' . uniqid() . '.default';
 
 		$image = new JImageInspector($this->testFile);
 		$image->toFile($outFileDefault);
@@ -491,7 +517,7 @@ class JImageTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function testGetFilterInstance()
 	{
@@ -510,7 +536,7 @@ class JImageTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function testGetHeight()
 	{
@@ -529,7 +555,7 @@ class JImageTest extends TestCase
 	 * @return  void
 	 *
 	 * @expectedException  LogicException
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function testGetHeightWithoutLoadedImage()
 	{
@@ -545,7 +571,7 @@ class JImageTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function testGetWidth()
 	{
@@ -564,7 +590,7 @@ class JImageTest extends TestCase
 	 * @return  void
 	 *
 	 * @expectedException  LogicException
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function testGetWidthWithoutLoadedImage()
 	{
@@ -580,7 +606,7 @@ class JImageTest extends TestCase
 	 * @return  void
 	 *
 	 * @expectedException  InvalidArgumentException
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function testGetImageFilePropertiesWithInvalidFile()
 	{
@@ -593,7 +619,7 @@ class JImageTest extends TestCase
 	 * @return  void
 	 *
 	 * @expectedException  LogicException
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function testIsTransparentWithoutLoadedImage()
 	{
@@ -609,7 +635,7 @@ class JImageTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function testTransparentIsTransparent()
 	{
@@ -628,11 +654,11 @@ class JImageTest extends TestCase
 
 	/**
 	 * Test the JImage::isTransparent method to make sure it gives the correct
-	 * result if the image does not haave an alpha channel.
+	 * result if the image does not have an alpha channel.
 	 *
 	 * @return  void
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function testOpaqueIsNotTransparent()
 	{
@@ -652,7 +678,7 @@ class JImageTest extends TestCase
 	 * @return  void
 	 *
 	 * @expectedException  LogicException
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function testCropWithoutLoadedImage()
 	{
@@ -680,7 +706,7 @@ class JImageTest extends TestCase
 	 * @return  void
 	 *
 	 * @dataProvider getCropData
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function testCrop($startHeight, $startWidth, $cropHeight, $cropWidth, $cropTop, $cropLeft, $transparent = false)
 	{
@@ -737,7 +763,7 @@ class JImageTest extends TestCase
 	 * @return  void
 	 *
 	 * @expectedException  LogicException
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function testRotateWithoutLoadedImage()
 	{
@@ -755,7 +781,7 @@ class JImageTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function testRotate()
 	{
@@ -793,7 +819,7 @@ class JImageTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function testFilter()
 	{
@@ -820,7 +846,7 @@ class JImageTest extends TestCase
 	 * @return  void
 	 *
 	 * @expectedException  LogicException
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function testFilterWithoutLoadedImage()
 	{
@@ -836,7 +862,7 @@ class JImageTest extends TestCase
 	 * @return  void
 	 *
 	 * @expectedException  RuntimeException
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function testFilterWithInvalidFilterType()
 	{
@@ -860,7 +886,7 @@ class JImageTest extends TestCase
 	 * @return  void
 	 *
 	 * @dataProvider getPrepareDimensionsData
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function testPrepareDimensions($inputHeight, $inputWidth, $inputScale, $imageHeight, $imageWidth, $expectedHeight, $expectedWidth)
 	{
@@ -883,7 +909,7 @@ class JImageTest extends TestCase
 	 * @return  void
 	 *
 	 * @expectedException  InvalidArgumentException
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function testPrepareDimensionsWithInvalidScale()
 	{
@@ -909,7 +935,7 @@ class JImageTest extends TestCase
 	 * @return  void
 	 *
 	 * @dataProvider getSanitizeDimensionData
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function testSanitizeHeight($inputHeight, $inputWidth, $imageHeight, $imageWidth, $expectedHeight, $expectedWidth)
 	{
@@ -936,7 +962,7 @@ class JImageTest extends TestCase
 	 * @return  void
 	 *
 	 * @dataProvider getSanitizeDimensionData
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function testSanitizeWidth($inputHeight, $inputWidth, $imageHeight, $imageWidth, $expectedHeight, $expectedWidth)
 	{
@@ -954,12 +980,12 @@ class JImageTest extends TestCase
 	 * Tests the JImage::sanitizeOffset method.
 	 *
 	 * @param   mixed    $input     The input offset.
-	 * @param   integer  $expected  The expected result offest.
+	 * @param   integer  $expected  The expected result offset.
 	 *
 	 * @return  void
 	 *
 	 * @dataProvider getSanitizeOffsetData
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function testSanitizeOffset($input, $expected)
 	{
@@ -971,11 +997,11 @@ class JImageTest extends TestCase
 	}
 
 	/**
-	 * Tests the JImage::destory method
+	 * Tests the JImage::destroy method
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function testDestroy()
 	{

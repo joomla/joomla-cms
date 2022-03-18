@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2009 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -85,9 +85,6 @@ class UsersViewProfile extends JViewLegacy
 			return false;
 		}
 
-		$this->data->tags = new JHelperTags;
-		$this->data->tags->getItemTags('com_users.user', $this->data->id);
-
 		JPluginHelper::importPlugin('content');
 		$this->data->text = '';
 		JEventDispatcher::getInstance()->trigger('onContentPrepare', array ('com_users.user', &$this->data, &$this->data->params, 0));
@@ -102,7 +99,7 @@ class UsersViewProfile extends JViewLegacy
 		}
 
 		// Escape strings for HTML output
-		$this->pageclass_sfx = htmlspecialchars($this->params->get('pageclass_sfx'));
+		$this->pageclass_sfx = htmlspecialchars($this->params->get('pageclass_sfx', ''));
 
 		$this->prepareDocument();
 

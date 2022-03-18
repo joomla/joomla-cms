@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Component
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2017 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -17,8 +17,8 @@ require_once __DIR__ . '/stubs/MockJComponentRouterRulesMenuMenuObject.php';
  * @subpackage  Component
  * @since       3.7.0
  */
-class JComponentRouterRulesStandardTest extends TestCaseDatabase {
-
+class JComponentRouterRulesStandardTest extends TestCaseDatabase
+{
 	/**
 	 * Object under test
 	 *
@@ -183,15 +183,42 @@ class JComponentRouterRulesStandardTest extends TestCaseDatabase {
 					'view' => 'form',
 					'Itemid' => 263
 				),
-				// TODO: I think this might be a bug? I think view should be unset whatever the status of the layout
 				array(
 					'option' => 'com_content',
-					'view' => 'form',
 					'Itemid' => 263
 				),
 				array(
 				),
 				'Error building a URL for a menu item that doesn\'t have a key'
+			),
+			array(
+				array(
+					'option' => 'com_content',
+					'view' => 'form',
+					'layout' => 'edit',
+					'Itemid' => 263
+				),
+				array(
+					'option' => 'com_content',
+					'Itemid' => 263
+				),
+				array(
+				),
+				'Error building a URL with layout=edit for a menu item that doesn\'t have a key'
+			),
+			array(
+				array(
+					'option' => 'com_content',
+					'view' => 'featured',
+					'Itemid' => 262
+				),
+				array(
+					'option' => 'com_content',
+					'Itemid' => 262
+				),
+				array(
+				),
+				'Error building a URL for featured that has a menu item without a key'
 			),
 			array(
 				array(

@@ -2,7 +2,7 @@
 /**
  * @package    Joomla.Installation
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2013 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -21,7 +21,7 @@ defined('_JEXEC') or die;
 		<?php foreach ($this->tasks as $task) : ?>
 			<tr id="install_<?php echo $task; ?>">
 				<td class="item" nowrap="nowrap" width="10%">
-				<?php if ($task == 'Email') : ?>
+				<?php if ($task === 'Email') : ?>
 					<?php echo JText::sprintf('INSTL_INSTALLING_EMAIL', '<span class="label">' . $this->options['admin_email'] . '</span>'); ?>
 				<?php else : ?>
 					<?php echo JText::_('INSTL_INSTALLING_' . strtoupper($task)); ?>

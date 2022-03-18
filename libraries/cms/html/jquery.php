@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  HTML
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2012 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -78,7 +78,8 @@ abstract class JHtmlJquery
 	 *
 	 * @return  void
 	 *
-	 * @since   3.0
+	 * @since       3.0
+	 * @deprecated  4.0  jQuery UI will be removed from Joomla 4 without replacement.
 	 */
 	public static function ui(array $components = array('core'), $debug = null)
 	{
@@ -106,5 +107,44 @@ abstract class JHtmlJquery
 		}
 
 		return;
+	}
+
+	/**
+	 * Auto set CSRF token to ajaxSetup so all jQuery ajax call will contains CSRF token.
+	 *
+	 * @param   string  $name  The CSRF meta tag name.
+	 *
+	 * @return  void
+	 *
+	 * @throws  \InvalidArgumentException
+	 *
+	 * @since   3.8.0
+	 */
+	public static function token($name = 'csrf.token')
+	{
+		// Only load once
+		if (!empty(static::$loaded[__METHOD__][$name]))
+		{
+			return;
+		}
+
+		static::framework();
+		JHtml::_('form.csrf', $name);
+
+		$doc = JFactory::getDocument();
+
+		$doc->addScriptDeclaration(
+<<<JS
+;(function ($) {
+	$.ajaxSetup({
+		headers: {
+			'X-CSRF-Token': Joomla.getOptions('$name')
+		}
+	});
+})(jQuery);
+JS
+		);
+
+		static::$loaded[__METHOD__][$name] = true;
 	}
 }

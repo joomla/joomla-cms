@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Base
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2013 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -15,7 +15,7 @@ jimport('joomla.base.adapterinstance');
  *
  * @package     Joomla.UnitTest
  * @subpackage  Base
- * @since       11.1
+ * @since       1.7.0
  */
 class JAdapterTest extends TestCase
 {
@@ -26,7 +26,7 @@ class JAdapterTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	protected function setUp()
 	{
@@ -44,7 +44,7 @@ class JAdapterTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	protected function tearDown()
 	{
@@ -58,7 +58,7 @@ class JAdapterTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function testGetDbo()
 	{
@@ -75,7 +75,7 @@ class JAdapterTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function testSetAdapter()
 	{
@@ -103,7 +103,7 @@ class JAdapterTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function testGetAdapter()
 	{
@@ -125,7 +125,7 @@ class JAdapterTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function testLoadAllAdapters()
 	{

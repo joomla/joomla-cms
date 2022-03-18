@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_tags
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2013 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -46,7 +46,7 @@ class TagsHelperRoute extends JHelperRoute
 
 			if (class_exists($routerClass) && method_exists($routerClass, $routerMethod))
 			{
-				if ($routerMethod == 'getCategoryRoute')
+				if ($routerMethod === 'getCategoryRoute')
 				{
 					$link = $routerClass::$routerMethod($contentItemId, $language);
 				}
@@ -57,7 +57,7 @@ class TagsHelperRoute extends JHelperRoute
 			}
 		}
 
-		if ($link == '')
+		if ($link === '')
 		{
 			// Create a fallback link in case we can't find the component router
 			$router = new JHelperRoute;
@@ -158,7 +158,7 @@ class TagsHelperRoute extends JHelperRoute
 			{
 				foreach ($items as $item)
 				{
-					if (isset($item->query) && isset($item->query['view']))
+					if (isset($item->query, $item->query['view']))
 					{
 						$lang = ($item->language != '' ? $item->language : '*');
 

@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  HTML
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2007 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -55,7 +55,7 @@ abstract class JHtmlBehavior
 			$debug = JDEBUG;
 		}
 
-		if ($type != 'core' && empty(static::$loaded[__METHOD__]['core']))
+		if ($type !== 'core' && empty(static::$loaded[__METHOD__]['core']))
 		{
 			static::framework(false, $debug);
 		}
@@ -87,10 +87,13 @@ abstract class JHtmlBehavior
 			return;
 		}
 
+		JHtml::_('form.csrf');
 		JHtml::_('script', 'system/core.js', array('version' => 'auto', 'relative' => true));
-		static::$loaded[__METHOD__] = true;
 
-		return;
+		// Add core and base uri paths so javascript scripts can use them.
+		JFactory::getDocument()->addScriptOptions('system.paths', array('root' => JUri::root(true), 'base' => JUri::base(true)));
+
+		static::$loaded[__METHOD__] = true;
 	}
 
 	/**
@@ -101,9 +104,13 @@ abstract class JHtmlBehavior
 	 * @return  void
 	 *
 	 * @since   1.5
+	 *
+	 * @Deprecated 4.0 Use native HTML figure tags.
 	 */
 	public static function caption($selector = 'img.caption')
 	{
+		JLog::add('JHtmlBehavior::caption is deprecated. Use native HTML figure tags.', JLog::WARNING, 'deprecated');
+
 		// Only load once
 		if (isset(static::$loaded[__METHOD__][$selector]))
 		{
@@ -197,6 +204,8 @@ abstract class JHtmlBehavior
 	 * @return  void
 	 *
 	 * @since   1.5
+	 *
+	 * @deprecated   4.0  No replacement, only used in Hathor.
 	 */
 	public static function switcher()
 	{
@@ -273,6 +282,8 @@ abstract class JHtmlBehavior
 	 * @return  void
 	 *
 	 * @since   1.5
+	 *
+	 * @deprecated   4.0  Use JHtmlBootstrap::tooltip() instead.
 	 */
 	public static function tooltip($selector = '.hasTip', $params = array())
 	{
@@ -287,16 +298,16 @@ abstract class JHtmlBehavior
 		static::framework(true);
 
 		// Setup options object
-		$opt['maxTitleChars'] = (isset($params['maxTitleChars']) && $params['maxTitleChars']) ? (int) $params['maxTitleChars'] : 50;
+		$opt['maxTitleChars'] = isset($params['maxTitleChars']) && $params['maxTitleChars'] ? (int) $params['maxTitleChars'] : 50;
 
 		// Offsets needs an array in the format: array('x'=>20, 'y'=>30)
-		$opt['offset']    = (isset($params['offset']) && (is_array($params['offset']))) ? $params['offset'] : null;
-		$opt['showDelay'] = (isset($params['showDelay'])) ? (int) $params['showDelay'] : null;
-		$opt['hideDelay'] = (isset($params['hideDelay'])) ? (int) $params['hideDelay'] : null;
-		$opt['className'] = (isset($params['className'])) ? $params['className'] : null;
-		$opt['fixed']     = (isset($params['fixed']) && ($params['fixed'])) ? true : false;
-		$opt['onShow']    = (isset($params['onShow'])) ? '\\' . $params['onShow'] : null;
-		$opt['onHide']    = (isset($params['onHide'])) ? '\\' . $params['onHide'] : null;
+		$opt['offset']    = isset($params['offset']) && is_array($params['offset']) ? $params['offset'] : null;
+		$opt['showDelay'] = isset($params['showDelay']) ? (int) $params['showDelay'] : null;
+		$opt['hideDelay'] = isset($params['hideDelay']) ? (int) $params['hideDelay'] : null;
+		$opt['className'] = isset($params['className']) ? $params['className'] : null;
+		$opt['fixed']     = isset($params['fixed']) && $params['fixed'];
+		$opt['onShow']    = isset($params['onShow']) ? '\\' . $params['onShow'] : null;
+		$opt['onHide']    = isset($params['onHide']) ? '\\' . $params['onHide'] : null;
 
 		$options = JHtml::getJSObject($opt);
 
@@ -372,14 +383,14 @@ abstract class JHtmlBehavior
 		JLog::add('JHtmlBehavior::modal is deprecated. Use the modal equivalent from bootstrap.', JLog::WARNING, 'deprecated');
 
 		// Setup options object
-		$opt['ajaxOptions']   = (isset($params['ajaxOptions']) && is_array($params['ajaxOptions'])) ? $params['ajaxOptions'] : null;
+		$opt['ajaxOptions']   = isset($params['ajaxOptions']) && is_array($params['ajaxOptions']) ? $params['ajaxOptions'] : null;
 		$opt['handler']       = isset($params['handler']) ? $params['handler'] : null;
 		$opt['parseSecure']   = isset($params['parseSecure']) ? (bool) $params['parseSecure'] : null;
 		$opt['closable']      = isset($params['closable']) ? (bool) $params['closable'] : null;
 		$opt['closeBtn']      = isset($params['closeBtn']) ? (bool) $params['closeBtn'] : null;
 		$opt['iframePreload'] = isset($params['iframePreload']) ? (bool) $params['iframePreload'] : null;
-		$opt['iframeOptions'] = (isset($params['iframeOptions']) && is_array($params['iframeOptions'])) ? $params['iframeOptions'] : null;
-		$opt['size']          = (isset($params['size']) && is_array($params['size'])) ? $params['size'] : null;
+		$opt['iframeOptions'] = isset($params['iframeOptions']) && is_array($params['iframeOptions']) ? $params['iframeOptions'] : null;
+		$opt['size']          = isset($params['size']) && is_array($params['size']) ? $params['size'] : null;
 		$opt['shadow']        = isset($params['shadow']) ? $params['shadow'] : null;
 		$opt['overlay']       = isset($params['overlay']) ? $params['overlay'] : null;
 		$opt['onOpen']        = isset($params['onOpen']) ? $params['onOpen'] : null;
@@ -406,34 +417,40 @@ abstract class JHtmlBehavior
 			"
 		jQuery(function($) {
 			SqueezeBox.initialize(" . $options . ");
-			SqueezeBox.assign($('" . $selector . "').get(), {
-				parse: 'rel'
-			});
+			initSqueezeBox();
+			$(document).on('subform-row-add', initSqueezeBox);
+
+			function initSqueezeBox(event, container)
+			{
+				SqueezeBox.assign($(container || document).find('" . $selector . "').get(), {
+					parse: 'rel'
+				});
+			}
 		});
 
 		window.jModalClose = function () {
 			SqueezeBox.close();
 		};
-		
+
 		// Add extra modal close functionality for tinyMCE-based editors
 		document.onreadystatechange = function () {
 			if (document.readyState == 'interactive' && typeof tinyMCE != 'undefined' && tinyMCE)
 			{
 				if (typeof window.jModalClose_no_tinyMCE === 'undefined')
-				{	
+				{
 					window.jModalClose_no_tinyMCE = typeof(jModalClose) == 'function'  ?  jModalClose  :  false;
-					
+
 					jModalClose = function () {
 						if (window.jModalClose_no_tinyMCE) window.jModalClose_no_tinyMCE.apply(this, arguments);
 						tinyMCE.activeEditor.windowManager.close();
 					};
 				}
-		
+
 				if (typeof window.SqueezeBoxClose_no_tinyMCE === 'undefined')
 				{
 					if (typeof(SqueezeBox) == 'undefined')  SqueezeBox = {};
 					window.SqueezeBoxClose_no_tinyMCE = typeof(SqueezeBox.close) == 'function'  ?  SqueezeBox.close  :  false;
-		
+
 					SqueezeBox.close = function () {
 						if (window.SqueezeBoxClose_no_tinyMCE)  window.SqueezeBoxClose_no_tinyMCE.apply(this, arguments);
 						tinyMCE.activeEditor.windowManager.close();
@@ -498,6 +515,8 @@ abstract class JHtmlBehavior
 	 * @return  void
 	 *
 	 * @since   1.5
+	 *
+	 * @deprecated   4.0  No replacement, not used since 3.0.
 	 */
 	public static function tree($id, $params = array(), $root = array())
 	{
@@ -709,7 +728,7 @@ abstract class JHtmlBehavior
 		static::core();
 		static::polyfill('event', 'lt IE 9');
 
-		// Add keepalive script options. 
+		// Add keepalive script options.
 		JFactory::getDocument()->addScriptOptions('system.keepalive', array('interval' => $refreshTime * 1000, 'uri' => JRoute::_($uri)));
 
 		// Add script.
@@ -846,7 +865,7 @@ abstract class JHtmlBehavior
 	 * @return  string  JavaScript object notation representation of the array
 	 *
 	 * @since       1.5
-	 * @deprecated  13.3 (Platform) & 4.0 (CMS) - Use JHtml::getJSObject() instead.
+	 * @deprecated  4.0 - Use JHtml::getJSObject() instead.
 	 */
 	protected static function _getJSObject($array = array())
 	{
@@ -870,9 +889,13 @@ abstract class JHtmlBehavior
 	 * @return  void
 	 *
 	 * @since   3.2
+	 *
+	 * @deprecated 4.0 In Joomla 4 use the custom element joomla-tab.
 	 */
 	public static function tabstate()
 	{
+		JLog::add('JHtmlBehavior::tabstate is deprecated. In Joomla 4 use the custom element joomla-tab.', JLog::WARNING, 'deprecated');
+
 		if (isset(self::$loaded[__METHOD__]))
 		{
 			return;
@@ -896,17 +919,12 @@ abstract class JHtmlBehavior
 	 */
 	public static function polyfill($polyfillTypes = null, $conditionalBrowser = null)
 	{
-		if (is_null($polyfillTypes))
+		if ($polyfillTypes === null)
 		{
-			return false;
+			return;
 		}
 
-		if (!is_array($polyfillTypes))
-		{
-			$polyfillTypes = array($polyfillTypes);
-		}
-
-		foreach ($polyfillTypes as $polyfillType)
+		foreach ((array) $polyfillTypes as $polyfillType)
 		{
 			$sig = md5(serialize(array($polyfillType, $conditionalBrowser)));
 

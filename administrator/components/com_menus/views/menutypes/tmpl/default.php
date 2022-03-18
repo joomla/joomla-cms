@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_menus
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2011 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -38,7 +38,7 @@ JFactory::getDocument()->addScriptDeclaration('
 			<ul class="nav nav-tabs nav-stacked">
 				<?php foreach ($list as $title => $item) : ?>
 					<li>
-						<?php $menutype = array('id' => $this->recordId, 'title' => (isset($item->type) ? $item->type : $item->title), 'request' => $item->request); ?>
+						<?php $menutype = array('id' => $this->recordId, 'title' => isset($item->type) ? $item->type : $item->title, 'request' => $item->request); ?>
 						<?php $menutype = base64_encode(json_encode($menutype)); ?>
 						<a class="choose_type" href="#" title="<?php echo JText::_($item->description); ?>"
 							onclick="setmenutype('<?php echo $menutype; ?>')">

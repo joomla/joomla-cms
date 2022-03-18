@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Cache
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2014 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -27,17 +27,56 @@ class JCacheStorageRedisTest extends TestCaseCache
 
 		parent::setUp();
 
-		// Mock the returns on JApplicationCms::get() to use the default values
-		JFactory::$application->expects($this->any())
-			->method('get')
-			->willReturnArgument(1);
+		// Parse the DSN details for the test server
+		$dsn = defined('JTEST_CACHE_REDIS_DSN') ? JTEST_CACHE_REDIS_DSN : getenv('JTEST_CACHE_REDIS_DSN');
 
-		$this->handler = new JCacheStorageRedis;
-
-		// This adapter doesn't throw an Exception on a connection failure so we'll have to use Reflection to get into the class to check it
-		if (!(TestReflection::getValue($this->handler, '_redis') instanceof Redis))
+		if ($dsn)
 		{
-			$this->markTestSkipped('Failed to connect to Redis');
+			// First let's trim the redis: part off the front of the DSN if it exists.
+			if (strpos($dsn, 'redis:') === 0)
+			{
+				$dsn = substr($dsn, 6);
+			}
+
+			// Call getConfig once to have the registry object prepared
+			JFactory::getConfig();
+
+			// Split the DSN into its parts over semicolons.
+			$parts = explode(';', $dsn);
+
+			// Parse each part and populate the options array.
+			foreach ($parts as $part)
+			{
+				list ($k, $v) = explode('=', $part, 2);
+				switch ($k)
+				{
+					case 'host':
+						JFactory::$config->set("redis_server_host", $v);
+						break;
+					case 'port':
+						JFactory::$config->set("redis_server_port", $v);
+						break;
+					case 'db':
+						JFactory::$config->set("redis_server_db", $v);
+						break;
+					case 'auth':
+						JFactory::$config->set("redis_server_auth", $v);
+						break;
+				}
+			}
+		}
+		else
+		{
+			$this->markTestSkipped('No configuration for Redis given');
+		}
+
+		try
+		{
+			$this->handler = new JCacheStorageRedis;
+		}
+		catch (JCacheExceptionConnecting $e)
+		{
+			$this->fail('Failed to connect to Redis');
 		}
 
 		// Override the lifetime because the JCacheStorage API multiplies it by 60 (converts minutes to seconds)

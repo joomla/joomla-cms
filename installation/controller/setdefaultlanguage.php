@@ -3,11 +3,13 @@
  * @package     Joomla.Installation
  * @subpackage  Controller
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2013 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Language\LanguageHelper;
 
 /**
  * Controller class to set the default application languages for the Joomla Installer.
@@ -40,11 +42,11 @@ class InstallationControllerSetdefaultlanguage extends JControllerBase
 	public function execute()
 	{
 		// Get the application
-		/* @var InstallationApplicationWeb $app */
+		/** @var InstallationApplicationWeb $app */
 		$app = $this->getApplication();
 
 		// Check for request forgeries.
-		JSession::checkToken() or $app->sendJsonResponse(new Exception(JText::_('JINVALID_TOKEN'), 403));
+		JSession::checkToken() or $app->sendJsonResponse(new Exception(JText::_('JINVALID_TOKEN_NOTICE'), 403));
 
 		// Get the languages model.
 		$model = new InstallationModelLanguages;
@@ -96,6 +98,17 @@ class InstallationControllerSetdefaultlanguage extends JControllerBase
 
 		if ((int) $data['activateMultilanguage'])
 		{
+			if (count(LanguageHelper::getInstalledLanguages(0)) < 2)
+			{
+				$app->enqueueMessage(JText::_('INSTL_DEFAULTLANGUAGE_COULD_NOT_INSTALL_MULTILANG'), 'warning');
+
+				$r = new stdClass;
+
+				// Redirect to the same page.
+				$r->view = 'defaultlanguage';
+				$app->sendJsonResponse($r);
+			}
+
 			if (!$model->enablePlugin('plg_system_languagefilter'))
 			{
 				$app->enqueueMessage(JText::sprintf('INSTL_DEFAULTLANGUAGE_COULD_NOT_ENABLE_PLG_LANGUAGEFILTER', $frontend_lang), 'warning');
@@ -104,12 +117,9 @@ class InstallationControllerSetdefaultlanguage extends JControllerBase
 			// Activate optional ISO code Plugin
 			$activatePluginIsoCode = (int) $data['activatePluginLanguageCode'];
 
-			if ($activatePluginIsoCode)
+			if ($activatePluginIsoCode && !$model->enablePlugin('plg_system_languagecode'))
 			{
-				if (!$model->enablePlugin('plg_system_languagecode'))
-				{
-					$app->enqueueMessage(JText::_('INSTL_DEFAULTLANGUAGE_COULD_NOT_ENABLE_PLG_LANGUAGECODE'), 'warning');
-				}
+				$app->enqueueMessage(JText::_('INSTL_DEFAULTLANGUAGE_COULD_NOT_ENABLE_PLG_LANGUAGECODE'), 'warning');
 			}
 
 			if (!$model->addModuleLanguageSwitcher())
@@ -133,7 +143,19 @@ class InstallationControllerSetdefaultlanguage extends JControllerBase
 					continue;
 				}
 
-				if (!$tableMenuItem = $model->addMenuItem($siteLang))
+				if (!$data['installLocalisedContent'])
+				{
+					if (!$tableMenuItem = $model->addFeaturedMenuItem($siteLang))
+					{
+						$app->enqueueMessage(JText::sprintf('INSTL_DEFAULTLANGUAGE_COULD_NOT_CREATE_MENU_ITEM', $siteLang->name), 'warning');
+
+						continue;
+					}
+
+					$groupedAssociations['com_menus.item'][$siteLang->language] = $tableMenuItem->id;
+				}
+
+				if (!$tableMenuItem = $model->addAllCategoriesMenuItem($siteLang))
 				{
 					$app->enqueueMessage(JText::sprintf('INSTL_DEFAULTLANGUAGE_COULD_NOT_CREATE_MENU_ITEM', $siteLang->name), 'warning');
 
@@ -159,6 +181,15 @@ class InstallationControllerSetdefaultlanguage extends JControllerBase
 					}
 
 					$groupedAssociations['com_categories.item'][$siteLang->language] = $tableCategory->id;
+
+					if (!$tableMenuItem = $model->addBlogMenuItem($siteLang, $tableCategory->id))
+					{
+						$app->enqueueMessage(JText::sprintf('INSTL_DEFAULTLANGUAGE_COULD_NOT_CREATE_MENU_ITEM', $siteLang->name), 'warning');
+
+						continue;
+					}
+
+					$groupedAssociations['com_menus.item'][$siteLang->language] = $tableMenuItem->id;
 
 					if (!$tableArticle = $model->addArticle($siteLang, $tableCategory->id))
 					{

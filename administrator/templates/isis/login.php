@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  Templates.isis
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2012 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -22,8 +22,8 @@ $frontEndUri = JUri::getInstance(JUri::root());
 $frontEndUri->setScheme(((int) $app->get('force_ssl', 0) === 2) ? 'https' : 'http');
 
 // Color Params
-$background_color = $this->params->get('loginBackgroundColor') ? $this->params->get('loginBackgroundColor') : '';
-$color_is_light = ($background_color && colorIsLight($background_color));
+$background_color = $this->params->get('loginBackgroundColor') ?: '';
+$color_is_light   = $background_color && colorIsLight($background_color);
 
 // Add JavaScript Frameworks
 JHtml::_('bootstrap.framework');
@@ -50,13 +50,14 @@ $view     = $app->input->getCmd('view', '');
 $layout   = $app->input->getCmd('layout', '');
 $task     = $app->input->getCmd('task', '');
 $itemid   = $app->input->getCmd('Itemid', '');
-$sitename = $app->get('sitename');
+$sitename = htmlspecialchars($app->get('sitename', ''), ENT_QUOTES, 'UTF-8');
 
 function colorIsLight($color)
 {
 	$r = hexdec(substr($color, 1, 2));
 	$g = hexdec(substr($color, 3, 2));
 	$b = hexdec(substr($color, 5, 2));
+
 	$yiq = (($r * 299) + ($g * 587) + ($b * 114)) / 1000;
 
 	return $yiq >= 200;
@@ -94,7 +95,7 @@ if (JPluginHelper::isEnabled('system', 'debug') && ($app->get('debug_lang', 0) |
 		margin-right: auto;
 	}
 	.view-login .navbar-fixed-bottom {
-		display: none;
+		position: relative;
 	}');
 }
 ?>
@@ -112,7 +113,7 @@ if (JPluginHelper::isEnabled('system', 'debug') && ($app->get('debug_lang', 0) |
 			<!-- Begin Content -->
 			<div id="element-box" class="login well">
 				<?php if ($loginLogoFile = $this->params->get('loginLogoFile')) : ?>
-					<img src="<?php echo JUri::root() . $loginLogoFile; ?>" alt="<?php echo $sitename; ?>" />
+					<img src="<?php echo JUri::root() . htmlspecialchars($loginLogoFile, ENT_QUOTES); ?>" alt="<?php echo $sitename; ?>" />
 				<?php else: ?>
 					<img src="<?php echo $this->baseurl; ?>/templates/<?php echo $this->template; ?>/images/joomla.png" alt="<?php echo $sitename; ?>" />
 				<?php endif; ?>
@@ -131,7 +132,10 @@ if (JPluginHelper::isEnabled('system', 'debug') && ($app->get('debug_lang', 0) |
 			&copy; <?php echo date('Y'); ?> <?php echo $sitename; ?>
 		</p>
 		<a class="login-joomla hasTooltip" href="https://www.joomla.org" target="_blank"  rel="noopener noreferrer" title="<?php echo JHtml::_('tooltipText', 'TPL_ISIS_ISFREESOFTWARE'); ?>"><span class="icon-joomla"></span></a>
-		<a href="<?php echo $frontEndUri->toString(); ?>" target="_blank" class="pull-left"><span class="icon-out-2"></span><?php echo JText::_('COM_LOGIN_RETURN_TO_SITE_HOME_PAGE'); ?></a>
+		<a href="<?php echo htmlspecialchars($frontEndUri->toString(), ENT_COMPAT, 'UTF-8'); ?>" target="_blank" class="pull-left">
+			<span class="icon-out-2"></span>
+			<?php echo JText::_('COM_LOGIN_RETURN_TO_SITE_HOME_PAGE'); ?>
+		</a>
 	</div>
 	<jdoc:include type="modules" name="debug" style="none" />
 </body>

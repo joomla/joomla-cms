@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <metafile
-	version="3.7"
+ 	version="3.10"
 	client="installation">
-	<name>French (Fr)</name>
-	<version>3.7.3</version>
-	<creationDate>May 2017</creationDate>
+	<name>French (France)</name>
+	<version>3.10.4</version>
+	<creationDate>2021-11-29</creationDate>
 	<author>Joomla.fr</author>
-	<copyright>Copyright (C) 2005 - 2017 Open Source Matters. All rights reserved.</copyright>
+	<copyright>(C) 2005 Open Source Matters, Inc.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<files>
 		<filename>fr-FR.ini</filename>

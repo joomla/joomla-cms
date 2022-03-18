@@ -3,22 +3,22 @@
  * @package     Joomla.UnitTest
  * @subpackage  Database
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters. All rights reserved.
+ * @copyright   (C) 2013 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 /**
  * Test class for JDatabaseQuerySqlsrv.
-*
-* @package     Joomla.UnitTest
-* @subpackage  Database
-* @since       11.3
-*/
+ *
+ * @package     Joomla.UnitTest
+ * @subpackage  Database
+ * @since       1.7.3
+ */
 class JDatabaseQuerySqlsrvTest extends TestCase
 {
 	/**
 	 * @var    JDatabaseDriver  A mock of the JDatabaseDriver object for testing purposes.
-	 * @since  13.1
+	 * @since  3.2.0
 	 */
 	protected $dbo;
 
@@ -26,7 +26,7 @@ class JDatabaseQuerySqlsrvTest extends TestCase
 	 * The instance of the object to test.
 	 *
 	 * @var    JDatabaseQuerySqlsrv
-	 * @since  12.3
+	 * @since  3.1.4
 	 */
 	private $_instance;
 
@@ -37,7 +37,7 @@ class JDatabaseQuerySqlsrvTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 */
 	protected function setUp()
 	{
@@ -59,8 +59,7 @@ class JDatabaseQuerySqlsrvTest extends TestCase
 	 */
 	protected function tearDown()
 	{
-		unset($this->dbo);
-		unset($this->_instance);
+		unset($this->dbo, $this->_instance);
 		parent::tearDown();
 	}
 
@@ -69,15 +68,15 @@ class JDatabaseQuerySqlsrvTest extends TestCase
 	 *
 	 * @return  array
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 */
 	public function seedDateAdd()
 	{
 		return array(
-			// date, interval, datepart, expected
-			'Add date'			=> array('2008-12-31', '1', 'day', "DATEADD('day', '1', '2008-12-31')"),
-			'Subtract date'		=> array('2008-12-31', '-1', 'day', "DATEADD('day', '-1', '2008-12-31')"),
-			'Add datetime'		=> array('2008-12-31 23:59:59', '1', 'day', "DATEADD('day', '1', '2008-12-31 23:59:59')"),
+			// Elements: date, interval, datepart, expected
+			'Add date'		=> array("'2008-12-31'", '1', 'day', "DATEADD(day, 1, '2008-12-31')"),
+			'Subtract date'		=> array("'2008-12-31'", '-1', 'day', "DATEADD(day, -1, '2008-12-31')"),
+			'Add datetime'		=> array("'2008-12-31 23:59:59'", '1', 'day', "DATEADD(day, 1, '2008-12-31 23:59:59')"),
 		);
 	}
 
@@ -92,7 +91,7 @@ class JDatabaseQuerySqlsrvTest extends TestCase
 	 * @return  void
 	 *
 	 * @dataProvider  seedDateAdd
-	 * @since   13.1
+	 * @since   3.2.0
 	 */
 	public function testDateAdd($date, $interval, $datePart, $expected)
 	{
@@ -332,13 +331,13 @@ class JDatabaseQuerySqlsrvTest extends TestCase
 		$this->_instance
 			->clear()
 			->select('DISTINCT + + + id'
-			. ", - +- +-a . [id_9]"
-			. ", - +- +-a. [id_9]"
-			. ", - +- +-a .[id_9]"
-			. ", - +- +-a.[id_9]"
-			. ", + - + ix"
-			. ", ++ ix"
-		);
+				. ", - +- +-a . [id_9]"
+				. ", - +- +-a. [id_9]"
+				. ", - +- +-a .[id_9]"
+				. ", - +- +-a.[id_9]"
+				. ", + - + ix"
+				. ", ++ ix"
+			);
 
 		$expected = array(
 			'DISTINCT +++ id',
@@ -360,10 +359,10 @@ class JDatabaseQuerySqlsrvTest extends TestCase
 		$this->_instance
 			->clear()
 			->select('DISTINCT - + + + [a] . id'
-			. ", [a] . [id_9]"
-			. ", c + /**/ + [a].[b]"
-			. ", [a].[b] + c"
-		);
+				. ", [a] . [id_9]"
+				. ", c + /**/ + [a].[b]"
+				. ", [a].[b] + c"
+			);
 
 		$expected = array(
 			'DISTINCT -+++ [a]. id AS [columnAlias0]',
@@ -382,8 +381,8 @@ class JDatabaseQuerySqlsrvTest extends TestCase
 		$this->_instance
 			->clear()
 			->select('DISTINCT +id'
-			. ", ''+a . id_9 'alias'"
-		);
+				. ", ''+a . id_9 'alias'"
+			);
 
 		$expected = array(
 			'DISTINCT + id',
@@ -514,7 +513,7 @@ class JDatabaseQuerySqlsrvTest extends TestCase
 	 *
 	 * @return  string  The value passed wrapped in MySQL quotes.
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function mockQuoteName($value)
 	{

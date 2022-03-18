@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_menus
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2011 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -35,7 +35,7 @@ class MenusModelMenutypes extends JModelLegacy
 	 * @return  void
 	 *
 	 * @note    Calling getState in this method will result in recursion.
-	 * @since   12.2
+	 * @since   3.0.1
 	 */
 	protected function populateState()
 	{
@@ -175,7 +175,7 @@ class MenusModelMenutypes extends JModelLegacy
 	 * @param   string  $file       File path
 	 * @param   string  $component  Component option as in URL
 	 *
-	 * @return  array|bool
+	 * @return  array|boolean
 	 *
 	 * @since   1.6
 	 */
@@ -262,7 +262,7 @@ class MenusModelMenutypes extends JModelLegacy
 	 *
 	 * @param   string  $component  Component option like in URLs
 	 *
-	 * @return  array|bool
+	 * @return  array|boolean
 	 *
 	 * @since   1.6
 	 */
@@ -377,7 +377,7 @@ class MenusModelMenutypes extends JModelLegacy
 	 *
 	 * @param   string  $component  Component option like in URLs
 	 *
-	 * @return  array|bool
+	 * @return  array|boolean
 	 *
 	 * @since   3.7.0
 	 */
@@ -575,7 +575,7 @@ class MenusModelMenutypes extends JModelLegacy
 				if ($layout != 'default')
 				{
 					// If the template is set, add in format template:layout so we save the template name
-					$o->request['layout'] = (isset($templateName[$file])) ? $templateName[$file] . ':' . $layout : $layout;
+					$o->request['layout'] = isset($templateName[$file]) ? $templateName[$file] . ':' . $layout : $layout;
 				}
 
 				// Load layout metadata if it exists.

@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Database
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2005 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -12,10 +12,10 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Joomla Platform Database Driver Class
  *
- * @since  12.1
+ * @since  3.0.0
  *
- * @method      string  q()   q($text, $escape = true)  Alias for quote method
- * @method      string  qn()  qn($name, $as = null)     Alias for quoteName method
+ * @method   string|array  q()   q($text, $escape = true)  Alias for quote method
+ * @method   string|array  qn()  qn($name, $as = null)     Alias for quoteName method
  */
 abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 {
@@ -23,7 +23,7 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	 * The name of the database.
 	 *
 	 * @var    string
-	 * @since  11.4
+	 * @since  2.5.0
 	 */
 	private $_database;
 
@@ -31,7 +31,7 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	 * The name of the database driver.
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	public $name;
 
@@ -46,37 +46,37 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 
 	/**
 	 * @var    resource  The database connection resource.
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected $connection;
 
 	/**
 	 * @var    integer  The number of SQL statements executed by the database driver.
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected $count = 0;
 
 	/**
 	 * @var    resource  The database connection cursor from the last query.
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected $cursor;
 
 	/**
 	 * @var    boolean  The database driver debugging state.
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected $debug = false;
 
 	/**
 	 * @var    integer  The affected row limit for the current SQL statement.
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected $limit = 0;
 
 	/**
 	 * @var    array  The log of executed SQL statements by the database driver.
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected $log = array();
 
@@ -97,44 +97,44 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	 *                 etc.  The child classes should define this as necessary.  If a single character string the
 	 *                 same character is used for both sides of the quoted name, else the first character will be
 	 *                 used for the opening quote and the second for the closing quote.
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected $nameQuote;
 
 	/**
 	 * @var    string  The null or zero representation of a timestamp for the database driver.  This should be
 	 *                 defined in child classes to hold the appropriate value for the engine.
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected $nullDate;
 
 	/**
 	 * @var    integer  The affected row offset to apply for the current SQL statement.
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected $offset = 0;
 
 	/**
 	 * @var    array  Passed in upon instantiation and saved.
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected $options;
 
 	/**
-	 * @var    mixed  The current SQL statement to execute.
-	 * @since  11.1
+	 * @var    JDatabaseQuery|string  The current SQL statement to execute.
+	 * @since  1.7.0
 	 */
 	protected $sql;
 
 	/**
 	 * @var    string  The common database table prefix.
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected $tablePrefix;
 
 	/**
 	 * @var    boolean  True if the database engine supports UTF-8 character encoding.
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected $utf = true;
 
@@ -146,33 +146,33 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 
 	/**
 	 * @var         integer  The database error number
-	 * @since       11.1
-	 * @deprecated  12.1
+	 * @since       1.7.0
+	 * @deprecated  3.0.0
 	 */
 	protected $errorNum = 0;
 
 	/**
 	 * @var         string  The database error message
-	 * @since       11.1
-	 * @deprecated  12.1
+	 * @since       1.7.0
+	 * @deprecated  3.0.0
 	 */
 	protected $errorMsg;
 
 	/**
 	 * @var    array  JDatabaseDriver instances container.
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected static $instances = array();
 
 	/**
 	 * @var    string  The minimum supported database version.
-	 * @since  12.1
+	 * @since  3.0.0
 	 */
 	protected static $dbMinimum;
 
 	/**
 	 * @var    integer  The depth of the current transaction.
-	 * @since  12.3
+	 * @since  3.1.4
 	 */
 	protected $transactionDepth = 0;
 
@@ -189,7 +189,7 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	 *
 	 * @return  array  An array of available database connectors.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public static function getConnectors()
 	{
@@ -243,7 +243,7 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	 *
 	 * @return  JDatabaseDriver  A database object.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 * @throws  RuntimeException
 	 */
 	public static function getInstance($options = array())
@@ -332,7 +332,7 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	 *
 	 * @return  array  The queries from the input string separated into an array.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public static function splitSql($sql)
 	{
@@ -454,7 +454,7 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	 *
 	 * @return  mixed  The aliased method's return value or null.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function __call($method, $args)
 	{
@@ -479,7 +479,7 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	 *
 	 * @param   array  $options  List of options used to configure the connection
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function __construct($options)
 	{
@@ -502,7 +502,7 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	 *
 	 * @return  string  The query that alter the database query string
 	 *
-	 * @since   12.2
+	 * @since   3.0.1
 	 * @throws  RuntimeException
 	 */
 	public function alterDbCharacterSet($dbName)
@@ -614,7 +614,7 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	 *
 	 * @return  void  Returns void if the database connected successfully.
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 * @throws  RuntimeException
 	 */
 	abstract public function connect();
@@ -624,7 +624,7 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	 *
 	 * @return  boolean  True if connected to the database engine.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	abstract public function connected();
 
@@ -638,7 +638,7 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	 *
 	 * @return  string  The query that creates database
 	 *
-	 * @since   12.2
+	 * @since   3.0.1
 	 * @throws  RuntimeException
 	 */
 	public function createDatabase($options, $utf = true)
@@ -662,11 +662,21 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	}
 
 	/**
+	 * Destructor.
+	 *
+	 * @since   3.8.0
+	 */
+	public function __destruct()
+	{
+		$this->disconnect();
+	}
+
+	/**
 	 * Disconnects the database.
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	abstract public function disconnect();
 
@@ -692,7 +702,7 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	 *
 	 * @return  JDatabaseDriver     Returns this object to support chaining.
 	 *
-	 * @since   11.4
+	 * @since   2.5.0
 	 * @throws  RuntimeException
 	 */
 	abstract public function dropTable($table, $ifExists = true);
@@ -705,7 +715,7 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	 *
 	 * @return  string   The escaped string.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	abstract public function escape($text, $extra = false);
 
@@ -716,7 +726,7 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	 *
 	 * @return  mixed  Either the next row from the result set or false if there are no more rows.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	abstract protected function fetchArray($cursor = null);
 
@@ -727,7 +737,7 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	 *
 	 * @return  mixed  Either the next row from the result set or false if there are no more rows.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	abstract protected function fetchAssoc($cursor = null);
 
@@ -739,7 +749,7 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	 *
 	 * @return  mixed   Either the next row from the result set or false if there are no more rows.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	abstract protected function fetchObject($cursor = null, $class = 'stdClass');
 
@@ -750,7 +760,7 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	abstract protected function freeResult($cursor = null);
 
@@ -759,7 +769,7 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	 *
 	 * @return  integer  The number of affected rows.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	abstract public function getAffectedRows();
 
@@ -770,7 +780,7 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	 *
 	 * @return  string  The query that alter the database query string
 	 *
-	 * @since   12.2
+	 * @since   3.0.1
 	 */
 	public function getAlterDbCharacterSet($dbName)
 	{
@@ -887,6 +897,12 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 			return $query;
 		}
 
+		// Don't do preg replacement if string does not exist
+		if (stripos($query, 'utf8mb4') === false)
+		{
+			return $query;
+		}
+
 		// Replace utf8mb4 with utf8 if not within single or double quotes or name quotes
 		return preg_replace('/[`"\'][^`"\']*[`"\'](*SKIP)(*FAIL)|utf8mb4/i', 'utf8', $query);
 	}
@@ -901,7 +917,7 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	 *
 	 * @return  string  The query that creates database
 	 *
-	 * @since   12.2
+	 * @since   3.0.1
 	 */
 	protected function getCreateDatabaseQuery($options, $utf)
 	{
@@ -921,7 +937,7 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	 *
 	 * @return  mixed  The collation in use by the database or boolean false if not supported.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	abstract public function getCollation();
 
@@ -942,7 +958,7 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	 *
 	 * @return  resource  The underlying database connection resource.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function getConnection()
 	{
@@ -954,7 +970,7 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	 *
 	 * @return  integer
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function getCount()
 	{
@@ -962,11 +978,11 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	}
 
 	/**
-	 * Gets the name of the database used by this conneciton.
+	 * Gets the name of the database used by this connection.
 	 *
 	 * @return  string
 	 *
-	 * @since   11.4
+	 * @since   2.5.0
 	 */
 	protected function getDatabase()
 	{
@@ -978,7 +994,7 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	 *
 	 * @return  string  The format string.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function getDateFormat()
 	{
@@ -990,7 +1006,7 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	 *
 	 * @return  array  SQL statements executed by the database driver.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function getLog()
 	{
@@ -1026,7 +1042,7 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	 *
 	 * @return  string  The minimum version number for the database driver.
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function getMinimum()
 	{
@@ -1038,7 +1054,7 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	 *
 	 * @return  string  Null or zero representation of a timestamp.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function getNullDate()
 	{
@@ -1052,7 +1068,7 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	 *
 	 * @return  integer   The number of returned rows.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	abstract public function getNumRows($cursor = null);
 
@@ -1061,7 +1077,7 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	 *
 	 * @return  string  The common database table prefix.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function getPrefix()
 	{
@@ -1073,7 +1089,7 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	 *
 	 * @return  JDatabaseExporter  An exporter object.
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 * @throws  RuntimeException
 	 */
 	public function getExporter()
@@ -1099,7 +1115,7 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	 *
 	 * @return  JDatabaseImporter  An importer object.
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 * @throws  RuntimeException
 	 */
 	public function getImporter()
@@ -1163,6 +1179,10 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 			{
 				$this->serverType = 'postgresql';
 			}
+			elseif (stristr($name, 'pgsql') !== false)
+			{
+				$this->serverType = 'postgresql';
+			}
 			elseif (stristr($name, 'oracle') !== false)
 			{
 				$this->serverType = 'oracle';
@@ -1195,7 +1215,7 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	 *
 	 * @return  JDatabaseQuery  The current query object or a new object extending the JDatabaseQuery class.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 * @throws  RuntimeException
 	 */
 	public function getQuery($new = false)
@@ -1228,7 +1248,7 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	 *
 	 * @return  JDatabaseIterator  A new database iterator.
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 * @throws  RuntimeException
 	 */
 	public function getIterator($column = null, $class = 'stdClass')
@@ -1255,7 +1275,7 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	 *
 	 * @return  array  An array of fields by table.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 * @throws  RuntimeException
 	 */
 	abstract public function getTableColumns($table, $typeOnly = true);
@@ -1267,29 +1287,29 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	 *
 	 * @return  array  A list of the create SQL for the tables.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 * @throws  RuntimeException
 	 */
 	abstract public function getTableCreate($tables);
 
 	/**
-	 * Retrieves field information about the given tables.
+	 * Retrieves keys information about the given table.
 	 *
-	 * @param   mixed  $tables  A table name or a list of table names.
+	 * @param   string  $table  The name of the table.
 	 *
-	 * @return  array  An array of keys for the table(s).
+	 * @return  array   An array of keys for the table.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 * @throws  RuntimeException
 	 */
-	abstract public function getTableKeys($tables);
+	abstract public function getTableKeys($table);
 
 	/**
 	 * Method to get an array of all tables in the database.
 	 *
 	 * @return  array  An array of all the tables in the database.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 * @throws  RuntimeException
 	 */
 	abstract public function getTableList();
@@ -1299,8 +1319,8 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	 *
 	 * @return  boolean  True if the database engine supports UTF-8 character encoding.
 	 *
-	 * @since   11.1
-	 * @deprecated 12.3 (Platform) & 4.0 (CMS) - Use hasUTFSupport() instead
+	 * @since   1.7.0
+	 * @deprecated 4.0 - Use hasUTFSupport() instead
 	 */
 	public function getUTFSupport()
 	{
@@ -1314,7 +1334,7 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	 *
 	 * @return  boolean  True if the database engine supports UTF-8 character encoding.
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function hasUTFSupport()
 	{
@@ -1339,7 +1359,7 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	 *
 	 * @return  string  The database connector version.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	abstract public function getVersion();
 
@@ -1348,7 +1368,7 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	 *
 	 * @return  mixed  The value of the auto-increment field from the last inserted row.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	abstract public function insertid();
 
@@ -1361,7 +1381,7 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	 *
 	 * @return  boolean    True on success.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 * @throws  RuntimeException
 	 */
 	public function insertObject($table, &$object, $key = null)
@@ -1419,7 +1439,7 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	 *
 	 * @return  boolean  True if the database version is supported
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function isMinimumVersion()
 	{
@@ -1432,7 +1452,7 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	 *
 	 * @return  mixed  The return value or null if the query failed.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 * @throws  RuntimeException
 	 */
 	public function loadAssoc()
@@ -1464,7 +1484,7 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	 * of ['field_name' => 'row_value'].  The array of rows can optionally be keyed by a field name, but defaults to
 	 * a sequential numeric array.
 	 *
-	 * NOTE: Chosing to key the result array by a non-unique field name can result in unwanted
+	 * NOTE: Choosing to key the result array by a non-unique field name can result in unwanted
 	 * behavior and should be avoided.
 	 *
 	 * @param   string  $key     The name of a field on which to key the result array.
@@ -1473,7 +1493,7 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	 *
 	 * @return  mixed   The return value or null if the query failed.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 * @throws  RuntimeException
 	 */
 	public function loadAssocList($key = null, $column = null)
@@ -1517,7 +1537,7 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	 *
 	 * @return  mixed    The return value or null if the query failed.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 * @throws  RuntimeException
 	 */
 	public function loadColumn($offset = 0)
@@ -1551,9 +1571,9 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	 *
 	 * @return  mixed   The result of the query as an array, false if there are no more rows.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 * @throws  RuntimeException
-	 * @deprecated  12.3 (Platform) & 4.0 (CMS) - Use getIterator() instead
+	 * @deprecated  4.0 - Use getIterator() instead
 	 */
 	public function loadNextObject($class = 'stdClass')
 	{
@@ -1589,7 +1609,7 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	 *
 	 * @return  mixed  The result of the query as an array, false if there are no more rows.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 * @throws  RuntimeException
 	 * @deprecated  4.0 (CMS)  Use JDatabaseDriver::getIterator() instead
 	 */
@@ -1629,7 +1649,7 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	 *
 	 * @return  mixed   The return value or null if the query failed.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 * @throws  RuntimeException
 	 */
 	public function loadObject($class = 'stdClass')
@@ -1668,7 +1688,7 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	 *
 	 * @return  mixed   The return value or null if the query failed.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 * @throws  RuntimeException
 	 */
 	public function loadObjectList($key = '', $class = 'stdClass')
@@ -1707,7 +1727,7 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	 *
 	 * @return  mixed  The return value or null if the query failed.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 * @throws  RuntimeException
 	 */
 	public function loadResult()
@@ -1740,7 +1760,7 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	 *
 	 * @return  mixed  The return value or null if the query failed.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 * @throws  RuntimeException
 	 */
 	public function loadRow()
@@ -1778,7 +1798,7 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	 *
 	 * @return  mixed   The return value or null if the query failed.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 * @throws  RuntimeException
 	 */
 	public function loadRowList($index = null)
@@ -1819,7 +1839,7 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	 *
 	 * @return  JDatabaseDriver     Returns this object to support chaining.
 	 *
-	 * @since   11.4
+	 * @since   2.5.0
 	 * @throws  RuntimeException
 	 */
 	abstract public function lockTable($tableName);
@@ -1833,7 +1853,7 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	 * @return  string|array  The quoted input.
 	 *
 	 * @note    Accepting an array of strings was added in 12.3.
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function quote($text, $escape = true)
 	{
@@ -1853,6 +1873,21 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	}
 
 	/**
+	 * Quotes a binary string to database requirements for use in database queries.
+	 *
+	 * @param   mixed  $data  A binary string to quote.
+	 *
+	 * @return  string  The binary quoted input string.
+	 *
+	 * @since   3.9.12
+	 */
+	public function quoteBinary($data)
+	{
+		// SQL standard syntax for hexadecimal literals
+		return "X'" . bin2hex($data) . "'";
+	}
+
+	/**
 	 * Wrap an SQL statement identifier name such as column, table or database names in quotes to prevent injection
 	 * risks and reserved word conflicts.
 	 *
@@ -1863,7 +1898,7 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	 *
 	 * @return  mixed  The quote wrapped name, same type of $name.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function quoteName($name, $as = null)
 	{
@@ -1913,7 +1948,7 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	 *
 	 * @return  string  Dot-imploded string of quoted parts.
 	 *
-	 * @since 11.3
+	 * @since 1.7.3
 	 */
 	protected function quoteNameStr($strArr)
 	{
@@ -1933,7 +1968,7 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 			}
 			else
 			{
-				$parts[] = $q{0} . str_replace($q{1}, $q{1} . $q{1}, $part) . $q{1};
+				$parts[] = $q[0] . str_replace($q[1], $q[1] . $q[1], $part) . $q[1];
 			}
 		}
 
@@ -1949,7 +1984,7 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	 *
 	 * @return  string  The processed SQL statement.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function replacePrefix($sql, $prefix = '#__')
 	{
@@ -2009,7 +2044,7 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 
 				$l = $k - 1;
 
-				while ($l >= 0 && $sql{$l} == '\\')
+				while ($l >= 0 && $sql[$l] == '\\')
 				{
 					$l--;
 					$escaped = !$escaped;
@@ -2052,7 +2087,7 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	 *
 	 * @return  JDatabaseDriver    Returns this object to support chaining.
 	 *
-	 * @since   11.4
+	 * @since   2.5.0
 	 * @throws  RuntimeException
 	 */
 	abstract public function renameTable($oldTable, $newTable, $backup = null, $prefix = null);
@@ -2064,7 +2099,7 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	 *
 	 * @return  boolean  True if the database was successfully selected.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 * @throws  RuntimeException
 	 */
 	abstract public function select($database);
@@ -2076,7 +2111,8 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	 *
 	 * @return  boolean  The old debugging level.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
+	 * @deprecated  4.0  This will be removed in Joomla 4 without replacement
 	 */
 	public function setDebug($level)
 	{
@@ -2095,7 +2131,7 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	 *
 	 * @return  JDatabaseDriver  This object to support method chaining.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function setQuery($query, $offset = 0, $limit = 0)
 	{
@@ -2129,7 +2165,7 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	 *
 	 * @return  boolean  True on success.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	abstract public function setUtf();
 
@@ -2140,7 +2176,7 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 * @throws  RuntimeException
 	 */
 	abstract public function transactionCommit($toSavepoint = false);
@@ -2152,7 +2188,7 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 * @throws  RuntimeException
 	 */
 	abstract public function transactionRollback($toSavepoint = false);
@@ -2164,7 +2200,7 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 * @throws  RuntimeException
 	 */
 	abstract public function transactionStart($asSavepoint = false);
@@ -2176,7 +2212,7 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	 *
 	 * @return  void
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 * @throws  RuntimeException
 	 */
 	public function truncateTable($table)
@@ -2188,14 +2224,14 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	/**
 	 * Updates a row in a table based on an object's properties.
 	 *
-	 * @param   string   $table    The name of the database table to update.
-	 * @param   object   &$object  A reference to an object whose public properties match the table fields.
-	 * @param   array    $key      The name of the primary key.
-	 * @param   boolean  $nulls    True to update null fields or false to ignore them.
+	 * @param   string        $table    The name of the database table to update.
+	 * @param   object        &$object  A reference to an object whose public properties match the table fields.
+	 * @param   array|string  $key      The name of the primary key.
+	 * @param   boolean       $nulls    True to update null fields or false to ignore them.
 	 *
 	 * @return  boolean  True on success.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 * @throws  RuntimeException
 	 */
 	public function updateObject($table, &$object, $key, $nulls = false)
@@ -2220,7 +2256,7 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 		foreach (get_object_vars($object) as $k => $v)
 		{
 			// Only process scalars that are not internal fields.
-			if (is_array($v) or is_object($v) or $k[0] == '_')
+			if (is_array($v) || is_object($v) || $k[0] === '_')
 			{
 				continue;
 			}
@@ -2228,7 +2264,7 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 			// Set the primary key to the WHERE clause instead of a field to update.
 			if (in_array($k, $key))
 			{
-				$where[] = $this->quoteName($k) . '=' . $this->quote($v);
+				$where[] = $this->quoteName($k) . ($v === null ? ' IS NULL' : ' = ' . $this->quote($v));
 				continue;
 			}
 
@@ -2273,7 +2309,7 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	 *
 	 * @return  mixed  A database cursor resource on success, boolean false on failure.
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 * @throws  RuntimeException
 	 */
 	abstract public function execute();
@@ -2283,7 +2319,7 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	 *
 	 * @return  JDatabaseDriver  Returns this object to support chaining.
 	 *
-	 * @since   11.4
+	 * @since   2.5.0
 	 * @throws  RuntimeException
 	 */
 	abstract public function unlockTables();

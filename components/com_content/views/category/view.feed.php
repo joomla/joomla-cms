@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2006 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -24,7 +24,7 @@ class ContentViewCategory extends JViewCategoryfeed
 
 	/**
 	 * Method to reconcile non standard names from components to usage in this class.
-	 * Typically overriden in the component feed view class.
+	 * Typically overridden in the component feed view class.
 	 *
 	 * @param   object  $item  The item for a feed, an element of the $items array.
 	 *
@@ -43,11 +43,11 @@ class ContentViewCategory extends JViewCategoryfeed
 
 		if (isset($introImage) && ($introImage != ''))
 		{
-			$image = preg_match('/http/', $introImage)? $introImage : JURI::root() . $introImage;
+			$image = preg_match('/http/', $introImage) ? $introImage : JURI::root() . $introImage;
 			$item->description = '<p><img src="' . $image . '" /></p>';
 		}
 
-		$item->description .= ($params->get('feed_summary', 0) ? $item->introtext . $item->fulltext : $item->introtext);         
+		$item->description .= ($params->get('feed_summary', 0) ? $item->introtext . $item->fulltext : $item->introtext);
 
 		// Add readmore link to description if introtext is shown, show_readmore is true and fulltext exists
 		if (!$item->params->get('feed_summary', 0) && $item->params->get('feed_show_readmore', 0) && $item->fulltext)
@@ -56,9 +56,14 @@ class ContentViewCategory extends JViewCategoryfeed
 			$item->slug = $item->alias ? ($item->id . ':' . $item->alias) : $item->id;
 
 			// URL link to article
-			$link = JRoute::_(ContentHelperRoute::getArticleRoute($item->slug, $item->catid, $item->language));
+			$link = JRoute::_(
+				ContentHelperRoute::getArticleRoute($item->slug, $item->catid, $item->language),
+				true,
+				$app->get('force_ssl') == 2 ? \JRoute::TLS_FORCE : \JRoute::TLS_IGNORE,
+				true
+			);
 
-			$item->description .= '<p class="feed-readmore"><a target="_blank" href ="' . $link . '">' . JText::_('COM_CONTENT_FEED_READMORE') . '</a></p>';
+			$item->description .= '<p class="feed-readmore"><a target="_blank" href="' . $link . '">' . JText::_('COM_CONTENT_FEED_READMORE') . '</a></p>';
 		}
 
 		$item->author = $item->created_by_alias ?: $item->author;

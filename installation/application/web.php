@@ -3,7 +3,7 @@
  * @package     Joomla.Installation
  * @subpackage  Application
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2013 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -103,7 +103,7 @@ final class InstallationApplicationWeb extends JApplicationCms
 
 				$guess = trim($guess);
 
-				$key = trim(strtoupper($key));
+				$key = strtoupper(trim($key));
 				$key = preg_replace('#\s+#', '_', $key);
 				$key = preg_replace('#\W#', '', $key);
 
@@ -143,7 +143,7 @@ final class InstallationApplicationWeb extends JApplicationCms
 			// Register the document object with JFactory.
 			JFactory::$document = $document;
 
-			if ($document->getType() == 'html')
+			if ($document->getType() === 'html')
 			{
 				// Set metadata
 				$document->setTitle(JText::_('INSTL_PAGE_TITLE'));
@@ -211,7 +211,7 @@ final class InstallationApplicationWeb extends JApplicationCms
 	 *
 	 * @return  mixed   Either an array or object to be loaded into the configuration object.
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 * @throws  RuntimeException
 	 */
 	protected function fetchConfigurationData($file = '', $class = 'JConfig')
@@ -231,7 +231,7 @@ final class InstallationApplicationWeb extends JApplicationCms
 	 */
 	protected function fetchController($task)
 	{
-		if (is_null($task))
+		if ($task === null)
 		{
 			$task = 'default';
 		}
@@ -267,7 +267,7 @@ final class InstallationApplicationWeb extends JApplicationCms
 		}
 
 		// Check that it's a localise file.
-		if ($xml->getName() != 'localise')
+		if ($xml->getName() !== 'localise')
 		{
 			return false;
 		}
@@ -275,7 +275,6 @@ final class InstallationApplicationWeb extends JApplicationCms
 		$ret = array();
 
 		$ret['language']   = (string) $xml->forceLang;
-		$ret['helpurl']    = (string) $xml->helpurl;
 		$ret['debug']      = (string) $xml->debug;
 		$ret['sampledata'] = (string) $xml->sampledata;
 
@@ -361,7 +360,7 @@ final class InstallationApplicationWeb extends JApplicationCms
 		{
 			$requestLang = $this->input->getCmd('lang', null);
 
-			if (!is_null($requestLang))
+			if ($requestLang !== null)
 			{
 				$options['language'] = $requestLang;
 			}
@@ -402,15 +401,8 @@ final class InstallationApplicationWeb extends JApplicationCms
 			$options['language'] = 'en-GB';
 		}
 
-		// Check for custom helpurl.
-		if (empty($forced['helpurl']))
-		{
-			$options['helpurl'] = 'https://help.joomla.org/proxy/index.php?keyref=Help{major}{minor}:{keyref}';
-		}
-		else
-		{
-			$options['helpurl'] = $forced['helpurl'];
-		}
+		// Set the official helpurl.
+		$options['helpurl'] = 'https://help.joomla.org/proxy?keyref=Help{major}{minor}:{keyref}&lang={langcode}';
 
 		// Store helpurl in the session.
 		$this->getSession()->set('setup.helpurl', $options['helpurl']);

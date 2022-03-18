@@ -3,7 +3,7 @@
  * @package     Joomla.Admin
  * @subpackage  Layout
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2015 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -84,8 +84,7 @@ if ($showPreview)
 
 // The URL for the modal
 $url    = ($readonly ? ''
-	: ($link ? $link
-		: 'index.php?option=com_media&amp;view=images&amp;tmpl=component&amp;asset='
+	: ($link ?: 'index.php?option=com_media&amp;view=images&amp;tmpl=component&amp;asset='
 		. $asset . '&amp;author=' . $authorId)
 	. '&amp;fieldid={field-media-id}&amp;ismoo=0&amp;folder=' . $folder);
 ?>
@@ -94,7 +93,7 @@ $url    = ($readonly ? ''
 	data-url="<?php echo $url; ?>"
 	data-modal=".modal"
 	data-modal-width="100%"
-	data-modal-height="400px"
+	data-modal-height="645px"
 	data-input=".field-media-input"
 	data-button-select=".button-select"
 	data-button-clear=".button-clear"
@@ -113,7 +112,6 @@ $url    = ($readonly ? ''
 		array(
 			'title'       => JText::_('JLIB_FORM_CHANGE_IMAGE'),
 			'closeButton' => true,
-			'footer'      => '<a class="btn" data-dismiss="modal">' . JText::_('JCANCEL') . '</a>',
 		)
 	);
 
@@ -131,8 +129,15 @@ $url    = ($readonly ? ''
 		<?php endif; ?>
 		<input type="text" name="<?php echo $name; ?>" id="<?php echo $id; ?>" value="<?php echo htmlspecialchars($value, ENT_COMPAT, 'UTF-8'); ?>" readonly="readonly"<?php echo $attr; ?>/>
 		<?php if ($disabled != true) : ?>
-			<a class="btn add-on button-select"><?php echo JText::_('JLIB_FORM_BUTTON_SELECT'); ?></a>
-			<a class="btn icon-remove hasTooltip add-on button-clear" title="<?php echo JText::_('JLIB_FORM_BUTTON_CLEAR'); ?>"></a>
+			<button type="button" class="btn button-select"><?php echo JText::_('JLIB_FORM_BUTTON_SELECT'); ?></button>
+			<button
+				type="button"
+				class="btn hasTooltip button-clear"
+				title="<?php echo JText::_('JLIB_FORM_BUTTON_CLEAR'); ?>"
+				aria-label="<?php echo JText::_('JLIB_FORM_BUTTON_CLEAR'); ?>"
+				>
+				<span class="icon-remove" aria-hidden="true"></span>
+			</button>
 		<?php endif; ?>
 	</div>
 	<?php if ($showPreview && !$showAsTooltip) : ?>

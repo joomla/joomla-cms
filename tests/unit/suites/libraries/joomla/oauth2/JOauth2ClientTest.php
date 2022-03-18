@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Client
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2013 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -14,7 +14,7 @@ use Joomla\Registry\Registry;
  *
  * @package     Joomla.UnitTest
  * @subpackage  Oauth
- * @since       12.3
+ * @since       3.1.4
  */
 class JOAuth2ClientTest extends TestCase
 {
@@ -96,12 +96,7 @@ class JOAuth2ClientTest extends TestCase
 	protected function tearDown()
 	{
 		$_SERVER = $this->backupServer;
-		unset($this->backupServer);
-		unset($this->options);
-		unset($this->input);
-		unset($this->http);
-		unset($this->application);
-		unset($this->object);
+		unset($this->backupServer, $this->options, $this->input, $this->http, $this->application, $this->object);
 		parent::tearDown();
 	}
 
@@ -380,7 +375,7 @@ class JOAuth2ClientTest extends TestCase
  *
  * @return  JHttpResponse
  *
- * @since   12.3
+ * @since   3.1.4
  */
 function encodedGrantOauthCallback($url, $data, array $headers = null, $timeout = null)
 {
@@ -403,7 +398,7 @@ function encodedGrantOauthCallback($url, $data, array $headers = null, $timeout 
  *
  * @return  JHttpResponse
  *
- * @since   12.3
+ * @since   3.1.4
  */
 function jsonGrantOauthCallback($url, $data, array $headers = null, $timeout = null)
 {
@@ -427,7 +422,7 @@ function jsonGrantOauthCallback($url, $data, array $headers = null, $timeout = n
  *
  * @return  JHttpResponse
  *
- * @since   12.3
+ * @since   3.1.4
  */
 function queryOauthCallback($url, $data, array $headers = null, $timeout = null)
 {
@@ -449,7 +444,7 @@ function queryOauthCallback($url, $data, array $headers = null, $timeout = null)
  *
  * @return  JHttpResponse
  *
- * @since   12.3
+ * @since   3.1.4
  */
 function getOauthCallback($url, array $headers = null, $timeout = null)
 {

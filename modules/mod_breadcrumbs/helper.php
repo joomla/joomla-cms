@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  mod_breadcrumbs
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2006 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,9 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Helper for mod_breadcrumbs
  *
- * @package     Joomla.Site
- * @subpackage  mod_breadcrumbs
- * @since       1.5
+ * @since  1.5
  */
 class ModBreadCrumbsHelper
 {
@@ -53,7 +51,7 @@ class ModBreadCrumbsHelper
 		{
 			$crumbs[$i]       = new stdClass;
 			$crumbs[$i]->name = stripslashes(htmlspecialchars($items[$i]->name, ENT_COMPAT, 'UTF-8'));
-			$crumbs[$i]->link = JRoute::_($items[$i]->link);
+			$crumbs[$i]->link = !is_null($items[$i]->link) ? JRoute::_($items[$i]->link) : '';
 		}
 
 		if ($params->get('showHome', 1))
@@ -70,8 +68,7 @@ class ModBreadCrumbsHelper
 	/**
 	 * Set the breadcrumbs separator for the breadcrumbs display.
 	 *
-	 * @param   string  $custom  Custom xhtml complient string to separate the
-	 * items of the breadcrumbs
+	 * @param   string  $custom  Custom xhtml compliant string to separate the items of the breadcrumbs
 	 *
 	 * @return  string	Separator string
 	 *

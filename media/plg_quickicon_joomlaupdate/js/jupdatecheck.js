@@ -1,5 +1,5 @@
 /**
- * @copyright	Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright	(C) 2011 Open Source Matters, Inc. <https://www.joomla.org>
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -24,9 +24,9 @@ jQuery(document).ready(function() {
 				} else {
 					var updateInfo = updateInfoList.shift();
 					if (updateInfo.version != plg_quickicon_jupdatecheck_jversion) {
-						var updateString = plg_quickicon_joomlaupdate_text.UPDATEFOUND.replace("%s", updateInfo.version + "");
+						var updateString = plg_quickicon_joomlaupdate_text.UPDATEFOUND.replace("%s", '\u200E' + updateInfo.version + "");
 						jQuery('#plg_quickicon_joomlaupdate').find('.j-links-link').html(updateString);
-						var updateString = plg_quickicon_joomlaupdate_text.UPDATEFOUND_MESSAGE.replace("%s", updateInfo.version + "");
+						var updateString = plg_quickicon_joomlaupdate_text.UPDATEFOUND_MESSAGE.replace("%s", '\u200E' + updateInfo.version + "");
 						jQuery('#system-message-container').prepend(
 							'<div class="alert alert-error alert-joomlaupdate">'
 							+ updateString

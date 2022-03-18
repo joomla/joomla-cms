@@ -3,11 +3,13 @@
  * @package     Joomla.Site
  * @subpackage  Layout
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2015 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('JPATH_BASE') or die;
+defined('_JEXEC') or die;
+
+use Joomla\Utilities\ArrayHelper;
 
 // Load bootstrap-tooltip-extended plugin for additional tooltip positions in modal
 JHtml::_('bootstrap.tooltipExtended');
@@ -150,21 +152,21 @@ $script[] = "});";
 
 JFactory::getDocument()->addScriptDeclaration(implode("\n", $script));
 ?>
-<div id="<?php echo $selector; ?>" <?php echo JArrayHelper::toString($modalAttributes); ?>>
+<div id="<?php echo $selector; ?>" <?php echo ArrayHelper::toString($modalAttributes); ?>>
 	<?php
-		// Header
-		if (!isset($params['closeButton']) || isset($params['title']) || $params['closeButton'])
-		{
-			echo JLayoutHelper::render('joomla.modal.header', $displayData);
-		}
+	// Header
+	if (!isset($params['closeButton']) || isset($params['title']) || $params['closeButton'])
+	{
+		echo JLayoutHelper::render('joomla.modal.header', $displayData);
+	}
 
-		// Body
-		echo JLayoutHelper::render('joomla.modal.body', $displayData);
+	// Body
+	echo JLayoutHelper::render('joomla.modal.body', $displayData);
 
-		// Footer
-		if (isset($params['footer']))
-		{
-			echo JLayoutHelper::render('joomla.modal.footer', $displayData);
-		}
+	// Footer
+	if (isset($params['footer']))
+	{
+		echo JLayoutHelper::render('joomla.modal.footer', $displayData);
+	}
 	?>
 </div>

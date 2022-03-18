@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  HTML
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2011 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -27,6 +27,8 @@ abstract class JHtmlGrid
 	 * @return  string   The boolean setting widget.
 	 *
 	 * @since   1.6
+	 *
+	 * @deprecated  4.0 This is only used in hathor and will be removed without replacement
 	 */
 	public static function boolean($i, $value, $taskOn = null, $taskOff = null)
 	{
@@ -57,35 +59,35 @@ abstract class JHtmlGrid
 	/**
 	 * Method to sort a column in a grid
 	 *
-	 * @param   string  $title          The link title
-	 * @param   string  $order          The order field for the column
-	 * @param   string  $direction      The current direction
-	 * @param   string  $selected       The selected ordering
-	 * @param   string  $task           An optional task override
-	 * @param   string  $new_direction  An optional direction for the new column
-	 * @param   string  $tip            An optional text shown as tooltip title instead of $title
-	 * @param   string  $form           An optional form selector
+	 * @param   string  $title         The link title
+	 * @param   string  $order         The order field for the column
+	 * @param   string  $direction     The current direction
+	 * @param   string  $selected      The selected ordering
+	 * @param   string  $task          An optional task override
+	 * @param   string  $newDirection  An optional direction for the new column
+	 * @param   string  $tip           An optional text shown as tooltip title instead of $title
+	 * @param   string  $form          An optional form selector
 	 *
 	 * @return  string
 	 *
 	 * @since   1.5
 	 */
-	public static function sort($title, $order, $direction = 'asc', $selected = '', $task = null, $new_direction = 'asc', $tip = '', $form = null)
+	public static function sort($title, $order, $direction = 'asc', $selected = '', $task = null, $newDirection = 'asc', $tip = '', $form = null)
 	{
 		JHtml::_('behavior.core');
 		JHtml::_('bootstrap.popover');
 
 		$direction = strtolower($direction);
 		$icon = array('arrow-up-3', 'arrow-down-3');
-		$index = (int) ($direction == 'desc');
+		$index = (int) ($direction === 'desc');
 
 		if ($order != $selected)
 		{
-			$direction = $new_direction;
+			$direction = $newDirection;
 		}
 		else
 		{
-			$direction = ($direction == 'desc') ? 'asc' : 'desc';
+			$direction = $direction === 'desc' ? 'asc' : 'desc';
 		}
 
 		if ($form)
@@ -97,7 +99,7 @@ abstract class JHtmlGrid
 			. ' class="hasPopover" title="' . htmlspecialchars(JText::_($tip ?: $title)) . '"'
 			. ' data-content="' . htmlspecialchars(JText::_('JGLOBAL_CLICK_TO_SORT_THIS_COLUMN')) . '" data-placement="top">';
 
-		if (isset($title['0']) && $title['0'] == '<')
+		if (isset($title['0']) && $title['0'] === '<')
 		{
 			$html .= $title;
 		}
@@ -186,7 +188,7 @@ abstract class JHtmlGrid
 		}
 		else
 		{
-			if ($identifier == 'id')
+			if ($identifier === 'id')
 			{
 				return JHtml::_('grid.id', $i, $row->$identifier);
 			}
@@ -230,17 +232,17 @@ abstract class JHtmlGrid
 	 * Method to create a select list of states for filtering
 	 * By default the filter shows only published and unpublished items
 	 *
-	 * @param   string  $filter_state  The initial filter state
-	 * @param   string  $published     The JText string for published
-	 * @param   string  $unpublished   The JText string for Unpublished
-	 * @param   string  $archived      The JText string for Archived
-	 * @param   string  $trashed       The JText string for Trashed
+	 * @param   string  $filterState  The initial filter state
+	 * @param   string  $published    The JText string for published
+	 * @param   string  $unpublished  The JText string for Unpublished
+	 * @param   string  $archived     The JText string for Archived
+	 * @param   string  $trashed      The JText string for Trashed
 	 *
 	 * @return  string
 	 *
 	 * @since   1.5
 	 */
-	public static function state($filter_state = '*', $published = 'JPUBLISHED', $unpublished = 'JUNPUBLISHED', $archived = null, $trashed = null)
+	public static function state($filterState = '*', $published = 'JPUBLISHED', $unpublished = 'JUNPUBLISHED', $archived = null, $trashed = null)
 	{
 		$state = array('' => '- ' . JText::_('JLIB_HTML_SELECT_STATE') . ' -', 'P' => JText::_($published), 'U' => JText::_($unpublished));
 
@@ -260,7 +262,7 @@ abstract class JHtmlGrid
 			'filter_state',
 			array(
 				'list.attr' => 'class="inputbox" size="1" onchange="Joomla.submitform();"',
-				'list.select' => $filter_state,
+				'list.select' => $filterState,
 				'option.key' => null,
 			)
 		);
@@ -318,6 +320,8 @@ abstract class JHtmlGrid
 	 * @return  void
 	 *
 	 * @since   1.6
+	 *
+	 * @deprecated  4.0 This is only used in hathor and will be removed without replacement
 	 */
 	public static function behavior()
 	{

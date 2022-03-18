@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_menus
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2011 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -50,6 +50,7 @@ abstract class MenusHtmlMenus
 				->from('#__menu as m')
 				->join('LEFT', '#__menu_types as mt ON mt.menutype=m.menutype')
 				->where('m.id IN (' . implode(',', array_values($associations)) . ')')
+				->where('m.id != ' . $itemid)
 				->join('LEFT', '#__languages as l ON m.language=l.lang_code')
 				->select('l.image')
 				->select('l.title as language_title');

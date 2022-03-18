@@ -2,7 +2,7 @@
  * @package     Joomla.Tests
  * @subpackage  JavaScript Tests
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2016 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  *
  * @since       3.6.3
@@ -19,14 +19,14 @@ define(['jquery', 'testsRoot/core/spec-setup', 'jasmineJquery'], function ($) {
 			spyOnEvent('#adminForm', 'submit');
 			form.removeChild = jasmine.createSpy('removeChild');
 
-			Joomla.submitform('article.add', form, true);
+			Joomla.submitform('article.add', form, false);
 		});
 
 		it('should assign task to form.task.value', function () {
 			expect(form.task.value).toEqual('article.add');
 		});
-		it('should set attribute novalidate to false', function () {
-			expect($(form)).toHaveAttr('novalidate', 'false');
+		it('should set attribute "novalidate"', function () {
+			expect($(form)).toHaveAttr('novalidate', '');
 		});
 		it('should add input submit button to DOM', function () {
 			expect($('#adminForm')).toContainElement('input[type="submit"]');

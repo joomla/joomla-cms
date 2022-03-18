@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  Templates.beez3
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2010 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -21,6 +21,7 @@ $params      = $app->getTemplate(true)->params;
 $logo        = $params->get('logo');
 $color       = $params->get('templatecolor');
 $navposition = $params->get('navposition');
+$format      = $app->input->getCmd('format', 'html');
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>">
@@ -123,7 +124,7 @@ $navposition = $params->get('navposition');
 								<li><?php echo JText::_('JERROR_LAYOUT_SEARCH_ENGINE_OUT_OF_DATE_LISTING'); ?></li>
 								<li><?php echo JText::_('JERROR_LAYOUT_YOU_HAVE_NO_ACCESS_TO_THIS_PAGE'); ?></li>
 							</ul>
-							<?php if (JModuleHelper::getModule('search')) : ?>
+							<?php if ($format === 'html' && JModuleHelper::getModule('mod_search')) : ?>
 								<div id="searchbox">
 									<h3 class="unseen">
 										<?php echo JText::_('TPL_BEEZ3_SEARCH'); ?>
@@ -131,7 +132,7 @@ $navposition = $params->get('navposition');
 									<p>
 										<?php echo JText::_('JERROR_LAYOUT_SEARCH'); ?>
 									</p>
-									<?php $module = JModuleHelper::getModule('search'); ?>
+									<?php $module = JModuleHelper::getModule('mod_search'); ?>
 									<?php echo JModuleHelper::renderModule($module); ?>
 								</div><!-- end searchbox -->
 							<?php endif; ?>
@@ -143,8 +144,12 @@ $navposition = $params->get('navposition');
 							<h3>
 								<?php echo JText::_('JERROR_LAYOUT_PLEASE_CONTACT_THE_SYSTEM_ADMINISTRATOR'); ?>
 							</h3>
-							<h2>#<?php echo $this->error->getCode(); ?>&nbsp;<?php echo htmlspecialchars($this->error->getMessage(), ENT_QUOTES, 'UTF-8'); ?>
+							<h2>
+								#<?php echo $this->error->getCode(); ?>&nbsp;<?php echo htmlspecialchars($this->error->getMessage(), ENT_QUOTES, 'UTF-8'); ?>
 							</h2>
+							<?php if ($this->debug) : ?>
+								<br/><?php echo htmlspecialchars($this->error->getFile(), ENT_QUOTES, 'UTF-8');?>:<?php echo $this->error->getLine(); ?>
+							<?php endif; ?>
 							<br />
 						</div><!-- end errorboxbody -->
 					</div><!-- end wrapper2 -->
@@ -160,7 +165,10 @@ $navposition = $params->get('navposition');
 							<?php $this->setError($this->_error->getPrevious()); ?>
 							<?php while ($loop === true) : ?>
 								<p><strong><?php echo JText::_('JERROR_LAYOUT_PREVIOUS_ERROR'); ?></strong></p>
-								<p><?php echo htmlspecialchars($this->_error->getMessage(), ENT_QUOTES, 'UTF-8'); ?></p>
+								<p>
+									<?php echo htmlspecialchars($this->_error->getMessage(), ENT_QUOTES, 'UTF-8'); ?>
+									<br/><?php echo htmlspecialchars($this->_error->getFile(), ENT_QUOTES, 'UTF-8');?>:<?php echo $this->_error->getLine(); ?>
+								</p>
 								<?php echo $this->renderBacktrace(); ?>
 								<?php $loop = $this->setError($this->_error->getPrevious()); ?>
 							<?php endwhile; ?>

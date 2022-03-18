@@ -3,7 +3,7 @@
 	<name>mod_articles_popular</name>
 	<author>Joomla! Project</author>
 	<creationDate>July 2006</creationDate>
-	<copyright>Copyright (C) 2005 - 2017 Open Source Matters. All rights reserved.</copyright>
+	<copyright>(C) 2006 Open Source Matters, Inc.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
@@ -29,27 +29,26 @@
 					description="MOD_POPULAR_FIELD_CATEGORY_DESC"
 					extension="com_content"
 					multiple="true"
-					size="10"
-					default=""
-					>
-					<option value="">JOPTION_ALL_CATEGORIES</option>
-				</field>
+					filter="int_array"
+				/>
 
 				<field
 					name="count"
-					type="text"
+					type="number"
 					label="MOD_POPULAR_FIELD_COUNT_LABEL"
 					description="MOD_POPULAR_FIELD_COUNT_DESC"
 					default="5"
+					filter="integer"
 				/>
 
-					<field
+				<field
 					name="show_front"
 					type="radio"
 					label="MOD_POPULAR_FIELD_FEATURED_LABEL"
 					description="MOD_POPULAR_FIELD_FEATURED_DESC"
 					class="btn-group btn-group-yesno"
 					default="1"
+					filter="integer"
 					>
 					<option value="1">JSHOW</option>
 					<option value="0">JHIDE</option>
@@ -67,6 +66,7 @@
 					label="MOD_POPULAR_FIELD_DATEFILTERING_LABEL"
 					description="MOD_POPULAR_FIELD_DATEFILTERING_DESC"
 					default="off"
+					validate="options"
 					>
 					<option value="off">MOD_POPULAR_OPTION_OFF_VALUE</option>
 					<option value="range">MOD_POPULAR_OPTION_DATERANGE_VALUE</option>
@@ -80,6 +80,7 @@
 					description="MOD_POPULAR_FIELD_DATEFIELD_DESC"
 					default="a.created"
 					showon="date_filtering:range,relative"
+					validate="options"
 					>
 					<option value="a.created">MOD_POPULAR_OPTION_CREATED_VALUE</option>
 					<option value="a.modified">MOD_POPULAR_OPTION_MODIFIED_VALUE</option>
@@ -108,14 +109,15 @@
 					size="22"
 					filter="user_utc"
 					showon="date_filtering:range"
-					/>
+				/>
 
 				<field
 					name="relative_date"
-					type="text"
+					type="number"
 					label="MOD_POPULAR_FIELD_RELATIVEDATE_LABEL"
 					description="MOD_POPULAR_FIELD_RELATIVEDATE_DESC"
 					default="30"
+					filter="integer"
 					showon="date_filtering:relative"
 				/>
 			</fieldset>
@@ -125,7 +127,9 @@
 					name="layout"
 					type="modulelayout"
 					label="JFIELD_ALT_LAYOUT_LABEL"
-					description="JFIELD_ALT_MODULE_LAYOUT_DESC" />
+					description="JFIELD_ALT_MODULE_LAYOUT_DESC"
+					validate="moduleLayout"
+				/>
 
 				<field
 					name="moduleclass_sfx"
@@ -141,6 +145,7 @@
 					label="COM_MODULES_FIELD_CACHING_LABEL"
 					description="COM_MODULES_FIELD_CACHING_DESC"
 					default="1"
+					filter="integer"
 					>
 					<option value="1">JGLOBAL_USE_GLOBAL</option>
 					<option value="0">COM_MODULES_FIELD_VALUE_NOCACHING</option>
@@ -148,10 +153,11 @@
 
 				<field
 					name="cache_time"
-					type="text"
+					type="number"
 					label="COM_MODULES_FIELD_CACHE_TIME_LABEL"
 					description="COM_MODULES_FIELD_CACHE_TIME_DESC"
 					default="900"
+					filter="integer"
 				/>
 
 				<field

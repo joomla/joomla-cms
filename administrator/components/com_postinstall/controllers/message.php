@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_postinstall
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2013 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -25,6 +25,9 @@ class PostinstallControllerMessage extends FOFController
 	 */
 	public function reset()
 	{
+		// CSRF prevention.
+		$this->_csrfProtection();
+
 		/** @var PostinstallModelMessages $model */
 		$model = $this->getThisModel();
 
@@ -41,6 +44,33 @@ class PostinstallControllerMessage extends FOFController
 	}
 
 	/**
+	 * Hides all post-installation messages of the specified extension.
+	 *
+	 * @return  void
+	 *
+	 * @since   3.8.7
+	 */
+	public function hideAll()
+	{
+		// CSRF prevention.
+		$this->_csrfProtection();
+
+		/** @var PostinstallModelMessages $model */
+		$model = $this->getThisModel();
+
+		$eid = (int) $model->getState('eid', '700', 'int');
+
+		if (empty($eid))
+		{
+			$eid = 700;
+		}
+
+		$model->hideMessages($eid);
+
+		$this->setRedirect('index.php?option=com_postinstall&eid=' . $eid);
+	}
+
+	/**
 	 * Executes the action associated with an item.
 	 *
 	 * @return  void
@@ -50,10 +80,7 @@ class PostinstallControllerMessage extends FOFController
 	public function action()
 	{
 		// CSRF prevention.
-		if ($this->csrfProtection)
-		{
-			$this->_csrfProtection();
-		}
+		$this->_csrfProtection();
 
 		$model = $this->getThisModel();
 

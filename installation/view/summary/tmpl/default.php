@@ -3,7 +3,7 @@
  * @package     Joomla.Installation
  * @subpackage  View
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2013 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -119,14 +119,6 @@ $prev = $useftp ? 'ftp' : 'database';
 							<span class="label"><?php echo $this->options['admin_user']; ?></span>
 						</td>
 					</tr>
-					<tr>
-						<td class="item">
-							<?php echo JText::_('INSTL_ADMIN_PASSWORD_LABEL'); ?>
-						</td>
-						<td>
-							<?php echo $this->options['admin_password'] ? '***': ''; ?>
-						</td>
-					</tr>
 				</tbody>
 				<tfoot>
 					<tr>
@@ -166,14 +158,6 @@ $prev = $useftp ? 'ftp' : 'database';
 					</tr>
 					<tr>
 						<td class="item">
-							<?php echo JText::_('INSTL_DATABASE_PASSWORD_LABEL'); ?>
-						</td>
-						<td>
-							<?php echo $this->options['db_pass'] ? '***': ''; ?>
-						</td>
-					</tr>
-					<tr>
-						<td class="item">
 							<?php echo JText::_('INSTL_DATABASE_NAME_LABEL'); ?>
 						</td>
 						<td>
@@ -193,8 +177,8 @@ $prev = $useftp ? 'ftp' : 'database';
 							<?php echo JText::_('INSTL_DATABASE_OLD_PROCESS_LABEL'); ?>
 						</td>
 						<td>
-							<span class="label label-<?php echo ($this->options['db_old'] == 'remove') ? 'important' : 'success'; ?>">
-								<?php echo JText::_(($this->options['db_old'] == 'remove') ? 'INSTL_DATABASE_FIELD_VALUE_REMOVE' : 'INSTL_DATABASE_FIELD_VALUE_BACKUP'); ?>
+							<span class="label label-<?php echo $this->options['db_old'] === 'remove' ? 'important' : 'success'; ?>">
+								<?php echo JText::_($this->options['db_old'] === 'remove' ? 'INSTL_DATABASE_FIELD_VALUE_REMOVE' : 'INSTL_DATABASE_FIELD_VALUE_BACKUP'); ?>
 							</span>
 						</td>
 					</tr>
@@ -231,14 +215,6 @@ $prev = $useftp ? 'ftp' : 'database';
 						</td>
 						<td>
 							<?php echo $this->options['ftp_user']; ?>
-						</td>
-					</tr>
-					<tr>
-						<td class="item">
-							<?php echo JText::_('INSTL_FTP_PASSWORD_LABEL'); ?>
-						</td>
-						<td>
-							<?php echo $this->options['ftp_pass'] ? '***': ''; ?>
 						</td>
 					</tr>
 					<tr>
@@ -370,9 +346,9 @@ $prev = $useftp ? 'ftp' : 'database';
 
 <script type="text/javascript">
 	jQuery('input[name="jform[summary_email]"]').each(function(index, el) {
-        jQuery(el).on('click', function() {
-            Install.toggle('email_passwords', 'summary_email', 1);
-        });
-        Install.toggle('email_passwords', 'summary_email', 1);
-    });
+		jQuery(el).on('click', function() {
+			Install.toggle('email_passwords', 'summary_email', 1);
+		});
+		Install.toggle('email_passwords', 'summary_email', 1);
+	});
 </script>

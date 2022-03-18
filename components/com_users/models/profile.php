@@ -3,12 +3,13 @@
  * @package     Joomla.Site
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2009 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\User\UserHelper;
 use Joomla\Registry\Registry;
 
 /**
@@ -160,7 +161,7 @@ class UsersModelProfile extends JModelForm
 	 * The base form is loaded from XML and then an event is fired
 	 * for users plugins to extend the form with extra fields.
 	 *
-	 * @param   array    $data      An optional array of data for the form to interogate.
+	 * @param   array    $data      An optional array of data for the form to interrogate.
 	 * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
 	 *
 	 * @return  JForm  A JForm object on success, false on failure
@@ -177,10 +178,6 @@ class UsersModelProfile extends JModelForm
 			return false;
 		}
 
-		// For com_fields the context is com_users.user
-		JLoader::import('components.com_fields.helpers.fields', JPATH_ADMINISTRATOR);
-		FieldsHelper::prepareForm('com_users.user', $form, $data);
-
 		// Check for username compliance and parameter set
 		$isUsernameCompliant = true;
 		$username = $loadData ? $form->getValue('username') : $this->loadFormData()->username;
@@ -188,12 +185,12 @@ class UsersModelProfile extends JModelForm
 		if ($username)
 		{
 			$isUsernameCompliant  = !(preg_match('#[<>"\'%;()&\\\\]|\\.\\./#', $username) || strlen(utf8_decode($username)) < 2
-				|| trim($username) != $username);
+				|| trim($username) !== $username);
 		}
 
 		$this->setState('user.username.compliant', $isUsernameCompliant);
 
-		if (!JComponentHelper::getParams('com_users')->get('change_login_name') && $isUsernameCompliant)
+		if ($isUsernameCompliant && !JComponentHelper::getParams('com_users')->get('change_login_name'))
 		{
 			$form->setFieldAttribute('username', 'class', '');
 			$form->setFieldAttribute('username', 'filter', '');
@@ -311,7 +308,7 @@ class UsersModelProfile extends JModelForm
 		// Unset the username if it should not be overwritten
 		$isUsernameCompliant = $this->getState('user.username.compliant');
 
-		if (!JComponentHelper::getParams('com_users')->get('change_login_name') && $isUsernameCompliant)
+		if ($isUsernameCompliant && !JComponentHelper::getParams('com_users')->get('change_login_name'))
 		{
 			unset($data['username']);
 		}
@@ -329,7 +326,7 @@ class UsersModelProfile extends JModelForm
 			// Get the current One Time Password (two factor auth) configuration
 			$otpConfig = $model->getOtpConfig($userId);
 
-			if ($twoFactorMethod != 'none')
+			if ($twoFactorMethod !== 'none')
 			{
 				// Run the plugins
 				FOFPlatform::getInstance()->importPlugin('twofactorauth');
@@ -384,7 +381,7 @@ class UsersModelProfile extends JModelForm
 		JPluginHelper::importPlugin('user');
 
 		// Retrieve the user groups so they don't get overwritten
-		unset ($user->groups);
+		unset($user->groups);
 		$user->groups = JAccess::getGroupsByUser($user->id, false);
 
 		// Store the data.
@@ -395,8 +392,11 @@ class UsersModelProfile extends JModelForm
 			return false;
 		}
 
-		$user->tags = new JHelperTags;
-		$user->tags->getTagIds($user->id, 'com_users.user');
+		// Destroy all active sessions for the user after changing the password
+		if ($data['password'])
+		{
+			UserHelper::destroyUserSessions($user->id, true);
+		}
 
 		return $user->id;
 	}
@@ -405,41 +405,41 @@ class UsersModelProfile extends JModelForm
 	 * Gets the configuration forms for all two-factor authentication methods
 	 * in an array.
 	 *
-	 * @param   integer  $user_id  The user ID to load the forms for (optional)
+	 * @param   integer  $userId  The user ID to load the forms for (optional)
 	 *
 	 * @return  array
 	 *
 	 * @since   3.2
 	 */
-	public function getTwofactorform($user_id = null)
+	public function getTwofactorform($userId = null)
 	{
-		$user_id = (!empty($user_id)) ? $user_id : (int) $this->getState('user.id');
+		$userId = (!empty($userId)) ? $userId : (int) $this->getState('user.id');
 
 		$model = new UsersModelUser;
 
-		$otpConfig = $model->getOtpConfig($user_id);
+		$otpConfig = $model->getOtpConfig($userId);
 
 		FOFPlatform::getInstance()->importPlugin('twofactorauth');
 
-		return FOFPlatform::getInstance()->runPlugins('onUserTwofactorShowConfiguration', array($otpConfig, $user_id));
+		return FOFPlatform::getInstance()->runPlugins('onUserTwofactorShowConfiguration', array($otpConfig, $userId));
 	}
 
 	/**
 	 * Returns the one time password (OTP) – a.k.a. two factor authentication –
 	 * configuration for a particular user.
 	 *
-	 * @param   integer  $user_id  The numeric ID of the user
+	 * @param   integer  $userId  The numeric ID of the user
 	 *
 	 * @return  stdClass  An object holding the OTP configuration for this user
 	 *
 	 * @since   3.2
 	 */
-	public function getOtpConfig($user_id = null)
+	public function getOtpConfig($userId = null)
 	{
-		$user_id = (!empty($user_id)) ? $user_id : (int) $this->getState('user.id');
+		$userId = (!empty($userId)) ? $userId : (int) $this->getState('user.id');
 
 		$model = new UsersModelUser;
 
-		return $model->getOtpConfig($user_id);
+		return $model->getOtpConfig($userId);
 	}
 }

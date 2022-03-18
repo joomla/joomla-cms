@@ -4,7 +4,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Search.tags
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2014 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 defined('_JEXEC') or die;
@@ -66,12 +66,9 @@ class PlgSearchTags extends JPlugin
 		$section = JText::_('PLG_SEARCH_TAGS_TAGS');
 		$limit   = $this->params->def('search_limit', 50);
 
-		if (is_array($areas))
+		if (is_array($areas) && !array_intersect($areas, array_keys($this->onContentSearchAreas())))
 		{
-			if (!array_intersect($areas, array_keys($this->onContentSearchAreas())))
-			{
-				return array();
-			}
+			return array();
 		}
 
 		$text = trim($text);
@@ -155,7 +152,7 @@ class PlgSearchTags extends JPlugin
 
 			foreach ($rows as $key => $row)
 			{
-				$rows[$key]->href       = TagsHelperRoute::getTagRoute($row->id);
+				$rows[$key]->href       = TagsHelperRoute::getTagRoute($row->slug);
 				$rows[$key]->text       = ($row->description !== '' ? $row->description : $row->title);
 				$rows[$key]->text      .= $row->note;
 				$rows[$key]->section    = $section;
@@ -164,7 +161,7 @@ class PlgSearchTags extends JPlugin
 			}
 		}
 
-		if (!$this->params->get('show_tagged_items'))
+		if (!$this->params->get('show_tagged_items', 0))
 		{
 			return $rows;
 		}

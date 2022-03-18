@@ -4,9 +4,9 @@
 	client="installation">
 	<name>Finnish (Suomi)</name>
 	<version>3.6.1</version>
-	<creationDate>July 2016</creationDate>
+	<creationDate>2016-07-01</creationDate>
 	<author>Sami Haaranen</author>
-	<copyright>Copyright (C) 2005 - 2017 Open Source Matters. All rights reserved.</copyright>
+	<copyright>(C) 2006 Open Source Matters, Inc.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<files>
 		<filename>fi-FI.ini</filename>

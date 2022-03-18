@@ -3,7 +3,7 @@
  * @package     Joomla.Installation
  * @subpackage  Controller
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2013 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -26,7 +26,7 @@ class InstallationControllerDefault extends JControllerBase
 	public function execute()
 	{
 		// Get the application
-		/* @var InstallationApplicationWeb $app */
+		/** @var InstallationApplicationWeb $app */
 		$app = $this->getApplication();
 
 		// Get the document object.
@@ -47,7 +47,7 @@ class InstallationControllerDefault extends JControllerBase
 		$vFormat = $document->getType();
 		$lName   = $this->input->getWord('layout', 'default');
 
-		if (strcmp($vName, $defaultView) == 0)
+		if (strcmp($vName, $defaultView) === 0)
 		{
 			$this->input->set('view', $defaultView);
 		}
@@ -89,7 +89,7 @@ class InstallationControllerDefault extends JControllerBase
 				break;
 		}
 
-		if ($vName != $defaultView && ($checkOptions && empty($options)))
+		if ($vName !== $defaultView && $checkOptions && empty($options))
 		{
 			$app->redirect('index.php');
 		}
@@ -105,7 +105,7 @@ class InstallationControllerDefault extends JControllerBase
 			$vClass = 'InstallationViewDefault';
 		}
 
-		/* @var JViewHtml $view */
+		/** @var JViewHtml $view */
 		$view = new $vClass($model, $paths);
 		$view->setLayout($lName);
 

@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2009 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -33,7 +33,7 @@ class UsersControllerProfile extends UsersController
 
 		// Get the previous user id (if any) and the current user id.
 		$previousId = (int) $app->getUserState('com_users.edit.profile.id');
-		$userId     = $this->input->getInt('user_id', null, 'array');
+		$userId     = $this->input->getInt('user_id');
 
 		// Check if the user is trying to edit another users profile.
 		if ($userId != $loginUserId)
@@ -112,6 +112,14 @@ class UsersControllerProfile extends UsersController
 
 			return false;
 		}
+
+		// Send an object which can be modified through the plugin event
+		$objData = (object) $requestData;
+		$app->triggerEvent(
+			'onContentNormaliseRequestData',
+			array('com_users.user', $objData, $form)
+		);
+		$requestData = (array) $objData;
 
 		// Validate the posted data.
 		$data = $model->validate($form, $requestData);
@@ -225,28 +233,5 @@ class UsersControllerProfile extends UsersController
 
 		// Flush the data from the session.
 		$app->setUserState('com_users.edit.profile.data', null);
-	}
-
-	/**
-	 * Function that allows child controller access to model data after the data has been saved.
-	 *
-	 * @param   JModelLegacy  $model      The data model object.
-	 * @param   array         $validData  The validated data.
-	 *
-	 * @return  void
-	 *
-	 * @since   3.1
-	 */
-	protected function postSaveHook(JModelLegacy $model, $validData = array())
-	{
-		$item = $model->getData();
-		$tags = $validData['tags'];
-
-		if ($tags)
-		{
-			$item->tags = new JHelperTags;
-			$item->tags->getTagIds($item->id, 'com_users.user');
-			$item->metadata['tags'] = $item->tags;
-		}
 	}
 }

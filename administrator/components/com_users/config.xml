@@ -75,10 +75,9 @@
 			label="COM_USERS_CONFIG_FIELD_CAPTCHA_LABEL"
 			description="COM_USERS_CONFIG_FIELD_CAPTCHA_DESC"
 			folder="captcha"
-			default=""
-			filter="cmd" 
+			filter="cmd"
+			useglobal="true"
 			>
-			<option value="">JOPTION_USE_DEFAULT</option>
 			<option value="0">JOPTION_DO_NOT_USE</option>
 		</field>
 
@@ -119,6 +118,22 @@
 			<option value="0">JNO</option>
 		</field>
 
+	</fieldset>
+
+	<fieldset
+		name="domain_options"
+		label="COM_USERS_CONFIG_DOMAIN_OPTIONS"
+		>
+
+		<field
+			name="domains"
+			type="subform"
+			label="COM_USERS_CONFIG_FIELD_DOMAINS_LABEL"
+			description="COM_USERS_CONFIG_FIELD_DOMAINS_DESC"
+			multiple="true"
+			layout="joomla.form.field.subform.repeatable-table"
+			formsource="administrator/components/com_users/models/forms/config_domain.xml"
+		/>
 	</fieldset>
 
 	<fieldset
@@ -190,6 +205,17 @@
 			default="0"
 		/>
 
+		<field
+			name="minimum_lowercase"
+			type="integer"
+			label="COM_USERS_CONFIG_FIELD_MINIMUM_LOWERCASE"
+			description="COM_USERS_CONFIG_FIELD_MINIMUM_LOWERCASE_DESC"
+			first="0"
+			last="98"
+			step="1"
+			default="0"
+		/>
+
 	</fieldset>
 
 	<fieldset
@@ -210,7 +236,7 @@
 
 		<field
 			name="history_limit"
-			type="text"
+			type="number"
 			label="JGLOBAL_HISTORY_LIMIT_OPTIONS_LABEL"
 			description="JGLOBAL_HISTORY_LIMIT_OPTIONS_DESC"
 			filter="integer"
@@ -278,6 +304,31 @@
 		label="JGLOBAL_INTEGRATION_LABEL"
 		description="COM_USERS_CONFIG_INTEGRATION_SETTINGS_DESC"
 	>
+
+		<field
+			name="integration_sef"
+			type="note"
+			label="JGLOBAL_SEF_TITLE"
+		/>
+
+		<field
+			name="sef_advanced"
+			type="radio"
+			class="btn-group btn-group-yesno btn-group-reversed"
+			default="0"
+			label="JGLOBAL_SEF_ADVANCED_LABEL"
+			description="JGLOBAL_SEF_ADVANCED_DESC"
+			filter="integer"
+			>
+			<option value="0">JGLOBAL_SEF_ADVANCED_LEGACY</option>
+			<option value="1">JGLOBAL_SEF_ADVANCED_MODERN</option>
+		</field>
+
+		<field
+			name="integration_customfields"
+			type="note"
+			label="JGLOBAL_FIELDS_TITLE"
+		/>
 
 		<field
 			name="custom_fields_enable"

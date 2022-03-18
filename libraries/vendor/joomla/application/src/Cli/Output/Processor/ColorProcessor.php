@@ -2,7 +2,7 @@
 /**
  * Part of the Joomla Framework Application Package
  *
- * @copyright  Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -14,7 +14,8 @@ use Joomla\Application\Cli\Output\Stdout;
 /**
  * Class ColorProcessor.
  *
- * @since  1.0
+ * @since       1.0
+ * @deprecated  2.0  Use the `joomla/console` package instead
  */
 class ColorProcessor implements ProcessorInterface
 {
@@ -59,7 +60,7 @@ class ColorProcessor implements ProcessorInterface
 	 */
 	public function __construct($noColors = null)
 	{
-		if (is_null($noColors))
+		if ($noColors === null)
 		{
 			/*
 			 * By default windows cmd.exe and PowerShell does not support ANSI-colored output
@@ -146,7 +147,7 @@ class ColorProcessor implements ProcessorInterface
 	 * @param   string      $match  The match.
 	 * @param   ColorStyle  $style  The color style to apply.
 	 *
-	 * @return  mixed
+	 * @return  string
 	 *
 	 * @since   1.0
 	 */
@@ -154,7 +155,7 @@ class ColorProcessor implements ProcessorInterface
 	{
 		$replace = $this->noColors
 			? $match
-			: "\033[" . $style . "m" . $match . "\033[0m";
+			: "\033[" . $style . 'm' . $match . "\033[0m";
 
 		return str_replace('<' . $tag . '>' . $match . '</' . $tag . '>', $replace, $text);
 	}

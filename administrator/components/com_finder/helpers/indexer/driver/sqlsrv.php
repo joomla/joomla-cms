@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2013 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -41,7 +41,7 @@ class FinderIndexerDriverSqlsrv extends FinderIndexer
 	{
 		// Mark beforeIndexing in the profiler.
 		static::$profiler ? static::$profiler->mark('beforeIndexing') : null;
-		$db = JFactory::getDbo();
+		$db = $this->db;
 		$nd = $db->getNullDate();
 
 		// Check if the item is in the database.
@@ -66,7 +66,7 @@ class FinderIndexerDriverSqlsrv extends FinderIndexer
 		$isNew = empty($link->link_id) ? true : false;
 
 		// Check the signatures. If they match, the item is up to date.
-		if (!$isNew && $curSig == $oldSig)
+		if (!$isNew && $curSig === $oldSig)
 		{
 			return $linkId;
 		}
@@ -125,24 +125,24 @@ class FinderIndexerDriverSqlsrv extends FinderIndexer
 				->insert($db->quoteName('#__finder_links'))
 				->columns($columnsArray)
 				->values(
-				$db->quote($item->url) . ', '
-				. $db->quote($item->route) . ', '
-				. $db->quote($item->title) . ', '
-				. $db->quote($item->description) . ', '
-				. $query->currentTimestamp() . ', '
-				. '1, '
-				. (int) $item->state . ', '
-				. (int) $item->access . ', '
-				. $db->quote($item->language) . ', '
-				. (int) $item->type_id . ', '
-				. $db->quote(serialize($item)) . ', '
-				. $db->quote($item->publish_start_date) . ', '
-				. $db->quote($item->publish_end_date) . ', '
-				. $db->quote($item->start_date) . ', '
-				. $db->quote($item->end_date) . ', '
-				. (double) ($item->list_price ? $item->list_price : 0) . ', '
-				. (double) ($item->sale_price ? $item->sale_price : 0)
-			);
+					$db->quote($item->url) . ', '
+					. $db->quote($item->route) . ', '
+					. $db->quote($item->title) . ', '
+					. $db->quote($item->description) . ', '
+					. $query->currentTimestamp() . ', '
+					. '1, '
+					. (int) $item->state . ', '
+					. (int) $item->access . ', '
+					. $db->quote($item->language) . ', '
+					. (int) $item->type_id . ', '
+					. $db->quote(serialize($item)) . ', '
+					. $db->quote($item->publish_start_date) . ', '
+					. $db->quote($item->publish_end_date) . ', '
+					. $db->quote($item->start_date) . ', '
+					. $db->quote($item->end_date) . ', '
+					. (double) ($item->list_price ?: 0) . ', '
+					. (double) ($item->sale_price ?: 0)
+				);
 			$db->setQuery($query);
 			$db->execute();
 
@@ -167,8 +167,8 @@ class FinderIndexerDriverSqlsrv extends FinderIndexer
 				->set($db->quoteName('publish_end_date') . ' = ' . $db->quote($item->publish_end_date))
 				->set($db->quoteName('start_date') . ' = ' . $db->quote($item->start_date))
 				->set($db->quoteName('end_date') . ' = ' . $db->quote($item->end_date))
-				->set($db->quoteName('list_price') . ' = ' . (double) ($item->list_price ? $item->list_price : 0))
-				->set($db->quoteName('sale_price') . ' = ' . (double) ($item->sale_price ? $item->sale_price : 0))
+				->set($db->quoteName('list_price') . ' = ' . (double) ($item->list_price ?: 0))
+				->set($db->quoteName('sale_price') . ' = ' . (double) ($item->sale_price ?: 0))
 				->where('link_id = ' . (int) $linkId);
 			$db->setQuery($query);
 			$db->execute();
@@ -216,8 +216,7 @@ class FinderIndexerDriverSqlsrv extends FinderIndexer
 						if ($group === static::PATH_CONTEXT)
 						{
 							$ip = JFile::stripExt($ip);
-							$ip = str_replace('/', ' ', $ip);
-							$ip = str_replace('-', ' ', $ip);
+							$ip = str_replace(array('/', '-'), ' ', $ip);
 						}
 
 						// Tokenize a string of content and add it to the database.
@@ -270,9 +269,6 @@ class FinderIndexerDriverSqlsrv extends FinderIndexer
 
 				// Add the link => node map.
 				FinderIndexerTaxonomy::addMap($linkId, $nodeId);
-
-				// Tokenize the node title and add them to the database.
-				$count += $this->tokenizeToDb($node->title, static::META_CONTEXT, $item->language, $format);
 			}
 		}
 
@@ -458,7 +454,7 @@ class FinderIndexerDriverSqlsrv extends FinderIndexer
 	 */
 	public function remove($linkId)
 	{
-		$db = JFactory::getDbo();
+		$db = $this->db;
 		$query = $db->getQuery(true);
 
 		// Update the link counts and remove the mapping records.
@@ -514,7 +510,7 @@ class FinderIndexerDriverSqlsrv extends FinderIndexer
 	public function optimize()
 	{
 		// Get the database object.
-		$db = JFactory::getDbo();
+		$db = $this->db;
 		$query = $db->getQuery(true);
 
 		// Delete all orphaned terms.
@@ -526,103 +522,6 @@ class FinderIndexerDriverSqlsrv extends FinderIndexer
 		// Remove the orphaned taxonomy nodes.
 		FinderIndexerTaxonomy::removeOrphanNodes();
 
-		return true;
-	}
-
-	/**
-	 * Method to add a set of tokens to the database.
-	 *
-	 * @param   mixed  $tokens   An array or single FinderIndexerToken object.
-	 * @param   mixed  $context  The context of the tokens. See context constants. [optional]
-	 *
-	 * @return  integer  The number of tokens inserted into the database.
-	 *
-	 * @since   3.1
-	 * @throws  Exception on database error.
-	 */
-	protected function addTokensToDb($tokens, $context = '')
-	{
-		// Get the database object.
-		$db = JFactory::getDbo();
-		$query = $db->getQuery(true);
-
-		// Force tokens to an array.
-		$tokens = is_array($tokens) ? $tokens : array($tokens);
-
-		// Count the number of token values.
-		$values = 0;
-
-		// Set some variables to count the iterations
-		$totalTokens = count($tokens);
-		$remaining   = $totalTokens;
-		$iterations  = 0;
-		$loop        = true;
-
-		do
-		{
-			// Shift the token off the array
-			$token = array_shift($tokens);
-
-			$query->values(
-				$db->quote($token->term) . ', '
-				. $db->quote($token->stem) . ', '
-				. (int) $token->common . ', '
-				. (int) $token->phrase . ', '
-				. (float) $token->weight . ', '
-				. (int) $context . ', '
-				. $db->quote($token->language)
-			);
-			$values++;
-			$iterations++;
-			$remaining--;
-
-			// Run the query if we've reached 1000 iterations or there are no tokens remaining
-			if ($iterations == 1000 || $remaining == 0)
-			{
-				// Insert the tokens into the database.
-				$query->insert($db->quoteName('#__finder_tokens'))
-					->columns(
-					array(
-						$db->quoteName('term'),
-						$db->quoteName('stem'),
-						$db->quoteName('common'),
-						$db->quoteName('phrase'),
-						$db->quoteName('weight'),
-						$db->quoteName('context'),
-						$db->quoteName('language')
-					)
-				);
-				$db->setQuery($query);
-				$db->execute();
-
-				// Reset the query
-				$query->clear();
-			}
-
-			// If there's nothing remaining, we're done looping
-			if ($remaining == 0)
-			{
-				$loop = false;
-			}
-		}
-		while ($loop == true);
-
-		return $values;
-	}
-
-	/**
-	 * Method to switch the token tables from Memory tables to MyISAM tables
-	 * when they are close to running out of memory.
-	 *
-	 * @param   boolean  $memory  Flag to control how they should be toggled.
-	 *
-	 * @return  boolean  True on success.
-	 *
-	 * @since   3.1
-	 * @throws  Exception on database error.
-	 */
-	protected function toggleTables($memory)
-	{
 		return true;
 	}
 }

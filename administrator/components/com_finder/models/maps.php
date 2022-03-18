@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2011 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -71,7 +71,7 @@ class FinderModelMaps extends JModelList
 	/**
 	 * Method to delete one or more records.
 	 *
-	 * @param   array  &$pks  An array of record primary keys.
+	 * @param   array  $pks  An array of record primary keys.
 	 *
 	 * @return  boolean  True if successful, false if an error occurs.
 	 *
@@ -225,11 +225,11 @@ class FinderModelMaps extends JModelList
 		$listOrdering = $this->getState('list.ordering', 'd.branch_title');
 		$listDirn     = $this->getState('list.direction', 'ASC');
 
-		if ($listOrdering == 'd.branch_title')
+		if ($listOrdering === 'd.branch_title')
 		{
 			$query->order("branch_title $listDirn, level ASC, a.title $listDirn");
 		}
-		elseif ($listOrdering == 'a.state')
+		elseif ($listOrdering === 'a.state')
 		{
 			$query->order("a.state $listDirn, branch_title $listDirn, level ASC");
 		}
@@ -323,7 +323,7 @@ class FinderModelMaps extends JModelList
 	/**
 	 * Method to change the published state of one or more records.
 	 *
-	 * @param   array    &$pks   A list of the primary keys to change.
+	 * @param   array    $pks    A list of the primary keys to change.
 	 * @param   integer  $value  The value of the published state. [optional]
 	 *
 	 * @return  boolean  True on success.
@@ -345,16 +345,13 @@ class FinderModelMaps extends JModelList
 		{
 			$table->reset();
 
-			if ($table->load($pk))
+			if ($table->load($pk) && !$this->canEditState($table))
 			{
-				if (!$this->canEditState($table))
-				{
-					// Prune items that you can't change.
-					unset($pks[$i]);
-					$this->setError(JText::_('JLIB_APPLICATION_ERROR_EDITSTATE_NOT_PERMITTED'));
+				// Prune items that you can't change.
+				unset($pks[$i]);
+				$this->setError(JText::_('JLIB_APPLICATION_ERROR_EDITSTATE_NOT_PERMITTED'));
 
-					return false;
-				}
+				return false;
 			}
 		}
 
@@ -401,8 +398,7 @@ class FinderModelMaps extends JModelList
 		$db->execute();
 
 		$query->clear()
-			->delete($db->quoteName('#__finder_taxonomy_map'))
-			->where('1');
+			->delete($db->quoteName('#__finder_taxonomy_map'));
 		$db->setQuery($query);
 		$db->execute();
 

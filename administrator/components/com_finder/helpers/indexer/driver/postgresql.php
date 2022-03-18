@@ -3,11 +3,14 @@
  * @package     Joomla.Administrator
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2012 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Factory;
+use Joomla\String\StringHelper;
 
 jimport('joomla.filesystem.file');
 
@@ -33,7 +36,7 @@ class FinderIndexerDriverPostgresql extends FinderIndexer
 	{
 		// Mark beforeIndexing in the profiler.
 		static::$profiler ? static::$profiler->mark('beforeIndexing') : null;
-		$db = JFactory::getDbo();
+		$db = $this->db;
 		$nd = $db->getNullDate();
 
 		// Check if the item is in the database.
@@ -58,7 +61,7 @@ class FinderIndexerDriverPostgresql extends FinderIndexer
 		$isNew = empty($link->link_id) ? true : false;
 
 		// Check the signatures. If they match, the item is up to date.
-		if (!$isNew && $curSig == $oldSig)
+		if (!$isNew && $curSig === $oldSig)
 		{
 			return $linkId;
 		}
@@ -102,68 +105,37 @@ class FinderIndexerDriverPostgresql extends FinderIndexer
 		 * Otherwise, we need to use an INSERT to get the link id back.
 		 */
 
+		$entry = new stdClass;
+		$entry->url = $item->url;
+		$entry->route = $item->route;
+		$entry->title = $item->title;
+
+		// We are shortening the description in order to not run into length issues with this field
+		$entry->description = StringHelper::substr($item->description, 0, 32000);
+		$entry->indexdate = Factory::getDate()->toSql();
+		$entry->state = (int) $item->state;
+		$entry->access = (int) $item->access;
+		$entry->language = $item->language;
+		$entry->type_id = (int) $item->type_id;
+		$entry->object = '';
+		$entry->publish_start_date = $item->publish_start_date;
+		$entry->publish_end_date = $item->publish_end_date;
+		$entry->start_date = $item->start_date;
+		$entry->end_date = $item->end_date;
+		$entry->list_price = (double) ($item->list_price ?: 0);
+		$entry->sale_price = (double) ($item->sale_price ?: 0);
+
 		if ($isNew)
 		{
-			$columnsArray = array(
-				$db->quoteName('url'), $db->quoteName('route'), $db->quoteName('title'), $db->quoteName('description'),
-				$db->quoteName('indexdate'), $db->quoteName('published'), $db->quoteName('state'), $db->quoteName('access'),
-				$db->quoteName('language'), $db->quoteName('type_id'), $db->quoteName('object'), $db->quoteName('publish_start_date'),
-				$db->quoteName('publish_end_date'), $db->quoteName('start_date'), $db->quoteName('end_date'), $db->quoteName('list_price'),
-				$db->quoteName('sale_price')
-			);
-
-			// Insert the link.
-			$query->clear()
-				->insert($db->quoteName('#__finder_links'))
-				->columns($columnsArray)
-				->values(
-				$db->quote($item->url) . ', '
-				. $db->quote($item->route) . ', '
-				. $db->quote($item->title) . ', '
-				. $db->quote($item->description) . ', '
-				. $query->currentTimestamp() . ', '
-				. '1, '
-				. (int) $item->state . ', '
-				. (int) $item->access . ', '
-				. $db->quote($item->language) . ', '
-				. (int) $item->type_id . ', '
-				. $db->quote(serialize($item)) . ', '
-				. $db->quote($item->publish_start_date) . ', '
-				. $db->quote($item->publish_end_date) . ', '
-				. $db->quote($item->start_date) . ', '
-				. $db->quote($item->end_date) . ', '
-				. (double) ($item->list_price ? $item->list_price : 0) . ', '
-				. (double) ($item->sale_price ? $item->sale_price : 0)
-			);
-			$db->setQuery($query);
-			$db->execute();
-
-			// Get the link id.
+			// Insert the link and get its id.
+			$db->insertObject('#__finder_links', $entry);
 			$linkId = (int) $db->insertid();
 		}
 		else
 		{
 			// Update the link.
-			$query->clear()
-				->update($db->quoteName('#__finder_links'))
-				->set($db->quoteName('route') . ' = ' . $db->quote($item->route))
-				->set($db->quoteName('title') . ' = ' . $db->quote($item->title))
-				->set($db->quoteName('description') . ' = ' . $db->quote($item->description))
-				->set($db->quoteName('indexdate') . ' = ' . $query->currentTimestamp())
-				->set($db->quoteName('state') . ' = ' . (int) $item->state)
-				->set($db->quoteName('access') . ' = ' . (int) $item->access)
-				->set($db->quoteName('language') . ' = ' . $db->quote($item->language))
-				->set($db->quoteName('type_id') . ' = ' . (int) $item->type_id)
-				->set($db->quoteName('object') . ' = ' . $db->quote(serialize($item)))
-				->set($db->quoteName('publish_start_date') . ' = ' . $db->quote($item->publish_start_date))
-				->set($db->quoteName('publish_end_date') . ' = ' . $db->quote($item->publish_end_date))
-				->set($db->quoteName('start_date') . ' = ' . $db->quote($item->start_date))
-				->set($db->quoteName('end_date') . ' = ' . $db->quote($item->end_date))
-				->set($db->quoteName('list_price') . ' = ' . (double) ($item->list_price ? $item->list_price : 0))
-				->set($db->quoteName('sale_price') . ' = ' . (double) ($item->sale_price ? $item->sale_price : 0))
-				->where('link_id = ' . (int) $linkId);
-			$db->setQuery($query);
-			$db->execute();
+			$entry->link_id = $linkId;
+			$db->updateObject('#__finder_links', $entry, 'link_id');
 		}
 
 		// Set up the variables we will need during processing.
@@ -208,8 +180,7 @@ class FinderIndexerDriverPostgresql extends FinderIndexer
 						if ($group === static::PATH_CONTEXT)
 						{
 							$ip = JFile::stripExt($ip);
-							$ip = str_replace('/', ' ', $ip);
-							$ip = str_replace('-', ' ', $ip);
+							$ip = str_replace(array('/', '-'), ' ', $ip);
 						}
 
 						// Tokenize a string of content and add it to the database.
@@ -262,9 +233,6 @@ class FinderIndexerDriverPostgresql extends FinderIndexer
 
 				// Add the link => node map.
 				FinderIndexerTaxonomy::addMap($linkId, $nodeId);
-
-				// Tokenize the node title and add them to the database.
-				$count += $this->tokenizeToDb($node->title, static::META_CONTEXT, $item->language, $format);
 			}
 		}
 
@@ -279,28 +247,30 @@ class FinderIndexerDriverPostgresql extends FinderIndexer
 		 * table.
 		 */
 		$query = 'INSERT INTO ' . $db->quoteName('#__finder_tokens_aggregate') .
-				' (' . $db->quoteName('term_id') .
-				', ' . $db->quoteName('term') .
-				', ' . $db->quoteName('stem') .
-				', ' . $db->quoteName('common') .
-				', ' . $db->quoteName('phrase') .
-				', ' . $db->quoteName('term_weight') .
-				', ' . $db->quoteName('context') .
-				', ' . $db->quoteName('context_weight') .
-				', ' . $db->quoteName('language') . ')' .
-				' SELECT' .
-				' t.term_id, t1.term, t1.stem, t1.common, t1.phrase, t1.weight, t1.context,' .
-				' ROUND( t1.weight * COUNT( t2.term ) * %F, 8 ) AS context_weight, t1.language' .
-				' FROM (' .
-				'   SELECT DISTINCT t1.term, t1.stem, t1.common, t1.phrase, t1.weight, t1.context, t1.language' .
-				'   FROM ' . $db->quoteName('#__finder_tokens') . ' AS t1' .
-				'   WHERE t1.context = %d' .
-				' ) AS t1' .
-				' JOIN ' . $db->quoteName('#__finder_tokens') . ' AS t2 ON t2.term = t1.term' .
-				' LEFT JOIN ' . $db->quoteName('#__finder_terms') . ' AS t ON t.term = t1.term' .
-				' WHERE t2.context = %d AND t.term_id IS NOT NULL' .
-				' GROUP BY t1.term, t.term_id, t1.term, t1.stem, t1.common, t1.phrase, t1.weight, t1.context, t1.language' .
-				' ORDER BY t1.term DESC';
+			' (' . $db->quoteName('term_id') .
+			', ' . $db->quoteName('map_suffix') .
+			', ' . $db->quoteName('term') .
+			', ' . $db->quoteName('stem') .
+			', ' . $db->quoteName('common') .
+			', ' . $db->quoteName('phrase') .
+			', ' . $db->quoteName('term_weight') .
+			', ' . $db->quoteName('context') .
+			', ' . $db->quoteName('context_weight') .
+			', ' . $db->quoteName('total_weight') .
+			', ' . $db->quoteName('language') . ')' .
+			' SELECT' .
+			' COALESCE(t.term_id, 0), \'\', t1.term, t1.stem, t1.common, t1.phrase, t1.weight, t1.context,' .
+			' ROUND( t1.weight * COUNT( t2.term ) * %F, 8 ) AS context_weight, 0, t1.language' .
+			' FROM (' .
+			'   SELECT DISTINCT t1.term, t1.stem, t1.common, t1.phrase, t1.weight, t1.context, t1.language' .
+			'   FROM ' . $db->quoteName('#__finder_tokens') . ' AS t1' .
+			'   WHERE t1.context = %d' .
+			' ) AS t1' .
+			' JOIN ' . $db->quoteName('#__finder_tokens') . ' AS t2 ON t2.term = t1.term AND t2.language = t1.language' .
+			' LEFT JOIN ' . $db->quoteName('#__finder_terms') . ' AS t ON t.term = t1.term ' .
+			' WHERE t2.context = %d' .
+			' GROUP BY t1.term, t.term_id, t1.stem, t1.common, t1.phrase, t1.weight, t1.context, t1.language' .
+			' ORDER BY t1.term DESC';
 
 		// Iterate through the contexts and aggregate the tokens per context.
 		foreach ($state->weights as $context => $multiplier)
@@ -320,31 +290,21 @@ class FinderIndexerDriverPostgresql extends FinderIndexer
 		 * table have a term of 0, then no term record exists for that
 		 * term so we need to add it to the terms table.
 		 */
-		/* Emulation of IGNORE INTO behaviour */
 		$db->setQuery(
-			' SELECT ta.term' .
+			'INSERT INTO ' . $db->quoteName('#__finder_terms') .
+			' (' . $db->quoteName('term') .
+			', ' . $db->quoteName('stem') .
+			', ' . $db->quoteName('common') .
+			', ' . $db->quoteName('phrase') .
+			', ' . $db->quoteName('weight') .
+			', ' . $db->quoteName('soundex') .
+			', ' . $db->quoteName('language') . ')' .
+			' SELECT ta.term, ta.stem, ta.common, ta.phrase, ta.term_weight, SOUNDEX(ta.term), ta.language' .
 			' FROM ' . $db->quoteName('#__finder_tokens_aggregate') . ' AS ta' .
-			' WHERE ta.term_id = 0'
+			' WHERE ta.term_id = 0' .
+			' GROUP BY ta.term, ta.stem, ta.common, ta.phrase, ta.term_weight, SOUNDEX(ta.term), ta.language'
 		);
-
-		if ($db->loadRow() == null)
-		{
-			$db->setQuery(
-				'INSERT INTO ' . $db->quoteName('#__finder_terms') .
-				' (' . $db->quoteName('term') .
-				', ' . $db->quoteName('stem') .
-				', ' . $db->quoteName('common') .
-				', ' . $db->quoteName('phrase') .
-				', ' . $db->quoteName('weight') .
-				', ' . $db->quoteName('soundex') .
-				', ' . $db->quoteName('language') . ')' .
-				' SELECT ta.term, ta.stem, ta.common, ta.phrase, ta.term_weight, SOUNDEX(ta.term), ta.language' .
-				' FROM ' . $db->quoteName('#__finder_tokens_aggregate') . ' AS ta' .
-				' WHERE ta.term_id = 0' .
-				' GROUP BY ta.term, ta.stem, ta.common, ta.phrase, ta.term_weight, SOUNDEX(ta.term), ta.language'
-			);
-			$db->execute();
-		}
+		$db->execute();
 
 		/*
 		 * Now, we just inserted a bunch of new records into the terms table
@@ -426,9 +386,11 @@ class FinderIndexerDriverPostgresql extends FinderIndexer
 		static::$profiler ? static::$profiler->mark('afterMapping') : null;
 
 		// Update the signature.
+		$object = serialize($item);
 		$query->clear()
 			->update($db->quoteName('#__finder_links'))
 			->set($db->quoteName('md5sum') . ' = ' . $db->quote($curSig))
+			->set($db->quoteName('object') . ' = ' . $db->quote(pg_escape_bytea($object)))
 			->where($db->quoteName('link_id') . ' = ' . $db->quote($linkId));
 		$db->setQuery($query);
 		$db->execute();
@@ -452,64 +414,6 @@ class FinderIndexerDriverPostgresql extends FinderIndexer
 	}
 
 	/**
-	 * Method to remove a link from the index.
-	 *
-	 * @param   integer  $linkId  The id of the link.
-	 *
-	 * @return  boolean  True on success.
-	 *
-	 * @since   2.5
-	 * @throws  Exception on database error.
-	 */
-	public function remove($linkId)
-	{
-		$db = JFactory::getDbo();
-		$query = $db->getQuery(true);
-
-		// Update the link counts and remove the mapping records.
-		for ($i = 0; $i <= 15; $i++)
-		{
-			// Update the link counts for the terms.
-			$query->clear()
-				->update($db->quoteName('#__finder_terms') . ' AS t')
-				->join('INNER', $db->quoteName('#__finder_links_terms' . dechex($i)) . ' AS m ON m.term_id = t.term_id')
-				->set('links = t.links - 1')
-				->where('m.link_id = ' . $db->quote((int) $linkId));
-			$db->setQuery($query);
-			$db->execute();
-
-			// Remove all records from the mapping tables.
-			$query->clear()
-				->delete($db->quoteName('#__finder_links_terms' . dechex($i)))
-				->where($db->quoteName('link_id') . ' = ' . (int) $linkId);
-			$db->setQuery($query);
-			$db->execute();
-		}
-
-		// Delete all orphaned terms.
-		$query->clear()
-			->delete($db->quoteName('#__finder_terms'))
-			->where($db->quoteName('links') . ' <= 0');
-		$db->setQuery($query);
-		$db->execute();
-
-		// Delete the link from the index.
-		$query->clear()
-			->delete($db->quoteName('#__finder_links'))
-			->where($db->quoteName('link_id') . ' = ' . $db->quote((int) $linkId));
-		$db->setQuery($query);
-		$db->execute();
-
-		// Remove the taxonomy maps.
-		FinderIndexerTaxonomy::removeMaps($linkId);
-
-		// Remove the orphaned taxonomy nodes.
-		FinderIndexerTaxonomy::removeOrphanNodes();
-
-		return true;
-	}
-
-	/**
 	 * Method to optimize the index. We use this method to remove unused terms
 	 * and any other optimizations that might be necessary.
 	 *
@@ -521,7 +425,7 @@ class FinderIndexerDriverPostgresql extends FinderIndexer
 	public function optimize()
 	{
 		// Get the database object.
-		$db = JFactory::getDbo();
+		$db = $this->db;
 		$query = $db->getQuery(true);
 
 		// Delete all orphaned terms.
@@ -552,7 +456,7 @@ class FinderIndexerDriverPostgresql extends FinderIndexer
 		// Optimize the terms common table.
 		$db->setQuery('REINDEX TABLE ' . $db->quoteName('#__finder_terms_common'));
 		$db->execute();
-		
+
 		// Optimize the types table.
 		$db->setQuery('REINDEX TABLE ' . $db->quoteName('#__finder_types'));
 		$db->execute();
@@ -568,80 +472,6 @@ class FinderIndexerDriverPostgresql extends FinderIndexer
 		$db->setQuery('REINDEX TABLE ' . $db->quoteName('#__finder_taxonomy'));
 		$db->execute();
 
-		return true;
-	}
-
-	/**
-	 * Method to add a set of tokens to the database.
-	 *
-	 * @param   mixed  $tokens   An array or single FinderIndexerToken object.
-	 * @param   mixed  $context  The context of the tokens. See context constants. [optional]
-	 *
-	 * @return  integer  The number of tokens inserted into the database.
-	 *
-	 * @since   2.5
-	 * @throws  Exception on database error.
-	 */
-	protected function addTokensToDb($tokens, $context = '')
-	{
-		// Get the database object.
-		$db = JFactory::getDbo();
-		$query = $db->getQuery(true);
-
-		// Force tokens to an array.
-		$tokens = is_array($tokens) ? $tokens : array($tokens);
-
-		// Count the number of token values.
-		$values = 0;
-
-		// Insert the tokens into the database.
-		$query->insert($db->quoteName('#__finder_tokens'))
-			->columns(
-				array(
-					$db->quoteName('term'),
-					$db->quoteName('stem'),
-					$db->quoteName('common'),
-					$db->quoteName('phrase'),
-					$db->quoteName('weight'),
-					$db->quoteName('context'),
-					$db->quoteName('language')
-				)
-			);
-
-		// Iterate through the tokens to create SQL value sets.
-		foreach ($tokens as $token)
-		{
-			$query->values(
-				$db->quote($token->term) . ', '
-					. $db->quote($token->stem) . ', '
-					. (int) $token->common . ', '
-					. (int) $token->phrase . ', '
-					. (float) $token->weight . ', '
-					. (int) $context . ', '
-					. $db->quote($token->language)
-			);
-			$values++;
-		}
-
-		$db->setQuery($query);
-		$db->execute();
-
-		return $values;
-	}
-
-	/**
-	 * Method to switch the token tables from Memory tables to MyISAM tables
-	 * when they are close to running out of memory.
-	 *
-	 * @param   boolean  $memory  Flag to control how they should be toggled.
-	 *
-	 * @return  boolean  True on success.
-	 *
-	 * @since   2.5
-	 * @throws  Exception on database error.
-	 */
-	protected function toggleTables($memory)
-	{
 		return true;
 	}
 }

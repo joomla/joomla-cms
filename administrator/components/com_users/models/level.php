@@ -3,18 +3,26 @@
  * @package     Joomla.Administrator
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2009 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
+
+
+use Joomla\CMS\Access\Access;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Helper\UserGroupsHelper;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\Model\AdminModel;
+use Joomla\Utilities\ArrayHelper;
 
 /**
  * User view level model.
  *
  * @since  1.6
  */
-class UsersModelLevel extends JModelAdmin
+class UsersModelLevel extends AdminModel
 {
 	/**
 	 * @var	array	A list of the access levels in use.
@@ -33,6 +41,26 @@ class UsersModelLevel extends JModelAdmin
 	 */
 	protected function canDelete($record)
 	{
+		$groups = json_decode($record->rules);
+
+		if ($groups === null)
+		{
+			throw new RuntimeException('Invalid rules schema');
+		}
+
+		$isAdmin = JFactory::getUser()->authorise('core.admin');
+
+		// Check permissions
+		foreach ($groups as $group)
+		{
+			if (!$isAdmin && JAccess::checkGroup($group, 'core.admin'))
+			{
+				$this->setError(JText::_('JERROR_ALERTNOAUTHOR'));
+
+				return false;
+			}
+		}
+
 		// Check if the access level is being used by any content.
 		if ($this->levelsInUse === null)
 		{
@@ -57,7 +85,7 @@ class UsersModelLevel extends JModelAdmin
 				 * than the 'access' field they are on their own unfortunately.
 				 * Also make sure the table prefix matches the live db prefix (eg, it is not a "bak_" table)
 				 */
-				if ((strpos($table, $prefix) === 0) && (isset($fields['access'])))
+				if (strpos($table, $prefix) === 0 && isset($fields['access']))
 				{
 					// Lookup the distinct values of the field.
 					$query->clear('from')
@@ -138,7 +166,7 @@ class UsersModelLevel extends JModelAdmin
 	/**
 	 * Method to get the record form.
 	 *
-	 * @param   array    $data      An optional array of data for the form to interogate.
+	 * @param   array    $data      An optional array of data for the form to interrogate.
 	 * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
 	 *
 	 * @return  JForm	A JForm object on success, false on failure
@@ -216,5 +244,66 @@ class UsersModelLevel extends JModelAdmin
 		$data['title'] = JFilterInput::getInstance()->clean($data['title'], 'TRIM');
 
 		return parent::save($data);
+	}
+
+	/**
+	 * Method to validate the form data.
+	 *
+	 * @param   \JForm  $form   The form to validate against.
+	 * @param   array   $data   The data to validate.
+	 * @param   string  $group  The name of the field group to validate.
+	 *
+	 * @return  array|boolean  Array of filtered data if valid, false otherwise.
+	 *
+	 * @see     \JFormRule
+	 * @see     \JFilterInput
+	 * @since   3.8.8
+	 */
+	public function validate($form, $data, $group = null)
+	{
+		$isSuperAdmin = Factory::getUser()->authorise('core.admin');
+
+		// Non Super user should not be able to change the access levels of super user groups
+		if (!$isSuperAdmin)
+		{
+			if (!isset($data['rules']) || !is_array($data['rules']))
+			{
+				$data['rules'] = array();
+			}
+
+			$groups = array_values(UserGroupsHelper::getInstance()->getAll());
+
+			$rules = array();
+
+			if (!empty($data['id']))
+			{
+				$table = $this->getTable();
+
+				$table->load($data['id']);
+
+				$rules = json_decode($table->rules);
+			}
+
+			$rules = ArrayHelper::toInteger($rules);
+
+			for ($i = 0, $n = count($groups); $i < $n; ++$i)
+			{
+				if (Access::checkGroup((int) $groups[$i]->id, 'core.admin'))
+				{
+					if (in_array((int) $groups[$i]->id, $rules) && !in_array((int) $groups[$i]->id, $data['rules']))
+					{
+						$data['rules'][] = (int) $groups[$i]->id;
+					}
+					elseif (!in_array((int) $groups[$i]->id, $rules) && in_array((int) $groups[$i]->id, $data['rules']))
+					{
+						$this->setError(Text::_('JLIB_USER_ERROR_NOT_SUPERADMIN'));
+
+						return false;
+					}
+				}
+			}
+		}
+
+		return parent::validate($form, $data, $group);
 	}
 }

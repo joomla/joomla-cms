@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2006 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -39,6 +39,9 @@ class ContentViewArchive extends JViewLegacy
 		$state      = $this->get('State');
 		$items      = $this->get('Items');
 		$pagination = $this->get('Pagination');
+
+		// Flag indicates to not add limitstart=0 to URL
+		$pagination->hideEmptyLimitstart = true;
 
 		// Get the page/component configuration
 		$params = &$state->params;
@@ -86,15 +89,15 @@ class ContentViewArchive extends JViewLegacy
 		// Month Field
 		$months = array(
 			'' => JText::_('COM_CONTENT_MONTH'),
-			'01' => JText::_('JANUARY_SHORT'),
-			'02' => JText::_('FEBRUARY_SHORT'),
-			'03' => JText::_('MARCH_SHORT'),
-			'04' => JText::_('APRIL_SHORT'),
-			'05' => JText::_('MAY_SHORT'),
-			'06' => JText::_('JUNE_SHORT'),
-			'07' => JText::_('JULY_SHORT'),
-			'08' => JText::_('AUGUST_SHORT'),
-			'09' => JText::_('SEPTEMBER_SHORT'),
+			'1' => JText::_('JANUARY_SHORT'),
+			'2' => JText::_('FEBRUARY_SHORT'),
+			'3' => JText::_('MARCH_SHORT'),
+			'4' => JText::_('APRIL_SHORT'),
+			'5' => JText::_('MAY_SHORT'),
+			'6' => JText::_('JUNE_SHORT'),
+			'7' => JText::_('JULY_SHORT'),
+			'8' => JText::_('AUGUST_SHORT'),
+			'9' => JText::_('SEPTEMBER_SHORT'),
 			'10' => JText::_('OCTOBER_SHORT'),
 			'11' => JText::_('NOVEMBER_SHORT'),
 			'12' => JText::_('DECEMBER_SHORT')
@@ -129,7 +132,7 @@ class ContentViewArchive extends JViewLegacy
 		$form->limitField = $pagination->getLimitBox();
 
 		// Escape strings for HTML output
-		$this->pageclass_sfx = htmlspecialchars($params->get('pageclass_sfx'));
+		$this->pageclass_sfx = htmlspecialchars($params->get('pageclass_sfx', ''));
 
 		$this->filter     = $state->get('list.filter');
 		$this->form       = &$form;

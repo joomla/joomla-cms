@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Database
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters. All rights reserved.
+ * @copyright   (C) 2013 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,7 +12,7 @@
  *
  * @package     Joomla.UnitTest
  * @subpackage  Database
- * @since       11.1
+ * @since       1.7.0
  */
 class JDatabaseQueryElementTest extends \PHPUnit\Framework\TestCase
 {
@@ -30,7 +30,7 @@ class JDatabaseQueryElementTest extends \PHPUnit\Framework\TestCase
 	 *
 	 * @return  array
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function dataTestAppend()
 	{
@@ -121,7 +121,7 @@ class JDatabaseQueryElementTest extends \PHPUnit\Framework\TestCase
 	 *
 	 * @return  array
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function dataTestToString()
 	{
@@ -162,7 +162,7 @@ class JDatabaseQueryElementTest extends \PHPUnit\Framework\TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 * @dataProvider  dataTestConstruct
 	 */
 	public function test__Construct($element, $expected)
@@ -192,7 +192,7 @@ class JDatabaseQueryElementTest extends \PHPUnit\Framework\TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 * @dataProvider  dataTestToString
 	 */
 	public function test__toString($name, $elements, $glue, $expected)
@@ -215,7 +215,7 @@ class JDatabaseQueryElementTest extends \PHPUnit\Framework\TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 * @dataProvider dataTestAppend
 	 */
 	public function testAppend($element, $append, $expected, $string)
@@ -232,7 +232,7 @@ class JDatabaseQueryElementTest extends \PHPUnit\Framework\TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function test__clone_array()
 	{
@@ -253,7 +253,7 @@ class JDatabaseQueryElementTest extends \PHPUnit\Framework\TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function test__clone_object()
 	{

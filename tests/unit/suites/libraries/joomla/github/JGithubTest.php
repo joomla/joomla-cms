@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Github
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2013 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -13,25 +13,25 @@
  * @package     Joomla.UnitTest
  * @subpackage  Github
  *
- * @since       11.1
+ * @since       1.7.0
  */
 class JGithubTest extends \PHPUnit\Framework\TestCase
 {
 	/**
 	 * @var    JRegistry  Options for the GitHub object.
-	 * @since  11.4
+	 * @since  2.5.0
 	 */
 	protected $options;
 
 	/**
 	 * @var    JGithubHttp  Mock client object.
-	 * @since  11.4
+	 * @since  2.5.0
 	 */
 	protected $client;
 
 	/**
 	 * @var    JGithub  Object under test.
-	 * @since  11.4
+	 * @since  2.5.0
 	 */
 	protected $object;
 
@@ -63,16 +63,14 @@ class JGithubTest extends \PHPUnit\Framework\TestCase
 	 */
 	protected function tearDown()
 	{
-		unset($this->options);
-		unset($this->client);
-		unset($this->object);
+		unset($this->options, $this->client, $this->object);
 		parent::tearDown();
 	}
 
 	/**
 	 * Tests the magic __get method - gists
 	 *
-	 * @since  11.3
+	 * @since  1.7.3
 	 *
 	 * @return void
 	 */
@@ -87,7 +85,7 @@ class JGithubTest extends \PHPUnit\Framework\TestCase
 	/**
 	 * Tests the magic __get method - issues
 	 *
-	 * @since  11.3
+	 * @since  1.7.3
 	 *
 	 * @return void
 	 */
@@ -102,7 +100,7 @@ class JGithubTest extends \PHPUnit\Framework\TestCase
 	/**
 	 * Tests the magic __get method - pulls
 	 *
-	 * @since  11.3
+	 * @since  1.7.3
 	 *
 	 * @return void
 	 */
@@ -117,7 +115,7 @@ class JGithubTest extends \PHPUnit\Framework\TestCase
 	/**
 	 * Tests the magic __get method - refs
 	 *
-	 * @since  11.3
+	 * @since  1.7.3
 	 *
 	 * @return void
 	 */
@@ -132,7 +130,7 @@ class JGithubTest extends \PHPUnit\Framework\TestCase
 	/**
 	 * Tests the magic __get method - forks
 	 *
-	 * @since  11.4
+	 * @since  2.5.0
 	 *
 	 * @return void
 	 */
@@ -147,7 +145,7 @@ class JGithubTest extends \PHPUnit\Framework\TestCase
 	/**
 	 * Tests the magic __get method - commits
 	 *
-	 * @since  12.1
+	 * @since  3.0.0
 	 *
 	 * @return void
 	 */
@@ -162,7 +160,7 @@ class JGithubTest extends \PHPUnit\Framework\TestCase
 	/**
 	 * Tests the magic __get method - milestones
 	 *
-	 * @since  12.3
+	 * @since  3.1.4
 	 *
 	 * @return void
 	 */
@@ -177,7 +175,7 @@ class JGithubTest extends \PHPUnit\Framework\TestCase
 	/**
 	 * Tests the magic __get method - statuses
 	 *
-	 * @since  12.3
+	 * @since  3.1.4
 	 *
 	 * @return void
 	 */
@@ -192,7 +190,7 @@ class JGithubTest extends \PHPUnit\Framework\TestCase
 	/**
 	 * Tests the magic __get method - account
 	 *
-	 * @since  12.3
+	 * @since  3.1.4
 	 *
 	 * @return void
 	 */
@@ -207,7 +205,7 @@ class JGithubTest extends \PHPUnit\Framework\TestCase
 	/**
 	 * Tests the magic __get method - hooks
 	 *
-	 * @since  12.3
+	 * @since  3.1.4
 	 *
 	 * @return void
 	 */
@@ -222,7 +220,7 @@ class JGithubTest extends \PHPUnit\Framework\TestCase
 	/**
 	 * Tests the magic __get method - failure
 	 *
-	 * @since  11.3
+	 * @since  1.7.3
 	 * @expectedException RuntimeException
 	 *
 	 * @return void
@@ -238,7 +236,7 @@ class JGithubTest extends \PHPUnit\Framework\TestCase
 	/**
 	 * Tests the magic __get method - failure
 	 *
-	 * @since  11.3
+	 * @since  1.7.3
 	 * @expectedException RuntimeException
 	 *
 	 * @return void
@@ -254,7 +252,7 @@ class JGithubTest extends \PHPUnit\Framework\TestCase
 	/**
 	 * Tests the setOption method
 	 *
-	 * @since  11.3
+	 * @since  1.7.3
 	 *
 	 * @return void
 	 */
@@ -271,7 +269,7 @@ class JGithubTest extends \PHPUnit\Framework\TestCase
 	/**
 	 * Tests the getOption method
 	 *
-	 * @since  11.3
+	 * @since  1.7.3
 	 *
 	 * @return void
 	 */

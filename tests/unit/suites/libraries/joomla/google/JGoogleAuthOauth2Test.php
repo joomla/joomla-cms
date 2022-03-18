@@ -2,7 +2,7 @@
 /**
  * @package    Joomla.UnitTest
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2013 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -11,7 +11,7 @@
  *
  * @package     Joomla.UnitTest
  * @subpackage  Google
- * @since       12.3
+ * @since       3.1.4
  */
 class JGoogleAuthOauth2Test extends TestCase
 {
@@ -44,7 +44,6 @@ class JGoogleAuthOauth2Test extends TestCase
 	 * @var    JGoogleAuthOauth2  Object under test.
 	 */
 	protected $object;
-
 
 	/**
 	 * Code that the app closes with.
@@ -104,13 +103,7 @@ class JGoogleAuthOauth2Test extends TestCase
 	protected function tearDown()
 	{
 		$_SERVER = $this->backupServer;
-		unset($this->backupServer);
-		unset($this->options);
-		unset($this->http);
-		unset($this->input);
-		unset($this->application);
-		unset($this->oauth);
-		unset($this->object);
+		unset($this->backupServer, $this->options, $this->http, $this->input, $this->application, $this->oauth, $this->object);
 		parent::tearDown();
 	}
 
@@ -256,7 +249,7 @@ class JGoogleAuthOauth2Test extends TestCase
 	 *
 	 * @return  JHttpResponse
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public static function jsonGrantOauthCallback($url, $data, array $headers = null, $timeout = null)
 	{
@@ -279,7 +272,7 @@ class JGoogleAuthOauth2Test extends TestCase
 	 *
 	 * @return  JHttpResponse
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public static function queryOauthCallback($url, $data, array $headers = null, $timeout = null)
 	{
@@ -301,7 +294,7 @@ class JGoogleAuthOauth2Test extends TestCase
 	 *
 	 * @return  JHttpResponse
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public static function getOauthCallback($url, array $headers = null, $timeout = null)
 	{

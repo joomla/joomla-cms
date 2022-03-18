@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  Template.beez5
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2012 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -15,7 +15,7 @@ $templateparams = $app->getTemplate(true)->params;
 if (!$templateparams->get('html5', 0))
 {
 	require JPATH_BASE.'/components/com_content/views/archive/tmpl/default_items.php';
-	//evtl. ersetzen durch JPATH_COMPONENT.'/views/...'
+	// possibly replace with JPATH_COMPONENT.'/views/...'
 } else {
 JHtml::addIncludePath(JPATH_COMPONENT . '/helpers');
 $params = &$this->params;
@@ -42,7 +42,7 @@ $params = &$this->params;
 		<dd class="parent-category-name">
 			<?php	$title = $this->escape($item->parent_title);
 					$url = '<a href="'.JRoute::_(ContentHelperRoute::getCategoryRoute($item->parent_slug)).'">'.$title.'</a>';?>
-			<?php if ($params->get('link_parent_category') && $item->parent_slug) : ?>
+			<?php if ($item->parent_slug && $params->get('link_parent_category')) : ?>
 				<?php echo JText::sprintf('COM_CONTENT_PARENT', $url); ?>
 				<?php else : ?>
 				<?php echo JText::sprintf('COM_CONTENT_PARENT', $title); ?>
@@ -54,7 +54,7 @@ $params = &$this->params;
 		<dd class="category-name">
 			<?php	$title = $this->escape($item->category_title);
 					$url = '<a href="' . JRoute::_(ContentHelperRoute::getCategoryRoute($item->catslug)) . '">' . $title . '</a>'; ?>
-			<?php if ($params->get('link_category') && $item->catslug) : ?>
+			<?php if ($item->catslug && $params->get('link_category')) : ?>
 				<?php echo JText::sprintf('COM_CONTENT_CATEGORY', $url); ?>
 				<?php else : ?>
 				<?php echo JText::sprintf('COM_CONTENT_CATEGORY', $title); ?>
@@ -76,10 +76,9 @@ $params = &$this->params;
 		<?php echo JText::sprintf('COM_CONTENT_PUBLISHED_DATE_ON', JHtml::_('date', $item->publish_up, JText::_('DATE_FORMAT_LC2'))); ?>
 		</dd>
 <?php endif; ?>
-<?php if ($params->get('show_author') && !empty($item->author )) : ?>
+<?php if (!empty($item->author) && $params->get('show_author')) : ?>
 	<dd class="createdby">
-		<?php $author = $item->author; ?>
-		<?php $author = ($item->created_by_alias ?: $author);?>
+		<?php $author = $item->created_by_alias ?: $item->author; ?>
 			<?php if (!empty($item->contact_link ) &&  $params->get('link_author') == true):?>
 				<?php echo JText::sprintf('COM_CONTENT_WRITTEN_BY', JHtml::_('link', $item->contact_link, $author)); ?>
 			<?php else :?>

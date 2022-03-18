@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Crypt
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2013 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -15,13 +15,13 @@ JLoader::register('JCryptCipher3Des', JPATH_PLATFORM . '/joomla/crypt/cipher/3de
  *
  * @package     Joomla.UnitTest
  * @subpackage  Crypt
- * @since       12.1
+ * @since       3.0.0
  */
 class JCryptCipher3DesTest extends TestCase
 {
 	/**
 	 * @var    JCryptCipher3Des
-	 * @since  12.1
+	 * @since  3.0.0
 	 */
 	private $_cipher;
 
@@ -30,7 +30,7 @@ class JCryptCipher3DesTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	protected function setUp()
 	{
@@ -55,12 +55,11 @@ class JCryptCipher3DesTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	protected function tearDown()
 	{
-		unset($this->_cipher);
-		unset($this->key);
+		unset($this->_cipher, $this->key);
 		parent::tearDown();
 	}
 
@@ -98,7 +97,7 @@ class JCryptCipher3DesTest extends TestCase
 	 * @return  void
 	 *
 	 * @dataProvider data
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function testDecrypt($file, $data)
 	{
@@ -118,7 +117,7 @@ class JCryptCipher3DesTest extends TestCase
 	 * @return  void
 	 *
 	 * @dataProvider data
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function testEncrypt($file, $data)
 	{
@@ -136,7 +135,7 @@ class JCryptCipher3DesTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function testGenerateKey()
 	{

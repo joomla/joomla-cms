@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_modules
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2008 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -69,6 +69,10 @@ $colSpan = $clientId === 1 ? 8 : 10;
 						<th width="10%" class="nowrap hidden-phone">
 							<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_LANGUAGE', 'l.title', $listDirn, $listOrder); ?>
 						</th>
+						<?php elseif ($clientId === 1 && JModuleHelper::isAdminMultilang()) : ?>
+						<th width="10%" class="nowrap hidden-phone">
+							<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_LANGUAGE', 'a.language', $listDirn, $listOrder); ?>
+						</th>
 						<?php endif; ?>
 						<th width="1%" class="nowrap center hidden-phone">
 							<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_ID', 'a.id', $listDirn, $listOrder); ?>
@@ -90,7 +94,7 @@ $colSpan = $clientId === 1 ? 8 : 10;
 					$canCheckin = $user->authorise('core.manage',     'com_checkin') || $item->checked_out == $user->get('id')|| $item->checked_out == 0;
 					$canChange  = $user->authorise('core.edit.state', 'com_modules.module.' . $item->id) && $canCheckin;
 				?>
-					<tr class="row<?php echo $i % 2; ?>" sortable-group-id="<?php echo $item->position ? $item->position : 'none'; ?>">
+					<tr class="row<?php echo $i % 2; ?>" sortable-group-id="<?php echo $item->position ?: 'none'; ?>">
 						<td class="order nowrap center hidden-phone">
 							<?php
 							$iconClass = '';
@@ -187,6 +191,16 @@ $colSpan = $clientId === 1 ? 8 : 10;
 						<td class="small hidden-phone">
 							<?php echo JLayoutHelper::render('joomla.content.language', $item); ?>
 						</td>
+						<?php elseif ($clientId === 1 && JModuleHelper::isAdminMultilang()) : ?>
+							<td class="small hidden-phone">
+								<?php if ($item->language == ''):?>
+									<?php echo JText::_('JUNDEFINED'); ?>
+								<?php elseif ($item->language == '*'):?>
+									<?php echo JText::alt('JALL', 'language'); ?>
+								<?php else:?>
+									<?php echo $this->escape($item->language); ?>
+								<?php endif; ?>
+							</td>
 						<?php endif; ?>
 						<td class="hidden-phone">
 							<?php echo (int) $item->id; ?>

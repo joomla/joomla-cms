@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Database
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters. All rights reserved.
+ * @copyright   (C) 2013 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,13 +12,13 @@
  *
  * @package     Joomla.UnitTest
  * @subpackage  Database
- * @since       11.3
+ * @since       1.7.3
  */
 class JDatabaseQuerySqliteTest extends TestCase
 {
 	/**
 	 * @var    JDatabaseDriverSqlite  A mock of the JDatabaseDriver object for testing purposes.
-	 * @since  13.1
+	 * @since  3.2.0
 	 */
 	protected $dbo;
 
@@ -26,7 +26,7 @@ class JDatabaseQuerySqliteTest extends TestCase
 	 * The instance of the object to test.
 	 *
 	 * @var    JDatabaseQuerySqlite
-	 * @since  12.3
+	 * @since  3.1.4
 	 */
 	private $_instance;
 
@@ -37,7 +37,7 @@ class JDatabaseQuerySqliteTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 */
 	protected function setUp()
 	{
@@ -59,8 +59,7 @@ class JDatabaseQuerySqliteTest extends TestCase
 	 */
 	protected function tearDown()
 	{
-		unset($this->dbo);
-		unset($this->_instance);
+		unset($this->dbo, $this->_instance);
 		parent::tearDown();
 	}
 
@@ -69,12 +68,12 @@ class JDatabaseQuerySqliteTest extends TestCase
 	 *
 	 * @return  array
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 */
 	public function seedDateAdd()
 	{
 		return array(
-			// date, interval, datepart, expected
+			// Elements: date, interval, datepart, expected
 			'Add date'			=> array('2008-12-31', '1', 'DAY', "datetime('2008-12-31', '+1 DAY')"),
 			'Subtract date'		=> array('2008-12-31', '-1', 'DAY', "datetime('2008-12-31', '-1 DAY')"),
 			'Add datetime'		=> array('2008-12-31 23:59:59', '1', 'DAY', "datetime('2008-12-31 23:59:59', '+1 DAY')"),
@@ -93,7 +92,7 @@ class JDatabaseQuerySqliteTest extends TestCase
 	 * @return  void
 	 *
 	 * @dataProvider  seedDateAdd
-	 * @since   13.1
+	 * @since   3.2.0
 	 */
 	public function testDateAdd($date, $interval, $datePart, $expected)
 	{

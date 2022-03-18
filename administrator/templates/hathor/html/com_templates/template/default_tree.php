@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_templates
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2013 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -19,9 +19,11 @@ ksort($this->files, SORT_STRING);
 			$fileArray = explode('/', $this->fileName);
 			$count     = 0;
 
-			if (count($fileArray) >= count($keyArray))
+			$keyArrayCount = count($keyArray);
+
+			if (count($fileArray) >= $keyArrayCount)
 			{
-				for ($i = 0; $i < count($keyArray); $i++)
+				for ($i = 0; $i < $keyArrayCount; $i++)
 				{
 					if ($keyArray[$i] === $fileArray[$i])
 					{
@@ -29,7 +31,7 @@ ksort($this->files, SORT_STRING);
 					}
 				}
 
-				if ($count == count($keyArray))
+				if ($count === $keyArrayCount)
 				{
 					$class = 'folder show';
 				}

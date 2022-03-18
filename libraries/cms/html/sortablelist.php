@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  HTML
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2012 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,13 +12,15 @@ defined('JPATH_PLATFORM') or die;
 /**
  * HTML utility class for creating a sortable table list
  *
- * @since  3.0
+ * @since       3.0
+ * @deprecated  5.0  Sortable List will be deprecated in favour of a new dragula script in 4.0
  */
 abstract class JHtmlSortablelist
 {
 	/**
 	 * @var    array  Array containing information for loaded files
 	 * @since  3.0
+	 * @deprecated  4.0  This property will be removed without replacement
 	 */
 	protected static $loaded = array();
 
@@ -37,6 +39,7 @@ abstract class JHtmlSortablelist
 	 * @since   3.0
 	 *
 	 * @throws  InvalidArgumentException
+	 * @deprecated  5.0  In Joomla 4 call JHtml::_('dragablelist.dragable') and add a class of js-draggable to the tbody element of the table
 	 */
 	public static function sortable($tableId, $formId, $sortDir = 'asc', $saveOrderingUrl = null, $proceedSaveOrderButton = true, $nestedList = false)
 	{
@@ -47,9 +50,9 @@ abstract class JHtmlSortablelist
 		}
 
 		// Note: $i is required but has to be an optional argument in the function call due to argument order
-		if (null === $saveOrderingUrl)
+		if ($saveOrderingUrl === null)
 		{
-			throw new InvalidArgumentException('$saveOrderingUrl is a required argument in JHtmlSortablelist::sortable');
+			throw new InvalidArgumentException(sprintf('$saveOrderingUrl is a required argument in %s()', __METHOD__));
 		}
 
 		$displayData = array(

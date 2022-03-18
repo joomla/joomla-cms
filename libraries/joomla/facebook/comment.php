@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Facebook
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2013 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -13,7 +13,7 @@ defined('JPATH_PLATFORM') or die();
  * Facebook API Comment class for the Joomla Platform.
  *
  * @link        http://developers.facebook.com/docs/reference/api/Comment/
- * @since       13.1
+ * @since       3.2.0
  * @deprecated  4.0  Use the `joomla/facebook` package via Composer instead
  */
 class JFacebookComment extends JFacebookObject
@@ -25,7 +25,7 @@ class JFacebookComment extends JFacebookObject
 	 *
 	 * @return  mixed   The decoded JSON response or false if the client is not authenticated.
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 */
 	public function getComment($comment)
 	{
@@ -39,7 +39,7 @@ class JFacebookComment extends JFacebookObject
 	 *
 	 * @return  boolean Returns true if successful, and false otherwise.
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 */
 	public function deleteComment($comment)
 	{
@@ -57,7 +57,7 @@ class JFacebookComment extends JFacebookObject
 	 *
 	 * @return  mixed   The decoded JSON response or false if the client is not authenticated.
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 */
 	public function getComments($comment, $limit=0, $offset=0, $until=null, $since=null)
 	{
@@ -72,7 +72,7 @@ class JFacebookComment extends JFacebookObject
 	 *
 	 * @return  mixed   The decoded JSON response or false if the client is not authenticated.
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 */
 	public function createComment($comment, $message)
 	{
@@ -94,7 +94,7 @@ class JFacebookComment extends JFacebookObject
 	 *
 	 * @return  mixed   The decoded JSON response or false if the client is not authenticated.
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 */
 	public function getLikes($comment, $limit=0, $offset=0, $until=null, $since=null)
 	{
@@ -108,7 +108,7 @@ class JFacebookComment extends JFacebookObject
 	 *
 	 * @return  boolean Returns true if successful, and false otherwise.
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 */
 	public function createLike($comment)
 	{
@@ -122,7 +122,7 @@ class JFacebookComment extends JFacebookObject
 	 *
 	 * @return  boolean Returns true if successful, and false otherwise.
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 */
 	public function deleteLike($comment)
 	{

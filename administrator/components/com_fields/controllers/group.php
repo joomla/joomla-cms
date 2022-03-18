@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_fields
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2016 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 defined('_JEXEC') or die;
@@ -64,7 +64,7 @@ class FieldsControllerGroup extends JControllerForm
 	 */
 	public function batch($model = null)
 	{
-		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+		$this->checkToken();
 
 		// Set the model
 		$model = $this->getModel('Group');
@@ -104,10 +104,10 @@ class FieldsControllerGroup extends JControllerForm
 		$recordId = (int) isset($data[$key]) ? $data[$key] : 0;
 		$user = JFactory::getUser();
 
-		// Check general edit permission first.
-		if ($user->authorise('core.edit', $this->component))
+		// Zero record (parent_id:0), return component edit permission by calling parent controller method
+		if (!$recordId)
 		{
-			return true;
+			return parent::allowEdit($data, $key);
 		}
 
 		// Check edit on the record asset (explicit or inherited)

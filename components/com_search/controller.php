@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_search
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2007 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -45,10 +45,10 @@ class SearchController extends JControllerLegacy
 	{
 		// Slashes cause errors, <> get stripped anyway later on. # causes problems.
 		$badchars = array('#', '>', '<', '\\');
-		$searchword = trim(str_replace($badchars, '', $this->input->getString('searchword', null, 'post')));
+		$searchword = trim(str_replace($badchars, '', $this->input->post->getString('searchword')));
 
 		// If searchword enclosed in double quotes, strip quotes and do exact match
-		if (substr($searchword, 0, 1) == '"' && substr($searchword, -1) == '"')
+		if (substr($searchword, 0, 1) === '"' && substr($searchword, -1) === '"')
 		{
 			$post['searchword'] = substr($searchword, 1, -1);
 			$this->input->set('searchphrase', 'exact');
@@ -58,9 +58,9 @@ class SearchController extends JControllerLegacy
 			$post['searchword'] = $searchword;
 		}
 
-		$post['ordering']     = $this->input->getWord('ordering', null, 'post');
-		$post['searchphrase'] = $this->input->getWord('searchphrase', 'all', 'post');
-		$post['limit']        = $this->input->getUInt('limit', null, 'post');
+		$post['ordering']     = $this->input->post->getWord('ordering');
+		$post['searchphrase'] = $this->input->post->getWord('searchphrase', 'all');
+		$post['limit']        = $this->input->post->getUInt('limit');
 
 		if ($post['limit'] === null)
 		{
@@ -86,7 +86,7 @@ class SearchController extends JControllerLegacy
 		$item = $menu->getItem($post['Itemid']);
 
 		// The requested Item is not a search page so we need to find one
-		if ($item && ($item->component != 'com_search' || $item->query['view'] != 'search'))
+		if ($item && ($item->component !== 'com_search' || $item->query['view'] !== 'search'))
 		{
 			// Get item based on component, not link. link is not reliable.
 			$item = $menu->getItems('component', 'com_search', true);

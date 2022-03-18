@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2009 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -54,32 +54,33 @@ class UsersHelper
 				'index.php?option=com_users&view=levels',
 				$vName == 'levels'
 			);
+		}
 
-			if (JComponentHelper::isEnabled('com_fields') && JComponentHelper::getParams('com_users')->get('custom_fields_enable', '1'))
-			{
-				JHtmlSidebar::addEntry(
-					JText::_('JGLOBAL_FIELDS'),
-					'index.php?option=com_fields&context=com_users.user',
-					$vName == 'fields.fields'
-				);
-				JHtmlSidebar::addEntry(
-					JText::_('JGLOBAL_FIELD_GROUPS'),
-					'index.php?option=com_fields&view=groups&context=com_users.user',
-					$vName == 'fields.groups'
-				);
-			}
-
+		if (JComponentHelper::isEnabled('com_fields') && JComponentHelper::getParams('com_users')->get('custom_fields_enable', '1'))
+		{
 			JHtmlSidebar::addEntry(
-				JText::_('COM_USERS_SUBMENU_NOTES'),
-				'index.php?option=com_users&view=notes',
-				$vName == 'notes'
+				JText::_('JGLOBAL_FIELDS'),
+				'index.php?option=com_fields&context=com_users.user',
+				$vName == 'fields.fields'
 			);
 			JHtmlSidebar::addEntry(
-				JText::_('COM_USERS_SUBMENU_NOTE_CATEGORIES'),
-				'index.php?option=com_categories&extension=com_users',
-				$vName == 'categories'
+				JText::_('JGLOBAL_FIELD_GROUPS'),
+				'index.php?option=com_fields&view=groups&context=com_users.user',
+				$vName == 'fields.groups'
 			);
 		}
+
+		JHtmlSidebar::addEntry(
+			JText::_('COM_USERS_SUBMENU_NOTES'),
+			'index.php?option=com_users&view=notes',
+			$vName == 'notes'
+		);
+
+		JHtmlSidebar::addEntry(
+			JText::_('COM_USERS_SUBMENU_NOTE_CATEGORIES'),
+			'index.php?option=com_categories&extension=com_users',
+			$vName == 'categories'
+		);
 	}
 
 	/**
@@ -250,64 +251,6 @@ class UsersHelper
 		$groups = implode(', ', $groups);
 
 		return $groups;
-	}
-
-	/**
-	 * Adds Count Items for Tag Manager.
-	 *
-	 * @param   stdClass[]  &$items     The user note tag objects
-	 * @param   string      $extension  The name of the active view.
-	 *
-	 * @return  stdClass[]
-	 *
-	 * @since   3.6
-	 */
-	public static function countTagItems(&$items, $extension)
-	{
-		$db = JFactory::getDbo();
-
-		foreach ($items as $item)
-		{
-			$item->count_trashed = 0;
-			$item->count_archived = 0;
-			$item->count_unpublished = 0;
-			$item->count_published = 0;
-			$query = $db->getQuery(true);
-			$query->select('published as state, count(*) AS count')
-				->from($db->qn('#__contentitem_tag_map') . 'AS ct ')
-				->where('ct.tag_id = ' . (int) $item->id)
-				->where('ct.type_alias =' . $db->q($extension))
-				->join('LEFT', $db->qn('#__categories') . ' AS c ON ct.content_item_id=c.id')
-				->group('c.published');
-
-			$db->setQuery($query);
-			$users = $db->loadObjectList();
-
-			foreach ($users as $user)
-			{
-				if ($user->state == 1)
-				{
-					$item->count_published = $user->count;
-				}
-
-				if ($user->state == 0)
-				{
-					$item->count_unpublished = $user->count;
-				}
-
-				if ($user->state == 2)
-				{
-					$item->count_archived = $user->count;
-				}
-
-				if ($user->state == -2)
-				{
-					$item->count_trashed = $user->count;
-				}
-			}
-		}
-
-		return $items;
 	}
 
 	/**

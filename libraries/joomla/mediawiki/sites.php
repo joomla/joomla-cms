@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  MediaWiki
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2013 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -12,7 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * MediaWiki API Sites class for the Joomla Platform.
  *
- * @since  12.3
+ * @since  3.1.4
  */
 class JMediawikiSites extends JMediawikiObject
 {
@@ -27,7 +27,7 @@ class JMediawikiSites extends JMediawikiObject
 	 *
 	 * @return  object
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function getSiteInfo(array $siprop = null, $sifilteriw = null, $sishowalldb = false, $sinumberingroup = false, array $siinlanguagecode = null)
 	{
@@ -82,7 +82,7 @@ class JMediawikiSites extends JMediawikiObject
 	 *
 	 * @return  object
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function getEvents(array $leprop = null, $letype = null, $leaction = null, $letitle = null, $leprefix = null, $letag = null,
 		$leuser = null, $lestart = null, $leend = null, $ledir = null, $lelimit = null)
@@ -170,7 +170,7 @@ class JMediawikiSites extends JMediawikiObject
 	 *
 	 * @return  object
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function getRecentChanges($rcstart = null, $rcend = null, $rcdir = null, array $rcnamespace = null, $rcuser = null, $rcexcludeuser = null,
 		$rctag = null, array $rcprop = null, array $rctoken = null, array $rcshow = null, $rclimit = null, $rctype = null, $rctoponly = null)
@@ -262,7 +262,7 @@ class JMediawikiSites extends JMediawikiObject
 	 *
 	 * @return  object
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function getProtectedTitles(array $ptnamespace = null, array $ptlevel = null, $ptlimit = null, $ptdir = null, $ptstart = null,
 		$ptend = null, array $ptprop = null)

@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Linkedin
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2013 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -13,49 +13,49 @@
  * @package     Joomla.UnitTest
  * @subpackage  Linkedin
  *
- * @since       13.1
+ * @since       3.2.0
  */
 class JLinkedinCommunicationsTest extends TestCase
 {
 	/**
 	 * @var    JRegistry  Options for the Linkedin object.
-	 * @since  13.1
+	 * @since  3.2.0
 	 */
 	protected $options;
 
 	/**
 	 * @var    JHttp  Mock http object.
-	 * @since  13.1
+	 * @since  3.2.0
 	 */
 	protected $client;
 
 	/**
 	 * @var    JInput The input object to use in retrieving GET/POST data.
-	 * @since  13.1
+	 * @since  3.2.0
 	 */
 	protected $input;
 
 	/**
 	 * @var    JLinkedinCommunications  Object under test.
-	 * @since  13.1
+	 * @since  3.2.0
 	 */
 	protected $object;
 
 	/**
 	 * @var    JLinkedinOAuth  Authentication object for the Twitter object.
-	 * @since  13.1
+	 * @since  3.2.0
 	 */
 	protected $oauth;
 
 	/**
 	 * @var    string  Sample JSON string.
-	 * @since  13.1
+	 * @since  3.2.0
 	 */
 	protected $sampleString = '{"a":1,"b":2,"c":3,"d":4,"e":5}';
 
 	/**
 	 * @var    string  Sample JSON error message.
-	 * @since  13.1
+	 * @since  3.2.0
 	 */
 	protected $errorString = '{"errorCode":401, "message": "Generic error"}';
 
@@ -111,12 +111,7 @@ class JLinkedinCommunicationsTest extends TestCase
 	protected function tearDown()
 	{
 		$_SERVER = $this->backupServer;
-		unset($this->backupServer);
-		unset($this->options);
-		unset($this->input);
-		unset($this->client);
-		unset($this->oauth);
-		unset($this->object);
+		unset($this->backupServer, $this->options, $this->input, $this->client, $this->oauth, $this->object);
 		parent::tearDown();
 	}
 
@@ -125,7 +120,7 @@ class JLinkedinCommunicationsTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 */
 	public function testInviteByEmail()
 	{
@@ -180,7 +175,7 @@ class JLinkedinCommunicationsTest extends TestCase
 	 * @return  void
 	 *
 	 * @expectedException DomainException
-	 * @since   13.1
+	 * @since   3.2.0
 	 */
 	public function testInviteByEmailFailure()
 	{
@@ -231,7 +226,7 @@ class JLinkedinCommunicationsTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 */
 	public function testInviteById()
 	{
@@ -309,7 +304,7 @@ class JLinkedinCommunicationsTest extends TestCase
 	 * @return  void
 	 *
 	 * @expectedException RuntimeException
-	 * @since   13.1
+	 * @since   3.2.0
 	 */
 	public function testInviteByIdFailure()
 	{
@@ -345,7 +340,7 @@ class JLinkedinCommunicationsTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 */
 	public function testSendMessage()
 	{
@@ -392,7 +387,7 @@ class JLinkedinCommunicationsTest extends TestCase
 	 * @return  void
 	 *
 	 * @expectedException DomainException
-	 * @since   13.1
+	 * @since   3.2.0
 	 */
 	public function testSendMessageFailure()
 	{

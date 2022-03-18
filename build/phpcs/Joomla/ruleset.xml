@@ -5,7 +5,6 @@
 	<!-- Exclude folders not containing production code -->
 	<exclude-pattern type="relative">build/*</exclude-pattern>
 	<exclude-pattern type="relative">docs/*</exclude-pattern>
-	<exclude-pattern type="relative">tests/*</exclude-pattern>
 	<exclude-pattern type="relative">cache/*</exclude-pattern>
 	<exclude-pattern type="relative">tmp/*</exclude-pattern>
 	<exclude-pattern type="relative">logs/*</exclude-pattern>
@@ -25,6 +24,18 @@
 	<exclude-pattern type="relative">configuration.php</exclude-pattern>
 	<exclude-pattern type="relative">installation/template/index.php</exclude-pattern>
 	<exclude-pattern type="relative">plugins/captcha/recaptcha/recaptchalib.php</exclude-pattern>
+	<!-- Exclude some test related files that don't actually include PHP code -->
+	<exclude-pattern type="relative">tests/unit/suites/libraries/joomla/model/stubs/barbaz.php</exclude-pattern>
+	<exclude-pattern type="relative">tests/unit/suites/libraries/joomla/view/layouts1/fringe/division.php</exclude-pattern>
+	<exclude-pattern type="relative">tests/unit/suites/libraries/joomla/view/layouts1/olivia.php</exclude-pattern>
+	<exclude-pattern type="relative">tests/unit/suites/libraries/joomla/view/layouts1/peter.php</exclude-pattern>
+	<exclude-pattern type="relative">tests/unit/suites/libraries/joomla/view/layouts2/fauxlivia.php</exclude-pattern>
+	<exclude-pattern type="relative">tests/unit/suites/libraries/joomla/view/layouts2/olivia.php</exclude-pattern>
+	<exclude-pattern type="relative">tests/unit/suites/libraries/legacy/controller/stubs/component1/controller.json.php</exclude-pattern>
+	<exclude-pattern type="relative">tests/unit/suites/libraries/legacy/controller/stubs/component2/controller.php</exclude-pattern>
+
+	<!-- Exclude the RoboFile.php -->
+	<exclude-pattern type="relative">RoboFile.php</exclude-pattern>
 
 	<!-- Include all sniffs in an external standard directory -->
 	<rule ref="Generic.Files.EndFileNewline">
@@ -51,6 +62,7 @@
 		<exclude-pattern type="relative">*/tmpl/*</exclude-pattern>
 		<exclude-pattern type="relative">templates/*</exclude-pattern>
 		<exclude-pattern type="relative">layouts/*</exclude-pattern>
+		<exclude-pattern type="relative">tests/*</exclude-pattern>
 	</rule>
 
 	<rule ref="Generic.Formatting.DisallowMultipleStatements">
@@ -70,16 +82,15 @@
 	<rule ref="Generic.PHP.DeprecatedFunctions" />
 	<rule ref="Generic.PHP.ForbiddenFunctions"/>
 	<rule ref="Generic.PHP.LowerCaseConstant" />
-	<rule ref="Generic.WhiteSpace.DisallowSpaceIndent">
-		<!-- These exceptions are temporary for now -->
-		<exclude-pattern type="relative">administrator/components/*</exclude-pattern>
-		<exclude-pattern type="relative">components/*</exclude-pattern>
-		<exclude-pattern type="relative">libraries/cms/*</exclude-pattern>
-	</rule>
+	<rule ref="Generic.WhiteSpace.DisallowSpaceIndent" />
 
 	<!-- Include some additional sniffs from the PEAR standard -->
 	<rule ref="PEAR.Classes.ClassDeclaration" />
-	<rule ref="PEAR.Commenting.InlineComment" />
+	<rule ref="PEAR.Commenting.InlineComment">
+		<!-- Files with PHP8 attributes as a PHP Sniffer version doesn't support that (it does in J4) -->
+		<exclude-pattern type="relative">libraries/src/Session/Session.php</exclude-pattern>
+		<exclude-pattern type="relative">libraries/src/Date/Date.php</exclude-pattern>
+	</rule>
 	<rule ref="PEAR.Formatting.MultiLineAssignment" />
 	<rule ref="PEAR.Functions.ValidDefaultValue">
 		<!-- These exceptions are temporary for now -->
@@ -133,22 +144,49 @@
 
 	<!-- Remove the following when the folder limitations are dropped -->
 
-	<rule ref="Joomla.Classes.MethodScope"/>
+	<rule ref="Joomla.Classes.MethodScope">
+		<exclude-pattern type="relative">tests/*</exclude-pattern>
+	</rule>
+
+	<rule ref="Joomla.Commenting.FileComment">
+		<exclude-pattern type="relative">tests/*</exclude-pattern>
+	</rule>
+
+	<rule ref="Joomla.Functions.FunctionCallSignature">
+		<exclude-pattern type="relative">tests/*</exclude-pattern>
+	</rule>
 
 	<rule ref="Joomla.Commenting.FunctionComment">
+		<!-- Files with PHP8 attributes as a PHP Sniffer version doesn't support that (it does in J4) -->
+		<exclude-pattern type="relative">libraries/src/Session/Session.php</exclude-pattern>
+		<exclude-pattern type="relative">libraries/src/Date/Date.php</exclude-pattern>
 		<!-- We only want this for libraries, language and cli for now -->
 		<exclude-pattern type="relative">templates/*</exclude-pattern>
 		<exclude-pattern type="relative">layouts/*</exclude-pattern>
+		<exclude-pattern type="relative">tests/*</exclude-pattern>
+	</rule>
+
+	<rule ref="Joomla.Commenting.FunctionComment.MissingParamTag">
+		<exclude-pattern type="relative">administrator/components/*</exclude-pattern>
+	</rule>
+
+	<rule ref="Joomla.Commenting.FunctionComment.ParamNameNoMatch">
+		<exclude-pattern type="relative">administrator/components/*</exclude-pattern>
 	</rule>
 
 	<rule ref="Joomla.Commenting.SingleComment">
+		<!-- Files with PHP8 attributes as a PHP Sniffer version doesn't support that (it does in J4) -->
+		<exclude-pattern type="relative">libraries/src/Session/Session.php</exclude-pattern>
+		<exclude-pattern type="relative">libraries/src/Date/Date.php</exclude-pattern>
 		<!-- We don't want this in mixed html/php views for now -->
 		<exclude-pattern type="relative">*/tmpl/*</exclude-pattern>
 		<exclude-pattern type="relative">templates/*</exclude-pattern>
 		<exclude-pattern type="relative">layouts/*</exclude-pattern>
 	</rule>
 
-	<rule ref="Joomla.Commenting.ClassComment"/>
+	<rule ref="Joomla.Commenting.ClassComment">
+		<exclude-pattern type="relative">tests/*</exclude-pattern>
+	</rule>
 
 	<rule ref="Joomla.ControlStructures.ControlSignature">
 		<!-- These exceptions are permanent -->

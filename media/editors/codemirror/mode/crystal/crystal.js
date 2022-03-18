@@ -1,5 +1,5 @@
 // CodeMirror, copyright (c) by Marijn Haverbeke and others
-// Distributed under an MIT license: http://codemirror.net/LICENSE
+// Distributed under an MIT license: https://codemirror.net/LICENSE
 
 (function(mod) {
   if (typeof exports == "object" && typeof module == "object") // CommonJS
@@ -194,17 +194,17 @@
       // Numbers
       if (stream.eat("0")) {
         if (stream.eat("x")) {
-          stream.match(/^[0-9a-fA-F]+/);
+          stream.match(/^[0-9a-fA-F_]+/);
         } else if (stream.eat("o")) {
-          stream.match(/^[0-7]+/);
+          stream.match(/^[0-7_]+/);
         } else if (stream.eat("b")) {
-          stream.match(/^[01]+/);
+          stream.match(/^[01_]+/);
         }
         return "number";
       }
 
       if (stream.eat(/^\d/)) {
-        stream.match(/^\d*(?:\.\d+)?(?:[eE][+-]?\d+)?/);
+        stream.match(/^[\d_]*(?:\.[\d_]+)?(?:[eE][+-]?\d+)?/);
         return "number";
       }
 

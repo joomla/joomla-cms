@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_redirect
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2009 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -28,7 +28,7 @@ class RedirectControllerLinks extends JControllerAdmin
 	public function activate()
 	{
 		// Check for request forgeries.
-		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+		$this->checkToken();
 
 		$ids     = $this->input->get('cid', array(), 'array');
 		$newUrl  = $this->input->getString('new_url');
@@ -69,7 +69,7 @@ class RedirectControllerLinks extends JControllerAdmin
 	public function duplicateUrls()
 	{
 		// Check for request forgeries.
-		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+		$this->checkToken();
 
 		$ids     = $this->input->get('cid', array(), 'array');
 		$newUrl  = $this->input->getString('new_url');
@@ -123,6 +123,9 @@ class RedirectControllerLinks extends JControllerAdmin
 	 */
 	public function batch()
 	{
+		// Check for request forgeries.
+		$this->checkToken();
+
 		$batch_urls_request = $this->input->post->get('batch_urls', array(), 'array');
 		$batch_urls_lines   = array_map('trim', explode("\n", $batch_urls_request[0]));
 
@@ -132,7 +135,19 @@ class RedirectControllerLinks extends JControllerAdmin
 		{
 			if (!empty($batch_urls_line))
 			{
-				$batch_urls[] = array_map('trim', explode('|', $batch_urls_line));
+				$params = JComponentHelper::getParams('com_redirect');
+				$separator = $params->get('separator', '|');
+
+				// Basic check to make sure the correct separator is being used
+				if (!\Joomla\String\StringHelper::strpos($batch_urls_line, $separator))
+				{
+					$this->setMessage(JText::sprintf('COM_REDIRECT_NO_SEPARATOR_FOUND', $separator), 'error');
+					$this->setRedirect('index.php?option=com_redirect&view=links');
+
+					return false;
+				}
+
+				$batch_urls[] = array_map('trim', explode($separator, $batch_urls_line));
 			}
 		}
 
@@ -162,6 +177,9 @@ class RedirectControllerLinks extends JControllerAdmin
 	 */
 	public function purge()
 	{
+		// Check for request forgeries.
+		$this->checkToken();
+
 		$model = $this->getModel('Links');
 
 		if ($model->purge())

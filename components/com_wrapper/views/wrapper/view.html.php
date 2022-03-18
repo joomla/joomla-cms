@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_wrapper
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2006 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 
 /**
  * Wrapper view class.
- * 
+ *
  * @since  1.5
  */
 class WrapperViewWrapper extends JViewLegacy
@@ -69,7 +69,7 @@ class WrapperViewWrapper extends JViewLegacy
 		// Auto height control
 		if ($params->def('height_auto'))
 		{
-			$wrapper->load = 'onload="iFrameHeight()"';
+			$wrapper->load = 'onload="iFrameHeight(this)"';
 		}
 		else
 		{
@@ -81,12 +81,12 @@ class WrapperViewWrapper extends JViewLegacy
 		if ($params->def('add_scheme', 1))
 		{
 			// Adds 'http://' or 'https://' if none is set
-			if (substr($url, 0, 2) == '//')
+			if (strpos($url, '//') === 0)
 			{
 				// URL without scheme in component. Prepend current scheme.
 				$wrapper->url = JUri::getInstance()->toString(array('scheme')) . substr($url, 2);
 			}
-			elseif (substr($url, 0, 1) == '/')
+			elseif (strpos($url, '/') === 0)
 			{
 				// Relative URL in component. Use scheme + host + port.
 				$wrapper->url = JUri::getInstance()->toString(array('scheme', 'host', 'port')) . $url;
@@ -108,7 +108,7 @@ class WrapperViewWrapper extends JViewLegacy
 		}
 
 		// Escape strings for HTML output
-		$this->pageclass_sfx = htmlspecialchars($params->get('pageclass_sfx'));
+		$this->pageclass_sfx = htmlspecialchars($params->get('pageclass_sfx', ''));
 		$this->params        = &$params;
 		$this->wrapper       = &$wrapper;
 

@@ -2,7 +2,7 @@
 /**
  * Part of the Joomla Framework Application Package
  *
- * @copyright  Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -15,15 +15,16 @@ use Psr\Log\LoggerAwareInterface;
 /**
  * Class to turn Cli applications into daemons.  It requires CLI and PCNTL support built into PHP.
  *
- * @see    http://www.php.net/manual/en/book.pcntl.php
- * @see    http://php.net/manual/en/features.commandline.php
- * @since  1.0
+ * @link        https://www.php.net/manual/en/book.pcntl.php
+ * @link        https://www.php.net/manual/en/features.commandline.php
+ * @since       1.0
+ * @deprecated  2.0  Deprecated without replacement
  */
 abstract class AbstractDaemonApplication extends AbstractCliApplication implements LoggerAwareInterface
 {
 	/**
 	 * @var    array  The available POSIX signals to be caught by default.
-	 * @see    http://php.net/manual/pcntl.constants.php
+	 * @link   https://www.php.net/manual/pcntl.constants.php
 	 * @since  1.0
 	 */
 	protected static $signals = array(
@@ -62,7 +63,7 @@ abstract class AbstractDaemonApplication extends AbstractCliApplication implemen
 		'SIGBABY',
 		'SIG_BLOCK',
 		'SIG_UNBLOCK',
-		'SIG_SETMASK'
+		'SIG_SETMASK',
 	);
 
 	/**
@@ -111,7 +112,7 @@ abstract class AbstractDaemonApplication extends AbstractCliApplication implemen
 	{
 		// Verify that the process control extension for PHP is available.
 		// @codeCoverageIgnoreStart
-		if (!defined('SIGHUP'))
+		if (!\defined('SIGHUP'))
 		{
 			$this->getLogger()->error('The PCNTL extension for PHP is not available.');
 
@@ -119,7 +120,7 @@ abstract class AbstractDaemonApplication extends AbstractCliApplication implemen
 		}
 
 		// Verify that POSIX support for PHP is available.
-		if (!function_exists('posix_getpid'))
+		if (!\function_exists('posix_getpid'))
 		{
 			$this->getLogger()->error('The POSIX extension for PHP is not available.');
 
@@ -240,7 +241,7 @@ abstract class AbstractDaemonApplication extends AbstractCliApplication implemen
 		}
 
 		// Read the contents of the process id file as an integer.
-		$fp = fopen($pidFile, 'r');
+		$fp  = fopen($pidFile, 'r');
 		$pid = fread($fp, filesize($pidFile));
 		$pid = (int) $pid;
 		fclose($fp);
@@ -284,7 +285,7 @@ abstract class AbstractDaemonApplication extends AbstractCliApplication implemen
 		// The application author name.  This string is used in generating startup scripts and has
 		// a maximum of 50 characters.
 		$tmp = (string) $this->get('author_name', 'Joomla Framework');
-		$this->set('author_name', (strlen($tmp) > 50) ? substr($tmp, 0, 50) : $tmp);
+		$this->set('author_name', (\strlen($tmp) > 50) ? substr($tmp, 0, 50) : $tmp);
 
 		// The application author email.  This string is used in generating startup scripts.
 		$tmp = (string) $this->get('author_email', 'admin@joomla.org');
@@ -308,12 +309,12 @@ abstract class AbstractDaemonApplication extends AbstractCliApplication implemen
 		$this->set('application_executable', $tmp);
 
 		// The home directory of the daemon.
-		$tmp = (string) $this->get('application_directory', dirname($this->input->executable));
+		$tmp = (string) $this->get('application_directory', \dirname($this->input->executable));
 		$this->set('application_directory', $tmp);
 
 		// The pid file location.  This defaults to a path inside the /tmp directory.
 		$name = $this->get('application_name');
-		$tmp = (string) $this->get('application_pid_file', strtolower('/tmp/' . $name . '/' . $name . '.pid'));
+		$tmp  = (string) $this->get('application_pid_file', strtolower('/tmp/' . $name . '/' . $name . '.pid'));
 		$this->set('application_pid_file', $tmp);
 
 		/*
@@ -323,12 +324,12 @@ abstract class AbstractDaemonApplication extends AbstractCliApplication implemen
 		 */
 
 		// The user id under which to run the daemon.
-		$tmp = (int) $this->get('application_uid', 0);
+		$tmp     = (int) $this->get('application_uid', 0);
 		$options = array('options' => array('min_range' => 0, 'max_range' => 65000));
 		$this->set('application_uid', filter_var($tmp, FILTER_VALIDATE_INT, $options));
 
 		// The group id under which to run the daemon.
-		$tmp = (int) $this->get('application_gid', 0);
+		$tmp     = (int) $this->get('application_gid', 0);
 		$options = array('options' => array('min_range' => 0, 'max_range' => 65000));
 		$this->set('application_gid', filter_var($tmp, FILTER_VALIDATE_INT, $options));
 
@@ -383,7 +384,7 @@ abstract class AbstractDaemonApplication extends AbstractCliApplication implemen
 		{
 			// Declare ticks to start signal monitoring. When you declare ticks, PCNTL will monitor
 			// incoming signals after each tick and call the relevant signal handler automatically.
-			declare (ticks = 1);
+			declare(ticks = 1);
 
 			// Start the main execution loop.
 			while (true)
@@ -399,8 +400,8 @@ abstract class AbstractDaemonApplication extends AbstractCliApplication implemen
 			}
 		}
 		else
-		// We were not able to daemonize the application so log the failure and die gracefully.
 		{
+			// We were not able to daemonize the application so log the failure and die gracefully.
 			$this->getLogger()->info('Starting ' . $this->name . ' failed');
 		}
 
@@ -493,7 +494,7 @@ abstract class AbstractDaemonApplication extends AbstractCliApplication implemen
 		}
 
 		// Get the user and group information based on uid and gid.
-		$user = posix_getpwuid($uid);
+		$user  = posix_getpwuid($uid);
 		$group = posix_getgrgid($gid);
 
 		$this->getLogger()->info('Changed daemon identity to ' . $user['name'] . ':' . $group['name']);
@@ -520,9 +521,9 @@ abstract class AbstractDaemonApplication extends AbstractCliApplication implemen
 		}
 
 		// Reset Process Information
-		$this->safeMode = !!@ ini_get('safe_mode');
+		$this->safeMode  = !!@ ini_get('safe_mode');
 		$this->processId = 0;
-		$this->running = false;
+		$this->running   = false;
 
 		// Detach process!
 		try
@@ -541,7 +542,7 @@ abstract class AbstractDaemonApplication extends AbstractCliApplication implemen
 
 				// Set the process id.
 				$this->processId = (int) posix_getpid();
-				$this->parentId = $this->processId;
+				$this->parentId  = $this->processId;
 			}
 		}
 		catch (\RuntimeException $e)
@@ -580,10 +581,8 @@ abstract class AbstractDaemonApplication extends AbstractCliApplication implemen
 
 				return false;
 			}
-			else
-			{
-				$this->getLogger()->warning('Unable to change process owner.');
-			}
+
+			$this->getLogger()->warning('Unable to change process owner.');
 		}
 
 		// Setup the signal handlers for the daemon.
@@ -623,8 +622,8 @@ abstract class AbstractDaemonApplication extends AbstractCliApplication implemen
 			$this->close();
 		}
 		else
-		// We are in the forked child process.
 		{
+			// We are in the forked child process.
 			// Setup some protected values.
 			$this->exiting = false;
 			$this->running = true;
@@ -652,15 +651,15 @@ abstract class AbstractDaemonApplication extends AbstractCliApplication implemen
 		{
 			throw new \RuntimeException('The process could not be forked.');
 		}
-		elseif ($pid === 0)
-		// Update the process id for the child.
+
+		if ($pid === 0)
 		{
+			// Update the process id for the child.
 			$this->processId = (int) posix_getpid();
 		}
 		else
-		// Log the fork in the parent.
 		{
-			// Log the fork.
+			// Log the fork in the parent.
 			$this->getLogger()->debug('Process forked ' . $pid);
 		}
 
@@ -704,19 +703,19 @@ abstract class AbstractDaemonApplication extends AbstractCliApplication implemen
 		foreach (self::$signals as $signal)
 		{
 			// Ignore signals that are not defined.
-			if (!defined($signal) || !is_int(constant($signal)) || (constant($signal) === 0))
+			if (!\defined($signal) || !\is_int(\constant($signal)) || (\constant($signal) === 0))
 			{
 				// Define the signal to avoid notices.
 				$this->getLogger()->debug('Signal "' . $signal . '" not defined. Defining it as null.');
 
-				define($signal, null);
+				\define($signal, null);
 
 				// Don't listen for signal.
 				continue;
 			}
 
 			// Attach the signal handler for the signal.
-			if (!$this->pcntlSignal(constant($signal), array($this, 'signal')))
+			if (!$this->pcntlSignal(\constant($signal), array($this, 'signal')))
 			{
 				$this->getLogger()->emergency(sprintf('Unable to reroute signal handler: %s', $signal));
 
@@ -743,11 +742,9 @@ abstract class AbstractDaemonApplication extends AbstractCliApplication implemen
 		{
 			return;
 		}
-		else
+
 		// If not, now we are.
-		{
-			$this->exiting = true;
-		}
+		$this->exiting = true;
 
 		// If we aren't already daemonized then just kill the application.
 		if (!$this->running && !$this->isActive())
@@ -761,7 +758,7 @@ abstract class AbstractDaemonApplication extends AbstractCliApplication implemen
 		if ($this->parentId == $this->processId)
 		{
 			// Read the contents of the process id file as an integer.
-			$fp = fopen($this->get('application_pid_file'), 'r');
+			$fp  = fopen($this->get('application_pid_file'), 'r');
 			$pid = fread($fp, filesize($this->get('application_pid_file')));
 			$pid = (int) $pid;
 			fclose($fp);
@@ -775,8 +772,8 @@ abstract class AbstractDaemonApplication extends AbstractCliApplication implemen
 				$this->close(exec(implode(' ', $GLOBALS['argv']) . ' > /dev/null &'));
 			}
 			else
-			// If we are not supposed to restart the daemon let's just kill -9.
 			{
+				// If we are not supposed to restart the daemon let's just kill -9.
 				passthru('kill -9 ' . $pid);
 				$this->close();
 			}
@@ -811,7 +808,7 @@ abstract class AbstractDaemonApplication extends AbstractCliApplication implemen
 		}
 
 		// Make sure that the folder where we are writing the process id file exists.
-		$folder = dirname($file);
+		$folder = \dirname($file);
 
 		if (!is_dir($folder) && !@ mkdir($folder, $this->get('folder_permission', 0755)))
 		{
@@ -899,7 +896,7 @@ abstract class AbstractDaemonApplication extends AbstractCliApplication implemen
 	 * @see     pcntl_signal()
 	 * @since   1.0
 	 */
-	protected function pcntlSignal($signal , $handler, $restart = true)
+	protected function pcntlSignal($signal, $handler, $restart = true)
 	{
 		return pcntl_signal($signal, $handler, $restart);
 	}
@@ -907,7 +904,7 @@ abstract class AbstractDaemonApplication extends AbstractCliApplication implemen
 	/**
 	 * Method to wait on or return the status of a forked child.
 	 *
-	 * @param   integer  &$status  Status information.
+	 * @param   integer  $status   Status information.
 	 * @param   integer  $options  If wait3 is available on your system (mostly BSD-style systems),
 	 *                             you can provide the optional options parameter.
 	 *

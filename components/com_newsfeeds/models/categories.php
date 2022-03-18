@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_newsfeeds
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2006 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -95,7 +95,7 @@ class NewsfeedsModelCategories extends JModelList
 	 */
 	public function getItems()
 	{
-		if (!count($this->_items))
+		if ($this->_items === null)
 		{
 			$app = JFactory::getApplication();
 			$menu = $app->getMenu();

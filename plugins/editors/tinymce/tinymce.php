@@ -3,11 +3,13 @@
  * @package     Joomla.Plugin
  * @subpackage  Editors.tinymce
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2006 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
+
+use Joomla\CMS\HTML\HTMLHelper;
 
 /**
  * TinyMCE Editor Plugin
@@ -427,7 +429,6 @@ class PlgEditorTinymce extends JPlugin
 		$plugins  = array(
 			'autolink',
 			'lists',
-			'save',
 			'colorpicker',
 			'importcss',
 		);
@@ -575,7 +576,7 @@ class PlgEditorTinymce extends JPlugin
 		if ($custom_button)
 		{
 			$separator = strpos($custom_button, ',') !== false ? ',' : ' ';
-			$toolbar2  = array_merge($toolbar2, explode($separator, $custom_button));
+			$toolbar1  = array_merge($toolbar1, explode($separator, $custom_button));
 		}
 
 		// Drag and drop Images
@@ -584,7 +585,11 @@ class PlgEditorTinymce extends JPlugin
 
 		if ($dragdrop && $user->authorise('core.create', 'com_media'))
 		{
-			$externalPlugins['jdragdrop'] = JUri::root() . '/media/editors/tinymce/js/plugins/dragdrop/plugin.min.js';
+			$externalPlugins['jdragdrop'] = HTMLHelper::_(
+					'script',
+					'editors/tinymce/plugins/dragdrop/plugin.min.js',
+					array('relative' => true, 'version' => 'auto', 'pathOnly' => true)
+				);
 			$allowImgPaste = true;
 			$isSubDir      = '';
 			$session       = JFactory::getSession();
@@ -595,7 +600,7 @@ class PlgEditorTinymce extends JPlugin
 
 			if ($app->isClient('site'))
 			{
-				$uploadUrl = htmlentities($uploadUrl, null, 'UTF-8', null);
+				$uploadUrl = htmlentities($uploadUrl, 0, 'UTF-8', false);
 			}
 
 			// Is Joomla installed in subdirectory
@@ -604,19 +609,10 @@ class PlgEditorTinymce extends JPlugin
 				$isSubDir = JUri::root(true);
 			}
 
-			// Get specific path
-			$tempPath = $levelParams->get('path', '');
-
-			if (!empty($tempPath))
-			{
-				// Remove the root images path
-				$tempPath = str_replace(JComponentHelper::getParams('com_media')->get('image_path') . '/', '', $tempPath);
-			}
-
 			JText::script('PLG_TINY_ERR_UNSUPPORTEDBROWSER');
 
 			$scriptOptions['setCustomDir']    = $isSubDir;
-			$scriptOptions['mediaUploadPath'] = $tempPath;
+			$scriptOptions['mediaUploadPath'] = $levelParams->get('path', '');
 			$scriptOptions['uploadUri']       = $uploadUrl;
 		}
 
@@ -666,7 +662,8 @@ class PlgEditorTinymce extends JPlugin
 			'templates'          => $templates,
 			'image_advtab'       => (bool) $levelParams->get('image_advtab', false),
 			'external_plugins'   => empty($externalPlugins) ? null  : $externalPlugins,
-
+			'contextmenu'        => (bool) $levelParams->get('contextmenu', true) ? null : false,
+			'elementpath'        => (bool) $levelParams->get('element_path', true),
 		)
 		);
 
@@ -686,6 +683,7 @@ class PlgEditorTinymce extends JPlugin
 		}
 
 		$scriptOptions['rel_list'] = array(
+			array('title' => 'None', 'value' => ''),
 			array('title' => 'Alternate', 'value' => 'alternate'),
 			array('title' => 'Author', 'value' => 'author'),
 			array('title' => 'Bookmark', 'value' => 'bookmark'),
@@ -760,7 +758,7 @@ class PlgEditorTinymce extends JPlugin
 				// Set some vars
 				$name    = 'button-' . $i . str_replace(' ', '', $button->get('text'));
 				$title   = $button->get('text');
-				$onclick = $button->get('onclick') ? $button->get('onclick') : null;
+				$onclick = $button->get('onclick') ?: null;
 				$options = $button->get('options');
 				$icon    = $button->get('name');
 
@@ -776,74 +774,79 @@ class PlgEditorTinymce extends JPlugin
 				// We do some hack here to set the correct icon for 3PD buttons
 				$icon = 'none icon-' . $icon;
 
+				$tempConstructor = array();
+
 				// Now we can built the script
-				$tempConstructor = '!(function(){';
+				$tempConstructor[] = '!(function(){';
 
 				// Get the modal width/height
 				if ($options && is_scalar($options))
 				{
-					$tempConstructor .= '
-				var getBtnOptions = new Function("return ' . addslashes($options) . '"),
-					btnOptions = getBtnOptions(),
-					modalWidth = btnOptions.size && btnOptions.size.x ?  btnOptions.size.x : null,
-					modalHeight = btnOptions.size && btnOptions.size.y ?  btnOptions.size.y : null;';
+					$tempConstructor[] = 'var getBtnOptions=new Function("return ' . addslashes($options) . '"),';
+					$tempConstructor[] = 'btnOptions=getBtnOptions(),';
+					$tempConstructor[] = 'modalWidth=btnOptions.size&&btnOptions.size.x?btnOptions.size.x:null,';
+					$tempConstructor[] = 'modalHeight=btnOptions.size&&btnOptions.size.y?btnOptions.size.y:null;';
 				}
 				else
 				{
-					$tempConstructor .= '
-				var btnOptions = {}, modalWidth = null, modalHeight = null;';
+					$tempConstructor[] = 'var btnOptions={},modalWidth=null,modalHeight=null;';
 				}
 
-				$tempConstructor .= "
-				editor.addButton(\"" . $name . "\", {
-					text: \"" . $title . "\",
-					title: \"" . $title . "\",
-					icon: \"" . $icon . "\",
-					onclick: function () {";
+				// Now we can built the script
+				// AddButton starts here
+				$tempConstructor[] = 'editor.addButton("' . $name . '",{';
+				$tempConstructor[] = 'text:"' . $title . '",';
+				$tempConstructor[] = 'title:"' . $title . '",';
+				$tempConstructor[] = 'icon:"' . $icon . '",';
 
-				if ($button->get('modal') || $href)
+				// Onclick starts here
+				$tempConstructor[] = 'onclick:function(){';
+
+				if ($href || $button->get('modal'))
 				{
-					$tempConstructor .= "
-							var modalOptions = {
-								title  : \"" . $title . "\",
-								url : '" . $href . "',
-								buttons: [{
-									text   : \"Close\",
-									onclick: \"close\"
-								}]
-							}
-							if(modalWidth){
-								modalOptions.width = modalWidth;
-							}
-							if(modalHeight){
-								modalOptions.height = modalHeight;
-							}
-							editor.windowManager.open(modalOptions);";
+					// TinyMCE standard modal options
+					$tempConstructor[] = 'var modalOptions={';
+					$tempConstructor[] = 'title:"' . $title . '",';
+					$tempConstructor[] = 'url:"' . $href . '",';
+					$tempConstructor[] = 'buttons:[{text: "Close",onclick:"close"}]';
+					$tempConstructor[] = '};';
+
+					// Set width/height
+					$tempConstructor[] = 'if(modalWidth){modalOptions.width=modalWidth;}';
+					$tempConstructor[] = 'if(modalHeight){modalOptions.height = modalHeight;}';
+					$tempConstructor[] = 'var win=editor.windowManager.open(modalOptions);';
+
+					if (JFactory::getApplication()->client->mobile)
+					{
+						$tempConstructor[] = 'win.fullscreen(true);';
+					}
 
 					if ($onclick && ($button->get('modal') || $href))
 					{
-						$tempConstructor .= "\r\n
-						" . $onclick . "
-							";
+						// Adds callback for close button
+						$tempConstructor[] = $onclick . ';';
 					}
 				}
 				else
 				{
-					$tempConstructor .= "\r\n
-						" . $onclick . "
-							";
+					// Adds callback for the button, eg: readmore
+					$tempConstructor[] = $onclick . ';';
 				}
 
-				$tempConstructor .= "
-					}
-				});
-			})();";
+				// Onclick ends here
+				$tempConstructor[] = '}';
+
+				// AddButton ends here
+				$tempConstructor[] = '});';
+
+				// IIFE ends here
+				$tempConstructor[] = '})();';
 
 				// The array with the toolbar buttons
 				$btnsNames[] = $name . ' | ';
 
 				// The array with code for each button
-				$tinyBtns[] = $tempConstructor;
+				$tinyBtns[] = implode('', $tempConstructor);
 			}
 		}
 
@@ -1880,7 +1883,7 @@ class PlgEditorTinymce extends JPlugin
 
 			if ($app->isClient('site'))
 			{
-				$uploadUrl = htmlentities($uploadUrl, null, 'UTF-8', null);
+				$uploadUrl = htmlentities($uploadUrl, 0, 'UTF-8', false);
 			}
 
 			// Is Joomla installed in subdirectory
@@ -1889,23 +1892,20 @@ class PlgEditorTinymce extends JPlugin
 				$isSubDir = JUri::root(true);
 			}
 
-			// Get specific path
-			$tempPath = $this->params->get('path', '');
-
-			if (!empty($tempPath))
-			{
-				// Remove the root images path
-				$tempPath = str_replace(JComponentHelper::getParams('com_media')->get('image_path') . '/', '', $tempPath);
-			}
-
 			JText::script('PLG_TINY_ERR_UNSUPPORTEDBROWSER');
 
 			$scriptOptions['setCustomDir']    = $isSubDir;
-			$scriptOptions['mediaUploadPath'] = $tempPath;
+			$scriptOptions['mediaUploadPath'] = $this->params->get('path', '');
 			$scriptOptions['uploadUri']       = $uploadUrl;
 
 			$externalPlugins = array(
-				array('jdragdrop' => JUri::root() . '/media/editors/tinymce/js/plugins/dragdrop/plugin.min.js'),
+				array(
+					'jdragdrop' => HTMLHelper::_(
+						'script',
+						'editors/tinymce/plugins/dragdrop/plugin.min.js',
+						array('relative' => true, 'version' => 'auto', 'pathOnly' => true)
+					),
+				),
 			);
 		}
 
@@ -2015,6 +2015,7 @@ class PlgEditorTinymce extends JPlugin
 				$scriptOptions['toolbar1'] = $toolbar1;
 				$scriptOptions['removed_menuitems'] = 'newdocument';
 				$scriptOptions['rel_list'] = array(
+					array('title' => 'None', 'value' => ''),
 					array('title' => 'Alternate', 'value' => 'alternate'),
 					array('title' => 'Author', 'value' => 'author'),
 					array('title' => 'Bookmark', 'value' => 'bookmark'),

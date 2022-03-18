@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Github
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2013 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -13,37 +13,37 @@
  * @package     Joomla.UnitTest
  * @subpackage  Github
  *
- * @since       12.3
+ * @since       3.1.4
  */
 class JGithubMilestonesTest extends \PHPUnit\Framework\TestCase
 {
 	/**
 	 * @var    JRegistry  Options for the GitHub object.
-	 * @since  12.3
+	 * @since  3.1.4
 	 */
 	protected $options;
 
 	/**
 	 * @var    JGithubHttp  Mock client object.
-	 * @since  12.3
+	 * @since  3.1.4
 	 */
 	protected $client;
 
 	/**
 	 * @var    JGithubPulls  Object under test.
-	 * @since  12.3
+	 * @since  3.1.4
 	 */
 	protected $object;
 
 	/**
 	 * @var    string  Sample JSON string.
-	 * @since  12.3
+	 * @since  3.1.4
 	 */
 	protected $sampleString = '{"a":1,"b":2,"c":3,"d":4,"e":5}';
 
 	/**
 	 * @var    string  Sample JSON error message.
-	 * @since  12.3
+	 * @since  3.1.4
 	 */
 	protected $errorString = '{"message": "Generic Error"}';
 
@@ -75,9 +75,7 @@ class JGithubMilestonesTest extends \PHPUnit\Framework\TestCase
 	 */
 	protected function tearDown()
 	{
-		unset($this->options);
-		unset($this->client);
-		unset($this->object);
+		unset($this->options, $this->client, $this->object);
 		parent::tearDown();
 	}
 
@@ -102,7 +100,7 @@ class JGithubMilestonesTest extends \PHPUnit\Framework\TestCase
 	 *
 	 * @return void
 	 *
-	 * @since  12.3
+	 * @since  3.1.4
 	 */
 	public function testCreate()
 	{
@@ -134,7 +132,7 @@ class JGithubMilestonesTest extends \PHPUnit\Framework\TestCase
 	 *
 	 * @return void
 	 *
-	 * @since  12.3
+	 * @since  3.1.4
 	 */
 	public function testCreateFailure()
 	{
@@ -161,7 +159,7 @@ class JGithubMilestonesTest extends \PHPUnit\Framework\TestCase
 	 *
 	 * @return void
 	 *
-	 * @since  12.3
+	 * @since  3.1.4
 	 */
 	public function testEdit()
 	{
@@ -188,7 +186,7 @@ class JGithubMilestonesTest extends \PHPUnit\Framework\TestCase
 	 *
 	 * @return void
 	 *
-	 * @since  12.3
+	 * @since  3.1.4
 	 */
 	public function testEditAllParameters()
 	{
@@ -222,7 +220,7 @@ class JGithubMilestonesTest extends \PHPUnit\Framework\TestCase
 	 *
 	 * @return void
 	 *
-	 * @since  12.3
+	 * @since  3.1.4
 	 */
 	public function testEditFailure()
 	{
@@ -246,7 +244,7 @@ class JGithubMilestonesTest extends \PHPUnit\Framework\TestCase
 	 *
 	 * @return void
 	 *
-	 * @since  12.3
+	 * @since  3.1.4
 	 */
 	public function testGet()
 	{
@@ -272,7 +270,7 @@ class JGithubMilestonesTest extends \PHPUnit\Framework\TestCase
 	 *
 	 * @return void
 	 *
-	 * @since  12.3
+	 * @since  3.1.4
 	 */
 	public function testGetFailure()
 	{
@@ -293,7 +291,7 @@ class JGithubMilestonesTest extends \PHPUnit\Framework\TestCase
 	 *
 	 * @return void
 	 *
-	 * @since  12.3
+	 * @since  3.1.4
 	 */
 	public function testGetList()
 	{
@@ -319,7 +317,7 @@ class JGithubMilestonesTest extends \PHPUnit\Framework\TestCase
 	 *
 	 * @return void
 	 *
-	 * @since  12.3
+	 * @since  3.1.4
 	 */
 	public function testGetListFailure()
 	{
@@ -340,7 +338,7 @@ class JGithubMilestonesTest extends \PHPUnit\Framework\TestCase
 	 *
 	 * @return void
 	 *
-	 * @since  12.3
+	 * @since  3.1.4
 	 */
 	public function testDelete()
 	{
@@ -363,7 +361,7 @@ class JGithubMilestonesTest extends \PHPUnit\Framework\TestCase
 	 *
 	 * @return void
 	 *
-	 * @since  12.3
+	 * @since  3.1.4
 	 */
 	public function testDeleteFailure()
 	{

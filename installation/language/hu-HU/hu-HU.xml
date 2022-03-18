@@ -1,19 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<metafile
-	version="3.7"
-	client="installation">
-	<name>Hungarian (Magyar)</name>
-	<version>3.7.0</version>
-	<creationDate>January 2017</creationDate>
-	<author>Joomla! Magyarország</author>
-	<copyright>Copyright (C) 2005 - 2017 Open Source Matters. All rights reserved.</copyright>
+<metafile version="3.10" client="installation">
+	<name>Magyar (Magyarország)</name>
+	<version>3.10.4</version>
+	<creationDate>2021 november</creationDate>
+	<author>Joomla! Hungary</author>
+	<copyright>(C) 2005 Open Source Matters, Inc.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<files>
 		<filename>hu-HU.ini</filename>
 	</files>
 	<metadata>
-		<name>Hungarian (Hungary)</name>
-		<nativeName>Magyar (Magyarország)</nativeName>
+		<name>Hungarian (hu-HU)</name>
+		<nativeName>Magyar</nativeName>
 		<tag>hu-HU</tag>
 		<rtl>0</rtl>
 	</metadata>

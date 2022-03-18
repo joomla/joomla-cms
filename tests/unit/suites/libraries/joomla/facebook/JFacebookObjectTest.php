@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Facebook
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2013 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -16,37 +16,37 @@ use Joomla\Registry\Registry;
  *
  * @package     Joomla.Platform
  * @subpackage  Facebook
- * @since       13.1
+ * @since       3.2.0
  */
 class JFacebookObjectTest extends TestCase
 {
 	/**
 	 * @var    Registry  Options for the Facebook object.
-	 * @since  13.1
+	 * @since  3.2.0
 	 */
 	protected $options;
 
 	/**
 	 * @var    JHttp  Mock client object.
-	 * @since  13.1
+	 * @since  3.2.0
 	 */
 	protected $client;
 
 	/**
 	 * @var    JFacebookObjectMock  Object under test.
-	 * @since  13.1
+	 * @since  3.2.0
 	 */
 	protected $object;
 
 	/**
 	 * @var    string  Sample JSON string.
-	 * @since  13.1
+	 * @since  3.2.0
 	 */
 	protected $sampleString = '{"a":1,"b":2,"c":3,"d":4,"e":5}';
 
 	/**
 	 * @var    string  Sample JSON error message.
-	 * @since  13.1
+	 * @since  3.2.0
 	 */
 	protected $errorString = '{"error": {"message": "Generic Error."}}';
 
@@ -63,7 +63,7 @@ class JFacebookObjectTest extends TestCase
 	 *
 	 * @return   void
 	 *
-	 * @since    13.1
+	 * @since    3.2.0
 	 */
 	protected function setUp()
 	{
@@ -92,10 +92,7 @@ class JFacebookObjectTest extends TestCase
 	protected function tearDown()
 	{
 		$_SERVER = $this->backupServer;
-		unset($this->backupServer);
-		unset($this->options);
-		unset($this->client);
-		unset($this->object);
+		unset($this->backupServer, $this->options, $this->client, $this->object);
 		parent::tearDown();
 	}
 
@@ -105,7 +102,7 @@ class JFacebookObjectTest extends TestCase
 	*
 	* @return array
 	*
-	* @since 13.1
+	* @since 3.2.0
 	*/
 	public function seedFetchUrl()
 	{
@@ -134,7 +131,7 @@ class JFacebookObjectTest extends TestCase
 	 *
 	 * @dataProvider  seedFetchUrl
 	 *
-	 * @since    13.1
+	 * @since    3.2.0
 	 */
 	public function testFetchUrl($limit, $offset, $until, $since, $expected)
 	{
@@ -154,7 +151,7 @@ class JFacebookObjectTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since    13.1
+	 * @since    3.2.0
 	 */
 	public function testSendRequest()
 	{
@@ -167,7 +164,7 @@ class JFacebookObjectTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 */
 	public function testGet()
 	{
@@ -180,7 +177,7 @@ class JFacebookObjectTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 */
 	public function testGetFailure()
 	{
@@ -193,7 +190,7 @@ class JFacebookObjectTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 */
 	public function testGetConnection()
 	{
@@ -206,7 +203,7 @@ class JFacebookObjectTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 */
 	public function testGetConnectionFailure()
 	{
@@ -219,7 +216,7 @@ class JFacebookObjectTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 */
 	public function testCreateConnection()
 	{
@@ -232,7 +229,7 @@ class JFacebookObjectTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 */
 	public function testCreateConnectionFailure()
 	{
@@ -245,7 +242,7 @@ class JFacebookObjectTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 */
 	public function testDeleteConnection()
 	{
@@ -258,7 +255,7 @@ class JFacebookObjectTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 */
 	public function testDeleteConnectionFailure()
 	{
