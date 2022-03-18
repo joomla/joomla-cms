@@ -89,6 +89,9 @@ a {
     @include border-start-radius($border-radius);
     @include border-end-radius(0);
   }
+  > .btn-group {
+    margin-bottom: 0;
+  }
 }
 
 [dir="rtl"] .btn-group {
