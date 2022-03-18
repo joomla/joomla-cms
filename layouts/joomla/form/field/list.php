@@ -9,7 +9,6 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 
 extract($displayData);
@@ -43,7 +42,6 @@ extract($displayData);
  * @var   array    $options         Options available for this field.
  * @var   string   $dataAttribute   Miscellaneous data attributes preprocessed for HTML output
  * @var   array    $dataAttributes  Miscellaneous data attribute for eg, data-*
- * @var   boolen   $hasShowOn       Is the list using the showon
  */
 
 $html = [];
@@ -58,11 +56,6 @@ $attr .= $autofocus ? ' autofocus' : '';
 $attr .= $onchange ? ' onchange="' . $onchange . '"' : '';
 $attr .= !empty($description) ? ' aria-describedby="' . ($id ?: $name) . '-desc"' : '';
 $attr .= $dataAttribute;
-
-if ($hasShowOn)
-{
-	Factory::getDocument()->getWebAssetManager()->useScript('showon');
-}
 
 // To avoid user's confusion, readonly="readonly" should imply disabled="disabled".
 if ($readonly || $disabled)
