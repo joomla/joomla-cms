@@ -72,6 +72,8 @@ $user = Factory::getUser();
 				);
 				?>
 				<?php echo LayoutHelper::render('joomla.edit.global', $this); ?>
+				<?php echo $this->form->renderField('inheritable'); ?>
+				<?php echo $this->form->renderField('parent'); ?>
 			</div>
 		</div>
 		<?php echo HTMLHelper::_('uitab.endTab'); ?>
