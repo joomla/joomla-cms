@@ -214,13 +214,22 @@
   }
 
   .mod-finder {
-    position: relative;
-    display: flex;
-    flex: 1 0 20rem;
-    max-width: 100%;
+    color: $white;
 
-    > label {
-      @include visually-hidden();
+    a {
+      color: $white;
+
+      &:hover, &:focus {
+        color: darken($white, 10%);
+      }
+    }
+
+    .awesomplete {
+      color: var(--body-color);
+
+      > ul {
+        background: linear-gradient(to bottom right, $white, hsla(0,0%,100%,.9));
+      }
     }
   }
 }
