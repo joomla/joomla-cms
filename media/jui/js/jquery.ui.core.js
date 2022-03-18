@@ -1111,7 +1111,7 @@ $.fn.position = function( options ) {
 
 	var atOffset, targetWidth, targetHeight, targetOffset, basePosition,
 
-		// Make sure string options are treated as CSS selectors - Backport for CVE-2021-41184
+		// Backport for CVE-2021-41184 - Make sure string options are treated as CSS selectors
 		target = typeof options.of === "string" ?
 			$( document ).find( options.of ) :
 			$( options.of ),
