@@ -17,6 +17,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Session\Session;
+use Joomla\Component\Scheduler\Administrator\Task\Status;
 use Joomla\Component\Scheduler\Administrator\View\Tasks\HtmlView;
 
 /** @var  HtmlView  $this*/
@@ -63,7 +64,8 @@ $this->document->addScriptOptions('com_scheduler.test-task.token', Session::getF
 /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
 $wa = $this->document->getWebAssetManager();
 $wa->useScript('multiselect')
-	->useScript('com_scheduler.test-task');
+	->useScript('com_scheduler.test-task')
+	->useStyle('com_scheduler.admin-view-tasks-css');
 ?>
 
 <form action="<?php echo Route::_('index.php?option=com_scheduler&view=tasks'); ?>" method="post" name="adminForm"
@@ -208,12 +210,21 @@ $wa->useScript('multiselect')
 									'inactive_title' => Text::sprintf('COM_SCHEDULER_RUNNING_SINCE', HTMLHelper::_('date', $item->last_execution, 'DATE_FORMAT_LC5')),
 									]); ?>
 							<?php endif; ?>
-							<?php if ($canEdit): ?>
-								<a href="<?php echo Route::_('index.php?option=com_scheduler&task=task.edit&id=' . $item->id); ?>"
-								   title="<?php echo Text::_('JACTION_EDIT'); ?> <?php echo $this->escape($item->title); ?>"> <?php echo $this->escape($item->title); ?></a>
-							<?php else: ?>
-								<?php echo $this->escape($item->title); ?>
-							<?php endif; ?>
+							<span class="task-title">
+								<?php if ($canEdit): ?>
+									<a href="<?php echo Route::_('index.php?option=com_scheduler&task=task.edit&id=' . $item->id); ?>"
+										title="<?php echo Text::_('JACTION_EDIT'); ?> <?php echo $this->escape($item->title); ?>"> <?php echo $this->escape($item->title); ?>
+									</a>
+								<?php else: ?>
+									 <?php echo $this->escape($item->title); ?>
+								<?php endif; ?>
+								<?php if (!in_array($item->last_exit_code, [Status::OK, Status::WILL_RESUME])): ?>
+									<span class="failure-indicator icon-exclamation-triangle" aria-hidden="true"></span>
+									<div role="tooltip">
+										<?php echo Text::sprintf("COM_SCHEDULER_MANAGER_TOOLTIP_TASK_FAILING", $item->last_exit_code); ?>
+									</div>
+								<?php endif; ?>
+							</span>
 
 							<?php if ($item->note): ?>
 								<span class="small">
