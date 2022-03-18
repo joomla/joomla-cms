@@ -44,7 +44,7 @@ extract($displayData);
  * @var   array    $dataAttributes  Miscellaneous data attribute for eg, data-*
  */
 
-$html = [];
+$html = array();
 $attr = '';
 
 // Initialize the field attributes.
