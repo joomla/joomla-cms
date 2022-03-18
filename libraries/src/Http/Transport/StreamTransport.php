@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2011 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -18,13 +18,13 @@ use Joomla\Registry\Registry;
 /**
  * HTTP transport class for using PHP streams.
  *
- * @since  11.3
+ * @since  1.7.3
  */
 class StreamTransport implements TransportInterface
 {
 	/**
 	 * @var    Registry  The client options.
-	 * @since  11.3
+	 * @since  1.7.3
 	 */
 	protected $options;
 
@@ -33,7 +33,7 @@ class StreamTransport implements TransportInterface
 	 *
 	 * @param   Registry  $options  Client options object.
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 * @throws  \RuntimeException
 	 */
 	public function __construct(Registry $options)
@@ -65,7 +65,7 @@ class StreamTransport implements TransportInterface
 	 *
 	 * @return  Response
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 * @throws  \RuntimeException
 	 */
 	public function request($method, Uri $uri, $data = null, array $headers = null, $timeout = null, $userAgent = null)
@@ -158,19 +158,25 @@ class StreamTransport implements TransportInterface
 		// Add our options to the current ones, if any.
 		$contextOptions['http'] = isset($contextOptions['http']) ? array_merge($contextOptions['http'], $options) : $options;
 
-		// Create the stream context for the request.
-		$context = stream_context_create(
-			array(
-				'http' => $options,
-				'ssl' => array(
-					'verify_peer'   => true,
-					'cafile'        => $this->options->get('stream.certpath', __DIR__ . '/cacert.pem'),
-					'verify_depth'  => 5,
-				),
-			)
+		$streamOptions = array(
+			'http' => $options,
+			'ssl' => array(
+				'verify_peer'   => true,
+				'cafile'        => $this->options->get('stream.certpath', __DIR__ . '/cacert.pem'),
+				'verify_depth'  => 5,
+			),
 		);
 
-		// Authentification, if needed
+		// Ensure the ssl peer name is verified where possible
+		if (version_compare(PHP_VERSION, '5.6.0') >= 0)
+		{
+			$streamOptions['ssl']['verify_peer_name'] = true;
+		}
+
+		// Create the stream context for the request.
+		$context = stream_context_create($streamOptions);
+
+		// Authentication, if needed
 		if ($this->options->get('userauth') && $this->options->get('passwordauth'))
 		{
 			$uri->setUser($this->options->get('userauth'));
@@ -235,7 +241,7 @@ class StreamTransport implements TransportInterface
 	 *
 	 * @return  Response
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 * @throws  \UnexpectedValueException
 	 */
 	protected function getResponse(array $headers, $body)
@@ -274,9 +280,9 @@ class StreamTransport implements TransportInterface
 	/**
 	 * Method to check if http transport stream available for use
 	 *
-	 * @return bool true if available else false
+	 * @return  boolean  true if available else false
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public static function isSupported()
 	{

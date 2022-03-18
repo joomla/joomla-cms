@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  HTML
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2013 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -43,7 +43,17 @@ class JHtmlBehaviorTest extends TestCase
 
 		$this->saveFactoryState();
 
-		JFactory::$application = $this->getMockCmsApp();
+		$mockApp = $this->getMockCmsApp();
+		$mockApp->expects($this->any())
+			->method('getName')
+			->willReturn('site');
+
+		$mockApp->expects($this->any())
+			->method('isClient')
+			->with('site')
+			->willReturn(true);
+
+		JFactory::$application = $mockApp;
 		JFactory::$document = $this->getMockDocument();
 		JFactory::$session = $this->getMockSession();
 
@@ -56,6 +66,13 @@ class JHtmlBehaviorTest extends TestCase
 
 		$_SERVER['HTTP_HOST'] = 'example.com';
 		$_SERVER['SCRIPT_NAME'] = '';
+
+		$mockRouter = $this->getMockBuilder('Joomla\\CMS\\Router\\Router')->getMock();
+		$mockRouter->expects($this->any())
+			->method('build')
+			->willReturn(new \JUri);
+
+		TestReflection::setValue('JRoute', '_router', array('site' => $mockRouter));
 	}
 
 	/**
@@ -68,6 +85,8 @@ class JHtmlBehaviorTest extends TestCase
 	 */
 	protected function tearDown()
 	{
+		TestReflection::setValue('JRoute', '_router', array());
+
 		$_SERVER = $this->backupServer;
 		unset($this->backupServer);
 		$this->restoreFactoryState();

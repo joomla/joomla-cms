@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  Templates.beez3
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2012 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 defined('_JEXEC') or die;
@@ -14,12 +14,14 @@ $app = JFactory::getApplication();
 $canEdit = $this->item->params->get('access-edit');
 
 JHtml::addIncludePath(JPATH_COMPONENT . '/helpers');
+
+$currentDate   = JFactory::getDate()->format('Y-m-d H:i:s');
+$isUnpublished = ($this->item->state == 0 || $this->item->publish_up > $currentDate)
+	|| ($this->item->publish_down < $currentDate && $this->item->publish_down !== JFactory::getDbo()->getNullDate());
+
 ?>
-
-
-<?php if ($this->item->state == 0 || strtotime($this->item->publish_up) > strtotime(JFactory::getDate())
-	|| (strtotime($this->item->publish_down) < strtotime(JFactory::getDate()) && $this->item->publish_down !== JFactory::getDbo()->getNullDate())) : ?>
-<div class="system-unpublished">
+<?php if ($isUnpublished) : ?>
+	<div class="system-unpublished">
 <?php endif; ?>
 <?php if ($params->get('show_title')) : ?>
 	<h2>
@@ -59,9 +61,9 @@ JHtml::addIncludePath(JPATH_COMPONENT . '/helpers');
 
 <?php // to do not that elegant would be nice to group the params ?>
 
-<?php if ($params->get('show_author') or $params->get('show_category') or $params->get('show_create_date') or $params->get('show_modify_date') or $params->get('show_publish_date') or $params->get('show_parent_category') or $params->get('show_hits')) : ?>
- <dl class="article-info">
- <dt class="article-info-term"><?php echo JText::_('COM_CONTENT_ARTICLE_INFO'); ?></dt>
+<?php if ($params->get('show_author') || $params->get('show_category') || $params->get('show_create_date') || $params->get('show_modify_date') || $params->get('show_publish_date') || $params->get('show_parent_category') || $params->get('show_hits')) : ?>
+	<dl class="article-info">
+	<dt class="article-info-term"><?php echo JText::_('COM_CONTENT_ARTICLE_INFO'); ?></dt>
 <?php endif; ?>
 <?php if ($params->get('show_parent_category') && $this->item->parent_id != 1) : ?>
 		<dd class="parent-category-name">
@@ -115,10 +117,10 @@ JHtml::addIncludePath(JPATH_COMPONENT . '/helpers');
 		<?php echo JText::sprintf('COM_CONTENT_ARTICLE_HITS', $this->item->hits); ?>
 		</dd>
 <?php endif; ?>
-<?php if ($params->get('show_author') or $params->get('show_category') or $params->get('show_create_date') or $params->get('show_modify_date') or $params->get('show_publish_date') or $params->get('show_parent_category') or $params->get('show_hits')) :?>
- 	</dl>
+<?php if ($params->get('show_author') || $params->get('show_category') || $params->get('show_create_date') || $params->get('show_modify_date') || $params->get('show_publish_date') || $params->get('show_parent_category') || $params->get('show_hits')) :?>
+	</dl>
 <?php endif; ?>
-<?php  if (isset($images->image_intro) and !empty($images->image_intro)) : ?>
+<?php if (isset($images->image_intro) && !empty($images->image_intro)) : ?>
 	<?php $imgfloat = empty($images->float_intro) ? $params->get('float_intro') : $images->float_intro; ?>
 	<div class="img-intro-<?php echo htmlspecialchars($imgfloat); ?>">
 	<img
@@ -159,9 +161,8 @@ JHtml::addIncludePath(JPATH_COMPONENT . '/helpers');
 		</p>
 <?php endif; ?>
 
-<?php if ($this->item->state == 0 || strtotime($this->item->publish_up) > strtotime(JFactory::getDate())
-	|| (strtotime($this->item->publish_down) < strtotime(JFactory::getDate()) && $this->item->publish_down !== JFactory::getDbo()->getNullDate())) : ?>
-</div>
+<?php if ($isUnpublished) : ?>
+	</div>
 <?php endif; ?>
 
 <div class="item-separator"></div>

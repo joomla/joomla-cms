@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  Template.hathor
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2010 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -42,10 +42,10 @@ JFactory::getDocument()->addScriptDeclaration("
 				<?php echo $this->form->getInput('menutype'); ?></li>
 
 				<li><?php echo $this->form->getLabel('description'); ?>
-			 	<?php echo $this->form->getInput('description'); ?></li>
+				<?php echo $this->form->getInput('description'); ?></li>
 
 				<li><?php echo $this->form->getLabel('client_id'); ?>
-			 	<?php echo $this->form->getInput('client_id'); ?></li>				 
+				<?php echo $this->form->getInput('client_id'); ?></li>
 			</ul>
 	</fieldset>
 </div>

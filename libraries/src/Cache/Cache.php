@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2005 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -11,12 +11,13 @@ namespace Joomla\CMS\Cache;
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\Application\Web\WebClient;
+use Joomla\CMS\Cache\Exception\CacheExceptionInterface;
 use Joomla\String\StringHelper;
 
 /**
  * Joomla! Cache base object
  *
- * @since  11.1
+ * @since  1.7.0
  */
 class Cache
 {
@@ -24,7 +25,7 @@ class Cache
 	 * Storage handler
 	 *
 	 * @var    CacheStorage[]
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	public static $_handler = array();
 
@@ -32,7 +33,7 @@ class Cache
 	 * Cache options
 	 *
 	 * @var    array
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	public $_options;
 
@@ -41,7 +42,7 @@ class Cache
 	 *
 	 * @param   array  $options  Cache options
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function __construct($options)
 	{
@@ -82,7 +83,7 @@ class Cache
 	 *
 	 * @return  CacheController
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public static function getInstance($type = 'output', $options = array())
 	{
@@ -94,7 +95,7 @@ class Cache
 	 *
 	 * @return  array
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public static function getStores()
 	{
@@ -143,7 +144,7 @@ class Cache
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function setCaching($enabled)
 	{
@@ -155,7 +156,7 @@ class Cache
 	 *
 	 * @return  boolean
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function getCaching()
 	{
@@ -169,7 +170,7 @@ class Cache
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function setLifeTime($lt)
 	{
@@ -207,7 +208,7 @@ class Cache
 	 *
 	 * @return  mixed  Boolean false on failure or a cached data object
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function get($id, $group = null)
 	{
@@ -227,7 +228,7 @@ class Cache
 	 *
 	 * @return  mixed  Boolean false on failure or an object with a list of cache groups and data
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function getAll()
 	{
@@ -248,7 +249,7 @@ class Cache
 	 *
 	 * @return  boolean
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function store($data, $id, $group = null)
 	{
@@ -272,14 +273,26 @@ class Cache
 	 *
 	 * @return  boolean
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function remove($id, $group = null)
 	{
 		// Get the default group
 		$group = $group ?: $this->_options['defaultgroup'];
 
-		return $this->_getStorage()->remove($id, $group);
+		try
+		{
+			return $this->_getStorage()->remove($id, $group);
+		}
+		catch (CacheExceptionInterface $e)
+		{
+			if (!$this->getCaching())
+			{
+				return false;
+			}
+
+			throw $e;
+		}
 	}
 
 	/**
@@ -293,14 +306,26 @@ class Cache
 	 *
 	 * @return  boolean  True on success, false otherwise
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function clean($group = null, $mode = 'group')
 	{
 		// Get the default group
 		$group = $group ?: $this->_options['defaultgroup'];
 
-		return $this->_getStorage()->clean($group, $mode);
+		try
+		{
+			return $this->_getStorage()->clean($group, $mode);
+		}
+		catch (CacheExceptionInterface $e)
+		{
+			if (!$this->getCaching())
+			{
+				return false;
+			}
+
+			throw $e;
+		}
 	}
 
 	/**
@@ -308,11 +333,23 @@ class Cache
 	 *
 	 * @return  boolean
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function gc()
 	{
-		return $this->_getStorage()->gc();
+		try
+		{
+			return $this->_getStorage()->gc();
+		}
+		catch (CacheExceptionInterface $e)
+		{
+			if (!$this->getCaching())
+			{
+				return false;
+			}
+
+			throw $e;
+		}
 	}
 
 	/**
@@ -324,7 +361,7 @@ class Cache
 	 *
 	 * @return  \stdClass  Object with properties of lock and locklooped
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function lock($id, $group = null, $locktime = null)
 	{
@@ -418,7 +455,7 @@ class Cache
 	 *
 	 * @return  boolean
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function unlock($id, $group = null)
 	{
@@ -449,7 +486,7 @@ class Cache
 	 *
 	 * @return  CacheStorage
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function &_getStorage()
 	{
@@ -473,7 +510,7 @@ class Cache
 	 *
 	 * @return  string  Body of cached data
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public static function getWorkarounds($data, $options = array())
 	{
@@ -548,7 +585,7 @@ class Cache
 	 *
 	 * @return  string  Data to be cached
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public static function setWorkarounds($data, $options = array())
 	{
@@ -709,7 +746,7 @@ class Cache
 	 *
 	 * @return  string  MD5 encoded cache ID
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public static function makeId()
 	{
@@ -761,7 +798,7 @@ class Cache
 	 */
 	public static function getPlatformPrefix()
 	{
-		// No prefix when Global Config is set to no platfom specific prefix
+		// No prefix when Global Config is set to no platform specific prefix
 		if (!\JFactory::getConfig()->get('cache_platformprefix', '0'))
 		{
 			return '';
@@ -784,7 +821,7 @@ class Cache
 	 *
 	 * @return  array   An array with directory elements
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public static function addIncludePath($path = '')
 	{

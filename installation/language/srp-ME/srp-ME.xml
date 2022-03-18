@@ -4,9 +4,9 @@
 		client="installation">
 		<name>Montenegrin Latin</name>
 		<version>3.2.0</version>
-		<creationDate>03-10-2013</creationDate>
+		<creationDate>2013-10-03</creationDate>
 		<author>Tolja</author>
-		<copyright>Copyright (C) 2005 - 2017 Open Source Matters. All rights reserved.</copyright>
+		<copyright>(C) 2013 Open Source Matters, Inc.</copyright>
 		<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 		<files>
 		<filename>srp-ME.ini</filename>

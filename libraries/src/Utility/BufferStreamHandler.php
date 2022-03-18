@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2007 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -10,8 +10,8 @@ namespace Joomla\CMS\Utility;
 
 defined('JPATH_PLATFORM') or die;
 
-// Register the stream
-stream_wrapper_register('buffer', '\\Joomla\\CMS\\Utility\\BufferStreamHandler');
+// Workaround for B/C. Will be removed with 4.0
+BufferStreamHandler::stream_register();
 
 /**
  * Generic Buffer stream handler
@@ -19,7 +19,7 @@ stream_wrapper_register('buffer', '\\Joomla\\CMS\\Utility\\BufferStreamHandler')
  * This class provides a generic buffer stream.  It can be used to store/retrieve/manipulate
  * string buffers with the standard PHP filesystem I/O methods.
  *
- * @since  11.1
+ * @since  1.7.0
  */
 class BufferStreamHandler
 {
@@ -27,7 +27,7 @@ class BufferStreamHandler
 	 * Stream position
 	 *
 	 * @var    integer
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	public $position = 0;
 
@@ -35,7 +35,7 @@ class BufferStreamHandler
 	 * Buffer name
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	public $name = null;
 
@@ -43,25 +43,52 @@ class BufferStreamHandler
 	 * Buffer hash
 	 *
 	 * @var    array
-	 * @since  12.1
+	 * @since  3.0.0
 	 */
 	public $buffers = array();
 
 	/**
+	 * Status of registering the wrapper
+	 *
+	 * @var    boolean
+	 * @since  3.8.2
+	 */
+	static private $registered = false;
+
+	/**
+	 * Function to register the stream wrapper
+	 *
+	 * @return  void
+	 *
+	 * @since  3.8.2
+	 */
+	public static function stream_register()
+	{
+		if (!self::$registered)
+		{
+			stream_wrapper_register('buffer', '\\Joomla\\CMS\\Utility\\BufferStreamHandler');
+
+			self::$registered = true;
+		}
+
+		return;
+	}
+
+	/**
 	 * Function to open file or url
 	 *
-	 * @param   string   $path          The URL that was passed
-	 * @param   string   $mode          Mode used to open the file @see fopen
-	 * @param   integer  $options       Flags used by the API, may be STREAM_USE_PATH and
-	 *                                  STREAM_REPORT_ERRORS
-	 * @param   string   &$opened_path  Full path of the resource. Used with STREAN_USE_PATH option
+	 * @param   string   $path         The URL that was passed
+	 * @param   string   $mode         Mode used to open the file @see fopen
+	 * @param   integer  $options      Flags used by the API, may be STREAM_USE_PATH and
+	 *                                 STREAM_REPORT_ERRORS
+	 * @param   string   &$openedPath  Full path of the resource. Used with STREAM_USE_PATH option
 	 *
 	 * @return  boolean
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 * @see     streamWrapper::stream_open
 	 */
-	public function stream_open($path, $mode, $options, &$opened_path)
+	public function stream_open($path, $mode, $options, &$openedPath)
 	{
 		$url = parse_url($path);
 		$this->name = $url['host'];
@@ -81,7 +108,7 @@ class BufferStreamHandler
 	 *                   the stream is empty.
 	 *
 	 * @see     streamWrapper::stream_read
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function stream_read($count)
 	{
@@ -99,7 +126,7 @@ class BufferStreamHandler
 	 * @return  integer
 	 *
 	 * @see     streamWrapper::stream_write
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function stream_write($data)
 	{
@@ -117,7 +144,7 @@ class BufferStreamHandler
 	 * @return  integer
 	 *
 	 * @see     streamWrapper::stream_tell
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function stream_tell()
 	{
@@ -130,7 +157,7 @@ class BufferStreamHandler
 	 * @return  boolean  True if the pointer is at the end of the stream
 	 *
 	 * @see     streamWrapper::stream_eof
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function stream_eof()
 	{
@@ -147,7 +174,7 @@ class BufferStreamHandler
 	 * @return  boolean  True if updated
 	 *
 	 * @see     streamWrapper::stream_seek
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function stream_seek($offset, $whence)
 	{
@@ -173,7 +200,7 @@ class BufferStreamHandler
 	 *
 	 * @param   integer  $offset  The offset in bytes
 	 *
-	 * @return bool
+	 * @return  boolean
 	 */
 	protected function seek_set($offset)
 	{
@@ -192,7 +219,7 @@ class BufferStreamHandler
 	 *
 	 * @param   integer  $offset  The offset in bytes
 	 *
-	 * @return bool
+	 * @return  boolean
 	 */
 	protected function seek_cur($offset)
 	{
@@ -211,11 +238,12 @@ class BufferStreamHandler
 	 *
 	 * @param   integer  $offset  The offset in bytes
 	 *
-	 * @return bool
+	 * @return  boolean
 	 */
 	protected function seek_end($offset)
 	{
 		$offset += strlen($this->buffers[$this->name]);
+
 		if ($offset < 0)
 		{
 			return false;

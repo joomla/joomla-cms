@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2008 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -106,7 +106,15 @@ class LibraryAdapter extends InstallerAdapter
 		{
 			$manifest = array();
 			$manifest['src'] = $this->parent->getPath('manifest');
-			$manifest['dest'] = JPATH_MANIFESTS . '/libraries/' . basename($this->parent->getPath('manifest'));
+			$manifest['dest'] = JPATH_MANIFESTS . '/libraries/' . $this->element . '.xml';
+
+			$destFolder = dirname($manifest['dest']);
+
+			if (!is_dir($destFolder) && !@mkdir($destFolder))
+			{
+				// Install failed, rollback changes
+				throw new \RuntimeException(\JText::_('JLIB_INSTALLER_ABORT_LIB_INSTALL_COPY_SETUP'));
+			}
 
 			if (!$this->parent->copyFiles(array($manifest), true))
 			{
@@ -150,8 +158,7 @@ class LibraryAdapter extends InstallerAdapter
 	{
 		if (!$element)
 		{
-			$manifestPath = \JPath::clean($this->parent->getPath('manifest'));
-			$element = preg_replace('/\.xml/', '', basename($manifestPath));
+			$element  = (string) $this->getManifest()->libraryname;
 		}
 
 		return $element;
@@ -175,7 +182,7 @@ class LibraryAdapter extends InstallerAdapter
 			$this->parent->setPath('source', JPATH_PLATFORM . '/' . $this->getElement());
 		}
 
-		$extension = 'lib_' . $this->getElement();
+		$extension = 'lib_' . str_replace('/', '_', $this->getElement());
 		$librarypath = (string) $this->getManifest()->libraryname;
 		$source = $path ?: JPATH_PLATFORM . '/' . $librarypath;
 
@@ -225,6 +232,14 @@ class LibraryAdapter extends InstallerAdapter
 		if (!$group)
 		{
 			throw new \RuntimeException(\JText::_('JLIB_INSTALLER_ABORT_LIB_INSTALL_NOFILE'));
+		}
+
+		// Don't install libraries which would override core folders
+		$restrictedFolders = array('cms', 'fof', 'idna_convert', 'joomla', 'legacy', 'php-encryption', 'phpass', 'phputf8', 'src', 'vendor');
+
+		if (in_array($group, $restrictedFolders))
+		{
+			throw new \RuntimeException(\JText::_('JLIB_INSTALLER_ABORT_LIB_INSTALL_CORE_FOLDER'));
 		}
 
 		$this->parent->setPath('extension_root', JPATH_PLATFORM . '/' . implode(DIRECTORY_SEPARATOR, explode('/', $group)));
@@ -293,65 +308,6 @@ class LibraryAdapter extends InstallerAdapter
 		// Since we have created a library item, we add it to the installation step stack
 		// so that if we have to rollback the changes we can undo it.
 		$this->parent->pushStep(array('type' => 'extension', 'id' => $this->extension->extension_id));
-	}
-
-	/**
-	 * Custom update method
-	 *
-	 * @return  boolean|integer  The extension ID on success, boolean false on failure
-	 *
-	 * @since   3.1
-	 */
-	public function update()
-	{
-		// Since this is just files, an update removes old files
-		// Get the extension manifest object
-		$this->setManifest($this->parent->getManifest());
-
-		// Set the overwrite setting
-		$this->parent->setOverwrite(true);
-		$this->parent->setUpgrade(true);
-
-		// And make sure the route is set correctly
-		$this->setRoute('update');
-
-		/*
-		 * ---------------------------------------------------------------------------------------------
-		 * Manifest Document Setup Section
-		 * ---------------------------------------------------------------------------------------------
-		 */
-
-		// Set the extensions name
-		$name = (string) $this->getManifest()->name;
-		$name = \JFilterInput::getInstance()->clean($name, 'string');
-		$element = str_replace('.xml', '', basename($this->parent->getPath('manifest')));
-		$this->set('name', $name);
-		$this->set('element', $element);
-
-		// We don't want to compromise this instance!
-		$installer = new Installer;
-		$db = $this->parent->getDbo();
-		$query = $db->getQuery(true)
-			->select($db->quoteName('extension_id'))
-			->from($db->quoteName('#__extensions'))
-			->where($db->quoteName('type') . ' = ' . $db->quote('library'))
-			->where($db->quoteName('element') . ' = ' . $db->quote($element));
-		$db->setQuery($query);
-		$result = $db->loadResult();
-
-		if ($result)
-		{
-			// Already installed, which would make sense
-			$installer->setPackageUninstall(true);
-			$installer->uninstall('library', $result);
-
-			// Clear the cached data
-			$this->currentExtensionId = null;
-			$this->extension = Table::getInstance('Extension', 'JTable', array('dbo' => $this->db));
-		}
-
-		// Now create the new files
-		return $this->install();
 	}
 
 	/**
@@ -457,6 +413,15 @@ class LibraryAdapter extends InstallerAdapter
 		$this->parent->removeFiles($xml->media);
 		$this->parent->removeFiles($xml->languages);
 
+		$elementParts = explode('/', $row->element);
+
+		// Delete empty vendor folders
+		if (2 === count($elementParts))
+		{
+			@rmdir(JPATH_MANIFESTS . '/libraries/' . $elementParts[0]);
+			@rmdir(JPATH_PLATFORM . '/' . $elementParts[0]);
+		}
+
 		$row->delete($row->extension_id);
 		unset($row);
 
@@ -473,20 +438,29 @@ class LibraryAdapter extends InstallerAdapter
 	public function discover()
 	{
 		$results = array();
-		$file_list = \JFolder::files(JPATH_MANIFESTS . '/libraries', '\.xml$');
 
-		foreach ($file_list as $file)
+
+		$mainFolder = JPATH_MANIFESTS . '/libraries';
+		$folder = new \RecursiveDirectoryIterator($mainFolder);
+		$iterator = new \RegexIterator(
+			new \RecursiveIteratorIterator($folder),
+			'/\.xml$/i',
+			\RecursiveRegexIterator::GET_MATCH
+		);
+
+		foreach ($iterator as $file => $pattern)
 		{
-			$manifest_details = Installer::parseXMLInstallFile(JPATH_MANIFESTS . '/libraries/' . $file);
-			$file = \JFile::stripExt($file);
+			$element = str_replace(array($mainFolder . DIRECTORY_SEPARATOR, '.xml'), '', $file);
+			$manifestCache = Installer::parseXMLInstallFile($file);
+
 			$extension = Table::getInstance('extension');
 			$extension->set('type', 'library');
 			$extension->set('client_id', 0);
-			$extension->set('element', $file);
+			$extension->set('element', $element);
 			$extension->set('folder', '');
-			$extension->set('name', $file);
+			$extension->set('name', $element);
 			$extension->set('state', -1);
-			$extension->set('manifest_cache', json_encode($manifest_details));
+			$extension->set('manifest_cache', json_encode($manifestCache));
 			$extension->set('params', '{}');
 			$results[] = $extension;
 		}

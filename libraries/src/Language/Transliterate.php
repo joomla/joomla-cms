@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2010 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -13,7 +13,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Class to transliterate strings
  *
- * @since  11.1
+ * @since  1.7.0
  * @note   Port of phputf8's utf8_accents_to_ascii()
  */
 class Transliterate
@@ -26,7 +26,7 @@ class Transliterate
 	 *
 	 * @return  string  Transliterated string
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public static function utf8_latin_to_ascii($string, $case = 0)
 	{

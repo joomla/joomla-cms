@@ -31,9 +31,8 @@
 				label="JTAG"
 				description="JTAG_FIELD_SELECT_DESC"
 				multiple="true"
-				>
-				<option value="">JNONE</option>
-			</field>
+				mode="nested"
+			/>
 		</fieldset>
 	</fields>
 
@@ -158,7 +157,7 @@
 					<option value="1">JSHOW</option>
 				</field>
 
-				<field 
+				<field
 					name="show_cat_tags"
 					type="list"
 					label="COM_CONTENT_FIELD_SHOW_CAT_TAGS_LABEL"
@@ -180,7 +179,7 @@
 		</fieldset>
 
 		<fieldset name="advanced" label="JGLOBAL_BLOG_LAYOUT_OPTIONS">
-				<field 
+				<field
 					name="bloglayout"
 					type="spacer"
 					label="JGLOBAL_SUBSLIDER_BLOG_LAYOUT_LABEL"
@@ -189,7 +188,7 @@
 
 				<field
 					name="num_leading_articles"
-					type="text"
+					type="number"
 					label="JGLOBAL_NUM_LEADING_ARTICLES_LABEL"
 					description="JGLOBAL_NUM_LEADING_ARTICLES_DESC"
 					useglobal="true"
@@ -198,7 +197,7 @@
 
 				<field
 					name="num_intro_articles"
-					type="text"
+					type="number"
 					label="JGLOBAL_NUM_INTRO_ARTICLES_LABEL"
 					description="JGLOBAL_NUM_INTRO_ARTICLES_DESC"
 					useglobal="true"
@@ -207,7 +206,7 @@
 
 				<field
 					name="num_columns"
-					type="text"
+					type="number"
 					label="JGLOBAL_NUM_COLUMNS_LABEL"
 					description="JGLOBAL_NUM_COLUMNS_DESC"
 					useglobal="true"
@@ -216,7 +215,7 @@
 
 				<field
 					name="num_links"
-					type="text"
+					type="number"
 					label="JGLOBAL_NUM_LINKS_LABEL"
 					description="JGLOBAL_NUM_LINKS_DESC"
 					useglobal="true"

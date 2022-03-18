@@ -3,7 +3,7 @@
 	<name>mod_random_image</name>
 	<author>Joomla! Project</author>
 	<creationDate>July 2006</creationDate>
-	<copyright>Copyright (C) 2005 - 2017 Open Source Matters. All rights reserved.</copyright>
+	<copyright>(C) 2006 Open Source Matters, Inc.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
@@ -35,6 +35,7 @@
 					type="text"
 					label="MOD_RANDOM_IMAGE_FIELD_FOLDER_LABEL"
 					description="MOD_RANDOM_IMAGE_FIELD_FOLDER_DESC"
+					validate="filePath"
 				/>
 
 				<field
@@ -49,6 +50,8 @@
 					type="number"
 					label="MOD_RANDOM_IMAGE_FIELD_WIDTH_LABEL"
 					description="MOD_RANDOM_IMAGE_FIELD_WIDTH_DESC"
+					default="100"
+					filter="integer"
 				/>
 
 				<field
@@ -56,6 +59,7 @@
 					type="number"
 					label="MOD_RANDOM_IMAGE_FIELD_HEIGHT_LABEL"
 					description="MOD_RANDOM_IMAGE_FIELD_HEIGHT_DESC"
+					filter="integer"
 				/>
 
 			</fieldset>
@@ -65,6 +69,7 @@
 					type="modulelayout"
 					label="JFIELD_ALT_LAYOUT_LABEL"
 					description="JFIELD_ALT_MODULE_LAYOUT_DESC"
+					validate="moduleLayout"
 				/>
 
 				<field
@@ -74,16 +79,6 @@
 					description="COM_MODULES_FIELD_MODULECLASS_SFX_DESC"
 					rows="3"
 				/>
-
-				<field
-					name="cache"
-					type="list"
-					label="COM_MODULES_FIELD_CACHING_LABEL"
-					description="COM_MODULES_FIELD_CACHING_DESC"
-					default="0"
-					>
-					<option value="0">COM_MODULES_FIELD_VALUE_NOCACHING</option>
-				</field>
 			</fieldset>
 		</fields>
 	</config>

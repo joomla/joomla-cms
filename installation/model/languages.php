@@ -3,7 +3,7 @@
  * @package     Joomla.Installation
  * @subpackage  Model
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2012 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -131,7 +131,7 @@ class InstallationModelLanguages extends JModelBase
 	 *
 	 * @param   array  $lids  List of the update_id value of the languages to install.
 	 *
-	 * @return  boolean True if successful
+	 * @return  boolean  True if successful
 	 */
 	public function install($lids)
 	{
@@ -176,6 +176,13 @@ class InstallationModelLanguages extends JModelBase
 
 			// Download the package to the tmp folder.
 			$package = $this->downloadPackage($package_url);
+
+			if (!$package)
+			{
+				JFactory::getApplication()->enqueueMessage(JText::sprintf('INSTL_DEFAULTLANGUAGE_COULD_NOT_DOWNLOAD_PACKAGE', $package_url), 'error');
+
+				continue;
+			}
 
 			// Install the package.
 			if (!$installer->install($package['dir']))
@@ -225,16 +232,16 @@ class InstallationModelLanguages extends JModelBase
 	/**
 	 * Finds the URL of the package to download.
 	 *
-	 * @param   string  $remote_manifest  URL to the manifest XML file of the remote package.
+	 * @param   string  $remoteManifest  URL to the manifest XML file of the remote package.
 	 *
-	 * @return  string|bool
+	 * @return  string|boolean
 	 *
 	 * @since   3.1
 	 */
-	protected function getPackageUrl($remote_manifest)
+	protected function getPackageUrl($remoteManifest)
 	{
 		$update = new JUpdate;
-		$update->loadFromXml($remote_manifest);
+		$update->loadFromXml($remoteManifest);
 
 		return trim($update->get('downloadurl', false)->_data);
 	}
@@ -244,7 +251,7 @@ class InstallationModelLanguages extends JModelBase
 	 *
 	 * @param   string  $url  URL of the package.
 	 *
-	 * @return  array|bool Package details or false on failure.
+	 * @return  array|boolean  Package details or false on failure.
 	 *
 	 * @since   3.1
 	 */
@@ -295,17 +302,17 @@ class InstallationModelLanguages extends JModelBase
 	/**
 	 * Get Languages item data.
 	 *
-	 * @param   string  $cms_client  Name of the cms client.
+	 * @param   string  $clientName  Name of the cms client.
 	 *
 	 * @return  array
 	 *
 	 * @since   3.1
 	 */
-	protected function getInstalledlangs($cms_client = 'administrator')
+	protected function getInstalledlangs($clientName = 'administrator')
 	{
 		// Get information.
 		$path     = $this->getPath();
-		$client   = $this->getClient($cms_client);
+		$client   = $this->getClient($clientName);
 		$langlist = $this->getLanguageList($client->id);
 
 		// Compute all the languages.
@@ -313,7 +320,13 @@ class InstallationModelLanguages extends JModelBase
 
 		foreach ($langlist as $lang)
 		{
-			$file          = $path . '/' . $lang . '/' . $lang . '.xml';
+			$file = $path . '/' . $lang . '/' . $lang . '.xml';
+
+			if (!is_file($file))
+			{
+				$file = $path . '/' . $lang . '/langmetadata.xml';
+			}
+
 			$info          = JInstaller::parseXMLInstallFile($file);
 			$row           = new stdClass;
 			$row->language = $lang;
@@ -352,13 +365,13 @@ class InstallationModelLanguages extends JModelBase
 	/**
 	 * Get installed languages data.
 	 *
-	 * @param   integer  $client_id  The client ID to retrieve data for.
+	 * @param   integer  $clientId  The client ID to retrieve data for.
 	 *
 	 * @return  object  The language data.
 	 *
 	 * @since   3.1
 	 */
-	protected function getLanguageList($client_id = 1)
+	protected function getLanguageList($clientId = 1)
 	{
 		// Create a new db object.
 		$db    = JFactory::getDbo();
@@ -370,7 +383,7 @@ class InstallationModelLanguages extends JModelBase
 			->where($db->qn('type') . ' = ' . $db->q('language'))
 			->where($db->qn('state') . ' = 0')
 			->where($db->qn('enabled') . ' = 1')
-			->where($db->qn('client_id') . ' = ' . (int) $client_id);
+			->where($db->qn('client_id') . ' = ' . (int) $clientId);
 
 		$db->setQuery($query);
 
@@ -432,15 +445,15 @@ class InstallationModelLanguages extends JModelBase
 	 * Set the default language.
 	 *
 	 * @param   string  $language    The language to be set as default.
-	 * @param   string  $cms_client  The name of the CMS client.
+	 * @param   string  $clientName  The name of the CMS client.
 	 *
 	 * @return  boolean
 	 *
 	 * @since   3.1
 	 */
-	public function setDefault($language, $cms_client = 'administrator')
+	public function setDefault($language, $clientName = 'administrator')
 	{
-		$client = $this->getClient($cms_client);
+		$client = $this->getClient($clientName);
 
 		$params = JComponentHelper::getParams('com_languages');
 		$params->set($client->name, $language);
@@ -876,7 +889,7 @@ class InstallationModelLanguages extends JModelBase
 	 *
 	 * @param   stdClass  $itemLanguage  Language Object.
 	 *
-	 * @return  JTable|boolean Menu Item Object. False otherwise.
+	 * @return  JTable|boolean  Menu Item Object. False otherwise.
 	 *
 	 * @since   3.2
 	 */
@@ -948,7 +961,7 @@ class InstallationModelLanguages extends JModelBase
 	 *
 	 * @param   stdClass  $itemLanguage  Language Object.
 	 *
-	 * @return  JTable|boolean Menu Item Object. False otherwise.
+	 * @return  JTable|boolean  Menu Item Object. False otherwise.
 	 *
 	 * @since   3.8.0
 	 */
@@ -1151,7 +1164,7 @@ class InstallationModelLanguages extends JModelBase
 	 *
 	 * @param   stdClass  $itemLanguage  Language Object.
 	 *
-	 * @return  JTable|boolean Category Object. False otherwise.
+	 * @return  JTable|boolean  Category Object. False otherwise.
 	 *
 	 * @since   3.2
 	 */
@@ -1212,9 +1225,9 @@ class InstallationModelLanguages extends JModelBase
 	 * Create an article in a specific language.
 	 *
 	 * @param   stdClass  $itemLanguage  Language Object.
-	 * @param   int       $categoryId    The id of the category where we want to add the article.
+	 * @param   integer   $categoryId    The id of the category where we want to add the article.
 	 *
-	 * @return  JTable|boolean Article Object. False otherwise.
+	 * @return  JTable|boolean  Article Object. False otherwise.
 	 *
 	 * @since   3.2
 	 */
@@ -1302,9 +1315,9 @@ class InstallationModelLanguages extends JModelBase
 	 * Add Blog Menu Item.
 	 *
 	 * @param   stdClass  $itemLanguage  Language Object.
-	 * @param   int       $categoryId    The id of the category displayed by the blog.
+	 * @param   integer   $categoryId    The id of the category displayed by the blog.
 	 *
-	 * @return  JTable|boolean Menu Item Object. False otherwise.
+	 * @return  JTable|boolean  Menu Item Object. False otherwise.
 	 *
 	 * @since   3.8.0
 	 */
@@ -1418,7 +1431,7 @@ class InstallationModelLanguages extends JModelBase
 	/**
 	 * Retrieve the admin user id.
 	 *
-	 * @return  int|bool One Administrator ID.
+	 * @return  integer|boolean  One Administrator ID.
 	 *
 	 * @since   3.2
 	 */

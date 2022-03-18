@@ -3,12 +3,13 @@
  * @package     Joomla.Administrator
  * @subpackage  com_modules
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2008 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
+use Joomla\String\StringHelper;
 use Joomla\Utilities\ArrayHelper;
 
 /**
@@ -182,6 +183,7 @@ class ModulesModelModules extends JModelList
 			// Process pagination.
 			$total = count($result);
 			$this->cache[$this->getStoreId('getTotal')] = $total;
+
 			if ($total < $limitstart)
 			{
 				$limitstart = 0;
@@ -303,14 +305,24 @@ class ModulesModelModules extends JModelList
 
 		// Group (careful with PostgreSQL)
 		$query->group(
-				'a.id, a.title, a.note, a.position, a.module, a.language, a.checked_out, ' .
-					'a.checked_out_time, a.published, a.access, a.ordering, l.title, l.image, uc.name, ag.title, e.name, ' .
-					'l.lang_code, uc.id, ag.id, mm.moduleid, e.element, a.publish_up, a.publish_down, e.enabled'
-			);
+			'a.id, a.title, a.note, a.position, a.module, a.language, a.checked_out, '
+			. 'a.checked_out_time, a.published, a.access, a.ordering, l.title, l.image, uc.name, ag.title, e.name, '
+			. 'l.lang_code, uc.id, ag.id, mm.moduleid, e.element, a.publish_up, a.publish_down, e.enabled'
+		);
 
 		// Filter by client.
 		$clientId = $this->getState('client_id');
 		$query->where($db->quoteName('a.client_id') . ' = ' . (int) $clientId . ' AND ' . $db->quoteName('e.client_id') . ' = ' . (int) $clientId);
+
+		// Filter by current user access level.
+		$user = JFactory::getUser();
+
+		// Get the current user for authorisation checks
+		if ($user->authorise('core.admin') !== true)
+		{
+			$groups = implode(',', $user->getAuthorisedViewLevels());
+			$query->where('a.access IN (' . $groups . ')');
+		}
 
 		// Filter by access level.
 		if ($access = $this->getState('filter.access'))
@@ -320,6 +332,7 @@ class ModulesModelModules extends JModelList
 
 		// Filter by published state.
 		$state = $this->getState('filter.state');
+
 		if (is_numeric($state))
 		{
 			$query->where($db->quoteName('a.published') . ' = ' . (int) $state);
@@ -349,7 +362,7 @@ class ModulesModelModules extends JModelList
 			{
 				$query->having('MIN(' . $db->quoteName('mm.menuid') . ') IS NULL');
 			}
-			// If user selected the modules assigned to some particlar page (menu item).
+			// If user selected the modules assigned to some particular page (menu item).
 			else
 			{
 				// Modules in "All" pages.
@@ -375,12 +388,14 @@ class ModulesModelModules extends JModelList
 					(' . $subQuery1 . ') = 0
 					OR ((' . $subQuery1 . ') > 0 AND ' . $db->quoteName('a.id') . ' IN (' . $subQuery2 . '))
 					OR ((' . $subQuery1 . ') < 0 AND ' . $db->quoteName('a.id') . ' NOT IN (' . $subQuery3 . '))
-					)');
+					)'
+				);
 			}
 		}
 
 		// Filter by search in title or note or id:.
 		$search = $this->getState('filter.search');
+
 		if (!empty($search))
 		{
 			if (stripos($search, 'id:') === 0)
@@ -389,7 +404,7 @@ class ModulesModelModules extends JModelList
 			}
 			else
 			{
-				$search = $db->quote('%' . strtolower($search) . '%');
+				$search = $db->quote('%' . StringHelper::strtolower($search) . '%');
 				$query->where('(LOWER(a.title) LIKE ' . $search . ' OR LOWER(a.note) LIKE ' . $search . ')');
 			}
 		}

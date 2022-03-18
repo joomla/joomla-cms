@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2005 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -32,7 +32,7 @@ class LanguageAdapter extends InstallerAdapter
 	 * Core language pack flag
 	 *
 	 * @var    boolean
-	 * @since  12.1
+	 * @since  3.0.0
 	 */
 	protected $core = false;
 
@@ -149,7 +149,7 @@ class LanguageAdapter extends InstallerAdapter
 
 		// Get the language name
 		// Set the extensions name
-		$name = \JFilterInput::getInstance()->clean((string) $this->getManifest()->name, 'cmd');
+		$name = \JFilterInput::getInstance()->clean((string) $this->getManifest()->name, 'string');
 		$this->set('name', $name);
 
 		// Get the Language tag [ISO tag, eg. en-GB]
@@ -261,6 +261,26 @@ class LanguageAdapter extends InstallerAdapter
 		// Parse optional tags
 		$this->parent->parseMedia($this->getManifest()->media);
 
+		/*
+		 * Log that PDF Fonts in language packs are deprecated and will be removed in 4.0
+		 * Ref: https://github.com/joomla/joomla-cms/issues/31286
+		 */
+		if (is_dir($basePath . '/language/pdf_fonts'))
+		{
+			try
+			{
+				\JLog::add(
+					'Using the "pdf_fonts" folder to load language specific fonts in languages is deprecated and will be removed in 4.0.',
+					\JLog::WARNING,
+					'deprecated'
+				);
+			}
+			catch (RuntimeException $exception)
+			{
+				// Informational log only
+			}
+		}
+
 		// Copy all the necessary font files to the common pdf_fonts directory
 		$this->parent->setPath('extension_site', $basePath . '/language/pdf_fonts');
 		$overwrite = $this->parent->setOverwrite(true);
@@ -313,8 +333,15 @@ class LanguageAdapter extends InstallerAdapter
 		// Create an unpublished content language.
 		if ((int) $clientId === 0)
 		{
+			$manifestfile = JPATH_SITE . '/language/' . $this->tag . '/' . $this->tag . '.xml';
+
+			if (!is_file($manifestfile))
+			{
+				$manifestfile = JPATH_SITE . '/language/' . $this->tag . '/langmetadata.xml';
+			}
+
 			// Load the site language manifest.
-			$siteLanguageManifest = LanguageHelper::parseXMLLanguageFile(JPATH_SITE . '/language/' . $this->tag . '/' . $this->tag . '.xml');
+			$siteLanguageManifest = LanguageHelper::parseXMLLanguageFile($manifestfile);
 
 			// Set the content language title as the language metadata name.
 			$contentLanguageTitle = $siteLanguageManifest['name'];
@@ -331,7 +358,14 @@ class LanguageAdapter extends InstallerAdapter
 			// Try to load a language string from the installation language var. Will be removed in 4.0.
 			if ($contentLanguageNativeTitle === $contentLanguageTitle)
 			{
-				if (file_exists(JPATH_INSTALLATION . '/language/' . $this->tag . '/' . $this->tag . '.xml'))
+				$manifestfile = JPATH_INSTALLATION . '/language/' . $this->tag . '/' . $this->tag . '.xml';
+
+				if (!is_file($manifestfile))
+				{
+					$manifestfile = JPATH_INSTALLATION . '/language/' . $this->tag . '/langmetadata.xml';
+				}
+
+				if (file_exists($manifestfile))
 				{
 					$installationLanguage = new Language($this->tag);
 					$installationLanguage->load('', JPATH_INSTALLATION);
@@ -469,7 +503,7 @@ class LanguageAdapter extends InstallerAdapter
 		// Get the language name
 		// Set the extensions name
 		$name = (string) $this->getManifest()->name;
-		$name = \JFilterInput::getInstance()->clean($name, 'cmd');
+		$name = \JFilterInput::getInstance()->clean($name, 'string');
 		$this->set('name', $name);
 
 		// Get the Language tag [ISO tag, eg. en-GB]
@@ -512,6 +546,26 @@ class LanguageAdapter extends InstallerAdapter
 
 		// Parse optional tags
 		$this->parent->parseMedia($xml->media);
+
+		/*
+		 * Log that PDF Fonts in language packs are deprecated and will be removed in 4.0
+		 * Ref: https://github.com/joomla/joomla-cms/issues/31286
+		 */
+		if (is_dir($basePath . '/language/pdf_fonts'))
+		{
+			try
+			{
+				\JLog::add(
+					'Using the "pdf_fonts" folder to load language specific fonts in languages is deprecated and will be removed in 4.0.',
+					\JLog::WARNING,
+					'deprecated'
+				);
+			}
+			catch (RuntimeException $exception)
+			{
+				// Informational log only
+			}
+		}
 
 		// Copy all the necessary font files to the common pdf_fonts directory
 		$this->parent->setPath('extension_site', $basePath . '/language/pdf_fonts');
@@ -740,38 +794,56 @@ class LanguageAdapter extends InstallerAdapter
 
 		foreach ($site_languages as $language)
 		{
-			if (file_exists(JPATH_SITE . '/language/' . $language . '/' . $language . '.xml'))
+			$manifestfile = JPATH_SITE . '/language/' . $language . '/langmetadata.xml';
+
+			if (!is_file($manifestfile))
 			{
-				$manifest_details = Installer::parseXMLInstallFile(JPATH_SITE . '/language/' . $language . '/' . $language . '.xml');
-				$extension = Table::getInstance('extension');
-				$extension->set('type', 'language');
-				$extension->set('client_id', 0);
-				$extension->set('element', $language);
-				$extension->set('folder', '');
-				$extension->set('name', $language);
-				$extension->set('state', -1);
-				$extension->set('manifest_cache', json_encode($manifest_details));
-				$extension->set('params', '{}');
-				$results[] = $extension;
+				$manifestfile = JPATH_SITE . '/language/' . $language . '/' . $language . '.xml';
+
+				if (!is_file($manifestfile))
+				{
+					continue;
+				}
 			}
+
+			$manifest_details = Installer::parseXMLInstallFile($manifestfile);
+			$extension = Table::getInstance('extension');
+			$extension->set('type', 'language');
+			$extension->set('client_id', 0);
+			$extension->set('element', $language);
+			$extension->set('folder', '');
+			$extension->set('name', $language);
+			$extension->set('state', -1);
+			$extension->set('manifest_cache', json_encode($manifest_details));
+			$extension->set('params', '{}');
+			$results[] = $extension;
 		}
 
 		foreach ($admin_languages as $language)
 		{
-			if (file_exists(JPATH_ADMINISTRATOR . '/language/' . $language . '/' . $language . '.xml'))
+			$manifestfile = JPATH_ADMINISTRATOR . '/language/' . $language . '/langmetadata.xml';
+
+			if (!is_file($manifestfile))
 			{
-				$manifest_details = Installer::parseXMLInstallFile(JPATH_ADMINISTRATOR . '/language/' . $language . '/' . $language . '.xml');
-				$extension = Table::getInstance('extension');
-				$extension->set('type', 'language');
-				$extension->set('client_id', 1);
-				$extension->set('element', $language);
-				$extension->set('folder', '');
-				$extension->set('name', $language);
-				$extension->set('state', -1);
-				$extension->set('manifest_cache', json_encode($manifest_details));
-				$extension->set('params', '{}');
-				$results[] = $extension;
+				$manifestfile = JPATH_ADMINISTRATOR . '/language/' . $language . '/' . $language . '.xml';
+
+				if (!is_file($manifestfile))
+				{
+					continue;
+				}
 			}
+
+			$manifest_details = Installer::parseXMLInstallFile($manifestfile);
+			$extension = Table::getInstance('extension');
+			$extension->set('type', 'language');
+			$extension->set('client_id', 1);
+			$extension->set('element', $language);
+			$extension->set('folder', '');
+			$extension->set('name', $language);
+			$extension->set('state', -1);
+			$extension->set('manifest_cache', json_encode($manifest_details));
+			$extension->set('params', '{}');
+			$results[] = $extension;
 		}
 
 		return $results;
@@ -790,7 +862,13 @@ class LanguageAdapter extends InstallerAdapter
 		// Need to find to find where the XML file is since we don't store this normally
 		$client = ApplicationHelper::getClientInfo($this->parent->extension->client_id);
 		$short_element = $this->parent->extension->element;
-		$manifestPath = $client->path . '/language/' . $short_element . '/' . $short_element . '.xml';
+		$manifestPath = $client->path . '/language/' . $short_element . '/langmetadata.xml';
+
+		if (!is_file($manifestPath))
+		{
+			$manifestPath = $client->path . '/language/' . $short_element . '/' . $short_element . '.xml';
+		}
+
 		$this->parent->manifest = $this->parent->isManifest($manifestPath);
 		$this->parent->setPath('manifest', $manifestPath);
 		$this->parent->setPath('source', $client->path . '/language/' . $short_element);
@@ -831,6 +909,12 @@ class LanguageAdapter extends InstallerAdapter
 	{
 		$client = ApplicationHelper::getClientInfo($this->parent->extension->client_id);
 		$manifestPath = $client->path . '/language/' . $this->parent->extension->element . '/' . $this->parent->extension->element . '.xml';
+
+		if (!is_file($manifestPath))
+		{
+			$manifestPath = $client->path . '/language/' . $this->parent->extension->element . '/langmetadata.xml';
+		}
+
 		$this->parent->manifest = $this->parent->isManifest($manifestPath);
 		$this->parent->setPath('manifest', $manifestPath);
 		$manifest_details = Installer::parseXMLInstallFile($this->parent->getPath('manifest'));

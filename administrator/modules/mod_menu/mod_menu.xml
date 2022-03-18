@@ -3,7 +3,7 @@
 	<name>mod_menu</name>
 	<author>Joomla! Project</author>
 	<creationDate>March 2006</creationDate>
-	<copyright>Copyright (C) 2005 - 2017 Open Source Matters. All rights reserved.</copyright>
+	<copyright>(C) 2006 Open Source Matters, Inc.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
@@ -50,6 +50,7 @@
 					description="MOD_MENU_FIELD_CHECK_DESC"
 					class="btn-group btn-group-yesno"
 					default="1"
+					filter="integer"
 					showon="menutype!:*"
 					>
 					<option value="1">JYES</option>
@@ -63,6 +64,7 @@
 					description="MOD_MENU_FIELD_SHOWNEW_DESC"
 					class="btn-group btn-group-yesno"
 					default="1"
+					filter="integer"
 					showon="menutype:*"
 					>
 					<option value="0">JHIDE</option>
@@ -76,6 +78,7 @@
 					description="MOD_MENU_FIELD_SHOWHELP_DESC"
 					class="btn-group btn-group-yesno"
 					default="1"
+					filter="integer"
 					showon="menutype:*"
 					>
 					<option value="0">JHIDE</option>
@@ -91,6 +94,7 @@
 					size="30"
 					default=""
 					showon="menutype:*"
+					validate="url"
 				/>
 			</fieldset>
 
@@ -100,6 +104,7 @@
 					type="modulelayout"
 					label="JFIELD_ALT_LAYOUT_LABEL"
 					description="JFIELD_ALT_MODULE_LAYOUT_DESC"
+					validate="moduleLayout"
 				/>
 
 				<field

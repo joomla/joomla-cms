@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  Template.hathor
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2010 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -113,7 +113,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 						<?php echo $item->count;?>
 					</td>
 					<td>
-						<?php echo JHtml::_('date', $item->track_date, JText::_('DATE_FORMAT_LC4').' H:i');?>
+						<?php echo JHtml::_('date', $item->track_date, JText::_('DATE_FORMAT_LC5'));?>
 					</td>
 				</tr>
 			<?php endforeach; ?>
@@ -129,10 +129,10 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 				'url'         => JRoute::_('index.php?option=com_banners&amp;view=download&amp;tmpl=component'),
 				'width'       => '100%',
 				'height'      => '300px',
-				'footer'      => '<a class="btn" data-dismiss="modal" type="button"'
+				'footer'      => '<button type="button" class="btn" data-dismiss="modal"'
 						. ' onclick="jQuery(\'#downloadModal iframe\').contents().find(\'#closeBtn\').click();">'
-						. JText::_('COM_BANNERS_CANCEL') . '</a>'
-						. '<button class="btn btn-success" type="button"'
+						. JText::_('COM_BANNERS_CANCEL') . '</button>'
+						. '<button type="button" class="btn btn-success"'
 						. ' onclick="jQuery(\'#downloadModal iframe\').contents().find(\'#exportBtn\').click();">'
 						. JText::_('COM_BANNERS_TRACKS_EXPORT') . '</button>',
 			)

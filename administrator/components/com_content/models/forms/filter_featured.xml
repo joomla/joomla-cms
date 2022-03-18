@@ -4,6 +4,7 @@
 		<field
 			name="search"
 			type="text"
+			inputmode="search"
 			label="COM_CONTENT_FILTER_SEARCH_LABEL"
 			description="COM_CONTENT_FILTER_SEARCH_DESC"
 			hint="JSEARCH_FILTER"
@@ -45,16 +46,6 @@
 		</field>
 
 		<field
-			name="author_id"
-			type="author"
-			label="COM_CONTENT_FILTER_AUTHOR"
-			description="COM_CONTENT_FILTER_AUTHOR_DESC"
-			multiple="true"
-			class="multipleAuthors"
-			onchange="this.form.submit();"
-		/>
-
-		<field
 			name="access"
 			type="accesslevel"
 			label="JOPTION_FILTER_ACCESS"
@@ -63,6 +54,18 @@
 			class="multipleAccessLevels"
 			onchange="this.form.submit();"
 		/>
+
+		<field
+			name="author_id"
+			type="author"
+			label="COM_CONTENT_FILTER_AUTHOR"
+			description="COM_CONTENT_FILTER_AUTHOR_DESC"
+			multiple="true"
+			class="multipleAuthors"
+			onchange="this.form.submit();"
+			>
+			<option value="0">JNONE</option>
+		</field>
 
 		<field
 			name="language"
@@ -95,6 +98,7 @@
 			description="COM_CONTENT_LIST_FULL_ORDERING_DESC"
 			onchange="this.form.submit();"
 			default="a.title ASC"
+			validate="options"
 			>
 			<option value="">JGLOBAL_SORT_BY</option>
 			<option value="fp.ordering ASC">JGRID_HEADING_ORDERING_ASC</option>

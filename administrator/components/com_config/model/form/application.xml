@@ -68,7 +68,7 @@
 			label="COM_CONFIG_FIELD_MEMCACHE_PORT_LABEL"
 			description="COM_CONFIG_FIELD_MEMCACHE_PORT_DESC"
 			showon="cache_handler:memcache"
-			min="1"
+			min="0"
 			max="65535"
 			default="11211"
 			filter="integer"
@@ -121,7 +121,7 @@
 			label="COM_CONFIG_FIELD_MEMCACHE_PORT_LABEL"
 			description="COM_CONFIG_FIELD_MEMCACHE_PORT_DESC"
 			showon="cache_handler:memcached"
-			min="1"
+			min="0"
 			max="65535"
 			default="11211"
 			filter="integer"
@@ -177,11 +177,13 @@
 			showon="cache_handler:redis"
 			autocomplete="off"
 			size="30"
+			hint="***************"
+			lock="true"
 		/>
 
 		<field
 			name="redis_server_db"
-			type="text"
+			type="number"
 			label="COM_CONFIG_FIELD_REDIS_DB_LABEL"
 			description="COM_CONFIG_FIELD_REDIS_DB_DESC"
 			default="0"
@@ -197,7 +199,6 @@
 			description="COM_CONFIG_FIELD_CACHE_TIME_DESC"
 			min="1"
 			default="15"
-			required="true"
 			filter="integer"
 			validate="number"
 			size="6"
@@ -245,7 +246,7 @@
 			type="databaseconnection"
 			label="COM_CONFIG_FIELD_DATABASE_TYPE_LABEL"
 			description="COM_CONFIG_FIELD_DATABASE_TYPE_DESC"
-			supported="mysql,mysqli,pdomysql,postgresql,sqlsrv,sqlazure"
+			supported="mysql,mysqli,pgsql,pdomysql,postgresql,sqlsrv,sqlazure"
 			filter="string"
 		/>
 
@@ -267,6 +268,17 @@
 			required="true"
 			filter="string"
 			size="30"
+		/>
+
+		<field
+			name="password"
+			type="password"
+			label="COM_CONFIG_FIELD_DATABASE_PASSWORD_LABEL"
+			description="COM_CONFIG_FIELD_DATABASE_PASSWORD_DESC"
+			filter="raw"
+			autocomplete="off"
+			size="30"
+			lock="true"
 		/>
 
 		<field
@@ -319,6 +331,20 @@
 			>
 			<option value="1">JYES</option>
 			<option value="0">JNO</option>
+		</field>
+
+		<field
+			name="debug_lang_const"
+			type="radio"
+			label="COM_CONFIG_FIELD_DEBUG_CONST_LANG_LABEL"
+			description="COM_CONFIG_FIELD_DEBUG_CONST_LANG_DESC"
+			class="btn-group btn-group-yesno"
+			default="1"
+			filter="integer"
+			showon="debug_lang:1"
+			>
+			<option value="0">COM_CONFIG_FIELD_DEBUG_CONST</option>
+			<option value="1">COM_CONFIG_FIELD_DEBUG_VALUE</option>
 		</field>
 
 	</fieldset>
@@ -382,6 +408,7 @@
 			showon="ftp_enable:1"
 			autocomplete="off"
 			size="25"
+			lock="true"
 		/>
 
 		<field
@@ -399,6 +426,19 @@
 	<fieldset
 		name="proxy"
 		label="CONFIG_PROXY_SETTINGS_LABEL">
+
+		<field
+			name="behind_loadbalancer"
+			type="radio"
+			label="COM_CONFIG_FIELD_LOADBALANCER_ENABLE_LABEL"
+			description="COM_CONFIG_FIELD_LOADBALANCER_ENABLE_DESC"
+			class="btn-group btn-group-yesno"
+			default="0"
+			filter="integer"
+			>
+			<option value="1">JYES</option>
+			<option value="0">JNO</option>
+		</field>
 
 		<field
 			name="proxy_enable"
@@ -457,6 +497,7 @@
 			showon="proxy_enable:1"
 			autocomplete="off"
 			size="25"
+			lock="true"
 		/>
 
 	</fieldset>
@@ -598,7 +639,6 @@
 			hint="25"
 			validate="number"
 			filter="integer"
-			required="true"
 			size="5"
 		/>
 
@@ -650,6 +690,7 @@
 			filter="raw"
 			autocomplete="off"
 			size="30"
+			lock="true"
 		/>
 
 	</fieldset>
@@ -685,10 +726,10 @@
 			description="JFIELD_METADATA_ROBOTS_DESC"
 			default=""
 			>
-			<option value="">JGLOBAL_INDEX_FOLLOW</option>
-			<option value="noindex, follow">JGLOBAL_NOINDEX_FOLLOW</option>
-			<option value="index, nofollow">JGLOBAL_INDEX_NOFOLLOW</option>
-			<option value="noindex, nofollow">JGLOBAL_NOINDEX_NOFOLLOW</option>
+			<option value="">index, follow</option>
+			<option value="noindex, follow"></option>
+			<option value="index, nofollow"></option>
+			<option value="noindex, nofollow"></option>
 		</field>
 
 		<field
@@ -923,6 +964,20 @@
 		/>
 
 		<field
+			name="session_redis_persist"
+			type="radio"
+			label="COM_CONFIG_FIELD_REDIS_PERSISTENT_LABEL"
+			description="COM_CONFIG_FIELD_REDIS_PERSISTENT_DESC"
+			class="btn-group btn-group-yesno"
+			default="1"
+			filter="integer"
+			showon="session_handler:redis"
+			>
+			<option value="1">JYES</option>
+			<option value="0">JNO</option>
+		</field>
+
+		<field
 			name="session_redis_server_host"
 			type="text"
 			label="COM_CONFIG_FIELD_REDIS_HOST_LABEL"
@@ -948,6 +1003,28 @@
 		/>
 
 		<field
+			name="session_redis_server_auth"
+			type="password"
+			label="COM_CONFIG_FIELD_REDIS_AUTH_LABEL"
+			description="COM_CONFIG_FIELD_REDIS_AUTH_DESC"
+			filter="raw"
+			showon="session_handler:redis"
+			autocomplete="off"
+			size="30"
+			lock="true"
+		/>
+
+		<field
+			name="session_redis_server_db"
+			type="number"
+			label="COM_CONFIG_FIELD_REDIS_DB_LABEL"
+			description="COM_CONFIG_FIELD_REDIS_DB_DESC"
+			default="0"
+			filter="integer"
+			showon="session_handler:redis"
+			size="4"
+		/>
+		<field
 			name="lifetime"
 			type="number"
 			label="COM_CONFIG_FIELD_SESSION_TIME_LABEL"
@@ -955,7 +1032,6 @@
 			min="1"
 			max="16383"
 			default="15"
-			required="true"
 			filter="integer"
 			validate="number"
 			size="6"
@@ -1146,14 +1222,6 @@
 			required="true"
 			filter="string"
 			size="50"
-		/>
-
-		<field
-			name="helpurl"
-			type="helpsite"
-			label="COM_CONFIG_FIELD_HELP_SERVER_LABEL"
-			description="COM_CONFIG_FIELD_HELP_SERVER_DESC"
-			showDefault="false"
 		/>
 
 	</fieldset>

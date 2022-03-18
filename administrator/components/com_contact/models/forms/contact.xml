@@ -5,7 +5,7 @@
 
 		<field
 			name="id"
-			type="text"
+			type="number"
 			label="JGLOBAL_FIELD_ID_LABEL"
 			description="JGLOBAL_FIELD_ID_DESC"
 			default="0"
@@ -299,13 +299,6 @@
 	<fieldset name="details" label="COM_CONTACT_CONTACT_DETAILS">
 
 		<field
-			name="@text_details"
-			type="note"
-			label=""
-			description="COM_CONTACT_EDIT_DETAILS"
-		/>
-
-		<field
 			name="image"
 			type="media"
 			label="COM_CONTACT_FIELD_PARAMS_IMAGE_LABEL"
@@ -401,6 +394,7 @@
 			description="COM_CONTACT_FIELD_INFORMATION_WEBPAGE_DESC"
 			size="30"
 			filter="url"
+			validate="url"
 		/>
 
 		<field
@@ -747,7 +741,7 @@
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
 			</field>
-			
+
 			<field
 				name="show_user_custom_fields"
 				type="fieldgroups"
@@ -786,6 +780,7 @@
 				description="COM_CONTACT_FIELD_LINKA_DESC"
 				size="30"
 				filter="url"
+				validate="url"
 			/>
 
 			<field
@@ -803,6 +798,7 @@
 				description="COM_CONTACT_FIELD_LINKB_DESC"
 				size="30"
 				filter="url"
+				validate="url"
 			/>
 
 			<field
@@ -820,6 +816,7 @@
 				description="COM_CONTACT_FIELD_LINKC_DESC"
 				size="30"
 				filter="url"
+				validate="url"
 			/>
 
 			<field
@@ -837,6 +834,7 @@
 				description="COM_CONTACT_FIELD_LINKD_DESC"
 				size="30"
 				filter="url"
+				validate="url"
 			/>
 
 			<field
@@ -854,6 +852,7 @@
 				description="COM_CONTACT_FIELD_LINKE_DESC"
 				size="30"
 				filter="url"
+				validate="url"
 			/>
 
 			<field
@@ -892,33 +891,6 @@
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
 			</field>
-
-			<field
-				name="banned_email"
-				type="textarea"
-				label="COM_CONTACT_FIELD_EMAIL_BANNED_EMAIL_LABEL"
-				description="COM_CONTACT_FIELD_EMAIL_BANNED_EMAIL_DESC"
-				rows="3"
-				cols="30"
-			/>
-
-			<field
-				name="banned_subject"
-				type="textarea"
-				label="COM_CONTACT_FIELD_EMAIL_BANNED_SUBJECT_LABEL"
-				description="COM_CONTACT_FIELD_EMAIL_BANNED_SUBJECT_DESC"
-				rows="3"
-				cols="30"
-			/>
-
-			<field
-				name="banned_text"
-				type="textarea"
-				label="COM_CONTACT_FIELD_EMAIL_BANNED_TEXT_LABEL"
-				description="COM_CONTACT_FIELD_EMAIL_BANNED_TEXT_DESC"
-				rows="3"
-				cols="30"
-			/>
 
 			<field
 				name="validate_session"
@@ -965,10 +937,10 @@
 				description="JFIELD_METADATA_ROBOTS_DESC"
 				>
 				<option value="">JGLOBAL_USE_GLOBAL</option>
-				<option value="index, follow">JGLOBAL_INDEX_FOLLOW</option>
-				<option value="noindex, follow">JGLOBAL_NOINDEX_FOLLOW</option>
-				<option value="index, nofollow">JGLOBAL_INDEX_NOFOLLOW</option>
-				<option value="noindex, nofollow">JGLOBAL_NOINDEX_NOFOLLOW</option>
+				<option value="index, follow"></option>
+				<option value="noindex, follow"></option>
+				<option value="index, nofollow"></option>
+				<option value="noindex, nofollow"></option>
 			</field>
 
 			<field
@@ -983,7 +955,7 @@
 
 	<field
 		name="hits"
-		type="text"
+		type="number"
 		label="JGLOBAL_HITS"
 		description="COM_CONTACT_HITS_DESC"
 		class="readonly"

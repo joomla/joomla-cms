@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2009 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -42,18 +42,27 @@ class ContentModelForm extends ContentModelArticle
 	{
 		$app = JFactory::getApplication();
 
+		// Load the parameters.
+		$params = $app->getParams();
+		$this->setState('params', $params);
+
+		if ($params && $params->get('enable_category') == 1 && $params->get('catid'))
+		{
+			$catId = $params->get('catid');
+		}
+		else
+		{
+			$catId = 0;
+		}
+
 		// Load state from the request.
 		$pk = $app->input->getInt('a_id');
 		$this->setState('article.id', $pk);
 
-		$this->setState('article.catid', $app->input->getInt('catid'));
+		$this->setState('article.catid', $app->input->getInt('catid', $catId));
 
 		$return = $app->input->get('return', null, 'base64');
 		$this->setState('return_page', base64_decode($return));
-
-		// Load the parameters.
-		$params = $app->getParams();
-		$this->setState('params', $params);
 
 		$this->setState('layout', $app->input->getString('layout'));
 	}
@@ -206,12 +215,12 @@ class ContentModelForm extends ContentModelArticle
 	{
 		$params = $this->getState()->get('params');
 
-		if ($params && $params->get('enable_category') == 1)
+		if ($params && $params->get('enable_category') == 1 && $params->get('catid'))
 		{
-			$form->setFieldAttribute('catid', 'default', $params->get('catid', 1));
+			$form->setFieldAttribute('catid', 'default', $params->get('catid'));
 			$form->setFieldAttribute('catid', 'readonly', 'true');
 		}
 
-		return parent::preprocessForm($form, $data, $group);
+		parent::preprocessForm($form, $data, $group);
 	}
 }

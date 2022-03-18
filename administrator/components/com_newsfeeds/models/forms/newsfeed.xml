@@ -5,7 +5,7 @@
 
 		<field
 			name="id"
-			type="text"
+			type="number"
 			label="JGLOBAL_FIELD_ID_LABEL"
 			description="JGLOBAL_FIELD_ID_DESC"
 			default="0"
@@ -105,26 +105,25 @@
 			size="60"
 			required="true"
 			filter="url"
+			validate="url"
 		/>
 
 		<field
 			name="numarticles"
-			type="Text"
+			type="number"
 			label="COM_NEWSFEEDS_FIELD_NUM_ARTICLES_LABEL"
 			description="COM_NEWSFEEDS_FIELD_NUM_ARTICLES_DESC"
 			default="5"
 			size="2"
-			required="true"
 		/>
 
 		<field
 			name="cache_time"
-			type="Text"
+			type="number"
 			label="COM_NEWSFEEDS_FIELD_CACHETIME_LABEL"
 			description="JGLOBAL_FIELD_FIELD_CACHETIME_DESC"
 			default="3600"
 			size="4"
-			required="true"
 		/>
 
 		<field
@@ -358,22 +357,20 @@
 
 		<field
 			name="numarticles"
-			type="Text"
+			type="number"
 			label="COM_NEWSFEEDS_FIELD_NUM_ARTICLES_LABEL"
 			description="COM_NEWSFEEDS_FIELD_NUM_ARTICLES_DESC"
 			default="5"
 			size="2"
-			required="true"
 		/>
 
 		<field
 			name="cache_time"
-			type="Text"
+			type="number"
 			label="COM_NEWSFEEDS_FIELD_CACHETIME_LABEL"
 			description="JGLOBAL_FIELD_FIELD_CACHETIME_DESC"
 			default="3600"
 			size="4"
-			required="true"
 		/>
 
 		<field
@@ -425,7 +422,7 @@
 
 			<field
 				name="feed_character_count"
-				type="text"
+				type="number"
 				label="COM_NEWSFEEDS_FIELD_CHARACTERS_COUNT_LABEL"
 				description="COM_NEWSFEEDS_FIELD_CHARACTERS_COUNT_DESC"
 				size="6"
@@ -466,10 +463,10 @@
 				description="JFIELD_METADATA_ROBOTS_DESC"
 				>
 				<option value="">JGLOBAL_USE_GLOBAL</option>
-				<option value="index, follow">JGLOBAL_INDEX_FOLLOW</option>
-				<option value="noindex, follow">JGLOBAL_NOINDEX_FOLLOW</option>
-				<option value="index, nofollow">JGLOBAL_INDEX_NOFOLLOW</option>
-				<option value="noindex, nofollow">JGLOBAL_NOINDEX_NOFOLLOW</option>
+				<option value="index, follow"></option>
+				<option value="noindex, follow"></option>
+				<option value="index, nofollow"></option>
+				<option value="noindex, nofollow"></option>
 			</field>
 
 			<field
@@ -484,7 +481,7 @@
 
 			<field
 				name="hits"
-				type="text"
+				type="number"
 				label="JGLOBAL_HITS"
 				description="COM_NEWSFEEDS_HITS_DESC"
 				class="readonly"

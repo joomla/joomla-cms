@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  Templates.isis
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2012 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -95,7 +95,7 @@ if (JPluginHelper::isEnabled('system', 'debug') && ($app->get('debug_lang', 0) |
 		margin-right: auto;
 	}
 	.view-login .navbar-fixed-bottom {
-		display: none;
+		position: relative;
 	}');
 }
 ?>
@@ -113,7 +113,7 @@ if (JPluginHelper::isEnabled('system', 'debug') && ($app->get('debug_lang', 0) |
 			<!-- Begin Content -->
 			<div id="element-box" class="login well">
 				<?php if ($loginLogoFile = $this->params->get('loginLogoFile')) : ?>
-					<img src="<?php echo JUri::root() . $loginLogoFile; ?>" alt="<?php echo $sitename; ?>" />
+					<img src="<?php echo JUri::root() . htmlspecialchars($loginLogoFile, ENT_QUOTES); ?>" alt="<?php echo $sitename; ?>" />
 				<?php else: ?>
 					<img src="<?php echo $this->baseurl; ?>/templates/<?php echo $this->template; ?>/images/joomla.png" alt="<?php echo $sitename; ?>" />
 				<?php endif; ?>
@@ -132,7 +132,10 @@ if (JPluginHelper::isEnabled('system', 'debug') && ($app->get('debug_lang', 0) |
 			&copy; <?php echo date('Y'); ?> <?php echo $sitename; ?>
 		</p>
 		<a class="login-joomla hasTooltip" href="https://www.joomla.org" target="_blank"  rel="noopener noreferrer" title="<?php echo JHtml::_('tooltipText', 'TPL_ISIS_ISFREESOFTWARE'); ?>"><span class="icon-joomla"></span></a>
-		<a href="<?php echo $frontEndUri->toString(); ?>" target="_blank" class="pull-left"><span class="icon-out-2"></span><?php echo JText::_('COM_LOGIN_RETURN_TO_SITE_HOME_PAGE'); ?></a>
+		<a href="<?php echo htmlspecialchars($frontEndUri->toString(), ENT_COMPAT, 'UTF-8'); ?>" target="_blank" class="pull-left">
+			<span class="icon-out-2"></span>
+			<?php echo JText::_('COM_LOGIN_RETURN_TO_SITE_HOME_PAGE'); ?>
+		</a>
 	</div>
 	<jdoc:include type="modules" name="debug" style="none" />
 </body>

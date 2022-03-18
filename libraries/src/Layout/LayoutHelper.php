@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2013 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -31,7 +31,7 @@ class LayoutHelper
 	 * Method to render a layout with debug info
 	 *
 	 * @param   string  $layoutFile   Dot separated path to the layout file, relative to base path
-	 * @param   object  $displayData  Object which properties are used inside the layout file to build displayed output
+	 * @param   mixed   $displayData  Object which properties are used inside the layout file to build displayed output
 	 * @param   string  $basePath     Base path to use when loading layout files
 	 * @param   mixed   $options      Optional custom options to load. Registry or array format
 	 *
@@ -54,7 +54,7 @@ class LayoutHelper
 	 * Method to render the layout.
 	 *
 	 * @param   string  $layoutFile   Dot separated path to the layout file, relative to base path
-	 * @param   object  $displayData  Object which properties are used inside the layout file to build displayed output
+	 * @param   mixed   $displayData  Object which properties are used inside the layout file to build displayed output
 	 * @param   string  $basePath     Base path to use when loading layout files
 	 * @param   mixed   $options      Optional custom options to load. Registry or array format
 	 *

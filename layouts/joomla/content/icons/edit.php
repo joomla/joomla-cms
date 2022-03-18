@@ -3,24 +3,29 @@
  * @package     Joomla.Site
  * @subpackage  Layout
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2016 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('JPATH_BASE') or die;
+defined('_JEXEC') or die;
 
 JHtml::_('bootstrap.tooltip');
 
 $article = $displayData['article'];
 $overlib = $displayData['overlib'];
+
+// @deprecated  4.0  The legacy icon flag will be removed from this layout in 4.0
 $legacy  = $displayData['legacy'];
+
+$currentDate   = JFactory::getDate()->format('Y-m-d H:i:s');
+$isUnpublished = ($article->publish_up > $currentDate)
+	|| ($article->publish_down < $currentDate && $article->publish_down !== JFactory::getDbo()->getNullDate());
 
 if ($legacy)
 {
 	$icon = $article->state ? 'edit.png' : 'edit_unpublished.png';
 
-	if (strtotime($article->publish_up) > strtotime(JFactory::getDate())
-		|| ((strtotime($article->publish_down) < strtotime(JFactory::getDate())) && $article->publish_down != JFactory::getDbo()->getNullDate()))
+	if ($isUnpublished)
 	{
 		$icon = 'edit_unpublished.png';
 	}
@@ -29,8 +34,7 @@ else
 {
 	$icon = $article->state ? 'edit' : 'eye-close';
 
-	if (strtotime($article->publish_up) > strtotime(JFactory::getDate())
-		|| ((strtotime($article->publish_down) < strtotime(JFactory::getDate())) && $article->publish_down != JFactory::getDbo()->getNullDate()))
+	if ($isUnpublished)
 	{
 		$icon = 'eye-close';
 	}

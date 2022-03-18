@@ -5,7 +5,7 @@
  *
  * @package    Joomla.Platform
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2012 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -29,7 +29,7 @@ if (!defined('IS_UNIX'))
 }
 
 /**
- * @deprecated 13.3	Use IS_UNIX instead
+ * @deprecated 4.0	Use IS_UNIX instead
  */
 if (!defined('IS_MAC'))
 {
@@ -92,4 +92,4 @@ JLoader::register('LogException', JPATH_PLATFORM . '/legacy/log/logexception.php
 JLoader::register('JXMLElement', JPATH_PLATFORM . '/legacy/utilities/xmlelement.php');
 JLoader::register('JCli', JPATH_PLATFORM . '/legacy/application/cli.php');
 JLoader::register('JDaemon', JPATH_PLATFORM . '/legacy/application/daemon.php');
-JLoader::register('JApplication', JPATH_LIBRARIES . '/legacy/application/application.php');
+JLoader::register('JApplication', JPATH_PLATFORM . '/legacy/application/application.php');

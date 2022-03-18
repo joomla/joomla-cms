@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2006 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -82,7 +82,8 @@ class HelpButton extends ToolbarButton
 	{
 		// Get Help URL
 		$url = Help::createUrl($ref, $com, $override, $component);
-		$url = htmlspecialchars($url, ENT_QUOTES);
+		$url = json_encode(htmlspecialchars($url, ENT_QUOTES), JSON_HEX_APOS);
+		$url = substr($url, 1, -1);
 		$cmd = "Joomla.popupWindow('$url', '" . \JText::_('JHELP', true) . "', 700, 500, 1)";
 
 		return $cmd;

@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Database
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2011 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -12,7 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Query Building Class.
  *
- * @since  11.1
+ * @since  1.7.0
  */
 class JDatabaseQuerySqlsrv extends JDatabaseQuery implements JDatabaseQueryLimitable
 {
@@ -23,7 +23,7 @@ class JDatabaseQuerySqlsrv extends JDatabaseQuery implements JDatabaseQueryLimit
 	 * used for the opening quote and the second for the closing quote.
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected $name_quotes = '`';
 
@@ -32,7 +32,7 @@ class JDatabaseQuerySqlsrv extends JDatabaseQuery implements JDatabaseQueryLimit
 	 * defined in child classes to hold the appropriate value for the engine.
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected $null_date = '1900-01-01 00:00:00';
 
@@ -53,7 +53,7 @@ class JDatabaseQuerySqlsrv extends JDatabaseQuery implements JDatabaseQueryLimit
 	 *
 	 * @return  string	The completed query.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function __toString()
 	{
@@ -233,18 +233,18 @@ class JDatabaseQuerySqlsrv extends JDatabaseQuery implements JDatabaseQueryLimit
 	 *
 	 * Ensure that the value is properly quoted before passing to the method.
 	 *
-	 * @param   string  $value  The value to cast as a char.	 
+	 * @param   string  $value  The value to cast as a char.
 	 *
-	 * @param   string  $len    The lenght of the char.
+	 * @param   string  $len    The length of the char.
 	 *
 	 * @return  string  Returns the cast value.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function castAsChar($value, $len = null)
 	{
 		if (!$len)
-		{			
+		{
 			return 'CAST(' . $value . ' as NVARCHAR(30))';
 		}
 		else
@@ -262,7 +262,7 @@ class JDatabaseQuerySqlsrv extends JDatabaseQuery implements JDatabaseQueryLimit
 	 *
 	 * @return  string  The required char length call.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function charLength($field, $operator = null, $condition = null)
 	{
@@ -277,7 +277,7 @@ class JDatabaseQuerySqlsrv extends JDatabaseQuery implements JDatabaseQueryLimit
 	 *
 	 * @return  string  The concatenated values.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function concatenate($values, $separator = null)
 	{
@@ -296,7 +296,7 @@ class JDatabaseQuerySqlsrv extends JDatabaseQuery implements JDatabaseQueryLimit
 	 *
 	 * @return  string
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function currentTimestamp()
 	{
@@ -310,7 +310,7 @@ class JDatabaseQuerySqlsrv extends JDatabaseQuery implements JDatabaseQueryLimit
 	 *
 	 * @return  integer
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function length($value)
 	{
@@ -329,13 +329,13 @@ class JDatabaseQuerySqlsrv extends JDatabaseQuery implements JDatabaseQueryLimit
 	 *
 	 * @return  string  The string with the appropriate sql for addition of dates
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 * @note    Not all drivers support all units.
 	 * @link    http://msdn.microsoft.com/en-us/library/ms186819.aspx for more information
 	 */
 	public function dateAdd($date, $interval, $datePart)
 	{
-		return "DATEADD('" . $datePart . "', '" . $interval . "', '" . $date . "'" . ')';
+		return 'DATEADD(' . $datePart . ', ' . $interval . ', ' . $date . ')';
 	}
 
 	/**
@@ -349,14 +349,25 @@ class JDatabaseQuerySqlsrv extends JDatabaseQuery implements JDatabaseQueryLimit
 	 *
 	 * @return  string
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function processLimit($query, $limit, $offset = 0)
 	{
 		if ($limit)
 		{
 			$total = $offset + $limit;
-			$query = substr_replace($query, 'SELECT TOP ' . (int) $total, stripos($query, 'SELECT'), 6);
+
+			$position = stripos($query, 'SELECT');
+			$distinct = stripos($query, 'SELECT DISTINCT');
+
+			if ($position === $distinct)
+			{
+				$query = substr_replace($query, 'SELECT DISTINCT TOP ' . (int) $total, $position, 15);
+			}
+			else
+			{
+				$query = substr_replace($query, 'SELECT TOP ' . (int) $total, $position, 6);
+			}
 		}
 
 		if (!$offset)
@@ -382,7 +393,7 @@ class JDatabaseQuerySqlsrv extends JDatabaseQuery implements JDatabaseQueryLimit
 	 *
 	 * @return  JDatabaseQuery  Returns this object to allow chaining.
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function setLimit($limit = 0, $offset = 0)
 	{
@@ -799,6 +810,14 @@ class JDatabaseQuerySqlsrv extends JDatabaseQuery implements JDatabaseQueryLimit
 			if ($size === 0)
 			{
 				continue;
+			}
+
+			if ($i == 0 && stripos(' DISTINCT ALL ', " $column[0] ") !== false)
+			{
+				// These words are reserved, they are not column names
+				array_shift($selectColumns[0]);
+				array_shift($column);
+				$size--;
 			}
 
 			if ($size > 2 && $column[$size - 2] === 'AS')

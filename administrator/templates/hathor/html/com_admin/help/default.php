@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  Template.hathor
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2012 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -29,7 +29,7 @@ jimport('joomla.language.help');
 				<ul class="subext">
 					<?php foreach ($this->toc as $k => $v):?>
 						<li>
-						    <?php $url = JHelp::createUrl('JHELP_'.strtoupper($k)); ?>
+							<?php $url = JHelp::createUrl('JHELP_'.strtoupper($k)); ?>
 							<?php echo JHtml::_('link', $url, $v, array('target' => 'helpFrame'));?>
 						</li>
 					<?php endforeach;?>

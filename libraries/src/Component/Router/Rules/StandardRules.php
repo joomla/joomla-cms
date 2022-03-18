@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2016 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -104,7 +104,7 @@ class StandardRules implements RulesInterface
 				}
 				else
 				{
-					// The router is not complete. The get<View>Key() method is missing.
+					// The router is not complete. The get<View>Id() method is missing.
 					return;
 				}
 			}
@@ -182,23 +182,45 @@ class StandardRules implements RulesInterface
 	 */
 	public function build(&$query, &$segments)
 	{
-		// Get the menu item belonging to the Itemid that has been found
-		$item = $this->router->menu->getItem($query['Itemid']);
-
-		if (!isset($query['view']))
+		if (!isset($query['Itemid'], $query['view']))
 		{
 			return;
 		}
+
+		// Get the menu item belonging to the Itemid that has been found
+		$item = $this->router->menu->getItem($query['Itemid']);
+
+		if ($item === null
+			|| $item->component !== 'com_' . $this->router->getName()
+			|| !isset($item->query['view']))
+		{
+			return;
+		}
+
+		// Get menu item layout
+		$mLayout = isset($item->query['layout']) ? $item->query['layout'] : null;
 
 		// Get all views for this component
 		$views = $this->router->getViews();
 
 		// Return directly when the URL of the Itemid is identical with the URL to build
-		if (isset($item->query['view']) && $item->query['view'] === $query['view'])
+		if ($item->query['view'] === $query['view'])
 		{
 			$view = $views[$query['view']];
 
-			if (isset($item->query[$view->key], $query[$view->key]) && $item->query[$view->key] == (int) $query[$view->key])
+			if (!$view->key)
+			{
+				unset($query['view']);
+
+				if (isset($query['layout']) && $mLayout === $query['layout'])
+				{
+					unset($query['layout']);
+				}
+
+				return;
+			}
+
+			if (isset($query[$view->key]) && $item->query[$view->key] == (int) $query[$view->key])
 			{
 				unset($query[$view->key]);
 
@@ -211,89 +233,86 @@ class StandardRules implements RulesInterface
 
 				unset($query['view']);
 
-				if (isset($item->query['layout']) && isset($query['layout']) && $item->query['layout'] === $query['layout'])
+				if (isset($query['layout']) && $mLayout === $query['layout'])
 				{
 					unset($query['layout']);
 				}
 
 				return;
 			}
-
-			if (!$view->key)
-			{
-				if (isset($item->query['layout']) && isset($query['layout']) && $item->query['layout'] === $query['layout'])
-				{
-					unset($query['view'], $query['layout']);
-					return;
-				}
-			}
 		}
 
 		// Get the path from the view of the current URL and parse it to the menu item
-		$path   = array_reverse($this->router->getPath($query), true);
-		$found  = false;
-		$found2 = false;
+		$path  = array_reverse($this->router->getPath($query), true);
+		$found = false;
 
-		for ($i = 0, $j = count($path); $i < $j; $i++)
+		foreach ($path as $element => $ids)
 		{
-			reset($path);
-			$view = key($path);
+			$view = $views[$element];
 
-			if ($found)
+			if ($found === false && $item->query['view'] === $element)
 			{
-				$ids = array_shift($path);
-
-				if ($views[$view]->nestable)
+				if ($view->nestable)
 				{
+					$found = true;
+				}
+				elseif ($view->children)
+				{
+					$found = true;
+
+					continue;
+				}
+			}
+
+			if ($found === false)
+			{
+				// Jump to the next view
+				continue;
+			}
+
+			if ($ids)
+			{
+				if ($view->nestable)
+				{
+					$found2 = false;
+
 					foreach (array_reverse($ids, true) as $id => $segment)
 					{
 						if ($found2)
 						{
 							$segments[] = str_replace(':', '-', $segment);
 						}
-						elseif ((int) $item->query[$views[$view]->key] == (int) $id)
+						elseif ((int) $item->query[$view->key] === (int) $id)
 						{
 							$found2 = true;
 						}
 					}
 				}
-				elseif (is_bool($ids))
+				elseif ($ids === true)
 				{
-					$segments[] = $views[$view]->name;
+					$segments[] = $element;
 				}
 				else
 				{
-					$segments[] = str_replace(':', '-', array_shift($ids));
-				}
-			}
-			elseif ($item->query['view'] !== $view)
-			{
-				array_shift($path);
-			}
-			else
-			{
-				if (!$views[$view]->nestable)
-				{
-					array_shift($path);
-				}
-				else
-				{
-					$i--;
-					$found2 = false;
-				}
-
-				if (count($views[$view]->children))
-				{
-					$found = true;
+					$segments[] = str_replace(':', '-', current($ids));
 				}
 			}
 
-			unset($query[$views[$view]->parent_key]);
+			if ($view->parent_key)
+			{
+				// Remove parent key from query
+				unset($query[$view->parent_key]);
+			}
 		}
 
 		if ($found)
 		{
-			unset($query['layout'], $query[$views[$query['view']]->key], $query['view']);
+			unset($query[$views[$query['view']]->key], $query['view']);
+
+			if (isset($query['layout']) && $mLayout === $query['layout'])
+			{
+				unset($query['layout']);
+			}
 		}
 	}
 }

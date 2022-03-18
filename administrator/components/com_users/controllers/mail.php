@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2009 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -32,7 +32,7 @@ class UsersControllerMail extends JControllerLegacy
 		}
 
 		// Check for request forgeries.
-		JSession::checkToken('request') or jexit(JText::_('JINVALID_TOKEN'));
+		$this->checkToken('request');
 
 		$model = $this->getModel('Mail');
 
@@ -46,7 +46,7 @@ class UsersControllerMail extends JControllerLegacy
 		}
 
 		$msg = $model->getError();
-		$this->setredirect('index.php?option=com_users&view=mail', $msg, $type);
+		$this->setRedirect('index.php?option=com_users&view=mail', $msg, $type);
 	}
 
 	/**
@@ -59,7 +59,11 @@ class UsersControllerMail extends JControllerLegacy
 	public function cancel()
 	{
 		// Check for request forgeries.
-		JSession::checkToken('request') or jexit(JText::_('JINVALID_TOKEN'));
+		$this->checkToken('request');
+
+		// Clear data from session.
+		\JFactory::getApplication()->setUserState('com_users.display.mail.data', null);
+
 		$this->setRedirect('index.php');
 	}
 }

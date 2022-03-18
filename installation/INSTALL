@@ -2,7 +2,7 @@
 /**
  * @package    Joomla.Installation
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2005 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -14,7 +14,7 @@ REQUIREMENTS
 
 First you must have the base environment for Joomla.
 We have thoroughly tested Joomla! on: Linux, Free BSD, Mac OS X and Windows.
-Linux or one of the BSD's are recommended, but anything else that can run 
+Linux or one of the BSD's are recommended, but anything else that can run
 a supported PHP version, a supported database and a supported web server listed
 in the Technical Requirements at https://downloads.joomla.org/technical-requirements
 should do it.
@@ -128,7 +128,7 @@ You can now launch your browser and point it to your Joomla! site eg
 	http://www.example.org -> Main Site
 	http://www.example.org/administrator -> Admin
 
-You can log into Admin using the username and password that you chose 
+You can log into Admin using the username and password that you chose
 during the web based install.
 
 

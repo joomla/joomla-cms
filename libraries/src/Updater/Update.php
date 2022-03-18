@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2008 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -21,7 +21,7 @@ use Joomla\Registry\Registry;
  * Update class. It is used by Updater::update() to install an update. Use Updater::findUpdates() to find updates for
  * an extension.
  *
- * @since  11.1
+ * @since  1.7.0
  */
 class Update extends \JObject
 {
@@ -29,7 +29,7 @@ class Update extends \JObject
 	 * Update manifest `<name>` element
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected $name;
 
@@ -37,7 +37,7 @@ class Update extends \JObject
 	 * Update manifest `<description>` element
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected $description;
 
@@ -45,7 +45,7 @@ class Update extends \JObject
 	 * Update manifest `<element>` element
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected $element;
 
@@ -53,7 +53,7 @@ class Update extends \JObject
 	 * Update manifest `<type>` element
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected $type;
 
@@ -61,7 +61,7 @@ class Update extends \JObject
 	 * Update manifest `<version>` element
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected $version;
 
@@ -69,7 +69,7 @@ class Update extends \JObject
 	 * Update manifest `<infourl>` element
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected $infourl;
 
@@ -77,7 +77,7 @@ class Update extends \JObject
 	 * Update manifest `<client>` element
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected $client;
 
@@ -85,7 +85,7 @@ class Update extends \JObject
 	 * Update manifest `<group>` element
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected $group;
 
@@ -93,15 +93,23 @@ class Update extends \JObject
 	 * Update manifest `<downloads>` element
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected $downloads;
+
+	/**
+	 * Update manifest `<downloadsource>` elements
+	 *
+	 * @var    DownloadSource[]
+	 * @since  3.8.3
+	 */
+	protected $downloadSources = array();
 
 	/**
 	 * Update manifest `<tags>` element
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected $tags;
 
@@ -109,7 +117,7 @@ class Update extends \JObject
 	 * Update manifest `<maintainer>` element
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected $maintainer;
 
@@ -117,7 +125,7 @@ class Update extends \JObject
 	 * Update manifest `<maintainerurl>` element
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected $maintainerurl;
 
@@ -125,7 +133,7 @@ class Update extends \JObject
 	 * Update manifest `<category>` element
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected $category;
 
@@ -133,7 +141,7 @@ class Update extends \JObject
 	 * Update manifest `<relationships>` element
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected $relationships;
 
@@ -141,7 +149,7 @@ class Update extends \JObject
 	 * Update manifest `<targetplatform>` element
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected $targetplatform;
 
@@ -149,7 +157,7 @@ class Update extends \JObject
 	 * Extra query for download URLs
 	 *
 	 * @var    string
-	 * @since  13.1
+	 * @since  3.2.0
 	 */
 	protected $extra_query;
 
@@ -157,7 +165,7 @@ class Update extends \JObject
 	 * Resource handle for the XML Parser
 	 *
 	 * @var    resource
-	 * @since  12.1
+	 * @since  3.0.0
 	 */
 	protected $xmlParser;
 
@@ -165,7 +173,7 @@ class Update extends \JObject
 	 * Element call stack
 	 *
 	 * @var    array
-	 * @since  12.1
+	 * @since  3.0.0
 	 */
 	protected $stack = array('base');
 
@@ -173,7 +181,7 @@ class Update extends \JObject
 	 * Unused state array
 	 *
 	 * @var    array
-	 * @since  12.1
+	 * @since  3.0.0
 	 */
 	protected $stateStore = array();
 
@@ -181,7 +189,7 @@ class Update extends \JObject
 	 * Object containing the current update data
 	 *
 	 * @var    \stdClass
-	 * @since  12.1
+	 * @since  3.0.0
 	 */
 	protected $currentUpdate;
 
@@ -189,7 +197,7 @@ class Update extends \JObject
 	 * Object containing the latest update data
 	 *
 	 * @var    \stdClass
-	 * @since  12.1
+	 * @since  3.0.0
 	 */
 	protected $latest;
 
@@ -209,11 +217,19 @@ class Update extends \JObject
 	protected $minimum_stability = Updater::STABILITY_STABLE;
 
 	/**
+	 * Array with compatible versions used by the pre-update check
+	 *
+	 * @var    array
+	 * @since  3.10.2
+	 */
+	protected $compatibleVersions = array();
+
+	/**
 	 * Gets the reference to the current direct parent
 	 *
 	 * @return  object
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	protected function _getStackLocation()
 	{
@@ -225,7 +241,7 @@ class Update extends \JObject
 	 *
 	 * @return  string
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	protected function _getLastTag()
 	{
@@ -242,7 +258,7 @@ class Update extends \JObject
 	 * @return  void
 	 *
 	 * @note    This is public because it is called externally
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function _startElement($parser, $name, $attrs = array())
 	{
@@ -260,6 +276,20 @@ class Update extends \JObject
 			// This is a new update; create a current update
 			case 'UPDATE':
 				$this->currentUpdate = new \stdClass;
+				break;
+
+			// Handle the array of download sources
+			case 'DOWNLOADSOURCE':
+				$source = new DownloadSource;
+
+				foreach ($attrs as $key => $data)
+				{
+					$key = strtolower($key);
+					$source->$key = $data;
+				}
+
+				$this->downloadSources[] = $source;
+
 				break;
 
 			// Don't do anything
@@ -295,7 +325,7 @@ class Update extends \JObject
 	 * @return  void
 	 *
 	 * @note    This is public because it is called externally
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function _endElement($parser, $name)
 	{
@@ -354,7 +384,19 @@ class Update extends \JObject
 						$dbVersion    = $db->getVersion();
 						$supportedDbs = $this->currentUpdate->supported_databases;
 
-						// Do we have a entry for the database?
+						// MySQL and MariaDB use the same database driver but not the same version numbers
+						if ($dbType === 'mysql')
+						{
+							// Check whether we have a MariaDB version string and extract the proper version from it
+							if (stripos($dbVersion, 'mariadb') !== false)
+							{
+								// MariaDB: Strip off any leading '5.5.5-', if present
+								$dbVersion = preg_replace('/^5\.5\.5-/', '', $dbVersion);
+								$dbType    = 'mariadb';
+							}
+						}
+
+						// Do we have an entry for the database?
 						if (isset($supportedDbs->$dbType))
 						{
 							$minumumVersion = $supportedDbs->$dbType;
@@ -377,14 +419,13 @@ class Update extends \JObject
 
 					if ($phpMatch && $stabilityMatch && $dbMatch)
 					{
-						if (isset($this->latest))
+						if (!empty($this->currentUpdate->downloadurl) && !empty($this->currentUpdate->downloadurl->_data))
 						{
-							if (version_compare($this->currentUpdate->version->_data, $this->latest->version->_data, '>') == 1)
-							{
-								$this->latest = $this->currentUpdate;
-							}
+							$this->compatibleVersions[] = $this->currentUpdate->version->_data;
 						}
-						else
+
+						if (!isset($this->latest)
+							|| version_compare($this->currentUpdate->version->_data, $this->latest->version->_data, '>'))
 						{
 							$this->latest = $this->currentUpdate;
 						}
@@ -421,7 +462,7 @@ class Update extends \JObject
 	 * @return  void
 	 *
 	 * @note    This is public because its called externally.
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function _characterData($parser, $data)
 	{
@@ -437,6 +478,15 @@ class Update extends \JObject
 			return;
 		}
 
+		if ($tag == 'downloadsource')
+		{
+			// Grab the last source so we can append the URL
+			$source = end($this->downloadSources);
+			$source->url = $data;
+
+			return;
+		}
+
 		if (isset($this->currentUpdate->$tag))
 		{
 			$this->currentUpdate->$tag->_data .= $data;
@@ -446,14 +496,14 @@ class Update extends \JObject
 	/**
 	 * Loads an XML file from a URL.
 	 *
-	 * @param   string  $url                The URL.
-	 * @param   int     $minimum_stability  The minimum stability required for updating the extension {@see Updater}
+	 * @param   string  $url               The URL.
+	 * @param   int     $minimumStability  The minimum stability required for updating the extension {@see Updater}
 	 *
 	 * @return  boolean  True on success
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
-	public function loadFromXml($url, $minimum_stability = Updater::STABILITY_STABLE)
+	public function loadFromXml($url, $minimumStability = Updater::STABILITY_STABLE)
 	{
 		$version    = new Version;
 		$httpOption = new Registry;
@@ -477,7 +527,7 @@ class Update extends \JObject
 			return false;
 		}
 
-		$this->minimum_stability = $minimum_stability;
+		$this->minimum_stability = $minimumStability;
 
 		$this->xmlParser = xml_parser_create('');
 		xml_set_object($this->xmlParser, $this);
@@ -514,7 +564,7 @@ class Update extends \JObject
 	 */
 	protected function stabilityTagToInteger($tag)
 	{
-		$constant = '\\Joomla\\CMS\\Update\\Updater::STABILITY_' . strtoupper($tag);
+		$constant = '\\Joomla\\CMS\\Updater\\Updater::STABILITY_' . strtoupper($tag);
 
 		if (defined($constant))
 		{

@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Access
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2013 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,7 +12,7 @@
  *
  * @package  Joomla.Platform
  *
- * @since    11.1
+ * @since    1.7.0
  */
 class JAccessRuleTest extends \PHPUnit\Framework\TestCase
 {
@@ -21,7 +21,7 @@ class JAccessRuleTest extends \PHPUnit\Framework\TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function test__construct()
 	{
@@ -68,7 +68,7 @@ class JAccessRuleTest extends \PHPUnit\Framework\TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.2
+	 * @since   3.0.1
 	 */
 	public function testGetData()
 	{
@@ -91,7 +91,7 @@ class JAccessRuleTest extends \PHPUnit\Framework\TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function testMergeIdentity()
 	{
@@ -125,7 +125,7 @@ class JAccessRuleTest extends \PHPUnit\Framework\TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function testMergeIdentities()
 	{
@@ -187,7 +187,7 @@ class JAccessRuleTest extends \PHPUnit\Framework\TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function testAllow()
 	{

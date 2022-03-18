@@ -3,13 +3,18 @@
  * @package     Joomla.Administrator
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2010 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('JPATH_BASE') or die;
+defined('_JEXEC') or die;
 
-JFormHelper::loadFieldClass('list');
+use Joomla\CMS\Access\Access;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Form\FormHelper;
+use Joomla\CMS\Helper\UserGroupsHelper;
+
+FormHelper::loadFieldClass('list');
 
 /**
  * User Group Parent field..
@@ -27,6 +32,31 @@ class JFormFieldGroupParent extends JFormFieldList
 	protected $type = 'GroupParent';
 
 	/**
+	 * Method to clean the Usergroup Options from all children starting by a given father
+	 *
+	 * @param   array    $userGroupsOptions  The usergroup options to clean
+	 * @param   integer  $fatherId           The father ID to start with
+	 *
+	 * @return  array  The cleaned field options
+	 *
+	 * @since   3.9.4
+	 */
+	private function cleanOptionsChildrenByFather($userGroupsOptions, $fatherId)
+	{
+		foreach ($userGroupsOptions as $userGroupsOptionsId => $userGroupsOptionsData)
+		{
+			if ((int) $userGroupsOptionsData->parent_id === (int) $fatherId)
+			{
+				unset($userGroupsOptions[$userGroupsOptionsId]);
+
+				$userGroupsOptions = $this->cleanOptionsChildrenByFather($userGroupsOptions, $userGroupsOptionsId);
+			}
+		}
+
+		return $userGroupsOptions;
+	}
+
+	/**
 	 * Method to get the field options.
 	 *
 	 * @return  array  The field option objects
@@ -35,22 +65,30 @@ class JFormFieldGroupParent extends JFormFieldList
 	 */
 	protected function getOptions()
 	{
-		$options = JHelperUsergroups::getInstance()->getAll();
+		$options        = UserGroupsHelper::getInstance()->getAll();
+		$currentGroupId = (int) Factory::getApplication()->input->get('id', 0, 'int');
 
-		// Prevent parenting to children of this item.
-		if ($id = $this->form->getValue('id'))
+		// Prevent to set yourself as parent
+		if ($currentGroupId)
 		{
-			unset($options[$id]);
+			unset($options[$currentGroupId]);
+		}
+
+		// We should not remove any groups when we are creating a new group
+		if ($currentGroupId !== 0)
+		{
+			// Prevent parenting direct children and children of children of this item.
+			$options = $this->cleanOptionsChildrenByFather($options, $currentGroupId);
 		}
 
 		$options      = array_values($options);
-		$isSuperAdmin = JFactory::getUser()->authorise('core.admin');
+		$isSuperAdmin = Factory::getUser()->authorise('core.admin');
 
 		// Pad the option text with spaces using depth level as a multiplier.
 		for ($i = 0, $n = count($options); $i < $n; $i++)
 		{
 			// Show groups only if user is super admin or group is not super admin
-			if ($isSuperAdmin || !JAccess::checkGroup($options[$i]->id, 'core.admin'))
+			if ($isSuperAdmin || !Access::checkGroup($options[$i]->id, 'core.admin'))
 			{
 				$options[$i]->value = $options[$i]->id;
 				$options[$i]->text = str_repeat('- ', $options[$i]->level) . $options[$i]->title;

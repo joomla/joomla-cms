@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Archive
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2006 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -17,14 +17,16 @@ use Joomla\Archive\Archive;
 /**
  * An Archive handling class
  *
- * @since       11.1
+ * @since       1.5
  * @deprecated  4.0 use the Joomla\Archive\Archive class instead
  */
 class JArchive
 {
 	/**
-	 * @var    array  The array of instantiated archive adapters.
-	 * @since  12.1
+	 * The array of instantiated archive adapters.
+	 *
+	 * @var    JArchiveExtractable[]
+	 * @since  3.0.0
 	 */
 	protected static $adapters = array();
 
@@ -36,9 +38,9 @@ class JArchive
 	 *
 	 * @return  boolean  True for success
 	 *
-	 * @since   11.1
+	 * @since   1.5
 	 * @throws  InvalidArgumentException
-	 * @deprecated 4.0 use the Joomla\Archive\Archive class instead
+	 * @deprecated  4.0 use the Joomla\Archive\Archive class instead
 	 */
 	public static function extract($archivename, $extractdir)
 	{
@@ -56,9 +58,9 @@ class JArchive
 	 *
 	 * @return  JArchiveExtractable  Adapter for the requested type
 	 *
-	 * @since   11.1
+	 * @since   1.5
 	 * @throws  UnexpectedValueException
-	 * @deprecated 4.0 use the Joomla\Archive\Archive class instead
+	 * @deprecated  4.0 use the Joomla\Archive\Archive class instead
 	 */
 	public static function getAdapter($type)
 	{

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2017 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -25,6 +25,21 @@ class JFormFieldVoteradio extends JFormFieldRadio
 	 * @since  3.7.1
 	 */
 	protected $type = 'Voteradio';
+
+	/**
+	 * Method to get the field Label.
+	 *
+	 * @return array The field label objects.
+	 *
+	 * @throws \Exception
+	 *
+	 * @since  3.8.2
+	 */
+	public function getLabel()
+	{
+		// Requires vote plugin enabled
+		return JPluginHelper::isEnabled('content', 'vote') ? parent::getLabel() : null;
+	}
 
 	/**
 	 * Method to get the field options.

@@ -1,5 +1,5 @@
 /**
-*  Ajax Autocomplete for jQuery, version 1.4.2
+*  Ajax Autocomplete for jQuery, version 1.4.11
 *  (c) 2017 Tomas Kirda
 *
 *  Ajax Autocomplete for jQuery is freely distributable under the terms of an MIT-style license.
@@ -70,7 +70,7 @@
         that.isLocal = false;
         that.suggestionsContainer = null;
         that.noSuggestionsContainer = null;
-        that.options = $.extend({}, Autocomplete.defaults, options);
+        that.options = $.extend(true, {}, Autocomplete.defaults, options);
         that.classes = {
             selected: 'autocomplete-selected',
             suggestion: 'autocomplete-suggestion'
@@ -163,7 +163,6 @@
                 options = that.options,
                 container;
 
-            // Remove autocomplete attribute to prevent native suggestions:
             that.element.setAttribute('autocomplete', 'off');
 
             // html() deals with many types: htmlString or Element or Array or jQuery
@@ -191,7 +190,6 @@
                 that.selectedIndex = -1;
                 container.children('.' + selected).removeClass(selected);
             });
-
 
             // Listen for click event on suggestions list:
             container.on('click.autocomplete', suggestionSelector, function () {
@@ -221,6 +219,10 @@
         onFocus: function () {
             var that = this;
 
+            if (that.disabled) {
+                return;
+            }
+
             that.fixPosition();
 
             if (that.el.val().length >= that.options.minChars) {
@@ -229,12 +231,19 @@
         },
 
         onBlur: function () {
-            var that = this;
+            var that = this,
+                options = that.options,
+                value = that.el.val(),
+                query = that.getQuery(value);
 
             // If user clicked on a suggestion, hide() will
             // be canceled, otherwise close suggestions
             that.blurTimeoutId = setTimeout(function () {
                 that.hide();
+
+                if (that.selection && that.currentValue !== query) {
+                    (options.onInvalidateSelection || $.noop).call(that.element);
+                }
             }, 200);
         },
 
@@ -248,9 +257,7 @@
 
         setOptions: function (suppliedOptions) {
             var that = this,
-                options = that.options;
-
-            this.options = $.extend({}, options, suppliedOptions);
+                options = $.extend({}, that.options, suppliedOptions);
 
             that.isLocal = Array.isArray(options.lookup);
 
@@ -266,6 +273,8 @@
                 'width': options.width + 'px',
                 'z-index': options.zIndex
             });
+
+            this.options = options;
         },
 
 
@@ -337,6 +346,7 @@
 
                 parentOffsetDiff = $container.offsetParent().offset();
                 styles.top -= parentOffsetDiff.top;
+                styles.top += containerParent.scrollTop;
                 styles.left -= parentOffsetDiff.left;
 
                 if (!that.visible){
@@ -457,6 +467,11 @@
         },
 
         onValueChange: function () {
+            if (this.ignoreValueChange) {
+                this.ignoreValueChange = false;
+                return;
+            }
+
             var that = this,
                 options = that.options,
                 value = that.el.val(),
@@ -854,8 +869,9 @@
             }
 
             if (that.selectedIndex === 0) {
-                $(that.suggestionsContainer).children().first().removeClass(that.classes.selected);
+                $(that.suggestionsContainer).children('.' + that.classes.suggestion).first().removeClass(that.classes.selected);
                 that.selectedIndex = -1;
+                that.ignoreValueChange = false;
                 that.el.val(that.currentValue);
                 that.findBestHint();
                 return;
@@ -898,8 +914,14 @@
             }
 
             if (!that.options.preserveInput) {
+                // During onBlur event, browser will trigger "change" event,
+                // because value has changed, to avoid side effect ignore,
+                // that event, so that correct suggestion can be selected
+                // when clicking on suggestion with a mouse
+                that.ignoreValueChange = true;
                 that.el.val(that.getValue(that.suggestions[index].value));
             }
+
             that.signalHint(null);
         },
 

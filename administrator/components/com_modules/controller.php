@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_modules
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2007 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -35,7 +35,6 @@ class ModulesController extends JControllerLegacy
 		// For JSON requests
 		if ($document->getType() == 'json')
 		{
-
 			$view = new ModulesViewModule;
 
 			// Get/Create the model
@@ -45,6 +44,7 @@ class ModulesController extends JControllerLegacy
 				if (!$model->checkout($id))
 				{
 					JFactory::getApplication()->enqueueMessage(JText::_('JLIB_APPLICATION_ERROR_CHECKIN_USER_MISMATCH'), 'error');
+
 					return false;
 				}
 

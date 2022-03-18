@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_languages
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2011 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -54,6 +54,17 @@ class LanguagesViewOverride extends JViewLegacy
 		$this->form  = $this->get('Form');
 		$this->item  = $this->get('Item');
 		$this->state = $this->get('State');
+
+		$app = JFactory::getApplication();
+
+		$languageClient = $app->getUserStateFromRequest('com_languages.overrides.language_client', 'language_client');
+
+		if ($languageClient == null)
+		{
+			$app->enqueueMessage(JText::_('COM_LANGUAGES_OVERRIDE_FIRST_SELECT_MESSAGE'), 'warning');
+
+			$app->redirect('index.php?option=com_languages&view=overrides');
+		}
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))

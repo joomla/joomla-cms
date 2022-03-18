@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_menus
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2009 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -110,6 +110,12 @@ class MenusModelItems extends JModelList
 		$currentClientId = $app->getUserState($this->context . '.client_id', 0);
 		$clientId        = $app->input->getInt('client_id', $currentClientId);
 
+		// Load mod_menu.ini file when client is administrator
+		if ($clientId == 1)
+		{
+			JFactory::getLanguage()->load('mod_menu', JPATH_ADMINISTRATOR, null, false, true);
+		}
+
 		$currentMenuType = $app->getUserState($this->context . '.menutype', '');
 		$menuType        = $app->input->getString('menutype', $currentMenuType);
 
@@ -153,6 +159,18 @@ class MenusModelItems extends JModelList
 			$app->setUserState($this->context . '.menutype', $menuType);
 			$this->setState('menutypetitle', $cMenu->title);
 			$this->setState('menutypeid', $cMenu->id);
+		}
+		// This menutype does not exist, leave client id unchanged but reset menutype and pagination
+		else
+		{
+			$menuType = '';
+
+			$app->input->set('limitstart', 0);
+			$app->input->set('menutype', $menuType);
+
+			$app->setUserState($this->context . '.menutype', $menuType);
+			$this->setState('menutypetitle', '');
+			$this->setState('menutypeid', '');
 		}
 
 		// Client id filter
@@ -286,10 +304,18 @@ class MenusModelItems extends JModelList
 
 		if ($assoc)
 		{
-			$query->select('COUNT(asso2.id)>1 as association')
-				->join('LEFT', '#__associations AS asso ON asso.id = a.id AND asso.context=' . $db->quote('com_menus.item'))
-				->join('LEFT', '#__associations AS asso2 ON asso2.key = asso.key')
-				->group('a.id, e.enabled, l.title, l.image, u.name, c.element, ag.title, e.name, mt.id, mt.title, l.sef');
+			$subQuery = $db->getQuery(true)
+				->select('COUNT(' . $db->quoteName('asso1.id') . ') > 1')
+				->from($db->quoteName('#__associations', 'asso1'))
+				->join('INNER', $db->quoteName('#__associations', 'asso2') . ' ON ' . $db->quoteName('asso1.key') . ' = ' . $db->quoteName('asso2.key'))
+				->where(
+					array(
+						$db->quoteName('asso1.id') . ' = ' . $db->quoteName('a.id'),
+						$db->quoteName('asso1.context') . ' = ' . $db->quote('com_menus.item'),
+					)
+				);
+
+			$query->select('(' . $subQuery . ') AS ' . $db->quoteName('association'));
 		}
 
 		// Join over the extensions
@@ -339,7 +365,28 @@ class MenusModelItems extends JModelList
 
 		if (!empty($parentId))
 		{
-			$query->where('a.parent_id = ' . (int) $parentId);
+			$level = $this->getState('filter.level');
+
+			// Create a subquery for the sub-items list
+			$subQuery = $db->getQuery(true)
+				->select('sub.id')
+				->from('#__menu as sub')
+				->join('INNER', '#__menu as this ON sub.lft > this.lft AND sub.rgt < this.rgt')
+				->where('this.id = ' . (int) $parentId);
+
+			if ($level)
+			{
+				$subQuery->where('sub.level <= this.level + ' . (int) ($level - 1));
+			}
+
+			// Add the subquery to the main query
+			$query->where('(a.parent_id = ' . (int) $parentId . ' OR a.parent_id IN (' . (string) $subQuery . '))');
+		}
+
+		// Filter on the level.
+		elseif ($level = $this->getState('filter.level'))
+		{
+			$query->where('a.level <= ' . (int) $level);
 		}
 
 		// Filter the items over the menu id if set.
@@ -403,12 +450,6 @@ class MenusModelItems extends JModelList
 			}
 		}
 
-		// Filter on the level.
-		if ($level = $this->getState('filter.level'))
-		{
-			$query->where('a.level <= ' . (int) $level);
-		}
-
 		// Filter on the language.
 		if ($language = $this->getState('filter.language'))
 		{
@@ -454,10 +495,10 @@ class MenusModelItems extends JModelList
 	/**
 	 * Get the client id for a menu
 	 *
-	 * @param   string  $menuType  The menutype identifier for the menu
-	 * @param   bool    $check     Flag whether to perform check against ACL as well as existence
+	 * @param   string   $menuType  The menutype identifier for the menu
+	 * @param   boolean  $check     Flag whether to perform check against ACL as well as existence
 	 *
-	 * @return  int
+	 * @return  integer
 	 *
 	 * @since   3.7.0
 	 */
@@ -476,12 +517,16 @@ class MenusModelItems extends JModelList
 			// Check if menu type exists.
 			if (!$cMenu)
 			{
-				$this->setError(JText::_('COM_MENUS_ERROR_MENUTYPE_NOT_FOUND'));
+				JLog::add(JText::_('COM_MENUS_ERROR_MENUTYPE_NOT_FOUND'), JLog::ERROR, 'jerror');
+
+				return false;
 			}
 			// Check if menu type is valid against ACL.
 			elseif (!JFactory::getUser()->authorise('core.manage', 'com_menus.menu.' . $cMenu->id))
 			{
-				$this->setError(JText::_('JERROR_ALERTNOAUTHOR'));
+				JLog::add(JText::_('JERROR_ALERTNOAUTHOR'), JLog::ERROR, 'jerror');
+
+				return false;
 			}
 		}
 
@@ -493,7 +538,7 @@ class MenusModelItems extends JModelList
 	 *
 	 * @return  mixed  An array of data items on success, false on failure.
 	 *
-	 * @since   12.2
+	 * @since   3.0.1
 	 */
 	public function getItems()
 	{
@@ -503,6 +548,7 @@ class MenusModelItems extends JModelList
 		{
 			$items = parent::getItems();
 			$lang  = JFactory::getLanguage();
+			$client = $this->state->get('filter.client_id');
 
 			if ($items)
 			{
@@ -515,7 +561,10 @@ class MenusModelItems extends JModelList
 					}
 
 					// Translate component name
-					$item->title = JText::_($item->title);
+					if ($client === 1)
+					{
+						$item->title = JText::_($item->title);
+					}
 				}
 			}
 

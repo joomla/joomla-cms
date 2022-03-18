@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2012 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -19,7 +19,7 @@ use Joomla\CMS\Log\Logger;
  * This class allows logging to be handled by a callback function.
  * This allows unprecedented flexibility in the way logging can be handled.
  *
- * @since  12.2
+ * @since  3.0.1
  */
 class CallbackLogger extends Logger
 {
@@ -27,7 +27,7 @@ class CallbackLogger extends Logger
 	 * The function to call when an entry is added
 	 *
 	 * @var    callable
-	 * @since  12.2
+	 * @since  3.0.1
 	 */
 	protected $callback;
 
@@ -36,7 +36,7 @@ class CallbackLogger extends Logger
 	 *
 	 * @param   array  &$options  Log object options.
 	 *
-	 * @since   12.2
+	 * @since   3.0.1
 	 * @throws  \RuntimeException
 	 */
 	public function __construct(array &$options)
@@ -47,7 +47,7 @@ class CallbackLogger extends Logger
 		// Throw an exception if there is not a valid callback
 		if (!isset($this->options['callback']) || !is_callable($this->options['callback']))
 		{
-			throw new \RuntimeException('JLogLoggerCallback created without valid callback function.');
+			throw new \RuntimeException(sprintf('%s created without valid callback function.', get_class($this)));
 		}
 
 		$this->callback = $this->options['callback'];
@@ -60,7 +60,7 @@ class CallbackLogger extends Logger
 	 *
 	 * @return  void
 	 *
-	 * @since   12.2
+	 * @since   3.0.1
 	 * @throws  \RuntimeException
 	 */
 	public function addEntry(LogEntry $entry)

@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  GitHub
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2014 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -17,7 +17,7 @@ defined('JPATH_PLATFORM') or die;
  *
  * @documentation https://developer.github.com/v3/repos/contents
  *
- * @since       11.3
+ * @since       1.7.3
  * @deprecated  4.0  Use the `joomla/github` package via Composer instead
  */
 class JGithubPackageRepositoriesContents extends JGithubPackage
@@ -167,25 +167,25 @@ class JGithubPackageRepositoriesContents extends JGithubPackage
 	 *
 	 * curl -L https://api.github.com/repos/octokit/octokit.rb/tarball > octokit.tar.gz
 	 *
-	 * @param   string  $owner           The name of the owner of the GitHub repository.
-	 * @param   string  $repo            The name of the GitHub repository.
-	 * @param   string  $archive_format  Either tarball or zipball.
-	 * @param   string  $ref             The String name of the Commit/Branch/Tag. Defaults to master.
+	 * @param   string  $owner          The name of the owner of the GitHub repository.
+	 * @param   string  $repo           The name of the GitHub repository.
+	 * @param   string  $archiveFormat  Either tarball or zipball.
+	 * @param   string  $ref            The String name of the Commit/Branch/Tag. Defaults to master.
 	 *
 	 * @throws UnexpectedValueException
 	 * @since 3.3 (CMS)
 	 *
 	 * @return object
 	 */
-	public function getArchiveLink($owner, $repo, $archive_format = 'zipball', $ref = '')
+	public function getArchiveLink($owner, $repo, $archiveFormat = 'zipball', $ref = '')
 	{
-		if (false == in_array($archive_format, array('tarball', 'zipball')))
+		if (false == in_array($archiveFormat, array('tarball', 'zipball')))
 		{
 			throw new UnexpectedValueException('Archive format must be either "tarball" or "zipball".');
 		}
 
 		// Build the request path.
-		$path = '/repos/' . $owner . '/' . $repo . '/' . $archive_format;
+		$path = '/repos/' . $owner . '/' . $repo . '/' . $archiveFormat;
 
 		if ($ref)
 		{

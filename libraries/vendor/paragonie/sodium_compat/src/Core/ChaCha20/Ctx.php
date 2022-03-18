@@ -10,7 +10,7 @@ if (class_exists('ParagonIE_Sodium_Core_ChaCha20_Ctx', false)) {
 class ParagonIE_Sodium_Core_ChaCha20_Ctx extends ParagonIE_Sodium_Core_Util implements ArrayAccess
 {
     /**
-     * @var SplFixedArray<int, int>
+     * @var SplFixedArray internally, <int, int>
      */
     protected $container;
 
@@ -24,6 +24,7 @@ class ParagonIE_Sodium_Core_ChaCha20_Ctx extends ParagonIE_Sodium_Core_Util impl
      * @param string $counter The initial counter value.
      *                        Defaults to 8 0x00 bytes.
      * @throws InvalidArgumentException
+     * @throws TypeError
      */
     public function __construct($key = '', $iv = '', $counter = '')
     {
@@ -66,7 +67,9 @@ class ParagonIE_Sodium_Core_ChaCha20_Ctx extends ParagonIE_Sodium_Core_Util impl
      * @param int $offset
      * @param int $value
      * @return void
+     * @psalm-suppress MixedArrayOffset
      */
+    #[ReturnTypeWillChange]
     public function offsetSet($offset, $value)
     {
         if (!is_int($offset)) {
@@ -81,9 +84,10 @@ class ParagonIE_Sodium_Core_ChaCha20_Ctx extends ParagonIE_Sodium_Core_Util impl
     /**
      * @internal You should not use this directly from another application
      *
-     * @param mixed $offset
+     * @param int $offset
      * @return bool
      */
+    #[ReturnTypeWillChange]
     public function offsetExists($offset)
     {
         return isset($this->container[$offset]);
@@ -92,9 +96,11 @@ class ParagonIE_Sodium_Core_ChaCha20_Ctx extends ParagonIE_Sodium_Core_Util impl
     /**
      * @internal You should not use this directly from another application
      *
-     * @param mixed $offset
+     * @param int $offset
      * @return void
+     * @psalm-suppress MixedArrayOffset
      */
+    #[ReturnTypeWillChange]
     public function offsetUnset($offset)
     {
         unset($this->container[$offset]);
@@ -103,9 +109,11 @@ class ParagonIE_Sodium_Core_ChaCha20_Ctx extends ParagonIE_Sodium_Core_Util impl
     /**
      * @internal You should not use this directly from another application
      *
-     * @param mixed $offset
+     * @param int $offset
      * @return mixed|null
+     * @psalm-suppress MixedArrayOffset
      */
+    #[ReturnTypeWillChange]
     public function offsetGet($offset)
     {
         return isset($this->container[$offset])

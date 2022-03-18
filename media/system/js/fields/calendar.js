@@ -1,5 +1,5 @@
 /**
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2016 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 !(function(window, document){
@@ -26,6 +26,21 @@
 		}
 		return str;
 	};
+
+	// CustomEvent polyfill for IE
+	(function () {
+
+		if ( typeof window.CustomEvent === "function" ) return false;
+
+		function CustomEvent ( event, params ) {
+			params = params || { bubbles: false, cancelable: false, detail: undefined };
+			var evt = document.createEvent('CustomEvent');
+			evt.initCustomEvent( event, params.bubbles, params.cancelable, params.detail );
+			return evt;
+		}
+
+		window.CustomEvent = CustomEvent;
+	})();
 
 	var JoomlaCalendar = function (element) {
 
@@ -178,7 +193,7 @@
 		if (!self.params.time24) {
 			if (/pm/i.test(ampm.value) && hours < 12) {
 				hours = parseInt(hours) + 12;
-			} else if (/am/i.test(ampm.value) && hours === 12) {
+			} else if (/am/i.test(ampm.value) && hours == 12) {
 				hours = 0;
 			}
 		}
@@ -234,13 +249,11 @@
 		}
 		this.inputField.value = this.date.print(this.params.dateFormat, this.params.dateType, true);
 
-		if (typeof this.inputField.onchange == "function") {
-			this.inputField.onchange();
-		}
-
 		if (this.dateClicked && typeof this.params.onUpdate === "function") {
 			this.params.onUpdate(this);
 		}
+
+		this.inputField.dispatchEvent(new CustomEvent('change', {bubbles: true, cancelable: true}));
 
 		if (this.dateClicked) {
 			this.close();
@@ -251,7 +264,6 @@
 
 	/** Method to close/hide the calendar */
 	JoomlaCalendar.prototype.close = function () {
-		document.activeElement.blur();
 		this.hide();
 	};
 
@@ -286,7 +298,7 @@
 		/** Move the calendar to top position if it doesn't fit below. */
 		var containerTmp = this.element.querySelector('.js-calendar');
 
-		if ((window.innerHeight + window.scrollY) < containerTmp.getBoundingClientRect().bottom + 20) {
+		if (window.innerHeight < containerTmp.getBoundingClientRect().bottom + 20) {
 			containerTmp.style.marginTop = - (containerTmp.getBoundingClientRect().height + this.inputField.getBoundingClientRect().height) + "px";
 		}
 
@@ -748,7 +760,7 @@
 				if (t12) {
 					var selAttr = true,
 						altDate = Date.parseFieldDate(self.inputField.getAttribute('data-alt-value'), self.params.dateFormat, 'gregorian');
-					pm = (altDate.getHours() > 12);
+					pm = (altDate.getHours() >= 12);
 
 					var part = createElement("select", cell);
 					part.className = "time-ampm";
@@ -784,11 +796,10 @@
 		row = createElement("div", this.wrapper);
 		row.className = "buttons-wrapper btn-group";
 
-		this._nav_save = hh(JoomlaCalLocale.save, '', 100, 'button', '', 'js-btn btn btn-clear', {"type": "button", "data-action": "clear"});
+		this._nav_clear = hh(JoomlaCalLocale.clear, '', 100, 'button', '', 'js-btn btn btn-clear', {"type": "button", "data-action": "clear"});
 
-		if (!this.inputField.hasAttribute('required')) {
-			var savea = row.querySelector('[data-action="clear"]');
-			savea.addEventListener("click", function (e) {
+			var cleara = row.querySelector('[data-action="clear"]');
+			cleara.addEventListener("click", function (e) {
 				e.preventDefault();
 				var days = self.table.querySelectorAll('td');
 				for (var i = 0; i < days.length; i++) {
@@ -800,8 +811,8 @@
 				self.inputField.setAttribute('data-alt-value', "0000-00-00 00:00:00");
 				self.inputField.setAttribute('value', '');
 				self.inputField.value = '';
+				self.inputField.dispatchEvent(new CustomEvent('change', {bubbles: true, cancelable: true}));
 			});
-		}
 
 		if (this.params.showsTodayBtn) {
 			this._nav_now = hh(JoomlaCalLocale.today, '', 0, 'button', '', 'js-btn btn btn-today', {"type": "button", "data-action": "today"});
@@ -861,10 +872,10 @@
 
 		if (year < this.params.minYear) {                                                                   // Check min,max year
 			year = this.params.minYear;
-			date.getOtherFullYear(this.params.dateType, year);
+			date.setOtherFullYear(this.params.dateType, year);
 		} else if (year > this.params.maxYear) {
 			year = this.params.maxYear;
-			date.getOtherFullYear(this.params.dateType, year);
+			date.setOtherFullYear(this.params.dateType, year);
 		}
 
 		this.params.firstDayOfWeek = firstDayOfWeek;
@@ -963,7 +974,14 @@
 
 			/* remove the selected class  for the hours*/
 			this.resetSelected(hoursEl);
-			hoursEl.value = hrs;
+			if (!this.params.time24)
+			{
+				hoursEl.value = (hrs == "00") ? "12" : hrs;
+			}
+			else
+			{
+				hoursEl.value = hrs;
+			}
 
 			/* remove the selected class  for the minutes*/
 			this.resetSelected(minsEl);

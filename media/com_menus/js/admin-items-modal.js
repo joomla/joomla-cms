@@ -1,5 +1,5 @@
 /**
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2017 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 (function() {
@@ -32,7 +32,11 @@
 
 		/** Use the API, if editor supports it **/
 		if (window.parent.Joomla && window.parent.Joomla.editors && window.parent.Joomla.editors.instances && window.parent.Joomla.editors.instances.hasOwnProperty(editor)) {
-			window.parent.Joomla.editors.instances[editor].replaceSelection(tag)
+			if (typeof window.parent.Joomla.editors.instances[editor]['getSelection'] !== 'undefined' && window.parent.Joomla.editors.instances[editor].getSelection()) {
+				window.parent.Joomla.editors.instances[editor].replaceSelection('<a href=\"' + uri + thislang + lang + '">' + window.parent.Joomla.editors.instances[editor].getSelection() + '</a>');
+			} else {
+				window.parent.Joomla.editors.instances[editor].replaceSelection(tag)
+			}
 		} else {
 			window.parent.jInsertEditorText(tag, editor);
 		}

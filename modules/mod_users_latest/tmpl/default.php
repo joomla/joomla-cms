@@ -3,14 +3,14 @@
  * @package     Joomla.Site
  * @subpackage  mod_users_latest
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2009 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 ?>
 <?php if (!empty($names)) : ?>
-	<ul class="latestusers<?php echo $moduleclass_sfx; ?>" >
+	<ul class="latestusers<?php echo $moduleclass_sfx; ?> mod-list" >
 	<?php foreach ($names as $name) : ?>
 		<li>
 			<?php echo $name->username; ?>

@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  System.Debug
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2006 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -111,13 +111,13 @@ class PlgSystemDebug extends JPlugin
 		parent::__construct($subject, $config);
 
 		// Log the deprecated API.
-		if ($this->params->get('log-deprecated'))
+		if ($this->params->get('log-deprecated', 0))
 		{
 			JLog::addLogger(array('text_file' => 'deprecated.php'), JLog::ALL, array('deprecated'));
 		}
 
 		// Log everything (except deprecated APIs, these are logged separately with the option above).
-		if ($this->params->get('log-everything'))
+		if ($this->params->get('log-everything', 0))
 		{
 			JLog::addLogger(array('text_file' => 'everything.php'), JLog::ALL, array('deprecated', 'databasequery'), true);
 		}
@@ -169,7 +169,7 @@ class PlgSystemDebug extends JPlugin
 			}
 
 			// Split into an array at any character other than alphabet, numbers, _, ., or -
-			$categories = array_filter(preg_split('/[^A-Z0-9_\.-]/i', $this->params->get('log_categories', '')));
+			$categories = preg_split('/[^\w.-]+/', $this->params->get('log_categories', ''), -1, PREG_SPLIT_NO_EMPTY);
 			$mode       = $this->params->get('log_category_mode', 0);
 
 			JLog::addLogger(array('logger' => 'callback', 'callback' => array($this, 'logger')), $priority, $categories, $mode);
@@ -283,7 +283,7 @@ class PlgSystemDebug extends JPlugin
 
 		$html[] = '<div id="system-debug" class="profiler">';
 
-		$html[] = '<h1>' . JText::_('PLG_DEBUG_TITLE') . '</h1>';
+		$html[] = '<h2>' . JText::_('PLG_DEBUG_TITLE') . '</h2>';
 
 		if (JDEBUG)
 		{
@@ -331,7 +331,7 @@ class PlgSystemDebug extends JPlugin
 				$html[] = $this->display('language_files_loaded');
 			}
 
-			if ($this->params->get('language_strings'))
+			if ($this->params->get('language_strings', 1))
 			{
 				$html[] = $this->display('untranslated_strings');
 			}
@@ -404,7 +404,7 @@ class PlgSystemDebug extends JPlugin
 		}
 
 		// If the user is not allowed to view the output then end here.
-		$filterGroups = (array) $this->params->get('filter_groups', null);
+		$filterGroups = (array) $this->params->get('filter_groups', array());
 
 		if (!empty($filterGroups))
 		{
@@ -637,6 +637,8 @@ class PlgSystemDebug extends JPlugin
 		$totalTime = 0;
 		$totalMem  = 0;
 		$marks     = array();
+		$bars      = array();
+		$barsMem   = array();
 
 		foreach (JProfiler::getInstance('Application')->getMarks() as $mark)
 		{
@@ -662,8 +664,8 @@ class PlgSystemDebug extends JPlugin
 			);
 		}
 
-		$avgTime = $totalTime / count($marks);
-		$avgMem  = $totalMem / count($marks);
+		$avgTime = $totalTime / max(count($marks), 1);
+		$avgMem  = $totalMem / max(count($marks), 1);
 
 		foreach ($marks as $mark)
 		{
@@ -772,7 +774,7 @@ class PlgSystemDebug extends JPlugin
 						sprintf('<span class="label ' . $labelClass . '">%.2f&nbsp;ms</span>', $totalQueryTime)
 					) . '</div>';
 
-				if ($this->params->get('log-executed-sql', '0'))
+				if ($this->params->get('log-executed-sql', 0))
 				{
 					$this->writeToFile();
 				}
@@ -947,7 +949,7 @@ class PlgSystemDebug extends JPlugin
 					'class' => $barClass,
 					'width' => $barWidth,
 					'pre'   => $barPre,
-					'tip'   => sprintf('%.2f&nbsp;ms', $queryTime),
+					'tip'   => sprintf('%.2f ms', $queryTime),
 				);
 				$info[$id] = (object) array(
 					'class'       => $labelClass,
@@ -1173,7 +1175,7 @@ class PlgSystemDebug extends JPlugin
 					}
 
 					$htmlQuery = '<div class="alert alert-error">' . JText::_('PLG_DEBUG_QUERY_DUPLICATES') . ': ' . implode('&nbsp; ', $dups) . '</div>'
-						. '<pre class="alert hasTooltip" title="' . JHtml::_('tooltipText', 'PLG_DEBUG_QUERY_DUPLICATES_FOUND') . '">' . $text . '</pre>';
+						. '<pre class="alert" title="' . htmlspecialchars(JText::_('PLG_DEBUG_QUERY_DUPLICATES_FOUND'), ENT_COMPAT, 'UTF-8') . '">' . $text . '</pre>';
 				}
 				else
 				{
@@ -1324,15 +1326,9 @@ class PlgSystemDebug extends JPlugin
 				$barClass .= ' dbg-bar-active';
 			}
 
-			$tip = '';
+			$tip = empty($bar->tip) ? '' : ' title="' . htmlspecialchars($bar->tip, ENT_COMPAT, 'UTF-8') . '"';
 
-			if (isset($bar->tip) && $bar->tip)
-			{
-				$barClass .= ' hasTooltip';
-				$tip      = JHtml::_('tooltipText', $bar->tip, '', 0);
-			}
-
-			$html[] = '<a class="bar dbg-bar ' . $barClass . '" title="' . $tip . '" style="width: '
+			$html[] = '<a class="bar dbg-bar ' . $barClass . '"' . $tip . ' style="width: '
 				. $bar->width . '%;" href="#dbg-' . $class . '-' . ($i + 1) . '"></a>';
 		}
 
@@ -1422,8 +1418,8 @@ class PlgSystemDebug extends JPlugin
 					if ($td === 'NULL')
 					{
 						// Displays query parts which don't use a key with warning:
-						$html[]      = '<td><strong>' . '<span class="dbg-warning hasTooltip" title="'
-							. JHtml::_('tooltipText', 'PLG_DEBUG_WARNING_NO_INDEX_DESC') . '">'
+						$html[]      = '<td><strong>' . '<span class="dbg-warning" title="'
+							. htmlspecialchars(JText::_('PLG_DEBUG_WARNING_NO_INDEX_DESC'), ENT_COMPAT, 'UTF-8') . '">'
 							. JText::_('PLG_DEBUG_WARNING_NO_INDEX') . '</span>' . '</strong>';
 						$hasWarnings = true;
 					}
@@ -1442,8 +1438,8 @@ class PlgSystemDebug extends JPlugin
 					// Displays warnings for "Using filesort":
 					$htmlTdWithWarnings = str_replace(
 						'Using&nbsp;filesort',
-						'<span class="dbg-warning hasTooltip" title="'
-						. JHtml::_('tooltipText', 'PLG_DEBUG_WARNING_USING_FILESORT_DESC') . '">'
+						'<span class="dbg-warning" title="'
+						. htmlspecialchars(JText::_('PLG_DEBUG_WARNING_USING_FILESORT_DESC'), ENT_COMPAT, 'UTF-8') . '">'
 						. JText::_('PLG_DEBUG_WARNING_USING_FILESORT') . '</span>',
 						$htmlTd
 					);
@@ -1465,6 +1461,7 @@ class PlgSystemDebug extends JPlugin
 
 			$html[] = '</tr>';
 		}
+
 		$html[] = '</tbody>';
 		$html[] = '</table>';
 
@@ -1530,6 +1527,12 @@ class PlgSystemDebug extends JPlugin
 			foreach ($log as $k => $query)
 			{
 				$dbVersion56 = $db->getServerType() === 'mysql' && version_compare($db->getVersion(), '5.6', '>=');
+				$dbVersion80 = $db->getServerType() === 'mysql' && version_compare($db->getVersion(), '8.0', '>=');
+
+				if ($dbVersion80)
+				{
+					$dbVersion56 = false;
+				}
 
 				if ((stripos($query, 'select') === 0) || ($dbVersion56 && ((stripos($query, 'delete') === 0) || (stripos($query, 'update') === 0))))
 				{
@@ -1620,7 +1623,7 @@ class PlgSystemDebug extends JPlugin
 	 */
 	protected function displayUntranslatedStrings()
 	{
-		$stripFirst = $this->params->get('strip-first');
+		$stripFirst = $this->params->get('strip-first', 1);
 		$stripPref  = $this->params->get('strip-prefix');
 		$stripSuff  = $this->params->get('strip-suffix');
 
@@ -2013,8 +2016,11 @@ class PlgSystemDebug extends JPlugin
 		// In PHP 5.4.0 or later we have pretty print option.
 		if (version_compare(PHP_VERSION, '5.4', '>='))
 		{
-			$json = json_encode($json, JSON_PRETTY_PRINT);
+			$json = json_encode($json, JSON_UNESCAPED_SLASHES|JSON_PRETTY_PRINT);
 		}
+
+		// Escape HTML in session vars
+		$json = htmlentities($json);
 
 		// Add some colors
 		$json = preg_replace('#"([^"]+)":#', '<span class=\'black\'>"</span><span class=\'green\'>$1</span><span class=\'black\'>"</span>:', $json);
@@ -2036,7 +2042,7 @@ class PlgSystemDebug extends JPlugin
 		$app    = JFactory::getApplication();
 		$domain = $app->isClient('site') ? 'site' : 'admin';
 		$input  = $app->input;
-		$file   = $app->get('log_path') . '/' . $domain . '_' . $input->get('option') . $input->get('view') . $input->get('layout') . '.sql';
+		$file   = $app->get('log_path') . '/' . $domain . '_' . $input->get('option') . $input->get('view') . $input->get('layout') . '.sql.php';
 
 		// Get the queries from log.
 		$current = '';
@@ -2059,7 +2065,13 @@ class PlgSystemDebug extends JPlugin
 			JFile::delete($file);
 		}
 
+		$head   = array('#');
+		$head[] = '#<?php die(\'Forbidden.\'); ?>';
+		$head[] = '#Date: ' . gmdate('Y-m-d H:i:s') . ' UTC';
+		$head[] = '#Software: ' . \JPlatform::getLongVersion();
+		$head[] = "\n";
+
 		// Write new file.
-		JFile::write($file, $current);
+		JFile::write($file, implode("\n", $head) . $current);
 	}
 }

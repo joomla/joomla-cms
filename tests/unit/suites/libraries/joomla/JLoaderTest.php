@@ -2,7 +2,7 @@
 /**
  * @package    Joomla.UnitTest
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2013 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -10,7 +10,7 @@
  * Test class for JLoader.
  *
  * @package  Joomla.UnitTest
- * @since    11.1
+ * @since    1.7.0
  */
 class JLoaderTest extends \PHPUnit\Framework\TestCase
 {
@@ -18,7 +18,7 @@ class JLoaderTest extends \PHPUnit\Framework\TestCase
 	 * Container for JLoader static values during tests.
 	 *
 	 * @var    array
-	 * @since  12.3
+	 * @since  3.1.4
 	 */
 	protected static $cache = array();
 
@@ -26,7 +26,7 @@ class JLoaderTest extends \PHPUnit\Framework\TestCase
 	 * JLoader is an abstract class of static functions and variables, so will test without instantiation
 	 *
 	 * @var    object
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected $object;
 
@@ -34,7 +34,7 @@ class JLoaderTest extends \PHPUnit\Framework\TestCase
 	 * The path to the bogus object for loader testing.
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected $bogusPath;
 
@@ -42,7 +42,7 @@ class JLoaderTest extends \PHPUnit\Framework\TestCase
 	 * The full path (including filename) to the bogus object.
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected $bogusFullPath;
 
@@ -51,7 +51,7 @@ class JLoaderTest extends \PHPUnit\Framework\TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public static function setUpBeforeClass()
 	{
@@ -68,7 +68,7 @@ class JLoaderTest extends \PHPUnit\Framework\TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public static function tearDownAfterClass()
 	{
@@ -86,7 +86,7 @@ class JLoaderTest extends \PHPUnit\Framework\TestCase
 	 *
 	 * @return  array
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function casesImport()
 	{
@@ -101,7 +101,7 @@ class JLoaderTest extends \PHPUnit\Framework\TestCase
 	 *
 	 * @return  array
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function casesJimport()
 	{
@@ -115,7 +115,7 @@ class JLoaderTest extends \PHPUnit\Framework\TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function testDiscover()
 	{
@@ -190,7 +190,7 @@ class JLoaderTest extends \PHPUnit\Framework\TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function testGetClassList()
 	{
@@ -202,7 +202,7 @@ class JLoaderTest extends \PHPUnit\Framework\TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function testLoad()
 	{
@@ -280,6 +280,72 @@ class JLoaderTest extends \PHPUnit\Framework\TestCase
 	}
 
 	/**
+	 * Tests the JLoader::loadByPsr4 method.
+	 *
+	 * @return  void
+	 *
+	 * @since   3.8.3
+	 */
+	public function testLoadByPsr4()
+	{
+		// Clear the namespaces array for this test
+		TestReflection::setValue('JLoader', 'namespaces', array('psr0' => array(), 'psr4' => array()));
+
+		// Register namespace at first. Odd leading and trailing backslashes must be automatically removed from namespace
+		JLoader::registerNamespace('\\DummyNamespace\\', JPATH_TEST_STUBS . '/DummyNamespace', $reset = true, $prepend = false, $type = 'psr4');
+
+		$this->assertThat(JLoader::loadByPsr4('DummyNamespace\DummyClass'), $this->isTrue(), 'Tests that the class file was loaded.');
+	}
+
+	/**
+	 * Tests the JLoader::loadByPsr4 method does not allow loading a file outside the namespace root.
+	 *
+	 * @return  void
+	 *
+	 * @since   3.8.9
+	 */
+	public function testLoadByPsr4DisallowsSnoopingOutsideRoot()
+	{
+		$this->assertThat(JLoader::loadByPsr4('Joomla\\CMS\\../cms'), $this->isFalse(), 'Tests that the class file was not loaded.');
+	}
+
+	/**
+	 * Tests the JLoader::loadByPsr0 method does not allow loading a file outside the namespace root.
+	 *
+	 * @return  void
+	 *
+	 * @since   3.8.9
+	 */
+	public function testLoadByPsr0DisallowsSnoopingOutsideRoot()
+	{
+		// Clear the namespaces array for this test
+		TestReflection::setValue('JLoader', 'namespaces', array('psr0' => array(), 'psr4' => array()));
+
+		$path = JPATH_TEST_STUBS . '/discover2';
+		JLoader::registerNamespace('discover', $path);
+
+		$this->assertThat(JLoader::loadByPsr0('discover3\\../../FormInspectors'), $this->isFalse(), 'Tests that the class file was not loaded.');
+	}
+
+	/**
+	 * Tests the JLoader::_autoload method does not allow loading a file outside the path root.
+	 *
+	 * @return  void
+	 *
+	 * @since   3.8.9
+	 */
+	public function testAutoloadDisallowsSnoopingOutsideRoot()
+	{
+		$this->assertThat(JLoader::_autoload('JClass/../../Import'), $this->isFalse(), 'Tests that the class file was not loaded.');
+
+		// This scenario is skipped because there is a conundrum validating we doesn't traverse out of the libraries/cms directory to include libraries/cms.php
+		if (false)
+		{
+			$this->assertThat(JLoader::_autoload('JClass/../../Cms'), $this->isFalse(), 'Tests that the class file was not loaded.');
+		}
+	}
+
+	/**
 	 * Tests the JLoader::registerAlias method if the alias is loaded when the original class is loaded.
 	 *
 	 * @return  void
@@ -324,7 +390,7 @@ class JLoaderTest extends \PHPUnit\Framework\TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function testLoadForSinglePart()
 	{
@@ -341,7 +407,7 @@ class JLoaderTest extends \PHPUnit\Framework\TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function testApplyAliasForAutorun()
 	{
@@ -367,7 +433,7 @@ class JLoaderTest extends \PHPUnit\Framework\TestCase
 	 * @return  void
 	 *
 	 * @dataProvider casesImport
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function testImport($filePath, $base, $libraries, $expect, $message, $useDefaults)
 	{
@@ -393,7 +459,7 @@ class JLoaderTest extends \PHPUnit\Framework\TestCase
 	 * @return  void
 	 *
 	 * @dataProvider casesJimport
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function testJimport($object, $expect, $message)
 	{
@@ -405,7 +471,7 @@ class JLoaderTest extends \PHPUnit\Framework\TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function testRegister()
 	{
@@ -431,10 +497,13 @@ class JLoaderTest extends \PHPUnit\Framework\TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function testRegisterNamespace()
 	{
+		// Clear the namespaces array for this test
+		TestReflection::setValue('JLoader', 'namespaces', array('psr0' => array(), 'psr4' => array()));
+
 		// Try with a valid path.
 		$path = JPATH_TEST_STUBS . '/discover1';
 		JLoader::registerNamespace('discover', $path);
@@ -453,14 +522,17 @@ class JLoaderTest extends \PHPUnit\Framework\TestCase
 	}
 
 	/**
-	 * Tests the JLoader::registerNamespace method when reseting the paths.
+	 * Tests the JLoader::registerNamespace method when resetting the paths.
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function testRegisterNamespaceResetPath()
 	{
+		// Clear the namespaces array for this test
+		TestReflection::setValue('JLoader', 'namespaces', array('psr0' => array(), 'psr4' => array()));
+
 		// Insert a first path.
 		$path = JPATH_TEST_STUBS . '/discover1';
 		JLoader::registerNamespace('discover', $path);
@@ -479,12 +551,44 @@ class JLoaderTest extends \PHPUnit\Framework\TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 * @expectedException  RuntimeException
 	 */
 	public function testRegisterNamespaceException()
 	{
+		// Clear the namespaces array for this test
+		TestReflection::setValue('JLoader', 'namespaces', array('psr0' => array(), 'psr4' => array()));
+
 		JLoader::registerNamespace('Color', 'dummy');
+	}
+
+	/**
+	 * Tests the JLoader::registerNamespace method for namespace trimming of leading and trailing backslashes.
+	 *
+	 * @return  void
+	 *
+	 * @since   3.1.4
+	 */
+	public function testRegisterNamespaceTrimming()
+	{
+		// Clear the namespaces array for this test
+		TestReflection::setValue('JLoader', 'namespaces', array('psr0' => array(), 'psr4' => array()));
+
+		// Try registering namespace with leading backslash.
+		$path = JPATH_TEST_STUBS . '/discover1';
+		JLoader::registerNamespace('\\discover1', $path);
+
+		$namespaces = JLoader::getNamespaces();
+
+		$this->assertContains($path, $namespaces['discover1']);
+
+		// Try registering namespace with trailing backslash.
+		$path = JPATH_TEST_STUBS . '/discover2';
+		JLoader::registerNamespace('discover2\\', $path);
+
+		$namespaces = JLoader::getNamespaces();
+
+		$this->assertContains($path, $namespaces['discover2']);
 	}
 
 	/**
@@ -492,7 +596,7 @@ class JLoaderTest extends \PHPUnit\Framework\TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function testRegisterPrefix()
 	{
@@ -584,7 +688,7 @@ class JLoaderTest extends \PHPUnit\Framework\TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 * @expectedException RuntimeException
 	 */
 	public function testRegisterPrefixException()
@@ -598,7 +702,7 @@ class JLoaderTest extends \PHPUnit\Framework\TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function testSetupDefaultParameters()
 	{
@@ -617,6 +721,7 @@ class JLoaderTest extends \PHPUnit\Framework\TestCase
 		$foundLoad = false;
 		$foundAutoload = false;
 		$foundLoadByPsr0 = false;
+		$foundLoadByPsr4 = false;
 		$foundLoadByAlias = false;
 
 		// We search the list of autoload functions to see if our methods are there.
@@ -639,6 +744,11 @@ class JLoaderTest extends \PHPUnit\Framework\TestCase
 					$foundLoadByPsr0 = true;
 				}
 
+				if ($loader[1] === 'loadByPsr4')
+				{
+					$foundLoadByPsr4 = true;
+				}
+
 				if ($loader[1] === 'loadByAlias')
 				{
 					$foundLoadByAlias = true;
@@ -659,6 +769,9 @@ class JLoaderTest extends \PHPUnit\Framework\TestCase
 		// Assert the PSR-0 loader is found.
 		$this->assertTrue($foundLoadByPsr0);
 
+		// Assert the PSR-4 loader is found.
+		$this->assertTrue($foundLoadByPsr4);
+
 		// Assert the Alias loader is found.
 		$this->assertTrue($foundLoadByAlias);
 	}
@@ -668,7 +781,7 @@ class JLoaderTest extends \PHPUnit\Framework\TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function testSetupWithoutClasses()
 	{
@@ -704,7 +817,7 @@ class JLoaderTest extends \PHPUnit\Framework\TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function testSetupWithoutPrefixes()
 	{
@@ -748,7 +861,7 @@ class JLoaderTest extends \PHPUnit\Framework\TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function testSetupPsr0()
 	{
@@ -762,6 +875,7 @@ class JLoaderTest extends \PHPUnit\Framework\TestCase
 		$loaders = spl_autoload_functions();
 
 		$foundLoadPsr0 = false;
+		$foundLoadPsr4 = false;
 		$foundLoadAlias = false;
 
 		// We search the list of autoload functions to see if our method is here.
@@ -772,6 +886,11 @@ class JLoaderTest extends \PHPUnit\Framework\TestCase
 				if ($loader[1] === 'loadByPsr0')
 				{
 					$foundLoadPsr0 = true;
+				}
+
+				if ($loader[1] === 'loadByPsr4')
+				{
+					$foundLoadPsr4 = true;
 				}
 
 				if ($loader[1] === 'loadByAlias')
@@ -785,6 +904,9 @@ class JLoaderTest extends \PHPUnit\Framework\TestCase
 		$this->assertTrue($foundLoadPsr0);
 
 		// We expect to find it.
+		$this->assertTrue($foundLoadPsr4);
+
+		// We expect to find it.
 		$this->assertTrue($foundLoadAlias);
 	}
 
@@ -793,7 +915,7 @@ class JLoaderTest extends \PHPUnit\Framework\TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	protected function unregisterLoaders()
 	{
@@ -807,6 +929,7 @@ class JLoaderTest extends \PHPUnit\Framework\TestCase
 				&& ($loader[1] === 'load'
 				|| $loader[1] === '_autoload'
 				|| $loader[1] === 'loadByPsr0'
+				|| $loader[1] === 'loadByPsr4'
 				|| $loader[1] === 'loadByAlias'))
 			{
 				spl_autoload_unregister($loader);
@@ -821,7 +944,7 @@ class JLoaderTest extends \PHPUnit\Framework\TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	protected function setUp()
 	{

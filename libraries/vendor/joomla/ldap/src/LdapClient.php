@@ -1,8 +1,8 @@
 <?php
 /**
- * Part of the Joomla Framework Client Package
+ * Part of the Joomla Framework LDAP Package
  *
- * @copyright  Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -11,89 +11,138 @@ namespace Joomla\Ldap;
 /**
  * LDAP client class
  *
- * @since  1.0
+ * @since       1.0
+ * @deprecated  The joomla/ldap package is deprecated
  */
 class LdapClient
 {
 	/**
-	 * @var    string  Hostname of LDAP server
-	 * @since  1.0
-	 */
-	public $host = null;
-
-	/**
-	 * @var    bool  Authorization Method to use
-	 * @since  1.0
-	 */
-	public $auth_method = null;
-
-	/**
-	 * @var    int  Port of LDAP server
-	 * @since  1.0
-	 */
-	public $port = null;
-
-	/**
-	 * @var    string  Base DN (e.g. o=MyDir)
-	 * @since  1.0
-	 */
-	public $base_dn = null;
-
-	/**
-	 * @var    string  User DN (e.g. cn=Users,o=MyDir)
-	 * @since  1.0
-	 */
-	public $users_dn = null;
-
-	/**
-	 * @var    string  Search String
-	 * @since  1.0
-	 */
-	public $search_string = null;
-
-	/**
-	 * @var    boolean  Use LDAP Version 3
-	 * @since  1.0
-	 */
-	public $use_ldapV3 = null;
-
-	/**
-	 * @var    boolean  No referrals (server transfers)
-	 * @since  1.0
-	 */
-	public $no_referrals = null;
-
-	/**
-	 * @var    boolean  Negotiate TLS (encrypted communications)
-	 * @since  1.0
-	 */
-	public $negotiate_tls = null;
-
-	/**
-	 * @var    string  Username to connect to server
-	 * @since  1.0
-	 */
-	public $username = null;
-
-	/**
+	 * Hostname of LDAP server
 	 *
-	 * @var    string  Password to connect to server
+	 * @var    string
 	 * @since  1.0
 	 */
-	public $password = null;
+	public $host;
 
 	/**
-	 * @var    mixed  LDAP Resource Identifier
-	 * @since  1.0
-	 */
-	private $resource = null;
-
-	/**
+	 * Authorization Method to use
 	 *
-	 * @var    string  Current DN
+	 * @var    boolean
 	 * @since  1.0
 	 */
-	private $dn = null;
+	public $auth_method;
+
+	/**
+	 * Port of LDAP server
+	 *
+	 * @var    integer
+	 * @since  1.0
+	 */
+	public $port;
+
+	/**
+	 * Base DN (e.g. o=MyDir)
+	 *
+	 * @var    string
+	 * @since  1.0
+	 */
+	public $base_dn;
+
+	/**
+	 * User DN (e.g. cn=Users,o=MyDir)
+	 *
+	 * @var    string
+	 * @since  1.0
+	 */
+	public $users_dn;
+
+	/**
+	 * Search String
+	 *
+	 * @var    string
+	 * @since  1.0
+	 */
+	public $search_string;
+
+	/**
+	 * Use LDAP Version 3
+	 *
+	 * @var    boolean
+	 * @since  1.0
+	 */
+	public $use_ldapV3;
+
+	/**
+	 * No referrals (server transfers)
+	 *
+	 * @var    boolean
+	 * @since  1.0
+	 */
+	public $no_referrals;
+
+	/**
+	 * Negotiate TLS (encrypted communications)
+	 *
+	 * @var    boolean
+	 * @since  1.0
+	 */
+	public $negotiate_tls;
+
+	/**
+	 * Ignore TLS Certificate (encrypted communications)
+	 *
+	 * @var    boolean
+	 * @since  1.5.0
+	 */
+	public $ignore_reqcert_tls;
+
+	/**
+	 * Enable LDAP debug
+	 *
+	 * @var    boolean
+	 * @since  1.5.0
+	 */
+	public $ldap_debug;
+
+	/**
+	 * Username to connect to server
+	 *
+	 * @var    string
+	 * @since  1.0
+	 */
+	public $username;
+
+	/**
+	 * Password to connect to server
+	 *
+	 * @var    string
+	 * @since  1.0
+	 */
+	public $password;
+
+	/**
+	 * LDAP Resource Identifier
+	 *
+	 * @var    resource
+	 * @since  1.0
+	 */
+	private $resource;
+
+	/**
+	 * Current DN
+	 *
+	 * @var    string
+	 * @since  1.0
+	 */
+	private $dn;
+
+	/**
+	 * Flag tracking whether the connection has been bound
+	 *
+	 * @var    boolean
+	 * @since  1.3.0
+	 */
+	private $isBound = false;
 
 	/**
 	 * Constructor
@@ -104,9 +153,9 @@ class LdapClient
 	 */
 	public function __construct($configObj = null)
 	{
-		if (is_object($configObj))
+		if (\is_object($configObj))
 		{
-			$vars = get_class_vars(get_class($this));
+			$vars = get_class_vars(\get_class($this));
 
 			foreach (array_keys($vars) as $var)
 			{
@@ -124,9 +173,19 @@ class LdapClient
 	}
 
 	/**
-	 * Connect to server
+	 * Class destructor.
 	 *
-	 * @return  boolean  True if successful
+	 * @since   1.3.0
+	 */
+	public function __destruct()
+	{
+		$this->close();
+	}
+
+	/**
+	 * Connect to an LDAP server
+	 *
+	 * @return  boolean
 	 *
 	 * @since   1.0
 	 */
@@ -137,37 +196,39 @@ class LdapClient
 			return false;
 		}
 
-		$this->resource = @ ldap_connect($this->host, $this->port);
-
-		if ($this->resource)
+		if ($this->ignore_reqcert_tls)
 		{
-			if ($this->use_ldapV3)
-			{
-				if (!@ldap_set_option($this->resource, LDAP_OPT_PROTOCOL_VERSION, 3))
-				{
-					return false;
-				}
-			}
-
-			if (!@ldap_set_option($this->resource, LDAP_OPT_REFERRALS, (int) $this->no_referrals))
-			{
-				return false;
-			}
-
-			if ($this->negotiate_tls)
-			{
-				if (!@ldap_start_tls($this->resource))
-				{
-					return false;
-				}
-			}
-
-			return true;
+			putenv('LDAPTLS_REQCERT=never');
 		}
-		else
+
+		if ($this->ldap_debug)
+		{
+			ldap_set_option(null, LDAP_OPT_DEBUG_LEVEL, 7);
+		}
+
+		$this->resource = ldap_connect($this->host, $this->port);
+
+		if (!$this->resource)
 		{
 			return false;
 		}
+
+		if ($this->use_ldapV3 && !ldap_set_option($this->resource, LDAP_OPT_PROTOCOL_VERSION, 3))
+		{
+			return false;
+		}
+
+		if (!ldap_set_option($this->resource, LDAP_OPT_REFERRALS, (int) $this->no_referrals))
+		{
+			return false;
+		}
+
+		if ($this->negotiate_tls && !ldap_start_tls($this->resource))
+		{
+			return false;
+		}
+
+		return true;
 	}
 
 	/**
@@ -179,7 +240,12 @@ class LdapClient
 	 */
 	public function close()
 	{
-		@ ldap_close($this->resource);
+		if ($this->isConnected())
+		{
+			$this->unbind();
+		}
+
+		$this->resource = null;
 	}
 
 	/**
@@ -198,7 +264,7 @@ class LdapClient
 		{
 			$this->dn = $username;
 		}
-		elseif (strlen($username))
+		elseif (\strlen($username))
 		{
 			$this->dn = str_replace('[username]', $username, $this->users_dn);
 		}
@@ -209,9 +275,9 @@ class LdapClient
 	}
 
 	/**
-	 * Get the DN
+	 * Get the configured DN
 	 *
-	 * @return  string  The current dn
+	 * @return  string
 	 *
 	 * @since   1.0
 	 */
@@ -223,15 +289,23 @@ class LdapClient
 	/**
 	 * Anonymously binds to LDAP directory
 	 *
-	 * @return  array
+	 * @return  boolean
 	 *
 	 * @since   1.0
 	 */
 	public function anonymous_bind()
 	{
-		$bindResult = @ldap_bind($this->resource);
+		if (!$this->isConnected())
+		{
+			if (!$this->connect())
+			{
+				return false;
+			}
+		}
 
-		return $bindResult;
+		$this->isBound = ldap_bind($this->resource);
+
+		return $this->isBound;
 	}
 
 	/**
@@ -247,20 +321,46 @@ class LdapClient
 	 */
 	public function bind($username = null, $password = null, $nosub = 0)
 	{
-		if (is_null($username))
+		if (!$this->isConnected())
+		{
+			if (!$this->connect())
+			{
+				return false;
+			}
+		}
+
+		if ($username === null)
 		{
 			$username = $this->username;
 		}
 
-		if (is_null($password))
+		if ($password === null)
 		{
 			$password = $this->password;
 		}
 
 		$this->setDn($username, $nosub);
-		$bindResult = @ldap_bind($this->resource, $this->getDn(), $password);
 
-		return $bindResult;
+		$this->isBound = ldap_bind($this->resource, $this->getDn(), $password);
+
+		return $this->isBound;
+	}
+
+	/**
+	 * Unbinds from the LDAP directory
+	 *
+	 * @return  boolean
+	 *
+	 * @since   1.3.0
+	 */
+	public function unbind()
+	{
+		if ($this->isBound && $this->resource && \is_resource($this->resource))
+		{
+			return ldap_unbind($this->resource);
+		}
+
+		return true;
 	}
 
 	/**
@@ -270,7 +370,7 @@ class LdapClient
 	 *
 	 * @return  array  Search results
 	 *
-	 * @since  1.0
+	 * @since   1.0
 	 */
 	public function simple_search($search)
 	{
@@ -299,6 +399,11 @@ class LdapClient
 	{
 		$result = array();
 
+		if (!$this->isBound || !$this->isConnected())
+		{
+			return $result;
+		}
+
 		if ($dnoverride)
 		{
 			$dn = $dnoverride;
@@ -308,13 +413,11 @@ class LdapClient
 			$dn = $this->base_dn;
 		}
 
-		$resource = $this->resource;
-
-		foreach ($filters as $search_filter)
+		foreach ($filters as $searchFilter)
 		{
-			$search_result = @ldap_search($resource, $dn, $search_filter, $attributes);
+			$searchResult = ldap_search($this->resource, $dn, $searchFilter, $attributes);
 
-			if ($search_result && ($count = @ldap_count_entries($resource, $search_result)) > 0)
+			if ($searchResult && ($count = ldap_count_entries($this->resource, $searchResult)) > 0)
 			{
 				for ($i = 0; $i < $count; $i++)
 				{
@@ -322,22 +425,22 @@ class LdapClient
 
 					if (!$i)
 					{
-						$firstentry = @ldap_first_entry($resource, $search_result);
+						$firstentry = ldap_first_entry($this->resource, $searchResult);
 					}
 					else
 					{
-						$firstentry = @ldap_next_entry($resource, $firstentry);
+						$firstentry = ldap_next_entry($this->resource, $firstentry);
 					}
 
 					// Load user-specified attributes
-					$result_array = @ldap_get_attributes($resource, $firstentry);
+					$attributeResult = ldap_get_attributes($this->resource, $firstentry);
 
 					// LDAP returns an array of arrays, fit this into attributes result array
-					foreach ($result_array as $ki => $ai)
+					foreach ($attributeResult as $ki => $ai)
 					{
-						if (is_array($ai))
+						if (\is_array($ai))
 						{
-							$subcount = $ai['count'];
+							$subcount        = $ai['count'];
 							$result[$i][$ki] = array();
 
 							for ($k = 0; $k < $subcount; $k++)
@@ -347,7 +450,7 @@ class LdapClient
 						}
 					}
 
-					$result[$i]['dn'] = @ldap_get_dn($resource, $firstentry);
+					$result[$i]['dn'] = ldap_get_dn($this->resource, $firstentry);
 				}
 			}
 		}
@@ -356,153 +459,193 @@ class LdapClient
 	}
 
 	/**
-	 * Replace an entry and return a true or false result
+	 * Replace attribute values with new ones
 	 *
 	 * @param   string  $dn         The DN which contains the attribute you want to replace
 	 * @param   string  $attribute  The attribute values you want to replace
 	 *
-	 * @return  mixed  result of comparison (true, false, -1 on error)
+	 * @return  boolean
 	 *
 	 * @since   1.0
 	 */
 	public function replace($dn, $attribute)
 	{
-		return @ldap_mod_replace($this->resource, $dn, $attribute);
+		if (!$this->isBound || !$this->isConnected())
+		{
+			return false;
+		}
+
+		return ldap_mod_replace($this->resource, $dn, $attribute);
 	}
 
 	/**
-	 * Modifies an entry and return a true or false result
+	 * Modify an LDAP entry
 	 *
 	 * @param   string  $dn         The DN which contains the attribute you want to modify
 	 * @param   string  $attribute  The attribute values you want to modify
 	 *
-	 * @return  mixed  result of comparison (true, false, -1 on error)
+	 * @return  boolean
 	 *
 	 * @since   1.0
 	 */
 	public function modify($dn, $attribute)
 	{
-		return @ldap_modify($this->resource, $dn, $attribute);
+		if (!$this->isBound || !$this->isConnected())
+		{
+			return false;
+		}
+
+		return ldap_modify($this->resource, $dn, $attribute);
 	}
 
 	/**
-	 * Removes attribute value from given dn and return a true or false result
+	 * Delete attribute values from current attributes
 	 *
 	 * @param   string  $dn         The DN which contains the attribute you want to remove
 	 * @param   string  $attribute  The attribute values you want to remove
 	 *
-	 * @return  mixed  result of comparison (true, false, -1 on error)
+	 * @return  boolean
 	 *
 	 * @since   1.0
 	 */
 	public function remove($dn, $attribute)
 	{
-		$resource = $this->resource;
+		if (!$this->isBound || !$this->isConnected())
+		{
+			return false;
+		}
 
-		return @ldap_mod_del($resource, $dn, $attribute);
+		return ldap_mod_del($this->resource, $dn, $attribute);
 	}
 
 	/**
-	 * Compare an entry and return a true or false result
+	 * Compare value of attribute found in entry specified with DN
 	 *
 	 * @param   string  $dn         The DN which contains the attribute you want to compare
 	 * @param   string  $attribute  The attribute whose value you want to compare
 	 * @param   string  $value      The value you want to check against the LDAP attribute
 	 *
-	 * @return  mixed  result of comparison (true, false, -1 on error)
+	 * @return  boolean|integer  Boolean result of the comparison or -1 on error
 	 *
 	 * @since   1.0
 	 */
 	public function compare($dn, $attribute, $value)
 	{
-		return @ldap_compare($this->resource, $dn, $attribute, $value);
+		if (!$this->isBound || !$this->isConnected())
+		{
+			return false;
+		}
+
+		return ldap_compare($this->resource, $dn, $attribute, $value);
 	}
 
 	/**
-	 * Read all or specified attributes of given dn
+	 * Read attributes of a given DN
 	 *
 	 * @param   string  $dn  The DN of the object you want to read
 	 *
-	 * @return  mixed  array of attributes or -1 on error
+	 * @return  array|boolean  Array of attributes for the given DN or boolean false on failure
 	 *
 	 * @since   1.0
 	 */
 	public function read($dn)
 	{
-		$base = substr($dn, strpos($dn, ',') + 1);
-		$cn = substr($dn, 0, strpos($dn, ','));
-		$result = @ldap_read($this->resource, $base, $cn);
+		if (!$this->isBound || !$this->isConnected())
+		{
+			return false;
+		}
 
-		if ($result)
+		$base   = substr($dn, strpos($dn, ',') + 1);
+		$cn     = substr($dn, 0, strpos($dn, ','));
+		$result = ldap_read($this->resource, $base, $cn);
+
+		if ($result === false)
 		{
-			return @ldap_get_entries($this->resource, $result);
+			return false;
 		}
-		else
-		{
-			return $result;
-		}
+
+		return ldap_get_entries($this->resource, $result);
 	}
 
 	/**
-	 * Deletes a given DN from the tree
+	 * Delete an entry from a directory
 	 *
 	 * @param   string  $dn  The DN of the object you want to delete
 	 *
-	 * @return  boolean  Result of operation
+	 * @return  boolean
 	 *
 	 * @since   1.0
 	 */
 	public function delete($dn)
 	{
-		return @ldap_delete($this->resource, $dn);
+		if (!$this->isBound || !$this->isConnected())
+		{
+			return false;
+		}
+
+		return ldap_delete($this->resource, $dn);
 	}
 
 	/**
-	 * Create a new DN
+	 * Add entries to LDAP directory
 	 *
 	 * @param   string  $dn       The DN where you want to put the object
 	 * @param   array   $entries  An array of arrays describing the object to add
 	 *
-	 * @return  boolean  Result of operation
+	 * @return  boolean
 	 *
 	 * @since   1.0
 	 */
 	public function create($dn, array $entries)
 	{
-		return @ldap_add($this->resource, $dn, $entries);
+		if (!$this->isBound || !$this->isConnected())
+		{
+			return false;
+		}
+
+		return ldap_add($this->resource, $dn, $entries);
 	}
 
 	/**
-	 * Add an attribute to the given DN
-	 * Note: DN has to exist already
+	 * Add attribute values to current attributes
 	 *
 	 * @param   string  $dn     The DN of the entry to add the attribute
 	 * @param   array   $entry  An array of arrays with attributes to add
 	 *
-	 * @return  boolean   Result of operation
+	 * @return  boolean
 	 *
 	 * @since   1.0
 	 */
 	public function add($dn, array $entry)
 	{
-		return @ldap_mod_add($this->resource, $dn, $entry);
+		if (!$this->isBound || !$this->isConnected())
+		{
+			return false;
+		}
+
+		return ldap_mod_add($this->resource, $dn, $entry);
 	}
 
 	/**
-	 * Rename the entry
+	 * Modify the name of an entry
 	 *
 	 * @param   string   $dn           The DN of the entry at the moment
 	 * @param   string   $newdn        The DN of the entry should be (only cn=newvalue)
 	 * @param   string   $newparent    The full DN of the parent (null by default)
 	 * @param   boolean  $deleteolddn  Delete the old values (default)
 	 *
-	 * @return  boolean  Result of operation
+	 * @return  boolean
 	 *
 	 * @since   1.0
 	 */
 	public function rename($dn, $newdn, $newparent, $deleteolddn)
 	{
-		return @ldap_rename($this->resource, $dn, $newdn, $newparent, $deleteolddn);
+		if (!$this->isBound || !$this->isConnected())
+		{
+			return false;
+		}
+
+		return ldap_rename($this->resource, $dn, $newdn, $newparent, $deleteolddn);
 	}
 
 	/**
@@ -518,19 +661,36 @@ class LdapClient
 	 */
 	public function escape($value, $ignore = '', $flags = 0)
 	{
-		return @ldap_escape($value, $ignore, $flags);
+		return ldap_escape($value, $ignore, $flags);
 	}
 
 	/**
-	 * Returns the error message
+	 * Return the LDAP error message of the last LDAP command
 	 *
-	 * @return  string   error message
+	 * @return  string
 	 *
 	 * @since   1.0
 	 */
 	public function getErrorMsg()
 	{
-		return @ldap_error($this->resource);
+		if (!$this->isBound || !$this->isConnected())
+		{
+			return '';
+		}
+
+		return ldap_error($this->resource);
+	}
+
+	/**
+	 * Check if the connection is established
+	 *
+	 * @return  boolean
+	 *
+	 * @since   1.3.0
+	 */
+	public function isConnected()
+	{
+		return $this->resource && \is_resource($this->resource);
 	}
 
 	/**
@@ -538,20 +698,20 @@ class LdapClient
 	 *
 	 * @param   string  $ip  IP Address (e.g. xxx.xxx.xxx.xxx)
 	 *
-	 * @return  string  Net address
+	 * @return  string
 	 *
 	 * @since   1.0
 	 */
 	public static function ipToNetAddress($ip)
 	{
-		$parts = explode('.', $ip);
+		$parts   = explode('.', $ip);
 		$address = '1#';
 
 		foreach ($parts as $int)
 		{
 			$tmp = dechex($int);
 
-			if (strlen($tmp) != 2)
+			if (\strlen($tmp) != 2)
 			{
 				$tmp = '0' . $tmp;
 			}
@@ -586,9 +746,9 @@ class LdapClient
 	 * @author  Jay Burrell, Systems & Networks, Mississippi State University
 	 * @since   1.0
 	 */
-	public static function LdapNetAddr($networkaddress)
+	public static function ldapNetAddr($networkaddress)
 	{
-		$addr = "";
+		$addr     = '';
 		$addrtype = (int) substr($networkaddress, 0, 1);
 
 		// Throw away bytes 0 and 1 which should be the addrtype and the "#" separator
@@ -597,7 +757,7 @@ class LdapClient
 		if (($addrtype == 8) || ($addrtype = 9))
 		{
 			// TODO 1.6: If UDP or TCP, (TODO fill addrport and) strip portnumber information from address
-			$networkaddress = substr($networkaddress, (strlen($networkaddress) - 4));
+			$networkaddress = substr($networkaddress, (\strlen($networkaddress) - 4));
 		}
 
 		$addrtypes = array(
@@ -615,27 +775,29 @@ class LdapClient
 			'TCP6',
 			'Reserved (12)',
 			'URL',
-			'Count');
-		$len = strlen($networkaddress);
+			'Count',
+		);
+
+		$len = \strlen($networkaddress);
 
 		if ($len > 0)
 		{
 			for ($i = 0; $i < $len; $i++)
 			{
 				$byte = substr($networkaddress, $i, 1);
-				$addr .= ord($byte);
+				$addr .= \ord($byte);
 
 				if (($addrtype == 1) || ($addrtype == 8) || ($addrtype = 9))
 				{
 					// Dot separate IP addresses...
-					$addr .= ".";
+					$addr .= '.';
 				}
 			}
 
 			if (($addrtype == 1) || ($addrtype == 8) || ($addrtype = 9))
 			{
 				// Strip last period from end of $addr
-				$addr = substr($addr, 0, strlen($addr) - 1);
+				$addr = substr($addr, 0, \strlen($addr) - 1);
 			}
 		}
 		else
@@ -652,7 +814,7 @@ class LdapClient
 	 * @param   string  $password  Clear text password to encrypt
 	 * @param   string  $type      Type of password hash, either md5 or SHA
 	 *
-	 * @return  string   Encrypted password
+	 * @return  string
 	 *
 	 * @since   1.0
 	 */
@@ -661,15 +823,11 @@ class LdapClient
 		switch (strtolower($type))
 		{
 			case 'sha':
-				$userpassword = '{SHA}' . base64_encode(pack('H*', sha1($password)));
-				break;
+				return '{SHA}' . base64_encode(pack('H*', sha1($password)));
 
 			case 'md5':
 			default:
-				$userpassword = '{MD5}' . base64_encode(pack('H*', md5($password)));
-				break;
+				return '{MD5}' . base64_encode(pack('H*', md5($password)));
 		}
-
-		return $userpassword;
 	}
 }

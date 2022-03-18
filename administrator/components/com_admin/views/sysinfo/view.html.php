@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_admin
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2008 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -92,7 +92,7 @@ class AdminViewSysinfo extends JViewLegacy
 	 *
 	 * @since   1.6
 	 * @note    Necessary for Hathor compatibility
- 	 * @deprecated  4.0 To be removed with Hathor
+	 * @deprecated  4.0 To be removed with Hathor
 	 */
 	protected function _setSubMenu()
 	{
@@ -117,8 +117,14 @@ class AdminViewSysinfo extends JViewLegacy
 	protected function addToolbar()
 	{
 		JToolbarHelper::title(JText::_('COM_ADMIN_SYSTEM_INFORMATION'), 'info-2 systeminfo');
-		JToolbarHelper::link(JRoute::_('index.php?option=com_admin&view=sysinfo&format=text'), 'COM_ADMIN_DOWNLOAD_SYSTEM_INFORMATION_TEXT', 'download');
-		JToolbarHelper::link(JRoute::_('index.php?option=com_admin&view=sysinfo&format=json'), 'COM_ADMIN_DOWNLOAD_SYSTEM_INFORMATION_JSON', 'download');
+		JToolbarHelper::link(
+			JRoute::_('index.php?option=com_admin&view=sysinfo&format=text&' . JSession::getFormToken() . '=1'),
+			'COM_ADMIN_DOWNLOAD_SYSTEM_INFORMATION_TEXT', 'download'
+		);
+		JToolbarHelper::link(
+			JRoute::_('index.php?option=com_admin&view=sysinfo&format=json&' . JSession::getFormToken() . '=1'),
+			'COM_ADMIN_DOWNLOAD_SYSTEM_INFORMATION_JSON', 'download'
+		);
 		JToolbarHelper::help('JHELP_SITE_SYSTEM_INFORMATION');
 	}
 }

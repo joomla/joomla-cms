@@ -2,7 +2,7 @@
 /**
  * @package    Joomla.Platform
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2005 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,7 +12,7 @@ defined('JPATH_PLATFORM') or die;
  * Static class to handle loading of libraries.
  *
  * @package  Joomla.Platform
- * @since    11.1
+ * @since    1.7.0
  */
 abstract class JLoader
 {
@@ -20,7 +20,7 @@ abstract class JLoader
 	 * Container for already imported library paths.
 	 *
 	 * @var    array
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected static $classes = array();
 
@@ -28,7 +28,7 @@ abstract class JLoader
 	 * Container for already imported library paths.
 	 *
 	 * @var    array
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected static $imported = array();
 
@@ -36,7 +36,7 @@ abstract class JLoader
 	 * Container for registered library class prefixes and path lookups.
 	 *
 	 * @var    array
-	 * @since  12.1
+	 * @since  3.0.0
 	 */
 	protected static $prefixes = array();
 
@@ -60,7 +60,7 @@ abstract class JLoader
 	 * Container for namespace => path map.
 	 *
 	 * @var    array
-	 * @since  12.3
+	 * @since  3.1.4
 	 */
 	protected static $namespaces = array('psr0' => array(), 'psr4' => array());
 
@@ -82,7 +82,7 @@ abstract class JLoader
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public static function discover($classPrefix, $parentPath, $force = true, $recurse = false)
 	{
@@ -100,7 +100,7 @@ abstract class JLoader
 				$iterator = new DirectoryIterator($parentPath);
 			}
 
-			/* @type  $file  DirectoryIterator */
+			/** @type  $file  DirectoryIterator */
 			foreach ($iterator as $file)
 			{
 				$fileName = $file->getFilename();
@@ -130,7 +130,7 @@ abstract class JLoader
 	 *
 	 * @return  array  The array of class => path values for the autoloader.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public static function getClassList()
 	{
@@ -156,7 +156,7 @@ abstract class JLoader
 	 *
 	 * @return  array  The array of namespace => path values for the autoloader.
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public static function getNamespaces($type = 'psr0')
 	{
@@ -176,7 +176,7 @@ abstract class JLoader
 	 *
 	 * @return  boolean  True on success.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public static function import($key, $base = null)
 	{
@@ -241,7 +241,7 @@ abstract class JLoader
 	 *
 	 * @return  boolean  True on success
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public static function load($class)
 	{
@@ -292,7 +292,7 @@ abstract class JLoader
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public static function register($class, $path, $force = true)
 	{
@@ -332,7 +332,7 @@ abstract class JLoader
 	 *
 	 * @throws  RuntimeException
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public static function registerPrefix($prefix, $path, $reset = false, $prepend = false)
 	{
@@ -378,21 +378,21 @@ abstract class JLoader
 	public static function registerAlias($alias, $original, $version = false)
 	{
 		// PHP is case insensitive so support all kind of alias combination
-		$alias = strtolower($alias);
+		$lowercasedAlias = strtolower($alias);
 
-		if (!isset(self::$classAliases[$alias]))
+		if (!isset(self::$classAliases[$lowercasedAlias]))
 		{
-			self::$classAliases[$alias] = $original;
+			self::$classAliases[$lowercasedAlias] = $original;
 
 			$original = self::stripFirstBackslash($original);
 
 			if (!isset(self::$classAliasesInverse[$original]))
 			{
-				self::$classAliasesInverse[$original] = array($alias);
+				self::$classAliasesInverse[$original] = array($lowercasedAlias);
 			}
 			else
 			{
-				self::$classAliasesInverse[$original][] = $alias;
+				self::$classAliasesInverse[$original][] = $lowercasedAlias;
 			}
 
 			// If given a version, log this alias as deprecated
@@ -421,7 +421,7 @@ abstract class JLoader
 	 * @throws  RuntimeException
 	 *
 	 * @note    The default argument of $type will be changed in J4 to be 'psr4'
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public static function registerNamespace($namespace, $path, $reset = false, $prepend = false, $type = 'psr0')
 	{
@@ -437,6 +437,9 @@ abstract class JLoader
 
 			throw new RuntimeException('Library path ' . $path . ' cannot be found.', 500);
 		}
+
+		// Trim leading and trailing backslashes from namespace, allowing "\Parent\Child", "Parent\Child\" and "\Parent\Child\" to be treated the same way.
+		$namespace = trim($namespace, '\\');
 
 		// If the namespace is not yet registered or we have an explicit reset flag then set the path.
 		if ($reset || !isset(self::$namespaces[$type][$namespace]))
@@ -471,7 +474,7 @@ abstract class JLoader
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public static function setup($enablePsr = true, $enablePrefixes = true, $enableClasses = true)
 	{
@@ -533,14 +536,20 @@ abstract class JLoader
 		// Loop through registered namespaces until we find a match.
 		foreach (self::$namespaces['psr4'] as $ns => $paths)
 		{
-			$nsPath = trim(str_replace('\\', DIRECTORY_SEPARATOR, $ns), DIRECTORY_SEPARATOR);
-
-			if (strpos($class, $ns) === 0)
+			if (strpos($class, "{$ns}\\") === 0)
 			{
+				$nsPath = trim(str_replace('\\', DIRECTORY_SEPARATOR, $ns), DIRECTORY_SEPARATOR);
+
 				// Loop through paths registered to this namespace until we find a match.
 				foreach ($paths as $path)
 				{
-					$classFilePath = $path . DIRECTORY_SEPARATOR . substr_replace($classPath, '', 0, strlen($nsPath) + 1);
+					$classFilePath = realpath($path . DIRECTORY_SEPARATOR . substr_replace($classPath, '', 0, strlen($nsPath) + 1));
+
+					// We do not allow files outside the namespace root to be loaded
+					if (strpos($classFilePath, realpath($path)) !== 0)
+					{
+						continue;
+					}
 
 					// We check for class_exists to handle case-sensitive file systems
 					if (file_exists($classFilePath) && !class_exists($class, false))
@@ -568,7 +577,7 @@ abstract class JLoader
 	 *
 	 * @return  boolean  True on success, false otherwise.
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 *
 	 * @deprecated 4.0 this method will be removed
 	 */
@@ -602,7 +611,13 @@ abstract class JLoader
 				// Loop through paths registered to this namespace until we find a match.
 				foreach ($paths as $path)
 				{
-					$classFilePath = $path . DIRECTORY_SEPARATOR . $classPath;
+					$classFilePath = realpath($path . DIRECTORY_SEPARATOR . $classPath);
+
+					// We do not allow files outside the namespace root to be loaded
+					if (strpos($classFilePath, realpath($path)) !== 0)
+					{
+						continue;
+					}
 
 					// We check for class_exists to handle case-sensitive file systems
 					if (file_exists($classFilePath) && !class_exists($class, false))
@@ -679,7 +694,7 @@ abstract class JLoader
 	 *
 	 * @return  boolean  True if the class was loaded, false otherwise.
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public static function _autoload($class)
 	{
@@ -704,7 +719,7 @@ abstract class JLoader
 	 *
 	 * @return  boolean  True if the class was loaded, false otherwise.
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	private static function _load($class, $lookup)
 	{
@@ -715,10 +730,10 @@ abstract class JLoader
 		foreach ($lookup as $base)
 		{
 			// Generate the path based on the class name parts.
-			$path = $base . '/' . implode('/', array_map('strtolower', $parts)) . '.php';
+			$path = realpath($base . '/' . implode('/', array_map('strtolower', $parts)) . '.php');
 
-			// Load the file if it exists.
-			if (file_exists($path))
+			// Load the file if it exists and is in the lookup path.
+			if (strpos($path, realpath($base)) === 0 && file_exists($path))
 			{
 				$found = (bool) include_once $path;
 
@@ -736,10 +751,10 @@ abstract class JLoader
 			if ($partsCount === 1)
 			{
 				// Generate the path based on the class name parts.
-				$path = $base . '/' . implode('/', array_map('strtolower', array($parts[0], $parts[0]))) . '.php';
+				$path = realpath($base . '/' . implode('/', array_map('strtolower', array($parts[0], $parts[0]))) . '.php');
 
-				// Load the file if it exists.
-				if (file_exists($path))
+				// Load the file if it exists and is in the lookup path.
+				if (strpos($path, realpath($base)) === 0 && file_exists($path))
 				{
 					$found = (bool) include_once $path;
 
@@ -807,7 +822,7 @@ if (!function_exists('jexit'))
 	 * @return  void
 	 *
 	 * @codeCoverageIgnore
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	function jexit($message = 0)
 	{
@@ -823,7 +838,7 @@ if (!function_exists('jexit'))
  *
  * @return  boolean  True on success.
  *
- * @since   11.1
+ * @since   1.7.0
  */
 function jimport($path, $base = null)
 {

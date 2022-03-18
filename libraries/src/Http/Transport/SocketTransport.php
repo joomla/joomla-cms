@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2011 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -18,19 +18,19 @@ use Joomla\Registry\Registry;
 /**
  * HTTP transport class for using sockets directly.
  *
- * @since  11.3
+ * @since  1.7.3
  */
 class SocketTransport implements TransportInterface
 {
 	/**
 	 * @var    array  Reusable socket connections.
-	 * @since  11.3
+	 * @since  1.7.3
 	 */
 	protected $connections;
 
 	/**
 	 * @var    Registry  The client options.
-	 * @since  11.3
+	 * @since  1.7.3
 	 */
 	protected $options;
 
@@ -39,7 +39,7 @@ class SocketTransport implements TransportInterface
 	 *
 	 * @param   Registry  $options  Client options object.
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 * @throws  \RuntimeException
 	 */
 	public function __construct(Registry $options)
@@ -64,7 +64,7 @@ class SocketTransport implements TransportInterface
 	 *
 	 * @return  Response
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 * @throws  \RuntimeException
 	 */
 	public function request($method, Uri $uri, $data = null, array $headers = null, $timeout = null, $userAgent = null)
@@ -141,7 +141,7 @@ class SocketTransport implements TransportInterface
 			$request[] = $data;
 		}
 
-		// Authentification, if needed
+		// Authentication, if needed
 		if ($this->options->get('userauth') && $this->options->get('passwordauth'))
 		{
 			$request[] = 'Authorization: Basic ' . base64_encode($this->options->get('userauth') . ':' . $this->options->get('passwordauth'));
@@ -176,7 +176,7 @@ class SocketTransport implements TransportInterface
 	 *
 	 * @return  Response
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 * @throws  \UnexpectedValueException
 	 */
 	protected function getResponse($content)
@@ -231,7 +231,7 @@ class SocketTransport implements TransportInterface
 	 *
 	 * @return  resource  Socket connection resource.
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 * @throws  \RuntimeException
 	 */
 	protected function connect(Uri $uri, $timeout = null)
@@ -297,7 +297,7 @@ class SocketTransport implements TransportInterface
 			if (!$php_errormsg)
 			{
 				// Error but nothing from php? Create our own
-				$php_errormsg = sprintf('Could not connect to resource: %s', $uri, $err, $errno);
+				$php_errormsg = sprintf('Could not connect to resource %s: %s (error code %d)', $uri, $err, $errno);
 			}
 
 			// Restore error tracking to give control to the exception handler
@@ -326,7 +326,7 @@ class SocketTransport implements TransportInterface
 	 *
 	 * @return  boolean   True if available else false
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public static function isSupported()
 	{

@@ -2,7 +2,7 @@
 /**
  * @package    Joomla.UnitTest
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2013 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -11,7 +11,7 @@
  *
  * @package     Joomla.UnitTest
  * @subpackage  Google
- * @since       12.3
+ * @since       3.1.4
  */
 class JGoogleDataCalendarTest extends TestCase
 {
@@ -510,7 +510,7 @@ class JGoogleDataCalendarTest extends TestCase
  *
  * @return  JHttpResponse
  *
- * @since   12.3
+ * @since   3.1.4
  */
 function jsonDataCalendarCallback($url, $data, array $headers = null, $timeout = null)
 {
@@ -533,7 +533,7 @@ function jsonDataCalendarCallback($url, $data, array $headers = null, $timeout =
  *
  * @return  JHttpResponse
  *
- * @since   12.3
+ * @since   3.1.4
  */
 function emptyDataCalendarCallback($url, $data, array $headers = null, $timeout = null)
 {
@@ -555,7 +555,7 @@ function emptyDataCalendarCallback($url, $data, array $headers = null, $timeout 
  *
  * @return  JHttpResponse
  *
- * @since   12.3
+ * @since   3.1.4
  */
 function jsonCalendarCallback($url, array $headers = null, $timeout = null)
 {
@@ -577,7 +577,7 @@ function jsonCalendarCallback($url, array $headers = null, $timeout = null)
  *
  * @return  JHttpResponse
  *
- * @since   12.3
+ * @since   3.1.4
  */
 function emptyCalendarCallback($url, array $headers = null, $timeout = null)
 {
@@ -599,7 +599,7 @@ function emptyCalendarCallback($url, array $headers = null, $timeout = null)
  *
  * @return  JHttpResponse
  *
- * @since   12.3
+ * @since   3.1.4
  */
 function calendarExceptionCallback($url, array $headers = null, $timeout = null)
 {
@@ -622,7 +622,7 @@ function calendarExceptionCallback($url, array $headers = null, $timeout = null)
  *
  * @return  JHttpResponse
  *
- * @since   12.3
+ * @since   3.1.4
  */
 function calendarDataExceptionCallback($url, $data, array $headers = null, $timeout = null)
 {
