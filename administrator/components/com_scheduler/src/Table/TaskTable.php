@@ -30,9 +30,17 @@ use Joomla\Database\Exception\QueryTypeAlreadyDefinedException;
 class TaskTable extends Table
 {
 	/**
+	 * Indicates that columns fully support the NULL value in the database
+	 *
+	 * @var    boolean
+	 * @since  __DEPLOY__VERSION__
+	 */
+	protected $_supportNullValue = true;
+
+	/**
 	 * Ensure params are json encoded by the bind method.
 	 *
-	 * @var string[]
+	 * @var    string[]
 	 * @since  4.1.0
 	 */
 	protected $_jsonEncode = ['params', 'execution_rules', 'cron_rules'];
@@ -40,7 +48,7 @@ class TaskTable extends Table
 	/**
 	 * The 'created' column.
 	 *
-	 * @var string
+	 * @var    string
 	 * @since  4.1.0
 	 */
 	public $created;
@@ -48,7 +56,7 @@ class TaskTable extends Table
 	/**
 	 * The 'title' column.
 	 *
-	 * @var string
+	 * @var    string
 	 * @since  4.1.0
 	 */
 	public $title;
@@ -62,7 +70,7 @@ class TaskTable extends Table
 	/**
 	 * TaskTable constructor override, needed to pass the DB table name and primary key to {@see Table::__construct()}.
 	 *
-	 * @param   DatabaseDriver  $db  A database connector object.
+	 * @param  DatabaseDriver  $db  A database connector object.
 	 *
 	 * @since  4.1.0
 	 */
@@ -77,10 +85,10 @@ class TaskTable extends Table
 	 * Overloads {@see Table::check()} to perform sanity checks on properties and make sure they're
 	 * safe to store.
 	 *
-	 * @return boolean  True if checks pass.
+	 * @return  boolean  True if checks pass.
 	 *
-	 * @since  4.1.0
-	 * @throws \Exception
+	 * @since   4.1.0
+	 * @throws  \Exception
 	 */
 	public function check(): bool
 	{
@@ -117,10 +125,10 @@ class TaskTable extends Table
 	 *
 	 * @param   boolean  $updateNulls  True to update fields even if they're null.
 	 *
-	 * @return boolean  True if successful.
+	 * @return  boolean  True if successful.
 	 *
-	 * @since  4.1.0
-	 * @throws \Exception
+	 * @since   4.1.0
+	 * @throws  \Exception
 	 */
 	public function store($updateNulls = true): bool
 	{
@@ -146,9 +154,9 @@ class TaskTable extends Table
 	/**
 	 * Returns the asset name of the entry as it appears in the {@see Asset} table.
 	 *
-	 * @return string  The asset name.
+	 * @return  string  The asset name.
 	 *
-	 * @since  4.1.0
+	 * @since   4.1.0
 	 */
 	protected function _getAssetName(): string
 	{
@@ -165,9 +173,9 @@ class TaskTable extends Table
 	 * @param   array|object  $src     An associative array or object to bind to the Table instance.
 	 * @param   array|string  $ignore  An optional array or space separated list of properties to ignore while binding.
 	 *
-	 * @return boolean
+	 * @return  boolean
 	 *
-	 * @since 4.1.0
+	 * @since   4.1.0
 	 */
 	public function bind($src, $ignore = array()): bool
 	{
@@ -195,7 +203,7 @@ class TaskTable extends Table
 	 * @return  boolean  True on success; false if $pks is empty.
 	 *
 	 * @since   __DEPLOY__VERSION__
-	 * @throws QueryTypeAlreadyDefinedException|\UnexpectedValueException|\BadMethodCallException
+	 * @throws  QueryTypeAlreadyDefinedException|\UnexpectedValueException|\BadMethodCallException
 	 */
 	public function unlock(array $pks = [], ?int $userId = null): bool
 	{
