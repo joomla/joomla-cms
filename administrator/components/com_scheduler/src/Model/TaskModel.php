@@ -422,7 +422,7 @@ class TaskModel extends AdminModel
 		$activeRoutines = array_map(
 			static function (TaskOption $taskOption): string
 			{
-				return $taskOption->type;
+				return $taskOption->id;
 			},
 			SchedulerHelper::getTaskOptions()->options
 		);
@@ -498,10 +498,12 @@ class TaskModel extends AdminModel
 		}
 		finally
 		{
+			$affectedRows = $db->getAffectedRows();
+
 			$db->unlockTables();
 		}
 
-		if ($db->getAffectedRows() != 1)
+		if ($affectedRows != 1)
 		{
 			/*
 			 // @todo
@@ -552,7 +554,7 @@ class TaskModel extends AdminModel
 				'includeCliExclusive' => true,
 			]
 		)
-			->setAllowedTypes('id', 'int')
+			->setAllowedTypes('id', 'numeric')
 			->setAllowedTypes('allowDisabled', 'bool')
 			->setAllowedTypes('bypassScheduling', 'bool')
 			->setAllowedTypes('allowConcurrent', 'bool')
