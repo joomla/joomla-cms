@@ -195,11 +195,6 @@ abstract class FieldsPlugin extends CMSPlugin
 		$node->setAttribute('hint', $field->params->get('hint', ''));
 		$node->setAttribute('required', $field->required ? 'true' : 'false');
 
-		if ($layout = $field->fieldparams->get('form_layout'))
-		{
-			$node->setAttribute('layout', $layout);
-		}
-
 		if ($field->default_value !== '')
 		{
 			$defaultNode = $node->appendChild(new \DOMElement('default'));
@@ -209,6 +204,13 @@ abstract class FieldsPlugin extends CMSPlugin
 		// Combine the two params
 		$params = clone $this->params;
 		$params->merge($field->fieldparams);
+		
+		$layout = $params->get('form_layout');
+		
+		if ($layout)
+		{
+			$node->setAttribute('layout', $layout);
+		}
 
 		// Set the specific field parameters
 		foreach ($params->toArray() as $key => $param)
