@@ -2,7 +2,7 @@
  * @package     Joomla.Plugin
  * @subpackage  System.webauthn
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2020 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -77,8 +77,13 @@ window.Joomla = window.Joomla || {};
    * @returns {null|Element}  NULL when no element is found
    */
   const lookForField = (outerElement, fieldSelector) => {
-    const elElement = outerElement.parentElement;
     let elInput = null;
+
+    if (!outerElement) {
+      return elInput;
+    }
+
+    const elElement = outerElement.parentElement;
 
     if (elElement.nodeName === 'FORM') {
       elInput = findField(elElement, fieldSelector);
@@ -136,14 +141,12 @@ window.Joomla = window.Joomla || {};
     };
 
     if (!publicKey.challenge) {
-      handleLoginError(Joomla.JText._('PLG_SYSTEM_WEBAUTHN_ERR_INVALID_USERNAME'));
+      handleLoginError(Joomla.Text._('PLG_SYSTEM_WEBAUTHN_ERR_INVALID_USERNAME'));
 
       return;
     }
 
-    publicKey.challenge = Uint8Array.from(
-      window.atob(base64url2base64(publicKey.challenge)), (c) => c.charCodeAt(0),
-    );
+    publicKey.challenge = Uint8Array.from(window.atob(base64url2base64(publicKey.challenge)), (c) => c.charCodeAt(0));
 
     if (publicKey.allowCredentials) {
       publicKey.allowCredentials = publicKey.allowCredentials.map((data) => {
@@ -197,7 +200,7 @@ window.Joomla = window.Joomla || {};
     const elReturn = lookForField(elFormContainer, 'input[name=return]');
 
     if (elUsername === null) {
-      Joomla.renderMessages({ error: [Joomla.JText._('PLG_SYSTEM_WEBAUTHN_ERR_CANNOT_FIND_USERNAME')] });
+      Joomla.renderMessages({ error: [Joomla.Text._('PLG_SYSTEM_WEBAUTHN_ERR_CANNOT_FIND_USERNAME')] });
 
       return false;
     }
@@ -207,7 +210,7 @@ window.Joomla = window.Joomla || {};
 
     // No username? We cannot proceed. We need a username to find the acceptable public keys :(
     if (username === '') {
-      Joomla.renderMessages({ error: [Joomla.JText._('PLG_SYSTEM_WEBAUTHN_ERR_EMPTY_USERNAME')] });
+      Joomla.renderMessages({ error: [Joomla.Text._('PLG_SYSTEM_WEBAUTHN_ERR_EMPTY_USERNAME')] });
 
       return false;
     }
@@ -250,14 +253,13 @@ window.Joomla = window.Joomla || {};
     return false;
   };
 
-  document.addEventListener('DOMContentLoaded', () => {
-    const loginButtons = [].slice.call(document.querySelectorAll('.plg_system_webauthn_login_button'));
-    if (loginButtons.length) {
-      loginButtons.forEach((button) => {
-        button.addEventListener('click', ({ currentTarget }) => {
-          Joomla.plgSystemWebauthnLogin(currentTarget.getAttribute('data-random-form'), currentTarget.getAttribute('data-random-url'));
-        });
+  // Initialization. Runs on DOM content loaded since this script is always loaded deferred.
+  const loginButtons = [].slice.call(document.querySelectorAll('.plg_system_webauthn_login_button'));
+  if (loginButtons.length) {
+    loginButtons.forEach((button) => {
+      button.addEventListener('click', ({ currentTarget }) => {
+        Joomla.plgSystemWebauthnLogin(currentTarget.getAttribute('data-webauthn-form'), currentTarget.getAttribute('data-webauthn-url'));
       });
-    }
-  });
-})(window, Joomla);
+    });
+  }
+})(Joomla, document);

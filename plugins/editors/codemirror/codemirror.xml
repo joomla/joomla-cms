@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension type="plugin" group="editors" method="upgrade">
 	<name>plg_editors_codemirror</name>
-	<version>5.54.0</version>
+	<version>5.65.2</version>
 	<creationDate>28 March 2011</creationDate>
 	<author>Marijn Haverbeke</author>
 	<authorEmail>marijnh@gmail.com</authorEmail>
 	<authorUrl>https://codemirror.net/</authorUrl>
-	<copyright>Copyright (C) 2014 - 2017 by Marijn Haverbeke &lt;marijnh@gmail.com&gt; and others</copyright>
-	<license>MIT license: http://codemirror.net/LICENSE</license>
+	<copyright>Copyright (C) 2014 - 2021 by Marijn Haverbeke &lt;marijnh@gmail.com&gt; and others</copyright>
+	<license>MIT license: https://codemirror.net/LICENSE</license>
 	<description>PLG_CODEMIRROR_XML_DESCRIPTION</description>
 	<namespace path="src">Joomla\Plugin\Editors\CodeMirror</namespace>
 	<files>
@@ -18,8 +18,8 @@
 	</files>
 
 	<languages>
-		<language tag="en-GB">en-GB.plg_editors_codemirror.ini</language>
-		<language tag="en-GB">en-GB.plg_editors_codemirror.sys.ini</language>
+		<language tag="en-GB">language/en-GB/plg_editors_codemirror.ini</language>
+		<language tag="en-GB">language/en-GB/plg_editors_codemirror.sys.ini</language>
 	</languages>
 
 	<config>
@@ -207,6 +207,7 @@
 					hide_none="true"
 					hide_default="false"
 					directory="media/vendor/codemirror/theme"
+					validate="options"
 				/>
 
 				<field

@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  System.updatenotification
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2015 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -13,7 +13,6 @@ use Joomla\CMS\Access\Access;
 use Joomla\CMS\Cache\Cache;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Extension\ExtensionHelper;
-use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\Mail\Exception\MailDisabledException;
@@ -32,7 +31,8 @@ use PHPMailer\PHPMailer\Exception as phpMailerException;
 /**
  * Joomla! Update Notification plugin
  *
- * Sends out an email to all Super Users or a predefined email address when a new Joomla! version is available.
+ * Sends out an email to all Super Users or a predefined list of email addresses of Super Users when a new
+ * Joomla! version is available.
  *
  * This plugin is a direct adaptation of the corresponding plugin in Akeeba Ltd's Admin Tools. The author has
  * consented to relicensing their plugin's code under GPLv2 or later (the original version was licensed under
@@ -128,7 +128,7 @@ class PlgSystemUpdatenotification extends CMSPlugin
 		}
 		catch (Exception $exc)
 		{
-			// If we failed to execite
+			// If we failed to execute
 			$db->unlockTables();
 			$result = false;
 		}
@@ -257,7 +257,7 @@ class PlgSystemUpdatenotification extends CMSPlugin
 			'sitename'    => $sitename,
 			'url'         => Uri::base(),
 			'link'        => $uri->toString(),
-			'releasenews' => 'https://www.joomla.org/announcements/release-news/'
+			'releasenews' => 'https://www.joomla.org/announcements/release-news/',
 		];
 
 		// Send the emails to the Super Users

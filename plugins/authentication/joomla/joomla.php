@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Authentication.joomla
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2006 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -150,7 +150,7 @@ class PlgAuthenticationJoomla extends CMSPlugin
 					{
 						$this->loadLanguage();
 
-						$this->app->enqueueMessage(Text::_('PLG_AUTH_JOOMLA_ERR_SECRET_CODE_WITHOUT_TFA'), 'warning');
+						$this->app->enqueueMessage(Text::_('PLG_AUTHENTICATION_JOOMLA_ERR_SECRET_CODE_WITHOUT_TFA'), 'warning');
 					}
 					catch (Exception $exc)
 					{

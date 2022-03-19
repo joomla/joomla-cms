@@ -3,13 +3,12 @@
  * @package     Joomla.Plugins
  * @subpackage  System.actionlogs
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2018 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
-use Joomla\Component\Actionlogs\Administrator\Helper\ActionlogsHelper;
 use Joomla\CMS\Cache\Cache;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
@@ -18,6 +17,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\User\User;
+use Joomla\Component\Actionlogs\Administrator\Helper\ActionlogsHelper;
 use Joomla\Database\Exception\ExecutionFailureException;
 use Joomla\Database\ParameterType;
 
@@ -29,17 +29,15 @@ use Joomla\Database\ParameterType;
 class PlgSystemActionLogs extends CMSPlugin
 {
 	/**
-	 * Application object.
+	 * @var    \Joomla\CMS\Application\CMSApplication
 	 *
-	 * @var    JApplicationCms
 	 * @since  3.9.0
 	 */
 	protected $app;
 
 	/**
-	 * Database object.
+	 * @var    \Joomla\Database\DatabaseDriver
 	 *
-	 * @var    JDatabaseDriver
 	 * @since  3.9.0
 	 */
 	protected $db;
@@ -65,7 +63,7 @@ class PlgSystemActionLogs extends CMSPlugin
 	 *
 	 * @return  void
 	 *
-	 * @since   4.0
+	 * @since   4.0.0
 	 */
 	public function onAfterInitialise()
 	{
@@ -100,8 +98,8 @@ class PlgSystemActionLogs extends CMSPlugin
 		}
 
 		/**
-		 * We only allow users who has Super User permission change this setting for himself or for other users
-		 * who has same Super User permission
+		 * We only allow users who have Super User permission to change this setting for themselves or for other
+		 * users who have the same Super User permission
 		 */
 
 		$user = Factory::getUser();
@@ -131,7 +129,7 @@ class PlgSystemActionLogs extends CMSPlugin
 
 		Form::addFormPath(__DIR__ . '/forms');
 
-		if ((!PluginHelper::isEnabled('actionlog', 'joomla')) && Factory::getApplication()->isClient('administrator'))
+		if ((!PluginHelper::isEnabled('actionlog', 'joomla')) && (Factory::getApplication()->isClient('administrator')))
 		{
 			$form->loadFile('information', false);
 
@@ -144,6 +142,8 @@ class PlgSystemActionLogs extends CMSPlugin
 		}
 
 		$form->loadFile('actionlogs', false);
+
+		return true;
 	}
 
 	/**
@@ -158,7 +158,7 @@ class PlgSystemActionLogs extends CMSPlugin
 	 */
 	public function onContentPrepareData($context, $data)
 	{
-		if (!in_array($context, ['com_users.profile', 'com_admin.profile', 'com_users.user']))
+		if (!in_array($context, ['com_users.profile', 'com_users.user']))
 		{
 			return true;
 		}
@@ -196,7 +196,7 @@ class PlgSystemActionLogs extends CMSPlugin
 			return true;
 		}
 
-		$data->actionlogs                       = new StdClass;
+		$data->actionlogs                       = new stdClass;
 		$data->actionlogs->actionlogsNotify     = $values->notify;
 		$data->actionlogs->actionlogsExtensions = $values->extensions;
 
@@ -275,7 +275,7 @@ class PlgSystemActionLogs extends CMSPlugin
 		}
 		catch (Exception $exc)
 		{
-			// If we failed to execite
+			// If we failed to execute
 			$db->unlockTables();
 			$result = false;
 		}
@@ -334,8 +334,6 @@ class PlgSystemActionLogs extends CMSPlugin
 	 */
 	private function clearCacheGroups(array $clearGroups, array $cacheClients = [0, 1])
 	{
-		$conf = Factory::getConfig();
-
 		foreach ($clearGroups as $group)
 		{
 			foreach ($cacheClients as $clientId)
@@ -345,7 +343,7 @@ class PlgSystemActionLogs extends CMSPlugin
 					$options = [
 						'defaultgroup' => $group,
 						'cachebase'    => $clientId ? JPATH_ADMINISTRATOR . '/cache' :
-							$conf->get('cache_path', JPATH_SITE . '/cache')
+							Factory::getApplication()->get('cache_path', JPATH_SITE . '/cache'),
 					];
 
 					$cache = Cache::getInstance('callback', $options);

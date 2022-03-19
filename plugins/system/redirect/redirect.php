@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  System.redirect
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2009 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -133,8 +133,11 @@ class PlgSystemRedirect extends CMSPlugin implements SubscriberInterface
 			}
 		}
 
-		// Why is this (still) here?
-		if ($skipUrl || (strpos($url, 'mosConfig_') !== false) || (strpos($url, '=http://') !== false))
+		/**
+		 * Why is this (still) here?
+		 * Because hackers still try urls with mosConfig_* and Url Injection with =http[s]:// and we dont want to log/redirect these requests
+		 */
+		if ($skipUrl || (strpos($url, 'mosConfig_') !== false) || (strpos($url, '=http') !== false))
 		{
 			return;
 		}
@@ -221,23 +224,35 @@ class PlgSystemRedirect extends CMSPlugin implements SubscriberInterface
 
 				$oldUrlParts = parse_url($redirect->old_url);
 
+				$newUrl = $redirect->new_url;
+
 				if ($urlQuery !== '' && empty($oldUrlParts['query']))
 				{
-					$redirect->new_url .= '?' . $urlQuery;
+					$newUrl .= '?' . $urlQuery;
 				}
 
-				$dest = Uri::isInternal($redirect->new_url) || strpos($redirect->new_url, 'http') === false ?
-					Route::_($redirect->new_url) : $redirect->new_url;
+				$dest = Uri::isInternal($newUrl) || strpos($newUrl, 'http') === false ?
+					Route::_($newUrl) : $newUrl;
 
 				// In case the url contains double // lets remove it
 				$destination = str_replace(Uri::root() . '/', Uri::root(), $dest);
+
+				// Always count redirect hits
+				$redirect->hits++;
+
+				try
+				{
+					$this->db->updateObject('#__redirect_links', $redirect, 'id');
+				}
+				catch (Exception $e)
+				{
+					// We don't log issues for now
+				}
 
 				$app->redirect($destination, (int) $redirect->header);
 			}
 
 			$event->setError(new RuntimeException($event->getError()->getMessage(), $redirect->header, $event->getError()));
-
-			return;
 		}
 		// No redirect object was found so we create an entry in the redirect table
 		elseif ($redirect === null)
@@ -258,7 +273,7 @@ class PlgSystemRedirect extends CMSPlugin implements SubscriberInterface
 					'hits' => 1,
 					'published' => 0,
 					'created_date' => $nowDate,
-					'modified_date' => $nowDate
+					'modified_date' => $nowDate,
 				);
 
 				try

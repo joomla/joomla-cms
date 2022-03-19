@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2019 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -10,9 +10,12 @@ namespace Joomla\CMS\MVC\Model;
 
 \defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Extension\LegacyComponent;
+use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
+use Joomla\CMS\MVC\Factory\MVCFactoryServiceInterface;
 use Joomla\CMS\Table\Table;
 
 /**
@@ -37,16 +40,7 @@ trait LegacyModelLoaderTrait
 	 */
 	protected static function _createFileName($type, $parts = array())
 	{
-		$filename = '';
-
-		switch ($type)
-		{
-			case 'model':
-				$filename = strtolower($parts['name']) . '.php';
-				break;
-		}
-
-		return $filename;
+		return $type === 'model' ? strtolower($parts['name']) . '.php' : '';
 	}
 
 	/**
@@ -72,6 +66,12 @@ trait LegacyModelLoaderTrait
 		);
 
 		$type = preg_replace('/[^A-Z0-9_\.-]/i', '', $type);
+
+		if ($model = self::createModelFromComponent($type, $prefix, $config))
+		{
+			return $model;
+		}
+
 		$modelClass = $prefix . ucfirst($type);
 
 		if (!class_exists($modelClass))
@@ -114,5 +114,70 @@ trait LegacyModelLoaderTrait
 	public static function addTablePath($path)
 	{
 		Table::addIncludePath($path);
+	}
+
+	/**
+	 * Returns a Model object by loading the component from the prefix.
+	 *
+	 * @param   string  $type    The model type to instantiate
+	 * @param   string  $prefix  Prefix for the model class name. Optional.
+	 * @param   array   $config  Configuration array for model. Optional.
+	 *
+	 * @return  ModelInterface|null   A ModelInterface instance or null on failure
+	 *
+	 * @since       4.0.0
+	 * @deprecated  5.0 See getInstance
+	 */
+	private static function createModelFromComponent($type, $prefix = '', $config = []) : ?ModelInterface
+	{
+		// Do nothing when prefix is not given
+		if (!$prefix)
+		{
+			return null;
+		}
+
+		// Boot the component
+		$componentName = 'com_' . str_replace('model', '', strtolower($prefix));
+		$component     = Factory::getApplication()->bootComponent($componentName);
+
+		// When it is a legacy component or not a MVCFactoryService then ignore
+		if ($component instanceof LegacyComponent || !$component instanceof MVCFactoryServiceInterface)
+		{
+			return null;
+		}
+
+		// Setup the client
+		$client = Factory::getApplication()->getName();
+
+		// Detect the client based on the include paths
+		$adminPath = Path::clean(JPATH_ADMINISTRATOR . '/components/' . $componentName);
+		$sitePath  = Path::clean(JPATH_SITE . '/components/' . $componentName);
+
+		foreach (self::addIncludePath() as $path)
+		{
+			if (strpos($path, $adminPath) !== false)
+			{
+				$client = 'Administrator';
+				break;
+			}
+
+			if (strpos($path, $sitePath) !== false)
+			{
+				$client = 'Site';
+				break;
+			}
+		}
+
+		// Create the model
+		$model = $component->getMVCFactory()->createModel($type, $client, $config);
+
+		// When the model can't be loaded, then return null
+		if (!$model)
+		{
+			return null;
+		}
+
+		// Return the model instance
+		return $model;
 	}
 }

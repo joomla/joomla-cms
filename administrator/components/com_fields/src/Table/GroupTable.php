@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_fields
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2016 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -100,21 +100,22 @@ class GroupTable extends Table
 			return false;
 		}
 
-		$date = Factory::getDate();
+		$date = Factory::getDate()->toSql();
 		$user = Factory::getUser();
+
+		// Set created date if not set.
+		if (!(int) $this->created)
+		{
+			$this->created = $date;
+		}
 
 		if ($this->id)
 		{
-			$this->modified = $date->toSql();
+			$this->modified = $date;
 			$this->modified_by = $user->get('id');
 		}
 		else
 		{
-			if (!(int) $this->created)
-			{
-				$this->created = $date->toSql();
-			}
-
 			if (!(int) $this->modified)
 			{
 				$this->modified = $this->created;
@@ -194,7 +195,7 @@ class GroupTable extends Table
 	 * The extended class can define a table and id to lookup.  If the
 	 * asset does not exist it will be created.
 	 *
-	 * @param   Table    $table  A JTable object for the asset parent.
+	 * @param   Table    $table  A Table object for the asset parent.
 	 * @param   integer  $id     Id to look up
 	 *
 	 * @return  integer

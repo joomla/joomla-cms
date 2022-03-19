@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_associations
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2017 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -106,7 +106,7 @@ class AssociationsHelper extends ContentHelper
 	{
 		if (!self::hasSupport($extensionName))
 		{
-			return array();
+			return null;
 		}
 
 		// Get the extension specific helper method
@@ -126,12 +126,12 @@ class AssociationsHelper extends ContentHelper
 	 */
 	public static function hasSupport($extensionName)
 	{
-		if (is_null(self::$extensionsSupport))
+		if (\is_null(self::$extensionsSupport))
 		{
 			self::getSupportedExtensions();
 		}
 
-		return in_array($extensionName, self::$supportedExtensionsList);
+		return \in_array($extensionName, self::$supportedExtensionsList);
 	}
 
 	/**
@@ -176,7 +176,7 @@ class AssociationsHelper extends ContentHelper
 	 *
 	 * @param   string  $extensionName  The extension name with com_
 	 *
-	 * @return  boolean
+	 * @return  string
 	 *
 	 * @since  3.7.0
 	 */
@@ -229,7 +229,7 @@ class AssociationsHelper extends ContentHelper
 		// Display warning if Content Language is trashed or deleted
 		foreach ($items as $item)
 		{
-			if (!in_array($item['language'], $content_languages))
+			if (!\in_array($item['language'], $content_languages))
 			{
 				Factory::getApplication()->enqueueMessage(Text::sprintf('JGLOBAL_ASSOCIATIONS_CONTENTLANGUAGE_WARNING', $item['language']), 'warning');
 			}
@@ -299,7 +299,7 @@ class AssociationsHelper extends ContentHelper
 					$additional = '<strong>' . Text::sprintf('COM_MENUS_MENU_SPRINTF', $menutypeTitle) . '</strong><br>';
 				}
 
-				$labelClass  = 'badge-secondary';
+				$labelClass  = 'bg-secondary';
 				$target      = $langCode . ':' . $items[$langCode]['id'] . ':edit';
 				$allow       = $canEditReference
 								&& self::allowEdit($extensionName, $typeName, $items[$langCode]['id'])
@@ -313,7 +313,7 @@ class AssociationsHelper extends ContentHelper
 
 				$title      = Text::_('COM_ASSOCIATIONS_NO_ASSOCIATION');
 				$additional = $addLink ? Text::_('COM_ASSOCIATIONS_ADD_NEW_ASSOCIATION') : '';
-				$labelClass = 'badge-warning';
+				$labelClass = 'bg-warning text-dark';
 				$target     = $langCode . ':0:add';
 				$allow      = $canCreate;
 			}
@@ -353,7 +353,7 @@ class AssociationsHelper extends ContentHelper
 	 */
 	public static function getSupportedExtensions()
 	{
-		if (!is_null(self::$extensionsSupport))
+		if (!\is_null(self::$extensionsSupport))
 		{
 			return self::$extensionsSupport;
 		}

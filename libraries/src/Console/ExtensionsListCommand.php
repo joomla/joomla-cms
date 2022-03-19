@@ -2,21 +2,21 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2020 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Console;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
-use Joomla\CMS\Factory;
 use Joomla\Console\Command\AbstractCommand;
 use Joomla\Database\DatabaseInterface;
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
-use Symfony\Component\Console\Input\InputOption;
 
 /**
  * Console command for listing installed extensions
@@ -29,30 +29,30 @@ class ExtensionsListCommand extends AbstractCommand
 	 * The default command name
 	 *
 	 * @var    string
-	 * @since  4.0
+	 * @since  4.0.0
 	 */
 	protected static $defaultName = 'extension:list';
 
 	/**
 	 * Stores the installed Extensions
 	 * @var array
-	 * @since 4.0
+	 * @since 4.0.0
 	 */
-	private $extensions;
+	protected $extensions;
 
 	/**
 	 * Stores the Input Object
 	 * @var InputInterface
-	 * @since 4.0
+	 * @since 4.0.0
 	 */
-	private $cliInput;
+	protected $cliInput;
 
 	/**
 	 * SymfonyStyle Object
 	 * @var   SymfonyStyle
-	 * @since 4.0
+	 * @since 4.0.0
 	 */
-	private $ioStyle;
+	protected $ioStyle;
 
 	/**
 	 * Database connector
@@ -83,10 +83,10 @@ class ExtensionsListCommand extends AbstractCommand
 	 *
 	 * @return void
 	 *
-	 * @since 4.0
+	 * @since 4.0.0
 	 *
 	 */
-	private function configureIO(InputInterface $input, OutputInterface $output): void
+	protected function configureIO(InputInterface $input, OutputInterface $output): void
 	{
 		$this->cliInput = $input;
 		$this->ioStyle = new SymfonyStyle($input, $output);
@@ -101,19 +101,15 @@ class ExtensionsListCommand extends AbstractCommand
 	 */
 	protected function configure(): void
 	{
-		$this->setDescription('List installed extensions');
 
 		$this->addOption('type', null, InputOption::VALUE_REQUIRED, 'Type of the extension');
 
-		$help = <<<'EOF'
-The <info>%command.name%</info> is used to list all extensions installed on your site.
+		$help = "<info>%command.name%</info> lists all installed extensions
+		\nUsage: <info>php %command.full_name% <extension_id></info>
+		\nYou may filter on the type of extension (component, module, plugin, etc.) using the <info>--type</info> option:
+		\n  <info>php %command.full_name% --type=<type></info>";
 
-  <info>php %command.full_name% <extension_id></info>
-
-You may filter on the type of extension (component, module, plugin, etc.) using the <info>--type</info> option:
-
-  <info>php %command.full_name% --type=<type></info>
-EOF;
+		$this->setDescription('List installed extensions');
 		$this->setHelp($help);
 	}
 
@@ -122,7 +118,7 @@ EOF;
 	 *
 	 * @return mixed
 	 *
-	 * @since 4.0
+	 * @since 4.0.0
 	 */
 	public function getExtensions()
 	{
@@ -141,7 +137,7 @@ EOF;
 	 *
 	 * @return void
 	 *
-	 * @since 4.0
+	 * @since 4.0.0
 	 */
 	public function setExtensions($extensions = null): void
 	{
@@ -160,7 +156,7 @@ EOF;
 	 *
 	 * @return array
 	 *
-	 * @since 4.0
+	 * @since 4.0.0
 	 */
 	private function getAllExtensionsFromDB(): array
 	{
@@ -181,9 +177,9 @@ EOF;
 	 *
 	 * @return array
 	 *
-	 * @since 4.0
+	 * @since 4.0.0
 	 */
-	private function getExtensionsNameAndId($extensions): array
+	protected function getExtensionsNameAndId($extensions): array
 	{
 		$extInfo = [];
 
@@ -209,7 +205,7 @@ EOF;
 	 *
 	 * @return array
 	 *
-	 * @since 4.0
+	 * @since 4.0.0
 	 */
 	private function filterExtensionsBasedOn($type): array
 	{
@@ -251,7 +247,7 @@ EOF;
 		{
 			$this->ioStyle->error("Cannot find extensions of the type '$type' specified.");
 
-			return 0;
+			return Command::SUCCESS;
 		}
 
 		$extensions = $this->getExtensionsNameAndId($extensions);
@@ -259,6 +255,6 @@ EOF;
 		$this->ioStyle->title('Installed extensions.');
 		$this->ioStyle->table(['Name', 'Extension ID', 'Version', 'Type', 'Active'], $extensions);
 
-		return 0;
+		return Command::SUCCESS;
 	}
 }

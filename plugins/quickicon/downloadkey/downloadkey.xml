@@ -1,16 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--
-  ~ @package    joomla4
-  ~
-  ~ @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
-  ~ @license    GNU General Public License version 2 or later; see LICENSE.txt
-  -->
-
-<extension version="4.0" type="plugin" group="quickicon" method="upgrade">
+<extension type="plugin" group="quickicon" method="upgrade">
 	<name>plg_quickicon_downloadkey</name>
 	<author>Joomla! Project</author>
 	<creationDate>October 2019</creationDate>
-	<copyright>Copyright (C) 2005 - 2020 Open Source Matters. All rights reserved.</copyright>
+	<copyright>(C) 2019 Open Source Matters, Inc.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
@@ -20,8 +13,8 @@
 		<filename plugin="downloadkey">downloadkey.php</filename>
 	</files>
 	<languages>
-		<language tag="en-GB">en-GB.plg_quickicon_downloadkey.ini</language>
-		<language tag="en-GB">en-GB.plg_quickicon_downloadkey.sys.ini</language>
+		<language tag="en-GB">language/en-GB/plg_quickicon_downloadkey.ini</language>
+		<language tag="en-GB">language/en-GB/plg_quickicon_downloadkey.sys.ini</language>
 	</languages>
 	<config>
 		<fields name="params">

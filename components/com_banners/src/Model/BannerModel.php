@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_banners
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2006 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -88,7 +88,8 @@ class BannerModel extends BaseDatabaseModel
 
 		if ($trackClicks > 0)
 		{
-			$trackDate = Factory::getDate()->toSql();
+			$trackDate = Factory::getDate()->format('Y-m-d H:00:00');
+			$trackDate = Factory::getDate($trackDate)->toSql();
 
 			$query = $db->getQuery(true);
 

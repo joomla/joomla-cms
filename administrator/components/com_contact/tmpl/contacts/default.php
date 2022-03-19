@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_contact
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2008 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -40,12 +40,12 @@ if ($saveOrder && !empty($this->items))
 				<?php echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
 				<?php if (empty($this->items)) : ?>
 					<div class="alert alert-info">
-						<span class="fas fa-info-circle" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('INFO'); ?></span>
+						<span class="icon-info-circle" aria-hidden="true"></span><span class="visually-hidden"><?php echo Text::_('INFO'); ?></span>
 						<?php echo Text::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
 					</div>
 				<?php else : ?>
 					<table class="table" id="contactList">
-						<caption id="captionTable" class="sr-only">
+						<caption class="visually-hidden">
 							<?php echo Text::_('COM_CONTACT_TABLE_CAPTION'); ?>,
 							<span id="orderedBy"><?php echo Text::_('JGLOBAL_SORTED_BY'); ?> </span>,
 							<span id="filteredBy"><?php echo Text::_('JGLOBAL_FILTERED_BY'); ?></span>
@@ -56,12 +56,12 @@ if ($saveOrder && !empty($this->items))
 									<?php echo HTMLHelper::_('grid.checkall'); ?>
 								</td>
 								<th scope="col" class="w-1 text-center d-none d-md-table-cell">
-									<?php echo HTMLHelper::_('searchtools.sort', '', 'a.ordering', $listDirn, $listOrder, null, 'asc', 'JGRID_HEADING_ORDERING', 'icon-menu-2'); ?>
+									<?php echo HTMLHelper::_('searchtools.sort', '', 'a.ordering', $listDirn, $listOrder, null, 'asc', 'JGRID_HEADING_ORDERING', 'icon-sort'); ?>
 								</th>
 								<th scope="col" class="w-1 text-center">
 									<?php echo HTMLHelper::_('searchtools.sort', 'JFEATURED', 'a.featured', $listDirn, $listOrder); ?>
 								</th>
-								<th scope="col" style="min-width:85px" class="w-1 text-center">
+								<th scope="col" class="w-1 text-center">
 									<?php echo HTMLHelper::_('searchtools.sort', 'JSTATUS', 'a.published', $listDirn, $listOrder); ?>
 								</th>
 								<th scope="col">
@@ -100,9 +100,9 @@ if ($saveOrder && !empty($this->items))
 
 							$item->cat_link = Route::_('index.php?option=com_categories&extension=com_contact&task=edit&type=other&id=' . $item->catid);
 							?>
-							<tr class="row<?php echo $i % 2; ?>" data-dragable-group="<?php echo $item->catid; ?>">
+							<tr class="row<?php echo $i % 2; ?>" data-draggable-group="<?php echo $item->catid; ?>">
 								<td class="text-center">
-									<?php echo HTMLHelper::_('grid.id', $i, $item->id); ?>
+									<?php echo HTMLHelper::_('grid.id', $i, $item->id, false, 'cid', 'cb', $item->name); ?>
 								</td>
 								<td class="text-center d-none d-md-table-cell">
 									<?php
@@ -117,7 +117,7 @@ if ($saveOrder && !empty($this->items))
 									}
 									?>
 									<span class="sortable-handler<?php echo $iconClass; ?>">
-										<span class="fas fa-ellipsis-v" aria-hidden="true"></span>
+										<span class="icon-ellipsis-v" aria-hidden="true"></span>
 									</span>
 									<?php if ($canChange && $saveOrder) : ?>
 										<input type="text" name="order[]" size="5"
@@ -137,14 +137,14 @@ if ($saveOrder && !empty($this->items))
 											<?php echo HTMLHelper::_('jgrid.checkedout', $i, $item->editor, $item->checked_out_time, 'contacts.', $canCheckin); ?>
 										<?php endif; ?>
 										<?php if ($canEdit || $canEditOwn) : ?>
-											<a href="<?php echo Route::_('index.php?option=com_contact&task=contact.edit&id=' . (int) $item->id); ?>" title="<?php echo Text::_('JACTION_EDIT'); ?> <?php echo $this->escape(addslashes($item->name)); ?>">
+											<a href="<?php echo Route::_('index.php?option=com_contact&task=contact.edit&id=' . (int) $item->id); ?>" title="<?php echo Text::_('JACTION_EDIT'); ?> <?php echo $this->escape($item->name); ?>">
 												<?php echo $this->escape($item->name); ?></a>
 										<?php else : ?>
 											<?php echo $this->escape($item->name); ?>
 										<?php endif; ?>
-										<span class="small">
+										<div class="small">
 											<?php echo Text::sprintf('JGLOBAL_LIST_ALIAS', $this->escape($item->alias)); ?>
-										</span>
+										</div>
 										<div class="small">
 											<?php echo Text::_('JCATEGORY') . ': ' . $this->escape($item->category_title); ?>
 										</div>

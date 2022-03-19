@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_categories
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2008 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -15,11 +15,11 @@ use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Helper\TagsHelper;
-use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Associations;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
+use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 
 /**
@@ -30,9 +30,9 @@ use Joomla\CMS\Toolbar\ToolbarHelper;
 class HtmlView extends BaseHtmlView
 {
 	/**
-	 * The \JForm object
+	 * The Form object
 	 *
-	 * @var  \JForm
+	 * @var  \Joomla\CMS\Form\Form
 	 */
 	protected $form;
 
@@ -46,7 +46,7 @@ class HtmlView extends BaseHtmlView
 	/**
 	 * The model state
 	 *
-	 * @var  \JObject
+	 * @var  CMSObject
 	 */
 	protected $state;
 
@@ -60,12 +60,12 @@ class HtmlView extends BaseHtmlView
 	/**
 	 * The actions the user is authorised to perform
 	 *
-	 * @var  \JObject
+	 * @var  CMSObject
 	 */
 	protected $canDo;
 
 	/**
-	 * Is there a content type associated with this category aias
+	 * Is there a content type associated with this category alias
 	 *
 	 * @var    boolean
 	 * @since  4.0.0
@@ -75,9 +75,9 @@ class HtmlView extends BaseHtmlView
 	/**
 	 * Display the view.
 	 *
-	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
+	 * @param   string|null  $tpl  The name of the template file to parse; automatically searches through the template paths.
 	 *
-	 * @return  mixed  A string if successful, otherwise an Error object.
+	 * @return  void
 	 */
 	public function display($tpl = null)
 	{
@@ -118,7 +118,7 @@ class HtmlView extends BaseHtmlView
 
 		$this->addToolbar();
 
-		return parent::display($tpl);
+		parent::display($tpl);
 	}
 
 	/**
@@ -162,7 +162,7 @@ class HtmlView extends BaseHtmlView
 		{
 			$title = Text::_($component_title_key);
 		}
-		// Else if the component section string exits, let's use it
+		// Else if the component section string exists, let's use it.
 		elseif ($lang->hasKey($component_section_key = $component . ($section ? "_$section" : '')))
 		{
 			$title = Text::sprintf('COM_CATEGORIES_CATEGORY_' . ($isNew ? 'ADD' : 'EDIT')
@@ -176,7 +176,18 @@ class HtmlView extends BaseHtmlView
 		}
 
 		// Load specific css component
-		HTMLHelper::_('stylesheet', $component . '/administrator/categories.css', array('version' => 'auto', 'relative' => true));
+		/** @var \Joomla\CMS\WebAsset\WebAssetManager $wa */
+		$wa = $this->document->getWebAssetManager();
+		$wa->getRegistry()->addExtensionRegistryFile($component);
+
+		if ($wa->assetExists('style', $component . '.admin-categories'))
+		{
+			$wa->useStyle($component . '.admin-categories');
+		}
+		else
+		{
+			$wa->registerAndUseStyle($component . '.admin-categories', $component . '/administrator/categories.css');
+		}
 
 		// Prepare the toolbar.
 		ToolbarHelper::title(
@@ -242,38 +253,55 @@ class HtmlView extends BaseHtmlView
 
 			if (Associations::isEnabled() && ComponentHelper::isEnabled('com_associations'))
 			{
-				ToolbarHelper::custom('category.editAssociations', 'contract', 'contract', 'JTOOLBAR_ASSOCIATIONS', false, false);
+				ToolbarHelper::custom('category.editAssociations', 'contract', '', 'JTOOLBAR_ASSOCIATIONS', false, false);
 			}
 		}
 
 		ToolbarHelper::divider();
 
-		// Compute the ref_key
-		$ref_key = strtoupper($component . ($section ? "_$section" : '')) . '_CATEGORY_' . ($isNew ? 'ADD' : 'EDIT') . '_HELP_KEY';
+		// Look first in form for help key
+		$ref_key = (string) $this->form->getXml()->help['key'];
 
-		// Check if thr computed ref_key does exist in the component
-		if (!$lang->hasKey($ref_key))
+		// Try with a language string
+		if (!$ref_key)
 		{
-			$ref_key = 'JHELP_COMPONENTS_'
-						. strtoupper(substr($component, 4) . ($section ? "_$section" : ''))
-						. '_CATEGORY_' . ($isNew ? 'ADD' : 'EDIT');
+			// Compute the ref_key if it does exist in the component
+			$languageKey = strtoupper($component . ($section ? "_$section" : '')) . '_CATEGORY_' . ($isNew ? 'ADD' : 'EDIT') . '_HELP_KEY';
+
+			if ($lang->hasKey($languageKey))
+			{
+				$ref_key = $languageKey;
+			}
+			else
+			{
+				$languageKey = 'JHELP_COMPONENTS_'
+					. strtoupper(substr($component, 4) . ($section ? "_$section" : ''))
+					. '_CATEGORY_' . ($isNew ? 'ADD' : 'EDIT');
+
+				if ($lang->hasKey($languageKey))
+				{
+					$ref_key = $languageKey;
+				}
+			}
 		}
 
 		/*
 		 * Get help for the category/section view for the component by
+		 * -remotely searching in a URL defined in the category form
 		 * -remotely searching in a language defined dedicated URL: *component*_HELP_URL
 		 * -locally  searching in a component help file if helpURL param exists in the component and is set to ''
 		 * -remotely searching in a component URL if helpURL param exists in the component and is NOT set to ''
 		 */
-		if ($lang->hasKey($lang_help_url = strtoupper($component) . '_HELP_URL'))
+		$url = (string) $this->form->getXml()->help['url'];
+
+		if (!$url)
 		{
-			$debug = $lang->setDebug(false);
-			$url = Text::_($lang_help_url);
-			$lang->setDebug($debug);
-		}
-		else
-		{
-			$url = null;
+			if ($lang->hasKey($lang_help_url = strtoupper($component) . '_HELP_URL'))
+			{
+				$debug = $lang->setDebug(false);
+				$url = Text::_($lang_help_url);
+				$lang->setDebug($debug);
+			}
 		}
 
 		ToolbarHelper::help($ref_key, $componentParams->exists('helpURL'), $url, $component);

@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2011 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -92,7 +92,7 @@ class FormattedtextLogger extends Logger
 		// The name of the text file path defaults to that which is set in configuration if not explicitly given.
 		if (empty($this->options['text_file_path']))
 		{
-			$this->options['text_file_path'] = Factory::getConfig()->get('log_path', JPATH_ADMINISTRATOR . '/logs');
+			$this->options['text_file_path'] = Factory::getApplication()->get('log_path', JPATH_ADMINISTRATOR . '/logs');
 		}
 
 		// False to treat the log file as a php file.

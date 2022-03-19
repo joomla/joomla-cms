@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2017 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -11,7 +11,6 @@ namespace Joomla\CMS\Application;
 use Joomla\Application\ConfigurationAwareApplicationInterface;
 use Joomla\CMS\Extension\ExtensionManagerInterface;
 use Joomla\CMS\Language\Language;
-use Joomla\CMS\Menu\AbstractMenu;
 use Joomla\CMS\User\User;
 use Joomla\Input\Input;
 

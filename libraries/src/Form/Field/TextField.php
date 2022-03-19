@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2009 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 namespace Joomla\CMS\Form\Field;
@@ -20,7 +20,7 @@ use Joomla\CMS\Uri\Uri;
  * Form Field class for the Joomla Platform.
  * Supports a one line text field.
  *
- * @link   http://www.w3.org/TR/html-markup/input.text.html#input.text
+ * @link   https://html.spec.whatwg.org/multipage/input.html#text-(type=text)-state-and-search-state-(type=search)
  * @since  1.7.0
  */
 class TextField extends FormField
@@ -289,10 +289,7 @@ class TextField extends FormField
 		$inputmode    = !empty($this->inputmode) ? ' inputmode="' . $this->inputmode . '"' : '';
 		$dirname      = !empty($this->dirname) ? ' dirname="' . $this->dirname . '"' : '';
 
-		/*
-		 * Get the field options for the datalist.
-		 * Note: getSuggestions() is deprecated and will be changed to getOptions() with 4.0.
-		 */
+		// Get the field options for the datalist.
 		$options  = (array) $this->getOptions();
 
 		$extraData = array(

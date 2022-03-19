@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2018 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -11,7 +11,6 @@ namespace Joomla\CMS\Toolbar;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\FileLayout;
-use Joomla\CMS\Table\Table;
 use Joomla\CMS\Toolbar\Button\ConfirmButton;
 use Joomla\CMS\Toolbar\Button\CustomButton;
 use Joomla\CMS\Toolbar\Button\HelpButton;
@@ -69,6 +68,38 @@ trait CoreButtonsTrait
 				->iframeWidth(640)
 				->iframeHeight(480)
 				->icon('icon-eye');
+		}
+
+		return $button;
+	}
+
+	/**
+	 * Writes a jooa11y accessibility checker button for a given option (opens a popup window).
+	 *
+	 * @param   string  $url        The url to open
+	 * @param   string  $text       The text of button.
+	 * @param   bool    $newWindow  Whether to open the preview in _blank or just a modal
+	 *
+	 * @return  PopupButton|LinkButton
+	 *
+	 * @since   4.1.0
+	 */
+	public function jooa11y(string $url, string $text = 'JGLOBAL_JOOA11Y', $newWindow = false)
+	{
+		if ($newWindow === true)
+		{
+			$button = $this->linkButton('jooa11y-link', $text)
+				->url($url)
+				->attributes(['target' => '_blank'])
+				->icon('icon-universal-access');
+		}
+		else
+		{
+			$button = $this->popupButton('jooa11y-preview', $text)
+				->url($url)
+				->iframeWidth(640)
+				->iframeHeight(480)
+				->icon('icon-universal-access');
 		}
 
 		return $button;
@@ -447,13 +478,13 @@ trait CoreButtonsTrait
 	 *
 	 * @param   string  $component  The name of the component, eg, com_content.
 	 * @param   string  $text       The text of this button.
-	 * @param   string  $path       An alternative path for the configuation xml relative to JPATH_SITE.
+	 * @param   string  $path       An alternative path for the configuration xml relative to JPATH_SITE.
 	 *
 	 * @return  LinkButton
 	 *
 	 * @since   4.0.0
 	 */
-	public function preferences(string $component, string $text = 'JToolbar_Options', string $path = ''): LinkButton
+	public function preferences(string $component, string $text = 'JTOOLBAR_OPTIONS', string $path = ''): LinkButton
 	{
 		$component = urlencode($component);
 		$path = urlencode($path);

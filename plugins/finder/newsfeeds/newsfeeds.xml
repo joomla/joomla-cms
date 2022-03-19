@@ -3,7 +3,7 @@
 	<name>plg_finder_newsfeeds</name>
 	<author>Joomla! Project</author>
 	<creationDate>August 2011</creationDate>
-	<copyright>(C) 2005 - 2020 Open Source Matters. All rights reserved.</copyright>
+	<copyright>(C) 2011 Open Source Matters, Inc.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
@@ -13,7 +13,7 @@
 		<filename plugin="newsfeeds">newsfeeds.php</filename>
 	</files>
 	<languages>
-		<language tag="en-GB">language/en-GB/en-GB.plg_finder_newsfeeds.ini</language>
-		<language tag="en-GB">language/en-GB/en-GB.plg_finder_newsfeeds.sys.ini</language>
+		<language tag="en-GB">language/en-GB/plg_finder_newsfeeds.ini</language>
+		<language tag="en-GB">language/en-GB/plg_finder_newsfeeds.sys.ini</language>
 	</languages>
 </extension>

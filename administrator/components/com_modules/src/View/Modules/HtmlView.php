@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_modules
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2008 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -38,21 +38,22 @@ class HtmlView extends BaseHtmlView
 	/**
 	 * The pagination object
 	 *
-	 * @var  \JPagination
+	 * @var  \Joomla\CMS\Pagination\Pagination
 	 */
 	protected $pagination;
 
 	/**
 	 * The model state
 	 *
-	 * @var  \JObject
+	 * @var  \Joomla\CMS\Object\CMSObject
 	 */
 	protected $state;
 
 	/**
 	 * Form object for search filters
 	 *
-	 * @var    \JForm
+	 * @var    \Joomla\CMS\Form\Form
+	 *
 	 * @since  4.0.0
 	 */
 	public $filterForm;
@@ -66,11 +67,19 @@ class HtmlView extends BaseHtmlView
 	public $activeFilters;
 
 	/**
+	 * Is this view an Empty State
+	 *
+	 * @var  boolean
+	 * @since 4.0.0
+	 */
+	private $isEmptyState = false;
+
+	/**
 	 * Display the view
 	 *
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
 	 *
-	 * @return  mixed  A string if successful, otherwise an Error object.
+	 * @return  void
 	 *
 	 * @since   1.6
 	 */
@@ -83,6 +92,40 @@ class HtmlView extends BaseHtmlView
 		$this->filterForm    = $this->get('FilterForm');
 		$this->activeFilters = $this->get('ActiveFilters');
 		$this->clientId      = $this->state->get('client_id');
+
+		if (!count($this->items) && $this->isEmptyState = $this->get('IsEmptyState'))
+		{
+			$this->setLayout('emptystate');
+		}
+
+		/**
+		 * The code below make sure the remembered position will be available from filter dropdown even if there are no
+		 * modules available for this position. This will make the UI less confusing for users in case there is only one
+		 * module in the selected position and user:
+		 * 1. Edit the module, change it to new position, save it and come back to Modules Management Screen
+		 * 2. Or move that module to new position using Batch action
+		 */
+		if (count($this->items) === 0 && $this->state->get('filter.position'))
+		{
+			$selectedPosition = $this->state->get('filter.position');
+			$positionField    = $this->filterForm->getField('position', 'filter');
+
+			$positionExists = false;
+
+			foreach ($positionField->getOptions() as $option)
+			{
+				if ($option->value === $selectedPosition)
+				{
+					$positionExists = true;
+					break;
+				}
+			}
+
+			if ($positionExists === false)
+			{
+				$positionField->addOption($selectedPosition, ['value' => $selectedPosition]);
+			}
+		}
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
@@ -123,7 +166,7 @@ class HtmlView extends BaseHtmlView
 			}
 		}
 
-		return parent::display($tpl);
+		parent::display($tpl);
 	}
 
 	/**
@@ -157,12 +200,12 @@ class HtmlView extends BaseHtmlView
 				->onclick("location.href='index.php?option=com_modules&amp;view=select&amp;client_id=" . $this->state->get('client_id', 0) . "'");
 		}
 
-		if ($canDo->get('core.edit.state') || Factory::getUser()->authorise('core.admin'))
+		if (!$this->isEmptyState && ($canDo->get('core.edit.state') || Factory::getUser()->authorise('core.admin')))
 		{
 			$dropdown = $toolbar->dropdownButton('status-group')
 				->text('JTOOLBAR_CHANGE_STATUS')
 				->toggleSplit(false)
-				->icon('fas fa-ellipsis-h')
+				->icon('icon-ellipsis-h')
 				->buttonClass('btn btn-action')
 				->listCheck(true);
 
@@ -204,7 +247,7 @@ class HtmlView extends BaseHtmlView
 			}
 		}
 
-		if ($state->get('filter.state') == -2 && $canDo->get('core.delete'))
+		if (!$this->isEmptyState && ($state->get('filter.state') == -2 && $canDo->get('core.delete')))
 		{
 			$toolbar->delete('modules.delete')
 				->text('JTOOLBAR_EMPTY_TRASH')
@@ -217,6 +260,6 @@ class HtmlView extends BaseHtmlView
 			$toolbar->preferences('com_modules');
 		}
 
-		$toolbar->help('JHELP_EXTENSIONS_MODULE_MANAGER');
+		$toolbar->help('Modules');
 	}
 }

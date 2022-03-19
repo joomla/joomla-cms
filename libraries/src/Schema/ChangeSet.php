@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2011 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -10,10 +10,8 @@ namespace Joomla\CMS\Schema;
 
 \defined('JPATH_PLATFORM') or die;
 
-use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\Folder;
 use Joomla\Database\DatabaseDriver;
-use Joomla\Database\UTF8MB4SupportInterface;
 
 /**
  * Contains a set of JSchemaChange objects for a particular instance of Joomla.
@@ -71,6 +69,13 @@ class ChangeSet
 		$this->db = $db;
 		$this->folder = $folder;
 		$updateFiles = $this->getUpdateFiles();
+
+		// If no files were found nothing more we can do - continue
+		if ($updateFiles === false)
+		{
+			return;
+		}
+
 		$updateQueries = $this->getUpdateQueries($updateFiles);
 
 		foreach ($updateQueries as $obj)
@@ -236,6 +241,13 @@ class ChangeSet
 	public function getSchema()
 	{
 		$updateFiles = $this->getUpdateFiles();
+
+		// No schema files found - abort and return empty string
+		if (empty($updateFiles))
+		{
+			return '';
+		}
+
 		$result = new \SplFileInfo(array_pop($updateFiles));
 
 		return $result->getBasename('.sql');
@@ -244,7 +256,7 @@ class ChangeSet
 	/**
 	 * Get list of SQL update files for this database
 	 *
-	 * @return  array  list of sql update full-path names
+	 * @return  array|boolean  list of sql update full-path names. False if directory doesn't exist
 	 *
 	 * @since   2.5
 	 */
@@ -263,6 +275,13 @@ class ChangeSet
 		if (!$this->folder)
 		{
 			$this->folder = JPATH_ADMINISTRATOR . '/components/com_admin/sql/updates/';
+		}
+
+		// We don't want to enqueue an error if the directory doesn't exist - this can be handled elsewhere/
+		// So bail here.
+		if (!is_dir($this->folder . '/' . $sqlFolder))
+		{
+			return [];
 		}
 
 		return Folder::files(

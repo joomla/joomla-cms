@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  System.Debug
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2006 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -15,10 +15,11 @@ use DebugBar\DataCollector\RequestDataCollector;
 use DebugBar\DebugBar;
 use DebugBar\OpenHandler;
 use Joomla\CMS\Application\CMSApplicationInterface;
-use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Document\HtmlDocument;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\Log\LogEntry;
 use Joomla\CMS\Plugin\CMSPlugin;
+use Joomla\CMS\Profiler\Profiler;
 use Joomla\CMS\Session\Session;
 use Joomla\CMS\Uri\Uri;
 use Joomla\Database\DatabaseDriver;
@@ -55,7 +56,7 @@ class PlgSystemDebug extends CMSPlugin
 	 * @var    LogEntry[]
 	 * @since  3.1
 	 */
-	private $logEntries = array();
+	private $logEntries = [];
 
 	/**
 	 * Holds SHOW PROFILES of queries.
@@ -63,7 +64,7 @@ class PlgSystemDebug extends CMSPlugin
 	 * @var    array
 	 * @since  3.1.2
 	 */
-	private $sqlShowProfiles = array();
+	private $sqlShowProfiles = [];
 
 	/**
 	 * Holds all SHOW PROFILE FOR QUERY n, indexed by n-1.
@@ -71,7 +72,7 @@ class PlgSystemDebug extends CMSPlugin
 	 * @var    array
 	 * @since  3.1.2
 	 */
-	private $sqlShowProfileEach = array();
+	private $sqlShowProfileEach = [];
 
 	/**
 	 * Holds all EXPLAIN EXTENDED for all queries.
@@ -79,7 +80,7 @@ class PlgSystemDebug extends CMSPlugin
 	 * @var    array
 	 * @since  3.1.2
 	 */
-	private $explains = array();
+	private $explains = [];
 
 	/**
 	 * Holds total amount of executed queries.
@@ -128,6 +129,14 @@ class PlgSystemDebug extends CMSPlugin
 	protected $isAjax = false;
 
 	/**
+	 * Whether displaing a logs is enabled
+	 *
+	 * @var   bool
+	 * @since 4.0.0
+	 */
+	protected $showLogs = false;
+
+	/**
 	 * Constructor.
 	 *
 	 * @param   DispatcherInterface  &$subject  The object to observe.
@@ -168,21 +177,38 @@ class PlgSystemDebug extends CMSPlugin
 		$this->isAjax = $this->app->input->get('option') === 'com_ajax'
 			&& $this->app->input->get('plugin') === 'debug' && $this->app->input->get('group') === 'system';
 
-		$this->setupLogging();
+		$this->showLogs = (bool) $this->params->get('logs', true);
+
+		// Log deprecated class aliases
+		if ($this->showLogs && $this->app->get('log_deprecated'))
+		{
+			foreach (JLoader::getDeprecatedAliases() as $deprecation)
+			{
+				Log::add(
+					sprintf(
+						'%1$s has been aliased to %2$s and the former class name is deprecated. The alias will be removed in %3$s.',
+						$deprecation['old'],
+						$deprecation['new'],
+						$deprecation['version']
+					),
+					Log::WARNING,
+					'deprecation-notes'
+				);
+			}
+		}
 	}
 
 	/**
-	 * Add the CSS for debug.
-	 * We can't do this in the constructor because stuff breaks.
+	 * Add an assets for debugger.
 	 *
 	 * @return  void
 	 *
-	 * @since   2.5
+	 * @since   4.0.0
 	 */
-	public function onAfterDispatch()
+	public function onBeforeCompileHead()
 	{
 		// Only if debugging or language debug is enabled.
-		if ((JDEBUG || $this->debugLang) && $this->isAuthorisedDisplayDebug() && strtolower($this->app->getDocument()->getType()) === 'html')
+		if ((JDEBUG || $this->debugLang) && $this->isAuthorisedDisplayDebug() && $this->app->getDocument() instanceof HtmlDocument)
 		{
 			// Use our own jQuery and fontawesome instead of the debug bar shipped version
 			$assetManager = $this->app->getDocument()->getWebAssetManager();
@@ -219,7 +245,7 @@ class PlgSystemDebug extends CMSPlugin
 	public function onAfterRespond()
 	{
 		// Do not render if debugging or language debug is not enabled.
-		if (!JDEBUG && !$this->debugLang || $this->isAjax || strtolower($this->app->getDocument()->getType()) !== 'html')
+		if (!JDEBUG && !$this->debugLang || $this->isAjax || !($this->app->getDocument() instanceof HtmlDocument))
 		{
 			return;
 		}
@@ -264,7 +290,7 @@ class PlgSystemDebug extends CMSPlugin
 				$this->debugBar->addCollector(new QueryCollector($this->params, $this->queryMonitor, $this->sqlShowProfileEach, $this->explains));
 			}
 
-			if (!empty($this->logEntries) && $this->params->get('logs', 1))
+			if ($this->showLogs)
 			{
 				$this->collectLogs();
 			}
@@ -278,7 +304,7 @@ class PlgSystemDebug extends CMSPlugin
 		}
 
 		// Only render for HTML output.
-		if ($this->app->getDocument()->getType() !== 'html')
+		if (!($this->app->getDocument() instanceof HtmlDocument))
 		{
 			$this->debugBar->stackData();
 
@@ -294,7 +320,7 @@ class PlgSystemDebug extends CMSPlugin
 		/**
 		 * @todo disable highlightjs from the DebugBar, import it through NPM
 		 *       and deliver it through Joomla's API
-		 *       Also every DebuBar script and stylesheet needs to use Joomla's API
+		 *       Also every DebugBar script and stylesheet needs to use Joomla's API
 		 *       $debugBarRenderer->disableVendor('highlightjs');
 		 */
 
@@ -353,66 +379,6 @@ class PlgSystemDebug extends CMSPlugin
 	}
 
 	/**
-	 * Setup logging functionality.
-	 *
-	 * @return $this
-	 *
-	 * @since 4.0.0
-	 */
-	private function setupLogging(): self
-	{
-		// Log the deprecated API.
-		if ($this->params->get('log-deprecated'))
-		{
-			Log::addLogger(array('text_file' => 'deprecated.php'), Log::ALL, array('deprecated'));
-		}
-
-		// Log everything (except deprecated APIs, these are logged separately with the option above).
-		if ($this->params->get('log-everything', 0))
-		{
-			Log::addLogger(array('text_file' => 'everything.php'), Log::ALL, array('deprecated', 'databasequery'), true);
-		}
-
-		if ($this->params->get('logs', 1))
-		{
-			$priority = 0;
-
-			foreach ($this->params->get('log_priorities', array()) as $p)
-			{
-				$const = '\\Joomla\\CMS\\Log\\Log::' . strtoupper($p);
-
-				if (defined($const))
-				{
-					$priority |= constant($const);
-				}
-			}
-
-			// Split into an array at any character other than alphabet, numbers, _, ., or -
-			$categories = preg_split('/[^\w.-]+/', $this->params->get('log_categories', ''), -1, PREG_SPLIT_NO_EMPTY);
-			$mode = $this->params->get('log_category_mode', 0);
-
-			Log::addLogger(array('logger' => 'callback', 'callback' => array($this, 'logger')), $priority, $categories, $mode);
-		}
-
-		// Log deprecated class aliases
-		foreach (JLoader::getDeprecatedAliases() as $deprecation)
-		{
-			Log::add(
-				sprintf(
-					'%1$s has been aliased to %2$s and the former class name is deprecated. The alias will be removed in %3$s.',
-					$deprecation['old'],
-					$deprecation['new'],
-					$deprecation['version']
-				),
-				Log::WARNING,
-				'deprecation-notes'
-			);
-		}
-
-		return $this;
-	}
-
-	/**
 	 * Method to check if the current user is allowed to see the debug information or not.
 	 *
 	 * @return  boolean  True if access is allowed.
@@ -429,7 +395,7 @@ class PlgSystemDebug extends CMSPlugin
 		}
 
 		// If the user is not allowed to view the output then end here.
-		$filterGroups = (array) $this->params->get('filter_groups', array());
+		$filterGroups = (array) $this->params->get('filter_groups', []);
 
 		if (!empty($filterGroups))
 		{
@@ -497,18 +463,19 @@ class PlgSystemDebug extends CMSPlugin
 				}
 				else
 				{
-					$this->sqlShowProfileEach[0] = array(array('Error' => 'MySql have_profiling = off'));
+					$this->sqlShowProfileEach[0] = [['Error' => 'MySql have_profiling = off']];
 				}
 			}
 			catch (Exception $e)
 			{
-				$this->sqlShowProfileEach[0] = array(array('Error' => $e->getMessage()));
+				$this->sqlShowProfileEach[0] = [['Error' => $e->getMessage()]];
 			}
 		}
 
 		if ($this->params->get('query_explains') && in_array($db->getServerType(), ['mysql', 'postgresql'], true))
 		{
-			$logs = $this->queryMonitor->getLogs();
+			$logs        = $this->queryMonitor->getLogs();
+			$boundParams = $this->queryMonitor->getBoundParams();
 
 			foreach ($logs as $k => $query)
 			{
@@ -524,12 +491,22 @@ class PlgSystemDebug extends CMSPlugin
 				{
 					try
 					{
-						$db->setQuery('EXPLAIN ' . ($dbVersion56 ? 'EXTENDED ' : '') . $query);
-						$this->explains[$k] = $db->loadAssocList();
+						$queryInstance = $db->getQuery(true);
+						$queryInstance->setQuery('EXPLAIN ' . ($dbVersion56 ? 'EXTENDED ' : '') . $query);
+
+						if ($boundParams[$k])
+						{
+							foreach ($boundParams[$k] as $key => $obj)
+							{
+								$queryInstance->bind($key, $obj->value, $obj->dataType, $obj->length, $obj->driverOptions);
+							}
+						}
+
+						$this->explains[$k] = $db->setQuery($queryInstance)->loadAssocList();
 					}
 					catch (Exception $e)
 					{
-						$this->explains[$k] = array(array('Error' => $e->getMessage()));
+						$this->explains[$k] = [['error' => $e->getMessage()]];
 					}
 				}
 			}
@@ -545,9 +522,16 @@ class PlgSystemDebug extends CMSPlugin
 	 * @return  void
 	 *
 	 * @since   3.1
+	 *
+	 * @deprecated  5.0  Use Log::add(LogEntry $entry);
 	 */
 	public function logger(LogEntry $entry)
 	{
+		if (!$this->showLogs)
+		{
+			return;
+		}
+
 		$this->logEntries[] = $entry;
 	}
 
@@ -560,12 +544,21 @@ class PlgSystemDebug extends CMSPlugin
 	 */
 	private function collectLogs(): self
 	{
-		if (!$this->logEntries)
+		$loggerOptions = ['group' => 'default'];
+		$logger        = new Joomla\CMS\Log\Logger\InMemoryLogger($loggerOptions);
+		$logEntries    = $logger->getCollectedEntries();
+
+		if (!$this->logEntries && !$logEntries)
 		{
 			return $this;
 		}
 
-		$logDeprecated = $this->params->get('log-deprecated', 0);
+		if ($this->logEntries)
+		{
+			$logEntries = array_merge($logEntries, $this->logEntries);
+		}
+
+		$logDeprecated = $this->app->get('log_deprecated', 0);
 		$logDeprecatedCore = $this->params->get('log-deprecated-core', 0);
 
 		$this->debugBar->addCollector(new MessagesCollector('log'));
@@ -581,7 +574,7 @@ class PlgSystemDebug extends CMSPlugin
 			$this->debugBar->addCollector(new MessagesCollector('deprecated-core'));
 		}
 
-		foreach ($this->logEntries as $entry)
+		foreach ($logEntries as $entry)
 		{
 			switch ($entry->category)
 			{
@@ -597,20 +590,34 @@ class PlgSystemDebug extends CMSPlugin
 						break;
 					}
 
-					$file = $entry->callStack[2]['file'] ?? '';
-					$line = $entry->callStack[2]['line'] ?? '';
+					$file = '';
+					$line = '';
 
-					if (!$file)
+					// Find the caller, skip Log methods and trigger_error function
+					foreach ($entry->callStack as $stackEntry)
 					{
-						// In case trigger_error is used
-						$file = $entry->callStack[4]['file'] ?? '';
-						$line = $entry->callStack[4]['line'] ?? '';
+						if (!empty($stackEntry['class'])
+							&& ($stackEntry['class'] === 'Joomla\CMS\Log\LogEntry' || $stackEntry['class'] === 'Joomla\CMS\Log\Log'))
+						{
+							continue;
+						}
+
+						if (empty($stackEntry['class']) && !empty($stackEntry['function'])
+							&& $stackEntry['function'] === 'trigger_error')
+						{
+							continue;
+						}
+
+						$file = $stackEntry['file'] ?? '';
+						$line = $stackEntry['line'] ?? '';
+
+						break;
 					}
 
 					$category = $entry->category;
-					$relative = str_replace(JPATH_ROOT, '', $file);
+					$relative = $file ? str_replace(JPATH_ROOT, '', $file) : '';
 
-					if (0 === strpos($relative, '/libraries/src'))
+					if ($relative && 0 === strpos($relative, '/libraries/src'))
 					{
 						if (!$logDeprecatedCore)
 						{
@@ -648,11 +655,6 @@ class PlgSystemDebug extends CMSPlugin
 						case Log::WARNING:
 							$level = 'warning';
 							break;
-						case Log::NOTICE:
-						case Log::INFO:
-						case Log::DEBUG:
-							$level = 'info';
-							break;
 						default:
 							$level = 'info';
 					}
@@ -663,5 +665,66 @@ class PlgSystemDebug extends CMSPlugin
 		}
 
 		return $this;
+	}
+
+	/**
+	 * Add server timing headers when profile is activated.
+	 *
+	 * @return  void
+	 *
+	 * @since   4.1.0
+	 */
+	public function onBeforeRespond(): void
+	{
+		if (!JDEBUG || !$this->params->get('profile', 1))
+		{
+			return;
+		}
+
+		$metrics    = '';
+		$moduleTime = 0;
+		$accessTime = 0;
+
+		foreach (Profiler::getInstance('Application')->getMarks() as $index => $mark)
+		{
+			// Ignore the before mark as the after one contains the timing of the action
+			if (stripos($mark->label, 'before') !== false)
+			{
+				continue;
+			}
+
+			// Collect the module render time
+			if (strpos($mark->label, 'mod_') !== false)
+			{
+				$moduleTime += $mark->time;
+				continue;
+			}
+
+			// Collect the access render time
+			if (strpos($mark->label, 'Access:') !== false)
+			{
+				$accessTime += $mark->time;
+				continue;
+			}
+
+			$desc     = str_ireplace('after', '', $mark->label);
+			$name     = preg_replace('/[^\da-z]/i', '', $desc);
+			$metrics .= sprintf('%s;dur=%f;desc="%s", ', $index . $name, $mark->time, $desc);
+
+			// Do not create too large headers, some web servers don't love them
+			if (strlen($metrics) > 3000)
+			{
+				$metrics .= 'System;dur=0;desc="Data truncated to 3000 characters", ';
+				break;
+			}
+		}
+
+		// Add the module entry
+		$metrics .= 'Modules;dur=' . $moduleTime . ';desc="Modules", ';
+
+		// Add the access entry
+		$metrics .= 'Access;dur=' . $accessTime . ';desc="Access"';
+
+		$this->app->setHeader('Server-Timing', $metrics);
 	}
 }

@@ -14,28 +14,15 @@
       "uri": "legacy/jquery-noconflict.min.js"
     },
     {
-      "name": "joomla.frontediting",
-      "type": "style",
-      "uri": "system/frontediting.css"
-    },
-    {
-      "name": "joomla.frontediting",
+      "name": "joomla.treeselectmenu",
       "type": "script",
       "dependencies": [
         "jquery"
       ],
-      "uri": "legacy/frontediting.min.js",
+      "uri": "legacy/treeselectmenu.min.js",
       "attributes": {
         "defer": true
       }
-    },
-    {
-      "name": "joomla.frontediting",
-      "type": "preset",
-      "dependencies": [
-        "joomla.frontediting#style",
-        "joomla.frontediting#script"
-      ]
     }
   ]
 }

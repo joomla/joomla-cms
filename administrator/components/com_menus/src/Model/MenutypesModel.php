@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_menus
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2011 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -138,7 +138,7 @@ class MenutypesModel extends BaseDatabaseModel
 	 * Method to create the reverse lookup for link-to-name.
 	 * (can be used from onAfterGetMenuTypeOptions handlers)
 	 *
-	 * @param   \JObject  $option  with request array or string and title public variables
+	 * @param   CMSObject  $option  Object with request array or string and title public variables
 	 *
 	 * @return  void
 	 *
@@ -521,7 +521,7 @@ class MenutypesModel extends BaseDatabaseModel
 		}
 
 		// Get the template layouts
-		// TODO: This should only search one template -- the current template for this item (default of specified)
+		// @todo: This should only search one template -- the current template for this item (default of specified)
 		$folders = Folder::folders($client->path . '/templates', '', false, true);
 
 		// Array to hold association between template file names and templates

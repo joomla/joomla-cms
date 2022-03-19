@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  Layout
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2015 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -43,20 +43,13 @@ extract($displayData);
  * @var   boolean  $spellcheck      Spellcheck state for the form field.
  * @var   string   $validate        Validation rules to apply.
  * @var   string   $value           Value attribute of the field.
- *
  * @var   string   $userName        The user name
  * @var   mixed    $groups          The filtering groups (null means no filtering)
  * @var   mixed    $excluded        The users to exclude from the list of users
  * @var   string   $dataAttribute   Miscellaneous data attributes preprocessed for HTML output
  * @var   array    $dataAttributes  Miscellaneous data attribute for eg, data-*.
  */
-
-if (!$readonly)
-{
-	Factory::getDocument()->getWebAssetManager()
-		->useScript('webcomponent.field-user');
-}
-
+$modalHTML = '';
 $uri = new Uri('index.php?option=com_users&view=users&layout=modal&tmpl=component&required=0');
 
 $uri->setVar('field', $this->escape($id));
@@ -101,6 +94,27 @@ if (!$readonly)
 {
 	$inputAttributes['placeholder'] = Text::_('JLIB_FORM_SELECT_USER');
 }
+
+if (!$readonly)
+{
+	$modalHTML = HTMLHelper::_(
+		'bootstrap.renderModal',
+		'userModal_' . $id,
+		array(
+			'url'         => $uri,
+			'title'       => Text::_('JLIB_FORM_CHANGE_USER'),
+			'closeButton' => true,
+			'height'      => '100%',
+			'width'       => '100%',
+			'modalWidth'  => 80,
+			'bodyHeight'  => 60,
+			'footer'      => '<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">' . Text::_('JCANCEL') . '</button>',
+		)
+	);
+
+	Factory::getDocument()->getWebAssetManager()
+		->useScript('webcomponent.field-user');
+}
 ?>
 <?php // Create a dummy text field with the user name. ?>
 <joomla-field-user class="field-user-wrapper"
@@ -112,14 +126,12 @@ if (!$readonly)
 		input-name=".field-user-input-name"
 		button-select=".button-select">
 	<div class="input-group">
-		<input <?php echo ArrayHelper::toString($inputAttributes), $dataAttribute; ?>	 readonly>
+		<input <?php echo ArrayHelper::toString($inputAttributes), $dataAttribute; ?> readonly>
 		<?php if (!$readonly) : ?>
-			<span class="input-group-append">
-				<button type="button" class="btn btn-primary button-select" title="<?php echo Text::_('JLIB_FORM_CHANGE_USER'); ?>">
-					<span class="fas fa-user icon-white" aria-hidden="true"></span>
-					<span class="sr-only"><?php echo Text::_('JLIB_FORM_CHANGE_USER'); ?></span>
-				</button>
-			</span>
+			<button type="button" class="btn btn-primary button-select" title="<?php echo Text::_('JLIB_FORM_CHANGE_USER'); ?>">
+				<span class="icon-user icon-white" aria-hidden="true"></span>
+				<span class="visually-hidden"><?php echo Text::_('JLIB_FORM_CHANGE_USER'); ?></span>
+			</button>
 		<?php endif; ?>
 	</div>
 	<?php // Create the real field, hidden, that stored the user id. ?>
@@ -127,19 +139,6 @@ if (!$readonly)
 		<input type="hidden" id="<?php echo $id; ?>_id" name="<?php echo $name; ?>" value="<?php echo $this->escape($value); ?>"
 			class="field-user-input <?php echo $class ? (string) $class : ''?>"
 			data-onchange="<?php echo $this->escape($onchange); ?>">
-		<?php echo HTMLHelper::_(
-			'bootstrap.renderModal',
-			'userModal_' . $id,
-			array(
-				'url'         => $uri,
-				'title'       => Text::_('JLIB_FORM_CHANGE_USER'),
-				'closeButton' => true,
-				'height'      => '100%',
-				'width'       => '100%',
-				'modalWidth'  => 80,
-				'bodyHeight'  => 60,
-				'footer'      => '<button type="button" class="btn btn-secondary" data-dismiss="modal">' . Text::_('JCANCEL') . '</button>',
-			)
-		); ?>
+		<?php echo $modalHTML; ?>
 	<?php endif; ?>
 </joomla-field-user>

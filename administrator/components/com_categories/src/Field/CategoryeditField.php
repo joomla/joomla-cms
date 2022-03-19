@@ -3,13 +3,13 @@
  * @package     Joomla.Administrator
  * @subpackage  com_categories
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2012 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\Component\Categories\Administrator\Field;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Field\ListField;
@@ -62,7 +62,7 @@ class CategoryeditField extends ListField
 	 *
 	 * @param   \SimpleXMLElement  $element  The SimpleXMLElement object representing the <field /> tag for the form field object.
 	 * @param   mixed              $value    The form field value to validate.
-	 * @param   string             $group    The field name group control value. This acts as an array container for the field.
+	 * @param   string|null        $group    The field name group control value. This acts as an array container for the field.
 	 *                                       For example if the field has name="foo" and the group value is set to "bar" then the
 	 *                                       full field name would end up being "bar[foo]".
 	 *
@@ -169,7 +169,7 @@ class CategoryeditField extends ListField
 		}
 
 		// Account for case that a submitted form has a multi-value category id field (e.g. a filtering form), just use the first category
-		$oldCat = is_array($oldCat)
+		$oldCat = \is_array($oldCat)
 			? (int) reset($oldCat)
 			: (int) $oldCat;
 
@@ -259,7 +259,7 @@ class CategoryeditField extends ListField
 		}
 
 		// Pad the option text with spaces using depth level as a multiplier.
-		for ($i = 0, $n = count($options); $i < $n; $i++)
+		for ($i = 0, $n = \count($options); $i < $n; $i++)
 		{
 			// Translate ROOT
 			if ($this->element['parent'] == true || $jinput->get('option') == 'com_categories')
@@ -340,7 +340,6 @@ class CategoryeditField extends ListField
 				if ($option->level != 0	&& isset($oldParent) && $option->value != $oldParent && !$user->authorise('core.create', $assetKey))
 				{
 					unset($options[$i]);
-					continue;
 				}
 			}
 		}

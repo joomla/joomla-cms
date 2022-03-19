@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_associations
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2017 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -56,7 +56,7 @@ class HtmlView extends BaseHtmlView
 	/**
 	 * Selected item type properties.
 	 *
-	 * @var    Registry
+	 * @var    \Joomla\Registry\Registry
 	 *
 	 * @since  3.7.0
 	 */
@@ -92,14 +92,14 @@ class HtmlView extends BaseHtmlView
 
 			$types = $extension->get('types');
 
-			if (array_key_exists($typeName, $types))
+			if (\array_key_exists($typeName, $types))
 			{
 				$type = $types[$typeName];
 			}
 
 			$this->itemType = $type;
 
-			if (is_null($type))
+			if (\is_null($type))
 			{
 				Factory::getApplication()->enqueueMessage(Text::_('COM_ASSOCIATIONS_ERROR_NO_TYPE'), 'warning');
 			}
@@ -112,13 +112,13 @@ class HtmlView extends BaseHtmlView
 
 				$details = $type->get('details');
 
-				if (array_key_exists('support', $details))
+				if (\array_key_exists('support', $details))
 				{
 					$support = $details['support'];
 					$this->typeSupports = $support;
 				}
 
-				if (array_key_exists('fields', $details))
+				if (\array_key_exists('fields', $details))
 				{
 					$fields = $details['fields'];
 					$this->typeFields = $fields;
@@ -189,7 +189,7 @@ class HtmlView extends BaseHtmlView
 		}
 
 		// Check for errors.
-		if (count($errors = $this->get('Errors')))
+		if (\count($errors = $this->get('Errors')))
 		{
 			throw new \Exception(implode("\n", $errors), 500);
 		}
@@ -237,13 +237,13 @@ class HtmlView extends BaseHtmlView
 		{
 			if (!isset($this->typeName))
 			{
-				ToolbarHelper::custom('associations.purge', 'purge', 'purge', 'COM_ASSOCIATIONS_PURGE', false, false);
-				ToolbarHelper::custom('associations.clean', 'refresh', 'refresh', 'COM_ASSOCIATIONS_DELETE_ORPHANS', false, false);
+				ToolbarHelper::custom('associations.purge', 'purge', '', 'COM_ASSOCIATIONS_PURGE', false, false);
+				ToolbarHelper::custom('associations.clean', 'refresh', '', 'COM_ASSOCIATIONS_DELETE_ORPHANS', false, false);
 			}
 
 			ToolbarHelper::preferences('com_associations');
 		}
 
-		ToolbarHelper::help('JHELP_COMPONENTS_ASSOCIATIONS');
+		ToolbarHelper::help('Multilingual_Associations');
 	}
 }

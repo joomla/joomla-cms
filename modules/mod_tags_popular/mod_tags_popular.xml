@@ -3,7 +3,7 @@
 	<name>mod_tags_popular</name>
 	<author>Joomla! Project</author>
 	<creationDate>January 2013</creationDate>
-	<copyright>Copyright (C) 2005 - 2020 Open Source Matters. All rights reserved.</copyright>
+	<copyright>(C) 2013 Open Source Matters, Inc.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
@@ -16,10 +16,10 @@
 		<folder>tmpl</folder>
 	</files>
 	<languages>
-		<language tag="en-GB">en-GB.mod_tags_popular.ini</language>
-		<language tag="en-GB">en-GB.mod_tags_popular.sys.ini</language>
+		<language tag="en-GB">language/en-GB/mod_tags_popular.ini</language>
+		<language tag="en-GB">language/en-GB/mod_tags_popular.sys.ini</language>
 	</languages>
-	<help key="JHELP_EXTENSIONS_MODULE_MANAGER_TAGS_POPULAR" />
+	<help key="Site_Modules:_Tags_-_Popular" />
 	<config>
 		<fields name="params">
 			<fieldset name="basic">
@@ -35,13 +35,12 @@
 
 				<field
 					name="maximum"
-					type="integer"
+					type="number"
 					label="MOD_TAGS_POPULAR_MAX_LABEL"
 					default="5"
 					filter="integer"
-					first="1"
-					last="20"
-					step="1"
+					min="0"
+					validate="number"
 				/>
 
 				<field
@@ -134,8 +133,9 @@
 					name="layout"
 					type="modulelayout"
 					label="JFIELD_ALT_LAYOUT_LABEL"
-					class="custom-select"
+					class="form-select"
 					default="_:default"
+					validate="moduleLayout"
 				/>
 
 				<field
@@ -143,6 +143,7 @@
 					type="textarea"
 					label="COM_MODULES_FIELD_MODULECLASS_SFX_LABEL"
 					rows="3"
+					validate="CssIdentifier"
 				/>
 
 				<field

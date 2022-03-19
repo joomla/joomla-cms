@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2019 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -154,10 +154,30 @@ class WebAssetManager implements WebAssetManagerInterface
 	}
 
 	/**
+	 * Clears all collected items.
+	 *
+	 * @return self
+	 *
+	 * @since  4.1.1
+	 */
+	public function reset(): WebAssetManagerInterface
+	{
+		if ($this->locked)
+		{
+			throw new InvalidActionException('WebAssetManager is locked');
+		}
+
+		$this->activeAssets = [];
+		$this->dependenciesIsActual = false;
+
+		return $this;
+	}
+
+	/**
 	 * Adds support for magic method calls
 	 *
 	 * @param   string  $method     A method name
-	 * @param   string  $arguments  An arguments for a method
+	 * @param   array   $arguments  Arguments for a method
 	 *
 	 * @return mixed
 	 *
@@ -363,7 +383,7 @@ class WebAssetManager implements WebAssetManagerInterface
 				$depName = substr($dependency, 0, $pos);
 			}
 
-			$depType = $depType ? $depType : 'preset';
+			$depType = $depType ?: 'preset';
 
 			// Make sure dependency exists
 			if (!$this->registry->exists($depType, $depName))
@@ -409,7 +429,7 @@ class WebAssetManager implements WebAssetManagerInterface
 				$depName = substr($dependency, 0, $pos);
 			}
 
-			$depType = $depType ? $depType : 'preset';
+			$depType = $depType ?: 'preset';
 
 			// Make sure dependency exists
 			if (!$this->registry->exists($depType, $depName))
@@ -503,6 +523,8 @@ class WebAssetManager implements WebAssetManagerInterface
 	 * @return  self
 	 *
 	 * @since  4.0.0
+	 *
+	 * @throws  \InvalidArgumentException
 	 */
 	public function registerAsset(string $type, $asset, string $uri = '', array $options = [], array $attributes = [], array $dependencies = [])
 	{
@@ -518,7 +540,14 @@ class WebAssetManager implements WebAssetManagerInterface
 		}
 		else
 		{
-			throw new \BadMethodCallException('The $asset variable should be either WebAssetItemInterface or a string of the asset name');
+			throw new \InvalidArgumentException(
+				sprintf(
+					'%s(): Argument #2 ($asset) must be a string or an instance of %s, %s given.',
+					__METHOD__,
+					WebAssetItemInterface::class,
+					\is_object($asset) ? \get_class($asset) : \gettype($asset)
+				)
+			);
 		}
 
 		return $this;
@@ -672,8 +701,10 @@ class WebAssetManager implements WebAssetManagerInterface
 	 * @return  self
 	 *
 	 * @since  4.0.0
+	 *
+	 * @throws \InvalidArgumentException
 	 */
-	public function addInline(string $type, string $content, array $options = [], array $attributes = [], array $dependencies = []): self
+	public function addInline(string $type, $content, array $options = [], array $attributes = [], array $dependencies = []): self
 	{
 		if ($content instanceof WebAssetItemInterface)
 		{
@@ -683,10 +714,18 @@ class WebAssetManager implements WebAssetManagerInterface
 		{
 			$name          = $options['name'] ?? ('inline.' . md5($content));
 			$assetInstance = $this->registry->createAsset($name, '', $options, $attributes, $dependencies);
+			$assetInstance->setOption('content', $content);
 		}
 		else
 		{
-			throw new \BadMethodCallException('The $content variable should be either WebAssetItemInterface or a string');
+			throw new \InvalidArgumentException(
+				sprintf(
+					'%s(): Argument #2 ($content) must be a string or an instance of %s, %s given.',
+					__METHOD__,
+					WebAssetItemInterface::class,
+					\is_object($content) ? \get_class($content) : \gettype($content)
+				)
+			);
 		}
 
 		// Get the name
@@ -695,7 +734,6 @@ class WebAssetManager implements WebAssetManagerInterface
 		// Set required options
 		$assetInstance->setOption('type', $type);
 		$assetInstance->setOption('inline', true);
-		$assetInstance->setOption('content', $content);
 
 		// Add to registry
 		$this->registry->add($type, $assetInstance);

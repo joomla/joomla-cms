@@ -3,12 +3,13 @@
  * @package     Joomla.Plugin
  * @subpackage  Fields.Media
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2017 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
 
 /**
@@ -39,7 +40,12 @@ class PlgFieldsMedia extends \Joomla\Component\Fields\Administrator\Plugin\Field
 		}
 
 		$fieldNode->setAttribute('type', 'accessiblemedia');
-
+		
+		if (Factory::getApplication()->getIdentity()->authorise('core.create', 'com_media'))
+		{
+			$fieldNode->setAttribute('disabled', 'false');
+		}
+		
 		return $fieldNode;
 	}
 
@@ -52,7 +58,7 @@ class PlgFieldsMedia extends \Joomla\Component\Fields\Administrator\Plugin\Field
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOAY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function onCustomFieldsBeforePrepareField($context, $item, $field)
 	{
@@ -63,7 +69,7 @@ class PlgFieldsMedia extends \Joomla\Component\Fields\Administrator\Plugin\Field
 		}
 
 		// Check if the field value is an old (string) value
-		$field->apivalue = $this->checkValue($field->value);
+		$field->value = $this->checkValue($field->value);
 	}
 
 	/**
@@ -73,7 +79,7 @@ class PlgFieldsMedia extends \Joomla\Component\Fields\Administrator\Plugin\Field
 	 *
 	 * @return  array  The checked value
 	 *
-	 * @since   __DEPLOAY_VERSION__
+	 * @since   4.0.0
 	 */
 	private function checkValue($value)
 	{

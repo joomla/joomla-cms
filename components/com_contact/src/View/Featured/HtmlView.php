@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_contact
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2010 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -29,6 +29,7 @@ class HtmlView extends BaseHtmlView
 	 * The item model state
 	 *
 	 * @var    \Joomla\Registry\Registry
+	 *
 	 * @since  1.6.0
 	 */
 	protected $state;
@@ -36,7 +37,8 @@ class HtmlView extends BaseHtmlView
 	/**
 	 * The item details
 	 *
-	 * @var    \JObject
+	 * @var    \Joomla\CMS\Object\CMSObject
+	 *
 	 * @since  1.6.0
 	 */
 	protected $items;
@@ -44,7 +46,8 @@ class HtmlView extends BaseHtmlView
 	/**
 	 * The pagination object
 	 *
-	 * @var    \JPagination
+	 * @var    \Joomla\CMS\Pagination\Pagination
+	 *
 	 * @since  1.6.0
 	 */
 	protected $pagination;
@@ -53,6 +56,7 @@ class HtmlView extends BaseHtmlView
 	 * The page parameters
 	 *
 	 * @var    \Joomla\Registry\Registry|null
+	 *
 	 * @since  4.0.0
 	 */
 	protected $params = null;
@@ -61,6 +65,7 @@ class HtmlView extends BaseHtmlView
 	 * The page class suffix
 	 *
 	 * @var    string
+	 *
 	 * @since  4.0.0
 	 */
 	protected $pageclass_sfx = '';
@@ -70,7 +75,7 @@ class HtmlView extends BaseHtmlView
 	 *
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
 	 *
-	 * @return  mixed  \Exception on failure, void on success.
+	 * @return  void
 	 *
 	 * @since   1.6
 	 */
@@ -122,7 +127,7 @@ class HtmlView extends BaseHtmlView
 		}
 
 		// Escape strings for HTML output
-		$this->pageclass_sfx = htmlspecialchars($params->get('pageclass_sfx'), ENT_COMPAT, 'UTF-8');
+		$this->pageclass_sfx = htmlspecialchars($params->get('pageclass_sfx', ''), ENT_COMPAT, 'UTF-8');
 
 		$maxLevel         = $params->get('maxLevel', -1);
 		$this->maxLevel   = &$maxLevel;
@@ -136,7 +141,7 @@ class HtmlView extends BaseHtmlView
 
 		$this->_prepareDocument();
 
-		return parent::display($tpl);
+		parent::display($tpl);
 	}
 
 	/**
@@ -148,13 +153,9 @@ class HtmlView extends BaseHtmlView
 	 */
 	protected function _prepareDocument()
 	{
-		$app   = Factory::getApplication();
-		$menus = $app->getMenu();
-		$title = null;
-
 		// Because the application sets a default page title,
 		// we need to get it from the menu item itself
-		$menu = $menus->getActive();
+		$menu = Factory::getApplication()->getMenu()->getActive();
 
 		if ($menu)
 		{
@@ -165,22 +166,7 @@ class HtmlView extends BaseHtmlView
 			$this->params->def('page_heading', Text::_('COM_CONTACT_DEFAULT_PAGE_TITLE'));
 		}
 
-		$title = $this->params->get('page_title', '');
-
-		if (empty($title))
-		{
-			$title = $app->get('sitename');
-		}
-		elseif ($app->get('sitename_pagetitles', 0) == 1)
-		{
-			$title = Text::sprintf('JPAGETITLE', $app->get('sitename'), $title);
-		}
-		elseif ($app->get('sitename_pagetitles', 0) == 2)
-		{
-			$title = Text::sprintf('JPAGETITLE', $title, $app->get('sitename'));
-		}
-
-		$this->document->setTitle($title);
+		$this->setDocumentTitle($this->params->get('page_title', ''));
 
 		if ($this->params->get('menu-meta_description'))
 		{

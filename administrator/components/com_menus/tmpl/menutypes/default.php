@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_menus
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2011 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -19,7 +19,10 @@ $input = Factory::getApplication()->input;
 $tmpl = ($input->getCmd('tmpl') != '') ? '1' : '';
 $tmpl = json_encode($tmpl, JSON_NUMERIC_CHECK);
 
-HTMLHelper::_('script', 'com_menus/admin-item-modal.js', ['version' => 'auto', 'relative' => true], ['defer' => 'defer']);
+/** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
+$wa = $this->document->getWebAssetManager();
+$wa->useScript('com_menus.admin-item-modal');
+
 ?>
 <?php echo HTMLHelper::_('bootstrap.startAccordion', 'collapseTypes', array('active' => 'slide1')); ?>
 	<?php $i = 0; ?>
@@ -31,7 +34,7 @@ HTMLHelper::_('script', 'com_menus/admin-item-modal.js', ['version' => 'auto', '
 					<?php $menutype = base64_encode(json_encode($menutype)); ?>
 					<a class="choose_type list-group-item list-group-item-action" href="#"
 						onclick="Joomla.setMenuType('<?php echo $menutype; ?>', '<?php echo $tmpl; ?>')">
-						<div class="pr-2">
+						<div class="pe-2">
 							<?php echo $title; ?>
 						</div>
 						<small class="text-muted">

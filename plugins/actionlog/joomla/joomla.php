@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  System.actionlogs
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2018 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -11,6 +11,8 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Installer\Installer;
+use Joomla\CMS\Table\Table;
 use Joomla\CMS\User\User;
 use Joomla\Component\Actionlogs\Administrator\Helper\ActionlogsHelper;
 use Joomla\Component\Actionlogs\Administrator\Plugin\ActionLogPlugin;
@@ -96,13 +98,6 @@ class PlgActionlogJoomla extends ActionLogPlugin
 			$context = $this->contextAliases[$context];
 		}
 
-		$option = $this->app->input->getCmd('option');
-
-		if (!$this->checkLoggable($option))
-		{
-			return;
-		}
-
 		$params = ActionlogsHelper::getLogContentTypeParams($context);
 
 		// Not found a valid content type, don't process further
@@ -111,7 +106,12 @@ class PlgActionlogJoomla extends ActionLogPlugin
 			return;
 		}
 
-		list(, $contentType) = explode('.', $params->type_alias);
+		list($option, $contentType) = explode('.', $params->type_alias);
+
+		if (!$this->checkLoggable($option))
+		{
+			return;
+		}
 
 		if ($isNew)
 		{
@@ -137,7 +137,7 @@ class PlgActionlogJoomla extends ActionLogPlugin
 			'type'     => $params->text_prefix . '_TYPE_' . $params->type_title,
 			'id'       => $id,
 			'title'    => $article->get($params->title_holder),
-			'itemlink' => ActionlogsHelper::getContentTypeLink($option, $contentType, $id, $params->id_holder)
+			'itemlink' => ActionlogsHelper::getContentTypeLink($option, $contentType, $id, $params->id_holder, $article),
 		);
 
 		$this->addLog(array($message), $messageLanguageKey, $context);
@@ -188,7 +188,7 @@ class PlgActionlogJoomla extends ActionLogPlugin
 			'action' => 'delete',
 			'type'   => $params->text_prefix . '_TYPE_' . $params->type_title,
 			'id'     => $id,
-			'title'  => $article->get($params->title_holder)
+			'title'  => $article->get($params->title_holder),
 		);
 
 		$this->addLog(array($message), $messageLanguageKey, $context);
@@ -286,7 +286,7 @@ class PlgActionlogJoomla extends ActionLogPlugin
 				'type'        => $params->text_prefix . '_TYPE_' . $params->type_title,
 				'id'          => $pk,
 				'title'       => $items[$pk]->{$params->title_holder},
-				'itemlink'    => ActionlogsHelper::getContentTypeLink($option, $contentType, $pk, $params->id_holder)
+				'itemlink'    => ActionlogsHelper::getContentTypeLink($option, $contentType, $pk, $params->id_holder, null),
 			);
 
 			$messages[] = $message;
@@ -299,7 +299,7 @@ class PlgActionlogJoomla extends ActionLogPlugin
 	 * On Saving application configuration logging method
 	 * Method is called when the application config is being saved
 	 *
-	 * @param   JRegistry  $config  JRegistry object with the new config
+	 * @param   \Joomla\Registry\Registry  $config  Registry object with the new config
 	 *
 	 * @return  void
 	 *
@@ -321,7 +321,7 @@ class PlgActionlogJoomla extends ActionLogPlugin
 			'action'         => $action,
 			'type'           => 'PLG_ACTIONLOG_JOOMLA_TYPE_APPLICATION_CONFIG',
 			'extension_name' => 'com_config.application',
-			'itemlink'       => 'index.php?option=com_config'
+			'itemlink'       => 'index.php?option=com_config',
 		);
 
 		$this->addLog(array($message), $messageLanguageKey, 'com_config.application');
@@ -332,7 +332,7 @@ class PlgActionlogJoomla extends ActionLogPlugin
 	 * This method adds a record to #__action_logs contains (message, date, context, user)
 	 * Method is called when an extension is installed
 	 *
-	 * @param   JInstaller  $installer  Installer object
+	 * @param   Installer   $installer  Installer object
 	 * @param   integer     $eid        Extension Identifier
 	 *
 	 * @return  void
@@ -372,7 +372,7 @@ class PlgActionlogJoomla extends ActionLogPlugin
 			'type'           => 'PLG_ACTIONLOG_JOOMLA_TYPE_' . $extensionType,
 			'id'             => $eid,
 			'name'           => (string) $manifest->name,
-			'extension_name' => (string) $manifest->name
+			'extension_name' => (string) $manifest->name,
 		);
 
 		$this->addLog(array($message), $messageLanguageKey, $context);
@@ -383,9 +383,9 @@ class PlgActionlogJoomla extends ActionLogPlugin
 	 * This method adds a record to #__action_logs contains (message, date, context, user)
 	 * Method is called when an extension is uninstalled
 	 *
-	 * @param   JInstaller  $installer  Installer instance
-	 * @param   integer     $eid        Extension id
-	 * @param   integer     $result     Installation result
+	 * @param   Installer  $installer  Installer instance
+	 * @param   integer    $eid        Extension id
+	 * @param   integer    $result     Installation result
 	 *
 	 * @return  void
 	 *
@@ -430,7 +430,7 @@ class PlgActionlogJoomla extends ActionLogPlugin
 			'type'           => 'PLG_ACTIONLOG_JOOMLA_TYPE_' . $extensionType,
 			'id'             => $eid,
 			'name'           => (string) $manifest->name,
-			'extension_name' => (string) $manifest->name
+			'extension_name' => (string) $manifest->name,
 		);
 
 		$this->addLog(array($message), $messageLanguageKey, $context);
@@ -441,8 +441,8 @@ class PlgActionlogJoomla extends ActionLogPlugin
 	 * This method adds a record to #__action_logs contains (message, date, context, user)
 	 * Method is called when an extension is updated
 	 *
-	 * @param   JInstaller  $installer  Installer instance
-	 * @param   integer     $eid        Extension id
+	 * @param   Installer  $installer  Installer instance
+	 * @param   integer    $eid        Extension id
 	 *
 	 * @return  void
 	 *
@@ -481,7 +481,7 @@ class PlgActionlogJoomla extends ActionLogPlugin
 			'type'           => 'PLG_ACTIONLOG_JOOMLA_TYPE_' . $extensionType,
 			'id'             => $eid,
 			'name'           => (string) $manifest->name,
-			'extension_name' => (string) $manifest->name
+			'extension_name' => (string) $manifest->name,
 		);
 
 		$this->addLog(array($message), $messageLanguageKey, $context);
@@ -492,7 +492,7 @@ class PlgActionlogJoomla extends ActionLogPlugin
 	 * Method is called when an extension is being saved
 	 *
 	 * @param   string   $context  The extension
-	 * @param   JTable   $table    DataBase Table object
+	 * @param   Table    $table    DataBase Table object
 	 * @param   boolean  $isNew    If the extension is new or not
 	 *
 	 * @return  void
@@ -546,7 +546,7 @@ class PlgActionlogJoomla extends ActionLogPlugin
 			'id'             => $table->get($params->id_holder),
 			'title'          => $table->get($params->title_holder),
 			'extension_name' => $table->get($params->title_holder),
-			'itemlink'       => ActionlogsHelper::getContentTypeLink($option, $contentType, $table->get($params->id_holder), $params->id_holder)
+			'itemlink'       => ActionlogsHelper::getContentTypeLink($option, $contentType, $table->get($params->id_holder), $params->id_holder),
 		);
 
 		$this->addLog(array($message), $messageLanguageKey, $context);
@@ -557,7 +557,7 @@ class PlgActionlogJoomla extends ActionLogPlugin
 	 * Method is called when an extension is being deleted
 	 *
 	 * @param   string  $context  The extension
-	 * @param   JTable  $table    DataBase Table object
+	 * @param   Table   $table    DataBase Table object
 	 *
 	 * @return  void
 	 *
@@ -583,7 +583,7 @@ class PlgActionlogJoomla extends ActionLogPlugin
 		$message = array(
 			'action' => 'delete',
 			'type'   => 'PLG_ACTIONLOG_JOOMLA_TYPE_' . $params->type_title,
-			'title'  => $table->get($params->title_holder)
+			'title'  => $table->get($params->title_holder),
 		);
 
 		$this->addLog(array($message), $messageLanguageKey, $context);
@@ -597,7 +597,7 @@ class PlgActionlogJoomla extends ActionLogPlugin
 	 *
 	 * @param   array    $user     Holds the new user data.
 	 * @param   boolean  $isnew    True if a new user is stored.
-	 * @param   boolean  $success  True if user was succesfully stored in the database.
+	 * @param   boolean  $success  True if user was successfully stored in the database.
 	 * @param   string   $msg      Message.
 	 *
 	 * @return  void
@@ -634,6 +634,13 @@ class PlgActionlogJoomla extends ActionLogPlugin
 				$messageLanguageKey = 'PLG_ACTIONLOG_JOOMLA_USER_RESET_COMPLETE';
 				$action             = 'resetcomplete';
 			}
+
+			// Registration Activation
+			if ($task === 'registration.activate')
+			{
+				$messageLanguageKey = 'PLG_ACTIONLOG_JOOMLA_USER_REGISTRATION_ACTIVATE';
+				$action             = 'activaterequest';
+			}
 		}
 		elseif ($isnew)
 		{
@@ -669,7 +676,7 @@ class PlgActionlogJoomla extends ActionLogPlugin
 	 * Method is called after user data is deleted from the database
 	 *
 	 * @param   array    $user     Holds the user data
-	 * @param   boolean  $success  True if user was succesfully stored in the database
+	 * @param   boolean  $success  True if user was successfully stored in the database
 	 * @param   string   $msg      Message
 	 *
 	 * @return  void
@@ -691,7 +698,7 @@ class PlgActionlogJoomla extends ActionLogPlugin
 			'action'      => 'delete',
 			'type'        => 'PLG_ACTIONLOG_JOOMLA_TYPE_USER',
 			'id'          => $user['id'],
-			'title'       => $user['name']
+			'title'       => $user['name'],
 		);
 
 		$this->addLog(array($message), $messageLanguageKey, $context);
@@ -700,10 +707,10 @@ class PlgActionlogJoomla extends ActionLogPlugin
 	/**
 	 * On after save user group data logging method
 	 *
-	 * Method is called after user data is deleted from the database
+	 * Method is called after user group is stored into the database
 	 *
 	 * @param   string   $context  The context
-	 * @param   JTable   $table    DataBase Table object
+	 * @param   Table    $table    DataBase Table object
 	 * @param   boolean  $isNew    Is new or not
 	 *
 	 * @return  void
@@ -712,6 +719,7 @@ class PlgActionlogJoomla extends ActionLogPlugin
 	 */
 	public function onUserAfterSaveGroup($context, $table, $isNew): void
 	{
+		// Override context (com_users.group) with the component context (com_users) to pass the checkLoggable
 		$context = $this->app->input->get('option');
 
 		if (!$this->checkLoggable($context))
@@ -735,7 +743,7 @@ class PlgActionlogJoomla extends ActionLogPlugin
 			'type'        => 'PLG_ACTIONLOG_JOOMLA_TYPE_USER_GROUP',
 			'id'          => $table->id,
 			'title'       => $table->title,
-			'itemlink'    => 'index.php?option=com_users&task=group.edit&id=' . $table->id
+			'itemlink'    => 'index.php?option=com_users&task=group.edit&id=' . $table->id,
 		);
 
 		$this->addLog(array($message), $messageLanguageKey, $context);
@@ -744,10 +752,10 @@ class PlgActionlogJoomla extends ActionLogPlugin
 	/**
 	 * On deleting user group data logging method
 	 *
-	 * Method is called after user data is deleted from the database
+	 * Method is called after user group is deleted from the database
 	 *
 	 * @param   array    $group    Holds the group data
-	 * @param   boolean  $success  True if user was succesfully stored in the database
+	 * @param   boolean  $success  True if user was successfully stored in the database
 	 * @param   string   $msg      Message
 	 *
 	 * @return  void
@@ -769,7 +777,7 @@ class PlgActionlogJoomla extends ActionLogPlugin
 			'action'      => 'delete',
 			'type'        => 'PLG_ACTIONLOG_JOOMLA_TYPE_USER_GROUP',
 			'id'          => $group['id'],
-			'title'       => $group['title']
+			'title'       => $group['title'],
 		);
 
 		$this->addLog(array($message), $messageLanguageKey, $context);
@@ -830,10 +838,24 @@ class PlgActionlogJoomla extends ActionLogPlugin
 			return;
 		}
 
-		$loggedInUser = User::getInstance($response['username']);
+		// Get the user id for the given username
+		$query = $this->db->getQuery(true)
+			->select($this->db->quoteName(array('id', 'username')))
+			->from($this->db->quoteName('#__users'))
+			->where($this->db->quoteName('username') . ' = ' . $this->db->quote($response['username']));
+		$this->db->setQuery($query);
+
+		try
+		{
+			$loggedInUser = $this->db->loadObject();
+		}
+		catch (\Joomla\Database\Exception\ExecutionFailureException $e)
+		{
+			return;
+		}
 
 		// Not a valid user, return
-		if (!$loggedInUser->id)
+		if (!isset($loggedInUser->id))
 		{
 			return;
 		}
@@ -970,7 +992,7 @@ class PlgActionlogJoomla extends ActionLogPlugin
 			'userid'      => $user->id,
 			'username'    => $user->username,
 			'accountlink' => 'index.php?option=com_users&task=user.edit&id=' . $user->id,
-			'table'       => $table,
+			'table'       => str_replace($this->db->getPrefix(), '#__', $table),
 		);
 
 		$this->addLog(array($message), 'PLG_ACTIONLOG_JOOMLA_USER_CHECKIN', $context, $user->id);
@@ -1111,5 +1133,41 @@ class PlgActionlogJoomla extends ActionLogPlugin
 			'url'         => htmlspecialchars(urldecode($this->app->get('uri.route')), ENT_QUOTES, 'UTF-8'),
 		);
 		$this->addLog(array($message), 'PLG_ACTIONLOG_JOOMLA_API', $context, $user->id);
+	}
+
+	/**
+	 * On after CMS Update
+	 *
+	 * Method is called after user update the CMS.
+	 *
+	 * @param   string  $oldVersion  The Joomla version before the update
+	 *
+	 * @return  void
+	 *
+	 * @since   3.9.21
+	 */
+	public function onJoomlaAfterUpdate($oldVersion = null)
+	{
+		$context = $this->app->input->get('option');
+		$user    = Factory::getUser();
+
+		if (empty($oldVersion))
+		{
+			$oldVersion = \Joomla\CMS\Language\Text::_('JLIB_UNKNOWN');
+		}
+
+		$message = array(
+			'action'      => 'joomlaupdate',
+			'type'        => 'PLG_ACTIONLOG_JOOMLA_TYPE_USER',
+			'id'          => $user->id,
+			'title'       => $user->username,
+			'itemlink'    => 'index.php?option=com_users&task=user.edit&id=' . $user->id,
+			'userid'      => $user->id,
+			'username'    => $user->username,
+			'accountlink' => 'index.php?option=com_users&task=user.edit&id=' . $user->id,
+			'version'     => JVERSION,
+			'oldversion'  => $oldVersion,
+		);
+		$this->addLog(array($message), 'PLG_ACTIONLOG_JOOMLA_USER_UPDATE', $context, $user->id);
 	}
 }

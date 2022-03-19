@@ -3,23 +3,26 @@
  * @package     Joomla.Site
  * @subpackage  Layout
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2013 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
-/**
- * @var  bool    $is_child
- * @var  string  $id
- * @var  string  $doTask
- * @var  string  $class
- * @var  string  $text
- * @var  string  $btnClass
- * @var  string  $tagName
- * @var  string  $htmlAttributes
- */
 extract($displayData, EXTR_OVERWRITE);
+
+/**
+ * Layout variables
+ * -----------------
+ * @var   bool    $is_child
+ * @var   string  $id
+ * @var   string  $doTask
+ * @var   string  $class
+ * @var   string  $text
+ * @var   string  $btnClass
+ * @var   string  $tagName
+ * @var   string  $htmlAttributes
+ */
 ?>
 
 <?php if ($is_child): ?>

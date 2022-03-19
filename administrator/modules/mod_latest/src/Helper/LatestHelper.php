@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  mod_latest
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2010 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -46,13 +46,13 @@ abstract class LatestHelper
 		switch ($params->get('ordering', 'c_dsc'))
 		{
 			case 'm_dsc':
-				$model->setState('list.ordering', 'modified DESC, created');
+				$model->setState('list.ordering', 'a.modified DESC, a.created');
 				$model->setState('list.direction', 'DESC');
 				break;
 
 			case 'c_dsc':
 			default:
-				$model->setState('list.ordering', 'created');
+				$model->setState('list.ordering', 'a.created');
 				$model->setState('list.direction', 'DESC');
 				break;
 		}
@@ -96,7 +96,8 @@ abstract class LatestHelper
 		{
 			$item->link = '';
 
-			if ($user->authorise('core.edit', 'com_content.article.' . $item->id))
+			if ($user->authorise('core.edit', 'com_content.article.' . $item->id)
+				|| ($user->authorise('core.edit.own', 'com_content.article.' . $item->id) && ($userId === $item->created_by)))
 			{
 				$item->link = Route::_('index.php?option=com_content&task=article.edit&id=' . $item->id);
 			}

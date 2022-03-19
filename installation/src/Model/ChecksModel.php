@@ -3,13 +3,13 @@
  * @package     Joomla.Installation
  * @subpackage  Model
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2017 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Installation\Model;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
@@ -36,7 +36,7 @@ class ChecksModel extends BaseInstallationModel
 
 		if (!empty($disabled_functions))
 		{
-			// Attempt to detect them in the disable_functions blacklist.
+			// Attempt to detect them in the PHP INI disable_functions variable.
 			$disabled_functions = explode(',', trim($disabled_functions));
 			$number_of_disabled_functions = count($disabled_functions);
 
@@ -130,7 +130,7 @@ class ChecksModel extends BaseInstallationModel
 		$option = new \stdClass;
 		$option->label  = Text::sprintf('INSTL_WRITABLE', 'configuration.php');
 		$option->state  = $writable;
-		$option->notice = $option->state ? null : Text::_('INSTL_NOTICEYOUCANSTILLINSTALL');
+		$option->notice = $option->state ? null : Text::_('INSTL_NOTICE_NEEDSTOBEWRITABLE');
 		$options[] = $option;
 
 		return $options;
@@ -204,6 +204,27 @@ class ChecksModel extends BaseInstallationModel
 		$setting->recommended = true;
 		$settings[] = $setting;
 
+		// Check for GD support
+		$setting = new \stdClass;
+		$setting->label = Text::sprintf('INSTL_EXTENSION_AVAILABLE', 'GD');
+		$setting->state = extension_loaded('gd');
+		$setting->recommended = true;
+		$settings[] = $setting;
+
+		// Check for iconv support
+		$setting = new \stdClass;
+		$setting->label = Text::sprintf('INSTL_EXTENSION_AVAILABLE', 'iconv');
+		$setting->state = function_exists('iconv');
+		$setting->recommended = true;
+		$settings[] = $setting;
+
+		// Check for intl support
+		$setting = new \stdClass;
+		$setting->label = Text::sprintf('INSTL_EXTENSION_AVAILABLE', 'intl');
+		$setting->state = function_exists('transliterator_transliterate');
+		$setting->recommended = true;
+		$settings[] = $setting;
+
 		return $settings;
 	}
 
@@ -225,7 +246,7 @@ class ChecksModel extends BaseInstallationModel
 	/**
 	 * Method to get the form.
 	 *
-	 * @param   string  $view  The view being processed.
+	 * @param   string|null  $view  The view being processed.
 	 *
 	 * @return  Form|boolean  Form object on success, false on failure.
 	 *

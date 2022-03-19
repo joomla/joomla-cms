@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  Layout
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2016 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -46,6 +46,9 @@ extract($displayData);
  * @var   string   $accept          File types that are accepted.
  * @var   string   $dataAttribute   Miscellaneous data attributes preprocessed for HTML output
  * @var   array    $dataAttributes  Miscellaneous data attribute for eg, data-*.
+ * @var   string   $dirname         The directory name
+ * @var   string   $addonBefore     The text to use in a bootstrap input group prepend
+ * @var   string   $addonAfter      The text to use in a bootstrap input group append
  */
 
 $list = '';
@@ -58,7 +61,7 @@ if ($options)
 $attributes = array(
 	!empty($class) ? 'class="form-control ' . $class . '"' : 'class="form-control"',
 	!empty($size) ? 'size="' . $size . '"' : '',
-	!empty($description) ? 'aria-describedby="' . $name . '-desc"' : '',
+	!empty($description) ? 'aria-describedby="' . ($id ?: $name) . '-desc"' : '',
 	$disabled ? 'disabled' : '',
 	$readonly ? 'readonly' : '',
 	$dataAttribute,
@@ -77,8 +80,8 @@ $attributes = array(
 	!empty($validationtext) ? 'data-validation-text="' . $validationtext . '"' : '',
 );
 
-$addonBeforeHtml = '<span class="input-group-prepend"><span class="input-group-text">' . Text::_($addonBefore) . '</span></span>';
-$addonAfterHtml  = '<span class="input-group-append"><span class="input-group-text">' . Text::_($addonAfter) . '</span></span>';
+$addonBeforeHtml = '<span class="input-group-text">' . Text::_($addonBefore) . '</span>';
+$addonAfterHtml  = '<span class="input-group-text">' . Text::_($addonAfter) . '</span>';
 ?>
 
 <?php if (!empty($addonBefore) || !empty($addonAfter)) : ?>

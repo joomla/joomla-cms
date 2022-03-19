@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_privacy
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2018 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -71,6 +71,14 @@ class HtmlView extends BaseHtmlView
 	protected $state;
 
 	/**
+	 * Is this view an Empty State
+	 *
+	 * @var  boolean
+	 * @since 4.0.0
+	 */
+	private $isEmptyState = false;
+
+	/**
 	 * Execute and display a template script.
 	 *
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
@@ -90,6 +98,11 @@ class HtmlView extends BaseHtmlView
 		$this->state         = $model->getState();
 		$this->filterForm    = $model->getFilterForm();
 		$this->activeFilters = $model->getActiveFilters();
+
+		if (!count($this->items) && $this->isEmptyState = $this->get('IsEmptyState'))
+		{
+			$this->setLayout('emptystate');
+		}
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
@@ -116,14 +129,17 @@ class HtmlView extends BaseHtmlView
 		$bar = Toolbar::getInstance('toolbar');
 
 		// Add a button to invalidate a consent
-		$bar->appendButton(
-			'Confirm',
-			'COM_PRIVACY_CONSENTS_TOOLBAR_INVALIDATE_CONFIRM_MSG',
-			'trash',
-			'COM_PRIVACY_CONSENTS_TOOLBAR_INVALIDATE',
-			'consents.invalidate',
-			true
-		);
+		if (!$this->isEmptyState)
+		{
+			$bar->appendButton(
+				'Confirm',
+				'COM_PRIVACY_CONSENTS_TOOLBAR_INVALIDATE_CONFIRM_MSG',
+				'trash',
+				'COM_PRIVACY_CONSENTS_TOOLBAR_INVALIDATE',
+				'consents.invalidate',
+				true
+			);
+		}
 
 		// If the filter is restricted to a specific subject, show the "Invalidate all" button
 		if ($this->state->get('filter.subject') != '')
@@ -140,6 +156,6 @@ class HtmlView extends BaseHtmlView
 
 		ToolbarHelper::preferences('com_privacy');
 
-		ToolbarHelper::help('JHELP_COMPONENTS_PRIVACY_CONSENTS');
+		ToolbarHelper::help('Privacy:_Consents');
 	}
 }

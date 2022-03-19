@@ -3,7 +3,7 @@
  * @package     Joomla.API
  * @subpackage  com_config
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2019 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -17,8 +17,8 @@ use Joomla\CMS\Extension\ExtensionHelper;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\ApiController;
-use Joomla\Component\Config\Api\View\Component\JsonapiView;
 use Joomla\Component\Config\Administrator\Model\ComponentModel;
+use Joomla\Component\Config\Api\View\Component\JsonapiView;
 use Tobscure\JsonApi\Exception\InvalidParameterException;
 
 /**
@@ -114,7 +114,7 @@ class ComponentController extends ApiController
 
 		$option = $this->input->get('component_name');
 
-		// TODO: Not the cleanest thing ever but it works...
+		// @todo: Not the cleanest thing ever but it works...
 		Form::addFormPath(JPATH_ADMINISTRATOR . '/components/' . $option);
 
 		// Must load after serving service-requests
@@ -134,7 +134,7 @@ class ComponentController extends ApiController
 			$errors   = $model->getErrors();
 			$messages = [];
 
-			for ($i = 0, $n = count($errors); $i < $n && $i < 3; $i++)
+			for ($i = 0, $n = \count($errors); $i < $n && $i < 3; $i++)
 			{
 				if ($errors[$i] instanceof \Exception)
 				{
@@ -153,7 +153,7 @@ class ComponentController extends ApiController
 		$data = [
 			'params' => $validData,
 			'id'     => ExtensionHelper::getExtensionRecord($option, 'component')->extension_id,
-			'option' => $option
+			'option' => $option,
 		];
 
 		if (!$model->save($data))

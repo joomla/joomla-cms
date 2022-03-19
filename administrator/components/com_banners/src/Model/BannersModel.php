@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_banners
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2008 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -28,7 +28,6 @@ class BannersModel extends ListModel
 	 *
 	 * @param   array  $config  An optional associative array of configuration settings.
 	 *
-	 * @see     JControllerLegacy
 	 * @since   1.6
 	 */
 	public function __construct($config = array())
@@ -94,7 +93,7 @@ class BannersModel extends ListModel
 	/**
 	 * Build an SQL query to load the list data.
 	 *
-	 * @return  \JDatabaseQuery
+	 * @return  \Joomla\Database\DatabaseQuery
 	 *
 	 * @since   1.6
 	 */
@@ -227,7 +226,7 @@ class BannersModel extends ListModel
 				$orderCol = 'cl.name';
 			}
 
-			$ordering = $db->quoteName($db->escape($orderCol)) . ' ' . $db->escape($orderDirn);
+			$ordering = $db->escape($orderCol) . ' ' . $db->escape($orderDirn);
 		}
 
 		$query->order($ordering);

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_admin
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2008 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -57,14 +57,6 @@ class HtmlView extends BaseHtmlView
 	protected $toc = [];
 
 	/**
-	 * URL for the latest version check
-	 *
-	 * @var    string
-	 * @since  1.6
-	 */
-	protected $latestVersionCheck = 'https://downloads.joomla.org/latest';
-
-	/**
 	 * Execute and display a template script.
 	 *
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
@@ -83,7 +75,6 @@ class HtmlView extends BaseHtmlView
 		$this->page               = $model->getPage();
 		$this->toc                = $model->getToc();
 		$this->languageTag        = $model->getLangTag();
-		$this->latestVersionCheck = $model->getLatestVersionCheck();
 
 		$this->addToolbar();
 

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_cache
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2008 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -11,7 +11,6 @@ namespace Joomla\Component\Cache\Administrator\View\Cache;
 
 \defined('_JEXEC') or die;
 
-use Exception;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Text;
@@ -83,11 +82,11 @@ class HtmlView extends BaseHtmlView
 	 *
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
 	 *
-	 * @return  mixed  A string if successful, otherwise an Error object.
+	 * @return  void
 	 *
 	 * @since   1.6
 	 *
-	 * @throws  Exception
+	 * @throws  GenericDataException
 	 */
 	public function display($tpl = null): void
 	{
@@ -101,9 +100,14 @@ class HtmlView extends BaseHtmlView
 		$this->activeFilters = $model->getActiveFilters();
 
 		// Check for errors.
-		if (count($errors = $this->get('Errors')))
+		if (\count($errors = $this->get('Errors')))
 		{
 			throw new GenericDataException(implode("\n", $errors), 500);
+		}
+
+		if (!\count($this->data))
+		{
+			$this->setLayout('emptystate');
 		}
 
 		$this->addToolbar();
@@ -120,15 +124,18 @@ class HtmlView extends BaseHtmlView
 	 */
 	protected function addToolbar(): void
 	{
-		ToolbarHelper::title(Text::_('COM_CACHE_CLEAR_CACHE'), 'lightning clear');
+		ToolbarHelper::title(Text::_('COM_CACHE_CLEAR_CACHE'), 'bolt clear');
 
 		// Get the toolbar object instance
 		$toolbar = Toolbar::getInstance('toolbar');
 
-		ToolbarHelper::custom('delete', 'delete.png', 'delete_f2.png', 'JTOOLBAR_DELETE', true);
-		ToolbarHelper::custom('deleteAll', 'remove.png', 'delete_f2.png', 'JTOOLBAR_DELETE_ALL', false);
-		$toolbar->appendButton('Confirm', 'COM_CACHE_RESOURCE_INTENSIVE_WARNING', 'delete', 'COM_CACHE_PURGE_EXPIRED', 'purge', false);
-		ToolbarHelper::divider();
+		if (\count($this->data))
+		{
+			ToolbarHelper::custom('delete', 'delete', '', 'JTOOLBAR_DELETE', true);
+			ToolbarHelper::custom('deleteAll', 'remove', '', 'JTOOLBAR_DELETE_ALL', false);
+			$toolbar->appendButton('Confirm', 'COM_CACHE_RESOURCE_INTENSIVE_WARNING', 'delete', 'COM_CACHE_PURGE_EXPIRED', 'purge', false);
+			ToolbarHelper::divider();
+		}
 
 		if (Factory::getUser()->authorise('core.admin', 'com_cache'))
 		{
@@ -136,6 +143,6 @@ class HtmlView extends BaseHtmlView
 			ToolbarHelper::divider();
 		}
 
-		ToolbarHelper::help('JHELP_SITE_MAINTENANCE_CLEAR_CACHE');
+		ToolbarHelper::help('Maintenance:_Clear_Cache');
 	}
 }

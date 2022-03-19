@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_contact
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2010 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -22,6 +22,7 @@ use Joomla\CMS\Router\Route;
 use Joomla\CMS\String\PunycodeHelper;
 use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\User\User;
+use Joomla\CMS\Versioning\VersionableControllerTrait;
 use Joomla\Component\Fields\Administrator\Helper\FieldsHelper;
 use Joomla\Utilities\ArrayHelper;
 use PHPMailer\PHPMailer\Exception as phpMailerException;
@@ -33,6 +34,8 @@ use PHPMailer\PHPMailer\Exception as phpMailerException;
  */
 class ContactController extends FormController
 {
+	use VersionableControllerTrait;
+
 	/**
 	 * The URL view item variable.
 	 *
@@ -222,15 +225,15 @@ class ContactController extends FormController
 	/**
 	 * Method to get a model object, loading it if required.
 	 *
-	 * @param   array      $data                  The data to send in the email.
-	 * @param   \stdClass  $contact               The user information to send the email to
-	 * @param   boolean    $copy_email_activated  True to send a copy of the email to the user.
+	 * @param   array      $data               The data to send in the email.
+	 * @param   \stdClass  $contact            The user information to send the email to
+	 * @param   boolean    $emailCopyToSender  True to send a copy of the email to the user.
 	 *
 	 * @return  boolean  True on success sending the email, false on failure.
 	 *
 	 * @since   1.6.4
 	 */
-	private function _sendEmail($data, $contact, $copy_email_activated)
+	private function _sendEmail($data, $contact, $emailCopyToSender)
 	{
 		$app = $this->app;
 
@@ -279,7 +282,7 @@ class ContactController extends FormController
 			$sent = $mailer->send();
 
 			// If we are supposed to copy the sender, do so.
-			if ($copy_email_activated == true && !empty($data['contact_email_copy']))
+			if ($emailCopyToSender == true && !empty($data['contact_email_copy']))
 			{
 				$mailer = new MailTemplate('com_contact.mail.copy', $app->getLanguage()->getTag());
 				$mailer->addRecipient($templateData['email']);
@@ -320,7 +323,7 @@ class ContactController extends FormController
 	{
 		if ($categoryId = ArrayHelper::getValue($data, 'catid', $this->input->getInt('catid'), 'int'))
 		{
-			$user = Factory::getUser();
+			$user = $this->app->getIdentity();
 
 			// If the category has been passed in the data or URL check it.
 			return $user->authorise('core.create', 'com_contact.category.' . $categoryId);
@@ -355,7 +358,7 @@ class ContactController extends FormController
 
 		if ($categoryId)
 		{
-			$user = Factory::getUser();
+			$user = $this->app->getIdentity();
 
 			// The category has been set. Check the category permissions.
 			if ($user->authorise('core.edit', $this->option . '.category.' . $categoryId))

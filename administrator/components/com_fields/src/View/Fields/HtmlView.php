@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_fields
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2016 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -32,7 +32,7 @@ use Joomla\Component\Fields\Administrator\Helper\FieldsHelper;
 class HtmlView extends BaseHtmlView
 {
 	/**
-	 * @var  \JForm
+	 * @var    \Joomla\CMS\Form\Form
 	 *
 	 * @since  3.7.0
 	 */
@@ -53,14 +53,14 @@ class HtmlView extends BaseHtmlView
 	protected $items;
 
 	/**
-	 * @var  \JPagination
+	 * @var    \Joomla\CMS\Pagination\Pagination
 	 *
 	 * @since  3.7.0
 	 */
 	protected $pagination;
 
 	/**
-	 * @var  \JObject
+	 * @var    \Joomla\CMS\Object\CMSObject
 	 *
 	 * @since  3.7.0
 	 */
@@ -71,9 +71,10 @@ class HtmlView extends BaseHtmlView
 	 *
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
 	 *
-	 * @return  mixed  A string if successful, otherwise an Error object.
+	 * @return  void
 	 *
-	 * @see     JViewLegacy::loadTemplate()
+	 * @see     \Joomla\CMS\MVC\View\HtmlView::loadTemplate()
+	 *
 	 * @since   3.7.0
 	 */
 	public function display($tpl = null)
@@ -110,7 +111,7 @@ class HtmlView extends BaseHtmlView
 			}
 		}
 
-		return parent::display($tpl);
+		parent::display($tpl);
 	}
 
 	/**
@@ -144,7 +145,7 @@ class HtmlView extends BaseHtmlView
 		$title = Text::sprintf('COM_FIELDS_VIEW_FIELDS_TITLE', Text::_(strtoupper($component)));
 
 		// Prepare the toolbar.
-		ToolbarHelper::title($title, 'puzzle fields ' . substr($component, 4) . ($section ? "-$section" : '') . '-fields');
+		ToolbarHelper::title($title, 'puzzle-piece fields ' . substr($component, 4) . ($section ? "-$section" : '') . '-fields');
 
 		if ($canDo->get('core.create'))
 		{
@@ -156,7 +157,7 @@ class HtmlView extends BaseHtmlView
 			$dropdown = $toolbar->dropdownButton('status-group')
 				->text('JTOOLBAR_CHANGE_STATUS')
 				->toggleSplit(false)
-				->icon('fas fa-ellipsis-h')
+				->icon('icon-ellipsis-h')
 				->buttonClass('btn btn-action')
 				->listCheck(true);
 
@@ -176,7 +177,7 @@ class HtmlView extends BaseHtmlView
 				$childBar->checkin('fields.checkin')->listCheck(true);
 			}
 
-			if ($canDo->get('core.edit.state'))
+			if ($canDo->get('core.edit.state') && !$this->state->get('filter.state') == -2)
 			{
 				$childBar->trash('fields.trash')->listCheck(true);
 			}
@@ -201,6 +202,6 @@ class HtmlView extends BaseHtmlView
 			$toolbar->preferences($component);
 		}
 
-		$toolbar->help('JHELP_COMPONENTS_FIELDS_FIELDS');
+		$toolbar->help('Component:_Fields');
 	}
 }

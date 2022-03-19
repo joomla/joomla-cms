@@ -3,13 +3,13 @@
  * @package     Joomla.Administrator
  * @subpackage  com_categories
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2017 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\Component\Categories\Administrator\Field;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Field\ListField;
@@ -60,7 +60,7 @@ class ComponentsCategoryField extends ListField
 			// Extract the component name and optional section name
 			$parts     = explode('.', $categoryType);
 			$component = $parts[0];
-			$section   = (count($parts) > 1) ? $parts[1] : null;
+			$section   = (\count($parts) > 1) ? $parts[1] : null;
 
 			// Load component language files
 			$lang = Factory::getLanguage();

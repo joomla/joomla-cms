@@ -1,23 +1,45 @@
 // Variables
-@import "../../../administrator/templates/atum/scss/variables";
+@import "../../../build/media_source/templates/administrator/atum/scss/variables";
+$jicon-css-prefix: icon;
+$fa-css-prefix: fa;
 $fa-font-path: "../../../media/vendor/fontawesome-free/webfonts";
 
-// Bootstrap
-@import "../../../media/vendor/bootstrap/scss/bootstrap";
+// Font Awesome
+@import "../../../build/media_source/templates/administrator/atum/scss/vendor/fontawesome-free/fontawesome";
 
 // "Font Awesome 5 Free"
 @import "../../../media/vendor/fontawesome-free/scss/fontawesome";
+@import "../../../media/vendor/fontawesome-free/scss/regular";
 @import "../../../media/vendor/fontawesome-free/scss/solid";
-@import "../../../media/vendor/fontawesome-free/scss/brands";
+@import "../../../media/vendor/fontawesome-free/scss/brands"; // order of loading is important.
+
+// B/C for Icomoon
+@import "../../../build/media_source/system/scss/icomoon";
+
+// Bootstrap
+@import "../../../media/vendor/bootstrap/scss/functions";
+
+// Variables from the Atum template
+@import "../../../build/media_source/templates/administrator/atum/scss/variables";
+
+// Bootstrap with the root.scss overridden
+@import "../../../build/media_source/templates/administrator/atum/scss/vendor/bootstrap";
 
 // Backend Template stuff
-@import "../../../administrator/templates/atum/scss/mixin";
-@import "../../../administrator/templates/atum/scss/blocks/global";
-@import "../../../administrator/templates/atum/scss/blocks/header";
-@import "../../../administrator/templates/atum/scss/vendor/bootstrap/custom-forms";
+@import "../../../build/media_source/templates/administrator/atum/scss/blocks/global";
+@import "../../../build/media_source/templates/administrator/atum/scss/blocks/header";
+@import "../../../build/media_source/templates/administrator/atum/scss/vendor/bootstrap/custom-forms";
+@import "../../../build/media_source/templates/administrator/atum/scss/vendor/joomla-custom-elements/joomla-alert";
+
+// Safari fix
+@import "../../../build/media_source/templates/administrator/atum/scss/vendor/bootstrap/reboot";
 
 body {
-  background: var(--atum-bg-light);
+  background: var(--template-bg-light);
+}
+
+.form-select {
+  @extend .form-select;
 }
 
 *,
@@ -32,10 +54,23 @@ body {
   min-height: 100vh;
 
   .logo {
-    width: auto;
+    max-width: 270px;
+  }
+
+  img.logo-small,
+  svg.logo-small {
+    width: 2rem;
+    height: 2rem;
+  }
+
+  .icon-question {
+    color: $white;
+
+    &:hover {
+      color: var(--template-link-color);
+    }
   }
 }
-
 
 .j-container {
   width: 100%;
@@ -62,10 +97,6 @@ body {
     width: 100%;
     margin-left: 0 !important;
   }
-
-  .btn-block {
-    margin-top: 40px;
-  }
 }
 
 .j-install-step-header {
@@ -87,55 +118,31 @@ body {
 .j-install-step-form {
   padding: .65rem 1.2rem;
 
-  .btn-block + .btn-block {
-    margin-top: .5rem;
+  // Remove default bootstrap margins in the installer forms.
+  .control-group {
+    margin-bottom: 0;
+
+    .control-label {
+      padding: 0;
+    }
   }
 }
-
 
 .languageForm {
   padding: 0 0 30px;
 
-  .custom-select {
+  .form-select {
     width: 100%;
   }
 }
 
-.system-message .alert {
-  margin: 25px 50px;
+// Alerts
+#system-message-container joomla-alert {
+  margin-top: 25px;
 }
 
-.alert {
-  position: relative;
-  display: flex;
-  margin: 0 0 20px;
-  background: #fafafa;
-  border: 1px solid rgba(0, 0, 0, .1);
-  box-shadow: 0 0 10px rgba(0, 0, 0, .05);
-
-  p {
-    margin-bottom: 0;
-  }
-}
-
-.alert-icon {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 25%;
-  margin-bottom: 0;
-  font-size: 3rem;
-  opacity: .6;
-
-  .fas {
-    width: 100%;
-    text-align: center;
-  }
-}
-
-.alert-text {
-  width: 75%;
-  padding: 10px 20px;
+.alert-heading {
+  font-size: $h4-font-size;
 }
 
 .hidden,
@@ -161,6 +168,10 @@ body {
 
 }
 
+label {
+  margin-bottom: .5rem;
+}
+
 .control-group {
   margin-bottom: 18px;
 
@@ -181,7 +192,7 @@ body {
   width: 380px;
 }
 
-.card .custom-select {
+.card .form-select {
   width: 100%;
 }
 
@@ -210,7 +221,7 @@ legend {
 }
 
 // Possibly temporary until Bootstrap support it themselves
-.custom-select[multiple] {
+.form-select[multiple] {
   height: auto;
   background: none;
 }
@@ -226,25 +237,8 @@ caption {
   caption-side: top;
 }
 
-.badge-warning {
+.bg-warning {
   color: #292b2c;
-}
-
-.fa-eye,
-.icon-eye-open,
-.icon-eye {
-  font-family: "Font Awesome 5 Free";
-  cursor: pointer;
-  content: "\f06e";
-}
-
-.fa-eye-slash,
-.icon-eye-close,
-.icon-eye-blocked,
-.icon-eye-2::before {
-  font-family: "Font Awesome 5 Free";
-  cursor: pointer;
-  content: "\f070";
 }
 
 // footer
@@ -255,4 +249,8 @@ caption {
   z-index: $zindex-header;
   background-color: $white;
   box-shadow: 0 0 1px 1px rgba(0, 0, 0, .25);
+}
+
+.table > :not(:last-child) > :last-child > * {
+  border-bottom-color: $table-border-color;
 }

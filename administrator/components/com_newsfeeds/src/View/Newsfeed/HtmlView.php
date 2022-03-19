@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_newsfeeds
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2008 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -30,7 +30,8 @@ class HtmlView extends BaseHtmlView
 	/**
 	 * The item object for the newsfeed
 	 *
-	 * @var    \JObject
+	 * @var    \Joomla\CMS\Object\CMSObject
+	 *
 	 * @since  1.6
 	 */
 	protected $item;
@@ -38,7 +39,8 @@ class HtmlView extends BaseHtmlView
 	/**
 	 * The form object for the newsfeed
 	 *
-	 * @var    \JForm
+	 * @var    \Joomla\CMS\Form\Form
+	 *
 	 * @since  1.6
 	 */
 	protected $form;
@@ -46,7 +48,8 @@ class HtmlView extends BaseHtmlView
 	/**
 	 * The model state of the newsfeed
 	 *
-	 * @var    \JObject
+	 * @var    \Joomla\CMS\Object\CMSObject
+	 *
 	 * @since  1.6
 	 */
 	protected $state;
@@ -56,7 +59,7 @@ class HtmlView extends BaseHtmlView
 	 *
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
 	 *
-	 * @return  mixed  A string if successful, otherwise an Error object.
+	 * @return  void
 	 *
 	 * @since   1.6
 	 */
@@ -153,10 +156,10 @@ class HtmlView extends BaseHtmlView
 
 		if (!$isNew && Associations::isEnabled() && ComponentHelper::isEnabled('com_associations'))
 		{
-			ToolbarHelper::custom('newsfeed.editAssociations', 'contract', 'contract', 'JTOOLBAR_ASSOCIATIONS', false, false);
+			ToolbarHelper::custom('newsfeed.editAssociations', 'contract', '', 'JTOOLBAR_ASSOCIATIONS', false, false);
 		}
 
 		ToolbarHelper::divider();
-		ToolbarHelper::help('JHELP_COMPONENTS_NEWSFEEDS_FEEDS_EDIT');
+		ToolbarHelper::help('News_Feeds:_New_or_Edit');
 	}
 }

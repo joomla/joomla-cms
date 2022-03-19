@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_joomlaupdate
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2012 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -11,7 +11,6 @@ namespace Joomla\Component\Joomlaupdate\Administrator\Controller;
 
 \defined('_JEXEC') or die;
 
-use Joomla\CMS\Client\ClientHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\File;
 use Joomla\CMS\Language\Text;
@@ -41,18 +40,16 @@ class UpdateController extends BaseController
 		$options['format'] = '{DATE}\t{TIME}\t{LEVEL}\t{CODE}\t{MESSAGE}';
 		$options['text_file'] = 'joomla_update.php';
 		Log::addLogger($options, Log::INFO, array('Update', 'databasequery', 'jerror'));
-		$user = Factory::getUser();
+		$user = $this->app->getIdentity();
 
 		try
 		{
-			Log::add(Text::sprintf('COM_JOOMLAUPDATE_UPDATE_LOG_START', $user->id, $user->name, '&#x200E;' . \JVERSION), Log::INFO, 'Update');
+			Log::add(Text::sprintf('COM_JOOMLAUPDATE_UPDATE_LOG_START', $user->id, $user->name, \JVERSION), Log::INFO, 'Update');
 		}
 		catch (\RuntimeException $exception)
 		{
 			// Informational log only
 		}
-
-		$this->_applyCredentials();
 
 		/** @var \Joomla\Component\Joomlaupdate\Administrator\Model\UpdateModel $model */
 		$model  = $this->getModel('Update');
@@ -62,21 +59,26 @@ class UpdateController extends BaseController
 		$message = null;
 		$messageType = null;
 
-		// The validation was not successful for now just a warning.
-		// TODO: In Joomla 4 this will abort the installation
+		// The validation was not successful so abort.
 		if ($result['check'] === false)
 		{
-			$message = Text::_('COM_JOOMLAUPDATE_VIEW_UPDATE_CHECKSUM_WRONG');
-			$messageType = 'warning';
+			$message     = Text::_('COM_JOOMLAUPDATE_VIEW_UPDATE_CHECKSUM_WRONG');
+			$messageType = 'error';
+			$url         = 'index.php?option=com_joomlaupdate';
+
+			$this->app->setUserState('com_joomlaupdate.file', null);
+			$this->setRedirect($url, $message, $messageType);
 
 			try
 			{
-				Log::add($message, Log::INFO, 'Update');
+				Log::add($message, Log::ERROR, 'Update');
 			}
 			catch (\RuntimeException $exception)
 			{
 				// Informational log only
 			}
+
+			return;
 		}
 
 		if ($file)
@@ -114,6 +116,7 @@ class UpdateController extends BaseController
 	public function install()
 	{
 		$this->checkToken('get');
+		$this->app->setUserState('com_joomlaupdate.oldversion', JVERSION);
 
 		$options['format'] = '{DATE}\t{TIME}\t{LEVEL}\t{CODE}\t{MESSAGE}';
 		$options['text_file'] = 'joomla_update.php';
@@ -128,12 +131,10 @@ class UpdateController extends BaseController
 			// Informational log only
 		}
 
-		$this->_applyCredentials();
-
 		/** @var \Joomla\Component\Joomlaupdate\Administrator\Model\UpdateModel $model */
 		$model = $this->getModel('Update');
 
-		$file = Factory::getApplication()->getUserState('com_joomlaupdate.file', null);
+		$file = $this->app->getUserState('com_joomlaupdate.file', null);
 		$model->createRestorationFile($file);
 
 		$this->display();
@@ -171,8 +172,6 @@ class UpdateController extends BaseController
 		{
 			// Informational log only
 		}
-
-		$this->_applyCredentials();
 
 		/** @var \Joomla\Component\Joomlaupdate\Administrator\Model\UpdateModel $model */
 		$model = $this->getModel('Update');
@@ -215,8 +214,6 @@ class UpdateController extends BaseController
 		{
 			// Informational log only
 		}
-
-		$this->_applyCredentials();
 
 		/** @var \Joomla\Component\Joomlaupdate\Administrator\Model\UpdateModel $model */
 		$model = $this->getModel('Update');
@@ -270,9 +267,7 @@ class UpdateController extends BaseController
 		$this->checkToken();
 
 		// Did a non Super User tried to upload something (a.k.a. pathetic hacking attempt)?
-		Factory::getUser()->authorise('core.admin') or jexit(Text::_('JLIB_APPLICATION_ERROR_ACCESS_FORBIDDEN'));
-
-		$this->_applyCredentials();
+		$this->app->getIdentity()->authorise('core.admin') or jexit(Text::_('JLIB_APPLICATION_ERROR_ACCESS_FORBIDDEN'));
 
 		/** @var \Joomla\Component\Joomlaupdate\Administrator\Model\UpdateModel $model */
 		$model = $this->getModel('Update');
@@ -285,6 +280,8 @@ class UpdateController extends BaseController
 		{
 			$url = 'index.php?option=com_joomlaupdate';
 			$this->setRedirect($url, $e->getMessage(), 'error');
+
+			return;
 		}
 
 		$token = Session::getFormToken();
@@ -305,13 +302,13 @@ class UpdateController extends BaseController
 		$this->checkToken('get');
 
 		// Did a non Super User tried to upload something (a.k.a. pathetic hacking attempt)?
-		if (!Factory::getUser()->authorise('core.admin'))
+		if (!$this->app->getIdentity()->authorise('core.admin'))
 		{
 			throw new \RuntimeException(Text::_('JLIB_APPLICATION_ERROR_ACCESS_FORBIDDEN'), 403);
 		}
 
 		// Do I really have an update package?
-		$tempFile = Factory::getApplication()->getUserState('com_joomlaupdate.temp_file', null);
+		$tempFile = $this->app->getUserState('com_joomlaupdate.temp_file', null);
 
 		if (empty($tempFile) || !File::exists($tempFile))
 		{
@@ -427,33 +424,6 @@ class UpdateController extends BaseController
 	}
 
 	/**
-	 * Applies FTP credentials to Joomla! itself, when required
-	 *
-	 * @return  void
-	 *
-	 * @since   2.5.4
-	 */
-	protected function _applyCredentials()
-	{
-		$this->app->getUserStateFromRequest('com_joomlaupdate.method', 'method', 'direct', 'cmd');
-
-		if (!ClientHelper::hasCredentials('ftp'))
-		{
-			$user = $this->app->getUserStateFromRequest('com_joomlaupdate.ftp_user', 'ftp_user', null, 'raw');
-			$pass = $this->app->getUserStateFromRequest('com_joomlaupdate.ftp_pass', 'ftp_pass', null, 'raw');
-
-			if ($user != '' && $pass != '')
-			{
-				// Add credentials to the session
-				if (!ClientHelper::setCredentials('ftp', $user, $pass))
-				{
-					$this->app->enqueueMessage(Text::_('JLIB_CLIENT_ERROR_HELPER_SETCREDENTIALSFROMREQUEST_FAILED'), 'warning');
-				}
-			}
-		}
-	}
-
-	/**
 	 * Checks the admin has super administrator privileges and then proceeds with the final & cleanup steps.
 	 *
 	 * @return  void
@@ -466,7 +436,7 @@ class UpdateController extends BaseController
 		$this->checkToken();
 
 		// Did a non Super User try do this?
-		if (!Factory::getUser()->authorise('core.admin'))
+		if (!$this->app->getIdentity()->authorise('core.admin'))
 		{
 			throw new \RuntimeException(Text::_('JLIB_APPLICATION_ERROR_ACCESS_FORBIDDEN'), 403);
 		}
@@ -502,7 +472,7 @@ class UpdateController extends BaseController
 	 * Prints a JSON string.
 	 * Called from JS.
 	 *
-	 * @since   4.0.0
+	 * @since   3.10.0
 	 *
 	 * @return void
 	 */
@@ -510,10 +480,87 @@ class UpdateController extends BaseController
 	{
 		$extensionID = $this->input->get('extension-id', '', 'DEFAULT');
 		$joomlaTargetVersion = $this->input->get('joomla-target-version', '', 'DEFAULT');
+		$joomlaCurrentVersion = $this->input->get('joomla-current-version', '', JVERSION);
+		$extensionVersion = $this->input->get('extension-version', '', 'DEFAULT');
 
 		/** @var \Joomla\Component\Joomlaupdate\Administrator\Model\UpdateModel $model */
 		$model = $this->getModel('Update');
-		$compatibilityStatus = $model->fetchCompatibility($extensionID, $joomlaTargetVersion);
+		$upgradeCompatibilityStatus = $model->fetchCompatibility($extensionID, $joomlaTargetVersion);
+		$currentCompatibilityStatus = $model->fetchCompatibility($extensionID, $joomlaCurrentVersion);
+		$upgradeUpdateVersion       = false;
+		$currentUpdateVersion       = false;
+
+		$upgradeWarning = 0;
+
+		if ($upgradeCompatibilityStatus->state == 1 && !empty($upgradeCompatibilityStatus->compatibleVersions))
+		{
+			$upgradeUpdateVersion = end($upgradeCompatibilityStatus->compatibleVersions);
+		}
+
+		if ($currentCompatibilityStatus->state == 1 && !empty($currentCompatibilityStatus->compatibleVersions))
+		{
+			$currentUpdateVersion = end($currentCompatibilityStatus->compatibleVersions);
+		}
+
+		if ($upgradeUpdateVersion !== false)
+		{
+			$upgradeOldestVersion = $upgradeCompatibilityStatus->compatibleVersions[0];
+
+			if ($currentUpdateVersion !== false)
+			{
+				// If there are updates compatible with both CMS versions use these
+				$bothCompatibleVersions = array_values(
+					array_intersect($upgradeCompatibilityStatus->compatibleVersions, $currentCompatibilityStatus->compatibleVersions)
+				);
+
+				if (!empty($bothCompatibleVersions))
+				{
+					$upgradeOldestVersion = $bothCompatibleVersions[0];
+					$upgradeUpdateVersion = end($bothCompatibleVersions);
+				}
+			}
+
+			if (version_compare($upgradeOldestVersion, $extensionVersion, '>'))
+			{
+				// Installed version is empty or older than the oldest compatible update: Update required
+				$resultGroup = 2;
+			}
+			else
+			{
+				// Current version is compatible
+				$resultGroup = 3;
+			}
+
+			if ($currentUpdateVersion !== false && version_compare($upgradeUpdateVersion, $currentUpdateVersion, '<'))
+			{
+				// Special case warning when version compatible with target is lower than current
+				$upgradeWarning = 2;
+			}
+		}
+		elseif ($currentUpdateVersion !== false)
+		{
+			// No compatible version for target version but there is a compatible version for current version
+			$resultGroup = 1;
+		}
+		else
+		{
+			// No update server available
+			$resultGroup = 1;
+		}
+
+		// Do we need to capture
+		$combinedCompatibilityStatus = array(
+			'upgradeCompatibilityStatus' => (object) array(
+				'state' => $upgradeCompatibilityStatus->state,
+				'compatibleVersion' => $upgradeUpdateVersion
+			),
+			'currentCompatibilityStatus' => (object) array(
+				'state' => $currentCompatibilityStatus->state,
+				'compatibleVersion' => $currentUpdateVersion
+			),
+			'resultGroup' => $resultGroup,
+			'upgradeWarning' => $upgradeWarning,
+		);
 
 		$this->app = Factory::getApplication();
 		$this->app->mimeType = 'application/json';
@@ -523,7 +570,7 @@ class UpdateController extends BaseController
 
 		try
 		{
-			echo new JsonResponse($compatibilityStatus);
+			echo new JsonResponse($combinedCompatibilityStatus);
 		}
 		catch (\Exception $e)
 		{

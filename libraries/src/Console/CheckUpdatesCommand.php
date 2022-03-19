@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2017 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -13,6 +13,7 @@ namespace Joomla\CMS\Console;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Updater\Updater;
 use Joomla\Console\Command\AbstractCommand;
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
@@ -54,11 +55,19 @@ class CheckUpdatesCommand extends AbstractCommand
 		$cache_timeout = 3600 * (int) $component->getParams()->get('cachetimeout', 6);
 
 		// Find all updates
-		Updater::getInstance()->findUpdates(0, $cache_timeout);
+		$ret = Updater::getInstance()->findUpdates(0, $cache_timeout);
 
-		$symfonyStyle->success('Finished fetching updates');
+		if ($ret)
+		{
+			$symfonyStyle->note('There are available updates to apply');
+			$symfonyStyle->success('Check complete.');
+		}
+		else
+		{
+			$symfonyStyle->success('There are no available updates');
+		}
 
-		return 0;
+		return Command::SUCCESS;
 	}
 
 	/**
@@ -70,13 +79,10 @@ class CheckUpdatesCommand extends AbstractCommand
 	 */
 	protected function configure(): void
 	{
-		$this->setDescription('Check for pending extension updates');
-		$this->setHelp(
-			<<<EOF
-The <info>%command.name%</info> command checks for pending extension updates
+		$help = "<info>%command.name%</info> command checks for pending extension updates
+		\nUsage: <info>php %command.full_name%</info>";
 
-<info>php %command.full_name%</info>
-EOF
-		);
+		$this->setDescription('Check for pending extension updates');
+		$this->setHelp($help);
 	}
 }

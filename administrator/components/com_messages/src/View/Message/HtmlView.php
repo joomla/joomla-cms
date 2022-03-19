@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_messages
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2008 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -26,9 +26,9 @@ use Joomla\CMS\User\User;
 class HtmlView extends BaseHtmlView
 {
 	/**
-	 * The \JForm object
+	 * The Form object
 	 *
-	 * @var  \JForm
+	 * @var  \Joomla\CMS\Form\Form
 	 */
 	protected $form;
 
@@ -42,7 +42,7 @@ class HtmlView extends BaseHtmlView
 	/**
 	 * The model state
 	 *
-	 * @var  \JObject
+	 * @var  \Joomla\CMS\Object\CMSObject
 	 */
 	protected $state;
 
@@ -51,7 +51,7 @@ class HtmlView extends BaseHtmlView
 	 *
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
 	 *
-	 * @return  mixed  A string if successful, otherwise an Error object.
+	 * @return  void
 	 *
 	 * @since   1.6
 	 */
@@ -65,6 +65,10 @@ class HtmlView extends BaseHtmlView
 		if (count($errors = $this->get('Errors')))
 		{
 			throw new GenericDataException(implode("\n", $errors), 500);
+		}
+		elseif ($this->getLayout() !== 'edit' && empty($this->item->message_id))
+		{
+			throw new GenericDataException(Text::_('JERROR_ALERTNOAUTHOR'), 403);
 		}
 
 		parent::display($tpl);
@@ -80,26 +84,31 @@ class HtmlView extends BaseHtmlView
 	 */
 	protected function addToolbar()
 	{
+		$app = Factory::getApplication();
+
 		if ($this->getLayout() == 'edit')
 		{
-			Factory::getApplication()->input->set('hidemainmenu', true);
+			$app->input->set('hidemainmenu', true);
 			ToolbarHelper::title(Text::_('COM_MESSAGES_WRITE_PRIVATE_MESSAGE'), 'envelope-open-text new-privatemessage');
-			ToolbarHelper::save('message.save', 'COM_MESSAGES_TOOLBAR_SEND');
-			ToolbarHelper::cancel('message.cancel', 'JTOOLBAR_CLOSE');
-			ToolbarHelper::help('JHELP_COMPONENTS_MESSAGING_WRITE');
+			ToolbarHelper::custom('message.save', 'envelope', '', 'COM_MESSAGES_TOOLBAR_SEND', false);
+			ToolbarHelper::cancel('message.cancel');
+			ToolbarHelper::help('Private_Messages:_Write');
 		}
 		else
 		{
 			ToolbarHelper::title(Text::_('COM_MESSAGES_VIEW_PRIVATE_MESSAGE'), 'envelope inbox');
 			$sender = User::getInstance($this->item->user_id_from);
 
-			if ($sender->authorise('core.admin') || $sender->authorise('core.manage', 'com_messages') && $sender->authorise('core.login.admin'))
+			if ($sender->id !== $app->getIdentity()->get('id') && ($sender->authorise('core.admin')
+				|| $sender->authorise('core.manage', 'com_messages') && $sender->authorise('core.login.admin'))
+				&& $app->getIdentity()->authorise('core.manage', 'com_users')
+			)
 			{
-				ToolbarHelper::custom('message.reply', 'redo', null, 'COM_MESSAGES_TOOLBAR_REPLY', false);
+				ToolbarHelper::custom('message.reply', 'redo', '', 'COM_MESSAGES_TOOLBAR_REPLY', false);
 			}
 
 			ToolbarHelper::cancel('message.cancel');
-			ToolbarHelper::help('JHELP_COMPONENTS_MESSAGING_READ');
+			ToolbarHelper::help('Private_Messages:_Read');
 		}
 	}
 }

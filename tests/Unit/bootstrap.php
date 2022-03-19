@@ -4,7 +4,7 @@
  *
  * @package    Joomla.UnitTest
  *
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2019 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  * @link       http://www.phpunit.de/manual/current/en/installation.html
  */
@@ -65,6 +65,11 @@ if (!defined('JPATH_ADMINISTRATOR'))
 	define('JPATH_ADMINISTRATOR', JPATH_ROOT . '/administrator');
 }
 
+if (!defined('JPATH_API'))
+{
+	define('JPATH_API', JPATH_ROOT . '/api');
+}
+
 if (!defined('JPATH_INSTALLATION'))
 {
 	define('JPATH_INSTALLATION', JPATH_ROOT . '/installation');
@@ -117,8 +122,8 @@ $loader->unregister();
 // Decorate Composer autoloader
 spl_autoload_register([new \Joomla\CMS\Autoload\ClassLoader($loader), 'loadClass'], true, true);
 
-// Register the class aliases for Framework classes that have replaced their Platform equivilents
+// Register the class aliases for Framework classes that have replaced their Platform equivalents
 require_once JPATH_LIBRARIES . '/classmap.php';
 
 // Define the Joomla version if not already defined.
-defined('JVERSION') or define('JVERSION', (new JVersion)->getShortVersion());
+defined('JVERSION') or define('JVERSION', (new \Joomla\CMS\Version)->getShortVersion());

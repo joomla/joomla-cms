@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2018 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -13,9 +13,7 @@ namespace Joomla\CMS\Form\Field;
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\Workflow\Workflow;
 use Joomla\Database\ParameterType;
-use Joomla\Utilities\ArrayHelper;
 
 /**
  * Components Category field.
@@ -139,20 +137,26 @@ class TransitionField extends ListField
 
 		Factory::getLanguage()->load('com_workflow', JPATH_ADMINISTRATOR);
 
+		$parts = explode('.', $extension);
+
+		$component = reset($parts);
+
 		if (\count($items))
 		{
 			$user = Factory::getUser();
 
 			$items = array_filter(
 				$items,
-				function ($item) use ($user, $extension)
+				function ($item) use ($user, $component)
 				{
-					return $user->authorise('core.execute.transition', $extension . '.transition.' . $item->value);
+					return $user->authorise('core.execute.transition', $component . '.transition.' . $item->value);
 				}
 			);
 
-			// Sort by transition name
-			$items = ArrayHelper::sortObjects($items, 'value', 1, true, true);
+			foreach ($items as $item)
+			{
+				$item->text = Text::_($item->text);
+			}
 		}
 
 		// Get workflow stage title

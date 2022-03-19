@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_config
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2013 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -15,12 +15,12 @@ use Joomla\CMS\Access\Access;
 use Joomla\CMS\Access\Rules;
 use Joomla\CMS\Cache\Exception\CacheConnectingException;
 use Joomla\CMS\Cache\Exception\UnsupportedCacheException;
-use Joomla\CMS\Client\ClientHelper;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\File;
 use Joomla\CMS\Filesystem\Folder;
 use Joomla\CMS\Filesystem\Path;
+use Joomla\CMS\Filter\OutputFilter;
 use Joomla\CMS\Http\HttpFactory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
@@ -44,6 +44,14 @@ use PHPMailer\PHPMailer\Exception as phpMailerException;
  */
 class ApplicationModel extends FormModel
 {
+	/**
+	 * Array of protected password fields from the configuration.php
+	 *
+	 * @var    array
+	 * @since  3.9.23
+	 */
+	private $protectedConfigurationFields = array('password', 'secret', 'smtppass', 'redis_server_auth', 'session_redis_server_auth');
+
 	/**
 	 * Method to get a form object.
 	 *
@@ -74,7 +82,7 @@ class ApplicationModel extends FormModel
 	 * JConfig. If configuration data has been saved in the session, that
 	 * data will be merged into the original data, overwriting it.
 	 *
-	 * @return	array  An array containg all global config data.
+	 * @return	array  An array containing all global config data.
 	 *
 	 * @since	1.6
 	 */
@@ -107,6 +115,12 @@ class ApplicationModel extends FormModel
 		// Merge in the session data.
 		if (!empty($temp))
 		{
+			// $temp can sometimes be an object, and we need it to be an array
+			if (is_object($temp))
+			{
+				$temp = ArrayHelper::fromObject($temp);
+			}
+
 			$data = array_merge($temp, $data);
 		}
 
@@ -294,12 +308,21 @@ class ApplicationModel extends FormModel
 	{
 		$app = Factory::getApplication();
 
+		// Try to load the values from the configuration file
+		foreach ($this->protectedConfigurationFields as $fieldKey)
+		{
+			if (!isset($data[$fieldKey]))
+			{
+				$data[$fieldKey] = $app->get($fieldKey, '');
+			}
+		}
+
 		// Check that we aren't setting wrong database configuration
 		$options = array(
 			'driver'   => $data['dbtype'],
 			'host'     => $data['host'],
 			'user'     => $data['user'],
-			'password' => $app->get('password'),
+			'password' => $data['password'],
 			'database' => $data['db'],
 			'prefix'   => $data['dbprefix'],
 		);
@@ -473,7 +496,7 @@ class ApplicationModel extends FormModel
 		// Escape the offline message if present.
 		if (isset($data['offline_message']))
 		{
-			$data['offline_message'] = \JFilterOutput::ampReplace($data['offline_message']);
+			$data['offline_message'] = OutputFilter::ampReplace($data['offline_message']);
 		}
 
 		// Purge the database session table if we are changing to the database handler.
@@ -710,21 +733,142 @@ class ApplicationModel extends FormModel
 			}
 		}
 
+		/*
+		 * Look for a custom tmp_path
+		 * First check if a path is given in the submitted data, then check if a path exists in the previous data, otherwise use the default
+		 */
+		$defaultTmpPath = JPATH_ROOT . '/tmp';
+
+		if (!empty($data['tmp_path']))
+		{
+			$path = $data['tmp_path'];
+		}
+		elseif (!empty($prev['tmp_path']))
+		{
+			$path = $prev['tmp_path'];
+		}
+		else
+		{
+			$path = $defaultTmpPath;
+		}
+
+		$path = Path::clean($path);
+
+		// Give a warning if the tmp-folder is not valid or not writable
+		if (!is_dir($path) || !is_writable($path))
+		{
+			$error = true;
+
+			// If a custom path is in use, try using the system default tmp path
+			if ($path !== $defaultTmpPath && is_dir($defaultTmpPath) && is_writable($defaultTmpPath))
+			{
+				try
+				{
+					Log::add(
+						Text::sprintf('COM_CONFIG_ERROR_CUSTOM_TEMP_PATH_NOTWRITABLE_USING_DEFAULT', $path, $defaultTmpPath),
+						Log::WARNING,
+						'jerror'
+					);
+				}
+				catch (\RuntimeException $logException)
+				{
+					$app->enqueueMessage(
+						Text::sprintf('COM_CONFIG_ERROR_CUSTOM_TEMP_PATH_NOTWRITABLE_USING_DEFAULT', $path, $defaultTmpPath),
+						'warning'
+					);
+				}
+
+				$error = false;
+
+				$data['tmp_path'] = $defaultTmpPath;
+			}
+
+			if ($error)
+			{
+				try
+				{
+					Log::add(Text::sprintf('COM_CONFIG_ERROR_TMP_PATH_NOTWRITABLE', $path), Log::WARNING, 'jerror');
+				}
+				catch (\RuntimeException $exception)
+				{
+					$app->enqueueMessage(Text::sprintf('COM_CONFIG_ERROR_TMP_PATH_NOTWRITABLE', $path), 'warning');
+				}
+			}
+		}
+
+		/*
+		 * Look for a custom log_path
+		 * First check if a path is given in the submitted data, then check if a path exists in the previous data, otherwise use the default
+		 */
+		$defaultLogPath = JPATH_ADMINISTRATOR . '/logs';
+
+		if (!empty($data['log_path']))
+		{
+			$path = $data['log_path'];
+		}
+		elseif (!empty($prev['log_path']))
+		{
+			$path = $prev['log_path'];
+		}
+		else
+		{
+			$path = $defaultLogPath;
+		}
+
+		$path = Path::clean($path);
+
+		// Give a warning if the log-folder is not valid or not writable
+		if (!is_dir($path) || !is_writable($path))
+		{
+			$error = true;
+
+			// If a custom path is in use, try using the system default log path
+			if ($path !== $defaultLogPath && is_dir($defaultLogPath) && is_writable($defaultLogPath))
+			{
+				try
+				{
+					Log::add(
+						Text::sprintf('COM_CONFIG_ERROR_CUSTOM_LOG_PATH_NOTWRITABLE_USING_DEFAULT', $path, $defaultLogPath),
+						Log::WARNING,
+						'jerror'
+					);
+				}
+				catch (\RuntimeException $logException)
+				{
+					$app->enqueueMessage(
+						Text::sprintf('COM_CONFIG_ERROR_CUSTOM_LOG_PATH_NOTWRITABLE_USING_DEFAULT', $path, $defaultLogPath),
+						'warning'
+					);
+				}
+
+				$error = false;
+				$data['log_path'] = $defaultLogPath;
+			}
+
+			if ($error)
+			{
+				try
+				{
+					Log::add(Text::sprintf('COM_CONFIG_ERROR_LOG_PATH_NOTWRITABLE', $path), Log::WARNING, 'jerror');
+				}
+				catch (\RuntimeException $exception)
+				{
+					$app->enqueueMessage(Text::sprintf('COM_CONFIG_ERROR_LOG_PATH_NOTWRITABLE', $path), 'warning');
+				}
+			}
+		}
+
 		// Create the new configuration object.
 		$config = new Registry($data);
 
-		// Overwrite the old FTP credentials with the new ones.
-		$temp = Factory::getConfig();
-		$temp->set('ftp_enable', $data['ftp_enable']);
-		$temp->set('ftp_host', $data['ftp_host']);
-		$temp->set('ftp_port', $data['ftp_port']);
-		$temp->set('ftp_user', $data['ftp_user']);
-		$temp->set('ftp_pass', $data['ftp_pass']);
-		$temp->set('ftp_root', $data['ftp_root']);
+		// Overwrite webservices cors settings
+		$app->set('cors', $data['cors']);
+		$app->set('cors_allow_origin', $data['cors_allow_origin']);
+		$app->set('cors_allow_headers', $data['cors_allow_headers']);
+		$app->set('cors_allow_methods', $data['cors_allow_methods']);
 
 		// Clear cache of com_config component.
-		$this->cleanCache('_system', 0);
-		$this->cleanCache('_system', 1);
+		$this->cleanCache('_system');
 
 		$result = $app->triggerEvent('onApplicationBeforeSave', array($config));
 
@@ -797,13 +941,10 @@ class ApplicationModel extends FormModel
 		// Set the configuration file path.
 		$file = JPATH_CONFIGURATION . '/configuration.php';
 
-		// Get the new FTP credentials.
-		$ftp = ClientHelper::getCredentials('ftp', true);
-
 		$app = Factory::getApplication();
 
-		// Attempt to make the file writeable if using FTP.
-		if (!$ftp['enabled'] && Path::isOwner($file) && !Path::setPermissions($file, '0644'))
+		// Attempt to make the file writeable.
+		if (Path::isOwner($file) && !Path::setPermissions($file, '0644'))
 		{
 			$app->enqueueMessage(Text::_('COM_CONFIG_ERROR_CONFIGURATION_PHP_NOTWRITABLE'), 'notice');
 		}
@@ -816,14 +957,8 @@ class ApplicationModel extends FormModel
 			throw new \RuntimeException(Text::_('COM_CONFIG_ERROR_WRITE_FAILED'));
 		}
 
-		// Invalidates the cached configuration file
-		if (function_exists('opcache_invalidate'))
-		{
-			\opcache_invalidate($file);
-		}
-
-		// Attempt to make the file unwriteable if using FTP.
-		if (!$ftp['enabled'] && Path::isOwner($file) && !Path::setPermissions($file, '0444'))
+		// Attempt to make the file unwriteable.
+		if (Path::isOwner($file) && !Path::setPermissions($file, '0444'))
 		{
 			$app->enqueueMessage(Text::_('COM_CONFIG_ERROR_CONFIGURATION_PHP_NOTUNWRITABLE'), 'notice');
 		}
@@ -956,7 +1091,7 @@ class ApplicationModel extends FormModel
 				}
 
 				/**
-				 * @to do: incorrect ACL stored
+				 * @todo: incorrect ACL stored
 				 * When changing a permission of an item that doesn't have a row in the asset table the row a new row is created.
 				 * This works fine for item <-> component <-> global config scenario and component <-> global config scenario.
 				 * But doesn't work properly for item <-> section(s) <-> component <-> global config scenario,
@@ -1050,10 +1185,10 @@ class ApplicationModel extends FormModel
 			$parentAssetId = null;
 
 			/**
-			 * @to do: incorrect info
+			 * @todo: incorrect info
 			 * When creating a new item (not saving) it uses the calculated permissions from the component (item <-> component <-> global config).
 			 * But if we have a section too (item <-> section(s) <-> component <-> global config) this is not correct.
-			 * Also, currently it uses the component permission, but should use the calculated permissions for achild of the component/section.
+			 * Also, currently it uses the component permission, but should use the calculated permissions for a child of the component/section.
 			 */
 
 			// If not in global config we need the parent_id asset to calculate permissions.
@@ -1127,8 +1262,8 @@ class ApplicationModel extends FormModel
 		// Current group is a Super User group, so calculated setting is "Allowed (Super User)".
 		if ($isSuperUserGroupAfter)
 		{
-			$result['class'] = 'badge badge-success';
-			$result['text'] = '<span class="fas fa-lock icon-white" aria-hidden="true"></span>' . Text::_('JLIB_RULES_ALLOWED_ADMIN');
+			$result['class'] = 'badge bg-success';
+			$result['text'] = '<span class="icon-lock icon-white" aria-hidden="true"></span>' . Text::_('JLIB_RULES_ALLOWED_ADMIN');
 		}
 		// Not super user.
 		else
@@ -1138,34 +1273,34 @@ class ApplicationModel extends FormModel
 			// If recursive calculated setting is "Denied" or null. Calculated permission is "Not Allowed (Inherited)".
 			if ($inheritedGroupRule === null || $inheritedGroupRule === false)
 			{
-				$result['class'] = 'badge badge-danger';
+				$result['class'] = 'badge bg-danger';
 				$result['text']  = Text::_('JLIB_RULES_NOT_ALLOWED_INHERITED');
 			}
 			// If recursive calculated setting is "Allowed". Calculated permission is "Allowed (Inherited)".
 			else
 			{
-				$result['class'] = 'badge badge-success';
+				$result['class'] = 'badge bg-success';
 				$result['text']  = Text::_('JLIB_RULES_ALLOWED_INHERITED');
 			}
 
-			// Second part: Overwrite the calculated permissions labels if there is an explicity permission in the current group.
+			// Second part: Overwrite the calculated permissions labels if there is an explicit permission in the current group.
 
 			/**
-			 * @to do: incorect info
+			 * @todo: incorrect info
 			 * If a component has a permission that doesn't exists in global config (ex: frontend editing in com_modules) by default
 			 * we get "Not Allowed (Inherited)" when we should get "Not Allowed (Default)".
 			 */
 
-			// If there is an explicity permission "Not Allowed". Calculated permission is "Not Allowed".
+			// If there is an explicit permission "Not Allowed". Calculated permission is "Not Allowed".
 			if ($assetRule === false)
 			{
-				$result['class'] = 'badge badge-danger';
+				$result['class'] = 'badge bg-danger';
 				$result['text']  = Text::_('JLIB_RULES_NOT_ALLOWED');
 			}
-			// If there is an explicity permission is "Allowed". Calculated permission is "Allowed".
+			// If there is an explicit permission is "Allowed". Calculated permission is "Allowed".
 			elseif ($assetRule === true)
 			{
-				$result['class'] = 'badge badge-success';
+				$result['class'] = 'badge bg-success';
 				$result['text']  = Text::_('JLIB_RULES_ALLOWED');
 			}
 
@@ -1174,7 +1309,7 @@ class ApplicationModel extends FormModel
 			// Global configuration with "Not Set" permission. Calculated permission is "Not Allowed (Default)".
 			if (empty($parentGroupId) && $isGlobalConfig === true && $assetRule === null)
 			{
-				$result['class'] = 'badge badge-danger';
+				$result['class'] = 'badge bg-danger';
 				$result['text']  = Text::_('JLIB_RULES_NOT_ALLOWED_DEFAULT');
 			}
 
@@ -1185,8 +1320,8 @@ class ApplicationModel extends FormModel
 			 */
 			elseif ($inheritedGroupParentAssetRule === false || $inheritedParentGroupRule === false)
 			{
-				$result['class'] = 'badge badge-danger';
-				$result['text']  = '<span class="fas fa-lock icon-white" aria-hidden="true"></span>' . Text::_('JLIB_RULES_NOT_ALLOWED_LOCKED');
+				$result['class'] = 'badge bg-danger';
+				$result['text']  = '<span class="icon-lock icon-white" aria-hidden="true"></span>' . Text::_('JLIB_RULES_NOT_ALLOWED_LOCKED');
 			}
 		}
 
@@ -1218,10 +1353,10 @@ class ApplicationModel extends FormModel
 		$app = Factory::getApplication();
 		$user = Factory::getUser();
 		$input = $app->input->json;
+		$smtppass = $input->get('smtppass', null, 'RAW');
 
 		$app->set('smtpauth', $input->get('smtpauth'));
 		$app->set('smtpuser', $input->get('smtpuser', '', 'STRING'));
-		$app->set('smtppass', $input->get('smtppass', '', 'RAW'));
 		$app->set('smtphost', $input->get('smtphost'));
 		$app->set('smtpsecure', $input->get('smtpsecure'));
 		$app->set('smtpport', $input->get('smtpport'));
@@ -1229,6 +1364,12 @@ class ApplicationModel extends FormModel
 		$app->set('fromname', $input->get('fromname', '', 'STRING'));
 		$app->set('mailer', $input->get('mailer'));
 		$app->set('mailonline', $input->get('mailonline'));
+
+		// Use smtppass only if it was submitted
+		if ($smtppass !== null)
+		{
+			$app->set('smtppass', $smtppass);
+		}
 
 		$mail = Factory::getMailer();
 
@@ -1244,7 +1385,7 @@ class ApplicationModel extends FormModel
 
 		try
 		{
-			$mailSent = $mailer->Send();
+			$mailSent = $mailer->send();
 		}
 		catch (MailDisabledException | phpMailerException $e)
 		{

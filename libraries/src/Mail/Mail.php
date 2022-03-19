@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2006 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -54,7 +54,7 @@ class Mail extends PHPMailer
 		// PHPMailer has an issue using the relative path for its language files
 		$this->setLanguage('en_gb', __DIR__ . '/language/');
 
-		// Configure a callback function to handle errors when $this->edebug() is called
+		// Configure a callback function to handle errors when $this->debug() is called
 		$this->Debugoutput = function ($message, $level)
 		{
 			Log::add(sprintf('Error in Mail API: %s', $message), Log::ERROR, 'mail');
@@ -197,7 +197,7 @@ class Mail extends PHPMailer
 	{
 		if (\is_array($from))
 		{
-			// If $from is an array we assume it has an adress and a name
+			// If $from is an array we assume it has an address and a name
 			if (isset($from[2]))
 			{
 				// If it is an array with entries, use them
@@ -218,7 +218,7 @@ class Mail extends PHPMailer
 			// If it is neither, we log a message and throw an exception
 			Log::add(Text::sprintf('JLIB_MAIL_INVALID_EMAIL_SENDER', $from), Log::WARNING, 'jerror');
 
-			throw new \UnexpectedValueException(sprintf('Invalid email Sender: %s, Mail::setSender(%s)', $from));
+			throw new \UnexpectedValueException(sprintf('Invalid email sender: %s', $from));
 		}
 
 		if ($result === false)
@@ -258,7 +258,7 @@ class Mail extends PHPMailer
 	{
 		/*
 		 * Filter the Body
-		 * TODO: Check for XSS
+		 * @todo: Check for XSS
 		 */
 		$this->Body = MailHelper::cleanText($content);
 
@@ -414,7 +414,7 @@ class Mail extends PHPMailer
 	 *
 	 * @since   3.0.1
 	 * @throws  \InvalidArgumentException  if the argument array counts do not match
-	 * @throws  phpmailerException 			if setting the attatchment failed and exception throwing is enabled
+	 * @throws  phpmailerException 			if setting the attachment failed and exception throwing is enabled
 	 */
 	public function addAttachment($path, $name = '', $encoding = 'base64', $type = 'application/octet-stream', $disposition = 'attachment')
 	{
@@ -714,7 +714,7 @@ class Mail extends PHPMailer
 		}
 
 		// Add sender to replyTo only if no replyTo received
-		$autoReplyTo = (empty($this->ReplyTo)) ? true : false;
+		$autoReplyTo = empty($this->ReplyTo);
 
 		if ($this->setSender(array($from, $fromName, $autoReplyTo)) === false)
 		{

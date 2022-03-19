@@ -2,22 +2,19 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2020 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Console;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Factory;
-use Joomla\CMS\Filesystem\File;
-use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\Console\Command\AbstractCommand;
 use Joomla\Database\DatabaseDriver;
 use Joomla\Registry\Registry;
-use Joomla\Utilities\ArrayHelper;
 use Symfony\Component\Console\Input\Input;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -35,59 +32,59 @@ class SetConfigurationCommand extends AbstractCommand
 	 * The default command name
 	 *
 	 * @var    string
-	 * @since  4.0
+	 * @since  4.0.0
 	 */
 	protected static $defaultName = 'config:set';
 
 	/**
 	 * Stores the Input Object
 	 * @var Input
-	 * @since 4.0
+	 * @since 4.0.0
 	 */
 	private $cliInput;
 
 	/**
 	 * SymfonyStyle Object
 	 * @var SymfonyStyle
-	 * @since 4.0
+	 * @since 4.0.0
 	 */
 	private $ioStyle;
 
 	/**
 	 * Options Array
 	 * @var array
-	 * @since 4.0
+	 * @since 4.0.0
 	 */
 	private $options;
 
 
 	/**
 	 * Return code if configuration is set successfully
-	 * @since 4.0
+	 * @since 4.0.0
 	 */
 	public const CONFIG_SET_SUCCESSFUL = 0;
 
 	/**
 	 * Return code if configuration set failed
-	 * @since 4.0
+	 * @since 4.0.0
 	 */
 	public const CONFIG_SET_FAILED = 1;
 
 	/**
 	 * Return code if config validation failed
-	 * @since 4.0
+	 * @since 4.0.0
 	 */
 	public const CONFIG_VALIDATION_FAILED = 2;
 
 	/**
 	 * Return code if options are wrong
-	 * @since 4.0
+	 * @since 4.0.0
 	 */
 	public const CONFIG_OPTIONS_WRONG = 3;
 
 	/**
 	 * Return code if database validation failed
-	 * @since 4.0
+	 * @since 4.0.0
 	 */
 	public const DB_VALIDATION_FAILED = 4;
 
@@ -99,7 +96,7 @@ class SetConfigurationCommand extends AbstractCommand
 	 *
 	 * @return void
 	 *
-	 * @since 4.0
+	 * @since 4.0.0
 	 *
 	 */
 	private function configureIO(InputInterface $input, OutputInterface $output)
@@ -116,11 +113,11 @@ class SetConfigurationCommand extends AbstractCommand
 	/**
 	 * Collects options from user input
 	 *
-	 * @param   array  $options  Options inputed by users
+	 * @param   array  $options  Options input by users
 	 *
 	 * @return boolean
 	 *
-	 * @since 4.0
+	 * @since 4.0.0
 	 */
 	private function retrieveOptionsFromInput(array $options): bool
 	{
@@ -150,7 +147,7 @@ class SetConfigurationCommand extends AbstractCommand
 	 *
 	 * @return boolean
 	 *
-	 * @since 4.0
+	 * @since 4.0.0
 	 */
 	private function validateOptions(): bool
 	{
@@ -177,7 +174,7 @@ class SetConfigurationCommand extends AbstractCommand
 	 *
 	 * @param   string  $options  Options string
 	 *
-	 * @since 4.0
+	 * @since 4.0.0
 	 *
 	 * @return void
 	 */
@@ -191,7 +188,7 @@ class SetConfigurationCommand extends AbstractCommand
 	 *
 	 * @return array|mixed
 	 *
-	 * @since 4.0
+	 * @since 4.0.0
 	 */
 	public function getOptions()
 	{
@@ -203,7 +200,7 @@ class SetConfigurationCommand extends AbstractCommand
 	 *
 	 * @return Registry
 	 *
-	 * @since 4.0
+	 * @since 4.0.0
 	 */
 	public function getInitialConfigurationOptions(): Registry
 	{
@@ -218,13 +215,13 @@ class SetConfigurationCommand extends AbstractCommand
 	 *
 	 * @return boolean
 	 *
-	 * @since 4.0
+	 * @since 4.0.0
 	 */
 	public function saveConfiguration($options): bool
 	{
 		$app = $this->getApplication();
 
-		// Check db connection encription properties
+		// Check db connection encryption properties
 		$model = $app->bootComponent('com_config')->getMVCFactory($app)->createModel('Application', 'Administrator');
 
 		if (!$model->save($options))
@@ -242,22 +239,20 @@ class SetConfigurationCommand extends AbstractCommand
 	 *
 	 * @return void
 	 *
-	 * @since 4.0
+	 * @since 4.0.0
 	 */
 	protected function configure(): void
 	{
-		$this->setDescription('Sets a value for a configuration option');
-
 		$this->addArgument(
 			'options',
 			InputArgument::REQUIRED | InputArgument::IS_ARRAY,
 			'All options you want to set'
 		);
 
-		$help = "The <info>%command.name%</info> 
-				Sets a value for a configuration option
+		$help = "<info>%command.name%</info> sets the value for a configuration option
 				\nUsage: <info>php %command.full_name%</info> <option>=<value>";
 
+		$this->setDescription('Set a value for a configuration option');
 		$this->setHelp($help);
 	}
 
@@ -268,7 +263,7 @@ class SetConfigurationCommand extends AbstractCommand
 	 *
 	 * @return boolean|\Joomla\Database\DatabaseInterface
 	 *
-	 * @since 4.0
+	 * @since 4.0.0
 	 * @throws \Exception
 	 */
 	public function checkDb($options): bool
@@ -316,12 +311,12 @@ class SetConfigurationCommand extends AbstractCommand
 		// Validate database name.
 		if (in_array($options['dbtype'], ['pgsql', 'postgresql'], true) && !preg_match('#^[a-zA-Z_][0-9a-zA-Z_$]*$#', $options['db']))
 		{
-			$this->ioStyle->error(Text::_('INSTL_DATABASE_NAME_MSG_POSTGRESQL'));
+			$this->ioStyle->error(Text::_('INSTL_DATABASE_NAME_MSG_POSTGRES'));
 
 			return false;
 		}
 
-		if (in_array($options['dbtype'], ['mysql', 'mysqli']) && preg_match('#[\\\\\/\.]#', $options['db']))
+		if (in_array($options['dbtype'], ['mysql', 'mysqli']) && preg_match('#[\\\\\/]#', $options['db']))
 		{
 			$this->ioStyle->error(Text::_('INSTL_DATABASE_NAME_MSG_MYSQL'));
 
@@ -341,12 +336,12 @@ class SetConfigurationCommand extends AbstractCommand
 
 		$app = $this->getApplication();
 
-		// Check db connection encription properties
+		// Check db connection encryption properties
 		$model = $app->bootComponent('com_config')->getMVCFactory($app)->createModel('Application', 'Administrator');
 
 		if (!$model->validateDbConnection($options))
 		{
-			$this->ioStyle->error(Text::_('Failed to validate the db connection encription properties'));
+			$this->ioStyle->error(Text::_('Failed to validate the db connection encryption properties'));
 
 			return false;
 		}
@@ -467,7 +462,7 @@ class SetConfigurationCommand extends AbstractCommand
 	 *
 	 * @return array
 	 *
-	 * @since 4.0
+	 * @since 4.0.0
 	 */
 	public function sanitizeOptions(Array $options): array
 	{

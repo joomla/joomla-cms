@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_modules
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2010 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -59,7 +59,7 @@ class PositionsModel extends ListModel
 	 *
 	 * @since   1.6
 	 */
-	protected function populateState($ordering = 'value', $direction = 'asc')
+	protected function populateState($ordering = 'ordering', $direction = 'asc')
 	{
 		// Load the filter state.
 		$search = $this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search');
@@ -116,7 +116,7 @@ class PositionsModel extends ListModel
 
 				// Get the database object and a new query object.
 				$query = $this->_db->getQuery(true)
-					->select('DISTINCT ' . $db->quoteName('position', 'value'))
+					->select('DISTINCT ' . $this->_db->quoteName('position', 'value'))
 					->from($this->_db->quoteName('#__modules'))
 					->where($this->_db->quoteName('client_id') . ' = :clientid')
 					->bind(':clientid', $clientId, ParameterType::INTEGER);

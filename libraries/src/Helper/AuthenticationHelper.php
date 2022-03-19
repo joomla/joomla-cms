@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2016 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -61,34 +61,52 @@ abstract class AuthenticationHelper
 	}
 
 	/**
-	 * Get additional login buttons to add in a login module. These buttons can be used for authentication methods
-	 * external to Joomla such as WebAuthn, login with social media providers, login with third party providers or even
-	 * login with third party Single Sign On (SSO) services.
+	 * Get additional login buttons to add in a login module. These buttons can be used for
+	 * authentication methods external to Joomla such as WebAuthn, login with social media
+	 * providers, login with third party providers or even login with third party Single Sign On
+	 * (SSO) services.
 	 *
-	 * Button definitions are returned by the onUserLoginButtons event handlers in plugins. By default, only system and
-	 * user plugins are taken into account. The former because they are always loaded. The latter are explicitly loaded
-	 * in this method.
+	 * Button definitions are returned by the onUserLoginButtons event handlers in plugins. By
+	 * default, only system and user plugins are taken into account. The former because they are
+	 * always loaded. The latter are explicitly loaded in this method.
 	 *
 	 * The onUserLoginButtons event handlers must conform to the following method definition:
 	 *
 	 * public function onUserLoginButtons(string $formId): array
 	 *
-	 * The onUserLoginButtons event handlers must return a simple array containing 0 or more button definitions.
+	 * The onUserLoginButtons event handlers must return a simple array containing 0 or more button
+	 * definitions.
 	 *
 	 * Each button definition is a hash array with the following keys:
 	 *
-	 * - label      The translation string used as the label and title of the button
-	 * - onclick    The onclick attribute, used to fire a JavaScript event
-	 * - id         The HTML ID of the button.
-	 * - icon       [optional] A CSS class for an optional icon displayed before the label; has precedence over 'image'
-	 * - image      [optional] An image path for an optional icon displayed before the label
-	 * - class      [optional] CSS class(es) to be added to the button
+	 * * `label`   The translation string used as the label and title of the button. Required
+	 * * `id`      The HTML ID of the button. Required.
+	 * * `tooltip` (optional) The translation string used as the alt tag of the button's image
+	 * * `onclick` (optional) The onclick attribute, used to fire a JavaScript event. Not
+	 *             recommended.
+	 * * `data-*`  (optional) Data attributes to pass verbatim. Use these and JavaScript to handle
+	 *             the button.
+	 * * `icon`    (optional) A CSS class for an optional icon displayed before the label; has
+	 *             precedence over 'image'
+	 * * `image`   (optional) An image path for an optional icon displayed before the label
+	 * * `class`   (optional) CSS class(es) to be added to the button
 	 *
-	 * @param   string  $formId           The HTML ID of the login form container.
+	 * You can find a real world implementation of the onUserLoginButtons plugin event in the
+	 * system/webauthn plugin.
+	 *
+	 * You can find a real world implementation of consuming the output of this method in the
+	 * modules/mod_login module.
+	 *
+	 * Third party developers implementing a login module or a login form in their component are
+	 * strongly advised to call this method and consume its results to display additional login
+	 * buttons. Not doing that means that you are not fully compatible with Joomla 4.
+	 *
+	 * @param   string  $formId  The HTML ID of the login form container. Use it to filter when and
+	 *                           where to show your additional login button(s)
 	 *
 	 * @return  array  Button definitions.
 	 *
-	 * @since 4.0.0
+	 * @since   4.0.0
 	 */
 	public static function getLoginButtons(string $formId): array
 	{
@@ -129,6 +147,7 @@ abstract class AuthenticationHelper
 				// Force mandatory fields
 				$defaultButtonDefinition = [
 					'label'   => '',
+					'tooltip' => '',
 					'icon'    => '',
 					'image'   => '',
 					'class'   => '',
@@ -141,14 +160,19 @@ abstract class AuthenticationHelper
 				// Unset anything that doesn't conform to a button definition
 				foreach (array_keys($button) as $key)
 				{
-					if (!in_array($key, ['label', 'icon', 'image', 'class', 'id', 'onclick']))
+					if (substr($key, 0, 5) == 'data-')
+					{
+						continue;
+					}
+
+					if (!in_array($key, ['label', 'tooltip', 'icon', 'image', 'svg', 'class', 'id', 'onclick']))
 					{
 						unset($button[$key]);
 					}
 				}
 
-				// We need a label and an onclick handler at the bare minimum
-				if (empty($button['label']) || empty($button['onclick']) || empty($button['id']))
+				// We need a label and an ID as the bare minimum
+				if (empty($button['label']) || empty($button['id']))
 				{
 					continue;
 				}

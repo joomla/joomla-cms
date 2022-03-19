@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2020 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -77,7 +77,7 @@ trait WorkflowBehaviorTrait
 			$this->section = array_shift($parts);
 		}
 
-		$this->workflow = new Workflow(['extension' => $extension]);
+		$this->workflow = new Workflow($extension);
 
 		$params = ComponentHelper::getParams($this->extension);
 
@@ -288,20 +288,22 @@ trait WorkflowBehaviorTrait
 	/**
 	 * Runs transition for item.
 	 *
-	 * @param   array    $pks            Id of items to execute the transition
-	 * @param   integer  $transition_id  Id of transition
+	 * @param   array    $pks           Id of items to execute the transition
+	 * @param   integer  $transitionId  Id of transition
 	 *
 	 * @return  boolean
 	 *
 	 * @since   4.0.0
 	 */
-	public function executeTransition(array $pks, int $transition_id)
+	public function executeTransition(array $pks, int $transitionId)
 	{
-		$result = $this->workflow->executeTransition($pks, $transition_id);
+		$result = $this->workflow->executeTransition($pks, $transitionId);
 
 		if (!$result)
 		{
-			$this->setError(Text::_('COM_CONTENT_ERROR_UPDATE_STAGE'));
+			$app = Factory::getApplication();
+
+			$app->enqueueMessage(Text::_('COM_CONTENT_ERROR_UPDATE_STAGE', $app::MSG_WARNING));
 
 			return false;
 		}
@@ -339,7 +341,7 @@ trait WorkflowBehaviorTrait
 
 		$field->addAttribute('name', 'transition');
 		$field->addAttribute('type', $this->workflowEnabled ? 'transition' : 'hidden');
-		$field->addAttribute('label', 'COM_CONTENT_TRANSITION');
+		$field->addAttribute('label', 'COM_CONTENT_WORKFLOW');
 		$field->addAttribute('extension', $extension);
 
 		$form->setField($field);
@@ -373,7 +375,7 @@ trait WorkflowBehaviorTrait
 
 	/**
 	 * Try to load a workflow stage for newly created items
-	 * which does not have a workflow assinged yet. If the category is not the
+	 * which does not have a workflow assigned yet. If the category is not the
 	 * carrier, overwrite it on your model and deliver your own carrier.
 	 *
 	 * @param   Form   $form  A Form object.
@@ -409,17 +411,15 @@ trait WorkflowBehaviorTrait
 		{
 			$catId = $field->getAttribute('default', null);
 
-			// Choose the first category available
-			$xml = new \DOMDocument;
-			libxml_use_internal_errors(true);
-			$xml->loadHTML($field->__get('input'));
-			libxml_clear_errors();
-			libxml_use_internal_errors(false);
-			$options = $xml->getElementsByTagName('option');
-
-			if (!$catId && $firstChoice = $options->item(0))
+			if (!$catId)
 			{
-				$catId = $firstChoice->getAttribute('value');
+				// Choose the first category available
+				$catOptions = $field->options;
+
+				if ($catOptions && !empty($catOptions[0]->value))
+				{
+					$catId = (int) $catOptions[0]->value;
+				}
 			}
 		}
 

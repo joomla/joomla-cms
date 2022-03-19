@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2006 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -52,7 +52,7 @@ class ArticleModel extends ItemModel
 		$pk = $app->input->getInt('id');
 		$this->setState('article.id', $pk);
 
-		$offset = $app->input->getUInt('limitstart');
+		$offset = $app->input->getUint('limitstart');
 		$this->setState('list.offset', $offset);
 
 		// Load the parameters.
@@ -149,7 +149,7 @@ class ArticleModel extends ItemModel
 							$db->quoteName('parent.path', 'parent_route'),
 							$db->quoteName('parent.alias', 'parent_alias'),
 							$db->quoteName('parent.language', 'parent_language'),
-							'ROUND(' . $db->quoteName('v.rating_sum') . ' / ' . $db->quoteName('v.rating_count') . ', 0) AS '
+							'ROUND(' . $db->quoteName('v.rating_sum') . ' / ' . $db->quoteName('v.rating_count') . ', 1) AS '
 								. $db->quoteName('rating'),
 							$db->quoteName('v.rating_count', 'rating_count'),
 						]
@@ -288,7 +288,7 @@ class ArticleModel extends ItemModel
 				if ($e->getCode() == 404)
 				{
 					// Need to go through the error handler to allow Redirect to work.
-					throw new \Exception($e->getMessage(), 404);
+					throw $e;
 				}
 				else
 				{
@@ -454,7 +454,7 @@ class ArticleModel extends ItemModel
 	 * Cleans the cache of com_content and content modules
 	 *
 	 * @param   string   $group     The cache group
-	 * @param   integer  $clientId  The ID of the client
+	 * @param   integer  $clientId  @deprecated   5.0   No longer used.
 	 *
 	 * @return  void
 	 *

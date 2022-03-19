@@ -3,13 +3,13 @@
  * @package     Joomla.Installation
  * @subpackage  Model
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2017 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Installation\Model;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Filesystem\File;
 use Joomla\CMS\Filesystem\Folder;
@@ -37,6 +37,8 @@ class CleanupModel extends BaseInstallationModel
 		{
 			$return = File::move(JPATH_ROOT . '/robots.txt.dist', JPATH_ROOT . '/robots.txt');
 		}
+
+		\clearstatcache(true, JPATH_INSTALLATION . '/index.php');
 
 		return $return;
 	}

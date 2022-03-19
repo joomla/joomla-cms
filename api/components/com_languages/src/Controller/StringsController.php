@@ -3,7 +3,7 @@
  * @package     Joomla.API
  * @subpackage  com_languages
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2019 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -51,12 +51,12 @@ class StringsController extends ApiController
 	{
 		$data = $this->input->get('data', json_decode($this->input->json->getRaw(), true), 'array');
 
-		if (!isset($data['searchstring']) || !is_string($data['searchstring']))
+		if (!isset($data['searchstring']) || !\is_string($data['searchstring']))
 		{
 			throw new InvalidParameterException("Invalid param 'searchstring'");
 		}
 
-		if (!isset($data['searchtype']) || !in_array($data['searchtype'], ['constant', 'value']))
+		if (!isset($data['searchtype']) || !\in_array($data['searchtype'], ['constant', 'value']))
 		{
 			throw new InvalidParameterException("Invalid param 'searchtype'");
 		}

@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  System.stats
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2016 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -44,5 +44,5 @@ extract($displayData);
 ?>
 <input type="hidden" name="<?php echo $name; ?>" id="<?php echo $id; ?>" value="<?php echo htmlspecialchars($value, ENT_QUOTES, 'UTF-8'); ?>">
 <button class="btn btn-secondary" type="button" id="js-pstats-reset-uid">
-	<span class="fas fa-sync"></span> <?php echo Text::_('PLG_SYSTEM_STATS_RESET_UNIQUE_ID'); ?>
+	<span class="icon-sync"></span> <?php echo Text::_('PLG_SYSTEM_STATS_RESET_UNIQUE_ID'); ?>
 </button>

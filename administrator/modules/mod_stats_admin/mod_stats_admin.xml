@@ -3,7 +3,7 @@
 	<name>mod_stats_admin</name>
 	<author>Joomla! Project</author>
 	<creationDate>July 2004</creationDate>
-	<copyright>Copyright (C) 2005 - 2020 Open Source Matters. All rights reserved.</copyright>
+	<copyright>(C) 2005 Open Source Matters, Inc.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
@@ -16,10 +16,10 @@
 		<folder>tmpl</folder>
 	</files>
 	<languages>
-		<language tag="en-GB">en-GB.mod_stats.ini</language>
-		<language tag="en-GB">en-GB.mod_stats.sys.ini</language>
+		<language tag="en-GB">language/en-GB/mod_stats.ini</language>
+		<language tag="en-GB">language/en-GB/mod_stats.sys.ini</language>
 	</languages>
-	<help key="JHELP_EXTENSIONS_MODULE_MANAGER_STATISTICS" />
+	<help key="Site_Modules:_Statistics" />
 	<config>
 		<fields name="params">
 			<fieldset name="basic">
@@ -52,14 +52,16 @@
 					name="layout"
 					type="modulelayout"
 					label="JFIELD_ALT_LAYOUT_LABEL"
-					class="custom-select"
- 				/>
+					class="form-select"
+					validate="moduleLayout"
+				/>
 
 				<field
 					name="moduleclass_sfx"
 					type="textarea"
 					label="COM_MODULES_FIELD_MODULECLASS_SFX_LABEL"
-				 	rows="3"
+					rows="3"
+					validate="CssIdentifier"
 				/>
 
 				<field
@@ -80,6 +82,8 @@
 					label="COM_MODULES_FIELD_CACHE_TIME_LABEL"
 					default="900"
 					filter="integer"
+					min="1"
+					validate="number"
 				/>
 
 				<field

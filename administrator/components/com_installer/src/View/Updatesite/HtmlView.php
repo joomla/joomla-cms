@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_installer
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2019 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,7 +12,6 @@ namespace Joomla\Component\Installer\Administrator\View\Updatesite;
 \defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
-use Joomla\CMS\Form\Field\TextField;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Language\Text;
@@ -111,7 +110,7 @@ class HtmlView extends InstallerViewDefault
 		$toolbarButtons = [];
 
 		// Can't save the record if it's checked out and editable
-		if (!$checkedOut && $itemEditable)
+		if (!$checkedOut && $itemEditable && $this->form->getField('extra_query'))
 		{
 			$toolbarButtons[] = ['apply', 'updatesite.apply'];
 			$toolbarButtons[] = ['save', 'updatesite.save'];
@@ -121,6 +120,6 @@ class HtmlView extends InstallerViewDefault
 
 		ToolbarHelper::cancel('updatesite.cancel', 'JTOOLBAR_CLOSE');
 
-		ToolbarHelper::help('JHELP_COMPONENTS_INSTALLER_UPDATESITE_EDIT');
+		ToolbarHelper::help('Edit_Update_Site');
 	}
 }

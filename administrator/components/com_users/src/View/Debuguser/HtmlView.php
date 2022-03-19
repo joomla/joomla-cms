@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2010 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -11,7 +11,7 @@ namespace Joomla\Component\Users\Administrator\View\Debuguser;
 
 \defined('_JEXEC') or die;
 
-use Joomla\CMS\Access\Exception\Notallowed;
+use Joomla\CMS\Access\Exception\NotAllowed;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Language\Text;
@@ -69,7 +69,7 @@ class HtmlView extends BaseHtmlView
 	/**
 	 * Form object for search filters
 	 *
-	 * @var  \JForm
+	 * @var  \Joomla\CMS\Form\Form
 	 */
 	public $filterForm;
 
@@ -92,7 +92,7 @@ class HtmlView extends BaseHtmlView
 		// Access check.
 		if (!Factory::getUser()->authorise('core.manage', 'com_users'))
 		{
-			throw new Notallowed(Text::_('JERROR_ALERTNOAUTHOR'), 403);
+			throw new NotAllowed(Text::_('JERROR_ALERTNOAUTHOR'), 403);
 		}
 
 		$this->actions       = $this->get('DebugActions');
@@ -134,6 +134,6 @@ class HtmlView extends BaseHtmlView
 			ToolbarHelper::divider();
 		}
 
-		ToolbarHelper::help('JHELP_USERS_DEBUG_USERS');
+		ToolbarHelper::help('Permissions_for_User');
 	}
 }

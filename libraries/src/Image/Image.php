@@ -1,9 +1,8 @@
 <?php
 /**
- * @package     Joomla.Platform
- * @subpackage  Image
+ * Joomla! Content Management System
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2017 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -14,7 +13,7 @@ namespace Joomla\CMS\Image;
 /**
  * Class to manipulate an image.
  *
- * @since  2.5.0
+ * @since  1.7.3
  */
 class Image
 {
@@ -101,7 +100,7 @@ class Image
 	 *
 	 * @param   mixed  $source  Either a file path for a source image or a GD resource handler for an image.
 	 *
-	 * @since   2.5.0
+	 * @since   1.7.3
 	 * @throws  \RuntimeException
 	 */
 	public function __construct($source = null)
@@ -116,17 +115,18 @@ class Image
 		}
 
 		// Determine which image types are supported by GD, but only once.
-		if (!isset(static::$formats[IMAGETYPE_JPEG]))
+		if (empty(static::$formats))
 		{
 			$info = gd_info();
-			static::$formats[IMAGETYPE_JPEG] = ($info['JPEG Support']) ? true : false;
-			static::$formats[IMAGETYPE_PNG] = ($info['PNG Support']) ? true : false;
-			static::$formats[IMAGETYPE_GIF] = ($info['GIF Read Support']) ? true : false;
+			static::$formats[IMAGETYPE_JPEG] = $info['JPEG Support'];
+			static::$formats[IMAGETYPE_PNG]  = $info['PNG Support'];
+			static::$formats[IMAGETYPE_GIF]  = $info['GIF Read Support'];
+			static::$formats[IMAGETYPE_WEBP] = $info['WebP Support'];
 		}
 
 		/**
 		 * If the source input is a resource, set it as the image handle.
-		 * TODO: Remove check for resource when we only support PHP 8
+		 * @todo: Remove check for resource when we only support PHP 8
 		 */
 		if ($source && (\is_object($source) && get_class($source) == 'GdImage')
 			|| (\is_resource($source) && get_resource_type($source) == 'gd'))
@@ -175,7 +175,7 @@ class Image
 	public static function getImageFileProperties($path)
 	{
 		// Make sure the file exists.
-		if (!file_exists($path))
+		if (!is_file($path))
 		{
 			throw new \InvalidArgumentException('The image file does not exist.');
 		}
@@ -185,7 +185,7 @@ class Image
 
 		if (!$info)
 		{
-			throw new \RuntimeException('Unable to get properties for the image.');
+			throw new Exception\UnparsableImageException('Unable to get properties for the image.');
 		}
 
 		// Build the response object.
@@ -314,7 +314,7 @@ class Image
 	}
 
 	/**
-	 * Method to create thumbnails from the current image and save them to disk. It allows creation by resizing or croppping the original image.
+	 * Method to create thumbnails from the current image and save them to disk. It allows creation by resizing or cropping the original image.
 	 *
 	 * @param   mixed    $thumbSizes      string or array of strings. Example: $thumbSizes = array('150x75','250x150');
 	 * @param   integer  $creationMethod  1-3 resize $scaleMethod | 4 create cropping
@@ -354,16 +354,19 @@ class Image
 			// Parent image properties
 			$imgProperties = static::getImageFileProperties($this->getPath());
 
+			// Get image filename and extension.
+			$pathInfo      = pathinfo($this->getPath());
+			$filename      = $pathInfo['filename'];
+			$fileExtension = $pathInfo['extension'] ?? '';
+
 			foreach ($thumbs as $thumb)
 			{
 				// Get thumb properties
-				$thumbWidth     = $thumb->getWidth();
-				$thumbHeight    = $thumb->getHeight();
+				$thumbWidth  = $thumb->getWidth();
+				$thumbHeight = $thumb->getHeight();
 
 				// Generate thumb name
-				$filename       = pathinfo($this->getPath(), PATHINFO_FILENAME);
-				$fileExtension  = pathinfo($this->getPath(), PATHINFO_EXTENSION);
-				$thumbFileName  = $filename . '_' . $thumbWidth . 'x' . $thumbHeight . '.' . $fileExtension;
+				$thumbFileName = $filename . '_' . $thumbWidth . 'x' . $thumbHeight . '.' . $fileExtension;
 
 				// Save thumb file to disk
 				$thumbFileName = $thumbsFolder . '/' . $thumbFileName;
@@ -470,7 +473,7 @@ class Image
 	 * @return  Image
 	 *
 	 * @since   2.5.0
-	 * @see     Joomla\CMS\Image\Filter
+	 * @see     \Joomla\CMS\Image\Filter
 	 * @throws  \LogicException
 	 */
 	public function filter($type, array $options = [])
@@ -539,7 +542,7 @@ class Image
 	{
 		/**
 		 * Make sure the resource handle is valid.
-		 * TODO: Remove check for resource when we only support PHP 8
+		 * @todo: Remove check for resource when we only support PHP 8
 		 */
 		if (!((\is_object($this->handle) && get_class($this->handle) == 'GdImage')
 			|| (\is_resource($this->handle) && get_resource_type($this->handle) == 'gd')))
@@ -580,7 +583,7 @@ class Image
 		$this->destroy();
 
 		// Make sure the file exists.
-		if (!file_exists($path))
+		if (!is_file($path))
 		{
 			throw new \InvalidArgumentException('The image file does not exist.');
 		}
@@ -630,13 +633,26 @@ class Image
 
 				break;
 
+			case 'image/webp':
+				// Make sure the image type is supported.
+				if (empty(static::$formats[IMAGETYPE_WEBP]))
+				{
+					throw new \RuntimeException('Attempting to load an image of unsupported type WebP.');
+				}
+
+				// Attempt to create the image handle.
+				$handle = imagecreatefromwebp($path);
+				$type = 'WebP';
+
+				break;
+
 			default:
 				throw new \InvalidArgumentException('Attempting to load an image of unsupported type ' . $properties->mime);
 		}
 
 		/**
 		 * Check if handle has been created successfully
-		 * TODO: Remove check for resource when we only support PHP 8
+		 * @todo: Remove check for resource when we only support PHP 8
 		 */
 		if (!(\is_object($handle) || \is_resource($handle)))
 		{
@@ -766,7 +782,7 @@ class Image
 	 *
 	 * @param   integer  $width      The desired width of the image in pixels or a percentage.
 	 * @param   integer  $height     The desired height of the image in pixels or a percentage.
-	 * @param   integer  $createNew  If true the current image will be cloned, resized, cropped and returned.
+	 * @param   boolean  $createNew  If true the current image will be cloned, resized, cropped and returned.
 	 *
 	 * @return  Image
 	 *
@@ -938,11 +954,12 @@ class Image
 		{
 			case IMAGETYPE_GIF:
 				return imagegif($this->getHandle(), $path);
-				break;
 
 			case IMAGETYPE_PNG:
 				return imagepng($this->getHandle(), $path, (\array_key_exists('quality', $options)) ? $options['quality'] : 0);
-				break;
+
+			case IMAGETYPE_WEBP:
+				return imagewebp($this->getHandle(), $path, (\array_key_exists('quality', $options)) ? $options['quality'] : 100);
 		}
 
 		// Case IMAGETYPE_JPEG & default
@@ -1034,7 +1051,6 @@ class Image
 
 			default:
 				throw new \InvalidArgumentException('Invalid scale method.');
-				break;
 		}
 
 		return $dimensions;

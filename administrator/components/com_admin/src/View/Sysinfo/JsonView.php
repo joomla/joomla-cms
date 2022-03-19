@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_admin
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2015 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,7 +12,7 @@ namespace Joomla\Component\Admin\Administrator\View\Sysinfo;
 \defined('_JEXEC') or die;
 
 use Exception;
-use Joomla\CMS\Access\Exception\Notallowed;
+use Joomla\CMS\Access\Exception\NotAllowed;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\AbstractView;
@@ -41,7 +41,7 @@ class JsonView extends AbstractView
 		// Access check.
 		if (!Factory::getUser()->authorise('core.admin'))
 		{
-			throw new Notallowed(Text::_('JERROR_ALERTNOAUTHOR'), 403);
+			throw new NotAllowed(Text::_('JERROR_ALERTNOAUTHOR'), 403);
 		}
 
 		header('MIME-Version: 1.0');
@@ -50,7 +50,7 @@ class JsonView extends AbstractView
 
 		$data = $this->getLayoutData();
 
-		echo json_encode($data);
+		echo json_encode($data, JSON_PRETTY_PRINT);
 
 		Factory::getApplication()->close();
 	}

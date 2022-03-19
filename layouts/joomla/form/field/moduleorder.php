@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  Layout
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2016 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -43,7 +43,6 @@ extract($displayData);
  * @var   boolean  $hasValue        Has this field a value assigned?
  * @var   array    $options         Options available for this field.
  * @var   array    $inputType       Options available for this field.
- * @var   array    $spellcheck      Options available for this field.
  * @var   string   $accept          File types that are accepted.
  * @var   string   $dataAttribute   Miscellaneous data attributes preprocessed for HTML output
  * @var   array    $dataAttributes  Miscellaneous data attributes for eg, data-*.
@@ -57,6 +56,7 @@ $attributes['data-ordering'] = 'data-ordering="' . $ordering . '"';
 $attributes['data-position-element'] = 'data-position-element="' . $element . '"';
 $attributes['data-client-id'] = 'data-client-id="' . $clientId . '"';
 $attributes['data-name'] = 'data-name="' . $name . '"';
+$attributes['data-module-id'] = 'data-module-id="' . $moduleId . '"';
 
 if ($disabled)
 {

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_login
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2009 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -11,7 +11,7 @@ namespace Joomla\Component\Login\Administrator\Model;
 
 \defined('_JEXEC') or die;
 
-use Joomla\CMS\Cache\CacheExceptionInterface;
+use Joomla\CMS\Cache\Exception\CacheExceptionInterface;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;
@@ -138,7 +138,7 @@ class LoginModel extends BaseDatabaseModel
 		$lang     = Factory::getLanguage()->getTag();
 		$clientId = (int) $app->getClientId();
 
-		/** @var CallbackController $cache */
+		/** @var \Joomla\CMS\Cache\Controller\CallbackController $cache */
 		$cache = Factory::getCache('com_modules', 'callback');
 
 		$loader = function () use ($app, $lang, $module) {

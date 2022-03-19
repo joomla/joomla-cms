@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Workflow.Notification
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2020 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -50,9 +50,8 @@ class PlgWorkflowNotification extends CMSPlugin implements SubscriberInterface
 	protected $app;
 
 	/**
-	 * Database object.
+	 * @var    \Joomla\Database\DatabaseDriver
 	 *
-	 * @var    JDatabaseDriver
 	 * @since  3.9.0
 	 */
 	protected $db;
@@ -60,7 +59,7 @@ class PlgWorkflowNotification extends CMSPlugin implements SubscriberInterface
 	/**
 	 * Returns an array of events this subscriber will listen to.
 	 *
-	 * @return  array
+	 * @return   array
 	 *
 	 * @since   4.0.0
 	 */
@@ -78,7 +77,7 @@ class PlgWorkflowNotification extends CMSPlugin implements SubscriberInterface
 	 * @param   Form      $form  The form
 	 * @param   stdClass  $data  The data
 	 *
-	 * @return  boolean
+	 * @return   boolean
 	 *
 	 * @since   4.0.0
 	 */
@@ -99,13 +98,13 @@ class PlgWorkflowNotification extends CMSPlugin implements SubscriberInterface
 	}
 
 	/**
-	 * Send a Notification to defined users a transion is performed
+	 * Send a Notification to defined users a transition is performed
 	 *
-	 * @param   string   $context  The context for the content passed to the plugin.
-	 * @param   array    $pks      A list of primary key ids of the content that has changed stage.
-	 * @param   object  $data    Object containing data about the transition
+	 * @param   string  $context  The context for the content passed to the plugin.
+	 * @param   array   $pks      A list of primary key ids of the content that has changed stage.
+	 * @param   object  $data     Object containing data about the transition
 	 *
-	 * @return  boolean
+	 * @return   boolean
 	 *
 	 * @since   4.0.0
 	 */
@@ -148,12 +147,12 @@ class PlgWorkflowNotification extends CMSPlugin implements SubscriberInterface
 		$debug = $this->app->get('debug_lang');
 
 		$modelName = $component->getModelName($context);
-		$model = $component->getMVCFactory()->createModel($modelName, $this->app->getName(),  ['ignore_request' => true]);
+		$model = $component->getMVCFactory()->createModel($modelName, $this->app->getName(), ['ignore_request' => true]);
 
 		// Don't send the notification to the active user
 		$key = array_search($user->id, $userIds);
 
-		if (is_integer($key))
+		if (is_int($key))
 		{
 			unset($userIds[$key]);
 		}
@@ -180,17 +179,24 @@ class PlgWorkflowNotification extends CMSPlugin implements SubscriberInterface
 
 		$toStage = $model_stage->getItem($transition->to_stage_id)->title;
 
+		// Get the name of the transition
+		$model_transition = $this->app->bootComponent('com_workflow')
+			->getMVCFactory()->createModel('Transition', 'Administrator');
+
+		$transitionName = $model_transition->getItem($transition->id)->title;
+
 		$hasGetItem = method_exists($model, 'getItem');
 		$container = Factory::getContainer();
 
 		foreach ($pks as $pk)
 		{
-			// Get the title of the item which has changed
-			$title = '';
+			// Get the title of the item which has changed, unknown as fallback
+			$title = Text::_('PLG_WORKFLOW_NOTIFICATION_NO_TITLE');
 
 			if ($hasGetItem)
 			{
-				$title = $model->getItem($pk)->title;
+				$item = $model->getItem($pk);
+				$title = !empty($item->title) ? $item->title : $title;
 			}
 
 			// Send Email to receivers
@@ -198,24 +204,33 @@ class PlgWorkflowNotification extends CMSPlugin implements SubscriberInterface
 			{
 				$receiver = $container->get(UserFactoryInterface::class)->loadUserById($user_id);
 
-				// Load language for messaging
-				$lang = $container->get(LanguageFactoryInterface::class)->createLanguage($user->getParam('admin_language', $defaultLanguage), $debug);
-				$lang->load('plg_workflow_notification');
-				$messageText = sprintf($lang->_('PLG_WORKFLOW_NOTIFICATION_ON_TRANSITION_MSG'), $title, $user->name, $lang->_($toStage));
-
-				if (!empty($transition->options['notification_text']))
+				if ($receiver->authorise('core.manage', 'com_message'))
 				{
-					$messageText .= '<br>' . htmlspecialchars($lang->_($transition->options['notification_text']));
+					// Load language for messaging
+					$lang = $container->get(LanguageFactoryInterface::class)
+						->createLanguage($user->getParam('admin_language', $defaultLanguage), $debug);
+					$lang->load('plg_workflow_notification');
+					$messageText = sprintf($lang->_('PLG_WORKFLOW_NOTIFICATION_ON_TRANSITION_MSG'),
+						$title,
+						$lang->_($transitionName),
+						$user->name,
+						$lang->_($toStage)
+					);
+
+					if (!empty($transition->options['notification_text']))
+					{
+						$messageText .= '<br>' . htmlspecialchars($lang->_($transition->options['notification_text']));
+					}
+
+					$message = [
+						'id' => 0,
+						'user_id_to' => $receiver->id,
+						'subject' => sprintf($lang->_('PLG_WORKFLOW_NOTIFICATION_ON_TRANSITION_SUBJECT'), $title),
+						'message' => $messageText,
+					];
+
+					$model_message->save($message);
 				}
-
-				$message = [
-					'id' => 0,
-					'user_id_to' => $receiver->id,
-					'subject' => sprintf($lang->_('PLG_WORKFLOW_NOTIFICATION_ON_TRANSITION_SUBJECT'), $modelName),
-					'message' => $messageText,
-				];
-
-				$model_message->save($message);
 			}
 		}
 
@@ -223,16 +238,16 @@ class PlgWorkflowNotification extends CMSPlugin implements SubscriberInterface
 
 	}
 
-	/*
+	/**
 	 * Get user_ids of receivers
 	 *
-	 * @param   object  $data    Object containing data about the transition
+	 * @param   object  $data  Object containing data about the transition
 	 *
 	 * @return   array  $userIds  The receivers
 	 *
 	 * @since   4.0.0
 	 */
-	private function getUsersFromGroup($data): Array
+	private function getUsersFromGroup($data): array
 	{
 		$users = [];
 
@@ -261,8 +276,6 @@ class PlgWorkflowNotification extends CMSPlugin implements SubscriberInterface
 			$model->setState('list.select', 'id');
 			$model->setState('filter.groups', $groups);
 			$model->setState('filter.state', 0);
-			$model->setState('filter.active', 1);
-			$model->setState('filter.sendEmail', 1);
 
 			// Ids from usergroups
 			$groupUsers = $model->getItems();
@@ -274,19 +287,18 @@ class PlgWorkflowNotification extends CMSPlugin implements SubscriberInterface
 		return array_unique(array_merge($users, $users2));
 	}
 
-
 	/**
 	 * Check if the current plugin should execute workflow related activities
 	 *
-	 * @param string $context
+	 * @param   string  $context
 	 *
-	 * @return boolean
+	 * @return   boolean
 	 *
 	 * @since   4.0.0
 	 */
 	protected function isSupported($context)
 	{
-		if (!$this->checkWhiteAndBlacklist($context))
+		if (!$this->checkAllowedAndForbiddenlist($context))
 		{
 			return false;
 		}
@@ -310,16 +322,16 @@ class PlgWorkflowNotification extends CMSPlugin implements SubscriberInterface
 		return true;
 	}
 
-	/*
+	/**
 	 * Remove receivers who have locked their message inputbox
 	 *
-	 * @param   array  $uerIds  The userIds which must be checked
+	 * @param   array  $userIds  The userIds which must be checked
 	 *
 	 * @return   array  users with active message input box
 	 *
 	 * @since   4.0.0
 	 */
-	private function removeLocked(array $userIds): Array
+	private function removeLocked(array $userIds): array
 	{
 		if (empty($userIds))
 		{

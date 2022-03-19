@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_banners
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2008 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -44,12 +44,12 @@ $params     = $this->state->params ?? new CMSObject;
 				?>
 				<?php if (empty($this->items)) : ?>
 					<div class="alert alert-info">
-						<span class="fas fa-info-circle" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('INFO'); ?></span>
+						<span class="icon-info-circle" aria-hidden="true"></span><span class="visually-hidden"><?php echo Text::_('INFO'); ?></span>
 						<?php echo Text::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
 					</div>
 				<?php else : ?>
 					<table class="table">
-						<caption id="captionTable" class="sr-only">
+						<caption class="visually-hidden">
 							<?php echo Text::_('COM_BANNERS_CLIENTS_TABLE_CAPTION'); ?>,
 							<span id="orderedBy"><?php echo Text::_('JGLOBAL_SORTED_BY'); ?> </span>,
 							<span id="filteredBy"><?php echo Text::_('JGLOBAL_FILTERED_BY'); ?></span>
@@ -69,20 +69,20 @@ $params     = $this->state->params ?? new CMSObject;
 									<?php echo HTMLHelper::_('searchtools.sort', 'COM_BANNERS_HEADING_CONTACT', 'a.contact', $listDirn, $listOrder); ?>
 								</th>
 								<th scope="col" class="w-3 text-center d-none d-md-table-cell">
-									<span class="fas fa-check" aria-hidden="true" title="<?php echo Text::_('COM_BANNERS_COUNT_PUBLISHED_ITEMS'); ?>"></span>
-									<span class="sr-only"><?php echo Text::_('COM_BANNERS_COUNT_PUBLISHED_ITEMS'); ?></span>
+									<span class="icon-check" aria-hidden="true" title="<?php echo Text::_('COM_BANNERS_COUNT_PUBLISHED_ITEMS'); ?>"></span>
+									<span class="visually-hidden"><?php echo Text::_('COM_BANNERS_COUNT_PUBLISHED_ITEMS'); ?></span>
 								</th>
 								<th scope="col" class="w-3 text-center d-none d-md-table-cell">
-									<span class="fas fa-times" aria-hidden="true" title="<?php echo Text::_('COM_BANNERS_COUNT_UNPUBLISHED_ITEMS'); ?>"></span>
-									<span class="sr-only"><?php echo Text::_('COM_BANNERS_COUNT_UNPUBLISHED_ITEMS'); ?></span>
+									<span class="icon-times" aria-hidden="true" title="<?php echo Text::_('COM_BANNERS_COUNT_UNPUBLISHED_ITEMS'); ?>"></span>
+									<span class="visually-hidden"><?php echo Text::_('COM_BANNERS_COUNT_UNPUBLISHED_ITEMS'); ?></span>
 								</th>
 								<th scope="col" class="w-3 text-center d-none d-md-table-cell">
-									<span class="fas fa-folder" aria-hidden="true" title="<?php echo Text::_('COM_BANNERS_COUNT_ARCHIVED_ITEMS'); ?>"></span>
-									<span class="sr-only"><?php echo Text::_('COM_BANNERS_COUNT_ARCHIVED_ITEMS'); ?></span>
+									<span class="icon-folder icon-fw" aria-hidden="true" title="<?php echo Text::_('COM_BANNERS_COUNT_ARCHIVED_ITEMS'); ?>"></span>
+									<span class="visually-hidden"><?php echo Text::_('COM_BANNERS_COUNT_ARCHIVED_ITEMS'); ?></span>
 								</th>
 								<th scope="col" class="w-3 text-center d-none d-md-table-cell">
-									<span class="fas fa-trash" aria-hidden="true" title="<?php echo Text::_('COM_BANNERS_COUNT_TRASHED_ITEMS'); ?>"></span>
-									<span class="sr-only"><?php echo Text::_('COM_BANNERS_COUNT_TRASHED_ITEMS'); ?></span>
+									<span class="icon-trash" aria-hidden="true" title="<?php echo Text::_('COM_BANNERS_COUNT_TRASHED_ITEMS'); ?>"></span>
+									<span class="visually-hidden"><?php echo Text::_('COM_BANNERS_COUNT_TRASHED_ITEMS'); ?></span>
 								</th>
 								<th scope="col" class="w-10 d-none d-md-table-cell">
 									<?php echo HTMLHelper::_('searchtools.sort', 'COM_BANNERS_HEADING_PURCHASETYPE', 'a.purchase_type', $listDirn, $listOrder); ?>
@@ -101,7 +101,7 @@ $params     = $this->state->params ?? new CMSObject;
 								?>
 								<tr class="row<?php echo $i % 2; ?>">
 									<td class="text-center">
-										<?php echo HTMLHelper::_('grid.id', $i, $item->id); ?>
+										<?php echo HTMLHelper::_('grid.id', $i, $item->id, false, 'cid', 'cb', $item->name); ?>
 									</td>
 									<td class="text-center">
 										<?php echo HTMLHelper::_('jgrid.published', $item->state, $i, 'clients.', $canChange); ?>
@@ -112,7 +112,7 @@ $params     = $this->state->params ?? new CMSObject;
 												<?php echo HTMLHelper::_('jgrid.checkedout', $i, $item->editor, $item->checked_out_time, 'clients.', $canCheckin); ?>
 											<?php endif; ?>
 											<?php if ($canEdit) : ?>
-												<a href="<?php echo Route::_('index.php?option=com_banners&task=client.edit&id=' . (int) $item->id); ?>" title="<?php echo Text::_('JACTION_EDIT'); ?> <?php echo $this->escape(addslashes($item->name)); ?>">
+												<a href="<?php echo Route::_('index.php?option=com_banners&task=client.edit&id=' . (int) $item->id); ?>" title="<?php echo Text::_('JACTION_EDIT'); ?> <?php echo $this->escape($item->name); ?>">
 													<?php echo $this->escape($item->name); ?></a>
 											<?php else : ?>
 												<?php echo $this->escape($item->name); ?>
@@ -122,21 +122,41 @@ $params     = $this->state->params ?? new CMSObject;
 									<td class="small d-none d-md-table-cell">
 										<?php echo $item->contact; ?>
 									</td>
-									<td class="text-center btns d-none d-lg-table-cell itemnumber">
-										<a class="btn <?php echo ($item->count_published > 0) ? 'btn-success' : 'btn-secondary'; ?>" href="<?php echo Route::_('index.php?option=com_banners&view=banners&filter[client_id]=' . (int) $item->id . '&filter[published]=1'); ?>">
-											<?php echo $item->count_published; ?></a>
+									<td class="text-center btns d-none d-md-table-cell itemnumber">
+										<a class="btn <?php echo ($item->count_published > 0) ? 'btn-success' : 'btn-secondary'; ?>" href="<?php echo Route::_('index.php?option=com_banners&view=banners&filter[client_id]=' . (int) $item->id . '&filter[published]=1'); ?>"
+										aria-describedby="tip-publish<?php echo $i; ?>">
+											<?php echo $item->count_published; ?>
+										</a>
+										<div role="tooltip" id="tip-publish<?php echo $i; ?>">
+											<?php echo Text::_('COM_BANNERS_COUNT_PUBLISHED_ITEMS'); ?>
+										</div>
 									</td>
-									<td class="text-center btns d-none d-lg-table-cell itemnumber">
-										<a class="btn <?php echo ($item->count_unpublished > 0) ? 'btn-danger' : 'btn-secondary'; ?>" href="<?php echo Route::_('index.php?option=com_banners&view=banners&filter[client_id]=' . (int) $item->id . '&filter[published]=0'); ?>">
-											<?php echo $item->count_unpublished; ?></a>
+									<td class="text-center btns d-none d-md-table-cell itemnumber">
+										<a class="btn <?php echo ($item->count_unpublished > 0) ? 'btn-danger' : 'btn-secondary'; ?>" href="<?php echo Route::_('index.php?option=com_banners&view=banners&filter[client_id]=' . (int) $item->id . '&filter[published]=0'); ?>"
+										aria-describedby="tip-unpublish<?php echo $i; ?>">
+											<?php echo $item->count_unpublished; ?>
+										</a>
+										<div role="tooltip" id="tip-unpublish<?php echo $i; ?>">
+											<?php echo Text::_('COM_BANNERS_COUNT_UNPUBLISHED_ITEMS'); ?>
+										</div>
 									</td>
-									<td class="text-center btns d-none d-lg-table-cell itemnumber">
-										<a class="btn <?php echo ($item->count_archived > 0) ? 'btn-info' : 'btn-secondary'; ?>" href="<?php echo Route::_('index.php?option=com_banners&view=banners&filter[client_id]=' . (int) $item->id . '&filter[published]=2'); ?>">
-											<?php echo $item->count_archived; ?></a>
+									<td class="text-center btns d-none d-md-table-cell itemnumber">
+										<a class="btn <?php echo ($item->count_archived > 0) ? 'btn-info' : 'btn-secondary'; ?>" href="<?php echo Route::_('index.php?option=com_banners&view=banners&filter[client_id]=' . (int) $item->id . '&filter[published]=2'); ?>"
+										aria-describedby="tip-archived<?php echo $i; ?>">
+											<?php echo $item->count_archived; ?>
+										</a>
+										<div role="tooltip" id="tip-archived<?php echo $i; ?>">
+											<?php echo Text::_('COM_BANNERS_COUNT_ARCHIVED_ITEMS'); ?>
+										</div>
 									</td>
-									<td class="text-center btns d-none d-lg-table-cell itemnumber">
-										<a class="btn <?php echo ($item->count_trashed > 0) ? 'btn-inverse' : 'btn-secondary'; ?>" href="<?php echo Route::_('index.php?option=com_banners&view=banners&filter[client_id]=' . (int) $item->id . '&filter[published]=-2'); ?>">
-											<?php echo $item->count_trashed; ?></a>
+									<td class="text-center btns d-none d-md-table-cell itemnumber">
+										<a class="btn <?php echo ($item->count_trashed > 0) ? 'btn-dark' : 'btn-secondary'; ?>" href="<?php echo Route::_('index.php?option=com_banners&view=banners&filter[client_id]=' . (int) $item->id . '&filter[published]=-2'); ?>"
+										aria-describedby="tip-trashed<?php echo $i; ?>">
+											<?php echo $item->count_trashed; ?>
+										</a>
+										<div role="tooltip" id="tip-trashed<?php echo $i; ?>">
+											<?php echo Text::_('COM_BANNERS_COUNT_TRASHED_ITEMS'); ?>
+										</div>
 									</td>
 									<td class="small d-none d-md-table-cell">
 										<?php if ($item->purchase_type < 0) : ?>

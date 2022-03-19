@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_tags
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2013 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -50,7 +50,6 @@ class TagModel extends ListModel
 	 * @param   array                $config   An optional associative array of configuration settings.
 	 * @param   MVCFactoryInterface  $factory  The factory.
 	 *
-	 * @see     \JControllerLegacy
 	 * @since   1.6
 	 */
 	public function __construct($config = array(), MVCFactoryInterface $factory = null)
@@ -121,7 +120,6 @@ class TagModel extends ListModel
 						break;
 
 					default:
-					case 'published':
 						$item->displayDate = ($item->core_publish_up == 0) ? $item->core_created_time : $item->core_publish_up;
 						break;
 				}
@@ -286,7 +284,7 @@ class TagModel extends ListModel
 			}
 
 			// Get a level row instance.
-			/** @var \Joomla\Component\Tags\Administrator\Table\Tag $table */
+			/** @var \Joomla\Component\Tags\Administrator\Table\TagTable $table */
 			$table = $this->getTable();
 
 			$idsArray = explode(',', $pk);
@@ -351,7 +349,7 @@ class TagModel extends ListModel
 		{
 			$pk    = (!empty($pk)) ? $pk : (int) $this->getState('tag.id');
 
-			/** @var \Joomla\Component\Tags\Administrator\Table\Tag $table */
+			/** @var \Joomla\Component\Tags\Administrator\Table\TagTable $table */
 			$table = $this->getTable();
 			$table->hit($pk);
 

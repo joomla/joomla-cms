@@ -2,7 +2,7 @@
 <metadata>
 	<layout title="COM_CONTENT_CATEGORY_VIEW_DEFAULT_TITLE" option="COM_CONTENT_CATEGORY_VIEW_DEFAULT_OPTION">
 		<help
-			key = "JHELP_MENUS_MENU_ITEM_ARTICLE_CATEGORY_LIST"
+			key = "Menu_Item:_Category_List"
 		/>
 		<message>
 			<![CDATA[COM_CONTENT_CATEGORY_VIEW_DEFAULT_DESC]]>
@@ -45,7 +45,7 @@
 				type="list"
 				label="JGLOBAL_SHOW_CATEGORY_TITLE"
 				useglobal="true"
-				class="custom-select-color-state"
+				class="form-select-color-state"
 				validate="options"
 				>
 				<option value="0">JHIDE</option>
@@ -57,7 +57,7 @@
 				type="list"
 				label="JGLOBAL_SHOW_CATEGORY_DESCRIPTION_LABEL"
 				useglobal="true"
-				class="custom-select-color-state"
+				class="form-select-color-state"
 				validate="options"
 				>
 				<option value="0">JHIDE</option>
@@ -69,7 +69,7 @@
 				type="list"
 				label="JGLOBAL_SHOW_CATEGORY_IMAGE_LABEL"
 				useglobal="true"
-				class="custom-select-color-state"
+				class="form-select-color-state"
 				validate="options"
 				>
 				<option value="0">JHIDE</option>
@@ -97,7 +97,7 @@
 				type="list"
 				label="JGLOBAL_SHOW_EMPTY_CATEGORIES_LABEL"
 				useglobal="true"
-				class="custom-select-color-state"
+				class="form-select-color-state"
 				validate="options"
 				>
 				<option value="0">JHIDE</option>
@@ -109,7 +109,7 @@
 				type="list"
 				label="COM_CONTENT_NO_ARTICLES_LABEL"
 				useglobal="true"
-				class="custom-select-color-state"
+				class="form-select-color-state"
 				validate="options"
 				>
 				<option value="0">JHIDE</option>
@@ -119,9 +119,9 @@
 			<field
 				name="show_category_heading_title_text"
 				type="list"
-				label="JGLOBAL_SHOW_CATEGORY_HEADING_TITLE_TEXT_LABEL"
+				label="JGLOBAL_SHOW_SUBCATEGORY_HEADING"
 				useglobal="true"
-				class="custom-select-color-state"
+				class="form-select-color-state"
 				validate="options"
 				>
 				<option value="0">JHIDE</option>
@@ -133,7 +133,7 @@
 				type="list"
 				label="JGLOBAL_SHOW_SUBCATEGORIES_DESCRIPTION_LABEL"
 				useglobal="true"
-				class="custom-select-color-state"
+				class="form-select-color-state"
 				validate="options"
 				>
 				<option value="0">JHIDE</option>
@@ -145,7 +145,7 @@
 				type="list"
 				label="COM_CONTENT_NUMBER_CATEGORY_ITEMS_LABEL"
 				useglobal="true"
-				class="custom-select-color-state"
+				class="form-select-color-state"
 				validate="options"
 				>
 				<option value="0">JHIDE</option>
@@ -157,29 +157,24 @@
 				type="list"
 				label="COM_CONTENT_FIELD_SHOW_CAT_TAGS_LABEL"
 				useglobal="true"
-				class="custom-select-color-state"
+				class="form-select-color-state"
 				validate="options"
 				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
 			</field>
 
-			<field
-				name="page_subheading"
-				type="text"
-				label="JGLOBAL_SUBHEADING_LABEL"
-				size="20"
-			/>
-
 		</fieldset>
 
-		<fieldset name="advanced" label="JGLOBAL_LIST_LAYOUT_OPTIONS">
+		<fieldset name="advanced" label="JGLOBAL_LIST_LAYOUT_OPTIONS"
+			addfieldprefix="Joomla\Component\Content\Administrator\Field"
+		>
 			<field
 				name="show_pagination_limit"
 				type="list"
 				label="JGLOBAL_DISPLAY_SELECT_LABEL"
 				useglobal="true"
-				class="custom-select-color-state"
+				class="form-select-color-state"
 				validate="options"
 				>
 				<option value="0">JHIDE</option>
@@ -196,7 +191,7 @@
 				<option value="hide">JHIDE</option>
 				<option value="title">JGLOBAL_TITLE</option>
 				<option value="author">JAUTHOR</option>
-				<option value="hits">JGLOBAL_HITS</option>
+				<option value="hits" requires="hits">JGLOBAL_HITS</option>
 	 			<option value="tag">JTAG</option>
 	 			<option value="month">JMONTH_PUBLISHED</option>
 			</field>
@@ -206,7 +201,7 @@
 				type="list"
 				label="JGLOBAL_SHOW_HEADINGS_LABEL"
 				useglobal="true"
-				class="custom-select-color-state"
+				class="form-select-color-state"
 				validate="options"
 				>
 				<option value="0">JHIDE</option>
@@ -231,7 +226,6 @@
 				type="text"
 				label="JGLOBAL_DATE_FORMAT_LABEL"
 				description="JGLOBAL_DATE_FORMAT_DESC"
-				size="15"
 				useglobal="true"
 			/>
 
@@ -240,7 +234,7 @@
 				type="list"
 				label="JGLOBAL_LIST_HITS_LABEL"
 				useglobal="true"
-				class="custom-select-color-state"
+				class="form-select-color-state"
 				validate="options"
 				>
 				<option value="0">JHIDE</option>
@@ -252,7 +246,7 @@
 				type="list"
 				label="JGLOBAL_LIST_AUTHOR_LABEL"
 				useglobal="true"
-				class="custom-select-color-state"
+				class="form-select-color-state"
 				validate="options"
 				>
 				<option value="0">JHIDE</option>
@@ -261,10 +255,10 @@
 
 			<field
 				name="list_show_votes"
-				type="list"
+				type="votelist"
 				label="JGLOBAL_LIST_VOTES_LABEL"
-				layout="joomla.form.field.radio.switcher"
 				useglobal="true"
+				class="form-select-color-state"
 				validate="options"
 				>
 				<option value="0" requires="vote">JHIDE</option>
@@ -273,10 +267,10 @@
 
 			<field
 				name="list_show_ratings"
-				type="list"
+				type="votelist"
 				label="JGLOBAL_LIST_RATINGS_LABEL"
-				layout="joomla.form.field.radio.switcher"
 				useglobal="true"
+				class="form-select-color-state"
 				validate="options"
 				>
 				<option value="0" requires="vote">JHIDE</option>
@@ -316,8 +310,8 @@
 				<option value="ralpha">JGLOBAL_TITLE_REVERSE_ALPHABETICAL</option>
 				<option value="author">JGLOBAL_AUTHOR_ALPHABETICAL</option>
 				<option value="rauthor">JGLOBAL_AUTHOR_REVERSE_ALPHABETICAL</option>
-				<option value="hits">JGLOBAL_MOST_HITS</option>
-				<option value="rhits">JGLOBAL_LEAST_HITS</option>
+				<option value="hits" requires="hits">JGLOBAL_MOST_HITS</option>
+				<option value="rhits" requires="hits">JGLOBAL_LEAST_HITS</option>
 				<option value="random">JGLOBAL_RANDOM_ORDER</option>
 				<option value="order">JGLOBAL_ORDERING</option>
 				<option	value="rorder">JGLOBAL_REVERSE_ORDERING</option>
@@ -344,7 +338,7 @@
 				type="list"
 				label="JGLOBAL_PAGINATION_LABEL"
 				useglobal="true"
-				class="custom-select-color-state"
+				class="form-select-color-state"
 				validate="options"
 				>
 				<option value="0">JHIDE</option>
@@ -357,7 +351,7 @@
 				type="list"
 				label="JGLOBAL_PAGINATION_RESULTS_LABEL"
 				useglobal="true"
-				class="custom-select-color-state"
+				class="form-select-color-state"
 				validate="options"
 				>
 				<option value="0">JHIDE</option>
@@ -368,7 +362,8 @@
 				name="display_num"
 				type="list"
 				label="JGLOBAL_NUMBER_ITEMS_LIST_LABEL"
-				default="10"
+				default=""
+				useglobal="true"
 				validate="options"
 				>
 				<option value="5">J5</option>
@@ -402,10 +397,11 @@
 		>
 
 			<field
-				name="article_layout" type="componentlayout"
+				name="article_layout"
+				type="componentlayout"
 				label="JGLOBAL_FIELD_LAYOUT_LABEL"
 				description="JGLOBAL_FIELD_LAYOUT_DESC"
-				class="custom-select"
+				class="form-select"
 				menuitems="true"
 				extension="com_content"
 				view="article"
@@ -416,7 +412,7 @@
 				type="list"
 				label="JGLOBAL_SHOW_TITLE_LABEL"
 				useglobal="true"
-				class="custom-select-color-state"
+				class="form-select-color-state"
 				validate="options"
 				>
 				<option value="0">JHIDE</option>
@@ -428,7 +424,7 @@
 				type="list"
 				label="JGLOBAL_LINKED_TITLES_LABEL"
 				useglobal="true"
-				class="custom-select-color-state"
+				class="form-select-color-state"
 				validate="options"
 				>
 				<option value="0">JNO</option>
@@ -440,7 +436,7 @@
 				type="list"
 				label="JGLOBAL_SHOW_INTRO_LABEL"
 				useglobal="true"
-				class="custom-select-color-state"
+				class="form-select-color-state"
 				validate="options"
 				>
 				<option value="0">JHIDE</option>
@@ -452,7 +448,7 @@
 				type="list"
 				label="JGLOBAL_SHOW_CATEGORY_LABEL"
 				useglobal="true"
-				class="custom-select-color-state"
+				class="form-select-color-state"
 				validate="options"
 				>
 				<option value="0">JHIDE</option>
@@ -464,7 +460,7 @@
 				type="list"
 				label="JGLOBAL_LINK_CATEGORY_LABEL"
 				useglobal="true"
-				class="custom-select-color-state"
+				class="form-select-color-state"
 				validate="options"
 				>
 				<option value="0">JNO</option>
@@ -476,7 +472,7 @@
 				type="list"
 				label="JGLOBAL_SHOW_PARENT_CATEGORY_LABEL"
 				useglobal="true"
-				class="custom-select-color-state"
+				class="form-select-color-state"
 				validate="options"
 				>
 				<option value="0">JHIDE</option>
@@ -488,7 +484,7 @@
 				type="list"
 				label="JGLOBAL_LINK_PARENT_CATEGORY_LABEL"
 				useglobal="true"
-				class="custom-select-color-state"
+				class="form-select-color-state"
 				validate="options"
 				>
 				<option value="0">JNO</option>
@@ -500,7 +496,7 @@
 				type="assoc"
 				label="JGLOBAL_SHOW_ASSOCIATIONS_LABEL"
 				useglobal="true"
-				class="custom-select-color-state"
+				class="form-select-color-state"
 				>
 				<option value="1">JSHOW</option>
 				<option value="0">JHIDE</option>
@@ -511,7 +507,7 @@
 				type="list"
 				label="JGLOBAL_SHOW_AUTHOR_LABEL"
 				useglobal="true"
-				class="custom-select-color-state"
+				class="form-select-color-state"
 				validate="options"
 				>
 				<option value="0">JHIDE</option>
@@ -523,7 +519,7 @@
 				type="list"
 				label="JGLOBAL_LINK_AUTHOR_LABEL"
 				useglobal="true"
-				class="custom-select-color-state"
+				class="form-select-color-state"
 				validate="options"
 				>
 				<option value="0">JNO</option>
@@ -535,7 +531,7 @@
 				type="list"
 				label="JGLOBAL_SHOW_CREATE_DATE_LABEL"
 				useglobal="true"
-				class="custom-select-color-state"
+				class="form-select-color-state"
 				validate="options"
 				>
 				<option value="0">JHIDE</option>
@@ -547,7 +543,7 @@
 				type="list"
 				label="JGLOBAL_SHOW_MODIFY_DATE_LABEL"
 				useglobal="true"
-				class="custom-select-color-state"
+				class="form-select-color-state"
 				validate="options"
 				>
 				<option value="0">JHIDE</option>
@@ -559,7 +555,7 @@
 				type="list"
 				label="JGLOBAL_SHOW_PUBLISH_DATE_LABEL"
 				useglobal="true"
-				class="custom-select-color-state"
+				class="form-select-color-state"
 				validate="options"
 				>
 				<option value="0">JHIDE</option>
@@ -571,7 +567,7 @@
 				type="list"
 				label="JGLOBAL_SHOW_NAVIGATION_LABEL"
 				useglobal="true"
-				class="custom-select-color-state"
+				class="form-select-color-state"
 				validate="options"
 				>
 				<option value="0">JHIDE</option>
@@ -580,10 +576,10 @@
 
 			<field
 				name="show_vote"
-				type="list"
+				type="votelist"
 				label="JGLOBAL_SHOW_VOTE_LABEL"
 				useglobal="true"
-				class="custom-select-color-state"
+				class="form-select-color-state"
 				validate="options"
 				>
 				<option value="0">JHIDE</option>
@@ -596,7 +592,7 @@
 				label="JGLOBAL_SHOW_READMORE_LABEL"
 				description="JGLOBAL_SHOW_READMORE_DESC"
 				useglobal="true"
-				class="custom-select-color-state"
+				class="form-select-color-state"
 				validate="options"
 				>
 				<option value="0">JHIDE</option>
@@ -608,7 +604,7 @@
 				type="list"
 				label="JGLOBAL_SHOW_READMORE_TITLE_LABEL"
 				useglobal="true"
-				class="custom-select-color-state"
+				class="form-select-color-state"
 				validate="options"
 				>
 				<option value="0">JHIDE</option>
@@ -620,7 +616,7 @@
 				type="list"
 				label="JGLOBAL_SHOW_HITS_LABEL"
 				useglobal="true"
-				class="custom-select-color-state"
+				class="form-select-color-state"
 				validate="options"
 				>
 				<option value="0">JHIDE</option>
@@ -633,7 +629,7 @@
 				label="JGLOBAL_SHOW_UNAUTH_LINKS_LABEL"
 				description="JGLOBAL_SHOW_UNAUTH_LINKS_DESC"
 				useglobal="true"
-				class="custom-select-color-state"
+				class="form-select-color-state"
 				validate="options"
 				>
 				<option value="0">JNO</option>
@@ -647,7 +643,7 @@
 				type="list"
 				label="JGLOBAL_SHOW_FEED_LINK_LABEL"
 				useglobal="true"
-				class="custom-select-color-state"
+				class="form-select-color-state"
 				validate="options"
 				>
 				<option value="0">JHIDE</option>

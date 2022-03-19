@@ -31,7 +31,7 @@ class PasswordStrength {
     this.uppercase = parseInt(settings.uppercase, 10) || 0;
     this.numbers = parseInt(settings.numbers, 10) || 0;
     this.special = parseInt(settings.special, 10) || 0;
-    this.length = parseInt(settings.length, 10) || 4;
+    this.length = parseInt(settings.length, 10) || 12;
   }
 
   getScore(value) {
@@ -48,8 +48,12 @@ class PasswordStrength {
     score += this.constructor.calc(value, /[A-Z]/g, this.uppercase, mods);
     score += this.constructor.calc(value, /[0-9]/g, this.numbers, mods);
     // eslint-disable-next-line no-useless-escape
-    score += this.constructor.calc(value, /[\$\!\#\?\=\;\:\*\-\_\€\%\&\(\)\`\´]/g,
-      this.special, mods);
+    score += this.constructor.calc(
+      value,
+      /[$!#?=;:*\-_€%&()`´]/g,
+      this.special,
+      mods,
+    );
 
     if (mods === 1) {
       score += value.length > this.length
@@ -78,7 +82,7 @@ class PasswordStrength {
 }
 
 /**
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2020 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 ((Joomla, document) => {
@@ -96,27 +100,17 @@ class PasswordStrength {
       uppercase: minUppercase || 0,
       numbers: minIntegers || 0,
       special: minSymbols || 0,
-      length: minLength || 4,
+      length: minLength || 12,
     });
 
     const score = strength.getScore(element.value);
     const i = meter.getAttribute('id').replace(/^\D+/g, '');
     const label = element.parentNode.parentNode.querySelector(`#password-${i}`);
 
-    if (score > 79) {
-      label.innerText = Joomla.JText._('JFIELD_PASSWORD_INDICATE_COMPLETE');
-    }
-    if (score > 64 && score < 80) {
-      label.innerText = Joomla.JText._('JFIELD_PASSWORD_INDICATE_INCOMPLETE');
-    }
-    if (score > 50 && score < 65) {
-      label.innerText = Joomla.JText._('JFIELD_PASSWORD_INDICATE_INCOMPLETE');
-    }
-    if (score > 40 && score < 51) {
-      label.innerText = Joomla.JText._('JFIELD_PASSWORD_INDICATE_INCOMPLETE');
-    }
-    if (score < 41) {
-      label.innerText = Joomla.JText._('JFIELD_PASSWORD_INDICATE_INCOMPLETE');
+    if (score === 100) {
+      label.innerText = Joomla.Text._('JFIELD_PASSWORD_INDICATE_COMPLETE');
+    } else {
+      label.innerText = Joomla.Text._('JFIELD_PASSWORD_INDICATE_INCOMPLETE');
     }
     meter.value = score;
 
@@ -143,8 +137,8 @@ class PasswordStrength {
       meter.setAttribute('min', 0);
       meter.setAttribute('max', 100);
       meter.setAttribute('low', 40);
-      meter.setAttribute('high', 60);
-      meter.setAttribute('optimum', 80);
+      meter.setAttribute('high', 99);
+      meter.setAttribute('optimum', 100);
       meter.value = initialVal;
 
       const label = document.createElement('div');
@@ -181,7 +175,7 @@ class PasswordStrength {
           uppercase: minUppercase || 0,
           numbers: minIntegers || 0,
           special: minSymbols || 0,
-          length: minLength || 4,
+          length: minLength || 12,
         });
 
         const score = strength.getScore(value);

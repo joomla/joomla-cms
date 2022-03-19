@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<extension version="4.0" type="plugin" group="user" method="upgrade">
+<extension type="plugin" group="user" method="upgrade">
 	<name>plg_user_token</name>
 	<author>Joomla! Project</author>
 	<creationDate>November 2019</creationDate>
-	<copyright>(C) 2005 - 2020 Open Source Matters. All rights reserved.</copyright>
+	<copyright>(C) 2020 Open Source Matters, Inc.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
@@ -16,8 +16,8 @@
 		<folder>src</folder>
 	</files>
 	<languages>
-		<language tag="en-GB">plg_user_token.ini</language>
-		<language tag="en-GB">plg_user_token.sys.ini</language>
+		<language tag="en-GB">language/en-GB/plg_user_token.ini</language>
+		<language tag="en-GB">language/en-GB/plg_user_token.sys.ini</language>
 	</languages>
 	<config>
 		<fields name="params">
@@ -27,9 +27,10 @@
 					type="UserGroupList"
 					label="PLG_USER_TOKEN_ALLOWEDUSERGROUPS_LABEL"
 					description="PLG_USER_TOKEN_ALLOWEDUSERGROUPS_DESC"
-					checksuperusergroup="1"
-					default="8"
+					layout="joomla.form.field.list-fancy-select"
 					multiple="true"
+					checksuperusergroup="0"
+					default="8"
 				/>
 			</fieldset>
 		</fields>

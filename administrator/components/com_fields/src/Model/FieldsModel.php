@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_fields
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2016 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -11,7 +11,8 @@ namespace Joomla\Component\Fields\Administrator\Model;
 
 \defined('_JEXEC') or die;
 
-use Joomla\CMS\Categories\Categories;
+use Joomla\CMS\Categories\CategoryServiceInterface;
+use Joomla\CMS\Categories\SectionNotFoundException;
 use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\ListModel;
@@ -48,6 +49,7 @@ class FieldsModel extends ListModel
 				'state', 'a.state',
 				'access', 'a.access',
 				'access_level',
+				'only_use_in_subform',
 				'language', 'a.language',
 				'ordering', 'a.ordering',
 				'checked_out', 'a.checked_out',
@@ -120,14 +122,15 @@ class FieldsModel extends ListModel
 		$id .= ':' . $this->getState('filter.state');
 		$id .= ':' . $this->getState('filter.group_id');
 		$id .= ':' . serialize($this->getState('filter.language'));
+		$id .= ':' . $this->getState('filter.only_use_in_subform');
 
 		return parent::getStoreId($id);
 	}
 
 	/**
-	 * Method to get a JDatabaseQuery object for retrieving the data set from a database.
+	 * Method to get a DatabaseQuery object for retrieving the data set from a database.
 	 *
-	 * @return  \JDatabaseQuery   A JDatabaseQuery object to retrieve the data set.
+	 * @return  \Joomla\Database\DatabaseQuery   A DatabaseQuery object to retrieve the data set.
 	 *
 	 * @since   3.7.0
 	 */
@@ -146,7 +149,7 @@ class FieldsModel extends ListModel
 				'DISTINCT a.id, a.title, a.name, a.checked_out, a.checked_out_time, a.note' .
 				', a.state, a.access, a.created_time, a.created_user_id, a.ordering, a.language' .
 				', a.fieldparams, a.params, a.type, a.default_value, a.context, a.group_id' .
-				', a.label, a.description, a.required'
+				', a.label, a.description, a.required, a.only_use_in_subform'
 			)
 		);
 		$query->from('#__fields AS a');
@@ -199,14 +202,43 @@ class FieldsModel extends ListModel
 
 			if ($parts)
 			{
-				// Get the category
-				$cat = Categories::getInstance(str_replace('com_', '', $parts[0]) . '.' . $parts[1]);
+				// Get the categories for this component (and optionally this section, if available)
+				$cat = (
+					function () use ($parts) {
+						// Get the CategoryService for this component
+						$componentObject = $this->bootComponent($parts[0]);
 
-				// If there is no category for the component and section, so check the component only
-				if (!$cat)
-				{
-					$cat = Categories::getInstance(str_replace('com_', '', $parts[0]));
-				}
+						if (!$componentObject instanceof CategoryServiceInterface)
+						{
+							// No CategoryService -> no categories
+							return null;
+						}
+
+						$cat = null;
+
+						// Try to get the categories for this component and section
+						try
+						{
+							$cat = $componentObject->getCategory([], $parts[1] ?: '');
+						}
+						catch (SectionNotFoundException $e)
+						{
+							// Not found for component and section -> Now try once more without the section, so only component
+							try
+							{
+								$cat = $componentObject->getCategory();
+							}
+							catch (SectionNotFoundException $e)
+							{
+								// If we haven't found it now, return (no categories available for this component)
+								return null;
+							}
+						}
+
+						// So we found categories for at least the component, return them
+						return $cat;
+					}
+				)();
 
 				if ($cat)
 				{
@@ -240,7 +272,7 @@ class FieldsModel extends ListModel
 				$query->where(
 					'(' .
 						$db->quoteName('fc.category_id') . ' IS NULL OR ' .
-						$db->quoteName('fc.category_id') . ' IN (' . implode(',', $query->bindArray($categories, ParameterType::INTEGER)) . ')' .
+						$db->quoteName('fc.category_id') . ' IN (' . implode(',', $query->bindArray(array_values($categories), ParameterType::INTEGER)) . ')' .
 					')'
 				);
 			}
@@ -316,6 +348,15 @@ class FieldsModel extends ListModel
 			$groupId = (int) $groupId;
 			$query->where($db->quoteName('a.group_id') . ' = :groupid')
 				->bind(':groupid', $groupId, ParameterType::INTEGER);
+		}
+
+		$onlyUseInSubForm = $this->getState('filter.only_use_in_subform');
+
+		if (is_numeric($onlyUseInSubForm))
+		{
+			$onlyUseInSubForm = (int) $onlyUseInSubForm;
+			$query->where($db->quoteName('a.only_use_in_subform') . ' = :only_use_in_subform')
+				->bind(':only_use_in_subform', $onlyUseInSubForm, ParameterType::INTEGER);
 		}
 
 		// Filter by search in title
@@ -408,7 +449,7 @@ class FieldsModel extends ListModel
 	 * @param   array    $data      data
 	 * @param   boolean  $loadData  load current data
 	 *
-	 * @return  \JForm|false  the JForm object or false
+	 * @return  \Joomla\CMS\Form\Form|bool  the Form object or false
 	 *
 	 * @since   3.7.0
 	 */

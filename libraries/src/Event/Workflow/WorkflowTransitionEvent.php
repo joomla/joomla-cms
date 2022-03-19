@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2020 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -11,8 +11,6 @@ namespace Joomla\CMS\Event\Workflow;
 \defined('JPATH_PLATFORM') or die;
 
 use BadMethodCallException;
-use Joomla\CMS\Event\AbstractImmutableEvent;
-use function explode;
 
 /**
  * Event class for Workflow Functionality Used events

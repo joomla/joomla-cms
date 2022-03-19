@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_admin
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2015 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  *
  * This file contains post-installation message handling for the checks if the installation is
@@ -37,7 +37,7 @@ function admin_postinstall_languageaccess340_condition()
 
 	if (isset($numRows) && $numRows != 0)
 	{
-		// We have rows here so we have at minumum one row with access set to 0
+		// We have rows here so we have at minimum one row with access set to 0
 		return true;
 	}
 

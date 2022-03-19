@@ -3,16 +3,19 @@
  * @package     Joomla.Site
  * @subpackage  com_tags
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2013 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
 use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Layout\LayoutHelper;
 
 // Note that there are certain parts of this layout used only when there is exactly one tag.
-$n = count($this->items);
+$n    = count($this->items);
+$htag = $this->params->get('show_page_heading') ? 'h2' : 'h1';
+
 ?>
 
 <div class="com-tags-tag-list tag-category">
@@ -24,9 +27,9 @@ $n = count($this->items);
 	<?php endif; ?>
 
 	<?php if ($this->params->get('show_tag_title', 1)) : ?>
-		<h2>
+		<<?php echo $htag; ?>>
 			<?php echo HTMLHelper::_('content.prepare', $this->tags_title, '', 'com_tag.tag'); ?>
-		</h2>
+		</<?php echo $htag; ?>>
 	<?php endif; ?>
 
 	<?php // We only show a tag description if there is a single tag. ?>
@@ -34,7 +37,7 @@ $n = count($this->items);
 		<div class="com-tags-tag-list__description category-desc">
 			<?php $images = json_decode($this->item[0]->images); ?>
 			<?php if ($this->params->get('tag_list_show_tag_image', 1) == 1 && !empty($images->image_fulltext)) : ?>
-				<img src="<?php echo htmlspecialchars($images->image_fulltext, ENT_COMPAT, 'UTF-8'); ?>">
+				<?php echo LayoutHelper::render('joomla.html.image', ['src' => $images->image_fulltext]); ?>
 			<?php endif; ?>
 			<?php if ($this->params->get('tag_list_show_tag_description') == 1 && $this->item[0]->description) : ?>
 				<?php echo HTMLHelper::_('content.prepare', $this->item[0]->description, '', 'com_tags.tag'); ?>
@@ -45,7 +48,7 @@ $n = count($this->items);
 	<?php // If there are multiple tags and a description or image has been supplied use that. ?>
 	<?php if ($this->params->get('tag_list_show_tag_description', 1) || $this->params->get('show_description_image', 1)) : ?>
 		<?php if ($this->params->get('show_description_image', 1) == 1 && $this->params->get('tag_list_image')) : ?>
-			<img src="<?php echo $this->params->get('tag_list_image'); ?>">
+			<?php echo LayoutHelper::render('joomla.html.image', ['src' => $this->params->get('tag_list_image'), 'alt' => empty($this->params->get('tag_list_image_alt')) && empty($this->params->get('tag_list_image_alt_empty')) ? false : $this->params->get('tag_list_image_alt')]); ?>
 		<?php endif; ?>
 		<?php if ($this->params->get('tag_list_description', '') > '') : ?>
 			<?php echo HTMLHelper::_('content.prepare', $this->params->get('tag_list_description'), '', 'com_tags.tag'); ?>

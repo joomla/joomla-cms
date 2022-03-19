@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2006 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -15,7 +15,6 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
-use Joomla\CMS\Log\Log;
 use Joomla\CMS\Router\Route;
 
 /**
@@ -336,7 +335,7 @@ class Pagination
 
 		$chromePath = JPATH_THEMES . '/' . $this->app->getTemplate() . '/html/pagination.php';
 
-		if (file_exists($chromePath))
+		if (is_file($chromePath))
 		{
 			include_once $chromePath;
 		}
@@ -512,13 +511,16 @@ class Pagination
 		// Keep B/C for overrides done with chromes
 		$chromePath = JPATH_THEMES . '/' . $this->app->getTemplate() . '/html/pagination.php';
 
-		if (file_exists($chromePath))
+		if (is_file($chromePath))
 		{
 			include_once $chromePath;
 
 			if (\function_exists('pagination_list_footer'))
 			{
-				Log::add('pagination_list_footer is deprecated. Use the layout joomla.pagination.links instead.', Log::WARNING, 'deprecated');
+				@trigger_error(
+					'pagination_list_footer is deprecated. Use the layout joomla.pagination.links instead.',
+					E_USER_DEPRECATED
+				);
 
 				$list = array(
 					'prefix'       => $this->prefix,
@@ -567,7 +569,7 @@ class Pagination
 				'select.genericlist',
 				$limits,
 				$this->prefix . 'limit',
-				'class="form-control" onchange="Joomla.submitform();"',
+				'class="form-select" onchange="Joomla.submitform();"',
 				'value',
 				'text',
 				$selected
@@ -579,7 +581,7 @@ class Pagination
 				'select.genericlist',
 				$limits,
 				$this->prefix . 'limit',
-				'class="form-control" onchange="this.form.submit()"',
+				'class="form-select" onchange="this.form.submit()"',
 				'value',
 				'text',
 				$selected

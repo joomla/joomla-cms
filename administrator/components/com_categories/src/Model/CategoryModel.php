@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_categories
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2008 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -15,7 +15,6 @@ use Joomla\CMS\Access\Rules;
 use Joomla\CMS\Association\AssociationServiceInterface;
 use Joomla\CMS\Categories\CategoryServiceInterface;
 use Joomla\CMS\Component\ComponentHelper;
-use Joomla\CMS\Date\Date;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Form\Form;
@@ -26,6 +25,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\CMS\Table\Category;
 use Joomla\CMS\UCM\UCMType;
 use Joomla\CMS\Versioning\VersionableModelTrait;
 use Joomla\Component\Categories\Administrator\Helper\CategoriesHelper;
@@ -68,10 +68,18 @@ class CategoryModel extends AdminModel
 	protected $associationsContext = 'com_categories.item';
 
 	/**
+	 * Does an association exist? Caches the result of getAssoc().
+	 *
+	 * @var   boolean|null
+	 * @since 3.10.4
+	 */
+	private $hasAssociation;
+
+	/**
 	 * Override parent constructor.
 	 *
-	 * @param   array                $config   An optional associative array of configuration settings.
-	 * @param   MVCFactoryInterface  $factory  The factory.
+	 * @param   array                     $config   An optional associative array of configuration settings.
+	 * @param   MVCFactoryInterface|null  $factory  The factory.
 	 *
 	 * @see     \Joomla\CMS\MVC\Model\BaseDatabaseModel
 	 * @since   3.2
@@ -142,7 +150,7 @@ class CategoryModel extends AdminModel
 	 * @param   string  $prefix  The class prefix. Optional.
 	 * @param   array   $config  Configuration array for model. Optional.
 	 *
-	 * @return  \Joomla\CMS\Table\Table  A JTable object
+	 * @return  \Joomla\CMS\Table\Table  A Table object
 	 *
 	 * @since   1.6
 	 */
@@ -179,7 +187,7 @@ class CategoryModel extends AdminModel
 		$this->setState('category.component', $parts[0]);
 
 		// Extract the optional section name
-		$this->setState('category.section', (count($parts) > 1) ? $parts[1] : null);
+		$this->setState('category.section', (\count($parts) > 1) ? $parts[1] : null);
 
 		// Load the parameters.
 		$params = ComponentHelper::getParams('com_categories');
@@ -209,31 +217,6 @@ class CategoryModel extends AdminModel
 			// Convert the metadata field to an array.
 			$registry = new Registry($result->metadata);
 			$result->metadata = $registry->toArray();
-
-			// Convert the created and modified dates to local user time for display in the form.
-			$tz = new \DateTimeZone(Factory::getApplication()->get('offset'));
-
-			if ((int) $result->created_time)
-			{
-				$date = new Date($result->created_time);
-				$date->setTimezone($tz);
-				$result->created_time = $date->toSql(true);
-			}
-			else
-			{
-				$result->created_time = null;
-			}
-
-			if ((int) $result->modified_time)
-			{
-				$date = new Date($result->modified_time);
-				$date->setTimezone($tz);
-				$result->modified_time = $date->toSql(true);
-			}
-			else
-			{
-				$result->modified_time = null;
-			}
 
 			if (!empty($result->id))
 			{
@@ -265,7 +248,7 @@ class CategoryModel extends AdminModel
 	 * @param   array    $data      Data for the form.
 	 * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
 	 *
-	 * @return  \JForm|boolean  A JForm object on success, false on failure
+	 * @return  Form|boolean  A JForm object on success, false on failure
 	 *
 	 * @since   1.6
 	 */
@@ -315,6 +298,12 @@ class CategoryModel extends AdminModel
 			$form->setFieldAttribute('published', 'filter', 'unset');
 		}
 
+		// Don't allow to change the created_user_id user if not allowed to access com_users.
+		if (!Factory::getUser()->authorise('core.manage', 'com_users'))
+		{
+			$form->setFieldAttribute('created_user_id', 'filter', 'unset');
+		}
+
 		return $form;
 	}
 
@@ -322,7 +311,7 @@ class CategoryModel extends AdminModel
 	 * A protected method to get the where clause for the reorder
 	 * This ensures that the row will be moved relative to a row with the same extension
 	 *
-	 * @param   \JTableCategory  $table  Current table instance
+	 * @param   Category  $table  Current table instance
 	 *
 	 * @return  array  An array of conditions to add to ordering queries.
 	 *
@@ -356,7 +345,7 @@ class CategoryModel extends AdminModel
 			if (!$data->id)
 			{
 				// Check for which extension the Category Manager is used and get selected fields
-				$extension = substr($app->getUserState('com_categories.categories.filter.extension'), 4);
+				$extension = substr($app->getUserState('com_categories.categories.filter.extension', ''), 4);
 				$filters = (array) $app->getUserState('com_categories.categories.' . $extension . '.filter');
 
 				$data->set(
@@ -380,17 +369,45 @@ class CategoryModel extends AdminModel
 	}
 
 	/**
+	 * Method to validate the form data.
+	 *
+	 * @param   Form    $form   The form to validate against.
+	 * @param   array   $data   The data to validate.
+	 * @param   string  $group  The name of the field group to validate.
+	 *
+	 * @return  array|boolean  Array of filtered data if valid, false otherwise.
+	 *
+	 * @see     JFormRule
+	 * @see     JFilterInput
+	 * @since   3.9.23
+	 */
+	public function validate($form, $data, $group = null)
+	{
+		if (!Factory::getUser()->authorise('core.admin', $data['extension']))
+		{
+			if (isset($data['rules']))
+			{
+				unset($data['rules']);
+			}
+		}
+
+		return parent::validate($form, $data, $group);
+	}
+
+	/**
 	 * Method to preprocess the form.
 	 *
-	 * @param   \JForm  $form   A JForm object.
-	 * @param   mixed   $data   The data expected for the form.
-	 * @param   string  $group  The name of the plugin group to import.
+	 * @param   Form    $form  A Form object.
+	 * @param   mixed   $data  The data expected for the form.
+	 * @param   string  $group The name of the plugin group to import.
 	 *
 	 * @return  mixed
 	 *
-	 * @see     \Joomla\CMS\Form\FormField
 	 * @since   1.6
+	 *
 	 * @throws  \Exception if there is an error in the form event.
+	 *
+	 * @see     \Joomla\CMS\Form\FormField
 	 */
 	protected function preprocessForm(Form $form, $data, $group = 'content')
 	{
@@ -446,13 +463,13 @@ class CategoryModel extends AdminModel
 
 				\JLoader::register($cName, $path);
 
-				if (class_exists($cName) && is_callable(array($cName, 'onPrepareForm')))
+				if (class_exists($cName) && \is_callable(array($cName, 'onPrepareForm')))
 				{
 					$lang->load($component, JPATH_BASE, null, false, false)
 						|| $lang->load($component, JPATH_BASE . '/components/' . $component, null, false, false)
 						|| $lang->load($component, JPATH_BASE, $lang->getDefault(), false, false)
 						|| $lang->load($component, JPATH_BASE . '/components/' . $component, $lang->getDefault(), false, false);
-					call_user_func_array(array($cName, 'onPrepareForm'), array(&$form));
+					\call_user_func_array(array($cName, 'onPrepareForm'), array(&$form));
 
 					// Check for an error.
 					if ($form instanceof \Exception)
@@ -474,7 +491,7 @@ class CategoryModel extends AdminModel
 		{
 			$languages = LanguageHelper::getContentLanguages(false, false, null, 'ordering', 'asc');
 
-			if (count($languages) > 1)
+			if (\count($languages) > 1)
 			{
 				$addform = new \SimpleXMLElement('<form />');
 				$fields = $addform->addChild('fields');
@@ -552,7 +569,7 @@ class CategoryModel extends AdminModel
 
 			if ($data['title'] == $origTable->title)
 			{
-				list($title, $alias) = $this->generateNewTitle($data['parent_id'], $data['alias'], $data['title']);
+				[$title, $alias] = $this->generateNewTitle($data['parent_id'], $data['alias'], $data['title']);
 				$data['title'] = $title;
 				$data['alias'] = $alias;
 			}
@@ -593,7 +610,7 @@ class CategoryModel extends AdminModel
 		// Trigger the before save event.
 		$result = Factory::getApplication()->triggerEvent($this->event_before_save, array($context, &$table, $isNew, $data));
 
-		if (in_array(false, $result, true))
+		if (\in_array(false, $result, true))
 		{
 			$this->setError($table->getError());
 
@@ -690,7 +707,7 @@ class CategoryModel extends AdminModel
 				$associations[$table->language] = (int) $table->id;
 			}
 
-			if (count($associations) > 1)
+			if (\count($associations) > 1)
 			{
 				// Adding new association for these items
 				$key = md5(json_encode($associations));
@@ -822,19 +839,19 @@ class CategoryModel extends AdminModel
 	 * First we save the new order values in the lft values of the changed ids.
 	 * Then we invoke the table rebuild to implement the new ordering.
 	 *
-	 * @param   array    $idArray    An array of primary key ids.
-	 * @param   integer  $lft_array  The lft value
+	 * @param   array    $idArray   An array of primary key ids.
+	 * @param   integer  $lftArray  The lft value
 	 *
 	 * @return  boolean  False on failure or error, True otherwise
 	 *
 	 * @since   1.6
 	 */
-	public function saveorder($idArray = null, $lft_array = null)
+	public function saveorder($idArray = null, $lftArray = null)
 	{
 		// Get an instance of the table object.
 		$table = $this->getTable();
 
-		if (!$table->saveorder($idArray, $lft_array))
+		if (!$table->saveorder($idArray, $lftArray))
 		{
 			$this->setError($table->getError());
 
@@ -878,7 +895,7 @@ class CategoryModel extends AdminModel
 
 			$db->setQuery($query);
 
-			$max = (int) $db->loadresult();
+			$max = (int) $db->loadResult();
 			$max++;
 
 			$query->clear();
@@ -1043,7 +1060,7 @@ class CategoryModel extends AdminModel
 			// Add child ID's to the array only if they aren't already there.
 			foreach ($childIds as $childId)
 			{
-				if (!in_array($childId, $pks))
+				if (!\in_array($childId, $pks))
 				{
 					$pks[] = $childId;
 				}
@@ -1072,7 +1089,7 @@ class CategoryModel extends AdminModel
 			$this->table->rgt = null;
 
 			// Alter the title & alias
-			list($title, $alias) = $this->generateNewTitle($this->table->parent_id, $this->table->alias, $this->table->title);
+			[$title, $alias] = $this->generateNewTitle($this->table->parent_id, $this->table->alias, $this->table->title);
 			$this->table->title  = $title;
 			$this->table->alias  = $alias;
 
@@ -1288,14 +1305,14 @@ class CategoryModel extends AdminModel
 	/**
 	 * Custom clean the cache of com_content and content modules
 	 *
-	 * @param   string   $group      Cache group name.
-	 * @param   integer  $client_id  Application client id.
+	 * @param   string   $group     Cache group name.
+	 * @param   integer  $clientId  @deprecated   5.0   No longer used.
 	 *
 	 * @return  void
 	 *
 	 * @since   1.6
 	 */
-	protected function cleanCache($group = null, $client_id = 0)
+	protected function cleanCache($group = null, $clientId = 0)
 	{
 		$extension = Factory::getApplication()->input->get('extension');
 
@@ -1319,20 +1336,20 @@ class CategoryModel extends AdminModel
 	/**
 	 * Method to change the title & alias.
 	 *
-	 * @param   integer  $parent_id  The id of the parent.
-	 * @param   string   $alias      The alias.
-	 * @param   string   $title      The title.
+	 * @param   integer  $parentId  The id of the parent.
+	 * @param   string   $alias     The alias.
+	 * @param   string   $title     The title.
 	 *
 	 * @return  array    Contains the modified title and alias.
 	 *
 	 * @since   1.7
 	 */
-	protected function generateNewTitle($parent_id, $alias, $title)
+	protected function generateNewTitle($parentId, $alias, $title)
 	{
 		// Alter the title & alias
 		$table = $this->getTable();
 
-		while ($table->load(array('alias' => $alias, 'parent_id' => $parent_id)))
+		while ($table->load(array('alias' => $alias, 'parent_id' => $parentId)))
 		{
 			$title = StringHelper::increment($title);
 			$alias = StringHelper::increment($alias, 'dash');
@@ -1348,41 +1365,39 @@ class CategoryModel extends AdminModel
 	 */
 	public function getAssoc()
 	{
-		static $assoc = null;
-
-		if (!is_null($assoc))
+		if (!\is_null($this->hasAssociation))
 		{
-			return $assoc;
+			return $this->hasAssociation;
 		}
 
 		$extension = $this->getState('category.extension');
 
-		$assoc = Associations::isEnabled();
+		$this->hasAssociation = Associations::isEnabled();
 		$extension = explode('.', $extension);
 		$component = array_shift($extension);
 		$cname = str_replace('com_', '', $component);
 
-		if (!$assoc || !$component || !$cname)
+		if (!$this->hasAssociation || !$component || !$cname)
 		{
-			$assoc = false;
+			$this->hasAssociation = false;
 
-			return $assoc;
+			return $this->hasAssociation;
 		}
 
 		$componentObject = $this->bootComponent($component);
 
 		if ($componentObject instanceof AssociationServiceInterface && $componentObject instanceof CategoryServiceInterface)
 		{
-			$assoc = true;
+			$this->hasAssociation = true;
 
-			return $assoc;
+			return $this->hasAssociation;
 		}
 
 		$hname = $cname . 'HelperAssociation';
 		\JLoader::register($hname, JPATH_SITE . '/components/' . $component . '/helpers/association.php');
 
-		$assoc = class_exists($hname) && !empty($hname::$category_association);
+		$this->hasAssociation = class_exists($hname) && !empty($hname::$category_association);
 
-		return $assoc;
+		return $this->hasAssociation;
 	}
 }

@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2019 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -15,6 +15,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\User\User;
 use Joomla\CMS\User\UserHelper;
 use Joomla\Console\Command\AbstractCommand;
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Exception\InvalidOptionException;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -134,7 +135,7 @@ class RemoveUserFromGroupCommand extends AbstractCommand
 						. $result . " needs at least one active user!"
 					);
 
-					return 1;
+					return Command::FAILURE;
 				}
 			}
 
@@ -142,20 +143,20 @@ class RemoveUserFromGroupCommand extends AbstractCommand
 			{
 				$this->ioStyle->error("Can't remove '" . $user->username . "' from group '" . $result . "'! Every user needs at least one group");
 
-				return 1;
+				return Command::FAILURE;
 			}
 
 			if (!UserHelper::removeUserFromGroup($user->id, $userGroup))
 			{
 				$this->ioStyle->error("Can't remove '" . $user->username . "' from group '" . $result . "'!");
 
-				return 1;
+				return Command::FAILURE;
 			}
 
-			$this->ioStyle->success("Remove '" . $user->username . "' from group '" . $result . "'!");
+			$this->ioStyle->success("Removed '" . $user->username . "' from group '" . $result . "'!");
 		}
 
-		return 0;
+		return Command::SUCCESS;
 	}
 
 	/**
@@ -290,15 +291,12 @@ class RemoveUserFromGroupCommand extends AbstractCommand
 	 */
 	protected function configure(): void
 	{
+		$help = "<info>%command.name%</info> removes a user from a group
+		\nUsage: <info>php %command.full_name%</info>";
+
 		$this->setDescription('Remove a user from a group');
 		$this->addOption('username', null, InputOption::VALUE_OPTIONAL, 'username');
 		$this->addOption('group', null, InputOption::VALUE_OPTIONAL, 'group');
-		$this->setHelp(
-			<<<EOF
-The <info>%command.name%</info> command removes a user from a group
-
-<info>php %command.full_name%</info>
-EOF
-		);
+		$this->setHelp($help);
 	}
 }

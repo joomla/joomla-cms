@@ -1,5 +1,5 @@
 /**
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2018 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -37,7 +37,7 @@ window.customElements.define('joomla-toolbar-button', class extends HTMLElement 
     // because we cannot currently extend HTMLButtonElement
     this.buttonElement = this.querySelector('button, a');
 
-    this.addEventListener('click', this.executeTask);
+    this.buttonElement.addEventListener('click', this.executeTask);
 
     // Check whether we have a form
     const formSelector = this.form || 'adminForm';
@@ -67,7 +67,7 @@ window.customElements.define('joomla-toolbar-button', class extends HTMLElement 
       this.formElement.boxchecked.removeEventListener('change', this.onChange);
     }
 
-    this.removeEventListener('click', this.executeTask);
+    this.buttonElement.removeEventListener('click', this.executeTask);
   }
 
   onChange({ target }) {

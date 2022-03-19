@@ -28,6 +28,8 @@
 			name="search"
 			type="text"
 			inputmode="search"
+			label="COM_MENUS_ITEMS_SEARCH_FILTER_LABEL"
+			description="COM_MENUS_ITEMS_SEARCH_FILTER"
 			hint="JSEARCH_FILTER"
 			noresults="JGLOBAL_NO_MATCHING_RESULTS"
 		/>

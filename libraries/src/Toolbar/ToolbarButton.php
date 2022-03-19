@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2006 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -127,6 +127,16 @@ abstract class ToolbarButton
 			$options['tagName'] = 'button';
 			$options['btnClass'] = ($options['button_class'] ?? '') . ' dropdown-item';
 			$options['attributes']['type'] = 'button';
+
+			if ($options['is_first_child'])
+			{
+				$options['btnClass'] .= ' first';
+			}
+
+			if ($options['is_last_child'])
+			{
+				$options['btnClass'] .= ' last';
+			}
 		}
 		else
 		{
@@ -194,7 +204,11 @@ abstract class ToolbarButton
 		);
 
 		$options['htmlAttributes'] = ArrayHelper::toString($options['attributes']);
-		$options['btnClass'] = 'button-' . $this->getName() . ' ' . ($options['btnClass'] ?? '');
+
+		// Isolate button class from icon class
+		$buttonClass = str_replace('icon-', '', $this->getName());
+		$iconclass = $options['btnClass'] ?? '';
+		$options['btnClass'] = 'button-' . $buttonClass . ' ' . $iconclass;
 
 		// Instantiate a new LayoutFile instance and render the layout
 		$layout = new FileLayout($this->layout);
@@ -211,7 +225,7 @@ abstract class ToolbarButton
 	 */
 	protected function fetchId()
 	{
-		return $this->parent->getName() . '-' . $this->getName();
+		return $this->parent->getName() . '-' . str_ireplace(' ', '-', $this->getName());
 	}
 
 	/**

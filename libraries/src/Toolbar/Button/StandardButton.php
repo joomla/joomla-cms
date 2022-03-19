@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2006 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -97,30 +97,24 @@ class StandardButton extends BasicButton
 		{
 			case 'apply':
 			case 'new':
-				return ' btn btn-success';
-
 			case 'save':
 			case 'save-new':
 			case 'save-copy':
 			case 'save-close':
 			case 'publish':
-				return ' btn btn-success';
-
-			case 'unpublish':
-				return ' btn btn-danger';
+				return 'btn btn-success';
 
 			case 'featured':
-				return ' btn btn-warning';
+				return 'btn btn-warning';
 
 			case 'cancel':
-				return ' btn btn-danger';
-
 			case 'trash':
 			case 'delete':
-				return ' btn btn-danger';
+			case 'unpublish':
+				return 'btn btn-danger';
 
 			default:
-				return ' btn btn-primary';
+				return 'btn btn-primary';
 		}
 	}
 
@@ -140,7 +134,7 @@ class StandardButton extends BasicButton
 
 		if ($this->getListCheck())
 		{
-			$messages = "{error: [Joomla.JText._('JLIB_HTML_PLEASE_MAKE_A_SELECTION_FROM_THE_LIST')]}";
+			$messages = "{error: [Joomla.Text._('JLIB_HTML_PLEASE_MAKE_A_SELECTION_FROM_THE_LIST')]}";
 			$alert = 'Joomla.renderMessages(' . $messages . ')';
 			$cmd   = 'if (document.adminForm.boxchecked.value == 0) { ' . $alert . ' } else { ' . $cmd . ' }';
 		}

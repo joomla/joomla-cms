@@ -3,7 +3,7 @@
  * @package     Joomla.API
  * @subpackage  com_contact
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2019 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -18,13 +18,13 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\Mail\Exception\MailDisabledException;
 use Joomla\CMS\Mail\MailTemplate;
+use Joomla\CMS\MVC\Controller\ApiController;
 use Joomla\CMS\MVC\Controller\Exception\SendEmail;
+use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\CMS\Router\Exception\RouteNotFoundException;
 use Joomla\CMS\String\PunycodeHelper;
 use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\User\User;
-use Joomla\CMS\MVC\Controller\ApiController;
-use Joomla\CMS\Plugin\PluginHelper;
-use Joomla\CMS\Router\Exception\RouteNotFoundException;
 use Joomla\Component\Fields\Administrator\Helper\FieldsHelper;
 use Joomla\Registry\Registry;
 use Joomla\String\Inflector;
@@ -55,18 +55,16 @@ class ContactController extends ApiController
 	protected $default_view = 'contacts';
 
 	/**
-	 * Method to save a record.
+	 * Method to allow extended classes to manipulate the data to be saved for an extension.
 	 *
-	 * @param   integer  $recordKey  The primary key of the item (if exists)
+	 * @param   array  $data  An array of input data.
 	 *
-	 * @return  integer  The record ID on success, false on failure
+	 * @return  array
 	 *
 	 * @since   4.0.0
 	 */
-	protected function save($recordKey = null)
+	protected function preprocessSaveData(array $data): array
 	{
-		$data = (array) json_decode($this->input->json->getRaw(), true);
-
 		foreach (FieldsHelper::getFields('com_contact.contact') as $field)
 		{
 			if (isset($data[$field->name]))
@@ -78,9 +76,7 @@ class ContactController extends ApiController
 			}
 		}
 
-		$this->input->set('data', $data);
-
-		return parent::save($recordKey);
+		return $data;
 	}
 
 	/**
@@ -143,7 +139,7 @@ class ContactController extends ApiController
 			$errors   = $model->getErrors();
 			$messages = [];
 
-			for ($i = 0, $n = count($errors); $i < $n && $i < 3; $i++)
+			for ($i = 0, $n = \count($errors); $i < $n && $i < 3; $i++)
 			{
 				if ($errors[$i] instanceof \Exception)
 				{
@@ -193,15 +189,15 @@ class ContactController extends ApiController
 	/**
 	 * Method to get a model object, loading it if required.
 	 *
-	 * @param   array      $data                  The data to send in the email.
-	 * @param   \stdClass  $contact               The user information to send the email to
-	 * @param   boolean    $copy_email_activated  True to send a copy of the email to the user.
+	 * @param   array      $data               The data to send in the email.
+	 * @param   \stdClass  $contact            The user information to send the email to
+	 * @param   boolean    $emailCopyToSender  True to send a copy of the email to the user.
 	 *
 	 * @return  boolean  True on success sending the email, false on failure.
 	 *
 	 * @since   1.6.4
 	 */
-	private function _sendEmail($data, $contact, $copy_email_activated)
+	private function _sendEmail($data, $contact, $emailCopyToSender)
 	{
 		$app = $this->app;
 
@@ -221,7 +217,7 @@ class ContactController extends ApiController
 			'subject'  => $data['contact_subject'],
 			'body'     => stripslashes($data['contact_message']),
 			'url'      => Uri::base(),
-			'customfields' => ''
+			'customfields' => '',
 		];
 
 		// Load the custom fields
@@ -252,7 +248,7 @@ class ContactController extends ApiController
 			$sent = $mailer->send();
 
 			// If we are supposed to copy the sender, do so.
-			if ($copy_email_activated == true && !empty($data['contact_email_copy']))
+			if ($emailCopyToSender == true && !empty($data['contact_email_copy']))
 			{
 				$mailer = new MailTemplate('com_contact.mail.copy', $app->getLanguage()->getTag());
 				$mailer->addRecipient($templateData['email']);

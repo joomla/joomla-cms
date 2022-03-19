@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2010 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -22,7 +22,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 		<?php echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
 		<div class="table-responsive">
 			<table class="table">
-				<caption id="captionTable" class="sr-only">
+				<caption class="visually-hidden">
 					<?php echo Text::_('COM_USERS_DEBUG_USER_TABLE_CAPTION'); ?>,
 							<span id="orderedBy"><?php echo Text::_('JGLOBAL_SORTED_BY'); ?> </span>,
 							<span id="filteredBy"><?php echo Text::_('JGLOBAL_FILTERED_BY'); ?></span>
@@ -62,15 +62,15 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 								$name  = $action[0];
 								$check = $item->checks[$name];
 								if ($check === true) :
-									$class  = 'text-success fas fa-check';
+									$class  = 'text-success icon-check';
 									$button = 'btn-success';
 									$text   = Text::_('COM_USERS_DEBUG_EXPLICIT_ALLOW');
 								elseif ($check === false) :
-									$class  = 'icon-remove';
+									$class  = 'text-danger icon-times';
 									$button = 'btn-danger';
 									$text   = Text::_('COM_USERS_DEBUG_EXPLICIT_DENY');
 								elseif ($check === null) :
-									$class  = 'text-danger icon-ban-circle';
+									$class  = 'text-danger icon-minus-circle';
 									$button = 'btn-warning';
 									$text   = Text::_('COM_USERS_DEBUG_IMPLICIT_DENY');
 								else :
@@ -81,7 +81,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 								?>
 							<td class="text-center">
 								<span class="<?php echo $class; ?>" aria-hidden="true"></span>
-								<span class="sr-only"> <?php echo $text; ?></span>
+								<span class="visually-hidden"> <?php echo $text; ?></span>
 							</td>
 							<?php endforeach; ?>
 							<td>
@@ -96,9 +96,9 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 				</tbody>
 			</table>
 			<div class="legend">
-				<span class="text-danger fas fa-minus-circle" aria-hidden="true"></span>&nbsp;<?php echo Text::_('COM_USERS_DEBUG_IMPLICIT_DENY'); ?>&nbsp;
-				<span class="text-success fas fa-check" aria-hidden="true"></span>&nbsp;<?php echo Text::_('COM_USERS_DEBUG_EXPLICIT_ALLOW'); ?>&nbsp;
-				<span class="fas fa-times" aria-hidden="true">&nbsp;</span><?php echo Text::_('COM_USERS_DEBUG_EXPLICIT_DENY'); ?>
+				<span class="text-danger icon-minus-circle" aria-hidden="true"></span>&nbsp;<?php echo Text::_('COM_USERS_DEBUG_IMPLICIT_DENY'); ?>&nbsp;
+				<span class="text-success icon-check" aria-hidden="true"></span>&nbsp;<?php echo Text::_('COM_USERS_DEBUG_EXPLICIT_ALLOW'); ?>&nbsp;
+				<span class="text-danger icon-times" aria-hidden="true">&nbsp;</span><?php echo Text::_('COM_USERS_DEBUG_EXPLICIT_DENY'); ?>
 			</div>
 
 			<?php // load the pagination. ?>

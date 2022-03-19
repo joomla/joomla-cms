@@ -3,7 +3,7 @@
  * @package     Joomla.API
  * @subpackage  com_menus
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2019 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -11,8 +11,8 @@ namespace Joomla\Component\Menus\Api\View\Items;
 
 \defined('_JEXEC') or die;
 
-use Joomla\CMS\MVC\View\JsonApiView as BaseApiView;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\View\JsonApiView as BaseApiView;
 use Joomla\CMS\Serializer\JoomlaSerializer;
 use Joomla\CMS\Uri\Uri;
 use Tobscure\JsonApi\Collection;
@@ -147,7 +147,7 @@ class JsonapiView extends BaseApiView
 
 		$offset              = $currentPageQuery['offset'];
 		$limit               = $currentPageQuery['limit'];
-		$totalItemsCount     = count($items);
+		$totalItemsCount     = \count($items);
 		$totalPagesAvailable = ceil($totalItemsCount / $limit);
 
 		$items = array_splice($items, $offset, $limit);
@@ -199,7 +199,7 @@ class JsonapiView extends BaseApiView
 	 */
 	protected function prepareItem($item)
 	{
-		if (is_string($item->params))
+		if (\is_string($item->params))
 		{
 			$item->params = json_decode($item->params);
 		}

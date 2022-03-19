@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2017 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -63,7 +63,6 @@ class ExtensionHelper
 		array('component', 'com_content', '', 1),
 		array('component', 'com_contenthistory', '', 1),
 		array('component', 'com_cpanel', '', 1),
-		array('component', 'com_csp', '', 1),
 		array('component', 'com_fields', '', 1),
 		array('component', 'com_finder', '', 1),
 		array('component', 'com_installer', '', 1),
@@ -80,6 +79,7 @@ class ExtensionHelper
 		array('component', 'com_postinstall', '', 1),
 		array('component', 'com_privacy', '', 1),
 		array('component', 'com_redirect', '', 1),
+		array('component', 'com_scheduler', '', 1),
 		array('component', 'com_tags', '', 1),
 		array('component', 'com_templates', '', 1),
 		array('component', 'com_users', '', 1),
@@ -182,7 +182,6 @@ class ExtensionHelper
 		array('plugin', 'emailcloak', 'content', 0),
 		array('plugin', 'fields', 'content', 0),
 		array('plugin', 'finder', 'content', 0),
-		array('plugin', 'imagelazyload', 'content', 0),
 		array('plugin', 'joomla', 'content', 0),
 		array('plugin', 'loadmodule', 'content', 0),
 		array('plugin', 'pagebreak', 'content', 0),
@@ -220,7 +219,7 @@ class ExtensionHelper
 		array('plugin', 'media', 'fields', 0),
 		array('plugin', 'radio', 'fields', 0),
 		array('plugin', 'sql', 'fields', 0),
-		array('plugin', 'subfields', 'fields', 0),
+		array('plugin', 'subform', 'fields', 0),
 		array('plugin', 'text', 'fields', 0),
 		array('plugin', 'textarea', 'fields', 0),
 		array('plugin', 'url', 'fields', 0),
@@ -277,6 +276,7 @@ class ExtensionHelper
 		array('plugin', 'fields', 'system', 0),
 		array('plugin', 'highlight', 'system', 0),
 		array('plugin', 'httpheaders', 'system', 0),
+		array('plugin', 'jooa11y', 'system', 0),
 		array('plugin', 'languagecode', 'system', 0),
 		array('plugin', 'languagefilter', 'system', 0),
 		array('plugin', 'log', 'system', 0),
@@ -285,12 +285,20 @@ class ExtensionHelper
 		array('plugin', 'privacyconsent', 'system', 0),
 		array('plugin', 'redirect', 'system', 0),
 		array('plugin', 'remember', 'system', 0),
+		array('plugin', 'schedulerunner', 'system', 0),
 		array('plugin', 'sef', 'system', 0),
 		array('plugin', 'sessiongc', 'system', 0),
 		array('plugin', 'skipto', 'system', 0),
 		array('plugin', 'stats', 'system', 0),
+		array('plugin', 'tasknotification', 'system', 0),
 		array('plugin', 'updatenotification', 'system', 0),
 		array('plugin', 'webauthn', 'system', 0),
+
+		// Core plugin extensions - task scheduler
+		array('plugin', 'checkfiles', 'task', 0),
+		array('plugin', 'demotasks', 'task', 0),
+		array('plugin', 'requests', 'task', 0),
+		array('plugin', 'sitestatus', 'task', 0),
 
 		// Core plugin extensions - two factor authentication
 		array('plugin', 'totp', 'twofactorauth', 0),
@@ -308,7 +316,9 @@ class ExtensionHelper
 		array('plugin', 'config', 'webservices', 0),
 		array('plugin', 'contact', 'webservices', 0),
 		array('plugin', 'content', 'webservices', 0),
+		array('plugin', 'installer', 'webservices', 0),
 		array('plugin', 'languages', 'webservices', 0),
+		array('plugin', 'media', 'webservices', 0),
 		array('plugin', 'menus', 'webservices', 0),
 		array('plugin', 'messages', 'webservices', 0),
 		array('plugin', 'modules', 'webservices', 0),
@@ -320,6 +330,10 @@ class ExtensionHelper
 		array('plugin', 'templates', 'webservices', 0),
 		array('plugin', 'users', 'webservices', 0),
 
+		// Core plugin extensions - workflow
+		array('plugin', 'featuring', 'workflow', 0),
+		array('plugin', 'notification', 'workflow', 0),
+		array('plugin', 'publishing', 'workflow', 0),
 
 		// Core template extensions - administrator
 		array('template', 'atum', '', 1),
@@ -327,6 +341,14 @@ class ExtensionHelper
 		// Core template extensions - site
 		array('template', 'cassiopeia', '', 0),
 	);
+
+	/**
+	 * Array of core extension IDs.
+	 *
+	 * @var    array
+	 * @since  4.0.0
+	 */
+	protected static $coreExtensionIds;
 
 	/**
 	 * Gets the core extensions.
@@ -343,20 +365,56 @@ class ExtensionHelper
 	}
 
 	/**
+	 * Returns an array of core extension IDs.
+	 *
+	 * @return  array
+	 *
+	 * @since   4.0.0
+	 * @throws  \RuntimeException
+	 */
+	public static function getCoreExtensionIds()
+	{
+		if (self::$coreExtensionIds !== null)
+		{
+			return self::$coreExtensionIds;
+		}
+
+		$db    = Factory::getDbo();
+		$query = $db->getQuery(true)
+			->select($db->quoteName('extension_id'))
+			->from($db->quoteName('#__extensions'));
+
+		foreach (self::$coreExtensions as $extension)
+		{
+			$values = $query->bindArray($extension, [ParameterType::STRING, ParameterType::STRING, ParameterType::STRING, ParameterType::INTEGER]);
+			$query->where(
+				'(' . $db->quoteName('type') . ' = ' . $values[0] . ' AND ' . $db->quoteName('element') . ' = ' . $values[1]
+				. ' AND ' . $db->quoteName('folder') . ' = ' . $values[2] . ' AND ' . $db->quoteName('client_id') . ' = ' . $values[3] . ')',
+				'OR'
+			);
+		}
+
+		$db->setQuery($query);
+		self::$coreExtensionIds = $db->loadColumn();
+
+		return self::$coreExtensionIds;
+	}
+
+	/**
 	 * Check if an extension is core or not
 	 *
-	 * @param   string   $type       The extension's type.
-	 * @param   string   $element    The extension's element name.
-	 * @param   integer  $client_id  The extension's client ID. Default 0.
-	 * @param   string   $folder     The extension's folder. Default ''.
+	 * @param   string   $type      The extension's type.
+	 * @param   string   $element   The extension's element name.
+	 * @param   integer  $clientId  The extension's client ID. Default 0.
+	 * @param   string   $folder    The extension's folder. Default ''.
 	 *
 	 * @return  boolean  True if core, false if not.
 	 *
 	 * @since   3.7.4
 	 */
-	public static function checkIfCoreExtension($type, $element, $client_id = 0, $folder = '')
+	public static function checkIfCoreExtension($type, $element, $clientId = 0, $folder = '')
 	{
-		return \in_array(array($type, $element, $folder, $client_id), self::$coreExtensions);
+		return \in_array(array($type, $element, $folder, $clientId), self::$coreExtensions);
 	}
 
 	/**
@@ -372,7 +430,7 @@ class ExtensionHelper
 	 * @since   4.0.0
 	 * @throws  \InvalidArgumentException
 	 */
-	public static function getExtensionRecord(string $element, string $type, ?int $clientId = null, ?string $folder = null): ?\StdClass
+	public static function getExtensionRecord(string $element, string $type, ?int $clientId = null, ?string $folder = null): ?\stdClass
 	{
 		if ($type === 'plugin' && $folder === null)
 		{

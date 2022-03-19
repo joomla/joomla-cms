@@ -3,7 +3,7 @@
  * @package     Joomla.API
  * @subpackage  com_templates
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2019 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -85,7 +85,7 @@ class StylesController extends ApiController
 		// If we are updating an item the template is a readonly property based on the ID
 		if ($this->input->getMethod() === 'PATCH')
 		{
-			if (array_key_exists('template', $data))
+			if (\array_key_exists('template', $data))
 			{
 				throw new InvalidParameterException('The template property cannot be modified for an existing style');
 			}
@@ -102,7 +102,7 @@ class StylesController extends ApiController
 	 *
 	 * @return string
 	 *
-	 * @since 4.0
+	 * @since 4.0.0
 	 */
 	private function getClientIdFromInput()
 	{

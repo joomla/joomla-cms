@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_cache
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2006 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -126,7 +126,7 @@ class CacheModel extends ListModel
 				$cache = $this->getCache();
 				$data  = $cache->getAll();
 
-				if ($data && count($data) > 0)
+				if ($data && \count($data) > 0)
 				{
 					// Process filter by search term.
 					if ($search = $this->getState('filter.search'))
@@ -136,7 +136,6 @@ class CacheModel extends ListModel
 							if (stripos($cacheItem->group, $search) === false)
 							{
 								unset($data[$key]);
-								continue;
 							}
 						}
 					}
@@ -154,7 +153,7 @@ class CacheModel extends ListModel
 					{
 						$start = (int) $this->getState('list.start', 0);
 
-						return array_slice($this->_data, $start, $limit);
+						return \array_slice($this->_data, $start, $limit);
 					}
 				}
 				else

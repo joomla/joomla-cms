@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2011 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -17,13 +17,11 @@ use Joomla\CMS\Application\CLI\Output\Stdout;
 use Joomla\CMS\Extension\ExtensionManagerTrait;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Language;
-use Joomla\CMS\Language\LanguageFactoryInterface;
 use Joomla\DI\Container;
 use Joomla\DI\ContainerAwareTrait;
 use Joomla\Event\DispatcherAwareInterface;
 use Joomla\Event\DispatcherAwareTrait;
 use Joomla\Event\DispatcherInterface;
-use Joomla\Input\Cli;
 use Joomla\Input\Input;
 use Joomla\Registry\Registry;
 use Joomla\Session\SessionInterface;
@@ -36,7 +34,7 @@ use Joomla\Session\SessionInterface;
  */
 abstract class CliApplication extends AbstractApplication implements DispatcherAwareInterface, CMSApplicationInterface
 {
-	use DispatcherAwareTrait, EventAware, IdentityAware, ContainerAwareTrait, ExtensionManagerTrait;
+	use DispatcherAwareTrait, EventAware, IdentityAware, ContainerAwareTrait, ExtensionManagerTrait, ExtensionNamespaceMapper;
 
 	/**
 	 * Output object
@@ -74,7 +72,7 @@ abstract class CliApplication extends AbstractApplication implements DispatcherA
 	 * The application message queue.
 	 *
 	 * @var    array
-	 * @since  4.0
+	 * @since  4.0.0
 	 */
 	protected $messages = [];
 
@@ -117,16 +115,21 @@ abstract class CliApplication extends AbstractApplication implements DispatcherA
 
 		$container = $container ?: Factory::getContainer();
 		$this->setContainer($container);
+		$this->setDispatcher($dispatcher ?: $container->get(\Joomla\Event\DispatcherInterface::class));
+
+		if (!$container->has('session'))
+		{
+			$container->alias('session', 'session.cli')
+				->alias('JSession', 'session.cli')
+				->alias(\Joomla\CMS\Session\Session::class, 'session.cli')
+				->alias(\Joomla\Session\Session::class, 'session.cli')
+				->alias(\Joomla\Session\SessionInterface::class, 'session.cli');
+		}
 
 		$this->input    = new \Joomla\CMS\Input\Cli;
 		$this->language = Factory::getLanguage();
 		$this->output   = $output ?: new Stdout;
 		$this->cliInput = $cliInput ?: new CliInput;
-
-		if ($dispatcher)
-		{
-			$this->setDispatcher($dispatcher);
-		}
 
 		parent::__construct($config);
 
@@ -145,7 +148,7 @@ abstract class CliApplication extends AbstractApplication implements DispatcherA
 	 * @return  mixed   A value if the property name is valid, null otherwise.
 	 *
 	 * @since       4.0.0
-	 * @deprecated  3.0  This is a B/C proxy for deprecated read accesses
+	 * @deprecated  5.0  This is a B/C proxy for deprecated read accesses
 	 */
 	public function __get($name)
 	{
@@ -202,7 +205,7 @@ abstract class CliApplication extends AbstractApplication implements DispatcherA
 	 *
 	 * This method must be invoked as: $cli = CliApplication::getInstance();
 	 *
-	 * @param   string  $name  The name (optional) of the JApplicationCli class to instantiate.
+	 * @param   string  $name  The name (optional) of the Application Cli class to instantiate.
 	 *
 	 * @return  CliApplication
 	 *
@@ -235,6 +238,8 @@ abstract class CliApplication extends AbstractApplication implements DispatcherA
 	 */
 	public function execute()
 	{
+		$this->createExtensionNamespaceMap();
+
 		// Trigger the onBeforeExecute event
 		$this->triggerEvent('onBeforeExecute');
 

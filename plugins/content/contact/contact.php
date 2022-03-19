@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Content.Contact
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2014 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -25,9 +25,8 @@ use Joomla\Registry\Registry;
 class PlgContentContact extends CMSPlugin
 {
 	/**
-	 * Database object
+	 * @var    \Joomla\Database\DatabaseDriver
 	 *
-	 * @var    JDatabaseDriver
 	 * @since  3.3
 	 */
 	protected $db;
@@ -69,7 +68,13 @@ class PlgContentContact extends CMSPlugin
 			return;
 		}
 
-		$contact        = $this->getContactData($row->created_by);
+		$contact = $this->getContactData($row->created_by);
+
+		if ($contact === null)
+		{
+			return;
+		}
+
 		$row->contactid = $contact->contactid;
 		$row->webpage   = $contact->webpage;
 		$row->email     = $contact->email_to;
@@ -96,22 +101,23 @@ class PlgContentContact extends CMSPlugin
 	/**
 	 * Retrieve Contact
 	 *
-	 * @param   int  $created_by  Id of the user who created the contact
+	 * @param   int  $userId  Id of the user who created the article
 	 *
-	 * @return  mixed|null|integer
+	 * @return  stdClass|null  Object containing contact details or null if not found
 	 */
-	protected function getContactData($created_by)
+	protected function getContactData($userId)
 	{
 		static $contacts = array();
 
-		if (isset($contacts[$created_by]))
+		// Note: don't use isset() because value could be null.
+		if (array_key_exists($userId, $contacts))
 		{
-			return $contacts[$created_by];
+			return $contacts[$userId];
 		}
 
-		$db         = $this->db;
-		$query      = $db->getQuery(true);
-		$created_by = (int) $created_by;
+		$db     = $this->db;
+		$query  = $db->getQuery(true);
+		$userId = (int) $userId;
 
 		$query->select($db->quoteName('contact.id', 'contactid'))
 			->select(
@@ -131,7 +137,7 @@ class PlgContentContact extends CMSPlugin
 					$db->quoteName('contact.user_id') . ' = :createdby',
 				]
 			)
-			->bind(':createdby', $created_by, ParameterType::INTEGER);
+			->bind(':createdby', $userId, ParameterType::INTEGER);
 
 		if (Multilanguage::isEnabled() === true)
 		{
@@ -147,8 +153,8 @@ class PlgContentContact extends CMSPlugin
 
 		$db->setQuery($query);
 
-		$contacts[$created_by] = $db->loadObject();
+		$contacts[$userId] = $db->loadObject();
 
-		return $contacts[$created_by];
+		return $contacts[$userId];
 	}
 }

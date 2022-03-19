@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_languages
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2009 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -49,12 +49,12 @@ class Languages
 	public function id($rowNum, $language)
 	{
 		return '<input'
+			. ' class="form-check-input"'
 			. ' type="radio"'
 			. ' id="cb' . $rowNum . '"'
 			. ' name="cid"'
 			. ' value="' . htmlspecialchars($language, ENT_COMPAT, 'UTF-8') . '"'
 			. ' onclick="Joomla.isChecked(this.checked);"'
-			. ' title="' . ($rowNum + 1) . '"'
 			. '>';
 	}
 

@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  System.logrotation
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2018 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -11,9 +11,9 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Cache\Cache;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Filesystem\File;
+use Joomla\CMS\Filesystem\Folder;
 use Joomla\CMS\Plugin\CMSPlugin;
-use Joomla\Filesystem\File;
-use Joomla\Filesystem\Folder;
 use Joomla\Filesystem\Path;
 
 /**
@@ -29,22 +29,21 @@ class PlgSystemLogrotation extends CMSPlugin
 	 * Load the language file on instantiation.
 	 *
 	 * @var    boolean
+	 *
 	 * @since  3.9.0
 	 */
 	protected $autoloadLanguage = true;
 
 	/**
-	 * Application object.
+	 * @var    \Joomla\CMS\Application\CMSApplication
 	 *
-	 * @var    JApplicationCms
 	 * @since  3.9.0
 	 */
 	protected $app;
 
 	/**
-	 * Database object.
+	 * @var    \Joomla\Database\DatabaseDriver
 	 *
-	 * @var    JDatabaseDriver
 	 * @since  3.9.0
 	 */
 	protected $db;
@@ -108,7 +107,7 @@ class PlgSystemLogrotation extends CMSPlugin
 		}
 		catch (Exception $exc)
 		{
-			// If we failed to execite
+			// If we failed to execute
 			$db->unlockTables();
 			$result = false;
 		}
@@ -252,8 +251,6 @@ class PlgSystemLogrotation extends CMSPlugin
 	 */
 	private function clearCacheGroups(array $clearGroups, array $cacheClients = array(0, 1))
 	{
-		$conf = Factory::getConfig();
-
 		foreach ($clearGroups as $group)
 		{
 			foreach ($cacheClients as $client_id)
@@ -263,7 +260,7 @@ class PlgSystemLogrotation extends CMSPlugin
 					$options = array(
 						'defaultgroup' => $group,
 						'cachebase'    => $client_id ? JPATH_ADMINISTRATOR . '/cache' :
-							$conf->get('cache_path', JPATH_SITE . '/cache')
+							Factory::getApplication()->get('cache_path', JPATH_SITE . '/cache'),
 					);
 
 					$cache = Cache::getInstance('callback', $options);

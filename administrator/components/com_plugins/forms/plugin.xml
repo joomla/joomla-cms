@@ -20,8 +20,7 @@
 			name="enabled"
 			type="list"
 			label="JSTATUS"
-			class="custom-select-color-state"
-			size="1"
+			class="form-select-color-state"
 			default="1"
 			validate="options"
 			>
@@ -33,7 +32,8 @@
 			name="access"
 			type="accesslevel"
 			label="JFIELD_ACCESS_LABEL"
-			size="1"
+			filter="UINT"
+			validate="options"
 		/>
 
 		<field
@@ -47,7 +47,6 @@
 			type="text"
 			label="COM_PLUGINS_FIELD_FOLDER_LABEL"
 			class="readonly"
-			size="20"
 			readonly="true"
 		/>
 
@@ -56,7 +55,6 @@
 			type="text"
 			label="COM_PLUGINS_FIELD_ELEMENT_LABEL"
 			class="readonly"
-			size="20"
 			readonly="true"
 		/>
 
@@ -64,7 +62,6 @@
 			name="note"
 			type="textarea"
 			label="JFIELD_NOTE_LABEL"
-			size="40"
 			maxlength="255"
 		/>
 

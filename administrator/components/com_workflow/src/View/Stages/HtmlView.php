@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_workflow
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2018 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 namespace Joomla\Component\Workflow\Administrator\View\Stages;
@@ -30,7 +30,7 @@ class HtmlView extends BaseHtmlView
 	/**
 	 * An array of stages
 	 *
-	 * @var     array
+	 * @var    array
 	 * @since  4.0.0
 	 */
 	protected $stages;
@@ -38,7 +38,7 @@ class HtmlView extends BaseHtmlView
 	/**
 	 * The model stage
 	 *
-	 * @var     object
+	 * @var    object
 	 * @since  4.0.0
 	 */
 	protected $stage;
@@ -46,7 +46,7 @@ class HtmlView extends BaseHtmlView
 	/**
 	 * The HTML for displaying sidebar
 	 *
-	 * @var     string
+	 * @var    string
 	 * @since  4.0.0
 	 */
 	protected $sidebar;
@@ -54,7 +54,8 @@ class HtmlView extends BaseHtmlView
 	/**
 	 * The pagination object
 	 *
-	 * @var     \JPagination
+	 * @var    \Joomla\CMS\Pagination\Pagination
+	 *
 	 * @since  4.0.0
 	 */
 	protected $pagination;
@@ -62,7 +63,8 @@ class HtmlView extends BaseHtmlView
 	/**
 	 * Form object for search filters
 	 *
-	 * @var     \JForm
+	 * @var    \Joomla\CMS\Form\Form
+	 *
 	 * @since  4.0.0
 	 */
 	public $filterForm;
@@ -70,7 +72,7 @@ class HtmlView extends BaseHtmlView
 	/**
 	 * The active search filters
 	 *
-	 * @var     array
+	 * @var    array
 	 * @since  4.0.0
 	 */
 	public $activeFilters;
@@ -78,7 +80,7 @@ class HtmlView extends BaseHtmlView
 	/**
 	 * The current workflow
 	 *
-	 * @var     object
+	 * @var    object
 	 * @since  4.0.0
 	 */
 	protected $workflow;
@@ -86,7 +88,7 @@ class HtmlView extends BaseHtmlView
 	/**
 	 * The ID of current workflow
 	 *
-	 * @var     integer
+	 * @var    integer
 	 * @since  4.0.0
 	 */
 	protected $workflowID;
@@ -94,7 +96,7 @@ class HtmlView extends BaseHtmlView
 	/**
 	 * The name of current extension
 	 *
-	 * @var     string
+	 * @var    string
 	 * @since  4.0.0
 	 */
 	protected $extension;
@@ -112,25 +114,25 @@ class HtmlView extends BaseHtmlView
 	 *
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
 	 *
-	 * @return  mixed  A string if successful, otherwise an Error object.
+	 * @return  void
 	 *
 	 * @since  4.0.0
 	 */
 	public function display($tpl = null)
 	{
+		$this->state         = $this->get('State');
+		$this->stages        = $this->get('Items');
+		$this->pagination    = $this->get('Pagination');
+		$this->filterForm    = $this->get('FilterForm');
+		$this->activeFilters = $this->get('ActiveFilters');
+		$this->workflow      = $this->get('Workflow');
+
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
 			throw new GenericDataException(implode("\n", $errors), 500);
 		}
 
-		$this->state         = $this->get('State');
-		$this->stages        = $this->get('Items');
-		$this->pagination    = $this->get('Pagination');
-		$this->filterForm    = $this->get('FilterForm');
-		$this->activeFilters = $this->get('ActiveFilters');
-
-		$this->workflow      = $this->get('Workflow');
 		$this->workflowID    = $this->workflow->id;
 
 		$parts = explode('.', $this->workflow->extension);
@@ -145,12 +147,12 @@ class HtmlView extends BaseHtmlView
 		if (!empty($this->stages))
 		{
 			$extension = Factory::getApplication()->input->getCmd('extension');
-			$workflow  = new Workflow(['extension' => $extension]);
+			$workflow  = new Workflow($extension);
 		}
 
 		$this->addToolbar();
 
-		return parent::display($tpl);
+		parent::display($tpl);
 	}
 
 	/**
@@ -188,7 +190,7 @@ class HtmlView extends BaseHtmlView
 			$dropdown = $toolbar->dropdownButton('status-group')
 				->text('JTOOLBAR_CHANGE_STATUS')
 				->toggleSplit(false)
-				->icon('fas fa-ellipsis-h')
+				->icon('icon-ellipsis-h')
 				->buttonClass('btn btn-action')
 				->listCheck(true);
 
@@ -217,6 +219,6 @@ class HtmlView extends BaseHtmlView
 				->listCheck(true);
 		}
 
-		$toolbar->help('JHELP_WORKFLOW_STAGES_LIST');
+		$toolbar->help('Stages_List:_Basic_Workflow');
 	}
 }

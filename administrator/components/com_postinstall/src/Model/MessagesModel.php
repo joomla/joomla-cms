@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_postinstall
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2013 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -11,6 +11,8 @@ namespace Joomla\Component\Postinstall\Administrator\Model;
 
 \defined('_JEXEC') or die;
 
+use Joomla\CMS\Cache\CacheControllerFactoryInterface;
+use Joomla\CMS\Cache\Controller\CallbackController;
 use Joomla\CMS\Extension\ExtensionHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\File;
@@ -27,6 +29,30 @@ use Joomla\Database\ParameterType;
  */
 class MessagesModel extends BaseDatabaseModel
 {
+	/**
+	 * Method to auto-populate the state.
+	 *
+	 * This method should only be called once per instantiation and is designed
+	 * to be called on the first call to the getState() method unless the
+	 * configuration flag to ignore the request is set.
+	 *
+	 * @return  void
+	 *
+	 * @note    Calling getState in this method will result in recursion.
+	 * @since   4.0.0
+	 */
+	protected function populateState()
+	{
+		parent::populateState();
+
+		$eid = (int) Factory::getApplication()->input->getInt('eid');
+
+		if ($eid)
+		{
+			$this->setState('eid', $eid);
+		}
+	}
+
 	/**
 	 * Gets an item with the given id from the database
 	 *
@@ -91,6 +117,7 @@ class MessagesModel extends BaseDatabaseModel
 			->bind(':id', $id, ParameterType::INTEGER);
 		$db->setQuery($query);
 		$db->execute();
+		Factory::getCache()->clean('com_postinstall');
 	}
 
 	/**
@@ -102,10 +129,15 @@ class MessagesModel extends BaseDatabaseModel
 	 */
 	public function getItems()
 	{
+		// Add a forced extension filtering to the list
+		$eid = (int) $this->getState('eid', $this->getJoomlaFilesExtensionId());
+		$published = (int) $this->getState('published', 1);
+
+		// Build a cache ID for the resulting data object
+		$cacheId = $eid . '.' . $published;
+
 		$db = $this->getDbo();
-
 		$query = $db->getQuery(true);
-
 		$query->select(
 			[
 				$db->quoteName('postinstall_message_id'),
@@ -125,24 +157,86 @@ class MessagesModel extends BaseDatabaseModel
 			]
 		)
 			->from($db->quoteName('#__postinstall_messages'));
-
-		// Add a forced extension filtering to the list
-		$eid = (int) $this->getState('eid', $this->getJoomlaFilesExtensionId());
 		$query->where($db->quoteName('extension_id') . ' = :eid')
 			->bind(':eid', $eid, ParameterType::INTEGER);
 
 		// Force filter only enabled messages
-		$published = (int) $this->getState('published', 1);
 		$query->where($db->quoteName('enabled') . ' = :published')
 			->bind(':published', $published, ParameterType::INTEGER);
-
 		$db->setQuery($query);
 
-		$result = $db->loadObjectList();
+		try
+		{
+			/** @var CallbackController $cache */
+			$cache = Factory::getContainer()->get(CacheControllerFactoryInterface::class)
+				->createCacheController('callback', ['defaultgroup' => 'com_postinstall']);
+
+			$result = $cache->get(array($db, 'loadObjectList'), array(), md5($cacheId), false);
+		}
+		catch (\RuntimeException $e)
+		{
+			$app = Factory::getApplication();
+			$app->getLogger()->warning(
+				Text::sprintf('JLIB_APPLICATION_ERROR_MODULE_LOAD', $e->getMessage()),
+				array('category' => 'jerror')
+			);
+
+			return array();
+		}
 
 		$this->onProcessList($result);
 
 		return $result;
+	}
+
+	/**
+	 * Returns a count of all enabled messages from the #__postinstall_messages table
+	 *
+	 * @return  integer
+	 *
+	 * @since   4.0.0
+	 */
+	public function getItemsCount()
+	{
+		$db = $this->getDbo();
+		$query = $db->getQuery(true);
+		$query->select(
+			[
+				$db->quoteName('language_extension'),
+				$db->quoteName('language_client_id'),
+				$db->quoteName('condition_file'),
+				$db->quoteName('condition_method'),
+			]
+		)
+			->from($db->quoteName('#__postinstall_messages'));
+
+		// Force filter only enabled messages
+		$query->where($db->quoteName('enabled') . ' = 1');
+		$db->setQuery($query);
+
+		try
+		{
+			/** @var CallbackController $cache */
+			$cache = Factory::getContainer()->get(CacheControllerFactoryInterface::class)
+				->createCacheController('callback', ['defaultgroup' => 'com_postinstall']);
+
+			// Get the resulting data object for cache ID 'all.1' from com_postinstall group.
+			$result = $cache->get(array($db, 'loadObjectList'), array(), md5('all.1'), false);
+		}
+		catch (\RuntimeException $e)
+		{
+			$app = Factory::getApplication();
+			$app->getLogger()->warning(
+				Text::sprintf('JLIB_APPLICATION_ERROR_MODULE_LOAD', $e->getMessage()),
+				array('category' => 'jerror')
+			);
+
+			return 0;
+		}
+
+		$this->onProcessList($result);
+
+		return \count($result);
 	}
 
 	/**
@@ -218,7 +312,10 @@ class MessagesModel extends BaseDatabaseModel
 			->bind(':eid', $eid, ParameterType::INTEGER);
 		$db->setQuery($query);
 
-		return $db->execute();
+		$result = $db->execute();
+		Factory::getCache()->clean('com_postinstall');
+
+		return $result;
 	}
 
 	/**
@@ -242,7 +339,10 @@ class MessagesModel extends BaseDatabaseModel
 			->bind(':eid', $eid, ParameterType::INTEGER);
 		$db->setQuery($query);
 
-		return $db->execute();
+		$result = $db->execute();
+		Factory::getCache()->clean('com_postinstall');
+
+		return $result;
 	}
 
 	/**
@@ -613,6 +713,7 @@ class MessagesModel extends BaseDatabaseModel
 		// Insert the new row
 		$options = (object) $options;
 		$db->insertObject($tableName, $options);
+		Factory::getCache()->clean('com_postinstall');
 
 		return $this;
 	}

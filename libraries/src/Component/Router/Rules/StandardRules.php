@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2016 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -40,7 +40,7 @@ class StandardRules implements RulesInterface
 	}
 
 	/**
-	 * Dummymethod to fullfill the interface requirements
+	 * Dummy method to fulfil the interface requirements
 	 *
 	 * @param   array  &$query  The query array to process
 	 *

@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2009 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -75,7 +75,7 @@ class ModulelayoutField extends FormField
 
 		if ($this->form instanceof Form)
 		{
-			$template_style_id = $this->form->getValue('template_style_id');
+			$template_style_id = $this->form->getValue('template_style_id', null, 0);
 			$template_style_id = (int) preg_replace('#\W#', '', $template_style_id);
 		}
 

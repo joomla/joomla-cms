@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Finder.Newsfeeds
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2011 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,11 +12,11 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Categories\Categories;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Table\Table;
-use Joomla\Component\Newsfeeds\Site\Helper\RouteHelper;
 use Joomla\Component\Finder\Administrator\Indexer\Adapter;
 use Joomla\Component\Finder\Administrator\Indexer\Helper;
 use Joomla\Component\Finder\Administrator\Indexer\Indexer;
 use Joomla\Component\Finder\Administrator\Indexer\Result;
+use Joomla\Component\Newsfeeds\Site\Helper\RouteHelper;
 use Joomla\Database\DatabaseQuery;
 use Joomla\Registry\Registry;
 
@@ -139,7 +139,7 @@ class PlgFinderNewsfeeds extends Adapter
 	 * Smart Search after save content method.
 	 * Reindexes the link information for a newsfeed that has been saved.
 	 * It also makes adjustments if the access level of a newsfeed item or
-	 * the category to which it belongs has beend changed.
+	 * the category to which it belongs has changed.
 	 *
 	 * @param   string   $context  The context of the content passed to the plugin.
 	 * @param   Table    $row      A Table object.
@@ -297,6 +297,13 @@ class PlgFinderNewsfeeds extends Adapter
 		// Add the category taxonomy data.
 		$categories = Categories::getInstance('com_newsfeeds', ['published' => false, 'access' => false]);
 		$category = $categories->get($item->catid);
+
+		// Category does not exist, stop here
+		if (!$category)
+		{
+			return;
+		}
+
 		$item->addNestedTaxonomy('Category', $category, $this->translateState($category->published), $category->access, $category->language);
 
 		// Add the language taxonomy data.

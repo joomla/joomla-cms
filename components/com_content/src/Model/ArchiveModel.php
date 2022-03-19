@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2006 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -52,7 +52,7 @@ class ArchiveModel extends ArticlesModel
 		$params = $this->state->get('params');
 
 		// Filter on archived articles
-		$this->setState('filter.condition', ContentComponent::CONDITION_ARCHIVED);
+		$this->setState('filter.published', ContentComponent::CONDITION_ARCHIVED);
 
 		// Filter on month, year
 		$this->setState('filter.month', $app->input->getInt('month'));
@@ -80,7 +80,7 @@ class ArchiveModel extends ArticlesModel
 	/**
 	 * Get the master query for retrieving a list of articles subject to the model state.
 	 *
-	 * @return  \JDatabaseQuery
+	 * @return  \Joomla\Database\DatabaseQuery
 	 *
 	 * @since   1.6
 	 */
@@ -158,33 +158,6 @@ class ArchiveModel extends ArticlesModel
 	}
 
 	/**
-	 * Model override to add alternating value for $odd
-	 *
-	 * @param   string   $query       The query.
-	 * @param   integer  $limitstart  Offset.
-	 * @param   integer  $limit       The number of records.
-	 *
-	 * @return  array  An array of results.
-	 *
-	 * @since   3.0.1
-	 * @throws  \RuntimeException
-	 */
-	protected function _getList($query, $limitstart=0, $limit=0)
-	{
-		$result = parent::_getList($query, $limitstart, $limit);
-
-		$odd = 1;
-
-		foreach ($result as $k => $row)
-		{
-			$result[$k]->odd = $odd;
-			$odd = 1 - $odd;
-		}
-
-		return $result;
-	}
-
-	/**
 	 * Gets the archived articles years
 	 *
 	 * @return   array
@@ -229,9 +202,9 @@ class ArchiveModel extends ArticlesModel
 	/**
 	 * Generate column expression for slug or catslug.
 	 *
-	 * @param   \JDatabaseQuery  $query  Current query instance.
-	 * @param   string           $id     Column id name.
-	 * @param   string           $alias  Column alias name.
+	 * @param   \Joomla\Database\DatabaseQuery  $query  Current query instance.
+	 * @param   string                          $id     Column id name.
+	 * @param   string                          $alias  Column alias name.
 	 *
 	 * @return  string
 	 *

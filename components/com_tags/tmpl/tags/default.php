@@ -3,11 +3,13 @@
  * @package     Joomla.Site
  * @subpackage  com_tags
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2013 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Layout\LayoutHelper;
 
 // Note that there are certain parts of this layout used only when there is exactly one tag.
 $description      = $this->params->get('all_tags_description');
@@ -21,7 +23,7 @@ $descriptionImage = $this->params->get('all_tags_description_image');
 	<?php endif; ?>
 	<?php if ($this->params->get('all_tags_show_description_image') && !empty($descriptionImage)) : ?>
 		<div class="com-tags__image">
-			<img src="<?php echo $descriptionImage; ?>" />
+			<?php echo LayoutHelper::render('joomla.html.image', ['src' => $descriptionImage, 'alt' => empty($this->params->get('all_tags_description_image_alt')) && empty($this->params->get('all_tags_description_image_alt_empty')) ? false : $this->params->get('all_tags_description_image_alt')]); ?>
 		</div>
 	<?php endif; ?>
 	<?php if (!empty($description)) : ?>

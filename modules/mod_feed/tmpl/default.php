@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  mod_feed
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2006 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,6 +12,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Filter\OutputFilter;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Layout\LayoutHelper;
 
 // Check if feed URL has been set
 if (empty ($rssurl))
@@ -64,18 +65,15 @@ else
 
 	if ($feed !== false)
 	{
-		// Image handling
-		$iUrl   = $feed->image ?? null;
-		$iTitle = $feed->imagetitle ?? null;
 		?>
 		<div style="direction: <?php echo $rssrtl ? 'rtl' :'ltr'; ?>;" class="text-<?php echo $rssrtl ? 'right' : 'left'; ?> feed">
 		<?php
-		// Feed description
+		// Feed title
 		if ($feed->title !== null && $params->get('rsstitle', 1))
 		{
 			?>
 				<h2 class="<?php echo $direction; ?>">
-					<a href="<?php echo htmlspecialchars($rssurl, ENT_COMPAT, 'UTF-8'); ?>" target="_blank">
+					<a href="<?php echo htmlspecialchars($rssurl, ENT_COMPAT, 'UTF-8'); ?>" target="_blank" rel="noopener">
 					<?php echo $feed->title; ?></a>
 				</h2>
 			<?php
@@ -83,7 +81,7 @@ else
 		// Feed date
 		if ($params->get('rssdate', 1)) : ?>
 			<h3>
-			<?php echo HtmlHelper::_('date', $feed->publishedDate, Text::_('DATE_FORMAT_LC3')); ?>
+			<?php echo HTMLHelper::_('date', $feed->publishedDate, Text::_('DATE_FORMAT_LC3')); ?>
 			</h3>
 		<?php endif;
 		// Feed description
@@ -94,9 +92,9 @@ else
 			<?php
 		}
 		// Feed image
-		if ($iUrl && $params->get('rssimage', 1)) :
+		if ($feed->image && $params->get('rssimage', 1)) :
 		?>
-			<img src="<?php echo $iUrl; ?>" alt="<?php echo @$iTitle; ?>">
+			<?php echo LayoutHelper::render('joomla.html.image', ['src' => $feed->image->uri, 'alt' => $feed->image->title]); ?>
 		<?php endif; ?>
 
 
@@ -113,7 +111,7 @@ else
 				<li>
 					<?php if (!empty($uri)) : ?>
 						<span class="feed-link">
-						<a href="<?php echo htmlspecialchars($uri, ENT_COMPAT, 'UTF-8'); ?>" target="_blank">
+						<a href="<?php echo htmlspecialchars($uri, ENT_COMPAT, 'UTF-8'); ?>" target="_blank" rel="noopener">
 						<?php echo trim($feed[$i]->title); ?></a></span>
 					<?php else : ?>
 						<span class="feed-link"><?php echo trim($feed[$i]->title); ?></span>
@@ -121,7 +119,7 @@ else
 
 					<?php if ($params->get('rssitemdate', 0)) : ?>
 						<div class="feed-item-date">
-							<?php echo HtmlHelper::_('date', $feed[$i]->publishedDate, Text::_('DATE_FORMAT_LC3')); ?>
+							<?php echo HTMLHelper::_('date', $feed[$i]->publishedDate, Text::_('DATE_FORMAT_LC3')); ?>
 						</div>
 					<?php endif; ?>
 

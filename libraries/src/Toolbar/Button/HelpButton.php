@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2006 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -41,7 +41,7 @@ class HelpButton extends BasicButton
 	protected function prepareOptions(array &$options)
 	{
 		$options['text'] = $options['text'] ?: 'JTOOLBAR_HELP';
-		$options['icon'] = $options['icon'] ?? 'fas fa-question';
+		$options['icon'] = $options['icon'] ?? 'icon-question';
 		$options['button_class'] = $options['button_class'] ?? 'btn btn-info';
 		$options['onclick'] = $options['onclick'] ?? $this->_getCommand();
 

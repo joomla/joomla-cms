@@ -3,13 +3,13 @@
  * @package     Joomla.Administrator
  * @subpackage  com_menus
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2016 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\Component\Menus\Administrator\Field\Modal;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\FormField;
@@ -180,8 +180,11 @@ class MenuField extends FormField
 		// Create the modal id.
 		$modalId = 'Item_' . $this->id;
 
+		/** @var \Joomla\CMS\WebAsset\WebAssetManager $wa */
+		$wa = Factory::getApplication()->getDocument()->getWebAssetManager();
+
 		// Add the modal field script to the document head.
-		HTMLHelper::_('script', 'system/fields/modal-fields.min.js', array('version' => 'auto', 'relative' => true));
+		$wa->useScript('field.modal-fields');
 
 		// Script to proxy the select modal function to the modal-fields.js file.
 		if ($this->allowSelect)
@@ -195,11 +198,12 @@ class MenuField extends FormField
 
 			if (!isset($scriptSelect[$this->id]))
 			{
-				Factory::getDocument()->addScriptDeclaration("
-				function jSelectMenu_" . $this->id . "(id, title, object) {
+				$wa->addInlineScript("
+				window.jSelectMenu_" . $this->id . " = function (id, title, object) {
 					window.processModalSelect('Item', '" . $this->id . "', id, title, '', object);
-				}
-				"
+				}",
+					[],
+					['type' => 'module']
 				);
 
 				Text::script('JGLOBAL_ASSOCIATIONS_PROPAGATE_FAILED');
@@ -271,21 +275,16 @@ class MenuField extends FormField
 
 		$html .= '<input class="form-control" id="' . $this->id . '_name" type="text" value="' . $title . '" disabled="disabled" size="35">';
 
-		if ($this->allowSelect || $this->allowNew || $this->allowEdit || $this->allowClear)
-		{
-			$html .= '<span class="input-group-append">';
-		}
-
 		// Select menu item button
 		if ($this->allowSelect)
 		{
 			$html .= '<button'
 				. ' class="btn btn-primary' . ($value ? ' hidden' : '') . '"'
 				. ' id="' . $this->id . '_select"'
-				. ' data-toggle="modal"'
+				. ' data-bs-toggle="modal"'
 				. ' type="button"'
-				. ' data-target="#ModalSelect' . $modalId . '">'
-				. '<span class="fas fa-file" aria-hidden="true"></span> ' . Text::_('JSELECT')
+				. ' data-bs-target="#ModalSelect' . $modalId . '">'
+				. '<span class="icon-file" aria-hidden="true"></span> ' . Text::_('JSELECT')
 				. '</button>';
 		}
 
@@ -295,10 +294,10 @@ class MenuField extends FormField
 			$html .= '<button'
 				. ' class="btn btn-secondary' . ($value ? ' hidden' : '') . '"'
 				. ' id="' . $this->id . '_new"'
-				. ' data-toggle="modal"'
+				. ' data-bs-toggle="modal"'
 				. ' type="button"'
-				. ' data-target="#ModalNew' . $modalId . '">'
-				. '<span class="fas fa-plus" aria-hidden="true"></span> ' . Text::_('JACTION_CREATE')
+				. ' data-bs-target="#ModalNew' . $modalId . '">'
+				. '<span class="icon-plus" aria-hidden="true"></span> ' . Text::_('JACTION_CREATE')
 				. '</button>';
 		}
 
@@ -306,12 +305,12 @@ class MenuField extends FormField
 		if ($this->allowEdit)
 		{
 			$html .= '<button'
-				. ' class="btn btn-secondary' . ($value ? '' : ' hidden') . '"'
+				. ' class="btn btn-primary' . ($value ? '' : ' hidden') . '"'
 				. ' id="' . $this->id . '_edit"'
-				. ' data-toggle="modal"'
+				. ' data-bs-toggle="modal"'
 				. ' type="button"'
-				. ' data-target="#ModalEdit' . $modalId . '">'
-				. '<span class="fas fa-pen-square" aria-hidden="true"></span> ' . Text::_('JACTION_EDIT')
+				. ' data-bs-target="#ModalEdit' . $modalId . '">'
+				. '<span class="icon-pen-square" aria-hidden="true"></span> ' . Text::_('JACTION_EDIT')
 				. '</button>';
 		}
 
@@ -323,7 +322,7 @@ class MenuField extends FormField
 				. ' id="' . $this->id . '_clear"'
 				. ' type="button"'
 				. ' onclick="window.processModalParent(\'' . $this->id . '\'); return false;">'
-				. '<span class="fas fa-times" aria-hidden="true"></span> ' . Text::_('JCLEAR')
+				. '<span class="icon-times" aria-hidden="true"></span> ' . Text::_('JCLEAR')
 				. '</button>';
 		}
 
@@ -335,18 +334,18 @@ class MenuField extends FormField
 			$callbackFunctionStem = substr("jSelectMenu_" . $this->id, 0, -$tagLength);
 
 			$html .= '<button'
-			. ' class="btn btn-secondary' . ($value ? '' : ' hidden') . '"'
+			. ' class="btn btn-primary' . ($value ? '' : ' hidden') . '"'
 			. ' type="button"'
 			. ' id="' . $this->id . '_propagate"'
 			. ' title="' . Text::_('JGLOBAL_ASSOCIATIONS_PROPAGATE_TIP') . '"'
 			. ' onclick="Joomla.propagateAssociation(\'' . $this->id . '\', \'' . $callbackFunctionStem . '\');">'
-			. '<span class="fas fa-sync" aria-hidden="true"></span> ' . Text::_('JGLOBAL_ASSOCIATIONS_PROPAGATE_BUTTON')
+			. '<span class="icon-sync" aria-hidden="true"></span> ' . Text::_('JGLOBAL_ASSOCIATIONS_PROPAGATE_BUTTON')
 			. '</button>';
 		}
 
 		if ($this->allowSelect || $this->allowNew || $this->allowEdit || $this->allowClear)
 		{
-			$html .= '</span></span>';
+			$html .= '</span>';
 		}
 
 		// Select menu item modal
@@ -362,7 +361,7 @@ class MenuField extends FormField
 					'width'       => '800px',
 					'bodyHeight'  => 70,
 					'modalWidth'  => 80,
-					'footer'      => '<button type="button" class="btn btn-secondary" data-dismiss="modal">'
+					'footer'      => '<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">'
 										. Text::_('JLIB_HTML_BEHAVIOR_CLOSE') . '</button>',
 				)
 			);

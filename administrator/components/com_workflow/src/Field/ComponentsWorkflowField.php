@@ -3,19 +3,19 @@
  * @package     Joomla.Administrator
  * @subpackage  com_workflow
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2019 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\Component\Workflow\Administrator\Field;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Access\Access;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Workflow\WorkflowServiceInterface;
 use Joomla\CMS\Form\Field\ListField;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Workflow\WorkflowServiceInterface;
 use Joomla\Utilities\ArrayHelper;
 
 /**
@@ -61,7 +61,7 @@ class ComponentsWorkflowField extends ListField
 
 			$components = [];
 
-			// Search for components supporting Fieldgroups - suppose that these componets support fields as well
+			// Search for components supporting Fieldgroups - suppose that these components support fields as well
 			foreach ($items as &$item)
 			{
 				$availableActions = Access::getActionsFromFile(

@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  User.token
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2020 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,6 +12,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Crypt\Crypt;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\Database\ParameterType;
@@ -35,7 +36,7 @@ class PlgUserToken extends CMSPlugin
 	/**
 	 * Application object.
 	 *
-	 * @var    JApplicationCms
+	 * @var    \Joomla\CMS\Application\CMSApplication
 	 * @since  4.0.0
 	 */
 	protected $app;
@@ -43,7 +44,7 @@ class PlgUserToken extends CMSPlugin
 	/**
 	 * Database object.
 	 *
-	 * @var    JDatabaseDriver
+	 * @var    \Joomla\Database\DatabaseInterface
 	 * @since  4.0.0
 	 */
 	protected $db;
@@ -55,7 +56,8 @@ class PlgUserToken extends CMSPlugin
 	 * @since   4.0.0
 	 */
 	private $allowedContexts = [
-		'com_users.profile', 'com_users.user',
+		'com_users.profile',
+		'com_users.user',
 	];
 
 	/**
@@ -112,7 +114,7 @@ class PlgUserToken extends CMSPlugin
 		}
 
 		// Get the user ID
-		$userId = isset($data->id) ? intval($data->id) : 0;
+		$userId = intval($data->id);
 
 		// Make sure we have a positive integer user ID
 		if ($userId <= 0)
@@ -151,12 +153,40 @@ class PlgUserToken extends CMSPlugin
 			foreach ($results as $v)
 			{
 				$k = str_replace($this->profileKeyPrefix . '.', '', $v[0]);
+
 				$data->{$this->profileKeyPrefix}[$k] = $v[1];
 			}
 		}
 		catch (Exception $e)
 		{
 			// We suppress any database error. It means we get no token saved by default.
+		}
+
+		/**
+		 * Modify the data for display in the user profile view page in the frontend.
+		 *
+		 * It's important to note that we deliberately not register HTMLHelper methods to do the
+		 * same (unlike e.g. the actionlogs system plugin) because the names of our fields are too
+		 * generic and we run the risk of creating naming clashes. Instead, we manipulate the data
+		 * directly.
+		 */
+		if (($context === 'com_users.profile') && ($this->app->input->get('layout') !== 'edit'))
+		{
+			$pluginData = $data->{$this->profileKeyPrefix} ?? [];
+			$enabled    = $pluginData['enabled'] ?? false;
+			$token      = $pluginData['token'] ?? '';
+
+			$pluginData['enabled'] = Text::_('JDISABLED');
+			$pluginData['token']   = '';
+
+			if ($enabled)
+			{
+				$algo                  = $this->getAlgorithmFromFormFile();
+				$pluginData['enabled'] = Text::_('JENABLED');
+				$pluginData['token']   = $this->getTokenForDisplay($userId, $token, $algo);
+			}
+
+			$data->{$this->profileKeyPrefix} = $pluginData;
 		}
 
 		return true;
@@ -179,11 +209,6 @@ class PlgUserToken extends CMSPlugin
 		if (!PluginHelper::isEnabled('api-authentication', $this->_name))
 		{
 			return true;
-		}
-
-		if (!($form instanceof Form))
-		{
-			throw new Exception('JERROR_NOT_A_FORM');
 		}
 
 		// Check we are manipulating a valid form.
@@ -251,6 +276,12 @@ class PlgUserToken extends CMSPlugin
 			$form->removeField('savemeforotherpeople', 'joomlatoken');
 		}
 
+		// Remove the Reset field when displaying the user profile form
+		if (($form->getName() === 'com_users.profile') && ($this->app->input->get('layout') !== 'edit'))
+		{
+			$form->removeField('reset', 'joomlatoken');
+		}
+
 		return true;
 	}
 
@@ -289,6 +320,19 @@ class PlgUserToken extends CMSPlugin
 		// No Joomla token data. Set the $noToken flag which results in a new token being generated.
 		if (!isset($data[$this->profileKeyPrefix]))
 		{
+			/**
+			 * Is the user being saved programmatically, without passing the user profile
+			 * information? In this case I do not want to accidentally try to generate a new token!
+			 *
+			 * We determine that by examining whether the Joomla token field exists. If it does but
+			 * it wasn't passed when saving the user I know it's a programmatic user save and I have
+			 * to ignore it.
+			 */
+			if ($this->hasTokenProfileFields($userId))
+			{
+				return;
+			}
+
 			$noToken                       = true;
 			$data[$this->profileKeyPrefix] = [];
 		}
@@ -354,10 +398,10 @@ class PlgUserToken extends CMSPlugin
 		$query = $db->getQuery(true)
 			->insert($db->qn('#__user_profiles'))
 			->columns([
-				$db->qn('user_id'),
-				$db->qn('profile_key'),
-				$db->qn('profile_value'),
-				$db->qn('ordering')
+					$db->qn('user_id'),
+					$db->qn('profile_key'),
+					$db->qn('profile_value'),
+					$db->qn('ordering'),
 				]
 			);
 
@@ -379,7 +423,7 @@ class PlgUserToken extends CMSPlugin
 	 * This event is called after the user data is deleted from the database.
 	 *
 	 * @param   array    $user     Holds the user data
-	 * @param   boolean  $success  True if user was succesfully stored in the database
+	 * @param   boolean  $success  True if user was successfully stored in the database
 	 * @param   string   $msg      Message
 	 *
 	 * @return  void
@@ -420,7 +464,6 @@ class PlgUserToken extends CMSPlugin
 			// Do nothing.
 		}
 	}
-
 
 	/**
 	 * Returns an array with the default profile field values.
@@ -528,4 +571,111 @@ class PlgUserToken extends CMSPlugin
 
 		return !empty($intersection);
 	}
+
+	/**
+	 * Returns the token formatted suitably for the user to copy.
+	 *
+	 * @param   integer  $userId     The user id for token
+	 * @param   string   $tokenSeed  The token seed data stored in the database
+	 * @param   string   $algorithm  The hashing algorithm to use for the token (default: sha256)
+	 *
+	 * @return  string
+	 * @since   4.0.0
+	 */
+	private function getTokenForDisplay(int $userId, string $tokenSeed,
+		string $algorithm = 'sha256'
+	): string
+	{
+		if (empty($tokenSeed))
+		{
+			return '';
+		}
+
+		try
+		{
+			$siteSecret = $this->app->get('secret');
+		}
+		catch (\Exception $e)
+		{
+			$siteSecret = '';
+		}
+
+		// NO site secret? You monster!
+		if (empty($siteSecret))
+		{
+			return '';
+		}
+
+		$rawToken  = base64_decode($tokenSeed);
+		$tokenHash = hash_hmac($algorithm, $rawToken, $siteSecret);
+		$message   = base64_encode("$algorithm:$userId:$tokenHash");
+
+		if ($userId !== $this->app->getIdentity()->id)
+		{
+			$message = '';
+		}
+
+		return $message;
+	}
+
+	/**
+	 * Get the token algorithm as defined in the form file
+	 *
+	 * We use a simple RegEx match instead of loading the form for better performance.
+	 *
+	 * @return  string  The configured algorithm, 'sha256' as a fallback if none is found.
+	 */
+	private function getAlgorithmFromFormFile(): string
+	{
+		$algo = 'sha256';
+
+		$file     = __DIR__ . '/forms/token.xml';
+		$contents = @file_get_contents($file);
+
+		if ($contents === false)
+		{
+			return $algo;
+		}
+
+		if (preg_match('/\s*algo=\s*"\s*([a-z0-9]+)\s*"/i', $contents, $matches) !== 1)
+		{
+			return $algo;
+		}
+
+		return $matches[1];
+	}
+
+	/**
+	 * Does the user have the Joomla Token profile fields?
+	 *
+	 * @param   int|null  $userId  The user we're interested in
+	 *
+	 * @return  bool  True if the user has Joomla Token profile fields
+	 */
+	private function hasTokenProfileFields(?int $userId): bool
+	{
+		if (is_null($userId) || ($userId <= 0))
+		{
+			return false;
+		}
+
+		$db = $this->db;
+		$q  = $db->getQuery(true)
+			->select('COUNT(*)')
+			->from($db->qn('#__user_profiles'))
+			->where($db->qn('user_id') . ' = ' . $userId)
+			->where($db->qn('profile_key') . ' = ' . $db->q($this->profileKeyPrefix . '.token'));
+
+		try
+		{
+			$numRows = $db->setQuery($q)->loadResult() ?? 0;
+		}
+		catch (Exception $e)
+		{
+			return false;
+		}
+
+		return $numRows > 0;
+	}
+
 }

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2018 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -68,7 +68,14 @@ class Icon
 
 		$url = 'index.php?option=com_content&task=article.add&return=' . base64_encode($uri) . '&a_id=0&catid=' . $category->id;
 
-		$text = LayoutHelper::render('joomla.content.icons.create', array('params' => $params, 'legacy' => $legacy));
+		$text = '';
+
+		if ($params->get('show_icons'))
+		{
+			$text .= '<span class="icon-plus icon-fw" aria-hidden="true"></span>';
+		}
+
+		$text .= Text::_('COM_CONTENT_NEW_ARTICLE');
 
 		// Add the button classes to the attribs array
 		if (isset($attribs['class']))
@@ -82,9 +89,7 @@ class Icon
 
 		$button = HTMLHelper::_('link', Route::_($url), $text, $attribs);
 
-		$output = '<span class="hasTooltip" title="' . HTMLHelper::_('tooltipText', 'COM_CONTENT_CREATE_ARTICLE') . '">' . $button . '</span>';
-
-		return $output;
+		return $button;
 	}
 
 	/**
@@ -119,9 +124,6 @@ class Icon
 			return;
 		}
 
-		// Set the link class
-		$attribs['class'] = 'dropdown-item';
-
 		// Show checked_out icon if the article is checked out by a different user
 		if (property_exists($article, 'checked_out')
 			&& property_exists($article, 'checked_out_time')
@@ -130,11 +132,12 @@ class Icon
 		{
 			$checkoutUser = Factory::getUser($article->checked_out);
 			$date         = HTMLHelper::_('date', $article->checked_out_time);
-			$tooltip      = Text::_('JLIB_HTML_CHECKED_OUT') . ' :: ' . Text::sprintf('COM_CONTENT_CHECKED_OUT_BY', $checkoutUser->name)
+			$tooltip      = Text::sprintf('COM_CONTENT_CHECKED_OUT_BY', $checkoutUser->name)
 				. ' <br> ' . $date;
 
-			$text = LayoutHelper::render('joomla.content.icons.edit_lock', array('tooltip' => $tooltip, 'legacy' => $legacy));
+			$text = LayoutHelper::render('joomla.content.icons.edit_lock', array('article' => $article, 'tooltip' => $tooltip, 'legacy' => $legacy));
 
+			$attribs['aria-describedby'] = 'editarticle-' . (int) $article->id;
 			$output = HTMLHelper::_('link', '#', $text, $attribs);
 
 			return $output;
@@ -145,56 +148,19 @@ class Icon
 
 		if ($article->state == Workflow::CONDITION_UNPUBLISHED)
 		{
-			$overlib = Text::_('JUNPUBLISHED');
+			$tooltip = Text::_('COM_CONTENT_EDIT_UNPUBLISHED_ARTICLE');
 		}
 		else
 		{
-			$overlib = Text::_('JPUBLISHED');
+			$tooltip = Text::_('COM_CONTENT_EDIT_PUBLISHED_ARTICLE');
 		}
 
-		$date   = HTMLHelper::_('date', $article->created);
-		$author = $article->created_by_alias ?: $article->author;
+		$text = LayoutHelper::render('joomla.content.icons.edit', array('article' => $article, 'tooltip' => $tooltip, 'legacy' => $legacy));
 
-		$overlib .= '&lt;br&gt;';
-		$overlib .= $date;
-		$overlib .= '&lt;br&gt;';
-		$overlib .= Text::sprintf('COM_CONTENT_WRITTEN_BY', htmlspecialchars($author, ENT_COMPAT, 'UTF-8'));
-
-		$text = LayoutHelper::render('joomla.content.icons.edit', array('article' => $article, 'overlib' => $overlib, 'legacy' => $legacy));
-
-		$attribs['title']   = Text::_('JGLOBAL_EDIT_TITLE');
+		$attribs['aria-describedby'] = 'editarticle-' . (int) $article->id;
 		$output = HTMLHelper::_('link', Route::_($url), $text, $attribs);
 
 		return $output;
-	}
-
-	/**
-	 * Method to generate a popup link to print an article
-	 *
-	 * @param   object    $article  The article information
-	 * @param   Registry  $params   The item parameters
-	 * @param   array     $attribs  Optional attributes for the link
-	 * @param   boolean   $legacy   True to use legacy images, false to use icomoon based graphic
-	 *
-	 * @return  string  The HTML markup for the popup link
-	 *
-	 * @since  4.0.0
-	 */
-	public function print_popup($article, $params, $attribs = array(), $legacy = false)
-	{
-		$url  = RouteHelper::getArticleRoute($article->slug, $article->catid, $article->language);
-		$url .= '&tmpl=component&print=1&layout=default';
-
-		$status = 'status=no,toolbar=no,scrollbars=yes,titlebar=no,menubar=no,resizable=yes,width=640,height=480,directories=no,location=no';
-
-		$text = LayoutHelper::render('joomla.content.icons.print_popup', array('params' => $params, 'legacy' => $legacy));
-
-		$attribs['title']   = Text::sprintf('JGLOBAL_PRINT_TITLE', htmlspecialchars($article->title, ENT_QUOTES, 'UTF-8'));
-		$attribs['onclick'] = "window.open(this.href,'win2','" . $status . "'); return false;";
-		$attribs['rel']     = 'nofollow';
-		$attribs['class']   = 'dropdown-item';
-
-		return HTMLHelper::_('link', Route::_($url), $text, $attribs);
 	}
 
 	/**

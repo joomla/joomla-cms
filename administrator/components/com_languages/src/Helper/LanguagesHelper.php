@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_languages
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2009 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,7 +12,6 @@ namespace Joomla\Component\Languages\Administrator\Helper;
 \defined('_JEXEC') or die;
 
 use Joomla\CMS\Filter\InputFilter;
-use Joomla\CMS\Language\LanguageHelper;
 
 /**
  * Languages component helper.
@@ -33,7 +32,7 @@ class LanguagesHelper
 	 */
 	public static function filterKey($value)
 	{
-		$filter = InputFilter::getInstance([], [], InputFilter::TAGS_BLACKLIST, InputFilter::ATTR_BLACKLIST);
+		$filter = InputFilter::getInstance([], [], InputFilter::ONLY_BLOCK_DEFINED_TAGS, InputFilter::ONLY_BLOCK_DEFINED_ATTRIBUTES);
 
 		return strtoupper($filter->clean($value, 'cmd'));
 	}
@@ -50,7 +49,7 @@ class LanguagesHelper
 	 */
 	public static function filterText($value)
 	{
-		$filter = InputFilter::getInstance([], [], InputFilter::TAGS_BLACKLIST, InputFilter::ATTR_BLACKLIST);
+		$filter = InputFilter::getInstance([], [], InputFilter::ONLY_BLOCK_DEFINED_TAGS, InputFilter::ONLY_BLOCK_DEFINED_ATTRIBUTES);
 
 		return $filter->clean($value);
 	}

@@ -1,0 +1,17 @@
+.switcher {
+  .toggle-outside {
+    border: $input-border;
+    border-radius: $border-radius;
+
+    &:focus {
+      box-shadow: $input-box-shadow;
+    }
+  }
+  input:focus ~ .toggle-outside {
+    border-color: $focuscolor;
+    box-shadow: $focusshadow;
+  }
+}
+.disabled {
+  opacity: $btn-disabled-opacity;
+}

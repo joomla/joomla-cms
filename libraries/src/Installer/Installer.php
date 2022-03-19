@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2005 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -10,6 +10,7 @@ namespace Joomla\CMS\Installer;
 
 \defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Adapter\Adapter;
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\File;
@@ -22,16 +23,15 @@ use Joomla\CMS\Table\Extension;
 use Joomla\CMS\Table\Table;
 use Joomla\Database\DatabaseDriver;
 use Joomla\Database\Exception\ExecutionFailureException;
+use Joomla\Database\Exception\PrepareStatementFailureException;
 use Joomla\Database\ParameterType;
-
-\JLoader::import('joomla.base.adapter');
 
 /**
  * Joomla base installer class
  *
  * @since  3.1
  */
-class Installer extends \JAdapter
+class Installer extends Adapter
 {
 	/**
 	 * Array of paths needed by the installer
@@ -121,6 +121,14 @@ class Installer extends \JAdapter
 	 * @since  3.7.0
 	 */
 	protected $packageUninstall = false;
+
+	/**
+	 * Backup extra_query during update_sites rebuild
+	 *
+	 * @var    string
+	 * @since  3.9.26
+	 */
+	public $extraQuery = '';
 
 	/**
 	 * JInstaller instances container.
@@ -511,6 +519,9 @@ class Installer extends \JAdapter
 
 		// Run the install
 		$result = $adapter->install();
+
+		// Make sure Joomla can figure out what has changed
+		clearstatcache();
 
 		// Fire the onExtensionAfterInstall
 		Factory::getApplication()->triggerEvent(
@@ -1164,6 +1175,9 @@ class Installer extends \JAdapter
 						$version = '0.0.0';
 					}
 
+					Log::add(Text::_('JLIB_INSTALLER_SQL_BEGIN'), Log::INFO, 'Update');
+					Log::add(Text::sprintf('JLIB_INSTALLER_SQL_BEGIN_SCHEMA', $version), Log::INFO, 'Update');
+
 					foreach ($files as $file)
 					{
 						if (version_compare($file, $version) > 0)
@@ -1190,19 +1204,28 @@ class Installer extends \JAdapter
 							// Process each query in the $queries array (split out of sql file).
 							foreach ($queries as $query)
 							{
+								$queryString = (string) $query;
+								$queryString = str_replace(array("\r", "\n"), array('', ' '), substr($queryString, 0, 80));
+
 								try
 								{
 									$db->setQuery($query)->execute();
 								}
-								catch (ExecutionFailureException $e)
+								catch (ExecutionFailureException | PrepareStatementFailureException $e)
 								{
-									Log::add(Text::sprintf('JLIB_INSTALLER_ERROR_SQL_ERROR', $e->getMessage()), Log::WARNING, 'jerror');
+									$errorMessage = Text::sprintf('JLIB_INSTALLER_ERROR_SQL_ERROR', $e->getMessage());
+
+									// Log the error in the update log file
+									Log::add(Text::sprintf('JLIB_INSTALLER_UPDATE_LOG_QUERY', $file, $queryString), Log::INFO, 'Update');
+									Log::add($errorMessage, Log::INFO, 'Update');
+									Log::add(Text::_('JLIB_INSTALLER_SQL_END_NOT_COMPLETE'), Log::INFO, 'Update');
+
+									// Show the error message to the user
+									Log::add($errorMessage, Log::WARNING, 'jerror');
 
 									return false;
 								}
 
-								$queryString = (string) $query;
-								$queryString = str_replace(array("\r", "\n"), array('', ' '), substr($queryString, 0, 80));
 								Log::add(Text::sprintf('JLIB_INSTALLER_UPDATE_LOG_QUERY', $file, $queryString), Log::INFO, 'Update');
 
 								$update_count++;
@@ -1238,6 +1261,8 @@ class Installer extends \JAdapter
 
 						return false;
 					}
+
+					Log::add(Text::_('JLIB_INSTALLER_SQL_END'), Log::INFO, 'Update');
 				}
 			}
 		}
@@ -1350,7 +1375,7 @@ class Installer extends \JAdapter
 
 			/*
 			 * Before we can add a file to the copyfiles array we need to ensure
-			 * that the folder we are copying our file to exits and if it doesn't,
+			 * that the folder we are copying our file to exists and if it doesn't,
 			 * we need to create it.
 			 */
 
@@ -1360,7 +1385,15 @@ class Installer extends \JAdapter
 
 				if (!Folder::create($newdir))
 				{
-					Log::add(Text::sprintf('JLIB_INSTALLER_ERROR_CREATE_DIRECTORY', $newdir), Log::WARNING, 'jerror');
+					Log::add(
+						Text::sprintf(
+							'JLIB_INSTALLER_ABORT_CREATE_DIRECTORY',
+							Text::_('JLIB_INSTALLER_INSTALL'),
+							$newdir
+						),
+						Log::WARNING,
+						'jerror'
+					);
 
 					return false;
 				}
@@ -1386,7 +1419,7 @@ class Installer extends \JAdapter
 	 */
 	public function parseLanguages(\SimpleXMLElement $element, $cid = 0)
 	{
-		// TODO: work out why the below line triggers 'node no longer exists' errors with files
+		// @todo: work out why the below line triggers 'node no longer exists' errors with files
 		if (!$element || !\count($element->children()))
 		{
 			// Either the tag does not exist or has no children therefore we return zero files processed.
@@ -1466,7 +1499,7 @@ class Installer extends \JAdapter
 
 			/*
 			 * Before we can add a file to the copyfiles array we need to ensure
-			 * that the folder we are copying our file to exits and if it doesn't,
+			 * that the folder we are copying our file to exists and if it doesn't,
 			 * we need to create it.
 			 */
 
@@ -1476,7 +1509,15 @@ class Installer extends \JAdapter
 
 				if (!Folder::create($newdir))
 				{
-					Log::add(Text::sprintf('JLIB_INSTALLER_ERROR_CREATE_DIRECTORY', $newdir), Log::WARNING, 'jerror');
+					Log::add(
+						Text::sprintf(
+							'JLIB_INSTALLER_ABORT_CREATE_DIRECTORY',
+							Text::_('JLIB_INSTALLER_INSTALL'),
+							$newdir
+						),
+						Log::WARNING,
+						'jerror'
+					);
 
 					return false;
 				}
@@ -1547,7 +1588,7 @@ class Installer extends \JAdapter
 
 			/*
 			 * Before we can add a file to the copyfiles array we need to ensure
-			 * that the folder we are copying our file to exits and if it doesn't,
+			 * that the folder we are copying our file to exists and if it doesn't,
 			 * we need to create it.
 			 */
 
@@ -1557,7 +1598,15 @@ class Installer extends \JAdapter
 
 				if (!Folder::create($newdir))
 				{
-					Log::add(Text::sprintf('JLIB_INSTALLER_ERROR_CREATE_DIRECTORY', $newdir), Log::WARNING, 'jerror');
+					Log::add(
+						Text::sprintf(
+							'JLIB_INSTALLER_ABORT_CREATE_DIRECTORY',
+							Text::_('JLIB_INSTALLER_INSTALL'),
+							$newdir
+						),
+						Log::WARNING,
+						'jerror'
+					);
 
 					return false;
 				}
@@ -2073,14 +2122,14 @@ class Installer extends \JAdapter
 	/**
 	 * Compares two "files" entries to find deleted files/folders
 	 *
-	 * @param   array  $old_files  An array of \SimpleXMLElement objects that are the old files
-	 * @param   array  $new_files  An array of \SimpleXMLElement objects that are the new files
+	 * @param   array  $oldFiles  An array of \SimpleXMLElement objects that are the old files
+	 * @param   array  $newFiles  An array of \SimpleXMLElement objects that are the new files
 	 *
 	 * @return  array  An array with the delete files and folders in findDeletedFiles[files] and findDeletedFiles[folders] respectively
 	 *
 	 * @since   3.1
 	 */
-	public function findDeletedFiles($old_files, $new_files)
+	public function findDeletedFiles($oldFiles, $newFiles)
 	{
 		// The magic find deleted files function!
 		// The files that are new
@@ -2098,7 +2147,7 @@ class Installer extends \JAdapter
 		// A list of folders to delete
 		$folders_deleted = array();
 
-		foreach ($new_files as $file)
+		foreach ($newFiles as $file)
 		{
 			switch ($file->getName())
 			{
@@ -2128,7 +2177,7 @@ class Installer extends \JAdapter
 							$container .= '/';
 						}
 
-						// Aappend the folder part
+						// Append the folder part
 						$container .= $part;
 
 						if (!\in_array($container, $containers))
@@ -2141,7 +2190,7 @@ class Installer extends \JAdapter
 			}
 		}
 
-		foreach ($old_files as $file)
+		foreach ($oldFiles as $file)
 		{
 			switch ($file->getName())
 			{
@@ -2268,6 +2317,17 @@ class Installer extends \JAdapter
 		$data['description'] = (string) $xml->description;
 		$data['group'] = (string) $xml->group;
 
+		// Child template specific fields.
+		if (isset($xml->inheritable))
+		{
+			$data['inheritable'] = (string) $xml->inheritable === '0' ? false : true;
+		}
+
+		if (isset($xml->parent) && (string) $xml->parent !== '')
+		{
+			$data['parent'] = (string) $xml->parent;
+		}
+
 		if ($xml->files && \count($xml->files->children()))
 		{
 			$filename = basename($path);
@@ -2344,7 +2404,7 @@ class Installer extends \JAdapter
 			foreach ($custom as $adapter)
 			{
 				// Setup the class name
-				// TODO - Can we abstract this to not depend on the Joomla class namespace without PHP namespaces?
+				// @todo - Can we abstract this to not depend on the Joomla class namespace without PHP namespaces?
 				$class = $this->_classprefix . ucfirst(trim($adapter));
 
 				// If the class doesn't exist we have nothing left to do but look at the next type. We did our best.

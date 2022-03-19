@@ -3,7 +3,7 @@
  * @package     Joomla.API
  * @subpackage  com_plugins
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2019 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -14,9 +14,9 @@ namespace Joomla\Component\Plugins\Api\Controller;
 use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\ApiController;
-use Joomla\String\Inflector;
+use Joomla\CMS\MVC\Controller\Exception;
 use Joomla\CMS\Router\Exception\RouteNotFoundException;
-use Joomla\CMS\MVC\Controller\Exception\ResourceNotFound;
+use Joomla\String\Inflector;
 use Tobscure\JsonApi\Exception\InvalidParameterException;
 
 /**
@@ -63,7 +63,7 @@ class PluginsController extends ApiController
 
 		foreach ($data as $key => $value)
 		{
-			if (!in_array($key, ['enabled', 'access', 'ordering']))
+			if (!\in_array($key, ['enabled', 'access', 'ordering']))
 			{
 				throw new InvalidParameterException("Invalid parameter {$key}.", 400);
 			}
@@ -104,22 +104,22 @@ class PluginsController extends ApiController
 		$apiFilterInfo = $this->input->get('filter', [], 'array');
 		$filter        = InputFilter::getInstance();
 
-		if (array_key_exists('element', $apiFilterInfo))
+		if (\array_key_exists('element', $apiFilterInfo))
 		{
 			$this->modelState->set('filter.element', $filter->clean($apiFilterInfo['element'], 'STRING'));
 		}
 
-		if (array_key_exists('status', $apiFilterInfo))
+		if (\array_key_exists('status', $apiFilterInfo))
 		{
 			$this->modelState->set('filter.enabled', $filter->clean($apiFilterInfo['status'], 'INT'));
 		}
 
-		if (array_key_exists('search', $apiFilterInfo))
+		if (\array_key_exists('search', $apiFilterInfo))
 		{
 			$this->modelState->set('filter.search', $filter->clean($apiFilterInfo['search'], 'STRING'));
 		}
 
-		if (array_key_exists('type', $apiFilterInfo))
+		if (\array_key_exists('type', $apiFilterInfo))
 		{
 			$this->modelState->set('filter.folder', $filter->clean($apiFilterInfo['type'], 'STRING'));
 		}

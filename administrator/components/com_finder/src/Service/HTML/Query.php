@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2011 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -11,8 +11,8 @@ namespace Joomla\Component\Finder\Administrator\Service\HTML;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
-use Joomla\Component\Finder\Administrator\Indexer\Query as IndexerQuery;
 use Joomla\Component\Finder\Administrator\Helper\LanguageHelper;
+use Joomla\Component\Finder\Administrator\Indexer\Query as IndexerQuery;
 
 \defined('_JEXEC') or die;
 
@@ -116,7 +116,7 @@ class Query
 		}
 
 		// Build the interpreted query.
-		return count($parts) ? Text::sprintf('COM_FINDER_QUERY_TOKEN_INTERPRETED', implode(Text::_('COM_FINDER_QUERY_TOKEN_GLUE'), $parts)) : null;
+		return count($parts) ? implode(Text::_('COM_FINDER_QUERY_TOKEN_GLUE'), $parts) : null;
 	}
 
 	/**

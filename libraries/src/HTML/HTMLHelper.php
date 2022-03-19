@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2005 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -16,7 +16,6 @@ use Joomla\CMS\Filesystem\File;
 use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
-use Joomla\CMS\Log\Log;
 use Joomla\CMS\Uri\Uri;
 use Joomla\Utilities\ArrayHelper;
 
@@ -86,18 +85,10 @@ abstract class HTMLHelper
 
 		if (\count($parts) === 3)
 		{
-			try
-			{
-				Log::add(
-					'Support for a three segment service key is deprecated and will be removed in Joomla 5.0, use the service registry instead',
-					Log::WARNING,
-					'deprecated'
-				);
-			}
-			catch (\RuntimeException $exception)
-			{
-				// Informational message only, continue on
-			}
+			@trigger_error(
+				'Support for a three segment service key is deprecated and will be removed in Joomla 5.0, use the service registry instead',
+				E_USER_DEPRECATED
+			);
 		}
 
 		$prefix = \count($parts) === 3 ? array_shift($parts) : 'JHtml';
@@ -207,18 +198,10 @@ abstract class HTMLHelper
 	 */
 	public static function register($key, callable $function)
 	{
-		try
-		{
-			Log::add(
-				'Support for registering functions is deprecated and will be removed in Joomla 5.0, use the service registry instead',
-				Log::WARNING,
-				'deprecated'
-			);
-		}
-		catch (\RuntimeException $exception)
-		{
-			// Informational message only, continue on
-		}
+		@trigger_error(
+			'Support for registering functions is deprecated and will be removed in Joomla 5.0, use the service registry instead',
+			E_USER_DEPRECATED
+		);
 
 		list($key) = static::extract($key);
 
@@ -239,18 +222,10 @@ abstract class HTMLHelper
 	 */
 	public static function unregister($key)
 	{
-		try
-		{
-			Log::add(
-				'Support for registering functions is deprecated and will be removed in Joomla 5.0, use the service registry instead',
-				Log::WARNING,
-				'deprecated'
-			);
-		}
-		catch (\RuntimeException $exception)
-		{
-			// Informational message only, continue on
-		}
+		@trigger_error(
+			'Support for registering functions is deprecated and will be removed in Joomla 5.0, use the service registry instead',
+			E_USER_DEPRECATED
+		);
 
 		list($key) = static::extract($key);
 
@@ -368,24 +343,24 @@ abstract class HTMLHelper
 	/**
 	 * Compute the files to be included
 	 *
-	 * @param   string   $folder          Folder name to search in (i.e. images, css, js).
-	 * @param   string   $file            Path to file.
-	 * @param   boolean  $relative        Flag if the path to the file is relative to the /media folder (and searches in template).
-	 * @param   boolean  $detect_browser  Flag if the browser should be detected to include specific browser files.
-	 * @param   boolean  $detect_debug    Flag if debug mode is enabled to include uncompressed files if debug is on.
+	 * @param   string   $folder         Folder name to search in (i.e. images, css, js).
+	 * @param   string   $file           Path to file.
+	 * @param   boolean  $relative       Flag if the path to the file is relative to the /media folder (and searches in template).
+	 * @param   boolean  $detectBrowser  Flag if the browser should be detected to include specific browser files.
+	 * @param   boolean  $detectDebug    Flag if debug mode is enabled to include uncompressed files if debug is on.
 	 *
 	 * @return  array    files to be included.
 	 *
 	 * @see     Browser
 	 * @since   1.6
 	 */
-	protected static function includeRelativeFiles($folder, $file, $relative, $detect_browser, $detect_debug)
+	protected static function includeRelativeFiles($folder, $file, $relative, $detectBrowser, $detectDebug)
 	{
 		// Set debug flag
 		$debugMode = false;
 
 		// Detect debug mode
-		if ($detect_debug && JDEBUG)
+		if ($detectDebug && JDEBUG)
 		{
 			$debugMode = true;
 		}
@@ -399,13 +374,13 @@ abstract class HTMLHelper
 		{
 			// Extract extension and strip the file
 			$strip = File::stripExt($file);
-			$ext   = pathinfo($file, PATHINFO_EXTENSION);
+			$ext   = File::getExt($file);
 
 			// Prepare array of files
 			$includes = [];
 
 			// Detect browser and compute potential files
-			if ($detect_browser)
+			if ($detectBrowser)
 			{
 				$navigator = Browser::getInstance();
 				$browser   = $navigator->getBrowser();
@@ -436,8 +411,15 @@ abstract class HTMLHelper
 			// If relative search in template directory or media directory
 			if ($relative)
 			{
-				// Get the template
-				$template = Factory::getApplication()->getTemplate();
+				$app        = Factory::getApplication();
+				$template   = $app->getTemplate(true);
+				$templaPath = JPATH_THEMES;
+
+				if ($template->inheritable || !empty($template->parent))
+				{
+					$client     = $app->isClient('administrator') === true ? 'administrator' : 'site';
+					$templaPath = JPATH_ROOT . "/media/templates/$client";
+				}
 
 				// For each potential files
 				foreach ($potential as $strip)
@@ -452,7 +434,19 @@ abstract class HTMLHelper
 					 */
 					foreach ($files as $file)
 					{
-						$found = static::addFileToBuffer(JPATH_THEMES . "/$template/$folder/$file", $ext, $debugMode);
+						if (!empty($template->parent))
+						{
+							$found = static::addFileToBuffer("$templaPath/$template->template/$folder/$file", $ext, $debugMode);
+
+							if (empty($found))
+							{
+								$found = static::addFileToBuffer("$templaPath/$template->parent/$folder/$file", $ext, $debugMode);
+							}
+						}
+						else
+						{
+							$found = static::addFileToBuffer("$templaPath/$template->template/$folder/$file", $ext, $debugMode);
+						}
 
 						if (!empty($found))
 						{
@@ -495,23 +489,37 @@ abstract class HTMLHelper
 									}
 
 									// Try to deal with system files in the template folder
-									$found = static::addFileToBuffer(JPATH_THEMES . "/$template/$folder/system/$element/$file", $ext, $debugMode);
-
-									if (!empty($found))
+									if (!empty($template->parent))
 									{
-										$includes[] = $found;
+										$found = static::addFileToBuffer("$templaPath/$template->template/$folder/system/$element/$file", $ext, $debugMode);
 
-										break;
+										if (!empty($found))
+										{
+											$includes[] = $found;
+
+											break;
+										}
+
+										$found = static::addFileToBuffer("$templaPath/$template->parent/$folder/system/$element/$file", $ext, $debugMode);
+
+										if (!empty($found))
+										{
+											$includes[] = $found;
+
+											break;
+										}
 									}
-
-									// Try to deal with system files in the media folder
-									$found = static::addFileToBuffer(JPATH_ROOT . "/media/system/$folder/$element/$file", $ext, $debugMode);
-
-									if (!empty($found))
+									else
 									{
-										$includes[] = $found;
+										// Try to deal with system files in the media folder
+										$found = static::addFileToBuffer(JPATH_ROOT . "/media/system/$folder/$element/$file", $ext, $debugMode);
 
-										break;
+										if (!empty($found))
+										{
+											$includes[] = $found;
+
+											break;
+										}
 									}
 								}
 								else
@@ -527,13 +535,37 @@ abstract class HTMLHelper
 									}
 
 									// Try to deal with system files in the template folder
-									$found = static::addFileToBuffer(JPATH_THEMES . "/$template/$folder/system/$file", $ext, $debugMode);
-
-									if (!empty($found))
+									if (!empty($template->parent))
 									{
-										$includes[] = $found;
+										$found = static::addFileToBuffer("$templaPath/$template->template/$folder/system/$file", $ext, $debugMode);
 
-										break;
+										if (!empty($found))
+										{
+											$includes[] = $found;
+
+											break;
+										}
+
+										$found = static::addFileToBuffer("$templaPath/$template->parent/$folder/system/$file", $ext, $debugMode);
+
+										if (!empty($found))
+										{
+											$includes[] = $found;
+
+											break;
+										}
+									}
+									else
+									{
+										// Try to deal with system files in the template folder
+										$found = static::addFileToBuffer("$templaPath/$template->template/$folder/system/$file", $ext, $debugMode);
+
+										if (!empty($found))
+										{
+											$includes[] = $found;
+
+											break;
+										}
 									}
 
 									// Try to deal with system files in the media folder
@@ -597,6 +629,72 @@ abstract class HTMLHelper
 		return $includes;
 	}
 
+	/**
+	 * Gets a URL, cleans the Joomla specific params and returns an object
+	 *
+	 * @param    string  $url  The relative or absolute URL to use for the src attribute.
+	 *
+	 * @return   object
+	 * @example  {
+	 *             url: 'string',
+	 *             attributes: [
+	 *               width:  integer,
+	 *               height: integer,
+	 *             ]
+	 *           }
+	 *
+	 * @since    4.0.0
+	 */
+	public static function cleanImageURL($url)
+	{
+		$obj = new \stdClass;
+
+		$obj->attributes = [
+			'width'  => 0,
+			'height' => 0,
+		];
+
+		if (!strpos($url, '?'))
+		{
+			$obj->url = $url;
+
+			return $obj;
+		}
+
+		$mediaUri = new Uri($url);
+
+		// Old image URL format
+		if ($mediaUri->hasVar('joomla_image_height'))
+		{
+			$height = (int) $mediaUri->getVar('joomla_image_height');
+			$width  = (int) $mediaUri->getVar('joomla_image_width');
+
+			$mediaUri->delVar('joomla_image_height');
+			$mediaUri->delVar('joomla_image_width');
+		}
+		else
+		{
+			// New Image URL format
+			$fragmentUri = new Uri($mediaUri->getFragment());
+			$width       = (int) $fragmentUri->getVar('width', 0);
+			$height      = (int) $fragmentUri->getVar('height', 0);
+		}
+
+		if ($width > 0)
+		{
+			$obj->attributes['width'] = $width;
+		}
+
+		if ($height > 0)
+		{
+			$obj->attributes['height'] = $height;
+		}
+
+		$mediaUri->setFragment('');
+		$obj->url = $mediaUri->toString();
+
+		return $obj;
+	}
 
 	/**
 	 * Write a `<img>` element
@@ -610,13 +708,18 @@ abstract class HTMLHelper
 	 *                                     0: Returns a `<img>` tag while searching for relative files
 	 *                                     1: Returns the file path to the image while searching for relative files
 	 *
-	 * @return  string
+	 * @return  string|null  HTML markup for the image, relative path to the image, or null if path is to be returned but image is not found
 	 *
 	 * @since   1.5
 	 */
 	public static function image($file, $alt, $attribs = null, $relative = false, $returnPath = 0)
 	{
 		$returnPath = (int) $returnPath;
+
+		if (strpos($file, '?') !== false)
+		{
+			$file = (static::cleanImageURL($file))->url;
+		}
 
 		if ($returnPath !== -1)
 		{
@@ -630,10 +733,10 @@ abstract class HTMLHelper
 			return $file;
 		}
 
-		// Default to lazy you can disable lazyloading by passing $attribs['loading'] = 'eager';
-		if (!isset($attribs['loading']))
+		// Ensure we have a valid default for concatenating
+		if ($attribs === null)
 		{
-			$attribs['loading'] = 'lazy';
+			$attribs = '';
 		}
 
 		return '<img src="' . $file . '" alt="' . $alt . '" ' . trim((\is_array($attribs) ? ArrayHelper::toString($attribs) : $attribs)) . '>';
@@ -767,7 +870,7 @@ abstract class HTMLHelper
 	}
 
 	/**
-	 * Returns formated date according to a given format and time zone.
+	 * Returns formatted date according to a given format and time zone.
 	 *
 	 * @param   string   $input      String in a format accepted by date(), defaults to "now".
 	 * @param   string   $format     The date format specification string (see {@link PHP_MANUAL#date}).
@@ -993,32 +1096,18 @@ abstract class HTMLHelper
 	 */
 	public static function calendar($value, $name, $id, $format = '%Y-%m-%d', $attribs = array())
 	{
-		$tag       = Factory::getLanguage()->getTag();
-		$calendar  = Factory::getLanguage()->getCalendar();
-		$direction = strtolower(Factory::getApplication()->getDocument()->getDirection());
+		$app       = Factory::getApplication();
+		$lang      = $app->getLanguage();
+		$tag       = $lang->getTag();
+		$calendar  = $lang->getCalendar();
+		$direction = strtolower($app->getDocument()->getDirection());
 
 		// Get the appropriate file for the current language date helper
 		$helperPath = 'system/fields/calendar-locales/date/gregorian/date-helper.min.js';
 
-		if (!empty($calendar) && is_dir(JPATH_ROOT . '/media/system/js/fields/calendar-locales/date/' . strtolower($calendar)))
+		if ($calendar && is_dir(JPATH_ROOT . '/media/system/js/fields/calendar-locales/date/' . strtolower($calendar)))
 		{
 			$helperPath = 'system/fields/calendar-locales/date/' . strtolower($calendar) . '/date-helper.min.js';
-		}
-
-		// Get the appropriate locale file for the current language
-		$localesPath = 'system/fields/calendar-locales/en.js';
-
-		if (is_file(JPATH_ROOT . '/media/system/js/fields/calendar-locales/' . strtolower($tag) . '.js'))
-		{
-			$localesPath = 'system/fields/calendar-locales/' . strtolower($tag) . '.js';
-		}
-		elseif (is_file(JPATH_ROOT . '/media/system/js/fields/calendar-locales/' . $tag . '.js'))
-		{
-			$localesPath = 'system/fields/calendar-locales/' . $tag . '.js';
-		}
-		elseif (is_file(JPATH_ROOT . '/media/system/js/fields/calendar-locales/' . strtolower(substr($tag, 0, -3)) . '.js'))
-		{
-			$localesPath = 'system/fields/calendar-locales/' . strtolower(substr($tag, 0, -3)) . '.js';
 		}
 
 		$readonly     = isset($attribs['readonly']) && $attribs['readonly'] === 'readonly';
@@ -1079,13 +1168,15 @@ abstract class HTMLHelper
 			'singleheader'   => $singleHeader,
 			'tag'            => $tag,
 			'helperPath'     => $helperPath,
-			'localesPath'    => $localesPath,
 			'direction'      => $direction,
 			'onchange'       => $onchange,
 			'minYear'        => $minYear,
 			'maxYear'        => $maxYear,
 			'dataAttribute'  => '',
 			'dataAttributes' => '',
+			'calendar'       => $calendar,
+			'firstday'       => $lang->getFirstDay(),
+			'weekend'        => explode(',', $lang->getWeekEnd()),
 		);
 
 		return LayoutHelper::render('joomla.form.field.calendar', $data, null, null);
@@ -1104,18 +1195,10 @@ abstract class HTMLHelper
 	 */
 	public static function addIncludePath($path = '')
 	{
-		try
-		{
-			Log::add(
-				'Support for registering lookup paths is deprecated and will be removed in Joomla 5.0, use the service registry instead',
-				Log::WARNING,
-				'deprecated'
-			);
-		}
-		catch (\RuntimeException $exception)
-		{
-			// Informational message only, continue on
-		}
+		@trigger_error(
+			'Support for registering lookup paths is deprecated and will be removed in Joomla 5.0, use the service registry instead',
+			E_USER_DEPRECATED
+		);
 
 		// Loop through the path directories
 		foreach ((array) $path as $dir)
@@ -1142,36 +1225,30 @@ abstract class HTMLHelper
 	 */
 	protected static function addFileToBuffer($path = '', $ext = '', $debugMode = false)
 	{
-		if (!$debugMode)
-		{
-			// We are handling a name.min.ext file:
-			if (strrpos($path, '.min', '-4'))
-			{
-				$position        = strrpos($path, '.min', '-4');
-				$minifiedPath    = $path;
-				$nonMinifiedPath = str_replace('.min', '', $path, $position);
-
-				return self::checkFileOrder($nonMinifiedPath, $minifiedPath);
-			}
-
-			$minifiedPath = pathinfo($path, PATHINFO_DIRNAME) . '/' . pathinfo($path, PATHINFO_FILENAME) . '.min.' . $ext;
-
-			return self::checkFileOrder($path, $minifiedPath);
-		}
+		$position = strrpos($path, '.min.');
 
 		// We are handling a name.min.ext file:
-		if (strrpos($path, '.min', '-4'))
+		if ($position !== false)
 		{
-			$position        = strrpos($path, '.min', '-4');
 			$minifiedPath    = $path;
-			$nonMinifiedPath = str_replace('.min', '', $path, $position);
+			$nonMinifiedPath = substr_replace($path, '', $position, 4);
 
-			return self::checkFileOrder($minifiedPath, $nonMinifiedPath);
+			if ($debugMode)
+			{
+				return self::checkFileOrder($minifiedPath, $nonMinifiedPath);
+			}
+
+			return self::checkFileOrder($nonMinifiedPath, $minifiedPath);
 		}
 
 		$minifiedPath = pathinfo($path, PATHINFO_DIRNAME) . '/' . pathinfo($path, PATHINFO_FILENAME) . '.min.' . $ext;
 
-		return self::checkFileOrder($minifiedPath, $path);
+		if ($debugMode)
+		{
+			return self::checkFileOrder($minifiedPath, $path);
+		}
+
+		return self::checkFileOrder($path, $minifiedPath);
 	}
 
 	/**
@@ -1216,4 +1293,3 @@ abstract class HTMLHelper
 		return '';
 	}
 }
-

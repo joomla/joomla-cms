@@ -3,7 +3,7 @@
  * @package     Joomla.API
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2019 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -15,8 +15,10 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\MVC\View\JsonApiView as BaseApiView;
 use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\Component\Content\Api\Helper\ContentHelper;
 use Joomla\Component\Content\Api\Serializer\ContentSerializer;
 use Joomla\Component\Fields\Administrator\Helper\FieldsHelper;
+use Joomla\Registry\Registry;
 
 /**
  * The article view
@@ -41,8 +43,26 @@ class JsonapiView extends BaseApiView
 		'language',
 		'state',
 		'category',
+		'images',
+		'metakey',
+		'metadesc',
+		'metadata',
+		'access',
+		'featured',
+		'alias',
+		'note',
+		'publish_up',
+		'publish_down',
+		'urls',
 		'created',
-		'author',
+		'created_by',
+		'created_by_alias',
+		'modified',
+		'modified_by',
+		'hits',
+		'version',
+		'featured_up',
+		'featured_down',
 	];
 
 	/**
@@ -61,8 +81,25 @@ class JsonapiView extends BaseApiView
 		'language',
 		'state',
 		'category',
+		'images',
+		'metakey',
+		'metadesc',
+		'metadata',
+		'access',
+		'featured',
+		'alias',
+		'note',
+		'publish_up',
+		'publish_down',
+		'urls',
 		'created',
-		'author',
+		'created_by',
+		'created_by_alias',
+		'modified',
+		'hits',
+		'version',
+		'featured_up',
+		'featured_down',
 	];
 
 	/**
@@ -73,7 +110,8 @@ class JsonapiView extends BaseApiView
 	 */
 	protected $relationship = [
 		'category',
-		'author',
+		'created_by',
+		'tags',
 	];
 
 	/**
@@ -86,7 +124,7 @@ class JsonapiView extends BaseApiView
 	 */
 	public function __construct($config = [])
 	{
-		if (array_key_exists('contentType', $config))
+		if (\array_key_exists('contentType', $config))
 		{
 			$this->serializer = new ContentSerializer($config['contentType']);
 		}
@@ -124,6 +162,8 @@ class JsonapiView extends BaseApiView
 	 */
 	public function displayItem($item = null)
 	{
+		$this->relationship[] = 'modified_by';
+
 		foreach (FieldsHelper::getFields('com_content.article') as $field)
 		{
 			$this->fieldsToRenderItem[] = $field->name;
@@ -157,7 +197,7 @@ class JsonapiView extends BaseApiView
 
 		foreach (FieldsHelper::getFields('com_content.article', $item, true) as $field)
 		{
-			$item->{$field->name} = isset($field->apivalue) ? $field->apivalue : $field->rawvalue;
+			$item->{$field->name} = $field->apivalue ?? $field->rawvalue;
 		}
 
 		if (Multilanguage::isEnabled() && !empty($item->associations))
@@ -187,6 +227,22 @@ class JsonapiView extends BaseApiView
 		else
 		{
 			$item->tags = [];
+		}
+
+		if (isset($item->images))
+		{
+			$registry = new Registry($item->images);
+			$item->images = $registry->toArray();
+
+			if (!empty($item->images['image_intro']))
+			{
+				$item->images['image_intro'] = ContentHelper::resolve($item->images['image_intro']);
+			}
+
+			if (!empty($item->images['image_fulltext']))
+			{
+				$item->images['image_fulltext'] = ContentHelper::resolve($item->images['image_fulltext']);
+			}
 		}
 
 		return parent::prepareItem($item);

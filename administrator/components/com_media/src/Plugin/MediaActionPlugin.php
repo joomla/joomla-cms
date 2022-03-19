@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_media
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2017 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -75,7 +75,8 @@ class MediaActionPlugin extends CMSPlugin
 		HTMLHelper::_(
 			'script',
 			'plg_media-action_' . $this->_name . '/' . $this->_name . '.js',
-			['version' => 'auto', 'relative' => true]
+			['version' => 'auto', 'relative' => true],
+			['type' => 'module']
 		);
 	}
 

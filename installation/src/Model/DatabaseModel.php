@@ -3,24 +3,19 @@
  * @package     Joomla.Installation
  * @subpackage  Model
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2009 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Installation\Model;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
-use Joomla\CMS\Filesystem\File;
-use Joomla\CMS\Filesystem\Folder;
 use Joomla\CMS\Installation\Helper\DatabaseHelper;
-use Joomla\CMS\Installer\Installer;
 use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Object\CMSObject;
-use Joomla\CMS\User\UserHelper;
-use Joomla\CMS\Version;
 use Joomla\Database\DatabaseDriver;
 use Joomla\Database\DatabaseInterface;
 use Joomla\Utilities\ArrayHelper;
@@ -75,187 +70,21 @@ class DatabaseModel extends BaseInstallationModel
 			$lang->load('joomla', JPATH_ADMINISTRATOR, 'en-GB', true);
 		}
 
-		// Ensure a database type was selected.
-		if (empty($options->db_type))
+		// Validate and clean up connection parameters
+		$paramsCheck = DatabaseHelper::validateConnectionParameters($options);
+
+		if ($paramsCheck)
 		{
-			Factory::getApplication()->enqueueMessage(Text::_('INSTL_DATABASE_INVALID_TYPE'), 'warning');
+			Factory::getApplication()->enqueueMessage($paramsCheck, 'warning');
 
 			return false;
 		}
 
-		// Ensure that a hostname and user name were input.
-		if (empty($options->db_host) || empty($options->db_user))
+		// Security check for remote db hosts
+		if (!DatabaseHelper::checkRemoteDbHost($options))
 		{
-			Factory::getApplication()->enqueueMessage(Text::_('INSTL_DATABASE_INVALID_DB_DETAILS'), 'warning');
-
+			// Messages have been enqueued in the called function.
 			return false;
-		}
-
-		// Validate database table prefix.
-		if (isset($options->db_prefix) && !preg_match('#^[a-zA-Z]+[a-zA-Z0-9_]*$#', $options->db_prefix))
-		{
-			Factory::getApplication()->enqueueMessage(Text::_('INSTL_DATABASE_PREFIX_MSG'), 'warning');
-
-			return false;
-		}
-
-		// Validate length of database table prefix.
-		if (isset($options->db_prefix) && strlen($options->db_prefix) > 15)
-		{
-			Factory::getApplication()->enqueueMessage(Text::_('INSTL_DATABASE_FIX_TOO_LONG'), 'warning');
-
-			return false;
-		}
-
-		// Validate length of database name.
-		if (strlen($options->db_name) > 64)
-		{
-			Factory::getApplication()->enqueueMessage(Text::_('INSTL_DATABASE_NAME_TOO_LONG'), 'warning');
-
-			return false;
-		}
-
-		// Validate database name.
-		if (in_array($options->db_type, ['pgsql', 'postgresql'], true) && !preg_match('#^[a-zA-Z_][0-9a-zA-Z_$]*$#', $options->db_name))
-		{
-			Factory::getApplication()->enqueueMessage(Text::_('INSTL_DATABASE_NAME_MSG_POSTGRESQL'), 'warning');
-
-			return false;
-		}
-
-		if (in_array($options->db_type, ['mysql', 'mysqli']) && preg_match('#[\\\\\/\.]#', $options->db_name))
-		{
-			Factory::getApplication()->enqueueMessage(Text::_('INSTL_DATABASE_NAME_MSG_MYSQL'), 'warning');
-
-			return false;
-		}
-
-		// Workaround for UPPERCASE table prefix for PostgreSQL
-		if (in_array($options->db_type, ['pgsql', 'postgresql']))
-		{
-			if (isset($options->db_prefix) && strtolower($options->db_prefix) !== $options->db_prefix)
-			{
-				Factory::getApplication()->enqueueMessage(Text::_('INSTL_DATABASE_FIX_LOWERCASE'), 'warning');
-
-				return false;
-			}
-		}
-
-		// Security check for remote db hosts: Check env var if disabled
-		$shouldCheckLocalhost = getenv('JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK') !== '1';
-
-		// Per Default allowed DB Hosts
-		$localhost = array(
-			'localhost',
-			'127.0.0.1',
-			'::1',
-		);
-
-		// Check the security file if the db_host is not localhost / 127.0.0.1 / ::1
-		if ($shouldCheckLocalhost && !in_array($options->db_host, $localhost))
-		{
-			$remoteDbFileTestsPassed = Factory::getSession()->get('remoteDbFileTestsPassed', false);
-
-			// When all checks have been passed we don't need to do this here again.
-			if ($remoteDbFileTestsPassed === false)
-			{
-				$generalRemoteDatabaseMessage = Text::sprintf(
-					'INSTL_DATABASE_HOST_IS_NOT_LOCALHOST_GENERAL_MESSAGE',
-					'https://docs.joomla.org/Special:MyLanguage/J3.x:Secured_procedure_for_installing_Joomla_with_a_remote_database'
-				);
-
-				$remoteDbFile = Factory::getSession()->get('remoteDbFile', false);
-
-				if ($remoteDbFile === false)
-				{
-					// Add the general message
-					Factory::getApplication()->enqueueMessage($generalRemoteDatabaseMessage, 'warning');
-
-					// This is the file you need to remove if you want to use a remote database
-					$remoteDbFile = '_Joomla' . UserHelper::genRandomPassword(21) . '.txt';
-					Factory::getSession()->set('remoteDbFile', $remoteDbFile);
-
-					// Get the path
-					$remoteDbPath = JPATH_INSTALLATION . '/' . $remoteDbFile;
-
-					// When the path is not writable the user needs to create the file manually
-					if (!File::write($remoteDbPath, ''))
-					{
-						// Request to create the file manually
-						Factory::getApplication()->enqueueMessage(
-							Text::sprintf(
-								'INSTL_DATABASE_HOST_IS_NOT_LOCALHOST_CREATE_FILE',
-								$remoteDbFile,
-								'installation',
-								Text::_('INSTL_INSTALL_JOOMLA')
-							),
-							'notice'
-						);
-
-						Factory::getSession()->set('remoteDbFileUnwritable', true);
-
-						return false;
-					}
-
-					// Save the file name to the session
-					Factory::getSession()->set('remoteDbFileWrittenByJoomla', true);
-
-					// Request to delete that file
-					Factory::getApplication()->enqueueMessage(
-						Text::sprintf(
-							'INSTL_DATABASE_HOST_IS_NOT_LOCALHOST_DELETE_FILE',
-							$remoteDbFile,
-							'installation',
-							Text::_('INSTL_INSTALL_JOOMLA')
-						),
-						'notice'
-					);
-
-					return false;
-				}
-
-				if (Factory::getSession()->get('remoteDbFileWrittenByJoomla', false) === true
-					&& File::exists(JPATH_INSTALLATION . '/' . $remoteDbFile))
-				{
-					// Add the general message
-					Factory::getApplication()->enqueueMessage($generalRemoteDatabaseMessage, 'warning');
-
-					// Request to delete the file
-					Factory::getApplication()->enqueueMessage(
-						Text::sprintf(
-							'INSTL_DATABASE_HOST_IS_NOT_LOCALHOST_DELETE_FILE',
-							$remoteDbFile,
-							'installation',
-							Text::_('INSTL_INSTALL_JOOMLA')
-						),
-						'notice'
-					);
-
-					return false;
-				}
-
-				if (Factory::getSession()->get('remoteDbFileUnwritable', false) === true && !File::exists(JPATH_INSTALLATION . '/' . $remoteDbFile))
-				{
-					// Add the general message
-					Factory::getApplication()->enqueueMessage($generalRemoteDatabaseMessage, 'warning');
-
-					// Request to create the file manually
-					Factory::getApplication()->enqueueMessage(
-						Text::sprintf(
-							'INSTL_DATABASE_HOST_IS_NOT_LOCALHOST_CREATE_FILE',
-							$remoteDbFile,
-							'installation',
-							Text::_('INSTL_INSTALL_JOOMLA')
-						),
-						'notice'
-					);
-
-					return false;
-				}
-
-				// All tests for this session passed set it to the session
-				Factory::getSession()->set('remoteDbFileTestsPassed', true);
-			}
 		}
 
 		// Get a database object.
@@ -333,7 +162,7 @@ class DatabaseModel extends BaseInstallationModel
 						'user'     => $options->db_user,
 						'password' => $options->db_pass_plain,
 						'prefix'   => $options->db_prefix,
-						'select'   => $options->db_select,
+						'select'   => false,
 						DatabaseHelper::getEncryptionSettings($options),
 					);
 				}
@@ -347,17 +176,26 @@ class DatabaseModel extends BaseInstallationModel
 						'password' => $options->db_pass_plain,
 						'database' => 'postgres',
 						'prefix'   => $options->db_prefix,
-						'select'   => $options->db_select,
+						'select'   => false,
 						DatabaseHelper::getEncryptionSettings($options),
 					);
 				}
 
 				$altDB = DatabaseDriver::getInstance($altDBoptions);
 
+				// Check database server parameters
+				$dbServerCheck = DatabaseHelper::checkDbServerParameters($altDB, $options);
+
+				if ($dbServerCheck)
+				{
+					// Some server parameter is not ok
+					throw new \RuntimeException($dbServerCheck, 500, $e);
+				}
+
 				// Try to create the database now using the alternate driver
 				try
 				{
-					$this->createDb($altDB, $options, $altDB->hasUTFSupport());
+					$this->createDb($altDB, $options, $altDB->hasUtfSupport());
 				}
 				catch (\RuntimeException $e)
 				{
@@ -383,45 +221,13 @@ class DatabaseModel extends BaseInstallationModel
 			}
 		}
 
-		// Get required database version
-		$minDbVersionRequired = DatabaseHelper::getMinimumServerVersion($db, $options);
+		// Check database server parameters
+		$dbServerCheck = DatabaseHelper::checkDbServerParameters($db, $options);
 
-		// Check minimum database version
-		if (version_compare($db_version, $minDbVersionRequired) < 0)
+		if ($dbServerCheck)
 		{
-			if (in_array($type, ['mysql', 'mysqli']) && $db->isMariaDb())
-			{
-				throw new \RuntimeException(
-					Text::sprintf(
-						'INSTL_DATABASE_INVALID_MARIADB_VERSION',
-						$minDbVersionRequired,
-						$db_version
-					)
-				);
-			}
-			else
-			{
-				throw new \RuntimeException(
-					Text::sprintf(
-						'INSTL_DATABASE_INVALID_' . strtoupper($type) . '_VERSION',
-						$minDbVersionRequired,
-						$db_version
-					)
-				);
-			}
-		}
-
-		// Check database connection encryption
-		if ($options->db_encryption !== 0 && empty($db->getConnectionEncryption()))
-		{
-			if ($db->isConnectionEncryptionSupported())
-			{
-				throw new \RuntimeException(Text::_('INSTL_DATABASE_ENCRYPTION_MSG_CONN_NOT_ENCRYPT'));
-			}
-			else
-			{
-				throw new \RuntimeException(Text::_('INSTL_DATABASE_ENCRYPTION_MSG_SRV_NOT_SUPPORTS'));
-			}
+			// Some server parameter is not ok
+			throw new \RuntimeException($dbServerCheck, 500, $e);
 		}
 
 		// @internal Check for spaces in beginning or end of name.
@@ -437,7 +243,7 @@ class DatabaseModel extends BaseInstallationModel
 		}
 
 		// Get database's UTF support.
-		$utfSupport = $db->hasUTFSupport();
+		$utfSupport = $db->hasUtfSupport();
 
 		// Try to select the database.
 		try

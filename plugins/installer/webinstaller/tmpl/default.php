@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Installer.Webinstaller
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2018 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -15,25 +15,26 @@ use Joomla\CMS\Language\Text;
 
 $dir = $this->isRTL() ? ' dir="ltr"' : '';
 
-?>
+Text::script('JSEARCH_FILTER_CLEAR');
+Text::script('PLG_INSTALLER_WEBINSTALLER_INSTALL_WEB_LOADING_ERROR');
 
+?>
 <div id="jed-container" class="tab-pane">
 	<div class="card" id="web-loader">
 		<div class="card-body">
-			<h2 class="card-title"><?php echo Text::_('COM_INSTALLER_WEBINSTALLER_INSTALL_WEB_LOADING'); ?></h2>
+			<h2 class="card-title"><?php echo Text::_('PLG_INSTALLER_WEBINSTALLER_INSTALL_WEB_LOADING'); ?></h2>
 		</div>
 	</div>
-	<div class="alert alert-error hidden" id="web-loader-error">
-		<a class="close" data-dismiss="alert">×</a><?php echo Text::_('COM_INSTALLER_WEBINSTALLER_INSTALL_WEB_LOADING_ERROR'); ?>
+	<div class="hidden" id="web-loader-error">
 	</div>
 </div>
 
 <fieldset class="form-group hidden" id="uploadform-web"<?php echo $dir; ?>>
-	<p><strong><?php echo Text::_('COM_INSTALLER_WEBINSTALLER_INSTALL_WEB_CONFIRM'); ?></strong></p>
+	<p><strong><?php echo Text::_('PLG_INSTALLER_WEBINSTALLER_INSTALL_WEB_CONFIRM'); ?></strong></p>
 	<dl>
-		<dt id="uploadform-web-name-label"><?php echo Text::_('COM_INSTALLER_WEBINSTALLER_INSTALL_WEB_CONFIRM_NAME'); ?></dt>
+		<dt id="uploadform-web-name-label"><?php echo Text::_('PLG_INSTALLER_WEBINSTALLER_INSTALL_WEB_CONFIRM_NAME'); ?></dt>
 		<dd id="uploadform-web-name"></dd>
-		<dt><?php echo Text::_('COM_INSTALLER_WEBINSTALLER_INSTALL_WEB_CONFIRM_URL'); ?></dt>
+		<dt><?php echo Text::_('PLG_INSTALLER_WEBINSTALLER_INSTALL_WEB_CONFIRM_URL'); ?></dt>
 		<dd id="uploadform-web-url"></dd>
 	</dl>
 	<div class="card card-light">

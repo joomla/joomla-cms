@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_newsfeeds
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2009 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -16,9 +16,10 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 
-HTMLHelper::_('behavior.formvalidator');
-HTMLHelper::_('behavior.keepalive');
-HTMLHelper::_('script', 'com_contenthistory/admin-history-versions.js', ['version' => 'auto', 'relative' => true]);
+/** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
+$wa = $this->document->getWebAssetManager();
+$wa->useScript('keepalive')
+	->useScript('form.validate');
 
 $app   = Factory::getApplication();
 $input = $app->input;
@@ -35,31 +36,23 @@ $layout  = $isModal ? 'modal' : 'edit';
 $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=component' : '';
 ?>
 
-<form action="<?php echo Route::_('index.php?option=com_newsfeeds&layout=' . $layout . $tmpl . '&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="newsfeed-form" class="form-validate">
+<form action="<?php echo Route::_('index.php?option=com_newsfeeds&layout=' . $layout . $tmpl . '&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="newsfeed-form" aria-label="<?php echo Text::_('COM_NEWSFEEDS_FORM_TITLE_' . ((int) $this->item->id === 0 ? 'NEW' : 'EDIT'), true); ?>" class="form-validate">
 
 	<?php echo LayoutHelper::render('joomla.edit.title_alias', $this); ?>
 
-	<div>
-		<?php echo HTMLHelper::_('uitab.startTabSet', 'myTab', array('active' => 'details')); ?>
+	<div class="main-card">
+		<?php echo HTMLHelper::_('uitab.startTabSet', 'myTab', ['active' => 'details', 'recall' => true, 'breakpoint' => 768]); ?>
 
 		<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'details', empty($this->item->id) ? Text::_('COM_NEWSFEEDS_NEW_NEWSFEED') : Text::_('COM_NEWSFEEDS_EDIT_NEWSFEED')); ?>
 		<div class="row">
 			<div class="col-lg-9">
-				<div class="card">
-					<div class="card-body">
-						<div class="form-vertical">
-							<?php echo $this->form->renderField('link'); ?>
-							<?php echo $this->form->renderField('description'); ?>
-						</div>
-					</div>
+				<div class="form-vertical">
+					<?php echo $this->form->renderField('link'); ?>
+					<?php echo $this->form->renderField('description'); ?>
 				</div>
 			</div>
 			<div class="col-lg-3">
-				<div class="card">
-					<div class="card-body">
-						<?php echo LayoutHelper::render('joomla.edit.global', $this); ?>
-					</div>
-				</div>
+				<?php echo LayoutHelper::render('joomla.edit.global', $this); ?>
 			</div>
 		</div>
 		<?php echo HTMLHelper::_('uitab.endTab'); ?>

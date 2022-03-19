@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2019 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -29,11 +29,11 @@ class FeaturedButton extends ActionButton
 	 */
 	protected function preprocess()
 	{
-		$this->addState(0, 'articles.featured', 'color-unfeatured far fa-star',
-			Text::_('COM_CONTENT_UNFEATURED'), ['tip_title' => Text::_('JGLOBAL_TOGGLE_FEATURED')]
+		$this->addState(0, 'featured', 'icon-unfeatured',
+			Text::_('JGLOBAL_TOGGLE_FEATURED'), ['tip_title' => Text::_('JUNFEATURED')]
 		);
-		$this->addState(1, 'articles.unfeatured', 'color-featured fas fa-star',
-			Text::_('COM_CONTENT_FEATURED'), ['tip_title' => Text::_('JGLOBAL_TOGGLE_FEATURED')]
+		$this->addState(1, 'unfeatured', 'icon-color-featured icon-star',
+			Text::_('JGLOBAL_TOGGLE_FEATURED'), ['tip_title' => Text::_('JFEATURED')]
 		);
 	}
 
@@ -63,12 +63,12 @@ class FeaturedButton extends ActionButton
 
 			if (!is_null($featuredUp))
 			{
-				$featuredUp = Factory::getDate($featuredUp, 'UTC')->setTimeZone($tz);
+				$featuredUp = Factory::getDate($featuredUp, 'UTC')->setTimezone($tz);
 			}
 
 			if (!is_null($featuredDown))
 			{
-				$featuredDown = Factory::getDate($featuredDown, 'UTC')->setTimeZone($tz);
+				$featuredDown = Factory::getDate($featuredDown, 'UTC')->setTimezone($tz);
 			}
 
 			// Add tips and special titles

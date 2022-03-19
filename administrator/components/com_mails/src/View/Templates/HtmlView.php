@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_mails
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2019 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -11,6 +11,7 @@ namespace Joomla\Component\Mails\Administrator\View\Templates;
 
 \defined('_JEXEC') or die;
 
+use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Text;
@@ -20,6 +21,7 @@ use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Pagination\Pagination;
 use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
+use Joomla\Component\Mails\Administrator\Helper\MailsHelper;
 
 /**
  * View for the mail templates configuration
@@ -41,6 +43,13 @@ class HtmlView extends BaseHtmlView
 	 * @var  array
 	 */
 	protected $languages;
+
+	/**
+	 * Site default language
+	 *
+	 * @var \stdClass
+	 */
+	protected $defaultLanguage;
 
 	/**
 	 * The pagination object
@@ -87,6 +96,7 @@ class HtmlView extends BaseHtmlView
 		$this->state         = $this->get('State');
 		$this->filterForm    = $this->get('FilterForm');
 		$this->activeFilters = $this->get('ActiveFilters');
+		$extensions          = $this->get('Extensions');
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
@@ -94,20 +104,21 @@ class HtmlView extends BaseHtmlView
 			throw new GenericDataException(implode("\n", $errors), 500);
 		}
 
-		$cache = array();
-		$language = Factory::getLanguage();
+		// Find and set site default language
+		$defaultLanguageTag = ComponentHelper::getParams('com_languages')->get('site');
 
-		foreach ($this->items as $item)
+		foreach ($this->languages as $tag => $language)
 		{
-			list($component, $template_id) = explode('.', $item->template_id, 2);
-
-			if (isset($cache[$component]))
+			if ($tag === $defaultLanguageTag)
 			{
-				continue;
+				$this->defaultLanguage = $language;
+				break;
 			}
+		}
 
-			$language->load($component, JPATH_ADMINISTRATOR);
-			$cache[$component] = true;
+		foreach ($extensions as $extension)
+		{
+			MailsHelper::loadTranslationFiles($extension);
 		}
 
 		$this->addToolbar();
@@ -135,6 +146,6 @@ class HtmlView extends BaseHtmlView
 			$toolbar->preferences('com_mails');
 		}
 
-		$toolbar->help('JHELP_CONFIG_MAIL_MANAGER');
+		$toolbar->help('Mail_Templates');
 	}
 }

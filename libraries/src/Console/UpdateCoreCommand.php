@@ -2,16 +2,15 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2020 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Console;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\Application\Cli\CliInput;
-use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\File;
 use Joomla\CMS\Filesystem\Folder;
 use Joomla\CMS\Installer\InstallerHelper;
@@ -33,66 +32,66 @@ class UpdateCoreCommand extends AbstractCommand
 	 * The default command name
 	 *
 	 * @var    string
-	 * @since  4.0
+	 * @since  4.0.0
 	 */
 	protected static $defaultName = 'core:update';
 
 	/**
 	 * Stores the Input Object
 	 * @var CliInput
-	 * @since 4.0
+	 * @since 4.0.0
 	 */
 	private $cliInput;
 
 	/**
 	 * SymfonyStyle Object
 	 * @var SymfonyStyle
-	 * @since 4.0
+	 * @since 4.0.0
 	 */
 	private $ioStyle;
 
 	/**
 	 * Update Information
 	 * @var array
-	 * @since 4.0
+	 * @since 4.0.0
 	 */
 	public $updateInfo;
 
 	/**
 	 * Update Model
 	 * @var array
-	 * @since 4.0
+	 * @since 4.0.0
 	 */
 	public $updateModel;
 
 	/**
 	 * Progress Bar object
 	 * @var ProgressBar
-	 * @since 4.0
+	 * @since 4.0.0
 	 */
 	public $progressBar;
 
 	/**
 	 * Return code for successful update
-	 * @since 4.0
+	 * @since 4.0.0
 	 */
 	public const UPDATE_SUCCESSFUL = 0;
 
 	/**
 	 * Return code for failed update
-	 * @since 4.0
+	 * @since 4.0.0
 	 */
 	public const ERR_UPDATE_FAILED = 2;
 
 	/**
 	 * Return code for failed checks
-	 * @since 4.0
+	 * @since 4.0.0
 	 */
 	public const ERR_CHECKS_FAILED = 1;
 
 	/**
 	 * @var DatabaseInterface
-	 * @since 4.0
+	 * @since 4.0.0
 	 */
 	private $db;
 
@@ -101,7 +100,7 @@ class UpdateCoreCommand extends AbstractCommand
 	 *
 	 * @param   DatabaseInterface  $db  Database Instance
 	 *
-	 * @since 4.0
+	 * @since 4.0.0
 	 */
 	public function __construct(DatabaseInterface $db)
 	{
@@ -117,7 +116,7 @@ class UpdateCoreCommand extends AbstractCommand
 	 *
 	 * @return void
 	 *
-	 * @since 4.0
+	 * @since 4.0.0
 	 *
 	 */
 	private function configureIO(InputInterface $input, OutputInterface $output)
@@ -190,13 +189,10 @@ class UpdateCoreCommand extends AbstractCommand
 	 */
 	protected function configure(): void
 	{
-		$this->setDescription('Updates joomla core');
+		$help = "<info>%command.name%</info> is used to update Joomla
+		\nUsage: <info>php %command.full_name%</info>";
 
-		$help = <<<'EOF'
-The <info>%command.name%</info> is used to update Joomla.
-
-  <info>php %command.full_name%</info>
-EOF;
+		$this->setDescription('Update Joomla');
 		$this->setHelp($help);
 	}
 
@@ -207,7 +203,7 @@ EOF;
 	 *
 	 * @return  boolean  success
 	 *
-	 * @since 4.0
+	 * @since 4.0.0
 	 */
 	private function updateJoomlaCore($updatemodel): bool
 	{
@@ -250,7 +246,7 @@ EOF;
 	 *
 	 * @param   array  $data  Stores the update information
 	 *
-	 * @since 4.0
+	 * @since 4.0.0
 	 *
 	 * @return void
 	 */
@@ -264,7 +260,7 @@ EOF;
 	 *
 	 * @return mixed
 	 *
-	 * @since 4.0
+	 * @since 4.0.0
 	 *
 	 * @throws \Exception
 	 */
@@ -283,7 +279,7 @@ EOF;
 	 *
 	 * @return void
 	 *
-	 * @since 4.0
+	 * @since 4.0.0
 	 */
 	public function setUpdateModel(): void
 	{
@@ -310,7 +306,7 @@ EOF;
 	 *
 	 * @return array | boolean
 	 *
-	 * @since 4.0
+	 * @since 4.0.0
 	 */
 	public function processUpdatePackage($updateInformation)
 	{
@@ -344,7 +340,7 @@ EOF;
 	 *
 	 * @return boolean | string
 	 *
-	 * @since 4.0
+	 * @since 4.0.0
 	 */
 	public function downloadFile($url)
 	{
@@ -365,7 +361,7 @@ EOF;
 	 *
 	 * @return array | boolean
 	 *
-	 * @since 4.0
+	 * @since 4.0.0
 	 */
 	public function extractFile($file)
 	{
@@ -382,7 +378,7 @@ EOF;
 	 *
 	 * @return void
 	 *
-	 * @since 4.0
+	 * @since 4.0.0
 	 */
 	public function copyFileTo($file, $dir): void
 	{

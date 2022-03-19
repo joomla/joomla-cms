@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2011 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -23,21 +23,51 @@ $lang      = Factory::getLanguage();
 
 Text::script('COM_FINDER_INDEX_CONFIRM_PURGE_PROMPT');
 Text::script('COM_FINDER_INDEX_CONFIRM_DELETE_PROMPT');
-HTMLHelper::_('script', 'com_finder/index.js', ['version' => 'auto', 'relative' => true]);
+
+/** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
+$wa = $this->document->getWebAssetManager();
+$wa->useScript('multiselect')
+	->useScript('com_finder.index');
+
 ?>
 <form action="<?php echo Route::_('index.php?option=com_finder&view=index'); ?>" method="post" name="adminForm" id="adminForm">
 	<div class="row">
 		<div class="col-md-12">
 			<div id="j-main-container" class="j-main-container">
 				<?php echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
+				<?php if ($this->finderPluginId) : ?>
+					<?php $link = Route::_('index.php?option=com_plugins&client_id=0&task=plugin.edit&extension_id=' . $this->finderPluginId . '&tmpl=component&layout=modal'); ?>
+					<?php echo HTMLHelper::_(
+						'bootstrap.renderModal',
+						'plugin' . $this->finderPluginId . 'Modal',
+						array(
+							'url'         => $link,
+							'title'       => Text::_('COM_FINDER_EDIT_PLUGIN_SETTINGS'),
+							'height'      => '400px',
+							'width'       => '800px',
+							'bodyHeight'  => '70',
+							'modalWidth'  => '80',
+							'closeButton' => false,
+							'backdrop'    => 'static',
+							'keyboard'    => false,
+							'footer'      => '<button type="button" class="btn btn-secondary" data-bs-dismiss="modal"'
+								. ' onclick="Joomla.iframeButtonClick({iframeSelector: \'#plugin' . $this->finderPluginId . 'Modal\', buttonSelector: \'#closeBtn\'})">'
+								. Text::_('JLIB_HTML_BEHAVIOR_CLOSE') . '</button>'
+								. '<button type="button" class="btn btn-primary" data-bs-dismiss="modal" onclick="Joomla.iframeButtonClick({iframeSelector: \'#plugin' . $this->finderPluginId . 'Modal\', buttonSelector: \'#saveBtn\'})">'
+								. Text::_("JSAVE") . '</button>'
+								. '<button type="button" class="btn btn-success" onclick="Joomla.iframeButtonClick({iframeSelector: \'#plugin' . $this->finderPluginId . 'Modal\', buttonSelector: \'#applyBtn\'}); return false;">'
+								. Text::_("JAPPLY") . '</button>'
+						)
+					); ?>
+				<?php endif; ?>
 				<?php if (empty($this->items)) : ?>
 					<div class="alert alert-info">
-						<span class="fas fa-info-circle" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('INFO'); ?></span>
+						<span class="icon-info-circle" aria-hidden="true"></span><span class="visually-hidden"><?php echo Text::_('INFO'); ?></span>
 						<?php echo Text::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
 					</div>
 				<?php else : ?>
 					<table class="table">
-						<caption id="captionTable" class="sr-only">
+						<caption class="visually-hidden">
 							<?php echo Text::_('COM_FINDER_INDEX_TABLE_CAPTION'); ?>,
 							<span id="orderedBy"><?php echo Text::_('JGLOBAL_SORTED_BY'); ?> </span>,
 							<span id="filteredBy"><?php echo Text::_('JGLOBAL_FILTERED_BY'); ?></span>
@@ -47,7 +77,7 @@ HTMLHelper::_('script', 'com_finder/index.js', ['version' => 'auto', 'relative' 
 								<td class="w-1 text-center">
 									<?php echo HTMLHelper::_('grid.checkall'); ?>
 								</td>
-								<th scope="col" class="w-1">
+								<th scope="col" class="w-1 text-center">
 									<?php echo HTMLHelper::_('searchtools.sort', 'JSTATUS', 'l.published', $listDirn, $listOrder); ?>
 								</th>
 								<th scope="col">
@@ -77,15 +107,13 @@ HTMLHelper::_('script', 'com_finder/index.js', ['version' => 'auto', 'relative' 
 							<?php foreach ($this->items as $i => $item) : ?>
 							<tr class="row<?php echo $i % 2; ?>">
 								<td class="text-center">
-									<?php echo HTMLHelper::_('grid.id', $i, $item->link_id); ?>
+									<?php echo HTMLHelper::_('grid.id', $i, $item->link_id, false, 'cid', 'cb', $item->title); ?>
 								</td>
 								<td class="text-center">
 									<?php echo HTMLHelper::_('jgrid.published', $item->published, $i, 'index.', $canChange, 'cb'); ?>
 								</td>
 								<th scope="row">
-									<label for="cb<?php echo $i; ?>">
-										<?php echo $this->escape($item->title); ?>
-									</label>
+									<?php echo $this->escape($item->title); ?>
 								</th>
 								<td class="small d-none d-md-table-cell">
 									<?php
@@ -104,8 +132,8 @@ HTMLHelper::_('script', 'com_finder/index.js', ['version' => 'auto', 'relative' 
 								<td class="text-center d-none d-md-table-cell text-center">
 								<?php if ((int) $item->publish_start_date or (int) $item->publish_end_date or (int) $item->start_date or (int) $item->end_date) : ?>
 									<span tabindex="0">
-										<span class="fas fa-calendar" aria-hidden="true"></span>
-										<span class="sr-only"><?php echo Text::_('COM_FINDER_INDEX_DATE_INFO_TITLE'); ?></span>
+										<span class="icon-calendar" aria-hidden="true"></span>
+										<span class="visually-hidden"><?php echo Text::_('COM_FINDER_INDEX_DATE_INFO_TITLE'); ?></span>
 									</span>
 									<div role="tooltip" id="tip<?php echo $i; ?>">
 										<?php

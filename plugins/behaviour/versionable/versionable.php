@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Versionable
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2016 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,8 +12,8 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Event as CmsEvent;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Helper\CMSHelper;
 use Joomla\CMS\Filter\InputFilter;
+use Joomla\CMS\Helper\CMSHelper;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Versioning\VersionableTableInterface;
 use Joomla\CMS\Versioning\Versioning;

@@ -1,0 +1,82 @@
+$jicon-css-prefix: icon;
+$fa-css-prefix:    fa;
+
+.media-infobar {
+  position: absolute;
+  top: ($toolbar-height + 1px);
+  inset-inline-end: 0;
+  bottom: 0;
+  z-index: 4;
+  float: none;
+  width: 25%;
+  padding: $gutter-width;
+  overflow-y: auto;
+  background-color: $info-bg;
+  border-inline-start: 1px solid $border-color;
+  h2 {
+    padding-block-start: 8px;
+    padding-block-end: 8px;
+    padding-inline-start: ($gutter-width - 5px);
+    padding-inline-end: ($gutter-width + 15px);
+    margin: (-$gutter-width) (-$gutter-width) $gutter-width;
+    font-weight: normal;
+    word-wrap: break-word;
+    background-color: $info-title-bg;
+    border-bottom: 1px solid #eee;
+  }
+  dl {
+    display: flex;
+    flex-wrap: wrap;
+    margin-right: -($col-gutter-width * .5);
+    margin-left: -($col-gutter-width * .5);
+  }
+  dt, dd {
+    position: relative;
+    direction: ltr;
+    width: 100%;
+    min-height: 1px;
+    padding-right: $col-gutter-width * .5;
+    padding-left: $col-gutter-width * .5;
+    [dir=rtl] & {
+      text-align: end;
+    }
+  }
+  dt {
+    font-weight: normal;
+    color: rgba(0, 0, 0, .54);
+  }
+}
+
+.infobar-close {
+  position: absolute;
+  top: 0;
+  inset-inline-end: 0;
+  z-index: 2;
+  padding: 5px $gutter-width;
+  font-size: 2.6rem;
+  line-height: 2rem;
+  color: $info-close-color;
+  text-indent: 0;
+  text-shadow: none;
+  &:hover {
+    color: $info-close-color-hover;
+    cursor: pointer;
+  }
+}
+
+[class^="#{$jicon-css-prefix}-"],
+[class*=" #{$jicon-css-prefix}-"],
+[class^="#{$fa-css-prefix}-"],
+[class*=" #{$fa-css-prefix}-"] {
+  &.placeholder-icon {
+    display: block;
+    width: 4rem;
+    height: 4rem;
+    margin: 20px auto 15px;
+    font-size: 2rem;
+    line-height: calc(4rem - 4px);
+    color: #ccc;
+    border: 2px solid #ccc;
+    border-radius: 50%;
+  }
+}

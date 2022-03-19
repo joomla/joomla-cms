@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  System.Debug
  *
- * @copyright   Copyright (C) 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2018 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -36,7 +36,6 @@ class LanguageFilesCollector extends AbstractDataCollector implements AssetProvi
 	 * @since 4.0.0
 	 */
 	private $count = 0;
-
 
 	/**
 	 * Called by the DebugBar when data needs to be collected
@@ -87,7 +86,7 @@ class LanguageFilesCollector extends AbstractDataCollector implements AssetProvi
 
 	/**
 	 * Returns a hash where keys are control names and their values
-	 * an array of options as defined in {@see DebugBar\JavascriptRenderer::addControl()}
+	 * an array of options as defined in {@see \DebugBar\JavascriptRenderer::addControl()}
 	 *
 	 * @since  4.0.0
 	 *
@@ -100,7 +99,7 @@ class LanguageFilesCollector extends AbstractDataCollector implements AssetProvi
 				'icon' => 'language',
 				'widget' => 'PhpDebugBar.Widgets.languageFilesWidget',
 				'map' => $this->name,
-				'default' => '[]'
+				'default' => '[]',
 			],
 			'loaded:badge' => [
 				'map'     => $this->name . '.count',
@@ -121,9 +120,9 @@ class LanguageFilesCollector extends AbstractDataCollector implements AssetProvi
 	 */
 	public function getAssets(): array
 	{
-		return array(
+		return [
 			'js' => Uri::root(true) . '/media/plg_system_debug/widgets/languageFiles/widget.min.js',
 			'css' => Uri::root(true) . '/media/plg_system_debug/widgets/languageFiles/widget.min.css',
-		);
+		];
 	}
 }

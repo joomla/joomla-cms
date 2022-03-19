@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_languages
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2009 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -25,13 +25,6 @@ use Joomla\CMS\Toolbar\ToolbarHelper;
  */
 class HtmlView extends BaseHtmlView
 {
-	/**
-	 * True, if FTP settings should be shown, or an exception.
-	 *
-	 * @var boolean|\Exception
-	 */
-	protected $ftp = null;
-
 	/**
 	 * Option (component) name
 	 *
@@ -56,7 +49,8 @@ class HtmlView extends BaseHtmlView
 	/**
 	 * The model state
 	 *
-	 * @var    \JObject
+	 * @var    \Joomla\CMS\Object\CMSObject
+	 *
 	 * @since  4.0.0
 	 */
 	protected $state;
@@ -64,7 +58,8 @@ class HtmlView extends BaseHtmlView
 	/**
 	 * Form object for search filters
 	 *
-	 * @var    \JForm
+	 * @var    \Joomla\CMS\Form\Form
+	 *
 	 * @since  4.0.0
 	 */
 	public $filterForm;
@@ -86,7 +81,6 @@ class HtmlView extends BaseHtmlView
 	 */
 	public function display($tpl = null)
 	{
-		$this->ftp           = $this->get('Ftp');
 		$this->option        = $this->get('Option');
 		$this->pagination    = $this->get('Pagination');
 		$this->rows          = $this->get('Data');
@@ -119,11 +113,11 @@ class HtmlView extends BaseHtmlView
 
 		if ((int) $this->state->get('client_id') === 1)
 		{
-			ToolbarHelper::title(Text::_('COM_LANGUAGES_VIEW_INSTALLED_ADMIN_TITLE'), 'comments-2 langmanager');
+			ToolbarHelper::title(Text::_('COM_LANGUAGES_VIEW_INSTALLED_ADMIN_TITLE'), 'comments langmanager');
 		}
 		else
 		{
-			ToolbarHelper::title(Text::_('COM_LANGUAGES_VIEW_INSTALLED_SITE_TITLE'), 'comments-2 langmanager');
+			ToolbarHelper::title(Text::_('COM_LANGUAGES_VIEW_INSTALLED_SITE_TITLE'), 'comments langmanager');
 		}
 
 		if ($canDo->get('core.edit.state'))
@@ -140,7 +134,7 @@ class HtmlView extends BaseHtmlView
 			// Switch administrator language
 			if ($this->state->get('client_id', 0) == 1)
 			{
-				ToolbarHelper::custom('installed.switchadminlanguage', 'refresh', 'refresh', 'COM_LANGUAGES_SWITCH_ADMIN', true);
+				ToolbarHelper::custom('installed.switchadminlanguage', 'refresh', '', 'COM_LANGUAGES_SWITCH_ADMIN', true);
 				ToolbarHelper::divider();
 			}
 
@@ -151,6 +145,6 @@ class HtmlView extends BaseHtmlView
 			ToolbarHelper::divider();
 		}
 
-		ToolbarHelper::help('JHELP_EXTENSIONS_LANGUAGE_MANAGER_INSTALLED');
+		ToolbarHelper::help('Languages:_Installed');
 	}
 }

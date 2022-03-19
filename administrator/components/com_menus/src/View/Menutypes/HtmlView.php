@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_menus
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2011 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -19,7 +19,7 @@ use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 
 /**
- * The HTML Menus Menu Item TYpes View.
+ * The HTML Menus Menu Item Types View.
  *
  * @since  1.6
  */
@@ -36,7 +36,8 @@ class HtmlView extends BaseHtmlView
 	/**
 	 * Array of menu types
 	 *
-	 * @var    \JObject[]
+	 * @var    CMSObject[]
+	 *
 	 * @since  3.7.0
 	 */
 	protected $types;
@@ -101,7 +102,7 @@ class HtmlView extends BaseHtmlView
 		// Cancel
 		$title = Text::_('JTOOLBAR_CANCEL');
 		$dhtml = "<button onClick=\"location.href='index.php?option=com_menus&view=items'\" class=\"btn\">
-					<span class=\"icon-remove\" title=\"$title\"></span>
+					<span class=\"icon-times\" title=\"$title\"></span>
 					$title</button>";
 		$bar->appendButton('Custom', $dhtml, 'new');
 	}

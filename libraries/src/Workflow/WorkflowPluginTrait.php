@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2020 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -45,7 +45,7 @@ trait WorkflowPluginTrait
 		// Load XML file from "parent" plugin
 		$path = dirname((new ReflectionClass(static::class))->getFileName());
 
-		if (file_exists($path . '/forms/action.xml'))
+		if (is_file($path . '/forms/action.xml'))
 		{
 			$form->loadFile($path . '/forms/action.xml');
 		}
@@ -56,17 +56,17 @@ trait WorkflowPluginTrait
 	/**
 	 * Get the workflow for a given ID
 	 *
-	 * @param   int|null $workflow_id ID of the workflow
+	 * @param   int|null $workflowId ID of the workflow
 	 *
 	 * @return  CMSObject|boolean  Object on success, false on failure.
 	 *
 	 * @since   4.0.0
 	 */
-	protected function getWorkflow(int $workflow_id = null)
+	protected function getWorkflow(int $workflowId = null)
 	{
-		$workflow_id = !empty($workflow_id) ? $workflow_id : $this->app->input->getInt('workflow_id');
+		$workflowId = !empty($workflowId) ? $workflowId : $this->app->input->getInt('workflow_id');
 
-		if (is_array($workflow_id))
+		if (is_array($workflowId))
 		{
 			return false;
 		}
@@ -74,7 +74,7 @@ trait WorkflowPluginTrait
 		return $this->app->bootComponent('com_workflow')
 			->getMVCFactory()
 			->createModel('Workflow', 'Administrator', ['ignore_request' => true])
-			->getItem($workflow_id);
+			->getItem($workflowId);
 	}
 
 	/**
@@ -82,7 +82,7 @@ trait WorkflowPluginTrait
 	 *
 	 * @param   string $context Context to check
 	 *
-	 * @return boolean
+	 * @return  boolean
 	 *
 	 * @since   4.0.0
 	 */
@@ -92,20 +92,20 @@ trait WorkflowPluginTrait
 	}
 
 	/**
-	 * Check if the context is listed in the whitelist or in the blacklist and return the result
+	 * Check if the context is listed in the allowed of forbidden lists and return the result.
 	 *
 	 * @param   string $context Context to check
 	 *
-	 * @return boolean
+	 * @return  boolean
 	 */
-	protected function checkWhiteAndBlacklist($context)
+	protected function checkAllowedAndForbiddenlist($context)
 	{
-		$whitelist = \array_filter((array) $this->params->get('whitelist', []));
-		$blacklist = \array_filter((array) $this->params->get('blacklist', []));
+		$allowedlist = \array_filter((array) $this->params->get('allowedlist', []));
+		$forbiddenlist = \array_filter((array) $this->params->get('forbiddenlist', []));
 
-		if (!empty($whitelist))
+		if (!empty($allowedlist))
 		{
-			foreach ($whitelist as $allowed)
+			foreach ($allowedlist as $allowed)
 			{
 				if ($context === $allowed)
 				{
@@ -116,7 +116,7 @@ trait WorkflowPluginTrait
 			return false;
 		}
 
-		foreach ($blacklist as $forbidden)
+		foreach ($forbiddenlist as $forbidden)
 		{
 			if ($context === $forbidden)
 			{
@@ -128,12 +128,12 @@ trait WorkflowPluginTrait
 	}
 
 	/**
-	 * Check if the context is listed in the whitelist or in the blacklist and return the result
+	 * Check if the context supports a specific functionality.
 	 *
 	 * @param   string  $context       Context to check
-	 * @param   string  $functionality The funcationality
+	 * @param   string  $functionality The functionality
 	 *
-	 * @return boolean
+	 * @return  boolean
 	 */
 	protected function checkExtensionSupport($context, $functionality)
 	{

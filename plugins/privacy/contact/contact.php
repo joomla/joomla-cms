@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Privacy.contact
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2018 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,6 +12,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\User\User;
 use Joomla\Component\Privacy\Administrator\Plugin\PrivacyPlugin;
 use Joomla\Component\Privacy\Administrator\Table\RequestTable;
+use Joomla\Database\ParameterType;
 
 /**
  * Privacy plugin managing Joomla user contact data
@@ -52,11 +53,13 @@ class PlgPrivacyContact extends PrivacyPlugin
 
 		if ($user)
 		{
-			$query->where($this->db->quoteName('user_id') . ' = ' . (int) $user->id);
+			$query->where($this->db->quoteName('user_id') . ' = :id')
+				->bind(':id', $user->id, ParameterType::INTEGER);
 		}
 		else
 		{
-			$query->where($this->db->quoteName('email_to') . ' = ' . $this->db->quote($request->email));
+			$query->where($this->db->quoteName('email_to') . ' = :email')
+				->bind(':email', $request->email);
 		}
 
 		$items = $this->db->setQuery($query)->loadObjectList();

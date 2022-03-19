@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_contenthistory
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2013 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -11,6 +11,7 @@ namespace Joomla\Component\Contenthistory\Administrator\Model;
 
 \defined('_JEXEC') or die;
 
+use Joomla\CMS\Access\Exception\NotAllowed;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\CMSHelper;
@@ -69,31 +70,32 @@ class HistoryModel extends ListModel
 	 */
 	protected function canEdit($record)
 	{
-		$result = false;
-
-		if (!empty($record->item_id))
+		if (empty($record->item_id))
 		{
-			/**
-			 * Make sure user has edit privileges for this content item. Note that we use edit permissions
-			 * for the content item, not delete permissions for the content history row.
-			 */
-			$user   = Factory::getUser();
-			$result = $user->authorise('core.edit', $record->item_id);
-
-			// Finally try session (this catches edit.own case too)
-			if (!$result)
-			{
-				/** @var ContentType $contentTypeTable */
-				$contentTypeTable = $this->getTable('ContentType');
-
-				$typeAlias        = explode('.', $record->item_id);
-				$id = array_pop($typeAlias);
-				$typeAlias        = implode('.', $typeAlias);
-				$contentTypeTable->load(array('type_alias' => $typeAlias));
-				$typeEditables = (array) Factory::getApplication()->getUserState(str_replace('.', '.edit.', $contentTypeTable->type_alias) . '.id');
-				$result = in_array((int) $id, $typeEditables);
-			}
+			return false;
 		}
+
+		/**
+		 * Make sure user has edit privileges for this content item. Note that we use edit permissions
+		 * for the content item, not delete permissions for the content history row.
+		 */
+		$user   = Factory::getUser();
+
+		if ($user->authorise('core.edit', $record->item_id))
+		{
+			return true;
+		}
+
+		// Finally try session (this catches edit.own case too)
+		/** @var ContentType $contentTypeTable */
+		$contentTypeTable = $this->getTable('ContentType');
+
+		$typeAlias        = explode('.', $record->item_id);
+		$id = array_pop($typeAlias);
+		$typeAlias        = implode('.', $typeAlias);
+		$contentTypeTable->load(array('type_alias' => $typeAlias));
+		$typeEditables = (array) Factory::getApplication()->getUserState(str_replace('.', '.edit.', $contentTypeTable->type_alias) . '.id');
+		$result = in_array((int) $id, $typeEditables);
 
 		return $result;
 	}
@@ -201,6 +203,8 @@ class HistoryModel extends ListModel
 	 * @return  mixed  An array of data items on success, false on failure.
 	 *
 	 * @since   3.4.5
+	 *
+	 * @throws  NotAllowed   Thrown if not authorised to edit an item
 	 */
 	public function getItems()
 	{
@@ -219,16 +223,12 @@ class HistoryModel extends ListModel
 		}
 
 		// Access check
-		if ($user->authorise('core.edit', $items[0]->item_id) || $this->canEdit($items[0]))
+		if (!$user->authorise('core.edit', $items[0]->item_id) && !$this->canEdit($items[0]))
 		{
-			return $items;
+			throw new NotAllowed(Text::_('JERROR_ALERTNOAUTHOR'), 403);
 		}
-		else
-		{
-			$this->setError(Text::_('JERROR_ALERTNOAUTHOR'));
 
-			return false;
-		}
+		return $items;
 	}
 
 	/**
@@ -355,7 +355,7 @@ class HistoryModel extends ListModel
 	/**
 	 * Build an SQL query to load the list data.
 	 *
-	 * @return  \JDatabaseQuery
+	 * @return  \Joomla\Database\DatabaseQuery
 	 *
 	 * @since   3.2
 	 */

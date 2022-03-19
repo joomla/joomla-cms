@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_plugins
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2007 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -42,14 +42,14 @@ class HtmlView extends BaseHtmlView
 	/**
 	 * The model state
 	 *
-	 * @var    \JObject
+	 * @var   \Joomla\CMS\Object\CMSObject
 	 */
 	protected $state;
 
 	/**
 	 * Form object for search filters
 	 *
-	 * @var    \JForm
+	 * @var    \Joomla\CMS\Form\Form
 	 * @since  4.0.0
 	 */
 	public $filterForm;
@@ -67,7 +67,7 @@ class HtmlView extends BaseHtmlView
 	 *
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
 	 *
-	 * @return  mixed  A string if successful, otherwise an Error object.
+	 * @return  void
 	 */
 	public function display($tpl = null)
 	{
@@ -85,7 +85,7 @@ class HtmlView extends BaseHtmlView
 
 		$this->addToolbar();
 
-		return parent::display($tpl);
+		parent::display($tpl);
 	}
 
 	/**
@@ -99,25 +99,16 @@ class HtmlView extends BaseHtmlView
 	{
 		$canDo = ContentHelper::getActions('com_plugins');
 
-		ToolbarHelper::title(Text::_('COM_PLUGINS_MANAGER_PLUGINS'), 'power-cord plugin');
+		ToolbarHelper::title(Text::_('COM_PLUGINS_MANAGER_PLUGINS'), 'plug plugin');
 
 		// Get the toolbar object instance
 		$toolbar = Toolbar::getInstance('toolbar');
 
-		$dropdown = $toolbar->dropdownButton('status-group')
-			->text('JTOOLBAR_CHANGE_STATUS')
-			->toggleSplit(false)
-			->icon('fas fa-ellipsis-h')
-			->buttonClass('btn btn-action')
-			->listCheck(true);
-
-		$childBar = $dropdown->getChildToolbar();
-
 		if ($canDo->get('core.edit.state'))
 		{
-			$childBar->publish('plugins.publish', 'JTOOLBAR_ENABLE')->listCheck(true);
-			$childBar->unpublish('plugins.unpublish', 'JTOOLBAR_DISABLE')->listCheck(true);
-			$childBar->checkin('plugins.checkin');
+			$toolbar->publish('plugins.publish', 'JTOOLBAR_ENABLE')->listCheck(true);
+			$toolbar->unpublish('plugins.unpublish', 'JTOOLBAR_DISABLE')->listCheck(true);
+			$toolbar->checkin('plugins.checkin')->listCheck(true);
 		}
 
 		if ($canDo->get('core.admin'))
@@ -125,7 +116,6 @@ class HtmlView extends BaseHtmlView
 			$toolbar->preferences('com_plugins');
 		}
 
-		$toolbar->help('JHELP_EXTENSIONS_PLUGIN_MANAGER');
-
+		$toolbar->help('Plugins');
 	}
 }

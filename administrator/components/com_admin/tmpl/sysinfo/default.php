@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_admin
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2008 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -15,10 +15,8 @@ use Joomla\CMS\Language\Text;
 /** @var \Joomla\Component\Admin\Administrator\View\Sysinfo\HtmlView $this */
 
 ?>
-<div class="row">
-	<?php // Begin Content ?>
-	<div class="col-md-12">
-		<?php echo HTMLHelper::_('uitab.startTabSet', 'myTab', ['active' => 'site']); ?>
+<div class="main-card">
+		<?php echo HTMLHelper::_('uitab.startTabSet', 'myTab', ['active' => 'site', 'recall' => true, 'breakpoint' => 768]); ?>
 
 		<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'site', Text::_('COM_ADMIN_SYSTEM_INFORMATION')); ?>
 		<?php echo $this->loadTemplate('system'); ?>
@@ -41,7 +39,5 @@ use Joomla\CMS\Language\Text;
 		<?php echo HTMLHelper::_('uitab.endTab'); ?>
 
 		<?php echo HTMLHelper::_('uitab.endTabSet'); ?>
-	</div>
-	<?php // End Content ?>
 </div>
 

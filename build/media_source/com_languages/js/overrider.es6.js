@@ -1,5 +1,5 @@
 /**
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2018 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 ((Joomla, document) => {
@@ -15,6 +15,7 @@
       this.spinner = document.getElementById('overrider-spinner');
       this.spinnerBtn = document.getElementById('overrider-spinner-btn');
       this.moreResults = document.getElementById('more-results');
+      this.moreResultsButton = document.getElementById('more-results-button');
       this.resultsContainer = document.getElementById('results-container');
       this.refreshStatus = document.getElementById('refresh-status');
     }
@@ -47,7 +48,7 @@
           this.states.refreshing = false;
         },
         onError: () => {
-          alert(Joomla.JText._('COM_LANGUAGES_VIEW_OVERRIDE_REQUEST_ERROR'));
+          alert(Joomla.Text._('COM_LANGUAGES_VIEW_OVERRIDE_REQUEST_ERROR'));
           this.refreshStatus.classList.remove('show');
         },
       });
@@ -131,7 +132,11 @@
               // If there are more results than the sent ones
               // display the more link
               this.states.more = response.data.more;
+              this.moreResultsButton.disabled = false;
               this.moreResults.classList.add('show');
+            } else {
+              this.moreResultsButton.disabled = true;
+              this.moreResults.classList.remove('show');
             }
           }
 
@@ -139,7 +144,8 @@
           this.spinner.classList.remove('show');
         },
         onError: () => {
-          alert(Joomla.JText._('COM_LANGUAGES_VIEW_OVERRIDE_REQUEST_ERROR'));
+          alert(Joomla.Text._('COM_LANGUAGES_VIEW_OVERRIDE_REQUEST_ERROR'));
+          this.moreResultsButton.disabled = true;
           this.moreResults.classList.remove('show');
           this.resultsContainer.classList.remove('show');
         },
@@ -170,7 +176,7 @@
       // Create some elements for each result and insert it into the container
       results.forEach((item, index) => {
         const a = document.createElement('a');
-        a.setAttribute('onclick', `Joomla.overrider.selectString(${this.states.counter + index});`);
+        a.setAttribute('onclick', `Joomla.overrider.selectString(${this.states.counter}${index});`);
         a.setAttribute('href', '#');
         a.classList.add('list-group-item');
         a.classList.add('list-group-item-action');
@@ -178,15 +184,15 @@
         a.classList.add('align-items-start');
 
         const key = document.createElement('div');
-        key.setAttribute('id', `override_key${this.states.counter + index}`);
+        key.setAttribute('id', `override_key${this.states.counter}${index}`);
         key.setAttribute('title', item.file);
         key.classList.add('result-key');
-        key.innerHTML = item.constant;
+        key.innerHTML = Joomla.sanitizeHtml(item.constant);
 
         const string = document.createElement('div');
-        string.setAttribute('id', `override_string${this.states.counter + index}`);
+        string.setAttribute('id', `override_string${this.states.counter}${index}`);
         string.classList.add('result-string');
-        string.innerHTML = item.string;
+        string.innerHTML = Joomla.sanitizeHtml(item.string);
 
         a.appendChild(key);
         a.appendChild(string);
@@ -196,7 +202,7 @@
       // If there aren't any results display an appropriate message
       if (!results.length) {
         const noresult = document.createElement('div');
-        noresult.innerHTML = Joomla.JText._('COM_LANGUAGES_VIEW_OVERRIDE_NO_RESULTS');
+        noresult.innerText = Joomla.Text._('COM_LANGUAGES_VIEW_OVERRIDE_NO_RESULTS');
 
         resultsDiv.appendChild(noresult);
       }

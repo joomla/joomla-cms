@@ -1,8 +1,8 @@
 <?php
 /**
- * @package    Joomla.Libraries
+ * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2017 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -10,9 +10,10 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Filesystem\File;
 use Joomla\CMS\Filesystem\Folder;
+use Joomla\CMS\Log\Log;
 
 /**
- * Class JNamespaceMap
+ * Class JNamespacePsr4Map
  *
  * @since  4.0.0
  */
@@ -27,6 +28,12 @@ class JNamespacePsr4Map
 	protected $file = JPATH_CACHE . '/autoload_psr4.php';
 
 	/**
+	 * @var array|null
+	 * @since 4.0.0
+	 */
+	private $cachedMap = null;
+
+	/**
 	 * Check if the file exists
 	 *
 	 * @return  boolean
@@ -35,7 +42,7 @@ class JNamespacePsr4Map
 	 */
 	public function exists()
 	{
-		return file_exists($this->file);
+		return is_file($this->file);
 	}
 
 	/**
@@ -90,7 +97,7 @@ class JNamespacePsr4Map
 			$this->create();
 		}
 
-		$map = require $this->file;
+		$map = $this->cachedMap ?: require $this->file;
 
 		$loader = include JPATH_LIBRARIES . '/vendor/autoload.php';
 
@@ -125,7 +132,39 @@ class JNamespacePsr4Map
 
 		$content[] = '];';
 
-		File::write($this->file, implode("\n", $content));
+		/**
+		 * Backup the current error_reporting level and set a new level
+		 *
+		 * We do this because file_put_contents can raise a Warning if it cannot write the autoload_psr4.php file
+		 * and this will output to the response BEFORE the session has started, causing the session start to fail
+		 * and ultimately leading us to a 500 Internal Server Error page just because of the output warning, which
+		 * we can safely ignore as we can use an in-memory autoload_psr4 map temporarily, and display real errors later.
+		 */
+		$error_reporting = error_reporting(0);
+
+		if (!File::write($this->file, implode("\n", $content)))
+		{
+			Log::add('Could not save ' . $this->file, Log::WARNING);
+
+			$map = [];
+			$constants = ['JPATH_ADMINISTRATOR', 'JPATH_API', 'JPATH_SITE', 'JPATH_PLUGINS'];
+
+			foreach ($elements as $namespace => $path)
+			{
+				foreach ($constants as $constant)
+				{
+					$path = preg_replace(['/^(' . $constant . ")\s\.\s\'/", '/\'$/'], [constant($constant), ''], $path);
+				}
+
+				$namespace = str_replace('\\\\', '\\', $namespace);
+				$map[$namespace] = [ $path ];
+			}
+
+			$this->cachedMap = $map;
+		}
+
+		// Restore previous value of error_reporting
+		error_reporting($error_reporting);
 	}
 
 	/**
@@ -176,7 +215,7 @@ class JNamespacePsr4Map
 				$file = $extensionPath . $name . '.xml';
 
 				// If there is no manifest file, ignore. If it was a component check if the xml was named with the com_ prefix.
-				if (!file_exists($file))
+				if (!is_file($file))
 				{
 					if (!$count)
 					{
@@ -185,7 +224,7 @@ class JNamespacePsr4Map
 
 					$file = $extensionPath . $extension . '.xml';
 
-					if (!file_exists($file))
+					if (!is_file($file))
 					{
 						continue;
 					}

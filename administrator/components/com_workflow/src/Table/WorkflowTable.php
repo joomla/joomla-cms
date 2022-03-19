@@ -3,17 +3,19 @@
  * @package     Joomla.Administrator
  * @subpackage  com_workflow
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2018 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 namespace Joomla\Component\Workflow\Administrator\Table;
 
 \defined('_JEXEC') or die;
 
+use Joomla\CMS\Access\Rules;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Table\Table;
 use Joomla\Database\DatabaseDriver;
+use Joomla\Database\ParameterType;
 
 /**
  * Workflow table
@@ -26,14 +28,13 @@ class WorkflowTable extends Table
 	 * Indicates that columns fully support the NULL value in the database
 	 *
 	 * @var    boolean
+	 *
 	 * @since  4.0.0
 	 */
 	protected $_supportNullValue = true;
 
 	/**
-	 * Constructor
-	 *
-	 * @param   \JDatabaseDriver  $db  Database connector object
+	 * @param   DatabaseDriver  $db  Database connector object
 	 *
 	 * @since  4.0.0
 	 */
@@ -42,8 +43,6 @@ class WorkflowTable extends Table
 		$this->typeAlias = '{extension}.workflow';
 
 		parent::__construct('#__workflows', 'id', $db);
-
-		$this->access = (int) Factory::getApplication()->get('access');
 	}
 
 	/**
@@ -59,25 +58,22 @@ class WorkflowTable extends Table
 	 */
 	public function delete($pk = null)
 	{
-		if (!Factory::getUser()->authorise('core.delete', 'com_installer'))
-		{
-			throw new \Exception(Text::_('JLIB_APPLICATION_ERROR_DELETE_NOT_PERMITTED'), 403);
-		}
-
 		$db  = $this->getDbo();
 		$app = Factory::getApplication();
+		$pk  = (int) $pk;
 
 		// Gets the workflow information that is going to be deleted.
 		$query = $db->getQuery(true)
-			->select($db->quoteName(array('id', 'title')))
+			->select($db->quoteName('default'))
 			->from($db->quoteName('#__workflows'))
-			->where($db->quoteName('id') . ' = ' . (int) $pk);
-		$db->setQuery($query);
-		$workflow = $db->loadResult();
+			->where($db->quoteName('id') . ' = :id')
+			->bind(':id', $pk, ParameterType::INTEGER);
 
-		if ($workflow->default)
+		$isDefault = $db->setQuery($query)->loadResult();
+
+		if ($isDefault)
 		{
-			$app->enqueueMessage(Text::sprintf('COM_WORKFLOW_MSG_DELETE_DEFAULT', $workflow->title), 'error');
+			$app->enqueueMessage(Text::_('COM_WORKFLOW_MSG_DELETE_DEFAULT'), 'error');
 
 			return false;
 		}
@@ -87,21 +83,23 @@ class WorkflowTable extends Table
 		{
 			$query = $db->getQuery(true)
 				->delete($db->quoteName('#__workflow_stages'))
-				->where($db->quoteName('workflow_id') . ' = ' . (int) $pk);
-			$db->setQuery($query);
-			$db->execute();
+				->where($db->quoteName('workflow_id') . ' = :id')
+				->bind(':id', $pk, ParameterType::INTEGER);
+
+			$db->setQuery($query)->execute();
 
 			$query = $db->getQuery(true)
 				->delete($db->quoteName('#__workflow_transitions'))
-				->where($db->quoteName('workflow_id') . ' = ' . (int) $pk);
-			$db->setQuery($query);
-			$db->execute();
+				->where($db->quoteName('workflow_id') . ' = :id')
+				->bind(':id', $pk, ParameterType::INTEGER);
+
+			$db->setQuery($query)->execute();
 
 			return parent::delete($pk);
 		}
 		catch (\RuntimeException $e)
 		{
-			$app->enqueueMessage(Text::sprintf('COM_WORKFLOW_MSG_WORKFLOWS_DELETE_ERROR', $workflow->title, $e->getMessage()), 'error');
+			$app->enqueueMessage(Text::sprintf('COM_WORKFLOW_MSG_WORKFLOWS_DELETE_ERROR', $e->getMessage()), 'error');
 
 			return false;
 		}
@@ -113,7 +111,7 @@ class WorkflowTable extends Table
 	 * @return  boolean  True on success
 	 *
 	 * @see     Table::check()
-	 * @since   4.0
+	 * @since   4.0.0
 	 */
 	public function check()
 	{
@@ -146,20 +144,24 @@ class WorkflowTable extends Table
 		}
 		else
 		{
-			$db = $this->getDbo();
+			$db    = $this->getDbo();
 			$query = $db->getQuery(true);
 
 			$query
 				->select($db->quoteName('id'))
 				->from($db->quoteName('#__workflows'))
-				->where($db->quoteName('default') . '= 1');
+				->where($db->quoteName('default') . ' = 1');
 
-			$state = $db->setQuery($query)->loadObject();
+			$id = $db->setQuery($query)->loadResult();
 
-			if (empty($state) || $state->id === $this->id)
+			// If there is no default workflow => set the current to default to recover
+			if (empty($id))
 			{
 				$this->default = '1';
-
+			}
+			// This workflow is the default, but someone has tried to disable it => not allowed
+			elseif ($id === $this->id)
+			{
 				$this->setError(Text::_('COM_WORKFLOW_DISABLE_DEFAULT'));
 
 				return false;
@@ -177,7 +179,7 @@ class WorkflowTable extends Table
 	 * @return  mixed  False on failure, positive integer on success.
 	 *
 	 * @see     Table::store()
-	 * @since   4.0
+	 * @since   4.0.0
 	 */
 	public function store($updateNulls = true)
 	{
@@ -190,7 +192,7 @@ class WorkflowTable extends Table
 		{
 			// Existing item
 			$this->modified_by = $user->id;
-			$this->modified = $date->toSql();
+			$this->modified    = $date->toSql();
 		}
 		else
 		{
@@ -217,10 +219,15 @@ class WorkflowTable extends Table
 			$this->modified_by = $this->created_by;
 		}
 
-		if ($this->default == '1')
+		if ((int) $this->default === 1)
 		{
 			// Verify that the default is unique for this workflow
-			if ($table->load(array('default' => '1')))
+			if ($table->load(
+				[
+					'default' => '1',
+					'extension' => $this->extension
+				]
+			))
 			{
 				$table->default = 0;
 				$table->store();
@@ -228,6 +235,31 @@ class WorkflowTable extends Table
 		}
 
 		return parent::store($updateNulls);
+	}
+
+	/**
+	 * Method to bind an associative array or object to the Table instance.
+	 * This method only binds properties that are publicly accessible and optionally
+	 * takes an array of properties to ignore when binding.
+	 *
+	 * @param   array|object  $src     An associative array or object to bind to the Table instance.
+	 * @param   array|string  $ignore  An optional array or space separated list of properties to ignore while binding.
+	 *
+	 * @return  boolean  True on success.
+	 *
+	 * @since   4.0.0
+	 * @throws  \InvalidArgumentException
+	 */
+	public function bind($src, $ignore = array())
+	{
+		// Bind the rules.
+		if (isset($src['rules']) && \is_array($src['rules']))
+		{
+			$rules = new Rules($src['rules']);
+			$this->setRules($rules);
+		}
+
+		return parent::bind($src, $ignore);
 	}
 
 	/**
@@ -265,7 +297,7 @@ class WorkflowTable extends Table
 	/**
 	 * Get the parent asset id for the record
 	 *
-	 * @param   Table    $table  A JTable object for the asset parent.
+	 * @param   Table    $table  A Table object for the asset parent.
 	 * @param   integer  $id     The id for the asset
 	 *
 	 * @return  integer  The id of the asset's parent
@@ -284,7 +316,8 @@ class WorkflowTable extends Table
 		$query = $this->getDbo()->getQuery(true)
 			->select($this->getDbo()->quoteName('id'))
 			->from($this->getDbo()->quoteName('#__assets'))
-			->where($this->getDbo()->quoteName('name') . ' = ' . $this->getDbo()->quote($extension));
+			->where($this->getDbo()->quoteName('name') . ' = :extension')
+			->bind(':extension', $extension);
 
 		// Get the asset id from the database.
 		$this->getDbo()->setQuery($query);

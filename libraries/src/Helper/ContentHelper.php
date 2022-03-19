@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2013 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -133,7 +133,7 @@ class ContentHelper
 
 		$relationsAll = $db->setQuery($query)->loadObjectList();
 
-		// Loop through the DB data overwritting the above zeros with the found count
+		// Loop through the DB data overwriting the above zeros with the found count
 		foreach ($relationsAll as $relation)
 		{
 			// Sanity check in case someone removes the state IN above ... and some views may start throwing warnings

@@ -3,7 +3,7 @@
 	<name>plg_fields_imagelist</name>
 	<author>Joomla! Project</author>
 	<creationDate>March 2016</creationDate>
-	<copyright>Copyright (C) 2005 - 2020 Open Source Matters. All rights reserved.</copyright>
+	<copyright>(C) 2016 Open Source Matters, Inc.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
@@ -15,8 +15,8 @@
 		<folder>tmpl</folder>
 	</files>
 	<languages>
-		<language tag="en-GB">en-GB.plg_fields_imagelist.ini</language>
-		<language tag="en-GB">en-GB.plg_fields_imagelist.sys.ini</language>
+		<language tag="en-GB">language/en-GB/plg_fields_imagelist.ini</language>
+		<language tag="en-GB">language/en-GB/plg_fields_imagelist.sys.ini</language>
 	</languages>
 	<config>
 		<fields name="params">
@@ -25,11 +25,13 @@
 					name="directory"
 					type="folderlist"
 					label="PLG_FIELDS_IMAGELIST_PARAMS_DIRECTORY_LABEL"
+					description="PLG_FIELDS_IMAGELIST_PARAMS_DIRECTORY_DESC"
 					directory="images"
 					hide_none="true"
 					hide_default="true"
 					recursive="true"
 					default="/"
+					validate="options"
 					>
 					<option value="/">/</option>
 				</field>
@@ -50,7 +52,7 @@
 					name="image_class"
 					type="textarea"
 					label="PLG_FIELDS_IMAGELIST_PARAMS_IMAGE_CLASS_LABEL"
-					size="40"
+					validate="CssIdentifier"
 				/>
 			</fieldset>
 		</fields>

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_tags
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2013 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -31,7 +31,6 @@ $parts     = explode('.', $extension);
 $component = $parts[0];
 $section   = null;
 $mode      = false;
-$status    = $component === 'com_content' ? 'condition' : 'published';
 
 if (count($parts) > 1)
 {
@@ -65,12 +64,12 @@ if ($saveOrder && !empty($this->items))
 		?>
 		<?php if (empty($this->items)) : ?>
 			<div class="alert alert-info">
-				<span class="fas fa-info-circle" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('INFO'); ?></span>
+				<span class="icon-info-circle" aria-hidden="true"></span><span class="visually-hidden"><?php echo Text::_('INFO'); ?></span>
 				<?php echo Text::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
 			</div>
 		<?php else : ?>
-			<table class="table" id="categoryList">
-				<caption id="captionTable" class="sr-only">
+			<table class="table" id="tagList">
+				<caption class="visually-hidden">
 					<?php echo Text::_('COM_TAGS_TABLE_CAPTION'); ?>,
 							<span id="orderedBy"><?php echo Text::_('JGLOBAL_SORTED_BY'); ?> </span>,
 							<span id="filteredBy"><?php echo Text::_('JGLOBAL_FILTERED_BY'); ?></span>
@@ -81,7 +80,7 @@ if ($saveOrder && !empty($this->items))
 							<?php echo HTMLHelper::_('grid.checkall'); ?>
 						</td>
 						<th scope="col" class="w-1 d-none d-md-table-cell text-center">
-							<?php echo HTMLHelper::_('searchtools.sort', '', 'a.lft', $listDirn, $listOrder, null, 'asc', 'JGRID_HEADING_ORDERING', 'icon-menu-2'); ?>
+							<?php echo HTMLHelper::_('searchtools.sort', '', 'a.lft', $listDirn, $listOrder, null, 'asc', 'JGRID_HEADING_ORDERING', 'icon-sort'); ?>
 						</th>
 						<th scope="col" class="w-1 text-center">
 							<?php echo HTMLHelper::_('searchtools.sort', 'JSTATUS', 'a.published', $listDirn, $listOrder); ?>
@@ -92,22 +91,22 @@ if ($saveOrder && !empty($this->items))
 
 						<?php if (isset($this->items[0]) && property_exists($this->items[0], 'count_published')) : ?>
 							<th scope="col" class="w-1 text-center d-none d-md-table-cell">
-								<span class="fas fa-check" aria-hidden="true" title="<?php echo Text::_('COM_TAGS_COUNT_PUBLISHED_ITEMS'); ?>"><span class="sr-only"><?php echo Text::_('COM_TAGS_COUNT_PUBLISHED_ITEMS'); ?></span></span>
+								<span class="icon-check" aria-hidden="true" title="<?php echo Text::_('COM_TAGS_COUNT_PUBLISHED_ITEMS'); ?>"><span class="visually-hidden"><?php echo Text::_('COM_TAGS_COUNT_PUBLISHED_ITEMS'); ?></span></span>
 							</th>
 						<?php endif; ?>
 						<?php if (isset($this->items[0]) && property_exists($this->items[0], 'count_unpublished')) : ?>
 							<th scope="col" class="w-1 text-center d-none d-md-table-cell">
-								<span class="fas fa-times" aria-hidden="true" title="<?php echo Text::_('COM_TAGS_COUNT_UNPUBLISHED_ITEMS'); ?>"><span class="sr-only"><?php echo Text::_('COM_TAGS_COUNT_UNPUBLISHED_ITEMS'); ?></span></span>
+								<span class="icon-times" aria-hidden="true" title="<?php echo Text::_('COM_TAGS_COUNT_UNPUBLISHED_ITEMS'); ?>"><span class="visually-hidden"><?php echo Text::_('COM_TAGS_COUNT_UNPUBLISHED_ITEMS'); ?></span></span>
 							</th>
 						<?php endif; ?>
 						<?php if (isset($this->items[0]) && property_exists($this->items[0], 'count_archived')) : ?>
 							<th scope="col" class="w-1 text-center d-none d-md-table-cell">
-								<span class="fas fa-folder" aria-hidden="true" title="<?php echo Text::_('COM_TAGS_COUNT_ARCHIVED_ITEMS'); ?>"><span class="sr-only"><?php echo Text::_('COM_TAGS_COUNT_ARCHIVED_ITEMS'); ?></span></span>
+								<span class="icon-folder icon-fw" aria-hidden="true" title="<?php echo Text::_('COM_TAGS_COUNT_ARCHIVED_ITEMS'); ?>"><span class="visually-hidden"><?php echo Text::_('COM_TAGS_COUNT_ARCHIVED_ITEMS'); ?></span></span>
 							</th>
 						<?php endif; ?>
 						<?php if (isset($this->items[0]) && property_exists($this->items[0], 'count_trashed')) : ?>
 							<th scope="col" class="w-1 text-center d-none d-md-table-cell">
-								<span class="fas fa-trash" aria-hidden="true" title="<?php echo Text::_('COM_TAGS_COUNT_TRASHED_ITEMS'); ?>"><span class="sr-only"><?php echo Text::_('COM_TAGS_COUNT_TRASHED_ITEMS'); ?></span></span>
+								<span class="icon-trash" aria-hidden="true" title="<?php echo Text::_('COM_TAGS_COUNT_TRASHED_ITEMS'); ?>"><span class="visually-hidden"><?php echo Text::_('COM_TAGS_COUNT_TRASHED_ITEMS'); ?></span></span>
 							</th>
 						<?php endif; ?>
 
@@ -115,12 +114,12 @@ if ($saveOrder && !empty($this->items))
 							<?php echo HTMLHelper::_('searchtools.sort',  'JGRID_HEADING_ACCESS', 'a.access', $listDirn, $listOrder); ?>
 						</th>
 						<?php if (Multilanguage::isEnabled()) : ?>
-							<th scope="col" class="w-10 d-none d-md-table-cell text-center">
+							<th scope="col" class="w-10 d-none d-md-table-cell">
 								<?php echo HTMLHelper::_('searchtools.sort', 'JGRID_HEADING_LANGUAGE', 'a.language', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
 							</th>
 						<?php endif; ?>
 						<th scope="col" class="w-10 d-none d-md-table-cell text-center">
-							<?php echo JHtml::_('searchtools.sort', 'COM_TAGS_COUNT_TAGGED_ITEMS', 'countTaggedItems', $listDirn, $listOrder); ?>
+							<?php echo HTMLHelper::_('searchtools.sort', 'COM_TAGS_COUNT_TAGGED_ITEMS', 'countTaggedItems', $listDirn, $listOrder); ?>
 						</th>
 						<th scope="col" class="w-5 d-none d-md-table-cell">
 							<?php echo HTMLHelper::_('searchtools.sort', 'JGRID_HEADING_ID', 'a.id', $listDirn, $listOrder); ?>
@@ -162,9 +161,11 @@ if ($saveOrder && !empty($this->items))
 						$parentsStr = '';
 					}
 					?>
-						<tr class="row<?php echo $i % 2; ?>" data-dragable-group="<?php echo $item->parent_id; ?>" item-id="<?php echo $item->id; ?>" parents="<?php echo $parentsStr; ?>" level="<?php echo $item->level; ?>">
+						<tr class="row<?php echo $i % 2; ?>" data-draggable-group="<?php echo $item->parent_id; ?>"
+							data-item-id="<?php echo $item->id; ?>" data-parents="<?php echo $parentsStr; ?>"
+							data-level="<?php echo $item->level; ?>">
 							<td class="text-center">
-								<?php echo HTMLHelper::_('grid.id', $i, $item->id); ?>
+								<?php echo HTMLHelper::_('grid.id', $i, $item->id, false, 'cid', 'cb', $item->title); ?>
 							</td>
 							<td class="text-center d-none d-md-table-cell">
 								<?php
@@ -179,7 +180,7 @@ if ($saveOrder && !empty($this->items))
 								}
 								?>
 								<span class="sortable-handler<?php echo $iconClass ?>">
-									<span class="fas fa-ellipsis-v"></span>
+									<span class="icon-ellipsis-v"></span>
 								</span>
 								<?php if ($canChange && $saveOrder) : ?>
 									<input type="text" class="hidden" name="order[]" size="5" value="<?php echo $orderkey + 1; ?>">
@@ -194,41 +195,41 @@ if ($saveOrder && !empty($this->items))
 									<?php echo HTMLHelper::_('jgrid.checkedout', $i, $item->editor, $item->checked_out_time, 'tags.', $canCheckin); ?>
 								<?php endif; ?>
 								<?php if ($canEdit) : ?>
-									<a href="<?php echo Route::_('index.php?option=com_tags&task=tag.edit&id=' . $item->id); ?>" title="<?php echo Text::_('JACTION_EDIT'); ?> <?php echo $this->escape(addslashes($item->title)); ?>">
+									<a href="<?php echo Route::_('index.php?option=com_tags&task=tag.edit&id=' . $item->id); ?>" title="<?php echo Text::_('JACTION_EDIT'); ?> <?php echo $this->escape($item->title); ?>">
 										<?php echo $this->escape($item->title); ?></a>
 								<?php else : ?>
 									<?php echo $this->escape($item->title); ?>
 								<?php endif; ?>
-								<span class="small" title="<?php echo $this->escape($item->path); ?>">
+								<div class="small" title="<?php echo $this->escape($item->path); ?>">
 									<?php if (empty($item->note)) : ?>
 										<?php echo Text::sprintf('JGLOBAL_LIST_ALIAS', $this->escape($item->alias)); ?>
 									<?php else : ?>
 										<?php echo Text::sprintf('JGLOBAL_LIST_ALIAS_NOTE', $this->escape($item->alias), $this->escape($item->note)); ?>
 									<?php endif; ?>
-								</span>
+								</div>
 							</th>
 
 						<?php if (isset($this->items[0]) && property_exists($this->items[0], 'count_published')) : ?>
 							<td class="text-center btns d-none d-md-table-cell itemnumber">
-								<a class="btn <?php echo $item->count_published > 0 ? 'btn-success' : 'btn-secondary'; ?>" title="<?php echo Text::_('COM_TAGS_COUNT_PUBLISHED_ITEMS'); ?>" href="<?php echo Route::_('index.php?option=' . $component . ($mode ? '&extension=' . $section : '&view=' . $section) . '&filter[tag]=' . (int) $item->id . '&filter[' . $status . ']=1'); ?>">
+								<a class="btn <?php echo $item->count_published > 0 ? 'btn-success' : 'btn-secondary'; ?>" title="<?php echo Text::_('COM_TAGS_COUNT_PUBLISHED_ITEMS'); ?>" href="<?php echo Route::_('index.php?option=' . $component . ($mode ? '&extension=' . $section : '&view=' . $section) . '&filter[tag]=' . (int) $item->id . '&filter[published]=1'); ?>">
 									<?php echo $item->count_published; ?></a>
 							</td>
 						<?php endif; ?>
 						<?php if (isset($this->items[0]) && property_exists($this->items[0], 'count_unpublished')) : ?>
 							<td class="text-center btns d-none d-md-table-cell itemnumber">
-								<a class="btn <?php echo $item->count_unpublished > 0 ? 'btn-danger' : 'btn-secondary'; ?>" title="<?php echo Text::_('COM_TAGS_COUNT_UNPUBLISHED_ITEMS'); ?>" href="<?php echo Route::_('index.php?option=' . $component . ($mode ? '&extension=' . $section : '&view=' . $section) . '&filter[tag]=' . (int) $item->id . '&filter[' . $status . ']=0'); ?>">
+								<a class="btn <?php echo $item->count_unpublished > 0 ? 'btn-danger' : 'btn-secondary'; ?>" title="<?php echo Text::_('COM_TAGS_COUNT_UNPUBLISHED_ITEMS'); ?>" href="<?php echo Route::_('index.php?option=' . $component . ($mode ? '&extension=' . $section : '&view=' . $section) . '&filter[tag]=' . (int) $item->id . '&filter[published]=0'); ?>">
 									<?php echo $item->count_unpublished; ?></a>
 							</td>
 						<?php endif; ?>
 						<?php if (isset($this->items[0]) && property_exists($this->items[0], 'count_archived')) : ?>
 							<td class="text-center btns d-none d-md-table-cell itemnumber">
-								<a class="btn <?php echo $item->count_archived > 0 ? 'btn-info' : 'btn-secondary'; ?>" title="<?php echo Text::_('COM_TAGS_COUNT_ARCHIVED_ITEMS'); ?>" href="<?php echo Route::_('index.php?option=' . $component . ($mode ? '&extension=' . $section : '&view=' . $section) . '&filter[tag]=' . (int) $item->id . '&filter[' . $status . ']=2'); ?>">
+								<a class="btn <?php echo $item->count_archived > 0 ? 'btn-info' : 'btn-secondary'; ?>" title="<?php echo Text::_('COM_TAGS_COUNT_ARCHIVED_ITEMS'); ?>" href="<?php echo Route::_('index.php?option=' . $component . ($mode ? '&extension=' . $section : '&view=' . $section) . '&filter[tag]=' . (int) $item->id . '&filter[published]=2'); ?>">
 									<?php echo $item->count_archived; ?></a>
 							</td>
 						<?php endif; ?>
 						<?php if (isset($this->items[0]) && property_exists($this->items[0], 'count_trashed')) : ?>
 							<td class="text-center btns d-none d-md-table-cell itemnumber">
-								<a class="btn <?php echo $item->count_trashed > 0 ? 'btn-danger' : 'btn-secondary'; ?>" title="<?php echo Text::_('COM_TAGS_COUNT_TRASHED_ITEMS'); ?>" href="<?php echo Route::_('index.php?option=' . $component . ($mode ? '&extension=' . $section : '&view=' . $section) . '&filter[tag]=' . (int) $item->id . '&filter[' . $status . ']=-2'); ?>">
+								<a class="btn <?php echo $item->count_trashed > 0 ? 'btn-danger' : 'btn-secondary'; ?>" title="<?php echo Text::_('COM_TAGS_COUNT_TRASHED_ITEMS'); ?>" href="<?php echo Route::_('index.php?option=' . $component . ($mode ? '&extension=' . $section : '&view=' . $section) . '&filter[tag]=' . (int) $item->id . '&filter[published]=-2'); ?>">
 									<?php echo $item->count_trashed; ?></a>
 							</td>
 						<?php endif; ?>
@@ -236,12 +237,12 @@ if ($saveOrder && !empty($this->items))
 							<?php echo $this->escape($item->access_title); ?>
 						</td>
 						<?php if (Multilanguage::isEnabled()) : ?>
-							<td class="small d-none d-md-table-cell text-center">
+							<td class="small d-none d-md-table-cell">
 								<?php echo LayoutHelper::render('joomla.content.language', $item); ?>
 							</td>
 						<?php endif; ?>
 						<td class="small d-none d-md-table-cell text-center">
-							<span class="badge badge-info">
+							<span class="badge bg-info">
 								<?php echo $item->countTaggedItems; ?>
 							</span>
 						</td>

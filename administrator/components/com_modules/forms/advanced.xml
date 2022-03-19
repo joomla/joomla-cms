@@ -5,16 +5,11 @@
 			name="advanced">
 
 			<field
-				name="style"
-				type="chromestyle"
-				label="COM_MODULES_FIELD_MODULE_STYLE_LABEL"
-			/>
-
-			<field
 				name="module_tag"
 				type="moduletag"
 				label="COM_MODULES_FIELD_MODULE_TAG_LABEL"
 				default="div"
+				validate="options"
 			/>
 
 			<field
@@ -31,6 +26,7 @@
 				type="headertag"
 				label="COM_MODULES_FIELD_HEADER_TAG_LABEL"
 				default="h3"
+				validate="options"
 			/>
 
 			<field
@@ -38,6 +34,13 @@
 				type="textarea"
 				label="COM_MODULES_FIELD_HEADER_CLASS_LABEL"
 				rows="3"
+				validate="CssIdentifier"
+			/>
+
+			<field
+				name="style"
+				type="chromestyle"
+				label="COM_MODULES_FIELD_MODULE_STYLE_LABEL"
 			/>
 		</fieldset>
 	</fields>

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_installer
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2014 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -16,8 +16,6 @@ use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 
 HTMLHelper::_('behavior.multiselect');
-HTMLHelper::_('bootstrap.popover');
-HTMLHelper::_('bootstrap.popover', 'span.hasPopover');
 
 $user      = Factory::getApplication()->getIdentity();
 $userId    = $user->get('id');
@@ -32,12 +30,12 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 					<?php echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
 					<?php if (empty($this->items)) : ?>
 						<div class="alert alert-info">
-							<span class="fas fa-info-circle" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('INFO'); ?></span>
+							<span class="icon-info-circle" aria-hidden="true"></span><span class="visually-hidden"><?php echo Text::_('INFO'); ?></span>
 							<?php echo Text::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
 						</div>
 					<?php else : ?>
 					<table class="table">
-						<caption id="captionTable" class="sr-only">
+						<caption class="visually-hidden">
 							<?php echo Text::_('COM_INSTALLER_UPDATESITES_TABLE_CAPTION'); ?>,
 							<span id="orderedBy"><?php echo Text::_('JGLOBAL_SORTED_BY'); ?> </span>,
 							<span id="filteredBy"><?php echo Text::_('JGLOBAL_FILTERED_BY'); ?></span>
@@ -79,7 +77,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 							?>
 							<tr class="row<?php echo $i % 2; if ((int) $item->enabled === 2) echo ' protected'; ?>">
 								<td class="text-center">
-									<?php echo HTMLHelper::_('grid.id', $i, $item->update_site_id); ?>
+									<?php echo HTMLHelper::_('grid.id', $i, $item->update_site_id, false, 'cid', 'cb', $item->update_site_name); ?>
 								</td>
 								<td class="text-center">
 									<?php if (!$item->element) : ?>
@@ -88,46 +86,39 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 										<?php echo HTMLHelper::_('updatesites.state', $item->enabled, $i, $item->enabled < 2, 'cb'); ?>
 									<?php endif; ?>
 								</td>
-								<td scope="row">
-									<label for="cb<?php echo $i; ?>">
-										<?php if ($item->checked_out) : ?>
-											<?php echo HTMLHelper::_('jgrid.checkedout', $i, $item->editor, $item->checked_out_time, 'updatesites.', $canCheckin); ?>
-										<?php endif; ?>
-										<?php if ($canEdit) : ?>
-											<a class="hasPopover"
-											   href="<?php echo Route::_('index.php?option=com_installer&task=updatesite.edit&update_site_id=' . (int) $item->update_site_id); ?>"
-											   title="<?= Text::_('COM_INSTALLER_UPDATESITE_EDIT_TITLE') ?>"
-											   data-content="<?= Text::sprintf('COM_INSTALLER_UPDATESITE_EDIT_TIP', Text::_($item->update_site_name), Text::_($item->name)) ?>"
-											>
-												<?php echo Text::_($item->update_site_name); ?>
-											</a>
-										<?php else : ?>
+								<th scope="row">
+									<?php if ($item->checked_out) : ?>
+										<?php echo HTMLHelper::_('jgrid.checkedout', $i, $item->editor, $item->checked_out_time, 'updatesites.', $canCheckin); ?>
+									<?php endif; ?>
+									<?php if ($canEdit) : ?>
+										<a 
+											href="<?php echo Route::_('index.php?option=com_installer&task=updatesite.edit&update_site_id=' . (int) $item->update_site_id); ?>"
+											title="<?php echo Text::_('JACTION_EDIT'); ?> <?php echo $this->escape($item->update_site_name); ?>"
+										>
 											<?php echo Text::_($item->update_site_name); ?>
+										</a>
+									<?php else : ?>
+										<?php echo Text::_($item->update_site_name); ?>
+									<?php endif; ?>
+									<div class="small break-word">
+										<a href="<?php echo $item->location; ?>" target="_blank" rel="noopener noreferrer"><?php echo $this->escape($item->location); ?></a>
+									</div>
+									<div class="small break-word">
+										<?php if ($item->downloadKey['valid']) : ?>
+										<span class="badge bg-info">
+											<?php echo Text::_('COM_INSTALLER_DOWNLOADKEY_EXTRA_QUERY_LABEL'); ?>
+										</span>
+										<code><?php echo $item->downloadKey['value']; ?></code>
+										<?php elseif ($item->downloadKey['supported']) : ?>
+										<span class="badge bg-danger" tabindex="0">
+											<?php echo Text::_('COM_INSTALLER_DOWNLOADKEY_MISSING_LABEL'); ?>
+										</span>
+										<div role="tooltip" id="tip-missing<?php echo $i; ?>">
+											<?php echo Text::_('COM_INSTALLER_DOWNLOADKEY_MISSING_TIP'); ?>
+										</div>
 										<?php endif; ?>
-										<br>
-										<span class="small break-word">
-											<a href="<?php echo $item->location; ?>" target="_blank" rel="noopener noreferrer"><?php echo $this->escape($item->location); ?></a>
-										</span>
-										<br />
-										<span class="small break-word">
-											<?php if ($item->downloadKey['valid']) : ?>
-											<span class="badge badge-info">
-												<?php echo Text::_('COM_INSTALLER_DOWNLOADKEY_EXTRA_QUERY_LABEL'); ?>
-											</span>
-											<code><?php echo $item->downloadKey['value']; ?></code>
-											<?php elseif ($item->downloadKey['supported']) : ?>
-											<span class="badge badge-warning">
-												<span class="hasPopover"
-													  title="<?= Text::_('COM_INSTALLER_DOWNLOADKEY_MISSING_LABEL') ?>"
-													  data-content="<?= Text::_('COM_INSTALLER_DOWNLOADKEY_MISSING_TIP') ?>"
-												>
-												<?php echo Text::_('COM_INSTALLER_DOWNLOADKEY_MISSING_LABEL'); ?>
-												</span>
-											</span>
-											<?php endif; ?>
-										</span>
-									</label>
-								</td>
+									</div>
+								</th>
 								<td class="d-none d-md-table-cell">
 									<span tabindex="0">
 										<?php echo $item->name; ?>

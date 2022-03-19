@@ -54,8 +54,10 @@
 			<option value="">JGLOBAL_SORT_BY</option>
 			<option value="a.state ASC">JSTATUS_ASC</option>
 			<option value="a.state DESC">JSTATUS_DESC</option>
-			<option value="branch_title ASC">JGLOBAL_TITLE_ASC</option>
-			<option value="branch_title DESC">JGLOBAL_TITLE_DESC</option>
+			<option value="branch_title ASC, a.lft ASC">JGLOBAL_TITLE_ASC</option>
+			<option value="branch_title DESC, a.lft DESC">JGLOBAL_TITLE_DESC</option>
+			<option value="a.language ASC" requires="multilanguage">JGRID_HEADING_LANGUAGE_ASC</option>
+			<option value="a.language DESC" requires="multilanguage">JGRID_HEADING_LANGUAGE_DESC</option>
 		</field>
 
 		<field

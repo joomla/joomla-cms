@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_actionlogs
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2018 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -21,7 +21,12 @@ use Joomla\Component\Actionlogs\Administrator\View\Actionlogs\HtmlView;
 $listOrder  = $this->escape($this->state->get('list.ordering'));
 $listDirn   = $this->escape($this->state->get('list.direction'));
 
-HTMLHelper::_('script', 'com_actionlogs/admin-actionlogs-default.js', ['relative' => true, 'version' => 'auto']);
+/** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
+$wa = $this->document->getWebAssetManager();
+$wa->useScript('keepalive')
+	->useScript('multiselect')
+	->useScript('com_actionlogs.admin-actionlogs');
+
 ?>
 
 <form action="<?php echo Route::_('index.php?option=com_actionlogs&view=actionlogs'); ?>" method="post" name="adminForm" id="adminForm">
@@ -30,12 +35,12 @@ HTMLHelper::_('script', 'com_actionlogs/admin-actionlogs-default.js', ['relative
 		<?php echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
 		<?php if (empty($this->items)) : ?>
 			<div class="alert alert-info">
-				<span class="fas fa-info-circle" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('INFO'); ?></span>
+				<span class="icon-info-circle" aria-hidden="true"></span><span class="visually-hidden"><?php echo Text::_('INFO'); ?></span>
 				<?php echo Text::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
 			</div>
 		<?php else : ?>
 			<table class="table" id="logsList">
-				<caption id="captionTable" class="sr-only">
+				<caption class="visually-hidden">
 					<?php echo Text::_('COM_ACTIONLOGS_TABLE_CAPTION'); ?>,
 							<span id="orderedBy"><?php echo Text::_('JGLOBAL_SORTED_BY'); ?> </span>,
 							<span id="filteredBy"><?php echo Text::_('JGLOBAL_FILTERED_BY'); ?></span>
@@ -71,7 +76,7 @@ HTMLHelper::_('script', 'com_actionlogs/admin-actionlogs-default.js', ['relative
 					<?php foreach ($this->items as $i => $item) :
 						$extension = strtok($item->extension, '.');
 						ActionlogsHelper::loadTranslationFiles($extension); ?>
-						<tr>
+						<tr class="row<?php echo $i % 2; ?>">
 							<td class="text-center">
 								<?php echo HTMLHelper::_('grid.id', $i, $item->id); ?>
 							</td>
@@ -82,10 +87,14 @@ HTMLHelper::_('script', 'com_actionlogs/admin-actionlogs-default.js', ['relative
 								<?php echo $this->escape(Text::_($extension)); ?>
 							</td>
 							<td class="d-none d-md-table-cell">
-								<?php echo HTMLHelper::_('date.relative', $item->log_date); ?>
-								<div class="small">
+								<?php if ($this->dateRelative) : ?>
+									<?php echo HTMLHelper::_('date.relative', $item->log_date); ?>
+									<div class="small">
+								<?php endif; ?>
 									<?php echo HTMLHelper::_('date', $item->log_date, Text::_('DATE_FORMAT_LC6')); ?>
-								</div>
+								<?php if ($this->dateRelative) : ?>
+									</div>
+								<?php endif; ?>
 							</td>
 							<td class="d-md-table-cell">
 								<?php echo $this->escape($item->name); ?>

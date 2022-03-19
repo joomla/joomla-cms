@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  mod_articles_category
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2010 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -20,7 +20,7 @@ $idbase = null;
 
 switch ($mode)
 {
-	case 'dynamic' :
+	case 'dynamic':
 		$option = $input->get('option');
 		$view   = $input->get('view');
 
@@ -28,13 +28,11 @@ switch ($mode)
 		{
 			switch ($view)
 			{
-				case 'category' :
+				case 'category':
+				case 'categories':
 					$idbase = $input->getInt('id');
 					break;
-				case 'categories' :
-					$idbase = $input->getInt('id');
-					break;
-				case 'article' :
+				case 'article':
 					if ($params->get('show_on_article_page', 1))
 					{
 						$idbase = $input->getInt('catid');
@@ -43,7 +41,6 @@ switch ($mode)
 			}
 		}
 		break;
-	case 'normal' :
 	default:
 		$idbase = $params->get('catid');
 		break;
@@ -67,8 +64,8 @@ if ($list && $grouped)
 {
 	switch ($article_grouping)
 	{
-		case 'year' :
-		case 'month_year' :
+		case 'year':
+		case 'month_year':
 			$list = ArticlesCategoryHelper::groupByDate(
 				$list,
 				$article_grouping_direction,
@@ -77,11 +74,11 @@ if ($list && $grouped)
 				$params->get('date_grouping_field', 'created')
 			);
 			break;
-		case 'author' :
-		case 'category_title' :
+		case 'author':
+		case 'category_title':
 			$list = ArticlesCategoryHelper::groupBy($list, $article_grouping, $article_grouping_direction);
 			break;
-		case 'tags' :
+		case 'tags':
 			$list = ArticlesCategoryHelper::groupByTags($list, $article_grouping_direction);
 			break;
 	}

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<extension version="3.1" type="plugin" group="webservices" method="upgrade">
+<extension type="plugin" group="webservices" method="upgrade">
 	<name>plg_webservices_contact</name>
 	<author>Joomla! Project</author>
-	<creationDate>August 2017</creationDate>
-	<copyright>(C) 2005 - 2020 Open Source Matters. All rights reserved.</copyright>
+	<creationDate>September 2019</creationDate>
+	<copyright>(C) 2019 Open Source Matters, Inc.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
@@ -13,7 +13,7 @@
 		<filename plugin="contact">contact.php</filename>
 	</files>
 	<languages>
-		<language tag="en-GB">language/en-GB/en-GB.plg_webservices_contact.ini</language>
-		<language tag="en-GB">language/en-GB/en-GB.plg_webservices_contact.sys.ini</language>
+		<language tag="en-GB">language/en-GB/plg_webservices_contact.ini</language>
+		<language tag="en-GB">language/en-GB/plg_webservices_contact.sys.ini</language>
 	</languages>
 </extension>
