@@ -5,7 +5,7 @@
 			<field
 				name="form_layout"
 				type="list"
-				label="COM_FIELDS_FIELD_FORM_LAYOUT_LABEL"
+				label="JLIB_FORM_FIELD_PARAM_LAYOUT_LABEL"
 				useglobal="true"
 				class="form-select"
 				>
