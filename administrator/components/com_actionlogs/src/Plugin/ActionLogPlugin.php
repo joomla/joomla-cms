@@ -11,6 +11,7 @@ namespace Joomla\Component\Actionlogs\Administrator\Plugin;
 
 \defined('_JEXEC') or die;
 
+use Exception;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Plugin\CMSPlugin;
 
@@ -50,18 +51,19 @@ abstract class ActionLogPlugin extends CMSPlugin
 	 *
 	 * This method adds a record to #__action_logs contains (message_language_key, message, date, context, user)
 	 *
-	 * @param   array   $messages            The contents of the messages to be logged
-	 * @param   string  $messageLanguageKey  The language key of the message
-	 * @param   string  $context             The context of the content passed to the plugin
-	 * @param   int     $userId              ID of user perform the action, usually ID of current logged in user
+	 * @param array $messages The contents of the messages to be logged
+	 * @param string $messageLanguageKey The language key of the message
+	 * @param string $context The context of the content passed to the plugin
+	 * @param int $userId ID of user perform the action, usually ID of current logged in user
 	 *
 	 * @return  void
 	 *
+	 * @throws Exception
 	 * @since   3.9.0
 	 */
 	protected function addLog($messages, $messageLanguageKey, $context, $userId = null)
 	{
-		$user = Factory::getUser();
+		$user = Factory::getApplication()->getIdentity();
 
 		foreach ($messages as $index => $message)
 		{

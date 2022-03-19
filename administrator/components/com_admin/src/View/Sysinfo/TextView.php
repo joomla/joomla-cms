@@ -39,7 +39,7 @@ class TextView extends AbstractView
 	public function display($tpl = null): void
 	{
 		// Access check.
-		if (!Factory::getUser()->authorise('core.admin'))
+		if (!Factory::getApplication()->getIdentity()->authorise('core.admin'))
 		{
 			throw new NotAllowed(Text::_('JERROR_ALERTNOAUTHOR'), 403);
 		}
