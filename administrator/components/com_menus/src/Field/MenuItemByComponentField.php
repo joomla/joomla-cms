@@ -9,7 +9,7 @@
 
 namespace Joomla\Component\Menus\Administrator\Field;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Field\ListField;
@@ -43,7 +43,7 @@ class MenuItemByComponentField extends ListField
 	{
 		// Initialise variable.
 		$db      = Factory::getDbo();
-		$options = array();
+		$options = [];
 
 		$query = $db->getQuery(true);
 		$query->select('DISTINCT ' . $db->quoteName('extensions.element'))
