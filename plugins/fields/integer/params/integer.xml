@@ -18,6 +18,7 @@
 				name="form_layout"
 				type="list"
 				label="COM_FIELDS_FIELD_FORM_LAYOUT_LABEL"
+				useglobal="true"
 				class="form-select"
 				>
 				<option value="">COM_FIELDS_FIELD_USE_GLOBAL</option>
