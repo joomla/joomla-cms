@@ -66,12 +66,6 @@ class HtmlView extends BaseHtmlView
 			throw new GenericDataException(implode("\n", $errors), 500);
 		}
 
-		// Support for Language Strings from com_fields
-		if ($this->item->folder == 'fields')
-		{
-			Factory::getLanguage()->load('com_fields', JPATH_ADMINISTRATOR);
-		}
-
 		$this->addToolbar();
 		parent::display($tpl);
 	}
