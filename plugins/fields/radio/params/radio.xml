@@ -3,6 +3,17 @@
 	<fields name="fieldparams">
 		<fieldset name="fieldparams">
 			<field
+				name="form_layout"
+				type="list"
+				label="COM_FIELDS_FIELD_FORM_LAYOUT_LABEL"
+				class="form-select"
+				>
+				<option value="">COM_FIELDS_FIELD_USE_GLOBAL</option>
+				<option value="joomla.form.field.radio.buttons">PLG_FIELDS_RADIO_PARAMS_FORM_LAYOUT_BUTTONS</option>
+				<option value="joomla.form.field.radio.switcher">PLG_FIELDS_RADIO_PARAMS_FORM_LAYOUT_SWITCHER</option>
+			</field>
+			
+			<field
 				name="options"
 				type="subform"
 				label="PLG_FIELDS_RADIO_PARAMS_OPTIONS_LABEL"
@@ -25,29 +36,6 @@
 					/>
 				</form>
 			</field>
-		</fieldset>
-	</fields>
-
-	<fields name="params">
-		<fieldset name="basic">
-			<field
-				name="class"
-				type="textarea"
-				label="COM_FIELDS_FIELD_CLASS_LABEL"
-				default="btn-group"
-				validate="CssIdentifier"
-			/>
-			<fieldset name="formoptions">
-				<field
-					name="form_layout"
-					type="list"
-					label="COM_FIELDS_FIELD_FORM_LAYOUT_LABEL"
-					class="form-select"
-					>
-					<option value="joomla.form.field.radio.buttons">PLG_FIELDS_RADIO_PARAMS_FORM_LAYOUT_BUTTONS</option>
-					<option value="joomla.form.field.radio.switcher">PLG_FIELDS_RADIO_PARAMS_FORM_LAYOUT_SWITCHER</option>
-				</field>
-			</fieldset>
 		</fieldset>
 	</fields>
 </form>
