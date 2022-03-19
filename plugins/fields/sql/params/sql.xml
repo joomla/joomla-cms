@@ -15,7 +15,7 @@
 			<field
 				name="multiple"
 				type="list"
-				label="PLG_FIELDS_SQL_PARAMS_MULTIPLE_LABEL"
+				label="JLIB_FORM_FIELD_PARAM_LIST_MULTIPLE_LABEL"
 				filter="integer"
 				validate="options"
 				>
@@ -27,13 +27,13 @@
 			<field
 				name="form_layout"
 				type="list"
-				label="COM_FIELDS_FIELD_FORM_LAYOUT_LABEL"
+				label="JLIB_FORM_FIELD_PARAM_LAYOUT_LABEL"
 				useglobal="true"
 				class="form-select"
 				>
 				<option value="">COM_FIELDS_FIELD_USE_GLOBAL</option>
-				<option value="joomla.form.field.list">COM_FIELDS_FIELD_FORM_LAYOUT_BASIC_SELECT</option>
-				<option value="joomla.form.field.list-fancy-select">COM_FIELDS_FIELD_FORM_LAYOUT_FANCY_SELECT</option>
+				<option value="joomla.form.field.list">JLIB_FORM_FIELD_PARAM_LAYOUT_BASIC_SELECT</option>
+				<option value="joomla.form.field.list-fancy-select">JLIB_FORM_FIELD_PARAM_LAYOUT_FANCY_SELECT</option>
 			</field>
 		</fieldset>
 	</fields>
