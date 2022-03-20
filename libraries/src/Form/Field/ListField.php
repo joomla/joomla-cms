@@ -55,7 +55,8 @@ class ListField extends FormField
 	 */
 	protected function getInput()
 	{
-		$data            = $this->getLayoutData();
+		$data = $this->getLayoutData();
+
 		$data['options'] = (array) $this->getOptions();
 
 		return $this->getRenderer($this->layout)->render($data);
