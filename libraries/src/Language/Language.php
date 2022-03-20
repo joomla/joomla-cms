@@ -1178,7 +1178,7 @@ class Language
 	 */
 	public function hasKey($string)
 	{
-		$key = strtoupper($string);
+		$key = $string ? strtoupper($string) : '';
 
 		return isset($this->strings[$key]);
 	}
