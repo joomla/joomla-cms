@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <metafile client="installation">
-	<name>English (United Kingdom)</name>
-	<version>4.1.0</version>
+	<name>English (New Zealand)</name>
+	<version>4.1.1</version>
 	<creationDate>February 2022</creationDate>
 	<author>Joomla! Project</author>
 	<copyright>(C) 2005 Open Source Matters, Inc.</copyright>
@@ -11,7 +11,7 @@
 	</files>
 	<metadata>
 		<name>English (en-NZ)</name>
-		<nativeName>English (United Kingdom)</nativeName>
+		<nativeName>English (New Zealand)</nativeName>
 		<tag>en-NZ</tag>
 		<rtl>0</rtl>
 	</metadata>
