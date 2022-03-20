@@ -47,7 +47,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 								<th scope="col" class="w-10 text-center">
 									<?php echo HTMLHelper::_('searchtools.sort', 'COM_INSTALLER_HEADING_LANGUAGE_TAG', 'element', $listDirn, $listOrder); ?>
 								</th>
-								<th scope="col" class="w-15 td-none d-md-table-cell">
+								<th scope="col" class="w-15 d-none d-md-table-cell">
 									<?php echo Text::_('JVERSION'); ?>
 								</th>
 								<th scope="col" class="w-35 d-none d-md-table-cell">
