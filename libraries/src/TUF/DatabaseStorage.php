@@ -10,6 +10,7 @@ namespace Joomla\CMS\TUF;
 
 use Joomla\CMS\Table\Table;
 use Joomla\CMS\Table\Tuf;
+use Joomla\CMS\TUF\Exception\RoleNotFoundException;
 use Joomla\Database\DatabaseDriver;
 
 \defined('JPATH_PLATFORM') or die;
@@ -56,7 +57,7 @@ class DatabaseStorage implements \ArrayAccess
 	{
         if (!$this->offsetExists($offset))
         {
-            throw new \Exception('Table column does not exists');
+            throw new RoleNotFoundException;
         }
 
         $column = $this->getCleanColumn($offset);
@@ -71,7 +72,7 @@ class DatabaseStorage implements \ArrayAccess
 	{
         if (!$this->offsetExists($offset))
         {
-            throw new \Exception('Table column does not exists');
+            throw new RoleNotFoundException;
         }
 
 		$this->table->$offset = $value;
@@ -86,7 +87,7 @@ class DatabaseStorage implements \ArrayAccess
 	{
         if (!$this->offsetExists($offset))
         {
-            throw new \Exception('Table column does not exists');
+            throw new RoleNotFoundException;
         }
 
         $this->table->$offset = '';

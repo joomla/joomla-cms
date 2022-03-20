@@ -15,6 +15,6 @@ namespace Joomla\CMS\TUF\Exception;
  *
  * @since  __DEPLOY_VERSION__
  */
-class RoleNotFoundException extends \RuntimeException
+class RoleNotFoundException extends \Exception
 {
 }
