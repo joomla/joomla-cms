@@ -1360,6 +1360,7 @@ abstract class FormField
 				if ((string) $option['showon'])
 				{
 					$options['showonEnabled'] = true;
+					break;
 				}
 			}
 		}
