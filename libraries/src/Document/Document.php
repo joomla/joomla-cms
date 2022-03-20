@@ -262,6 +262,14 @@ class Document
 	 */
 	protected $webAssetManager = null;
 
+		/**
+ 	 * Body bottom HTML chunks
+ 	 *
+ 	 * @var    array
+ 	 * @since  __DEPLOY_VERSION__
+ 	 */
+	protected $bodyEndChunks = [];
+
 	/**
 	 * Class constructor.
 	 *
@@ -1271,4 +1279,49 @@ class Document
 			CmsFactory::getApplication()->setHeader('Link', (new HttpHeaderSerializer)->serialize($links));
 		}
 	}
+
+
+ 	/**
+ 	 * Enqueue HTML to be placed at the body end
+ 	 *
+ 	 * @param   string  $content  The content to be enqueued
+ 	 *
+ 	 * @return  Document instance of $this to allow chaining
+ 	 *
+ 	 * @since   __DEPLOY_VERSION__
+ 	 */
+ 	public function appendBodyEnd(string $key, string $content): Document
+ 	{
+ 		$this->bodyEndChunks[$key] = $content;
+
+ 		return $this;
+ 	}
+
+ 	/**
+ 	 * Set the queue for the chunks to be placed at the end of the body
+ 	 *
+ 	 * @param   array  $content  The content to be enqueued
+ 	 *
+ 	 * @return  Document instance of $this to allow chaining
+ 	 *
+ 	 * @since   __DEPLOY_VERSION__
+ 	 */
+ 	public function setBodyEndChunks(array $content): Document
+ 	{
+ 		$this->bodyEndChunks = $content;
+
+ 		return $this;
+ 	}
+
+ 	/**
+ 	 * Get the queue for the chunks to be placed at the end of the body
+ 	 *
+ 	 * @return  array  The array of the HTML chunks
+ 	 *
+ 	 * @since   __DEPLOY_VERSION__
+ 	 */
+ 	public function getBodyEndChunks(): array
+ 	{
+ 		return $this->bodyEndChunks;
+ 	}
 }

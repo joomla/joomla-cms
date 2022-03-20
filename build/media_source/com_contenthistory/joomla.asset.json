@@ -51,29 +51,6 @@
       "attributes": {
         "type": "module"
       }
-    },
-    {
-      "name": "com_contenthistory.admin-history-versions.es5",
-      "type": "script",
-      "uri": "com_contenthistory/admin-history-versions-es5.min.js",
-      "dependencies": [
-        "core"
-      ],
-      "attributes": {
-        "nomodule": true,
-        "defer": true
-      }
-    },
-    {
-      "name": "com_contenthistory.admin-history-versions",
-      "type": "script",
-      "uri": "com_contenthistory/admin-history-versions.min.js",
-      "dependencies": [
-        "com_contenthistory.admin-history-versions.es5"
-      ],
-      "attributes": {
-        "type": "module"
-      }
     }
   ]
 }

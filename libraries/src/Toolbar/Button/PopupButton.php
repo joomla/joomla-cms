@@ -123,25 +123,19 @@ class PopupButton extends ToolbarButton
 	 */
 	protected function renderButton(array &$options): string
 	{
-		$html = [];
-
-		$html[] = parent::renderButton($options);
+		$this->prepareOptions($options);
 
 		if ((string) $this->getUrl() !== '')
 		{
 			// Build the options array for the modal
-			$params = array();
-			$params['title']      = $options['title'] ?? $options['text'];
-			$params['url']        = $this->getUrl();
-			$params['height']     = $options['iframeHeight'] ?? 480;
-			$params['width']      = $options['iframeWidth'] ?? 640;
-			$params['bodyHeight'] = $options['bodyHeight'] ?? null;
-			$params['modalWidth'] = $options['modalWidth'] ?? null;
-
-			// Place modal div and scripts in a new div
-			$html[] = '<div class="btn-group" style="width: 0; margin: 0; padding: 0;">';
-
-			$selector = $options['selector'];
+			$params = [
+				'title'      => $options['title'] ?? $options['text'],
+				'url'        => $this->getUrl(),
+				'height'     => $options['iframeHeight'] ?? 480,
+				'width'      => $options['iframeWidth'] ?? 640,
+				'bodyHeight' => $options['bodyHeight'] ?? null,
+				'modalWidth' => $options['modalWidth'] ?? null
+			];
 
 			$footer = $this->getFooter();
 
@@ -150,23 +144,7 @@ class PopupButton extends ToolbarButton
 				$params['footer'] = $footer;
 			}
 
-			$html[] = HTMLHelper::_('bootstrap.renderModal', $selector, $params);
-
-			$html[] = '</div>';
-
-			// We have to move the modal, otherwise we get problems with the backdrop
-			// @todo: There should be a better workaround than this
-			Factory::getDocument()->addScriptDeclaration(
-				<<<JS
-document.addEventListener('DOMContentLoaded', function() {
-  var modal =document.getElementById('{$options['selector']}');
-  document.body.appendChild(modal);
-  if (Joomla && Joomla.Bootstrap && Joomla.Bootstrap.Methods && Joomla.Bootstrap.Methods.Modal) {
-    Joomla.Bootstrap.Methods.Initialise.Modal(modal);
-  }
-});
-JS
-			);
+			Factory::getDocument()->appendBodyEnd('Popup-button-' . md5($params['title']), HTMLHelper::_('bootstrap.renderModal', $options['selector'], $params));
 		}
 
 		// If an $onClose event is passed, add it to the modal JS object
@@ -183,7 +161,7 @@ JS
 			);
 		}
 
-		return implode("\n", $html);
+		return parent::renderButton($options);
 	}
 
 	/**

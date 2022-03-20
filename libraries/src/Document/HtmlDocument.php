@@ -849,13 +849,14 @@ class HtmlDocument extends Document
 	 */
 	protected function _parseTemplate()
 	{
-		$matches = array();
+		$matches = [];
 
 		if (preg_match_all('#<jdoc:include\ type="([^"]+)"(.*)\/>#iU', $this->_template, $matches))
 		{
-			$messages = [];
+			$hasBodyEnd          = false;
+			$messages            = [];
 			$template_tags_first = [];
-			$template_tags_last = [];
+			$template_tags_last  = [];
 
 			// Step through the jdocs in reverse order.
 			for ($i = \count($matches[0]) - 1; $i >= 0; $i--)
@@ -877,6 +878,17 @@ class HtmlDocument extends Document
 				{
 					$template_tags_last[$matches[0][$i]] = ['type' => $type, 'name' => $name, 'attribs' => $attribs];
 				}
+
+ 				if ($type === 'bodyend')
+ 				{
+ 					$hasBodyEnd = true;
+ 				}
+ 			}
+
+ 			if (!$hasBodyEnd)
+ 			{
+ 				$this->_template    = str_replace('</body>', '<jdoc:include type="bodyend" /></body>', $this->_template);
+ 				$template_tags_last = ['<jdoc:include type="bodyend" />' => ['type' => 'bodyend', 'name' => '', 'attribs' => []]] + $template_tags_last;
 			}
 
 			$this->_template_tags = $template_tags_first + $messages + array_reverse($template_tags_last);
@@ -895,12 +907,12 @@ class HtmlDocument extends Document
 	protected function _renderTemplate()
 	{
 		$replace = [];
-		$with = [];
+		$with    = [];
 
 		foreach ($this->_template_tags as $jdoc => $args)
 		{
 			$replace[] = $jdoc;
-			$with[] = $this->getBuffer($args['type'], $args['name'], $args['attribs']);
+			$with[]    = $this->getBuffer($args['type'], $args['name'], $args['attribs']);
 		}
 
 		return str_replace($replace, $with, $this->_template);

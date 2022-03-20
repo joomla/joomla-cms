@@ -34,27 +34,30 @@ $wa->useScript('core')
 	->useScript('webcomponent.toolbar-button')
 	->useScript('com_contenthistory.admin-history-versions');
 
-echo HTMLHelper::_(
-	'bootstrap.renderModal',
-	'versionsModal',
-	array(
-		'url'    => 'index.php?' . http_build_query(
+Factory::getDocument()->appendBodyEnd(
+	'Version-button-' . md5($title),
+	 HTMLHelper::_(
+			'bootstrap.renderModal',
+			'versionsModal',
 			[
-				'option' => 'com_contenthistory',
-				'view' => 'history',
-				'layout' => 'modal',
-				'tmpl' => 'component',
-				'item_id' => $itemId,
-				Session::getFormToken() => 1
-			]
-		),
-		'title'  => $title,
-		'height' => '100%',
-		'width'  => '100%',
-		'modalWidth'  => '80',
-		'bodyHeight'  => '60',
-		'footer' => '<button type="button" class="btn btn-secondary" data-bs-dismiss="modal" aria-hidden="true">'
-			. Text::_('JLIB_HTML_BEHAVIOR_CLOSE') . '</button>'
+				'url'    => 'index.php?' . http_build_query(
+					[
+						'option'  => 'com_contenthistory',
+						'view'    => 'history',
+						'layout'  => 'modal',
+						'tmpl'    => 'component',
+						'item_id' => $itemId,
+						Session::getFormToken() => 1
+					]
+				),
+			'title'       => $title,
+			'height'      => '100%',
+			'width'       => '100%',
+			'modalWidth'  => '80',
+			'bodyHeight'  => '60',
+			'footer'      => '<button type="button" class="btn btn-secondary" data-bs-dismiss="modal" aria-hidden="true">'
+				. Text::_('JLIB_HTML_BEHAVIOR_CLOSE') . '</button>'
+		]
 	)
 );
 ?>
