@@ -2,60 +2,107 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  (C) 2019 Open Source Matters, Inc. <https://www.joomla.org>
+ * @copyright  (C) 2022 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\TUF;
 
 use Joomla\CMS\Table\Table;
+use Joomla\CMS\Table\Tuf;
+use Joomla\Database\DatabaseDriver;
 
 \defined('JPATH_PLATFORM') or die;
 
 /**
- * @since  VERSION
+ * @since  __DEPLOY_VERSION__
  */
 class DatabaseStorage implements \ArrayAccess
 {
-	private Table $table;
+	/**
+	 * The Tuf table object
+	 *
+	 * @var Table
+	 */
+	protected Table $table;
 
-	public function __construct()
+	/**
+	 * Initialize the DatabaseStorage class
+	 *
+	 * @param   DatabaseDriver $db
+	 * @param   integer $extensionId
+	 */
+	public function __construct(DatabaseDriver $db, int $extensionId)
 	{
-		$this->table = new \Joomla\CMS\Table\Tuf();
+		$this->table = new Tuf($db);
+
+        $this->table->load($extensionId);
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function offsetExists(mixed $offset): bool
+	{
+        $column = $this->getCleanColumn($offset);
+
+        return substr($offset, -5) === '.json' && $this->table->hasField($column) && strlen($this->table->$column);
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function offsetGet($offset): mixed
+	{
+        if (!$this->offsetExists($offset))
+        {
+            throw new \Exception('Table column does not exists');
+        }
+
+        $column = $this->getCleanColumn($offset);
+
+        return $this->table->$column;
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function offsetSet($offset, $value): void
+	{
+        if (!$this->offsetExists($offset))
+        {
+            throw new \Exception('Table column does not exists');
+        }
+
+		$this->table->$offset = $value;
+
+        $this->table->store();
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function offsetUnset($offset): void
+	{
+        if (!$this->offsetExists($offset))
+        {
+            throw new \Exception('Table column does not exists');
+        }
+
+        $this->table->$offset = '';
+
+        $this->table->store();
 	}
 
     /**
-     * {@inheritdoc}
+     * Convert file names to table columns
+     *
+     * @param string $name
+     *
+     * @return string
      */
-    public function offsetExists($offset)
+    protected function getCleanColumn($name): string
     {
-        return file_exists($this->pathWithBasePath($offset));
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function offsetGet($offset)
-    {
-		// return $this->table->load('');
-        return file_get_contents($this->pathWithBasePath($offset));
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function offsetSet($offset, $value)
-    {
-		// return $this->table->store('');
-        file_put_contents($this->pathWithBasePath($offset), $value);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function offsetUnset($offset)
-    {
-		// return $this->table->delete('');
-        @unlink($this->pathWithBasePath($offset));
+        return str_replace('.', '_', $name);
     }
 }
