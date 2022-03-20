@@ -672,7 +672,7 @@ class PlgSystemDebug extends CMSPlugin
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.1.0
 	 */
 	public function onBeforeRespond(): void
 	{
@@ -681,7 +681,9 @@ class PlgSystemDebug extends CMSPlugin
 			return;
 		}
 
-		$metrics = '';
+		$metrics    = '';
+		$moduleTime = 0;
+		$accessTime = 0;
 
 		foreach (Profiler::getInstance('Application')->getMarks() as $index => $mark)
 		{
@@ -691,12 +693,37 @@ class PlgSystemDebug extends CMSPlugin
 				continue;
 			}
 
-			$desc = $mark->label;
-			$desc = str_ireplace('after', '', $desc);
+			// Collect the module render time
+			if (strpos($mark->label, 'mod_') !== false)
+			{
+				$moduleTime += $mark->time;
+				continue;
+			}
 
+			// Collect the access render time
+			if (strpos($mark->label, 'Access:') !== false)
+			{
+				$accessTime += $mark->time;
+				continue;
+			}
+
+			$desc     = str_ireplace('after', '', $mark->label);
 			$name     = preg_replace('/[^\da-z]/i', '', $desc);
-			$metrics .= sprintf('%s;dur=%f;desc="%s:", ', $index . $name, $mark->time, $desc);
+			$metrics .= sprintf('%s;dur=%f;desc="%s", ', $index . $name, $mark->time, $desc);
+
+			// Do not create too large headers, some web servers don't love them
+			if (strlen($metrics) > 3000)
+			{
+				$metrics .= 'System;dur=0;desc="Data truncated to 3000 characters", ';
+				break;
+			}
 		}
+
+		// Add the module entry
+		$metrics .= 'Modules;dur=' . $moduleTime . ';desc="Modules", ';
+
+		// Add the access entry
+		$metrics .= 'Access;dur=' . $accessTime . ';desc="Access"';
 
 		$this->app->setHeader('Server-Timing', $metrics);
 	}
