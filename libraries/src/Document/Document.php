@@ -262,7 +262,7 @@ class Document
 	 */
 	protected $webAssetManager = null;
 
-		/**
+	/**
  	 * Body bottom HTML chunks
  	 *
  	 * @var    array
