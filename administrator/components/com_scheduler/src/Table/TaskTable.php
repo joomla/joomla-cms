@@ -33,7 +33,7 @@ class TaskTable extends Table
 	 * Indicates that columns fully support the NULL value in the database
 	 *
 	 * @var    boolean
-	 * @since  __DEPLOY__VERSION__
+	 * @since  4.1.1
 	 */
 	protected $_supportNullValue = true;
 
@@ -202,7 +202,7 @@ class TaskTable extends Table
 	 *
 	 * @return  boolean  True on success; false if $pks is empty.
 	 *
-	 * @since   __DEPLOY__VERSION__
+	 * @since   4.1.0
 	 * @throws  QueryTypeAlreadyDefinedException|\UnexpectedValueException|\BadMethodCallException
 	 */
 	public function unlock(array $pks = [], ?int $userId = null): bool
