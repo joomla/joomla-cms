@@ -1178,9 +1178,12 @@ class Language
 	 */
 	public function hasKey($string)
 	{
-		$key = $string ? strtoupper($string) : '';
+		if ($string === null)
+		{
+			return false;
+		}
 
-		return isset($this->strings[$key]);
+		return isset($this->strings[strtoupper($string)]);
 	}
 
 	/**
