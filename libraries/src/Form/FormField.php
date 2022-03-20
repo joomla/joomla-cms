@@ -1316,17 +1316,12 @@ abstract class FormField
 	 */
 	protected function getLayoutData()
 	{
-		// Label preprocess
-		$label = !empty($this->element['label']) ? (string) $this->element['label'] : null;
-		$label = $label && $this->translateLabel ? Text::_($label) : $label;
-
-		// Description preprocess
+		$label       = !empty($this->element['label']) ? (string) $this->element['label'] : null;
+		$label       = $label && $this->translateLabel ? Text::_($label) : $label;
 		$description = !empty($this->description) ? $this->description : null;
 		$description = !empty($description) && $this->translateDescription ? Text::_($description) : $description;
-
-		$alt = preg_replace('/[^a-zA-Z0-9_\-]/', '_', $this->fieldname);
-
-		return [
+		$alt         = preg_replace('/[^a-zA-Z0-9_\-]/', '_', $this->fieldname);
+		$options     = [
 			'autocomplete'   => $this->autocomplete,
 			'autofocus'      => $this->autofocus,
 			'class'          => $this->class,
@@ -1356,6 +1351,20 @@ abstract class FormField
 			'dataAttributes' => $this->dataAttributes,
 			'parentclass'    => $this->parentclass,
 		];
+
+		// Enable showOn from nested options
+		if (!empty((array) $this->element->xpath('option')))
+		{
+			foreach ($this->element->xpath('option') as $option)
+			{
+				if ((string) $option['showon'])
+				{
+					$options['showonEnabled'] = true;
+				}
+			}
+		}
+
+		return $options;
 	}
 
 	/**
