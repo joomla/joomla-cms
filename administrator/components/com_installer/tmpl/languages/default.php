@@ -47,7 +47,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 								<th scope="col" class="w-10 text-center">
 									<?php echo HTMLHelper::_('searchtools.sort', 'COM_INSTALLER_HEADING_LANGUAGE_TAG', 'element', $listDirn, $listOrder); ?>
 								</th>
-								<th scope="col" class="w-15 text-end d-none d-md-table-cell">
+								<th scope="col" class="w-15 td-none d-md-table-cell">
 									<?php echo Text::_('JVERSION'); ?>
 								</th>
 								<th scope="col" class="w-35 d-none d-md-table-cell">
@@ -82,7 +82,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 								<td class="text-center">
 									<?php echo $language->code; ?>
 								</td>
-								<td class="text-end d-none d-md-table-cell">
+								<td class="td-none d-md-table-cell">
 										<?php $minorVersion = $version::MAJOR_VERSION . '.' . $version::MINOR_VERSION; ?>
 										<?php // Display a Note if language pack version is not equal to Joomla version ?>
 										<?php if (strpos($language->version, $minorVersion) !== 0 || strpos($language->version, $currentShortVersion) !== 0) : ?>
