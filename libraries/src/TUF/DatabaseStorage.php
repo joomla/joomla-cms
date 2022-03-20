@@ -17,10 +17,11 @@ use Joomla\CMS\Table\Table;
  */
 class DatabaseStorage implements \ArrayAccess
 {
-	public function __construct(Table $table)
+	private Table $table;
+
+	public function __construct()
 	{
-		// $this->table = new \Joomla\CMS\Table\Extension($this->getDbo());
-		// $installer->extension->load(ExtensionHelper::getExtensionRecord('joomla', 'file')->extension_id);
+		$this->table = new \Joomla\CMS\Table\Tuf();
 	}
 
     /**
@@ -36,6 +37,7 @@ class DatabaseStorage implements \ArrayAccess
      */
     public function offsetGet($offset)
     {
+		// return $this->table->load('');
         return file_get_contents($this->pathWithBasePath($offset));
     }
 
@@ -44,6 +46,7 @@ class DatabaseStorage implements \ArrayAccess
      */
     public function offsetSet($offset, $value)
     {
+		// return $this->table->store('');
         file_put_contents($this->pathWithBasePath($offset), $value);
     }
 
@@ -52,6 +55,7 @@ class DatabaseStorage implements \ArrayAccess
      */
     public function offsetUnset($offset)
     {
+		// return $this->table->delete('');
         @unlink($this->pathWithBasePath($offset));
     }
 }
