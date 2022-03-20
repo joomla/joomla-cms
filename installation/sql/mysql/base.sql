@@ -847,10 +847,10 @@ CREATE TABLE IF NOT EXISTS `#__updates` (
 CREATE TABLE IF NOT EXISTS `#__tuf_metadata` (
   `id` int NOT NULL AUTO_INCREMENT,
   `extension_id` int DEFAULT 0,
-  `timestamp_json` text NOT NULL,
   `root_json` text NOT NULL,
   `target_json` text NOT NULL,
   `snapshot_json` text NOT NULL,
+  `timestamp_json` text NOT NULL,
   `mirrors_json` text NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci COMMENT='Secure TUF Updates';
