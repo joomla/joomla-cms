@@ -31,8 +31,7 @@ $wa = Factory::getDocument()->getWebAssetManager();
 $wa->getRegistry()->addExtensionRegistryFile('com_contenthistory');
 
 $wa->useScript('core')
-	->useScript('webcomponent.toolbar-button')
-	->useScript('com_contenthistory.admin-history-versions');
+	->useScript('webcomponent.toolbar-button');
 
 Factory::getDocument()->appendBodyEnd(
 	'Version-button-' . md5($title),

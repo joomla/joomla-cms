@@ -117,6 +117,14 @@ class HtmlDocument extends Document
 	private $html5 = true;
 
 	/**
+	 * Body bottom HTML chunks
+	 *
+	 * @var    array
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $bodyEndChunks = [];
+
+	/**
 	 * Class constructor
 	 *
 	 * @param   array  $options  Associative array of options
@@ -879,16 +887,18 @@ class HtmlDocument extends Document
 					$template_tags_last[$matches[0][$i]] = ['type' => $type, 'name' => $name, 'attribs' => $attribs];
 				}
 
- 				if ($type === 'bodyend')
- 				{
- 					$hasBodyEnd = true;
- 				}
- 			}
+				if ($type === 'bodyend')
+				{
+					$hasBodyEnd = true;
+				}
+			}
 
- 			if (!$hasBodyEnd)
- 			{
- 				$this->_template    = str_replace('</body>', '<jdoc:include type="bodyend" /></body>', $this->_template);
- 				$template_tags_last = ['<jdoc:include type="bodyend" />' => ['type' => 'bodyend', 'name' => '', 'attribs' => []]] + $template_tags_last;
+			if (!$hasBodyEnd)
+			{
+				$this->_template    = str_replace('</body>', '<jdoc:include type="bodyend" /></body>', $this->_template);
+				$template_tags_last = [
+					'<jdoc:include type="bodyend" />' => ['type' => 'bodyend', 'name' => '', 'attribs' => []]
+				] + $template_tags_last;
 			}
 
 			$this->_template_tags = $template_tags_first + $messages + array_reverse($template_tags_last);
@@ -916,5 +926,49 @@ class HtmlDocument extends Document
 		}
 
 		return str_replace($replace, $with, $this->_template);
+	}
+
+	/**
+	 * Enqueue HTML to be placed at the body end
+	 *
+	 * @param   string  $content  The content to be enqueued
+	 *
+	 * @return  Document instance of $this to allow chaining
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function appendBodyEnd(string $key, string $content): Document
+	{
+		$this->bodyEndChunks[$key] = $content;
+
+		return $this;
+	}
+
+	/**
+	 * Set the queue for the chunks to be placed at the end of the body
+	 *
+	 * @param   array  $content  The content to be enqueued
+	 *
+	 * @return  Document instance of $this to allow chaining
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function setBodyEndChunks(array $content): Document
+	{
+		$this->bodyEndChunks = $content;
+
+		return $this;
+	}
+
+	/**
+	 * Get the queue for the chunks to be placed at the end of the body
+	 *
+	 * @return  array  The array of the HTML chunks
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function getBodyEndChunks(): array
+	{
+		return $this->bodyEndChunks;
 	}
 }
