@@ -11,8 +11,10 @@ namespace Joomla\CMS\Form\Field;
 \defined('JPATH_PLATFORM') or die;
 
 use DateTime;
+use DateTimeImmutable;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\FormField;
+use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\Registry\Registry;
 
@@ -274,7 +276,8 @@ class CalendarField extends FormField
 		{
 			$tz = date_default_timezone_get();
 			date_default_timezone_set('UTC');
-			$this->value = strftime($this->format, strtotime($this->value));
+			$date = DateTimeImmutable::createFromFormat('U', strtotime($this->value));
+			$this->value = $date->format(HTMLHelper::strftimeFormatToDateFormat($this->format));
 			date_default_timezone_set($tz);
 		}
 		else

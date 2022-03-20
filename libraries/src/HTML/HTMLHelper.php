@@ -1141,7 +1141,7 @@ abstract class HTMLHelper
 			$tz = date_default_timezone_get();
 			date_default_timezone_set('UTC');
 			$date = \DateTimeImmutable::createFromFormat('U', strtotime($value));
-			$inputvalue = $date->format(self::strftime_format_to_date_format($format));
+			$inputvalue = $date->format(self::strftimeFormatToDateFormat($format));
 			date_default_timezone_set($tz);
 		}
 		else
@@ -1309,7 +1309,7 @@ abstract class HTMLHelper
 	 *
 	 * @note Thanks to @relipse for https://stackoverflow.com/questions/22665959/using-php-strftime-using-date-format-string/62781773#62781773
 	 */
-	public static function strftime_format_to_date_format(string $strftimeformat): string
+	public static function strftimeFormatToDateFormat(string $strftimeformat): string
 	{
 		$unsupported = ['%U', '%V', '%C', '%g', '%G'];
 		$foundunsupported = [];
