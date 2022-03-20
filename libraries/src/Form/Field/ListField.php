@@ -46,14 +46,6 @@ class ListField extends FormField
 	protected $layout = 'joomla.form.field.list';
 
 	/**
-	 * Does the list have showOn
-	 *
-	 * @var    boolean
-	 * @since  __DEPLOY_VERSION__
-	 */
-	protected $hasShowOn = false;
-
-	/**
 	 * Method to get the field input markup for a generic list.
 	 * Use the multiple attribute to enable multiselect.
 	 *
@@ -63,9 +55,8 @@ class ListField extends FormField
 	 */
 	protected function getInput()
 	{
-		$data                  = $this->getLayoutData();
-		$data['options']       = (array) $this->getOptions();
-		$data['showonEnabled'] = $this->hasShowOn;
+		$data            = $this->getLayoutData();
+		$data['options'] = (array) $this->getOptions();
 
 		return $this->getRenderer($this->layout)->render($data);
 	}
@@ -80,7 +71,7 @@ class ListField extends FormField
 	protected function getOptions()
 	{
 		$fieldname = preg_replace('/[^a-zA-Z0-9_\-]/', '_', $this->fieldname);
-		$options   = [];
+		$options   = array();
 
 		foreach ($this->element->xpath('option') as $option)
 		{
@@ -131,14 +122,14 @@ class ListField extends FormField
 			$selected = (string) $option['selected'];
 			$selected = ($selected === 'true' || $selected === 'selected' || $selected === '1');
 
-			$tmp = [
+			$tmp = array(
 					'value'    => $value,
 					'text'     => Text::alt($text, $fieldname),
 					'disable'  => $disabled,
 					'class'    => (string) $option['class'],
 					'selected' => ($checked || $selected),
 					'checked'  => ($checked || $selected),
-			];
+			);
 
 			// Set some event handler attributes. But really, should be using unobtrusive js.
 			$tmp['onclick']  = (string) $option['onclick'];
@@ -146,7 +137,6 @@ class ListField extends FormField
 
 			if ((string) $option['showon'])
 			{
-				$this->hasShowOn   = true;
 				$encodedConditions = json_encode(
 					FormHelper::parseShowOnConditions((string) $option['showon'], $this->formControl, $this->group)
 				);
