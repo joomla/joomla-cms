@@ -1080,7 +1080,7 @@ abstract class HTMLHelper
 	 * @param   string  $value    The date value
 	 * @param   string  $name     The name of the text field
 	 * @param   string  $id       The id of the text field
-	 * @param   string  $format   The date format
+	 * @param   string  $format   The date format using the @deprecated strftime format parameters
 	 * @param   mixed   $attribs  Additional HTML attributes
 	 *                            The array can have the following keys:
 	 *                            readonly      Sets the readonly parameter for the input tag
@@ -1093,6 +1093,7 @@ abstract class HTMLHelper
 	 *
 	 * @since   1.5
 	 *
+	 * @note This method uses deprecated strftime format parameters for backward compatibility.
 	 */
 	public static function calendar($value, $name, $id, $format = '%Y-%m-%d', $attribs = array())
 	{
@@ -1139,7 +1140,8 @@ abstract class HTMLHelper
 		{
 			$tz = date_default_timezone_get();
 			date_default_timezone_set('UTC');
-			$inputvalue = strftime($format, strtotime($value));
+			$date = \DateTimeImmutable::createFromFormat('U', strtotime($value));
+			$inputvalue = $date->format(self::strftime_format_to_date_format($format));
 			date_default_timezone_set($tz);
 		}
 		else
@@ -1291,5 +1293,64 @@ abstract class HTMLHelper
 		}
 
 		return '';
+	}
+
+	/**
+	 * Convert strftime format to php date format as strftime is deprecated and we have
+	 * to be able to provide same backward compatibility with existing format strings.
+	 *
+	 * @param   $strftimeformat   string The format compatible with strftime.
+	 *
+	 * @return  string The format compatible with PHP's Date functions.
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 *
+	 * @throws  \Exception
+	 *
+	 * @note Thanks to @relipse for https://stackoverflow.com/questions/22665959/using-php-strftime-using-date-format-string/62781773#62781773
+	 */
+	public static function strftime_format_to_date_format(string $strftimeformat): string
+	{
+		$unsupported = ['%U', '%V', '%C', '%g', '%G'];
+		$foundunsupported = [];
+
+		foreach ($unsupported as $unsup)
+		{
+			if (strpos($strftimeformat, $unsup) !== false)
+			{
+				$foundunsupported[] = $unsup;
+			}
+		}
+
+		if (!empty($foundunsupported))
+		{
+			throw new \Exception("Found these unsupported chars: " . implode(",", $foundunsupported) . ' in ' . $strftimeformat);
+		}
+
+		/**
+		 * It is important to note that some do not translate accurately
+		 * ie. lowercase L is supposed to convert to number with a preceding space if it is under 10,
+		 * there is no accurate conversion, so we just use 'g'
+		 */
+		$phpdateformat = str_replace(
+			['%a','%A','%d','%e','%u','%w','%W','%b','%h','%B','%m','%y','%Y', '%D', '%F', '%x', '%n', '%t', '%H', '%k', '%I', '%l', '%M', '%p', '%P',
+				// %I:%M:%S %p
+				'%r',
+				// %H:%M
+				'%R',
+				'%S',
+				// %H:%M:%S
+				'%T',
+				'%X', '%z', '%Z', '%c', '%s', '%%'
+			],
+			['D','l', 'd', 'j', 'N', 'w', 'W', 'M', 'M', 'F', 'm', 'y', 'Y', 'm/d/y', 'Y-m-d', 'm/d/y', "\n", "\t", 'H', 'G', 'h', 'g', 'i', 'A', 'a', 'h:i:s A', 'H:i', 's', 'H:i:s', 'H:i:s', 'O', 'T',
+				// Tue Feb 5 00:45:10 2009
+				'D M j H:i:s Y' ,
+				'U', '%'
+			],
+			$strftimeformat
+		);
+
+		return $phpdateformat;
 	}
 }
