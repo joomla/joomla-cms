@@ -466,11 +466,35 @@ class Result implements \Serializable
 	 */
 	public function serialize()
 	{
-		$taxonomy = array();
+		return serialize($this->__serialize());
+	}
+
+	/**
+	 * Helper function to unserialise the data for this object
+	 *
+	 * @param   string  $serialized  Serialised data to unserialise
+	 *
+	 * @return  void
+	 *
+	 * @since   4.0.0
+	 */
+	public function unserialize($serialized): void
+	{
+		$this->__unserialize(unserialize($serialized));
+	}
+
+	/**
+	 * Magic method used for serializing.
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
+	public function __serialize(): array
+	{
+		$taxonomy = [];
 
 		foreach ($this->taxonomy as $branch => $nodes)
 		{
-			$taxonomy[$branch] = array();
+			$taxonomy[$branch] = [];
 
 			foreach ($nodes as $node)
 			{
@@ -487,8 +511,8 @@ class Result implements \Serializable
 			}
 		}
 
-		return serialize(
-			[
+		// IMPORTANT - This order must match EXACTLY the order of the $properties in the self::__unserialize method
+		return [
 			$this->access,
 			$this->defaultLanguage,
 			$this->description,
@@ -508,42 +532,43 @@ class Result implements \Serializable
 			$this->title,
 			$this->type_id,
 			$this->url
-			]
-		);
+		];
 	}
 
 	/**
-	 * Helper function to unserialise the data for this object
+	 * Magic method used for unserializing.
 	 *
-	 * @param   string  $serialized  Serialised data to unserialise
-	 *
-	 * @return  void
-	 *
-	 * @since   4.0.0
+	 * @since  __DEPLOY_VERSION__
 	 */
-	public function unserialize($serialized)
+	public function __unserialize(array $serialized): void
 	{
-		list(
-			$this->access,
-			$this->defaultLanguage,
-			$this->description,
-			$this->elements,
-			$this->end_date,
-			$this->instructions,
-			$this->language,
-			$this->list_price,
-			$this->publish_end_date,
-			$this->publish_start_date,
-			$this->published,
-			$this->route,
-			$this->sale_price,
-			$this->start_date,
-			$this->state,
-			$this->taxonomy,
-			$this->title,
-			$this->type_id,
-			$this->url
-		) = unserialize($serialized);
+		// IMPORTANT - This order must match EXACTLY the order of the array in the self::__serialize method
+		$properties = [
+			'access',
+			'defaultLanguage',
+			'description',
+			'elements',
+			'end_date',
+			'instructions',
+			'language',
+			'list_price',
+			'publish_end_date',
+			'publish_start_date',
+			'published',
+			'route',
+			'sale_price',
+			'start_date',
+			'state',
+			'taxonomy',
+			'title',
+			'type_id',
+			'url',
+			];
+
+		foreach ($properties as $k => $v)
+		{
+			$this->$v = $serialized[$k];
+		}
 
 		foreach ($this->taxonomy as $nodes)
 		{
