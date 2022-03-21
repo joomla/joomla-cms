@@ -511,7 +511,7 @@ class Result implements \Serializable
 			}
 		}
 
-		// IMPORTANT - This order must match EXACTLY the order of the $properties in the self::__unserialize method
+		// This order must match EXACTLY the order of the $properties in the self::__unserialize method
 		return [
 			$this->access,
 			$this->defaultLanguage,
@@ -542,7 +542,7 @@ class Result implements \Serializable
 	 */
 	public function __unserialize(array $serialized): void
 	{
-		// IMPORTANT - This order must match EXACTLY the order of the array in the self::__serialize method
+		// This order must match EXACTLY the order of the array in the self::__serialize method
 		$properties = [
 			'access',
 			'defaultLanguage',
