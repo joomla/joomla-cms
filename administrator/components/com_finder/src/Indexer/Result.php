@@ -563,7 +563,7 @@ class Result implements \Serializable
 			'title',
 			'type_id',
 			'url',
-			];
+		];
 
 		foreach ($properties as $k => $v)
 		{
