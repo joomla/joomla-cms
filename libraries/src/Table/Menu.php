@@ -117,7 +117,7 @@ class Menu extends Nested
 		}
 
 		// Check for a title.
-		if (trim($this->title) === '')
+		if (!$this->title || trim($this->title) === '')
 		{
 			$this->setError(Text::_('JLIB_DATABASE_ERROR_MUSTCONTAIN_A_TITLE_MENUITEM'));
 
@@ -125,19 +125,19 @@ class Menu extends Nested
 		}
 
 		// Check for a path.
-		if (trim($this->path) === '')
+		if (!$this->path || trim($this->path) === '')
 		{
 			$this->path = $this->alias;
 		}
 
 		// Check for params.
-		if (trim($this->params) === '')
+		if (!$this->params || trim($this->params) === '')
 		{
 			$this->params = '{}';
 		}
 
 		// Check for img.
-		if (trim($this->img) === '')
+		if (!$this->img || trim($this->img) === '')
 		{
 			$this->img = ' ';
 		}
