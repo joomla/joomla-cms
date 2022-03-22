@@ -10,8 +10,13 @@
 defined('_JEXEC') or die;
 
 $this->document->getWebAssetManager()
-	->useStyle('com_finder.finder')
-	->useScript('com_finder.finder');
+		->useStyle('com_finder.finder');
+
+// The finder script is only related with the search form.
+if ($this->params->get('show_search_form', 1)) :
+	$this->document->getWebAssetManager()
+			->useScript('com_finder.finder');
+endif;
 
 ?>
 <div class="com-finder finder">
