@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2014 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -137,7 +137,9 @@ class UserWrapper
 	/**
 	 * Helper wrapper method for hashPassword
 	 *
-	 * @param   string  $password  The plaintext password to encrypt.
+	 * @param   string   $password   The plaintext password to encrypt.
+	 * @param   integer  $algorithm  The hashing algorithm to use, represented by `PASSWORD_*` constants.
+	 * @param   array    $options    The options for the algorithm to use.
 	 *
 	 * @return  string  The encrypted password.
 	 *
@@ -145,9 +147,9 @@ class UserWrapper
 	 * @since   3.4
 	 * @deprecated  4.0  Use `Joomla\CMS\User\UserHelper` directly
 	 */
-	public function hashPassword($password)
+	public function hashPassword($password, $algorithm = PASSWORD_BCRYPT, array $options = array())
 	{
-		return UserHelper::hashPassword($password);
+		return UserHelper::hashPassword($password, $algorithm, $options);
 	}
 
 	/**
@@ -155,7 +157,7 @@ class UserWrapper
 	 *
 	 * @param   string   $password  The plaintext password to check.
 	 * @param   string   $hash      The hash to verify against.
-	 * @param   integer  $user_id   ID of the user if the password hash should be updated
+	 * @param   integer  $userId    ID of the user if the password hash should be updated
 	 *
 	 * @return  boolean  True if the password and hash match, false otherwise
 	 *
@@ -163,23 +165,23 @@ class UserWrapper
 	 * @since   3.4
 	 * @deprecated  4.0  Use `Joomla\CMS\User\UserHelper` directly
 	 */
-	public function verifyPassword($password, $hash, $user_id = 0)
+	public function verifyPassword($password, $hash, $userId = 0)
 	{
-		return UserHelper::verifyPassword($password, $hash, $user_id);
+		return UserHelper::verifyPassword($password, $hash, $userId);
 	}
 
 	/**
 	 * Helper wrapper method for getCryptedPassword
 	 *
-	 * @param   string   $plaintext     The plaintext password to encrypt.
-	 * @param   string   $salt          The salt to use to encrypt the password. []
-	 *                                  If not present, a new salt will be
-	 *                                  generated.
-	 * @param   string   $encryption    The kind of password encryption to use.
-	 *                                  Defaults to md5-hex.
-	 * @param   boolean  $show_encrypt  Some password systems prepend the kind of
-	 *                                  encryption to the crypted password ({SHA},
-	 *                                  etc). Defaults to false.
+	 * @param   string   $plaintext    The plaintext password to encrypt.
+	 * @param   string   $salt         The salt to use to encrypt the password. []
+	 *                                 If not present, a new salt will be
+	 *                                 generated.
+	 * @param   string   $encryption   The kind of password encryption to use.
+	 *                                 Defaults to md5-hex.
+	 * @param   boolean  $showEncrypt  Some password systems prepend the kind of
+	 *                                 encryption to the crypted password ({SHA},
+	 *                                 etc). Defaults to false.
 	 *
 	 * @return  string  The encrypted password.
 	 *
@@ -187,9 +189,9 @@ class UserWrapper
 	 * @since   3.4
 	 * @deprecated  4.0
 	 */
-	public function getCryptedPassword($plaintext, $salt = '', $encryption = 'md5-hex', $show_encrypt = false)
+	public function getCryptedPassword($plaintext, $salt = '', $encryption = 'md5-hex', $showEncrypt = false)
 	{
-		return UserHelper::getCryptedPassword($plaintext, $salt, $encryption, $show_encrypt);
+		return UserHelper::getCryptedPassword($plaintext, $salt, $encryption, $showEncrypt);
 	}
 
 	/**

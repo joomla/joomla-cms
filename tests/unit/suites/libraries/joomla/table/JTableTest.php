@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Table
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2013 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -14,13 +14,13 @@ require_once __DIR__ . '/stubs/dbtestcomposite.php';
  *
  * @package     Joomla.UnitTest
  * @subpackage  Table
- * @since       12.3
+ * @since       3.1.4
  */
 class JTableTest extends TestCaseDatabase
 {
 	/**
 	 * @var    JTable
-	 * @since  12.3
+	 * @since  3.1.4
 	 */
 	protected $object;
 
@@ -30,7 +30,7 @@ class JTableTest extends TestCaseDatabase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	protected function setUp()
 	{
@@ -45,7 +45,7 @@ class JTableTest extends TestCaseDatabase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	protected function tearDown()
 	{
@@ -58,7 +58,7 @@ class JTableTest extends TestCaseDatabase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function testGetFields()
 	{
@@ -158,7 +158,7 @@ class JTableTest extends TestCaseDatabase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function testGetInstance()
 	{
@@ -175,7 +175,7 @@ class JTableTest extends TestCaseDatabase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function testAddIncludePath()
 	{
@@ -211,7 +211,7 @@ class JTableTest extends TestCaseDatabase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function testGetTableName()
 	{
@@ -226,7 +226,7 @@ class JTableTest extends TestCaseDatabase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function testGetKeyName()
 	{
@@ -241,7 +241,7 @@ class JTableTest extends TestCaseDatabase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function testGetKeyNameComposite()
 	{
@@ -256,7 +256,7 @@ class JTableTest extends TestCaseDatabase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function testGetDbo()
 	{
@@ -271,7 +271,7 @@ class JTableTest extends TestCaseDatabase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function testSetDbo()
 	{
@@ -292,7 +292,7 @@ class JTableTest extends TestCaseDatabase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function testReset()
 	{
@@ -325,7 +325,7 @@ class JTableTest extends TestCaseDatabase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function testBind()
 	{
@@ -356,11 +356,53 @@ class JTableTest extends TestCaseDatabase
 	}
 
 	/**
+	 * Test for bind method with object.
+	 *
+	 * @return  void
+	 *
+	 * @since   3.9.27
+	 */
+	public function testBindWithObject()
+	{
+		TestReflection::setValue($this->object, '_jsonEncode', array('params'));
+
+		$data = new stdClass;
+		$data->id1    = 25;
+		$data->id2    = 50;
+		$data->title  = 'My Title';
+		$data->params = array('param1' => 'value1', 'param2' => 25);
+
+		$this->object->bind($data);
+
+		$this->assertEquals(
+			25,
+			$this->object->id1
+		);
+
+		$this->assertEquals(
+			50,
+			$this->object->id2
+		);
+
+		$this->assertEquals(
+			'My Title',
+			$this->object->title
+		);
+
+		// Check the object is json encoded properly
+		$this->assertEquals(
+			'{"param1":"value1","param2":25}',
+			$this->object->params,
+			'The object should be json encoded'
+		);
+	}
+
+	/**
 	 * Gets the data set to be loaded into the database during setup
 	 *
 	 * @return  PHPUnit_Extensions_Database_DataSet_CsvDataSet
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	protected function getDataSet()
 	{
@@ -378,7 +420,7 @@ class JTableTest extends TestCaseDatabase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function testLoad()
 	{
@@ -395,7 +437,7 @@ class JTableTest extends TestCaseDatabase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function testCheck()
 	{
@@ -409,7 +451,7 @@ class JTableTest extends TestCaseDatabase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function testStoreInsert()
 	{
@@ -427,7 +469,7 @@ class JTableTest extends TestCaseDatabase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function testStoreUpdate()
 	{
@@ -449,7 +491,7 @@ class JTableTest extends TestCaseDatabase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function testSave()
 	{
@@ -484,7 +526,7 @@ class JTableTest extends TestCaseDatabase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function testDelete()
 	{
@@ -502,7 +544,7 @@ class JTableTest extends TestCaseDatabase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function testDeleteKeysProvided()
 	{
@@ -518,7 +560,7 @@ class JTableTest extends TestCaseDatabase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function testCheckOut()
 	{
@@ -540,7 +582,7 @@ class JTableTest extends TestCaseDatabase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function testCheckIn()
 	{
@@ -567,7 +609,7 @@ class JTableTest extends TestCaseDatabase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function testHasPrimaryKeyNoAutoincrementTrue()
 	{
@@ -582,7 +624,7 @@ class JTableTest extends TestCaseDatabase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function testHasPrimaryKeyNoAutoincrementFalse()
 	{
@@ -597,7 +639,7 @@ class JTableTest extends TestCaseDatabase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function testHasPrimaryKeyAutoincrementTrue()
 	{
@@ -614,7 +656,7 @@ class JTableTest extends TestCaseDatabase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function testHasPrimaryKeyAutoincrementFalse()
 	{
@@ -631,7 +673,7 @@ class JTableTest extends TestCaseDatabase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function testHit()
 	{
@@ -651,7 +693,7 @@ class JTableTest extends TestCaseDatabase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function testIsCheckedOutFalse()
 	{
@@ -665,7 +707,7 @@ class JTableTest extends TestCaseDatabase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function testIsCheckedOutTrue()
 	{
@@ -684,7 +726,7 @@ class JTableTest extends TestCaseDatabase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function testGetNextOrder()
 	{
@@ -696,7 +738,7 @@ class JTableTest extends TestCaseDatabase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function testReorder()
 	{
@@ -722,7 +764,7 @@ class JTableTest extends TestCaseDatabase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function testMove()
 	{
@@ -745,7 +787,7 @@ class JTableTest extends TestCaseDatabase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function testPublish()
 	{

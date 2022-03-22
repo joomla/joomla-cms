@@ -1,12 +1,10 @@
 /**
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2016 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 // Only define the Joomla namespace if not defined.
-if (typeof(Joomla) === 'undefined') {
-	var Joomla = {};
-}
+Joomla = window.Joomla || {};
 
 !(function(document, Joomla) {
 	"use strict";
@@ -78,7 +76,7 @@ if (typeof(Joomla) === 'undefined') {
 						itemval = $field.val();
 					}
 					else {
-						// select lists, textarea etc. Note that multiple-select list returns an Array here 
+						// select lists, textarea etc. Note that multiple-select list returns an Array here
 						// se we can always tream 'itemval' as an array
 						itemval = $field.val();
 						// a multi-select <select> $field  will return null when no elements are selected so we need to define itemval accordingly
@@ -93,12 +91,12 @@ if (typeof(Joomla) === 'undefined') {
 						itemval = JSON.parse('["' + itemval + '"]');
 					}
 
-					// for (var i in itemval) loops over non-enumerable properties and prototypes which means that != will ALWAYS match 
+					// for (var i in itemval) loops over non-enumerable properties and prototypes which means that != will ALWAYS match
 					// see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/for...in
 					// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/getOwnPropertyNames
-					// use native javascript Array forEach - see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/forEach                                        
+					// use native javascript Array forEach - see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/forEach
 					// We can't use forEach because its not supported in MSIE 8 - once that is dropped this code could use forEach instead and not have to use propertyIsEnumerable
-					// 
+					//
 					// Test if any of the values of the field exists in showon conditions
 					for (var i in itemval) {
 						// See https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/propertyIsEnumerable
@@ -131,24 +129,47 @@ if (typeof(Joomla) === 'undefined') {
 					// AND operator: both the previous and current conditions must be valid
 					if (condition['op'] === 'AND' && condition['valid'] + jsondata[j - 1]['valid'] < 2) {
 						showfield = false;
+						condition['valid'] = 0;
 					}
 					// OR operator: one of the previous and current conditions must be valid
 					if (condition['op'] === 'OR' && condition['valid'] + jsondata[j - 1]['valid'] > 0) {
 						showfield = true;
+						condition['valid'] = 1;
 					}
 				}
 			}
 
-			// If conditions are satisfied show the target field(s), else hide
+			// If conditions are satisfied show the target field(s), else hide.
+			// Note that animations don't work on list options other than in Chrome.
+			if (target.is('option')) {
+				target.toggle(showfield);
+				target.attr('disabled', showfield ? false : true);
+				// If chosen active for the target select list then update it
+				var parent = target.parent();
+				if ($('#' + parent.attr('id') + '_chzn').length) {
+					parent.trigger("liszt:updated");
+					parent.trigger("chosen:updated");
+				}
+			}
+
+			animate = animate
+				&& !target.hasClass('no-animation')
+				&& !target.hasClass('no-animate')
+				&& !target.find('.no-animation, .no-animate').length;
+
 			if (animate) {
 				(showfield) ? target.slideDown() : target.slideUp();
-			} else {
-				target.toggle(showfield);
+
+				return;
 			}
+
+			target.toggle(showfield);
 		}
 
 		/**
-		 * Method for setup the 'showon' feature, for the fields in given container
+		 * Method for setup the 'showon' feature, for the fields in given container.  Add it to Joomla object
+		 * so it can be called when adding a container to the DOM.
+		 *
 		 * @param {HTMLElement} container
 		 */
 		function setUpShowon(container) {
@@ -159,9 +180,16 @@ if (typeof(Joomla) === 'undefined') {
 			// Setup each 'showon' field
 			for (var is = 0, ls = $showonFields.length; is < ls; is++) {
 				// Use anonymous function to capture arguments
-				(function() {
-					var $target = $($showonFields[is]), jsondata = $target.data('showon') || [],
-						field, $fields                           = $();
+				(function($target) {
+					// Set up only once
+					if ($target[0].hasAttribute('data-showon-initialised')) {
+						return;
+					}
+
+					$target[0].setAttribute('data-showon-initialised', '');
+
+					var jsondata = $target.data('showon') || [],
+						field, $fields = $();
 
 					// Collect an all referenced elements
 					for (var ij = 0, lj = jsondata.length; ij < lj; ij++) {
@@ -172,11 +200,19 @@ if (typeof(Joomla) === 'undefined') {
 					// Check current condition for element
 					linkedoptions($target);
 
-					// Attach events to referenced element, to check condition on change
-					$fields.on('change', function() {
+					// Attach events to referenced element, to check condition on change and keyup
+					$fields.on('change keyup', function() {
 						linkedoptions($target, true);
 					});
-				})();
+
+				})($($showonFields[is]));
+			}
+		}
+
+		// Provide a public API
+		if (!Joomla.Showon) {
+			Joomla.Showon = {
+				initialise: setUpShowon
 			}
 		}
 
@@ -184,27 +220,36 @@ if (typeof(Joomla) === 'undefined') {
 		 * Initialize 'showon' feature
 		 */
 		$(document).ready(function() {
-			setUpShowon();
+			Joomla.Showon.initialise(document);
 
-			// Setup showon feature in the subform field
-			$(document).on('subform-row-add', function(event, row) {
-				var $row      = $(row),
-					$elements = $row.find('[data-showon]'),
-					baseName  = $row.data('baseName'),
-					group     = $row.data('group'),
-					search    = new RegExp('\\[' + baseName + '\\]\\[' + baseName + 'X\\]', 'g'),
-					replace   = '[' + baseName + '][' + group + ']',
-					$elm, showon;
+			// Setup showon feature in the modified container
+			$(document).on('subform-row-add joomla:updated', function(event, row) {
 
-				// Fix showon field names in a current group
-				for (var i = 0, l = $elements.length; i < l; i++) {
-					$elm   = $($elements[i]);
-					showon = $elm.attr('data-showon').replace(search, replace);
-
-					$elm.attr('data-showon', showon);
+				// Check for target
+				var target = row;
+				if (event.type === 'joomla:updated') {
+					target = event.target;
 				}
 
-				setUpShowon(row);
+				if ($(target).hasClass('subform-repeatable-group')) {
+					var $row = $(target),
+						$elements = $row.find('[data-showon]'),
+						baseName = $row.data('baseName'),
+						group = $row.data('group'),
+						search = new RegExp('\\[' + baseName + '\\]\\[' + baseName + 'X\\]', 'g'),
+						replace = '[' + baseName + '][' + group + ']',
+						$elm, showon;
+
+					// Fix showon field names in a current group
+					for (var i = 0, l = $elements.length; i < l; i++) {
+						$elm = $($elements[i]);
+						showon = $elm.attr('data-showon').replace(search, replace);
+
+						$elm.attr('data-showon', showon);
+					}
+				}
+
+				Joomla.Showon.initialise(target);
 			});
 		});
 

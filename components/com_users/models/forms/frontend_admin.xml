@@ -9,6 +9,7 @@
 				label="COM_USERS_USER_FIELD_BACKEND_TEMPLATE_LABEL"
 				description="COM_USERS_USER_FIELD_BACKEND_TEMPLATE_DESC"
 				client="administrator"
+				filter="uint"
 				>
 				<option value="">JOPTION_USE_DEFAULT</option>
 			</field>
@@ -20,15 +21,6 @@
 				description="COM_USERS_USER_FIELD_BACKEND_LANGUAGE_DESC"
 				client="administrator"
 				filter="cmd"
-				>
-				<option value="">JOPTION_USE_DEFAULT</option>
-			</field>
-
-			<field 
-				name="helpsite"
-				type="helpsite"
-				label="COM_USERS_USER_FIELD_HELPSITE_LABEL"
-				description="COM_USERS_USER_FIELD_HELPSITE_DESC"
 				>
 				<option value="">JOPTION_USE_DEFAULT</option>
 			</field>

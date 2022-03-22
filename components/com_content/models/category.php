@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2006 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -316,7 +316,7 @@ class ContentModelCategory extends JModelList
 	 *
 	 * @return  JPagination  A JPagination object for the data set.
 	 *
-	 * @since   12.2
+	 * @since   3.0.1
 	 */
 	public function getPagination()
 	{
@@ -339,7 +339,7 @@ class ContentModelCategory extends JModelList
 	{
 		if (!is_object($this->_item))
 		{
-			if (isset( $this->state->params))
+			if (isset($this->state->params))
 			{
 				$params = $this->state->params;
 				$options = array();
@@ -454,7 +454,7 @@ class ContentModelCategory extends JModelList
 		}
 
 		// Order subcategories
-		if (count($this->_children))
+		if ($this->_children)
 		{
 			$params = $this->getState()->get('params');
 
@@ -486,7 +486,6 @@ class ContentModelCategory extends JModelList
 			$pk = (!empty($pk)) ? $pk : (int) $this->getState('category.id');
 
 			$table = JTable::getInstance('Category', 'JTable');
-			$table->load($pk);
 			$table->hit($pk);
 		}
 

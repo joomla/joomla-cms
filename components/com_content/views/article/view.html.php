@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2006 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -139,7 +139,8 @@ class ContentViewArticle extends JViewLegacy
 			return;
 		}
 
-		/* Check for no 'access-view' and empty fulltext,
+		/**
+		 * Check for no 'access-view' and empty fulltext,
 		 * - Redirect guest users to login
 		 * - Deny access to logged users with 403 code
 		 * NOTE: we do not recheck for no access-view + show_noauth disabled ... since it was checked above
@@ -149,7 +150,7 @@ class ContentViewArticle extends JViewLegacy
 			if ($this->user->get('guest'))
 			{
 				$return = base64_encode(JUri::getInstance());
-				$login_url_with_return = JRoute::_('index.php?option=com_users&return=' . $return);
+				$login_url_with_return = JRoute::_('index.php?option=com_users&view=login&return=' . $return);
 				$app->enqueueMessage(JText::_('JERROR_ALERTNOAUTHOR'), 'notice');
 				$app->redirect($login_url_with_return, 403);
 			}
@@ -157,12 +158,15 @@ class ContentViewArticle extends JViewLegacy
 			{
 				$app->enqueueMessage(JText::_('JERROR_ALERTNOAUTHOR'), 'error');
 				$app->setHeader('status', 403, true);
+
 				return;
 			}
 		}
 
-		// NOTE: The following code (usually) sets the text to contain the fulltext, but it is the
-		// responsibility of the layout to check 'access-view' and only use "introtext" for guests
+		/**
+		 * NOTE: The following code (usually) sets the text to contain the fulltext, but it is the
+		 * responsibility of the layout to check 'access-view' and only use "introtext" for guests
+		 */
 		if ($item->params->get('show_intro', '1') == '1')
 		{
 			$item->text = $item->introtext . ' ' . $item->fulltext;
@@ -185,7 +189,6 @@ class ContentViewArticle extends JViewLegacy
 		}
 
 		// Process the content plugins.
-
 		JPluginHelper::importPlugin('content');
 		$dispatcher->trigger('onContentPrepare', array ('com_content.article', &$item, &$item->params, $offset));
 
@@ -200,7 +203,7 @@ class ContentViewArticle extends JViewLegacy
 		$item->event->afterDisplayContent = trim(implode("\n", $results));
 
 		// Escape strings for HTML output
-		$this->pageclass_sfx = htmlspecialchars($this->item->params->get('pageclass_sfx'));
+		$this->pageclass_sfx = htmlspecialchars($this->item->params->get('pageclass_sfx', ''));
 
 		$this->_prepareDocument();
 
@@ -219,8 +222,10 @@ class ContentViewArticle extends JViewLegacy
 		$pathway = $app->getPathway();
 		$title   = null;
 
-		// Because the application sets a default page title,
-		// we need to get it from the menu item itself
+		/**
+		 * Because the application sets a default page title,
+		 * we need to get it from the menu item itself
+		 */
 		$menu = $menus->getActive();
 
 		if ($menu)
@@ -237,7 +242,8 @@ class ContentViewArticle extends JViewLegacy
 		$id = (int) @$menu->query['id'];
 
 		// If the menu item does not concern this article
-		if ($menu && ($menu->query['option'] !== 'com_content' || $menu->query['view'] !== 'article' || $id != $this->item->id))
+		if ($menu && (!isset($menu->query['option']) || $menu->query['option'] !== 'com_content' || $menu->query['view'] !== 'article'
+			|| $id != $this->item->id))
 		{
 			// If a browser page title is defined, use that, then fall back to the article title if set, then fall back to the page_title option
 			$title = $this->item->params->get('article_page_title', $this->item->title ?: $title);
@@ -245,7 +251,8 @@ class ContentViewArticle extends JViewLegacy
 			$path     = array(array('title' => $this->item->title, 'link' => ''));
 			$category = JCategories::getInstance('Content')->get($this->item->catid);
 
-			while ($category && ($menu->query['option'] !== 'com_content' || $menu->query['view'] === 'article' || $id != $category->id) && $category->id > 1)
+			while ($category && (!isset($menu->query['option']) || $menu->query['option'] !== 'com_content' || $menu->query['view'] === 'article'
+				|| $id != $category->id) && $category->id !== 'root')
 			{
 				$path[]   = array('title' => $category->title, 'link' => ContentHelperRoute::getCategoryRoute($category->id));
 				$category = $category->getParent();

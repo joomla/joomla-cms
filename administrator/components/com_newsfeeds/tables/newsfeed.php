@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_newsfeeds
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2005 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -34,6 +34,8 @@ class NewsfeedsTableNewsfeed extends JTable
 	public function __construct(&$db)
 	{
 		parent::__construct('#__newsfeeds', 'id', $db);
+
+		$this->setColumnAlias('title', 'name');
 
 		JTableObserverTags::createObserver($this, array('typeAlias' => 'com_newsfeeds.newsfeed'));
 		JTableObserverContenthistory::createObserver($this, array('typeAlias' => 'com_newsfeeds.newsfeed'));
@@ -149,7 +151,7 @@ class NewsfeedsTableNewsfeed extends JTable
 		}
 
 		// Verify that the alias is unique
-		$table = JTable::getInstance('Newsfeed', 'NewsfeedsTable');
+		$table = JTable::getInstance('Newsfeed', 'NewsfeedsTable', array('dbo' => $this->_db));
 
 		if ($table->load(array('alias' => $this->alias, 'catid' => $this->catid)) && ($table->id != $this->id || $this->id == 0))
 		{

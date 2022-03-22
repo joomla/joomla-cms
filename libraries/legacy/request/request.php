@@ -3,7 +3,7 @@
  * @package     Joomla.Legacy
  * @subpackage  Request
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2005 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -272,7 +272,7 @@ class JRequest
 	}
 
 	/**
-	 * Cmd (Word and Integer0 filter
+	 * Cmd (Word and Integer) filter
 	 *
 	 * Fetches and returns a given filtered variable. The cmd
 	 * filter only allows the characters [A-Za-z0-9.-_]. This is
@@ -514,6 +514,8 @@ class JRequest
 	 */
 	protected static function _cleanVar($var, $mask = 0, $type = null)
 	{
+		$mask = (int) $mask;
+
 		// If the no trim flag is not set, trim the variable
 		if (!($mask & 1) && is_string($var))
 		{

@@ -3,11 +3,11 @@
  * @package     Joomla.Site
  * @subpackage  Layout
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2015 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('JPATH_BASE') or die;
+defined('_JEXEC') or die;
 
 extract($displayData);
 
@@ -34,7 +34,14 @@ extract($displayData);
 ?>
 <div class="modal-header">
 	<?php if (!isset($params['closeButton']) || $params['closeButton']) : ?>
-		<button type="button" class="close novalidate" data-dismiss="modal">×</button>
+		<button
+			type="button"
+			class="close novalidate"
+			data-dismiss="modal"
+			aria-label="<?php echo JText::_('JLIB_HTML_BEHAVIOR_CLOSE'); ?>"
+			>
+			<span aria-hidden="true">&times;</span>
+		</button>
 	<?php endif; ?>
 	<?php if (isset($params['title'])) : ?>
 		<h3><?php echo $params['title']; ?></h3>

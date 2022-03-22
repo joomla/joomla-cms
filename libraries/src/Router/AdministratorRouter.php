@@ -2,13 +2,15 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2007 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Router;
 
 defined('JPATH_PLATFORM') or die;
+
+use Joomla\CMS\Uri\Uri;
 
 /**
  * Class to create and parse routes
@@ -20,7 +22,7 @@ class AdministratorRouter extends Router
 	/**
 	 * Function to convert a route to an internal URI.
 	 *
-	 * @param   \JUri  &$uri  The uri.
+	 * @param   Uri  &$uri  The uri.
 	 *
 	 * @return  array
 	 *
@@ -36,7 +38,7 @@ class AdministratorRouter extends Router
 	 *
 	 * @param   string  $url  The internal URL
 	 *
-	 * @return  string  The absolute search engine friendly URL
+	 * @return  Uri  The absolute search engine friendly URL
 	 *
 	 * @since   1.5
 	 */
@@ -49,7 +51,7 @@ class AdministratorRouter extends Router
 		$route = $uri->getPath();
 
 		// Add basepath to the uri
-		$uri->setPath(\JUri::base(true) . '/' . $route);
+		$uri->setPath(Uri::root(true) . '/' . basename(JPATH_ADMINISTRATOR) . '/' . $route);
 
 		return $uri;
 	}

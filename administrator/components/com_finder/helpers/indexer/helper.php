@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2011 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -64,7 +64,7 @@ class FinderIndexerHelper
 	 * @param   string   $lang    The language of the input.
 	 * @param   boolean  $phrase  Flag to indicate whether input could be a phrase. [optional]
 	 *
-	 * @return  array  An array of FinderIndexerToken objects.
+	 * @return  array|FinderIndexerToken  An array of FinderIndexerToken objects or a single FinderIndexerToken object.
 	 *
 	 * @since   2.5
 	 */
@@ -124,14 +124,14 @@ class FinderIndexerHelper
 			for ($i = 0, $n = count($terms); $i < $n; $i++)
 			{
 				$charMatches = array();
-				$charCount = preg_match_all('#[\p{Han}]#mui', $terms[$i], $charMatches);
+				$charCount   = preg_match_all('#[\p{Han}]#mui', $terms[$i], $charMatches);
 
 				// Split apart any groups of Chinese characters.
 				for ($j = 0; $j < $charCount; $j++)
 				{
 					$tSplit = StringHelper::str_ireplace($charMatches[0][$j], '', $terms[$i], false);
 
-					if (!empty($tSplit))
+					if ((bool) $tSplit)
 					{
 						$terms[$i] = $tSplit;
 					}
@@ -177,7 +177,12 @@ class FinderIndexerHelper
 				if ($i2 < $n && isset($tokens[$i2]))
 				{
 					// Tokenize the two word phrase.
-					$token = new FinderIndexerToken(array($tokens[$i]->term, $tokens[$i2]->term), $lang, $lang === 'zh' ? '' : ' ');
+					$token          = new FinderIndexerToken(
+						array(
+							$tokens[$i]->term,
+							$tokens[$i2]->term
+						), $lang, $lang === 'zh' ? '' : ' '
+					);
 					$token->derived = true;
 
 					// Add the token to the stack.
@@ -188,7 +193,13 @@ class FinderIndexerHelper
 				if ($i3 < $n && isset($tokens[$i3]))
 				{
 					// Tokenize the three word phrase.
-					$token = new FinderIndexerToken(array($tokens[$i]->term, $tokens[$i2]->term, $tokens[$i3]->term), $lang, $lang === 'zh' ? '' : ' ');
+					$token          = new FinderIndexerToken(
+						array(
+							$tokens[$i]->term,
+							$tokens[$i2]->term,
+							$tokens[$i3]->term
+						), $lang, $lang === 'zh' ? '' : ' '
+					);
 					$token->derived = true;
 
 					// Add the token to the stack.
@@ -265,7 +276,7 @@ class FinderIndexerHelper
 	{
 		static $types;
 
-		$db = JFactory::getDbo();
+		$db    = JFactory::getDbo();
 		$query = $db->getQuery(true);
 
 		// Check if the types are loaded.
@@ -311,15 +322,25 @@ class FinderIndexerHelper
 	public static function isCommon($token, $lang)
 	{
 		static $data;
+		static $default;
+
+		$langCode = $lang;
+
+		// If language requested is wildcard, use the default language.
+		if ($default === null && $lang === '*')
+		{
+			$default = strstr(self::getDefaultLanguage(), '-', true);
+			$langCode = $default;
+		}
 
 		// Load the common tokens for the language if necessary.
-		if (!isset($data[$lang]))
+		if (!isset($data[$langCode]))
 		{
-			$data[$lang] = self::getCommonWords($lang);
+			$data[$langCode] = self::getCommonWords($langCode);
 		}
 
 		// Check if the token is in the common array.
-		return in_array($token, $data[$lang], true);
+		return in_array($token, $data[$langCode], true);
 	}
 
 	/**
@@ -406,7 +427,8 @@ class FinderIndexerHelper
 	 *
 	 * @return  string  The path for the content item.
 	 *
-	 * @since   2.5
+	 * @since       2.5
+	 * @deprecated  4.0
 	 */
 	public static function getContentPath($url)
 	{
@@ -422,7 +444,7 @@ class FinderIndexerHelper
 		}
 
 		// Build the relative route.
-		$uri = $router->build($url);
+		$uri   = $router->build($url);
 		$route = $uri->toString(array('path', 'query', 'fragment'));
 		$route = str_replace(JUri::base(true) . '/', '', $route);
 
@@ -433,14 +455,14 @@ class FinderIndexerHelper
 	 * Method to get extra data for a content before being indexed. This is how
 	 * we add Comments, Tags, Labels, etc. that should be available to Finder.
 	 *
-	 * @param   FinderIndexerResult  &$item  The item to index as a FinderIndexerResult object.
+	 * @param   FinderIndexerResult  $item  The item to index as a FinderIndexerResult object.
 	 *
 	 * @return  boolean  True on success, false on failure.
 	 *
 	 * @since   2.5
 	 * @throws  Exception on database error.
 	 */
-	public static function getContentExtras(FinderIndexerResult &$item)
+	public static function getContentExtras(FinderIndexerResult $item)
 	{
 		// Get the event dispatcher.
 		$dispatcher = JEventDispatcher::getInstance();
@@ -494,7 +516,7 @@ class FinderIndexerHelper
 		}
 
 		// Create a mock content object.
-		$content = JTable::getInstance('Content');
+		$content       = JTable::getInstance('Content');
 		$content->text = $text;
 
 		if ($item)

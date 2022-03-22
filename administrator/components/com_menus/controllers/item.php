@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_menus
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2009 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -135,7 +135,7 @@ class MenusControllerItem extends JControllerForm
 	 */
 	public function batch($model = null)
 	{
-		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+		$this->checkToken();
 
 		$model = $this->getModel('Item', '', array());
 
@@ -156,7 +156,7 @@ class MenusControllerItem extends JControllerForm
 	 */
 	public function cancel($key = null)
 	{
-		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+		$this->checkToken();
 
 		$app = JFactory::getApplication();
 		$context = 'com_menus.edit.item';
@@ -214,7 +214,7 @@ class MenusControllerItem extends JControllerForm
 	 *
 	 * @return  string  The arguments to append to the redirect URL.
 	 *
-	 * @since   12.2
+	 * @since   3.0.1
 	 */
 	protected function getRedirectToItemAppend($recordId = null, $urlVar = 'id')
 	{
@@ -251,7 +251,7 @@ class MenusControllerItem extends JControllerForm
 	public function save($key = null, $urlVar = null)
 	{
 		// Check for request forgeries.
-		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+		$this->checkToken();
 
 		$app      = JFactory::getApplication();
 		$model    = $this->getModel('Item', '', array());
@@ -336,8 +336,12 @@ class MenusControllerItem extends JControllerForm
 			{
 				$segments = explode(':', $data['link']);
 				$protocol = strtolower($segments[0]);
-				$scheme = array('http', 'https', 'ftp', 'ftps', 'gopher', 'mailto', 'news', 'prospero', 'telnet', 'rlogin', 'tn3270', 'wais','mid', 'cid', 'nntp',
-					 'tel', 'urn', 'ldap', 'file', 'fax', 'modem', 'git', 'sms');
+				$scheme   = array(
+					'http', 'https', 'ftp', 'ftps', 'gopher', 'mailto',
+					'news', 'prospero', 'telnet', 'rlogin', 'tn3270', 'wais',
+					'mid', 'cid', 'nntp', 'tel', 'urn', 'ldap', 'file', 'fax',
+					'modem', 'git', 'sms',
+				);
 
 				if (!in_array($protocol, $scheme))
 				{
@@ -353,24 +357,26 @@ class MenusControllerItem extends JControllerForm
 
 		$data = $model->validate($form, $data);
 
+		// Preprocess request fields to ensure that we remove not set or empty request params
+		$request = $form->getGroup('request', true);
+
 		// Check for the special 'request' entry.
-		if ($data['type'] == 'component' && isset($data['request']) && is_array($data['request']) && !empty($data['request']))
+		if ($data['type'] == 'component' && !empty($request))
 		{
 			$removeArgs = array();
 
-			// Preprocess request fields to ensure that we remove not set or empty request params
-			$request = $form->getGroup('request');
-
-			if (!empty($request))
+			if (!isset($data['request']) || !is_array($data['request']))
 			{
-				foreach ($request as $field)
-				{
-					$fieldName = $field->getAttribute('name');
+				$data['request'] = array();
+			}
 
-					if (!isset($data['request'][$fieldName]) || $data['request'][$fieldName] == '')
-					{
-						$removeArgs[$fieldName] = '';
-					}
+			foreach ($request as $field)
+			{
+				$fieldName = $field->getAttribute('name');
+
+				if (!isset($data['request'][$fieldName]) || $data['request'][$fieldName] == '')
+				{
+					$removeArgs[$fieldName] = '';
 				}
 			}
 
@@ -503,7 +509,7 @@ class MenusControllerItem extends JControllerForm
 	 */
 	public function setType()
 	{
-		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+		$this->checkToken();
 
 		$app = JFactory::getApplication();
 

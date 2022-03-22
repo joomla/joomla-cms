@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_newsfeeds
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2008 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -115,6 +115,11 @@ class NewsfeedsViewNewsfeed extends JViewLegacy
 		if (!$isNew && $canDo->get('core.create'))
 		{
 			JToolbarHelper::save2copy('newsfeed.save2copy');
+		}
+
+		if (!$isNew && JLanguageAssociations::isEnabled() && JComponentHelper::isEnabled('com_associations'))
+		{
+			JToolbarHelper::custom('newsfeed.editAssociations', 'contract', 'contract', 'JTOOLBAR_ASSOCIATIONS', false, false);
 		}
 
 		if (empty($this->item->id))

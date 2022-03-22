@@ -4,7 +4,9 @@
  * @subpackage  less
  * @copyright   Copyright (C) 2010-2016 Nicholas K. Dionysopoulos / Akeeba Ltd. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
+ * @note        This file has been modified by the Joomla! Project and no longer reflects the original work of its author.
  */
+
 // Protect from unauthorized access
 defined('FOF_INCLUDED') or die;
 
@@ -69,8 +71,8 @@ class FOFLessFormatterClassic
 	/**
 	 * Return the code for a property
 	 *
-	 * @param   string  $name   The name of the porperty
-	 * @param   string  $value  The value of the porperty
+	 * @param   string  $name   The name of the property
+	 * @param   string  $value  The value of the property
 	 *
 	 * @return  string  The CSS code
 	 */

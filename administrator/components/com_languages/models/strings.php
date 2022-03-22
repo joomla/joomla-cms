@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_languages
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2011 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -61,20 +61,20 @@ class LanguagesModelStrings extends JModelLegacy
 
 		if (is_dir($path))
 		{
-			$files = JFolder::files($path, $language . '.*ini$', false, true);
+			$files = JFolder::files($path, '.*ini$', false, true);
 		}
 
 		// Parse language directories of components.
-		$files = array_merge($files, JFolder::files($base . '/components', $language . '.*ini$', 3, true));
+		$files = array_merge($files, JFolder::files($base . '/components', '.*ini$', 3, true));
 
 		// Parse language directories of modules.
-		$files = array_merge($files, JFolder::files($base . '/modules', $language . '.*ini$', 3, true));
+		$files = array_merge($files, JFolder::files($base . '/modules', '.*ini$', 3, true));
 
 		// Parse language directories of templates.
-		$files = array_merge($files, JFolder::files($base . '/templates', $language . '.*ini$', 3, true));
+		$files = array_merge($files, JFolder::files($base . '/templates', '.*ini$', 3, true));
 
 		// Parse language directories of plugins.
-		$files = array_merge($files, JFolder::files(JPATH_PLUGINS, $language . '.*ini$', 3, true));
+		$files = array_merge($files, JFolder::files(JPATH_PLUGINS, '.*ini$', 4, true));
 
 		// Parse all found ini files and add the strings to the database cache.
 		foreach ($files as $file)
@@ -111,7 +111,7 @@ class LanguagesModelStrings extends JModelLegacy
 	/**
 	 * Method for searching language strings.
 	 *
-	 * @return  array  Array of resuls on success, Exception object otherwise.
+	 * @return  array  Array of results on success, Exception object otherwise.
 	 *
 	 * @since		2.5
 	 */

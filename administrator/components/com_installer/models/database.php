@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_installer
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2011 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -70,7 +70,7 @@ class InstallerModelDatabase extends InstallerModel
 
 		/*
 		 * Finally, if the schema updates succeeded, make sure the database is
-		 * converted to utf8mb4 or, if not suported by the server, compatible to it.
+		 * converted to utf8mb4 or, if not supported by the server, compatible to it.
 		 */
 		$statusArray = $changeSet->getStatus();
 
@@ -108,7 +108,7 @@ class InstallerModelDatabase extends InstallerModel
 	 *
 	 * @return  boolean
 	 *
-	 * @since   12.2
+	 * @since   3.0.1
 	 */
 	public function getPagination()
 	{
@@ -287,7 +287,7 @@ class InstallerModelDatabase extends InstallerModel
 		}
 
 		$creaTabSql = 'CREATE TABLE IF NOT EXISTS ' . $db->quoteName('#__utf8_conversion')
-			. ' (' . $db->quoteName('converted') . ' tinyint(4) NOT NULL DEFAULT 0'
+			. ' (' . $db->quoteName('converted') . ' tinyint NOT NULL DEFAULT 0'
 			. ') ENGINE=InnoDB';
 
 		if ($db->hasUTF8mb4Support())

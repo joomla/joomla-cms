@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  System.redirect
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2009 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -169,7 +169,7 @@ class PlgSystemRedirect extends JPlugin
 			}
 			else
 			{
-				if (StringHelper::strpos($orgurlRel, $exclude->term))
+				if (StringHelper::strpos($orgurlRel, $exclude->term) !== false)
 				{
 					$skipUrl = true;
 					break;
@@ -274,16 +274,30 @@ class PlgSystemRedirect extends JPlugin
 
 				$oldUrlParts = parse_url($redirect->old_url);
 
+				$newUrl = $redirect->new_url;
+
 				if ($urlQuery !== '' && empty($oldUrlParts['query']))
 				{
-					$redirect->new_url .= '?' . $urlQuery;
+					$newUrl .= '?' . $urlQuery;
 				}
 
-				$dest = JUri::isInternal($redirect->new_url) || strpos($redirect->new_url, 'http') === false ?
-					JRoute::_($redirect->new_url) : $redirect->new_url;
+				$dest = JUri::isInternal($newUrl) || strpos($newUrl, 'http') === false ?
+					JRoute::_($newUrl) : $newUrl;
 
 				// In case the url contains double // lets remove it
 				$destination = str_replace(JUri::root() . '/', JUri::root(), $dest);
+
+				// Always count redirect hits
+				$redirect->hits++;
+
+				try
+				{
+					$db->updateObject('#__redirect_links', $redirect, 'id');
+				}
+				catch (Exception $e)
+				{
+					// We don't log issues for now
+				}
 
 				$app->redirect($destination, (int) $redirect->header);
 			}
@@ -295,8 +309,13 @@ class PlgSystemRedirect extends JPlugin
 		{
 			$params = new Registry(JPluginHelper::getPlugin('system', 'redirect')->params);
 
-			if ((bool) $params->get('collect_urls', true))
+			if ((bool) $params->get('collect_urls', 1))
 			{
+				if (!$params->get('includeUrl', 1))
+				{
+					$url = $urlRel;
+				}
+
 				$data = (object) array(
 					'id' => 0,
 					'old_url' => $url,
@@ -331,6 +350,14 @@ class PlgSystemRedirect extends JPlugin
 			}
 		}
 
-		JErrorPage::render($error);
+		// Proxy to the previous exception handler if available, otherwise just render the error page
+		if (self::$previousExceptionHandler)
+		{
+			call_user_func_array(self::$previousExceptionHandler, array($error));
+		}
+		else
+		{
+			JErrorPage::render($error);
+		}
 	}
 }

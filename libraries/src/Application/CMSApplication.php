@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2013 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -10,8 +10,11 @@ namespace Joomla\CMS\Application;
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\Input\Input;
+use Joomla\CMS\Session\MetadataManager;
 use Joomla\Registry\Registry;
+use Joomla\String\StringHelper;
 
 /**
  * Joomla! CMS Application class
@@ -135,24 +138,6 @@ class CMSApplication extends WebApplication
 	}
 
 	/**
-	 * After the session has been started we need to populate it with some default values.
-	 *
-	 * @return  void
-	 *
-	 * @since   3.2
-	 */
-	public function afterSessionStart()
-	{
-		$session = \JFactory::getSession();
-
-		if ($session->isNew())
-		{
-			$session->set('registry', new Registry);
-			$session->set('user', new \JUser);
-		}
-	}
-
-	/**
 	 * Checks the user session.
 	 *
 	 * If the session record doesn't exist, initialise it.
@@ -165,63 +150,8 @@ class CMSApplication extends WebApplication
 	 */
 	public function checkSession()
 	{
-		$db = \JFactory::getDbo();
-		$session = \JFactory::getSession();
-		$user = \JFactory::getUser();
-
-		$query = $db->getQuery(true)
-			->select($db->quoteName('session_id'))
-			->from($db->quoteName('#__session'))
-			->where($db->quoteName('session_id') . ' = ' . $db->quote($session->getId()));
-
-		$db->setQuery($query, 0, 1);
-		$exists = $db->loadResult();
-
-		// If the session record doesn't exist initialise it.
-		if (!$exists)
-		{
-			$query->clear();
-
-			$time = $session->isNew() ? time() : $session->get('session.timer.start');
-
-			$columns = array(
-				$db->quoteName('session_id'),
-				$db->quoteName('guest'),
-				$db->quoteName('time'),
-				$db->quoteName('userid'),
-				$db->quoteName('username'),
-			);
-
-			$values = array(
-				$db->quote($session->getId()),
-				(int) $user->guest,
-				$db->quote((int) $time),
-				(int) $user->id,
-				$db->quote($user->username),
-			);
-
-			if (!$this->get('shared_session', '0'))
-			{
-				$columns[] = $db->quoteName('client_id');
-				$values[] = (int) $this->getClientId();
-			}
-
-			$query->insert($db->quoteName('#__session'))
-				->columns($columns)
-				->values(implode(', ', $values));
-
-			$db->setQuery($query);
-
-			// If the insert failed, exit the application.
-			try
-			{
-				$db->execute();
-			}
-			catch (\RuntimeException $e)
-			{
-				throw new \RuntimeException(\JText::_('JERROR_SESSION_STARTUP'), $e->getCode(), $e);
-			}
-		}
+		$metadataManager = new MetadataManager($this, \JFactory::getDbo());
+		$metadataManager->createRecordIfNonExisting(\JFactory::getSession(), \JFactory::getUser());
 	}
 
 	/**
@@ -242,10 +172,16 @@ class CMSApplication extends WebApplication
 			return;
 		}
 
+		$inputFilter = InputFilter::getInstance(array(), array(), 1, 1);
+
+		// Build the message array and apply the HTML InputFilter with the default blacklist to the message
+		$message = array(
+			'message' => $inputFilter->clean($msg, 'html'),
+			'type'    => $inputFilter->clean(strtolower($type), 'cmd')
+		);
+
 		// For empty queue, if messages exists in the session, enqueue them first.
 		$messages = $this->getMessageQueue();
-
-		$message = array('message' => $msg, 'type' => strtolower($type));
 
 		if (!in_array($message, $this->_messageQueue))
 		{
@@ -263,6 +199,28 @@ class CMSApplication extends WebApplication
 	 */
 	public function execute()
 	{
+		$input = $this->input;
+
+		// Get invalid input variables
+		$invalidInputVariables = array_filter(
+			array('option', 'view', 'format', 'lang', 'Itemid', 'template', 'templateStyle', 'task'),
+			function($systemVariable) use ($input) {
+				return $input->exists($systemVariable) && is_array($input->getRaw($systemVariable));
+			}
+		);
+
+		// Unset invalid system variables
+		foreach ($invalidInputVariables as $systemVariable)
+		{
+			$input->set($systemVariable, null);
+		}
+
+		// Abort when there are invalid variables
+		if ($invalidInputVariables)
+		{
+			throw new \RuntimeException('Invalid input, aborting application.');
+		}
+
 		// Perform application routines.
 		$this->doExecute();
 
@@ -369,10 +327,23 @@ class CMSApplication extends WebApplication
 	 * @return  mixed  The user state.
 	 *
 	 * @since   3.2
-	 * @deprecated  4.0  Use get() instead
+	 * @deprecated  5.0  Use get() instead
 	 */
 	public function getCfg($varname, $default = null)
 	{
+		try
+		{
+			\JLog::add(
+				sprintf('%s() is deprecated and will be removed in 5.0. Use JFactory->getApplication()->get() instead.', __METHOD__),
+				\JLog::WARNING,
+				'deprecated'
+			);
+		}
+		catch (RuntimeException $exception)
+		{
+			// Informational log only
+		}
+
 		return $this->get($varname, $default);
 	}
 
@@ -515,6 +486,15 @@ class CMSApplication extends WebApplication
 		{
 			$name = $this->getName();
 		}
+		else
+		{
+			// Name should not be used
+			$this->getLogger()->warning(
+				'Name attribute is deprecated, in the future fetch the pathway '
+				. 'through the respective application.',
+				array('category' => 'deprecated')
+			);
+		}
 
 		try
 		{
@@ -545,6 +525,8 @@ class CMSApplication extends WebApplication
 			$app = \JFactory::getApplication();
 			$name = $app->getName();
 		}
+
+		$options['mode'] = \JFactory::getConfig()->get('sef');
 
 		try
 		{
@@ -691,11 +673,24 @@ class CMSApplication extends WebApplication
 	 *
 	 * @return  boolean  True if this application is administrator.
 	 *
-	 * @since   3.2
-	 * @deprecated  Use isClient('administrator') instead.
+	 * @since       3.2
+	 * @deprecated  4.0 Use isClient('administrator') instead.
 	 */
 	public function isAdmin()
 	{
+		try
+		{
+			\JLog::add(
+				sprintf("%s() is deprecated and will be removed in 4.0. Use JFactory->getApplication()->isClient('administrator') instead.", __METHOD__),
+				\JLog::WARNING,
+				'deprecated'
+			);
+		}
+		catch (\RuntimeException $exception)
+		{
+			// Informational log only
+		}
+
 		return $this->isClient('administrator');
 	}
 
@@ -704,11 +699,24 @@ class CMSApplication extends WebApplication
 	 *
 	 * @return  boolean  True if this application is site.
 	 *
-	 * @since   3.2
-	 * @deprecated  Use isClient('site') instead.
+	 * @since       3.2
+	 * @deprecated  4.0 Use isClient('site') instead.
 	 */
 	public function isSite()
 	{
+		try
+		{
+			\JLog::add(
+				sprintf("%s() is deprecated and will be removed in 4.0. Use JFactory->getApplication()->isClient('site') instead.", __METHOD__),
+				\JLog::WARNING,
+				'deprecated'
+			);
+		}
+		catch (\RuntimeException $exception)
+		{
+			// Informational log only
+		}
+
 		return $this->isClient('site');
 	}
 
@@ -806,29 +814,16 @@ class CMSApplication extends WebApplication
 
 		$session->initialise($this->input, $this->dispatcher);
 
-		// TODO: At some point we need to get away from having session data always in the db.
-		$db = \JFactory::getDbo();
-
-		// Remove expired sessions from the database.
-		$time = time();
-
-		if ($time % 2)
-		{
-			// The modulus introduces a little entropy, making the flushing less accurate
-			// but fires the query less than half the time.
-			$query = $db->getQuery(true)
-				->delete($db->quoteName('#__session'))
-				->where($db->quoteName('time') . ' < ' . $db->quote((int) ($time - $session->getExpire())));
-
-			$db->setQuery($query);
-			$db->execute();
-		}
-
 		// Get the session handler from the configuration.
 		$handler = $this->get('session_handler', 'none');
 
-		if (($handler !== 'database' && ($time % 2 || $session->isNew()))
-			|| ($handler === 'database' && $session->isNew()))
+		/*
+		 * Check for extra session metadata when:
+		 *
+		 * 1) The database handler is in use and the session is new
+		 * 2) The database handler is not in use and the time is an even numbered second or the session is new
+		 */
+		if (($handler !== 'database' && (time() % 2 || $session->isNew())) || ($handler === 'database' && $session->isNew()))
 		{
 			$this->checkSession();
 		}
@@ -928,9 +923,9 @@ class CMSApplication extends WebApplication
 
 				// The user is successfully logged in. Run the after login events
 				$this->triggerEvent('onUserAfterLogin', array($options));
-			}
 
-			return true;
+				return true;
+			}
 		}
 
 		// Trigger onUserLoginFailure Event.
@@ -1145,6 +1140,45 @@ class CMSApplication extends WebApplication
 
 		$router = static::getRouter();
 		$result = $router->parse($uri);
+
+		$active = $this->getMenu()->getActive();
+
+		if ($active !== null
+			&& $active->type === 'alias'
+			&& $active->params->get('alias_redirect')
+			&& in_array($this->input->getMethod(), array('GET', 'HEAD'), true))
+		{
+			$item = $this->getMenu()->getItem($active->params->get('aliasoptions'));
+
+			if ($item !== null)
+			{
+				$oldUri = clone \JUri::getInstance();
+
+				if ($oldUri->getVar('Itemid') == $active->id)
+				{
+					$oldUri->setVar('Itemid', $item->id);
+				}
+
+				$base = \JUri::base(true);
+				$oldPath = StringHelper::strtolower(substr($oldUri->getPath(), strlen($base) + 1));
+				$activePathPrefix = StringHelper::strtolower($active->route);
+
+				$position = strpos($oldPath, $activePathPrefix);
+
+				if ($position !== false)
+				{
+					$oldUri->setPath($base . '/' . substr_replace($oldPath, $item->route, $position, strlen($activePathPrefix)));
+
+					$this->setHeader('Expires', 'Wed, 17 Aug 2005 00:00:00 GMT', true);
+					$this->setHeader('Last-Modified', gmdate('D, d M Y H:i:s') . ' GMT', true);
+					$this->setHeader('Cache-Control', 'no-store, no-cache, must-revalidate, post-check=0, pre-check=0', false);
+					$this->setHeader('Pragma', 'no-cache');
+					$this->sendHeaders();
+
+					$this->redirect((string) $oldUri, 301);
+				}
+			}
+		}
 
 		foreach ($result as $key => $value)
 		{

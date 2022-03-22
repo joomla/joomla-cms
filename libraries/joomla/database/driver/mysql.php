@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Database
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2005 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -13,7 +13,7 @@ defined('JPATH_PLATFORM') or die;
  * MySQL database driver
  *
  * @link        https://dev.mysql.com/doc/
- * @since       12.1
+ * @since       3.0.0
  * @deprecated  4.0  Use MySQLi or PDO MySQL instead
  */
 class JDatabaseDriverMysql extends JDatabaseDriverMysqli
@@ -22,7 +22,7 @@ class JDatabaseDriverMysql extends JDatabaseDriverMysqli
 	 * The name of the database driver.
 	 *
 	 * @var    string
-	 * @since  12.1
+	 * @since  3.0.0
 	 */
 	public $name = 'mysql';
 
@@ -31,7 +31,7 @@ class JDatabaseDriverMysql extends JDatabaseDriverMysqli
 	 *
 	 * @param   array  $options  Array of database options with keys: host, user, password, database, select.
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function __construct($options)
 	{
@@ -59,7 +59,7 @@ class JDatabaseDriverMysql extends JDatabaseDriverMysqli
 	 *
 	 * @return  void  Returns void if the database connected successfully.
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 * @throws  RuntimeException
 	 */
 	public function connect()
@@ -96,10 +96,18 @@ class JDatabaseDriverMysql extends JDatabaseDriverMysqli
 		// Set the character set (needed for MySQL 4.1.2+).
 		$this->utf = $this->setUtf();
 
-		// Turn MySQL profiling ON in debug mode:
-		if ($this->debug && $this->hasProfiling())
+		// Disable query cache and turn profiling ON in debug mode.
+		if ($this->debug)
 		{
-			mysql_query('SET profiling = 1;', $this->connection);
+			if ($this->hasQueryCacheEnabled())
+			{
+				mysql_query('SET query_cache_type = 0;', $this->connection);
+			}
+
+			if ($this->hasProfiling())
+			{
+				mysql_query('SET profiling_history_size = 100, profiling = 1;', $this->connection);
+			}
 		}
 	}
 
@@ -108,7 +116,7 @@ class JDatabaseDriverMysql extends JDatabaseDriverMysqli
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function disconnect()
 	{
@@ -134,13 +142,24 @@ class JDatabaseDriverMysql extends JDatabaseDriverMysqli
 	 *
 	 * @return  string  The escaped string.
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function escape($text, $extra = false)
 	{
+		if (is_int($text))
+		{
+			return $text;
+		}
+
+		if (is_float($text))
+		{
+			// Force the dot as a decimal point.
+			return str_replace(',', '.', (string) $text);
+		}
+
 		$this->connect();
 
-		$result = mysql_real_escape_string($text, $this->getConnection());
+		$result = mysql_real_escape_string((string) $text, $this->getConnection());
 
 		if ($extra)
 		{
@@ -155,7 +174,7 @@ class JDatabaseDriverMysql extends JDatabaseDriverMysqli
 	 *
 	 * @return  boolean  True on success, false otherwise.
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public static function isSupported()
 	{
@@ -167,7 +186,7 @@ class JDatabaseDriverMysql extends JDatabaseDriverMysqli
 	 *
 	 * @return  boolean  True if connected to the database engine.
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function connected()
 	{
@@ -184,7 +203,7 @@ class JDatabaseDriverMysql extends JDatabaseDriverMysqli
 	 *
 	 * @return  integer  The number of affected rows.
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function getAffectedRows()
 	{
@@ -202,7 +221,7 @@ class JDatabaseDriverMysql extends JDatabaseDriverMysqli
 	 *
 	 * @return  integer   The number of returned rows.
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function getNumRows($cursor = null)
 	{
@@ -216,7 +235,7 @@ class JDatabaseDriverMysql extends JDatabaseDriverMysqli
 	 *
 	 * @return  string  The database connector version.
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function getVersion()
 	{
@@ -230,7 +249,7 @@ class JDatabaseDriverMysql extends JDatabaseDriverMysqli
 	 *
 	 * @return  integer  The value of the auto-increment field from the last inserted row.
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function insertid()
 	{
@@ -244,7 +263,7 @@ class JDatabaseDriverMysql extends JDatabaseDriverMysqli
 	 *
 	 * @return  mixed  A database cursor resource on success, boolean false on failure.
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 * @throws  RuntimeException
 	 */
 	public function execute()
@@ -352,7 +371,7 @@ class JDatabaseDriverMysql extends JDatabaseDriverMysqli
 	 *
 	 * @return  boolean  True if the database was successfully selected.
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 * @throws  RuntimeException
 	 */
 	public function select($database)
@@ -377,7 +396,7 @@ class JDatabaseDriverMysql extends JDatabaseDriverMysqli
 	 *
 	 * @return  boolean  True on success.
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function setUtf()
 	{
@@ -418,7 +437,7 @@ class JDatabaseDriverMysql extends JDatabaseDriverMysqli
 	 *
 	 * @return  mixed  Either the next row from the result set or false if there are no more rows.
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	protected function fetchArray($cursor = null)
 	{
@@ -432,7 +451,7 @@ class JDatabaseDriverMysql extends JDatabaseDriverMysqli
 	 *
 	 * @return  mixed  Either the next row from the result set or false if there are no more rows.
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	protected function fetchAssoc($cursor = null)
 	{
@@ -447,7 +466,7 @@ class JDatabaseDriverMysql extends JDatabaseDriverMysqli
 	 *
 	 * @return  mixed   Either the next row from the result set or false if there are no more rows.
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	protected function fetchObject($cursor = null, $class = 'stdClass')
 	{
@@ -461,7 +480,7 @@ class JDatabaseDriverMysql extends JDatabaseDriverMysqli
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	protected function freeResult($cursor = null)
 	{
@@ -483,6 +502,28 @@ class JDatabaseDriverMysql extends JDatabaseDriverMysqli
 			$row = mysql_fetch_assoc($res);
 
 			return isset($row);
+		}
+		catch (Exception $e)
+		{
+			return false;
+		}
+	}
+
+	/**
+	 * Internal function to check if query cache is enabled.
+	 *
+	 * @return  boolean
+	 *
+	 * @since   3.9.25
+	 */
+	private function hasQueryCacheEnabled()
+	{
+		try
+		{
+			$res = mysql_query("SHOW VARIABLES LIKE 'query_cache_type'", $this->connection);
+			$row = mysql_fetch_assoc($res);
+
+			return isset($row['Value']) && $row['Value'] === 'ON';
 		}
 		catch (Exception $e)
 		{

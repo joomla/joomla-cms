@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_redirect
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2009 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -191,14 +191,17 @@ class RedirectModelLinks extends JModelList
 	/**
 	 * Add the entered URLs into the database
 	 *
-	 * @param   array  $batch_urls  Array of URLs to enter into the database
+	 * @param   array  $batchUrls  Array of URLs to enter into the database
 	 *
 	 * @return boolean
 	 */
-	public function batchProcess($batch_urls)
+	public function batchProcess($batchUrls)
 	{
 		$db    = JFactory::getDbo();
 		$query = $db->getQuery(true);
+
+		$params = JComponentHelper::getParams('com_redirect');
+		$state  = (int) $params->get('defaultImportState', 0);
 
 		$columns = array(
 			$db->quoteName('old_url'),
@@ -212,7 +215,7 @@ class RedirectModelLinks extends JModelList
 
 		$query->columns($columns);
 
-		foreach ($batch_urls as $batch_url)
+		foreach ($batchUrls as $batch_url)
 		{
 			$old_url = $batch_url[0];
 
@@ -228,7 +231,7 @@ class RedirectModelLinks extends JModelList
 
 			$query->insert($db->quoteName('#__redirect_links'), false)
 				->values(
-					$db->quote($old_url) . ', ' . $db->quote($new_url) . ' ,' . $db->quote('') . ', ' . $db->quote('') . ', 0, 0, ' .
+					$db->quote($old_url) . ', ' . $db->quote($new_url) . ' ,' . $db->quote('') . ', ' . $db->quote('') . ', 0, ' . $state . ', ' .
 					$db->quote(JFactory::getDate()->toSql())
 				);
 		}

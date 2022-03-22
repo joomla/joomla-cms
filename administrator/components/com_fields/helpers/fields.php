@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_fields
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2016 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 defined('_JEXEC') or die;
@@ -79,7 +79,7 @@ class FieldsHelper
 	 *
 	 * @param   string    $context           The context of the content passed to the helper
 	 * @param   stdClass  $item              item
-	 * @param   boolean   $prepareValue      prepareValue
+	 * @param   int|bool  $prepareValue      (if int is display event): 1 - AfterTitle, 2 - BeforeDisplay, 3 - AfterDisplay, 0 - OFF
 	 * @param   array     $valuesToOverride  The values to override
 	 *
 	 * @return  array
@@ -90,8 +90,7 @@ class FieldsHelper
 	{
 		if (self::$fieldsCache === null)
 		{
-			// Load the model
-			JLoader::import('joomla.application.component.model');
+			// Load the model			
 			JModelLegacy::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_fields/models', 'FieldsModel');
 
 			self::$fieldsCache = JModelLegacy::getInstance('Fields', 'FieldsModel', array(
@@ -113,6 +112,7 @@ class FieldsHelper
 		}
 
 		self::$fieldsCache->setState('filter.context', $context);
+		self::$fieldsCache->setState('filter.assigned_cat_ids', array());
 
 		/*
 		 * If item has assigned_cat_ids parameter display only fields which
@@ -187,13 +187,14 @@ class FieldsHelper
 
 				$field->rawvalue = $field->value;
 
-				if ($prepareValue)
+				// If boolean prepare, if int, it is the event type: 1 - After Title, 2 - Before Display, 3 - After Display, 0 - Do not prepare
+				if ($prepareValue && (is_bool($prepareValue) || $prepareValue === (int) $field->params->get('display', '2')))
 				{
 					JPluginHelper::importPlugin('fields');
 
 					$dispatcher = JEventDispatcher::getInstance();
 
-					// Event allow plugins to modfify the output of the field before it is prepared
+					// Event allow plugins to modify the output of the field before it is prepared
 					$dispatcher->trigger('onCustomFieldsBeforePrepareField', array($context, $item, &$field));
 
 					// Gathering the value for the field
@@ -204,7 +205,7 @@ class FieldsHelper
 						$value = implode(' ', $value);
 					}
 
-					// Event allow plugins to modfify the output of the prepared field
+					// Event allow plugins to modify the output of the prepared field
 					$dispatcher->trigger('onCustomFieldsAfterPrepareField', array($context, $item, $field, &$value));
 
 					// Assign the value
@@ -335,7 +336,7 @@ class FieldsHelper
 				if (cat.val() == '" . $assignedCatids . "')return;
 				Joomla.loadingLayer('show');
 				jQuery('input[name=task]').val('" . $section . ".reload');
-				element.form.submit();
+				Joomla.submitform('" . $section . ".reload', element.form);
 			}
 			jQuery( document ).ready(function() {
 				Joomla.loadingLayer('load');
@@ -542,49 +543,49 @@ class FieldsHelper
 	}
 
 	/**
-	 * Adds Count Items for Category Manager.
+	 * Return a boolean based on field (and field group) display / show_on settings
 	 *
-	 * @param   stdClass[]  &$items  The field category objects
+	 * @param   stdClass  $field  The field
 	 *
-	 * @return  stdClass[]
+	 * @return  boolean
 	 *
-	 * @since   3.7.0
+	 * @since   3.8.7
 	 */
-	public static function countItems(&$items)
+	public static function displayFieldOnForm($field)
 	{
-		$db = JFactory::getDbo();
+		$app = JFactory::getApplication();
 
-		foreach ($items as $item)
+		// Detect if the field should be shown at all
+		if ($field->params->get('show_on') == 1 && $app->isClient('administrator'))
 		{
-			$item->count_trashed     = 0;
-			$item->count_archived    = 0;
-			$item->count_unpublished = 0;
-			$item->count_published   = 0;
+			return false;
+		}
+		elseif ($field->params->get('show_on') == 2 && $app->isClient('site'))
+		{
+			return false;
+		}
 
-			$query = $db->getQuery(true);
-			$query->select('state, count(1) AS count')
-				->from($db->quoteName('#__fields'))
-				->where('group_id = ' . (int) $item->id)
-				->group('state');
-			$db->setQuery($query);
+		if (!self::canEditFieldValue($field))
+		{
+			$fieldDisplayReadOnly = $field->params->get('display_readonly', '2');
 
-			$fields = $db->loadObjectList();
-
-			$states = array(
-				'-2' => 'count_trashed',
-				'0'  => 'count_unpublished',
-				'1'  => 'count_published',
-				'2'  => 'count_archived',
-			);
-
-			foreach ($fields as $field)
+			if ($fieldDisplayReadOnly == '2')
 			{
-				$property = $states[$field->state];
-				$item->$property = $field->count;
+				// Inherit from field group display read-only setting
+				$groupModel = JModelLegacy::getInstance('Group', 'FieldsModel', array('ignore_request' => true));
+				$groupDisplayReadOnly = $groupModel->getItem($field->group_id)->params->get('display_readonly', '1');
+				$fieldDisplayReadOnly = $groupDisplayReadOnly;
+			}
+
+			if ($fieldDisplayReadOnly == '0')
+			{
+				// Do not display field on form when field is read-only
+				return false;
 			}
 		}
 
-		return $items;
+		// Display field on form
+		return true;
 	}
 
 	/**
@@ -610,7 +611,7 @@ class FieldsHelper
 
 		$query->select($db->quoteName('c.title'))
 			->from($db->quoteName('#__fields_categories', 'a'))
-			->join('LEFT', $db->quoteName('#__categories', 'c') . ' ON a.category_id = c.id')
+			->join('INNER', $db->quoteName('#__categories', 'c') . ' ON a.category_id = c.id')
 			->where('field_id = ' . $fieldId);
 
 		$db->setQuery($query);
@@ -621,7 +622,7 @@ class FieldsHelper
 	/**
 	 * Gets the fields system plugin extension id.
 	 *
-	 * @return  int  The fields system plugin extension id.
+	 * @return  integer  The fields system plugin extension id.
 	 *
 	 * @since   3.7.0
 	 */

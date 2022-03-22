@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  mod_logged
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2010 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -73,6 +73,6 @@ abstract class ModLoggedHelper
 	 */
 	public static function getTitle($params)
 	{
-		return JText::plural('MOD_LOGGED_TITLE', $params->get('count'));
+		return JText::plural('MOD_LOGGED_TITLE', $params->get('count', 5));
 	}
 }

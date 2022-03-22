@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  Layout
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2015 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -19,6 +19,7 @@ defined('_JEXEC') or die;
  * @var  string   $typeAlias The component type
  */
 extract($displayData);
+JHtml::_('script', 'com_contenthistory/admin-history-versions.js', array('version' => 'auto', 'relative' => true));
 
 $link = 'index.php?option=com_contenthistory&amp;view=history&amp;layout=modal&amp;tmpl=component&amp;item_id='
 	. (int) $itemId . '&amp;type_id=' . $typeId . '&amp;type_alias='
@@ -32,12 +33,11 @@ echo JHtml::_(
 		'title'  => JText::_('COM_CONTENTHISTORY_MODAL_TITLE'),
 		'height' => '300px',
 		'width'  => '800px',
-		'footer' => '<a class="btn" type="button" data-dismiss="modal" aria-hidden="true">'
-			. JText::_('JTOOLBAR_CLOSE') . '</a>'
+		'footer' => '<button type="button" class="btn" data-dismiss="modal">'
+			. JText::_('JTOOLBAR_CLOSE') . '</button>'
 	)
 );
 ?>
-<button onclick="jQuery('#versionsModal').modal('show')" class="btn btn-small" data-toggle="modal">
+<button type="button" onclick="jQuery('#versionsModal').modal('show')" class="btn btn-small" data-toggle="modal">
 	<span class="icon-archive" aria-hidden="true"></span><?php echo $title; ?>
 </button>
-

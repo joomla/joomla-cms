@@ -2,7 +2,7 @@
 /**
  * @package    Joomla.Test
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2012 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -10,25 +10,25 @@
  * Abstract test case class for Oracle database testing.
  *
  * @package  Joomla.Test
- * @since    12.1
+ * @since    3.0.0
  */
 abstract class TestCaseDatabaseOracle extends TestCaseDatabase
 {
 	/**
 	 * @var    JDatabaseDriverOracle  The active database driver being used for the tests.
-	 * @since  12.1
+	 * @since  3.0.0
 	 */
 	protected static $driver;
 
 	/**
 	 * @var    array  The JDatabaseDriver options for the connection.
-	 * @since  12.1
+	 * @since  3.0.0
 	 */
 	private static $_options = array('driver' => 'oracle');
 
 	/**
 	 * @var    JDatabaseDriverOracle  The saved database driver to be restored after these tests.
-	 * @since  12.1
+	 * @since  3.0.0
 	 */
 	private static $_stash;
 
@@ -39,7 +39,7 @@ abstract class TestCaseDatabaseOracle extends TestCaseDatabase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public static function setUpBeforeClass()
 	{
@@ -123,7 +123,7 @@ abstract class TestCaseDatabaseOracle extends TestCaseDatabase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public static function tearDownAfterClass()
 	{
@@ -141,7 +141,7 @@ abstract class TestCaseDatabaseOracle extends TestCaseDatabase
 	 *
 	 * @return  PHPUnit_Extensions_Database_DB_DefaultDatabaseConnection
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	protected function getConnection()
 	{

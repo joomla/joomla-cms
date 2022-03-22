@@ -3,7 +3,7 @@
 	<name>mod_articles_news</name>
 	<author>Joomla! Project</author>
 	<creationDate>July 2006</creationDate>
-	<copyright>Copyright (C) 2005 - 2017 Open Source Matters. All rights reserved.</copyright>
+	<copyright>(C) 2006 Open Source Matters, Inc.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
@@ -29,9 +29,8 @@
 					description="MOD_ARTICLES_NEWS_FIELD_CATEGORY_DESC"
 					extension="com_content"
 					multiple="true"
+					filter="int_array"
 					class="multipleCategories"
-					default=""
-					size="10"
 				/>
 
 				<field
@@ -41,6 +40,7 @@
 					description="JTAG_DESC"
 					mode="nested"
 					multiple="true"
+					filter="int_array"
 					class="multipleTags"
 				/>
 
@@ -51,9 +51,22 @@
 					description="MOD_ARTICLES_NEWS_FIELD_IMAGES_DESC"
 					class="btn-group btn-group-yesno"
 					default="0"
+					filter="integer"
 					>
 					<option value="1">JYES</option>
 					<option value="0">JNO</option>
+				</field>
+
+				<field
+					name="img_intro_full"
+					type="list"
+					label="MOD_ARTICLES_NEWS_FIELD_IMAGES_ARTICLE_LABEL"
+					description="MOD_ARTICLES_NEWS_FIELD_IMAGES_ARTICLE_DESC"
+					default="none"
+					>
+					<option value="intro">MOD_ARTICLES_NEWS_OPTION_INTROIMAGE</option>
+					<option value="full">MOD_ARTICLES_NEWS_OPTION_FULLIMAGE</option>
+					<option value="none">JNO</option>
 				</field>
 
 				<field
@@ -63,6 +76,7 @@
 					description="MOD_ARTICLES_NEWS_FIELD_TITLE_DESC"
 					class="btn-group btn-group-yesno"
 					default="0"
+					filter="integer"
 					>
 					<option value="1">JYES</option>
 					<option value="0">JNO</option>
@@ -73,6 +87,8 @@
 					type="list"
 					label="MOD_ARTICLES_NEWS_FIELD_LINKTITLE_LABEL"
 					description="MOD_ARTICLES_NEWS_FIELD_LINKTITLE_DESC"
+					default=""
+					filter="integer"
 					class="chzn-color"
 					showon="item_title:1"
 					>
@@ -88,6 +104,7 @@
 					description="MOD_ARTICLES_NEWS_TITLE_HEADING_DESCRIPTION"
 					default="h4"
 					showon="item_title:1"
+					validate="options"
 					>
 					<option value="h1">JH1</option>
 					<option value="h2">JH2</option>
@@ -103,6 +120,7 @@
 					description="MOD_ARTICLES_NEWS_FIELD_TRIGGEREVENTS_DESC"
 					class="btn-group btn-group-yesno"
 					default="1"
+					filter="integer"
 					>
 					<option value="1">JYES</option>
 					<option value="0">JNO</option>
@@ -115,6 +133,7 @@
 					description="MOD_ARTICLES_NEWS_FIELD_SEPARATOR_DESC"
 					class="btn-group btn-group-yesno"
 					default="1"
+					filter="integer"
 					>
 					<option value="1">JYES</option>
 					<option value="0">JNO</option>
@@ -126,6 +145,7 @@
 					label="MOD_ARTICLES_NEWS_FIELD_SHOWINTROTEXT_LABEL"
 					description="MOD_ARTICLES_NEWS_FIELD_SHOWINTROTEXT_DESC"
 					default="1"
+					filter="integer"
 					class="btn-group btn-group-yesno"
 					>
 					<option value="1">JSHOW</option>
@@ -139,6 +159,7 @@
 					description="MOD_ARTICLES_NEWS_FIELD_READMORE_DESC"
 					class="btn-group btn-group-yesno"
 					default="0"
+					filter="integer"
 					>
 					<option value="1">JSHOW</option>
 					<option value="0">JHIDE</option>
@@ -150,6 +171,7 @@
 					label="MOD_ARTICLES_NEWS_FIELD_ITEMS_LABEL"
 					description="MOD_ARTICLES_NEWS_FIELD_ITEMS_DESC"
 					default="5"
+					filter="integer"
 				/>
 
 				<field
@@ -158,6 +180,7 @@
 					label="MOD_ARTICLES_NEWS_FIELD_FEATURED_LABEL"
 					description="MOD_ARTICLES_NEWS_FIELD_FEATURED_DESC"
 					default=""
+					filter="integer"
 					>
 					<option value="">JSHOW</option>
 					<option value="0">JHIDE</option>
@@ -170,6 +193,7 @@
 					label="MOD_ARTICLES_NEWS_FIELD_ORDERING_LABEL"
 					description="MOD_ARTICLES_NEWS_FIELD_ORDERING_DESC"
 					default="a.publish_up"
+					validate="options"
 					>
 					<option value="a.publish_up">MOD_ARTICLES_NEWS_FIELD_ORDERING_PUBLISHED_DATE</option>
 					<option value="a.created">MOD_ARTICLES_NEWS_FIELD_ORDERING_CREATED_DATE</option>
@@ -185,6 +209,7 @@
 					label="JGLOBAL_ORDER_DIRECTION_LABEL"
 					description="JGLOBAL_ORDER_DIRECTION_DESC"
 					default="1"
+					filter="integer"
 					showon="ordering:a.publish_up,a.created,a.modified,a.ordering,a.hits"
 					>
 					<option value="0">JGLOBAL_ORDER_ASCENDING</option>
@@ -198,13 +223,15 @@
 					type="modulelayout"
 					label="JFIELD_ALT_LAYOUT_LABEL"
 					description="JFIELD_ALT_MODULE_LAYOUT_DESC"
+					validate="moduleLayout"
 				/>
 
 				<field
 					name="moduleclass_sfx"
-					type="textarea" rows="3"
+					type="textarea"
 					label="COM_MODULES_FIELD_MODULECLASS_SFX_LABEL"
 					description="COM_MODULES_FIELD_MODULECLASS_SFX_DESC"
+					rows="3"
 				/>
 
 				<field
@@ -213,6 +240,7 @@
 					label="COM_MODULES_FIELD_CACHING_LABEL"
 					description="COM_MODULES_FIELD_CACHING_DESC"
 					default="1"
+					filter="integer"
 					>
 					<option value="1">JGLOBAL_USE_GLOBAL</option>
 					<option value="0">COM_MODULES_FIELD_VALUE_NOCACHING</option>
@@ -224,6 +252,7 @@
 					label="COM_MODULES_FIELD_CACHE_TIME_LABEL"
 					description="COM_MODULES_FIELD_CACHE_TIME_DESC"
 					default="900"
+					filter="integer"
 				/>
 
 				<field

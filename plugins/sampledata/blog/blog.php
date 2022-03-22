@@ -3,13 +3,15 @@
  * @package     Joomla.Plugin
  * @subpackage  Sampledata.Blog
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2017 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Multilanguage;
+use Joomla\CMS\Session\Session;
 
 /**
  * Sampledata - Blog Plugin
@@ -63,6 +65,11 @@ class PlgSampledataBlog extends JPlugin
 	 */
 	public function onSampledataGetOverview()
 	{
+		if (!Factory::getUser()->authorise('core.create', 'com_content'))
+		{
+			return;
+		}
+
 		$data              = new stdClass;
 		$data->name        = $this->_name;
 		$data->title       = JText::_('PLG_SAMPLEDATA_BLOG_OVERVIEW_TITLE');
@@ -82,12 +89,12 @@ class PlgSampledataBlog extends JPlugin
 	 */
 	public function onAjaxSampledataApplyStep1()
 	{
-		if ($this->app->input->get('type') != $this->_name)
+		if (!Session::checkToken('get') || $this->app->input->get('type') != $this->_name)
 		{
 			return;
 		};
 
-		if (!JComponentHelper::isEnabled('com_content'))
+		if (!JComponentHelper::isEnabled('com_content') || !Factory::getUser()->authorise('core.create', 'com_content'))
 		{
 			$response            = array();
 			$response['success'] = true;
@@ -282,7 +289,7 @@ class PlgSampledataBlog extends JPlugin
 				return $response;
 			}
 
-			// Get ID from category we just added
+			// Get ID from article we just added
 			$ids[] = $articleModel->getItem()->id;
 		}
 
@@ -305,12 +312,12 @@ class PlgSampledataBlog extends JPlugin
 	 */
 	public function onAjaxSampledataApplyStep2()
 	{
-		if ($this->app->input->get('type') != $this->_name)
+		if (!Session::checkToken('get') || $this->app->input->get('type') != $this->_name)
 		{
 			return;
 		}
 
-		if (!JComponentHelper::isEnabled('com_menus'))
+		if (!JComponentHelper::isEnabled('com_menus') || !Factory::getUser()->authorise('core.create', 'com_menus'))
 		{
 			$response            = array();
 			$response['success'] = true;
@@ -340,11 +347,16 @@ class PlgSampledataBlog extends JPlugin
 
 			$menu['menutype'] = $i . $type;
 
-			$menuTable->load();
-			$menuTable->bind($menu);
-
 			try
 			{
+				$menuTable->load();
+				$menuTable->bind($menu);
+
+				if (!$menuTable->check())
+				{
+					throw new Exception($menuTable->getError());
+				}
+
 				$menuTable->store();
 			}
 			catch (Exception $e)
@@ -360,7 +372,7 @@ class PlgSampledataBlog extends JPlugin
 			$menuTypes[] = $menuTable->menutype;
 		}
 
-		// Storing IDs in UserState for later useage.
+		// Storing IDs in UserState for later usage.
 		$this->app->setUserState('sampledata.blog.menutypes', $menuTypes);
 
 		// Get previously entered Data from UserStates.
@@ -601,12 +613,12 @@ class PlgSampledataBlog extends JPlugin
 	 */
 	public function onAjaxSampledataApplyStep3()
 	{
-		if ($this->app->input->get('type') != $this->_name)
+		if (!Session::checkToken('get') || $this->app->input->get('type') != $this->_name)
 		{
 			return;
 		}
 
-		if (!JComponentHelper::isEnabled('com_modules'))
+		if (!JComponentHelper::isEnabled('com_modules') || !Factory::getUser()->authorise('core.create', 'com_modules'))
 		{
 			$response            = array();
 			$response['success'] = true;

@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Crypt
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2013 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -13,7 +13,7 @@
  *
  * @package     Joomla.UnitTest
  * @subpackage  Crypt
- * @since       11.1
+ * @since       1.7.0
  */
 class JCryptTest extends \PHPUnit\Framework\TestCase
 {
@@ -56,7 +56,7 @@ class JCryptTest extends \PHPUnit\Framework\TestCase
 	 */
 	public function testGenRandomBytes()
 	{
-		// We're just testing wether the value has the expected length.
+		// We're just testing whether the value has the expected length.
 		// We obviously can't test the result since it's random.
 
 		$randomBytes16 = JCrypt::genRandomBytes();

@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Quickicon.phpversioncheck
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2016 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -99,8 +99,8 @@ class PlgQuickiconPhpVersionCheck extends JPlugin
 	 *
 	 * @since   3.7.0
 	 * @note    The dates used in this method should correspond to the dates given on PHP.net
-	 * @link    https://secure.php.net/supported-versions.php
-	 * @link    https://secure.php.net/eol.php
+	 * @link    https://www.php.net/supported-versions.php
+	 * @link    https://www.php.net/eol.php
 	 */
 	private function getPhpSupport()
 	{
@@ -115,23 +115,39 @@ class PlgQuickiconPhpVersionCheck extends JPlugin
 			),
 			'5.5' => array(
 				'security' => '2015-07-10',
-				'eos'      => '2016-07-21'
+				'eos'      => '2016-07-21',
 			),
 			'5.6' => array(
 				'security' => '2017-01-19',
-				'eos'      => '2018-12-31'
+				'eos'      => '2018-12-31',
 			),
 			'7.0' => array(
 				'security' => '2017-12-03',
-				'eos'      => '2018-12-03'
+				'eos'      => '2018-12-03',
 			),
 			'7.1' => array(
 				'security' => '2018-12-01',
-				'eos'      => '2019-12-01'
+				'eos'      => '2019-12-01',
 			),
 			'7.2' => array(
 				'security' => '2019-11-30',
-				'eos'      => '2020-11-30'
+				'eos'      => '2020-11-30',
+			),
+			'7.3' => array(
+				'security' => '2020-12-06',
+				'eos'      => '2021-12-06',
+			),
+			'7.4' => array(
+				'security' => '2021-11-28',
+				'eos'      => '2022-11-28',
+			),
+			'8.0' => array(
+				'security' => '2022-11-26',
+				'eos'      => '2023-11-26',
+			),
+			'8.1' => array(
+				'security' => '2023-11-25',
+				'eos'      => '2024-11-25',
 			),
 		);
 
@@ -163,27 +179,30 @@ class PlgQuickiconPhpVersionCheck extends JPlugin
 
 					if (version_compare($version, $activePhpVersion, 'ge') && ($today < $versionEndOfSupport))
 					{
-						$recommendedVersion             = $version;
-						$recommendedVersionEndOfSupport = $versionEndOfSupport;
+						$supportStatus['status']  = self::PHP_UNSUPPORTED;
+						$supportStatus['message'] = JText::sprintf(
+							'PLG_QUICKICON_PHPVERSIONCHECK_UNSUPPORTED',
+							PHP_VERSION,
+							$version,
+							$versionEndOfSupport->format(JText::_('DATE_FORMAT_LC4'))
+						);
 
-						break;
+						return $supportStatus;
 					}
 				}
 
+				// PHP version is not supported and we don't know of any supported versions.
 				$supportStatus['status']  = self::PHP_UNSUPPORTED;
-				$supportStatus['message'] = JText::sprintf(
-					'PLG_QUICKICON_PHPVERSIONCHECK_UNSUPPORTED',
-					PHP_VERSION,
-					$recommendedVersion,
-					$recommendedVersionEndOfSupport->format(JText::_('DATE_FORMAT_LC4'))
-				);
+				$supportStatus['message'] = JText::sprintf('PLG_QUICKICON_PHPVERSIONCHECK_UNSUPPORTED_JOOMLA_OUTDATED', PHP_VERSION);
+
+				return $supportStatus;
 			}
 
 			// If the version is still supported, check if it has reached eol minus 3 month
-			$interval = new DateInterval('P3M');
-			$phpEndOfSupport->sub($interval);
+			$securityWarningDate = clone $phpEndOfSupport;
+			$securityWarningDate->sub(new DateInterval('P3M'));
 
-			if (!$phpNotSupported && $today > $phpEndOfSupport)
+			if (!$phpNotSupported && $today > $securityWarningDate)
 			{
 				$supportStatus['status']  = self::PHP_SECURITY_ONLY;
 				$supportStatus['message'] = JText::sprintf(

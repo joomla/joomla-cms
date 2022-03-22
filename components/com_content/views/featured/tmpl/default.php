@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2006 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -24,7 +24,11 @@ JHtml::_('behavior.caption');
 	</h1>
 </div>
 <?php endif; ?>
-
+<?php if ($this->params->get('page_subheading')) : ?>
+	<h2> 
+		<?php echo $this->escape($this->params->get('page_subheading')); ?>
+	</h2>
+<?php endif; ?>
 <?php $leadingcount = 0; ?>
 <?php if (!empty($this->lead_items)) : ?>
 <div class="items-leading clearfix">

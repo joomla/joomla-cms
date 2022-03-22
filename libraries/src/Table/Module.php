@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2005 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -119,6 +119,14 @@ class Module extends Table
 		if (trim($this->title) === '')
 		{
 			$this->setError(\JText::_('JLIB_DATABASE_ERROR_MUSTCONTAIN_A_TITLE_MODULE'));
+
+			return false;
+		}
+
+		// Prevent to save too large content > 65535 
+		if ((strlen($this->content) > 65535) || (strlen($this->params) > 65535))
+		{
+			$this->setError(\JText::_('COM_MODULES_FIELD_CONTENT_TOO_LARGE'));
 
 			return false;
 		}

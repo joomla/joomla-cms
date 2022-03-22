@@ -2,22 +2,23 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2013 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Helper;
 
+defined('JPATH_PLATFORM') or die;
+
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Table\Table;
-
-defined('JPATH_PLATFORM') or die;
 
 /**
  * Versions helper class, provides methods to perform various tasks relevant
  * versioning of content.
  *
- * @since  3.2
+ * @since       3.2
+ * @deprecated  4.0  Deprecated in favour of \Joomla\CMS\Versioning\Versioning in Joomla 4
  */
 class ContentHistoryHelper extends CMSHelper
 {
@@ -26,6 +27,7 @@ class ContentHistoryHelper extends CMSHelper
 	 *
 	 * @var    string
 	 * @since  3.2
+	 * @deprecated  4.0
 	 */
 	public $typeAlias = null;
 
@@ -35,6 +37,7 @@ class ContentHistoryHelper extends CMSHelper
 	 * @param   string  $typeAlias  The type of content to be versioned (for example, 'com_content.article').
 	 *
 	 * @since   3.2
+	 * @deprecated  4.0
 	 */
 	public function __construct($typeAlias = null)
 	{
@@ -49,6 +52,7 @@ class ContentHistoryHelper extends CMSHelper
 	 * @return  boolean  true on success, otherwise false.
 	 *
 	 * @since   3.2
+	 * @deprecated  4.0  Use \Joomla\CMS\Versioning\Versioning::delete in Joomla 4
 	 */
 	public function deleteHistory($table)
 	{
@@ -75,6 +79,7 @@ class ContentHistoryHelper extends CMSHelper
 	 * @return  mixed   The return value or null if the query failed.
 	 *
 	 * @since   3.2
+	 * @deprecated  4.0  Use \Joomla\CMS\Versioning\Versioning::get in Joomla 4
 	 */
 	public function getHistory($typeId, $id)
 	{
@@ -99,6 +104,7 @@ class ContentHistoryHelper extends CMSHelper
 	 * @return  boolean  True on success, otherwise false.
 	 *
 	 * @since   3.2
+	 * @deprecated  4.0  Use \Joomla\CMS\Versioning\Versioning::store in Joomla 4
 	 */
 	public function store($table)
 	{

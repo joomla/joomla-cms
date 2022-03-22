@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2011 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -18,13 +18,13 @@ use Joomla\Registry\Registry;
 /**
  * HTTP transport class for using cURL.
  *
- * @since  11.3
+ * @since  1.7.3
  */
 class CurlTransport implements TransportInterface
 {
 	/**
 	 * @var    Registry  The client options.
-	 * @since  11.3
+	 * @since  1.7.3
 	 */
 	protected $options;
 
@@ -33,8 +33,8 @@ class CurlTransport implements TransportInterface
 	 *
 	 * @param   Registry  $options  Client options object.
 	 *
-	 * @link    https://secure.php.net/manual/en/function.curl-setopt.php
-	 * @since   11.3
+	 * @link    https://www.php.net/manual/en/function.curl-setopt.php
+	 * @since   1.7.3
 	 * @throws  \RuntimeException
 	 */
 	public function __construct(Registry $options)
@@ -59,7 +59,7 @@ class CurlTransport implements TransportInterface
 	 *
 	 * @return  Response
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 * @throws  \RuntimeException
 	 */
 	public function request($method, Uri $uri, $data = null, array $headers = null, $timeout = null, $userAgent = null)
@@ -229,10 +229,12 @@ class CurlTransport implements TransportInterface
 		if ($response->code >= 301 && $response->code < 400 && isset($response->headers['Location']) && (bool) $this->options->get('follow_location', true))
 		{
 			$redirect_uri = new Uri($response->headers['Location']);
+
 			if (in_array($redirect_uri->getScheme(), array('file', 'scp')))
 			{
 				throw new \RuntimeException('Curl redirect cannot be used in file or scp requests.');
 			}
+
 			$response = $this->request($method, $redirect_uri, $data, $headers, $timeout, $userAgent);
 		}
 
@@ -248,7 +250,7 @@ class CurlTransport implements TransportInterface
 	 *
 	 * @return  Response
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 * @throws  \UnexpectedValueException
 	 */
 	protected function getResponse($content, $info)
@@ -319,7 +321,7 @@ class CurlTransport implements TransportInterface
 	 *
 	 * @return boolean true if available, else false
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public static function isSupported()
 	{
@@ -331,7 +333,7 @@ class CurlTransport implements TransportInterface
 	 *
 	 * @return  boolean
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	private function redirectsAllowed()
 	{

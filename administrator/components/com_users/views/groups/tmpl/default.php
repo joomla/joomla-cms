@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2009 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -68,12 +68,14 @@ JFactory::getDocument()->addScriptDeclaration('
 							<?php echo JHtml::_('searchtools.sort', 'COM_USERS_HEADING_GROUP_TITLE', 'a.title', $listDirn, $listOrder); ?>
 						</th>
 						<th width="1%" class="nowrap center">
-							<span class="icon-publish hasTooltip" aria-hidden="true" title="<?php echo JText::_('COM_USERS_COUNT_ENABLED_USERS'); ?>"></span>
-							<span class="hidden-phone"><?php echo JText::_('COM_USERS_COUNT_ENABLED_USERS'); ?></span>
+							<span class="icon-publish hasTooltip" aria-hidden="true" title="<?php echo JText::_('COM_USERS_COUNT_ENABLED_USERS'); ?>">
+								<span class="element-invisible"><?php echo JText::_('COM_USERS_COUNT_ENABLED_USERS'); ?></span>
+							</span>
 						</th>
 						<th width="1%" class="nowrap center">
-							<span class="icon-unpublish hasTooltip" aria-hidden="true" title="<?php echo JText::_('COM_USERS_COUNT_DISABLED_USERS'); ?>"></span>
-							<span class="hidden-phone"><?php echo JText::_('COM_USERS_COUNT_DISABLED_USERS'); ?></span>
+							<span class="icon-unpublish hasTooltip" aria-hidden="true" title="<?php echo JText::_('COM_USERS_COUNT_DISABLED_USERS'); ?>">
+								<span class="element-invisible"><?php echo JText::_('COM_USERS_COUNT_DISABLED_USERS'); ?></span>
+							</span>
 						</th>
 						<th width="1%" class="nowrap hidden-phone">
 							<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_ID', 'a.id', $listDirn, $listOrder); ?>

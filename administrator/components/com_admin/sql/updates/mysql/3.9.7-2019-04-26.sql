@@ -1,0 +1,1 @@
+UPDATE `#__content_types` SET `content_history_options` = REPLACE(`content_history_options`, '\"ignoreChanges\":[\"modified_by\", \"modified\", \"checked_out\", \"checked_out_time\", \"version\", \"hits\"]', '\"ignoreChanges\":[\"modified_by\", \"modified\", \"checked_out\", \"checked_out_time\", \"version\", \"hits\", \"ordering\"]');

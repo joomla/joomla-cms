@@ -3,7 +3,7 @@
  * @package	    Joomla.UnitTest
  * @subpackage  HTML
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2012 Open Source Matters, Inc. <https://www.joomla.org>
  * @license	    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -31,7 +31,24 @@ class JHtmlIconsTest extends TestCase
 		// We need to mock the application
 		$this->saveFactoryState();
 
-		JFactory::$application = $this->getMockCmsApp();
+		$mockApp = $this->getMockCmsApp();
+		$mockApp->expects($this->any())
+			->method('getName')
+			->willReturn('administrator');
+
+		$mockApp->expects($this->any())
+			->method('isClient')
+			->with('administrator')
+			->willReturn(true);
+
+		JFactory::$application = $mockApp;
+
+		$mockRouter = $this->getMockBuilder('Joomla\\CMS\\Router\\Router')->getMock();
+		$mockRouter->expects($this->any())
+			->method('build')
+			->willReturn(new \JUri);
+
+		TestReflection::setValue('JRoute', '_router', array('site' => $mockRouter));
 	}
 
 	/**
@@ -44,6 +61,8 @@ class JHtmlIconsTest extends TestCase
 	 */
 	protected function tearDown()
 	{
+		TestReflection::setValue('JRoute', '_router', array());
+
 		// Restore the factory state
 		$this->restoreFactoryState();
 

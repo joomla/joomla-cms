@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2010 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -10,6 +10,7 @@ namespace Joomla\CMS\MVC\Controller;
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\Utilities\ArrayHelper;
 
 /**
@@ -49,15 +50,16 @@ class AdminController extends BaseController
 	/**
 	 * Constructor.
 	 *
-	 * @param   array  $config  An optional associative array of configuration settings.
+	 * @param   array                $config   An optional associative array of configuration settings.
+	 * @param   MVCFactoryInterface  $factory  The factory.
 	 *
 	 * @see     \JControllerLegacy
 	 * @since   1.6
 	 * @throws  \Exception
 	 */
-	public function __construct($config = array())
+	public function __construct($config = array(), MVCFactoryInterface $factory = null)
 	{
-		parent::__construct($config);
+		parent::__construct($config, $factory);
 
 		// Define standard task mappings.
 
@@ -111,7 +113,7 @@ class AdminController extends BaseController
 	public function delete()
 	{
 		// Check for request forgeries
-		\JSession::checkToken() or die(\JText::_('JINVALID_TOKEN'));
+		$this->checkToken();
 
 		// Get items to remove from the request.
 		$cid = $this->input->get('cid', array(), 'array');
@@ -161,21 +163,6 @@ class AdminController extends BaseController
 	}
 
 	/**
-	 * Display is not supported by this controller.
-	 *
-	 * @param   boolean  $cachable   If true, the view output will be cached
-	 * @param   array    $urlparams  An array of safe URL parameters and their variable types, for valid values see {@link \JFilterInput::clean()}.
-	 *
-	 * @return  \JControllerLegacy  A \JControllerLegacy object to support chaining.
-	 *
-	 * @since   1.6
-	 */
-	public function display($cachable = false, $urlparams = array())
-	{
-		return $this;
-	}
-
-	/**
 	 * Method to publish a list of items
 	 *
 	 * @return  void
@@ -185,7 +172,7 @@ class AdminController extends BaseController
 	public function publish()
 	{
 		// Check for request forgeries
-		\JSession::checkToken() or die(\JText::_('JINVALID_TOKEN'));
+		$this->checkToken();
 
 		// Get items to publish from the request.
 		$cid = $this->input->get('cid', array(), 'array');
@@ -262,7 +249,7 @@ class AdminController extends BaseController
 	public function reorder()
 	{
 		// Check for request forgeries.
-		\JSession::checkToken() or jexit(\JText::_('JINVALID_TOKEN'));
+		$this->checkToken();
 
 		$ids = $this->input->post->get('cid', array(), 'array');
 		$inc = $this->getTask() === 'orderup' ? -1 : 1;
@@ -298,7 +285,7 @@ class AdminController extends BaseController
 	public function saveorder()
 	{
 		// Check for request forgeries.
-		\JSession::checkToken() or jexit(\JText::_('JINVALID_TOKEN'));
+		$this->checkToken();
 
 		// Get the input
 		$pks = $this->input->post->get('cid', array(), 'array');
@@ -342,7 +329,7 @@ class AdminController extends BaseController
 	public function checkin()
 	{
 		// Check for request forgeries.
-		\JSession::checkToken() or jexit(\JText::_('JINVALID_TOKEN'));
+		$this->checkToken();
 
 		$ids = $this->input->post->get('cid', array(), 'array');
 
@@ -376,6 +363,9 @@ class AdminController extends BaseController
 	 */
 	public function saveOrderAjax()
 	{
+		// Check for request forgeries.
+		$this->checkToken();
+
 		// Get the input
 		$pks = $this->input->post->get('cid', array(), 'array');
 		$order = $this->input->post->get('order', array(), 'array');

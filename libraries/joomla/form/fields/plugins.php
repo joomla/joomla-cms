@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Form
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2011 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -14,7 +14,7 @@ JFormHelper::loadFieldClass('list');
 /**
  * Form Field class for the Joomla Framework.
  *
- * @since  11.4
+ * @since  2.5.0
  */
 class JFormFieldPlugins extends JFormFieldList
 {
@@ -22,7 +22,7 @@ class JFormFieldPlugins extends JFormFieldList
 	 * The field type.
 	 *
 	 * @var    string
-	 * @since  11.4
+	 * @since  2.5.0
 	 */
 	protected $type = 'Plugins';
 
@@ -108,7 +108,7 @@ class JFormFieldPlugins extends JFormFieldList
 	 *
 	 * @return	array  An array of JHtml options.
 	 *
-	 * @since   11.4
+	 * @since   2.5.0
 	 */
 	protected function getOptions()
 	{
@@ -125,6 +125,12 @@ class JFormFieldPlugins extends JFormFieldList
 				->where('folder = ' . $db->quote($folder))
 				->where('enabled = 1')
 				->order('ordering, name');
+
+			if ((string) $this->element['useaccess'] === 'true')
+			{
+				$groups = implode(',', JFactory::getUser()->getAuthorisedViewLevels());
+				$query->where($db->quoteName('access') . ' IN (' . $groups . ')');
+			}
 
 			$options   = $db->setQuery($query)->loadObjectList();
 			$lang      = JFactory::getLanguage();

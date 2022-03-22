@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2017 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -18,9 +18,25 @@ defined('JPATH_PLATFORM') or die;
 class DownloadSource
 {
 	/**
+	 * Defines a BZIP2 download package
+	 *
+	 * @var    string
+	 * @since  3.8.4
+	 */
+	const FORMAT_TAR_BZIP = 'bz2';
+
+	/**
+	 * Defines a TGZ download package
+	 *
+	 * @var    string
+	 * @since  3.8.4
+	 */
+	const FORMAT_TAR_GZ = 'gz';
+
+	/**
 	 * Defines a ZIP download package
 	 *
-	 * @const  string
+	 * @var    string
 	 * @since  3.8.3
 	 */
 	const FORMAT_ZIP = 'zip';
@@ -28,10 +44,26 @@ class DownloadSource
 	/**
 	 * Defines a full package download type
 	 *
-	 * @const  string
+	 * @var    string
 	 * @since  3.8.3
 	 */
 	const TYPE_FULL = 'full';
+
+	/**
+	 * Defines a patch package download type
+	 *
+	 * @var    string
+	 * @since  3.8.4
+	 */
+	const TYPE_PATCH = 'patch';
+
+	/**
+	 * Defines an upgrade package download type
+	 *
+	 * @var    string
+	 * @since  3.8.4
+	 */
+	const TYPE_UPGRADE = 'upgrade';
 
 	/**
 	 * The download type

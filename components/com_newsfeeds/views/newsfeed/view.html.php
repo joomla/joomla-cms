@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_newsfeeds
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2006 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -56,18 +56,6 @@ class NewsfeedsViewNewsfeed extends JViewLegacy
 		// Get model data.
 		$state = $this->get('State');
 		$item  = $this->get('Item');
-
-		if ($item)
-		{
-			// Get Category Model data
-			$categoryModel = JModelLegacy::getInstance('Category', 'NewsfeedsModel', array('ignore_request' => true));
-			$categoryModel->setState('category.id', $item->catid);
-			$categoryModel->setState('list.ordering', 'a.name');
-			$categoryModel->setState('list.direction', 'asc');
-
-			// @TODO: $items is not used. Remove this line?
-			$items = $categoryModel->getItems();
-		}
 
 		// Check for errors.
 		// @TODO: Maybe this could go into JComponentHelper::raiseErrors($this->get('Errors'))
@@ -168,6 +156,7 @@ class NewsfeedsViewNewsfeed extends JViewLegacy
 		{
 			$msg = JText::_('COM_NEWSFEEDS_ERRORS_FEED_NOT_RETRIEVED');
 		}
+
 		if (empty($this->rssDoc))
 		{
 			$msg = JText::_('COM_NEWSFEEDS_ERRORS_FEED_NOT_RETRIEVED');
@@ -181,7 +170,7 @@ class NewsfeedsViewNewsfeed extends JViewLegacy
 		}
 
 		// Escape strings for HTML output
-		$this->pageclass_sfx = htmlspecialchars($params->get('pageclass_sfx'));
+		$this->pageclass_sfx = htmlspecialchars($params->get('pageclass_sfx', ''));
 
 		$this->params = $params;
 		$this->newsfeed = $newsfeed;
@@ -240,7 +229,8 @@ class NewsfeedsViewNewsfeed extends JViewLegacy
 		$id = (int) @$menu->query['id'];
 
 		// If the menu item does not concern this newsfeed
-		if ($menu && ($menu->query['option'] !== 'com_newsfeeds' || $menu->query['view'] !== 'newsfeed' || $id != $this->item->id))
+		if ($menu && (!isset($menu->query['option']) || $menu->query['option'] !== 'com_newsfeeds' || $menu->query['view'] !== 'newsfeed'
+			|| $id != $this->item->id))
 		{
 			// If this is not a single newsfeed menu item, set the page title to the newsfeed title
 			if ($this->item->name)
@@ -251,7 +241,8 @@ class NewsfeedsViewNewsfeed extends JViewLegacy
 			$path = array(array('title' => $this->item->name, 'link' => ''));
 			$category = JCategories::getInstance('Newsfeeds')->get($this->item->catid);
 
-			while (($menu->query['option'] !== 'com_newsfeeds' || $menu->query['view'] === 'newsfeed' || $id != $category->id) && $category->id > 1)
+			while ((!isset($menu->query['option']) || $menu->query['option'] !== 'com_newsfeeds' || $menu->query['view'] === 'newsfeed'
+				|| $id != $category->id) && $category->id > 1)
 			{
 				$path[] = array('title' => $category->title, 'link' => NewsfeedsHelperRoute::getCategoryRoute($category->id));
 				$category = $category->getParent();

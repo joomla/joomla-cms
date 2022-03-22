@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Utilities
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved
+ * @copyright   (C) 2006 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -15,7 +15,7 @@ use Joomla\Utilities\ArrayHelper;
 /**
  * JArrayHelper is an array utility class for doing all sorts of odds and ends with arrays.
  *
- * @since       11.1
+ * @since       1.7.0
  * @deprecated  4.0 Use Joomla\Utilities\ArrayHelper instead
  */
 abstract class JArrayHelper
@@ -24,7 +24,7 @@ abstract class JArrayHelper
 	 * Option to perform case-sensitive sorts.
 	 *
 	 * @var    mixed  Boolean or array of booleans.
-	 * @since  11.3
+	 * @since  1.7.3
 	 */
 	protected static $sortCase;
 
@@ -32,7 +32,7 @@ abstract class JArrayHelper
 	 * Option to set the sort direction.
 	 *
 	 * @var    mixed  Integer or array of integers.
-	 * @since  11.3
+	 * @since  1.7.3
 	 */
 	protected static $sortDirection;
 
@@ -40,7 +40,7 @@ abstract class JArrayHelper
 	 * Option to set the object key to sort on.
 	 *
 	 * @var    string
-	 * @since  11.3
+	 * @since  1.7.3
 	 */
 	protected static $sortKey;
 
@@ -48,7 +48,7 @@ abstract class JArrayHelper
 	 * Option to perform a language aware sort.
 	 *
 	 * @var    mixed  Boolean or array of booleans.
-	 * @since  11.3
+	 * @since  1.7.3
 	 */
 	protected static $sortLocale;
 
@@ -60,7 +60,7 @@ abstract class JArrayHelper
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 * @deprecated  4.0 Use Joomla\Utilities\ArrayHelper::toInteger instead
 	 */
 	public static function toInteger(&$array, $default = null)
@@ -77,7 +77,7 @@ abstract class JArrayHelper
 	 *
 	 * @return  object   The object mapped from the given array
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 * @deprecated  4.0 Use Joomla\Utilities\ArrayHelper::toObject instead
 	 */
 	public static function toObject(&$array, $class = 'stdClass', $recursive = true)
@@ -100,48 +100,48 @@ abstract class JArrayHelper
 	 * Utility function to map an array to a string.
 	 *
 	 * @param   array    $array         The array to map.
-	 * @param   string   $inner_glue    The glue (optional, defaults to '=') between the key and the value.
-	 * @param   string   $outer_glue    The glue (optional, defaults to ' ') between array elements.
+	 * @param   string   $innerGlue     The glue (optional, defaults to '=') between the key and the value.
+	 * @param   string   $outerGlue     The glue (optional, defaults to ' ') between array elements.
 	 * @param   boolean  $keepOuterKey  True if final key should be kept.
 	 *
 	 * @return  string   The string mapped from the given array
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 * @deprecated  4.0 Use Joomla\Utilities\ArrayHelper::toString instead
 	 */
-	public static function toString($array = null, $inner_glue = '=', $outer_glue = ' ', $keepOuterKey = false)
+	public static function toString($array = null, $innerGlue = '=', $outerGlue = ' ', $keepOuterKey = false)
 	{
 		$output = array();
 
 		if (is_array($array))
 		{
-			$output[] = ArrayHelper::toString($array, $inner_glue, $outer_glue, $keepOuterKey);
+			$output[] = ArrayHelper::toString($array, $innerGlue, $outerGlue, $keepOuterKey);
 		}
 		else
 		{
 			JLog::add('This method is typehinted to be an array in \Joomla\Utilities\ArrayHelper::toString.', JLog::WARNING, 'deprecated');
 		}
 
-		return implode($outer_glue, $output);
+		return implode($outerGlue, $output);
 	}
 
 	/**
 	 * Utility function to map an object to an array
 	 *
-	 * @param   object   $p_obj    The source object
+	 * @param   object   $object   The source object
 	 * @param   boolean  $recurse  True to recurse through multi-level objects
 	 * @param   string   $regex    An optional regular expression to match on field names
 	 *
 	 * @return  array    The array mapped from the given object
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 * @deprecated  4.0 Use Joomla\Utilities\ArrayHelper::fromObject instead
 	 */
-	public static function fromObject($p_obj, $recurse = true, $regex = null)
+	public static function fromObject($object, $recurse = true, $regex = null)
 	{
-		if (is_object($p_obj))
+		if (is_object($object))
 		{
-			return self::_fromObject($p_obj, $recurse, $regex);
+			return self::_fromObject($object, $recurse, $regex);
 		}
 		else
 		{
@@ -158,7 +158,7 @@ abstract class JArrayHelper
 	 *
 	 * @return  array  The array mapped from the given object
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	protected static function _fromObject($item, $recurse, $regex)
 	{
@@ -206,7 +206,7 @@ abstract class JArrayHelper
 	 *
 	 * @return  array  Column of values from the source array
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 * @deprecated  4.0 Use Joomla\Utilities\ArrayHelper::getColumn instead
 	 */
 	public static function getColumn(&$array, $index)
@@ -235,7 +235,7 @@ abstract class JArrayHelper
 	 *
 	 * @return  mixed  The value from the source array
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 * @deprecated  4.0 Use Joomla\Utilities\ArrayHelper::getValue instead
 	 */
 	public static function getValue(&$array, $name, $default = null, $type = '')
@@ -269,7 +269,7 @@ abstract class JArrayHelper
 	 *
 	 * @return  array  The inverted array.
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 * @deprecated  4.0 Use Joomla\Utilities\ArrayHelper::invert instead
 	 */
 	public static function invert($array)
@@ -284,7 +284,7 @@ abstract class JArrayHelper
 	 *
 	 * @return  boolean  True if the array is an associative array.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 * @deprecated  4.0 Use Joomla\Utilities\ArrayHelper::isAssociative instead
 	 */
 	public static function isAssociative($array)
@@ -300,7 +300,7 @@ abstract class JArrayHelper
 	 *
 	 * @return  array  An array of arrays pivoted either on the value of the keys, or an individual key of an object or array.
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 * @deprecated  4.0 Use Joomla\Utilities\ArrayHelper::pivot instead
 	 */
 	public static function pivot($source, $key = null)
@@ -330,7 +330,7 @@ abstract class JArrayHelper
 	 *
 	 * @return  array  The sorted array of objects
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 * @deprecated  4.0 Use Joomla\Utilities\ArrayHelper::sortObjects instead
 	 */
 	public static function sortObjects(&$a, $k, $direction = 1, $caseSensitive = true, $locale = false)
@@ -358,15 +358,15 @@ abstract class JArrayHelper
 	/**
 	 * Callback function for sorting an array of objects on a key
 	 *
-	 * @param   array  &$a  An array of objects
-	 * @param   array  &$b  An array of objects
+	 * @param   array  $a  An array of objects
+	 * @param   array  $b  An array of objects
 	 *
 	 * @return  integer  Comparison status
 	 *
 	 * @see     JArrayHelper::sortObjects()
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
-	protected static function _sortObjects(&$a, &$b)
+	protected static function _sortObjects($a, $b)
 	{
 		$key = self::$sortKey;
 
@@ -424,8 +424,8 @@ abstract class JArrayHelper
 	 *
 	 * @return  array
 	 *
-	 * @link    https://secure.php.net/manual/en/function.array-unique.php
-	 * @since   11.2
+	 * @link    https://www.php.net/manual/en/function.array-unique.php
+	 * @since   1.7.0
 	 * @deprecated  4.0 Use Joomla\Utilities\ArrayHelper::arrayUnique instead
 	 */
 	public static function arrayUnique($myArray)

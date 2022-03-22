@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_joomlaupdate
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2013 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -14,9 +14,19 @@ defined('_JEXEC') or die;
 JHtml::_('jquery.framework');
 JHtml::_('bootstrap.tooltip');
 JHtml::_('formbehavior.chosen', 'select');
-JHtml::script('com_joomlaupdate/default.js', false, true, false);
+JHtml::_('script', 'com_joomlaupdate/default.js', array('version' => 'auto', 'relative' => true));
 
-JFactory::getDocument()->addScriptDeclaration("
+JText::script('JYES');
+JText::script('JNO');
+JText::script('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSION_NO_COMPATIBILITY_INFORMATION');
+JText::script('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSION_WARNING_UNKNOWN');
+JText::script('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSION_SERVER_ERROR');
+
+$latestJoomlaVersion  = $this->updateInfo['latest'];
+$currentJoomlaVersion = $this->updateInfo['current'];
+
+JFactory::getDocument()->addScriptDeclaration(
+<<<JS
 jQuery(document).ready(function($) {
 	$('#extraction_method').change(function(e){
 		extractionMethodHandler('#extraction_method', 'row_ftp');
@@ -28,12 +38,25 @@ jQuery(document).ready(function($) {
 	$('button.submit').on('click', function() {
 		$('div.download_message').show();
 	});
-});");
+});
+
+var joomlaTargetVersion  = '$latestJoomlaVersion';
+var joomlaCurrentVersion = '$currentJoomlaVersion';
+JS
+);
+
+$showPreUpdateCheck = isset($this->updateInfo['object']->downloadurl->_data)
+	&& $this->getModel()->isDatabaseTypeSupported();
+
 ?>
 
 <div id="joomlaupdate-wrapper">
 	<form enctype="multipart/form-data" action="index.php" method="post" id="adminForm" class="form-horizontal">
 		<?php echo  JHtml::_('sliders.start', 'joomlaupdate-slider'); ?>
+		<?php if($this->shouldDisplayPreUpdateCheck()) : ?>
+			<?php echo JHtml::_('sliders.panel', JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_TAB_PRE_UPDATE_CHECK'), 'pre-update-check'); ?>
+			<?php echo $this->loadTemplate('preupdatecheck'); ?>
+		<?php endif; ?>
 		<?php if ($this->showUploadAndUpdate) : ?>
 			<?php echo JHtml::_('sliders.panel', JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_TAB_ONLINE'), 'online-update'); ?>
 		<?php endif; ?>
@@ -43,7 +66,9 @@ jQuery(document).ready(function($) {
 			<?php JFactory::getApplication()->enqueueMessage(JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_INSTALL_SELF_UPDATE_FIRST'), 'error'); ?>
 			<?php echo $this->loadTemplate('updatemefirst'); ?>
 		<?php else : ?>
-			<?php if (!isset($this->updateInfo['object']->downloadurl->_data) && $this->updateInfo['installed'] < $this->updateInfo['latest']) : ?>
+			<?php if ((!isset($this->updateInfo['object']->downloadurl->_data)
+				&& $this->updateInfo['installed'] < $this->updateInfo['latest'])
+				|| !$this->getModel()->isDatabaseTypeSupported()) : ?>
 				<?php // If we have no download URL we can't reinstall or update ?>
 				<?php echo $this->loadTemplate('nodownload'); ?>
 			<?php elseif (!$this->updateInfo['hasUpdate']) : ?>

@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Session
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2007 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -12,15 +12,15 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Custom session storage handler for PHP
  *
- * @link        https://secure.php.net/manual/en/function.session-set-save-handler.php
- * @since       11.1
+ * @link        https://www.php.net/manual/en/function.session-set-save-handler.php
+ * @since       1.7.0
  * @deprecated  4.0  The CMS' Session classes will be replaced with the `joomla/session` package
  */
 abstract class JSessionStorage
 {
 	/**
 	 * @var    JSessionStorage[]  JSessionStorage instances container.
-	 * @since  11.3
+	 * @since  1.7.3
 	 */
 	protected static $instances = array();
 
@@ -29,7 +29,7 @@ abstract class JSessionStorage
 	 *
 	 * @param   array  $options  Optional parameters.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function __construct($options = array())
 	{
@@ -44,7 +44,7 @@ abstract class JSessionStorage
 	 *
 	 * @return  JSessionStorage
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 * @throws  JSessionExceptionUnsupported
 	 */
 	public static function getInstance($name = 'none', $options = array())
@@ -91,7 +91,7 @@ abstract class JSessionStorage
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function register()
 	{
@@ -111,14 +111,14 @@ abstract class JSessionStorage
 	/**
 	 * Open the SessionHandler backend.
 	 *
-	 * @param   string  $save_path     The path to the session object.
-	 * @param   string  $session_name  The name of the session.
+	 * @param   string  $savePath     The path to the session object.
+	 * @param   string  $sessionName  The name of the session.
 	 *
 	 * @return  boolean  True on success, false otherwise.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
-	public function open($save_path, $session_name)
+	public function open($savePath, $sessionName)
 	{
 		return true;
 	}
@@ -128,7 +128,7 @@ abstract class JSessionStorage
 	 *
 	 * @return  boolean  True on success, false otherwise.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function close()
 	{
@@ -143,7 +143,7 @@ abstract class JSessionStorage
 	 *
 	 * @return  string  The session data.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function read($id)
 	{
@@ -153,14 +153,14 @@ abstract class JSessionStorage
 	/**
 	 * Write session data to the SessionHandler backend.
 	 *
-	 * @param   string  $id            The session identifier.
-	 * @param   string  $session_data  The session data.
+	 * @param   string  $id           The session identifier.
+	 * @param   string  $sessionData  The session data.
 	 *
 	 * @return  boolean  True on success, false otherwise.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
-	public function write($id, $session_data)
+	public function write($id, $sessionData)
 	{
 		return true;
 	}
@@ -173,7 +173,7 @@ abstract class JSessionStorage
 	 *
 	 * @return  boolean  True on success, false otherwise.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function destroy($id)
 	{
@@ -187,7 +187,7 @@ abstract class JSessionStorage
 	 *
 	 * @return  boolean  True on success, false otherwise.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function gc($maxlifetime = null)
 	{
@@ -199,7 +199,7 @@ abstract class JSessionStorage
 	 *
 	 * @return  boolean  True on success, false otherwise.
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public static function isSupported()
 	{
@@ -211,8 +211,8 @@ abstract class JSessionStorage
 	 *
 	 * @return  boolean  True on success, false otherwise.
 	 *
-	 * @since   11.1
-	 * @deprecated  12.3 (Platform) & 4.0 (CMS) - Use JSessionStorage::isSupported() instead.
+	 * @since   1.7.0
+	 * @deprecated  4.0 - Use JSessionStorage::isSupported() instead.
 	 */
 	public static function test()
 	{

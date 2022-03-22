@@ -3,11 +3,11 @@
  * @package     Joomla.Administrator
  * @subpackage  com_categories
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2012 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('JPATH_BASE') or die;
+defined('_JEXEC') or die;
 
 use Joomla\Utilities\ArrayHelper;
 
@@ -27,6 +27,14 @@ class JFormFieldCategoryEdit extends JFormFieldList
 	 * @since  3.6
 	 */
 	protected $allowAdd;
+
+	/**
+	 * Optional prefix for new categories.
+	 *
+	 * @var    string
+	 * @since  3.9.11
+	 */
+	protected $customPrefix;
 
 	/**
 	 * A flexible category list that respects access controls
@@ -57,6 +65,7 @@ class JFormFieldCategoryEdit extends JFormFieldList
 		if ($return)
 		{
 			$this->allowAdd = isset($this->element['allowAdd']) ? $this->element['allowAdd'] : '';
+			$this->customPrefix = (string) $this->element['customPrefix'];
 		}
 
 		return $return;
@@ -76,6 +85,7 @@ class JFormFieldCategoryEdit extends JFormFieldList
 		switch ($name)
 		{
 			case 'allowAdd':
+			case 'customPrefix':
 				return $this->$name;
 		}
 
@@ -102,6 +112,9 @@ class JFormFieldCategoryEdit extends JFormFieldList
 				$value = (string) $value;
 				$this->$name = ($value === 'true' || $value === $name || $value === '1');
 				break;
+			case 'customPrefix':
+				$this->$name = (string) $value;
+				break;
 			default:
 				parent::__set($name, $value);
 		}
@@ -119,7 +132,7 @@ class JFormFieldCategoryEdit extends JFormFieldList
 	protected function getOptions()
 	{
 		$options = array();
-		$published = $this->element['published'] ?: array(0, 1);
+		$published = $this->element['published'] ? explode(',', (string) $this->element['published']) : array(0, 1);
 		$name = (string) $this->element['name'];
 
 		// Let's get the id for the current item, either category or content item.
@@ -174,18 +187,12 @@ class JFormFieldCategoryEdit extends JFormFieldList
 			{
 				$language = $db->quote($this->element['language']);
 			}
+
 			$query->where($db->quoteName('a.language') . ' IN (' . $language . ')');
 		}
 
 		// Filter on the published state
-		if (is_numeric($published))
-		{
-			$query->where('a.published = ' . (int) $published);
-		}
-		elseif (is_array($published))
-		{
-			$query->where('a.published IN (' . implode(',', ArrayHelper::toInteger($published)) . ')');
-		}
+		$query->where('a.published IN (' . implode(',', ArrayHelper::toInteger($published)) . ')');
 
 		// Filter categories on User Access Level
 		// Filter by access level on categories.
@@ -355,6 +362,11 @@ class JFormFieldCategoryEdit extends JFormFieldList
 			$attr .= ' data-custom_group_text="' . $customGroupText . '" '
 					. 'data-no_results_text="' . JText::_('JGLOBAL_ADD_CUSTOM_CATEGORY') . '" '
 					. 'data-placeholder="' . JText::_('JGLOBAL_TYPE_OR_SELECT_CATEGORY') . '" ';
+
+			if ($this->customPrefix !== '')
+			{
+				$attr .= 'data-custom_value_prefix="' . $this->customPrefix . '" ';
+			}
 		}
 
 		if ($class)

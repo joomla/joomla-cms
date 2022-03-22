@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2007 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,6 +12,7 @@ defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Component\Router\RouterBase;
 use Joomla\CMS\Component\Router\RouterInterface;
 use Joomla\CMS\Component\Router\RouterLegacy;
 use Joomla\String\StringHelper;
@@ -182,8 +183,8 @@ class SiteRouter extends Router
 			}
 		}
 
-		// Add basepath to the uri
-		$uri->setPath(\JUri::base(true) . '/' . $route);
+		// Add frontend basepath to the uri
+		$uri->setPath(\JUri::root(true) . '/' . $route);
 
 		return $uri;
 	}
@@ -288,7 +289,7 @@ class SiteRouter extends Router
 		// Handle an empty URL (special case)
 		if (empty($route))
 		{
-			// If route is empty AND option is set in the query, assume it's non-sef url, and parse apropriately
+			// If route is empty AND option is set in the query, assume it's non-sef url, and parse appropriately
 			if (isset($vars['option']) || isset($vars['Itemid']))
 			{
 				return $this->parseRawRoute($uri);
@@ -299,8 +300,8 @@ class SiteRouter extends Router
 			// If user not allowed to see default menu item then avoid notices
 			if (is_object($item))
 			{
-				// Set the information in the request
-				$vars = $item->query;
+				// Set query variables of default menu item into the request, but keep existing request variables
+				$vars = array_merge($vars, $item->query);
 
 				// Get the itemid
 				$vars['Itemid'] = $item->id;
@@ -477,9 +478,12 @@ class SiteRouter extends Router
 
 		$component = preg_replace('/[^A-Z0-9_\.-]/i', '', $query['option']);
 		$crouter   = $this->getComponentRouter($component);
-		$query     = $crouter->preprocess($query);
 
-		$uri->setQuery($query);
+		if ($crouter instanceof RouterBase === false)
+		{
+			$query = $crouter->preprocess($query);
+			$uri->setQuery($query);
+		}
 	}
 
 	/**
@@ -597,7 +601,9 @@ class SiteRouter extends Router
 			// Process the pagination support
 			if ($this->_mode == JROUTER_MODE_SEF)
 			{
-				if ($start = $uri->getVar('start'))
+				$start = $uri->getVar('start');
+
+				if ($start !== null)
 				{
 					$uri->delVar('start');
 					$vars['limitstart'] = $start;
@@ -627,6 +633,7 @@ class SiteRouter extends Router
 		{
 			// Make sure any menu vars are used if no others are specified
 			$query = $uri->getQuery(true);
+
 			if ($this->_mode != 1
 				&& isset($query['Itemid'])
 				&& (count($query) === 2 || (count($query) === 3 && isset($query['lang']))))
@@ -677,7 +684,9 @@ class SiteRouter extends Router
 
 			if ($this->_mode == JROUTER_MODE_SEF && $route)
 			{
-				if ($limitstart = $uri->getVar('limitstart'))
+				$limitstart = $uri->getVar('limitstart');
+
+				if ($limitstart !== null)
 				{
 					$uri->setVar('start', (int) $limitstart);
 					$uri->delVar('limitstart');

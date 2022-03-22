@@ -2,7 +2,7 @@
 /**
  * @package    Joomla.UnitTest
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2013 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -11,7 +11,7 @@
  *
  * @package     Joomla.UnitTest
  * @subpackage  Google
- * @since       12.3
+ * @since       3.1.4
  */
 class JGoogleDataPicasaPhotoTest extends TestCase
 {
@@ -444,7 +444,7 @@ class JGoogleDataPicasaPhotoTest extends TestCase
  *
  * @return  JHttpResponse
  *
- * @since   12.3
+ * @since   3.1.4
  */
 function picasaPhotoCallback($url, array $headers = null, $timeout = null)
 {
@@ -467,7 +467,7 @@ function picasaPhotoCallback($url, array $headers = null, $timeout = null)
  *
  * @return  JHttpResponse
  *
- * @since   12.3
+ * @since   3.1.4
  */
 function dataPicasaPhotoCallback($url, $data, array $headers = null, $timeout = null)
 {

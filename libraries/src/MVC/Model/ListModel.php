@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2009 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -10,6 +10,7 @@ namespace Joomla\CMS\MVC\Model;
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\Utilities\ArrayHelper;
 
 /**
@@ -53,6 +54,14 @@ class ListModel extends BaseDatabaseModel
 	protected $query = array();
 
 	/**
+	 * The cache ID used when last populating $this->query
+	 *
+	 * @var   null|string
+	 * @since 3.10.4
+	 */
+	protected $lastQueryStoreId = null;
+
+	/**
 	 * Name of the filter form to load
 	 *
 	 * @var    string
@@ -87,14 +96,15 @@ class ListModel extends BaseDatabaseModel
 	/**
 	 * Constructor.
 	 *
-	 * @param   array  $config  An optional associative array of configuration settings.
+	 * @param   array                $config   An optional associative array of configuration settings.
+	 * @param   MVCFactoryInterface  $factory  The factory.
 	 *
 	 * @see     \JModelLegacy
 	 * @since   1.6
 	 */
-	public function __construct($config = array())
+	public function __construct($config = array(), MVCFactoryInterface $factory = null)
 	{
-		parent::__construct($config);
+		parent::__construct($config, $factory);
 
 		// Add the ordering filtering fields whitelist.
 		if (isset($config['filter_fields']))
@@ -120,17 +130,14 @@ class ListModel extends BaseDatabaseModel
 	 */
 	protected function _getListQuery()
 	{
-		// Capture the last store id used.
-		static $lastStoreId;
-
 		// Compute the current store id.
 		$currentStoreId = $this->getStoreId();
 
 		// If the last store id is different from the current, refresh the query.
-		if ($lastStoreId != $currentStoreId || empty($this->query))
+		if ($this->lastQueryStoreId !== $currentStoreId || empty($this->query))
 		{
-			$lastStoreId = $currentStoreId;
-			$this->query = $this->getListQuery();
+			$this->lastQueryStoreId = $currentStoreId;
+			$this->query            = $this->getListQuery();
 		}
 
 		return $this->query;
@@ -539,7 +546,6 @@ class ListModel extends BaseDatabaseModel
 										// Fallback to the default value
 										$value = $ordering . ' ' . $direction;
 									}
-
 								}
 								else
 								{

@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Session
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2007 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -12,8 +12,8 @@ defined('JPATH_PLATFORM') or die;
 /**
  * File session handler for PHP
  *
- * @link        https://secure.php.net/manual/en/function.session-set-save-handler.php
- * @since       11.1
+ * @link        https://www.php.net/manual/en/function.session-set-save-handler.php
+ * @since       1.7.0
  * @deprecated  4.0  The CMS' Session classes will be replaced with the `joomla/session` package
  */
 class JSessionStorageNone extends JSessionStorage
@@ -23,7 +23,7 @@ class JSessionStorageNone extends JSessionStorage
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function register()
 	{

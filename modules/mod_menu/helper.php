@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  mod_menu
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2009 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -45,9 +45,9 @@ class ModMenuHelper
 		else
 		{
 			$path           = $base->tree;
-			$start          = (int) $params->get('startLevel');
-			$end            = (int) $params->get('endLevel');
-			$showAll        = $params->get('showAllChildren');
+			$start          = (int) $params->get('startLevel', 1);
+			$end            = (int) $params->get('endLevel', 0);
+			$showAll        = $params->get('showAllChildren', 1);
 			$items          = $menu->getItems('menutype', $params->get('menutype'));
 			$hidden_parents = array();
 			$lastitem       = 0;
@@ -115,6 +115,18 @@ class ModMenuHelper
 
 						case 'alias':
 							$item->flink = 'index.php?Itemid=' . $item->params->get('aliasoptions');
+
+							// Get the language of the target menu item when site is multilingual
+							if (JLanguageMultilang::isEnabled())
+							{
+								$newItem = JFactory::getApplication()->getMenu()->getItem((int) $item->params->get('aliasoptions'));
+
+								// Use language code if not set to ALL
+								if ($newItem != null && $newItem->language && $newItem->language !== '*')
+								{
+									$item->flink .= '&lang=' . $newItem->language;
+								}
+							}
 							break;
 
 						default:

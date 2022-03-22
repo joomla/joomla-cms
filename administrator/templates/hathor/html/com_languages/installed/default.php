@@ -3,13 +3,13 @@
  * @package     Joomla.Administrator
  * @subpackage  Template.hathor
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2010 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
-JHtmlBehavior::core();
+JHtml::_('behavior.core');
 // Add specific helper files for html generation
 JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
 $user     = JFactory::getUser();

@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2017 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 namespace Joomla\CMS\Menu\Node;
@@ -14,9 +14,9 @@ use Joomla\CMS\Menu\Node;
 /**
  * A Separator type of node for MenuTree
  *
- * @see    Node
- *
- * @since  3.8.0
+ * @see         Node
+ * @since       3.8.0
+ * @deprecated  4.0  Use Joomla\CMS\Menu\MenuItem
  */
 class Separator extends Node
 {
@@ -35,6 +35,8 @@ class Separator extends Node
 	 * @param   string  $title  The title of the node
 	 *
 	 * @since   3.8.0
+	 *
+	 * @deprecated  4.0  Use Joomla\CMS\Menu\MenuItem
 	 */
 	public function __construct($title = null)
 	{
@@ -51,6 +53,8 @@ class Separator extends Node
 	 * @return  mixed
 	 *
 	 * @since   3.8.0
+	 *
+	 * @deprecated  4.0  Use Joomla\CMS\Menu\MenuItem
 	 */
 	public function get($name)
 	{

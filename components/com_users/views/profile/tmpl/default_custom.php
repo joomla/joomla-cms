@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2009 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -51,7 +51,7 @@ foreach ($tmp as $customField)
 						</dt>
 						<dd>
 							<?php if (key_exists($field->fieldname, $customFields)) : ?>
-								<?php echo $customFields[$field->fieldname]->value ?: JText::_('COM_USERS_PROFILE_VALUE_NOT_FOUND'); ?>
+								<?php echo strlen($customFields[$field->fieldname]->value) ? $customFields[$field->fieldname]->value : JText::_('COM_USERS_PROFILE_VALUE_NOT_FOUND'); ?>
 							<?php elseif (JHtml::isRegistered('users.' . $field->id)) : ?>
 								<?php echo JHtml::_('users.' . $field->id, $field->value); ?>
 							<?php elseif (JHtml::isRegistered('users.' . $field->fieldname)) : ?>

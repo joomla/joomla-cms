@@ -3,7 +3,7 @@
 	<name>mod_finder</name>
 	<author>Joomla! Project</author>
 	<creationDate>August 2011</creationDate>
-	<copyright>(C) 2005 - 2017 Open Source Matters. All rights reserved.</copyright>
+	<copyright>(C) 2011 Open Source Matters, Inc.</copyright>
 	<license>GNU General Public License version 2 or later; see	LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
@@ -28,7 +28,7 @@
 					name="searchfilter"
 					type="searchfilter"
 					label="MOD_FINDER_FIELDSET_BASIC_SEARCHFILTER_LABEL"
-					description="MOD_FINDER_FIELDSET_BASIC_SEARCHFILTER_DESCRIPTION" 
+					description="MOD_FINDER_FIELDSET_BASIC_SEARCHFILTER_DESCRIPTION"
 					default=""
 				/>
 
@@ -60,14 +60,15 @@
 					name="layout"
 					type="modulelayout"
 					label="JFIELD_ALT_LAYOUT_LABEL"
-					description="JFIELD_ALT_MODULE_LAYOUT_DESC" 
+					description="JFIELD_ALT_MODULE_LAYOUT_DESC"
+					validate="moduleLayout"
 				/>
 
 				<field
 					name="moduleclass_sfx"
 					type="text"
 					label="COM_MODULES_FIELD_MODULECLASS_SFX_LABEL"
-					description="COM_MODULES_FIELD_MODULECLASS_SFX_DESC" 
+					description="COM_MODULES_FIELD_MODULECLASS_SFX_DESC"
 					default=""
 				/>
 
@@ -75,7 +76,7 @@
 					name="field_size"
 					type="text"
 					label="MOD_FINDER_FIELDSET_ADVANCED_FIELD_SIZE_LABEL"
-					description="MOD_FINDER_FIELDSET_ADVANCED_FIELD_SIZE_DESCRIPTION" 
+					description="MOD_FINDER_FIELDSET_ADVANCED_FIELD_SIZE_DESCRIPTION"
 					default="25"
 					filter="integer"
 				/>
@@ -84,7 +85,7 @@
 					name="alt_label"
 					type="text"
 					label="MOD_FINDER_FIELDSET_ADVANCED_ALT_LABEL"
-					description="MOD_FINDER_FIELDSET_ADVANCED_ALT_DESCRIPTION" 
+					description="MOD_FINDER_FIELDSET_ADVANCED_ALT_DESCRIPTION"
 				/>
 
 				<field
@@ -153,7 +154,7 @@
 					name="opensearch_title"
 					type="text"
 					label="MOD_FINDER_FIELD_OPENSEARCH_TEXT_LABEL"
-					description="MOD_FINDER_FIELD_OPENSEARCH_TEXT_DESCRIPTION" 
+					description="MOD_FINDER_FIELD_OPENSEARCH_TEXT_DESCRIPTION"
 				/>
 			</fieldset>
 		</fields>

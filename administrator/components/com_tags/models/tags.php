@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_tags
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2013 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -141,7 +141,7 @@ class TagsModelTags extends JModelList
 		$query->select(
 			$this->getState(
 				'list.select',
-				'a.id, a.title, a.alias, a.note, a.published, a.access' .
+				'a.id, a.title, a.alias, a.note, a.published, a.access, a.description' .
 					', a.checked_out, a.checked_out_time, a.created_user_id' .
 					', a.path, a.parent_id, a.level, a.lft, a.rgt' .
 					', a.language'
@@ -241,7 +241,7 @@ class TagsModelTags extends JModelList
 	 *
 	 * @return  mixed  Boolean false if there is an error, otherwise the count of records checked in.
 	 *
-	 * @since   12.2
+	 * @since   3.0.1
 	 */
 	public function checkin($pks = array())
 	{
@@ -328,7 +328,7 @@ class TagsModelTags extends JModelList
 	 *
 	 * @return  mixed  An array of data items on success, false on failure.
 	 *
-	 * @since   12.2
+	 * @since   3.0.1
 	 */
 	public function getItems()
 	{

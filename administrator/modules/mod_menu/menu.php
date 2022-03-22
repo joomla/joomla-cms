@@ -3,15 +3,18 @@
  * @package     Joomla.Administrator
  * @subpackage  mod_menu
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2006 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
+use Joomla\CMS\Log\Log;
 use Joomla\CMS\Menu\Node;
 use Joomla\CMS\Menu\Tree;
 use Joomla\CMS\Menu\MenuHelper;
+use Joomla\CMS\User\User;
 use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
 
@@ -25,29 +28,62 @@ class JAdminCssMenu
 	/**
 	 * The Menu tree object
 	 *
-	 * @var   Tree
-	 *
-	 * @since   3.8.0
+	 * @var    Tree
+	 * @since  3.8.0
+	 * @deprecated  4.0
 	 */
 	protected $tree;
 
 	/**
 	 * The module options
 	 *
-	 * @var   Registry
-	 *
-	 * @since   3.8.0
+	 * @var    Registry
+	 * @since  3.8.0
 	 */
 	protected $params;
 
 	/**
 	 * The menu bar state
 	 *
-	 * @var   bool
-	 *
-	 * @since   3.8.0
+	 * @var    bool
+	 * @since  3.8.0
 	 */
 	protected $enabled;
+
+	/**
+	 * The current user
+	 *
+	 * @var    User
+	 * @since  3.9.1
+	 */
+	protected $user;
+
+	/**
+	 * JAdminCssMenu constructor.
+	 *
+	 * @param   User|null  $user  The current user
+	 *
+	 * @since   3.9.1
+	 */
+	public function __construct(User $user = null)
+	{
+		if ($user === null)
+		{
+			Log::add(
+				sprintf(
+					'Not passing a %s instance into the %s constructor is deprecated. As of 4.0, it will be required.',
+					'Joomla\CMS\User\User',
+					__CLASS__
+				),
+				Log::WARNING,
+				'deprecated'
+			);
+
+			$user = Factory::getUser();
+		}
+
+		$this->user = $user;
+	}
 
 	/**
 	 * Get the current menu tree
@@ -55,6 +91,8 @@ class JAdminCssMenu
 	 * @return  Tree
 	 *
 	 * @since   3.8.0
+	 *
+	 * @deprecated  4.0
 	 */
 	public function getTree()
 	{
@@ -83,7 +121,7 @@ class JAdminCssMenu
 		$this->enabled = $enabled;
 		$menutype      = $this->params->get('menutype', '*');
 
-		if ($menutype == '*')
+		if ($menutype === '*')
 		{
 			$name   = $this->params->get('preset', 'joomla');
 			$levels = MenuHelper::loadPreset($name);
@@ -92,7 +130,7 @@ class JAdminCssMenu
 		{
 			$items = MenusHelper::getMenuItems($menutype, true);
 
-			if ($this->enabled && $this->params->get('check'))
+			if ($this->enabled && $this->params->get('check', 1))
 			{
 				if ($this->check($items, $this->params))
 				{
@@ -157,15 +195,14 @@ class JAdminCssMenu
 	 * @param   array     $items   The menu items array
 	 * @param   Registry  $params  Module options
 	 *
-	 * @return  bool  Whether to show recovery menu
+	 * @return  boolean  Whether to show recovery menu
 	 *
 	 * @since   3.8.0
 	 */
 	protected function check($items, Registry $params)
 	{
-		$me          = JFactory::getUser();
-		$authMenus   = $me->authorise('core.manage', 'com_menus');
-		$authModules = $me->authorise('core.manage', 'com_modules');
+		$authMenus   = $this->user->authorise('core.manage', 'com_menus');
+		$authModules = $this->user->authorise('core.manage', 'com_modules');
 
 		if (!$authMenus && !$authModules)
 		{
@@ -233,9 +270,8 @@ class JAdminCssMenu
 	 */
 	protected function preprocess($items)
 	{
-		$result     = array();
-		$user       = JFactory::getUser();
-		$language   = JFactory::getLanguage();
+		$result   = array();
+		$language = JFactory::getLanguage();
 
 		$noSeparator = true;
 
@@ -256,7 +292,7 @@ class JAdminCssMenu
 			$item->icon  = isset($item->icon) ? $item->icon : '';
 
 			// Whether this scope can be displayed. Applies only to preset items. Db driven items should use un/published state.
-			if (($item->scope == 'help' && !$this->params->get('showhelp')) || ($item->scope == 'edit' && !$this->params->get('shownew')))
+			if (($item->scope === 'help' && !$this->params->get('showhelp', 1)) || ($item->scope === 'edit' && !$this->params->get('shownew', 1)))
 			{
 				continue;
 			}
@@ -282,7 +318,7 @@ class JAdminCssMenu
 			}
 
 			// Exclude Mass Mail if disabled in global configuration
-			if ($item->scope == 'massmail' && (JFactory::getApplication()->get('massmailoff', 0) == 1))
+			if ($item->scope === 'massmail' && (JFactory::getApplication()->get('massmailoff', 0) == 1))
 			{
 				continue;
 			}
@@ -290,12 +326,12 @@ class JAdminCssMenu
 			// Exclude item if the component is not authorised
 			$assetName = $item->element;
 
-			if ($item->element == 'com_categories')
+			if ($item->element === 'com_categories')
 			{
 				parse_str($item->link, $query);
 				$assetName = isset($query['extension']) ? $query['extension'] : 'com_content';
 			}
-			elseif ($item->element == 'com_fields')
+			elseif ($item->element === 'com_fields')
 			{
 				parse_str($item->link, $query);
 
@@ -314,14 +350,37 @@ class JAdminCssMenu
 
 				list($assetName) = isset($query['context']) ? explode('.', $query['context'], 2) : array('com_fields');
 			}
+			// Special case for components which only allow super user access
+			elseif (in_array($item->element, array('com_config', 'com_privacy', 'com_actionlogs'), true) && !$this->user->authorise('core.admin'))
+			{
+				continue;
+			}
+			elseif ($item->element === 'com_joomlaupdate' && !$this->user->authorise('core.admin'))
+			{
+				continue;
+			}
+			elseif (($item->link === 'index.php?option=com_installer&view=install' || $item->link === 'index.php?option=com_installer&view=languages')
+				&& !$this->user->authorise('core.admin'))
+			{
+				continue;
+			}
+			elseif ($item->element === 'com_admin')
+			{
+				parse_str($item->link, $query);
 
-			if ($assetName && !$user->authorise(($item->scope == 'edit') ? 'core.create' : 'core.manage', $assetName))
+				if (isset($query['view']) && $query['view'] === 'sysinfo' && !$this->user->authorise('core.admin'))
+				{
+					continue;
+				}
+			}
+
+			if ($assetName && !$this->user->authorise(($item->scope === 'edit') ? 'core.create' : 'core.manage', $assetName))
 			{
 				continue;
 			}
 
 			// Exclude if link is invalid
-			if (!in_array($item->type, array('separator', 'heading', 'container')) && trim($item->link) == '')
+			if (is_null($item->link) || (!in_array($item->type, array('separator', 'heading', 'container')) && trim($item->link) === ''))
 			{
 				continue;
 			}
@@ -330,7 +389,7 @@ class JAdminCssMenu
 			$item->submenu = $this->preprocess($item->submenu);
 
 			// Populate automatic children for container items
-			if ($item->type == 'container')
+			if ($item->type === 'container')
 			{
 				$exclude    = (array) $item->params->get('hideitems') ?: array();
 				$components = MenusHelper::getMenuItems('main', false, $exclude);
@@ -347,7 +406,7 @@ class JAdminCssMenu
 			}
 
 			// Remove repeated and edge positioned separators, It is important to put this check at the end of any logical filtering.
-			if ($item->type == 'separator')
+			if ($item->type === 'separator')
 			{
 				if ($noSeparator)
 				{
@@ -368,7 +427,7 @@ class JAdminCssMenu
 				$language->load($item->element . '.sys', JPATH_ADMINISTRATOR . '/components/' . $item->element, null, false, true);
 			}
 
-			if ($item->type == 'separator' && $item->params->get('text_separator') == 0)
+			if ($item->type === 'separator' && $item->params->get('text_separator') == 0)
 			{
 				$item->title = '';
 			}
@@ -395,6 +454,8 @@ class JAdminCssMenu
 	 * @return  void
 	 *
 	 * @since   3.8.0
+	 *
+	 * @deprecated  4.0
 	 */
 	protected function populateTree($levels)
 	{
@@ -402,11 +463,11 @@ class JAdminCssMenu
 		{
 			$class = $this->enabled ? $item->class : 'disabled';
 
-			if ($item->type == 'separator')
+			if ($item->type === 'separator')
 			{
 				$this->tree->addChild(new Node\Separator($item->title));
 			}
-			elseif ($item->type == 'heading')
+			elseif ($item->type === 'heading')
 			{
 				// We already excluded heading type menu item with no children.
 				$this->tree->addChild(new Node\Heading($item->title, $class, null, $item->icon), $this->enabled);
@@ -417,7 +478,7 @@ class JAdminCssMenu
 					$this->tree->getParent();
 				}
 			}
-			elseif ($item->type == 'url')
+			elseif ($item->type === 'url')
 			{
 				$cNode = new Node\Url($item->title, $item->link, $item->browserNav, $class, null, $item->icon);
 				$this->tree->addChild($cNode, $this->enabled);
@@ -428,7 +489,7 @@ class JAdminCssMenu
 					$this->tree->getParent();
 				}
 			}
-			elseif ($item->type == 'component')
+			elseif ($item->type === 'component')
 			{
 				$cNode = new Node\Component($item->title, $item->element, $item->link, $item->browserNav, $class, null, $item->icon);
 				$this->tree->addChild($cNode, $this->enabled);
@@ -439,7 +500,7 @@ class JAdminCssMenu
 					$this->tree->getParent();
 				}
 			}
-			elseif ($item->type == 'container')
+			elseif ($item->type === 'container')
 			{
 				// We already excluded container type menu item with no children.
 				$this->tree->addChild(new Node\Container($item->title, $item->class, null, $item->icon), $this->enabled);

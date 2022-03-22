@@ -2,7 +2,7 @@
 /**
  * @package    Joomla.UnitTest
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2013 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -11,7 +11,7 @@
  *
  * @package     Joomla.UnitTest
  * @subpackage  Google
- * @since       12.3
+ * @since       3.1.4
  */
 class JGoogleDataPlusActivitiesTest extends TestCase
 {
@@ -47,13 +47,13 @@ class JGoogleDataPlusActivitiesTest extends TestCase
 
 	/**
 	 * @var    string  Sample JSON string.
-	 * @since  12.3
+	 * @since  3.1.4
 	 */
 	protected $sampleString = '{"a":1,"b":2,"c":3,"d":4,"e":5}';
 
 	/**
 	 * @var    string  Sample JSON error message.
-	 * @since  12.3
+	 * @since  3.1.4
 	 */
 	protected $errorString = '{"error": {"message": "Generic Error."}}';
 
@@ -144,7 +144,7 @@ class JGoogleDataPlusActivitiesTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function testListActivities()
 	{
@@ -185,7 +185,7 @@ class JGoogleDataPlusActivitiesTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function testGetActivity()
 	{
@@ -222,7 +222,7 @@ class JGoogleDataPlusActivitiesTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function testSearch()
 	{

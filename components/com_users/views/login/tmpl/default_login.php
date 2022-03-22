@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2009 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -35,27 +35,9 @@ JHtml::_('behavior.formvalidator');
 	<?php endif; ?>
 	<form action="<?php echo JRoute::_('index.php?option=com_users&task=user.login'); ?>" method="post" class="form-validate form-horizontal well">
 		<fieldset>
-			<?php foreach ($this->form->getFieldset('credentials') as $field) : ?>
-				<?php if (!$field->hidden) : ?>
-					<div class="control-group">
-						<div class="control-label">
-							<?php echo $field->label; ?>
-						</div>
-						<div class="controls">
-							<?php echo $field->input; ?>
-						</div>
-					</div>
-				<?php endif; ?>
-			<?php endforeach; ?>
+			<?php echo $this->form->renderFieldset('credentials'); ?>
 			<?php if ($this->tfa) : ?>
-				<div class="control-group">
-					<div class="control-label">
-						<?php echo $this->form->getField('secretkey')->label; ?>
-					</div>
-					<div class="controls">
-						<?php echo $this->form->getField('secretkey')->input; ?>
-					</div>
-				</div>
+				<?php echo $this->form->renderField('secretkey'); ?>
 			<?php endif; ?>
 			<?php if (JPluginHelper::isEnabled('system', 'remember')) : ?>
 				<div class="control-group">

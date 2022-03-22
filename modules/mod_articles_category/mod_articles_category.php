@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  mod_articles_category
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2010 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -65,7 +65,7 @@ if (!empty($list))
 	$grouped                    = false;
 	$article_grouping           = $params->get('article_grouping', 'none');
 	$article_grouping_direction = $params->get('article_grouping_direction', 'ksort');
-	$moduleclass_sfx            = htmlspecialchars($params->get('moduleclass_sfx'), ENT_COMPAT, 'UTF-8');
+	$moduleclass_sfx            = htmlspecialchars($params->get('moduleclass_sfx', ''), ENT_COMPAT, 'UTF-8');
 	$item_heading               = $params->get('item_heading');
 
 	if ($article_grouping !== 'none')
@@ -76,11 +76,20 @@ if (!empty($list))
 		{
 			case 'year' :
 			case 'month_year' :
-				$list = ModArticlesCategoryHelper::groupByDate($list, $article_grouping, $article_grouping_direction, $params->get('month_year_format', 'F Y'));
+				$list = ModArticlesCategoryHelper::groupByDate(
+					$list,
+					$article_grouping,
+					$article_grouping_direction,
+					$params->get('month_year_format', 'F Y'),
+					$params->get('date_grouping_field', 'created')
+				);
 				break;
 			case 'author' :
 			case 'category_title' :
 				$list = ModArticlesCategoryHelper::groupBy($list, $article_grouping, $article_grouping_direction);
+				break;
+			case 'tags' :
+				$list = ModArticlesCategoryHelper::groupByTags($list, $article_grouping_direction);
 				break;
 			default:
 				break;

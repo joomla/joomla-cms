@@ -2,7 +2,7 @@
 /**
  * Part of the Joomla Framework Filesystem Package
  *
- * @copyright  Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -20,30 +20,30 @@ abstract class Folder
 	/**
 	 * Copy a folder.
 	 *
-	 * @param   string   $src          The path to the source folder.
-	 * @param   string   $dest         The path to the destination folder.
-	 * @param   string   $path         An optional base path to prefix to the file names.
-	 * @param   boolean  $force        Force copy.
-	 * @param   boolean  $use_streams  Optionally force folder/file overwrites.
+	 * @param   string   $src         The path to the source folder.
+	 * @param   string   $dest        The path to the destination folder.
+	 * @param   string   $path        An optional base path to prefix to the file names.
+	 * @param   boolean  $force       Force copy.
+	 * @param   boolean  $useStreams  Optionally force folder/file overwrites.
 	 *
 	 * @return  boolean  True on success.
 	 *
 	 * @since   1.0
 	 * @throws  FilesystemException
 	 */
-	public static function copy($src, $dest, $path = '', $force = false, $use_streams = false)
+	public static function copy($src, $dest, $path = '', $force = false, $useStreams = false)
 	{
 		@set_time_limit(ini_get('max_execution_time'));
 
 		if ($path)
 		{
-			$src = Path::clean($path . '/' . $src);
+			$src  = Path::clean($path . '/' . $src);
 			$dest = Path::clean($path . '/' . $dest);
 		}
 
 		// Eliminate trailing directory separators, if any
-		$src = rtrim($src, DIRECTORY_SEPARATOR);
-		$dest = rtrim($dest, DIRECTORY_SEPARATOR);
+		$src  = rtrim($src, \DIRECTORY_SEPARATOR);
+		$dest = rtrim($dest, \DIRECTORY_SEPARATOR);
 
 		if (!is_dir(Path::clean($src)))
 		{
@@ -77,17 +77,18 @@ abstract class Folder
 				case 'dir':
 					if ($file != '.' && $file != '..')
 					{
-						$ret = self::copy($sfid, $dfid, null, $force, $use_streams);
+						$ret = self::copy($sfid, $dfid, null, $force, $useStreams);
 
 						if ($ret !== true)
 						{
 							return $ret;
 						}
 					}
+
 					break;
 
 				case 'file':
-					if ($use_streams)
+					if ($useStreams)
 					{
 						Stream::getStream()->copy($sfid, $dfid);
 					}
@@ -98,6 +99,7 @@ abstract class Folder
 							throw new FilesystemException('Copy file failed', -1);
 						}
 					}
+
 					break;
 			}
 		}
@@ -124,7 +126,7 @@ abstract class Folder
 		$path = Path::clean($path);
 
 		// Check if parent dir exists
-		$parent = dirname($path);
+		$parent = \dirname($path);
 
 		if (!is_dir(Path::clean($parent)))
 		{
@@ -136,13 +138,22 @@ abstract class Folder
 				throw new FilesystemException(__METHOD__ . ': Infinite loop detected');
 			}
 
-			// Create the parent directory
-			if (self::create($parent, $mode) !== true)
+			try
 			{
-				// Folder::create throws an error
+				// Create the parent directory
+				if (self::create($parent, $mode) !== true)
+				{
+					// Folder::create throws an error
+					$nested--;
+
+					return false;
+				}
+			}
+			catch (FilesystemException $exception)
+			{
 				$nested--;
 
-				return false;
+				throw $exception;
 			}
 
 			// OK, parent directory has been created
@@ -161,17 +172,17 @@ abstract class Folder
 		// If open_basedir is set we need to get the open_basedir that the path is in
 		if ($obd != null)
 		{
-			if (defined('PHP_WINDOWS_VERSION_MAJOR'))
+			if (\defined('PHP_WINDOWS_VERSION_MAJOR'))
 			{
-				$obdSeparator = ";";
+				$obdSeparator = ';';
 			}
 			else
 			{
-				$obdSeparator = ":";
+				$obdSeparator = ':';
 			}
 
 			// Create the array of open_basedir paths
-			$obdArray = explode($obdSeparator, $obd);
+			$obdArray  = explode($obdSeparator, $obd);
 			$inBaseDir = false;
 
 			// Iterate through open_basedir paths looking for a match
@@ -179,9 +190,10 @@ abstract class Folder
 			{
 				$test = Path::clean($test);
 
-				if (strpos($path, $test) === 0)
+				if (strpos($path, $test) === 0 || strpos($path, realpath($test)) === 0)
 				{
 					$inBaseDir = true;
+
 					break;
 				}
 			}
@@ -232,15 +244,8 @@ abstract class Folder
 			throw new FilesystemException(__METHOD__ . ': You can not delete a base directory.');
 		}
 
-		try
-		{
-			// Check to make sure the path valid and clean
-			$path = Path::clean($path);
-		}
-		catch (\UnexpectedValueException $e)
-		{
-			throw $e;
-		}
+		// Check to make sure the path valid and clean
+		$path = Path::clean($path);
 
 		// Is this really a folder?
 		if (!is_dir($path))
@@ -281,35 +286,32 @@ abstract class Folder
 			}
 		}
 
-		// In case of restricted permissions we zap it one way or the other
-		// as long as the owner is either the webserver or the ftp.
+		// In case of restricted permissions we zap it one way or the other as long as the owner is either the webserver or the ftp.
 		if (@rmdir($path))
 		{
 			return true;
 		}
-		else
-		{
-			throw new FilesystemException(sprintf('%1$s: Could not delete folder. Path: %2$s', __METHOD__, $path));
-		}
+
+		throw new FilesystemException(sprintf('%1$s: Could not delete folder. Path: %2$s', __METHOD__, $path));
 	}
 
 	/**
 	 * Moves a folder.
 	 *
-	 * @param   string   $src          The path to the source folder.
-	 * @param   string   $dest         The path to the destination folder.
-	 * @param   string   $path         An optional base path to prefix to the file names.
-	 * @param   boolean  $use_streams  Optionally use streams.
+	 * @param   string   $src         The path to the source folder.
+	 * @param   string   $dest        The path to the destination folder.
+	 * @param   string   $path        An optional base path to prefix to the file names.
+	 * @param   boolean  $useStreams  Optionally use streams.
 	 *
-	 * @return  mixed  Error message on false or boolean true on success.
+	 * @return  string|boolean  Error message on false or boolean true on success.
 	 *
 	 * @since   1.0
 	 */
-	public static function move($src, $dest, $path = '', $use_streams = false)
+	public static function move($src, $dest, $path = '', $useStreams = false)
 	{
 		if ($path)
 		{
-			$src = Path::clean($path . '/' . $src);
+			$src  = Path::clean($path . '/' . $src);
 			$dest = Path::clean($path . '/' . $dest);
 		}
 
@@ -323,7 +325,7 @@ abstract class Folder
 			return 'Folder already exists';
 		}
 
-		if ($use_streams)
+		if ($useStreams)
 		{
 			Stream::getStream()->move($src, $dest);
 
@@ -346,7 +348,7 @@ abstract class Folder
 	 * @param   mixed    $recurse        True to recursively search into sub-folders, or an integer to specify the maximum depth.
 	 * @param   boolean  $full           True to return the full path to the file.
 	 * @param   array    $exclude        Array with names of files which should not be shown in the result.
-	 * @param   array    $excludefilter  Array of filter to exclude
+	 * @param   array    $excludeFilter  Array of filter to exclude
 	 *
 	 * @return  array  Files in the given folder.
 	 *
@@ -354,7 +356,8 @@ abstract class Folder
 	 * @throws  \UnexpectedValueException
 	 */
 	public static function files($path, $filter = '.', $recurse = false, $full = false, $exclude = array('.svn', 'CVS', '.DS_Store', '__MACOSX'),
-		$excludefilter = array('^\..*', '.*~'))
+		$excludeFilter = array('^\..*', '.*~')
+	)
 	{
 		// Check to make sure the path valid and clean
 		$path = Path::clean($path);
@@ -366,17 +369,17 @@ abstract class Folder
 		}
 
 		// Compute the excludefilter string
-		if (count($excludefilter))
+		if (\count($excludeFilter))
 		{
-			$excludefilter_string = '/(' . implode('|', $excludefilter) . ')/';
+			$excludeFilterString = '/(' . implode('|', $excludeFilter) . ')/';
 		}
 		else
 		{
-			$excludefilter_string = '';
+			$excludeFilterString = '';
 		}
 
 		// Get the files
-		$arr = self::_items($path, $filter, $recurse, $full, $exclude, $excludefilter_string, true);
+		$arr = self::_items($path, $filter, $recurse, $full, $exclude, $excludeFilterString, true);
 
 		// Sort the files
 		asort($arr);
@@ -392,7 +395,7 @@ abstract class Folder
 	 * @param   mixed    $recurse        True to recursively search into sub-folders, or an integer to specify the maximum depth.
 	 * @param   boolean  $full           True to return the full path to the folders.
 	 * @param   array    $exclude        Array with names of folders which should not be shown in the result.
-	 * @param   array    $excludefilter  Array with regular expressions matching folders which should not be shown in the result.
+	 * @param   array    $excludeFilter  Array with regular expressions matching folders which should not be shown in the result.
 	 *
 	 * @return  array  Folders in the given folder.
 	 *
@@ -400,7 +403,8 @@ abstract class Folder
 	 * @throws  \UnexpectedValueException
 	 */
 	public static function folders($path, $filter = '.', $recurse = false, $full = false, $exclude = array('.svn', 'CVS', '.DS_Store', '__MACOSX'),
-		$excludefilter = array('^\..*'))
+		$excludeFilter = array('^\..*')
+	)
 	{
 		// Check to make sure the path valid and clean
 		$path = Path::clean($path);
@@ -412,17 +416,17 @@ abstract class Folder
 		}
 
 		// Compute the excludefilter string
-		if (count($excludefilter))
+		if (\count($excludeFilter))
 		{
-			$excludefilter_string = '/(' . implode('|', $excludefilter) . ')/';
+			$excludeFilterString = '/(' . implode('|', $excludeFilter) . ')/';
 		}
 		else
 		{
-			$excludefilter_string = '';
+			$excludeFilterString = '';
 		}
 
 		// Get the folders
-		$arr = self::_items($path, $filter, $recurse, $full, $exclude, $excludefilter_string, false);
+		$arr = self::_items($path, $filter, $recurse, $full, $exclude, $excludeFilterString, false);
 
 		// Sort the folders
 		asort($arr);
@@ -433,19 +437,19 @@ abstract class Folder
 	/**
 	 * Function to read the files/folders in a folder.
 	 *
-	 * @param   string   $path                  The path of the folder to read.
-	 * @param   string   $filter                A filter for file names.
-	 * @param   mixed    $recurse               True to recursively search into sub-folders, or an integer to specify the maximum depth.
-	 * @param   boolean  $full                  True to return the full path to the file.
-	 * @param   array    $exclude               Array with names of files which should not be shown in the result.
-	 * @param   string   $excludefilter_string  Regexp of files to exclude
-	 * @param   boolean  $findfiles             True to read the files, false to read the folders
+	 * @param   string   $path                 The path of the folder to read.
+	 * @param   string   $filter               A filter for file names.
+	 * @param   mixed    $recurse              True to recursively search into sub-folders, or an integer to specify the maximum depth.
+	 * @param   boolean  $full                 True to return the full path to the file.
+	 * @param   array    $exclude              Array with names of files which should not be shown in the result.
+	 * @param   string   $excludeFilterString  Regexp of files to exclude
+	 * @param   boolean  $findfiles            True to read the files, false to read the folders
 	 *
 	 * @return  array  Files.
 	 *
 	 * @since   1.0
 	 */
-	protected static function _items($path, $filter, $recurse, $full, $exclude, $excludefilter_string, $findfiles)
+	protected static function _items($path, $filter, $recurse, $full, $exclude, $excludeFilterString, $findfiles)
 	{
 		@set_time_limit(ini_get('max_execution_time'));
 
@@ -459,11 +463,11 @@ abstract class Folder
 
 		while (($file = readdir($handle)) !== false)
 		{
-			if ($file != '.' && $file != '..' && !in_array($file, $exclude)
-				&& (empty($excludefilter_string) || !preg_match($excludefilter_string, $file)))
+			if ($file != '.' && $file != '..' && !\in_array($file, $exclude)
+				&& (empty($excludeFilterString) || !preg_match($excludeFilterString, $file)))
 			{
 				// Compute the fullpath
-				$fullpath = $path . '/' . $file;
+				$fullpath = Path::clean($path . '/' . $file);
 
 				// Compute the isDir flag
 				$isDir = is_dir($fullpath);
@@ -486,14 +490,14 @@ abstract class Folder
 				if ($isDir && $recurse)
 				{
 					// Search recursively
-					if (is_int($recurse))
+					if (\is_int($recurse))
 					{
 						// Until depth 0 is reached
-						$arr = array_merge($arr, self::_items($fullpath, $filter, $recurse - 1, $full, $exclude, $excludefilter_string, $findfiles));
+						$arr = array_merge($arr, self::_items($fullpath, $filter, $recurse - 1, $full, $exclude, $excludeFilterString, $findfiles));
 					}
 					else
 					{
-						$arr = array_merge($arr, self::_items($fullpath, $filter, $recurse, $full, $exclude, $excludefilter_string, $findfiles));
+						$arr = array_merge($arr, self::_items($fullpath, $filter, $recurse, $full, $exclude, $excludeFilterString, $findfiles));
 					}
 				}
 			}
@@ -533,12 +537,17 @@ abstract class Folder
 			// First path, index foldernames
 			foreach ($folders as $name)
 			{
-				$id = ++$GLOBALS['_JFolder_folder_tree_index'];
+				$id       = ++$GLOBALS['_JFolder_folder_tree_index'];
 				$fullName = Path::clean($path . '/' . $name);
-				$dirs[] = array('id' => $id, 'parent' => $parent, 'name' => $name, 'fullname' => $fullName,
-					'relname' => str_replace(JPATH_ROOT, '', $fullName));
+				$dirs[]   = array(
+					'id'       => $id,
+					'parent'   => $parent,
+					'name'     => $name,
+					'fullname' => $fullName,
+					'relname'  => str_replace(JPATH_ROOT, '', $fullName),
+				);
 				$dirs2 = self::listFolderTree($fullName, $filter, $maxLevel, $level + 1, $id);
-				$dirs = array_merge($dirs, $dirs2);
+				$dirs  = array_merge($dirs, $dirs2);
 			}
 		}
 

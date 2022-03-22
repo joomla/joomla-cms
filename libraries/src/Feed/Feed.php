@@ -2,38 +2,38 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2012 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Feed;
 
-use Joomla\CMS\Date\Date;
-
 defined('JPATH_PLATFORM') or die();
+
+use Joomla\CMS\Date\Date;
 
 /**
  * Class to encapsulate a feed for the Joomla Platform.
  *
- * @property  FeedPerson  $author         Person responsible for feed content.
- * @property  array       $categories     Categories to which the feed belongs.
- * @property  array       $contributors   People who contributed to the feed content.
- * @property  string      $copyright      Information about rights, e.g. copyrights, held in and over the feed.
- * @property  string      $description    A phrase or sentence describing the feed.
- * @property  string      $generator      A string indicating the program used to generate the feed.
- * @property  string      $image          Specifies a GIF, JPEG or PNG image that should be displayed with the feed.
- * @property  Date        $publishedDate  The publication date for the feed content.
- * @property  string      $title          A human readable title for the feed.
- * @property  Date        $updatedDate    The last time the content of the feed changed.
- * @property  string      $uri            Universal, permanent identifier for the feed.
+ * @property  FeedPerson     $author         Person responsible for feed content.
+ * @property  array          $categories     Categories to which the feed belongs.
+ * @property  array          $contributors   People who contributed to the feed content.
+ * @property  string         $copyright      Information about rights, e.g. copyrights, held in and over the feed.
+ * @property  string         $description    A phrase or sentence describing the feed.
+ * @property  string         $generator      A string indicating the program used to generate the feed.
+ * @property  FeedLink|null  $image          FeedLink object containing feed image properties.
+ * @property  Date           $publishedDate  The publication date for the feed content.
+ * @property  string         $title          A human readable title for the feed.
+ * @property  Date           $updatedDate    The last time the content of the feed changed.
+ * @property  string         $uri            Universal, permanent identifier for the feed.
  *
- * @since  12.3
+ * @since  3.1.4
  */
 class Feed implements \ArrayAccess, \Countable
 {
 	/**
 	 * @var    array  The entry properties.
-	 * @since  12.3
+	 * @since  3.1.4
 	 */
 	protected $properties = array(
 		'uri' => '',
@@ -46,7 +46,7 @@ class Feed implements \ArrayAccess, \Countable
 
 	/**
 	 * @var    array  The list of feed entry objects.
-	 * @since  12.3
+	 * @since  3.1.4
 	 */
 	protected $entries = array();
 
@@ -57,7 +57,7 @@ class Feed implements \ArrayAccess, \Countable
 	 *
 	 * @return  mixed
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function __get($name)
 	{
@@ -72,7 +72,7 @@ class Feed implements \ArrayAccess, \Countable
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function __set($name, $value)
 	{
@@ -85,13 +85,25 @@ class Feed implements \ArrayAccess, \Countable
 		// Validate that any authors that are set are instances of JFeedPerson or null.
 		if (($name == 'author') && (!($value instanceof FeedPerson) || ($value === null)))
 		{
-			throw new \InvalidArgumentException('Feed "author" must be of type FeedPerson. ' . gettype($value) . 'given.');
+			throw new \InvalidArgumentException(
+				sprintf(
+					'%1$s "author" must be an instance of Joomla\\CMS\\Feed\\FeedPerson. %2$s given.',
+					get_class($this),
+					gettype($value) === 'object' ? get_class($value) : gettype($value)
+				)
+			);
 		}
 
 		// Disallow setting categories or contributors directly.
-		if (($name == 'categories') || ($name == 'contributors'))
+		if (in_array($name, array('categories', 'contributors')))
 		{
-			throw new \InvalidArgumentException('Cannot directly set Feed property "' . $name . '".');
+			throw new \InvalidArgumentException(
+				sprintf(
+					'Cannot directly set %1$s property "%2$s".',
+					get_class($this),
+					$name
+				)
+			);
 		}
 
 		$this->properties[$name] = $value;
@@ -105,7 +117,7 @@ class Feed implements \ArrayAccess, \Countable
 	 *
 	 * @return  Feed
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function addCategory($name, $uri = '')
 	{
@@ -124,7 +136,7 @@ class Feed implements \ArrayAccess, \Countable
 	 *
 	 * @return  Feed
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function addContributor($name, $email, $uri = null, $type = null)
 	{
@@ -152,7 +164,7 @@ class Feed implements \ArrayAccess, \Countable
 	 *
 	 * @return  Feed
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function addEntry(FeedEntry $entry)
 	{
@@ -193,7 +205,7 @@ class Feed implements \ArrayAccess, \Countable
 	 * @return  boolean
 	 *
 	 * @see     ArrayAccess::offsetExists()
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function offsetExists($offset)
 	{
@@ -208,7 +220,7 @@ class Feed implements \ArrayAccess, \Countable
 	 * @return  mixed  The value at the offset.
 	 *
 	 * @see     ArrayAccess::offsetGet()
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function offsetGet($offset)
 	{
@@ -224,14 +236,20 @@ class Feed implements \ArrayAccess, \Countable
 	 * @return  boolean
 	 *
 	 * @see     ArrayAccess::offsetSet()
-	 * @since   12.3
+	 * @since   3.1.4
 	 * @throws  \InvalidArgumentException
 	 */
 	public function offsetSet($offset, $value)
 	{
 		if (!($value instanceof FeedEntry))
 		{
-			throw new \InvalidArgumentException('Cannot set value of type "' . gettype($value) . '".');
+			throw new \InvalidArgumentException(
+				sprintf(
+					'%1$s entries must be an instance of Joomla\\CMS\\Feed\\FeedPerson. %2$s given.',
+					get_class($this),
+					gettype($value) === 'object' ? get_class($value) : gettype($value)
+				)
+			);
 		}
 
 		$this->entries[$offset] = $value;
@@ -247,7 +265,7 @@ class Feed implements \ArrayAccess, \Countable
 	 * @return  void
 	 *
 	 * @see     ArrayAccess::offsetUnset()
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function offsetUnset($offset)
 	{
@@ -261,7 +279,7 @@ class Feed implements \ArrayAccess, \Countable
 	 *
 	 * @return  Feed
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function removeCategory($name)
 	{
@@ -277,7 +295,7 @@ class Feed implements \ArrayAccess, \Countable
 	 *
 	 * @return  Feed
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function removeContributor(FeedPerson $contributor)
 	{
@@ -303,7 +321,7 @@ class Feed implements \ArrayAccess, \Countable
 	 *
 	 * @return  Feed
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function removeEntry(FeedEntry $entry)
 	{
@@ -332,7 +350,7 @@ class Feed implements \ArrayAccess, \Countable
 	 *
 	 * @return  Feed
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function setAuthor($name, $email, $uri = null, $type = null)
 	{
@@ -348,7 +366,7 @@ class Feed implements \ArrayAccess, \Countable
 	 *
 	 * @return  Feed
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function reverseItems()
 	{

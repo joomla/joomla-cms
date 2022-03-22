@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  MediaWiki
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2013 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -12,7 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * MediaWiki API Links class for the Joomla Platform.
  *
- * @since  12.3
+ * @since  3.1.4
  */
 class JMediawikiLinks extends JMediawikiObject
 {
@@ -28,7 +28,7 @@ class JMediawikiLinks extends JMediawikiObject
 	 *
 	 * @return  object
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function getLinks(array $titles, array $plnamespace = null, $pllimit = null, $plcontinue = null, array $pltitles = null, $pldir = null)
 	{
@@ -76,7 +76,7 @@ class JMediawikiLinks extends JMediawikiObject
 	 *
 	 * @return  object
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function getLinksUsed(array $titles)
 	{
@@ -105,7 +105,7 @@ class JMediawikiLinks extends JMediawikiObject
 	 *
 	 * @return  object
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function getIWLinks(array $titles, $iwurl = false, $iwlimit = null, $iwcontinue = false, $iwprefix = null, $iwtitle = null, $iwdir = null)
 	{
@@ -155,7 +155,7 @@ class JMediawikiLinks extends JMediawikiObject
 	 * Method to return all interlanguage links from the given page(s).
 	 *
 	 * @param   array    $titles      Page titles to retrieve links.
-	 * @param   integer  $lllimit     Number of langauge links to return.
+	 * @param   integer  $lllimit     Number of language links to return.
 	 * @param   boolean  $llcontinue  When more results are available, use this to continue.
 	 * @param   string   $llurl       Whether to get the full URL.
 	 * @param   string   $lllang      Language code.
@@ -164,7 +164,7 @@ class JMediawikiLinks extends JMediawikiObject
 	 *
 	 * @return  object
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function getLangLinks(array $titles, $lllimit = null, $llcontinue = false, $llurl = null, $lllang = null, $lltitle = null, $lldir = null)
 	{
@@ -221,7 +221,7 @@ class JMediawikiLinks extends JMediawikiObject
 	 *
 	 * @return  object
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function getExtLinks(array $titles, $ellimit = null, $eloffset = null, $elprotocol = null, $elquery = null)
 	{
@@ -271,7 +271,7 @@ class JMediawikiLinks extends JMediawikiObject
 	 *
 	 * @return  object
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function enumerateLinks($alcontinue = false, $alfrom = null, $alto = null, $alprefix = null, $alunique = null, array $alprop = null,
 		$alnamespace = null, $allimit = null)

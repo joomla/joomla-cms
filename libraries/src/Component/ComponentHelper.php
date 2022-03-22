@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2006 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -191,7 +191,7 @@ class ComponentHelper
 				}
 
 				// Collect the blacklist or whitelist tags and attributes.
-				// Each list is cummulative.
+				// Each list is cumulative.
 				if ($filterType === 'BL')
 				{
 					$blackList           = true;
@@ -257,6 +257,7 @@ class ComponentHelper
 				{
 					$filter->tagBlacklist = array_diff($filter->tagBlacklist, $whiteListTags);
 				}
+
 				// Remove whitelisted attributes from filter's default blacklist
 				if ($whiteListAttributes)
 				{
@@ -325,16 +326,36 @@ class ComponentHelper
 		// Define component path.
 		if (!defined('JPATH_COMPONENT'))
 		{
+			/**
+			 * Defines the path to the active component for the request
+			 *
+			 * Note this constant is application aware and is different for each application (site/admin).
+			 *
+			 * @var    string
+			 * @since  1.5
+			 */
 			define('JPATH_COMPONENT', JPATH_BASE . '/components/' . $option);
 		}
 
 		if (!defined('JPATH_COMPONENT_SITE'))
 		{
+			/**
+			 * Defines the path to the site element of the active component for the request
+			 *
+			 * @var    string
+			 * @since  1.5
+			 */
 			define('JPATH_COMPONENT_SITE', JPATH_SITE . '/components/' . $option);
 		}
 
 		if (!defined('JPATH_COMPONENT_ADMINISTRATOR'))
 		{
+			/**
+			 * Defines the path to the admin element of the active component for the request
+			 *
+			 * @var    string
+			 * @since  1.5
+			 */
 			define('JPATH_COMPONENT_ADMINISTRATOR', JPATH_ADMINISTRATOR . '/components/' . $option);
 		}
 
@@ -416,7 +437,9 @@ class ComponentHelper
 			$query = $db->getQuery(true)
 				->select($db->quoteName(array('extension_id', 'element', 'params', 'enabled'), array('id', 'option', null, null)))
 				->from($db->quoteName('#__extensions'))
-				->where($db->quoteName('type') . ' = ' . $db->quote('component'));
+				->where($db->quoteName('type') . ' = ' . $db->quote('component'))
+				->where($db->quoteName('state') . ' = 0')
+				->where($db->quoteName('enabled') . ' = 1');
 			$db->setQuery($query);
 
 			return $db->loadObjectList('option', '\JComponentRecord');
