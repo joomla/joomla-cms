@@ -206,7 +206,6 @@
 					multiple="true"
 					validate="ExecutionRules"
 					required="true"
-
 				/>
 				<field
 					name="days_month"
@@ -216,7 +215,6 @@
 					multiple="true"
 					validate="ExecutionRules"
 					required="true"
-					
 				/>
 				<field
 					name="months"
@@ -235,7 +233,6 @@
 					multiple="true"
 					validate="ExecutionRules"
 					required="true"
-
 				/>
 			</fields>
 		</fieldset>
