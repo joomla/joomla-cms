@@ -13,10 +13,14 @@ use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 use Joomla\Module\Finder\Site\Helper\FinderHelper;
+use Joomla\CMS\Component\ComponentHelper;
 
 // Load the smart search component language file.
 $lang = $app->getLanguage();
 $lang->load('com_finder', JPATH_SITE);
+
+// Finder params
+$finderParams = ComponentHelper::getParams('com_finder');
 
 $input = '<input type="text" name="q" id="mod-finder-searchword' . $module->id . '" class="js-finder-search-query form-control" value="' . htmlspecialchars($app->input->get('q', '', 'string'), ENT_COMPAT, 'UTF-8') . '"'
 	. ' placeholder="' . Text::_('MOD_FINDER_SEARCH_VALUE') . '">';
@@ -64,7 +68,7 @@ $wa->useScript('com_finder.finder');
 	<?php echo $output; ?>
 
 	<?php $show_advanced = $params->get('show_advanced', 0); ?>
-	<?php if ($show_advanced == 2) : ?>
+	<?php if ($show_advanced == 2 && $finderParams->get('show_search_form', 1) && $finderParams->get('show_advanced', 1)) : ?>
 		<br>
 		<a href="<?php echo Route::_($route); ?>" class="mod-finder__advanced-link"><?php echo Text::_('COM_FINDER_ADVANCED_SEARCH'); ?></a>
 	<?php elseif ($show_advanced == 1) : ?>
