@@ -6,10 +6,13 @@
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 namespace Joomla\CMS\MVC\Model;
+
 defined('_JEXEC') or die('Restricted access');
+
 use Joomla\CMS\Table\Table;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
+
 /**
  * Extends AdminModel to be aware of subforms
  *
