@@ -80,7 +80,7 @@ class AwareModel extends AdminModel
 	 * 
 	 * @return  Table
 	 *
-	 * @since   3.9
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function getSubTable (string $name)
 	{
