@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_menus
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2009 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -15,6 +15,7 @@ JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 JHtml::_('behavior.core');
 JHtml::_('behavior.tabstate');
 JHtml::_('behavior.formvalidator');
+JHtml::_('formbehavior.chosen', '#jform_request_filter_tag', null, array('placeholder_text_multiple' => JText::_('JGLOBAL_TYPE_OR_SELECT_SOME_TAGS')));
 JHtml::_('formbehavior.chosen', 'select');
 JHtml::_('behavior.keepalive');
 
@@ -151,7 +152,7 @@ if ($clientId === 1)
 
 				if ($this->item->type == 'alias')
 				{
-					echo $this->form->renderFieldset('aliasoptions');
+					echo $this->form->renderField('aliasoptions', 'params');
 				}
 
 				if ($this->item->type == 'separator')
@@ -168,6 +169,11 @@ if ($clientId === 1)
 				}
 
 				echo $this->form->renderField('link');
+
+				if ($this->item->type == 'alias')
+				{
+					echo $this->form->renderField('alias_redirect', 'params');
+				}
 
 				echo $this->form->renderField('browserNav');
 				echo $this->form->renderField('template_style_id');

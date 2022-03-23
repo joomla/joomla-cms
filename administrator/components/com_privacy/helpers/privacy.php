@@ -3,11 +3,13 @@
  * @package     Joomla.Administrator
  * @subpackage  com_privacy
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2018 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Factory;
 
 /**
  * Privacy component helper.
@@ -63,7 +65,7 @@ class PrivacyHelper extends JHelperContent
 	 */
 	public static function renderDataAsXml(array $exportData)
 	{
-		$export = new SimpleXMLElement("<data-export />");
+		$export = new SimpleXMLElement('<?xml version="1.0" encoding="utf-8"?><data-export />');
 
 		foreach ($exportData as $domain)
 		{
@@ -92,5 +94,35 @@ class PrivacyHelper extends JHelperContent
 		$dom->formatOutput = true;
 
 		return $dom->saveXML();
+	}
+
+	/**
+	 * Gets the privacyconsent system plugin extension id.
+	 *
+	 * @return  integer  The privacyconsent system plugin extension id.
+	 *
+	 * @since   3.9.2
+	 */
+	public static function getPrivacyConsentPluginId()
+	{
+		$db    = Factory::getDbo();
+		$query = $db->getQuery(true)
+			->select($db->quoteName('extension_id'))
+			->from($db->quoteName('#__extensions'))
+			->where($db->quoteName('folder') . ' = ' . $db->quote('system'))
+			->where($db->quoteName('element') . ' = ' . $db->quote('privacyconsent'));
+
+		$db->setQuery($query);
+
+		try
+		{
+			$result = (int) $db->loadResult();
+		}
+		catch (RuntimeException $e)
+		{
+			JError::raiseWarning(500, $e->getMessage());
+		}
+
+		return $result;
 	}
 }

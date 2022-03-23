@@ -4,6 +4,7 @@
  * @subpackage  database
  * @copyright   Copyright (C) 2010-2016 Nicholas K. Dionysopoulos / Akeeba Ltd. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
+ * @note        This file has been modified by the Joomla! Project and no longer reflects the original work of its author.
  *
  * This file is adapted from the Joomla! Platform. It is used to iterate a database cursor returning FOFTable objects
  * instead of plain stdClass objects
@@ -916,7 +917,7 @@ abstract class FOFDatabaseDriver extends FOFDatabase implements FOFDatabaseInter
 	}
 
 	/**
-	 * Gets the name of the database used by this conneciton.
+	 * Gets the name of the database used by this connection.
 	 *
 	 * @return  string
 	 *
@@ -1421,7 +1422,7 @@ abstract class FOFDatabaseDriver extends FOFDatabase implements FOFDatabaseInter
 	 * of ['field_name' => 'row_value'].  The array of rows can optionally be keyed by a field name, but defaults to
 	 * a sequential numeric array.
 	 *
-	 * NOTE: Chosing to key the result array by a non-unique field name can result in unwanted
+	 * NOTE: Choosing to key the result array by a non-unique field name can result in unwanted
 	 * behavior and should be avoided.
 	 *
 	 * @param   string  $key     The name of a field on which to key the result array.
@@ -1898,7 +1899,7 @@ abstract class FOFDatabaseDriver extends FOFDatabase implements FOFDatabaseInter
 			}
 			else
 			{
-				$parts[] = $q{0} . $part . $q{1};
+				$parts[] = $q[0] . $part . $q[1];
 			}
 		}
 
@@ -1974,7 +1975,7 @@ abstract class FOFDatabaseDriver extends FOFDatabase implements FOFDatabaseInter
 
 				$l = $k - 1;
 
-				while ($l >= 0 && $sql{$l} == '\\')
+				while ($l >= 0 && $sql[$l] == '\\')
 				{
 					$l--;
 					$escaped = !$escaped;

@@ -3,13 +3,14 @@
  * @package     Joomla.Plugin
  * @subpackage  Captcha
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2011 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Captcha\Google\HttpBridgePostRequestMethod;
+use Joomla\Utilities\IpHelper;
 
 /**
  * Recaptcha Plugin
@@ -121,7 +122,7 @@ class PlgCaptchaRecaptcha extends JPlugin
 		}
 
 		$dom->appendChild($ele);
-		return $dom->saveXML($ele);
+		return $dom->saveHTML($ele);
 	}
 
 	/**
@@ -139,19 +140,19 @@ class PlgCaptchaRecaptcha extends JPlugin
 		$input      = \JFactory::getApplication()->input;
 		$privatekey = $this->params->get('private_key');
 		$version    = $this->params->get('version', '1.0');
-		$remoteip   = $input->server->get('REMOTE_ADDR', '', 'string');
+		$remoteip   = IpHelper::getIp();
 
 		switch ($version)
 		{
 			case '1.0':
 				$challenge = $input->get('recaptcha_challenge_field', '', 'string');
-				$response  = $input->get('recaptcha_response_field', '', 'string');
+				$response  = $code ? $code : $input->get('recaptcha_response_field', '', 'string');
 				$spam      = ($challenge === '' || $response === '');
 				break;
 			case '2.0':
 				// Challenge Not needed in 2.0 but needed for getResponse call
 				$challenge = null;
-				$response  = $input->get('g-recaptcha-response', '', 'string');
+				$response  = $code ? $code : $input->get('g-recaptcha-response', '', 'string');
 				$spam      = ($response === '');
 				break;
 		}

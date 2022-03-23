@@ -3,11 +3,13 @@
  * @package     Joomla.Administrator
  * @subpackage  com_privacy
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2018 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Router\Route;
 
 /**
  * Dashboard model class.
@@ -26,8 +28,9 @@ class PrivacyModelDashboard extends JModelLegacy
 	public function getPrivacyPolicyInfo()
 	{
 		$policy = array(
-			'published' => false,
-			'editLink'  => '',
+			'published'         => false,
+			'articlePublished'  => false,
+			'editLink'          => '',
 		);
 
 		/*
@@ -78,26 +81,76 @@ class PrivacyModelDashboard extends JModelLegacy
 	 */
 	public function getRequestFormPublished()
 	{
-		$app  = JFactory::getApplication();
-		$menu = $app->getMenu('site');
-
-		$item = $menu->getItems('link', 'index.php?option=com_privacy&view=request', true);
-
 		$status = array(
+			'exists'    => false,
 			'published' => false,
 			'link'      => '',
 		);
 
-		$linkMode = $app->get('force_ssl', 0) == 2 ? 1 : -1;
+		$db    = $this->getDbo();
+		$query = $db->getQuery(true)
+			->select($db->quoteName('id') . ', ' . $db->quoteName('published') . ', ' . $db->quoteName('language'))
+			->from($db->quoteName('#__menu'))
+			->where($db->quoteName('client_id') . ' = 0')
+			->where($db->quoteName('link') . ' = ' . $db->quote('index.php?option=com_privacy&view=request'));
+		$db->setQuery($query);
 
-		if (!($item instanceof JMenuItem))
+		$menuItem = $db->loadObject();
+
+		// Check if the menu item exists in database
+		if ($menuItem)
 		{
-			$status['link'] = JRoute::link('site', 'index.php?option=com_privacy&view=request', true, $linkMode);
+			$status['exists'] = true;
+
+			// Check if the menu item is published
+			if ($menuItem->published == 1)
+			{
+				$status['published'] = true;
+			}
+
+			// Add language to the url if the site is multilingual
+			if (JLanguageMultilang::isEnabled() && $menuItem->language && $menuItem->language !== '*')
+			{
+				$lang = '&lang=' . $menuItem->language;
+			}
+			else
+			{
+				$lang = '';
+			}
+		}
+
+		$linkMode = JFactory::getApplication()->get('force_ssl', 0) == 2 ? Route::TLS_FORCE : Route::TLS_IGNORE;
+
+		if (!$menuItem)
+		{
+			if (JLanguageMultilang::isEnabled())
+			{
+				// Find the Itemid of the home menu item tagged to the site default language
+				$params = JComponentHelper::getParams('com_languages');
+				$defaultSiteLanguage = $params->get('site');
+
+				$db    = $this->getDbo();
+				$query = $db->getQuery(true)
+					->select($db->quoteName('id'))
+					->from($db->quoteName('#__menu'))
+					->where($db->quoteName('client_id') . ' = 0')
+					->where($db->quoteName('home') . ' = 1')
+					->where($db->quoteName('language') . ' = ' . $db->quote($defaultSiteLanguage));
+				$db->setQuery($query);
+
+				$homeId = (int) $db->loadResult();
+				$itemId = $homeId ? '&Itemid=' . $homeId : '';
+			}
+			else
+			{
+				$itemId = '';
+			}
+
+			$status['link'] = JRoute::link('site', 'index.php?option=com_privacy&view=request' . $itemId, true, $linkMode);
 		}
 		else
 		{
-			$status['published'] = true;
-			$status['link']      = JRoute::link('site', 'index.php?Itemid=' . $item->id, true, $linkMode);
+			$status['link'] = JRoute::link('site', 'index.php?Itemid=' . $menuItem->id . $lang, true, $linkMode);
 		}
 
 		return $status;

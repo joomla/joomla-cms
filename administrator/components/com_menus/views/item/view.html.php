@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_menus
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2009 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -107,6 +107,7 @@ class MenusViewItem extends JViewLegacy
 		$isNew      = ($this->item->id == 0);
 		$checkedOut = !($this->item->checked_out == 0 || $this->item->checked_out == $user->get('id'));
 		$canDo      = $this->canDo;
+		$clientId   = $this->state->get('item.client_id', 0);
 
 		JToolbarHelper::title(JText::_($isNew ? 'COM_MENUS_VIEW_NEW_ITEM_TITLE' : 'COM_MENUS_VIEW_EDIT_ITEM_TITLE'), 'list menu-add');
 
@@ -140,7 +141,7 @@ class MenusViewItem extends JViewLegacy
 			JToolbarHelper::save2copy('item.save2copy');
 		}
 
-		if (!$isNew && JLanguageAssociations::isEnabled() && JComponentHelper::isEnabled('com_associations'))
+		if (!$isNew && JLanguageAssociations::isEnabled() && JComponentHelper::isEnabled('com_associations') && $clientId != 1)
 		{
 			JToolbarHelper::custom('item.editAssociations', 'contract', 'contract', 'JTOOLBAR_ASSOCIATIONS', false, false);
 		}

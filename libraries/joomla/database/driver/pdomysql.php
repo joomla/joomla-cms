@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Database
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2014 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -12,7 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * MySQL database driver supporting PDO based connections
  *
- * @link   https://secure.php.net/manual/en/ref.pdo-mysql.php
+ * @link   https://www.php.net/manual/en/ref.pdo-mysql.php
  * @since  3.4
  */
 class JDatabaseDriverPdomysql extends JDatabaseDriverPdo
@@ -153,6 +153,20 @@ class JDatabaseDriverPdomysql extends JDatabaseDriverPdo
 
 		// Set sql_mode to non_strict mode
 		$this->connection->query("SET @@SESSION.sql_mode = '';");
+
+		// Disable query cache and turn profiling ON in debug mode.
+		if ($this->debug)
+		{
+			if ($this->hasQueryCacheEnabled())
+			{
+				$this->connection->query('SET query_cache_type = 0;');
+			}
+
+			if ($this->hasProfiling())
+			{
+				$this->connection->query('SET profiling_history_size = 100, profiling = 1;');
+			}
+		}
 	}
 
 	/**
@@ -450,7 +464,7 @@ class JDatabaseDriverPdomysql extends JDatabaseDriverPdo
 		if (is_float($text))
 		{
 			// Force the dot as a decimal point.
-			return str_replace(',', '.', $text);
+			return str_replace(',', '.', (string) $text);
 		}
 
 		$this->connect();
@@ -562,5 +576,33 @@ class JDatabaseDriverPdomysql extends JDatabaseDriverPdo
 				$this->transactionDepth++;
 			}
 		}
+	}
+
+	/**
+	 * Internal function to check if profiling is available.
+	 *
+	 * @return  boolean
+	 *
+	 * @since   3.9.1
+	 */
+	private function hasProfiling()
+	{
+		$result = $this->setQuery("SHOW VARIABLES LIKE 'have_profiling'")->loadAssoc();
+
+		return isset($result);
+	}
+
+	/**
+	 * Internal function to check if query cache is enabled.
+	 *
+	 * @return  boolean
+	 *
+	 * @since   3.9.25
+	 */
+	private function hasQueryCacheEnabled()
+	{
+		$result = $this->setQuery("SHOW VARIABLES LIKE 'query_cache_type'")->loadAssoc();
+
+		return isset($result['Value']) && $result['Value'] === 'ON';
 	}
 }

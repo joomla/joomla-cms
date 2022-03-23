@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2009 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,6 +12,8 @@ defined('_JEXEC') or die;
 use Joomla\Registry\Registry;
 use Joomla\String\StringHelper;
 use Joomla\Utilities\ArrayHelper;
+
+JLoader::register('ContentHelperAssociation', JPATH_SITE . '/components/com_content/helpers/association.php');
 
 /**
  * This models supports retrieving lists of articles.
@@ -72,7 +74,7 @@ class ContentModelArticles extends JModelList
 	 *
 	 * @return  void
 	 *
-	 * @since   12.2
+	 * @since   3.0.1
 	 */
 	protected function populateState($ordering = 'ordering', $direction = 'ASC')
 	{
@@ -246,13 +248,13 @@ class ContentModelArticles extends JModelList
 		if (JPluginHelper::isEnabled('content', 'vote'))
 		{
 			// Join on voting table
-			$query->select('COALESCE(NULLIF(ROUND(v.rating_sum  / v.rating_count, 0), 0), 0) AS rating, 
+			$query->select('COALESCE(NULLIF(ROUND(v.rating_sum  / v.rating_count, 0), 0), 0) AS rating,
 							COALESCE(NULLIF(v.rating_count, 0), 0) as rating_count')
 				->join('LEFT', '#__content_rating AS v ON a.id = v.content_id');
 		}
 
 		// Filter by access level.
-		if ($this->getState('filter.access', true))	
+		if ($this->getState('filter.access', true))
 		{
 			$groups = implode(',', $user->getAuthorisedViewLevels());
 			$query->where('a.access IN (' . $groups . ')')
@@ -266,7 +268,7 @@ class ContentModelArticles extends JModelList
 		{
 			/**
 			 * If category is archived then article has to be published or archived.
-			 * Or categogy is published then article has to be archived.
+			 * Or category is published then article has to be archived.
 			 */
 			$query->where('((c.published = 2 AND a.state > 0) OR (c.published = 1 AND a.state = 2))');
 		}
@@ -563,7 +565,7 @@ class ContentModelArticles extends JModelList
 	/**
 	 * Method to get a list of articles.
 	 *
-	 * Overriden to inject convert the attribs field into a JParameter object.
+	 * Overridden to inject convert the attribs field into a JParameter object.
 	 *
 	 * @return  mixed  An array of objects on success, false on failure.
 	 *
@@ -718,7 +720,7 @@ class ContentModelArticles extends JModelList
 	 *
 	 * @return  integer  The starting number of items available in the data set.
 	 *
-	 * @since   12.2
+	 * @since   3.0.1
 	 */
 	public function getStart()
 	{

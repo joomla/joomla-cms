@@ -1,12 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<metafile
-	version="3.8"
-	client="installation">
+ <metafile version="3.10" client="installation">
 	<name>Norwegian Bokmal (Norway)</name>
-	<version>3.8.0</version>
-	<creationDate>September 2017</creationDate>
-	<author>Joomla! Project</author>
-	<copyright>Copyright (C) 2005 - 2018 Open Source Matters. All rights reserved.</copyright>
+	<version>3.10.4</version>
+	<creationDate>November 2021</creationDate>
+	<author>Norwegian Translation Team</author>
+	<copyright>Copyright (C) 2005 - 2021 Open Source Matters. All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<files>
 		<filename>nb-NO.ini</filename>
@@ -17,5 +15,5 @@
 		<tag>nb-NO</tag>
 		<rtl>0</rtl>
 	</metadata>
-	<params />
+	<params/>
 </metafile>

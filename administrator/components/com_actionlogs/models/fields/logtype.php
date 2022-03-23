@@ -3,13 +3,19 @@
  * @package     Joomla.Administrator
  * @subpackage  System.actionlogs
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright   (C) 2018 Open Source Matters, Inc. <https://www.joomla.org>
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
-JFormHelper::loadFieldClass('checkboxes');
+use Joomla\CMS\Application\ApplicationHelper;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Form\FormHelper;
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
+
+FormHelper::loadFieldClass('checkboxes');
 JLoader::register('ActionlogsHelper', JPATH_ADMINISTRATOR . '/components/com_actionlogs/helpers/actionlogs.php');
 
 /**
@@ -36,31 +42,25 @@ class JFormFieldLogType extends JFormFieldCheckboxes
 	 */
 	public function getOptions()
 	{
-		$db = JFactory::getDbo();
+		$db = Factory::getDbo();
 		$query = $db->getQuery(true)
-			->select('a.extension')
-			->from($db->quoteName('#__action_logs_extensions', 'a'));
+			->select($db->quoteName('extension'))
+			->from($db->quoteName('#__action_logs_extensions'));
 
-		$db->setQuery($query);
+		$extensions = $db->setQuery($query)->loadColumn();
 
-		$extensions = $db->loadObjectList();
-
-		$options  = array();
-		$defaults = array();
+		$options = array();
+		$tmp     = array('checked' => true);
 
 		foreach ($extensions as $extension)
 		{
-			$tmp = array(
-				'checked' => true,
-			);
-
-			$defaults[] = $extension;
-
-			ActionlogsHelper::loadTranslationFiles($extension->extension);
-			$option = JHtml::_('select.option', $extension->extension, JText::_($extension->extension));
-			$options[] = (object) array_merge($tmp, (array) $option);
+			ActionlogsHelper::loadTranslationFiles($extension);
+			$option = HTMLHelper::_('select.option', $extension, Text::_($extension));
+			$options[ApplicationHelper::stringURLSafe(Text::_($extension)) . '_' . $extension] = (object) array_merge($tmp, (array) $option);
 		}
 
-		return array_merge(parent::getOptions(), $options);
+		ksort($options);
+
+		return array_merge(parent::getOptions(), array_values($options));
 	}
 }

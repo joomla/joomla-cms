@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_checkin
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2009 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -94,6 +94,8 @@ class CheckinModelCheckin extends JModelList
 		// This int will hold the checked item count.
 		$results = 0;
 
+		$dispatcher = \JEventDispatcher::getInstance();
+
 		foreach ($ids as $tn)
 		{
 			// Make sure we get the right tables based on prefix.
@@ -111,15 +113,16 @@ class CheckinModelCheckin extends JModelList
 
 			$query = $db->getQuery(true)
 				->update($db->quoteName($tn))
-				->set('checked_out = 0')
-				->set('checked_out_time = ' . $db->quote($nullDate))
-				->where('checked_out > 0');
+				->set($db->quoteName('checked_out') . ' = DEFAULT')
+				->set($db->quoteName('checked_out_time') . ' = ' . $db->quote($nullDate))
+				->where($db->quoteName('checked_out') . ' > 0');
 
 			$db->setQuery($query);
 
 			if ($db->execute())
 			{
 				$results = $results + $db->getAffectedRows();
+				$dispatcher->trigger('onAfterCheckin', array($tn));
 			}
 		}
 

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  mod_multilangstatus
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2011 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -42,7 +42,7 @@ JFactory::getDocument()->addScriptDeclaration("
 		'width'       => '800px',
 		'bodyHeight'  => '70',
 		'modalWidth'  => '80',
-		'footer'      => '<a class="btn" data-dismiss="modal" type="button" aria-hidden="true">'
-				. JText::_('JTOOLBAR_CLOSE') . '</a>',
+		'footer'      => '<button type="button" class="btn" data-dismiss="modal">'
+				. JText::_('JTOOLBAR_CLOSE') . '</button>',
 	)
 );

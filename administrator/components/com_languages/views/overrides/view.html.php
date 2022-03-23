@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_languages
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2011 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -51,10 +51,10 @@ class LanguagesViewOverrides extends JViewLegacy
 	 */
 	public function display($tpl = null)
 	{
-		$this->state      = $this->get('State');
-		$this->items      = $this->get('Overrides');
-		$this->languages  = $this->get('Languages');
-		$this->pagination = $this->get('Pagination');
+		$this->state         = $this->get('State');
+		$this->items         = $this->get('Overrides');
+		$this->languages     = $this->get('Languages');
+		$this->pagination    = $this->get('Pagination');
 		$this->filterForm    = $this->get('FilterForm');
 		$this->activeFilters = $this->get('ActiveFilters');
 

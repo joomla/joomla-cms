@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2007 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -16,7 +16,7 @@ use Joomla\CMS\Cache\CacheController;
 /**
  * Joomla! Cache callback type object
  *
- * @since  11.1
+ * @since  1.7.0
  */
 class CallbackController extends CacheController
 {
@@ -27,13 +27,13 @@ class CallbackController extends CacheController
 	 * as long as the first argument passed is the callback definition.
 	 *
 	 * The callback definition can be in several forms:
-	 * - Standard PHP Callback array see <https://secure.php.net/callback> [recommended]
+	 * - Standard PHP Callback array see <https://www.php.net/callback> [recommended]
 	 * - Function name as a string eg. 'foo' for function foo()
 	 * - Static method name as a string eg. 'MyClass::myMethod' for method myMethod() of class MyClass
 	 *
 	 * @return  mixed  Result of the callback
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 * @deprecated  4.0
 	 */
 	public function call()
@@ -51,12 +51,12 @@ class CallbackController extends CacheController
 	 * @param   mixed    $callback    Callback or string shorthand for a callback
 	 * @param   array    $args        Callback arguments
 	 * @param   mixed    $id          Cache ID
-	 * @param   boolean  $wrkarounds  True to use wrkarounds
+	 * @param   boolean  $wrkarounds  True to use workarounds
 	 * @param   array    $woptions    Workaround options
 	 *
 	 * @return  mixed  Result of the callback
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function get($callback, $args = array(), $id = false, $wrkarounds = false, $woptions = array())
 	{
@@ -74,9 +74,9 @@ class CallbackController extends CacheController
 		elseif (strstr($callback, '->'))
 		{
 			/*
-			 * This is a really not so smart way of doing this... we provide this for backward compatability but this
+			 * This is a really not so smart way of doing this... we provide this for backward compatibility but this
 			 * WILL! disappear in a future version.  If you are using this syntax change your code to use the standard
-			 * PHP callback array syntax: <https://secure.php.net/callback>
+			 * PHP callback array syntax: <https://www.php.net/callback>
 			 *
 			 * We have to use some silly global notation to pull it off and this is very unreliable
 			 */
@@ -205,7 +205,7 @@ class CallbackController extends CacheController
 	 *
 	 * @return  string  MD5 Hash
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	protected function _makeId($callback, $args)
 	{

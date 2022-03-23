@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Database
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2012 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -12,8 +12,8 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Joomla Platform PDO Database Driver Class
  *
- * @link   https://secure.php.net/pdo
- * @since  12.1
+ * @link   https://www.php.net/pdo
+ * @since  3.0.0
  */
 abstract class JDatabaseDriverPdo extends JDatabaseDriver
 {
@@ -21,13 +21,13 @@ abstract class JDatabaseDriverPdo extends JDatabaseDriver
 	 * The name of the database driver.
 	 *
 	 * @var    string
-	 * @since  12.1
+	 * @since  3.0.0
 	 */
 	public $name = 'pdo';
 
 	/**
 	 * @var    PDO  The database connection resource.
-	 * @since  12.1
+	 * @since  3.0.0
 	 */
 	protected $connection;
 
@@ -38,7 +38,7 @@ abstract class JDatabaseDriverPdo extends JDatabaseDriver
 	 * used for the opening quote and the second for the closing quote.
 	 *
 	 * @var    string
-	 * @since  12.1
+	 * @since  3.0.0
 	 */
 	protected $nameQuote = "'";
 
@@ -47,13 +47,13 @@ abstract class JDatabaseDriverPdo extends JDatabaseDriver
 	 * defined in child classes to hold the appropriate value for the engine.
 	 *
 	 * @var    string
-	 * @since  12.1
+	 * @since  3.0.0
 	 */
 	protected $nullDate = '0000-00-00 00:00:00';
 
 	/**
 	 * @var    resource  The prepared statement.
-	 * @since  12.1
+	 * @since  3.0.0
 	 */
 	protected $prepared;
 
@@ -61,7 +61,7 @@ abstract class JDatabaseDriverPdo extends JDatabaseDriver
 	 * Contains the current query execution status
 	 *
 	 * @var array
-	 * @since 12.1
+	 * @since 3.0.0
 	 */
 	protected $executed = false;
 
@@ -70,7 +70,7 @@ abstract class JDatabaseDriverPdo extends JDatabaseDriver
 	 *
 	 * @param   array  $options  List of options used to configure the connection
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function __construct($options)
 	{
@@ -100,7 +100,7 @@ abstract class JDatabaseDriverPdo extends JDatabaseDriver
 	 *
 	 * @return  void  Returns void if the database connected successfully.
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 * @throws  RuntimeException
 	 */
 	public function connect()
@@ -305,7 +305,7 @@ abstract class JDatabaseDriverPdo extends JDatabaseDriver
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function disconnect()
 	{
@@ -337,7 +337,7 @@ abstract class JDatabaseDriverPdo extends JDatabaseDriver
 	 *
 	 * @return  string  The escaped string.
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function escape($text, $extra = false)
 	{
@@ -349,10 +349,10 @@ abstract class JDatabaseDriverPdo extends JDatabaseDriver
 		if (is_float($text))
 		{
 			// Force the dot as a decimal point.
-			return str_replace(',', '.', $text);
+			return str_replace(',', '.', (string) $text);
 		}
 
-		$text = str_replace("'", "''", $text);
+		$text = str_replace("'", "''", (string) $text);
 
 		return addcslashes($text, "\000\n\r\\\032");
 	}
@@ -362,7 +362,7 @@ abstract class JDatabaseDriverPdo extends JDatabaseDriver
 	 *
 	 * @return  mixed  A database cursor resource on success, boolean false on failure.
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 * @throws  RuntimeException
 	 * @throws  Exception
 	 */
@@ -488,8 +488,8 @@ abstract class JDatabaseDriverPdo extends JDatabaseDriver
 	 *
 	 * @return  mixed
 	 *
-	 * @link    https://secure.php.net/manual/en/pdo.getattribute.php
-	 * @since   12.1
+	 * @link    https://www.php.net/manual/en/pdo.getattribute.php
+	 * @since   3.0.0
 	 */
 	public function getOption($key)
 	{
@@ -503,7 +503,7 @@ abstract class JDatabaseDriverPdo extends JDatabaseDriver
 	 *
 	 * @return  string  The query to check the health of the DB.
 	 *
-	 * @since   12.2
+	 * @since   3.0.1
 	 */
 	public function getConnectedQuery()
 	{
@@ -534,8 +534,8 @@ abstract class JDatabaseDriverPdo extends JDatabaseDriver
 	 *
 	 * @return  boolean
 	 *
-	 * @link   https://secure.php.net/manual/en/pdo.setattribute.php
-	 * @since   12.1
+	 * @link   https://www.php.net/manual/en/pdo.setattribute.php
+	 * @since   3.0.0
 	 */
 	public function setOption($key, $value)
 	{
@@ -550,7 +550,7 @@ abstract class JDatabaseDriverPdo extends JDatabaseDriver
 	 *
 	 * @return  boolean  True on success, false otherwise.
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public static function isSupported()
 	{
@@ -562,7 +562,7 @@ abstract class JDatabaseDriverPdo extends JDatabaseDriver
 	 *
 	 * @return  boolean  True if connected to the database engine.
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function connected()
 	{
@@ -613,7 +613,7 @@ abstract class JDatabaseDriverPdo extends JDatabaseDriver
 	 *
 	 * @return  integer  The number of affected rows.
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function getAffectedRows()
 	{
@@ -637,7 +637,7 @@ abstract class JDatabaseDriverPdo extends JDatabaseDriver
 	 *
 	 * @return  integer   The number of returned rows.
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function getNumRows($cursor = null)
 	{
@@ -662,7 +662,7 @@ abstract class JDatabaseDriverPdo extends JDatabaseDriver
 	 *
 	 * @return  string  The value of the auto-increment field from the last inserted row.
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function insertid()
 	{
@@ -679,7 +679,7 @@ abstract class JDatabaseDriverPdo extends JDatabaseDriver
 	 *
 	 * @return  boolean  True if the database was successfully selected.
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 * @throws  RuntimeException
 	 */
 	public function select($database)
@@ -699,7 +699,7 @@ abstract class JDatabaseDriverPdo extends JDatabaseDriver
 	 *
 	 * @return  JDatabaseDriver  This object to support method chaining.
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function setQuery($query, $offset = null, $limit = null, $driverOptions = array())
 	{
@@ -736,7 +736,7 @@ abstract class JDatabaseDriverPdo extends JDatabaseDriver
 	 *
 	 * @return  boolean  True on success.
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function setUtf()
 	{
@@ -750,7 +750,7 @@ abstract class JDatabaseDriverPdo extends JDatabaseDriver
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 * @throws  RuntimeException
 	 */
 	public function transactionCommit($toSavepoint = false)
@@ -772,7 +772,7 @@ abstract class JDatabaseDriverPdo extends JDatabaseDriver
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 * @throws  RuntimeException
 	 */
 	public function transactionRollback($toSavepoint = false)
@@ -794,7 +794,7 @@ abstract class JDatabaseDriverPdo extends JDatabaseDriver
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 * @throws  RuntimeException
 	 */
 	public function transactionStart($asSavepoint = false)
@@ -816,7 +816,7 @@ abstract class JDatabaseDriverPdo extends JDatabaseDriver
 	 *
 	 * @return  mixed  Either the next row from the result set or false if there are no more rows.
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	protected function fetchArray($cursor = null)
 	{
@@ -838,7 +838,7 @@ abstract class JDatabaseDriverPdo extends JDatabaseDriver
 	 *
 	 * @return  mixed  Either the next row from the result set or false if there are no more rows.
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	protected function fetchAssoc($cursor = null)
 	{
@@ -861,7 +861,7 @@ abstract class JDatabaseDriverPdo extends JDatabaseDriver
 	 *
 	 * @return  mixed   Either the next row from the result set or false if there are no more rows.
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	protected function fetchObject($cursor = null, $class = 'stdClass')
 	{
@@ -883,7 +883,7 @@ abstract class JDatabaseDriverPdo extends JDatabaseDriver
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	protected function freeResult($cursor = null)
 	{
@@ -909,7 +909,7 @@ abstract class JDatabaseDriverPdo extends JDatabaseDriver
 	 *
 	 * @return  mixed   The result of the query as an array, false if there are no more rows.
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 * @throws  RuntimeException
 	 * @deprecated  4.0 (CMS)  Use getIterator() instead
 	 */
@@ -944,7 +944,7 @@ abstract class JDatabaseDriverPdo extends JDatabaseDriver
 	 *
 	 * @return  mixed  The result of the query as an array, false if there are no more rows.
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 * @throws  RuntimeException
 	 */
 	public function loadNextAssoc()
@@ -977,7 +977,7 @@ abstract class JDatabaseDriverPdo extends JDatabaseDriver
 	 *
 	 * @return  mixed  The result of the query as an array, false if there are no more rows.
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 * @throws  RuntimeException
 	 * @deprecated  4.0 (CMS)  Use getIterator() instead
 	 */
@@ -1012,7 +1012,7 @@ abstract class JDatabaseDriverPdo extends JDatabaseDriver
 	 *
 	 * @return  array
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function __sleep()
 	{
@@ -1040,7 +1040,7 @@ abstract class JDatabaseDriverPdo extends JDatabaseDriver
 	 *
 	 * @return  array
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function __wakeup()
 	{

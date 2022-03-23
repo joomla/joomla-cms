@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_admin
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2011 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -530,7 +530,6 @@ class JoomlaInstallerScript
 			'/administrator/manifests/packages/pkg_joomla.xml',
 			'/administrator/modules/mod_submenu/helper.php',
 			'/administrator/templates/hathor/css/ie6.css',
-			'/administrator/templates/hathor/html/com_languages/installed/default_ftp.php',
 			'/administrator/templates/hathor/html/mod_submenu/index.html',
 			'/administrator/templates/hathor/html/mod_submenu/default.php',
 			'/components/com_media/controller.php',
@@ -1446,7 +1445,6 @@ class JoomlaInstallerScript
 			'/libraries/classloader.php',
 			'/libraries/ClassLoader.php',
 			'/libraries/composer_autoload.php',
-			'/libraries/fof/LICENSE.txt',
 			'/libraries/joomla/document/error/error.php',
 			'/libraries/joomla/document/feed/feed.php',
 			'/libraries/joomla/document/html/html.php',
@@ -1520,9 +1518,7 @@ class JoomlaInstallerScript
 			'/media/editors/tinymce/skins/lightgray/fonts/tinymce-small.dev.svg',
 			'/media/editors/tinymce/skins/lightgray/fonts/tinymce.dev.svg',
 			'/media/editors/tinymce/skins/lightgray/img/wline.gif',
-			'/media/jui/img/ajax-loader.gif',
 			'/media/mod_languages/images/km_kr.gif',
-			'/media/mod_languages/images/si_LK.gif',
 			'/plugins/editors/codemirror/styles.css',
 			'/plugins/editors/codemirror/styles.min.css',
 
@@ -1542,7 +1538,6 @@ class JoomlaInstallerScript
 			'/libraries/simplepie/idn/idna_convert.class.php',
 			'/libraries/simplepie/idn/npdata.ser',
 			'/libraries/simplepie/simplepie.php',
-			'/media/mod_languages/images/si_lk.gif',
 			'/media/system/js/permissions.min.js',
 			'/plugins/editors/tinymce/fields/skins.php',
 			'/plugins/user/profile/fields/dob.php',
@@ -1560,7 +1555,6 @@ class JoomlaInstallerScript
 			'/administrator/components/com_content/views/articles/tmpl/default_batch.php',
 			'/administrator/components/com_installer/controllers/languages.php',
 			'/administrator/components/com_languages/layouts/joomla/searchtools/default.php',
-			'/administrator/components/com_languages/layouts/joomla/searchtools/default/bar.php',
 			'/administrator/components/com_media/views/medialist/tmpl/thumbs_doc.php',
 			'/administrator/components/com_media/views/medialist/tmpl/thumbs_folder.php',
 			'/administrator/components/com_media/views/medialist/tmpl/thumbs_img.php',
@@ -1972,7 +1966,10 @@ class JoomlaInstallerScript
 			/*
 			 * Joomla! 3.8.0 thru 3.9.0
 			 */
+			'/administrator/components/com_users/controllers/profile.json.php',
 			'/administrator/includes/toolbar.php',
+			'/components/com_users/controllers/profile_base_json.php',
+			'/components/com_users/controllers/profile.json.php',
 			'/libraries/joomla/filesystem/file.php',
 			'/libraries/joomla/filesystem/folder.php',
 			'/libraries/joomla/filesystem/helper.php',
@@ -1987,6 +1984,15 @@ class JoomlaInstallerScript
 			'/libraries/joomla/filesystem/wrapper/path.php',
 			'/libraries/src/Mail/language/phpmailer.lang-joomla.php',
 			'/plugins/captcha/recaptcha/recaptchalib.php',
+
+			/*
+			 * Joomla! 3.9.0 thru 3.10.0
+			 */
+			'/SECURITY.md',
+			'/administrator/components/com_users/controllers/profile.json.php',
+			'/components/com_users/controllers/profile.json.php',
+			'/components/com_users/controllers/profile_base_json.php',
+			'/tests/unit/suites/libraries/cms/form/field/JFormFieldHelpsiteTest.php',
 
 			/*
 			 * Legacy FOF
@@ -2014,6 +2020,40 @@ class JoomlaInstallerScript
 			'/libraries/fof/view.html.php',
 			'/libraries/fof/view.json.php',
 			'/libraries/fof/view.php',
+
+			/*
+			 * Joomla! 3.9.7
+			 */
+			'/administrator/components/com_joomlaupdate/access.xml',
+
+			// Joomla! 3.9.13
+			'/libraries/vendor/phpmailer/phpmailer/composer.lock',
+
+			// Joomla! 3.9.17
+			'/administrator/components/com_templates/controllers/template.php.orig',
+
+			// Joomla! 3.9.21
+			'/.github/SECURITY.md',
+
+			// Joomla! 3.9.23
+			'/.drone.jsonnet',
+
+			// Joomla! added by the 3.9.23-rc1
+			'/libraries/vendor/bin/lessify',
+			'/libraries/vendor/bin/lessify.bat',
+			'/libraries/vendor/bin/plessc',
+			'/libraries/vendor/bin/plessc.bat',
+			'/libraries/vendor/joomla/archive/.drone.jsonnet',
+			'/libraries/vendor/joomla/archive/.drone.yml',
+			'/libraries/vendor/joomla/string/.drone.jsonnet',
+			'/libraries/vendor/joomla/string/.drone.yml',
+			'/libraries/vendor/leafo/lessphp/.drone.yml',
+			'/libraries/vendor/leafo/lessphp/phpunit.xml.dist',
+			'/libraries/vendor/leafo/lessphp/ruleset.xml',
+
+			// Joomla 3.10.0
+			'/libraries/joomla/base/adapter.php',
+			'/libraries/joomla/base/adapterinstance.php',
 		);
 
 		// TODO There is an issue while deleting folders using the ftp mode
@@ -2132,10 +2172,6 @@ class JoomlaInstallerScript
 			'/administrator/components/com_cache/layouts/joomla/searchtools',
 			'/administrator/components/com_cache/layouts/joomla',
 			'/administrator/components/com_cache/layouts',
-			'/administrator/components/com_languages/layouts/joomla/searchtools/default',
-			'/administrator/components/com_languages/layouts/joomla/searchtools',
-			'/administrator/components/com_languages/layouts/joomla',
-			'/administrator/components/com_languages/layouts',
 			'/administrator/components/com_modules/layouts/joomla/searchtools/default',
 			'/administrator/components/com_modules/layouts/joomla/searchtools',
 			'/administrator/components/com_modules/layouts/joomla',
@@ -2258,6 +2294,8 @@ class JoomlaInstallerScript
 			'/libraries/joomla/filesystem/support',
 			'/libraries/joomla/filesystem/wrapper',
 			'/libraries/joomla/filesystem',
+			// Joomla 3.10.0
+			'/libraries/joomla/base',
 		);
 
 		jimport('joomla.filesystem.file');
@@ -2289,6 +2327,8 @@ class JoomlaInstallerScript
 		{
 			JFile::delete(JPATH_ROOT . '/administrator/manifests/packages/pkg_weblinks.xml');
 		}
+
+		$this->fixFilenameCasing();
 	}
 
 	/**
@@ -2447,11 +2487,19 @@ class JoomlaInstallerScript
 		// Set required conversion status
 		if ($db->hasUTF8mb4Support())
 		{
-			$converted = 2;
+			$convertedStep1 = 2;
+			$convertedStep2 = 4;
+
+			// The first step has to be repeated if it has not been run (converted = 4 in database)
+			$convertedRequired = 5;
 		}
 		else
 		{
-			$converted = 1;
+			$convertedStep1 = 1;
+			$convertedStep2 = 3;
+
+			// All done after step 2
+			$convertedRequired = 3;
 		}
 
 		// Check conversion status in database
@@ -2477,72 +2525,122 @@ class JoomlaInstallerScript
 			return;
 		}
 
-		// Nothing to do, saved conversion status from DB is equal to required
-		if ($convertedDB == $converted)
+		// Nothing to do, saved conversion status from DB is equal to required final status
+		if ($convertedDB == $convertedRequired)
 		{
 			return;
 		}
 
-		// Step 1: Drop indexes later to be added again with column lengths limitations at step 2
-		$fileName1 = JPATH_ROOT . '/administrator/components/com_admin/sql/others/mysql/utf8mb4-conversion-01.sql';
+		$converted = $convertedDB;
+		$hasErrors = false;
 
-		if (is_file($fileName1))
+		// Steps 1 and 2: Convert core tables if necessary and not to be done at later steps
+		if ($convertedDB < $convertedStep1 || ($convertedRequired == 5 && ($convertedDB == 3 || $convertedDB == 4)))
 		{
-			$fileContents1 = @file_get_contents($fileName1);
-			$queries1      = $db->splitSql($fileContents1);
+			// Step 1: Drop indexes later to be added again with column lengths limitations at step 2
+			$fileName1 = JPATH_ROOT . '/administrator/components/com_admin/sql/others/mysql/utf8mb4-conversion-01.sql';
 
-			if (!empty($queries1))
+			if (is_file($fileName1))
 			{
-				foreach ($queries1 as $query1)
+				$fileContents1 = @file_get_contents($fileName1);
+				$queries1      = $db->splitSql($fileContents1);
+
+				if (!empty($queries1))
 				{
-					try
+					foreach ($queries1 as $query1)
 					{
-						$db->setQuery($query1)->execute();
+						try
+						{
+							$db->setQuery($query1)->execute();
+						}
+						catch (Exception $e)
+						{
+							// If the query fails we will go on. It just means the index to be dropped does not exist.
+						}
 					}
-					catch (Exception $e)
+				}
+			}
+
+			// Step 2: Perform the index modifications and conversions
+			$fileName2 = JPATH_ROOT . '/administrator/components/com_admin/sql/others/mysql/utf8mb4-conversion-02.sql';
+
+			if (is_file($fileName2))
+			{
+				$fileContents2 = @file_get_contents($fileName2);
+				$queries2      = $db->splitSql($fileContents2);
+
+				if (!empty($queries2))
+				{
+					foreach ($queries2 as $query2)
 					{
-						// If the query fails we will go on. It just means the index to be dropped does not exist.
+						try
+						{
+							$db->setQuery($db->convertUtf8mb4QueryToUtf8($query2))->execute();
+						}
+						catch (Exception $e)
+						{
+							$hasErrors = true;
+
+							// Still render the error message from the Exception object
+							JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+						}
+					}
+				}
+			}
+
+			if (!$hasErrors)
+			{
+				$converted = $convertedStep1;
+			}
+		}
+
+		// Step 3: Convert action logs and privacy suite tables if necessary and conversion hasn't failed before
+		if (!$hasErrors && $convertedDB < $convertedStep2)
+		{
+			$fileName3 = JPATH_ROOT . '/administrator/components/com_admin/sql/others/mysql/utf8mb4-conversion-03.sql';
+
+			if (is_file($fileName3))
+			{
+				$fileContents3 = @file_get_contents($fileName3);
+				$queries3      = $db->splitSql($fileContents3);
+
+				if (!empty($queries3))
+				{
+					foreach ($queries3 as $query3)
+					{
+						try
+						{
+							$db->setQuery($db->convertUtf8mb4QueryToUtf8($query3))->execute();
+						}
+						catch (Exception $e)
+						{
+							$hasErrors = true;
+
+							// Still render the error message from the Exception object
+							JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+						}
 					}
 				}
 			}
 		}
 
-		// Step 2: Perform the index modifications and conversions
-		$fileName2 = JPATH_ROOT . '/administrator/components/com_admin/sql/others/mysql/utf8mb4-conversion-02.sql';
-
-		if (is_file($fileName2))
+		if (!$hasErrors)
 		{
-			$fileContents2 = @file_get_contents($fileName2);
-			$queries2      = $db->splitSql($fileContents2);
-
-			if (!empty($queries2))
-			{
-				foreach ($queries2 as $query2)
-				{
-					try
-					{
-						$db->setQuery($db->convertUtf8mb4QueryToUtf8($query2))->execute();
-					}
-					catch (Exception $e)
-					{
-						$converted = 0;
-
-						// Still render the error message from the Exception object
-						JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
-					}
-				}
-			}
+			$converted = $convertedRequired;
 		}
 
-		if ($doDbFixMsg && $converted == 0)
+		if ($doDbFixMsg && $hasErrors)
 		{
 			// Show an error message telling to check database problems
 			JFactory::getApplication()->enqueueMessage(JText::_('JLIB_DATABASE_ERROR_DATABASE_UPGRADE_FAILED'), 'error');
 		}
 
-		// Set flag in database if the update is done.
-		$db->setQuery('UPDATE ' . $db->quoteName('#__utf8_conversion')
-			. ' SET ' . $db->quoteName('converted') . ' = ' . $converted . ';')->execute();
+		// Set flag in database if the conversion status has changed.
+		if ($converted != $convertedDB)
+		{
+			$db->setQuery('UPDATE ' . $db->quoteName('#__utf8_conversion')
+				. ' SET ' . $db->quoteName('converted') . ' = ' . $converted . ';')->execute();
+		}
 	}
 
 	/**
@@ -2563,5 +2661,68 @@ class JoomlaInstallerScript
 		// Clean admin cache
 		$model->setState('client_id', 1);
 		$model->clean();
+	}
+
+	/**
+	 * Renames or removes incorrectly cased files.
+	 *
+	 * @return  void
+	 *
+	 * @since   3.9.25
+	 */
+	protected function fixFilenameCasing()
+	{
+		$files = array(
+			'/libraries/src/Filesystem/Support/Stringcontroller.php' => '/libraries/src/Filesystem/Support/StringController.php',
+			'/libraries/vendor/paragonie/sodium_compat/src/Core/Xsalsa20.php' => '/libraries/vendor/paragonie/sodium_compat/src/Core/XSalsa20.php',
+			'/media/mod_languages/images/si_LK.gif' => '/media/mod_languages/images/si_lk.gif',
+		);
+
+		foreach ($files as $old => $expected)
+		{
+			$oldRealpath = realpath(JPATH_ROOT . $old);
+
+			// On Unix without incorrectly cased file.
+			if ($oldRealpath === false)
+			{
+				continue;
+			}
+
+			$oldBasename      = basename($oldRealpath);
+			$newRealpath      = realpath(JPATH_ROOT . $expected);
+			$newBasename      = basename($newRealpath);
+			$expectedBasename = basename($expected);
+
+			// On Windows or Unix with only the incorrectly cased file.
+			if ($newBasename !== $expectedBasename)
+			{
+				// Rename the file.
+				rename(JPATH_ROOT . $old, JPATH_ROOT . $old . '.tmp');
+				rename(JPATH_ROOT . $old . '.tmp', JPATH_ROOT . $expected);
+
+				continue;
+			}
+
+			// There might still be an incorrectly cased file on other OS than Windows.
+			if ($oldBasename === basename($old))
+			{
+				// Check if case-insensitive file system, eg on OSX.
+				if (fileinode($oldRealpath) === fileinode($newRealpath))
+				{
+					// Check deeper because even realpath or glob might not return the actual case.
+					if (!in_array($expectedBasename, scandir(dirname($newRealpath))))
+					{
+						// Rename the file.
+						rename(JPATH_ROOT . $old, JPATH_ROOT . $old . '.tmp');
+						rename(JPATH_ROOT . $old . '.tmp', JPATH_ROOT . $expected);
+					}
+				}
+				else
+				{
+					// On Unix with both files: Delete the incorrectly cased file.
+					unlink(JPATH_ROOT . $old);
+				}
+			}
+		}
 	}
 }

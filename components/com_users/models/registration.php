@@ -3,11 +3,13 @@
  * @package     Joomla.Site
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2009 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Router\Route;
 
 /**
  * Registration model class for Users.
@@ -43,18 +45,16 @@ class UsersModelRegistration extends JModelForm
 	}
 
 	/**
-	 * Method to activate a user account.
+	 * Method to get the user ID from the given token
 	 *
 	 * @param   string  $token  The activation token.
 	 *
-	 * @return  mixed    False on failure, user object on success.
+	 * @return  mixed   False on failure, id of the user on success
 	 *
-	 * @since   1.6
+	 * @since   3.8.13
 	 */
-	public function activate($token)
+	public function getUserIdFromToken($token)
 	{
-		$config = JFactory::getConfig();
-		$userParams = JComponentHelper::getParams('com_users');
 		$db = $this->getDbo();
 
 		// Get the user id based on the token.
@@ -68,7 +68,7 @@ class UsersModelRegistration extends JModelForm
 
 		try
 		{
-			$userId = (int) $db->loadResult();
+			return (int) $db->loadResult();
 		}
 		catch (RuntimeException $e)
 		{
@@ -76,6 +76,22 @@ class UsersModelRegistration extends JModelForm
 
 			return false;
 		}
+	}
+
+	/**
+	 * Method to activate a user account.
+	 *
+	 * @param   string  $token  The activation token.
+	 *
+	 * @return  mixed    False on failure, user object on success.
+	 *
+	 * @since   1.6
+	 */
+	public function activate($token)
+	{
+		$config     = JFactory::getConfig();
+		$userParams = JComponentHelper::getParams('com_users');
+		$userId     = $this->getUserIdFromToken($token);
 
 		// Check for a valid user id.
 		if (!$userId)
@@ -94,14 +110,20 @@ class UsersModelRegistration extends JModelForm
 		// Admin activation is on and user is verifying their email
 		if (($userParams->get('useractivation') == 2) && !$user->getParam('activate', 0))
 		{
-			$linkMode = $config->get('force_ssl', 0) == 2 ? 1 : -1;
+			$linkMode = $config->get('force_ssl', 0) == 2 ? Route::TLS_FORCE : Route::TLS_IGNORE;
 
 			// Compile the admin notification mail values.
 			$data = $user->getProperties();
 			$data['activation'] = JApplicationHelper::getHash(JUserHelper::genRandomPassword());
 			$user->set('activation', $data['activation']);
 			$data['siteurl'] = JUri::base();
-			$data['activate'] = JRoute::link('site', 'index.php?option=com_users&task=registration.activate&token=' . $data['activation'], false, $linkMode);
+			$data['activate'] = JRoute::link(
+				'site',
+				'index.php?option=com_users&task=registration.activate&token=' . $data['activation'],
+				false,
+				$linkMode,
+				true
+			);
 
 			$data['fromname'] = $config->get('fromname');
 			$data['mailfrom'] = $config->get('mailfrom');
@@ -123,7 +145,8 @@ class UsersModelRegistration extends JModelForm
 			);
 
 			// Get all admin users
-			$query->clear()
+			$db = $this->getDbo();
+			$query = $db->getQuery(true)
 				->select($db->quoteName(array('name', 'email', 'sendEmail', 'id')))
 				->from($db->quoteName('#__users'))
 				->where($db->quoteName('sendEmail') . ' = 1')
@@ -147,7 +170,7 @@ class UsersModelRegistration extends JModelForm
 			{
 				$usercreator = JFactory::getUser($row->id);
 
-				if ($usercreator->authorise('core.create', 'com_users'))
+				if ($usercreator->authorise('core.create', 'com_users') && $usercreator->authorise('core.manage', 'com_users'))
 				{
 					$return = JFactory::getMailer()->sendMail($data['mailfrom'], $data['fromname'], $row->email, $emailSubject, $emailBody);
 
@@ -263,8 +286,8 @@ class UsersModelRegistration extends JModelForm
 			// Get the groups the user should be added to after registration.
 			$this->data->groups = array();
 
-			// Get the default new user group, Registered if not specified.
-			$system = $params->get('new_usertype', 2);
+			// Get the default new user group, guest or public group if not specified.
+			$system = $params->get('new_usertype', $params->get('guest_usergroup', 1));
 
 			$this->data->groups[] = $system;
 
@@ -295,7 +318,7 @@ class UsersModelRegistration extends JModelForm
 	 * The base form is loaded from XML and then an event is fired
 	 * for users plugins to extend the form with extra fields.
 	 *
-	 * @param   array    $data      An optional array of data for the form to interogate.
+	 * @param   array    $data      An optional array of data for the form to interrogate.
 	 * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
 	 *
 	 * @return  JForm  A JForm object on success, false on failure
@@ -456,9 +479,15 @@ class UsersModelRegistration extends JModelForm
 		if ($useractivation == 2)
 		{
 			// Set the link to confirm the user email.
-			$linkMode = $config->get('force_ssl', 0) == 2 ? 1 : -1;
+			$linkMode = $config->get('force_ssl', 0) == 2 ? Route::TLS_FORCE : Route::TLS_IGNORE;
 
-			$data['activate'] = JRoute::link('site', 'index.php?option=com_users&task=registration.activate&token=' . $data['activation'], false, $linkMode);
+			$data['activate'] = JRoute::link(
+				'site',
+				'index.php?option=com_users&task=registration.activate&token=' . $data['activation'],
+				false,
+				$linkMode,
+				true
+			);
 
 			$emailSubject = JText::sprintf(
 				'COM_USERS_EMAIL_ACCOUNT_DETAILS',
@@ -493,9 +522,15 @@ class UsersModelRegistration extends JModelForm
 		elseif ($useractivation == 1)
 		{
 			// Set the link to activate the user account.
-			$linkMode = $config->get('force_ssl', 0) == 2 ? 1 : -1;
+			$linkMode = $config->get('force_ssl', 0) == 2 ? Route::TLS_FORCE : Route::TLS_IGNORE;
 
-			$data['activate'] = JRoute::link('site', 'index.php?option=com_users&task=registration.activate&token=' . $data['activation'], false, $linkMode);
+			$data['activate'] = JRoute::link(
+				'site',
+				'index.php?option=com_users&task=registration.activate&token=' . $data['activation'],
+				false,
+				$linkMode,
+				true
+			);
 
 			$emailSubject = JText::sprintf(
 				'COM_USERS_EMAIL_ACCOUNT_DETAILS',
@@ -578,7 +613,7 @@ class UsersModelRegistration extends JModelForm
 
 			// Get all admin users
 			$query->clear()
-				->select($db->quoteName(array('name', 'email', 'sendEmail')))
+				->select($db->quoteName(array('name', 'email', 'sendEmail', 'id')))
 				->from($db->quoteName('#__users'))
 				->where($db->quoteName('sendEmail') . ' = 1')
 				->where($db->quoteName('block') . ' = 0');
@@ -596,17 +631,22 @@ class UsersModelRegistration extends JModelForm
 				return false;
 			}
 
-			// Send mail to all superadministrators id
+			// Send mail to all users with user creating permissions and receiving system emails
 			foreach ($rows as $row)
 			{
-				$return = JFactory::getMailer()->sendMail($data['mailfrom'], $data['fromname'], $row->email, $emailSubject, $emailBodyAdmin);
+				$usercreator = JFactory::getUser($row->id);
 
-				// Check for an error.
-				if ($return !== true)
+				if ($usercreator->authorise('core.create', 'com_users') && $usercreator->authorise('core.manage', 'com_users'))
 				{
-					$this->setError(JText::_('COM_USERS_REGISTRATION_ACTIVATION_NOTIFY_SEND_MAIL_FAILED'));
+					$return = JFactory::getMailer()->sendMail($data['mailfrom'], $data['fromname'], $row->email, $emailSubject, $emailBodyAdmin);
 
-					return false;
+					// Check for an error.
+					if ($return !== true)
+					{
+						$this->setError(JText::_('COM_USERS_REGISTRATION_ACTIVATION_NOTIFY_SEND_MAIL_FAILED'));
+
+						return false;
+					}
 				}
 			}
 		}

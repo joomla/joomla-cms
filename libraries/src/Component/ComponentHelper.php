@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2006 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -191,7 +191,7 @@ class ComponentHelper
 				}
 
 				// Collect the blacklist or whitelist tags and attributes.
-				// Each list is cummulative.
+				// Each list is cumulative.
 				if ($filterType === 'BL')
 				{
 					$blackList           = true;
@@ -326,16 +326,36 @@ class ComponentHelper
 		// Define component path.
 		if (!defined('JPATH_COMPONENT'))
 		{
+			/**
+			 * Defines the path to the active component for the request
+			 *
+			 * Note this constant is application aware and is different for each application (site/admin).
+			 *
+			 * @var    string
+			 * @since  1.5
+			 */
 			define('JPATH_COMPONENT', JPATH_BASE . '/components/' . $option);
 		}
 
 		if (!defined('JPATH_COMPONENT_SITE'))
 		{
+			/**
+			 * Defines the path to the site element of the active component for the request
+			 *
+			 * @var    string
+			 * @since  1.5
+			 */
 			define('JPATH_COMPONENT_SITE', JPATH_SITE . '/components/' . $option);
 		}
 
 		if (!defined('JPATH_COMPONENT_ADMINISTRATOR'))
 		{
+			/**
+			 * Defines the path to the admin element of the active component for the request
+			 *
+			 * @var    string
+			 * @since  1.5
+			 */
 			define('JPATH_COMPONENT_ADMINISTRATOR', JPATH_ADMINISTRATOR . '/components/' . $option);
 		}
 

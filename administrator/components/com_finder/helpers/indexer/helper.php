@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2011 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -327,9 +327,9 @@ class FinderIndexerHelper
 		$langCode = $lang;
 
 		// If language requested is wildcard, use the default language.
-		if ($lang == '*')
+		if ($default === null && $lang === '*')
 		{
-			$default = $default === null ? substr(self::getDefaultLanguage(), 0, 2) : $default;
+			$default = strstr(self::getDefaultLanguage(), '-', true);
 			$langCode = $default;
 		}
 

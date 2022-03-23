@@ -3,11 +3,13 @@
  * @package     Joomla.Installation
  * @subpackage  Controller
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2013 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Language\LanguageHelper;
 
 /**
  * Controller class to set the default application languages for the Joomla Installer.
@@ -96,6 +98,17 @@ class InstallationControllerSetdefaultlanguage extends JControllerBase
 
 		if ((int) $data['activateMultilanguage'])
 		{
+			if (count(LanguageHelper::getInstalledLanguages(0)) < 2)
+			{
+				$app->enqueueMessage(JText::_('INSTL_DEFAULTLANGUAGE_COULD_NOT_INSTALL_MULTILANG'), 'warning');
+
+				$r = new stdClass;
+
+				// Redirect to the same page.
+				$r->view = 'defaultlanguage';
+				$app->sendJsonResponse($r);
+			}
+
 			if (!$model->enablePlugin('plg_system_languagefilter'))
 			{
 				$app->enqueueMessage(JText::sprintf('INSTL_DEFAULTLANGUAGE_COULD_NOT_ENABLE_PLG_LANGUAGEFILTER', $frontend_lang), 'warning');

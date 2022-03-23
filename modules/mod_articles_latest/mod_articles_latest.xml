@@ -3,7 +3,7 @@
 	<name>mod_articles_latest</name>
 	<author>Joomla! Project</author>
 	<creationDate>July 2004</creationDate>
-	<copyright>Copyright (C) 2005 - 2018 Open Source Matters. All rights reserved.</copyright>
+	<copyright>(C) 2005 Open Source Matters, Inc.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
@@ -59,7 +59,7 @@
 					type="list"
 					label="MOD_LATEST_NEWS_FIELD_ORDERING_LABEL"
 					description="MOD_LATEST_NEWS_FIELD_ORDERING_DESC"
-					default="published"
+					default="p_dsc"
 					>
 					<option value="c_dsc">MOD_LATEST_NEWS_VALUE_RECENT_ADDED</option>
 					<option value="m_dsc">MOD_LATEST_NEWS_VALUE_RECENT_MODIFIED</option>
@@ -97,6 +97,7 @@
 					type="modulelayout"
 					label="JFIELD_ALT_LAYOUT_LABEL"
 					description="JFIELD_ALT_MODULE_LAYOUT_DESC"
+					validate="moduleLayout"
 				/>
 
 				<field

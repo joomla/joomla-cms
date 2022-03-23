@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Form
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2011 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -14,7 +14,7 @@ JFormHelper::loadFieldClass('list');
 /**
  * Form Field class for the Joomla Framework.
  *
- * @since  11.4
+ * @since  2.5.0
  */
 class JFormFieldPlugins extends JFormFieldList
 {
@@ -22,7 +22,7 @@ class JFormFieldPlugins extends JFormFieldList
 	 * The field type.
 	 *
 	 * @var    string
-	 * @since  11.4
+	 * @since  2.5.0
 	 */
 	protected $type = 'Plugins';
 
@@ -108,7 +108,7 @@ class JFormFieldPlugins extends JFormFieldList
 	 *
 	 * @return	array  An array of JHtml options.
 	 *
-	 * @since   11.4
+	 * @since   2.5.0
 	 */
 	protected function getOptions()
 	{
@@ -162,22 +162,5 @@ class JFormFieldPlugins extends JFormFieldList
 		}
 
 		return array_merge($parentOptions, $options);
-	}
-
-	/**
-	 * Method to get input and also set field readonly.
-	 *
-	 * @return  string  The field input markup.
-	 *
-	 * @since   3.8.7
-	 */
-	protected function getInput()
-	{
-		if (count($this->options) === 1 && $this->options[0]->text === JText::_('JOPTION_DO_NOT_USE'))
-		{
-			$this->readonly = true;
-		}
-
-		return parent::getInput();
 	}
 }

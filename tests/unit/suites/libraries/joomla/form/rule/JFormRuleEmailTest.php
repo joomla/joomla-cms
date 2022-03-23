@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Form
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2013 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,7 +12,7 @@
  *
  * @package     Joomla.UnitTest
  * @subpackage  Form
- * @since       11.1
+ * @since       1.7.0
  */
 class JFormRuleEmailTest extends TestCase
 {
@@ -49,7 +49,7 @@ class JFormRuleEmailTest extends TestCase
 	 *
 	 * @return array
 	 *
-	 * @since 11.1
+	 * @since 1.7.0
 	 */
 	public function emailData1()
 	{
@@ -76,7 +76,7 @@ class JFormRuleEmailTest extends TestCase
 	 *
 	 * @return void
 	 *
-	 * @since 11.1
+	 * @since 1.7.0
 	 */
 	public function testEmailData($emailAddress, $expectedResult)
 	{
@@ -98,7 +98,7 @@ class JFormRuleEmailTest extends TestCase
 	 *
 	 * @return array
 	 *
-	 * @since 12.3
+	 * @since 3.1.4
 	 */
 	public function emailData2()
 	{
@@ -118,7 +118,7 @@ class JFormRuleEmailTest extends TestCase
 	 *
 	 * @return void
 	 *
-	 * @since 12.3
+	 * @since 3.1.4
 	 */
 	public function testEmailData2($emailAddress, $expectedResult)
 	{
@@ -140,7 +140,7 @@ class JFormRuleEmailTest extends TestCase
 	 *
 	 * @return array
 	 *
-	 * @since 12.3
+	 * @since 3.1.4
 	 */
 	public function emailData3()
 	{
@@ -163,7 +163,7 @@ class JFormRuleEmailTest extends TestCase
 	 *
 	 * @return void
 	 *
-	 * @since 12.3
+	 * @since 3.1.4
 	 */
 	public function testEmailData3($emailAddress, $expectedResult)
 	{

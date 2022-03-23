@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Database
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2012 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -12,7 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * PostgreSQL import driver.
  *
- * @since       12.1
+ * @since       3.0.0
  * @deprecated  4.0  Use PDO PostgreSQL instead
  */
 class JDatabaseImporterPostgresql extends JDatabaseImporter
@@ -22,7 +22,7 @@ class JDatabaseImporterPostgresql extends JDatabaseImporter
 	 *
 	 * @return  JDatabaseImporterPostgresql  Method supports chaining.
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 * @throws  Exception if an error is encountered.
 	 */
 	public function check()
@@ -50,7 +50,7 @@ class JDatabaseImporterPostgresql extends JDatabaseImporter
 	 *
 	 * @return  string
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	protected function getAddColumnSql($table, SimpleXMLElement $field)
 	{
@@ -64,7 +64,7 @@ class JDatabaseImporterPostgresql extends JDatabaseImporter
 	 *
 	 * @return  string
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	protected function getAddIndexSql(SimpleXMLElement $field)
 	{
@@ -78,7 +78,7 @@ class JDatabaseImporterPostgresql extends JDatabaseImporter
 	 *
 	 * @return  array
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	protected function getAlterTableSql(SimpleXMLElement $structure)
 	{
@@ -255,7 +255,7 @@ class JDatabaseImporterPostgresql extends JDatabaseImporter
 	 *
 	 * @return  string
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	protected function getDropSequenceSql($name)
 	{
@@ -269,7 +269,7 @@ class JDatabaseImporterPostgresql extends JDatabaseImporter
 	 *
 	 * @return  string
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	protected function getAddSequenceSql($field)
 	{
@@ -297,7 +297,7 @@ class JDatabaseImporterPostgresql extends JDatabaseImporter
 	 *
 	 * @return  string
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	protected function getChangeSequenceSql($field)
 	{
@@ -325,7 +325,7 @@ class JDatabaseImporterPostgresql extends JDatabaseImporter
 	 *
 	 * @return  string
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	protected function getChangeColumnSql($table, SimpleXMLElement $field)
 	{
@@ -341,7 +341,7 @@ class JDatabaseImporterPostgresql extends JDatabaseImporter
 	 *
 	 * @return  string
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	protected function getAlterColumnSql($table, $field)
 	{
@@ -395,7 +395,7 @@ class JDatabaseImporterPostgresql extends JDatabaseImporter
 	 *
 	 * @return  string
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	protected function getColumnSql(SimpleXMLElement $field)
 	{
@@ -448,7 +448,7 @@ class JDatabaseImporterPostgresql extends JDatabaseImporter
 	 *
 	 * @return  string
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	protected function getDropIndexSql($name)
 	{
@@ -463,7 +463,7 @@ class JDatabaseImporterPostgresql extends JDatabaseImporter
 	 *
 	 * @return  string
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	protected function getDropPrimaryKeySql($table, $name)
 	{
@@ -477,7 +477,7 @@ class JDatabaseImporterPostgresql extends JDatabaseImporter
 	 *
 	 * @return  array  The lookup array. array({key name} => array(object, ...))
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 * @throws  Exception
 	 */
 	protected function getIdxLookup($keys)
@@ -514,7 +514,7 @@ class JDatabaseImporterPostgresql extends JDatabaseImporter
 	 *
 	 * @return  array  The lookup array. array({key name} => array(object, ...))
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 * @throws  Exception
 	 */
 	protected function getSeqLookup($sequences)

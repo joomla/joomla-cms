@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2005 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -22,7 +22,7 @@ use Joomla\CMS\User\UserHelper;
  * Based on the standard PHP session handling mechanism it provides
  * more advanced features such as expire timeouts.
  *
- * @since  11.1
+ * @since  1.7.0
  */
 class Session implements \IteratorAggregate
 {
@@ -32,7 +32,7 @@ class Session implements \IteratorAggregate
 	 *
 	 * @var    string
 	 * @see    Session::getState()
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected $_state = 'inactive';
 
@@ -40,7 +40,7 @@ class Session implements \IteratorAggregate
 	 * Maximum age of unused session in seconds
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected $_expire = 900;
 
@@ -48,7 +48,7 @@ class Session implements \IteratorAggregate
 	 * The session store object.
 	 *
 	 * @var    \JSessionStorage
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected $_store = null;
 
@@ -61,7 +61,7 @@ class Session implements \IteratorAggregate
 	 * - fix_adress
 	 *
 	 * @var    array
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected $_security = array('fix_browser');
 
@@ -69,7 +69,7 @@ class Session implements \IteratorAggregate
 	 * Session instances container.
 	 *
 	 * @var    Session
-	 * @since  11.3
+	 * @since  1.7.3
 	 */
 	protected static $instance;
 
@@ -77,7 +77,7 @@ class Session implements \IteratorAggregate
 	 * The type of storage for the session.
 	 *
 	 * @var    string
-	 * @since  12.2
+	 * @since  3.0.1
 	 */
 	protected $storeName;
 
@@ -85,7 +85,7 @@ class Session implements \IteratorAggregate
 	 * Holds the \JInput object
 	 *
 	 * @var    \JInput
-	 * @since  12.2
+	 * @since  3.0.1
 	 */
 	private $_input = null;
 
@@ -93,7 +93,7 @@ class Session implements \IteratorAggregate
 	 * Holds the event dispatcher object
 	 *
 	 * @var    \JEventDispatcher
-	 * @since  12.2
+	 * @since  3.0.1
 	 */
 	private $_dispatcher = null;
 
@@ -119,14 +119,14 @@ class Session implements \IteratorAggregate
 	 * @param   array                      $options           Optional parameters
 	 * @param   \JSessionHandlerInterface  $handlerInterface  The session handler
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function __construct($store = 'none', array $options = array(), \JSessionHandlerInterface $handlerInterface = null)
 	{
 		// Set the session handler
 		$this->_handler = $handlerInterface instanceof \JSessionHandlerInterface ? $handlerInterface : new \JSessionHandlerJoomla($options);
 
-		// Initialize the data variable, let's avoid fatal error if the session is not corretly started (ie in CLI).
+		// Initialize the data variable, let's avoid fatal error if the session is not correctly started (ie in CLI).
 		$this->data = new \Joomla\Registry\Registry;
 
 		// Clear any existing sessions
@@ -152,7 +152,7 @@ class Session implements \IteratorAggregate
 	 *
 	 * @return  mixed   The value of the property
 	 *
-	 * @since   12.2
+	 * @since   3.0.1
 	 */
 	public function __get($name)
 	{
@@ -178,7 +178,7 @@ class Session implements \IteratorAggregate
 	 *
 	 * @return  Session  The Session object.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public static function getInstance($store, $options, \JSessionHandlerInterface $handlerInterface = null)
 	{
@@ -195,7 +195,7 @@ class Session implements \IteratorAggregate
 	 *
 	 * @return  string  The session state
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function getState()
 	{
@@ -207,7 +207,7 @@ class Session implements \IteratorAggregate
 	 *
 	 * @return  integer  The session expiration time in seconds
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function getExpire()
 	{
@@ -225,7 +225,7 @@ class Session implements \IteratorAggregate
 	 *
 	 * @return  string  The session token
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function getToken($forceNew = false)
 	{
@@ -250,7 +250,7 @@ class Session implements \IteratorAggregate
 	 *
 	 * @return  boolean
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function hasToken($tCheck, $forceExpire = true)
 	{
@@ -278,7 +278,7 @@ class Session implements \IteratorAggregate
 	 *
 	 * @return  string  Hashed var name
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public static function getFormToken($forceNew = false)
 	{
@@ -293,8 +293,9 @@ class Session implements \IteratorAggregate
 	 *
 	 * @return  \ArrayIterator
 	 *
-	 * @since   12.2
+	 * @since   3.0.1
 	 */
+	#[\ReturnTypeWillChange]
 	public function getIterator()
 	{
 		return new \ArrayIterator($this->getData());
@@ -309,7 +310,7 @@ class Session implements \IteratorAggregate
 	 *
 	 * @return  boolean  True if found and valid, false otherwise.
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public static function checkToken($method = 'post')
 	{
@@ -345,7 +346,7 @@ class Session implements \IteratorAggregate
 	 *
 	 * @return  string  The session name
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function getName()
 	{
@@ -363,7 +364,7 @@ class Session implements \IteratorAggregate
 	 *
 	 * @return  string  The session id
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function getId()
 	{
@@ -391,7 +392,7 @@ class Session implements \IteratorAggregate
 	 *
 	 * @return  array  An array of available session handlers
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public static function getStores()
 	{
@@ -436,7 +437,7 @@ class Session implements \IteratorAggregate
 	 *
 	 * @return  boolean
 	 *
-	 * @since   12.2
+	 * @since   3.0.1
 	 */
 	public function isActive()
 	{
@@ -448,7 +449,7 @@ class Session implements \IteratorAggregate
 	 *
 	 * @return  boolean  True on success.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function isNew()
 	{
@@ -463,7 +464,7 @@ class Session implements \IteratorAggregate
 	 *
 	 * @return  void
 	 *
-	 * @since   12.2
+	 * @since   3.0.1
 	 */
 	public function initialise(Input $input, \JEventDispatcher $dispatcher = null)
 	{
@@ -489,7 +490,7 @@ class Session implements \IteratorAggregate
 	 *
 	 * @return  mixed  Value of a variable
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function get($name, $default = null, $namespace = 'default')
 	{
@@ -521,7 +522,7 @@ class Session implements \IteratorAggregate
 	 *
 	 * @return  mixed  Old value of a variable.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function set($name, $value = null, $namespace = 'default')
 	{
@@ -553,7 +554,7 @@ class Session implements \IteratorAggregate
 	 *
 	 * @return  boolean  True if the variable exists
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function has($name, $namespace = 'default')
 	{
@@ -582,7 +583,7 @@ class Session implements \IteratorAggregate
 	 *
 	 * @return  mixed   The value from session or NULL if not set
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function clear($name, $namespace = 'default')
 	{
@@ -608,7 +609,7 @@ class Session implements \IteratorAggregate
 	 *
 	 * @return  void
 	 *
-	 * @since   12.2
+	 * @since   3.0.1
 	 */
 	public function start()
 	{
@@ -653,7 +654,7 @@ class Session implements \IteratorAggregate
 	 *
 	 * @return  boolean  true on success
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	protected function _start()
 	{
@@ -719,7 +720,7 @@ class Session implements \IteratorAggregate
 	 *
 	 * @see     session_destroy()
 	 * @see     session_unset()
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function destroy()
 	{
@@ -746,7 +747,7 @@ class Session implements \IteratorAggregate
 	 * @return  boolean  True on success
 	 *
 	 * @see     Session::destroy()
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function restart()
 	{
@@ -787,7 +788,7 @@ class Session implements \IteratorAggregate
 	 *
 	 * @return  boolean $result true on success
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function fork()
 	{
@@ -816,7 +817,7 @@ class Session implements \IteratorAggregate
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function close()
 	{
@@ -855,7 +856,7 @@ class Session implements \IteratorAggregate
 	 *
 	 * @return  string  Generated token
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	protected function _createToken($length = 32)
 	{
@@ -867,7 +868,7 @@ class Session implements \IteratorAggregate
 	 *
 	 * @return  boolean  True on success
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	protected function _setCounter()
 	{
@@ -884,7 +885,7 @@ class Session implements \IteratorAggregate
 	 *
 	 * @return  boolean  True on success
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	protected function _setTimers()
 	{
@@ -910,7 +911,7 @@ class Session implements \IteratorAggregate
 	 *
 	 * @return  boolean  True on success
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	protected function _setOptions(array $options)
 	{
@@ -961,7 +962,7 @@ class Session implements \IteratorAggregate
 	 * @return  boolean  True on success
 	 *
 	 * @link    http://shiflett.org/articles/the-truth-about-sessions
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	protected function _validate($restart = false)
 	{

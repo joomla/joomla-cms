@@ -3,7 +3,7 @@
 	<name>PLG_SYSTEM_ACTIONLOGS</name>
 	<author>Joomla! Project</author>
 	<creationDate>May 2018</creationDate>
-	<copyright>Copyright (C) 2005 - 2018 Open Source Matters. All rights reserved.</copyright>
+	<copyright>(C) 2018 Open Source Matters, Inc.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
@@ -13,6 +13,10 @@
 		<filename plugin="actionlogs">actionlogs.php</filename>
 		<folder>forms</folder>
 	</files>
+	<languages>
+		<language tag="en-GB">en-GB.plg_system_actionlogs.ini</language>
+		<language tag="en-GB">en-GB.plg_system_actionlogs.sys.ini</language>
+	</languages>
 	<config>
 		<fields name="params">
 			<fieldset name="basic">
@@ -23,8 +27,6 @@
 					description="PLG_SYSTEM_ACTIONLOGS_LOG_DELETE_PERIOD_DESC"
 					default="0"
 					min="0"
-					max="30"
-					step="5"
 					filter="int"
 					validate="number"
 				/>

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  mod_privacy_dashboard
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2018 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -38,8 +38,8 @@ $activeRequests = 0;
 			<?php $totalRequests += $row->count; ?>
 		<?php endforeach; ?>
 		<div class="row-fluid">
-			<div class="span6"><?php echo JText::plural('COM_PRIVACY_DASHBOARD_BADGE_TOTAL_REQUESTS', $totalRequests); ?></div>
-			<div class="span6"><?php echo JText::plural('COM_PRIVACY_DASHBOARD_BADGE_ACTIVE_REQUESTS', $activeRequests); ?></div>
+			<div class="span5"><?php echo JText::plural('COM_PRIVACY_DASHBOARD_BADGE_TOTAL_REQUESTS', $totalRequests); ?></div>
+			<div class="span7"><?php echo JText::plural('COM_PRIVACY_DASHBOARD_BADGE_ACTIVE_REQUESTS', $activeRequests); ?></div>
 		</div>
 	<?php else : ?>
 		<div class="row-fluid">

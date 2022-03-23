@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Form
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2013 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -15,14 +15,14 @@ require_once __DIR__ . '/TestHelpers/JHtmlFieldRadio-helper-dataset.php';
  *
  * @package     Joomla.UnitTest
  * @subpackage  Form
- * @since       11.1
+ * @since       1.7.0
  */
 class JFormFieldRadioTest extends TestCase
 {
 	/**
 	 * Sets up dependencies for the test.
 	 *
-	 * @since       11.3
+	 * @since       1.7.3
 	 *
 	 * @return void
 	 */
@@ -79,7 +79,7 @@ class JFormFieldRadioTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.2
+	 * @since   3.0.1
 	 *
 	 * @dataProvider  getInputData
 	 */
@@ -112,7 +112,7 @@ class JFormFieldRadioTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function testGetOptions()
 	{

@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  HTML
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2009 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -71,7 +71,8 @@ abstract class JHtmlContent
 
 		foreach ($model->countItemsByMonth() as $item)
 		{
-			$items[] = JHtml::_('select.option', $item->d, (new JDate($item->d))->format('F Y') . ' [' . $item->c . ']');
+			$date    = new JDate($item->d);
+			$items[] = JHtml::_('select.option', $item->d, $date->format('F Y') . ' [' . $item->c . ']');
 		}
 
 		return $items;

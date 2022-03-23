@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  mod_tags_popular
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2013 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -84,8 +84,9 @@ abstract class ModTagsPopularHelper
 
 		$query->where($db->quoteName('m.type_alias') . ' = ' . $db->quoteName('c.core_type_alias'));
 
-		// Only return tags connected to published articles
+		// Only return tags connected to published and authorised items
 		$query->where($db->quoteName('c.core_state') . ' = 1')
+			->where('(' . $db->quoteName('c.core_access') . ' IN (' . $groups . ') OR ' . $db->quoteName('c.core_access') . ' = 0)')
 			->where('(' . $db->quoteName('c.core_publish_up') . ' = ' . $nullDate
 				. ' OR ' . $db->quoteName('c.core_publish_up') . ' <= ' . $db->quote($nowDate) . ')')
 			->where('(' . $db->quoteName('c.core_publish_down') . ' = ' . $nullDate

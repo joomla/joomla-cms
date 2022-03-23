@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_tags
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2013 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -34,6 +34,7 @@ class TagsControllerTags extends JControllerLegacy
 			'flanguage' => $app->input->get('flanguage', null, 'word'),
 			'published' => $app->input->get('published', 1, 'int'),
 			'parent_id' => $app->input->get('parent_id', 0, 'int'),
+			'access'    => $user->getAuthorisedViewLevels(),
 		);
 
 		if ((!$user->authorise('core.edit.state', 'com_tags')) && (!$user->authorise('core.edit', 'com_tags')))

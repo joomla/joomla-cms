@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_media
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2016 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -19,7 +19,7 @@ $dispatcher = JEventDispatcher::getInstance();
 ?>
 
 <?php foreach ($this->images as $i => $image) : ?>
-	<?php $dispatcher->trigger('onContentBeforeDisplay', array('com_media.file', &$image, &$params)); ?>
+	<?php $dispatcher->trigger('onContentBeforeDisplay', array('com_media.file', &$image, &$params, 0)); ?>
 	<tr>
 		<?php if ($this->canDelete) : ?>
 			<td>
@@ -55,5 +55,5 @@ $dispatcher = JEventDispatcher::getInstance();
 			</td>
 		<?php endif; ?>
 	</tr>
-	<?php $dispatcher->trigger('onContentAfterDisplay', array('com_media.file', &$image, &$params)); ?>
+	<?php $dispatcher->trigger('onContentAfterDisplay', array('com_media.file', &$image, &$params, 0)); ?>
 <?php endforeach; ?>

@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Form
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2013 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -14,7 +14,7 @@ JFormHelper::loadFieldClass('folderlist');
  *
  * @package     Joomla.UnitTest
  * @subpackage  Form
- * @since       12.1
+ * @since       3.0.0
  */
 class JFormFieldFolderListTest extends TestCase
 {
@@ -23,7 +23,7 @@ class JFormFieldFolderListTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function testGetInput()
 	{
@@ -47,6 +47,20 @@ class JFormFieldFolderListTest extends TestCase
 			strlen($field->input),
 			$this->greaterThan(0),
 			'Line:' . __LINE__ . ' The getInput method should return something without error.'
+		);
+
+		$options = $field->options;
+		$this->assertThat(
+			count($options),
+			$this->greaterThan(0),
+			'Line:' . __LINE__ . ' The getOptions method should return several entries.'
+		);
+
+		$field->directory = JPATH_ROOT . '/modules';
+		$this->assertEquals(
+			$options,
+			$field->options,
+			'Line:' . __LINE__ . ' The getOptions method should return the same for relative and absolute paths.'
 		);
 
 		// TODO: Should check all the attributes have come in properly.

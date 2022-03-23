@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_cache
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2008 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -138,6 +138,7 @@ class CacheController extends JControllerLegacy
 			$app->enqueueMessage(JText::_('COM_CACHE_MSG_SOME_CACHE_GROUPS_CLEARED'), 'warning');
 		}
 
+		$app->triggerEvent('onAfterPurge', array());
 		$this->setRedirect('index.php?option=com_cache&view=cache');
 	}
 

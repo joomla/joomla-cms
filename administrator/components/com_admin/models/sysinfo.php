@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_admin
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2009 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -162,7 +162,7 @@ class AdminModelSysInfo extends JModelLegacy
 	/**
 	 * Remove sections of data marked as private in the privateSettings
 	 *
-	 * @param   array   $dataArray  Array with data tha may contain private informati
+	 * @param   array   $dataArray  Array with data that may contain private information
 	 * @param   string  $dataType   Type of data to search for a specific section in the privateSettings array
 	 *
 	 * @return  array
@@ -278,7 +278,11 @@ class AdminModelSysInfo extends JModelLegacy
 
 		$registry = new Registry(new JConfig);
 		$this->config = $registry->toArray();
-		$hidden = array('host', 'user', 'password', 'ftp_user', 'ftp_pass', 'smtpuser', 'smtppass',);
+		$hidden = array(
+			'host', 'user', 'password', 'ftp_user', 'ftp_pass',
+			'smtpuser', 'smtppass', 'redis_server_auth', 'session_redis_server_auth',
+			'proxy_user', 'proxy_pass', 'secret'
+		);
 
 		foreach ($hidden as $key)
 		{
@@ -523,6 +527,7 @@ class AdminModelSysInfo extends JModelLegacy
 		$cparams  = JComponentHelper::getParams('com_media');
 
 		$this->addDirectory('administrator/components', JPATH_ADMINISTRATOR . '/components');
+		$this->addDirectory('administrator/components/com_joomlaupdate', JPATH_ADMINISTRATOR . '/components/com_joomlaupdate');
 		$this->addDirectory('administrator/language', JPATH_ADMINISTRATOR . '/language');
 
 		// List all admin languages
@@ -530,7 +535,7 @@ class AdminModelSysInfo extends JModelLegacy
 
 		foreach ($admin_langs as $folder)
 		{
-			if (!$folder->isDir() || $folder->isDot())
+			if ($folder->isDot() || !$folder->isDir())
 			{
 				continue;
 			}
@@ -546,7 +551,7 @@ class AdminModelSysInfo extends JModelLegacy
 
 		foreach ($manifests as $folder)
 		{
-			if (!$folder->isDir() || $folder->isDot())
+			if ($folder->isDot() || !$folder->isDir())
 			{
 				continue;
 			}
@@ -569,7 +574,7 @@ class AdminModelSysInfo extends JModelLegacy
 
 		foreach ($image_folders as $folder)
 		{
-			if (!$folder->isDir() || $folder->isDot())
+			if ($folder->isDot() || !$folder->isDir())
 			{
 				continue;
 			}
@@ -587,7 +592,7 @@ class AdminModelSysInfo extends JModelLegacy
 
 		foreach ($site_langs as $folder)
 		{
-			if (!$folder->isDir() || $folder->isDot())
+			if ($folder->isDot() || !$folder->isDir())
 			{
 				continue;
 			}
@@ -605,7 +610,7 @@ class AdminModelSysInfo extends JModelLegacy
 
 		foreach ($plugin_groups as $folder)
 		{
-			if (!$folder->isDir() || $folder->isDot())
+			if ($folder->isDot() || !$folder->isDir())
 			{
 				continue;
 			}

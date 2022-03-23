@@ -1,5 +1,5 @@
 /**
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2009 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -20,6 +20,8 @@ Joomla.editors.instances = Joomla.editors.instances || {
 	 *                                  Example: function () { return this.element.value; }
 	 * setValue         Type  Function  Should replace the complete data of the editor
 	 *                                  Example: function (text) { return this.element.value = text; }
+	 * getSelection     Type  Function  Should return the selected text from the editor
+	 *                                  Example: function () { return this.selectedText; }
 	 * replaceSelection Type  Function  Should replace the selected text of the editor
 	 *                                  If nothing selected, will insert the data at the cursor
 	 *                                  Example: function (text) { return insertAtCursor(this.element, text); }
@@ -308,6 +310,7 @@ Joomla.editors.instances = Joomla.editors.instances || {
 	/**
 	 * Render messages send via JSON
 	 * Used by some javascripts such as validate.js
+	 * PLEASE NOTE: do NOT use user supplied input in messages as potential HTML markup is NOT sanitized!
 	 *
 	 * @param   {object}  messages    JavaScript object containing the messages to render. Example:
 	 *                              var messages = {
@@ -485,11 +488,9 @@ Joomla.editors.instances = Joomla.editors.instances || {
 	 *
 	 * Pops up a new window in the middle of the screen
 	 *
-	 * @deprecated  4.0 No replacement
+	 * @note  This will be moved out of core.js into a new file toolbar.js in Joomla 4
 	 */
 	Joomla.popupWindow = function( mypage, myname, w, h, scroll ) {
-		console.warn('Joomla.popupWindow() is deprecated without a replacement!');
-
 		var winl = ( screen.width - w ) / 2,
 		    wint = ( screen.height - h ) / 2,
 		    winprops = 'height=' + h +
@@ -547,26 +548,45 @@ Joomla.editors.instances = Joomla.editors.instances || {
 	window.writeDynaList = function ( selectParams, source, key, orig_key, orig_val, element ) {
 		console.warn('window.writeDynaList() is deprecated without a replacement!');
 
-		var html = '<select ' + selectParams + '>',
-			hasSelection = key == orig_key, i, selected, item;
+		var select = document.createElement('select');
+		var params = selectParams.split(' ');
 
-		for (i = 0 ; i < source.length; i++) {
-			item = source[ i ];
+		for (var l = 0; l < params.length; l++) {
+			var par = params[l].split('=');
 
-			if ( item[ 0 ] != key ) { continue; }
+			// make sure the attribute / content can not be used for scripting
+			if (par[0].trim().substr(0, 2).toLowerCase() === "on"
+				|| par[0].trim().toLowerCase() === "href") {
+				continue;
+			}
 
-			selected = hasSelection ? orig_val == item[ 1 ] : i === 0;
-
-			html += '<option value="' + item[ 1 ] + '"' + (selected ? ' selected="selected"' : '') + '>'
-				+ item[ 2 ] + '</option>';
+			select.setAttribute(par[0], par[1].replace(/\"/g, ''));
 		}
 
-		html += '</select>';
+		var hasSelection = key == orig_key, i, selected, item;
+
+		for (i = 0; i < source.length; i++) {
+			item = source[i];
+
+			if (item[0] != key) { continue; }
+
+			selected = hasSelection ? orig_val == item[1] : i === 0;
+
+			var el = document.createElement('option');
+			el.setAttribute('value', item[1]);
+			el.innerText = item[2];
+
+			if (selected) {
+				el.setAttribute('selected', 'selected');
+			}
+
+			select.appendChild(el);
+		}
 
 		if (element) {
-			element.innerHTML = html;
+			element.appendChild(select);
 		} else {
-			document.writeln( html );
+			document.body.appendChild(select);
 		}
 	};
 
@@ -939,7 +959,7 @@ Joomla.editors.instances = Joomla.editors.instances || {
 					xhr.setRequestHeader('X-CSRF-Token', token);
 				}
 
-				if (!options.headers || !options.headers['Content-Type']) {
+				if (typeof(options.data) === 'string' && (!options.headers || !options.headers['Content-Type'])) {
 					xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
 				}
 			}

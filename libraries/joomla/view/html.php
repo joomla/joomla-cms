@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  View
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2012 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -14,8 +14,8 @@ jimport('joomla.filesystem.path');
 /**
  * Joomla Platform HTML View Class
  *
- * @since       12.1
- * @deprecated  5.0 Use the default MVC library
+ * @since       3.0.0
+ * @deprecated  4.0 Use the default MVC library
  */
 abstract class JViewHtml extends JViewBase
 {
@@ -23,7 +23,7 @@ abstract class JViewHtml extends JViewBase
 	 * The view layout.
 	 *
 	 * @var    string
-	 * @since  12.1
+	 * @since  3.0.0
 	 */
 	protected $layout = 'default';
 
@@ -31,7 +31,7 @@ abstract class JViewHtml extends JViewBase
 	 * The paths queue.
 	 *
 	 * @var    SplPriorityQueue
-	 * @since  12.1
+	 * @since  3.0.0
 	 */
 	protected $paths;
 
@@ -41,7 +41,7 @@ abstract class JViewHtml extends JViewBase
 	 * @param   JModel            $model  The model object.
 	 * @param   SplPriorityQueue  $paths  The paths queue.
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function __construct(JModel $model, SplPriorityQueue $paths = null)
 	{
@@ -56,7 +56,7 @@ abstract class JViewHtml extends JViewBase
 	 *
 	 * @return  string
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function __toString()
 	{
@@ -73,7 +73,7 @@ abstract class JViewHtml extends JViewBase
 	 * @note the ENT_COMPAT flag will be replaced by ENT_QUOTES in Joomla 4.0 to also escape single quotes
 	 *
 	 * @see     JView::escape()
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function escape($output)
 	{
@@ -86,7 +86,7 @@ abstract class JViewHtml extends JViewBase
 	 *
 	 * @return  string  The layout name.
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function getLayout()
 	{
@@ -100,7 +100,7 @@ abstract class JViewHtml extends JViewBase
 	 *
 	 * @return  mixed  The layout file name if found, false otherwise.
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function getPath($layout)
 	{
@@ -118,7 +118,7 @@ abstract class JViewHtml extends JViewBase
 	 *
 	 * @return  SplPriorityQueue  The paths queue.
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function getPaths()
 	{
@@ -130,7 +130,7 @@ abstract class JViewHtml extends JViewBase
 	 *
 	 * @return  string  The rendered view.
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 * @throws  RuntimeException
 	 */
 	public function render()
@@ -163,7 +163,7 @@ abstract class JViewHtml extends JViewBase
 	 *
 	 * @return  JViewHtml  Method supports chaining.
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function setLayout($layout)
 	{
@@ -179,7 +179,7 @@ abstract class JViewHtml extends JViewBase
 	 *
 	 * @return  JViewHtml  Method supports chaining.
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function setPaths(SplPriorityQueue $paths)
 	{
@@ -193,7 +193,7 @@ abstract class JViewHtml extends JViewBase
 	 *
 	 * @return  SplPriorityQueue  The paths queue.
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	protected function loadPaths()
 	{

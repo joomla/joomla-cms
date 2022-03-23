@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Fields.Repeatable
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2018 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -65,6 +65,11 @@ class PlgFieldsRepeatable extends FieldsPlugin
 			$child->addAttribute('name', $formField->fieldname);
 			$child->addAttribute('type', $formField->fieldtype);
 			$child->addAttribute('readonly', $readonly);
+
+			if (isset($formField->fieldfilter))
+			{
+				$child->addAttribute('filter', $formField->fieldfilter);
+			}
 		}
 
 		$fieldNode->setAttribute('formsource', $fieldsXml->asXML());
@@ -133,6 +138,12 @@ class PlgFieldsRepeatable extends FieldsPlugin
 
 			// Determine the value if it is available from the data
 			$value = key_exists($field->name, $fieldsData) ? $fieldsData[$field->name] : null;
+
+			// Handle json encoded values
+			if (!is_array($value))
+			{
+				$value = json_decode($value, true);
+			}
 
 			// Setting the value for the field and the item
 			$model->setFieldValue($field->id, $item->get('id'), json_encode($value));

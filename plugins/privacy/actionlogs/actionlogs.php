@@ -3,17 +3,14 @@
  * @package     Joomla.Plugin
  * @subpackage  Privacy.actionlogs
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2018 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
-use Joomla\Utilities\ArrayHelper;
-
-JLoader::register('ActionlogsHelper', JPATH_COMPONENT . '/helpers/actionlogs.php');
+JLoader::register('ActionlogsHelper', JPATH_ADMINISTRATOR . '/components/com_actionlogs/helpers/actionlogs.php');
 JLoader::register('PrivacyPlugin', JPATH_ADMINISTRATOR . '/components/com_privacy/helpers/plugin.php');
-
 
 /**
  * Privacy plugin managing Joomla actionlogs data
@@ -22,22 +19,6 @@ JLoader::register('PrivacyPlugin', JPATH_ADMINISTRATOR . '/components/com_privac
  */
 class PlgPrivacyActionlogs extends PrivacyPlugin
 {
-	/**
-	 * Database object
-	 *
-	 * @var    JDatabaseDriver
-	 * @since  3.9.0
-	 */
-	protected $db;
-
-	/**
-	 * Affects constructor behavior. If true, language files will be loaded automatically.
-	 *
-	 * @var    boolean
-	 * @since  3.9.0
-	 */
-	protected $autoloadLanguage = true;
-
 	/**
 	 * Processes an export request for Joomla core actionlog data
 	 *
@@ -55,13 +36,13 @@ class PlgPrivacyActionlogs extends PrivacyPlugin
 			return array();
 		}
 
-		$domain = $this->createDomain('actionlog', 'Logged actions of the user');
+		$domain = $this->createDomain('user_action_logs', 'joomla_user_action_logs_data');
 
 		$query = $this->db->getQuery(true)
 			->select('a.*, u.name')
 			->from('#__action_logs AS a')
 			->innerJoin('#__users AS u ON a.user_id = u.id')
-			->where($this->db->quoteName('a.user_id') . ' = ' . $user->id);
+			->where($this->db->quoteName('a.user_id') . ' = ' . (int) $user->id);
 
 		$this->db->setQuery($query);
 
@@ -72,11 +53,18 @@ class PlgPrivacyActionlogs extends PrivacyPlugin
 			return array();
 		}
 
-		$data = ActionlogsHelper::getCsvData($data);
-		array_shift($data);
+		$data    = ActionlogsHelper::getCsvData($data);
+		$isFirst = true;
 
 		foreach ($data as $item)
 		{
+			if ($isFirst)
+			{
+				$isFirst = false;
+
+				continue;
+			}
+
 			$domain->addItem($this->createItemFromArray($item));
 		}
 

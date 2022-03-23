@@ -2,7 +2,7 @@
 /**
  * @package    Joomla.Test
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2012 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -10,7 +10,7 @@
  * Class to mock JAccessRules.
  *
  * @package  Joomla.Test
- * @since    12.1
+ * @since    3.0.0
  */
 class TestMockRules
 {
@@ -21,7 +21,7 @@ class TestMockRules
 	 *
 	 * @return  PHPUnit_Framework_MockObject_MockObject
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public static function create($test)
 	{
@@ -56,7 +56,7 @@ class TestMockRules
 	 *
 	 * @return  mixed  Boolean or null.
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public static function mockAllow($action, $identity)
 	{

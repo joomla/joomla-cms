@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_media
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2015 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -23,7 +23,7 @@ jQuery(document).ready(function($){
 ");
 ?>
 <?php foreach ($this->videos as $i => $video) : ?>
-	<?php $dispatcher->trigger('onContentBeforeDisplay', array('com_media.file', &$video, &$params)); ?>
+	<?php $dispatcher->trigger('onContentBeforeDisplay', array('com_media.file', &$video, &$params, 0)); ?>
 	<li class="imgOutline thumbnail height-80 width-80 center">
 		<?php if ($this->canDelete) : ?>
 			<a class="close delete-item" target="_top" href="index.php?option=com_media&amp;task=file.delete&amp;tmpl=index&amp;<?php echo JSession::getFormToken(); ?>=1&amp;folder=<?php echo rawurlencode($this->state->folder); ?>&amp;rm[]=<?php echo $this->escape($video->name); ?>" rel="<?php echo $this->escape($video->name); ?>" title="<?php echo JText::_('JACTION_DELETE'); ?>">&#215;</a>
@@ -43,5 +43,5 @@ jQuery(document).ready(function($){
 			</a>
 		</div>
 	</li>
-	<?php $dispatcher->trigger('onContentAfterDisplay', array('com_media.file', &$video, &$params)); ?>
+	<?php $dispatcher->trigger('onContentAfterDisplay', array('com_media.file', &$video, &$params, 0)); ?>
 <?php endforeach; ?>

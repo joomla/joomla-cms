@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_privacy
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2018 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -19,8 +19,6 @@ defined('_JEXEC') or die;
  * @property   string   $request_type              The type of information request
  * @property   string   $confirm_token             Hashed token for confirming the information request
  * @property   string   $confirm_token_created_at  The time the confirmation token was generated
- * @property   integer  $checked_out               User ID who has checked out the item for editing
- * @property   string   $checked_out_time          The time the item was checked out for editing
  *
  * @since  3.9.0
  */
@@ -45,7 +43,7 @@ class PrivacyTableRequest extends JTable
 	 *
 	 * @return  boolean  True on success.
 	 *
-	 * @since   11.1
+	 * @since   3.9.0
 	 */
 	public function store($updateNulls = false)
 	{

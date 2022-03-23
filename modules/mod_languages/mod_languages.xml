@@ -3,7 +3,7 @@
 	<name>mod_languages</name>
 	<author>Joomla! Project</author>
 	<creationDate>February 2010</creationDate>
-	<copyright>Copyright (C) 2005 - 2018 Open Source Matters. All rights reserved.</copyright>
+	<copyright>(C) 2010 Open Source Matters, Inc.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
@@ -163,6 +163,7 @@
 					type="modulelayout"
 					label="JFIELD_ALT_LAYOUT_LABEL"
 					description="MOD_LANGUAGES_FIELD_MODULE_LAYOUT_DESC"
+					validate="moduleLayout"
 				/>
 
 				<field
@@ -172,35 +173,6 @@
 					description="COM_MODULES_FIELD_MODULECLASS_SFX_DESC"
 					rows="3"
 				/>
-
-				<field
-					name="cache"
-					type="list"
-					label="COM_MODULES_FIELD_CACHING_LABEL"
-					description="MOD_LANGUAGES_FIELD_CACHING_DESC"
-					default="0"
-					filter="integer"
-					>
-					<option value="1">JGLOBAL_USE_GLOBAL</option>
-					<option value="0">COM_MODULES_FIELD_VALUE_NOCACHING</option>
-				</field>
-
-				<field
-					name="cache_time"
-					type="number"
-					label="COM_MODULES_FIELD_CACHE_TIME_LABEL"
-					description="COM_MODULES_FIELD_CACHE_TIME_DESC"
-					default="900"
-					filter="integer"
-				/>
-
-				<field
-					name="cachemode"
-					type="hidden"
-					default="itemid"
-					>
-					<option	value="itemid"></option>
-				</field>
 			</fieldset>
 		</fields>
 	</config>

@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2005 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -178,7 +178,7 @@ class Editor extends \JObject
 
 			$this->_observers[] = $observer;
 
-			// @todo We require a Editor object above but get the methods from \JPlugin - something isn't right here!
+			// @todo We require an Editor object above but get the methods from \JPlugin - something isn't right here!
 			$methods = array_diff(get_class_methods($observer), get_class_methods('\JPlugin'));
 		}
 
@@ -255,7 +255,7 @@ class Editor extends \JObject
 
 		foreach ($results as $result)
 		{
-			if (trim($result))
+			if (!is_null($result) && trim($result))
 			{
 				// @todo remove code: $return .= $result;
 				$return = $result;

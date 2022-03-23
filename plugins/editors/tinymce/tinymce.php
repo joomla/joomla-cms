@@ -3,11 +3,13 @@
  * @package     Joomla.Plugin
  * @subpackage  Editors.tinymce
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2006 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
+
+use Joomla\CMS\HTML\HTMLHelper;
 
 /**
  * TinyMCE Editor Plugin
@@ -427,7 +429,6 @@ class PlgEditorTinymce extends JPlugin
 		$plugins  = array(
 			'autolink',
 			'lists',
-			'save',
 			'colorpicker',
 			'importcss',
 		);
@@ -584,7 +585,11 @@ class PlgEditorTinymce extends JPlugin
 
 		if ($dragdrop && $user->authorise('core.create', 'com_media'))
 		{
-			$externalPlugins['jdragdrop'] = JUri::root() . 'media/editors/tinymce/js/plugins/dragdrop/plugin.min.js';
+			$externalPlugins['jdragdrop'] = HTMLHelper::_(
+					'script',
+					'editors/tinymce/plugins/dragdrop/plugin.min.js',
+					array('relative' => true, 'version' => 'auto', 'pathOnly' => true)
+				);
 			$allowImgPaste = true;
 			$isSubDir      = '';
 			$session       = JFactory::getSession();
@@ -595,7 +600,7 @@ class PlgEditorTinymce extends JPlugin
 
 			if ($app->isClient('site'))
 			{
-				$uploadUrl = htmlentities($uploadUrl, null, 'UTF-8', null);
+				$uploadUrl = htmlentities($uploadUrl, 0, 'UTF-8', false);
 			}
 
 			// Is Joomla installed in subdirectory
@@ -604,19 +609,10 @@ class PlgEditorTinymce extends JPlugin
 				$isSubDir = JUri::root(true);
 			}
 
-			// Get specific path
-			$tempPath = $levelParams->get('path', '');
-
-			if (!empty($tempPath))
-			{
-				// Remove the root images path
-				$tempPath = str_replace(JComponentHelper::getParams('com_media')->get('image_path') . '/', '', $tempPath);
-			}
-
 			JText::script('PLG_TINY_ERR_UNSUPPORTEDBROWSER');
 
 			$scriptOptions['setCustomDir']    = $isSubDir;
-			$scriptOptions['mediaUploadPath'] = $tempPath;
+			$scriptOptions['mediaUploadPath'] = $levelParams->get('path', '');
 			$scriptOptions['uploadUri']       = $uploadUrl;
 		}
 
@@ -666,7 +662,8 @@ class PlgEditorTinymce extends JPlugin
 			'templates'          => $templates,
 			'image_advtab'       => (bool) $levelParams->get('image_advtab', false),
 			'external_plugins'   => empty($externalPlugins) ? null  : $externalPlugins,
-
+			'contextmenu'        => (bool) $levelParams->get('contextmenu', true) ? null : false,
+			'elementpath'        => (bool) $levelParams->get('element_path', true),
 		)
 		);
 
@@ -817,7 +814,12 @@ class PlgEditorTinymce extends JPlugin
 					// Set width/height
 					$tempConstructor[] = 'if(modalWidth){modalOptions.width=modalWidth;}';
 					$tempConstructor[] = 'if(modalHeight){modalOptions.height = modalHeight;}';
-					$tempConstructor[] = 'editor.windowManager.open(modalOptions);';
+					$tempConstructor[] = 'var win=editor.windowManager.open(modalOptions);';
+
+					if (JFactory::getApplication()->client->mobile)
+					{
+						$tempConstructor[] = 'win.fullscreen(true);';
+					}
 
 					if ($onclick && ($button->get('modal') || $href))
 					{
@@ -844,7 +846,7 @@ class PlgEditorTinymce extends JPlugin
 				$btnsNames[] = $name . ' | ';
 
 				// The array with code for each button
-				$tinyBtns[] = implode($tempConstructor, '');
+				$tinyBtns[] = implode('', $tempConstructor);
 			}
 		}
 
@@ -1881,7 +1883,7 @@ class PlgEditorTinymce extends JPlugin
 
 			if ($app->isClient('site'))
 			{
-				$uploadUrl = htmlentities($uploadUrl, null, 'UTF-8', null);
+				$uploadUrl = htmlentities($uploadUrl, 0, 'UTF-8', false);
 			}
 
 			// Is Joomla installed in subdirectory
@@ -1890,23 +1892,20 @@ class PlgEditorTinymce extends JPlugin
 				$isSubDir = JUri::root(true);
 			}
 
-			// Get specific path
-			$tempPath = $this->params->get('path', '');
-
-			if (!empty($tempPath))
-			{
-				// Remove the root images path
-				$tempPath = str_replace(JComponentHelper::getParams('com_media')->get('image_path') . '/', '', $tempPath);
-			}
-
 			JText::script('PLG_TINY_ERR_UNSUPPORTEDBROWSER');
 
 			$scriptOptions['setCustomDir']    = $isSubDir;
-			$scriptOptions['mediaUploadPath'] = $tempPath;
+			$scriptOptions['mediaUploadPath'] = $this->params->get('path', '');
 			$scriptOptions['uploadUri']       = $uploadUrl;
 
 			$externalPlugins = array(
-				array('jdragdrop' => JUri::root() . 'media/editors/tinymce/js/plugins/dragdrop/plugin.min.js'),
+				array(
+					'jdragdrop' => HTMLHelper::_(
+						'script',
+						'editors/tinymce/plugins/dragdrop/plugin.min.js',
+						array('relative' => true, 'version' => 'auto', 'pathOnly' => true)
+					),
+				),
 			);
 		}
 

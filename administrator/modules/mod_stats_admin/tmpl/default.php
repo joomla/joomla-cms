@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  mod_stats_admin
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2012 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -30,11 +30,11 @@ JFactory::getDocument()->addScriptDeclaration('
 	<?php foreach ($list as $item) : ?>
 		<div class="row-fluid">
 			<div class="span4">
-				<span class="icon-<?php echo $item->icon; ?>" title="<?php echo $item->title; ?>" aria-hidden="true"></span> <?php echo $item->title . ' '; ?>
+				<span class="icon-<?php echo $item->icon; ?>" aria-hidden="true"></span> <?php echo $item->title; ?>
 			</div>
 			<div class="span8">
-				<?php if(isset($item->link)) : ?>
-					<a class="btn btn-info js-revert" href ="<?php echo $item->link; ?>"><?php echo $item->data; ?></a>
+				<?php if (isset($item->link)) : ?>
+					<a class="btn btn-info btn-small js-revert" href="<?php echo $item->link; ?>"><?php echo $item->data; ?></a>
 				<?php else : ?>
 					<?php echo $item->data; ?>
 				<?php endif; ?>

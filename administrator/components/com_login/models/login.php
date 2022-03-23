@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_login
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2009 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -65,7 +65,7 @@ class LoginModelLogin extends JModelLegacy
 	 *
 	 * @return  object  The Module object.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public static function getLoginModule($name = 'mod_login', $title = null)
 	{
@@ -114,7 +114,7 @@ class LoginModelLogin extends JModelLegacy
 	 *
 	 * @return  array
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	protected static function _load($module)
 	{

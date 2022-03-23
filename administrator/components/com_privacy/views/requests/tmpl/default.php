@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_privacy
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2018 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -58,7 +58,7 @@ $urgentRequestDate->sub(new DateInterval('P' . $this->urgentRequestAge . 'D'));
 						<th width="10%" class="nowrap">
 							<?php echo JHtml::_('searchtools.sort', 'COM_PRIVACY_HEADING_REQUEST_TYPE', 'a.request_type', $listDirn, $listOrder); ?>
 						</th>
-						<th width="15%" class="nowrap">
+						<th width="20%" class="nowrap">
 							<?php echo JHtml::_('searchtools.sort', 'COM_PRIVACY_HEADING_REQUESTED_AT', 'a.requested_at', $listDirn, $listOrder); ?>
 						</th>
 						<th width="1%" class="nowrap hidden-phone">
@@ -84,11 +84,11 @@ $urgentRequestDate->sub(new DateInterval('P' . $this->urgentRequestAge . 'D'));
 									<?php if ($item->status == 1 && $item->request_type === 'export') : ?>
 										<a class="btn btn-micro hasTooltip" href="<?php echo JRoute::_('index.php?option=com_privacy&task=request.export&format=xml&id=' . (int) $item->id); ?>" title="<?php echo JText::_('COM_PRIVACY_ACTION_EXPORT_DATA'); ?>"><span class="icon-download" aria-hidden="true"></span><span class="element-invisible"><?php echo JText::_('COM_PRIVACY_ACTION_EXPORT_DATA'); ?></span></a>
 										<?php if ($this->sendMailEnabled) : ?>
-											<a class="btn btn-micro hasTooltip" href="<?php echo JRoute::_('index.php?option=com_privacy&task=request.emailexport&id=' . (int) $item->id); ?>" title="<?php echo JText::_('COM_PRIVACY_ACTION_EMAIL_EXPORT_DATA'); ?>"><span class="icon-mail" aria-hidden="true"></span><span class="element-invisible"><?php echo JText::_('COM_PRIVACY_ACTION_EMAIL_EXPORT_DATA'); ?></span></a>
+											<a class="btn btn-micro hasTooltip" href="<?php echo JRoute::_('index.php?option=com_privacy&task=request.emailexport&id=' . (int) $item->id . '&' . JFactory::getSession()->getFormToken() . '=1'); ?>" title="<?php echo JText::_('COM_PRIVACY_ACTION_EMAIL_EXPORT_DATA'); ?>"><span class="icon-mail" aria-hidden="true"></span><span class="element-invisible"><?php echo JText::_('COM_PRIVACY_ACTION_EMAIL_EXPORT_DATA'); ?></span></a>
 										<?php endif; ?>
 									<?php endif; ?>
 									<?php if ($item->status == 1 && $item->request_type === 'remove') : ?>
-										<a class="btn btn-micro hasTooltip" href="<?php echo JRoute::_('index.php?option=com_privacy&task=request.remove&id=' . (int) $item->id); ?>" title="<?php echo JText::_('COM_PRIVACY_ACTION_DELETE_DATA'); ?>"><span class="icon-delete" aria-hidden="true"></span><span class="element-invisible"><?php echo JText::_('COM_PRIVACY_ACTION_DELETE_DATA'); ?></span></a>
+										<a class="btn btn-micro hasTooltip" href="<?php echo JRoute::_('index.php?option=com_privacy&task=request.remove&id=' . (int) $item->id . '&' . JFactory::getSession()->getFormToken() . '=1'); ?>" title="<?php echo JText::_('COM_PRIVACY_ACTION_DELETE_DATA'); ?>"><span class="icon-delete" aria-hidden="true"></span><span class="element-invisible"><?php echo JText::_('COM_PRIVACY_ACTION_DELETE_DATA'); ?></span></a>
 									<?php endif; ?>
 								</div>
 							</td>
@@ -96,12 +96,12 @@ $urgentRequestDate->sub(new DateInterval('P' . $this->urgentRequestAge . 'D'));
 								<?php echo JHtml::_('PrivacyHtml.helper.statusLabel', $item->status); ?>
 							</td>
 							<td>
+								<?php if ($item->status == 1 && $urgentRequestDate >= $itemRequestedAt) : ?>
+									<span class="pull-right label label-important"><?php echo JText::_('COM_PRIVACY_BADGE_URGENT_REQUEST'); ?></span>
+								<?php endif; ?>
 								<a class="hasTooltip" href="<?php echo JRoute::_('index.php?option=com_privacy&view=request&id=' . (int) $item->id); ?>" title="<?php echo JText::_('COM_PRIVACY_ACTION_VIEW'); ?>">
 									<?php echo JStringPunycode::emailToUTF8($this->escape($item->email)); ?>
 								</a>
-								<?php if ($item->status == 1 && $urgentRequestDate >= $itemRequestedAt) : ?>
-									<span class="label"><?php echo JText::_('COM_PRIVACY_BADGE_URGENT_REQUEST'); ?></span>
-								<?php endif; ?>
 							</td>
 							<td class="break-word">
 								<?php echo JText::_('COM_PRIVACY_HEADING_REQUEST_TYPE_TYPE_' . $item->request_type); ?>

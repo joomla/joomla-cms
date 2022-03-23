@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2008 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -15,7 +15,7 @@ defined('JPATH_PLATFORM') or die;
  *
  * Holds support functions for the filesystem, particularly the stream
  *
- * @since  11.1
+ * @since  1.7.0
  */
 class FilesystemHelper
 {
@@ -26,8 +26,8 @@ class FilesystemHelper
 	 *
 	 * @return  mixed
 	 *
-	 * @link    https://secure.php.net/manual/en/function.filesize.php#71098
-	 * @since   11.1
+	 * @link    https://www.php.net/manual/en/function.filesize.php
+	 * @since   1.7.0
 	 */
 	public static function remotefsize($url)
 	{
@@ -121,8 +121,8 @@ class FilesystemHelper
 	 *
 	 * @return  mixed
 	 *
-	 * @link    https://secure.php.net/manual/en/function.ftp-chmod.php
-	 * @since   11.1
+	 * @link    https://www.php.net/manual/en/function.ftp-chmod.php
+	 * @since   1.7.0
 	 */
 	public static function ftpChmod($url, $mode)
 	{
@@ -193,7 +193,7 @@ class FilesystemHelper
 	 *
 	 * @return  array
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public static function getWriteModes()
 	{
@@ -208,7 +208,7 @@ class FilesystemHelper
 	 *
 	 * @return  array  Streams
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public static function getSupported()
 	{
@@ -228,7 +228,7 @@ class FilesystemHelper
 	 *
 	 * @return  array
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public static function getTransports()
 	{
@@ -241,7 +241,7 @@ class FilesystemHelper
 	 *
 	 * @return  array
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public static function getFilters()
 	{
@@ -255,7 +255,7 @@ class FilesystemHelper
 	 *
 	 * @return  array
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public static function getJStreams()
 	{
@@ -288,7 +288,7 @@ class FilesystemHelper
 	 *
 	 * @return  boolean  True for a Joomla Stream
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public static function isJoomlaStream($streamname)
 	{
@@ -300,18 +300,18 @@ class FilesystemHelper
 	 *
 	 * Call it with JFilesystemHelper::fileUploadMaxSize();
 	 *
-	 * @param   bool  $unit_output  This parameter determines whether the return value should be a string with a unit
+	 * @param   bool  $unitOutput  This parameter determines whether the return value should be a string with a unit
 	 *
 	 * @return  float|string The maximum upload size of files with the appropriate unit or in bytes
 	 *
 	 * @since   3.4
 	 */
-	public static function fileUploadMaxSize($unit_output = true)
+	public static function fileUploadMaxSize($unitOutput = true)
 	{
 		static $max_size = false;
 		static $output_type = true;
 
-		if ($max_size === false || $output_type != $unit_output)
+		if ($max_size === false || $output_type != $unitOutput)
 		{
 			$max_size   = self::parseSize(ini_get('post_max_size'));
 			$upload_max = self::parseSize(ini_get('upload_max_filesize'));
@@ -321,12 +321,12 @@ class FilesystemHelper
 				$max_size = $upload_max;
 			}
 
-			if ($unit_output == true)
+			if ($unitOutput == true)
 			{
 				$max_size = self::parseSizeUnit($max_size);
 			}
 
-			$output_type = $unit_output;
+			$output_type = $unitOutput;
 		}
 
 		return $max_size;
@@ -359,15 +359,15 @@ class FilesystemHelper
 	/**
 	 * Creates the rounded size of the size with the appropriate unit
 	 *
-	 * @param   float  $max_size  The maximum size which is allowed for the uploads
+	 * @param   float  $maxSize  The maximum size which is allowed for the uploads
 	 *
 	 * @return  string String with the size and the appropriate unit
 	 *
 	 * @since   3.4
 	 */
-	private static function parseSizeUnit($max_size)
+	private static function parseSizeUnit($maxSize)
 	{
-		$base     = log($max_size) / log(1024);
+		$base     = log($maxSize) / log(1024);
 		$suffixes = array('', 'k', 'M', 'G', 'T');
 
 		return round(pow(1024, $base - floor($base)), 0) . $suffixes[floor($base)];

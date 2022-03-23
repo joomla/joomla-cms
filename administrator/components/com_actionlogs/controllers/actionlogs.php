@@ -3,16 +3,20 @@
  * @package     Joomla.Administrator
  * @subpackage  com_actionlogs
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2018 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Date\Date;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Router\Route;
 use Joomla\Utilities\ArrayHelper;
 
-JLoader::register('ActionlogsHelper', JPATH_COMPONENT . '/helpers/actionlogs.php');
+JLoader::register('ActionlogsHelper', JPATH_ADMINISTRATOR . '/components/com_actionlogs/helpers/actionlogs.php');
 
 /**
  * Actionlogs list controller class.
@@ -62,21 +66,48 @@ class ActionlogsControllerActionlogs extends JControllerAdmin
 	public function exportLogs()
 	{
 		// Check for request forgeries.
-		JSession::checkToken() or die(JText::_('JINVALID_TOKEN'));
+		$this->checkToken();
 
-		// Get selected logs
-		$pks = ArrayHelper::toInteger($this->input->post->get('cid', array(), 'array'));
+		$task = $this->getTask();
+
+		$pks = array();
+
+		if ($task == 'exportSelectedLogs')
+		{
+			// Get selected logs
+			$pks = ArrayHelper::toInteger(explode(',', $this->input->post->getString('cids')));
+		}
+
+		/** @var ActionlogsModelActionlogs $model */
+		$model = $this->getModel();
 
 		// Get the logs data
-		$data = $this->getModel()->getLogsData($pks);
+		$data = $model->getLogDataAsIterator($pks);
 
 		if (count($data))
 		{
-			$rows = ActionlogsHelper::getCsvData($data);
-			$filename     = 'logs_' . JFactory::getDate()->format('Y-m-d_His_T');
+
+			try
+			{
+				$rows = ActionlogsHelper::getCsvData($data);
+			}
+			catch (InvalidArgumentException $exception)
+			{
+				$this->setMessage(Text::_('COM_ACTIONLOGS_ERROR_COULD_NOT_EXPORT_DATA'), 'error');
+				$this->setRedirect(Route::_('index.php?option=com_actionlogs&view=actionlogs', false));
+
+				return;
+			}
+
+			// Destroy the iterator now
+			unset($data);
+
+			$date     = new Date('now', new DateTimeZone('UTC'));
+			$filename = 'logs_' . $date->format('Y-m-d_His_T');
+
 			$csvDelimiter = ComponentHelper::getComponent('com_actionlogs')->getParams()->get('csv_delimiter', ',');
 
-			$app = JFactory::getApplication();
+			$app = Factory::getApplication();
 			$app->setHeader('Content-Type', 'application/csv', true)
 				->setHeader('Content-Disposition', 'attachment; filename="' . $filename . '.csv"', true)
 				->setHeader('Cache-Control', 'must-revalidate', true)
@@ -90,13 +121,13 @@ class ActionlogsControllerActionlogs extends JControllerAdmin
 			}
 
 			fclose($output);
-
+			$app->triggerEvent('onAfterLogExport', array());
 			$app->close();
 		}
 		else
 		{
-			$this->setMessage(JText::_('COM_ACTIONLOGS_NO_LOGS_TO_EXPORT'));
-			$this->setRedirect(JRoute::_('index.php?option=com_actionlogs&view=actionlogs', false));
+			$this->setMessage(Text::_('COM_ACTIONLOGS_NO_LOGS_TO_EXPORT'));
+			$this->setRedirect(Route::_('index.php?option=com_actionlogs&view=actionlogs', false));
 		}
 	}
 
@@ -109,17 +140,20 @@ class ActionlogsControllerActionlogs extends JControllerAdmin
 	 */
 	public function purge()
 	{
+		// Check for request forgeries.
+		$this->checkToken();
+
 		$model = $this->getModel();
 
 		if ($model->purge())
 		{
-			$message = JText::_('COM_ACTIONLOGS_PURGE_SUCCESS');
+			$message = Text::_('COM_ACTIONLOGS_PURGE_SUCCESS');
 		}
 		else
 		{
-			$message = JText::_('COM_ACTIONLOGS_PURGE_FAIL');
+			$message = Text::_('COM_ACTIONLOGS_PURGE_FAIL');
 		}
 
-		$this->setRedirect(JRoute::_('index.php?option=com_actionlogs&view=actionlogs', false), $message);
+		$this->setRedirect(Route::_('index.php?option=com_actionlogs&view=actionlogs', false), $message);
 	}
 }

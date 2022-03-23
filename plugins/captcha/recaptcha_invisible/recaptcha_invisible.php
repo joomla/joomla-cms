@@ -3,13 +3,14 @@
  * @package     Joomla.Plugin
  * @subpackage  Captcha
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2018 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Captcha\Google\HttpBridgePostRequestMethod;
+use Joomla\Utilities\IpHelper;
 
 /**
  * Invisible reCAPTCHA Plugin.
@@ -63,7 +64,6 @@ class PlgCaptchaRecaptcha_Invisible extends \JPlugin
 			throw new \RuntimeException(JText::_('PLG_RECAPTCHA_INVISIBLE_ERROR_NO_PUBLIC_KEY'));
 		}
 
-
 		// Load callback first for browser compatibility
 		\JHtml::_(
 			'script',
@@ -83,6 +83,8 @@ class PlgCaptchaRecaptcha_Invisible extends \JPlugin
 			array(),
 			array('async' => 'async', 'defer' => 'defer')
 		);
+
+		return true;
 	}
 
 	/**
@@ -119,7 +121,7 @@ class PlgCaptchaRecaptcha_Invisible extends \JPlugin
 	 *
 	 * @param   string  $code  Answer provided by user. Not needed for the Recaptcha implementation
 	 *
-	 * @return  True if the answer is correct, false otherwise
+	 * @return  boolean  True if the answer is correct, false otherwise
 	 *
 	 * @since   3.9.0
 	 * @throws  \RuntimeException
@@ -128,7 +130,7 @@ class PlgCaptchaRecaptcha_Invisible extends \JPlugin
 	{
 		$input      = \JFactory::getApplication()->input;
 		$privatekey = $this->params->get('private_key');
-		$remoteip   = $input->server->get('REMOTE_ADDR', '', 'string');
+		$remoteip   = IpHelper::getIp();
 
 		$response  = $input->get('g-recaptcha-response', '', 'string');
 
@@ -177,7 +179,7 @@ class PlgCaptchaRecaptcha_Invisible extends \JPlugin
 	 * @param   string  $remoteip    The remote IP of the visitor.
 	 * @param   string  $response    The response received from Google.
 	 *
-	 * @return bool True if response is good | False if response is bad.
+	 * @return  boolean  True if response is good | False if response is bad.
 	 *
 	 * @since   3.9.0
 	 * @throws  \RuntimeException
@@ -196,5 +198,7 @@ class PlgCaptchaRecaptcha_Invisible extends \JPlugin
 
 			return false;
 		}
+
+		return true;
 	}
 }

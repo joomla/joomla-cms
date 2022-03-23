@@ -2,7 +2,7 @@
 /**
  * @package    Joomla.Test
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2013 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -11,7 +11,7 @@
  *
  * @package     Joomla.UnitTest
  * @subpackage  Database
- * @since       11.3
+ * @since       1.7.3
  */
 class JDatabaseDriverPostgresqlTest extends TestCaseDatabasePostgresql
 {
@@ -20,7 +20,7 @@ class JDatabaseDriverPostgresqlTest extends TestCaseDatabasePostgresql
 	 *
 	 * @return  array
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function dataTestEscape()
 	{
@@ -42,7 +42,7 @@ class JDatabaseDriverPostgresqlTest extends TestCaseDatabasePostgresql
 	 *
 	 * @return  array
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function dataTestTransactionRollback()
 	{
@@ -54,7 +54,7 @@ class JDatabaseDriverPostgresqlTest extends TestCaseDatabasePostgresql
 	 *
 	 * @return  array
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function dataGetCreateDbQuery()
 	{
@@ -70,7 +70,7 @@ class JDatabaseDriverPostgresqlTest extends TestCaseDatabasePostgresql
 	 *
 	 * @return  array
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function dataTestReplacePrefix()
 	{
@@ -99,7 +99,7 @@ class JDatabaseDriverPostgresqlTest extends TestCaseDatabasePostgresql
 	 *
 	 * @return  array
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function dataTestQuoteName()
 	{
@@ -153,7 +153,7 @@ class JDatabaseDriverPostgresqlTest extends TestCaseDatabasePostgresql
 	 *
 	 * @return  array
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function dataTestLoadNextObject()
 	{
@@ -189,7 +189,7 @@ class JDatabaseDriverPostgresqlTest extends TestCaseDatabasePostgresql
 	 *
 	 * @return  array
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function dataTestLoadNextRow()
 	{
@@ -221,7 +221,7 @@ class JDatabaseDriverPostgresqlTest extends TestCaseDatabasePostgresql
 	 *
 	 * @return  void
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 * @dataProvider  dataTestEscape
 	 */
 	public function testEscape($text, $extra, $result)
@@ -267,7 +267,7 @@ class JDatabaseDriverPostgresqlTest extends TestCaseDatabasePostgresql
 	 *
 	 * @return  void
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function testGetAffectedRows()
 	{
@@ -285,7 +285,7 @@ class JDatabaseDriverPostgresqlTest extends TestCaseDatabasePostgresql
 	 *
 	 * @return  void
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function testGetCollation()
 	{
@@ -297,7 +297,7 @@ class JDatabaseDriverPostgresqlTest extends TestCaseDatabasePostgresql
 	 *
 	 * @return  void
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function testGetNumRows()
 	{
@@ -468,7 +468,7 @@ class JDatabaseDriverPostgresqlTest extends TestCaseDatabasePostgresql
 	 *
 	 * @return  void
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function testGetTableList()
 	{
@@ -526,7 +526,7 @@ class JDatabaseDriverPostgresqlTest extends TestCaseDatabasePostgresql
 	 *
 	 * @return  void
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function testGetVersion()
 	{
@@ -541,7 +541,7 @@ class JDatabaseDriverPostgresqlTest extends TestCaseDatabasePostgresql
 	 *
 	 * @return  void
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function testInsertid()
 	{
@@ -585,7 +585,7 @@ class JDatabaseDriverPostgresqlTest extends TestCaseDatabasePostgresql
 	 *
 	 * @return   void
 	 *
-	 * @since    12.1
+	 * @since    3.0.0
 	 */
 	public function testInsertObject()
 	{
@@ -640,7 +640,7 @@ class JDatabaseDriverPostgresqlTest extends TestCaseDatabasePostgresql
 	 *
 	 * @return  void
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function testLoadAssoc()
 	{
@@ -658,7 +658,7 @@ class JDatabaseDriverPostgresqlTest extends TestCaseDatabasePostgresql
 	 *
 	 * @return  void
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function testLoadAssocList()
 	{
@@ -679,7 +679,7 @@ class JDatabaseDriverPostgresqlTest extends TestCaseDatabasePostgresql
 	 *
 	 * @return  void
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function testLoadColumn()
 	{
@@ -855,7 +855,7 @@ class JDatabaseDriverPostgresqlTest extends TestCaseDatabasePostgresql
 	 *
 	 * @return  void
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function testLoadObject()
 	{
@@ -880,7 +880,7 @@ class JDatabaseDriverPostgresqlTest extends TestCaseDatabasePostgresql
 	 *
 	 * @return  void
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function testLoadObjectList()
 	{
@@ -933,7 +933,7 @@ class JDatabaseDriverPostgresqlTest extends TestCaseDatabasePostgresql
 	 *
 	 * @return  void
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function testLoadResult()
 	{
@@ -953,7 +953,7 @@ class JDatabaseDriverPostgresqlTest extends TestCaseDatabasePostgresql
 	 *
 	 * @return  void
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function testLoadRow()
 	{
@@ -972,7 +972,7 @@ class JDatabaseDriverPostgresqlTest extends TestCaseDatabasePostgresql
 	 *
 	 * @return  void
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function testLoadRowList()
 	{
@@ -991,7 +991,7 @@ class JDatabaseDriverPostgresqlTest extends TestCaseDatabasePostgresql
 	 *
 	 * @return  void
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function testExecute()
 	{
@@ -1015,7 +1015,7 @@ class JDatabaseDriverPostgresqlTest extends TestCaseDatabasePostgresql
 	 *
 	 * @return  void
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 * @dataProvider dataTestQuoteName
 	 */
 	public function testQuoteName($quoteMe, $asPart, $expected)
@@ -1028,7 +1028,7 @@ class JDatabaseDriverPostgresqlTest extends TestCaseDatabasePostgresql
 	 *
 	 * @return  void
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function testSelect()
 	{
@@ -1041,7 +1041,7 @@ class JDatabaseDriverPostgresqlTest extends TestCaseDatabasePostgresql
 	 *
 	 * @return  void
 	 *
-	 * @since 12.2
+	 * @since 3.0.1
 	 */
 	public function testSqlValue()
 	{
@@ -1116,7 +1116,7 @@ class JDatabaseDriverPostgresqlTest extends TestCaseDatabasePostgresql
 	 *
 	 * @return  void
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function testTransactionCommit()
 	{
@@ -1152,7 +1152,7 @@ class JDatabaseDriverPostgresqlTest extends TestCaseDatabasePostgresql
 	 *
 	 * @return  void
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 * @dataProvider dataTestTransactionRollback
 	 */
 	public function testTransactionRollback($toSavepoint, $tupleCount)
@@ -1207,7 +1207,7 @@ class JDatabaseDriverPostgresqlTest extends TestCaseDatabasePostgresql
 	 *
 	 * @return  void
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function testTransactionStart()
 	{
@@ -1262,7 +1262,7 @@ class JDatabaseDriverPostgresqlTest extends TestCaseDatabasePostgresql
 	 *
 	 * @return  void
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function testRenameTable()
 	{
@@ -1317,7 +1317,7 @@ class JDatabaseDriverPostgresqlTest extends TestCaseDatabasePostgresql
 	 *
 	 * @return  void
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 * @dataProvider  dataTestReplacePrefix
 	 */
 	public function testReplacePrefix($stringToReplace, $prefix, $expected)

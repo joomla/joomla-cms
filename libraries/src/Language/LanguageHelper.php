@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2007 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -16,7 +16,7 @@ use Joomla\Utilities\ArrayHelper;
 /**
  * Language helper class
  *
- * @since  11.1
+ * @since  1.5
  */
 class LanguageHelper
 {
@@ -30,7 +30,7 @@ class LanguageHelper
 	 *
 	 * @return  array  List of system languages
 	 *
-	 * @since   11.1
+	 * @since   1.5
 	 */
 	public static function createLanguageList($actualLanguage, $basePath = JPATH_BASE, $caching = false, $installed = false)
 	{
@@ -57,7 +57,7 @@ class LanguageHelper
 	 *
 	 * @return  string  locale or null if not found
 	 *
-	 * @since   11.1
+	 * @since   1.5
 	 */
 	public static function detectLanguage()
 	{
@@ -107,7 +107,7 @@ class LanguageHelper
 	 *
 	 * @return  array  An array of published languages
 	 *
-	 * @since   11.1
+	 * @since   1.6
 	 */
 	public static function getLanguages($key = 'default')
 	{
@@ -232,6 +232,11 @@ class LanguageHelper
 			{
 				$clientPath = (int) $language->client_id === 0 ? JPATH_SITE : JPATH_ADMINISTRATOR;
 				$metafile   = self::getLanguagePath($clientPath, $language->element) . '/' . $language->element . '.xml';
+
+				if (!is_file($metafile))
+				{
+					$metafile = self::getLanguagePath($clientPath, $language->element) . '/langmetadata.xml';
+				}
 
 				// Process the language metadata.
 				if ($processMetaData)
@@ -413,7 +418,7 @@ class LanguageHelper
 	 * @param   string   $fileName  The language ini file path.
 	 * @param   boolean  $debug     If set to true debug language ini file.
 	 *
-	 * @return  boolean  True if saved, false otherwise.
+	 * @return  array
 	 *
 	 * @since   3.9.0
 	 */
@@ -428,13 +433,20 @@ class LanguageHelper
 		// @deprecated 3.9.0 Usage of "_QQ_" is deprecated. Use escaped double quotes (\") instead.
 		if (!defined('_QQ_'))
 		{
+			/**
+			 * Defines a placeholder for a double quote character (") in a language file
+			 *
+			 * @var    string
+			 * @since  1.6
+			 * @deprecated  4.0 Use escaped double quotes (\") instead.
+			 */
 			define('_QQ_', '"');
 		}
 
 		// Capture hidden PHP errors from the parsing.
 		if ($debug === true)
 		{
-			// See https://secure.php.net/manual/en/reserved.variables.phperrormsg.php
+			// See https://www.php.net/manual/en/reserved.variables.phperrormsg.php
 			$php_errormsg = null;
 
 			$trackErrors = ini_get('track_errors');
@@ -539,7 +551,13 @@ class LanguageHelper
 	 */
 	public static function getMetadata($lang)
 	{
-		$file   = self::getLanguagePath(JPATH_BASE, $lang) . '/' . $lang . '.xml';
+		$file = self::getLanguagePath(JPATH_BASE, $lang) . '/' . $lang . '.xml';
+
+		if (!is_file($file))
+		{
+			$file = self::getLanguagePath(JPATH_BASE, $lang) . '/langmetadata.xml';
+		}
+
 		$result = null;
 
 		if (is_file($file))
@@ -605,6 +623,11 @@ class LanguageHelper
 			{
 				$dirPathParts = pathinfo($directory);
 				$file         = $directory . '/' . $dirPathParts['filename'] . '.xml';
+
+				if (!is_file($file))
+				{
+					$file = $directory . '/langmetadata.xml';
+				}
 
 				if (!is_file($file))
 				{

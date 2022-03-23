@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_media
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2007 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -87,6 +87,14 @@ class MediaControllerFolder extends JControllerLegacy
 		foreach ($safePaths as $path)
 		{
 			$fullPath = JPath::clean(implode(DIRECTORY_SEPARATOR, array(COM_MEDIA_BASE, $folder, $path)));
+
+			if (strpos(realpath($fullPath), JPath::clean(realpath(COM_MEDIA_BASE))) !== 0)
+			{
+				JError::raiseWarning(100, JText::_('COM_MEDIA_ERROR_WARNINVALID_FOLDER'));
+
+				continue;
+			}
+
 			$object_file = new JObject(array('filepath' => $fullPath));
 
 			if (is_file($object_file->filepath))
@@ -189,6 +197,14 @@ class MediaControllerFolder extends JControllerLegacy
 			}
 
 			$path = JPath::clean(COM_MEDIA_BASE . '/' . $parent . '/' . $folder);
+
+			if (strpos(realpath(COM_MEDIA_BASE . '/' . $parent), JPath::clean(realpath(COM_MEDIA_BASE))) !== 0)
+			{
+				$app = JFactory::getApplication();
+				$app->enqueueMessage(JText::_('COM_MEDIA_ERROR_WARNINVALID_FOLDER'), 'error');
+
+				return false;
+			}
 
 			if (!is_dir($path) && !is_file($path))
 			{

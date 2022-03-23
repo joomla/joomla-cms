@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2008 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -10,7 +10,7 @@ namespace Joomla\CMS\Filesystem\Streams;
 
 defined('JPATH_PLATFORM') or die;
 
-use Joomla\CMS\Filesystem\Support\Stringcontroller;
+use Joomla\CMS\Filesystem\Support\StringController;
 
 /**
  * String Stream Wrapper
@@ -18,7 +18,7 @@ use Joomla\CMS\Filesystem\Support\Stringcontroller;
  * This class allows you to use a PHP string in the same way that
  * you would normally use a regular stream wrapper
  *
- * @since  11.1
+ * @since  1.7.0
  */
 class StreamString
 {
@@ -26,7 +26,7 @@ class StreamString
 	 * The current string
 	 *
 	 * @var   string
-	 * @since  12.1
+	 * @since  3.0.0
 	 */
 	protected $currentString;
 
@@ -34,7 +34,7 @@ class StreamString
 	 * The path
 	 *
 	 * @var   string
-	 * @since  12.1
+	 * @since  3.0.0
 	 */
 	protected $path;
 
@@ -42,7 +42,7 @@ class StreamString
 	 * The mode
 	 *
 	 * @var   string
-	 * @since  12.1
+	 * @since  3.0.0
 	 */
 	protected $mode;
 
@@ -50,7 +50,7 @@ class StreamString
 	 * Enter description here ...
 	 *
 	 * @var    string
-	 * @since  12.1
+	 * @since  3.0.0
 	 */
 	protected $options;
 
@@ -58,7 +58,7 @@ class StreamString
 	 * Enter description here ...
 	 *
 	 * @var    string
-	 * @since  12.1
+	 * @since  3.0.0
 	 */
 	protected $openedPath;
 
@@ -66,7 +66,7 @@ class StreamString
 	 * Current position
 	 *
 	 * @var    integer
-	 * @since  12.1
+	 * @since  3.0.0
 	 */
 	protected $pos;
 
@@ -74,7 +74,7 @@ class StreamString
 	 * Length of the string
 	 *
 	 * @var    string
-	 * @since  12.1
+	 * @since  3.0.0
 	 */
 	protected $len;
 
@@ -82,7 +82,7 @@ class StreamString
 	 * Statistics for a file
 	 *
 	 * @var    array
-	 * @since  12.1
+	 * @since  3.0.0
 	 *
 	 * @link   http://us.php.net/manual/en/function.stat.php
 	 */
@@ -91,16 +91,16 @@ class StreamString
 	/**
 	 * Method to open a file or URL.
 	 *
-	 * @param   string   $path          The stream path.
-	 * @param   string   $mode          Not used.
-	 * @param   integer  $options       Not used.
-	 * @param   string   &$opened_path  Not used.
+	 * @param   string   $path         The stream path.
+	 * @param   string   $mode         Not used.
+	 * @param   integer  $options      Not used.
+	 * @param   string   &$openedPath  Not used.
 	 *
 	 * @return  boolean
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
-	public function stream_open($path, $mode, $options, &$opened_path)
+	public function stream_open($path, $mode, $options, &$openedPath)
 	{
 		$this->currentString = &StringController::getRef(str_replace('string://', '', $path));
 
@@ -123,8 +123,8 @@ class StreamString
 	 *
 	 * @return  array
 	 *
-	 * @link    https://secure.php.net/manual/en/streamwrapper.stream-stat.php
-	 * @since   11.1
+	 * @link    https://www.php.net/manual/en/streamwrapper.stream-stat.php
+	 * @since   1.7.0
 	 */
 	public function stream_stat()
 	{
@@ -139,8 +139,8 @@ class StreamString
 	 *
 	 * @return  array
 	 *
-	 * @link    https://secure.php.net/manual/en/streamwrapper.url-stat.php
-	 * @since   11.1
+	 * @link    https://www.php.net/manual/en/streamwrapper.url-stat.php
+	 * @since   1.7.0
 	 */
 	public function url_stat($path, $flags = 0)
 	{
@@ -174,9 +174,9 @@ class StreamString
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 *
-	 * @link    https://secure.php.net/manual/en/streamwrapper.stream-read.php
+	 * @link    https://www.php.net/manual/en/streamwrapper.stream-read.php
 	 */
 	public function stream_read($count)
 	{
@@ -193,7 +193,7 @@ class StreamString
 	 *
 	 * @return  boolean
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 * @note    Updating the string is not supported.
 	 */
 	public function stream_write($data)
@@ -207,7 +207,7 @@ class StreamString
 	 *
 	 * @return  integer  The position
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function stream_tell()
 	{
@@ -219,7 +219,7 @@ class StreamString
 	 *
 	 * @return  boolean  True if at end of field.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function stream_eof()
 	{
@@ -239,7 +239,7 @@ class StreamString
 	 *
 	 * @return  boolean  True on success.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function stream_seek($offset, $whence)
 	{
@@ -280,7 +280,7 @@ class StreamString
 	 *
 	 * @return  boolean
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 * @note    Data storage is not supported
 	 */
 	public function stream_flush()

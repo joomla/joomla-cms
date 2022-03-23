@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2007 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -20,7 +20,7 @@ use Joomla\Utilities\ArrayHelper;
  *
  * This class has influences and some method logic from the Horde Auth package
  *
- * @since  11.1
+ * @since  1.7.0
  */
 abstract class UserHelper
 {
@@ -32,7 +32,7 @@ abstract class UserHelper
 	 *
 	 * @return  boolean  True on success
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 * @throws  \RuntimeException
 	 */
 	public static function addUserToGroup($userId, $groupId)
@@ -89,7 +89,7 @@ abstract class UserHelper
 	 *
 	 * @return  array    List of groups
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public static function getUserGroups($userId)
 	{
@@ -107,7 +107,7 @@ abstract class UserHelper
 	 *
 	 * @return  boolean  True on success
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public static function removeUserFromGroup($userId, $groupId)
 	{
@@ -149,7 +149,7 @@ abstract class UserHelper
 	 *
 	 * @return  boolean  True on success
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public static function setUserGroups($userId, $groups)
 	{
@@ -203,7 +203,7 @@ abstract class UserHelper
 	 *
 	 * @return  object
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public static function getProfile($userId = 0)
 	{
@@ -233,7 +233,7 @@ abstract class UserHelper
 	 *
 	 * @return  boolean  True on success
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public static function activateUser($activation)
 	{
@@ -282,7 +282,7 @@ abstract class UserHelper
 	 *
 	 * @return  integer  The user id or 0 if not found.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public static function getUserId($username)
 	{
@@ -323,13 +323,13 @@ abstract class UserHelper
 	 *
 	 * @param   string   $password  The plaintext password to check.
 	 * @param   string   $hash      The hash to verify against.
-	 * @param   integer  $user_id   ID of the user if the password hash should be updated
+	 * @param   integer  $userId    ID of the user if the password hash should be updated
 	 *
 	 * @return  boolean  True if the password and hash match, false otherwise
 	 *
 	 * @since   3.2.1
 	 */
-	public static function verifyPassword($password, $hash, $user_id = 0)
+	public static function verifyPassword($password, $hash, $userId = 0)
 	{
 		$passwordAlgorithm = PASSWORD_BCRYPT;
 
@@ -399,9 +399,9 @@ abstract class UserHelper
 		}
 
 		// If we have a match and rehash = true, rehash the password with the current algorithm.
-		if ((int) $user_id > 0 && $match && $rehash)
+		if ((int) $userId > 0 && $match && $rehash)
 		{
-			$user = new User($user_id);
+			$user = new User($userId);
 			$user->password = static::hashPassword($password, $passwordAlgorithm);
 			$user->save();
 		}
@@ -412,22 +412,22 @@ abstract class UserHelper
 	/**
 	 * Formats a password using the old encryption methods.
 	 *
-	 * @param   string   $plaintext     The plaintext password to encrypt.
-	 * @param   string   $salt          The salt to use to encrypt the password. []
-	 *                                  If not present, a new salt will be
-	 *                                  generated.
-	 * @param   string   $encryption    The kind of password encryption to use.
-	 *                                  Defaults to md5-hex.
-	 * @param   boolean  $show_encrypt  Some password systems prepend the kind of
-	 *                                  encryption to the crypted password ({SHA},
-	 *                                  etc). Defaults to false.
+	 * @param   string   $plaintext    The plaintext password to encrypt.
+	 * @param   string   $salt         The salt to use to encrypt the password. []
+	 *                                 If not present, a new salt will be
+	 *                                 generated.
+	 * @param   string   $encryption   The kind of password encryption to use.
+	 *                                 Defaults to md5-hex.
+	 * @param   boolean  $showEncrypt  Some password systems prepend the kind of
+	 *                                 encryption to the crypted password ({SHA},
+	 *                                 etc). Defaults to false.
 	 *
 	 * @return  string  The encrypted password.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 * @deprecated  4.0
 	 */
-	public static function getCryptedPassword($plaintext, $salt = '', $encryption = 'md5-hex', $show_encrypt = false)
+	public static function getCryptedPassword($plaintext, $salt = '', $encryption = 'md5-hex', $showEncrypt = false)
 	{
 		// Get the salt to use.
 		$salt = static::getSalt($encryption, $salt, $plaintext);
@@ -441,28 +441,28 @@ abstract class UserHelper
 			case 'sha':
 				$encrypted = base64_encode(mhash(MHASH_SHA1, $plaintext));
 
-				return ($show_encrypt) ? '{SHA}' . $encrypted : $encrypted;
+				return ($showEncrypt) ? '{SHA}' . $encrypted : $encrypted;
 
 			case 'crypt':
 			case 'crypt-des':
 			case 'crypt-md5':
 			case 'crypt-blowfish':
-				return ($show_encrypt ? '{crypt}' : '') . crypt($plaintext, $salt);
+				return ($showEncrypt ? '{crypt}' : '') . crypt($plaintext, $salt);
 
 			case 'md5-base64':
 				$encrypted = base64_encode(mhash(MHASH_MD5, $plaintext));
 
-				return ($show_encrypt) ? '{MD5}' . $encrypted : $encrypted;
+				return ($showEncrypt) ? '{MD5}' . $encrypted : $encrypted;
 
 			case 'ssha':
 				$encrypted = base64_encode(mhash(MHASH_SHA1, $plaintext . $salt) . $salt);
 
-				return ($show_encrypt) ? '{SSHA}' . $encrypted : $encrypted;
+				return ($showEncrypt) ? '{SSHA}' . $encrypted : $encrypted;
 
 			case 'smd5':
 				$encrypted = base64_encode(mhash(MHASH_MD5, $plaintext . $salt) . $salt);
 
-				return ($show_encrypt) ? '{SMD5}' . $encrypted : $encrypted;
+				return ($showEncrypt) ? '{SMD5}' . $encrypted : $encrypted;
 
 			case 'aprmd5':
 				$length = strlen($plaintext);
@@ -519,13 +519,13 @@ abstract class UserHelper
 			case 'sha256':
 				$encrypted = ($salt) ? hash('sha256', $plaintext . $salt) . ':' . $salt : hash('sha256', $plaintext);
 
-				return ($show_encrypt) ? '{SHA256}' . $encrypted : '{SHA256}' . $encrypted;
+				return ($showEncrypt) ? '{SHA256}' . $encrypted : '{SHA256}' . $encrypted;
 
 			case 'md5-hex':
 			default:
 				$encrypted = ($salt) ? md5($plaintext . $salt) : md5($plaintext);
 
-				return ($show_encrypt) ? '{MD5}' . $encrypted : $encrypted;
+				return ($showEncrypt) ? '{MD5}' . $encrypted : $encrypted;
 		}
 	}
 
@@ -545,7 +545,7 @@ abstract class UserHelper
 	 *
 	 * @return  string  The generated or extracted salt.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 * @deprecated  4.0
 	 */
 	public static function getSalt($encryption = 'md5-hex', $seed = '', $plaintext = '')
@@ -633,7 +633,7 @@ abstract class UserHelper
 
 					for ($i = 0; $i < 8; $i++)
 					{
-						$salt .= $APRMD5{mt_rand(0, 63)};
+						$salt .= $APRMD5[mt_rand(0, 63)];
 					}
 
 					return $salt;
@@ -660,7 +660,7 @@ abstract class UserHelper
 	 *
 	 * @return  string  Random Password
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public static function genRandomPassword($length = 8)
 	{
@@ -695,7 +695,7 @@ abstract class UserHelper
 	 *
 	 * @return  string  $value converted to the 64 MD5 characters.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	protected static function _toAPRMD5($value, $count)
 	{
@@ -721,7 +721,7 @@ abstract class UserHelper
 	 *
 	 * @return  string  Binary data.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	private static function _bin($hex)
 	{
@@ -757,7 +757,7 @@ abstract class UserHelper
 		$query
 			->update($db->quoteName('#__user_keys'))
 			->set($db->quoteName('invalid') . ' = 1')
-			->where($db->quotename('user_id') . ' = ' . $db->quote($userId));
+			->where($db->quoteName('user_id') . ' = ' . $db->quote($userId));
 
 		$db->setQuery($query)->execute();
 
@@ -828,7 +828,15 @@ abstract class UserHelper
 		$ua = \JFactory::getApplication()->client;
 		$uaString = $ua->userAgent;
 		$browserVersion = $ua->browserVersion;
-		$uaShort = str_replace($browserVersion, 'abcd', $uaString);
+
+		if ($browserVersion)
+		{
+			$uaShort = str_replace($browserVersion, 'abcd', $uaString);
+		}
+		else
+		{
+			$uaShort = $uaString;
+		}
 
 		return md5(\JUri::base() . $uaShort);
 	}
@@ -856,5 +864,67 @@ abstract class UserHelper
 		}
 
 		return false;
+	}
+
+	/**
+	 * Destroy all active session for a given user id
+	 *
+	 * @param   int      $userId       Id of user
+	 * @param   boolean  $keepCurrent  Keep the session of the currently acting user
+	 * @param   int      $clientId     Application client id
+	 *
+	 * @return  boolean
+	 *
+	 * @since   3.9.28
+	 */
+	public static function destroyUserSessions($userId, $keepCurrent = false, $clientId = null)
+	{
+		$db = \JFactory::getDbo();
+
+		$query = $db->getQuery(true)
+			->select($db->quoteName('session_id'))
+			->from($db->quoteName('#__session'))
+			->where($db->quoteName('userid') . ' = ' . (int) $userId);
+
+		if ($clientId !== null)
+		{
+			$query->where($db->quoteName('client_id') . ' = ' . (int) $clientId);
+		}
+
+		// Destroy all sessions for the user account
+		$sessionIds = $db->setQuery(
+			$query
+		)->loadColumn();
+
+		// If true, removes the current session id from the purge list
+		if ($keepCurrent)
+		{
+			$sessionIds = array_diff($sessionIds, array(\JFactory::getSession()->getId()));
+		}
+
+		// If there aren't any active sessions then there's nothing to do here
+		if (empty($sessionIds))
+		{
+			return false;
+		}
+
+		$storeName = \JFactory::getConfig()->get('session_handler', 'none');
+		$store     = \JSessionStorage::getInstance($storeName);
+		$quotedIds = array();
+
+		// Destroy the sessions and quote the IDs to purge the session table
+		foreach ($sessionIds as $sessionId)
+		{
+			$store->destroy($sessionId);
+			$quotedIds[] = $db->quoteBinary($sessionId);
+		}
+
+		$db->setQuery(
+			$db->getQuery(true)
+				->delete($db->quoteName('#__session'))
+				->where($db->quoteName('session_id') . ' IN (' . implode(', ', $quotedIds) . ')')
+		)->execute();
+
+		return true;
 	}
 }
