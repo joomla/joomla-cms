@@ -26,7 +26,7 @@ class AwareModel extends AdminModel
 	 * Joomla\CMS\Form\Form
 	 *
 	 * @var    array($pluralName)
-	 * @since  3.9
+	 * @since  __DEPLOY_VERSION__
 	 */
 	private $subforms = null;
 	
