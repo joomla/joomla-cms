@@ -292,7 +292,7 @@ class AwareModel extends AdminModel
 		}
 	}
 	/**
-	 * Retreives an array with all the subforms in this form
+	 * Retrieves an array with all the subforms in this form
 	 *
 	 * @return  array($pluralName)
 	 *
