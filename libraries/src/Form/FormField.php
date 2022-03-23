@@ -1286,7 +1286,19 @@ abstract class FormField
 
 			return new \UnexpectedValueException($message);
 		}
+		
+		$execution_rules= (array) $input -> get('execution_rules');
 
+		if($execution_rules['rule-type'] === "cron-expression")
+		{
+			$c_expression = (array) $execution_rules['cron-expression'];
+
+			if(!$c_expression['minutes'] || !$c_expression['hours'] || !$c_expression['days_month'] || !$c_expression['months'] || !$c_expression['days_week'])
+			{
+				return new \UnexpectedValueException(Text::sprintf('JLIB_FORM_VALIDATE_FIELD_INVALID', 'Cron-fields'));
+			}
+		}
+		
 		return $valid;
 	}
 
