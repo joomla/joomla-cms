@@ -742,6 +742,6 @@ class ArticlesModel extends ListModel
 	 */
 	public function isFeatured()
 	{
-		return $this->getUserStateFromRequest($this->context . '.featured', 'featured', $this->type);
+		return $this->getUserStateFromRequest($this->context . '.featured', 'featured', 'int');
 	}
 }
