@@ -44,7 +44,7 @@ class AwareModel extends AdminModel
 	 * Joomla\CMS\MVC\Model\AdminModel
 	 *
 	 * @var    array($pluralName)
-	 * @since  3.9
+	 * @since  __DEPLOY_VERSION__
 	 */
 	private $submodels = null;
 	
