@@ -8,7 +8,6 @@
 
 namespace Joomla\CMS\TUF;
 
-use JLoader;
 use Joomla\CMS\Factory;
 use Joomla\Database\DatabaseDriver;
 use Joomla\Database\ParameterType;
@@ -22,8 +21,6 @@ use Tuf\Exception\Attack\RollbackAttackException;
 use Tuf\Exception\Attack\SignatureThresholdException;
 use Tuf\Exception\MetadataException;
 use Tuf\JsonNormalizer;
-
-JLoader::registerNamespace('Tuf', JPATH_ROOT . '/libraries/src/TUF/src');
 
 \defined('JPATH_PLATFORM') or die;
 
