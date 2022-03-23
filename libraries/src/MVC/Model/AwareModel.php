@@ -259,7 +259,7 @@ class AwareModel extends AdminModel
 	 *
 	 * @return  Form
 	 * 
-	 * @since   3.9
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function getSubForms ()
 	{
