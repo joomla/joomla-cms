@@ -398,10 +398,10 @@ $assoc = Associations::isEnabled();
 						<?php echo HTMLHelper::_(
 							'bootstrap.renderModal',
 							'stageModal',
-							array(
-							'title'  => Text::_('JTOOLBAR_CHANGE_STATUS'),
-							'footer' => $this->loadTemplate('stage_footer'),
-							),
+							[
+								'title'  => Text::_('JTOOLBAR_CHANGE_STATUS'),
+								'footer' => $this->loadTemplate('stage_footer'),
+							],
 							$this->loadTemplate('stage_body')
 						); ?>
 					<?php else: ?>
@@ -411,10 +411,10 @@ $assoc = Associations::isEnabled();
 							<?php echo HTMLHelper::_(
 								'bootstrap.renderModal',
 								'collapseModal',
-								array(
+								[
 									'title'  => Text::_('COM_CONTENT_BATCH_OPTIONS'),
 									'footer' => $this->loadTemplate('batch_footer'),
-								),
+								],
 								$this->loadTemplate('batch_body')
 							); ?>
 						<?php endif; ?>
