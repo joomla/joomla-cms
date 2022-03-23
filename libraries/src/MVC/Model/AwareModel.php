@@ -227,7 +227,7 @@ class AwareModel extends AdminModel
 	 *
 	 * @return  string
 	 *
-	 * @since   3.9
+	 * @since   __DEPLOY_VERSION__
 	 */
 	private function getPrefix ()
 	{
