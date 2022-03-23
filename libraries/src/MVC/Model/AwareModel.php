@@ -296,7 +296,7 @@ class AwareModel extends AdminModel
 	 *
 	 * @return  array($pluralName)
 	 *
-	 * @since   3.9
+	 * @since   __DEPLOY_VERSION__
 	 */
 	protected function getSubTables ()
 	{
