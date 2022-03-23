@@ -1291,7 +1291,7 @@ abstract class FormField
 		$execution_rules = (array) $input->get('execution_rules');
 
 		// Check if execution rule is cron-expression
-		if ($execution_rules['rule-type'] === "cron-expression")
+		if ($execution_rules['rule-type'] === 'cron-expression')
 		{
 			$c_expression = (array) $execution_rules['cron-expression'];
 
