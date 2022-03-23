@@ -1287,22 +1287,21 @@ abstract class FormField
 			return new \UnexpectedValueException($message);
 		}
 
-		// get execution rules and make it array
+		// Get execution rules and make it array
 		$execution_rules = (array) $input->get('execution_rules');
 
-		// check if execution rule is cron-expression
+		// Check if execution rule is cron-expression
 		if ($execution_rules['rule-type'] === "cron-expression")
 		{
 			$c_expression = (array) $execution_rules['cron-expression'];
 
-			//Is there any cron expression field not present then give error
-			if (!$c_expression['minutes'] || !$c_expression['hours'] || !$c_expression['days_month'] || !$c_expression['months'] || !$c_expression['days_week']) {
-		
+			// Is there any cron expression field not present then give error
+			if (!$c_expression['minutes'] || !$c_expression['hours'] || !$c_expression['days_month'] || !$c_expression['months'] || !$c_expression['days_week']) 
+			{
 				return new \UnexpectedValueException(Text::sprintf('JLIB_FORM_VALIDATE_FIELD_INVALID', 'Cron-fields'));
-
 			}
 		}
-		
+
 		return $valid;
 	}
 
