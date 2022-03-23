@@ -16,7 +16,7 @@ use Joomla\CMS\Form\Form;
 /**
  * Extends AdminModel to be aware of subforms
  *
- * @since  3.9
+ * @since  __DEPLOY_VERSION__
  *
  */
 class AwareModel extends AdminModel
