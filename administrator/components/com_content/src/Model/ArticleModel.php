@@ -781,7 +781,7 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
 		}
 
 		// Alter the title for save as copy
-		if ($input->get('task') == 'save2copy')
+		if ($input->get('task') === 'save2copy')
 		{
 			$origTable = $this->getTable();
 			$data['state'] = 0;
