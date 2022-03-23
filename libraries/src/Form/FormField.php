@@ -1296,7 +1296,7 @@ abstract class FormField
 			$c_expression = (array) $execution_rules['cron-expression'];
 
 			// Is there any cron expression field not present then give error
-			if (!$c_expression['minutes'] || !$c_expression['hours'] || !$c_expression['days_month'] || !$c_expression['months'] || !$c_expression['days_week']) 
+			if (!$c_expression['minutes'] || !$c_expression['hours'] || !$c_expression['days_month'] || !$c_expression['months'] || !$c_expression['days_week'])
 			{
 				return new \UnexpectedValueException(Text::sprintf('JLIB_FORM_VALIDATE_FIELD_INVALID', 'Cron-fields'));
 			}
