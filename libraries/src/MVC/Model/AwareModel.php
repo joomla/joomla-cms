@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  (C) 2021 Open Source Matters, Inc. <https://www.joomla.org>
+ * @copyright  (C) 2022 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 namespace Joomla\CMS\MVC\Model;
@@ -73,6 +73,7 @@ class AwareModel extends AdminModel
 		$this->checkForDeletions($data);
 		return $result;
 	}
+
 	/**
 	 * Retreive a certain subTable
 	 *
@@ -86,6 +87,7 @@ class AwareModel extends AdminModel
 	{
 		return $this->getSubTables()[$name];
 	}
+
 	/**
 	 * Retreive a certain subModel
 	 *
@@ -99,6 +101,7 @@ class AwareModel extends AdminModel
 	{
 		return $this->getSubModels()[$name];
 	}
+
 	/**
 	 * Retrieve a certain subForm
 	 *
@@ -112,6 +115,7 @@ class AwareModel extends AdminModel
 	{
 		return $this->getSubForms()[$name];
 	}
+
 	/**
 	 * Compare the posted form with the previously served form so see if anything
 	 * has been deleted by the user in the meantime
@@ -149,6 +153,7 @@ class AwareModel extends AdminModel
 			}
 		}
 	}
+
 	/**
 	 * traverse the available subtables to see which parts of the given $data to
 	 * store in which $table
@@ -178,6 +183,7 @@ class AwareModel extends AdminModel
 			}
 		}
 	}
+
 	/**
 	 * Retrieve an array with all submodels in this object
 	 *
@@ -193,6 +199,7 @@ class AwareModel extends AdminModel
 		}
 		return $this->submodels;
 	}
+
 	/**
 	 * Loads all the subforms in this form object
 	 *
@@ -221,6 +228,7 @@ class AwareModel extends AdminModel
 			}
 		}
 	}
+
 	/**
 	 * Retrieve the prefix to use when loading forms or tables
 	 * Guessing one if none has been set.
@@ -241,6 +249,7 @@ class AwareModel extends AdminModel
 		}
 		return ($this->prefix);
 	}
+
 	/**
 	 * Sets the prefix to use when loading tables or forms
 	 *
@@ -254,6 +263,7 @@ class AwareModel extends AdminModel
 	{
 		$this->prefix = $prefix;
 	}
+
 	/**
 	 * Retrieves a certain subform
 	 *
@@ -269,6 +279,7 @@ class AwareModel extends AdminModel
 		}
 		return $this->subforms;
 	}
+
 	/**
 	 * Loads the subtables into the object
 	 *
@@ -291,6 +302,7 @@ class AwareModel extends AdminModel
 			$this->subtables[$pluralname] = $controller->getModel()->getTable($singularname);
 		}
 	}
+
 	/**
 	 * Retrieves an array with all the subforms in this form
 	 *
@@ -306,6 +318,7 @@ class AwareModel extends AdminModel
 		}
 		return $this->subtables;
 	}
+
 	/**
 	 * Method to get a form object.
 	 *
@@ -352,6 +365,7 @@ class AwareModel extends AdminModel
 		}
 		return $form;
 	}
+
 	/**
 	 * Abstract method for getting the form from the model.
 	 *
