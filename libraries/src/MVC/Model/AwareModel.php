@@ -120,7 +120,7 @@ class AwareModel extends AdminModel
 	 *
 	 * @return  void
 	 *
-	 * @since   3.9
+	 * @since   __DEPLOY_VERSION__
 	 */
 	private function checkForDeletions (array $data)
 	{
