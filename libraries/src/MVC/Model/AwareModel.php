@@ -183,7 +183,7 @@ class AwareModel extends AdminModel
 	 *
 	 * @return  array  An array of Joomla models
 	 * 
-	 * @since   3.9
+	 * @since   __DEPLOY_VERSION__
 	 */
 	private function getSubModels ()
 	{
