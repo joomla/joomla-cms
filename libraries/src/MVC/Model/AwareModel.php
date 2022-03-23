@@ -35,7 +35,7 @@ class AwareModel extends AdminModel
 	 * Joomla\CMS\Table\Table
 	 *
 	 * @var    array($pluralName)
-	 * @since  3.9
+	 * @since  __DEPLOY_VERSION__
 	 */
 	private $subtables = null;
 	
