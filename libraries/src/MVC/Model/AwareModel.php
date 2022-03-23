@@ -52,7 +52,7 @@ class AwareModel extends AdminModel
 	 * The prefix to use when loading submodels.
 	 *
 	 * @var    string  
-	 * @since  3.9
+	 * @since  __DEPLOY_VERSION__
 	 */
 	private $prefix = null;
 	
