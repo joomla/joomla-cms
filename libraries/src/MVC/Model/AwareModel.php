@@ -318,7 +318,7 @@ class AwareModel extends AdminModel
 	 * @return  Form|boolean  Form object on success, false on error.
 	 *
 	 * @see     \Joomla\CMS\Form\Form
-	 * @since   1.6
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function loadForm ($name, $source = null, $options = array(), $clear = false, $xpath = false)
 	{
