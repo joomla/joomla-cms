@@ -360,7 +360,7 @@ class AwareModel extends AdminModel
 	 *
 	 * @return  Form|boolean  A Form object on success, false on failure
 	 *
-	 * @since   1.6
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function getForm ($data = array(), $loadData = true)
 	{
