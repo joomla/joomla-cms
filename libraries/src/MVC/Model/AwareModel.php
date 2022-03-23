@@ -64,7 +64,7 @@ class AwareModel extends AdminModel
 	 * 
 	 * @return  boolean  True on success, False on error.
 	 *
-	 * @since   3.9
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function save (array $data)
 	{
