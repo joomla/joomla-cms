@@ -784,7 +784,7 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
 		if ($input->get('task') == 'save2copy')
 		{
 			$origTable = $this->getTable();
-			$data['state'] = 0; 
+			$data['state'] = 0;
 
 			if ($app->isClient('site'))
 			{
