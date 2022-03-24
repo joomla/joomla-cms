@@ -141,7 +141,7 @@ class PlgEditorCodemirror extends CMSPlugin
 
 		// Must pass the field id to the buttons in this editor.
 		$buttons = $this->displayButtons($id, $buttons, $asset, $author);
-		
+
 		// Only add "px" to width and height if they are not given as a percentage.
 		$width .= is_numeric($width) ? 'px' : '';
 		$height .= is_numeric($height) ? 'px' : '';
