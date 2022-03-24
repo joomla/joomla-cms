@@ -113,14 +113,15 @@ class Editor implements DispatcherAwareInterface
 	 * if it doesn't already exist.
 	 *
 	 * @param   string  $editor  The editor to use.
+	 * @param   array   $params  The editor's parameters.
 	 *
 	 * @return  Editor The Editor object.
 	 *
 	 * @since   1.5
 	 */
-	public static function getInstance($editor = 'none')
+	public static function getInstance($editor = 'none', $params = [])
 	{
-		$signature = serialize($editor);
+		$signature = serialize([$editor => $params]);
 
 		if (empty(self::$instances[$signature]))
 		{
@@ -176,7 +177,7 @@ class Editor implements DispatcherAwareInterface
 		$asset = null,
 		$author = null,
 		$params = []
-		): string
+	): string
 	{
 		$this->asset  = $asset;
 		$this->author = $author;
@@ -289,7 +290,7 @@ class Editor implements DispatcherAwareInterface
 	protected function _loadEditor($config = []): bool
 	{
 		// Check whether editor is already loaded
-		if ($this->_editor !== null)
+		if ($this->_editor !== null && self::getInstance($this->_name, $config))
 		{
 			return true;
 		}

@@ -249,13 +249,14 @@ class EditorField extends TextareaField
 	 */
 	protected function getInput()
 	{
-		// Get an editor object.
-		$editor = $this->getEditor();
-		$params = array(
+		$params = [
 			'autofocus' => $this->autofocus,
 			'readonly'  => $this->readonly || $this->disabled,
 			'syntax'    => (string) $this->element['syntax'],
-		);
+		];
+
+		// Get an editor object.
+		$editor = $this->getEditor($params);
 
 		return $editor->display(
 			$this->name,
@@ -279,7 +280,7 @@ class EditorField extends TextareaField
 	 *
 	 * @since   1.6
 	 */
-	protected function getEditor()
+	protected function getEditor($params = [])
 	{
 		// Only create the editor if it is not already created.
 		if (empty($this->editor))
@@ -332,7 +333,7 @@ class EditorField extends TextareaField
 				$editor = Factory::getApplication()->get('editor');
 			}
 
-			$this->editor = Editor::getInstance($editor);
+			$this->editor = Editor::getInstance($editor, $params);
 		}
 
 		return $this->editor;
