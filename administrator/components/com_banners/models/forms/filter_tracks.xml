@@ -4,6 +4,7 @@
 		<field
 			name="search"
 			type="text"
+			inputmode="search"
 			label="COM_BANNERS_TRACKS_FILTER_SEARCH_LABEL"
 			description="COM_BANNERS_TRACKS_FILTER_SEARCH_DESC"
 			hint="JSEARCH_FILTER"
@@ -64,7 +65,6 @@
 			format="%Y-%m-%d"
 			size="10"
 			filter="user_utc"
-			onchange="this.form.submit();"
 		/>
 
 		<field
@@ -76,7 +76,6 @@
 			format="%Y-%m-%d"
 			size="10"
 			filter="user_utc"
-			onchange="this.form.submit();"
 		/>
     </fields>
 	<fields name="list">
@@ -87,6 +86,7 @@
 			description="JGLOBAL_SORT_BY"
 			onchange="this.form.submit();"
 			default="b.name ASC"
+			validate="options"
 			>
 			<option value="">JGLOBAL_SORT_BY</option>
 			<option value="b.name ASC">COM_BANNERS_HEADING_NAME_ASC</option>

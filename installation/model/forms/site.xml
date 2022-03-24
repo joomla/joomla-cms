@@ -38,6 +38,8 @@
 			id="admin_user"
 			class="inputbox"
 			required="true"
+			validate="installation.username"
+			size="30"
 		/>
 
 		<field

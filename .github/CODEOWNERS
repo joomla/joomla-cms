@@ -1,0 +1,50 @@
+# Custom Fields
+administrator/components/com_fields/*  @laoneo
+components/com_fields/*  @laoneo
+plugins/content/fields/*  @laoneo
+plugins/editors-xtd/fields/*  @laoneo
+plugins/fields/*  @laoneo
+plugins/systems/fields/*  @laoneo
+
+# Smart Search
+#administrator/components/com_finder/*
+#components/com_finder/*
+#modules/mod_finder/*
+#plugins/content/finder/*
+#plugins/finder/*
+
+# CodeMirror
+media/editors/codemirror/*  @okonomiyaki3000
+plugins/editors/codemirror/*  @okonomiyaki3000
+
+# Statistics Server
+plugins/system/stats/*  @wilsonge
+
+# Release Tools
+build.xml  @wilsonge
+build/build.php  @rdeutz @wilsonge
+build/bump.php  @rdeutz @wilsonge
+build/deleted_file_check.php  @rdeutz @wilsonge
+
+# Core/Extension Install/Update Tools
+administrator/components/com_joomlaupdate/*  @rdeutz @wilsonge @zero-24
+libraries/src/Installer/*  @rdeutz @wilsonge @zero-24
+libraries/src/Updater/*  @rdeutz @wilsonge @zero-24
+
+# Automated Testing
+build/jenkins/*  @rdeutz
+build/travis/*  @rdeutz
+tests/codeception/*  @rdeutz
+tests/javascript/*  @wilsonge @rdeutz
+tests/unit/*  @rdeutz
+.appveyor.yml  @rdeutz
+.drone.yml  @rdeutz
+.hound.yml  @wilsonge
+.travis.yml  @rdeutz
+appveyor-phpunit.xml  @rdeutz
+codeception.yml  @rdeutz
+karma.conf.js  @wilsonge @rdeutz
+phpunit.xml.dist  @rdeutz
+RoboFile.dist.ini  @rdeutz
+RoboFile.php  @rdeutz
+travis-phpunit.xml  @rdeutz

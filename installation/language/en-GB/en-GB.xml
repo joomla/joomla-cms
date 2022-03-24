@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <metafile
-	version="3.8"
+	version="3.9"
 	client="installation">
 	<name>English (United Kingdom)</name>
-	<version>3.8.7</version>
-	<creationDate>March 2018</creationDate>
+	<version>3.10.7</version>
+	<creationDate>March 2022</creationDate>
 	<author>Joomla! Project</author>
-	<copyright>Copyright (C) 2005 - 2018 Open Source Matters. All rights reserved.</copyright>
+	<copyright>(C) 2005 Open Source Matters, Inc.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<files>
 		<filename>en-GB.ini</filename>

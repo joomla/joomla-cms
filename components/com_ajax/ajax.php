@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_ajax
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2013 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -18,8 +18,12 @@ defined('_JEXEC') or die;
  * - https://groups.google.com/d/msg/joomla-dev-cms/WsC0nA9Fixo/Ur-gPqpqh-EJ
  */
 
-// Reference global application object
+/** @var \Joomla\CMS\Application\CMSApplication $app */
 $app = JFactory::getApplication();
+$app->allowCache(false);
+
+// Prevent the api url from being indexed
+$app->setHeader('X-Robots-Tag', 'noindex, nofollow');
 
 // JInput object
 $input = $app->input;
@@ -46,14 +50,11 @@ if (!$format)
  */
 elseif ($input->get('module'))
 {
-	$module       = $input->get('module');
-	$moduleObject = JModuleHelper::getModule('mod_' . $module, null);
+	$module   = $input->get('module');
+	$table    = JTable::getInstance('extension');
+	$moduleId = $table->find(array('type' => 'module', 'element' => 'mod_' . $module));
 
-	/*
-	 * As JModuleHelper::isEnabled always returns true, we check
-	 * for an id other than 0 to see if it is published.
-	 */
-	if ($moduleObject->id != 0)
+	if ($moduleId && $table->load($moduleId) && $table->enabled)
 	{
 		$helperFile = JPATH_BASE . '/modules/mod_' . $module . '/helper.php';
 
@@ -238,6 +239,7 @@ switch ($format)
 {
 	// JSONinzed
 	case 'json' :
+
 		echo new JResponseJson($results, null, false, $input->get('ignoreMessages', true, 'bool'));
 
 		break;

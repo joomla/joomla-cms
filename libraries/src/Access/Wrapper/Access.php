@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2014 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -148,7 +148,7 @@ class Access
 	 *
 	 * @see     StaticAccess::getActions()
 	 * @since   3.4
-	 * @deprecated  12.3 (Platform) & 4.0 (CMS)  Use StaticAccess::getActionsFromFile or StaticAccess::getActionsFromData instead.
+	 * @deprecated  4.0  Use StaticAccess::getActionsFromFile or StaticAccess::getActionsFromData instead.
 	 */
 	public function getActions($component, $section = 'component')
 	{

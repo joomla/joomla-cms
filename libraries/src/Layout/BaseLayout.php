@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2012 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -110,6 +110,8 @@ class BaseLayout implements LayoutInterface
 	 *
 	 * @return  string  The escaped output.
 	 *
+	 * @note the ENT_COMPAT flag will be replaced by ENT_QUOTES in Joomla 4.0 to also escape single quotes
+	 *
 	 * @since   3.0
 	 */
 	public function escape($output)
@@ -158,7 +160,7 @@ class BaseLayout implements LayoutInterface
 	 */
 	public function renderDebugMessages()
 	{
-		return implode($this->debugMessages, "\n");
+		return implode("\n", $this->debugMessages);
 	}
 
 	/**

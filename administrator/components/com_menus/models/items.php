@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_menus
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2009 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -109,6 +109,12 @@ class MenusModelItems extends JModelList
 		// Watch changes in client_id and menutype and keep sync whenever needed.
 		$currentClientId = $app->getUserState($this->context . '.client_id', 0);
 		$clientId        = $app->input->getInt('client_id', $currentClientId);
+
+		// Load mod_menu.ini file when client is administrator
+		if ($clientId == 1)
+		{
+			JFactory::getLanguage()->load('mod_menu', JPATH_ADMINISTRATOR, null, false, true);
+		}
 
 		$currentMenuType = $app->getUserState($this->context . '.menutype', '');
 		$menuType        = $app->input->getString('menutype', $currentMenuType);
@@ -298,10 +304,18 @@ class MenusModelItems extends JModelList
 
 		if ($assoc)
 		{
-			$query->select('COUNT(asso2.id)>1 as association')
-				->join('LEFT', '#__associations AS asso ON asso.id = a.id AND asso.context=' . $db->quote('com_menus.item'))
-				->join('LEFT', '#__associations AS asso2 ON asso2.key = asso.key')
-				->group('a.id, e.enabled, l.title, l.image, u.name, c.element, ag.title, e.name, mt.id, mt.title, l.sef');
+			$subQuery = $db->getQuery(true)
+				->select('COUNT(' . $db->quoteName('asso1.id') . ') > 1')
+				->from($db->quoteName('#__associations', 'asso1'))
+				->join('INNER', $db->quoteName('#__associations', 'asso2') . ' ON ' . $db->quoteName('asso1.key') . ' = ' . $db->quoteName('asso2.key'))
+				->where(
+					array(
+						$db->quoteName('asso1.id') . ' = ' . $db->quoteName('a.id'),
+						$db->quoteName('asso1.context') . ' = ' . $db->quote('com_menus.item'),
+					)
+				);
+
+			$query->select('(' . $subQuery . ') AS ' . $db->quoteName('association'));
 		}
 
 		// Join over the extensions
@@ -351,7 +365,28 @@ class MenusModelItems extends JModelList
 
 		if (!empty($parentId))
 		{
-			$query->where('a.parent_id = ' . (int) $parentId);
+			$level = $this->getState('filter.level');
+
+			// Create a subquery for the sub-items list
+			$subQuery = $db->getQuery(true)
+				->select('sub.id')
+				->from('#__menu as sub')
+				->join('INNER', '#__menu as this ON sub.lft > this.lft AND sub.rgt < this.rgt')
+				->where('this.id = ' . (int) $parentId);
+
+			if ($level)
+			{
+				$subQuery->where('sub.level <= this.level + ' . (int) ($level - 1));
+			}
+
+			// Add the subquery to the main query
+			$query->where('(a.parent_id = ' . (int) $parentId . ' OR a.parent_id IN (' . (string) $subQuery . '))');
+		}
+
+		// Filter on the level.
+		elseif ($level = $this->getState('filter.level'))
+		{
+			$query->where('a.level <= ' . (int) $level);
 		}
 
 		// Filter the items over the menu id if set.
@@ -413,12 +448,6 @@ class MenusModelItems extends JModelList
 			{
 				$query->where('a.access IN (' . implode(',', $groups) . ')');
 			}
-		}
-
-		// Filter on the level.
-		if ($level = $this->getState('filter.level'))
-		{
-			$query->where('a.level <= ' . (int) $level);
 		}
 
 		// Filter on the language.
@@ -509,7 +538,7 @@ class MenusModelItems extends JModelList
 	 *
 	 * @return  mixed  An array of data items on success, false on failure.
 	 *
-	 * @since   12.2
+	 * @since   3.0.1
 	 */
 	public function getItems()
 	{
@@ -519,6 +548,7 @@ class MenusModelItems extends JModelList
 		{
 			$items = parent::getItems();
 			$lang  = JFactory::getLanguage();
+			$client = $this->state->get('filter.client_id');
 
 			if ($items)
 			{
@@ -531,7 +561,10 @@ class MenusModelItems extends JModelList
 					}
 
 					// Translate component name
-					$item->title = JText::_($item->title);
+					if ($client === 1)
+					{
+						$item->title = JText::_($item->title);
+					}
 				}
 			}
 

@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2012 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -11,7 +11,7 @@ namespace Joomla\CMS\Language;
 defined('JPATH_PLATFORM') or die;
 
 /**
- * Utitlity class for multilang
+ * Utility class for multilang
  *
  * @since  2.5.4
  */

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2010 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -78,19 +78,8 @@ class UsersModelDebuggroup extends JModelList
 				foreach ($actions as $action)
 				{
 					$name = $action[0];
-					$level = $action[1];
 
-					// Check that we check this action for the level of the asset.
-					if ($level === null || $level >= $asset->level)
-					{
-						// We need to test this action.
-						$asset->checks[$name] = JAccess::checkGroup($groupId, $name, $asset->name);
-					}
-					else
-					{
-						// We ignore this action.
-						$asset->checks[$name] = 'skip';
-					}
+					$asset->checks[$name] = JAccess::checkGroup($groupId, $name, $asset->name);
 				}
 			}
 		}

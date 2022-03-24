@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2017 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -17,23 +17,33 @@ use Joomla\CMS\Filter\InputFilter;
  *
  * This is an abstracted input class used to manage retrieving data from the application environment.
  *
- * @since       11.1
+ * @since       1.7.0
  * @deprecated  5.0  Use Joomla\Input\Input instead
  *
  * @property-read   Input   $get
  * @property-read   Input   $post
  * @property-read   Input   $request
  * @property-read   Input   $server
+ * @property-read   Input   $env
  * @property-read   Files   $files
  * @property-read   Cookie  $cookie
  */
 class Input extends \Joomla\Input\Input
 {
 	/**
+	 * Container with allowed superglobals
+	 *
+	 * @var    array
+	 * @since  3.8.9
+	 * @deprecated  5.0  Use Joomla\Input\Input instead
+	 */
+	private static $allowedGlobals = array('REQUEST', 'GET', 'POST', 'FILES', 'SERVER', 'ENV');
+
+	/**
 	 * Input objects
 	 *
 	 * @var    Input[]
-	 * @since  11.1
+	 * @since  1.7.0
 	 * @deprecated  5.0  Use Joomla\Input\Input instead
 	 */
 	protected $inputs = array();
@@ -44,7 +54,7 @@ class Input extends \Joomla\Input\Input
 	 * @param   array  $source   Source data (Optional, default is $_REQUEST)
 	 * @param   array  $options  Array of configuration parameters (Optional)
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 * @deprecated  5.0  Use Joomla\Input\Input instead
 	 */
 	public function __construct($source = null, array $options = array())
@@ -64,7 +74,7 @@ class Input extends \Joomla\Input\Input
 	 *
 	 * @return  Input  The request input object
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 * @deprecated  5.0  Use Joomla\Input\Input instead
 	 */
 	public function __get($name)
@@ -85,7 +95,7 @@ class Input extends \Joomla\Input\Input
 
 		$superGlobal = '_' . strtoupper($name);
 
-		if (isset($GLOBALS[$superGlobal]))
+		if (in_array(strtoupper($name), self::$allowedGlobals, true) && isset($GLOBALS[$superGlobal]))
 		{
 			$this->inputs[$name] = new Input($GLOBALS[$superGlobal], $this->options);
 
@@ -110,7 +120,7 @@ class Input extends \Joomla\Input\Input
 	 *
 	 * @return  mixed  The filtered input data.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 * @deprecated  5.0  Use Joomla\Input\Input instead
 	 */
 	public function getArray(array $vars = array(), $datasource = null, $defaultFilter = 'unknown')
@@ -194,7 +204,7 @@ class Input extends \Joomla\Input\Input
 	 *
 	 * @return  Input  The input object.
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 * @deprecated  5.0  Use Joomla\Input\Input instead
 	 */
 	public function unserialize($input)

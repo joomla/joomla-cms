@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_banners
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2009 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -83,7 +83,7 @@ class BannersModelBanners extends JModelList
 			->where('a.state=1')
 			->where('(a.publish_up = ' . $nullDate . ' OR a.publish_up <= ' . $nowDate . ')')
 			->where('(a.publish_down = ' . $nullDate . ' OR a.publish_down >= ' . $nowDate . ')')
-			->where('(a.imptotal = 0 OR a.impmade <= a.imptotal)');
+			->where('(a.imptotal = 0 OR a.impmade < a.imptotal)');
 
 		if ($cid)
 		{
@@ -134,9 +134,9 @@ class BannersModelBanners extends JModelList
 
 		if ($tagSearch)
 		{
-			if (count($keywords) === 0)
+			if (!$keywords)
 			{
-				$query->where('0');
+				$query->where('0 != 0');
 			}
 			else
 			{
@@ -151,7 +151,6 @@ class BannersModelBanners extends JModelList
 
 				foreach ($keywords as $keyword)
 				{
-					$keyword = trim($keyword);
 					$condition1 = 'a.own_prefix=1 '
 						. ' AND a.metakey_prefix=SUBSTRING(' . $db->quote($keyword) . ',1,LENGTH( a.metakey_prefix)) '
 						. ' OR a.own_prefix=0 '
@@ -159,18 +158,19 @@ class BannersModelBanners extends JModelList
 						. ' AND cl.metakey_prefix=SUBSTRING(' . $db->quote($keyword) . ',1,LENGTH(cl.metakey_prefix)) '
 						. ' OR a.own_prefix=0 '
 						. ' AND cl.own_prefix=0 '
-						. ' AND ' . ($prefix == substr($keyword, 0, strlen($prefix)) ? '1' : '0');
+						. ' AND ' . ($prefix == substr($keyword, 0, strlen($prefix)) ? '0 = 0' : '0 != 0');
 
-					$condition2 = "a.metakey REGEXP '[[:<:]]" . $db->escape($keyword) . "[[:>:]]'";
+					$regexp = $db->quote("[[:<:]]" . $db->escape($keyword) . "[[:>:]]");
+					$condition2 = "a.metakey " . $query->regexp($regexp) . " ";
 
 					if ($cid)
 					{
-						$condition2 .= " OR cl.metakey REGEXP '[[:<:]]" . $db->escape($keyword) . "[[:>:]]'";
+						$condition2 .= " OR cl.metakey " . $query->regexp($regexp) . " ";
 					}
 
 					if ($categoryId)
 					{
-						$condition2 .= " OR cat.metakey REGEXP '[[:<:]]" . $db->escape($keyword) . "[[:>:]]'";
+						$condition2 .= " OR cat.metakey " . $query->regexp($regexp) . " ";
 					}
 
 					$temp[] = "($condition1) AND ($condition2)";
@@ -200,6 +200,23 @@ class BannersModelBanners extends JModelList
 	 */
 	public function getItems()
 	{
+		if ($this->getState('filter.tag_search'))
+		{
+			// Filter out empty keywords.
+			$keywords = array_values(array_filter(array_map('trim', $this->getState('filter.keywords')), 'strlen'));
+
+			// Re-set state before running the query.
+			$this->setState('filter.keywords', $keywords);
+
+			// If no keywords are provided, avoid running the query.
+			if (!$keywords)
+			{
+				$this->cache['items'] = array();
+
+				return $this->cache['items'];
+			}
+		}
+
 		if (!isset($this->cache['items']))
 		{
 			$this->cache['items'] = parent::getItems();
@@ -222,7 +239,9 @@ class BannersModelBanners extends JModelList
 	 */
 	public function impress()
 	{
-		$trackDate = JFactory::getDate()->format('Y-m-d H');
+		$trackDate = JFactory::getDate()->format('Y-m-d H:00:00');
+		$trackDate = JFactory::getDate($trackDate)->toSql();
+
 		$items     = $this->getItems();
 		$db        = $this->getDbo();
 		$query     = $db->getQuery(true);

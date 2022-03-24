@@ -4709,7 +4709,6 @@ a.badge:focus {
 	.input-prepend input[class*="span"],
 	.input-append input[class*="span"] {
 		display: inline-block;
-		width: auto;
 	}
 	.controls-row [class*="span"] + [class*="span"] {
 		margin-left: 0;
@@ -4742,6 +4741,14 @@ a.badge:focus {
 	.form-horizontal .form-actions {
 		padding-left: 10px;
 		padding-right: 10px;
+	}
+	.tag-category input#filter-search,
+	.newsfeed-category input#filter-search {
+		width: auto;
+		margin-bottom: 9px;
+	}
+	.category-list input#filter-search {
+		width: auto;
 	}
 	.media .pull-left,
 	.media .pull-right {
@@ -7530,7 +7537,9 @@ textarea.noResize {
 		margin-bottom: 10px;
 	}
 }
-.subform-table-layout .control-group,
+.subform-table-layout .control-group {
+	margin-bottom: 10px;
+}
 .subform-table-layout .control-group:last-of-type {
 	margin-bottom: 0;
 }
@@ -7613,6 +7622,9 @@ textarea.noResize {
 }
 .form-horizontal .controls > .radio.btn-group-yesno:first-child {
 	padding-top: 2px;
+}
+input.field-media-input {
+	width: auto;
 }
 .header {
 	background-color: #1a3867;
@@ -7748,20 +7760,17 @@ textarea.noResize {
 		display: none;
 	}
 }
+.ventral-space {
+	margin-bottom: 5px;
+}
 ul.manager .height-50 .icon-folder-2 {
 	height: 35px;
 	width: 35px;
 	line-height: 35px;
 	font-size: 30px;
 }
-#imageForm {
-	margin: -25px 0 0;
-}
 #imageForm .well {
 	margin-bottom: 5px;
-}
-.thumbnails-media {
-	margin-left: 0;
 }
 .thumbnails-media .thumbnail {
 	background-color: #f4f4f4;
@@ -7771,8 +7780,7 @@ ul.manager .height-50 .icon-folder-2 {
 	padding: 0px;
 	height: 100px;
 	width: 100px;
-	margin: 8px 16px;
-	margin-left: 0 !important;
+	margin: 8px;
 	position: relative;
 	text-align: center;
 	overflow: hidden;
@@ -7957,6 +7965,7 @@ ul.manager .height-50 .icon-folder-2 {
 }
 #mediamanager-form {
 	margin: 0 -10px;
+	overflow-x: hidden;
 }
 #mediamanager-form > .muted {
 	padding: 0px;
@@ -7968,10 +7977,14 @@ ul.manager .height-50 .icon-folder-2 {
 #mediamanager-form .checkbox input {
 	margin-top: 3px;
 }
+#mediamanager-form .thumbnails {
+	margin: 0 -8px;
+	overflow-x: hidden;
+}
 #mediamanager-form .thumbnails .thumbnail {
 	height: 120px;
 	width: 120px;
-	margin: 0 18px 18px 0;
+	margin: 8px;
 }
 #mediamanager-form .thumbnails .imgThumb label,
 #mediamanager-form .thumbnails .imgTotal {
@@ -8035,6 +8048,7 @@ body.modal-open {
 	padding: 0;
 	width: 100%;
 	height: auto;
+	max-height: none;
 }
 .modal-body .container-fluid {
 	padding-top: 15px;
@@ -8053,7 +8067,10 @@ body.modal-open {
 	}
 }
 .container-popup {
-	padding: 28px 10px 10px 10px;
+	padding: 10px;
+}
+.field-media-wrapper iframe {
+	max-height: 75vh;
 }
 body .navbar,
 body .navbar-fixed-top {
@@ -8798,7 +8815,8 @@ ul.treeselect ul.dropdown-menu li {
 .pagination-toolbar a {
 	line-height: 26px;
 }
-.pull-right > .dropdown-menu {
+.pull-right > .dropdown-menu,
+.dropdown-reverse {
 	left: auto;
 	right: 0;
 }
@@ -8859,13 +8877,6 @@ ul.treeselect ul.dropdown-menu li {
 	line-height: 2em;
 	color: #333333;
 }
-.upload-queue > li > span,
-.upload-queue > li > a {
-	margin: 0 2px;
-}
-.upload-queue .file-remove {
-	float: right;
-}
 .moor-box {
 	z-index: 3;
 }
@@ -8910,10 +8921,6 @@ th .tooltip-inner {
 }
 .img-preview > img {
 	max-height: 100%;
-}
-#helpsite-refresh {
-	padding: 4px 12px;
-	vertical-align: top;
 }
 .alert-no-items {
 	margin-top: 20px;
@@ -9020,6 +9027,12 @@ input:focus,
 .hero-unit .lead {
 	font-weight: 400;
 }
+@media (min-width: 1200px) {
+	#permissions .tab-content {
+		position: sticky;
+		top: 90px;
+	}
+}
 .com_cpanel .well {
 	padding: 8px 14px;
 	border: 1px solid rgba(0,0,0,0.05);
@@ -9061,15 +9074,39 @@ input:focus,
 	margin-bottom: 0;
 	width: auto;
 }
+.com_privacy .well {
+	padding: 8px 14px;
+	border: 1px solid rgba(0,0,0,0.05);
+}
+.com_privacy .well .module-title.nav-header {
+	color: #555;
+}
+.com_privacy .well > .row-striped,
+.com_privacy .well > .list-striped {
+	margin: 0 -14px;
+}
+.com_privacy .well > .row-striped > .row-fluid,
+.com_privacy .well > .list-striped > .row-fluid {
+	padding: 8px 14px;
+}
+.com_privacy .well > .row-striped > .row-fluid [class*="span"],
+.com_privacy .well > .list-striped > .row-fluid [class*="span"] {
+	margin-left: 0;
+}
+.com_privacy .well > .row-striped > li,
+.com_privacy .well > .list-striped > li {
+	padding-left: 15px;
+	padding-right: 15px;
+}
 #menu-assignment {
 	position: relative;
 }
 #menu-assignment .menu-links {
 	margin-top: 15px;
 	margin-left: 0;
-	-webkit-column-count: 3;
-	-moz-column-count: 3;
-	column-count: 3;
+	-webkit-column-count: 4;
+	-moz-column-count: 4;
+	column-count: 4;
 	-moz-column-gap: 15px;
 	-webkit-column-gap: 15px;
 	column-gap: 15px;
@@ -9080,14 +9117,21 @@ input:focus,
 	margin-bottom: 15px;
 	width: 100%;
 	list-style: none;
-	-webkit-column-break-inside: avoid;
-	-webkit-backface-visibility: hidden;
+	page-break-inside: avoid;
+	break-inside: avoid;
 }
 #menu-assignment .menu-links-block {
 	background-color: #fafafa;
 	border: 1px solid #ddd;
 	border-radius: 3px;
 	padding: 15px;
+}
+@media (max-width: 1199px) {
+	#menu-assignment .menu-links {
+		-webkit-column-count: 3;
+		-moz-column-count: 3;
+		column-count: 3;
+	}
 }
 @media (max-width: 767px) {
 	#menu-assignment .menu-links {
@@ -9343,22 +9387,6 @@ body {
 }
 .pager .previous a {
 	float: right;
-}
-.btn-group > .btn:first-child,
-.radio.btn-group > label:first-of-type {
-	margin-left: 0;
-	-webkit-border-bottom-left-radius: 0px;
-	border-bottom-left-radius: 0px;
-	-webkit-border-top-left-radius: 0px;
-	border-top-left-radius: 0px;
-	-moz-border-radius-bottomleft: 0px;
-	-moz-border-radius-topleft: 0px;
-	-webkit-border-bottom-right-radius: 4px;
-	border-bottom-right-radius: 4px;
-	-webkit-border-top-right-radius: 4px;
-	border-top-right-radius: 4px;
-	-moz-border-radius-bottomright: 4px;
-	-moz-border-radius-topright: 4px;
 }
 .icon-arrow-right {
 	background-position: -241px -94px;
@@ -10063,4 +10091,12 @@ a.grid_true {
 	box-shadow: 3px 0 0 #3071a9;
 	border-right: 0;
 	border-left: 1px solid rgba(0,0,0,0.08);
+}
+.dropdown-reverse {
+	left: 0;
+	right: auto;
+}
+.com_cpanel .well > .row-striped > .row-fluid [class*="span"],
+.com_cpanel .well > .list-striped > .row-fluid [class*="span"] {
+	margin-right: 0;
 }

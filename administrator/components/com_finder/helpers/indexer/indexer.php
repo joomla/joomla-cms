@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2011 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -117,7 +117,10 @@ abstract class FinderIndexer
 
 		$db = $this->db;
 
-		// Set up query template for addTokensToDb
+		/**
+		 * Set up query template for addTokensToDb, we will be cloning this template when needed.
+		 * This is about twice as fast as calling the clear function or setting up a new object.
+		 */
 		$this->addTokensToDbQueryTemplate = $db->getQuery(true)->insert($db->quoteName('#__finder_tokens'))
 			->columns(
 				array(
@@ -177,7 +180,7 @@ abstract class FinderIndexer
 	public static function getState()
 	{
 		// First, try to load from the internal state.
-		if (!empty(static::$state))
+		if ((bool) static::$state)
 		{
 			return static::$state;
 		}
@@ -307,8 +310,10 @@ abstract class FinderIndexer
 			// Update the link counts for the terms.
 			$query->clear()
 				->update($db->quoteName('#__finder_terms', 't'))
-				->join('INNER', $db->quoteName('#__finder_links_terms' . dechex($i), 'm') . ' ON m.term_id = t.term_id')
-				->set('t.links = t.links - 1')
+				->join('INNER', $db->quoteName('#__finder_links_terms' . dechex($i), 'm') .
+					' ON ' . $db->quoteName('m.term_id') . ' = ' . $db->quoteName('t.term_id')
+				)
+				->set($db->quoteName('links') . ' = ' . $db->quoteName('links') . ' - 1')
 				->where($db->quoteName('m.link_id') . ' = ' . (int) $linkId);
 			$db->setQuery($query)->execute();
 
@@ -441,8 +446,7 @@ abstract class FinderIndexer
 				// Parse, tokenise and add tokens to the database.
 				$count = $this->tokenizeToDbShort($string, $context, $lang, $format, $count);
 
-				unset($string);
-				unset($tokens);
+				unset($string, $tokens);
 			}
 
 			return $count;
@@ -463,7 +467,7 @@ abstract class FinderIndexer
 	 * @param   string   $format   The format of the input.
 	 * @param   integer  $count    The number of tokens processed so far.
 	 *
-	 * @return  integer  Cummulative number of tokens extracted from the input so far.
+	 * @return  integer  Cumulative number of tokens extracted from the input so far.
 	 *
 	 * @since   3.7.0
 	 */
@@ -518,7 +522,7 @@ abstract class FinderIndexer
 		$values = 0;
 
 		// Break into chunks of no more than 1000 items
-		$chunks = array_chunk($tokens, 1000);
+		$chunks = array_chunk($tokens, 128);
 
 		foreach ($chunks as $tokens)
 		{
@@ -532,7 +536,7 @@ abstract class FinderIndexer
 					. $db->quote($token->stem) . ', '
 					. (int) $token->common . ', '
 					. (int) $token->phrase . ', '
-					. (float) $token->weight . ', '
+					. $db->escape((float) $token->weight) . ', '
 					. (int) $context . ', '
 					. $db->quote($token->language)
 				);
@@ -540,6 +544,12 @@ abstract class FinderIndexer
 			}
 
 			$db->setQuery($query)->execute();
+
+			// Check if we're approaching the memory limit of the token table.
+			if ($values > static::$state->options->get('memory_table_limit', 10000))
+			{
+				$this->toggleTables(false);
+			}
 		}
 
 		return $values;

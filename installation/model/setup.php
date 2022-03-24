@@ -3,7 +3,7 @@
  * @package     Joomla.Installation
  * @subpackage  Model
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2009 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -46,6 +46,19 @@ class InstallationModelSetup extends JModelBase
 		if (!isset($options['language']) || empty($options['language']))
 		{
 			$options['language'] = JFactory::getLanguage()->getTag();
+		}
+
+		// Store passwords as a separate key that is not used in the forms
+		foreach (array('admin_password', 'db_pass', 'ftp_pass') as $passwordField)
+		{
+			if (isset($options[$passwordField]))
+			{
+				$plainTextKey = $passwordField . '_plain';
+
+				$options[$plainTextKey] = $options[$passwordField];
+
+				unset($options[$passwordField]);
+			}
 		}
 
 		// Get the session
@@ -432,7 +445,9 @@ class InstallationModelSetup extends JModelBase
 		if ($return === false)
 		{
 			// Get the validation messages from the form.
-			foreach ($form->getErrors() as $message)
+			$messages = array_reverse($form->getErrors());
+
+			foreach ($messages as $message)
 			{
 				if ($message instanceof Exception)
 				{

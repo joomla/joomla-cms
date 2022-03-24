@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2016 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -18,13 +18,17 @@ defined('JPATH_PLATFORM') or die;
 final class UserGroupsHelper
 {
 	/**
-	 * @const  integer
+	 * Indicates the current helper instance is the singleton instance.
+	 *
+	 * @var    integer
 	 * @since  3.6.3
 	 */
 	const MODE_SINGLETON = 1;
 
 	/**
-	 * @const  integer
+	 * Indicates the current helper instance is a standalone class instance.
+	 *
+	 * @var    integer
 	 * @since  3.6.3
 	 */
 	const MODE_INSTANCE = 2;

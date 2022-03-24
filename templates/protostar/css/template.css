@@ -4870,7 +4870,6 @@ a.badge:focus {
 	.input-prepend input[class*="span"],
 	.input-append input[class*="span"] {
 		display: inline-block;
-		width: auto;
 	}
 	.controls-row [class*="span"] + [class*="span"] {
 		margin-left: 0;
@@ -4903,6 +4902,14 @@ a.badge:focus {
 	.form-horizontal .form-actions {
 		padding-left: 10px;
 		padding-right: 10px;
+	}
+	.tag-category input#filter-search,
+	.newsfeed-category input#filter-search {
+		width: auto;
+		margin-bottom: 9px;
+	}
+	.category-list input#filter-search {
+		width: auto;
 	}
 	.media .pull-left,
 	.media .pull-right {
@@ -7648,9 +7655,6 @@ div.current dd.tabs {
 	border: 1px solid #CCC;
 	background-color: #FFF;
 }
-#helpsite-refresh {
-	vertical-align: top;
-}
 #pop-print {
 	float: right;
 	margin: 10px;
@@ -7728,6 +7732,23 @@ ul.manager .height-50 .icon-folder-2 {
 }
 .finder-selects {
 	margin: 0 15px 15px 0;
+}
+.header-search .mod-languages ul {
+	margin: 0 0 5px 0;
+}
+.btn-group > .versions {
+	-webkit-border-top-right-radius: 4px;
+	-moz-border-radius-topright: 4px;
+	border-top-right-radius: 4px;
+	-webkit-border-bottom-right-radius: 4px;
+	-moz-border-radius-bottomright: 4px;
+	border-bottom-right-radius: 4px;
+	-webkit-border-top-left-radius: 4px;
+	-moz-border-radius-topleft: 4px;
+	border-top-left-radius: 4px;
+	-webkit-border-bottom-left-radius: 4px;
+	-moz-border-radius-bottomleft: 4px;
+	border-bottom-left-radius: 4px;
 }
 .rtl .navigation .nav-child {
 	left: auto;

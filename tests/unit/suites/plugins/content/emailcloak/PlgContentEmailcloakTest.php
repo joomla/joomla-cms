@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Plugins
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2016 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -80,7 +80,7 @@ class PlgContentEmailcloakTest extends TestCaseDatabase
 				 * At the moment there is a slight unit test bug in that what you see here will start with
 				 * the opening <a> tag, and not the full surrounding html from the article - I might fix that in future
 				 * but for now we are testing the actual replacement inside the <a> tags and not the surrounding html
-				 * due to the crazyness of the unit tests converting from JS to HTML to compare
+				 * due to the craziness of the unit tests converting from JS to HTML to compare
 				 */
 				'this should not be parsed as it has no (at) sign in it - see what I did there? ;)',
 

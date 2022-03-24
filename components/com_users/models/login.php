@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2010 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -22,7 +22,7 @@ class UsersModelLogin extends JModelForm
 	 * The base form is loaded from XML and then an event is fired
 	 * for users plugins to extend the form with extra fields.
 	 *
-	 * @param   array    $data      An optional array of data for the form to interogate.
+	 * @param   array    $data      An optional array of data for the form to interrogate.
 	 * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
 	 *
 	 * @return  JForm	A JForm object on success, false on failure
@@ -55,11 +55,10 @@ class UsersModelLogin extends JModelForm
 		$app  = JFactory::getApplication();
 		$data = $app->getUserState('users.login.form.data', array());
 
-		$input = $app->input;
-		$method = $input->getMethod();
+		$input = $app->input->getInputForRequestMethod();
 
 		// Check for return URL from the request first
-		if ($return = $input->$method->get('return', '', 'BASE64'))
+		if ($return = $input->get('return', '', 'BASE64'))
 		{
 			$data['return'] = base64_decode($return);
 

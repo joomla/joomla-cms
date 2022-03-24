@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_fields
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2016 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 defined('_JEXEC') or die;
@@ -191,8 +191,14 @@ class FieldsModelField extends JModelAdmin
 				}
 
 				$query = $db->getQuery(true);
-				$query->delete('#__fields_values')->where('field_id = ' . (int) $field->id)
-					->where('value NOT IN (' . implode(',', $names) . ')');
+				$query->delete('#__fields_values')->where('field_id = ' . (int) $field->id);
+
+				// If new values are set, delete only old values. Otherwise delete all values.
+				if ($names)
+				{
+					$query->where('value NOT IN (' . implode(',', $names) . ')');
+				}
+
 				$db->setQuery($query);
 				$db->execute();
 			}
@@ -217,7 +223,7 @@ class FieldsModelField extends JModelAdmin
 	private function checkDefaultValue($data)
 	{
 		// Empty default values are correct
-		if (empty($data['default_value']))
+		if (empty($data['default_value']) && $data['default_value'] !== '0')
 		{
 			return true;
 		}
@@ -328,7 +334,7 @@ class FieldsModelField extends JModelAdmin
 				$result->context = JFactory::getApplication()->input->getCmd('context', $this->getState('field.context'));
 			}
 
-			if (property_exists($result, 'fieldparams'))
+			if (property_exists($result, 'fieldparams') && $result->fieldparams !== null)
 			{
 				$registry = new Registry;
 				$registry->loadString($result->fieldparams);
@@ -343,34 +349,6 @@ class FieldsModelField extends JModelAdmin
 
 			$db->setQuery($query);
 			$result->assigned_cat_ids = $db->loadColumn() ?: array(0);
-
-			// Convert the created and modified dates to local user time for
-			// display in the form.
-			$tz = new DateTimeZone(JFactory::getApplication()->get('offset'));
-
-			if ((int) $result->created_time)
-			{
-				$date = new JDate($result->created_time);
-				$date->setTimezone($tz);
-
-				$result->created_time = $date->toSql(true);
-			}
-			else
-			{
-				$result->created_time = null;
-			}
-
-			if ((int) $result->modified_time)
-			{
-				$date = new JDate($result->modified_time);
-				$date->setTimezone($tz);
-
-				$result->modified_time = $date->toSql(true);
-			}
-			else
-			{
-				$result->modified_time = null;
-			}
 		}
 
 		return $result;
@@ -405,15 +383,15 @@ class FieldsModelField extends JModelAdmin
 	/**
 	 * Method to change the title & name.
 	 *
-	 * @param   integer  $category_id  The id of the category.
-	 * @param   string   $name         The name.
-	 * @param   string   $title        The title.
+	 * @param   integer  $categoryId  The id of the category.
+	 * @param   string   $name        The name.
+	 * @param   string   $title       The title.
 	 *
 	 * @return  array  Contains the modified title and name.
 	 *
 	 * @since    3.7.0
 	 */
-	protected function generateNewTitle($category_id, $name, $title)
+	protected function generateNewTitle($categoryId, $name, $title)
 	{
 		// Alter the title & name
 		$table = $this->getTable();
@@ -433,7 +411,7 @@ class FieldsModelField extends JModelAdmin
 	/**
 	 * Method to delete one or more records.
 	 *
-	 * @param   array  &$pks  An array of record primary keys.
+	 * @param   array  $pks  An array of record primary keys.
 	 *
 	 * @return  boolean  True if successful, false if an error occurs.
 	 *
@@ -513,7 +491,7 @@ class FieldsModelField extends JModelAdmin
 
 		// Get the form.
 		$form = $this->loadForm(
-			'com_fields.field' . $context, 'field',
+			'com_fields.field.' . $context, 'field',
 			array(
 				'control'   => 'jform',
 				'load_data' => true,
@@ -589,8 +567,9 @@ class FieldsModelField extends JModelAdmin
 		}
 		elseif (count($value) == 1 && count((array) $oldValue) == 1)
 		{
-			// Only a single row value update can be done
-			$needsUpdate = true;
+			// Only a single row value update can be done when not empty
+			$needsUpdate = is_array($value[0]) ? count($value[0]) : strlen($value[0]);
+			$needsDelete = !$needsUpdate;
 		}
 		else
 		{
@@ -771,19 +750,14 @@ class FieldsModelField extends JModelAdmin
 	 */
 	protected function canDelete($record)
 	{
-		if (!empty($record->id))
+		if (empty($record->id) || $record->state != -2)
 		{
-			if ($record->state != -2)
-			{
-				return false;
-			}
-
-			$parts = FieldsHelper::extract($record->context);
-
-			return JFactory::getUser()->authorise('core.delete', $parts[0] . '.field.' . (int) $record->id);
+			return false;
 		}
 
-		return false;
+		$parts = FieldsHelper::extract($record->context);
+
+		return JFactory::getUser()->authorise('core.delete', $parts[0] . '.field.' . (int) $record->id);
 	}
 
 	/**
@@ -903,6 +877,41 @@ class FieldsModelField extends JModelAdmin
 	}
 
 	/**
+	 * Method to validate the form data.
+	 *
+	 * @param   JForm   $form   The form to validate against.
+	 * @param   array   $data   The data to validate.
+	 * @param   string  $group  The name of the field group to validate.
+	 *
+	 * @return  array|boolean  Array of filtered data if valid, false otherwise.
+	 *
+	 * @see     JFormRule
+	 * @see     JFilterInput
+	 * @since   3.9.23
+	 */
+	public function validate($form, $data, $group = null)
+	{
+		// Don't allow to change the users if not allowed to access com_users.
+		if (!JFactory::getUser()->authorise('core.manage', 'com_users'))
+		{
+			if (isset($data['created_user_id']))
+			{
+				unset($data['created_user_id']);
+			}
+		}
+
+		if (!JFactory::getUser()->authorise('core.admin', 'com_fields'))
+		{
+			if (isset($data['rules']))
+			{
+				unset($data['rules']);
+			}
+		}
+
+		return parent::validate($form, $data, $group);
+	}
+
+	/**
 	 * Method to allow derived classes to preprocess the form.
 	 *
 	 * @param   JForm   $form   A JForm object.
@@ -959,11 +968,17 @@ class FieldsModelField extends JModelAdmin
 		}
 
 		// Setting the context for the category field
-		$cat = JCategories::getInstance(str_replace('com_', '', $component));
+		$cat = JCategories::getInstance(str_replace('com_', '', $component) . '.' . $section);
+
+		// If there is no category for the component and section, so check the component only
+		if (!$cat)
+		{
+			$cat = JCategories::getInstance(str_replace('com_', '', $component));
+		}
 
 		if ($cat && $cat->get('root')->hasChildren())
 		{
-			$form->setFieldAttribute('assigned_cat_ids', 'extension', $component);
+			$form->setFieldAttribute('assigned_cat_ids', 'extension', $cat->getExtension());
 		}
 		else
 		{
@@ -996,14 +1011,14 @@ class FieldsModelField extends JModelAdmin
 	/**
 	 * Clean the cache
 	 *
-	 * @param   string   $group      The cache group
-	 * @param   integer  $client_id  The ID of the client
+	 * @param   string   $group     The cache group
+	 * @param   integer  $clientId  The ID of the client
 	 *
 	 * @return  void
 	 *
 	 * @since   3.7.0
 	 */
-	protected function cleanCache($group = null, $client_id = 0)
+	protected function cleanCache($group = null, $clientId = 0)
 	{
 		$context = JFactory::getApplication()->input->get('context');
 

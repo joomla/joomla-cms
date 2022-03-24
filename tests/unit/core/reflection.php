@@ -2,7 +2,7 @@
 /**
  * @package    Joomla.Test
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2012 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -10,19 +10,19 @@
  * Reflection helper class.
  *
  * @package  Joomla.Test
- * @since    12.1
+ * @since    3.0.0
  */
 class TestReflection
 {
 	/**
-	 * Helper method that gets a protected or private property in a class by relfection.
+	 * Helper method that gets a protected or private property in a class by reflection.
 	 *
 	 * @param   object  $object        The object from which to return the property value.
 	 * @param   string  $propertyName  The name of the property to return.
 	 *
 	 * @return  mixed  The value of the property.
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 * @throws  InvalidArgumentException if property not available.
 	 */
 	public static function getValue($object, $propertyName)
@@ -62,7 +62,7 @@ class TestReflection
 	 *
 	 * @return  mixed
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public static function invoke($object, $methodName)
 	{
@@ -82,7 +82,7 @@ class TestReflection
 	}
 
 	/**
-	 * Helper method that sets a protected or private property in a class by relfection.
+	 * Helper method that sets a protected or private property in a class by reflection.
 	 *
 	 * @param   object  $object        The object for which to set the property.
 	 * @param   string  $propertyName  The name of the property to set.
@@ -90,7 +90,7 @@ class TestReflection
 	 *
 	 * @return  void
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public static function setValue($object, $propertyName, $value)
 	{

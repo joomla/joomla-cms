@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_templates
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2008 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -36,7 +36,7 @@ JFactory::getDocument()->addScriptDeclaration("
 jQuery(document).ready(function($){
 
 	// Hide all the folder when the page loads
-	$('.folder ul, .component-folder ul, .layout-folder ul').hide();
+	$('.folder ul, .component-folder ul, .plugin-folder ul, .layout-folder ul').hide();
 
 	// Display the tree after loading
 	$('.directory-tree').removeClass('directory-tree');
@@ -45,17 +45,17 @@ jQuery(document).ready(function($){
 	$('.show > ul').show();
 
 	// Stop the default action of anchor tag on a click event
-	$('.folder-url, .component-folder-url, .layout-folder-url').click(function(event){
+	$('.folder-url, .component-folder-url, .plugin-folder-url, .layout-folder-url').click(function(event){
 		event.preventDefault();
 	});
 
 	// Prevent the click event from proliferating
-	$('.file, .component-file-url').bind('click',function(e){
+	$('.file, .component-file-url, .plugin-file-url').bind('click',function(e){
 		e.stopPropagation();
 	});
 
 	// Toggle the child indented list on a click event
-	$('.folder, .component-folder, .layout-folder').bind('click',function(e){
+	$('.folder, .component-folder, .plugin-folder, .layout-folder').bind('click',function(e){
 		$(this).children('ul').toggle();
 		e.stopPropagation();
 	});
@@ -88,7 +88,6 @@ jQuery(document).ready(function($){
 			filePathTmp = filePathTmp.slice( 1 );
 			filePathTmp = filePathTmp.split('/');
 			filePathTmp = filePathTmp[filePathTmp.length - 1];
-			var re = new RegExp( filePathTmp );
 
 		for (var i = 0, l = liEls.length; i < l; i++) {
 			liEls[i].querySelector('a').classList.add('active');
@@ -100,7 +99,7 @@ jQuery(document).ready(function($){
 					aEl = allLi[i].querySelector('a'),
 					spanEl = aEl.querySelector('span');
 	
-					if (spanEl && re.test(spanEl.innerText)) {
+					if (spanEl && filePathTmp === $.trim(spanEl.innerText)) {
 						aEl.classList.add('active');
 					}
 				}
@@ -344,7 +343,7 @@ if ($this->type == 'font')
 
 <?php echo JHtml::_('bootstrap.addTab', 'myTab', 'overrides', JText::_('COM_TEMPLATES_TAB_OVERRIDES')); ?>
 <div class="row-fluid">
-	<div class="span4">
+	<div class="span3">
 		<legend><?php echo JText::_('COM_TEMPLATES_OVERRIDES_MODULES'); ?></legend>
 		<ul class="nav nav-list">
 			<?php $token = JSession::getFormToken() . '=' . 1; ?>
@@ -361,7 +360,7 @@ if ($this->type == 'font')
 			<?php endforeach; ?>
 		</ul>
 	</div>
-	<div class="span4">
+	<div class="span3">
 		<legend><?php echo JText::_('COM_TEMPLATES_OVERRIDES_COMPONENTS'); ?></legend>
 		<ul class="nav nav-list">
 			<?php $token = JSession::getFormToken() . '=' . 1; ?>
@@ -387,7 +386,33 @@ if ($this->type == 'font')
 			<?php endforeach; ?>
 		</ul>
 	</div>
-	<div class="span4">
+	<div class="span3">
+		<legend><?php echo JText::_('COM_TEMPLATES_OVERRIDES_PLUGINS'); ?></legend>
+		<ul class="nav nav-list">
+			<?php $token = JSession::getFormToken() . '=' . 1; ?>
+			<?php foreach ($this->overridesList['plugins'] as $key => $group) : ?>
+				<li class="plugin-folder">
+					<a href="#" class="plugin-folder-url">
+						<span class="icon-folder" aria-hidden="true"></span>&nbsp;<?php echo $key; ?>
+					</a>
+					<ul class="nav nav-list">
+						<?php foreach ($group as $plugin) : ?>
+							<li>
+								<?php
+								$overrideLinkUrl = 'index.php?option=com_templates&view=template&task=template.overrides&folder=' . $plugin->path
+										. '&id=' . $input->getInt('id') . '&file=' . $this->file . '&' . $token;
+								?>
+								<a class="plugin-file-url" href="<?php echo JRoute::_($overrideLinkUrl); ?>">
+									<span class="icon-copy" aria-hidden="true"></span>&nbsp;<?php echo $plugin->name; ?>
+								</a>
+							</li>
+						<?php endforeach; ?>
+					</ul>
+				</li>
+			<?php endforeach; ?>
+		</ul>
+	</div>
+	<div class="span3">
 		<legend><?php echo JText::_('COM_TEMPLATES_OVERRIDES_LAYOUTS'); ?></legend>
 		<ul class="nav nav-list">
 			<?php $token = JSession::getFormToken() . '=' . 1; ?>
@@ -486,7 +511,7 @@ $folderModalData = array(
 );
 ?>
 <?php echo JLayoutHelper::render('joomla.modal.main', $folderModalData); ?>
-<?php if ($this->type != 'home') : ?>
+<?php if ($this->type == 'image') : ?>
 	<?php // Resize Modal
 	$resizeModalData = array(
 		'selector' => 'resizeModal',

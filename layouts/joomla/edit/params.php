@@ -3,11 +3,11 @@
  * @package     Joomla.Site
  * @subpackage  Layout
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2013 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('JPATH_BASE') or die;
+defined('_JEXEC') or die;
 
 $app       = JFactory::getApplication();
 $form      = $displayData->getForm();
@@ -23,17 +23,11 @@ $ignoreFields    = $displayData->get('ignore_fields') ?: array();
 $extraFields     = $displayData->get('extra_fields') ?: array();
 $tabName         = $displayData->get('tab_name') ?: 'myTab';
 
-if (!empty($displayData->hiddenFieldsets))
-{
-	// These are required to preserve data on save when fields are not displayed.
-	$hiddenFieldsets = $displayData->hiddenFieldsets ?: array();
-}
+// These are required to preserve data on save when fields are not displayed.
+$hiddenFieldsets = $displayData->get('hiddenFieldsets') ?: array();
 
-if (!empty($displayData->configFieldsets))
-{
-	// These are required to configure showing and hiding fields in the editor.
-	$configFieldsets = $displayData->configFieldsets ?: array();
-}
+// These are required to configure showing and hiding fields in the editor.
+$configFieldsets = $displayData->get('configFieldsets') ?: array();
 
 // Handle the hidden fieldsets when show_options is set false
 if (!$displayData->get('show_options', 1))

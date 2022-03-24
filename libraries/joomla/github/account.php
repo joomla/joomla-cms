@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  GitHub
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2013 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -12,7 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * GitHub API Account class for the Joomla Platform.
  *
- * @since       12.3
+ * @since       3.1.4
  * @deprecated  4.0  Use the `joomla/github` package via Composer instead
  */
 class JGithubAccount extends JGithubObject
@@ -28,7 +28,7 @@ class JGithubAccount extends JGithubObject
 	 *
 	 * @return  object
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 * @throws  DomainException
 	 */
 	public function createAuthorisation(array $scopes = array(), $note = '', $url = '')
@@ -63,7 +63,7 @@ class JGithubAccount extends JGithubObject
 	 *
 	 * @return  object
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 * @throws  DomainException
 	 */
 	public function deleteAuthorisation($id)
@@ -99,7 +99,7 @@ class JGithubAccount extends JGithubObject
 	 *
 	 * @return  object
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 * @throws  DomainException
 	 * @throws  RuntimeException
 	 */
@@ -169,7 +169,7 @@ class JGithubAccount extends JGithubObject
 	 *
 	 * @return  object
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 * @note    This method will only accept Basic Authentication
 	 * @throws  DomainException
 	 */
@@ -199,7 +199,7 @@ class JGithubAccount extends JGithubObject
 	 *
 	 * @return  object
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 * @throws  DomainException
 	 * @note    This method will only accept Basic Authentication
 	 */
@@ -229,7 +229,7 @@ class JGithubAccount extends JGithubObject
 	 *
 	 * @return  object
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 * @throws  DomainException
 	 */
 	public function getRateLimit()

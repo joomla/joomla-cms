@@ -4,9 +4,9 @@
 	client="installation">
 	<name>Catalan (Spain)</name>
 	<version>3.7.4</version>
-	<creationDate>July 2017</creationDate>
+	<creationDate>2017-07-01</creationDate>
 	<author>Catmidia.cat</author>
-	<copyright>Copyright (C) 2005 - 2018 Open Source Matters. All rights reserved.</copyright>
+	<copyright>(C) 2008 Open Source Matters, Inc.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<files>
 		<filename>ca-ES.ini</filename>

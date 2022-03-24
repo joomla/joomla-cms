@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_media
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2007 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -77,7 +77,7 @@ if ($lang->isRtl())
 		<form action="index.php?option=com_media" name="adminForm" id="mediamanager-form" method="post" enctype="multipart/form-data" >
 			<input type="hidden" name="task" value="" />
 			<input type="hidden" name="cb1" id="cb1" value="0" />
-			<input class="update-folder" type="hidden" name="folder" id="folder" value="<?php echo $this->state->folder; ?>" />
+			<input class="update-folder" type="hidden" name="folder" id="folder" value="<?php echo $this->escape($this->state->folder); ?>" />
 		</form>
 
 		<?php if ($user->authorise('core.create', 'com_media')) : ?>
@@ -94,7 +94,7 @@ if ($lang->isRtl())
 								<?php echo JText::sprintf('JGLOBAL_MAXIMUM_UPLOAD_SIZE_LIMIT', JHtml::_('number.bytes', $maxSize)); ?>
 							</p>
 					</fieldset>
-					<input class="update-folder" type="hidden" name="folder" id="folder" value="<?php echo $this->state->folder; ?>" />
+					<input class="update-folder" type="hidden" name="folder" id="folder" value="<?php echo $this->escape($this->state->folder); ?>" />
 					<?php JFactory::getSession()->set('com_media.return_url', 'index.php?option=com_media'); ?>
 				</div>
 			</form>
@@ -104,7 +104,7 @@ if ($lang->isRtl())
 					<div class="path">
 						<input type="text" id="folderpath" readonly="readonly" class="update-folder" />
 						<input required type="text" id="foldername" name="foldername" />
-						<input class="update-folder" type="hidden" name="folderbase" id="folderbase" value="<?php echo $this->state->folder; ?>" />
+						<input class="update-folder" type="hidden" name="folderbase" id="folderbase" value="<?php echo $this->escape($this->state->folder); ?>" />
 						<button type="submit" class="btn"><span class="icon-folder-open"></span> <?php echo JText::_('COM_MEDIA_CREATE_FOLDER'); ?></button>
 					</div>
 					<?php echo JHtml::_('form.token'); ?>
@@ -115,7 +115,7 @@ if ($lang->isRtl())
 		<form action="index.php?option=com_media&amp;task=folder.create&amp;tmpl=<?php echo $input->getCmd('tmpl', 'index'); ?>" name="folderForm" id="folderForm" method="post">
 			<div id="folderview">
 				<div class="view">
-					<iframe class="thumbnail" src="index.php?option=com_media&amp;view=mediaList&amp;tmpl=component&amp;folder=<?php echo $this->state->folder; ?>" id="folderframe" name="folderframe" width="100%" height="500px" marginwidth="0" marginheight="0" scrolling="auto"></iframe>
+					<iframe class="thumbnail" src="index.php?option=com_media&amp;view=mediaList&amp;tmpl=component&amp;folder=<?php echo $this->escape($this->state->folder); ?>" id="folderframe" name="folderframe" width="100%" height="500px" marginwidth="0" marginheight="0" scrolling="auto"></iframe>
 				</div>
 				<?php echo JHtml::_('form.token'); ?>
 			</div>
@@ -128,8 +128,8 @@ echo JHtml::_(
 	'imagePreview',
 	array(
 		'title'  => JText::_('COM_MEDIA_PREVIEW'),
-		'footer' => '<a type="button" class="btn" data-dismiss="modal" aria-hidden="true">'
-			. JText::_('JLIB_HTML_BEHAVIOR_CLOSE') . '</a>',
+		'footer' => '<button type="button" class="btn" data-dismiss="modal">'
+			. JText::_('JLIB_HTML_BEHAVIOR_CLOSE') . '</button>',
 	),
 	'<div id="image" style="text-align:center;"><img id="imagePreviewSrc" src="../media/jui/img/alpha.png" alt="preview" style="max-width:100%; max-height:300px;"/></div>'
 );
@@ -139,8 +139,8 @@ echo JHtml::_(
 	'videoPreview',
 	array(
 		'title'  => JText::_('COM_MEDIA_PREVIEW'),
-		'footer' => '<a type="button" class="btn" data-dismiss="modal" aria-hidden="true">'
-			. JText::_('JLIB_HTML_BEHAVIOR_CLOSE') . '</a>',
+		'footer' => '<button type="button" class="btn" data-dismiss="modal">'
+			. JText::_('JLIB_HTML_BEHAVIOR_CLOSE') . '</button>',
 	),
 	'<div id="videoPlayer" style="z-index: -100;"><video id="mejsPlayer" style="height: 250px;"/></div>'
 );

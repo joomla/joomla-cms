@@ -3,13 +3,16 @@
  * @package     Joomla.Administrator
  * @subpackage  com_postinstall
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2013 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
-$renderer = JFactory::getDocument()->loadRenderer('module');
+use Joomla\CMS\Factory;
+
+$lang     = Factory::getLanguage();
+$renderer = Factory::getDocument()->loadRenderer('module');
 $options  = array('style' => 'raw');
 $mod      = JModuleHelper::getModule('mod_feed');
 $param    = array(
@@ -19,6 +22,8 @@ $param    = array(
 	'rssimage'    => 1,
 	'rssitems'    => 5,
 	'rssitemdesc' => 1,
+	'rssitemdate' => 1,
+	'rssrtl'      => $lang->isRtl() ? 1 : 0,
 	'word_count'  => 200,
 	'cache'       => 0,
 	);
@@ -27,8 +32,10 @@ $params = array('params' => json_encode($param));
 JHtml::_('formbehavior.chosen', 'select');
 ?>
 
-<form action="index.php" method="post" name="adminForm" class="form-inline">
+<form action="index.php" method="post" name="adminForm" class="form-inline" id="adminForm">
 	<input type="hidden" name="option" value="com_postinstall">
+	<input type="hidden" name="task" value="">
+	<?php echo JHtml::_('form.token'); ?>
 	<label for="eid"><?php echo JText::_('COM_POSTINSTALL_MESSAGES_FOR'); ?></label>
 	<?php echo JHtml::_('select.genericlist', $this->extension_options, 'eid', array('onchange' => 'this.form.submit()', 'class' => 'input-xlarge'), 'value', 'text', $this->eid, 'eid'); ?>
 </form>
@@ -60,7 +67,7 @@ JHtml::_('formbehavior.chosen', 'select');
 						<?php echo JText::_($item->action_key); ?>
 					</a>
 					<?php endif; ?>
-					<?php if (JFactory::getUser()->authorise('core.edit.state', 'com_postinstall')) : ?>
+					<?php if (Factory::getUser()->authorise('core.edit.state', 'com_postinstall')) : ?>
 					<a href="index.php?option=com_postinstall&amp;view=message&amp;task=unpublish&amp;id=<?php echo $item->postinstall_message_id; ?>&amp;<?php echo $this->token; ?>=1" class="btn btn-inverse btn-small">
 						<?php echo JText::_('COM_POSTINSTALL_BTN_HIDE'); ?>
 					</a>
@@ -71,7 +78,7 @@ JHtml::_('formbehavior.chosen', 'select');
 		<?php endif; ?>
 <?php if ($this->eid == 700) : ?>
 	</div>
-	<div class="span4">
+	<div class="span4"<?php if ($lang->isRtl()) : ?> style="padding-right: 20px;"<?php endif; ?>>
 		<h2><?php echo JText::_('COM_POSTINSTALL_LBL_RELEASENEWS'); ?></h2>
 		<?php echo $renderer->render($mod, $params, $options); ?>
 	</div>

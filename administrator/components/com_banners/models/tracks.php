@@ -3,13 +3,14 @@
  * @package     Joomla.Administrator
  * @subpackage  com_banners
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2009 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
 use Joomla\Archive\Archive;
+use Joomla\String\StringHelper;
 
 JLoader::register('BannersHelper', JPATH_ADMINISTRATOR . '/components/com_banners/helpers/banners.php');
 
@@ -167,7 +168,7 @@ class BannersModelTracks extends JModelList
 
 		if (!empty($search))
 		{
-			$search = $db->quote('%' . strtolower($search) . '%');
+			$search = $db->quote('%' . StringHelper::strtolower($search) . '%');
 			$query->where('(LOWER(b.name) LIKE ' . $search . ' OR LOWER(cl.name) LIKE ' . $search . ')');
 		}
 
@@ -228,7 +229,7 @@ class BannersModelTracks extends JModelList
 				$query->where('track_date <= ' . $db->quote($end));
 			}
 
-			$where = '1';
+			$where = '1 = 1';
 
 			// Filter by client
 			$clientId = $this->getState('filter.client_id');
@@ -401,9 +402,9 @@ class BannersModelTracks extends JModelList
 	}
 
 	/**
-	 * Get the category name
+	 * Get the client name
 	 *
-	 * @return  string  The category name.
+	 * @return  string  The client name.
 	 *
 	 * @since   1.6
 	 */

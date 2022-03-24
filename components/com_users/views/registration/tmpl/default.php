@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2009 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -29,25 +29,7 @@ JHtml::_('behavior.formvalidator');
 					<?php if (isset($fieldset->label)) : ?>
 						<legend><?php echo JText::_($fieldset->label); ?></legend>
 					<?php endif; ?>
-					<?php // Iterate through the fields in the set and display them. ?>
-					<?php foreach ($fields as $field) : ?>
-						<?php // If the field is hidden, just display the input. ?>
-						<?php if ($field->hidden) : ?>
-							<?php echo $field->input; ?>
-						<?php else : ?>
-							<div class="control-group">
-								<div class="control-label">
-									<?php echo $field->label; ?>
-									<?php if (!$field->required && $field->type !== 'Spacer') : ?>
-										<span class="optional"><?php echo JText::_('COM_USERS_OPTIONAL'); ?></span>
-									<?php endif; ?>
-								</div>
-								<div class="controls">
-									<?php echo $field->input; ?>
-								</div>
-							</div>
-						<?php endif; ?>
-					<?php endforeach; ?>
+					<?php echo $this->form->renderFieldset($fieldset->name); ?>
 				</fieldset>
 			<?php endif; ?>
 		<?php endforeach; ?>

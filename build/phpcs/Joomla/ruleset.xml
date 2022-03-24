@@ -86,7 +86,11 @@
 
 	<!-- Include some additional sniffs from the PEAR standard -->
 	<rule ref="PEAR.Classes.ClassDeclaration" />
-	<rule ref="PEAR.Commenting.InlineComment" />
+	<rule ref="PEAR.Commenting.InlineComment">
+		<!-- Files with PHP8 attributes as a PHP Sniffer version doesn't support that (it does in J4) -->
+		<exclude-pattern type="relative">libraries/src/Session/Session.php</exclude-pattern>
+		<exclude-pattern type="relative">libraries/src/Date/Date.php</exclude-pattern>
+	</rule>
 	<rule ref="PEAR.Formatting.MultiLineAssignment" />
 	<rule ref="PEAR.Functions.ValidDefaultValue">
 		<!-- These exceptions are temporary for now -->
@@ -153,13 +157,27 @@
 	</rule>
 
 	<rule ref="Joomla.Commenting.FunctionComment">
+		<!-- Files with PHP8 attributes as a PHP Sniffer version doesn't support that (it does in J4) -->
+		<exclude-pattern type="relative">libraries/src/Session/Session.php</exclude-pattern>
+		<exclude-pattern type="relative">libraries/src/Date/Date.php</exclude-pattern>
 		<!-- We only want this for libraries, language and cli for now -->
 		<exclude-pattern type="relative">templates/*</exclude-pattern>
 		<exclude-pattern type="relative">layouts/*</exclude-pattern>
 		<exclude-pattern type="relative">tests/*</exclude-pattern>
 	</rule>
 
+	<rule ref="Joomla.Commenting.FunctionComment.MissingParamTag">
+		<exclude-pattern type="relative">administrator/components/*</exclude-pattern>
+	</rule>
+
+	<rule ref="Joomla.Commenting.FunctionComment.ParamNameNoMatch">
+		<exclude-pattern type="relative">administrator/components/*</exclude-pattern>
+	</rule>
+
 	<rule ref="Joomla.Commenting.SingleComment">
+		<!-- Files with PHP8 attributes as a PHP Sniffer version doesn't support that (it does in J4) -->
+		<exclude-pattern type="relative">libraries/src/Session/Session.php</exclude-pattern>
+		<exclude-pattern type="relative">libraries/src/Date/Date.php</exclude-pattern>
 		<!-- We don't want this in mixed html/php views for now -->
 		<exclude-pattern type="relative">*/tmpl/*</exclude-pattern>
 		<exclude-pattern type="relative">templates/*</exclude-pattern>

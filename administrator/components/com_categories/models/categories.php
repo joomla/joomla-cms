@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_categories
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2008 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -16,6 +16,14 @@ defined('_JEXEC') or die;
  */
 class CategoriesModelCategories extends JModelList
 {
+	/**
+	 * Does an association exist? Caches the result of getAssoc().
+	 *
+	 * @var   boolean|null
+	 * @since 3.10.4
+	 */
+	private $hasAssociation;
+
 	/**
 	 * Constructor.
 	 *
@@ -45,6 +53,11 @@ class CategoriesModelCategories extends JModelList
 				'path', 'a.path',
 				'tag',
 			);
+		}
+
+		if (JLanguageAssociations::isEnabled())
+		{
+			$config['filter_fields'][] = 'association';
 		}
 
 		parent::__construct($config);
@@ -178,9 +191,9 @@ class CategoriesModelCategories extends JModelList
 			->join('LEFT', '#__users AS ua ON ua.id = a.created_user_id');
 
 		// Join over the associations.
-		$assoc = $this->getAssoc();
+		$this->hasAssociation = $this->getAssoc();
 
-		if ($assoc)
+		if ($this->hasAssociation)
 		{
 			$query->select('COUNT(asso2.id)>1 as association')
 				->join('LEFT', '#__associations AS asso ON asso.id = a.id AND asso.context=' . $db->quote('com_categories.item'))
@@ -308,33 +321,31 @@ class CategoriesModelCategories extends JModelList
 	 */
 	public function getAssoc()
 	{
-		static $assoc = null;
-
-		if (!is_null($assoc))
+		if (!is_null($this->hasAssociation))
 		{
-			return $assoc;
+			return $this->hasAssociation;
 		}
 
 		$extension = $this->getState('filter.extension');
 
-		$assoc = JLanguageAssociations::isEnabled();
+		$this->hasAssociation = JLanguageAssociations::isEnabled();
 		$extension = explode('.', $extension);
 		$component = array_shift($extension);
 		$cname = str_replace('com_', '', $component);
 
-		if (!$assoc || !$component || !$cname)
+		if (!$this->hasAssociation || !$component || !$cname)
 		{
-			$assoc = false;
+			$this->hasAssociation = false;
 		}
 		else
 		{
 			$hname = $cname . 'HelperAssociation';
 			JLoader::register($hname, JPATH_SITE . '/components/' . $component . '/helpers/association.php');
 
-			$assoc = class_exists($hname) && !empty($hname::$category_association);
+			$this->hasAssociation = class_exists($hname) && !empty($hname::$category_association);
 		}
 
-		return $assoc;
+		return $this->hasAssociation;
 	}
 
 	/**
@@ -342,7 +353,7 @@ class CategoriesModelCategories extends JModelList
 	 *
 	 * @return  mixed  An array of data items on success, false on failure.
 	 *
-	 * @since   12.2
+	 * @since   3.0.1
 	 */
 	public function getItems()
 	{
@@ -361,7 +372,7 @@ class CategoriesModelCategories extends JModelList
 	/**
 	 * Method to load the countItems method from the extensions
 	 *
-	 * @param   stdClass[]  &$items     The category items
+	 * @param   stdClass[]  $items      The category items
 	 * @param   string      $extension  The category extension
 	 *
 	 * @return  void

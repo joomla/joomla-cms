@@ -1,5 +1,5 @@
 /**
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2016 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -60,6 +60,13 @@
 				// We already have the Target, so reset the selector and assign given element as target
 				options.selector = null;
 				options.target   = element;
+
+				var oldEditor = tinymce.get(element.id);
+
+				if (oldEditor) {
+					oldEditor.remove();
+					delete Joomla.editors.instances[element.id];
+				}
 			}
 
 			// @TODO: the ext-buttons should be as TinyMCE plugins, not the callback hack
@@ -84,6 +91,7 @@
 				// Required by Joomla's API for the XTD-Buttons
 				'getValue': function () { return this.instance.getContent(); },
 				'setValue': function (text) { return this.instance.setContent(text); },
+				'getSelection': function () { return this.instance.selection.getContent({format: 'text'}); },
 				'replaceSelection': function (text) { return this.instance.execCommand('mceInsertContent', false, text); },
 				// Some extra instance dependent
 				'id': element.id,
@@ -109,6 +117,14 @@
 		if(window.jQuery) {
 			jQuery(document).on('subform-row-add', function (event, row) {
 				Joomla.JoomlaTinyMCE.setupEditors(row);
+			});
+
+			// Watch on jQuery UI sortable,
+			// Browser will clear iframe content when DOM changes, so we need to re-init an editors in changed Element
+			jQuery(document).on('sortstop', function(event, ui){
+				if (ui.item[0]) {
+					Joomla.JoomlaTinyMCE.setupEditors(ui.item[0]);
+				}
 			});
 		}
 	});

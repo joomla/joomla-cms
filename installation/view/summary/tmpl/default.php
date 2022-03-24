@@ -3,7 +3,7 @@
  * @package     Joomla.Installation
  * @subpackage  View
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2013 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -119,14 +119,6 @@ $prev = $useftp ? 'ftp' : 'database';
 							<span class="label"><?php echo $this->options['admin_user']; ?></span>
 						</td>
 					</tr>
-					<tr>
-						<td class="item">
-							<?php echo JText::_('INSTL_ADMIN_PASSWORD_LABEL'); ?>
-						</td>
-						<td>
-							<?php echo $this->options['admin_password'] ? '***': ''; ?>
-						</td>
-					</tr>
 				</tbody>
 				<tfoot>
 					<tr>
@@ -162,14 +154,6 @@ $prev = $useftp ? 'ftp' : 'database';
 						</td>
 						<td>
 							<?php echo $this->options['db_user']; ?>
-						</td>
-					</tr>
-					<tr>
-						<td class="item">
-							<?php echo JText::_('INSTL_DATABASE_PASSWORD_LABEL'); ?>
-						</td>
-						<td>
-							<?php echo $this->options['db_pass'] ? '***': ''; ?>
 						</td>
 					</tr>
 					<tr>
@@ -231,14 +215,6 @@ $prev = $useftp ? 'ftp' : 'database';
 						</td>
 						<td>
 							<?php echo $this->options['ftp_user']; ?>
-						</td>
-					</tr>
-					<tr>
-						<td class="item">
-							<?php echo JText::_('INSTL_FTP_PASSWORD_LABEL'); ?>
-						</td>
-						<td>
-							<?php echo $this->options['ftp_pass'] ? '***': ''; ?>
 						</td>
 					</tr>
 					<tr>

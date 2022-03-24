@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_config
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2014 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -21,7 +21,7 @@ class ConfigControllerModulesSave extends JControllerBase
 	/**
 	 * Method to save module editing.
 	 *
-	 * @return  bool	True on success.
+	 * @return  boolean  True on success.
 	 *
 	 * @since   3.2
 	 */
@@ -37,17 +37,16 @@ class ConfigControllerModulesSave extends JControllerBase
 		// Check if the user is authorized to do this.
 		$user = JFactory::getUser();
 
-		if (!$user->authorise('module.edit.frontend', 'com_modules.module.' . $this->input->get('id'))
-			&& !$user->authorise('module.edit.frontend', 'com_modules'))
+		if (!$user->authorise('module.edit.frontend', 'com_modules.module.' . $this->input->get('id')))
 		{
-			$this->app->enqueueMessage(JText::_('JERROR_ALERTNOAUTHOR'));
+			$this->app->enqueueMessage(JText::_('JERROR_ALERTNOAUTHOR'), 'error');
 			$this->app->redirect('index.php');
 		}
 
 		// Set FTP credentials, if given.
 		JClientHelper::setCredentialsFromRequest('ftp');
 
-		// Get sumitted module id
+		// Get submitted module id
 		$moduleId = '&id=' . $this->input->get('id');
 
 		// Get returnUri

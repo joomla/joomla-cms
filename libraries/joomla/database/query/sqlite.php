@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Database
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2012 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -12,25 +12,25 @@ defined('JPATH_PLATFORM') or die;
 /**
  * SQLite Query Building Class.
  *
- * @since  12.1
+ * @since  3.0.0
  */
 class JDatabaseQuerySqlite extends JDatabaseQueryPdo implements JDatabaseQueryPreparable, JDatabaseQueryLimitable
 {
 	/**
 	 * @var    integer  The offset for the result set.
-	 * @since  12.1
+	 * @since  3.0.0
 	 */
 	protected $offset;
 
 	/**
 	 * @var    integer  The limit for the result set.
-	 * @since  12.1
+	 * @since  3.0.0
 	 */
 	protected $limit;
 
 	/**
 	 * @var    array  Bounded object array
-	 * @since  12.1
+	 * @since  3.0.0
 	 */
 	protected $bounded = array();
 
@@ -48,7 +48,7 @@ class JDatabaseQuerySqlite extends JDatabaseQueryPdo implements JDatabaseQueryPr
 	 *
 	 * @return  JDatabaseQuerySqlite
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function bind($key = null, &$value = null, $dataType = PDO::PARAM_STR, $length = 0, $driverOptions = array())
 	{
@@ -92,7 +92,7 @@ class JDatabaseQuerySqlite extends JDatabaseQueryPdo implements JDatabaseQueryPr
 	 *
 	 * @return  mixed
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function &getBounded($key = null)
 	{
@@ -123,7 +123,7 @@ class JDatabaseQuerySqlite extends JDatabaseQueryPdo implements JDatabaseQueryPr
 	 *
 	 * @return  string  The required char length call.
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 */
 	public function charLength($field, $operator = null, $condition = null)
 	{
@@ -137,7 +137,7 @@ class JDatabaseQuerySqlite extends JDatabaseQueryPdo implements JDatabaseQueryPr
 	 *
 	 * @return  JDatabaseQuerySqlite  Returns this object to allow chaining.
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function clear($clause = null)
 	{
@@ -164,7 +164,7 @@ class JDatabaseQuerySqlite extends JDatabaseQueryPdo implements JDatabaseQueryPr
 	 *
 	 * @return  string  The concatenated values.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function concatenate($values, $separator = null)
 	{
@@ -191,7 +191,7 @@ class JDatabaseQuerySqlite extends JDatabaseQueryPdo implements JDatabaseQueryPr
 	 *
 	 * @return  string
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function processLimit($query, $limit, $offset = 0)
 	{
@@ -215,7 +215,7 @@ class JDatabaseQuerySqlite extends JDatabaseQueryPdo implements JDatabaseQueryPr
 	 *
 	 * @return  JDatabaseQuerySqlite  Returns this object to allow chaining.
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function setLimit($limit = 0, $offset = 0)
 	{
@@ -237,7 +237,7 @@ class JDatabaseQuerySqlite extends JDatabaseQueryPdo implements JDatabaseQueryPr
 	 *
 	 * @return  string  The string with the appropriate sql for addition of dates
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 * @link    http://www.sqlite.org/lang_datefunc.html
 	 */
 	public function dateAdd($date, $interval, $datePart)
@@ -245,7 +245,9 @@ class JDatabaseQuerySqlite extends JDatabaseQueryPdo implements JDatabaseQueryPr
 		// SQLite does not support microseconds as a separate unit. Convert the interval to seconds
 		if (strcasecmp($datePart, 'microseconds') == 0)
 		{
-			$interval = .001 * $interval;
+			// Force the dot as a decimal point
+			$interval = str_replace(',', '.', .001 * $interval);
+
 			$datePart = 'seconds';
 		}
 
@@ -279,7 +281,7 @@ class JDatabaseQuerySqlite extends JDatabaseQueryPdo implements JDatabaseQueryPr
 	 *
 	 * @return  string  The completed query.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function __toString()
 	{

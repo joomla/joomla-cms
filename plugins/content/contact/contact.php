@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Content.Contact
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2014 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -51,19 +51,36 @@ class PlgContentContact extends JPlugin
 			return true;
 		}
 
+		// Return if an alias is used
+		if ((int) $this->params->get('link_to_alias', 0) === 0 && $row->created_by_alias != '')
+		{
+			return true;
+		}
+
 		// Return if we don't have a valid article id
 		if (!isset($row->id) || !(int) $row->id)
 		{
 			return true;
 		}
 
-		$contact = $this->getContactId($row->created_by);
+		$contact        = $this->getContactData($row->created_by);
 		$row->contactid = $contact->contactid;
+		$row->webpage   = $contact->webpage;
+		$row->email     = $contact->email_to;
+		$url            = $this->params->get('url', 'url');
 
-		if ($row->contactid)
+		if ($row->contactid && $url === 'url')
 		{
 			JLoader::register('ContactHelperRoute', JPATH_SITE . '/components/com_contact/helpers/route.php');
 			$row->contact_link = JRoute::_(ContactHelperRoute::getContactRoute($contact->contactid . ':' . $contact->alias, $contact->catid));
+		}
+		elseif ($row->webpage && $url === 'webpage')
+		{
+			$row->contact_link = $row->webpage;
+		}
+		elseif ($row->email && $url === 'email')
+		{
+			$row->contact_link = 'mailto:' . $row->email;
 		}
 		else
 		{
@@ -76,25 +93,25 @@ class PlgContentContact extends JPlugin
 	/**
 	 * Retrieve Contact
 	 *
-	 * @param   int  $created_by  Id of the user who created the contact
+	 * @param   int  $userId  Id of the user who created the article
 	 *
 	 * @return  mixed|null|integer
 	 */
-	protected function getContactId($created_by)
+	protected function getContactData($userId)
 	{
 		static $contacts = array();
 
-		if (isset($contacts[$created_by]))
+		if (isset($contacts[$userId]))
 		{
-			return $contacts[$created_by];
+			return $contacts[$userId];
 		}
 
 		$query = $this->db->getQuery(true);
 
-		$query->select('MAX(contact.id) AS contactid, contact.alias, contact.catid');
+		$query->select('MAX(contact.id) AS contactid, contact.alias, contact.catid, contact.webpage, contact.email_to');
 		$query->from($this->db->quoteName('#__contact_details', 'contact'));
 		$query->where('contact.published = 1');
-		$query->where('contact.user_id = ' . (int) $created_by);
+		$query->where('contact.user_id = ' . (int) $userId);
 
 		if (JLanguageMultilang::isEnabled() === true)
 		{
@@ -105,8 +122,8 @@ class PlgContentContact extends JPlugin
 
 		$this->db->setQuery($query);
 
-		$contacts[$created_by] = $this->db->loadObject();
+		$contacts[$userId] = $this->db->loadObject();
 
-		return $contacts[$created_by];
+		return $contacts[$userId];
 	}
 }

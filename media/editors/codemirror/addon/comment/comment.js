@@ -1,5 +1,5 @@
 // CodeMirror, copyright (c) by Marijn Haverbeke and others
-// Distributed under an MIT license: http://codemirror.net/LICENSE
+// Distributed under an MIT license: https://codemirror.net/LICENSE
 
 (function(mod) {
   if (typeof exports == "object" && typeof module == "object") // CommonJS
@@ -13,7 +13,7 @@
 
   var noOptions = {};
   var nonWS = /[^\s\u00a0]/;
-  var Pos = CodeMirror.Pos;
+  var Pos = CodeMirror.Pos, cmp = CodeMirror.cmpPos;
 
   function firstNonWS(str) {
     var found = str.search(nonWS);
@@ -126,7 +126,9 @@
           if (i != end || lastLineHasText)
             self.replaceRange(lead + pad, Pos(i, 0));
       } else {
+        var atCursor = cmp(self.getCursor("to"), to) == 0, empty = !self.somethingSelected()
         self.replaceRange(endString, to);
+        if (atCursor) self.setSelection(empty ? to : self.getCursor("from"), to)
         self.replaceRange(startString, from);
       }
     });

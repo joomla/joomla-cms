@@ -3,12 +3,18 @@
  * @package     Joomla.Plugin
  * @subpackage  User.joomla
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2006 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Uri\Uri;
+use Joomla\CMS\User\User;
+use Joomla\CMS\User\UserHelper;
 use Joomla\Registry\Registry;
 
 /**
@@ -33,6 +39,46 @@ class PlgUserJoomla extends JPlugin
 	 * @since  3.2
 	 */
 	protected $db;
+
+	/**
+	 * Set as required the passwords fields when mail to user is set to No
+	 *
+	 * @param   JForm  $form  The form to be altered.
+	 * @param   mixed  $data  The associated data for the form.
+	 *
+	 * @return  boolean
+	 *
+	 * @since   3.9.2
+	 */
+	public function onContentPrepareForm($form, $data)
+	{
+		// Check we are manipulating a valid user form before modifying it.
+		$name = $form->getName();
+
+		if ($name === 'com_users.user')
+		{
+			// In case there is a validation error (like duplicated user), $data is an empty array on save.
+			// After returning from error, $data is an array but populated
+			if (!$data)
+			{
+				$data = JFactory::getApplication()->input->get('jform', array(), 'array');
+			}
+
+			if (is_array($data))
+			{
+				$data = (object) $data;
+			}
+
+			// Passwords fields are required when mail to user is set to No
+			if (empty($data->id) && !$this->params->get('mail_to_user', 1))
+			{
+				$form->setFieldAttribute('password', 'required', 'true');
+				$form->setFieldAttribute('password2', 'required', 'true');
+			}
+		}
+
+		return true;
+	}
 
 	/**
 	 * Remove all sessions for the user name
@@ -116,12 +162,12 @@ class PlgUserJoomla extends JPlugin
 		// Check if we have a sensible from email address, if not bail out as mail would not be sent anyway
 		if (strpos($this->app->get('mailfrom'), '@') === false)
 		{
-			$this->app->enqueueMessage(JText::_('JERROR_SENDING_EMAIL'), 'warning');
+			$this->app->enqueueMessage(Text::_('JERROR_SENDING_EMAIL'), 'warning');
 
 			return;
 		}
 
-		$lang = JFactory::getLanguage();
+		$lang = Factory::getLanguage();
 		$defaultLocale = $lang->getTag();
 
 		/**
@@ -140,23 +186,23 @@ class PlgUserJoomla extends JPlugin
 		$lang->load('plg_user_joomla', JPATH_ADMINISTRATOR);
 
 		// Compute the mail subject.
-		$emailSubject = JText::sprintf(
+		$emailSubject = Text::sprintf(
 			'PLG_USER_JOOMLA_NEW_USER_EMAIL_SUBJECT',
 			$user['name'],
 			$this->app->get('sitename')
 		);
 
 		// Compute the mail body.
-		$emailBody = JText::sprintf(
+		$emailBody = Text::sprintf(
 			'PLG_USER_JOOMLA_NEW_USER_EMAIL_BODY',
 			$user['name'],
 			$this->app->get('sitename'),
-			JUri::root(),
+			Uri::root(),
 			$user['username'],
 			$user['password_clear']
 		);
 
-		$res = JFactory::getMailer()->sendMail(
+		$res = Factory::getMailer()->sendMail(
 			$this->app->get('mailfrom'),
 			$this->app->get('fromname'),
 			$user['email'],
@@ -166,7 +212,7 @@ class PlgUserJoomla extends JPlugin
 
 		if ($res === false)
 		{
-			$this->app->enqueueMessage(JText::_('JERROR_SENDING_EMAIL'), 'warning');
+			$this->app->enqueueMessage(Text::_('JERROR_SENDING_EMAIL'), 'warning');
 		}
 
 		// Set application language back to default if we changed it
@@ -199,7 +245,7 @@ class PlgUserJoomla extends JPlugin
 		// If the user is blocked, redirect with an error
 		if ($instance->block == 1)
 		{
-			$this->app->enqueueMessage(JText::_('JERROR_NOLOGIN_BLOCKED'), 'warning');
+			$this->app->enqueueMessage(Text::_('JERROR_NOLOGIN_BLOCKED'), 'warning');
 
 			return false;
 		}
@@ -215,7 +261,7 @@ class PlgUserJoomla extends JPlugin
 
 		if (!$result)
 		{
-			$this->app->enqueueMessage(JText::_('JERROR_LOGIN_DENIED'), 'warning');
+			$this->app->enqueueMessage(Text::_('JERROR_LOGIN_DENIED'), 'warning');
 
 			return false;
 		}
@@ -223,7 +269,7 @@ class PlgUserJoomla extends JPlugin
 		// Mark the user as logged in
 		$instance->guest = 0;
 
-		$session = JFactory::getSession();
+		$session = Factory::getSession();
 
 		// Grab the current session ID
 		$oldSessionId = $session->getId();
@@ -239,7 +285,7 @@ class PlgUserJoomla extends JPlugin
 		// Purge the old session
 		$query = $this->db->getQuery(true)
 			->delete('#__session')
-			->where($this->db->quoteName('session_id') . ' = ' . $this->db->quote($oldSessionId));
+			->where($this->db->quoteName('session_id') . ' = ' . $this->db->quoteBinary($oldSessionId));
 
 		try
 		{
@@ -276,14 +322,14 @@ class PlgUserJoomla extends JPlugin
 	 * @param   array  $user     Holds the user data.
 	 * @param   array  $options  Array holding options (client, ...).
 	 *
-	 * @return  bool  True on success
+	 * @return  boolean  True on success
 	 *
 	 * @since   1.5
 	 */
 	public function onUserLogout($user, $options = array())
 	{
-		$my      = JFactory::getUser();
-		$session = JFactory::getSession();
+		$my      = Factory::getUser();
+		$session = Factory::getSession();
 
 		// Make sure we're a valid user first
 		if ($user['id'] == 0 && !$my->get('tmp_user'))
@@ -308,23 +354,9 @@ class PlgUserJoomla extends JPlugin
 
 		if ($forceLogout)
 		{
-			$query = $this->db->getQuery(true)
-				->delete($this->db->quoteName('#__session'))
-				->where($this->db->quoteName('userid') . ' = ' . (int) $user['id']);
+			$clientId = (!$sharedSessions) ? (int) $options['clientid'] : null;
 
-			if (!$sharedSessions)
-			{
-				$query->where($this->db->quoteName('client_id') . ' = ' . (int) $options['clientid']);
-			}
-
-			try
-			{
-				$this->db->setQuery($query)->execute();
-			}
-			catch (RuntimeException $e)
-			{
-				return false;
-			}
+			UserHelper::destroyUserSessions($user['id'], false, $clientId);
 		}
 
 		// Delete "user state" cookie used for reverse caching proxies like Varnish, Nginx etc.
@@ -344,14 +376,14 @@ class PlgUserJoomla extends JPlugin
 	 * @param   array  $user     Holds the user data.
 	 * @param   array  $options  Array holding options (remember, autoregister, group).
 	 *
-	 * @return  JUser
+	 * @return  User
 	 *
 	 * @since   1.5
 	 */
 	protected function _getUser($user, $options = array())
 	{
-		$instance = JUser::getInstance();
-		$id = (int) JUserHelper::getUserId($user['username']);
+		$instance = User::getInstance();
+		$id = (int) UserHelper::getUserId($user['username']);
 
 		if ($id)
 		{
@@ -361,10 +393,10 @@ class PlgUserJoomla extends JPlugin
 		}
 
 		// TODO : move this out of the plugin
-		$config = JComponentHelper::getParams('com_users');
+		$params = ComponentHelper::getParams('com_users');
 
-		// Hard coded default to match the default value from com_users.
-		$defaultUserGroup = $config->get('new_usertype', 2);
+		// Read the default user group option from com_users
+		$defaultUserGroup = $params->get('new_usertype', $params->get('guest_usergroup', 1));
 
 		$instance->id = 0;
 		$instance->name = $user['fullname'];

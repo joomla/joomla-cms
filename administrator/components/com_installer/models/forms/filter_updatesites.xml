@@ -6,6 +6,7 @@
 		<field
 			name="search"
 			type="text"
+			inputmode="search"
 			label="COM_INSTALLER_UPDATESITES_FILTER_SEARCH_LABEL"
 			description="COM_INSTALLER_UPDATESITES_FILTER_SEARCH_DESC"
 			hint="JSEARCH_FILTER"
@@ -51,6 +52,7 @@
 			description="JGLOBAL_SORT_BY"
 			onchange="this.form.submit();"
 			default="name ASC"
+			validate="options"
 			>
 			<option value="">JGLOBAL_SORT_BY</option>
 			<option value="enabled ASC">JSTATUS_ASC</option>

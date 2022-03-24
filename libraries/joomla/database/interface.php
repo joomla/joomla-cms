@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Database
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2015 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -12,7 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Joomla Platform Database Interface
  *
- * @since  11.2
+ * @since  1.7.0
 */
 interface JDatabaseInterface
 {
@@ -21,7 +21,7 @@ interface JDatabaseInterface
 	 *
 	 * @return  boolean  True on success, false otherwise.
 	 *
-	 * @since   11.2
+	 * @since   1.7.0
 	 */
 	public static function isSupported();
 }
