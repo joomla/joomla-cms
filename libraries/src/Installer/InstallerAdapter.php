@@ -20,14 +20,21 @@ use Joomla\CMS\Table\Extension;
 use Joomla\CMS\Table\Table;
 use Joomla\CMS\Table\TableInterface;
 use Joomla\Database\DatabaseDriver;
+use Joomla\DI\Container;
+use Joomla\DI\ContainerAwareInterface;
+use Joomla\DI\ContainerAwareTrait;
+use Joomla\DI\Exception\ContainerNotFoundException;
+use Joomla\DI\ServiceProviderInterface;
 
 /**
  * Abstract adapter for the installer.
  *
  * @since  3.4
  */
-abstract class InstallerAdapter
+abstract class InstallerAdapter implements ContainerAwareInterface
 {
+	use ContainerAwareTrait;
+
 	/**
 	 * Changelog URL of extensions
 	 *
@@ -1007,23 +1014,75 @@ abstract class InstallerAdapter
 		// If there is a manifest class file, lets load it; we'll copy it later (don't have dest yet)
 		$manifestScript = (string) $this->getManifest()->scriptfile;
 
-		if ($manifestScript)
+		// When no script file, do nothing
+		if (!$manifestScript)
 		{
-			$manifestScriptFile = $this->parent->getPath('source') . '/' . $manifestScript;
+			return;
+		}
+
+		// Build a child container, so we do not overwrite the global one
+		// and start from scratch when multiple extensions are installed
+		try
+		{
+			$container = new Container($this->getContainer());
+		}
+		catch (ContainerNotFoundException $e)
+		{
+			@trigger_error('Container must be set.', E_USER_DEPRECATED);
+
+			// Fallback to the global container
+			$container = new Container(Factory::getContainer());
+		}
+
+		// The real location of the file
+		$manifestScriptFile = $this->parent->getPath('source') . '/' . $manifestScript;
+
+		// Load the file
+		$installer = require_once $manifestScriptFile;
+
+		// When the instance is a service provider, then register the container with it
+		if ($installer instanceof ServiceProviderInterface)
+		{
+			$installer->register($container);
+		}
+
+		// When the returned object is an installer instance, use it directly
+		if ($installer instanceof InstallerScriptInterface)
+		{
+			$container->set(InstallerScriptInterface::class, $installer);
+		}
+
+		// When none is set, then use the legacy way
+		if (!$container->has(InstallerScriptInterface::class))
+		{
+			@trigger_error(
+				'Legacy installer files are deprecated and will be removed in 6.0. Use a service provider instead.',
+				E_USER_DEPRECATED
+			);
 
 			$classname = $this->getScriptClassName();
 
 			\JLoader::register($classname, $manifestScriptFile);
 
-			if (class_exists($classname))
+			if (!class_exists($classname))
 			{
-				// Create a new instance
-				$this->parent->manifestClass = new $classname($this);
-
-				// And set this so we can copy it later
-				$this->manifest_script = $manifestScript;
+				return;
 			}
+
+			$container->set(
+				InstallerScriptInterface::class,
+				function (Container $container) use ($classname)
+				{
+					return new LegacyInstallerScript(new $classname($this));
+				}
+			);
 		}
+
+		// Create a new instance
+		$this->parent->manifestClass = $container->get(InstallerScriptInterface::class);
+
+		// And set this so we can copy it later
+		$this->manifest_script = $manifestScript;
 	}
 
 	/**
