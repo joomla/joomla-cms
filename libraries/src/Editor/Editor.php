@@ -164,7 +164,19 @@ class Editor implements DispatcherAwareInterface
 	 *
 	 * @since   1.5
 	 */
-	public function display($name, $html, $width, $height, $col, $row, $buttons = true, $id = null, $asset = null, $author = null, $params = []): string
+	public function display(
+		$name,
+		$html,
+		$width,
+		$height,
+		$col,
+		$row,
+		$buttons = true,
+		$id = null,
+		$asset = null,
+		$author = null,
+		$params = []
+		): string
 	{
 		$this->asset  = $asset;
 		$this->author = $author;
