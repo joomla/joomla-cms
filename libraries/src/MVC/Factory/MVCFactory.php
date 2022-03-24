@@ -15,6 +15,8 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Form\FormFactoryAwareInterface;
 use Joomla\CMS\Form\FormFactoryAwareTrait;
 use Joomla\CMS\MVC\Model\ModelInterface;
+use Joomla\CMS\Router\SiteRouterAwareInterface;
+use Joomla\CMS\Router\SiteRouterAwareTrait;
 use Joomla\Database\DatabaseAwareInterface;
 use Joomla\Database\DatabaseAwareTrait;
 use Joomla\Database\DatabaseInterface;
@@ -28,9 +30,13 @@ use Joomla\Input\Input;
  *
  * @since  3.10.0
  */
-class MVCFactory implements MVCFactoryInterface, FormFactoryAwareInterface, DispatcherAwareInterface
+class MVCFactory implements MVCFactoryInterface, FormFactoryAwareInterface, SiteRouterAwareInterface
 {
+<<<<<<< HEAD
 	use FormFactoryAwareTrait, DispatcherAwareTrait, DatabaseAwareTrait;
+=======
+	use FormFactoryAwareTrait, DispatcherAwareTrait, SiteRouterAwareTrait;
+>>>>>>> upstream/4.2-dev
 
 	/**
 	 * The namespace to create the objects from.
@@ -83,6 +89,7 @@ class MVCFactory implements MVCFactoryInterface, FormFactoryAwareInterface, Disp
 		$controller = new $className($config, $this, $app, $input);
 		$this->setFormFactoryOnObject($controller);
 		$this->setDispatcherOnObject($controller);
+		$this->setRouterOnObject($controller);
 
 		return $controller;
 	}
@@ -128,6 +135,7 @@ class MVCFactory implements MVCFactoryInterface, FormFactoryAwareInterface, Disp
 		$model = new $className($config, $this);
 		$this->setFormFactoryOnObject($model);
 		$this->setDispatcherOnObject($model);
+		$this->setRouterOnObject($model);
 
 		if ($model instanceof DatabaseAwareInterface)
 		{
@@ -188,6 +196,7 @@ class MVCFactory implements MVCFactoryInterface, FormFactoryAwareInterface, Disp
 		$view = new $className($config);
 		$this->setFormFactoryOnObject($view);
 		$this->setDispatcherOnObject($view);
+		$this->setRouterOnObject($view);
 
 		return $view;
 	}
@@ -304,7 +313,7 @@ class MVCFactory implements MVCFactoryInterface, FormFactoryAwareInterface, Disp
 	 *
 	 * @return  void
 	 *
-	 * @since   4.1.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	private function setDispatcherOnObject($object)
 	{
@@ -316,6 +325,32 @@ class MVCFactory implements MVCFactoryInterface, FormFactoryAwareInterface, Disp
 		try
 		{
 			$object->setDispatcher($this->getDispatcher());
+		}
+		catch (\UnexpectedValueException $e)
+		{
+			// Ignore it
+		}
+	}
+
+	/**
+	 * Sets the internal router on the given object.
+	 *
+	 * @param   object  $object  The object
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	private function setRouterOnObject($object): void
+	{
+		if (!$object instanceof SiteRouterAwareInterface)
+		{
+			return;
+		}
+
+		try
+		{
+			$object->setSiteRouter($this->getSiteRouter());
 		}
 		catch (\UnexpectedValueException $e)
 		{
