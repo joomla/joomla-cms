@@ -26,7 +26,7 @@ class UpdatesiteTable extends Table
 	 *
 	 * @var    boolean
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.1.1
 	 */
 	protected $_supportNullValue = true;
 
