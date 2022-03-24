@@ -32,11 +32,7 @@ use Joomla\Input\Input;
  */
 class MVCFactory implements MVCFactoryInterface, FormFactoryAwareInterface, SiteRouterAwareInterface
 {
-<<<<<<< HEAD
-	use FormFactoryAwareTrait, DispatcherAwareTrait, DatabaseAwareTrait;
-=======
-	use FormFactoryAwareTrait, DispatcherAwareTrait, SiteRouterAwareTrait;
->>>>>>> upstream/4.2-dev
+	use FormFactoryAwareTrait, DispatcherAwareTrait, DatabaseAwareTrait, SiteRouterAwareTrait;
 
 	/**
 	 * The namespace to create the objects from.
