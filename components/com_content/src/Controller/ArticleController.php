@@ -395,6 +395,10 @@ class ArticleController extends FormController
 		{
 			// Redirect to the article page, use the redirect url set from parent controller
 		}
+		elseif ($this->getTask() === 'apply')
+		{
+			// Do not redirect
+		}
 		else
 		{
 			// If ok, redirect to the return page.

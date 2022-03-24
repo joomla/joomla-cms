@@ -157,9 +157,13 @@ if (!$editoroptions)
 			<?php echo HTMLHelper::_('form.token'); ?>
 		</fieldset>
 		<div class="mb-2">
-			<button type="button" class="btn btn-primary" data-submit-task="article.save">
+			<button type="button" class="btn btn-primary" data-submit-task="article.apply">
 				<span class="icon-check" aria-hidden="true"></span>
 				<?php echo Text::_('JSAVE'); ?>
+			</button>
+			<button type="button" class="btn btn-primary" data-submit-task="article.save">
+				<span class="icon-check" aria-hidden="true"></span>
+				<?php echo Text::_('JSAVE'); ?> & <?php echo Text::_('JCLOSE'); ?>
 			</button>
 			<?php if ($this->showSaveAsCopy) : ?>
 				<button type="button" class="btn btn-primary" data-submit-task="article.save2copy">
