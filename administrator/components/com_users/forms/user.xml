@@ -189,7 +189,11 @@
 
 		</fieldset>
 		<!-- User accessibility settings -->
-		<fieldset name="accessibility" label="COM_USERS_A11Y_SETTINGS_FIELDSET_LABEL">
+		<fieldset
+			name="accessibility"
+			label="COM_USERS_A11Y_SETTINGS_FIELDSET_LABEL"
+			description="COM_USERS_A11Y_SETTINGS_FIELDSET_DESC"
+		>
 			<field
 				name="a11y_mono"
 				type="radio"
