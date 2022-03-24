@@ -56,7 +56,7 @@ class PlgButtonMenu extends CMSPlugin
 		$button->modal   = true;
 		$button->link    = $link;
 		$button->text    = Text::_('PLG_EDITORS-XTD_MENU_BUTTON_MENU');
-		$button->name    = $this->_type . '_' . $this->_name;
+		$button->name    = $name . '_' . $this->_name;
 		$button->icon    = 'list';
 		$button->iconSVG = '<svg viewBox="0 0 512 512"  width="24" height="24"><path d="M80 368H16a16 16 0 0 0-16 16v64a16 16 0 0 0 16 16h64a16 1'
 							. '6 0 0 0 16-16v-64a16 16 0 0 0-16-16zm0-320H16A16 16 0 0 0 0 64v64a16 16 0 0 0 16 16h64a16 16 0 0 0 16-16V64a16 16 '

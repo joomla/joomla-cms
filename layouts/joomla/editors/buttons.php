@@ -12,7 +12,6 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Language\Text;
 
 $buttons = $displayData;
-
 ?>
 <div class="editor-xtd-buttons" role="toolbar" aria-label="<?php echo Text::_('JTOOLBAR'); ?>">
 	<?php if ($buttons) : ?>

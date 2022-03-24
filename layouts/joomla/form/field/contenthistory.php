@@ -9,6 +9,7 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
@@ -50,18 +51,21 @@ extract($displayData);
  * @var   array    $dataAttributes  Miscellaneous data attributes for eg, data-*.
  */
 
-echo HTMLHelper::_(
-	'bootstrap.renderModal',
-	'versionsModal',
-	array(
-		'url'    => Route::_($link),
-		'title'  => $label,
-		'height' => '100%',
-		'width'  => '100%',
-		'modalWidth'  => '80',
-		'bodyHeight'  => '60',
-		'footer' => '<button type="button" class="btn btn-secondary" data-bs-dismiss="modal" aria-hidden="true">'
-			. Text::_('JLIB_HTML_BEHAVIOR_CLOSE') . '</button>'
+Factory::getDocument()->appendBodyEnd(
+	'History-button-' . md5('versionsModal'),
+	HTMLHelper::_(
+		'bootstrap.renderModal',
+		'versionsModal',
+		[
+			'url'    => Route::_($link),
+			'title'  => $label,
+			'height' => '100%',
+			'width'  => '100%',
+			'modalWidth'  => '80',
+			'bodyHeight'  => '60',
+			'footer' => '<button type="button" class="btn btn-secondary" data-bs-dismiss="modal" aria-hidden="true">'
+				. Text::_('JLIB_HTML_BEHAVIOR_CLOSE') . '</button>'
+		]
 	)
 );
 

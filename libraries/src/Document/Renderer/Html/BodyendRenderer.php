@@ -30,7 +30,7 @@ class BodyendRenderer extends DocumentRenderer
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function render($name, $params = array(), $content = null)
+	public function render($name, $params = [], $content = null)
 	{
 		return implode('', array_values($this->_doc->getBodyEndChunks()));
 	}

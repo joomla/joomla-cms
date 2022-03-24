@@ -59,7 +59,7 @@ class PlgButtonFields extends CMSPlugin
 		$button->modal   = true;
 		$button->link    = $link;
 		$button->text    = Text::_('PLG_EDITORS-XTD_FIELDS_BUTTON_FIELD');
-		$button->name    = $this->_type . '_' . $this->_name;
+		$button->name    = $name . '_' . $this->_name;
 		$button->icon    = 'puzzle';
 		$button->iconSVG = '<svg viewBox="0 0 576 512" width="24" height="24"><path d="M519.442 288.651c-41.519 0-59.5 31.593-82.058 31.593C377.'
 							. '409 320.244 432 144 432 144s-196.288 80-196.288-3.297c0-35.827 36.288-46.25 36.288-85.985C272 19.216 243.885 0 210.'

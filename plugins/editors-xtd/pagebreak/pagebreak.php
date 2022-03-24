@@ -64,7 +64,7 @@ class PlgButtonPagebreak extends CMSPlugin
 		$button->modal   = true;
 		$button->link    = $link;
 		$button->text    = Text::_('PLG_EDITORSXTD_PAGEBREAK_BUTTON_PAGEBREAK');
-		$button->name    = $this->_type . '_' . $this->_name;
+		$button->name    = $name . '_' . $this->_name;
 		$button->icon    = 'copy';
 		$button->iconSVG = '<svg viewBox="0 0 32 32" width="24" height="24"><path d="M26 8h-6v-2l-6-6h-14v24h12v8h20v-18l-6-6zM26 10.828l3.172 3'
 							. '.172h-3.172v-3.172zM14 2.828l3.172 3.172h-3.172v-3.172zM2 2h10v6h6v14h-16v-20zM30 30h-16v-6h6v-14h4v6h6v14z"></pa'

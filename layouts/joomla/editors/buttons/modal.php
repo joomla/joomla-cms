@@ -9,6 +9,7 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Uri\Uri;
@@ -45,12 +46,11 @@ else
 	$id = strtolower($button->get('name')) . '_modal';
 }
 
-// @todo: J4: Move Make buttons fullscreen on smaller devices per https://github.com/joomla/joomla-cms/pull/23091
 // Create the modal
-echo HTMLHelper::_(
+$modal = HTMLHelper::_(
 	'bootstrap.renderModal',
 	$id,
-	array(
+	[
 		'url'    => $link,
 		'title'  => $title,
 		'height' => array_key_exists('height', $options) ? $options['height'] : '400px',
@@ -59,5 +59,10 @@ echo HTMLHelper::_(
 		'modalWidth'  => array_key_exists('modalWidth', $options) ? $options['modalWidth'] : '80',
 		'footer' => $confirm . '<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">'
 			. Text::_('JLIB_HTML_BEHAVIOR_CLOSE') . '</button>'
-	)
+	]
 );
+
+if ('' !== $modal)
+{
+	Factory::getDocument()->appendBodyEnd($id, $modal);
+}

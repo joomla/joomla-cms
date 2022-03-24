@@ -63,7 +63,7 @@ class PlgButtonReadmore extends CMSPlugin
 		$button->modal   = false;
 		$button->onclick = 'insertReadmore(\'' . $name . '\');return false;';
 		$button->text    = Text::_('PLG_READMORE_BUTTON_READMORE');
-		$button->name    = $this->_type . '_' . $this->_name;
+		$button->name    = $name . '_' . $this->_name;
 		$button->icon    = 'arrow-down';
 		$button->iconSVG = '<svg viewBox="0 0 32 32" width="24" height="24"><path d="M32 12l-6-6-10 10-10-10-6 6 16 16z"></path></svg>';
 		$button->link    = '#';

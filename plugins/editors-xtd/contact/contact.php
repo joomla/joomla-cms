@@ -55,7 +55,7 @@ class PlgButtonContact extends CMSPlugin
 		$button->modal   = true;
 		$button->link    = $link;
 		$button->text    = Text::_('PLG_EDITORS-XTD_CONTACT_BUTTON_CONTACT');
-		$button->name    = $this->_type . '_' . $this->_name;
+		$button->name    = $name . '_' . $this->_name;
 		$button->icon    = 'address';
 		$button->iconSVG = '<svg viewBox="0 0 448 512" width="24" height="24"><path d="M436 160c6.6 0 12-5.4 12-12v-40c0-6.6-5.4-12-12-12h-20V48c'
 							. '0-26.5-21.5-48-48-48H48C21.5 0 0 21.5 0 48v416c0 26.5 21.5 48 48 48h320c26.5 0 48-21.5 48-48v-48h20c6.6 0 12-5.4 1'
