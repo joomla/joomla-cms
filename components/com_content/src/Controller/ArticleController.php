@@ -374,6 +374,11 @@ class ArticleController extends FormController
 		$params   = $app->getParams();
 		$menuitem = (int) $params->get('redirect_menuitem');
 
+		if (\in_array($this->getTask(), ['save2copy', 'apply'], true))
+		{
+			return $result;
+		}
+
 		// Check for redirection after submission when creating a new article only
 		if ($menuitem > 0 && $articleId == 0)
 		{
@@ -394,10 +399,6 @@ class ArticleController extends FormController
 		elseif ($this->getTask() === 'save2copy')
 		{
 			// Redirect to the article page, use the redirect url set from parent controller
-		}
-		elseif ($this->getTask() === 'apply')
-		{
-			// Do not redirect
 		}
 		else
 		{
