@@ -379,11 +379,6 @@ class ArticleController extends FormController
 		{
 			$lang = '';
 
-			if ($this->getTask() === 'apply')
-			{
-				return $result;
-			}
-
 			if (Multilanguage::isEnabled())
 			{
 				$item = $app->getMenu()->getItem($menuitem);
@@ -399,6 +394,10 @@ class ArticleController extends FormController
 		elseif ($this->getTask() === 'save2copy')
 		{
 			// Redirect to the article page, use the redirect url set from parent controller
+		}
+		elseif ($this->getTask() === 'apply')
+		{
+			// Do not redirect
 		}
 		else
 		{
