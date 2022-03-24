@@ -137,15 +137,9 @@ class Editor implements DispatcherAwareInterface
 	 *
 	 * @since   1.5
 	 */
-	public function initialise()
+	public function initialise(): void
 	{
-		// Check if editor is already loaded
-		if ($this->_editor === null)
-		{
-			return;
-		}
-
-		if (method_exists($this->_editor, 'onInit'))
+		if ($this->_editor !== null && method_exists($this->_editor, 'onInit'))
 		{
 			\call_user_func([$this->_editor, 'onInit']);
 		}
@@ -170,19 +164,17 @@ class Editor implements DispatcherAwareInterface
 	 *
 	 * @since   1.5
 	 */
-	public function display($name, $html, $width, $height, $col, $row, $buttons = true, $id = null, $asset = null, $author = null, $params = [])
+	public function display($name, $html, $width, $height, $col, $row, $buttons = true, $id = null, $asset = null, $author = null, $params = []): string
 	{
 		$this->asset  = $asset;
 		$this->author = $author;
 
-		$this->_loadEditor($params);
-
 		// Check whether editor is already loaded
-		if ($this->_editor === null)
+		if (!$this->_loadEditor($params) || $this->_editor === null)
 		{
 			Factory::getApplication()->enqueueMessage(Text::_('JLIB_NO_EDITOR_PLUGIN_PUBLISHED'), 'danger');
 
-			return;
+			return '';
 		}
 
 		/**
@@ -220,7 +212,7 @@ class Editor implements DispatcherAwareInterface
 	 *
 	 * @since   1.5
 	 */
-	public function getButtons($editor, $buttons = true)
+	public function getButtons($editor, $buttons = true): array
 	{
 		$result = [];
 
@@ -278,16 +270,16 @@ class Editor implements DispatcherAwareInterface
 	 *
 	 * @param   array  $config  Associative array of editor config parameters
 	 *
-	 * @return  mixed
+	 * @return  boolean
 	 *
 	 * @since   1.5
 	 */
-	protected function _loadEditor($config = [])
+	protected function _loadEditor($config = []): bool
 	{
 		// Check whether editor is already loaded
 		if ($this->_editor !== null)
 		{
-			return false;
+			return true;
 		}
 
 		// Build the path to the needed editor plugin
@@ -335,5 +327,7 @@ class Editor implements DispatcherAwareInterface
 			self::$XTDImported = true;
 			PluginHelper::importPlugin('editors-xtd');
 		}
+
+		return true;
 	}
 }
