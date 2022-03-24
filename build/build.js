@@ -154,9 +154,9 @@ if (cliOptions.prepare) {
   recreateMediaFolder(options)
     .then(() => cleanVendors())
     .then(() => localisePackages(options))
+    .then(() => patchPackages(options))
     .then(() => Promise.all(
       [
-        patchPackages(options),
         minifyVendor(),
         createErrorPages(options),
         stylesheets(options, Program.args[0]),
