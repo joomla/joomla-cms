@@ -163,7 +163,7 @@ if (!$editoroptions)
 			</button>
 			<button type="button" class="btn btn-primary" data-submit-task="article.save">
 				<span class="icon-check" aria-hidden="true"></span>
-				<?php echo Text::_('JSAVE'); ?> & <?php echo Text::_('JCLOSE'); ?>
+				<?php echo Text::_('JSAVEANDCLOSE'); ?>
 			</button>
 			<?php if ($this->showSaveAsCopy) : ?>
 				<button type="button" class="btn btn-primary" data-submit-task="article.save2copy">
