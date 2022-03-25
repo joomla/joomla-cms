@@ -370,14 +370,14 @@ class ArticleController extends FormController
 		$app       = Factory::getApplication();
 		$articleId = $app->input->getInt('a_id');
 
-		// Load the parameters.
-		$params   = $app->getParams();
-		$menuitem = (int) $params->get('redirect_menuitem');
-
 		if (\in_array($this->getTask(), ['save2copy', 'apply'], true))
 		{
 			return $result;
 		}
+
+		// Load the parameters.
+		$params   = $app->getParams();
+		$menuitem = (int) $params->get('redirect_menuitem');
 
 		// Check for redirection after submission when creating a new article only
 		if ($menuitem > 0 && $articleId == 0)
