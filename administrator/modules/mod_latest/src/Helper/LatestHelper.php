@@ -80,6 +80,14 @@ abstract class LatestHelper
 				break;
 		}
 
+		// Set Category Filter
+		$stageId = $params->get('workflow_stage_id', null);
+
+		if (is_numeric($stageId))
+		{
+			$model->setState('filter.stage', $stageId);
+		}
+
 		// Set the Start and Limit
 		$model->setState('list.start', 0);
 		$model->setState('list.limit', $params->get('count', 5));
