@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2011 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,6 +12,7 @@ defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Log\LogEntry;
 use Joomla\CMS\Log\Logger;
+use Joomla\Utilities\IpHelper;
 
 \JLoader::import('joomla.filesystem.file');
 \JLoader::import('joomla.filesystem.folder');
@@ -22,7 +23,7 @@ use Joomla\CMS\Log\Logger;
  * This class is designed to use as a base for building formatted text files for output. By
  * default it emulates the Syslog style format output. This is a disk based output format.
  *
- * @since  11.1
+ * @since  1.7.0
  */
 class FormattedtextLogger extends Logger
 {
@@ -32,7 +33,7 @@ class FormattedtextLogger extends Logger
 	 * All fields must be named in all caps and be within curly brackets eg. {FOOBAR}.
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected $format = '{DATETIME}	{PRIORITY} {CLIENTIP}	{CATEGORY}	{MESSAGE}';
 
@@ -40,7 +41,7 @@ class FormattedtextLogger extends Logger
 	 * The parsed fields from the format string.
 	 *
 	 * @var    array
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected $fields = array();
 
@@ -48,16 +49,33 @@ class FormattedtextLogger extends Logger
 	 * The full filesystem path for the log file.
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected $path;
+
+	/**
+	 * If true, all writes will be deferred as long as possible.
+	 * NOTE: Deferred logs may never be written if the application encounters a fatal error.
+	 *
+	 * @var    boolean
+	 * @since  3.9.0
+	 */
+	protected $defer = false;
+
+	/**
+	 * If deferring, entries will be stored here prior to writing.
+	 *
+	 * @var    array
+	 * @since  3.9.0
+	 */
+	protected $deferredEntries = array();
 
 	/**
 	 * Constructor.
 	 *
 	 * @param   array  &$options  Log object options.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function __construct(array &$options)
 	{
@@ -91,8 +109,39 @@ class FormattedtextLogger extends Logger
 			$this->format = (string) $this->options['text_entry_format'];
 		}
 
+		// Wait as long as possible before writing logs
+		if (!empty($this->options['defer']))
+		{
+			$this->defer = (boolean) $this->options['defer'];
+		}
+
 		// Build the fields array based on the format string.
 		$this->parseFields();
+	}
+
+	/**
+	 * If deferred, write all pending logs.
+	 *
+	 * @since  3.9.0
+	 */
+	public function __destruct()
+	{
+		// Nothing to do
+		if (!$this->defer || empty($this->deferredEntries))
+		{
+			return;
+		}
+
+		// Initialise the file if not already done.
+		$this->initFile();
+
+		// Format all lines and write to file.
+		$lines = array_map(array($this, 'formatLine'), $this->deferredEntries);
+
+		if (!\JFile::append($this->path, implode("\n", $lines) . "\n"))
+		{
+			throw new \RuntimeException('Cannot write to log file.');
+		}
 	}
 
 	/**
@@ -102,29 +151,52 @@ class FormattedtextLogger extends Logger
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 * @throws  \RuntimeException
 	 */
 	public function addEntry(LogEntry $entry)
 	{
-		// Initialise the file if not already done.
-		$this->initFile();
+		// Store the entry to be written later.
+		if ($this->defer)
+		{
+			$this->deferredEntries[] = $entry;
+		}
+		// Write it immediately.
+		else
+		{
+			// Initialise the file if not already done.
+			$this->initFile();
 
+			// Write the new entry to the file.
+			$line = $this->formatLine($entry);
+			$line .= "\n";
+
+			if (!\JFile::append($this->path, $line))
+			{
+				throw new \RuntimeException('Cannot write to log file.');
+			}
+		}
+	}
+
+	/**
+	 * Format a line for the log file.
+	 *
+	 * @param   JLogEntry  $entry  The log entry to format as a string.
+	 *
+	 * @return  String
+	 *
+	 * @since  3.9.0
+	 */
+	protected function formatLine(LogEntry $entry)
+	{
 		// Set some default field values if not already set.
 		if (!isset($entry->clientIP))
 		{
-			// Check for proxies as well.
-			if (isset($_SERVER['REMOTE_ADDR']))
+			$ip = IpHelper::getIp();
+
+			if ($ip !== '')
 			{
-				$entry->clientIP = $_SERVER['REMOTE_ADDR'];
-			}
-			elseif (isset($_SERVER['HTTP_X_FORWARDED_FOR']))
-			{
-				$entry->clientIP = $_SERVER['HTTP_X_FORWARDED_FOR'];
-			}
-			elseif (isset($_SERVER['HTTP_CLIENT_IP']))
-			{
-				$entry->clientIP = $_SERVER['HTTP_CLIENT_IP'];
+				$entry->clientIP = $ip;
 			}
 		}
 
@@ -151,13 +223,7 @@ class FormattedtextLogger extends Logger
 			$line = str_replace('{' . $field . '}', (isset($tmp[$field])) ? $tmp[$field] : '-', $line);
 		}
 
-		// Write the new entry to the file.
-		$line .= "\n";
-
-		if (!\JFile::append($this->path, $line))
-		{
-			throw new \RuntimeException('Cannot write to log file.');
-		}
+		return $line;
 	}
 
 	/**
@@ -165,7 +231,7 @@ class FormattedtextLogger extends Logger
 	 *
 	 * @return  string  The log file header
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	protected function generateFileHeader()
 	{
@@ -199,7 +265,7 @@ class FormattedtextLogger extends Logger
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 * @throws  \RuntimeException
 	 */
 	protected function initFile()
@@ -227,7 +293,7 @@ class FormattedtextLogger extends Logger
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	protected function parseFields()
 	{

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2011 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -55,7 +55,7 @@ class FinderControllerIndexer extends JControllerLegacy
 		$app->setHeader('Pragma', 'no-cache');
 
 		// Check for a valid token. If invalid, send a 403 with the error message.
-		JSession::checkToken('request') or static::sendResponse(new Exception(JText::_('JINVALID_TOKEN'), 403));
+		JSession::checkToken('request') or static::sendResponse(new Exception(JText::_('JINVALID_TOKEN_NOTICE'), 403));
 
 		// Put in a buffer to silence noise.
 		ob_start();
@@ -127,7 +127,7 @@ class FinderControllerIndexer extends JControllerLegacy
 		$app->setHeader('Pragma', 'no-cache');
 
 		// Check for a valid token. If invalid, send a 403 with the error message.
-		JSession::checkToken('request') or static::sendResponse(new Exception(JText::_('JINVALID_TOKEN'), 403));
+		JSession::checkToken('request') or static::sendResponse(new Exception(JText::_('JINVALID_TOKEN_NOTICE'), 403));
 
 		// Put in a buffer to silence noise.
 		ob_start();
@@ -247,7 +247,7 @@ class FinderControllerIndexer extends JControllerLegacy
 		$app->setHeader('Pragma', 'no-cache');
 
 		// Check for a valid token. If invalid, send a 403 with the error message.
-		JSession::checkToken('request') or static::sendResponse(new Exception(JText::_('JINVALID_TOKEN'), 403));
+		JSession::checkToken('request') or static::sendResponse(new Exception(JText::_('JINVALID_TOKEN_NOTICE'), 403));
 
 		// Put in a buffer to silence noise.
 		ob_start();

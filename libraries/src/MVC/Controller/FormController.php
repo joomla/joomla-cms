@@ -2,13 +2,15 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2009 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\MVC\Controller;
 
 defined('JPATH_PLATFORM') or die;
+
+use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 
 /**
  * Controller tailored to suit most form-based admin operations.
@@ -61,15 +63,16 @@ class FormController extends BaseController
 	/**
 	 * Constructor.
 	 *
-	 * @param   array  $config  An optional associative array of configuration settings.
+	 * @param   array                $config   An optional associative array of configuration settings.
+	 * @param   MVCFactoryInterface  $factory  The factory.
 	 *
 	 * @see     \JControllerLegacy
 	 * @since   1.6
 	 * @throws  \Exception
 	 */
-	public function __construct($config = array())
+	public function __construct($config = array(), MVCFactoryInterface $factory = null)
 	{
-		parent::__construct($config);
+		parent::__construct($config, $factory);
 
 		// Guess the option as com_NameOfController
 		if (empty($this->option))
@@ -134,6 +137,7 @@ class FormController extends BaseController
 		$this->registerTask('apply', 'save');
 		$this->registerTask('save2new', 'save');
 		$this->registerTask('save2copy', 'save');
+		$this->registerTask('editAssociations', 'save');
 	}
 
 	/**
@@ -290,7 +294,7 @@ class FormController extends BaseController
 	 */
 	public function cancel($key = null)
 	{
-		\JSession::checkToken() or jexit(\JText::_('JINVALID_TOKEN'));
+		$this->checkToken();
 
 		$model = $this->getModel();
 		$table = $model->getTable();
@@ -324,12 +328,19 @@ class FormController extends BaseController
 		$this->releaseEditId($context, $recordId);
 		\JFactory::getApplication()->setUserState($context . '.data', null);
 
-		$this->setRedirect(
-			\JRoute::_(
-				'index.php?option=' . $this->option . '&view=' . $this->view_list
-				. $this->getRedirectToListAppend(), false
-			)
-		);
+		$url = 'index.php?option=' . $this->option . '&view=' . $this->view_list
+			. $this->getRedirectToListAppend();
+
+		// Check if there is a return value
+		$return = $this->input->get('return', null, 'base64');
+
+		if (!is_null($return) && \JUri::isInternal(base64_decode($return)))
+		{
+			$url = base64_decode($return);
+		}
+
+		// Redirect to the list screen.
+		$this->setRedirect(\JRoute::_($url, false));
 
 		return true;
 	}
@@ -614,7 +625,7 @@ class FormController extends BaseController
 	public function save($key = null, $urlVar = null)
 	{
 		// Check for request forgeries.
-		\JSession::checkToken() or jexit(\JText::_('JINVALID_TOKEN'));
+		$this->checkToken();
 
 		$app   = \JFactory::getApplication();
 		$model = $this->getModel();
@@ -721,6 +732,26 @@ class FormController extends BaseController
 				else
 				{
 					$app->enqueueMessage($errors[$i], 'warning');
+				}
+			}
+
+			/**
+			 * We need the filtered value of calendar fields because the UTC normalision is
+			 * done in the filter and on output. This would apply the Timezone offset on
+			 * reload. We set the calendar values we save to the processed date.
+			 */
+			$filteredData = $form->filter($data);
+
+			foreach ($form->getFieldset() as $field)
+			{
+				if ($field->type === 'Calendar')
+				{
+					$fieldName = $field->fieldname;
+
+					if (isset($filteredData[$fieldName]))
+					{
+						$data[$fieldName] = $filteredData[$fieldName];
+					}
 				}
 			}
 
@@ -861,7 +892,7 @@ class FormController extends BaseController
 	public function reload($key = null, $urlVar = null)
 	{
 		// Check for request forgeries.
-		\JSession::checkToken() or jexit(\JText::_('JINVALID_TOKEN'));
+		$this->checkToken();
 
 		$app     = \JFactory::getApplication();
 		$model   = $this->getModel();
@@ -903,22 +934,63 @@ class FormController extends BaseController
 			false
 		);
 
-		// Validate the posted data.
-		// Sometimes the form needs some posted data, such as for plugins and modules.
+		/* @var \JForm $form */
 		$form = $model->getForm($data, false);
 
-		if (!$form)
-		{
-			$app->enqueueMessage($model->getError(), 'error');
+		/**
+		 * We need the filtered value of calendar fields because the UTC normalision is
+		 * done in the filter and on output. This would apply the Timezone offset on
+		 * reload. We set the calendar values we save to the processed date.
+		 */
+		$filteredData = $form->filter($data);
 
-			$this->setRedirect($redirectUrl);
-			$this->redirect();
+		foreach ($form->getFieldset() as $field)
+		{
+			if ($field->type === 'Calendar')
+			{
+				$fieldName = $field->fieldname;
+
+				if ($field->group)
+				{
+					if (isset($filteredData[$field->group][$fieldName]))
+					{
+						$data[$field->group][$fieldName] = $filteredData[$field->group][$fieldName];
+					}
+				}
+				else
+				{
+					if (isset($filteredData[$fieldName]))
+					{
+						$data[$fieldName] = $filteredData[$fieldName];
+					}
+				}
+			}
 		}
 
 		// Save the data in the session.
-		$app->setUserState($this->option . '.edit.' . $this->context . '.data', $form->filter($data));
+		$app->setUserState($this->option . '.edit.' . $this->context . '.data', $data);
 
 		$this->setRedirect($redirectUrl);
 		$this->redirect();
+	}
+
+	/**
+	 * Load item to edit associations in com_associations
+	 *
+	 * @return  void
+	 *
+	 * @since   3.9.0
+	 *
+	 * @deprecated 5.0  It is handled by regular save method now.
+	 */
+	public function editAssociations()
+	{
+		// Initialise variables.
+		$app   = \JFactory::getApplication();
+		$input = $app->input;
+		$model = $this->getModel();
+
+		$data = $input->get('jform', array(), 'array');
+		$model->editAssociations($data);
 	}
 }

@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2010 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -10,6 +10,9 @@ namespace Joomla\CMS\MVC\Model;
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Factory;
+use Joomla\CMS\Language\LanguageHelper;
+use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\Registry\Registry;
 use Joomla\String\StringHelper;
 use Joomla\Utilities\ArrayHelper;
@@ -123,7 +126,7 @@ abstract class AdminModel extends FormModel
 	protected $user = null;
 
 	/**
-	 * A JTable instance (of appropropriate type) to manage the DB records (re-usable in batch methods & saveorder(), initialized via initBatch())
+	 * A JTable instance (of appropriate type) to manage the DB records (re-usable in batch methods & saveorder(), initialized via initBatch())
 	 *
 	 * @var     object
 	 * @since   3.8.2
@@ -166,14 +169,15 @@ abstract class AdminModel extends FormModel
 	/**
 	 * Constructor.
 	 *
-	 * @param   array  $config  An optional associative array of configuration settings.
+	 * @param   array                $config   An optional associative array of configuration settings.
+	 * @param   MVCFactoryInterface  $factory  The factory.
 	 *
 	 * @see     \JModelLegacy
 	 * @since   1.6
 	 */
-	public function __construct($config = array())
+	public function __construct($config = array(), MVCFactoryInterface $factory = null)
 	{
-		parent::__construct($config);
+		parent::__construct($config, $factory);
 
 		if (isset($config['event_after_delete']))
 		{
@@ -407,6 +411,7 @@ abstract class AdminModel extends FormModel
 		}
 
 		$newIds = array();
+		$db     = $this->getDbo();
 
 		// Parent exists so let's proceed
 		while (!empty($pks))
@@ -432,6 +437,12 @@ abstract class AdminModel extends FormModel
 					$this->setError(\JText::sprintf('JLIB_APPLICATION_ERROR_BATCH_MOVE_ROW_NOT_FOUND', $pk));
 					continue;
 				}
+			}
+
+			// Check for asset_id
+			if ($this->table->hasField($this->table->getColumnAlias('asset_id')))
+			{
+				$oldAssetId = $this->table->asset_id;
 			}
 
 			$this->generateTitle($categoryId, $this->table);
@@ -486,6 +497,23 @@ abstract class AdminModel extends FormModel
 			// Get the new item ID
 			$newId = $this->table->get('id');
 
+			if (!empty($oldAssetId))
+			{
+				// Copy rules
+				$query = $db->getQuery(true);
+				$query->clear()
+					->update($db->quoteName('#__assets', 't'))
+					->join('INNER', $db->quoteName('#__assets', 's') .
+						' ON ' . $db->quoteName('s.id') . ' = ' . $oldAssetId
+					)
+					->set($db->quoteName('t.rules') . ' = ' . $db->quoteName('s.rules'))
+					->where($db->quoteName('t.id') . ' = ' . $this->table->asset_id);
+
+				$db->setQuery($query)->execute();
+			}
+
+			$this->cleanupPostBatchCopy($this->table, $newId, $pk);
+
 			// Add the new ID to the array
 			$newIds[$pk] = $newId;
 		}
@@ -494,6 +522,21 @@ abstract class AdminModel extends FormModel
 		$this->cleanCache();
 
 		return $newIds;
+	}
+
+	/**
+	 * Function that can be overridden to do any data cleanup after batch copying data
+	 *
+	 * @param   \JTableInterface  $table  The table object containing the newly created item
+	 * @param   integer           $newId  The id of the new item
+	 * @param   integer           $oldId  The original item id
+	 *
+	 * @return  void
+	 *
+	 * @since  3.8.12
+	 */
+	protected function cleanupPostBatchCopy(\JTableInterface $table, $newId, $oldId)
+	{
 	}
 
 	/**
@@ -884,22 +927,29 @@ abstract class AdminModel extends FormModel
 	/**
 	 * Method to change the title & alias.
 	 *
-	 * @param   integer  $category_id  The id of the category.
-	 * @param   string   $alias        The alias.
-	 * @param   string   $title        The title.
+	 * @param   integer  $categoryId  The id of the category.
+	 * @param   string   $alias       The alias.
+	 * @param   string   $title       The title.
 	 *
 	 * @return	array  Contains the modified title and alias.
 	 *
 	 * @since	1.7
 	 */
-	protected function generateNewTitle($category_id, $alias, $title)
+	protected function generateNewTitle($categoryId, $alias, $title)
 	{
 		// Alter the title & alias
-		$table = $this->getTable();
+		$table      = $this->getTable();
+		$aliasField = $table->getColumnAlias('alias');
+		$catidField = $table->getColumnAlias('catid');
+		$titleField = $table->getColumnAlias('title');
 
-		while ($table->load(array('alias' => $alias, 'catid' => $category_id)))
+		while ($table->load(array($aliasField => $alias, $catidField => $categoryId)))
 		{
-			$title = StringHelper::increment($title);
+			if ($title === $table->$titleField)
+			{
+				$title = StringHelper::increment($title);
+			}
+
 			$alias = StringHelper::increment($alias, 'dash');
 		}
 
@@ -1043,7 +1093,26 @@ abstract class AdminModel extends FormModel
 
 					return false;
 				}
+
+				/**
+				 * Prune items that are already at the given state.  Note: Only models whose table correctly
+				 * sets 'published' column alias (if different than published) will benefit from this
+				 */
+				$publishedColumnName = $table->getColumnAlias('published');
+
+				if (property_exists($table, $publishedColumnName) && $table->get($publishedColumnName, $value) == $value)
+				{
+					unset($pks[$i]);
+
+					continue;
+				}
 			}
+		}
+
+		// Check if there are items to change
+		if (!count($pks))
+		{
+			return true;
 		}
 
 		// Attempt to change the state of the records.
@@ -1157,6 +1226,7 @@ abstract class AdminModel extends FormModel
 		$dispatcher = \JEventDispatcher::getInstance();
 		$table      = $this->getTable();
 		$context    = $this->option . '.' . $this->name;
+		$app        = \JFactory::getApplication();
 
 		if (!empty($data['tags']) && $data['tags'][0] != '')
 		{
@@ -1256,7 +1326,7 @@ abstract class AdminModel extends FormModel
 			// Show a warning if the item isn't assigned to a language but we have associations.
 			if ($associations && $table->language === '*')
 			{
-				\JFactory::getApplication()->enqueueMessage(
+				$app->enqueueMessage(
 					\JText::_(strtoupper($this->option) . '_ERROR_ALL_LANGUAGE_ASSOCIATED'),
 					'warning'
 				);
@@ -1311,6 +1381,11 @@ abstract class AdminModel extends FormModel
 				$db->setQuery($query);
 				$db->execute();
 			}
+		}
+
+		if ($app->input->get('task') == 'editAssociations')
+		{
+			return $this->redirectToAssociations($data);
 		}
 
 		return true;
@@ -1494,9 +1569,11 @@ abstract class AdminModel extends FormModel
 	public function generateTitle($categoryId, $table)
 	{
 		// Alter the title & alias
-		$data = $this->generateNewTitle($categoryId, $table->alias, $table->title);
-		$table->title = $data['0'];
-		$table->alias = $data['1'];
+		$titleField         = $table->getColumnAlias('title');
+		$aliasField         = $table->getColumnAlias('alias');
+		$data               = $this->generateNewTitle($categoryId, $table->$aliasField, $table->$titleField);
+		$table->$titleField = $data['0'];
+		$table->$aliasField = $data['1'];
 	}
 
 	/**
@@ -1530,5 +1607,115 @@ abstract class AdminModel extends FormModel
 			// Get tabs observer
 			$this->tagsObserver = $this->table->getObserverOfClass('Joomla\CMS\Table\Observer\Tags');
 		}
+	}
+
+	/**
+	 * Method to load an item in com_associations.
+	 *
+	 * @param   array  $data  The form data.
+	 *
+	 * @return  boolean  True if successful, false otherwise.
+	 *
+	 * @since   3.9.0
+	 *
+	 * @deprecated 5.0  It is handled by regular save method now.
+	 */
+	public function editAssociations($data)
+	{
+		// Save the item
+		$this->save($data);
+	}
+
+	/**
+	 * Method to load an item in com_associations.
+	 *
+	 * @param   array  $data  The form data.
+	 *
+	 * @return  boolean  True if successful, false otherwise.
+	 *
+	 * @throws \Exception
+	 * @since   3.9.17
+	 */
+	protected function redirectToAssociations($data)
+	{
+		$app = Factory::getApplication();
+		$id  = $data['id'];
+
+		// Deal with categories associations
+		if ($this->text_prefix === 'COM_CATEGORIES')
+		{
+			$extension       = $app->input->get('extension', 'com_content');
+			$this->typeAlias = $extension . '.category';
+			$component       = strtolower($this->text_prefix);
+			$view            = 'category';
+		}
+		else
+		{
+			$aliasArray = explode('.', $this->typeAlias);
+			$component  = $aliasArray[0];
+			$view       = $aliasArray[1];
+			$extension  = '';
+		}
+
+		// Menu item redirect needs admin client
+		$client = $component === 'com_menus' ? '&client_id=0' : '';
+
+		if ($id == 0)
+		{
+			$app->enqueueMessage(\JText::_('JGLOBAL_ASSOCIATIONS_NEW_ITEM_WARNING'), 'error');
+			$app->redirect(
+				\JRoute::_('index.php?option=' . $component . '&view=' . $view . $client . '&layout=edit&id=' . $id . $extension, false)
+			);
+
+			return false;
+		}
+
+		if ($data['language'] === '*')
+		{
+			$app->enqueueMessage(\JText::_('JGLOBAL_ASSOC_NOT_POSSIBLE'), 'notice');
+			$app->redirect(
+				\JRoute::_('index.php?option=' . $component . '&view=' . $view . $client . '&layout=edit&id=' . $id . $extension, false)
+			);
+
+			return false;
+		}
+
+		$languages = LanguageHelper::getContentLanguages(array(0, 1));
+		$target    = '';
+
+		/* If the site contains only 2 languages and an association exists for the item
+		   load directly the associated target item in the side by side view
+		   otherwise select already the target language
+		*/
+		if (count($languages) === 2)
+		{
+			foreach ($languages as $language)
+			{
+				$lang_code[] = $language->lang_code;
+			}
+
+			$refLang    = array($data['language']);
+			$targetLang = array_diff($lang_code, $refLang);
+			$targetLang = implode(',', $targetLang);
+			$targetId   = $data['associations'][$targetLang];
+
+			if ($targetId)
+			{
+				$target = '&target=' . $targetLang . '%3A' . $targetId . '%3Aedit';
+			}
+			else
+			{
+				$target = '&target=' . $targetLang . '%3A0%3Aadd';
+			}
+		}
+
+		$app->redirect(
+			\JRoute::_(
+				'index.php?option=com_associations&view=association&layout=edit&itemtype=' . $this->typeAlias
+				. '&task=association.edit&id=' . $id . $target, false
+			)
+		);
+
+		return true;
 	}
 }

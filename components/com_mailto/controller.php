@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_mailto
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2006 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -92,7 +92,7 @@ class MailtoController extends JControllerLegacy
 		{
 			foreach ($headers as $header)
 			{
-				if (strpos($value, $header) !== false)
+				if (is_string($value) && strpos($value, $header) !== false)
 				{
 					JError::raiseError(403, '');
 				}

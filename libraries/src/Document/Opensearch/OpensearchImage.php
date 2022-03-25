@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2017 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -13,7 +13,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Data object representing an OpenSearch image
  *
- * @since  11.1
+ * @since  1.7.0
  */
 class OpensearchImage
 {
@@ -23,7 +23,7 @@ class OpensearchImage
 	 * required
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	public $type = '';
 
@@ -33,7 +33,7 @@ class OpensearchImage
 	 * required
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	public $data = '';
 
@@ -43,7 +43,7 @@ class OpensearchImage
 	 * required
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	public $width;
 
@@ -53,7 +53,7 @@ class OpensearchImage
 	 * required
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	public $height;
 }

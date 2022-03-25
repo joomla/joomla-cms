@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2012 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -11,11 +11,12 @@ namespace Joomla\CMS\Feed;
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Feed\Parser\NamespaceParserInterface;
+use Joomla\CMS\Filter\InputFilter;
 
 /**
  * Feed Parser class.
  *
- * @since  12.3
+ * @since  3.1.4
  */
 abstract class FeedParser
 {
@@ -23,7 +24,7 @@ abstract class FeedParser
 	 * The feed element name for the entry elements.
 	 *
 	 * @var    string
-	 * @since  12.3
+	 * @since  3.1.4
 	 */
 	protected $entryElementName = 'entry';
 
@@ -31,7 +32,7 @@ abstract class FeedParser
 	 * Array of NamespaceParserInterface objects
 	 *
 	 * @var    array
-	 * @since  12.3
+	 * @since  3.1.4
 	 */
 	protected $namespaces = array();
 
@@ -39,20 +40,30 @@ abstract class FeedParser
 	 * The XMLReader stream object for the feed.
 	 *
 	 * @var    \XMLReader
-	 * @since  12.3
+	 * @since  3.1.4
 	 */
 	protected $stream;
 
 	/**
+	 * The InputFilter
+	 *
+	 * @var    InputFilter
+	 * @since  3.9.25
+	 */
+	protected $inputFilter;
+
+	/**
 	 * Constructor.
 	 *
-	 * @param   \XMLReader  $stream  The XMLReader stream object for the feed.
+	 * @param   \XMLReader   $stream       The XMLReader stream object for the feed.
+	 * @param   InputFilter  $inputFilter  The InputFilter object to be used
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
-	public function __construct(\XMLReader $stream)
+	public function __construct(\XMLReader $stream, InputFilter $inputFilter = null)
 	{
-		$this->stream  = $stream;
+		$this->stream      = $stream;
+		$this->inputFilter = $inputFilter ? $inputFilter : InputFilter::getInstance(array(), array(), 1, 1);
 	}
 
 	/**
@@ -60,7 +71,7 @@ abstract class FeedParser
 	 *
 	 * @return  Feed
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function parse()
 	{
@@ -118,7 +129,7 @@ abstract class FeedParser
 	 *
 	 * @return  JFeed
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function registerNamespace($prefix, NamespaceParserInterface $namespace)
 	{
@@ -133,7 +144,7 @@ abstract class FeedParser
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	abstract protected function initialise();
 
@@ -146,7 +157,7 @@ abstract class FeedParser
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	protected function processElement(Feed $feed, \SimpleXMLElement $el, array $namespaces)
 	{
@@ -200,7 +211,7 @@ abstract class FeedParser
 	 *
 	 * @return  mixed  NamespaceParserInterface or false if none exists.
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	protected function fetchNamespace($prefix)
 	{
@@ -228,7 +239,7 @@ abstract class FeedParser
 	 *
 	 * @return  boolean  True if the stream parser is on an XML element node.
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	protected function moveToNextElement($name = null)
 	{
@@ -256,7 +267,7 @@ abstract class FeedParser
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 * @throws  \RuntimeException  If the closing tag cannot be found.
 	 */
 	protected function moveToClosingElement()

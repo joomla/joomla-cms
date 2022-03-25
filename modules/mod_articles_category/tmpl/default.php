@@ -3,18 +3,18 @@
  * @package     Joomla.Site
  * @subpackage  mod_articles_category
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2010 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
 ?>
-<ul class="category-module<?php echo $moduleclass_sfx; ?>">
+<ul class="category-module<?php echo $moduleclass_sfx; ?> mod-list">
 	<?php if ($grouped) : ?>
 		<?php foreach ($list as $group_name => $group) : ?>
 		<li>
-			<div class="mod-articles-category-group"><?php echo $group_name; ?></div>
+			<div class="mod-articles-category-group"><?php echo JText::_($group_name); ?></div>
 			<ul>
 				<?php foreach ($group as $item) : ?>
 					<li>
@@ -46,6 +46,12 @@ defined('_JEXEC') or die;
 
 						<?php if ($item->displayDate) : ?>
 							<span class="mod-articles-category-date"><?php echo $item->displayDate; ?></span>
+						<?php endif; ?>
+
+						<?php if ($params->get('show_tags', 0) && $item->tags->itemTags) : ?>
+							<div class="mod-articles-category-tags">
+								<?php echo JLayoutHelper::render('joomla.content.tags', $item->tags->itemTags); ?>
+							</div>
 						<?php endif; ?>
 
 						<?php if ($params->get('show_introtext')) : ?>
@@ -110,6 +116,12 @@ defined('_JEXEC') or die;
 					<span class="mod-articles-category-date">
 						<?php echo $item->displayDate; ?>
 					</span>
+				<?php endif; ?>
+
+				<?php if ($params->get('show_tags', 0) && $item->tags->itemTags) : ?>
+					<div class="mod-articles-category-tags">
+						<?php echo JLayoutHelper::render('joomla.content.tags', $item->tags->itemTags); ?>
+					</div>
 				<?php endif; ?>
 
 				<?php if ($params->get('show_introtext')) : ?>

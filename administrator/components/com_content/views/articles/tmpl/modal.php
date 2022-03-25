@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2009 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -136,8 +136,14 @@ if (!empty($editor))
 								. ' data-language="' . $this->escape($lang) . '"';
 							?>
 							<a class="select-link" href="javascript:void(0)" <?php echo $attribs; ?>>
-								<?php echo $this->escape($item->title); ?>
-							</a>
+								<?php echo $this->escape($item->title); ?></a>
+							<span class="small break-word">
+								<?php if (empty($item->note)) : ?>
+									<?php echo JText::sprintf('JGLOBAL_LIST_ALIAS', $this->escape($item->alias)); ?>
+								<?php else : ?>
+									<?php echo JText::sprintf('JGLOBAL_LIST_ALIAS_NOTE', $this->escape($item->alias), $this->escape($item->note)); ?>
+								<?php endif; ?>
+ 							</span>
 							<div class="small">
 								<?php echo JText::_('JCATEGORY') . ': ' . $this->escape($item->category_title); ?>
 							</div>

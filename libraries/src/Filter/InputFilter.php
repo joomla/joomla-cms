@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2006 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -19,7 +19,7 @@ use Joomla\String\StringHelper;
  * Forked from the php input filter library by: Daniel Morris <dan@rootcube.com>
  * Original Contributors: Gianpaolo Racca, Ghislain Picard, Marco Wandschneider, Chris Tobin and Andrew Eddie.
  *
- * @since  11.1
+ * @since  1.7.0
  */
 class InputFilter extends BaseInputFilter
 {
@@ -42,7 +42,7 @@ class InputFilter extends BaseInputFilter
 	 * @param   integer  $xssAuto     Only auto clean essentials = 0, Allow clean blacklisted tags/attr = 1
 	 * @param   integer  $stripUSC    Strip 4-byte unicode characters = 1, no strip = 0, ask the database driver = -1
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function __construct($tagsArray = array(), $attrArray = array(), $tagsMethod = 0, $attrMethod = 0, $xssAuto = 1, $stripUSC = -1)
 	{
@@ -94,7 +94,7 @@ class InputFilter extends BaseInputFilter
 	 *
 	 * @return  InputFilter  The InputFilter object.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public static function &getInstance($tagsArray = array(), $attrArray = array(), $tagsMethod = 0, $attrMethod = 0, $xssAuto = 1, $stripUSC = -1)
 	{
@@ -134,7 +134,7 @@ class InputFilter extends BaseInputFilter
 	 *
 	 * @return  mixed  'Cleaned' version of input parameter
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function clean($source, $type = 'string')
 	{
@@ -351,24 +351,7 @@ class InputFilter extends BaseInputFilter
 
 				break;
 			case 'PATH':
-				$pattern = '/^[A-Za-z0-9_\/-]+[A-Za-z0-9_\.-]*([\\\\\/][A-Za-z0-9_-]+[A-Za-z0-9_\.-]*)*$/';
-
-				if (is_array($source))
-				{
-					$result = array();
-
-					// Iterate through the array
-					foreach ($source as $eachString)
-					{
-						preg_match($pattern, (string) $eachString, $matches);
-						$result[] = isset($matches[0]) ? (string) $matches[0] : '';
-					}
-				}
-				else
-				{
-					preg_match($pattern, $source, $matches);
-					$result = isset($matches[0]) ? (string) $matches[0] : '';
-				}
+				$result = parent::clean($source, 'path');
 
 				break;
 			case 'TRIM':
@@ -485,6 +468,7 @@ class InputFilter extends BaseInputFilter
 	 * null_byte                   Prevent files with a null byte in their name (buffer overflow attack)
 	 * forbidden_extensions        Do not allow these strings anywhere in the file's extension
 	 * php_tag_in_content          Do not allow `<?php` tag in content
+	 * phar_stub_in_content        Do not allow the `__HALT_COMPILER()` phar stub in content
 	 * shorttag_in_content         Do not allow short tag `<?` in content
 	 * shorttag_extensions         Which file extensions to scan for short tags in content
 	 * fobidden_ext_in_content     Do not allow forbidden_extensions anywhere in content
@@ -509,7 +493,8 @@ class InputFilter extends BaseInputFilter
 
 			// Forbidden string in extension (e.g. php matched .php, .xxx.php, .php.xxx and so on)
 			'forbidden_extensions'       => array(
-				'php', 'phps', 'pht', 'phtml', 'php3', 'php4', 'php5', 'php6', 'php7', 'phar', 'inc', 'pl', 'cgi', 'fcgi', 'java', 'jar', 'py',
+				'php', 'phps', 'pht', 'phtml', 'php3', 'php4', 'php5', 'php6', 'php7',
+				'php8', 'phar', 'inc', 'pl', 'cgi', 'fcgi', 'java', 'jar', 'py',
 			),
 
 			// <?php tag in file contents
@@ -518,9 +503,12 @@ class InputFilter extends BaseInputFilter
 			// <? tag in file contents
 			'shorttag_in_content'        => true,
 
+			// __HALT_COMPILER()
+			'phar_stub_in_content'        => true,
+
 			// Which file extensions to scan for short tags
 			'shorttag_extensions'        => array(
-				'inc', 'phps', 'class', 'php3', 'php4', 'php5', 'txt', 'dat', 'tpl', 'tmpl',
+				'inc', 'phps', 'class', 'php3', 'php4', 'php5', 'php6', 'php7', 'php8', 'txt', 'dat', 'tpl', 'tmpl',
 			),
 
 			// Forbidden extensions anywhere in the content
@@ -620,10 +608,10 @@ class InputFilter extends BaseInputFilter
 
 				// 3. File contents scanner (PHP tag in file contents)
 				if ($options['php_tag_in_content']
-					|| $options['shorttag_in_content']
+					|| $options['shorttag_in_content'] || $options['phar_stub_in_content']
 					|| ($options['fobidden_ext_in_content'] && !empty($options['forbidden_extensions'])))
 				{
-					$fp = @fopen($tempName, 'r');
+					$fp = strlen($tempName) ? @fopen($tempName, 'r') : false;
 
 					if ($fp !== false)
 					{
@@ -633,7 +621,12 @@ class InputFilter extends BaseInputFilter
 						{
 							$data .= @fread($fp, 131072);
 
-							if ($options['php_tag_in_content'] && stristr($data, '<?php'))
+							if ($options['php_tag_in_content'] && stripos($data, '<?php') !== false)
+							{
+								return false;
+							}
+
+							if ($options['phar_stub_in_content'] && stripos($data, '__HALT_COMPILER()') !== false)
 							{
 								return false;
 							}
@@ -767,7 +760,7 @@ class InputFilter extends BaseInputFilter
 	 *
 	 * @return  string  'Cleaned' version of input parameter
 	 *
-	 * @since       11.1
+	 * @since       1.7.0
 	 * @deprecated  4.0 Use InputFilter::remove() instead
 	 */
 	protected function _remove($source)
@@ -811,7 +804,7 @@ class InputFilter extends BaseInputFilter
 	 *
 	 * @return  string  'Cleaned' version of input parameter
 	 *
-	 * @since       11.1
+	 * @since       1.7.0
 	 * @deprecated  4.0 Use InputFilter::cleanTags() instead
 	 */
 	protected function _cleanTags($source)
@@ -1083,7 +1076,7 @@ class InputFilter extends BaseInputFilter
 	 *
 	 * @return  array  Filtered array of attribute pairs
 	 *
-	 * @since       11.1
+	 * @since       1.7.0
 	 * @deprecated  4.0 Use InputFilter::cleanAttributes() instead
 	 */
 	protected function _cleanAttributes($attrSet)
@@ -1157,7 +1150,7 @@ class InputFilter extends BaseInputFilter
 	 *
 	 * @return  string  Plaintext string
 	 *
-	 * @since       11.1
+	 * @since       1.7.0
 	 * @deprecated  4.0 Use InputFilter::decode() instead
 	 */
 	protected function _decode($source)
@@ -1215,7 +1208,7 @@ class InputFilter extends BaseInputFilter
 	 *
 	 * @return  string  Filtered string
 	 *
-	 * @since       11.1
+	 * @since       1.7.0
 	 * @deprecated  4.0 Use InputFilter::escapeAttributeValues() instead
 	 */
 	protected function _escapeAttributeValues($source)
@@ -1230,7 +1223,7 @@ class InputFilter extends BaseInputFilter
 	 *
 	 * @return  string  Filtered string
 	 *
-	 * @since       11.1
+	 * @since       1.7.0
 	 * @deprecated  4.0 Use InputFilter::stripCSSExpressions() instead
 	 */
 	protected function _stripCSSExpressions($source)

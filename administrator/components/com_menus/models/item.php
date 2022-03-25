@@ -3,12 +3,13 @@
  * @package     Joomla.Administrator
  * @subpackage  com_menus
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2006 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\Registry\Registry;
 use Joomla\String\StringHelper;
 use Joomla\Utilities\ArrayHelper;
@@ -92,27 +93,19 @@ class MenusModelItem extends JModelAdmin
 	 */
 	protected function canDelete($record)
 	{
-		$user = JFactory::getUser();
-
-		if (!empty($record->id))
+		if (empty($record->id) || $record->published != -2)
 		{
-			// Only delete trashed items
-			if ($record->published != -2)
-			{
-				return false;
-			}
-
-			$menuTypeId = 0;
-
-			if (!empty($record->menutype))
-			{
-				$menuTypeId = $this->getMenuTypeId($record->menutype);
-			}
-
-			return $user->authorise('core.delete', 'com_menus.menu.' . (int) $menuTypeId);
+			return false;
 		}
 
-		return false;
+		$menuTypeId = 0;
+
+		if (!empty($record->menutype))
+		{
+			$menuTypeId = $this->getMenuTypeId($record->menutype);
+		}
+
+		return JFactory::getUser()->authorise('core.delete', 'com_menus.menu.' . (int) $menuTypeId);
 	}
 
 	/**
@@ -1152,7 +1145,7 @@ class MenusModelItem extends JModelAdmin
 						$formFile = $path;
 					}
 				}
-				else
+				elseif ($base)
 				{
 					// Now check for a component manifest file
 					$path = JPath::clean($base . '/metadata.xml');
@@ -1242,6 +1235,7 @@ class MenusModelItem extends JModelAdmin
 					$field->addAttribute('new', 'true');
 					$field->addAttribute('edit', 'true');
 					$field->addAttribute('clear', 'true');
+					$field->addAttribute('propagate', 'true');
 					$option = $field->addChild('option', 'COM_MENUS_ITEM_FIELD_ASSOCIATION_NO_VALUE');
 					$option->addAttribute('value', '');
 				}
@@ -1560,6 +1554,11 @@ class MenusModelItem extends JModelAdmin
 			parent::cleanCache($option);
 		}
 
+		if (Factory::getApplication()->input->get('task') == 'editAssociations')
+		{
+			return $this->redirectToAssociations($data);
+		}
+
 		return true;
 	}
 
@@ -1568,19 +1567,19 @@ class MenusModelItem extends JModelAdmin
 	 * First we save the new order values in the lft values of the changed ids.
 	 * Then we invoke the table rebuild to implement the new ordering.
 	 *
-	 * @param   array  $idArray    Rows identifiers to be reordered
-	 * @param   array  $lft_array  lft values of rows to be reordered
+	 * @param   array  $idArray   Rows identifiers to be reordered
+	 * @param   array  $lftArray  lft values of rows to be reordered
 	 *
-	 * @return  boolean false on failuer or error, true otherwise.
+	 * @return  boolean false on failure or error, true otherwise.
 	 *
 	 * @since   1.6
 	 */
-	public function saveorder($idArray = null, $lft_array = null)
+	public function saveorder($idArray = null, $lftArray = null)
 	{
 		// Get an instance of the table object.
 		$table = $this->getTable();
 
-		if (!$table->saveorder($idArray, $lft_array))
+		if (!$table->saveorder($idArray, $lftArray))
 		{
 			$this->setError($table->getError());
 
@@ -1725,20 +1724,20 @@ class MenusModelItem extends JModelAdmin
 	/**
 	 * Method to change the title & alias.
 	 *
-	 * @param   integer  $parent_id  The id of the parent.
-	 * @param   string   $alias      The alias.
-	 * @param   string   $title      The title.
+	 * @param   integer  $parentId  The id of the parent.
+	 * @param   string   $alias     The alias.
+	 * @param   string   $title     The title.
 	 *
 	 * @return  array  Contains the modified title and alias.
 	 *
 	 * @since   1.6
 	 */
-	protected function generateNewTitle($parent_id, $alias, $title)
+	protected function generateNewTitle($parentId, $alias, $title)
 	{
 		// Alter the title & alias
 		$table = $this->getTable();
 
-		while ($table->load(array('alias' => $alias, 'parent_id' => $parent_id)))
+		while ($table->load(array('alias' => $alias, 'parent_id' => $parentId)))
 		{
 			if ($title == $table->title)
 			{
@@ -1754,14 +1753,14 @@ class MenusModelItem extends JModelAdmin
 	/**
 	 * Custom clean the cache
 	 *
-	 * @param   string   $group      Cache group name.
-	 * @param   integer  $client_id  Application client id.
+	 * @param   string   $group     Cache group name.
+	 * @param   integer  $clientId  Application client id.
 	 *
 	 * @return  void
 	 *
 	 * @since   1.6
 	 */
-	protected function cleanCache($group = null, $client_id = 0)
+	protected function cleanCache($group = null, $clientId = 0)
 	{
 		parent::cleanCache('com_menus', 0);
 		parent::cleanCache('com_modules');

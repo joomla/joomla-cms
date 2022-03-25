@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2007 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -17,7 +17,7 @@ use Joomla\CMS\Log\Log;
 /**
  * Text handling class.
  *
- * @since  11.1
+ * @since  1.7.0
  */
 class Text
 {
@@ -25,7 +25,7 @@ class Text
 	 * JavaScript strings
 	 *
 	 * @var    array
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected static $strings = array();
 
@@ -44,7 +44,7 @@ class Text
 	 *
 	 * @return  string  The translated string or the key if $script is true
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public static function _($string, $jsSafe = false, $interpretBackSlashes = true, $script = false)
 	{
@@ -111,7 +111,7 @@ class Text
 
 		$first_part = array_shift($string_parts);
 
-		// Replace custom named placeholders with sprinftf style placeholders
+		// Replace custom named placeholders with sprintf style placeholders
 		$first_part = preg_replace('/\[\[%([0-9]+):[^\]]*\]\]/', '%\1$s', $first_part);
 
 		// Check if string contains sprintf placeholders
@@ -156,7 +156,7 @@ class Text
 	 *
 	 * @return  string  The translated string or the key if $script is true
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public static function alt($string, $alt, $jsSafe = false, $interpretBackSlashes = true, $script = false)
 	{
@@ -193,7 +193,7 @@ class Text
 	 *
 	 * @return  string  The translated strings or the key if 'script' is true in the array of options
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public static function plural($string, $n)
 	{
@@ -217,7 +217,13 @@ class Text
 		// Try the key from the language plural potential suffixes
 		$found = false;
 		$suffixes = $lang->getPluralSuffixes((int) $n);
-		array_unshift($suffixes, (int) $n);
+
+		// Add the count as possible suffix to allow for eg "a dozen" with suffix _12.
+		// Only do that if it is a real plural (more than one) to avoid issues with languages. See https://github.com/joomla/joomla-cms/pull/29029
+		if ($n != 1)
+		{
+			array_unshift($suffixes, (int) $n);
+		}
 
 		foreach ($suffixes as $suffix)
 		{
@@ -277,7 +283,7 @@ class Text
 	 *
 	 * @return  string  The translated strings or the key if 'script' is true in the array of options.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public static function sprintf($string)
 	{
@@ -324,7 +330,7 @@ class Text
 	 *
 	 * @return  mixed
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public static function printf($string)
 	{
@@ -361,7 +367,7 @@ class Text
 	 *
 	 * @return  string
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public static function script($string = null, $jsSafe = false, $interpretBackSlashes = true)
 	{

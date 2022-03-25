@@ -19,7 +19,7 @@
 			description="COM_REDIRECT_FIELD_OLD_URL_DESC"
 			class="input-xxlarge"
 			size="50"
-			required="true" 
+			required="true"
 		/>
 
 		<field
@@ -29,7 +29,7 @@
 			description="COM_REDIRECT_FIELD_NEW_URL_DESC"
 			class="input-xxlarge"
 			size="50"
-			required="true" 
+			required="true"
 		/>
 
 		<field
@@ -37,7 +37,7 @@
 			type="text"
 			label="COM_REDIRECT_FIELD_COMMENT_LABEL"
 			description="COM_REDIRECT_FIELD_COMMENT_DESC"
-			size="40" 
+			size="40"
 		/>
 
 		<field
@@ -61,7 +61,7 @@
 			label="COM_REDIRECT_FIELD_REFERRER_LABEL"
 			id="referer"
 			size="50"
-			readonly="true" 
+			readonly="true"
 		/>
 
 		<field
@@ -71,7 +71,7 @@
 			id="created_date"
 			class="readonly"
 			size="20"
-			readonly="true" 
+			readonly="true"
 		/>
 
 		<field
@@ -81,7 +81,7 @@
 			id="modified_date"
 			class="readonly"
 			size="20"
-			readonly="true" 
+			readonly="true"
 		/>
 
 		<field
@@ -92,7 +92,7 @@
 			class="readonly"
 			size="20"
 			readonly="true"
-			filter="unset" 
+			filter="unset"
 		/>
 	</fieldset>
 	<fieldset name="advanced">
@@ -102,6 +102,7 @@
 			label="COM_REDIRECT_FIELD_REDIRECT_STATUS_CODE_LABEL"
 			description="COM_REDIRECT_FIELD_REDIRECT_STATUS_CODE_DESC"
 			default="301"
+			validate="options"
 			class="input-xlarge"
 		/>
 	</fieldset>

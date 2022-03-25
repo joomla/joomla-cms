@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_config
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2013 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -19,6 +19,14 @@ use Joomla\Utilities\ArrayHelper;
  */
 class ConfigModelApplication extends ConfigModelForm
 {
+	/**
+	 * Array of protected password fields from the configuration.php
+	 *
+	 * @var    array
+	 * @since  3.9.23
+	 */
+	private $protectedConfigurationFields = array('password', 'secret', 'ftp_pass', 'smtppass', 'redis_server_auth', 'session_redis_server_auth');
+
 	/**
 	 * Method to get a form object.
 	 *
@@ -49,7 +57,7 @@ class ConfigModelApplication extends ConfigModelForm
 	 * JConfig. If configuration data has been saved in the session, that
 	 * data will be merged into the original data, overwriting it.
 	 *
-	 * @return	array  An array containg all global config data.
+	 * @return	array  An array containing all global config data.
 	 *
 	 * @since	1.6
 	 */
@@ -58,6 +66,9 @@ class ConfigModelApplication extends ConfigModelForm
 		// Get the config data.
 		$config = new JConfig;
 		$data   = ArrayHelper::fromObject($config);
+
+		// Get the correct driver at runtime
+		$data['dbtype'] = JFactory::getDbo()->getName();
 
 		// Prime the asset_id for the rules.
 		$data['asset_id'] = 1;
@@ -79,6 +90,12 @@ class ConfigModelApplication extends ConfigModelForm
 		// Merge in the session data.
 		if (!empty($temp))
 		{
+			// $temp can sometimes be an object, and we need it to be an array
+			if (is_object($temp))
+			{
+				$temp = ArrayHelper::fromObject($temp);
+			}
+
 			$data = array_merge($data, $temp);
 		}
 
@@ -97,13 +114,24 @@ class ConfigModelApplication extends ConfigModelForm
 	public function save($data)
 	{
 		$app = JFactory::getApplication();
+		$dispatcher = JEventDispatcher::getInstance();
+		$config = JFactory::getConfig();
+
+		// Try to load the values from the configuration file
+		foreach ($this->protectedConfigurationFields as $fieldKey)
+		{
+			if (!isset($data[$fieldKey]))
+			{
+				$data[$fieldKey] = $config->get($fieldKey);
+			}
+		}
 
 		// Check that we aren't setting wrong database configuration
 		$options = array(
 			'driver'   => $data['dbtype'],
 			'host'     => $data['host'],
 			'user'     => $data['user'],
-			'password' => JFactory::getConfig()->get('password'),
+			'password' => $data['password'],
 			'database' => $data['db'],
 			'prefix'   => $data['dbprefix']
 		);
@@ -394,8 +422,21 @@ class ConfigModelApplication extends ConfigModelForm
 		$this->cleanCache('_system', 0);
 		$this->cleanCache('_system', 1);
 
+		$result = $dispatcher->trigger('onApplicationBeforeSave', array($config));
+
+		// Store the data.
+		if (in_array(false, $result, true))
+		{
+			throw new RuntimeException(JText::_('COM_CONFIG_ERROR_UNKNOWN_BEFORE_SAVING'));
+		}
+
 		// Write the configuration file.
-		return $this->writeConfigFile($config);
+		$result = $this->writeConfigFile($config);
+
+		// Trigger the after save event.
+		$dispatcher->trigger('onApplicationAfterSave', array($config));
+
+		return $result;
 	}
 
 	/**
@@ -410,6 +451,8 @@ class ConfigModelApplication extends ConfigModelForm
 	 */
 	public function removeroot()
 	{
+		$dispatcher = JEventDispatcher::getInstance();
+
 		// Get the previous configuration.
 		$prev = new JConfig;
 		$prev = ArrayHelper::fromObject($prev);
@@ -418,8 +461,21 @@ class ConfigModelApplication extends ConfigModelForm
 		unset($prev['root_user']);
 		$config = new Registry($prev);
 
+		$result = $dispatcher->trigger('onApplicationBeforeSave', array($config));
+
+		// Store the data.
+		if (in_array(false, $result, true))
+		{
+			throw new RuntimeException(JText::_('COM_CONFIG_ERROR_UNKNOWN_BEFORE_SAVING'));
+		}
+
 		// Write the configuration file.
-		return $this->writeConfigFile($config);
+		$result = $this->writeConfigFile($config);
+
+		// Trigger the after save event.
+		$dispatcher->trigger('onApplicationAfterSave', array($config));
+
+		return $result;
 	}
 
 	/**
@@ -459,7 +515,13 @@ class ConfigModelApplication extends ConfigModelForm
 			throw new RuntimeException(JText::_('COM_CONFIG_ERROR_WRITE_FAILED'));
 		}
 
-		// Attempt to make the file unwriteable if using FTP.
+		// Invalidates the cached configuration file
+		if (function_exists('opcache_invalidate'))
+		{
+			opcache_invalidate($file);
+		}
+
+		// Attempt to make the file unwriteable if NOT using FTP.
 		if (!$ftp['enabled'] && JPath::isOwner($file) && !JPath::setPermissions($file, '0444'))
 		{
 			$app->enqueueMessage(JText::_('COM_CONFIG_ERROR_CONFIGURATION_PHP_NOTUNWRITABLE'), 'notice');
@@ -778,21 +840,21 @@ class ConfigModelApplication extends ConfigModelForm
 				$result['text']  = JText::_('JLIB_RULES_ALLOWED_INHERITED');
 			}
 
-			// Second part: Overwrite the calculated permissions labels if there is an explicity permission in the current group.
+			// Second part: Overwrite the calculated permissions labels if there is an explicit permission in the current group.
 
 			/**
-			 * @to do: incorect info
+			 * @todo: incorrect info
 			 * If a component has a permission that doesn't exists in global config (ex: frontend editing in com_modules) by default
 			 * we get "Not Allowed (Inherited)" when we should get "Not Allowed (Default)".
 			 */
 
-			// If there is an explicity permission "Not Allowed". Calculated permission is "Not Allowed".
+			// If there is an explicit permission "Not Allowed". Calculated permission is "Not Allowed".
 			if ($assetRule === false)
 			{
 				$result['class'] = 'label label-important';
 				$result['text']  = JText::_('JLIB_RULES_NOT_ALLOWED');
 			}
-			// If there is an explicity permission is "Allowed". Calculated permission is "Allowed".
+			// If there is an explicit permission is "Allowed". Calculated permission is "Allowed".
 			elseif ($assetRule === true)
 			{
 				$result['class'] = 'label label-success';
@@ -846,12 +908,12 @@ class ConfigModelApplication extends ConfigModelForm
 	public function sendTestMail()
 	{
 		// Set the new values to test with the current settings
-		$app = JFactory::getApplication();
-		$input = $app->input;
+		$app      = JFactory::getApplication();
+		$input    = $app->input;
+		$smtppass = $input->get('smtppass', null, 'RAW');
 
 		$app->set('smtpauth', $input->get('smtpauth'));
 		$app->set('smtpuser', $input->get('smtpuser', '', 'STRING'));
-		$app->set('smtppass', $input->get('smtppass', '', 'RAW'));
 		$app->set('smtphost', $input->get('smtphost'));
 		$app->set('smtpsecure', $input->get('smtpsecure'));
 		$app->set('smtpport', $input->get('smtpport'));
@@ -859,6 +921,12 @@ class ConfigModelApplication extends ConfigModelForm
 		$app->set('fromname', $input->get('fromname', '', 'STRING'));
 		$app->set('mailer', $input->get('mailer'));
 		$app->set('mailonline', $input->get('mailonline'));
+
+		// Use smtppass only if it was submitted
+		if ($smtppass !== null)
+		{
+			$app->set('smtppass', $smtppass);
+		}
 
 		$mail = JFactory::getMailer();
 

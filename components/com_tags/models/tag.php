@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_tags
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2013 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -178,7 +178,14 @@ class TagsModelTag extends JModelList
 		$this->setState('params', $params);
 
 		// Load state from the request.
-		$ids = ArrayHelper::toInteger($app->input->get('id', array(), 'array'));
+		$ids = $app->input->get('id', array(), 'array');
+
+		if (count($ids) == 1)
+		{
+			$ids = explode(',', $ids[0]);
+		}
+
+		$ids = ArrayHelper::toInteger($ids);
 
 		$pkString = implode(',', $ids);
 
@@ -333,8 +340,10 @@ class TagsModelTag extends JModelList
 		{
 			$pk    = (!empty($pk)) ? $pk : (int) $this->getState('tag.id');
 			$table = JTable::getInstance('Tag', 'TagsTable');
-			$table->load($pk);
 			$table->hit($pk);
+
+			// Load the table data for later
+			$table->load($pk);
 
 			if (!$table->hasPrimaryKey())
 			{

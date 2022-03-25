@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_media
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2007 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -65,28 +65,30 @@ else // XTD Image plugin
 ?>
 <div class="container-popup">
 
-	<form action="index.php?option=com_media&amp;asset=<?php echo $asset; ?>&amp;author=<?php echo $author; ?>" class="form-vertical" id="imageForm" method="post" enctype="multipart/form-data">
+	<form action="index.php?option=com_media&amp;asset=<?php echo $asset; ?>&amp;author=<?php echo $author; ?>" class="form-horizontal" id="imageForm" method="post" enctype="multipart/form-data">
 
 		<div id="messages" style="display: none;">
 			<span id="message"></span><?php echo JHtml::_('image', 'media/dots.gif', '...', array('width' => 22, 'height' => 12), true); ?>
 		</div>
 
 		<div class="well">
-			<div class="row">
-				<div class="span12 control-group">
+			<div class="row-fluid">
+				<div class="span8 control-group">
 					<div class="control-label">
-						<label class="control-label" for="folder"><?php echo JText::_('COM_MEDIA_DIRECTORY'); ?></label>
+						<label for="folder"><?php echo JText::_('COM_MEDIA_DIRECTORY'); ?></label>
 					</div>
 					<div class="controls">
 						<?php echo $this->folderList; ?>
 						<button class="btn" type="button" id="upbutton" title="<?php echo JText::_('COM_MEDIA_DIRECTORY_UP'); ?>"><?php echo JText::_('COM_MEDIA_UP'); ?></button>
 					</div>
 				</div>
-				<div class="pull-right">
-					<button class="btn btn-success button-save-selected" type="button" <?php if (!empty($onClick)) :
-					// This is for Mootools compatibility ?>onclick="<?php echo $onClick; ?>"<?php endif; ?> data-dismiss="modal"><?php echo JText::_('COM_MEDIA_INSERT'); ?></button>
-					<button class="btn button-cancel" type="button" onclick="window.parent.jQuery('.modal.in').modal('hide');<?php if (!empty($onClick)) :
-						// This is for Mootools compatibility ?>parent.jModalClose();<?php endif ?>" data-dismiss="modal"><?php echo JText::_('JCANCEL'); ?></button>
+				<div class="span4 control-group">
+					<div class="pull-right">
+						<button class="btn btn-success button-save-selected" type="button" <?php if (!empty($onClick)) :
+							// This is for Mootools compatibility ?>onclick="<?php echo $onClick; ?>"<?php endif; ?> data-dismiss="modal"><?php echo JText::_('COM_MEDIA_INSERT'); ?></button>
+						<button class="btn button-cancel" type="button" onclick="window.parent.jQuery('.modal.in').modal('hide');<?php if (!empty($onClick)) :
+							// This is for Mootools compatibility ?>parent.jModalClose();<?php endif ?>" data-dismiss="modal"><?php echo JText::_('JCANCEL'); ?></button>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -95,7 +97,7 @@ else // XTD Image plugin
 
 		<div class="well">
 			<div class="row-fluid">
-				<div class="span6 control-group">
+				<div class="span12 control-group">
 					<div class="control-label">
 						<label for="f_url"><?php echo JText::_('COM_MEDIA_IMAGE_URL'); ?></label>
 					</div>
@@ -103,7 +105,12 @@ else // XTD Image plugin
 						<input type="text" id="f_url" value="" />
 					</div>
 				</div>
-				<?php if (!$this->state->get('field.id')) : ?>
+			</div>
+		</div>
+
+		<?php if (!$this->state->get('field.id')) : ?>
+			<div class="well">
+				<div class="row-fluid">
 					<div class="span6 control-group">
 						<div class="control-label">
 							<label title="<?php echo JText::_('COM_MEDIA_ALIGN_DESC'); ?>" class="noHtmlTip" for="f_align"><?php echo JText::_('COM_MEDIA_ALIGN'); ?></label>
@@ -117,9 +124,7 @@ else // XTD Image plugin
 							</select>
 						</div>
 					</div>
-				<?php endif; ?>
-			</div>
-			<?php if (!$this->state->get('field.id')) : ?>
+				</div>
 				<div class="row-fluid">
 					<div class="span6 control-group">
 						<div class="control-label">
@@ -161,13 +166,11 @@ else // XTD Image plugin
 						</div>
 					</div>
 				</div>
-			<?php endif; ?>
-
 			<input type="hidden" id="dirPath" name="dirPath" />
 			<input type="hidden" id="f_file" name="f_file" />
 			<input type="hidden" id="tmpl" name="component" />
-
 		</div>
+		<?php endif; ?>
 	</form>
 
 	<?php if ($user->authorise('core.create', 'com_media')) : ?>

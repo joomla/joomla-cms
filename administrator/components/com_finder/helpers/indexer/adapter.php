@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2011 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -160,7 +160,7 @@ abstract class FinderIndexerAdapter extends JPlugin
 	/**
 	 * Method to get the adapter state and push it into the indexer.
 	 *
-	 * @return  boolean  True on success.
+	 * @return  void
 	 *
 	 * @since   2.5
 	 * @throws  Exception on error.
@@ -312,7 +312,7 @@ abstract class FinderIndexerAdapter extends JPlugin
 	 *
 	 * @param   integer  $id  The ID of the item to reindex.
 	 *
-	 * @return  boolean  True on success.
+	 * @return  void
 	 *
 	 * @since   2.5
 	 * @throws  Exception on database error.
@@ -902,12 +902,9 @@ abstract class FinderIndexerAdapter extends JPlugin
 	protected function translateState($item, $category = null)
 	{
 		// If category is present, factor in its states as well
-		if ($category !== null)
+		if ($category !== null && $category == 0)
 		{
-			if ($category == 0)
-			{
-				$item = 0;
-			}
+			$item = 0;
 		}
 
 		// Translate the state

@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2006 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -32,7 +32,7 @@ defined('JPATH_PLATFORM') or die;
  * @property-read  string   $week          W - ISO-8601 week number of year, weeks starting on Monday.
  * @property-read  string   $year          Y - A full numeric representation of a year, 4 digits.
  *
- * @since  11.1
+ * @since  1.7.0
  */
 class Date extends \DateTime
 {
@@ -45,7 +45,7 @@ class Date extends \DateTime
 	 * The format string to be applied when using the __toString() magic method.
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	public static $format = 'Y-m-d H:i:s';
 
@@ -53,7 +53,7 @@ class Date extends \DateTime
 	 * Placeholder for a \DateTimeZone object with GMT as the time zone.
 	 *
 	 * @var    object
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected static $gmt;
 
@@ -62,7 +62,7 @@ class Date extends \DateTime
 	 * time zone as the time zone.
 	 *
 	 * @var    object
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected static $stz;
 
@@ -70,7 +70,7 @@ class Date extends \DateTime
 	 * The \DateTimeZone object for usage in rending dates as strings.
 	 *
 	 * @var    \DateTimeZone
-	 * @since  12.1
+	 * @since  3.0.0
 	 */
 	protected $tz;
 
@@ -80,7 +80,7 @@ class Date extends \DateTime
 	 * @param   string  $date  String in a format accepted by strtotime(), defaults to "now".
 	 * @param   mixed   $tz    Time zone to be used for the date. Might be a string or a DateTimeZone object.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function __construct($date = 'now', $tz = null)
 	{
@@ -125,7 +125,7 @@ class Date extends \DateTime
 	 *
 	 * @return  mixed   A value if the property name is valid, null otherwise.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function __get($name)
 	{
@@ -198,7 +198,7 @@ class Date extends \DateTime
 	 *
 	 * @return  string  The date as a formatted string.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function __toString()
 	{
@@ -213,7 +213,7 @@ class Date extends \DateTime
 	 *
 	 * @return  Date
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public static function getInstance($date = 'now', $tz = null)
 	{
@@ -228,7 +228,7 @@ class Date extends \DateTime
 	 *
 	 * @return  string  The day of the week.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function dayToString($day, $abbr = false)
 	{
@@ -260,7 +260,7 @@ class Date extends \DateTime
 	 *
 	 * @return  string   The date string in the specified format format.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function calendar($format, $local = false, $translate = true)
 	{
@@ -276,8 +276,9 @@ class Date extends \DateTime
 	 *
 	 * @return  string   The date string in the specified format format.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
+	#[\ReturnTypeWillChange]
 	public function format($format, $local = false, $translate = true)
 	{
 		if ($translate)
@@ -337,7 +338,7 @@ class Date extends \DateTime
 	 *
 	 * @return  float  The time offset from GMT either in hours or in seconds.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function getOffsetFromGmt($hours = false)
 	{
@@ -352,7 +353,7 @@ class Date extends \DateTime
 	 *
 	 * @return  string  The month of the year.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function monthToString($month, $abbr = false)
 	{
@@ -392,9 +393,10 @@ class Date extends \DateTime
 	 *
 	 * @return  Date
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 * @note    This method can't be type hinted due to a PHP bug: https://bugs.php.net/bug.php?id=61483
 	 */
+	#[\ReturnTypeWillChange]
 	public function setTimezone($tz)
 	{
 		$this->tz = $tz;
@@ -411,7 +413,7 @@ class Date extends \DateTime
 	 * @return  string  The date string in ISO 8601 format.
 	 *
 	 * @link    http://www.ietf.org/rfc/rfc3339.txt
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function toISO8601($local = false)
 	{
@@ -427,7 +429,7 @@ class Date extends \DateTime
 	 * @return  string     The date string in SQL datetime format.
 	 *
 	 * @link    http://dev.mysql.com/doc/refman/5.0/en/datetime.html
-	 * @since   11.4
+	 * @since   2.5.0
 	 */
 	public function toSql($local = false, \JDatabaseDriver $db = null)
 	{
@@ -448,7 +450,7 @@ class Date extends \DateTime
 	 * @return  string   The date string in RFC 822 format.
 	 *
 	 * @link    http://www.ietf.org/rfc/rfc2822.txt
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function toRFC822($local = false)
 	{
@@ -460,7 +462,7 @@ class Date extends \DateTime
 	 *
 	 * @return  integer  The date as a UNIX timestamp.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function toUnix()
 	{

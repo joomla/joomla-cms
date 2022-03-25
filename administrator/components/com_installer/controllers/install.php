@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_installer
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2009 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -26,7 +26,12 @@ class InstallerControllerInstall extends JControllerLegacy
 	public function install()
 	{
 		// Check for request forgeries.
-		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+		$this->checkToken();
+
+		if (!JFactory::getUser()->authorise('core.admin'))
+		{
+			throw new JAccessExceptionNotallowed(JText::_('JERROR_ALERTNOAUTHOR'), 403);
+		}
 
 		/** @var InstallerModelInstall $model */
 		$model = $this->getModel('install');
@@ -39,7 +44,7 @@ class InstallerControllerInstall extends JControllerLegacy
 
 		if (!$redirect_url)
 		{
-			$redirect_url = base64_decode($app->input->get('return'));
+			$redirect_url = base64_decode($app->input->get('return', null, 'BASE64'));
 		}
 
 		// Don't redirect to an external URL.
@@ -74,6 +79,14 @@ class InstallerControllerInstall extends JControllerLegacy
 	 */
 	public function ajax_upload()
 	{
+		// Check for request forgeries.
+		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+
+		if (!JFactory::getUser()->authorise('core.admin'))
+		{
+			throw new JAccessExceptionNotallowed(JText::_('JERROR_ALERTNOAUTHOR'), 403);
+		}
+
 		$app = JFactory::getApplication();
 		$message = $app->getUserState('com_installer.message');
 

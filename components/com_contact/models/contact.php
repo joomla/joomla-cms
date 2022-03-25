@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_contact
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2006 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -426,6 +426,7 @@ class ContactModelContact extends JModelForm
 	 * @return  mixed    The contact object on success, false on failure
 	 *
 	 * @throws  Exception  On database failure
+	 * @deprecated  4.0    Use ContactModelContact::getItem() instead
 	 */
 	protected function getContactQuery($pk = null)
 	{
@@ -625,7 +626,6 @@ class ContactModelContact extends JModelForm
 			$pk = (!empty($pk)) ? $pk : (int) $this->getState('contact.id');
 
 			$table = JTable::getInstance('Contact', 'ContactTable');
-			$table->load($pk);
 			$table->hit($pk);
 		}
 

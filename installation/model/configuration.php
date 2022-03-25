@@ -3,7 +3,7 @@
  * @package     Joomla.Installation
  * @subpackage  Model
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2009 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -78,6 +78,7 @@ class InstallationModelConfiguration extends JModelBase
 		// Debug settings.
 		$registry->set('debug', 0);
 		$registry->set('debug_lang', 0);
+		$registry->set('debug_lang_const', 1);
 
 		// Database settings.
 		$registry->set('dbtype', $options->db_type);

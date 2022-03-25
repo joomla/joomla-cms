@@ -2,7 +2,7 @@
 /**
  * Part of the Joomla Framework Utilities Package
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2021 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -38,7 +38,7 @@ final class ArrayHelper
 	 */
 	public static function toInteger($array, $default = null)
 	{
-		if (is_array($array))
+		if (\is_array($array))
 		{
 			return array_map('intval', $array);
 		}
@@ -48,7 +48,7 @@ final class ArrayHelper
 			return array();
 		}
 
-		if (is_array($default))
+		if (\is_array($default))
 		{
 			return static::toInteger($default, null);
 		}
@@ -73,7 +73,7 @@ final class ArrayHelper
 
 		foreach ($array as $k => $v)
 		{
-			if ($recursive && is_array($v))
+			if ($recursive && \is_array($v))
 			{
 				$obj->$k = static::toObject($v, $class);
 			}
@@ -104,7 +104,7 @@ final class ArrayHelper
 
 		foreach ($array as $key => $item)
 		{
-			if (is_array($item))
+			if (\is_array($item))
 			{
 				if ($keepOuterKey)
 				{
@@ -136,7 +136,7 @@ final class ArrayHelper
 	 */
 	public static function fromObject($source, $recurse = true, $regex = null)
 	{
-		if (is_object($source) || is_array($source))
+		if (\is_object($source) || \is_array($source))
 		{
 			return self::arrayFromObject($source, $recurse, $regex);
 		}
@@ -157,7 +157,7 @@ final class ArrayHelper
 	 */
 	private static function arrayFromObject($item, $recurse, $regex)
 	{
-		if (is_object($item))
+		if (\is_object($item))
 		{
 			$result = array();
 
@@ -179,7 +179,7 @@ final class ArrayHelper
 			return $result;
 		}
 
-		if (is_array($item))
+		if (\is_array($item))
 		{
 			$result = array();
 
@@ -205,7 +205,7 @@ final class ArrayHelper
 	 * @return  array  An array with the new column added to the source array
 	 *
 	 * @since   1.5.0
-	 * @see     https://secure.php.net/manual/en/language.types.array.php
+	 * @see     https://www.php.net/manual/en/language.types.array.php
 	 */
 	public static function addColumn(array $array, array $column, $colName, $keyCol = null)
 	{
@@ -222,7 +222,7 @@ final class ArrayHelper
 			else
 			{
 				// Convert object to array
-				$subject = is_object($item) ? static::fromObject($item) : $item;
+				$subject = \is_object($item) ? static::fromObject($item) : $item;
 
 				if (isset($subject[$keyCol]) && is_scalar($subject[$keyCol]))
 				{
@@ -231,7 +231,7 @@ final class ArrayHelper
 			}
 
 			// Add the column
-			if (is_object($item))
+			if (\is_object($item))
 			{
 				if (isset($colName))
 				{
@@ -265,7 +265,7 @@ final class ArrayHelper
 	 * @return  array  Column of values from the source array
 	 *
 	 * @since   1.5.0
-	 * @see     https://secure.php.net/manual/en/language.types.array.php
+	 * @see     https://www.php.net/manual/en/language.types.array.php
 	 */
 	public static function dropColumn(array $array, $colName)
 	{
@@ -273,11 +273,11 @@ final class ArrayHelper
 
 		foreach ($array as $i => $item)
 		{
-			if (is_object($item) && isset($item->$colName))
+			if (\is_object($item) && isset($item->$colName))
 			{
 				unset($item->$colName);
 			}
-			elseif (is_array($item) && isset($item[$colName]))
+			elseif (\is_array($item) && isset($item[$colName]))
 			{
 				unset($item[$colName]);
 			}
@@ -300,8 +300,8 @@ final class ArrayHelper
 	 * @return  array  Column of values from the source array
 	 *
 	 * @since   1.0
-	 * @see     https://secure.php.net/manual/en/language.types.array.php
-	 * @see     https://secure.php.net/manual/en/function.array-column.php
+	 * @see     https://www.php.net/manual/en/language.types.array.php
+	 * @see     https://www.php.net/manual/en/function.array-column.php
 	 */
 	public static function getColumn(array $array, $valueCol, $keyCol = null)
 	{
@@ -316,19 +316,19 @@ final class ArrayHelper
 		foreach ($array as $item)
 		{
 			// Convert object to array
-			$subject = is_object($item) ? static::fromObject($item) : $item;
+			$subject = \is_object($item) ? static::fromObject($item) : $item;
 
 			/*
 			 * We process arrays (and objects already converted to array)
 			 * Only if the value column (if required) exists in this item
 			 */
-			if (is_array($subject) && (!isset($valueCol) || isset($subject[$valueCol])))
+			if (\is_array($subject) && (!isset($valueCol) || isset($subject[$valueCol])))
 			{
 				// Use whole $item if valueCol is null, else use the value column.
 				$value = isset($valueCol) ? $subject[$valueCol] : $item;
 
 				// Array keys can only be integer or string. Casting will occur as per the PHP Manual.
-				if (isset($keyCol) && isset($subject[$keyCol]) && is_scalar($subject[$keyCol]))
+				if (isset($keyCol, $subject[$keyCol]) && is_scalar($subject[$keyCol]))
 				{
 					$key          = $subject[$keyCol];
 					$result[$key] = $value;
@@ -358,7 +358,7 @@ final class ArrayHelper
 	 */
 	public static function getValue($array, $name, $default = null, $type = '')
 	{
-		if (!is_array($array) && !($array instanceof \ArrayAccess))
+		if (!\is_array($array) && !($array instanceof \ArrayAccess))
 		{
 			throw new \InvalidArgumentException('The object must be an array or an object that implements ArrayAccess');
 		}
@@ -373,14 +373,14 @@ final class ArrayHelper
 		{
 			list($name, $subset) = explode('.', $name, 2);
 
-			if (isset($array[$name]) && is_array($array[$name]))
+			if (isset($array[$name]) && \is_array($array[$name]))
 			{
 				return static::getValue($array[$name], $subset, $default, $type);
 			}
 		}
 
 		// Handle the default case
-		if (is_null($result))
+		if ($result === null)
 		{
 			$result = $default;
 		}
@@ -393,6 +393,7 @@ final class ArrayHelper
 				// Only use the first integer value
 				@preg_match('/-?[0-9]+/', $result, $matches);
 				$result = @(int) $matches[0];
+
 				break;
 
 			case 'FLOAT':
@@ -400,26 +401,31 @@ final class ArrayHelper
 				// Only use the first floating point value
 				@preg_match('/-?[0-9]+(\.[0-9]+)?/', $result, $matches);
 				$result = @(float) $matches[0];
+
 				break;
 
 			case 'BOOL':
 			case 'BOOLEAN':
 				$result = (bool) $result;
+
 				break;
 
 			case 'ARRAY':
-				if (!is_array($result))
+				if (!\is_array($result))
 				{
 					$result = array($result);
 				}
+
 				break;
 
 			case 'STRING':
 				$result = (string) $result;
+
 				break;
 
 			case 'WORD':
 				$result = (string) preg_replace('#\W#', '', $result);
+
 				break;
 
 			case 'NONE':
@@ -464,7 +470,7 @@ final class ArrayHelper
 
 		foreach ($array as $base => $values)
 		{
-			if (!is_array($values))
+			if (!\is_array($values))
 			{
 				continue;
 			}
@@ -493,7 +499,7 @@ final class ArrayHelper
 	 */
 	public static function isAssociative($array)
 	{
-		if (is_array($array))
+		if (\is_array($array))
 		{
 			foreach (array_keys($array) as $k => $v)
 			{
@@ -525,7 +531,7 @@ final class ArrayHelper
 		foreach ($source as $index => $value)
 		{
 			// Determine the name of the pivot key, and its value.
-			if (is_array($value))
+			if (\is_array($value))
 			{
 				// If the key does not exist, ignore it.
 				if (!isset($value[$key]))
@@ -536,7 +542,7 @@ final class ArrayHelper
 				$resultKey   = $value[$key];
 				$resultValue = $source[$index];
 			}
-			elseif (is_object($value))
+			elseif (\is_object($value))
 			{
 				// If the key does not exist, ignore it.
 				if (!isset($value->$key))
@@ -558,7 +564,7 @@ final class ArrayHelper
 			if (empty($counter[$resultKey]))
 			{
 				// The first time around we just assign the value to the key.
-				$result[$resultKey] = $resultValue;
+				$result[$resultKey]  = $resultValue;
 				$counter[$resultKey] = 1;
 			}
 			elseif ($counter[$resultKey] == 1)
@@ -597,7 +603,7 @@ final class ArrayHelper
 	 */
 	public static function sortObjects(array $a, $k, $direction = 1, $caseSensitive = true, $locale = false)
 	{
-		if (!is_array($locale) || !is_array($locale[0]))
+		if (!\is_array($locale) || !\is_array($locale[0]))
 		{
 			$locale = array($locale);
 		}
@@ -610,7 +616,7 @@ final class ArrayHelper
 		usort(
 			$a, function ($a, $b) use ($sortCase, $sortDirection, $key, $sortLocale)
 			{
-				for ($i = 0, $count = count($key); $i < $count; $i++)
+				for ($i = 0, $count = \count($key); $i < $count; $i++)
 				{
 					if (isset($sortDirection[$i]))
 					{
@@ -630,7 +636,7 @@ final class ArrayHelper
 					$va = $a->{$key[$i]};
 					$vb = $b->{$key[$i]};
 
-					if ((is_bool($va) || is_numeric($va)) && (is_bool($vb) || is_numeric($vb)))
+					if ((\is_bool($va) || is_numeric($va)) && (\is_bool($vb) || is_numeric($vb)))
 					{
 						$cmp = $va - $vb;
 					}
@@ -668,7 +674,7 @@ final class ArrayHelper
 	 *
 	 * @return  array
 	 *
-	 * @see     https://secure.php.net/manual/en/function.array-unique.php
+	 * @see     https://www.php.net/manual/en/function.array-unique.php
 	 * @since   1.0
 	 */
 	public static function arrayUnique(array $array)
@@ -716,6 +722,7 @@ final class ArrayHelper
 	 * @return  array
 	 *
 	 * @since   1.3.0
+	 * @note    As of 2.0, the result will not include the original array structure
 	 */
 	public static function flatten($array, $separator = '.', $prefix = '')
 	{
@@ -723,7 +730,7 @@ final class ArrayHelper
 		{
 			$array = iterator_to_array($array);
 		}
-		elseif (is_object($array))
+		elseif (\is_object($array))
 		{
 			$array = get_object_vars($array);
 		}
@@ -732,7 +739,7 @@ final class ArrayHelper
 		{
 			$key = $prefix ? $prefix . $separator . $k : $k;
 
-			if (is_object($v) || is_array($v))
+			if (\is_object($v) || \is_array($v))
 			{
 				$array = array_merge($array, static::flatten($v, $separator, $key));
 			}

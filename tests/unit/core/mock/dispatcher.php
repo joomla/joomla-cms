@@ -2,7 +2,7 @@
 /**
  * @package    Joomla.Test
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2012 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -10,7 +10,7 @@
  * Class to mock JEventDispatcher.
  *
  * @package  Joomla.Test
- * @since    12.1
+ * @since    3.0.0
  */
 class TestMockDispatcher
 {
@@ -18,7 +18,7 @@ class TestMockDispatcher
 	 * Keeps track of mock handlers.
 	 *
 	 * @var    array
-	 * @since  11.3
+	 * @since  1.7.3
 	 */
 	public static $handlers = array();
 
@@ -26,7 +26,7 @@ class TestMockDispatcher
 	 * Keeps track of triggers.
 	 *
 	 * @var    array
-	 * @since  11.3
+	 * @since  1.7.3
 	 */
 	public static $triggered = array();
 
@@ -38,7 +38,7 @@ class TestMockDispatcher
 	 *
 	 * @return  PHPUnit_Framework_MockObject_MockObject
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public static function create($test, $defaults = true)
 	{
@@ -93,7 +93,7 @@ class TestMockDispatcher
 	 *
 	 * @return  void
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public static function mockRegister($event, $handler, $return = null)
 	{
@@ -113,7 +113,7 @@ class TestMockDispatcher
 	 *
 	 * @return  array  An array of results from each function call.
 	 *
-	 * @since  11.3
+	 * @since  1.7.3
 	 */
 	public static function mockTrigger($event, $args = array())
 	{

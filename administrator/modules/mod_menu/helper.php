@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  mod_menu
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2007 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -22,6 +22,8 @@ abstract class ModMenuHelper
 	 * @return  array  An array of the available menus (from the menu types table).
 	 *
 	 * @since   1.6
+	 *
+	 * @deprecated  4.0
 	 */
 	public static function getMenus()
 	{

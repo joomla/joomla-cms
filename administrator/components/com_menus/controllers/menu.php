@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_menus
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2009 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -44,7 +44,7 @@ class MenusControllerMenu extends JControllerForm
 	public function save($key = null, $urlVar = null)
 	{
 		// Check for request forgeries.
-		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+		$this->checkToken();
 
 		$app      = JFactory::getApplication();
 		$data     = $this->input->post->get('jform', array(), 'array');
@@ -59,7 +59,7 @@ class MenusControllerMenu extends JControllerForm
 			JFactory::getApplication()->enqueueMessage($msg, 'error');
 
 			// Redirect back to the edit screen.
-			$this->setRedirect(JRoute::_('index.php?option=com_menus&view=menu&layout=edit', false));
+			$this->setRedirect(JRoute::_('index.php?option=com_menus&view=menu&layout=edit' . $this->getRedirectToItemAppend($recordId), false));
 
 			return false;
 		}
@@ -103,7 +103,7 @@ class MenusControllerMenu extends JControllerForm
 			$app->setUserState($context . '.data', $data);
 
 			// Redirect back to the edit screen.
-			$this->setRedirect(JRoute::_('index.php?option=com_menus&view=menu&layout=edit', false));
+			$this->setRedirect(JRoute::_('index.php?option=com_menus&view=menu&layout=edit' . $this->getRedirectToItemAppend($recordId), false));
 
 			return false;
 		}
@@ -123,7 +123,7 @@ class MenusControllerMenu extends JControllerForm
 
 			// Redirect back to the edit screen.
 			$this->setMessage(JText::sprintf('JLIB_APPLICATION_ERROR_SAVE_FAILED', $model->getError()), 'error');
-			$this->setRedirect(JRoute::_('index.php?option=com_menus&view=menu&layout=edit', false));
+			$this->setRedirect(JRoute::_('index.php?option=com_menus&view=menu&layout=edit' . $this->getRedirectToItemAppend($recordId), false));
 
 			return false;
 		}
@@ -155,6 +155,7 @@ class MenusControllerMenu extends JControllerForm
 				// Set the record data in the session.
 				$recordId = $model->getState($this->context . '.id');
 				$this->holdEditId($context, $recordId);
+				$app->setUserState($context . '.data', null);
 
 				// Redirect back to the edit screen.
 				$this->setRedirect(JRoute::_('index.php?option=com_menus&view=menu&layout=edit' . $this->getRedirectToItemAppend($recordId), false));

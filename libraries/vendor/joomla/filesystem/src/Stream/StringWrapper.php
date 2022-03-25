@@ -2,7 +2,7 @@
 /**
  * Part of the Joomla Framework Filesystem Package
  *
- * @copyright  Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -13,8 +13,7 @@ use Joomla\Filesystem\Support\StringController;
 /**
  * String Stream Wrapper
  *
- * This class allows you to use a PHP string in the same way that
- * you would normally use a regular stream wrapper
+ * This class allows you to use a PHP string in the same way that you would normally use a regular stream wrapper
  *
  * @since  1.3.0
  */
@@ -81,30 +80,32 @@ class StringWrapper
 	 *
 	 * @var    array
 	 * @since  1.3.0
-	 * @see    http://us.php.net/manual/en/function.stat.php
+	 * @link   https://www.php.net/manual/en/function.stat.php
 	 */
 	protected $stat;
 
 	/**
 	 * Method to open a file or URL.
 	 *
-	 * @param   string   $path          The stream path.
-	 * @param   string   $mode          Not used.
-	 * @param   integer  $options       Not used.
-	 * @param   string   &$opened_path  Not used.
+	 * @param   string   $path        The stream path.
+	 * @param   string   $mode        Not used.
+	 * @param   integer  $options     Not used.
+	 * @param   string   $openedPath  Not used.
 	 *
 	 * @return  boolean
 	 *
 	 * @since   1.3.0
 	 */
-	public function stream_open($path, $mode, $options, &$opened_path)
+	public function stream_open($path, $mode, $options, &$openedPath)
 	{
-		$this->currentString = &StringController::getRef(str_replace('string://', '', $path));
+		$refPath = StringController::getRef(str_replace('string://', '', $path));
+
+		$this->currentString = &$refPath;
 
 		if ($this->currentString)
 		{
-			$this->len = strlen($this->currentString);
-			$this->pos = 0;
+			$this->len  = \strlen($this->currentString);
+			$this->pos  = 0;
 			$this->stat = $this->url_stat($path, 0);
 
 			return true;
@@ -118,7 +119,7 @@ class StringWrapper
 	 *
 	 * @return  array
 	 *
-	 * @see     http://www.php.net/manual/en/streamwrapper.stream-stat.php
+	 * @link    https://www.php.net/manual/en/streamwrapper.stream-stat.php
 	 * @since   1.3.0
 	 */
 	public function stream_stat()
@@ -134,27 +135,29 @@ class StringWrapper
 	 *
 	 * @return  array
 	 *
-	 * @see     http://php.net/manual/en/streamwrapper.url-stat.php
+	 * @link    https://www.php.net/manual/en/streamwrapper.url-stat.php
 	 * @since   1.3.0
 	 */
 	public function url_stat($path, $flags = 0)
 	{
-		$now = time();
-		$string = &StringController::getRef(str_replace('string://', '', $path));
-		$stat = array(
-			'dev' => 0,
-			'ino' => 0,
-			'mode' => 0,
-			'nlink' => 1,
-			'uid' => 0,
-			'gid' => 0,
-			'rdev' => 0,
-			'size' => strlen($string),
-			'atime' => $now,
-			'mtime' => $now,
-			'ctime' => $now,
+		$now     = time();
+		$refPath = StringController::getRef(str_replace('string://', '', $path));
+		$string  = &$refPath;
+		$stat    = array(
+			'dev'     => 0,
+			'ino'     => 0,
+			'mode'    => 0,
+			'nlink'   => 1,
+			'uid'     => 0,
+			'gid'     => 0,
+			'rdev'    => 0,
+			'size'    => \strlen($string),
+			'atime'   => $now,
+			'mtime'   => $now,
+			'ctime'   => $now,
 			'blksize' => '512',
-			'blocks' => ceil(strlen($string) / 512));
+			'blocks'  => ceil(\strlen($string) / 512),
+		);
 
 		return $stat;
 	}
@@ -168,7 +171,7 @@ class StringWrapper
 	 *
 	 * @return  string
 	 *
-	 * @see     http://www.php.net/manual/en/streamwrapper.stream-read.php
+	 * @link    https://www.php.net/manual/en/streamwrapper.stream-read.php
 	 * @since   1.3.0
 	 */
 	public function stream_read($count)
@@ -216,7 +219,7 @@ class StringWrapper
 	 */
 	public function stream_eof()
 	{
-		if ($this->pos > $this->len)
+		if ($this->pos >= $this->len)
 		{
 			return true;
 		}
@@ -245,21 +248,24 @@ class StringWrapper
 
 		switch ($whence)
 		{
-			case SEEK_SET:
+			case \SEEK_SET:
 				$this->pos = $offset;
+
 				break;
 
-			case SEEK_CUR:
-				if (($this->pos + $offset) >= $this->len)
+			case \SEEK_CUR:
+				if (($this->pos + $offset) > $this->len)
 				{
 					return false;
 				}
 
 				$this->pos += $offset;
+
 				break;
 
-			case SEEK_END:
+			case \SEEK_END:
 				$this->pos = $this->len - $offset;
+
 				break;
 		}
 

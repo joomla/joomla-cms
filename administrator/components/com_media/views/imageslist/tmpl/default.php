@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_media
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2007 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -27,7 +27,6 @@ if ($lang->isRtl())
 			@media (max-width: 767px) {
 				li.imgOutline.thumbnail.height-80.width-80.center {
 					float: right;
-					margin-right: 15px;
 				}
 			}
 		'
@@ -40,7 +39,6 @@ else
 			@media (max-width: 767px) {
 				li.imgOutline.thumbnail.height-80.width-80.center {
 					float: left;
-					margin-left: 15px;
 				}
 			}
 		'

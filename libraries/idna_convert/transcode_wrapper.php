@@ -15,6 +15,7 @@
  *[@param  bool  Safe Mode: if set to TRUE, the original string is retunred on errors]
  * @return  string  The encoded string or false on failure
  * @since 0.0.1
+ * @note This file has been modified by the Joomla! Project and no longer reflects the original work of its author.
  */
 function encode_utf8($string = '', $encoding = 'iso-8859-1', $safe_mode = false)
 {
@@ -92,7 +93,7 @@ function map_w1252_iso8859_1($string = '')
     if ($string == '') return '';
     $return = '';
     for ($i = 0; $i < strlen($string); ++$i) {
-        $c = ord($string{$i});
+        $c = ord($string[$i]);
         switch ($c) {
             case 129: $return .= chr(252); break;
             case 132: $return .= chr(228); break;
@@ -119,7 +120,7 @@ function map_iso8859_1_w1252($string = '')
     if ($string == '') return '';
     $return = '';
     for ($i = 0; $i < strlen($string); ++$i) {
-        $c = ord($string{$i});
+        $c = ord($string[$i]);
         switch ($c) {
             case 196: $return .= chr(142); break;
             case 214: $return .= chr(153); break;

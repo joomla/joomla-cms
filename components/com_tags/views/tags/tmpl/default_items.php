@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_tags
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2013 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -13,7 +13,6 @@ JHtml::addIncludePath(JPATH_COMPONENT . '/helpers');
 
 JHtml::_('behavior.caption');
 JHtml::_('behavior.core');
-JHtml::_('formbehavior.chosen', 'select');
 
 // Get the user object.
 $user = JFactory::getUser();
@@ -100,28 +99,31 @@ JFactory::getDocument()->addScriptDeclaration("
 				<span class="tag-body">
 					<?php if (!empty($images->image_intro)) : ?>
 						<?php $imgfloat = empty($images->float_intro) ? $this->params->get('float_intro') : $images->float_intro; ?>
-						<div class="pull-<?php echo htmlspecialchars($imgfloat); ?> item-image">
+						<div class="pull-<?php echo htmlspecialchars($imgfloat, ENT_QUOTES, 'UTF-8'); ?> item-image">
 							<img
 								<?php if ($images->image_intro_caption) : ?>
-									<?php echo 'class="caption"' . ' title="' . htmlspecialchars($images->image_intro_caption) . '"'; ?>
+									<?php echo 'class="caption"' . ' title="' . htmlspecialchars($images->image_intro_caption, ENT_QUOTES, 'UTF-8') . '"'; ?>
 								<?php endif; ?>
-								src="<?php echo $images->image_intro; ?>" alt="<?php echo htmlspecialchars($images->image_intro_alt); ?>" />
+								src="<?php echo htmlspecialchars($images->image_intro, ENT_QUOTES, 'UTF-8'); ?>"
+								alt="<?php echo htmlspecialchars($images->image_intro_alt, ENT_QUOTES, 'UTF-8'); ?>" />
 						</div>
 					<?php endif; ?>
 				</span>
 			<?php endif; ?>
-			<div class="caption">
-				<?php if ($this->params->get('all_tags_show_tag_description', 1)) : ?>
-					<span class="tag-body">
-						<?php echo JHtml::_('string.truncate', $item->description, $this->params->get('all_tags_tag_maximum_characters')); ?>
-					</span>
-				<?php endif; ?>
-				<?php if ($this->params->get('all_tags_show_tag_hits')) : ?>
-					<span class="list-hits badge badge-info">
-						<?php echo JText::sprintf('JGLOBAL_HITS_COUNT', $item->hits); ?>
-					</span>
-				<?php endif; ?>
-			</div>
+			<?php if (($this->params->get('all_tags_show_tag_description', 1) && !empty($item->description)) || $this->params->get('all_tags_show_tag_hits')) : ?>
+				<div class="caption">
+					<?php if ($this->params->get('all_tags_show_tag_description', 1) && !empty($item->description)) : ?>
+						<span class="tag-body">
+							<?php echo JHtml::_('string.truncate', $item->description, $this->params->get('all_tags_tag_maximum_characters')); ?>
+						</span>
+					<?php endif; ?>
+					<?php if ($this->params->get('all_tags_show_tag_hits')) : ?>
+						<span class="list-hits badge badge-info">
+							<?php echo JText::sprintf('JGLOBAL_HITS_COUNT', $item->hits); ?>
+						</span>
+					<?php endif; ?>
+				</div>
+			<?php endif; ?>
 			</li>
 			<?php if (($i === 0 && $n === 1) || $i === $n - 1 || $bscolumns === 1 || (($i + 1) % $bscolumns === 0)) : ?>
 				</ul>
@@ -142,4 +144,3 @@ JFactory::getDocument()->addScriptDeclaration("
 		<?php endif; ?>
 	<?php endif; ?>
 </form>
-

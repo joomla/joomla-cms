@@ -2,16 +2,16 @@
 /**
  * Part of the Joomla Framework Application Package
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
 namespace Joomla\Application;
 
-use Joomla\Uri\Uri;
 use Joomla\Input\Input;
-use Joomla\Session\Session;
 use Joomla\Registry\Registry;
+use Joomla\Session\Session;
+use Joomla\Uri\Uri;
 
 /**
  * Base class for a Joomla! Web application.
@@ -167,10 +167,10 @@ abstract class AbstractWebApplication extends AbstractApplication
 		$this->client = $client instanceof Web\WebClient ? $client : new Web\WebClient;
 
 		// Setup the response object.
-		$this->response = new \stdClass;
+		$this->response           = new \stdClass;
 		$this->response->cachable = false;
-		$this->response->headers = array();
-		$this->response->body = array();
+		$this->response->headers  = array();
+		$this->response->body     = array();
 
 		// Call the constructor as late as possible (it runs `initialise`).
 		parent::__construct($input, $config);
@@ -221,9 +221,9 @@ abstract class AbstractWebApplication extends AbstractApplication
 	{
 		// Supported compression encodings.
 		$supported = array(
-			'x-gzip' => 'gz',
-			'gzip' => 'gz',
-			'deflate' => 'deflate'
+			'x-gzip'  => 'gz',
+			'gzip'    => 'gz',
+			'deflate' => 'deflate',
 		);
 
 		// Get the supported encoding.
@@ -248,7 +248,7 @@ abstract class AbstractWebApplication extends AbstractApplication
 			{
 				// Verify that the server supports gzip compression before we attempt to gzip encode the data.
 				// @codeCoverageIgnoreStart
-				if (!extension_loaded('zlib') || ini_get('zlib.output_compression'))
+				if (!\extension_loaded('zlib') || ini_get('zlib.output_compression'))
 				{
 					continue;
 				}
@@ -256,7 +256,7 @@ abstract class AbstractWebApplication extends AbstractApplication
 				// @codeCoverageIgnoreEnd
 
 				// Attempt to gzip encode the data with an optimal level 4.
-				$data = $this->getBody();
+				$data   = $this->getBody();
 				$gzdata = gzencode($data, 4, ($supported[$encoding] == 'gz') ? FORCE_GZIP : FORCE_DEFLATE);
 
 				// If there was a problem encoding the data just try the next encoding scheme.
@@ -372,19 +372,19 @@ abstract class AbstractWebApplication extends AbstractApplication
 				$url = $prefix . $url;
 			}
 			else
-			// It's relative to where we are now, so lets add that.
 			{
+				// It's relative to where we are now, so lets add that.
 				$parts = explode('/', $uri->toString(array('path')));
 				array_pop($parts);
 				$path = implode('/', $parts) . '/';
-				$url = $prefix . $path . $url;
+				$url  = $prefix . $path . $url;
 			}
 		}
 
 		// If the headers have already been sent we need to send the redirect statement via JavaScript.
 		if ($this->checkHeadersSent())
 		{
-			echo "<script>document.location.href=" . json_encode($url) . ";</script>\n";
+			echo '<script>document.location.href=' . json_encode($url) . ";</script>\n";
 		}
 		else
 		{
@@ -400,14 +400,14 @@ abstract class AbstractWebApplication extends AbstractApplication
 			}
 			else
 			{
-				// Check if we have a boolean for the status variable for compatability with v1 of the framework
+				// Check if we have a boolean for the status variable for compatibility with v1 of the framework
 				// @deprecated 3.0
-				if (is_bool($status))
+				if (\is_bool($status))
 				{
 					$status = $status ? 301 : 303;
 				}
 
-				if (!is_int($status) && !$this->isRedirectState($status))
+				if (!\is_int($status) && !$this->isRedirectState($status))
 				{
 					throw new \InvalidArgumentException('You have not supplied a valid HTTP status code');
 				}
@@ -461,7 +461,7 @@ abstract class AbstractWebApplication extends AbstractApplication
 	public function setHeader($name, $value, $replace = false)
 	{
 		// Sanitize the input values.
-		$name = (string) $name;
+		$name  = (string) $name;
 		$value = (string) $value;
 
 		// If the replace flag is set, unset all known headers with the given name.
@@ -525,7 +525,7 @@ abstract class AbstractWebApplication extends AbstractApplication
 		{
 			foreach ($this->response->headers as $header)
 			{
-				if ('status' == strtolower($header['name']))
+				if (strtolower($header['name']) == 'status')
 				{
 					// 'status' headers indicate an HTTP status, and need to be handled slightly differently
 					$status = $this->getHttpStatusValue($header['value']);
@@ -595,7 +595,7 @@ abstract class AbstractWebApplication extends AbstractApplication
 	 *
 	 * @param   boolean  $asArray  True to return the body as an array of strings.
 	 *
-	 * @return  mixed  The response body either as an array or concatenated string.
+	 * @return  string|string[]  The response body either as an array or concatenated string.
 	 *
 	 * @since   1.0
 	 */
@@ -672,7 +672,7 @@ abstract class AbstractWebApplication extends AbstractApplication
 	 */
 	protected function checkConnectionAlive()
 	{
-		return (connection_status() === CONNECTION_NORMAL);
+		return connection_status() === CONNECTION_NORMAL;
 	}
 
 	/**
@@ -715,7 +715,7 @@ abstract class AbstractWebApplication extends AbstractApplication
 		 * information from Apache or IIS.
 		 */
 
-		$phpSelf = $this->input->server->getString('PHP_SELF', '');
+		$phpSelf    = $this->input->server->getString('PHP_SELF', '');
 		$requestUri = $this->input->server->getString('REQUEST_URI', '');
 
 		// If PHP_SELF and REQUEST_URI are both populated then we will assume "Apache Mode".
@@ -725,10 +725,10 @@ abstract class AbstractWebApplication extends AbstractApplication
 			$uri = $scheme . $this->input->server->getString('HTTP_HOST') . $requestUri;
 		}
 		else
-		// If not in "Apache Mode" we will assume that we are in an IIS environment and proceed.
 		{
+			// If not in "Apache Mode" we will assume that we are in an IIS environment and proceed.
 			// IIS uses the SCRIPT_NAME variable instead of a REQUEST_URI variable... thanks, MS
-			$uri = $scheme . $this->input->server->getString('HTTP_HOST') . $this->input->server->getString('SCRIPT_NAME');
+			$uri       = $scheme . $this->input->server->getString('HTTP_HOST') . $this->input->server->getString('SCRIPT_NAME');
 			$queryHost = $this->input->server->getString('QUERY_STRING', '');
 
 			// If the QUERY_STRING variable exists append it to the URI string.
@@ -759,7 +759,7 @@ abstract class AbstractWebApplication extends AbstractApplication
 	 */
 	protected function header($string, $replace = true, $code = null)
 	{
-		header(str_replace(chr(0), '', $string), $replace, $code);
+		header(str_replace(\chr(0), '', $string), $replace, $code);
 	}
 
 	/**
@@ -775,7 +775,7 @@ abstract class AbstractWebApplication extends AbstractApplication
 	{
 		$state = (int) $state;
 
-		return ($state > 299 && $state < 400 && array_key_exists($state, $this->responseMap));
+		return $state > 299 && $state < 400 && array_key_exists($state, $this->responseMap);
 	}
 
 	/**
@@ -845,13 +845,12 @@ abstract class AbstractWebApplication extends AbstractApplication
 
 		if ($siteUri != '')
 		{
-			$uri = new Uri($siteUri);
+			$uri  = new Uri($siteUri);
 			$path = $uri->toString(array('path'));
 		}
 		else
-		// No explicit base URI was set so we need to detect it.
 		{
-			// Start with the requested URI.
+			// No explicit base URI was set so we need to detect it. Start with the requested URI.
 			$uri = new Uri($this->get('uri.request'));
 
 			$requestUri = $this->input->server->getString('REQUEST_URI', '');
@@ -860,12 +859,12 @@ abstract class AbstractWebApplication extends AbstractApplication
 			if (strpos(PHP_SAPI, 'cgi') !== false && !ini_get('cgi.fix_pathinfo') && !empty($requestUri))
 			{
 				// We aren't expecting PATH_INFO within PHP_SELF so this should work.
-				$path = dirname($this->input->server->getString('PHP_SELF', ''));
+				$path = \dirname($this->input->server->getString('PHP_SELF', ''));
 			}
 			else
-			// Pretty much everything else should be handled with SCRIPT_NAME.
 			{
-				$path = dirname($this->input->server->getString('SCRIPT_NAME', ''));
+				// Pretty much everything else should be handled with SCRIPT_NAME.
+				$path = \dirname($this->input->server->getString('SCRIPT_NAME', ''));
 			}
 		}
 
@@ -889,7 +888,7 @@ abstract class AbstractWebApplication extends AbstractApplication
 		// Set the extended (non-base) part of the request URI as the route.
 		if (stripos($this->get('uri.request'), $this->get('uri.base.full')) === 0)
 		{
-			$this->set('uri.route', substr_replace($this->get('uri.request'), '', 0, strlen($this->get('uri.base.full'))));
+			$this->set('uri.route', substr_replace($this->get('uri.request'), '', 0, \strlen($this->get('uri.base.full'))));
 		}
 
 		// Get an explicitly set media URI is present.
@@ -912,8 +911,8 @@ abstract class AbstractWebApplication extends AbstractApplication
 			}
 		}
 		else
-		// No explicit media URI was set, build it dynamically from the base uri.
 		{
+			// No explicit media URI was set, build it dynamically from the base uri.
 			$this->set('uri.media.full', $this->get('uri.base.full') . 'media/');
 			$this->set('uri.media.path', $this->get('uri.base.path') . 'media/');
 		}
@@ -986,6 +985,6 @@ abstract class AbstractWebApplication extends AbstractApplication
 	public static function isAscii($str)
 	{
 		// Search for any bytes which are outside the ASCII range...
-		return (preg_match('/(?:[^\x00-\x7F])/', $str) !== 1);
+		return preg_match('/(?:[^\x00-\x7F])/', $str) !== 1;
 	}
 }

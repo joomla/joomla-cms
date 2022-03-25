@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Authentication.cookie
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2013 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -33,6 +33,24 @@ class PlgAuthenticationCookie extends JPlugin
 	 * @since  3.2
 	 */
 	protected $db;
+
+	/**
+	 * Reports the privacy related capabilities for this plugin to site administrators.
+	 *
+	 * @return  array
+	 *
+	 * @since   3.9.0
+	 */
+	public function onPrivacyCollectAdminCapabilities()
+	{
+		$this->loadLanguage();
+
+		return array(
+			JText::_('PLG_AUTHENTICATION_COOKIE') => array(
+				JText::_('PLG_AUTH_COOKIE_PRIVACY_CAPABILITY_COOKIE'),
+			)
+		);
+	}
 
 	/**
 	 * This method should handle any authentication and report back to the subject
@@ -207,7 +225,7 @@ class PlgAuthenticationCookie extends JPlugin
 	}
 
 	/**
-	 * We set the authentication cookie only after login is successfullly finished.
+	 * We set the authentication cookie only after login is successfully finished.
 	 * We set a new cookie either for a user with no cookies or one
 	 * where the user used a cookie to authenticate.
 	 *

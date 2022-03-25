@@ -70,7 +70,7 @@
 			description="COM_MENUS_ITEM_FIELD_TYPE_DESC"
 			class="input-medium"
 			required="true"
-			size="40" 
+			size="40"
 		/>
 
 		<field
@@ -146,6 +146,7 @@
 			description="COM_MENUS_ITEM_FIELD_TEMPLATE_DESC"
 			client="site"
 			filter="int"
+			showon="type!:alias[OR]params.alias_redirect:0"
 			>
 			<option value="0">JOPTION_USE_DEFAULT</option>
 		</field>
