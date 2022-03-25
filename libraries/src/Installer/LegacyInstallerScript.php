@@ -174,6 +174,6 @@ class LegacyInstallerScript implements InstallerScriptInterface
 			return true;
 		}
 
-		return (bool)$return;
+		return (bool) $return;
 	}
 }
