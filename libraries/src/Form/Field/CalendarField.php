@@ -13,6 +13,7 @@ namespace Joomla\CMS\Form\Field;
 use DateTime;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\FormField;
+use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\Registry\Registry;
 
@@ -187,6 +188,7 @@ class CalendarField extends FormField
 		{
 			$this->maxlength    = (int) $this->element['maxlength'] ? (int) $this->element['maxlength'] : 45;
 			$this->format       = (string) $this->element['format'] ? (string) $this->element['format'] : '%Y-%m-%d';
+			$this->filterFormat = (string) $this->element['filterformat'] ? (string) $this->element['filterformat'] : '';
 			$this->filter       = (string) $this->element['filter'] ? (string) $this->element['filter'] : 'USER_UTC';
 			$this->todaybutton  = (string) $this->element['todaybutton'] ? (string) $this->element['todaybutton'] : 'true';
 			$this->weeknumbers  = (string) $this->element['weeknumbers'] ? (string) $this->element['weeknumbers'] : 'true';
@@ -223,6 +225,10 @@ class CalendarField extends FormField
 				}
 
 				$lang->setDebug($debug);
+			}
+			elseif ($this->filterFormat === '' && version_compare(PHP_VERSION, '8.1.0', '>='))
+			{
+				$this->filterFormat = HTMLHelper::strftimeFormatToDateFormat($this->format);
 			}
 		}
 
@@ -274,7 +280,17 @@ class CalendarField extends FormField
 		{
 			$tz = date_default_timezone_get();
 			date_default_timezone_set('UTC');
-			$this->value = strftime($this->format, strtotime($this->value));
+
+			if ($this->filterFormat)
+			{
+				$date = \DateTimeImmutable::createFromFormat('U', strtotime($this->value));
+				$this->value = $date->format($this->filterFormat);
+			}
+			else
+			{
+				$this->value = strftime($this->format, strtotime($this->value));
+			}
+
 			date_default_timezone_set($tz);
 		}
 		else

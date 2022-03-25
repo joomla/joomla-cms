@@ -1284,4 +1284,63 @@ abstract class HTMLHelper
 
 		return '';
 	}
+
+	/**
+	 * Convert strftime format to php date format as strftime is deprecated and we have
+	 * to be able to provide same backward compatibility with existing format strings.
+	 *
+	 * @param   $strftimeformat   string The format compatible with strftime.
+	 *
+	 * @return  string The format compatible with PHP's Date functions.
+	 *
+	 * @throws  \Exception
+	 *
+	 * @note    Thanks to @relipse for https://stackoverflow.com/questions/22665959/using-php-strftime-using-date-format-string/62781773#62781773
+	 * @since   __DEPLOY_VERSION__
+	 *
+	 */
+	public static function strftimeFormatToDateFormat(string $strftimeformat): string
+	{
+		$unsupported      = ['%U', '%V', '%C', '%g', '%G'];
+		$foundunsupported = [];
+
+		foreach ($unsupported as $unsup)
+		{
+			if (strpos($strftimeformat, $unsup) !== false)
+			{
+				$foundunsupported[] = $unsup;
+			}
+		}
+
+		if (!empty($foundunsupported))
+		{
+			throw new \Exception("Found these unsupported chars: " . implode(",", $foundunsupported) . ' in ' . $strftimeformat);
+		}
+
+		/**
+		 * It is important to note that some do not translate accurately
+		 * ie. lowercase L is supposed to convert to number with a preceding space if it is under 10,
+		 * there is no accurate conversion, so we just use 'g'
+		 */
+		$phpdateformat = str_replace(
+			['%a', '%A', '%d', '%e', '%u', '%w', '%W', '%b', '%h', '%B', '%m', '%y', '%Y', '%D', '%F', '%x', '%n', '%t', '%H', '%k', '%I', '%l', '%M', '%p', '%P',
+				// %I:%M:%S %p
+				'%r',
+				// %H:%M
+				'%R',
+				'%S',
+				// %H:%M:%S
+				'%T',
+				'%X', '%z', '%Z', '%c', '%s', '%%'
+			],
+			['D', 'l', 'd', 'j', 'N', 'w', 'W', 'M', 'M', 'F', 'm', 'y', 'Y', 'm/d/y', 'Y-m-d', 'm/d/y', "\n", "\t", 'H', 'G', 'h', 'g', 'i', 'A', 'a', 'h:i:s A', 'H:i', 's', 'H:i:s', 'H:i:s', 'O', 'T',
+				// Tue Feb 5 00:45:10 2009
+				'D M j H:i:s Y',
+				'U', '%'
+			],
+			$strftimeformat
+		);
+
+		return $phpdateformat;
+	}
 }
