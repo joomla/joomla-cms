@@ -80,7 +80,7 @@ abstract class LatestHelper
 				break;
 		}
 
-		// Set Category Filter
+		// Set Workflow Stage Filter
 		$stageId = $params->get('workflow_stage_id', null);
 
 		if (is_numeric($stageId))
