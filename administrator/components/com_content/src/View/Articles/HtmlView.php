@@ -221,20 +221,23 @@ class HtmlView extends BaseHtmlView
 
 				$childBar->unpublish('articles.unpublish')->listCheck(true);
 
-				if ($featured !== '1')
+				if (!ComponentHelper::getParams('com_content')->get('workflow_enabled'))
 				{
-					$childBar->standardButton('featured')
-						->text('JFEATURE')
-						->task('articles.featured')
-						->listCheck(true);
-				}
+					if ($featured !== '1')
+					{
+						$childBar->standardButton('featured')
+							->text('JFEATURE')
+							->task('articles.featured')
+							->listCheck(true);
+					}
 
-				if ($featured !== '0')
-				{
-					$childBar->standardButton('circle')
-						->text('JUNFEATURE')
-						->task('articles.unfeatured')
-						->listCheck(true);
+					if ($featured !== '0')
+					{
+						$childBar->standardButton('circle')
+							->text('JUNFEATURE')
+							->task('articles.unfeatured')
+							->listCheck(true);
+					}
 				}
 
 				$childBar->archive('articles.archive')->listCheck(true);
