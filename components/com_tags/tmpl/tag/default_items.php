@@ -12,6 +12,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Uri\Uri;
 use Joomla\Component\Tags\Site\Helper\RouteHelper;
@@ -92,8 +93,7 @@ $canEditState = $user->authorise('core.edit.state', 'com_tags');
 				<?php $images  = json_decode($item->core_images); ?>
 				<?php if ($this->params->get('tag_list_show_item_image', 1) == 1 && !empty($images->image_intro)) : ?>
 					<a href="<?php echo Route::_(RouteHelper::getItemRoute($item->content_item_id, $item->core_alias, $item->core_catid, $item->core_language, $item->type_alias, $item->router)); ?>">
-						<img src="<?php echo htmlspecialchars($images->image_intro); ?>"
-							alt="<?php echo htmlspecialchars($images->image_intro_alt); ?>">
+						<?php echo LayoutHelper::render('joomla.html.image', ['src' => $images->image_intro, 'alt' => $images->image_intro_alt]); ?>
 					</a>
 				<?php endif; ?>
 				<?php if ($this->params->get('tag_list_show_item_description', 1)) : ?>
