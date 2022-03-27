@@ -55,14 +55,14 @@ Joomla = window.Joomla || {};
       uploadButton.addEventListener('click', Joomla.submitbuttonUpload);
     }
     if (confirmButton && !updateCheck.checked) {
-      confirmButton.className = 'btn btn-primary btn-lg px-4 me-sm-3 emptystate-btnadd disabled';
+      confirmButton.classList.add("disabled");
     }
     if (confirmButton && updateCheck) {
       updateCheck.addEventListener('change', () => {
         if (updateCheck.checked) {
-          confirmButton.className = 'btn btn-primary btn-lg px-4 me-sm-3 emptystate-btnadd';
+          confirmButton.classList.remove("disabled");
         } else {
-          confirmButton.className = 'btn btn-primary btn-lg px-4 me-sm-3 emptystate-btnadd disabled';
+          confirmButton.classList.add("disabled");
         }
       });
     }
