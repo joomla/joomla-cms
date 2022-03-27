@@ -1836,7 +1836,7 @@ class PlgSampledataTesting extends CMSPlugin
 			array(
 				'menutype'     => $menuTypes[6],
 				'title'        => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_18_TITLE'),
-				'link'         => 'index.php?option=com_content&view=articles&featured=1',
+				'link'         => 'index.php?option=com_content&view=featured',
 				'component_id' => ComponentHelper::getComponent('com_content')->id,
 				'params'       => array(
 					'num_leading_articles' => 1,
@@ -3113,7 +3113,7 @@ class PlgSampledataTesting extends CMSPlugin
 			array(
 				'menutype'          => $menuTypes[2],
 				'title'             => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_27_0_0_8_1_TITLE'),
-				'link'              => 'index.php?option=com_content&view=articles&featured=1',
+				'link'              => 'index.php?option=com_content&view=featured',
 				'parent_id'         => $menuIdsLevel4[8],
 				'component_id'      => ComponentHelper::getComponent('com_content')->id,
 				'template_style_id' => 3,
@@ -3145,7 +3145,7 @@ class PlgSampledataTesting extends CMSPlugin
 			array(
 				'menutype'          => $menuTypes[2],
 				'title'             => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_27_0_0_7_3_TITLE'),
-				'link'              => 'index.php?option=com_content&view=articles&featured=1',
+				'link'              => 'index.php?option=com_content&view=featured',
 				'parent_id'         => $menuIdsLevel4[7],
 				'component_id'      => ComponentHelper::getComponent('com_content')->id,
 				'template_style_id' => 4,
@@ -3177,7 +3177,7 @@ class PlgSampledataTesting extends CMSPlugin
 			array(
 				'menutype'     => $menuTypes[2],
 				'title'        => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_27_0_0_9_5_TITLE'),
-				'link'         => 'index.php?option=com_content&view=articles&featured=1',
+				'link'         => 'index.php?option=com_content&view=featured',
 				'parent_id'    => $menuIdsLevel4[9],
 				'component_id' => ComponentHelper::getComponent('com_content')->id,
 				'params'       => array(
