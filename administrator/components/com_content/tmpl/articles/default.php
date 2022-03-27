@@ -110,7 +110,7 @@ $assoc = Associations::isEnabled();
 				<?php else : ?>
 					<table class="table itemList" id="articleList">
 						<caption class="visually-hidden">
-							<?php echo $featured === '1' ? Text::_('COM_CONTENT_ARTICLES_TABLE_CAPTION') : Text::_('COM_CONTENT_FEATURED_TABLE_CAPTION'); ?>,
+							<?php echo $featured === '1' ? Text::_('COM_CONTENT_FEATURED_TABLE_CAPTION') : Text::_('COM_CONTENT_ARTICLES_TABLE_CAPTION'); ?>,
 							<span id="orderedBy"><?php echo Text::_('JGLOBAL_SORTED_BY'); ?> </span>,
 							<span id="filteredBy"><?php echo Text::_('JGLOBAL_FILTERED_BY'); ?></span>
 						</caption>

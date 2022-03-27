@@ -369,7 +369,7 @@ class ArticlesModel extends ListModel
 			$defaultOrdering = 'a.id';
 		}
 
-		if (in_array($featured, ['0','1']))
+		if (\in_array($featured, ['0', '1']))
 		{
 			$featured = (int) $featured;
 			$query->where($db->quoteName('a.featured') . ' = :featured')
