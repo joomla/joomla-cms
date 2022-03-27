@@ -174,7 +174,7 @@ class ArticlesController extends AdminController
 			$this->checkToken();
 
 			$user = $this->app->getIdentity();
-			$ids  = $this->input->get('cid', array(), 'array');
+			$ids  = $this->input->get('cid', [], 'array');
 
 			// Access checks.
 			foreach ($ids as $i => $id)
