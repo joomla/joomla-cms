@@ -37,6 +37,7 @@ class Router implements ServiceProviderInterface
 	public function register(Container $container)
 	{
 		$container->alias('SiteRouter', SiteRouter::class)
+			->alias('JRouterSite', SiteRouter::class)
 			->share(
 				SiteRouter::class,
 				function (Container $container)
@@ -47,6 +48,7 @@ class Router implements ServiceProviderInterface
 			);
 
 		$container->alias('AdministratorRouter', AdministratorRouter::class)
+			->alias('JRouterAdministrator', AdministratorRouter::class)
 			->share(
 				AdministratorRouter::class,
 				function (Container $container)
