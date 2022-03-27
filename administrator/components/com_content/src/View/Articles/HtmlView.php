@@ -96,6 +96,7 @@ class HtmlView extends BaseHtmlView
 		$this->activeFilters = $this->get('ActiveFilters');
 		$this->vote          = PluginHelper::isEnabled('content', 'vote');
 		$this->hits          = ComponentHelper::getParams('com_content')->get('record_hits', 1);
+		$featured            = $this->state->get('filter.featured');
 
 		if (!\count($this->items) && $this->isEmptyState = $this->get('IsEmptyState'))
 		{
@@ -110,7 +111,7 @@ class HtmlView extends BaseHtmlView
 		}
 
 		// Check for errors.
-		if (\count($errors = $this->get('Errors')) || $this->transitions === false)
+		if (\count($errors = $this->get('Errors')) || ($this->transitions === false && $featured === '1'))
 		{
 			throw new GenericDataException(implode("\n", $errors), 500);
 		}
@@ -129,8 +130,10 @@ class HtmlView extends BaseHtmlView
 		}
 		else
 		{
-			// In article associations modal we need to remove language filter if forcing a language.
-			// We also need to change the category filter to show show categories with All or the forced language.
+			/**
+			 * In article associations modal we need to remove language filter if forcing a language.
+			 * We also need to change the category filter to show categories with All or the forced language.
+			 */
 			if ($forcedLanguage = Factory::getApplication()->input->get('forcedLanguage', '', 'CMD'))
 			{
 				// If the language is forced we can't allow to select the language, so transform the language selector filter into a hidden field.
@@ -157,13 +160,21 @@ class HtmlView extends BaseHtmlView
 	 */
 	protected function addToolbar()
 	{
-		$canDo = ContentHelper::getActions('com_content', 'category', $this->state->get('filter.category_id'));
-		$user  = Factory::getApplication()->getIdentity();
+		$canDo    = ContentHelper::getActions('com_content', 'category', $this->state->get('filter.category_id'));
+		$user     = Factory::getApplication()->getIdentity();
+		$featured = $this->state->get('filter.featured');
 
 		// Get the toolbar object instance
 		$toolbar = Toolbar::getInstance('toolbar');
 
-		ToolbarHelper::title(Text::_('COM_CONTENT_ARTICLES_TITLE'), 'copy article');
+		if ($featured === '1')
+		{
+			ToolbarHelper::title(Text::_('COM_CONTENT_FEATURED_TITLE'), 'star featured');
+		}
+		else
+		{
+			ToolbarHelper::title(Text::_('COM_CONTENT_ARTICLES_TITLE'), 'copy article');
+		}
 
 		if ($canDo->get('core.create') || \count($user->getAuthorisedCategories('com_content', 'core.create')) > 0)
 		{
@@ -210,15 +221,24 @@ class HtmlView extends BaseHtmlView
 
 				$childBar->unpublish('articles.unpublish')->listCheck(true);
 
-				$childBar->standardButton('featured')
-					->text('JFEATURE')
-					->task('articles.featured')
-					->listCheck(true);
+				if (!ComponentHelper::getParams('com_content')->get('workflow_enabled'))
+				{
+					if ($featured !== '1')
+					{
+						$childBar->standardButton('featured')
+							->text('JFEATURE')
+							->task('articles.featured')
+							->listCheck(true);
+					}
 
-				$childBar->standardButton('unfeatured')
-					->text('JUNFEATURE')
-					->task('articles.unfeatured')
-					->listCheck(true);
+					if ($featured !== '0')
+					{
+						$childBar->standardButton('circle')
+							->text('JUNFEATURE')
+							->task('articles.unfeatured')
+							->listCheck(true);
+					}
+				}
 
 				$childBar->archive('articles.archive')->listCheck(true);
 
@@ -233,7 +253,8 @@ class HtmlView extends BaseHtmlView
 			// Add a batch button
 			if ($user->authorise('core.create', 'com_content')
 				&& $user->authorise('core.edit', 'com_content')
-				&& $user->authorise('core.execute.transition', 'com_content'))
+				&& $user->authorise('core.execute.transition', 'com_content')
+				&& $featured !== '1')
 			{
 				$childBar->popupButton('batch')
 					->text('JTOOLBAR_BATCH')
@@ -255,6 +276,6 @@ class HtmlView extends BaseHtmlView
 			$toolbar->preferences('com_content');
 		}
 
-		$toolbar->help('Articles');
+		$toolbar->help('JHELP_CONTENT_ARTICLE_MANAGER');
 	}
 }
