@@ -160,6 +160,11 @@ function clean_checkout(string $dir)
 	system('rm -rf libraries/vendor/symfony/*/Tests');
 	system('rm -rf libraries/vendor/symfony/console/Resources');
 
+	// tobscure/json-api
+	system('rm -rf libraries/vendor/tobscure/json-api/.git');
+	system('rm -rf libraries/vendor/tobscure/json-api/.php_cs');
+	system('rm -rf libraries/vendor/tobscure/json-api/tests');
+
 	// wamania/php-stemmer
 	system('rm -rf libraries/vendor/wamania/php-stemmer/test');
 
