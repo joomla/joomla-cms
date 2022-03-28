@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2008 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -13,7 +13,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * XmlDocument class, provides an easy interface to parse and display XML output
  *
- * @since  11.1
+ * @since  1.7.0
  */
 class XmlDocument extends Document
 {
@@ -21,7 +21,7 @@ class XmlDocument extends Document
 	 * Document name
 	 *
 	 * @var    string
-	 * @since  12.1
+	 * @since  3.0.0
 	 */
 	protected $name = 'joomla';
 
@@ -38,7 +38,7 @@ class XmlDocument extends Document
 	 *
 	 * @param   array  $options  Associative array of options
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function __construct($options = array())
 	{
@@ -59,11 +59,11 @@ class XmlDocument extends Document
 	 *
 	 * @return  string  The rendered data
 	 *
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	public function render($cache = false, $params = array())
 	{
-		parent::render();
+		parent::render($cache, $params);
 
 		$disposition = $this->isDownload ? 'attachment' : 'inline';
 
@@ -77,7 +77,7 @@ class XmlDocument extends Document
 	 *
 	 * @return  string
 	 *
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	public function getName()
 	{
@@ -91,7 +91,7 @@ class XmlDocument extends Document
 	 *
 	 * @return  XmlDocument instance of $this to allow chaining
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function setName($name = 'joomla')
 	{

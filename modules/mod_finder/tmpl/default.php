@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  mod_finder
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2011 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -147,8 +147,8 @@ $script .= '});';
 JFactory::getDocument()->addScriptDeclaration($script);
 ?>
 
-<form id="mod-finder-searchform<?php echo $module->id; ?>" action="<?php echo JRoute::_($route); ?>" method="get" class="form-search">
-	<div class="finder<?php echo $suffix; ?>">
+<div class="finder<?php echo $suffix; ?>">
+	<form id="mod-finder-searchform<?php echo $module->id; ?>" action="<?php echo JRoute::_($route); ?>" method="get" class="form-search" role="search">
 		<?php
 		// Show the form fields.
 		echo $output;
@@ -164,5 +164,5 @@ JFactory::getDocument()->addScriptDeclaration($script);
 			</div>
 		<?php endif; ?>
 		<?php echo modFinderHelper::getGetFields($route, (int) $params->get('set_itemid', 0)); ?>
-	</div>
-</form>
+	</form>
+</div>

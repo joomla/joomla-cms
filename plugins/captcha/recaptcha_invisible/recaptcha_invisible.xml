@@ -6,12 +6,16 @@
 	<author>Joomla! Project</author>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
-	<copyright>Copyright (C) 2005 - 2018 Open Source Matters. All rights reserved.</copyright>
+	<copyright>(C) 2017 Open Source Matters, Inc.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<description>PLG_CAPTCHA_RECAPTCHA_INVISIBLE_XML_DESCRIPTION</description>
 	<files>
 		<filename plugin="recaptcha_invisible">recaptcha_invisible.php</filename>
 	</files>
+	<languages>
+		<language tag="en-GB">en-GB.plg_captcha_recaptcha_invisible.ini</language>
+		<language tag="en-GB">en-GB.plg_captcha_recaptcha_invisible.sys.ini</language>
+	</languages>
 	<config>
 		<fields name="params">
 			<fieldset name="basic">

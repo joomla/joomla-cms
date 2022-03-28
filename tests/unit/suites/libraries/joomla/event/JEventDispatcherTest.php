@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Event
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2013 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -14,7 +14,7 @@ require_once __DIR__ . '/JEventInspector.php';
  *
  * @package     Joomla.UnitTest
  * @subpackage  Event
- * @since       11.3
+ * @since       1.7.3
  */
 class JEventDispatcherTest extends \PHPUnit\Framework\TestCase
 {
@@ -52,7 +52,7 @@ class JEventDispatcherTest extends \PHPUnit\Framework\TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function testGetInstance()
 	{
@@ -90,7 +90,7 @@ class JEventDispatcherTest extends \PHPUnit\Framework\TestCase
 	 *
 	 * @return void
 	 *
-	 * @since  11.3
+	 * @since  1.7.3
 	 */
 	public function testGetState()
 	{
@@ -110,7 +110,7 @@ class JEventDispatcherTest extends \PHPUnit\Framework\TestCase
 	/**
 	 * Test JEventDispatcher::register().
 	 *
-	 * @since 11.3
+	 * @since 1.7.3
 	 *
 	 * @return void
 	 */
@@ -200,7 +200,7 @@ class JEventDispatcherTest extends \PHPUnit\Framework\TestCase
 	/**
 	 * Test JEventDispatcher::register() with an error.
 	 *
-	 * @since              12.1
+	 * @since              3.0.0
 	 * @expectedException  InvalidArgumentException
 	 *
 	 * @return void
@@ -213,7 +213,7 @@ class JEventDispatcherTest extends \PHPUnit\Framework\TestCase
 	/**
 	 * Test JEventDispatcher::trigger().
 	 *
-	 * @since    11.3
+	 * @since    1.7.3
 	 *
 	 * @return void
 	 */
@@ -262,7 +262,7 @@ class JEventDispatcherTest extends \PHPUnit\Framework\TestCase
 	/**
 	 * Test JEventDispatcher::attach().
 	 *
-	 * @since 11.3
+	 * @since 1.7.3
 	 *
 	 * @return void
 	 */
@@ -400,7 +400,7 @@ class JEventDispatcherTest extends \PHPUnit\Framework\TestCase
 	/**
 	 * Test JEventDispatcher::detach().
 	 *
-	 * @since 11.3
+	 * @since 1.7.3
 	 *
 	 * @return void
 	 */

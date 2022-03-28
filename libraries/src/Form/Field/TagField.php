@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2013 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -116,15 +116,14 @@ class TagField extends \JFormFieldList
 	 */
 	protected function getOptions()
 	{
-		$published = $this->element['published'] ?: array(0, 1);
+		$published = (string) $this->element['published'] ?: array(0, 1);
 		$app       = Factory::getApplication();
 		$tag       = $app->getLanguage()->getTag();
 
 		$db    = Factory::getDbo();
 		$query = $db->getQuery(true)
-			->select('DISTINCT a.id AS value, a.path, a.title AS text, a.level, a.published, a.lft')
-			->from('#__tags AS a')
-			->join('LEFT', $db->qn('#__tags') . ' AS b ON a.lft > b.lft AND a.rgt < b.rgt');
+			->select('a.id AS value, a.path, a.title AS text, a.level, a.published, a.lft')
+			->from($db->qn('#__tags') . ' AS a');			
 
 		// Limit Options in multilanguage
 		if ($app->isClient('site') && Multilanguage::isEnabled())

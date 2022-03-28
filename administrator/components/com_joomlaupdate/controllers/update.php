@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_joomlaupdate
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2012 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -102,6 +102,7 @@ class JoomlaupdateControllerUpdate extends JControllerLegacy
 	public function install()
 	{
 		$this->checkToken('get');
+		JFactory::getApplication()->setUserState('com_joomlaupdate.oldversion', JVERSION);
 
 		$options['format'] = '{DATE}\t{TIME}\t{LEVEL}\t{CODE}\t{MESSAGE}';
 		$options['text_file'] = 'joomla_update.php';
@@ -273,6 +274,8 @@ class JoomlaupdateControllerUpdate extends JControllerLegacy
 		{
 			$url = 'index.php?option=com_joomlaupdate';
 			$this->setRedirect($url, $e->getMessage(), 'error');
+
+			return;
 		}
 
 		$token = JSession::getFormToken();
@@ -486,5 +489,118 @@ class JoomlaupdateControllerUpdate extends JControllerLegacy
 
 		// Redirect back to the actual finalise page
 		$this->setRedirect('index.php?option=com_joomlaupdate&task=update.finalise&' . JFactory::getSession()->getFormToken() . '=1');
+	}
+
+	/**
+	 * Fetch Extension update XML proxy. Used to prevent Access-Control-Allow-Origin errors.
+	 * Prints a JSON string.
+	 * Called from JS.
+	 *
+	 * @since   3.10.0
+	 *
+	 * @return void
+	 */
+	public function fetchExtensionCompatibility()
+	{
+		$extensionID = $this->input->get('extension-id', '', 'DEFAULT');
+		$joomlaTargetVersion = $this->input->get('joomla-target-version', '', 'DEFAULT');
+		$joomlaCurrentVersion = $this->input->get('joomla-current-version', '', JVERSION);
+		$extensionVersion = $this->input->get('extension-version', '', 'DEFAULT');
+
+		/** @var JoomlaupdateModelDefault $model */
+		$model = $this->getModel('default');
+		$upgradeCompatibilityStatus  = $model->fetchCompatibility($extensionID, $joomlaTargetVersion);
+		$currentCompatibilityStatus  = $model->fetchCompatibility($extensionID, $joomlaCurrentVersion);
+		$upgradeUpdateVersion        = false;
+		$currentUpdateVersion        = false;
+
+		$upgradeWarning = 0;
+
+		if ($upgradeCompatibilityStatus->state == 1 && !empty($upgradeCompatibilityStatus->compatibleVersions))
+		{
+			$upgradeUpdateVersion = end($upgradeCompatibilityStatus->compatibleVersions);
+		}
+
+		if ($currentCompatibilityStatus->state == 1 && !empty($currentCompatibilityStatus->compatibleVersions))
+		{
+			$currentUpdateVersion = end($currentCompatibilityStatus->compatibleVersions);
+		}
+
+		if ($upgradeUpdateVersion !== false)
+		{
+			$upgradeOldestVersion = $upgradeCompatibilityStatus->compatibleVersions[0];
+
+			if ($currentUpdateVersion !== false)
+			{
+				// If there are updates compatible with both CMS versions use these
+				$bothCompatibleVersions = array_values(
+					array_intersect($upgradeCompatibilityStatus->compatibleVersions, $currentCompatibilityStatus->compatibleVersions)
+				);
+
+				if (!empty($bothCompatibleVersions))
+				{
+					$upgradeOldestVersion = $bothCompatibleVersions[0];
+					$upgradeUpdateVersion = end($bothCompatibleVersions);
+				}
+			}
+
+			if (version_compare($upgradeOldestVersion, $extensionVersion, '>'))
+			{
+				// Installed version is empty or older than the oldest compatible update: Update required
+				$resultGroup = 2;
+			}
+			else
+			{
+				// Current version is compatible
+				$resultGroup = 3;
+			}
+
+			if ($currentUpdateVersion !== false && version_compare($upgradeUpdateVersion, $currentUpdateVersion, '<'))
+			{
+				// Special case warning when version compatible with target is lower than current
+				$upgradeWarning = 2;
+			}
+		}
+		elseif ($currentUpdateVersion !== false)
+		{
+			// No compatible version for target version but there is a compatible version for current version
+			$resultGroup = 1;
+		}
+		else
+		{
+			// No update server available
+			$resultGroup = 1;
+		}
+
+		// Do we need to capture
+		$combinedCompatibilityStatus = array(
+			'upgradeCompatibilityStatus' => (object) array(
+				'state' => $upgradeCompatibilityStatus->state,
+				'compatibleVersion' => $upgradeUpdateVersion
+			),
+			'currentCompatibilityStatus' => (object) array(
+				'state' => $currentCompatibilityStatus->state,
+				'compatibleVersion' => $currentUpdateVersion
+			),
+			'resultGroup' => $resultGroup,
+			'upgradeWarning' => $upgradeWarning,
+		);
+
+		$this->app = JFactory::getApplication();
+		$this->app->mimeType = 'application/json';
+		$this->app->charSet = 'utf-8';
+		$this->app->setHeader('Content-Type', $this->app->mimeType . '; charset=' . $this->app->charSet);
+		$this->app->sendHeaders();
+
+		try
+		{
+			echo new JResponseJson($combinedCompatibilityStatus);
+		}
+		catch (Exception $e)
+		{
+			echo $e;
+		}
+
+		$this->app->close();
 	}
 }

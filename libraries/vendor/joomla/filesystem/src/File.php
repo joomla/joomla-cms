@@ -2,7 +2,7 @@
 /**
  * Part of the Joomla Framework Filesystem Package
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -72,7 +72,7 @@ class File
 		// Prepend a base path if it exists
 		if ($path)
 		{
-			$src = Path::clean($path . '/' . $src);
+			$src  = Path::clean($path . '/' . $src);
 			$dest = Path::clean($path . '/' . $dest);
 		}
 
@@ -118,7 +118,7 @@ class File
 
 		foreach ($files as $file)
 		{
-			$file = Path::clean($file);
+			$file     = Path::clean($file);
 			$filename = basename($file);
 
 			if (!Path::canChmod($file))
@@ -158,7 +158,7 @@ class File
 	{
 		if ($path)
 		{
-			$src = Path::clean($path . '/' . $src);
+			$src  = Path::clean($path . '/' . $src);
 			$dest = Path::clean($path . '/' . $dest);
 		}
 
@@ -191,22 +191,23 @@ class File
 	/**
 	 * Write contents to a file
 	 *
-	 * @param   string   $file        The full file path
-	 * @param   string   $buffer      The buffer to write
-	 * @param   boolean  $useStreams  Use streams
+	 * @param   string   $file          The full file path
+	 * @param   string   $buffer        The buffer to write
+	 * @param   boolean  $useStreams    Use streams
+	 * @param   boolean  $appendToFile  Append to the file and not overwrite it.
 	 *
 	 * @return  boolean  True on success
 	 *
 	 * @since   1.0
 	 */
-	public static function write($file, &$buffer, $useStreams = false)
+	public static function write($file, &$buffer, $useStreams = false, $appendToFile = false)
 	{
 		@set_time_limit(ini_get('max_execution_time'));
 
 		// If the destination directory doesn't exist we need to create it
-		if (!file_exists(dirname($file)))
+		if (!file_exists(\dirname($file)))
 		{
-			Folder::create(dirname($file));
+			Folder::create(\dirname($file));
 		}
 
 		if ($useStreams)
@@ -215,13 +216,18 @@ class File
 
 			// Beef up the chunk size to a meg
 			$stream->set('chunksize', (1024 * 1024));
-
-			$stream->writeFile($file, $buffer);
+			$stream->writeFile($file, $buffer, $appendToFile);
 
 			return true;
 		}
 
 		$file = Path::clean($file);
+
+		// Set the required flag to only append to the file and not overwrite it
+		if ($appendToFile === true)
+		{
+			return \is_int(file_put_contents($file, $buffer, \FILE_APPEND));
+		}
 
 		return \is_int(file_put_contents($file, $buffer));
 	}
@@ -244,7 +250,7 @@ class File
 		$dest = Path::clean($dest);
 
 		// Create the destination directory if it does not exist
-		$baseDir = dirname($dest);
+		$baseDir = \dirname($dest);
 
 		if (!is_dir($baseDir))
 		{
@@ -263,7 +269,7 @@ class File
 			return true;
 		}
 
-		if (is_writeable($baseDir) && move_uploaded_file($src, $dest))
+		if (is_writable($baseDir) && move_uploaded_file($src, $dest))
 		{
 			// Short circuit to prevent file permission errors
 			if (Path::setPermissions($dest))

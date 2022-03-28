@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_languages
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2009 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -67,8 +67,14 @@ class LanguagesControllerInstalled extends JControllerLegacy
 		$cid   = $this->input->get('cid', '');
 		$model = $this->getModel('installed');
 
-		// Fetching the language name from the xx-XX.xml
+		// Fetching the language name from the xx-XX.xml or langmetadata.xml respectively.
 		$file = JPATH_ADMINISTRATOR . '/language/' . $cid . '/' . $cid . '.xml';
+
+		if (!is_file($file))
+		{
+			$file = JPATH_ADMINISTRATOR . '/language/' . $cid . '/langmetadata.xml';
+		}
+
 		$info = JInstaller::parseXMLInstallFile($file);
 		$languageName = $info['name'];
 

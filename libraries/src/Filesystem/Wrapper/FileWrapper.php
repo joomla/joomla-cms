@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2014 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -15,9 +15,8 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Wrapper class for File
  *
- * @package     Joomla.Platform
- * @subpackage  Filesystem
  * @since       3.4
+ * @deprecated  4.0 Use \Joomla\CMS\Filesystem\File instead
  */
 class FileWrapper
 {
@@ -28,8 +27,9 @@ class FileWrapper
 	 *
 	 * @return  string  The file extension.
 	 *
-	 * @see     File::getExt()
-	 * @since   3.4
+	 * @see         File::getExt()
+	 * @since       3.4
+	 * @deprecated  4.0 Use \Joomla\CMS\Filesystem\File instead
 	 */
 	public function getExt($file)
 	{
@@ -43,8 +43,9 @@ class FileWrapper
 	 *
 	 * @return  string  The file name without the extension.
 	 *
-	 * @see     File::stripExt()
-	 * @since   3.4
+	 * @see         File::stripExt()
+	 * @since       3.4
+	 * @deprecated  4.0 Use \Joomla\CMS\Filesystem\File instead
 	 */
 	public function stripExt($file)
 	{
@@ -58,8 +59,9 @@ class FileWrapper
 	 *
 	 * @return  string  The sanitised string.
 	 *
-	 * @see     File::makeSafe()
-	 * @since   3.4
+	 * @see         File::makeSafe()
+	 * @since       3.4
+	 * @deprecated  4.0 Use \Joomla\CMS\Filesystem\File instead
 	 */
 	public function makeSafe($file)
 	{
@@ -69,19 +71,20 @@ class FileWrapper
 	/**
 	 * Helper wrapper method for copy
 	 *
-	 * @param   string   $src          The path to the source file.
-	 * @param   string   $dest         The path to the destination file.
-	 * @param   string   $path         An optional base path to prefix to the file names.
-	 * @param   boolean  $use_streams  True to use streams.
+	 * @param   string   $src         The path to the source file.
+	 * @param   string   $dest        The path to the destination file.
+	 * @param   string   $path        An optional base path to prefix to the file names.
+	 * @param   boolean  $useStreams  True to use streams.
 	 *
 	 * @return  boolean  True on success.
 	 *
-	 * @see     File::copy()
-	 * @since   3.4
+	 * @see         File::copy()
+	 * @since       3.4
+	 * @deprecated  4.0 Use \Joomla\CMS\Filesystem\File instead
 	 */
-	public function copy($src, $dest, $path = null, $use_streams = false)
+	public function copy($src, $dest, $path = null, $useStreams = false)
 	{
-		return File::copy($src, $dest, $path, $use_streams);
+		return File::copy($src, $dest, $path, $useStreams);
 	}
 
 	/**
@@ -91,8 +94,9 @@ class FileWrapper
 	 *
 	 * @return  boolean  True on success.
 	 *
-	 * @see     File::delete()
-	 * @since   3.4
+	 * @see         File::delete()
+	 * @since       3.4
+	 * @deprecated  4.0 Use \Joomla\CMS\Filesystem\File instead
 	 */
 	public function delete($file)
 	{
@@ -102,19 +106,20 @@ class FileWrapper
 	/**
 	 * Helper wrapper method for move
 	 *
-	 * @param   string   $src          The path to the source file.
-	 * @param   string   $dest         The path to the destination file.
-	 * @param   string   $path         An optional base path to prefix to the file names.
-	 * @param   boolean  $use_streams  True to use streams.
+	 * @param   string   $src         The path to the source file.
+	 * @param   string   $dest        The path to the destination file.
+	 * @param   string   $path        An optional base path to prefix to the file names.
+	 * @param   boolean  $useStreams  True to use streams.
 	 *
 	 * @return  boolean  True on success.
 	 *
-	 * @see     File::move()
-	 * @since   3.4
+	 * @see         File::move()
+	 * @since       3.4
+	 * @deprecated  4.0 Use \Joomla\CMS\Filesystem\File instead
 	 */
-	public function move($src, $dest, $path = '', $use_streams = false)
+	public function move($src, $dest, $path = '', $useStreams = false)
 	{
-		return File::move($src, $dest, $path, $use_streams);
+		return File::move($src, $dest, $path, $useStreams);
 	}
 
 	/**
@@ -128,8 +133,9 @@ class FileWrapper
 	 *
 	 * @return mixed  Returns file contents or boolean False if failed.
 	 *
-	 * @see     File::read()
-	 * @since   3.4
+	 * @see         File::read()
+	 * @since       3.4
+	 * @deprecated  4.0 Use \Joomla\CMS\Filesystem\File instead
 	 */
 	public function read($filename, $incpath = false, $amount = 0, $chunksize = 8192, $offset = 0)
 	{
@@ -139,35 +145,37 @@ class FileWrapper
 	/**
 	 * Helper wrapper method for write
 	 *
-	 * @param   string   $file         The full file path.
-	 * @param   string   &$buffer      The buffer to write.
-	 * @param   boolean  $use_streams  Use streams.
+	 * @param   string   $file        The full file path.
+	 * @param   string   &$buffer     The buffer to write.
+	 * @param   boolean  $useStreams  Use streams.
 	 *
 	 * @return boolean  True on success.
 	 *
-	 * @see     File::write()
-	 * @since   3.4
+	 * @see         File::write()
+	 * @since       3.4
+	 * @deprecated  4.0 Use \Joomla\CMS\Filesystem\File instead
 	 */
-	public function write($file, &$buffer, $use_streams = false)
+	public function write($file, &$buffer, $useStreams = false)
 	{
-		return File::write($file, $buffer, $use_streams);
+		return File::write($file, $buffer, $useStreams);
 	}
 
 	/**
 	 * Helper wrapper method for upload
 	 *
-	 * @param   string   $src          The name of the php (temporary) uploaded file.
-	 * @param   string   $dest         The path (including filename) to move the uploaded file to.
-	 * @param   boolean  $use_streams  True to use streams.
+	 * @param   string   $src         The name of the php (temporary) uploaded file.
+	 * @param   string   $dest        The path (including filename) to move the uploaded file to.
+	 * @param   boolean  $useStreams  True to use streams.
 	 *
 	 * @return boolean  True on success.
 	 *
-	 * @see     File::upload()
-	 * @since   3.4
+	 * @see         File::upload()
+	 * @since       3.4
+	 * @deprecated  4.0 Use \Joomla\CMS\Filesystem\File instead
 	 */
-	public function upload($src, $dest, $use_streams = false)
+	public function upload($src, $dest, $useStreams = false)
 	{
-		return File::upload($src, $dest, $use_streams);
+		return File::upload($src, $dest, $useStreams);
 	}
 
 	/**
@@ -177,8 +185,9 @@ class FileWrapper
 	 *
 	 * @return boolean  True if path is a file.
 	 *
-	 * @see     File::exists()
-	 * @since   3.4
+	 * @see         File::exists()
+	 * @since       3.4
+	 * @deprecated  4.0 Use \Joomla\CMS\Filesystem\File instead
 	 */
 	public function exists($file)
 	{
@@ -192,8 +201,9 @@ class FileWrapper
 	 *
 	 * @return string  filename.
 	 *
-	 * @see     File::getName()
-	 * @since   3.4
+	 * @see         File::getName()
+	 * @since       3.4
+	 * @deprecated  4.0 Use \Joomla\CMS\Filesystem\File instead
 	 */
 	public function getName($file)
 	{

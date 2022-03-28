@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Feed
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2013 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,19 +12,19 @@
  *
  * @package     Joomla.UnitTest
  * @subpackage  Feed
- * @since       12.3
+ * @since       3.1.4
  */
 class JFeedParserProcessElementMock extends JFeedParser
 {
 	/**
 	 * @var    mixed  The value to return when the parse method is called.
-	 * @since  12.3
+	 * @since  3.1.4
 	 */
 	public static $parseReturn = null;
 
 	/**
 	 * @var    string  Entry element name.
-	 * @since  12.3
+	 * @since  3.1.4
 	 */
 	public $entryElementName = 'myentry';
 
@@ -37,7 +37,7 @@ class JFeedParserProcessElementMock extends JFeedParser
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function processElement(JFeed $feed, SimpleXMLElement $el, array $namespaces)
 	{
@@ -52,7 +52,7 @@ class JFeedParserProcessElementMock extends JFeedParser
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function handleElement1($feed, $el)
 	{
@@ -65,7 +65,7 @@ class JFeedParserProcessElementMock extends JFeedParser
 	 * @return  void
 	 *
 	 * @see     JFeedParser::initialise()
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	protected function initialise()
 	{

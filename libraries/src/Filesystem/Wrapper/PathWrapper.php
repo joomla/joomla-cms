@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2014 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -15,9 +15,8 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Wrapper class for Path
  *
- * @package     Joomla.Platform
- * @subpackage  Filesystem
  * @since       3.4
+ * @deprecated  4.0 Use \Joomla\CMS\Filesystem\Path instead
  */
 class PathWrapper
 {
@@ -28,8 +27,9 @@ class PathWrapper
 	 *
 	 * @return  boolean  True if path can have mode changed.
 	 *
-	 * @see     Path::canChmod()
-	 * @since   3.4
+	 * @see         Path::canChmod()
+	 * @since       3.4
+	 * @deprecated  4.0 Use \Joomla\CMS\Filesystem\Path instead
 	 */
 	public function canChmod($path)
 	{
@@ -45,8 +45,9 @@ class PathWrapper
 	 *
 	 * @return  boolean  True if successful [one fail means the whole operation failed].
 	 *
-	 * @see     Path::setPermissions()
-	 * @since   3.4
+	 * @see         Path::setPermissions()
+	 * @since       3.4
+	 * @deprecated  4.0 Use \Joomla\CMS\Filesystem\Path instead
 	 */
 	public function setPermissions($path, $filemode = '0644', $foldermode = '0755')
 	{
@@ -60,8 +61,9 @@ class PathWrapper
 	 *
 	 * @return  string  Filesystem permissions.
 	 *
-	 * @see     Path::getPermissions()
-	 * @since   3.4
+	 * @see         Path::getPermissions()
+	 * @since       3.4
+	 * @deprecated  4.0 Use \Joomla\CMS\Filesystem\Path instead
 	 */
 	public function getPermissions($path)
 	{
@@ -75,9 +77,10 @@ class PathWrapper
 	 *
 	 * @return  string  A cleaned version of the path or exit on error.
 	 *
-	 * @see     Path::check()
-	 * @since   3.4
-	 * @throws  Exception
+	 * @see         Path::check()
+	 * @since       3.4
+	 * @throws      Exception
+	 * @deprecated  4.0 Use \Joomla\CMS\Filesystem\Path instead
 	 */
 	public function check($path)
 	{
@@ -92,9 +95,10 @@ class PathWrapper
 	 *
 	 * @return  string  The cleaned path.
 	 *
-	 * @see     Path::clean()
-	 * @since   3.4
-	 * @throws  UnexpectedValueException
+	 * @see         Path::clean()
+	 * @since       3.4
+	 * @throws      UnexpectedValueException
+	 * @deprecated  4.0 Use \Joomla\CMS\Filesystem\Path instead
 	 */
 	public function clean($path, $ds = DIRECTORY_SEPARATOR)
 	{
@@ -108,8 +112,9 @@ class PathWrapper
 	 *
 	 * @return  boolean  True if the php script owns the path passed.
 	 *
-	 * @see     Path::isOwner()
-	 * @since   3.4
+	 * @see         Path::isOwner()
+	 * @since       3.4
+	 * @deprecated  4.0 Use \Joomla\CMS\Filesystem\Path instead
 	 */
 	public function isOwner($path)
 	{
@@ -124,8 +129,9 @@ class PathWrapper
 	 *
 	 * @return mixed   The full path and file name for the target file, or boolean false if the file is not found in any of the paths.
 	 *
-	 * @see     Path::find()
-	 * @since   3.4
+	 * @see         Path::find()
+	 * @since       3.4
+	 * @deprecated  4.0 Use \Joomla\CMS\Filesystem\Path instead
 	 */
 	public function find($paths, $file)
 	{

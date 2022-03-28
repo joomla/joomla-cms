@@ -4,7 +4,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  FileSystem
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2013 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -13,7 +13,7 @@
  *
  * @package     Joomla.UnitTest
  * @subpackage  FileSystem
- * @since   12.1
+ * @since   3.0.0
  */
 class JFilesystemPatcherTest extends TestCase
 {
@@ -23,7 +23,7 @@ class JFilesystemPatcherTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	protected function setUp()
 	{
@@ -41,7 +41,7 @@ class JFilesystemPatcherTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	protected function tearDown()
 	{
@@ -55,7 +55,7 @@ class JFilesystemPatcherTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	private function _cleanupTestFiles()
 	{
@@ -72,7 +72,7 @@ class JFilesystemPatcherTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	private function _cleanupFile($path)
 	{
@@ -94,7 +94,7 @@ class JFilesystemPatcherTest extends TestCase
 	 *
 	 * @return  array
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function addData()
 	{
@@ -184,7 +184,7 @@ class JFilesystemPatcherTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since        12.1
+	 * @since        3.0.0
 	 * @dataProvider JFilesystemPatcherTest::addData
 	 */
 	public function testAdd($udiff, $root, $strip, $expected)
@@ -204,7 +204,7 @@ class JFilesystemPatcherTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function testAddFile()
 	{
@@ -317,7 +317,7 @@ class JFilesystemPatcherTest extends TestCase
 	 *
 	 * @return  array
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function applyData()
 	{
@@ -915,7 +915,7 @@ But after they are produced,
 	 * @return  void
 	 *
 	 * @dataProvider  JFilesystemPatcherTest::applyData
-	 * @since         12.1
+	 * @since         3.0.0
 	 */
 	public function testApply($udiff, $root, $strip, $sources, $destinations, $result, $throw)
 	{
@@ -947,7 +947,7 @@ But after they are produced,
 			}
 			else
 			{
-				// Remove all vertical characters to ensure system independed compare
+				// Remove all vertical characters to ensure system independent compare
 				$content = preg_replace('/\v/', '', $content);
 				$data = file_get_contents($path);
 				$data = preg_replace('/\v/', '', $data);

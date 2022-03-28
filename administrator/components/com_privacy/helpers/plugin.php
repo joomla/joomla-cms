@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_privacy
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2018 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -117,15 +117,20 @@ abstract class PrivacyPlugin extends JPlugin
 	/**
 	 * Helper function to create the domain for the items custom fields.
 	 *
-	 * @param   string    $context  The context
-	 * @param   stdClass  $item     The items
+	 * @param   string  $context  The context
+	 * @param   array   $items    The items
 	 *
 	 * @return  PrivacyExportDomain
 	 *
 	 * @since   3.9.0
 	 */
-	protected function createCustomFieldsDomain($context, $item)
+	protected function createCustomFieldsDomain($context, $items = array())
 	{
+		if (!is_array($items))
+		{
+			$items = array($items);
+		}
+
 		$parts = FieldsHelper::extract($context);
 
 		if (!$parts)
@@ -135,23 +140,26 @@ abstract class PrivacyPlugin extends JPlugin
 
 		$type = str_replace('com_', '', $parts[0]);
 
-		$domain = $this->createDomain($type . '_custom_fields', 'joomla_' . $type . '_custom_fields_data');
+		$domain = $this->createDomain($type . '_' . $parts[1] . '_custom_fields', 'joomla_' . $type . '_' . $parts[1] . '_custom_fields_data');
 
-		// Get item's fields, also preparing their value property for manual display
-		$fields = FieldsHelper::getFields($parts[0] . '.' . $parts[1], $item);
-
-		foreach ($fields as $field)
+		foreach ($items as $item)
 		{
-			$fieldValue = is_array($field->value) ? implode(', ', $field->value) : $field->value;
+			// Get item's fields, also preparing their value property for manual display
+			$fields = FieldsHelper::getFields($parts[0] . '.' . $parts[1], $item);
 
-			$data = array(
-				$type . '_id' => $item->id,
-				'field_name'  => $field->name,
-				'field_title' => $field->title,
-				'field_value' => $fieldValue,
-			);
+			foreach ($fields as $field)
+			{
+				$fieldValue = is_array($field->value) ? implode(', ', $field->value) : $field->value;
 
-			$domain->addItem($this->createItemFromArray($data));
+				$data = array(
+					$type . '_id' => $item->id,
+					'field_name'  => $field->name,
+					'field_title' => $field->title,
+					'field_value' => $fieldValue,
+				);
+
+				$domain->addItem($this->createItemFromArray($data));
+			}
 		}
 
 		return $domain;

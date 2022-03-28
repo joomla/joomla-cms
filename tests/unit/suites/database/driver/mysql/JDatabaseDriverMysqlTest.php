@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Database
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2013 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,7 +12,7 @@
  *
  * @package     Joomla.UnitTest
  * @subpackage  Database
- * @since       11.1
+ * @since       1.7.0
  */
 class JDatabaseDriverMysqlTest extends TestCaseDatabaseMysql
 {
@@ -21,7 +21,7 @@ class JDatabaseDriverMysqlTest extends TestCaseDatabaseMysql
 	 *
 	 * @return  array
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function dataTestEscape()
 	{
@@ -66,7 +66,7 @@ class JDatabaseDriverMysqlTest extends TestCaseDatabaseMysql
 	 *
 	 * @return  array
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function dataTestLoadNextObject()
 	{
@@ -102,7 +102,7 @@ class JDatabaseDriverMysqlTest extends TestCaseDatabaseMysql
 	 *
 	 * @return  array
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function dataTestLoadNextRow()
 	{
@@ -120,7 +120,7 @@ class JDatabaseDriverMysqlTest extends TestCaseDatabaseMysql
 	 *
 	 * @return  void
 	 *
-	 * @since   11.4
+	 * @since   2.5.0
 	 */
 	public function testDropTable()
 	{
@@ -137,7 +137,7 @@ class JDatabaseDriverMysqlTest extends TestCaseDatabaseMysql
 	 * @return  void
 	 *
 	 * @dataProvider  dataTestEscape
-	 * @since         11.4
+	 * @since         2.5.0
 	 */
 	public function testEscape($text, $extra, $expected)
 	{
@@ -203,7 +203,7 @@ class JDatabaseDriverMysqlTest extends TestCaseDatabaseMysql
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function testGetAffectedRows()
 	{
@@ -221,7 +221,7 @@ class JDatabaseDriverMysqlTest extends TestCaseDatabaseMysql
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function testGetCollation()
 	{
@@ -237,7 +237,7 @@ class JDatabaseDriverMysqlTest extends TestCaseDatabaseMysql
 	 *
 	 * @return  void
 	 *
-	 * @since   11.4
+	 * @since   2.5.0
 	 */
 	public function testGetExporter()
 	{
@@ -253,7 +253,7 @@ class JDatabaseDriverMysqlTest extends TestCaseDatabaseMysql
 	 *
 	 * @return  void
 	 *
-	 * @since   11.4
+	 * @since   2.5.0
 	 */
 	public function testGetImporter()
 	{
@@ -269,7 +269,7 @@ class JDatabaseDriverMysqlTest extends TestCaseDatabaseMysql
 	 *
 	 * @return  void
 	 *
-	 * @since   11.4
+	 * @since   2.5.0
 	 */
 	public function testGetNumRows()
 	{
@@ -289,7 +289,7 @@ class JDatabaseDriverMysqlTest extends TestCaseDatabaseMysql
 	 *
 	 * @return  void
 	 *
-	 * @since   11.4
+	 * @since   2.5.0
 	 */
 	public function testGetTableCreate()
 	{
@@ -305,7 +305,7 @@ class JDatabaseDriverMysqlTest extends TestCaseDatabaseMysql
 	 *
 	 * @return  void
 	 *
-	 * @since   11.4
+	 * @since   2.5.0
 	 */
 	public function testGetTableColumns()
 	{
@@ -377,7 +377,7 @@ class JDatabaseDriverMysqlTest extends TestCaseDatabaseMysql
 	 *
 	 * @return  void
 	 *
-	 * @since   11.4
+	 * @since   2.5.0
 	 */
 	public function testGetTableKeys()
 	{
@@ -393,7 +393,7 @@ class JDatabaseDriverMysqlTest extends TestCaseDatabaseMysql
 	 *
 	 * @return  void
 	 *
-	 * @since   11.4
+	 * @since   2.5.0
 	 */
 	public function testGetTableList()
 	{
@@ -409,7 +409,7 @@ class JDatabaseDriverMysqlTest extends TestCaseDatabaseMysql
 	 *
 	 * @return  void
 	 *
-	 * @since   11.4
+	 * @since   2.5.0
 	 */
 	public function testGetVersion()
 	{
@@ -425,7 +425,7 @@ class JDatabaseDriverMysqlTest extends TestCaseDatabaseMysql
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function testLoadAssoc()
 	{
@@ -443,7 +443,7 @@ class JDatabaseDriverMysqlTest extends TestCaseDatabaseMysql
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function testLoadAssocList()
 	{
@@ -464,7 +464,7 @@ class JDatabaseDriverMysqlTest extends TestCaseDatabaseMysql
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function testLoadColumn()
 	{
@@ -640,7 +640,7 @@ class JDatabaseDriverMysqlTest extends TestCaseDatabaseMysql
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function testLoadObject()
 	{
@@ -665,7 +665,7 @@ class JDatabaseDriverMysqlTest extends TestCaseDatabaseMysql
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function testLoadObjectList()
 	{
@@ -718,7 +718,7 @@ class JDatabaseDriverMysqlTest extends TestCaseDatabaseMysql
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function testLoadResult()
 	{
@@ -738,7 +738,7 @@ class JDatabaseDriverMysqlTest extends TestCaseDatabaseMysql
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function testLoadRow()
 	{
@@ -757,7 +757,7 @@ class JDatabaseDriverMysqlTest extends TestCaseDatabaseMysql
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function testLoadRowList()
 	{
@@ -776,7 +776,7 @@ class JDatabaseDriverMysqlTest extends TestCaseDatabaseMysql
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function testExecute()
 	{
@@ -904,7 +904,7 @@ class JDatabaseDriverMysqlTest extends TestCaseDatabaseMysql
 	 *
 	 * @return  void
 	 *
-	 * @since   11.4
+	 * @since   2.5.0
 	 */
 	public function testIsSupported()
 	{

@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Event
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2005 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -12,7 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * JEvent Class
  *
- * @since       11.1
+ * @since       1.5
  * @deprecated  4.0  The CMS' Event classes will be replaced with the `joomla/event` package
  */
 abstract class JEvent extends JObject
@@ -21,7 +21,7 @@ abstract class JEvent extends JObject
 	 * Event object to observe.
 	 *
 	 * @var    object
-	 * @since  11.3
+	 * @since  2.5
 	 */
 	protected $_subject = null;
 
@@ -30,7 +30,7 @@ abstract class JEvent extends JObject
 	 *
 	 * @param   object  &$subject  The object to observe.
 	 *
-	 * @since   11.3
+	 * @since   2.5
 	 */
 	public function __construct(&$subject)
 	{
@@ -52,7 +52,7 @@ abstract class JEvent extends JObject
 	 *
 	 * @return  mixed  Routine return value
 	 *
-	 * @since   11.1
+	 * @since   1.5
 	 */
 	public function update(&$args)
 	{
@@ -67,7 +67,7 @@ abstract class JEvent extends JObject
 		 */
 		if (method_exists($this, $event))
 		{
-			return call_user_func_array(array($this, $event), $args);
+			return call_user_func_array(array($this, $event), array_values($args));
 		}
 	}
 }

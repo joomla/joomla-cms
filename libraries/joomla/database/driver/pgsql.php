@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Database
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2018 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -12,7 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * PostgreSQL PDO Database Driver
  *
- * @link   https://secure.php.net/manual/en/ref.pdo-mysql.php
+ * @link   https://www.php.net/manual/en/ref.pdo-mysql.php
  * @since  3.9.0
  */
 class JDatabaseDriverPgsql extends JDatabaseDriverPdo
@@ -152,9 +152,26 @@ class JDatabaseDriverPgsql extends JDatabaseDriverPdo
 	}
 
 	/**
+	 * Internal function to get the name of the default schema for the current PostgreSQL connection.
+	 * That is the schema where tables are created by Joomla.
+	 *
+	 * @return  string
+	 *
+	 * @since   3.9.24
+	 */
+	private function getDefaultSchema()
+	{
+
+		// Supported since PostgreSQL 7.3
+		$this->setQuery('SELECT (current_schemas(false))[1]');
+		return $this->loadResult();
+
+	}
+	
+	/**
 	 * Shows the table CREATE statement that creates the given tables.
 	 *
-	 * This is unsuported by PostgreSQL.
+	 * This is unsupported by PostgreSQL.
 	 *
 	 * @param   mixed  $tables  A table name or a list of table names.
 	 *
@@ -187,6 +204,8 @@ class JDatabaseDriverPgsql extends JDatabaseDriverPdo
 
 		$tableSub = $this->replacePrefix($table);
 
+		$defaultSchema = $this->getDefaultSchema();
+		
 		$this->setQuery('
 			SELECT a.attname AS "column_name",
 				pg_catalog.format_type(a.atttypid, a.atttypmod) as "type",
@@ -207,7 +226,7 @@ class JDatabaseDriverPgsql extends JDatabaseDriverPdo
 			WHERE a.attrelid =
 				(SELECT oid FROM pg_catalog.pg_class WHERE relname=' . $this->quote($tableSub) . '
 					AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE
-					nspname = \'public\')
+					nspname = ' . $this->quote($defaultSchema) . ')
 				)
 			AND a.attnum > 0 AND NOT a.attisdropped
 			ORDER BY a.attnum'
@@ -474,26 +493,26 @@ class JDatabaseDriverPgsql extends JDatabaseDriverPdo
 	/**
 	 * This function return a field value as a prepared string to be used in a SQL statement.
 	 *
-	 * @param   array   $columns      Array of table's column returned by ::getTableColumns.
-	 * @param   string  $field_name   The table field's name.
-	 * @param   string  $field_value  The variable value to quote and return.
+	 * @param   array   $columns     Array of table's column returned by ::getTableColumns.
+	 * @param   string  $fieldName   The table field's name.
+	 * @param   string  $fieldValue  The variable value to quote and return.
 	 *
 	 * @return  string  The quoted string.
 	 *
 	 * @since   3.9.0
 	 */
-	public function sqlValue($columns, $field_name, $field_value)
+	public function sqlValue($columns, $fieldName, $fieldValue)
 	{
-		switch ($columns[$field_name])
+		switch ($columns[$fieldName])
 		{
 			case 'boolean':
 				$val = 'NULL';
 
-				if ($field_value === 't' || $field_value === true || $field_value === 1 || $field_value === '1')
+				if ($fieldValue === 't' || $fieldValue === true || $fieldValue === 1 || $fieldValue === '1')
 				{
 					$val = 'TRUE';
 				}
-				elseif ($field_value === 'f' || $field_value === false || $field_value === 0 || $field_value === '0')
+				elseif ($fieldValue === 'f' || $fieldValue === false || $fieldValue === 0 || $fieldValue === '0')
 				{
 					$val = 'FALSE';
 				}
@@ -509,22 +528,22 @@ class JDatabaseDriverPgsql extends JDatabaseDriverPdo
 			case 'smallint':
 			case 'serial':
 			case 'numeric,':
-				$val = $field_value === '' ? 'NULL' : $field_value;
+				$val = $fieldValue === '' ? 'NULL' : $fieldValue;
 				break;
 
 			case 'date':
 			case 'timestamp without time zone':
-				if (empty($field_value))
+				if (empty($fieldValue))
 				{
-					$field_value = $this->getNullDate();
+					$fieldValue = $this->getNullDate();
 				}
 
-				$val = $this->quote($field_value);
+				$val = $this->quote($fieldValue);
 
 				break;
 
 			default:
-				$val = $this->quote($field_value);
+				$val = $this->quote($fieldValue);
 				break;
 		}
 
@@ -986,5 +1005,19 @@ class JDatabaseDriverPgsql extends JDatabaseDriverPdo
 		$this->setQuery(sprintf($statement, implode(',', $fields), implode(' AND ', $where)));
 
 		return $this->execute();
+	}
+
+	/**
+	 * Quotes a binary string to database requirements for use in database queries.
+	 *
+	 * @param   mixed  $data  A binary string to quote.
+	 *
+	 * @return  string  The binary quoted input string.
+	 *
+	 * @since   3.9.12
+	 */
+	public function quoteBinary($data)
+	{
+		return "decode('" . bin2hex($data) . "', 'hex')";
 	}
 }

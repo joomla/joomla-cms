@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  Layout
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2016 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -35,17 +35,17 @@ extract($displayData);
 	<td>
 		<div class="btn-group">
 			<?php if (!empty($buttons['add'])) : ?>
-				<a class="btn btn-mini button btn-success group-add-<?php echo $unique_subform_id; ?>" aria-label="<?php echo JText::_('JGLOBAL_FIELD_ADD'); ?>">
+				<a class="btn btn-mini button btn-success group-add group-add-<?php echo $unique_subform_id; ?>" aria-label="<?php echo JText::_('JGLOBAL_FIELD_ADD'); ?>">
 					<span class="icon-plus" aria-hidden="true"></span>
 				</a>
 			<?php endif; ?>
 			<?php if (!empty($buttons['remove'])) : ?>
-				<a class="btn btn-mini button btn-danger group-remove-<?php echo $unique_subform_id; ?>" aria-label="<?php echo JText::_('JGLOBAL_FIELD_REMOVE'); ?>">
+				<a class="btn btn-mini button btn-danger group-remove group-remove-<?php echo $unique_subform_id; ?>" aria-label="<?php echo JText::_('JGLOBAL_FIELD_REMOVE'); ?>">
 					<span class="icon-minus" aria-hidden="true"></span>
 				</a>
 			<?php endif; ?>
 			<?php if (!empty($buttons['move'])) : ?>
-				<a class="btn btn-mini button btn-primary group-move-<?php echo $unique_subform_id; ?>" aria-label="<?php echo JText::_('JGLOBAL_FIELD_MOVE'); ?>">
+				<a class="btn btn-mini button btn-primary group-move group-move-<?php echo $unique_subform_id; ?>" aria-label="<?php echo JText::_('JGLOBAL_FIELD_MOVE'); ?>">
 					<span class="icon-move" aria-hidden="true"></span>
 				</a>
 			<?php endif; ?>

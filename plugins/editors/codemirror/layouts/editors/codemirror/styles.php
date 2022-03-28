@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Editors.codemirror
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2015 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -17,16 +17,16 @@ $lineHeight = $params->get('lineHeight', 1.2) . 'em;';
 
 // Set the active line color.
 $color           = $params->get('activeLineColor', '#a4c2eb');
-$r               = hexdec($color{1} . $color{2});
-$g               = hexdec($color{3} . $color{4});
-$b               = hexdec($color{5} . $color{6});
+$r               = hexdec($color[1] . $color[2]);
+$g               = hexdec($color[3] . $color[4]);
+$b               = hexdec($color[5] . $color[6]);
 $activeLineColor = 'rgba(' . $r . ', ' . $g . ', ' . $b . ', .5)';
 
 // Set the color for matched tags.
 $color               = $params->get('highlightMatchColor', '#fa542f');
-$r                   = hexdec($color{1} . $color{2});
-$g                   = hexdec($color{3} . $color{4});
-$b                   = hexdec($color{5} . $color{6});
+$r                   = hexdec($color[1] . $color[2]);
+$g                   = hexdec($color[3] . $color[4]);
+$b                   = hexdec($color[5] . $color[6]);
 $highlightMatchColor = 'rgba(' . $r . ', ' . $g . ', ' . $b . ', .5)';
 
 JFactory::getDocument()->addStyleDeclaration(

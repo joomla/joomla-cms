@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Log
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2013 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,7 +12,7 @@
  *
  * @package     Joomla.UnitTest
  * @subpackage  Log
- * @since       11.1
+ * @since       1.7.0
  */
 class JLogTest extends \PHPUnit\Framework\TestCase
 {
@@ -35,7 +35,7 @@ class JLogTest extends \PHPUnit\Framework\TestCase
 	 * @return  void
 	 *
 	 * @see     \PHPUnit\Framework\TestCase::tearDown()
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	protected function tearDown()
 	{
@@ -52,7 +52,7 @@ class JLogTest extends \PHPUnit\Framework\TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function testAddLogEntry()
 	{
@@ -74,7 +74,7 @@ class JLogTest extends \PHPUnit\Framework\TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function testAddLoggerAutoInstantiation()
 	{
@@ -93,7 +93,7 @@ class JLogTest extends \PHPUnit\Framework\TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function testAddLoggerAutoInstantiationInvalidLogger()
 	{
@@ -114,7 +114,7 @@ class JLogTest extends \PHPUnit\Framework\TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function testFindLoggersByCategory()
 	{
@@ -203,7 +203,7 @@ class JLogTest extends \PHPUnit\Framework\TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function testFindLoggersByNotCategory()
 	{
@@ -314,7 +314,7 @@ class JLogTest extends \PHPUnit\Framework\TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function testFindLoggersByPriority()
 	{
@@ -398,7 +398,7 @@ class JLogTest extends \PHPUnit\Framework\TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function testFindLoggersByPriorityAndCategory()
 	{
@@ -489,7 +489,7 @@ class JLogTest extends \PHPUnit\Framework\TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function testSetInstance()
 	{

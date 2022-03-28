@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Privacy.actionlogs
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2018 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -42,7 +42,7 @@ class PlgPrivacyActionlogs extends PrivacyPlugin
 			->select('a.*, u.name')
 			->from('#__action_logs AS a')
 			->innerJoin('#__users AS u ON a.user_id = u.id')
-			->where($this->db->quoteName('a.user_id') . ' = ' . $user->id);
+			->where($this->db->quoteName('a.user_id') . ' = ' . (int) $user->id);
 
 		$this->db->setQuery($query);
 
@@ -53,11 +53,18 @@ class PlgPrivacyActionlogs extends PrivacyPlugin
 			return array();
 		}
 
-		$data = ActionlogsHelper::getCsvData($data);
-		array_shift($data);
+		$data    = ActionlogsHelper::getCsvData($data);
+		$isFirst = true;
 
 		foreach ($data as $item)
 		{
+			if ($isFirst)
+			{
+				$isFirst = false;
+
+				continue;
+			}
+
 			$domain->addItem($this->createItemFromArray($item));
 		}
 

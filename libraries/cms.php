@@ -2,7 +2,7 @@
 /**
  * @package    Joomla.Libraries
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2011 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -39,8 +39,27 @@ $loader->unregister();
 // Decorate Composer autoloader
 spl_autoload_register(array(new JClassLoader($loader), 'loadClass'), true, true);
 
-// Register the class aliases for Framework classes that have replaced their Platform equivilents
+// Register the class aliases for Framework classes that have replaced their Platform equivalents
 require_once JPATH_LIBRARIES . '/classmap.php';
+
+// Suppress phar stream wrapper for non .phar files
+$behavior = new \TYPO3\PharStreamWrapper\Behavior;
+\TYPO3\PharStreamWrapper\Manager::initialize(
+	$behavior->withAssertion(new \TYPO3\PharStreamWrapper\Interceptor\PharExtensionInterceptor)
+);
+
+if (in_array('phar', stream_get_wrappers()))
+{
+	stream_wrapper_unregister('phar');
+	stream_wrapper_register('phar', 'TYPO3\\PharStreamWrapper\\PharStreamWrapper');
+}
+
+// Define the Joomla version if not already defined.
+if (!defined('JVERSION'))
+{
+	$jversion = new JVersion;
+	define('JVERSION', $jversion->getShortVersion());
+}
 
 // Ensure FOF autoloader included - needed for things like content versioning where we need to get an FOFTable Instance
 if (!class_exists('FOFAutoloaderFof'))
@@ -49,14 +68,7 @@ if (!class_exists('FOFAutoloaderFof'))
 }
 
 // Register a handler for uncaught exceptions that shows a pretty error page when possible
-set_exception_handler(array('JErrorPage', 'render'));
-
-// Define the Joomla version if not already defined.
-if (!defined('JVERSION'))
-{
-	$jversion = new JVersion;
-	define('JVERSION', $jversion->getShortVersion());
-}
+set_exception_handler(array('Joomla\CMS\Exception\ExceptionHandler', 'handleException'));
 
 // Set up the message queue logger for web requests
 if (array_key_exists('REQUEST_METHOD', $_SERVER))

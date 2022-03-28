@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Privacy.contact
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2018 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -62,8 +62,9 @@ class PlgPrivacyContact extends PrivacyPlugin
 		foreach ($items as $item)
 		{
 			$domain->addItem($this->createItemFromArray((array) $item));
-			$domains[] = $this->createCustomFieldsDomain('com_contact.contact', $item);
 		}
+
+		$domains[] = $this->createCustomFieldsDomain('com_contact.contact', $items);
 
 		return $domains;
 	}

@@ -3,11 +3,13 @@
  * @package     Joomla.Administrator
  * @subpackage  com_privacy
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2018 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Router\Route;
 
 /**
  * Request item model class.
@@ -19,14 +21,14 @@ class PrivacyModelRequest extends JModelAdmin
 	/**
 	 * Clean the cache
 	 *
-	 * @param   string   $group      The cache group
-	 * @param   integer  $client_id  The ID of the client
+	 * @param   string   $group     The cache group
+	 * @param   integer  $clientId  The ID of the client
 	 *
 	 * @return  void
 	 *
 	 * @since   3.9.0
 	 */
-	protected function cleanCache($group = 'com_privacy', $client_id = 1)
+	protected function cleanCache($group = 'com_privacy', $clientId = 1)
 	{
 		parent::cleanCache('com_privacy', 1);
 	}
@@ -260,7 +262,7 @@ class PrivacyModelRequest extends JModelAdmin
 			$db->getQuery(true)
 				->select('id')
 				->from($db->quoteName('#__users'))
-				->where($db->quoteName('email') . ' = ' . $db->quote($table->email)),
+				->where('LOWER(' . $db->quoteName('email') . ') = LOWER(' . $db->quote($table->email) . ')'),
 			0,
 			1
 		)->loadResult();
@@ -311,13 +313,13 @@ class PrivacyModelRequest extends JModelAdmin
 		{
 			$app = JFactory::getApplication();
 
-			$linkMode = $app->get('force_ssl', 0) == 2 ? 1 : -1;
+			$linkMode = $app->get('force_ssl', 0) == 2 ? Route::TLS_FORCE : Route::TLS_IGNORE;
 
 			$substitutions = array(
 				'[SITENAME]' => $app->get('sitename'),
 				'[URL]'      => JUri::root(),
-				'[TOKENURL]' => JRoute::link('site', 'index.php?option=com_privacy&view=confirm&confirm_token=' . $token, false, $linkMode),
-				'[FORMURL]'  => JRoute::link('site', 'index.php?option=com_privacy&view=confirm', false, $linkMode),
+				'[TOKENURL]' => JRoute::link('site', 'index.php?option=com_privacy&view=confirm&confirm_token=' . $token, false, $linkMode, true),
+				'[FORMURL]'  => JRoute::link('site', 'index.php?option=com_privacy&view=confirm', false, $linkMode, true),
 				'[TOKEN]'    => $token,
 				'\\n'        => "\n",
 			);
@@ -424,6 +426,9 @@ class PrivacyModelRequest extends JModelAdmin
 		{
 			return false;
 		}
+
+		// Make sure the status is always 0
+		$validatedData['status'] = 0;
 
 		// The user cannot create a request for their own account
 		if (strtolower(JFactory::getUser()->email) === strtolower($validatedData['email']))

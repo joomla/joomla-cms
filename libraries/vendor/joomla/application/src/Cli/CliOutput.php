@@ -2,7 +2,7 @@
 /**
  * Part of the Joomla Framework Application Package
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -60,16 +60,10 @@ abstract class CliOutput
 	 * @return  ProcessorInterface
 	 *
 	 * @since   1.0
-	 * @throws  \RuntimeException
 	 */
 	public function getProcessor()
 	{
-		if ($this->processor)
-		{
-			return $this->processor;
-		}
-
-		throw new \RuntimeException('A ProcessorInterface object has not been set.');
+		return $this->processor;
 	}
 
 	/**

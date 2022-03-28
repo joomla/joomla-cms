@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Session
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2012 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -12,7 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Memcached session storage handler for PHP
  *
- * @since       11.1
+ * @since       1.7.0
  * @deprecated  4.0  The CMS' Session classes will be replaced with the `joomla/session` package
  */
 class JSessionStorageMemcached extends JSessionStorage
@@ -27,7 +27,7 @@ class JSessionStorageMemcached extends JSessionStorage
 	 *
 	 * @param   array  $options  Optional parameters.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 * @throws  RuntimeException
 	 */
 	public function __construct($options = array())
@@ -56,7 +56,7 @@ class JSessionStorageMemcached extends JSessionStorage
 	 *
 	 * @return  void
 	 *
-	 * @since   12.2
+	 * @since   3.0.1
 	 */
 	public function register()
 	{
@@ -66,7 +66,14 @@ class JSessionStorageMemcached extends JSessionStorage
 
 			if (!headers_sent())
 			{
-				ini_set('session.save_path', "{$serverConf['host']}:{$serverConf['port']}");
+				$path = $serverConf['host'];
+
+				if ($serverConf['port'] > 0)
+				{
+					$path .= ':' . $serverConf['port'];
+				}
+
+				ini_set('session.save_path', $path);
 				ini_set('session.save_handler', 'memcached');
 			}
 		}
@@ -77,7 +84,7 @@ class JSessionStorageMemcached extends JSessionStorage
 	 *
 	 * @return boolean  True on success, false otherwise.
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public static function isSupported()
 	{

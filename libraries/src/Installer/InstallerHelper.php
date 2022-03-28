@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2007 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -30,7 +30,7 @@ abstract class InstallerHelper
 	 *
 	 * @var    integer
 	 * @since  3.9.0
-	 */	
+	 */
 	const HASH_NOT_VALIDATED = 0;
 
 	/**
@@ -86,9 +86,12 @@ abstract class InstallerHelper
 			return false;
 		}
 
-		if (302 == $response->code && isset($response->headers['Location']))
+		// Convert keys of headers to lowercase, to accommodate for case variations
+		$headers = array_change_key_case($response->headers);
+
+		if (302 == $response->code && !empty($headers['location']))
 		{
-			return self::downloadPackage($response->headers['Location']);
+			return self::downloadPackage($headers['location']);
 		}
 		elseif (200 != $response->code)
 		{
@@ -98,8 +101,8 @@ abstract class InstallerHelper
 		}
 
 		// Parse the Content-Disposition header to get the file name
-		if (isset($response->headers['Content-Disposition'])
-			&& preg_match("/\s*filename\s?=\s?(.*)/", $response->headers['Content-Disposition'], $parts))
+		if (!empty($headers['content-disposition'])
+			&& preg_match("/\s*filename\s?=\s?(.*)/", $headers['content-disposition'], $parts))
 		{
 			$flds = explode(';', $parts[1]);
 			$target = trim($flds[0], '"');
@@ -134,23 +137,23 @@ abstract class InstallerHelper
 	 * Unpacks a file and verifies it as a Joomla element package
 	 * Supports .gz .tar .tar.gz and .zip
 	 *
-	 * @param   string   $p_filename         The uploaded package filename or install directory
+	 * @param   string   $packageFilename    The uploaded package filename or install directory
 	 * @param   boolean  $alwaysReturnArray  If should return false (and leave garbage behind) or return $retval['type']=false
 	 *
 	 * @return  array|boolean  Array on success or boolean false on failure
 	 *
 	 * @since   3.1
 	 */
-	public static function unpack($p_filename, $alwaysReturnArray = false)
+	public static function unpack($packageFilename, $alwaysReturnArray = false)
 	{
 		// Path to the archive
-		$archivename = $p_filename;
+		$archivename = $packageFilename;
 
 		// Temporary folder to extract the archive into
 		$tmpdir = uniqid('install_');
 
 		// Clean the paths to use for archive extraction
-		$extractdir = \JPath::clean(dirname($p_filename) . '/' . $tmpdir);
+		$extractdir = \JPath::clean(dirname($packageFilename) . '/' . $tmpdir);
 		$archivename = \JPath::clean($archivename);
 
 		// Do the unpacking of the archive
@@ -236,16 +239,16 @@ abstract class InstallerHelper
 	/**
 	 * Method to detect the extension type from a package directory
 	 *
-	 * @param   string  $p_dir  Path to package directory
+	 * @param   string  $packageDirectory  Path to package directory
 	 *
 	 * @return  mixed  Extension type string or boolean false on fail
 	 *
 	 * @since   3.1
 	 */
-	public static function detectType($p_dir)
+	public static function detectType($packageDirectory)
 	{
 		// Search the install dir for an XML file
-		$files = \JFolder::files($p_dir, '\.xml$', 1, true);
+		$files = \JFolder::files($packageDirectory, '\.xml$', 1, true);
 
 		if (!$files || !count($files))
 		{
@@ -290,20 +293,31 @@ abstract class InstallerHelper
 	 *
 	 * @param   string  $url  URL to get name from
 	 *
-	 * @return  mixed   String filename or boolean false if failed
+	 * @return  string  Clean version of the filename or a unique id
 	 *
 	 * @since   3.1
 	 */
 	public static function getFilenameFromUrl($url)
 	{
-		if (is_string($url))
-		{
-			$parts = explode('/', $url);
+		$default = uniqid();
 
-			return $parts[count($parts) - 1];
+		if (!is_string($url) || strpos($url, '/') === false)
+		{
+			return $default;
 		}
 
-		return false;
+		// Get last part of the url (after the last slash).
+		$parts    = explode('/', $url);
+		$filename = array_pop($parts);
+
+		// Replace special characters with underscores.
+		$filename = preg_replace('/[^a-z0-9\_\-\.]/i', '_', $filename);
+
+		// Replace multiple underscores with just one.
+		$filename = preg_replace('/__+/', '_', trim($filename, '_'));
+
+		// Return the cleaned filename or, if it is empty, a unique id.
+		return $filename ?: $default;
 	}
 
 	/**
@@ -347,7 +361,7 @@ abstract class InstallerHelper
 	 * @return  array  Array of queries
 	 *
 	 * @since   3.1
-	 * @deprecated  13.3  Use \JDatabaseDriver::splitSql() directly
+	 * @deprecated  4.0  Use \JDatabaseDriver::splitSql() directly
 	 * @codeCoverageIgnore
 	 */
 	public static function splitSql($query)
@@ -381,7 +395,7 @@ abstract class InstallerHelper
 				$hashRemote  = $updateObject->$hash->_data;
 				$hashOnFile  = true;
 
-				if ($hashPackage !== $hashRemote)
+				if ($hashPackage !== strtolower($hashRemote))	
 				{
 					return self::HASH_NOT_VALIDATED;
 				}

@@ -3,7 +3,7 @@
  * @package     Joomla.Installation
  * @subpackage  Model
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2009 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -124,14 +124,6 @@ class InstallationModelDatabase extends JModelBase
 			return false;
 		}
 
-		// Ensure that a database name was input.
-		if (empty($options->db_name))
-		{
-			JFactory::getApplication()->enqueueMessage(JText::_('INSTL_DATABASE_EMPTY_NAME'), 'warning');
-
-			return false;
-		}
-
 		// Validate database table prefix.
 		if (!preg_match('#^[a-zA-Z]+[a-zA-Z0-9_]*$#', $options->db_prefix))
 		{
@@ -166,15 +158,11 @@ class InstallationModelDatabase extends JModelBase
 
 		$shouldCheckLocalhost = getenv('JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK') !== '1';
 
-		// Per Default allowed DB Hosts
-		$localhost = array(
-			'localhost',
-			'127.0.0.1',
-			'::1',
-		);
-
-		// Check the security file if the db_host is not localhost / 127.0.0.1 / ::1
-		if ($shouldCheckLocalhost && !in_array($options->db_host, $localhost))
+		// Per default allowed DB hosts: localhost / 127.0.0.1 / ::1 (optionally with port)
+		$localhost = '/^(((localhost|127\.0\.0\.1|\[\:\:1\])(\:[1-9]{1}[0-9]{0,4})?)|(\:\:1))$/';
+		
+		// Check the security file if now switched off and the db_host is not one of the allowed hosts
+		if ($shouldCheckLocalhost && preg_match($localhost, $options->db_host) !== 1)
 		{
 			$remoteDbFileTestsPassed = JFactory::getSession()->get('remoteDbFileTestsPassed', false);
 
@@ -634,7 +622,7 @@ class InstallationModelDatabase extends JModelBase
 		{
 			$query->clear()
 				->update($db->quoteName('#__utf8_conversion'))
-				->set($db->quoteName('converted') . ' = ' . ($db->hasUTF8mb4Support() ? 2 : 1));
+				->set($db->quoteName('converted') . ' = ' . ($db->hasUTF8mb4Support() ? 5 : 3));
 			$db->setQuery($query);
 
 			try
@@ -1207,7 +1195,7 @@ class InstallationModelDatabase extends JModelBase
 			$query = trim($query);
 
 			// If the query isn't empty and is not a MySQL or PostgreSQL comment, execute it.
-			if (!empty($query) && ($query{0} != '#') && ($query{0} != '-'))
+			if (!empty($query) && ($query[0] != '#') && ($query[0] != '-'))
 			{
 				/**
 				 * If we don't have UTF-8 Multibyte support we'll have to convert queries to plain UTF-8

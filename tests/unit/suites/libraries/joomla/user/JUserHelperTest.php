@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  User
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2013 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -13,13 +13,13 @@
  *
  * @package     Joomla.UnitTest
  * @subpackage  User
- * @since       12.1
+ * @since       3.0.0
 */
 class JUserHelperTest extends TestCaseDatabase
 {
 	/**
 	 * @var    JUserHelper
-	 * @since  12.1
+	 * @since  3.0.0
 	 */
 	protected $object;
 
@@ -29,7 +29,7 @@ class JUserHelperTest extends TestCaseDatabase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	protected function setUp()
 	{
@@ -61,7 +61,7 @@ class JUserHelperTest extends TestCaseDatabase
 	 *
 	 * @return  PHPUnit_Extensions_Database_DataSet_CsvDataSet
 	 *
-	 * @since   12.2
+	 * @since   3.0.1
 	 */
 	protected function getDataSet()
 	{
@@ -164,7 +164,7 @@ class JUserHelperTest extends TestCaseDatabase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.2
+	 * @since   3.0.1
 	 */
 	public function testGetUserId($username, $expected, $error)
 	{
@@ -207,7 +207,7 @@ class JUserHelperTest extends TestCaseDatabase
 	 * @covers  JUserHelper::addUsertoGroup
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function testAddUserToGroup($userId, $groupId, $expected)
 	{
@@ -222,7 +222,7 @@ class JUserHelperTest extends TestCaseDatabase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 * @expectedException  RuntimeException
 	 * @covers  JUserHelper::addUsertoGroup
 	 */
@@ -299,7 +299,7 @@ class JUserHelperTest extends TestCaseDatabase
 	 * @covers  JUserHelper::activateUser
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function testActivateUser($activation, $expected)
 	{

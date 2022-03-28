@@ -4,6 +4,7 @@
  * @subpackage encrypt
  * @copyright   Copyright (C) 2010-2016 Nicholas K. Dionysopoulos / Akeeba Ltd. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
+ * @note	This file has been modified by the Joomla! Project and no longer reflects the original work of its author.
  */
 // Protect from unauthorized access
 defined('FOF_INCLUDED') or die;
@@ -167,16 +168,16 @@ class FOFEncryptAes
 			$phpfunc = new FOFUtilsPhpfunc();
 		}
 
-		$adapter = new FOFEncryptAesMcrypt();
+		$adapter = new FOFEncryptAesOpenssl();
 
 		if (!$adapter->isSupported($phpfunc))
 		{
-			$adapter = new FOFEncryptAesOpenssl();
-		}
+			$adapter = new FOFEncryptAesMcrypt();
 
-		if (!$adapter->isSupported($phpfunc))
-		{
-			return false;
+			if (!$adapter->isSupported($phpfunc))
+			{
+				return false;
+			}
 		}
 
 		if (!$phpfunc->function_exists('base64_encode'))

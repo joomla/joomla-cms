@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  HTML
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2007 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -204,6 +204,8 @@ abstract class JHtmlBehavior
 	 * @return  void
 	 *
 	 * @since   1.5
+	 *
+	 * @deprecated   4.0  No replacement, only used in Hathor.
 	 */
 	public static function switcher()
 	{
@@ -280,6 +282,8 @@ abstract class JHtmlBehavior
 	 * @return  void
 	 *
 	 * @since   1.5
+	 *
+	 * @deprecated   4.0  Use JHtmlBootstrap::tooltip() instead.
 	 */
 	public static function tooltip($selector = '.hasTip', $params = array())
 	{
@@ -413,34 +417,40 @@ abstract class JHtmlBehavior
 			"
 		jQuery(function($) {
 			SqueezeBox.initialize(" . $options . ");
-			SqueezeBox.assign($('" . $selector . "').get(), {
-				parse: 'rel'
-			});
+			initSqueezeBox();
+			$(document).on('subform-row-add', initSqueezeBox);
+
+			function initSqueezeBox(event, container)
+			{
+				SqueezeBox.assign($(container || document).find('" . $selector . "').get(), {
+					parse: 'rel'
+				});
+			}
 		});
 
 		window.jModalClose = function () {
 			SqueezeBox.close();
 		};
-		
+
 		// Add extra modal close functionality for tinyMCE-based editors
 		document.onreadystatechange = function () {
 			if (document.readyState == 'interactive' && typeof tinyMCE != 'undefined' && tinyMCE)
 			{
 				if (typeof window.jModalClose_no_tinyMCE === 'undefined')
-				{	
+				{
 					window.jModalClose_no_tinyMCE = typeof(jModalClose) == 'function'  ?  jModalClose  :  false;
-					
+
 					jModalClose = function () {
 						if (window.jModalClose_no_tinyMCE) window.jModalClose_no_tinyMCE.apply(this, arguments);
 						tinyMCE.activeEditor.windowManager.close();
 					};
 				}
-		
+
 				if (typeof window.SqueezeBoxClose_no_tinyMCE === 'undefined')
 				{
 					if (typeof(SqueezeBox) == 'undefined')  SqueezeBox = {};
 					window.SqueezeBoxClose_no_tinyMCE = typeof(SqueezeBox.close) == 'function'  ?  SqueezeBox.close  :  false;
-		
+
 					SqueezeBox.close = function () {
 						if (window.SqueezeBoxClose_no_tinyMCE)  window.SqueezeBoxClose_no_tinyMCE.apply(this, arguments);
 						tinyMCE.activeEditor.windowManager.close();
@@ -505,6 +515,8 @@ abstract class JHtmlBehavior
 	 * @return  void
 	 *
 	 * @since   1.5
+	 *
+	 * @deprecated   4.0  No replacement, not used since 3.0.
 	 */
 	public static function tree($id, $params = array(), $root = array())
 	{
@@ -853,7 +865,7 @@ abstract class JHtmlBehavior
 	 * @return  string  JavaScript object notation representation of the array
 	 *
 	 * @since       1.5
-	 * @deprecated  13.3 (Platform) & 4.0 (CMS) - Use JHtml::getJSObject() instead.
+	 * @deprecated  4.0 - Use JHtml::getJSObject() instead.
 	 */
 	protected static function _getJSObject($array = array())
 	{
@@ -877,9 +889,13 @@ abstract class JHtmlBehavior
 	 * @return  void
 	 *
 	 * @since   3.2
+	 *
+	 * @deprecated 4.0 In Joomla 4 use the custom element joomla-tab.
 	 */
 	public static function tabstate()
 	{
+		JLog::add('JHtmlBehavior::tabstate is deprecated. In Joomla 4 use the custom element joomla-tab.', JLog::WARNING, 'deprecated');
+
 		if (isset(self::$loaded[__METHOD__]))
 		{
 			return;

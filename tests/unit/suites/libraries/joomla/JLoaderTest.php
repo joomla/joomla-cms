@@ -2,7 +2,7 @@
 /**
  * @package    Joomla.UnitTest
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2013 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -10,7 +10,7 @@
  * Test class for JLoader.
  *
  * @package  Joomla.UnitTest
- * @since    11.1
+ * @since    1.7.0
  */
 class JLoaderTest extends \PHPUnit\Framework\TestCase
 {
@@ -18,7 +18,7 @@ class JLoaderTest extends \PHPUnit\Framework\TestCase
 	 * Container for JLoader static values during tests.
 	 *
 	 * @var    array
-	 * @since  12.3
+	 * @since  3.1.4
 	 */
 	protected static $cache = array();
 
@@ -26,7 +26,7 @@ class JLoaderTest extends \PHPUnit\Framework\TestCase
 	 * JLoader is an abstract class of static functions and variables, so will test without instantiation
 	 *
 	 * @var    object
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected $object;
 
@@ -34,7 +34,7 @@ class JLoaderTest extends \PHPUnit\Framework\TestCase
 	 * The path to the bogus object for loader testing.
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected $bogusPath;
 
@@ -42,7 +42,7 @@ class JLoaderTest extends \PHPUnit\Framework\TestCase
 	 * The full path (including filename) to the bogus object.
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected $bogusFullPath;
 
@@ -51,7 +51,7 @@ class JLoaderTest extends \PHPUnit\Framework\TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public static function setUpBeforeClass()
 	{
@@ -68,7 +68,7 @@ class JLoaderTest extends \PHPUnit\Framework\TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public static function tearDownAfterClass()
 	{
@@ -86,7 +86,7 @@ class JLoaderTest extends \PHPUnit\Framework\TestCase
 	 *
 	 * @return  array
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function casesImport()
 	{
@@ -101,7 +101,7 @@ class JLoaderTest extends \PHPUnit\Framework\TestCase
 	 *
 	 * @return  array
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function casesJimport()
 	{
@@ -115,7 +115,7 @@ class JLoaderTest extends \PHPUnit\Framework\TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function testDiscover()
 	{
@@ -190,7 +190,7 @@ class JLoaderTest extends \PHPUnit\Framework\TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function testGetClassList()
 	{
@@ -202,7 +202,7 @@ class JLoaderTest extends \PHPUnit\Framework\TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function testLoad()
 	{
@@ -390,7 +390,7 @@ class JLoaderTest extends \PHPUnit\Framework\TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function testLoadForSinglePart()
 	{
@@ -407,7 +407,7 @@ class JLoaderTest extends \PHPUnit\Framework\TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function testApplyAliasForAutorun()
 	{
@@ -433,7 +433,7 @@ class JLoaderTest extends \PHPUnit\Framework\TestCase
 	 * @return  void
 	 *
 	 * @dataProvider casesImport
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function testImport($filePath, $base, $libraries, $expect, $message, $useDefaults)
 	{
@@ -459,7 +459,7 @@ class JLoaderTest extends \PHPUnit\Framework\TestCase
 	 * @return  void
 	 *
 	 * @dataProvider casesJimport
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function testJimport($object, $expect, $message)
 	{
@@ -471,7 +471,7 @@ class JLoaderTest extends \PHPUnit\Framework\TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function testRegister()
 	{
@@ -497,7 +497,7 @@ class JLoaderTest extends \PHPUnit\Framework\TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function testRegisterNamespace()
 	{
@@ -522,11 +522,11 @@ class JLoaderTest extends \PHPUnit\Framework\TestCase
 	}
 
 	/**
-	 * Tests the JLoader::registerNamespace method when reseting the paths.
+	 * Tests the JLoader::registerNamespace method when resetting the paths.
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function testRegisterNamespaceResetPath()
 	{
@@ -551,7 +551,7 @@ class JLoaderTest extends \PHPUnit\Framework\TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 * @expectedException  RuntimeException
 	 */
 	public function testRegisterNamespaceException()
@@ -567,7 +567,7 @@ class JLoaderTest extends \PHPUnit\Framework\TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function testRegisterNamespaceTrimming()
 	{
@@ -596,7 +596,7 @@ class JLoaderTest extends \PHPUnit\Framework\TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function testRegisterPrefix()
 	{
@@ -688,7 +688,7 @@ class JLoaderTest extends \PHPUnit\Framework\TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 * @expectedException RuntimeException
 	 */
 	public function testRegisterPrefixException()
@@ -702,7 +702,7 @@ class JLoaderTest extends \PHPUnit\Framework\TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function testSetupDefaultParameters()
 	{
@@ -781,7 +781,7 @@ class JLoaderTest extends \PHPUnit\Framework\TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function testSetupWithoutClasses()
 	{
@@ -817,7 +817,7 @@ class JLoaderTest extends \PHPUnit\Framework\TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function testSetupWithoutPrefixes()
 	{
@@ -861,7 +861,7 @@ class JLoaderTest extends \PHPUnit\Framework\TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function testSetupPsr0()
 	{
@@ -915,7 +915,7 @@ class JLoaderTest extends \PHPUnit\Framework\TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	protected function unregisterLoaders()
 	{
@@ -944,7 +944,7 @@ class JLoaderTest extends \PHPUnit\Framework\TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	protected function setUp()
 	{

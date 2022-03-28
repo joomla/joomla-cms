@@ -3,15 +3,18 @@
  * @package     Joomla.Administrator
  * @subpackage  com_actionlogs
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2018 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Date\Date;
+use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\Path;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Router\Route;
 use Joomla\String\StringHelper;
-use Joomla\Utilities\ArrayHelper;
 
 /**
  * Actionlogs component helper.
@@ -21,16 +24,46 @@ use Joomla\Utilities\ArrayHelper;
 class ActionlogsHelper
 {
 	/**
-	 * Method to convert logs objects array to associative array use for CSV export
+	 * Array of characters starting a formula
 	 *
-	 * @param   array  $data  The logs data objects to be exported
+	 * @var    array
+	 * @since  3.9.7
+	 */
+	private static $characters = array('=', '+', '-', '@');
+
+	/**
+	 * Method to convert logs objects array to an iterable type for use with a CSV export
 	 *
-	 * @return  array
+	 * @param   array|Traversable  $data  The logs data objects to be exported
+	 *
+	 * @return  array|Generator  For PHP 5.5 and newer, a Generator is returned; PHP 5.4 and earlier use an array
 	 *
 	 * @since   3.9.0
+	 * @throws  InvalidArgumentException
 	 */
 	public static function getCsvData($data)
 	{
+		if (!is_iterable($data))
+		{
+			throw new InvalidArgumentException(
+				sprintf(
+					'%s() requires an array or object implementing the Traversable interface, a %s was given.',
+					__METHOD__,
+					gettype($data) === 'object' ? get_class($data) : gettype($data)
+				)
+			);
+		}
+
+		if (version_compare(PHP_VERSION, '5.5', '>='))
+		{
+			// Only include the PHP 5.5 helper in this conditional to prevent the potential of parse errors for PHP 5.4 or earlier
+			JLoader::register('ActionlogsHelperPhp55', __DIR__ . '/actionlogsphp55.php');
+
+			return ActionlogsHelperPhp55::getCsvAsGenerator($data);
+		}
+
+		$disabledText = Text::_('COM_ACTIONLOGS_DISABLED');
+
 		$rows = array();
 
 		// Header row
@@ -38,17 +71,19 @@ class ActionlogsHelper
 
 		foreach ($data as $log)
 		{
+			$date      = new Date($log->log_date, new DateTimeZone('UTC'));
 			$extension = strtok($log->extension, '.');
-			static::loadTranslationFiles($extension);
-			$row               = array();
-			$row['id']         = $log->id;
-			$row['message']    = strip_tags(static::getHumanReadableLogMessage($log));
-			$row['date']       = JHtml::_('date', $log->log_date, JText::_('DATE_FORMAT_LC6'));
-			$row['extension']  = JText::_($extension);
-			$row['name']       = $log->name;
-			$row['ip_address'] = JText::_($log->ip_address);
 
-			$rows[] = $row;
+			static::loadTranslationFiles($extension);
+
+			$rows[] = array(
+				'id'         => $log->id,
+				'message'    => self::escapeCsvFormula(strip_tags(static::getHumanReadableLogMessage($log, false))),
+				'date'       => $date->format('Y-m-d H:i:s T'),
+				'extension'  => self::escapeCsvFormula(Text::_($extension)),
+				'name'       => self::escapeCsvFormula($log->name),
+				'ip_address' => self::escapeCsvFormula($log->ip_address === 'COM_ACTIONLOGS_DISABLED' ? $disabledText : $log->ip_address)
+			);
 		}
 
 		return $rows;
@@ -66,13 +101,15 @@ class ActionlogsHelper
 	public static function loadTranslationFiles($extension)
 	{
 		static $cache = array();
+		$extension = strtolower($extension);
 
 		if (isset($cache[$extension]))
 		{
 			return;
 		}
 
-		$lang   = JFactory::getLanguage();
+		$lang   = Factory::getLanguage();
+		$source = '';
 
 		switch (substr($extension, 0, 3))
 		{
@@ -91,7 +128,15 @@ class ActionlogsHelper
 
 			case 'plg':
 				$parts = explode('_', $extension, 3);
-				$source = JPATH_PLUGINS . '/' . $parts[1] . '/' . $parts[2];
+
+				if (count($parts) > 2)
+				{
+					$source = JPATH_PLUGINS . '/' . $parts[1] . '/' . $parts[2];
+				}
+				break;
+
+			case 'pkg':
+				$source = JPATH_SITE;
 				break;
 
 			case 'tpl':
@@ -100,8 +145,14 @@ class ActionlogsHelper
 
 		}
 
-		$lang->load(strtolower($extension), JPATH_ADMINISTRATOR, null, false, true)
-			|| $lang->load(strtolower($extension), $source, null, false, true);
+		$lang->load($extension, JPATH_ADMINISTRATOR, null, false, true)
+			|| $lang->load($extension, $source, null, false, true);
+
+		if (!$lang->hasKey(strtoupper($extension)))
+		{
+			$lang->load($extension . '.sys', JPATH_ADMINISTRATOR, null, false, true)
+				|| $lang->load($extension . '.sys', $source, null, false, true);
+		}
 
 		$cache[$extension] = true;
 	}
@@ -117,7 +168,7 @@ class ActionlogsHelper
 	 */
 	public static function getLogContentTypeParams($context)
 	{
-		$db = JFactory::getDbo();
+		$db = Factory::getDbo();
 		$query = $db->getQuery(true)
 			->select('a.*')
 			->from($db->quoteName('#__action_log_config', 'a'))
@@ -131,35 +182,58 @@ class ActionlogsHelper
 	/**
 	 * Get human readable log message for a User Action Log
 	 *
-	 * @param   stdClass  $log  A User Action log message record
+	 * @param   stdClass  $log            A User Action log message record
+	 * @param   boolean   $generateLinks  Flag to disable link generation when creating a message
 	 *
 	 * @return  string
 	 *
 	 * @since   3.9.0
 	 */
-	public static function getHumanReadableLogMessage($log)
+	public static function getHumanReadableLogMessage($log, $generateLinks = true)
 	{
-		$message     = JText::_($log->message_language_key);
+		static $links = array();
+
+		$message     = Text::_($log->message_language_key);
 		$messageData = json_decode($log->message, true);
 
 		// Special handling for translation extension name
 		if (isset($messageData['extension_name']))
 		{
 			static::loadTranslationFiles($messageData['extension_name']);
-			$messageData['extension_name'] = JText::_($messageData['extension_name']);
+			$messageData['extension_name'] = Text::_($messageData['extension_name']);
 		}
 
-		$linkMode = JFactory::getApplication()->get('force_ssl', 0) >= 1 ? 1 : -1;
+		// Translating application
+		if (isset($messageData['app']))
+		{
+			$messageData['app'] = Text::_($messageData['app']);
+		}
+
+		// Translating type
+		if (isset($messageData['type']))
+		{
+			$messageData['type'] = Text::_($messageData['type']);
+		}
+
+		$linkMode = Factory::getApplication()->get('force_ssl', 0) >= 1 ? Route::TLS_FORCE : Route::TLS_IGNORE;
 
 		foreach ($messageData as $key => $value)
 		{
+			// Escape any markup in the values to prevent XSS attacks
+			$value = htmlspecialchars($value, ENT_QUOTES, 'UTF-8');
+
 			// Convert relative url to absolute url so that it is clickable in action logs notification email
-			if (StringHelper::strpos($value, 'index.php?') === 0)
+			if ($generateLinks && StringHelper::strpos($value, 'index.php?') === 0)
 			{
-				$value = JRoute::link('administrator', $value, false, $linkMode);
+				if (!isset($links[$value]))
+				{
+					$links[$value] = Route::link('administrator', $value, false, $linkMode, true);
+				}
+
+				$value = $links[$value];
 			}
 
-			$message = str_replace('{' . $key . '}', JText::_($value), $message);
+			$message = str_replace('{' . $key . '}', $value, $message);
 		}
 
 		return $message;
@@ -172,12 +246,13 @@ class ActionlogsHelper
 	 * @param   string   $contentType
 	 * @param   integer  $id
 	 * @param   string   $urlVar
+	 * @param   JObject  $object
 	 *
 	 * @return  string  Link to the content item
 	 *
 	 * @since   3.9.0
 	 */
-	public static function getContentTypeLink($component, $contentType, $id, $urlVar = 'id')
+	public static function getContentTypeLink($component, $contentType, $id, $urlVar = 'id', $object = null)
 	{
 		// Try to find the component helper.
 		$eName = str_replace('com_', '', $component);
@@ -192,7 +267,7 @@ class ActionlogsHelper
 
 			if (class_exists($cName) && is_callable(array($cName, 'getContentTypeLink')))
 			{
-				return $cName::getContentTypeLink($contentType, $id);
+				return $cName::getContentTypeLink($contentType, $id, $object);
 			}
 		}
 
@@ -216,8 +291,8 @@ class ActionlogsHelper
 	 */
 	public static function loadActionLogPluginsLanguage()
 	{
-		$lang = JFactory::getLanguage();
-		$db   = JFactory::getDbo();
+		$lang = Factory::getLanguage();
+		$db   = Factory::getDbo();
 
 		// Get all (both enabled and disabled) actionlog plugins
 		$query = $db->getQuery(true)
@@ -277,5 +352,29 @@ class ActionlogsHelper
 
 		// Load com_privacy too.
 		$lang->load('com_privacy', JPATH_ADMINISTRATOR, null, false, true);
+	}
+
+	/**
+	 * Escapes potential characters that start a formula in a CSV value to prevent injection attacks
+	 *
+	 * @param   mixed  $value  csv field value
+	 *
+	 * @return  mixed
+	 *
+	 * @since   3.9.7
+	 */
+	protected static function escapeCsvFormula($value)
+	{
+		if ($value == '')
+		{
+			return $value;
+		}
+
+		if (in_array($value[0], self::$characters, true))
+		{
+			$value = ' ' . $value;
+		}
+
+		return $value;
 	}
 }

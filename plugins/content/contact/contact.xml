@@ -3,7 +3,7 @@
 	<name>plg_content_contact</name>
 	<author>Joomla! Project</author>
 	<creationDate>January 2014</creationDate>
-	<copyright>Copyright (C) 2005 - 2018 Open Source Matters. All rights reserved.</copyright>
+	<copyright>(C) 2014 Open Source Matters, Inc.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
@@ -24,7 +24,7 @@
 					type="list"
 					label="PLG_CONTENT_CONTACT_PARAM_URL_LABEL"
 					description="PLG_CONTENT_CONTACT_PARAM_URL_DESCRIPTION"
-					default="0"
+					default="url"
 					>
 					<option value="url">PLG_CONTENT_CONTACT_PARAM_URL_URL</option>
 					<option value="webpage">PLG_CONTENT_CONTACT_PARAM_URL_WEBPAGE</option>
@@ -38,6 +38,7 @@
 					description="PLG_CONTENT_CONTACT_PARAM_ALIAS_DESCRIPTION"
 					default="0"
 					class="btn-group btn-group-yesno"
+					filter="integer"
 					>
 					<option value="0">JNO</option>
 					<option value="1">JYES</option>

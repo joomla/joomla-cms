@@ -3,15 +3,19 @@
  * @package     Joomla.Administrator
  * @subpackage  System.actionlogs
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright   (C) 2018 Open Source Matters, Inc. <https://www.joomla.org>
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Application\ApplicationHelper;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Form\FormHelper;
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
 
-JFormHelper::loadFieldClass('checkboxes');
+FormHelper::loadFieldClass('checkboxes');
 JLoader::register('ActionlogsHelper', JPATH_ADMINISTRATOR . '/components/com_actionlogs/helpers/actionlogs.php');
 
 /**
@@ -38,7 +42,7 @@ class JFormFieldLogType extends JFormFieldCheckboxes
 	 */
 	public function getOptions()
 	{
-		$db = JFactory::getDbo();
+		$db = Factory::getDbo();
 		$query = $db->getQuery(true)
 			->select($db->quoteName('extension'))
 			->from($db->quoteName('#__action_logs_extensions'));
@@ -51,8 +55,8 @@ class JFormFieldLogType extends JFormFieldCheckboxes
 		foreach ($extensions as $extension)
 		{
 			ActionlogsHelper::loadTranslationFiles($extension);
-			$option = JHtml::_('select.option', $extension, JText::_($extension));
-			$options[ApplicationHelper::stringURLSafe(JText::_($extension)) . '_' . $extension] = (object) array_merge($tmp, (array) $option);
+			$option = HTMLHelper::_('select.option', $extension, Text::_($extension));
+			$options[ApplicationHelper::stringURLSafe(Text::_($extension)) . '_' . $extension] = (object) array_merge($tmp, (array) $option);
 		}
 
 		ksort($options);

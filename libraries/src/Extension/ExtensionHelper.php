@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2017 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -207,6 +207,7 @@ class ExtensionHelper
 
 		// Core plugin extensions - privacy
 		array('plugin', 'actionlogs', 'privacy', 0),
+		array('plugin', 'consents', 'privacy', 0),
 		array('plugin', 'contact', 'privacy', 0),
 		array('plugin', 'content', 'privacy', 0),
 		array('plugin', 'message', 'privacy', 0),
@@ -217,6 +218,7 @@ class ExtensionHelper
 		array('plugin', 'joomlaupdate', 'quickicon', 0),
 		array('plugin', 'phpversioncheck', 'quickicon', 0),
 		array('plugin', 'privacycheck', 'quickicon', 0),
+		array('plugin', 'eos310', 'quickicon', 0),
 
 		// Core plugin extensions - sample data
 		array('plugin', 'blog', 'sampledata', 0),
@@ -284,17 +286,17 @@ class ExtensionHelper
 	/**
 	 * Check if an extension is core or not
 	 *
-	 * @param   string   $type       The extension's type.
-	 * @param   string   $element    The extension's element name.
-	 * @param   integer  $client_id  The extension's client ID. Default 0.
-	 * @param   string   $folder     The extension's folder. Default ''.
+	 * @param   string   $type      The extension's type.
+	 * @param   string   $element   The extension's element name.
+	 * @param   integer  $clientId  The extension's client ID. Default 0.
+	 * @param   string   $folder    The extension's folder. Default ''.
 	 *
 	 * @return  boolean  True if core, false if not.
 	 *
 	 * @since   3.7.4
 	 */
-	public static function checkIfCoreExtension($type, $element, $client_id = 0, $folder = '')
+	public static function checkIfCoreExtension($type, $element, $clientId = 0, $folder = '')
 	{
-		return in_array(array($type, $element, $folder, $client_id), self::$coreExtensions);
+		return in_array(array($type, $element, $folder, $clientId), self::$coreExtensions);
 	}
 }

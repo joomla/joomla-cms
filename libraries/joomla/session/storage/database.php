@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Session
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2007 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -12,8 +12,8 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Database session storage handler for PHP
  *
- * @link        https://secure.php.net/manual/en/function.session-set-save-handler.php
- * @since       11.1
+ * @link        https://www.php.net/manual/en/function.session-set-save-handler.php
+ * @since       1.7.0
  * @deprecated  4.0  The CMS' Session classes will be replaced with the `joomla/session` package
  */
 class JSessionStorageDatabase extends JSessionStorage
@@ -25,7 +25,7 @@ class JSessionStorageDatabase extends JSessionStorage
 	 *
 	 * @return  string  The session data.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function read($id)
 	{
@@ -38,7 +38,7 @@ class JSessionStorageDatabase extends JSessionStorage
 			$query = $db->getQuery(true)
 				->select($db->quoteName('data'))
 			->from($db->quoteName('#__session'))
-			->where($db->quoteName('session_id') . ' = ' . $db->quote($id));
+			->where($db->quoteName('session_id') . ' = ' . $db->quoteBinary($id));
 
 			$db->setQuery($query);
 
@@ -62,7 +62,7 @@ class JSessionStorageDatabase extends JSessionStorage
 	 *
 	 * @return  boolean  True on success, false otherwise.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function write($id, $data)
 	{
@@ -77,7 +77,7 @@ class JSessionStorageDatabase extends JSessionStorage
 				->update($db->quoteName('#__session'))
 				->set($db->quoteName('data') . ' = ' . $db->quote($data))
 				->set($db->quoteName('time') . ' = ' . time())
-				->where($db->quoteName('session_id') . ' = ' . $db->quote($id));
+				->where($db->quoteName('session_id') . ' = ' . $db->quoteBinary($id));
 
 			// Try to update the session data in the database table.
 			$db->setQuery($query);
@@ -103,7 +103,7 @@ class JSessionStorageDatabase extends JSessionStorage
 	 *
 	 * @return  boolean  True on success, false otherwise.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function destroy($id)
 	{
@@ -114,7 +114,7 @@ class JSessionStorageDatabase extends JSessionStorage
 		{
 			$query = $db->getQuery(true)
 				->delete($db->quoteName('#__session'))
-				->where($db->quoteName('session_id') . ' = ' . $db->quote($id));
+				->where($db->quoteName('session_id') . ' = ' . $db->quoteBinary($id));
 
 			// Remove a session from the database.
 			$db->setQuery($query);
@@ -134,7 +134,7 @@ class JSessionStorageDatabase extends JSessionStorage
 	 *
 	 * @return  boolean  True on success, false otherwise.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function gc($lifetime = 1440)
 	{

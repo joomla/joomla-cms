@@ -2,7 +2,7 @@
 /**
  * Part of the Joomla Framework Filesystem Package
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -150,13 +150,13 @@ class Path
 		for ($i = 0; $i < 3; $i++)
 		{
 			// Read
-			$parsedMode .= ($mode{$i} & 04) ? "r" : "-";
+			$parsedMode .= ($mode[$i] & 04) ? 'r' : '-';
 
 			// Write
-			$parsedMode .= ($mode{$i} & 02) ? "w" : "-";
+			$parsedMode .= ($mode[$i] & 02) ? 'w' : '-';
 
 			// Execute
-			$parsedMode .= ($mode{$i} & 01) ? "x" : "-";
+			$parsedMode .= ($mode[$i] & 01) ? 'x' : '-';
 		}
 
 		return $parsedMode;
@@ -213,21 +213,21 @@ class Path
 	 * @since   1.0
 	 * @throws  \UnexpectedValueException If $path is not a string.
 	 */
-	public static function clean($path, $ds = DIRECTORY_SEPARATOR)
+	public static function clean($path, $ds = \DIRECTORY_SEPARATOR)
 	{
 		if (!\is_string($path))
 		{
 			throw new \UnexpectedValueException('JPath::clean $path is not a string.');
 		}
 
-		$stream = explode("://", $path, 2);
+		$stream = explode('://', $path, 2);
 		$scheme = '';
-		$path = $stream[0];
+		$path   = $stream[0];
 
 		if (\count($stream) >= 2)
 		{
 			$scheme = $stream[0] . '://';
-			$path = $stream[1];
+			$path   = $stream[1];
 		}
 
 		$path = trim($path);
@@ -236,11 +236,11 @@ class Path
 		{
 			$path = JPATH_ROOT;
 		}
-		elseif (($ds == '\\') && ($path[0] == '\\' ) && ( $path[1] == '\\' ))
-		// Remove double slashes and backslashes and convert all slashes and backslashes to DIRECTORY_SEPARATOR
-		// If dealing with a UNC path don't forget to prepend the path with a backslash.
+		elseif (($ds == '\\') && ($path[0] == '\\') && ($path[1] == '\\'))
 		{
-			$path = "\\" . preg_replace('#[/\\\\]+#', $ds, $path);
+			// Remove double slashes and backslashes and convert all slashes and backslashes to DIRECTORY_SEPARATOR
+			// If dealing with a UNC path don't forget to prepend the path with a backslash.
+			$path = '\\' . preg_replace('#[/\\\\]+#', $ds, $path);
 		}
 		else
 		{
@@ -296,7 +296,7 @@ class Path
 	 * @param   mixed   $paths  A path string or array of path strings to search in
 	 * @param   string  $file   The file name to look for.
 	 *
-	 * @return  mixed   The full path and file name for the target file, or boolean false if the file is not found in any of the paths.
+	 * @return  string|boolean   The full path and file name for the target file, or boolean false if the file is not found in any of the paths.
 	 *
 	 * @since   1.0
 	 */
@@ -321,7 +321,7 @@ class Path
 				// traversal attempts on the local file system.
 
 				// Needed for substr() later
-				$path = realpath($path);
+				$path     = realpath($path);
 				$fullname = realpath($fullname);
 			}
 
@@ -339,5 +339,50 @@ class Path
 
 		// Could not find the file in the set of paths
 		return false;
+	}
+
+	/**
+	 * Resolves /./, /../ and multiple / in a string and returns the resulting absolute path, inspired by Flysystem
+	 * Removes trailing slashes
+	 *
+	 * @param   string   $path   A path to resolve
+	 *
+	 * @return  string  The resolved path
+	 *
+	 * @since   1.6.0
+	 */
+	public static function resolve($path)
+	{
+		$path = static::clean($path);
+
+		// Save start character for absolute path
+		$startCharacter = ($path[0] === DIRECTORY_SEPARATOR) ? DIRECTORY_SEPARATOR : '';
+
+		$parts = array();
+
+		foreach (explode(DIRECTORY_SEPARATOR, $path) as $part)
+		{
+			switch ($part)
+			{
+				case '':
+				case '.':
+					break;
+
+				case '..':
+					if (empty($parts))
+					{
+						throw new FilesystemException('Path is outside of the defined root');
+					}
+
+					array_pop($parts);
+					break;
+
+				default:
+					$parts[] = $part;
+					break;
+			}
+		}
+
+		return $startCharacter . implode(DIRECTORY_SEPARATOR, $parts);
 	}
 }
