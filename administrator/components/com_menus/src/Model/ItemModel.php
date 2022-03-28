@@ -1426,7 +1426,7 @@ class ItemModel extends AdminModel
 	 */
 	public function save($data)
 	{
-		$pk         = (!empty($data['id'])) ? $data['id'] : (int) $this->getState('item.id');
+		$pk = (!empty($data['id']) || $data['id'] === 0) ? $data['id'] : (int) $this->getState('item.id');
 		$isNew      = true;
 		$db      = $this->getDbo();
 		$query   = $db->getQuery(true);
