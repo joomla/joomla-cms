@@ -245,7 +245,7 @@ const insertAsOther = (media, editor, fieldClass, type) => {
         } else if (Joomla.editors.instances[editor].getSelection() !== '') {
           outputText = `<a download href="${Joomla.selectedMediaFile.url}">${Joomla.editors.instances[editor].getSelection()}</a>`;
         } else {
-          const name = /([\w-]+)\./.exec(Joomla.selectedMediaFile.url);
+          const name =  Joomla.selectedMediaFile.url.substr(0, Joomla.selectedMediaFile.url.lastIndexOf('.')).replace(/%20/g, " ");
           outputText = `<a download href="${Joomla.selectedMediaFile.url}">${Joomla.Text._('JFIELD_MEDIA_DOWNLOAD_FILE').replace('{file}', name[1])}</a>`;
         }
       }
