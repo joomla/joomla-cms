@@ -828,6 +828,7 @@ class JoomlaInstallerScript
 			'/administrator/components/com_admin/sql/updates/postgresql/3.1.5.sql',
 			'/administrator/components/com_admin/sql/updates/postgresql/3.10.0-2020-08-10.sql',
 			'/administrator/components/com_admin/sql/updates/postgresql/3.10.0-2021-05-28.sql',
+			'/administrator/components/com_admin/sql/updates/postgresql/3.10.7-2022-02-20.sql',
 			'/administrator/components/com_admin/sql/updates/postgresql/3.10.7-2022-02-20.sql.sql',
 			'/administrator/components/com_admin/sql/updates/postgresql/3.2.0.sql',
 			'/administrator/components/com_admin/sql/updates/postgresql/3.2.1.sql',
@@ -953,6 +954,7 @@ class JoomlaInstallerScript
 			'/administrator/components/com_admin/sql/updates/sqlazure/3.1.5.sql',
 			'/administrator/components/com_admin/sql/updates/sqlazure/3.10.0-2021-05-28.sql',
 			'/administrator/components/com_admin/sql/updates/sqlazure/3.10.1-2021-08-17.sql',
+			'/administrator/components/com_admin/sql/updates/sqlazure/3.10.7-2022-02-20.sql',
 			'/administrator/components/com_admin/sql/updates/sqlazure/3.10.7-2022-02-20.sql.sql',
 			'/administrator/components/com_admin/sql/updates/sqlazure/3.2.0.sql',
 			'/administrator/components/com_admin/sql/updates/sqlazure/3.2.1.sql',
@@ -7710,6 +7712,8 @@ class JoomlaInstallerScript
 			'/libraries/vendor/tobscure/json-api/.git/hooks',
 			'/libraries/vendor/tobscure/json-api/.git/branches',
 			'/libraries/vendor/tobscure/json-api/.git',
+			// From 4.1.1 to 4.2.0
+			'/libraries/src/Service/Provider/ApiRouter.php'
 		);
 
 		$status['files_checked'] = $files;
