@@ -74,7 +74,7 @@ elseif ($input->get('module'))
 
 		if ($parts)
 		{
-			$class = 'Mod';
+			$class = '';
 
 			foreach ($parts as $part)
 			{
@@ -85,14 +85,19 @@ elseif ($input->get('module'))
 		}
 		else
 		{
-			$class = 'Mod' . ucfirst($module) . 'Helper';
+			$class = ucfirst($module) . 'Helper';
 		}
 
-		$helperFile = JPATH_BASE . '/modules/mod_' . $module . '/src/Helper/' . substr($class, 3) . '.php';
+		$helperFile = JPATH_BASE . '/modules/mod_' . $module . '/src/Helper/' . $class . '.php';
 
-		if (!is_file($helperFile))
+		if (is_file($helperFile))
+		{
+			$class = 'Joomla\\Module\\' . ucfirst($module) . '\\' . ucfirst($app->getName()) . '\\Helper\\' . $class;
+		}
+		else
 		{
 			$helperFile = JPATH_BASE . '/modules/mod_' . $module . '/helper.php';
+			$class      = 'Mod' . $class;
 		}
 
 		$method = $input->get('method') ?: 'get';
