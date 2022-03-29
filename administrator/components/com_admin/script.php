@@ -2736,7 +2736,9 @@ class JoomlaInstallerScript
 	 *
 	 * @throws Exception
 	 *
-	 * @since 3.10.8
+	 * @return  void
+	 *
+	 * @since   3.10.8
 	 */
 	protected function verifyAuthProviders()
 	{
