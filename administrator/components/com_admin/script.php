@@ -8689,6 +8689,11 @@ class JoomlaInstallerScript
 		}
 	}
 
+	/**
+	 * Verifies the current authProvider values in the user table and unsets invalid values
+	 *
+	 * @throws Exception
+	 */
 	protected function verifyAuthProviders(): void
 	{
 		$plugins = PluginHelper::getPlugin('authentication');
