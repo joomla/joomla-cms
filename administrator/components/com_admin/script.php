@@ -2741,8 +2741,8 @@ class JoomlaInstallerScript
 	protected function verifyAuthProviders()
 	{
 		\Joomla\CMS\Plugin\PluginHelper::importPlugin('authentication');
+
 		$plugins = \Joomla\CMS\Plugin\PluginHelper::getPlugin('authentication');
-		$db = JFactory::getDbo();
 
 		$validProviders = [];
 
@@ -2765,6 +2765,7 @@ class JoomlaInstallerScript
 			}
 		}
 
+		$db = JFactory::getDbo();
 		$query = $db->getQuery(true);
 
 		$query->update('#__users')
