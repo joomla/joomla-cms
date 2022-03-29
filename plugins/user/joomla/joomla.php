@@ -397,7 +397,7 @@ class PlgUserJoomla extends JPlugin
 				$plugin = PluginHelper::getPlugin('authentication', $user['type']);
 				$className = 'plg' . $plugin->type . $plugin->name;
 
-				if ($plugin && class_exists($className))
+				if (class_exists($className))
 				{
 					$plugin = new $className($this, (array) $plugin);
 
