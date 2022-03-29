@@ -2769,9 +2769,8 @@ class JoomlaInstallerScript
 
 		$query->update('#__users')
 			->set($db->quoteName('authProvider') . ' = ' . $db->quote(''))
-			->where($db->quoteName('authProvider') . " NOT IN (" . implode(', ', $db->quote($validProviders)) . ")");
+			->where($db->quoteName('authProvider') . ' NOT IN (' . implode(', ', $db->quote($validProviders)) . ')');
 
-		$db->setQuery($query);
-		$db->execute();
+		$db->setQuery($query)->execute();
 	}
 }
