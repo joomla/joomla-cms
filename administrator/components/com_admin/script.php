@@ -2768,7 +2768,7 @@ class JoomlaInstallerScript
 		$db = JFactory::getDbo();
 		$query = $db->getQuery(true);
 
-		$query->update('#__users')
+		$query->update($db->quoteName('#__users'))
 			->set($db->quoteName('authProvider') . ' = ' . $db->quote(''))
 			->where($db->quoteName('authProvider') . ' NOT IN (' . implode(', ', $db->quote($validProviders)) . ')');
 
