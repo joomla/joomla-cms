@@ -50,7 +50,7 @@ if (!$format)
 /*
  * Module support.
  *
- * modFooHelper::getAjax() is called where 'foo' is the value
+ * FooHelper::getAjax() is called where 'foo' is the value
  * of the 'module' variable passed via the URL
  * (i.e. index.php?option=com_ajax&module=foo).
  *
@@ -63,8 +63,6 @@ elseif ($input->get('module'))
 
 	if ($moduleId && $table->load($moduleId) && $table->enabled)
 	{
-		$helperFile = JPATH_BASE . '/modules/mod_' . $module . '/helper.php';
-
 		if (strpos($module, '_'))
 		{
 			$parts = explode('_', $module);
@@ -90,6 +88,13 @@ elseif ($input->get('module'))
 			$class = 'Mod' . ucfirst($module) . 'Helper';
 		}
 
+		$helperFile = JPATH_BASE . '/modules/mod_' . $module . '/src/Helper/' . substr($class, 3) . '.php';
+
+		if (!is_file($helperFile))
+		{
+			$helperFile = JPATH_BASE . '/modules/mod_' . $module . '/helper.php';
+		}
+
 		$method = $input->get('method') ?: 'get';
 
 		$moduleInstance = $app->bootModule('mod_' . $module, $app->getName());
@@ -109,7 +114,7 @@ elseif ($input->get('module'))
 				$basePath = JPATH_BASE;
 				$lang     = Factory::getLanguage();
 				$lang->load('mod_' . $module, $basePath)
-				||  $lang->load('mod_' . $module, $basePath . '/modules/mod_' . $module);
+					||  $lang->load('mod_' . $module, $basePath . '/modules/mod_' . $module);
 
 				try
 				{
@@ -217,7 +222,7 @@ elseif ($input->get('template'))
 				// Load language file for template
 				$lang = Factory::getLanguage();
 				$lang->load('tpl_' . $template, $basePath)
-				||  $lang->load('tpl_' . $template, $basePath . '/templates/' . $template);
+					||  $lang->load('tpl_' . $template, $basePath . '/templates/' . $template);
 
 				try
 				{
@@ -250,13 +255,13 @@ elseif ($input->get('template'))
 // Return the results in the desired format
 switch ($format)
 {
-	// JSONinzed
+		// JSONinzed
 	case 'json':
 		echo new JsonResponse($results, null, false, $input->get('ignoreMessages', true, 'bool'));
 
 		break;
 
-	// Handle as raw format
+		// Handle as raw format
 	default:
 		// Output exception
 		if ($results instanceof Exception)
