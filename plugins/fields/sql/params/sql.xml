@@ -15,7 +15,7 @@
 			<field
 				name="multiple"
 				type="list"
-				label="JLIB_FORM_FIELD_PARAM_LIST_MULTIPLE_LABEL"
+				label="PLG_FIELDS_SQL_PARAMS_MULTIPLE_LABEL"
 				filter="integer"
 				validate="options"
 				>
