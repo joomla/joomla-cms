@@ -8651,7 +8651,7 @@ class JoomlaInstallerScript
 	}
 
 	/**
-	 * Add the user Auth Provider Column as it could be preset from 3.10 already
+	 * Add the user Auth Provider Column as it could be present from 3.10 already
 	 *
 	 * @return  void
 	 *
