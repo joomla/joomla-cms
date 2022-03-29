@@ -129,7 +129,7 @@
 			type="primaryauthproviders"
 			label="COM_USERS_USER_FIELD_AUTHPROVIDER_LABEL"
 			description="COM_USERS_USER_FIELD_AUTHPROVIDER_DESC"
-		>
+			>
 			<option value="">JNONE</option>
 		</field>
 
