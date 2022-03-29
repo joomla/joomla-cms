@@ -142,14 +142,14 @@ class Installer extends Adapter
 	/**
 	 * A comment marker to indicate that an update SQL query may fail without triggering an update error.
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.2.0
 	 */
 	protected const CAN_FAIL_MARKER = '/** CAN FAIL **/';
 
 	/**
 	 * The length of the CAN_FAIL_MARKER string
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.2.0
 	 */
 	protected const CAN_FAIL_MARKER_LENGTH = 16;
 
@@ -201,7 +201,7 @@ class Installer extends Adapter
 	 *
 	 * @return  array
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	public static function splitSql(?string $sql): array
 	{
@@ -1447,7 +1447,7 @@ class Installer extends Adapter
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	protected function updateSchemaTable(int $eid, string $version, bool $update = false): void
 	{
