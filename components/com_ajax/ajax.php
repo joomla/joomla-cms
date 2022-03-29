@@ -260,13 +260,13 @@ elseif ($input->get('template'))
 // Return the results in the desired format
 switch ($format)
 {
-		// JSONinzed
+	// JSONinzed
 	case 'json':
 		echo new JsonResponse($results, null, false, $input->get('ignoreMessages', true, 'bool'));
 
 		break;
 
-		// Handle as raw format
+	// Handle as raw format
 	default:
 		// Output exception
 		if ($results instanceof Exception)
