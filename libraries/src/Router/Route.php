@@ -12,8 +12,8 @@ namespace Joomla\CMS\Router;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\Log\Log;
 use Joomla\CMS\Uri\Uri;
+use Joomla\DI\Exception\KeyNotFoundException;
 
 /**
  * Route handling class
@@ -73,10 +73,9 @@ class Route
 			// @deprecated  4.0 Before 3.9.7 this method silently converted $tls to integer
 			if (!is_int($tls))
 			{
-				Log::add(
+				@trigger_error(
 					__METHOD__ . '() called with incompatible variable type on parameter $tls.',
-					Log::WARNING,
-					'deprecated'
+					E_USER_DEPRECATED
 				);
 
 				$tls = (int) $tls;
@@ -130,9 +129,14 @@ class Route
 		// Get the router instance, only attempt when a client name is given.
 		if ($client && !isset(self::$_router[$client]))
 		{
-			$app = Factory::getApplication();
-
-			self::$_router[$client] = $app->getRouter($client);
+			try
+			{
+				self::$_router[$client] = Factory::getContainer()->get(ucfirst($client) . 'Router') ?: Factory::getApplication()::getRouter($client);
+			}
+			catch (KeyNotFoundException $e)
+			{
+				self::$_router[$client] = Factory::getApplication()::getRouter($client);
+			}
 		}
 
 		// Make sure that we have our router

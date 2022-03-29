@@ -23,7 +23,6 @@
 					name="host"
 					type="text"
 					label="PLG_LDAP_FIELD_HOST_LABEL"
-					size="20"
 				/>
 
 				<field
@@ -36,7 +35,6 @@
 					hint="389"
 					validate="number"
 					filter="integer"
-					size="5"
 				/>
 
 				<field
@@ -55,19 +53,6 @@
 					name="negotiate_tls"
 					type="radio"
 					label="PLG_LDAP_FIELD_NEGOCIATE_LABEL"
-					default="0"
-					filter="integer"
-					layout="joomla.form.field.radio.switcher"
-					>
-					<option value="0">JNO</option>
-					<option value="1">JYES</option>
-				</field>
-
-				<field
-					name="ignore_reqcert_tls"
-					type="radio"
-					label="PLG_LDAP_FIELD_IGNORE_REQCERT_TLS_LABEL"
-					description="PLG_LDAP_FIELD_IGNORE_REQCERT_TLS_DESC"
 					default="0"
 					filter="integer"
 					layout="joomla.form.field.radio.switcher"
@@ -103,7 +88,6 @@
 					name="base_dn"
 					type="text"
 					label="PLG_LDAP_FIELD_BASEDN_LABEL"
-					size="20"
 				/>
 
 				<field
@@ -111,7 +95,6 @@
 					type="text"
 					label="PLG_LDAP_FIELD_SEARCHSTRING_LABEL"
 					description="PLG_LDAP_FIELD_SEARCHSTRING_DESC"
-					size="20"
 				/>
 
 				<field
@@ -119,7 +102,6 @@
 					type="text"
 					label="PLG_LDAP_FIELD_USERSDN_LABEL"
 					description="PLG_LDAP_FIELD_USERSDN_DESC"
-					size="20"
 				/>
 
 				<field
@@ -127,7 +109,6 @@
 					type="text"
 					label="PLG_LDAP_FIELD_USERNAME_LABEL"
 					description="PLG_LDAP_FIELD_USERNAME_DESC"
-					size="20"
 				/>
 
 				<field
@@ -135,7 +116,6 @@
 					type="password"
 					label="PLG_LDAP_FIELD_PASSWORD_LABEL"
 					description="PLG_LDAP_FIELD_PASSWORD_DESC"
-					size="20"
 				/>
 
 				<field
@@ -144,7 +124,6 @@
 					label="PLG_LDAP_FIELD_FULLNAME_LABEL"
 					description="PLG_LDAP_FIELD_FULLNAME_DESC"
 					default="fullName"
-					size="20"
 				/>
 
 				<field
@@ -153,7 +132,6 @@
 					label="PLG_LDAP_FIELD_EMAIL_LABEL"
 					description="PLG_LDAP_FIELD_EMAIL_DESC"
 					default="mail"
-					size="20"
 				/>
 
 				<field
@@ -162,7 +140,6 @@
 					label="PLG_LDAP_FIELD_UID_LABEL"
 					description="PLG_LDAP_FIELD_UID_DESC"
 					default="uid"
-					size="20"
 				/>
 				<field
 					name="ldap_debug"

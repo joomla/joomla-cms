@@ -84,7 +84,7 @@
         "symfony/yaml": "~5.0",
         "typo3/phar-stream-wrapper": "~3.1",
         "wamania/php-stemmer": "^2.0",
-        "maximebf/debugbar": "^1.17",
+        "maximebf/debugbar": "^1.18",
         "tobscure/json-api": "dev-joomla-backports",
         "willdurand/negotiation": "^3.0",
         "ext-json": "*",
@@ -92,7 +92,8 @@
         "psr/log": "~1.0",
         "ext-gd": "*",
         "web-auth/webauthn-lib": "2.1.*",
-        "composer/ca-bundle": "^1.2"
+        "composer/ca-bundle": "^1.2",
+        "dragonmantank/cron-expression": "^3.1"
     },
     "require-dev": {
         "phpunit/phpunit": "^8.5",
@@ -109,7 +110,8 @@
         "codeception/module-db": "^1.0",
         "codeception/module-rest": "^1.0",
         "codeception/module-webdriver": "^1.0",
-        "codeception/module-phpbrowser": "^1.0"
+        "codeception/module-phpbrowser": "^1.0",
+        "hoa/console": "^3.17"
     },
     "replace": {
         "paragonie/random_compat": "9.99.99"

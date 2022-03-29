@@ -60,9 +60,6 @@ class HtmlView extends BaseHtmlView
 	 */
 	public function display($tpl = null)
 	{
-		$form = null;
-		$component = null;
-
 		try
 		{
 			$component = $this->get('component');
@@ -121,6 +118,14 @@ class HtmlView extends BaseHtmlView
 		ToolbarHelper::divider();
 		ToolbarHelper::cancel('component.cancel', 'JTOOLBAR_CLOSE');
 		ToolbarHelper::divider();
+
+		$inlinehelp  = (string) $this->form->getXml()->config->inlinehelp['button'] == 'show' ?: false;
+		$targetClass = (string) $this->form->getXml()->config->inlinehelp['targetclass'] ?: 'hide-aware-inline-help';
+
+		if ($inlinehelp)
+		{
+			ToolbarHelper::inlinehelp($targetClass);
+		}
 
 		$helpUrl = $this->form->getData()->get('helpURL');
 		$helpKey = (string) $this->form->getXml()->config->help['key'];

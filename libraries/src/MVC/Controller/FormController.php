@@ -749,7 +749,7 @@ class FormController extends BaseController implements FormFactoryAwareInterface
 		{
 			case 'apply':
 				// Set the record data in the session.
-				$recordId = $model->getState($this->context . '.id');
+				$recordId = $model->getState($model->getName() . '.id');
 				$this->holdEditId($context, $recordId);
 				$app->setUserState($context . '.data', null);
 				$model->checkout($recordId);
@@ -875,9 +875,19 @@ class FormController extends BaseController implements FormFactoryAwareInterface
 			{
 				$fieldName = $field->fieldname;
 
-				if (isset($filteredData[$fieldName]))
+				if ($field->group)
 				{
-					$data[$fieldName] = $filteredData[$fieldName];
+					if (isset($filteredData[$field->group][$fieldName]))
+					{
+						$data[$field->group][$fieldName] = $filteredData[$field->group][$fieldName];
+					}
+				}
+				else
+				{
+					if (isset($filteredData[$fieldName]))
+					{
+						$data[$fieldName] = $filteredData[$fieldName];
+					}
 				}
 			}
 		}

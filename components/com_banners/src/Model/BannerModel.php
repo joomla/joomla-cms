@@ -88,7 +88,8 @@ class BannerModel extends BaseDatabaseModel
 
 		if ($trackClicks > 0)
 		{
-			$trackDate = Factory::getDate()->toSql();
+			$trackDate = Factory::getDate()->format('Y-m-d H:00:00');
+			$trackDate = Factory::getDate($trackDate)->toSql();
 
 			$query = $db->getQuery(true);
 

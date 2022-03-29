@@ -70,7 +70,8 @@
 				name="display_num"
 				type="list"
 				label="JGLOBAL_NUMBER_ITEMS_LIST_LABEL"
-				default="5"
+				default=""
+				useglobal="true"
 				validate="options"
 				>
 				<option value="5">J5</option>

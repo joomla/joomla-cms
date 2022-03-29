@@ -22,9 +22,11 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Pathway\Pathway;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Router\Route;
+use Joomla\CMS\Router\SiteRouter;
 use Joomla\CMS\Uri\Uri;
 use Joomla\DI\Container;
 use Joomla\Registry\Registry;
+use Joomla\String\StringHelper;
 
 /**
  * Joomla! Site Application class
@@ -145,7 +147,6 @@ final class SiteApplication extends CMSApplication
 
 		// Set up the params
 		$document = $this->getDocument();
-		$router   = static::getRouter();
 		$params   = $this->getParams();
 
 		// Register the document object with Factory
@@ -154,9 +155,8 @@ final class SiteApplication extends CMSApplication
 		switch ($document->getType())
 		{
 			case 'html':
-				// Get language
-				$lang_code = $this->getLanguage()->getTag();
-				$languages = LanguageHelper::getLanguages('lang_code');
+				// Set up the language
+				LanguageHelper::getLanguages('lang_code');
 
 				// Set metadata
 				$document->setMetaData('rights', $this->get('MetaRights'));
@@ -378,7 +378,9 @@ final class SiteApplication extends CMSApplication
 	 *
 	 * @return	\Joomla\CMS\Router\Router
 	 *
-	 * @since	3.2
+	 * @since      3.2
+	 *
+	 * @deprecated 5.0 Inject the router or load it from the dependency injection container
 	 */
 	public static function getRouter($name = 'site', array $options = array())
 	{
@@ -818,8 +820,64 @@ final class SiteApplication extends CMSApplication
 	 */
 	protected function route()
 	{
-		// Execute the parent method
-		parent::route();
+		// Get the full request URI.
+		$uri = clone Uri::getInstance();
+
+		// It is not possible to inject the SiteRouter as it requires a SiteApplication
+		// and we would end in an infinite loop
+		$result = $this->getContainer()->get(SiteRouter::class)->parse($uri, true);
+
+		$active = $this->getMenu()->getActive();
+
+		if ($active !== null
+			&& $active->type === 'alias'
+			&& $active->getParams()->get('alias_redirect')
+			&& \in_array($this->input->getMethod(), ['GET', 'HEAD'], true))
+		{
+			$item = $this->getMenu()->getItem($active->getParams()->get('aliasoptions'));
+
+			if ($item !== null)
+			{
+				$oldUri = clone Uri::getInstance();
+
+				if ($oldUri->getVar('Itemid') == $active->id)
+				{
+					$oldUri->setVar('Itemid', $item->id);
+				}
+
+				$base = Uri::base(true);
+				$oldPath = StringHelper::strtolower(substr($oldUri->getPath(), \strlen($base) + 1));
+				$activePathPrefix = StringHelper::strtolower($active->route);
+
+				$position = strpos($oldPath, $activePathPrefix);
+
+				if ($position !== false)
+				{
+					$oldUri->setPath($base . '/' . substr_replace($oldPath, $item->route, $position, \strlen($activePathPrefix)));
+
+					$this->setHeader('Expires', 'Wed, 17 Aug 2005 00:00:00 GMT', true);
+					$this->setHeader('Last-Modified', gmdate('D, d M Y H:i:s') . ' GMT', true);
+					$this->setHeader('Cache-Control', 'no-store, no-cache, must-revalidate', false);
+					$this->sendHeaders();
+
+					$this->redirect((string) $oldUri, 301);
+				}
+			}
+		}
+
+		foreach ($result as $key => $value)
+		{
+			$this->input->def($key, $value);
+		}
+
+		if ($this->isTwoFactorAuthenticationRequired())
+		{
+			$this->redirectIfTwoFactorAuthenticationRequired();
+		}
+
+		// Trigger the onAfterRoute event.
+		PluginHelper::importPlugin('system');
+		$this->triggerEvent('onAfterRoute');
 
 		$Itemid = $this->input->getInt('Itemid', null);
 		$this->authorise($Itemid);

@@ -268,34 +268,6 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 		{
 			$this->setCspHeader();
 		}
-
-		if ($this->app->get('block_floc', 1))
-		{
-			$headers = $this->app->getHeaders();
-
-			$notPresent = true;
-
-			foreach ($headers as $header)
-			{
-				if (strtolower($header['name']) === 'permissions-policy')
-				{
-					// Append interest-cohort if the Permissions-Policy is not set
-					if (strpos($header['value'], 'interest-cohort') === false)
-					{
-						$this->app->setHeader('Permissions-Policy', $header['value'] . ', interest-cohort=()', true);
-					}
-
-					$notPresent = false;
-
-					break;
-				}
-			}
-
-			if ($notPresent)
-			{
-				$this->app->setHeader('Permissions-Policy', 'interest-cohort=()');
-			}
-		}
 	}
 
 	/**
@@ -495,7 +467,7 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 		{
 			$headerAndClient = explode('#', $headerAndClient);
 			$header = $headerAndClient[0];
-			$client = isset($headerAndClient[1]) ? $headerAndClient[1] : 'both';
+			$client = $headerAndClient[1] ?? 'both';
 
 			if (!$this->app->isClient($client) && $client != 'both')
 			{
