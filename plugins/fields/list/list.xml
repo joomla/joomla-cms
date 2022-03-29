@@ -22,7 +22,7 @@
 				<field
 					name="multiple"
 					type="radio"
-					label="JLIB_FORM_FIELD_PARAM_LIST_MULTIPLE_LABEL"
+					label="PLG_FIELDS_LIST_PARAMS_MULTIPLE_LABEL"
 					layout="joomla.form.field.radio.switcher"
 					default="0"
 					filter="integer"
