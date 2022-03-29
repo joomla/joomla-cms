@@ -59,14 +59,14 @@ Joomla = window.Joomla || {};
       });
     }
     if (confirmButton && !updateCheck.checked) {
-      confirmButton.classList.add("disabled");
+      confirmButton.classList.add('disabled');
     }
     if (confirmButton && updateCheck) {
       updateCheck.addEventListener('change', () => {
         if (updateCheck.checked) {
-          confirmButton.classList.remove("disabled");
+          confirmButton.classList.remove('disabled');
         } else {
-          confirmButton.classList.add("disabled");
+          confirmButton.classList.add('disabled');
         }
       });
     }
