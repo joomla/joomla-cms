@@ -366,6 +366,14 @@ class ProfileModel extends FormModel
 		$model = $this->bootComponent('com_users')->getMVCFactory()
 			->createModel('User', 'Administrator');
 
+		$user = $model->getItem($userId);
+
+		// Check if core is the auth provider
+		if ($user->authProvider !== 'Joomla')
+		{
+			return array();
+		}
+
 		$otpConfig = $model->getOtpConfig($userId);
 
 		PluginHelper::importPlugin('twofactorauth');

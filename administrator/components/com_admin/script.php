@@ -105,6 +105,7 @@ class JoomlaInstallerScript
 		$this->updateAssets($installer);
 		$this->clearStatsCache();
 		$this->convertTablesToUtf8mb4(true);
+		$this->addUserAuthProviderColumn();
 		$this->cleanJoomlaCache();
 	}
 
@@ -638,7 +639,7 @@ class JoomlaInstallerScript
 		];
 
 		$files = array(
-			// From 3.10 to 4.0
+			// From 3.10 to 4.1
 			'/administrator/components/com_actionlogs/actionlogs.php',
 			'/administrator/components/com_actionlogs/controller.php',
 			'/administrator/components/com_actionlogs/controllers/actionlogs.php',
@@ -705,6 +706,8 @@ class JoomlaInstallerScript
 			'/administrator/components/com_admin/sql/updates/mysql/3.1.5.sql',
 			'/administrator/components/com_admin/sql/updates/mysql/3.10.0-2020-08-10.sql',
 			'/administrator/components/com_admin/sql/updates/mysql/3.10.0-2021-05-28.sql',
+			'/administrator/components/com_admin/sql/updates/mysql/3.10.7-2022-02-20.sql',
+			'/administrator/components/com_admin/sql/updates/mysql/3.10.7-2022-03-18.sql',
 			'/administrator/components/com_admin/sql/updates/mysql/3.2.0.sql',
 			'/administrator/components/com_admin/sql/updates/mysql/3.2.1.sql',
 			'/administrator/components/com_admin/sql/updates/mysql/3.2.2-2013-12-22.sql',
@@ -827,6 +830,9 @@ class JoomlaInstallerScript
 			'/administrator/components/com_admin/sql/updates/postgresql/3.1.5.sql',
 			'/administrator/components/com_admin/sql/updates/postgresql/3.10.0-2020-08-10.sql',
 			'/administrator/components/com_admin/sql/updates/postgresql/3.10.0-2021-05-28.sql',
+			'/administrator/components/com_admin/sql/updates/postgresql/3.10.7-2022-02-20.sql',
+			'/administrator/components/com_admin/sql/updates/postgresql/3.10.7-2022-02-20.sql.sql',
+			'/administrator/components/com_admin/sql/updates/postgresql/3.10.7-2022-03-18.sql',
 			'/administrator/components/com_admin/sql/updates/postgresql/3.2.0.sql',
 			'/administrator/components/com_admin/sql/updates/postgresql/3.2.1.sql',
 			'/administrator/components/com_admin/sql/updates/postgresql/3.2.2-2013-12-22.sql',
@@ -951,6 +957,9 @@ class JoomlaInstallerScript
 			'/administrator/components/com_admin/sql/updates/sqlazure/3.1.5.sql',
 			'/administrator/components/com_admin/sql/updates/sqlazure/3.10.0-2021-05-28.sql',
 			'/administrator/components/com_admin/sql/updates/sqlazure/3.10.1-2021-08-17.sql',
+			'/administrator/components/com_admin/sql/updates/sqlazure/3.10.7-2022-02-20.sql',
+			'/administrator/components/com_admin/sql/updates/sqlazure/3.10.7-2022-02-20.sql.sql',
+			'/administrator/components/com_admin/sql/updates/sqlazure/3.10.7-2022-03-18.sql',
 			'/administrator/components/com_admin/sql/updates/sqlazure/3.2.0.sql',
 			'/administrator/components/com_admin/sql/updates/sqlazure/3.2.1.sql',
 			'/administrator/components/com_admin/sql/updates/sqlazure/3.2.2-2013-12-22.sql',
@@ -6332,10 +6341,52 @@ class JoomlaInstallerScript
 			'/templates/system/scss/offline_rtl.scss',
 			// From 4.1.0-beta3 to 4.1.0-rc1
 			'/api/components/com_media/src/Helper/AdapterTrait.php',
+			// From 4.1.0 to 4.1.1
+			'/libraries/vendor/tobscure/json-api/.git/HEAD',
+			'/libraries/vendor/tobscure/json-api/.git/ORIG_HEAD',
+			'/libraries/vendor/tobscure/json-api/.git/config',
+			'/libraries/vendor/tobscure/json-api/.git/description',
+			'/libraries/vendor/tobscure/json-api/.git/hooks/applypatch-msg.sample',
+			'/libraries/vendor/tobscure/json-api/.git/hooks/commit-msg.sample',
+			'/libraries/vendor/tobscure/json-api/.git/hooks/fsmonitor-watchman.sample',
+			'/libraries/vendor/tobscure/json-api/.git/hooks/post-update.sample',
+			'/libraries/vendor/tobscure/json-api/.git/hooks/pre-applypatch.sample',
+			'/libraries/vendor/tobscure/json-api/.git/hooks/pre-commit.sample',
+			'/libraries/vendor/tobscure/json-api/.git/hooks/pre-merge-commit.sample',
+			'/libraries/vendor/tobscure/json-api/.git/hooks/pre-push.sample',
+			'/libraries/vendor/tobscure/json-api/.git/hooks/pre-rebase.sample',
+			'/libraries/vendor/tobscure/json-api/.git/hooks/pre-receive.sample',
+			'/libraries/vendor/tobscure/json-api/.git/hooks/prepare-commit-msg.sample',
+			'/libraries/vendor/tobscure/json-api/.git/hooks/push-to-checkout.sample',
+			'/libraries/vendor/tobscure/json-api/.git/hooks/update.sample',
+			'/libraries/vendor/tobscure/json-api/.git/index',
+			'/libraries/vendor/tobscure/json-api/.git/info/exclude',
+			'/libraries/vendor/tobscure/json-api/.git/info/refs',
+			'/libraries/vendor/tobscure/json-api/.git/logs/HEAD',
+			'/libraries/vendor/tobscure/json-api/.git/logs/refs/heads/joomla-backports',
+			'/libraries/vendor/tobscure/json-api/.git/logs/refs/remotes/origin/HEAD',
+			'/libraries/vendor/tobscure/json-api/.git/objects/info/packs',
+			'/libraries/vendor/tobscure/json-api/.git/objects/pack/pack-51530cba04703b17f3c11b9e8458a171092cf5e3.idx',
+			'/libraries/vendor/tobscure/json-api/.git/objects/pack/pack-51530cba04703b17f3c11b9e8458a171092cf5e3.pack',
+			'/libraries/vendor/tobscure/json-api/.git/packed-refs',
+			'/libraries/vendor/tobscure/json-api/.git/refs/heads/joomla-backports',
+			'/libraries/vendor/tobscure/json-api/.git/refs/remotes/origin/HEAD',
+			'/libraries/vendor/tobscure/json-api/.php_cs',
+			'/libraries/vendor/tobscure/json-api/tests/AbstractSerializerTest.php',
+			'/libraries/vendor/tobscure/json-api/tests/AbstractTestCase.php',
+			'/libraries/vendor/tobscure/json-api/tests/CollectionTest.php',
+			'/libraries/vendor/tobscure/json-api/tests/DocumentTest.php',
+			'/libraries/vendor/tobscure/json-api/tests/ErrorHandlerTest.php',
+			'/libraries/vendor/tobscure/json-api/tests/Exception/Handler/FallbackExceptionHandlerTest.php',
+			'/libraries/vendor/tobscure/json-api/tests/Exception/Handler/InvalidParameterExceptionHandlerTest.php',
+			'/libraries/vendor/tobscure/json-api/tests/LinksTraitTest.php',
+			'/libraries/vendor/tobscure/json-api/tests/ParametersTest.php',
+			'/libraries/vendor/tobscure/json-api/tests/ResourceTest.php',
+			'/libraries/vendor/tobscure/json-api/tests/UtilTest.php',
 		);
 
 		$folders = array(
-			// From 3.10 to 4.0
+			// From 3.10 to 4.1
 			'/templates/system/images',
 			'/templates/system/html',
 			'/templates/protostar/less',
@@ -7644,6 +7695,27 @@ class JoomlaInstallerScript
 			'/administrator/templates/atum/css',
 			// From 4.1.0-beta3 to 4.1.0-rc1
 			'/api/components/com_media/src/Helper',
+			// From 4.1.0 to 4.1.1
+			'/libraries/vendor/tobscure/json-api/tests/Exception/Handler',
+			'/libraries/vendor/tobscure/json-api/tests/Exception',
+			'/libraries/vendor/tobscure/json-api/tests',
+			'/libraries/vendor/tobscure/json-api/.git/refs/tags',
+			'/libraries/vendor/tobscure/json-api/.git/refs/remotes/origin',
+			'/libraries/vendor/tobscure/json-api/.git/refs/remotes',
+			'/libraries/vendor/tobscure/json-api/.git/refs/heads',
+			'/libraries/vendor/tobscure/json-api/.git/refs',
+			'/libraries/vendor/tobscure/json-api/.git/objects/pack',
+			'/libraries/vendor/tobscure/json-api/.git/objects/info',
+			'/libraries/vendor/tobscure/json-api/.git/objects',
+			'/libraries/vendor/tobscure/json-api/.git/logs/refs/remotes/origin',
+			'/libraries/vendor/tobscure/json-api/.git/logs/refs/remotes',
+			'/libraries/vendor/tobscure/json-api/.git/logs/refs/heads',
+			'/libraries/vendor/tobscure/json-api/.git/logs/refs',
+			'/libraries/vendor/tobscure/json-api/.git/logs',
+			'/libraries/vendor/tobscure/json-api/.git/info',
+			'/libraries/vendor/tobscure/json-api/.git/hooks',
+			'/libraries/vendor/tobscure/json-api/.git/branches',
+			'/libraries/vendor/tobscure/json-api/.git',
 		);
 
 		$status['files_checked'] = $files;
@@ -8576,5 +8648,41 @@ class JoomlaInstallerScript
 			},
 			['atum', 'cassiopeia']
 		);
+	}
+
+	/**
+	 * Add the user Auth Provider Column as it could be present from 3.10 already
+	 *
+	 * @return  void
+	 *
+	 * @since   4.1.1
+	 */
+	protected function addUserAuthProviderColumn(): void
+	{
+		$db = Factory::getContainer()->get('DatabaseDriver');
+
+		// Check if the column already exists
+		$fields = $db->getTableColumns('#__users');
+
+		// Column exists, skip
+		if (isset($fields['authProvider']))
+		{
+			return;
+		}
+
+		$query = 'ALTER TABLE ' . $db->quoteName('#__users')
+			. ' ADD COLUMN ' . $db->quoteName('authProvider') . ' varchar(100) DEFAULT ' . $db->quote('') . ' NOT NULL';
+
+		// Add column
+		try
+		{
+			$db->setQuery($query)->execute();
+		}
+		catch (Exception $e)
+		{
+			echo Text::sprintf('JLIB_DATABASE_ERROR_FUNCTION_FAILED', $e->getCode(), $e->getMessage()) . '<br>';
+
+			return;
+		}
 	}
 }

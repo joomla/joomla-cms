@@ -101,6 +101,7 @@ class HtmlView extends BaseHtmlView
 
 			if ($sender->id !== $app->getIdentity()->get('id') && ($sender->authorise('core.admin')
 				|| $sender->authorise('core.manage', 'com_messages') && $sender->authorise('core.login.admin'))
+				&& $app->getIdentity()->authorise('core.manage', 'com_users')
 			)
 			{
 				ToolbarHelper::custom('message.reply', 'redo', '', 'COM_MESSAGES_TOOLBAR_REPLY', false);
