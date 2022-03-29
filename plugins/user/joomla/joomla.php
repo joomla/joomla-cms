@@ -9,9 +9,11 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Authentication\ProviderAwareAuthenticationPluginInterface;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\User\User;
 use Joomla\CMS\User\UserHelper;
@@ -392,7 +394,21 @@ class PlgUserJoomla extends JPlugin
 			// Add auth provider constraint if not set yet
 			if (!$instance->authProvider)
 			{
-				$instance->setAuthProvider($user['type']);
+				$plugin = PluginHelper::getPlugin('authentication', $user['type']);
+				$className = 'plg' . $plugin->type . $plugin->name;
+
+				if ($plugin && class_exists($className))
+				{
+					$plugin = new $className($this, (array) $plugin);
+
+					// Check auth provider constraint
+					if ($plugin
+						&& $plugin instanceof ProviderAwareAuthenticationPluginInterface
+						&& $plugin::isPrimaryProvider())
+					{
+						$instance->setAuthProvider($user['type']);
+					}
+				}
 			}
 
 			return $instance;
