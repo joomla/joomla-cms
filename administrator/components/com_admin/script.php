@@ -8719,7 +8719,6 @@ class JoomlaInstallerScript
 			->set($db->quoteName('authProvider') . ' = ' . $db->quote(''))
 			->whereNotIn($db->quoteName('authProvider'), $validProviders, ParameterType::STRING);
 
-		$db->setQuery($query);
-		$db->execute();
+		$db->setQuery($query)->execute();
 	}
 }
