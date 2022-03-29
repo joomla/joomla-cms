@@ -12,6 +12,7 @@ namespace Joomla\CMS\Cache\Controller;
 
 use Joomla\CMS\Cache\Cache;
 use Joomla\CMS\Cache\CacheController;
+use Joomla\CMS\Document\HtmlDocument;
 use Joomla\CMS\Factory;
 
 /**
@@ -36,6 +37,21 @@ class CallbackController extends CacheController
 	 */
 	public function get($callback, $args = array(), $id = false, $wrkarounds = false, $woptions = array())
 	{
+		if (!\is_array($args))
+		{
+			$referenceArgs = !empty($args) ? array(&$args) : array();
+		}
+		else
+		{
+			$referenceArgs = &$args;
+		}
+
+		// Just execute the callback if caching is disabled.
+		if (empty($this->options['caching']))
+		{
+			return \call_user_func_array($callback, $referenceArgs);
+		}
+
 		if (!$id)
 		{
 			// Generate an ID
@@ -81,37 +97,29 @@ class CallbackController extends CacheController
 			return $data['result'];
 		}
 
-		if (!\is_array($args))
-		{
-			$referenceArgs = !empty($args) ? array(&$args) : array();
-		}
-		else
-		{
-			$referenceArgs = &$args;
-		}
-
 		if ($locktest->locked === false && $locktest->locklooped === true)
 		{
 			// We can not store data because another process is in the middle of saving
 			return \call_user_func_array($callback, $referenceArgs);
 		}
 
-		$coptions = array();
+		$coptions = array('modulemode' => 0);
 
 		if (isset($woptions['modulemode']) && $woptions['modulemode'] == 1)
 		{
+			/** @var HtmlDocument $document */
 			$document = Factory::getDocument();
 
 			if (method_exists($document, 'getHeadData'))
 			{
 				$coptions['headerbefore'] = $document->getHeadData();
-			}
 
-			$coptions['modulemode'] = 1;
-		}
-		else
-		{
-			$coptions['modulemode'] = 0;
+				// Reset document head before rendering module. Module will cache only assets added by itself.
+				$document->resetHeadData();
+				$document->getWebAssetManager()->reset();
+
+				$coptions['modulemode'] = 1;
+			}
 		}
 
 		$coptions['nopathway'] = $woptions['nopathway'] ?? 1;
@@ -133,6 +141,15 @@ class CallbackController extends CacheController
 		else
 		{
 			$data['output'] = $output;
+		}
+
+		// Restore document head data and merge module head data.
+		if ($coptions['modulemode'] == 1)
+		{
+			$moduleHeadData = $document->getHeadData();
+			$document->resetHeadData();
+			$document->mergeHeadData($coptions['headerbefore']);
+			$document->mergeHeadData($moduleHeadData);
 		}
 
 		// Store the cache data
@@ -200,7 +217,7 @@ class CallbackController extends CacheController
 		}
 
 		// A Closure can't be serialized, so to generate the ID we'll need to get its hash
-		if (is_a($callback, 'closure'))
+		if ($callback instanceof \closure)
 		{
 			$hash = spl_object_hash($callback);
 

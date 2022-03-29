@@ -565,4 +565,41 @@ class User extends Table
 
 		return true;
 	}
+
+	/**
+	 * Updates auth provider of a user
+	 *
+	 * @param   string   $authProvider  The auth provider name
+	 * @param   integer  $userId        The user id (optional).
+	 *
+	 * @return  boolean  False if an error occurs
+	 *
+	 * @since   3.10.7
+	 */
+	public function setAuthProvider($authProvider, $userId = null)
+	{
+		// Check for User ID
+		if (is_null($userId))
+		{
+			if (isset($this))
+			{
+				$userId = $this->id;
+			}
+			else
+			{
+				jexit('No userid in setAuthProvider');
+			}
+		}
+
+		// Update the database row for the user.
+		$db = $this->_db;
+		$query = $db->getQuery(true)
+			->update($db->quoteName($this->_tbl))
+			->set($db->quoteName('authProvider') . '=' . $db->quote($authProvider))
+			->where($db->quoteName('id') . '=' . (int) $userId);
+		$db->setQuery($query);
+		$db->execute();
+
+		return true;
+	}
 }
