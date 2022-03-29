@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  System.languagecode
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2011 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -113,16 +113,8 @@ class PlgSystemLanguagecode extends JPlugin
 	 *
 	 * @since	2.5
 	 */
-	public function onContentPrepareForm($form, $data)
+	public function onContentPrepareForm(JForm $form, $data)
 	{
-		// Check we have a form.
-		if (!($form instanceof JForm))
-		{
-			$this->_subject->setError('JERROR_NOT_A_FORM');
-
-			return false;
-		}
-
 		// Check we are manipulating the languagecode plugin.
 		if ($form->getName() !== 'com_plugins.plugin' || !$form->getField('languagecodeplugin', 'params'))
 		{

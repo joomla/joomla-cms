@@ -1,5 +1,5 @@
 // CodeMirror, copyright (c) by Marijn Haverbeke and others
-// Distributed under an MIT license: http://codemirror.net/LICENSE
+// Distributed under an MIT license: https://codemirror.net/LICENSE
 
 (function(mod) {
   if (typeof exports == "object" && typeof module == "object") // CommonJS
@@ -20,7 +20,17 @@
     var ranges = cm.listSelections(), replacements = [];
     for (var i = 0; i < ranges.length; i++) {
       var pos = ranges[i].head;
+
+      // If we're not in Markdown mode, fall back to normal newlineAndIndent
       var eolState = cm.getStateAfter(pos.line);
+      var inner = CodeMirror.innerMode(cm.getMode(), eolState);
+      if (inner.mode.name !== "markdown") {
+        cm.execCommand("newlineAndIndent");
+        return;
+      } else {
+        eolState = inner.state;
+      }
+
       var inList = eolState.list !== false;
       var inQuote = eolState.quote !== 0;
 
@@ -31,7 +41,9 @@
         return;
       }
       if (emptyListRE.test(line)) {
-        if (!/>\s*$/.test(line)) cm.replaceRange("", {
+        var endOfQuote = inQuote && />\s*$/.test(line)
+        var endOfList = !/>\s*$/.test(line)
+        if (endOfQuote || endOfList) cm.replaceRange("", {
           line: pos.line, ch: 0
         }, {
           line: pos.line, ch: pos.ch + 1
@@ -66,7 +78,7 @@
         var newNumber = (parseInt(startItem[3], 10) + lookAhead - skipCount);
         var nextNumber = (parseInt(nextItem[3], 10)), itemNumber = nextNumber;
 
-        if (startIndent === nextIndent) {
+        if (startIndent === nextIndent && !isNaN(nextNumber)) {
           if (newNumber === nextNumber) itemNumber = nextNumber + 1;
           if (newNumber > nextNumber) itemNumber = newNumber + 1;
           cm.replaceRange(
@@ -78,7 +90,7 @@
           });
         } else {
           if (startIndent.length > nextIndent.length) return;
-          // This doesn't run if the next line immediatley indents, as it is
+          // This doesn't run if the next line immediately indents, as it is
           // not clear of the users intention (new indented item or same level)
           if ((startIndent.length < nextIndent.length) && (lookAhead === 1)) return;
           skipCount += 1;

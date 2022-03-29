@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Form
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2013 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -15,7 +15,7 @@ require_once __DIR__ . '/TestHelpers/JHtmlFieldTextarea-helper-dataset.php';
  *
  * @package     Joomla.UnitTest
  * @subpackage  Form
- * @since       11.1
+ * @since       1.7.0
  */
 class JFormFieldTextareaTest extends TestCase
 {
@@ -79,7 +79,7 @@ class JFormFieldTextareaTest extends TestCase
 	}
 
 	/**
-	 * Tests rows and columns attribute setup by JFormFieldTextare::setup method
+	 * Tests rows and columns attribute setup by JFormFieldTextarea::setup method
 	 *
 	 * @covers JFormField::setup
 	 * @covers JFormField::__get
@@ -119,13 +119,15 @@ class JFormFieldTextareaTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.2
+	 * @since   3.0.1
 	 *
 	 * @dataProvider  getInputData
 	 */
 	public function testGetInput($data, $expected)
 	{
 		$formField = new JFormFieldTextarea;
+
+		TestReflection::setValue($formField, 'element', new SimpleXMLElement('<field />'));
 
 		foreach ($data as $attr => $value)
 		{

@@ -1,5 +1,5 @@
 /**
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2009 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -20,6 +20,8 @@ Joomla.editors.instances = Joomla.editors.instances || {
 	 *                                  Example: function () { return this.element.value; }
 	 * setValue         Type  Function  Should replace the complete data of the editor
 	 *                                  Example: function (text) { return this.element.value = text; }
+	 * getSelection     Type  Function  Should return the selected text from the editor
+	 *                                  Example: function () { return this.selectedText; }
 	 * replaceSelection Type  Function  Should replace the selected text of the editor
 	 *                                  If nothing selected, will insert the data at the cursor
 	 *                                  Example: function (text) { return insertAtCursor(this.element, text); }
@@ -40,7 +42,7 @@ Joomla.editors.instances = Joomla.editors.instances || {
 	 *
 	 * jInsertEditorText() @deprecated 4.0
 	 */
-	};
+};
 
 (function( Joomla, document ) {
 	"use strict";
@@ -98,13 +100,13 @@ Joomla.editors.instances = Joomla.editors.instances || {
 	};
 
 	/**
-	 * Custom behavior for JavaScript I18N in Joomla! 1.6
+	 * Custom behavior for JavaScript I18N
 	 *
 	 * @type {{}}
 	 *
-	 * Allows you to call Joomla.JText._() to get a translated JavaScript string pushed in with JText::script() in Joomla.
+	 * Allows you to call Joomla.Text._() to get a translated JavaScript string pushed in with Text::script() in Joomla.
 	 */
-	Joomla.JText = {
+	Joomla.Text = {
 		strings:   {},
 
 		/**
@@ -149,6 +151,13 @@ Joomla.editors.instances = Joomla.editors.instances || {
 	};
 
 	/**
+	 * Proxy old Joomla.JText to Joomla.Text
+	 *
+	 * @deprecated 5.0 Use Joomla.Text
+	 */
+	Joomla.JText = Joomla.Text;
+
+	/**
 	 * Joomla options storage
 	 *
 	 * @type {{}}
@@ -187,7 +196,7 @@ Joomla.editors.instances = Joomla.editors.instances || {
 		// Load form the script container
 		if (!options) {
 			var elements = document.querySelectorAll('.joomla-script-options.new'),
-				str, element, option, counter = 0;
+			    str, element, option, counter = 0;
 
 			for (var i = 0, l = elements.length; i < l; i++) {
 				element = elements[i];
@@ -232,7 +241,7 @@ Joomla.editors.instances = Joomla.editors.instances || {
 		if (!/^[0-9A-F]{32}$/i.test(newToken)) { return; }
 
 		var els = document.getElementsByTagName( 'input' ),
-			i, el, n;
+		    i, el, n;
 
 		for ( i = 0, n = els.length; i < n; i++ ) {
 			el = els[i];
@@ -256,6 +265,8 @@ Joomla.editors.instances = Joomla.editors.instances || {
 	 * @deprecated  4.0 No replacement. Use formvalidator
 	 */
 	Joomla.isEmail = function( text ) {
+		console.warn('Joomla.isEmail() is deprecated, use the formvalidator instead');
+
 		var regex = /^[\w.!#$%&‚Äô*+\/=?^`{|}~-]+@[a-z0-9-]+(?:\.[a-z0-9-]{2,})+$/i;
 		return regex.test( text );
 	};
@@ -278,7 +289,7 @@ Joomla.editors.instances = Joomla.editors.instances || {
 		stub = stub ? stub : 'cb';
 
 		var c = 0,
-			i, e, n;
+		    i, e, n;
 
 		for ( i = 0, n = checkbox.form.elements.length; i < n; i++ ) {
 			e = checkbox.form.elements[ i ];
@@ -299,6 +310,7 @@ Joomla.editors.instances = Joomla.editors.instances || {
 	/**
 	 * Render messages send via JSON
 	 * Used by some javascripts such as validate.js
+	 * PLEASE NOTE: do NOT use user supplied input in messages as potential HTML markup is NOT sanitized!
 	 *
 	 * @param   {object}  messages    JavaScript object containing the messages to render. Example:
 	 *                              var messages = {
@@ -311,7 +323,7 @@ Joomla.editors.instances = Joomla.editors.instances || {
 		Joomla.removeMessages();
 
 		var messageContainer = document.getElementById( 'system-message-container' ),
-			type, typeMessages, messagesBox, title, titleWrapper, i, messageWrapper, alertClass;
+		    type, typeMessages, messagesBox, title, titleWrapper, i, messageWrapper, alertClass;
 
 		for ( type in messages ) {
 			if ( !messages.hasOwnProperty( type ) ) { continue; }
@@ -322,8 +334,9 @@ Joomla.editors.instances = Joomla.editors.instances || {
 			messagesBox = document.createElement( 'div' );
 
 			// Message class
-			alertClass = (type == 'notice') ? 'alert-info' : 'alert-' + type;
-			alertClass = (type == 'message') ? 'alert-success' : alertClass;
+			alertClass = (type === 'notice') ? 'alert-info' : 'alert-' + type;
+			alertClass = (type === 'message') ? 'alert-success' : alertClass;
+			alertClass = (type === 'error') ? 'alert-error alert-danger' : alertClass;
 
 			messagesBox.className = 'alert ' + alertClass;
 
@@ -456,8 +469,7 @@ Joomla.editors.instances = Joomla.editors.instances || {
 		if ( !form.elements[ 'checkall-toggle' ] ) return;
 
 		// Toggle main toggle checkbox depending on checkbox selection
-		var c = true,
-			i, e, n;
+		var c = true, i, e, n;
 
 		for ( i = 0, n = form.elements.length; i < n; i++ ) {
 			e = form.elements[ i ];
@@ -475,17 +487,18 @@ Joomla.editors.instances = Joomla.editors.instances || {
 	 * USED IN: libraries/joomla/html/toolbar/button/help.php
 	 *
 	 * Pops up a new window in the middle of the screen
-	 * @deprecated  4.0 No replacement
+	 *
+	 * @note  This will be moved out of core.js into a new file toolbar.js in Joomla 4
 	 */
 	Joomla.popupWindow = function( mypage, myname, w, h, scroll ) {
 		var winl = ( screen.width - w ) / 2,
-			wint = ( screen.height - h ) / 2,
-			winprops = 'height=' + h +
-				',width=' + w +
-				',top=' + wint +
-				',left=' + winl +
-				',scrollbars=' + scroll +
-				',resizable';
+		    wint = ( screen.height - h ) / 2,
+		    winprops = 'height=' + h +
+			    ',width=' + w +
+			    ',top=' + wint +
+			    ',left=' + winl +
+			    ',scrollbars=' + scroll +
+			    ',resizable';
 
 		window.open( mypage, myname, winprops )
 			.window.focus();
@@ -533,34 +546,47 @@ Joomla.editors.instances = Joomla.editors.instances || {
 	 * @deprecated  4.0 No replacement
 	 */
 	window.writeDynaList = function ( selectParams, source, key, orig_key, orig_val, element ) {
-		var html = '<select ' + selectParams + '>',
-			hasSelection = key == orig_key,
-			i = 0,
-			selected, x, item;
+		console.warn('window.writeDynaList() is deprecated without a replacement!');
 
-		for ( x in source ) {
-			if (!source.hasOwnProperty(x)) { continue; }
+		var select = document.createElement('select');
+		var params = selectParams.split(' ');
 
-			item = source[ x ];
+		for (var l = 0; l < params.length; l++) {
+			var par = params[l].split('=');
 
-			if ( item[ 0 ] != key ) { continue; }
-
-			selected = '';
-
-			if ( ( hasSelection && orig_val == item[ 1 ] ) || ( !hasSelection && i === 0 ) ) {
-				selected = 'selected="selected"';
+			// make sure the attribute / content can not be used for scripting
+			if (par[0].trim().substr(0, 2).toLowerCase() === "on"
+				|| par[0].trim().toLowerCase() === "href") {
+				continue;
 			}
 
-			html += '<option value="' + item[ 1 ] + '" ' + selected + '>' + item[ 2 ] + '</option>';
-
-			i++;
+			select.setAttribute(par[0], par[1].replace(/\"/g, ''));
 		}
-		html += '</select>';
+
+		var hasSelection = key == orig_key, i, selected, item;
+
+		for (i = 0; i < source.length; i++) {
+			item = source[i];
+
+			if (item[0] != key) { continue; }
+
+			selected = hasSelection ? orig_val == item[1] : i === 0;
+
+			var el = document.createElement('option');
+			el.setAttribute('value', item[1]);
+			el.innerText = item[2];
+
+			if (selected) {
+				el.setAttribute('selected', 'selected');
+			}
+
+			select.appendChild(el);
+		}
 
 		if (element) {
-			element.innerHTML = html;
+			element.appendChild(select);
 		} else {
-			document.writeln( html );
+			document.body.appendChild(select);
 		}
 	};
 
@@ -584,9 +610,11 @@ Joomla.editors.instances = Joomla.editors.instances || {
 	 * @deprecated  4.0 No replacement
 	 */
 	window.changeDynaList = function ( listname, source, key, orig_key, orig_val ) {
+		console.warn('window.changeDynaList() is deprecated without a replacement!');
+
 		var list = document.adminForm[ listname ],
-			hasSelection = key == orig_key,
-			i, x, item, opt;
+		    hasSelection = key == orig_key,
+		    i, x, item, opt;
 
 		// empty the list
 		while ( list.firstChild ) list.removeChild( list.firstChild );
@@ -627,10 +655,12 @@ Joomla.editors.instances = Joomla.editors.instances || {
 	// return an empty string if none are checked, or
 	// there are no radio buttons
 	window.radioGetCheckedValue = function ( radioObj ) {
+		console.warn('window.radioGetCheckedValue() is deprecated without a replacement!');
+
 		if ( !radioObj ) { return ''; }
 
 		var n = radioObj.length,
-			i;
+		    i;
 
 		if ( n === undefined ) {
 			return radioObj.checked ? radioObj.value : '';
@@ -656,8 +686,10 @@ Joomla.editors.instances = Joomla.editors.instances || {
 	 * @deprecated  4.0 No replacement
 	 */
 	window.getSelectedValue = function ( frmName, srcListName ) {
+		console.warn('window.getSelectedValue() is deprecated without a replacement!');
+
 		var srcList = document[ frmName ][ srcListName ],
-			i = srcList.selectedIndex;
+		    i = srcList.selectedIndex;
 
 		if ( i !== null && i > -1 ) {
 			return srcList.options[ i ].value;
@@ -676,6 +708,8 @@ Joomla.editors.instances = Joomla.editors.instances || {
 	 * @deprecated 4.0  Use Joomla.listItemTask() instead
 	 */
 	window.listItemTask = function ( id, task ) {
+		console.warn('window.listItemTask() is deprecated use Joomla.listItemTask() instead');
+
 		return Joomla.listItemTask( id, task );
 	};
 
@@ -689,8 +723,8 @@ Joomla.editors.instances = Joomla.editors.instances || {
 	 */
 	Joomla.listItemTask = function ( id, task ) {
 		var f = document.adminForm,
-			i = 0, cbx,
-			cb = f[ id ];
+		    i = 0, cbx,
+		    cb = f[ id ];
 
 		if ( !cb ) return false;
 
@@ -717,6 +751,8 @@ Joomla.editors.instances = Joomla.editors.instances || {
 	 * @deprecated 4.0  Use Joomla.submitbutton() instead.
 	 */
 	window.submitbutton = function ( pressbutton ) {
+		console.warn('window.submitbutton() is deprecated use Joomla.submitbutton() instead');
+
 		Joomla.submitbutton( pressbutton );
 	};
 
@@ -726,6 +762,8 @@ Joomla.editors.instances = Joomla.editors.instances || {
 	 * @deprecated 4.0  Use Joomla.submitform() instead.
 	 */
 	window.submitform = function ( pressbutton ) {
+		console.warn('window.submitform() is deprecated use Joomla.submitform() instead');
+
 		Joomla.submitform(pressbutton);
 	};
 
@@ -737,6 +775,8 @@ Joomla.editors.instances = Joomla.editors.instances || {
 	 * @deprecated 4.0  No replacement
 	 */
 	window.saveorder = function ( n, task ) {
+		console.warn('window.saveorder() is deprecated without a replacement!');
+
 		window.checkAll_button( n, task );
 	};
 
@@ -752,6 +792,8 @@ Joomla.editors.instances = Joomla.editors.instances || {
 	 * @deprecated 4.0  No replacement
 	 */
 	window.checkAll_button = function ( n, task ) {
+		console.warn('window.checkAll_button() is deprecated without a replacement!');
+
 		task = task ? task : 'saveorder';
 
 		var j, box;
@@ -782,6 +824,10 @@ Joomla.editors.instances = Joomla.editors.instances || {
 	 * @return  {HTMLElement}  The HTML loading layer element.
 	 *
 	 * @since  3.6.0
+	 *
+	 * @deprecated  4.0 No direct replacement.
+	 *              4.0 will introduce a web component for the loading spinner, therefore the spinner will need to
+	 *              explicitly be loaded in all relevant pages.
 	 */
 	Joomla.loadingLayer = function(task, parentElement) {
 		// Set default values.
@@ -793,7 +839,7 @@ Joomla.editors.instances = Joomla.editors.instances || {
 		{
 			// Gets the site base path
 			var systemPaths = Joomla.getOptions('system.paths') || {},
-				basePath    = systemPaths.root || '';
+			    basePath    = systemPaths.root || '';
 
 			var loadingDiv = document.createElement('div');
 
@@ -913,7 +959,7 @@ Joomla.editors.instances = Joomla.editors.instances || {
 					xhr.setRequestHeader('X-CSRF-Token', token);
 				}
 
-				if (!options.headers || !options.headers['Content-Type']) {
+				if (typeof(options.data) === 'string' && (!options.headers || !options.headers['Content-Type'])) {
 					xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
 				}
 			}

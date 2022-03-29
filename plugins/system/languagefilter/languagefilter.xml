@@ -3,7 +3,7 @@
 	<name>plg_system_languagefilter</name>
 	<author>Joomla! Project</author>
 	<creationDate>July 2010</creationDate>
-	<copyright>Copyright (C) 2005 - 2018 Open Source Matters. All rights reserved.</copyright>
+	<copyright>(C) 2010 Open Source Matters, Inc.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
@@ -25,6 +25,7 @@
 					label="PLG_SYSTEM_LANGUAGEFILTER_FIELD_DETECT_BROWSER_LABEL"
 					description="PLG_SYSTEM_LANGUAGEFILTER_FIELD_DETECT_BROWSER_DESC"
 					default="0"
+					filter="integer"
 					>
 					<option value="0">PLG_SYSTEM_LANGUAGEFILTER_SITE_LANGUAGE</option>
 					<option value="1">PLG_SYSTEM_LANGUAGEFILTER_BROWSER_SETTINGS</option>
@@ -36,6 +37,7 @@
 					label="PLG_SYSTEM_LANGUAGEFILTER_FIELD_AUTOMATIC_CHANGE_LABEL"
 					description="PLG_SYSTEM_LANGUAGEFILTER_FIELD_AUTOMATIC_CHANGE_DESC"
 					default="1"
+					filter="integer"
 					class="btn-group btn-group-yesno"
 					>
 					<option value="1">JYES</option>
@@ -48,6 +50,7 @@
 					label="PLG_SYSTEM_LANGUAGEFILTER_FIELD_ITEM_ASSOCIATIONS_LABEL"
 					description="PLG_SYSTEM_LANGUAGEFILTER_FIELD_ITEM_ASSOCIATIONS_DESC"
 					default="1"
+					filter="integer"
 					class="btn-group btn-group-yesno"
 					>
 					<option value="1">JYES</option>
@@ -60,6 +63,7 @@
 					label="PLG_SYSTEM_LANGUAGEFILTER_FIELD_ALTERNATE_META_LABEL"
 					description="PLG_SYSTEM_LANGUAGEFILTER_FIELD_ALTERNATE_META_DESC"
 					default="1"
+					filter="integer"
 					class="btn-group btn-group-yesno"
 					>
 					<option value="1">JYES</option>
@@ -72,6 +76,7 @@
 					label="PLG_SYSTEM_LANGUAGEFILTER_FIELD_XDEFAULT_LABEL"
 					description="PLG_SYSTEM_LANGUAGEFILTER_FIELD_XDEFAULT_DESC"
 					default="1"
+					filter="integer"
 					class="btn-group btn-group-yesno"
 					showon="alternate_meta:1"
 					>
@@ -96,6 +101,7 @@
 					label="PLG_SYSTEM_LANGUAGEFILTER_FIELD_REMOVE_DEFAULT_PREFIX_LABEL"
 					description="PLG_SYSTEM_LANGUAGEFILTER_FIELD_REMOVE_DEFAULT_PREFIX_DESC"
 					default="0"
+					filter="integer"
 					class="btn-group btn-group-yesno"
 					>
 					<option value="1">JYES</option>
@@ -108,6 +114,7 @@
 					label="PLG_SYSTEM_LANGUAGEFILTER_FIELD_COOKIE_LABEL"
 					description="PLG_SYSTEM_LANGUAGEFILTER_FIELD_COOKIE_DESC"
 					default="0"
+					filter="integer"
 					>
 					<option value="1">PLG_SYSTEM_LANGUAGEFILTER_OPTION_YEAR</option>
 					<option value="0">PLG_SYSTEM_LANGUAGEFILTER_OPTION_SESSION</option>

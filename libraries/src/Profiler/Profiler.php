@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2005 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -14,49 +14,49 @@ defined('JPATH_PLATFORM') or die;
  * Utility class to assist in the process of benchmarking the execution
  * of sections of code to understand where time is being spent.
  *
- * @since  11.1
+ * @since  1.7.0
  */
 class Profiler
 {
 	/**
 	 * @var    integer  The start time.
-	 * @since  12.1
+	 * @since  3.0.0
 	 */
 	protected $start = 0;
 
 	/**
 	 * @var    string  The prefix to use in the output
-	 * @since  12.1
+	 * @since  3.0.0
 	 */
 	protected $prefix = '';
 
 	/**
 	 * @var    array  The buffer of profiling messages.
-	 * @since  12.1
+	 * @since  3.0.0
 	 */
 	protected $buffer = null;
 
 	/**
 	 * @var    array  The profiling messages.
-	 * @since  12.1
+	 * @since  3.0.0
 	 */
 	protected $marks = null;
 
 	/**
 	 * @var    float  The previous time marker
-	 * @since  12.1
+	 * @since  3.0.0
 	 */
 	protected $previousTime = 0.0;
 
 	/**
 	 * @var    float  The previous memory marker
-	 * @since  12.1
+	 * @since  3.0.0
 	 */
 	protected $previousMem = 0.0;
 
 	/**
 	 * @var    array  JProfiler instances container.
-	 * @since  11.3
+	 * @since  1.7.3
 	 */
 	protected static $instances = array();
 
@@ -65,7 +65,7 @@ class Profiler
 	 *
 	 * @param   string  $prefix  Prefix for mark messages
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function __construct($prefix = '')
 	{
@@ -83,7 +83,7 @@ class Profiler
 	 *
 	 * @return  Profiler  The Profiler object.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public static function getInstance($prefix = '')
 	{
@@ -102,7 +102,7 @@ class Profiler
 	 *
 	 * @return  string
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function mark($label)
 	{
@@ -111,9 +111,9 @@ class Profiler
 
 		$m = (object) array(
 			'prefix' => $this->prefix,
-			'time' => ($current > $this->previousTime ? '+' : '-') . (($current - $this->previousTime) * 1000),
+			'time' => ($current > $this->previousTime ? '+' : '') . (($current - $this->previousTime) * 1000),
 			'totalTime' => ($current * 1000),
-			'memory' => ($currentMem > $this->previousMem ? '+' : '-') . ($currentMem - $this->previousMem),
+			'memory' => ($currentMem > $this->previousMem ? '+' : '') . ($currentMem - $this->previousMem),
 			'totalMemory' => $currentMem,
 			'label' => $label,
 		);
@@ -123,9 +123,9 @@ class Profiler
 			'%s %.3f seconds (%.3f); %0.2f MB (%0.3f) - %s',
 			$m->prefix,
 			$m->totalTime / 1000,
-			$m->time / 1000,
+			$current - $this->previousTime,
 			$m->totalMemory,
-			$m->memory,
+			$currentMem - $this->previousMem,
 			$m->label
 		);
 		$this->buffer[] = $mark;
@@ -141,8 +141,8 @@ class Profiler
 	 *
 	 * @return  float The current time
 	 *
-	 * @since   11.1
-	 * @deprecated  12.3 (Platform) & 4.0 (CMS) - Use PHP's microtime(1)
+	 * @since   1.7.0
+	 * @deprecated  4.0 - Use PHP's microtime(1)
 	 */
 	public static function getmicrotime()
 	{
@@ -157,8 +157,8 @@ class Profiler
 	 * @return  integer  The memory usage
 	 *
 	 * @link    PHP_MANUAL#memory_get_usage
-	 * @since   11.1
-	 * @deprecated  12.3 (Platform) & 4.0 (CMS) - Use PHP's native memory_get_usage()
+	 * @since   1.7.0
+	 * @deprecated  4.0 - Use PHP's native memory_get_usage()
 	 */
 	public function getMemory()
 	{
@@ -173,7 +173,7 @@ class Profiler
 	 *
 	 * @return  array  Array of profiler marks
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function getMarks()
 	{
@@ -188,7 +188,7 @@ class Profiler
 	 *
 	 * @return  array  Array of profiler marks
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function getBuffer()
 	{
@@ -203,9 +203,9 @@ class Profiler
 	 *
 	 * @return  $this   For chaining
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
-	public function setStart($startTime = 0, $startMem = 0)
+	public function setStart($startTime = 0.0, $startMem = 0)
 	{
 		$this->start       = (double) $startTime;
 		$this->previousMem = (int) $startMem / 1048576;

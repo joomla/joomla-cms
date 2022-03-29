@@ -2,7 +2,7 @@
 /**
  * Part of the Joomla Framework Registry Package
  *
- * @copyright  Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2022 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -42,23 +42,23 @@ class Php extends AbstractRegistryFormat
 			{
 				$vars .= "\tpublic $" . $k . " = '" . addcslashes($v, '\\\'') . "';\n";
 			}
-			elseif (is_array($v) || is_object($v))
+			elseif (\is_array($v) || \is_object($v))
 			{
-				$vars .= "\tpublic $" . $k . " = " . $this->getArrayString((array) $v) . ";\n";
+				$vars .= "\tpublic $" . $k . ' = ' . $this->getArrayString((array) $v) . ";\n";
 			}
 		}
 
 		$str = "<?php\n";
 
 		// If supplied, add a namespace to the class object
-		if (isset($params['namespace']) && $params['namespace'] != '')
+		if (isset($params['namespace']) && $params['namespace'] !== '')
 		{
-			$str .= "namespace " . $params['namespace'] . ";\n\n";
+			$str .= 'namespace ' . $params['namespace'] . ";\n\n";
 		}
 
-		$str .= "class " . $class . " {\n";
+		$str .= 'class ' . $class . " {\n";
 		$str .= $vars;
-		$str .= "}";
+		$str .= '}';
 
 		// Use the closing tag if it not set to false in parameters.
 		if (!isset($params['closingtag']) || $params['closingtag'] !== false)
@@ -81,7 +81,7 @@ class Php extends AbstractRegistryFormat
 	 */
 	public function stringToObject($data, array $options = array())
 	{
-		return true;
+		return new \stdClass;
 	}
 
 	/**
@@ -89,7 +89,7 @@ class Php extends AbstractRegistryFormat
 	 *
 	 * @param   array  $a  The array to get as a string.
 	 *
-	 * @return  array
+	 * @return  string
 	 *
 	 * @since   1.0
 	 */
@@ -100,10 +100,10 @@ class Php extends AbstractRegistryFormat
 
 		foreach ($a as $k => $v)
 		{
-			$s .= ($i) ? ', ' : '';
+			$s .= $i ? ', ' : '';
 			$s .= '"' . $k . '" => ';
 
-			if (is_array($v) || is_object($v))
+			if (\is_array($v) || \is_object($v))
 			{
 				$s .= $this->getArrayString((array) $v);
 			}

@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  mod_menu
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2009 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -50,6 +50,11 @@ if ($item->browserNav == 1)
 {
 	$attributes['target'] = '_blank';
 	$attributes['rel'] = 'noopener noreferrer';
+
+	if ($item->anchor_rel == 'nofollow')
+	{
+		$attributes['rel'] .= ' nofollow';
+	}
 }
 elseif ($item->browserNav == 2)
 {

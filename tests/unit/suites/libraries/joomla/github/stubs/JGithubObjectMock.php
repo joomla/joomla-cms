@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Application
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2013 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -13,7 +13,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Github
  *
- * @since       11.1
+ * @since       1.7.0
  */
 class JGithubObjectMock extends JGithubObject
 {
@@ -28,7 +28,7 @@ class JGithubObjectMock extends JGithubObject
 	 *
 	 * @return  string   The request URL.
 	 *
-	 * @since   11.4
+	 * @since   2.5.0
 	 */
 	public function fetchUrl($path, $page = 0, $limit = 0)
 	{

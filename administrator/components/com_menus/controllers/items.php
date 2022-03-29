@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_menus
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2009 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -56,7 +56,7 @@ class MenusControllerItems extends JControllerAdmin
 	 */
 	public function rebuild()
 	{
-		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+		$this->checkToken();
 
 		$this->setRedirect('index.php?option=com_menus&view=items');
 
@@ -88,7 +88,7 @@ class MenusControllerItems extends JControllerAdmin
 	 */
 	public function saveorder()
 	{
-		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+		$this->checkToken();
 
 		try
 		{
@@ -131,7 +131,7 @@ class MenusControllerItems extends JControllerAdmin
 	public function setDefault()
 	{
 		// Check for request forgeries
-		JSession::checkToken('request') or die(JText::_('JINVALID_TOKEN'));
+		$this->checkToken('request');
 
 		$app = JFactory::getApplication();
 
@@ -191,7 +191,7 @@ class MenusControllerItems extends JControllerAdmin
 	public function publish()
 	{
 		// Check for request forgeries
-		JSession::checkToken() or die(JText::_('JINVALID_TOKEN'));
+		$this->checkToken();
 
 		// Get items to publish from the request.
 		$cid = JFactory::getApplication()->input->get('cid', array(), 'array');
@@ -273,12 +273,17 @@ class MenusControllerItems extends JControllerAdmin
 	public function checkin()
 	{
 		// Check for request forgeries.
-		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+		$this->checkToken();
 
-		$ids = JFactory::getApplication()->input->post->get('cid', array(), 'array');
+		// Read the Ids from the post data
+		$cid = JFactory::getApplication()->input->post->get('cid', array(), 'array');
 
-		$model = $this->getModel();
-		$return = $model->checkin($ids);
+		// Make sure the item ids are integers
+		$cid = ArrayHelper::toInteger($cid);
+
+		// Run the model
+		$model  = $this->getModel();
+		$return = $model->checkin($cid);
 
 		if ($return === false)
 		{
@@ -299,7 +304,7 @@ class MenusControllerItems extends JControllerAdmin
 		else
 		{
 			// Checkin succeeded.
-			$message = JText::plural($this->text_prefix . '_N_ITEMS_CHECKED_IN', count($ids));
+			$message = JText::plural($this->text_prefix . '_N_ITEMS_CHECKED_IN', count($cid));
 			$this->setRedirect(
 				JRoute::_(
 					'index.php?option=' . $this->option . '&view=' . $this->view_list

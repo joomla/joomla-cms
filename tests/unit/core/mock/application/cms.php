@@ -2,7 +2,7 @@
 /**
  * @package    Joomla.Test
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2013 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -26,6 +26,7 @@ class TestMockApplicationCms extends TestMockApplicationWeb
 		// Collect all the relevant methods in JApplicationCms (work in progress).
 		$methods = array(
 			'getMenu',
+			'getName',
 			'getPathway',
 			'getTemplate',
 			'getLanguageFilter',
@@ -75,7 +76,7 @@ class TestMockApplicationCms extends TestMockApplicationWeb
 	 * @param   array     $options      A set of options to configure the mock.
 	 * @param   array     $constructor  An array containing constructor arguments to inject into the mock.
 	 *
-	 * @return  PHPUnit_Framework_MockObject_MockObject
+	 * @return  JApplicationCms|PHPUnit_Framework_MockObject_MockObject
 	 *
 	 * @since   3.2
 	 */

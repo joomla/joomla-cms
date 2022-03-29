@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2018 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -68,7 +68,7 @@ final class MetadataManager
 		$query = $this->db->getQuery(true)
 			->select($this->db->quoteName('session_id'))
 			->from($this->db->quoteName('#__session'))
-			->where($this->db->quoteName('session_id') . ' = ' . $this->db->quote($session->getId()));
+			->where($this->db->quoteName('session_id') . ' = ' . $this->db->quoteBinary($session->getId()));
 
 		$this->db->setQuery($query, 0, 1);
 		$exists = $this->db->loadResult();
@@ -92,9 +92,9 @@ final class MetadataManager
 		);
 
 		$values = array(
-			$this->db->quote($session->getId()),
+			$this->db->quoteBinary($session->getId()),
 			(int) $user->guest,
-			$this->db->quote((int) $time),
+			(int) $time,
 			(int) $user->id,
 			$this->db->quote($user->username),
 		);
@@ -141,7 +141,7 @@ final class MetadataManager
 	{
 		$query = $this->db->getQuery(true)
 			->delete($this->db->quoteName('#__session'))
-			->where($this->db->quoteName('time') . ' < ' . $this->db->quote($time));
+			->where($this->db->quoteName('time') . ' < ' . (int) $time);
 
 		$this->db->setQuery($query);
 

@@ -3,7 +3,7 @@
 	<name>plg_fields_textarea</name>
 	<author>Joomla! Project</author>
 	<creationDate>March 2016</creationDate>
-	<copyright>Copyright (C) 2005 - 2018 Open Source Matters. All rights reserved.</copyright>
+	<copyright>(C) 2016 Open Source Matters, Inc.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
@@ -27,6 +27,7 @@
 					label="PLG_FIELDS_TEXTAREA_PARAMS_ROWS_LABEL"
 					description="PLG_FIELDS_TEXTAREA_PARAMS_ROWS_DESC"
 					default="10"
+					filter="integer"
 					size="5"
 				/>
 
@@ -36,6 +37,7 @@
 					label="PLG_FIELDS_TEXTAREA_PARAMS_COLS_LABEL"
 					description="PLG_FIELDS_TEXTAREA_PARAMS_COLS_DESC"
 					default="10"
+					filter="integer"
 					size="5"
 				/>
 
@@ -54,6 +56,7 @@
 					description="PLG_FIELDS_TEXTAREA_PARAMS_FILTER_DESC"
 					class="btn-group"
 					default="JComponentHelper::filterText"
+					validate="options"
 					>
 					<option value="0">JNO</option>
 					<option value="raw">JLIB_FILTER_PARAMS_RAW</option>

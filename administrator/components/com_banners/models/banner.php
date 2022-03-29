@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_banners
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2008 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -96,131 +96,6 @@ class BannersModelBanner extends JModelAdmin
 	}
 
 	/**
-	 * Batch copy items to a new category or current.
-	 *
-	 * @param   integer  $value     The new category.
-	 * @param   array    $pks       An array of row IDs.
-	 * @param   array    $contexts  An array of item contexts.
-	 *
-	 * @return  mixed  An array of new IDs on success, boolean false on failure.
-	 *
-	 * @since   2.5
-	 */
-	protected function batchCopy($value, $pks, $contexts)
-	{
-		$categoryId = (int) $value;
-
-		/** @var BannersTableBanner $table */
-		$table  = $this->getTable();
-		$newIds = array();
-
-		// Check that the category exists
-		if ($categoryId)
-		{
-			$categoryTable = JTable::getInstance('Category');
-
-			if (!$categoryTable->load($categoryId))
-			{
-				if ($error = $categoryTable->getError())
-				{
-					// Fatal error
-					$this->setError($error);
-
-					return false;
-				}
-
-				$this->setError(JText::_('JLIB_APPLICATION_ERROR_BATCH_MOVE_CATEGORY_NOT_FOUND'));
-
-				return false;
-			}
-		}
-
-		if (empty($categoryId))
-		{
-			$this->setError(JText::_('JLIB_APPLICATION_ERROR_BATCH_MOVE_CATEGORY_NOT_FOUND'));
-
-			return false;
-		}
-
-		// Check that the user has create permission for the component
-		if (!JFactory::getUser()->authorise('core.create', 'com_banners.category.' . $categoryId))
-		{
-			$this->setError(JText::_('JLIB_APPLICATION_ERROR_BATCH_CANNOT_CREATE'));
-
-			return false;
-		}
-
-		// Parent exists so we let's proceed
-		while (!empty($pks))
-		{
-			// Pop the first ID off the stack
-			$pk = array_shift($pks);
-
-			$table->reset();
-
-			// Check that the row actually exists
-			if (!$table->load($pk))
-			{
-				if ($error = $table->getError())
-				{
-					// Fatal error
-					$this->setError($error);
-
-					return false;
-				}
-
-				// Not fatal error
-				$this->setError(JText::sprintf('JLIB_APPLICATION_ERROR_BATCH_MOVE_ROW_NOT_FOUND', $pk));
-				continue;
-			}
-
-			// Alter the title & alias
-			$data         = $this->generateNewTitle($categoryId, $table->alias, $table->name);
-			$table->name  = $data['0'];
-			$table->alias = $data['1'];
-
-			// Reset the ID because we are making a copy
-			$table->id = 0;
-
-			// New category ID
-			$table->catid = $categoryId;
-
-			// Unpublish because we are making a copy
-			$table->state = 0;
-
-			// TODO: Deal with ordering?
-			// $table->ordering = 1;
-
-			// Check the row.
-			if (!$table->check())
-			{
-				$this->setError($table->getError());
-
-				return false;
-			}
-
-			// Store the row.
-			if (!$table->store())
-			{
-				$this->setError($table->getError());
-
-				return false;
-			}
-
-			// Get the new item ID
-			$newId = $table->get('id');
-
-			// Add the new ID to the array
-			$newIds[$pk] = $newId;
-		}
-
-		// Clean the cache
-		$this->cleanCache();
-
-		return $newIds;
-	}
-
-	/**
 	 * Method to test whether a record can be deleted.
 	 *
 	 * @param   object  $record  A record object.
@@ -231,20 +106,36 @@ class BannersModelBanner extends JModelAdmin
 	 */
 	protected function canDelete($record)
 	{
-		if (!empty($record->id))
+		if (empty($record->id) || $record->state != -2)
 		{
-			if ($record->state != -2)
-			{
-				return false;
-			}
-
-			if (!empty($record->catid))
-			{
-				return JFactory::getUser()->authorise('core.delete', 'com_banners.category.' . (int) $record->catid);
-			}
-
-			return parent::canDelete($record);
+			return false;
 		}
+
+		if (!empty($record->catid))
+		{
+			return JFactory::getUser()->authorise('core.delete', 'com_banners.category.' . (int) $record->catid);
+		}
+
+		return parent::canDelete($record);
+	}
+
+	/**
+	 * A method to preprocess generating a new title in order to allow tables with alternative names
+	 * for alias and title to use the batch move and copy methods
+	 *
+	 * @param   integer  $categoryId  The target category id
+	 * @param   JTable   $table       The JTable within which move or copy is taking place
+	 *
+	 * @return  void
+	 *
+	 * @since   3.8.12
+	 */
+	public function generateTitle($categoryId, $table)
+	{
+		// Alter the title & alias
+		$data = $this->generateNewTitle($categoryId, $table->alias, $table->name);
+		$table->name = $data['0'];
+		$table->alias = $data['1'];
 	}
 
 	/**
@@ -373,7 +264,7 @@ class BannersModelBanner extends JModelAdmin
 	/**
 	 * Method to stick records.
 	 *
-	 * @param   array    &$pks   The ids of the items to publish.
+	 * @param   array    $pks    The ids of the items to publish.
 	 * @param   integer  $value  The value of the published state
 	 *
 	 * @return  boolean  True on success.
@@ -489,6 +380,9 @@ class BannersModelBanner extends JModelAdmin
 		if ($this->canCreateCategory())
 		{
 			$form->setFieldAttribute('catid', 'allowAdd', 'true');
+
+			// Add a prefix for categories created on the fly.
+			$form->setFieldAttribute('catid', 'customPrefix', '#new#');
 		}
 
 		parent::preprocessForm($form, $data, $group);
@@ -509,20 +403,22 @@ class BannersModelBanner extends JModelAdmin
 
 		JLoader::register('CategoriesHelper', JPATH_ADMINISTRATOR . '/components/com_categories/helpers/categories.php');
 
-		// Cast catid to integer for comparison
-		$catid = (int) $data['catid'];
+		// Create new category, if needed.
+		$createCategory = true;
 
-		// Check if New Category exists
-		if ($catid > 0)
+		// If category ID is provided, check if it's valid.
+		if (is_numeric($data['catid']) && $data['catid'])
 		{
-			$catid = CategoriesHelper::validateCategoryId($data['catid'], 'com_banners');
+			$createCategory = !CategoriesHelper::validateCategoryId($data['catid'], 'com_banners');
 		}
 
 		// Save New Category
-		if ($catid == 0 && $this->canCreateCategory())
+		if ($createCategory && $this->canCreateCategory())
 		{
 			$table              = array();
-			$table['title']     = $data['catid'];
+
+			// Remove #new# prefix, if exists.
+			$table['title'] = strpos($data['catid'], '#new#') === 0 ? substr($data['catid'], 5) : $data['catid'];
 			$table['parent_id'] = 1;
 			$table['extension'] = 'com_banners';
 			$table['language']  = $data['language'];
@@ -569,5 +465,32 @@ class BannersModelBanner extends JModelAdmin
 	private function canCreateCategory()
 	{
 		return JFactory::getUser()->authorise('core.create', 'com_banners');
+	}
+
+	/**
+	 * Method to validate the form data.
+	 *
+	 * @param   JForm   $form   The form to validate against.
+	 * @param   array   $data   The data to validate.
+	 * @param   string  $group  The name of the field group to validate.
+	 *
+	 * @return  array|boolean  Array of filtered data if valid, false otherwise.
+	 *
+	 * @see     JFormRule
+	 * @see     JFilterInput
+	 * @since   3.9.25
+	 */
+	public function validate($form, $data, $group = null)
+	{
+		// Don't allow to change the users if not allowed to access com_users.
+		if (!JFactory::getUser()->authorise('core.manage', 'com_users'))
+		{
+			if (isset($data['created_by']))
+			{
+				unset($data['created_by']);
+			}
+		}
+
+		return parent::validate($form, $data, $group);
 	}
 }

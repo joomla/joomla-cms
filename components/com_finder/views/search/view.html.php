@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2011 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -93,6 +93,9 @@ class FinderViewSearch extends JViewLegacy
 		$pagination = $this->get('Pagination');
 		JDEBUG ? JProfiler::getInstance('Application')->mark('afterFinderPagination') : null;
 
+		// Flag indicates to not add limitstart=0 to URL
+		$pagination->hideEmptyLimitstart = true;
+
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
@@ -137,7 +140,7 @@ class FinderViewSearch extends JViewLegacy
 		$this->explained = JHtml::_('query.explained', $query);
 
 		// Escape strings for HTML output
-		$this->pageclass_sfx = htmlspecialchars($params->get('pageclass_sfx'));
+		$this->pageclass_sfx = htmlspecialchars($params->get('pageclass_sfx', ''));
 
 		// Check for layout override only if this is not the active menu item
 		// If it is the active menu item, then the view and category id will match
@@ -271,16 +274,24 @@ class FinderViewSearch extends JViewLegacy
 			$explained = $this->escape(html_entity_decode(strip_tags($this->explained), ENT_QUOTES, 'UTF-8'));
 			$this->document->setDescription($explained);
 		}
+		elseif ($this->params->get('menu-meta_description'))
+		{
+			$this->document->setDescription($this->params->get('menu-meta_description'));
+		}
 
 		// Configure the document meta-keywords.
 		if (!empty($query->highlight))
 		{
 			$this->document->setMetaData('keywords', implode(', ', $query->highlight));
 		}
+		elseif ($this->params->get('menu-meta_keywords'))
+		{
+			$this->document->setMetadata('keywords', $this->params->get('menu-meta_keywords'));
+		}
 
 		if ($this->params->get('robots'))
 		{
-			$this->document->setMetaData('robots', $this->params->get('robots'));
+			$this->document->setMetadata('robots', $this->params->get('robots'));
 		}
 
 		// Add feed link to the document head.

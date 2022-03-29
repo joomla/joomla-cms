@@ -3,15 +3,18 @@
  * @package     Joomla.Administrator
  * @subpackage  mod_menu
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2006 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
+use Joomla\CMS\Log\Log;
 use Joomla\CMS\Menu\Node;
 use Joomla\CMS\Menu\Tree;
 use Joomla\CMS\Menu\MenuHelper;
+use Joomla\CMS\User\User;
 use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
 
@@ -26,8 +29,8 @@ class JAdminCssMenu
 	 * The Menu tree object
 	 *
 	 * @var    Tree
-	 *
 	 * @since  3.8.0
+	 * @deprecated  4.0
 	 */
 	protected $tree;
 
@@ -35,7 +38,6 @@ class JAdminCssMenu
 	 * The module options
 	 *
 	 * @var    Registry
-	 *
 	 * @since  3.8.0
 	 */
 	protected $params;
@@ -44,10 +46,44 @@ class JAdminCssMenu
 	 * The menu bar state
 	 *
 	 * @var    bool
-	 *
 	 * @since  3.8.0
 	 */
 	protected $enabled;
+
+	/**
+	 * The current user
+	 *
+	 * @var    User
+	 * @since  3.9.1
+	 */
+	protected $user;
+
+	/**
+	 * JAdminCssMenu constructor.
+	 *
+	 * @param   User|null  $user  The current user
+	 *
+	 * @since   3.9.1
+	 */
+	public function __construct(User $user = null)
+	{
+		if ($user === null)
+		{
+			Log::add(
+				sprintf(
+					'Not passing a %s instance into the %s constructor is deprecated. As of 4.0, it will be required.',
+					'Joomla\CMS\User\User',
+					__CLASS__
+				),
+				Log::WARNING,
+				'deprecated'
+			);
+
+			$user = Factory::getUser();
+		}
+
+		$this->user = $user;
+	}
 
 	/**
 	 * Get the current menu tree
@@ -55,6 +91,8 @@ class JAdminCssMenu
 	 * @return  Tree
 	 *
 	 * @since   3.8.0
+	 *
+	 * @deprecated  4.0
 	 */
 	public function getTree()
 	{
@@ -92,7 +130,7 @@ class JAdminCssMenu
 		{
 			$items = MenusHelper::getMenuItems($menutype, true);
 
-			if ($this->enabled && $this->params->get('check'))
+			if ($this->enabled && $this->params->get('check', 1))
 			{
 				if ($this->check($items, $this->params))
 				{
@@ -163,9 +201,8 @@ class JAdminCssMenu
 	 */
 	protected function check($items, Registry $params)
 	{
-		$me          = JFactory::getUser();
-		$authMenus   = $me->authorise('core.manage', 'com_menus');
-		$authModules = $me->authorise('core.manage', 'com_modules');
+		$authMenus   = $this->user->authorise('core.manage', 'com_menus');
+		$authModules = $this->user->authorise('core.manage', 'com_modules');
 
 		if (!$authMenus && !$authModules)
 		{
@@ -233,9 +270,8 @@ class JAdminCssMenu
 	 */
 	protected function preprocess($items)
 	{
-		$result     = array();
-		$user       = JFactory::getUser();
-		$language   = JFactory::getLanguage();
+		$result   = array();
+		$language = JFactory::getLanguage();
 
 		$noSeparator = true;
 
@@ -256,7 +292,7 @@ class JAdminCssMenu
 			$item->icon  = isset($item->icon) ? $item->icon : '';
 
 			// Whether this scope can be displayed. Applies only to preset items. Db driven items should use un/published state.
-			if (($item->scope === 'help' && !$this->params->get('showhelp')) || ($item->scope === 'edit' && !$this->params->get('shownew')))
+			if (($item->scope === 'help' && !$this->params->get('showhelp', 1)) || ($item->scope === 'edit' && !$this->params->get('shownew', 1)))
 			{
 				continue;
 			}
@@ -314,7 +350,17 @@ class JAdminCssMenu
 
 				list($assetName) = isset($query['context']) ? explode('.', $query['context'], 2) : array('com_fields');
 			}
-			elseif ($item->element === 'com_config' && !$user->authorise('core.admin'))
+			// Special case for components which only allow super user access
+			elseif (in_array($item->element, array('com_config', 'com_privacy', 'com_actionlogs'), true) && !$this->user->authorise('core.admin'))
+			{
+				continue;
+			}
+			elseif ($item->element === 'com_joomlaupdate' && !$this->user->authorise('core.admin'))
+			{
+				continue;
+			}
+			elseif (($item->link === 'index.php?option=com_installer&view=install' || $item->link === 'index.php?option=com_installer&view=languages')
+				&& !$this->user->authorise('core.admin'))
 			{
 				continue;
 			}
@@ -322,19 +368,19 @@ class JAdminCssMenu
 			{
 				parse_str($item->link, $query);
 
-				if (isset($query['view']) && $query['view'] === 'sysinfo' && !$user->authorise('core.admin'))
+				if (isset($query['view']) && $query['view'] === 'sysinfo' && !$this->user->authorise('core.admin'))
 				{
 					continue;
 				}
 			}
 
-			if ($assetName && !$user->authorise(($item->scope === 'edit') ? 'core.create' : 'core.manage', $assetName))
+			if ($assetName && !$this->user->authorise(($item->scope === 'edit') ? 'core.create' : 'core.manage', $assetName))
 			{
 				continue;
 			}
 
 			// Exclude if link is invalid
-			if (!in_array($item->type, array('separator', 'heading', 'container')) && trim($item->link) === '')
+			if (is_null($item->link) || (!in_array($item->type, array('separator', 'heading', 'container')) && trim($item->link) === ''))
 			{
 				continue;
 			}
@@ -408,6 +454,8 @@ class JAdminCssMenu
 	 * @return  void
 	 *
 	 * @since   3.8.0
+	 *
+	 * @deprecated  4.0
 	 */
 	protected function populateTree($levels)
 	{

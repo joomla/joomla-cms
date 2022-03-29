@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_tags
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2013 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -89,9 +89,14 @@ class TagsModelTag extends JModelList
 		{
 			foreach ($items as $item)
 			{
-				$explodedTypeAlias = explode('.', $item->type_alias);
-				$item->link = 'index.php?option=' . $explodedTypeAlias[0] . '&view=' . $explodedTypeAlias[1] . '&id='
-					. $item->content_item_id . ':' . $item->core_alias;
+				$item->link = TagsHelperRoute::getItemRoute(
+					$item->content_item_id,
+					$item->core_alias,
+					$item->core_catid,
+					$item->core_language,
+					$item->type_alias,
+					$item->router
+				);
 
 				// Get display date
 				switch ($this->state->params->get('tag_list_show_date'))
@@ -173,7 +178,14 @@ class TagsModelTag extends JModelList
 		$this->setState('params', $params);
 
 		// Load state from the request.
-		$ids = ArrayHelper::toInteger($app->input->get('id', array(), 'array'));
+		$ids = $app->input->get('id', array(), 'array');
+
+		if (count($ids) == 1)
+		{
+			$ids = explode(',', $ids[0]);
+		}
+
+		$ids = ArrayHelper::toInteger($ids);
 
 		$pkString = implode(',', $ids);
 
@@ -258,15 +270,15 @@ class TagsModelTag extends JModelList
 		{
 			$this->item = false;
 
-			if (empty($id))
+			if (empty($pk))
 			{
-				$id = $this->getState('tag.id');
+				$pk = $this->getState('tag.id');
 			}
 
 			// Get a level row instance.
 			$table = JTable::getInstance('Tag', 'TagsTable');
 
-			$idsArray = explode(',', $id);
+			$idsArray = explode(',', $pk);
 
 			// Attempt to load the rows into an array.
 			foreach ($idsArray as $id)
@@ -328,8 +340,10 @@ class TagsModelTag extends JModelList
 		{
 			$pk    = (!empty($pk)) ? $pk : (int) $this->getState('tag.id');
 			$table = JTable::getInstance('Tag', 'TagsTable');
-			$table->load($pk);
 			$table->hit($pk);
+
+			// Load the table data for later
+			$table->load($pk);
 
 			if (!$table->hasPrimaryKey())
 			{

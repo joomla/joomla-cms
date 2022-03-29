@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Content.emailcloak
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2006 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -116,7 +116,7 @@ class PlgContentEmailcloak extends JPlugin
 		$mode = $this->params->def('mode', 1);
 
 		// Example: any@example.org
-		$searchEmail = '([\w\.\'\-\+]+\@(?:[a-z0-9\.\-]+\.)+(?:[a-zA-Z0-9\-]{2,10}))';
+		$searchEmail = '([\w\.\'\-\+]+\@(?:[a-z0-9\.\-]+\.)+(?:[a-zA-Z0-9\-]{2,24}))';
 
 		// Example: any@example.org?subject=anyText
 		$searchEmailLink = $searchEmail . '([?&][\x20-\x7f][^"<>]+)';
@@ -484,9 +484,9 @@ class PlgContentEmailcloak extends JPlugin
 		/*
 		 * Search for plain text email addresses, such as email@example.org but not within HTML tags:
 		 * <img src="..." title="email@example.org"> or <input type="text" placeholder="email@example.org">
-		 * The negative lookahead '(?![^<]*>)' is used to exclude this kind of occurrences
+		 * The '<[^<]*>(*SKIP)(*F)|' trick is used to exclude this kind of occurrences
 		 */
-		$pattern = '~(?![^<>]*>)' . $searchEmail . '~i';
+		$pattern = '~<[^<]*>(*SKIP)(*F)|' . $searchEmail . '~i';
 
 		while (preg_match($pattern, $text, $regs, PREG_OFFSET_CAPTURE))
 		{

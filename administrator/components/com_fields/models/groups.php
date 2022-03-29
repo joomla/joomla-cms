@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_fields
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2016 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 defined('_JEXEC') or die;
@@ -224,7 +224,7 @@ class FieldsModelGroups extends JModelList
 	 *
 	 * @return  array  An array of results.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.8.7
 	 * @throws  RuntimeException
 	 */
 	protected function _getList($query, $limitstart = 0, $limit = 0)

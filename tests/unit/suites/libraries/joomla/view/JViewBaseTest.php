@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  View
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2013 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -15,13 +15,13 @@ JLoader::register('JModelMock', __DIR__ . '/mocks/JModelMock.php');
  *
  * @package     Joomla.UnitTest
  * @subpackage  View
- * @since       12.1
+ * @since       3.0.0
  */
 class JViewBaseTest extends TestCase
 {
 	/**
 	 * @var    JViewBase
-	 * @since  12.1
+	 * @since  3.0.0
 	 */
 	private $_instance;
 
@@ -31,7 +31,7 @@ class JViewBaseTest extends TestCase
 	 * @return  void
 	 *
 	 * @covers  JViewBase::__construct
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function test__construct()
 	{
@@ -44,7 +44,7 @@ class JViewBaseTest extends TestCase
 	 * @return  void
 	 *
 	 * @covers  JViewBase::escape
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function testEscape()
 	{
@@ -56,7 +56,7 @@ class JViewBaseTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	protected function setUp()
 	{

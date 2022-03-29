@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2011 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -187,10 +187,9 @@ abstract class JHtmlFilter
 				// Build a node.
 				$html .= '<div class="control-group">';
 				$html .= '<div class="controls">';
-				$html .= '<label class="checkbox" for="tax-'
-					. $nk . '">';
+				$html .= '<label class="checkbox">';
 				$html .= '<input type="checkbox" class="selector filter-node' . $classSuffix . '" value="' . $nk . '" name="t[]" id="tax-'
-					. $nk . '"' . $checked . ' />';
+					. $bk . '"' . $checked . ' />';
 				$html .= $nv->title;
 				$html .= '</label>';
 				$html .= '</div>';

@@ -1,14 +1,18 @@
 <?php
 /**
  * Script used to build Joomla distribution archive packages
- * Builds upgrade packages in tmp/packagesx.x folder (for example, 'build/tmp/packages2.5')
- * Builds full packages in tmp/packages_fullx.x.x folder (for example, 'build/tmp/packages_full2.5.1')
+ * Builds packages in tmp/packages folder (for example, 'build/tmp/packages')
  *
  * Note: the new package must be tagged in your git repository BEFORE doing this
  * It uses the git tag for the new version, not trunk.
  *
- * This script is designed to be run in CLI on Linux or Mac OS X.
+ * This script is designed to be run in CLI on Linux, Mac OS X and WSL.
  * Make sure your default umask is 022 to create archives with correct permissions.
+ *
+ * For WSL based setups make sure there is a /etc/wsl.conf with the following content:
+ * [automount]
+ * enabled=true
+ * options=metadata,uid=1000,gid=1000,umask=022
  *
  * Steps:
  * 1. Tag new release in the local git repository (for example, "git tag 2.5.1")
@@ -17,7 +21,7 @@
  * 4. Check the archives in the tmp directory.
  *
  * @package    Joomla.Build
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2012 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -29,7 +33,7 @@ function usage($command)
 {
 	echo PHP_EOL;
 	echo 'Usage: php ' . $command . ' [options]' . PHP_EOL;
-	echo PHP_TAB . '[options]:'.PHP_EOL;
+	echo PHP_TAB . '[options]:' . PHP_EOL;
 	echo PHP_TAB . PHP_TAB . '--remote <remote>:' . PHP_TAB . 'The git remote reference to build from (ex: `tags/3.8.6`, `4.0-dev`), defaults to the most recent tag for the repository' . PHP_EOL;
 	echo PHP_TAB . PHP_TAB . '--exclude-zip:' . PHP_TAB . PHP_TAB . 'Exclude the generation of .zip packages' . PHP_EOL;
 	echo PHP_TAB . PHP_TAB . '--exclude-gzip:' . PHP_TAB . PHP_TAB . 'Exclude the generation of .tar.gz packages' . PHP_EOL;
@@ -72,6 +76,9 @@ $excludeGzip  = isset($options['exclude-gzip']);
 $excludeBzip2 = isset($options['exclude-bzip2']);
 $showHelp     = isset($options['help']);
 
+// Disable the generation of extra text files
+$includeExtraTextfiles = false;
+
 if ($showHelp)
 {
 	usage($argv[0]);
@@ -85,6 +92,9 @@ if (!$remote)
 	$tagVersion = system($systemGit . ' describe --tags `' . $systemGit . ' rev-list --tags --max-count=1`', $tagVersion);
 	$remote = 'tags/' . $tagVersion;
 	chdir($here);
+
+	// We are in release mode so we need the extra text files
+	$includeExtraTextfiles = true;
 }
 
 echo "Start build for remote $remote.\n";
@@ -106,10 +116,17 @@ $version     = Version::MAJOR_VERSION . '.' . Version::MINOR_VERSION;
 $release     = Version::PATCH_VERSION;
 $fullVersion = (new Version)->getShortVersion();
 
+$previousRelease = Version::PATCH_VERSION - 1;
+
+if ($previousRelease < 0)
+{
+	$previousRelease = false;
+}
+
 chdir($tmp);
 system('mkdir diffdocs');
 system('mkdir diffconvert');
-system('mkdir packages' . $version);
+system('mkdir packages');
 
 echo "Create list of changed files from git repository for version $fullVersion.\n";
 
@@ -149,28 +166,30 @@ $filesArray = array(
  */
 $doNotPackage = array(
 	'.appveyor.yml',
+	'.drone.jsonnet',
 	'.drone.yml',
+	'.editorconfig',
 	'.github',
 	'.gitignore',
-	'.hound.yml',
 	'.php_cs',
-	'.travis.yml',
 	'README.md',
 	'appveyor-phpunit.xml',
 	'build',
 	'build.xml',
 	'composer.json',
 	'composer.lock',
+	'crowdin.yml',
 	'karma.conf.js',
 	'phpunit.xml.dist',
 	'stubs.php',
 	'tests',
-	'travisci-phpunit.xml',
 	'codeception.yml',
 	'Jenkinsfile',
 	'jenkins-phpunit.xml',
 	'RoboFile.php',
 	'RoboFile.dist.ini',
+	'CODE_OF_CONDUCT.md',
+	'selenium.log',
 	// Remove the testing sample data from all packages
 	'installation/sql/mysql/sample_testing.sql',
 	'installation/sql/postgresql/sample_testing.sql',
@@ -186,6 +205,18 @@ $doNotPatch = array(
 	'installation',
 	'images',
 );
+
+/*
+ * This array will contain the checksums for all files which are created by this script.
+ * This is an associative array with the following structure:
+ * array(
+ *   'filename' => array(
+ *     'type1' => 'hash',
+ *     'type2' => 'hash',
+ *   ),
+ * )
+ */
+$checksums = array();
 
 // For the packages, replace spaces in stability (RC) with underscores
 $packageStability = str_replace(' ', '_', Version::DEV_STATUS);
@@ -208,14 +239,21 @@ for ($num = $release - 1; $num >= 0; $num--)
 	// Loop through and add all files except: tests, installation, build, .git, .travis, travis, phpunit, .md, or images
 	foreach ($files as $file)
 	{
-		$fileName   = substr($file, 2);
-		$folderPath = explode('/', $fileName);
-		$baseFolderName = $folderPath[0];
+		if (substr($file, 0, 1) === 'R')
+		{
+			$fileName = substr($file, strrpos($file, "\t") + 1);
+		}
+		else
+		{
+			$fileName = substr($file, 2);
+		}
 
-		$doNotPackageFile = in_array(trim($fileName), $doNotPackage);
-		$doNotPatchFile = in_array(trim($fileName), $doNotPatch);
+		$folderPath             = explode('/', $fileName);
+		$baseFolderName         = $folderPath[0];
+		$doNotPackageFile       = in_array(trim($fileName), $doNotPackage);
+		$doNotPatchFile         = in_array(trim($fileName), $doNotPatch);
 		$doNotPackageBaseFolder = in_array($baseFolderName, $doNotPackage);
-		$doNotPatchBaseFolder = in_array($baseFolderName, $doNotPatch);
+		$doNotPatchBaseFolder   = in_array($baseFolderName, $doNotPatch);
 
 		if ($doNotPackageFile || $doNotPatchFile || $doNotPackageBaseFolder || $doNotPatchBaseFolder)
 		{
@@ -271,19 +309,25 @@ for ($num = $release - 1; $num >= 0; $num--)
 	// Create the diff archive packages using the file name list.
 	if (!$excludeBzip2)
 	{
-		system('tar --create --bzip2 --no-recursion --directory ' . $time . ' --file packages' . $version . '/Joomla_' . $version . '.' . $fromName . '_to_' . $fullVersion . '-' . $packageStability . '-Patch_Package.tar.bz2 --files-from diffconvert/' . $version . '.' . $num . '> /dev/null');
+		$packageName = 'Joomla_' . $version . '.' . $fromName . '_to_' . $fullVersion . '-' . $packageStability . '-Patch_Package.tar.bz2';
+		system('tar --create --bzip2 --no-recursion --directory ' . $time . ' --file packages/' . $packageName . ' --files-from diffconvert/' . $version . '.' . $num . '> /dev/null');
+		$checksums[$packageName] = array();
 	}
 
 	if (!$excludeGzip)
 	{
-		system('tar --create --gzip  --no-recursion --directory ' . $time . ' --file packages' . $version . '/Joomla_' . $version . '.' . $fromName . '_to_' . $fullVersion . '-' . $packageStability . '-Patch_Package.tar.gz  --files-from diffconvert/' . $version . '.' . $num . '> /dev/null');
+		$packageName = 'Joomla_' . $version . '.' . $fromName . '_to_' . $fullVersion . '-' . $packageStability . '-Patch_Package.tar.gz';
+		system('tar --create --gzip  --no-recursion --directory ' . $time . ' --file packages/' . $packageName . ' --files-from diffconvert/' . $version . '.' . $num . '> /dev/null');
+		$checksums[$packageName] = array();
 	}
 
 	if (!$excludeZip)
 	{
+		$packageName = 'Joomla_' . $version . '.' . $fromName . '_to_' . $fullVersion . '-' . $packageStability . '-Patch_Package.zip';
 		chdir($time);
-		system('zip ../packages' . $version . '/Joomla_' . $version . '.' . $fromName . '_to_' . $fullVersion . '-' . $packageStability . '-Patch_Package.zip -@ < ../diffconvert/' . $version . '.' . $num . '> /dev/null');
+		system('zip ../packages/' . $packageName . ' -@ < ../diffconvert/' . $version . '.' . $num . '> /dev/null');
 		chdir('..');
+		$checksums[$packageName] = array();
 	}
 }
 
@@ -295,8 +339,6 @@ foreach ($doNotPackage as $removeFile)
 	system('rm -rf ' . $time . '/' . $removeFile);
 }
 
-// Recreate empty directories before creating new archives.
-system('mkdir packages_full' . $fullVersion);
 echo "Build full package files.\n";
 chdir($time);
 
@@ -306,17 +348,23 @@ system('mv administrator/manifests/packages/pkg_weblinks.xml ../pkg_weblinks.xml
 // Create full archive packages.
 if (!$excludeBzip2)
 {
-	system('tar --create --bzip2 --file ../packages_full' . $fullVersion . '/Joomla_' . $fullVersion . '-' . $packageStability . '-Full_Package.tar.bz2 * > /dev/null');
+	$packageName = 'Joomla_' . $fullVersion . '-' . $packageStability . '-Full_Package.tar.bz2';
+	system('tar --create --bzip2 --file ../packages/' . $packageName . ' * > /dev/null');
+	$checksums[$packageName] = array();
 }
 
 if (!$excludeGzip)
 {
-	system('tar --create --gzip --file ../packages_full' . $fullVersion . '/Joomla_' . $fullVersion . '-' . $packageStability . '-Full_Package.tar.gz * > /dev/null');
+	$packageName = 'Joomla_' . $fullVersion . '-' . $packageStability . '-Full_Package.tar.gz';
+	system('tar --create --gzip --file ../packages/' . $packageName . ' * > /dev/null');
+	$checksums[$packageName] = array();
 }
 
 if (!$excludeZip)
 {
-	system('zip -r ../packages_full' . $fullVersion . '/Joomla_' . $fullVersion . '-' . $packageStability . '-Full_Package.zip * > /dev/null');
+	$packageName = 'Joomla_' . $fullVersion . '-' . $packageStability . '-Full_Package.zip';
+	system('zip -r ../packages/' . $packageName . ' * > /dev/null');
+	$checksums[$packageName] = array();
 }
 
 // Create full update file without the default logs directory, installation folder, or sample images.
@@ -334,17 +382,119 @@ system('mv ../pkg_weblinks.xml administrator/manifests/packages/pkg_weblinks.xml
 
 if (!$excludeBzip2)
 {
-	system('tar --create --bzip2 --file ../packages_full' . $fullVersion . '/Joomla_' . $fullVersion . '-' . $packageStability . '-Update_Package.tar.bz2 * > /dev/null');
+	$packageName = 'Joomla_' . $fullVersion . '-' . $packageStability . '-Update_Package.tar.bz2';
+	system('tar --create --bzip2 --file ../packages/' . $packageName . ' * > /dev/null');
+	$checksums[$packageName] = array();
 }
 
 if (!$excludeGzip)
 {
-	system('tar --create --gzip --file ../packages_full' . $fullVersion . '/Joomla_' . $fullVersion . '-' . $packageStability . '-Update_Package.tar.gz * > /dev/null');
+	$packageName = 'Joomla_' . $fullVersion . '-' . $packageStability . '-Update_Package.tar.gz';
+	system('tar --create --gzip --file ../packages/' . $packageName . ' * > /dev/null');
+	$checksums[$packageName] = array();
 }
 
 if (!$excludeZip)
 {
-	system('zip -r ../packages_full' . $fullVersion . '/Joomla_' . $fullVersion . '-' . $packageStability . '-Update_Package.zip * > /dev/null');
+	$packageName = 'Joomla_' . $fullVersion . '-' . $packageStability . '-Update_Package.zip';
+	system('zip -r ../packages/' . $packageName . ' * > /dev/null');
+	$checksums[$packageName] = array();
+}
+
+chdir('..');
+
+// Thats only needed when we release a version
+if ($includeExtraTextfiles)
+{
+
+	foreach (array_keys($checksums) as $packageName)
+	{
+		echo "Generating checksums for $packageName\n";
+
+		foreach (array('sha256', 'sha384', 'sha512') as $hash)
+		{
+			if (file_exists('packages/' . $packageName))
+			{
+				$checksums[$packageName][$hash] = hash_file($hash, 'packages/' . $packageName);
+			}
+			else
+			{
+				echo "Package $packageName not found in build directories\n";
+			}
+		}
+	}
+
+	echo "Generating checksums.txt file\n";
+
+	$checksumsContent = '';
+
+	foreach ($checksums as $packageName => $packageHashes)
+	{
+		$checksumsContent .= "Filename: $packageName\n";
+
+		foreach ($packageHashes as $hashType => $hash)
+		{
+			$checksumsContent .= "$hashType: $hash\n";
+		}
+
+		$checksumsContent .= "\n";
+	}
+
+	file_put_contents('checksums.txt', $checksumsContent);
+
+	echo "Generating github_release.txt file\n";
+
+	$githubContent = array();
+	$githubText    = '';
+	$releaseText   = array(
+		'FULL'    => 'New Joomla! Installations ',
+		'POINT'   => 'Update from Joomla! ' . $version . '.' . $previousRelease . ' ',
+		'MINOR'   => 'Update from Joomla! ' . $version . '.x ',
+		'UPGRADE' => 'Update from Joomla! 2.5 or previous 3.x releases ',
+	);
+	$githubLink = 'https://github.com/joomla/joomla-cms/releases/download/' . $tagVersion . '/';
+
+	foreach ($checksums as $packageName => $packageHashes)
+	{
+		$type = '';
+
+		if (strpos($packageName, 'Full_Package') !== false)
+		{
+			$type = 'FULL';
+		}
+		elseif (strpos($packageName, 'Patch_Package') !== false)
+		{
+			if (strpos($packageName, '.x_to') !== false)
+			{
+				$type = 'MINOR';
+			}
+			else
+			{
+				$type = 'POINT';
+			}
+		}
+		elseif (strpos($packageName, 'Update_Package') !== false)
+		{
+			$type = 'UPGRADE';
+		}
+
+		$githubContent[$type][] = '[' . substr($packageName, strpos($packageName, 'Package') + 7) . '](' . $githubLink . $packageName . ')';
+	}
+
+	foreach ($releaseText as $type => $text)
+	{
+		if (empty($githubContent[$type]))
+		{
+			continue;
+		}
+
+		$githubText .= $text;
+		$githubText .= implode(" | ", $githubContent[$type]);
+
+		$githubText .= "\n";
+	}
+
+	file_put_contents('github_release.txt', $githubText);
 }
 
 echo "Build of version $fullVersion complete!\n";
