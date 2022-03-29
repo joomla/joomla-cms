@@ -517,6 +517,25 @@ class User extends \JObject
 	}
 
 	/**
+	 * Pass through method to the table for setting the auth provider in login contexts.
+	 * Works around issues with hardcoded permission checks in save() associated to super admins
+	 *
+	 * @param   string  $authProvider  The auth plugin name
+	 *
+	 * @return  boolean  True on success.
+	 *
+	 * @since   3.10.7
+	 */
+	public function setAuthProvider($authProvider)
+	{
+		// Create the user table object
+		$table = $this->getTable();
+		$table->load($this->id);
+
+		return $table->setAuthProvider($authProvider);
+	}
+
+	/**
 	 * Method to get the user parameters
 	 *
 	 * This method used to load the user parameters from a file.

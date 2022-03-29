@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Authentication\ProviderAwareAuthenticationPluginInterface;
+
 /**
  * Joomla Authentication plugin
  *
@@ -16,7 +18,7 @@ defined('_JEXEC') or die;
  * @note   Code based on http://jaspan.com/improved_persistent_login_cookie_best_practice
  *         and http://fishbowl.pastiche.org/2004/01/19/persistent_login_cookie_best_practice/
  */
-class PlgAuthenticationCookie extends JPlugin
+class PlgAuthenticationCookie extends JPlugin implements ProviderAwareAuthenticationPluginInterface
 {
 	/**
 	 * Application object
@@ -99,7 +101,7 @@ class PlgAuthenticationCookie extends JPlugin
 			return false;
 		}
 
-		$response->type = 'Cookie';
+		$response->type = self::getProviderName();
 
 		// Filter series since we're going to use it in the query
 		$filter = new JFilterInput;
@@ -419,5 +421,29 @@ class PlgAuthenticationCookie extends JPlugin
 		$this->app->input->cookie->set($cookieName, '', 1, $this->app->get('cookie_path', '/'), $this->app->get('cookie_domain', ''));
 
 		return true;
+	}
+
+	/**
+	 * Remember Me shall work with any other auth plugin
+	 *
+	 * @return  false
+	 *
+	 * @since  3.10.7
+	 */
+	public static function isPrimaryProvider()
+	{
+		return false;
+	}
+
+	/**
+	 * Return provider name
+	 *
+	 * @return string
+	 *
+	 * @since  3.10.7
+	 */
+	public static function getProviderName()
+	{
+		return 'Cookie';
 	}
 }

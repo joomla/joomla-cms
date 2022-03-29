@@ -267,6 +267,16 @@ class Authentication extends \JObject
 		// Create authentication response
 		$response = new AuthenticationResponse;
 
+		// Query existing authProvider constraint
+		$db = \JFactory::getDbo();
+
+		$pluginConstraint = $db->setQuery(
+			$db->getQuery(true)
+				->select($db->qn('authProvider'))
+				->from($db->qn('#__users'))
+				->where($db->qn('username') . ' = ' . $db->q($credentials['username']))
+		)->loadResult();
+
 		/*
 		 * Loop through the plugins and check if the credentials can be used to authenticate
 		 * the user
@@ -276,7 +286,8 @@ class Authentication extends \JObject
 		 */
 		foreach ($plugins as $plugin)
 		{
-			$className = 'plg' . $plugin->type . $plugin->name;
+			$pluginName = $plugin->name;
+			$className = 'plg' . $plugin->type . $pluginName;
 
 			if (class_exists($className))
 			{
@@ -289,6 +300,15 @@ class Authentication extends \JObject
 				continue;
 			}
 
+			// Check auth provider constraint
+			if ($pluginConstraint
+				&& $plugin instanceof ProviderAwareAuthenticationPluginInterface
+				&& $plugin::isPrimaryProvider()
+				&& $plugin::getProviderName() !== $pluginConstraint)
+			{
+				continue;
+			}
+
 			// Try to authenticate
 			$plugin->onUserAuthenticate($credentials, $options, $response);
 
@@ -297,7 +317,7 @@ class Authentication extends \JObject
 			{
 				if (empty($response->type))
 				{
-					$response->type = isset($plugin->_name) ? $plugin->_name : $plugin->name;
+					$response->type = isset($plugin->_name) ? $plugin->_name : $pluginName;
 				}
 
 				break;

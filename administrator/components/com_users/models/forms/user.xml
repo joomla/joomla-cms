@@ -142,6 +142,15 @@
 		</field>
 
 		<field
+			name="authProvider"
+			type="primaryauthproviders"
+			label="COM_USERS_USER_FIELD_AUTHPROVIDER_LABEL"
+			description="COM_USERS_USER_FIELD_AUTHPROVIDER_DESC"
+		>
+			<option value="">JNONE</option>
+		</field>
+
+		<field
 			name="id"
 			type="number"
 			label="JGLOBAL_FIELD_ID_LABEL"
@@ -209,7 +218,6 @@
 				>
 				<option value="">JOPTION_USE_DEFAULT</option>
 			</field>
-
 		</fieldset>
 
 	</fields>

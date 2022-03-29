@@ -10,13 +10,14 @@
 defined('_JEXEC') or die;
 
 use Joomla\Ldap\LdapClient;
+use Joomla\CMS\Authentication\ProviderAwareAuthenticationPluginInterface;
 
 /**
  * LDAP Authentication Plugin
  *
  * @since  1.5
  */
-class PlgAuthenticationLdap extends JPlugin
+class PlgAuthenticationLdap extends JPlugin implements ProviderAwareAuthenticationPluginInterface
 {
 	/**
 	 * This method should handle any authentication and report back to the subject
@@ -36,7 +37,7 @@ class PlgAuthenticationLdap extends JPlugin
 		$userdetails = array();
 
 		// For JLog
-		$response->type = 'LDAP';
+		$response->type = self::getProviderName();
 
 		// Strip null bytes from the password
 		$credentials['password'] = str_replace(chr(0), '', $credentials['password']);
@@ -190,7 +191,7 @@ class PlgAuthenticationLdap extends JPlugin
 	 *
 	 * @since   3.8.2
 	 */
-	private function searchByString($search, LdapClient $ldap)
+	private static function searchByString($search, LdapClient $ldap)
 	{
 		$results = explode(';', $search);
 
@@ -200,5 +201,29 @@ class PlgAuthenticationLdap extends JPlugin
 		}
 
 		return $ldap->search($results);
+	}
+
+	/**
+	 * Acts as primary auth provider
+	 *
+	 * @return  true
+	 *
+	 * @since  3.10.7
+	 */
+	public static function isPrimaryProvider()
+	{
+		return true;
+	}
+
+	/**
+	 * Return provider name
+	 *
+	 * @return  string
+	 *
+	 * @since  3.10.7
+	 */
+	public static function getProviderName()
+	{
+		return 'LDAP';
 	}
 }

@@ -414,8 +414,14 @@ class UsersModelProfile extends JModelForm
 	public function getTwofactorform($userId = null)
 	{
 		$userId = (!empty($userId)) ? $userId : (int) $this->getState('user.id');
-
 		$model = new UsersModelUser;
+		$user = $model->getItem($userId);
+
+		// Check if core is the auth provider
+		if ($user->authProvider !== 'Joomla')
+		{
+			return array();
+		}
 
 		$otpConfig = $model->getOtpConfig($userId);
 

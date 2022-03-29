@@ -9,12 +9,14 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Authentication\ProviderAwareAuthenticationPluginInterface;
+
 /**
  * Joomla Authentication plugin
  *
  * @since  1.5
  */
-class PlgAuthenticationJoomla extends JPlugin
+class PlgAuthenticationJoomla extends JPlugin implements ProviderAwareAuthenticationPluginInterface
 {
 	/**
 	 * This method should handle any authentication and report back to the subject
@@ -29,7 +31,7 @@ class PlgAuthenticationJoomla extends JPlugin
 	 */
 	public function onUserAuthenticate($credentials, $options, &$response)
 	{
-		$response->type = 'Joomla';
+		$response->type = self::getProviderName();
 
 		// Joomla does not like blank passwords
 		if (empty($credentials['password']))
@@ -217,5 +219,29 @@ class PlgAuthenticationJoomla extends JPlugin
 				$response->error_message = JText::_('JGLOBAL_AUTH_INVALID_SECRETKEY');
 			}
 		}
+	}
+
+	/**
+	 * Acts as primary auth provider
+	 *
+	 * @return  true
+	 *
+	 * @since  3.10.7
+	 */
+	public static function isPrimaryProvider()
+	{
+		return true;
+	}
+
+	/**
+	 * Return provider name
+	 *
+	 * @return string
+	 *
+	 * @since  3.10.7
+	 */
+	public static function getProviderName()
+	{
+		return 'Joomla';
 	}
 }
