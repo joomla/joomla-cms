@@ -44,7 +44,7 @@ class PlgAuthenticationLdap extends CMSPlugin
 		}
 
 		// For JLog
-		$response->type = self::getProviderName();
+		$response->type = 'LDAP';
 
 		// Strip null bytes from the password
 		$credentials['password'] = str_replace(chr(0), '', $credentials['password']);
