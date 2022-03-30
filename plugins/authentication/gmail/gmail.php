@@ -59,7 +59,7 @@ class PlgAuthenticationGMail extends JPlugin
 		catch (RuntimeException $e)
 		{
 			$response->status        = JAuthentication::STATUS_FAILURE;
-			$response->type          = self::getProviderName();
+			$response->type          = 'GMail';
 			$response->error_message = JText::sprintf('JGLOBAL_AUTH_FAILED', JText::_('JGLOBAL_AUTH_CURL_NOT_INSTALLED'));
 
 			return;
@@ -68,7 +68,7 @@ class PlgAuthenticationGMail extends JPlugin
 		// Check if we have a username and password
 		if ($credentials['username'] === '' || $credentials['password'] === '')
 		{
-			$response->type          = self::getProviderName();
+			$response->type          = 'GMail';
 			$response->status        = JAuthentication::STATUS_FAILURE;
 			$response->error_message = JText::sprintf('JGLOBAL_AUTH_FAILED', JText::_('JGLOBAL_AUTH_USER_BLACKLISTED'));
 
@@ -80,7 +80,7 @@ class PlgAuthenticationGMail extends JPlugin
 		// Check if the username isn't blacklisted
 		if (in_array($credentials['username'], $blacklist))
 		{
-			$response->type          = self::getProviderName();
+			$response->type          = 'GMail';
 			$response->status        = JAuthentication::STATUS_FAILURE;
 			$response->error_message = JText::sprintf('JGLOBAL_AUTH_FAILED', JText::_('JGLOBAL_AUTH_USER_BLACKLISTED'));
 
@@ -123,7 +123,7 @@ class PlgAuthenticationGMail extends JPlugin
 		catch (Exception $e)
 		{
 			$response->status        = JAuthentication::STATUS_FAILURE;
-			$response->type          = self::getProviderName();
+			$response->type          = 'GMail';
 			$response->error_message = JText::sprintf('JGLOBAL_AUTH_FAILED', JText::_('JGLOBAL_AUTH_UNKNOWN_ACCESS_DENIED'));
 
 			return;
@@ -147,7 +147,7 @@ class PlgAuthenticationGMail extends JPlugin
 				break;
 		}
 
-		$response->type = self::getProviderName();
+		$response->type          = 'GMail';
 
 		if (!$success)
 		{

@@ -99,7 +99,7 @@ class PlgAuthenticationCookie extends JPlugin
 			return false;
 		}
 
-		$response->type = self::getProviderName();
+		$response->type = 'Cookie';
 
 		// Filter series since we're going to use it in the query
 		$filter = new JFilterInput;
