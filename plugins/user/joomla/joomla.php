@@ -9,11 +9,9 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Authentication\ProviderAwareAuthenticationPluginInterface;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\User\User;
 use Joomla\CMS\User\UserHelper;
@@ -404,7 +402,6 @@ class PlgUserJoomla extends JPlugin
 		$instance->name = $user['fullname'];
 		$instance->username = $user['username'];
 		$instance->password_clear = $user['password_clear'];
-		$instance->authProvider = $user['type'];
 
 		// Result should contain an email (check).
 		$instance->email = $user['email'];

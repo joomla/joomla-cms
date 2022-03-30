@@ -10,14 +10,13 @@
 defined('_JEXEC') or die;
 
 use Joomla\Ldap\LdapClient;
-use Joomla\CMS\Authentication\ProviderAwareAuthenticationPluginInterface;
 
 /**
  * LDAP Authentication Plugin
  *
  * @since  1.5
  */
-class PlgAuthenticationLdap extends JPlugin implements ProviderAwareAuthenticationPluginInterface
+class PlgAuthenticationLdap extends JPlugin
 {
 	/**
 	 * This method should handle any authentication and report back to the subject
@@ -201,29 +200,5 @@ class PlgAuthenticationLdap extends JPlugin implements ProviderAwareAuthenticati
 		}
 
 		return $ldap->search($results);
-	}
-
-	/**
-	 * Acts as primary auth provider
-	 *
-	 * @return  true
-	 *
-	 * @since  3.10.7
-	 */
-	public static function isPrimaryProvider()
-	{
-		return true;
-	}
-
-	/**
-	 * Return provider name
-	 *
-	 * @return  string
-	 *
-	 * @since  3.10.7
-	 */
-	public static function getProviderName()
-	{
-		return 'LDAP';
 	}
 }
