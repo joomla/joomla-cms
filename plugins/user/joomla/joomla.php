@@ -422,7 +422,6 @@ class PlgUserJoomla extends CMSPlugin
 		$instance->name = $user['fullname'];
 		$instance->username = $user['username'];
 		$instance->password_clear = $user['password_clear'];
-		$instance->authProvider = $user['type'];
 
 		// Result should contain an email (check).
 		$instance->email = $user['email'];

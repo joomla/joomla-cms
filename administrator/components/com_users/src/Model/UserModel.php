@@ -1215,7 +1215,6 @@ class UserModel extends AdminModel
 	public function getTwofactorform($userId = null)
 	{
 		$userId = (!empty($userId)) ? $userId : (int) $this->getState('user.id');
-		$user = $this->getItem($userId);
 
 		$otpConfig = $this->getOtpConfig($userId);
 

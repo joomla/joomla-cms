@@ -16,7 +16,6 @@ use Joomla\CMS\Log\Log;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\Event\DispatcherAwareTrait;
 use Joomla\Event\DispatcherInterface;
-use Joomla\CMS\Authentication\ProviderAwareAuthenticationPluginInterface;
 
 /**
  * Authentication class, provides an interface for the Joomla authentication system

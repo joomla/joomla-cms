@@ -17,14 +17,12 @@ use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\User\User;
 use Joomla\CMS\User\UserHelper;
 
-use Joomla\CMS\Authentication\ProviderAwareAuthenticationPluginInterface;
-
 /**
  * Joomla Authentication plugin
  *
  * @since  1.5
  */
-class PlgAuthenticationJoomla extends CMSPlugin implements ProviderAwareAuthenticationPluginInterface
+class PlgAuthenticationJoomla extends CMSPlugin
 {
 	/**
 	 * Application object
@@ -238,29 +236,5 @@ class PlgAuthenticationJoomla extends CMSPlugin implements ProviderAwareAuthenti
 				$response->error_message = Text::_('JGLOBAL_AUTH_INVALID_SECRETKEY');
 			}
 		}
-	}
-
-	/**
-	 * Acts as primary auth provider
-	 *
-	 * @return  true
-	 *
-	 * @since  3.10.7
-	 */
-	public static function isPrimaryProvider()
-	{
-		return true;
-	}
-
-	/**
-	 * Return provider name
-	 *
-	 * @return string
-	 *
-	 * @since  3.10.7
-	 */
-	public static function getProviderName()
-	{
-		return 'Joomla';
 	}
 }
