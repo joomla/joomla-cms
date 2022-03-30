@@ -147,7 +147,7 @@ class PlgAuthenticationGMail extends JPlugin
 				break;
 		}
 
-		$response->type          = 'GMail';
+		$response->type = 'GMail';
 
 		if (!$success)
 		{
