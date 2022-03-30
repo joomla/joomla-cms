@@ -389,12 +389,6 @@ class PlgUserJoomla extends JPlugin
 		{
 			$instance->load($id);
 
-			// Add auth provider constraint if not set yet
-			if (!$instance->authProvider)
-			{
-				$instance->setAuthProvider($user['type']);
-			}
-
 			return $instance;
 		}
 
@@ -408,7 +402,6 @@ class PlgUserJoomla extends JPlugin
 		$instance->name = $user['fullname'];
 		$instance->username = $user['username'];
 		$instance->password_clear = $user['password_clear'];
-		$instance->authProvider = $user['type'];
 
 		// Result should contain an email (check).
 		$instance->email = $user['email'];

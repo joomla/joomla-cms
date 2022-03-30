@@ -11,14 +11,13 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Authentication\AuthenticationResponse;
 use Joomla\Registry\Registry;
-use Joomla\CMS\Authentication\ProviderAwareAuthenticationPluginInterface;
 
 /**
  * GMail Authentication Plugin
  *
  * @since  1.5
  */
-class PlgAuthenticationGMail extends JPlugin implements ProviderAwareAuthenticationPluginInterface
+class PlgAuthenticationGMail extends JPlugin
 {
 	/**
 	 * This method should handle any authentication and report back to the subject
@@ -60,7 +59,7 @@ class PlgAuthenticationGMail extends JPlugin implements ProviderAwareAuthenticat
 		catch (RuntimeException $e)
 		{
 			$response->status        = JAuthentication::STATUS_FAILURE;
-			$response->type          = self::getProviderName();
+			$response->type          = 'GMail';
 			$response->error_message = JText::sprintf('JGLOBAL_AUTH_FAILED', JText::_('JGLOBAL_AUTH_CURL_NOT_INSTALLED'));
 
 			return;
@@ -69,7 +68,7 @@ class PlgAuthenticationGMail extends JPlugin implements ProviderAwareAuthenticat
 		// Check if we have a username and password
 		if ($credentials['username'] === '' || $credentials['password'] === '')
 		{
-			$response->type          = self::getProviderName();
+			$response->type          = 'GMail';
 			$response->status        = JAuthentication::STATUS_FAILURE;
 			$response->error_message = JText::sprintf('JGLOBAL_AUTH_FAILED', JText::_('JGLOBAL_AUTH_USER_BLACKLISTED'));
 
@@ -81,7 +80,7 @@ class PlgAuthenticationGMail extends JPlugin implements ProviderAwareAuthenticat
 		// Check if the username isn't blacklisted
 		if (in_array($credentials['username'], $blacklist))
 		{
-			$response->type          = self::getProviderName();
+			$response->type          = 'GMail';
 			$response->status        = JAuthentication::STATUS_FAILURE;
 			$response->error_message = JText::sprintf('JGLOBAL_AUTH_FAILED', JText::_('JGLOBAL_AUTH_USER_BLACKLISTED'));
 
@@ -124,7 +123,7 @@ class PlgAuthenticationGMail extends JPlugin implements ProviderAwareAuthenticat
 		catch (Exception $e)
 		{
 			$response->status        = JAuthentication::STATUS_FAILURE;
-			$response->type          = self::getProviderName();
+			$response->type          = 'GMail';
 			$response->error_message = JText::sprintf('JGLOBAL_AUTH_FAILED', JText::_('JGLOBAL_AUTH_UNKNOWN_ACCESS_DENIED'));
 
 			return;
@@ -148,7 +147,7 @@ class PlgAuthenticationGMail extends JPlugin implements ProviderAwareAuthenticat
 				break;
 		}
 
-		$response->type = self::getProviderName();
+		$response->type = 'GMail';
 
 		if (!$success)
 		{
@@ -236,29 +235,5 @@ class PlgAuthenticationGMail extends JPlugin implements ProviderAwareAuthenticat
 		// Reset the username to what we ended up using
 		$response->username = $credentials['username'];
 		$response->fullname = $credentials['username'];
-	}
-
-	/**
-	 * Acts as primary auth provider
-	 *
-	 * @return  true
-	 *
-	 * @since  3.10.7
-	 */
-	public static function isPrimaryProvider()
-	{
-		return true;
-	}
-
-	/**
-	 * Return provider name
-	 *
-	 * @return string
-	 *
-	 * @since  3.10.7
-	 */
-	public static function getProviderName()
-	{
-		return 'Gmail';
 	}
 }

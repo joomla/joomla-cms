@@ -267,16 +267,6 @@ class Authentication extends \JObject
 		// Create authentication response
 		$response = new AuthenticationResponse;
 
-		// Query existing authProvider constraint
-		$db = \JFactory::getDbo();
-
-		$pluginConstraint = $db->setQuery(
-			$db->getQuery(true)
-				->select($db->qn('authProvider'))
-				->from($db->qn('#__users'))
-				->where($db->qn('username') . ' = ' . $db->q($credentials['username']))
-		)->loadResult();
-
 		/*
 		 * Loop through the plugins and check if the credentials can be used to authenticate
 		 * the user
@@ -297,15 +287,6 @@ class Authentication extends \JObject
 			{
 				// Bail here if the plugin can't be created
 				\JLog::add(\JText::sprintf('JLIB_USER_ERROR_AUTHENTICATION_FAILED_LOAD_PLUGIN', $className), \JLog::WARNING, 'jerror');
-				continue;
-			}
-
-			// Check auth provider constraint
-			if ($pluginConstraint
-				&& $plugin instanceof ProviderAwareAuthenticationPluginInterface
-				&& $plugin::isPrimaryProvider()
-				&& $plugin::getProviderName() !== $pluginConstraint)
-			{
 				continue;
 			}
 

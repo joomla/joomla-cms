@@ -2300,6 +2300,8 @@ class JoomlaInstallerScript
 			'/libraries/joomla/filesystem',
 			// Joomla 3.10.0
 			'/libraries/joomla/base',
+			// Joomla 3.10.8
+			'/administrator/components/com_users/models/fields/primaryauthproviders.php',
 		);
 
 		jimport('joomla.filesystem.file');
