@@ -88,7 +88,6 @@ class JoomlaInstallerScript
 		$this->updateAssets($installer);
 		$this->clearStatsCache();
 		$this->convertTablesToUtf8mb4(true);
-		$this->verifyAuthProviders();
 		$this->cleanJoomlaCache();
 
 		// VERY IMPORTANT! THIS METHOD SHOULD BE CALLED LAST, SINCE IT COULD
@@ -2729,49 +2728,5 @@ class JoomlaInstallerScript
 				}
 			}
 		}
-	}
-
-	/**
-	 * Verifies the current authProvider values in the user table and unsets invalid values
-	 *
-	 * @throws Exception
-	 *
-	 * @since 3.10.8
-	 */
-	protected function verifyAuthProviders()
-	{
-		\Joomla\CMS\Plugin\PluginHelper::importPlugin('authentication');
-
-		$plugins = \Joomla\CMS\Plugin\PluginHelper::getPlugin('authentication');
-
-		$validProviders = [];
-
-		foreach ($plugins as $plugin)
-		{
-			$className = 'plg' . $plugin->type . $plugin->name;
-
-			if (!class_exists($className))
-			{
-				continue;
-			}
-
-			if (is_subclass_of(
-					$className,
-					"Joomla\CMS\Authentication\ProviderAwareAuthenticationPluginInterface"
-				)
-				&& $className::isPrimaryProvider())
-			{
-				$validProviders[] = $className::getProviderName();
-			}
-		}
-
-		$db = JFactory::getDbo();
-		$query = $db->getQuery(true);
-
-		$query->update($db->quoteName('#__users'))
-			->set($db->quoteName('authProvider') . ' = ' . $db->quote(''))
-			->where($db->quoteName('authProvider') . ' NOT IN (' . implode(', ', $db->quote($validProviders)) . ')');
-
-		$db->setQuery($query)->execute();
 	}
 }
