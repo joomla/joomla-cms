@@ -40,6 +40,7 @@ class HtmlView extends BaseHtmlView
 		$model = $this->getModel();
 
 		$this->items = $model->getItems();
+		$this->hidden = $model->getHidden();
 
 		if (!\count($this->items))
 		{
@@ -78,7 +79,11 @@ class HtmlView extends BaseHtmlView
 		if (!empty($this->items))
 		{
 			$toolbar->unpublish('message.hideAll', 'COM_POSTINSTALL_HIDE_ALL_MESSAGES');
-			$toolbar->standardButton('new', 'COM_POSTINSTALL_EMPTYSTATE_BUTTON_ADD', 'message.reset');
+
+			if (!empty($this->hidden))
+			{
+				$toolbar->standardButton('new', 'COM_POSTINSTALL_EMPTYSTATE_BUTTON_ADD', 'message.reset');
+			}
 		}
 
 		// Options button.
