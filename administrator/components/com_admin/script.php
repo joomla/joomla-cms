@@ -9,7 +9,6 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Authentication\ProviderAwareAuthenticationPluginInterface;
 use Joomla\CMS\Extension\ExtensionHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\File;
@@ -17,7 +16,6 @@ use Joomla\CMS\Filesystem\Folder;
 use Joomla\CMS\Installer\Installer;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
-use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Table\Table;
 use Joomla\Component\Fields\Administrator\Model\FieldModel;
 use Joomla\Database\ParameterType;
@@ -108,7 +106,6 @@ class JoomlaInstallerScript
 		$this->clearStatsCache();
 		$this->convertTablesToUtf8mb4(true);
 		$this->addUserAuthProviderColumn();
-		$this->verifyAuthProviders();
 		$this->cleanJoomlaCache();
 	}
 
@@ -8687,38 +8684,5 @@ class JoomlaInstallerScript
 
 			return;
 		}
-	}
-
-	/**
-	 * Verifies the current authProvider values in the user table and unsets invalid values
-	 *
-	 * @throws Exception
-	 */
-	protected function verifyAuthProviders(): void
-	{
-		$plugins = PluginHelper::getPlugin('authentication');
-		$db = Factory::getContainer()->get('DatabaseDriver');
-
-		$validProviders = [];
-
-		foreach ($plugins as $plugin)
-		{
-			$plugin = Factory::getApplication()->bootPlugin($plugin->name, $plugin->type);
-
-			// Check auth provider constraint
-			if ($plugin instanceof ProviderAwareAuthenticationPluginInterface
-				&& $plugin::isPrimaryProvider())
-			{
-				$validProviders[] = $plugin::getProviderName();
-			}
-		}
-
-		$query = $db->getQuery(true);
-
-		$query->update($db->quoteName('#__users'))
-			->set($db->quoteName('authProvider') . ' = ' . $db->quote(''))
-			->whereNotIn($db->quoteName('authProvider'), $validProviders, ParameterType::STRING);
-
-		$db->setQuery($query)->execute();
 	}
 }
