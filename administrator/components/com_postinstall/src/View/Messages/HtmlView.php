@@ -78,6 +78,7 @@ class HtmlView extends BaseHtmlView
 		if (!empty($this->items))
 		{
 			$toolbar->unpublish('message.hideAll', 'COM_POSTINSTALL_HIDE_ALL_MESSAGES');
+			$toolbar->standardButton('new', 'COM_POSTINSTALL_EMPTYSTATE_BUTTON_ADD', 'message.reset');
 		}
 
 		// Options button.
