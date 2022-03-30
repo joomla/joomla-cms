@@ -639,6 +639,9 @@ class JoomlaInstallerScript
 		];
 
 		$files = array(
+			// From 4.1.1 to 4.1.2
+			'/administrator/components/com_users/src/Field/PrimaryauthprovidersField.php',
+
 			// From 3.10 to 4.1
 			'/administrator/components/com_actionlogs/actionlogs.php',
 			'/administrator/components/com_actionlogs/controller.php',
