@@ -410,20 +410,6 @@ class PlgUserJoomla extends CMSPlugin
 		{
 			$instance->load($id);
 
-			// Add auth provider constraint if not set yet
-			if (!$instance->authProvider)
-			{
-				$plugin = Factory::getApplication()->bootPlugin($user['type'], 'authentication');
-
-				// Check auth provider constraint
-				if ($plugin
-					&& $plugin instanceof ProviderAwareAuthenticationPluginInterface
-					&& $plugin::isPrimaryProvider())
-				{
-					$instance->setAuthProvider($user['type']);
-				}
-			}
-
 			return $instance;
 		}
 
