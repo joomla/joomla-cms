@@ -1215,6 +1215,13 @@ class UserModel extends AdminModel
 	public function getTwofactorform($userId = null)
 	{
 		$userId = (!empty($userId)) ? $userId : (int) $this->getState('user.id');
+		$user = $this->getItem($userId);
+
+		// Check if core is the auth provider
+		if ($user->authProvider !== 'Joomla')
+		{
+			return [];
+		}
 
 		$otpConfig = $this->getOtpConfig($userId);
 
