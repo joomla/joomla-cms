@@ -7716,6 +7716,8 @@ class JoomlaInstallerScript
 			'/libraries/vendor/tobscure/json-api/.git/hooks',
 			'/libraries/vendor/tobscure/json-api/.git/branches',
 			'/libraries/vendor/tobscure/json-api/.git',
+			// From 4.1.1 to 4.1.2
+			'/administrator/components/com_users/src/Field/PrimaryauthprovidersField.php',
 		);
 
 		$status['files_checked'] = $files;
