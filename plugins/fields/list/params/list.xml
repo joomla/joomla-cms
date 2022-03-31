@@ -18,7 +18,6 @@
 				name="form_layout"
 				type="list"
 				label="JLIB_FORM_FIELD_PARAM_LAYOUT_LABEL"
-				useglobal="true"
 				class="form-select"
 				>
 				<option value="">COM_FIELDS_FIELD_USE_GLOBAL</option>
