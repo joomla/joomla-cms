@@ -309,7 +309,7 @@ class MVCFactory implements MVCFactoryInterface, FormFactoryAwareInterface, Site
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	private function setDispatcherOnObject($object)
 	{
@@ -335,7 +335,7 @@ class MVCFactory implements MVCFactoryInterface, FormFactoryAwareInterface, Site
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	private function setRouterOnObject($object): void
 	{

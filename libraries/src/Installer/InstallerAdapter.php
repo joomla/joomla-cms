@@ -1037,8 +1037,20 @@ abstract class InstallerAdapter implements ContainerAwareInterface
 		// The real location of the file
 		$manifestScriptFile = $this->parent->getPath('source') . '/' . $manifestScript;
 
-		// Load the file
-		$installer = require_once $manifestScriptFile;
+		$installer = null;
+
+		// Load the installer from the file
+		if (!file_exists($manifestScriptFile))
+		{
+			@trigger_error(
+				'Installer file must exist when defined. In version 5.0 this will crash.',
+				E_USER_DEPRECATED
+			);
+
+			return;
+		}
+
+		require_once $manifestScriptFile;
 
 		// When the instance is a service provider, then register the container with it
 		if ($installer instanceof ServiceProviderInterface)
