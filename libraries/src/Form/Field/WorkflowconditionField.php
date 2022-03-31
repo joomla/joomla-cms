@@ -75,7 +75,7 @@ class WorkflowconditionField extends ListField
 
 			if (\strlen($element['hide_all']))
 			{
-				$this->hideAll = (string) $element['hide_all'] === 'true' || (string) $element['hide_all'] === 'yes';
+				$this->hideAll = (string) $element['hide_all'] === 'true' || (string) $element['hide_all'] === 'yes' || (string) $element['hide_all'] === '1';
 			}
 		}
 
