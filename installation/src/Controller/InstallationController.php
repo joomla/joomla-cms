@@ -16,7 +16,6 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\Session\Session;
-use Joomla\Utilities\ArrayHelper;
 
 /**
  * Default controller class for the Joomla Installer.
@@ -217,10 +216,12 @@ class InstallationController extends JSONController
 		$this->checkValidToken();
 
 		// Get array of selected languages
-		$lids = $this->input->get('cid', [], 'array');
-		$lids = ArrayHelper::toInteger($lids, []);
+		$lids = (array) $this->input->get('cid', [], 'int');
 
-		if (!$lids)
+		// Remove zero values resulting from input filter
+		$lids = array_filter($lids);
+
+		if (empty($lids))
 		{
 			// No languages have been selected
 			$this->app->enqueueMessage(Text::_('INSTL_LANGUAGES_NO_LANGUAGE_SELECTED'), 'warning');
