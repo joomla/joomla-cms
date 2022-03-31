@@ -1018,6 +1018,14 @@ class JDatabaseDriverPgsql extends JDatabaseDriverPdo
 	 */
 	public function quoteBinary($data)
 	{
+		if (is_resource($data))
+		{
+			if (get_resource_type($data) === 'stream')
+			{
+				$data = stream_get_contents($data, -1, 0);
+			}
+		}
+
 		return "decode('" . bin2hex($data) . "', 'hex')";
 	}
 }
