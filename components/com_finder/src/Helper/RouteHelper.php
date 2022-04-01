@@ -37,7 +37,7 @@ class RouteHelper
 	{
 		// Get the menu item id.
 		$query = array('view' => 'search', 'q' => $q, 'f' => $f);
-		$item = $itemid ? $itemid : self::getItemid($query);
+		$item = $itemid ?: self::getItemid($query);
 
 		// Get the base route.
 		$uri = clone Uri::getInstance('index.php?option=com_finder&view=search');
