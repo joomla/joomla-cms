@@ -312,7 +312,8 @@ class BannersModel extends ListModel
 	 */
 	public function impress()
 	{
-		$trackDate = Factory::getDate()->toSql();
+		$trackDate = Factory::getDate()->format('Y-m-d H:00:00');
+		$trackDate = Factory::getDate($trackDate)->toSql();
 		$items     = $this->getItems();
 		$db        = $this->getDbo();
 		$bid       = [];

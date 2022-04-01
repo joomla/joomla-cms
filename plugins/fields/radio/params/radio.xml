@@ -15,6 +15,7 @@
 						name="name"
 						type="text"
 						label="PLG_FIELDS_RADIO_PARAMS_OPTIONS_NAME_LABEL"
+						required="true"
 					/>
 
 					<field
