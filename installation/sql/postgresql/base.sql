@@ -968,6 +968,7 @@ CREATE TABLE IF NOT EXISTS "#__users" (
   "otpKey" varchar(1000) DEFAULT '' NOT NULL,
   "otep" varchar(1000) DEFAULT '' NOT NULL,
   "requireReset" smallint DEFAULT 0,
+  "authProvider" varchar(100) DEFAULT '' NOT NULL,
   PRIMARY KEY ("id"),
   CONSTRAINT "#__users_idx_username" UNIQUE ("username")
 );

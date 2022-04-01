@@ -946,6 +946,7 @@ CREATE TABLE IF NOT EXISTS `#__users` (
   `otpKey` varchar(1000) NOT NULL DEFAULT '' COMMENT 'Two factor authentication encrypted keys',
   `otep` varchar(1000) NOT NULL DEFAULT '' COMMENT 'One time emergency passwords',
   `requireReset` tinyint NOT NULL DEFAULT 0 COMMENT 'Require user to reset password on next login',
+  `authProvider` varchar(100) NOT NULL DEFAULT '' COMMENT 'Name of used authentication plugin',
   PRIMARY KEY (`id`),
   KEY `idx_name` (`name`(100)),
   KEY `idx_block` (`block`),
