@@ -319,7 +319,7 @@ class AdminController extends BaseController
 		$pks   = (array) $this->input->post->get('cid', array(), 'int');
 		$order = (array) $this->input->post->get('order', array(), 'int');
 
-		// Remove zero PK's and corresponding order values resulting from input filter for PK
+		// Remove zero PKs and corresponding order values resulting from input filter for PK
 		foreach ($pks as $i => $pk)
 		{
 			if ($pk === 0)
@@ -417,7 +417,7 @@ class AdminController extends BaseController
 		$pks   = (array) $this->input->post->get('cid', array(), 'int');
 		$order = (array) $this->input->post->get('order', array(), 'int');
 
-		// Remove zero PK's and corresponding order values resulting from input filter for PK
+		// Remove zero PKs and corresponding order values resulting from input filter for PK
 		foreach ($pks as $i => $pk)
 		{
 			if ($pk === 0)

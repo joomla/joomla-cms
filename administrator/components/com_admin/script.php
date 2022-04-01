@@ -7716,6 +7716,8 @@ class JoomlaInstallerScript
 			'/libraries/vendor/tobscure/json-api/.git/hooks',
 			'/libraries/vendor/tobscure/json-api/.git/branches',
 			'/libraries/vendor/tobscure/json-api/.git',
+			// From 4.1.1 to 4.1.2
+			'/administrator/components/com_users/src/Field/PrimaryauthprovidersField.php',
 			// From 4.1.1 to 4.2.0
 			'/libraries/src/Service/Provider/ApiRouter.php'
 		);
@@ -8653,7 +8655,7 @@ class JoomlaInstallerScript
 	}
 
 	/**
-	 * Add the user Auth Provider Column as it could be preset from 3.10 already
+	 * Add the user Auth Provider Column as it could be present from 3.10 already
 	 *
 	 * @return  void
 	 *
