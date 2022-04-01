@@ -10,6 +10,7 @@ namespace Joomla\CMS\Helper;
 
 \defined('JPATH_PLATFORM') or die;
 
+use enshrined\svgSanitize\Sanitizer;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\File;
@@ -197,7 +198,6 @@ class MediaHelper
 		return true;
 	}
 
-
 	/**
 	 * Checks if the file can be uploaded
 	 *
@@ -354,23 +354,12 @@ class MediaHelper
 			}
 		}
 
-		$xss_check = file_get_contents($file['tmp_name'], false, null, -1, 256);
-
-		$html_tags = array(
-			'abbr', 'acronym', 'address', 'applet', 'area', 'audioscope', 'base', 'basefont', 'bdo', 'bgsound', 'big', 'blackface', 'blink',
-			'blockquote', 'body', 'bq', 'br', 'button', 'caption', 'center', 'cite', 'code', 'col', 'colgroup', 'comment', 'custom', 'dd', 'del',
-			'dfn', 'dir', 'div', 'dl', 'dt', 'em', 'embed', 'fieldset', 'fn', 'font', 'form', 'frame', 'frameset', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6',
-			'head', 'hr', 'html', 'iframe', 'ilayer', 'img', 'input', 'ins', 'isindex', 'keygen', 'kbd', 'label', 'layer', 'legend', 'li', 'limittext',
-			'link', 'listing', 'map', 'marquee', 'menu', 'meta', 'multicol', 'nobr', 'noembed', 'noframes', 'noscript', 'nosmartquotes', 'object',
-			'ol', 'optgroup', 'option', 'param', 'plaintext', 'pre', 'rt', 'ruby', 's', 'samp', 'script', 'select', 'server', 'shadow', 'sidebar',
-			'small', 'spacer', 'span', 'strike', 'strong', 'style', 'sub', 'sup', 'table', 'tbody', 'td', 'textarea', 'tfoot', 'th', 'thead', 'title',
-			'tr', 'tt', 'ul', 'var', 'wbr', 'xml', 'xmp', '!DOCTYPE', '!--',
-		);
-
-		foreach ($html_tags as $tag)
+		if ($filetype === 'svg')
 		{
-			// A tag is '<tagname ', so we need to add < and a space or '<tagname>'
-			if (stripos($xss_check, '<' . $tag . ' ') !== false || stripos($xss_check, '<' . $tag . '>') !== false)
+			$sanitizer = new Sanitizer;
+			$sanitizer->sanitize(file_get_contents($file['tmp_name']));
+
+			if ($sanitizer->getXmlIssues())
 			{
 				$app->enqueueMessage(Text::_('JLIB_MEDIA_ERROR_WARNIEXSS'), 'error');
 
