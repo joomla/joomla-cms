@@ -75,12 +75,12 @@ $switcher-height: 28px;
 .switcher .toggle-inside {
   position: absolute;
   left: 0;
-  width: ($switcher-width - 6) / 2;
+  width: ($switcher-width - 6) * .5;
   height: $switcher-height;
   background: #fff;
   transition: .4s ease all;
 }
 
 .switcher input ~ input:checked ~ .toggle-outside .toggle-inside {
-  left: ($switcher-width / 2) - 1;
+  left: ($switcher-width * .5) - 1;
 }

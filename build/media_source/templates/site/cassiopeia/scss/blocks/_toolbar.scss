@@ -180,10 +180,3 @@
     }
   }
 }
-
-// In Microsoft Edge, sticky positioning doesn't work when combined with dir "rtl" attribute
-@supports (-ms-ime-align: auto) {
-  [dir=rtl] .subhead {
-    position: relative;
-  }
-}
