@@ -1067,7 +1067,23 @@ abstract class FormField
 			}
 		}
 
-		if ($this->showon)
+		// Check if the field has showon in nested option
+		$hasOptionShowOn = false;
+
+		if (!empty((array) $this->element->xpath('option')))
+		{
+			foreach ($this->element->xpath('option') as $option)
+			{
+				if ((string) $option['showon'])
+				{
+					$hasOptionShowOn = true;
+
+					break;
+				}
+			}
+		}
+
+		if ($this->showon || $hasOptionShowOn)
 		{
 			$options['rel']           = ' data-showon=\'' .
 				json_encode(FormHelper::parseShowOnConditions($this->showon, $this->formControl, $this->group)) . '\'';
@@ -1351,20 +1367,6 @@ abstract class FormField
 			'dataAttributes' => $this->dataAttributes,
 			'parentclass'    => $this->parentclass,
 		];
-
-		// Enable showOn from nested options
-		if (!empty((array) $this->element->xpath('option')))
-		{
-			foreach ($this->element->xpath('option') as $option)
-			{
-				if ((string) $option['showon'])
-				{
-					$options['showonEnabled'] = true;
-
-					break;
-				}
-			}
-		}
 
 		return $options;
 	}
