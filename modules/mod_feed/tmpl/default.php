@@ -12,6 +12,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Filter\OutputFilter;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Layout\LayoutHelper;
 
 // Check if feed URL has been set
 if (empty ($rssurl))
@@ -93,7 +94,7 @@ else
 		// Feed image
 		if ($feed->image && $params->get('rssimage', 1)) :
 		?>
-			<img src="<?php echo $feed->image->uri; ?>" alt="<?php echo $feed->image->title; ?>"/>
+			<?php echo LayoutHelper::render('joomla.html.image', ['src' => $feed->image->uri, 'alt' => $feed->image->title]); ?>
 		<?php endif; ?>
 
 

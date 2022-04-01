@@ -144,7 +144,7 @@ class TosField extends RadioField
 		}
 
 		// Add the label text and closing tag.
-		$label .= '>' . $link . '<span class="star">&#160;*</span></label>';
+		$label .= '>' . $link . '<span class="star" aria-hidden="true">&#160;*</span></label>';
 
 		return $label;
 	}

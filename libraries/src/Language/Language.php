@@ -1022,12 +1022,10 @@ class Language
 				return $this->paths[$extension];
 			}
 
-			return;
+			return [];
 		}
-		else
-		{
-			return $this->paths;
-		}
+
+		return $this->paths;
 	}
 
 	/**
@@ -1180,9 +1178,12 @@ class Language
 	 */
 	public function hasKey($string)
 	{
-		$key = strtoupper($string);
+		if ($string === null)
+		{
+			return false;
+		}
 
-		return isset($this->strings[$key]);
+		return isset($this->strings[strtoupper($string)]);
 	}
 
 	/**

@@ -19,6 +19,7 @@ use Joomla\CMS\Document\HtmlDocument;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\Log\LogEntry;
 use Joomla\CMS\Plugin\CMSPlugin;
+use Joomla\CMS\Profiler\Profiler;
 use Joomla\CMS\Session\Session;
 use Joomla\CMS\Uri\Uri;
 use Joomla\Database\DatabaseDriver;
@@ -664,5 +665,66 @@ class PlgSystemDebug extends CMSPlugin
 		}
 
 		return $this;
+	}
+
+	/**
+	 * Add server timing headers when profile is activated.
+	 *
+	 * @return  void
+	 *
+	 * @since   4.1.0
+	 */
+	public function onBeforeRespond(): void
+	{
+		if (!JDEBUG || !$this->params->get('profile', 1))
+		{
+			return;
+		}
+
+		$metrics    = '';
+		$moduleTime = 0;
+		$accessTime = 0;
+
+		foreach (Profiler::getInstance('Application')->getMarks() as $index => $mark)
+		{
+			// Ignore the before mark as the after one contains the timing of the action
+			if (stripos($mark->label, 'before') !== false)
+			{
+				continue;
+			}
+
+			// Collect the module render time
+			if (strpos($mark->label, 'mod_') !== false)
+			{
+				$moduleTime += $mark->time;
+				continue;
+			}
+
+			// Collect the access render time
+			if (strpos($mark->label, 'Access:') !== false)
+			{
+				$accessTime += $mark->time;
+				continue;
+			}
+
+			$desc     = str_ireplace('after', '', $mark->label);
+			$name     = preg_replace('/[^\da-z]/i', '', $desc);
+			$metrics .= sprintf('%s;dur=%f;desc="%s", ', $index . $name, $mark->time, $desc);
+
+			// Do not create too large headers, some web servers don't love them
+			if (strlen($metrics) > 3000)
+			{
+				$metrics .= 'System;dur=0;desc="Data truncated to 3000 characters", ';
+				break;
+			}
+		}
+
+		// Add the module entry
+		$metrics .= 'Modules;dur=' . $moduleTime . ';desc="Modules", ';
+
+		// Add the access entry
+		$metrics .= 'Access;dur=' . $accessTime . ';desc="Access"';
+
+		$this->app->setHeader('Server-Timing', $metrics);
 	}
 }

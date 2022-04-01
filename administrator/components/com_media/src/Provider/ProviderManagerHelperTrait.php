@@ -16,8 +16,6 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\Component\Media\Administrator\Adapter\AdapterInterface;
 use Joomla\Component\Media\Administrator\Event\MediaProviderEvent;
-use Joomla\Component\Media\Administrator\Provider\ProviderInterface;
-use Joomla\Component\Media\Administrator\Provider\ProviderManager;
 
 /**
  * Trait for classes that need adapters.
