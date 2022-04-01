@@ -13,7 +13,7 @@ namespace Joomla\Component\Actionlogs\Administrator\Field;
 
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Form\Field\CheckboxesField;
+use Joomla\CMS\Form\Field\ListField;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\Component\Actionlogs\Administrator\Helper\ActionlogsHelper;
@@ -23,7 +23,7 @@ use Joomla\Component\Actionlogs\Administrator\Helper\ActionlogsHelper;
  *
  * @since  3.9.0
  */
-class LogtypeField extends CheckboxesField
+class LogtypeField extends ListField
 {
 	/**
 	 * The form field type.
