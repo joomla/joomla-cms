@@ -72,9 +72,9 @@ if ($this->params->get('show_url', 1))
 }
 ?>
 <li class="result__item">
-	<?php if (isset($image)) : ?>
+	<?php if (isset($this->result->imageUrl)) : ?>
 		<figure class="<?php echo htmlspecialchars($imageclass, ENT_COMPAT, 'UTF-8'); ?> result__image">
-			<?php $extraAttr = array_merge($extraAttr, ['src' => $image->url, 'alt' => $this->result->imageAlt]); ?>
+			<?php $extraAttr = array_merge($extraAttr, ['src' => $this->result->imageUrl, 'alt' => $this->result->imageAlt]); ?>
 			<?php if ($this->params->get('link_image') && $this->result->route) : ?>
 				<a href="<?php echo Route::_($this->result->route); ?>">
 					<?php echo LayoutHelper::render('joomla.html.image', $extraAttr); ?>
