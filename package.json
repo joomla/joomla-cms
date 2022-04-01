@@ -98,7 +98,7 @@
     "rimraf": "^3.0.2",
     "rollup": "^2.61.1",
     "rollup-plugin-vue": "^6.0.0",
-    "sass": "^1.45.0",
+    "sass": "^1.49.9",
     "selenium-standalone": "^8.0.8",
     "stylelint": "^14.1.0",
     "stylelint-config-standard": "^24.0.0",
