@@ -7,7 +7,7 @@
   inset-inline-end: 1rem;
   bottom: 1rem;
   z-index: 10000;
-  padding: $cassiopeia-grid-gutter/2;
+  padding: $cassiopeia-grid-gutter * .5;
   color: var(--cassiopeia-color-primary, $standard-color-primary);
   pointer-events: all;
   background-color: var(--white, $white);
