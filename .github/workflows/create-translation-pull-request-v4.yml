@@ -32,7 +32,7 @@ jobs:
           git remote add upstream https://github.com/joomla/joomla-cms.git
           git fetch upstream
           git checkout --progress --force -B translation refs/remotes/origin/translation          
-          git merge upstream/4.0-dev
+          git merge upstream/4.1-dev
 
       - name: Fetch and extract translations
         run: |
@@ -44,11 +44,11 @@ jobs:
         # We use a simple copy paste syntax here if needed customization for different directories
         run: |
           cd ..
-          SYNC_VERION="v4"
+          SYNC_VERSION="v4"
           
           SYNC_PATH="installation/language/"
           echo ${SYNC_PATH}
-          rsync -i -rptgo --checksum --ignore-times --delete --exclude="*en-GB*" core-translations-main/joomla_${SYNC_VERION}/translations/core/${SYNC_PATH} joomla-cms/${SYNC_PATH} 
+          rsync -i -rptgo --checksum --ignore-times --delete --exclude="*en-GB*" core-translations-main/joomla_${SYNC_VERSION}/translations/core/${SYNC_PATH} joomla-cms/${SYNC_PATH} 
           
       - name: Update static error pages
         run: |
@@ -67,4 +67,4 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.API_TOKEN_GITHUB }}      
         run: |
           gh pr list -R joomla/joomla-cms --state open --author joomla-translation-bot -S "Translation Update" | grep -v "No pull" || \
-            gh pr create --title "Translation Update" --body "Automatically created pull request based on core-translation repository changes" -R joomla/joomla-cms --base 4.0-dev
+            gh pr create --title "Translation Update" --body "Automatically created pull request based on core-translation repository changes" -R joomla/joomla-cms --base 4.1-dev

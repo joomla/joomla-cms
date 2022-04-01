@@ -66,7 +66,7 @@ class HtmlView extends BaseHtmlView
 
 			if (!$component->enabled)
 			{
-				return false;
+				return;
 			}
 
 			$form = $this->get('form');
@@ -76,7 +76,7 @@ class HtmlView extends BaseHtmlView
 		{
 			Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
 
-			return false;
+			return;
 		}
 
 		$this->fieldsets   = $form ? $form->getFieldsets() : null;
@@ -118,6 +118,14 @@ class HtmlView extends BaseHtmlView
 		ToolbarHelper::divider();
 		ToolbarHelper::cancel('component.cancel', 'JTOOLBAR_CLOSE');
 		ToolbarHelper::divider();
+
+		$inlinehelp  = (string) $this->form->getXml()->config->inlinehelp['button'] == 'show' ?: false;
+		$targetClass = (string) $this->form->getXml()->config->inlinehelp['targetclass'] ?: 'hide-aware-inline-help';
+
+		if ($inlinehelp)
+		{
+			ToolbarHelper::inlinehelp($targetClass);
+		}
 
 		$helpUrl = $this->form->getData()->get('helpURL');
 		$helpKey = (string) $this->form->getXml()->config->help['key'];

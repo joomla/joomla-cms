@@ -22,6 +22,15 @@ use Joomla\Database\DatabaseDriver;
 class UpdatesiteTable extends Table
 {
 	/**
+	 * Indicates that columns fully support the NULL value in the database
+	 *
+	 * @var    boolean
+	 *
+	 * @since  4.1.1
+	 */
+	protected $_supportNullValue = true;
+
+	/**
 	 * Constructor
 	 *
 	 * @param   DatabaseDriver  $db  Database connector object

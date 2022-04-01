@@ -11,6 +11,7 @@ namespace Joomla\CMS\Log;
 \defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Date\Date;
+use Joomla\CMS\Filesystem\Path;
 
 /**
  * Joomla! Log Entry class
@@ -97,10 +98,12 @@ class LogEntry
 	 * @param   array   $context   An optional array with additional message context.
 	 *
 	 * @since   1.7.0
+	 * @change  3.10.7  If the message containes a full path, the root path (JPATH_ROOT) is removed from it
+	 *          to avoid any full path disclosure. Before 3.10.7, the path was propagated as provided.
 	 */
 	public function __construct($message, $priority = Log::INFO, $category = '', $date = null, array $context = array())
 	{
-		$this->message = (string) $message;
+		$this->message = Path::removeRoot((string) $message);
 
 		// Sanitize the priority.
 		if (!\in_array($priority, $this->priorities, true))
@@ -121,6 +124,6 @@ class LogEntry
 		$this->callStack = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS);
 
 		// Get the date as a Date object.
-		$this->date = new Date($date ? $date : 'now');
+		$this->date = new Date($date ?: 'now');
 	}
 }

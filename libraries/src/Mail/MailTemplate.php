@@ -263,6 +263,8 @@ class MailTemplate
 				$htmlBody = nl2br($plainBody, false);
 			}
 
+			$htmlBody = MailHelper::convertRelativeToAbsoluteUrls($htmlBody);
+
 			$this->mailer->setBody($htmlBody);
 		}
 
@@ -292,7 +294,7 @@ class MailTemplate
 			$this->mailer->addReplyTo($this->replyto->mail, $this->replyto->name);
 		}
 
-		if (trim($config->get('attachment_folder')))
+		if (trim($config->get('attachment_folder', '')))
 		{
 			$folderPath = rtrim(Path::check(JPATH_ROOT . '/' . $config->get('attachment_folder')), \DIRECTORY_SEPARATOR);
 
