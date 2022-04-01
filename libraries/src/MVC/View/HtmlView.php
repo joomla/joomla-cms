@@ -253,6 +253,11 @@ class HtmlView extends AbstractView
 	 */
 	public function escape($var)
 	{
+		if ($var === null)
+		{
+			return '';
+		}
+
 		return htmlspecialchars($var, ENT_QUOTES, $this->_charset);
 	}
 

@@ -83,7 +83,7 @@ class MessageController extends BaseController
 	 */
 	public function action()
 	{
-		$this->checkToken();
+		$this->checkToken('get');
 
 		$model = $this->getModel('Messages', '', array('ignore_request' => true));
 
