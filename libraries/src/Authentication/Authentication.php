@@ -16,7 +16,6 @@ use Joomla\CMS\Log\Log;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\Event\DispatcherAwareTrait;
 use Joomla\Event\DispatcherInterface;
-use Joomla\CMS\Authentication\ProviderAwareAuthenticationPluginInterface;
 
 /**
  * Authentication class, provides an interface for the Joomla authentication system
@@ -156,16 +155,6 @@ class Authentication
 		// Create authentication response
 		$response = new AuthenticationResponse;
 
-		// Query existing authProvider constraint
-		$db = Factory::getContainer()->get('DatabaseDriver');
-
-		$pluginConstraint = $db->setQuery(
-			$db->getQuery(true)
-				->select($db->quoteName('authProvider'))
-				->from($db->quoteName('#__users'))
-				->where($db->quoteName('username') . ' = ' . $db->quote($credentials['username']))
-		)->loadResult();
-
 		/*
 		 * Loop through the plugins and check if the credentials can be used to authenticate
 		 * the user
@@ -181,15 +170,6 @@ class Authentication
 			{
 				// Bail here if the plugin can't be created
 				Log::add(Text::sprintf('JLIB_USER_ERROR_AUTHENTICATION_FAILED_LOAD_PLUGIN', $plugin->name), Log::WARNING, 'jerror');
-				continue;
-			}
-
-			// Check auth provider constraint
-			if ($pluginConstraint
-				&& $plugin instanceof ProviderAwareAuthenticationPluginInterface
-				&& $plugin::isPrimaryProvider()
-				&& $plugin::getProviderName() !== $pluginConstraint)
-			{
 				continue;
 			}
 
