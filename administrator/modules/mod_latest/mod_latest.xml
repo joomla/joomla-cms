@@ -68,18 +68,18 @@
 				</field>
 
 				<field
-						name="workflow_stage_id"
-						type="sql"
-						label="JSTAGE"
-						class="form-select"
-						sql_select="id, title"
-						sql_from="#__workflow_stages"
-						sql_where="published = 1"
-						sql_order="ordering"
-						key_field="id"
-						value_field="title"
-						default="use_default"
-						translate="true"
+					name="workflow_stage_id"
+					type="sql"
+					label="JSTAGE"
+					class="form-select"
+					sql_select="id, title"
+					sql_from="#__workflow_stages"
+					sql_where="published = 1"
+					sql_order="ordering"
+					key_field="id"
+					value_field="title"
+					default="use_default"
+					translate="true"
 				/>
 			</fieldset>
 			<fieldset name="advanced">
