@@ -2,7 +2,7 @@
 /**
  * @package    Joomla.Platform
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2011 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -44,7 +44,7 @@ final class JPlatform
 	const RELEASE_TIME_ZONE = 'GMT';
 
 	// Copyright Notice.
-	const COPYRIGHT = 'Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.';
+	const COPYRIGHT = '(C) 2011 Open Source Matters, Inc. <https://www.joomla.org>';
 
 	// Link text.
 	const LINK_TEXT = '<a href="https://www.joomla.org">Joomla!</a> is Free Software released under the GNU General Public License.';
@@ -56,7 +56,7 @@ final class JPlatform
 	 *
 	 * @return  boolean  True if the version is compatible.
 	 *
-	 * @link    https://secure.php.net/version_compare
+	 * @link    https://www.php.net/version_compare
 	 * @since   1.7.0
 	 * @deprecated  4.0  Deprecated without replacement
 	 */

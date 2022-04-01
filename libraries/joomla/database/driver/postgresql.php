@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Database
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2012 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -212,12 +212,12 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 		if (is_float($text))
 		{
 			// Force the dot as a decimal point.
-			return str_replace(',', '.', $text);
+			return str_replace(',', '.', (string) $text);
 		}
 
 		$this->connect();
 
-		$result = pg_escape_string($this->connection, $text);
+		$result = pg_escape_string($this->connection, (string) $text);
 
 		if ($extra)
 		{
@@ -375,7 +375,7 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 	/**
 	 * Shows the table CREATE statement that creates the given tables.
 	 *
-	 * This is unsuported by PostgreSQL.
+	 * This is unsupported by PostgreSQL.
 	 *
 	 * @param   mixed  $tables  A table name or a list of table names.
 	 *
@@ -391,7 +391,7 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 	/**
 	 * Retrieves field information about a given table.
 	 *
-	 * @param   string   $table     The name of the database table.
+	 * @param   string   $table     The name of the database table. For PostgreSQL may start with a schema.
 	 * @param   boolean  $typeOnly  True to only return field types.
 	 *
 	 * @return  array  An array of fields for the database table.
@@ -404,8 +404,18 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 		$this->connect();
 
 		$result = array();
-
 		$tableSub = $this->replacePrefix($table);
+		$fn = explode('.', $tableSub);
+
+		if (count($fn) === 2)
+		{
+			$schema = $fn[0];
+			$tableSub = $fn[1];
+		}
+		else
+		{
+			$schema = $this->getDefaultSchema();
+		}
 
 		$this->setQuery('
 			SELECT a.attname AS "column_name",
@@ -427,7 +437,7 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 			WHERE a.attrelid =
 				(SELECT oid FROM pg_catalog.pg_class WHERE relname=' . $this->quote($tableSub) . '
 					AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE
-					nspname = \'public\')
+					nspname = ' . $this->quote($schema) . ')
 				)
 			AND a.attnum > 0 AND NOT a.attisdropped
 			ORDER BY a.attnum'
@@ -926,26 +936,26 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 	/**
 	 * This function return a field value as a prepared string to be used in a SQL statement.
 	 *
-	 * @param   array   $columns      Array of table's column returned by ::getTableColumns.
-	 * @param   string  $field_name   The table field's name.
-	 * @param   string  $field_value  The variable value to quote and return.
+	 * @param   array   $columns     Array of table's column returned by ::getTableColumns.
+	 * @param   string  $fieldName   The table field's name.
+	 * @param   string  $fieldValue  The variable value to quote and return.
 	 *
 	 * @return  string  The quoted string.
 	 *
 	 * @since   3.0.0
 	 */
-	public function sqlValue($columns, $field_name, $field_value)
+	public function sqlValue($columns, $fieldName, $fieldValue)
 	{
-		switch ($columns[$field_name])
+		switch ($columns[$fieldName])
 		{
 			case 'boolean':
 				$val = 'NULL';
 
-				if ($field_value == 't')
+				if ($fieldValue == 't')
 				{
 					$val = 'TRUE';
 				}
-				elseif ($field_value == 'f')
+				elseif ($fieldValue == 'f')
 				{
 					$val = 'FALSE';
 				}
@@ -961,21 +971,21 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 			case 'smallint':
 			case 'serial':
 			case 'numeric,':
-				$val = strlen($field_value) == 0 ? 'NULL' : $field_value;
+				$val = strlen($fieldValue) == 0 ? 'NULL' : $fieldValue;
 				break;
 
 			case 'date':
 			case 'timestamp without time zone':
-				if (empty($field_value))
+				if (empty($fieldValue))
 				{
-					$field_value = $this->getNullDate();
+					$fieldValue = $this->getNullDate();
 				}
 
-				$val = $this->quote($field_value);
+				$val = $this->quote($fieldValue);
 				break;
 
 			default:
-				$val = $this->quote($field_value);
+				$val = $this->quote($fieldValue);
 				break;
 		}
 
@@ -1599,5 +1609,36 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 	protected function getCreateDatabaseQuery($options, $utf)
 	{
 		return 'CREATE DATABASE ' . $this->quoteName($options->db_name);
+	}
+
+	/**
+	 * Quotes a binary string to database requirements for use in database queries.
+	 *
+	 * @param   mixed  $data  A binary string to quote.
+	 *
+	 * @return  string  The binary quoted input string.
+	 *
+	 * @since   3.9.12
+	 */
+	public function quoteBinary($data)
+	{
+		return "decode('" . bin2hex($data) . "', 'hex')";
+	}
+
+	/**
+	 * Internal function to get the name of the default schema for the current PostgreSQL connection.
+	 * That is the schema where tables are created by Joomla.
+	 *
+	 * @return  string
+	 *
+	 * @since   3.9.24
+	 */
+	private function getDefaultSchema()
+	{
+
+		// Supported since PostgreSQL 7.3
+		$this->setQuery('SELECT (current_schemas(false))[1]');
+		return $this->loadResult();
+
 	}
 }

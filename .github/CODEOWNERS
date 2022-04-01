@@ -7,47 +7,44 @@ plugins/fields/*  @laoneo
 plugins/systems/fields/*  @laoneo
 
 # Smart Search
-administrator/components/com_finder/*  @mbabker
-components/com_finder/*  @mbabker
-modules/mod_finder/*  @mbabker
-plugins/content/finder/*  @mbabker
-plugins/finder/*  @mbabker
+#administrator/components/com_finder/*
+#components/com_finder/*
+#modules/mod_finder/*
+#plugins/content/finder/*
+#plugins/finder/*
 
 # CodeMirror
 media/editors/codemirror/*  @okonomiyaki3000
 plugins/editors/codemirror/*  @okonomiyaki3000
 
 # Statistics Server
-plugins/system/stats/*  @mbabker @wilsonge
+plugins/system/stats/*  @wilsonge
 
 # Release Tools
-build.xml  @mbabker
-build/build.php  @mbabker @rdeutz @wilsonge
-build/bump.php  @mbabker @rdeutz @wilsonge
-build/deleted_file_check.php  @mbabker @rdeutz @wilsonge
+build.xml  @wilsonge
+build/build.php  @rdeutz @wilsonge
+build/bump.php  @rdeutz @wilsonge
+build/deleted_file_check.php  @rdeutz @wilsonge
 
 # Core/Extension Install/Update Tools
-administrator/components/com_joomlaupdate/*  @mbabker @rdeutz @wilsonge @zero-24
-libraries/src/Installer/*  @mbabker @rdeutz @wilsonge @zero-24
-libraries/src/Updater/*  @mbabker @rdeutz @wilsonge @zero-24
+administrator/components/com_joomlaupdate/*  @rdeutz @wilsonge @zero-24
+libraries/src/Installer/*  @rdeutz @wilsonge @zero-24
+libraries/src/Updater/*  @rdeutz @wilsonge @zero-24
 
 # Automated Testing
-build/jenkins/*  @mbabker @rdeutz
-build/travis/*  @mbabker @rdeutz
+build/jenkins/*  @rdeutz
+build/travis/*  @rdeutz
 tests/codeception/*  @rdeutz
-tests/javascript/*  @dgrammatiko @rdeutz
-tests/unit/*  @mbabker @rdeutz
-.appveyor.yml  @mbabker @rdeutz
+tests/javascript/*  @wilsonge @rdeutz
+tests/unit/*  @rdeutz
+.appveyor.yml  @rdeutz
 .drone.yml  @rdeutz
-.hound.yml  @mbabker
-.travis.yml  @mbabker @rdeutz
-appveyor-phpunit.xml  @mbabker @rdeutz
+.hound.yml  @wilsonge
+.travis.yml  @rdeutz
+appveyor-phpunit.xml  @rdeutz
 codeception.yml  @rdeutz
-karma.conf.js  @dgrammatiko @rdeutz
-phpunit.xml.dist  @mbabker @rdeutz
+karma.conf.js  @wilsonge @rdeutz
+phpunit.xml.dist  @rdeutz
 RoboFile.dist.ini  @rdeutz
 RoboFile.php  @rdeutz
-travis-phpunit.xml  @mbabker @rdeutz
-
-# Core JS
-media/*/js/*  @dgrammatiko
+travis-phpunit.xml  @rdeutz

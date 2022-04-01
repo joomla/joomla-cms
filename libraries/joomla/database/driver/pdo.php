@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Database
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2012 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -12,7 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Joomla Platform PDO Database Driver Class
  *
- * @link   https://secure.php.net/pdo
+ * @link   https://www.php.net/pdo
  * @since  3.0.0
  */
 abstract class JDatabaseDriverPdo extends JDatabaseDriver
@@ -349,10 +349,10 @@ abstract class JDatabaseDriverPdo extends JDatabaseDriver
 		if (is_float($text))
 		{
 			// Force the dot as a decimal point.
-			return str_replace(',', '.', $text);
+			return str_replace(',', '.', (string) $text);
 		}
 
-		$text = str_replace("'", "''", $text);
+		$text = str_replace("'", "''", (string) $text);
 
 		return addcslashes($text, "\000\n\r\\\032");
 	}
@@ -488,7 +488,7 @@ abstract class JDatabaseDriverPdo extends JDatabaseDriver
 	 *
 	 * @return  mixed
 	 *
-	 * @link    https://secure.php.net/manual/en/pdo.getattribute.php
+	 * @link    https://www.php.net/manual/en/pdo.getattribute.php
 	 * @since   3.0.0
 	 */
 	public function getOption($key)
@@ -534,7 +534,7 @@ abstract class JDatabaseDriverPdo extends JDatabaseDriver
 	 *
 	 * @return  boolean
 	 *
-	 * @link   https://secure.php.net/manual/en/pdo.setattribute.php
+	 * @link   https://www.php.net/manual/en/pdo.setattribute.php
 	 * @since   3.0.0
 	 */
 	public function setOption($key, $value)

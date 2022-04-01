@@ -2,7 +2,7 @@
 /**
  * Part of the Joomla Framework Filesystem Package
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -37,13 +37,13 @@ abstract class Folder
 
 		if ($path)
 		{
-			$src = Path::clean($path . '/' . $src);
+			$src  = Path::clean($path . '/' . $src);
 			$dest = Path::clean($path . '/' . $dest);
 		}
 
 		// Eliminate trailing directory separators, if any
-		$src = rtrim($src, DIRECTORY_SEPARATOR);
-		$dest = rtrim($dest, DIRECTORY_SEPARATOR);
+		$src  = rtrim($src, \DIRECTORY_SEPARATOR);
+		$dest = rtrim($dest, \DIRECTORY_SEPARATOR);
 
 		if (!is_dir(Path::clean($src)))
 		{
@@ -84,6 +84,7 @@ abstract class Folder
 							return $ret;
 						}
 					}
+
 					break;
 
 				case 'file':
@@ -98,6 +99,7 @@ abstract class Folder
 							throw new FilesystemException('Copy file failed', -1);
 						}
 					}
+
 					break;
 			}
 		}
@@ -124,7 +126,7 @@ abstract class Folder
 		$path = Path::clean($path);
 
 		// Check if parent dir exists
-		$parent = dirname($path);
+		$parent = \dirname($path);
 
 		if (!is_dir(Path::clean($parent)))
 		{
@@ -172,15 +174,15 @@ abstract class Folder
 		{
 			if (\defined('PHP_WINDOWS_VERSION_MAJOR'))
 			{
-				$obdSeparator = ";";
+				$obdSeparator = ';';
 			}
 			else
 			{
-				$obdSeparator = ":";
+				$obdSeparator = ':';
 			}
 
 			// Create the array of open_basedir paths
-			$obdArray = explode($obdSeparator, $obd);
+			$obdArray  = explode($obdSeparator, $obd);
 			$inBaseDir = false;
 
 			// Iterate through open_basedir paths looking for a match
@@ -191,6 +193,7 @@ abstract class Folder
 				if (strpos($path, $test) === 0 || strpos($path, realpath($test)) === 0)
 				{
 					$inBaseDir = true;
+
 					break;
 				}
 			}
@@ -247,7 +250,13 @@ abstract class Folder
 		// Is this really a folder?
 		if (!is_dir($path))
 		{
-			throw new \UnexpectedValueException(sprintf('%1$s: Path is not a folder. Path: %2$s', __METHOD__, $path));
+			throw new \UnexpectedValueException(
+				sprintf(
+					'%1$s: Path is not a folder. Path: %2$s',
+					__METHOD__,
+					Path::removeRoot($path)
+				)
+			);
 		}
 
 		// Remove all the files in folder if they exist; disable all filtering
@@ -283,16 +292,13 @@ abstract class Folder
 			}
 		}
 
-		// In case of restricted permissions we zap it one way or the other
-		// as long as the owner is either the webserver or the ftp.
+		// In case of restricted permissions we zap it one way or the other as long as the owner is either the webserver or the ftp.
 		if (@rmdir($path))
 		{
 			return true;
 		}
-		else
-		{
-			throw new FilesystemException(sprintf('%1$s: Could not delete folder. Path: %2$s', __METHOD__, $path));
-		}
+
+		throw new FilesystemException(sprintf('%1$s: Could not delete folder. Path: %2$s', __METHOD__, $path));
 	}
 
 	/**
@@ -303,7 +309,7 @@ abstract class Folder
 	 * @param   string   $path        An optional base path to prefix to the file names.
 	 * @param   boolean  $useStreams  Optionally use streams.
 	 *
-	 * @return  mixed  Error message on false or boolean true on success.
+	 * @return  string|boolean  Error message on false or boolean true on success.
 	 *
 	 * @since   1.0
 	 */
@@ -311,7 +317,7 @@ abstract class Folder
 	{
 		if ($path)
 		{
-			$src = Path::clean($path . '/' . $src);
+			$src  = Path::clean($path . '/' . $src);
 			$dest = Path::clean($path . '/' . $dest);
 		}
 
@@ -365,7 +371,13 @@ abstract class Folder
 		// Is the path a folder?
 		if (!is_dir($path))
 		{
-			throw new \UnexpectedValueException(sprintf('%1$s: Path is not a folder. Path: %2$s', __METHOD__, $path));
+			throw new \UnexpectedValueException(
+				sprintf(
+					'%1$s: Path is not a folder. Path: %2$s',
+					__METHOD__,
+					Path::removeRoot($path)
+				)
+			);
 		}
 
 		// Compute the excludefilter string
@@ -412,7 +424,13 @@ abstract class Folder
 		// Is the path a folder?
 		if (!is_dir($path))
 		{
-			throw new \UnexpectedValueException(sprintf('%1$s: Path is not a folder. Path: %2$s', __METHOD__, $path));
+			throw new \UnexpectedValueException(
+				sprintf(
+					'%1$s: Path is not a folder. Path: %2$s',
+					__METHOD__,
+					Path::removeRoot($path)
+				)
+			);
 		}
 
 		// Compute the excludefilter string
@@ -537,12 +555,17 @@ abstract class Folder
 			// First path, index foldernames
 			foreach ($folders as $name)
 			{
-				$id = ++$GLOBALS['_JFolder_folder_tree_index'];
+				$id       = ++$GLOBALS['_JFolder_folder_tree_index'];
 				$fullName = Path::clean($path . '/' . $name);
-				$dirs[] = array('id' => $id, 'parent' => $parent, 'name' => $name, 'fullname' => $fullName,
-					'relname' => str_replace(JPATH_ROOT, '', $fullName));
+				$dirs[]   = array(
+					'id'       => $id,
+					'parent'   => $parent,
+					'name'     => $name,
+					'fullname' => $fullName,
+					'relname'  => str_replace(JPATH_ROOT, '', $fullName),
+				);
 				$dirs2 = self::listFolderTree($fullName, $filter, $maxLevel, $level + 1, $id);
-				$dirs = array_merge($dirs, $dirs2);
+				$dirs  = array_merge($dirs, $dirs2);
 			}
 		}
 

@@ -3,13 +3,11 @@
  * @package     Joomla.Administrator
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2009 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
-
-use Joomla\Utilities\ArrayHelper;
 
 /**
  * User view level controller class.
@@ -96,7 +94,10 @@ class UsersControllerLevel extends JControllerForm
 		// Check for request forgeries.
 		$this->checkToken();
 
-		$ids = $this->input->get('cid', array(), 'array');
+		$ids = (array) $this->input->get('cid', array(), 'int');
+
+		// Remove zero values resulting from input filter
+		$ids = array_filter($ids);
 
 		if (!JFactory::getUser()->authorise('core.admin', $this->option))
 		{
@@ -111,8 +112,6 @@ class UsersControllerLevel extends JControllerForm
 		{
 			// Get the model.
 			$model = $this->getModel();
-
-			$ids = ArrayHelper::toInteger($ids);
 
 			// Remove the items.
 			if (!$model->delete($ids))

@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2006 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -251,7 +251,6 @@ class ContentModelArticle extends JModelItem
 			$pk = (!empty($pk)) ? $pk : (int) $this->getState('article.id');
 
 			$table = JTable::getInstance('Content', 'JTable');
-			$table->load($pk);
 			$table->hit($pk);
 		}
 
@@ -353,11 +352,34 @@ class ContentModelArticle extends JModelItem
 				}
 			}
 
+			$this->cleanCache();
+
 			return true;
 		}
 
 		JError::raiseWarning(500, JText::sprintf('COM_CONTENT_INVALID_RATING', $rate), "JModelArticle::storeVote($rate)");
 
 		return false;
+	}
+
+	/**
+	 * Cleans the cache of com_content and content modules
+	 *
+	 * @param   string   $group     The cache group
+	 * @param   integer  $clientId  The ID of the client
+	 *
+	 * @return  void
+	 *
+	 * @since   3.9.9
+	 */
+	protected function cleanCache($group = null, $clientId = 0)
+	{
+		parent::cleanCache('com_content');
+		parent::cleanCache('mod_articles_archive');
+		parent::cleanCache('mod_articles_categories');
+		parent::cleanCache('mod_articles_category');
+		parent::cleanCache('mod_articles_latest');
+		parent::cleanCache('mod_articles_news');
+		parent::cleanCache('mod_articles_popular');
 	}
 }

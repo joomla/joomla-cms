@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2012 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -42,7 +42,11 @@ class AtomParser extends FeedParser
 	protected function handleAuthor(Feed $feed, \SimpleXMLElement $el)
 	{
 		// Set the author information from the XML element.
-		$feed->setAuthor((string) $el->name, (string) $el->email, (string) $el->uri);
+		$feed->setAuthor(
+			$this->inputFilter->clean((string) $el->name, 'html'),
+			filter_var((string) $el->email, FILTER_VALIDATE_EMAIL),
+			filter_var((string) $el->uri, FILTER_VALIDATE_URL)
+		);
 	}
 
 	/**
@@ -57,7 +61,11 @@ class AtomParser extends FeedParser
 	 */
 	protected function handleContributor(Feed $feed, \SimpleXMLElement $el)
 	{
-		$feed->addContributor((string) $el->name, (string) $el->email, (string) $el->uri);
+		$feed->addContributor(
+			$this->inputFilter->clean((string) $el->name, 'html'),
+			filter_var((string) $el->email, FILTER_VALIDATE_EMAIL),
+			filter_var((string) $el->uri, FILTER_VALIDATE_URL)
+		);
 	}
 
 	/**
@@ -72,7 +80,7 @@ class AtomParser extends FeedParser
 	 */
 	protected function handleGenerator(Feed $feed, \SimpleXMLElement $el)
 	{
-		$feed->generator = (string) $el;
+		$feed->generator = $this->inputFilter->clean((string) $el, 'html');
 	}
 
 	/**
@@ -107,7 +115,7 @@ class AtomParser extends FeedParser
 		$link->language = (string) $el['hreflang'];
 		$link->length   = (int) $el['length'];
 		$link->relation = (string) $el['rel'];
-		$link->title    = (string) $el['title'];
+		$link->title    = $this->inputFilter->clean((string) $el['title'], 'html');
 		$link->type     = (string) $el['type'];
 
 		$feed->link = $link;
@@ -125,7 +133,7 @@ class AtomParser extends FeedParser
 	 */
 	protected function handleRights(Feed $feed, \SimpleXMLElement $el)
 	{
-		$feed->copyright = (string) $el;
+		$feed->copyright = $this->inputFilter->clean((string) $el, 'html');
 	}
 
 	/**
@@ -140,7 +148,7 @@ class AtomParser extends FeedParser
 	 */
 	protected function handleSubtitle(Feed $feed, \SimpleXMLElement $el)
 	{
-		$feed->description = (string) $el;
+		$feed->description = $this->inputFilter->clean((string) $el, 'html');
 	}
 
 	/**
@@ -155,7 +163,7 @@ class AtomParser extends FeedParser
 	 */
 	protected function handleTitle(Feed $feed, \SimpleXMLElement $el)
 	{
-		$feed->title = (string) $el;
+		$feed->title = $this->inputFilter->clean((string) $el, 'html');
 	}
 
 	/**
@@ -170,7 +178,7 @@ class AtomParser extends FeedParser
 	 */
 	protected function handleUpdated(Feed $feed, \SimpleXMLElement $el)
 	{
-		$feed->updatedDate = (string) $el;
+		$feed->updatedDate = $this->inputFilter->clean((string) $el, 'html');
 	}
 
 	/**
@@ -203,13 +211,13 @@ class AtomParser extends FeedParser
 	protected function processFeedEntry(FeedEntry $entry, \SimpleXMLElement $el)
 	{
 		$entry->uri         = (string) $el->id;
-		$entry->title       = (string) $el->title;
-		$entry->updatedDate = (string) $el->updated;
-		$entry->content     = (string) $el->summary;
+		$entry->title       = $this->inputFilter->clean((string) $el->title, 'html');
+		$entry->updatedDate = $this->inputFilter->clean((string) $el->updated, 'html');
+		$entry->content     = $this->inputFilter->clean((string) $el->summary, 'html');
 
 		if (!$entry->content)
 		{
-			$entry->content = (string) $el->content;
+			$entry->content = $this->inputFilter->clean((string) $el->content, 'html');
 		}
 
 		if (filter_var($entry->uri, FILTER_VALIDATE_URL) === false && !is_null($el->link) && $el->link)

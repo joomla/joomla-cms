@@ -2,7 +2,7 @@
 /**
  * @package     Joomla.Administrator
  * @subpackage  Templates.isis
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2012 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  * @since       3.0
  */
@@ -89,7 +89,7 @@ if ($displayHeader)
 	// Logo file
 	if ($this->params->get('logoFile'))
 	{
-		$logo = JUri::root() . $this->params->get('logoFile');
+		$logo = JUri::root() . htmlspecialchars($this->params->get('logoFile'), ENT_QUOTES);
 	}
 	else
 	{
@@ -218,7 +218,7 @@ if ($this->params->get('linkColor'))
 								<li>
 									<span>
 										<span class="icon-user"></span>
-										<strong><?php echo $user->name; ?></strong>
+										<strong><?php echo htmlspecialchars($user->name, ENT_QUOTES, 'UTF-8'); ?></strong>
 									</span>
 								</li>
 								<li class="divider"></li>

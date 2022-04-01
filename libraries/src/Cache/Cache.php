@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2005 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -798,7 +798,7 @@ class Cache
 	 */
 	public static function getPlatformPrefix()
 	{
-		// No prefix when Global Config is set to no platfom specific prefix
+		// No prefix when Global Config is set to no platform specific prefix
 		if (!\JFactory::getConfig()->get('cache_platformprefix', '0'))
 		{
 			return '';

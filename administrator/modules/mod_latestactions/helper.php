@@ -3,11 +3,14 @@
  * @package     Joomla.Administrator
  * @subpackage  mod_latestactions
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2018 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 
 /**
  * Helper for mod_latestactions
@@ -29,7 +32,7 @@ abstract class ModLatestActionsHelper
 		JLoader::register('ActionlogsHelper', JPATH_ADMINISTRATOR . '/components/com_actionlogs/helpers/actionlogs.php');
 
 		/* @var ActionlogsModelActionlogs $model */
-		$model = JModelLegacy::getInstance('Actionlogs', 'ActionlogsModel', array('ignore_request' => true));
+		$model = BaseDatabaseModel::getInstance('Actionlogs', 'ActionlogsModel', array('ignore_request' => true));
 
 		// Set the Start and Limit
 		$model->setState('list.start', 0);
@@ -61,6 +64,6 @@ abstract class ModLatestActionsHelper
 	 */
 	public static function getTitle($params)
 	{
-		return JText::plural('MOD_LATESTACTIONS_TITLE', $params->get('count', 5));
+		return Text::plural('MOD_LATESTACTIONS_TITLE', $params->get('count', 5));
 	}
 }

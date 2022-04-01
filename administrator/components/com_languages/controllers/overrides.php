@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_languages
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2011 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -29,17 +29,20 @@ class LanguagesControllerOverrides extends JControllerAdmin
 	 *
 	 * @return  void
 	 *
-	 * @since		2.5
+	 * @since   2.5
 	 */
 	public function delete()
 	{
 		// Check for request forgeries.
 		$this->checkToken();
 
-		// Get items to dlete from the request.
-		$cid = $this->input->get('cid', array(), 'array');
+		// Get items to delete from the request.
+		$cid = (array) $this->input->get('cid', array(), 'string');
 
-		if (!is_array($cid) || count($cid) < 1)
+		// Remove zero values resulting from input filter
+		$cid = array_filter($cid);
+
+		if (empty($cid))
 		{
 			$this->setMessage(JText::_($this->text_prefix . '_NO_ITEM_SELECTED'), 'warning');
 		}
@@ -71,6 +74,9 @@ class LanguagesControllerOverrides extends JControllerAdmin
 	 */
 	public function purge()
 	{
+		// Check for request forgeries.
+		$this->checkToken();
+
 		$model = $this->getModel('overrides');
 		$model->purge();
 		$this->setRedirect(JRoute::_('index.php?option=com_languages&view=overrides', false));

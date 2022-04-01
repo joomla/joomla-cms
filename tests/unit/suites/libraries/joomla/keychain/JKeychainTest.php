@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Keychain
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2013 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -89,7 +89,7 @@ class JKeychainTest extends \PHPUnit\Framework\TestCase
 	}
 
 	/**
-	 * Try to load a keychain that liaosn't exist (this shouldn't cause an error)
+	 * Try to load a keychain that doesn't exist (this shouldn't cause an error)
 	 *
 	 * @expectedException         RuntimeException
 	 * @expectedExceptionMessage  Attempting to load non-existent keychain file

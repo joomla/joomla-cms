@@ -2,7 +2,7 @@
 /**
  * Part of the Joomla Framework LDAP Package
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -22,7 +22,7 @@ class LdapClient
 	 * @var    string
 	 * @since  1.0
 	 */
-	public $host = null;
+	public $host;
 
 	/**
 	 * Authorization Method to use
@@ -30,7 +30,7 @@ class LdapClient
 	 * @var    boolean
 	 * @since  1.0
 	 */
-	public $auth_method = null;
+	public $auth_method;
 
 	/**
 	 * Port of LDAP server
@@ -38,7 +38,7 @@ class LdapClient
 	 * @var    integer
 	 * @since  1.0
 	 */
-	public $port = null;
+	public $port;
 
 	/**
 	 * Base DN (e.g. o=MyDir)
@@ -46,7 +46,7 @@ class LdapClient
 	 * @var    string
 	 * @since  1.0
 	 */
-	public $base_dn = null;
+	public $base_dn;
 
 	/**
 	 * User DN (e.g. cn=Users,o=MyDir)
@@ -54,7 +54,7 @@ class LdapClient
 	 * @var    string
 	 * @since  1.0
 	 */
-	public $users_dn = null;
+	public $users_dn;
 
 	/**
 	 * Search String
@@ -62,7 +62,7 @@ class LdapClient
 	 * @var    string
 	 * @since  1.0
 	 */
-	public $search_string = null;
+	public $search_string;
 
 	/**
 	 * Use LDAP Version 3
@@ -70,7 +70,7 @@ class LdapClient
 	 * @var    boolean
 	 * @since  1.0
 	 */
-	public $use_ldapV3 = null;
+	public $use_ldapV3;
 
 	/**
 	 * No referrals (server transfers)
@@ -78,7 +78,7 @@ class LdapClient
 	 * @var    boolean
 	 * @since  1.0
 	 */
-	public $no_referrals = null;
+	public $no_referrals;
 
 	/**
 	 * Negotiate TLS (encrypted communications)
@@ -86,7 +86,23 @@ class LdapClient
 	 * @var    boolean
 	 * @since  1.0
 	 */
-	public $negotiate_tls = null;
+	public $negotiate_tls;
+
+	/**
+	 * Ignore TLS Certificate (encrypted communications)
+	 *
+	 * @var    boolean
+	 * @since  1.5.0
+	 */
+	public $ignore_reqcert_tls;
+
+	/**
+	 * Enable LDAP debug
+	 *
+	 * @var    boolean
+	 * @since  1.5.0
+	 */
+	public $ldap_debug;
 
 	/**
 	 * Username to connect to server
@@ -94,7 +110,7 @@ class LdapClient
 	 * @var    string
 	 * @since  1.0
 	 */
-	public $username = null;
+	public $username;
 
 	/**
 	 * Password to connect to server
@@ -102,7 +118,7 @@ class LdapClient
 	 * @var    string
 	 * @since  1.0
 	 */
-	public $password = null;
+	public $password;
 
 	/**
 	 * LDAP Resource Identifier
@@ -110,7 +126,7 @@ class LdapClient
 	 * @var    resource
 	 * @since  1.0
 	 */
-	private $resource = null;
+	private $resource;
 
 	/**
 	 * Current DN
@@ -118,7 +134,7 @@ class LdapClient
 	 * @var    string
 	 * @since  1.0
 	 */
-	private $dn = null;
+	private $dn;
 
 	/**
 	 * Flag tracking whether the connection has been bound
@@ -137,9 +153,9 @@ class LdapClient
 	 */
 	public function __construct($configObj = null)
 	{
-		if (is_object($configObj))
+		if (\is_object($configObj))
 		{
-			$vars = get_class_vars(get_class($this));
+			$vars = get_class_vars(\get_class($this));
 
 			foreach (array_keys($vars) as $var)
 			{
@@ -178,6 +194,16 @@ class LdapClient
 		if ($this->host == '')
 		{
 			return false;
+		}
+
+		if ($this->ignore_reqcert_tls)
+		{
+			putenv('LDAPTLS_REQCERT=never');
+		}
+
+		if ($this->ldap_debug)
+		{
+			ldap_set_option(null, LDAP_OPT_DEBUG_LEVEL, 7);
 		}
 
 		$this->resource = ldap_connect($this->host, $this->port);
@@ -238,7 +264,7 @@ class LdapClient
 		{
 			$this->dn = $username;
 		}
-		elseif (strlen($username))
+		elseif (\strlen($username))
 		{
 			$this->dn = str_replace('[username]', $username, $this->users_dn);
 		}
@@ -303,12 +329,12 @@ class LdapClient
 			}
 		}
 
-		if (is_null($username))
+		if ($username === null)
 		{
 			$username = $this->username;
 		}
 
-		if (is_null($password))
+		if ($password === null)
 		{
 			$password = $this->password;
 		}
@@ -329,7 +355,7 @@ class LdapClient
 	 */
 	public function unbind()
 	{
-		if ($this->isBound && $this->resource && is_resource($this->resource))
+		if ($this->isBound && $this->resource && \is_resource($this->resource))
 		{
 			return ldap_unbind($this->resource);
 		}
@@ -412,9 +438,9 @@ class LdapClient
 					// LDAP returns an array of arrays, fit this into attributes result array
 					foreach ($attributeResult as $ki => $ai)
 					{
-						if (is_array($ai))
+						if (\is_array($ai))
 						{
-							$subcount = $ai['count'];
+							$subcount        = $ai['count'];
 							$result[$i][$ki] = array();
 
 							for ($k = 0; $k < $subcount; $k++)
@@ -529,8 +555,8 @@ class LdapClient
 			return false;
 		}
 
-		$base = substr($dn, strpos($dn, ',') + 1);
-		$cn = substr($dn, 0, strpos($dn, ','));
+		$base   = substr($dn, strpos($dn, ',') + 1);
+		$cn     = substr($dn, 0, strpos($dn, ','));
 		$result = ldap_read($this->resource, $base, $cn);
 
 		if ($result === false)
@@ -664,7 +690,7 @@ class LdapClient
 	 */
 	public function isConnected()
 	{
-		return $this->resource && is_resource($this->resource);
+		return $this->resource && \is_resource($this->resource);
 	}
 
 	/**
@@ -678,14 +704,14 @@ class LdapClient
 	 */
 	public static function ipToNetAddress($ip)
 	{
-		$parts = explode('.', $ip);
+		$parts   = explode('.', $ip);
 		$address = '1#';
 
 		foreach ($parts as $int)
 		{
 			$tmp = dechex($int);
 
-			if (strlen($tmp) != 2)
+			if (\strlen($tmp) != 2)
 			{
 				$tmp = '0' . $tmp;
 			}
@@ -722,7 +748,7 @@ class LdapClient
 	 */
 	public static function ldapNetAddr($networkaddress)
 	{
-		$addr = "";
+		$addr     = '';
 		$addrtype = (int) substr($networkaddress, 0, 1);
 
 		// Throw away bytes 0 and 1 which should be the addrtype and the "#" separator
@@ -731,7 +757,7 @@ class LdapClient
 		if (($addrtype == 8) || ($addrtype = 9))
 		{
 			// TODO 1.6: If UDP or TCP, (TODO fill addrport and) strip portnumber information from address
-			$networkaddress = substr($networkaddress, (strlen($networkaddress) - 4));
+			$networkaddress = substr($networkaddress, (\strlen($networkaddress) - 4));
 		}
 
 		$addrtypes = array(
@@ -749,29 +775,29 @@ class LdapClient
 			'TCP6',
 			'Reserved (12)',
 			'URL',
-			'Count'
+			'Count',
 		);
 
-		$len = strlen($networkaddress);
+		$len = \strlen($networkaddress);
 
 		if ($len > 0)
 		{
 			for ($i = 0; $i < $len; $i++)
 			{
 				$byte = substr($networkaddress, $i, 1);
-				$addr .= ord($byte);
+				$addr .= \ord($byte);
 
 				if (($addrtype == 1) || ($addrtype == 8) || ($addrtype = 9))
 				{
 					// Dot separate IP addresses...
-					$addr .= ".";
+					$addr .= '.';
 				}
 			}
 
 			if (($addrtype == 1) || ($addrtype == 8) || ($addrtype = 9))
 			{
 				// Strip last period from end of $addr
-				$addr = substr($addr, 0, strlen($addr) - 1);
+				$addr = substr($addr, 0, \strlen($addr) - 1);
 			}
 		}
 		else

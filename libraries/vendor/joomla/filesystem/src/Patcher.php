@@ -2,7 +2,7 @@
 /**
  * Part of the Joomla Framework Filesystem Package
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -18,50 +18,72 @@ class Patcher
 {
 	/**
 	 * Regular expression for searching source files
+	 *
+	 * @var    string
+	 * @since  1.0
 	 */
 	const SRC_FILE = '/^---\\s+(\\S+)\s+\\d{1,4}-\\d{1,2}-\\d{1,2}\\s+\\d{1,2}:\\d{1,2}:\\d{1,2}(\\.\\d+)?\\s+(\+|-)\\d{4}/A';
 
 	/**
 	 * Regular expression for searching destination files
+	 *
+	 * @var    string
+	 * @since  1.0
 	 */
 	const DST_FILE = '/^\\+\\+\\+\\s+(\\S+)\s+\\d{1,4}-\\d{1,2}-\\d{1,2}\\s+\\d{1,2}:\\d{1,2}:\\d{1,2}(\\.\\d+)?\\s+(\+|-)\\d{4}/A';
 
 	/**
 	 * Regular expression for searching hunks of differences
+	 *
+	 * @var    string
+	 * @since  1.0
 	 */
 	const HUNK = '/@@ -(\\d+)(,(\\d+))?\\s+\\+(\\d+)(,(\\d+))?\\s+@@($)/A';
 
 	/**
 	 * Regular expression for splitting lines
+	 *
+	 * @var    string
+	 * @since  1.0
 	 */
 	const SPLIT = '/(\r\n)|(\r)|(\n)/';
 
 	/**
-	 * @var    array  sources files
+	 * Source files
+	 *
+	 * @var    array
 	 * @since  1.0
 	 */
 	protected $sources = array();
 
 	/**
-	 * @var    array  destination files
+	 * Destination files
+	 *
+	 * @var    array
 	 * @since  1.0
 	 */
 	protected $destinations = array();
 
 	/**
-	 * @var    array  removal files
+	 * Removal files
+	 *
+	 * @var    array
 	 * @since  1.0
 	 */
 	protected $removals = array();
 
 	/**
-	 * @var    array  patches
+	 * Patches
+	 *
+	 * @var    array
 	 * @since  1.0
 	 */
 	protected $patches = array();
 
 	/**
-	 * @var    array  instance of this class
+	 * Singleton instance of this class
+	 *
+	 * @var    Patcher
 	 * @since  1.0
 	 */
 	protected static $instance;
@@ -95,7 +117,7 @@ class Patcher
 	}
 
 	/**
-	 * Reset the pacher
+	 * Reset the patcher
 	 *
 	 * @return  Patcher  This object for chaining
 	 *
@@ -103,10 +125,10 @@ class Patcher
 	 */
 	public function reset()
 	{
-		$this->sources = array();
+		$this->sources      = array();
 		$this->destinations = array();
-		$this->removals = array();
-		$this->patches = array();
+		$this->removals     = array();
+		$this->patches      = array();
 
 		return $this;
 	}
@@ -235,8 +257,8 @@ class Patcher
 	{
 		$this->patches[] = array(
 			'udiff' => $udiff,
-			'root' => isset($root) ? rtrim($root, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR : '',
-			'strip' => $strip
+			'root'  => isset($root) ? rtrim($root, \DIRECTORY_SEPARATOR) . \DIRECTORY_SEPARATOR : '',
+			'strip' => $strip,
 		);
 
 		return $this;
@@ -286,36 +308,34 @@ class Patcher
 			// No header found, return false
 			return false;
 		}
-		else
+
+		// Set the source file
+		$src = $m[1];
+
+		// Advance to the next line
+		$line = next($lines);
+
+		if ($line === false)
 		{
-			// Set the source file
-			$src = $m[1];
-
-			// Advance to the next line
-			$line = next($lines);
-
-			if ($line === false)
-			{
-				throw new \RuntimeException('Unexpected EOF');
-			}
-
-			// Search the destination file
-			if (!preg_match(self::DST_FILE, $line, $m))
-			{
-				throw new \RuntimeException('Invalid Diff file');
-			}
-
-			// Set the destination file
-			$dst = $m[1];
-
-			// Advance to the next line
-			if (next($lines) === false)
-			{
-				throw new \RuntimeException('Unexpected EOF');
-			}
-
-			return true;
+			throw new \RuntimeException('Unexpected EOF');
 		}
+
+		// Search the destination file
+		if (!preg_match(self::DST_FILE, $line, $m))
+		{
+			throw new \RuntimeException('Invalid Diff file');
+		}
+
+		// Set the destination file
+		$dst = $m[1];
+
+		// Advance to the next line
+		if (next($lines) === false)
+		{
+			throw new \RuntimeException('Unexpected EOF');
+		}
+
+		return true;
 	}
 
 	/**
@@ -369,10 +389,8 @@ class Patcher
 
 			return true;
 		}
-		else
-		{
-			return false;
-		}
+
+		return false;
 	}
 
 	/**
@@ -401,7 +419,7 @@ class Patcher
 		$source = array();
 
 		// New lines (new file)
-		$destin = array();
+		$destin  = array();
 		$srcLeft = $srcSize;
 		$dstLeft = $dstSize;
 
@@ -436,7 +454,7 @@ class Patcher
 			}
 			elseif ($line != '\\ No newline at end of file')
 			{
-				$line = substr($line, 1);
+				$line     = substr($line, 1);
 				$source[] = $line;
 				$destin[] = $line;
 				$srcLeft--;
@@ -452,7 +470,9 @@ class Patcher
 
 					if (!isset($srcLines))
 					{
-						throw new \RuntimeException('Unexisting source file: ' . $src);
+						throw new \RuntimeException(
+							'Unexisting source file: ' . Path::removeRoot($src)
+						);
 					}
 				}
 
@@ -460,14 +480,20 @@ class Patcher
 				{
 					if ($srcSize > 0)
 					{
-						$dstLines = & $this->getDestination($dst, $src);
+						$dstLines  = & $this->getDestination($dst, $src);
 						$srcBottom = $srcLine + \count($source);
 
 						for ($l = $srcLine; $l < $srcBottom; $l++)
 						{
 							if ($srcLines[$l] != $source[$l - $srcLine])
 							{
-								throw new \RuntimeException(sprintf('Failed source verification of file %1$s at line %2$s', $src, $l));
+								throw new \RuntimeException(
+									sprintf(
+										'Failed source verification of file %1$s at line %2$s',
+										Path::removeRoot($src),
+										$l
+									)
+								);
 							}
 						}
 
@@ -490,7 +516,6 @@ class Patcher
 
 			$line = next($lines);
 		}
-
 		while ($line !== false);
 
 		throw new \RuntimeException('Unexpected EOF');

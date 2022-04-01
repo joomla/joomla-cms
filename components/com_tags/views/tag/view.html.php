@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_tags
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2013 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -99,13 +99,6 @@ class TagsViewTag extends JViewLegacy
 		// Flag indicates to not add limitstart=0 to URL
 		$pagination->hideEmptyLimitstart = true;
 
-		/*
-		 * // Change to catch
-		 * if (count($errors = $this->get('Errors'))) {
-		 * JError::raiseError(500, implode("\n", $errors));
-		 * return false;
-		 */
-
 		// Check whether access level allows access.
 		// @TODO: Should already be computed in $item->params->get('access-view')
 		$user   = JFactory::getUser();
@@ -122,9 +115,10 @@ class TagsViewTag extends JViewLegacy
 			if (!empty($itemElement))
 			{
 				$temp = new Registry($itemElement->params);
-				$itemElement->params = clone $params;
+				$itemElement->params   = clone $params;
 				$itemElement->params->merge($temp);
-				$itemElement->params = (array) json_decode($itemElement->params);
+				$itemElement->params   = (array) json_decode($itemElement->params);
+				$itemElement->metadata = new Registry($itemElement->metadata);
 			}
 		}
 
@@ -182,7 +176,7 @@ class TagsViewTag extends JViewLegacy
 		$this->item       = $item;
 
 		// Escape strings for HTML output
-		$this->pageclass_sfx = htmlspecialchars($params->get('pageclass_sfx'));
+		$this->pageclass_sfx = htmlspecialchars($params->get('pageclass_sfx', ''));
 
 		// Merge tag params. If this is single-tag view, menu params override tag params
 		// Otherwise, article params override menu item params
@@ -259,6 +253,7 @@ class TagsViewTag extends JViewLegacy
 		$app              = JFactory::getApplication();
 		$menu             = $app->getMenu()->getActive();
 		$this->tags_title = $this->getTagsTitle();
+		$pathway          = $app->getPathway();
 		$title            = '';
 
 		// Highest priority for "Browser Page Title".
@@ -277,7 +272,7 @@ class TagsViewTag extends JViewLegacy
 			$this->params->def('page_heading', $this->params->get('page_title', $menu->title));
 			$title = $title ?: $this->params->get('page_title', $menu->title);
 
-			if ($menu->query['option'] !== 'com_tags')
+			if (!isset($menu->query['option']) || $menu->query['option'] !== 'com_tags')
 			{
 				$this->params->set('page_subheading', $menu->title);
 			}
@@ -297,6 +292,8 @@ class TagsViewTag extends JViewLegacy
 		}
 
 		$this->document->setTitle($title);
+
+		$pathway->addItem($title);
 
 		foreach ($this->item as $itemElement)
 		{
@@ -324,8 +321,16 @@ class TagsViewTag extends JViewLegacy
 			}
 		}
 
-		// @TODO: create tag feed document
-		// Add alternative feed link
+		if (count($this->item) === 1)
+		{
+			foreach ($this->item[0]->metadata->toArray() as $k => $v)
+			{
+				if ($v)
+				{
+					$this->document->setMetadata($k, $v);
+				}
+			}
+		}
 
 		if ($this->params->get('show_feed_link', 1) == 1)
 		{

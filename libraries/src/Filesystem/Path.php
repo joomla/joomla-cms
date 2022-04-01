@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2006 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -145,13 +145,13 @@ class Path
 		for ($i = 0; $i < 3; $i++)
 		{
 			// Read
-			$parsed_mode .= ($mode{$i} & 04) ? 'r' : '-';
+			$parsed_mode .= ($mode[$i] & 04) ? 'r' : '-';
 
 			// Write
-			$parsed_mode .= ($mode{$i} & 02) ? 'w' : '-';
+			$parsed_mode .= ($mode[$i] & 02) ? 'w' : '-';
 
 			// Execute
-			$parsed_mode .= ($mode{$i} & 01) ? 'x' : '-';
+			$parsed_mode .= ($mode[$i] & 01) ? 'x' : '-';
 		}
 
 		return $parsed_mode;
@@ -189,7 +189,7 @@ class Path
 				sprintf(
 					'%1$s() - Snooping out of bounds @ %2$s',
 					__METHOD__,
-					$path
+					self::removeRoot($path)
 				),
 				20
 			);
@@ -340,5 +340,89 @@ class Path
 
 		// Could not find the file in the set of paths
 		return false;
+	}
+
+	/**
+	 * Resolves /./, /../ and multiple / in a string and returns the resulting absolute path, inspired by Flysystem
+	 * Removes trailing slashes
+	 *
+	 * @param   string  $path  A path to resolve
+	 *
+	 * @return  string  The resolved path
+	 *
+	 * @since   3.9.25
+	 */
+	public static function resolve($path)
+	{
+		$path = static::clean($path);
+
+		// Save start character for absolute path
+		$startCharacter = ($path[0] === DIRECTORY_SEPARATOR) ? DIRECTORY_SEPARATOR : '';
+
+		$parts = array();
+
+		foreach (explode(DIRECTORY_SEPARATOR, $path) as $part)
+		{
+			switch ($part)
+			{
+				case '':
+				case '.':
+					break;
+
+				case '..':
+					if (empty($parts))
+					{
+						throw new \Exception('Path is outside of the defined root');
+					}
+
+					array_pop($parts);
+					break;
+
+				default:
+					$parts[] = $part;
+					break;
+			}
+		}
+
+		return $startCharacter . implode(DIRECTORY_SEPARATOR, $parts);
+	}
+
+	/**
+	 * Remove all references to root directory path and the system tmp path from a message
+	 *
+	 * @param   string  $message        The message to be cleaned
+	 * @param   string  $rootDirectory  Optional root directory, defaults to JPATH_ROOT
+	 *
+	 * @return  string
+	 *
+	 * @since   3.10.7
+	 */
+	public static function removeRoot($message, $rootDirectory = null)
+	{
+		if (empty($rootDirectory))
+		{
+			$rootDirectory = JPATH_ROOT;
+		}
+
+		$replacements = array(
+			self::makePattern(static::clean($rootDirectory)) => '[ROOT]',
+			self::makePattern(sys_get_temp_dir())            => '[TMP]',
+		);
+
+		return preg_replace(array_keys($replacements), array_values($replacements), $message);
+	}
+
+	/**
+	 * Turn directory separators into match classes
+	 *
+	 * @param   string  $dir  A directory name
+	 *
+	 * @return  string
+	 *
+	 * @since   3.10.7
+	 */
+	private static function makePattern($dir)
+	{
+		return '~' . str_replace('~', '\\~', preg_replace('~[/\\\\]+~', '[/\\\\\\\\]+', $dir)) . '~';
 	}
 }

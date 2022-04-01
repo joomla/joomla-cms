@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Model
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2013 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -36,7 +36,7 @@ class JModelBaseTest extends TestCase
 	public function test__construct()
 	{
 		// @codingStandardsIgnoreStart
-		// @todo check the instanciating new classes without brackets sniff
+		// @todo check the instantiating new classes without brackets sniff
 		$this->assertEquals(new Registry, $this->_instance->getState(), 'Checks default state.');
 		// @codingStandardsIgnoreEnd
 

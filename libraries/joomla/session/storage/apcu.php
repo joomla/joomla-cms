@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Session
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2018 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -12,7 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * APC session storage handler for PHP
  *
- * @link        https://secure.php.net/manual/en/function.session-set-save-handler.php
+ * @link        https://www.php.net/manual/en/function.session-set-save-handler.php
  * @since       3.9
  * @deprecated  4.0  The CMS' Session classes will be replaced with the `joomla/session` package
  */
@@ -56,18 +56,18 @@ class JSessionStorageApcu extends JSessionStorage
 	/**
 	 * Write session data to the SessionHandler backend.
 	 *
-	 * @param   string  $id            The session identifier.
-	 * @param   string  $session_data  The session data.
+	 * @param   string  $id           The session identifier.
+	 * @param   string  $sessionData  The session data.
 	 *
 	 * @return  boolean  True on success, false otherwise.
 	 *
 	 * @since   3.9
 	 */
-	public function write($id, $session_data)
+	public function write($id, $sessionData)
 	{
 		$sess_id = 'sess_' . $id;
 
-		return apcu_store($sess_id, $session_data, ini_get('session.gc_maxlifetime'));
+		return apcu_store($sess_id, $sessionData, ini_get('session.gc_maxlifetime'));
 	}
 
 	/**

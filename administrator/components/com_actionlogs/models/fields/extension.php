@@ -3,13 +3,18 @@
  * @package     Joomla.Administrator
  * @subpackage  com_actionlogs
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright   (C) 2018 Open Source Matters, Inc. <https://www.joomla.org>
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
-JFormHelper::loadFieldClass('list');
+use Joomla\CMS\Factory;
+use Joomla\CMS\Form\FormHelper;
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
+
+FormHelper::loadFieldClass('list');
 JLoader::register('ActionlogsHelper', JPATH_ADMINISTRATOR . '/components/com_actionlogs/helpers/actionlogs.php');
 
 /**
@@ -36,7 +41,7 @@ class JFormFieldExtension extends JFormFieldList
 	 */
 	public function getOptions()
 	{
-		$db = JFactory::getDbo();
+		$db = Factory::getDbo();
 		$query = $db->getQuery(true)
 			->select('DISTINCT ' . $db->quoteName('extension'))
 			->from($db->quoteName('#__action_logs'))
@@ -59,7 +64,7 @@ class JFormFieldExtension extends JFormFieldList
 			foreach ($extensions as $extension)
 			{
 				ActionlogsHelper::loadTranslationFiles($extension);
-				$options[] = JHtml::_('select.option', $extension, JText::_($extension));
+				$options[] = HTMLHelper::_('select.option', $extension, Text::_($extension));
 			}
 		}
 

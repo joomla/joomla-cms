@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2005 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -29,6 +29,14 @@ abstract class Table extends \JObject implements \JObservableInterface, \JTableI
 	 * @since  3.0.0
 	 */
 	private static $_includePaths = array();
+
+	/**
+	 * Table fields cache
+	 *
+	 * @var   array
+	 * @since 3.10.4
+	 */
+	private static $tableFields;
 
 	/**
 	 * Name of the database table to model.
@@ -117,6 +125,14 @@ abstract class Table extends \JObject implements \JObservableInterface, \JTableI
 	 * @since  3.3
 	 */
 	protected $_jsonEncode = array();
+
+	/**
+	 * Indicates that columns fully support the NULL value in the database
+	 *
+	 * @var    boolean
+	 * @since  3.10.0
+	 */
+	protected $_supportNullValue = false;
 
 	/**
 	 * Object constructor to set table and key fields.  In most cases this will
@@ -236,9 +252,9 @@ abstract class Table extends \JObject implements \JObservableInterface, \JTableI
 	 */
 	public function getFields($reload = false)
 	{
-		static $cache = null;
+		$key = $this->_db->getServerType() . ':' . $this->_db->getName() . ':' . $this->_tbl;
 
-		if ($cache === null || $reload)
+		if (!isset(self::$tableFields[$key]) || $reload)
 		{
 			// Lookup the fields for this table only once.
 			$name   = $this->_tbl;
@@ -249,10 +265,10 @@ abstract class Table extends \JObject implements \JObservableInterface, \JTableI
 				throw new \UnexpectedValueException(sprintf('No columns found for %s table', $name));
 			}
 
-			$cache = $fields;
+			self::$tableFields[$key] = $fields;
 		}
 
-		return $cache;
+		return self::$tableFields[$key];
 	}
 
 	/**
@@ -594,18 +610,6 @@ abstract class Table extends \JObject implements \JObservableInterface, \JTableI
 	 */
 	public function bind($src, $ignore = array())
 	{
-		// JSON encode any fields required
-		if (!empty($this->_jsonEncode))
-		{
-			foreach ($this->_jsonEncode as $field)
-			{
-				if (isset($src[$field]) && is_array($src[$field]))
-				{
-					$src[$field] = json_encode($src[$field]);
-				}
-			}
-		}
-
 		// Check if the source value is an array or object
 		if (!is_object($src) && !is_array($src))
 		{
@@ -618,16 +622,28 @@ abstract class Table extends \JObject implements \JObservableInterface, \JTableI
 			);
 		}
 
+		// If the ignore value is a string, explode it over spaces.
+		if (!is_array($ignore))
+		{
+			$ignore = explode(' ', $ignore);
+		}
+
 		// If the source value is an object, get its accessible properties.
 		if (is_object($src))
 		{
 			$src = get_object_vars($src);
 		}
 
-		// If the ignore value is a string, explode it over spaces.
-		if (!is_array($ignore))
+		// JSON encode any fields required
+		if (!empty($this->_jsonEncode))
 		{
-			$ignore = explode(' ', $ignore);
+			foreach ($this->_jsonEncode as $field)
+			{
+				if (isset($src[$field]) && is_array($src[$field]))
+				{
+					$src[$field] = json_encode($src[$field]);
+				}
+			}
 		}
 
 		// Bind the source value, excluding the ignored fields.
@@ -1130,11 +1146,14 @@ abstract class Table extends \JObject implements \JObservableInterface, \JTableI
 			}
 		}
 
+		$nullDate = $this->_supportNullValue ? 'NULL' : $this->_db->quote($this->_db->getNullDate());
+		$nullID   = $this->_supportNullValue ? 'NULL' : '0';
+
 		// Check the row in by primary key.
 		$query = $this->_db->getQuery(true)
 			->update($this->_tbl)
-			->set($this->_db->quoteName($checkedOutField) . ' = 0')
-			->set($this->_db->quoteName($checkedOutTimeField) . ' = ' . $this->_db->quote($this->_db->getNullDate()));
+			->set($this->_db->quoteName($checkedOutField) . ' = ' . $nullID)
+			->set($this->_db->quoteName($checkedOutTimeField) . ' = ' . $nullDate);
 		$this->appendPrimaryKeys($query, $pk);
 		$this->_db->setQuery($query);
 
@@ -1142,8 +1161,11 @@ abstract class Table extends \JObject implements \JObservableInterface, \JTableI
 		$this->_db->execute();
 
 		// Set table values in the object.
-		$this->$checkedOutField      = 0;
-		$this->$checkedOutTimeField = '';
+		$this->$checkedOutField     = $this->_supportNullValue ? null : 0;
+		$this->$checkedOutTimeField = $this->_supportNullValue ? null : '';
+
+		$dispatcher = \JEventDispatcher::getInstance();
+		$dispatcher->trigger('onAfterCheckin', array($this->_tbl));
 
 		return true;
 	}
@@ -1718,5 +1740,21 @@ abstract class Table extends \JObject implements \JObservableInterface, \JTableI
 		$this->_locked = false;
 
 		return true;
+	}
+
+	/**
+	 * Check if the record has a property (applying a column alias if it exists)
+	 *
+	 * @param   string  $key  key to be checked
+	 *
+	 * @return  boolean
+	 *
+	 * @since   3.9.11
+	 */
+	public function hasField($key)
+	{
+		$key = $this->getColumnAlias($key);
+
+		return property_exists($this, $key);
 	}
 }

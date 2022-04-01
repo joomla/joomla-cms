@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_fields
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2016 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 defined('_JEXEC') or die;
@@ -99,7 +99,7 @@ class FieldsControllerField extends JControllerForm
 			}
 
 			// Grant if current user is owner of the record
-			return $user->id == $record->created_by;
+			return $user->id == $record->created_user_id;
 		}
 
 		return false;

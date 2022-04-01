@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_languages
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2011 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -84,11 +84,21 @@ $notice_switchers = !$this->switchers && ($this->homes > 1 || $this->language_fi
 					</td>
 				</tr>
 			<?php endif; ?>
+			<?php if ($contentlang->published == -2) : ?>
+				<tr class="warning">
+					<td>
+						<span class="icon-pending" aria-hidden="true"></span><span class="element-invisible"><?php echo JText::_('WARNING'); ?></span>
+					</td>
+					<td>
+						<?php echo JText::sprintf('COM_LANGUAGES_MULTILANGSTATUS_ERROR_CONTENT_LANGUAGE_TRASHED', $contentlang->lang_code); ?>
+					</td>
+				</tr>
+			<?php endif; ?>
 		<?php endforeach; ?>
 		<?php if ($this->listUsersError) : ?>
-			<tr class="info">
+			<tr class="warning">
 				<td>
-					<span class="icon-help" aria-hidden="true"></span><span class="element-invisible"><?php echo JText::_('JHELP'); ?></span>
+					<span class="icon-pending" aria-hidden="true"></span><span class="element-invisible"><?php echo JText::_('WARNING'); ?></span>
 				</td>
 				<td>
 					<?php echo JText::_('COM_LANGUAGES_MULTILANGSTATUS_CONTACTS_ERROR_TIP'); ?>
@@ -195,9 +205,17 @@ $notice_switchers = !$this->switchers && ($this->homes > 1 || $this->language_fi
 						</td>
 				<?php endif; ?>
 				<?php // Published Content languages ?>
-				<?php if ($status->lang_code && $status->published) : ?>
+				<?php if ($status->lang_code && $status->published == 1) : ?>
 						<td class="center">
 							<span class="icon-ok" aria-hidden="true"></span><span class="element-invisible"><?php echo JText::_('JYES'); ?></span>
+						</td>
+				<?php elseif ($status->lang_code && $status->published == 0) : ?>
+						<td class="center">
+							<span class="icon-pending" aria-hidden="true"></span><span class="element-invisible"><?php echo JText::_('WARNING'); ?></span>
+						</td>
+				<?php elseif ($status->lang_code && $status->published == -2) : ?>
+						<td class="center">
+							<span class="icon-trash" aria-hidden="true"></span><span class="element-invisible"><?php echo JText::_('WARNING'); ?></span>
 						</td>
 				<?php else : ?>
 						<td class="center">
@@ -212,7 +230,6 @@ $notice_switchers = !$this->switchers && ($this->homes > 1 || $this->language_fi
 				<?php else : ?>
 						<td class="center">
 							<span class="icon-not-ok" aria-hidden="true"></span><span class="element-invisible"><?php echo JText::_('JNO'); ?></span>
-						</td>
 						</td>
 				<?php endif; ?>
 				</tr>
@@ -242,9 +259,9 @@ $notice_switchers = !$this->switchers && ($this->homes > 1 || $this->language_fi
 								<span class="icon-ok" aria-hidden="true"></span><span class="element-invisible"><?php echo JText::_('JYES'); ?></span>
 							<?php endif; ?>
 						</td>
+					</tr>
 				<?php endif; ?>
 			<?php endforeach; ?>
-			</tr>
 		</tbody>
 	</table>
 	<?php endif; ?>

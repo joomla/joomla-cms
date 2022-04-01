@@ -2,16 +2,16 @@
 /**
  * Part of the Joomla Framework Event Package
  *
- * @copyright  Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
 namespace Joomla\Event;
 
-use SplPriorityQueue;
-use SplObjectStorage;
-use IteratorAggregate;
 use Countable;
+use IteratorAggregate;
+use SplObjectStorage;
+use SplPriorityQueue;
 
 /**
  * A class containing an inner listeners priority queue that can be iterated multiple times.
@@ -60,7 +60,7 @@ class ListenersPriorityQueue implements IteratorAggregate, Countable
 	 */
 	public function __construct()
 	{
-		$this->queue = new SplPriorityQueue;
+		$this->queue   = new SplPriorityQueue;
 		$this->storage = new SplObjectStorage;
 	}
 
@@ -201,6 +201,6 @@ class ListenersPriorityQueue implements IteratorAggregate, Countable
 	 */
 	public function count()
 	{
-		return count($this->queue);
+		return \count($this->queue);
 	}
 }

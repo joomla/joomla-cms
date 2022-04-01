@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_installer
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2014 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -52,10 +52,13 @@ class InstallerControllerUpdatesites extends JControllerLegacy
 		// Check for request forgeries.
 		$this->checkToken();
 
-		$ids    = $this->input->get('cid', array(), 'array');
+		$ids    = (array) $this->input->get('cid', array(), 'int');
 		$values = array('publish' => 1, 'unpublish' => 0);
 		$task   = $this->getTask();
 		$value  = ArrayHelper::getValue($values, $task, 0, 'int');
+
+		// Remove zero values resulting from input filter
+		$ids = array_filter($ids);
 
 		if (empty($ids))
 		{
@@ -92,7 +95,10 @@ class InstallerControllerUpdatesites extends JControllerLegacy
 		// Check for request forgeries.
 		$this->checkToken();
 
-		$ids = $this->input->get('cid', array(), 'array');
+		$ids = (array) $this->input->get('cid', array(), 'int');
+
+		// Remove zero values resulting from input filter
+		$ids = array_filter($ids);
 
 		if (empty($ids))
 		{

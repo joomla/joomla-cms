@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2013 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -10,6 +10,7 @@ namespace Joomla\CMS\Application;
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\Input\Input;
 use Joomla\CMS\Session\MetadataManager;
 use Joomla\Registry\Registry;
@@ -171,10 +172,16 @@ class CMSApplication extends WebApplication
 			return;
 		}
 
+		$inputFilter = InputFilter::getInstance(array(), array(), 1, 1);
+
+		// Build the message array and apply the HTML InputFilter with the default blacklist to the message
+		$message = array(
+			'message' => $inputFilter->clean($msg, 'html'),
+			'type'    => $inputFilter->clean(strtolower($type), 'cmd')
+		);
+
 		// For empty queue, if messages exists in the session, enqueue them first.
 		$messages = $this->getMessageQueue();
-
-		$message = array('message' => $msg, 'type' => strtolower($type));
 
 		if (!in_array($message, $this->_messageQueue))
 		{
@@ -192,6 +199,28 @@ class CMSApplication extends WebApplication
 	 */
 	public function execute()
 	{
+		$input = $this->input;
+
+		// Get invalid input variables
+		$invalidInputVariables = array_filter(
+			array('option', 'view', 'format', 'lang', 'Itemid', 'template', 'templateStyle', 'task'),
+			function($systemVariable) use ($input) {
+				return $input->exists($systemVariable) && is_array($input->getRaw($systemVariable));
+			}
+		);
+
+		// Unset invalid system variables
+		foreach ($invalidInputVariables as $systemVariable)
+		{
+			$input->set($systemVariable, null);
+		}
+
+		// Abort when there are invalid variables
+		if ($invalidInputVariables)
+		{
+			throw new \RuntimeException('Invalid input, aborting application.');
+		}
+
 		// Perform application routines.
 		$this->doExecute();
 
@@ -298,10 +327,23 @@ class CMSApplication extends WebApplication
 	 * @return  mixed  The user state.
 	 *
 	 * @since   3.2
-	 * @deprecated  4.0  Use get() instead
+	 * @deprecated  5.0  Use get() instead
 	 */
 	public function getCfg($varname, $default = null)
 	{
+		try
+		{
+			\JLog::add(
+				sprintf('%s() is deprecated and will be removed in 5.0. Use JFactory->getApplication()->get() instead.', __METHOD__),
+				\JLog::WARNING,
+				'deprecated'
+			);
+		}
+		catch (RuntimeException $exception)
+		{
+			// Informational log only
+		}
+
 		return $this->get($varname, $default);
 	}
 
@@ -636,6 +678,19 @@ class CMSApplication extends WebApplication
 	 */
 	public function isAdmin()
 	{
+		try
+		{
+			\JLog::add(
+				sprintf("%s() is deprecated and will be removed in 4.0. Use JFactory->getApplication()->isClient('administrator') instead.", __METHOD__),
+				\JLog::WARNING,
+				'deprecated'
+			);
+		}
+		catch (\RuntimeException $exception)
+		{
+			// Informational log only
+		}
+
 		return $this->isClient('administrator');
 	}
 
@@ -649,6 +704,19 @@ class CMSApplication extends WebApplication
 	 */
 	public function isSite()
 	{
+		try
+		{
+			\JLog::add(
+				sprintf("%s() is deprecated and will be removed in 4.0. Use JFactory->getApplication()->isClient('site') instead.", __METHOD__),
+				\JLog::WARNING,
+				'deprecated'
+			);
+		}
+		catch (\RuntimeException $exception)
+		{
+			// Informational log only
+		}
+
 		return $this->isClient('site');
 	}
 
@@ -855,9 +923,9 @@ class CMSApplication extends WebApplication
 
 				// The user is successfully logged in. Run the after login events
 				$this->triggerEvent('onUserAfterLogin', array($options));
-			}
 
-			return true;
+				return true;
+			}
 		}
 
 		// Trigger onUserLoginFailure Event.
@@ -1075,7 +1143,10 @@ class CMSApplication extends WebApplication
 
 		$active = $this->getMenu()->getActive();
 
-		if ($active !== null && $active->type === 'alias')
+		if ($active !== null
+			&& $active->type === 'alias'
+			&& $active->params->get('alias_redirect')
+			&& in_array($this->input->getMethod(), array('GET', 'HEAD'), true))
 		{
 			$item = $this->getMenu()->getItem($active->params->get('aliasoptions'));
 

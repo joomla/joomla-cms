@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2012 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -54,13 +54,17 @@ class Json extends Input
 		{
 			$this->_raw = file_get_contents('php://input');
 			$this->data = json_decode($this->_raw, true);
+
+			if (!is_array($this->data))
+			{
+				$this->data = array();
+			}
 		}
 		else
 		{
-			$this->data = & $source;
+			$this->data = &$source;
 		}
 
-		// Set the options for the class.
 		$this->options = $options;
 	}
 

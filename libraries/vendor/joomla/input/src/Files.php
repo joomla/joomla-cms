@@ -2,7 +2,7 @@
 /**
  * Part of the Joomla Framework Input Package
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -74,7 +74,7 @@ class Files extends Input
 					$this->data[$name]['type'],
 					$this->data[$name]['tmp_name'],
 					$this->data[$name]['error'],
-					$this->data[$name]['size']
+					$this->data[$name]['size'],
 				)
 			);
 
@@ -97,7 +97,7 @@ class Files extends Input
 	{
 		$result = array();
 
-		if (is_array($data[0]))
+		if (\is_array($data[0]))
 		{
 			foreach ($data[0] as $k => $v)
 			{

@@ -3,11 +3,13 @@
  * @package     Joomla.Administrator
  * @subpackage  mod_sampledata
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2017 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Session\Session;
 
 JHtml::_('jquery.framework');
 JHtml::_('bootstrap.tooltip');
@@ -18,7 +20,7 @@ JText::script('MOD_SAMPLEDATA_ITEM_ALREADY_PROCESSED');
 JText::script('MOD_SAMPLEDATA_INVALID_RESPONSE');
 
 JFactory::getDocument()->addScriptDeclaration('
-	var modSampledataUrl = "index.php?option=com_ajax&format=json&group=sampledata",
+	var modSampledataUrl = "index.php?option=com_ajax&format=json&group=sampledata&' . Session::getFormToken() . '=1",
 		modSampledataIconProgress = "' . JUri::root(true) . '/media/jui/images/ajax-loader.gif";
 ');
 ?>

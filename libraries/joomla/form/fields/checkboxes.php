@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Form
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2010 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -46,7 +46,7 @@ class JFormFieldCheckboxes extends JFormFieldList
 	protected $forceMultiple = true;
 
 	/**
-	 * The comma seprated list of checked checkboxes value.
+	 * The comma separated list of checked checkboxes value.
 	 *
 	 * @var    mixed
 	 * @since  3.2

@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_tags
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2013 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -72,34 +72,6 @@ class TagsModelTags extends JModelList
 		$itemid = $pid . ':' . $app->input->getInt('Itemid', 0);
 		$filterSearch = $app->getUserStateFromRequest('com_tags.tags.list.' . $itemid . '.filter_search', 'filter-search', '', 'string');
 		$this->setState('list.filter', $filterSearch);
-	}
-
-	/**
-	 * Redefine the function and add some properties to make the styling more easy
-	 *
-	 * @return  mixed  An array of data items on success, false on failure.
-	 *
-	 * @since   3.1
-	 */
-	public function getItems()
-	{
-		// Invoke the parent getItems method to get the main list
-		$items = parent::getItems();
-
-		if (!count($items))
-		{
-			$app = JFactory::getApplication();
-			$menu = $app->getMenu();
-			$active = $menu->getActive();
-			$params = new Registry;
-
-			if ($active)
-			{
-				$params->loadString($active->params);
-			}
-		}
-
-		return $items;
 	}
 
 	/**

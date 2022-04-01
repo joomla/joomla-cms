@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Document
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2016 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -117,7 +117,7 @@ class JDocumentRendererHtmlModulesTest extends TestCaseDatabase
 		$htmlClean              = trim(preg_replace('~>\s+<~', '><', $output));
 		$this->assertTrue($this->callbackExecuted, 'onAfterRenderModules event is not executed');
 		$html = '<div class="moduletable"><h3>Search</h3><div class="search mod_search63">'
-			. '<form action="" method="post" class="form-inline">'
+			. '<form action="" method="post" class="form-inline" role="search">'
 			. '<label for="mod-search-searchword63" class="element-invisible">Search ...</label>'
 			. '<input name="searchword" id="mod-search-searchword63" maxlength="200"  '
 			. 'class="inputbox search-query input-medium" type="search" size="20" placeholder="Search ..." />'

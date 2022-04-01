@@ -70,6 +70,16 @@ Desktop.ini
 # Extra files installed by Composer not needed in the CMS environment
 # This should only ignore files like unit testing or READMEs, production
 # code must remain to ensure all libraries properly function
+/libraries/vendor/bin
+/libraries/vendor/brumann/polyfill-unserialize/.gitattributes
+/libraries/vendor/brumann/polyfill-unserialize/.gitignore
+/libraries/vendor/brumann/polyfill-unserialize/.travis.yml
+/libraries/vendor/brumann/polyfill-unserialize/composer.json
+/libraries/vendor/brumann/polyfill-unserialize/composer.lock
+/libraries/vendor/brumann/polyfill-unserialize/LICENSE
+/libraries/vendor/brumann/polyfill-unserialize/phpunit.xml.dist
+/libraries/vendor/brumann/polyfill-unserialize/README.md
+/libraries/vendor/brumann/polyfill-unserialize/tests
 /libraries/vendor/google/recaptcha/examples
 /libraries/vendor/google/recaptcha/tests
 /libraries/vendor/google/recaptcha/.gitignore
@@ -88,16 +98,21 @@ Desktop.ini
 /libraries/vendor/joomla/*/.github
 /libraries/vendor/joomla/*/.gitignore
 /libraries/vendor/joomla/*/.gitmodules
+/libraries/vendor/joomla/*/.drone.jsonnet
+/libraries/vendor/joomla/*/.drone.yml
 /libraries/vendor/joomla/*/docs
 /libraries/vendor/joomla/*/Tests
 /libraries/vendor/joomla/*/vendor
 /libraries/vendor/joomla/*/.scrutinizer.yml
 /libraries/vendor/joomla/*/.travis.yml
+/libraries/vendor/joomla/*/.mono
 /libraries/vendor/joomla/*/CONTRIBUTING.md
 /libraries/vendor/joomla/*/composer.json
 /libraries/vendor/joomla/*/phpunit.xml.dist
 /libraries/vendor/joomla/*/README.md
 /libraries/vendor/joomla/*/ruleset.xml
+/libraries/vendor/joomla/session/Joomla/Session/.drone.jsonnet
+/libraries/vendor/joomla/session/Joomla/Session/.drone.yml
 /libraries/vendor/joomla/session/Joomla/Session/.github
 /libraries/vendor/joomla/session/Joomla/Session/_Tests
 /libraries/vendor/joomla/session/Joomla/Session/build
@@ -109,12 +124,15 @@ Desktop.ini
 /libraries/vendor/joomla/session/Joomla/Session/ruleset.xml
 /libraries/vendor/leafo/lessphp/docs
 /libraries/vendor/leafo/lessphp/tests
+/libraries/vendor/leafo/lessphp/.drone.yml
 /libraries/vendor/leafo/lessphp/.gitignore
 /libraries/vendor/leafo/lessphp/.travis.yml
 /libraries/vendor/leafo/lessphp/composer.json
 /libraries/vendor/leafo/lessphp/Makefile
 /libraries/vendor/leafo/lessphp/package.sh
+/libraries/vendor/leafo/lessphp/phpunit.xml.dist
 /libraries/vendor/leafo/lessphp/README.md
+/libraries/vendor/leafo/lessphp/ruleset.xml
 /libraries/vendor/paragonie/random_compat/.gitignore
 /libraries/vendor/paragonie/random_compat/.scrutinizer.yml
 /libraries/vendor/paragonie/random_compat/.travis.yml
@@ -131,23 +149,31 @@ Desktop.ini
 /libraries/vendor/paragonie/random_compat/psalm.xml
 /libraries/vendor/paragonie/random_compat/tests
 /libraries/vendor/paragonie/sodium_compat/.gitignore
+/libraries/vendor/paragonie/sodium_compat/.github
 /libraries/vendor/paragonie/sodium_compat/appveyor.yml
 /libraries/vendor/paragonie/sodium_compat/build-phar.sh
 /libraries/vendor/paragonie/sodium_compat/composer.json
+/libraries/vendor/paragonie/sodium_compat/composer-php52.json
 /libraries/vendor/paragonie/sodium_compat/composer.lock
 /libraries/vendor/paragonie/sodium_compat/dist
 /libraries/vendor/paragonie/sodium_compat/phpunit.xml.dist
+/libraries/vendor/paragonie/sodium_compat/psalm-above-3.xml
+/libraries/vendor/paragonie/sodium_compat/psalm-below-3.xml
 /libraries/vendor/paragonie/sodium_compat/README.md
 /libraries/vendor/paragonie/sodium_compat/src/Core/Curve25519/README.md
 /libraries/vendor/phpmailer/phpmailer/docs
 /libraries/vendor/phpmailer/phpmailer/examples
 /libraries/vendor/phpmailer/phpmailer/language
 /libraries/vendor/phpmailer/phpmailer/test
+/libraries/vendor/phpmailer/phpmailer/SECURITY.md
+/libraries/vendor/phpmailer/phpmailer/.github
+/libraries/vendor/phpmailer/phpmailer/.gitattributes
 /libraries/vendor/phpmailer/phpmailer/.gitignore
 /libraries/vendor/phpmailer/phpmailer/.scrutinizer.yml
 /libraries/vendor/phpmailer/phpmailer/.travis.yml
 /libraries/vendor/phpmailer/phpmailer/changelog.md
 /libraries/vendor/phpmailer/phpmailer/composer.json
+/libraries/vendor/phpmailer/phpmailer/composer.lock
 /libraries/vendor/phpmailer/phpmailer/ISSUE_TEMPLATE.md
 /libraries/vendor/phpmailer/phpmailer/phpdoc.dist.xml
 /libraries/vendor/phpmailer/phpmailer/README.md
@@ -177,6 +203,9 @@ Desktop.ini
 /libraries/vendor/symfony/polyfill-util/LegacyTestListener.php
 /libraries/vendor/symfony/polyfill-util/TestListener.php
 /libraries/vendor/symfony/polyfill-util/TestListenerTrait.php
+/libraries/vendor/symfony/polyfill-util/TestListenerForV5.php
+/libraries/vendor/symfony/polyfill-util/TestListenerForV6.php
+/libraries/vendor/symfony/polyfill-util/TestListenerForV7.php
 /libraries/vendor/symfony/yaml/Tests
 /libraries/vendor/symfony/yaml/.gitignore
 /libraries/vendor/symfony/yaml/CHANGELOG.md
@@ -193,6 +222,15 @@ Desktop.ini
 /libraries/vendor/simplepie/simplepie/build
 /libraries/vendor/simplepie/simplepie/idn/ReadMe.txt
 /libraries/vendor/simplepie/simplepie/composer.json
+/libraries/vendor/typo3/phar-stream-wrapper/tests
+/libraries/vendor/typo3/phar-stream-wrapper/.appveyor.yml
+/libraries/vendor/typo3/phar-stream-wrapper/.gitattributes
+/libraries/vendor/typo3/phar-stream-wrapper/.gitignore
+/libraries/vendor/typo3/phar-stream-wrapper/.travis.yml
+/libraries/vendor/typo3/phar-stream-wrapper/composer.json
+/libraries/vendor/typo3/phar-stream-wrapper/LICENSE
+/libraries/vendor/typo3/phar-stream-wrapper/phpunit.xml
+/libraries/vendor/typo3/phar-stream-wrapper/README.md
 
 # System Test related files
 tests/codeception/acceptance.suite.yml
@@ -208,4 +246,3 @@ composer.phar
 
 # Build related
 RoboFile.ini
-

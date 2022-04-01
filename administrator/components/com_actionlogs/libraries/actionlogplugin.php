@@ -3,12 +3,15 @@
  * @package     Joomla.Administrator
  * @subpackage  com_actionlogs
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2018 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 defined('_JEXEC') or die;
 
-JModelLegacy::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_actionlogs/models', 'ActionlogsModel');
+use Joomla\CMS\Factory;
+use Joomla\CMS\MVC\Model\BaseDatabaseModel;
+
+BaseDatabaseModel::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_actionlogs/models', 'ActionlogsModel');
 
 /**
  * Abstract Action Log Plugin
@@ -57,7 +60,7 @@ abstract class ActionLogPlugin extends JPlugin
 	 */
 	protected function addLog($messages, $messageLanguageKey, $context, $userId = null)
 	{
-		$user = JFactory::getUser();
+		$user = Factory::getUser();
 
 		foreach ($messages as $index => $message)
 		{
@@ -90,7 +93,7 @@ abstract class ActionLogPlugin extends JPlugin
 		}
 
 		/** @var ActionlogsModelActionlog $model **/
-		$model = JModelLegacy::getInstance('Actionlog', 'ActionlogsModel');
+		$model = BaseDatabaseModel::getInstance('Actionlog', 'ActionlogsModel');
 		$model->addLog($messages, strtoupper($messageLanguageKey), $context, $userId);
 	}
 }

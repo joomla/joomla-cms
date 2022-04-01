@@ -3,13 +3,16 @@
  * @package     Joomla.Plugins
  * @subpackage  System.actionlogs
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2018 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Factory;
+use Joomla\CMS\User\User;
+use Joomla\CMS\Version;
 use Joomla\Utilities\ArrayHelper;
 
 JLoader::register('ActionLogPlugin', JPATH_ADMINISTRATOR . '/components/com_actionlogs/libraries/actionlogplugin.php');
@@ -34,7 +37,7 @@ class PlgActionlogJoomla extends ActionLogPlugin
 	 * Context aliases
 	 *
 	 * @var    array
-	 * @since  3.9.0 
+	 * @since  3.9.0
 	 */
 	protected $contextAliases = array('com_content.form' => 'com_content.article');
 
@@ -116,7 +119,7 @@ class PlgActionlogJoomla extends ActionLogPlugin
 			'type'     => $params->text_prefix . '_TYPE_' . $params->type_title,
 			'id'       => $id,
 			'title'    => $article->get($params->title_holder),
-			'itemlink' => ActionlogsHelper::getContentTypeLink($option, $contentType, $id)
+			'itemlink' => ActionlogsHelper::getContentTypeLink($option, $contentType, $id, $params->id_holder, $article),
 		);
 
 		$this->addLog(array($message), $messageLanguageKey, $context);
@@ -265,7 +268,7 @@ class PlgActionlogJoomla extends ActionLogPlugin
 				'type'        => $params->text_prefix . '_TYPE_' . $params->type_title,
 				'id'          => $pk,
 				'title'       => $items[$pk]->{$params->title_holder},
-				'itemlink'    => ActionlogsHelper::getContentTypeLink($option, $contentType, $pk)
+				'itemlink'    => ActionlogsHelper::getContentTypeLink($option, $contentType, $pk, $params->id_holder, null)
 			);
 
 			$messages[] = $message;
@@ -525,7 +528,7 @@ class PlgActionlogJoomla extends ActionLogPlugin
 			'id'             => $table->get($params->id_holder),
 			'title'          => $table->get($params->title_holder),
 			'extension_name' => $table->get($params->title_holder),
-			'itemlink'       => ActionlogsHelper::getContentTypeLink($option, $contentType, $table->get($params->id_holder), $params->id_holder)
+			'itemlink'       => ActionlogsHelper::getContentTypeLink($option, $contentType, $table->get($params->id_holder), $params->id_holder, null)
 		);
 
 		$this->addLog(array($message), $messageLanguageKey, $context);
@@ -576,7 +579,7 @@ class PlgActionlogJoomla extends ActionLogPlugin
 	 *
 	 * @param   array    $user     Holds the new user data.
 	 * @param   boolean  $isnew    True if a new user is stored.
-	 * @param   boolean  $success  True if user was succesfully stored in the database.
+	 * @param   boolean  $success  True if user was successfully stored in the database.
 	 * @param   string   $msg      Message.
 	 *
 	 * @return  void
@@ -593,7 +596,7 @@ class PlgActionlogJoomla extends ActionLogPlugin
 			return;
 		}
 
-		$jUser = JFactory::getUser();
+		$jUser = Factory::getUser();
 
 		if (!$jUser->id)
 		{
@@ -612,6 +615,13 @@ class PlgActionlogJoomla extends ActionLogPlugin
 			{
 				$messageLanguageKey = 'PLG_ACTIONLOG_JOOMLA_USER_RESET_COMPLETE';
 				$action             = 'resetcomplete';
+			}
+
+			// Registration Activation
+			if ($task === 'registration.activate')
+			{
+				$messageLanguageKey = 'PLG_ACTIONLOG_JOOMLA_USER_REGISTRATION_ACTIVATE';
+				$action             = 'activaterequest';
 			}
 		}
 		elseif ($isnew)
@@ -648,7 +658,7 @@ class PlgActionlogJoomla extends ActionLogPlugin
 	 * Method is called after user data is deleted from the database
 	 *
 	 * @param   array    $user     Holds the user data
-	 * @param   boolean  $success  True if user was succesfully stored in the database
+	 * @param   boolean  $success  True if user was successfully stored in the database
 	 * @param   string   $msg      Message
 	 *
 	 * @return  void
@@ -679,7 +689,7 @@ class PlgActionlogJoomla extends ActionLogPlugin
 	/**
 	 * On after save user group data logging method
 	 *
-	 * Method is called after user data is deleted from the database
+	 * Method is called after user group is stored into the database
 	 *
 	 * @param   string   $context  The context
 	 * @param   JTable   $table    DataBase Table object
@@ -691,6 +701,7 @@ class PlgActionlogJoomla extends ActionLogPlugin
 	 */
 	public function onUserAfterSaveGroup($context, $table, $isNew)
 	{
+		// Override context (com_users.group) with the component context (com_users) to pass the checkLoggable
 		$context = $this->app->input->get('option');
 
 		if (!$this->checkLoggable($context))
@@ -723,10 +734,10 @@ class PlgActionlogJoomla extends ActionLogPlugin
 	/**
 	 * On deleting user group data logging method
 	 *
-	 * Method is called after user data is deleted from the database
+	 * Method is called after user group is deleted from the database
 	 *
 	 * @param   array    $group    Holds the group data
-	 * @param   boolean  $success  True if user was succesfully stored in the database
+	 * @param   boolean  $success  True if user was successfully stored in the database
 	 * @param   string   $msg      Message
 	 *
 	 * @return  void
@@ -804,10 +815,24 @@ class PlgActionlogJoomla extends ActionLogPlugin
 			return;
 		}
 
-		$loggedInUser = JUser::getInstance($response['username']);
+		// Get the user id for the given username
+		$query = $this->db->getQuery(true)
+			->select($this->db->quoteName(array('id', 'username')))
+			->from($this->db->quoteName('#__users'))
+			->where($this->db->quoteName('username') . ' = ' . $this->db->quote($response['username']));
+		$this->db->setQuery($query);
+
+		try
+		{
+			$loggedInUser = $this->db->loadObject();
+		}
+		catch (JDatabaseExceptionExecuting $e)
+		{
+			return;
+		}
 
 		// Not a valid user, return
-		if (!$loggedInUser->id)
+		if (!isset($loggedInUser->id))
 		{
 			return;
 		}
@@ -845,7 +870,13 @@ class PlgActionlogJoomla extends ActionLogPlugin
 			return;
 		}
 
-		$loggedOutUser      = JUser::getInstance($user['id']);
+		$loggedOutUser = User::getInstance($user['id']);
+
+		if ($loggedOutUser->block)
+		{
+			return;
+		}
+
 		$messageLanguageKey = 'PLG_ACTIONLOG_JOOMLA_USER_LOGGED_OUT';
 
 		$message = array(
@@ -906,5 +937,168 @@ class PlgActionlogJoomla extends ActionLogPlugin
 		);
 
 		$this->addLog(array($message), 'PLG_ACTIONLOG_JOOMLA_USER_REMIND', $context, $user->id);
+	}
+
+	/**
+	 * On after Check-in request
+	 *
+	 * Method is called after user request to check-in items.
+	 *
+	 * @param   array  $table  Holds the table name.
+	 *
+	 * @return  void
+	 *
+	 * @since   3.9.3
+	 */
+	public function onAfterCheckin($table)
+	{
+		$context = 'com_checkin';
+		$user    = Factory::getUser();
+
+		if (!$this->checkLoggable($context))
+		{
+			return;
+		}
+
+		$message = array(
+			'action'      => 'checkin',
+			'type'        => 'PLG_ACTIONLOG_JOOMLA_TYPE_USER',
+			'id'          => $user->id,
+			'title'       => $user->username,
+			'itemlink'    => 'index.php?option=com_users&task=user.edit&id=' . $user->id,
+			'userid'      => $user->id,
+			'username'    => $user->username,
+			'accountlink' => 'index.php?option=com_users&task=user.edit&id=' . $user->id,
+			'table'       => $table,
+		);
+
+		$this->addLog(array($message), 'PLG_ACTIONLOG_JOOMLA_USER_CHECKIN', $context, $user->id);
+	}
+
+	/**
+	 * On after log action purge
+	 *
+	 * Method is called after user request to clean action log items.
+	 *
+	 * @param   array  $group  Holds the group name.
+	 *
+	 * @return  void
+	 *
+	 * @since   3.9.4
+	 */
+	public function onAfterLogPurge($group = '')
+	{
+		$context = $this->app->input->get('option');
+		$user    = Factory::getUser();
+		$message = array(
+			'action'      => 'actionlogs',
+			'type'        => 'PLG_ACTIONLOG_JOOMLA_TYPE_USER',
+			'id'          => $user->id,
+			'title'       => $user->username,
+			'itemlink'    => 'index.php?option=com_users&task=user.edit&id=' . $user->id,
+			'userid'      => $user->id,
+			'username'    => $user->username,
+			'accountlink' => 'index.php?option=com_users&task=user.edit&id=' . $user->id,
+		);
+		$this->addLog(array($message), 'PLG_ACTIONLOG_JOOMLA_USER_LOG', $context, $user->id);
+	}
+
+	/**
+	 * On after log export
+	 *
+	 * Method is called after user request to export action log items.
+	 *
+	 * @param   array  $group  Holds the group name.
+	 *
+	 * @return  void
+	 *
+	 * @since   3.9.4
+	 */
+	public function onAfterLogExport($group = '')
+	{
+		$context = $this->app->input->get('option');
+		$user    = Factory::getUser();
+		$message = array(
+			'action'      => 'actionlogs',
+			'type'        => 'PLG_ACTIONLOG_JOOMLA_TYPE_USER',
+			'id'          => $user->id,
+			'title'       => $user->username,
+			'itemlink'    => 'index.php?option=com_users&task=user.edit&id=' . $user->id,
+			'userid'      => $user->id,
+			'username'    => $user->username,
+			'accountlink' => 'index.php?option=com_users&task=user.edit&id=' . $user->id,
+		);
+		$this->addLog(array($message), 'PLG_ACTIONLOG_JOOMLA_USER_LOGEXPORT', $context, $user->id);
+	}
+
+	/**
+	 * On after Cache purge
+	 *
+	 * Method is called after user request to clean cached items.
+	 *
+	 * @param   string  $group  Holds the group name.
+	 *
+	 * @return  void
+	 *
+	 * @since   3.9.4
+	 */
+	public function onAfterPurge($group = 'all')
+	{
+		$context = $this->app->input->get('option');
+		$user    = JFactory::getUser();
+
+		if (!$this->checkLoggable($context))
+		{
+			return;
+		}
+
+		$message = array(
+			'action'      => 'cache',
+			'type'        => 'PLG_ACTIONLOG_JOOMLA_TYPE_USER',
+			'id'          => $user->id,
+			'title'       => $user->username,
+			'itemlink'    => 'index.php?option=com_users&task=user.edit&id=' . $user->id,
+			'userid'      => $user->id,
+			'username'    => $user->username,
+			'accountlink' => 'index.php?option=com_users&task=user.edit&id=' . $user->id,
+			'group'       => $group,
+		);
+		$this->addLog(array($message), 'PLG_ACTIONLOG_JOOMLA_USER_CACHE', $context, $user->id);
+	}
+
+	/**
+	 * On after CMS Update
+	 *
+	 * Method is called after user update the CMS.
+	 *
+	 * @param   string  $oldVersion  The Joomla version before the update
+	 *
+	 * @return  void
+	 *
+	 * @since   3.9.21
+	 */
+	public function onJoomlaAfterUpdate($oldVersion = null)
+	{
+		$context = $this->app->input->get('option');
+		$user    = JFactory::getUser();
+
+		if (empty($oldVersion))
+		{
+			$oldVersion = JText::_('JLIB_UNKNOWN');
+		}
+
+		$message = array(
+			'action'      => 'joomlaupdate',
+			'type'        => 'PLG_ACTIONLOG_JOOMLA_TYPE_USER',
+			'id'          => $user->id,
+			'title'       => $user->username,
+			'itemlink'    => 'index.php?option=com_users&task=user.edit&id=' . $user->id,
+			'userid'      => $user->id,
+			'username'    => $user->username,
+			'accountlink' => 'index.php?option=com_users&task=user.edit&id=' . $user->id,
+			'version'     => JVERSION,
+			'oldversion'  => $oldVersion,
+		);
+		$this->addLog(array($message), 'PLG_ACTIONLOG_JOOMLA_USER_UPDATE', $context, $user->id);
 	}
 }

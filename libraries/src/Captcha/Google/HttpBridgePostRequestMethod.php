@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2018 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -25,7 +25,7 @@ final class HttpBridgePostRequestMethod implements RequestMethod
 	/**
 	 * URL to which requests are sent.
 	 *
-	 * @const  string
+	 * @var    string
 	 * @since  3.9.0
 	 */
 	const SITE_VERIFY_URL = 'https://www.google.com/recaptcha/api/siteverify';

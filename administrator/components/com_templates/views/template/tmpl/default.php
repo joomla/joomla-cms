@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_templates
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2008 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -88,7 +88,6 @@ jQuery(document).ready(function($){
 			filePathTmp = filePathTmp.slice( 1 );
 			filePathTmp = filePathTmp.split('/');
 			filePathTmp = filePathTmp[filePathTmp.length - 1];
-			var re = new RegExp( filePathTmp );
 
 		for (var i = 0, l = liEls.length; i < l; i++) {
 			liEls[i].querySelector('a').classList.add('active');
@@ -100,7 +99,7 @@ jQuery(document).ready(function($){
 					aEl = allLi[i].querySelector('a'),
 					spanEl = aEl.querySelector('span');
 	
-					if (spanEl && re.test(spanEl.innerText)) {
+					if (spanEl && filePathTmp === $.trim(spanEl.innerText)) {
 						aEl.classList.add('active');
 					}
 				}
@@ -512,7 +511,7 @@ $folderModalData = array(
 );
 ?>
 <?php echo JLayoutHelper::render('joomla.modal.main', $folderModalData); ?>
-<?php if ($this->type != 'home') : ?>
+<?php if ($this->type == 'image') : ?>
 	<?php // Resize Modal
 	$resizeModalData = array(
 		'selector' => 'resizeModal',

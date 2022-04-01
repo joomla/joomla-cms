@@ -3,13 +3,11 @@
  * @package     Joomla.Administrator
  * @subpackage  com_categories
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2009 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
-
-use Joomla\Utilities\ArrayHelper;
 
 /**
  * The Categories List Controller
@@ -117,10 +115,13 @@ class CategoriesControllerCategories extends JControllerAdmin
 		$this->checkToken();
 
 		// Get items to remove from the request.
-		$cid = $this->input->get('cid', array(), 'array');
+		$cid = (array) $this->input->get('cid', array(), 'int');
 		$extension = $this->input->getCmd('extension', null);
 
-		if (!is_array($cid) || count($cid) < 1)
+		// Remove zero values resulting from input filter
+		$cid = array_filter($cid);
+
+		if (empty($cid))
 		{
 			JError::raiseWarning(500, JText::_($this->text_prefix . '_NO_ITEM_SELECTED'));
 		}
@@ -129,9 +130,6 @@ class CategoriesControllerCategories extends JControllerAdmin
 			// Get the model.
 			/** @var CategoriesModelCategory $model */
 			$model = $this->getModel();
-
-			// Make sure the item ids are integers
-			$cid = ArrayHelper::toInteger($cid);
 
 			// Remove the items.
 			if ($model->delete($cid))

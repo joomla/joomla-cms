@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2008 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -28,7 +28,7 @@ class Updater extends \JAdapter
 	/**
 	 * Development snapshots, nightly builds, pre-release versions and so on
 	 *
-	 * @const  integer
+	 * @var    integer
 	 * @since  3.4
 	 */
 	const STABILITY_DEV = 0;
@@ -36,7 +36,7 @@ class Updater extends \JAdapter
 	/**
 	 * Alpha versions (work in progress, things are likely to be broken)
 	 *
-	 * @const  integer
+	 * @var    integer
 	 * @since  3.4
 	 */
 	const STABILITY_ALPHA = 1;
@@ -44,7 +44,7 @@ class Updater extends \JAdapter
 	/**
 	 * Beta versions (major functionality in place, show-stopper bugs are likely to be present)
 	 *
-	 * @const  integer
+	 * @var    integer
 	 * @since  3.4
 	 */
 	const STABILITY_BETA = 2;
@@ -52,7 +52,7 @@ class Updater extends \JAdapter
 	/**
 	 * Release Candidate versions (almost stable, minor bugs might be present)
 	 *
-	 * @const  integer
+	 * @var    integer
 	 * @since  3.4
 	 */
 	const STABILITY_RC = 3;
@@ -60,13 +60,15 @@ class Updater extends \JAdapter
 	/**
 	 * Stable versions (production quality code)
 	 *
-	 * @const  integer
+	 * @var    integer
 	 * @since  3.4
 	 */
 	const STABILITY_STABLE = 4;
 
 	/**
-	 * @var    Updater  Updater instance container.
+	 * Updater instance container.
+	 *
+	 * @var    Updater
 	 * @since  1.7.3
 	 */
 	protected static $instance;
@@ -106,19 +108,19 @@ class Updater extends \JAdapter
 	/**
 	 * Finds the update for an extension. Any discovered updates are stored in the #__updates table.
 	 *
-	 * @param   int|array  $eid                Extension Identifier or list of Extension Identifiers; if zero use all
-	 *                                         sites
-	 * @param   integer    $cacheTimeout       How many seconds to cache update information; if zero, force reload the
-	 *                                         update information
-	 * @param   integer    $minimum_stability  Minimum stability for the updates; 0=dev, 1=alpha, 2=beta, 3=rc,
-	 *                                         4=stable
-	 * @param   boolean    $includeCurrent     Should I include the current version in the results?
+	 * @param   int|array  $eid               Extension Identifier or list of Extension Identifiers; if zero use all
+	 *                                        sites
+	 * @param   integer    $cacheTimeout      How many seconds to cache update information; if zero, force reload the
+	 *                                        update information
+	 * @param   integer    $minimumStability  Minimum stability for the updates; 0=dev, 1=alpha, 2=beta, 3=rc,
+	 *                                        4=stable
+	 * @param   boolean    $includeCurrent    Should I include the current version in the results?
 	 *
 	 * @return  boolean True if there are updates
 	 *
 	 * @since   1.7.0
 	 */
-	public function findUpdates($eid = 0, $cacheTimeout = 0, $minimum_stability = self::STABILITY_STABLE, $includeCurrent = false)
+	public function findUpdates($eid = 0, $cacheTimeout = 0, $minimumStability = self::STABILITY_STABLE, $includeCurrent = false)
 	{
 		$retval = false;
 
@@ -154,7 +156,15 @@ class Updater extends \JAdapter
 				continue;
 			}
 
-			$updateObjects = $this->getUpdateObjectsForSite($result, $minimum_stability, $includeCurrent);
+			// Make sure there is no update left over in the database.
+			$db = $this->getDbo();
+			$query = $db->getQuery(true)
+				->delete($db->quoteName('#__updates'))
+				->where($db->quoteName('update_site_id') . ' = ' . $db->quote($result['update_site_id']));
+			$db->setQuery($query);
+			$db->execute();
+
+			$updateObjects = $this->getUpdateObjectsForSite($result, $minimumStability, $includeCurrent);
 
 			if (!empty($updateObjects))
 			{
@@ -248,15 +258,15 @@ class Updater extends \JAdapter
 	/**
 	 * Loads the contents of an update site record $updateSite and returns the update objects
 	 *
-	 * @param   array  $updateSite         The update site record to process
-	 * @param   int    $minimum_stability  Minimum stability for the returned update records
-	 * @param   bool   $includeCurrent     Should I also include the current version?
+	 * @param   array  $updateSite        The update site record to process
+	 * @param   int    $minimumStability  Minimum stability for the returned update records
+	 * @param   bool   $includeCurrent    Should I also include the current version?
 	 *
 	 * @return  array  The update records. Empty array if no updates are found.
 	 *
 	 * @since   3.6.0
 	 */
-	private function getUpdateObjectsForSite($updateSite, $minimum_stability = self::STABILITY_STABLE, $includeCurrent = false)
+	private function getUpdateObjectsForSite($updateSite, $minimumStability = self::STABILITY_STABLE, $includeCurrent = false)
 	{
 		$retVal = array();
 
@@ -268,7 +278,7 @@ class Updater extends \JAdapter
 			return $retVal;
 		}
 
-		$updateSite['minimum_stability'] = $minimum_stability;
+		$updateSite['minimum_stability'] = $minimumStability;
 
 		// Get the update information from the remote update XML document
 		/** @var UpdateAdapter $adapter */
@@ -297,7 +307,7 @@ class Updater extends \JAdapter
 						continue;
 					}
 
-					$extraUpdates = $this->getUpdateObjectsForSite($extraUpdateSite, $minimum_stability);
+					$extraUpdates = $this->getUpdateObjectsForSite($extraUpdateSite, $minimumStability);
 
 					if (count($extraUpdates))
 					{
@@ -363,6 +373,13 @@ class Updater extends \JAdapter
 					else
 					{
 						$update->load($uid);
+
+						// We already have an update in the database lets check whether it has an extension_id
+						if ((int) $update->extension_id === 0 && $eid)
+						{
+							// The current update does not have an extension_id but we found one let's use them
+							$current_update->extension_id = $eid;
+						}
 
 						// If there is an update, check that the version is newer then replaces
 						if (version_compare($current_update->version, $update->version, $operator) == 1)

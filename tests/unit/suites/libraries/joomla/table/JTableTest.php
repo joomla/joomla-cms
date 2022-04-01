@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Table
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2013 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -331,6 +331,48 @@ class JTableTest extends TestCaseDatabase
 	{
 		TestReflection::setValue($this->object, '_jsonEncode', array('params'));
 		$this->object->bind(array('id1' => 25, 'id2' => 50, 'title' => 'My Title', 'params' => array('param1' => 'value1', 'param2' => 25)));
+
+		$this->assertEquals(
+			25,
+			$this->object->id1
+		);
+
+		$this->assertEquals(
+			50,
+			$this->object->id2
+		);
+
+		$this->assertEquals(
+			'My Title',
+			$this->object->title
+		);
+
+		// Check the object is json encoded properly
+		$this->assertEquals(
+			'{"param1":"value1","param2":25}',
+			$this->object->params,
+			'The object should be json encoded'
+		);
+	}
+
+	/**
+	 * Test for bind method with object.
+	 *
+	 * @return  void
+	 *
+	 * @since   3.9.27
+	 */
+	public function testBindWithObject()
+	{
+		TestReflection::setValue($this->object, '_jsonEncode', array('params'));
+
+		$data = new stdClass;
+		$data->id1    = 25;
+		$data->id2    = 50;
+		$data->title  = 'My Title';
+		$data->params = array('param1' => 'value1', 'param2' => 25);
+
+		$this->object->bind($data);
 
 		$this->assertEquals(
 			25,

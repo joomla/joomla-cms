@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Openstreetmap
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2013 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -510,17 +510,17 @@ class JOpenstreetmapElements extends JOpenstreetmapObject
 	/**
 	 * Method used by the DWG to hide old versions of elements containing data privacy or copyright infringements
 	 *
-	 * @param   string   $element       [node|way|relation]
-	 * @param   integer  $id            Element identifier
-	 * @param   integer  $version       Element version
-	 * @param   integer  $redaction_id  Redaction id
+	 * @param   string   $element      [node|way|relation]
+	 * @param   integer  $id           Element identifier
+	 * @param   integer  $version      Element version
+	 * @param   integer  $redactionId  Redaction id
 	 *
 	 * @return  array   The xml response
 	 *
 	 * @since   3.2.0
 	 * @throws  DomainException
 	 */
-	public function redaction($element, $id, $version, $redaction_id)
+	public function redaction($element, $id, $version, $redactionId)
 	{
 		if ($element != 'node' && $element != 'way' && $element != 'relation')
 		{
@@ -535,7 +535,7 @@ class JOpenstreetmapElements extends JOpenstreetmapObject
 		);
 
 		// Set the API base
-		$base = $element . '/' . $id . '/' . $version . '/redact?redaction=' . $redaction_id;
+		$base = $element . '/' . $id . '/' . $version . '/redact?redaction=' . $redactionId;
 
 		// Build the request path.
 		$path = $this->getOption('api.url') . $base;

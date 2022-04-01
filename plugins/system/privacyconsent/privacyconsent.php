@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  System.privacyconsent
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2018 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -11,6 +11,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Router\Route;
 use Joomla\Utilities\ArrayHelper;
 
 /**
@@ -241,7 +242,7 @@ class PlgSystemPrivacyconsent extends JPlugin
 	 * Method is called after user data is deleted from the database
 	 *
 	 * @param   array    $user     Holds the user data
-	 * @param   boolean  $success  True if user was succesfully stored in the database
+	 * @param   boolean  $success  True if user was successfully stored in the database
 	 * @param   string   $msg      Message
 	 *
 	 * @return  boolean
@@ -424,7 +425,7 @@ class PlgSystemPrivacyconsent extends JPlugin
 
 	/**
 	 * Get privacy article ID. If the site is a multilingual website and there is associated article for the
-	 * current language, ID of the associlated article will be returned
+	 * current language, ID of the associated article will be returned
 	 *
 	 * @return  integer
 	 *
@@ -568,7 +569,7 @@ class PlgSystemPrivacyconsent extends JPlugin
 		}
 
 		$app      = JFactory::getApplication();
-		$linkMode = $app->get('force_ssl', 0) == 2 ? 1 : -1;
+		$linkMode = $app->get('force_ssl', 0) == 2 ? Route::TLS_FORCE : Route::TLS_IGNORE;
 
 		foreach ($users as $user)
 		{
@@ -581,8 +582,8 @@ class PlgSystemPrivacyconsent extends JPlugin
 				$substitutions = array(
 					'[SITENAME]' => $app->get('sitename'),
 					'[URL]'      => JUri::root(),
-					'[TOKENURL]' => JRoute::link('site', 'index.php?option=com_privacy&view=remind&remind_token=' . $token, false, $linkMode),
-					'[FORMURL]'  => JRoute::link('site', 'index.php?option=com_privacy&view=remind', false, $linkMode),
+					'[TOKENURL]' => JRoute::link('site', 'index.php?option=com_privacy&view=remind&remind_token=' . $token, false, $linkMode, true),
+					'[FORMURL]'  => JRoute::link('site', 'index.php?option=com_privacy&view=remind', false, $linkMode, true),
 					'[TOKEN]'    => $token,
 					'\\n'        => "\n",
 				);
@@ -699,7 +700,7 @@ class PlgSystemPrivacyconsent extends JPlugin
 
 			$messageModel->notifySuperUsers(
 				JText::_('PLG_SYSTEM_PRIVACYCONSENT_NOTIFICATION_USER_PRIVACY_EXPIRED_SUBJECT'),
-				JText::sprintf('PLG_SYSTEM_PRIVACYCONSENT_NOTIFICATION_USER_PRIVACY_EXPIRED_MESSAGE', $user->user_id)
+				JText::sprintf('PLG_SYSTEM_PRIVACYCONSENT_NOTIFICATION_USER_PRIVACY_EXPIRED_MESSAGE', JFactory::getUser($user->user_id)->username)
 			);
 		}
 

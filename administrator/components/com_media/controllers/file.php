@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_media
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2007 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -45,6 +45,9 @@ class MediaControllerFile extends JControllerLegacy
 		$return       = JFactory::getSession()->get('com_media.return_url');
 		$this->folder = $this->input->get('folder', '', 'path');
 
+		// Instantiate the media helper
+		$mediaHelper = new JHelperMedia;
+
 		// Don't redirect to an external URL.
 		if (!JUri::isInternal($return))
 		{
@@ -61,10 +64,38 @@ class MediaControllerFile extends JControllerLegacy
 			$this->setRedirect('index.php?option=com_media&folder=' . $this->folder);
 		}
 
+		// First check against unfiltered input.
+		if (!$this->input->files->get('Filedata', null, 'RAW'))
+		{
+			// Total length of post back data in bytes.
+			$contentLength = $this->input->server->get('CONTENT_LENGTH', 0, 'INT');
+
+			// Maximum allowed size of post back data in MB.
+			$postMaxSize = $mediaHelper->toBytes(ini_get('post_max_size'));
+
+			// Maximum allowed size of script execution in MB.
+			$memoryLimit = $mediaHelper->toBytes(ini_get('memory_limit'));
+
+			// Check for the total size of post back data.
+			if (($postMaxSize > 0 && $contentLength > $postMaxSize)
+				|| ($memoryLimit != -1 && $contentLength > $memoryLimit))
+			{
+				// Files are too large.
+				JError::raiseWarning(100, JText::_('COM_MEDIA_ERROR_WARNUPLOADTOOLARGE'));
+
+				return false;
+			}
+
+			// No files were provided.
+			$this->setMessage(JText::_('COM_MEDIA_ERROR_UPLOAD_INPUT'), 'warning');
+
+			return false;
+		}
+
 		if (!$files)
 		{
-			// If we could not get any data from the request we can not upload it.
-			JFactory::getApplication()->enqueueMessage(JText::_('COM_MEDIA_ERROR_WARNFILENOTSAFE'), 'error');
+			// Files were provided but are unsafe to upload.
+			$this->setMessage(JText::_('COM_MEDIA_ERROR_WARNFILENOTSAFE'), 'error');
 
 			return false;
 		}
@@ -75,41 +106,34 @@ class MediaControllerFile extends JControllerLegacy
 			return false;
 		}
 
-		// If there are no files to upload - then bail
-		if (empty($files))
-		{
-			return false;
-		}
-
-		// Total length of post back data in bytes.
-		$contentLength = (int) $_SERVER['CONTENT_LENGTH'];
-
-		// Instantiate the media helper
-		$mediaHelper = new JHelperMedia;
-
-		// Maximum allowed size of post back data in MB.
-		$postMaxSize = $mediaHelper->toBytes(ini_get('post_max_size'));
-
-		// Maximum allowed size of script execution in MB.
-		$memoryLimit = $mediaHelper->toBytes(ini_get('memory_limit'));
-
-		// Check for the total size of post back data.
-		if (($postMaxSize > 0 && $contentLength > $postMaxSize)
-			|| ($memoryLimit != -1 && $contentLength > $memoryLimit))
-		{
-			JError::raiseWarning(100, JText::_('COM_MEDIA_ERROR_WARNUPLOADTOOLARGE'));
-
-			return false;
-		}
-
 		$uploadMaxSize = $params->get('upload_maxsize', 0) * 1024 * 1024;
 		$uploadMaxFileSize = $mediaHelper->toBytes(ini_get('upload_max_filesize'));
 
 		// Perform basic checks on file info before attempting anything
 		foreach ($files as &$file)
 		{
-			$file['name']     = JFile::makeSafe($file['name']);
-			$file['name']     = str_replace(' ', '-', $file['name']);
+			// Make the filename safe
+			$file['name'] = JFile::makeSafe($file['name']);
+
+			// We need a url safe name
+			$fileparts = pathinfo(COM_MEDIA_BASE . '/' . $this->folder . '/' . $file['name']);
+
+			if (strpos(realpath($fileparts['dirname']), JPath::clean(realpath(COM_MEDIA_BASE))) !== 0)
+			{
+				JError::raiseWarning(100, JText::_('COM_MEDIA_ERROR_WARNINVALID_FOLDER'));
+
+				return false;
+			}
+
+			// Transform filename to punycode, check extension and transform it to lowercase
+			$fileparts['filename'] = JStringPunycode::toPunycode($fileparts['filename']);
+			$tempExt = !empty($fileparts['extension']) ? strtolower($fileparts['extension']) : '';
+
+			// Neglect other than non-alphanumeric characters, hyphens & underscores.
+			$safeFileName = preg_replace(array("/[\\s]/", '/[^a-zA-Z0-9_\-]/'), array('_', ''), $fileparts['filename']) . '.' . $tempExt;
+
+			$file['name'] = $safeFileName;
+
 			$file['filepath'] = JPath::clean(implode(DIRECTORY_SEPARATOR, array(COM_MEDIA_BASE, $this->folder, $file['name'])));
 
 			if (($file['error'] == 1)
@@ -186,7 +210,7 @@ class MediaControllerFile extends JControllerLegacy
 	/**
 	 * Check that the user is authorized to perform this action
 	 *
-	 * @param   string  $action  - the action to be peformed (create or delete)
+	 * @param   string  $action  - the action to be performed (create or delete)
 	 *
 	 * @return  boolean
 	 *
@@ -261,6 +285,17 @@ class MediaControllerFile extends JControllerLegacy
 		$ret = true;
 
 		$safePaths = array_intersect($paths, array_map(array('JFile', 'makeSafe'), $paths));
+
+		foreach ($safePaths as $key => $path)
+		{
+			$fullPath = implode(DIRECTORY_SEPARATOR, array(COM_MEDIA_BASE, $folder, $path));
+
+			if (strpos(realpath($fullPath), JPath::clean(realpath(COM_MEDIA_BASE))) !== 0)
+			{
+				unset($safePaths[$key]);
+			}
+		}
+
 		$unsafePaths = array_diff($paths, $safePaths);
 
 		foreach ($unsafePaths as $path)

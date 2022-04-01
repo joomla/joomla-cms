@@ -2,7 +2,7 @@
 /**
  * Part of the Joomla Framework Filesystem Package
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -10,7 +10,8 @@ namespace Joomla\Filesystem\Clients;
 
 use Joomla\Filesystem\Exception\FilesystemException;
 
-/** Error Codes:
+/*
+ * Error Codes:
  * - 30 : Unable to connect to host
  * - 31 : Not connected
  * - 32 : Unable to send command to server
@@ -24,27 +25,27 @@ use Joomla\Filesystem\Exception\FilesystemException;
 
 if (!\defined('CRLF'))
 {
-	define('CRLF', "\r\n");
+	\define('CRLF', "\r\n");
 }
 
-if (!\defined("FTP_AUTOASCII"))
+if (!\defined('FTP_AUTOASCII'))
 {
-	define("FTP_AUTOASCII", -1);
+	\define('FTP_AUTOASCII', -1);
 }
 
-if (!\defined("FTP_BINARY"))
+if (!\defined('FTP_BINARY'))
 {
-	define("FTP_BINARY", 1);
+	\define('FTP_BINARY', 1);
 }
 
-if (!\defined("FTP_ASCII"))
+if (!\defined('FTP_ASCII'))
 {
-	define("FTP_ASCII", 0);
+	\define('FTP_ASCII', 0);
 }
 
 if (!\defined('FTP_NATIVE'))
 {
-	define('FTP_NATIVE', (function_exists('ftp_connect')) ? 1 : 0);
+	\define('FTP_NATIVE', (\function_exists('ftp_connect')) ? 1 : 0);
 }
 
 /**
@@ -55,79 +56,98 @@ if (!\defined('FTP_NATIVE'))
 class FtpClient
 {
 	/**
-	 * @var    resource  Socket resource
+	 * Socket resource
+	 *
+	 * @var    resource
 	 * @since  1.0
 	 */
-	private $conn = null;
+	private $conn;
 
 	/**
-	 * @var    resource  Data port connection resource
+	 * Data port connection resource
+	 *
+	 * @var    resource
 	 * @since  1.0
 	 */
-	private $dataconn = null;
+	private $dataconn;
 
 	/**
-	 * @var    array  Passive connection information
+	 * Passive connection information
+	 *
+	 * @var    array
 	 * @since  1.0
 	 */
-	private $pasv = null;
+	private $pasv;
 
 	/**
-	 * @var    string  Response Message
+	 * Response Message
+	 *
+	 * @var    string
 	 * @since  1.0
 	 */
-	private $response = null;
+	private $response;
 
 	/**
-	 * @var    integer  Response Code
+	 * Response Code
+	 *
+	 * @var    integer
 	 * @since  1.0
 	 */
-	private $responseCode = null;
+	private $responseCode;
 
 	/**
-	 * @var    string  Response Message
+	 * Response Message
+	 *
+	 * @var    string
 	 * @since  1.0
 	 */
-	private $responseMsg = null;
+	private $responseMsg;
 
 	/**
-	 * @var    integer  Timeout limit
+	 * Timeout limit
+	 *
+	 * @var    integer
 	 * @since  1.0
 	 */
 	private $timeout = 15;
 
 	/**
-	 * @var    integer  Transfer Type
+	 * Transfer Type
+	 *
+	 * @var    integer
 	 * @since  1.0
 	 */
-	private $type = null;
+	private $type;
 
 	/**
-	 * @var    array  Array to hold ascii format file extensions
-	 * @since   1.0
+	 * Array to hold ascii format file extensions
+	 *
+	 * @var    array
+	 * @since  1.0
 	 */
 	private $autoAscii = array(
-		"asp",
-		"bat",
-		"c",
-		"cpp",
-		"csv",
-		"h",
-		"htm",
-		"html",
-		"shtml",
-		"ini",
-		"inc",
-		"log",
-		"php",
-		"php3",
-		"pl",
-		"perl",
-		"sh",
-		"sql",
-		"txt",
-		"xhtml",
-		"xml");
+		'asp',
+		'bat',
+		'c',
+		'cpp',
+		'csv',
+		'h',
+		'htm',
+		'html',
+		'shtml',
+		'ini',
+		'inc',
+		'log',
+		'php',
+		'php3',
+		'pl',
+		'perl',
+		'sh',
+		'sql',
+		'txt',
+		'xhtml',
+		'xml',
+	);
 
 	/**
 	 * Array to hold native line ending characters
@@ -138,7 +158,9 @@ class FtpClient
 	private $lineEndings = array('UNIX' => "\n", 'WIN' => "\r\n");
 
 	/**
-	 * @var    FtpClient[]  FtpClient instances container.
+	 * FtpClient instances container.
+	 *
+	 * @var    FtpClient[]
 	 * @since  1.0
 	 */
 	protected static $instances = array();
@@ -155,7 +177,7 @@ class FtpClient
 		// If default transfer type is not set, set it to autoascii detect
 		if (!isset($options['type']))
 		{
-			$options['type'] = FTP_BINARY;
+			$options['type'] = \FTP_BINARY;
 		}
 
 		$this->setOptions($options);
@@ -203,7 +225,7 @@ class FtpClient
 	 */
 	public static function getInstance($host = '127.0.0.1', $port = '21', array $options = array(), $user = null, $pass = null)
 	{
-		$signature = $user . ':' . $pass . '@' . $host . ":" . $port;
+		$signature = $user . ':' . $pass . '@' . $host . ':' . $port;
 
 		// Create a new instance, or set the options of an existing one
 		if (!isset(self::$instances[$signature]) || !\is_object(self::$instances[$signature]))
@@ -267,7 +289,7 @@ class FtpClient
 	public function connect($host = '127.0.0.1', $port = 21)
 	{
 		$errno = null;
-		$err = null;
+		$err   = null;
 
 		// If already connected, return
 		if (\is_resource($this->conn))
@@ -286,7 +308,7 @@ class FtpClient
 			}
 
 			// Set the timeout for this connection
-			ftp_set_option($this->conn, FTP_TIMEOUT_SEC, $this->timeout);
+			ftp_set_option($this->conn, \FTP_TIMEOUT_SEC, $this->timeout);
 
 			return true;
 		}
@@ -436,7 +458,7 @@ class FtpClient
 		preg_match('/"[^"\r\n]*"/', $this->response, $match);
 
 		// Return the cleaned path
-		return preg_replace("/\"/", "", $match[0]);
+		return preg_replace('/"/', '', $match[0]);
 	}
 
 	/**
@@ -791,7 +813,7 @@ class FtpClient
 
 			$buffer = fopen('buffer://tmp', 'r');
 
-			if (@ftp_fput($this->conn, $path, $buffer, FTP_ASCII) === false)
+			if (@ftp_fput($this->conn, $path, $buffer, \FTP_ASCII) === false)
 			{
 				fclose($buffer);
 
@@ -812,6 +834,7 @@ class FtpClient
 		if (!$this->_putCmd('STOR ' . $path, array(150, 125)))
 		{
 			@ fclose($this->dataconn);
+
 			throw new FilesystemException(
 				sprintf('%1$s: Bad response.  Server response: %2$s [Expected: 150 or 125].  Path sent: %3$s', __METHOD__, $this->response, $path)
 			);
@@ -907,7 +930,7 @@ class FtpClient
 		fclose($this->dataconn);
 
 		// Let's try to cleanup some line endings if it is ascii
-		if ($mode == FTP_ASCII)
+		if ($mode == \FTP_ASCII)
 		{
 			$os = 'UNIX';
 
@@ -916,7 +939,7 @@ class FtpClient
 				$os = 'WIN';
 			}
 
-			$buffer = preg_replace("/" . CRLF . "/", $this->lineEndings[$os], $buffer);
+			$buffer = preg_replace('/' . CRLF . '/', $this->lineEndings[$os], $buffer);
 		}
 
 		if (!$this->_verifyResponse(226))
@@ -968,7 +991,7 @@ class FtpClient
 		$this->_mode($mode);
 
 		// Check to see if the local file can be opened for writing
-		$fp = fopen($local, "wb");
+		$fp = fopen($local, 'wb');
 
 		if (!$fp)
 		{
@@ -1056,7 +1079,7 @@ class FtpClient
 		// Check to see if the local file exists and if so open it for reading
 		if (@ file_exists($local))
 		{
-			$fp = fopen($local, "rb");
+			$fp = fopen($local, 'rb');
 
 			if (!$fp)
 			{
@@ -1101,8 +1124,7 @@ class FtpClient
 
 				$line = substr($line, $result);
 			}
-
-			while ($line != "");
+			while ($line != '');
 		}
 
 		fclose($fp);
@@ -1188,13 +1210,12 @@ class FtpClient
 
 			$buffer = substr($buffer, $result);
 		}
-
-		while ($buffer != "");
+		while ($buffer != '');
 
 		// Close the data connection port [Data transfer complete]
 		fclose($this->dataconn);
 
-		// Verify that the server recieved the transfer
+		// Verify that the server received the transfer
 		if (!$this->_verifyResponse(226))
 		{
 			throw new FilesystemException(
@@ -1298,7 +1319,7 @@ class FtpClient
 			);
 		}
 
-		$data = preg_split("/[" . CRLF . "]+/", $data, -1, PREG_SPLIT_NO_EMPTY);
+		$data = preg_split('/[' . CRLF . ']+/', $data, -1, \PREG_SPLIT_NO_EMPTY);
 		$data = preg_replace('#^' . preg_quote(substr($path, 1), '#') . '[/\\\\]?#', '', $data);
 
 		if ($keys = array_merge(array_keys($data, '.'), array_keys($data, '..')))
@@ -1318,7 +1339,7 @@ class FtpClient
 	 * @param   string  $path  Path to the local file to be stored on the FTP server
 	 * @param   string  $type  Return type [raw|all|folders|files]
 	 *
-	 * @return  mixed  If $type is raw: string Directory listing, otherwise array of string with file-names
+	 * @return  string[]  If $type is raw: string Directory listing, otherwise array of string with file-names
 	 *
 	 * @since   1.0
 	 * @throws  FilesystemException
@@ -1326,8 +1347,8 @@ class FtpClient
 	public function listDetails($path = null, $type = 'all')
 	{
 		$dirList = array();
-		$data = null;
-		$regs = null;
+		$data    = null;
+		$regs    = null;
 
 		// TODO: Deal with recurse -- nightmare
 		// For now we will just set it to false
@@ -1424,7 +1445,7 @@ class FtpClient
 				. ' ([a-zA-Z]+[0-9: ]*[0-9])[ ]+(([0-9]{1,2}:[0-9]{2})|[0-9]{4}) (.+)#',
 			'MAC' => '#([-dl][rwxstST-]+).* ?([0-9 ]*)?([a-zA-Z0-9]+).* ([a-zA-Z0-9]+).* ([0-9]*)'
 				. ' ([a-zA-Z]+[0-9: ]*[0-9])[ ]+(([0-9]{2}:[0-9]{2})|[0-9]{4}) (.+)#',
-			'WIN' => '#([0-9]{2})-([0-9]{2})-([0-9]{2}) +([0-9]{2}):([0-9]{2})(AM|PM) +([0-9]+|<DIR>) +(.+)#'
+			'WIN' => '#([0-9]{2})-([0-9]{2})-([0-9]{2}) +([0-9]{2}):([0-9]{2})(AM|PM) +([0-9]+|<DIR>) +(.+)#',
 		);
 
 		// Find out the format of the directory listing by matching one of the regexps
@@ -1436,6 +1457,7 @@ class FtpClient
 			{
 				$osType = $k;
 				$regexp = $v;
+
 				break;
 			}
 		}
@@ -1456,19 +1478,19 @@ class FtpClient
 
 				if (@preg_match($regexp, $file, $regs))
 				{
-					$fType = (int) strpos("-dl", $regs[1]{0});
+					$fType = (int) strpos('-dl', $regs[1][0]);
 
 					// $tmpArray['line'] = $regs[0];
-					$tmpArray['type'] = $fType;
+					$tmpArray['type']   = $fType;
 					$tmpArray['rights'] = $regs[1];
 
 					// $tmpArray['number'] = $regs[2];
-					$tmpArray['user'] = $regs[3];
+					$tmpArray['user']  = $regs[3];
 					$tmpArray['group'] = $regs[4];
-					$tmpArray['size'] = $regs[5];
-					$tmpArray['date'] = @date("m-d", strtotime($regs[6]));
-					$tmpArray['time'] = $regs[7];
-					$tmpArray['name'] = $regs[9];
+					$tmpArray['size']  = $regs[5];
+					$tmpArray['date']  = @date('m-d', strtotime($regs[6]));
+					$tmpArray['time']  = $regs[7];
+					$tmpArray['name']  = $regs[9];
 				}
 
 				// If we just want files, do not add a folder
@@ -1497,20 +1519,20 @@ class FtpClient
 
 				if (@preg_match($regexp, $file, $regs))
 				{
-					$fType = (int) ($regs[7] == '<DIR>');
+					$fType     = (int) ($regs[7] == '<DIR>');
 					$timestamp = strtotime("$regs[3]-$regs[1]-$regs[2] $regs[4]:$regs[5]$regs[6]");
 
 					// $tmpArray['line'] = $regs[0];
-					$tmpArray['type'] = $fType;
+					$tmpArray['type']   = $fType;
 					$tmpArray['rights'] = '';
 
 					// $tmpArray['number'] = 0;
-					$tmpArray['user'] = '';
+					$tmpArray['user']  = '';
 					$tmpArray['group'] = '';
-					$tmpArray['size'] = (int) $regs[7];
-					$tmpArray['date'] = date('m-d', $timestamp);
-					$tmpArray['time'] = date('H:i', $timestamp);
-					$tmpArray['name'] = $regs[8];
+					$tmpArray['size']  = (int) $regs[7];
+					$tmpArray['date']  = date('m-d', $timestamp);
+					$tmpArray['time']  = date('H:i', $timestamp);
+					$tmpArray['name']  = $regs[8];
 				}
 
 				// If we just want files, do not add a folder
@@ -1578,15 +1600,14 @@ class FtpClient
 		$parts = null;
 
 		// Wait for a response from the server, but timeout after the set time limit
-		$endTime = time() + $this->timeout;
+		$endTime        = time() + $this->timeout;
 		$this->response = '';
 
 		do
 		{
 			$this->response .= fgets($this->conn, 4096);
 		}
-
-		while (!preg_match("/^([0-9]{3})(-(.*" . CRLF . ")+\\1)? [^" . CRLF . "]+" . CRLF . "$/", $this->response, $parts) && time() < $endTime);
+		while (!preg_match('/^([0-9]{3})(-(.*' . CRLF . ')+\\1)? [^' . CRLF . ']+' . CRLF . '$/', $this->response, $parts) && time() < $endTime);
 
 		// Catch a timeout or bad response
 		if (!isset($parts[1]))
@@ -1643,7 +1664,7 @@ class FtpClient
 		$match = array();
 		$parts = array();
 		$errno = null;
-		$err = null;
+		$err   = null;
 
 		// Make sure we have a connection to the server
 		if (!\is_resource($this->conn))
@@ -1655,15 +1676,14 @@ class FtpClient
 		@ fwrite($this->conn, "PASV\r\n");
 
 		// Wait for a response from the server, but timeout after the set time limit
-		$endTime = time() + $this->timeout;
+		$endTime        = time() + $this->timeout;
 		$this->response = '';
 
 		do
 		{
 			$this->response .= fgets($this->conn, 4096);
 		}
-
-		while (!preg_match("/^([0-9]{3})(-(.*" . CRLF . ")+\\1)? [^" . CRLF . "]+" . CRLF . "$/", $this->response, $parts) && time() < $endTime);
+		while (!preg_match('/^([0-9]{3})(-(.*' . CRLF . ')+\\1)? [^' . CRLF . ']+' . CRLF . '$/', $this->response, $parts) && time() < $endTime);
 
 		// Catch a timeout or bad response
 		if (!isset($parts[1]))
@@ -1740,20 +1760,20 @@ class FtpClient
 
 			if (\in_array($ext, $this->autoAscii))
 			{
-				$mode = FTP_ASCII;
+				$mode = \FTP_ASCII;
 			}
 			else
 			{
-				$mode = FTP_BINARY;
+				$mode = \FTP_BINARY;
 			}
 		}
-		elseif ($this->type == FTP_ASCII)
+		elseif ($this->type == \FTP_ASCII)
 		{
-			$mode = FTP_ASCII;
+			$mode = \FTP_ASCII;
 		}
 		else
 		{
-			$mode = FTP_BINARY;
+			$mode = \FTP_BINARY;
 		}
 
 		return $mode;
@@ -1772,9 +1792,9 @@ class FtpClient
 	 */
 	protected function _mode($mode)
 	{
-		if ($mode == FTP_BINARY)
+		if ($mode == \FTP_BINARY)
 		{
-			if (!$this->_putCmd("TYPE I", 200))
+			if (!$this->_putCmd('TYPE I', 200))
 			{
 				throw new FilesystemException(
 					sprintf('%1$s: Bad response. Server response: %2$s [Expected: 200]. Mode sent: Binary', __METHOD__, $this->response)
@@ -1783,7 +1803,7 @@ class FtpClient
 		}
 		else
 		{
-			if (!$this->_putCmd("TYPE A", 200))
+			if (!$this->_putCmd('TYPE A', 200))
 			{
 				throw new FilesystemException(
 					sprintf('%1$s: Bad response. Server response: %2$s [Expected: 200]. Mode sent: ASCII', __METHOD__, $this->response)

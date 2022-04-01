@@ -1,7 +1,18 @@
 /**
- * @copyright	Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright	(C) 2006 Open Source Matters, Inc. <https://www.joomla.org>
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
+
+@media only screen and (min-width: 768px) {
+	#imageForm .control-group,
+	#uploadform .control-group {
+	    margin-bottom: 0;
+	}
+}
+
+#uploadform.well {
+    margin-bottom: -26px;
+}
 
 img {
 	border: 0 none;
@@ -25,14 +36,13 @@ button:hover {
 
 iframe {
 	width: 100%;
-	overflow-x: false;
 	border: 0 none;
 	margin: 0 0 0.5em 0;
 	padding: 0;
 }
 
 iframe#imageframe {
-	height: 200px;
+	height: 350px;
 }
 
 a:hover {

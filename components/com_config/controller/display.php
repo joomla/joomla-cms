@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_config
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2013 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -78,6 +78,15 @@ class ConfigControllerDisplay extends JControllerBase
 			$model     = new $modelClass;
 			$component = $model->getState()->get('component.option');
 
+			// Make sure com_joomlaupdate and com_privacy can only be accessed by SuperUser
+			if (in_array(strtolower($component), array('com_joomlaupdate', 'com_privacy'))
+				&& !JFactory::getUser()->authorise('core.admin'))
+			{
+				$this->app->enqueueMessage(JText::_('JERROR_ALERTNOAUTHOR'), 'error');
+
+				return;
+			}
+
 			// Access check.
 			if (!JFactory::getUser()->authorise('core.admin', $component)
 				&& !JFactory::getUser()->authorise('core.options', $component))
@@ -97,6 +106,7 @@ class ConfigControllerDisplay extends JControllerBase
 			// Reply for service requests
 			if ($viewFormat === 'json')
 			{
+				$this->app->allowCache(false);
 				return $view->render();
 			}
 

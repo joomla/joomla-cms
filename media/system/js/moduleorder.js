@@ -3,6 +3,7 @@
 		var $field = $('.module-ajax-ordering'),
 			$url = $field.data('url'),
 			$clientId = $field.data('client-id'),
+			$moduleId = $field.data('module-id'),
 			$element = document.getElementById($field.data('element')),
 			$linkedField = $field.data('linked-field') ? $field.data('linked-field') : 'jform_position',
 			$linkedFieldEl = $('#' + $linkedField),
@@ -19,6 +20,7 @@
 					url: $url,
 					data: {
 						"client_id": $clientId,
+						"module_id": $moduleId,
 						"position" : $originalPos
 					}
 					})
@@ -39,7 +41,11 @@
 								}
 
 								// Remove previous <select>, it will be recreated by writeDynaList()
-								$("#" + $id).remove();
+								var $previous = $("#" + $id);
+								if ($previous.data('chosen')){
+									$previous.chosen('destroy');
+								}
+								$previous.remove();
 
 								writeDynaList('name="' + $name + '" id="' + $id +'"' + $attr, $orders, $originalPos, $originalPos, $originalOrder, $element);
 

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_fields
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2016 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 defined('_JEXEC') or die;
@@ -112,6 +112,7 @@ class FieldsHelper
 		}
 
 		self::$fieldsCache->setState('filter.context', $context);
+		self::$fieldsCache->setState('filter.assigned_cat_ids', array());
 
 		/*
 		 * If item has assigned_cat_ids parameter display only fields which
@@ -193,7 +194,7 @@ class FieldsHelper
 
 					$dispatcher = JEventDispatcher::getInstance();
 
-					// Event allow plugins to modfify the output of the field before it is prepared
+					// Event allow plugins to modify the output of the field before it is prepared
 					$dispatcher->trigger('onCustomFieldsBeforePrepareField', array($context, $item, &$field));
 
 					// Gathering the value for the field
@@ -204,7 +205,7 @@ class FieldsHelper
 						$value = implode(' ', $value);
 					}
 
-					// Event allow plugins to modfify the output of the prepared field
+					// Event allow plugins to modify the output of the prepared field
 					$dispatcher->trigger('onCustomFieldsAfterPrepareField', array($context, $item, $field, &$value));
 
 					// Assign the value
@@ -335,7 +336,7 @@ class FieldsHelper
 				if (cat.val() == '" . $assignedCatids . "')return;
 				Joomla.loadingLayer('show');
 				jQuery('input[name=task]').val('" . $section . ".reload');
-				element.form.submit();
+				Joomla.submitform('" . $section . ".reload', element.form);
 			}
 			jQuery( document ).ready(function() {
 				Joomla.loadingLayer('load');
@@ -585,27 +586,6 @@ class FieldsHelper
 
 		// Display field on form
 		return true;
-	}
-
-	/**
-	 * Adds Count Items for Category Manager.
-	 *
-	 * @param   stdClass[]  &$items  The fieldgroup objects
-	 *
-	 * @return  stdClass[]
-	 *
-	 * @since   3.7.0
-	 */
-	public static function countItems(&$items)
-	{
-		$config = (object) array(
-			'related_tbl'   => 'fields',
-			'state_col'     => 'state',
-			'group_col'     => 'group_id',
-			'relation_type' => 'category_or_group',
-		);
-
-		return parent::countRelations($items, $config);
 	}
 
 	/**

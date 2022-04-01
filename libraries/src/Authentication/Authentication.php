@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2005 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -22,7 +22,8 @@ class Authentication extends \JObject
 	// Shared success status
 	/**
 	 * This is the status code returned when the authentication is success (permit login)
-	 * @const  STATUS_SUCCESS successful response
+	 *
+	 * @var    integer
 	 * @since  1.7.0
 	 */
 	const STATUS_SUCCESS = 1;
@@ -30,14 +31,16 @@ class Authentication extends \JObject
 	// These are for authentication purposes (username and password is valid)
 	/**
 	 * Status to indicate cancellation of authentication (unused)
-	 * @const  STATUS_CANCEL cancelled request (unused)
+	 *
+	 * @var    integer
 	 * @since  1.7.0
 	 */
 	const STATUS_CANCEL = 2;
 
 	/**
 	 * This is the status code returned when the authentication failed (prevent login if no success)
-	 * @const  STATUS_FAILURE failed request
+	 *
+	 * @var    integer
 	 * @since  1.7.0
 	 */
 	const STATUS_FAILURE = 4;
@@ -45,21 +48,24 @@ class Authentication extends \JObject
 	// These are for authorisation purposes (can the user login)
 	/**
 	 * This is the status code returned when the account has expired (prevent login)
-	 * @const  STATUS_EXPIRED an expired account (will prevent login)
+	 *
+	 * @var    integer
 	 * @since  1.7.0
 	 */
 	const STATUS_EXPIRED = 8;
 
 	/**
 	 * This is the status code returned when the account has been denied (prevent login)
-	 * @const  STATUS_DENIED denied request (will prevent login)
+	 *
+	 * @var    integer
 	 * @since  1.7.0
 	 */
 	const STATUS_DENIED = 16;
 
 	/**
 	 * This is the status code returned when the account doesn't exist (not an error)
-	 * @const  STATUS_UNKNOWN unknown account (won't permit or prevent login)
+	 *
+	 * @var    integer
 	 * @since  1.7.0
 	 */
 	const STATUS_UNKNOWN = 32;
@@ -270,7 +276,8 @@ class Authentication extends \JObject
 		 */
 		foreach ($plugins as $plugin)
 		{
-			$className = 'plg' . $plugin->type . $plugin->name;
+			$pluginName = $plugin->name;
+			$className = 'plg' . $plugin->type . $pluginName;
 
 			if (class_exists($className))
 			{
@@ -291,7 +298,7 @@ class Authentication extends \JObject
 			{
 				if (empty($response->type))
 				{
-					$response->type = isset($plugin->_name) ? $plugin->_name : $plugin->name;
+					$response->type = isset($plugin->_name) ? $plugin->_name : $pluginName;
 				}
 
 				break;

@@ -2,7 +2,7 @@
 /**
  * Part of the Joomla Framework String Package
  *
- * @copyright  Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -35,35 +35,35 @@ class Inflector
 	 */
 	private $rules = array(
 		'singular' => array(
-			'/(matr)ices$/i' => '\1ix',
-			'/(vert|ind)ices$/i' => '\1ex',
+			'/(matr)ices$/i'                                                          => '\1ix',
+			'/(vert|ind)ices$/i'                                                      => '\1ex',
 			'/(alumn|bacill|cact|foc|fung|nucle|radi|stimul|syllab|termin|viri?)i$/i' => '\1us',
-			'/([ftw]ax)es/i' => '\1',
-			'/(cris|ax|test)es$/i' => '\1is',
-			'/(shoe|slave)s$/i' => '\1',
-			'/(o)es$/i' => '\1',
-			'/([^aeiouy]|qu)ies$/i' => '\1y',
-			'/$1ses$/i' => '\s',
-			'/ses$/i' => '\s',
-			'/eaus$/' => 'eau',
-			'/^(.*us)$/' => '\\1',
-			'/s$/i' => '',
+			'/([ftw]ax)es/i'                                                          => '\1',
+			'/(cris|ax|test)es$/i'                                                    => '\1is',
+			'/(shoe|slave)s$/i'                                                       => '\1',
+			'/(o)es$/i'                                                               => '\1',
+			'/([^aeiouy]|qu)ies$/i'                                                   => '\1y',
+			'/$1ses$/i'                                                               => '\s',
+			'/ses$/i'                                                                 => '\s',
+			'/eaus$/'                                                                 => 'eau',
+			'/^(.*us)$/'                                                              => '\\1',
+			'/s$/i'                                                                   => '',
 		),
 		'plural' => array(
-			'/([m|l])ouse$/i' => '\1ice',
-			'/(matr|vert|ind)(ix|ex)$/i'  => '\1ices',
-			'/(x|ch|ss|sh)$/i' => '\1es',
-			'/([^aeiouy]|qu)y$/i' => '\1ies',
-			'/([^aeiouy]|qu)ies$/i' => '\1y',
-			'/(?:([^f])fe|([lr])f)$/i' => '\1\2ves',
-			'/sis$/i' => 'ses',
-			'/([ti])um$/i' => '\1a',
-			'/(buffal|tomat)o$/i' => '\1\2oes',
+			'/([m|l])ouse$/i'                                                        => '\1ice',
+			'/(matr|vert|ind)(ix|ex)$/i'                                             => '\1ices',
+			'/(x|ch|ss|sh)$/i'                                                       => '\1es',
+			'/([^aeiouy]|qu)y$/i'                                                    => '\1ies',
+			'/([^aeiouy]|qu)ies$/i'                                                  => '\1y',
+			'/(?:([^f])fe|([lr])f)$/i'                                               => '\1\2ves',
+			'/sis$/i'                                                                => 'ses',
+			'/([ti])um$/i'                                                           => '\1a',
+			'/(buffal|tomat)o$/i'                                                    => '\1\2oes',
 			'/(alumn|bacill|cact|foc|fung|nucle|radi|stimul|syllab|termin|vir)us$/i' => '\1i',
-			'/us$/i' => 'uses',
-			'/(ax|cris|test)is$/i' => '\1es',
-			'/s$/i' => 's',
-			'/$/' => 's',
+			'/us$/i'                                                                 => 'uses',
+			'/(ax|cris|test)is$/i'                                                   => '\1es',
+			'/s$/i'                                                                  => 's',
+			'/$/'                                                                    => 's',
 		),
 		'countable' => array(
 			'id',
@@ -77,7 +77,7 @@ class Inflector
 	 *
 	 * The array is in the form [singular => plural]
 	 *
-	 * @var    array
+	 * @var    string[]
 	 * @since  1.0
 	 */
 	private $cache = array();
@@ -129,11 +129,11 @@ class Inflector
 	 */
 	private function addRule($data, $ruleType)
 	{
-		if (is_string($data))
+		if (\is_string($data))
 		{
 			$data = array($data);
 		}
-		elseif (!is_array($data))
+		elseif (!\is_array($data))
 		{
 			// Do not translate.
 			throw new InvalidArgumentException('Invalid inflector rule data.');
@@ -151,7 +151,7 @@ class Inflector
 	 *
 	 * @param   string  $singular  A singular form of a word.
 	 *
-	 * @return  mixed  The cached inflection or false if none found.
+	 * @return  string|boolean  The cached inflection or false if none found.
 	 *
 	 * @since   1.0
 	 */
@@ -173,7 +173,7 @@ class Inflector
 	 *
 	 * @param   string  $plural  A plural form of a word.
 	 *
-	 * @return  mixed  The cached inflection or false if none found.
+	 * @return  string|boolean  The cached inflection or false if none found.
 	 *
 	 * @since   1.0
 	 */
@@ -193,7 +193,7 @@ class Inflector
 	 * @param   string  $word      The string input.
 	 * @param   string  $ruleType  String (eg, singular|plural)
 	 *
-	 * @return  mixed  An inflected string, or false if no rule could be applied.
+	 * @return  string|boolean  An inflected string, or false if no rule could be applied.
 	 *
 	 * @since   1.0
 	 */
@@ -202,7 +202,7 @@ class Inflector
 		// Cycle through the regex rules.
 		foreach ($this->rules[$ruleType] as $regex => $replacement)
 		{
-			$matches = 0;
+			$matches     = 0;
 			$matchedWord = preg_replace($regex, $replacement, $word, -1, $matches);
 
 			if ($matches > 0)
@@ -321,7 +321,8 @@ class Inflector
 		{
 			return new static;
 		}
-		elseif (!is_object(self::$instance))
+
+		if (!\is_object(self::$instance))
 		{
 			self::$instance = new static;
 		}
@@ -340,7 +341,7 @@ class Inflector
 	 */
 	public function isCountable($word)
 	{
-		return (boolean) in_array($word, $this->rules['countable']);
+		return \in_array($word, $this->rules['countable']);
 	}
 
 	/**
@@ -354,7 +355,7 @@ class Inflector
 	 */
 	public function isPlural($word)
 	{
-		// Try the cache for an known inflection.
+		// Try the cache for a known inflection.
 		$inflection = $this->getCachedSingular($word);
 
 		if ($inflection !== false)
@@ -384,7 +385,7 @@ class Inflector
 	 */
 	public function isSingular($word)
 	{
-		// Try the cache for an known inflection.
+		// Try the cache for a known inflection.
 		$inflection = $this->getCachedPlural($word);
 
 		if ($inflection !== false)
@@ -408,7 +409,7 @@ class Inflector
 	 *
 	 * @param   string  $word  The singular word to pluralise.
 	 *
-	 * @return  mixed  An inflected string, or false if no rule could be applied.
+	 * @return  string|boolean  An inflected string, or false if no rule could be applied.
 	 *
 	 * @since   1.0
 	 */
@@ -447,7 +448,7 @@ class Inflector
 	 *
 	 * @param   string  $word  The plural word to singularise.
 	 *
-	 * @return  mixed  An inflected string, or false if no rule could be applied.
+	 * @return  string|boolean  An inflected string, or false if no rule could be applied.
 	 *
 	 * @since   1.0
 	 */

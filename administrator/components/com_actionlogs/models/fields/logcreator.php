@@ -3,13 +3,16 @@
  * @package     Joomla.Administrator
  * @subpackage  com_actionlogs
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright   (C) 2018 Open Source Matters, Inc. <https://www.joomla.org>
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
-JFormHelper::loadFieldClass('list');
+use Joomla\CMS\Factory;
+use Joomla\CMS\Form\FormHelper;
+
+FormHelper::loadFieldClass('list');
 
 /**
  * Field to load a list of all users that have logged actions
@@ -52,17 +55,17 @@ class JFormFieldLogCreator extends JFormFieldList
 
 			$options = array();
 
-			$db = JFactory::getDbo();
+			$db = Factory::getDbo();
 
 			// Construct the query
 			$query = $db->getQuery(true)
 				->select($db->quoteName('u.id', 'value'))
-				->select($db->quoteName('u.name', 'text'))
+				->select($db->quoteName('u.username', 'text'))
 				->from($db->quoteName('#__users', 'u'))
 				->join('INNER', $db->quoteName('#__action_logs', 'c') . ' ON ' . $db->quoteName('c.user_id') . ' = ' . $db->quoteName('u.id'))
 				->group($db->quoteName('u.id'))
-				->group($db->quoteName('u.name'))
-				->order($db->quoteName('u.name'));
+				->group($db->quoteName('u.username'))
+				->order($db->quoteName('u.username'));
 
 			// Setup the query
 			$db->setQuery($query);

@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2012 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -18,20 +18,20 @@ use Joomla\CMS\Crypt\Key;
  * Crypt cipher for mcrypt algorithm encryption, decryption and key generation.
  *
  * @since       3.0.0
- * @deprecated  4.0   Without replacment use CryptoCipher
+ * @deprecated  4.0   Without replacement use SodiumCipher
  */
 abstract class McryptCipher implements CipherInterface
 {
 	/**
 	 * @var    integer  The mcrypt cipher constant.
-	 * @link   https://secure.php.net/manual/en/mcrypt.ciphers.php
+	 * @link   https://www.php.net/manual/en/mcrypt.ciphers.php
 	 * @since  3.0.0
 	 */
 	protected $type;
 
 	/**
 	 * @var    integer  The mcrypt block cipher mode.
-	 * @link   https://secure.php.net/manual/en/mcrypt.constants.php
+	 * @link   https://www.php.net/manual/en/mcrypt.constants.php
 	 * @since  3.0.0
 	 */
 	protected $mode;

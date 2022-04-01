@@ -2,11 +2,11 @@
 <metafile
 	version="3.9"
 	client="installation">
-	<name>Español (Colombia)</name>
-	<version>3.9.0</version>
-	<creationDate>2018-10-17</creationDate>
+	<name>Spanish (Colombia)</name>
+	<version>3.9.17</version>
+	<creationDate>2020-03-01</creationDate>
 	<author>jugbogota.org</author>
-	<copyright>Copyright (C) 2005 - 2018 Open Source Matters. All rights reserved.</copyright>
+	<copyright>(C) 2016 Open Source Matters, Inc.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<files>
 		<filename>es-CO.ini</filename>

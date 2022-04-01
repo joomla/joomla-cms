@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Model
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2012 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -15,7 +15,7 @@ use Joomla\Registry\Registry;
  * Joomla Platform Base Model Class
  *
  * @since       3.0.0
- * @deprecated  5.0 Use the default MVC library
+ * @deprecated  4.0 Use the default MVC library
  */
 abstract class JModelBase implements JModel
 {

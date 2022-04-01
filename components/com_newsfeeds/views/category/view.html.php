@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_newsfeeds
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2006 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -75,12 +75,14 @@ class NewsfeedsViewCategory extends JViewCategory
 		$menu = $this->menu;
 		$id = (int) @$menu->query['id'];
 
-		if ($menu && ($menu->query['option'] !== 'com_newsfeeds' || $menu->query['view'] === 'newsfeed' || $id != $this->category->id))
+		if ($menu && (!isset($menu->query['option']) || $menu->query['option'] !== 'com_newsfeeds' || $menu->query['view'] === 'newsfeed'
+			|| $id != $this->category->id))
 		{
 			$path = array(array('title' => $this->category->title, 'link' => ''));
 			$category = $this->category->getParent();
 
-			while (($menu->query['option'] !== 'com_newsfeeds' || $menu->query['view'] === 'newsfeed' || $id != $category->id) && $category->id > 1)
+			while ((!isset($menu->query['option']) || $menu->query['option'] !== 'com_newsfeeds' || $menu->query['view'] === 'newsfeed'
+				|| $id != $category->id) && $category->id > 1)
 			{
 				$path[] = array('title' => $category->title, 'link' => NewsfeedsHelperRoute::getCategoryRoute($category->id));
 				$category = $category->getParent();

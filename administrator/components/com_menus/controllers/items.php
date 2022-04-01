@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_menus
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2009 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -136,10 +136,13 @@ class MenusControllerItems extends JControllerAdmin
 		$app = JFactory::getApplication();
 
 		// Get items to publish from the request.
-		$cid   = $this->input->get('cid', array(), 'array');
+		$cid   = (array) $this->input->get('cid', array(), 'int');
 		$data  = array('setDefault' => 1, 'unsetDefault' => 0);
 		$task  = $this->getTask();
 		$value = ArrayHelper::getValue($data, $task, 0, 'int');
+
+		// Remove zero values resulting from input filter
+		$cid = array_filter($cid);
 
 		if (empty($cid))
 		{
@@ -149,9 +152,6 @@ class MenusControllerItems extends JControllerAdmin
 		{
 			// Get the model.
 			$model = $this->getModel();
-
-			// Make sure the item ids are integers
-			$cid = ArrayHelper::toInteger($cid);
 
 			// Publish the items.
 			if (!$model->setHome($cid, $value))
@@ -194,10 +194,13 @@ class MenusControllerItems extends JControllerAdmin
 		$this->checkToken();
 
 		// Get items to publish from the request.
-		$cid = JFactory::getApplication()->input->get('cid', array(), 'array');
+		$cid = (array) JFactory::getApplication()->input->get('cid', array(), 'int');
 		$data = array('publish' => 1, 'unpublish' => 0, 'trash' => -2, 'report' => -3);
 		$task = $this->getTask();
 		$value = ArrayHelper::getValue($data, $task, 0, 'int');
+
+		// Remove zero values resulting from input filter
+		$cid = array_filter($cid);
 
 		if (empty($cid))
 		{
@@ -214,9 +217,6 @@ class MenusControllerItems extends JControllerAdmin
 		{
 			// Get the model.
 			$model = $this->getModel();
-
-			// Make sure the item ids are integers
-			$cid = ArrayHelper::toInteger($cid);
 
 			// Publish the items.
 			try
@@ -275,10 +275,15 @@ class MenusControllerItems extends JControllerAdmin
 		// Check for request forgeries.
 		$this->checkToken();
 
-		$ids = JFactory::getApplication()->input->post->get('cid', array(), 'array');
+		// Read the Ids from the post data
+		$cid = (array) JFactory::getApplication()->input->post->get('cid', array(), 'int');
 
-		$model = $this->getModel();
-		$return = $model->checkin($ids);
+		// Remove zero values resulting from input filter
+		$cid = array_filter($cid);
+
+		// Run the model
+		$model  = $this->getModel();
+		$return = $model->checkin($cid);
 
 		if ($return === false)
 		{
@@ -299,7 +304,7 @@ class MenusControllerItems extends JControllerAdmin
 		else
 		{
 			// Checkin succeeded.
-			$message = JText::plural($this->text_prefix . '_N_ITEMS_CHECKED_IN', count($ids));
+			$message = JText::plural($this->text_prefix . '_N_ITEMS_CHECKED_IN', count($cid));
 			$this->setRedirect(
 				JRoute::_(
 					'index.php?option=' . $this->option . '&view=' . $this->view_list

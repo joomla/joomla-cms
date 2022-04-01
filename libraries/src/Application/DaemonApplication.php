@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2012 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -17,15 +17,15 @@ use Joomla\Registry\Registry;
 /**
  * Class to turn CliApplication applications into daemons.  It requires CLI and PCNTL support built into PHP.
  *
- * @link   https://secure.php.net/manual/en/book.pcntl.php
- * @link   https://secure.php.net/manual/en/features.commandline.php
+ * @link   https://www.php.net/manual/en/book.pcntl.php
+ * @link   https://www.php.net/manual/en/features.commandline.php
  * @since  1.7.0
  */
 class DaemonApplication extends CliApplication
 {
 	/**
 	 * @var    array  The available POSIX signals to be caught by default.
-	 * @link   https://secure.php.net/manual/pcntl.constants.php
+	 * @link   https://www.php.net/manual/pcntl.constants.php
 	 * @since  1.7.0
 	 */
 	protected static $signals = array(

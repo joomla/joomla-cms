@@ -3,11 +3,19 @@
  * @package     Joomla.Plugins
  * @subpackage  System.actionlogs
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2018 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Cache\Cache;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Form\Form;
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\CMS\User\User;
 
 /**
  * Joomla! Users Actions Logging Plugin.
@@ -53,7 +61,7 @@ class PlgSystemActionLogs extends JPlugin
 		parent::__construct($subject, $config);
 
 		// Import actionlog plugin group so that these plugins will be triggered for events
-		JPluginHelper::importPlugin('actionlog');
+		PluginHelper::importPlugin('actionlog');
 	}
 
 	/**
@@ -68,7 +76,7 @@ class PlgSystemActionLogs extends JPlugin
 	 */
 	public function onContentPrepareForm($form, $data)
 	{
-		if (!$form instanceof JForm)
+		if (!$form instanceof Form)
 		{
 			$this->subject->setError('JERROR_NOT_A_FORM');
 
@@ -93,7 +101,7 @@ class PlgSystemActionLogs extends JPlugin
 		 * who has same Super User permission
 		 */
 
-		$user = JFactory::getUser();
+		$user = Factory::getUser();
 
 		if (!$user->authorise('core.admin'))
 		{
@@ -113,12 +121,25 @@ class PlgSystemActionLogs extends JPlugin
 			$data = (object) $data;
 		}
 
-		if (empty($data->id) || !JUser::getInstance($data->id)->authorise('core.admin'))
+		if (empty($data->id) || !User::getInstance($data->id)->authorise('core.admin'))
 		{
 			return true;
 		}
 
-		JForm::addFormPath(dirname(__FILE__) . '/forms');
+		Form::addFormPath(__DIR__ . '/forms');
+
+		if ((!PluginHelper::isEnabled('actionlog', 'joomla')) && (Factory::getApplication()->isClient('administrator')))
+		{
+			$form->loadFile('information', false);
+
+			return true;
+		}
+
+		if (!PluginHelper::isEnabled('actionlog', 'joomla'))
+		{
+			return true;
+		}
+
 		$form->loadFile('actionlogs', false);
 	}
 
@@ -144,7 +165,7 @@ class PlgSystemActionLogs extends JPlugin
 			$data = (object) $data;
 		}
 
-		if (!JUser::getInstance($data->id)->authorise('core.admin'))
+		if (!User::getInstance($data->id)->authorise('core.admin'))
 		{
 			return true;
 		}
@@ -171,6 +192,16 @@ class PlgSystemActionLogs extends JPlugin
 		$data->actionlogs                       = new StdClass;
 		$data->actionlogs->actionlogsNotify     = $values->notify;
 		$data->actionlogs->actionlogsExtensions = $values->extensions;
+
+		if (!HTMLHelper::isRegistered('users.actionlogsNotify'))
+		{
+			HTMLHelper::register('users.actionlogsNotify', array(__CLASS__, 'renderActionlogsNotify'));
+		}
+
+		if (!HTMLHelper::isRegistered('users.actionlogsExtensions'))
+		{
+			HTMLHelper::register('users.actionlogsExtensions', array(__CLASS__, 'renderActionlogsExtensions'));
+		}
 
 		return true;
 	}
@@ -235,7 +266,7 @@ class PlgSystemActionLogs extends JPlugin
 		}
 		catch (Exception $exc)
 		{
-			// If we failed to execite
+			// If we failed to execute
 			$db->unlockTables();
 			$result = false;
 		}
@@ -258,7 +289,7 @@ class PlgSystemActionLogs extends JPlugin
 		}
 
 		$daysToDeleteAfter = (int) $this->params->get('logDeletePeriod', 0);
-		$now = $db->quote(JFactory::getDate()->toSql());
+		$now = $db->quote(Factory::getDate()->toSql());
 
 		if ($daysToDeleteAfter > 0)
 		{
@@ -300,7 +331,7 @@ class PlgSystemActionLogs extends JPlugin
 		}
 
 		// Clear access rights in case user groups were changed.
-		$userObject = JFactory::getUser($user['id']);
+		$userObject = new User($user['id']);
 		$userObject->clearAccessRights();
 		$authorised = $userObject->authorise('core.admin');
 
@@ -418,7 +449,7 @@ class PlgSystemActionLogs extends JPlugin
 	 */
 	private function clearCacheGroups(array $clearGroups, array $cacheClients = array(0, 1))
 	{
-		$conf = JFactory::getConfig();
+		$conf = Factory::getConfig();
 
 		foreach ($clearGroups as $group)
 		{
@@ -432,7 +463,7 @@ class PlgSystemActionLogs extends JPlugin
 							$conf->get('cache_path', JPATH_SITE . '/cache')
 					);
 
-					$cache = JCache::getInstance('callback', $options);
+					$cache = Cache::getInstance('callback', $options);
 					$cache->clean();
 				}
 				catch (Exception $e)
@@ -441,5 +472,49 @@ class PlgSystemActionLogs extends JPlugin
 				}
 			}
 		}
+	}
+
+	/**
+	 * Method to render a value.
+	 *
+	 * @param   integer|string  $value  The value (0 or 1).
+	 *
+	 * @return  string  The rendered value.
+	 *
+	 * @since   3.9.16
+	 */
+	public static function renderActionlogsNotify($value)
+	{
+		return Text::_($value ? 'JYES' : 'JNO');
+	}
+
+	/**
+	 * Method to render a list of extensions.
+	 *
+	 * @param   array|string  $extensions  Array of extensions or an empty string if none selected.
+	 *
+	 * @return  string  The rendered value.
+	 *
+	 * @since   3.9.16
+	 */
+	public static function renderActionlogsExtensions($extensions)
+	{
+		// No extensions selected.
+		if (!$extensions)
+		{
+			return Text::_('JNONE');
+		}
+
+		// Load the helper.
+		JLoader::register('ActionlogsHelper', JPATH_ADMINISTRATOR . '/components/com_actionlogs/helpers/actionlogs.php');
+
+		foreach ($extensions as &$extension)
+		{
+			// Load extension language files and translate extension name.
+			ActionlogsHelper::loadTranslationFiles($extension);
+			$extension = Text::_($extension);
+		}
+
+		return implode(', ', $extensions);
 	}
 }

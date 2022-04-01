@@ -3,13 +3,11 @@
  * @package     Joomla.Administrator
  * @subpackage  com_languages
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2009 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
-
-use Joomla\Utilities\ArrayHelper;
 
 /**
  * Languages controller Class.
@@ -43,12 +41,21 @@ class LanguagesControllerLanguages extends JControllerAdmin
 	 */
 	public function saveOrderAjax()
 	{
-		$pks   = $this->input->post->get('cid', array(), 'array');
-		$order = $this->input->post->get('order', array(), 'array');
+		// Check for request forgeries.
+		$this->checkToken();
 
-		// Sanitize the input.
-		$pks   = ArrayHelper::toInteger($pks);
-		$order = ArrayHelper::toInteger($order);
+		$pks   = (array) $this->input->post->get('cid', array(), 'int');
+		$order = (array) $this->input->post->get('order', array(), 'int');
+
+		// Remove zero PK's and corresponding order values resulting from input filter for PK
+		foreach ($pks as $i => $pk)
+		{
+			if ($pk === 0)
+			{
+				unset($pks[$i]);
+				unset($order[$i]);
+			}
+		}
 
 		// Get the model.
 		$model = $this->getModel();

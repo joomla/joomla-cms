@@ -2,12 +2,14 @@
 /**
  * Part of the Joomla Framework Archive Package
  *
- * @copyright  Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
 namespace Joomla\Archive;
 
+use Joomla\Archive\Exception\UnknownArchiveException;
+use Joomla\Archive\Exception\UnsupportedArchiveException;
 use Joomla\Filesystem\File;
 use Joomla\Filesystem\Folder;
 
@@ -44,7 +46,7 @@ class Archive
 	 */
 	public function __construct($options = array())
 	{
-		if (!is_array($options) && !($options instanceof \ArrayAccess))
+		if (!\is_array($options) && !($options instanceof \ArrayAccess))
 		{
 			throw new \InvalidArgumentException(
 				'The options param must be an array or implement the ArrayAccess interface.'
@@ -52,7 +54,7 @@ class Archive
 		}
 
 		// Make sure we have a tmp directory.
-		isset($options['tmp_path']) or $options['tmp_path'] = realpath(sys_get_temp_dir());
+		isset($options['tmp_path']) || $options['tmp_path'] = realpath(sys_get_temp_dir());
 
 		$this->options = $options;
 	}
@@ -66,22 +68,24 @@ class Archive
 	 * @return  boolean  True for success
 	 *
 	 * @since   1.0
-	 * @throws  \InvalidArgumentException
+	 * @throws  UnknownArchiveException if the archive type is not supported
 	 */
 	public function extract($archivename, $extractdir)
 	{
-		$ext = pathinfo($archivename, PATHINFO_EXTENSION);
-		$path = pathinfo($archivename, PATHINFO_DIRNAME);
-		$filename = pathinfo($archivename, PATHINFO_FILENAME);
+		$ext      = pathinfo($archivename, \PATHINFO_EXTENSION);
+		$path     = pathinfo($archivename, \PATHINFO_DIRNAME);
+		$filename = pathinfo($archivename, \PATHINFO_FILENAME);
 
-		switch ($ext)
+		switch (strtolower($ext))
 		{
 			case 'zip':
 				$result = $this->getAdapter('zip')->extract($archivename, $extractdir);
+
 				break;
 
 			case 'tar':
 				$result = $this->getAdapter('tar')->extract($archivename, $extractdir);
+
 				break;
 
 			case 'tgz':
@@ -107,7 +111,7 @@ class Archive
 				}
 				else
 				{
-					Folder::create($path);
+					Folder::create($extractdir);
 					$result = File::copy($tmpfname, $extractdir . '/' . $filename, null, 0);
 				}
 
@@ -138,7 +142,7 @@ class Archive
 				}
 				else
 				{
-					Folder::create($path);
+					Folder::create($extractdir);
 					$result = File::copy($tmpfname, $extractdir . '/' . $filename, null, 0);
 				}
 
@@ -147,7 +151,7 @@ class Archive
 				break;
 
 			default:
-				throw new \InvalidArgumentException(sprintf('Unknown archive type: %s', $ext));
+				throw new UnknownArchiveException(sprintf('Unknown archive type: %s', $ext));
 		}
 
 		return $result;
@@ -156,20 +160,20 @@ class Archive
 	/**
 	 * Method to override the provided adapter with your own implementation.
 	 *
-	 * @param   string   $type      Name of the adapter to set.
-	 * @param   string   $class     FQCN of your class which implements ExtractableInterface.
-	 * @param   boolean  $override  True to force override the adapter type.
+	 * @param   string         $type      Name of the adapter to set.
+	 * @param   string|object  $class     FQCN of your class which implements ExtractableInterface.
+	 * @param   boolean        $override  True to force override the adapter type.
 	 *
 	 * @return  Archive  This object for chaining.
 	 *
 	 * @since   1.0
-	 * @throws  \InvalidArgumentException
+	 * @throws  UnsupportedArchiveException if the adapter type is not supported
 	 */
 	public function setAdapter($type, $class, $override = true)
 	{
 		if ($override || !isset($this->adapters[$type]))
 		{
-			$error = !is_object($class) && !class_exists($class)
+			$error = !\is_object($class) && !class_exists($class)
 					? 'Archive adapter "%s" (class "%s") not found.'
 					: '';
 
@@ -183,7 +187,7 @@ class Archive
 
 			if ($error != '')
 			{
-				throw new \InvalidArgumentException(
+				throw new UnsupportedArchiveException(
 					sprintf($error, $type, $class)
 				);
 			}
@@ -202,7 +206,7 @@ class Archive
 	 * @return  ExtractableInterface  Adapter for the requested type
 	 *
 	 * @since   1.0
-	 * @throws  \InvalidArgumentException
+	 * @throws  UnsupportedArchiveException
 	 */
 	public function getAdapter($type)
 	{
@@ -211,12 +215,12 @@ class Archive
 		if (!isset($this->adapters[$type]))
 		{
 			// Try to load the adapter object
-			/* @var  ExtractableInterface  $class */
+			/** @var ExtractableInterface $class */
 			$class = 'Joomla\\Archive\\' . ucfirst($type);
 
 			if (!class_exists($class) || !$class::isSupported())
 			{
-				throw new \InvalidArgumentException(
+				throw new UnsupportedArchiveException(
 					sprintf(
 						'Archive adapter "%s" (class "%s") not found or supported.',
 						$type,

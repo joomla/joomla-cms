@@ -3,11 +3,13 @@
  * @package     Joomla.Administrator
  * @subpackage  com_messages
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2008 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Router\Route;
 
 /**
  * Private Message model.
@@ -129,6 +131,14 @@ class MessagesModelMessage extends JModelAdmin
 		{
 			if ($this->item = parent::getItem($pk))
 			{
+				// Invalid message_id returns 0
+				if ($this->item->user_id_to === '0')
+				{
+					$this->setError(JText::_('JERROR_ALERTNOAUTHOR'));
+
+					return false;
+				}
+
 				// Prime required properties.
 				if (empty($this->item->message_id))
 				{
@@ -138,7 +148,7 @@ class MessagesModelMessage extends JModelAdmin
 						// If replying to a message, preload some data.
 						$db    = $this->getDbo();
 						$query = $db->getQuery(true)
-							->select($db->quoteName(array('subject', 'user_id_from')))
+							->select($db->quoteName(array('subject', 'user_id_from', 'user_id_to')))
 							->from($db->quoteName('#__messages'))
 							->where($db->quoteName('message_id') . ' = ' . (int) $replyId);
 
@@ -153,12 +163,19 @@ class MessagesModelMessage extends JModelAdmin
 							return false;
 						}
 
+						if (!$message || $message->user_id_to != JFactory::getUser()->id)
+						{
+							$this->setError(JText::_('JERROR_ALERTNOAUTHOR'));
+
+							return false;
+						}
+
 						$this->item->set('user_id_to', $message->user_id_from);
 						$re = JText::_('COM_MESSAGES_RE');
 
 						if (stripos($message->subject, $re) !== 0)
 						{
-							$this->item->set('subject', $re . $message->subject);
+							$this->item->set('subject', $re . ' ' . $message->subject);
 						}
 					}
 				}
@@ -180,7 +197,7 @@ class MessagesModelMessage extends JModelAdmin
 				}
 			}
 
-			// Get the user name for an existing messasge.
+			// Get the user name for an existing message.
 			if ($this->item->user_id_from && $fromUser = new JUser($this->item->user_id_from))
 			{
 				$this->item->set('from_user_name', $fromUser->name);
@@ -320,6 +337,17 @@ class MessagesModelMessage extends JModelAdmin
 			return false;
 		}
 
+		// Load the user details (already valid from table check).
+		$toUser = \JUser::getInstance($table->user_id_to);
+
+		// Check if recipient can access com_messages.
+		if (!$toUser->authorise('core.login.admin') || !$toUser->authorise('core.manage', 'com_messages'))
+		{
+			$this->setError(\JText::_('COM_MESSAGES_ERROR_RECIPIENT_NOT_AUTHORISED'));
+
+			return false;
+		}
+
 		// Load the recipient user configuration.
 		$model  = JModelLegacy::getInstance('Config', 'MessagesModel', array('ignore_request' => true));
 		$model->setState('user.id', $table->user_id_to);
@@ -332,7 +360,7 @@ class MessagesModelMessage extends JModelAdmin
 			return false;
 		}
 
-		if ($config->get('locked', false))
+		if ($config->get('lock', false))
 		{
 			$this->setError(JText::_('COM_MESSAGES_ERR_SEND_FAILED'));
 
@@ -349,9 +377,7 @@ class MessagesModelMessage extends JModelAdmin
 
 		if ($config->get('mail_on_new', true))
 		{
-			// Load the user details (already valid from table check).
 			$fromUser         = JUser::getInstance($table->user_id_from);
-			$toUser           = JUser::getInstance($table->user_id_to);
 			$debug            = JFactory::getConfig()->get('debug_lang');
 			$default_language = JComponentHelper::getParams('com_languages')->get('administrator');
 			$lang             = JLanguage::getInstance($toUser->getParam('admin_language', $default_language), $debug);
@@ -359,10 +385,10 @@ class MessagesModelMessage extends JModelAdmin
 
 			// Build the email subject and message
 			$app      = JFactory::getApplication();
-			$linkMode = $app->get('force_ssl', 0) >= 1 ? 1 : -1;
+			$linkMode = $app->get('force_ssl', 0) >= 1 ? Route::TLS_FORCE : Route::TLS_IGNORE;
 			$sitename = $app->get('sitename');
 			$fromName = $fromUser->get('name');
-			$siteURL  = JRoute::link('administrator', 'index.php?option=com_messages&view=message&message_id=' . $table->message_id, false, $linkMode);
+			$siteURL  = JRoute::link('administrator', 'index.php?option=com_messages&view=message&message_id=' . $table->message_id, false, $linkMode, true);
 			$subject  = html_entity_decode($table->subject, ENT_COMPAT, 'UTF-8');
 			$message  = strip_tags(html_entity_decode($table->message, ENT_COMPAT, 'UTF-8'));
 
@@ -461,9 +487,12 @@ class MessagesModelMessage extends JModelAdmin
 			}
 
 			$query = $db->getQuery(true)
-				->select($db->quoteName('user_id'))
-				->from($db->quoteName('#__user_usergroup_map'))
-				->where($db->quoteName('group_id') . ' IN(' . implode(',', $groups) . ')');
+				->select($db->quoteName('map.user_id'))
+				->from($db->quoteName('#__user_usergroup_map', 'map'))
+				->join('LEFT', $db->quoteName('#__users', 'u') . ' ON ' . $db->quoteName('u.id') . ' = ' . $db->quoteName('map.user_id'))
+				->where($db->quoteName('map.group_id') . ' IN(' . implode(',', $groups) . ')')
+				->where($db->quoteName('u.block') . ' = 0')
+				->where($db->quoteName('u.sendEmail') . ' = 1');
 
 			$userIDs = $db->setQuery($query)->loadColumn(0);
 

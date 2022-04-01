@@ -2,7 +2,7 @@
 /**
  * @package    Joomla.UnitTest
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2013 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -47,7 +47,7 @@ class JLanguageHelperTest extends \PHPUnit\Framework\TestCase
 	{
 		$lang = JLanguageHelper::detectLanguage();
 
-		// Since we're running in a CLI context we can only check the defualt value
+		// Since we're running in a CLI context we can only check the default value
 		$this->assertNull(
 			$lang
 		);

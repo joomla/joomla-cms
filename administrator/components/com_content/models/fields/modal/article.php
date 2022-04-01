@@ -3,11 +3,11 @@
  * @package     Joomla.Administrator
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2009 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('JPATH_BASE') or die;
+defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\LanguageHelper;
 
@@ -127,55 +127,55 @@ class JFormFieldModal_Article extends JFormField
 		// Select article button
 		if ($allowSelect)
 		{
-			$html .= '<a'
+			$html .= '<button'
+				. ' type="button"'
 				. ' class="btn hasTooltip' . ($value ? ' hidden' : '') . '"'
 				. ' id="' . $this->id . '_select"'
 				. ' data-toggle="modal"'
-				. ' role="button"'
-				. ' href="#ModalSelect' . $modalId . '"'
+				. ' data-target="#ModalSelect' . $modalId . '"'
 				. ' title="' . JHtml::tooltipText('COM_CONTENT_CHANGE_ARTICLE') . '">'
 				. '<span class="icon-file" aria-hidden="true"></span> ' . JText::_('JSELECT')
-				. '</a>';
+				. '</button>';
 		}
 
 		// New article button
 		if ($allowNew)
 		{
-			$html .= '<a'
+			$html .= '<button'
+				. ' type="button"'
 				. ' class="btn hasTooltip' . ($value ? ' hidden' : '') . '"'
 				. ' id="' . $this->id . '_new"'
 				. ' data-toggle="modal"'
-				. ' role="button"'
-				. ' href="#ModalNew' . $modalId . '"'
+				. ' data-target="#ModalNew' . $modalId . '"'
 				. ' title="' . JHtml::tooltipText('COM_CONTENT_NEW_ARTICLE') . '">'
 				. '<span class="icon-new" aria-hidden="true"></span> ' . JText::_('JACTION_CREATE')
-				. '</a>';
+				. '</button>';
 		}
 
 		// Edit article button
 		if ($allowEdit)
 		{
-			$html .= '<a'
+			$html .= '<button'
+				. ' type="button"'
 				. ' class="btn hasTooltip' . ($value ? '' : ' hidden') . '"'
 				. ' id="' . $this->id . '_edit"'
 				. ' data-toggle="modal"'
-				. ' role="button"'
-				. ' href="#ModalEdit' . $modalId . '"'
+				. ' data-target="#ModalEdit' . $modalId . '"'
 				. ' title="' . JHtml::tooltipText('COM_CONTENT_EDIT_ARTICLE') . '">'
 				. '<span class="icon-edit" aria-hidden="true"></span> ' . JText::_('JACTION_EDIT')
-				. '</a>';
+				. '</button>';
 		}
 
 		// Clear article button
 		if ($allowClear)
 		{
-			$html .= '<a'
+			$html .= '<button'
+				. ' type="button"'
 				. ' class="btn' . ($value ? '' : ' hidden') . '"'
 				. ' id="' . $this->id . '_clear"'
-				. ' href="#"'
 				. ' onclick="window.processModalParent(\'' . $this->id . '\'); return false;">'
 				. '<span class="icon-remove" aria-hidden="true"></span>' . JText::_('JCLEAR')
-				. '</a>';
+				. '</button>';
 		}
 
 		// Propagate article button
@@ -210,7 +210,7 @@ class JFormFieldModal_Article extends JFormField
 					'width'       => '800px',
 					'bodyHeight'  => '70',
 					'modalWidth'  => '80',
-					'footer'      => '<a role="button" class="btn" data-dismiss="modal" aria-hidden="true">' . JText::_('JLIB_HTML_BEHAVIOR_CLOSE') . '</a>',
+					'footer'      => '<button type="button" class="btn" data-dismiss="modal">' . JText::_('JLIB_HTML_BEHAVIOR_CLOSE') . '</button>',
 				)
 			);
 		}
@@ -231,15 +231,15 @@ class JFormFieldModal_Article extends JFormField
 					'width'       => '800px',
 					'bodyHeight'  => '70',
 					'modalWidth'  => '80',
-					'footer'      => '<a role="button" class="btn" aria-hidden="true"'
+					'footer'      => '<button type="button" class="btn"'
 							. ' onclick="window.processModalEdit(this, \'' . $this->id . '\', \'add\', \'article\', \'cancel\', \'item-form\'); return false;">'
-							. JText::_('JLIB_HTML_BEHAVIOR_CLOSE') . '</a>'
-							. '<a role="button" class="btn btn-primary" aria-hidden="true"'
+							. JText::_('JLIB_HTML_BEHAVIOR_CLOSE') . '</button>'
+							. '<button type="button" class="btn btn-primary"'
 							. ' onclick="window.processModalEdit(this, \'' . $this->id . '\', \'add\', \'article\', \'save\', \'item-form\'); return false;">'
-							. JText::_('JSAVE') . '</a>'
-							. '<a role="button" class="btn btn-success" aria-hidden="true"'
+							. JText::_('JSAVE') . '</button>'
+							. '<button type="button" class="btn btn-success"'
 							. ' onclick="window.processModalEdit(this, \'' . $this->id . '\', \'add\', \'article\', \'apply\', \'item-form\'); return false;">'
-							. JText::_('JAPPLY') . '</a>',
+							. JText::_('JAPPLY') . '</button>',
 				)
 			);
 		}
@@ -260,15 +260,15 @@ class JFormFieldModal_Article extends JFormField
 					'width'       => '800px',
 					'bodyHeight'  => '70',
 					'modalWidth'  => '80',
-					'footer'      => '<a role="button" class="btn" aria-hidden="true"'
+					'footer'      => '<button type="button" class="btn"'
 							. ' onclick="window.processModalEdit(this, \'' . $this->id . '\', \'edit\', \'article\', \'cancel\', \'item-form\'); return false;">'
-							. JText::_('JLIB_HTML_BEHAVIOR_CLOSE') . '</a>'
-							. '<a role="button" class="btn btn-primary" aria-hidden="true"'
+							. JText::_('JLIB_HTML_BEHAVIOR_CLOSE') . '</button>'
+							. '<button type="button" class="btn btn-primary"'
 							. ' onclick="window.processModalEdit(this, \'' . $this->id . '\', \'edit\', \'article\', \'save\', \'item-form\'); return false;">'
-							. JText::_('JSAVE') . '</a>'
-							. '<a role="button" class="btn btn-success" aria-hidden="true"'
+							. JText::_('JSAVE') . '</button>'
+							. '<button type="button" class="btn btn-success"'
 							. ' onclick="window.processModalEdit(this, \'' . $this->id . '\', \'edit\', \'article\', \'apply\', \'item-form\'); return false;">'
-							. JText::_('JAPPLY') . '</a>',
+							. JText::_('JAPPLY') . '</button>',
 				)
 			);
 		}
@@ -277,7 +277,7 @@ class JFormFieldModal_Article extends JFormField
 		$class = $this->required ? ' class="required modal-value"' : '';
 
 		$html .= '<input type="hidden" id="' . $this->id . '_id" ' . $class . ' data-required="' . (int) $this->required . '" name="' . $this->name
-			. '" data-text="' . htmlspecialchars(JText::_('COM_CONTENT_SELECT_AN_ARTICLE', true), ENT_COMPAT, 'UTF-8') . '" value="' . $value . '" />';
+			. '" data-text="' . htmlspecialchars(JText::_('COM_CONTENT_SELECT_AN_ARTICLE'), ENT_COMPAT, 'UTF-8') . '" value="' . $value . '" />';
 
 		return $html;
 	}

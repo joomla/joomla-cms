@@ -1,7 +1,7 @@
 /**
  * @package     Joomla.Administrator
  * @subpackage  Templates.isis
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2012 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  * @since       3.0
  */
@@ -24,28 +24,36 @@ jQuery(function($)
 				$container.attr('rel', 'value_' + $select.val());
 			});
 		})
-		// Handle clicks to button groups
-		.on('click', '.btn-group label:not(.active)', function() {
-			var $label = $(this);
-			var $input = $('#' + $label.attr('for'));
+		// Handle changes to (radio) button groups
+		.on('change', '.btn-group input:radio', function () {
+			var $this = $(this);
+			var $group = $this.closest('.btn-group');
+			var name = $this.prop('name');
+			var reversed = $group.hasClass('btn-group-reversed');
 
-			if ($input.prop('checked'))
-			{
-				return;
-			}
+			$group.find('input:radio[name="' + name + '"]').each(function () {
+				var $input = $(this);
+				// Get the enclosing label
+				var $label = $input.closest('label');
+				var inputId = $input.attr('id');
+				var inputVal = $input.val();
+				var btnClass = 'primary';
 
-			$label.closest('.btn-group').find('label').removeClass('active btn-success btn-danger btn-primary');
+				// Include any additional labels for this control
+				if (inputId) {
+					$label = $label.add($('label[for="' + inputId + '"]'));
+				}
 
-			var btnClass = 'primary';
+				if ($input.prop('checked')) {
+					if (inputVal != '') {
+						btnClass = (inputVal == 0 ? !reversed : reversed) ? 'danger' : 'success';
+					}
 
-			if ($input.val() != '')
-			{
-				var reversed = $label.closest('.btn-group').hasClass('btn-group-reversed');
-				btnClass = ($input.val() == 0 ? !reversed : reversed) ? 'danger' : 'success';
-			}
-
-			$label.addClass('active btn-' + btnClass);
-			$input.prop('checked', true).trigger('change');
+					$label.addClass('active btn-' + btnClass);
+				} else {
+					$label.removeClass('active btn-success btn-danger btn-primary');
+				}
+			})
 		})
 		.on('subform-row-add', initTemplate);
 

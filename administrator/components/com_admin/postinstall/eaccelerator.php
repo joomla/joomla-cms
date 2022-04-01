@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_admin
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2013 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  *
  * This file contains post-installation message handling for eAccelerator compatibility.
@@ -73,7 +73,7 @@ function admin_postinstall_eaccelerator_action()
 		return;
 	}
 
-	// Attempt to make the file unwriteable if using FTP.
+	// Attempt to make the file unwriteable if NOT using FTP.
 	if (!$ftp['enabled'] && JPath::isOwner($file) && !JPath::setPermissions($file, '0444'))
 	{
 		JError::raiseNotice(500, JText::_('COM_CONFIG_ERROR_CONFIGURATION_PHP_NOTUNWRITABLE'));

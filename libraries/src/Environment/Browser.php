@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2005 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -577,6 +577,16 @@ class Browser
 					$this->majorVersion = $version[1];
 					$this->minorVersion = 0;
 				}
+			}
+			/*
+			 * We have to check for Edge as the first browser, because Edge has something like:
+			 * Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/75.0.3738.0 Safari/537.36 Edg/75.0.107.0
+			 */
+			elseif (preg_match('|Edg\/([0-9.]+)|', $this->agent, $version))
+			{
+				$this->setBrowser('edg');
+
+				list($this->majorVersion, $this->minorVersion) = explode('.', $version[1]);
 			}
 			elseif (preg_match('|Opera[\/ ]([0-9.]+)|', $this->agent, $version))
 			{

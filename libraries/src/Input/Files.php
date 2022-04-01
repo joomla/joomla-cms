@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2011 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -84,8 +84,8 @@ class Files extends Input
 				)
 			);
 
-			// Prevent returning an unsafe file unless speciffically requested
-			if ($filter != 'raw')
+			// Prevent returning an unsafe file unless specifically requested
+			if (strtoupper($filter) !== 'RAW')
 			{
 				$isSafe = InputFilter::isSafeFile($results);
 

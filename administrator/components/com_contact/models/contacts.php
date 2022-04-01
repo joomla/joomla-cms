@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_contact
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2008 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -214,46 +214,18 @@ class ContactModelContacts extends JModelList
 
 		if ($assoc)
 		{
-			$query->select('COUNT(' . $db->quoteName('asso2.id') . ') > 1 as ' . $db->quoteName('association'))
-				->join(
-					'LEFT',
-					$db->quoteName('#__associations', 'asso') . ' ON ' . $db->quoteName('asso.id') . ' = ' . $db->quoteName('a.id')
-					. ' AND ' . $db->quoteName('asso.context') . ' = ' . $db->quote('com_contact.item')
-				)
-				->join(
-					'LEFT',
-					$db->quoteName('#__associations', 'asso2') . ' ON ' . $db->quoteName('asso2.key') . ' = ' . $db->quoteName('asso.key')
-				)
-				->group(
-					$db->quoteName(
-						array(
-							'a.id',
-							'a.name',
-							'a.alias',
-							'a.checked_out',
-							'a.checked_out_time',
-							'a.catid',
-							'a.user_id',
-							'a.published',
-							'a.access',
-							'a.created',
-							'a.created_by',
-							'a.ordering',
-							'a.featured',
-							'a.language',
-							'a.publish_up',
-							'a.publish_down',
-							'ul.name' ,
-							'ul.email',
-							'l.title' ,
-							'l.image' ,
-							'uc.name' ,
-							'ag.title' ,
-							'c.title',
-							'c.level'
-						)
+			$subQuery = $db->getQuery(true)
+				->select('COUNT(' . $db->quoteName('asso1.id') . ') > 1')
+				->from($db->quoteName('#__associations', 'asso1'))
+				->join('INNER', $db->quoteName('#__associations', 'asso2') . ' ON ' . $db->quoteName('asso1.key') . ' = ' . $db->quoteName('asso2.key'))
+				->where(
+					array(
+						$db->quoteName('asso1.id') . ' = ' . $db->quoteName('a.id'),
+						$db->quoteName('asso1.context') . ' = ' . $db->quote('com_contact.item'),
 					)
 				);
+
+			$query->select('(' . $subQuery . ') AS ' . $db->quoteName('association'));
 		}
 
 		// Filter by access level.
@@ -279,18 +251,6 @@ class ContactModelContacts extends JModelList
 		elseif ($published === '')
 		{
 			$query->where('(' . $db->quoteName('a.published') . ' = 0 OR ' . $db->quoteName('a.published') . ' = 1)');
-		}
-
-		// Filter by a single or group of categories.
-		$categoryId = $this->getState('filter.category_id');
-
-		if (is_numeric($categoryId))
-		{
-			$query->where($db->quoteName('a.catid') . ' = ' . (int) $categoryId);
-		}
-		elseif (is_array($categoryId))
-		{
-			$query->where($db->quoteName('a.catid') . ' IN (' . implode(',', ArrayHelper::toInteger($categoryId)) . ')');
 		}
 
 		// Filter by search in name.
@@ -331,8 +291,36 @@ class ContactModelContacts extends JModelList
 				);
 		}
 
-		// Filter on the level.
-		if ($level = $this->getState('filter.level'))
+		// Filter by categories and by level
+		$categoryId = $this->getState('filter.category_id', array());
+		$level = $this->getState('filter.level');
+
+		if (!is_array($categoryId))
+		{
+			$categoryId = $categoryId ? array($categoryId) : array();
+		}
+
+		// Case: Using both categories filter and by level filter
+		if (count($categoryId))
+		{
+			$categoryId = ArrayHelper::toInteger($categoryId);
+			$categoryTable = JTable::getInstance('Category', 'JTable');
+			$subCatItemsWhere = array();
+		
+			foreach ($categoryId as $filter_catid)
+			{
+				$categoryTable->load($filter_catid);
+				$subCatItemsWhere[] = '(' .
+					($level ? 'c.level <= ' . ((int) $level + (int) $categoryTable->level - 1) . ' AND ' : '') .
+					'c.lft >= ' . (int) $categoryTable->lft . ' AND ' .
+					'c.rgt <= ' . (int) $categoryTable->rgt . ')';
+			}
+		
+			$query->where('(' . implode(' OR ', $subCatItemsWhere) . ')');
+		}
+
+		// Case: Using only the by level filter
+		elseif ($level)
 		{
 			$query->where('c.level <= ' . (int) $level);
 		}
