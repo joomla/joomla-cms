@@ -310,7 +310,7 @@ final class Version
 	{
 		/** @var CallbackController $cache */
 		$cache = Factory::getContainer()->get(CacheControllerFactoryInterface::class)
-			->createCacheController('callback', ['defaultgroup' => '_media_version']);
+			->createCacheController('callback', ['defaultgroup' => '_media_version', 'caching' => true]);
 
 		// Media version cache never expire
 		$cache->setLifeTime(INF);
