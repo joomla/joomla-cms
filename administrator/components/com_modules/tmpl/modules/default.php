@@ -45,20 +45,20 @@ $workflow_state    = false;
 
 if ($workflow_enabled) :
 
-	// @todo move the script to a file
-	$js = <<<JS
-	(function() {
-		document.addEventListener('DOMContentLoaded', function() {
-		var elements = [].slice.call(document.querySelectorAll('.module-status'));
+// @todo move the script to a file
+$js = <<<JS
+(function() {
+	document.addEventListener('DOMContentLoaded', function() {
+	var elements = [].slice.call(document.querySelectorAll('.module-status'));
 
-		elements.forEach(function (element) {
-			element.addEventListener('click', function(event) {
-				event.stopPropagation();
-			});
+	elements.forEach(function (element) {
+		element.addEventListener('click', function(event) {
+			event.stopPropagation();
 		});
-		});
-	})();
-	JS;
+	});
+	});
+})();
+JS;
 
 	/** @var \Joomla\CMS\WebAsset\WebAssetManager $wa */
 	$wa = $this->document->getWebAssetManager();
