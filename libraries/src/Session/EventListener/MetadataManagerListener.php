@@ -62,9 +62,20 @@ final class MetadataManagerListener
 	 */
 	public function onAfterSessionStart(SessionEvent $event)
 	{
-		if ($this->config->get('session_metadata', true) && $event->getSession()->has('user'))
+		// Whether to track Session Metadata
+		if (!$this->config->get('session_metadata', true) || !$event->getSession()->has('user'))
 		{
-			$this->metadataManager->createOrUpdateRecord($event->getSession(), $event->getSession()->get('user'));
+			return;
 		}
+
+		$user = $event->getSession()->get('user');
+
+		// Whether to track Session Metadata for Guest user
+		if (!$this->config->get('session_metadata_guest', false) && !$user->id)
+		{
+			return;
+		}
+
+		$this->metadataManager->createOrUpdateRecord($event->getSession(), $user);
 	}
 }
