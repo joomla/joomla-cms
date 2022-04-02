@@ -18,6 +18,7 @@ use Joomla\CMS\HTML\HTMLRegistryAwareTrait;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Workflow\WorkflowServiceInterface;
 use Joomla\CMS\Workflow\WorkflowServiceTrait;
+use Joomla\Component\Modules\Administrator\Helper\ModulesHelper;
 use Joomla\Component\Modules\Administrator\Service\HTML\Modules;
 use Psr\Container\ContainerInterface;
 
