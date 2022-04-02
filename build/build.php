@@ -87,6 +87,7 @@ function clean_checkout(string $dir)
 	system('find libraries/vendor -name UPGRADING.md | xargs rm -rf -');
 	system('find libraries/vendor -name SUMMARY.md | xargs rm -rf -');
 	system('find libraries/vendor -name .travis.yml | xargs rm -rf -');
+	system('find libraries/vendor -name .git | xargs rm -rf -');
 	system('find libraries/vendor -name .gitignore | xargs rm -rf -');
 	system('find libraries/vendor -name .gitmodules | xargs rm -rf -');
 	system('find libraries/vendor -name ISSUE_TEMPLATE | xargs rm -rf -');
@@ -102,6 +103,7 @@ function clean_checkout(string $dir)
 	system('find libraries/vendor -name .editorconfig | xargs rm -rf -');
 	system('find libraries/vendor -name appveyor.yml | xargs rm -rf -');
 	system('find libraries/vendor -name phpunit.xml.dist | xargs rm -rf -');
+	system('find libraries/vendor -name .php_cs | xargs rm -rf -');
 	system('find libraries/vendor -name .php_cs.dist | xargs rm -rf -');
 	system('find libraries/vendor -name phpcs.xsd | xargs rm -rf -');
 	system('find libraries/vendor -name phpcs.xml | xargs rm -rf -');
@@ -161,8 +163,6 @@ function clean_checkout(string $dir)
 	system('rm -rf libraries/vendor/symfony/console/Resources');
 
 	// tobscure/json-api
-	system('rm -rf libraries/vendor/tobscure/json-api/.git');
-	system('rm -rf libraries/vendor/tobscure/json-api/.php_cs');
 	system('rm -rf libraries/vendor/tobscure/json-api/tests');
 
 	// wamania/php-stemmer
