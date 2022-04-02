@@ -6384,10 +6384,6 @@ class JoomlaInstallerScript
 			'/libraries/vendor/tobscure/json-api/tests/ResourceTest.php',
 			'/libraries/vendor/tobscure/json-api/tests/UtilTest.php',
 			// From 4.1.2 to 4.1.3
-			'libraries/vendor/sebastian/code-unit-reverse-lookup/.php_cs',
-			'libraries/vendor/sebastian/object-enumerator/.php_cs',
-			'libraries/vendor/sebastian/object-reflector/.php_cs',
-			'libraries/vendor/sebastian/version/.php_cs',
 			'libraries/vendor/webmozart/assert/.php_cs',
 		);
 
