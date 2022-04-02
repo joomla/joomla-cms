@@ -68,15 +68,18 @@ class JConfig
 	public $lifetime = 15;                    // Session time
 	public $session_handler = 'database';
 	public $shared_session = false;
+	public $session_filesystem_path = '';
 	public $session_memcached_server_host = 'localhost';
 	public $session_memcached_server_port = 11211;
+	public $session_metadata = true;
+	public $session_redis_persist = 1;
+	public $session_redis_server_auth = '';
+	public $session_redis_server_db = 0;
 	public $session_redis_server_host = 'localhost';
 	public $session_redis_server_port = 6379;
-	public $session_redis_server_db = 0;
-
 
 	/* Mail Settings */
-	public $mailonline = true;
+	public $mailonline  = true;
 	public $mailer      = 'mail';
 	public $mailfrom    = '';
 	public $fromname    = '';
@@ -88,8 +91,8 @@ class JConfig
 	public $smtpuser    = '';
 	public $smtppass    = '';
 	public $smtphost    = 'localhost';
-	public $smtpsecure = 'none';
-	public $smtpport = 25;
+	public $smtpsecure  = 'none';
+	public $smtpport    = 25;
 
 	/* Cache Settings */
 	public $caching = 0;
@@ -105,6 +108,19 @@ class JConfig
 	public $redis_server_port = 6379;
 	public $redis_server_auth = '';
 	public $redis_server_db = 0;
+
+	/* Log Settings */
+	public $log_categories = '';
+	public $log_category_mode = 0;
+	public $log_deprecated = 0;
+	public $log_everything = 0;
+	public $log_priorities = array('0' => 'all');
+
+	/* CORS Settings */
+	public $cors = false;
+	public $cors_allow_headers = 'Content-Type,X-Joomla-Token';
+	public $cors_allow_methods = '';
+	public $cors_allow_origin = '*';
 
 	/* Proxy Settings */
 	public $proxy_enable = false;
@@ -142,4 +158,5 @@ class JConfig
 
 	/* Miscellaneous Settings */
 	public $asset_id = 1;
+	public $behind_loadbalancer = false;
 }
