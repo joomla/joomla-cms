@@ -245,11 +245,6 @@ class DatetimeField extends FormField
 			return '';
 		}
 
-		if (!$this->filter)
-		{
-			return $value;
-		}
-
 		$app = Factory::getApplication();
 
 		switch (strtoupper($this->filter))
