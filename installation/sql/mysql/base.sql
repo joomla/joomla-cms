@@ -1187,9 +1187,9 @@ INSERT INTO `#__workflow_transitions` (`id`, `asset_id`, `published`, `ordering`
 (5, 62, 1, 5, 1, 'Feature', '', -1, 1, '{"featuring":"1"}'),
 (6, 63, 1, 6, 1, 'Unfeature', '', -1, 1, '{"featuring":"0"}'),
 (7, 64, 1, 7, 1, 'Publish & Feature', '', -1, 1, '{"publishing":"1","featuring":"1"}'),
-(8, 92, 1, 1, 2, 'Unpublish', '', -1, 2, '{"publishing":"0"}'),
-(9, 91, 1, 2, 2, 'Publish', '', -1, 2, '{"publishing":"1"}'),
-(10, 93, 1, 3, 2, 'Trash', '', -1, 2, '{"publishing":"-2"}');
+(8, 94, 1, 1, 2, 'Unpublish', '', -1, 2, '{"publishing":"0"}'),
+(9, 93, 1, 2, 2, 'Publish', '', -1, 2, '{"publishing":"1"}'),
+(10, 95, 1, 3, 2, 'Trash', '', -1, 2, '{"publishing":"-2"}');
 
 INSERT INTO `#__workflow_associations` (`item_id`, `stage_id`, `extension`)
 SELECT `id`, 2, 'com_modules.module' FROM `#__modules`;
