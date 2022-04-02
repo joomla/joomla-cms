@@ -174,8 +174,9 @@ class DatetimeField extends FormField
 	{
 		$data = parent::getLayoutData();
 
-		$data['min'] = $this->dateMin;
-		$data['max'] = $this->dateMax;
+		$data['min']    = $this->dateMin;
+		$data['max']    = $this->dateMax;
+		$data['filter'] = $this->filter;
 
 		return $data;
 	}

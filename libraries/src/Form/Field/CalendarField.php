@@ -143,6 +143,17 @@ class CalendarField extends FormField
 	{
 		switch ($name)
 		{
+			case 'value':
+				if ($value instanceof \DateTimeInterface)
+				{
+					$this->value = $value->format('Y-m-d H:i:s');
+				}
+				else
+				{
+					$this->value = (string) $value;
+				}
+				break;
+
 			case 'maxlength':
 			case 'timeformat':
 				$this->$name = (int) $value;
