@@ -246,6 +246,7 @@
 				type="text"
 				label="COM_CONTENT_FIELD_IMAGE_CLASS_LABEL"
 				size="20"
+				useglobal="true"
 			/>
 		</fieldset>
 		<fieldset name="image-full">
@@ -281,6 +282,7 @@
 				type="text"
 				label="COM_CONTENT_FIELD_IMAGE_CLASS_LABEL"
 				size="20"
+				useglobal="true"
 			/>
 		</fieldset>
 	</fields>
