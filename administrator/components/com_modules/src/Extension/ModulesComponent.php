@@ -135,7 +135,7 @@ WorkflowServiceInterface
 	 */
 	public function filterTransitions(array $transitions, int $pk): array
 	{
-		return ModuleHelper::filterTransitions($transitions, $pk);
+		return ModulesHelper::filterTransitions($transitions, $pk);
 	}
 
 	/**
