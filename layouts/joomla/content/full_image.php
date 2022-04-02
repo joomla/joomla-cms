@@ -28,7 +28,7 @@ $layoutAttr = [
 ?>
 <figure class="<?php echo $this->escape($imgclass); ?> item-image">
 	<?php echo LayoutHelper::render('joomla.html.image', $layoutAttr); ?>
-	<?php if ($images->image_fulltext_caption !== '') : ?>
+	<?php if (isset($images->image_fulltext_caption) && $images->image_fulltext_caption !== '') : ?>
 		<figcaption class="caption"><?php echo $this->escape($images->image_fulltext_caption); ?></figcaption>
 	<?php endif; ?>
 </figure>

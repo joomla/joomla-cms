@@ -60,10 +60,6 @@ if ($saveOrder && !empty($this->items))
 	HTMLHelper::_('draggablelist.draggable');
 }
 
-/** @var \Joomla\CMS\WebAsset\WebAssetManager $wa */
-$wa = $this->document->getWebAssetManager();
-$wa->useScript('multiselect');
-
 $workflow_enabled  = ComponentHelper::getParams('com_content')->get('workflow_enabled');
 $workflow_state    = false;
 $workflow_featured = false;
