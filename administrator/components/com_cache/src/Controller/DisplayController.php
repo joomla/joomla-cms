@@ -79,7 +79,7 @@ class DisplayController extends BaseController
 		// Check for request forgeries
 		$this->checkToken();
 
-		$cid = $this->input->post->get('cid', array(), 'array');
+		$cid = (array) $this->input->post->get('cid', array(), 'string');
 
 		if (empty($cid))
 		{

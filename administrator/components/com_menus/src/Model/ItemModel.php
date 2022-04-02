@@ -732,8 +732,12 @@ class ItemModel extends AdminModel
 				$table->type = 'component';
 
 				// Ensure the integrity of the component_id field is maintained, particularly when changing the menu item type.
-				$args = array();
-				parse_str(parse_url($table->link, PHP_URL_QUERY), $args);
+				$args = [];
+
+				if ($table->link)
+				{
+					parse_str(parse_url($table->link, PHP_URL_QUERY), $args);
+				}
 
 				if (isset($args['option']))
 				{
@@ -1138,11 +1142,15 @@ class ItemModel extends AdminModel
 		// Initialise form with component view params if available.
 		if ($type == 'component')
 		{
-			$link = htmlspecialchars_decode($link);
+			$link = $link ? htmlspecialchars_decode($link) : '';
 
 			// Parse the link arguments.
-			$args = array();
-			parse_str(parse_url(htmlspecialchars_decode($link), PHP_URL_QUERY), $args);
+			$args = [];
+
+			if ($link)
+			{
+				parse_str(parse_url(htmlspecialchars_decode($link), PHP_URL_QUERY), $args);
+			}
 
 			// Confirm that the option is defined.
 			$option = '';
@@ -1418,7 +1426,7 @@ class ItemModel extends AdminModel
 	 */
 	public function save($data)
 	{
-		$pk         = (!empty($data['id'])) ? $data['id'] : (int) $this->getState('item.id');
+		$pk         = isset($data['id']) ? $data['id'] : (int) $this->getState('item.id');
 		$isNew      = true;
 		$db      = $this->getDbo();
 		$query   = $db->getQuery(true);
