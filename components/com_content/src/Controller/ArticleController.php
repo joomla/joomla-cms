@@ -367,6 +367,12 @@ class ArticleController extends FormController
 	public function save($key = null, $urlVar = 'a_id')
 	{
 		$result    = parent::save($key, $urlVar);
+
+		if (\in_array($this->getTask(), ['save2copy', 'apply'], true))
+		{
+			return $result;
+		}
+
 		$app       = Factory::getApplication();
 		$articleId = $app->input->getInt('a_id');
 
