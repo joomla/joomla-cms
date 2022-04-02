@@ -108,11 +108,11 @@ INSERT INTO `#__assets` (`id`, `parent_id`, `lft`, `rgt`, `level`, `name`, `titl
 (88, 18, 126, 127, 2, 'com_modules.module.98', 'Logged-in Users', '{}'),
 (89, 18, 128, 129, 2, 'com_modules.module.90', 'Login Support', '{}'),
 (90, 1, 173, 174, 1, 'com_scheduler', 'com_scheduler', '{}');
-(89, 18, 130, 131, 2, 'com_modules.workflow.1', 'COM_WORKFLOW_BASIC_WORKFLOW_MODULES', '{}'),
-(90, 89, 132, 133, 3, 'com_modules.state.1', 'COM_WORKFLOW_BASIC_STAGE', '{}'),
-(91, 89, 134, 135, 3, 'com_modules.transition.1', 'Publish', '{}'),
-(92, 89, 136, 137, 3, 'com_modules.transition.2', 'Unpublish', '{}'),
-(93, 89, 138, 139, 3, 'com_modules.transition.3', 'Trash', '{}');
+(91, 18, 130, 131, 2, 'com_modules.workflow.1', 'COM_WORKFLOW_BASIC_WORKFLOW_MODULES', '{}'),
+(92, 89, 132, 133, 3, 'com_modules.state.1', 'COM_WORKFLOW_BASIC_STAGE', '{}'),
+(93, 89, 134, 135, 3, 'com_modules.transition.1', 'Publish', '{}'),
+(94, 89, 136, 137, 3, 'com_modules.transition.2', 'Unpublish', '{}'),
+(95, 89, 138, 139, 3, 'com_modules.transition.3', 'Trash', '{}');
 
 -- --------------------------------------------------------
 
@@ -1095,7 +1095,7 @@ CREATE TABLE IF NOT EXISTS `#__workflows` (
 
 INSERT INTO `#__workflows` (`id`, `asset_id`, `published`, `title`, `description`, `extension`, `default`, `ordering`, `created`, `created_by`, `modified`, `modified_by`) VALUES
 (1, 56, 1, 'COM_WORKFLOW_BASIC_WORKFLOW', '', 'com_content.article', 1, 1, CURRENT_TIMESTAMP(), 42, CURRENT_TIMESTAMP(), 42),
-(2, 89, 1, 'COM_WORKFLOW_BASIC_WORKFLOW_MODULES', '', 'com_modules.module', 1, 1, CURRENT_TIMESTAMP(), 42, CURRENT_TIMESTAMP(), 42);
+(2, 91, 1, 'COM_WORKFLOW_BASIC_WORKFLOW_MODULES', '', 'com_modules.module', 1, 1, CURRENT_TIMESTAMP(), 42, CURRENT_TIMESTAMP(), 42);
 
 -- --------------------------------------------------------
 
@@ -1145,7 +1145,7 @@ CREATE TABLE IF NOT EXISTS `#__workflow_stages` (
 
 INSERT INTO `#__workflow_stages` (`id`, `asset_id`, `ordering`, `workflow_id`, `published`, `title`, `description`, `default`) VALUES
 (1, 0, 1, 1, 1, 'COM_WORKFLOW_BASIC_STAGE', '', 1),
-(2, 90, 1, 2, 1, 'COM_WORKFLOW_BASIC_STAGE', '', 1);
+(2, 92, 1, 2, 1, 'COM_WORKFLOW_BASIC_STAGE', '', 1);
 
 -- --------------------------------------------------------
 
