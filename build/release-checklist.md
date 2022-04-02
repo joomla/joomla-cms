@@ -13,7 +13,7 @@ At all stages here it is assumed you have a copy of the joomla-cms repo download
 ## Checklist (Release Candidate - Release)
 
 - [ ] Inform CMS Release Team in Glip highlighting anything that needs specific testing
-- [ ] Inform CMS Maintainence Team in Glip that branches are locked for release. You should be the only person merging code changes at this point.
+- [ ] Inform CMS Maintenance Team in Glip that branches are locked for release. You should be the only person merging code changes at this point.
 - [ ] Run build/bump.php to fix the since tags then push so other branches don't have conflicts when merging in changes.
 ```
 git checkout 3.10-dev

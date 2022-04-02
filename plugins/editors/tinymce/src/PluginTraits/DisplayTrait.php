@@ -166,17 +166,21 @@ trait DisplayTrait
 		// Check that selected skin exists.
 		$skin = Folder::exists(JPATH_ROOT . '/media/vendor/tinymce/skins/ui/' . $skin) ? $skin : 'oxide';
 
-		$langPrefix = $levelParams->get('lang_code', 'en');
-
-		if ($levelParams->get('lang_mode', 1))
+		if (!$levelParams->get('lang_mode', 1))
 		{
-			if (file_exists(JPATH_ROOT . '/media/vendor/tinymce/langs/' . $language->getTag() . (JDEBUG ? '.js' : '.min.js')))
+			// Admin selected language
+			$langPrefix = $levelParams->get('lang_code', 'en');
+		}
+		else
+		{
+			// Reflect the current language
+			if (file_exists(JPATH_ROOT . '/media/vendor/tinymce/langs/' . $language->getTag() . '.js'))
 			{
-				$langPrefix = $language->getTag() . (JDEBUG ? '' : '.min');
+				$langPrefix = $language->getTag();
 			}
-			elseif (file_exists(JPATH_ROOT . '/media/vendor/tinymce/langs/' . substr($language->getTag(), 0, strpos($language->getTag(), '-')) . (JDEBUG ? '.js' : '.min.js')))
+			elseif (file_exists(JPATH_ROOT . '/media/vendor/tinymce/langs/' . substr($language->getTag(), 0, strpos($language->getTag(), '-')) . '.js'))
 			{
-				$langPrefix = substr($language->getTag(), 0, strpos($language->getTag(), '-')) . (JDEBUG ? '' : '.min');
+				$langPrefix = substr($language->getTag(), 0, strpos($language->getTag(), '-'));
 			}
 			else
 			{
@@ -366,7 +370,7 @@ trait DisplayTrait
 		}
 
 		// Use CodeMirror in the code view instead of plain text to provide syntax highlighting
-		if ($levelParams->get('highlightPlus', 1))
+		if ($levelParams->get('sourcecode', 1))
 		{
 			$externalPlugins['highlightPlus'] = HTMLHelper::_('script', 'plg_editors_tinymce/plugins/highlighter/plugin-es5.min.js', ['relative' => true, 'version' => 'auto', 'pathOnly' => true]);
 		}
@@ -377,7 +381,7 @@ trait DisplayTrait
 		{
 			$externalPlugins['jdragndrop'] = HTMLHelper::_('script', 'plg_editors_tinymce/plugins/dragdrop/plugin.min.js', ['relative' => true, 'version' => 'auto', 'pathOnly' => true]);
 			$uploadUrl                     = Uri::base(false) . 'index.php?option=com_media&format=json&url=1&task=api.files';
-			$uploadUrl                     = $this->app->isClient('site') ? htmlentities($uploadUrl, 0, 'UTF-8', 0) : $uploadUrl;
+			$uploadUrl                     = $this->app->isClient('site') ? htmlentities($uploadUrl, ENT_NOQUOTES, 'UTF-8', false) : $uploadUrl;
 
 			Text::script('PLG_TINY_ERR_UNSUPPORTEDBROWSER');
 			Text::script('ERROR');
