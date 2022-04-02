@@ -195,6 +195,7 @@ class TimeField extends FormField
 				case 'SERVER_UTC':
 					// Convert a date to UTC based on the server timezone.
 					$value->setTimezone(new \DateTimeZone($app->get('offset')));
+
 					// Transform the date string.
 					$data['value'] = $value->format('H:i:s', true, false);
 					break;
@@ -202,6 +203,7 @@ class TimeField extends FormField
 				case 'USER_UTC':
 					// Convert a date to UTC based on the user timezone.
 					$value->setTimezone(new \DateTimeZone($app->getIdentity()->getParam('timezone', $app->get('offset'))));
+
 					// Transform the date string.
 					$data['value'] = $value->format('H:i:s', true, false);
 					break;

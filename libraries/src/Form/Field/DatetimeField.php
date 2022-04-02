@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\Form\Field;
 
-defined( '_JEXEC' ) or die('Who there?');
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Form\FormField;
 use Joomla\CMS\Factory;
@@ -86,7 +86,7 @@ class DatetimeField extends FormField
 			return false;
 		}
 
-		foreach(array('min', 'max', 'filter') as $attr)
+		foreach (array('min', 'max', 'filter') as $attr)
 		{
 			$this->__set($attr, (string) $element[$attr]);
 		}
@@ -202,6 +202,7 @@ class DatetimeField extends FormField
 				case 'SERVER_UTC':
 					// Convert a date to UTC based on the server timezone.
 					$value->setTimezone(new \DateTimeZone($app->get('offset')));
+
 					// Transform the date string.
 					$data['value'] = $value->format('Y-m-d\TH:i:s', true, false);
 					break;
@@ -209,6 +210,7 @@ class DatetimeField extends FormField
 				case 'USER_UTC':
 					// Convert a date to UTC based on the user timezone.
 					$value->setTimezone(new \DateTimeZone($app->getIdentity()->getParam('timezone', $app->get('offset'))));
+
 					// Transform the date string.
 					$data['value'] = $value->format('Y-m-d\TH:i:s', true, false);
 					break;

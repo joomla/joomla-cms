@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\Form\Field;
 
-defined( '_JEXEC' ) or die('Who there?');
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Form\FormField;
 
@@ -75,7 +75,7 @@ class DateField extends FormField
 			return false;
 		}
 
-		foreach(array('min', 'max') as $attr)
+		foreach (array('min', 'max') as $attr)
 		{
 			$this->__set($attr, (string) $element[$attr]);
 		}

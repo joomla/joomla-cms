@@ -51,6 +51,6 @@ $minAttr      = !empty($min) ? ' min="' . $this->escape($min) . '"' : '';
 $maxAttr      = !empty($max) ? ' max="' . $this->escape($max) . '"' : '';
 
 echo '<input type="date" name="' . $name . '" id="' . $id . '" value="' . $this->escape($value) . '"'
- 			. $class . $disabled . $readonly
+			. $class . $disabled . $readonly
 			. $hint . $onchange . $required . $autocomplete . $autofocus . $pattern . $minAttr . $maxAttr . ' />';
 
