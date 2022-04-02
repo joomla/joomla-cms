@@ -120,7 +120,7 @@ INSERT INTO "#__assets" ("id", "parent_id", "lft", "rgt", "level", "name", "titl
 (94, 89, 136, 137, 3, 'com_modules.transition.2', 'Unpublish', '{}'),
 (95, 89, 138, 139, 3, 'com_modules.transition.3', 'Trash', '{}');
 
-SELECT setval('#__assets_id_seq', 91, false);
+SELECT setval('#__assets_id_seq', 96, false);
 
 --
 -- Table structure for table `#__extensions`
