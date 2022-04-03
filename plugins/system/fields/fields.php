@@ -400,7 +400,7 @@ class PlgSystemFields extends CMSPlugin
 			$params = new Registry($params);
 		}
 
-		$fields = FieldsHelper::getFields($context, $item, $displayType);
+		$fields = $item->jcfields;
 
 		if ($fields)
 		{
