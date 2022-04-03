@@ -18,7 +18,9 @@ use Joomla\CMS\Router\Route;
 use Joomla\CMS\Session\Session;
 use Joomla\Component\Fields\Administrator\Helper\FieldsHelper;
 
-HTMLHelper::_('behavior.multiselect');
+/** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
+$wa = $this->document->getWebAssetManager();
+$wa->useScript('multiselect');
 
 $app       = Factory::getApplication();
 $user      = Factory::getUser();
