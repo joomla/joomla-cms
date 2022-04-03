@@ -158,7 +158,7 @@ class WebAssetManager implements WebAssetManagerInterface
 	 *
 	 * @return self
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.1.1
 	 */
 	public function reset(): WebAssetManagerInterface
 	{
