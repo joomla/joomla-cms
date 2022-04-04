@@ -213,5 +213,5 @@ class ArticlesNewsHelper
 	public static function getList(&$params)
 	{
 		return (new self)->getArticles($params, Factory::getApplication());
-    }
+	}
 }
