@@ -98,17 +98,20 @@ $postbackURL = base64_encode(rtrim(Uri::base(), '/') . '/index.php?' . Joomla::g
 	<?php endif; ?>
 
 	<table class="table table-striped">
+		<caption class="visually-hidden">
+			<?php echo Text::_('PLG_SYSTEM_WEBAUTHN_TABLE_CAPTION'); ?>,
+		</caption>
 		<thead class="table-dark">
 		<tr>
-			<th><?php echo Text::_('PLG_SYSTEM_WEBAUTHN_MANAGE_FIELD_KEYLABEL_LABEL') ?></th>
-			<th><?php echo Text::_('PLG_SYSTEM_WEBAUTHN_MANAGE_HEADER_ACTIONS_LABEL') ?></th>
+			<th scope="col"><?php echo Text::_('PLG_SYSTEM_WEBAUTHN_MANAGE_FIELD_KEYLABEL_LABEL') ?></th>
+			<th scope="col"><?php echo Text::_('PLG_SYSTEM_WEBAUTHN_MANAGE_HEADER_ACTIONS_LABEL') ?></th>
 		</tr>
 		</thead>
 		<tbody>
 		<?php // phpcs:ignore
 		foreach ($credentials as $method): ?>
 			<tr data-credential_id="<?php echo $method['id'] ?>">
-				<td><?php echo htmlentities($method['label']) ?></td>
+				<th scope="row"><?php echo htmlentities($method['label']) ?></th>
 				<td>
 					<button data-random-id="<?php echo $randomId; ?>" class="plg_system_webauthn-manage-edit btn btn-secondary">
 						<span class="icon-edit" aria-hidden="true"></span>
