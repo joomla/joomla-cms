@@ -12,6 +12,7 @@
 	<namespace path="src">Joomla\Module\ArticlesNews</namespace>
 	<files>
 		<folder module="mod_articles_news">src</folder>
+		<folder>services</folder>
 		<folder>tmpl</folder>
 	</files>
 	<languages>
