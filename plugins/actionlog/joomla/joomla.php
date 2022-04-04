@@ -1170,4 +1170,104 @@ class PlgActionlogJoomla extends ActionLogPlugin
 		);
 		$this->addLog(array($message), 'PLG_ACTIONLOG_JOOMLA_USER_UPDATE', $context, $user->id);
 	}
+
+	/**
+	 * On Task successfully execution
+	 *
+	 * Method is called after a task execute successfully.
+	 *
+	 * @param   Task  $event  The onTaskExecuteSuccess event
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function onTaskExecuteSuccess(Task $event) :void
+	{
+		$context = 'com_scheduler';
+
+		if (!$this->checkLoggable($context))
+		{
+			return;
+		}
+
+		$snapshot = $event->getContent();
+		$context = 'Scheduler';
+		$user    = Factory::getUser();
+		$message = [
+			'action'   => 'Completed',
+			'taskname' => $event->get('title'),
+			'tasklink' => 'index.php?option=com_scheduler&view=tasks&filter[search]=id:' . $event->get('id'),
+			'duration' => round($snapshot['duration'], 2),
+			'times' => $event->get('times_executed'),
+		];
+		$this->addLog([$message], 'PLG_ACTIONLOG_JOOMLA_TASK', $context, $user->id);
+	}
+
+	/**
+	 * On Task execution will resume
+	 *
+	 * Method is called after a task execute and will resume.
+	 *
+	 * @param   Task  $event  The onTaskRoutineWillResume event
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function onTaskRoutineWillResume($event)
+	{
+		$context = 'com_scheduler';
+
+		if (!$this->checkLoggable($context))
+		{
+			return;
+		}
+
+		$snapshot = $event->getContent();
+		$context  = 'Scheduler';
+		$user     = Factory::getUser();
+		$message = [
+			'action'   => 'Will Resume',
+			'taskname' => $event->get('title'),
+			'tasklink' => 'index.php?option=com_scheduler&view=tasks&filter[search]=id:' . $event->get('id'),
+			'duration' => round($snapshot['duration'], 2),
+			'times' => $event->get('times_executed'),
+		];
+		$this->addLog([$message], 'PLG_ACTIONLOG_JOOMLA_TASK_RESUME', $context, $user->id);
+	}
+
+	/**
+	 * On Task execution failure
+	 *
+	 * Method is called after a task execute unsuccessfully.
+	 *
+	 * @param   Task  $event  The onTaskExecuteFailure event
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function onTaskExecuteFailure(Task $event) :void
+	{
+		$context = 'com_scheduler';
+
+		if (!$this->checkLoggable($context))
+		{
+			return;
+		}
+
+		$snapshot = $event->getContent();
+		$context = 'Scheduler';
+		$user    = Factory::getUser();
+		$message = [
+			'action'   => 'Failure',
+			'taskname' => $event->get('title'),
+			'tasklink' => 'index.php?option=com_scheduler&view=tasks&filter[search]=id:' . $event->get('id'),
+			'duration' => round($snapshot['duration'], 2),
+			'times'    => $event->get('times_executed'),
+		];
+		$this->addLog([$message], 'PLG_ACTIONLOG_JOOMLA_TASK_FAILURE', $context, $user->id);
+	}
+
 }
