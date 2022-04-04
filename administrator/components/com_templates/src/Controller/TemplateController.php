@@ -94,7 +94,7 @@ class TemplateController extends BaseController
 		$file = $this->input->get('file');
 		$id   = $this->input->get('id');
 
-		$ids    = $this->input->get('cid', array(), 'array');
+		$ids    = (array) $this->input->get('cid', array(), 'string');
 		$values = array('publish' => 1, 'unpublish' => 0, 'deleteOverrideHistory' => -3);
 		$task   = $this->getTask();
 		$value  = ArrayHelper::getValue($values, $task, 0, 'int');
