@@ -49,14 +49,13 @@ class LogtypeField extends ListField
 
 		$extensions = $db->setQuery($query)->loadColumn();
 
-		$options = array();
-		$tmp     = array('checked' => true);
+		$options = [];
 
 		foreach ($extensions as $extension)
 		{
 			ActionlogsHelper::loadTranslationFiles($extension);
 			$option                                                                            = HTMLHelper::_('select.option', $extension, Text::_($extension));
-			$options[ApplicationHelper::stringURLSafe(Text::_($extension)) . '_' . $extension] = (object) array_merge($tmp, (array) $option);
+			$options[ApplicationHelper::stringURLSafe(Text::_($extension)) . '_' . $extension] = $option;
 		}
 
 		ksort($options);
