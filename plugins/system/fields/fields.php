@@ -433,7 +433,7 @@ class PlgSystemFields extends CMSPlugin
 				if ($fieldDisplayType == $displayType)
 				{
 					/*
-		 			* Event allow plugins to modify the output of the field before it is display
+					* Event allow plugins to modify the output of the field before it is display
 					*/
 					Factory::getApplication()->triggerEvent('onCustomFieldsBeforeDisplay', array($context, $item, &$field, $displayType, $params));
 
@@ -502,7 +502,7 @@ class PlgSystemFields extends CMSPlugin
 
 		// Adding the fields to the object
 		$item->jcfields = array();
-		
+
 		foreach ($fields as $key => $field)
 		{
 			$item->jcfields[$field->id] = $field;
