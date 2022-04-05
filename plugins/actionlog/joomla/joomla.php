@@ -1201,7 +1201,7 @@ class PlgActionlogJoomla extends ActionLogPlugin
 			'duration' => round($snapshot['duration'], 2),
 			'times' => $event->get('times_executed'),
 		];
-		$this->addLog([$message], 'PLG_ACTIONLOG_JOOMLA_TASK', $context, $user->id);
+		$this->addLog([$message], 'PLG_ACTIONLOG_JOOMLA_TASK_COMPLETED', $context, $user->id);
 	}
 
 	/**
