@@ -1195,7 +1195,7 @@ class PlgActionlogJoomla extends ActionLogPlugin
 		$context = 'Scheduler';
 		$user    = Factory::getUser();
 		$message = [
-			'action'   => 'Completed',
+			'action'   => \Joomla\CMS\Language\Text::_('PLG_ACTIONLOG_JOOMLA_TASK_SUCCESS'),
 			'taskname' => $event->get('title'),
 			'tasklink' => 'index.php?option=com_scheduler&view=tasks&filter[search]=id:' . $event->get('id'),
 			'duration' => round($snapshot['duration'], 2),
@@ -1228,7 +1228,7 @@ class PlgActionlogJoomla extends ActionLogPlugin
 		$context  = 'Scheduler';
 		$user     = Factory::getUser();
 		$message = [
-			'action'   => 'Will Resume',
+			'action'   => \Joomla\CMS\Language\Text::_('PLG_ACTIONLOG_JOOMLA_TASK_WILLRESUME'),
 			'taskname' => $event->get('title'),
 			'tasklink' => 'index.php?option=com_scheduler&view=tasks&filter[search]=id:' . $event->get('id'),
 			'duration' => round($snapshot['duration'], 2),
@@ -1261,7 +1261,7 @@ class PlgActionlogJoomla extends ActionLogPlugin
 		$context = 'Scheduler';
 		$user    = Factory::getUser();
 		$message = [
-			'action'   => 'Failure',
+			'action'   => \Joomla\CMS\Language\Text::_('PLG_ACTIONLOG_JOOMLA_TASK_KO'),
 			'taskname' => $event->get('title'),
 			'tasklink' => 'index.php?option=com_scheduler&view=tasks&filter[search]=id:' . $event->get('id'),
 			'duration' => round($snapshot['duration'], 2),
