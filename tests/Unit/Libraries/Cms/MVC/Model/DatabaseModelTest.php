@@ -19,7 +19,7 @@ use Joomla\Database\QueryInterface;
 use Joomla\Tests\Unit\UnitTestCase;
 
 /**
- * Test class for \Joomla\CMS\NVC\Model\BaseDatabaseModel
+ * Test class for \Joomla\CMS\MVC\Model\BaseDatabaseModel
  *
  * @package     Joomla.UnitTest
  * @subpackage  MVC
