@@ -235,7 +235,6 @@ class FieldsHelper
 
 					// Assign the value
 					$field->value = $value;
-					$field->content = $value;
 				}
 
 				$new[$key] = $field;
