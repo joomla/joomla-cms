@@ -607,6 +607,13 @@ class ItemModel extends AdminModel
 	{
 		// Check the session for previously entered form data, providing it has an ID and it is the same.
 		$itemData = (array) $this->getItem();
+
+		// When a new item is requested, unset the access as it will be set later from the filter
+		if (empty($itemData['id']))
+		{
+			unset($itemData['access']);
+		}
+
 		$sessionData = (array) Factory::getApplication()->getUserState('com_menus.edit.item.data', array());
 
 		// Only merge if there is a session and itemId or itemid is null.
