@@ -76,8 +76,8 @@ class TemplateModel extends FormModel
 
 		if ($this->getTemplate())
 		{
-			$path = str_replace(JPATH_ROOT . DIRECTORY_SEPARATOR . 'media' . DIRECTORY_SEPARATOR . 'templates' . DIRECTORY_SEPARATOR . ($this->template->client_id === 0 ? 'site' : 'administrator') . DIRECTORY_SEPARATOR . $this->template->element, '', $path);
-			$path = str_replace(JPATH_ROOT . DIRECTORY_SEPARATOR . ($this->template->client_id === 0 ? '' : 'administrator' . DIRECTORY_SEPARATOR) . 'templates' . DIRECTORY_SEPARATOR . $this->template->element, '', $path);
+			$path = str_replace(JPATH_ROOT . DIRECTORY_SEPARATOR . 'media' . DIRECTORY_SEPARATOR . 'templates' . DIRECTORY_SEPARATOR . ((int) $this->template->client_id === 0 ? 'site' : 'administrator') . DIRECTORY_SEPARATOR . $this->template->element, '', $path);
+			$path = str_replace(JPATH_ROOT . DIRECTORY_SEPARATOR . ((int) $this->template->client_id === 0 ? '' : 'administrator' . DIRECTORY_SEPARATOR) . 'templates' . DIRECTORY_SEPARATOR . $this->template->element, '', $path);
 			$temp->name = $name;
 			$temp->id = urlencode(base64_encode(str_replace('\\', '//', $path)));
 
@@ -450,8 +450,8 @@ class TemplateModel extends FormModel
 			{
 				if (is_dir($dir . $value))
 				{
-					$relativePath = str_replace(JPATH_ROOT . DIRECTORY_SEPARATOR . 'media' . DIRECTORY_SEPARATOR . 'templates' . DIRECTORY_SEPARATOR . ($this->template->client_id === 0 ? 'site' : 'administrator') . DIRECTORY_SEPARATOR . $this->template->element, '', $dir . $value);
-					$relativePath = str_replace(JPATH_ROOT . DIRECTORY_SEPARATOR . ($this->template->client_id === 0 ? '' : 'administrator' . DIRECTORY_SEPARATOR) .'templates' . DIRECTORY_SEPARATOR . $this->template->element, '', $relativePath);
+					$relativePath = str_replace(JPATH_ROOT . DIRECTORY_SEPARATOR . 'media' . DIRECTORY_SEPARATOR . 'templates' . DIRECTORY_SEPARATOR . ((int) $this->template->client_id === 0 ? 'site' : 'administrator') . DIRECTORY_SEPARATOR . $this->template->element, '', $dir . $value);
+					$relativePath = str_replace(JPATH_ROOT . DIRECTORY_SEPARATOR . ((int) $this->template->client_id === 0 ? '' : 'administrator' . DIRECTORY_SEPARATOR) .'templates' . DIRECTORY_SEPARATOR . $this->template->element, '', $relativePath);
 					$result[str_replace('\\', '//', $relativePath)] = $this->getDirectoryTree($dir . $value . '/');
 				}
 				else
@@ -461,8 +461,8 @@ class TemplateModel extends FormModel
 
 					if ($allowedFormat == true)
 					{
-						$relativePath = str_replace(JPATH_ROOT . DIRECTORY_SEPARATOR . 'media'. DIRECTORY_SEPARATOR . 'templates'  . DIRECTORY_SEPARATOR . ($this->template->client_id === 0 ? 'site' : 'administrator') . DIRECTORY_SEPARATOR . $this->template->element, '', $dir . $value);
-						$relativePath = str_replace(JPATH_ROOT . DIRECTORY_SEPARATOR . ($this->template->client_id === 0 ? '' : 'administrator' . DIRECTORY_SEPARATOR) . 'templates' . DIRECTORY_SEPARATOR . $this->template->element, '', $relativePath);
+						$relativePath = str_replace(JPATH_ROOT . DIRECTORY_SEPARATOR . 'media'. DIRECTORY_SEPARATOR . 'templates'  . DIRECTORY_SEPARATOR . ((int) $this->template->client_id === 0 ? 'site' : 'administrator') . DIRECTORY_SEPARATOR . $this->template->element, '', $dir . $value);
+						$relativePath = str_replace(JPATH_ROOT . DIRECTORY_SEPARATOR . ((int) $this->template->client_id === 0 ? '' : 'administrator' . DIRECTORY_SEPARATOR) . 'templates' . DIRECTORY_SEPARATOR . $this->template->element, '', $relativePath);
 						$result[] = $this->getFile($relativePath, $value);
 					}
 				}
@@ -683,7 +683,7 @@ class TemplateModel extends FormModel
 
 				if (!isset($this->template->xmldata))
 				{
-					$this->template->xmldata = TemplatesHelper::parseXMLTemplateFile($this->template->client_id === 0 ? JPATH_ROOT : JPATH_ROOT . '/administrator', $this->template->name);
+					$this->template->xmldata = TemplatesHelper::parseXMLTemplateFile((int) $this->template->client_id === 0 ? JPATH_ROOT : JPATH_ROOT . '/administrator', $this->template->name);
 				}
 			}
 		}
@@ -952,8 +952,8 @@ class TemplateModel extends FormModel
 			$fileName = str_replace('//', '/', $fileName);
 			$isMedia  = $input->getInt('isMedia', 0);
 
-			$fileName = $isMedia ? Path::clean(JPATH_ROOT . '/media/templates/' . ($this->template->client_id === 0 ? 'site' : 'administrator') . '/' . $this->template->element . $fileName)
-			: Path::clean(JPATH_ROOT . ($this->template->client_id === 0 ? '' : '/administrator') . '/templates/' . $this->template->element . $fileName);
+			$fileName = $isMedia ? Path::clean(JPATH_ROOT . '/media/templates/' . ((int) $this->template->client_id === 0 ? 'site' : 'administrator') . '/' . $this->template->element . $fileName)
+			: Path::clean(JPATH_ROOT . ((int) $this->template->client_id === 0 ? '' : '/administrator') . '/templates/' . $this->template->element . $fileName);
 
 			try
 			{
@@ -973,9 +973,9 @@ class TemplateModel extends FormModel
 				$item->source       = file_get_contents($filePath);
 				$item->filePath     = Path::clean($filePath);
 				$ds                 = DIRECTORY_SEPARATOR;
-				$cleanFileName      = str_replace(JPATH_ROOT . ($this->template->client_id === 1 ? $ds . 'administrator' . $ds : $ds) . 'templates' . $ds . $this->template->element, '', $fileName);
+				$cleanFileName      = str_replace(JPATH_ROOT . ((int) $this->template->client_id === 1 ? $ds . 'administrator' . $ds : $ds) . 'templates' . $ds . $this->template->element, '', $fileName);
 
-				if ($coreFile = $this->getCoreFile($cleanFileName, $this->template->client_id))
+				if ($coreFile = $this->getCoreFile($cleanFileName, (int) $this->template->client_id))
 				{
 					$item->coreFile = $coreFile;
 					$item->core = file_get_contents($coreFile);
@@ -1012,8 +1012,8 @@ class TemplateModel extends FormModel
 		$app      = Factory::getApplication();
 		$fileName = base64_decode($app->input->get('file'));
 		$isMedia  = $app->input->getInt('isMedia', 0);
-		$fileName = $isMedia ? JPATH_ROOT . '/media/templates/' . ($this->template->client_id === 0 ? 'site' : 'administrator') . '/' . $this->template->element . $fileName  :
-			JPATH_ROOT . '/' . ($this->template->client_id === 0 ? '' : 'administrator/') . 'templates/' . $this->template->element . $fileName;
+		$fileName = $isMedia ? JPATH_ROOT . '/media/templates/' . ((int) $this->template->client_id === 0 ? 'site' : 'administrator') . '/' . $this->template->element . $fileName  :
+			JPATH_ROOT . '/' . ((int) $this->template->client_id === 0 ? '' : 'administrator/') . 'templates/' . $this->template->element . $fileName;
 
 		$filePath = Path::clean($fileName);
 
@@ -2005,7 +2005,7 @@ class TemplateModel extends FormModel
 
 		if (!isset($template->xmldata))
 		{
-			$template->xmldata = TemplatesHelper::parseXMLTemplateFile($template->client_id === 0 ? JPATH_ROOT : JPATH_ROOT . '/administrator', $template->name);
+			$template->xmldata = TemplatesHelper::parseXMLTemplateFile((int) $template->client_id === 0 ? JPATH_ROOT : JPATH_ROOT . '/administrator', $template->name);
 		}
 
 		if (!isset($template->xmldata->inheritable) || (isset($template->xmldata->parent) && $template->xmldata->parent === ''))
@@ -2014,7 +2014,7 @@ class TemplateModel extends FormModel
 		}
 
 		$app  = Factory::getApplication();
-		$path = Path::clean(JPATH_ROOT . '/media/templates/' . ($template->client_id === 0 ? 'site' : 'administrator') . '/' . $template->element . '/');
+		$path = Path::clean(JPATH_ROOT . '/media/templates/' . ((int) $template->client_id === 0 ? 'site' : 'administrator') . '/' . $template->element . '/');
 		$this->mediaElement = $path;
 
 		if (!is_writable($path))
@@ -2042,8 +2042,8 @@ class TemplateModel extends FormModel
 		$app      = Factory::getApplication();
 		$isMedia  = $app->input->getInt('isMedia', 0);
 
-		return $isMedia ? JPATH_ROOT . '/media/templates/' . ($this->template->client_id === 0 ? 'site' : 'administrator') . '/' . $this->template->element :
-			JPATH_ROOT . '/' . ($this->template->client_id === 0 ? '' : 'administrator/') . 'templates/' . $this->template->element;
+		return $isMedia ? JPATH_ROOT . '/media/templates/' . ((int) $this->template->client_id === 0 ? 'site' : 'administrator') . '/' . $this->template->element :
+			JPATH_ROOT . '/' . ((int) $this->template->client_id === 0 ? '' : 'administrator/') . 'templates/' . $this->template->element;
 	}
 
 	/**
@@ -2165,7 +2165,7 @@ class TemplateModel extends FormModel
 		// Media folder
 		$media = $xml->addChild('media');
 		$media->addAttribute('folder', 'media');
-		$media->addAttribute('destination', 'templates/' . ($template->client_id === 0 ? 'site/' : 'administrator/') . $template->element . '_' . $newName);
+		$media->addAttribute('destination', 'templates/' . ((int) $template->client_id === 0 ? 'site/' : 'administrator/') . $template->element . '_' . $newName);
 		$media->addChild('folder', 'css');
 		$media->addChild('folder', 'js');
 		$media->addChild('folder', 'images');
