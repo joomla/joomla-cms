@@ -265,7 +265,7 @@ class PlgSystemDebug extends CMSPlugin implements SubscriberInterface
 	 */
 	public function onAfterRespond()
 	{
-		// Do not render if debugging or language debug is not enabled.
+		// Do not collect data if debugging or language debug is not enabled.
 		if (!JDEBUG && !$this->debugLang || $this->isAjax)
 		{
 			return;
