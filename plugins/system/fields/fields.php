@@ -362,7 +362,7 @@ class PlgSystemFields extends CMSPlugin
 	 *
 	 * @param   string    $context      The context
 	 * @param   stdClass  $item         The item
-	 * @param   Registry  $params       The params
+	 * @param   Registry  $params       The params component
 	 * @param   integer   $displayType  The type
 	 *
 	 * @return  string
@@ -422,6 +422,8 @@ class PlgSystemFields extends CMSPlugin
 			}
 		}
 
+		PluginHelper::importPlugin('fields');
+
 		if ($fields)
 		{
 			foreach ($fields as $key => $field)
@@ -430,6 +432,11 @@ class PlgSystemFields extends CMSPlugin
 
 				if ($fieldDisplayType == $displayType)
 				{
+					/*
+		 			* Event allow plugins to modify the output of the field before it is display
+					*/
+					Factory::getApplication()->triggerEvent('onCustomFieldsBeforeDisplay', array($context, $item, &$field, $displayType, $params));
+
 					continue;
 				}
 
@@ -495,11 +502,18 @@ class PlgSystemFields extends CMSPlugin
 
 		// Adding the fields to the object
 		$item->jcfields = array();
-
+		
 		foreach ($fields as $key => $field)
 		{
 			$item->jcfields[$field->id] = $field;
 		}
+
+		PluginHelper::importPlugin('fields');
+
+		/*
+		* Event allow plugins to modify the the fields it is with content prepare
+		*/
+		Factory::getApplication()->triggerEvent('onCustomFieldsContentPrepare', array($context, $item, &$fields));
 	}
 
 	/**
