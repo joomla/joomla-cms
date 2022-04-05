@@ -178,7 +178,7 @@ class FieldsHelper
 
 			$fieldValues = self::$fieldCache->getFieldValues($fieldIds, $item->id);
 
-			$item->jcfields = array();
+			$new = array();
 
 			foreach ($fields as $key => $original)
 			{
@@ -235,12 +235,13 @@ class FieldsHelper
 
 					// Assign the value
 					$field->value = $value;
+					$field->content = $value;
 				}
 
-				$item->jcfields[$field->id] = $field;
+				$new[$key] = $field;
 			}
 
-			$fields = $item->jcfields;
+			$fields = $new;
 		}
 
 		return $fields;
