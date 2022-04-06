@@ -56,7 +56,7 @@ class ContactsController extends AdminController
 		// Check for request forgeries
 		$this->checkToken();
 
-		$ids    = $this->input->get('cid', array(), 'array');
+		$ids    = (array) $this->input->get('cid', array(), 'int');
 		$values = array('featured' => 1, 'unfeatured' => 0);
 		$task   = $this->getTask();
 		$value  = ArrayHelper::getValue($values, $task, 0, 'int');
@@ -68,6 +68,14 @@ class ContactsController extends AdminController
 		// Access checks.
 		foreach ($ids as $i => $id)
 		{
+			// Remove zero value resulting from input filter
+			if ($id === 0)
+			{
+				unset($ids[$i]);
+
+				continue;
+			}
+
 			$item = $model->getItem($id);
 
 			if (!$this->app->getIdentity()->authorise('core.edit.state', 'com_contact.category.' . (int) $item->catid))
@@ -80,6 +88,8 @@ class ContactsController extends AdminController
 
 		if (empty($ids))
 		{
+			$message = null;
+
 			$this->app->enqueueMessage(Text::_('COM_CONTACT_NO_ITEM_SELECTED'), 'warning');
 		}
 		else
