@@ -59,7 +59,7 @@ Joomla.checkInputs = function() {
     if (!item.valid) state = false;
   });
 
-  var form = document.getElementById('adminForm');
+  const form = document.getElementById('adminForm');
 
   Promise.resolve()
       .then(() => {
