@@ -40,7 +40,7 @@ trait CurrentUserTrait
 		{
 			@trigger_error(sprintf('The current user must be set on %s. This will not be catched in 5.0.', __CLASS__), E_USER_DEPRECATED);
 
-			$this->currentUser = Factory::getApplication()->getIdentity() ?: new User();
+			$this->currentUser = Factory::getApplication()->getIdentity() ?: new User;
 		}
 
 		return $this->currentUser;
