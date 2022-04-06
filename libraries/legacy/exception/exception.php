@@ -27,24 +27,6 @@ class JException extends Exception
 	protected $level = null;
 
 	/**
-	 * Error code.
-	 *
-	 * @var    string
-	 * @since  1.5
-	 * @deprecated  1.7
-	 */
-	protected $code = null;
-
-	/**
-	 * Error message.
-	 *
-	 * @var    string
-	 * @since  1.5
-	 * @deprecated  1.7
-	 */
-	protected $message = null;
-
-	/**
 	 * Additional info about the error relevant to the developer,
 	 * for example, if a database connect fails, the dsn used
 	 *
@@ -53,24 +35,6 @@ class JException extends Exception
 	 * @deprecated  1.7
 	 */
 	protected $info = '';
-
-	/**
-	 * Name of the file the error occurred in [Available if backtrace is enabled]
-	 *
-	 * @var    string
-	 * @since  1.5
-	 * @deprecated  1.7
-	 */
-	protected $file = null;
-
-	/**
-	 * Line number the error occurred in [Available if backtrace is enabled]
-	 *
-	 * @var    integer
-	 * @since  1.5
-	 * @deprecated  1.7
-	 */
-	protected $line = 0;
 
 	/**
 	 * Name of the method the error occurred in [Available if backtrace is enabled]

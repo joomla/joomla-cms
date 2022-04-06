@@ -105,6 +105,7 @@ Desktop.ini
 /libraries/vendor/joomla/*/vendor
 /libraries/vendor/joomla/*/.scrutinizer.yml
 /libraries/vendor/joomla/*/.travis.yml
+/libraries/vendor/joomla/*/.mono
 /libraries/vendor/joomla/*/CONTRIBUTING.md
 /libraries/vendor/joomla/*/composer.json
 /libraries/vendor/joomla/*/phpunit.xml.dist

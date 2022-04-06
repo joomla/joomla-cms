@@ -2054,6 +2054,10 @@ class JoomlaInstallerScript
 			// Joomla 3.10.0
 			'/libraries/joomla/base/adapter.php',
 			'/libraries/joomla/base/adapterinstance.php',
+
+			// Joomla 3.10.7-rc1 to 3.10.7 stable
+			'/administrator/components/com_admin/sql/updates/postgresql/3.10.7-2022-02-20.sql.sql',
+			'/administrator/components/com_admin/sql/updates/sqlazure/3.10.7-2022-02-20.sql.sql',
 		);
 
 		// TODO There is an issue while deleting folders using the ftp mode
@@ -2296,6 +2300,8 @@ class JoomlaInstallerScript
 			'/libraries/joomla/filesystem',
 			// Joomla 3.10.0
 			'/libraries/joomla/base',
+			// Joomla 3.10.8
+			'/administrator/components/com_users/models/fields/primaryauthproviders.php',
 		);
 
 		jimport('joomla.filesystem.file');

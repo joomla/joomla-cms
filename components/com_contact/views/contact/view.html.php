@@ -340,7 +340,7 @@ class ContactViewContact extends JViewLegacy
 		}
 
 		// Escape strings for HTML output
-		$this->pageclass_sfx = htmlspecialchars($item->params->get('pageclass_sfx'));
+		$this->pageclass_sfx = htmlspecialchars($item->params->get('pageclass_sfx', ''));
 
 		$this->contact     = &$item;
 		$this->params      = &$item->params;

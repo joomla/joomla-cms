@@ -147,7 +147,10 @@ abstract class Folder
 
 							if (!$stream->copy($sfid, $dfid))
 							{
-								throw new \RuntimeException('Cannot copy file: ' . $stream->getError(), -1);
+								throw new \RuntimeException(
+									'Cannot copy file: ' . Path::removeRoot($stream->getError()),
+									-1
+								);
 							}
 						}
 						else

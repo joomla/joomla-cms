@@ -117,7 +117,7 @@ class Patcher
 	}
 
 	/**
-	 * Reset the pacher
+	 * Reset the patcher
 	 *
 	 * @return  Patcher  This object for chaining
 	 *
@@ -470,7 +470,9 @@ class Patcher
 
 					if (!isset($srcLines))
 					{
-						throw new \RuntimeException('Unexisting source file: ' . $src);
+						throw new \RuntimeException(
+							'Unexisting source file: ' . Path::removeRoot($src)
+						);
 					}
 				}
 
@@ -485,7 +487,13 @@ class Patcher
 						{
 							if ($srcLines[$l] != $source[$l - $srcLine])
 							{
-								throw new \RuntimeException(sprintf('Failed source verification of file %1$s at line %2$s', $src, $l));
+								throw new \RuntimeException(
+									sprintf(
+										'Failed source verification of file %1$s at line %2$s',
+										Path::removeRoot($src),
+										$l
+									)
+								);
 							}
 						}
 
