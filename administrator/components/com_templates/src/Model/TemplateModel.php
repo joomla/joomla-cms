@@ -681,7 +681,7 @@ class TemplateModel extends FormModel
 			{
 				$this->template = $result;
 
-				// Client ID is on PDO mySQL not an iteger, so enforce here
+				// Client ID is on PDO mySQL not an integer, so enforce here
 				$this->template->client_id = (int) $this->template->client_id;
 
 				if (!isset($this->template->xmldata))
