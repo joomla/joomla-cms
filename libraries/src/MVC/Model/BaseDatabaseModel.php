@@ -22,6 +22,8 @@ use Joomla\CMS\MVC\Factory\MVCFactoryAwareTrait;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Factory\MVCFactoryServiceInterface;
 use Joomla\CMS\Table\Table;
+use Joomla\CMS\User\CurrentUserInterface;
+use Joomla\CMS\User\CurrentUserTrait;
 use Joomla\Database\DatabaseQuery;
 use Joomla\Event\DispatcherAwareInterface;
 use Joomla\Event\DispatcherAwareTrait;
@@ -36,9 +38,9 @@ use Joomla\Event\EventInterface;
  *
  * @since  2.5.5
  */
-abstract class BaseDatabaseModel extends BaseModel implements DatabaseModelInterface, DispatcherAwareInterface
+abstract class BaseDatabaseModel extends BaseModel implements DatabaseModelInterface, DispatcherAwareInterface, CurrentUserInterface
 {
-	use DatabaseAwareTrait, MVCFactoryAwareTrait, DispatcherAwareTrait;
+	use DatabaseAwareTrait, MVCFactoryAwareTrait, DispatcherAwareTrait, CurrentUserTrait;
 
 	/**
 	 * The URL option for the component.
@@ -263,7 +265,7 @@ abstract class BaseDatabaseModel extends BaseModel implements DatabaseModelInter
 		$table = $this->getTable();
 		$checkedOutField = $table->getColumnAlias('checked_out');
 
-		if (property_exists($item, $checkedOutField) && $item->{$checkedOutField} != Factory::getUser()->id)
+		if (property_exists($item, $checkedOutField) && $item->{$checkedOutField} != $this->getCurrentUser()->id)
 		{
 			return true;
 		}

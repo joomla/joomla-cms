@@ -24,6 +24,7 @@ use Joomla\CMS\MVC\Model\BaseModel;
 use Joomla\CMS\MVC\View\ViewInterface;
 use Joomla\CMS\Session\Session;
 use Joomla\CMS\Uri\Uri;
+use Joomla\CMS\User\CurrentUserInterface;
 use Joomla\Event\DispatcherAwareInterface;
 use Joomla\Event\DispatcherAwareTrait;
 use Joomla\Input\Input;
@@ -594,6 +595,11 @@ class BaseController implements ControllerInterface, DispatcherAwareInterface
 			return false;
 		}
 
+		if ($model instanceof CurrentUserInterface)
+		{
+			$model->setCurrentUser($this->app->getIdentity());
+		}
+
 		return $model;
 	}
 
@@ -619,7 +625,14 @@ class BaseController implements ControllerInterface, DispatcherAwareInterface
 	{
 		$config['paths'] = $this->paths['view'];
 
-		return $this->factory->createView($name, $prefix, $type, $config);
+		$view = $this->factory->createView($name, $prefix, $type, $config);
+
+		if ($view instanceof CurrentUserInterface)
+		{
+			$view->setCurrentUser($this->app->getIdentity());
+		}
+
+		return $view;
 	}
 
 	/**
