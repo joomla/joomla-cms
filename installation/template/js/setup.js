@@ -91,7 +91,7 @@ Joomla.checkInputs = function() {
 Joomla.checkDbCredentials = (form) => {
   document.body.appendChild(document.createElement('joomla-core-loader'));
 
-  var fetchData = {
+  const fetchData = {
     method: 'POST',
     body: Joomla.serialiseForm(form),
     headers: new Headers({'Content-Type': 'application/x-www-form-urlencoded'}),
