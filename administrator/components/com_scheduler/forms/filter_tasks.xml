@@ -58,6 +58,8 @@
 			<option value="a.title DESC">JGLOBAL_TITLE_DESC</option>
 			<option value="j.type_title ASC">COM_SCHEDULER_TASK_TYPE_ASC</option>
 			<option value="j.type_title DESC">COM_SCHEDULER_TASK_TYPE_DESC</option>
+			<option value="a.last_execution ASC">COM_SCHEDULER_LAST_RUN_ASC</option>
+			<option value="a.last_execution DESC">COM_SCHEDULER_LAST_RUN_DESC</option>
 			<option value="a.priority ASC">COM_SCHEDULER_TASK_PRIORITY_ASC</option>
 			<option value="a.priority DESC">COM_SCHEDULER_TASK_PRIORITY_DESC</option>
 			<option value="a.id ASC">JGRID_HEADING_ID_ASC</option>
