@@ -595,7 +595,7 @@ class BaseController implements ControllerInterface, DispatcherAwareInterface
 			return false;
 		}
 
-		if ($model instanceof CurrentUserInterface)
+		if ($model instanceof CurrentUserInterface && $this->app->getIdentity())
 		{
 			$model->setCurrentUser($this->app->getIdentity());
 		}
@@ -627,7 +627,7 @@ class BaseController implements ControllerInterface, DispatcherAwareInterface
 
 		$view = $this->factory->createView($name, $prefix, $type, $config);
 
-		if ($view instanceof CurrentUserInterface)
+		if ($view instanceof CurrentUserInterface && $this->app->getIdentity())
 		{
 			$view->setCurrentUser($this->app->getIdentity());
 		}
