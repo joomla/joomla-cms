@@ -13,7 +13,7 @@ namespace Joomla\CMS\User;
 use Joomla\CMS\Factory;
 
 /**
- * Trait for classes which require a user to work with
+ * Trait for classes which require a user to work with.
  *
  * @since  __DEPLOY_VERSION__
  */
@@ -28,13 +28,13 @@ trait CurrentUserTrait
 	private $currentUser;
 
 	/**
-	 * Get the application identity.
+	 * Returns the current user, if none is set an object with id 0 is returned.
 	 *
 	 * @return  User
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function getCurrentUser()
+	public function getCurrentUser(): User
 	{
 		if (!$this->currentUser)
 		{
