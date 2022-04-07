@@ -607,6 +607,13 @@ class ItemModel extends AdminModel
 	{
 		// Check the session for previously entered form data, providing it has an ID and it is the same.
 		$itemData = (array) $this->getItem();
+
+		// When a new item is requested, unset the access as it will be set later from the filter
+		if (empty($itemData['id']))
+		{
+			unset($itemData['access']);
+		}
+
 		$sessionData = (array) Factory::getApplication()->getUserState('com_menus.edit.item.data', array());
 
 		// Only merge if there is a session and itemId or itemid is null.
@@ -621,14 +628,14 @@ class ItemModel extends AdminModel
 		}
 
 		// For a new menu item, pre-select some filters (Status, Language, Access) in edit form if those have been selected in Menu Manager
-		if ($this->getItem()->id == 0)
+		if (empty($data['id']))
 		{
 			// Get selected fields
 			$filters = Factory::getApplication()->getUserState('com_menus.items.filter');
-			$data['parent_id'] = (isset($filters['parent_id']) ? $filters['parent_id'] : null);
-			$data['published'] = (isset($filters['published']) ? $filters['published'] : null);
-			$data['language'] = (isset($filters['language']) ? $filters['language'] : null);
-			$data['access'] = (!empty($filters['access']) ? $filters['access'] : Factory::getApplication()->get('access'));
+			$data['parent_id'] = $data['parent_id'] ?? ($filters['parent_id'] ?? null);
+			$data['published'] = $data['published'] ?? ($filters['published'] ?? null);
+			$data['language']  = $data['language'] ?? ($filters['language'] ?? null);
+			$data['access']    = $data['access'] ?? ($filters['access'] ?? Factory::getApplication()->get('access'));
 		}
 
 		if (isset($data['menutype']) && !$this->getState('item.menutypeid'))
