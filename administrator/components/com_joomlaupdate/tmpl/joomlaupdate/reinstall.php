@@ -46,7 +46,7 @@ if (isset($this->updateInfo['object']) && isset($this->updateInfo['object']->get
 endif;
 
 if (Factory::getApplication()->getIdentity()->authorise('core.admin', 'com_joomlaupdate')) :
-	$displayData['formAppend'] = '<div class="text-center">' . HTMLHelper::_('link', $uploadLink, Text::_('COM_JOOMLAUPDATE_EMPTYSTATE_APPEND')) . '</div>';
+	$displayData['formAppend'] = '<div class="text-center text-decoration-underline">' . HTMLHelper::_('link', $uploadLink, Text::_('COM_JOOMLAUPDATE_EMPTYSTATE_APPEND')) . '</div>';
 endif;
 
 echo '<div id="joomlaupdate-wrapper">';
