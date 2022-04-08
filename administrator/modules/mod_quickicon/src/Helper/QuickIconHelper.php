@@ -275,6 +275,17 @@ class QuickIconHelper
 				];
 			}
 
+			if ($params->get('show_scheduler'))
+			{
+				$this->buttons[$key][] = [
+					'image'  => 'icon-clock',
+					'link'   => Route::_('index.php?option=com_scheduler'),
+					'name'   => 'MOD_QUICKICON_SCHEDULER',
+					'access' => array('core.manage', 'com_config', 'core.admin', 'com_scheduler'),
+					'group'  => 'MOD_QUICKICON_SYSTEM',
+				];
+			}
+
 			PluginHelper::importPlugin('quickicon');
 
 			$arrays = (array) $application->triggerEvent(
