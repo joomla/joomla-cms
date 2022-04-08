@@ -805,6 +805,7 @@ abstract class Factory
 	 *
 	 * @see     Stream
 	 * @since   1.7.0
+	 * @deprecated  5.0 Use the native PHP streams or build one from the framework package
 	 */
 	public static function getStream($usePrefix = true, $useNetwork = true, $userAgentSuffix = 'Joomla', $maskUserAgent = false)
 	{

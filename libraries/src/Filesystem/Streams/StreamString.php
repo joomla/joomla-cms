@@ -19,6 +19,8 @@ use Joomla\CMS\Filesystem\Support\StringController;
  * you would normally use a regular stream wrapper
  *
  * @since  1.7.0
+ *
+ * @deprecated  5.0 Use the filesystem package from the framework
  */
 class StreamString
 {

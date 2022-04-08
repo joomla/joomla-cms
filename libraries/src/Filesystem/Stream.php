@@ -27,6 +27,8 @@ use Joomla\CMS\Object\CMSObject;
  * @link   https://www.php.net/manual/en/filters.php Stream Filters
  * @link   https://www.php.net/manual/en/transports.php Socket Transports (used by some options, particularly HTTP proxy)
  * @since  1.7.0
+ *
+ * @deprecated  5.0 Use the filesystem package from the framework
  */
 class Stream extends CMSObject
 {

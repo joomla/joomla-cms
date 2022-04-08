@@ -22,6 +22,8 @@ if (!\defined('JPATH_ROOT'))
  * A Path handling class
  *
  * @since  1.7.0
+ *
+ * @deprecated  5.0 Use the filesystem package from the framework
  */
 class Path
 {

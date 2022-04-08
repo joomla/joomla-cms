@@ -16,6 +16,8 @@ use Joomla\CMS\Factory;
  * Client helper class
  *
  * @since  1.7.0
+ *
+ * @deprecated  5.0 No replacement
  */
 class ClientHelper
 {

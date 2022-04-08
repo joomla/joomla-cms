@@ -21,6 +21,8 @@ use Joomla\CMS\Log\Log;
  * A File handling class
  *
  * @since  1.7.0
+ *
+ * @deprecated  5.0 Use the filesystem package from the framework
  */
 class File
 {

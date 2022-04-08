@@ -14,6 +14,8 @@ namespace Joomla\CMS\Filesystem\Support;
  * String Controller
  *
  * @since  1.7.0
+ *
+ * @deprecated  5.0 Use the filesystem package from the framework
  */
 class StringController
 {

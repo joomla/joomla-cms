@@ -85,6 +85,8 @@ if (!\defined('FTP_NATIVE'))
  * FTP client class
  *
  * @since  1.5
+ *
+ * @deprecated  5.0 Use the filesystem package from the framework
  */
 class FtpClient
 {

@@ -17,6 +17,8 @@ use Joomla\CMS\Language\Text;
  *
  * @link   http://sourceforge.net/projects/phppatcher/ This has been derived from the PhpPatcher version 0.1.1 written by Giuseppe Mazzotta
  * @since  3.0.0
+ *
+ * @deprecated  5.0 Use the filesystem package from the framework
  */
 class Patcher
 {

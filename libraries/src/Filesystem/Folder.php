@@ -20,6 +20,8 @@ use Joomla\CMS\Log\Log;
  * A Folder handling class
  *
  * @since  1.7.0
+ *
+ * @deprecated  5.0 Use the filesystem package from the framework
  */
 abstract class Folder
 {
