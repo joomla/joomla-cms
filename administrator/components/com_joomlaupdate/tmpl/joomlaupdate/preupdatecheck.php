@@ -353,7 +353,7 @@ if (version_compare($this->updateInfo['latest'], Version::MAJOR_VERSION + 1, '>=
 
 	<?php if (Factory::getUser()->authorise('core.admin')) : ?>
 		<div class="text-center">
-			<a href="<?php echo Route::_('index.php?option=com_joomlaupdate&view=upload'); ?>" class="btn btn-sm btn-outline-secondary mx-auto">
+			<a href="<?php echo Route::_('index.php?option=com_joomlaupdate&view=upload'); ?>" class="btn btn-sm btn-outline-secondary">
 				<?php echo Text::_('COM_JOOMLAUPDATE_UPLOAD_AND_UPDATE'); ?>
 			</a>
 		</div>

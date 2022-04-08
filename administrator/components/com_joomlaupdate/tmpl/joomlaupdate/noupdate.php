@@ -28,7 +28,7 @@ $displayData = [
 
 if (Factory::getApplication()->getIdentity()->authorise('core.admin', 'com_joomlaupdate'))
 {
-	$displayData['formAppend'] = '<div class="text-center"><a href="' . $uploadLink . '" class="btn btn-sm btn-outline-secondary mx-auto">' . Text::_('COM_JOOMLAUPDATE_UPLOAD_AND_UPDATE') . '</a></div>';
+	$displayData['formAppend'] = '<div class="text-center"><a href="' . $uploadLink . '" class="btn btn-sm btn-outline-secondary">' . Text::_('COM_JOOMLAUPDATE_UPLOAD_AND_UPDATE') . '</a></div>';
 }
 
 if (isset($this->updateInfo['object']) && isset($this->updateInfo['object']->get('infourl')->_data)) :
