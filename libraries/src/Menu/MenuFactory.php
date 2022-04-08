@@ -10,6 +10,8 @@ namespace Joomla\CMS\Menu;
 
 \defined('_JEXEC') or die;
 
+use Joomla\CMS\Cache\CacheControllerFactoryAwareInterface;
+use Joomla\CMS\Cache\CacheControllerFactoryAwareTrait;
 use Joomla\CMS\Language\Text;
 
 /**
@@ -19,6 +21,8 @@ use Joomla\CMS\Language\Text;
  */
 class MenuFactory implements MenuFactoryInterface
 {
+	use CacheControllerFactoryAwareTrait;
+
 	/**
 	 * Creates a new Menu object for the requested format.
 	 *
@@ -40,6 +44,13 @@ class MenuFactory implements MenuFactoryInterface
 			throw new \InvalidArgumentException(Text::sprintf('JLIB_APPLICATION_ERROR_MENU_LOAD', $client), 500);
 		}
 
-		return new $classname($options);
+		$instance = new $classname($options);
+
+		if ($instance instanceof CacheControllerFactoryAwareInterface)
+		{
+			$instance->setCacheControllerFactory($this->getCacheControllerFactory());
+		}
+
+		return $instance;
 	}
 }

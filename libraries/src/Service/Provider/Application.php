@@ -14,6 +14,7 @@ use Joomla\CMS\Application\AdministratorApplication;
 use Joomla\CMS\Application\ApiApplication;
 use Joomla\CMS\Application\ConsoleApplication;
 use Joomla\CMS\Application\SiteApplication;
+use Joomla\CMS\Cache\CacheControllerFactoryInterface;
 use Joomla\CMS\Console\CheckJoomlaUpdatesCommand;
 use Joomla\CMS\Console\ExtensionDiscoverCommand;
 use Joomla\CMS\Console\ExtensionDiscoverInstallCommand;
@@ -105,6 +106,7 @@ class Application implements ServiceProviderInterface
 					$app->setLogger($container->get(LoggerInterface::class));
 					$app->setSession($container->get(SessionInterface::class));
 					$app->setUserFactory($container->get(UserFactoryInterface::class));
+					$app->setCacheControllerFactory($container->get(CacheControllerFactoryInterface::class));
 
 					return $app;
 				},

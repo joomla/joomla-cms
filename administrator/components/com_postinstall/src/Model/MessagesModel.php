@@ -168,8 +168,7 @@ class MessagesModel extends BaseDatabaseModel
 		try
 		{
 			/** @var CallbackController $cache */
-			$cache = Factory::getContainer()->get(CacheControllerFactoryInterface::class)
-				->createCacheController('callback', ['defaultgroup' => 'com_postinstall']);
+			$cache = $this->getCacheControllerFactory()->createCacheController('callback', ['defaultgroup' => 'com_postinstall']);
 
 			$result = $cache->get(array($db, 'loadObjectList'), array(), md5($cacheId), false);
 		}

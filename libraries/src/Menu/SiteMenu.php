@@ -11,7 +11,8 @@ namespace Joomla\CMS\Menu;
 \defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Application\CMSApplication;
-use Joomla\CMS\Cache\CacheControllerFactoryInterface;
+use Joomla\CMS\Cache\CacheControllerFactoryAwareInterface;
+use Joomla\CMS\Cache\CacheControllerFactoryAwareTrait;
 use Joomla\CMS\Cache\Controller\CallbackController;
 use Joomla\CMS\Cache\Exception\CacheExceptionInterface;
 use Joomla\CMS\Factory;
@@ -26,8 +27,10 @@ use Joomla\Database\Exception\ExecutionFailureException;
  *
  * @since  1.5
  */
-class SiteMenu extends AbstractMenu
+class SiteMenu extends AbstractMenu implements CacheControllerFactoryAwareInterface
 {
+	use CacheControllerFactoryAwareTrait;
+
 	/**
 	 * Application object
 	 *
@@ -165,8 +168,7 @@ class SiteMenu extends AbstractMenu
 		try
 		{
 			/** @var CallbackController $cache */
-			$cache = Factory::getContainer()->get(CacheControllerFactoryInterface::class)
-				->createCacheController('callback', ['defaultgroup' => 'com_menus']);
+			$cache = $this->getCacheControllerFactory()->createCacheController('callback', ['defaultgroup' => 'com_menus']);
 
 			$this->items = $cache->get($loader, array(), md5(\get_class($this)), false);
 		}
