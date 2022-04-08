@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<extension type="plugin" group="installer">
+<extension type="plugin"group="installer">
 	<name>plg_installer_folderinstaller</name>
 	<author>Joomla! Project</author>
 	<creationDate>May 2016</creationDate>
