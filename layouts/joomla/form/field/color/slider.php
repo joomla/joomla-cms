@@ -43,7 +43,7 @@ extract($displayData);
 
 if ($color === 'none' || is_null($color))
 {
-	$color = '';
+	$color = '#ffc40d';
 }
 
 $alpha        = $format === 'hsla' || $format === 'rgba' || $format === 'alpha';
