@@ -1,6 +1,6 @@
 <?php
 /**
- * @package    Joomla.Site
+ * @package Joomla.Site
  *
  * @copyright  (C) 2005 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
@@ -11,15 +11,15 @@
 // Define the application's minimum supported PHP version as a constant so it can be referenced within the application.
 define('JOOMLA_MINIMUM_PHP', '7.2.5');
 
-if (version_compare(PHP_VERSION, JOOMLA_MINIMUM_PHP, '<'))
+if (version_compare(PHP_VERSION, JOOMLA_MINIMUM_PHP,'<'))
 {
 	die(
 		str_replace(
 			'{{phpversion}}',
 			JOOMLA_MINIMUM_PHP,
-			file_get_contents(dirname(__FILE__) . '/templates/system/incompatible.html')
-		)
-	);
+			file_get_contents(dirname(__FILE__) .'/templates/system/incompatible.html')
+		           )
+       	);
 }
 
 /**
