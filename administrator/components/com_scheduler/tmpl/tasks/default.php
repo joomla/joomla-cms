@@ -133,12 +133,12 @@ $wa->useScript('multiselect')
 					</th>
 
 					<!-- Test task -->
-					<th scope="col">
+					<th scope="col" class="d-none d-md-table-cell">
 						<?php echo Text::_('COM_SCHEDULER_TEST_TASK'); ?>
 					</th>
 
 					<!-- Priority -->
-					<th scope="col">
+					<th scope="col" class="d-none d-lg-table-cell">
 						<?php echo HTMLHelper::_('searchtools.sort', 'COM_SCHEDULER_TASK_PRIORITY', 'a.priority', $listDirn, $listOrder) ?>
 					</th>
 
