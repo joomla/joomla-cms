@@ -480,6 +480,8 @@ abstract class Folder
 	 * @return  boolean  True if path is a folder
 	 *
 	 * @since   1.7.0
+	 *
+	 * @deprecated  5.0 Use native is_dir
 	 */
 	public static function exists($path)
 	{

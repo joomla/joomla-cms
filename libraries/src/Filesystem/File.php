@@ -40,6 +40,8 @@ class File
 	 * @return  string  The file extension
 	 *
 	 * @since   1.7.0
+	 *
+	 * @deprecated  5.0 Use native pathinfo
 	 */
 	public static function getExt($file)
 	{
@@ -665,6 +667,8 @@ class File
 	 * @return  boolean  True if path is a file
 	 *
 	 * @since   1.7.0
+	 *
+	 * @deprecated  5.0 Use native is_file instead
 	 */
 	public static function exists($file)
 	{
