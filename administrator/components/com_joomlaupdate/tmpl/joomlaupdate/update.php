@@ -55,7 +55,7 @@ $displayData['content'] .= '<div class="form-check d-flex justify-content-center
 	</div>';
 
 if (Factory::getApplication()->getIdentity()->authorise('core.admin', 'com_joomlaupdate')) :
-	$displayData['formAppend'] = '<div class="text-center">' . HTMLHelper::_('link', $uploadLink, Text::_('COM_JOOMLAUPDATE_EMPTYSTATE_APPEND')) . '</div>';
+	$displayData['formAppend'] = '<div class="text-center"><a href="' . $uploadLink . '" class="btn btn-sm btn-outline-secondary mx-auto">' . Text::_('COM_JOOMLAUPDATE_UPLOAD_AND_UPDATE') . '</a></div>';
 endif;
 
 echo '<div id="joomlaupdate-wrapper">';
