@@ -17,11 +17,10 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Session\Session;
+use Joomla\Component\Scheduler\Administrator\Task\Status;
 use Joomla\Component\Scheduler\Administrator\View\Tasks\HtmlView;
 
 /** @var  HtmlView  $this*/
-
-HTMLHelper::_('behavior.multiselect');
 
 Text::script('COM_SCHEDULER_TEST_RUN_TITLE');
 Text::script('COM_SCHEDULER_TEST_RUN_TASK');
@@ -60,9 +59,13 @@ if ($saveOrder && !empty($this->items))
 	HTMLHelper::_('draggablelist.draggable');
 }
 
-$document = $app->getDocument();
-$document->addScriptOptions('com_scheduler.test-task.token', Session::getFormToken());
-$document->getWebAssetManager()->useScript('com_scheduler.test-task');
+$this->document->addScriptOptions('com_scheduler.test-task.token', Session::getFormToken());
+
+/** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
+$wa = $this->document->getWebAssetManager();
+$wa->useScript('multiselect')
+	->useScript('com_scheduler.test-task')
+	->useStyle('com_scheduler.admin-view-tasks-css');
 ?>
 
 <form action="<?php echo Route::_('index.php?option=com_scheduler&view=tasks'); ?>" method="post" name="adminForm"
@@ -130,8 +133,13 @@ $document->getWebAssetManager()->useScript('com_scheduler.test-task');
 					</th>
 
 					<!-- Test task -->
-					<th scope="col">
+					<th scope="col" class="d-none d-md-table-cell">
 						<?php echo Text::_('COM_SCHEDULER_TEST_TASK'); ?>
+					</th>
+
+					<!-- Priority -->
+					<th scope="col" class="d-none d-lg-table-cell">
+						<?php echo HTMLHelper::_('searchtools.sort', 'COM_SCHEDULER_TASK_PRIORITY', 'a.priority', $listDirn, $listOrder) ?>
 					</th>
 
 					<!-- Task ID -->
@@ -145,9 +153,10 @@ $document->getWebAssetManager()->useScript('com_scheduler.test-task');
 				<tbody <?php if ($saveOrder): ?>
 					class="js-draggable" data-url="<?php echo $saveOrderingUrl; ?>" data-direction="<?php echo strtolower($listDirn); ?>" data-nested="true" <?php endif; ?>>
 				<?php foreach ($this->items as $i => $item):
-					$canCreate = $user->authorise('core.create', 'com_scheduler');
-					$canEdit = $user->authorise('core.edit', 'com_scheduler');
-					$canChange = $user->authorise('core.edit.state', 'com_scheduler');
+					$canCreate  = $user->authorise('core.create',     'com_scheduler');
+					$canEdit    = $user->authorise('core.edit',       'com_scheduler');
+					$canCheckin = $user->authorise('core.manage',     'com_checkin') || $item->checked_out == $userId || is_null($item->checked_out);
+					$canChange  = $user->authorise('core.edit.state', 'com_scheduler') && $canCheckin;
 					?>
 
 					<!-- Row begins -->
@@ -190,6 +199,9 @@ $document->getWebAssetManager()->useScript('com_scheduler.test-task');
 
 						<!-- Item name, edit link, and note (@todo: should it be moved?) -->
 						<th scope="row">
+							<?php if ($item->checked_out) : ?>
+								<?php echo HTMLHelper::_('jgrid.checkedout', $i, $item->editor, $item->checked_out_time, 'tasks.', $canCheckin); ?>
+							<?php endif; ?>
 							<?php if ($item->locked) : ?>
 								<?php echo HTMLHelper::_('jgrid.action', $i, 'unlock', ['enabled' => $canChange, 'prefix' => 'tasks.',
 									'active_class' => 'none fa fa-running border-dark text-body',
@@ -198,12 +210,21 @@ $document->getWebAssetManager()->useScript('com_scheduler.test-task');
 									'inactive_title' => Text::sprintf('COM_SCHEDULER_RUNNING_SINCE', HTMLHelper::_('date', $item->last_execution, 'DATE_FORMAT_LC5')),
 									]); ?>
 							<?php endif; ?>
-							<?php if ($canEdit): ?>
-								<a href="<?php echo Route::_('index.php?option=com_scheduler&task=task.edit&id=' . $item->id); ?>"
-								   title="<?php echo Text::_('JACTION_EDIT'); ?> <?php echo $this->escape($item->title); ?>"> <?php echo $this->escape($item->title); ?></a>
-							<?php else: ?>
-								<?php echo $this->escape($item->title); ?>
-							<?php endif; ?>
+							<span class="task-title">
+								<?php if ($canEdit): ?>
+									<a href="<?php echo Route::_('index.php?option=com_scheduler&task=task.edit&id=' . $item->id); ?>"
+										title="<?php echo Text::_('JACTION_EDIT'); ?> <?php echo $this->escape($item->title); ?>"> <?php echo $this->escape($item->title); ?>
+									</a>
+								<?php else: ?>
+									 <?php echo $this->escape($item->title); ?>
+								<?php endif; ?>
+								<?php if (!in_array($item->last_exit_code, [Status::OK, Status::WILL_RESUME])): ?>
+									<span class="failure-indicator icon-exclamation-triangle" aria-hidden="true"></span>
+									<div role="tooltip">
+										<?php echo Text::sprintf("COM_SCHEDULER_MANAGER_TOOLTIP_TASK_FAILING", $item->last_exit_code); ?>
+									</div>
+								<?php endif; ?>
+							</span>
 
 							<?php if ($item->note): ?>
 								<span class="small">
@@ -228,6 +249,17 @@ $document->getWebAssetManager()->useScript('com_scheduler.test-task');
 								<span class="fa fa-play fa-sm me-2"></span>
 								<?php echo Text::_('COM_SCHEDULER_TEST_RUN'); ?>
 							</button>
+						</td>
+
+						<!-- Priority -->
+						<td class="small d-none d-lg-table-cell">
+							<?php if ($item->priority === -1) : ?>
+								<span class="badge bg-info"><?php echo Text::_('COM_SCHEDULER_LABEL_TASK_PRIORITY_LOW'); ?></span>
+							<?php elseif ($item->priority === 0) : ?>
+								<span class="badge bg-success"><?php echo Text::_('COM_SCHEDULER_LABEL_TASK_PRIORITY_NORMAL'); ?></span>
+							<?php elseif ($item->priority === 1) : ?>
+								<span class="badge bg-danger"><?php echo Text::_('COM_SCHEDULER_LABEL_TASK_PRIORITY_HIGH'); ?></span>
+							<?php endif; ?>
 						</td>
 
 						<!-- Item ID -->
