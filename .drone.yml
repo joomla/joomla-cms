@@ -6,7 +6,7 @@ clone:
 
 steps:
   - name: composer
-    image: joomlaprojects/docker-images:php7.3
+    image: joomlaprojects/docker-images:php7.4
     volumes:
       - name: composer-cache
         path: /tmp/composer-cache
