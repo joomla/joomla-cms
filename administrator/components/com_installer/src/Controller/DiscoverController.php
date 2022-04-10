@@ -32,7 +32,7 @@ class DiscoverController extends BaseController
 	 */
 	public function refresh()
 	{
-		$this->checkToken();
+		$this->checkToken('get');
 
 		/** @var \Joomla\Component\Installer\Administrator\Model\DiscoverModel $model */
 		$model = $this->getModel('discover');
