@@ -13,13 +13,13 @@ namespace Joomla\CMS\Installer;
 /**
  * Legacy installer script which delegates the methods to the internal instance when possible.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.2.0
  */
 class LegacyInstallerScript implements InstallerScriptInterface
 {
 	/**
 	 * @var    \stdClass
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.2.0
 	 */
 	private $installerScript;
 
@@ -38,16 +38,11 @@ class LegacyInstallerScript implements InstallerScriptInterface
 	 *
 	 * @return  boolean  True on success
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	public function install(InstallerAdapter $adapter): bool
 	{
-		if (!method_exists($this->installerScript, 'install'))
-		{
-			return true;
-		}
-
-		return (bool) $this->installerScript->install($adapter);
+		return $this->callOnScript('install', [$adapter]);
 	}
 
 	/**
@@ -57,16 +52,11 @@ class LegacyInstallerScript implements InstallerScriptInterface
 	 *
 	 * @return  boolean  True on success
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	public function update(InstallerAdapter $adapter): bool
 	{
-		if (!method_exists($this->installerScript, 'update'))
-		{
-			return true;
-		}
-
-		return (bool) $this->installerScript->update($adapter);
+		return $this->callOnScript('update', [$adapter]);
 	}
 
 	/**
@@ -76,16 +66,11 @@ class LegacyInstallerScript implements InstallerScriptInterface
 	 *
 	 * @return  boolean  True on success
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	public function uninstall(InstallerAdapter $adapter): bool
 	{
-		if (!method_exists($this->installerScript, 'uninstall'))
-		{
-			return true;
-		}
-
-		return (bool) $this->installerScript->uninstall($adapter);
+		return $this->callOnScript('uninstall', [$adapter]);
 	}
 
 	/**
@@ -96,16 +81,11 @@ class LegacyInstallerScript implements InstallerScriptInterface
 	 *
 	 * @return  boolean  True on success
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	public function preflight(string $type, InstallerAdapter $adapter): bool
 	{
-		if (!method_exists($this->installerScript, 'preflight'))
-		{
-			return true;
-		}
-
-		return (bool) $this->installerScript->preflight($type, $adapter);
+		return $this->callOnScript('preflight', [$type, $adapter]);
 	}
 
 	/**
@@ -116,16 +96,11 @@ class LegacyInstallerScript implements InstallerScriptInterface
 	 *
 	 * @return  boolean  True on success
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	public function postflight(string $type, InstallerAdapter $adapter): bool
 	{
-		if (!method_exists($this->installerScript, 'postflight'))
-		{
-			return true;
-		}
-
-		return (bool) $this->installerScript->postflight($type, $adapter);
+		return $this->callOnScript('postflight', [$type, $adapter]);
 	}
 
 	/**
@@ -136,7 +111,7 @@ class LegacyInstallerScript implements InstallerScriptInterface
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	public function __set(string $name, $value)
 	{
@@ -150,7 +125,7 @@ class LegacyInstallerScript implements InstallerScriptInterface
 	 *
 	 * @return  mixed
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	public function __get(string $name)
 	{
@@ -158,17 +133,47 @@ class LegacyInstallerScript implements InstallerScriptInterface
 	}
 
 	/**
-	 * Calls the function with the given name on the internal script.
+	 * Calls the function with the given name on the internal script with
+	 * the given name and arguments.
 	 *
 	 * @param   string $name       The name of the function
 	 * @param   array  $arguments  The arguments
 	 *
-	 * @return  void
+	 * @return  mixed
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	public function __call(string $name, array $arguments)
 	{
-		return call_user_func([$this->installerScript, $name], $arguments);
+		return call_user_func_array([$this->installerScript, $name], $arguments);
+	}
+
+	/**
+	 * Calls the function with the given name on the internal script with
+	 * some condition checking.
+	 *
+	 * @param   string $name       The name of the function
+	 * @param   array  $arguments  The arguments
+	 *
+	 * @return  bool
+	 *
+	 * @since   4.2.0
+	 */
+	private function callOnScript(string $name, array $arguments): bool
+	{
+		if (!method_exists($this->installerScript, $name))
+		{
+			return true;
+		}
+
+		$return = $this->__call($name, $arguments);
+
+		// When function doesn't have a return value, assume it succeeded
+		if ($return === null)
+		{
+			return true;
+		}
+
+		return (bool) $return;
 	}
 }
