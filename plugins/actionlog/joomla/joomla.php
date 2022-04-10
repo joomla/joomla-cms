@@ -16,6 +16,7 @@ use Joomla\CMS\Table\Table;
 use Joomla\CMS\User\User;
 use Joomla\Component\Actionlogs\Administrator\Helper\ActionlogsHelper;
 use Joomla\Component\Actionlogs\Administrator\Plugin\ActionLogPlugin;
+use Joomla\Component\Scheduler\Administrator\Task\Task;
 use Joomla\Utilities\ArrayHelper;
 
 /**
@@ -1215,7 +1216,7 @@ class PlgActionlogJoomla extends ActionLogPlugin
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function onTaskRoutineWillResume($event)
+	public function onTaskRoutineWillResume(Task $event) :void
 	{
 		$context = 'com_scheduler';
 
