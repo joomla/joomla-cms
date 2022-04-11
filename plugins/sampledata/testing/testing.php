@@ -4532,6 +4532,11 @@ class PlgSampledataTesting extends CMSPlugin
 	 */
 	public function onAjaxSampledataApplyStep9()
 	{
+		if ($this->app->input->get('type') !== $this->_name)
+		{
+			return;
+		}
+
 		$response['success'] = true;
 		$response['message'] = Text::_('PLG_SAMPLEDATA_TESTING_STEP9_SUCCESS');
 
