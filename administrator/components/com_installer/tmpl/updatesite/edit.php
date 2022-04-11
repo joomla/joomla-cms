@@ -13,7 +13,9 @@ use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 
-HTMLHelper::_('behavior.formvalidator');
+/** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
+$wa = $this->document->getWebAssetManager();
+$wa->useScript('form.validate');
 
 ?>
 <h2><?php echo $this->item->name; ?></h2>

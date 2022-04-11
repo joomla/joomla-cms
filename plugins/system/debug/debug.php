@@ -14,6 +14,7 @@ use DebugBar\DataCollector\MessagesCollector;
 use DebugBar\DataCollector\RequestDataCollector;
 use DebugBar\DebugBar;
 use DebugBar\OpenHandler;
+use Joomla\Application\ApplicationEvents;
 use Joomla\CMS\Application\CMSApplicationInterface;
 use Joomla\CMS\Document\HtmlDocument;
 use Joomla\CMS\Log\Log;
@@ -25,6 +26,7 @@ use Joomla\CMS\Uri\Uri;
 use Joomla\Database\DatabaseDriver;
 use Joomla\Database\Event\ConnectionEvent;
 use Joomla\Event\DispatcherInterface;
+use Joomla\Event\SubscriberInterface;
 use Joomla\Plugin\System\Debug\DataCollector\InfoCollector;
 use Joomla\Plugin\System\Debug\DataCollector\LanguageErrorsCollector;
 use Joomla\Plugin\System\Debug\DataCollector\LanguageFilesCollector;
@@ -40,7 +42,7 @@ use Joomla\Plugin\System\Debug\Storage\FileStorage;
  *
  * @since  1.5
  */
-class PlgSystemDebug extends CMSPlugin
+class PlgSystemDebug extends CMSPlugin implements SubscriberInterface
 {
 	/**
 	 * True if debug lang is on.
@@ -135,6 +137,25 @@ class PlgSystemDebug extends CMSPlugin
 	 * @since 4.0.0
 	 */
 	protected $showLogs = false;
+
+	/**
+	 * Returns an array of events this subscriber will listen to.
+	 *
+	 * @return  array
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public static function getSubscribedEvents(): array
+	{
+		return [
+			'onBeforeCompileHead' => 'onBeforeCompileHead',
+			'onAjaxDebug'         => 'onAjaxDebug',
+			'onBeforeRespond'     => 'onBeforeRespond',
+			'onAfterRespond'      => 'onAfterRespond',
+			ApplicationEvents::AFTER_RESPOND => 'onAfterRespond',
+			'onAfterDisconnect'   => 'onAfterDisconnect',
+		];
+	}
 
 	/**
 	 * Constructor.
@@ -244,8 +265,8 @@ class PlgSystemDebug extends CMSPlugin
 	 */
 	public function onAfterRespond()
 	{
-		// Do not render if debugging or language debug is not enabled.
-		if (!JDEBUG && !$this->debugLang || $this->isAjax || !($this->app->getDocument() instanceof HtmlDocument))
+		// Do not collect data if debugging or language debug is not enabled.
+		if (!JDEBUG && !$this->debugLang || $this->isAjax)
 		{
 			return;
 		}
@@ -349,32 +370,34 @@ class PlgSystemDebug extends CMSPlugin
 	/**
 	 * AJAX handler
 	 *
-	 * @return  string
+	 * @param Joomla\Event\Event $event
+	 *
+	 * @return  void
 	 *
 	 * @since  4.0.0
 	 */
-	public function onAjaxDebug()
+	public function onAjaxDebug($event)
 	{
 		// Do not render if debugging or language debug is not enabled.
 		if (!JDEBUG && !$this->debugLang)
 		{
-			return '';
+			return;
 		}
 
 		// User has to be authorised to see the debug information.
 		if (!$this->isAuthorisedDisplayDebug() || !Session::checkToken('request'))
 		{
-			return '';
+			return;
 		}
 
 		switch ($this->app->input->get('action'))
 		{
 			case 'openhandler':
+				$result  = $event['result'] ?: [];
 				$handler = new OpenHandler($this->debugBar);
 
-				return $handler->handle($this->app->input->request->getArray(), false, false);
-			default:
-				return '';
+				$result[] = $handler->handle($this->app->input->request->getArray(), false, false);
+				$event['result'] = $result;
 		}
 	}
 

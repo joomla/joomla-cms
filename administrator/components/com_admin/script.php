@@ -105,6 +105,7 @@ class JoomlaInstallerScript
 		$this->updateAssets($installer);
 		$this->clearStatsCache();
 		$this->convertTablesToUtf8mb4(true);
+		$this->addUserAuthProviderColumn();
 		$this->cleanJoomlaCache();
 	}
 
@@ -706,6 +707,7 @@ class JoomlaInstallerScript
 			'/administrator/components/com_admin/sql/updates/mysql/3.10.0-2020-08-10.sql',
 			'/administrator/components/com_admin/sql/updates/mysql/3.10.0-2021-05-28.sql',
 			'/administrator/components/com_admin/sql/updates/mysql/3.10.7-2022-02-20.sql',
+			'/administrator/components/com_admin/sql/updates/mysql/3.10.7-2022-03-18.sql',
 			'/administrator/components/com_admin/sql/updates/mysql/3.2.0.sql',
 			'/administrator/components/com_admin/sql/updates/mysql/3.2.1.sql',
 			'/administrator/components/com_admin/sql/updates/mysql/3.2.2-2013-12-22.sql',
@@ -828,7 +830,9 @@ class JoomlaInstallerScript
 			'/administrator/components/com_admin/sql/updates/postgresql/3.1.5.sql',
 			'/administrator/components/com_admin/sql/updates/postgresql/3.10.0-2020-08-10.sql',
 			'/administrator/components/com_admin/sql/updates/postgresql/3.10.0-2021-05-28.sql',
+			'/administrator/components/com_admin/sql/updates/postgresql/3.10.7-2022-02-20.sql',
 			'/administrator/components/com_admin/sql/updates/postgresql/3.10.7-2022-02-20.sql.sql',
+			'/administrator/components/com_admin/sql/updates/postgresql/3.10.7-2022-03-18.sql',
 			'/administrator/components/com_admin/sql/updates/postgresql/3.2.0.sql',
 			'/administrator/components/com_admin/sql/updates/postgresql/3.2.1.sql',
 			'/administrator/components/com_admin/sql/updates/postgresql/3.2.2-2013-12-22.sql',
@@ -953,7 +957,9 @@ class JoomlaInstallerScript
 			'/administrator/components/com_admin/sql/updates/sqlazure/3.1.5.sql',
 			'/administrator/components/com_admin/sql/updates/sqlazure/3.10.0-2021-05-28.sql',
 			'/administrator/components/com_admin/sql/updates/sqlazure/3.10.1-2021-08-17.sql',
+			'/administrator/components/com_admin/sql/updates/sqlazure/3.10.7-2022-02-20.sql',
 			'/administrator/components/com_admin/sql/updates/sqlazure/3.10.7-2022-02-20.sql.sql',
+			'/administrator/components/com_admin/sql/updates/sqlazure/3.10.7-2022-03-18.sql',
 			'/administrator/components/com_admin/sql/updates/sqlazure/3.2.0.sql',
 			'/administrator/components/com_admin/sql/updates/sqlazure/3.2.1.sql',
 			'/administrator/components/com_admin/sql/updates/sqlazure/3.2.2-2013-12-22.sql',
@@ -7710,6 +7716,10 @@ class JoomlaInstallerScript
 			'/libraries/vendor/tobscure/json-api/.git/hooks',
 			'/libraries/vendor/tobscure/json-api/.git/branches',
 			'/libraries/vendor/tobscure/json-api/.git',
+			// From 4.1.1 to 4.1.2
+			'/administrator/components/com_users/src/Field/PrimaryauthprovidersField.php',
+			// From 4.1.1 to 4.2.0
+			'/libraries/src/Service/Provider/ApiRouter.php'
 		);
 
 		$status['files_checked'] = $files;
@@ -8642,5 +8652,41 @@ class JoomlaInstallerScript
 			},
 			['atum', 'cassiopeia']
 		);
+	}
+
+	/**
+	 * Add the user Auth Provider Column as it could be present from 3.10 already
+	 *
+	 * @return  void
+	 *
+	 * @since   4.1.1
+	 */
+	protected function addUserAuthProviderColumn(): void
+	{
+		$db = Factory::getContainer()->get('DatabaseDriver');
+
+		// Check if the column already exists
+		$fields = $db->getTableColumns('#__users');
+
+		// Column exists, skip
+		if (isset($fields['authProvider']))
+		{
+			return;
+		}
+
+		$query = 'ALTER TABLE ' . $db->quoteName('#__users')
+			. ' ADD COLUMN ' . $db->quoteName('authProvider') . ' varchar(100) DEFAULT ' . $db->quote('') . ' NOT NULL';
+
+		// Add column
+		try
+		{
+			$db->setQuery($query)->execute();
+		}
+		catch (Exception $e)
+		{
+			echo Text::sprintf('JLIB_DATABASE_ERROR_FUNCTION_FAILED', $e->getCode(), $e->getMessage()) . '<br>';
+
+			return;
+		}
 	}
 }
