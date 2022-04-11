@@ -29,7 +29,7 @@
 				type="text"
 				label="COM_SCHEDULER_LABEL_NOTES"
 				maxlength="255"
-			/>
+			/> 
 		</fieldset>
 
 		<fieldset name="exec_hist">
