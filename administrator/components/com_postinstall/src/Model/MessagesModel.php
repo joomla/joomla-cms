@@ -194,7 +194,7 @@ class MessagesModel extends BaseDatabaseModel
 	 *
 	 * @return array  the hidden messages
 	 *
-	 * @since 4.2
+	 * @since  __DEPLOY_VERSION__
 	 */
 	public function getHidden(): array
 	{
