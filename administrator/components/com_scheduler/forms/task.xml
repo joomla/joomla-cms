@@ -196,6 +196,7 @@
 					subtype="minutes"
 					multiple="true"
 					validate="ExecutionRules"
+					required="true"
 				/>
 				<field
 					name="hours"
@@ -204,6 +205,7 @@
 					subtype="hours"
 					multiple="true"
 					validate="ExecutionRules"
+					required="true"
 				/>
 				<field
 					name="days_month"
@@ -212,6 +214,7 @@
 					subtype="days_month"
 					multiple="true"
 					validate="ExecutionRules"
+					required="true"
 				/>
 				<field
 					name="months"
@@ -220,6 +223,7 @@
 					subtype="months"
 					multiple="true"
 					validate="ExecutionRules"
+					required="true"
 				/>
 				<field
 					name="days_week"
@@ -228,6 +232,7 @@
 					subtype="days_week"
 					multiple="true"
 					validate="ExecutionRules"
+					required="true"
 				/>
 			</fields>
 		</fieldset>
