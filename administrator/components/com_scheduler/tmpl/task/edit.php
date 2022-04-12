@@ -24,6 +24,7 @@ $wa = $this->document->getWebAssetManager();
 
 $wa->useScript('keepalive');
 $wa->useScript('form.validate');
+$wa->useScript('com_scheduler.config-helper');
 $wa->useStyle('com_scheduler.admin-view-task-css');
 
 /** @var AdministratorApplication $app */
