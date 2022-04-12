@@ -82,7 +82,7 @@ class HtmlView extends BaseHtmlView
 
 			if (!empty($this->hidden))
 			{
-				$toolbar->standardButton('new', 'COM_POSTINSTALL_EMPTYSTATE_BUTTON_ADD', 'message.reset');
+				$toolbar->standardButton('', 'COM_POSTINSTALL_EMPTYSTATE_BUTTON_ADD', 'message.reset')->icon('icon-refresh');
 			}
 		}
 
