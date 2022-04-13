@@ -20,6 +20,7 @@
 				label="PLG_SYSTEM_ACTIONLOGS_EXTENSIONS_NOTIFICATIONS"
 				multiple="true"
 				validate="options"
+				layout="joomla.form.field.list-fancy-select"
 				showon="actionlogsNotify:1"
 			/>
 		</fields>
