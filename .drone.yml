@@ -215,15 +215,15 @@ steps:
 #    commands:
 #      - bash tests/Codeception/drone-api-run.sh "$(pwd)" mysqlphpnext
 
-#  - name: phpmin-api-postgres
-#    depends_on:
-#      - javascript-cs
-#    image: joomlaprojects/docker-images:systemtests
-#    failure: ignore
-#    environment:
-#      JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
-#    commands:
-#      - bash tests/Codeception/drone-api-run.sh "$(pwd)" phpmin_api_postgres
+  - name: phpmin-api-postgres
+    depends_on:
+      - javascript-cs
+    image: joomlaprojects/docker-images:systemtests
+    failure: ignore
+    environment:
+      JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
+    commands:
+      - bash tests/Codeception/drone-api-run.sh "$(pwd)" phpmin_api_postgres
 
 #  - name: phpnext-api-postgres
 #    depends_on:
@@ -441,6 +441,6 @@ steps:
 
 ---
 kind: signature
-hmac: 7f972c876f220e6864a243d3c59a46364b03f5265822439ff5ea9ffec79b7cd4
+hmac: 98e3a2d3c340aa3c2236578ba287343da7a95f266942dc4475d3546c61418e59
 
 ...
