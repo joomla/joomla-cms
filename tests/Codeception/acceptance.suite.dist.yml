@@ -50,19 +50,19 @@ env:
       config:
         Joomla\Browser\JoomlaBrowser:
           url: 'http://localhost/phpmin_api_mysql'
-          database prefix: 'pma_'
+          database prefix: 'pia_'
           cmsPath: '/tests/www/phpmin_api_mysql'
         Helper\JoomlaDb:
-          prefix: 'pma_'
+          prefix: 'pia_'
   phpmax_api_mysql:
     modules:
       config:
         Joomla\Browser\JoomlaBrowser:
           url: 'http://localhost/phpmax_api_mysql'
-          database prefix: 'phpmax_api_'
+          database prefix: 'pxa_'
           cmsPath: '/tests/www/phpmax_api_mysql'
         Helper\JoomlaDb:
-          prefix: 'phpmax_api_'
+          prefix: 'pxa_'
 
   phpmin_api_postgres:
     modules:
@@ -71,11 +71,11 @@ env:
           url: 'http://localhost/phpmin_api_postgres'
           database host: 'postgres'
           database type: 'pgsql'
-          database prefix: 'phpmin_api_'
+          database prefix: 'pia_'
           cmsPath: '/tests/www/phpmin_api_postgres'
         Helper\JoomlaDb:
           dsn: 'pgsql:host=postgres;dbname=test_joomla'
-          prefix: 'phpmin_api_'
+          prefix: 'pia_'
   phpmax_api_postgres:
     modules:
       config:
@@ -83,11 +83,11 @@ env:
           url: 'http://localhost/phpmax_api_postgres'
           database host: 'postgres'
           database type: 'pgsql'
-          database prefix: 'phpmax_api_'
+          database prefix: 'pxa_'
           cmsPath: '/tests/www/phpmax_api_postgres'
         Helper\JoomlaDb:
           dsn: 'pgsql:host=postgres;dbname=test_joomla'
-          prefix: 'phpmax_api_'
+          prefix: 'pxa_'
 
 # SYSTEM
   phpmin_system_mysql:
@@ -95,20 +95,20 @@ env:
       config:
         Joomla\Browser\JoomlaBrowser:
           url: 'http://localhost/phpmin_system_mysql'
-          database prefix: 'phpmin_system_'
+          database prefix: 'pis_'
           cmsPath: '/tests/www/phpmin_system_mysql'
         Helper\JoomlaDb:
-          prefix: 'phpmin_system_'
+          prefix: 'pis_'
 
   phpmax_system_mysql:
     modules:
       config:
         Joomla\Browser\JoomlaBrowser:
           url: 'http://localhost/phpmax_system_mysql'
-          database prefix: 'phpmax_system_'
+          database prefix: 'pxs_'
           cmsPath: '/tests/www/phpmax_system_mysql'
         Helper\JoomlaDb:
-          prefix: 'phpmax_system_'
+          prefix: 'pxs_'
 
   phpmin_system_mysql8:
     modules:
@@ -116,22 +116,22 @@ env:
         Joomla\Browser\JoomlaBrowser:
           url: 'http://localhost/phpmin_system_mysql8'
           database host: 'mysql8'
-          database prefix: 'phpmin_system_'
+          database prefix: 'pis_'
           cmsPath: '/tests/www/phpmin_system_mysql8'
         Helper\JoomlaDb:
           dsn: 'mysql:host=mysql8;dbname=test_joomla'
-          prefix: 'phpmin_system_'
+          prefix: 'pis_'
   phpmax_system_mysql8:
     modules:
       config:
         Joomla\Browser\JoomlaBrowser:
           url: 'http://localhost/phpmax_system_mysql8'
           database host: 'mysql8'
-          database prefix: 'phpmax_system_'
+          database prefix: 'pxs_'
           cmsPath: '/tests/www/phpmax_system_mysql8'
         Helper\JoomlaDb:
           dsn: 'mysql:host=mysql8;dbname=test_joomla'
-          prefix: 'phpmax_system_'
+          prefix: 'pxs_'
 
 
   phpmin_system_postgres:
@@ -141,11 +141,11 @@ env:
           url: 'http://localhost/phpmin_system_postgres'
           database host: 'postgres'
           database type: 'pgsql'
-          database prefix: 'phpmin_system_'
+          database prefix: 'pis_'
           cmsPath: '/tests/www/phpmin_system_postgres'
         Helper\JoomlaDb:
           dsn: 'pgsql:host=postgres;dbname=test_joomla'
-          prefix: 'phpmin_system_'
+          prefix: 'pis_'
 
   phpmax_system_postgres:
     modules:
@@ -154,11 +154,11 @@ env:
           url: 'http://localhost/phpmax_system_postgres'
           database host: 'postgres'
           database type: 'pgsql'
-          database prefix: 'phpmax_system_'
+          database prefix: 'pxs_'
           cmsPath: '/tests/www/phpmax_system_postgres'
         Helper\JoomlaDb:
           dsn: 'pgsql:host=postgres;dbname=test_joomla'
-          prefix: 'phpmax_system_'
+          prefix: 'pxs_'
 
   mysqlphpmax:
     modules:
