@@ -59,7 +59,7 @@
       font-weight: $medium-weight;
     }
 
-    a:not(.badge) {
+    a:not(.badge):not(.btn):not(.dropdown-item) {
       text-decoration: underline;
     }
   }
