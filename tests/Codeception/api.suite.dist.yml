@@ -29,7 +29,7 @@ env:
     modules:
       enabled:
         - REST:
-            url: http://localhost/mysql/api/index.php/v1
+            url: http://localhost/mysql8/api/index.php/v1
             depends: PhpBrowser
             part: Json
       config:
