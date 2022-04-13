@@ -273,7 +273,7 @@ steps:
 
   - name: phpmax-system-mysql8
     depends_on:
-      - jphpmin-system-mysql8
+      - phpmin-system-mysql8
     image: joomlaprojects/docker-images:systemtests8.1
     failure: ignore
     environment:
