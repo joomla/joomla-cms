@@ -25,6 +25,20 @@ env:
         Helper\Api:
           url: 'http://localhost/mysql'
           cmsPath: '/tests/www/mysql'
+  mysql8:
+    modules:
+      enabled:
+        - REST:
+            url: http://localhost/mysql/api/index.php/v1
+            depends: PhpBrowser
+            part: Json
+      config:
+        Helper\JoomlaDb:
+          dsn: 'mysql:host=mysql8;dbname=test_joomla'
+          prefix: 'jos8_'
+        Helper\Api:
+          url: 'http://localhost/mysql8'
+          cmsPath: '/tests/www/mysql8'
   postgres:
     modules:
       enabled:
