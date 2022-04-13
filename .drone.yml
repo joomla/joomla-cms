@@ -16,7 +16,8 @@ steps:
 
   - name: phpcs
     image: joomlaprojects/docker-images:php7.2
-    depends_on: [ composer ]
+    depends_on:
+      - composer
     commands:
       - echo $(date)
       - ./libraries/vendor/bin/phpcs --extensions=php -p --standard=libraries/vendor/joomla/cms-coding-standards/lib/Joomla-CMS .
@@ -24,33 +25,42 @@ steps:
 
   - name: npm
     image: node:14-alpine
-    depends_on: [ phpcs ]
+    depends_on:
+      - composer
     commands:
       - npm ci --unsafe-perm
 
   - name: php72-unit
-    depends_on: [ phpcs ]
+    depends_on:
+      - phpcs
+      - npm
     image: joomlaprojects/docker-images:php7.2
     commands:
       - php -v
       - ./libraries/vendor/bin/phpunit --testsuite Unit
 
   - name: php73-unit
-    depends_on: [ phpcs ]
+    depends_on:
+      - phpcs
+      - npm
     image: joomlaprojects/docker-images:php7.3
     commands:
       - php -v
       - ./libraries/vendor/bin/phpunit --testsuite Unit
 
   - name: php74-unit
-    depends_on: [ phpcs ]
+    depends_on:
+      - phpcs
+      - npm
     image: joomlaprojects/docker-images:php7.4
     commands:
       - php -v
       - ./libraries/vendor/bin/phpunit --testsuite Unit
 
   - name: php80-unit
-    depends_on: [ phpcs ]
+    depends_on:
+      - phpcs
+      - npm
     image: joomlaprojects/docker-images:php8.0
     commands:
       - php -v
@@ -65,28 +75,32 @@ steps:
 #      - ./libraries/vendor/bin/phpunit --testsuite Unit
 
   - name: php72-integration
-    depends_on: [ npm ]
+    depends_on:
+      - npm
     image: joomlaprojects/docker-images:php7.2
     commands:
       - php -v
       - ./libraries/vendor/bin/phpunit --testsuite Integration
 
   - name: php73-integration
-    depends_on: [ npm ]
+    depends_on:
+      - npm
     image: joomlaprojects/docker-images:php7.3
     commands:
       - php -v
       - ./libraries/vendor/bin/phpunit --testsuite Integration
 
   - name: php74-integration
-    depends_on: [ npm ]
+    depends_on:
+      - npm
     image: joomlaprojects/docker-images:php7.4
     commands:
       - php -v
       - ./libraries/vendor/bin/phpunit --testsuite Integration
 
   - name: php80-integration
-    depends_on: [ npm ]
+    depends_on:
+      - npm
     image: joomlaprojects/docker-images:php8.0
     failure: ignore
     commands:
@@ -94,42 +108,48 @@ steps:
       - ./libraries/vendor/bin/phpunit --testsuite Integration
 
   - name: php81-integration
-    depends_on: [ npm ]
+    depends_on:
+      - npm
     image: joomlaprojects/docker-images:php8.1
     commands:
       - php -v
       - ./libraries/vendor/bin/phpunit --testsuite Integration
 
   - name: php82-integration
-    depends_on: [ npm ]
+    depends_on:
+      - npm
     image: joomlaprojects/docker-images:php8.2
     commands:
       - php -v
       - ./libraries/vendor/bin/phpunit --testsuite Integration
 
   - name: php72-integration-pgsql
-    depends_on: [ npm ]
+    depends_on:
+      - npm
     image: joomlaprojects/docker-images:php7.2
     commands:
       - php -v
       - ./libraries/vendor/bin/phpunit --testsuite Integration --configuration phpunit-pgsql.xml.dist
 
   - name: php73-integration-pgsql
-    depends_on: [ npm ]
+    depends_on:
+      - npm
     image: joomlaprojects/docker-images:php7.3
     commands:
       - php -v
       - ./libraries/vendor/bin/phpunit --testsuite Integration --configuration phpunit-pgsql.xml.dist
 
   - name: php74-integration-pgsql
-    depends_on: [ npm ]
+    depends_on:
+      - npm
     image: joomlaprojects/docker-images:php7.4
     commands:
       - php -v
       - ./libraries/vendor/bin/phpunit --testsuite Integration --configuration phpunit-pgsql.xml.dist
 
   - name: php80-integration-pgsql
-    depends_on: [ npm ]
+    depends_on:
+      - npm
     image: joomlaprojects/docker-images:php8.0
     failure: ignore
     commands:
@@ -137,27 +157,31 @@ steps:
       - ./libraries/vendor/bin/phpunit --testsuite Integration --configuration phpunit-pgsql.xml.dist
 
   - name: php81-integration-pgsql
-    depends_on: [ npm ]
+    depends_on:
+      - npm
     image: joomlaprojects/docker-images:php8.1
     commands:
       - php -v
       - ./libraries/vendor/bin/phpunit --testsuite Integration --configuration phpunit-pgsql.xml.dist
 
   - name: php82-integration-pgsql
-    depends_on: [ npm ]
+    depends_on:
+      - npm
     image: joomlaprojects/docker-images:php8.2
     commands:
       - php -v
       - ./libraries/vendor/bin/phpunit --testsuite Integration --configuration phpunit-pgsql.xml.dist
 
   - name: scss-cs
-    depends_on: [ npm ]
+    depends_on:
+      - npm
     image: node:current-alpine
     commands:
       - npm run lint:css
 
   - name: javascript-cs
-    depends_on: [ npm ]
+    depends_on:
+      - npm
     image: node:current-alpine
     commands:
       - npm run lint:js
@@ -191,15 +215,15 @@ steps:
 #    commands:
 #      - bash tests/Codeception/drone-api-run.sh "$(pwd)" mysqlphpnext
 
-  - name: phpmin-api-postgres
-    depends_on:
-      - javascript-cs
-    image: joomlaprojects/docker-images:systemtests
-    failure: ignore
-    environment:
-      JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
-    commands:
-      - bash tests/Codeception/drone-api-run.sh "$(pwd)" phpmin_api_postgres
+#  - name: phpmin-api-postgres
+#    depends_on:
+#      - javascript-cs
+#    image: joomlaprojects/docker-images:systemtests
+#    failure: ignore
+#    environment:
+#      JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
+#    commands:
+#      - bash tests/Codeception/drone-api-run.sh "$(pwd)" phpmin_api_postgres
 
 #  - name: phpnext-api-postgres
 #    depends_on:
@@ -211,25 +235,25 @@ steps:
 #    commands:
 #      - bash tests/Codeception/drone-api-run.sh "$(pwd)" postgresphpnext
 
-  - name: phpmax-api-postgres
-    depends_on:
-      - javascript-cs
-    image: joomlaprojects/docker-images:systemtests8.1
-    failure: ignore
-    environment:
-      JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
-    commands:
-      - bash tests/Codeception/drone-api-run.sh "$(pwd)" phpmax_api_postgres
-
-  - name: phpmin-system-mysql
-    depends_on:
-      - javascript-cs
-    image: joomlaprojects/docker-images:systemtests
-    failure: ignore
-    environment:
-      JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
-    commands:
-      - bash tests/Codeception/drone-system-run.sh "$(pwd)" phpmin_system_mysql
+#  - name: phpmax-api-postgres
+#    depends_on:
+#      - javascript-cs
+#    image: joomlaprojects/docker-images:systemtests8.1
+#    failure: ignore
+#    environment:
+#      JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
+#    commands:
+#      - bash tests/Codeception/drone-api-run.sh "$(pwd)" phpmax_api_postgres
+#
+#  - name: phpmin-system-mysql
+#    depends_on:
+#      - javascript-cs
+#    image: joomlaprojects/docker-images:systemtests
+#    failure: ignore
+#    environment:
+#      JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
+#    commands:
+#      - bash tests/Codeception/drone-system-run.sh "$(pwd)" phpmin_system_mysql
 
 #  - name: phpnext-system-mysql
 #    depends_on:
@@ -241,15 +265,15 @@ steps:
 #    commands:
 #      - bash tests/Codeception/drone-system-run.sh "$(pwd)" mysqlphpnext
 
-  - name: phpmax-system-mysql
-    depends_on:
-      - javascript-cs
-    image: joomlaprojects/docker-images:systemtests8.1
-    failure: ignore
-    environment:
-      JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
-    commands:
-      - bash tests/Codeception/drone-system-run.sh "$(pwd)" phpmax_system_mysql
+#  - name: phpmax-system-mysql
+#    depends_on:
+#      - javascript-cs
+#    image: joomlaprojects/docker-images:systemtests8.1
+#    failure: ignore
+#    environment:
+#      JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
+#    commands:
+#      - bash tests/Codeception/drone-system-run.sh "$(pwd)" phpmax_system_mysql
 
 #  - name: phpnext-system-mysql8
 #    depends_on:
@@ -261,25 +285,25 @@ steps:
 #    commands:
 #      - bash tests/Codeception/drone-system-run.sh "$(pwd)" mysql8phpnext
 
-  - name: phpmin-system-mysql8
-    depends_on:
-      - javascript-cs
-    image: joomlaprojects/docker-images:systemtests
-    environment:
-      JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
-    commands:
-      - bash tests/Codeception/drone-system-run.sh "$(pwd)" phpmin_system_mysql8
-
-
-  - name: phpmax-system-mysql8
-    depends_on:
-      - javascript-cs
-    image: joomlaprojects/docker-images:systemtests8.1
-    failure: ignore
-    environment:
-      JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
-    commands:
-      - bash tests/Codeception/drone-system-run.sh "$(pwd)" phpmax_system_mysql8
+#  - name: phpmin-system-mysql8
+#    depends_on:
+#      - javascript-cs
+#    image: joomlaprojects/docker-images:systemtests
+#    environment:
+#      JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
+#    commands:
+#      - bash tests/Codeception/drone-system-run.sh "$(pwd)" phpmin_system_mysql8
+#
+#
+#  - name: phpmax-system-mysql8
+#    depends_on:
+#      - javascript-cs
+#    image: joomlaprojects/docker-images:systemtests8.1
+#    failure: ignore
+#    environment:
+#      JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
+#    commands:
+#      - bash tests/Codeception/drone-system-run.sh "$(pwd)" phpmax_system_mysql8
 
 #  - name: phpnext-system-postgres
 #    depends_on:
@@ -291,24 +315,24 @@ steps:
 #    commands:
 #      - bash tests/Codeception/drone-system-run.sh "$(pwd)" postgresphpnext
 
-  - name: phpmin-system-postgres
-    depends_on:
-      - javascript-cs
-    image: joomlaprojects/docker-images:systemtests
-    environment:
-      JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
-    commands:
-      - bash tests/Codeception/drone-system-run.sh "$(pwd)" phpmin_system_postgres
-
-  - name: phpmax-system-postgres
-    depends_on:
-      - javascript-cs
-    image: joomlaprojects/docker-images:systemtests8.1
-    failure: ignore
-    environment:
-      JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
-    commands:
-      - bash tests/Codeception/drone-system-run.sh "$(pwd)" phpmax_system_postgres
+#  - name: phpmin-system-postgres
+#    depends_on:
+#      - javascript-cs
+#    image: joomlaprojects/docker-images:systemtests
+#    environment:
+#      JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
+#    commands:
+#      - bash tests/Codeception/drone-system-run.sh "$(pwd)" phpmin_system_postgres
+#
+#  - name: phpmax-system-postgres
+#    depends_on:
+#      - javascript-cs
+#    image: joomlaprojects/docker-images:systemtests8.1
+#    failure: ignore
+#    environment:
+#      JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
+#    commands:
+#      - bash tests/Codeception/drone-system-run.sh "$(pwd)" phpmax_system_postgres
 
 
   - name: artifacts-system-tests
@@ -417,6 +441,6 @@ steps:
 
 ---
 kind: signature
-hmac: 59565073a1b790185d6abadccd63b545d21bff7f872c19b6d33ce30a110788fa
+hmac: c9787183c1fe83f3f853e45624a49eddcdd14ec964df37d3a29828d2ab5b818a
 
 ...
