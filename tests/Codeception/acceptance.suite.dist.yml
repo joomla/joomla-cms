@@ -62,10 +62,11 @@ env:
         Joomla\Browser\JoomlaBrowser:
           url: 'http://localhost/mysql8'
           database host: 'mysql8'
-          database prefix: 'jos_'
+          database prefix: 'jos8_'
           cmsPath: '/tests/www/mysql8'
         Helper\JoomlaDb:
-          prefix: 'jos_'
+          dsn: 'mysql:host=mysql8;dbname=test_joomla'
+          prefix: 'jos8_'
   mysql:
     modules:
       config:
