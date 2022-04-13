@@ -50,10 +50,10 @@ env:
       config:
         Joomla\Browser\JoomlaBrowser:
           url: 'http://localhost/phpmin_api_mysql'
-          database prefix: 'phpmin_api_'
+          database prefix: 'pma_'
           cmsPath: '/tests/www/phpmin_api_mysql'
         Helper\JoomlaDb:
-          prefix: 'phpmin_api_'
+          prefix: 'pma_'
   phpmax_api_mysql:
     modules:
       config:
