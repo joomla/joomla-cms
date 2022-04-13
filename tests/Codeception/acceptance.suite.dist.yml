@@ -44,61 +44,122 @@ modules:
 error_level: "E_ALL & ~E_STRICT & ~E_DEPRECATED"
 
 env:
-  postgres:
+# API
+  phpmin_api_mysql:
     modules:
       config:
         Joomla\Browser\JoomlaBrowser:
-          url: 'http://localhost/postgres'
+          url: 'http://localhost/phpmin_api_mysql'
+          database prefix: 'phpmin_api_'
+          cmsPath: '/tests/www/phpmin_api_mysql'
+        Helper\JoomlaDb:
+          prefix: 'phpmin_api_'
+  phpmax_api_mysql:
+    modules:
+      config:
+        Joomla\Browser\JoomlaBrowser:
+          url: 'http://localhost/phpmax_api_mysql'
+          database prefix: 'phpmax_api_'
+          cmsPath: '/tests/www/phpmax_api_mysql'
+        Helper\JoomlaDb:
+          prefix: 'phpmax_api_'
+
+  phpmin_api_postgres:
+    modules:
+      config:
+        Joomla\Browser\JoomlaBrowser:
+          url: 'http://localhost/phpmin_api_postgres'
           database host: 'postgres'
           database type: 'pgsql'
-          database prefix: 'jos_'
-          cmsPath: '/tests/www/postgres'
+          database prefix: 'phpmin_api_'
+          cmsPath: '/tests/www/phpmin_api_postgres'
         Helper\JoomlaDb:
           dsn: 'pgsql:host=postgres;dbname=test_joomla'
-          prefix: 'jos_'
-  mysql8:
+          prefix: 'phpmin_api_'
+  phpmax_api_postgres:
     modules:
       config:
         Joomla\Browser\JoomlaBrowser:
-          url: 'http://localhost/mysql8'
-          database host: 'mysql8'
-          database prefix: 'jos8_'
-          cmsPath: '/tests/www/mysql8'
-        Helper\JoomlaDb:
-          dsn: 'mysql:host=mysql8;dbname=test_joomla'
-          prefix: 'jos8_'
-  mysql8phpmax:
-    modules:
-      config:
-        Joomla\Browser\JoomlaBrowser:
-          url: 'http://localhost/mysql8phpmax'
-          database host: 'mysql8'
-          database prefix: 'phpmax_'
-          cmsPath: '/tests/www/mysql8phpmax'
-        Helper\JoomlaDb:
-          dsn: 'mysql:host=mysql8;dbname=test_joomla'
-          prefix: 'phpmax_'
-  mysql:
-    modules:
-      config:
-        Joomla\Browser\JoomlaBrowser:
-          url: 'http://localhost/mysql'
-          database prefix: 'jos_'
-          cmsPath: '/tests/www/mysql'
-        Helper\JoomlaDb:
-          prefix: 'jos_'
-  postgresphpmax:
-    modules:
-      config:
-        Joomla\Browser\JoomlaBrowser:
-          url: 'http://localhost/postgresphpmax'
+          url: 'http://localhost/phpmax_api_postgres'
           database host: 'postgres'
           database type: 'pgsql'
-          database prefix: 'phpmax_'
-          cmsPath: '/tests/www/postgresphpmax'
+          database prefix: 'phpmax_api_'
+          cmsPath: '/tests/www/phpmax_api_postgres'
         Helper\JoomlaDb:
           dsn: 'pgsql:host=postgres;dbname=test_joomla'
-          prefix: 'phpmax_'
+          prefix: 'phpmax_api_'
+
+# SYSTEM
+  phpmin_system_mysql:
+    modules:
+      config:
+        Joomla\Browser\JoomlaBrowser:
+          url: 'http://localhost/phpmin_system_mysql'
+          database prefix: 'phpmin_system_'
+          cmsPath: '/tests/www/phpmin_system_mysql'
+        Helper\JoomlaDb:
+          prefix: 'phpmin_system_'
+
+  phpmax_system_mysql:
+    modules:
+      config:
+        Joomla\Browser\JoomlaBrowser:
+          url: 'http://localhost/phpmax_system_mysql'
+          database prefix: 'phpmax_system_'
+          cmsPath: '/tests/www/phpmax_system_mysql'
+        Helper\JoomlaDb:
+          prefix: 'phpmax_system_'
+
+  phpmin_system_mysql8:
+    modules:
+      config:
+        Joomla\Browser\JoomlaBrowser:
+          url: 'http://localhost/phpmin_system_mysql8'
+          database host: 'mysql8'
+          database prefix: 'phpmin_system_'
+          cmsPath: '/tests/www/phpmin_system_mysql8'
+        Helper\JoomlaDb:
+          dsn: 'mysql:host=mysql8;dbname=test_joomla'
+          prefix: 'phpmin_system_'
+  phpmax_system_mysql8:
+    modules:
+      config:
+        Joomla\Browser\JoomlaBrowser:
+          url: 'http://localhost/phpmax_system_mysql8'
+          database host: 'mysql8'
+          database prefix: 'phpmax_system_'
+          cmsPath: '/tests/www/phpmax_system_mysql8'
+        Helper\JoomlaDb:
+          dsn: 'mysql:host=mysql8;dbname=test_joomla'
+          prefix: 'phpmax_system_'
+
+
+  phpmin_system_postgres:
+    modules:
+      config:
+        Joomla\Browser\JoomlaBrowser:
+          url: 'http://localhost/phpmin_system_postgres'
+          database host: 'postgres'
+          database type: 'pgsql'
+          database prefix: 'phpmin_system_'
+          cmsPath: '/tests/www/phpmin_system_postgres'
+        Helper\JoomlaDb:
+          dsn: 'pgsql:host=postgres;dbname=test_joomla'
+          prefix: 'phpmin_system_'
+
+  phpmax_system_postgres:
+    modules:
+      config:
+        Joomla\Browser\JoomlaBrowser:
+          url: 'http://localhost/phpmax_system_postgres'
+          database host: 'postgres'
+          database type: 'pgsql'
+          database prefix: 'phpmax_system_'
+          cmsPath: '/tests/www/phpmax_system_postgres'
+        Helper\JoomlaDb:
+          dsn: 'pgsql:host=postgres;dbname=test_joomla'
+          prefix: 'phpmax_system_'
+
   mysqlphpmax:
     modules:
       config:

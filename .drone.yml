@@ -169,17 +169,17 @@ steps:
     environment:
       JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
     commands:
-      - bash tests/Codeception/drone-api-run.sh "$(pwd)" mysql
+      - bash tests/Codeception/drone-api-run.sh "$(pwd)" phpmin_api_mysql
 
   - name: phpmax-api-mysql
     depends_on:
-      - phpmin-api-mysql
+      - javascript-cs
     image: joomlaprojects/docker-images:systemtests8.1
     failure: ignore
     environment:
       JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
     commands:
-      - bash tests/Codeception/drone-api-run.sh "$(pwd)" mysql
+      - bash tests/Codeception/drone-api-run.sh "$(pwd)" phpmax_api_mysql
 
 #  - name: phpnext-api-mysql
 #    depends_on:
@@ -199,7 +199,7 @@ steps:
     environment:
       JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
     commands:
-      - bash tests/Codeception/drone-api-run.sh "$(pwd)" postgres
+      - bash tests/Codeception/drone-api-run.sh "$(pwd)" phpmin_api_postgres
 
 #  - name: phpnext-api-postgres
 #    depends_on:
@@ -213,23 +213,23 @@ steps:
 
   - name: phpmax-api-postgres
     depends_on:
-      - phpmin-api-postgres
+      - javascript-cs
     image: joomlaprojects/docker-images:systemtests8.1
     failure: ignore
     environment:
       JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
     commands:
-      - bash tests/Codeception/drone-api-run.sh "$(pwd)" postgres
+      - bash tests/Codeception/drone-api-run.sh "$(pwd)" phpmax_api_postgres
 
   - name: phpmin-system-mysql
     depends_on:
-      - phpmax-api-mysql
+      - javascript-cs
     image: joomlaprojects/docker-images:systemtests
     failure: ignore
     environment:
       JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
     commands:
-      - bash tests/Codeception/drone-system-run.sh "$(pwd)" mysql
+      - bash tests/Codeception/drone-system-run.sh "$(pwd)" phpmin_system_mysql
 
 #  - name: phpnext-system-mysql
 #    depends_on:
@@ -243,13 +243,13 @@ steps:
 
   - name: phpmax-system-mysql
     depends_on:
-      - phpmin-system-mysql
+      - javascript-cs
     image: joomlaprojects/docker-images:systemtests8.1
     failure: ignore
     environment:
       JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
     commands:
-      - bash tests/Codeception/drone-system-run.sh "$(pwd)" mysqlphpmax
+      - bash tests/Codeception/drone-system-run.sh "$(pwd)" phpmax_system_mysql
 
 #  - name: phpnext-system-mysql8
 #    depends_on:
@@ -268,18 +268,18 @@ steps:
     environment:
       JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
     commands:
-      - bash tests/Codeception/drone-system-run.sh "$(pwd)" mysql8
+      - bash tests/Codeception/drone-system-run.sh "$(pwd)" phpmin_system_mysql8
 
 
   - name: phpmax-system-mysql8
     depends_on:
-      - phpmin-system-mysql8
+      - javascript-cs
     image: joomlaprojects/docker-images:systemtests8.1
     failure: ignore
     environment:
       JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
     commands:
-      - bash tests/Codeception/drone-system-run.sh "$(pwd)" mysql8phpmax
+      - bash tests/Codeception/drone-system-run.sh "$(pwd)" phpmax_system_mysql8
 
 #  - name: phpnext-system-postgres
 #    depends_on:
@@ -293,22 +293,22 @@ steps:
 
   - name: phpmin-system-postgres
     depends_on:
-      - phpmax-api-postgres
+      - javascript-cs
     image: joomlaprojects/docker-images:systemtests
     environment:
       JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
     commands:
-      - bash tests/Codeception/drone-system-run.sh "$(pwd)" postgres
+      - bash tests/Codeception/drone-system-run.sh "$(pwd)" phpmin_system_postgres
 
   - name: phpmax-system-postgres
     depends_on:
-      - phpmin-system-postgres
+      - javascript-cs
     image: joomlaprojects/docker-images:systemtests8.1
     failure: ignore
     environment:
       JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
     commands:
-      - bash tests/Codeception/drone-system-run.sh "$(pwd)" postgresphpmax
+      - bash tests/Codeception/drone-system-run.sh "$(pwd)" phpmax_system_postgres
 
 
   - name: artifacts-system-tests
@@ -417,6 +417,6 @@ steps:
 
 ---
 kind: signature
-hmac: 1f397e0137a31e29e6501157adfac70e6c59044db04e4c928f837de06d8b65f8
+hmac: 59565073a1b790185d6abadccd63b545d21bff7f872c19b6d33ce30a110788fa
 
 ...
