@@ -67,6 +67,17 @@ env:
         Helper\JoomlaDb:
           dsn: 'mysql:host=mysql8;dbname=test_joomla'
           prefix: 'jos8_'
+  mysql8phpmax:
+    modules:
+      config:
+        Joomla\Browser\JoomlaBrowser:
+          url: 'http://localhost/mysql8phpmax'
+          database host: 'mysql8'
+          database prefix: 'phpmax_'
+          cmsPath: '/tests/www/mysql8phpmax'
+        Helper\JoomlaDb:
+          dsn: 'mysql:host=mysql8;dbname=test_joomla'
+          prefix: 'phpmax_'
   mysql:
     modules:
       config:
@@ -87,16 +98,6 @@ env:
           cmsPath: '/tests/www/postgresphpmax'
         Helper\JoomlaDb:
           dsn: 'pgsql:host=postgres;dbname=test_joomla'
-          prefix: 'phpmax_'
-  mysql8phpmax:
-    modules:
-      config:
-        Joomla\Browser\JoomlaBrowser:
-          url: 'http://localhost/mysql8phpmax'
-          database host: 'mysql8'
-          database prefix: 'phpmax_'
-          cmsPath: '/tests/www/mysql8phpmax'
-        Helper\JoomlaDb:
           prefix: 'phpmax_'
   mysqlphpmax:
     modules:
