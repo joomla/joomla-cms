@@ -195,15 +195,15 @@ steps:
     commands:
       - bash tests/Codeception/drone-api-run.sh "$(pwd)" phpmin_api_mysql
 
-  - name: phpmax-api-mysql
-    depends_on:
-      - javascript-cs
-    image: joomlaprojects/docker-images:systemtests8.1
-    failure: ignore
-    environment:
-      JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
-    commands:
-      - bash tests/Codeception/drone-api-run.sh "$(pwd)" phpmax_api_mysql
+#  - name: phpmax-api-mysql
+#    depends_on:
+#      - javascript-cs
+#    image: joomlaprojects/docker-images:systemtests8.1
+#    failure: ignore
+#    environment:
+#      JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
+#    commands:
+#      - bash tests/Codeception/drone-api-run.sh "$(pwd)" phpmax_api_mysql
 
 #  - name: phpnext-api-mysql
 #    depends_on:
@@ -441,6 +441,6 @@ steps:
 
 ---
 kind: signature
-hmac: 7f972c876f220e6864a243d3c59a46364b03f5265822439ff5ea9ffec79b7cd4
+hmac: 259d9b93f05626354de6596113e3e381ffa915a4c8a4e3d0ef2e417a232904f2
 
 ...
