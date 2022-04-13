@@ -1590,16 +1590,16 @@
         },
         {
             "name": "joomla/input",
-            "version": "2.0.2",
+            "version": "2.0.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-framework/input.git",
-                "reference": "954ed4680299426a896401b6c9e148d1f539dd2a"
+                "reference": "147229d2e0c5ac7db6f972d19c9faa922575e5c2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-framework/input/zipball/954ed4680299426a896401b6c9e148d1f539dd2a",
-                "reference": "954ed4680299426a896401b6c9e148d1f539dd2a",
+                "url": "https://api.github.com/repos/joomla-framework/input/zipball/147229d2e0c5ac7db6f972d19c9faa922575e5c2",
+                "reference": "147229d2e0c5ac7db6f972d19c9faa922575e5c2",
                 "shasum": ""
             },
             "require": {
@@ -1636,7 +1636,7 @@
             ],
             "support": {
                 "issues": "https://github.com/joomla-framework/input/issues",
-                "source": "https://github.com/joomla-framework/input/tree/2.0.2"
+                "source": "https://github.com/joomla-framework/input/tree/2.0.3"
             },
             "funding": [
                 {
@@ -1648,7 +1648,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2022-03-03T15:45:18+00:00"
+            "time": "2022-04-06T20:02:40+00:00"
         },
         {
             "name": "joomla/ldap",
