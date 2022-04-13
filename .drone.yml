@@ -193,8 +193,7 @@ steps:
 
   - name: phpmin-api-postgres
     depends_on:
- #     - phpnext-api-mysql
-      - phpmin-api-mysql
+      - javascript-cs
     image: joomlaprojects/docker-images:systemtests
     failure: ignore
     environment:
@@ -214,7 +213,6 @@ steps:
 
   - name: phpmax-api-postgres
     depends_on:
-#      - phpnext-api-postgres
       - phpmin-api-postgres
     image: joomlaprojects/docker-images:systemtests8.1
     failure: ignore
@@ -225,8 +223,7 @@ steps:
 
   - name: phpmin-system-mysql
     depends_on:
-      - javascript-cs
-      - phpmax-api-postgres
+      - phpmax-api-mysql
     image: joomlaprojects/docker-images:systemtests
     failure: ignore
     environment:
@@ -246,7 +243,6 @@ steps:
 
   - name: phpmax-system-mysql
     depends_on:
-#      - phpnext-system-mysql
       - phpmin-system-mysql
     image: joomlaprojects/docker-images:systemtests8.1
     failure: ignore
@@ -265,10 +261,19 @@ steps:
 #    commands:
 #      - bash tests/Codeception/drone-system-run.sh "$(pwd)" mysql8phpnext
 
+  - name: phpmin-system-mysql8
+    depends_on:
+      - javascript-cs
+    image: joomlaprojects/docker-images:systemtests
+    environment:
+      JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
+    commands:
+      - bash tests/Codeception/drone-system-run.sh "$(pwd)" mysql8
+
+
   - name: phpmax-system-mysql8
     depends_on:
-#      - phpnext-system-mysql
-      - phpmax-system-mysql
+      - jphpmin-system-mysql8
     image: joomlaprojects/docker-images:systemtests8.1
     failure: ignore
     environment:
@@ -286,10 +291,18 @@ steps:
 #    commands:
 #      - bash tests/Codeception/drone-system-run.sh "$(pwd)" postgresphpnext
 
+  - name: phpmin-system-postgres
+    depends_on:
+      - phpmax-api-postgres
+    image: joomlaprojects/docker-images:systemtests
+    environment:
+      JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
+    commands:
+      - bash tests/Codeception/drone-system-run.sh "$(pwd)" postgres
+
   - name: phpmax-system-postgres
     depends_on:
-#      - phpnext-system-mysql8
-      - phpmax-system-mysql8
+      - phpmin-system-postgres
     image: joomlaprojects/docker-images:systemtests8.1
     failure: ignore
     environment:
@@ -297,21 +310,6 @@ steps:
     commands:
       - bash tests/Codeception/drone-system-run.sh "$(pwd)" postgresphpmax
 
-  - name: phpmin-system-mysql8
-    depends_on: [ phpmax-system-postgres ]
-    image: joomlaprojects/docker-images:systemtests
-    environment:
-      JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
-    commands:
-      - bash tests/Codeception/drone-system-run.sh "$(pwd)" mysql8
-
-  - name: phpmin-system-postgres
-    depends_on: [ phpmin-system-mysql8 ]
-    image: joomlaprojects/docker-images:systemtests
-    environment:
-      JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
-    commands:
-      - bash tests/Codeception/drone-system-run.sh "$(pwd)" postgres
 
   - name: artifacts-system-tests
     image: cschlosser/drone-ftps
@@ -419,6 +417,6 @@ steps:
 
 ---
 kind: signature
-hmac: 15e1abb49597a83c250c8785948aa9fa0c6d93ec88b03e45c30d8050b338ea5d
+hmac: 57e4795760a119d37453d30a713d2ef5eb42dee9b3ef7977dcb71898e0bd3071
 
 ...
