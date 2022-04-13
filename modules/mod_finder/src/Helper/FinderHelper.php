@@ -48,7 +48,12 @@ class FinderHelper
 		// Create hidden input elements for each part of the URI.
 		foreach ($uri->getQuery(true) as $n => $v)
 		{
-			$fields[] = '<input type="hidden" name="' . $n . '" value="' . $v . '">';
+			if (is_array($v))
+			{
+				$v = reset($v);
+			}
+
+			$fields[] = '<input type="hidden" name="' . $n . '[]" value="' . $v . '">';
 		}
 
 		// Add a field for Itemid if we need one.
