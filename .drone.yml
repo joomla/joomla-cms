@@ -341,18 +341,18 @@ steps:
 #      - phpnext-system-mysql
 #      - phpnext-system-mysql8
 #      - phpnext-system-postgres
-      - phpmax-system-mysql
-      - phpmax-system-mysql8
-      - phpmax-system-postgres
-      - phpmin-system-mysql
-      - phpmin-system-mysql8
-      - phpmin-system-postgres
+#      - phpmax-system-mysql
+#      - phpmax-system-mysql8
+#      - phpmax-system-postgres
+#      - phpmin-system-mysql
+#      - phpmin-system-mysql8
+#      - phpmin-system-postgres
 #      - phpnext-api-mysql
 #      - phpnext-api-postgres
-      - phpmax-api-mysql
-      - phpmax-api-postgres
+#      - phpmax-api-mysql
+#      - phpmax-api-postgres
       - phpmin-api-mysql
-      - phpmin-api-postgres
+#      - phpmin-api-postgres
     environment:
       FTP_USERNAME:
         from_secret: ftpusername
@@ -441,6 +441,6 @@ steps:
 
 ---
 kind: signature
-hmac: c9787183c1fe83f3f853e45624a49eddcdd14ec964df37d3a29828d2ab5b818a
+hmac: 7f972c876f220e6864a243d3c59a46364b03f5265822439ff5ea9ffec79b7cd4
 
 ...
