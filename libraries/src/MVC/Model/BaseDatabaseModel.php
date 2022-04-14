@@ -24,7 +24,11 @@ use Joomla\CMS\MVC\Factory\MVCFactoryServiceInterface;
 use Joomla\CMS\Table\Table;
 use Joomla\CMS\User\CurrentUserInterface;
 use Joomla\CMS\User\CurrentUserTrait;
+use Joomla\Database\DatabaseAwareInterface;
+use Joomla\Database\DatabaseAwareTrait;
+use Joomla\Database\DatabaseInterface;
 use Joomla\Database\DatabaseQuery;
+use Joomla\Database\Exception\DatabaseNotFoundException;
 use Joomla\Event\DispatcherAwareInterface;
 use Joomla\Event\DispatcherAwareTrait;
 use Joomla\Event\DispatcherInterface;
@@ -38,7 +42,7 @@ use Joomla\Event\EventInterface;
  *
  * @since  2.5.5
  */
-abstract class BaseDatabaseModel extends BaseModel implements DatabaseModelInterface, DispatcherAwareInterface, CurrentUserInterface
+abstract class BaseDatabaseModel extends BaseModel implements DatabaseModelInterface, DatabaseAwareInterface, DispatcherAwareInterface, CurrentUserInterface
 {
 	use DatabaseAwareTrait, MVCFactoryAwareTrait, DispatcherAwareTrait, CurrentUserTrait;
 
@@ -84,7 +88,17 @@ abstract class BaseDatabaseModel extends BaseModel implements DatabaseModelInter
 			$this->option = ComponentHelper::getComponentName($this, $r[1]);
 		}
 
-		$this->setDbo(\array_key_exists('dbo', $config) ? $config['dbo'] : Factory::getDbo());
+		/**
+		 * @deprecated 5.0 Database instance is injected through the setter function,
+		 *                 subclasses should not use the db instance in constructor anymore
+		 */
+		$db = \array_key_exists('dbo', $config) ? $config['dbo'] : Factory::getDbo();
+
+		if ($db)
+		{
+			@trigger_error(sprintf('Database is not available in constructor in 5.0.'), E_USER_DEPRECATED);
+			$this->setDatabase($db);
+		}
 
 		// Set the default view search path
 		if (\array_key_exists('table_path', $config))
@@ -141,13 +155,13 @@ abstract class BaseDatabaseModel extends BaseModel implements DatabaseModelInter
 	{
 		if (\is_string($query))
 		{
-			$query = $this->getDbo()->getQuery(true)->setQuery($query);
+			$query = $this->getDatabase()->getQuery(true)->setQuery($query);
 		}
 
 		$query->setLimit($limit, $limitstart);
-		$this->getDbo()->setQuery($query);
+		$this->getDatabase()->setQuery($query);
 
-		return $this->getDbo()->loadObjectList();
+		return $this->getDatabase()->loadObjectList();
 	}
 
 	/**
@@ -177,9 +191,9 @@ abstract class BaseDatabaseModel extends BaseModel implements DatabaseModelInter
 			$query = clone $query;
 			$query->clear('select')->clear('order')->clear('limit')->clear('offset')->select('COUNT(*)');
 
-			$this->getDbo()->setQuery($query);
+			$this->getDatabase()->setQuery($query);
 
-			return (int) $this->getDbo()->loadResult();
+			return (int) $this->getDatabase()->loadResult();
 		}
 
 		// Otherwise fall back to inefficient way of counting all results.
@@ -191,10 +205,10 @@ abstract class BaseDatabaseModel extends BaseModel implements DatabaseModelInter
 			$query->clear('limit')->clear('offset')->clear('order');
 		}
 
-		$this->getDbo()->setQuery($query);
-		$this->getDbo()->execute();
+		$this->getDatabase()->setQuery($query);
+		$this->getDatabase()->execute();
 
-		return (int) $this->getDbo()->getNumRows();
+		return (int) $this->getDatabase()->getNumRows();
 	}
 
 	/**
@@ -214,7 +228,7 @@ abstract class BaseDatabaseModel extends BaseModel implements DatabaseModelInter
 		// Make sure we are returning a DBO object
 		if (!\array_key_exists('dbo', $config))
 		{
-			$config['dbo'] = $this->getDbo();
+			$config['dbo'] = $this->getDatabase();
 		}
 
 		return $this->getMVCFactory()->createTable($name, $prefix, $config);
@@ -340,5 +354,69 @@ abstract class BaseDatabaseModel extends BaseModel implements DatabaseModelInter
 		{
 			Factory::getContainer()->get(DispatcherInterface::class)->dispatch($event->getName(), $event);
 		}
+	}
+
+	/**
+	 * Get the database driver.
+	 *
+	 * @return  DatabaseInterface  The database driver.
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 * @throws  \UnexpectedValueException
+	 *
+	 * @deprecated  5.0 Use getDatabase() instead
+	 */
+	public function getDbo(): DatabaseInterface
+	{
+		try
+		{
+			return $this->getDatabase();
+		}
+		catch (DatabaseNotFoundException $e)
+		{
+			throw new \UnexpectedValueException('Database driver not set in ' . __CLASS__);
+		}
+	}
+
+	/**
+	 * Set the database driver.
+	 *
+	 * @param   DatabaseInterface  $db  The database driver.
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 *
+	 * @deprecated  5.0 Use setDatabase() instead
+	 */
+	public function setDbo(DatabaseInterface $db = null): void
+	{
+		if ($db === null)
+		{
+			return;
+		}
+
+		$this->setDatabase($db);
+	}
+
+	/**
+	 * Proxy for _db variable.
+	 *
+	 * @param   string  $name  The name of the element
+	 *
+	 * @return  mixed  The value of the element if set, null otherwise
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 *
+	 * @deprecated  5.0 Use getDatabase() instead of directly accessing _db
+	 */
+	public function __get($name)
+	{
+		if ($name === '_db')
+		{
+			return $this->getDatabase();
+		}
+
+		return $this->$name;
 	}
 }

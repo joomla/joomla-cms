@@ -215,8 +215,7 @@ abstract class FormModel extends BaseDatabaseModel implements FormFactoryAwareIn
 		Factory::getApplication()->triggerEvent('onContentBeforeValidateData', array($form, &$data));
 
 		// Filter and validate the form data.
-		$data = $form->filter($data);
-		$return = $form->validate($data, $group);
+		$return = $form->process($data, $group);
 
 		// Check for an error.
 		if ($return instanceof \Exception)
@@ -237,6 +236,8 @@ abstract class FormModel extends BaseDatabaseModel implements FormFactoryAwareIn
 
 			return false;
 		}
+
+		$data = $return;
 
 		// Tags B/C break at 3.1.2
 		if (!isset($data['tags']) && isset($data['metadata']['tags']))
