@@ -14,7 +14,6 @@ namespace Joomla\Component\Modules\Administrator\Controller;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\AdminController;
 use Joomla\CMS\Response\JsonResponse;
-use Joomla\Utilities\ArrayHelper;
 
 /**
  * Modules list controller class.
@@ -35,8 +34,10 @@ class ModulesController extends AdminController
 		// Check for request forgeries
 		$this->checkToken();
 
-		$pks = $this->input->post->get('cid', array(), 'array');
-		$pks = ArrayHelper::toInteger($pks);
+		$pks = (array) $this->input->post->get('cid', array(), 'int');
+
+		// Remove zero values resulting from input filter
+		$pks = array_filter($pks);
 
 		try
 		{

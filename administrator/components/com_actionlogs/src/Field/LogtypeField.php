@@ -12,7 +12,7 @@ namespace Joomla\Component\Actionlogs\Administrator\Field;
 \defined('_JEXEC') or die;
 
 use Joomla\CMS\Application\ApplicationHelper;
-use Joomla\CMS\Form\Field\CheckboxesField;
+use Joomla\CMS\Form\Field\ListField;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\Component\Actionlogs\Administrator\Helper\ActionlogsHelper;
@@ -24,7 +24,7 @@ use Joomla\Database\DatabaseAwareTrait;
  *
  * @since  3.9.0
  */
-class LogtypeField extends CheckboxesField implements DatabaseAwareInterface
+class LogtypeField extends ListField implements DatabaseAwareInterface
 {
 	use DatabaseAwareTrait;
 
@@ -52,14 +52,13 @@ class LogtypeField extends CheckboxesField implements DatabaseAwareInterface
 
 		$extensions = $db->setQuery($query)->loadColumn();
 
-		$options = array();
-		$tmp     = array('checked' => true);
+		$options = [];
 
 		foreach ($extensions as $extension)
 		{
 			ActionlogsHelper::loadTranslationFiles($extension);
-			$option                                                                            = HTMLHelper::_('select.option', $extension, Text::_($extension));
-			$options[ApplicationHelper::stringURLSafe(Text::_($extension)) . '_' . $extension] = (object) array_merge($tmp, (array) $option);
+			$extensionName = Text::_($extension);
+			$options[ApplicationHelper::stringURLSafe($extensionName) . '_' . $extension] = HTMLHelper::_('select.option', $extension, $extensionName);
 		}
 
 		ksort($options);

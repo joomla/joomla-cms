@@ -94,6 +94,7 @@ abstract class BaseDatabaseModel extends BaseModel implements DatabaseModelInter
 
 		if ($db)
 		{
+			@trigger_error(sprintf('Database is not available in constructor in 5.0.'), E_USER_DEPRECATED);
 			$this->setDatabase($db);
 		}
 
@@ -152,13 +153,13 @@ abstract class BaseDatabaseModel extends BaseModel implements DatabaseModelInter
 	{
 		if (\is_string($query))
 		{
-			$query = $this->getDbo()->getQuery(true)->setQuery($query);
+			$query = $this->getDatabase()->getQuery(true)->setQuery($query);
 		}
 
 		$query->setLimit($limit, $limitstart);
-		$this->getDbo()->setQuery($query);
+		$this->getDatabase()->setQuery($query);
 
-		return $this->getDbo()->loadObjectList();
+		return $this->getDatabase()->loadObjectList();
 	}
 
 	/**
@@ -188,9 +189,9 @@ abstract class BaseDatabaseModel extends BaseModel implements DatabaseModelInter
 			$query = clone $query;
 			$query->clear('select')->clear('order')->clear('limit')->clear('offset')->select('COUNT(*)');
 
-			$this->getDbo()->setQuery($query);
+			$this->getDatabase()->setQuery($query);
 
-			return (int) $this->getDbo()->loadResult();
+			return (int) $this->getDatabase()->loadResult();
 		}
 
 		// Otherwise fall back to inefficient way of counting all results.
@@ -202,10 +203,10 @@ abstract class BaseDatabaseModel extends BaseModel implements DatabaseModelInter
 			$query->clear('limit')->clear('offset')->clear('order');
 		}
 
-		$this->getDbo()->setQuery($query);
-		$this->getDbo()->execute();
+		$this->getDatabase()->setQuery($query);
+		$this->getDatabase()->execute();
 
-		return (int) $this->getDbo()->getNumRows();
+		return (int) $this->getDatabase()->getNumRows();
 	}
 
 	/**
@@ -225,7 +226,7 @@ abstract class BaseDatabaseModel extends BaseModel implements DatabaseModelInter
 		// Make sure we are returning a DBO object
 		if (!\array_key_exists('dbo', $config))
 		{
-			$config['dbo'] = $this->getDbo();
+			$config['dbo'] = $this->getDatabase();
 		}
 
 		return $this->getMVCFactory()->createTable($name, $prefix, $config);
