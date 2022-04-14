@@ -207,7 +207,7 @@ steps:
 
   - name: phpmin-api-postgres
     depends_on:
-      - javascript-cs
+      - phpmax-api-mysql
     image: joomlaprojects/docker-images:systemtests
     failure: ignore
     environment:
@@ -227,7 +227,7 @@ steps:
 
   - name: phpmin-system-mysql
     depends_on:
-      - phpmax-api-mysql
+      - phpmax-api-postgres
     image: joomlaprojects/docker-images:systemtests
     failure: ignore
     environment:
@@ -247,7 +247,7 @@ steps:
 
   - name: phpmin-system-mysql8
     depends_on:
-      - javascript-cs
+      - phpmax-system-mysql
     image: joomlaprojects/docker-images:systemtests
     environment:
       JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
@@ -267,7 +267,7 @@ steps:
 
   - name: phpmin-system-postgres
     depends_on:
-      - javascript-cs
+      - phpmax-system-mysql8
     image: joomlaprojects/docker-images:systemtests
     environment:
       JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
@@ -276,7 +276,7 @@ steps:
 
   - name: phpmax-system-postgres
     depends_on:
-      - javascript-cs
+      - phpmin-system-postgres
     image: joomlaprojects/docker-images:systemtests8.1
     failure: ignore
     environment:
@@ -390,6 +390,6 @@ steps:
 
 ---
 kind: signature
-hmac: 8e4c42956b354c3f65800e9b05f6c6781cf956f1e2cc22c5e9aa06c14bcff262
+hmac: 3dc08fc80d8e81d74e575b172d186a3bec2acac68986fcdb6a76f0537e60b28b
 
 ...
