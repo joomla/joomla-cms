@@ -96,6 +96,7 @@ class PlgSystemAccessibility extends CMSPlugin
 							'units' => 'px',
 						],
 					],
+					'useEmojis' => true,
 				],
 				'hotkeys' => [
 					'enabled' => true,

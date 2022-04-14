@@ -318,6 +318,7 @@ class ExtensionHelper
 		array('plugin', 'content', 'webservices', 0),
 		array('plugin', 'installer', 'webservices', 0),
 		array('plugin', 'languages', 'webservices', 0),
+		array('plugin', 'media', 'webservices', 0),
 		array('plugin', 'menus', 'webservices', 0),
 		array('plugin', 'messages', 'webservices', 0),
 		array('plugin', 'modules', 'webservices', 0),
