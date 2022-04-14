@@ -12,18 +12,14 @@ namespace Joomla\Component\Plugins\Administrator\Field;
 \defined('_JEXEC') or die;
 
 use Joomla\CMS\Form\Field\OrderingField;
-use Joomla\Database\DatabaseAwareInterface;
-use Joomla\Database\DatabaseAwareTrait;
 
 /**
  * Supports an HTML select list of plugins.
  *
  * @since  1.6
  */
-class PluginorderingField extends OrderingField implements DatabaseAwareInterface
+class PluginorderingField extends OrderingField
 {
-	use DatabaseAwareTrait;
-
 	/**
 	 * The form field type.
 	 *

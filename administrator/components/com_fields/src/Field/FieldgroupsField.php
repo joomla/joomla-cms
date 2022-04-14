@@ -13,8 +13,6 @@ namespace Joomla\Component\Fields\Administrator\Field;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Field\ListField;
-use Joomla\Database\DatabaseAwareInterface;
-use Joomla\Database\DatabaseAwareTrait;
 use Joomla\Utilities\ArrayHelper;
 
 /**
@@ -22,10 +20,8 @@ use Joomla\Utilities\ArrayHelper;
  *
  * @since  3.7.0
  */
-class FieldgroupsField extends ListField implements DatabaseAwareInterface
+class FieldgroupsField extends ListField
 {
-	use DatabaseAwareTrait;
-
 	/**
 	 * @var    string
 	 */

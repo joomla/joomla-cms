@@ -13,8 +13,6 @@ namespace Joomla\CMS\Form\Field;
 use Joomla\CMS\Access\Access;
 use Joomla\CMS\Form\FormField;
 use Joomla\CMS\Helper\UserGroupsHelper;
-use Joomla\Database\DatabaseAwareInterface;
-use Joomla\Database\DatabaseAwareTrait;
 use Joomla\Database\ParameterType;
 
 /**
@@ -24,10 +22,8 @@ use Joomla\Database\ParameterType;
  * @see    JAccess
  * @since  1.7.0
  */
-class RulesField extends FormField implements DatabaseAwareInterface
+class RulesField extends FormField
 {
-	use DatabaseAwareTrait;
-
 	/**
 	 * The form field type.
 	 *

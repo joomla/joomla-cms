@@ -12,8 +12,6 @@ namespace Joomla\CMS\Form\Field;
 
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\Component\Menus\Administrator\Helper\MenusHelper;
-use Joomla\Database\DatabaseAwareInterface;
-use Joomla\Database\DatabaseAwareTrait;
 
 // Import the com_menus helper.
 require_once realpath(JPATH_ADMINISTRATOR . '/components/com_menus/helpers/menus.php');
@@ -23,10 +21,8 @@ require_once realpath(JPATH_ADMINISTRATOR . '/components/com_menus/helpers/menus
  *
  * @since  1.6
  */
-class MenuitemField extends GroupedlistField implements DatabaseAwareInterface
+class MenuitemField extends GroupedlistField
 {
-	use DatabaseAwareTrait;
-
 	/**
 	 * The form field type.
 	 *

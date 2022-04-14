@@ -15,8 +15,6 @@ use Joomla\CMS\Filesystem\Folder;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
-use Joomla\Database\DatabaseAwareInterface;
-use Joomla\Database\DatabaseAwareTrait;
 use Joomla\Database\ParameterType;
 
 /**
@@ -24,10 +22,8 @@ use Joomla\Database\ParameterType;
  *
  * @since  3.0
  */
-class ChromestyleField extends GroupedlistField implements DatabaseAwareInterface
+class ChromestyleField extends GroupedlistField
 {
-	use DatabaseAwareTrait;
-
 	/**
 	 * The form field type.
 	 *

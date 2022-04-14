@@ -14,8 +14,6 @@ use DateTime;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\FormField;
 use Joomla\CMS\Language\Text;
-use Joomla\Database\DatabaseAwareInterface;
-use Joomla\Database\DatabaseAwareTrait;
 use Joomla\Registry\Registry;
 
 /**
@@ -26,10 +24,8 @@ use Joomla\Registry\Registry;
  *
  * @since  1.7.0
  */
-class CalendarField extends FormField implements DatabaseAwareInterface
+class CalendarField extends FormField
 {
-	use DatabaseAwareTrait;
-
 	/**
 	 * The form field type.
 	 *

@@ -15,18 +15,14 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Form\FormField;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
-use Joomla\Database\DatabaseAwareInterface;
-use Joomla\Database\DatabaseAwareTrait;
 
 /**
  * Text Filters form field.
  *
  * @since  1.6
  */
-class FiltersField extends FormField implements DatabaseAwareInterface
+class FiltersField extends FormField
 {
-	use DatabaseAwareTrait;
-
 	/**
 	 * The form field type.
 	 *

@@ -15,18 +15,14 @@ use Joomla\CMS\Form\Field\ListField;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\Component\Actionlogs\Administrator\Helper\ActionlogsHelper;
-use Joomla\Database\DatabaseAwareInterface;
-use Joomla\Database\DatabaseAwareTrait;
 
 /**
  * Field to load a list of all extensions that have logged actions
  *
  * @since  3.9.0
  */
-class ExtensionField extends ListField implements DatabaseAwareInterface
+class ExtensionField extends ListField
 {
-	use DatabaseAwareTrait;
-
 	/**
 	 * The form field type.
 	 *

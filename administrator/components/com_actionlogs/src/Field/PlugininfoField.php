@@ -15,18 +15,14 @@ use Joomla\CMS\Form\FormField;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
-use Joomla\Database\DatabaseAwareInterface;
-use Joomla\Database\DatabaseAwareTrait;
 
 /**
  * Information field.
  *
  * @since  3.9.2
  */
-class PlugininfoField extends FormField implements DatabaseAwareInterface
+class PlugininfoField extends FormField
 {
-	use DatabaseAwareTrait;
-
 	/**
 	 * The form field type.
 	 *

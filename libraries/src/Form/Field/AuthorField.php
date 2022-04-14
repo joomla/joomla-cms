@@ -10,18 +10,14 @@ namespace Joomla\CMS\Form\Field;
 
 \defined('JPATH_PLATFORM') or die;
 
-use Joomla\Database\DatabaseAwareInterface;
-use Joomla\Database\DatabaseAwareTrait;
 
 /**
  * Form Field to load a list of content authors
  *
  * @since  3.2
  */
-class AuthorField extends ListField implements DatabaseAwareInterface
+class AuthorField extends ListField
 {
-	use DatabaseAwareTrait;
-
 	/**
 	 * The form field type.
 	 *

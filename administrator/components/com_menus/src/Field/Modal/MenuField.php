@@ -17,8 +17,6 @@ use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Session\Session;
-use Joomla\Database\DatabaseAwareInterface;
-use Joomla\Database\DatabaseAwareTrait;
 use Joomla\Database\ParameterType;
 
 /**
@@ -26,10 +24,8 @@ use Joomla\Database\ParameterType;
  *
  * @since  3.7.0
  */
-class MenuField extends FormField implements DatabaseAwareInterface
+class MenuField extends FormField
 {
-	use DatabaseAwareTrait;
-
 	/**
 	 * The form field type.
 	 *

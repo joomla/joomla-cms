@@ -13,18 +13,14 @@ namespace Joomla\Component\Newsfeeds\Administrator\Field;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Field\ListField;
-use Joomla\Database\DatabaseAwareInterface;
-use Joomla\Database\DatabaseAwareTrait;
 
 /**
  * News Feed List field.
  *
  * @since  1.6
  */
-class NewsfeedsField extends ListField implements DatabaseAwareInterface
+class NewsfeedsField extends ListField
 {
-	use DatabaseAwareTrait;
-
 	/**
 	 * The form field type.
 	 *

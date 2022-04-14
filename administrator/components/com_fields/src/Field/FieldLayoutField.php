@@ -16,8 +16,6 @@ use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Form\FormField;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
-use Joomla\Database\DatabaseAwareInterface;
-use Joomla\Database\DatabaseAwareTrait;
 
 /**
  * Form Field to display a list of the layouts for a field from
@@ -25,10 +23,8 @@ use Joomla\Database\DatabaseAwareTrait;
  *
  * @since  3.9.0
  */
-class FieldLayoutField extends FormField implements DatabaseAwareInterface
+class FieldLayoutField extends FormField
 {
-	use DatabaseAwareTrait;
-
 	/**
 	 * The form field type.
 	 *

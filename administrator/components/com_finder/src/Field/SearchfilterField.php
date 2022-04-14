@@ -14,18 +14,14 @@ namespace Joomla\Component\Finder\Administrator\Field;
 use Joomla\CMS\Form\Field\ListField;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
-use Joomla\Database\DatabaseAwareInterface;
-use Joomla\Database\DatabaseAwareTrait;
 
 /**
  * Search Filter field for the Finder package.
  *
  * @since  2.5
  */
-class SearchfilterField extends ListField implements DatabaseAwareInterface
+class SearchfilterField extends ListField
 {
-	use DatabaseAwareTrait;
-
 	/**
 	 * The form field type.
 	 *

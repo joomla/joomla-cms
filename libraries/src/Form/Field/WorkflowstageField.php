@@ -13,18 +13,14 @@ namespace Joomla\CMS\Form\Field;
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
-use Joomla\Database\DatabaseAwareInterface;
-use Joomla\Database\DatabaseAwareTrait;
 
 /**
  * Workflow Stages field.
  *
  * @since  4.0.0
  */
-class WorkflowstageField extends GroupedlistField implements DatabaseAwareInterface
+class WorkflowstageField extends GroupedlistField
 {
-	use DatabaseAwareTrait;
-
 	/**
 	 * The form field type.
 	 *

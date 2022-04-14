@@ -24,6 +24,9 @@ use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Table\Table;
 use Joomla\Component\Fields\Administrator\Helper\FieldsHelper;
+use Joomla\Database\DatabaseAwareInterface;
+use Joomla\Database\DatabaseInterface;
+use Joomla\Database\Exception\DatabaseNotFoundException;
 use Joomla\Database\ParameterType;
 use Joomla\Registry\Registry;
 use Joomla\String\StringHelper;
@@ -321,6 +324,19 @@ class FieldModel extends AdminModel
 		if (!$rule)
 		{
 			return true;
+		}
+
+		if ($rule instanceof DatabaseAwareInterface)
+		{
+			try
+			{
+				$rule->setDatabase($this->getDatabase());
+			}
+			catch (DatabaseNotFoundException $e)
+			{
+				@trigger_error(sprintf('Database must be set, this will not be catched anymore in 5.0.'), E_USER_DEPRECATED);
+				$rule->setDatabase(Factory::getContainer()->get(DatabaseInterface::class));
+			}
 		}
 
 		try

@@ -12,18 +12,14 @@ namespace Joomla\CMS\Form\Field;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
-use Joomla\Database\DatabaseAwareInterface;
-use Joomla\Database\DatabaseAwareTrait;
 
 /**
  * Content Type field.
  *
  * @since  3.1
  */
-class ContenttypeField extends ListField implements DatabaseAwareInterface
+class ContenttypeField extends ListField
 {
-	use DatabaseAwareTrait;
-
 	/**
 	 * A flexible tag list that respects access controls
 	 *

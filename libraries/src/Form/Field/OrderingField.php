@@ -13,8 +13,6 @@ namespace Joomla\CMS\Form\Field;
 use Joomla\CMS\Form\FormField;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\UCM\UCMType;
-use Joomla\Database\DatabaseAwareInterface;
-use Joomla\Database\DatabaseAwareTrait;
 use Joomla\Database\DatabaseQuery;
 use Joomla\Database\ParameterType;
 
@@ -23,10 +21,8 @@ use Joomla\Database\ParameterType;
  *
  * @since  3.2
  */
-class OrderingField extends FormField implements DatabaseAwareInterface
+class OrderingField extends FormField
 {
-	use DatabaseAwareTrait;
-
 	/**
 	 * The form field type.
 	 *

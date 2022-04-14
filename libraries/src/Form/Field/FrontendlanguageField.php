@@ -11,8 +11,6 @@ namespace Joomla\CMS\Form\Field;
 \defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Factory;
-use Joomla\Database\DatabaseAwareInterface;
-use Joomla\Database\DatabaseAwareTrait;
 
 /**
  * Provides a list of published content languages with home pages
@@ -20,10 +18,8 @@ use Joomla\Database\DatabaseAwareTrait;
  * @see    \Joomla\CMS\Form\Field\LanguageField for a select list of application languages.
  * @since  3.5
  */
-class FrontendlanguageField extends ListField implements DatabaseAwareInterface
+class FrontendlanguageField extends ListField
 {
-	use DatabaseAwareTrait;
-
 	/**
 	 * The form field type.
 	 *

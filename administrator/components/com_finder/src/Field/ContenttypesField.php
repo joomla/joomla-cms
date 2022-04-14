@@ -16,8 +16,6 @@ use Joomla\CMS\Form\Field\ListField;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\Component\Finder\Administrator\Helper\LanguageHelper;
-use Joomla\Database\DatabaseAwareInterface;
-use Joomla\Database\DatabaseAwareTrait;
 use Joomla\Utilities\ArrayHelper;
 
 /**
@@ -25,10 +23,8 @@ use Joomla\Utilities\ArrayHelper;
  *
  * @since  3.6.0
  */
-class ContenttypesField extends ListField implements DatabaseAwareInterface
+class ContenttypesField extends ListField
 {
-	use DatabaseAwareTrait;
-
 	/**
 	 * The form field type.
 	 *

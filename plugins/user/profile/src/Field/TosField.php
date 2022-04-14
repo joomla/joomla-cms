@@ -18,8 +18,6 @@ use Joomla\CMS\Language\Associations;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 use Joomla\Component\Content\Site\Helper\RouteHelper;
-use Joomla\Database\DatabaseAwareInterface;
-use Joomla\Database\DatabaseAwareTrait;
 use Joomla\Database\ParameterType;
 
 /**
@@ -27,10 +25,8 @@ use Joomla\Database\ParameterType;
  *
  * @since  2.5.5
  */
-class TosField extends RadioField implements DatabaseAwareInterface
+class TosField extends RadioField
 {
-	use DatabaseAwareTrait;
-
 	/**
 	 * The form field type.
 	 *

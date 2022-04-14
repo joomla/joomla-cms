@@ -16,8 +16,6 @@ use Joomla\CMS\Form\Field\RadioField;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Language\Text;
 use Joomla\Component\Content\Site\Helper\RouteHelper;
-use Joomla\Database\DatabaseAwareInterface;
-use Joomla\Database\DatabaseAwareTrait;
 use Joomla\Database\ParameterType;
 
 /**
@@ -25,10 +23,8 @@ use Joomla\Database\ParameterType;
  *
  * @since  3.9.0
  */
-class PrivacyField extends RadioField implements DatabaseAwareInterface
+class PrivacyField extends RadioField
 {
-	use DatabaseAwareTrait;
-
 	/**
 	 * The form field type.
 	 *

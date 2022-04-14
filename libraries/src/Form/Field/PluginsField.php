@@ -13,18 +13,14 @@ namespace Joomla\CMS\Form\Field;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
-use Joomla\Database\DatabaseAwareInterface;
-use Joomla\Database\DatabaseAwareTrait;
 
 /**
  * Form Field class for the Joomla Framework.
  *
  * @since  2.5.0
  */
-class PluginsField extends ListField implements DatabaseAwareInterface
+class PluginsField extends ListField
 {
-	use DatabaseAwareTrait;
-
 	/**
 	 * The field type.
 	 *

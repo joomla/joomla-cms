@@ -12,8 +12,6 @@ namespace Joomla\CMS\Form\Field;
 
 use Joomla\CMS\Editor\Editor;
 use Joomla\CMS\Factory;
-use Joomla\Database\DatabaseAwareInterface;
-use Joomla\Database\DatabaseAwareTrait;
 
 /**
  * A textarea field for content creation
@@ -21,10 +19,8 @@ use Joomla\Database\DatabaseAwareTrait;
  * @see    JEditor
  * @since  1.6
  */
-class EditorField extends TextareaField implements DatabaseAwareInterface
+class EditorField extends TextareaField
 {
-	use DatabaseAwareTrait;
-
 	/**
 	 * The form field type.
 	 *

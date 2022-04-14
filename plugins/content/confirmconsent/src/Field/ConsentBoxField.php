@@ -18,8 +18,6 @@ use Joomla\CMS\Language\Associations;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Router\Route;
 use Joomla\Component\Content\Site\Helper\RouteHelper;
-use Joomla\Database\DatabaseAwareInterface;
-use Joomla\Database\DatabaseAwareTrait;
 use Joomla\Database\Exception\ExecutionFailureException;
 use Joomla\Database\ParameterType;
 
@@ -28,10 +26,8 @@ use Joomla\Database\ParameterType;
  *
  * @since  3.9.1
  */
-class ConsentBoxField extends CheckboxesField implements DatabaseAwareInterface
+class ConsentBoxField extends CheckboxesField
 {
-	use DatabaseAwareTrait;
-
 	/**
 	 * The form field type.
 	 *

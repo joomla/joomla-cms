@@ -14,8 +14,6 @@ use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\TagsHelper;
 use Joomla\CMS\Language\Multilanguage;
-use Joomla\Database\DatabaseAwareInterface;
-use Joomla\Database\DatabaseAwareTrait;
 use Joomla\Database\ParameterType;
 use Joomla\Utilities\ArrayHelper;
 
@@ -24,10 +22,8 @@ use Joomla\Utilities\ArrayHelper;
  *
  * @since  3.1
  */
-class TagField extends ListField implements DatabaseAwareInterface
+class TagField extends ListField
 {
-	use DatabaseAwareTrait;
-
 	/**
 	 * A flexible tag list that respects access controls
 	 *

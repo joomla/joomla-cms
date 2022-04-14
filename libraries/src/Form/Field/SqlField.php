@@ -13,8 +13,6 @@ namespace Joomla\CMS\Form\Field;
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
-use Joomla\Database\DatabaseAwareInterface;
-use Joomla\Database\DatabaseAwareTrait;
 use Joomla\Database\DatabaseQuery;
 use Joomla\Database\Exception\ExecutionFailureException;
 
@@ -23,10 +21,8 @@ use Joomla\Database\Exception\ExecutionFailureException;
  *
  * @since  1.7.0
  */
-class SqlField extends ListField implements DatabaseAwareInterface
+class SqlField extends ListField
 {
-	use DatabaseAwareTrait;
-
 	/**
 	 * The form field type.
 	 *

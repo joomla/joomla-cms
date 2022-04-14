@@ -15,18 +15,14 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Field\GroupedlistField;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\Component\Menus\Administrator\Helper\MenusHelper;
-use Joomla\Database\DatabaseAwareInterface;
-use Joomla\Database\DatabaseAwareTrait;
 
 /**
  * Supports an HTML grouped select list of menu item grouped by menu
  *
  * @since  3.8.0
  */
-class MenuItemByTypeField extends GroupedlistField implements DatabaseAwareInterface
+class MenuItemByTypeField extends GroupedlistField
 {
-	use DatabaseAwareTrait;
-
 	/**
 	 * The form field type.
 	 *

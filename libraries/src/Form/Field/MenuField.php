@@ -12,8 +12,6 @@ namespace Joomla\CMS\Form\Field;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
-use Joomla\Database\DatabaseAwareInterface;
-use Joomla\Database\DatabaseAwareTrait;
 use Joomla\Database\ParameterType;
 
 // Import the com_menus helper.
@@ -24,10 +22,8 @@ require_once realpath(JPATH_ADMINISTRATOR . '/components/com_menus/helpers/menus
  *
  * @since  1.6
  */
-class MenuField extends GroupedlistField implements DatabaseAwareInterface
+class MenuField extends GroupedlistField
 {
-	use DatabaseAwareTrait;
-
 	/**
 	 * The form field type.
 	 *

@@ -18,8 +18,6 @@ use Joomla\CMS\Form\Form;
 use Joomla\CMS\Form\FormField;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
-use Joomla\Database\DatabaseAwareInterface;
-use Joomla\Database\DatabaseAwareTrait;
 use Joomla\Database\ParameterType;
 
 /**
@@ -27,10 +25,8 @@ use Joomla\Database\ParameterType;
  *
  * @since  1.6
  */
-class ModulelayoutField extends FormField implements DatabaseAwareInterface
+class ModulelayoutField extends FormField
 {
-	use DatabaseAwareTrait;
-
 	/**
 	 * The form field type.
 	 *

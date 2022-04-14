@@ -14,18 +14,14 @@ namespace Joomla\Component\Messages\Administrator\Field;
 use Joomla\CMS\Access\Access;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Field\UserField;
-use Joomla\Database\DatabaseAwareInterface;
-use Joomla\Database\DatabaseAwareTrait;
 
 /**
  * Supports a modal select of users that have access to com_messages
  *
  * @since  1.6
  */
-class UserMessagesField extends UserField implements DatabaseAwareInterface
+class UserMessagesField extends UserField
 {
-	use DatabaseAwareTrait;
-
 	/**
 	 * The form field type.
 	 *

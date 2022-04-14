@@ -13,8 +13,6 @@ namespace Joomla\CMS\Form\Field;
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
-use Joomla\Database\DatabaseAwareInterface;
-use Joomla\Database\DatabaseAwareTrait;
 use Joomla\Database\ParameterType;
 
 /**
@@ -22,10 +20,8 @@ use Joomla\Database\ParameterType;
  *
  * @since  4.0.0
  */
-class TransitionField extends ListField implements DatabaseAwareInterface
+class TransitionField extends ListField
 {
-	use DatabaseAwareTrait;
-
 	/**
 	 * The form field type.
 	 *

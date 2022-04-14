@@ -14,8 +14,6 @@ use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
-use Joomla\Database\DatabaseAwareInterface;
-use Joomla\Database\DatabaseAwareTrait;
 use Joomla\Database\ParameterType;
 
 /**
@@ -23,10 +21,8 @@ use Joomla\Database\ParameterType;
  *
  * @since  1.6
  */
-class TemplatestyleField extends GroupedlistField implements DatabaseAwareInterface
+class TemplatestyleField extends GroupedlistField
 {
-	use DatabaseAwareTrait;
-
 	/**
 	 * The form field type.
 	 *
