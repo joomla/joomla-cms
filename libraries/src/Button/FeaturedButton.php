@@ -29,12 +29,21 @@ class FeaturedButton extends ActionButton
 	 */
 	protected function preprocess()
 	{
-		$this->addState(0, 'featured', 'icon-unfeatured',
-			Text::_('JGLOBAL_TOGGLE_FEATURED'), ['tip_title' => Text::_('JUNFEATURED')]
-		);
-		$this->addState(1, 'unfeatured', 'icon-color-featured icon-star',
-			Text::_('JGLOBAL_TOGGLE_FEATURED'), ['tip_title' => Text::_('JFEATURED')]
-		);
+		$workflow_featured = Factory::getApplication()->bootComponent('com_content')->isFunctionalityUsed('core.featured', 'com_content.article');
+
+		if (!$workflow_featured)
+		{
+			$this->addState(0, 'featured', 'icon-unfeatured',
+				Text::_('JGLOBAL_TOGGLE_FEATURED'), ['tip_title' => Text::_('JUNFEATURED')]
+			);
+			$this->addState(1, 'unfeatured', 'icon-color-featured icon-star',
+				Text::_('JGLOBAL_TOGGLE_FEATURED'), ['tip_title' => Text::_('JFEATURED')]
+			);
+		}
+		else {
+			$this->addState(0, 'featured', 'icon-unfeatured', '', ['tip_title' => Text::_('JUNFEATURED')]);
+			$this->addState(1, 'featured', 'icon-featured', '', ['tip_title' => Text::_('JFEATURED')]);
+		}
 	}
 
 	/**
