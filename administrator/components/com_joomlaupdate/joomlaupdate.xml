@@ -28,6 +28,6 @@
 		</languages>
 	</administration>
 	<updateservers>
-		<server type="extension" name="Joomla! Update Component Update Site">https://update.joomla.org/core/extensions/com_joomlaupdate.xml</server>
+		<server type="extension" name="Joomla! Update Component">https://update.joomla.org/core/extensions/com_joomlaupdate.xml</server>
 	</updateservers>
 </extension>
