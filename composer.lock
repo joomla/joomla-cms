@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "d7441f6c81395c6d749ed02654f49a37",
+    "content-hash": "6c33664341d841698289c37c8ef7d2ee",
     "packages": [
         {
             "name": "algo26-matthias/idna-convert",
@@ -7609,16 +7609,16 @@
         },
         {
             "name": "joomla-projects/joomla-browser",
-            "version": "v4.0.0.x-dev",
+            "version": "v4.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-projects/joomla-browser.git",
-                "reference": "4dceb37aa7f7aa65f320feb5d66add3595ebb21b"
+                "reference": "3e7376f86ac634bd7674372b49394df104b852a2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-projects/joomla-browser/zipball/4dceb37aa7f7aa65f320feb5d66add3595ebb21b",
-                "reference": "4dceb37aa7f7aa65f320feb5d66add3595ebb21b",
+                "url": "https://api.github.com/repos/joomla-projects/joomla-browser/zipball/3e7376f86ac634bd7674372b49394df104b852a2",
+                "reference": "3e7376f86ac634bd7674372b49394df104b852a2",
                 "shasum": ""
             },
             "require": {
@@ -7662,7 +7662,7 @@
                 "issues": "https://github.com/joomla-projects/joomla-browser/issues",
                 "source": "https://github.com/joomla-projects/joomla-browser/tree/v4.0.0"
             },
-            "time": "2021-12-05T18:36:21+00:00"
+            "time": "2022-04-15T21:05:43+00:00"
         },
         {
             "name": "joomla/cms-coding-standards",
@@ -10639,8 +10639,7 @@
     "stability-flags": {
         "tobscure/json-api": 20,
         "joomla/cms-coding-standards": 20,
-        "joomla/coding-standards": 20,
-        "joomla-projects/joomla-browser": 20
+        "joomla/coding-standards": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,
@@ -10654,5 +10653,5 @@
     "platform-overrides": {
         "php": "7.2.5"
     },
-    "plugin-api-version": "2.2.0"
+    "plugin-api-version": "2.1.0"
 }
