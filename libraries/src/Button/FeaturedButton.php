@@ -40,7 +40,8 @@ class FeaturedButton extends ActionButton
 				Text::_('JGLOBAL_TOGGLE_FEATURED'), ['tip_title' => Text::_('JFEATURED')]
 			);
 		}
-		else {
+		else
+		{
 			$this->addState(0, 'featured', 'icon-unfeatured', '', ['tip_title' => Text::_('JUNFEATURED')]);
 			$this->addState(1, 'featured', 'icon-featured', '', ['tip_title' => Text::_('JFEATURED')]);
 		}
