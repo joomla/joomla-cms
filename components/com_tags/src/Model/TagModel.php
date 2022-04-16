@@ -279,7 +279,7 @@ class TagModel extends ListModel
 	{
 		if (!isset($this->item))
 		{
-			$this->item = false;
+			$this->item = null;
 
 			if (empty($pk))
 			{
