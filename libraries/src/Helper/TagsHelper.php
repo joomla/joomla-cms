@@ -459,8 +459,15 @@ class TagsHelper extends CMSHelper
 	 *
 	 * @since   3.1
 	 */
-	public function getTagItemsQuery($tagId, $typesr = null, $includeChildren = false, $orderByOption = 'c.core_title', $orderDir = 'ASC',
-		$anyOrAll = true, $languageFilter = 'all', $stateFilter = '0,1'
+	public function getTagItemsQuery(
+		$tagId,
+		$typesr = null,
+		$includeChildren = false,
+		$orderByOption = 'c.core_title',
+		$orderDir = 'ASC',
+		$anyOrAll = true,
+		$languageFilter = 'all',
+		$stateFilter = '0,1'
 	)
 	{
 		// Create a new query object.
@@ -556,7 +563,7 @@ class TagsHelper extends CMSHelper
 
 		// Get the type data, limited to types in the request if there are any specified.
 		$typesarray  = self::getTypes('assocList', $typesr, false);
-		$typeAliases = \array_column($typesarray, 'type_alias');
+		$typeAliases = array_column($typesarray, 'type_alias');
 		$query->whereIn($db->quoteName('m.type_alias'), $typeAliases, ParameterType::STRING);
 
 		$groups   = array_values(array_unique($user->getAuthorisedViewLevels()));
@@ -937,7 +944,7 @@ class TagsHelper extends CMSHelper
 
 			if ($children = $tagTable->getTree($filters['parent_id']))
 			{
-				$childrenIds = \array_column($children, 'id');
+				$childrenIds = array_column($children, 'id');
 
 				$query->whereIn($db->quoteName('a.id'), $childrenIds);
 			}

@@ -43,9 +43,10 @@ class InlinehelpButton extends BasicButton
 		$options['text'] = $options['text'] ?: 'JINLINEHELP';
 		$options['icon'] = $options['icon'] ?? 'fa-question-circle';
 		$options['button_class'] = $options['button_class'] ?? 'btn btn-info';
-		$options['attributes'] = array_merge($options['attributes'] ?? [],
+		$options['attributes'] = array_merge(
+			$options['attributes'] ?? [],
 			[
-				'data-class' => $options['targetclass'] ?? 'hide-aware-inline-help'
+				'data-class' => $options['targetclass'] ?? 'hide-aware-inline-help',
 			]
 		);
 
@@ -70,7 +71,8 @@ class InlinehelpButton extends BasicButton
 	public function fetchButton(
 		$type = 'Inlinehelp',
 		string $targetClass = 'hide-aware-inline-help',
-		string $text = 'JINLINEHELP', string $icon = 'fa fa-question-circle',
+		string $text = 'JINLINEHELP',
+		string $icon = 'fa fa-question-circle',
 		string $buttonClass = 'btn btn-info'
 	)
 	{

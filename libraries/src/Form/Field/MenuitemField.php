@@ -215,8 +215,10 @@ class MenuitemField extends GroupedlistField
 					$lang = '';
 				}
 
-				$groups[$menuTitle][] = HTMLHelper::_('select.option',
-					$link->value, $levelPrefix . $link->text . $lang,
+				$groups[$menuTitle][] = HTMLHelper::_(
+					'select.option',
+					$link->value,
+					$levelPrefix . $link->text . $lang,
 					'value',
 					'text',
 					\in_array($link->type, $this->disable)
@@ -247,8 +249,10 @@ class MenuitemField extends GroupedlistField
 						$lang = '';
 					}
 
-					$groups[$menu->title][] = HTMLHelper::_('select.option',
-						$link->value, $levelPrefix . $link->text . $lang,
+					$groups[$menu->title][] = HTMLHelper::_(
+						'select.option',
+						$link->value,
+						$levelPrefix . $link->text . $lang,
 						'value',
 						'text',
 						\in_array($link->type, $this->disable)

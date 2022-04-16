@@ -193,7 +193,7 @@ class Categories implements CategoryInterface
 			return $this->_nodes[$id];
 		}
 
-		return null;
+		return;
 	}
 
 	/**

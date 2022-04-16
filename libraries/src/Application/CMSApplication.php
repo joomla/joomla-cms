@@ -242,7 +242,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 		$invalidInputVariables = array_filter(
 			array('option', 'view', 'format', 'lang', 'Itemid', 'template', 'templateStyle', 'task'),
 			function ($systemVariable) use ($input) {
-				return $input->exists($systemVariable) && is_array($input->getRaw($systemVariable));
+				return $input->exists($systemVariable) && \is_array($input->getRaw($systemVariable));
 			}
 		);
 
@@ -1281,7 +1281,8 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 		$pluginOptions              = PluginHelper::getPlugin('twofactorauth');
 
 		// Sets and checks pluginOptions for Site and Administrator view depending on if any 2fa plugin is enabled for that view
-		array_walk($pluginOptions,
+		array_walk(
+			$pluginOptions,
 			static function ($pluginOption) use (&$pluginsSiteEnable, &$pluginsAdministratorEnable)
 			{
 				$option  = new Registry($pluginOption->params);
@@ -1432,9 +1433,9 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 			{
 				$const = '\\Joomla\\CMS\\Log\\Log::' . strtoupper($p);
 
-				if (defined($const))
+				if (\defined($const))
 				{
-					$priority |= constant($const);
+					$priority |= \constant($const);
 				}
 			}
 

@@ -437,7 +437,7 @@ class ListModel extends BaseDatabaseModel implements FormFactoryAwareInterface, 
 
 		if (empty($this->filterFormName))
 		{
-			return null;
+			return;
 		}
 
 		try
@@ -449,7 +449,7 @@ class ListModel extends BaseDatabaseModel implements FormFactoryAwareInterface, 
 		{
 		}
 
-		return null;
+		return;
 	}
 
 	/**

@@ -250,7 +250,7 @@ class WebAssetManager implements WebAssetManagerInterface
 			}
 		}
 
-		throw new \BadMethodCallException(sprintf('Undefined method %s in class %s', $method, get_class($this)));
+		throw new \BadMethodCallException(sprintf('Undefined method %s in class %s', $method, \get_class($this)));
 	}
 
 	/**
@@ -532,7 +532,7 @@ class WebAssetManager implements WebAssetManagerInterface
 		{
 			$this->registry->add($type, $asset);
 		}
-		elseif (is_string($asset))
+		elseif (\is_string($asset))
 		{
 			$options['type'] = $type;
 			$assetInstance = $this->registry->createAsset($asset, $uri, $options, $attributes, $dependencies);
@@ -710,7 +710,7 @@ class WebAssetManager implements WebAssetManagerInterface
 		{
 			$assetInstance = $content;
 		}
-		elseif (is_string($content))
+		elseif (\is_string($content))
 		{
 			$name          = $options['name'] ?? ('inline.' . md5($content));
 			$assetInstance = $this->registry->createAsset($name, '', $options, $attributes, $dependencies);

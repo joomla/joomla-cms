@@ -175,7 +175,7 @@ class SubformField extends FormField
 
 			case 'value':
 				// We allow a json encoded string or an array
-				if (is_string($value))
+				if (\is_string($value))
 				{
 					$value = json_decode($value, true);
 				}
@@ -460,14 +460,14 @@ class SubformField extends FormField
 		$subForm = $this->loadSubForm();
 
 		// Subform field may have a default value, that is a JSON string
-		if ($value && is_string($value))
+		if ($value && \is_string($value))
 		{
 			$value = json_decode($value, true);
 
 			// The string is invalid json
 			if (!$value)
 			{
-				return null;
+				return;
 			}
 		}
 

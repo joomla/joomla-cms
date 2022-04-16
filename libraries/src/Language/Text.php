@@ -231,7 +231,8 @@ class Text
 		if (\is_array($args[$count - 1]))
 		{
 			$args[0] = $lang->_(
-				$key, \array_key_exists('jsSafe', $args[$count - 1]) ? $args[$count - 1]['jsSafe'] : false,
+				$key,
+				\array_key_exists('jsSafe', $args[$count - 1]) ? $args[$count - 1]['jsSafe'] : false,
 				\array_key_exists('interpretBackSlashes', $args[$count - 1]) ? $args[$count - 1]['interpretBackSlashes'] : true
 			);
 
@@ -280,7 +281,8 @@ class Text
 		if (\is_array($args[$count - 1]))
 		{
 			$args[0] = $lang->_(
-				$string, \array_key_exists('jsSafe', $args[$count - 1]) ? $args[$count - 1]['jsSafe'] : false,
+				$string,
+				\array_key_exists('jsSafe', $args[$count - 1]) ? $args[$count - 1]['jsSafe'] : false,
 				\array_key_exists('interpretBackSlashes', $args[$count - 1]) ? $args[$count - 1]['interpretBackSlashes'] : true
 			);
 
@@ -322,7 +324,8 @@ class Text
 		if (\is_array($args[$count - 1]))
 		{
 			$args[0] = $lang->_(
-				$string, \array_key_exists('jsSafe', $args[$count - 1]) ? $args[$count - 1]['jsSafe'] : false,
+				$string,
+				\array_key_exists('jsSafe', $args[$count - 1]) ? $args[$count - 1]['jsSafe'] : false,
 				\array_key_exists('interpretBackSlashes', $args[$count - 1]) ? $args[$count - 1]['interpretBackSlashes'] : true
 			);
 		}

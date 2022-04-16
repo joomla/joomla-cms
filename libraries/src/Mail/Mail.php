@@ -651,8 +651,18 @@ class Mail extends PHPMailer
 	 * @throws  MailDisabledException  if the mail function is disabled
 	 * @throws  phpmailerException     if exception throwing is enabled
 	 */
-	public function sendMail($from, $fromName, $recipient, $subject, $body, $mode = false, $cc = null, $bcc = null, $attachment = null,
-		$replyTo = null, $replyToName = null
+	public function sendMail(
+		$from,
+		$fromName,
+		$recipient,
+		$subject,
+		$body,
+		$mode = false,
+		$cc = null,
+		$bcc = null,
+		$attachment = null,
+		$replyTo = null,
+		$replyToName = null
 	)
 	{
 		// Create config object

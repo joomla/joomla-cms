@@ -78,7 +78,6 @@ class MemcachedStorage extends CacheStorage
 		$host = $app->get('memcached_server_host', 'localhost');
 		$port = $app->get('memcached_server_port', 11211);
 
-
 		// Create the memcached connection
 		if ($app->get('memcached_persist', true))
 		{
@@ -438,6 +437,7 @@ class MemcachedStorage extends CacheStorage
 	public function unlock($id, $group = null)
 	{
 		$cache_id = $this->_getCacheId($id, $group) . '_lock';
+
 		return static::$_db->delete($cache_id);
 	}
 

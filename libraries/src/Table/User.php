@@ -424,7 +424,7 @@ class User extends Table
 						implode(
 							',',
 							$query->bindArray(
-								[$this->id , $group],
+								[$this->id, $group],
 								[ParameterType::INTEGER, ParameterType::INTEGER]
 							)
 						)

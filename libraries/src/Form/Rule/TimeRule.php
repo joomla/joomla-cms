@@ -54,7 +54,7 @@ class TimeRule extends FormRule
 		$stringValue = (string) $value;
 
 		// If the length of a field is smaller than 5 return error message
-		if (strlen($stringValue) !== 5 && !isset($element['step']))
+		if (\strlen($stringValue) !== 5 && !isset($element['step']))
 		{
 			Factory::getApplication()->enqueueMessage(
 				Text::_('JLIB_FORM_FIELD_INVALID_TIME_INPUT'),
@@ -93,7 +93,7 @@ class TimeRule extends FormRule
 			$max = $element['max'][0] . $element['max'][1];
 
 			// If the input is smaller than the set min return error message
-			if (intval($min) > intval($stringValue[0] . $stringValue[1]))
+			if (\intval($min) > \intval($stringValue[0] . $stringValue[1]))
 			{
 				Factory::getApplication()->enqueueMessage(
 					Text::_('JLIB_FORM_FIELD_INVALID_MIN_TIME', $min),
@@ -104,7 +104,7 @@ class TimeRule extends FormRule
 			}
 
 			// If the input is greater than the set max return error message
-			if (intval($max) < intval($stringValue[0] . $stringValue[1]))
+			if (\intval($max) < \intval($stringValue[0] . $stringValue[1]))
 			{
 				Factory::getApplication()->enqueueMessage(
 					Text::_('JLIB_FORM_FIELD_INVALID_MAX_TIME'),
@@ -115,9 +115,9 @@ class TimeRule extends FormRule
 			}
 
 			// If the hour input is equal to the set max but the minutes input is greater than zero return error message
-			if (intval($max) === intval($stringValue[0] . $stringValue[1]))
+			if (\intval($max) === \intval($stringValue[0] . $stringValue[1]))
 			{
-				if (intval($element['min'][3] . $element['min'][4]) !== 0)
+				if (\intval($element['min'][3] . $element['min'][4]) !== 0)
 				{
 					Factory::getApplication()->enqueueMessage(
 						Text::_('JLIB_FORM_FIELD_INVALID_MAX_TIME'),
@@ -130,7 +130,7 @@ class TimeRule extends FormRule
 		}
 
 		// If the first symbol is greater than 2 return error message
-		if (intval($stringValue[0]) > 2)
+		if (\intval($stringValue[0]) > 2)
 		{
 			Factory::getApplication()->enqueueMessage(
 				Text::_('JLIB_FORM_FIELD_INVALID_TIME_INPUT'),
@@ -141,7 +141,7 @@ class TimeRule extends FormRule
 		}
 
 		// If the first symbol is greater than 2 and the second symbol is greater than 3 return error message
-		if (intval($stringValue[0]) === 2 && intval($stringValue[1]) > 3)
+		if (\intval($stringValue[0]) === 2 && \intval($stringValue[1]) > 3)
 		{
 			Factory::getApplication()->enqueueMessage(
 				Text::_('JLIB_FORM_FIELD_INVALID_TIME_INPUT'),
@@ -152,7 +152,7 @@ class TimeRule extends FormRule
 		}
 
 		// If the fourth symbol is greater than 5 return error message
-		if (intval($stringValue[3]) > 5)
+		if (\intval($stringValue[3]) > 5)
 		{
 			Factory::getApplication()->enqueueMessage(
 				Text::_('JLIB_FORM_FIELD_INVALID_TIME_INPUT'),
@@ -165,9 +165,9 @@ class TimeRule extends FormRule
 		// If the step is set return same error messages as above but taking into a count that there 8 and not 5 symbols
 		if (isset($element['step']))
 		{
-			if (strlen($stringValue) !== 8
-				|| intval($stringValue[5]) !== ':'
-				|| intval($stringValue[6]) > 5)
+			if (\strlen($stringValue) !== 8
+				|| \intval($stringValue[5]) !== ':'
+				|| \intval($stringValue[6]) > 5)
 			{
 				Factory::getApplication()->enqueueMessage(
 					Text::_('JLIB_FORM_FIELD_INVALID_TIME_INPUT_SECONDS'),

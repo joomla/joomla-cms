@@ -79,7 +79,7 @@ class MVCFactory implements MVCFactoryInterface, FormFactoryAwareInterface, Site
 
 		if (!$className)
 		{
-			return null;
+			return;
 		}
 
 		$controller = new $className($config, $this, $app, $input);
@@ -125,7 +125,7 @@ class MVCFactory implements MVCFactoryInterface, FormFactoryAwareInterface, Site
 
 		if (!$className)
 		{
-			return null;
+			return;
 		}
 
 		$model = new $className($config, $this);
@@ -186,7 +186,7 @@ class MVCFactory implements MVCFactoryInterface, FormFactoryAwareInterface, Site
 
 		if (!$className)
 		{
-			return null;
+			return;
 		}
 
 		$view = new $className($config);
@@ -233,7 +233,7 @@ class MVCFactory implements MVCFactoryInterface, FormFactoryAwareInterface, Site
 
 		if (!$className)
 		{
-			return null;
+			return;
 		}
 
 		try
@@ -270,7 +270,7 @@ class MVCFactory implements MVCFactoryInterface, FormFactoryAwareInterface, Site
 
 		if (!class_exists($className))
 		{
-			return null;
+			return;
 		}
 
 		return $className;

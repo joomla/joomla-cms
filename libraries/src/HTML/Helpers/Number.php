@@ -82,13 +82,13 @@ abstract class Number
 		$iecSuffixes = array('b', 'KiB', 'MiB', 'GiB', 'TiB', 'PiB', 'EiB', 'ZiB', 'YiB');
 
 		// User supplied method
-		if (in_array($unit, $iecSuffixes))
+		if (\in_array($unit, $iecSuffixes))
 		{
 			$base   = 1024;
 			$i      = array_search($unit, $iecSuffixes, true);
 			$suffix = $unit;
 		}
-		elseif (in_array($unit, $stdSuffixes))
+		elseif (\in_array($unit, $stdSuffixes))
 		{
 			$base   = $iec ? 1000 : 1024;
 			$i      = array_search($unit, $stdSuffixes, true);
@@ -109,7 +109,10 @@ abstract class Number
 		}
 
 		return number_format(
-			round($oBytes / pow($base, $i), (int) $precision), (int) $precision, Text::_('DECIMALS_SEPARATOR'), Text::_('THOUSANDS_SEPARATOR')
+			round($oBytes / pow($base, $i), (int) $precision),
+			(int) $precision,
+			Text::_('DECIMALS_SEPARATOR'),
+			Text::_('THOUSANDS_SEPARATOR')
 		) . ' ' . $suffix;
 	}
 }

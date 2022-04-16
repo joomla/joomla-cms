@@ -65,8 +65,8 @@ class GetConfigurationCommand extends AbstractCommand
 			'dbsslkey',
 			'dbsslcert',
 			'dbsslca',
-			'dbsslcipher'
-		]
+			'dbsslcipher',
+		],
 	];
 
 	/**
@@ -79,8 +79,8 @@ class GetConfigurationCommand extends AbstractCommand
 		'options' => [
 			'session_handler',
 			'shared_session',
-			'session_metadata'
-		]
+			'session_metadata',
+		],
 	];
 
 	/**
@@ -101,8 +101,8 @@ class GetConfigurationCommand extends AbstractCommand
 			'smtppass',
 			'smtphost',
 			'smtpsecure',
-			'smtpport'
-		]
+			'smtpport',
+		],
 	];
 
 	/**
@@ -138,14 +138,12 @@ class GetConfigurationCommand extends AbstractCommand
 	 * @return void
 	 *
 	 * @since 4.0.0
-	 *
 	 */
 	private function configureIO(InputInterface $input, OutputInterface $output)
 	{
 		$this->cliInput = $input;
 		$this->ioStyle = new SymfonyStyle($input, $output);
 	}
-
 
 	/**
 	 * Displays logically grouped options
@@ -203,7 +201,7 @@ class GetConfigurationCommand extends AbstractCommand
 		return [
 			self::DB_GROUP,
 			self::MAIL_GROUP,
-			self::SESSION_GROUP
+			self::SESSION_GROUP,
 		];
 	}
 
@@ -216,7 +214,7 @@ class GetConfigurationCommand extends AbstractCommand
 	 *
 	 * @since 4.0.0
 	 */
-	public function formatConfig(Array $configs): array
+	public function formatConfig(array $configs): array
 	{
 		$newConfig = [];
 
@@ -225,7 +223,7 @@ class GetConfigurationCommand extends AbstractCommand
 			$config = $config === false ? "false" : $config;
 			$config = $config === true ? "true" : $config;
 
-			if (!in_array($key, ['cwd', 'execution']))
+			if (!\in_array($key, ['cwd', 'execution']))
 			{
 				$newConfig[$key] = $config;
 			}
@@ -247,7 +245,7 @@ class GetConfigurationCommand extends AbstractCommand
 	{
 		$configs = $this->getApplication()->getConfig()->toArray();
 
-		if (!array_key_exists($option, $configs))
+		if (!\array_key_exists($option, $configs))
 		{
 			$this->ioStyle->error("Can't find option *$option* in configuration list");
 
@@ -286,11 +284,11 @@ class GetConfigurationCommand extends AbstractCommand
 		}
 		elseif (\is_array($value))
 		{
-			return \json_encode($value);
+			return json_encode($value);
 		}
 		elseif (\is_object($value))
 		{
-			return \json_encode(\get_object_vars($value));
+			return json_encode(get_object_vars($value));
 		}
 		else
 		{

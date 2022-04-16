@@ -21,7 +21,6 @@ use Joomla\CMS\Language\Text;
  */
 abstract class WorkflowStage
 {
-
 	/**
 	 * Get a list of the available workflow stages.
 	 *
@@ -62,7 +61,7 @@ abstract class WorkflowStage
 			// Using workflow ID to differentiate workflows having same title
 			$workflowStageKey = Text::_($stage->workflow_title) . ' (' . $stage->workflow_id . ')';
 
-			if (!array_key_exists($workflowStageKey, $workflowStages))
+			if (!\array_key_exists($workflowStageKey, $workflowStages))
 			{
 				$workflowStages[$workflowStageKey] = array();
 			}
@@ -71,7 +70,7 @@ abstract class WorkflowStage
 		}
 
 		$prefix[] = array(
-			HTMLHelper::_('select.option', '', $options['title'])
+			HTMLHelper::_('select.option', '', $options['title']),
 		);
 
 		return array_merge($prefix, $workflowStages);

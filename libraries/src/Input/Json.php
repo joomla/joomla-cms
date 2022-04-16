@@ -55,7 +55,7 @@ class Json extends Input
 			$this->_raw = file_get_contents('php://input');
 			$this->data = json_decode($this->_raw, true);
 
-			if (!is_array($this->data))
+			if (!\is_array($this->data))
 			{
 				$this->data = array();
 			}

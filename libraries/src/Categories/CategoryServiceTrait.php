@@ -105,7 +105,7 @@ trait CategoryServiceTrait
 	 */
 	protected function getTableNameForSection(string $section = null)
 	{
-		return null;
+		return;
 	}
 
 	/**

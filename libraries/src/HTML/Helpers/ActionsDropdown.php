@@ -232,7 +232,7 @@ abstract class ActionsDropdown
 				'javascript://',
 				($icon ? LayoutHelper::render('joomla.icon.iconclass', ['icon' => $icon]) : '') . $label,
 				[
-					'onclick' => 'Joomla.listItemTask(\'' . $id . '\', \'' . $task . '\')'
+					'onclick' => 'Joomla.listItemTask(\'' . $id . '\', \'' . $task . '\')',
 				]
 			)
 			. '</li>';

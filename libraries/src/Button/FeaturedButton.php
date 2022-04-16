@@ -29,11 +29,19 @@ class FeaturedButton extends ActionButton
 	 */
 	protected function preprocess()
 	{
-		$this->addState(0, 'featured', 'icon-unfeatured',
-			Text::_('JGLOBAL_TOGGLE_FEATURED'), ['tip_title' => Text::_('JUNFEATURED')]
+		$this->addState(
+			0,
+			'featured',
+			'icon-unfeatured',
+			Text::_('JGLOBAL_TOGGLE_FEATURED'),
+			['tip_title' => Text::_('JUNFEATURED')]
 		);
-		$this->addState(1, 'unfeatured', 'icon-color-featured icon-star',
-			Text::_('JGLOBAL_TOGGLE_FEATURED'), ['tip_title' => Text::_('JFEATURED')]
+		$this->addState(
+			1,
+			'unfeatured',
+			'icon-color-featured icon-star',
+			Text::_('JGLOBAL_TOGGLE_FEATURED'),
+			['tip_title' => Text::_('JFEATURED')]
 		);
 	}
 
@@ -61,12 +69,12 @@ class FeaturedButton extends ActionButton
 
 			$tz       = Factory::getUser()->getTimezone();
 
-			if (!is_null($featuredUp))
+			if (!\is_null($featuredUp))
 			{
 				$featuredUp = Factory::getDate($featuredUp, 'UTC')->setTimezone($tz);
 			}
 
-			if (!is_null($featuredDown))
+			if (!\is_null($featuredDown))
 			{
 				$featuredDown = Factory::getDate($featuredDown, 'UTC')->setTimezone($tz);
 			}

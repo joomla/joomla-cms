@@ -427,6 +427,6 @@ abstract class AbstractMenu
 				: $this->storedUser;
 		}
 
-		return null;
+		return;
 	}
 }

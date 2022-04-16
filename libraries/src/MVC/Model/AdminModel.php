@@ -128,7 +128,7 @@ abstract class AdminModel extends FormModel
 	protected $batch_commands = array(
 		'assetgroup_id' => 'batchAccess',
 		'language_id' => 'batchLanguage',
-		'tag' => 'batchTag'
+		'tag' => 'batchTag',
 	);
 
 	/**
@@ -272,7 +272,8 @@ abstract class AdminModel extends FormModel
 				'save'         => 'content',
 				'change_state' => 'content',
 				'validate'     => 'content',
-			), $config['events_map']
+			),
+			$config['events_map']
 		);
 
 		// Guess the \Text message prefix. Defaults to the option.
@@ -1807,7 +1808,7 @@ abstract class AdminModel extends FormModel
 		 * load directly the associated target item in the side by side view
 		 * otherwise select already the target language
 		 */
-		if (count($languages) === 2)
+		if (\count($languages) === 2)
 		{
 			foreach ($languages as $language)
 			{
@@ -1832,7 +1833,8 @@ abstract class AdminModel extends FormModel
 		$app->redirect(
 			Route::_(
 				'index.php?option=com_associations&view=association&layout=edit&itemtype=' . $this->typeAlias
-				. '&task=association.edit&id=' . $id . $target, false
+				. '&task=association.edit&id=' . $id . $target,
+				false
 			)
 		);
 

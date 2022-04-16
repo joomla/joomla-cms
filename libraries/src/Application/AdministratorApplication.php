@@ -571,7 +571,7 @@ class AdministratorApplication extends CMSApplication
 		 */
 		if ($user->get('guest') || !$user->authorise('core.login.admin'))
 		{
-			$option = in_array($option, $this->allowedUnprivilegedOptions) ? $option : 'com_login';
+			$option = \in_array($option, $this->allowedUnprivilegedOptions) ? $option : 'com_login';
 		}
 
 		/**

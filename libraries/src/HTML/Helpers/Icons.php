@@ -60,7 +60,7 @@ abstract class Icons
 	{
 		if (isset($button['access']))
 		{
-			if (is_bool($button['access']))
+			if (\is_bool($button['access']))
 			{
 				if ($button['access'] == false)
 				{
@@ -73,7 +73,7 @@ abstract class Icons
 				$user = Factory::getUser();
 
 				// Take each pair of permission, context values.
-				for ($i = 0, $n = count($button['access']); $i < $n; $i += 2)
+				for ($i = 0, $n = \count($button['access']); $i < $n; $i += 2)
 				{
 					if (!$user->authorise($button['access'][$i], $button['access'][$i + 1]))
 					{

@@ -71,7 +71,7 @@ abstract class SearchTools
 	private static function optionsToRegistry($options)
 	{
 		// Support options array
-		if (is_array($options))
+		if (\is_array($options))
 		{
 			$options = new Registry($options);
 		}
@@ -99,7 +99,15 @@ abstract class SearchTools
 	 *
 	 * @return  string
 	 */
-	public static function sort($title, $order, $direction = 'asc', $selected = 0, $task = null, $newDirection = 'asc', $tip = '', $icon = null,
+	public static function sort(
+		$title,
+		$order,
+		$direction = 'asc',
+		$selected = 0,
+		$task = null,
+		$newDirection = 'asc',
+		$tip = '',
+		$icon = null,
 		$formName = 'adminForm'
 	)
 	{

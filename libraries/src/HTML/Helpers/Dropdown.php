@@ -52,7 +52,8 @@ abstract class Dropdown
 		// Depends on Bootstrap
 		HTMLHelper::_('bootstrap.framework');
 
-		Factory::getDocument()->addScriptDeclaration("
+		Factory::getDocument()->addScriptDeclaration(
+			"
 			(function($){
 				$(document).ready(function (){
 					$('.has-context')
@@ -322,7 +323,12 @@ abstract class Dropdown
 	 *
 	 * @since   3.0
 	 */
-	public static function addCustomItem($label, $link = 'javascript:void(0)', $linkAttributes = '', $className = '', $ajaxLoad = false,
+	public static function addCustomItem(
+		$label,
+		$link = 'javascript:void(0)',
+		$linkAttributes = '',
+		$className = '',
+		$ajaxLoad = false,
 		$jsCallBackFunc = null
 	)
 	{

@@ -17,5 +17,4 @@ namespace Joomla\CMS\Event\Table;
  */
 class CheckEvent extends AbstractEvent
 {
-
 }

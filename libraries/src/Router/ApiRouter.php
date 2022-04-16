@@ -120,7 +120,7 @@ class ApiRouter extends Router
 					return [
 						'controller' => $controller[0],
 						'task'       => $controller[1],
-						'vars'       => $vars
+						'vars'       => $vars,
 					];
 				}
 			}
@@ -207,7 +207,8 @@ class ApiRouter extends Router
 		$routePath = $this->getRoutePath();
 
 		// Extract routes matching $routePath from all known routes.
-		return array_filter($this->routes,
+		return array_filter(
+			$this->routes,
 			function ($route) use ($routePath) {
 				return preg_match($route->getRegex(), ltrim($routePath, '/')) === 1;
 			}

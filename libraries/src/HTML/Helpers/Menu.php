@@ -101,7 +101,7 @@ abstract class Menu
 		if (empty(static::$items[$key]))
 		{
 			// B/C - not passed  = 0, null can be passed for both clients
-			$clientId = array_key_exists('clientid', $config) ? $config['clientid'] : 0;
+			$clientId = \array_key_exists('clientid', $config) ? $config['clientid'] : 0;
 			$menus    = static::menus($clientId);
 
 			$db    = Factory::getDbo();
@@ -232,7 +232,9 @@ abstract class Menu
 		$options = static::menuItems($config);
 
 		return HTMLHelper::_(
-			'select.genericlist', $options, $name,
+			'select.genericlist',
+			$options,
+			$name,
 			array(
 				'id'             => $config['id'] ?? 'assetgroups_' . (++$count),
 				'list.attr'      => $attribs ?? 'class="inputbox" size="1"',
@@ -277,7 +279,9 @@ abstract class Menu
 				->bind(':parent', $row->parent_id, ParameterType::INTEGER);
 			$order = HTMLHelper::_('list.genericordering', $query);
 			$ordering = HTMLHelper::_(
-				'select.genericlist', $order, 'ordering',
+				'select.genericlist',
+				$order,
+				'ordering',
 				array('list.attr' => 'class="inputbox" size="1"', 'list.select' => (int) $row->ordering)
 			);
 		}
@@ -421,7 +425,7 @@ abstract class Menu
 	 */
 	public static function treerecurse($id, $indent, $list, &$children, $maxlevel = 9999, $level = 0, $type = 1)
 	{
-		if ($level <= $maxlevel && isset($children[$id]) && is_array($children[$id]))
+		if ($level <= $maxlevel && isset($children[$id]) && \is_array($children[$id]))
 		{
 			if ($type)
 			{
@@ -450,9 +454,9 @@ abstract class Menu
 				$list[$id]           = $v;
 				$list[$id]->treename = $indent . $txt;
 
-				if (isset($children[$id]) && is_array($children[$id]))
+				if (isset($children[$id]) && \is_array($children[$id]))
 				{
-					$list[$id]->children = count($children[$id]);
+					$list[$id]->children = \count($children[$id]);
 					$list                = static::treerecurse($id, $indent . $spacer, $list, $children, $maxlevel, $level + 1, $type);
 				}
 				else

@@ -90,7 +90,7 @@ class NomenuRules implements RulesInterface
 						{
 							$vars[$view->key] = 0;
 
-							while (count($segments))
+							while (\count($segments))
 							{
 								$segment = array_shift($segments);
 								$result  = \call_user_func_array(array($this->router, 'get' . ucfirst($view->name) . 'Id'), array($segment, $vars));
@@ -165,7 +165,7 @@ class NomenuRules implements RulesInterface
 						{
 							array_pop($result);
 
-							while (count($result))
+							while (\count($result))
 							{
 								$segments[] = str_replace(':', '-', array_pop($result));
 							}

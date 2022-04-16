@@ -224,10 +224,10 @@ class Captcha implements DispatcherAwareInterface
 	{
 		if (method_exists($this->captcha, $name))
 		{
-			return call_user_func_array(array($this->captcha, $name), array_values($args));
+			return \call_user_func_array(array($this->captcha, $name), array_values($args));
 		}
 
-		return null;
+		return;
 	}
 
 	/**

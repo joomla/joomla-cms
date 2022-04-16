@@ -228,7 +228,8 @@ abstract class Behavior
 		// To keep the code simple here, run strings through Text::_() using array_map()
 		$callback = array('Text', '_');
 		$weekdays_full = array_map(
-			$callback, array(
+			$callback,
+			array(
 				'SUNDAY', 'MONDAY', 'TUESDAY', 'WEDNESDAY', 'THURSDAY', 'FRIDAY', 'SATURDAY', 'SUNDAY',
 			)
 		);
@@ -239,13 +240,15 @@ abstract class Behavior
 			)
 		);
 		$months_long = array_map(
-			$callback, array(
+			$callback,
+			array(
 				'JANUARY', 'FEBRUARY', 'MARCH', 'APRIL', 'MAY', 'JUNE',
 				'JULY', 'AUGUST', 'SEPTEMBER', 'OCTOBER', 'NOVEMBER', 'DECEMBER',
 			)
 		);
 		$months_short = array_map(
-			$callback, array(
+			$callback,
+			array(
 				'JANUARY_SHORT', 'FEBRUARY_SHORT', 'MARCH_SHORT', 'APRIL_SHORT', 'MAY_SHORT', 'JUNE_SHORT',
 				'JULY_SHORT', 'AUGUST_SHORT', 'SEPTEMBER_SHORT', 'OCTOBER_SHORT', 'NOVEMBER_SHORT', 'DECEMBER_SHORT',
 			)

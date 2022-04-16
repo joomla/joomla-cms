@@ -19,7 +19,6 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
-
 /**
  * Console command for removing extensions
  *
@@ -98,7 +97,6 @@ class ExtensionRemoveCommand extends AbstractCommand
 	 * @return void
 	 *
 	 * @since 4.0.0
-	 *
 	 */
 	private function configureIO(InputInterface $input, OutputInterface $output): void
 	{

@@ -84,7 +84,6 @@ class ExtensionsListCommand extends AbstractCommand
 	 * @return void
 	 *
 	 * @since 4.0.0
-	 *
 	 */
 	protected function configureIO(InputInterface $input, OutputInterface $output): void
 	{

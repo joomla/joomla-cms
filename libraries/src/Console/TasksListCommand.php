@@ -9,7 +9,7 @@
 namespace Joomla\CMS\Console;
 
 // Restrict direct access
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\Component\Scheduler\Administrator\Scheduler\Scheduler;
@@ -47,7 +47,6 @@ class TasksListCommand extends AbstractCommand
 	 * @since  4.1.0
 	 */
 	private $ioStyle;
-
 
 	/**
 	 * Internal function to execute the command.

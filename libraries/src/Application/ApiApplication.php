@@ -82,7 +82,6 @@ final class ApiApplication extends CMSApplication
 		Uri::root(null, str_ireplace('/' . $this->getName(), '', Uri::base(true)));
 	}
 
-
 	/**
 	 * Method to run the application routines.
 	 *
@@ -345,7 +344,8 @@ final class ApiApplication extends CMSApplication
 
 		// Extract exposed methods from matching routes.
 		$matchingRoutesMethods = array_unique(
-			array_reduce($matchingRoutes,
+			array_reduce(
+				$matchingRoutes,
 				function ($carry, $route) {
 					return array_merge($carry, $route->getMethods());
 				},

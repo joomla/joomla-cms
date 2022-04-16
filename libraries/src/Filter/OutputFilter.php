@@ -54,7 +54,7 @@ class OutputFilter extends BaseOutputFilter
 		{
 			$code = str_pad(dechex(StringHelper::ord($chr)), 4, '0', STR_PAD_LEFT);
 
-			if (strlen($code) < 5)
+			if (\strlen($code) < 5)
 			{
 				$new_str .= '\\u' . $code;
 			}

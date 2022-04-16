@@ -174,13 +174,16 @@ class ContentHelper
 		$user = Factory::getUser();
 
 		$actions = Access::getActionsFromFile(
-			JPATH_ADMINISTRATOR . '/components/' . $component . '/access.xml', '/access/section[@name="component"]/'
+			JPATH_ADMINISTRATOR . '/components/' . $component . '/access.xml',
+			'/access/section[@name="component"]/'
 		);
 
 		if ($actions === false)
 		{
 			Log::add(
-				Text::sprintf('JLIB_ERROR_COMPONENTS_ACL_CONFIGURATION_FILE_MISSING_OR_IMPROPERLY_STRUCTURED', $component), Log::ERROR, 'jerror'
+				Text::sprintf('JLIB_ERROR_COMPONENTS_ACL_CONFIGURATION_FILE_MISSING_OR_IMPROPERLY_STRUCTURED', $component),
+				Log::ERROR,
+				'jerror'
 			);
 
 			return $result;

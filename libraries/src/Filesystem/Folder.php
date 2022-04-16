@@ -284,7 +284,9 @@ abstract class Folder
 			{
 				@umask($origmask);
 				Log::add(
-					__METHOD__ . ': ' . Text::_('JLIB_FILESYSTEM_ERROR_COULD_NOT_CREATE_DIRECTORY') . 'Path: ' . $path, Log::WARNING, 'jerror'
+					__METHOD__ . ': ' . Text::_('JLIB_FILESYSTEM_ERROR_COULD_NOT_CREATE_DIRECTORY') . 'Path: ' . $path,
+					Log::WARNING,
+					'jerror'
 				);
 
 				return false;
@@ -499,8 +501,14 @@ abstract class Folder
 	 *
 	 * @since   1.7.0
 	 */
-	public static function files($path, $filter = '.', $recurse = false, $full = false, $exclude = array('.svn', 'CVS', '.DS_Store', '__MACOSX'),
-		$excludeFilter = array('^\..*', '.*~'), $naturalSort = false
+	public static function files(
+		$path,
+		$filter = '.',
+		$recurse = false,
+		$full = false,
+		$exclude = array('.svn', 'CVS', '.DS_Store', '__MACOSX'),
+		$excludeFilter = array('^\..*', '.*~'),
+		$naturalSort = false
 	)
 	{
 		// Check to make sure the path valid and clean
@@ -554,7 +562,12 @@ abstract class Folder
 	 *
 	 * @since   1.7.0
 	 */
-	public static function folders($path, $filter = '.', $recurse = false, $full = false, $exclude = array('.svn', 'CVS', '.DS_Store', '__MACOSX'),
+	public static function folders(
+		$path,
+		$filter = '.',
+		$recurse = false,
+		$full = false,
+		$exclude = array('.svn', 'CVS', '.DS_Store', '__MACOSX'),
 		$excludeFilter = array('^\..*')
 	)
 	{

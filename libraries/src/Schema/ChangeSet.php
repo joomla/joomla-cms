@@ -285,7 +285,13 @@ class ChangeSet
 		}
 
 		return Folder::files(
-			$this->folder . '/' . $sqlFolder, '\.sql$', 1, true, array('.svn', 'CVS', '.DS_Store', '__MACOSX'), array('^\..*', '.*~'), true
+			$this->folder . '/' . $sqlFolder,
+			'\.sql$',
+			1,
+			true,
+			array('.svn', 'CVS', '.DS_Store', '__MACOSX'),
+			array('^\..*', '.*~'),
+			true
 		);
 	}
 

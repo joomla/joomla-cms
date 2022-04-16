@@ -109,7 +109,7 @@ abstract class PredefinedlistField extends ListField
 			{
 				$val = (string) $value;
 
-				if (empty($this->optionsFilter) || in_array($val, $this->optionsFilter, true))
+				if (empty($this->optionsFilter) || \in_array($val, $this->optionsFilter, true))
 				{
 					$text = $this->translate ? Text::_($text) : $text;
 

@@ -236,7 +236,6 @@ EOF;
 	 * @return void
 	 *
 	 * @since 4.0.0
-	 *
 	 */
 	private function configureIO(InputInterface $input, OutputInterface $output): void
 	{
@@ -302,7 +301,7 @@ EOF;
 			}
 		}
 
-		$this->ioStyle->text(Text::sprintf('FINDER_CLI_SAVE_FILTER_COMPLETED', count($filters)));
+		$this->ioStyle->text(Text::sprintf('FINDER_CLI_SAVE_FILTER_COMPLETED', \count($filters)));
 	}
 
 	/**
@@ -517,7 +516,7 @@ EOF;
 			$db->setQuery($query)->execute();
 		}
 
-		$this->ioStyle->text(Text::sprintf('FINDER_CLI_RESTORE_FILTER_COMPLETED', count($this->filters)));
+		$this->ioStyle->text(Text::sprintf('FINDER_CLI_RESTORE_FILTER_COMPLETED', \count($this->filters)));
 	}
 
 }

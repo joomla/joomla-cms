@@ -118,6 +118,6 @@ class ContainerAwareToolbarFactory implements ToolbarFactoryInterface, Container
 			return $buttonClass;
 		}
 
-		return null;
+		return;
 	}
 }

@@ -121,7 +121,6 @@ interface WorkflowModelInterface
 	 */
 	public function getName();
 
-
 	/**
 	 * Method to get a table object, load it if necessary.
 	 *

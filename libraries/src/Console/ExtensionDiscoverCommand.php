@@ -69,7 +69,6 @@ class ExtensionDiscoverCommand extends AbstractCommand
 	 * @return  void
 	 *
 	 * @since   4.0.0
-	 *
 	 */
 	private function configureIO(InputInterface $input, OutputInterface $output): void
 	{

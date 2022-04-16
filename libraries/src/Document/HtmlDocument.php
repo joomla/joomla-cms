@@ -275,7 +275,7 @@ class HtmlDocument extends Document
 	{
 		if (empty($data) || !\is_array($data))
 		{
-			return null;
+			return;
 		}
 
 		$this->title         = $data['title'] ?? $this->title;

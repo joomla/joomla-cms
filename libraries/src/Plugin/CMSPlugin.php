@@ -280,7 +280,7 @@ abstract class CMSPlugin implements DispatcherAwareInterface, PluginInterface
 				}
 
 				// Convert to indexed array for unpacking.
-				$arguments = \array_values($arguments);
+				$arguments = array_values($arguments);
 
 				$result = $this->{$methodName}(...$arguments);
 
@@ -340,7 +340,7 @@ abstract class CMSPlugin implements DispatcherAwareInterface, PluginInterface
 		// Handle standard typehints.
 		if ($reflectionType instanceof \ReflectionNamedType)
 		{
-			return \is_a($reflectionType->getName(), EventInterface::class, true);
+			return is_a($reflectionType->getName(), EventInterface::class, true);
 		}
 
 		// Handle PHP 8 union types.
@@ -348,7 +348,7 @@ abstract class CMSPlugin implements DispatcherAwareInterface, PluginInterface
 		{
 			foreach ($reflectionType->getTypes() as $type)
 			{
-				if (!\is_a($type->getName(), EventInterface::class, true))
+				if (!is_a($type->getName(), EventInterface::class, true))
 				{
 					return false;
 				}

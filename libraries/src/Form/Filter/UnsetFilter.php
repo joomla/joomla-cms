@@ -38,6 +38,6 @@ class UnsetFilter implements FormFilterInterface
 	 */
 	public function filter(\SimpleXMLElement $element, $value, $group = null, Registry $input = null, Form $form = null)
 	{
-		return null;
+		return;
 	}
 }

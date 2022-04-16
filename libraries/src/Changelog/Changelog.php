@@ -372,10 +372,12 @@ class Changelog extends CMSObject
 		{
 			Log::add(
 				sprintf(
-					'XML error: %s at line %d', xml_error_string(xml_get_error_code($this->xmlParser)),
+					'XML error: %s at line %d',
+					xml_error_string(xml_get_error_code($this->xmlParser)),
 					xml_get_current_line_number($this->xmlParser)
 				),
-				Log::WARNING, 'updater'
+				Log::WARNING,
+				'updater'
 			);
 
 			return false;

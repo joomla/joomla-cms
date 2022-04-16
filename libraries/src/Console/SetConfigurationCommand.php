@@ -57,7 +57,6 @@ class SetConfigurationCommand extends AbstractCommand
 	 */
 	private $options;
 
-
 	/**
 	 * Return code if configuration is set successfully
 	 * @since 4.0.0
@@ -97,7 +96,6 @@ class SetConfigurationCommand extends AbstractCommand
 	 * @return void
 	 *
 	 * @since 4.0.0
-	 *
 	 */
 	private function configureIO(InputInterface $input, OutputInterface $output)
 	{
@@ -157,8 +155,9 @@ class SetConfigurationCommand extends AbstractCommand
 
 		$valid = true;
 		array_walk(
-			$this->options, function ($value, $key) use ($configs, &$valid) {
-				if (!array_key_exists($key, $configs))
+			$this->options,
+			function ($value, $key) use ($configs, &$valid) {
+				if (!\array_key_exists($key, $configs))
 				{
 					$this->ioStyle->error("Can't find option *$key* in configuration list");
 					$valid = false;
@@ -206,7 +205,6 @@ class SetConfigurationCommand extends AbstractCommand
 	{
 		return (new Registry(new \JConfig));
 	}
-
 
 	/**
 	 * Save the configuration file
@@ -293,7 +291,7 @@ class SetConfigurationCommand extends AbstractCommand
 		}
 
 		// Validate length of database table prefix.
-		if (isset($options['dbprefix']) && strlen($options['dbprefix']) > 15)
+		if (isset($options['dbprefix']) && \strlen($options['dbprefix']) > 15)
 		{
 			$this->ioStyle->error(Text::_('INSTL_DATABASE_FIX_TOO_LONG'), 'warning');
 
@@ -301,7 +299,7 @@ class SetConfigurationCommand extends AbstractCommand
 		}
 
 		// Validate length of database name.
-		if (strlen($options['db']) > 64)
+		if (\strlen($options['db']) > 64)
 		{
 			$this->ioStyle->error(Text::_('INSTL_DATABASE_NAME_TOO_LONG'));
 
@@ -309,14 +307,14 @@ class SetConfigurationCommand extends AbstractCommand
 		}
 
 		// Validate database name.
-		if (in_array($options['dbtype'], ['pgsql', 'postgresql'], true) && !preg_match('#^[a-zA-Z_][0-9a-zA-Z_$]*$#', $options['db']))
+		if (\in_array($options['dbtype'], ['pgsql', 'postgresql'], true) && !preg_match('#^[a-zA-Z_][0-9a-zA-Z_$]*$#', $options['db']))
 		{
 			$this->ioStyle->error(Text::_('INSTL_DATABASE_NAME_MSG_POSTGRES'));
 
 			return false;
 		}
 
-		if (in_array($options['dbtype'], ['mysql', 'mysqli']) && preg_match('#[\\\\\/]#', $options['db']))
+		if (\in_array($options['dbtype'], ['mysql', 'mysqli']) && preg_match('#[\\\\\/]#', $options['db']))
 		{
 			$this->ioStyle->error(Text::_('INSTL_DATABASE_NAME_MSG_MYSQL'));
 
@@ -324,7 +322,7 @@ class SetConfigurationCommand extends AbstractCommand
 		}
 
 		// Workaround for UPPERCASE table prefix for PostgreSQL
-		if (in_array($options['dbtype'], ['pgsql', 'postgresql']))
+		if (\in_array($options['dbtype'], ['pgsql', 'postgresql']))
 		{
 			if (isset($options['dbprefix']) && strtolower($options['dbprefix']) !== $options['dbprefix'])
 			{
@@ -464,7 +462,7 @@ class SetConfigurationCommand extends AbstractCommand
 	 *
 	 * @since 4.0.0
 	 */
-	public function sanitizeOptions(Array $options): array
+	public function sanitizeOptions(array $options): array
 	{
 		foreach ($options as $key => $value)
 		{

@@ -71,7 +71,7 @@ class Route
 		try
 		{
 			// @deprecated  4.0 Before 3.9.7 this method silently converted $tls to integer
-			if (!is_int($tls))
+			if (!\is_int($tls))
 			{
 				@trigger_error(
 					__METHOD__ . '() called with incompatible variable type on parameter $tls.',
@@ -95,7 +95,7 @@ class Route
 		catch (\RuntimeException $e)
 		{
 			// @deprecated  4.0 Before 3.9.0 this method failed silently on router error. This B/C will be removed in Joomla 4.0.
-			return null;
+			return;
 		}
 	}
 
@@ -176,7 +176,7 @@ class Route
 				$scheme_host_port = array($uri2->getScheme(), $uri2->getHost(), $uri2->getPort());
 			}
 
-			if (is_null($uri->getScheme()))
+			if (\is_null($uri->getScheme()))
 			{
 				$uri->setScheme($scheme_host_port[0]);
 			}

@@ -484,7 +484,7 @@ abstract class FormField
 
 			default:
 				// Check for data attribute
-				if (strpos($name, 'data-') === 0 && array_key_exists($name, $this->dataAttributes))
+				if (strpos($name, 'data-') === 0 && \array_key_exists($name, $this->dataAttributes))
 				{
 					return $this->dataAttributes[$name];
 				}
@@ -647,7 +647,7 @@ abstract class FormField
 		$attributes = array(
 			'multiple', 'name', 'id', 'hint', 'class', 'description', 'labelclass', 'onchange', 'onclick', 'validate', 'pattern', 'validationtext',
 			'default', 'required', 'disabled', 'readonly', 'autofocus', 'hidden', 'autocomplete', 'spellcheck', 'translateHint', 'translateLabel',
-			'translate_label', 'translateDescription', 'translate_description', 'size', 'showon');
+			'translate_label', 'translateDescription', 'translate_description', 'size', 'showon', );
 
 		$this->default = isset($element['value']) ? (string) $element['value'] : $this->default;
 
@@ -1143,14 +1143,14 @@ abstract class FormField
 				$subForm = $this->loadSubForm();
 
 				// Subform field may have a default value, that is a JSON string
-				if ($value && is_string($value))
+				if ($value && \is_string($value))
 				{
 					$value = json_decode($value, true);
 
 					// The string is invalid json
 					if (!$value)
 					{
-						return null;
+						return;
 					}
 				}
 

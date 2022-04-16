@@ -5,6 +5,7 @@
  * @copyright  (C) 2009 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\CMS\Form\Field;
 
 \defined('JPATH_PLATFORM') or die;
@@ -265,8 +266,11 @@ class TextField extends FormField
 
 			// Create a new option object based on the <option /> element.
 			$options[] = HTMLHelper::_(
-				'select.option', (string) $option['value'],
-				Text::alt(trim((string) $option), preg_replace('/[^a-zA-Z0-9_\-]/', '_', $this->fieldname)), 'value', 'text'
+				'select.option',
+				(string) $option['value'],
+				Text::alt(trim((string) $option), preg_replace('/[^a-zA-Z0-9_\-]/', '_', $this->fieldname)),
+				'value',
+				'text'
 			);
 		}
 

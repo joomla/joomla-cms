@@ -127,7 +127,8 @@ class PackageAdapter extends InstallerAdapter
 		if (!\count($this->getManifest()->files->children()))
 		{
 			throw new \RuntimeException(
-				Text::sprintf('JLIB_INSTALLER_ABORT_PACK_INSTALL_NO_FILES',
+				Text::sprintf(
+					'JLIB_INSTALLER_ABORT_PACK_INSTALL_NO_FILES',
 					Text::_('JLIB_INSTALLER_' . strtoupper($this->route))
 				)
 			);

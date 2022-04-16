@@ -40,7 +40,8 @@ trait VersionableControllerTrait
 			$this->setRedirect(
 				Route::_(
 					'index.php?option=' . $this->option . '&view=' . $this->view_list
-					. $this->getRedirectToListAppend(), false
+					. $this->getRedirectToListAppend(),
+					false
 				)
 			);
 
@@ -66,7 +67,8 @@ trait VersionableControllerTrait
 			$this->setRedirect(
 				Route::_(
 					'index.php?option=' . $this->option . '&view=' . $this->view_list
-					. $this->getRedirectToListAppend(), false
+					. $this->getRedirectToListAppend(),
+					false
 				)
 			);
 			$table->checkIn();
@@ -77,7 +79,8 @@ trait VersionableControllerTrait
 		$this->setRedirect(
 			Route::_(
 				'index.php?option=' . $this->option . '&view=' . $this->view_item
-				. $this->getRedirectToItemAppend($recordId, $urlVar), false
+				. $this->getRedirectToItemAppend($recordId, $urlVar),
+				false
 			)
 		);
 
@@ -90,7 +93,9 @@ trait VersionableControllerTrait
 
 		$this->setMessage(
 			Text::sprintf(
-				'JLIB_APPLICATION_SUCCESS_LOAD_HISTORY', $model->getState('save_date'), $model->getState('version_note')
+				'JLIB_APPLICATION_SUCCESS_LOAD_HISTORY',
+				$model->getState('save_date'),
+				$model->getState('version_note')
 			)
 		);
 

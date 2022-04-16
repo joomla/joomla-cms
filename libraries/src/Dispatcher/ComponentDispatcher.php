@@ -120,7 +120,7 @@ class ComponentDispatcher extends Dispatcher
 		if (strpos($command, '.') !== false)
 		{
 			// Explode the controller.task command.
-			list ($controller, $task) = explode('.', $command);
+			list($controller, $task) = explode('.', $command);
 
 			$this->input->set('controller', $controller);
 			$this->input->set('task', $task);

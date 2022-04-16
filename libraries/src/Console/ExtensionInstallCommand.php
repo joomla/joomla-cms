@@ -68,7 +68,6 @@ class ExtensionInstallCommand extends AbstractCommand
 	 * @return void
 	 *
 	 * @since 4.0.0
-	 *
 	 */
 	private function configureIO(InputInterface $input, OutputInterface $output): void
 	{
@@ -135,7 +134,6 @@ class ExtensionInstallCommand extends AbstractCommand
 
 		return $result;
 	}
-
 
 	/**
 	 * Used for installing extension from a URL

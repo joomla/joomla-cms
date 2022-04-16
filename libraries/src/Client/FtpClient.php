@@ -325,7 +325,7 @@ class FtpClient
 		}
 
 		// Set the timeout for this connection
-		socket_set_timeout($this->_conn, $this->_timeout, 0);
+		stream_set_timeout($this->_conn, $this->_timeout, 0);
 
 		// Check for welcome response code
 		if (!$this->_verifyResponse(220))
@@ -1896,7 +1896,7 @@ class FtpClient
 		}
 
 		// Set the timeout for this connection
-		socket_set_timeout($this->_conn, $this->_timeout, 0);
+		stream_set_timeout($this->_conn, $this->_timeout, 0);
 
 		return true;
 	}

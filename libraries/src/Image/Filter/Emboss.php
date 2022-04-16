@@ -34,4 +34,3 @@ class Emboss extends ImageFilter
 		imagefilter($this->handle, IMG_FILTER_EMBOSS);
 	}
 }
-

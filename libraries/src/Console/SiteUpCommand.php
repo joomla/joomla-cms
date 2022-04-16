@@ -59,7 +59,6 @@ class SiteUpCommand extends AbstractCommand
 	 * @return void
 	 *
 	 * @since 4.0.0
-	 *
 	 */
 	private function configureIO(InputInterface $input, OutputInterface $output)
 	{
@@ -97,7 +96,8 @@ class SiteUpCommand extends AbstractCommand
 		$this->configureIO($input, $output);
 
 		$returnCode = $this->getApplication()->getCommand(SetConfigurationCommand::getDefaultName())->execute(
-			new ArrayInput(['options' => ['offline=false']]), $output
+			new ArrayInput(['options' => ['offline=false']]),
+			$output
 		);
 
 		if ($returnCode === 0)

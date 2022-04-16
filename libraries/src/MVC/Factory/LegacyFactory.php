@@ -97,7 +97,7 @@ class LegacyFactory implements MVCFactoryInterface
 
 			if (!$path)
 			{
-				return null;
+				return;
 			}
 
 			\JLoader::register($viewClass, $path);

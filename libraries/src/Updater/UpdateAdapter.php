@@ -273,7 +273,9 @@ abstract class UpdateAdapter extends AdapterInstance
 		$timeToLoad = sprintf('%0.2f', $endTime - $startTime);
 		Log::add(
 			"Loading information from update site #{$this->updateSiteId} with name " .
-			"\"$this->updateSiteName\" and URL $url took $timeToLoad seconds", Log::INFO, 'updater'
+			"\"$this->updateSiteName\" and URL $url took $timeToLoad seconds",
+			Log::INFO,
+			'updater'
 		);
 
 		if ($response === null || $response->code !== 200)

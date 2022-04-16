@@ -109,7 +109,7 @@ abstract class AbstractModuleDispatcher extends Dispatcher
 			'app'      => $this->app,
 			'input'    => $this->input,
 			'params'   => new Registry($this->module->params),
-			'template' => $this->app->getTemplate()
+			'template' => $this->app->getTemplate(),
 		];
 	}
 

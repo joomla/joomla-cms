@@ -40,7 +40,14 @@ class Associations
 	 *
 	 * @throws  \Exception
 	 */
-	public static function getAssociations($extension, $tablename, $context, $id, $pk = 'id', $aliasField = 'alias', $catField = 'catid',
+	public static function getAssociations(
+		$extension,
+		$tablename,
+		$context,
+		$id,
+		$pk = 'id',
+		$aliasField = 'alias',
+		$catField = 'catid',
 		$advClause = array()
 	)
 	{
@@ -71,7 +78,8 @@ class Associations
 				->from($db->quoteName($tablename, 'c'))
 				->join(
 					'INNER',
-					$db->quoteName('#__associations', 'a'), $db->quoteName('a.id') . ' = ' . $db->quoteName('c.' . $pk)
+					$db->quoteName('#__associations', 'a'),
+					$db->quoteName('a.id') . ' = ' . $db->quoteName('c.' . $pk)
 					. ' AND ' . $db->quoteName('a.context') . ' = :context'
 				)
 				->bind(':context', $context)

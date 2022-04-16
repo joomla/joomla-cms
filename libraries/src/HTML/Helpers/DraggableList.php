@@ -42,8 +42,13 @@ abstract class DraggableList
 	 *
 	 * @since   4.0.0
 	 */
-	public static function draggable(string $tableId = '', string $formId = '', string $sortDir = 'asc', string $saveOrderingUrl = '',
-		$redundant = null, bool $nestedList = false
+	public static function draggable(
+		string $tableId = '',
+		string $formId = '',
+		string $sortDir = 'asc',
+		string $saveOrderingUrl = '',
+		$redundant = null,
+		bool $nestedList = false
 	)
 	{
 		// Only load once

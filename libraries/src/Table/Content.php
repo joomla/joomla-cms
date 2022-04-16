@@ -157,7 +157,7 @@ class Content extends Table implements VersionableTableInterface, TaggableTableI
 			}
 			else
 			{
-				list ($this->introtext, $this->fulltext) = preg_split($pattern, $array['articletext'], 2);
+				list($this->introtext, $this->fulltext) = preg_split($pattern, $array['articletext'], 2);
 			}
 		}
 
@@ -283,7 +283,7 @@ class Content extends Table implements VersionableTableInterface, TaggableTableI
 		}
 
 		// Check the publish down date is not earlier than publish up.
-		if (!is_null($this->publish_up) && !is_null($this->publish_down) && $this->publish_down < $this->publish_up)
+		if (!\is_null($this->publish_up) && !\is_null($this->publish_down) && $this->publish_down < $this->publish_up)
 		{
 			// Swap the dates.
 			$temp = $this->publish_up;

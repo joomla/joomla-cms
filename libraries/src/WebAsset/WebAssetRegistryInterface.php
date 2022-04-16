@@ -69,4 +69,3 @@ interface WebAssetRegistryInterface
 	 */
 	public function exists(string $type, string $name): bool;
 }
-

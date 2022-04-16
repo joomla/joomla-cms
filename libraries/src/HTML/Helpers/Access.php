@@ -76,7 +76,7 @@ abstract class Access
 		$options = $db->loadObjectList();
 
 		// If params is an array, push these options to the array
-		if (is_array($params))
+		if (\is_array($params))
 		{
 			$options = array_merge($params, $options);
 		}
@@ -117,7 +117,7 @@ abstract class Access
 	{
 		$options = array_values(UserGroupsHelper::getInstance()->getAll());
 
-		for ($i = 0, $n = count($options); $i < $n; $i++)
+		for ($i = 0, $n = \count($options); $i < $n; $i++)
 		{
 			$options[$i]->value = $options[$i]->id;
 			$options[$i]->text = str_repeat('- ', $options[$i]->level) . $options[$i]->title;
@@ -155,7 +155,7 @@ abstract class Access
 
 		$html = array();
 
-		for ($i = 0, $n = count($groups); $i < $n; $i++)
+		for ($i = 0, $n = \count($groups); $i < $n; $i++)
 		{
 			$item = &$groups[$i];
 
@@ -170,7 +170,7 @@ abstract class Access
 
 				if ($selected)
 				{
-					$checked = in_array($item->id, $selected) ? ' checked="checked"' : '';
+					$checked = \in_array($item->id, $selected) ? ' checked="checked"' : '';
 				}
 
 				$rel = ($item->parent_id > 0) ? ' rel="' . $count . 'group_' . $item->parent_id . '"' : '';
@@ -218,13 +218,13 @@ abstract class Access
 		$html = array();
 		$html[] = '<ul class="checklist access-actions">';
 
-		for ($i = 0, $n = count($actions); $i < $n; $i++)
+		for ($i = 0, $n = \count($actions); $i < $n; $i++)
 		{
 			$item = &$actions[$i];
 
 			// Setup  the variable attributes.
 			$eid = $count . 'action_' . $item->id;
-			$checked = in_array($item->id, $selected) ? ' checked="checked"' : '';
+			$checked = \in_array($item->id, $selected) ? ' checked="checked"' : '';
 
 			// Build the HTML for the item.
 			$html[] = '	<li>';

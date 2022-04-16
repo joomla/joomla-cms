@@ -184,7 +184,7 @@ class TextareaField extends FormField
 			'maxlength'    => $maxlength,
 			'rows'         => $rows,
 			'columns'      => $columns,
-			'charcounter'  => $this->charcounter
+			'charcounter'  => $this->charcounter,
 		);
 
 		return array_merge($data, $extraData);

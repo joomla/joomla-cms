@@ -1169,7 +1169,7 @@ class Installer extends Adapter
 			// Process each query in the $queries array (split out of sql file).
 			foreach ($queries as $query)
 			{
-				$canFail = strlen($query) > self::CAN_FAIL_MARKER_LENGTH + 1 &&
+				$canFail = \strlen($query) > self::CAN_FAIL_MARKER_LENGTH + 1 &&
 					strtoupper(substr($query, -self::CAN_FAIL_MARKER_LENGTH - 1)) === (self::CAN_FAIL_MARKER . ';');
 				$query   = $canFail ? (substr($query, 0, -self::CAN_FAIL_MARKER_LENGTH - 1) . ';') : $query;
 
@@ -1385,7 +1385,7 @@ class Installer extends Adapter
 			// Process each query in the $queries array (split out of sql file).
 			foreach ($queries as $query)
 			{
-				$canFail = strlen($query) > self::CAN_FAIL_MARKER_LENGTH + 1 &&
+				$canFail = \strlen($query) > self::CAN_FAIL_MARKER_LENGTH + 1 &&
 					strtoupper(substr($query, -self::CAN_FAIL_MARKER_LENGTH - 1)) === (self::CAN_FAIL_MARKER . ';');
 				$query   = $canFail ? (substr($query, 0, -self::CAN_FAIL_MARKER_LENGTH - 1) . ';') : $query;
 

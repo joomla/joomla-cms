@@ -184,8 +184,14 @@ class Stream extends CMSObject
 	 *
 	 * @since   1.7.0
 	 */
-	public function open($filename, $mode = 'r', $useIncludePath = false, $context = null,
-		$usePrefix = false, $relative = false, $detectProcessingMode = false
+	public function open(
+		$filename,
+		$mode = 'r',
+		$useIncludePath = false,
+		$context = null,
+		$usePrefix = false,
+		$relative = false,
+		$detectProcessingMode = false
 	)
 	{
 		$filename = $this->_getFilename($filename, $mode, $usePrefix, $relative);

@@ -29,7 +29,7 @@ abstract class AbstractAES
 	{
 		if (empty($key))
 		{
-			return null;
+			return;
 		}
 
 		$keyLength = \strlen($key);

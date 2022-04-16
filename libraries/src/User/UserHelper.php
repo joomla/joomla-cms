@@ -131,7 +131,7 @@ abstract class UserHelper
 		self::HASH_BCRYPT => BCryptHandler::class,
 		self::HASH_BCRYPT_BC => BCryptHandler::class,
 		self::HASH_MD5 => MD5Handler::class,
-		self::HASH_PHPASS => PHPassHandler::class
+		self::HASH_PHPASS => PHPassHandler::class,
 	];
 
 	/**
@@ -649,7 +649,7 @@ abstract class UserHelper
 		// Convert PostgreSQL Session IDs into strings (see GitHub #33822)
 		foreach ($sessionIds as &$sessionId)
 		{
-			if (is_resource($sessionId) && get_resource_type($sessionId) === 'stream')
+			if (\is_resource($sessionId) && get_resource_type($sessionId) === 'stream')
 			{
 				$sessionId = stream_get_contents($sessionId);
 			}

@@ -108,7 +108,7 @@ abstract class ListHelper
 
 		$options[] = HTMLHelper::_('select.option', 0, ' - ' . Text::_('JLIB_FORM_FIELD_PARAM_INTEGER_FIRST_LABEL') . ' - ');
 
-		for ($i = 0, $n = count($items); $i < $n; $i++)
+		for ($i = 0, $n = \count($items); $i < $n; $i++)
 		{
 			$items[$i]->text = Text::_($items[$i]->text);
 
@@ -246,7 +246,14 @@ abstract class ListHelper
 	 *
 	 * @since   1.5
 	 */
-	public static function positions($name, $active = null, $javascript = null, $none = true, $center = true, $left = true, $right = true,
+	public static function positions(
+		$name,
+		$active = null,
+		$javascript = null,
+		$none = true,
+		$center = true,
+		$left = true,
+		$right = true,
 		$id = false
 	)
 	{
@@ -273,7 +280,9 @@ abstract class ListHelper
 		}
 
 		$positions = HTMLHelper::_(
-			'select.genericlist', $pos, $name,
+			'select.genericlist',
+			$pos,
+			$name,
 			array(
 				'id' => $id,
 				'list.attr' => 'size="1"' . $javascript,

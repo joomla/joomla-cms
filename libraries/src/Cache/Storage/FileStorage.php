@@ -36,7 +36,6 @@ class FileStorage extends CacheStorage
 	 *
 	 * @var    array
 	 * @since  3.7.0
-	 *
 	 */
 	protected $_locked_files = array();
 
@@ -621,8 +620,14 @@ class FileStorage extends CacheStorage
 	 *
 	 * @since   1.7.0
 	 */
-	protected function _filesInFolder($path, $filter = '.', $recurse = false, $fullpath = false,
-		$exclude = array('.svn', 'CVS', '.DS_Store', '__MACOSX'), $excludefilter = array('^\..*', '.*~'))
+	protected function _filesInFolder(
+		$path,
+		$filter = '.',
+		$recurse = false,
+		$fullpath = false,
+		$exclude = array('.svn', 'CVS', '.DS_Store', '__MACOSX'),
+		$excludefilter = array('^\..*', '.*~')
+	)
 	{
 		$arr = array();
 
@@ -711,8 +716,14 @@ class FileStorage extends CacheStorage
 	 *
 	 * @since   1.7.0
 	 */
-	protected function _folders($path, $filter = '.', $recurse = false, $fullpath = false, $exclude = array('.svn', 'CVS', '.DS_Store', '__MACOSX'),
-		$excludefilter = array('^\..*'))
+	protected function _folders(
+		$path,
+		$filter = '.',
+		$recurse = false,
+		$fullpath = false,
+		$exclude = array('.svn', 'CVS', '.DS_Store', '__MACOSX'),
+		$excludefilter = array('^\..*')
+	)
 	{
 		$arr = array();
 

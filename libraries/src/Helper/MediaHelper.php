@@ -37,7 +37,7 @@ class MediaHelper
 	public const EXECUTABLES = array(
 		'js', 'exe', 'dll', 'go', 'ade', 'adp', 'bat', 'chm', 'cmd', 'com', 'cpl', 'hta',
 		'ins', 'isp', 'jse', 'lib', 'mde', 'msc', 'msp', 'mst', 'pif', 'scr', 'sct', 'shb',
-		'sys', 'vb', 'vbe', 'vbs', 'vxd', 'wsc', 'wsf', 'wsh', 'html', 'htm', 'msi'
+		'sys', 'vb', 'vbe', 'vbs', 'vxd', 'wsc', 'wsf', 'wsh', 'html', 'htm', 'msi',
 	);
 
 	/**
@@ -176,12 +176,12 @@ class MediaHelper
 		$executables = array_merge(self::EXECUTABLES, InputFilter::FORBIDDEN_FILE_EXTENSIONS);
 
 		// Remove allowed executables from array
-		if (count($allowedExecutables))
+		if (\count($allowedExecutables))
 		{
 			$executables = array_diff($executables, $allowedExecutables);
 		}
 
-		if (in_array($extension, $executables, true))
+		if (\in_array($extension, $executables, true))
 		{
 			return false;
 		}
@@ -244,7 +244,7 @@ class MediaHelper
 		$executables = array_merge(self::EXECUTABLES, InputFilter::FORBIDDEN_FILE_EXTENSIONS);
 
 		// Remove allowed executables from array
-		if (count($allowedExecutables))
+		if (\count($allowedExecutables))
 		{
 			$executables = array_diff($executables, $allowedExecutables);
 		}
@@ -490,7 +490,7 @@ class MediaHelper
 
 			// Do a check if default settings are not saved by user
 			// If not initialize them manually
-			if (is_string($directories))
+			if (\is_string($directories))
 			{
 				$directories = json_decode($directories);
 			}

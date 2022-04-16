@@ -23,7 +23,6 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\ChoiceQuestion;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
-
 /**
  * Console command to remove a user from a group
  *
@@ -131,7 +130,8 @@ class RemoveUserFromGroupCommand extends AbstractCommand
 
 				if ($activeSuperUser < 2)
 				{
-					$this->ioStyle->error("Can't remove user '" . $user->username . "' from group '" . $result . "'! "
+					$this->ioStyle->error(
+						"Can't remove user '" . $user->username . "' from group '" . $result . "'! "
 						. $result . " needs at least one active user!"
 					);
 

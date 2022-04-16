@@ -54,7 +54,7 @@ class HelperFactory implements HelperFactoryInterface
 
 		if (!class_exists($className))
 		{
-			return null;
+			return;
 		}
 
 		return new $className($config);

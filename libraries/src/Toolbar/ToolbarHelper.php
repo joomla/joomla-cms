@@ -712,7 +712,7 @@ abstract class ToolbarHelper
 			'apply'     => 'JTOOLBAR_APPLY',
 			'save'      => 'JTOOLBAR_SAVE',
 			'save2new'  => 'JTOOLBAR_SAVE_AND_NEW',
-			'save2copy' => 'JTOOLBAR_SAVE_AS_COPY'
+			'save2copy' => 'JTOOLBAR_SAVE_AS_COPY',
 		);
 
 		$bar = Toolbar::getInstance('toolbar');

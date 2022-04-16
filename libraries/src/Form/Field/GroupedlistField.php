@@ -68,8 +68,11 @@ class GroupedlistField extends FormField
 
 					// Create a new option object based on the <option /> element.
 					$tmp = HTMLHelper::_(
-						'select.option', ($element['value']) ? (string) $element['value'] : trim((string) $element),
-						Text::alt(trim((string) $element), preg_replace('/[^a-zA-Z0-9_\-]/', '_', $this->fieldname)), 'value', 'text',
+						'select.option',
+						($element['value']) ? (string) $element['value'] : trim((string) $element),
+						Text::alt(trim((string) $element), preg_replace('/[^a-zA-Z0-9_\-]/', '_', $this->fieldname)),
+						'value',
+						'text',
 						$disabled
 					);
 
@@ -111,8 +114,12 @@ class GroupedlistField extends FormField
 
 						// Create a new option object based on the <option /> element.
 						$tmp = HTMLHelper::_(
-							'select.option', ($option['value']) ? (string) $option['value'] : Text::_(trim((string) $option)),
-							Text::_(trim((string) $option)), 'value', 'text', $disabled
+							'select.option',
+							($option['value']) ? (string) $option['value'] : Text::_(trim((string) $option)),
+							Text::_(trim((string) $option)),
+							'value',
+							'text',
+							$disabled
 						);
 
 						// Set some option attributes.

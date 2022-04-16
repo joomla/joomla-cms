@@ -199,7 +199,7 @@ class Workflow
 
 			$query->select(
 				[
-					$this->db->quoteName('ws.id')
+					$this->db->quoteName('ws.id'),
 				]
 			)
 				->from(
@@ -234,7 +234,7 @@ class Workflow
 
 		$query->select(
 			[
-				$this->db->quoteName('ws.id')
+				$this->db->quoteName('ws.id'),
 			]
 		)
 			->from(
@@ -250,7 +250,7 @@ class Workflow
 					$this->db->quoteName('w.published') . ' = 1',
 					$this->db->quoteName('ws.published') . ' = 1',
 					$this->db->quoteName('w.default') . ' = 1',
-					$this->db->quoteName('w.extension') . ' = :extension'
+					$this->db->quoteName('w.extension') . ' = :extension',
 				]
 			)
 			->bind(':extension', $this->extension);
@@ -281,7 +281,7 @@ class Workflow
 
 		if (!\count($pks))
 		{
-			return null;
+			return;
 		}
 
 		$query = $this->db->getQuery(true);
@@ -313,7 +313,7 @@ class Workflow
 					$this->db->quoteName('t.id') . ' = :id',
 					$this->db->quoteName('t.workflow_id') . ' = ' . $this->db->quoteName('w.id'),
 					$this->db->quoteName('t.published') . ' = 1',
-					$this->db->quoteName('w.extension') . ' = :extension'
+					$this->db->quoteName('w.extension') . ' = :extension',
 				]
 			)
 			->bind(':id', $transitionId, ParameterType::INTEGER)
@@ -329,7 +329,7 @@ class Workflow
 			return $transition;
 		}
 
-		return null;
+		return;
 	}
 
 	/**
@@ -352,7 +352,7 @@ class Workflow
 
 		$transition = $this->getValidTransition($pks, $transitionId);
 
-		if (is_null($transition))
+		if (\is_null($transition))
 		{
 			return false;
 		}
@@ -365,9 +365,11 @@ class Workflow
 			$assoc = $this->getAssociation($pk);
 
 			// The transition has to be in the same workflow
-			if (!\in_array($transition->from_stage_id, [
+			if (!\in_array(
+				$transition->from_stage_id,
+				[
 					$assoc->stage_id,
-					-1
+					-1,
 				]
 			) || $transition->workflow_id !== $assoc->workflow_id)
 			{
@@ -410,7 +412,7 @@ class Workflow
 						'subject'    => $this,
 						'extension'  => $this->extension,
 						'pks'        => $pks,
-						'transition' => $transition
+						'transition' => $transition,
 					]
 				)
 			);
