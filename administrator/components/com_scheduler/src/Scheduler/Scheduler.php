@@ -330,7 +330,7 @@ class Scheduler
 			throw new \RuntimeException('JLIB_APPLICATION_ERROR_MODEL_CREATE');
 		}
 
-		$model->setState('list.select', '*');
+		$model->setState('list.select', 'a.*');
 
 		// Default to only enabled tasks
 		if (!isset($filters['state']))

@@ -17,6 +17,10 @@ use Joomla\CMS\Form\FormFactoryAwareTrait;
 use Joomla\CMS\MVC\Model\ModelInterface;
 use Joomla\CMS\Router\SiteRouterAwareInterface;
 use Joomla\CMS\Router\SiteRouterAwareTrait;
+use Joomla\Database\DatabaseAwareInterface;
+use Joomla\Database\DatabaseAwareTrait;
+use Joomla\Database\DatabaseInterface;
+use Joomla\Database\Exception\DatabaseNotFoundException;
 use Joomla\Event\DispatcherAwareInterface;
 use Joomla\Event\DispatcherAwareTrait;
 use Joomla\Input\Input;
@@ -28,7 +32,7 @@ use Joomla\Input\Input;
  */
 class MVCFactory implements MVCFactoryInterface, FormFactoryAwareInterface, SiteRouterAwareInterface
 {
-	use FormFactoryAwareTrait, DispatcherAwareTrait, SiteRouterAwareTrait;
+	use FormFactoryAwareTrait, DispatcherAwareTrait, DatabaseAwareTrait, SiteRouterAwareTrait;
 
 	/**
 	 * The namespace to create the objects from.
@@ -129,6 +133,19 @@ class MVCFactory implements MVCFactoryInterface, FormFactoryAwareInterface, Site
 		$this->setDispatcherOnObject($model);
 		$this->setRouterOnObject($model);
 
+		if ($model instanceof DatabaseAwareInterface)
+		{
+			try
+			{
+				$model->setDatabase($this->getDatabase());
+			}
+			catch (DatabaseNotFoundException $e)
+			{
+				@trigger_error(sprintf('Database must be set, this will not be catched anymore in 5.0.'), E_USER_DEPRECATED);
+				$model->setDatabase(Factory::getContainer()->get(DatabaseInterface::class));
+			}
+		}
+
 		return $model;
 	}
 
@@ -219,13 +236,14 @@ class MVCFactory implements MVCFactoryInterface, FormFactoryAwareInterface, Site
 			return null;
 		}
 
-		if (\array_key_exists('dbo', $config))
+		try
 		{
-			$db = $config['dbo'];
+			$db = \array_key_exists('dbo', $config) ? $config['dbo'] : $this->getDatabase();
 		}
-		else
+		catch (DatabaseNotFoundException $e)
 		{
-			$db = Factory::getDbo();
+			@trigger_error(sprintf('Database must be set, this will not be catched anymore in 5.0.'), E_USER_DEPRECATED);
+			$db = Factory::getContainer()->get(DatabaseInterface::class);
 		}
 
 		return new $className($db);
@@ -291,7 +309,7 @@ class MVCFactory implements MVCFactoryInterface, FormFactoryAwareInterface, Site
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	private function setDispatcherOnObject($object)
 	{
@@ -317,7 +335,7 @@ class MVCFactory implements MVCFactoryInterface, FormFactoryAwareInterface, Site
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	private function setRouterOnObject($object): void
 	{

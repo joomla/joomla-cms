@@ -13,13 +13,13 @@ namespace Joomla\CMS\Installer;
 /**
  * Legacy installer script which delegates the methods to the internal instance when possible.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.2.0
  */
 class LegacyInstallerScript implements InstallerScriptInterface
 {
 	/**
 	 * @var    \stdClass
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.2.0
 	 */
 	private $installerScript;
 
@@ -38,7 +38,7 @@ class LegacyInstallerScript implements InstallerScriptInterface
 	 *
 	 * @return  boolean  True on success
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	public function install(InstallerAdapter $adapter): bool
 	{
@@ -52,7 +52,7 @@ class LegacyInstallerScript implements InstallerScriptInterface
 	 *
 	 * @return  boolean  True on success
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	public function update(InstallerAdapter $adapter): bool
 	{
@@ -66,7 +66,7 @@ class LegacyInstallerScript implements InstallerScriptInterface
 	 *
 	 * @return  boolean  True on success
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	public function uninstall(InstallerAdapter $adapter): bool
 	{
@@ -81,7 +81,7 @@ class LegacyInstallerScript implements InstallerScriptInterface
 	 *
 	 * @return  boolean  True on success
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	public function preflight(string $type, InstallerAdapter $adapter): bool
 	{
@@ -96,7 +96,7 @@ class LegacyInstallerScript implements InstallerScriptInterface
 	 *
 	 * @return  boolean  True on success
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	public function postflight(string $type, InstallerAdapter $adapter): bool
 	{
@@ -111,7 +111,7 @@ class LegacyInstallerScript implements InstallerScriptInterface
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	public function __set(string $name, $value)
 	{
@@ -125,7 +125,7 @@ class LegacyInstallerScript implements InstallerScriptInterface
 	 *
 	 * @return  mixed
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	public function __get(string $name)
 	{
@@ -141,7 +141,7 @@ class LegacyInstallerScript implements InstallerScriptInterface
 	 *
 	 * @return  mixed
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	public function __call(string $name, array $arguments)
 	{
@@ -157,7 +157,7 @@ class LegacyInstallerScript implements InstallerScriptInterface
 	 *
 	 * @return  bool
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	private function callOnScript(string $name, array $arguments): bool
 	{
