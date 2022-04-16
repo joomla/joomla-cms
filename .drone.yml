@@ -355,17 +355,17 @@ services:
       POSTGRES_PASSWORD: joomla_ut
       POSTGRES_DB: test_joomla
 
-  -name: selenium
+  - name: selenium
     image: selenium/hub
 
-  -name: chrome
+  - name: chrome
     image: selenium/node-chrome
     environment:
       HUB_PORT_4444_TCP_ADDR: selenium
       HUB_PORT_4444_TCP_PORT: 4444
       DISPLAY: ":99.0"
 
-  -name: firefox
+  - name: firefox
     image: selenium/node-firefox
     environment:
       HUB_PORT_4444_TCP_ADDR: selenium
@@ -407,6 +407,6 @@ steps:
 
 ---
 kind: signature
-hmac: 3dc08fc80d8e81d74e575b172d186a3bec2acac68986fcdb6a76f0537e60b28b
+hmac: 6ad2084b91b6af5bb32282dd7b709dc236781f7c1cdd81e46d405e24a951a512
 
 ...
