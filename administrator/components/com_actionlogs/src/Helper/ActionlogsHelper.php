@@ -374,4 +374,33 @@ class ActionlogsHelper
 
 		return $value;
 	}
+
+	/**
+	 * Gets the actionlog plugin extension id.
+	 *
+	 * @return  integer  The actionlog plugin extension id.
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public static function getActionlogPluginId()
+	{
+		$db    = Factory::getDbo();
+		$query = $db->getQuery(true)
+			->select($db->quoteName('extension_id'))
+			->from($db->quoteName('#__extensions'))
+			->where($db->quoteName('folder') . ' = ' . $db->quote('actionlog'))
+			->where($db->quoteName('element') . ' = ' . $db->quote('joomla'));
+		$db->setQuery($query);
+
+		try
+		{
+			$result = (int) $db->loadResult();
+		}
+		catch (\RuntimeException $e)
+		{
+			Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+		}
+
+		return $result;
+	}
 }

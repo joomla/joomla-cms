@@ -12,6 +12,10 @@ namespace Joomla\Component\Actionlogs\Administrator\Controller;
 \defined('_JEXEC') or die;
 
 use Joomla\CMS\MVC\Controller\BaseController;
+use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\CMS\Language\Text;
+use Joomla\Component\Actionlogs\Administrator\Helper\ActionlogsHelper;
+use Joomla\CMS\HTML\HTMLHelper;
 
 /**
  * Plugins master display controller.
@@ -27,4 +31,43 @@ class DisplayController extends BaseController
 	 * @since  1.6
 	 */
 	protected $default_view = 'actionlogs';
+
+	/**
+	 * Method to display a view.
+	 *
+	 * @param   boolean  $cachable   If true, the view output will be cached.
+	 * @param   mixed    $urlparams  An array of safe URL parameters and their variable types, for valid values see {@link \JFilterInput::clean()}.
+	 *
+	 * @return  static|boolean	 This object to support chaining or false on failure.
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function display($cachable = false, $urlparams = false)
+	{
+		$view   = $this->input->get('view', 'actionlogs');
+		$layout = $this->input->get('layout', 'default');
+		$id     = $this->input->getInt('id');
+
+		if ($view === 'actionlogs')
+		{
+			$pluginEnabled = PluginHelper::isEnabled('actionlog', 'joomla');
+
+			// Show message if the plugin is not enabled
+			if (!$pluginEnabled)
+			{
+				$actionlogPluginId = ActionlogsHelper::getActionlogPluginId();
+				$link = HTMLHelper::_(
+					'link',
+					'#plugin' . $actionlogPluginId . 'Modal',
+					Text::_('COM_ACTIONLOGS_JOOMLA_PLUGIN'),
+					'class="alert-link" data-bs-toggle="modal" id="title-' . $actionlogPluginId . '"'
+				);
+				$this->app->enqueueMessage(Text::sprintf('COM_ACTIONLOGS_PLUGIN_MODAL_DISABLED', $link), 'error');
+			}
+
+		}
+
+		return parent::display();
+	}
+
 }

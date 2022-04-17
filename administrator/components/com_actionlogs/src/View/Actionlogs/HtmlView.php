@@ -18,6 +18,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Pagination\Pagination;
+use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\Component\Actionlogs\Administrator\Helper\ActionlogsHelper;
@@ -37,6 +38,14 @@ class HtmlView extends BaseHtmlView
 	 * @since  3.9.0
 	 */
 	protected $items;
+
+	/**
+	 * The id of the actionlog plugin in the database
+	 *
+	 * @var    integer
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $actionlogPluginId = 0;
 
 	/**
 	 * The model state
@@ -113,6 +122,11 @@ class HtmlView extends BaseHtmlView
 		if (\count($errors = $model->getErrors()))
 		{
 			throw new GenericDataException(implode("\n", $errors), 500);
+		}
+
+		if (!PluginHelper::isEnabled('actionlog', 'joomla'))
+		{
+			$this->actionlogPluginId = ActionlogsHelper::getActionlogPluginId();
 		}
 
 		$this->addToolbar();
