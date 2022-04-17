@@ -11,11 +11,11 @@ namespace Joomla\Component\Actionlogs\Administrator\Controller;
 
 \defined('_JEXEC') or die;
 
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\CMS\Plugin\PluginHelper;
-use Joomla\CMS\Language\Text;
 use Joomla\Component\Actionlogs\Administrator\Helper\ActionlogsHelper;
-use Joomla\CMS\HTML\HTMLHelper;
 
 /**
  * Plugins master display controller.
@@ -64,7 +64,6 @@ class DisplayController extends BaseController
 				);
 				$this->app->enqueueMessage(Text::sprintf('COM_ACTIONLOGS_PLUGIN_MODAL_DISABLED', $link), 'error');
 			}
-
 		}
 
 		return parent::display();
