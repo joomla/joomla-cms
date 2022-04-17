@@ -1180,16 +1180,16 @@
         },
         {
             "name": "joomla/database",
-            "version": "2.0.2",
+            "version": "2.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-framework/database.git",
-                "reference": "142a624df2f48858467de67a4542d77807cc968b"
+                "reference": "194415339358b3ded43d5f68446b4fa93e18c3d3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-framework/database/zipball/142a624df2f48858467de67a4542d77807cc968b",
-                "reference": "142a624df2f48858467de67a4542d77807cc968b",
+                "url": "https://api.github.com/repos/joomla-framework/database/zipball/194415339358b3ded43d5f68446b4fa93e18c3d3",
+                "reference": "194415339358b3ded43d5f68446b4fa93e18c3d3",
                 "shasum": ""
             },
             "require": {
@@ -1244,7 +1244,7 @@
             ],
             "support": {
                 "issues": "https://github.com/joomla-framework/database/issues",
-                "source": "https://github.com/joomla-framework/database/tree/2.0.2"
+                "source": "https://github.com/joomla-framework/database/tree/2.1.0"
             },
             "funding": [
                 {
@@ -1256,7 +1256,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2022-01-10T02:28:52+00:00"
+            "time": "2022-03-02T16:36:31+00:00"
         },
         {
             "name": "joomla/di",
