@@ -362,12 +362,16 @@ services:
     image: selenium/node-chrome
     environment:
       SE_EVENT_BUS_HOST: selenium
+      SE_EVENT_BUS_PUBLISH_PORT: 4442
+      SE_EVENT_BUS_SUBSCRIBE_PORT: 4443
       DISPLAY: ":99.0"
 
   - name: firefox
     image: selenium/node-firefox
     environment:
       SE_EVENT_BUS_HOST: selenium
+      SE_EVENT_BUS_PUBLISH_PORT: 4442
+      SE_EVENT_BUS_SUBSCRIBE_PORT: 4443
       DISPLAY: ":98.0"
 
 ---
@@ -405,6 +409,6 @@ steps:
 
 ---
 kind: signature
-hmac: ab222b145e0be3fff2bda2983778446d8820ae95139f12414f2273e647358718
+hmac: eddc94db76f2244147f8a8b5b6fa87cbe807d7b26c4b8530a36e598a9bea8707
 
 ...
