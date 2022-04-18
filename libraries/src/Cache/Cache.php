@@ -15,7 +15,6 @@ use Joomla\CMS\Cache\Exception\CacheExceptionInterface;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Session\Session;
-use Joomla\String\StringHelper;
 
 /**
  * Joomla! Cache base object
@@ -656,75 +655,38 @@ class Cache
 		{
 			if ($loptions['modulemode'] == 1)
 			{
-				$headnow = $document->getHeadData();
-				$unset   = array('title', 'description', 'link', 'links', 'metaTags');
+				$headNow = $document->getHeadData();
+				$unset   = ['title', 'description', 'link', 'links', 'metaTags'];
 
-				foreach ($unset as $un)
+				foreach ($unset as $key)
 				{
-					unset($headnow[$un]);
-					unset($options['headerbefore'][$un]);
+					unset($headNow[$key]);
 				}
 
-				$cached['head'] = [];
-
-				// Only store what this module has added
-				foreach ($headnow as $now => $value)
+				// Sanitize empty data
+				foreach (\array_keys($headNow) as $key)
 				{
-					if (isset($options['headerbefore'][$now]))
+					if (!isset($headNow[$key]) || $headNow[$key] === [])
 					{
-						// We have to serialize the content of the arrays because the may contain other arrays which is a notice in PHP 5.4 and newer
-						$nowvalue    = array_map('serialize', $headnow[$now]);
-						$beforevalue = array_map('serialize', $options['headerbefore'][$now]);
-
-						$newvalue = array_diff_assoc($nowvalue, $beforevalue);
-						$newvalue = array_map('unserialize', $newvalue);
-
-						// Special treatment for script and style declarations.
-						if (($now === 'script' || $now === 'style') && \is_array($newvalue) && \is_array($options['headerbefore'][$now]))
-						{
-							foreach ($newvalue as $type => $currentScriptStr)
-							{
-								if (isset($options['headerbefore'][$now][strtolower($type)]))
-								{
-									$oldScriptStr = $options['headerbefore'][$now][strtolower($type)];
-
-									// Save only the appended declaration.
-									if (\is_array($oldScriptStr) && \is_array($currentScriptStr))
-									{
-										$newvalue[strtolower($type)] = array_diff_key($currentScriptStr, $oldScriptStr);
-									}
-									else
-									{
-										$newvalue[strtolower($type)] = StringHelper::substr($currentScriptStr, StringHelper::strlen($oldScriptStr));
-									}
-								}
-							}
-						}
-					}
-					else
-					{
-						$newvalue = $headnow[$now];
-					}
-
-					if (!empty($newvalue))
-					{
-						$cached['head'][$now] = $newvalue;
+						unset($headNow[$key]);
 					}
 				}
+
+				$cached['head'] = $headNow;
 			}
 			else
 			{
 				$cached['head'] = $document->getHeadData();
+
+				// Document MIME encoding
+				$cached['mime_encoding'] = $document->getMimeEncoding();
 			}
 		}
-
-		// Document MIME encoding
-		$cached['mime_encoding'] = $document->getMimeEncoding();
 
 		// Pathway data
 		if ($app->isClient('site') && $loptions['nopathway'] != 1)
 		{
-			$cached['pathway'] = \is_array($data) && isset($data['pathway']) ? $data['pathway'] : $app->getPathway()->getPathway();
+			$cached['pathway'] = $data['pathway'] ?? $app->getPathway()->getPathway();
 		}
 
 		if ($loptions['nomodules'] != 1)

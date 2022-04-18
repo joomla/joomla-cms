@@ -14,6 +14,10 @@ ul.media-tree {
 }
 
 .media-disk {
+  position: sticky;
+  top: 75px;
+  left: 0;
+  display: block;
   margin-bottom: 10px;
 }
 
@@ -41,7 +45,7 @@ ul.media-tree {
   display: block;
   &::before {
     position: absolute;
-    top: ($sidebar-tree-line-height / 2);
+    top: $sidebar-tree-line-height * .5;
     left: 0;
     width: 10px;
     height: 1px;
@@ -61,7 +65,7 @@ ul.media-tree {
   }
   &:last-child {
     &::after {
-      height: ($sidebar-tree-line-height / 2);
+      height: $sidebar-tree-line-height * .5;
     }
   }
   li {
