@@ -227,7 +227,7 @@ steps:
 #
   - name: phpmin-system-mysql
     depends_on:
-      - phpmax-api-postgres
+      - javascript-cs
     image: joomlaprojects/docker-images:systemtests
     failure: ignore
     environment:
@@ -407,6 +407,6 @@ steps:
 
 ---
 kind: signature
-hmac: 6ad2084b91b6af5bb32282dd7b709dc236781f7c1cdd81e46d405e24a951a512
+hmac: 6589beaca37145d7c4f8e5bd825b155fa0995f621e1f73de6c8b6172391e89a6
 
 ...
