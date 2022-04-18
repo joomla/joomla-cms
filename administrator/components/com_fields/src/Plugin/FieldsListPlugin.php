@@ -70,6 +70,11 @@ class FieldsListPlugin extends FieldsPlugin
 
 		// Fetch the options from the plugin
 		$params = clone $this->params;
+		foreach ($params->get('options', array()) as $option)
+		{
+			$op = (object) $option;
+			$data[$op->value] = $op->name;
+		}
 		$params->merge($field->fieldparams);
 
 		foreach ($params->get('options', array()) as $option)
