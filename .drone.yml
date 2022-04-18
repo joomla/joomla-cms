@@ -294,7 +294,7 @@ steps:
 #      - phpmin-api-postgres
 #      - phpmax-api-postgres
 
-#      - phpmin-system-mysql
+      - phpmin-system-mysql
 #      - phpmax-system-mysql
 
 #      - phpmin-system-postgres
@@ -409,6 +409,6 @@ steps:
 
 ---
 kind: signature
-hmac: 3276b977183c7a53684ee94987db7527657e8c4a59a508e92aedb1a23e11e47a
+hmac: 85e39d0cdb7cc8ae614e413855e37291fc2e6eff9b8b8bbc889c0cc1fb58abe2
 
 ...
