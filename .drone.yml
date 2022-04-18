@@ -288,7 +288,7 @@ steps:
   - name: artifacts-system-tests
     image: cschlosser/drone-ftps
     depends_on:
-      - phpmin-api-mysql
+#      - phpmin-api-mysql
 #      - phpmax-api-mysql
 
 #      - phpmin-api-postgres
@@ -407,6 +407,6 @@ steps:
 
 ---
 kind: signature
-hmac: 6589beaca37145d7c4f8e5bd825b155fa0995f621e1f73de6c8b6172391e89a6
+hmac: f571f770c535b0fb1fdddab6a86d32ffb64512ae2283d76f05d199b4ff01b80e
 
 ...
