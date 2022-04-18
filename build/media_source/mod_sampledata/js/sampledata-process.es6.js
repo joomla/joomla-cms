@@ -155,7 +155,7 @@ const sampledataApply = (element) => {
     progressElement.classList.remove('d-none');
   });
 
-  element.getAttribute('data-processed', true);
+  element.setAttribute('data-processed', true);
 
   SampleData.inProgress = true;
   sampledataAjax(type, steps, 1);
