@@ -78,7 +78,7 @@ class FieldsListPlugin extends FieldsPlugin
 		}
 
 		$params->merge($field->fieldparams);
-		
+
 		foreach ($params->get('options', array()) as $option)
 		{
 			$op = (object) $option;
