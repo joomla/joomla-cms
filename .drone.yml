@@ -361,15 +361,13 @@ services:
   - name: chrome
     image: selenium/node-chrome
     environment:
-      HUB_PORT_4444_TCP_ADDR: selenium
-      HUB_PORT_4444_TCP_PORT: 4444
+      SE_EVENT_BUS_HOST: selenium
       DISPLAY: ":99.0"
 
   - name: firefox
     image: selenium/node-firefox
     environment:
-      HUB_PORT_4444_TCP_ADDR: selenium
-      HUB_PORT_4444_TCP_PORT: 4444
+      SE_EVENT_BUS_HOST: selenium
       DISPLAY: ":98.0"
 
 ---
@@ -407,6 +405,6 @@ steps:
 
 ---
 kind: signature
-hmac: f571f770c535b0fb1fdddab6a86d32ffb64512ae2283d76f05d199b4ff01b80e
+hmac: ab222b145e0be3fff2bda2983778446d8820ae95139f12414f2273e647358718
 
 ...
