@@ -13,7 +13,7 @@ rsync -a --exclude-from=tests/Codeception/exclude.txt $JOOMLA_BASE/ /tests/www/$
 chown -R www-data /tests/www/$DB_ENGINE/
 
 # echo "[RUNNER] Start Apache & Chrome"
-# apache2ctl -D FOREGROUND &
+apache2ctl -D FOREGROUND &
 # google-chrome --version
 
 
