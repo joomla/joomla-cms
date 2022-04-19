@@ -321,6 +321,9 @@ $assoc = Associations::isEnabled();
 													echo '</a>';
 												endif;
 											}
+											if ($item->category_published < '1') :
+												echo $item->category_published == '0' ? ' (' . Text::_('JUNPUBLISHED') . ')' : ' (' . Text::_('JTRASHED') . ')';
+											endif;
 											?>
 										</div>
 									</div>
