@@ -188,7 +188,7 @@ class MenuItemByTypeField extends GroupedlistField
 		if ($menuType)
 		{
 			// If the menutype is empty, group the items by menutype.
-			$db    = $this->getDbo();
+			$db    = $this->getDatabase();
 			$query = $db->getQuery(true)
 				->select($db->quoteName('title'))
 				->from($db->quoteName('#__menu_types'))

@@ -334,7 +334,7 @@ class FieldModel extends AdminModel
 			}
 			catch (DatabaseNotFoundException $e)
 			{
-				@trigger_error(sprintf('Database must be set, this will not be catched anymore in 5.0.'), E_USER_DEPRECATED);
+				@trigger_error(sprintf('Database must be set, this will not be caught anymore in 5.0.'), E_USER_DEPRECATED);
 				$rule->setDatabase(Factory::getContainer()->get(DatabaseInterface::class));
 			}
 		}

@@ -1627,6 +1627,7 @@ class Form
 			}
 			catch (DatabaseNotFoundException $e)
 			{
+				@trigger_error(sprintf('Database must be set, this will not be caught anymore in 5.0.'), E_USER_DEPRECATED);
 				$field->setDatabase(Factory::getContainer()->get(DatabaseInterface::class));
 			}
 		}
