@@ -9,8 +9,6 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\Utilities\ArrayHelper;
-
 /**
  * The Menu List Controller
  *
@@ -62,9 +60,12 @@ class MenusControllerMenus extends JControllerLegacy
 
 		$user = JFactory::getUser();
 		$app  = JFactory::getApplication();
-		$cids = (array) $this->input->get('cid', array(), 'array');
+		$cids = (array) $this->input->get('cid', array(), 'int');
 
-		if (count($cids) < 1)
+		// Remove zero values resulting from input filter
+		$cids = array_filter($cids);
+
+		if (empty($cids))
 		{
 			$app->enqueueMessage(JText::_('COM_MENUS_NO_MENUS_SELECTED'), 'notice');
 		}
@@ -85,9 +86,6 @@ class MenusControllerMenus extends JControllerLegacy
 			{
 				// Get the model.
 				$model = $this->getModel();
-
-				// Make sure the item ids are integers
-				$cids = ArrayHelper::toInteger($cids);
 
 				// Remove the items.
 				if (!$model->delete($cids))

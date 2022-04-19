@@ -9,8 +9,6 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\Utilities\ArrayHelper;
-
 /**
  * Contenthistory list controller class.
  *
@@ -30,9 +28,12 @@ class ContenthistoryControllerHistory extends JControllerAdmin
 		$this->checkToken();
 
 		// Get items to remove from the request.
-		$cid = $this->input->get('cid', array(), 'array');
+		$cid = (array) $this->input->get('cid', array(), 'int');
 
-		if (!is_array($cid) || count($cid) < 1)
+		// Remove zero values resulting from input filter
+		$cid = array_filter($cid);
+
+		if (empty($cid))
 		{
 			JError::raiseWarning(500, JText::_('COM_CONTENTHISTORY_NO_ITEM_SELECTED'));
 		}
@@ -40,9 +41,6 @@ class ContenthistoryControllerHistory extends JControllerAdmin
 		{
 			// Get the model.
 			$model = $this->getModel();
-
-			// Make sure the item ids are integers
-			$cid = ArrayHelper::toInteger($cid);
 
 			// Remove the items.
 			if ($model->delete($cid))
@@ -92,9 +90,12 @@ class ContenthistoryControllerHistory extends JControllerAdmin
 		$this->checkToken();
 
 		// Get items to remove from the request.
-		$cid = $this->input->get('cid', array(), 'array');
+		$cid = (array) $this->input->get('cid', array(), 'int');
 
-		if (!is_array($cid) || count($cid) < 1)
+		// Remove zero values resulting from input filter
+		$cid = array_filter($cid);
+
+		if (empty($cid))
 		{
 			JError::raiseWarning(500, JText::_('COM_CONTENTHISTORY_NO_ITEM_SELECTED'));
 		}
@@ -102,9 +103,6 @@ class ContenthistoryControllerHistory extends JControllerAdmin
 		{
 			// Get the model.
 			$model = $this->getModel();
-
-			// Make sure the item ids are integers
-			$cid = ArrayHelper::toInteger($cid);
 
 			// Remove the items.
 			if ($model->keep($cid))

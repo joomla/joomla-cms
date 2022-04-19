@@ -103,6 +103,18 @@ class JArchiveTar implements JArchiveExtractable
 				$buffer = $this->_metadata[$i]['data'];
 				$path = JPath::clean($destination . '/' . $this->_metadata[$i]['name']);
 
+				if (strpos(JPath::clean(JPath::resolve($destination . '/' . $this->_metadata[$i]['name'])), JPath::clean(JPath::resolve($destination))) !== 0)
+				{
+					if (class_exists('JError'))
+					{
+						return JError::raiseWarning(100, 'Unable to write outside of destination path');
+					}
+					else
+					{
+						throw new RuntimeException('Unable to write outside of destination path');
+					}
+				}
+
 				// Make sure the destination folder exists
 				if (!JFolder::create(dirname($path)))
 				{

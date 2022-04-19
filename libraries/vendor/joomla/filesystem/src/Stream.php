@@ -275,9 +275,22 @@ class Stream
 		}
 
 		// Capture PHP errors
-		$php_errormsg = 'Error Unknown whilst opening a file';
-		$trackErrors  = ini_get('track_errors');
-		ini_set('track_errors', true);
+		if (PHP_VERSION_ID < 70000)
+		{
+			// @Todo Remove this path, when PHP5 support is dropped.
+			set_error_handler(
+				function () {
+					return false;
+				}
+			);
+			@trigger_error('');
+			restore_error_handler();
+		}
+		else
+		{
+			/** @noinspection PhpElementIsNotAvailableInCurrentPhpVersionInspection */
+			error_clear_last();
+		}
 
 		// Decide which context to use:
 		switch ($this->processingmethod)
@@ -316,12 +329,19 @@ class Stream
 				break;
 		}
 
-		// Restore error tracking to what it was before
-		ini_set('track_errors', $trackErrors);
-
 		if (!$this->fh)
 		{
-			throw new FilesystemException($php_errormsg);
+			$error = error_get_last();
+
+			if ($error === null || $error['message'] === '')
+			{
+				// Error but nothing from php? Create our own
+				$error = array(
+					'message' => sprintf('Unknown error opening file %s', $filename)
+				);
+			}
+
+			throw new FilesystemException($error['message']);
 		}
 
 		// Return the result
@@ -347,9 +367,22 @@ class Stream
 		}
 
 		// Capture PHP errors
-		$php_errormsg = 'Error Unknown';
-		$trackErrors  = ini_get('track_errors');
-		ini_set('track_errors', true);
+		if (PHP_VERSION_ID < 70000)
+		{
+			// @Todo Remove this path, when PHP5 support is dropped.
+			set_error_handler(
+				function () {
+					return false;
+				}
+			);
+			@trigger_error('');
+			restore_error_handler();
+		}
+		else
+		{
+			/** @noinspection PhpElementIsNotAvailableInCurrentPhpVersionInspection */
+			error_clear_last();
+		}
 
 		switch ($this->processingmethod)
 		{
@@ -370,12 +403,19 @@ class Stream
 				break;
 		}
 
-		// Restore error tracking to what it was before
-		ini_set('track_errors', $trackErrors);
-
 		if (!$res)
 		{
-			throw new FilesystemException($php_errormsg);
+			$error = error_get_last();
+
+			if ($error === null || $error['message'] === '')
+			{
+				// Error but nothing from php? Create our own
+				$error = array(
+					'message' => 'Unable to close stream'
+				);
+			}
+
+			throw new FilesystemException($error['message']);
 		}
 
 		// Reset this
@@ -407,9 +447,22 @@ class Stream
 		}
 
 		// Capture PHP errors
-		$php_errormsg = '';
-		$trackErrors  = ini_get('track_errors');
-		ini_set('track_errors', true);
+		if (PHP_VERSION_ID < 70000)
+		{
+			// @Todo Remove this path, when PHP5 support is dropped.
+			set_error_handler(
+				function () {
+					return false;
+				}
+			);
+			@trigger_error('');
+			restore_error_handler();
+		}
+		else
+		{
+			/** @noinspection PhpElementIsNotAvailableInCurrentPhpVersionInspection */
+			error_clear_last();
+		}
 
 		switch ($this->processingmethod)
 		{
@@ -426,12 +479,11 @@ class Stream
 				break;
 		}
 
-		// Restore error tracking to what it was before
-		ini_set('track_errors', $trackErrors);
+		$error = error_get_last();
 
-		if ($php_errormsg)
+		if ($error !== null && $error['message'] !== '')
 		{
-			throw new FilesystemException($php_errormsg);
+			throw new FilesystemException($error['message']);
 		}
 
 		// Return the result
@@ -454,53 +506,49 @@ class Stream
 		}
 
 		// Capture PHP errors
-		$php_errormsg = '';
-		$trackErrors  = ini_get('track_errors');
-		ini_set('track_errors', true);
+		if (PHP_VERSION_ID < 70000)
+		{
+			// @Todo Remove this path, when PHP5 support is dropped.
+			set_error_handler(
+				function () {
+					return false;
+				}
+			);
+			@trigger_error('');
+			restore_error_handler();
+		}
+		else
+		{
+			/** @noinspection PhpElementIsNotAvailableInCurrentPhpVersionInspection */
+			error_clear_last();
+		}
+
 		$res = @filesize($this->filename);
 
 		if (!$res)
 		{
-			$tmpError = '';
-
-			if ($php_errormsg)
-			{
-				// Something went wrong.
-				// Store the error in case we need it.
-				$tmpError = $php_errormsg;
-			}
-
 			$res = Helper::remotefsize($this->filename);
+		}
 
-			if (!$res)
+		if (!$res)
+		{
+			$error = error_get_last();
+
+			if ($error === null || $error['message'] === '')
 			{
-				// Restore error tracking to what it was before.
-				ini_set('track_errors', $trackErrors);
-
-				if ($tmpError)
-				{
-					// Use the php_errormsg from before
-					throw new FilesystemException($tmpError);
-				}
-
-				// Error but nothing from php? How strange! Create our own
-				throw new FilesystemException('Failed to get file size. This may not work for all streams.');
+				// Error but nothing from php? Create our own
+				$error = array(
+					'message' => 'Failed to get file size. This may not work for all streams.'
+				);
 			}
 
-			$this->filesize = $res;
-			$retval         = $res;
-		}
-		else
-		{
-			$this->filesize = $res;
-			$retval         = $res;
+			throw new FilesystemException($error['message']);
 		}
 
-		// Restore error tracking to what it was before.
-		ini_set('track_errors', $trackErrors);
+		$this->filesize = $res;
 
 		// Return the result
-		return $retval;
+		return $this->filesize;
 	}
 
 	/**
@@ -521,9 +569,22 @@ class Stream
 		}
 
 		// Capture PHP errors
-		$php_errormsg = 'Error Unknown';
-		$trackErrors  = ini_get('track_errors');
-		ini_set('track_errors', true);
+		if (PHP_VERSION_ID < 70000)
+		{
+			// @Todo Remove this path, when PHP5 support is dropped.
+			set_error_handler(
+				function () {
+					return false;
+				}
+			);
+			@trigger_error('');
+			restore_error_handler();
+		}
+		else
+		{
+			/** @noinspection PhpElementIsNotAvailableInCurrentPhpVersionInspection */
+			error_clear_last();
+		}
 
 		switch ($this->processingmethod)
 		{
@@ -540,12 +601,19 @@ class Stream
 				break;
 		}
 
-		// Restore error tracking to what it was before
-		ini_set('track_errors', $trackErrors);
-
 		if (!$res)
 		{
-			throw new FilesystemException($php_errormsg);
+			$error = error_get_last();
+
+			if ($error === null || $error['message'] === '')
+			{
+				// Error but nothing from php? Create our own
+				$error = array(
+					'message' => 'Unable to read from stream'
+				);
+			}
+
+			throw new FilesystemException($error['message']);
 		}
 
 		// Return the result
@@ -591,9 +659,23 @@ class Stream
 		$retval = false;
 
 		// Capture PHP errors
-		$php_errormsg = 'Error Unknown';
-		$trackErrors  = ini_get('track_errors');
-		ini_set('track_errors', true);
+		if (PHP_VERSION_ID < 70000)
+		{
+			// @Todo Remove this path, when PHP5 support is dropped.
+			set_error_handler(
+				function () {
+					return false;
+				}
+			);
+			@trigger_error('');
+			restore_error_handler();
+		}
+		else
+		{
+			/** @noinspection PhpElementIsNotAvailableInCurrentPhpVersionInspection */
+			error_clear_last();
+		}
+
 		$remaining = $length;
 
 		do
@@ -620,10 +702,17 @@ class Stream
 
 			if (!$res)
 			{
-				// Restore error tracking to what it was before
-				ini_set('track_errors', $trackErrors);
+				$error = error_get_last();
 
-				throw new FilesystemException($php_errormsg);
+				if ($error === null || $error['message'] === '')
+				{
+					// Error but nothing from php? Create our own
+					$error = array(
+						'message' => 'Unable to read from stream'
+					);
+				}
+
+				throw new FilesystemException($error['message']);
 			}
 
 			if (!$retval)
@@ -646,9 +735,6 @@ class Stream
 			}
 		}
 		while ($remaining || !$length);
-
-		// Restore error tracking to what it was before
-		ini_set('track_errors', $trackErrors);
 
 		// Return the result
 		return $retval;
@@ -676,9 +762,22 @@ class Stream
 		}
 
 		// Capture PHP errors
-		$php_errormsg = '';
-		$trackErrors  = ini_get('track_errors');
-		ini_set('track_errors', true);
+		if (PHP_VERSION_ID < 70000)
+		{
+			// @Todo Remove this path, when PHP5 support is dropped.
+			set_error_handler(
+				function () {
+					return false;
+				}
+			);
+			@trigger_error('');
+			restore_error_handler();
+		}
+		else
+		{
+			/** @noinspection PhpElementIsNotAvailableInCurrentPhpVersionInspection */
+			error_clear_last();
+		}
 
 		switch ($this->processingmethod)
 		{
@@ -695,13 +794,20 @@ class Stream
 				break;
 		}
 
-		// Restore error tracking to what it was before
-		ini_set('track_errors', $trackErrors);
-
 		// Seek, interestingly, returns 0 on success or -1 on failure.
 		if ($res == -1)
 		{
-			throw new FilesystemException($php_errormsg);
+			$error = error_get_last();
+
+			if ($error === null || $error['message'] === '')
+			{
+				// Error but nothing from php? Create our own
+				$error = array(
+					'message' => 'Unable to seek in stream'
+				);
+			}
+
+			throw new FilesystemException($error['message']);
 		}
 
 		// Return the result
@@ -724,9 +830,22 @@ class Stream
 		}
 
 		// Capture PHP errors
-		$php_errormsg = '';
-		$trackErrors  = ini_get('track_errors');
-		ini_set('track_errors', true);
+		if (PHP_VERSION_ID < 70000)
+		{
+			// @Todo Remove this path, when PHP5 support is dropped.
+			set_error_handler(
+				function () {
+					return false;
+				}
+			);
+			@trigger_error('');
+			restore_error_handler();
+		}
+		else
+		{
+			/** @noinspection PhpElementIsNotAvailableInCurrentPhpVersionInspection */
+			error_clear_last();
+		}
 
 		switch ($this->processingmethod)
 		{
@@ -743,13 +862,20 @@ class Stream
 				break;
 		}
 
-		// Restore error tracking to what it was before
-		ini_set('track_errors', $trackErrors);
-
 		// May return 0 so check if it's really false
 		if ($res === false)
 		{
-			throw new FilesystemException($php_errormsg);
+			$error = error_get_last();
+
+			if ($error === null || $error['message'] === '')
+			{
+				// Error but nothing from php? Create our own
+				$error = array(
+					'message' => 'Unable to determine the current position in stream'
+				);
+			}
+
+			throw new FilesystemException($error['message']);
 		}
 
 		// Return the result
@@ -804,9 +930,23 @@ class Stream
 		$retval = true;
 
 		// Capture PHP errors
-		$php_errormsg = '';
-		$trackErrors  = ini_get('track_errors');
-		ini_set('track_errors', true);
+		if (PHP_VERSION_ID < 70000)
+		{
+			// @Todo Remove this path, when PHP5 support is dropped.
+			set_error_handler(
+				function () {
+					return false;
+				}
+			);
+			@trigger_error('');
+			restore_error_handler();
+		}
+		else
+		{
+			/** @noinspection PhpElementIsNotAvailableInCurrentPhpVersionInspection */
+			error_clear_last();
+		}
+
 		$remaining = $length;
 		$start     = 0;
 
@@ -819,18 +959,21 @@ class Stream
 			// Returns false on error or the number of bytes written
 			if ($res === false)
 			{
-				// Restore error tracking to what it was before
-				ini_set('track_errors', $trackErrors);
+				$error = error_get_last();
 
-				// Returned error
-				throw new FilesystemException($php_errormsg);
+				if ($error === null || $error['message'] === '')
+				{
+					// Error but nothing from php? Create our own
+					$error = array(
+						'message' => 'Unable to write to stream'
+					);
+				}
+
+				throw new FilesystemException($error['message']);
 			}
 
 			if ($res === 0)
 			{
-				// Restore error tracking to what it was before
-				ini_set('track_errors', $trackErrors);
-
 				// Wrote nothing?
 				throw new FilesystemException('Warning: No data written');
 			}
@@ -840,9 +983,6 @@ class Stream
 			$remaining -= $res;
 		}
 		while ($remaining);
-
-		// Restore error tracking to what it was before.
-		ini_set('track_errors', $trackErrors);
 
 		// Return the result
 		return $retval;
@@ -878,9 +1018,23 @@ class Stream
 		}
 
 		// Capture PHP errors
-		$php_errormsg = '';
-		$trackErrors  = ini_get('track_errors');
-		ini_set('track_errors', true);
+		if (PHP_VERSION_ID < 70000)
+		{
+			// @Todo Remove this path, when PHP5 support is dropped.
+			set_error_handler(
+				function () {
+					return false;
+				}
+			);
+			@trigger_error('');
+			restore_error_handler();
+		}
+		else
+		{
+			/** @noinspection PhpElementIsNotAvailableInCurrentPhpVersionInspection */
+			error_clear_last();
+		}
+
 		$sch = parse_url($filename, \PHP_URL_SCHEME);
 
 		// Scheme specific options; ftp's chmod support is fun.
@@ -898,13 +1052,19 @@ class Stream
 				break;
 		}
 
-		// Restore error tracking to what it was before.
-		ini_set('track_errors', $trackErrors);
-
-		// Seek, interestingly, returns 0 on success or -1 on failure
 		if ($res === false)
 		{
-			throw new FilesystemException($php_errormsg);
+			$error = error_get_last();
+
+			if ($error === null || $error['message'] === '')
+			{
+				// Error but nothing from php? Create our own
+				$error = array(
+					'message' => 'Unable to change mode of stream'
+				);
+			}
+
+			throw new FilesystemException($error['message']);
 		}
 
 		// Return the result
@@ -1040,17 +1200,38 @@ class Stream
 		if ($this->fh)
 		{
 			// Capture PHP errors
-			$php_errormsg = 'Unknown error setting context option';
-			$trackErrors  = ini_get('track_errors');
-			ini_set('track_errors', true);
-			$retval = @stream_context_set_option($this->fh, $this->contextOptions);
+			if (PHP_VERSION_ID < 70000)
+			{
+				// @Todo Remove this path, when PHP5 support is dropped.
+				set_error_handler(
+					function () {
+						return false;
+					}
+				);
+				@trigger_error('');
+				restore_error_handler();
+			}
+			else
+			{
+				/** @noinspection PhpElementIsNotAvailableInCurrentPhpVersionInspection */
+				error_clear_last();
+			}
 
-			// Restore error tracking to what it was before
-			ini_set('track_errors', $trackErrors);
+			$retval = @stream_context_set_option($this->fh, $this->contextOptions);
 
 			if (!$retval)
 			{
-				throw new FilesystemException($php_errormsg);
+				$error = error_get_last();
+
+				if ($error === null || $error['message'] === '')
+				{
+					// Error but nothing from php? Create our own
+					$error = array(
+						'message' => 'Unable to apply context to stream'
+					);
+				}
+
+				throw new FilesystemException($error['message']);
 			}
 		}
 
@@ -1078,18 +1259,33 @@ class Stream
 		if ($this->fh)
 		{
 			// Capture PHP errors
-			$php_errormsg = '';
-			$trackErrors  = ini_get('track_errors');
-			ini_set('track_errors', true);
+			if (PHP_VERSION_ID < 70000)
+			{
+				// @Todo Remove this path, when PHP5 support is dropped.
+				set_error_handler(
+					function () {
+						return false;
+					}
+				);
+				@trigger_error('');
+				restore_error_handler();
+			}
+			else
+			{
+				/** @noinspection PhpElementIsNotAvailableInCurrentPhpVersionInspection */
+				error_clear_last();
+			}
 
 			$res = @stream_filter_append($this->fh, $filtername, $readWrite, $params);
 
-			// Restore error tracking to what it was before.
-			ini_set('track_errors', $trackErrors);
-
-			if (!$res && $php_errormsg)
+			if (!$res)
 			{
-				throw new FilesystemException($php_errormsg);
+				$error = error_get_last();
+
+				if ($error !== null && $error['message'] !== '')
+				{
+					throw new FilesystemException($error['message']);
+				}
 			}
 
 			$this->filters[] = &$res;
@@ -1118,18 +1314,33 @@ class Stream
 		if ($this->fh)
 		{
 			// Capture PHP errors
-			$php_errormsg = '';
-			$trackErrors  = ini_get('track_errors');
-			ini_set('track_errors', true);
+			if (PHP_VERSION_ID < 70000)
+			{
+				// @Todo Remove this path, when PHP5 support is dropped.
+				set_error_handler(
+					function () {
+						return false;
+					}
+				);
+				@trigger_error('');
+				restore_error_handler();
+			}
+			else
+			{
+				/** @noinspection PhpElementIsNotAvailableInCurrentPhpVersionInspection */
+				error_clear_last();
+			}
+
 			$res = @stream_filter_prepend($this->fh, $filtername, $readWrite, $params);
 
-			// Restore error tracking to what it was before.
-			ini_set('track_errors', $trackErrors);
-
-			if (!$res && $php_errormsg)
+			if (!$res)
 			{
-				// Set the error msg
-				throw new FilesystemException($php_errormsg);
+				$error = error_get_last();
+
+				if ($error !== null && $error['message'] !== '')
+				{
+					throw new FilesystemException($error['message']);
+				}
 			}
 
 			array_unshift($this->filters, '');
@@ -1154,9 +1365,22 @@ class Stream
 	public function removeFilter(&$resource, $byindex = false)
 	{
 		// Capture PHP errors
-		$php_errormsg = '';
-		$trackErrors  = ini_get('track_errors');
-		ini_set('track_errors', true);
+		if (PHP_VERSION_ID < 70000)
+		{
+			// @Todo Remove this path, when PHP5 support is dropped.
+			set_error_handler(
+				function () {
+					return false;
+				}
+			);
+			@trigger_error('');
+			restore_error_handler();
+		}
+		else
+		{
+			/** @noinspection PhpElementIsNotAvailableInCurrentPhpVersionInspection */
+			error_clear_last();
+		}
 
 		if ($byindex)
 		{
@@ -1167,12 +1391,19 @@ class Stream
 			$res = stream_filter_remove($resource);
 		}
 
-		// Restore error tracking to what it was before.
-		ini_set('track_errors', $trackErrors);
-
 		if (!$res)
 		{
-			throw new FilesystemException($php_errormsg);
+			$error = error_get_last();
+
+			if ($error === null || $error['message'] === '')
+			{
+				// Error but nothing from php? Create our own
+				$error = array(
+					'message' => 'Unable to remove filter from stream'
+				);
+			}
+
+			throw new FilesystemException($error['message']);
 		}
 
 		return $res;
@@ -1195,8 +1426,22 @@ class Stream
 	public function copy($src, $dest, $context = null, $usePrefix = true, $relative = false)
 	{
 		// Capture PHP errors
-		$trackErrors = ini_get('track_errors');
-		ini_set('track_errors', true);
+		if (PHP_VERSION_ID < 70000)
+		{
+			// @Todo Remove this path, when PHP5 support is dropped.
+			set_error_handler(
+				function () {
+					return false;
+				}
+			);
+			@trigger_error('');
+			restore_error_handler();
+		}
+		else
+		{
+			/** @noinspection PhpElementIsNotAvailableInCurrentPhpVersionInspection */
+			error_clear_last();
+		}
 
 		$chmodDest = $this->_getFilename($dest, 'w', $usePrefix, $relative);
 
@@ -1222,12 +1467,14 @@ class Stream
 			$res = @copy($src, $dest);
 		}
 
-		// Restore error tracking to what it was before
-		ini_set('track_errors', $trackErrors);
-
-		if (!$res && $php_errormsg)
+		if (!$res)
 		{
-			throw new FilesystemException($php_errormsg);
+			$error = error_get_last();
+
+			if ($error !== null && $error['message'] !== '')
+			{
+				throw new FilesystemException($error['message']);
+			}
 		}
 
 		$this->chmod($chmodDest);
@@ -1252,9 +1499,22 @@ class Stream
 	public function move($src, $dest, $context = null, $usePrefix = true, $relative = false)
 	{
 		// Capture PHP errors
-		$php_errormsg = '';
-		$trackErrors  = ini_get('track_errors');
-		ini_set('track_errors', true);
+		if (PHP_VERSION_ID < 70000)
+		{
+			// @Todo Remove this path, when PHP5 support is dropped.
+			set_error_handler(
+				function () {
+					return false;
+				}
+			);
+			@trigger_error('');
+			restore_error_handler();
+		}
+		else
+		{
+			/** @noinspection PhpElementIsNotAvailableInCurrentPhpVersionInspection */
+			error_clear_last();
+		}
 
 		$src  = $this->_getFilename($src, 'w', $usePrefix, $relative);
 		$dest = $this->_getFilename($dest, 'w', $usePrefix, $relative);
@@ -1275,12 +1535,19 @@ class Stream
 			$res = @rename($src, $dest);
 		}
 
-		// Restore error tracking to what it was before
-		ini_set('track_errors', $trackErrors);
-
 		if (!$res)
 		{
-			throw new FilesystemException($php_errormsg);
+			$error = error_get_last();
+
+			if ($error === null || $error['message'] === '')
+			{
+				// Error but nothing from php? Create our own
+				$error = array(
+					'message' => 'Unable to move stream'
+				);
+			}
+
+			throw new FilesystemException($error['message']);
 		}
 
 		$this->chmod($dest);
@@ -1304,9 +1571,22 @@ class Stream
 	public function delete($filename, $context = null, $usePrefix = true, $relative = false)
 	{
 		// Capture PHP errors
-		$php_errormsg = '';
-		$trackErrors  = ini_get('track_errors');
-		ini_set('track_errors', true);
+		if (PHP_VERSION_ID < 70000)
+		{
+			// @Todo Remove this path, when PHP5 support is dropped.
+			set_error_handler(
+				function () {
+					return false;
+				}
+			);
+			@trigger_error('');
+			restore_error_handler();
+		}
+		else
+		{
+			/** @noinspection PhpElementIsNotAvailableInCurrentPhpVersionInspection */
+			error_clear_last();
+		}
 
 		$filename = $this->_getFilename($filename, 'w', $usePrefix, $relative);
 
@@ -1326,12 +1606,19 @@ class Stream
 			$res = @unlink($filename);
 		}
 
-		// Restore error tracking to what it was before.
-		ini_set('track_errors', $trackErrors);
-
 		if (!$res)
 		{
-			throw new FilesystemException($php_errormsg);
+			$error = error_get_last();
+
+			if ($error === null || $error['message'] === '')
+			{
+				// Error but nothing from php? Create our own
+				$error = array(
+					'message' => 'Unable to delete stream'
+				);
+			}
+
+			throw new FilesystemException($error['message']);
 		}
 
 		return $res;
