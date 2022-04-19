@@ -73,8 +73,8 @@ abstract class TagsPopularHelper
 		$query->join(
 			'INNER',
 			$db->quoteName('#__ucm_content', 'ucm'),
-			$db->quoteName('m.content_item_id') .  ' = ' . $db->quoteName('ucm.core_content_item_id') .
-			' AND ' . $db->quoteName('m.type_id') .  ' = ' . $db->quoteName('ucm.core_type_id')
+			$db->quoteName('m.content_item_id') . ' = ' . $db->quoteName('ucm.core_content_item_id') .
+			' AND ' . $db->quoteName('m.type_id') . ' = ' . $db->quoteName('ucm.core_type_id')
 		);
 
 		$query->join(
@@ -84,7 +84,6 @@ abstract class TagsPopularHelper
 		);
 
 		$query->where($db->quoteName('cat.published') . ' > 0');
-
 
 		// Optionally filter on language
 		$language = ComponentHelper::getParams('com_tags')->get('tag_list_language_filter', 'all');
