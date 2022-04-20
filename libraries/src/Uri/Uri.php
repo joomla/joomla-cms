@@ -289,7 +289,7 @@ class Uri extends \Joomla\Uri\Uri
 	 * @since   1.7.0
 	 * @note    The parent method is protected, this exposes it as public for B/C
 	 */
-	public static function buildQuery(array $params)
+	public static function buildQuery($params)
 	{
 		return parent::buildQuery($params);
 	}
