@@ -190,7 +190,7 @@ class ContactController extends FormController
 			}
 		}
 
-		if(!$passValidation)
+		if (!$passValidation)
 		{
 			$app->setUserState('com_contact.contact.data', $data);
 
