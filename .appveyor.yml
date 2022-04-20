@@ -8,7 +8,7 @@ clone_folder: C:\projects\joomla-cms
 environment:
   PHPBuild: "x64"
   matrix:
-  - php_ver_target: 7.4
+  - php_ver_target: 8.0
 
 
 init:
