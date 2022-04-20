@@ -8,15 +8,8 @@ clone_folder: C:\projects\joomla-cms
 environment:
   PHPBuild: "x64"
   matrix:
-  - php_ver_target: 7.2
-  - php_ver_target: 7.3
   - php_ver_target: 7.4
-  - php_ver_target: 8.0
-  - php_ver_target: 8.1
 
-matrix:
-  allow_failures:
-    - php_ver_target: 8.1
 
 init:
   - SET PATH=C:\Tools\php;%PATH%
