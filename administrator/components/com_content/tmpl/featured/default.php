@@ -280,10 +280,11 @@ $assoc = Associations::isEnabled();
 											$ParentCatUrl = Route::_('index.php?option=com_categories&task=category.edit&id=' . $item->parent_category_id . '&extension=com_content');
 											$CurrentCatUrl = Route::_('index.php?option=com_categories&task=category.edit&id=' . $item->catid . '&extension=com_content');
 											$EditCatTxt = Text::_('COM_CONTENT_EDIT_CATEGORY');
+											$catSeparator = Factory::getLanguage()->isRtl() ? ' &#171; ' : ' &#187; ';
 											echo Text::_('JCATEGORY') . ': ';
 											if ($item->category_level != '1') :
 												if ($item->parent_category_level != '1') :
-													echo ' &#187; ';
+													echo $catSeparator;
 												endif;
 											endif;
 											if ($item->category_level != '1') :
@@ -294,7 +295,7 @@ $assoc = Associations::isEnabled();
 												if ($canEditParCat || $canEditOwnParCat) :
 													echo '</a>';
 												endif;
-												echo ' &#187; ';
+												echo $catSeparator;
 											endif;
 											if ($canEditCat || $canEditOwnCat) :
 												echo '<a href="' . $CurrentCatUrl . '" title="' . $EditCatTxt . '">';
