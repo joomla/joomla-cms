@@ -8,8 +8,8 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\Filesystem\Folder;
 use Joomla\CMS\Log\Log;
+use Joomla\Filesystem\Folder;
 
 /**
  * Class JNamespacePsr4Map
