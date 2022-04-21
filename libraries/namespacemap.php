@@ -8,7 +8,7 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Filesystem\Folder;
+use Joomla\Filesystem\Folder;
 use Joomla\CMS\Log\Log;
 
 /**
