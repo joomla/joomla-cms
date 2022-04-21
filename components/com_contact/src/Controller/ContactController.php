@@ -194,7 +194,7 @@ class ContactController extends FormController
 		{
 			$app->setUserState('com_contact.contact.data', $data);
 
-			$this->setRedirect(Route::_('index.php?option=com_contact&view=contact&id=' . $stub . '&catid=' . $contact->catid, false));
+			$this->setRedirect(Route::_('index.php?option=com_contact&view=contact&id=' . $id . '&catid=' . $contact->catid, false));
 
 			return false;
 		}
