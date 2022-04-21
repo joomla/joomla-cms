@@ -326,7 +326,7 @@
 			icon="list"
 			multiple="true"
 			default=''
-  		>
+		>
 			<form hidden="true" name="content_languages" repeat="true">
 				<field
 					name="content_language_name"
