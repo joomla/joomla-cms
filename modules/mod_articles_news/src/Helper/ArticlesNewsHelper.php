@@ -20,6 +20,8 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Uri\Uri;
 use Joomla\Component\Content\Site\Helper\RouteHelper;
+use Joomla\Database\DatabaseAwareInterface;
+use Joomla\Database\DatabaseAwareTrait;
 use Joomla\Registry\Registry;
 
 /**
@@ -27,8 +29,10 @@ use Joomla\Registry\Registry;
  *
  * @since  1.6
  */
-class ArticlesNewsHelper
+class ArticlesNewsHelper implements DatabaseAwareInterface
 {
+	use DatabaseAwareTrait;
+
 	/**
 	 * Get a list of the latest articles from the article model.
 	 *
@@ -103,7 +107,7 @@ class ArticlesNewsHelper
 
 		if (trim($ordering) === 'rand()')
 		{
-			$model->setState('list.ordering', Factory::getDbo()->getQuery(true)->rand());
+			$model->setState('list.ordering', $this->getDatabase()->getQuery(true)->rand());
 		}
 		else
 		{
