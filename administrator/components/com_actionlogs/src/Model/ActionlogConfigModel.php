@@ -22,15 +22,15 @@ use stdClass;
 class ActionlogConfigModel extends BaseDatabaseModel
 {
 	/**
-	 * Get parameters to be
+	 * Returns the action logs config for the given context.
 	 *
-	 * @param   string  $context  The context of the content
+	 * @param   string    $context  The context of the content
 	 *
-	 * @return  stdClass  An object contains content type parameters, or null if not found
+	 * @return  stdClass|null  An object contains content type parameters, or null if not found
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function getLogContentTypeParams($context)
+	public function getLogContentTypeParams(string $context): ?stdClass
 	{
 		$db    = $this->getDatabase();
 		$query = $db->getQuery(true)

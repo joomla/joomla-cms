@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-namespace Joomla\Tests\Unit\Libraries\Cms\MVC\Model;
+namespace Joomla\Tests\Unit\Components\Actionlogs;
 
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\Component\Actionlogs\Administrator\Model\ActionlogConfigModel;
@@ -41,5 +41,22 @@ class ActionlogConfigModelTest extends UnitTestCase
 		$model = new ActionlogConfigModel(['dbo' => $db], $this->createStub(MVCFactoryInterface::class));
 
 		$this->assertEquals($config, $model->getLogContentTypeParams('test'));
+	}
+
+	/**
+	 * @testdox  Test that getLogContentTypeParams returns null when not found
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function testGetNullLogContentTypeParams()
+	{
+		$db = $this->createStub(DatabaseInterface::class);
+		$db->method('getQuery')->willReturn($this->getQueryStub($db));
+
+		$model = new ActionlogConfigModel(['dbo' => $db], $this->createStub(MVCFactoryInterface::class));
+
+		$this->assertNull($model->getLogContentTypeParams('test'));
 	}
 }
