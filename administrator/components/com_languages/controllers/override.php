@@ -32,7 +32,7 @@ class LanguagesControllerOverride extends JControllerForm
 		JFactory::getApplication()->allowCache(false);
 
 		$app     = JFactory::getApplication();
-		$cid     = $this->input->post->get('cid', array(), 'array');
+		$cid     = (array) $this->input->post->get('cid', array(), 'string');
 		$context = "$this->option.edit.$this->context";
 
 		// Get the constant name.

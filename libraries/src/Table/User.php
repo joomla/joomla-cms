@@ -478,7 +478,7 @@ class User extends Table
 		}
 
 		// If no timestamp value is passed to function, than current time is used.
-		$date = \JFactory::getDate($timeStamp);
+		$date = \JFactory::getDate($timeStamp === null ? 'now' : $timeStamp);
 
 		// Update the database row for the user.
 		$db = $this->_db;

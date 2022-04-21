@@ -113,7 +113,7 @@ class PlgQuickiconEos310 extends CMSPlugin
 			$messageText = Text::sprintf(
 				$this->currentMessage['messageText'],
 				HTMLHelper::_('date', static::EOS_DATE, Text::_('DATE_FORMAT_LC3')),
-				$this->currentMessage['messageLink'],
+				$this->currentMessage['messageLink']
 			);
 
 			if ($this->currentMessage['snoozable'])
@@ -126,7 +126,7 @@ class PlgQuickiconEos310 extends CMSPlugin
 
 			$this->app->enqueueMessage(
 				$messageText,
-				$this->currentMessage['messageType'],
+				$this->currentMessage['messageType']
 			);
 		}
 
@@ -137,7 +137,7 @@ class PlgQuickiconEos310 extends CMSPlugin
 				'date',
 				static::EOS_DATE,
 				Text::_('DATE_FORMAT_LC3')
-			),
+			)
 		);
 
 		// The message as quickicon
@@ -205,7 +205,7 @@ class PlgQuickiconEos310 extends CMSPlugin
 				'messageType'   => 'error',
 				'image'         => 'minus-circle',
 				'messageLink'   => 'https://docs.joomla.org/Special:MyLanguage/Planning_for_Mini-Migration_-_Joomla_3.10.x_to_4.x',
-				'groupText'     => Text::_('PLG_QUICKICON_EOS310_GROUPNAME_EOS'),
+				'groupText'     => 'PLG_QUICKICON_EOS310_GROUPNAME_EOS',
 				'snoozable'     => false,
 			);
 		}
@@ -220,7 +220,7 @@ class PlgQuickiconEos310 extends CMSPlugin
 				'messageType'   => 'warning',
 				'image'         => 'warning-circle',
 				'messageLink'   => 'https://docs.joomla.org/Special:MyLanguage/Planning_for_Mini-Migration_-_Joomla_3.10.x_to_4.x',
-				'groupText'     => Text::_('PLG_QUICKICON_EOS310_GROUPNAME_WARNING'),
+				'groupText'     => 'PLG_QUICKICON_EOS310_GROUPNAME_WARNING',
 				'snoozable'     => true,
 			);
 		}
@@ -235,7 +235,7 @@ class PlgQuickiconEos310 extends CMSPlugin
 				'messageType'   => 'warning',
 				'image'         => 'warning-circle',
 				'messageLink'   => 'https://docs.joomla.org/Special:MyLanguage/Planning_for_Mini-Migration_-_Joomla_3.10.x_to_4.x',
-				'groupText'     => Text::_('PLG_QUICKICON_EOS310_GROUPNAME_WARNING'),
+				'groupText'     => 'PLG_QUICKICON_EOS310_GROUPNAME_WARNING',
 				'snoozable'     => true,
 			);
 		}
@@ -250,7 +250,7 @@ class PlgQuickiconEos310 extends CMSPlugin
 				'messageType'   => 'info',
 				'image'         => 'info-circle',
 				'messageLink'   => 'https://docs.joomla.org/Special:MyLanguage/Pre-Update_Check',
-				'groupText'     => Text::_('PLG_QUICKICON_EOS310_GROUPNAME_INFO'),
+				'groupText'     => 'PLG_QUICKICON_EOS310_GROUPNAME_INFO',
 				'snoozable'     => true,
 			);
 		}
@@ -264,8 +264,8 @@ class PlgQuickiconEos310 extends CMSPlugin
 				'quickiconText' => 'PLG_QUICKICON_EOS310_MESSAGE_INFO_01_SHORT',
 				'messageType'   => 'info',
 				'image'         => 'info-circle',
-				'messageLink'   => 'https://joomla.org/4',
-				'groupText'     => Text::_('PLG_QUICKICON_EOS310_GROUPNAME_INFO'),
+				'messageLink'   => 'https://www.joomla.org/4/#features',
+				'groupText'     => 'PLG_QUICKICON_EOS310_GROUPNAME_INFO',
 				'snoozable'     => true,
 			);
 		}

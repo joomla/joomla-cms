@@ -91,7 +91,7 @@ $lang->load('plg_user_profile', JPATH_ADMINISTRATOR);
 				</fieldset>
 			<?php endif; ?>
 		<?php endforeach; ?>
-		<?php if (count($this->twofactormethods) > 1) : ?>
+		<?php if (count($this->twofactormethods) > 1 && !empty($this->twofactorform)) : ?>
 			<fieldset>
 				<legend><?php echo JText::_('COM_USERS_PROFILE_TWO_FACTOR_AUTH'); ?></legend>
 				<div class="control-group">

@@ -26,7 +26,7 @@ class LanguagesControllerInstalled extends JControllerLegacy
 		// Check for request forgeries.
 		$this->checkToken();
 
-		$cid = $this->input->get('cid', '');
+		$cid = (string) $this->input->get('cid', '', 'string');
 		$model = $this->getModel('installed');
 
 		if ($model->publish($cid))
@@ -64,7 +64,7 @@ class LanguagesControllerInstalled extends JControllerLegacy
 		// Check for request forgeries.
 		$this->checkToken();
 
-		$cid   = $this->input->get('cid', '');
+		$cid = (string) $this->input->get('cid', '', 'string');
 		$model = $this->getModel('installed');
 
 		// Fetching the language name from the xx-XX.xml or langmetadata.xml respectively.
@@ -76,11 +76,11 @@ class LanguagesControllerInstalled extends JControllerLegacy
 		}
 
 		$info = JInstaller::parseXMLInstallFile($file);
-		$languageName = $info['name'];
 
 		if ($model->switchAdminLanguage($cid))
 		{
 			// Switching to the new language for the message
+			$languageName = $info['name'];
 			$language = JFactory::getLanguage();
 			$newLang = JLanguage::getInstance($cid);
 			JFactory::$language = $newLang;

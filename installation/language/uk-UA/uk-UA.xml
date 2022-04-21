@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<metafile version="3.9" client="installation">
+<metafile version="3.10" client="installation">
 	<tag>uk-UA</tag>
 	<name>Ukrainian (Ukraine)</name>
-	<version>3.9.19</version>
-	<creationDate>2020-05-30</creationDate>
+	<version>3.10.0</version>
+	<creationDate>13.08.2021</creationDate>
 	<author>Joomla! Ukraine</author>
 	<copyright>(C) 2007 Open Source Matters, Inc.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>

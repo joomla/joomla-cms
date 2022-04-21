@@ -273,7 +273,7 @@ class BaseController extends \JObject
 		else
 		{
 			// Base controller.
-			$type = null;
+			$type = '';
 
 			// Define the controller filename and path.
 			$file       = self::createFileName('controller', array('name' => 'controller', 'format' => $format));
@@ -681,7 +681,7 @@ class BaseController extends \JObject
 	{
 		$this->task = $task;
 
-		$task = strtolower($task);
+		$task = strtolower((string) $task);
 
 		if (isset($this->taskMap[$task]))
 		{
