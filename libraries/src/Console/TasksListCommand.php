@@ -69,7 +69,7 @@ class TasksListCommand extends AbstractCommand
 
 		$tasks = array_map(
 			function (\stdClass $task): array {
-				$enabled  = $task->state === "1";
+				$enabled  = $task->state === '1';
 				$nextExec = Factory::getDate($task->next_execution, 'UTC');
 				$due      = $enabled && $task->taskOption && Factory::getDate('now', 'UTC') > $nextExec;
 
@@ -77,7 +77,7 @@ class TasksListCommand extends AbstractCommand
 					'id'             => $task->id,
 					'title'          => $task->title,
 					'type'           => $task->safeTypeTitle,
-					'state'          => $task->state === "1" ? 'Enabled' : ($task->state === "0" ? 'Disabled' : 'Trashed'),
+					'state'          => $task->state === '1' ? 'Enabled' : ($task->state === '0' ? 'Disabled' : 'Trashed'),
 					'next_execution' => $due ? 'DUE!' : $nextExec->toRFC822(),
 				];
 			},
