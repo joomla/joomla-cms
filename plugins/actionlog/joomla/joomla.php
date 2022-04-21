@@ -98,7 +98,8 @@ class PlgActionlogJoomla extends ActionLogPlugin
 			$context = $this->contextAliases[$context];
 		}
 
-		$params = ActionlogsHelper::getLogContentTypeParams($context);
+		$params = $this->app->bootComponent('actionlogs')->getMVCFactory()
+			->createModel('ActionlogConfig', 'Administrator')->getLogContentTypeParams($context);
 
 		// Not found a valid content type, don't process further
 		if ($params === null)
@@ -164,7 +165,8 @@ class PlgActionlogJoomla extends ActionLogPlugin
 			return;
 		}
 
-		$params = ActionlogsHelper::getLogContentTypeParams($context);
+		$params = $this->app->bootComponent('actionlogs')->getMVCFactory()
+			->createModel('ActionlogConfig', 'Administrator')->getLogContentTypeParams($context);
 
 		// Not found a valid content type, don't process further
 		if ($params === null)
@@ -216,7 +218,8 @@ class PlgActionlogJoomla extends ActionLogPlugin
 			return;
 		}
 
-		$params = ActionlogsHelper::getLogContentTypeParams($context);
+		$params = $this->app->bootComponent('actionlogs')->getMVCFactory()
+			->createModel('ActionlogConfig', 'Administrator')->getLogContentTypeParams($context);
 
 		// Not found a valid content type, don't process further
 		if ($params === null)
@@ -513,7 +516,8 @@ class PlgActionlogJoomla extends ActionLogPlugin
 			return;
 		}
 
-		$params = ActionlogsHelper::getLogContentTypeParams($context);
+		$params = $this->app->bootComponent('actionlogs')->getMVCFactory()
+			->createModel('ActionlogConfig', 'Administrator')->getLogContentTypeParams($context);
 
 		// Not found a valid content type, don't process further
 		if ($params === null)
@@ -570,7 +574,8 @@ class PlgActionlogJoomla extends ActionLogPlugin
 			return;
 		}
 
-		$params = ActionlogsHelper::getLogContentTypeParams($context);
+		$params = $this->app->bootComponent('actionlogs')->getMVCFactory()
+			->createModel('ActionlogConfig', 'Administrator')->getLogContentTypeParams($context);
 
 		// Not found a valid content type, don't process further
 		if ($params === null)
