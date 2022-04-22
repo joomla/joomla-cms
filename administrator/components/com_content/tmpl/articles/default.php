@@ -246,7 +246,8 @@ $assoc = Associations::isEnabled();
 									$options = [
 										'task_prefix' => 'articles.',
 										'disabled' => $workflow_state || !$canChange,
-										'id' => 'state-' . $item->id
+										'id' => 'state-' . $item->id,
+										'category_published' => $item->category_published
 									];
 
 									echo (new PublishedButton)->render((int) $item->state, $i, $options, $item->publish_up, $item->publish_down);
