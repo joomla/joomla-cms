@@ -18,6 +18,7 @@ use Joomla\CMS\Filesystem\File;
 use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Profiler\Profiler;
+use Joomla\Database\DatabaseInterface;
 use Joomla\Database\ParameterType;
 use Joomla\Database\QueryInterface;
 use Joomla\String\StringHelper;
@@ -112,13 +113,19 @@ class Indexer
 	/**
 	 * Indexer constructor.
 	 *
+	 * @param  DatabaseInterface  $db  The database
+	 *
 	 * @since  3.8.0
 	 */
-	public function __construct()
+	public function __construct(DatabaseInterface $db = null)
 	{
-		$this->db = Factory::getDbo();
+		if ($db === null)
+		{
+			@trigger_error(sprintf('Database will be mandatory in 5.0.'), E_USER_DEPRECATED);
+			$db = Factory::getContainer()->get(DatabaseInterface::class);
+		}
 
-		$db = $this->db;
+		$this->db = $db;
 
 		// Set up query template for addTokensToDb
 		$this->addTokensToDbQueryTemplate = $db->getQuery(true)->insert($db->quoteName('#__finder_tokens'))
@@ -992,7 +999,7 @@ class Indexer
 	 */
 	protected function toggleTables($memory)
 	{
-		if (strtolower(Factory::getDbo()->getServerType()) != 'mysql')
+		if (strtolower($this->db->getServerType()) != 'mysql')
 		{
 			return true;
 		}

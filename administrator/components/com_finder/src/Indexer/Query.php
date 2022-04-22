@@ -17,6 +17,8 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Uri\Uri;
 use Joomla\Component\Finder\Administrator\Helper\LanguageHelper;
+use Joomla\Database\DatabaseAwareTrait;
+use Joomla\Database\DatabaseInterface;
 use Joomla\Registry\Registry;
 use Joomla\String\StringHelper;
 use Joomla\Utilities\ArrayHelper;
@@ -30,6 +32,8 @@ use Joomla\Utilities\ArrayHelper;
  */
 class Query
 {
+	use DatabaseAwareTrait;
+
 	/**
 	 * Flag to show whether the query can return results.
 	 *
@@ -182,8 +186,16 @@ class Query
 	 * @since   2.5
 	 * @throws  Exception on database error.
 	 */
-	public function __construct($options)
+	public function __construct($options, DatabaseInterface $db = null)
 	{
+		if ($db === null)
+		{
+			@trigger_error(sprintf('Database will be mandatory in 5.0.'), E_USER_DEPRECATED);
+			$db = Factory::getContainer()->get(DatabaseInterface::class);
+		}
+
+		$this->setDatabase($db);
+
 		// Get the input string.
 		$this->input = $options['input'] ?? '';
 
@@ -504,7 +516,7 @@ class Query
 	protected function processStaticTaxonomy($filterId)
 	{
 		// Get the database object.
-		$db = Factory::getDbo();
+		$db = $this->getDatabase();
 
 		// Initialize user variables
 		$groups = implode(',', Factory::getUser()->getAuthorisedViewLevels());
@@ -618,7 +630,7 @@ class Query
 		}
 
 		// Get the database object.
-		$db = Factory::getDbo();
+		$db = $this->getDatabase();
 
 		$query = $db->getQuery(true);
 
@@ -1327,7 +1339,7 @@ class Query
 	protected function getTokenData($token)
 	{
 		// Get the database object.
-		$db = Factory::getDbo();
+		$db = $this->getDatabase();
 
 		// Create a database query to build match the token.
 		$query = $db->getQuery(true)

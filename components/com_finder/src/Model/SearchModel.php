@@ -412,6 +412,7 @@ class SearchModel extends ListModel
 
 		// Load the query object.
 		$this->searchquery = new Query($options);
+		$this->searchquery->setDatabase($this->getDatabase());
 
 		// Load the query token data.
 		$this->excludedTerms = $this->searchquery->getExcludedTermIds();
