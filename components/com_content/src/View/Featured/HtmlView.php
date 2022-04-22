@@ -68,13 +68,6 @@ class HtmlView extends BaseHtmlView
 	protected $link_items = array();
 
 	/**
-	 * @var    \Joomla\Database\DatabaseDriver
-	 *
-	 * @since  3.6.3
-	 */
-	protected $db;
-
-	/**
 	 * The user object
 	 *
 	 * @var \Joomla\CMS\User\User|null
@@ -202,7 +195,6 @@ class HtmlView extends BaseHtmlView
 		$this->items      = &$items;
 		$this->pagination = &$pagination;
 		$this->user       = &$user;
-		$this->db         = Factory::getDbo();
 
 		$this->_prepareDocument();
 
