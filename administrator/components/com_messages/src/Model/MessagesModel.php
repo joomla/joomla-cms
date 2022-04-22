@@ -166,4 +166,63 @@ class MessagesModel extends ListModel
 
 		return $query;
 	}
+
+	/**
+	 * Purge the messages table of old messages for the given user ID.
+	 *
+	 * @param   int  $userId  The user id
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function purge(int $userId): void
+	{
+		$db    = $this->getDatabase();
+		$query = $db->getQuery(true)
+			->select($db->quoteName(['cfg_name', 'cfg_value']))
+			->from($db->quoteName('#__messages_cfg'))
+			->where(
+				[
+					$db->quoteName('user_id') . ' = :userId',
+					$db->quoteName('cfg_name') . ' = ' . $db->quote('auto_purge'),
+				]
+			)
+			->bind(':userId', $userId, ParameterType::INTEGER);
+
+		$db->setQuery($query);
+		$config = $db->loadObject();
+
+		// Check if auto_purge value set
+		if (\is_object($config) && $config->cfg_name === 'auto_purge')
+		{
+			$purge = $config->cfg_value;
+		}
+		else
+		{
+			// If no value set, default is 7 days
+			$purge = 7;
+		}
+
+		// If purge value is not 0, then allow purging of old messages
+		if ($purge > 0)
+		{
+			// Purge old messages at day set in message configuration
+			$past = Factory::getDate(time() - $purge * 86400)->toSql();
+
+			$query = $db->getQuery(true)
+				->delete($db->quoteName('#__messages'))
+				->where(
+					[
+						$db->quoteName('date_time') . ' < :past',
+						$db->quoteName('user_id_to') . ' = :userId',
+					]
+				)
+				->bind(':past', $past)
+				->bind(':userId', $userId, ParameterType::INTEGER);
+
+			$db->setQuery($query);
+			$db->execute();
+		}
+	}
 }

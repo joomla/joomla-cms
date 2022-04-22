@@ -468,28 +468,8 @@ final class SiteApplication extends CMSApplication
 		}
 		else
 		{
-			// Load styles
-			$db = Factory::getDbo();
-
-			$query = $db->getQuery(true)
-				->select($db->quoteName(['id', 'home', 'template', 's.params', 'inheritable', 'parent']))
-				->from($db->quoteName('#__template_styles', 's'))
-				->where(
-					[
-						$db->quoteName('s.client_id') . ' = 0',
-						$db->quoteName('e.enabled') . ' = 1',
-					]
-				)
-				->join(
-					'LEFT',
-					$db->quoteName('#__extensions', 'e'),
-					$db->quoteName('e.element') . ' = ' . $db->quoteName('s.template')
-						. ' AND ' . $db->quoteName('e.type') . ' = ' . $db->quote('template')
-						. ' AND ' . $db->quoteName('e.client_id') . ' = ' . $db->quoteName('s.client_id')
-				);
-
-			$db->setQuery($query);
-			$templates = $db->loadObjectList('id');
+			$templates = $this->bootComponent('templates')->getMVCFactory()
+				->createModel('Style', 'Administrator')->getSiteTemplates();
 
 			foreach ($templates as &$template)
 			{
