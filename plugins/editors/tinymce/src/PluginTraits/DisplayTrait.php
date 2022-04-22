@@ -237,10 +237,9 @@ trait DisplayTrait
 			$valid_elements    = trim($levelParams->get('valid_elements', ''));
 		}
 
-		$html_height = $this->params->get('html_height', '550');
-		$html_width  = $this->params->get('html_width', '');
-		$html_width  = $html_width == 750 ? '' : $html_width;
+		$html_width  = $width ?: $this->params->get('html_width', '');
 		$html_width  = is_numeric($html_width) ? $html_width . 'px' : $html_width;
+		$html_height = $height ?: $this->params->get('html_height', '550');
 		$html_height = is_numeric($html_height) ? $html_height . 'px' : $html_height;
 
 		// The param is true for vertical resizing only, false or both
