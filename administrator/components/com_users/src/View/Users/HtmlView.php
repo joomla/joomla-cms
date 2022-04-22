@@ -19,7 +19,6 @@ use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
-use Joomla\Database\DatabaseDriver;
 
 /**
  * View class for a list of users.
@@ -78,14 +77,6 @@ class HtmlView extends BaseHtmlView
 	protected $canDo;
 
 	/**
-	 * An instance of DatabaseDriver.
-	 *
-	 * @var    DatabaseDriver
-	 * @since  3.6.3
-	 */
-	protected $db;
-
-	/**
 	 * Display the view
 	 *
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
@@ -100,7 +91,6 @@ class HtmlView extends BaseHtmlView
 		$this->filterForm    = $this->get('FilterForm');
 		$this->activeFilters = $this->get('ActiveFilters');
 		$this->canDo         = ContentHelper::getActions('com_users');
-		$this->db            = Factory::getDbo();
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
