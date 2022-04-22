@@ -146,6 +146,7 @@ $home_pages        = array_column($this->homepages, 'language');
 			<?php endif; ?>
 		<?php endforeach; ?>
 		<table class="table table-sm">
+			<caption class="visually-hidden"><?php echo Text::_('COM_LANGUAGES_MULTILANGSTATUS_TABLE_CAPTION'); ?></caption>
 			<thead>
 				<tr>
 					<th scope="col">
@@ -201,6 +202,7 @@ $home_pages        = array_column($this->homepages, 'language');
 			</tbody>
 		</table>
 		<table class="table table-sm">
+			<caption class="visually-hidden"><?php echo Text::_('COM_LANGUAGES_MULTILANGSTATUS_CONTENT_TABLE_CAPTION'); ?></caption>
 			<thead>
 				<tr>
 					<th scope="col">
