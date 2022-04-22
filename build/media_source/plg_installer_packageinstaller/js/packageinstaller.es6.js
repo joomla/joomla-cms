@@ -125,6 +125,13 @@ Joomla = window.Joomla || {};
         return;
       }
 
+      if (file.name.split('.').pop() !== "zip") {
+        Joomla.renderMessages({
+          warning: [Joomla.Text._('COM_INSTALLER_MSG_WARNINGS_UPLOADFILENOTZIP')]
+        });
+        return;
+      }
+
       data.append('install_package', file);
       data.append('installtype', 'upload');
       dragZone.setAttribute('data-state', 'uploading');
