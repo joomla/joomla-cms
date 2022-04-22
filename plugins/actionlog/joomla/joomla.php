@@ -1175,7 +1175,7 @@ class PlgActionlogJoomla extends ActionLogPlugin
 	/**
 	 * Does return the action log params for the given context.
 	 *
-	 * @param   string  $context  The context of the content
+	 * @param   string  $context  The context of the action log
 	 *
 	 * @return  stdClass  The params
 	 *
