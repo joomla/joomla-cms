@@ -309,7 +309,7 @@ class DiscoverModel extends InstallerModel
 	/**
 	 * Checks uninstalled extensions in extensions table.
 	 *
-	 * @return  boolean  True if there are discovered extensions on the database.
+	 * @return  boolean  True if there are discovered extensions in the database.
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
