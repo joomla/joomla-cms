@@ -124,14 +124,12 @@ class PlgTaskRequests extends CMSPlugin implements SubscriberInterface
 			$responseSaved = true;
 		}
 
-		$responseStatus = $saveResponse && $responseSaved ? 'SAVED' : 'NOT_SAVED';
+		$responseStatus = (function() use ($responseSaved, $saveResponse) {
+			$status = $saveResponse && $responseSaved ? 'SAVED' : 'NOT_SAVED';
+			return Text::_("PLG_TASK_REQUESTS_TASK_GET_REQUEST_${status}");
+		})();
 
-		$this->snapshot['output'] = <<< EOF
-======= Task Output Body =======
-> URL: $url
-> Response Code: $responseCode
-> Response: $responseStatus
-EOF;
+		$this->snapshot['output'] = Text::sprintf('PLG_TASK_REQUESTS_TASK_GET_REQUEST_LOG_OUTPUT', $responseCode, $responseStatus, $url);
 
 		$this->logTask(Text::sprintf('PLG_TASK_REQUESTS_TASK_GET_REQUEST_LOG_RESPONSE', $responseCode));
 
