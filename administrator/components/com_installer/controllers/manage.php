@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_installer
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2009 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -46,10 +46,13 @@ class InstallerControllerManage extends JControllerLegacy
 		// Check for request forgeries.
 		$this->checkToken();
 
-		$ids    = $this->input->get('cid', array(), 'array');
+		$ids    = (array) $this->input->get('cid', array(), 'int');
 		$values = array('publish' => 1, 'unpublish' => 0);
 		$task   = $this->getTask();
 		$value  = ArrayHelper::getValue($values, $task, 0, 'int');
+
+		// Remove zero values resulting from input filter
+		$ids = array_filter($ids);
 
 		if (empty($ids))
 		{
@@ -96,13 +99,19 @@ class InstallerControllerManage extends JControllerLegacy
 		// Check for request forgeries.
 		$this->checkToken();
 
-		$eid = $this->input->get('cid', array(), 'array');
+		$eid = (array) $this->input->get('cid', array(), 'int');
 
-		/** @var InstallerModelManage $model */
-		$model = $this->getModel('manage');
+		// Remove zero values resulting from input filter
+		$eid = array_filter($eid);
 
-		$eid = ArrayHelper::toInteger($eid, array());
-		$model->remove($eid);
+		if (!empty($eid))
+		{
+			/** @var InstallerModelManage $model */
+			$model = $this->getModel('manage');
+
+			$model->remove($eid);
+		}
+
 		$this->setRedirect(JRoute::_('index.php?option=com_installer&view=manage', false));
 	}
 
@@ -120,11 +129,19 @@ class InstallerControllerManage extends JControllerLegacy
 		// Check for request forgeries.
 		$this->checkToken();
 
-		$uid   = $this->input->get('cid', array(), 'array');
-		$model = $this->getModel('manage');
+		$uid = (array) $this->input->get('cid', array(), 'int');
 
-		$uid = ArrayHelper::toInteger($uid, array());
-		$model->refresh($uid);
+		// Remove zero values resulting from input filter
+		$uid = array_filter($uid);
+
+		if (!empty($uid))
+		{
+			/** @var InstallerModelManage $model */
+			$model = $this->getModel('manage');
+
+			$model->refresh($uid);
+		}
+
 		$this->setRedirect(JRoute::_('index.php?option=com_installer&view=manage', false));
 	}
 }

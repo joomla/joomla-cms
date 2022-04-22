@@ -3,12 +3,13 @@
  * @package     Joomla.Plugin
  * @subpackage  Privacy.user
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2018 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\User\UserHelper;
 use Joomla\Utilities\ArrayHelper;
 
 JLoader::register('PrivacyPlugin', JPATH_ADMINISTRATOR . '/components/com_privacy/helpers/plugin.php');
@@ -120,35 +121,7 @@ class PlgPrivacyUser extends PrivacyPlugin
 		$user->save();
 
 		// Destroy all sessions for the user account
-		$sessionIds = $this->db->setQuery(
-			$this->db->getQuery(true)
-				->select($this->db->quoteName('session_id'))
-				->from($this->db->quoteName('#__session'))
-				->where($this->db->quoteName('userid') . ' = ' . (int) $user->id)
-		)->loadColumn();
-
-		// If there aren't any active sessions then there's nothing to do here
-		if (empty($sessionIds))
-		{
-			return;
-		}
-
-		$storeName = JFactory::getConfig()->get('session_handler', 'none');
-		$store     = JSessionStorage::getInstance($storeName);
-		$quotedIds = array();
-
-		// Destroy the sessions and quote the IDs to purge the session table
-		foreach ($sessionIds as $sessionId)
-		{
-			$store->destroy($sessionId);
-			$quotedIds[] = $this->db->quoteBinary($sessionId);
-		}
-
-		$this->db->setQuery(
-			$this->db->getQuery(true)
-				->delete($this->db->quoteName('#__session'))
-				->where($this->db->quoteName('session_id') . ' IN (' . implode(', ', $quotedIds) . ')')
-		)->execute();
+		UserHelper::destroyUserSessions($user->id);
 	}
 
 	/**

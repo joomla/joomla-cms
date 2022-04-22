@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Editors.tinymce
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2016 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -42,7 +42,7 @@ extract($displayData);
  * @var   array   $menubarSource   Menu items for builder
  * @var   array   $buttons         List of the buttons
  * @var   array   $buttonsSource   Buttons by group, for the builder
- * @var   array   $toolbarPreset   Toolbar presset (default values)
+ * @var   array   $toolbarPreset   Toolbar preset (default values)
  * @var   int     $setsAmount      Amount of sets
  * @var   array   $setsNames       List of Sets names
  * @var   JForm[] $setsForms       Form with extra options for an each set
@@ -92,7 +92,7 @@ $doc->addStyleDeclaration('
 		background-color: #409740;
 		border: 1px solid #f0f0f0;
 	}
-	.timymce-builder-toolbar .mce-btn.ui-state-highlight{
+	.tinymce-builder-toolbar .mce-btn.ui-state-highlight{
 		height: 22px;
 		width: 28px;
 	}
@@ -107,13 +107,13 @@ $doc->addStyleDeclaration('
 		<div class="mce-container-body mce-stack-layout">
 
 			<div class="mce-container mce-menubar mce-toolbar mce-stack-layout-item">
-				<div class="mce-container-body mce-flow-layout timymce-builder-menu source" data-group="menu"
+				<div class="mce-container-body mce-flow-layout tinymce-builder-menu source" data-group="menu"
 					data-value="<?php echo $this->escape(json_encode($menubarSource)); ?>">
 				</div>
 			</div>
 
 			<div class="mce-toolbar-grp mce-container mce-panel mce-stack-layout-item">
-				<div class="mce-container-body mce-flow-layout timymce-builder-toolbar source" data-group="toolbar"
+				<div class="mce-container-body mce-flow-layout tinymce-builder-toolbar source" data-group="toolbar"
 					data-value="<?php echo $this->escape(json_encode($buttonsSource)); ?>">
 				</div>
 			</div>
@@ -188,15 +188,15 @@ $doc->addStyleDeclaration('
 
 				<div class="mce-tinymce mce-container mce-panel">
 					<div class="mce-container-body mce-stack-layout">
-						<div class="mce-container mce-menubar mce-toolbar timymce-builder-menu target"
+						<div class="mce-container mce-menubar mce-toolbar tinymce-builder-menu target"
 							data-group="menu" data-set="<?php echo $num; ?>"
 							data-value="<?php echo $this->escape(json_encode($valMenu)); ?>">
 						</div>
-						<div class="mce-toolbar-grp mce-container mce-panel timymce-builder-toolbar target"
+						<div class="mce-toolbar-grp mce-container mce-panel tinymce-builder-toolbar target"
 						    data-group="toolbar1" data-set="<?php echo $num; ?>"
 						    data-value="<?php echo $this->escape(json_encode($valBar1)); ?>">
 						</div>
-						<div class="mce-toolbar-grp mce-container mce-panel timymce-builder-toolbar target"
+						<div class="mce-toolbar-grp mce-container mce-panel tinymce-builder-toolbar target"
 						    data-group="toolbar2" data-set="<?php echo $num; ?>"
 						    data-value="<?php echo $this->escape(json_encode($valBar2)); ?>">
 						</div>

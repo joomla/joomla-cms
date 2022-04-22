@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Application
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2013 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -58,7 +58,7 @@ class JApplicationWebRouterRestTest extends TestCase
 	}
 
 	/**
-	 * Provides test data for testing fetch controller sufix
+	 * Provides test data for testing fetch controller suffix
 	 *
 	 * @return  array
 	 *
@@ -124,7 +124,7 @@ class JApplicationWebRouterRestTest extends TestCase
 	{
 		TestReflection::invoke($this->_instance, 'setMethodInPostRequest', $allowMethod);
 
-		// Set reuqest method
+		// Set request method
 		$_SERVER['REQUEST_METHOD'] = $input;
 
 		// Set method in POST request

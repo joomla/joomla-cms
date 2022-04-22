@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2005 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -11,6 +11,7 @@ namespace Joomla\CMS\Document;
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Cache\Cache;
+use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ModuleHelper;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\Uri\Uri;
@@ -135,17 +136,21 @@ class HtmlDocument extends Document
 	public function getHeadData()
 	{
 		$data = array();
-		$data['title']       = $this->title;
-		$data['description'] = $this->description;
-		$data['link']        = $this->link;
-		$data['metaTags']    = $this->_metaTags;
-		$data['links']       = $this->_links;
-		$data['styleSheets'] = $this->_styleSheets;
-		$data['style']       = $this->_style;
-		$data['scripts']     = $this->_scripts;
-		$data['script']      = $this->_script;
-		$data['custom']      = $this->_custom;
-		$data['scriptText']  = \JText::getScriptStrings();
+		$data['title']         = $this->title;
+		$data['description']   = $this->description;
+		$data['link']          = $this->link;
+		$data['metaTags']      = $this->_metaTags;
+		$data['links']         = $this->_links;
+		$data['styleSheets']   = $this->_styleSheets;
+		$data['style']         = $this->_style;
+		$data['scripts']       = $this->_scripts;
+		$data['script']        = $this->_script;
+		$data['custom']        = $this->_custom;
+
+		// This is for b.c. and can be safely removed in future
+		$data['scriptText']    = \JText::getScriptStrings();
+
+		$data['scriptOptions'] = $this->scriptOptions;
 
 		return $data;
 	}
@@ -163,16 +168,17 @@ class HtmlDocument extends Document
 	{
 		if (is_null($types))
 		{
-			$this->title        = '';
-			$this->description  = '';
-			$this->link         = '';
-			$this->_metaTags    = array();
-			$this->_links       = array();
-			$this->_styleSheets = array();
-			$this->_style       = array();
-			$this->_scripts     = array();
-			$this->_script      = array();
-			$this->_custom      = array();
+			$this->title         = '';
+			$this->description   = '';
+			$this->link          = '';
+			$this->_metaTags     = array();
+			$this->_links        = array();
+			$this->_styleSheets  = array();
+			$this->_style        = array();
+			$this->_scripts      = array();
+			$this->_script       = array();
+			$this->_custom       = array();
+			$this->scriptOptions = array();
 		}
 
 		if (is_array($types))
@@ -220,6 +226,10 @@ class HtmlDocument extends Document
 				$realType = '_' . $type;
 				$this->{$realType} = array();
 				break;
+
+			case 'scriptOptions':
+				$this->{$type} = array();
+				break;
 		}
 	}
 
@@ -236,27 +246,20 @@ class HtmlDocument extends Document
 	{
 		if (empty($data) || !is_array($data))
 		{
-			return;
+			return null;
 		}
 
-		$this->title        = (isset($data['title']) && !empty($data['title'])) ? $data['title'] : $this->title;
-		$this->description  = (isset($data['description']) && !empty($data['description'])) ? $data['description'] : $this->description;
-		$this->link         = (isset($data['link']) && !empty($data['link'])) ? $data['link'] : $this->link;
-		$this->_metaTags    = (isset($data['metaTags']) && !empty($data['metaTags'])) ? $data['metaTags'] : $this->_metaTags;
-		$this->_links       = (isset($data['links']) && !empty($data['links'])) ? $data['links'] : $this->_links;
-		$this->_styleSheets = (isset($data['styleSheets']) && !empty($data['styleSheets'])) ? $data['styleSheets'] : $this->_styleSheets;
-		$this->_style       = (isset($data['style']) && !empty($data['style'])) ? $data['style'] : $this->_style;
-		$this->_scripts     = (isset($data['scripts']) && !empty($data['scripts'])) ? $data['scripts'] : $this->_scripts;
-		$this->_script      = (isset($data['script']) && !empty($data['script'])) ? $data['script'] : $this->_script;
-		$this->_custom      = (isset($data['custom']) && !empty($data['custom'])) ? $data['custom'] : $this->_custom;
-
-		if (isset($data['scriptText']) && !empty($data['scriptText']))
-		{
-			foreach ($data['scriptText'] as $key => $string)
-			{
-				\JText::script($key, $string);
-			}
-		}
+		$this->title         = (isset($data['title']) && !empty($data['title'])) ? $data['title'] : $this->title;
+		$this->description   = (isset($data['description']) && !empty($data['description'])) ? $data['description'] : $this->description;
+		$this->link          = (isset($data['link']) && !empty($data['link'])) ? $data['link'] : $this->link;
+		$this->_metaTags     = (isset($data['metaTags']) && !empty($data['metaTags'])) ? $data['metaTags'] : $this->_metaTags;
+		$this->_links        = (isset($data['links']) && !empty($data['links'])) ? $data['links'] : $this->_links;
+		$this->_styleSheets  = (isset($data['styleSheets']) && !empty($data['styleSheets'])) ? $data['styleSheets'] : $this->_styleSheets;
+		$this->_style        = (isset($data['style']) && !empty($data['style'])) ? $data['style'] : $this->_style;
+		$this->_scripts      = (isset($data['scripts']) && !empty($data['scripts'])) ? $data['scripts'] : $this->_scripts;
+		$this->_script       = (isset($data['script']) && !empty($data['script'])) ? $data['script'] : $this->_script;
+		$this->_custom       = (isset($data['custom']) && !empty($data['custom'])) ? $data['custom'] : $this->_custom;
+		$this->scriptOptions = (isset($data['scriptOptions']) && !empty($data['scriptOptions'])) ? $data['scriptOptions'] : $this->scriptOptions;
 
 		return $this;
 	}
@@ -334,6 +337,14 @@ class HtmlDocument extends Document
 		$this->_custom = (isset($data['custom']) && !empty($data['custom']) && is_array($data['custom']))
 			? array_unique(array_merge($this->_custom, $data['custom']))
 			: $this->_custom;
+
+		if (!empty($data['scriptOptions']))
+		{
+			foreach ($data['scriptOptions'] as $key => $scriptOptions)
+			{
+				$this->addScriptOptions($key, $scriptOptions, true);
+			}
+		}
 
 		return $this;
 	}
@@ -459,32 +470,41 @@ class HtmlDocument extends Document
 
 		$renderer = $this->loadRenderer($type);
 
-		if ($this->_caching == true && $type == 'modules')
+		if ($this->_caching == true && $type == 'modules' && $name !== 'debug')
 		{
-			$cache = \JFactory::getCache('com_modules', '');
-			$hash = md5(serialize(array($name, $attribs, null, $renderer)));
+			$cache  = Factory::getCache('com_modules', '');
+			$itemId = (int) Factory::getApplication()->input->get('Itemid', 0, 'int');
+
+			$hash = md5(
+				serialize(
+					array(
+						$name,
+						$attribs,
+						\get_class($renderer),
+						$itemId
+					)
+				)
+			);
 			$cbuffer = $cache->get('cbuffer_' . $type);
 
 			if (isset($cbuffer[$hash]))
 			{
 				return Cache::getWorkarounds($cbuffer[$hash], array('mergehead' => 1));
 			}
-			else
-			{
-				$options = array();
-				$options['nopathway'] = 1;
-				$options['nomodules'] = 1;
-				$options['modulemode'] = 1;
 
-				$this->setBuffer($renderer->render($name, $attribs, null), $type, $name);
-				$data = parent::$_buffer[$type][$name][$title];
+			$options = array();
+			$options['nopathway'] = 1;
+			$options['nomodules'] = 1;
+			$options['modulemode'] = 1;
 
-				$tmpdata = Cache::setWorkarounds($data, $options);
+			$this->setBuffer($renderer->render($name, $attribs, null), $type, $name);
+			$data = parent::$_buffer[$type][$name][$title];
 
-				$cbuffer[$hash] = $tmpdata;
+			$tmpdata = Cache::setWorkarounds($data, $options);
 
-				$cache->store($cbuffer, 'cbuffer_' . $type);
-			}
+			$cbuffer[$hash] = $tmpdata;
+
+			$cache->store($cbuffer, 'cbuffer_' . $type);
 		}
 		else
 		{
@@ -555,7 +575,7 @@ class HtmlDocument extends Document
 		}
 
 		$data = $this->_renderTemplate();
-		parent::render();
+		parent::render($caching, $params);
 
 		return $data;
 	}
@@ -572,7 +592,7 @@ class HtmlDocument extends Document
 	public function countModules($condition)
 	{
 		$operators = '(\+|\-|\*|\/|==|\!=|\<\>|\<|\>|\<=|\>=|and|or|xor)';
-		$words = preg_split('# ' . $operators . ' #', $condition, null, PREG_SPLIT_DELIM_CAPTURE);
+		$words = preg_split('# ' . $operators . ' #', $condition, -1, PREG_SPLIT_DELIM_CAPTURE);
 
 		if (count($words) === 1)
 		{
@@ -709,7 +729,7 @@ class HtmlDocument extends Document
 
 		// 1.5 or core then 1.6
 		$lang->load('tpl_' . $template, JPATH_BASE, null, false, true)
-			|| $lang->load('tpl_' . $template, $directory . '/' . $template, null, false, true);
+		|| $lang->load('tpl_' . $template, $directory . '/' . $template, null, false, true);
 
 		// Assign the variables
 		$this->template = $template;

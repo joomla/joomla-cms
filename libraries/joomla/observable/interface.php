@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Observer
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2013 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -36,8 +36,8 @@ interface JObservableInterface
 {
 	/**
 	 * Adds an observer to this JObservableInterface instance.
-	 * Ideally, this method should be called fron the constructor of JObserverInterface
-	 * which should be instanciated by JObserverMapper.
+	 * Ideally, this method should be called from the constructor of JObserverInterface
+	 * which should be instantiated by JObserverMapper.
 	 * The implementation of this function can use JObserverUpdater
 	 *
 	 * @param   JObserverInterface  $observer  The observer to attach to $this observable subject

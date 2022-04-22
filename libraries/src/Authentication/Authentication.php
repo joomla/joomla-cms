@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2005 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -276,7 +276,8 @@ class Authentication extends \JObject
 		 */
 		foreach ($plugins as $plugin)
 		{
-			$className = 'plg' . $plugin->type . $plugin->name;
+			$pluginName = $plugin->name;
+			$className = 'plg' . $plugin->type . $pluginName;
 
 			if (class_exists($className))
 			{
@@ -297,7 +298,7 @@ class Authentication extends \JObject
 			{
 				if (empty($response->type))
 				{
-					$response->type = isset($plugin->_name) ? $plugin->_name : $plugin->name;
+					$response->type = isset($plugin->_name) ? $plugin->_name : $pluginName;
 				}
 
 				break;

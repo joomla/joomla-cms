@@ -3,13 +3,11 @@
  * @package     Joomla.Administrator
  * @subpackage  com_installer
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2009 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
-
-use Joomla\Utilities\ArrayHelper;
 
 /**
  * Installer Update Controller
@@ -32,9 +30,10 @@ class InstallerControllerUpdate extends JControllerLegacy
 
 		/** @var InstallerModelUpdate $model */
 		$model = $this->getModel('update');
-		$uid   = $this->input->get('cid', array(), 'array');
+		$uid   = (array) $this->input->get('cid', array(), 'int');
 
-		$uid = ArrayHelper::toInteger($uid, array());
+		// Remove zero values resulting from input filter
+		$uid = array_filter($uid);
 
 		// Get the minimum stability.
 		$component     = JComponentHelper::getComponent('com_installer');

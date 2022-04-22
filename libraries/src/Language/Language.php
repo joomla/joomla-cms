@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2005 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -203,6 +203,7 @@ class Language
 			// Note: Manual indexing to enforce load order.
 			$paths[0] = JPATH_SITE . "/language/overrides/$lang.localise.php";
 			$paths[2] = JPATH_SITE . "/language/$lang/$lang.localise.php";
+			$paths[4] = JPATH_SITE . "/language/$lang/localise.php";
 		}
 
 		if (defined('JPATH_ADMINISTRATOR'))
@@ -210,6 +211,7 @@ class Language
 			// Note: Manual indexing to enforce load order.
 			$paths[1] = JPATH_ADMINISTRATOR . "/language/overrides/$lang.localise.php";
 			$paths[3] = JPATH_ADMINISTRATOR . "/language/$lang/$lang.localise.php";
+			$paths[5] = JPATH_ADMINISTRATOR . "/language/$lang/localise.php";
 		}
 
 		ksort($paths);
@@ -320,7 +322,7 @@ class Language
 			// Store debug information
 			if ($this->debug)
 			{
-				$value = \JFactory::getApplication()->get('debug_lang_const') == 0 ? $key : $string;
+				$value = \JFactory::getApplication()->get('debug_lang_const', 1) == 0 ? $key : $string;
 				$string = '**' . $value . '**';
 
 				$caller = $this->getCallerInfo();
@@ -713,43 +715,41 @@ class Language
 		$path = LanguageHelper::getLanguagePath($basePath, $lang);
 
 		$internal = $extension == 'joomla' || $extension == '';
-		$filename = $internal ? $lang : $lang . '.' . $extension;
-		$filename = "$path/$filename.ini";
 
-		if (isset($this->paths[$extension][$filename]) && !$reload)
+		$filenames = array();
+
+		if ($internal)
 		{
-			// This file has already been tested for loading.
-			$result = $this->paths[$extension][$filename];
+			$filenames[] = "$path/$lang.ini";
+			$filenames[] = "$path/joomla.ini";
 		}
 		else
 		{
-			// Load the language file
-			$result = $this->loadLanguage($filename, $extension);
+			// Try first with a language-prefixed filename.
+			$filenames[] = "$path/$lang.$extension.ini";
+			$filenames[] = "$path/$extension.ini";
+		}
 
-			// Check whether there was a problem with loading the file
-			if ($result === false && $default)
+		foreach ($filenames as $filename)
+		{
+			if (isset($this->paths[$extension][$filename]) && !$reload)
 			{
-				// No strings, so either file doesn't exist or the file is invalid
-				$oldFilename = $filename;
+				// This file has already been tested for loading.
+				$result = $this->paths[$extension][$filename];
+			}
+			else
+			{
+				// Load the language file
+				$result = $this->loadLanguage($filename, $extension);
+			}
 
-				// Check the standard file name
-				if (!$this->debug)
-				{
-					$path = LanguageHelper::getLanguagePath($basePath, $this->default);
-
-					$filename = $internal ? $this->default : $this->default . '.' . $extension;
-					$filename = "$path/$filename.ini";
-
-					// If the one we tried is different than the new name, try again
-					if ($oldFilename != $filename)
-					{
-						$result = $this->loadLanguage($filename, $extension, false);
-					}
-				}
+			if ($result)
+			{
+				return true;
 			}
 		}
 
-		return $result;
+		return false;
 	}
 
 	/**

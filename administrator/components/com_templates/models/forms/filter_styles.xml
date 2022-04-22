@@ -14,6 +14,7 @@
 		<field
 			name="search"
 			type="text"
+			inputmode="search"
 			label="JSEARCH_FILTER"
 			description="COM_TEMPLATES_STYLES_FILTER_SEARCH_DESC"
 			hint="JSEARCH_FILTER"
@@ -46,6 +47,7 @@
 			description="JGLOBAL_SORT_BY"
 			onchange="this.form.submit();"
 			default="a.template ASC"
+			validate="options"
 			>
 			<option value="">JGLOBAL_SORT_BY</option>
 			<option value="a.title ASC">COM_TEMPLATES_HEADING_STYLE_ASC</option>

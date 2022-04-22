@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2011 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -11,6 +11,7 @@ namespace Joomla\CMS\Log;
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Date\Date;
+use Joomla\CMS\Filesystem\Path;
 
 /**
  * Joomla! Log Entry class
@@ -92,10 +93,12 @@ class LogEntry
 	 * @param   array   $context   An optional array with additional message context.
 	 *
 	 * @since   1.7.0
+	 * @change  3.10.7  If the message containes a full path, the root path (JPATH_ROOT) is removed from it
+	 *          to avoid any full path disclosure. Before 3.10.7, the path was propagated as provided.
 	 */
 	public function __construct($message, $priority = Log::INFO, $category = '', $date = null, array $context = array())
 	{
-		$this->message = (string) $message;
+		$this->message = Path::removeRoot((string) $message);
 
 		// Sanitize the priority.
 		if (!in_array($priority, $this->priorities, true))

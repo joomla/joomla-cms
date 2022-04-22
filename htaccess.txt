@@ -1,6 +1,6 @@
 ##
 # @package    Joomla
-# @copyright  Copyright (C) 2005 - 2019 Open Source Matters. All rights reserved.
+# @copyright  (C) 2005 Open Source Matters, Inc. <https://www.joomla.org>
 # @license    GNU General Public License version 2 or later; see LICENSE.txt
 ##
 
@@ -8,7 +8,7 @@
 # READ THIS COMPLETELY IF YOU CHOOSE TO USE THIS FILE!
 #
 # The line 'Options +FollowSymLinks' may cause problems with some server configurations.
-# It is required for the use of Apache mod_rewrite, but it may have already been set by 
+# It is required for the use of Apache mod_rewrite, but it may have already been set by
 # your server administrator in a way that disallows changing it in this .htaccess file.
 # If using it causes your site to produce an error, comment it out (add # to the
 # beginning of the line), reload your site in your browser and test your sef urls. If
@@ -17,7 +17,7 @@
 ##
 
 ## No directory listings
-<IfModule autoindex>
+<IfModule mod_autoindex.c>
   IndexIgnore *
 </IfModule>
 
@@ -29,6 +29,13 @@ Header always set X-Content-Type-Options "nosniff"
 ## Can be commented out if causes errors, see notes above.
 Options +FollowSymlinks
 Options -Indexes
+
+## Disable inline JavaScript when directly opening SVG files or embedding them with the object-tag
+<FilesMatch "\.svg$">
+  <IfModule mod_headers.c>
+    Header always set Content-Security-Policy "script-src 'none'"
+  </IfModule>
+</FilesMatch>
 
 ## Mod_rewrite in use.
 

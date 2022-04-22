@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2012 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -11,6 +11,7 @@ namespace Joomla\CMS\Feed;
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Feed\Parser\NamespaceParserInterface;
+use Joomla\CMS\Filter\InputFilter;
 
 /**
  * Feed Parser class.
@@ -44,15 +45,25 @@ abstract class FeedParser
 	protected $stream;
 
 	/**
+	 * The InputFilter
+	 *
+	 * @var    InputFilter
+	 * @since  3.9.25
+	 */
+	protected $inputFilter;
+
+	/**
 	 * Constructor.
 	 *
-	 * @param   \XMLReader  $stream  The XMLReader stream object for the feed.
+	 * @param   \XMLReader   $stream       The XMLReader stream object for the feed.
+	 * @param   InputFilter  $inputFilter  The InputFilter object to be used
 	 *
 	 * @since   3.1.4
 	 */
-	public function __construct(\XMLReader $stream)
+	public function __construct(\XMLReader $stream, InputFilter $inputFilter = null)
 	{
-		$this->stream  = $stream;
+		$this->stream      = $stream;
+		$this->inputFilter = $inputFilter ? $inputFilter : InputFilter::getInstance(array(), array(), 1, 1);
 	}
 
 	/**

@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Search.content
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2006 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -371,7 +371,7 @@ class PlgSearchContent extends JPlugin
 				)
 				->order($order);
 
-			// Join over Fields is no longer neded
+			// Join over Fields is no longer needed
 
 			// Filter by language.
 			if ($app->isClient('site') && JLanguageMultilang::isEnabled())

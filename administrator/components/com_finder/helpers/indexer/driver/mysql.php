@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2012 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -422,9 +422,11 @@ class FinderIndexerDriverMysql extends FinderIndexer
 		static::$profiler ? static::$profiler->mark('afterMapping') : null;
 
 		// Update the signature.
+		$object = serialize($item);
 		$query->clear()
 			->update($db->quoteName('#__finder_links'))
 			->set($db->quoteName('md5sum') . ' = ' . $db->quote($curSig))
+			->set($db->quoteName('object') . ' = ' . $db->quote($object))
 			->where($db->quoteName('link_id') . ' = ' . $db->quote($linkId));
 		$db->setQuery($query);
 		$db->execute();

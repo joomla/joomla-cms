@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_contact
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2009 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -45,7 +45,7 @@ class ContactControllerContacts extends JControllerAdmin
 		// Check for request forgeries
 		$this->checkToken();
 
-		$ids    = $this->input->get('cid', array(), 'array');
+		$ids    = (array) $this->input->get('cid', array(), 'int');
 		$values = array('featured' => 1, 'unfeatured' => 0);
 		$task   = $this->getTask();
 		$value  = ArrayHelper::getValue($values, $task, 0, 'int');
@@ -57,6 +57,14 @@ class ContactControllerContacts extends JControllerAdmin
 		// Access checks.
 		foreach ($ids as $i => $id)
 		{
+			// Remove zero value resulting from input filter
+			if ($id === 0)
+			{
+				unset($ids[$i]);
+
+				continue;
+			}
+
 			$item = $model->getItem($id);
 
 			if (!JFactory::getUser()->authorise('core.edit.state', 'com_contact.category.' . (int) $item->catid))
@@ -69,6 +77,8 @@ class ContactControllerContacts extends JControllerAdmin
 
 		if (empty($ids))
 		{
+			$message = null;
+
 			JError::raiseWarning(500, JText::_('COM_CONTACT_NO_ITEM_SELECTED'));
 		}
 		else

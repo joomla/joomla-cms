@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  mod_banners
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2006 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -13,7 +13,9 @@ JLoader::register('BannerHelper', JPATH_ROOT . '/components/com_banners/helpers/
 ?>
 <div class="bannergroup<?php echo $moduleclass_sfx; ?>">
 <?php if ($headerText) : ?>
-	<?php echo $headerText; ?>
+	<div class="bannerheader">
+		<?php echo $headerText; ?>
+	</div>
 <?php endif; ?>
 
 <?php foreach ($list as $item) : ?>

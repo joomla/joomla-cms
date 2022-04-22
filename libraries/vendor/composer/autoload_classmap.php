@@ -6,8 +6,10 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname(dirname($vendorDir));
 
 return array(
+    'Brumann\\Polyfill\\DisallowedClassesSubstitutor' => $vendorDir . '/brumann/polyfill-unserialize/src/DisallowedClassesSubstitutor.php',
     'Brumann\\Polyfill\\Unserialize' => $vendorDir . '/brumann/polyfill-unserialize/src/Unserialize.php',
     'CallbackFilterIterator' => $vendorDir . '/joomla/compat/src/CallbackFilterIterator.php',
+    'Composer\\InstalledVersions' => $vendorDir . '/composer/InstalledVersions.php',
     'EasyPeasyICS' => $vendorDir . '/phpmailer/phpmailer/extras/EasyPeasyICS.php',
     'Joomla\\Application\\AbstractApplication' => $vendorDir . '/joomla/application/src/AbstractApplication.php',
     'Joomla\\Application\\AbstractCliApplication' => $vendorDir . '/joomla/application/src/AbstractCliApplication.php',
@@ -24,6 +26,8 @@ return array(
     'Joomla\\Application\\Web\\WebClient' => $vendorDir . '/joomla/application/src/Web/WebClient.php',
     'Joomla\\Archive\\Archive' => $vendorDir . '/joomla/archive/src/Archive.php',
     'Joomla\\Archive\\Bzip2' => $vendorDir . '/joomla/archive/src/Bzip2.php',
+    'Joomla\\Archive\\Exception\\UnknownArchiveException' => $vendorDir . '/joomla/archive/src/Exception/UnknownArchiveException.php',
+    'Joomla\\Archive\\Exception\\UnsupportedArchiveException' => $vendorDir . '/joomla/archive/src/Exception/UnsupportedArchiveException.php',
     'Joomla\\Archive\\ExtractableInterface' => $vendorDir . '/joomla/archive/src/ExtractableInterface.php',
     'Joomla\\Archive\\Gzip' => $vendorDir . '/joomla/archive/src/Gzip.php',
     'Joomla\\Archive\\Tar' => $vendorDir . '/joomla/archive/src/Tar.php',
@@ -189,11 +193,6 @@ return array(
     'Symfony\\Polyfill\\Util\\Binary' => $vendorDir . '/symfony/polyfill-util/Binary.php',
     'Symfony\\Polyfill\\Util\\BinaryNoFuncOverload' => $vendorDir . '/symfony/polyfill-util/BinaryNoFuncOverload.php',
     'Symfony\\Polyfill\\Util\\BinaryOnFuncOverload' => $vendorDir . '/symfony/polyfill-util/BinaryOnFuncOverload.php',
-    'Symfony\\Polyfill\\Util\\TestListener' => $vendorDir . '/symfony/polyfill-util/TestListener.php',
-    'Symfony\\Polyfill\\Util\\TestListenerForV5' => $vendorDir . '/symfony/polyfill-util/TestListenerForV5.php',
-    'Symfony\\Polyfill\\Util\\TestListenerForV6' => $vendorDir . '/symfony/polyfill-util/TestListenerForV6.php',
-    'Symfony\\Polyfill\\Util\\TestListenerForV7' => $vendorDir . '/symfony/polyfill-util/TestListenerForV7.php',
-    'Symfony\\Polyfill\\Util\\TestListenerTrait' => $vendorDir . '/symfony/polyfill-util/TestListenerTrait.php',
     'TYPO3\\PharStreamWrapper\\Assertable' => $vendorDir . '/typo3/phar-stream-wrapper/src/Assertable.php',
     'TYPO3\\PharStreamWrapper\\Behavior' => $vendorDir . '/typo3/phar-stream-wrapper/src/Behavior.php',
     'TYPO3\\PharStreamWrapper\\Collectable' => $vendorDir . '/typo3/phar-stream-wrapper/src/Collectable.php',

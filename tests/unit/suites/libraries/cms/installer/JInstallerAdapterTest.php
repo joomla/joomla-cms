@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Installer
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2015 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -55,6 +55,24 @@ class JInstallerAdapterTest extends TestCaseDatabase
 	protected function tearDown()
 	{
 		parent::tearDown();
+	}
+
+	/**
+	 * Gets a mock database object.
+	 *
+	 * @param   string  $driver        Optional driver to create a sub-class of JDatabaseDriver
+	 * @param   array   $extraMethods  An array of additional methods to add to the mock
+	 * @param   string  $nullDate      A null date string for the driver.
+	 * @param   string  $dateFormat    A date format for the driver.
+	 *
+	 * @return  JDatabaseDriver
+	 *
+	 * @since   3.10.4
+	 */
+	public function getMockDatabase($driver = '', array $extraMethods = array(), $nullDate = '0000-00-00 00:00:00', $dateFormat = 'Y-m-d H:i:s')
+	{
+		// Make sure we are creating an sqlite and not a dummy class here
+		return parent::getMockDatabase('sqlite', $extraMethods, $nullDate, $dateFormat);
 	}
 
 	/**
@@ -786,7 +804,7 @@ class JInstallerAdapterTest extends TestCaseDatabase
 	/**
 	 * @testdox Test getting the script class name for an extension
 	 *
-	 * @param   string  $element         The element name to set in the clas
+	 * @param   string  $element         The element name to set in the class
 	 * @param   string  $element         The expected script name
 	 * @param   string  $failureMessage  The failure message
 	 *

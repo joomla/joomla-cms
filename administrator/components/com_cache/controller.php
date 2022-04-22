@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_cache
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2008 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -74,7 +74,7 @@ class CacheController extends JControllerLegacy
 		// Check for request forgeries
 		$this->checkToken();
 
-		$cid = $this->input->post->get('cid', array(), 'array');
+		$cid = (array) $this->input->post->get('cid', array(), 'string');
 
 		if (empty($cid))
 		{

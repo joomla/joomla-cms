@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <metafile
-	version="3.9"
+	version="3.10"
 	client="installation">
 	<name>Greek</name>
-	<version>3.9.13</version>
-	<creationDate>Σεπτέμβριος 2019</creationDate>
+	<version>3.10.4</version>
+	<creationDate>Δεκ 2021</creationDate>
 	<author>Ελληνική ομάδα μετάφρασης: joomla. gr</author>
-	<copyright>Copyright (C) 2005 - 2019 Open Source Matters. All rights reserved.</copyright>
+	<copyright>(C) 2006 Open Source Matters, Inc.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<files>
 		<filename>el-GR.ini</filename>

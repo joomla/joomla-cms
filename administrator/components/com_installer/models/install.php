@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_installer
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2006 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -135,6 +135,14 @@ class InstallerModelInstall extends JModelLegacy
 			return false;
 		}
 
+		// Check if package was uploaded successfully.
+		if (!\is_array($package))
+		{
+			$app->enqueueMessage(JText::_('COM_INSTALLER_UNABLE_TO_FIND_INSTALL_PACKAGE'), 'error');
+
+			return false;
+		}
+
 		// Get an installer instance.
 		$installer = JInstaller::getInstance();
 
@@ -145,7 +153,7 @@ class InstallerModelInstall extends JModelLegacy
 		 * This must be done before the unpacked check because JInstallerHelper::detectType() returns a boolean false since the manifest
 		 * can't be found in the expected location.
 		 */
-		if (is_array($package) && isset($package['dir']) && is_dir($package['dir']))
+		if (isset($package['dir']) && is_dir($package['dir']))
 		{
 			$installer->setPath('source', $package['dir']);
 
@@ -171,14 +179,14 @@ class InstallerModelInstall extends JModelLegacy
 		}
 
 		// Was the package unpacked?
-		if (!$package || !$package['type'])
+		if (empty($package['type']))
 		{
 			if (in_array($installType, array('upload', 'url')))
 			{
 				JInstallerHelper::cleanupInstall($package['packagefile'], $package['extractdir']);
 			}
 
-			$app->enqueueMessage(JText::_('COM_INSTALLER_UNABLE_TO_FIND_INSTALL_PACKAGE'), 'error');
+			$app->enqueueMessage(JText::_('JLIB_INSTALLER_ABORT_DETECTMANIFEST'), 'error');
 
 			return false;
 		}
@@ -373,6 +381,16 @@ class InstallerModelInstall extends JModelLegacy
 		if (!$url)
 		{
 			JError::raiseWarning('', JText::_('COM_INSTALLER_MSG_INSTALL_ENTER_A_URL'));
+
+			return false;
+		}
+
+		// We only allow http & https here
+		$uri = new JUri($url);
+
+		if (!in_array($uri->getScheme(), array('http', 'https')))
+		{
+			JError::raiseWarning('', JText::_('COM_INSTALLER_MSG_INSTALL_INVALID_URL_SCHEME'));
 
 			return false;
 		}
