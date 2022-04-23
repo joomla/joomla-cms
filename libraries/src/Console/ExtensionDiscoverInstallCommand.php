@@ -12,6 +12,7 @@ namespace Joomla\CMS\Console;
 
 use Joomla\CMS\Installer\Installer;
 use Joomla\Console\Command\AbstractCommand;
+use Joomla\Database\DatabaseAwareTrait;
 use Joomla\Database\DatabaseInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -26,6 +27,8 @@ use Symfony\Component\Console\Style\SymfonyStyle;
  */
 class ExtensionDiscoverInstallCommand extends AbstractCommand
 {
+	use DatabaseAwareTrait;
+
 	/**
 	 * The default command name
 	 *
@@ -51,15 +54,6 @@ class ExtensionDiscoverInstallCommand extends AbstractCommand
 	private $ioStyle;
 
 	/**
-	 * Database connector
-	 *
-	 * @var    DatabaseInterface
-	 *
-	 * @since  4.0.0
-	 */
-	private $db;
-
-	/**
 	 * Instantiate the command.
 	 *
 	 * @param   DatabaseInterface  $db  Database connector
@@ -68,8 +62,9 @@ class ExtensionDiscoverInstallCommand extends AbstractCommand
 	 */
 	public function __construct(DatabaseInterface $db)
 	{
-		$this->db = $db;
 		parent::__construct();
+
+		$this->setDatabase($db);
 	}
 
 	/**
@@ -128,7 +123,7 @@ class ExtensionDiscoverInstallCommand extends AbstractCommand
 
 		if ($eid === -1)
 		{
-			$db = $this->db;
+			$db = $this->getDatabase();
 			$query = $db->getQuery(true)
 				->select($db->quoteName(['extension_id']))
 				->from($db->quoteName('#__extensions'))
