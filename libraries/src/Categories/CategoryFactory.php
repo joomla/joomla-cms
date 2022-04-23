@@ -8,9 +8,6 @@
 
 namespace Joomla\CMS\Categories;
 
-use Joomla\Database\DatabaseAwareInterface;
-use Joomla\Database\DatabaseAwareTrait;
-
 \defined('_JEXEC') or die;
 
 /**
@@ -20,8 +17,6 @@ use Joomla\Database\DatabaseAwareTrait;
  */
 class CategoryFactory implements CategoryFactoryInterface
 {
-	use DatabaseAwareTrait;
-
 	/**
 	 * The namespace to create the categories from.
 	 *
@@ -64,13 +59,6 @@ class CategoryFactory implements CategoryFactoryInterface
 			throw new SectionNotFoundException;
 		}
 
-		$category = new $className($options);
-
-		if ($category instanceof DatabaseAwareInterface)
-		{
-			$category->setDatabase($this->getDatabase());
-		}
-
-		return $category;
+		return new $className($options);
 	}
 }
