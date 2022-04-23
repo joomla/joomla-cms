@@ -96,6 +96,9 @@ abstract class BaseDatabaseModel extends BaseModel implements DatabaseModelInter
 		{
 			@trigger_error(sprintf('Database is not available in constructor in 5.0.'), E_USER_DEPRECATED);
 			$this->setDatabase($db);
+
+			// Is needed, when models use the deprecated MVC DatabaseAwareTrait, as the trait is overriding the local functions
+			$this->setDbo($db);
 		}
 
 		// Set the default view search path
@@ -364,7 +367,7 @@ abstract class BaseDatabaseModel extends BaseModel implements DatabaseModelInter
 	 *
 	 * @deprecated  5.0 Use getDatabase() instead
 	 */
-	public function getDbo(): DatabaseInterface
+	public function getDbo()
 	{
 		try
 		{
@@ -387,7 +390,7 @@ abstract class BaseDatabaseModel extends BaseModel implements DatabaseModelInter
 	 *
 	 * @deprecated  5.0 Use setDatabase() instead
 	 */
-	public function setDbo(DatabaseInterface $db = null): void
+	public function setDbo(DatabaseInterface $db = null)
 	{
 		if ($db === null)
 		{
