@@ -27,6 +27,7 @@ use Joomla\CMS\Uri\Uri;
 use Joomla\Component\Templates\Administrator\Helper\TemplateHelper;
 use Joomla\Component\Templates\Administrator\Helper\TemplatesHelper;
 use Joomla\Database\ParameterType;
+use Joomla\Utilities\ArrayHelper;
 
 /**
  * Template model class.
@@ -1450,7 +1451,7 @@ class TemplateModel extends FormModel
 		if ($this->getTemplate())
 		{
 			$app      = Factory::getApplication();
-			$path     = $this->getBasePath();;
+			$path     = $this->getBasePath();
 			$fileName = File::makeSafe($file['name']);
 
 			$err = null;
@@ -2045,7 +2046,6 @@ class TemplateModel extends FormModel
 			JPATH_ROOT . '/' . ($this->template->client_id === 0 ? '' : 'administrator/') . 'templates/' . $this->template->element;
 	}
 
-
 	/**
 	 * Method to create the templateDetails.xml for the child template
 	 *
@@ -2169,6 +2169,8 @@ class TemplateModel extends FormModel
 		$media->addChild('folder', 'css');
 		$media->addChild('folder', 'js');
 		$media->addChild('folder', 'images');
+		$media->addChild('folder', 'html');
+		$media->addChild('folder', 'scss');
 
 		$xml->name = $template->element . '_' . $newName;
 		$xml->inheritable = 0;
@@ -2189,24 +2191,115 @@ class TemplateModel extends FormModel
 		}
 
 		// Create an empty media folder structure
-		if (!Folder::create($toPath . '/media'))
+		if (!Folder::create($toPath . '/media')
+			|| !Folder::create($toPath . '/media/css')
+			|| !Folder::create($toPath . '/media/js')
+			|| !Folder::create($toPath . '/media/images')
+			|| !Folder::create($toPath . '/media/html/tinymce')
+			|| !Folder::create($toPath . '/media/scss'))
 		{
 			return false;
 		}
 
-		if (!Folder::create($toPath . '/media/css'))
+		return true;
+	}
+
+	/**
+	 * Method to get the parent template existing styles
+	 *
+	 * @return  array   array of id,titles of the styles
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
+	public function getAllTemplateStyles()
+	{
+		$template = $this->getTemplate();
+
+		if (!$template->xmldata->inheritable)
 		{
+			return [];
+		}
+
+		$db    = $this->getDbo();
+		$query = $db->getQuery(true);
+
+		$query->select($db->quoteName(['id', 'title']))
+			->from($db->quoteName('#__template_styles'))
+			->where($db->quoteName('client_id') . ' = :client_id', 'AND')
+			->where($db->quoteName('template') . ' = :template')
+			->orWhere($db->quoteName('parent') . ' = :parent')
+			->bind(':client_id', $template->client_id, ParameterType::INTEGER)
+			->bind(':template', $template->element)
+			->bind(':parent', $template->element);
+
+		$db->setQuery($query);
+
+		return $db->loadObjectList();
+	}
+
+	/**
+	 * Method to copy selected styles to the child template
+	 *
+	 * @return  boolean   true if name is not used, false otherwise
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
+	public function copyStyles()
+	{
+		$app         = Factory::getApplication();
+		$template    = $this->getTemplate();
+		$newName     = strtolower($this->getState('new_name'));
+		$applyStyles = $this->getState('stylesToCopy');
+
+		// Get a db connection.
+		$db = $this->getDbo();
+
+		// Create a new query object.
+		$query = $db->getQuery(true);
+
+		$query->select($db->quoteName(['title', 'params']))
+			->from($db->quoteName('#__template_styles'))
+			->whereIn($db->quoteName('id'), ArrayHelper::toInteger($applyStyles));
+		// Reset the query using our newly populated query object.
+		$db->setQuery($query);
+
+		try
+		{
+			$parentStyle = $db->loadObjectList();
+		}
+		catch (\Exception $e)
+		{
+			$app->enqueueMessage(Text::_('COM_TEMPLATES_ERROR_STYLE_NOT_FOUND'), 'error');
+
 			return false;
 		}
 
-		if (!Folder::create($toPath . '/media/js'))
+		foreach ($parentStyle as $style)
 		{
-			return false;
-		}
+			$query = $db->getQuery(true);
+			$styleName = Text::sprintf('COM_TEMPLATES_COPY_CHILD_TEMPLATE_STYLES', ucfirst($template->element . '_' . $newName), $style->title);
 
-		if (!Folder::create($toPath . '/media/images'))
-		{
-			return false;
+			// Insert columns and values
+			$columns = ['id', 'template', 'client_id', 'home', 'title', 'inheritable', 'parent', 'params'];
+			$values = [0, $db->quote($template->element . '_' . $newName), (int) $template->client_id, $db->quote('0'), $db->quote($styleName), 0, $db->quote($template->element), $db->quote($style->params)];
+
+			$query
+				->insert($db->quoteName('#__template_styles'))
+				->columns($db->quoteName($columns))
+				->values(implode(',', $values));
+
+			$db->setQuery($query);
+
+			try
+			{
+				$db->execute();
+			}
+			catch (\Exception $e)
+			{
+				$app->enqueueMessage(Text::_('COM_TEMPLATES_ERROR_COULD_NOT_READ'), 'error');
+
+				return false;
+			}
 		}
 
 		return true;
