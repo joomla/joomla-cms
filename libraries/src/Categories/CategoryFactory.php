@@ -8,10 +8,10 @@
 
 namespace Joomla\CMS\Categories;
 
+\defined('_JEXEC') or die;
+
 use Joomla\Database\DatabaseAwareInterface;
 use Joomla\Database\DatabaseAwareTrait;
-
-\defined('_JEXEC') or die;
 
 /**
  * Option based categories factory.
