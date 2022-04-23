@@ -12,6 +12,9 @@ namespace Joomla\CMS\Categories;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Multilanguage;
+use Joomla\Database\DatabaseAwareInterface;
+use Joomla\Database\DatabaseAwareTrait;
+use Joomla\Database\Exception\DatabaseNotFoundException;
 use Joomla\Database\ParameterType;
 
 /**
@@ -19,8 +22,10 @@ use Joomla\Database\ParameterType;
  *
  * @since  1.6
  */
-class Categories implements CategoryInterface
+class Categories implements CategoryInterface, DatabaseAwareInterface
 {
+	use DatabaseAwareTrait;
+
 	/**
 	 * Array to hold the object instances
 	 *
@@ -219,8 +224,16 @@ class Categories implements CategoryInterface
 	 */
 	protected function _load($id)
 	{
-		/** @var \Joomla\Database\DatabaseDriver */
-		$db   = Factory::getDbo();
+		try
+		{
+			$db = $this->getDatabase();
+		}
+		catch (DatabaseNotFoundException $e)
+		{
+			@trigger_error(sprintf('Database must be set, this will not be caught anymore in 5.0.'), E_USER_DEPRECATED);
+			$db = Factory::getContainer()->get(DatabaseInterface::class);
+		}
+
 		$app  = Factory::getApplication();
 		$user = Factory::getUser();
 		$extension = $this->_extension;
