@@ -19,6 +19,8 @@ use Joomla\CMS\Log\Log;
 use Joomla\CMS\Table\Extension;
 use Joomla\CMS\Table\Table;
 use Joomla\CMS\Table\TableInterface;
+use Joomla\Database\DatabaseAwareInterface;
+use Joomla\Database\DatabaseAwareTrait;
 use Joomla\Database\DatabaseDriver;
 use Joomla\DI\Container;
 use Joomla\DI\ContainerAwareInterface;
@@ -31,9 +33,9 @@ use Joomla\DI\ServiceProviderInterface;
  *
  * @since  3.4
  */
-abstract class InstallerAdapter implements ContainerAwareInterface
+abstract class InstallerAdapter implements ContainerAwareInterface, DatabaseAwareInterface
 {
-	use ContainerAwareTrait;
+	use ContainerAwareTrait, DatabaseAwareTrait;
 
 	/**
 	 * Changelog URL of extensions
@@ -147,7 +149,7 @@ abstract class InstallerAdapter implements ContainerAwareInterface
 	public function __construct(Installer $parent, DatabaseDriver $db, array $options = array())
 	{
 		$this->parent = $parent;
-		$this->db     = $db;
+		$this->setDatabase($db);
 
 		foreach ($options as $key => $value)
 		{
@@ -1384,5 +1386,26 @@ abstract class InstallerAdapter implements ContainerAwareInterface
 
 		// Now jump into the install method to run the update
 		return $this->install();
+	}
+
+	/**
+	 * Proxy for db variable.
+	 *
+	 * @param   string  $name  The name of the element
+	 *
+	 * @return  mixed  The value of the element if set, null otherwise
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 *
+	 * @deprecated  5.0 Use getDatabase() instead of directly accessing db
+	 */
+	public function __get($name)
+	{
+		if ($name === 'db')
+		{
+			return $this->getDatabase();
+		}
+
+		return $this->$name;
 	}
 }

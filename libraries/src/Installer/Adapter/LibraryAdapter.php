@@ -47,12 +47,13 @@ class LibraryAdapter extends InstallerAdapter
 
 				// We don't want to compromise this instance!
 				$installer = new Installer;
+				$installer->setDatabase($this->getDatabase());
 				$installer->setPackageUninstall(true);
 				$installer->uninstall('library', $this->currentExtensionId);
 
 				// Clear the cached data
 				$this->currentExtensionId = null;
-				$this->extension = Table::getInstance('Extension', 'JTable', array('dbo' => $this->db));
+				$this->extension = Table::getInstance('Extension', 'JTable', array('dbo' => $this->getDatabase()));
 
 				// From this point we'll consider this an update
 				$this->setRoute('update');
@@ -172,7 +173,7 @@ class LibraryAdapter extends InstallerAdapter
 	{
 		$extensionId = $this->extension->extension_id;
 
-		$db = $this->parent->getDbo();
+		$db = $this->getDatabase();
 
 		// Remove the schema version
 		$query = $db->getQuery(true)

@@ -12,6 +12,7 @@ namespace Joomla\CMS\Adapter;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Object\CMSObject;
+use Joomla\Database\DatabaseAwareInterface;
 
 /**
  * Adapter Class
@@ -79,6 +80,12 @@ class Adapter extends CMSObject
 		$this->_adapterfolder = $adapterfolder ?: 'adapters';
 
 		$this->_db = Factory::getDbo();
+
+		// Ensure BC, when removed in 5, then the db must be set with setDatabase explicitly
+		if ($this instanceof DatabaseAwareInterface)
+		{
+			$this->setDatabase($this->_db);
+		}
 	}
 
 	/**

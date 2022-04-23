@@ -223,7 +223,7 @@ class ModuleAdapter extends InstallerAdapter
 	{
 		$extensionId = $this->extension->extension_id;
 
-		$db     = $this->parent->getDbo();
+		$db     = $this->getDatabase();
 		$retval = true;
 
 		// Remove the schema version
@@ -710,7 +710,7 @@ class ModuleAdapter extends InstallerAdapter
 	protected function _rollback_menu($arg)
 	{
 		// Get database connector object
-		$db = $this->parent->getDbo();
+		$db = $this->getDatabase();
 
 		$moduleId = $arg['id'];
 
@@ -744,7 +744,7 @@ class ModuleAdapter extends InstallerAdapter
 	protected function _rollback_module($arg)
 	{
 		// Get database connector object
-		$db = $this->parent->getDbo();
+		$db = $this->getDatabase();
 
 		$moduleId = $arg['id'];
 

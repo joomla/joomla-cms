@@ -501,6 +501,7 @@ class JoomlaInstallerScript
 
 			// And now uninstall the plugin
 			$installer = new Installer;
+			$installer->setDatabase($db);
 			$installer->uninstall('plugin', $extensionId);
 
 			$db->transactionCommit();
@@ -551,6 +552,7 @@ class JoomlaInstallerScript
 
 			// Uninstall the plugin
 			$installer = new Installer;
+			$installer->setDatabase($db);
 			$installer->uninstall('plugin', $extensionId);
 
 			$db->transactionCommit();
@@ -607,6 +609,7 @@ class JoomlaInstallerScript
 		}
 
 		$installer = new Installer;
+		$installer->setDatabase($db);
 
 		foreach ($extensions as $extension)
 		{

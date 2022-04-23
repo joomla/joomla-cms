@@ -136,6 +136,7 @@ class PluginAdapter extends InstallerAdapter
 		{
 			// Create a new installer because findManifest sets stuff; side effects!
 			$tmpInstaller = new Installer;
+			$tmpInstaller->setDatabase($this->getDatabase());
 
 			// Look in the extension root
 			$tmpInstaller->setPath('source', $this->parent->getPath('extension_root'));
@@ -202,7 +203,7 @@ class PluginAdapter extends InstallerAdapter
 	{
 		$extensionId = $this->extension->extension_id;
 
-		$db = $this->parent->getDbo();
+		$db = $this->getDatabase();
 
 		// Remove the schema version
 		$query = $db->getQuery(true)

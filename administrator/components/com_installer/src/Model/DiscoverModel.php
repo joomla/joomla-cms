@@ -232,6 +232,7 @@ class DiscoverModel extends InstallerModel
 			foreach ($eid as $id)
 			{
 				$installer = new Installer;
+				$installer->setDatabase($this->getDatabase());
 
 				$result = $installer->discover_install($id);
 

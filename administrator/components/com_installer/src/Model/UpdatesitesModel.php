@@ -356,6 +356,7 @@ class UpdatesitesModel extends InstallerModel
 		foreach ($pathsToSearch as $extensionFolderPath)
 		{
 			$tmpInstaller = new Installer;
+			$tmpInstaller->setDatabase($this->getDatabase());
 
 			$tmpInstaller->setPath('source', $extensionFolderPath);
 

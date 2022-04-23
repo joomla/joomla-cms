@@ -152,6 +152,7 @@ class LanguagesModel extends BaseInstallationModel
 	{
 		$app = Factory::getApplication();
 		$installerBase = new Installer;
+		$installerBase->setDatabase($this->getDatabase());
 
 		// Loop through every selected language.
 		foreach ($lids as $id)

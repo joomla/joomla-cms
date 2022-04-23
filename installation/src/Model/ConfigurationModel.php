@@ -367,6 +367,7 @@ class ConfigurationModel extends BaseInstallationModel
 		$db->insertObject('#__extensions', $testingPlugin, 'extension_id');
 
 		$installer = new Installer;
+		$installer->setDatabase($this->getDatabase());
 
 		if (!$installer->refreshManifestCache($testingPlugin->extension_id))
 		{

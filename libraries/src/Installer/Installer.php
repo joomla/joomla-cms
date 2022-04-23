@@ -21,7 +21,9 @@ use Joomla\CMS\Log\Log;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Table\Extension;
 use Joomla\CMS\Table\Table;
+use Joomla\Database\DatabaseAwareTrait;
 use Joomla\Database\DatabaseDriver;
+use Joomla\Database\DatabaseInterface;
 use Joomla\Database\Exception\ExecutionFailureException;
 use Joomla\Database\Exception\PrepareStatementFailureException;
 use Joomla\Database\ParameterType;
@@ -34,6 +36,8 @@ use Joomla\DI\ContainerAwareInterface;
  */
 class Installer extends Adapter
 {
+	use DatabaseAwareTrait;
+
 	/**
 	 * Array of paths needed by the installer
 	 *
@@ -185,6 +189,7 @@ class Installer extends Adapter
 		if (!isset(self::$instances[$basepath]))
 		{
 			self::$instances[$basepath] = new static($basepath, $classprefix, $adapterfolder);
+			self::$instances[$basepath]->setDatabase(Factory::getContainer()->get(DatabaseInterface::class));
 		}
 
 		return self::$instances[$basepath];
@@ -568,8 +573,8 @@ class Installer extends Adapter
 
 				case 'extension':
 					// Get database connector object
-					$db = $this->getDbo();
-					$query = $db->getQuery(true);
+					$db     = $this->getDatabase();
+					$query  = $db->getQuery(true);
 					$stepId = (int) $step['id'];
 
 					// Remove the entry from the #__extensions table
@@ -1208,7 +1213,7 @@ class Installer extends Adapter
 	{
 		if ($eid && $schema)
 		{
-			$db = Factory::getDbo();
+			$db          = $this->getDatabase();
 			$schemapaths = $schema->children();
 
 			if (!$schemapaths)
@@ -1283,7 +1288,7 @@ class Installer extends Adapter
 			return $updateCount;
 		}
 
-		$db          = Factory::getDbo();
+		$db          = $this->getDatabase();
 		$schemapaths = $schema->children();
 
 		if (!\count($schemapaths))
@@ -2330,7 +2335,7 @@ class Installer extends Adapter
 	 */
 	public function cleanDiscoveredExtension($type, $element, $folder = '', $client = 0)
 	{
-		$db = Factory::getDbo();
+		$db    = $this->getDatabase();
 		$query = $db->getQuery(true)
 			->delete($db->quoteName('#__extensions'))
 			->where('type = :type')
@@ -2683,7 +2688,7 @@ class Installer extends Adapter
 			return Factory::getContainer()->get($class);
 		}
 
-		$adapter = new $class($this, $this->getDbo(), $options);
+		$adapter = new $class($this, $this->getDatabase(), $options);
 
 		if ($adapter instanceof ContainerAwareInterface)
 		{
