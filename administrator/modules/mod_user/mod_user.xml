@@ -26,7 +26,7 @@
 					type="modulelayout"
 					label="JFIELD_ALT_LAYOUT_LABEL"
 					class="form-select"
- 				/>
+				/>
 
 				<field
 					name="moduleclass_sfx"

@@ -49,7 +49,7 @@ class HtmlView extends BaseHtmlView
 		if (empty($this->file->content))
 		{
 			// @todo error handling controller redirect files
-			throw new \Exception('No content available!');
+			throw new \Exception(Text::_('COM_MEDIA_ERROR_NO_CONTENT_AVAILABLE'));
 		}
 
 		$this->addToolbar();
