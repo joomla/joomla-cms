@@ -21,7 +21,6 @@ use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Router\Router;
 use Joomla\CMS\Session\Session;
 use Joomla\CMS\Uri\Uri;
-use Joomla\Database\ParameterType;
 use Joomla\DI\Container;
 use Joomla\Registry\Registry;
 
