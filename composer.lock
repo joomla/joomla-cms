@@ -2147,16 +2147,16 @@
         },
         {
             "name": "joomla/uri",
-            "version": "2.0.0",
+            "version": "2.0.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-framework/uri.git",
-                "reference": "743136489c0f94c13ee2ab54aa14232063a98270"
+                "reference": "755f1cf80e2463d9a162563e607154c64083184b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-framework/uri/zipball/743136489c0f94c13ee2ab54aa14232063a98270",
-                "reference": "743136489c0f94c13ee2ab54aa14232063a98270",
+                "url": "https://api.github.com/repos/joomla-framework/uri/zipball/755f1cf80e2463d9a162563e607154c64083184b",
+                "reference": "755f1cf80e2463d9a162563e607154c64083184b",
                 "shasum": ""
             },
             "require": {
@@ -2190,7 +2190,7 @@
             ],
             "support": {
                 "issues": "https://github.com/joomla-framework/uri/issues",
-                "source": "https://github.com/joomla-framework/uri/tree/2.0.0"
+                "source": "https://github.com/joomla-framework/uri/tree/2.0.2"
             },
             "funding": [
                 {
@@ -2202,7 +2202,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2021-08-16T20:12:11+00:00"
+            "time": "2022-04-21T09:39:04+00:00"
         },
         {
             "name": "joomla/utilities",
