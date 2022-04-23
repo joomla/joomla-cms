@@ -87,9 +87,6 @@ class FinderHelper
 		$options['filters'] = ArrayHelper::toInteger($options['filters']);
 
 		// Instantiate a query object.
-		$query = new Query($options);
-		$query->setDatabase(Factory::getContainer()->get(DatabaseInterface::class));
-
-		return $query;
+		return new Query($options, Factory::getContainer()->get(DatabaseInterface::class));
 	}
 }
