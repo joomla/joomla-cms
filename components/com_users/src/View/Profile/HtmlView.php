@@ -58,6 +58,16 @@ class HtmlView extends BaseHtmlView
 	protected $state;
 
 	/**
+	 * An instance of DatabaseDriver.
+	 *
+	 * @var    DatabaseDriver
+	 * @since  3.6.3
+	 *
+	 * @deprecated  5.0 Will be removed without replacement
+	 */
+	protected $db;
+
+	/**
 	 * Configuration forms for all two-factor authentication methods.
 	 *
 	 * @var    array
@@ -111,6 +121,7 @@ class HtmlView extends BaseHtmlView
 		$this->twofactorform    = $this->get('Twofactorform');
 		$this->twofactormethods = UsersHelper::getTwoFactorMethods();
 		$this->otpConfig        = $this->get('OtpConfig');
+		$this->db               = Factory::getDbo();
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
