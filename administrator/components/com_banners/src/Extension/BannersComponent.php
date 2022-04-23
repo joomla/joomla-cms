@@ -21,6 +21,7 @@ use Joomla\CMS\HTML\HTMLRegistryAwareTrait;
 use Joomla\CMS\Tag\TagServiceInterface;
 use Joomla\CMS\Tag\TagServiceTrait;
 use Joomla\Component\Banners\Administrator\Service\Html\Banner;
+use Joomla\Database\DatabaseInterface;
 use Psr\Container\ContainerInterface;
 
 /**
@@ -53,7 +54,10 @@ class BannersComponent extends MVCComponent implements BootableExtensionInterfac
 	 */
 	public function boot(ContainerInterface $container)
 	{
-		$this->getRegistry()->register('banner', new Banner);
+		$banner = new Banner;
+		$banner->setDatabase($container->get(DatabaseInterface::class));
+
+		$this->getRegistry()->register('banner', $banner);
 	}
 
 	/**
