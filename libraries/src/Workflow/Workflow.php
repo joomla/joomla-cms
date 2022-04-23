@@ -105,8 +105,21 @@ class Workflow
 		$this->extension = $extension;
 
 		// Initialise default objects if none have been provided
-		$this->app = $app ?: Factory::getApplication();
-		$this->db = $db ?: Factory::getDbo();
+		if ($app === null)
+		{
+			@trigger_error('In 5.0 is the app dependency mandatory.', E_USER_DEPRECATED);
+			$app = Factory::getApplication();
+		}
+
+		$this->app = $app;
+
+		if ($db === null)
+		{
+			@trigger_error('In 5.0 is the database dependency mandatory.', E_USER_DEPRECATED);
+			$db = Factory::getContainer()->get(DatabaseDriver::class);
+		}
+
+		$this->db = $db;
 	}
 
 	/**
