@@ -41,6 +41,7 @@ use Joomla\Console\Application as BaseConsoleApplication;
 use Joomla\Console\Loader\LoaderInterface;
 use Joomla\Database\Command\ExportCommand;
 use Joomla\Database\Command\ImportCommand;
+use Joomla\Database\DatabaseInterface;
 use Joomla\DI\Container;
 use Joomla\DI\ServiceProviderInterface;
 use Joomla\Event\DispatcherInterface;
@@ -137,6 +138,7 @@ class Application implements ServiceProviderInterface
 					$app->setLogger($container->get(LoggerInterface::class));
 					$app->setSession($container->get(SessionInterface::class));
 					$app->setUserFactory($container->get(UserFactoryInterface::class));
+					$app->setDatabase($container->get(DatabaseInterface::class));
 
 					return $app;
 				},

@@ -11,10 +11,11 @@ namespace Joomla\CMS\Console;
 \defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Access\Access;
-use Joomla\CMS\Factory;
 use Joomla\CMS\User\User;
 use Joomla\CMS\User\UserHelper;
 use Joomla\Console\Command\AbstractCommand;
+use Joomla\Database\DatabaseAwareTrait;
+use Joomla\Database\DatabaseInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Exception\InvalidOptionException;
 use Symfony\Component\Console\Input\InputInterface;
@@ -23,7 +24,6 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\ChoiceQuestion;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
-
 /**
  * Console command to add a user to group
  *
@@ -31,6 +31,8 @@ use Symfony\Component\Console\Style\SymfonyStyle;
  */
 class AddUserToGroupCommand extends AbstractCommand
 {
+	use DatabaseAwareTrait;
+
 	/**
 	 * The default command name
 	 *
@@ -72,6 +74,20 @@ class AddUserToGroupCommand extends AbstractCommand
 	private $userGroups = [];
 
 	/**
+	 * Command constructor.
+	 *
+	 * @param   DatabaseInterface  $db  The database
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function __construct(DatabaseInterface $db)
+	{
+		parent::__construct();
+
+		$this->setDatabase($db);
+	}
+
+	/**
 	 * Internal function to execute the command.
 	 *
 	 * @param   InputInterface   $input   The input to inject into the command.
@@ -101,7 +117,7 @@ class AddUserToGroupCommand extends AbstractCommand
 
 		$this->userGroups = $this->getGroups($user);
 
-		$db = Factory::getDbo();
+		$db    = $this->getDatabase();
 		$query = $db->getQuery(true)
 			->select($db->quoteName('title'))
 			->from($db->quoteName('#__usergroups'))
@@ -143,7 +159,7 @@ class AddUserToGroupCommand extends AbstractCommand
 	{
 		$groups = $this->getApplication()->getConsoleInput()->getOption('group');
 
-		$db = Factory::getDbo();
+		$db = $this->getDatabase();
 
 		$groupList = [];
 
@@ -207,8 +223,7 @@ class AddUserToGroupCommand extends AbstractCommand
 	 */
 	protected function getGroupId($groupName)
 	{
-		$db = Factory::getDbo();
-
+		$db    = $this->getDatabase();
 		$query = $db->getQuery(true)
 			->select($db->quoteName('id'))
 			->from($db->quoteName('#__usergroups'))
@@ -230,8 +245,7 @@ class AddUserToGroupCommand extends AbstractCommand
 	 */
 	protected function getUserId($username)
 	{
-		$db = Factory::getDbo();
-
+		$db    = $this->getDatabase();
 		$query = $db->getQuery(true)
 			->select($db->quoteName('id'))
 			->from($db->quoteName('#__users'))
