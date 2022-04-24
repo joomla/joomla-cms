@@ -123,7 +123,7 @@
 				<field
 					name="show_category_heading_title_text"
 					type="list"
-	 				label="JGLOBAL_SHOW_SUBCATEGORY_HEADING"
+					label="JGLOBAL_SHOW_SUBCATEGORY_HEADING"
 					useglobal="true"
 					class="form-select-color-state"
 					validate="options"
@@ -371,7 +371,8 @@
 		>
 
 			<field
-				name="article_layout" type="componentlayout"
+				name="article_layout"
+				type="componentlayout"
 				label="JGLOBAL_FIELD_LAYOUT_LABEL"
 				description="JGLOBAL_FIELD_LAYOUT_DESC"
 				class="form-select"
