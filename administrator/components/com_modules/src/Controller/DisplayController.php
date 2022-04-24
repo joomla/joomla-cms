@@ -80,6 +80,7 @@ class DisplayController extends BaseController
 
 		// Check if we have a mod_menu module set to All languages or a mod_menu module for each admin language.
 		$factory = $this->app->bootComponent('menus')->getMVCFactory();
+
 		if ($langMissing = $factory->createModel('Menus', 'Administrator')->getMissingModuleLanguages())
 		{
 			$this->app->enqueueMessage(Text::sprintf('JMENU_MULTILANG_WARNING_MISSING_MODULES', implode(', ', $langMissing)), 'warning');
