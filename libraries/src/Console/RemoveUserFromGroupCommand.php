@@ -141,7 +141,7 @@ class RemoveUserFromGroupCommand extends AbstractCommand
 
 			if (\count(Access::getGroupsByUser($user->id, false)) < 2)
 			{
-				$this->ioStyle->error("Can't remove '" . $user->username . "' from group '" . $result . "'! Every user needs at least one group");
+				$this->ioStyle->error("Can't remove '" . $user->username . "' from group '" . $result . "'! Every user needs to be a member of at least one group");
 
 				return Command::FAILURE;
 			}
