@@ -14,6 +14,7 @@ namespace Joomla\Component\Banners\Administrator\Service\Html;
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\Database\DatabaseAwareTrait;
 
 /**
  * Banner HTML class.
@@ -22,6 +23,8 @@ use Joomla\CMS\Language\Text;
  */
 class Banner
 {
+	use DatabaseAwareTrait;
+
 	/**
 	 * Display a batch widget for the client selector.
 	 *
@@ -56,7 +59,7 @@ class Banner
 	 */
 	public function clientlist()
 	{
-		$db = Factory::getDbo();
+		$db    = $this->getDatabase();
 		$query = $db->getQuery(true)
 			->select(
 				[
