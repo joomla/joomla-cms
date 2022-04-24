@@ -290,7 +290,7 @@ class MenusModel extends ListModel
 		}
 
 		$languages = LanguageHelper::getInstalledLanguages(1, true);
-		$langCodes = array();
+		$langCodes = [];
 
 		foreach ($languages as $language)
 		{
