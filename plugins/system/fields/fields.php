@@ -13,6 +13,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Plugin\CMSPlugin;
+use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\Component\Fields\Administrator\Helper\FieldsHelper;
 use Joomla\Component\Finder\Administrator\Indexer\Indexer;
 use Joomla\Registry\Registry;
@@ -87,7 +88,7 @@ class PlgSystemFields extends CMSPlugin
 	 * @param   string                   $context  The context
 	 * @param   \Joomla\CMS\Table\Table  $item     The table
 	 * @param   boolean                  $isNew    Is new item
-	 * @param   array                    $data     The validated data
+	 * @param   array                    $data     The validated item data
 	 *
 	 * @return  void
 	 *
@@ -251,7 +252,7 @@ class PlgSystemFields extends CMSPlugin
 	 * The form event.
 	 *
 	 * @param   Form      $form  The form
-	 * @param   stdClass  $data  The data
+	 * @param   stdClass  $data  The item data
 	 *
 	 * @return  boolean
 	 *
