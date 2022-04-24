@@ -415,6 +415,12 @@ abstract class BaseDatabaseModel extends BaseModel implements DatabaseModelInter
 			return $this->getDatabase();
 		}
 
+		// Default the variable
+		if (!isset($this->$name))
+		{
+			$this->$name = null;
+		}
+
 		return $this->$name;
 	}
 }
