@@ -55,18 +55,8 @@ trait DisplayTrait
      * @return  string
      */
     public function onDisplay(
-        $name,
-        $content,
-        $width,
-        $height,
-        $col,
-        $row,
-        $buttons = true,
-        $id = null,
-        $asset = null,
-        $author = null,
-        $params = []
-    ) {
+        $name, $content, $width, $height, $col, $row, $buttons = true, $id = null, $asset = null, $author = null, $params = [])
+    {
         $id              = empty($id) ? $name : $id;
         $user            = $this->app->getIdentity();
         $language        = $this->app->getLanguage();
@@ -78,16 +68,18 @@ trait DisplayTrait
         $externalPlugins = [];
         $options         = $doc->getScriptOptions('plg_editor_tinymce');
         $theme           = 'silver';
+        $width           = is_numeric($width) ? $width . 'px' : $width;
+        $height          = is_numeric($height) ? $height . 'px' : $height;
 
         // Data object for the layout
-        $textarea           = new stdClass();
+        $textarea           = new stdClass;
         $textarea->name     = $name;
         $textarea->id       = $id;
         $textarea->class    = 'mce_editable joomla-editor-tinymce';
         $textarea->cols     = $col;
         $textarea->rows     = $row;
-        $textarea->width    = is_numeric($width) ? $width . 'px' : $width;
-        $textarea->height   = is_numeric($height) ? $height . 'px' : $height;
+        $textarea->width    = $width;
+        $textarea->height   = $height;
         $textarea->content  = $content;
         $textarea->readonly = !empty($params['readonly']);
 
@@ -97,47 +89,37 @@ trait DisplayTrait
         $editor .= !$this->app->client->mobile ? LayoutHelper::render('joomla.tinymce.togglebutton') : '';
         $editor .= '</div>';
 
-        // Prepare the instance specific options
-        if (empty($options['tinyMCE'][$fieldName])) {
-            $options['tinyMCE'][$fieldName] = [];
-        }
-
-        // Width and height
-        if ($width && empty($options['tinyMCE'][$fieldName]['width'])) {
-            $options['tinyMCE'][$fieldName]['width'] = $width;
-        }
-
-        if ($height && empty($options['tinyMCE'][$fieldName]['height'])) {
-            $options['tinyMCE'][$fieldName]['height'] = $height;
-        }
-
-        // Set editor to readonly mode
-        if (!empty($params['readonly'])) {
-            $options['tinyMCE'][$fieldName]['readonly'] = 1;
-        }
-
-        // The ext-buttons
-        if (empty($options['tinyMCE'][$fieldName]['joomlaExtButtons'])) {
+        // Prepare the instance specific options, actually the ext-buttons
+        if (empty($options['tinyMCE'][$fieldName]['joomlaExtButtons']))
+        {
             $btns = $this->tinyButtons($id, $buttons);
+
+            // Set editor to readonly mode
+            if (!empty($params['readonly']))
+            {
+                $options['tinyMCE'][$fieldName]['readonly'] = 1;
+            }
 
             $options['tinyMCE'][$fieldName]['joomlaMergeDefaults'] = true;
             $options['tinyMCE'][$fieldName]['joomlaExtButtons']    = $btns;
+
+            $doc->addScriptOptions('plg_editor_tinymce', $options, false);
         }
 
-        $doc->addScriptOptions('plg_editor_tinymce', $options, false);
         // Setup Default (common) options for the Editor script
 
         // Check whether we already have them
-        if (!empty($options['tinyMCE']['default'])) {
+        if (!empty($options['tinyMCE']['default']))
+        {
             return $editor;
         }
 
         $ugroups  = array_combine($user->getAuthorisedGroups(), $user->getAuthorisedGroups());
 
         // Prepare the parameters
-        $levelParams      = new Registry();
-        $extraOptions     = new stdClass();
-        $toolbarParams    = new stdClass();
+        $levelParams      = new Registry;
+        $extraOptions     = new stdClass;
+        $toolbarParams    = new stdClass;
         $extraOptionsAll  = (array) $this->params->get('configuration.setoptions', []);
         $toolbarParamsAll = (array) $this->params->get('configuration.toolbars', []);
 
@@ -145,13 +127,16 @@ trait DisplayTrait
         krsort($extraOptionsAll);
 
         // Get configuration depend from User group
-        foreach ($extraOptionsAll as $set => $val) {
+        foreach ($extraOptionsAll as $set => $val)
+        {
             $val = (object) $val;
             $val->access = empty($val->access) ? [] : $val->access;
 
             // Check whether User in one of allowed group
-            foreach ($val->access as $group) {
-                if (isset($ugroups[$group])) {
+            foreach ($val->access as $group)
+            {
+                if (isset($ugroups[$group]))
+                {
                     $extraOptions  = $val;
                     $toolbarParams = (object) $toolbarParamsAll[$set];
                 }
@@ -159,13 +144,16 @@ trait DisplayTrait
         }
 
         // load external plugins
-        if (isset($extraOptions->external_plugins) && $extraOptions->external_plugins) {
-            foreach (json_decode(json_encode($extraOptions->external_plugins), true) as $external) {
+        if (isset($extraOptions->external_plugins) && $extraOptions->external_plugins)
+        {
+            foreach (json_decode(json_encode($extraOptions->external_plugins), true) as $external)
+            {
                 // get the path for readability
                 $path = $external['path'];
 
                 // if we have a name and path, add it to the list
-                if ($external['name'] != '' && $path != '') {
+                if ($external['name'] != '' && $path != '')
+                {
                     $externalPlugins[$external['name']] = substr($path, 0, 1) == '/' ? Uri::root() . substr($path, 1) : $path;
                 }
             }
@@ -181,16 +169,24 @@ trait DisplayTrait
         // Check that selected skin exists.
         $skin = Folder::exists(JPATH_ROOT . '/media/vendor/tinymce/skins/ui/' . $skin) ? $skin : 'oxide';
 
-        if (!$levelParams->get('lang_mode', 1)) {
+        if (!$levelParams->get('lang_mode', 1))
+        {
             // Admin selected language
             $langPrefix = $levelParams->get('lang_code', 'en');
-        } else {
+        }
+        else
+        {
             // Reflect the current language
-            if (file_exists(JPATH_ROOT . '/media/vendor/tinymce/langs/' . $language->getTag() . '.js')) {
+            if (file_exists(JPATH_ROOT . '/media/vendor/tinymce/langs/' . $language->getTag() . '.js'))
+            {
                 $langPrefix = $language->getTag();
-            } elseif (file_exists(JPATH_ROOT . '/media/vendor/tinymce/langs/' . substr($language->getTag(), 0, strpos($language->getTag(), '-')) . '.js')) {
+            }
+            elseif (file_exists(JPATH_ROOT . '/media/vendor/tinymce/langs/' . substr($language->getTag(), 0, strpos($language->getTag(), '-')) . '.js'))
+            {
                 $langPrefix = substr($language->getTag(), 0, strpos($language->getTag(), '-'));
-            } else {
+            }
+            else
+            {
                 $langPrefix = 'en';
             }
         }
@@ -200,7 +196,8 @@ trait DisplayTrait
         $content_css        = null;
 
         // Loading of css file for 'styles' dropdown
-        if ($content_css_custom) {
+        if ($content_css_custom)
+        {
             /**
              * If URL, just pass it to $content_css
              * else, assume it is a file name in the current template folder
@@ -208,7 +205,9 @@ trait DisplayTrait
             $content_css = strpos($content_css_custom, 'http') !== false
                 ? $content_css_custom
                 : $this->includeRelativeFiles('css', $content_css_custom);
-        } else {
+        }
+        else
+        {
             // Process when use_content_css is Yes and no custom file given
             $content_css = $use_content_css ? $this->includeRelativeFiles('css', 'editor' . (JDEBUG ? '' : '.min') . '.css') : $content_css;
         }
@@ -216,7 +215,8 @@ trait DisplayTrait
         $ignore_filter = false;
 
         // Text filtering
-        if ($levelParams->get('use_config_textfilters', 0)) {
+        if ($levelParams->get('use_config_textfilters', 0))
+        {
             // Use filters from com_config
             $filter            = static::getGlobalFilters($user);
             $ignore_filter     = $filter === false;
@@ -231,18 +231,27 @@ trait DisplayTrait
             $valid_elements = implode(',', array_diff($default_filter->blockedTags, $blockedTags));
 
             $extended_elements = '';
-        } else {
+        }
+        else
+        {
             // Use filters from TinyMCE params
             $invalid_elements  = trim($levelParams->get('invalid_elements', 'script,applet,iframe'));
             $extended_elements = trim($levelParams->get('extended_elements', ''));
             $valid_elements    = trim($levelParams->get('valid_elements', ''));
         }
 
+        $html_height = $this->params->get('html_height', '550');
+        $html_width  = $this->params->get('html_width', '');
+        $html_width  = $html_width == 750 ? '' : $html_width;
+        $html_width  = is_numeric($html_width) ? $html_width . 'px' : $html_width;
+        $html_height = is_numeric($html_height) ? $html_height . 'px' : $html_height;
+
         // The param is true for vertical resizing only, false or both
         $resizing          = (bool) $levelParams->get('resizing', true);
         $resize_horizontal = (bool) $levelParams->get('resize_horizontal', true);
 
-        if ($resizing && $resize_horizontal) {
+        if ($resizing && $resize_horizontal)
+        {
             $resizing = 'both';
         }
 
@@ -264,7 +273,8 @@ trait DisplayTrait
         $knownButtons = static::getKnownButtons();
 
         // Check if there no value at all
-        if (!$levelParams->get('menu') && !$levelParams->get('toolbar1') && !$levelParams->get('toolbar2')) {
+        if (!$levelParams->get('menu') && !$levelParams->get('toolbar1') && !$levelParams->get('toolbar2'))
+        {
             // Get from preset
             $presets = static::getToolbarPreset();
 
@@ -273,7 +283,8 @@ trait DisplayTrait
              * Set 0: for Administrator, Editor, Super Users (4,7,8)
              * Set 1: for Registered, Manager (2,6), all else are public
              */
-            switch (true) {
+            switch (true)
+            {
                 case isset($ugroups[4]) || isset($ugroups[7]) || isset($ugroups[8]):
                     $preset = $presets['advanced'];
                     break;
@@ -298,8 +309,10 @@ trait DisplayTrait
         $allButtons = array_combine($allButtons, $allButtons);
 
         // Check for button-specific plugins
-        foreach ($allButtons as $btnName) {
-            if (!empty($knownButtons[$btnName]['plugin'])) {
+        foreach ($allButtons as $btnName)
+        {
+            if (!empty($knownButtons[$btnName]['plugin']))
+            {
                 $plugins[] = $knownButtons[$btnName]['plugin'];
             }
         }
@@ -307,7 +320,8 @@ trait DisplayTrait
         // Template
         $templates = [];
 
-        if (!empty($allButtons['template'])) {
+        if (!empty($allButtons['template']))
+        {
             // Do we have a custom content_template_path
             $template_path = $levelParams->get('content_template_path');
             $template_path = $template_path ? '/templates/' . $template_path : '/media/vendor/tinymce/templates';
@@ -316,12 +330,14 @@ trait DisplayTrait
                 ? Folder::files(JPATH_ROOT . $template_path, '\.(html|txt)$', false, true)
                 : [];
 
-            foreach ($filepaths as $filepath) {
+            foreach ($filepaths as $filepath)
+            {
                 $fileinfo      = pathinfo($filepath);
                 $filename      = $fileinfo['filename'];
                 $full_filename = $fileinfo['basename'];
 
-                if ($filename === 'index') {
+                if ($filename === 'index')
+                {
                     continue;
                 }
 
@@ -329,11 +345,13 @@ trait DisplayTrait
                 $title_upper = strtoupper($filename);
                 $description = ' ';
 
-                if ($language->hasKey('PLG_TINY_TEMPLATE_' . $title_upper . '_TITLE')) {
+                if ($language->hasKey('PLG_TINY_TEMPLATE_' . $title_upper . '_TITLE'))
+                {
                     $title = Text::_('PLG_TINY_TEMPLATE_' . $title_upper . '_TITLE');
                 }
 
-                if ($language->hasKey('PLG_TINY_TEMPLATE_' . $title_upper . '_DESC')) {
+                if ($language->hasKey('PLG_TINY_TEMPLATE_' . $title_upper . '_DESC'))
+                {
                     $description = Text::_('PLG_TINY_TEMPLATE_' . $title_upper . '_DESC');
                 }
 
@@ -346,20 +364,24 @@ trait DisplayTrait
         }
 
         // Check for extra plugins, from the setoptions form
-        foreach (['wordcount' => 1, 'advlist' => 1, 'autosave' => 1, 'textpattern' => 0] as $pName => $def) {
-            if ($levelParams->get($pName, $def)) {
+        foreach (['wordcount' => 1, 'advlist' => 1, 'autosave' => 1, 'textpattern' => 0] as $pName => $def)
+        {
+            if ($levelParams->get($pName, $def))
+            {
                 $plugins[] = $pName;
             }
         }
 
         // Use CodeMirror in the code view instead of plain text to provide syntax highlighting
-        if ($levelParams->get('sourcecode', 1)) {
+        if ($levelParams->get('sourcecode', 1))
+        {
             $externalPlugins['highlightPlus'] = HTMLHelper::_('script', 'plg_editors_tinymce/plugins/highlighter/plugin-es5.min.js', ['relative' => true, 'version' => 'auto', 'pathOnly' => true]);
         }
 
         $dragdrop = $levelParams->get('drag_drop', 1);
 
-        if ($dragdrop && $user->authorise('core.create', 'com_media')) {
+        if ($dragdrop && $user->authorise('core.create', 'com_media'))
+        {
             $externalPlugins['jdragndrop'] = HTMLHelper::_('script', 'plg_editors_tinymce/plugins/dragdrop/plugin.min.js', ['relative' => true, 'version' => 'auto', 'pathOnly' => true]);
             $uploadUrl                     = Uri::base(false) . 'index.php?option=com_media&format=json&url=1&task=api.files';
             $uploadUrl                     = $this->app->isClient('site') ? htmlentities($uploadUrl, ENT_NOQUOTES, 'UTF-8', false) : $uploadUrl;
@@ -383,10 +405,13 @@ trait DisplayTrait
         $scriptOptions['fontsize_formats'] = '8px 10px 12px 14px 18px 24px 36px';
 
         // select the languages for the "language of parts" menu
-        if (isset($extraOptions->content_languages) && $extraOptions->content_languages) {
-            foreach (json_decode(json_encode($extraOptions->content_languages), true) as $content_language) {
+        if (isset($extraOptions->content_languages) && $extraOptions->content_languages)
+        {
+            foreach (json_decode(json_encode($extraOptions->content_languages), true) as $content_language)
+            {
                 // if we have a language name and a language code then add to the menu
-                if ($content_language['content_language_name'] != '' && $content_language['content_language_code'] != '') {
+                if ($content_language['content_language_name'] != '' && $content_language['content_language_code'] != '')
+                {
                     $ctemp[] = array('title' => $content_language['content_language_name'], 'code' => $content_language['content_language_code']);
                 }
             }
@@ -397,9 +422,15 @@ trait DisplayTrait
         $custom_plugin = trim($levelParams->get('custom_plugin', ''));
         $custom_button = trim($levelParams->get('custom_button', ''));
 
-        if ($custom_plugin) {
+        if ($custom_plugin)
+        {
             $plugins   = array_merge($plugins, explode(strpos($custom_plugin, ',') !== false ? ',' : ' ', $custom_plugin));
         }
+
+        // Version 6 unload removed plugins
+        $plugins = array_filter($plugins, function($plugin) {
+            return !in_array($plugin, ['hr', 'paste', 'print']);
+        });
 
         if ($custom_button) {
             $toolbar1  = array_merge($toolbar1, explode(strpos($custom_button, ',') !== false ? ',' : ' ', $custom_button));
@@ -455,8 +486,8 @@ trait DisplayTrait
                 'document_base_url'  => Uri::root(true) . '/',
                 'image_caption'      => true,
                 'importcss_append'   => true,
-                'height'             => $this->params->get('html_height', '550px'),
-                'width'              => $this->params->get('html_width', ''),
+                'height'             => $html_height,
+                'width'              => $html_width,
                 'elementpath'        => (bool) $levelParams->get('element_path', true),
                 'resize'             => $resizing,
                 'templates'          => $templates,
@@ -478,11 +509,14 @@ trait DisplayTrait
             ]
         );
 
-        if ($levelParams->get('newlines')) {
+        if ($levelParams->get('newlines'))
+        {
             // Break
             $scriptOptions['force_br_newlines'] = true;
             $scriptOptions['forced_root_block'] = '';
-        } else {
+        }
+        else
+        {
             // Paragraph
             $scriptOptions['force_br_newlines'] = false;
             $scriptOptions['forced_root_block'] = 'p';
