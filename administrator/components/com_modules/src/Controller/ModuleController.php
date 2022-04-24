@@ -289,22 +289,14 @@ class ModuleController extends FormController
 			$app->close();
 		}
 
-		$db    = Factory::getDbo();
-		$clientId = (int) $clientId;
-		$query = $db->getQuery(true)
-			->select($db->quoteName(['position', 'ordering', 'title']))
-			->from($db->quoteName('#__modules'))
-			->where($db->quoteName('client_id') . ' = :clientid')
-			->where($db->quoteName('position') . ' = :position')
-			->order($db->quoteName('ordering'))
-			->bind(':clientid', $clientId, ParameterType::INTEGER)
-			->bind(':position', $position);
-
-		$db->setQuery($query);
+		$model = $this->getModel('Modules', 'Administrator', ['ignore_request' => true]);
+		$model->setState('client_id', $clientId);
+		$model->setState('filter.position', $position);
+		$model->setState('list.ordering', 'a.ordering');
 
 		try
 		{
-			$orders = $db->loadObjectList();
+			$orders = $model->getItems();
 		}
 		catch (\RuntimeException $e)
 		{
