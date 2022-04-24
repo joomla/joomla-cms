@@ -200,6 +200,7 @@ class ContactsModel extends ListModel
 
 		// Join over the categories.
 		$query->select($db->quoteName('c.title', 'category_title'))
+			->select($db->quoteName('c.published', 'category_published'))
 			->join(
 				'LEFT',
 				$db->quoteName('#__categories', 'c') . ' ON ' . $db->quoteName('c.id') . ' = ' . $db->quoteName('a.catid')

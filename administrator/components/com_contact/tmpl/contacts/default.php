@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Button\FeaturedButton;
+use Joomla\CMS\Button\PublishedButton;
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Associations;
@@ -128,12 +130,28 @@ if ($saveOrder && !empty($this->items))
 									<?php endif; ?>
 								</td>
 								<td class="text-center">
-									<?php echo HTMLHelper::_('contactadministrator.featured', $item->featured, $i, $canChange); ?>
+								<?php
+									$options = [
+										'task_prefix' => 'contacts.',
+										'disabled' => !$canChange,
+										'id' => 'featured-' . $item->id
+									];
+
+									echo (new FeaturedButton)
+										->render((int) $item->featured, $i, $options);
+								?>
 								</td>
 								<td class="text-center">
-									<?php echo HTMLHelper::_('jgrid.published', $item->published, $i, 'contacts.', $canChange, 'cb', $item->publish_up, $item->publish_down); ?>
+								<?php
+									$options = [
+										'task_prefix' => 'contacts.',
+										'disabled' => !$canChange,
+										'id' => 'state-' . $item->id,
+										'category_published' => $item->category_published
+									];
+									echo (new PublishedButton)->render((int) $item->published, $i, $options, $item->publish_up, $item->publish_down);
+								?>
 								</td>
-
 								<th scope="row" class="has-context">
 									<div>
 										<?php if ($item->checked_out) : ?>
@@ -150,6 +168,9 @@ if ($saveOrder && !empty($this->items))
 										</div>
 										<div class="small">
 											<?php echo Text::_('JCATEGORY') . ': ' . $this->escape($item->category_title); ?>
+											<?php if ($item->category_published < '1') :
+												echo $item->category_published == '0' ? ' (' . Text::_('JUNPUBLISHED') . ')' : ' (' . Text::_('JTRASHED') . ')';
+											endif; ?>
 										</div>
 									</div>
 								</th>
