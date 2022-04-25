@@ -30,6 +30,9 @@ class JoomlaFieldMedia extends HTMLElement {
     this.modalClose = this.modalClose.bind(this);
     this.setValue = this.setValue.bind(this);
     this.updatePreview = this.updatePreview.bind(this);
+    this.validateValue = this.validateValue.bind(this);
+    this.markValid = this.markValid.bind(this);
+    this.markInvalid = this.markInvalid.bind(this);
   }
 
   static get observedAttributes() {
@@ -130,6 +133,8 @@ class JoomlaFieldMedia extends HTMLElement {
     }
 
     this.updatePreview();
+    this.inputElement.removeAttribute('readonly');
+    this.inputElement.addEventListener('change', this.validateValue);
   }
 
   disconnectedCallback() {
@@ -138,6 +143,9 @@ class JoomlaFieldMedia extends HTMLElement {
     }
     if (this.buttonClearEl) {
       this.buttonClearEl.removeEventListener('click', this.clearValue);
+    }
+    if (this.inputElement) {
+      this.inputElement.removeEventListener('change', this.validateValue);
     }
   }
 
@@ -172,6 +180,7 @@ class JoomlaFieldMedia extends HTMLElement {
 
   setValue(value) {
     this.inputElement.value = value;
+    this.validatedUrl = value;
     this.updatePreview();
 
     // trigger change event both on the input and on the custom element
@@ -180,6 +189,95 @@ class JoomlaFieldMedia extends HTMLElement {
       detail: { value },
       bubbles: true,
     }));
+  }
+
+  validateValue(event) {
+    let { value } = event.target;
+    if (this.validatedUrl === value || value === '') return;
+
+    if (/^(http(s)?:\/\/).+$/.test(value)) {
+      try {
+        fetch(value).then((response) => {
+          if (response.status === 200) {
+            this.validatedUrl = value;
+            this.markValid();
+          } else {
+            this.validatedUrl = value;
+            this.markInvalid();
+          }
+        });
+      } catch (err) {
+        this.validatedUrl = value;
+        this.markInvalid();
+      }
+    } else {
+      if (/^\//.test(value)) {
+        value = value.substring(1);
+      }
+
+      const hashedUrl = value.split('#');
+      const urlParts = hashedUrl[0].split('/');
+      const rest = urlParts.slice(1);
+      fetch(`${Joomla.getOptions('system.paths').rootFull}/${value}`)
+        .then((response) => response.blob())
+        .then((blob) => {
+          if (blob.type.includes('image')) {
+            const img = new Image();
+            img.src = URL.createObjectURL(blob);
+
+            img.onload = () => {
+              this.setValue(`${urlParts[0]}/${rest.join('/')}#joomlaImage://local-${urlParts[0]}/${rest.join('/')}?width=${img.width}&height=${img.width}`);
+              this.validatedUrl = `${urlParts[0]}/${rest.join('/')}#joomlaImage://local-${urlParts[0]}/${rest.join('/')}?width=${img.width}&height=${img.width}`;
+              this.markValid();
+            };
+          } else if (blob.type.includes('audio')) {
+            this.setValue(value);
+            this.validatedUrl = value;
+            this.markValid();
+          } else if (blob.type.includes('video')) {
+            this.setValue(value);
+            this.validatedUrl = value;
+            this.markValid();
+          } else if (blob.type.includes('application/pdf')) {
+            this.setValue(value);
+            this.validatedUrl = value;
+            this.markValid();
+          } else {
+            this.validatedUrl = value;
+            this.markInvalid();
+          }
+        })
+        .catch(() => {
+          this.validatedUrl = value;
+          this.markInvalid();
+        });
+    }
+  }
+
+  markValid() {
+    this.inputElement.classList.remove('form-control-danger');
+    this.inputElement.classList.remove('invalid');
+    this.inputElement.classList.remove('required');
+    this.inputElement.classList.add('form-control-success');
+    this.inputElement.setAttribute('aria-invalid', 'false');
+    this.inputElement.removeAttribute('pattern');
+    if (document.formvalidator) {
+      document.formvalidator.validate(this.inputElement);
+    }
+  }
+
+  markInvalid() {
+    this.inputElement.classList.add('form-control-danger');
+    this.inputElement.classList.add('invalid');
+    this.inputElement.classList.add('required');
+    this.inputElement.classList.remove('form-control-success');
+    this.inputElement.classList.remove('valid');
+    this.inputElement.setAttribute('aria-invalid', 'true');
+    this.inputElement.setAttribute('required', '');
+    this.inputElement.setAttribute('pattern', '/^(http://INVALID/).+$/');
+    if (document.formvalidator) {
+      document.formvalidator.validate(this.inputElement);
+    }
   }
 
   clearValue() {
