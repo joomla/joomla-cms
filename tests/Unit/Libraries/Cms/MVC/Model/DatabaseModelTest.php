@@ -214,6 +214,30 @@ class DatabaseModelTest extends UnitTestCase
 	}
 
 	/**
+	 * @testdox  Test that the BaseDatabaseModel operates normally even when no variable is declared
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 *
+	 * @deprecated  5.0 This has to be removed when we do not support the MVC Trait anymore
+	 */
+	public function testNotDeclaredVariable()
+	{
+		$model = new class(['dbo' => $this->createStub(DatabaseInterface::class)], $this->createStub(MVCFactoryInterface::class)) extends BaseDatabaseModel
+		{
+			public function initVariable($value)
+			{
+				$this->test[$value] = $value;
+
+				return $this->test[$value];
+			}
+		};
+
+		$this->assertEquals(1, $model->initVariable(1));
+	}
+
+	/**
 	 * Returns a database query instance.
 	 *
 	 * @param   DatabaseInterface  $db  The database

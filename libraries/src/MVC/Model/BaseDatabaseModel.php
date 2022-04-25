@@ -408,11 +408,17 @@ abstract class BaseDatabaseModel extends BaseModel implements DatabaseModelInter
 	 *
 	 * @deprecated  5.0 Use getDatabase() instead of directly accessing _db
 	 */
-	public function __get($name)
+	public function &__get($name)
 	{
 		if ($name === '_db')
 		{
 			return $this->getDatabase();
+		}
+
+		// Default the variable
+		if (!isset($this->$name))
+		{
+			$this->$name = null;
 		}
 
 		return $this->$name;
