@@ -226,20 +226,20 @@ class JoomlaFieldMedia extends HTMLElement {
             img.src = URL.createObjectURL(blob);
 
             img.onload = () => {
-              this.setValue(`${urlParts[0]}/${rest.join('/')}#joomlaImage://local-${urlParts[0]}/${rest.join('/')}?width=${img.width}&height=${img.width}`);
+              this.inputElement.value = `${urlParts[0]}/${rest.join('/')}#joomlaImage://local-${urlParts[0]}/${rest.join('/')}?width=${img.width}&height=${img.width}`;
               this.validatedUrl = `${urlParts[0]}/${rest.join('/')}#joomlaImage://local-${urlParts[0]}/${rest.join('/')}?width=${img.width}&height=${img.width}`;
               this.markValid();
             };
           } else if (blob.type.includes('audio')) {
-            this.setValue(value);
+            this.inputElement.value = value;
             this.validatedUrl = value;
             this.markValid();
           } else if (blob.type.includes('video')) {
-            this.setValue(value);
+            this.inputElement.value = value;
             this.validatedUrl = value;
             this.markValid();
           } else if (blob.type.includes('application/pdf')) {
-            this.setValue(value);
+            this.inputElement.value = value;
             this.validatedUrl = value;
             this.markValid();
           } else {
@@ -248,6 +248,7 @@ class JoomlaFieldMedia extends HTMLElement {
           }
         })
         .catch(() => {
+          this.setValue(value);
           this.validatedUrl = value;
           this.markInvalid();
         });
@@ -255,11 +256,7 @@ class JoomlaFieldMedia extends HTMLElement {
   }
 
   markValid() {
-    this.inputElement.classList.remove('form-control-danger');
-    this.inputElement.classList.remove('invalid');
-    this.inputElement.classList.remove('required');
-    this.inputElement.classList.add('form-control-success');
-    this.inputElement.setAttribute('aria-invalid', 'false');
+    this.inputElement.removeAttribute('required');
     this.inputElement.removeAttribute('pattern');
     if (document.formvalidator) {
       document.formvalidator.validate(this.inputElement);
@@ -267,12 +264,6 @@ class JoomlaFieldMedia extends HTMLElement {
   }
 
   markInvalid() {
-    this.inputElement.classList.add('form-control-danger');
-    this.inputElement.classList.add('invalid');
-    this.inputElement.classList.add('required');
-    this.inputElement.classList.remove('form-control-success');
-    this.inputElement.classList.remove('valid');
-    this.inputElement.setAttribute('aria-invalid', 'true');
     this.inputElement.setAttribute('required', '');
     this.inputElement.setAttribute('pattern', '/^(http://INVALID/).+$/');
     if (document.formvalidator) {
@@ -282,6 +273,12 @@ class JoomlaFieldMedia extends HTMLElement {
 
   clearValue() {
     this.setValue('');
+    this.validatedUrl = '';
+    this.inputElement.removeAttribute('required');
+    this.inputElement.removeAttribute('pattern');
+    if (document.formvalidator) {
+      document.formvalidator.validate(this.inputElement);
+    }
   }
 
   updatePreview() {
