@@ -259,6 +259,7 @@ const insertAsOther = (media, editor, fieldClass, type) => {
     } else {
       editor.value = Joomla.selectedMediaFile.url;
       fieldClass.givenType = type;
+      fieldClass.markValid();
       fieldClass.updatePreview();
     }
   }
