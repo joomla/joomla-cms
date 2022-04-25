@@ -235,7 +235,7 @@ class DatabaseModelTest extends UnitTestCase
 		$this->assertEquals($db, $model->getDbo());
 	}
 
-	/*
+	/**
 	 * @testdox  Test that the BaseDatabaseModel operates normally even when no variable is declared
 	 *
 	 * @return  void
