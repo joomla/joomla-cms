@@ -197,8 +197,8 @@ const insertAsImage = async (media, editor, fieldClass) => {
           Joomla.selectedMediaFile.width = 0;
         }
       }
-      fieldClass.markValid();
       editor.value = `${Joomla.selectedMediaFile.url}#joomlaImage://${media.path.replace(':', '')}?width=${Joomla.selectedMediaFile.width}&height=${Joomla.selectedMediaFile.height}`;
+      fieldClass.markValid();
       fieldClass.updatePreview();
     }
   }
