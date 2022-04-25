@@ -13,8 +13,8 @@
 				filter="integer"
 				required="true"
 				>
-				<option value="1">PLG_USER_TERMS_OPTION_AGREE</option>
-				<option value="0">PLG_USER_TERMS_OPTION_DO_NOT_AGREE</option>
+				<option value="1">PLG_USER_TERMS_OPTION_ACCEPT</option>
+				<option value="0">PLG_USER_TERMS_OPTION_DO_NOT_ACCEPT</option>
 			</field>
 		</fieldset>
 	</fields>
