@@ -5,6 +5,7 @@
         "This file is @generated automatically"
     ],
     "content-hash": "dba327d3779bd7b7be77d15a8e49a831",
+    "content-hash": "6c33664341d841698289c37c8ef7d2ee",
     "packages": [
         {
             "name": "algo26-matthias/idna-convert",
@@ -1180,16 +1181,16 @@
         },
         {
             "name": "joomla/database",
-            "version": "2.0.2",
+            "version": "2.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-framework/database.git",
-                "reference": "142a624df2f48858467de67a4542d77807cc968b"
+                "reference": "194415339358b3ded43d5f68446b4fa93e18c3d3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-framework/database/zipball/142a624df2f48858467de67a4542d77807cc968b",
-                "reference": "142a624df2f48858467de67a4542d77807cc968b",
+                "url": "https://api.github.com/repos/joomla-framework/database/zipball/194415339358b3ded43d5f68446b4fa93e18c3d3",
+                "reference": "194415339358b3ded43d5f68446b4fa93e18c3d3",
                 "shasum": ""
             },
             "require": {
@@ -1244,7 +1245,7 @@
             ],
             "support": {
                 "issues": "https://github.com/joomla-framework/database/issues",
-                "source": "https://github.com/joomla-framework/database/tree/2.0.2"
+                "source": "https://github.com/joomla-framework/database/tree/2.1.0"
             },
             "funding": [
                 {
@@ -1256,7 +1257,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2022-01-10T02:28:52+00:00"
+            "time": "2022-03-02T16:36:31+00:00"
         },
         {
             "name": "joomla/di",
@@ -7610,16 +7611,16 @@
         },
         {
             "name": "joomla-projects/joomla-browser",
-            "version": "v4.0.0.x-dev",
+            "version": "v4.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-projects/joomla-browser.git",
-                "reference": "4dceb37aa7f7aa65f320feb5d66add3595ebb21b"
+                "reference": "3e7376f86ac634bd7674372b49394df104b852a2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-projects/joomla-browser/zipball/4dceb37aa7f7aa65f320feb5d66add3595ebb21b",
-                "reference": "4dceb37aa7f7aa65f320feb5d66add3595ebb21b",
+                "url": "https://api.github.com/repos/joomla-projects/joomla-browser/zipball/3e7376f86ac634bd7674372b49394df104b852a2",
+                "reference": "3e7376f86ac634bd7674372b49394df104b852a2",
                 "shasum": ""
             },
             "require": {
@@ -7663,7 +7664,7 @@
                 "issues": "https://github.com/joomla-projects/joomla-browser/issues",
                 "source": "https://github.com/joomla-projects/joomla-browser/tree/v4.0.0"
             },
-            "time": "2021-12-05T18:36:21+00:00"
+            "time": "2022-04-15T21:05:43+00:00"
         },
         {
             "name": "joomla/cms-coding-standards",
@@ -10641,8 +10642,7 @@
         "maximebf/debugbar": 20,
         "tobscure/json-api": 20,
         "joomla/cms-coding-standards": 20,
-        "joomla/coding-standards": 20,
-        "joomla-projects/joomla-browser": 20
+        "joomla/coding-standards": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,
@@ -10656,5 +10656,5 @@
     "platform-overrides": {
         "php": "7.2.5"
     },
-    "plugin-api-version": "2.2.0"
+    "plugin-api-version": "2.1.0"
 }

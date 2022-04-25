@@ -14,7 +14,7 @@
       this.tableEl = document.querySelector(formElement);
 
       if (this.tableEl) {
-        this.boxes = [].slice.call(this.tableEl.querySelectorAll('input[type=checkbox]'));
+        this.boxes = [].slice.call(this.tableEl.querySelectorAll('td input[type=checkbox]'));
         this.rows = [].slice.call(document.querySelectorAll('tr[class^="row"]'));
         this.checkallToggle = document.querySelector('[name="checkall-toggle"]');
 
