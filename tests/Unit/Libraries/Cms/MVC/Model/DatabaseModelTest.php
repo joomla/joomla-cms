@@ -12,6 +12,7 @@ namespace Joomla\Tests\Unit\Libraries\Cms\MVC\Model;
 use Exception;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;
+use Joomla\CMS\MVC\Model\DatabaseAwareTrait;
 use Joomla\CMS\Table\Table;
 use Joomla\Database\DatabaseInterface;
 use Joomla\Database\DatabaseQuery;
@@ -211,6 +212,27 @@ class DatabaseModelTest extends UnitTestCase
 		};
 
 		$this->assertEquals(5, $model->_getListCount('query'));
+	}
+
+	/**
+	 * @testdox  Test that the BaseDatabaseModel still can use the old trait
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 *
+	 * @deprecated  5.0 Must be removed when trait gets deleted
+	 */
+	public function testUseOldMVCTrait()
+	{
+		$db = $this->createStub(DatabaseInterface::class);
+
+		$model = new class(['dbo' => $db], $this->createStub(MVCFactoryInterface::class)) extends BaseDatabaseModel
+		{
+			use DatabaseAwareTrait;
+		};
+
+		$this->assertEquals($db, $model->getDbo());
 	}
 
 	/**
