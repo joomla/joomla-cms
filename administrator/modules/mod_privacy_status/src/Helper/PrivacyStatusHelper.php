@@ -14,6 +14,7 @@ namespace Joomla\Module\PrivacyStatus\Administrator\Helper;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Multilanguage;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Router\Route;
 
@@ -180,5 +181,19 @@ class PrivacyStatusHelper
 		$db->setQuery($query);
 
 		return (int) $db->loadResult();
+	}
+
+	/**
+	 * Get the alternate title for the module
+	 *
+	 * @param   Registry  $params  The module parameters.
+	 *
+	 * @return  string    The alternate title for the module.
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public static function getTitle($params)
+	{
+		return Text::_('MOD_PRIVACY_STATUS_TITLE');
 	}
 }

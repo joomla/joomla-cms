@@ -12,6 +12,7 @@ namespace Joomla\Module\Quickicon\Administrator\Dispatcher;
 \defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Dispatcher\AbstractModuleDispatcher;
+use Joomla\CMS\Language\Text;
 
 /**
  * Dispatcher class for mod_quickicon
@@ -33,6 +34,11 @@ class Dispatcher extends AbstractModuleDispatcher
 
 		$helper          = $this->app->bootModule('mod_quickicon', 'administrator')->getHelper('QuickIconHelper');
 		$data['buttons'] = $helper->getButtons($data['params'], $this->getApplication());
+
+		if ($data['params']->get('automatic_title', 0))
+		{
+			$data['module']->title = Text::_($data['module']->title);
+		}
 
 		return $data;
 	}

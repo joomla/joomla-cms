@@ -13,6 +13,7 @@ namespace Joomla\Module\Sampledata\Administrator\Helper;
 
 use Joomla\CMS\Event\AbstractEvent;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\PluginHelper;
 
 /**
@@ -45,5 +46,19 @@ abstract class SampledataHelper
 				)
 			)
 			->getArgument('result') ?? [];
+	}
+
+	/**
+	 * Get the alternate title for the module
+	 *
+	 * @param   Registry  $params  The module parameters.
+	 *
+	 * @return  string    The alternate title for the module.
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public static function getTitle($params)
+	{
+		return Text::_('MOD_SAMPLEDATA_TITLE');
 	}
 }

@@ -18,4 +18,9 @@ $serverinfo = $params->get('serverinfo');
 $siteinfo   = $params->get('siteinfo');
 $list       = StatsAdminHelper::getStats($params, $app, Factory::getContainer()->get(DatabaseInterface::class));
 
+if ($params->get('automatic_title', 0))
+{
+	$module->title = StatsAdminHelper::getTitle($params);
+}
+
 require ModuleHelper::getLayoutPath('mod_stats_admin', $params->get('layout', 'default'));
