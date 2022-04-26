@@ -362,7 +362,7 @@ abstract class BaseDatabaseModel extends BaseModel implements DatabaseModelInter
 	 *
 	 * @return  DatabaseInterface  The database driver.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 * @throws  \UnexpectedValueException
 	 *
 	 * @deprecated  5.0 Use getDatabase() instead
@@ -386,7 +386,7 @@ abstract class BaseDatabaseModel extends BaseModel implements DatabaseModelInter
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 *
 	 * @deprecated  5.0 Use setDatabase() instead
 	 */
@@ -407,7 +407,7 @@ abstract class BaseDatabaseModel extends BaseModel implements DatabaseModelInter
 	 *
 	 * @return  mixed  The value of the element if set, null otherwise
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 *
 	 * @deprecated  5.0 Use getDatabase() instead of directly accessing _db
 	 */
