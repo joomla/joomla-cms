@@ -13,13 +13,13 @@ namespace Joomla\CMS\Router;
 /**
  * Defines the trait for a Site Router Aware Class.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.2.0
  */
 trait SiteRouterAwareTrait
 {
 	/**
 	 * @var    SiteRouter
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.2.0
 	 */
 	private $router;
 
@@ -28,7 +28,7 @@ trait SiteRouterAwareTrait
 	 *
 	 * @return  SiteRouter
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 *
 	 * @throws  \UnexpectedValueException May be thrown if the router has not been set.
 	 */
@@ -49,7 +49,7 @@ trait SiteRouterAwareTrait
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	public function setSiteRouter(SiteRouter $router): void
 	{
