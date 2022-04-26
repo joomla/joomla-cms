@@ -242,7 +242,7 @@ class PlgSystemTasknotification extends CMSPlugin implements SubscriberInterface
 	 */
 	private function getDataFromTask(Task $task): array
 	{
-		$lockOrExecTime = Factory::getDate($task->get('locked') ?? $task->get('last_execution'))->toRFC822();
+		$lockOrExecTime = Factory::getDate($task->get('locked') ?? $task->get('last_execution'))->format(Text::_('DATE_FORMAT_LC2'));
 
 		return [
 			'TASK_ID'        => $task->get('id'),
