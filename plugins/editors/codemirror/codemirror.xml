@@ -184,6 +184,7 @@
 					name="fullScreenMod"
 					type="checkboxes"
 					label="PLG_CODEMIRROR_FIELD_FULLSCREEN_MOD_LABEL"
+					layout="joomla.form.field.list-fancy-select"
 					>
 					<option value="Shift">PLG_CODEMIRROR_FIELD_VALUE_FULLSCREEN_MOD_SHIFT</option>
 					<option value="Cmd">PLG_CODEMIRROR_FIELD_VALUE_FULLSCREEN_MOD_CMD</option>
