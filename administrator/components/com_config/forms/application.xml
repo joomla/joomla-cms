@@ -49,7 +49,7 @@
 			filter="integer"
 			validate="number"
 			showon="caching:1,2"
-		 />
+		/>
 
 		<field
 			name="cache_path"
@@ -173,7 +173,8 @@
 			label="COM_CONFIG_FIELD_DATABASE_TYPE_LABEL"
 			description="COM_CONFIG_FIELD_DATABASE_TYPE_DESC"
 			supported="mysql,mysqli,pgsql,postgresql"
-			filter="string" />
+			filter="string"
+		/>
 
 		<field
 			name="host"
