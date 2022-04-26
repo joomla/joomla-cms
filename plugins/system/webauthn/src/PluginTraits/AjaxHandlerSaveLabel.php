@@ -13,8 +13,8 @@ namespace Joomla\Plugin\System\Webauthn\PluginTraits;
 \defined('_JEXEC') or die();
 
 use Exception;
-use Joomla\CMS\Application\CMSApplication;
-use Joomla\CMS\Factory;
+use Joomla\CMS\User\User;
+use Joomla\Event\Event;
 use Joomla\Plugin\System\Webauthn\CredentialRepository;
 
 /**
@@ -29,18 +29,17 @@ trait AjaxHandlerSaveLabel
 	/**
 	 * Handle the callback to rename an authenticator
 	 *
-	 * @return  boolean
+	 * @param   Event  $event  The event we are handling
+	 *
+	 * @return  void
 	 *
 	 * @throws  Exception
-	 *
 	 * @since   4.0.0
 	 */
-	public function onAjaxWebauthnSavelabel(): bool
+	public function onAjaxWebauthnSavelabel(Event $event): void
 	{
 		// Initialize objects
-		/** @var CMSApplication $app */
-		$app        = Factory::getApplication();
-		$input      = $app->input;
+		$input      = $this->app->input;
 		$repository = new CredentialRepository;
 
 		// Retrieve data from the request
@@ -50,36 +49,47 @@ trait AjaxHandlerSaveLabel
 		// Is this a valid credential?
 		if (empty($credentialId))
 		{
-			return false;
+			$this->returnFromEvent($event, false);
+
+			return;
 		}
 
 		$credentialId = base64_decode($credentialId);
 
 		if (empty($credentialId) || !$repository->has($credentialId))
 		{
-			return false;
+			$this->returnFromEvent($event, false);
+
+			return;
 		}
 
 		// Make sure I am editing my own key
 		try
 		{
 			$credentialHandle = $repository->getUserHandleFor($credentialId);
-			$myHandle         = $repository->getHandleFromUserId($app->getIdentity()->id);
+			$user             = $this->app->getIdentity() ?? new User;
+			$myHandle         = $repository->getHandleFromUserId($user->id);
 		}
 		catch (Exception $e)
 		{
-			return false;
+			$this->returnFromEvent($event, false);
+
+			return;
 		}
 
 		if ($credentialHandle !== $myHandle)
 		{
-			return false;
+			$this->returnFromEvent($event, false);
+
+			return;
 		}
 
 		// Make sure the new label is not empty
 		if (empty($newLabel))
 		{
-			return false;
+			$this->returnFromEvent($event, false);
+
+			return;
 		}
 
 		// Save the new label
@@ -89,9 +99,11 @@ trait AjaxHandlerSaveLabel
 		}
 		catch (Exception $e)
 		{
-			return false;
+			$this->returnFromEvent($event, false);
+
+			return;
 		}
 
-		return true;
+		$this->returnFromEvent($event, true);
 	}
 }

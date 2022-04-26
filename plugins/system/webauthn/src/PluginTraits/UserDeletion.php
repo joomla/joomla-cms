@@ -14,8 +14,9 @@ namespace Joomla\Plugin\System\Webauthn\PluginTraits;
 
 use Exception;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Log\Log;
 use Joomla\Database\DatabaseDriver;
-use Joomla\Plugin\System\Webauthn\Helper\Joomla;
+use Joomla\Event\Event;
 use Joomla\Utilities\ArrayHelper;
 
 /**
@@ -30,28 +31,31 @@ trait UserDeletion
 	 *
 	 * This method is called after user data is deleted from the database.
 	 *
-	 * @param   array   $user     Holds the user data
-	 * @param   bool    $success  True if user was successfully stored in the database
-	 * @param   string  $msg      Message
+	 * @param   Event  $event  The event we are handling
 	 *
 	 * @return  void
 	 *
-	 * @throws  Exception
-	 *
 	 * @since   4.0.0
 	 */
-	public function onUserAfterDelete(array $user, bool $success, ?string $msg): void
+	public function onUserAfterDelete(Event $event): void
 	{
+		/**
+		 * @var   array       $user    Holds the user data
+		 * @var   bool        $success True if user was successfully stored in the database
+		 * @var   string|null $msg     Message
+		 */
+		[$user, $success, $msg] = $event->getArguments();
+
 		if (!$success)
 		{
-			return;
+			$this->returnFromEvent($event, true);
 		}
 
 		$userId = ArrayHelper::getValue($user, 'id', 0, 'int');
 
 		if ($userId)
 		{
-			Joomla::log('system', "Removing WebAuthn Passwordless Login information for deleted user #{$userId}");
+			Log::add("Removing WebAuthn Passwordless Login information for deleted user #{$userId}", Log::DEBUG, 'webauthn.system');
 
 			/** @var DatabaseDriver $db */
 			$db = Factory::getContainer()->get('DatabaseDriver');
@@ -61,7 +65,16 @@ trait UserDeletion
 				->where($db->qn('user_id') . ' = :userId')
 				->bind(':userId', $userId);
 
-			$db->setQuery($query)->execute();
+			try
+			{
+				$db->setQuery($query)->execute();
+			}
+			catch (Exception $e)
+			{
+				// Don't worry if this fails
+			}
+
+			$this->returnFromEvent($event, true);
 		}
 	}
 }

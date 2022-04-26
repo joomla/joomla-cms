@@ -11,8 +11,8 @@
 	<description>PLG_SYSTEM_WEBAUTHN_DESCRIPTION</description>
 	<namespace path="src">Joomla\Plugin\System\Webauthn</namespace>
 	<files>
-		<filename plugin="webauthn">webauthn.php</filename>
 		<folder>forms</folder>
+		<folder plugin="webauthn">services</folder>
 		<folder>src</folder>
 	</files>
 	<languages>

@@ -13,13 +13,13 @@ namespace Joomla\Plugin\System\Webauthn\PluginTraits;
 \defined('_JEXEC') or die();
 
 use Exception;
-use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Layout\FileLayout;
 use Joomla\CMS\User\UserFactoryInterface;
+use Joomla\Event\Event;
+use Joomla\Plugin\System\Webauthn\Authentication;
 use Joomla\Plugin\System\Webauthn\CredentialRepository;
-use Joomla\Plugin\System\Webauthn\Helper\CredentialsCreation;
-use Joomla\Plugin\System\Webauthn\Helper\Joomla;
 use RuntimeException;
 use Webauthn\PublicKeyCredentialSource;
 
@@ -35,17 +35,15 @@ trait AjaxHandlerCreate
 	/**
 	 * Handle the callback to add a new WebAuthn authenticator
 	 *
-	 * @return  string
+	 * @param   Event  $event  The event we are handling
+	 *
+	 * @return  void
 	 *
 	 * @throws  Exception
-	 *
 	 * @since   4.0.0
 	 */
-	public function onAjaxWebauthnCreate(): string
+	public function onAjaxWebauthnCreate(Event $event): void
 	{
-		// Load the language files
-		$this->loadLanguage();
-
 		/**
 		 * Fundamental sanity check: this callback is only allowed after a Public Key has been created server-side and
 		 * the user it was created for matches the current user.
@@ -55,7 +53,8 @@ trait AjaxHandlerCreate
 		 * someone else's Webauthn configuration thus mitigating a major privacy and security risk. So, please, DO NOT
 		 * remove this sanity check!
 		 */
-		$storedUserId = Joomla::getSessionVar('registration_user_id', 0, 'plg_system_webauthn');
+		$session = $this->app->getSession();
+		$storedUserId = $session->get('plg_system_webauthn.registration_user_id', 0);
 		$thatUser     = empty($storedUserId) ?
 			Factory::getApplication()->getIdentity() :
 			Factory::getContainer()->get(UserFactoryInterface::class)->loadUserById($storedUserId);
@@ -64,8 +63,8 @@ trait AjaxHandlerCreate
 		if ($thatUser->guest || ($thatUser->id != $myUser->id))
 		{
 			// Unset the session variables used for registering authenticators (security precaution).
-			Joomla::unsetSessionVar('registration_user_id', 'plg_system_webauthn');
-			Joomla::unsetSessionVar('publicKeyCredentialCreationOptions', 'plg_system_webauthn');
+			$session->set('plg_system_webauthn.registration_user_id', null);
+			$session->set('plg_system_webauthn.publicKeyCredentialCreationOptions', null);
 
 			// Politely tell the presumed hacker trying to abuse this callback to go away.
 			throw new RuntimeException(Text::_('PLG_SYSTEM_WEBAUTHN_ERR_CREATE_INVALID_USER'));
@@ -77,14 +76,12 @@ trait AjaxHandlerCreate
 		// Try to validate the browser data. If there's an error I won't save anything and pass the message to the GUI.
 		try
 		{
-			/** @var CMSApplication $app */
-			$app   = Factory::getApplication();
-			$input = $app->input;
+			$input = $this->app->input;
 
 			// Retrieve the data sent by the device
 			$data = $input->get('data', '', 'raw');
 
-			$publicKeyCredentialSource = CredentialsCreation::validateAuthenticationData($data);
+			$publicKeyCredentialSource = Authentication::validateAttestationResponse($data);
 
 			if (!\is_object($publicKeyCredentialSource) || !($publicKeyCredentialSource instanceof PublicKeyCredentialSource))
 			{
@@ -100,8 +97,8 @@ trait AjaxHandlerCreate
 		}
 
 		// Unset the session variables used for registering authenticators (security precaution).
-		Joomla::unsetSessionVar('registration_user_id', 'plg_system_webauthn');
-		Joomla::unsetSessionVar('publicKeyCredentialCreationOptions', 'plg_system_webauthn');
+		$session->set('plg_system_webauthn.registration_user_id', null);
+		$session->set('plg_system_webauthn.publicKeyCredentialCreationOptions', null);
 
 		// Render the GUI and return it
 		$layoutParameters = [
@@ -115,6 +112,8 @@ trait AjaxHandlerCreate
 			$layoutParameters['error'] = $error;
 		}
 
-		return Joomla::renderLayout('plugins.system.webauthn.manage', $layoutParameters);
+		$layout = new FileLayout('plugins.system.webauthn.manage', JPATH_SITE . '/plugins/system/webauthn/layout');
+
+		$this->returnFromEvent($event, $layout->render($layoutParameters));
 	}
 }

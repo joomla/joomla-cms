@@ -1,10 +1,10 @@
 <?php
 /**
- * @package     Joomla.Plugin
- * @subpackage  System.Webauthn
+ * @package         Joomla.Plugin
+ * @subpackage      System.Webauthn
  *
  * @copyright   (C) 2020 Open Source Matters, Inc. <https://www.joomla.org>
- * @license     GNU General Public License version 2 or later; see LICENSE.txt
+ * @license         GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\Plugin\System\Webauthn\PluginTraits;
@@ -13,13 +13,14 @@ namespace Joomla\Plugin\System\Webauthn\PluginTraits;
 \defined('_JEXEC') or die();
 
 use Exception;
-use Joomla\CMS\Factory;
+use Joomla\CMS\Application\CMSApplication;
+use Joomla\CMS\Document\HtmlDocument;
 use Joomla\CMS\Helper\AuthenticationHelper;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\User\UserHelper;
-use Joomla\Plugin\System\Webauthn\Helper\Joomla;
+use Joomla\Event\Event;
 
 /**
  * Inserts Webauthn buttons into login modules
@@ -29,7 +30,8 @@ use Joomla\Plugin\System\Webauthn\Helper\Joomla;
 trait AdditionalLoginButtons
 {
 	/**
-	 * Do I need to I inject buttons? Automatically detected (i.e. disabled if I'm already logged in).
+	 * Do I need to I inject buttons? Automatically detected (i.e. disabled if I'm already logged
+	 * in).
 	 *
 	 * @var     boolean|null
 	 * @since   4.0.0
@@ -45,6 +47,57 @@ trait AdditionalLoginButtons
 	private $injectedCSSandJS = false;
 
 	/**
+	 * Creates additional login buttons
+	 *
+	 * @param   Event  $event  The event we are handling
+	 *
+	 * @return  void
+	 *
+	 * @see     AuthenticationHelper::getLoginButtons()
+	 *
+	 * @since   4.0.0
+	 */
+	public function onUserLoginButtons(Event $event): void
+	{
+		/** @var string $form The HTML ID of the form we are enclosed in */
+		[$form] = $event->getArguments();
+
+		// If we determined we should not inject a button return early
+		if (!$this->mustDisplayButton())
+		{
+			return;
+		}
+
+		// Load necessary CSS and Javascript files
+		$this->addLoginCSSAndJavascript();
+
+		// Unique ID for this button (allows display of multiple modules on the page)
+		$randomId = 'plg_system_webauthn-' .
+			UserHelper::genRandomPassword(12) . '-' . UserHelper::genRandomPassword(8);
+
+		// Get local path to image
+		$image = HTMLHelper::_('image', 'plg_system_webauthn/webauthn.svg', '', '', true, true);
+
+		// If you can't find the image then skip it
+		$image = $image ? JPATH_ROOT . substr($image, \strlen(Uri::root(true))) : '';
+
+		// Extract image if it exists
+		$image = file_exists($image) ? file_get_contents($image) : '';
+
+		$this->returnFromEvent($event, [
+			[
+				'label'              => 'PLG_SYSTEM_WEBAUTHN_LOGIN_LABEL',
+				'tooltip'            => 'PLG_SYSTEM_WEBAUTHN_LOGIN_DESC',
+				'id'                 => $randomId,
+				'data-webauthn-form' => $form,
+				'svg'                => $image,
+				'class'              => 'plg_system_webauthn_login_button',
+			],
+			]
+		);
+	}
+
+	/**
 	 * Should I allow this plugin to add a WebAuthn login button?
 	 *
 	 * @return  boolean
@@ -53,6 +106,24 @@ trait AdditionalLoginButtons
 	 */
 	private function mustDisplayButton(): bool
 	{
+		// We must have a valid application
+		if (!($this->app instanceof CMSApplication))
+		{
+			return false;
+		}
+
+		// This plugin only applies to the frontend and administrator applications
+		if (!$this->app->isClient('site') && !$this->app->isClient('administrator'))
+		{
+			return false;
+		}
+
+		// We must have a valid user
+		if (empty($this->app->getIdentity()))
+		{
+			return false;
+		}
+
 		if (\is_null($this->allowButtonDisplay))
 		{
 			$this->allowButtonDisplay = false;
@@ -60,27 +131,7 @@ trait AdditionalLoginButtons
 			/**
 			 * Do not add a WebAuthn login button if we are already logged in
 			 */
-			try
-			{
-				if (!Factory::getApplication()->getIdentity()->guest)
-				{
-					return false;
-				}
-			}
-			catch (Exception $e)
-			{
-				return false;
-			}
-
-			/**
-			 * Don't try to show a button if we can't figure out if this is a front- or backend page (it's probably a
-			 * CLI or custom application).
-			 */
-			try
-			{
-				Joomla::isAdminPage();
-			}
-			catch (Exception $e)
+			if (!$this->app->getIdentity()->guest)
 			{
 				return false;
 			}
@@ -88,7 +139,16 @@ trait AdditionalLoginButtons
 			/**
 			 * Only display a button on HTML output
 			 */
-			if (Joomla::getDocumentType() != 'html')
+			try
+			{
+				$document = $this->app->getDocument();
+			}
+			catch (Exception $e)
+			{
+				$document = null;
+			}
+
+			if (!($document instanceof HtmlDocument))
 			{
 				return false;
 			}
@@ -110,65 +170,6 @@ trait AdditionalLoginButtons
 	}
 
 	/**
-	 * Creates additional login buttons
-	 *
-	 * @param   string  $form             The HTML ID of the form we are enclosed in
-	 *
-	 * @return  array
-	 *
-	 * @throws  Exception
-	 *
-	 * @see AuthenticationHelper::getLoginButtons()
-	 *
-	 * @since   4.0.0
-	 */
-	public function onUserLoginButtons(string $form): array
-	{
-		// If we determined we should not inject a button return early
-		if (!$this->mustDisplayButton())
-		{
-			return [];
-		}
-
-		// Load the language files
-		$this->loadLanguage();
-
-		// Load necessary CSS and Javascript files
-		$this->addLoginCSSAndJavascript();
-
-		// Return URL
-		$uri = new Uri(Uri::base() . 'index.php');
-		$uri->setVar(Joomla::getToken(), '1');
-
-		// Unique ID for this button (allows display of multiple modules on the page)
-		$randomId = 'plg_system_webauthn-' . UserHelper::genRandomPassword(12) . '-' . UserHelper::genRandomPassword(8);
-
-		// Set up the JavaScript callback
-		$url = $uri->toString();
-
-		// Get local path to image
-		$image = HTMLHelper::_('image', 'plg_system_webauthn/webauthn.svg', '', '', true, true);
-
-		// If you can't find the image then skip it
-		$image = $image ? JPATH_ROOT . substr($image, \strlen(Uri::root(true))) : '';
-
-		// Extract image if it exists
-		$image = file_exists($image) ? file_get_contents($image) : '';
-
-		return [
-			[
-				'label'              => 'PLG_SYSTEM_WEBAUTHN_LOGIN_LABEL',
-				'tooltip'            => 'PLG_SYSTEM_WEBAUTHN_LOGIN_DESC',
-				'id'                 => $randomId,
-				'data-webauthn-form' => $form,
-				'data-webauthn-url'  => $url,
-				'svg'                => $image,
-				'class'              => 'plg_system_webauthn_login_button',
-			],
-		];
-	}
-
-	/**
 	 * Injects the WebAuthn CSS and Javascript for frontend logins, but only once per page load.
 	 *
 	 * @return  void
@@ -186,7 +187,7 @@ trait AdditionalLoginButtons
 		$this->injectedCSSandJS = true;
 
 		/** @var \Joomla\CMS\WebAsset\WebAssetManager $wa */
-		$wa = Factory::getApplication()->getDocument()->getWebAssetManager();
+		$wa = $this->app->getDocument()->getWebAssetManager();
 
 		if (!$wa->assetExists('style', 'plg_system_webauthn.button'))
 		{
@@ -207,7 +208,7 @@ trait AdditionalLoginButtons
 		Text::script('PLG_SYSTEM_WEBAUTHN_ERR_INVALID_USERNAME');
 
 		// Store the current URL as the default return URL after login (or failure)
-		Joomla::setSessionVar('returnUrl', Uri::current(), 'plg_system_webauthn');
+		$this->app->getSession()->set('plg_system_webauthn.returnUrl', Uri::current());
 	}
 
 }
