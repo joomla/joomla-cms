@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension type="plugin" group="system" method="upgrade" version="4.0">
+	<name>plg_system_phocafilteroptions</name>
+	<author>Jan Pavelka (www.phoca.cz)</author>
+	<creationDate>15/12/2021</creationDate>
+	<authorEmail></authorEmail>
+	<authorUrl>https://www.phoca.cz</authorUrl>
+	<copyright>Jan Pavelka</copyright>
+	<license>GNU/GPL</license>
+	<version>4.0.5</version>
+	<description>PLG_SYSTEM_PHOCAFILTEROPTIONS_DESCRIPTION</description>
+	<projectName>PhocaFilterOptions</projectName>
+
+	<media destination="plg_system_phocafilteroptions" folder="media">
+		<folder>css</folder>
+		<folder>js</folder>
+		<filename>index.html</filename>
+	</media>
+
+	<files>
+		<filename plugin="phocafilteroptions">index.html</filename>
+		<filename plugin="phocafilteroptions">phocafilteroptions.php</filename>
+		<filename plugin="phocafilteroptions">manifest.xml</filename>
+	</files>
+
+	<languages>
+		<language tag="en-GB">language/en-GB/en-GB.plg_system_phocafilteroptions.ini</language>
+		<language tag="en-GB">language/en-GB/en-GB.plg_system_phocafilteroptions.sys.ini</language>
+	</languages>
+
+	<administration>
+		<languages>
+			<language tag="en-GB">language/en-GB/en-GB.plg_system_phocafilteroptions.ini</language>
+			<language tag="en-GB">language/en-GB/en-GB.plg_system_phocafilteroptions.sys.ini</language>
+		</languages>
+	</administration>
+	
+	<config>
+		<fields name="params">
+			<fieldset name="basic">	
+			
+			<field name="component_edit_view" type="list" default="" label="PLG_SYSTEM_PHOCAFILTEROPTIONS_COMPONENT_EDIT_VIEW_LABEL" description="PLG_SYSTEM_PHOCAFILTEROPTIONS_COMPONENT_EDIT_VIEW_DESC" multiple="true" layout="joomla.form.field.list-fancy-select">
+                <option value="com_phocacart">PLG_SYSTEM_PHOCAFILTEROPTIONS_PHOCA_CART</option>
+            </field>
+		
+			</fieldset>
+		</fields>
+	</config>
+
+	<updateservers>
+		<server type="extension" name="PLG_SYSTEM_PHOCAFILTEROPTIONS" priority="1"><![CDATA[https://raw.githubusercontent.com/PhocaCz/PhocaFilterOptions/master/manifest.xml]]></server>
+	</updateservers>
+</extension>

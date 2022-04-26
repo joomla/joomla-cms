@@ -59,5 +59,5 @@ class ClassLoader
 		}
 
 		return $result;
-	}
+	}	
 }
