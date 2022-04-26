@@ -459,7 +459,7 @@ class PlgSampledataTesting extends CMSPlugin
 			'title'       => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_CONTENT_CATEGORY_0_1_1_TITLE'),
 			'description' => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_CONTENT_CATEGORY_0_1_1_DESC'),
 			'parent_id'   => $catIdsLevel2[1],
-			'params'      => '{"category_layout":"","image":"images/sampledata/parks/banner_cradle.jpg"}',
+			'params'      => '{"category_layout":"","image":"/images/sampledata/parks/banner_cradle.jpg"}',
 			'language'    => 'en-GB',
 		);
 		$categories[] = array(
