@@ -8,10 +8,10 @@
 
 namespace Joomla\CMS\Helper;
 
+\defined('_JEXEC') or die;
+
 use Joomla\Database\DatabaseAwareInterface;
 use Joomla\Database\DatabaseAwareTrait;
-
-\defined('_JEXEC') or die;
 
 /**
  * Namespace based implementation of the HelperFactoryInterface
