@@ -12,10 +12,9 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\FileLayout;
-use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\User\User;
 use Joomla\CMS\User\UserHelper;
-use Joomla\Plugin\System\Webauthn\Helper\CredentialsCreation;
+use Joomla\Plugin\System\Webauthn\Authentication;
 use Joomla\Plugin\System\Webauthn\Helper\Joomla;
 
 /**
@@ -79,15 +78,14 @@ if ($allow_add && function_exists('gmp_intval') === false && function_exists('bc
  * that problem.
  */
 $randomId    = 'plg_system_webauthn_' . UserHelper::genRandomPassword(32);
+/** @noinspection PhpInternalEntityUsedInspection */
 // phpcs:ignore
-$publicKey   = $allow_add ? base64_encode(CredentialsCreation::createPublicKey($user)) : '{}';
-$postbackURL = base64_encode(rtrim(Uri::base(), '/') . '/index.php?' . Joomla::getToken() . '=1');
+$publicKey = $allow_add ? base64_encode(json_encode(Authentication::getPubKeyCreationOptions($user))) : '{}';
 
 ?>
 <div class="plg_system_webauthn" id="plg_system_webauthn-management-interface">
 	<span id="<?php echo $randomId ?>"
 		  data-public_key="<?php echo $publicKey ?>"
-		  data-postback_url="<?php echo $postbackURL ?>"
 	></span>
 
 	<?php // phpcs:ignore

@@ -1,10 +1,10 @@
 <?php
 /**
- * @package     Joomla.Plugin
- * @subpackage  System.Webauthn
+ * @package         Joomla.Plugin
+ * @subpackage      System.Webauthn
  *
  * @copyright   (C) 2020 Open Source Matters, Inc. <https://www.joomla.org>
- * @license     GNU General Public License version 2 or later; see LICENSE.txt
+ * @license         GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\Plugin\System\Webauthn\PluginTraits;
@@ -17,11 +17,12 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Log\Log;
 use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\User\User;
 use Joomla\CMS\User\UserFactoryInterface;
+use Joomla\Event\Event;
 use Joomla\Plugin\System\Webauthn\CredentialRepository;
-use Joomla\Plugin\System\Webauthn\Helper\Joomla;
 use Joomla\Registry\Registry;
 
 /**
@@ -59,6 +60,7 @@ trait UserProfileFields
 	 *                         stored value. We only use it as a proxy to render a sub-form.
 	 *
 	 * @return  string
+	 * @since   4.0.0
 	 */
 	public static function renderWebauthnProfileField($value): string
 	{
@@ -70,7 +72,8 @@ trait UserProfileFields
 		$credentialRepository = new CredentialRepository;
 		$credentials          = $credentialRepository->getAll(self::$userFromFormData->id);
 		$authenticators       = array_map(
-			function (array $credential) {
+			function (array $credential)
+			{
 				return $credential['label'];
 			},
 			$credentials
@@ -82,32 +85,36 @@ trait UserProfileFields
 	/**
 	 * Adds additional fields to the user editing form
 	 *
-	 * @param   Form   $form  The form to be altered.
-	 * @param   mixed  $data  The associated data for the form.
+	 * @param   Event  $event  The event we are handling
 	 *
-	 * @return  boolean
+	 * @return  void
 	 *
 	 * @throws  Exception
-	 *
 	 * @since   4.0.0
 	 */
-	public function onContentPrepareForm(Form $form, $data)
+	public function onContentPrepareForm(Event $event)
 	{
+		/**
+		 * @var   Form  $form The form to be altered.
+		 * @var   mixed $data The associated data for the form.
+		 */
+		[$form, $data] = $event->getArguments();
+
 		// This feature only applies to HTTPS sites.
 		if (!Uri::getInstance()->isSsl())
 		{
-			return true;
+			return;
 		}
 
 		$name = $form->getName();
 
 		$allowedForms = [
-			'com_users.user', 'com_users.profile', 'com_users.registration',
+			'com_admin.profile', 'com_users.user', 'com_users.profile', 'com_users.registration',
 		];
 
 		if (!\in_array($name, $allowedForms))
 		{
-			return true;
+			return;
 		}
 
 		// Get the user object
@@ -116,25 +123,49 @@ trait UserProfileFields
 		// Make sure the loaded user is the correct one
 		if (\is_null($user))
 		{
-			return true;
+			return;
 		}
 
 		// Make sure I am either editing myself OR I am a Super User
-		if (!Joomla::canEditUser($user))
+		if (!$this->canEditUser($user))
 		{
-			return true;
+			return;
 		}
 
 		// Add the fields to the form.
-		Joomla::log(
-			'system',
-			'Injecting WebAuthn Passwordless Login fields in user profile edit page'
-		);
-		Form::addFormPath(JPATH_PLUGINS . '/' . $this->_type . '/' . $this->_name . '/forms');
-		$this->loadLanguage();
-		$form->loadFile('webauthn', false);
+		Log::add('Injecting WebAuthn Passwordless Login fields in user profile edit page', Log::DEBUG, 'webauthn.system');
 
-		return true;
+		Form::addFormPath(JPATH_PLUGINS . '/' . $this->_type . '/' . $this->_name . '/forms');
+		$form->loadFile('webauthn', false);
+	}
+
+	/**
+	 * @param   Event  $event  The event we are handling
+	 *
+	 * @return  void
+	 *
+	 * @throws  Exception
+	 * @since   4.0.0
+	 */
+	public function onContentPrepareData(Event $event): void
+	{
+		/**
+		 * @var   string|null        $context  The context for the data
+		 * @var   array|object|null  $data     An object or array containing the data for the form.
+		 */
+		[$context, $data] = $event->getArguments();
+
+		if (!\in_array($context, ['com_users.profile', 'com_users.user']))
+		{
+			return;
+		}
+
+		self::$userFromFormData = $this->getUserFromData($data);
+
+		if (!HTMLHelper::isRegistered('users.webauthnWebauthn'))
+		{
+			HTMLHelper::register('users.webauthn', [__CLASS__, 'renderWebauthnProfileField']);
+		}
 	}
 
 	/**
@@ -178,27 +209,27 @@ trait UserProfileFields
 	}
 
 	/**
-	 * @param   string|null        $context  The context for the data
-	 * @param   array|object|null  $data     An object or array containing the data for the form.
+	 * Is the current user allowed to edit the social login configuration of $user? To do so I must either be editing my
+	 * own account OR I have to be a Super User.
 	 *
-	 * @return  bool
+	 * @param   ?User   $user   The user you want to know if we're allowed to edit
 	 *
-	 * @since   4.0.0
+	 * @return  boolean
+	 *
+	 * @since   __DEPLOY_VERSION__
 	 */
-	public function onContentPrepareData(?string $context, $data): bool
+	private function canEditUser(?User $user = null): bool
 	{
-		if (!\in_array($context, ['com_users.profile', 'com_users.user']))
+		// I can edit myself, but Guests can't have passwordless logins associated
+		if (empty($user) || $user->guest)
 		{
 			return true;
 		}
 
-		self::$userFromFormData = $this->getUserFromData($data);
+		// Get the currently logged in used
+		$myUser = $this->app->getIdentity() ?? new User;
 
-		if (!HTMLHelper::isRegistered('users.webauthnWebauthn'))
-		{
-			HTMLHelper::register('users.webauthn', [__CLASS__, 'renderWebauthnProfileField']);
-		}
-
-		return true;
+		// I can edit myself. If I'm a Super user I can edit other users too.
+		return ($myUser->id == $user->id) || $myUser->authorise('core.admin');
 	}
 }

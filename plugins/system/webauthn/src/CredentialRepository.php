@@ -14,11 +14,11 @@ namespace Joomla\Plugin\System\Webauthn;
 
 use Exception;
 use InvalidArgumentException;
+use Joomla\CMS\Date\Date;
 use Joomla\CMS\Encrypt\Aes;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\Database\DatabaseDriver;
-use Joomla\Plugin\System\Webauthn\Helper\Joomla;
 use Joomla\Registry\Registry;
 use JsonException;
 use RuntimeException;
@@ -182,7 +182,7 @@ class CredentialRepository implements PublicKeyCredentialSourceRepository
 		$o            = (object) [
 			'id'         => $credentialId,
 			'user_id'    => $this->getHandleFromUserId($user->id),
-			'label'      => Text::sprintf('PLG_SYSTEM_WEBAUTHN_LBL_DEFAULT_AUTHENTICATOR_LABEL', Joomla::formatDate('now')),
+			'label'      => Text::sprintf('PLG_SYSTEM_WEBAUTHN_LBL_DEFAULT_AUTHENTICATOR_LABEL', self::formatDate('now')),
 			'credential' => json_encode($publicKeyCredentialSource),
 		];
 		$update = false;
@@ -411,6 +411,105 @@ class CredentialRepository implements PublicKeyCredentialSourceRepository
 	}
 
 	/**
+	 * Get the user ID from the user handle
+	 *
+	 * This is a VERY inefficient method. Since the user handle is an HMAC-SHA-256 of the user ID we can't just go
+	 * directly from a handle back to an ID. We have to iterate all user IDs, calculate their handles and compare them
+	 * to the given handle.
+	 *
+	 * To prevent a lengthy infinite loop in case of an invalid user handle we don't iterate the entire 2+ billion valid
+	 * 32-bit integer range. We load the user IDs of active users (not blocked, not pending activation) and iterate
+	 * through them.
+	 *
+	 * To avoid memory outage on large sites with thousands of active user records we load up to 10000 users at a time.
+	 * Each block of 10,000 user IDs takes about 60-80 msec to iterate. On a site with 200,000 active users this method
+	 * will take less than 1.5 seconds. This is slow but not impractical, even on crowded shared hosts with a quarter of
+	 * the performance of my test subject (a mid-range, shared hosting server).
+	 *
+	 * @param   string|null  $userHandle  The user handle which will be converted to a user ID.
+	 *
+	 * @return  integer|null
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function getUserIdFromHandle(?string $userHandle): ?int
+	{
+		if (empty($userHandle))
+		{
+			return null;
+		}
+
+		/** @var DatabaseDriver $db */
+		$db = Factory::getContainer()->get('DatabaseDriver');
+
+		// Check that the userHandle does exist in the database
+		$query = $db->getQuery(true)
+			->select('COUNT(*)')
+			->from($db->qn('#__webauthn_credentials'))
+			->where($db->qn('user_id') . ' = ' . $db->q($userHandle));
+
+		try
+		{
+			$numRecords = $db->setQuery($query)->loadResult();
+		}
+		catch (Exception $e)
+		{
+			return null;
+		}
+
+		if (is_null($numRecords) || ($numRecords < 1))
+		{
+			return null;
+		}
+
+		// Prepare the query
+		$query = $db->getQuery(true)
+			->select([$db->qn('id')])
+			->from($db->qn('#__users'))
+			->where($db->qn('block') . ' = 0')
+			->where(
+				'(' .
+				$db->qn('activation') . ' IS NULL OR ' .
+				$db->qn('activation') . ' = 0 OR ' .
+				$db->qn('activation') . ' = ' . $db->q('') .
+				')'
+			);
+
+		$key   = $this->getEncryptionKey();
+		$start = 0;
+		$limit = 10000;
+
+		while (true)
+		{
+			try
+			{
+				$ids = $db->setQuery($query, $start, $limit)->loadColumn();
+			}
+			catch (Exception $e)
+			{
+				return null;
+			}
+
+			if (empty($ids))
+			{
+				return null;
+			}
+
+			foreach ($ids as $userId)
+			{
+				$data       = sprintf('%010u', $userId);
+				$thisHandle = hash_hmac('sha256', $data, $key, false);
+
+				if ($thisHandle == $userHandle)
+				{
+					return $userId;
+				}
+			}
+
+			$start += $limit;
+		}
+	}
+
+	/**
 	 * Encrypt the credential source before saving it to the database
 	 *
 	 * @param   string   $credential  The unencrypted, JSON-encoded credential source
@@ -484,5 +583,68 @@ class CredentialRepository implements PublicKeyCredentialSourceRepository
 		}
 
 		return $secret;
+	}
+
+	/**
+	 * Format a date for display.
+	 *
+	 * The $tzAware parameter defines whether the formatted date will be timezone-aware. If set to false the formatted
+	 * date will be rendered in the UTC timezone. If set to true the code will automatically try to use the logged in
+	 * user's timezone or, if none is set, the site's default timezone (Server Timezone). If set to a positive integer
+	 * the same thing will happen but for the specified user ID instead of the currently logged in user.
+	 *
+	 * @param   string|\DateTime  $date     The date to format
+	 * @param   string|null       $format   The format string, default is Joomla's DATE_FORMAT_LC6 (usually "Y-m-d
+	 *                                      H:i:s")
+	 * @param   bool              $tzAware  Should the format be timezone aware? See notes above.
+	 *
+	 * @return  string
+	 * @since   __DEPLOY_VERSION__
+	 */
+	private static function formatDate($date, ?string $format = null, bool $tzAware = true): string
+	{
+		$utcTimeZone = new \DateTimeZone('UTC');
+		$jDate       = new Date($date, $utcTimeZone);
+
+		// Which timezone should I use?
+		$tz = null;
+
+		if ($tzAware !== false)
+		{
+			$userId = is_bool($tzAware) ? null : (int) $tzAware;
+
+			try
+			{
+				$tzDefault = Factory::getApplication()->get('offset');
+			}
+			catch (\Exception $e)
+			{
+				$tzDefault = 'GMT';
+			}
+
+			$user = Factory::getUser($userId);
+			$tz   = $user->getParam('timezone', $tzDefault);
+		}
+
+		if (!empty($tz))
+		{
+			try
+			{
+				$userTimeZone = new \DateTimeZone($tz);
+
+				$jDate->setTimezone($userTimeZone);
+			}
+			catch (\Exception $e)
+			{
+				// Nothing. Fall back to UTC.
+			}
+		}
+
+		if (empty($format))
+		{
+			$format = Text::_('DATE_FORMAT_LC6');
+		}
+
+		return $jDate->format($format, true);
 	}
 }

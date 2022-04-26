@@ -84,7 +84,8 @@ window.Joomla = window.Joomla || {};
     }
 
     const publicKey = JSON.parse(atob(elStore.dataset.public_key));
-    const postURL = atob(elStore.dataset.postback_url);
+    const paths = Joomla.getOptions('system.paths');
+    const postURL = `${paths ? `${paths.base}/index.php` : window.location.pathname}`;
 
     const arrayToBase64String = (a) => btoa(String.fromCharCode(...a));
 
@@ -137,6 +138,7 @@ window.Joomla = window.Joomla || {};
           encoding: 'raw',
           data: btoa(JSON.stringify(publicKeyCredential)),
         };
+        postBackData[Joomla.getOptions('csrf.token')] = 1;
 
         Joomla.request({
           url: postURL,
@@ -183,7 +185,8 @@ window.Joomla = window.Joomla || {};
       return false;
     }
 
-    const postURL = atob(elStore.dataset.postback_url);
+    const paths = Joomla.getOptions('system.paths');
+    const postURL = `${paths ? `${paths.base}/index.php` : window.location.pathname}`;
 
     // Find the UI elements
     const elTR = that.parentElement.parentElement;
@@ -220,6 +223,7 @@ window.Joomla = window.Joomla || {};
           credential_id: credentialId,
           new_label: elNewLabel,
         };
+        postBackData[Joomla.getOptions('csrf.token')] = 1;
 
         Joomla.request({
           url: postURL,
@@ -293,7 +297,8 @@ window.Joomla = window.Joomla || {};
       return false;
     }
 
-    const postURL = atob(elStore.dataset.postback_url);
+    const paths = Joomla.getOptions('system.paths');
+    const postURL = `${paths ? `${paths.base}/index.php` : window.location.pathname}`;
 
     // Find the UI elements
     const elTR = that.parentElement.parentElement;
@@ -317,6 +322,7 @@ window.Joomla = window.Joomla || {};
       akaction: 'delete',
       credential_id: credentialId,
     };
+    postBackData[Joomla.getOptions('csrf.token')] = 1;
 
     Joomla.request({
       url: postURL,

@@ -16,9 +16,9 @@ use Exception;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\FormField;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Layout\FileLayout;
 use Joomla\CMS\User\UserFactoryInterface;
 use Joomla\Plugin\System\Webauthn\CredentialRepository;
-use Joomla\Plugin\System\Webauthn\Helper\Joomla;
 
 /**
  * Custom Joomla Form Field to display the WebAuthn interface
@@ -65,7 +65,9 @@ class WebauthnField extends FormField
 		$app->getDocument()->getWebAssetManager()
 			->registerAndUseScript('plg_system_webauthn.management', 'plg_system_webauthn/management.js', [], ['defer' => true], ['core']);
 
-		return Joomla::renderLayout('plugins.system.webauthn.manage', [
+		$layoutFile  = new FileLayout('plugins.system.webauthn.manage');
+
+		return $layoutFile->render([
 			'user'        => Factory::getContainer()->get(UserFactoryInterface::class)->loadUserById($userId),
 			'allow_add'   => $userId == $app->getIdentity()->id,
 			'credentials' => $credentialRepository->getAll($userId),
