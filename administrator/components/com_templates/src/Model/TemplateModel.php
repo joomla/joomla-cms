@@ -1451,7 +1451,7 @@ class TemplateModel extends FormModel
 		if ($this->getTemplate())
 		{
 			$app      = Factory::getApplication();
-			$path     = $this->getBasePath();;
+			$path     = $this->getBasePath();
 			$fileName = File::makeSafe($file['name']);
 
 			$err = null;
