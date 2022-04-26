@@ -226,8 +226,8 @@ class JoomlaFieldMedia extends HTMLElement {
             img.src = URL.createObjectURL(blob);
 
             img.onload = () => {
-              this.inputElement.value = `${urlParts[0]}/${rest.join('/')}#joomlaImage://local-${urlParts[0]}/${rest.join('/')}?width=${img.width}&height=${img.width}`;
-              this.validatedUrl = `${urlParts[0]}/${rest.join('/')}#joomlaImage://local-${urlParts[0]}/${rest.join('/')}?width=${img.width}&height=${img.width}`;
+              this.inputElement.value = `${urlParts[0]}/${rest.join('/')}#joomlaImage://local-${urlParts[0]}/${rest.join('/')}?width=${img.width}&height=${img.height}`;
+              this.validatedUrl = `${urlParts[0]}/${rest.join('/')}#joomlaImage://local-${urlParts[0]}/${rest.join('/')}?width=${img.width}&height=${img.height}`;
               this.markValid();
             };
           } else if (blob.type.includes('audio')) {
