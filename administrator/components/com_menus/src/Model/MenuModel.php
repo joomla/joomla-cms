@@ -392,7 +392,7 @@ class MenuModel extends FormModel
 	}
 
 	/**
-	 * Returns the extension elements fir the given items
+	 * Returns the extension elements for the given items
 	 *
 	 * @param  array  $items  The item ids
 	 *
