@@ -109,8 +109,8 @@ $publicKey = $allow_add ? base64_encode(json_encode(Authentication::getPubKeyCre
 		<?php // phpcs:ignore
 		foreach ($credentials as $method): ?>
 			<tr data-credential_id="<?php echo $method['id'] ?>">
-				<th scope="row"><?php echo htmlentities($method['label']) ?></th>
-				<td>
+				<th scope="row" class="webauthnManagementCell"><?php echo htmlentities($method['label']) ?></th>
+				<td class="webauthnManagementCell">
 					<button data-random-id="<?php echo $randomId; ?>" class="plg_system_webauthn-manage-edit btn btn-secondary">
 						<span class="icon-edit" aria-hidden="true"></span>
 						<?php echo Text::_('PLG_SYSTEM_WEBAUTHN_MANAGE_BTN_EDIT_LABEL') ?>
