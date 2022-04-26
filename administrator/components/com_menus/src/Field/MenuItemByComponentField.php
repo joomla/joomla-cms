@@ -49,11 +49,12 @@ class MenuItemByComponentField extends ListField
 		$query->select('DISTINCT ' . $db->quoteName('extensions.element'))
 			->from($db->quoteName('#__menu', 'menu'))
 			->join(
-				'LEFT', $db->quoteName('#__extensions', 'extensions'),
+				'INNER', $db->quoteName('#__extensions', 'extensions'),
 				$db->quoteName('extensions.extension_id') . ' = ' . $db->quoteName('menu.component_id')
 			)
 			->where($db->quoteName('menu.client_id') . ' = 0')
-			->where($db->quoteName('menu.type') . ' = ' . $db->quote('component'));
+			->where($db->quoteName('menu.type') . ' = ' . $db->quote('component'))
+			->where($db->quoteName('extensions.extension_id') . ' IS NOT NULL');
 
 		$app             = Factory::getApplication();
 		$currentMenuType = $app->input->getString('menutype', $app->getUserState($this->context . '.menutype', ''));
