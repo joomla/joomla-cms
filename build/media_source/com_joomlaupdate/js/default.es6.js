@@ -44,6 +44,7 @@ Joomla = window.Joomla || {};
   };
 
   document.addEventListener('DOMContentLoaded', () => {
+    const confirmButton = document.getElementById('confirmButton');
     const uploadForm = document.getElementById('uploadForm');
     const uploadButton = document.getElementById('uploadButton');
     const uploadField = document.getElementById('install_package');
@@ -55,6 +56,18 @@ Joomla = window.Joomla || {};
       uploadButton.addEventListener('click', Joomla.submitbuttonUpload);
       updateCheck.addEventListener('change', () => {
         uploadButton.disabled = !updateCheck.checked;
+      });
+    }
+    if (confirmButton && !updateCheck.checked) {
+      confirmButton.classList.add('disabled');
+    }
+    if (confirmButton && updateCheck) {
+      updateCheck.addEventListener('change', () => {
+        if (updateCheck.checked) {
+          confirmButton.classList.remove('disabled');
+        } else {
+          confirmButton.classList.add('disabled');
+        }
       });
     }
     if (uploadField) {
