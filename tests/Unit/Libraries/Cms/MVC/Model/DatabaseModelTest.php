@@ -24,7 +24,7 @@ use Joomla\Tests\Unit\UnitTestCase;
  *
  * @package     Joomla.UnitTest
  * @subpackage  MVC
- * @since       __DEPLOY_VERSION__
+ * @since       4.2.0
  */
 class DatabaseModelTest extends UnitTestCase
 {
@@ -33,7 +33,7 @@ class DatabaseModelTest extends UnitTestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	public function testInjectedDatabaseAndMVCFactory()
 	{
@@ -62,7 +62,7 @@ class DatabaseModelTest extends UnitTestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	public function testGetTable()
 	{
@@ -81,7 +81,7 @@ class DatabaseModelTest extends UnitTestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	public function testGetTableWhenNull()
 	{
@@ -100,7 +100,7 @@ class DatabaseModelTest extends UnitTestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	public function testGetListFromObject()
 	{
@@ -123,7 +123,7 @@ class DatabaseModelTest extends UnitTestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	public function testGetListFromString()
 	{
@@ -147,7 +147,7 @@ class DatabaseModelTest extends UnitTestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	public function testGetListCountFromObject()
 	{
@@ -170,7 +170,7 @@ class DatabaseModelTest extends UnitTestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	public function testGetListCountFromObjectTypeSelect()
 	{
@@ -196,7 +196,7 @@ class DatabaseModelTest extends UnitTestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	public function testGetListCountFromString()
 	{
@@ -219,7 +219,7 @@ class DatabaseModelTest extends UnitTestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 *
 	 * @deprecated  5.0 Must be removed when trait gets deleted
 	 */
@@ -240,7 +240,7 @@ class DatabaseModelTest extends UnitTestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 *
 	 * @deprecated  5.0 This has to be removed when we do not support the MVC Trait anymore
 	 */
@@ -266,7 +266,7 @@ class DatabaseModelTest extends UnitTestCase
 	 *
 	 * @return  QueryInterface
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	private function getQueryStub(DatabaseInterface $db): QueryInterface
 	{

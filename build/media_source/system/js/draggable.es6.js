@@ -9,6 +9,8 @@ let isNested;
 let dragElementIndex;
 let dropElementIndex;
 let container = document.querySelector('.js-draggable');
+let form;
+let formData;
 
 if (container) {
   /** The script expects a form with a class js-form
@@ -36,6 +38,12 @@ if (container) {
 }
 
 if (container) {
+  // Get the form
+  form = container.closest('form');
+  // Get the form data
+  formData = new FormData(form);
+  formData.delete('task');
+
   // IOS 10 BUG
   document.addEventListener('touchstart', () => {}, false);
 
@@ -127,7 +135,7 @@ if (container) {
       const ajaxOptions = {
         url,
         method: 'POST',
-        data: getOrderData(rows, inputRows, dragElementIndex, dropElementIndex).join('&'),
+        data: `${new URLSearchParams(formData).toString()}&${getOrderData(rows, inputRows, dragElementIndex, dropElementIndex).join('&')}`,
         perform: true,
       };
 
