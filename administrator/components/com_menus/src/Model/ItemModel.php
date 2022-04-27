@@ -287,7 +287,7 @@ class ItemModel extends AdminModel
 			// Set the new location in the tree for the node.
 			$table->setLocation($table->parent_id, 'last-child');
 
-			// TODO: Deal with ordering?
+			// @todo: Deal with ordering?
 			// $table->ordering = 1;
 			$table->level = null;
 			$table->lft   = null;
@@ -607,6 +607,13 @@ class ItemModel extends AdminModel
 	{
 		// Check the session for previously entered form data, providing it has an ID and it is the same.
 		$itemData = (array) $this->getItem();
+
+		// When a new item is requested, unset the access as it will be set later from the filter
+		if (empty($itemData['id']))
+		{
+			unset($itemData['access']);
+		}
+
 		$sessionData = (array) Factory::getApplication()->getUserState('com_menus.edit.item.data', array());
 
 		// Only merge if there is a session and itemId or itemid is null.
@@ -621,14 +628,14 @@ class ItemModel extends AdminModel
 		}
 
 		// For a new menu item, pre-select some filters (Status, Language, Access) in edit form if those have been selected in Menu Manager
-		if ($this->getItem()->id == 0)
+		if (empty($data['id']))
 		{
 			// Get selected fields
 			$filters = Factory::getApplication()->getUserState('com_menus.items.filter');
-			$data['parent_id'] = (isset($filters['parent_id']) ? $filters['parent_id'] : null);
-			$data['published'] = (isset($filters['published']) ? $filters['published'] : null);
-			$data['language'] = (isset($filters['language']) ? $filters['language'] : null);
-			$data['access'] = (!empty($filters['access']) ? $filters['access'] : Factory::getApplication()->get('access'));
+			$data['parent_id'] = $data['parent_id'] ?? ($filters['parent_id'] ?? null);
+			$data['published'] = $data['published'] ?? ($filters['published'] ?? null);
+			$data['language']  = $data['language'] ?? ($filters['language'] ?? null);
+			$data['access']    = $data['access'] ?? ($filters['access'] ?? Factory::getApplication()->get('access'));
 		}
 
 		if (isset($data['menutype']) && !$this->getState('item.menutypeid'))
@@ -732,8 +739,12 @@ class ItemModel extends AdminModel
 				$table->type = 'component';
 
 				// Ensure the integrity of the component_id field is maintained, particularly when changing the menu item type.
-				$args = array();
-				parse_str(parse_url($table->link, PHP_URL_QUERY), $args);
+				$args = [];
+
+				if ($table->link)
+				{
+					parse_str(parse_url($table->link, PHP_URL_QUERY), $args);
+				}
 
 				if (isset($args['option']))
 				{
@@ -1138,11 +1149,15 @@ class ItemModel extends AdminModel
 		// Initialise form with component view params if available.
 		if ($type == 'component')
 		{
-			$link = htmlspecialchars_decode($link);
+			$link = $link ? htmlspecialchars_decode($link) : '';
 
 			// Parse the link arguments.
-			$args = array();
-			parse_str(parse_url(htmlspecialchars_decode($link), PHP_URL_QUERY), $args);
+			$args = [];
+
+			if ($link)
+			{
+				parse_str(parse_url(htmlspecialchars_decode($link), PHP_URL_QUERY), $args);
+			}
 
 			// Confirm that the option is defined.
 			$option = '';
@@ -1213,7 +1228,7 @@ class ItemModel extends AdminModel
 						$formFile = $path;
 					}
 				}
-				else
+				elseif ($base)
 				{
 					// Now check for a component manifest file
 					$path = Path::clean($base . '/metadata.xml');
@@ -1418,7 +1433,7 @@ class ItemModel extends AdminModel
 	 */
 	public function save($data)
 	{
-		$pk         = (!empty($data['id'])) ? $data['id'] : (int) $this->getState('item.id');
+		$pk         = isset($data['id']) ? $data['id'] : (int) $this->getState('item.id');
 		$isNew      = true;
 		$db      = $this->getDbo();
 		$query   = $db->getQuery(true);

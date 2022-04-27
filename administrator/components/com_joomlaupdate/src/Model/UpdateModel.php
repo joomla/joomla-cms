@@ -29,6 +29,7 @@ use Joomla\CMS\Updater\Updater;
 use Joomla\CMS\User\UserHelper;
 use Joomla\CMS\Version;
 use Joomla\Database\ParameterType;
+use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
 
 /**
@@ -72,7 +73,7 @@ class UpdateModel extends BaseDatabaseModel
 				break;
 
 			// "Custom"
-			// TODO: check if the customurl is valid and not just "not empty".
+			// @todo: check if the customurl is valid and not just "not empty".
 			case 'custom':
 				if (trim($params->get('customurl', '')) != '')
 				{
@@ -364,13 +365,39 @@ class UpdateModel extends BaseDatabaseModel
 		$updateInfo = $this->getUpdateInformation();
 		$packageURL = trim($updateInfo['object']->downloadurl->_data);
 		$sources    = $updateInfo['object']->get('downloadSources', array());
-		$headers    = get_headers($packageURL, 1);
+
+		// We have to manually follow the redirects here so we set the option to false.
+		$httpOptions = new Registry;
+		$httpOptions->set('follow_location', false);
+
+		try
+		{
+			$head = HttpFactory::getHttp($httpOptions)->head($packageURL);
+		}
+		catch (\RuntimeException $e)
+		{
+			// Passing false here -> download failed message
+			$response['basename'] = false;
+
+			return $response;
+		}
 
 		// Follow the Location headers until the actual download URL is known
-		while (isset($headers['Location']))
+		while (isset($head->headers['location']))
 		{
-			$packageURL = $headers['Location'];
-			$headers    = get_headers($packageURL, 1);
+			$packageURL = (string) $head->headers['location'][0];
+
+			try
+			{
+				$head = HttpFactory::getHttp($httpOptions)->head($packageURL);
+			}
+			catch (\RuntimeException $e)
+			{
+				// Passing false here -> download failed message
+				$response['basename'] = false;
+
+				return $response;
+			}
 		}
 
 		// Remove protocol, path and query string from URL
@@ -1073,7 +1100,7 @@ ENDDATA;
 
 		foreach ($files as $file)
 		{
-			if (File::exists($file))
+			if ($file !== null && File::exists($file))
 			{
 				File::delete($file);
 			}
@@ -1082,7 +1109,7 @@ ENDDATA;
 
 	/**
 	 * Gets PHP options.
-	 * TODO: Outsource, build common code base for pre install and pre update check
+	 * @todo: Outsource, build common code base for pre install and pre update check
 	 *
 	 * @return array Array of PHP config options
 	 *
@@ -1174,7 +1201,7 @@ ENDDATA;
 
 	/**
 	 * Gets PHP Settings.
-	 * TODO: Outsource, build common code base for pre install and pre update check
+	 * @todo: Outsource, build common code base for pre install and pre update check
 	 *
 	 * @return  array
 	 *
@@ -1312,7 +1339,7 @@ ENDDATA;
 
 	/**
 	 * Checks the availability of the parse_ini_file and parse_ini_string functions.
-	 * TODO: Outsource, build common code base for pre install and pre update check
+	 * @todo: Outsource, build common code base for pre install and pre update check
 	 *
 	 * @return  boolean  True if the method exists.
 	 *
@@ -1706,7 +1733,7 @@ ENDDATA;
 	 */
 	protected function translateExtensionName(&$item)
 	{
-		// ToDo: Cleanup duplicated code. from com_installer/models/extension.php
+		// @todo: Cleanup duplicated code. from com_installer/models/extension.php
 		$lang = Factory::getLanguage();
 		$path = $item->client_id ? JPATH_ADMINISTRATOR : JPATH_SITE;
 

@@ -14,16 +14,19 @@ use DebugBar\DataCollector\MessagesCollector;
 use DebugBar\DataCollector\RequestDataCollector;
 use DebugBar\DebugBar;
 use DebugBar\OpenHandler;
+use Joomla\Application\ApplicationEvents;
 use Joomla\CMS\Application\CMSApplicationInterface;
 use Joomla\CMS\Document\HtmlDocument;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\Log\LogEntry;
 use Joomla\CMS\Plugin\CMSPlugin;
+use Joomla\CMS\Profiler\Profiler;
 use Joomla\CMS\Session\Session;
 use Joomla\CMS\Uri\Uri;
 use Joomla\Database\DatabaseDriver;
 use Joomla\Database\Event\ConnectionEvent;
 use Joomla\Event\DispatcherInterface;
+use Joomla\Event\SubscriberInterface;
 use Joomla\Plugin\System\Debug\DataCollector\InfoCollector;
 use Joomla\Plugin\System\Debug\DataCollector\LanguageErrorsCollector;
 use Joomla\Plugin\System\Debug\DataCollector\LanguageFilesCollector;
@@ -39,7 +42,7 @@ use Joomla\Plugin\System\Debug\Storage\FileStorage;
  *
  * @since  1.5
  */
-class PlgSystemDebug extends CMSPlugin
+class PlgSystemDebug extends CMSPlugin implements SubscriberInterface
 {
 	/**
 	 * True if debug lang is on.
@@ -134,6 +137,25 @@ class PlgSystemDebug extends CMSPlugin
 	 * @since 4.0.0
 	 */
 	protected $showLogs = false;
+
+	/**
+	 * Returns an array of events this subscriber will listen to.
+	 *
+	 * @return  array
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public static function getSubscribedEvents(): array
+	{
+		return [
+			'onBeforeCompileHead' => 'onBeforeCompileHead',
+			'onAjaxDebug'         => 'onAjaxDebug',
+			'onBeforeRespond'     => 'onBeforeRespond',
+			'onAfterRespond'      => 'onAfterRespond',
+			ApplicationEvents::AFTER_RESPOND => 'onAfterRespond',
+			'onAfterDisconnect'   => 'onAfterDisconnect',
+		];
+	}
 
 	/**
 	 * Constructor.
@@ -243,8 +265,8 @@ class PlgSystemDebug extends CMSPlugin
 	 */
 	public function onAfterRespond()
 	{
-		// Do not render if debugging or language debug is not enabled.
-		if (!JDEBUG && !$this->debugLang || $this->isAjax || !($this->app->getDocument() instanceof HtmlDocument))
+		// Do not collect data if debugging or language debug is not enabled.
+		if (!JDEBUG && !$this->debugLang || $this->isAjax)
 		{
 			return;
 		}
@@ -348,32 +370,34 @@ class PlgSystemDebug extends CMSPlugin
 	/**
 	 * AJAX handler
 	 *
-	 * @return  string
+	 * @param Joomla\Event\Event $event
+	 *
+	 * @return  void
 	 *
 	 * @since  4.0.0
 	 */
-	public function onAjaxDebug()
+	public function onAjaxDebug($event)
 	{
 		// Do not render if debugging or language debug is not enabled.
 		if (!JDEBUG && !$this->debugLang)
 		{
-			return '';
+			return;
 		}
 
 		// User has to be authorised to see the debug information.
 		if (!$this->isAuthorisedDisplayDebug() || !Session::checkToken('request'))
 		{
-			return '';
+			return;
 		}
 
 		switch ($this->app->input->get('action'))
 		{
 			case 'openhandler':
+				$result  = $event['result'] ?: [];
 				$handler = new OpenHandler($this->debugBar);
 
-				return $handler->handle($this->app->input->request->getArray(), false, false);
-			default:
-				return '';
+				$result[] = $handler->handle($this->app->input->request->getArray(), false, false);
+				$event['result'] = $result;
 		}
 	}
 
@@ -664,5 +688,66 @@ class PlgSystemDebug extends CMSPlugin
 		}
 
 		return $this;
+	}
+
+	/**
+	 * Add server timing headers when profile is activated.
+	 *
+	 * @return  void
+	 *
+	 * @since   4.1.0
+	 */
+	public function onBeforeRespond(): void
+	{
+		if (!JDEBUG || !$this->params->get('profile', 1))
+		{
+			return;
+		}
+
+		$metrics    = '';
+		$moduleTime = 0;
+		$accessTime = 0;
+
+		foreach (Profiler::getInstance('Application')->getMarks() as $index => $mark)
+		{
+			// Ignore the before mark as the after one contains the timing of the action
+			if (stripos($mark->label, 'before') !== false)
+			{
+				continue;
+			}
+
+			// Collect the module render time
+			if (strpos($mark->label, 'mod_') !== false)
+			{
+				$moduleTime += $mark->time;
+				continue;
+			}
+
+			// Collect the access render time
+			if (strpos($mark->label, 'Access:') !== false)
+			{
+				$accessTime += $mark->time;
+				continue;
+			}
+
+			$desc     = str_ireplace('after', '', $mark->label);
+			$name     = preg_replace('/[^\da-z]/i', '', $desc);
+			$metrics .= sprintf('%s;dur=%f;desc="%s", ', $index . $name, $mark->time, $desc);
+
+			// Do not create too large headers, some web servers don't love them
+			if (strlen($metrics) > 3000)
+			{
+				$metrics .= 'System;dur=0;desc="Data truncated to 3000 characters", ';
+				break;
+			}
+		}
+
+		// Add the module entry
+		$metrics .= 'Modules;dur=' . $moduleTime . ';desc="Modules", ';
+
+		// Add the access entry
+		$metrics .= 'Access;dur=' . $accessTime . ';desc="Access"';
+
+		$this->app->setHeader('Server-Timing', $metrics);
 	}
 }

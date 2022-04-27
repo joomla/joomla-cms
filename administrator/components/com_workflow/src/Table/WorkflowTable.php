@@ -144,7 +144,7 @@ class WorkflowTable extends Table
 		}
 		else
 		{
-			$db = $this->getDbo();
+			$db    = $this->getDbo();
 			$query = $db->getQuery(true);
 
 			$query
@@ -192,7 +192,7 @@ class WorkflowTable extends Table
 		{
 			// Existing item
 			$this->modified_by = $user->id;
-			$this->modified = $date->toSql();
+			$this->modified    = $date->toSql();
 		}
 		else
 		{
@@ -219,10 +219,15 @@ class WorkflowTable extends Table
 			$this->modified_by = $this->created_by;
 		}
 
-		if ($this->default == '1')
+		if ((int) $this->default === 1)
 		{
 			// Verify that the default is unique for this workflow
-			if ($table->load(array('default' => '1')))
+			if ($table->load(
+				[
+					'default' => '1',
+					'extension' => $this->extension
+				]
+			))
 			{
 				$table->default = 0;
 				$table->store();

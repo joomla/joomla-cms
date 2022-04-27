@@ -11,6 +11,7 @@ namespace Joomla\Component\Media\Administrator\Provider;
 
 \defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
 use Joomla\Component\Media\Administrator\Adapter\AdapterInterface;
 
 /**
@@ -56,6 +57,32 @@ class ProviderManager
 	}
 
 	/**
+	 * Unregister a provider from the ProviderManager.
+	 * When no provider, or null is passed in, then all providers are cleared.
+	 *
+	 * @param   ProviderInterface|null  $provider  The provider to be unregistered
+	 *
+	 * @return  void
+	 *
+	 * @since   4.0.6
+	 */
+	public function unregisterProvider(ProviderInterface $provider = null): void
+	{
+		if ($provider === null)
+		{
+			$this->providers = [];
+			return;
+		}
+
+		if (!array_key_exists($provider->getID(), $this->providers))
+		{
+			return;
+		}
+
+		unset($this->providers[$provider->getID()]);
+	}
+
+	/**
 	 * Returns the provider for a particular ID
 	 *
 	 * @param   string  $id  The ID for the provider
@@ -70,7 +97,7 @@ class ProviderManager
 	{
 		if (!isset($this->providers[$id]))
 		{
-			throw new \Exception("Media Provider not found");
+			throw new \Exception(Text::_('COM_MEDIA_ERROR_MEDIA_PROVIDER_NOT_FOUND'));
 		}
 
 		return $this->providers[$id];
@@ -93,14 +120,14 @@ class ProviderManager
 
 		if ($account == null)
 		{
-			throw new \Exception('Account was not set');
+			throw new \Exception(Text::_('COM_MEDIA_ERROR_ACCOUNT_NOT_SET'));
 		}
 
 		$adapters = $this->getProvider($provider)->getAdapters();
 
 		if (!isset($adapters[$account]))
 		{
-			throw new \Exception("The account was not found");
+			throw new \Exception(Text::_('COM_MEDIA_ERROR_ACCOUNT_NOT_FOUND'));
 		}
 
 		return $adapters[$account];

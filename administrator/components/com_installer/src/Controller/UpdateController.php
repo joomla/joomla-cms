@@ -20,7 +20,6 @@ use Joomla\CMS\Session\Session;
 use Joomla\CMS\Updater\Updater;
 use Joomla\CMS\Uri\Uri;
 use Joomla\Component\Installer\Administrator\Model\UpdateModel;
-use Joomla\Utilities\ArrayHelper;
 
 /**
  * Installer Update Controller
@@ -44,8 +43,10 @@ class UpdateController extends BaseController
 		/** @var UpdateModel $model */
 		$model = $this->getModel('update');
 
-		$uid = $this->input->get('cid', array(), 'array');
-		$uid = ArrayHelper::toInteger($uid, array());
+		$uid = (array) $this->input->get('cid', array(), 'int');
+
+		// Remove zero values resulting from input filter
+		$uid = array_filter($uid);
 
 		// Get the minimum stability.
 		$params        = ComponentHelper::getComponent('com_installer')->getParams();
@@ -108,14 +109,14 @@ class UpdateController extends BaseController
 		if ($disabledUpdateSites)
 		{
 			$updateSitesUrl = Route::_('index.php?option=com_installer&view=updatesites');
-			$this->setMessage(Text::sprintf('COM_INSTALLER_MSG_UPDATE_SITES_COUNT_CHECK', $updateSitesUrl), 'warning');
+			$this->app->enqueueMessage(Text::sprintf('COM_INSTALLER_MSG_UPDATE_SITES_COUNT_CHECK', $updateSitesUrl), 'warning');
 		}
 
 		$model->findUpdates(0, $cache_timeout, $minimum_stability);
 
 		if (0 === $model->getTotal())
 		{
-			$this->setMessage(Text::_('COM_INSTALLER_MSG_UPDATE_NOUPDATES'), 'info');
+			$this->app->enqueueMessage(Text::_('COM_INSTALLER_MSG_UPDATE_NOUPDATES'), 'info');
 		}
 
 		$this->setRedirect(Route::_('index.php?option=com_installer&view=update', false));

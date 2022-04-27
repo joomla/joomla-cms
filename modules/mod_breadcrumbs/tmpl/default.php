@@ -57,14 +57,14 @@ use Joomla\CMS\WebAsset\WebAssetManager;
 				else :
 					$breadcrumbItem = '<span>' . $item->name . '</span>';
 				endif;
+				echo '<li class="mod-breadcrumbs__item breadcrumb-item' . $class . '">' . $breadcrumbItem . '</li>';
 
 			elseif ($show_last) :
 				// Render last item if required.
 				$breadcrumbItem = '<span>' . $item->name . '</span>';
 				$class          = ' active';
+				echo '<li class="mod-breadcrumbs__item breadcrumb-item' . $class . '">' . $breadcrumbItem . '</li>';
 			endif;
-
-			echo '<li class="mod-breadcrumbs__item breadcrumb-item' . $class . '">' . $breadcrumbItem . '</li>';
 		endforeach; ?>
 	</ol>
 	<?php

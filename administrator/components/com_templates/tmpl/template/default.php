@@ -79,8 +79,8 @@ if ($this->type == 'font')
 		<?php if ($this->type == 'file' && !empty($this->source->coreFile)) : ?>
 			<div class="col-md-4 text-end">
 				<div id="toggle-buttons">
-					<?php echo $this->form->getInput('show_core'); ?>
-					<?php echo $this->form->getInput('show_diff'); ?>
+					<?php echo $this->form->renderField('show_core'); ?>
+					<?php echo $this->form->renderField('show_diff'); ?>
 				</div>
 			</div>
 		<?php endif; ?>
@@ -387,7 +387,7 @@ if ($this->type == 'font')
 		'body' => $this->loadTemplate('modal_' . $taskName . '_body')
 	);
 	?>
-	<form action="<?php echo Route::_('index.php?option=com_templates&task=template.' . $taskName . '&id=' . $input->getInt('id') . '&file=' . $this->file); ?>" method="post" name="adminForm" id="adminForm">
+	<form action="<?php echo Route::_('index.php?option=com_templates&task=template.' . $taskName . '&id=' . $input->getInt('id') . '&file=' . $this->file); ?>" method="post">
 		<?php echo LayoutHelper::render('libraries.html.bootstrap.modal.main', $copyModalData); ?>
 		<?php echo HTMLHelper::_('form.token'); ?>
 	</form>

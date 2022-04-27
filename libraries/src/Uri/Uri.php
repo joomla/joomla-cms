@@ -148,12 +148,14 @@ class Uri extends \Joomla\Uri\Uri
 				static::$base['prefix'] = $uri->toString(array('scheme', 'host', 'port'));
 				static::$base['path'] = rtrim($uri->toString(array('path')), '/\\');
 
-				if (\defined('JPATH_BASE') && \defined('JPATH_ADMINISTRATOR'))
+				if (\defined('JPATH_BASE') && \defined('JPATH_ADMINISTRATOR') && JPATH_BASE == JPATH_ADMINISTRATOR)
 				{
-					if (JPATH_BASE == JPATH_ADMINISTRATOR)
-					{
-						static::$base['path'] .= '/administrator';
-					}
+					static::$base['path'] .= '/administrator';
+				}
+
+				if (\defined('JPATH_BASE') && \defined('JPATH_API') && JPATH_BASE == JPATH_API)
+				{
+					static::$base['path'] .= '/api';
 				}
 			}
 			else
@@ -258,6 +260,8 @@ class Uri extends \Joomla\Uri\Uri
 	 */
 	public static function isInternal($url)
 	{
+		$url = str_replace('\\', '/', $url);
+
 		$uri = static::getInstance($url);
 		$base = $uri->toString(array('scheme', 'host', 'port', 'path'));
 		$host = $uri->toString(array('scheme', 'host', 'port'));
