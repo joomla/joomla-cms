@@ -30,7 +30,7 @@ use Joomla\Event\Event;
 trait AdditionalLoginButtons
 {
 	/**
-	 * Do I need to I inject buttons? Automatically detected (i.e. disabled if I'm already logged
+	 * Do I need to inject buttons? Automatically detected (i.e. disabled if I'm already logged
 	 * in).
 	 *
 	 * @var     boolean|null
