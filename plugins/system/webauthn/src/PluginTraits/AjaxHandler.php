@@ -104,12 +104,6 @@ trait AjaxHandler
 		{
 			switch ($input->getCmd('encoding', 'json'))
 			{
-				case 'jsonhash':
-					Log::add("Callback complete, returning JSON inside ### markers.", Log::DEBUG, 'webauthn.system');
-					echo '###' . json_encode($result) . '###';
-
-					break;
-
 				case 'raw':
 					Log::add("Callback complete, returning raw response.", Log::DEBUG, 'webauthn.system');
 					echo $result;
