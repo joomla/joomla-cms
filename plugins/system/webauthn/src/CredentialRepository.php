@@ -123,12 +123,12 @@ class CredentialRepository implements PublicKeyCredentialSourceRepository
 			}
 			catch (JsonException $e)
 			{
-				return;
+				return null;
 			}
 
 			if (empty($data))
 			{
-				return;
+				return null;
 			}
 
 			try
@@ -137,7 +137,7 @@ class CredentialRepository implements PublicKeyCredentialSourceRepository
 			}
 			catch (InvalidArgumentException $e)
 			{
-				return;
+				return null;
 			}
 		};
 
@@ -182,7 +182,7 @@ class CredentialRepository implements PublicKeyCredentialSourceRepository
 		$o            = (object) [
 			'id'         => $credentialId,
 			'user_id'    => $this->getHandleFromUserId($user->id),
-			'label'      => Text::sprintf('PLG_SYSTEM_WEBAUTHN_LBL_DEFAULT_AUTHENTICATOR_LABEL', self::formatDate('now')),
+			'label'      => Text::sprintf('PLG_SYSTEM_WEBAUTHN_LBL_DEFAULT_AUTHENTICATOR_LABEL', $this->formatDate('now')),
 			'credential' => json_encode($publicKeyCredentialSource),
 		];
 		$update = false;
@@ -601,7 +601,7 @@ class CredentialRepository implements PublicKeyCredentialSourceRepository
 	 * @return  string
 	 * @since   __DEPLOY_VERSION__
 	 */
-	private static function formatDate($date, ?string $format = null, bool $tzAware = true): string
+	private function formatDate($date, ?string $format = null, bool $tzAware = true): string
 	{
 		$utcTimeZone = new \DateTimeZone('UTC');
 		$jDate       = new Date($date, $utcTimeZone);
