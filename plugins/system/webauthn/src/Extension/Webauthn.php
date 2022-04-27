@@ -19,6 +19,7 @@ use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\Database\DatabaseDriver;
 use Joomla\Event\DispatcherInterface;
 use Joomla\Event\SubscriberInterface;
+use Joomla\Plugin\System\Webauthn\Authentication;
 use Joomla\Plugin\System\Webauthn\PluginTraits\AdditionalLoginButtons;
 use Joomla\Plugin\System\Webauthn\PluginTraits\AjaxHandler;
 use Joomla\Plugin\System\Webauthn\PluginTraits\AjaxHandlerChallenge;
@@ -75,6 +76,14 @@ class Webauthn extends CMSPlugin implements SubscriberInterface
 	 */
 	protected $allowLegacyListeners = false;
 
+	/**
+	 * The WebAuthn authentication helper object
+	 *
+	 * @var   Authentication
+	 * @since __DEPLOY_VERSION__
+	 */
+	protected $authenticationHelper;
+
 	// AJAX request handlers
 	use AjaxHandler;
 	use AjaxHandlerCreate;
@@ -98,15 +107,16 @@ class Webauthn extends CMSPlugin implements SubscriberInterface
 	/**
 	 * Constructor. Loads the language files as well.
 	 *
-	 * @param   DispatcherInterface  $subject  The object to observe
-	 * @param   array                $config   An optional associative array of configuration
-	 *                                         settings. Recognized key values include 'name',
-	 *                                         'group', 'params', 'language (this list is not meant
-	 *                                         to be comprehensive).
+	 * @param   DispatcherInterface  $subject    The object to observe
+	 * @param   array                $config     An optional associative array of configuration
+	 *                                           settings. Recognized key values include 'name',
+	 *                                           'group', 'params', 'language (this list is not meant
+	 *                                           to be comprehensive).
+	 * @param   Authentication|null  $authHelper The WebAuthn helper object
 	 *
 	 * @since  4.0.0
 	 */
-	public function __construct(&$subject, array $config = [])
+	public function __construct(&$subject, array $config = [], Authentication $authHelper = null)
 	{
 		parent::__construct($subject, $config);
 
@@ -130,6 +140,8 @@ class Webauthn extends CMSPlugin implements SubscriberInterface
 				'text_entry_format' => '{DATETIME}	{PRIORITY} {CLIENTIP}	{MESSAGE}',
 			], $logLevels, ["webauthn.system"]
 		);
+
+		$this->authenticationHelper = $authHelper ?? (new Authentication);
 	}
 
 	/**

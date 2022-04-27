@@ -19,7 +19,6 @@ use Joomla\CMS\User\User;
 use Joomla\CMS\User\UserFactoryInterface;
 use Joomla\CMS\User\UserHelper;
 use Joomla\Event\Event;
-use Joomla\Plugin\System\Webauthn\Authentication;
 
 /**
  * Ajax handler for akaction=challenge
@@ -106,7 +105,7 @@ trait AjaxHandlerChallenge
 			return;
 		}
 
-		$publicKeyCredentialRequestOptions = Authentication::getPubkeyRequestOptions($myUser);
+		$publicKeyCredentialRequestOptions = $this->authenticationHelper->getPubkeyRequestOptions($myUser);
 
 		$session->set('plg_system_webauthn.userId', $userId);
 

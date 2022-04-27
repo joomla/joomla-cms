@@ -24,7 +24,6 @@ use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\User\User;
 use Joomla\CMS\User\UserFactoryInterface;
 use Joomla\Event\Event;
-use Joomla\Plugin\System\Webauthn\Authentication as CredentialsAuthentication;
 use Joomla\Plugin\System\Webauthn\CredentialRepository;
 use RuntimeException;
 use Throwable;
@@ -319,7 +318,7 @@ trait AjaxHandlerLogin
 	private function getUserHandleFromResponse(User $user): ?string
 	{
 		// Retrieve data from the request and session
-		$pubKeyCredentialSource = CredentialsAuthentication::validateAssertionResponse(
+		$pubKeyCredentialSource = $this->authenticationHelper->validateAssertionResponse(
 			$this->app->input->getBase64('data', ''),
 			$user
 		);

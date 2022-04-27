@@ -79,8 +79,9 @@ if ($allow_add && function_exists('gmp_intval') === false && function_exists('bc
  */
 $randomId    = 'plg_system_webauthn_' . UserHelper::genRandomPassword(32);
 /** @noinspection PhpInternalEntityUsedInspection */
+$authHelper  = new Authentication;
 // phpcs:ignore
-$publicKey = $allow_add ? base64_encode(json_encode(Authentication::getPubKeyCreationOptions($user))) : '{}';
+$publicKey = $allow_add ? base64_encode(json_encode($authHelper->getPubKeyCreationOptions($user))) : '{}';
 
 ?>
 <div class="plg_system_webauthn" id="plg_system_webauthn-management-interface">

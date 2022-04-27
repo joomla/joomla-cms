@@ -17,7 +17,6 @@ use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
-use Joomla\CMS\Session\Session;
 use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\User\User;
 use Joomla\Session\SessionInterface;
@@ -39,7 +38,7 @@ use Webauthn\Server;
  * @since   __DEPLOY_VERSION__
  * @internal
  */
-abstract class Authentication
+class Authentication
 {
 	/**
 	 * The credentials repository
@@ -47,7 +46,50 @@ abstract class Authentication
 	 * @var   CredentialRepository
 	 * @since __DEPLOY_VERSION__
 	 */
-	protected static $credentialsRepository;
+	private $credentialsRepository;
+
+	/**
+	 * The application we are running in.
+	 *
+	 * @var   CMSApplication
+	 * @since __DEPLOY_VERSION__
+	 */
+	private $app;
+
+	/**
+	 * The application session
+	 *
+	 * @var   SessionInterface
+	 * @since __DEPLOY_VERSION__
+	 */
+	private $session;
+
+	/**
+	 * Public constructor.
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function __construct()
+	{
+		try
+		{
+			$this->app = Factory::getApplication();
+		}
+		catch (\Throwable $e)
+		{
+			$this->app = null;
+		}
+
+		try
+		{
+			$this->session = ($this->app instanceof CMSApplication) ? $this->app->getSession() : null;
+		}
+		catch (\Throwable $e)
+		{
+			$this->session = null;
+		}
+	}
+
 
 	/**
 	 * Generate the public key creation options.
@@ -63,12 +105,12 @@ abstract class Authentication
 	 * @throws  Exception
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public static function getPubKeyCreationOptions(User $user): PublicKeyCredentialCreationOptions
+	public function getPubKeyCreationOptions(User $user): PublicKeyCredentialCreationOptions
 	{
-		$publicKeyCredentialCreationOptions = self::getWebauthnServer()->generatePublicKeyCredentialCreationOptions(
-			self::getUserEntity($user),
+		$publicKeyCredentialCreationOptions = $this->getWebauthnServer()->generatePublicKeyCredentialCreationOptions(
+			$this->getUserEntity($user),
 			PublicKeyCredentialCreationOptions::ATTESTATION_CONVEYANCE_PREFERENCE_NONE,
-			self::getPubKeyDescriptorsForUser($user),
+			$this->getPubKeyDescriptorsForUser($user),
 			new AuthenticatorSelectionCriteria(
 				AuthenticatorSelectionCriteria::AUTHENTICATOR_ATTACHMENT_NO_PREFERENCE,
 				false,
@@ -78,11 +120,8 @@ abstract class Authentication
 		);
 
 		// Save data in the session
-		$app = Factory::getApplication();
-		/** @var Session $session */
-		$session = $app->getSession();
-		$session->set('plg_system_webauthn.publicKeyCredentialCreationOptions', base64_encode(serialize($publicKeyCredentialCreationOptions)));
-		$session->set('plg_system_webauthn.registration_user_id', $user->id);
+		$this->session->set('plg_system_webauthn.publicKeyCredentialCreationOptions', base64_encode(serialize($publicKeyCredentialCreationOptions)));
+		$this->session->set('plg_system_webauthn.registration_user_id', $user->id);
 
 		return $publicKeyCredentialCreationOptions;
 	}
@@ -99,17 +138,16 @@ abstract class Authentication
 	 * @throws  Exception
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public static function getPubkeyRequestOptions(User $user): ?PublicKeyCredentialRequestOptions
+	public function getPubkeyRequestOptions(User $user): ?PublicKeyCredentialRequestOptions
 	{
 		Log::add('Creating PK request options', Log::DEBUG, 'webauthn.system');
-		$publicKeyCredentialRequestOptions = self::getWebauthnServer()->generatePublicKeyCredentialRequestOptions(
+		$publicKeyCredentialRequestOptions = $this->getWebauthnServer()->generatePublicKeyCredentialRequestOptions(
 			PublicKeyCredentialRequestOptions::USER_VERIFICATION_REQUIREMENT_PREFERRED,
-			self::getPubKeyDescriptorsForUser($user)
+			$this->getPubKeyDescriptorsForUser($user)
 		);
 
 		// Save in session. This is used during the verification stage to prevent replay attacks.
-		Factory::getApplication()->getSession()
-			->set('plg_system_webauthn.publicKeyCredentialRequestOptions', base64_encode(serialize($publicKeyCredentialRequestOptions)));
+		$this->session->set('plg_system_webauthn.publicKeyCredentialRequestOptions', base64_encode(serialize($publicKeyCredentialRequestOptions)));
 
 		return $publicKeyCredentialRequestOptions;
 	}
@@ -128,13 +166,10 @@ abstract class Authentication
 	 * @throws Exception
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public static function validateAssertionResponse(string $data, User $user): PublicKeyCredentialSource
+	public function validateAssertionResponse(string $data, User $user): PublicKeyCredentialSource
 	{
-		/** @var SessionInterface $session */
-		$session = Factory::getApplication()->getSession();
-
 		// Make sure the public key credential request options in the session are valid
-		$encodedPkOptions                  = $session->get('plg_system_webauthn.publicKeyCredentialRequestOptions', null);
+		$encodedPkOptions                  = $this->session->get('plg_system_webauthn.publicKeyCredentialRequestOptions', null);
 		$serializedOptions                 = base64_decode($encodedPkOptions);
 		$publicKeyCredentialRequestOptions = unserialize($serializedOptions);
 
@@ -155,10 +190,10 @@ abstract class Authentication
 			throw new RuntimeException(Text::_('PLG_SYSTEM_WEBAUTHN_ERR_CREATE_INVALID_LOGIN_REQUEST'));
 		}
 
-		return self::getWebauthnServer()->loadAndCheckAssertionResponse(
+		return $this->getWebauthnServer()->loadAndCheckAssertionResponse(
 			$data,
-			self::getPKCredentialRequestOptions(),
-			self::getUserEntity($user),
+			$this->getPKCredentialRequestOptions(),
+			$this->getUserEntity($user),
 			ServerRequestFactory::fromGlobals()
 		);
 	}
@@ -180,14 +215,10 @@ abstract class Authentication
 	 * @throws  Exception
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public static function validateAttestationResponse(string $data): PublicKeyCredentialSource
+	public function validateAttestationResponse(string $data): PublicKeyCredentialSource
 	{
-		/** @var CMSApplication $app */
-		$app     = Factory::getApplication();
-		$session = $app->getSession();
-
 		// Retrieve the PublicKeyCredentialCreationOptions object created earlier and perform sanity checks
-		$encodedOptions = $session->get('plg_system_webauthn.publicKeyCredentialCreationOptions', null);
+		$encodedOptions = $this->session->get('plg_system_webauthn.publicKeyCredentialCreationOptions', null);
 
 		if (empty($encodedOptions))
 		{
@@ -213,8 +244,8 @@ abstract class Authentication
 		}
 
 		// Retrieve the stored user ID and make sure it's the same one in the request.
-		$storedUserId = $session->get('plg_system_webauthn.registration_user_id', 0);
-		$myUser       = $app->getIdentity() ?? new User;
+		$storedUserId = $this->session->get('plg_system_webauthn.registration_user_id', 0);
+		$myUser       = $this->app->getIdentity() ?? new User;
 		$myUserId     = $myUser->id;
 
 		if (($myUser->guest) || ($myUserId != $storedUserId))
@@ -226,7 +257,7 @@ abstract class Authentication
 		}
 
 		// We init the PSR-7 request object using Diactoros
-		return self::getWebauthnServer()->loadAndCheckAttestationResponse(
+		return $this->getWebauthnServer()->loadAndCheckAttestationResponse(
 			base64_decode($data),
 			$publicKeyCredentialCreationOptions,
 			ServerRequestFactory::fromGlobals()
@@ -241,7 +272,7 @@ abstract class Authentication
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	private static function getSiteIcon(): ?string
+	private function getSiteIcon(): ?string
 	{
 		$filenames = [
 			'apple-touch-icon.png',
@@ -261,7 +292,7 @@ abstract class Authentication
 				'/images/',
 				'/media/',
 				'/templates/',
-				'/templates/' . Factory::getApplication()->getTemplate(),
+				'/templates/' . $this->app->getTemplate(),
 			];
 		}
 		catch (Exception $e)
@@ -302,15 +333,15 @@ abstract class Authentication
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	private static function getUserEntity(User $user): PublicKeyCredentialUserEntity
+	private function getUserEntity(User $user): PublicKeyCredentialUserEntity
 	{
-		$repository = self::getCredentialsRepository();
+		$repository = $this->getCredentialsRepository();
 
 		return new PublicKeyCredentialUserEntity(
 			$user->username,
 			$repository->getHandleFromUserId($user->id),
 			$user->name,
-			self::getAvatar($user, 64)
+			$this->getAvatar($user, 64)
 		);
 	}
 
@@ -324,7 +355,7 @@ abstract class Authentication
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	private static function getAvatar(User $user, int $size = 64)
+	private function getAvatar(User $user, int $size = 64)
 	{
 		$scheme    = Uri::getInstance()->getScheme();
 		$subdomain = ($scheme == 'https') ? 'secure' : 'www';
@@ -342,10 +373,10 @@ abstract class Authentication
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	private static function getPubKeyDescriptorsForUser(User $user): array
+	private function getPubKeyDescriptorsForUser(User $user): array
 	{
-		$userEntity  = self::getUserEntity($user);
-		$repository  = self::getCredentialsRepository();
+		$userEntity  = $this->getUserEntity($user);
+		$repository  = $this->getCredentialsRepository();
 		$descriptors = [];
 		$records     = $repository->findAllForUserEntity($userEntity);
 
@@ -368,11 +399,9 @@ abstract class Authentication
 	 * @throws  Exception
 	 * @since   __DEPLOY_VERSION__
 	 */
-	private static function getPKCredentialRequestOptions(): PublicKeyCredentialRequestOptions
+	private function getPKCredentialRequestOptions(): PublicKeyCredentialRequestOptions
 	{
-		/** @var SessionInterface $session */
-		$session = Factory::getApplication()->getSession();
-		$encodedOptions = $session->get('plg_system_webauthn.publicKeyCredentialRequestOptions', null);
+		$encodedOptions = $this->session->get('plg_system_webauthn.publicKeyCredentialRequestOptions', null);
 
 		if (empty($encodedOptions))
 		{
@@ -407,19 +436,18 @@ abstract class Authentication
 	 * @throws  Exception
 	 * @since    __DEPLOY_VERSION__
 	 */
-	private static function getWebauthnServer(): Server
+	private function getWebauthnServer(): Server
 	{
-		$app      = Factory::getApplication();
-		$siteName = $app->get('sitename');
+		$siteName = $this->app->get('sitename');
 
 		// Credentials repository
-		$repository = self::getCredentialsRepository();
+		$repository = $this->getCredentialsRepository();
 
 		// Relaying Party -- Our site
 		$rpEntity = new PublicKeyCredentialRpEntity(
 			$siteName,
 			Uri::getInstance()->toString(['host']),
-			self::getSiteIcon()
+			$this->getSiteIcon()
 		);
 
 		$server = new Server($rpEntity, $repository, null);
@@ -460,15 +488,15 @@ abstract class Authentication
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	private static function getCredentialsRepository(): CredentialRepository
+	private function getCredentialsRepository(): CredentialRepository
 	{
-		if (self::$credentialsRepository !== null)
+		if ($this->credentialsRepository !== null)
 		{
-			return self::$credentialsRepository;
+			return $this->credentialsRepository;
 		}
 
-		self::$credentialsRepository = new CredentialRepository;
+		$this->credentialsRepository = new CredentialRepository;
 
-		return self::$credentialsRepository;
+		return $this->credentialsRepository;
 	}
 }

@@ -18,7 +18,6 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\FileLayout;
 use Joomla\CMS\User\UserFactoryInterface;
 use Joomla\Event\Event;
-use Joomla\Plugin\System\Webauthn\Authentication;
 use Joomla\Plugin\System\Webauthn\CredentialRepository;
 use RuntimeException;
 use Webauthn\PublicKeyCredentialSource;
@@ -81,7 +80,7 @@ trait AjaxHandlerCreate
 			// Retrieve the data sent by the device
 			$data = $input->get('data', '', 'raw');
 
-			$publicKeyCredentialSource = Authentication::validateAttestationResponse($data);
+			$publicKeyCredentialSource = $this->authenticationHelper->validateAttestationResponse($data);
 
 			if (!\is_object($publicKeyCredentialSource) || !($publicKeyCredentialSource instanceof PublicKeyCredentialSource))
 			{
