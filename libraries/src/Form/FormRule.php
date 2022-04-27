@@ -6,7 +6,7 @@
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  *
  * Remove phpcs exception with deprecated constant JCOMPAT_UNICODE_PROPERTIES
- * @phpcs:disable PSR1.Files.SideEffects.FoundWithSymbols
+ * @phpcs:disable PSR1.Files.SideEffects
  */
 
 namespace Joomla\CMS\Form;
