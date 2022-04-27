@@ -88,6 +88,16 @@ use Joomla\CMS\WebAsset\WebAssetManager;
 							'name' => $item->name
 					]
 			];
+		} elseif ($key === $last_item_key) {
+			// Add the last item (current page) to JSON, but without a link.
+			// Google accepts items without a URL only as the current page.
+			$data['itemListElement'][] = [
+					'@type'    => 'ListItem',
+					'position' => $key + 1,
+					'item'     => [
+							'name' => $item->name
+					]
+			];
 		}
 	}
 
