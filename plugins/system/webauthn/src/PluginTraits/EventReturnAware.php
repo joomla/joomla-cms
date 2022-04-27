@@ -13,6 +13,11 @@ defined('_JEXEC') or die();
 
 use Joomla\Event\Event;
 
+/**
+ * Utility trait to facilitate returning data from event handlers.
+ *
+ * @since __DEPLOY_VERSION__
+ */
 trait EventReturnAware
 {
 	/**
