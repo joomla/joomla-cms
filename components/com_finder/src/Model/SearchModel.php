@@ -61,6 +61,8 @@ class SearchModel extends ListModel
 		'date.desc' => 'JDATE_DESC',
 		'price.asc' => 'COM_FINDER_SORT_BY_PRICE_ASC',
 		'price.desc' => 'COM_FINDER_SORT_BY_PRICE_DESC',
+		'sale_price.asc' => 'COM_FINDER_SORT_BY_SALES_PRICE_ASC',
+		'sale_price.desc' => 'COM_FINDER_SORT_BY_SALES_PRICE_DESC',
 	];
 
 	/**
@@ -563,6 +565,10 @@ class SearchModel extends ListModel
 
 			case 'price':
 				$this->setState('list.ordering', 'l.list_price');
+				break;
+
+			case 'sale_price':
+				$this->setState('list.ordering', 'l.sale_price');
 				break;
 
 			case ($order === 'relevance' && !empty($this->includedTerms)) :
