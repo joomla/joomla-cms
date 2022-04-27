@@ -623,7 +623,7 @@ class CredentialRepository implements PublicKeyCredentialSourceRepository
 				$tzDefault = 'GMT';
 			}
 
-			$user = Factory::getContainer()->get(UserFactoryInterface::class)->loadUserById($userId);
+			$user = Factory::getContainer()->get(UserFactoryInterface::class)->loadUserById($userId ?? 0);
 			$tz   = $user->getParam('timezone', $tzDefault);
 		}
 
