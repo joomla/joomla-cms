@@ -13,13 +13,10 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\FileLayout;
 use Joomla\CMS\User\User;
-use Joomla\CMS\User\UserHelper;
-use Joomla\Plugin\System\Webauthn\Authentication;
 use Joomla\Plugin\System\Webauthn\Helper\Joomla;
 
 /**
  * Passwordless Login management interface
- *
  *
  * Generic data
  *
@@ -69,26 +66,8 @@ if ($allow_add && function_exists('gmp_intval') === false && function_exists('bc
 	$allow_add = false;
 }
 
-/**
- * Why not push these configuration variables directly to JavaScript?
- *
- * We need to reload them every time we return from an attempt to authorize an authenticator. Whenever that
- * happens we push raw HTML to the page. However, any SCRIPT tags in that HTML do not get parsed, i.e. they
- * do not replace existing values. This causes any retries to fail. By using a data storage object we circumvent
- * that problem.
- */
-$randomId    = 'plg_system_webauthn_' . UserHelper::genRandomPassword(32);
-/** @noinspection PhpInternalEntityUsedInspection */
-$authHelper  = new Authentication;
-// phpcs:ignore
-$publicKey = $allow_add ? base64_encode(json_encode($authHelper->getPubKeyCreationOptions($user))) : '{}';
-
 ?>
 <div class="plg_system_webauthn" id="plg_system_webauthn-management-interface">
-	<span id="<?php echo $randomId ?>"
-		  data-public_key="<?php echo $publicKey ?>"
-	></span>
-
 	<?php // phpcs:ignore
 	if (is_string($error) && !empty($error)): ?>
 		<div class="alert alert-danger">
@@ -110,13 +89,13 @@ $publicKey = $allow_add ? base64_encode(json_encode($authHelper->getPubKeyCreati
 		<?php // phpcs:ignore
 		foreach ($credentials as $method): ?>
 			<tr data-credential_id="<?php echo $method['id'] ?>">
-				<th scope="row" class="webauthnManagementCell"><?php echo htmlentities($method['label']) ?></th>
-				<td class="webauthnManagementCell">
-					<button data-random-id="<?php echo $randomId; ?>" class="plg_system_webauthn-manage-edit btn btn-secondary">
+				<th scope="row" class="plg_system_webauthn-cell"><?php echo htmlentities($method['label']) ?></th>
+				<td class="plg_system_webauthn-cell">
+					<button class="plg_system_webauthn-manage-edit btn btn-secondary">
 						<span class="icon-edit" aria-hidden="true"></span>
 						<?php echo Text::_('PLG_SYSTEM_WEBAUTHN_MANAGE_BTN_EDIT_LABEL') ?>
 					</button>
-					<button data-random-id="<?php echo $randomId; ?>" class="plg_system_webauthn-manage-delete btn btn-danger">
+					<button class="plg_system_webauthn-manage-delete btn btn-danger">
 						<span class="icon-minus" aria-hidden="true"></span>
 						<?php echo Text::_('PLG_SYSTEM_WEBAUTHN_MANAGE_BTN_DELETE_LABEL') ?>
 					</button>
@@ -140,8 +119,7 @@ $publicKey = $allow_add ? base64_encode(json_encode($authHelper->getPubKeyCreati
 			<button
 				type="button"
 				id="plg_system_webauthn-manage-add"
-				class="btn btn-success w-100"
-				data-random-id="<?php echo $randomId; ?>">
+				class="btn btn-success w-100">
 				<span class="icon-plus" aria-hidden="true"></span>
 				<?php echo Text::_('PLG_SYSTEM_WEBAUTHN_MANAGE_BTN_ADD_LABEL') ?>
 			</button>

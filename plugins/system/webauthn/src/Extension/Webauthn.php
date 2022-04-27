@@ -25,6 +25,7 @@ use Joomla\Plugin\System\Webauthn\PluginTraits\AjaxHandler;
 use Joomla\Plugin\System\Webauthn\PluginTraits\AjaxHandlerChallenge;
 use Joomla\Plugin\System\Webauthn\PluginTraits\AjaxHandlerCreate;
 use Joomla\Plugin\System\Webauthn\PluginTraits\AjaxHandlerDelete;
+use Joomla\Plugin\System\Webauthn\PluginTraits\AjaxHandlerInitCreate;
 use Joomla\Plugin\System\Webauthn\PluginTraits\AjaxHandlerLogin;
 use Joomla\Plugin\System\Webauthn\PluginTraits\AjaxHandlerSaveLabel;
 use Joomla\Plugin\System\Webauthn\PluginTraits\EventReturnAware;
@@ -86,6 +87,7 @@ class Webauthn extends CMSPlugin implements SubscriberInterface
 
 	// AJAX request handlers
 	use AjaxHandler;
+	use AjaxHandlerInitCreate;
 	use AjaxHandlerCreate;
 	use AjaxHandlerSaveLabel;
 	use AjaxHandlerDelete;
@@ -168,16 +170,17 @@ class Webauthn extends CMSPlugin implements SubscriberInterface
 		}
 
 		return [
-			'onAjaxWebauthn'          => 'onAjaxWebauthn',
-			'onAjaxWebauthnChallenge' => 'onAjaxWebauthnChallenge',
-			'onAjaxWebauthnCreate'    => 'onAjaxWebauthnCreate',
-			'onAjaxWebauthnDelete'    => 'onAjaxWebauthnDelete',
-			'onAjaxWebauthnLogin'     => 'onAjaxWebauthnLogin',
-			'onAjaxWebauthnSavelabel' => 'onAjaxWebauthnSavelabel',
-			'onUserAfterDelete'       => 'onUserAfterDelete',
-			'onUserLoginButtons'      => 'onUserLoginButtons',
-			'onContentPrepareForm'    => 'onContentPrepareForm',
-			'onContentPrepareData'    => 'onContentPrepareData',
+			'onAjaxWebauthn'           => 'onAjaxWebauthn',
+			'onAjaxWebauthnChallenge'  => 'onAjaxWebauthnChallenge',
+			'onAjaxWebauthnCreate'     => 'onAjaxWebauthnCreate',
+			'onAjaxWebauthnDelete'     => 'onAjaxWebauthnDelete',
+			'onAjaxWebauthnInitcreate' => 'onAjaxWebauthnInitcreate',
+			'onAjaxWebauthnLogin'      => 'onAjaxWebauthnLogin',
+			'onAjaxWebauthnSavelabel'  => 'onAjaxWebauthnSavelabel',
+			'onUserAfterDelete'        => 'onUserAfterDelete',
+			'onUserLoginButtons'       => 'onUserLoginButtons',
+			'onContentPrepareForm'     => 'onContentPrepareForm',
+			'onContentPrepareData'     => 'onContentPrepareData',
 		];
 	}
 }

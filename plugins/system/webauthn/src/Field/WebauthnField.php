@@ -58,6 +58,7 @@ class WebauthnField extends FormField
 		Text::script('PLG_SYSTEM_WEBAUTHN_MANAGE_BTN_CANCEL_LABEL', true);
 		Text::script('PLG_SYSTEM_WEBAUTHN_MSG_SAVED_LABEL', true);
 		Text::script('PLG_SYSTEM_WEBAUTHN_ERR_LABEL_NOT_SAVED', true);
+		Text::script('PLG_SYSTEM_WEBAUTHN_ERR_XHR_INITCREATE', true);
 
 		$app                  = Factory::getApplication();
 		$credentialRepository = new CredentialRepository;
