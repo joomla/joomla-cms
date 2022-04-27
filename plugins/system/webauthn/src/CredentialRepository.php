@@ -18,6 +18,7 @@ use Joomla\CMS\Date\Date;
 use Joomla\CMS\Encrypt\Aes;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\User\UserFactoryInterface;
 use Joomla\Database\DatabaseDriver;
 use Joomla\Registry\Registry;
 use JsonException;
@@ -622,7 +623,7 @@ class CredentialRepository implements PublicKeyCredentialSourceRepository
 				$tzDefault = 'GMT';
 			}
 
-			$user = Factory::getUser($userId);
+			$user = Factory::getContainer()->get(UserFactoryInterface::class)->loadUserById($userId);
 			$tz   = $user->getParam('timezone', $tzDefault);
 		}
 
