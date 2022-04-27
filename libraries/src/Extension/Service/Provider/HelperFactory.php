@@ -11,6 +11,7 @@ namespace Joomla\CMS\Extension\Service\Provider;
 \defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Helper\HelperFactoryInterface;
+use Joomla\Database\DatabaseInterface;
 use Joomla\DI\Container;
 use Joomla\DI\ServiceProviderInterface;
 
@@ -57,7 +58,10 @@ class HelperFactory implements ServiceProviderInterface
 			HelperFactoryInterface::class,
 			function (Container $container)
 			{
-				return new \Joomla\CMS\Helper\HelperFactory($this->namespace);
+				$factory = new \Joomla\CMS\Helper\HelperFactory($this->namespace);
+				$factory->setDatabase($container->get(DatabaseInterface::class));
+
+				return $factory;
 			}
 		);
 	}
