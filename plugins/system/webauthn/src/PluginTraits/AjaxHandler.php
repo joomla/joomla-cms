@@ -19,7 +19,6 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\Uri\Uri;
 use Joomla\Event\Event;
-use Joomla\Plugin\System\Webauthn\Exception\AjaxNonCmsAppException;
 use RuntimeException;
 
 /**
@@ -58,7 +57,9 @@ trait AjaxHandler
 
 			if (!($this->app instanceof CMSApplication))
 			{
-				throw new AjaxNonCmsAppException;
+				Log::add("This is not a CMS application", Log::NOTICE, 'webauthn.system');
+
+				return;
 			}
 
 			$akaction = $input->getCmd('akaction');
@@ -85,10 +86,6 @@ trait AjaxHandler
 				return $carry ?? $result;
 			};
 			$result    = array_reduce($results, $reducer, null);
-		}
-		catch (AjaxNonCmsAppException $e)
-		{
-			Log::add("This is not a CMS application", Log::NOTICE, 'webauthn.system');
 		}
 		catch (Exception $e)
 		{
