@@ -92,7 +92,7 @@ abstract class Authentication
 	 *
 	 * This is used in the first step of the assertion (login) flow.
 	 *
-	 * @param   User  $user  The Joomla user to get the PK request optiosn for
+	 * @param   User  $user  The Joomla user to get the PK request options for
 	 *
 	 * @return  PublicKeyCredentialRequestOptions
 	 *
