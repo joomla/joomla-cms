@@ -17,14 +17,13 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Uri\Uri;
 use Joomla\Component\Finder\Administrator\Helper\LanguageHelper;
+use Joomla\Component\Finder\Site\Helper\RouteHelper;
 use Joomla\Database\DatabaseAwareTrait;
 use Joomla\Database\DatabaseInterface;
 use Joomla\Database\ParameterType;
 use Joomla\Registry\Registry;
 use Joomla\String\StringHelper;
 use Joomla\Utilities\ArrayHelper;
-
-\JLoader::register('FinderHelperRoute', JPATH_SITE . '/components/com_finder/helpers/route.php');
 
 /**
  * Query class for the Finder indexer package.
@@ -385,7 +384,7 @@ class Query
 				'q'    => $uri->getVar('q'),
 			);
 
-			$item = \FinderHelperRoute::getItemid($query);
+			$item = RouteHelper::getItemid($query);
 
 			// Add the menu item id if present.
 			if ($item !== null)
