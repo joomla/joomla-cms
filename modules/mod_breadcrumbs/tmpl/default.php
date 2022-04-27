@@ -78,14 +78,17 @@ use Joomla\CMS\WebAsset\WebAssetManager;
 
 	foreach ($list as $key => $item)
 	{
-		$data['itemListElement'][] = [
-				'@type'    => 'ListItem',
-				'position' => $key + 1,
-				'item'     => [
-						'@id'  => $item->link ? Route::_($item->link, true, Route::TLS_IGNORE, true) : Route::_(Uri::getInstance()),
-						'name' => $item->name
-				]
-		];
+		// Only add item to JSON if it has a valid link, otherwise skip it.
+		if(!empty($item->link)) {
+			$data['itemListElement'][] = [
+					'@type'    => 'ListItem',
+					'position' => $key + 1,
+					'item'     => [
+							'@id'  => $item->link ? Route::_($item->link, true, Route::TLS_IGNORE, true) : Route::_(Uri::getInstance()),
+							'name' => $item->name
+					]
+			];
+		}
 	}
 
 	/** @var WebAssetManager $wa */
