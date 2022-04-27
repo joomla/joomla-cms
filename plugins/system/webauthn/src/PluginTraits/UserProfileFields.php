@@ -209,8 +209,9 @@ trait UserProfileFields
 	}
 
 	/**
-	 * Is the current user allowed to edit the social login configuration of $user? To do so I must either be editing my
-	 * own account OR I have to be a Super User.
+	 * Is the current user allowed to edit the WebAuthn configuration of $user?
+	 *
+	 * To do so I must either be editing my own account OR I have to be a Super User.
 	 *
 	 * @param   ?User   $user   The user you want to know if we're allowed to edit
 	 *
