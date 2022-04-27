@@ -74,7 +74,7 @@ trait AjaxHandler
 				throw new RuntimeException(Text::_('PLG_SYSTEM_WEBAUTHN_ERR_AJAX_INVALIDACTION'));
 			}
 
-			// Call the plugin event onAjaxPasswordlessSomething where Something is the akaction param.
+			// Call the plugin event onAjaxWebauthnSomething where Something is the akaction param.
 			$eventName = 'onAjaxWebauthn' . ucfirst($akaction);
 			$event     = new GenericEvent($eventName, []);
 			$result    = $this->app->getDispatcher()->dispatch($eventName, $event);
