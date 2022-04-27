@@ -11,8 +11,8 @@ namespace Joomla\Component\Menus\Administrator\Table;
 
 \defined('_JEXEC') or die;
 
-use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Table\Menu;
 use Joomla\Database\ParameterType;
 
 /**
@@ -20,7 +20,7 @@ use Joomla\Database\ParameterType;
  *
  * @since  1.6
  */
-class MenuTable extends \Joomla\CMS\Table\Menu
+class MenuTable extends Menu
 {
 	/**
 	 * Method to delete a node and, optionally, its child nodes from the table.
@@ -39,7 +39,7 @@ class MenuTable extends \Joomla\CMS\Table\Menu
 		if ($return)
 		{
 			// Delete key from the #__modules_menu table
-			$db = Factory::getDbo();
+			$db    = $this->getDbo();
 			$query = $db->getQuery(true)
 				->delete($db->quoteName('#__modules_menu'))
 				->where($db->quoteName('menuid') . ' = :pk')
