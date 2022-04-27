@@ -199,7 +199,7 @@ trait AjaxHandlerLogin
 		 *
 		 * The 'action' element is actually required by plg_user_joomla. It is the core ACL action the logged in user
 		 * must be allowed for the login to succeed. Please note that front-end and back-end logins use a different
-		 * action. This allows us to provide the social login button on both front- and back-end and be sure that if a
+		 * action. This allows us to provide the WebAuthn button on both front- and back-end and be sure that if a
 		 * used with no backend access tries to use it to log in Joomla! will just slap him with an error message about
 		 * insufficient privileges - the same thing that'd happen if you tried to use your front-end only username and
 		 * password in a back-end login form.
