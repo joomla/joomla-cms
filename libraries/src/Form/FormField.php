@@ -515,7 +515,8 @@ abstract class FormField implements DatabaseAwareInterface
 			case 'class':
 				// Removes spaces from left & right and extra spaces from middle
 				$value = preg_replace('/\s+/', ' ', trim((string) $value));
-				// no break
+
+				// No break
 
 			case 'description':
 			case 'hint':
@@ -552,7 +553,8 @@ abstract class FormField implements DatabaseAwareInterface
 				// Allow for field classes to force the multiple values option.
 				$value = (string) $value;
 				$value = $value === '' && isset($this->forceMultiple) ? (string) $this->forceMultiple : $value;
-				// no break
+
+				// No break
 
 			case 'required':
 			case 'disabled':
