@@ -125,7 +125,7 @@ class PlgActionlogJoomla extends ActionLogPlugin
 			$defaultLanguageKey = 'PLG_SYSTEM_ACTIONLOGS_CONTENT_UPDATED';
 		}
 
-		// If the content type doesn't has it own language key, use default language key
+		// If the content type doesn't have its own language key, use default language key
 		if (!$this->app->getLanguage()->hasKey($messageLanguageKey))
 		{
 			$messageLanguageKey = $defaultLanguageKey;
@@ -173,7 +173,7 @@ class PlgActionlogJoomla extends ActionLogPlugin
 			return;
 		}
 
-		// If the content type has it own language key, use it, otherwise, use default language key
+		// If the content type has its own language key, use it, otherwise, use default language key
 		if ($this->app->getLanguage()->hasKey(strtoupper($params->text_prefix . '_' . $params->type_title . '_DELETED')))
 		{
 			$messageLanguageKey = $params->text_prefix . '_' . $params->type_title . '_DELETED';
@@ -256,7 +256,7 @@ class PlgActionlogJoomla extends ActionLogPlugin
 				break;
 		}
 
-		// If the content type doesn't has it own language key, use default language key
+		// If the content type doesn't have its own language key, use default language key
 		if (!$this->app->getLanguage()->hasKey($messageLanguageKey))
 		{
 			$messageLanguageKey = $defaultLanguageKey;
@@ -358,7 +358,7 @@ class PlgActionlogJoomla extends ActionLogPlugin
 
 		$extensionType = $manifest->attributes()->type;
 
-		// If the extension type has it own language key, use it, otherwise, use default language key
+		// If the extension type has its own language key, use it, otherwise, use default language key
 		if ($this->app->getLanguage()->hasKey(strtoupper('PLG_ACTIONLOG_JOOMLA_' . $extensionType . '_INSTALLED')))
 		{
 			$messageLanguageKey = 'PLG_ACTIONLOG_JOOMLA_' . $extensionType . '_INSTALLED';
@@ -416,7 +416,7 @@ class PlgActionlogJoomla extends ActionLogPlugin
 
 		$extensionType = $manifest->attributes()->type;
 
-		// If the extension type has it own language key, use it, otherwise, use default language key
+		// If the extension type has its own language key, use it, otherwise, use default language key
 		if ($this->app->getLanguage()->hasKey(strtoupper('PLG_ACTIONLOG_JOOMLA_' . $extensionType . '_UNINSTALLED')))
 		{
 			$messageLanguageKey = 'PLG_ACTIONLOG_JOOMLA_' . $extensionType . '_UNINSTALLED';
@@ -467,7 +467,7 @@ class PlgActionlogJoomla extends ActionLogPlugin
 
 		$extensionType = $manifest->attributes()->type;
 
-		// If the extension type has it own language key, use it, otherwise, use default language key
+		// If the extension type has its own language key, use it, otherwise, use default language key
 		if ($this->app->getLanguage()->hasKey('PLG_ACTIONLOG_JOOMLA_' . $extensionType . '_UPDATED'))
 		{
 			$messageLanguageKey = 'PLG_ACTIONLOG_JOOMLA_' . $extensionType . '_UPDATED';

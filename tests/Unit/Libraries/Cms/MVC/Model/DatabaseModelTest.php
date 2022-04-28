@@ -12,6 +12,7 @@ namespace Joomla\Tests\Unit\Libraries\Cms\MVC\Model;
 use Exception;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;
+use Joomla\CMS\MVC\Model\DatabaseAwareTrait;
 use Joomla\CMS\Table\Table;
 use Joomla\Database\DatabaseInterface;
 use Joomla\Tests\Unit\UnitTestCase;
@@ -21,7 +22,7 @@ use Joomla\Tests\Unit\UnitTestCase;
  *
  * @package     Joomla.UnitTest
  * @subpackage  MVC
- * @since       __DEPLOY_VERSION__
+ * @since       4.2.0
  */
 class DatabaseModelTest extends UnitTestCase
 {
@@ -30,7 +31,7 @@ class DatabaseModelTest extends UnitTestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	public function testInjectedDatabaseAndMVCFactory()
 	{
@@ -59,7 +60,7 @@ class DatabaseModelTest extends UnitTestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	public function testGetTable()
 	{
@@ -78,7 +79,7 @@ class DatabaseModelTest extends UnitTestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	public function testGetTableWhenNull()
 	{
@@ -97,7 +98,7 @@ class DatabaseModelTest extends UnitTestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	public function testGetListFromObject()
 	{
@@ -120,7 +121,7 @@ class DatabaseModelTest extends UnitTestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	public function testGetListFromString()
 	{
@@ -144,7 +145,7 @@ class DatabaseModelTest extends UnitTestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	public function testGetListCountFromObject()
 	{
@@ -167,7 +168,7 @@ class DatabaseModelTest extends UnitTestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	public function testGetListCountFromObjectTypeSelect()
 	{
@@ -193,7 +194,7 @@ class DatabaseModelTest extends UnitTestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	public function testGetListCountFromString()
 	{
@@ -212,11 +213,32 @@ class DatabaseModelTest extends UnitTestCase
 	}
 
 	/**
+	 * @testdox  Test that the BaseDatabaseModel still can use the old trait
+	 *
+	 * @return  void
+	 *
+	 * @since   4.2.0
+	 *
+	 * @deprecated  5.0 Must be removed when trait gets deleted
+	 */
+	public function testUseOldMVCTrait()
+	{
+		$db = $this->createStub(DatabaseInterface::class);
+
+		$model = new class(['dbo' => $db], $this->createStub(MVCFactoryInterface::class)) extends BaseDatabaseModel
+		{
+			use DatabaseAwareTrait;
+		};
+
+		$this->assertEquals($db, $model->getDbo());
+	}
+
+	/**
 	 * @testdox  Test that the BaseDatabaseModel operates normally even when no variable is declared
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 *
 	 * @deprecated  5.0 This has to be removed when we do not support the MVC Trait anymore
 	 */

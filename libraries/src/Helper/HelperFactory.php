@@ -10,6 +10,9 @@ namespace Joomla\CMS\Helper;
 
 \defined('_JEXEC') or die;
 
+use Joomla\Database\DatabaseAwareInterface;
+use Joomla\Database\DatabaseAwareTrait;
+
 /**
  * Namespace based implementation of the HelperFactoryInterface
  *
@@ -17,6 +20,8 @@ namespace Joomla\CMS\Helper;
  */
 class HelperFactory implements HelperFactoryInterface
 {
+	use DatabaseAwareTrait;
+
 	/**
 	 * The extension namespace
 	 *
@@ -57,6 +62,13 @@ class HelperFactory implements HelperFactoryInterface
 			return null;
 		}
 
-		return new $className($config);
+		$helper = new $className($config);
+
+		if ($helper instanceof DatabaseAwareInterface)
+		{
+			$helper->setDatabase($this->getDatabase());
+		}
+
+		return $helper;
 	}
 }
