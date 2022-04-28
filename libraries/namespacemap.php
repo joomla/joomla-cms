@@ -8,8 +8,9 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Filesystem\Folder;
 use Joomla\CMS\Log\Log;
+use Joomla\Filesystem\File;
+use Joomla\Filesystem\Folder;
 
 /**
  * Class JNamespacePsr4Map
@@ -141,7 +142,7 @@ class JNamespacePsr4Map
 		 */
 		$error_reporting = error_reporting(0);
 
-		if (!file_put_contents($this->file, implode("\n", $content)))
+		if (!File::write($this->file, implode("\n", $content)))
 		{
 			Log::add('Could not save ' . $this->file, Log::WARNING);
 
