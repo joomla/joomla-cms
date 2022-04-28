@@ -10,6 +10,7 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
+use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\FileLayout;
 use Joomla\CMS\User\User;
@@ -30,6 +31,7 @@ use Webauthn\PublicKeyCredentialSource;
  * @var   array      $credentials         The already stored credentials for the user
  * @var   string     $error               Any error messages
  * @var   array      $knownAuthenticators Known authenticator metadata
+ * @var   boolean    $attestationSupport  Is authenticator attestation supported in the plugin?
  */
 
 // Extract the data. Do not remove until the unset() line.
@@ -47,10 +49,12 @@ catch (Exception $e)
 }
 
 $defaultDisplayData = [
-	'user'        => $loggedInUser,
-	'allow_add'   => false,
-	'credentials' => [],
-	'error'       => '',
+		'user'                => $loggedInUser,
+		'allow_add'           => false,
+		'credentials'         => [],
+		'error'               => '',
+		'knownAuthenticators' => [],
+		'attestationSupport'  => true,
 ];
 extract(array_merge($defaultDisplayData, $displayData));
 
@@ -70,7 +74,7 @@ if ($allow_add && function_exists('gmp_intval') === false && function_exists('bc
 	$allow_add = false;
 }
 
-\Joomla\CMS\HTML\HTMLHelper::_('bootstrap.tooltip', '.plg_system_webauth-has-tooltip');
+HTMLHelper::_('bootstrap.tooltip', '.plg_system_webauth-has-tooltip');
 ?>
 <div class="plg_system_webauthn" id="plg_system_webauthn-management-interface">
 	<?php // phpcs:ignore
@@ -86,18 +90,21 @@ if ($allow_add && function_exists('gmp_intval') === false && function_exists('bc
 		</caption>
 		<thead class="table-dark">
 		<tr>
-			<th colspan="2" scope="col"><?php echo Text::_('PLG_SYSTEM_WEBAUTHN_MANAGE_FIELD_KEYLABEL_LABEL') ?></th>
+			<th <?php if ($attestationSupport): ?>colspan="2"<?php endif; ?> scope="col">
+				<?php echo Text::_('PLG_SYSTEM_WEBAUTHN_MANAGE_FIELD_KEYLABEL_LABEL') ?>
+			</th>
 			<th scope="col"><?php echo Text::_('PLG_SYSTEM_WEBAUTHN_MANAGE_HEADER_ACTIONS_LABEL') ?></th>
 		</tr>
 		</thead>
 		<tbody>
 		<?php // phpcs:ignore
 		foreach ($credentials as $method): ?>
-			<?php
-			$aaguid = ($method['credential'] instanceof PublicKeyCredentialSource) ? $method['credential']->getAaguid() : '';
-			$authMetadata = $knownAuthenticators[$aaguid->toString()] ?? $knownAuthenticators[''];
-			?>
 			<tr data-credential_id="<?php echo $method['id'] ?>">
+				<?php
+				if ($attestationSupport):
+					$aaguid = ($method['credential'] instanceof PublicKeyCredentialSource) ? $method['credential']->getAaguid() : '';
+					$authMetadata = $knownAuthenticators[$aaguid->toString()] ?? $knownAuthenticators[''];
+				?>
 				<td class="text-center">
 					<img class="plg_system_webauth-has-tooltip img-thumbnail p-1"
 						 style="max-width: 6em; max-height: 3em"
@@ -105,6 +112,7 @@ if ($allow_add && function_exists('gmp_intval') === false && function_exists('bc
 						 alt="<?php echo $authMetadata->description ?>"
 						 title="<?php echo $authMetadata->description ?>">
 				</td>
+				<?php endif; ?>
 				<th scope="row" class="plg_system_webauthn-cell"><?php echo htmlentities($method['label']) ?></th>
 				<td class="plg_system_webauthn-cell">
 					<button class="plg_system_webauthn-manage-edit btn btn-secondary">

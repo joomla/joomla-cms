@@ -76,6 +76,7 @@ class WebauthnField extends FormField
 				'allow_add'           => $userId == $app->getIdentity()->id,
 				'credentials'         => $plugin->getAuthenticationHelper()->getCredentialsRepository()->getAll($userId),
 				'knownAuthenticators' => $plugin->getAuthenticationHelper()->getKnownAuthenticators(),
+				'attestationSupport'  => $plugin->getAuthenticationHelper()->hasAttestationSupport(),
 			]
 		);
 	}

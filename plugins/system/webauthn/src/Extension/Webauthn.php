@@ -144,6 +144,7 @@ class Webauthn extends CMSPlugin implements SubscriberInterface
 		);
 
 		$this->authenticationHelper = $authHelper ?? (new Authentication);
+		$this->authenticationHelper->setAttestationSupport($this->params->get('attestationSupport', 1) == 1);
 	}
 
 	/**

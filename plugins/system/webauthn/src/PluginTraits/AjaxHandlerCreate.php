@@ -104,6 +104,7 @@ trait AjaxHandlerCreate
 			'allow_add'           => $thatUser->id == $myUser->id,
 			'credentials'         => $credentialRepository->getAll($thatUser->id),
 			'knownAuthenticators' => $this->authenticationHelper->getKnownAuthenticators(),
+			'attestationSupport'  => $this->authenticationHelper->hasAttestationSupport(),
 		];
 
 		if (isset($error) && !empty($error))

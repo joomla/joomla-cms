@@ -77,6 +77,15 @@ class Authentication
 	private $metadataRepository;
 
 	/**
+	 * Should I permit attestation support if a Metadata Statement Repository object is present and
+	 * non-empty?
+	 *
+	 * @var   boolean
+	 * @since __DEPLOY_VERSION__
+	 */
+	private $attestationSupport = true;
+
+	/**
 	 * Public constructor.
 	 *
 	 * @param   ApplicationInterface|null                 $app       The app we are running in
@@ -191,11 +200,9 @@ class Authentication
 		 * case we do not have any information about the make and model of the authenticator. So be
 		 * it! After all, that's a convenience feature for us.
 		 */
-		$attestationMode = ($this->metadataRepository->findOneByAAGUID('6d44ba9b-f6ec-2e49-b930-0c8fe920cb73') !== null)
+		$attestationMode = $this->hasAttestationSupport()
 			? PublicKeyCredentialCreationOptions::ATTESTATION_CONVEYANCE_PREFERENCE_DIRECT
 			: PublicKeyCredentialCreationOptions::ATTESTATION_CONVEYANCE_PREFERENCE_NONE;
-
-		// TODO Maybe add a plugin option to control attestation mode?
 
 		$publicKeyCredentialCreationOptions = $this->getWebauthnServer()->generatePublicKeyCredentialCreationOptions(
 			$this->getUserEntity($user),
@@ -352,6 +359,32 @@ class Authentication
 			$publicKeyCredentialCreationOptions,
 			ServerRequestFactory::fromGlobals()
 		);
+	}
+
+	/**
+	 * Get the authentiactor attestation support.
+	 *
+	 * @return  boolean
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function hasAttestationSupport(): bool
+	{
+		return $this->attestationSupport
+			&& ($this->metadataRepository instanceof MetadataStatementRepository)
+			&& $this->metadataRepository->findOneByAAGUID('6d44ba9b-f6ec-2e49-b930-0c8fe920cb73');
+	}
+
+	/**
+	 * Change the authenticator attestation support.
+	 *
+	 * @param   bool  $attestationSupport  The desired setting
+	 *
+	 * @return  void
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function setAttestationSupport(bool $attestationSupport): void
+	{
+		$this->attestationSupport = $attestationSupport;
 	}
 
 	/**
