@@ -13,8 +13,10 @@ namespace Joomla\Plugin\System\Webauthn;
 \defined('_JEXEC') or die();
 
 use Exception;
+use Joomla\Application\ApplicationInterface;
 use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Factory;
+use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\Uri\Uri;
@@ -24,11 +26,13 @@ use Laminas\Diactoros\ServerRequestFactory;
 use RuntimeException;
 use Webauthn\AuthenticationExtensions\AuthenticationExtensionsClientInputs;
 use Webauthn\AuthenticatorSelectionCriteria;
+use Webauthn\MetadataService\MetadataStatementRepository;
 use Webauthn\PublicKeyCredentialCreationOptions;
 use Webauthn\PublicKeyCredentialDescriptor;
 use Webauthn\PublicKeyCredentialRequestOptions;
 use Webauthn\PublicKeyCredentialRpEntity;
 use Webauthn\PublicKeyCredentialSource;
+use Webauthn\PublicKeyCredentialSourceRepository;
 use Webauthn\PublicKeyCredentialUserEntity;
 use Webauthn\Server;
 
@@ -65,15 +69,33 @@ class Authentication
 	private $session;
 
 	/**
+	 * A simple metadata statement repository
+	 *
+	 * @var   MetadataStatementRepository
+	 * @since __DEPLOY_VERSION__
+	 */
+	private $metadataRepository;
+
+	/**
 	 * Public constructor.
+	 *
+	 * @param   ApplicationInterface|null                 $app       The app we are running in
+	 * @param   SessionInterface|null                     $session   The app session object
+	 * @param   PublicKeyCredentialSourceRepository|null  $credRepo  Credentials repo
+	 * @param   MetadataStatementRepository|null          $mdsRepo   Authenticator metadata repo
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function __construct()
+	public function __construct(
+		?ApplicationInterface                $app = null,
+		SessionInterface                     $session = null,
+		?PublicKeyCredentialSourceRepository $credRepo = null,
+		?MetadataStatementRepository         $mdsRepo = null
+	)
 	{
 		try
 		{
-			$this->app = Factory::getApplication();
+			$this->app = $app ?? Factory::getApplication();
 		}
 		catch (\Throwable $e)
 		{
@@ -82,14 +104,65 @@ class Authentication
 
 		try
 		{
-			$this->session = ($this->app instanceof CMSApplication) ? $this->app->getSession() : null;
+			$this->session = $session ?? (($this->app instanceof CMSApplication) ? $this->app->getSession() : null);
 		}
 		catch (\Throwable $e)
 		{
 			$this->session = null;
 		}
+
+		$this->credentialsRepository = $credRepo ?? new CredentialRepository;
+		$this->metadataRepository    = $mdsRepo ?? new MetadataRepository;
 	}
 
+	/**
+	 * Get the known FIDO authenticators and their metadata
+	 *
+	 * @return  object[]
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function getKnownAuthenticators(): array
+	{
+		$return = (!empty($this->metadataRepository) && method_exists($this->metadataRepository, 'getKnownAuthenticators'))
+			? $this->metadataRepository->getKnownAuthenticators()
+			: [];
+
+		// Add a generic authenticator entry
+		$image = HTMLHelper::_('image', 'plg_system_webauthn/fido.png', '', '', true, true);
+		$image = $image ? JPATH_ROOT . substr($image, \strlen(Uri::root(true))) : (JPATH_BASE . '/media/plg_system_webauthn/images/fido.png');
+		$image = file_exists($image) ? file_get_contents($image) : '';
+
+		$return[''] = (object) [
+			'description' => Text::_('PLG_SYSTEM_WEBAUTHN_LBL_DEFAULT_AUTHENTICATOR'),
+			'icon' => 'data:image/png;base64,' . base64_encode($image)
+		];
+
+		return $return;
+	}
+
+	/**
+	 * Returns the Public Key credential source repository object
+	 *
+	 * @return  PublicKeyCredentialSourceRepository|null
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function getCredentialsRepository(): ?PublicKeyCredentialSourceRepository
+	{
+		return $this->credentialsRepository;
+	}
+
+	/**
+	 * Returns the authenticator metadata repository object
+	 *
+	 * @return  MetadataStatementRepository|null
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function getMetadataRepository(): ?MetadataStatementRepository
+	{
+		return $this->metadataRepository;
+	}
 
 	/**
 	 * Generate the public key creation options.
@@ -107,9 +180,26 @@ class Authentication
 	 */
 	public function getPubKeyCreationOptions(User $user): PublicKeyCredentialCreationOptions
 	{
+		/**
+		 * We will only ask for attestation information if our MDS is guaranteed not empty.
+		 *
+		 * We check that by trying to load a known good AAGUID (Yubico Security Key NFC). If it's
+		 * missing, we have failed to load the MDS data e.g. we could not contact the server, it
+		 * was taking too long, the cache is unwritable etc. In this case asking for attestation
+		 * conveyance would cause the attestation to fail (since we cannot verify its signature).
+		 * Therefore we have to ask for no attestation to be conveyed. The downside is that in this
+		 * case we do not have any information about the make and model of the authenticator. So be
+		 * it! After all, that's a convenience feature for us.
+		 */
+		$attestationMode = ($this->metadataRepository->findOneByAAGUID('6d44ba9b-f6ec-2e49-b930-0c8fe920cb73') !== null)
+			? PublicKeyCredentialCreationOptions::ATTESTATION_CONVEYANCE_PREFERENCE_DIRECT
+			: PublicKeyCredentialCreationOptions::ATTESTATION_CONVEYANCE_PREFERENCE_NONE;
+
+		// TODO Maybe add a plugin option to control attestation mode?
+
 		$publicKeyCredentialCreationOptions = $this->getWebauthnServer()->generatePublicKeyCredentialCreationOptions(
 			$this->getUserEntity($user),
-			PublicKeyCredentialCreationOptions::ATTESTATION_CONVEYANCE_PREFERENCE_NONE,
+			$attestationMode,
 			$this->getPubKeyDescriptorsForUser($user),
 			new AuthenticatorSelectionCriteria(
 				AuthenticatorSelectionCriteria::AUTHENTICATOR_ATTACHMENT_NO_PREFERENCE,
@@ -335,7 +425,7 @@ class Authentication
 	 */
 	private function getUserEntity(User $user): PublicKeyCredentialUserEntity
 	{
-		$repository = $this->getCredentialsRepository();
+		$repository = $this->credentialsRepository;
 
 		return new PublicKeyCredentialUserEntity(
 			$user->username,
@@ -376,7 +466,7 @@ class Authentication
 	private function getPubKeyDescriptorsForUser(User $user): array
 	{
 		$userEntity  = $this->getUserEntity($user);
-		$repository  = $this->getCredentialsRepository();
+		$repository  = $this->credentialsRepository;
 		$descriptors = [];
 		$records     = $repository->findAllForUserEntity($userEntity);
 
@@ -441,7 +531,7 @@ class Authentication
 		$siteName = $this->app->get('sitename');
 
 		// Credentials repository
-		$repository = $this->getCredentialsRepository();
+		$repository = $this->credentialsRepository;
 
 		// Relaying Party -- Our site
 		$rpEntity = new PublicKeyCredentialRpEntity(
@@ -450,27 +540,7 @@ class Authentication
 			$this->getSiteIcon()
 		);
 
-		$server = new Server($rpEntity, $repository, null);
-
-		/**
-		 * =============================================================================================================
-		 * Note about the metadata repository.
-		 * =============================================================================================================
-		 *
-		 * We do not need to implement an MDS repo since we are not asking for the attestation metadata in this plugin.
-		 * If you need to use this plugin in a high security environment you need to fork this plugin and do two things:
-		 *
-		 * 1. Change ATTESTATION_CONVEYANCE_PREFERENCE_NONE to ATTESTATION_CONVEYANCE_PREFERENCE_DIRECT or
-		 *    ATTESTATION_CONVEYANCE_PREFERENCE_INDIRECT in the getPubKeyCreationOptions() method.
-		 * 2. Implement your own Metadata Statement (MDS) repository and set it here, e.g.
-		 *    ```php
-		 *    $server->setMetadataStatementRepository(new MyMDSRepository());
-		 *    ```
-		 * The implementation of the MDS repository is considered out-of-scope since you'd need the MDS from the
-		 * manufacturer(s) of your authenticator.
-		 *
-		 * @see https://webauthn-doc.spomky-labs.com/deep-into-the-framework/attestation-and-metadata-statement
-		 */
+		$server = new Server($rpEntity, $repository, $this->metadataRepository);
 
 		// Ed25519 is only available with libsodium
 		if (!function_exists('sodium_crypto_sign_seed_keypair'))
@@ -479,24 +549,5 @@ class Authentication
 		}
 
 		return $server;
-	}
-
-	/**
-	 * Get the credentials repository
-	 *
-	 * @return  CredentialRepository
-	 *
-	 * @since   __DEPLOY_VERSION__
-	 */
-	private function getCredentialsRepository(): CredentialRepository
-	{
-		if ($this->credentialsRepository !== null)
-		{
-			return $this->credentialsRepository;
-		}
-
-		$this->credentialsRepository = new CredentialRepository;
-
-		return $this->credentialsRepository;
 	}
 }

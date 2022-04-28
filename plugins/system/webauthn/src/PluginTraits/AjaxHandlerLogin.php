@@ -24,7 +24,6 @@ use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\User\User;
 use Joomla\CMS\User\UserFactoryInterface;
 use Joomla\Event\Event;
-use Joomla\Plugin\System\Webauthn\CredentialRepository;
 use RuntimeException;
 use Throwable;
 
@@ -56,7 +55,7 @@ trait AjaxHandlerLogin
 
 		try
 		{
-			$credentialRepository = new CredentialRepository;
+			$credentialRepository = $this->authenticationHelper->getCredentialsRepository();
 
 			// No user ID: no username was provided and the resident credential refers to an unknown user handle. DIE!
 			if (empty($userId))

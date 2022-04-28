@@ -15,7 +15,6 @@ namespace Joomla\Plugin\System\Webauthn\PluginTraits;
 use Exception;
 use Joomla\CMS\User\User;
 use Joomla\Event\Event;
-use Joomla\Plugin\System\Webauthn\CredentialRepository;
 
 /**
  * Ajax handler for akaction=savelabel
@@ -40,7 +39,7 @@ trait AjaxHandlerSaveLabel
 	{
 		// Initialize objects
 		$input      = $this->app->input;
-		$repository = new CredentialRepository;
+		$repository = $this->authenticationHelper->getCredentialsRepository();
 
 		// Retrieve data from the request
 		$credentialId = $input->getBase64('credential_id', '');

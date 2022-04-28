@@ -147,6 +147,18 @@ class Webauthn extends CMSPlugin implements SubscriberInterface
 	}
 
 	/**
+	 * Returns the Authentication helper object
+	 *
+	 * @return Authentication
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
+	public function getAuthenticationHelper(): Authentication
+	{
+		return $this->authenticationHelper;
+	}
+
+	/**
 	 * Returns an array of events this subscriber will listen to.
 	 *
 	 * @return  array

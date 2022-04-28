@@ -19,7 +19,11 @@ use Joomla\CMS\Encrypt\Aes;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\User\UserFactoryInterface;
+use Joomla\Database\DatabaseAwareInterface;
+use Joomla\Database\DatabaseAwareTrait;
 use Joomla\Database\DatabaseDriver;
+use Joomla\Database\DatabaseInterface;
+use Joomla\Plugin\System\Webauthn\Extension\Webauthn;
 use Joomla\Registry\Registry;
 use JsonException;
 use RuntimeException;
@@ -33,8 +37,22 @@ use Webauthn\PublicKeyCredentialUserEntity;
  *
  * @since   4.0.0
  */
-class CredentialRepository implements PublicKeyCredentialSourceRepository
+class CredentialRepository implements PublicKeyCredentialSourceRepository, DatabaseAwareInterface
 {
+	use DatabaseAwareTrait;
+
+	/**
+	 * Public constructor.
+	 *
+	 * @param   DatabaseInterface|null  $db  The database driver object to use for persistence.
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function __construct(?DatabaseInterface $db = null)
+	{
+		$this->setDatabase($db ?? Factory::getContainer()->get('DatabaseDriver'));
+	}
+
 	/**
 	 * Returns a PublicKeyCredentialSource object given the public key credential ID
 	 *
@@ -47,7 +65,7 @@ class CredentialRepository implements PublicKeyCredentialSourceRepository
 	public function findOneByCredentialId(string $publicKeyCredentialId): ?PublicKeyCredentialSource
 	{
 		/** @var DatabaseDriver $db */
-		$db           = Factory::getContainer()->get('DatabaseDriver');
+		$db           = $this->getDatabase();
 		$credentialId = base64_encode($publicKeyCredentialId);
 		$query        = $db->getQuery(true)
 			->select($db->qn('credential'))
@@ -87,7 +105,7 @@ class CredentialRepository implements PublicKeyCredentialSourceRepository
 	public function findAllForUserEntity(PublicKeyCredentialUserEntity $publicKeyCredentialUserEntity): array
 	{
 		/** @var DatabaseDriver $db */
-		$db         = Factory::getContainer()->get('DatabaseDriver');
+		$db         = $this->getDatabase();
 		$userHandle = $publicKeyCredentialUserEntity->getId();
 		$query      = $db->getQuery(true)
 			->select('*')
@@ -178,18 +196,27 @@ class CredentialRepository implements PublicKeyCredentialSourceRepository
 	public function saveCredentialSource(PublicKeyCredentialSource $publicKeyCredentialSource): void
 	{
 		// Default values for saving a new credential source
-		$credentialId = base64_encode($publicKeyCredentialSource->getPublicKeyCredentialId());
-		$user         = Factory::getApplication()->getIdentity();
-		$o            = (object) [
+		/** @var Webauthn $plugin */
+		$plugin              = Factory::getApplication()->bootPlugin('webauthn', 'system');
+		$knownAuthenticators = $plugin->getAuthenticationHelper()->getKnownAuthenticators();
+		$aaguid              = (string) ($publicKeyCredentialSource->getAaguid() ?? '');
+		$defaultName         = ($knownAuthenticators[$aaguid] ?? $knownAuthenticators[''])->description;
+		$credentialId        = base64_encode($publicKeyCredentialSource->getPublicKeyCredentialId());
+		$user                = Factory::getApplication()->getIdentity();
+		$o                   = (object) [
 			'id'         => $credentialId,
 			'user_id'    => $this->getHandleFromUserId($user->id),
-			'label'      => Text::sprintf('PLG_SYSTEM_WEBAUTHN_LBL_DEFAULT_AUTHENTICATOR_LABEL', $this->formatDate('now')),
+			'label'      => Text::sprintf(
+				'PLG_SYSTEM_WEBAUTHN_LBL_DEFAULT_AUTHENTICATOR_LABEL',
+				$defaultName,
+				$this->formatDate('now')
+			),
 			'credential' => json_encode($publicKeyCredentialSource),
 		];
-		$update = false;
+		$update              = false;
 
 		/** @var DatabaseDriver $db */
-		$db     = Factory::getContainer()->get('DatabaseDriver');
+		$db     = $this->getDatabase();
 
 		// Try to find an existing record
 		try
@@ -260,7 +287,7 @@ class CredentialRepository implements PublicKeyCredentialSourceRepository
 	public function getAll(int $userId): array
 	{
 		/** @var DatabaseDriver $db */
-		$db         = Factory::getContainer()->get('DatabaseDriver');
+		$db         = $this->getDatabase();
 		$userHandle = $this->getHandleFromUserId($userId);
 		$query      = $db->getQuery(true)
 			->select('*')
@@ -282,7 +309,50 @@ class CredentialRepository implements PublicKeyCredentialSourceRepository
 			return [];
 		}
 
-		return $results;
+		/**
+		 * Decodes the credentials on each record.
+		 *
+		 * @param   array  $record  The record to convert
+		 *
+		 * @return  array
+		 * @since   __DEPLOY_VERSION__
+		 */
+		$recordsMapperClosure = function ($record)
+		{
+			try
+			{
+				$json = $this->decryptCredential($record['credential']);
+				$data = json_decode($json, true);
+			}
+			catch (JsonException $e)
+			{
+				$record['credential'] = null;
+
+				return $record;
+			}
+
+			if (empty($data))
+			{
+				$record['credential'] = null;
+
+				return $record;
+			}
+
+			try
+			{
+				$record['credential'] = PublicKeyCredentialSource::createFromArray($data);
+
+				return $record;
+			}
+			catch (InvalidArgumentException $e)
+			{
+				$record['credential'] = null;
+
+				return $record;
+			}
+		};
+
+		return array_map($recordsMapperClosure, $results);
 	}
 
 	/**
@@ -297,7 +367,7 @@ class CredentialRepository implements PublicKeyCredentialSourceRepository
 	public function has(string $credentialId): bool
 	{
 		/** @var DatabaseDriver $db */
-		$db           = Factory::getContainer()->get('DatabaseDriver');
+		$db           = $this->getDatabase();
 		$credentialId = base64_encode($credentialId);
 		$query        = $db->getQuery(true)
 			->select('COUNT(*)')
@@ -330,7 +400,7 @@ class CredentialRepository implements PublicKeyCredentialSourceRepository
 	public function setLabel(string $credentialId, string $label): void
 	{
 		/** @var DatabaseDriver $db */
-		$db           = Factory::getContainer()->get('DatabaseDriver');
+		$db           = $this->getDatabase();
 		$credentialId = base64_encode($credentialId);
 		$o            = (object) [
 			'id'    => $credentialId,
@@ -357,7 +427,7 @@ class CredentialRepository implements PublicKeyCredentialSourceRepository
 		}
 
 		/** @var DatabaseDriver $db */
-		$db           = Factory::getContainer()->get('DatabaseDriver');
+		$db           = $this->getDatabase();
 		$credentialId = base64_encode($credentialId);
 		$query        = $db->getQuery(true)
 			->delete($db->qn('#__webauthn_credentials'))
@@ -440,7 +510,7 @@ class CredentialRepository implements PublicKeyCredentialSourceRepository
 		}
 
 		/** @var DatabaseDriver $db */
-		$db = Factory::getContainer()->get('DatabaseDriver');
+		$db = $this->getDatabase();
 
 		// Check that the userHandle does exist in the database
 		$query = $db->getQuery(true)

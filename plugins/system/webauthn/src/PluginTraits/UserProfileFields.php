@@ -22,7 +22,7 @@ use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\User\User;
 use Joomla\CMS\User\UserFactoryInterface;
 use Joomla\Event\Event;
-use Joomla\Plugin\System\Webauthn\CredentialRepository;
+use Joomla\Plugin\System\Webauthn\Extension\Webauthn;
 use Joomla\Registry\Registry;
 
 /**
@@ -69,7 +69,9 @@ trait UserProfileFields
 			return '';
 		}
 
-		$credentialRepository = new CredentialRepository;
+		/** @var Webauthn $plugin */
+		$plugin               = Factory::getApplication()->bootPlugin('webauthn', 'system');
+		$credentialRepository = $plugin->getAuthenticationHelper()->getCredentialsRepository();
 		$credentials          = $credentialRepository->getAll(self::$userFromFormData->id);
 		$authenticators       = array_map(
 			function (array $credential)

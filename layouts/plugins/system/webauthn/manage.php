@@ -13,7 +13,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\FileLayout;
 use Joomla\CMS\User\User;
-use Joomla\Plugin\System\Webauthn\Helper\Joomla;
+use Webauthn\PublicKeyCredentialSource;
 
 /**
  * Passwordless Login management interface
@@ -25,10 +25,11 @@ use Joomla\Plugin\System\Webauthn\Helper\Joomla;
  *
  * Layout specific data
  *
- * @var   User       $user        The Joomla user whose passwordless login we are managing
- * @var   bool       $allow_add   Are we allowed to add passwordless login methods
- * @var   array      $credentials The already stored credentials for the user
- * @var   string     $error       Any error messages
+ * @var   User       $user                The Joomla user whose passwordless login we are managing
+ * @var   bool       $allow_add           Are we allowed to add passwordless login methods
+ * @var   array      $credentials         The already stored credentials for the user
+ * @var   string     $error               Any error messages
+ * @var   array      $knownAuthenticators Known authenticator metadata
  */
 
 // Extract the data. Do not remove until the unset() line.
@@ -56,16 +57,20 @@ extract(array_merge($defaultDisplayData, $displayData));
 if ($displayData['allow_add'] === false)
 {
 	$error = Text::_('PLG_SYSTEM_WEBAUTHN_CANNOT_ADD_FOR_A_USER');
+	//phpcs:ignore
 	$allow_add = false;
 }
 
 // Ensure the GMP or BCmath extension is loaded in PHP - as this is required by third party library
+//phpcs:ignore
 if ($allow_add && function_exists('gmp_intval') === false && function_exists('bccomp') === false)
 {
 	$error = Text::_('PLG_SYSTEM_WEBAUTHN_REQUIRES_GMP');
+	//phpcs:ignore
 	$allow_add = false;
 }
 
+\Joomla\CMS\HTML\HTMLHelper::_('bootstrap.tooltip', '.plg_system_webauth-has-tooltip');
 ?>
 <div class="plg_system_webauthn" id="plg_system_webauthn-management-interface">
 	<?php // phpcs:ignore
@@ -81,14 +86,25 @@ if ($allow_add && function_exists('gmp_intval') === false && function_exists('bc
 		</caption>
 		<thead class="table-dark">
 		<tr>
-			<th scope="col"><?php echo Text::_('PLG_SYSTEM_WEBAUTHN_MANAGE_FIELD_KEYLABEL_LABEL') ?></th>
+			<th colspan="2" scope="col"><?php echo Text::_('PLG_SYSTEM_WEBAUTHN_MANAGE_FIELD_KEYLABEL_LABEL') ?></th>
 			<th scope="col"><?php echo Text::_('PLG_SYSTEM_WEBAUTHN_MANAGE_HEADER_ACTIONS_LABEL') ?></th>
 		</tr>
 		</thead>
 		<tbody>
 		<?php // phpcs:ignore
 		foreach ($credentials as $method): ?>
+			<?php
+			$aaguid = ($method['credential'] instanceof PublicKeyCredentialSource) ? $method['credential']->getAaguid() : '';
+			$authMetadata = $knownAuthenticators[$aaguid->toString()] ?? $knownAuthenticators[''];
+			?>
 			<tr data-credential_id="<?php echo $method['id'] ?>">
+				<td class="text-center">
+					<img class="plg_system_webauth-has-tooltip img-thumbnail p-1"
+						 style="max-width: 6em; max-height: 3em"
+						 src="<?php echo $authMetadata->icon ?>"
+						 alt="<?php echo $authMetadata->description ?>"
+						 title="<?php echo $authMetadata->description ?>">
+				</td>
 				<th scope="row" class="plg_system_webauthn-cell"><?php echo htmlentities($method['label']) ?></th>
 				<td class="plg_system_webauthn-cell">
 					<button class="plg_system_webauthn-manage-edit btn btn-secondary">

@@ -18,7 +18,6 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\FileLayout;
 use Joomla\CMS\User\UserFactoryInterface;
 use Joomla\Event\Event;
-use Joomla\Plugin\System\Webauthn\CredentialRepository;
 use RuntimeException;
 use Webauthn\PublicKeyCredentialSource;
 
@@ -70,7 +69,7 @@ trait AjaxHandlerCreate
 		}
 
 		// Get the credentials repository object. It's outside the try-catch because I also need it to display the GUI.
-		$credentialRepository = new CredentialRepository;
+		$credentialRepository = $this->authenticationHelper->getCredentialsRepository();
 
 		// Try to validate the browser data. If there's an error I won't save anything and pass the message to the GUI.
 		try
@@ -101,9 +100,10 @@ trait AjaxHandlerCreate
 
 		// Render the GUI and return it
 		$layoutParameters = [
-			'user'        => $thatUser,
-			'allow_add'   => $thatUser->id == $myUser->id,
-			'credentials' => $credentialRepository->getAll($thatUser->id),
+			'user'                => $thatUser,
+			'allow_add'           => $thatUser->id == $myUser->id,
+			'credentials'         => $credentialRepository->getAll($thatUser->id),
+			'knownAuthenticators' => $this->authenticationHelper->getKnownAuthenticators(),
 		];
 
 		if (isset($error) && !empty($error))
