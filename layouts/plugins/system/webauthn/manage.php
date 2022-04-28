@@ -106,7 +106,7 @@ HTMLHelper::_('bootstrap.tooltip', '.plg_system_webauth-has-tooltip');
 					$authMetadata = $knownAuthenticators[$aaguid->toString()] ?? $knownAuthenticators[''];
 				?>
 				<td class="text-center">
-					<img class="plg_system_webauth-has-tooltip img-thumbnail p-1"
+					<img class="plg_system_webauth-has-tooltip bg-secondary"
 						 style="max-width: 6em; max-height: 3em"
 						 src="<?php echo $authMetadata->icon ?>"
 						 alt="<?php echo $authMetadata->description ?>"
