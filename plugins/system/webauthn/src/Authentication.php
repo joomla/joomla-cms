@@ -21,6 +21,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\User\User;
+use Joomla\Plugin\System\Webauthn\Hotfix\Server;
 use Joomla\Session\SessionInterface;
 use Laminas\Diactoros\ServerRequestFactory;
 use RuntimeException;
@@ -34,7 +35,6 @@ use Webauthn\PublicKeyCredentialRpEntity;
 use Webauthn\PublicKeyCredentialSource;
 use Webauthn\PublicKeyCredentialSourceRepository;
 use Webauthn\PublicKeyCredentialUserEntity;
-use Webauthn\Server;
 
 /**
  * Helper class to aid in credentials creation (link an authenticator to a user account)
@@ -526,7 +526,7 @@ class Authentication
 	 * @throws  Exception
 	 * @since    __DEPLOY_VERSION__
 	 */
-	private function getWebauthnServer(): Server
+	private function getWebauthnServer(): \Webauthn\Server
 	{
 		$siteName = $this->app->get('sitename');
 
