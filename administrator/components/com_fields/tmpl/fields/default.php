@@ -158,7 +158,7 @@ if (count($this->filterForm->getField('context')->options) > 1)
 													<?php echo Text::_('COM_FIELDS_FIELD_ONLY_USE_IN_SUBFORM_BADGE'); ?>
 												</div>
 											<?php endif; ?>
-											<?php if ($category) : ?>
+											<?php if ($category && !$item->only_use_in_subform) : ?>
 												<div class="small">
 													<?php echo Text::_('JCATEGORY') . ': '; ?>
 													<?php $categories = FieldsHelper::getAssignedCategoriesTitles($item->id); ?>
