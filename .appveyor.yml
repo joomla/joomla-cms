@@ -44,7 +44,7 @@ install:
     - choco install composer
     - cd C:\projects\joomla-cms
     - refreshenv
-    - composer install --no-progress --profile
+    - composer install --no-progress --profile --ignore-platform-req=ext-sodium
 before_test:
 #  Database setup for MySQL via PowerShell tools
   - >
