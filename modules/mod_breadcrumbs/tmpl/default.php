@@ -98,8 +98,8 @@ use Joomla\CMS\WebAsset\WebAssetManager;
 					'@type'    => 'ListItem',
 					'position' => $key + 1,
 					'item'     => [
-							'name' => $item->name
-					]
+							'name' => $item->name,
+					],
 			];
 		}
 	}
