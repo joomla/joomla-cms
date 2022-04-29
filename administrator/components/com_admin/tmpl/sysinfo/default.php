@@ -34,8 +34,12 @@ use Joomla\CMS\Language\Text;
 		<?php echo $this->loadTemplate('directory'); ?>
 		<?php echo HTMLHelper::_('uitab.endTab'); ?>
 
-		<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'phpinfo', Text::_('COM_ADMIN_PHP_INFORMATION')); ?>
-		<?php echo $this->loadTemplate('phpinfo'); ?>
+		<?php //echo HTMLHelper::_('uitab.addTab', 'myTab', 'phpinfo', Text::_('COM_ADMIN_PHP_INFORMATION')); ?>
+		<?php //echo $this->loadTemplate('phpinfo'); ?>
+		<?php //echo HTMLHelper::_('uitab.endTab'); ?>
+
+		<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'defaulticons', Text::_('COM_ADMIN_DEFAULT_ICONS')); ?>
+		<?php echo $this->loadTemplate('defaulticons'); ?>
 		<?php echo HTMLHelper::_('uitab.endTab'); ?>
 
 		<?php echo HTMLHelper::_('uitab.endTabSet'); ?>

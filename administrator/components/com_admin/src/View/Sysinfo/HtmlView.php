@@ -69,6 +69,14 @@ class HtmlView extends BaseHtmlView
 	protected $directory = [];
 
 	/**
+	 * All default Icons
+	 *
+	 * @var    array
+	 * @since  4.2
+	 */
+	protected $defaulticons = [];
+
+	/**
 	 * Execute and display a template script.
 	 *
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
@@ -94,6 +102,7 @@ class HtmlView extends BaseHtmlView
 		$this->info        = $model->getInfo();
 		$this->phpInfo     = $model->getPHPInfo();
 		$this->directory   = $model->getDirectory();
+		$this->defaulticons= $model->getDefaultIcons();
 
 		$this->addToolbar();
 

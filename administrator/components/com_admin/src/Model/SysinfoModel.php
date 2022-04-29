@@ -756,4 +756,44 @@ class SysinfoModel extends BaseDatabaseModel
 
 		return $r;
 	}
+
+	/**
+	 * Method to get the directory states
+	 *
+	 * @param   bool $public If true no information is going to be removed
+	 *
+	 * @return  array States of directories
+	 *
+	 * @throws \Exception
+	 * @since   1.6
+	 */
+	public function getDefaultIcons(bool $public = false): array
+	{
+		$icons = [];
+		$files = [
+			//JPATH_ROOT. '/media/vendor/fontawesome-free/webfonts/fa-brands-400.svg',
+			JPATH_ROOT. '/media/vendor/fontawesome-free/webfonts/fa-regular-400.svg',
+			JPATH_ROOT. '/media/vendor/fontawesome-free/webfonts/fa-solid-900.svg'
+		];
+
+		foreach ($files as $file)
+		{
+			$array = json_decode(json_encode(simplexml_load_file($file)),TRUE);
+			$glyphs = $array['defs']['font']['glyph'];
+
+			foreach($glyphs as $glyph)
+			{
+				$icons[] = $glyph['@attributes']['glyph-name'];
+			}
+		}
+
+		asort($icons);
+		$icons = array_unique($icons);
+		//$file = JPATH_ROOT. '/media/vendor/fontawesome-free/webfonts/fa-regular-400.svg';
+
+
+		return $icons;
+	}
+
 }
+
