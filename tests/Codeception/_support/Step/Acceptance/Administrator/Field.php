@@ -120,5 +120,6 @@ class Field extends Admin
 		$I->clickToolbarButton('Empty trash');
 		$I->wait(2);
 		$I->acceptPopup();
+		$I->assertSuccessMessage($message);
 	}
 }
