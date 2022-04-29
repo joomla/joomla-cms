@@ -412,16 +412,30 @@ class Server extends \Webauthn\Server
 		{
 			$coseAlgorithmManager = $this->coseAlgorithmManagerFactory->create($this->selectedAlgorithms);
 			$attestationStatementSupportManager->add(new FidoU2FAttestationStatementSupport(null, $this->metadataStatementRepository));
-			$attestationStatementSupportManager->add(
-				new AndroidSafetyNetAttestationStatementSupport(
-					$this->httpClient,
-					$this->googleApiKey,
-					$this->requestFactory,
-					2000,
-					60000,
-					$this->metadataStatementRepository
-				)
-			);
+
+			/**
+			 * Work around a third party library (web-token/jwt-signature-algorithm-eddsa) bug.
+			 *
+			 * On PHP 8 libsodium is compiled into PHP, it is not an extension. However, the third party library does
+			 * not check if the libsodium function are available; it checks if the "sodium" extension is loaded. This of
+			 * course causes an immediate failure with a Runtime exception EVEN IF the attested data isn't attested by
+			 * Android Safety Net. Therefore we have to not even load the AndroidSafetyNetAttestationStatementSupport
+			 * class in this case...
+			 */
+			if (function_exists('sodium_crypto_sign_seed_keypair') && function_exists('extension_loaded') && extension_loaded('sodium'))
+			{
+				$attestationStatementSupportManager->add(
+					new AndroidSafetyNetAttestationStatementSupport(
+						$this->httpClient,
+						$this->googleApiKey,
+						$this->requestFactory,
+						2000,
+						60000,
+						$this->metadataStatementRepository
+					)
+				);
+			}
+
 			$attestationStatementSupportManager->add(new AndroidKeyAttestationStatementSupport(null, $this->metadataStatementRepository));
 			$attestationStatementSupportManager->add(new TPMAttestationStatementSupport($this->metadataStatementRepository));
 			$attestationStatementSupportManager->add(
