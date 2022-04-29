@@ -79,16 +79,19 @@ use Joomla\CMS\WebAsset\WebAssetManager;
 	foreach ($list as $key => $item)
 	{
 		// Only add item to JSON if it has a valid link, otherwise skip it.
-		if(!empty($item->link)) {
+		if (!empty($item->link))
+		{
 			$data['itemListElement'][] = [
 					'@type'    => 'ListItem',
 					'position' => $key + 1,
 					'item'     => [
 							'@id'  => $item->link ? Route::_($item->link, true, Route::TLS_IGNORE, true) : Route::_(Uri::getInstance()),
-							'name' => $item->name
-					]
+							'name' => $item->name,
+					],
 			];
-		} elseif ($key === $last_item_key) {
+		}
+		elseif ($key === $last_item_key)
+		{
 			// Add the last item (current page) to JSON, but without a link.
 			// Google accepts items without a URL only as the current page.
 			$data['itemListElement'][] = [
