@@ -55,7 +55,7 @@ class ModulesController extends AdminController
 			$this->app->enqueueMessage($e->getMessage(), 'warning');
 		}
 
-		$this->setRedirect('index.php?option=com_modules&view=modules');
+		$this->setRedirect('index.php?option=com_modules&view=modules'. $this->getRedirectToListAppend());
 	}
 
 	/**
