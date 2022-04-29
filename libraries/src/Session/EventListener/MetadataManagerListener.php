@@ -71,7 +71,7 @@ final class MetadataManagerListener
 		$user = $event->getSession()->get('user');
 
 		// Whether to track Session Metadata for Guest user
-		if (!$this->config->get('session_metadata_guest', false) && !$user->id)
+		if (!$this->config->get('session_metadata_for_guest', true) && !$user->id)
 		{
 			return;
 		}
