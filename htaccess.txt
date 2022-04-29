@@ -28,13 +28,6 @@ Options -Indexes
 ## Suppress mime type detection in browsers for unknown types
 <IfModule mod_headers.c>
 	Header always set X-Content-Type-Options "nosniff"
-##
-# Disable Federated Learning of Cohorts (FLoC)
-# If you uncomment the below directive you have to allow this technology in the
-# Global Configuration of Joomla. Read more about this in the Post-Installation
-# message in the backend.
-##
-# Header always set Permissions-Policy "interest-cohort=()"
 </IfModule>
 
 ## Protect against certain cross-origin requests. More information can be found here:

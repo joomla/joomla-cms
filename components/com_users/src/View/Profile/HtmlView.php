@@ -62,6 +62,8 @@ class HtmlView extends BaseHtmlView
 	 *
 	 * @var    DatabaseDriver
 	 * @since  3.6.3
+	 *
+	 * @deprecated  5.0 Will be removed without replacement
 	 */
 	protected $db;
 

@@ -13,6 +13,8 @@ namespace Joomla\CMS\Extension\Service\Provider;
 use Joomla\CMS\Form\FormFactoryInterface;
 use Joomla\CMS\MVC\Factory\ApiMVCFactory;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
+use Joomla\CMS\Router\SiteRouter;
+use Joomla\Database\DatabaseInterface;
 use Joomla\DI\Container;
 use Joomla\DI\ServiceProviderInterface;
 use Joomla\Event\DispatcherInterface;
@@ -71,6 +73,8 @@ class MVCFactory implements ServiceProviderInterface
 
 				$factory->setFormFactory($container->get(FormFactoryInterface::class));
 				$factory->setDispatcher($container->get(DispatcherInterface::class));
+				$factory->setDatabase($container->get(DatabaseInterface::class));
+				$factory->setSiteRouter($container->get(SiteRouter::class));
 
 				return $factory;
 			}
