@@ -160,9 +160,9 @@ class Archive
 	/**
 	 * Method to override the provided adapter with your own implementation.
 	 *
-	 * @param   string   $type      Name of the adapter to set.
-	 * @param   string   $class     FQCN of your class which implements ExtractableInterface.
-	 * @param   boolean  $override  True to force override the adapter type.
+	 * @param   string         $type      Name of the adapter to set.
+	 * @param   string|object  $class     FQCN of your class which implements ExtractableInterface.
+	 * @param   boolean        $override  True to force override the adapter type.
 	 *
 	 * @return  Archive  This object for chaining.
 	 *

@@ -231,34 +231,6 @@ class CMSApplication extends WebApplication
 			$this->render();
 		}
 
-		if ($this->get('block_floc', 1))
-		{
-			$headers = $this->getHeaders();
-
-			$notPresent = true;
-
-			foreach ($headers as $header)
-			{
-				if (strtolower($header['name']) === 'permissions-policy')
-				{
-					// Append interest-cohort if the Permissions-Policy is not set
-					if (strpos($header['value'], 'interest-cohort') === false)
-					{
-						$this->setHeader('Permissions-Policy', $header['value'] . ', interest-cohort=()', true);
-					}
-
-					$notPresent = false;
-
-					break;
-				}
-			}
-
-			if ($notPresent)
-			{
-				$this->setHeader('Permissions-Policy', 'interest-cohort=()');
-			}
-		}
-
 		// If gzip compression is enabled in configuration and the server is compliant, compress the output.
 		if ($this->get('gzip') && !ini_get('zlib.output_compression') && ini_get('output_handler') !== 'ob_gzhandler')
 		{

@@ -52,74 +52,74 @@
 	<config>
 		<fields name="params">
 			<fieldset name="advanced">
-				<field 
-					name="templateColor" 
-					type="color" 
+				<field
+					name="templateColor"
+					type="color"
 					label="TPL_PROTOSTAR_COLOR_LABEL"
-					description="TPL_PROTOSTAR_COLOR_DESC" 
-					class="" 
+					description="TPL_PROTOSTAR_COLOR_DESC"
+					class=""
 					default="#08C"
 				/>
 
-				<field 
-					name="templateBackgroundColor" 
-					type="color" 
+				<field
+					name="templateBackgroundColor"
+					type="color"
 					label="TPL_PROTOSTAR_BACKGROUND_COLOR_LABEL"
-					description="TPL_PROTOSTAR_BACKGROUND_COLOR_DESC" 
-					class="" 
+					description="TPL_PROTOSTAR_BACKGROUND_COLOR_DESC"
+					class=""
 					default="#F4F6F7"
 				/>
 
-				<field 
-					name="logoFile" 
-					type="media" 
+				<field
+					name="logoFile"
+					type="media"
 					label="TPL_PROTOSTAR_LOGO_LABEL"
-					description="TPL_PROTOSTAR_LOGO_DESC" 
-					class="" 
+					description="TPL_PROTOSTAR_LOGO_DESC"
+					class=""
 					default=""
 				/>
 
-				<field 
-					name="sitetitle"  
-					type="text" 
+				<field
+					name="sitetitle"
+					type="text"
 					label="JGLOBAL_TITLE"
 					description="JFIELD_ALT_PAGE_TITLE_LABEL"
 					default=""
-					filter="string" 
+					filter="string"
 				/>
 
-				<field 
-					name="sitedescription"  
-					type="text" 
+				<field
+					name="sitedescription"
+					type="text"
 					label="JGLOBAL_DESCRIPTION"
 					description="JGLOBAL_SUBHEADING_DESC"
 					default=""
-					filter="string" 
+					filter="string"
 				/>
 
-				<field 
+				<field
 					name="googleFont"
 					type="radio"
 					label="TPL_PROTOSTAR_FONT_LABEL"
 					description="TPL_PROTOSTAR_FONT_DESC"
 					class="btn-group btn-group-yesno"
-					default="1"
+					default="0"
 					>
 					<option value="1">JYES</option>
 					<option value="0">JNO</option>
 				</field>
 
-				<field 
-					name="googleFontName" 
-					type="text" 
+				<field
+					name="googleFontName"
+					type="text"
 					label="TPL_PROTOSTAR_FONT_NAME_LABEL"
-					description="TPL_PROTOSTAR_FONT_NAME_DESC" 
-					class="" 
+					description="TPL_PROTOSTAR_FONT_NAME_DESC"
+					class=""
 					default="Open+Sans"
-					showon="googleFont:1" 
+					showon="googleFont:1"
 				/>
 
-				<field 
+				<field
 					name="fluidContainer"
 					type="radio"
 					label="TPL_PROTOSTAR_FLUID_LABEL"

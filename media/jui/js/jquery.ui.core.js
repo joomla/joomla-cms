@@ -1,7 +1,10 @@
 /*! jQuery UI - v1.9.2 - 2013-07-14
 * http://jqueryui.com
 * Includes: jquery.ui.core.js, jquery.ui.widget.js, jquery.ui.mouse.js, jquery.ui.position.js
-* Copyright 2013 jQuery Foundation and other contributors Licensed MIT */
+* Copyright 2013 jQuery Foundation and other contributors Licensed MIT
+*
+* Modified by Joomla: Mitigate possible XSS vulnerability, CVE-2021-41184, https://github.com/jquery/jquery-ui/commit/effa323f1505f2ce7a324e4f429fa9032c72f280
+*/
 
 (function( $, undefined ) {
 
@@ -1107,7 +1110,12 @@ $.fn.position = function( options ) {
 	options = $.extend( {}, options );
 
 	var atOffset, targetWidth, targetHeight, targetOffset, basePosition,
-		target = $( options.of ),
+
+		// Backport for CVE-2021-41184 - Make sure string options are treated as CSS selectors
+		target = typeof options.of === "string" ?
+			$( document ).find( options.of ) :
+			$( options.of ),
+
 		within = $.position.getWithinInfo( options.within ),
 		scrollInfo = $.position.getScrollInfo( within ),
 		targetElem = target[0],

@@ -58,7 +58,7 @@ $this->ignore_fieldsets = array('user_details');
 		<?php echo $field->renderField(); ?>
 	<?php endforeach; ?>
 	<?php echo JHtml::_('bootstrap.endTab'); ?>
-	<?php if (count($this->twofactormethods) > 1) : ?>
+	<?php if (count($this->twofactormethods) > 1 && !empty($this->twofactorform)) : ?>
 		<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'twofactorauth', JText::_('COM_USERS_USER_TWO_FACTOR_AUTH')); ?>
 		<fieldset>
 			<div class="control-group">

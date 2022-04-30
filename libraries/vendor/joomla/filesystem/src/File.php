@@ -79,7 +79,13 @@ class File
 		// Check src path
 		if (!is_readable($src))
 		{
-			throw new \UnexpectedValueException(__METHOD__ . ': Cannot find or read file: ' . $src);
+			throw new \UnexpectedValueException(
+				sprintf(
+					"%s: Cannot find or read file: %s",
+					__METHOD__,
+					Path::removeRoot($src)
+				)
+			);
 		}
 
 		if ($useStreams)
