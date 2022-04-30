@@ -27,10 +27,12 @@ class TagsViewTag extends JViewLegacy
 	{
 		$app       = JFactory::getApplication();
 		$document  = JFactory::getDocument();
-		$ids       = $app->input->get('id', array(), 'array');
+		$ids       = (array) $app->input->get('id', array(), 'int');
 		$i         = 0;
 		$tagIds    = '';
-		$filter    = new JFilterInput;
+
+		// Remove zero values resulting from input filter
+		$ids = array_filter($ids);
 
 		foreach ($ids as $id)
 		{
@@ -39,7 +41,7 @@ class TagsViewTag extends JViewLegacy
 				$tagIds .= '&';
 			}
 
-			$tagIds .= 'id[' . $i . ']=' . $filter->clean($id, 'INT');
+			$tagIds .= 'id[' . $i . ']=' . $id;
 
 			$i++;
 		}

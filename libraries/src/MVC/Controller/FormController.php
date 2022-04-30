@@ -255,7 +255,10 @@ class FormController extends BaseController
 	public function batch($model)
 	{
 		$vars = $this->input->post->get('batch', array(), 'array');
-		$cid  = $this->input->post->get('cid', array(), 'array');
+		$cid  = (array) $this->input->post->get('cid', array(), 'int');
+
+		// Remove zero values resulting from input filter
+		$cid = array_filter($cid);
 
 		// Build an array of item contexts to check
 		$contexts = array();
@@ -363,7 +366,7 @@ class FormController extends BaseController
 
 		$model = $this->getModel();
 		$table = $model->getTable();
-		$cid   = $this->input->post->get('cid', array(), 'array');
+		$cid   = (array) $this->input->post->get('cid', array(), 'int');
 		$context = "$this->option.edit.$this->context";
 
 		// Determine the name of the primary key for the data.
