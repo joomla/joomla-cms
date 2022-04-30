@@ -34,7 +34,7 @@ class Icon
 	 *
 	 * @var    UserFactoryInterface
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.2.0
 	 */
 	private $userFactory;
 
