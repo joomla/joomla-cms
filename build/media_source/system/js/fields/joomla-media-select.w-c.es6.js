@@ -197,8 +197,7 @@ const insertAsImage = async (media, editor, fieldClass) => {
           Joomla.selectedMediaFile.width = 0;
         }
       }
-      editor.value = `${Joomla.selectedMediaFile.url}#joomlaImage://${media.path.replace(':', '')}?width=${Joomla.selectedMediaFile.width}&height=${Joomla.selectedMediaFile.height}`;
-      fieldClass.updatePreview();
+      fieldClass.setValue(`${Joomla.selectedMediaFile.url}#joomlaImage://${media.path.replace(':', '')}?width=${Joomla.selectedMediaFile.width}&height=${Joomla.selectedMediaFile.height}`);
     }
   }
 };
@@ -256,9 +255,8 @@ const insertAsOther = (media, editor, fieldClass, type) => {
 
       Joomla.editors.instances[editor].replaceSelection(outputText);
     } else {
-      editor.value = Joomla.selectedMediaFile.url;
       fieldClass.givenType = type;
-      fieldClass.updatePreview();
+      fieldClass.setValue(Joomla.selectedMediaFile.url);
     }
   }
 };
