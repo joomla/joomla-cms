@@ -190,7 +190,7 @@ class PlgAuthenticationLdap extends JPlugin
 	 *
 	 * @since   3.8.2
 	 */
-	private function searchByString($search, LdapClient $ldap)
+	private static function searchByString($search, LdapClient $ldap)
 	{
 		$results = explode(';', $search);
 

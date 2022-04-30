@@ -59,6 +59,11 @@ class JAuthenticationTest extends TestCase
 			)
 		);
 
+		$dbMock = $this->getMockDatabase('Mysqli');
+		$dbMock->method('setQuery')->willReturnSelf();
+
+		JFactory::$database = $dbMock;
+
 		// Inject the mock dispatcher into the JEventDispatcher singleton.
 		TestReflection::setValue('JEventDispatcher', 'instance', $dispatcher);
 
@@ -73,6 +78,14 @@ class JAuthenticationTest extends TestCase
 				)
 			)
 		);
+	}
+
+	public function mockSetQuery()
+	{
+		$dbMock = $this->getMockDatabase('Mysqli');
+		$dbMock->method('loadResult')->willReturn(null);
+
+		return $dbMock;
 	}
 
 	/**

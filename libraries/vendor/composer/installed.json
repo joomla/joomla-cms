@@ -222,26 +222,26 @@
         },
         {
             "name": "joomla/archive",
-            "version": "1.1.10",
-            "version_normalized": "1.1.10.0",
+            "version": "1.1.12",
+            "version_normalized": "1.1.12.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-framework/archive.git",
-                "reference": "32c9009a1020d16bc1060c0d06339898b697cf2c"
+                "reference": "b1c1e6c3aecc0486453cadbb92bc529cfa89a89f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-framework/archive/zipball/32c9009a1020d16bc1060c0d06339898b697cf2c",
-                "reference": "32c9009a1020d16bc1060c0d06339898b697cf2c",
+                "url": "https://api.github.com/repos/joomla-framework/archive/zipball/b1c1e6c3aecc0486453cadbb92bc529cfa89a89f",
+                "reference": "b1c1e6c3aecc0486453cadbb92bc529cfa89a89f",
                 "shasum": ""
             },
             "require": {
-                "joomla/filesystem": "~1.6|~2.0@beta",
-                "php": "^5.3.10|~7.0"
+                "joomla/filesystem": "^1.6.1",
+                "php": "^5.3.10|^7.0|^8.0"
             },
             "require-dev": {
-                "joomla/coding-standards": "~2.0@alpha",
-                "joomla/test": "~1.0",
+                "joomla/coding-standards": "^2.0@alpha",
+                "joomla/test": "^1.0",
                 "phpunit/phpunit": "^4.8.35|^5.4.3|^6.0|^7.0|^8.0"
             },
             "suggest": {
@@ -249,7 +249,7 @@
                 "ext-zip": "To extract zip compressed packages",
                 "ext-zlib": "To extract gzip or zip compressed packages"
             },
-            "time": "2021-03-06T12:37:57+00:00",
+            "time": "2022-03-29T12:54:52+00:00",
             "type": "joomla-package",
             "extra": {
                 "branch-alias": {
@@ -275,7 +275,7 @@
             ],
             "support": {
                 "issues": "https://github.com/joomla-framework/archive/issues",
-                "source": "https://github.com/joomla-framework/archive/tree/1.1.10"
+                "source": "https://github.com/joomla-framework/archive/tree/1.1.12"
             },
             "funding": [
                 {
@@ -502,33 +502,33 @@
         },
         {
             "name": "joomla/filesystem",
-            "version": "1.6.0",
-            "version_normalized": "1.6.0.0",
+            "version": "1.6.2",
+            "version_normalized": "1.6.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-framework/filesystem.git",
-                "reference": "d8801f18db358b0284675381ab4195acd028b420"
+                "reference": "9ad5d9b64960f0ea56fb71364a33622843b95c27"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-framework/filesystem/zipball/d8801f18db358b0284675381ab4195acd028b420",
-                "reference": "d8801f18db358b0284675381ab4195acd028b420",
+                "url": "https://api.github.com/repos/joomla-framework/filesystem/zipball/9ad5d9b64960f0ea56fb71364a33622843b95c27",
+                "reference": "9ad5d9b64960f0ea56fb71364a33622843b95c27",
                 "shasum": ""
             },
             "require": {
-                "php": "^5.3.10|~7.0"
+                "php": "^5.3.10|^7.0|^8.0"
             },
             "require-dev": {
-                "joomla/coding-standards": "~2.0@alpha",
-                "joomla/test": "~1.0",
+                "joomla/coding-standards": "^2.0@alpha",
+                "joomla/test": "^1.0",
                 "mikey179/vfsstream": "~1.0",
                 "paragonie/random_compat": "~1.0|~2.0",
-                "phpunit/phpunit": "^4.8.35|^5.4.3|~6.0"
+                "phpunit/phpunit": "^4.8.35|^5.4.3|^6.0|^7.0|^8.0"
             },
             "suggest": {
                 "paragonie/random_compat": "Required to use Joomla\\Filesystem\\Path::isOwner()"
             },
-            "time": "2020-09-02T09:05:23+00:00",
+            "time": "2022-03-29T12:45:36+00:00",
             "type": "joomla-package",
             "extra": {
                 "branch-alias": {
@@ -554,7 +554,7 @@
             ],
             "support": {
                 "issues": "https://github.com/joomla-framework/filesystem/issues",
-                "source": "https://github.com/joomla-framework/filesystem/tree/1.6.0"
+                "source": "https://github.com/joomla-framework/filesystem/tree/1.6.2"
             },
             "funding": [
                 {
@@ -570,22 +570,22 @@
         },
         {
             "name": "joomla/filter",
-            "version": "1.4.3",
-            "version_normalized": "1.4.3.0",
+            "version": "1.4.4",
+            "version_normalized": "1.4.4.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-framework/filter.git",
-                "reference": "ec9517655b0b72e8a3f7665a88f8b8f6e21eb480"
+                "reference": "09733d70db6c6d91e53e0e0d0fcde9b8638175c4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-framework/filter/zipball/ec9517655b0b72e8a3f7665a88f8b8f6e21eb480",
-                "reference": "ec9517655b0b72e8a3f7665a88f8b8f6e21eb480",
+                "url": "https://api.github.com/repos/joomla-framework/filter/zipball/09733d70db6c6d91e53e0e0d0fcde9b8638175c4",
+                "reference": "09733d70db6c6d91e53e0e0d0fcde9b8638175c4",
                 "shasum": ""
             },
             "require": {
                 "joomla/string": "~1.3|~2.0",
-                "php": "^5.3.10|~7.0"
+                "php": "^5.3.10|~7.0|^8.0"
             },
             "require-dev": {
                 "joomla/coding-standards": "~2.0@alpha",
@@ -595,7 +595,7 @@
             "suggest": {
                 "joomla/language": "Required only if you want to use `OutputFilter::stringURLSafe`."
             },
-            "time": "2021-02-01T01:43:30+00:00",
+            "time": "2022-03-29T12:14:25+00:00",
             "type": "joomla-package",
             "extra": {
                 "branch-alias": {
@@ -621,7 +621,7 @@
             ],
             "support": {
                 "issues": "https://github.com/joomla-framework/filter/issues",
-                "source": "https://github.com/joomla-framework/filter/tree/1.4.3"
+                "source": "https://github.com/joomla-framework/filter/tree/1.4.4"
             },
             "funding": [
                 {
