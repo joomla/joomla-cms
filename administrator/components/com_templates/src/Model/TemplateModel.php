@@ -681,6 +681,9 @@ class TemplateModel extends FormModel
 			{
 				$this->template = $result;
 
+				// Client ID is not always an integer, so enforce here
+				$this->template->client_id = (int) $this->template->client_id;
+
 				if (!isset($this->template->xmldata))
 				{
 					$this->template->xmldata = TemplatesHelper::parseXMLTemplateFile($this->template->client_id === 0 ? JPATH_ROOT : JPATH_ROOT . '/administrator', $this->template->name);

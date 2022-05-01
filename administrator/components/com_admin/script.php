@@ -6383,6 +6383,8 @@ class JoomlaInstallerScript
 			'/libraries/vendor/tobscure/json-api/tests/ParametersTest.php',
 			'/libraries/vendor/tobscure/json-api/tests/ResourceTest.php',
 			'/libraries/vendor/tobscure/json-api/tests/UtilTest.php',
+			// From 4.1.2 to 4.1.3
+			'libraries/vendor/webmozart/assert/.php_cs',
 		);
 
 		$folders = array(
