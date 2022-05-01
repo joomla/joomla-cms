@@ -2212,7 +2212,7 @@ class TemplateModel extends FormModel
 	 *
 	 * @return  array   array of id,titles of the styles
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.1.3
 	 */
 	public function getAllTemplateStyles()
 	{
@@ -2245,7 +2245,7 @@ class TemplateModel extends FormModel
 	 *
 	 * @return  boolean   true if name is not used, false otherwise
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.1.3
 	 */
 	public function copyStyles()
 	{

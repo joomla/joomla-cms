@@ -486,7 +486,7 @@ class Result implements \Serializable
 	/**
 	 * Magic method used for serializing.
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.1.3
 	 */
 	public function __serialize(): array
 	{
@@ -538,7 +538,7 @@ class Result implements \Serializable
 	/**
 	 * Magic method used for unserializing.
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.1.3
 	 */
 	public function __unserialize(array $serialized): void
 	{
