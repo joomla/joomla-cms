@@ -47,7 +47,7 @@ HTMLHelper::_('behavior.formvalidator');
 		<?php endforeach; ?>
 		<?php if($captcha): ?>
 			<?php echo $captcha->renderField();?>
-		<?php endif; ?>	
+		<?php endif; ?>
 		<div class="com-users-registration__submit control-group">
 			<div class="controls">
 				<button type="submit" class="com-users-registration__register btn btn-primary validate">
