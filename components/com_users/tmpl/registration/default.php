@@ -26,7 +26,7 @@ HTMLHelper::_('behavior.formvalidator');
 
 	<form id="member-registration" action="<?php echo Route::_('index.php?option=com_users&task=registration.register'); ?>" method="post" class="com-users-registration__form form-validate" enctype="multipart/form-data">
 		<?php // Iterate through the form fieldsets and display each one. ?>
-		<?php $captcha=''; ?>
+		<?php $captcha = ''; ?>
 		<?php foreach ($this->form->getFieldsets() as $fieldset) : ?>
 			<?php $fields = $this->form->getFieldset($fieldset->name); ?>
 			<?php if (count($fields)) : ?>
