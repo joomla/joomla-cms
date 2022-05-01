@@ -132,3 +132,12 @@ fieldset {
 .com-users-login__options {
   margin-top: $cassiopeia-grid-gutter*2;
 }
+
+.com-users-profile__edit {
+  #jform_privacyconsent_privacy {
+    .radio {
+      display: inline-flex;
+      gap: 1rem;
+    }
+  }
+}
