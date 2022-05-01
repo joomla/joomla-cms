@@ -42,7 +42,7 @@ class RemindController extends BaseController
 		$return	= $model->processRemindRequest($data);
 
 		// Check for a hard error.
-		if ($return == false)
+		if ($return == false && JDEBUG)
 		{
 			// The request failed.
 			// Go back to the request form.
@@ -51,14 +51,11 @@ class RemindController extends BaseController
 
 			return false;
 		}
-		else
-		{
-			// The request succeeded.
-			// Proceed to step two.
-			$message = Text::_('COM_USERS_REMIND_REQUEST_SUCCESS');
-			$this->setRedirect(Route::_('index.php?option=com_users&view=login', false), $message);
 
-			return true;
-		}
+		// To not expose if the user exists or not we send a generic message.
+		$message = Text::_('COM_USERS_REMIND_REQUEST');
+		$this->setRedirect(Route::_('index.php?option=com_users&view=login', false), $message, 'notice');
+		
+		return true;
 	}
 }
