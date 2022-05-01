@@ -11,6 +11,15 @@
   background: $white;
   box-shadow: -3px -2px 22px #ddd;
 
+  nav {
+    position: relative;
+  }
+
+  .btn-toolbar {
+    position: absolute;
+    left: .25rem;
+  }
+
   .row {
     margin-right: 0;
     margin-left: 0;
