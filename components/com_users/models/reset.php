@@ -429,32 +429,6 @@ class UsersModelReset extends JModelForm
 		{
 			$this->setError(JText::_('COM_USERS_REMIND_SUPERADMIN_ERROR'));
 
-			// Put together the email template data.
-			$data = $user->getProperties();
-			$data['fromname'] = $config->get('fromname');
-			$data['mailfrom'] = $config->get('mailfrom');
-			$data['sitename'] = $config->get('sitename');
-
-			$subject = JText::sprintf(
-				'COM_USERS_EMAIL_PASSWORD_RESET_SUBJECT',
-				$data['sitename']
-			);
-
-			$body = JText::sprintf(
-				'COM_USERS_REMIND_SUPERADMIN_BODY',
-				$data['sitename'],
-				'https://docs.joomla.org/Special:MyLanguage/How_do_you_recover_or_reset_your_admin_password%3F'
-			);
-
-			// Send the password reset request email.
-			$return = JFactory::getMailer()->sendMail($data['mailfrom'], $data['fromname'], $user->email, $subject, $body);
-
-			// Check for an error.
-			if ($return !== true)
-			{
-				$this->setError(JText::_('COM_USERS_MAIL_FAILED'));
-			}
-
 			return false;
 		}
 
