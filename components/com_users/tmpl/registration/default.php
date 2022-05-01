@@ -35,18 +35,18 @@ HTMLHelper::_('behavior.formvalidator');
 					<?php if (isset($fieldset->label)) : ?>
 						<legend><?php echo Text::_($fieldset->label); ?></legend>
 					<?php endif; ?>
-					<?php foreach ($fields as $field): ?>
-						<?php if ($field->name === 'jform[captcha]'): ?>
+					<?php foreach ($fields as $field) : ?>
+						<?php if ($field->name === 'jform[captcha]') : ?>
 							<?php $captcha = $field; ?>
 						<?php else: ?>
-							<?php echo $field->renderField();?>
+							<?php echo $field->renderField(); ?>
 						<?php endif; ?>		
 					<?php endforeach; ?>
 				</fieldset>
 			<?php endif; ?>
 		<?php endforeach; ?>
-		<?php if ($captcha): ?>
-			<?php echo $captcha->renderField();?>
+		<?php if ($captcha) : ?>
+			<?php echo $captcha->renderField(); ?>
 		<?php endif; ?>
 		<div class="com-users-registration__submit control-group">
 			<div class="controls">
