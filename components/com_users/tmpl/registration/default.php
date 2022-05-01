@@ -45,7 +45,7 @@ HTMLHelper::_('behavior.formvalidator');
 				</fieldset>
 			<?php endif; ?>
 		<?php endforeach; ?>
-		<?php if($captcha): ?>
+		<?php if ($captcha): ?>
 			<?php echo $captcha->renderField();?>
 		<?php endif; ?>
 		<div class="com-users-registration__submit control-group">
