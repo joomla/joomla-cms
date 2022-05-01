@@ -199,7 +199,7 @@ $listDirn   = $this->escape($this->state->get('list.direction'));
 		<?php if ($this->params->get('show_pagination', 2)) : ?>
 			<div class="com-contact-category__pagination w-100">
 				<?php if ($this->params->def('show_pagination_results', 1)) : ?>
-					<p class="com-contact-category__counter counter float-end pt-3 pe-2">
+					<p class="com-contact-category__counter counter float-none float-md-end pt-3 pe-2">
 						<?php echo $this->pagination->getPagesCounter(); ?>
 					</p>
 				<?php endif; ?>
