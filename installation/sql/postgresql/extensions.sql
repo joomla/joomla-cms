@@ -790,7 +790,7 @@ INSERT INTO "#__action_logs_extensions" ("id", "extension") VALUES
 (18, 'com_checkin'),
 (19, 'com_scheduler');
 
-SELECT setval('#__action_logs_extensions_id_seq', 19, false);
+SELECT setval('#__action_logs_extensions_id_seq', 20, false);
 -- --------------------------------------------------------
 
 --
@@ -833,7 +833,7 @@ INSERT INTO "#__action_log_config" ("id", "type_title", "type_alias", "id_holder
 (20, 'task', 'com_scheduler.task', 'id', 'title', '#__scheduler_tasks', 'PLG_ACTIONLOG_JOOMLA');
 
 
-SELECT setval('#__action_log_config_id_seq', 20, false);
+SELECT setval('#__action_log_config_id_seq', 21, false);
 
 --
 -- Table structure for table `#__action_logs_users`
