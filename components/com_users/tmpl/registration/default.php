@@ -36,7 +36,7 @@ HTMLHelper::_('behavior.formvalidator');
 						<legend><?php echo Text::_($fieldset->label); ?></legend>
 					<?php endif; ?>
 					<?php foreach ($fields as $field): ?>
-						<?php if ($field->name=="jform[captcha]"): ?> 
+						<?php if ($field->name=="jform[captcha]"): ?>
 							<?php $captcha=$field; ?>
 						<?php else: ?>
 							<?php echo $field->renderField();?>
