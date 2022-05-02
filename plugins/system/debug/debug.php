@@ -143,7 +143,7 @@ class PlgSystemDebug extends CMSPlugin implements SubscriberInterface
 	 *
 	 * @return  array
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.1.3
 	 */
 	public static function getSubscribedEvents(): array
 	{
