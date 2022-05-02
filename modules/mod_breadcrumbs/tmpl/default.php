@@ -85,7 +85,7 @@ use Joomla\CMS\WebAsset\WebAssetManager;
 					'@type'    => 'ListItem',
 					'position' => $key + 1,
 					'item'     => [
-							'@id'  => $item->link ? Route::_($item->link, true, Route::TLS_IGNORE, true) : Route::_(Uri::getInstance()),
+							'@id'  => Route::_($item->link, true, Route::TLS_IGNORE, true),
 							'name' => $item->name,
 					],
 			];
