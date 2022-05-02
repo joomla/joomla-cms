@@ -18,6 +18,7 @@ use Joomla\Component\Admin\Administrator\Service\HTML\Configuration;
 use Joomla\Component\Admin\Administrator\Service\HTML\Directory;
 use Joomla\Component\Admin\Administrator\Service\HTML\PhpSetting;
 use Joomla\Component\Admin\Administrator\Service\HTML\System;
+use Joomla\Component\Admin\Administrator\Service\HTML\DefaultIcons;
 use Psr\Container\ContainerInterface;
 
 /**

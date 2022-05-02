@@ -758,16 +758,14 @@ class SysinfoModel extends BaseDatabaseModel
 	}
 
 	/**
-	 * Method to get the directory states
+	 * Method to get the available Font Awesome icons
 	 *
-	 * @param   bool $public If true no information is going to be removed
-	 *
-	 * @return  array States of directories
+	 * @return  array All available Icons
 	 *
 	 * @throws \Exception
 	 * @since   1.6
 	 */
-	public function getDefaultIcons(bool $public = false): array
+	public function getDefaultIcons(): array
 	{
 		$icons = [];
 		$files = [
@@ -788,12 +786,8 @@ class SysinfoModel extends BaseDatabaseModel
 		}
 
 		asort($icons);
-		$icons = array_unique($icons);
-		//$file = JPATH_ROOT. '/media/vendor/fontawesome-free/webfonts/fa-regular-400.svg';
 
-
-		return $icons;
+		return array_unique($icons);
 	}
-
 }
 
