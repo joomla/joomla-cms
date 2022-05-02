@@ -7,14 +7,14 @@
 	</layout>
 		<!-- Add fields to the request variables for the layout. -->
 	<fields name="request">
-		<fieldset name="request"
-			addfieldpath="/administrator/components/com_categories/models/fields"
-		>
+		<fieldset
+			name="request"
+			addfieldprefix="Joomla\Component\Categories\Administrator\Field"
+			>
 			<field
 				name="filter_category_id"
 				type="modal_category"
 				label="COM_MENUS_ADMIN_CATEGORY_LABEL"
-				description="COM_MENUS_ADMIN_CATEGORY_DESC"
 				extension="com_content"
 				select="true"
 				new="true"
@@ -27,7 +27,6 @@
 				name="filter_level"
 				type="integer"
 				label="COM_MENUS_ADMIN_LEVEL_LABEL"
-				description="COM_MENUS_ADMIN_LEVEL_DESC"
 				first="1"
 				last="10"
 				step="1"
@@ -41,10 +40,10 @@
 				name="filter_author_id"
 				type="author"
 				label="COM_MENUS_ADMIN_AUTHOR_LABEL"
-				description="COM_MENUS_ADMIN_AUTHOR_DESC"
 				multiple="true"
+				layout="joomla.form.field.list-fancy-select"
 				class="multipleAuthors"
-				filter="int_array"
+				filter="intarray"
 				>
 				<option value="0">JNONE</option>
 			</field>
@@ -53,9 +52,8 @@
 				name="filter_tag"
 				type="tag"
 				label="COM_MENUS_ADMIN_TAGS_LABEL"
-				description="COM_MENUS_ADMIN_TAGS_DESC"
 				multiple="true"
-				filter="int_array"
+				filter="intarray"
 				mode="nested"
 			/>
 
@@ -63,16 +61,16 @@
 				name="filter_access"
 				type="accesslevel"
 				label="COM_MENUS_ADMIN_ACCESS_LABEL"
-				description="COM_MENUS_ADMIN_ACCESS_DESC"
 				multiple="true"
-				filter="int_array"
+				layout="joomla.form.field.list-fancy-select"
+				filter="intarray"
+				validate="options"
 			/>
 
 			<field
 				name="filter_language"
 				type="contentlanguage"
 				label="COM_MENUS_ADMIN_LANGUAGE_LABEL"
-				description="COM_MENUS_ADMIN_LANGUAGE_DESC"
 				>
 				<option value="">JOPTION_SELECT_LANGUAGE</option>
 				<option value="*">JALL</option>
@@ -80,5 +78,25 @@
 
 		</fieldset>
 	</fields>
+	<fields name="params">
+		<fieldset name="basic">
 
+			<field
+				name="menu-quicktask"
+				type="radio"
+				label="MOD_MENU_FIELD_SHOWNEW"
+				layout="joomla.form.field.radio.switcher"
+				>
+				<option value="">JHIDE</option>
+				<option value="index.php?option=com_content&amp;task=article.add">JSHOW</option>
+			</field>
+
+			<field
+				name="menu-quicktask-title"
+				type="hidden"
+				default="COM_CONTENT_MENUS_NEW_ARTICLE"
+			/>
+
+		</fieldset>
+	</fields>
 </metadata>

@@ -1,0 +1,73 @@
+actor: ApiTester
+modules:
+    enabled:
+        - Helper\JoomlaDb
+        - \Helper\Api
+    config:
+        Helper\JoomlaDb:
+            dsn: 'mysql:host=mysql;dbname=test_joomla'
+            user: 'root'
+            password: 'joomla_ut'
+            prefix: 'jos_'
+
+env:
+  mysql:
+    modules:
+      enabled:
+        - REST:
+            url: http://localhost/mysql/api/index.php/v1
+            depends: PhpBrowser
+            part: Json
+  postgres:
+    modules:
+      enabled:
+        - REST:
+            url: http://localhost/postgres/api/index.php/v1
+            depends: PhpBrowser
+            part: Json
+      config:
+        Helper\JoomlaDb:
+          dsn: 'pgsql:host=postgres;dbname=test_joomla'
+          prefix: 'jos_'
+  postgresphpmax:
+    modules:
+      enabled:
+        - REST:
+            url: http://localhost/postgresphpmax/api/index.php/v1
+            depends: PhpBrowser
+            part: Json
+      config:
+        Helper\JoomlaDb:
+          dsn: 'pgsql:host=postgres;dbname=test_joomla'
+          prefix: 'phpmax_'
+  mysqlphpmax:
+    modules:
+      enabled:
+        - REST:
+            url: http://localhost/mysqlphpmax/api/index.php/v1
+            depends: PhpBrowser
+            part: Json
+      config:
+        Helper\JoomlaDb:
+          prefix: 'phpmax_'
+  postgresphpnext:
+    modules:
+      enabled:
+        - REST:
+            url: http://localhost/postgresphpnext/api/index.php/v1
+            depends: PhpBrowser
+            part: Json
+      config:
+        Helper\JoomlaDb:
+          dsn: 'pgsql:host=postgres;dbname=test_joomla'
+          prefix: 'phpnext_'
+  mysqlphpnext:
+    modules:
+      enabled:
+        - REST:
+            url: http://localhost/mysqlphpnext/api/index.php/v1
+            depends: PhpBrowser
+            part: Json
+      config:
+        Helper\JoomlaDb:
+          prefix: 'phpnext_'

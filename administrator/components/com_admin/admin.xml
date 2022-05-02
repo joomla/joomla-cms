@@ -1,30 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
-<extension type="component" version="4.0" method="upgrade">
+<extension type="component" method="upgrade">
 	<name>com_admin</name>
 	<author>Joomla! Project</author>
 	<creationDate>April 2006</creationDate>
-	<copyright>(C) 2005 - 2019 Open Source Matters. All rights reserved.</copyright>
+	<copyright>(C) 2006 Open Source Matters, Inc.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>4.0.0</version>
 	<description>COM_ADMIN_XML_DESCRIPTION</description>
-	<namespace>Joomla\Component\Admin</namespace>
+	<namespace path="src">Joomla\Component\Admin</namespace>
 	<media />
 	<administration>
 		<files folder="admin">
 			<filename>admin.xml</filename>
 			<filename>script.php</filename>
-			<folder>Controller</folder>
-			<folder>Dispatcher</folder>
-			<folder>Extension</folder>
 			<folder>forms</folder>
-			<folder>Model</folder>
 			<folder>postinstall</folder>
-			<folder>Service</folder>
 			<folder>services</folder>
+			<folder>src</folder>
 			<folder>tmpl</folder>
-			<folder>View</folder>
 		</files>
 		<languages folder="admin">
 			<language tag="en-GB">language/en-GB/com_admin.ini</language>

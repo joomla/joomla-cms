@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2013 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -10,6 +10,7 @@ namespace Joomla\CMS\MVC\View;
 
 \defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Categories\CategoryNode;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\TagsHelper;
 use Joomla\CMS\Language\Text;
@@ -42,7 +43,7 @@ class CategoryView extends HtmlView
 	/**
 	 * The category model object for this category
 	 *
-	 * @var    \JModelCategory
+	 * @var    CategoryNode
 	 * @since  3.2
 	 */
 	protected $category;
@@ -58,7 +59,7 @@ class CategoryView extends HtmlView
 	/**
 	 * Pagination object
 	 *
-	 * @var    \JPagination
+	 * @var    \Joomla\CMS\Pagination\Pagination
 	 * @since  3.2
 	 */
 	protected $pagination;
@@ -99,10 +100,18 @@ class CategoryView extends HtmlView
 	 * Whether to run the standard Joomla plugin events.
 	 * Off by default for b/c
 	 *
-	 * @var    bool
+	 * @var    boolean
 	 * @since  3.5
 	 */
 	protected $runPlugins = false;
+
+	/**
+	 * The flag to mark if the active menu item is linked to the category being displayed
+	 *
+	 * @var bool
+	 * @since 4.0.0
+	 */
+	protected $menuItemMatchCategory = false;
 
 	/**
 	 * Method with common display elements used in category list displays
@@ -144,14 +153,6 @@ class CategoryView extends HtmlView
 
 		if (!\in_array($category->access, $groups))
 		{
-			throw new \Exception(Text::_('JERROR_ALERTNOAUTHOR'), 403);
-		}
-
-		// Check whether category access level allows access.
-		$groups = $user->getAuthorisedViewLevels();
-
-		if (!\in_array($category->access, $groups))
-		{
 			throw new \RuntimeException(Text::_('JERROR_ALERTNOAUTHOR'), 403);
 		}
 
@@ -172,7 +173,7 @@ class CategoryView extends HtmlView
 		$children = array($category->id => $children);
 
 		// Escape strings for HTML output
-		$this->pageclass_sfx = htmlspecialchars($params->get('pageclass_sfx'));
+		$this->pageclass_sfx = htmlspecialchars($params->get('pageclass_sfx', ''));
 
 		if ($this->runPlugins)
 		{
@@ -231,13 +232,15 @@ class CategoryView extends HtmlView
 		if ($active
 			&& $active->component == $this->extension
 			&& isset($active->query['view'], $active->query['id'])
-			&& $active->query['view'] == 'category'
+			&& $active->query['view'] === 'category'
 			&& $active->query['id'] == $this->category->id)
 		{
 			if (isset($active->query['layout']))
 			{
 				$this->setLayout($active->query['layout']);
 			}
+
+			$this->menuItemMatchCategory = true;
 		}
 		elseif ($layout = $category->params->get('category_layout'))
 		{
@@ -275,12 +278,10 @@ class CategoryView extends HtmlView
 	protected function prepareDocument()
 	{
 		$app           = Factory::getApplication();
-		$menus         = $app->getMenu();
 		$this->pathway = $app->getPathway();
-		$title         = null;
 
 		// Because the application sets a default page title, we need to get it from the menu item itself
-		$this->menu = $menus->getActive();
+		$this->menu = $app->getMenu()->getActive();
 
 		if ($this->menu)
 		{
@@ -291,31 +292,11 @@ class CategoryView extends HtmlView
 			$this->params->def('page_heading', Text::_($this->defaultPageTitle));
 		}
 
-		$title = $this->params->get('page_title', '');
-
-		if (empty($title))
-		{
-			$title = $app->get('sitename');
-		}
-		elseif ($app->get('sitename_pagetitles', 0) == 1)
-		{
-			$title = Text::sprintf('JPAGETITLE', $app->get('sitename'), $title);
-		}
-		elseif ($app->get('sitename_pagetitles', 0) == 2)
-		{
-			$title = Text::sprintf('JPAGETITLE', $title, $app->get('sitename'));
-		}
-
-		$this->document->setTitle($title);
+		$this->setDocumentTitle($this->params->get('page_title', ''));
 
 		if ($this->params->get('menu-meta_description'))
 		{
 			$this->document->setDescription($this->params->get('menu-meta_description'));
-		}
-
-		if ($this->params->get('menu-meta_keywords'))
-		{
-			$this->document->setMetaData('keywords', $this->params->get('menu-meta_keywords'));
 		}
 
 		if ($this->params->get('robots'))

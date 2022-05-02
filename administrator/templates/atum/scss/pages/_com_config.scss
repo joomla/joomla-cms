@@ -2,24 +2,21 @@
 
 .com_config {
 
-	#fieldset-permissions {
-		grid-template-columns: 1fr;
-	}
+  #fieldset-permissions {
+    grid-template-columns: 1fr;
+  }
 
-	.tab-description {
-		grid-column: 1 / -1;
-	}
+  #page-filters .form-select {
+    width: auto;
+  }
 
-  .rule-notes,
-  .filter-notes {
-    padding: 1em;
-    background-color: $white;
-    margin-bottom: 1em;
+  .tab-description {
+    grid-column: 1 / -1;
   }
 
   .options-menu {
     .revert-controls .controls {
-      margin-left: 0;
+      margin-inline-start: 0;
     }
   }
 }

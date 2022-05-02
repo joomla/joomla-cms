@@ -11,19 +11,11 @@
 		<field
 			name="published"
 			type="status"
-			label="JOPTION_SELECT_PUBLISHED"
+			label="JSTATUS"
 			onchange="this.form.submit();"
-			filter="-2,0,1"
+			optionsFilter="-2,0,1"
 			>
 			<option value="">JOPTION_SELECT_PUBLISHED</option>
-		</field>
-		<field
-			name="condition"
-			type="workflowcondition"
-			label="COM_WORKFLOW_SELECT_CONDITION"
-			onchange="this.form.submit();"
-			>
-			<option value="">COM_WORKFLOW_SELECT_CONDITION</option>
 		</field>
 	</fields>
 
@@ -32,19 +24,17 @@
 			name="fullordering"
 			type="list"
 			label="JGLOBAL_SORT_BY"
-			statuses="*,0,1,2,-2"
-			onchange="this.form.submit();"
 			default="s.ordering ASC"
+			onchange="this.form.submit();"
+			validate="options"
 			>
 			<option value="">JGLOBAL_SORT_BY</option>
-			<option vaule="s.ordering ASC">JGRID_HEADING_ORDERING_ASC</option>
-			<option vaule="s.ordering DESC">JGRID_HEADING_ORDERING_DESC</option>
+			<option value="s.ordering ASC">JGRID_HEADING_ORDERING_ASC</option>
+			<option value="s.ordering DESC">JGRID_HEADING_ORDERING_DESC</option>
 			<option value="s.published ASC">JSTATUS_ASC</option>
 			<option value="s.published DESC">JSTATUS_DESC</option>
 			<option value="s.title ASC">JGLOBAL_NAME_ASC</option>
 			<option value="s.title DESC">JGLOBAL_NAME_DESC</option>
-			<option value="s.condition ASC">COM_WORKFLOW_CONDITION_SORT_ASC</option>
-			<option value="s.condition DESC">COM_WORKFLOW_CONDITION_SORT_DESC</option>
 			<option value="s.id ASC">JGRID_HEADING_ID_ASC</option>
 			<option value="s.id DESC">JGRID_HEADING_ID_DESC</option>
 		</field>

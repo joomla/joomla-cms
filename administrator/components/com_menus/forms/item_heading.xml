@@ -3,7 +3,6 @@
 	<fields name="params">
 		<fieldset name="menu-options"
 			label="COM_MENUS_LINKTYPE_OPTIONS_LABEL"
-				class="options-grid-form-half"
 		>
 			<field
 				name="menu-anchor_title"
@@ -15,6 +14,7 @@
 				name="menu-anchor_css"
 				type="text"
 				label="COM_MENUS_ITEM_FIELD_ANCHOR_CSS_LABEL"
+				validate="CssIdentifier"
 			/>
 
 			<field
@@ -27,13 +27,14 @@
 				name="menu_image_css"
 				type="text"
 				label="COM_MENUS_ITEM_FIELD_MENU_IMAGE_CSS_LABEL"
+				validate="CssIdentifier"
 			/>
 
 			<field
 				name="menu_text"
 				type="radio"
 				label="COM_MENUS_ITEM_FIELD_MENU_TEXT_LABEL"
-				class="switcher"
+				layout="joomla.form.field.radio.switcher"
 				default="1"
 				filter="integer"
 				>
@@ -45,7 +46,7 @@
 				name="menu_show"
 				type="radio"
 				label="COM_MENUS_ITEM_FIELD_MENU_SHOW_LABEL"
-				class="switcher"
+				layout="joomla.form.field.radio.switcher"
 				default="1"
 				filter="integer"
 				>
@@ -54,5 +55,5 @@
 			</field>
 		</fieldset>
 	</fields>
-	<help key="JHELP_MENUS_MENU_ITEM_MENU_ITEM_HEADING" />
+	<help key="Menu_Item:_Heading" />
 </form>

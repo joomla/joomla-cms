@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_contact
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2009 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
-use Joomla\Component\Contact\Site\Helper\Route as ContactHelperRoute;
+use Joomla\Component\Contact\Site\Helper\RouteHelper;
 
 if ($this->maxLevel != 0 && count($this->children[$this->category->id]) > 0) :
 ?>
@@ -21,12 +21,12 @@ if ($this->maxLevel != 0 && count($this->children[$this->category->id]) > 0) :
 	<?php if ($this->params->get('show_empty_categories') || $child->numitems || count($child->getChildren())) : ?>
 	<li>
 		<h4 class="item-title">
-			<a href="<?php echo Route::_(ContactHelperRoute::getCategoryRoute($child->id, $child->language)); ?>">
+			<a href="<?php echo Route::_(RouteHelper::getCategoryRoute($child->id, $child->language)); ?>">
 			<?php echo $this->escape($child->title); ?>
 			</a>
 
 			<?php if ($this->params->get('show_cat_items') == 1) : ?>
-				<span class="badge badge-info float-right" title="<?php echo Text::_('COM_CONTACT_CAT_NUM'); ?>"><?php echo $child->numitems; ?></span>
+				<span class="badge bg-info float-end" title="<?php echo Text::_('COM_CONTACT_CAT_NUM'); ?>"><?php echo $child->numitems; ?></span>
 			<?php endif; ?>
 		</h4>
 

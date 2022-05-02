@@ -107,50 +107,122 @@
                         li.addClass(csscls('error'))
                         li.append($('<span />').addClass(csscls('error')).text('[' + stmt.error_code + '] ' + stmt.error_message))
                     }
-                    if (stmt.params && !$.isEmptyObject(stmt.params)) {
-                        var table = $('<table><tr><th colspan="2">Params</th></tr></table>').addClass(csscls('params')).appendTo(li)
-                        for (var key in stmt.params) {
-                            if (typeof stmt.params[key] !== 'function') {
-                                table.append('<tr><td class="' + csscls('name') + '">' + key + '</td><td class="' + csscls('value') +
-                                    '">' + stmt.params[key] + '</td></tr>')
-                            }
+
+                    var tableParams;
+
+                    function showTableParams() {
+                        if (tableParams) {
+                            tableParams.show();
+                            return;
                         }
-                        li.css('cursor', 'pointer').click(function () {
-                            if (table.is(':visible')) {
-                                table.hide()
-                            } else {
-                                table.show()
-                            }
-                        })
+
+                        // Render table
+                        tableParams = $('<table>').addClass(csscls('params')).appendTo(li);
+                        tableParams.append('<tr><th colspan="3">Query Parameters</th></tr>');
+                        tableParams.append('<tr><td>ID</td><td>Value</td><td>Data Type</td></tr>');
+
+                        var pRow;
+                        for (var key in stmt.params) {
+                            pRow = stmt.params[key];
+                            tableParams.append('<tr><td>' + key + '</td><td>' + pRow.value + '</td><td>'
+                              + pRow.dataType + '</td></tr>');
+                        }
+
+                        tableParams.show();
                     }
 
-                    var tableExplain
+                    if (stmt.params && !$.isEmptyObject(stmt.params)) {
+                        var btnParams = $('<span title="Params" />')
+                          .text('Params')
+                          .addClass(csscls('eye'))
+                          .css('cursor', 'pointer')
+                          .on('click', function () {
+                              if (tableParams && tableParams.is(':visible')) {
+                                  tableParams.hide()
+                                  btnParams.addClass(csscls('eye'))
+                                  btnParams.removeClass(csscls('eye-dash'))
+                              } else {
+                                  showTableParams();
+                                  btnParams.addClass(csscls('eye-dash'))
+                                  btnParams.removeClass(csscls('eye'))
+                              }
+                          })
+                          .appendTo(li)
+                    }
+
+                    var tableExplain;
+
+                    function showTableExplain() {
+                        if (tableExplain) {
+                            tableExplain.show();
+                            return;
+                        }
+
+                        // Render table
+                        tableExplain = $('<table>').addClass(csscls('explain')).appendTo(li);
+                        tableExplain.append('<tr><th>' + stmt.explain_col.join('</th><th>') + '</th></tr>');
+
+                        var i, entry, cols;
+                        for (i in stmt.explain) {
+                            cols  = []
+                            entry = stmt.explain[i];
+
+                            stmt.explain_col.forEach(function (key){
+                                cols.push(entry[key]);
+                            });
+
+                            tableExplain.append('<tr><td>' + cols.join('</td><td>') + '</td></tr>');
+                        }
+
+                        tableExplain.show();
+                    }
 
                     if (stmt.explain && !$.isEmptyObject(stmt.explain)) {
                         var btnExplain = $('<span title="Explain" />')
-                            .text('Explain')
-                            .addClass(csscls('eye'))
-                            .css('cursor', 'pointer')
-                            .on('click', function () {
-                                if (tableExplain.is(':visible')) {
-                                    tableExplain.hide()
-                                    btnExplain.addClass(csscls('eye'))
-                                    btnExplain.removeClass(csscls('eye-dash'))
-                                } else {
-                                    tableExplain.show()
-                                    btnExplain.addClass(csscls('eye-dash'))
-                                    btnExplain.removeClass(csscls('eye'))
-                                }
-                            })
-                            .appendTo(li)
-
-                        tableExplain = $('<table><thead>'
-                            + '<tr><th colspan="10">Explain</th></tr>'
-                            + '<tr><th>Id</th><th>Select Type</th><th>Table</th><th>Type</th><th>Possible Keys</th><th>Key</th><th>Key Len</th><th>Ref</th><th>Rows</th><th>Extra</th></tr>'
-                            + '</thead></table>').addClass(csscls('callstack'))
+                          .text('Explain')
+                          .addClass(csscls('eye'))
+                          .css('cursor', 'pointer')
+                          .on('click', function () {
+                              if (tableExplain && tableExplain.is(':visible')) {
+                                  tableExplain.hide()
+                                  btnExplain.addClass(csscls('eye'))
+                                  btnExplain.removeClass(csscls('eye-dash'))
+                              } else {
+                                  showTableExplain();
+                                  btnExplain.addClass(csscls('eye-dash'))
+                                  btnExplain.removeClass(csscls('eye'))
+                              }
+                          })
+                          .appendTo(li)
                     }
 
-                    var tableStack
+                    var tableStack;
+
+                    function showTableStack() {
+                        if (tableStack) {
+                            tableStack.show();
+                            return;
+                        }
+
+                        // Render table
+                        tableStack = $('<table><tr><th colspan="3">Call Stack</th></tr></table>')
+                          .addClass(csscls('callstack')).appendTo(li);
+
+                        var i, entry, location, caller, cssClass;
+                        for (i in stmt.callstack) {
+                            entry = stmt.callstack[i]
+                            location = entry[3] ? entry[3].replace(self.root_path, '') + ':' + entry[4] : ''
+                            caller = entry[2].replace(self.root_path, '')
+                            cssClass = entry[1] ? 'caller' : ''
+
+                            if (location && self.xdebug_link) {
+                                location = '<a href="' + self.xdebug_link.replace('%f', entry[3]).replace('%l', entry[4]) + '">' + location + '</a>'
+                            }
+                            tableStack.append('<tr class="' + cssClass + '"><th>' + entry[0] + '</th><td>' + caller + '</td><td>' + location + '</td></tr>')
+                        }
+
+                        tableStack.show();
+                    }
 
                     if (stmt.callstack && !$.isEmptyObject(stmt.callstack)) {
                         var btnStack = $('<span title="Call Stack" />')
@@ -158,19 +230,17 @@
                             .addClass(csscls('eye'))
                             .css('cursor', 'pointer')
                             .on('click', function () {
-                                if (tableStack.is(':visible')) {
+                                if (tableStack && tableStack.is(':visible')) {
                                     tableStack.hide()
                                     btnStack.addClass(csscls('eye'))
                                     btnStack.removeClass(csscls('eye-dash'))
                                 } else {
-                                    tableStack.show()
+                                    showTableStack();
                                     btnStack.addClass(csscls('eye-dash'))
                                     btnStack.removeClass(csscls('eye'))
                                 }
                             })
                             .appendTo(li)
-
-                        tableStack = $('<table><thead><tr><th colspan="3">Call Stack</th></tr></thead></table>').addClass(csscls('callstack'))
                     }
 
                     if (typeof(stmt.caller) != 'undefined' && stmt.caller) {
@@ -199,33 +269,6 @@
                             event.stopPropagation()
                         })
                         .appendTo(li)
-
-                    if (tableStack) {
-                        tableStack.appendTo(li)
-                        for (var i in stmt.callstack) {
-                            var entry = stmt.callstack[i]
-                            var location = entry[3] ? entry[3].replace(self.root_path, '') + ':' + entry[4] : ''
-                            var caller = entry[2].replace(self.root_path, '')
-                            var cssClass = entry[1] ? 'caller' : ''
-                            if (location && self.xdebug_link) {
-                                location = '<a href="' + self.xdebug_link.replace('%f', entry[3]).replace('%l', entry[4]) + '">' + location + '</a>'
-                            }
-                            tableStack.append('<tr class="' + cssClass + '"><th>' + entry[0] + '</th><td>' + caller + '</td><td>' + location + '</td></tr>')
-                        }
-                    }
-
-                    if (tableExplain) {
-                        tableExplain.appendTo(li)
-                        for (i in stmt.explain) {
-                            var entry = stmt.explain[i]
-                            tableExplain.append('<tr>'
-                                + '<td>' + entry.id + '</td><td>' + entry.select_type + '</td><td>' + entry.table + '</td>'
-                                + '<td>' + entry.type + '</td><td>' + entry.possible_keys + '</td><td>' + entry.key + '</td>'
-                                + '<td>' + entry.key_len + '</td><td>' + entry.ref + '</td><td>' + entry.rows + '</td>'
-                                + '<td>' + entry.Extra + '</td>'
-                                + '</tr>')
-                        }
-                    }
 
                     li.attr('dupeindex', 'dupe-0')
                 }

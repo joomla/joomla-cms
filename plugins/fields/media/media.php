@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Fields.Media
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2017 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -27,7 +27,7 @@ class PlgFieldsMedia extends \Joomla\Component\Fields\Administrator\Plugin\Field
 	 *
 	 * @return  DOMElement
 	 *
-	 * @since   3.7.0
+	 * @since   4.0.0
 	 */
 	public function onCustomFieldsPrepareDom($field, DOMElement $parent, Form $form)
 	{
@@ -38,8 +38,52 @@ class PlgFieldsMedia extends \Joomla\Component\Fields\Administrator\Plugin\Field
 			return $fieldNode;
 		}
 
-		$fieldNode->setAttribute('hide_default', 'true');
+		$fieldNode->setAttribute('type', 'accessiblemedia');
 
 		return $fieldNode;
+	}
+
+	/**
+	 * Before prepares the field value.
+	 *
+	 * @param   string     $context  The context.
+	 * @param   \stdclass  $item     The item.
+	 * @param   \stdclass  $field    The field.
+	 *
+	 * @return  void
+	 *
+	 * @since   4.0.0
+	 */
+	public function onCustomFieldsBeforePrepareField($context, $item, $field)
+	{
+		// Check if the field should be processed by us
+		if (!$this->isTypeSupported($field->type))
+		{
+			return;
+		}
+
+		// Check if the field value is an old (string) value
+		$field->value = $this->checkValue($field->value);
+	}
+
+	/**
+	 * Before prepares the field value.
+	 *
+	 * @param   string  $value  The value to check.
+	 *
+	 * @return  array  The checked value
+	 *
+	 * @since   4.0.0
+	 */
+	private function checkValue($value)
+	{
+		json_decode($value);
+
+		if (json_last_error() === JSON_ERROR_NONE)
+		{
+			return (array) json_decode($value, true);
+		}
+
+		return array('imagefile' => $value, 'alt_text' => '');
 	}
 }

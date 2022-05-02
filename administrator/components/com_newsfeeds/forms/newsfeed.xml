@@ -5,7 +5,7 @@
 
 		<field
 			name="id"
-			type="number"
+			type="text"
 			label="JGLOBAL_FIELD_ID_LABEL"
 			default="0"
 			class="readonly"
@@ -24,6 +24,7 @@
 			name="alias"
 			type="text"
 			label="JFIELD_ALIAS_LABEL"
+			description="JFIELD_ALIAS_DESC"
 			size="45"
 			hint="JFIELD_ALIAS_PLACEHOLDER"
 		/>
@@ -33,8 +34,9 @@
 			type="list"
 			label="JSTATUS"
 			default="1"
-			class="custom-select-color-state"
+			class="form-select-color-state"
 			size="1"
+			validate="options"
 			>
 			<option value="1">JPUBLISHED</option>
 			<option value="0">JUNPUBLISHED</option>
@@ -98,6 +100,7 @@
 			name="numarticles"
 			type="number"
 			label="COM_NEWSFEEDS_FIELD_NUM_ARTICLES_LABEL"
+			filter="integer"
 			default="5"
 		/>
 
@@ -105,6 +108,7 @@
 			name="cache_time"
 			type="number"
 			label="COM_NEWSFEEDS_FIELD_CACHETIME_LABEL"
+			filter="integer"
 			default="3600"
 		/>
 
@@ -128,20 +132,21 @@
 		<field
 			name="created_by"
 			type="user"
-			label="JGLOBAL_FIELD_Created_by_Label"
+			label="JGLOBAL_FIELD_CREATED_BY_LABEL"
+			validate="UserId"
 		/>
 
 		<field
 			name="created_by_alias"
 			type="text"
-			label="JGLOBAL_FIELD_Created_by_alias_Label"
+			label="JGLOBAL_FIELD_CREATED_BY_ALIAS_LABEL"
 			size="20"
 		/>
 
 		<field
 			name="modified"
 			type="calendar"
-			label="JGLOBAL_FIELD_Modified_Label"
+			label="JGLOBAL_FIELD_MODIFIED_LABEL"
 			class="readonly"
 			translateformat="true"
 			showtime="true"
@@ -157,6 +162,7 @@
 			class="readonly"
 			readonly="true"
 			filter="unset"
+			validate="UserId"
 		/>
 
 		<field
@@ -208,10 +214,20 @@
 		/>
 
 		<field
+			name="hits"
+			type="text"
+			label="JGLOBAL_HITS"
+			class="readonly"
+			readonly="true"
+			filter="unset"
+		/>
+
+		<field
 			name="access"
 			type="accesslevel"
 			label="JFIELD_ACCESS_LABEL"
-			size="1"
+			filter="UINT"
+			validate="options"
 		/>
 
 		<field
@@ -228,6 +244,8 @@
 			label="JFIELD_META_DESCRIPTION_LABEL"
 			rows="3"
 			cols="30"
+			maxlength="160"
+			charcounter="true"
 		/>
 
 		<fields name="images">
@@ -245,6 +263,7 @@
 					type="list"
 					label="COM_NEWSFEEDS_FLOAT_LABEL"
 					useglobal="true"
+					validate="options"
 					>
 					<option value="right">COM_NEWSFEEDS_RIGHT</option>
 					<option value="left">COM_NEWSFEEDS_LEFT</option>
@@ -256,6 +275,13 @@
 					type="text"
 					label="COM_NEWSFEEDS_FIELD_IMAGE_ALT_LABEL"
 					size="20"
+				/>
+
+				<field
+					name="image_first_alt_empty"
+					type="checkbox"
+					label="COM_NEWSFEEDS_FIELD_IMAGE_ALT_EMPTY_LABEL"
+					description="COM_NEWSFEEDS_FIELD_IMAGE_ALT_EMPTY_DESC"
 				/>
 
 				<field
@@ -282,6 +308,7 @@
 					type="list"
 					label="COM_NEWSFEEDS_FLOAT_LABEL"
 					useglobal="true"
+					validate="options"
 					>
 					<option value="right">COM_NEWSFEEDS_RIGHT</option>
 					<option value="left">COM_NEWSFEEDS_LEFT</option>
@@ -293,6 +320,13 @@
 					type="text"
 					label="COM_NEWSFEEDS_FIELD_IMAGE_ALT_LABEL"
 					size="20"
+				/>
+
+				<field
+					name="image_second_alt_empty"
+					type="checkbox"
+					label="COM_NEWSFEEDS_FIELD_IMAGE_ALT_EMPTY_LABEL"
+					description="COM_NEWSFEEDS_FIELD_IMAGE_ALT_EMPTY_DESC"
 				/>
 
 				<field
@@ -311,6 +345,7 @@
 			name="numarticles"
 			type="number"
 			label="COM_NEWSFEEDS_FIELD_NUM_ARTICLES_LABEL"
+			filter="integer"
 			default="5"
 		/>
 
@@ -318,6 +353,7 @@
 			name="cache_time"
 			type="number"
 			label="COM_NEWSFEEDS_FIELD_CACHETIME_LABEL"
+			filter="integer"
 			default="3600"
 		/>
 
@@ -326,6 +362,7 @@
 			type="list"
 			label="COM_NEWSFEEDS_FIELD_RTL_LABEL"
 			default="0"
+			validate="options"
 			>
 			<option value="0">COM_NEWSFEEDS_FIELD_VALUE_SITE</option>
 			<option value="1">COM_NEWSFEEDS_FIELD_VALUE_LTR</option>
@@ -339,6 +376,7 @@
 				type="list"
 				label="COM_NEWSFEEDS_FIELD_SHOW_FEED_IMAGE_LABEL"
 				useglobal="true"
+				validate="options"
 				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
@@ -349,6 +387,7 @@
 				type="list"
 				label="COM_NEWSFEEDS_FIELD_SHOW_FEED_DESCRIPTION_LABEL"
 				useglobal="true"
+				validate="options"
 				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
@@ -359,6 +398,7 @@
 				type="list"
 				label="COM_NEWSFEEDS_FIELD_SHOW_ITEM_DESCRIPTION_LABEL"
 				useglobal="true"
+				validate="options"
 				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
@@ -369,6 +409,7 @@
 				type="number"
 				label="COM_NEWSFEEDS_FIELD_CHARACTERS_COUNT_LABEL"
 				description="COM_NEWSFEEDS_FIELD_CHARACTERS_COUNT_DESC"
+				filter="integer"
 				useglobal="true"
 			/>
 
@@ -376,7 +417,7 @@
 				name="newsfeed_layout"
 				type="componentlayout"
 				label="JFIELD_ALT_LAYOUT_LABEL"
-				class="custom-select"
+				class="form-select"
 				extension="com_newsfeeds"
 				view="newsfeed"
 				useglobal="true"
@@ -387,6 +428,7 @@
 				type="list"
 				label="COM_NEWSFEEDS_FIELD_FEED_DISPLAY_ORDER_LABEL"
 				useglobal="true"
+				validate="options"
 				>
 				<option value="des">JGLOBAL_MOST_RECENT_FIRST</option>
 				<option value="asc">JGLOBAL_OLDEST_FIRST</option>
@@ -402,12 +444,13 @@
 				name="robots"
 				type="list"
 				label="JFIELD_METADATA_ROBOTS_LABEL"
+				validate="options"
 				>
 				<option value="">JGLOBAL_USE_GLOBAL</option>
-				<option value="index, follow">JGLOBAL_INDEX_FOLLOW</option>
-				<option value="noindex, follow">JGLOBAL_NOINDEX_FOLLOW</option>
-				<option value="index, nofollow">JGLOBAL_INDEX_NOFOLLOW</option>
-				<option value="noindex, nofollow">JGLOBAL_NOINDEX_NOFOLLOW</option>
+				<option value="index, follow"></option>
+				<option value="noindex, follow"></option>
+				<option value="index, nofollow"></option>
+				<option value="noindex, nofollow"></option>
 			</field>
 
 			<field
@@ -417,15 +460,6 @@
 				rows="2"
 				cols="30"
 				filter="string"
-			/>
-
-			<field
-				name="hits"
-				type="number"
-				label="JGLOBAL_HITS"
-				class="readonly"
-				readonly="true"
-				filter="unset"
 			/>
 		</fieldset>
 	</fields>

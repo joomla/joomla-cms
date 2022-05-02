@@ -1,9 +1,3 @@
-joomla-toolbar-button {
-  border: 1px solid var(--border);
-}
-.toggle-toolbar {
-  display:block;
-}
 .subhead {
   position: sticky;
   top: 0;
@@ -12,407 +6,173 @@ joomla-toolbar-button {
   z-index: $zindex-toolbar;
   width: auto;
   min-height: 43px;
-  padding: 13px 0;
-  color: var(--atum-text-dark); //#0c192e;
+  padding: 8px 1rem;
+  color: var(--template-text-dark); //#0c192e;
+  background: $white;
+  background-image: linear-gradient(var(--toolbar-bg), var(--template-bg-dark-3));
+  box-shadow: 0 2px 10px -8px var(--template-bg-dark-50);
 
   .row {
     margin-right: 0;
     margin-left: 0;
   }
 
-  .btn-toolbar {
-    margin-bottom: 0;
+  &.noshadow {
+    box-shadow: none;
+  }
 
-    > joomla-toolbar-button,
-    > .btn-group {
-      margin-left: .75rem;
+  joomla-toolbar-button,
+  .btn-group {
+    margin-inline-start: .75rem;
 
-      [dir=rtl] & {
-        margin-left: 0;
-      }
+    &:first-child {
+      margin-inline-start: 0;
+    }
+  }
 
-      &:first-child {
-        margin-left: 0;
-      }
+  joomla-toolbar-button {
+    .btn > span,
+    .dropdown-item > span {
+      margin-inline-end: .5rem;
+      width: 1.25em;
+      text-align: center;
     }
   }
 
   .btn {
-    background: $white;
-    border-color: $gray-500;
-    color: var(--atum-text-dark);
-    padding: $input-btn-padding-y-sm-submenu $input-btn-padding-x-sm-submenu;
+    --subhead-btn-accent: var(--template-text-dark);
+    padding: 0 1rem;
+    margin: 5px 0;
     font-size: 1rem;
     line-height: $atum-toolbar-line-height;
-    box-shadow: $atum-box-shadow;
-    border: 0;
+    color: var(--template-text-dark);
+    background: $white;
+    border-color: hsl(var(--hue),20%,80%);
 
-    [class^='icon-'],
-    [class*=' icon-'],
-    [class^='#{$fa-css-prefix}-'],
-    [class*=' #{$fa-css-prefix}-'] {
-      z-index: $zindex-negative;
+    > span {
       display: inline-block;
-      width: 2.438rem;
-      height: 100%;
-      margin: $input-btn-padding-y-sm-submenu $input-btn-submenu-icon-distance $input-btn-padding-y-sm-submenu -#{$input-btn-padding-x-sm-submenu};
-      line-height: $atum-toolbar-line-height;
-      color: var(--white);
+      color: var(--subhead-btn-accent);
+    }
+
+    &:not([disabled]):hover,
+    &:not([disabled]):active,
+    &:not([disabled]):focus {
+      color: rgba(255, 255, 255, .9);
+      background-color: var(--subhead-btn-accent);
+      border-color: var(--subhead-btn-accent);
+
+      > span {
+        color: rgba(255, 255, 255, .9);
+      }
     }
 
     &.btn-success {
-
-      background-color: $white;
-
-      [class^='icon-'],
-      [class*=' icon-'],
-      [class^='#{$fa-css-prefix}-'],
-      [class*=' #{$fa-css-prefix}-'],
-      span {
-        background-color: darken(theme-color("success"), 5%);
-        color:rgba(255,255,255,0.90);
-      }
-
-      &:hover, &:active, &:focus {
-        [class^='icon-'],
-        [class*=' icon-'],
-        [class^='#{$fa-css-prefix}-'],
-        [class*=' #{$fa-css-prefix}-'],
-        span {
-          background-color: darken(theme-color("success"), 10%);
-          color:rgba(255,255,255,0.90);
-        }
-
-        color:rgba(255,255,255,0.90);
-        background-color: theme-color("success");
-      }
+      --subhead-btn-accent: var(--success);
     }
 
     &.btn-danger {
-
-    background-color: $white;
-
-    [class^='icon-'],
-    [class*=' icon-'],
-    [class^='#{$fa-css-prefix}-'],
-    [class*=' #{$fa-css-prefix}-'],
-    span {
-      background-color: darken(theme-color("danger"), 5%);
-      color:rgba(255,255,255,0.90);
+      --subhead-btn-accent: var(--danger);
     }
-
-    &:hover, &:active, &:focus {
-      [class^='icon-'],
-      [class*=' icon-'],
-      [class^='#{$fa-css-prefix}-'],
-      [class*=' #{$fa-css-prefix}-'],
-      span {
-        background-color: darken(theme-color("danger"), 10%);
-        color:rgba(255,255,255,0.90);
-      }
-
-      color:rgba(255,255,255,0.90);
-      background-color: theme-color("danger");
-    }
-  }
 
     &.btn-primary {
-
-      background-color: $white;
-
-      [class^='icon-'],
-      [class*=' icon-'],
-      [class^='#{$fa-css-prefix}-'],
-      [class*=' #{$fa-css-prefix}-'],
-      span {
-        background-color: var(--atum-bg-dark-70);
-        color:rgba(255,255,255,0.90);
-      }
-
-      &:hover, &:active, &:focus {
-        [class^='icon-'],
-        [class*=' icon-'],
-        [class^='#{$fa-css-prefix}-'],
-        [class*=' #{$fa-css-prefix}-'],
-        span {
-          background-color: var(--atum-bg-dark-80);
-          color:rgba(255,255,255,0.90);
-        }
-
-        color:rgba(255,255,255,0.90);
-        background-color: var(--atum-bg-dark);
-      }
+      --subhead-btn-accent: var(--template-link-color);
     }
 
     &.btn-secondary {
-
-        [class^='icon-download'] {
-             background-color: var(--atum-bg-dark-70);
-            color:rgba(255,255,255,0.90);
-        }
-
-         &:hover, &:active, &:focus {
-            [class^='icon-download'] {
-                background-color: var(--atum-bg-dark-80);
-                color:rgba(255,255,255,0.90);
-            }
-         }
+      --subhead-btn-accent: var(--template-special-color);
     }
 
     &.btn-info {
-
-      background-color: $white;
-
-      [class^='icon-'],
-      [class*=' icon-'],
-      [class^='#{$fa-css-prefix}-'],
-      [class*=' #{$fa-css-prefix}-'],
-      span {
-        background-color: var(--atum-bg-dark-70);
-        color:rgba(255,255,255,0.90);
-      }
-
-      &:hover, &:active, &:focus {
-        [class^='icon-'],
-        [class*=' icon-'],
-        [class^='#{$fa-css-prefix}-'],
-        [class*=' #{$fa-css-prefix}-'],
-        span {
-          background-color: var(--atum-bg-dark-80);
-          color:rgba(255,255,255,0.90);
-        }
-
-        color:rgba(255,255,255,0.90);
-        background-color: var(--atum-bg-dark);
-      }
+      --subhead-btn-accent: var(--template-bg-dark);
     }
 
     &.btn-action {
+      --subhead-btn-accent: var(--template-bg-dark);
+      display: flex;
+      align-items: center;
 
-      background-color: $white;
-
-      [class^='icon-'],
-      [class*=' icon-'],
-      [class^='#{$fa-css-prefix}-'],
-      [class*=' #{$fa-css-prefix}-'],
-      span {
-        background-color: var(--atum-bg-dark-70);
-        color:rgba(255,255,255,0.90);
-      }
-
-      &:hover,  &:active, &:focus {
-        [class^='icon-'],
-        [class*=' icon-'],
-        [class^='#{$fa-css-prefix}-'],
-        [class*=' #{$fa-css-prefix}-'],
-        span {
-          background-color: var(--atum-bg-dark-80);
-          color:rgba(255,255,255,0.90);
-        }
-
-        color:rgba(255,255,255,0.90);
-        background-color: var(--atum-bg-dark);
+      &::after {
+        width: 2.375rem;
+        font-family: "Font Awesome 5 Free";
+        font-weight: 900;
+        content: "\f078";
+        border: 0;
       }
     }
 
     &[disabled],
     &.dropdown-toggle[disabled] {
-      background-color: rgba($gray-300, 0.8);
-      border-color: rgba($gray-500, 0.8);
+      --subhead-btn-accent: var(--template-bg-dark);
+      background: rgba($gray-300, .8);
+      opacity: .5;
 
-      [class^='icon-'],
-      [class*=' icon-'],
-      [class^='#{$fa-css-prefix}-'],
-      [class*=' #{$fa-css-prefix}-'],
-      span {
-        color: var(--atum-text-dark);
-        background-color: rgba($gray-500, 0.8);
-      }
-
-      &:hover,  &:active, &:focus {
-        [class^='icon-'],
-        [class*=' icon-'],
-        [class^='#{$fa-css-prefix}-'],
-        [class*=' #{$fa-css-prefix}-'],
-        span {
-          color: var(--atum-text-dark);
-          background-color: rgba($gray-500, 0.8);
-        }
-        background-color: rgba($gray-300, 0.8);
+      &:hover,
+      &:active,
+      &:focus {
         cursor: not-allowed;
-        color: var(--atum-text-dark);
       }
-
-    }
-
-    &.disabled,
-    &:disabled{
-        opacity:1;
-    }
-  }
-
-  .dropdown-item {
-
-    &:hover:not(.disabled) {
-      color: #212529;
-      cursor: pointer;
     }
   }
 
   .dropdown-toggle {
-
     &.btn {
-      color: var(--atum-text-dark);
-      span {
-        background-color: var(--atum-bg-dark);
-        color:rgba(255,255,255,0.90);
-      }
+      padding-inline-end: 0;
+    }
+  }
+
+  .btn-group:not(:last-child) > .dropdown-toggle-split {
+    order: 1;
+    margin-inline-start: -$border-radius;
+
+    [dir="ltr"] & {
+      border-radius: 0 $border-radius $border-radius 0;
     }
 
-    &.btn-primary {
-      span {
-        background-color: var(--atum-bg-dark);
-        color:rgba(255,255,255,0.90);
-      }
+    [dir="rtl"] & {
+      border-radius: $border-radius 0 0 $border-radius;
     }
+  }
 
-    &.btn-success {
-      background-color: $white;
-      padding: 0;
+  .dropdown-menu joomla-toolbar-button,
+  .btn-group joomla-toolbar-button {
+    margin-inline-start: 0;
+  }
 
-      span {
-        background-color: theme-color("success");
-        color:rgba(255,255,255,0.90);
-      }
-
-      &::after {
-        border: 1px solid var(--border);
-        content: '\f078';
-        font-family: 'Font Awesome 5 Free';
-        vertical-align: middle;
-        width: 2.375rem;
-      }
-    }
-
-    &.btn-info {
-      background-color: darken(theme-color("info"), 8%);
-    }
-
-    &.btn-danger {
-      background-color: darken(theme-color("danger"), 8%);
-    }
-
-    &.btn-action {
-      background-color: $white;
-
-      [class^='icon-'],
-      [class*=' icon-'],
-      [class^='#{$fa-css-prefix}-'],
-      [class*=' #{$fa-css-prefix}-'] {
-        background-color: var(--atum-bg-dark);
-        color:rgba(255,255,255,0.90);
-      }
-
-      &:hover:not([disabled]) {
-        background-color: var(--atum-bg-dark-80);
-      }
-
-      &::after {
-        border: none;
-        content: '\f078';
-        font-family: 'Font Awesome 5 Free';
-        height: 100%;
-        margin: $input-btn-padding-y-sm-submenu -#{$input-btn-padding-x-sm-submenu} $input-btn-padding-y-sm-submenu $input-btn-submenu-icon-distance;
-        vertical-align: 0;
-        width: 2.375rem;
-        line-height: 2.375rem;
-      }
-    }
-    &::after{
-        line-height:2.4rem;
-    }
+  .contentpane & {
+    margin: -15px -15px 0;
+    background-image: none;
+    border-bottom: 1px solid var(--template-bg-dark-7);
   }
 }
 
-.btn-toolbar{
-  > joomla-toolbar-button,
-  > .btn-group {
-    @include media-breakpoint-down(lg) {
-      margin-left:0 !important;
-      margin-right:0.75rem;
-      margin-bottom:0.75rem;
-
-      @include media-breakpoint-down(sm) {
-        [dir=rtl] & {
-          margin-left: 0.75rem;
-          margin-right: 0 !important;
-        }
-      }
-    }
+@include media-breakpoint-down(sm) {
+  joomla-tab[view=accordion] .col-md-9,
+  joomla-tab[view=accordion] .col-md-3 {
+    padding: .5rem 1rem !important;
   }
 
-
-}
-
-.js-stools{
-  @include media-breakpoint-down(lg) {
-    justify-content:flex-start;
-    .js-stools-container-bar{
-        .btn-toolbar{
-             justify-content:flex-start;
-        }
-    }
+  #myTab {
+    margin-top: 1rem;
+    margin-bottom: 1.5rem;
   }
-  @include media-breakpoint-down(xs) {
-    display:block;
-      .joomla-toolbar-button,
-      .btn-group,
-      .input-group,
-      .ordering-select,
-      .js-stools-field-list,
-      .js-stools-container-selector {
-        @include media-breakpoint-down(sm) {
-            width:100%;
-        }
-     }
-     .ordering-select,
-     .js-stools-container-selector {
-        margin-right:.5rem;
-        @include media-breakpoint-down(sm) {
-          [dir=rtl] & {
-            margin-right: 0 !important;
-          }
-        }
-     }
-     .btn-group{
-        @include media-breakpoint-down(sm) {
-            margin-right:0;
-        }
-     }
-     .js-stools-container-bar{
-        .js-stools-field-list{
-            @include media-breakpoint-down(sm) {
-                margin-bottom: .75rem;
-            }
-         }
-    }
 
-     .js-stools-btn-filter    {
-        @include media-breakpoint-down(sm) {
-            width:75%;
-        }
-     }
+  joomla-tab[view=accordion] ul li {
+    width: 100%;
   }
-}
 
-@include media-breakpoint-down(xs) {
   .toggler-toolbar {
-    top: 20px;
+    top: 0;
+    bottom: auto;
+    z-index: $zindex-alerts;
+    padding: 7px 10px;
+    margin: 5px;
+    background-color: var(--template-bg-dark);
+    border-radius: 30px;
 
     .toggler-toolbar-icon::before {
-      font: normal normal normal 30px/1 'Font Awesome 5 Free';
-      content: "\f00d";
+      font: normal normal 900 28px/1 "Font Awesome 5 Free";
       color: var(--toggle-color);
+      content: "\f00d";
     }
 
     &.collapsed .toggler-toolbar-icon::before {
@@ -421,24 +181,29 @@ joomla-toolbar-button {
   }
 
   .subhead {
+    padding-right: 0;
+    padding-left: 0;
 
     joomla-toolbar-button,
     .btn-group,
     .btn {
       width: 100%;
+      margin-left: 0;
+      text-align: left;
     }
 
-    .btn {
-      [class^='icon-'],
-      [class*=' icon-'],
-      [class^='fa-'],
-      [class*=' fa-'] {
-        float: left;
+    .btn-toolbar > .btn-group,
+    .btn-toolbar > joomla-toolbar-button {
+      margin-left: 0;
+    }
 
-        [dir=rtl] & {
-          float: right;
-        }
-      }
+    .btn.btn-action::after {
+      text-align: center;
+      margin-inline-start: auto;
+    }
+
+    .dropdown-toggle-split {
+      width: auto;
     }
   }
 }

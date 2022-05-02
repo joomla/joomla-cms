@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_config
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2013 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -37,7 +37,7 @@ $ajaxUri = Route::_('index.php?option=com_config&task=application.sendtestmail&f
 
 $this->name = Text::_('COM_CONFIG_MAIL_SETTINGS');
 $this->fieldsname = 'mail';
-$this->formclass = 'options-grid-form options-grid-form-half';
+$this->formclass = 'options-form';
 
 ?>
 

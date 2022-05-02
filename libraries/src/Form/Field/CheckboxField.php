@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2009 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -17,7 +17,7 @@ use Joomla\CMS\Form\FormField;
  * Single checkbox field.
  * This is a boolean field with null for false and the specified option for true
  *
- * @link   http://www.w3.org/TR/html-markup/input.checkbox.html#input.checkbox
+ * @link   https://html.spec.whatwg.org/multipage/input.html#checkbox-state-(type=checkbox)
  * @see    CheckboxField
  * @since  1.7.0
  */
@@ -58,10 +58,9 @@ class CheckboxField extends FormField
 	 */
 	public function __get($name)
 	{
-		switch ($name)
+		if ($name === 'checked')
 		{
-			case 'checked':
-				return $this->checked;
+			return $this->checked;
 		}
 
 		return parent::__get($name);
@@ -79,16 +78,15 @@ class CheckboxField extends FormField
 	 */
 	public function __set($name, $value)
 	{
-		switch ($name)
+		if ($name === 'checked')
 		{
-			case 'checked':
-				$value = (string) $value;
-				$this->checked = ($value == 'true' || $value == $name || $value == '1');
-				break;
+			$value = (string) $value;
+			$this->checked = ($value === 'true' || $value == $name || $value === '1');
 
-			default:
-				parent::__set($name, $value);
+			return;
 		}
+
+		parent::__set($name, $value);
 	}
 
 	/**
@@ -122,7 +120,7 @@ class CheckboxField extends FormField
 		if ($return)
 		{
 			$checked = (string) $this->element['checked'];
-			$this->checked = ($checked == 'true' || $checked == 'checked' || $checked == '1');
+			$this->checked = ($checked === 'true' || $checked === 'checked' || $checked === '1');
 
 			empty($this->value) || $this->checked ? null : $this->checked = true;
 		}

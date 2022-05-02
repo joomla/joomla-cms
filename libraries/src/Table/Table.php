@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2005 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -21,6 +21,7 @@ use Joomla\Database\DatabaseQuery;
 use Joomla\Event\DispatcherAwareInterface;
 use Joomla\Event\DispatcherAwareTrait;
 use Joomla\Event\DispatcherInterface;
+use Joomla\String\StringHelper;
 
 /**
  * Abstract Table class
@@ -28,7 +29,6 @@ use Joomla\Event\DispatcherInterface;
  * Parent class to all tables.
  *
  * @since  1.7.0
- * @tutorial  Joomla.Platform/jtable.cls
  */
 abstract class Table extends CMSObject implements TableInterface, DispatcherAwareInterface
 {
@@ -41,6 +41,14 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
 	 * @since  3.0.0
 	 */
 	private static $_includePaths = array();
+
+	/**
+	 * Table fields cache
+	 *
+	 * @var   array
+	 * @since 3.10.4
+	 */
+	private static $tableFields;
 
 	/**
 	 * Name of the database table to model.
@@ -126,7 +134,7 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
 	 * Indicates that columns fully support the NULL value in the database
 	 *
 	 * @var    boolean
-	 * @since  4.0.0
+	 * @since  3.10.0
 	 */
 	protected $_supportNullValue = false;
 
@@ -240,9 +248,9 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
 	 */
 	public function getFields($reload = false)
 	{
-		static $cache = null;
+		$key = $this->_db->getServerType() . ':' . $this->_db->getName() . ':' . $this->_tbl;
 
-		if ($cache === null || $reload)
+		if (!isset(self::$tableFields[$key]) || $reload)
 		{
 			// Lookup the fields for this table only once.
 			$name   = $this->_tbl;
@@ -253,10 +261,10 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
 				throw new \UnexpectedValueException(sprintf('No columns found for %s table', $name));
 			}
 
-			$cache = $fields;
+			self::$tableFields[$key] = $fields;
 		}
 
-		return $cache;
+		return self::$tableFields[$key];
 	}
 
 	/**
@@ -508,7 +516,7 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
 	 *
 	 * @return  mixed
 	 *
-	 * @since   4.0
+	 * @since   4.0.0
 	 */
 	public function getId()
 	{
@@ -954,7 +962,9 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
 				// Prepare the asset to be stored.
 				$asset->parent_id = $parentId;
 				$asset->name      = $name;
-				$asset->title     = $title;
+
+				// Respect the table field limits
+				$asset->title = StringHelper::substr($title, 0, 100);
 
 				if ($this->_rules instanceof Rules)
 				{
@@ -1034,7 +1044,7 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
 		}
 
 		// Attempt to check the row in, just in case it was checked out.
-		if (!$this->checkin())
+		if (!$this->checkIn())
 		{
 			return false;
 		}
@@ -1294,11 +1304,12 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
 		$checkedOutTimeField = $this->getColumnAlias('checked_out_time');
 
 		$nullDate = $this->_supportNullValue ? 'NULL' : $this->_db->quote($this->_db->getNullDate());
+		$nullID   = $this->_supportNullValue ? 'NULL' : '0';
 
 		// Check the row in by primary key.
 		$query = $this->_db->getQuery(true)
 			->update($this->_tbl)
-			->set($this->_db->quoteName($checkedOutField) . ' = 0')
+			->set($this->_db->quoteName($checkedOutField) . ' = ' . $nullID)
 			->set($this->_db->quoteName($checkedOutTimeField) . ' = ' . $nullDate);
 		$this->appendPrimaryKeys($query, $pk);
 		$this->_db->setQuery($query);
@@ -1307,8 +1318,8 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
 		$this->_db->execute();
 
 		// Set table values in the object.
-		$this->$checkedOutField      = 0;
-		$this->$checkedOutTimeField = $nullDate === 'NULL' ? null : '';
+		$this->$checkedOutField     = $this->_supportNullValue ? null : 0;
+		$this->$checkedOutTimeField = $this->_supportNullValue ? null : '';
 
 		// Post-processing by observers
 		$event = AbstractEvent::create(
@@ -1877,7 +1888,7 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
 			// If checkin is supported and all rows were adjusted, check them in.
 			if ($checkin && (\count($pks) == $this->_db->getAffectedRows()))
 			{
-				$this->checkin($pk);
+				$this->checkIn($pk);
 			}
 
 			// If the Table instance value is in the list of primary keys that were set, set the instance.
@@ -1971,7 +1982,7 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
 	 */
 	public function setColumnAlias($column, $columnAlias)
 	{
-		// Santize the column name alias
+		// Sanitize the column name alias
 		$column = strtolower($column);
 		$column = preg_replace('#[^A-Z0-9_]#i', '', $column);
 

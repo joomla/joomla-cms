@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Fields.Sql
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2017 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -49,39 +49,29 @@ class PlgFieldsSql extends \Joomla\Component\Fields\Administrator\Plugin\FieldsL
 	/**
 	 * The save event.
 	 *
-	 * @param   string   $context  The context
-	 * @param   JTable   $item     The table
-	 * @param   boolean  $isNew    Is new item
-	 * @param   array    $data     The validated data
+	 * @param   string                   $context  The context
+	 * @param   \Joomla\CMS\Table\Table  $item     The table
+	 * @param   boolean                  $isNew    Is new item
+	 * @param   array                    $data     The validated data
 	 *
 	 * @return  boolean
 	 *
 	 * @since   3.7.0
 	 */
-	public function onContentBeforeSave($context, $item, $isNew, $data = array())
+	public function onContentBeforeSave($context, $item, $isNew, $data = [])
 	{
 		// Only work on new SQL fields
-		if ($context != 'com_fields.field' || !isset($item->type) || $item->type != 'sql' || !$isNew)
+		if ($context != 'com_fields.field' || !isset($item->type) || $item->type != 'sql')
 		{
 			return true;
 		}
 
-		// If we are not a super admin, don't let the user create a SQL field
+		// If we are not a super admin, don't let the user create or update a SQL field
 		if (!Access::getAssetRules(1)->allow('core.admin', $this->app->getIdentity()->getAuthorisedGroups()))
 		{
 			$item->setError(Text::_('PLG_FIELDS_SQL_CREATE_NOT_POSSIBLE'));
 
 			return false;
-		}
-
-		$rules = $item->getRules()->getData();
-
-		// Only change the edit rule and when it is empty
-		if (array_key_exists('core.edit', $rules) && !$rules['core.edit']->getData())
-		{
-			// Set the denied flag on the root group
-			$rules['core.edit']->mergeIdentity(1, false);
-			$this->app->enqueueMessage(Text::_('PLG_FIELDS_SQL_RULES_ADAPTED'), 'warning');
 		}
 
 		return true;

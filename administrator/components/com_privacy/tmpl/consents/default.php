@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_privacy
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2018 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -16,7 +16,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 
-/** @var PrivacyViewConsent $this */
+/** @var \Joomla\Component\Privacy\Administrator\View\Consents\HtmlView $this */
 
 HTMLHelper::_('behavior.multiselect');
 
@@ -37,41 +37,43 @@ $stateMsgs  = array(
 		<?php echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
 		<?php if (empty($this->items)) : ?>
 			<div class="alert alert-info">
-				<span class="fa fa-info-circle" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('INFO'); ?></span>
+				<span class="icon-info-circle" aria-hidden="true"></span><span class="visually-hidden"><?php echo Text::_('INFO'); ?></span>
 				<?php echo Text::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
 			</div>
 		<?php else : ?>
 			<table class="table" id="consentList">
-				<caption id="captionTable" class="sr-only">
-					<?php echo Text::_('COM_PRIVACY_TABLE_CONSENTS_CAPTION'); ?>, <?php echo Text::_('JGLOBAL_SORTED_BY'); ?>
+				<caption class="visually-hidden">
+					<?php echo Text::_('COM_PRIVACY_TABLE_CONSENTS_CAPTION'); ?>,
+							<span id="orderedBy"><?php echo Text::_('JGLOBAL_SORTED_BY'); ?> </span>,
+							<span id="filteredBy"><?php echo Text::_('JGLOBAL_FILTERED_BY'); ?></span>
 				</caption>
 				<thead>
 					<tr>
-						<td style="width:1%" class="text-center">
+						<td class="w-1 text-center">
 							<?php echo HTMLHelper::_('grid.checkall'); ?>
 						</td>
-						<th scope="col" style="width:5%" class="text-center">
+						<th scope="col" class="w-5 text-center">
 							<?php echo HTMLHelper::_('searchtools.sort', 'JSTATUS', 'a.state', $listDirn, $listOrder); ?>
 						</th>
-						<th scope="col" width="10%">
+						<th scope="col" class="w-10">
 							<?php echo HTMLHelper::_('searchtools.sort', 'JGLOBAL_USERNAME', 'u.username', $listDirn, $listOrder); ?>
 						</th>
-						<th scope="col" width="10%">
+						<th scope="col" class="w-10">
 							<?php echo HTMLHelper::_('searchtools.sort', 'COM_PRIVACY_HEADING_NAME', 'u.name', $listDirn, $listOrder); ?>
 						</th>
-						<th scope="col" width="1%">
+						<th scope="col" class="w-1">
 							<?php echo HTMLHelper::_('searchtools.sort', 'COM_PRIVACY_HEADING_USERID', 'a.user_id', $listDirn, $listOrder); ?>
 						</th>
-						<th scope="col" width="10%">
+						<th scope="col" class="w-10">
 							<?php echo HTMLHelper::_('searchtools.sort', 'COM_PRIVACY_HEADING_CONSENTS_SUBJECT', 'a.subject', $listDirn, $listOrder); ?>
 						</th>
 						<th scope="col">
 							<?php echo Text::_('COM_PRIVACY_HEADING_CONSENTS_BODY'); ?>
 						</th>
-						<th scope="col" width="15%">
+						<th scope="col" class="w-15">
 							<?php echo HTMLHelper::_('searchtools.sort', 'COM_PRIVACY_HEADING_CONSENTS_CREATED', 'a.created', $listDirn, $listOrder); ?>
 						</th>
-						<th scope="col" width="1%">
+						<th scope="col" class="w-1">
 							<?php echo HTMLHelper::_('searchtools.sort', 'JGRID_HEADING_ID', 'a.id', $listDirn, $listOrder); ?>
 						</th>
 					</tr>
@@ -79,12 +81,12 @@ $stateMsgs  = array(
 				<tbody>
 					<?php foreach ($this->items as $i => $item) : ?>
 						<tr>
-							<td class="center">
-								<?php echo HTMLHelper::_('grid.id', $i, $item->id); ?>
+							<td class="text-center">
+								<?php echo HTMLHelper::_('grid.id', $i, $item->id, false, 'cid', 'cb', $item->username); ?>
 							</td>
 							<td class="tbody-icon">
 								<span class="icon-<?php echo $stateIcons[$item->state]; ?>" aria-hidden="true" title="<?php echo $stateMsgs[$item->state]; ?>"></span>
-								<span class="sr-only"><?php echo $stateMsgs[$item->state]; ?>"></span>
+								<span class="visually-hidden"><?php echo $stateMsgs[$item->state]; ?>"></span>
 							</td>
 							<th scope="row">
 								<?php echo $item->username; ?>

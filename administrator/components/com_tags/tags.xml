@@ -1,23 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<extension type="component" version="4.0" method="upgrade">
+<extension type="component" method="upgrade">
 	<name>com_tags</name>
 	<author>Joomla! Project</author>
 	<creationDate>December 2013</creationDate>
-	<copyright>(C) 2005 - 2019 Open Source Matters. All rights reserved.</copyright>
+	<copyright>(C) 2013 Open Source Matters, Inc.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>4.0.0</version>
 	<description>COM_TAGS_XML_DESCRIPTION</description>
-	<namespace>Joomla\Component\Tags</namespace>
+	<namespace path="src">Joomla\Component\Tags</namespace>
 	<files folder="site">
-		<folder>Controller</folder>
-		<filename>router.php</filename>
-		<folder>Helper</folder>
 		<folder>helpers</folder>
-		<folder>models</folder>
+		<folder>src</folder>
 		<folder>tmpl</folder>
-		<folder>views</folder>
 	</files>
 	<languages folder="site">
 		<language tag="en-GB">language/en-GB/com_tags.ini</language>
@@ -29,14 +25,10 @@
 			<filename>access.xml</filename>
 			<filename>config.xml</filename>
 			<filename>tags.xml</filename>
-			<folder>Controller</folder>
 			<folder>forms</folder>
-			<folder>Model</folder>
 			<folder>services</folder>
-			<folder>Table</folder>
+			<folder>src</folder>
 			<folder>tmpl</folder>
-			<folder>View</folder>
-			<folder>views</folder>
 		<languages folder="admin">
 			<language tag="en-GB">language/en-GB/com_tags.ini</language>
 			<language tag="en-GB">language/en-GB/com_tags.sys.ini</language>

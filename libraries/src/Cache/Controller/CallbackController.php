@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2007 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -27,7 +27,7 @@ class CallbackController extends CacheController
 	 * @param   callable  $callback    Callback or string shorthand for a callback
 	 * @param   array     $args        Callback arguments
 	 * @param   mixed     $id          Cache ID
-	 * @param   boolean   $wrkarounds  True to use wrkarounds
+	 * @param   boolean   $wrkarounds  True to use workarounds
 	 * @param   array     $woptions    Workaround options
 	 *
 	 * @return  mixed  Result of the callback
@@ -183,8 +183,8 @@ class CallbackController extends CacheController
 	/**
 	 * Generate a callback cache ID
 	 *
-	 * @param   callback  $callback  Callback to cache
-	 * @param   array     $args      Arguments to the callback method to cache
+	 * @param   mixed  $callback  Callback to cache
+	 * @param   array  $args      Arguments to the callback method to cache
 	 *
 	 * @return  string  MD5 Hash
 	 *

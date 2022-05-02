@@ -1,25 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
-<extension type="module" version="3.1" client="site" method="upgrade">
+<extension type="module" client="site" method="upgrade">
 	<name>mod_wrapper</name>
 	<author>Joomla! Project</author>
 	<creationDate>October 2004</creationDate>
-	<copyright>Copyright (C) 2005 - 2019 Open Source Matters. All rights reserved.</copyright>
+	<copyright>(C) 2005 Open Source Matters, Inc.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>3.0.0</version>
 	<description>MOD_WRAPPER_XML_DESCRIPTION</description>
-	<namespace>Joomla\Module\Wrapper</namespace>
+	<namespace path="src">Joomla\Module\Wrapper</namespace>
 	<files>
 		<filename module="mod_wrapper">mod_wrapper.php</filename>
+		<folder>src</folder>
 		<folder>tmpl</folder>
-		<filename>helper.php</filename>
 	</files>
 	<languages>
-		<language tag="en-GB">en-GB.mod_wrapper.ini</language>
-		<language tag="en-GB">en-GB.mod_wrapper.sys.ini</language>
+		<language tag="en-GB">language/en-GB/mod_wrapper.ini</language>
+		<language tag="en-GB">language/en-GB/mod_wrapper.sys.ini</language>
 	</languages>
-	<help key="JHELP_EXTENSIONS_MODULE_MANAGER_WRAPPER" />
+	<help key="Site_Modules:_Wrapper" />
 	<config>
 		<fields name="params">
 			<fieldset name="basic">
@@ -34,24 +34,13 @@
 				<field
 					name="add"
 					type="radio"
-					class="switcher"
+					layout="joomla.form.field.radio.switcher"
 					label="MOD_WRAPPER_FIELD_ADD_LABEL"
 					default="1"
 					filter="integer"
 					>
 					<option value="0">JNO</option>
 					<option value="1">JYES</option>
-				</field>
-
-				<field
-					name="scrolling"
-					type="list"
-					label="MOD_WRAPPER_FIELD_SCROLL_LABEL"
-					default="auto"
-					>
-					<option value="auto">MOD_WRAPPER_FIELD_VALUE_AUTO</option>
-					<option value="no">JNO</option>
-					<option value="yes">JYES</option>
 				</field>
 
 				<field
@@ -73,20 +62,8 @@
 				<field
 					name="height_auto"
 					type="radio"
-					class="switcher"
+					layout="joomla.form.field.radio.switcher"
 					label="MOD_WRAPPER_FIELD_AUTOHEIGHT_LABEL"
-					default="1"
-					filter="integer"
-					>
-					<option value="0">JNO</option>
-					<option value="1">JYES</option>
-				</field>
-
-				<field
-					name="frameborder"
-					type="radio"
-					class="switcher"
-					label="MOD_WRAPPER_FIELD_FRAME_LABEL"
 					default="1"
 					filter="integer"
 					>
@@ -100,13 +77,26 @@
 					label="MOD_WRAPPER_FIELD_TARGET_LABEL"
 					size="30"
 				/>
+
+				<field
+					name="lazyloading"
+					type="radio"
+					label="MOD_WRAPPER_FIELD_LAZYLOADING_LABEL"
+					default="lazy"
+					layout="joomla.form.field.radio.switcher"
+					validate="options"
+					>
+					<option value="eager">JNO</option>
+					<option value="lazy">JYES</option>
+				</field>
 			</fieldset>
 			<fieldset name="advanced">
 				<field
 					name="layout"
 					type="modulelayout"
 					label="JFIELD_ALT_LAYOUT_LABEL"
-					class="custom-select"
+					class="form-select"
+					validate="moduleLayout"
 				/>
 
 				<field
@@ -114,6 +104,7 @@
 					type="textarea"
 					label="COM_MODULES_FIELD_MODULECLASS_SFX_LABEL"
 					rows="3"
+					validate="CssIdentifier"
 				/>
 
 				<field
@@ -122,6 +113,7 @@
 					label="COM_MODULES_FIELD_CACHING_LABEL"
 					default="1"
 					filter="integer"
+					validate="options"
 					>
 					<option value="1">JGLOBAL_USE_GLOBAL</option>
 					<option value="0">COM_MODULES_FIELD_VALUE_NOCACHING</option>

@@ -2,14 +2,14 @@
 
 .alert {
   margin: 1rem 0;
+  border-right: 0;
+  border-left: 0;
   border-radius: $border-radius-sm;
-  border-left: none;
-  border-right: none;
 
   &.alert-info {
-    color: var(--atum-bg-dark);
-    background-color: var(--atum-bg-dark-10);
-    border: 1px solid var(--atum-bg-dark-20);
+    color: var(--template-bg-dark);
+    background-color: var(--template-bg-dark-10);
+    border: 1px solid var(--template-bg-dark-20);
   }
 
   &.alert-warning {
@@ -31,22 +31,21 @@
   }
 }
 
-// Contains joomla-alert webcomponent with its own css
-.notify-alerts {
-  position: fixed;
-  top: 15px;
-  left: 50%;
-  z-index: $zindex-alerts;
-  transition: all .5s ease;
-  transform: translateX(-50%);
+.alert-parent {
+  margin-top: 0;
+}
+
+fieldset .alert {
+  &.alert-info {
+    margin: -1rem 0 1rem;
+  }
 }
 
 .alert-heading {
-  font-size: $font-size-lg;
+  font-size: $h4-font-size;
 }
 
 @keyframes fadeIn {
-
   from {
     opacity: 0;
     transform: translateY(-15px);
@@ -57,5 +56,3 @@
     transform: translateY(0);
   }
 }
-
-

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <config>
+	<help key="Joomla_Update:_Options"/>
 	<fieldset
 		name="sources"
 		label="COM_JOOMLAUPDATE_CONFIG_SOURCES_LABEL"
@@ -11,6 +12,7 @@
 			type="list"
 			label="COM_JOOMLAUPDATE_CONFIG_UPDATESOURCE_LABEL"
 			default="default"
+			validate="options"
 			>
 			<!-- Note: Changed the values lts to default and sts to next with 3.4.0 -->
 			<!--       Eliminated the 'nochange' option with 3.4.0 -->
@@ -28,6 +30,7 @@
 			description="COM_JOOMLAUPDATE_MINIMUM_STABILITY_DESC"
 			default="4"
 			showon="updatesource:testing[OR]updatesource:custom"
+			validate="options"
 			>
 			<option value="0">COM_JOOMLAUPDATE_MINIMUM_STABILITY_DEV</option>
 			<option value="1">COM_JOOMLAUPDATE_MINIMUM_STABILITY_ALPHA</option>

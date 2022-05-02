@@ -13,15 +13,15 @@
 	/>
 
 	<menuitem
-		title="MOD_MENU_COM_CONTENT"
+		title="COM_CONTENT_MENUS"
 		type="heading"
 		icon="file-alt"
 		class="class:file-alt"
 		dashboard="content"
 		>
 		<menuitem
-			title="MOD_MENU_COM_CONTENT_ARTICLE_MANAGER"
-			quicktask-title="MOD_MENU_COM_CONTENT_NEW_ARTICLE"
+			title="COM_CONTENT_MENUS_ARTICLE_MANAGER"
+			quicktask-title="COM_CONTENT_MENUS_NEW_ARTICLE"
 			type="component"
 			element="com_content"
 			link="index.php?option=com_content&amp;view=articles"
@@ -29,8 +29,8 @@
 		/>
 
 		<menuitem
-			title="MOD_MENU_COM_CONTENT_CATEGORY_MANAGER"
-			quicktask-title="MOD_MENU_COM_CONTENT_NEW_CATEGORY"
+			title="COM_CONTENT_MENUS_CATEGORY_MANAGER"
+			quicktask-title="COM_CONTENT_MENUS_NEW_CATEGORY"
 			type="component"
 			element="com_categories"
 			link="index.php?option=com_categories&amp;view=categories&amp;extension=com_content"
@@ -38,7 +38,7 @@
 		/>
 
 		<menuitem
-			title="MOD_MENU_COM_CONTENT_FEATURED"
+			title="COM_CONTENT_MENUS_FEATURED"
 			type="component"
 			element="com_content"
 			link="index.php?option=com_content&amp;view=featured"
@@ -46,10 +46,10 @@
 		/>
 
 		<menuitem
-			title="MOD_MENU_COM_CONTENT_WORKFLOW"
+			title="COM_CONTENT_MENUS_WORKFLOW"
 			type="component"
 			element="com_workflow"
-			link="index.php?option=com_workflow&amp;view=workflows&amp;extension=com_content"
+			link="index.php?option=com_workflow&amp;view=workflows&amp;extension=com_content.article"
 		/>
 
 		<menuitem
@@ -84,7 +84,7 @@
 
 		<menuitem
 			title="MOD_MENU_EXTENSIONS_MODULE_MANAGER_SITE"
-			quicktask-title="MOD_MENU_COM_CONTENT_NEW_SITE_MODULE"
+			quicktask-title="COM_CONTENT_MENUS_NEW_SITE_MODULE"
 			type="component"
 			element="com_modules"
 			link="index.php?option=com_modules&amp;view=modules&amp;client_id=0"
@@ -93,7 +93,7 @@
 
 		<menuitem
 			title="MOD_MENU_EXTENSIONS_MODULE_MANAGER_ADMINISTRATOR"
-			quicktask-title="MOD_MENU_COM_CONTENT_NEW_ADMIN_MODULE"
+			quicktask-title="COM_CONTENT_MENUS_NEW_ADMIN_MODULE"
 			type="component"
 			element="com_modules"
 			link="index.php?option=com_modules&amp;view=modules&amp;client_id=1"
@@ -130,7 +130,7 @@
 		Following is an example of repeatable group based on simple database query.
 		This requires sql_* attributes (sql_select and sql_from are required)
 		The values can be used like - "{sql:columnName}" in any attribute of repeated elements.
-		The repeated elements are place inside this xml node but they will be populated in the same level in the rendered menu
+		The repeated elements are placed inside this xml node but they will be populated in the same level in the rendered menu
 		-->
 		<menuitem
 			type="separator"
@@ -144,7 +144,7 @@
 			sql_order="a.id DESC"
 			>
 			<menuitem
-				title="{sql:title} "
+				title="{sql:title}"
 				quicktask-title="MOD_MENU_MENU_MANAGER_NEW_SITE_MENU_ITEM"
 				type="component"
 				element="com_menus"
@@ -185,7 +185,7 @@
 	/>
 
 	<menuitem
-		title="MOD_MENU_COM_USERS_USERS"
+		title="COM_USERS_MENUS_USERS"
 		type="heading"
 		icon="users"
 		class="class:users"
@@ -193,8 +193,8 @@
 		dashboard="users"
 		>
 		<menuitem
-			title="MOD_MENU_COM_USERS_USER_MANAGER"
-			quicktask-title="MOD_MENU_COM_USERS_ADD_USER"
+			title="COM_USERS_MENUS_USER_MANAGER"
+			quicktask-title="COM_USERS_MENUS_ADD_USER"
 			type="component"
 			element="com_users"
 			link="index.php?option=com_users&amp;view=users"
@@ -202,14 +202,14 @@
 		/>
 
 		<menuitem
-			title="MOD_MENU_COM_USERS_GROUPS"
+			title="COM_USERS_MENUS_GROUPS"
 			type="component"
 			element="com_users"
 			link="index.php?option=com_users&amp;view=groups"
 		/>
 
 		<menuitem
-			title="MOD_MENU_COM_USERS_LEVELS"
+			title="COM_USERS_MENUS_LEVELS"
 			type="component"
 			element="com_users"
 			link="index.php?option=com_users&amp;view=levels"
@@ -238,14 +238,14 @@
 		/>
 
 		<menuitem
-			title="MOD_MENU_COM_USERS_NOTES"
+			title="COM_USERS_MENUS_NOTES"
 			type="component"
 			element="com_users"
 			link="index.php?option=com_users&amp;view=notes"
 		/>
 
 		<menuitem
-			title="MOD_MENU_COM_USERS_NOTE_CATEGORIES"
+			title="COM_USERS_MENUS_NOTE_CATEGORIES"
 			type="component"
 			element="com_categories"
 			link="index.php?option=com_categories&amp;view=categories&amp;extension=com_users"
@@ -303,6 +303,21 @@
 			link="index.php?option=com_users&amp;view=mail"
 			scope="massmail"
 		/>
+
+		<menuitem
+			title="MOD_MENU_MESSAGING"
+			type="component"
+			element="com_messages"
+			link="index.php?option=com_messages"
+			>
+			<menuitem
+				title="MOD_MENU_MESSAGING_PRIVATE"
+				type="component"
+				element="com_messages"
+				link="index.php?option=com_messages&amp;view=messages"
+				quicktask="index.php?option=com_messages&amp;task=message.add"
+			/>
+		</menuitem>
 	</menuitem>
 
 	<menuitem

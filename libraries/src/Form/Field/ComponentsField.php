@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2017 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -40,10 +40,19 @@ class ComponentsField extends ListField
 	{
 		$db    = Factory::getDbo();
 		$query = $db->getQuery(true)
-			->select('name AS text, element AS value')
-			->from('#__extensions')
-			->where('enabled >= 1')
-			->where('type =' . $db->quote('component'));
+			->select(
+				[
+					$db->quoteName('name', 'text'),
+					$db->quoteName('element', 'value'),
+				]
+			)
+			->from($db->quoteName('#__extensions'))
+			->where(
+				[
+					$db->quoteName('enabled') . ' >= 1',
+					$db->quoteName('type') . ' = ' . $db->quote('component'),
+				]
+			);
 
 		$items = $db->setQuery($query)->loadObjectList();
 
@@ -56,8 +65,8 @@ class ComponentsField extends ListField
 				// Load language
 				$extension = $item->value;
 
-				$lang->load("$extension.sys", JPATH_ADMINISTRATOR, null, false, true)
-					|| $lang->load("$extension.sys", JPATH_ADMINISTRATOR . '/components/' . $extension, null, false, true);
+				$lang->load("$extension.sys", JPATH_ADMINISTRATOR)
+					|| $lang->load("$extension.sys", JPATH_ADMINISTRATOR . '/components/' . $extension);
 
 				// Translate component name
 				$item->text = Text::_($item->text);

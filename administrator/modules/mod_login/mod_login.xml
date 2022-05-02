@@ -1,25 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
-<extension type="module" version="3.1" client="administrator" method="upgrade">
+<extension type="module" client="administrator" method="upgrade">
 	<name>mod_login</name>
 	<author>Joomla! Project</author>
 	<creationDate>March 2005</creationDate>
-	<copyright>Copyright (C) 2005 - 2019 Open Source Matters. All rights reserved.</copyright>
+	<copyright>(C) 2005 Open Source Matters, Inc.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>3.0.0</version>
 	<description>MOD_LOGIN_XML_DESCRIPTION</description>
-	<namespace>Joomla\Module\Login</namespace>
+	<namespace path="src">Joomla\Module\Login</namespace>
 	<files>
 		<filename module="mod_login">mod_login.php</filename>
+		<folder>src</folder>
 		<folder>tmpl</folder>
-		<filename>helper.php</filename>
 	</files>
 	<languages>
-		<language tag="en-GB">en-GB.mod_login.ini</language>
-		<language tag="en-GB">en-GB.mod_login.sys.ini</language>
+		<language tag="en-GB">language/en-GB/mod_login.ini</language>
+		<language tag="en-GB">language/en-GB/mod_login.sys.ini</language>
 	</languages>
-	<help key="JHELP_EXTENSIONS_MODULE_MANAGER_ADMIN_LOGIN" />
+	<help key="Admin_Modules:_Login_Form" />
 	<config>
 		<fields name="params">
 			<fieldset name="advanced">
@@ -27,7 +27,8 @@
 					name="layout"
 					type="modulelayout"
 					label="JFIELD_ALT_LAYOUT_LABEL"
-					class="custom-select"
+					class="form-select"
+					validate="moduleLayout"
 				/>
 
 				<field
@@ -35,6 +36,7 @@
 					type="textarea"
 					label="COM_MODULES_FIELD_MODULECLASS_SFX_LABEL"
 				 	rows="3"
+					validate="CssIdentifier"
 				/>
 			</fieldset>
 		</fields>

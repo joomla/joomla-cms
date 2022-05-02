@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_joomlaupdate
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2016 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -32,35 +32,31 @@ $twofactormethods = AuthenticationHelper::getTwoFactorMethods();
 
 <hr>
 
-<form action="<?php echo Route::_('index.php', true); ?>" method="post" id="form-login" class="text-center">
+<form action="<?php echo Route::_('index.php', true); ?>" method="post" id="form-login" class="d-flex justify-content-center text-center">
 	<fieldset class="loginform">
 		<legend><?php echo Text::_('COM_JOOMLAUPDATE_CONFIRM'); ?></legend>
 		<div class="control-group">
 			<div class="controls">
 				<div class="input-group">
-					<input name="username" tabindex="1" id="mod-login-username" type="text" class="form-control" placeholder="<?php echo Text::_('JGLOBAL_USERNAME'); ?>" size="15" autofocus="true">
-					<span class="input-group-append">
-						<span class="input-group-text">
-							<span class="fa fa-user" aria-hidden="true"></span>
-							<label for="mod-login-username" class="sr-only">
-								<?php echo Text::_('JGLOBAL_USERNAME'); ?>
-							</label>
-						</span>
+					<input name="username" id="mod-login-username" type="text" class="form-control" required="required" autocomplete="username" placeholder="<?php echo Text::_('JGLOBAL_USERNAME'); ?>" size="15" autofocus="true">
+					<span class="input-group-text">
+						<span class="icon-user" aria-hidden="true"></span>
+						<label for="mod-login-username" class="visually-hidden">
+							<?php echo Text::_('JGLOBAL_USERNAME'); ?>
+						</label>
 					</span>
 				</div>
 			</div>
 		</div>
 		<div class="control-group">
 			<div class="controls">
-				<div class="input-addon">
-					<input name="passwd" tabindex="2" id="mod-login-password" type="password" class="form-control" placeholder="<?php echo Text::_('JGLOBAL_PASSWORD'); ?>" size="15">
-					<span class="input-group-append">
-						<span class="input-group-text">
-							<span class="fa fa-lock" aria-hidden="true"></span>
-							<label for="mod-login-password" class="sr-only">
-								<?php echo Text::_('JGLOBAL_PASSWORD'); ?>
-							</label>
-						</span>
+				<div class="input-group">
+					<input name="passwd" id="mod-login-password" type="password" class="form-control" required="required" autocomplete="current-password" placeholder="<?php echo Text::_('JGLOBAL_PASSWORD'); ?>" size="15">
+					<span class="input-group-text">
+						<span class="icon-lock" aria-hidden="true"></span>
+						<label for="mod-login-password" class="visually-hidden">
+							<?php echo Text::_('JGLOBAL_PASSWORD'); ?>
+						</label>
 					</span>
 				</div>
 			</div>
@@ -69,14 +65,12 @@ $twofactormethods = AuthenticationHelper::getTwoFactorMethods();
 			<div class="control-group">
 				<div class="controls">
 					<div class="input-group">
-						<input name="secretkey" autocomplete="off" tabindex="3" id="mod-login-secretkey" type="text" class="form-control" placeholder="<?php echo Text::_('JGLOBAL_SECRETKEY'); ?>" size="15">
-						<span class="input-group-append">
-							<span class="input-group-text" title="<?php echo Text::_('JGLOBAL_SECRETKEY_HELP'); ?>">
-								<span class="fa fa-star" aria-hidden="true"></span>
-								<label for="mod-login-secretkey" class="sr-only">
-									<?php echo Text::_('JGLOBAL_SECRETKEY'); ?>
-								</label>
-							</span>
+						<input name="secretkey" autocomplete="one-time-code" id="mod-login-secretkey" type="text" class="form-control" placeholder="<?php echo Text::_('JGLOBAL_SECRETKEY'); ?>" size="15">
+						<span class="input-group-text" title="<?php echo Text::_('JGLOBAL_SECRETKEY_HELP'); ?>">
+							<span class="icon-star" aria-hidden="true"></span>
+							<label for="mod-login-secretkey" class="visually-hidden">
+								<?php echo Text::_('JGLOBAL_SECRETKEY'); ?>
+							</label>
 						</span>
 					</div>
 				</div>
@@ -85,11 +79,11 @@ $twofactormethods = AuthenticationHelper::getTwoFactorMethods();
 		<div class="control-group">
 			<div class="controls">
 				<div class="btn-group">
-					<a tabindex="4" class="btn btn-danger btn-sm" href="index.php?option=com_joomlaupdate">
-						<span class="icon-cancel icon-white" aria-hidden="true"></span> <?php echo Text::_('JCANCEL'); ?>
+					<a class="btn btn-danger" href="index.php?option=com_joomlaupdate">
+						<span class="icon-times" aria-hidden="true"></span> <?php echo Text::_('JCANCEL'); ?>
 					</a>
-					<button tabindex="5" class="btn btn-primary btn-lg">
-						<span class="icon-play icon-white" aria-hidden="true"></span> <?php echo Text::_('COM_JOOMLAUPDATE_VIEW_UPDATE_FINALISE_CONFIRM_AND_CONTINUE'); ?>
+					<button type="submit" class="btn btn-primary">
+						<span class="icon-play" aria-hidden="true"></span> <?php echo Text::_('COM_JOOMLAUPDATE_VIEW_UPDATE_FINALISE_CONFIRM_AND_CONTINUE'); ?>
 					</button>
 				</div>
 			</div>

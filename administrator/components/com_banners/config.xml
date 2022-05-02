@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <config>
+	<help key="Banners:_Options"/>
 	<fieldset
 		name="component"
 		label="COM_BANNERS_FIELDSET_CONFIG_CLIENT_OPTIONS_LABEL"
@@ -10,8 +11,8 @@
 			name="purchase_type"
 			type="list"
 			label="COM_BANNERS_FIELD_PURCHASETYPE_LABEL"
-			id="purchase_type"
 			default="1"
+			validate="options"
 			>
 			<option value="1">COM_BANNERS_FIELD_VALUE_UNLIMITED</option>
 			<option value="2">COM_BANNERS_FIELD_VALUE_YEARLY</option>
@@ -23,7 +24,7 @@
 		<field
 			name="track_impressions"
 			type="radio"
-			class="switcher"
+			layout="joomla.form.field.radio.switcher"
 			label="COM_BANNERS_FIELD_TRACKIMPRESSION_LABEL"
 			default="0"
 			>
@@ -35,7 +36,7 @@
 			name="track_robots_impressions"
 			type="radio"
 			label="COM_BANNERS_FIELD_TRACKROBOTSIMPRESSION_LABEL"
-			class="switcher"
+			layout="joomla.form.field.radio.switcher"
 			default="1"
 			>
 			<option value="0">JNO</option>
@@ -45,7 +46,7 @@
 		<field
 			name="track_clicks"
 			type="radio"
-			class="switcher"
+			layout="joomla.form.field.radio.switcher"
 			label="COM_BANNERS_FIELD_TRACKCLICK_LABEL"
 			default="0"
 			>
@@ -72,7 +73,7 @@
 		<field
 			name="save_history"
 			type="radio"
-			class="switcher"
+			layout="joomla.form.field.radio.switcher"
 			label="JGLOBAL_SAVE_HISTORY_OPTIONS_LABEL"
 			default="0"
 			>

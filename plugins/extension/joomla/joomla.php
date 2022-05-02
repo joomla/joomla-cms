@@ -3,12 +3,13 @@
  * @package     Joomla.Plugin
  * @subpackage  Extension.Joomla
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2010 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Installer\Installer;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\Database\DatabaseDriver;
@@ -22,21 +23,22 @@ use Joomla\Database\ParameterType;
 class PlgExtensionJoomla extends CMSPlugin
 {
 	/**
-	 * Database driver
-	 *
 	 * @var    DatabaseDriver
+	 *
 	 * @since  4.0.0
 	 */
 	protected $db;
 
 	/**
-	 * @var    integer Extension Identifier
+	 * @var    integer
+	 *
 	 * @since  1.6
 	 */
 	private $eid = 0;
 
 	/**
-	 * @var    JInstaller Installer object
+	 * @var    Installer
+	 *
 	 * @since  1.6
 	 */
 	private $installer = null;
@@ -45,6 +47,7 @@ class PlgExtensionJoomla extends CMSPlugin
 	 * Load the language file on instantiation.
 	 *
 	 * @var    boolean
+	 *
 	 * @since  3.1
 	 */
 	protected $autoloadLanguage = true;
@@ -52,16 +55,17 @@ class PlgExtensionJoomla extends CMSPlugin
 	/**
 	 * Adds an update site to the table if it doesn't exist.
 	 *
-	 * @param   string   $name      The friendly name of the site
-	 * @param   string   $type      The type of site (e.g. collection or extension)
-	 * @param   string   $location  The URI for the site
-	 * @param   boolean  $enabled   If this site is enabled
+	 * @param   string   $name        The friendly name of the site
+	 * @param   string   $type        The type of site (e.g. collection or extension)
+	 * @param   string   $location    The URI for the site
+	 * @param   boolean  $enabled     If this site is enabled
+	 * @param   string   $extraQuery  Any additional request query to use when updating
 	 *
 	 * @return  void
 	 *
 	 * @since   1.6
 	 */
-	private function addUpdateSite($name, $type, $location, $enabled)
+	private function addUpdateSite($name, $type, $location, $enabled, $extraQuery = '')
 	{
 		// Look if the location is used already; doesn't matter what type you can't have two types at the same address, doesn't make sense
 		$db    = $this->db;
@@ -82,12 +86,13 @@ class PlgExtensionJoomla extends CMSPlugin
 			$enabled = (int) $enabled;
 			$query->clear()
 				->insert($db->quoteName('#__update_sites'))
-				->columns($db->quoteName(['name', 'type', 'location', 'enabled']))
-				->values(':name, :type, :location, :enabled')
+				->columns($db->quoteName(['name', 'type', 'location', 'enabled', 'extra_query']))
+				->values(':name, :type, :location, :enabled, :extra_query')
 				->bind(':name', $name)
 				->bind(':type', $type)
 				->bind(':location', $location)
-				->bind(':enabled', $enabled, ParameterType::INTEGER);
+				->bind(':enabled', $enabled, ParameterType::INTEGER)
+				->bind(':extra_query', $extraQuery);
 
 			$db->setQuery($query);
 
@@ -137,8 +142,8 @@ class PlgExtensionJoomla extends CMSPlugin
 	/**
 	 * Handle post extension install update sites
 	 *
-	 * @param   JInstaller  $installer  Installer object
-	 * @param   integer     $eid        Extension Identifier
+	 * @param   Installer  $installer  Installer object
+	 * @param   integer    $eid        Extension Identifier
 	 *
 	 * @return  void
 	 *
@@ -159,9 +164,9 @@ class PlgExtensionJoomla extends CMSPlugin
 	/**
 	 * Handle extension uninstall
 	 *
-	 * @param   JInstaller  $installer  Installer instance
-	 * @param   integer     $eid        Extension id
-	 * @param   boolean     $removed    Installation result
+	 * @param   Installer  $installer  Installer instance
+	 * @param   integer    $eid        Extension id
+	 * @param   boolean    $removed    Installation result
 	 *
 	 * @return  void
 	 *
@@ -244,8 +249,8 @@ class PlgExtensionJoomla extends CMSPlugin
 	/**
 	 * After update of an extension
 	 *
-	 * @param   JInstaller  $installer  Installer object
-	 * @param   integer     $eid        Extension identifier
+	 * @param   Installer  $installer  Installer object
+	 * @param   integer    $eid        Extension identifier
 	 *
 	 * @return  void
 	 *
@@ -281,7 +286,7 @@ class PlgExtensionJoomla extends CMSPlugin
 		}
 		else
 		{
-			$children = array();
+			$children = [];
 		}
 
 		if (count($children))
@@ -289,7 +294,7 @@ class PlgExtensionJoomla extends CMSPlugin
 			foreach ($children as $child)
 			{
 				$attrs = $child->attributes();
-				$this->addUpdateSite($attrs['name'], $attrs['type'], trim($child), true);
+				$this->addUpdateSite((string) $attrs['name'], (string) $attrs['type'], trim($child), true, $this->installer->extraQuery);
 			}
 		}
 		else

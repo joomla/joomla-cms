@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_associations
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2017 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -16,14 +16,11 @@ use Joomla\Component\Associations\Administrator\View\Association\HtmlView;
 
 /** @var HtmlView $this */
 
-HTMLHelper::_('behavior.formvalidator');
-HTMLHelper::_('behavior.keepalive');
-HTMLHelper::_('jquery.framework');
-
-HTMLHelper::_('script', 'com_associations/sidebyside.js', ['version' => 'auto', 'relative' => true]);
-HTMLHelper::_('stylesheet', 'com_associations/sidebyside.css', ['version' => 'auto', 'relative' => true]);
-
-$this->document->getWebAssetManager()
+/** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
+$wa = $this->document->getWebAssetManager();
+$wa->useScript('keepalive')
+	->useScript('form.validate')
+	->usePreset('com_associations.sidebyside')
 	->useScript('webcomponent.core-loader');
 
 $options = [
@@ -37,7 +34,7 @@ $options = [
 		data-hide-reference="<?php echo Text::_('COM_ASSOCIATIONS_EDIT_HIDE_REFERENCE'); ?>"><?php echo Text::_('COM_ASSOCIATIONS_EDIT_HIDE_REFERENCE'); ?>
 </button>
 
-<form action="<?php echo Route::_('index.php?option=com_associations&view=association&' . http_build_query($options)); ?>" method="post" name="adminForm" id="adminForm" data-associatedview="<?php echo $this->typeName; ?>">
+<form action="<?php echo Route::_('index.php?option=com_associations&view=association&' . http_build_query($options)); ?>" method="post" name="adminForm" id="adminForm" class="form-validate" data-associatedview="<?php echo $this->typeName; ?>">
 	<div class="sidebyside">
 		<div class="outer-panel" id="left-panel">
 			<div class="inner-panel">
@@ -62,7 +59,7 @@ $options = [
 						<h3 class="target-text"><?php echo Text::_('COM_ASSOCIATIONS_ASSOCIATED_ITEM'); ?></h3>
 					</div>
 					<div class="langtarget">
-						<div class="sr-only">
+						<div class="visually-hidden">
 							<?php echo $this->form->getLabel('itemlanguage'); ?>
 						</div>
 						<?php echo $this->form->getInput('itemlanguage'); ?>

@@ -1,25 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
-<extension type="module" version="3.1" client="site" method="upgrade">
+<extension type="module" client="site" method="upgrade">
 	<name>mod_articles_categories</name>
 	<author>Joomla! Project</author>
 	<creationDate>February 2010</creationDate>
-	<copyright>Copyright (C) 2005 - 2019 Open Source Matters. All rights reserved.</copyright>
+	<copyright>(C) 2010 Open Source Matters, Inc.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>3.0.0</version>
 	<description>MOD_ARTICLES_CATEGORIES_XML_DESCRIPTION</description>
-	<namespace>Joomla\Module\ArticlesCategories</namespace>
+	<namespace path="src">Joomla\Module\ArticlesCategories</namespace>
 	<files>
 		<filename module="mod_articles_categories">mod_articles_categories.php</filename>
+		<folder>src</folder>
 		<folder>tmpl</folder>
-		<filename>helper.php</filename>
 	</files>
 	<languages>
-		<language tag="en-GB">en-GB.mod_articles_categories.ini</language>
-		<language tag="en-GB">en-GB.mod_articles_categories.sys.ini</language>
+		<language tag="en-GB">language/en-GB/mod_articles_categories.ini</language>
+		<language tag="en-GB">language/en-GB/mod_articles_categories.sys.ini</language>
 	</languages>
-	<help key="JHELP_EXTENSIONS_MODULE_MANAGER_ARTICLES_CATEGORIES" />
+	<help key="Site_Modules:_Articles_-_Categories" />
 	<config>
 		<fields name="params">
 			<fieldset name="basic" addfieldprefix="Joomla\Component\Categories\Administrator\Field">
@@ -40,7 +40,7 @@
 				<field
 					name="show_description"
 					type="radio"
-					class="switcher"
+					layout="joomla.form.field.radio.switcher"
 					label="MOD_ARTICLES_CATEGORIES_FIELD_SHOW_DESCRIPTION_LABEL"
 					default="0"
 					filter="integer"
@@ -52,7 +52,7 @@
 				<field
 					name="numitems"
 					type="radio"
-					class="switcher"
+					layout="joomla.form.field.radio.switcher"
 					label="MOD_ARTICLES_CATEGORIES_FIELD_NUMITEMS_LABEL"
 					default="0"
 					filter="integer"
@@ -64,7 +64,7 @@
 				<field
 					name="show_children"
 					type="radio"
-					class="switcher"
+					layout="joomla.form.field.radio.switcher"
 					label="MOD_ARTICLES_CATEGORIES_FIELD_SHOW_CHILDREN_LABEL"
 					default="0"
 					filter="integer"
@@ -80,6 +80,7 @@
 					description="MOD_ARTICLES_CATEGORIES_FIELD_COUNT_DESC"
 					default="0"
 					filter="integer"
+					validate="options"
 					>
 					<option value="0">JALL</option>
 					<option value="1">J1</option>
@@ -100,6 +101,7 @@
 					label="MOD_ARTICLES_CATEGORIES_FIELD_MAXLEVEL_LABEL"
 					default="0"
 					filter="integer"
+					validate="options"
 					>
 					<option value="0">JALL</option>
 					<option value="1">J1</option>
@@ -120,7 +122,8 @@
 					name="layout"
 					type="modulelayout"
 					label="JFIELD_ALT_LAYOUT_LABEL"
-					class="custom-select"
+					class="form-select"
+					validate="moduleLayout"
 				/>
 
 				<field
@@ -129,6 +132,7 @@
 					label="MOD_ARTICLES_CATEGORIES_TITLE_HEADING_LABEL"
 					default="4"
 					filter="integer"
+					validate="options"
 					>
 					<option value="1">JH1</option>
 					<option value="2">JH2</option>
@@ -142,6 +146,7 @@
 					type="textarea"
 					label="COM_MODULES_FIELD_MODULECLASS_SFX_LABEL"
 					rows="3"
+					validate="CssIdentifier"
 				/>
 
 				<field
@@ -150,6 +155,7 @@
 					label="COM_MODULES_FIELD_CACHING_LABEL"
 					default="1"
 					filter="integer"
+					validate="options"
 					>
 					<option value="1">JGLOBAL_USE_GLOBAL</option>
 					<option value="0">COM_MODULES_FIELD_VALUE_NOCACHING</option>

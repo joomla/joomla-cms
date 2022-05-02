@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_workflow
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2018 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  * @since       4.0.0
  */
@@ -15,7 +15,6 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Session\Session;
-use Joomla\CMS\Workflow\Workflow;
 
 HTMLHelper::_('behavior.multiselect');
 
@@ -27,15 +26,13 @@ $saveOrderingUrl = '';
 
 $saveOrder = ($listOrder == 't.ordering');
 
-$isCore = $this->workflow->core;
-
 if ($saveOrder)
 {
-	$saveOrderingUrl = 'index.php?option=com_workflow&task=transitions.saveOrderAjax&workflow_id=' . (int) $this->workflowID . '&extension=' . $this->escape($this->extension) . '&' . Session::getFormToken() . '=1';
+	$saveOrderingUrl = 'index.php?option=com_workflow&task=transitions.saveOrderAjax&workflow_id=' . (int) $this->workflowID . '&extension=' . $this->escape($this->workflow->extension) . '&' . Session::getFormToken() . '=1';
 	HTMLHelper::_('draggablelist.draggable');
 }
 ?>
-<form action="<?php echo Route::_('index.php?option=com_workflow&view=transitions&workflow_id=' . (int) $this->workflowID . '&extension=' . $this->extension); ?>" method="post" name="adminForm" id="adminForm">
+<form action="<?php echo Route::_('index.php?option=com_workflow&view=transitions&workflow_id=' . (int) $this->workflowID . '&extension=' . $this->escape($this->workflow->extension)); ?>" method="post" name="adminForm" id="adminForm">
 	<div class="row">
 		<?php if (!empty($this->sidebar)) : ?>
 		<div id="j-sidebar-container" class="col-md-2">
@@ -50,49 +47,52 @@ if ($saveOrder)
 				?>
 				<?php if (empty($this->transitions)) : ?>
 					<div class="alert alert-info">
-						<span class="fa fa-info-circle" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('INFO'); ?></span>
+						<span class="icon-info-circle" aria-hidden="true"></span><span class="visually-hidden"><?php echo Text::_('INFO'); ?></span>
 						<?php echo Text::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
 					</div>
 				<?php else: ?>
 					<table class="table">
-						<caption id="captionTable" class="sr-only">
-							<?php echo Text::_('COM_WORKFLOW_TRANSITIONS_TABLE_CAPTION'); ?>, <?php echo Text::_('JGLOBAL_SORTED_BY'); ?>
+						<caption class="visually-hidden">
+							<?php echo Text::_('COM_WORKFLOW_TRANSITIONS_TABLE_CAPTION'); ?>,
+							<span id="orderedBy"><?php echo Text::_('JGLOBAL_SORTED_BY'); ?> </span>,
+							<span id="filteredBy"><?php echo Text::_('JGLOBAL_FILTERED_BY'); ?></span>
 						</caption>
 						<thead>
 							<tr>
-								<td style="width:1%" class="text-center d-none d-md-table-cell">
+								<td class="w-1 text-center d-none d-md-table-cell">
 									<?php echo HTMLHelper::_('grid.checkall'); ?>
 								</td>
-								<th scope="col" style="width:1%" class="text-center d-none d-md-table-cell">
+								<th scope="col" class="w-1 text-center d-none d-md-table-cell">
 									<?php echo HTMLHelper::_('searchtools.sort', '', 't.ordering', $listDirn, $listOrder, null, 'asc', 'JGRID_HEADING_ORDERING', 'icon-menu-2'); ?>
 								</th>
-								<th scope="col" style="width:1%" class="text-center d-none d-md-table-cell">
+								<th scope="col" class="w-1 text-center">
 									<?php echo HTMLHelper::_('searchtools.sort', 'JSTATUS', 't.published', $listDirn, $listOrder); ?>
 								</th>
-								<th scope="col" style="width:20%">
+								<th scope="col" class="w-20">
 									<?php echo HTMLHelper::_('searchtools.sort', 'COM_WORKFLOW_NAME', 't.title', $listDirn, $listOrder); ?>
 								</th>
-								<th scope="col" style="width:20%" class="d-none d-md-table-cell">
+								<th scope="col" class="w-20">
 									<?php echo HTMLHelper::_('searchtools.sort', 'COM_WORKFLOW_FROM_STAGE', 'from_stage', $listDirn, $listOrder); ?>
 								</th>
-								<th scope="col" style="width:20%" class="d-none d-md-table-cell">
+								<th scope="col" class="w-20">
 									<?php echo HTMLHelper::_('searchtools.sort', 'COM_WORKFLOW_TO_STAGE', 'to_stage', $listDirn, $listOrder); ?>
 								</th>
-								<th scope="col" style="width:3%" class="d-none d-md-table-cell">
+								<th scope="col" class="w-3 d-none d-md-table-cell">
 									<?php echo HTMLHelper::_('searchtools.sort', 'COM_WORKFLOW_ID', 't.id', $listDirn, $listOrder); ?>
 								</th>
 							</tr>
 						</thead>
 						<tbody class="js-draggable" data-url="<?php echo $saveOrderingUrl; ?>" data-direction="<?php echo strtolower($listDirn); ?>">
 							<?php foreach ($this->transitions as $i => $item):
-								$edit = Route::_('index.php?option=com_workflow&task=transition.edit&id=' . $item->id . '&workflow_id=' . (int) $this->workflowID . '&extension=' . $this->extension);
+								$edit = Route::_('index.php?option=com_workflow&task=transition.edit&id=' . $item->id . '&workflow_id=' . (int) $this->workflowID . '&extension=' . $this->escape($this->workflow->extension));
 
-								$canEdit    = $user->authorise('core.edit', $this->extension . '.transition.' . $item->id) && !$isCore;
-								$canCheckin = $user->authorise('core.admin', 'com_workflow') || $item->checked_out == $userId || $item->checked_out == 0;
-								$canChange  = $user->authorise('core.edit.state', $this->extension . '.transition.' . $item->id) && $canCheckin && !$isCore;								?>
+								$canEdit    = $user->authorise('core.edit', $this->extension . '.transition.' . $item->id);
+								$canCheckin = $user->authorise('core.admin', 'com_workflow') || $item->checked_out == $user->id || is_null($item->checked_out);
+								$canChange  = $user->authorise('core.edit.state', $this->extension . '.transition.' . $item->id) && $canCheckin;
+							?>
 								<tr class="row<?php echo $i % 2; ?>">
 									<td class="text-center d-none d-md-table-cell">
-										<?php echo HTMLHelper::_('grid.id', $i, $item->id); ?>
+										<?php echo HTMLHelper::_('grid.id', $i, $item->id, false, 'cid', 'cb', Text::_($item->title)); ?>
 									</td>
 									<td class="text-center d-none d-md-table-cell">
 										<?php
@@ -107,11 +107,12 @@ if ($saveOrder)
 										}
 										?>
 										<span class="sortable-handler<?php echo $iconClass ?>">
-											<span class="fa fa-ellipsis-v" aria-hidden="true"></span>
+											<span class="icon-ellipsis-v" aria-hidden="true"></span>
 										</span>
 										<?php if ($canChange && $saveOrder) : ?>
 											<input type="text" name="order[]" size="5" value="<?php echo $item->ordering; ?>" class="width-20 text-area-order hidden">
-										<?php endif; ?>									</td>
+										<?php endif; ?>
+									</td>
 									<td class="text-center">
 										<?php echo HTMLHelper::_('jgrid.published', $item->published, $i, 'transitions.', $canChange); ?>
 									</td>
@@ -120,7 +121,7 @@ if ($saveOrder)
 											<?php echo HTMLHelper::_('jgrid.checkedout', $i, $item->editor, $item->checked_out_time, 'transitions.', $canCheckin); ?>
 										<?php endif; ?>
 										<?php if ($canEdit) : ?>
-											<a href="<?php echo $edit; ?>" title="<?php echo Text::_('JACTION_EDIT'); ?> <?php echo $this->escape(addslashes(Text::_($item->title))); ?>">
+											<a href="<?php echo $edit; ?>" title="<?php echo Text::_('JACTION_EDIT'); ?> <?php echo $this->escape(Text::_($item->title)); ?>">
 												<?php echo $this->escape(Text::_($item->title)); ?>
 											</a>
 											<div class="small"><?php echo $this->escape(Text::_($item->description)); ?></div>
@@ -133,42 +134,10 @@ if ($saveOrder)
 										<?php if ($item->from_stage_id < 0): ?>
 											<?php echo Text::_('JALL'); ?>
 										<?php else : ?>
-											<?php
-											if ($item->from_condition == Workflow::CONDITION_ARCHIVED):
-												$icon = 'icon-archive';
-												$condition = Text::_('JARCHIVED');
-											elseif ($item->from_condition == Workflow::CONDITION_TRASHED):
-												$icon = 'icon-trash';
-												$condition = Text::_('JTRASHED');
-											elseif ($item->from_condition == Workflow::CONDITION_PUBLISHED):
-												$icon = 'icon-publish';
-												$condition = Text::_('JPUBLISHED');
-											elseif ($item->from_condition == Workflow::CONDITION_UNPUBLISHED):
-												$icon = 'icon-unpublish';
-												$condition = Text::_('JUNPUBLISHED');
-											endif; ?>
-											<span class="<?php echo $icon; ?>" aria-hidden="true"></span>
-											<span class="sr-only"><?php echo Text::_('COM_WORKFLOW_CONDITION') . $condition; ?></span>
 											<?php echo ' ' . $this->escape(Text::_($item->from_stage)); ?>
 										<?php endif; ?>
 									</td>
 									<td class="nowrap">
-										<?php
-										if ($item->to_condition == Workflow::CONDITION_ARCHIVED):
-											$icon = 'icon-archive';
-											$condition = Text::_('JARCHIVED');
-										elseif ($item->to_condition == Workflow::CONDITION_TRASHED):
-											$icon = 'icon-trash';
-											$condition = Text::_('JTRASHED');
-										elseif ($item->to_condition == Workflow::CONDITION_PUBLISHED):
-											$icon = 'icon-publish';
-											$condition = Text::_('JPUBLISHED');
-										elseif ($item->to_condition == Workflow::CONDITION_UNPUBLISHED):
-											$icon = 'icon-unpublish';
-											$condition = Text::_('JUNPUBLISHED');
-										endif; ?>
-										<span class="<?php echo $icon; ?>" aria-hidden="true"></span>
-										<span class="sr-only"><?php echo Text::_('COM_WORKFLOW_CONDITION') . $condition; ?></span>
 										<?php echo ' ' . $this->escape(Text::_($item->to_stage)); ?>
 									</td>
 									<td class="d-none d-md-table-cell">
@@ -184,7 +153,7 @@ if ($saveOrder)
 				<input type="hidden" name="task" value="">
 				<input type="hidden" name="boxchecked" value="0">
 				<input type="hidden" name="workflow_id" value="<?php echo (int) $this->workflowID ?>">
-				<input type="hidden" name="extension" value="<?php echo $this->extension ?>">
+				<input type="hidden" name="extension" value="<?php echo $this->escape($this->workflow->extension); ?>">
 				<?php echo HTMLHelper::_('form.token'); ?>
 			</div>
 		</div>

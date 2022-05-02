@@ -1,18 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<extension type="component" version="4.0" method="upgrade">
+<extension type="component" method="upgrade">
 	<name>com_contenthistory</name>
 	<author>Joomla! Project</author>
 	<creationDate>May 2013</creationDate>
-	<copyright>(C) 2005 - 2019 Open Source Matters. All rights reserved.</copyright>
+	<copyright>(C) 2013 Open Source Matters, Inc.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>4.0.0</version>
 	<description>COM_CONTENTHISTORY_XML_DESCRIPTION</description>
-	<namespace>Joomla\Component\Contenthistory</namespace>
+	<namespace path="src">Joomla\Component\Contenthistory</namespace>
 	<files folder="site">
-			<folder>Controller</folder>
-			<folder>Dispatcher</folder>
+			<folder>src</folder>
 	</files>
 	<media destination="com_contenthistory" folder="media">
 		<folder>js</folder>
@@ -20,14 +19,10 @@
 	<administration>
 		<files folder="admin">
 			<filename>contenthistory.xml</filename>
-			<folder>Controller</folder>
-			<folder>Dispatcher</folder>
-			<folder>Helper</folder>
 			<folder>helpers</folder>
-			<folder>Model</folder>
 			<folder>services</folder>
+			<folder>src</folder>
 			<folder>tmpl</folder>
-			<folder>View</folder>
 		</files>
 		<languages folder="admin">
 			<language tag="en-GB">language/en-GB/com_contenthistory.ini</language>

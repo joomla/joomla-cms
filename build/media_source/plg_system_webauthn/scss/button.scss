@@ -1,0 +1,25 @@
+button[class*=plg_system_webauthn_login_button] {
+  max-height: 3rem;
+  padding: .25rem;
+
+  span[class*=icon] {
+    display: inline-block;
+    width: 1em;
+    font-size: 1.25em;
+    text-align: center;
+    vertical-align: sub;
+  }
+
+  img[class*=icon] {
+    display: inline-block;
+    height: 2.5rem;
+    padding: 0 .25em 2px;
+    font-size: 1.5em;
+    text-align: center;
+    vertical-align: middle;
+  }
+
+  span[class*=icon]:not(:last-child) {
+    margin-right: .5em;
+  }
+}

@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2005 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -14,6 +14,7 @@ use Joomla\CMS\Cache\CacheControllerFactoryInterface;
 use Joomla\CMS\Cache\Controller\CallbackController;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\Language\Text;
@@ -64,15 +65,8 @@ abstract class ModuleHelper
 		// If we didn't find it, and the name is mod_something, create a dummy object
 		if ($result === null && strpos($name, 'mod_') === 0)
 		{
-			$result            = new \stdClass;
-			$result->id        = 0;
-			$result->title     = '';
-			$result->module    = $name;
-			$result->position  = '';
-			$result->content   = '';
-			$result->showtitle = 0;
-			$result->control   = '';
-			$result->params    = '';
+			$result = static::createDummyModule();
+			$result->module = $name;
 		}
 
 		return $result;
@@ -90,12 +84,10 @@ abstract class ModuleHelper
 	public static function &getModules($position)
 	{
 		$position = strtolower($position);
-		$result = array();
-		$input  = Factory::getApplication()->input;
-
-		$modules =& static::load();
-
-		$total = \count($modules);
+		$result   = array();
+		$input    = Factory::getApplication()->input;
+		$modules  = &static::load();
+		$total    = \count($modules);
 
 		for ($i = 0; $i < $total; $i++)
 		{
@@ -105,14 +97,16 @@ abstract class ModuleHelper
 			}
 		}
 
-		if (\count($result) === 0)
+		// Prepend a dummy module for template preview
+		if ($input->getBool('tp') && ComponentHelper::getParams('com_templates')->get('template_positions_display'))
 		{
-			if ($input->getBool('tp') && ComponentHelper::getParams('com_templates')->get('template_positions_display'))
-			{
-				$result[0] = static::getModule('mod_' . $position);
-				$result[0]->title = $position;
-				$result[0]->position = $position;
-			}
+			$dummy = static::createDummyModule();
+			$dummy->title = $position;
+			$dummy->position = $position;
+			$dummy->content = $position;
+			$dummy->contentRendered = true;
+
+			array_unshift($result, $dummy);
 		}
 
 		return $result;
@@ -163,7 +157,19 @@ abstract class ModuleHelper
 				);
 			}
 
-			return;
+			return '';
+		}
+
+		// Get module parameters
+		$params = new Registry($module->params);
+
+		// Render the module content
+		static::renderRawModule($module, $params, $attribs);
+
+		// Return early if only the content is required
+		if (!empty($attribs['contentOnly']))
+		{
+			return $module->content;
 		}
 
 		if (JDEBUG)
@@ -177,24 +183,8 @@ abstract class ModuleHelper
 		// Set scope to component name
 		$app->scope = $module->module;
 
-		// Get module parameters
-		$params = new Registry($module->params);
-
 		// Get the template
 		$template = $app->getTemplate();
-
-		// Get module path
-		$module->module = preg_replace('/[^A-Z0-9_\.-]/i', '', $module->module);
-
-		$dispatcher = $app->bootModule($module->module, $app->getName())->getDispatcher($module, $app);
-
-		// Check if we have a dispatcher
-		if ($dispatcher)
-		{
-			ob_start();
-			$dispatcher->dispatch();
-			$module->content = ob_get_clean();
-		}
 
 		// Check if the current module has a style param to override template module style
 		$paramsChromeStyle = $params->get('style');
@@ -263,6 +253,64 @@ abstract class ModuleHelper
 	}
 
 	/**
+	 * Render the module content.
+	 *
+	 * @param   object    $module   A module object
+	 * @param   Registry  $params   A module parameters
+	 * @param   array     $attribs  An array of attributes for the module (probably from the XML).
+	 *
+	 * @return  string
+	 *
+	 * @since   4.0.0
+	 */
+	public static function renderRawModule($module, Registry $params, $attribs = array())
+	{
+		if (!empty($module->contentRendered))
+		{
+			return $module->content;
+		}
+
+		if (JDEBUG)
+		{
+			Profiler::getInstance('Application')->mark('beforeRenderRawModule ' . $module->module . ' (' . $module->title . ')');
+		}
+
+		$app = Factory::getApplication();
+
+		// Record the scope.
+		$scope = $app->scope;
+
+		// Set scope to component name
+		$app->scope = $module->module;
+
+		// Get module path
+		$module->module = preg_replace('/[^A-Z0-9_\.-]/i', '', $module->module);
+
+		$dispatcher = $app->bootModule($module->module, $app->getName())->getDispatcher($module, $app);
+
+		// Check if we have a dispatcher
+		if ($dispatcher)
+		{
+			ob_start();
+			$dispatcher->dispatch();
+			$module->content = ob_get_clean();
+		}
+
+		// Add the flag that the module content has been rendered
+		$module->contentRendered = true;
+
+		// Revert the scope
+		$app->scope = $scope;
+
+		if (JDEBUG)
+		{
+			Profiler::getInstance('Application')->mark('afterRenderRawModule ' . $module->module . ' (' . $module->title . ')');
+		}
+
+		return $module->content;
+	}
+
+	/**
 	 * Get the path to a layout for a module
 	 *
 	 * @param   string  $module  The name of the module
@@ -274,8 +322,9 @@ abstract class ModuleHelper
 	 */
 	public static function getLayoutPath($module, $layout = 'default')
 	{
-		$template = Factory::getApplication()->getTemplate();
+		$templateObj   = Factory::getApplication()->getTemplate(true);
 		$defaultLayout = $layout;
+		$template      = $templateObj->template;
 
 		if (strpos($layout, ':') !== false)
 		{
@@ -286,18 +335,33 @@ abstract class ModuleHelper
 			$defaultLayout = $temp[1] ?: 'default';
 		}
 
-		// Build the template and base path for the layout
-		$tPath = JPATH_THEMES . '/' . $template . '/html/' . $module . '/' . $layout . '.php';
-		$bPath = JPATH_BASE . '/modules/' . $module . '/tmpl/' . $defaultLayout . '.php';
 		$dPath = JPATH_BASE . '/modules/' . $module . '/tmpl/default.php';
 
+		try
+		{
+			// Build the template and base path for the layout
+			$tPath = Path::check(JPATH_THEMES . '/' . $template . '/html/' . $module . '/' . $layout . '.php');
+			$iPath = Path::check(JPATH_THEMES . '/' . $templateObj->parent . '/html/' . $module . '/' . $layout . '.php');
+			$bPath = Path::check(JPATH_BASE . '/modules/' . $module . '/tmpl/' . $defaultLayout . '.php');
+		}
+		catch (\Exception $e)
+		{
+			// On error fallback to the default path
+			return $dPath;
+		}
+
 		// If the template has a layout override use it
-		if (file_exists($tPath))
+		if (is_file($tPath))
 		{
 			return $tPath;
 		}
 
-		if (file_exists($bPath))
+		if (!empty($templateObj->parent) && is_file($iPath))
+		{
+			return $iPath;
+		}
+
+		if (is_file($bPath))
 		{
 			return $bPath;
 		}
@@ -530,6 +594,11 @@ abstract class ModuleHelper
 			$cacheparams->cachegroup = $module->module;
 		}
 
+		if (!isset($cacheparams->cachesuffix))
+		{
+			$cacheparams->cachesuffix = '';
+		}
+
 		$user = Factory::getUser();
 		$app  = Factory::getApplication();
 
@@ -560,7 +629,7 @@ abstract class ModuleHelper
 				$ret = $cache->get(
 					array($cacheparams->class, $cacheparams->method),
 					$cacheparams->methodparams,
-					$cacheparams->modeparams,
+					$cacheparams->modeparams . $cacheparams->cachesuffix,
 					$wrkarounds,
 					$wrkaroundoptions
 				);
@@ -590,7 +659,7 @@ abstract class ModuleHelper
 				$ret = $cache->get(
 					array($cacheparams->class, $cacheparams->method),
 					$cacheparams->methodparams,
-					$module->id . $view_levels . $secureid,
+					$module->id . $view_levels . $secureid . $cacheparams->cachesuffix,
 					$wrkarounds,
 					$wrkaroundoptions
 				);
@@ -600,7 +669,7 @@ abstract class ModuleHelper
 				$ret = $cache->get(
 					array($cacheparams->class, $cacheparams->method),
 					$cacheparams->methodparams,
-					$module->module . md5(serialize($cacheparams->methodparams)),
+					$module->module . md5(serialize($cacheparams->methodparams)) . $cacheparams->cachesuffix,
 					$wrkarounds,
 					$wrkaroundoptions
 				);
@@ -611,7 +680,7 @@ abstract class ModuleHelper
 				$ret = $cache->get(
 					array($cacheparams->class, $cacheparams->method),
 					$cacheparams->methodparams,
-					$module->id . $view_levels . $app->input->getInt('Itemid', null),
+					$module->id . $view_levels . $app->input->getInt('Itemid', null) . $cacheparams->cachesuffix,
 					$wrkarounds,
 					$wrkaroundoptions
 				);
@@ -658,7 +727,7 @@ abstract class ModuleHelper
 		for ($i = 0; $i < $total; $i++)
 		{
 			// Match the id of the module
-			if ($modules[$i]->id === $id)
+			if ((string) $modules[$i]->id === $id)
 			{
 				// Found it
 				return $modules[$i];
@@ -666,16 +735,30 @@ abstract class ModuleHelper
 		}
 
 		// If we didn't find it, create a dummy object
-		$result            = new \stdClass;
-		$result->id        = 0;
-		$result->title     = '';
-		$result->module    = '';
-		$result->position  = '';
-		$result->content   = '';
-		$result->showtitle = 0;
-		$result->control   = '';
-		$result->params    = '';
+		$result = static::createDummyModule();
 
 		return $result;
+	}
+
+	/**
+	 * Method to create a dummy module.
+	 *
+	 * @return  \stdClass  The Module object
+	 *
+	 * @since   4.0.0
+	 */
+	protected static function createDummyModule(): \stdClass
+	{
+		$module            = new \stdClass;
+		$module->id        = 0;
+		$module->title     = '';
+		$module->module    = '';
+		$module->position  = '';
+		$module->content   = '';
+		$module->showtitle = 0;
+		$module->control   = '';
+		$module->params    = '';
+
+		return $module;
 	}
 }

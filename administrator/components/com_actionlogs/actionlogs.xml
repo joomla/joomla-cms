@@ -1,30 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<extension version="3.9" type="component" method="upgrade">
+<extension type="component" method="upgrade">
 	<name>com_actionlogs</name>
 	<author>Joomla! Project</author>
 	<creationDate>May 2018</creationDate>
-	<copyright>Copyright (C) 2005 - 2019 Open Source Matters. All rights reserved.</copyright>
+	<copyright>(C) 2018 Open Source Matters, Inc.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>3.9.0</version>
 	<description>COM_ACTIONLOGS_XML_DESCRIPTION</description>
-	<namespace>Joomla\Component\Actionlogs</namespace>
+	<namespace path="src">Joomla\Component\Actionlogs</namespace>
 	<administration>
 		<menu>COM_ACTIONLOGS</menu>
 		<files folder="admin">
 			<file>actionlogs.xml</file>
 			<file>config.xml</file>
-			<folder>Controller</folder>
-			<folder>Field</folder>
 			<folder>forms</folder>
-			<folder>Helper</folder>
 			<folder>layouts</folder>
-			<folder>Libraries</folder>
-			<folder>Model</folder>
 			<folder>services</folder>
+			<folder>src</folder>
 			<folder>tmpl</folder>
-			<folder>View</folder>
 		</files>
 		<languages folder="admin">
 			<language tag="en-GB">language/en-GB/com_actionlogs.ini</language>

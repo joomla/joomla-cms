@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <config addfieldprefix="Joomla\Component\Actionlogs\Administrator\Field">
+	<help key="User_Actions_Log:_Options"/>
 	<fieldset name="actionlogs" label="COM_ACTIONLOGS_OPTIONS">
 		<field
 			name="ip_logging"
 			type="radio"
 			label="COM_ACTIONLOGS_IP_LOGGING_LABEL"
-			class="switcher"
+			layout="joomla.form.field.radio.switcher"
 			default="0"
 			filter="integer"
 			>
@@ -17,6 +18,7 @@
 			type="list"
 			label="COM_ACTIONLOGS_CSV_DELIMITER_LABEL"
 			default=","
+			validate="options"
 			>
 			<option value=",">COM_ACTIONLOGS_COMMA</option>
 			<option value=";">COM_ACTIONLOGS_SEMICOLON</option>
@@ -28,5 +30,32 @@
 			multiple="true"
 			default="com_banners,com_cache,com_categories,com_checkin,com_config,com_contact,com_content,com_installer,com_media,com_menus,com_messages,com_modules,com_newsfeeds,com_plugins,com_redirect,com_tags,com_templates,com_users"
 		/>
+		<field
+			name="loggable_api"
+			type="radio"
+			label="COM_ACTIONLOGS_API_LOGGING_LABEL"
+			layout="joomla.form.field.radio.switcher"
+			default="0"
+			filter="integer"
+			>
+			<option value="0">JNO</option>
+			<option value="1">JYES</option>
+		</field>
+		<field
+			name="loggable_verbs"
+			type="list"
+			label="COM_ACTIONLOGS_LOG_VERBS_LABEL"
+			multiple="true"
+			showon="loggable_api:1"
+			default="GET"
+			validate="options"
+			layout="joomla.form.field.list-fancy-select"
+			>
+			<option value="GET">COM_ACTIONLOGS_FIELD_VALUE_GET</option>
+			<option value="POST">COM_ACTIONLOGS_FIELD_VALUE_POST</option>
+			<option value="DELETE">COM_ACTIONLOGS_FIELD_VALUE_DELETE</option>
+			<option value="PUT">COM_ACTIONLOGS_FIELD_VALUE_PUT</option>
+			<option value="PATCH">COM_ACTIONLOGS_FIELD_VALUE_PATCH</option>
+		</field>
 	</fieldset>
 </config>

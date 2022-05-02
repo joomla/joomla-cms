@@ -9,12 +9,14 @@
 				directory="images"
 				hide_none="true"
 				recursive="true"
+				validate="options"
 			/>
 
 			<field
 				name="preview"
 				type="list"
 				label="PLG_FIELDS_MEDIA_PARAMS_PREVIEW_LABEL"
+				validate="options"
 				>
 				<option value="">COM_FIELDS_FIELD_USE_GLOBAL</option>
 				<option value="tooltip">PLG_FIELDS_MEDIA_PARAMS_PREVIEW_TOOLTIP</option>
@@ -27,6 +29,7 @@
 				type="textarea"
 				label="PLG_FIELDS_MEDIA_PARAMS_IMAGE_CLASS_LABEL"
 				size="40"
+				validate="CssIdentifier"
 			/>
 		</fieldset>
 	</fields>

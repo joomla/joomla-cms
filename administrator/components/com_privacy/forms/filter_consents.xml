@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <form>
-	<fieldset addfieldpath="/administrator/components/com_privacy/models/fields" />
-
 	<fields name="filter">
 		<field
 			name="search"
@@ -17,6 +15,7 @@
 			type="list"
 			label="COM_PRIVACY_CONSENTS_FILTER_STATE"
 			onchange="this.form.submit();"
+			validate="options"
 			>
 			<option value="">JOPTION_SELECT_PUBLISHED</option>
 			<option value="1">COM_PRIVACY_CONSENTS_STATE_VALID</option>
@@ -47,6 +46,7 @@
 			label="JGLOBAL_SORT_BY"
 			onchange="this.form.submit();"
 			default="a.id DESC"
+			validate="options"
 			>
 			<option value="a.state ASC">COM_PRIVACY_HEADING_STATUS_ASC</option>
 			<option value="a.state DESC">COM_PRIVACY_HEADING_STATUS_DESC</option>
@@ -54,8 +54,10 @@
 			<option value="u.name DESC">JGLOBAL_NAME_DESC</option>
 			<option value="u.username ASC">COM_PRIVACY_HEADING_USERNAME_ASC</option>
 			<option value="u.username DESC">COM_PRIVACY_HEADING_USERNAME_DESC</option>
-			<option value="u.user_id ASC">COM_PRIVACY_HEADING_USERID_ASC</option>
-			<option value="u.user_id DESC">COM_PRIVACY_HEADING_USERID_DESC</option>
+			<option value="a.user_id ASC">COM_PRIVACY_HEADING_USERID_ASC</option>
+			<option value="a.user_id DESC">COM_PRIVACY_HEADING_USERID_DESC</option>
+			<option value="a.subject ASC">COM_PRIVACY_HEADING_SUBJECT_ASC</option>
+			<option value="a.subject DESC">COM_PRIVACY_HEADING_SUBJECT_DESC</option>
 			<option value="a.created ASC">COM_PRIVACY_HEADING_CREATED_ASC</option>
 			<option value="a.created DESC">COM_PRIVACY_HEADING_CREATED_DESC</option>
 			<option value="a.id ASC">JGRID_HEADING_ID_ASC</option>

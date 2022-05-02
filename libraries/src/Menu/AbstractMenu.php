@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2006 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -26,14 +26,16 @@ abstract class AbstractMenu
 	 * Array to hold the menu items
 	 *
 	 * @var    MenuItem[]
+	 *
 	 * @since  4.0.0
 	 */
 	protected $items = array();
 
 	/**
-	 * Identifier of the default menu item
+	 * Identifier of the default menu item. Key of the array is the language.
 	 *
-	 * @var    integer
+	 * @var    integer[]
+	 *
 	 * @since  4.0.0
 	 */
 	protected $default = array();
@@ -42,6 +44,7 @@ abstract class AbstractMenu
 	 * Identifier of the active menu item
 	 *
 	 * @var    integer
+	 *
 	 * @since  4.0.0
 	 */
 	protected $active = 0;
@@ -50,6 +53,7 @@ abstract class AbstractMenu
 	 * Menu instances container.
 	 *
 	 * @var    AbstractMenu[]
+	 *
 	 * @since  1.7
 	 */
 	protected static $instances = array();
@@ -58,9 +62,19 @@ abstract class AbstractMenu
 	 * User object to check access levels for
 	 *
 	 * @var    User
-	 * @since  3.5
+	 *
+	 * @since  3.9.26
 	 */
-	protected $user;
+	protected $storedUser;
+
+	/**
+	 * Flag for checking if the menu items have been loaded
+	 *
+	 * @var    boolean
+	 *
+	 * @since  4.0.0
+	 */
+	private $itemsLoaded = false;
 
 	/**
 	 * Class constructor
@@ -71,18 +85,17 @@ abstract class AbstractMenu
 	 */
 	public function __construct($options = array())
 	{
-		// Load the menu items
-		$this->load();
-
-		foreach ($this->getMenu() as $item)
-		{
-			if ($item->home)
-			{
-				$this->default[trim($item->language)] = $item->id;
-			}
-		}
-
-		$this->user = isset($options['user']) && $options['user'] instanceof User ? $options['user'] : Factory::getUser();
+		/**
+		 * It is preferred NOT to inject and store the user when constructing the menu object,
+		 * at least for the Menu object used by Joomla.
+		 * The menu object can be built very early in the request, from an onAfterInitialise event
+		 * but the user can be updated later (by the Remember me plugin for instance). As the stored
+		 * user object is not updated, the menu will render incorrectly, not complying with
+		 * menu items access levels.
+		 *
+		 * @see https://github.com/joomla/joomla-cms/issues/11541
+		 */
+		$this->storedUser = isset($options['user']) && $options['user'] instanceof User ? $options['user'] : null;
 	}
 
 	/**
@@ -94,7 +107,9 @@ abstract class AbstractMenu
 	 * @return  AbstractMenu  A menu object.
 	 *
 	 * @since       1.5
+	 *
 	 * @throws      \Exception
+	 *
 	 * @deprecated  5.0 Use the MenuFactoryInterface from the container instead
 	 */
 	public static function getInstance($client, $options = array())
@@ -110,6 +125,20 @@ abstract class AbstractMenu
 		}
 
 		return self::$instances[$client];
+	}
+
+	/**
+	 * Setter for the current user used to build menu.
+	 *
+	 * @param   User  $user  The new user to set.
+	 *
+	 * @return  void
+	 *
+	 * @since 3.9.26
+	 */
+	public function setUser($user)
+	{
+		$this->storedUser = $user;
 	}
 
 	/**
@@ -160,20 +189,23 @@ abstract class AbstractMenu
 	 *
 	 * @param   string  $language  The language code, default value of * means all.
 	 *
-	 * @return  MenuItem|null  The item object or null when not found for given language
+	 * @return  MenuItem|void  The item object or null when not found for given language
 	 *
 	 * @since   1.5
 	 */
 	public function getDefault($language = '*')
 	{
+		// Get menu items first to ensure defaults have been populated
+		$items = $this->getMenu();
+
 		if (\array_key_exists($language, $this->default))
 		{
-			return $this->getMenu()[$this->default[$language]];
+			return $items[$this->default[$language]];
 		}
 
 		if (\array_key_exists('*', $this->default))
 		{
-			return $this->getMenu()[$this->default['*']];
+			return $items[$this->default['*']];
 		}
 	}
 
@@ -182,7 +214,7 @@ abstract class AbstractMenu
 	 *
 	 * @param   integer  $id  The item id
 	 *
-	 * @return  MenuItem|null  The menu item representing the given ID if present or null otherwise
+	 * @return  MenuItem|void  The menu item representing the given ID if present or null otherwise
 	 *
 	 * @since   1.5
 	 */
@@ -199,7 +231,7 @@ abstract class AbstractMenu
 	/**
 	 * Get menu item by id.
 	 *
-	 * @return  MenuItem|null  The item object if an active menu item has been set or null
+	 * @return  MenuItem|void  The item object if an active menu item has been set or null
 	 *
 	 * @since   1.5
 	 */
@@ -225,10 +257,10 @@ abstract class AbstractMenu
 	 */
 	public function getItems($attributes, $values, $firstonly = false)
 	{
-		$items = array();
+		$items      = array();
 		$attributes = (array) $attributes;
-		$values = (array) $values;
-		$count = \count($attributes);
+		$values     = (array) $values;
+		$count      = \count($attributes);
 
 		foreach ($this->getMenu() as $item)
 		{
@@ -301,6 +333,21 @@ abstract class AbstractMenu
 	 */
 	public function getMenu()
 	{
+		if (!$this->itemsLoaded)
+		{
+			$this->load();
+
+			foreach ($this->items as $item)
+			{
+				if ($item->home)
+				{
+					$this->default[trim($item->language)] = $item->id;
+				}
+			}
+
+			$this->itemsLoaded = true;
+		}
+
 		return $this->items;
 	}
 
@@ -321,7 +368,7 @@ abstract class AbstractMenu
 		{
 			$access = (int) $menu->access;
 
-			// If the accesss level is public we don't need to load the user session
+			// If the access level is public we don't need to load the user session
 			if ($access === 1)
 			{
 				return true;
@@ -341,4 +388,45 @@ abstract class AbstractMenu
 	 * @since   1.5
 	 */
 	abstract public function load();
+
+	/**
+	 * Internal getter for the user. Returns the injected
+	 * one if any, or the current one if none.
+	 *
+	 * @return User
+	 *
+	 * @since 3.9.26
+	 */
+	protected function getUser()
+	{
+		return empty($this->storedUser)
+			? Factory::getUser()
+			: $this->storedUser;
+	}
+
+	/**
+	 * Magic getter for the user object. Returns the injected
+	 * one if any, or the current one if none.
+	 *
+	 * Using a magic getter to preserve B/C when we stopped storing the user object upon construction of the menu object.
+	 * As the user property is not initialized anymore, this getter ensures any class extending
+	 * this one can still use $instance->user and get a proper value.
+	 *
+	 * @param   string  $propName  Name of the missing or protected property.
+	 *
+	 * @return User|null
+	 *
+	 * @since 3.9.26
+	 */
+	public function __get($propName)
+	{
+		if ($propName === 'user')
+		{
+			return empty($this->storedUser)
+				? Factory::getUser()
+				: $this->storedUser;
+		}
+
+		return null;
+	}
 }

@@ -5,22 +5,36 @@
 		label="COM_CONFIG_CACHE_SETTINGS_LABEL">
 
 		<field
+			name="caching"
+			type="list"
+			label="COM_CONFIG_FIELD_CACHE_LABEL"
+			default="2"
+			filter="integer"
+			validate="options"
+			>
+			<option value="0">COM_CONFIG_FIELD_VALUE_CACHE_OFF</option>
+			<option value="1">COM_CONFIG_FIELD_VALUE_CACHE_CONSERVATIVE</option>
+			<option value="2">COM_CONFIG_FIELD_VALUE_CACHE_PROGRESSIVE</option>
+		</field>
+
+		<field
 			name="cache_handler"
 			type="cachehandler"
 			label="COM_CONFIG_FIELD_CACHE_HANDLER_LABEL"
 			default=""
 			filter="word"
-			showon="caching:1,2">
-		</field>
+			showon="caching:1,2"
+		/>
 
 		<field
 			name="cache_platformprefix"
 			type="radio"
-			class="switcher"
+			layout="joomla.form.field.radio.switcher"
 			default="0"
 			label="COM_CONFIG_FIELD_CACHE_PLATFORMPREFIX_LABEL"
-			filter="integer"
-			showon="caching:1,2">
+			filter="boolean"
+			showon="caching:1,2"
+			>
 			<option value="0">JNO</option>
 			<option value="1">JYES</option>
 		</field>
@@ -41,18 +55,18 @@
 			name="cache_path"
 			type="text"
 			label="COM_CONFIG_FIELD_CACHE_PATH_LABEL"
-			showon="cache_handler:file"
 			filter="path"
 			size="50"
+			showon="cache_handler:file[AND]caching:1,2"
 		/>
 
 		<field
 			name="memcached_persist"
 			type="radio"
 			label="COM_CONFIG_FIELD_MEMCACHE_PERSISTENT_LABEL"
-			class="switcher"
+			layout="joomla.form.field.radio.switcher"
 			default="1"
-			showon="cache_handler:memcached"
+			showon="cache_handler:memcached[AND]caching:1,2"
 			filter="boolean"
 			>
 			<option value="0">JNO</option>
@@ -63,9 +77,9 @@
 			name="memcached_compress"
 			type="radio"
 			label="COM_CONFIG_FIELD_MEMCACHE_COMPRESSION_LABEL"
-			class="switcher"
+			layout="joomla.form.field.radio.switcher"
 			default="0"
-			showon="cache_handler:memcached"
+			showon="cache_handler:memcached[AND]caching:1,2"
 			filter="boolean"
 			>
 			<option value="0">JNO</option>
@@ -77,7 +91,7 @@
 			type="text"
 			label="COM_CONFIG_FIELD_MEMCACHE_HOST_LABEL"
 			default="localhost"
-			showon="cache_handler:memcached"
+			showon="cache_handler:memcached[AND]caching:1,2"
 			filter="string"
 			size="25"
 		/>
@@ -86,7 +100,7 @@
 			name="memcached_server_port"
 			type="number"
 			label="COM_CONFIG_FIELD_MEMCACHE_PORT_LABEL"
-			showon="cache_handler:memcached"
+			showon="cache_handler:memcached[AND]caching:1,2"
 			min="1"
 			max="65535"
 			default="11211"
@@ -98,10 +112,10 @@
 			name="redis_persist"
 			type="radio"
 			label="COM_CONFIG_FIELD_REDIS_PERSISTENT_LABEL"
-			class="switcher"
+			layout="joomla.form.field.radio.switcher"
 			default="1"
 			filter="boolean"
-			showon="cache_handler:redis"
+			showon="cache_handler:redis[AND]caching:1,2"
 			>
 			<option value="0">JNO</option>
 			<option value="1">JYES</option>
@@ -113,7 +127,7 @@
 			label="COM_CONFIG_FIELD_REDIS_HOST_LABEL"
 			default="localhost"
 			filter="string"
-			showon="cache_handler:redis"
+			showon="cache_handler:redis[AND]caching:1,2"
 			size="25"
 		/>
 
@@ -121,7 +135,8 @@
 			name="redis_server_port"
 			type="number"
 			label="COM_CONFIG_FIELD_REDIS_PORT_LABEL"
-			showon="cache_handler:redis"
+			description="COM_CONFIG_FIELD_REDIS_PORT_DESC"
+			showon="cache_handler:redis[AND]caching:1,2"
 			min="1"
 			max="65535"
 			default="6379"
@@ -134,9 +149,11 @@
 			type="password"
 			label="COM_CONFIG_FIELD_REDIS_AUTH_LABEL"
 			filter="raw"
-			showon="cache_handler:redis"
+			showon="cache_handler:redis[AND]caching:1,2"
 			autocomplete="off"
 			size="30"
+			hint="***************"
+			lock="true"
 		/>
 
 		<field
@@ -145,42 +162,8 @@
 			label="COM_CONFIG_FIELD_REDIS_DB_LABEL"
 			default="0"
 			filter="integer"
-			showon="cache_handler:redis"
+			showon="cache_handler:redis[AND]caching:1,2"
 		/>
-
-		<field
-			name="cachetime"
-			type="number"
-			label="COM_CONFIG_FIELD_CACHE_TIME_LABEL"
-			min="1"
-			default="15"
-			filter="integer"
-			validate="number"
-		/>
-
-		<field
-			name="cache_platformprefix"
-			type="radio"
-			label="COM_CONFIG_FIELD_CACHE_PLATFORMPREFIX_LABEL"
-			class="switcher"
-			default="0"
-			filter="boolean"
-			>
-			<option value="0">JNO</option>
-			<option value="1">JYES</option>
-		</field>
-
-		<field
-			name="caching"
-			type="list"
-			label="COM_CONFIG_FIELD_CACHE_LABEL"
-			default="2"
-			filter="integer"
-			>
-			<option value="0">COM_CONFIG_FIELD_VALUE_CACHE_OFF</option>
-			<option value="1">COM_CONFIG_FIELD_VALUE_CACHE_CONSERVATIVE</option>
-			<option value="2">COM_CONFIG_FIELD_VALUE_CACHE_PROGRESSIVE</option>
-		</field>
 
 	</fieldset>
 
@@ -201,7 +184,6 @@
 			label="COM_CONFIG_FIELD_DATABASE_HOST_LABEL"
 			required="true"
 			filter="string"
-			onchange="Joomla.resetDbEncryptionFields(this)"
 			size="30"
 		/>
 
@@ -212,6 +194,17 @@
 			required="true"
 			filter="string"
 			size="30"
+		/>
+
+		<field
+			name="password"
+			type="password"
+			label="COM_CONFIG_FIELD_DATABASE_PASSWORD_LABEL"
+			description="COM_CONFIG_FIELD_DATABASE_PASSWORD_DESC"
+			filter="raw"
+			autocomplete="off"
+			size="30"
+			lock="true"
 		/>
 
 		<field
@@ -235,63 +228,51 @@
 		<field
 			name="dbencryption"
 			type="list"
-			label="COM_CONFIG_FIELD_DATABASE_ENCRYPTION_ENABLE_LABEL"
+			label="COM_CONFIG_FIELD_DATABASE_ENCRYPTION_MODE_LABEL"
 			default="0"
 			filter="integer"
-			showon="host!:localhost"
+			validate="options"
 			>
-			<option value="0">COM_CONFIG_FIELD_DATABASE_ENCRYPTION_ENABLE_VALUE_NONE</option>
-			<option value="1">COM_CONFIG_FIELD_DATABASE_ENCRYPTION_ENABLE_VALUE_ONE_WAY</option>
-			<option value="2">COM_CONFIG_FIELD_DATABASE_ENCRYPTION_ENABLE_VALUE_TWO_WAY</option>
-		</field>
-
-		<field
-			name="dbsslverifyservercert"
-			type="radio"
-			label="COM_CONFIG_FIELD_DATABASE_ENCRYPTION_VERIFY_SERVER_CERT_LABEL"
-			class="switcher"
-			default="0"
-			filter="boolean"
-			showon="host!:localhost[AND]dbencryption:1,2"
-			>
-			<option value="0">JNO</option>
-			<option value="1">JYES</option>
+			<option value="0">COM_CONFIG_FIELD_DATABASE_ENCRYPTION_MODE_VALUE_NONE</option>
+			<option value="1">COM_CONFIG_FIELD_DATABASE_ENCRYPTION_MODE_VALUE_ONE_WAY</option>
+			<option value="2">COM_CONFIG_FIELD_DATABASE_ENCRYPTION_MODE_VALUE_TWO_WAY</option>
 		</field>
 
 		<field
 			name="dbsslkey"
 			type="text"
 			label="COM_CONFIG_FIELD_DATABASE_ENCRYPTION_KEY_LABEL"
-			filter="string"
-			size="250"
-			showon="host!:localhost[AND]dbencryption:2"
+			filter="path"
+			showon="dbencryption:2"
 		/>
 
 		<field
 			name="dbsslcert"
 			type="text"
 			label="COM_CONFIG_FIELD_DATABASE_ENCRYPTION_CERT_LABEL"
-			filter="string"
-			size="250"
-			showon="host!:localhost[AND]dbencryption:2"
+			filter="path"
+			showon="dbencryption:2"
 		/>
+
+		<field
+			name="dbsslverifyservercert"
+			type="radio"
+			label="COM_CONFIG_FIELD_DATABASE_ENCRYPTION_VERIFY_SERVER_CERT_LABEL"
+			layout="joomla.form.field.radio.switcher"
+			default="0"
+			filter="boolean"
+			showon="dbencryption:1,2"
+			>
+			<option value="0">JNO</option>
+			<option value="1">JYES</option>
+		</field>
 
 		<field
 			name="dbsslca"
 			type="text"
 			label="COM_CONFIG_FIELD_DATABASE_ENCRYPTION_CA_LABEL"
-			filter="string"
-			size="250"
-			showon="host!:localhost[AND]dbencryption:2"
-		/>
-
-		<field
-			name="dbsslcapath"
-			type="text"
-			label="COM_CONFIG_FIELD_DATABASE_ENCRYPTION_CAPATH_LABEL"
-			filter="string"
-			size="250"
-			showon="host!:localhost[AND]dbtype:mysql,mysqli[AND]dbencryption:2"
+			filter="path"
+			showon="dbencryption:1,2[AND]dbsslverifyservercert:1"
 		/>
 
 		<field
@@ -299,8 +280,7 @@
 			type="text"
 			label="COM_CONFIG_FIELD_DATABASE_ENCRYPTION_CIPHER_LABEL"
 			filter="string"
-			size="300"
-			showon="host!:localhost[AND]dbtype:mysql,mysqli[AND]dbencryption:2"
+			showon="dbtype:mysql,mysqli[AND]dbencryption:2"
 		/>
 
 	</fieldset>
@@ -313,7 +293,7 @@
 			name="debug"
 			type="radio"
 			label="COM_CONFIG_FIELD_DEBUG_SYSTEM_LABEL"
-			class="switcher"
+			layout="joomla.form.field.radio.switcher"
 			default="0"
 			filter="boolean"
 			>
@@ -325,7 +305,7 @@
 			name="debug_lang"
 			type="radio"
 			label="COM_CONFIG_FIELD_DEBUG_LANG_LABEL"
-			class="switcher"
+			layout="joomla.form.field.radio.switcher"
 			default="0"
 			filter="boolean"
 			>
@@ -338,9 +318,9 @@
 			type="radio"
 			label="COM_CONFIG_FIELD_DEBUG_CONST_LANG_LABEL"
 			description="COM_CONFIG_FIELD_DEBUG_CONST_LANG_DESC"
-			class="switcher"
+			layout="joomla.form.field.radio.switcher"
 			default="1"
-			filter="integer"
+			filter="boolean"
 			showon="debug_lang:1"
 			>
 			<option value="0">COM_CONFIG_FIELD_DEBUG_CONST</option>
@@ -349,13 +329,13 @@
 
 	</fieldset>
 
-	<fieldset name="ftp" label="CONFIG_FTP_SETTINGS_LABEL">
-
+	<fieldset name="webservices" label="CONFIG_WEBSERVICES_SETTINGS_LABEL">
 		<field
-			name="ftp_enable"
+			name="cors"
 			type="radio"
-			label="COM_CONFIG_FIELD_FTP_ENABLE_LABEL"
-			class="switcher"
+			label="COM_CONFIG_FIELD_WEBSERVICES_CORS_OFF_LABEL"
+			description="COM_CONFIG_FIELD_WEBSERVICES_CORS_OFF_DESC"
+			layout="joomla.form.field.radio.switcher"
 			default="0"
 			filter="boolean"
 			>
@@ -364,55 +344,33 @@
 		</field>
 
 		<field
-			name="ftp_host"
+			name="cors_allow_origin"
 			type="text"
-			label="COM_CONFIG_FIELD_FTP_HOST_LABEL"
-			filter="string"
-			showon="ftp_enable:1"
-			size="14"
+			label="Access-Control-Allow-Origin"
+			description="COM_CONFIG_FIELD_WEBSERVICES_CORS_ALLOW_ORIGIN_DESC"
+			translate_label="false"
+			default="*"
+			showon="cors:1"
 		/>
 
 		<field
-			name="ftp_port"
-			type="number"
-			label="COM_CONFIG_FIELD_FTP_PORT_LABEL"
-			showon="ftp_enable:1"
-			min="1"
-			max="65535"
-			hint="21"
-			validate="number"
-			filter="integer"
-		/>
-
-		<field
-			name="ftp_user"
+			name="cors_allow_headers"
 			type="text"
-			label="COM_CONFIG_FIELD_FTP_USERNAME_LABEL"
-			filter="string"
-			showon="ftp_enable:1"
-			autocomplete="off"
-			size="25"
+			label="Access-Control-Allow-Headers"
+			description="COM_CONFIG_FIELD_WEBSERVICES_CORS_ALLOW_HEADERS_DESC"
+			translate_label="false"
+			default="Content-Type,X-Joomla-Token"
+			showon="cors:1"
 		/>
 
 		<field
-			name="ftp_pass"
-			type="password"
-			label="COM_CONFIG_FIELD_FTP_PASSWORD_LABEL"
-			filter="raw"
-			showon="ftp_enable:1"
-			autocomplete="off"
-			size="25"
-		/>
-
-		<field
-			name="ftp_root"
+			name="cors_allow_methods"
 			type="text"
-			label="COM_CONFIG_FIELD_FTP_ROOT_LABEL"
-			showon="ftp_enable:1"
-			filter="string"
-			size="50"
+			label="Access-Control-Allow-Methods"
+			description="COM_CONFIG_FIELD_WEBSERVICES_CORS_ALLOW_METHODS_DESC"
+			translate_label="false"
+			showon="cors:1"
 		/>
-
 	</fieldset>
 
 	<fieldset
@@ -420,10 +378,23 @@
 		label="CONFIG_PROXY_SETTINGS_LABEL">
 
 		<field
+			name="behind_loadbalancer"
+			type="radio"
+			label="COM_CONFIG_FIELD_LOADBALANCER_ENABLE_LABEL"
+			description="COM_CONFIG_FIELD_LOADBALANCER_ENABLE_DESC"
+			layout="joomla.form.field.radio.switcher"
+			default="0"
+			filter="boolean"
+			>
+			<option value="0">JNO</option>
+			<option value="1">JYES</option>
+		</field>
+
+		<field
 			name="proxy_enable"
 			type="radio"
 			label="COM_CONFIG_FIELD_PROXY_ENABLE_LABEL"
-			class="switcher"
+			layout="joomla.form.field.radio.switcher"
 			default="0"
 			filter="boolean"
 			>
@@ -470,6 +441,7 @@
 			showon="proxy_enable:1"
 			autocomplete="off"
 			size="25"
+			lock="true"
 		/>
 
 	</fieldset>
@@ -497,7 +469,7 @@
 			name="mailonline"
 			type="radio"
 			label="COM_CONFIG_FIELD_MAIL_MAILONLINE_LABEL"
-			class="switcher"
+			layout="joomla.form.field.radio.switcher"
 			default="1"
 			filter="boolean"
 			>
@@ -509,7 +481,7 @@
 			name="massmailoff"
 			type="radio"
 			label="COM_CONFIG_FIELD_MAIL_MASSMAILOFF_LABEL"
-			class="switcher"
+			layout="joomla.form.field.radio.switcher"
 			default="0"
 			filter="boolean"
 			showon="mailonline:1"
@@ -563,6 +535,7 @@
 			default="mail"
 			filter="word"
 			showon="mailonline:1"
+			validate="options"
 			>
 			<option value="mail">COM_CONFIG_FIELD_VALUE_PHP_MAIL</option>
 			<option value="sendmail">COM_CONFIG_FIELD_VALUE_SENDMAIL</option>
@@ -609,6 +582,7 @@
 			default="none"
 			showon="mailonline:1[AND]mailer:smtp"
 			filter="word"
+			validate="options"
 			>
 			<option value="none">COM_CONFIG_FIELD_VALUE_NONE</option>
 			<option value="ssl">COM_CONFIG_FIELD_VALUE_SSL</option>
@@ -618,7 +592,7 @@
 		<field
 			name="smtpauth"
 			type="radio"
-			class="switcher"
+			layout="joomla.form.field.radio.switcher"
 			label="COM_CONFIG_FIELD_MAIL_SMTP_AUTH_LABEL"
 			default="0"
 			showon="mailonline:1[AND]mailer:smtp"
@@ -646,6 +620,7 @@
 			filter="raw"
 			autocomplete="off"
 			size="30"
+			lock="true"
 		/>
 
 	</fieldset>
@@ -661,15 +636,8 @@
 			filter="string"
 			cols="60"
 			rows="3"
-		/>
-
-		<field
-			name="MetaKeys"
-			type="textarea"
-			label="COM_CONFIG_FIELD_METAKEYS_LABEL"
-			filter="string"
-			cols="60"
-			rows="3"
+			maxlength="160"
+			charcounter="true"
 		/>
 
 		<field
@@ -677,11 +645,12 @@
 			type="list"
 			label="JFIELD_METADATA_ROBOTS_LABEL"
 			default=""
+			validate="options"
 			>
-			<option value="">JGLOBAL_INDEX_FOLLOW</option>
-			<option value="noindex, follow">JGLOBAL_NOINDEX_FOLLOW</option>
-			<option value="index, nofollow">JGLOBAL_INDEX_NOFOLLOW</option>
-			<option value="noindex, nofollow">JGLOBAL_NOINDEX_NOFOLLOW</option>
+			<option value="">index, follow</option>
+			<option value="noindex, follow"></option>
+			<option value="index, nofollow"></option>
+			<option value="noindex, nofollow"></option>
 		</field>
 
 		<field
@@ -697,7 +666,7 @@
 			name="MetaAuthor"
 			type="radio"
 			label="COM_CONFIG_FIELD_METAAUTHOR_LABEL"
-			class="switcher"
+			layout="joomla.form.field.radio.switcher"
 			default="1"
 			filter="boolean"
 			>
@@ -709,7 +678,7 @@
 			name="MetaVersion"
 			type="radio"
 			label="COM_CONFIG_FIELD_METAVERSION_LABEL"
-			class="switcher"
+			layout="joomla.form.field.radio.switcher"
 			default="0"
 			filter="boolean"
 			>
@@ -727,7 +696,7 @@
 			name="sef"
 			type="radio"
 			label="COM_CONFIG_FIELD_SEF_URL_LABEL"
-			class="switcher"
+			layout="joomla.form.field.radio.switcher"
 			default="1"
 			filter="boolean"
 			>
@@ -739,8 +708,7 @@
 			name="sef_rewrite"
 			type="radio"
 			label="COM_CONFIG_FIELD_SEF_REWRITE_LABEL"
-			description="COM_CONFIG_FIELD_SEF_REWRITE_DESC"
-			class="switcher"
+			layout="joomla.form.field.radio.switcher"
 			default="0"
 			filter="boolean"
 			showon="sef:1"
@@ -750,10 +718,19 @@
 		</field>
 
 		<field
+			name="sef_note"
+			type="note"
+			label="COM_CONFIG_FIELD_SEF_REWRITE_DESC"
+			heading="p"
+			class="small"
+			showon="sef:1[AND]sef_rewrite:1"
+		/>
+
+		<field
 			name="sef_suffix"
 			type="radio"
 			label="COM_CONFIG_FIELD_SEF_SUFFIX_LABEL"
-			class="switcher"
+			layout="joomla.form.field.radio.switcher"
 			default="0"
 			filter="boolean"
 			showon="sef:1"
@@ -766,7 +743,7 @@
 			name="unicodeslugs"
 			type="radio"
 			label="COM_CONFIG_FIELD_UNICODESLUGS_LABEL"
-			class="switcher"
+			layout="joomla.form.field.radio.switcher"
 			default="0"
 			filter="boolean"
 			showon="sef:1"
@@ -781,6 +758,7 @@
 			label="COM_CONFIG_FIELD_SITENAME_PAGETITLES_LABEL"
 			default="0"
 			filter="integer"
+			validate="options"
 			>
 			<option value="2">COM_CONFIG_FIELD_VALUE_AFTER</option>
 			<option value="1">COM_CONFIG_FIELD_VALUE_BEFORE</option>
@@ -805,7 +783,7 @@
 			name="gzip"
 			type="radio"
 			label="COM_CONFIG_FIELD_GZIP_COMPRESSION_LABEL"
-			class="switcher"
+			layout="joomla.form.field.radio.switcher"
 			default="0"
 			filter="boolean"
 			>
@@ -819,20 +797,22 @@
 			label="COM_CONFIG_FIELD_ERROR_REPORTING_LABEL"
 			default="default"
 			filter="cmd"
+			validate="options"
 			>
 			<option value="default">COM_CONFIG_FIELD_VALUE_SYSTEM_DEFAULT</option>
 			<option value="none">COM_CONFIG_FIELD_VALUE_NONE</option>
 			<option value="simple">COM_CONFIG_FIELD_VALUE_SIMPLE</option>
 			<option value="maximum">COM_CONFIG_FIELD_VALUE_MAXIMUM</option>
-			<option value="development">COM_CONFIG_FIELD_VALUE_DEVELOPMENT</option>
 		</field>
 
 		<field
 			name="force_ssl"
 			type="list"
 			label="COM_CONFIG_FIELD_FORCE_SSL_LABEL"
+			description="COM_CONFIG_FIELD_FORCE_SSL_DESC"
 			default="-1"
 			filter="integer"
+			validate="options"
 			>
 			<option value="0">COM_CONFIG_FIELD_VALUE_NONE</option>
 			<option value="1">COM_CONFIG_FIELD_VALUE_ADMINISTRATOR_ONLY</option>
@@ -860,7 +840,8 @@
 			label="COM_CONFIG_FIELD_FILESYSTEM_PATH_LABEL"
 			description="COM_CONFIG_FIELD_FILESYSTEM_PATH_DESC"
 			filter="path"
-			showon="session_handler:filesystem" />
+			showon="session_handler:filesystem"
+		/>
 
 		<field
 			name="session_memcached_server_host"
@@ -888,8 +869,7 @@
 			name="session_redis_persist"
 			type="radio"
 			label="COM_CONFIG_FIELD_REDIS_PERSISTENT_LABEL"
-			description="COM_CONFIG_FIELD_REDIS_PERSISTENT_DESC"
-			class="switcher"
+			layout="joomla.form.field.radio.switcher"
 			default="1"
 			filter="integer"
 			showon="session_handler:redis"
@@ -902,7 +882,6 @@
 			name="session_redis_server_host"
 			type="text"
 			label="COM_CONFIG_FIELD_REDIS_HOST_LABEL"
-			description="COM_CONFIG_FIELD_REDIS_HOST_DESC"
 			default="localhost"
 			filter="string"
 			showon="session_handler:redis"
@@ -926,22 +905,22 @@
 			name="session_redis_server_auth"
 			type="password"
 			label="COM_CONFIG_FIELD_REDIS_AUTH_LABEL"
-			description="COM_CONFIG_FIELD_REDIS_AUTH_DESC"
 			filter="raw"
 			showon="session_handler:redis"
 			autocomplete="off"
 			size="30"
+			lock="true"
 		/>
 
 		<field
 			name="session_redis_server_db"
 			type="number"
 			label="COM_CONFIG_FIELD_REDIS_DB_LABEL"
-			description="COM_CONFIG_FIELD_REDIS_DB_DESC"
 			default="0"
 			filter="integer"
 			showon="session_handler:redis"
 		/>
+
 		<field
 			name="lifetime"
 			type="number"
@@ -958,7 +937,7 @@
 			type="radio"
 			label="COM_CONFIG_FIELD_SHARED_SESSION_LABEL"
 			description="COM_CONFIG_FIELD_SHARED_SESSION_DESC"
-			class="switcher"
+			layout="joomla.form.field.radio.switcher"
 			default="0"
 			filter="boolean"
 			>
@@ -969,11 +948,12 @@
 		<field
 			name="session_metadata"
 			type="radio"
-			class="switcher"
+			layout="joomla.form.field.radio.switcher"
 			default="1"
 			label="COM_CONFIG_FIELD_SESSION_METADATA_LABEL"
 			description="COM_CONFIG_FIELD_SESSION_METADATA_DESC"
-			filter="boolean">
+			filter="boolean"
+			>
 			<option value="0">JNO</option>
 			<option value="1">JYES</option>
 		</field>
@@ -997,7 +977,7 @@
 			name="offline"
 			type="radio"
 			label="COM_CONFIG_FIELD_SITE_OFFLINE_LABEL"
-			class="switcher"
+			layout="joomla.form.field.radio.switcher"
 			default="0"
 			filter="boolean"
 			>
@@ -1012,6 +992,7 @@
 			default="1"
 			filter="integer"
 			showon="offline:1"
+			validate="options"
 			>
 			<option value="0">JHIDE</option>
 			<option value="1">COM_CONFIG_FIELD_VALUE_DISPLAY_OFFLINE_MESSAGE_CUSTOM</option>
@@ -1041,6 +1022,7 @@
 			label="COM_CONFIG_FRONTEDITING_LABEL"
 			default="1"
 			filter="integer"
+			validate="options"
 			>
 			<option value="2">COM_CONFIG_FRONTEDITING_MENUSANDMODULES</option>
 			<option value="1">COM_CONFIG_FRONTEDITING_MODULES</option>
@@ -1072,7 +1054,8 @@
 			type="accesslevel"
 			label="COM_CONFIG_FIELD_DEFAULT_ACCESS_LEVEL_LABEL"
 			default="1"
-			filter="integer"
+			filter="UINT"
+			validate="options"
 		/>
 
 		<field
@@ -1081,6 +1064,7 @@
 			label="COM_CONFIG_FIELD_DEFAULT_LIST_LIMIT_LABEL"
 			default="20"
 			filter="integer"
+			validate="options"
 			>
 			<option value="5">J5</option>
 			<option value="10">J10</option>
@@ -1100,6 +1084,7 @@
 			label="COM_CONFIG_FIELD_DEFAULT_FEED_LIMIT_LABEL"
 			default="10"
 			filter="integer"
+			validate="options"
 			>
 			<option value="5">J5</option>
 			<option value="10">J10</option>
@@ -1117,6 +1102,7 @@
 			label="COM_CONFIG_FIELD_FEED_EMAIL_LABEL"
 			default="none"
 			filter="word"
+			validate="options"
 			>
 			<option value="author">COM_CONFIG_FIELD_VALUE_AUTHOR_EMAIL</option>
 			<option value="site">COM_CONFIG_FIELD_VALUE_SITE_EMAIL</option>
@@ -1124,11 +1110,24 @@
 
 		</field>
 
+		<field
+			name="block_floc"
+			type="radio"
+			label="COM_CONFIG_FIELD_FLOC_BLOCKER_LABEL"
+			description="COM_CONFIG_FIELD_FLOC_BLOCKER_DESC"
+			layout="joomla.form.field.radio.switcher"
+			default="1"
+			filter="integer"
+			>
+			<option value="0">JNO</option>
+			<option value="1">JYES</option>
+		</field>
+
 	</fieldset>
 
 	<fieldset
-		name="system"
-		label="CONFIG_SYSTEM_SETTINGS_LABEL">
+		name="logging"
+		label="CONFIG_LOGGING_SETTINGS_LABEL">
 
 		<field
 			name="log_path"
@@ -1138,6 +1137,77 @@
 			filter="string"
 			size="50"
 		/>
+
+		<field
+			name="log_everything"
+			type="radio"
+			label="COM_CONFIG_FIELD_LOG_EVERYTHING_LABEL"
+			description="COM_CONFIG_FIELD_LOG_EVERYTHING_DESC"
+			layout="joomla.form.field.radio.switcher"
+			default="0"
+			filter="integer"
+			>
+			<option value="0">JNO</option>
+			<option value="1">JYES</option>
+		</field>
+
+		<field
+			name="log_deprecated"
+			type="radio"
+			label="COM_CONFIG_FIELD_LOG_DEPRECATED_LABEL"
+			layout="joomla.form.field.radio.switcher"
+			default="0"
+			filter="integer"
+			>
+			<option value="0">JNO</option>
+			<option value="1">JYES</option>
+		</field>
+	</fieldset>
+
+	<fieldset
+		name="logging_custom"
+		label="CONFIG_LOGGING_CUSTOM_SETTINGS_LABEL">
+
+		<field
+			name="log_priorities"
+			type="list"
+			label="COM_CONFIG_FIELD_LOG_PRIORITIES_LABEL"
+			multiple="true"
+			layout="joomla.form.field.list-fancy-select"
+			default="all"
+			validate="options"
+			>
+			<option value="all">COM_CONFIG_FIELD_LOG_PRIORITIES_ALL</option>
+			<option value="emergency">COM_CONFIG_FIELD_LOG_PRIORITIES_EMERGENCY</option>
+			<option value="alert">COM_CONFIG_FIELD_LOG_PRIORITIES_ALERT</option>
+			<option value="critical">COM_CONFIG_FIELD_LOG_PRIORITIES_CRITICAL</option>
+			<option value="error">COM_CONFIG_FIELD_LOG_PRIORITIES_ERROR</option>
+			<option value="warning">COM_CONFIG_FIELD_LOG_PRIORITIES_WARNING</option>
+			<option value="notice">COM_CONFIG_FIELD_LOG_PRIORITIES_NOTICE</option>
+			<option value="info">COM_CONFIG_FIELD_LOG_PRIORITIES_INFO</option>
+			<option value="debug">COM_CONFIG_FIELD_LOG_PRIORITIES_DEBUG</option>
+		</field>
+
+		<field
+			name="log_categories"
+			type="text"
+			label="COM_CONFIG_FIELD_LOG_CATEGORIES_LABEL"
+			description="COM_CONFIG_FIELD_LOG_CATEGORIES_DESC"
+			size="60"
+			default=""
+		/>
+
+		<field
+			name="log_category_mode"
+			type="radio"
+			label="COM_CONFIG_FIELD_LOG_CATEGORY_MODE_LABEL"
+			layout="joomla.form.field.radio.switcher"
+			default="0"
+			filter="integer"
+			>
+			<option value="0">COM_CONFIG_FIELD_LOG_CATEGORY_MODE_INCLUDE</option>
+			<option value="1">COM_CONFIG_FIELD_LOG_CATEGORY_MODE_EXCLUDE</option>
+		</field>
 
 	</fieldset>
 

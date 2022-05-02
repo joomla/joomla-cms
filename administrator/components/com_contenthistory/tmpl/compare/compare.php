@@ -3,13 +3,12 @@
  * @package     Joomla.Administrator
  * @subpackage  com_contenthistory
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2013 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Session\Session;
 
@@ -20,20 +19,21 @@ $version1 = $this->items[1];
 $object1  = $version1->data;
 $object2  = $version2->data;
 
-HTMLHelper::_('script', 'vendor/diff/diff.min.js', array('version' => 'auto', 'relative' => true));
-HTMLHelper::_('script', 'com_contenthistory/admin-compare-compare.min.js', array('version' => 'auto', 'relative' => true));
-?>
-<fieldset>
+/** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
+$wa = $this->document->getWebAssetManager();
+$wa->useScript('com_contenthistory.admin-compare-compare');
 
-	<h2 class="mb-3"><?php echo Text::_('COM_CONTENTHISTORY_COMPARE_TITLE'); ?></h2>
+?>
+<div role="main">
+	<h1 class="mb-3"><?php echo Text::_('COM_CONTENTHISTORY_COMPARE_TITLE'); ?></h1>
 
 	<table id="diff" class="table">
-		<caption id="captionTable" class="sr-only">
+		<caption class="visually-hidden">
 			<?php echo Text::_('COM_CONTENTHISTORY_COMPARE_CAPTION'); ?>
 		</caption>
 		<thead>
 			<tr>
-				<th scope="col" style="width:25%"><?php echo Text::_('COM_CONTENTHISTORY_PREVIEW_FIELD'); ?></th>
+				<th scope="col" class="w-25"><?php echo Text::_('COM_CONTENTHISTORY_PREVIEW_FIELD'); ?></th>
 				<th scope="col"><?php echo Text::_('COM_CONTENTHISTORY_COMPARE_OLD'); ?></th>
 				<th scope="col"><?php echo Text::_('COM_CONTENTHISTORY_COMPARE_NEW'); ?></th>
 				<th scope="col"><?php echo Text::_('COM_CONTENTHISTORY_COMPARE_DIFF'); ?></th>
@@ -41,21 +41,19 @@ HTMLHelper::_('script', 'com_contenthistory/admin-compare-compare.min.js', array
 		</thead>
 		<tbody>
 		<?php foreach ($object1 as $name => $value) : ?>
-			<?php if ($value->value != $object2->$name->value) : ?>
-			<tr>
+			<?php if (isset($value->value) && isset($object2->$name->value) && $value->value != $object2->$name->value) : ?>
 				<?php if (is_object($value->value)) : ?>
-					<td>
-						<strong><?php echo $value->label; ?></strong>
-					</td>
-					<td>&nbsp;</td>
-					<td>&nbsp;</td>
-					<td>&nbsp;</td>
+					<tr>
+						<td colspan="4">
+							<strong><?php echo $value->label; ?></strong>
+						</td>
+					</tr>
 					<?php foreach ($value->value as $subName => $subValue) : ?>
 						<?php $newSubValue = $object2->$name->value->$subName->value ?? ''; ?>
 						<?php if ($subValue->value || $newSubValue) : ?>
 							<?php if ($subValue->value != $newSubValue) : ?>
 								<tr>
-									<td><em>&nbsp;&nbsp;<?php echo $subValue->label; ?></em></td>
+									<th scope="row"><em>&nbsp;&nbsp;<?php echo $subValue->label; ?></em></th>
 									<td class="original"><?php echo htmlspecialchars($subValue->value, ENT_COMPAT, 'UTF-8'); ?></td>
 									<td class="changed" ><?php echo htmlspecialchars($newSubValue, ENT_COMPAT, 'UTF-8'); ?></td>
 									<td class="diff">&nbsp;</td>
@@ -64,18 +62,18 @@ HTMLHelper::_('script', 'com_contenthistory/admin-compare-compare.min.js', array
 						<?php endif; ?>
 					<?php endforeach; ?>
 				<?php else : ?>
-					<th scope="row">
-						<?php echo $value->label; ?>
-					</th>
-					<td class="original"><?php echo htmlspecialchars($value->value); ?></td>
-					<?php $object2->$name->value = is_object($object2->$name->value) ? json_encode($object2->$name->value) : $object2->$name->value; ?>
-					<td class="changed"><?php echo htmlspecialchars($object2->$name->value, ENT_COMPAT, 'UTF-8'); ?></td>
-					<td class="diff">&nbsp;</td>
+					<tr>
+						<th scope="row">
+							<?php echo $value->label; ?>
+						</th>
+						<td class="original"><?php echo htmlspecialchars($value->value); ?></td>
+						<?php $object2->$name->value = is_object($object2->$name->value) ? json_encode($object2->$name->value) : $object2->$name->value; ?>
+						<td class="changed"><?php echo htmlspecialchars($object2->$name->value, ENT_COMPAT, 'UTF-8'); ?></td>
+						<td class="diff">&nbsp;</td>
+					</tr>
 				<?php endif; ?>
-			</tr>
 		<?php endif; ?>
 		<?php endforeach; ?>
 		</tbody>
 	</table>
-
-</fieldset>
+</div>

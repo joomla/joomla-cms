@@ -3,19 +3,19 @@
  * @package     Joomla.Administrator
  * @subpackage  com_media
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2017 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\Component\Media\Administrator\Controller;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
-use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\MediaHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\BaseController;
+use Joomla\CMS\MVC\Model\BaseModel;
 use Joomla\CMS\Response\JsonResponse;
 use Joomla\CMS\Session\Session;
 use Joomla\Component\Media\Administrator\Exception\FileExistsException;
@@ -134,7 +134,6 @@ class ApiController extends BaseController
 		// Grab options
 		$options              = [];
 		$options['url']       = $this->input->getBool('url', false);
-		$options['temp']      = $this->input->getBool('temp', false);
 		$options['search']    = $this->input->getString('search', '');
 		$options['recursive'] = $this->input->getBool('recursive', true);
 		$options['content']   = $this->input->getBool('content', false);
@@ -161,6 +160,11 @@ class ApiController extends BaseController
 	 */
 	public function deleteFiles()
 	{
+		if (!$this->app->getIdentity()->authorise('core.delete', 'com_media'))
+		{
+			throw new \Exception(Text::_('JLIB_APPLICATION_ERROR_DELETE_NOT_PERMITTED'), 403);
+		}
+
 		$this->getModel()->delete($this->getAdapter(), $this->getPath());
 
 		return null;
@@ -192,6 +196,11 @@ class ApiController extends BaseController
 	 */
 	public function postFiles()
 	{
+		if (!$this->app->getIdentity()->authorise('core.create', 'com_media'))
+		{
+			throw new \Exception(Text::_('JLIB_APPLICATION_ERROR_CREATE_RECORD_NOT_PERMITTED'), 403);
+		}
+
 		$adapter      = $this->getAdapter();
 		$path         = $this->getPath();
 		$content      = $this->input->json;
@@ -212,7 +221,10 @@ class ApiController extends BaseController
 			$name = $this->getModel()->createFolder($adapter, $name, $path, $override);
 		}
 
-		return $this->getModel()->getFile($adapter, $path . '/' . $name);
+		$options        = [];
+		$options['url'] = $this->input->getBool('url', false);
+
+		return $this->getModel()->getFile($adapter, $path . '/' . $name, $options);
 	}
 
 	/**
@@ -258,6 +270,11 @@ class ApiController extends BaseController
 	 */
 	public function putFiles()
 	{
+		if (!$this->app->getIdentity()->authorise('core.edit', 'com_media'))
+		{
+			throw new \Exception(Text::_('JLIB_APPLICATION_ERROR_EDIT_NOT_PERMITTED'), 403);
+		}
+
 		$adapter = $this->getAdapter();
 		$path    = $this->getPath();
 
@@ -274,7 +291,7 @@ class ApiController extends BaseController
 			$this->getModel()->updateFile($adapter, $name, str_replace($name, '', $path), $mediaContent);
 		}
 
-		if ($newPath != null)
+		if ($newPath != null && $newPath !== $adapter . ':' . $path)
 		{
 			list($destinationAdapter, $destinationPath) = explode(':', $newPath, 2);
 
@@ -326,7 +343,7 @@ class ApiController extends BaseController
 	 * @param   string  $prefix  The class prefix. Optional.
 	 * @param   array   $config  Configuration array for model. Optional.
 	 *
-	 * @return  Model|boolean  Model object on success; otherwise false on failure.
+	 * @return  BaseModel|boolean  Model object on success; otherwise false on failure.
 	 *
 	 * @since   4.0.0
 	 */
@@ -345,20 +362,19 @@ class ApiController extends BaseController
 	 */
 	private function checkContent()
 	{
-		if (!Factory::getUser()->authorise('core.create', 'com_media'))
-		{
-			throw new \Exception(Text::_('COM_MEDIA_ERROR_CREATE_NOT_PERMITTED'), 403);
-		}
+		$helper              = new MediaHelper;
+		$contentLength       = $this->input->server->getInt('CONTENT_LENGTH');
+		$params              = ComponentHelper::getParams('com_media');
+		$paramsUploadMaxsize = $params->get('upload_maxsize', 0) * 1024 * 1024;
+		$uploadMaxFilesize   = $helper->toBytes(ini_get('upload_max_filesize'));
+		$postMaxSize         = $helper->toBytes(ini_get('post_max_size'));
+		$memoryLimit         = $helper->toBytes(ini_get('memory_limit'));
 
-		$params = ComponentHelper::getParams('com_media');
-
-		$helper       = new MediaHelper;
-		$serverlength = $this->input->server->get('CONTENT_LENGTH');
-
-		if ($serverlength > ($params->get('upload_maxsize', 0) * 1024 * 1024)
-			|| $serverlength > $helper->toBytes(ini_get('upload_max_filesize'))
-			|| $serverlength > $helper->toBytes(ini_get('post_max_size'))
-			|| $serverlength > $helper->toBytes(ini_get('memory_limit')))
+		if (($paramsUploadMaxsize > 0 && $contentLength > $paramsUploadMaxsize)
+			|| ($uploadMaxFilesize > 0 && $contentLength > $uploadMaxFilesize)
+			|| ($postMaxSize > 0 && $contentLength > $postMaxSize)
+			|| ($memoryLimit > -1 && $contentLength > $memoryLimit)
+		)
 		{
 			throw new \Exception(Text::_('COM_MEDIA_ERROR_WARNFILETOOLARGE'), 403);
 		}

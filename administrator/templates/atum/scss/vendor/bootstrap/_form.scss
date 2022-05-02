@@ -1,87 +1,7 @@
 // Form
 
 label {
-	margin-bottom: 0;
-}
-
-.control-group {
-  margin-bottom: 18px;
-
-  > .form-check {
-    display: inline-block;
-  }
-
-  &::after {
-    display: table;
-    clear: both;
-    content: "";
-  }
-
-  .control-label {
-    float: left;
-    width: 220px;
-    padding-top: 5px;
-    padding-right: 5px;
-    text-align: left;
-
-    [dir=rtl] & {
-      float: right;
-      text-align: right;
-    }
-
-    @include media-breakpoint-down(sm)
-    {
-      float: none;
-      width: 100%;
-    }
-  }
-
-  .controls {
-    margin-left: 220px;
-
-    [dir=rtl] & {
-      margin-right: 220px;
-      margin-left: 0;
-    }
-
-    @include media-breakpoint-down(sm)
-    {
-      margin-left: 0;
-
-      [dir=rtl] & {
-        margin-right: 0;
-      }
-    }
-  }
-}
-
-.form-no-margin {
-
-  .control-group {
-
-    .controls {
-      margin-left: 0;
-
-      [dir=rtl] & {
-        margin-right: auto;
-      }
-    }
-
-    .control-label {
-      float: none;
-    }
-  }
-}
-
-.spacer {
-  hr {
-    width: 380px;
-    border: 0;
-  }
-
-  label {
-    width: 440px;
-  }
+  margin-bottom: 0;
 }
 
 td .form-control {
@@ -115,53 +35,62 @@ legend {
 
 // Validation
 .invalid {
-  color: theme-color("danger");
-  border-color: theme-color("danger");
+  color: var(--danger);
+  border-color: var(--danger);
 }
 
 .valid {
-  border-color: theme-color("success");
+  border-color: var(--success);
 }
 
 .form-control-feedback {
   display: block;
 }
 
-[aria-grabbed='true'] {
-  box-shadow: 0 0 2px 1px var(--atum-bg-dark);
+[aria-grabbed="true"] {
+  box-shadow: 0 0 2px 1px var(--template-bg-dark);
 }
 
 select.form-control {
-  background-color: $custom-select-bg;
-}
-
-@include media-breakpoint-down(xs) {
-  .control-group {
-    .control-label{
-      float:none;
-	  max-width: 100%;
-    }
-  }
+  background-color: $form-select-bg;
 }
 
 .field-media-wrapper {
-  max-width: calc(50vw - 5rem);
-  width: 100%;
   display: block;
+  width: 100%;
+  max-width: calc(50vw - 5rem);
 
   .field-media-preview {
     width: 100%;
     max-width: none;
   }
+
   .button-select {
-    background-color: darken(theme-color("success"), 8%);
-  }
-  .button-clear {
-    background-color: darken(theme-color("danger"), 8%);
+    background-color: darken($success, 8%);
   }
 
-  @include media-breakpoint-down(md) {
+  .button-clear {
+    background-color: darken($danger, 8%);
+  }
+
+  .button-clear > .#{$fa-css-prefix}-check,
+  .button-select > .#{$fa-css-prefix}-times {
+    color: $gray-100;
+  }
+
+  @include media-breakpoint-down(lg) {
     min-width: 100%;
   }
 }
 
+// Bootstrap 4 b/c
+.form-inline .form-select, .form-inline .custom-select, .form-inline .form-control {
+  display: inline-block;
+  width: auto;
+}
+
+@include media-breakpoint-down(md) {
+  .form-inline .form-select, .form-inline .custom-select, .form-inline .form-control {
+    width: 100%;
+  }
+}

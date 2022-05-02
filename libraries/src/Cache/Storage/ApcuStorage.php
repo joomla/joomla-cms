@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2016 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -86,7 +86,7 @@ class ApcuStorage extends CacheStorage
 
 			$namearr = explode('-', $name);
 
-			if ($namearr !== false && $namearr[0] == $secret && $namearr[1] == 'cache')
+			if ($namearr !== false && $namearr[0] == $secret && $namearr[1] === 'cache')
 			{
 				$group = $namearr[2];
 
@@ -184,7 +184,7 @@ class ApcuStorage extends CacheStorage
 				$internalKey = $key['key'];
 			}
 
-			if (strpos($internalKey, $secret . '-cache-' . $group . '-') === 0 xor $mode != 'group')
+			if (strpos($internalKey, $secret . '-cache-' . $group . '-') === 0 xor $mode !== 'group')
 			{
 				apcu_delete($internalKey);
 			}

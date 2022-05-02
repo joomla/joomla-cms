@@ -3,27 +3,21 @@
  * @package     Joomla.Installation
  * @subpackage  Model
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2009 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Installation\Model;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
-use Joomla\CMS\Filesystem\File;
-use Joomla\CMS\Filesystem\Folder;
 use Joomla\CMS\Installation\Helper\DatabaseHelper;
-use Joomla\CMS\Installer\Installer;
 use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Object\CMSObject;
-use Joomla\CMS\User\UserHelper;
-use Joomla\CMS\Version;
 use Joomla\Database\DatabaseDriver;
 use Joomla\Database\DatabaseInterface;
-use Joomla\Database\UTF8MB4SupportInterface;
 use Joomla\Utilities\ArrayHelper;
 
 /**
@@ -33,14 +27,6 @@ use Joomla\Utilities\ArrayHelper;
  */
 class DatabaseModel extends BaseInstallationModel
 {
-	/**
-	 * The generated user ID.
-	 *
-	 * @var    integer
-	 * @since  3.1
-	 */
-	protected static $userId = 0;
-
 	/**
 	 * Get the current setup options from the session.
 	 *
@@ -54,66 +40,15 @@ class DatabaseModel extends BaseInstallationModel
 	}
 
 	/**
-	 * Generates the user ID.
-	 *
-	 * @return  integer  The user ID.
-	 *
-	 * @since   3.1
-	 */
-	protected static function generateRandUserId()
-	{
-		$session    = Factory::getSession();
-		$randUserId = $session->get('randUserId');
-
-		if (empty($randUserId))
-		{
-			// Create the ID for the root user only once and store in session.
-			$randUserId = mt_rand(1, 1000);
-			$session->set('randUserId', $randUserId);
-		}
-
-		return $randUserId;
-	}
-
-	/**
-	 * Resets the user ID.
-	 *
-	 * @return  void
-	 *
-	 * @since   3.1
-	 */
-	public static function resetRandUserId()
-	{
-		self::$userId = 0;
-
-		Factory::getSession()->set('randUserId', self::$userId);
-	}
-
-	/**
-	 * Retrieves the default user ID and sets it if necessary.
-	 *
-	 * @return  integer  The user ID.
-	 *
-	 * @since   3.1
-	 */
-	public static function getUserId()
-	{
-		if (!self::$userId)
-		{
-			self::$userId = self::generateRandUserId();
-		}
-
-		return self::$userId;
-	}
-
-	/**
 	 * Method to initialise the database.
+	 *
+	 * @param   boolean  $select  Select the database when creating the connections.
 	 *
 	 * @return  DatabaseInterface|boolean  Database object on success, boolean false on failure
 	 *
 	 * @since   3.1
 	 */
-	public function initialise()
+	public function initialise($select = true)
 	{
 		$options = $this->getOptions();
 
@@ -135,187 +70,21 @@ class DatabaseModel extends BaseInstallationModel
 			$lang->load('joomla', JPATH_ADMINISTRATOR, 'en-GB', true);
 		}
 
-		// Ensure a database type was selected.
-		if (empty($options->db_type))
+		// Validate and clean up connection parameters
+		$paramsCheck = DatabaseHelper::validateConnectionParameters($options);
+
+		if ($paramsCheck)
 		{
-			Factory::getApplication()->enqueueMessage(Text::_('INSTL_DATABASE_INVALID_TYPE'), 'warning');
+			Factory::getApplication()->enqueueMessage($paramsCheck, 'warning');
 
 			return false;
 		}
 
-		// Ensure that a hostname and user name were input.
-		if (empty($options->db_host) || empty($options->db_user))
+		// Security check for remote db hosts
+		if (!DatabaseHelper::checkRemoteDbHost($options))
 		{
-			Factory::getApplication()->enqueueMessage(Text::_('INSTL_DATABASE_INVALID_DB_DETAILS'), 'warning');
-
+			// Messages have been enqueued in the called function.
 			return false;
-		}
-
-		// Validate database table prefix.
-		if (isset($options->db_prefix) && !preg_match('#^[a-zA-Z]+[a-zA-Z0-9_]*$#', $options->db_prefix))
-		{
-			Factory::getApplication()->enqueueMessage(Text::_('INSTL_DATABASE_PREFIX_MSG'), 'warning');
-
-			return false;
-		}
-
-		// Validate length of database table prefix.
-		if (isset($options->db_prefix) && strlen($options->db_prefix) > 15)
-		{
-			Factory::getApplication()->enqueueMessage(Text::_('INSTL_DATABASE_FIX_TOO_LONG'), 'warning');
-
-			return false;
-		}
-
-		// Validate length of database name.
-		if (strlen($options->db_name) > 64)
-		{
-			Factory::getApplication()->enqueueMessage(Text::_('INSTL_DATABASE_NAME_TOO_LONG'), 'warning');
-
-			return false;
-		}
-
-		// Validate database name.
-		if (in_array($options->db_type, ['pgsql', 'postgresql'], true) && !preg_match('#^[a-zA-Z_][0-9a-zA-Z_$]*$#', $options->db_name))
-		{
-			Factory::getApplication()->enqueueMessage(Text::_('INSTL_DATABASE_NAME_MSG_POSTGRESQL'), 'warning');
-
-			return false;
-		}
-
-		if (in_array($options->db_type, ['mysql', 'mysqli']) && preg_match('#[\\\\\/\.]#', $options->db_name))
-		{
-			Factory::getApplication()->enqueueMessage(Text::_('INSTL_DATABASE_NAME_MSG_MYSQL'), 'warning');
-
-			return false;
-		}
-
-		// Workaround for UPPERCASE table prefix for PostgreSQL
-		if (in_array($options->db_type, ['pgsql', 'postgresql']))
-		{
-			if (isset($options->db_prefix) && strtolower($options->db_prefix) !== $options->db_prefix)
-			{
-				Factory::getApplication()->enqueueMessage(Text::_('INSTL_DATABASE_FIX_LOWERCASE'), 'warning');
-
-				return false;
-			}
-		}
-
-		// Security check for remote db hosts: Check env var if disabled
-		$shouldCheckLocalhost = getenv('JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK') !== '1';
-
-		// Per Default allowed DB Hosts
-		$localhost = array(
-			'localhost',
-			'127.0.0.1',
-			'::1',
-		);
-
-		// Check the security file if the db_host is not localhost / 127.0.0.1 / ::1
-		if ($shouldCheckLocalhost && !in_array($options->db_host, $localhost))
-		{
-			$remoteDbFileTestsPassed = Factory::getSession()->get('remoteDbFileTestsPassed', false);
-
-			// When all checks have been passed we don't need to do this here again.
-			if ($remoteDbFileTestsPassed === false)
-			{
-				$generalRemoteDatabaseMessage = Text::sprintf(
-					'INSTL_DATABASE_HOST_IS_NOT_LOCALHOST_GENERAL_MESSAGE',
-					'https://docs.joomla.org/Special:MyLanguage/J3.x:Secured_procedure_for_installing_Joomla_with_a_remote_database'
-				);
-
-				$remoteDbFile = Factory::getSession()->get('remoteDbFile', false);
-
-				if ($remoteDbFile === false)
-				{
-					// Add the general message
-					Factory::getApplication()->enqueueMessage($generalRemoteDatabaseMessage, 'warning');
-
-					// This is the file you need to remove if you want to use a remote database
-					$remoteDbFile = '_Joomla' . UserHelper::genRandomPassword(21) . '.txt';
-					Factory::getSession()->set('remoteDbFile', $remoteDbFile);
-
-					// Get the path
-					$remoteDbPath = JPATH_INSTALLATION . '/' . $remoteDbFile;
-
-					// When the path is not writable the user needs to create the file manually
-					if (!File::write($remoteDbPath, ''))
-					{
-						// Request to create the file manually
-						Factory::getApplication()->enqueueMessage(
-							Text::sprintf(
-								'INSTL_DATABASE_HOST_IS_NOT_LOCALHOST_CREATE_FILE',
-								$remoteDbFile,
-								'installation',
-								Text::_('INSTL_INSTALL_JOOMLA')
-							),
-							'notice'
-						);
-
-						Factory::getSession()->set('remoteDbFileUnwritable', true);
-
-						return false;
-					}
-
-					// Save the file name to the session
-					Factory::getSession()->set('remoteDbFileWrittenByJoomla', true);
-
-					// Request to delete that file
-					Factory::getApplication()->enqueueMessage(
-						Text::sprintf(
-							'INSTL_DATABASE_HOST_IS_NOT_LOCALHOST_DELETE_FILE',
-							$remoteDbFile,
-							'installation',
-							Text::_('INSTL_INSTALL_JOOMLA')
-						),
-						'notice'
-					);
-
-					return false;
-				}
-
-				if (Factory::getSession()->get('remoteDbFileWrittenByJoomla', false) === true
-					&& File::exists(JPATH_INSTALLATION . '/' . $remoteDbFile))
-				{
-					// Add the general message
-					Factory::getApplication()->enqueueMessage($generalRemoteDatabaseMessage, 'warning');
-
-					// Request to delete the file
-					Factory::getApplication()->enqueueMessage(
-						Text::sprintf(
-							'INSTL_DATABASE_HOST_IS_NOT_LOCALHOST_DELETE_FILE',
-							$remoteDbFile,
-							'installation',
-							Text::_('INSTL_INSTALL_JOOMLA')
-						),
-						'notice'
-					);
-
-					return false;
-				}
-
-				if (Factory::getSession()->get('remoteDbFileUnwritable', false) === true && !File::exists(JPATH_INSTALLATION . '/' . $remoteDbFile))
-				{
-					// Add the general message
-					Factory::getApplication()->enqueueMessage($generalRemoteDatabaseMessage, 'warning');
-
-					// Request to create the file manually
-					Factory::getApplication()->enqueueMessage(
-						Text::sprintf(
-							'INSTL_DATABASE_HOST_IS_NOT_LOCALHOST_CREATE_FILE',
-							$remoteDbFile,
-							'installation',
-							Text::_('INSTL_INSTALL_JOOMLA')
-						),
-						'notice'
-					);
-
-					return false;
-				}
-
-				// All tests for this session passed set it to the session
-				Factory::getSession()->set('remoteDbFileTestsPassed', true);
-			}
 		}
 
 		// Get a database object.
@@ -328,7 +97,8 @@ class DatabaseModel extends BaseInstallationModel
 				$options->db_pass_plain,
 				$options->db_name,
 				$options->db_prefix,
-				isset($options->db_select) ? $options->db_select : false
+				$select,
+				DatabaseHelper::getEncryptionSettings($options)
 			);
 		}
 		catch (\RuntimeException $e)
@@ -342,28 +112,16 @@ class DatabaseModel extends BaseInstallationModel
 	/**
 	 * Method to create a new database.
 	 *
-	 * @param   \stdClass  $options  The configuration options
-	 *
 	 * @return  boolean
 	 *
 	 * @since   3.1
 	 * @throws  \RuntimeException
 	 */
-	public function createDatabase($options)
+	public function createDatabase()
 	{
-		// Disable autoselect database before it's created.
-		$tmpSelect = true;
+		$options = (object) $this->getOptions();
 
-		$options = (object) $options;
-
-		if (isset($options->db_select))
-		{
-			$tmpSelect = $options->db_select;
-		}
-
-		$options->db_select = false;
-
-		$db = $this->initialise();
+		$db = $this->initialise(false);
 
 		if ($db === false)
 		{
@@ -382,33 +140,62 @@ class DatabaseModel extends BaseInstallationModel
 		{
 			/*
 			 * We may get here if the database doesn't exist, if so then explain that to users instead of showing the database connector's error
-			 * This only supports PostgreSQL and the PDO MySQL drivers presently
+			 * This only supports PDO PostgreSQL and the PDO MySQL drivers presently
 			 *
 			 * Error Messages:
 			 * PDO MySQL: [1049] Unknown database 'database_name'
-			 * PostgreSQL: Error connecting to PGSQL database
+			 * PDO PostgreSQL: database "database_name" does not exist
 			 */
-			if ($type === 'mysql' && strpos($e->getMessage(), '[1049] Unknown database') === 42)
+			if ($type === 'mysql' && strpos($e->getMessage(), '[1049] Unknown database') === 42
+				|| $type === 'pgsql' && strpos($e->getMessage(), 'database "' . $options->db_name . '" does not exist'))
 			{
 				/*
-				 * Now we're really getting insane here; we're going to try building a new JDatabaseDriver instance without the database name
+				 * Now we're really getting insane here; we're going to try building a new JDatabaseDriver instance
 				 * in order to trick the connection into creating the database
 				 */
-				$altDBoptions = array(
-					'driver'   => $options->db_type,
-					'host'     => $options->db_host,
-					'user'     => $options->db_user,
-					'password' => $options->db_pass_plain,
-					'prefix'   => $options->db_prefix,
-					'select'   => $options->db_select,
-				);
+				if ($type === 'mysql')
+				{
+					// MySQL (PDO): Don't specify database name
+					$altDBoptions = array(
+						'driver'   => $options->db_type,
+						'host'     => $options->db_host,
+						'user'     => $options->db_user,
+						'password' => $options->db_pass_plain,
+						'prefix'   => $options->db_prefix,
+						'select'   => false,
+						DatabaseHelper::getEncryptionSettings($options),
+					);
+				}
+				else
+				{
+					// PostgreSQL (PDO): Use 'postgres'
+					$altDBoptions = array(
+						'driver'   => $options->db_type,
+						'host'     => $options->db_host,
+						'user'     => $options->db_user,
+						'password' => $options->db_pass_plain,
+						'database' => 'postgres',
+						'prefix'   => $options->db_prefix,
+						'select'   => false,
+						DatabaseHelper::getEncryptionSettings($options),
+					);
+				}
 
 				$altDB = DatabaseDriver::getInstance($altDBoptions);
+
+				// Check database server parameters
+				$dbServerCheck = DatabaseHelper::checkDbServerParameters($altDB, $options);
+
+				if ($dbServerCheck)
+				{
+					// Some server parameter is not ok
+					throw new \RuntimeException($dbServerCheck, 500, $e);
+				}
 
 				// Try to create the database now using the alternate driver
 				try
 				{
-					$this->createDb($altDB, $options, $altDB->hasUTFSupport());
+					$this->createDb($altDB, $options, $altDB->hasUtfSupport());
 				}
 				catch (\RuntimeException $e)
 				{
@@ -427,10 +214,6 @@ class DatabaseModel extends BaseInstallationModel
 					throw new \RuntimeException(Text::sprintf('INSTL_DATABASE_COULD_NOT_CONNECT', $e->getMessage()), 500, $e);
 				}
 			}
-			elseif ($type === 'postgresql' && strpos($e->getMessage(), 'Error connecting to PGSQL database') === 42)
-			{
-				throw new \RuntimeException(Text::_('INSTL_DATABASE_COULD_NOT_CREATE_DATABASE'), 500, $e);
-			}
 			// Anything getting into this part of the conditional either doesn't support manually creating the database or isn't that type of error
 			else
 			{
@@ -438,18 +221,13 @@ class DatabaseModel extends BaseInstallationModel
 			}
 		}
 
-		if (!$db->isMinimumVersion())
+		// Check database server parameters
+		$dbServerCheck = DatabaseHelper::checkDbServerParameters($db, $options);
+
+		if ($dbServerCheck)
 		{
-			if (in_array($type, ['mysql', 'mysqli']) && $db->isMariaDb())
-			{
-				throw new \RuntimeException(Text::sprintf('INSTL_DATABASE_INVALID_MARIADB_VERSION', $db->getMinimum(), $db_version));
-			}
-			else
-			{
-				throw new \RuntimeException(
-					Text::sprintf('INSTL_DATABASE_INVALID_' . strtoupper($type) . '_VERSION', $db->getMinimum(), $db_version)
-				);
-			}
+			// Some server parameter is not ok
+			throw new \RuntimeException($dbServerCheck, 500, $e);
 		}
 
 		// @internal Check for spaces in beginning or end of name.
@@ -465,7 +243,7 @@ class DatabaseModel extends BaseInstallationModel
 		}
 
 		// Get database's UTF support.
-		$utfSupport = $db->hasUTFSupport();
+		$utfSupport = $db->hasUtfSupport();
 
 		// Try to select the database.
 		try
@@ -483,6 +261,16 @@ class DatabaseModel extends BaseInstallationModel
 			$db->select($options->db_name);
 		}
 
+		// Set the character set to UTF-8 for pre-existing databases.
+		try
+		{
+			$db->alterDbCharacterSet($options->db_name);
+		}
+		catch (\RuntimeException $e)
+		{
+			// Continue Anyhow
+		}
+
 		$options = (array) $options;
 
 		// Remove *_errors value.
@@ -497,9 +285,6 @@ class DatabaseModel extends BaseInstallationModel
 		}
 
 		$options = array_merge(['db_created' => 1], $options);
-
-		// Restore autoselect value after database creation.
-		$options['db_select'] = $tmpSelect;
 
 		Factory::getSession()->set('setup.options', $options);
 
@@ -540,23 +325,10 @@ class DatabaseModel extends BaseInstallationModel
 			// Continue Anyhow
 		}
 
-		// Should any old database tables be removed or backed up?
-		if ($options->db_old == 'remove')
+		// Backup any old database.
+		if (!$this->backupDatabase($db, $options->db_prefix))
 		{
-			// Attempt to delete the old database tables.
-			if (!$this->deleteDatabase($db, $options->db_prefix))
-			{
-				// Message queued by method, simply return
-				return false;
-			}
-		}
-		else
-		{
-			// If the database isn't being deleted, back it up.
-			if (!$this->backupDatabase($db, $options->db_prefix))
-			{
-				return false;
-			}
+			return false;
 		}
 
 		return true;
@@ -565,41 +337,26 @@ class DatabaseModel extends BaseInstallationModel
 	/**
 	 * Method to create the database tables.
 	 *
-	 * @param   \stdClass  $options  The options array.
+	 * @param   string  $schema  The SQL schema file to apply.
 	 *
 	 * @return  boolean  True on success.
 	 *
 	 * @since   3.1
 	 */
-	public function createTables($options)
+	public function createTables($schema)
 	{
-		if (!isset($options->db_created) || !$options->db_created)
-		{
-			return $this->createDatabase((array) $options);
-		}
-
 		if (!$db = $this->initialise())
 		{
 			return false;
 		}
 
-		// Set the character set to UTF-8 for pre-existing databases.
-		try
-		{
-			$db->alterDbCharacterSet($options->db_name);
-		}
-		catch (\RuntimeException $e)
-		{
-			// Continue Anyhow
-		}
-
 		$serverType = $db->getServerType();
 
 		// Set the appropriate schema script based on UTF-8 support.
-		$schema = 'sql/' . $serverType . '/joomla.sql';
+		$schemaFile = 'sql/' . $serverType . '/' . $schema . '.sql';
 
 		// Check if the schema is a valid file
-		if (!is_file($schema))
+		if (!is_file($schemaFile))
 		{
 			Factory::getApplication()->enqueueMessage(Text::sprintf('INSTL_ERROR_DB', Text::_('INSTL_DATABASE_NO_SCHEMA')), 'error');
 
@@ -607,320 +364,12 @@ class DatabaseModel extends BaseInstallationModel
 		}
 
 		// Attempt to import the database schema.
-		if (!$this->populateDatabase($db, $schema))
+		if (!$this->populateDatabase($db, $schemaFile))
 		{
 			return false;
 		}
-
-		// Get query object for later database access
-		$query = $db->getQuery(true);
-
-		// MySQL only: Attempt to update the table #__utf8_conversion.
-		if ($serverType === 'mysql')
-		{
-			$query->clear()
-				->update($db->quoteName('#__utf8_conversion'))
-				->set($db->quoteName('converted') . ' = ' . ($db->hasUTF8mb4Support() ? 2 : 1));
-			$db->setQuery($query);
-
-			try
-			{
-				$db->execute();
-			}
-			catch (\RuntimeException $e)
-			{
-				Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
-
-				return false;
-			}
-		}
-
-		// Attempt to update the table #__schema.
-		$pathPart = JPATH_ADMINISTRATOR . '/components/com_admin/sql/updates/' . $serverType . '/';
-
-		$files = Folder::files($pathPart, '\.sql$');
-
-		if (empty($files))
-		{
-			Factory::getApplication()->enqueueMessage(Text::_('INSTL_ERROR_INITIALISE_SCHEMA'), 'error');
-
-			return false;
-		}
-
-		$version = '';
-
-		foreach ($files as $file)
-		{
-			if (version_compare($version, File::stripExt($file)) < 0)
-			{
-				$version = File::stripExt($file);
-			}
-		}
-
-		$query = $db->getQuery(true)
-			->select('extension_id')
-			->from($db->quoteName('#__extensions'))
-			->where($db->quoteName('name') . ' = ' . $db->quote('files_joomla'));
-		$db->setQuery($query);
-		$eid = $db->loadResult();
-
-		$query->clear()
-			->insert($db->quoteName('#__schemas'))
-			->columns(
-				array(
-					$db->quoteName('extension_id'),
-					$db->quoteName('version_id')
-				)
-			)
-			->values($eid . ', ' . $db->quote($version));
-		$db->setQuery($query);
-
-		try
-		{
-			$db->execute();
-		}
-		catch (\RuntimeException $e)
-		{
-			Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
-
-			return false;
-		}
-
-		// Attempt to refresh manifest caches.
-		$query->clear()
-			->select('*')
-			->from('#__extensions');
-		$db->setQuery($query);
-
-		$return = true;
-
-		try
-		{
-			$extensions = $db->loadObjectList();
-		}
-		catch (\RuntimeException $e)
-		{
-			Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
-			$return = false;
-		}
-
-		Factory::$database = $db;
-		$installer = Installer::getInstance();
-
-		foreach ($extensions as $extension)
-		{
-			if (!$installer->refreshManifestCache($extension->extension_id))
-			{
-				Factory::getApplication()->enqueueMessage(
-					Text::sprintf('INSTL_DATABASE_COULD_NOT_REFRESH_MANIFEST_CACHE', $extension->name),
-					'error'
-				);
-
-				return false;
-			}
-		}
-
-		// Load the localise.sql for translating the data in joomla.sql.
-		$dblocalise = 'sql/' . $serverType . '/localise.sql';
-
-		if (is_file($dblocalise))
-		{
-			if (!$this->populateDatabase($db, $dblocalise))
-			{
-				return false;
-			}
-		}
-
-		// Load the custom.sql for customising the data in joomla.sql.
-		$dbcustom = 'sql/' . $serverType . '/custom.sql';
-
-		if (is_file($dbcustom))
-		{
-			if (!$this->populateDatabase($db, $dbcustom))
-			{
-				return false;
-			}
-		}
-
-		// Handle default backend language setting. This feature is available for localized versions of Joomla.
-		$languages = Factory::getApplication()->getLocaliseAdmin($db);
-
-		if (in_array($options->language, $languages['admin']) || in_array($options->language, $languages['site']))
-		{
-			// Build the language parameters for the language manager.
-			$params = array();
-
-			// Set default administrator/site language to sample data values.
-			$params['administrator'] = 'en-GB';
-			$params['site']          = 'en-GB';
-
-			if (in_array($options->language, $languages['admin']))
-			{
-				$params['administrator'] = $options->language;
-			}
-
-			if (in_array($options->language, $languages['site']))
-			{
-				$params['site'] = $options->language;
-			}
-
-			$params = json_encode($params);
-
-			// Update the language settings in the language manager.
-			$query->clear()
-				->update($db->quoteName('#__extensions'))
-				->set($db->quoteName('params') . ' = ' . $db->quote($params))
-				->where($db->quoteName('element') . ' = ' . $db->quote('com_languages'));
-			$db->setQuery($query);
-
-			try
-			{
-				$db->execute();
-			}
-			catch (\RuntimeException $e)
-			{
-				Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
-
-				$return = false;
-			}
-		}
-
-		return $return;
-	}
-
-	/**
-	 * Method to install the cms data.
-	 *
-	 * @return  boolean  True on success.
-	 *
-	 * @since   3.6.1
-	 */
-	public function installCmsData()
-	{
-		if (!$db = $this->initialise())
-		{
-			return false;
-		}
-
-		// Run Cms data post install to update user ids.
-		$this->postInstallCmsData($db);
 
 		return true;
-	}
-
-	/**
-	 * Cms tables and data post install process.
-	 *
-	 * @param   DatabaseDriver  $db  Database connector object $db*.
-	 *
-	 * @return  void
-	 *
-	 * @since   3.6.1
-	 */
-	protected function postInstallCmsData($db)
-	{
-		// Update the cms data user ids.
-		$this->updateUserIds($db);
-
-		// Check for testing sampledata plugin.
-		$this->checkTestingSampledata($db);
-	}
-
-	/**
-	 * Method to update the user id of sql data content to the new rand user id.
-	 *
-	 * @param   DatabaseDriver  $db  Database connector object $db*.
-	 *
-	 * @return  void
-	 *
-	 * @since   3.6.1
-	 */
-	protected function updateUserIds($db)
-	{
-		// Create the ID for the root user.
-		$userId = self::getUserId();
-
-		// Update all core tables created_by fields of the tables with the random user id.
-		$updatesArray = array(
-			'#__banners'         => array('created_by', 'modified_by'),
-			'#__categories'      => array('created_user_id', 'modified_user_id'),
-			'#__contact_details' => array('created_by', 'modified_by'),
-			'#__content'         => array('created_by', 'modified_by'),
-			'#__fields'          => array('created_user_id', 'modified_by'),
-			'#__finder_filters'  => array('created_by', 'modified_by'),
-			'#__newsfeeds'       => array('created_by', 'modified_by'),
-			'#__tags'            => array('created_user_id', 'modified_user_id'),
-			'#__ucm_content'     => array('core_created_user_id', 'core_modified_user_id'),
-			'#__ucm_history'     => array('editor_user_id'),
-			'#__user_notes'      => array('created_user_id', 'modified_user_id'),
-			'#__workflows'       => array('created_by', 'modified_by'),
-		);
-
-		foreach ($updatesArray as $table => $fields)
-		{
-			foreach ($fields as $field)
-			{
-				$query = $db->getQuery(true)
-					->update($db->quoteName($table))
-					->set($db->quoteName($field) . ' = ' . $db->quote($userId))
-					->where($db->quoteName($field) . ' != 0')
-					->where($db->quoteName($field) . ' IS NOT NULL');
-
-				$db->setQuery($query);
-
-				try
-				{
-					$db->execute();
-				}
-				catch (\RuntimeException $e)
-				{
-					Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
-				}
-			}
-		}
-	}
-
-	/**
-	 * Method to check for the testing sampledata plugin.
-	 *
-	 * @param   DatabaseDriver  $db  Database connector object $db*.
-	 *
-	 * @return  void
-	 *
-	 * @since   4.0.0
-	 */
-	public function checkTestingSampledata($db)
-	{
-		$version = new Version;
-
-		if (!$version->isInDevelopmentState() || !is_file(JPATH_PLUGINS . '/sampledata/testing/testing.php'))
-		{
-			return;
-		}
-
-		$testingPlugin = new \stdClass;
-		$testingPlugin->extension_id = null;
-		$testingPlugin->name = 'plg_sampledata_testing';
-		$testingPlugin->type = 'plugin';
-		$testingPlugin->element = 'testing';
-		$testingPlugin->folder = 'sampledata';
-		$testingPlugin->client_id = 0;
-		$testingPlugin->enabled = 1;
-		$testingPlugin->access = 1;
-		$testingPlugin->manifest_cache = '';
-		$testingPlugin->params = '{}';
-
-		$db->insertObject('#__extensions', $testingPlugin, 'extension_id');
-
-		$installer = new Installer;
-
-		if (!$installer->refreshManifestCache($testingPlugin->extension_id))
-		{
-			Factory::getApplication()->enqueueMessage(
-				Text::sprintf('INSTL_DATABASE_COULD_NOT_REFRESH_MANIFEST_CACHE', $testingPlugin->name),
-				'error'
-			);
-		}
 	}
 
 	/**
@@ -1011,48 +460,6 @@ class DatabaseModel extends BaseInstallationModel
 	}
 
 	/**
-	 * Method to delete all tables in a database with a given prefix.
-	 *
-	 * @param   DatabaseDriver  $db      JDatabaseDriver object.
-	 * @param   string          $prefix  Database table prefix.
-	 *
-	 * @return  boolean  True on success.
-	 *
-	 * @since   3.1
-	 */
-	public function deleteDatabase($db, $prefix)
-	{
-		$return = true;
-
-		// Get the tables in the database.
-		$tables = $db->getTableList();
-
-		if ($tables)
-		{
-			foreach ($tables as $table)
-			{
-				// If the table uses the given prefix, drop it.
-				if (strpos($table, $prefix) === 0)
-				{
-					// Drop the table.
-					try
-					{
-						$db->dropTable($table);
-					}
-					catch (\RuntimeException $e)
-					{
-						Factory::getApplication()->enqueueMessage(Text::sprintf('INSTL_DATABASE_ERROR_DELETE', $e->getMessage()), 'error');
-
-						$return = false;
-					}
-				}
-			}
-		}
-
-		return $return;
-	}
-
-	/**
 	 * Method to import a database schema from a file.
 	 *
 	 * @param   \Joomla\Database\DatabaseInterface  $db      JDatabase object.
@@ -1085,26 +492,6 @@ class DatabaseModel extends BaseInstallationModel
 			// If the query isn't empty and is not a MySQL or PostgreSQL comment, execute it.
 			if (!empty($query) && ($query[0] != '#') && ($query[0] != '-'))
 			{
-				/**
-				 * If we don't have UTF-8 Multibyte support we'll have to convert queries to plain UTF-8
-				 *
-				 * Note: the JDatabaseDriver::convertUtf8mb4QueryToUtf8 performs the conversion ONLY when
-				 * necessary, so there's no need to check the conditions in JInstaller.
-				 */
-				if ($db instanceof UTF8MB4SupportInterface)
-				{
-					$query = $db->convertUtf8mb4QueryToUtf8($query);
-
-					/**
-					 * This is a query which was supposed to convert tables to utf8mb4 charset but the server doesn't
-					 * support utf8mb4. Therefore we don't have to run it, it has no effect and it's a mere waste of time.
-					 */
-					if (!$db->hasUTF8mb4Support() && stristr($query, 'CONVERT TO CHARACTER SET utf8 '))
-					{
-						continue;
-					}
-				}
-
 				// Execute the query.
 				$db->setQuery($query);
 

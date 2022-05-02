@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2017 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -38,34 +38,34 @@ class PublishedButton extends ActionButton
 	/**
 	 * Render action button by item value.
 	 *
-	 * @param   mixed        $value        Current value of this item.
-	 * @param   string       $row          The row number of this item.
-	 * @param   array        $options      The options to override group options.
-	 * @param   string|Date  $publishUp    The date which item publish up.
-	 * @param   string|Date  $publishDown  The date which item publish down.
+	 * @param   integer|null  $value        Current value of this item.
+	 * @param   integer|null  $row          The row number of this item.
+	 * @param   array         $options      The options to override group options.
+	 * @param   string|Date   $publishUp    The date which item publish up.
+	 * @param   string|Date   $publishDown  The date which item publish down.
 	 *
 	 * @return  string  Rendered HTML.
 	 *
 	 * @since  4.0.0
 	 */
-	public function render(string $value = null, string $row = null, array $options = [], $publishUp = null, $publishDown = null): string
+	public function render(?int $value = null, ?int $row = null, array $options = [], $publishUp = null, $publishDown = null): string
 	{
 		if ($publishUp || $publishDown)
 		{
 			$bakState = $this->getState($value);
-			$default  = $this->getState($value) ? : $this->getState('_default');
+			$default  = $this->getState($value) ?? $this->unknownState;
 
 			$nullDate = Factory::getDbo()->getNullDate();
 			$nowDate = Factory::getDate()->toUnix();
 
 			$tz = Factory::getUser()->getTimezone();
 
-			$publishUp   = ($publishUp !== null && $publishUp !== $nullDate) ? Factory::getDate($publishUp, 'UTC')->setTimeZone($tz) : false;
-			$publishDown = ($publishDown !== null && $publishDown !== $nullDate) ? Factory::getDate($publishDown, 'UTC')->setTimeZone($tz) : false;
+			$publishUp   = ($publishUp !== null && $publishUp !== $nullDate) ? Factory::getDate($publishUp, 'UTC')->setTimezone($tz) : false;
+			$publishDown = ($publishDown !== null && $publishDown !== $nullDate) ? Factory::getDate($publishDown, 'UTC')->setTimezone($tz) : false;
 
 			// Add tips and special titles
 			// Create special titles for published items
-			if ($value === '1')
+			if ($value === 1)
 			{
 				// Create tip text, only we have publish up or down settings
 				$tips = array();
@@ -73,6 +73,7 @@ class PublishedButton extends ActionButton
 				if ($publishUp)
 				{
 					$tips[] = Text::sprintf('JLIB_HTML_PUBLISHED_START', HTMLHelper::_('date', $publishUp, Text::_('DATE_FORMAT_LC5'), 'UTC'));
+					$tips[] = Text::_('JLIB_HTML_PUBLISHED_UNPUBLISH');
 				}
 
 				if ($publishDown)

@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <form>
-	<fieldset>
+	<fieldset addfieldprefix="Joomla\Component\Redirect\Administrator\Field">
 		<field
 			name="id"
-			type="number"
+			type="text"
 			label="JGLOBAL_FIELD_ID_LABEL"
-			id="id"
 			default="0"
 			readonly="true"
 			class="readonly"
@@ -40,9 +39,10 @@
 			name="published"
 			type="list"
 			label="JSTATUS"
-			class="custom-select-color-state"
+			class="form-select-color-state"
 			size="1"
 			default="1"
+			validate="options"
 			>
 			<option value="1">JENABLED</option>
 			<option value="0">JDISABLED</option>
@@ -54,7 +54,6 @@
 			name="referer"
 			type="text"
 			label="COM_REDIRECT_FIELD_REFERRER_LABEL"
-			id="referer"
 			size="50"
 			readonly="true"
 		/>
@@ -63,7 +62,6 @@
 			name="created_date"
 			type="text"
 			label="COM_REDIRECT_FIELD_CREATED_DATE_LABEL"
-			id="created_date"
 			class="readonly"
 			size="20"
 			readonly="true"
@@ -73,7 +71,6 @@
 			name="modified_date"
 			type="text"
 			label="COM_REDIRECT_FIELD_UPDATED_DATE_LABEL"
-			id="modified_date"
 			class="readonly"
 			size="20"
 			readonly="true"
@@ -81,9 +78,8 @@
 
 		<field
 			name="hits"
-			type="number"
+			type="text"
 			label="JGLOBAL_HITS"
-			id="hits"
 			class="readonly"
 			readonly="true"
 			filter="unset"
@@ -96,6 +92,7 @@
 			label="COM_REDIRECT_FIELD_REDIRECT_STATUS_CODE_LABEL"
 			description="COM_REDIRECT_FIELD_REDIRECT_STATUS_CODE_DESC"
 			default="301"
+			validate="options"
 		/>
 	</fieldset>
 </form>

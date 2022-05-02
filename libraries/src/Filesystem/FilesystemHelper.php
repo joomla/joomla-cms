@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2008 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -33,12 +33,12 @@ class FilesystemHelper
 	{
 		$sch = parse_url($url, PHP_URL_SCHEME);
 
-		if (($sch != 'http') && ($sch != 'https') && ($sch != 'ftp') && ($sch != 'ftps'))
+		if (($sch !== 'http') && ($sch !== 'https') && ($sch !== 'ftp') && ($sch !== 'ftps'))
 		{
 			return false;
 		}
 
-		if (($sch == 'http') || ($sch == 'https'))
+		if (($sch === 'http') || ($sch === 'https'))
 		{
 			$headers = get_headers($url, 1);
 
@@ -50,7 +50,7 @@ class FilesystemHelper
 			return $headers['Content-Length'];
 		}
 
-		if (($sch == 'ftp') || ($sch == 'ftps'))
+		if (($sch === 'ftp') || ($sch === 'ftps'))
 		{
 			$server = parse_url($url, PHP_URL_HOST);
 			$port = parse_url($url, PHP_URL_PORT);
@@ -128,7 +128,7 @@ class FilesystemHelper
 	{
 		$sch = parse_url($url, PHP_URL_SCHEME);
 
-		if (($sch != 'ftp') && ($sch != 'ftps'))
+		if (($sch !== 'ftp') && ($sch !== 'ftps'))
 		{
 			return false;
 		}
@@ -265,7 +265,7 @@ class FilesystemHelper
 		{
 			$files = new \DirectoryIterator(__DIR__ . '/Streams');
 
-			/** @var  $file  DirectoryIterator */
+			/** @var  $file  \DirectoryIterator */
 			foreach ($files as $file)
 			{
 				// Only load for php files.
@@ -300,18 +300,18 @@ class FilesystemHelper
 	 *
 	 * Call it with JFilesystemHelper::fileUploadMaxSize();
 	 *
-	 * @param   bool  $unit_output  This parameter determines whether the return value should be a string with a unit
+	 * @param   bool  $unitOutput  This parameter determines whether the return value should be a string with a unit
 	 *
 	 * @return  float|string The maximum upload size of files with the appropriate unit or in bytes
 	 *
 	 * @since   3.4
 	 */
-	public static function fileUploadMaxSize($unit_output = true)
+	public static function fileUploadMaxSize($unitOutput = true)
 	{
 		static $max_size = false;
 		static $output_type = true;
 
-		if ($max_size === false || $output_type != $unit_output)
+		if ($max_size === false || $output_type != $unitOutput)
 		{
 			$max_size   = self::parseSize(ini_get('post_max_size'));
 			$upload_max = self::parseSize(ini_get('upload_max_filesize'));
@@ -321,12 +321,12 @@ class FilesystemHelper
 				$max_size = $upload_max;
 			}
 
-			if ($unit_output == true)
+			if ($unitOutput == true)
 			{
 				$max_size = self::parseSizeUnit($max_size);
 			}
 
-			$output_type = $unit_output;
+			$output_type = $unitOutput;
 		}
 
 		return $max_size;
@@ -359,15 +359,15 @@ class FilesystemHelper
 	/**
 	 * Creates the rounded size of the size with the appropriate unit
 	 *
-	 * @param   float  $max_size  The maximum size which is allowed for the uploads
+	 * @param   float  $maxSize  The maximum size which is allowed for the uploads
 	 *
 	 * @return  string String with the size and the appropriate unit
 	 *
 	 * @since   3.4
 	 */
-	private static function parseSizeUnit($max_size)
+	private static function parseSizeUnit($maxSize)
 	{
-		$base     = log($max_size) / log(1024);
+		$base     = log($maxSize) / log(1024);
 		$suffixes = array('', 'k', 'M', 'G', 'T');
 
 		return round(pow(1024, $base - floor($base)), 0) . $suffixes[floor($base)];

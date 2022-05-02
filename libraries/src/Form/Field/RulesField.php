@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2009 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -64,6 +64,14 @@ class RulesField extends FormField
 	 * @since  3.2
 	 */
 	protected $assetField;
+
+	/**
+	 * The parent class of the field
+	 *
+	 * @var  string
+	 * @since 4.0.0
+	 */
+	protected $parentclass;
 
 	/**
 	 * Method to get certain otherwise inaccessible properties from the form field object.
@@ -168,7 +176,7 @@ class RulesField extends FormField
 		// Iterate over the children and add to the actions.
 		foreach ($this->element->children() as $el)
 		{
-			if ($el->getName() == 'action')
+			if ($el->getName() === 'action')
 			{
 				$this->actions[] = (object) array(
 					'name' => (string) $el['name'],
@@ -200,7 +208,7 @@ class RulesField extends FormField
 			$this->assetId = (int) $db->loadResult();
 
 			/**
-			 * @to do: incorrect info
+			 * @todo: incorrect info
 			 * When creating a new item (not saving) it uses the calculated permissions from the component (item <-> component <-> global config).
 			 * But if we have a section too (item <-> section(s) <-> component <-> global config) this is not correct.
 			 * Also, currently it uses the component permission, but should use the calculated permissions for achild of the component/section.

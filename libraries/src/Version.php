@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2005 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -50,7 +50,7 @@ final class Version
 	 * @var    integer
 	 * @since  3.8.0
 	 */
-	const PATCH_VERSION = 0;
+	const PATCH_VERSION = 7;
 
 	/**
 	 * Extra release version info.
@@ -61,7 +61,7 @@ final class Version
 	 * @var    string
 	 * @since  3.8.0
 	 */
-	const EXTRA_VERSION = 'beta1-dev';
+	const EXTRA_VERSION = 'dev';
 
 	/**
 	 * Development status.
@@ -77,7 +77,7 @@ final class Version
 	 * @var    string
 	 * @since  3.5
 	 */
-	const CODENAME = 'Amani';
+	const CODENAME = 'Furaha';
 
 	/**
 	 * Release date.
@@ -85,7 +85,7 @@ final class Version
 	 * @var    string
 	 * @since  3.5
 	 */
-	const RELDATE = '17-October-2019';
+	const RELDATE = '18-January-2022';
 
 	/**
 	 * Release time.
@@ -93,7 +93,7 @@ final class Version
 	 * @var    string
 	 * @since  3.5
 	 */
-	const RELTIME = '20:21';
+	const RELTIME = '07:01';
 
 	/**
 	 * Release timezone.
@@ -109,7 +109,7 @@ final class Version
 	 * @var    string
 	 * @since  3.5
 	 */
-	const COPYRIGHT = 'Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.';
+	const COPYRIGHT = '(C) 2005 Open Source Matters, Inc. <https://www.joomla.org>';
 
 	/**
 	 * Link text.
@@ -194,7 +194,7 @@ final class Version
 	/**
 	 * Returns the user agent.
 	 *
-	 * @param   string  $component   Name of the component.
+	 * @param   string  $suffix      String to append to resulting user agent.
 	 * @param   bool    $mask        Mask as Mozilla/5.0 or not.
 	 * @param   bool    $addVersion  Add version afterwards to component.
 	 *
@@ -202,20 +202,20 @@ final class Version
 	 *
 	 * @since   1.0
 	 */
-	public function getUserAgent(string $component = '', bool $mask = false, bool $addVersion = true): string
+	public function getUserAgent(string $suffix = '', bool $mask = false, bool $addVersion = true): string
 	{
-		if ($component === '')
+		if ($suffix === '')
 		{
-			$component = 'Framework';
+			$suffix = 'Framework';
 		}
 
 		if ($addVersion)
 		{
-			$component .= '/' . self::MAJOR_VERSION . '.' . self::MINOR_VERSION;
+			$suffix .= '/' . self::MAJOR_VERSION . '.' . self::MINOR_VERSION;
 		}
 
 		// If masked pretend to look like Mozilla 5.0 but still identify ourselves.
-		return ($mask ? 'Mozilla/5.0 ' : '') . self::PRODUCT . '/' . $this->getShortVersion() . ($component ? ' ' . $component : '');
+		return ($mask ? 'Mozilla/5.0 ' : '') . self::PRODUCT . '/' . $this->getShortVersion() . ($suffix ? ' ' . $suffix : '');
 	}
 
 	/**

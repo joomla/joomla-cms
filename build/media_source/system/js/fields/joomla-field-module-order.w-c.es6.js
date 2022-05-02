@@ -1,6 +1,6 @@
 /**
  * @package         Joomla.JavaScript
- * @copyright       Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright       (C) 2019 Open Source Matters, Inc. <https://www.joomla.org>
  * @license         GNU General Public License version 2 or later; see LICENSE.txt
  */
 customElements.define('joomla-field-module-order', class extends HTMLElement {
@@ -44,7 +44,7 @@ customElements.define('joomla-field-module-order', class extends HTMLElement {
   writeDynaList(selectProperties, source, originalPositionName, originalPositionValue) {
     let i = 0;
     const selectNode = document.createElement('select');
-    if (this.hasOwnProperty('disabled')) {
+    if (this.hasAttribute('disabled')) {
       selectNode.setAttribute('disabled', '');
     }
 
@@ -60,23 +60,29 @@ customElements.define('joomla-field-module-order', class extends HTMLElement {
     selectNode.setAttribute('name', selectProperties.name);
     selectNode.id = selectProperties.id;
 
+    // eslint-disable-next-line no-restricted-syntax
     for (const x in source) {
+      // eslint-disable-next-line no-prototype-builtins
       if (!source.hasOwnProperty(x)) {
+        // eslint-disable-next-line no-continue
         continue;
       }
 
       const node = document.createElement('option');
       const item = source[x];
 
+      // eslint-disable-next-line prefer-destructuring
       node.value = item[1];
-      node.innerHTML = item[2];
+      // eslint-disable-next-line prefer-destructuring
+      node.innerHTML = Joomla.sanitizeHtml(item[2]);
 
-      if ((originalPositionName && originalPositionValue === item[1]) || (!originalPositionName && i === 0)) {
+      if ((originalPositionName && originalPositionValue === item[1])
+        || (!originalPositionName && i === 0)) {
         node.setAttribute('selected', 'selected');
       }
 
       selectNode.appendChild(node);
-      i++;
+      i += 1;
     }
 
     this.innerHTML = '';
@@ -88,40 +94,49 @@ customElements.define('joomla-field-module-order', class extends HTMLElement {
     const clientId = this.getAttribute('data-client-id');
     const originalOrder = this.getAttribute('data-ordering');
     const name = this.getAttribute('data-name');
-    const attr = this.getAttribute('data-client-attr') ? this.getAttribute('data-client-attr') : 'custom-select';
+    const attr = this.getAttribute('data-client-attr') ? this.getAttribute('data-client-attr') : 'form-select';
     const id = `${this.getAttribute('data-id')}`;
+    const moduleId = `${this.getAttribute('data-module-id')}`;
     const orders = [];
     const that = this;
 
     Joomla.request({
-      url: `${url}&client_id=${clientId}&position=${originalPosition}`,
+      url: `${url}&client_id=${clientId}&position=${originalPosition}&module_id=${moduleId}`,
       method: 'GET',
       perform: true,
       headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-      onSuccess(response, xhr) {
-        if (response) {
-          response = JSON.parse(response);
+      onSuccess(resp) {
+        if (resp) {
+          let response;
+          try {
+            response = JSON.parse(resp);
+          } catch (e) {
+            // eslint-disable-next-line no-console
+            console.error(e);
+          }
 
           /** Check if everything is OK * */
           if (response.data.length > 0) {
-            for (let i = 0; i < response.data.length; ++i) {
+            for (let i = 0; i < response.data.length; i += 1) {
               orders[i] = response.data[i].split(',');
             }
 
-            that.writeDynaList({
-              name,
-              id,
-              itemClass: attr,
-            },
-            orders,
-            that.originalPosition,
-            originalOrder);
+            that.writeDynaList(
+              {
+                name,
+                id,
+                itemClass: attr,
+              },
+              orders,
+              that.originalPosition,
+              originalOrder,
+            );
           }
         }
 
         /** Render messages, if any. There are only message in case of errors. * */
-        if (typeof response.messages === 'object' && response.messages !== null) {
-          Joomla.renderMessages(response.messages);
+        if (typeof resp.messages === 'object' && resp.messages !== null) {
+          Joomla.renderMessages(resp.messages);
         }
       },
     });

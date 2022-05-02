@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2017 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -119,7 +119,7 @@ class CategoryNode extends CMSObject implements NodeInterface
 	 * @var    boolean
 	 * @since  1.6
 	 */
-	public $checked_out = 0;
+	public $checked_out = null;
 
 	/**
 	 * The time at which the category was checked out
@@ -455,15 +455,15 @@ class CategoryNode extends CMSObject implements NodeInterface
 	/**
 	 * Returns the user that created the category
 	 *
-	 * @param   boolean  $modified_user  Returns the modified_user when set to true
+	 * @param   boolean  $modifiedUser  Returns the modified_user when set to true
 	 *
-	 * @return  \JUser  A \JUser object containing a userid
+	 * @return  \Joomla\CMS\User\User  A User object containing a userid
 	 *
 	 * @since   1.6
 	 */
-	public function getAuthor($modified_user = false)
+	public function getAuthor($modifiedUser = false)
 	{
-		if ($modified_user)
+		if ($modifiedUser)
 		{
 			return Factory::getUser($this->modified_user_id);
 		}

@@ -17,6 +17,7 @@
 			label="COM_USERS_FIELD_USER_ID_LABEL"
 			size="50"
 			required="true"
+			validate="UserId"
 		/>
 
 		<field
@@ -51,8 +52,10 @@
 			name="state"
 			type="list"
 			label="JSTATUS"
+			class="form-select-color-state"
 			size="1"
 			default="1"
+			validate="options"
 			>
 			<option value="1">JPUBLISHED</option>
 			<option value="0">JUNPUBLISHED</option>

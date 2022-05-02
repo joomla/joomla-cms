@@ -13,9 +13,10 @@
 		<field
 			name="featured"
 			type="list"
-			label="JOPTION_SELECT_FEATURED"
+			label="JFEATURED"
 			onchange="this.form.submit();"
 			default=""
+			validate="options"
 			>
 			<option value="">COM_CONTENT_SELECT_FEATURED</option>
 			<option value="0">COM_CONTENT_FILTER_FEATURED_NO</option>
@@ -28,25 +29,25 @@
 			label="JOPTION_SELECT_STAGE"
 			onchange="this.form.submit();"
 			activeonly="true"
-			extension="com_content"
+			extension="com_content.article"
 			>
 			<option value="">JOPTION_SELECT_STAGE</option>
 		</field>
 
 		<field
-			name="condition"
-			type="workflowcondition"
-			label="JOPTION_SELECT_CONDITION"
+			name="published"
+			type="status"
+			label="JOPTION_SELECT_PUBLISHED"
 			onchange="this.form.submit();"
 			extension="com_content"
 			>
-			<option value="">JOPTION_SELECT_CONDITION</option>
+			<option value="">JOPTION_SELECT_PUBLISHED</option>
 		</field>
 
 		<field
 			name="category_id"
 			type="category"
-			label="JOPTION_SELECT_CATEGORY"
+			label="JCATEGORY"
 			multiple="true"
 			extension="com_content"
 			layout="joomla.form.field.list-fancy-select"
@@ -58,7 +59,7 @@
 		<field
 			name="access"
 			type="accesslevel"
-			label="JOPTION_SELECT_ACCESS"
+			label="JGRID_HEADING_ACCESS"
 			multiple="true"
 			layout="joomla.form.field.list-fancy-select"
 			hint="JOPTION_SELECT_ACCESS"
@@ -80,7 +81,7 @@
 		<field
 			name="language"
 			type="contentlanguage"
-			label="JOPTION_SELECT_LANGUAGE"
+			label="JGRID_HEADING_LANGUAGE"
 			onchange="this.form.submit();"
 			>
 			<option value="">JOPTION_SELECT_LANGUAGE</option>
@@ -91,7 +92,7 @@
 			name="tag"
 			type="tag"
 			multiple="true"
-			label="JOPTION_SELECT_TAG"
+			label="JTAG"
 			hint="JOPTION_SELECT_TAG"
 			mode="nested"
 			custom="false"
@@ -101,7 +102,7 @@
 		<field
 			name="level"
 			type="integer"
-			label="JOPTION_SELECT_MAX_LEVELS"
+			label="JGLOBAL_MAXLEVEL_LABEL"
 			first="1"
 			last="10"
 			step="1"
@@ -119,14 +120,15 @@
 			label="JGLOBAL_SORT_BY"
 			onchange="this.form.submit();"
 			default="a.id DESC"
+			validate="options"
 			>
 			<option value="">JGLOBAL_SORT_BY</option>
 			<option value="a.ordering ASC">JGRID_HEADING_ORDERING_ASC</option>
 			<option value="a.ordering DESC">JGRID_HEADING_ORDERING_DESC</option>
-			<option value="a.state ASC">JSTATUS_ASC</option>
-			<option value="a.state DESC">JSTATUS_DESC</option>
 			<option value="a.featured ASC">JFEATURED_ASC</option>
 			<option value="a.featured DESC">JFEATURED_DESC</option>
+			<option value="a.state ASC">JSTATUS_ASC</option>
+			<option value="a.state DESC">JSTATUS_DESC</option>
 			<option value="a.title ASC">JGLOBAL_TITLE_ASC</option>
 			<option value="a.title DESC">JGLOBAL_TITLE_DESC</option>
 			<option value="category_title ASC">JCATEGORY_ASC</option>
@@ -147,8 +149,8 @@
 			<option value="a.publish_up DESC">COM_CONTENT_PUBLISH_UP_DESC</option>
 			<option value="a.publish_down ASC">COM_CONTENT_PUBLISH_DOWN_ASC</option>
 			<option value="a.publish_down DESC">COM_CONTENT_PUBLISH_DOWN_DESC</option>
-			<option value="a.hits ASC">JGLOBAL_HITS_ASC</option>
-			<option value="a.hits DESC">JGLOBAL_HITS_DESC</option>
+			<option value="a.hits ASC" requires="hits">JGLOBAL_HITS_ASC</option>
+			<option value="a.hits DESC" requires="hits">JGLOBAL_HITS_DESC</option>
 			<option value="rating_count ASC" requires="vote">JGLOBAL_VOTES_ASC</option>
 			<option value="rating_count DESC" requires="vote">JGLOBAL_VOTES_DESC</option>
 			<option value="rating ASC" requires="vote">JGLOBAL_RATINGS_ASC</option>

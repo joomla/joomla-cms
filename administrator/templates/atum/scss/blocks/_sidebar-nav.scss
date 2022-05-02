@@ -1,30 +1,51 @@
 // Sidebar
 
 .sidebar-nav {
-
-  ul {
-    padding-left: .5rem;
-  }
+  padding: 1rem 2rem;
 
   li {
-    margin-bottom: .5rem;
     font-size: .9rem;
     font-weight: $font-weight-bold;
-
-    &.nav-header {
-      padding: .5rem 0 .2rem;
-      margin-bottom: .2rem;
-      font-size: .9rem;
-      color: var(--atum-text-dark);
-      border-bottom: 1px solid $gray-400;
-    }
 
     &.divider {
       margin: .3rem 0;
     }
 
     a {
-      color: var(--atum-link-color);
+      display: block;
+      padding: .25rem;
+      font-weight: $font-weight-normal;
+      color: var(--template-text-dark);
+      text-decoration: none;
+
+      &::before {
+        margin-right: .5rem;
+        font-family: "Font Awesome 5 Free";
+        font-weight: 900;
+        content: "\f054";
+
+        [dir="rtl"] & {
+          margin-right: 0;
+          content: none;
+        }
+      }
+
+      &::after {
+        [dir="rtl"] & {
+          margin-inline-end: .5rem;
+          font-family: "Font Awesome 5 Free";
+          font-weight: 900;
+          content: "\f053";
+        }
+      }
+    }
+
+    &.item:hover, &.active {
+      background-color: var(--template-bg-dark-60);
+
+      a {
+        color: var(--template-text-light);
+      }
     }
   }
 }

@@ -3,7 +3,7 @@
  * @package     Joomla.Redirect
  * @subpackage  Webservices.Redirect
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2019 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -39,7 +39,7 @@ class PlgWebservicesRedirect extends CMSPlugin
 	public function onBeforeApiRoute(&$router)
 	{
 		$router->createCRUDRoutes(
-			'v1/redirect',
+			'v1/redirects',
 			'redirect',
 			['component' => 'com_redirect']
 		);

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<extension version="3.1" type="plugin" group="user" method="upgrade">
+<extension type="plugin" group="user" method="upgrade">
 	<name>plg_user_joomla</name>
 	<author>Joomla! Project</author>
 	<creationDate>December 2006</creationDate>
-	<copyright>(C) 2005 - 2019 Open Source Matters. All rights reserved.</copyright>
+	<copyright>(C) 2006 Open Source Matters, Inc.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
@@ -13,8 +13,8 @@
 		<filename plugin="joomla">joomla.php</filename>
 	</files>
 	<languages>
-		<language tag="en-GB">en-GB.plg_user_joomla.ini</language>
-		<language tag="en-GB">en-GB.plg_user_joomla.sys.ini</language>
+		<language tag="en-GB">language/en-GB/plg_user_joomla.ini</language>
+		<language tag="en-GB">language/en-GB/plg_user_joomla.sys.ini</language>
 	</languages>
 	<config>
 		<fields name="params">
@@ -22,7 +22,7 @@
 				<field
 					name="autoregister"
 					type="radio"
-					class="switcher"
+					layout="joomla.form.field.radio.switcher"
 					label="PLG_USER_JOOMLA_FIELD_AUTOREGISTER_LABEL"
 					default="1"
 					>
@@ -33,7 +33,7 @@
 				<field
 					name="mail_to_user"
 					type="radio"
-					class="switcher"
+					layout="joomla.form.field.radio.switcher"
 					label="PLG_USER_JOOMLA_FIELD_MAILTOUSER_LABEL"
 					default="1"
 					>
@@ -44,7 +44,7 @@
 				<field
 					name="forceLogout"
 					type="radio"
-					class="switcher"
+					layout="joomla.form.field.radio.switcher"
 					label="PLG_USER_JOOMLA_FIELD_FORCELOGOUT_LABEL"
 					default="1"
 					>

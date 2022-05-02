@@ -2,7 +2,6 @@
 <form>
 	<fields name="params">
 		<fieldset name="menu-options" label="COM_MENUS_LINKTYPE_OPTIONS_LABEL"
-				class="options-grid-form-half"
 		>
 
 			<field
@@ -15,6 +14,7 @@
 				name="menu-anchor_css"
 				type="text"
 				label="COM_MENUS_ITEM_FIELD_ANCHOR_CSS_LABEL"
+				validate="CssIdentifier"
 			/>
 
 			<field
@@ -22,6 +22,7 @@
 				type="list"
 				label="COM_MENUS_ITEM_FIELD_ANCHOR_REL_LABEL"
 				default=""
+				validate="options"
 				>
 				<option value="">JNONE</option>
 				<option value="alternate"/>
@@ -31,11 +32,14 @@
 				<option value="license"/>
 				<option value="next"/>
 				<option value="nofollow"/>
+				<option value="noopener"/>
 				<option value="noreferrer"/>
 				<option value="prefetch"/>
 				<option value="prev"/>
 				<option value="search"/>
+				<option value="sponsored"/>
 				<option value="tag"/>
+				<option value="ugc"/>
 			</field>
 
 			<field
@@ -48,13 +52,14 @@
 				name="menu_image_css"
 				type="text"
 				label="COM_MENUS_ITEM_FIELD_MENU_IMAGE_CSS_LABEL"
+				validate="CssIdentifier"
 			/>
 
 			<field
 				name="menu_text"
 				type="radio"
 				label="COM_MENUS_ITEM_FIELD_MENU_TEXT_LABEL"
-				class="switcher"
+				layout="joomla.form.field.radio.switcher"
 				default="1"
 				filter="integer"
 				>
@@ -66,7 +71,7 @@
 				name="menu_show"
 				type="radio"
 				label="COM_MENUS_ITEM_FIELD_MENU_SHOW_LABEL"
-				class="switcher"
+				layout="joomla.form.field.radio.switcher"
 				default="1"
 				filter="integer"
 				>
@@ -75,5 +80,5 @@
 			</field>
 		</fieldset>
 	</fields>
-	<help key="JHELP_MENUS_MENU_ITEM_EXTERNAL_URL" />
+	<help key="Menu_Item:_URL" />
 </form>

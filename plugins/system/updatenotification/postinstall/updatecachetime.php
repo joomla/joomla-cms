@@ -3,13 +3,14 @@
  * @package     Joomla.Plugin
  * @subpackage  System.updatenotification
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2016 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\CMS\Table\Table;
 
 /**
  * Checks if the com_installer config for the cache Hours are eq 0 and the updatenotification Plugin is enabled
@@ -32,7 +33,7 @@ function updatecachetime_postinstall_condition()
 }
 
 /**
- * Sets the cachtimeout back to the default (6 hours)
+ * Sets the cachetimeout back to the default (6 hours)
  *
  * @return  void
  *
@@ -42,7 +43,7 @@ function updatecachetime_postinstall_action()
 {
 	$installer = ComponentHelper::getComponent('com_installer');
 
-	// Sets the cachtimeout back to the default (6 hours)
+	// Sets the cachetimeout back to the default (6 hours)
 	$installer->params->set('cachetimeout', 6);
 
 	// Save the new parameters back to com_installer

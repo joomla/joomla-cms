@@ -3,23 +3,24 @@
  * @package     Joomla.Administrator
  * @subpackage  mod_menu
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2009 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Helper\ModuleHelper;
-use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 
-HTMLHelper::_('script', 'vendor/metismenujs/metismenujs.min.js', ['version' => 'auto', 'relative' => true]);
-HTMLHelper::_('script', 'mod_menu/admin-menu.min.js', ['version' => 'auto', 'relative' => true], ['defer' => true]);
-HTMLHelper::_('script', 'com_cpanel/admin-system-loader.js', ['version' => 'auto', 'relative' => true]);
-
 $doc       = $app->getDocument();
-$direction = $doc->direction === 'rtl' ? 'float-right' : '';
-$class     = $enabled ? 'nav flex-column main-nav ' . $direction : 'nav flex-column main-nav disabled ' . $direction;
+$class     = $enabled ? 'nav flex-column main-nav' : 'nav flex-column main-nav disabled';
+
+/** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
+$wa = $doc->getWebAssetManager();
+$wa->getRegistry()->addExtensionRegistryFile('com_cpanel');
+$wa->useScript('metismenujs')
+	->registerAndUseScript('mod_menu.admin-menu', 'mod_menu/admin-menu.min.js', [], ['defer' => true], ['metismenujs'])
+	->useScript('com_cpanel.admin-system-loader');
 
 // Recurse through children of root node if they exist
 if ($root->hasChildren())

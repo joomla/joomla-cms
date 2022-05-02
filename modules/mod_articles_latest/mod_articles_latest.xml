@@ -1,25 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
-<extension type="module" version="3.1" client="site" method="upgrade">
+<extension type="module" client="site" method="upgrade">
 	<name>mod_articles_latest</name>
 	<author>Joomla! Project</author>
 	<creationDate>July 2004</creationDate>
-	<copyright>Copyright (C) 2005 - 2019 Open Source Matters. All rights reserved.</copyright>
+	<copyright>(C) 2005 Open Source Matters, Inc.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>3.0.0</version>
 	<description>MOD_LATEST_NEWS_XML_DESCRIPTION</description>
-	<namespace>Joomla\Module\ArticlesLatest</namespace>
+	<namespace path="src">Joomla\Module\ArticlesLatest</namespace>
 	<files>
 		<filename module="mod_articles_latest">mod_articles_latest.php</filename>
+		<folder>src</folder>
 		<folder>tmpl</folder>
-		<filename>helper.php</filename>
 	</files>
 	<languages>
-		<language tag="en-GB">en-GB.mod_articles_latest.ini</language>
-		<language tag="en-GB">en-GB.mod_articles_latest.sys.ini</language>
+		<language tag="en-GB">language/en-GB/mod_articles_latest.ini</language>
+		<language tag="en-GB">language/en-GB/mod_articles_latest.sys.ini</language>
 	</languages>
-	<help key="JHELP_EXTENSIONS_MODULE_MANAGER_LATEST_NEWS" />
+	<help key="Site_Modules:_Articles_-_Latest" />
 	<config>
 		<fields name="params">
 			<fieldset name="basic">
@@ -29,7 +29,8 @@
 					label="JCATEGORY"
 					extension="com_content"
 					multiple="true"
-					filter="int_array"
+					layout="joomla.form.field.list-fancy-select"
+					filter="intarray"
 				/>
 
 				<field
@@ -38,6 +39,8 @@
 					label="MOD_LATEST_NEWS_FIELD_COUNT_LABEL"
 					default="5"
 					filter="integer"
+					min="1"
+					validate="number"
 				/>
 
 				<field
@@ -46,6 +49,7 @@
 					label="MOD_LATEST_NEWS_FIELD_FEATURED_LABEL"
 					default=""
 					filter="integer"
+					validate="options"
 					>
 					<option value="">JSHOW</option>
 					<option value="0">JHIDE</option>
@@ -57,6 +61,7 @@
 					type="list"
 					label="MOD_LATEST_NEWS_FIELD_ORDERING_LABEL"
 					default="p_dsc"
+					validate="options"
 					>
 					<option value="c_dsc">MOD_LATEST_NEWS_VALUE_RECENT_ADDED</option>
 					<option value="m_dsc">MOD_LATEST_NEWS_VALUE_RECENT_MODIFIED</option>
@@ -70,6 +75,7 @@
 					type="list"
 					label="MOD_LATEST_NEWS_FIELD_USER_LABEL"
 					default="0"
+					validate="options"
 					>
 					<option value="0">MOD_LATEST_NEWS_VALUE_ANYONE</option>
 					<option value="by_me">MOD_LATEST_NEWS_VALUE_ADDED_BY_ME</option>
@@ -82,6 +88,7 @@
 					type="author"
 					label="MOD_LATEST_NEWS_FIELD_AUTHOR_LABEL"
 					multiple="true"
+					layout="joomla.form.field.list-fancy-select"
 					showon="user_id:created_by"
 				/>
 			</fieldset>
@@ -91,7 +98,8 @@
 					name="layout"
 					type="modulelayout"
 					label="JFIELD_ALT_LAYOUT_LABEL"
-					class="custom-select"
+					class="form-select"
+					validate="moduleLayout"
 				/>
 
 				<field
@@ -99,6 +107,7 @@
 					type="textarea"
 					label="COM_MODULES_FIELD_MODULECLASS_SFX_LABEL"
 					rows="3"
+					validate="CssIdentifier"
 				/>
 
 				<field
@@ -107,6 +116,7 @@
 					label="COM_MODULES_FIELD_CACHING_LABEL"
 					default="1"
 					filter="integer"
+					validate="options"
 					>
 					<option value="1">JGLOBAL_USE_GLOBAL</option>
 					<option value="0">COM_MODULES_FIELD_VALUE_NOCACHING</option>

@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2011 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -10,6 +10,7 @@ namespace Joomla\CMS\Http\Transport;
 
 \defined('JPATH_PLATFORM') or die;
 
+use Composer\CaBundle\CaBundle;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Http\Response;
 use Joomla\CMS\Http\TransportInterface;
@@ -17,7 +18,7 @@ use Joomla\Http\AbstractTransport;
 use Joomla\Http\Exception\InvalidResponseCodeException;
 use Joomla\Uri\Uri;
 use Joomla\Uri\UriInterface;
-use Zend\Diactoros\Stream as StreamResponse;
+use Laminas\Diactoros\Stream as StreamResponse;
 
 /**
  * HTTP transport class for using PHP streams.
@@ -136,14 +137,15 @@ class StreamTransport extends AbstractTransport implements TransportInterface
 			array(
 				'http' => $options,
 				'ssl' => array(
-					'verify_peer'   => true,
-					'cafile'        => $this->getOption('stream.certpath', __DIR__ . '/cacert.pem'),
-					'verify_depth'  => 5,
+					'verify_peer'      => true,
+					'cafile'           => $this->getOption('stream.certpath', CaBundle::getBundledCaBundlePath()),
+					'verify_depth'     => 5,
+					'verify_peer_name' => true,
 				),
 			)
 		);
 
-		// Authentification, if needed
+		// Authentication, if needed
 		if ($uri instanceof Uri && $this->getOption('userauth') && $this->getOption('passwordauth'))
 		{
 			$uri->setUser($this->getOption('userauth'));
@@ -163,7 +165,7 @@ class StreamTransport extends AbstractTransport implements TransportInterface
 			if (!$php_errormsg)
 			{
 				// Error but nothing from php? Create our own
-				$php_errormsg = sprintf('Could not connect to resource: %s', $uri, $err, $errno);
+				$php_errormsg = sprintf('Could not connect to resource: %s', $uri);
 			}
 
 			// Restore error tracking to give control to the exception handler

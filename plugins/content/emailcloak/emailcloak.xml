@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<extension version="3.1" type="plugin" group="content" method="upgrade">
+<extension type="plugin" group="content" method="upgrade">
 	<name>plg_content_emailcloak</name>
 	<author>Joomla! Project</author>
 	<creationDate>November 2005</creationDate>
-	<copyright>Copyright (C) 2005 - 2019 Open Source Matters. All rights reserved.</copyright>
+	<copyright>(C) 2005 Open Source Matters, Inc.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
@@ -13,8 +13,8 @@
 		<filename plugin="emailcloak">emailcloak.php</filename>
 	</files>
 	<languages>
-		<language tag="en-GB">en-GB.plg_content_emailcloak.ini</language>
-		<language tag="en-GB">en-GB.plg_content_emailcloak.sys.ini</language>
+		<language tag="en-GB">language/en-GB/plg_content_emailcloak.ini</language>
+		<language tag="en-GB">language/en-GB/plg_content_emailcloak.sys.ini</language>
 	</languages>
 	<config>
 		<fields name="params">
@@ -25,6 +25,7 @@
 					label="PLG_CONTENT_EMAILCLOAK_MODE_LABEL"
 					default="1"
 					filter="integer"
+					validate="options"
 					>
 					<option value="0">PLG_CONTENT_EMAILCLOAK_NONLINKABLE</option>
 					<option value="1">PLG_CONTENT_EMAILCLOAK_LINKABLE</option>

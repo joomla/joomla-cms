@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2013 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -16,7 +16,7 @@ use Joomla\CMS\Form\FormField;
  * Form Field class for the Joomla Platform.
  * Provides a meter to show value in a range.
  *
- * @link   http://www.w3.org/TR/html-markup/input.text.html#input.text
+ * @link   https://html.spec.whatwg.org/multipage/input.html#text-(type=text)-state-and-search-state-(type=search)
  * @since  3.2
  */
 class MeterField extends FormField
@@ -129,9 +129,9 @@ class MeterField extends FormField
 	/**
 	 * Method to attach a Form object to the field.
 	 *
-	 * @param   SimpleXMLElement  $element  The SimpleXMLElement object representing the `<field>` tag for the form field object.
-	 * @param   mixed             $value    The form field value to validate.
-	 * @param   string            $group    The field name group control value. This acts as an array container for the field.
+	 * @param   \SimpleXMLElement  $element  The SimpleXMLElement object representing the `<field>` tag for the form field object.
+	 * @param   mixed              $value    The form field value to validate.
+	 * @param   string             $group    The field name group control value. This acts as an array container for the field.
 	 *                                      For example if the field has name="foo" and the group value is set to "bar" then the
 	 *                                      full field name would end up being "bar[foo]".
 	 *
@@ -150,10 +150,10 @@ class MeterField extends FormField
 			$this->color = isset($this->element['color']) ? (string) $this->element['color'] : '';
 
 			$active       = (string) $this->element['active'];
-			$this->active = ($active == 'true' || $active == 'on' || $active == '1');
+			$this->active = ($active === 'true' || $active === 'on' || $active === '1');
 
 			$animated       = (string) $this->element['animated'];
-			$this->animated = !($animated == 'false' || $animated == 'off' || $animated == '0');
+			$this->animated = !($animated === 'false' || $animated === 'off' || $animated === '0');
 		}
 
 		return $return;

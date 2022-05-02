@@ -3,13 +3,13 @@
  * @package     Joomla.Administrator
  * @subpackage  com_media
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2016 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\Component\Media\Administrator\Adapter;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 /**
  * Media file adapter interface.
@@ -104,7 +104,7 @@ interface AdapterInterface
 	 *
 	 * @param   string  $name  The name
 	 * @param   string  $path  The folder
-	 * @param   binary  $data  The data
+	 * @param   string  $data  The data
 	 *
 	 * @return  string
 	 *
@@ -118,7 +118,7 @@ interface AdapterInterface
 	 *
 	 * @param   string  $name  The name
 	 * @param   string  $path  The folder
-	 * @param   binary  $data  The data
+	 * @param   string  $data  The data
 	 *
 	 * @return  void
 	 *
@@ -209,17 +209,4 @@ interface AdapterInterface
 	 * @since   4.0.0
 	 */
 	public function search(string $path, string $needle, bool $recursive = false): array;
-
-	/**
-	 * Returns a temporary url for the given path.
-	 * This is used internally in media manager
-	 *
-	 * @param   string  $path  The path to file
-	 *
-	 * @return  string
-	 *
-	 * @since   4.0.0
-	 * @throws  \Joomla\Component\Media\Administrator\Exception\FileNotFoundException
-	 */
-	public function getTemporaryUrl(string $path): string;
 }

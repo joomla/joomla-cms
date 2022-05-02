@@ -1,20 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<extension type="component" version="4.0.0" method="upgrade">
+<extension type="component" method="upgrade">
 	<name>com_fields</name>
 	<author>Joomla! Project</author>
 	<creationDate>March 2016</creationDate>
-	<copyright>(C) 2005 - 2019 Open Source Matters. All rights reserved.</copyright>
+	<copyright>(C) 2016 Open Source Matters, Inc.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>4.0.0</version>
 	<description>COM_FIELDS_XML_DESCRIPTION</description>
-	<namespace>Joomla\Component\Fields</namespace>
+	<namespace path="src">Joomla\Component\Fields</namespace>
 	<files folder="site">
-		<folder>Controller</folder>
-		<folder>Dispatcher</folder>
 		<folder>forms</folder>
 		<folder>layouts</folder>
+		<folder>src</folder>
 	</files>
 	<media destination="com_fields" folder="media">
 		<folder>js</folder>
@@ -22,18 +21,11 @@
 	<administration>
 		<files folder="admin">
 			<filename>fields.xml</filename>
-			<folder>Controller</folder>
-			<folder>Dispatcher</folder>
-			<folder>Field</folder>
 			<folder>forms</folder>
-			<folder>Helper</folder>
 			<folder>helpers</folder>
-			<folder>Model</folder>
-			<folder>Plugin</folder>
 			<folder>services</folder>
-			<folder>Table</folder>
+			<folder>src</folder>
 			<folder>tmpl</folder>
-			<folder>View</folder>
 		</files>
 		<languages folder="admin">
 			<language tag="en-GB">language/en-GB/com_fields.ini</language>

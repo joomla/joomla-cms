@@ -1,261 +1,61 @@
-// Search tools
 @import "../../variables";
-@import "../../../../../../media/vendor/bootstrap/scss/variables";
-@import "../../../../../../media/vendor/bootstrap/scss/mixins";
 
-
-/* Media queries */
-@media (max-width: 480px) {
-  .js-stools .js-stools-container-filters {
-    display: block;
-  }
-  .js-stools .js-stools-container-filters .btn-group {
-    display: block;
-  }
-  .js-stools .js-stools-container-filters .btn-wrapper {
-    width: 100%
-  }
-  .js-stools .js-stools-container-bar {
-    margin-top: 20px;
-  }
-}
-@media (min-width: 768px) and (max-width: 979px) {
-  .js-stools .js-stools-container-selector,
-  .js-stools .js-stools-container-bar,
-  .js-stools .js-stools-container-list {
-    display: block;
-  }
-}
+// Search tools
 
 .js-stools {
-  position: relative;
-  width: 100%;
-  padding: 0.25rem 0 0;
-  margin-bottom: 0.5rem;
+  display: flex;
+  flex-wrap: wrap;
+}
 
-  > div {
-    margin-bottom: 0.5rem;
-  }
+.js-stools-container-bar,
+.js-stools-container-filters {
+  margin-bottom: 10px;
+}
 
-  .js-stools-container-filters {
-    display: none;
-    flex-direction: row;
-    flex-wrap: wrap;
-    padding: 1rem .5rem .5rem;
-    margin-top: 0.5rem;
-    margin-bottom: 1rem;
-    background-color: $white;
-    border: solid var(--border);
-    border-width: 1px 0;
-    border-radius: 0 0 0 $border-radius;
-    box-shadow: $atum-box-shadow;
-    width: 100%;
+.js-stools-container-bar {
+  margin-inline-start: auto;
 
-    joomla-field-fancy-select .choices,
-    .custom-select {
-      min-width: 15rem;
-    }
+  .btn-toolbar {
+    justify-content: flex-end;
 
-    &.js-filters-show {
-      display: flex;
-    }
+    > * {
+      margin: 5px 0;
 
-    .chzn-container-single {
-      display: block;
-
-      .chzn-single {
-        display: block;
-        font-size: 1rem;
-      }
-    }
-  }
-
-  .js-stools-field-filter {
-
-    margin: 0 .5rem .5rem;
-
-    @include media-breakpoint-down(sm)
-    {
-      width: 100%;
-    }
-
-    .custom-select {
-
-      &.active {
-        color: var(--white);
-        background: $custom-select-bg $custom-select-indicator-active no-repeat right center;
-        background-size: $custom-select-bg-size;
-      }
-
-      option {
-        color: var(--atum-text-dark);
-        background-color: var(--white);
-        font-size: 0.875rem;
-      }
-    }
-  }
-
-  .js-stools-container-selector {
-    [dir=ltr] & {
-      float: left;
-      margin-right: 0.5rem;
-    }
-
-    [dir=rtl] & {
-      float: right;
-      margin-left: 0.5rem;
-      margin-right: 0;
-    }
-  }
-
-  .js-stools-container-selector-first {
-    [dir=ltr] & {
-      margin-right: 0.5rem;
-    }
-
-    [dir=rtl] & {
-      margin-left: 0.5rem;
-    }
-  }
-
-  .js-stools-container-selector,
-  .js-stools-container-selector-first {
-
-    @include media-breakpoint-down(sm) {
-      float: none !important;
-      width: 100%;
-
-      [dir=ltr] & {
-        margin-right: 0;
-      }
-
-      [dir=rtl] & {
-        margin-right: 0;
+      + * {
+        margin-inline-start: 8px;
       }
     }
 
-    .js-stools-field-selector {
-      @include media-breakpoint-down(sm) {
-        max-width: 100%;
-        margin-right: 0;
-
-        [dir=rtl] & {
-          margin-right: 0;
-        }
-      }
+    .js-stools-btn-clear {
+      background-color: var(--template-bg-dark);
     }
   }
 
-  .js-stools-container-list {
-    [dir=ltr] & {
-      float: right;
-      text-align: right;
-    }
-
-    [dir=rtl] & {
-      float: left;
-      text-align: left;
-    }
-  }
-
-  .chosen-container {
-    [dir=ltr] & {
-      text-align: right;
-    }
-
-    [dir=rtl] & {
-      text-align: left;
-    }
-  }
-
-  .js-stools-container-filters-visible {
-    display: inline-block;
-  }
-
-  .chzn-container-single .chzn-single span {
-    overflow: visible;
-  }
-
-  .js-stools-field-list,
-  .js-stools-field-filter {
-    display: inline-block;
-  }
-
-  .js-stools-container-list .js-stools-field-list:last-child {
-    margin-right: 0;
-  }
-
-  .js-stools-container-bar {
-
-    .btn-toolbar {
-      justify-content: flex-end;
-
-      .js-stools-btn-filter {
-        border:1px solid var(--border);
-      }
-
-      .js-stools-btn-clear {
-        background-color: var(--atum-bg-dark);
-        color: var(--atum-text-light);
-        border:1px solid var(--border);
-        border-left: 1px solid var(--atum-text-light);
-
-        [dir=rtl] & {
-          margin-left: 5px;
-          margin-right: -1px !important;
-        }
-
-        @include media-breakpoint-down(sm) {
-          [dir=rtl] & {
-            margin-left: 0 !important;
-          }
-        }
-
-        &.disabled,
-        &:disabled {
-          background-color: rgba($gray-300, 0.8);
-          border-color: rgba($gray-500, 0.8);
-          opacity:1;
-          color:var(--atum-text-dark);
-          cursor: not-allowed;
-        }
-      }
-      .js-stools-btn-filter {
-        border-right:1px solid var(--border);
-
-        .fa {
-          margin-left: 0.25rem;
-        }
-      }
-
-      .form-control {
-        height:auto;
-      }
-    }
-
-    .js-stools-field-list {
-      margin-bottom:0;
-
-      .custom-select {
-        box-shadow: none;
-      }
-    }
-
-    .input-append {
-      margin-bottom: 0;
-    }
-
-    .btn-primary .caret {
-      border-top: 0;
-      border-bottom: 4px solid #FFF;
-      margin-top: 7px;
-      margin-bottom: 8px;
-    }
+  .ordering-select {
+    display: flex;
   }
 }
 
-.js-stools-button-sort {
-  cursor: pointer;
-  background: none;
-  border: 0;
+.js-stools-container-filters {
+  display: none;
+  width: 100%;
+
+  &-visible {
+    display: grid;
+    grid-gap: 8px;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    padding: 10px;
+    background-color: $white;
+  }
+}
+
+.js-stools-field-list {
+  + .js-stools-field-list {
+    margin-inline-start: 8px;
+  }
+}
+
+.js-stools-container-selector {
+  margin: 5px 0;
+  margin-inline-end: 8px;
 }

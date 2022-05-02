@@ -3,12 +3,12 @@
  * @package     Joomla.Tests
  * @subpackage  Acceptance.tests
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2019 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-use Page\Acceptance\Administrator\MediaListPage;
 use Page\Acceptance\Administrator\MediaFilePage;
+use Page\Acceptance\Administrator\MediaListPage;
 use Step\Acceptance\Administrator\Media;
 
 /*
@@ -262,6 +262,46 @@ class MediaListCest
 	}
 
 	/**
+	 * Test that search is applied to the current list.
+	 *
+	 * @param   Media  $I
+	 *
+	 * @throws  Exception
+	 *
+	 * @since   4.0.6
+	 */
+	public function searchInFilesAndFolders(Media $I)
+	{
+		$I->wantToTest('that search is applied to the current list.');
+		$I->amOnPage(MediaListPage::$url);
+		$I->waitForMediaLoaded();
+		$I->fillField(MediaListPage::$searchInputField, 'joomla');
+		$I->seeElement(MediaListPage::$items);
+		$I->seeElement(MediaListPage::item('joomla_black.png'));
+		$I->dontSeeElement(MediaListPage::item('banners'));
+	}
+
+	/**
+	 * Test that search is cleared when navigating in the tree.
+	 *
+	 * @param   Media  $I
+	 *
+	 * @throws  Exception
+	 *
+	 * @since   4.0.6
+	 */
+	public function searchIsClearedOnNavigate(Media $I)
+	{
+		$I->wantToTest('that search is cleared when navigating in the tree.');
+		$I->amOnPage(MediaListPage::$url);
+		$I->waitForMediaLoaded();
+		$I->fillField(MediaListPage::$searchInputField, 'banner');
+		$I->doubleClick(MediaListPage::item('banners'));
+		$I->waitForMediaLoaded();
+		$I->seeInField(MediaListPage::$searchInputField, '');
+	}
+
+	/**
 	 * Test the upload of a single file using toolbar button.
 	 *
 	 * @param   Media $I Acceptance Helper Object
@@ -277,7 +317,7 @@ class MediaListCest
 		$I->amOnPage(MediaListPage::$url . $this->testDirectory);
 		$I->waitForJsOnPageLoad();
 		$I->uploadFile('com_media/' . $testFileName);
-		$I->seeSystemMessage('Item uploaded.');
+		$I->seeAndCloseSystemMessage('Item uploaded.');
 		$I->seeContents([$testFileName]);
 		$I->click($testFileItem);
 		$I->click(MediaListPage::$toolbarDeleteButton);
@@ -290,12 +330,12 @@ class MediaListCest
 
 		// Ensure the modal has closed
 		$I->wait(1);
-		$I->seeSystemMessage('Item deleted.');
+		$I->seeAndCloseSystemMessage('Item deleted.');
 		$I->waitForElementNotVisible($testFileItem);
 	}
 
 	/**
-	 * Test the upload of a single file using toolbar button.
+	 * Test the upload of an existing file using toolbar button.
 	 *
 	 * @skip    We need to skip this test, because of a bug in acceptPopup in chrome.
 	 *          It throws a Facebook\WebDriver\Exception\UnexpectedAlertOpenException and does not accept the popup.
@@ -314,13 +354,13 @@ class MediaListCest
 		$I->amOnPage(MediaListPage::$url . $this->testDirectory);
 		$I->waitForJsOnPageLoad();
 		$I->uploadFile('com_media/' . $testFileName);
-		$I->seeSystemMessage('Item uploaded.');
+		$I->seeAndCloseSystemMessage('Item uploaded.');
 		$I->uploadFile('com_media/' . $testFileName);
 		$I->seeContents([$testFileName]);
 		$I->waitForMediaLoaded();
 		$I->seeInPopup($testFileName . ' already exists. Do you want to replace it?');
 		$I->acceptPopup();
-		$I->seeSystemMessage('Item uploaded.');
+		$I->seeAndCloseSystemMessage('Item uploaded.');
 		$I->seeContents([$testFileName]);
 	}
 
@@ -401,6 +441,7 @@ class MediaListCest
 		$I->wantToTest('that it is possible to delete a single file.');
 		$I->amOnPage(MediaListPage::$url . $this->testDirectory);
 		$I->uploadFile('com_media/' . $testFileName);
+		$I->seeAndCloseSystemMessage('Item uploaded.');
 		$I->waitForElement($testFileItem);
 		$I->waitForJsOnPageLoad();
 		$I->click($testFileItem);
@@ -473,7 +514,7 @@ class MediaListCest
 		$I->wantToTest('that it is possible to delete multiple files.');
 		$I->amOnPage(MediaListPage::$url . $this->testDirectory);
 		$I->uploadFile('com_media/' . $testFileName1);
-		$I->waitForText('Item uploaded.');
+		$I->seeAndCloseSystemMessage('Item uploaded.');
 		$I->wait(10);
 		$I->waitForElement($testFileItem1);
 
@@ -481,7 +522,7 @@ class MediaListCest
 		$I->executeJS('document.getElementsByName(\'file\')[0].value = \'\'');
 		$I->waitForMediaLoaded();
 		$I->uploadFile('com_media/' . $testFileName2);
-		$I->waitForText('Item uploaded.');
+		$I->seeAndCloseSystemMessage('Item uploaded.');
 		$I->wait(10);
 		$I->waitForMediaLoaded();
 		$I->waitForElement($testFileItem2);
@@ -740,7 +781,7 @@ class MediaListCest
 		$I->amOnPage(MediaListPage::$url);
 		$I->waitForMediaLoaded();
 		$I->clickOnActionInMenuOf('powered_by.png', MediaListPage::$editAction);
-		$I->seeInCurrentUrl(MediaFilePage::$url . '&path=local-0:/powered_by.png');
+		$I->seeInCurrentUrl(MediaFilePage::$url . '&mediatypes=0,1,2,3&path=local-images:/powered_by.png');
 	}
 
 	/**
@@ -833,8 +874,6 @@ class MediaListCest
 		$I->seeElement(MediaListPage::$itemsContainerMedium);
 		$I->click(MediaListPage::$decreaseThumbnailSizeButton);
 		$I->seeElement(MediaListPage::$itemsContainerSmall);
-		$I->click(MediaListPage::$decreaseThumbnailSizeButton);
-		$I->seeElement(MediaListPage::$itemsContainerExtraSmall);
 		$I->seeElement(MediaListPage::$decreaseThumbnailSizeButtonDisabled);
 	}
 
@@ -895,19 +934,22 @@ class MediaListCest
 		$I->amOnPage(MediaListPage::$url);
 		$I->waitForMediaLoaded();
 		$json = $I->executeJS('return sessionStorage.getItem("' . MediaListPage::$storageKey . '")');
-		$I->assertContains('"selectedDirectory":"local-0:/"', $json);
+		$I->assertContains('"selectedDirectory":"local-images:/"', $json);
 		$I->assertContains('"showInfoBar":false', $json);
 		$I->assertContains('"listView":"grid"', $json);
 		$I->assertContains('"gridSize":"md"', $json);
+		$I->assertContains('"search":""', $json);
 		$I->clickOnLinkInTree('banners');
 		$I->waitForMediaLoaded();
 		$I->openInfobar();
 		$I->click(MediaListPage::$increaseThumbnailSizeButton);
 		$I->click(MediaListPage::$toggleListViewButton);
+		$I->fillField(MediaListPage::$searchInputField, 'joomla');
 		$json = $I->executeJS('return sessionStorage.getItem("' . MediaListPage::$storageKey . '")');
-		$I->assertContains('"selectedDirectory":"local-0:/banners"', $json);
+		$I->assertContains('"selectedDirectory":"local-images:/banners"', $json);
 		$I->assertContains('"showInfoBar":true', $json);
 		$I->assertContains('"listView":"table"', $json);
 		$I->assertContains('"gridSize":"lg"', $json);
+		$I->assertContains('"search":"joomla"', $json);
 	}
 }

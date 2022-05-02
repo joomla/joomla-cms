@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2006 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -15,7 +15,8 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Uri\Uri;
-use Joomla\CMS\Workflow\Workflow;
+use Joomla\Component\Content\Administrator\Extension\ContentComponent;
+use Joomla\Component\Content\Site\Helper\RouteHelper;
 
 // Create a shortcut for params.
 $params  = &$this->item->params;
@@ -24,20 +25,24 @@ $info    = $this->item->params->get('info_block_position', 0);
 
 // Check if associations are implemented. If they are, define the parameter.
 $assocParam = (Associations::isEnabled() && $params->get('show_associations'));
+
+$currentDate       = Factory::getDate()->format('Y-m-d H:i:s');
+$isExpired         = !is_null($this->item->publish_down) && $this->item->publish_down < $currentDate;
+$isNotPublishedYet = $this->item->publish_up > $currentDate;
+$isUnpublished     = $this->item->state == ContentComponent::CONDITION_UNPUBLISHED || $isNotPublishedYet || $isExpired;
 ?>
 
 <?php echo LayoutHelper::render('joomla.content.intro_image', $this->item); ?>
 
 <div class="item-content">
-	<?php if ($this->item->state == Workflow::CONDITION_UNPUBLISHED || strtotime($this->item->publish_up) > strtotime(Factory::getDate())
-		|| (!is_null($this->item->publish_down) && strtotime($this->item->publish_down) < strtotime(Factory::getDate()))) : ?>
+	<?php if ($isUnpublished) : ?>
 		<div class="system-unpublished">
 	<?php endif; ?>
 
 	<?php if ($params->get('show_title')) : ?>
 		<h2 class="item-title" itemprop="headline">
 		<?php if ($params->get('link_titles') && $params->get('access-view')) : ?>
-			<a href="<?php echo Route::_(ContentHelperRoute::getArticleRoute($this->item->slug, $this->item->catid, $this->item->language)); ?>" itemprop="url">
+			<a href="<?php echo Route::_(RouteHelper::getArticleRoute($this->item->slug, $this->item->catid, $this->item->language)); ?>" itemprop="url">
 				<?php echo $this->escape($this->item->title); ?>
 			</a>
 		<?php else : ?>
@@ -46,14 +51,14 @@ $assocParam = (Associations::isEnabled() && $params->get('show_associations'));
 		</h2>
 	<?php endif; ?>
 
-	<?php if ($this->item->state == Workflow::CONDITION_UNPUBLISHED) : ?>
-		<span class="badge badge-warning"><?php echo Text::_('JUNPUBLISHED'); ?></span>
+	<?php if ($this->item->state == ContentComponent::CONDITION_UNPUBLISHED) : ?>
+		<span class="badge bg-warning text-light"><?php echo Text::_('JUNPUBLISHED'); ?></span>
 	<?php endif; ?>
-	<?php if (strtotime($this->item->publish_up) > strtotime(Factory::getDate())) : ?>
-		<span class="badge badge-warning"><?php echo Text::_('JNOTPUBLISHEDYET'); ?></span>
+	<?php if ($isNotPublishedYet) : ?>
+		<span class="badge bg-warning text-light"><?php echo Text::_('JNOTPUBLISHEDYET'); ?></span>
 	<?php endif; ?>
-	<?php if (!is_null($this->item->publish_down) && strtotime($this->item->publish_down) < strtotime(Factory::getDate())) : ?>
-		<span class="badge badge-warning"><?php echo Text::_('JEXPIRED'); ?></span>
+	<?php if ($isExpired) : ?>
+		<span class="badge bg-warning text-light"><?php echo Text::_('JEXPIRED'); ?></span>
 	<?php endif; ?>
 
 	<?php if ($canEdit) : ?>
@@ -90,21 +95,20 @@ $assocParam = (Associations::isEnabled() && $params->get('show_associations'));
 
 	<?php if ($params->get('show_readmore') && $this->item->readmore) :
 		if ($params->get('access-view')) :
-			$link = Route::_(ContentHelperRoute::getArticleRoute($this->item->slug, $this->item->catid, $this->item->language));
+			$link = Route::_(RouteHelper::getArticleRoute($this->item->slug, $this->item->catid, $this->item->language));
 		else :
 			$menu = Factory::getApplication()->getMenu();
 			$active = $menu->getActive();
 			$itemId = $active->id;
 			$link = new Uri(Route::_('index.php?option=com_users&view=login&Itemid=' . $itemId, false));
-			$link->setVar('return', base64_encode(ContentHelperRoute::getArticleRoute($this->item->slug, $this->item->catid, $this->item->language)));
+			$link->setVar('return', base64_encode(RouteHelper::getArticleRoute($this->item->slug, $this->item->catid, $this->item->language)));
 		endif; ?>
 
 		<?php echo LayoutHelper::render('joomla.content.readmore', array('item' => $this->item, 'params' => $params, 'link' => $link)); ?>
 
 	<?php endif; ?>
 
-	<?php if ($this->item->state == Workflow::CONDITION_UNPUBLISHED || strtotime($this->item->publish_up) > strtotime(Factory::getDate())
-		|| (!is_null($this->item->publish_down) && strtotime($this->item->publish_down) < strtotime(Factory::getDate()))) : ?>
+	<?php if ($isUnpublished) : ?>
 		</div>
 	<?php endif; ?>
 

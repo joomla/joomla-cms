@@ -42,6 +42,7 @@
 			name="sef"
 			type="text"
 			label="COM_LANGUAGES_FIELD_LANG_CODE_LABEL"
+			description="COM_LANGUAGES_FIELD_LANG_CODE_DESC"
 			maxlength="50"
 			required="true"
 			size="10"
@@ -56,6 +57,7 @@
 			hide_none="1"
 			hide_default="1"
 			fileFilter="\.gif$"
+			validate="options"
 			>
 			<option value="">JNONE</option>
 		</field>
@@ -72,9 +74,10 @@
 			name="published"
 			type="list"
 			label="JSTATUS"
-			class="custom-select-color-state"
+			class="form-select-color-state"
 			default="1"
 			size="1"
+			validate="options"
 			>
 			<option value="1">JPUBLISHED</option>
 			<option value="0">JUNPUBLISHED</option>
@@ -85,24 +88,19 @@
 			name="access"
 			type="accesslevel"
 			label="JFIELD_ACCESS_LABEL"
-			size="1"
+			filter="UINT"
+			validate="options"
 		/>
 	</fieldset>
 	<fieldset name="metadata" label="JGLOBAL_FIELDSET_METADATA_OPTIONS">
-		<field
-			name="metakey"
-			type="textarea"
-			label="JFIELD_META_KEYWORDS_LABEL"
-			rows="3"
-			cols="30"
-		/>
-
 		<field
 			name="metadesc"
 			type="textarea"
 			label="JFIELD_META_DESCRIPTION_LABEL"
 			rows="3"
 			cols="30"
+			maxlength="160"
+			charcounter="true"
 		/>
 	</fieldset>
 	<fieldset name="site_name" label="COM_LANGUAGES_FIELDSET_SITE_NAME_LABEL">

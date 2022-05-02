@@ -5,7 +5,7 @@
   .card-header {
     display: block;
     font-size: $h5-font-size;
-    font-weight: bold;
+    font-weight: var(--cassiopeia-font-weight-headings, $font-weight-bold);
     line-height: $headings-line-height;
   }
 

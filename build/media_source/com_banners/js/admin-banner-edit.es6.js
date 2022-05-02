@@ -1,5 +1,5 @@
 /**
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2018 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -34,8 +34,8 @@
       updateBannerFields(jformType.value);
 
       // Hide/show parameters when the type has been selected
-      jformType.addEventListener('change', (event) => {
-        updateBannerFields(event.target.value);
+      jformType.addEventListener('change', ({ target }) => {
+        updateBannerFields(target.value);
       });
     }
   });

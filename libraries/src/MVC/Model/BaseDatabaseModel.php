@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2006 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -23,7 +23,6 @@ use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Factory\MVCFactoryServiceInterface;
 use Joomla\CMS\Table\Table;
 use Joomla\Database\DatabaseQuery;
-use Joomla\Utilities\ArrayHelper;
 
 /**
  * Base class for a database aware Joomla Model
@@ -73,7 +72,7 @@ abstract class BaseDatabaseModel extends BaseModel implements DatabaseModelInter
 
 			if (!preg_match('/(.*)Model/i', \get_class($this), $r))
 			{
-				throw new \Exception(Text::_('JLIB_APPLICATION_ERROR_MODEL_GET_NAME'), 500);
+				throw new \Exception(Text::sprintf('JLIB_APPLICATION_ERROR_GET_NAME', __METHOD__), 500);
 			}
 
 			$this->option = ComponentHelper::getComponentName($this, $r[1]);
@@ -150,7 +149,7 @@ abstract class BaseDatabaseModel extends BaseModel implements DatabaseModelInter
 	 *
 	 * Note: Current implementation of this method assumes that getListQuery() returns a set of unique rows,
 	 * thus it uses SELECT COUNT(*) to count the rows. In cases that getListQuery() uses DISTINCT
-	 * then either this method must be overriden by a custom implementation at the derived Model Class
+	 * then either this method must be overridden by a custom implementation at the derived Model Class
 	 * or a GROUP BY clause should be used to make the set unique.
 	 *
 	 * @param   DatabaseQuery|string  $query  The query.
@@ -163,7 +162,7 @@ abstract class BaseDatabaseModel extends BaseModel implements DatabaseModelInter
 	{
 		// Use fast COUNT(*) on DatabaseQuery objects if there is no GROUP BY or HAVING clause:
 		if ($query instanceof DatabaseQuery
-			&& $query->type == 'select'
+			&& $query->type === 'select'
 			&& $query->group === null
 			&& $query->merge === null
 			&& $query->querySet === null
@@ -179,11 +178,11 @@ abstract class BaseDatabaseModel extends BaseModel implements DatabaseModelInter
 
 		// Otherwise fall back to inefficient way of counting all results.
 
-		// Remove the limit and offset part if it's a DatabaseQuery object
+		// Remove the limit, offset and order parts if it's a DatabaseQuery object
 		if ($query instanceof DatabaseQuery)
 		{
 			$query = clone $query;
-			$query->clear('limit')->clear('offset');
+			$query->clear('limit')->clear('offset')->clear('order');
 		}
 
 		$this->getDbo()->setQuery($query);
@@ -246,57 +245,6 @@ abstract class BaseDatabaseModel extends BaseModel implements DatabaseModelInter
 		}
 
 		throw new \Exception(Text::sprintf('JLIB_APPLICATION_ERROR_TABLE_NAME_NOT_SUPPORTED', $name), 0);
-	}
-
-	/**
-	 * Method to load a row for editing from the version history table.
-	 *
-	 * @param   integer  $version_id  Key to the version history table.
-	 * @param   Table    &$table      Content table object being loaded.
-	 *
-	 * @return  boolean  False on failure or error, true otherwise.
-	 *
-	 * @since   3.2
-	 */
-	public function loadHistory($version_id, Table &$table)
-	{
-		// Only attempt to check the row in if it exists, otherwise do an early exit.
-		if (!$version_id)
-		{
-			return false;
-		}
-
-		// Get an instance of the row to checkout.
-		$historyTable = Table::getInstance('Contenthistory');
-
-		if (!$historyTable->load($version_id))
-		{
-			$this->setError($historyTable->getError());
-
-			return false;
-		}
-
-		$rowArray = ArrayHelper::fromObject(json_decode($historyTable->version_data));
-		$typeId   = Table::getInstance('Contenttype')->getTypeId($this->typeAlias);
-
-		if ($historyTable->ucm_type_id != $typeId)
-		{
-			$this->setError(Text::_('JLIB_APPLICATION_ERROR_HISTORY_ID_MISMATCH'));
-
-			$key = $table->getKeyName();
-
-			if (isset($rowArray[$key]))
-			{
-				$table->checkIn($rowArray[$key]);
-			}
-
-			return false;
-		}
-
-		$this->setState('save_date', $historyTable->save_date);
-		$this->setState('version_note', $historyTable->version_note);
-
-		return $table->bind($rowArray);
 	}
 
 	/**

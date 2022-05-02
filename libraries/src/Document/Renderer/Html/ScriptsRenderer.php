@@ -1,9 +1,8 @@
 <?php
 /**
- * @package     Joomla.Platform
- * @subpackage  Document
+ * Joomla! Content Management System
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2005 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -22,6 +21,15 @@ use Joomla\CMS\WebAsset\WebAssetItemInterface;
 class ScriptsRenderer extends DocumentRenderer
 {
 	/**
+	 * List of already rendered src
+	 *
+	 * @var array
+	 *
+	 * @since   4.0.0
+	 */
+	private $renderedSrc = [];
+
+	/**
 	 * Renders the document script tags and returns the results as a string
 	 *
 	 * @param   string  $head     (unused)
@@ -38,128 +46,62 @@ class ScriptsRenderer extends DocumentRenderer
 		$lnEnd        = $this->_doc->_getLineEnd();
 		$tab          = $this->_doc->_getTab();
 		$buffer       = '';
-		$mediaVersion = $this->_doc->getMediaVersion();
 		$wam          = $this->_doc->getWebAssetManager();
 		$assets       = $wam->getAssets('script', true);
-		$assets       = array_merge(array_values($assets), $this->_doc->_scripts);
-		$renderedUrls = [];
 
-		$defaultJsMimes         = array('text/javascript', 'application/javascript', 'text/x-javascript', 'application/x-javascript');
-		$html5NoValueAttributes = array('defer', 'async');
+		// Get a list of inline assets and their relation with regular assets
+		$inlineAssets   = $wam->filterOutInlineAssets($assets);
+		$inlineRelation = $wam->getInlineRelation($inlineAssets);
+
+		// Merge with existing scripts, for rendering
+		$assets = array_merge(array_values($assets), $this->_doc->_scripts);
 
 		// Generate script file links
 		foreach ($assets as $key => $item)
 		{
+			// Check whether we have an Asset instance, or old array with attributes
 			$asset = $item instanceof WebAssetItemInterface ? $item : null;
 
-			if ($asset && $asset->getOption('webcomponent'))
+			// Add src attribute for non Asset item
+			if (!$asset)
 			{
-				continue;
+				$item['src'] = $key;
 			}
 
-			if ($asset)
+			// Check for inline content "before"
+			if ($asset && !empty($inlineRelation[$asset->getName()]['before']))
 			{
-				$src = $asset->getUri();
-
-				if (!$src)
+				foreach ($inlineRelation[$asset->getName()]['before'] as $itemBefore)
 				{
-					continue;
-				}
+					$buffer .= $this->renderInlineElement($itemBefore);
 
-				$attribs     = $asset->getAttributes();
-				$version     = $asset->getVersion();
-				$conditional = $asset->getOption('conditional');
-			}
-			else
-			{
-				$src     = $key;
-				$attribs = $item;
-				$version = isset($attribs['options']['version']) ? $attribs['options']['version'] : '';
-
-				// Check if stylesheet uses IE conditional statements.
-				$conditional = !empty($attribs['options']['conditional']) ? $attribs['options']['conditional'] : null;
-			}
-
-			// Prevent double rendering
-			if (!empty($renderedUrls[$src]))
-			{
-				continue;
-			}
-
-			$renderedUrls[$src] = true;
-
-			// Check if script uses media version.
-			if ($version && strpos($src, '?') === false && ($mediaVersion || $version !== 'auto'))
-			{
-				$src .= '?' . ($version === 'auto' ? $mediaVersion : $version);
-			}
-
-			$buffer .= $tab;
-
-			// This is for IE conditional statements support.
-			if (!\is_null($conditional))
-			{
-				$buffer .= '<!--[if ' . $conditional . ']>';
-			}
-
-			$buffer .= '<script src="' . $src . '"';
-
-			// Add script tag attributes.
-			foreach ($attribs as $attrib => $value)
-			{
-				// Don't add the 'options' attribute. This attribute is for internal use (version, conditional, etc).
-				if ($attrib === 'options')
-				{
-					continue;
-				}
-
-				// Don't add type attribute if document is HTML5 and it's a default mime type. 'mime' is for B/C.
-				if (\in_array($attrib, array('type', 'mime')) && $this->_doc->isHtml5() && \in_array($value, $defaultJsMimes))
-				{
-					continue;
-				}
-
-				// B/C: If defer and async is false or empty don't render the attribute.
-				if (\in_array($attrib, array('defer', 'async')) && !$value)
-				{
-					continue;
-				}
-
-				// Don't add type attribute if document is HTML5 and it's a default mime type. 'mime' is for B/C.
-				if ($attrib === 'mime')
-				{
-					$attrib = 'type';
-				}
-				// B/C defer and async can be set to yes when using the old method.
-				elseif (\in_array($attrib, array('defer', 'async')) && $value === true)
-				{
-					$value = $attrib;
-				}
-
-				// Add attribute to script tag output.
-				$buffer .= ' ' . htmlspecialchars($attrib, ENT_COMPAT, 'UTF-8');
-
-				if (!($this->_doc->isHtml5() && \in_array($attrib, $html5NoValueAttributes)))
-				{
-					// Json encode value if it's an array.
-					$value = !is_scalar($value) ? json_encode($value) : $value;
-
-					$buffer .= '="' . htmlspecialchars($value, ENT_COMPAT, 'UTF-8') . '"';
+					// Remove this item from inline queue
+					unset($inlineAssets[$itemBefore->getName()]);
 				}
 			}
 
-			$buffer .= '></script>';
+			$buffer .= $this->renderElement($item);
 
-			// This is for IE conditional statements support.
-			if (!\is_null($conditional))
+			// Check for inline content "after"
+			if ($asset && !empty($inlineRelation[$asset->getName()]['after']))
 			{
-				$buffer .= '<![endif]-->';
-			}
+				foreach ($inlineRelation[$asset->getName()]['after'] as $itemBefore)
+				{
+					$buffer .= $this->renderInlineElement($itemBefore);
 
-			$buffer .= $lnEnd;
+					// Remove this item from inline queue
+					unset($inlineAssets[$itemBefore->getName()]);
+				}
+			}
 		}
 
-		// Generate script declarations
+		// Generate script declarations for assets
+		foreach ($inlineAssets as $item)
+		{
+			$buffer .= $this->renderInlineElement($item);
+		}
+
+		// Generate script declarations for old scripts
 		foreach ($this->_doc->_script as $type => $contents)
 		{
 			// Test for B.C. in case someone still store script declarations as single string
@@ -170,35 +112,12 @@ class ScriptsRenderer extends DocumentRenderer
 
 			foreach ($contents as $content)
 			{
-				$buffer .= $tab . '<script';
-
-				if (!\is_null($type) && (!$this->_doc->isHtml5() || !\in_array($type, $defaultJsMimes)))
-				{
-					$buffer .= ' type="' . $type . '"';
-				}
-
-				if ($this->_doc->cspNonce)
-				{
-					$buffer .= ' nonce="' . $this->_doc->cspNonce . '"';
-				}
-
-				$buffer .= '>' . $lnEnd;
-
-				// This is for full XHTML support.
-				if ($this->_doc->_mime != 'text/html')
-				{
-					$buffer .= $tab . $tab . '//<![CDATA[' . $lnEnd;
-				}
-
-				$buffer .= $content . $lnEnd;
-
-				// See above note
-				if ($this->_doc->_mime != 'text/html')
-				{
-					$buffer .= $tab . $tab . '//]]>' . $lnEnd;
-				}
-
-				$buffer .= $tab . '</script>' . $lnEnd;
+				$buffer .= $this->renderInlineElement(
+					[
+						'type' => $type,
+						'content' => $content,
+					]
+				);
 			}
 		}
 
@@ -209,5 +128,216 @@ class ScriptsRenderer extends DocumentRenderer
 		}
 
 		return ltrim($buffer, $tab);
+	}
+
+	/**
+	 * Renders the element
+	 *
+	 * @param   WebAssetItemInterface|array  $item  The element
+	 *
+	 * @return  string  The resulting string
+	 *
+	 * @since   4.0.0
+	 */
+	private function renderElement($item) : string
+	{
+		$buffer = '';
+		$asset  = $item instanceof WebAssetItemInterface ? $item : null;
+		$src    = $asset ? $asset->getUri() : ($item['src'] ?? '');
+
+		// Make sure we have a src, and it not already rendered
+		if (!$src || !empty($this->renderedSrc[$src]) || ($asset && $asset->getOption('webcomponent')))
+		{
+			return '';
+		}
+
+		$lnEnd        = $this->_doc->_getLineEnd();
+		$tab          = $this->_doc->_getTab();
+		$mediaVersion = $this->_doc->getMediaVersion();
+
+		// Get the attributes and other options
+		if ($asset)
+		{
+			$attribs     = $asset->getAttributes();
+			$version     = $asset->getVersion();
+			$conditional = $asset->getOption('conditional');
+
+			// Add an asset info for debugging
+			if (JDEBUG)
+			{
+				$attribs['data-asset-name'] = $asset->getName();
+
+				if ($asset->getDependencies())
+				{
+					$attribs['data-asset-dependencies'] = implode(',', $asset->getDependencies());
+				}
+			}
+		}
+		else
+		{
+			$attribs     = $item;
+			$version     = isset($attribs['options']['version']) ? $attribs['options']['version'] : '';
+			$conditional = !empty($attribs['options']['conditional']) ? $attribs['options']['conditional'] : null;
+		}
+
+		// To prevent double rendering
+		$this->renderedSrc[$src] = true;
+
+		// Check if script uses media version.
+		if ($version && strpos($src, '?') === false && ($mediaVersion || $version !== 'auto'))
+		{
+			$src .= '?' . ($version === 'auto' ? $mediaVersion : $version);
+		}
+
+		$buffer .= $tab;
+
+		// This is for IE conditional statements support.
+		if (!\is_null($conditional))
+		{
+			$buffer .= '<!--[if ' . $conditional . ']>';
+		}
+
+		// Render the element with attributes
+		$buffer .= '<script src="' . htmlspecialchars($src) . '"';
+		$buffer .= $this->renderAttributes($attribs);
+		$buffer .= '></script>';
+
+		// This is for IE conditional statements support.
+		if (!\is_null($conditional))
+		{
+			$buffer .= '<![endif]-->';
+		}
+
+		$buffer .= $lnEnd;
+
+		return $buffer;
+	}
+
+	/**
+	 * Renders the inline element
+	 *
+	 * @param   WebAssetItemInterface|array  $item  The element
+	 *
+	 * @return  string  The resulting string
+	 *
+	 * @since   4.0.0
+	 */
+	private function renderInlineElement($item) : string
+	{
+		$buffer = '';
+		$lnEnd  = $this->_doc->_getLineEnd();
+		$tab    = $this->_doc->_getTab();
+
+		if ($item instanceof WebAssetItemInterface)
+		{
+			$attribs = $item->getAttributes();
+			$content = $item->getOption('content');
+		}
+		else
+		{
+			$attribs = $item;
+			$content = $item['content'] ?? '';
+
+			unset($attribs['content']);
+		}
+
+		// Do not produce empty elements
+		if (!$content)
+		{
+			return '';
+		}
+
+		// Add "nonce" attribute if exist
+		if ($this->_doc->cspNonce)
+		{
+			$attribs['nonce'] = $this->_doc->cspNonce;
+		}
+
+		$buffer .= $tab . '<script';
+		$buffer .= $this->renderAttributes($attribs);
+		$buffer .= '>';
+
+		// This is for full XHTML support.
+		if ($this->_doc->_mime !== 'text/html')
+		{
+			$buffer .= $tab . $tab . '//<![CDATA[' . $lnEnd;
+		}
+
+		$buffer .= $content;
+
+		// See above note
+		if ($this->_doc->_mime !== 'text/html')
+		{
+			$buffer .= $tab . $tab . '//]]>' . $lnEnd;
+		}
+
+		$buffer .= '</script>' . $lnEnd;
+
+		return $buffer;
+	}
+
+	/**
+	 * Renders the element attributes
+	 *
+	 * @param   array  $attributes  The element attributes
+	 *
+	 * @return  string  The attributes string
+	 *
+	 * @since   4.0.0
+	 */
+	private function renderAttributes(array $attributes) : string
+	{
+		$buffer = '';
+
+		$defaultJsMimes         = array('text/javascript', 'application/javascript', 'text/x-javascript', 'application/x-javascript');
+		$html5NoValueAttributes = array('defer', 'async', 'nomodule');
+
+		foreach ($attributes as $attrib => $value)
+		{
+			// Don't add the 'options' attribute. This attribute is for internal use (version, conditional, etc).
+			if ($attrib === 'options' || $attrib === 'src')
+			{
+				continue;
+			}
+
+			// Don't add type attribute if document is HTML5 and it's a default mime type. 'mime' is for B/C.
+			if (\in_array($attrib, array('type', 'mime')) && $this->_doc->isHtml5() && \in_array($value, $defaultJsMimes))
+			{
+				continue;
+			}
+
+			// B/C: If defer and async is false or empty don't render the attribute. Also skip if value is bool:false.
+			if (\in_array($attrib, array('defer', 'async')) && !$value || $value === false)
+			{
+				continue;
+			}
+
+			// NoValue attribute, if it have bool:true
+			$isNoValueAttrib = $value === true || \in_array($attrib, $html5NoValueAttributes);
+
+			// Don't add type attribute if document is HTML5 and it's a default mime type. 'mime' is for B/C.
+			if ($attrib === 'mime')
+			{
+				$attrib = 'type';
+			}
+			// NoValue attribute in non HTML5 should contain a value, set it equal to attribute name.
+			elseif ($isNoValueAttrib)
+			{
+				$value = $attrib;
+			}
+
+			// Add attribute to script tag output.
+			$buffer .= ' ' . htmlspecialchars($attrib, ENT_COMPAT, 'UTF-8');
+
+			if (!($this->_doc->isHtml5() && $isNoValueAttrib))
+			{
+				// Json encode value if it's an array.
+				$value = !is_scalar($value) ? json_encode($value) : $value;
+
+				$buffer .= '="' . htmlspecialchars($value, ENT_COMPAT, 'UTF-8') . '"';
+			}
+		}
+
+		return $buffer;
 	}
 }

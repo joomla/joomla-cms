@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2013 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -20,7 +20,7 @@ use Joomla\CMS\Uri\Uri;
  * Form Field class for the Joomla Platform.
  * Provides a one line text box with up-down handles to set a number in the field.
  *
- * @link   http://www.w3.org/TR/html-markup/input.text.html#input.text
+ * @link   https://html.spec.whatwg.org/multipage/input.html#number-state-(type=number)
  * @since  3.2
  */
 class NumberField extends FormField
@@ -64,6 +64,14 @@ class NumberField extends FormField
 	 * @since  3.7
 	 */
 	protected $layout = 'joomla.form.field.number';
+
+	/**
+	 * The parent class of the field
+	 *
+	 * @var  string
+	 * @since 4.0.0
+	 */
+	protected $parentclass;
 
 	/**
 	 * Method to get certain otherwise inaccessible properties from the form field object.
@@ -155,7 +163,7 @@ class NumberField extends FormField
 			$component = Factory::getApplication()->input->getCmd('option');
 
 			// Get correct component for menu items
-			if ($component == 'com_menus')
+			if ($component === 'com_menus')
 			{
 				$link      = $this->form->getData()->get('link');
 				$uri       = new Uri($link);
@@ -172,7 +180,7 @@ class NumberField extends FormField
 			}
 
 			// Try with menu configuration
-			if (\is_null($value) && Factory::getApplication()->input->getCmd('option') == 'com_menus')
+			if (\is_null($value) && Factory::getApplication()->input->getCmd('option') === 'com_menus')
 			{
 				$value = ComponentHelper::getParams('com_menus')->get($this->fieldname);
 			}

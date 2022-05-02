@@ -1,25 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
-<extension type="module" version="3.1" client="site" method="upgrade">
+<extension type="module" client="site" method="upgrade">
 	<name>mod_languages</name>
 	<author>Joomla! Project</author>
 	<creationDate>February 2010</creationDate>
-	<copyright>Copyright (C) 2005 - 2019 Open Source Matters. All rights reserved.</copyright>
+	<copyright>(C) 2010 Open Source Matters, Inc.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>3.5.0</version>
 	<description>MOD_LANGUAGES_XML_DESCRIPTION</description>
-	<namespace>Joomla\Module\Languages</namespace>
+	<namespace path="src">Joomla\Module\Languages</namespace>
 	<files>
 		<filename module="mod_languages">mod_languages.php</filename>
+		<folder>src</folder>
 		<folder>tmpl</folder>
-		<filename>helper.php</filename>
 	</files>
 	<languages>
-		<language tag="en-GB">en-GB.mod_languages.ini</language>
-		<language tag="en-GB">en-GB.mod_languages.sys.ini</language>
+		<language tag="en-GB">language/en-GB/mod_languages.ini</language>
+		<language tag="en-GB">language/en-GB/mod_languages.sys.ini</language>
 	</languages>
-	<help key="JHELP_EXTENSIONS_MODULE_MANAGER_LANGUAGE_SWITCHER" />
+	<help key="Site_Modules:_Language_Switcher" />
 	<config>
 		<fieldset>
 			<field
@@ -27,6 +27,7 @@
 				type="list"
 				label="JFIELD_LANGUAGE_LABEL"
 				description="JFIELD_MODULE_LANGUAGE_DESC"
+				validate="options"
 				>
 				<option value="*">JALL</option>
 			</field>
@@ -54,7 +55,7 @@
 				<field
 					name="dropdown"
 					type="radio"
-					class="switcher"
+					layout="joomla.form.field.radio.switcher"
 					label="MOD_LANGUAGES_FIELD_DROPDOWN_LABEL"
 					default="0"
 					filter="integer"
@@ -66,7 +67,7 @@
 				<field
 					name="dropdownimage"
 					type="radio"
-					class="switcher"
+					layout="joomla.form.field.radio.switcher"
 					label="MOD_LANGUAGES_FIELD_DROPDOWN_IMAGE_LABEL"
 					default="1"
 					filter="integer"
@@ -79,7 +80,7 @@
 				<field
 					name="image"
 					type="radio"
-					class="switcher"
+					layout="joomla.form.field.radio.switcher"
 					label="MOD_LANGUAGES_FIELD_USEIMAGE_LABEL"
 					default="1"
 					filter="integer"
@@ -92,7 +93,7 @@
 				<field
 					name="full_name"
 					type="radio"
-					class="switcher"
+					layout="joomla.form.field.radio.switcher"
 					label="MOD_LANGUAGES_FIELD_FULL_NAME_LABEL"
 					showon="dropdown:1[OR]image:0"
 					default="1"
@@ -103,21 +104,9 @@
 				</field>
 
 				<field
-					name="lineheight"
-					type="radio"
-					class="switcher"
-					label="MOD_LANGUAGES_FIELD_LINEHEIGHT_LABEL"
-					default="0"
-					showon="dropdown:1[AND]dropdownimage:1"
-					>
-					<option value="0">JNO</option>
-					<option value="1">JYES</option>
-				</field>
-
-				<field
 					name="show_active"
 					type="radio"
-					class="switcher"
+					layout="joomla.form.field.radio.switcher"
 					label="MOD_LANGUAGES_FIELD_ACTIVE_LABEL"
 					default="1"
 					showon="dropdownimage:1[OR]dropdown:0"
@@ -130,7 +119,7 @@
 				<field
 					name="inline"
 					type="radio"
-					class="switcher"
+					layout="joomla.form.field.radio.switcher"
 					label="MOD_LANGUAGES_FIELD_INLINE_LABEL"
 					default="1"
 					filter="integer"
@@ -145,7 +134,8 @@
 					name="layout"
 					type="modulelayout"
 					label="JFIELD_ALT_LAYOUT_LABEL"
-					class="custom-select"
+					class="form-select"
+					validate="moduleLayout"
 				/>
 
 				<field
@@ -153,6 +143,7 @@
 					type="textarea"
 					label="COM_MODULES_FIELD_MODULECLASS_SFX_LABEL"
 					rows="3"
+					validate="CssIdentifier"
 				/>
 			</fieldset>
 		</fields>

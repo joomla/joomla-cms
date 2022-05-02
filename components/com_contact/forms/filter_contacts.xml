@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <form>
-<fieldset addfieldpath="/administrator/components/com_contacts/models/fields" />
 	<fields name="filter">
 
 		<field
@@ -25,14 +24,14 @@
 		<field
 			name="category_id"
 			type="category"
-			label="JOPTION_FILTER_CATEGORY"
-			description="JOPTION_FILTER_CATEGORY_DESC"
+			label="JCATEGORY"
+			multiple="true"
 			extension="com_contact"
-			published="0,1,2"
+			layout="joomla.form.field.list-fancy-select"
+			hint="JOPTION_SELECT_CATEGORY"
 			onchange="this.form.submit();"
-			>
-			<option value="">JOPTION_SELECT_CATEGORY</option>
-		</field>
+			published="0,1,2"
+		/>
 
 		<field
 			name="access"
@@ -58,13 +57,13 @@
 		<field
 			name="tag"
 			type="tag"
-			label="JOPTION_FILTER_TAG"
-			description="JOPTION_FILTER_TAG_DESC"
+			label="JTAG"
+			multiple="true"
 			mode="nested"
+			custom="false"
+			hint="JOPTION_SELECT_TAG"
 			onchange="this.form.submit();"
-			>
-			<option value="">JOPTION_SELECT_TAG</option>
-		</field>
+		/>
 
 		<field
 			name="level"
@@ -90,6 +89,7 @@
 			description="COM_CONTACT_LIST_FULL_ORDERING_DESC"
 			default="a.name ASC"
 			onchange="this.form.submit();"
+			validate="options"
 			>
 			<option value="">JGLOBAL_SORT_BY</option>
 			<option value="a.ordering ASC">JGRID_HEADING_ORDERING_ASC</option>

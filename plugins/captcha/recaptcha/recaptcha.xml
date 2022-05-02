@@ -1,20 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<extension version="3.4" type="plugin" group="captcha" method="upgrade">
+<extension type="plugin" group="captcha" method="upgrade">
 	<name>plg_captcha_recaptcha</name>
 	<version>3.4.0</version>
 	<creationDate>December 2011</creationDate>
 	<author>Joomla! Project</author>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
-	<copyright>Copyright (C) 2005 - 2019 Open Source Matters. All rights reserved.</copyright>
+	<copyright>(C) 2011 Open Source Matters, Inc.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<description>PLG_CAPTCHA_RECAPTCHA_XML_DESCRIPTION</description>
 	<files>
 		<filename plugin="recaptcha">recaptcha.php</filename>
 	</files>
 	<languages>
-		<language tag="en-GB">en-GB.plg_captcha_recaptcha.ini</language>
-		<language tag="en-GB">en-GB.plg_captcha_recaptcha.sys.ini</language>
+		<language tag="en-GB">language/en-GB/plg_captcha_recaptcha.ini</language>
+		<language tag="en-GB">language/en-GB/plg_captcha_recaptcha.sys.ini</language>
 	</languages>
 	<config>
 		<fields name="params">
@@ -25,6 +25,7 @@
 					label="PLG_RECAPTCHA_VERSION_LABEL"
 					default="2.0"
 					size="1"
+					validate="options"
 					>
 					<option value="2.0">PLG_RECAPTCHA_VERSION_V2</option>
 				</field>
@@ -58,6 +59,7 @@
 					default="light"
 					showon="version:2.0"
 					filter=""
+					validate="options"
 					>
 					<option value="light">PLG_RECAPTCHA_THEME_LIGHT</option>
 					<option value="dark">PLG_RECAPTCHA_THEME_DARK</option>
@@ -70,6 +72,7 @@
 					default="normal"
 					showon="version:2.0"
 					filter=""
+					validate="options"
 					>
 					<option value="normal">PLG_RECAPTCHA_THEME_NORMAL</option>
 					<option value="compact">PLG_RECAPTCHA_THEME_COMPACT</option>
@@ -80,6 +83,7 @@
 					type="number"
 					label="PLG_RECAPTCHA_TABINDEX_LABEL"
 					description="PLG_RECAPTCHA_TABINDEX_DESC"
+					filter="integer"
 					default="0"
 					showon="version:2.0"
 					min="0"

@@ -1,25 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
-<extension type="module" version="3.1" client="site" method="upgrade">
+<extension type="module" client="site" method="upgrade">
 	<name>mod_articles_popular</name>
 	<author>Joomla! Project</author>
 	<creationDate>July 2006</creationDate>
-	<copyright>Copyright (C) 2005 - 2019 Open Source Matters. All rights reserved.</copyright>
+	<copyright>(C) 2006 Open Source Matters, Inc.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>3.0.0</version>
 	<description>MOD_POPULAR_XML_DESCRIPTION</description>
-	<namespace>Joomla\Module\ArticlesPopular</namespace>
+	<namespace path="src">Joomla\Module\ArticlesPopular</namespace>
 	<files>
 		<filename module="mod_articles_popular">mod_articles_popular.php</filename>
+		<folder>src</folder>
 		<folder>tmpl</folder>
-		<filename>helper.php</filename>
 	</files>
 	<languages>
-		<language tag="en-GB">en-GB.mod_articles_popular.ini</language>
-		<language tag="en-GB">en-GB.mod_articles_popular.sys.ini</language>
+		<language tag="en-GB">language/en-GB/mod_articles_popular.ini</language>
+		<language tag="en-GB">language/en-GB/mod_articles_popular.sys.ini</language>
 	</languages>
-	<help key="JHELP_EXTENSIONS_MODULE_MANAGER_MOST_READ" />
+	<help key="Site_Modules:_Articles_-_Most_Read" />
 	<config>
 		<fields name="params">
 			<fieldset name="basic">
@@ -29,7 +29,8 @@
 					label="JCATEGORY"
 					extension="com_content"
 					multiple="true"
-					filter="int_array"
+					filter="intarray"
+					layout="joomla.form.field.list-fancy-select"
 				/>
 
 				<field
@@ -43,7 +44,7 @@
 				<field
 					name="show_front"
 					type="radio"
-					class="switcher"
+					layout="joomla.form.field.radio.switcher"
 					label="MOD_POPULAR_FIELD_FEATURED_LABEL"
 					default="1"
 					filter="integer"
@@ -63,6 +64,7 @@
 					type="list"
 					label="MOD_POPULAR_FIELD_DATEFILTERING_LABEL"
 					default="off"
+					validate="options"
 					>
 					<option value="off">MOD_POPULAR_OPTION_OFF_VALUE</option>
 					<option value="range">MOD_POPULAR_OPTION_DATERANGE_VALUE</option>
@@ -75,6 +77,7 @@
 					label="MOD_POPULAR_FIELD_DATEFIELD_LABEL"
 					default="a.created"
 					showon="date_filtering:range,relative"
+					validate="options"
 					>
 					<option value="a.created">MOD_POPULAR_OPTION_CREATED_VALUE</option>
 					<option value="a.modified">MOD_POPULAR_OPTION_MODIFIED_VALUE</option>
@@ -118,7 +121,8 @@
 					name="layout"
 					type="modulelayout"
 					label="JFIELD_ALT_LAYOUT_LABEL"
-					class="custom-select"
+					class="form-select"
+					validate="moduleLayout"
  				/>
 
 				<field
@@ -126,6 +130,7 @@
 					type="textarea"
 					label="COM_MODULES_FIELD_MODULECLASS_SFX_LABEL"
 					rows="3"
+					validate="CssIdentifier"
 				/>
 
 				<field
@@ -134,6 +139,7 @@
 					label="COM_MODULES_FIELD_CACHING_LABEL"
 					default="1"
 					filter="integer"
+					validate="options"
 					>
 					<option value="1">JGLOBAL_USE_GLOBAL</option>
 					<option value="0">COM_MODULES_FIELD_VALUE_NOCACHING</option>

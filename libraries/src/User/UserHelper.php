@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2007 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -18,14 +18,15 @@ use Joomla\CMS\Authentication\Password\ChainedHandler;
 use Joomla\CMS\Authentication\Password\CheckIfRehashNeededHandlerInterface;
 use Joomla\CMS\Authentication\Password\MD5Handler;
 use Joomla\CMS\Authentication\Password\PHPassHandler;
-use Joomla\CMS\Authentication\Password\SHA256Handler;
 use Joomla\CMS\Crypt\Crypt;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\CMS\Session\SessionManager;
 use Joomla\CMS\Uri\Uri;
+use Joomla\Database\Exception\ExecutionFailureException;
 use Joomla\Database\ParameterType;
 use Joomla\Utilities\ArrayHelper;
 
@@ -42,59 +43,96 @@ abstract class UserHelper
 	/**
 	 * Constant defining the Argon2i password algorithm for use with password hashes
 	 *
-	 * Note: The value of the hash is the same as PHP's native `PASSWORD_ARGON2I` but the constant is not used
-	 * as PHP may not be compiled with this constant
+	 * Note: PHP's native `PASSWORD_ARGON2I` constant is not used as PHP may be compiled without this constant
+	 *
+	 * @var    string
+	 * @since  4.0.0
+	 */
+	const HASH_ARGON2I = 'argon2i';
+
+	/**
+	 * B/C constant `PASSWORD_ARGON2I` for PHP < 7.4 (using integer)
+	 *
+	 * Note: PHP's native `PASSWORD_ARGON2I` constant is not used as PHP may be compiled without this constant
 	 *
 	 * @var    integer
 	 * @since  4.0.0
+	 * @deprecated 4.0.0  Use self::HASH_ARGON2I instead
 	 */
-	const HASH_ARGON2I = 2;
+	const HASH_ARGON2I_BC = 2;
 
 	/**
 	 * Constant defining the Argon2id password algorithm for use with password hashes
 	 *
-	 * Note: The value of the hash is the same as PHP's native `PASSWORD_ARGON2ID` but the constant is not used
-	 * as PHP may not be compiled with this constant
+	 * Note: PHP's native `PASSWORD_ARGON2ID` constant is not used as PHP may be compiled without this constant
+	 *
+	 * @var    string
+	 * @since  4.0.0
+	 */
+	const HASH_ARGON2ID = 'argon2id';
+
+	/**
+	 * B/C constant `PASSWORD_ARGON2ID` for PHP < 7.4 (using integer)
+	 *
+	 * Note: PHP's native `PASSWORD_ARGON2ID` constant is not used as PHP may be compiled without this constant
 	 *
 	 * @var    integer
 	 * @since  4.0.0
+	 * @deprecated  4.0.0  Use self::HASH_ARGON2ID instead
 	 */
-	const HASH_ARGON2ID = 3;
+	const HASH_ARGON2ID_BC = 3;
 
 	/**
 	 * Constant defining the BCrypt password algorithm for use with password hashes
 	 *
-	 * @var    integer
+	 * @var    string
 	 * @since  4.0.0
 	 */
-	const HASH_BCRYPT = PASSWORD_BCRYPT;
+	const HASH_BCRYPT = '2y';
+
+	/**
+	 * B/C constant `PASSWORD_BCRYPT` for PHP < 7.4 (using integer)
+	 *
+	 * @var    integer
+	 * @since  4.0.0
+	 * @deprecated  4.0.0  Use self::HASH_BCRYPT instead
+	 */
+	const HASH_BCRYPT_BC = 1;
 
 	/**
 	 * Constant defining the MD5 password algorithm for use with password hashes
 	 *
-	 * @var    integer
+	 * @var    string
 	 * @since  4.0.0
 	 * @deprecated  5.0  Support for MD5 hashed passwords will be removed
 	 */
-	const HASH_MD5 = 100;
+	const HASH_MD5 = 'md5';
 
 	/**
 	 * Constant defining the PHPass password algorithm for use with password hashes
 	 *
-	 * @var    integer
+	 * @var    string
 	 * @since  4.0.0
 	 * @deprecated  5.0  Support for PHPass hashed passwords will be removed
 	 */
-	const HASH_PHPASS = 101;
+	const HASH_PHPASS = 'phpass';
 
 	/**
-	 * Constant defining the SHA256 password algorithm for use with password hashes
+	 * Mapping array for the algorithm handler
 	 *
-	 * @var    integer
+	 * @var array
 	 * @since  4.0.0
-	 * @deprecated  5.0  Support for SHA256 hashed passwords will be removed
 	 */
-	const HASH_SHA256 = 102;
+	const HASH_ALGORITHMS = [
+		self::HASH_ARGON2I => Argon2iHandler::class,
+		self::HASH_ARGON2I_BC => Argon2iHandler::class,
+		self::HASH_ARGON2ID => Argon2idHandler::class,
+		self::HASH_ARGON2ID_BC => Argon2idHandler::class,
+		self::HASH_BCRYPT => BCryptHandler::class,
+		self::HASH_BCRYPT_BC => BCryptHandler::class,
+		self::HASH_MD5 => MD5Handler::class,
+		self::HASH_PHPASS => PHPassHandler::class
+	];
 
 	/**
 	 * Method to add a user to a group.
@@ -136,6 +174,9 @@ abstract class UserHelper
 
 			// Add the group data to the user object.
 			$user->groups[$groupId] = $groupId;
+
+			// Reindex the array for prepared statements binding
+			$user->groups = array_values($user->groups);
 
 			// Store the user object.
 			$user->save();
@@ -196,8 +237,8 @@ abstract class UserHelper
 
 		if ($key !== false)
 		{
-			// Remove the user from the group.
 			unset($user->groups[$key]);
+			$user->groups = array_values($user->groups);
 
 			// Store the user object.
 			$user->save();
@@ -398,26 +439,10 @@ abstract class UserHelper
 			return $container->get($algorithm)->hashPassword($password, $options);
 		}
 
-		// Try a known handler next
-		switch ($algorithm)
+		// Try to load handler
+		if (isset(self::HASH_ALGORITHMS[$algorithm]))
 		{
-			case self::HASH_ARGON2I :
-				return $container->get(Argon2iHandler::class)->hashPassword($password, $options);
-
-			case self::HASH_ARGON2ID :
-				return $container->get(Argon2idHandler::class)->hashPassword($password, $options);
-
-			case self::HASH_BCRYPT :
-				return $container->get(BCryptHandler::class)->hashPassword($password, $options);
-
-			case self::HASH_MD5 :
-				return $container->get(MD5Handler::class)->hashPassword($password, $options);
-
-			case self::HASH_PHPASS :
-				return $container->get(PHPassHandler::class)->hashPassword($password, $options);
-
-			case self::HASH_SHA256 :
-				return $container->get(SHA256Handler::class)->hashPassword($password, $options);
+			return $container->get(self::HASH_ALGORITHMS[$algorithm])->hashPassword($password, $options);
 		}
 
 		// Unsupported algorithm, sorry!
@@ -431,15 +456,15 @@ abstract class UserHelper
 	 *
 	 * @param   string   $password  The plaintext password to check.
 	 * @param   string   $hash      The hash to verify against.
-	 * @param   integer  $user_id   ID of the user if the password hash should be updated
+	 * @param   integer  $userId    ID of the user if the password hash should be updated
 	 *
 	 * @return  boolean  True if the password and hash match, false otherwise
 	 *
 	 * @since   3.2.1
 	 */
-	public static function verifyPassword($password, $hash, $user_id = 0)
+	public static function verifyPassword($password, $hash, $userId = 0)
 	{
-		$passwordAlgorithm = PASSWORD_BCRYPT;
+		$passwordAlgorithm = self::HASH_BCRYPT;
 		$container         = Factory::getContainer();
 
 		// Cheaply try to determine the algorithm in use otherwise fall back to the chained handler
@@ -454,7 +479,7 @@ abstract class UserHelper
 			/** @var Argon2idHandler $handler */
 			$handler = $container->get(Argon2idHandler::class);
 
-			$passwordAlgorithm = PASSWORD_ARGON2ID;
+			$passwordAlgorithm = self::HASH_ARGON2ID;
 		}
 		// Check for Argon2i hashes
 		elseif (strpos($hash, '$argon2i') === 0)
@@ -462,18 +487,13 @@ abstract class UserHelper
 			/** @var Argon2iHandler $handler */
 			$handler = $container->get(Argon2iHandler::class);
 
-			$passwordAlgorithm = PASSWORD_ARGON2I;
+			$passwordAlgorithm = self::HASH_ARGON2I;
 		}
 		// Check for bcrypt hashes
 		elseif (strpos($hash, '$2') === 0)
 		{
 			/** @var BCryptHandler $handler */
 			$handler = $container->get(BCryptHandler::class);
-		}
-		elseif (substr($hash, 0, 8) == '{SHA256}')
-		{
-			/** @var SHA256Handler $handler */
-			$handler = $container->get(SHA256Handler::class);
 		}
 		else
 		{
@@ -485,9 +505,9 @@ abstract class UserHelper
 		$rehash = $handler instanceof CheckIfRehashNeededHandlerInterface ? $handler->checkIfRehashNeeded($hash) : false;
 
 		// If we have a match and rehash = true, rehash the password with the current algorithm.
-		if ((int) $user_id > 0 && $match && $rehash)
+		if ((int) $userId > 0 && $match && $rehash)
 		{
-			$user = new User($user_id);
+			$user = new User($userId);
 			$user->password = static::hashPassword($password, $passwordAlgorithm);
 			$user->save();
 		}
@@ -542,7 +562,15 @@ abstract class UserHelper
 		$ua = Factory::getApplication()->client;
 		$uaString = $ua->userAgent;
 		$browserVersion = $ua->browserVersion;
-		$uaShort = str_replace($browserVersion, 'abcd', $uaString);
+
+		if ($browserVersion)
+		{
+			$uaShort = str_replace($browserVersion, 'abcd', $uaString);
+		}
+		else
+		{
+			$uaShort = $uaString;
+		}
 
 		return md5(Uri::base() . $uaShort);
 	}
@@ -570,5 +598,90 @@ abstract class UserHelper
 		}
 
 		return false;
+	}
+
+	/**
+	 * Destroy all active session for a given user id
+	 *
+	 * @param   int      $userId       Id of user
+	 * @param   boolean  $keepCurrent  Keep the session of the currently acting user
+	 * @param   int      $clientId     Application client id
+	 *
+	 * @return  boolean
+	 *
+	 * @since   3.9.28
+	 */
+	public static function destroyUserSessions($userId, $keepCurrent = false, $clientId = null)
+	{
+		// Destroy all sessions for the user account if able
+		if (!Factory::getApplication()->get('session_metadata', true))
+		{
+			return false;
+		}
+
+		$db = Factory::getDbo();
+
+		try
+		{
+			$userId = (int) $userId;
+
+			$query = $db->getQuery(true)
+				->select($db->quoteName('session_id'))
+				->from($db->quoteName('#__session'))
+				->where($db->quoteName('userid') . ' = :userid')
+				->bind(':userid', $userId, ParameterType::INTEGER);
+
+			if ($clientId !== null)
+			{
+				$clientId = (int) $clientId;
+
+				$query->where($db->quoteName('client_id') . ' = :client_id')
+					->bind(':client_id', $clientId, ParameterType::INTEGER);
+			}
+
+			$sessionIds = $db->setQuery($query)->loadColumn();
+		}
+		catch (ExecutionFailureException $e)
+		{
+			return false;
+		}
+
+		// Convert PostgreSQL Session IDs into strings (see GitHub #33822)
+		foreach ($sessionIds as &$sessionId)
+		{
+			if (is_resource($sessionId) && get_resource_type($sessionId) === 'stream')
+			{
+				$sessionId = stream_get_contents($sessionId);
+			}
+		}
+
+		// If true, removes the current session id from the purge list
+		if ($keepCurrent)
+		{
+			$sessionIds = array_diff($sessionIds, array(Factory::getSession()->getId()));
+		}
+
+		// If there aren't any active sessions then there's nothing to do here
+		if (empty($sessionIds))
+		{
+			return false;
+		}
+
+		/** @var SessionManager $sessionManager */
+		$sessionManager = Factory::getContainer()->get('session.manager');
+		$sessionManager->destroySessions($sessionIds);
+
+		try
+		{
+			$db->setQuery(
+				$db->getQuery(true)
+					->delete($db->quoteName('#__session'))
+					->whereIn($db->quoteName('session_id'), $sessionIds, ParameterType::LARGE_OBJECT)
+			)->execute();
+		}
+		catch (ExecutionFailureException $e)
+		{
+			// No issue, let things go
+		}
 	}
 }

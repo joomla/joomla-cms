@@ -36,8 +36,9 @@
 			type="list"
 			label="COM_WORKFLOW_PUBLISHED_LABEL"
 			required="true"
-			class="custom-select-color-state"
+			class="form-select-color-state"
 			default="1"
+			validate="options"
 			>
 			<option value="1">JENABLED</option>
 			<option value="0">JDISABLED</option>
@@ -47,9 +48,8 @@
 			name="default"
 			type="radio"
 			label="COM_WORKFLOW_FIELD_IS_DEFAULT_LABEL"
-			class="switcher"
+			layout="joomla.form.field.radio.switcher"
 			default="0"
-			required="true"
 			>
 			<option value="0">JNO</option>
 			<option value="1">JYES</option>
@@ -69,7 +69,7 @@
 	</fieldset>
 
 	<fieldset name="permissions" label="JCONFIG_PERMISSIONS_LABEL">
-		<field 
+		<field
 			name="asset_id"
 			type="hidden"
 			filter="unset"
@@ -80,7 +80,6 @@
 			label="JCONFIG_PERMISSIONS_LABEL"
 			validate="rules"
 			filter="rules"
-			component="com_workflow"
 			section="workflow"
 		/>
 	</fieldset>

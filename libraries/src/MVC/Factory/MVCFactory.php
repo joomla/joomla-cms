@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2017 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -20,7 +20,7 @@ use Joomla\Input\Input;
 /**
  * Factory to create MVC objects based on a namespace.
  *
- * @since  4.0.0
+ * @since  3.10.0
  */
 class MVCFactory implements MVCFactoryInterface, FormFactoryAwareInterface
 {
@@ -58,7 +58,7 @@ class MVCFactory implements MVCFactoryInterface, FormFactoryAwareInterface
 	 *
 	 * @return  \Joomla\CMS\MVC\Controller\ControllerInterface
 	 *
-	 * @since   4.0.0
+	 * @since   3.10.0
 	 * @throws  \Exception
 	 */
 	public function createController($name, $prefix, array $config, CMSApplicationInterface $app, Input $input)
@@ -89,7 +89,7 @@ class MVCFactory implements MVCFactoryInterface, FormFactoryAwareInterface
 	 *
 	 * @return  ModelInterface  The model object
 	 *
-	 * @since   4.0.0
+	 * @since   3.10.0
 	 * @throws  \Exception
 	 */
 	public function createModel($name, $prefix = '', array $config = [])
@@ -134,7 +134,7 @@ class MVCFactory implements MVCFactoryInterface, FormFactoryAwareInterface
 	 *
 	 * @return  \Joomla\CMS\MVC\View\ViewInterface  The view object
 	 *
-	 * @since   4.0.0
+	 * @since   3.10.0
 	 * @throws  \Exception
 	 */
 	public function createView($name, $prefix = '', $type = '', array $config = [])
@@ -179,7 +179,7 @@ class MVCFactory implements MVCFactoryInterface, FormFactoryAwareInterface
 	 *
 	 * @return  \Joomla\CMS\Table\Table  The table object
 	 *
-	 * @since   4.0.0
+	 * @since   3.10.0
 	 * @throws  \Exception
 	 */
 	public function createTable($name, $prefix = '', array $config = [])
@@ -229,7 +229,7 @@ class MVCFactory implements MVCFactoryInterface, FormFactoryAwareInterface
 	 *
 	 * @return  string|null  The class name
 	 *
-	 * @since   4.0.0
+	 * @since   3.10.0
 	 */
 	protected function getClassName(string $suffix, string $prefix)
 	{
@@ -270,6 +270,7 @@ class MVCFactory implements MVCFactoryInterface, FormFactoryAwareInterface
 		}
 		catch (\UnexpectedValueException $e)
 		{
+			// Ignore it
 		}
 	}
 }

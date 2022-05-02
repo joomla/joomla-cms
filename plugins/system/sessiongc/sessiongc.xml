@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<extension version="3.8" type="plugin" group="system" method="upgrade">
+<extension type="plugin" group="system" method="upgrade">
 	<name>plg_system_sessiongc</name>
 	<author>Joomla! Project</author>
 	<creationDate>February 2018</creationDate>
-	<copyright>Copyright (C) 2005 - 2019 Open Source Matters. All rights reserved.</copyright>
+	<copyright>(C) 2018 Open Source Matters, Inc.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
@@ -12,9 +12,9 @@
 	<files>
 		<filename plugin="sessiongc">sessiongc.php</filename>
 	</files>
-	<languages folder="language">
-		<language tag="en-GB">en-GB/en-GB.plg_system_sessiongc.ini</language>
-		<language tag="en-GB">en-GB/en-GB.plg_system_sessiongc.sys.ini</language>
+	<languages>
+		<language tag="en-GB">language/en-GB/plg_system_sessiongc.ini</language>
+		<language tag="en-GB">language/en-GB/plg_system_sessiongc.sys.ini</language>
 	</languages>
 	<config>
 		<fields name="params">
@@ -24,7 +24,7 @@
 					type="radio"
 					label="PLG_SYSTEM_SESSIONGC_ENABLE_SESSION_GC_LABEL"
 					description="PLG_SYSTEM_SESSIONGC_ENABLE_SESSION_GC_DESC"
-					class="switcher"
+					layout="joomla.form.field.radio.switcher"
 					default="1"
 					filter="uint"
 					>
@@ -37,7 +37,7 @@
 					type="radio"
 					label="PLG_SYSTEM_SESSIONGC_ENABLE_SESSION_METADATA_GC_LABEL"
 					description="PLG_SYSTEM_SESSIONGC_ENABLE_SESSION_METADATA_GC_DESC"
-					class="switcher"
+					layout="joomla.form.field.radio.switcher"
 					default="1"
 					filter="uint"
 					>

@@ -1,174 +1,172 @@
 // Login page
 
-.view-login {
+.view-login,
+.task-logout {
 
   .container-main {
+    order: 1;
 
-    @include media-breakpoint-down(sm) {
-      min-height: calc(100vh - 35vh);
+    @include media-breakpoint-down(md) {
+      display: flex;
       flex-wrap: wrap;
       align-items: center;
       justify-content: center;
-      display: flex;
+      min-height: calc(100vh - 35vh);
     }
 
     #content {
-
-      @include media-breakpoint-down(sm) {
-        padding: 0;
+      @include media-breakpoint-down(md) {
         max-width: 98%;
+        padding: 0;
       }
-    }
-  }
-
-  .login-bg-grad {
-    position: fixed;
-    z-index: $zindex-negative;
-    width: 100vw;
-    height: 100vh;
-    background-image: linear-gradient(45deg,
-            rgba(var(--atum-bg-dark), .9) 30%,
-            rgba(color("atum-bg-light"), .2) 100%);
-  }
-
-  .login-logo {
-    width: 200px;
-    margin: 0 auto 2rem;
-    text-align: center;
-
-    @include media-breakpoint-down(sm) {
-      margin: 1rem 0;
     }
   }
 
   .login {
-    width: 25rem;
+    width: 100%;
+    max-width: 25rem;
+    padding: 30px;
+    margin: 1rem;
+    color: var(--template-text-dark);
     background: var(--white);
-    padding: 15px;
-    color: var(--atum-text-dark);
-    border-radius: 3px;
-    margin-top: 10rem;
-    align-self: flex-start;
-    box-shadow: 0 0 10px 0 #ccc;
+    border-radius: 10px;
+    box-shadow: 0 4px 20px -10px var(--template-bg-dark-50);
 
-    @include media-breakpoint-down(md) {
-      margin-top: 3rem;
+    @include media-breakpoint-down(lg) {
+      margin-bottom: 3rem;
     }
 
     img {
+      max-height: 4.4rem;
+    }
+
+    .logo {
+      padding: 0 20px 20px;
+    }
+
+    svg.joomla-logo {
+      width: 2.4rem;
       height: 4.4rem;
-      padding: 15px;
-    }
+      background-size: 4.4rem 2.4rem;
 
-    #form-login {
-
-      .form-group {
-        position: relative;
-        margin-bottom: 1.85rem;
-
-        .form-control-feedback {
-          text-align: right;
-          position: absolute;
-          bottom: -1.1rem;
-          right: 0;
-          font-size: 0.75rem;
-        }
+      path {
+        fill: var(--template-bg-dark);
       }
-
     }
 
-    #btn-login-submit {
-      background: var(--atum-bg-dark);
-      color:rgba(255,255,255,0.8);
+    &-watermark {
+      position: absolute;
+      z-index: -1;
+      max-width: 500px;
+      transform: rotate(12deg) translate(40%, 10%);
     }
-  }
 
-  .input-password-toggle {
-    border-color: var(--atum-bg-dark-80);
-    box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.15);
-  }
-
-  .login-box {
-    background: var(--login-main-bg);
-    box-shadow: 0 0 20px var(--atum-bg-dark);
-
-    a {
-      color: $white;
-    }
   }
 
   .form-group {
+    position: relative;
+    margin-bottom: 1.85rem;
 
     label {
       span {
-        font-size: .9rem;
+        font-size: ($font-size-base * .9);
 
-        @include media-breakpoint-down(xs) {
+        @include media-breakpoint-down(sm) {
           width: 100%;
         }
 
-        &.text-right {
-          color: var(--atum-special-color);
-          font-size: .75rem;
+        &.text-end {
+          font-size: ($font-size-base * .75);
+          color: var(--template-special-color);
         }
       }
+    }
+
+    .form-control-feedback {
+      position: absolute;
+      inset-inline-end: 0;
+      bottom: -1.5rem;
+      font-size: ($font-size-base * .75);
+      text-align: end;
+    }
+
+    .form-control-hint {
+      position: absolute;
+      top: .1rem;
+      inset-inline-end: 0;
+      font-size: ($font-size-base * .75);
+      text-align: end;
     }
   }
 
   input:focus,
   select:focus {
-    box-shadow: inset 0 0 1px 1px var(--atum-contrast);
     background: $white;
+    box-shadow: inset 0 0 1px 1px var(--template-contrast);
   }
 
   h1 {
-    margin: 0;
+    margin-bottom: .25rem;
+    color: $white;
     text-align: center;
-    color: var(--atum-special-color);
-    font-weight: bold;
-    padding-bottom: 1rem;
+  }
+
+  h2 {
+    font-weight: $font-weight-normal;
+    color: var(--template-bg-dark-10);
   }
 
   .btn {
-
     @include media-breakpoint-only(xs) {
       padding: 8px 10px;
-      font-size: 14px;
+      font-size: ($font-size-base * .875);
     }
   }
 
   .form-control,
-  .custom-select {
+  .form-select {
     max-width: none;
   }
 
-  #sidebar-wrapper {
+  .sidebar-wrapper,
+  .header .logo {
+    flex: 1 0 400px;
+  }
 
-    @include media-breakpoint-down(sm) {
+  .sidebar-wrapper {
+    display: flex;
+    flex-direction: column;
+    max-width: none;
+    background-color: var(--template-sidebar-bg);
+
+    @include media-breakpoint-down(md) {
       order: 2;
+      margin-bottom: 3rem;
     }
 
-    #main-brand {
+    .main-brand {
+      margin-bottom: auto;
 
       a {
-        font-size: .875rem;
+        font-size: ($font-size-base * .875);
       }
     }
 
     .card-header {
-      font-size: 1.125rem;
+      font-size: ($font-size-base * 1.125);
+      color: $white;
     }
   }
 
   #sidebar {
-    color: var(--atum-text-light);
-    width: 100%;
-    text-align: center;
     align-self: flex-end;
-    font-size: 0.875rem;
+    width: 100%;
+    font-size: ($font-size-base * .875);
+    color: var(--template-text-light);
+    text-align: center;
 
     .card {
-      background: var(--atum-bg-dark);
+      background: rgba(0, 0, 0, .1);
       box-shadow: none;
 
       .module-body {
@@ -176,7 +174,7 @@
       }
     }
 
-    @include media-breakpoint-down(sm) {
+    @include media-breakpoint-down(md) {
       position: relative;
       bottom: 0;
     }
@@ -185,70 +183,91 @@
   .container-main,
   .sidebar-wrapper {
 
-    @include media-breakpoint-down(sm) {
-      max-width: 100% !important;
+    @include media-breakpoint-down(md) {
       flex: 1 0 100% !important;
+      max-width: 100% !important;
+      min-height: auto;
     }
   }
 
-  .d-flex {
+  .wrapper {
+    display: flex;
 
-    @include media-breakpoint-down(sm) {
-      flex-wrap: wrap;
-      display:flex !important;
+    @include media-breakpoint-down(md) {
+      flex-direction: column;
     }
   }
 
-  .header{
-    .logo{
-      &.small{
+  .header {
+    display: flex;
+
+    .logo {
+      &.small {
         line-height: 2.5rem;
       }
+    }
+
+    @include media-breakpoint-down(md) {
+      background: var(--template-bg-dark-70);
     }
   }
 }
 
 label {
-  color: var(--atum-special-color);
+  color: $darkblue;
 }
 
 .com_login .sidebar-wrapper .main-brand {
-  margin-top: 100px;
-  color: var(--atum-text-light);
-  text-align: center;
   flex: 1;
   flex-basis: auto;
+  margin-top: 100px;
+  text-align: center;
 
-  @include media-breakpoint-down(sm) {
+  @include media-breakpoint-down(md) {
     margin-top: 10px;
   }
 }
 
 .com_login .sidebar-wrapper #sidebar p {
-  margin-bottom: 0.2rem;
+  margin-bottom: .2rem;
 }
 
-.com_login .sidebar-wrapper .main-brand h1,
 .com_login .sidebar-wrapper .main-brand a,
 .com_login .sidebar-wrapper #sidebar,
 .com_login .sidebar-wrapper #sidebar a {
-  color: var(--atum-text-light);
+  color: var(--template-text-light);
 }
 
-.view-login{
-  #wrapper.d-flex{
-      @include media-breakpoint-down(sm) {
-        display:flex !important;
-     }
-  }
-
-  #sidebar-wrapper:not(.show):not(.collapse){
-    @include media-breakpoint-down(sm) {
-      display:block;
+.view-login {
+  #wrapper.d-flex {
+    @include media-breakpoint-down(md) {
+      display: flex !important;
     }
   }
 
- .invalid .form-control-feedback {
-    color: theme-color("danger");
+  #sidebar-wrapper:not(.show):not(.collapse) {
+    @include media-breakpoint-down(md) {
+      display: block;
+    }
   }
+
+  .invalid .form-control-feedback {
+    color: var(--danger);
+  }
+}
+
+// Detect IE 10+ and display alert
+.ie11 {
+  display: none;
+}
+
+@media all and (-ms-high-contrast: none),
+  (-ms-high-contrast: active) {
+  .ie11 {
+    display: block;
+  }
+}
+
+.login_message {
+  margin: 1rem 1rem 0;
 }

@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  System.updatenotification
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2015 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -13,15 +13,17 @@ use Joomla\CMS\Access\Access;
 use Joomla\CMS\Cache\Cache;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Extension\ExtensionHelper;
-use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
+use Joomla\CMS\Mail\Exception\MailDisabledException;
+use Joomla\CMS\Mail\MailTemplate;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Table\Table;
 use Joomla\CMS\Updater\Updater;
 use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\Version;
 use Joomla\Database\ParameterType;
+use PHPMailer\PHPMailer\Exception as phpMailerException;
 
 // Uncomment the following line to enable debug mode (update notification email sent every single time)
 // define('PLG_SYSTEM_UPDATENOTIFICATION_DEBUG', 1);
@@ -29,7 +31,8 @@ use Joomla\Database\ParameterType;
 /**
  * Joomla! Update Notification plugin
  *
- * Sends out an email to all Super Users or a predefined email address when a new Joomla! version is available.
+ * Sends out an email to all Super Users or a predefined list of email addresses of Super Users when a new
+ * Joomla! version is available.
  *
  * This plugin is a direct adaptation of the corresponding plugin in Akeeba Ltd's Admin Tools. The author has
  * consented to relicensing their plugin's code under GPLv2 or later (the original version was licensed under
@@ -76,7 +79,7 @@ class PlgSystemUpdatenotification extends CMSPlugin
 		$component = ComponentHelper::getComponent('com_installer');
 
 		/** @var \Joomla\Registry\Registry $params */
-		$params        = $component->params;
+		$params        = $component->getParams();
 		$cache_timeout = (int) $params->get('cachetimeout', 6);
 		$cache_timeout = 3600 * $cache_timeout;
 
@@ -125,7 +128,7 @@ class PlgSystemUpdatenotification extends CMSPlugin
 		}
 		catch (Exception $exc)
 		{
-			// If we failed to execite
+			// If we failed to execute
 			$db->unlockTables();
 			$result = false;
 		}
@@ -148,7 +151,7 @@ class PlgSystemUpdatenotification extends CMSPlugin
 		}
 
 		// This is the extension ID for Joomla! itself
-		$eid = ExtensionHelper::getExtensionRecord('files_joomla')->extension_id;
+		$eid = ExtensionHelper::getExtensionRecord('joomla', 'file')->extension_id;
 
 		// Get any available updates
 		$updater = Updater::getInstance();
@@ -240,11 +243,6 @@ class PlgSystemUpdatenotification extends CMSPlugin
 			$jLanguage->load('plg_system_updatenotification', JPATH_ADMINISTRATOR, $forcedLanguage, true, false);
 		}
 
-		// Set up the email subject and body
-
-		$email_subject = Text::_('PLG_SYSTEM_UPDATENOTIFICATION_EMAIL_SUBJECT');
-		$email_body    = Text::_('PLG_SYSTEM_UPDATENOTIFICATION_EMAIL_BODY');
-
 		// Replace merge codes with their values
 		$newVersion = $update->version;
 
@@ -252,38 +250,27 @@ class PlgSystemUpdatenotification extends CMSPlugin
 		$currentVersion = $jVersion->getShortVersion();
 
 		$sitename = $this->app->get('sitename');
-		$mailFrom = $this->app->get('mailfrom');
-		$fromName = $this->app->get('fromname');
 
 		$substitutions = [
-			'[NEWVERSION]'  => $newVersion,
-			'[CURVERSION]'  => $currentVersion,
-			'[SITENAME]'    => $sitename,
-			'[URL]'         => Uri::base(),
-			'[LINK]'        => $uri->toString(),
-			'[RELEASENEWS]' => 'https://www.joomla.org/announcements/release-news/',
-			'\\n'           => "\n",
+			'newversion'  => $newVersion,
+			'curversion'  => $currentVersion,
+			'sitename'    => $sitename,
+			'url'         => Uri::base(),
+			'link'        => $uri->toString(),
+			'releasenews' => 'https://www.joomla.org/announcements/release-news/',
 		];
-
-		foreach ($substitutions as $k => $v)
-		{
-			$email_subject = str_replace($k, $v, $email_subject);
-			$email_body    = str_replace($k, $v, $email_body);
-		}
 
 		// Send the emails to the Super Users
 		foreach ($superUsers as $superUser)
 		{
 			try
 			{
-				$mailer = Factory::getMailer();
-				$mailer->setSender([$mailFrom, $fromName]);
+				$mailer = new MailTemplate('plg_system_updatenotification.mail', $jLanguage->getTag());
 				$mailer->addRecipient($superUser->email);
-				$mailer->setSubject($email_subject);
-				$mailer->setBody($email_body);
-				$mailer->Send();
+				$mailer->addTemplateData($substitutions);
+				$mailer->send();
 			}
-			catch (\Exception $exception)
+			catch (MailDisabledException | phpMailerException $exception)
 			{
 				try
 				{
@@ -331,7 +318,7 @@ class PlgSystemUpdatenotification extends CMSPlugin
 
 		try
 		{
-			$rootId    = Table::getInstance('Asset', 'Table')->getRootId();
+			$rootId    = Table::getInstance('Asset')->getRootId();
 			$rules     = Access::getAssetRules($rootId)->getData();
 			$rawGroups = $rules['core.admin']->getData();
 			$groups    = [];
@@ -392,7 +379,8 @@ class PlgSystemUpdatenotification extends CMSPlugin
 
 			if (!empty($emails))
 			{
-				$query->whereIn($db->quoteName('email'), $emails, ParameterType::STRING);
+				$lowerCaseEmails = array_map('strtolower', $emails);
+				$query->whereIn('LOWER(' . $db->quoteName('email') . ')', $lowerCaseEmails, ParameterType::STRING);
 			}
 
 			$db->setQuery($query);

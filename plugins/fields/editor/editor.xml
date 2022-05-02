@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<extension type="plugin" version="3.7.0" group="fields" method="upgrade">
+<extension type="plugin" group="fields" method="upgrade">
 	<name>plg_fields_editor</name>
 	<author>Joomla! Project</author>
 	<creationDate>March 2016</creationDate>
-	<copyright>Copyright (C) 2005 - 2019 Open Source Matters. All rights reserved.</copyright>
+	<copyright>(C) 2016 Open Source Matters, Inc.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
@@ -15,8 +15,8 @@
 		<folder>tmpl</folder>
 	</files>
 	<languages>
-		<language tag="en-GB">en-GB.plg_fields_editor.ini</language>
-		<language tag="en-GB">en-GB.plg_fields_editor.sys.ini</language>
+		<language tag="en-GB">language/en-GB/plg_fields_editor.ini</language>
+		<language tag="en-GB">language/en-GB/plg_fields_editor.sys.ini</language>
 	</languages>
 	<config>
 		<fields name="params">
@@ -25,7 +25,7 @@
 					name="buttons"
 					type="radio"
 					label="PLG_FIELDS_EDITOR_PARAMS_SHOW_BUTTONS_LABEL"
-					class="switcher"
+					layout="joomla.form.field.radio.switcher"
 					default="0"
 					filter="integer"
 					>
@@ -39,6 +39,7 @@
 					label="PLG_FIELDS_EDITOR_PARAMS_BUTTONS_HIDE_LABEL"
 					folder="editors-xtd"
 					multiple="true"
+					layout="joomla.form.field.list-fancy-select"
 				/>
 
 				<field

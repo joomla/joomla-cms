@@ -2,23 +2,26 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2017 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
 namespace Joomla\CMS\Application;
 
+use Joomla\Application\ConfigurationAwareApplicationInterface;
 use Joomla\CMS\Extension\ExtensionManagerInterface;
-use Joomla\CMS\Menu\AbstractMenu;
+use Joomla\CMS\Language\Language;
 use Joomla\CMS\User\User;
-use Joomla\Session\SessionInterface;
+use Joomla\Input\Input;
 
 /**
  * Interface defining a Joomla! CMS Application class
  *
  * @since  4.0.0
+ * @note   In Joomla 5 this interface will no longer extend EventAwareInterface
+ * @property-read   Input  $input  {@deprecated 5.0} The Joomla Input property. Deprecated in favour of getInput()
  */
-interface CMSApplicationInterface extends ExtensionManagerInterface
+interface CMSApplicationInterface extends ExtensionManagerInterface, ConfigurationAwareApplicationInterface, EventAwareInterface
 {
 	/**
 	 * Constant defining an enqueued emergency message
@@ -106,15 +109,6 @@ interface CMSApplicationInterface extends ExtensionManagerInterface
 	public function getMessageQueue();
 
 	/**
-	 * Execute the application.
-	 *
-	 * @return  void
-	 *
-	 * @since   4.0.0
-	 */
-	public function execute();
-
-	/**
 	 * Check the client interface by name.
 	 *
 	 * @param   string  $identifier  String identifier for the application interface
@@ -124,15 +118,6 @@ interface CMSApplicationInterface extends ExtensionManagerInterface
 	 * @since   4.0.0
 	 */
 	public function isClient($identifier);
-
-	/**
-	 * Method to get the application session object.
-	 *
-	 * @return  SessionInterface  The session object
-	 *
-	 * @since   4.0.0
-	 */
-	public function getSession();
 
 	/**
 	 * Flag if the application instance is a CLI or web based application.
@@ -156,6 +141,24 @@ interface CMSApplicationInterface extends ExtensionManagerInterface
 	public function getIdentity();
 
 	/**
+	 * Method to get the application input object.
+	 *
+	 * @return  Input
+	 *
+	 * @since   4.0.0
+	 */
+	public function getInput(): Input;
+
+	/**
+	 * Method to get the application language object.
+	 *
+	 * @return  Language  The language object
+	 *
+	 * @since   4.0.0
+	 */
+	public function getLanguage();
+
+	/**
 	 * Gets the name of the current running application.
 	 *
 	 * @return  string  The name of the application.
@@ -163,18 +166,6 @@ interface CMSApplicationInterface extends ExtensionManagerInterface
 	 * @since   4.0.0
 	 */
 	public function getName();
-
-	/**
-	 * Get the menu object.
-	 *
-	 * @param   string  $name     The application name for the menu
-	 * @param   array   $options  An array of options to initialise the menu with
-	 *
-	 * @return  AbstractMenu|null  An AbstractMenu object or null if not set.
-	 *
-	 * @since   4.0.0
-	 */
-	public function getMenu($name = null, $options = array());
 
 	/**
 	 * Allows the application to load a custom or default identity.

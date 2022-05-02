@@ -3,16 +3,14 @@
  * @package     Joomla.Plugin
  * @subpackage  Installer.webinstaller
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2018 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Application\CMSApplication;
-use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Rule\UrlRule;
-use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Plugin\PluginHelper;
@@ -44,14 +42,6 @@ class PlgInstallerWebinstaller extends CMSPlugin
 	protected $app;
 
 	/**
-	 * Load the language file on instantiation.
-	 *
-	 * @var    boolean
-	 * @since  4.0.0
-	 */
-	protected $autoloadLanguage = true;
-
-	/**
 	 * The URL to install from
 	 *
 	 * @var    string|null
@@ -76,16 +66,26 @@ class PlgInstallerWebinstaller extends CMSPlugin
 	 */
 	public function onInstallerAddInstallationTab()
 	{
+		// Load language files
+		$this->loadLanguage();
+
 		$installfrom = $this->getInstallFrom();
+		$doc         = $this->app->getDocument();
+		$lang        = $this->app->getLanguage();
 
 		// Push language strings to the JavaScript store
 		Text::script('PLG_INSTALLER_WEBINSTALLER_CANNOT_INSTALL_EXTENSION_IN_PLUGIN');
 		Text::script('PLG_INSTALLER_WEBINSTALLER_REDIRECT_TO_EXTERNAL_SITE_TO_INSTALL');
 
-		// TEMPORARY - Make sure Bootstrap is booted so that our client initialisation scripts can find the tab
-		HTMLHelper::_('bootstrap.framework');
-		HTMLHelper::_('script', 'plg_installer_webinstaller/client.min.js', ['version' => 'auto', 'relative' => true]);
-		HTMLHelper::_('stylesheet', 'plg_installer_webinstaller/client.min.css', ['version' => 'auto', 'relative' => true]);
+		$doc->getWebAssetManager()
+			->registerAndUseStyle('plg_installer_webinstaller.client', 'plg_installer_webinstaller/client.min.css')
+			->registerAndUseScript(
+				'plg_installer_webinstaller.client',
+				'plg_installer_webinstaller/client.min.js',
+				[],
+				['type' => 'module'],
+				['core']
+			);
 
 		$devLevel = Version::PATCH_VERSION;
 
@@ -93,9 +93,6 @@ class PlgInstallerWebinstaller extends CMSPlugin
 		{
 			$devLevel .= '-' . Version::EXTRA_VERSION;
 		}
-
-		$doc  = Factory::getDocument();
-		$lang = Factory::getLanguage();
 
 		$doc->addScriptOptions(
 			'plg_installer_webinstaller',
@@ -108,18 +105,20 @@ class PlgInstallerWebinstaller extends CMSPlugin
 				'dev_level'       => base64_encode($devLevel),
 				'installfromon'   => $installfrom ? 1 : 0,
 				'language'        => base64_encode($lang->getTag()),
+				'installFrom'     => $installfrom != '' ? 4 : 5,
 			]
 		);
 
 		$tab = [
 			'name'  => 'web',
-			'label' => Text::_('COM_INSTALLER_INSTALL_FROM_WEB'),
+			'label' => Text::_('PLG_INSTALLER_WEBINSTALLER_TAB_LABEL'),
 		];
 
 		// Render the input
 		ob_start();
 		include PluginHelper::getLayoutPath('installer', 'webinstaller');
 		$tab['content'] = ob_get_clean();
+		$tab['content'] = '<legend>' . $tab['label'] . '</legend>' . $tab['content'];
 
 		return $tab;
 	}
@@ -135,7 +134,7 @@ class PlgInstallerWebinstaller extends CMSPlugin
 	{
 		if ($this->rtl === null)
 		{
-			$this->rtl = strtolower(Factory::getDocument()->getDirection()) === 'rtl' ? 1 : 0;
+			$this->rtl = strtolower($this->app->getDocument()->getDirection()) === 'rtl' ? 1 : 0;
 		}
 
 		return $this->rtl;
@@ -159,7 +158,7 @@ class PlgInstallerWebinstaller extends CMSPlugin
 			if ((new UrlRule)->test($field, $installfrom) && preg_match('/\.xml\s*$/', $installfrom))
 			{
 				$update = new Update;
-				$update->loadFromXML($installfrom);
+				$update->loadFromXml($installfrom);
 				$package_url = trim($update->get('downloadurl', false)->_data);
 
 				if ($package_url)

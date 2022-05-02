@@ -3,7 +3,7 @@
 
 	<field
 		name="id"
-		type="number"
+		type="text"
 		label="JGLOBAL_FIELD_ID_LABEL"
 		default="0"
 		class="readonly"
@@ -12,11 +12,12 @@
 
 	<field
 		name="hits"
-		type="number"
+		type="text"
 		label="JGLOBAL_HITS"
 		default="0"
 		class="readonly"
 		readonly="true"
+		filter="unset"
 	/>
 
 	<field
@@ -76,6 +77,7 @@
 		name="alias"
 		type="text"
 		label="JFIELD_ALIAS_LABEL"
+		description="JFIELD_ALIAS_DESC"
 		size="45"
 		hint="JFIELD_ALIAS_PLACEHOLDER"
 	/>
@@ -110,8 +112,9 @@
 		type="list"
 		label="JSTATUS"
 		default="1"
-		class="custom-select-color-state"
+		class="form-select-color-state"
 		size="1"
+		validate="options"
 		>
 		<option value="1">JPUBLISHED</option>
 		<option value="0">JUNPUBLISHED</option>
@@ -135,6 +138,8 @@
 		name="access"
 		type="accesslevel"
 		label="JFIELD_ACCESS_LABEL"
+		filter="UINT"
+		validate="options"
 	/>
 
 	<field
@@ -143,6 +148,8 @@
 		label="JFIELD_META_DESCRIPTION_LABEL"
 		rows="3"
 		cols="40"
+		maxlength="160"
+		charcounter="true"
 	/>
 
 	<field
@@ -157,6 +164,7 @@
 		name="created_user_id"
 		type="user"
 		label="JGLOBAL_FIELD_CREATED_BY_LABEL"
+		validate="UserId"
 	/>
 
 	<field
@@ -176,6 +184,7 @@
 		class="readonly"
 		readonly="true"
 		filter="unset"
+		validate="UserId"
 	/>
 
 	<field
@@ -209,7 +218,6 @@
 		name="rules"
 		type="rules"
 		label="JFIELD_RULES_LABEL"
-		id="rules"
 		translate_label="false"
 		filter="rules"
 		validate="rules"
@@ -227,7 +235,7 @@
 					name="category_layout"
 					type="componentlayout"
 					label="JFIELD_ALT_LAYOUT_LABEL"
-					class="custom-select"
+					class="form-select"
 					view="category"
 					useglobal="true"
 				/>
@@ -243,6 +251,13 @@
 					type="text"
 					label="COM_CATEGORIES_FIELD_IMAGE_ALT_LABEL"
 					size="20"
+				/>
+
+				<field
+					name="image_alt_empty"
+					type="checkbox"
+					label="COM_CATEGORIES_FIELD_IMAGE_ALT_EMPTY_LABEL"
+					description="COM_CATEGORIES_FIELD_IMAGE_ALT_EMPTY_DESC"
 				/>
 			</fieldset>
 		</fieldset>
@@ -263,12 +278,13 @@
 				name="robots"
 				type="list"
 				label="JFIELD_METADATA_ROBOTS_LABEL"
+				validate="options"
 				>
 				<option value="">JGLOBAL_USE_GLOBAL</option>
-				<option value="index, follow">JGLOBAL_INDEX_FOLLOW</option>
-				<option value="noindex, follow">JGLOBAL_NOINDEX_FOLLOW</option>
-				<option value="index, nofollow">JGLOBAL_INDEX_NOFOLLOW</option>
-				<option value="noindex, nofollow">JGLOBAL_NOINDEX_NOFOLLOW</option>
+				<option value="index, follow"></option>
+				<option value="noindex, follow"></option>
+				<option value="index, nofollow"></option>
+				<option value="noindex, nofollow"></option>
 			</field>
 		</fieldset>
 	</fields>

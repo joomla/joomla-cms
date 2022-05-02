@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2012 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -72,13 +72,13 @@ class FeedEntry
 	public function __set($name, $value)
 	{
 		// Ensure that setting a date always sets a Date instance.
-		if ((($name == 'updatedDate') || ($name == 'publishedDate')) && !($value instanceof Date))
+		if ((($name === 'updatedDate') || ($name === 'publishedDate')) && !($value instanceof Date))
 		{
 			$value = new Date($value);
 		}
 
 		// Validate that any authors that are set are instances of JFeedPerson or null.
-		if (($name == 'author') && (!($value instanceof FeedPerson) || ($value === null)))
+		if (($name === 'author') && (!($value instanceof FeedPerson) || ($value === null)))
 		{
 			throw new \InvalidArgumentException(
 				sprintf(
@@ -90,7 +90,7 @@ class FeedEntry
 		}
 
 		// Validate that any sources that are set are instances of JFeed or null.
-		if (($name == 'source') && (!($value instanceof Feed) || ($value === null)))
+		if (($name === 'source') && (!($value instanceof Feed) || ($value === null)))
 		{
 			throw new \InvalidArgumentException(
 				sprintf(

@@ -1,6 +1,6 @@
 // Chosen
 
-$chosen-select-padding-y: $custom-select-padding-y + .21;
+$chosen-select-padding-y: $form-select-padding-y + .21;
 
 .chosen-container.chosen-container-single {
   max-width: $input-max-width;
@@ -8,24 +8,22 @@ $chosen-select-padding-y: $custom-select-padding-y + .21;
 
   .chosen-single {
     display: inline-block;
-    $select-border-width: ($custom-select-border-width * 2);
+    $select-border-width: ($form-select-border-width * 2);
     height: #{$input-height};
-    padding: $chosen-select-padding-y ($custom-select-padding-x + $custom-select-indicator-padding) $chosen-select-padding-y $custom-select-padding-x;
+    padding: $chosen-select-padding-y ($form-select-padding-x + $form-select-indicator-padding) $chosen-select-padding-y $form-select-padding-x;
     line-height: 1.5;
-    color: $custom-select-color;
+    color: $form-select-color;
     vertical-align: middle;
-    background: $custom-select-bg $custom-select-indicator no-repeat right $custom-select-padding-x center;
+    background: $form-select-bg $form-select-indicator no-repeat right $form-select-padding-x center;
     background-image: none \9;
-    background-size: $custom-select-bg-size;
-    border: $custom-select-border-width solid $custom-select-border-color;
+    background-size: $form-select-bg-size;
+    border: $form-select-border-width solid $form-select-border-color;
     box-shadow: none;
     appearance: none;
 
     @if $enable-rounded {
-      border-radius: $custom-select-border-radius;
-    }
-
-    @else {
+      border-radius: $form-select-border-radius;
+    } @else {
       border-radius: 0;
     }
 
@@ -34,15 +32,15 @@ $chosen-select-padding-y: $custom-select-padding-y + .21;
     }
 
     &:focus {
-      @include box-shadow($custom-select-focus-box-shadow);
-      border-color: $custom-select-focus-border-color;
+      @include box-shadow($form-select-focus-box-shadow);
+      border-color: $form-select-focus-border-color;
       outline: none;
     }
 
     &:disabled {
-      color: $custom-select-disabled-color;
+      color: $form-select-disabled-color;
       cursor: not-allowed;
-      background-color: $custom-select-disabled-bg;
+      background-color: $form-select-disabled-bg;
     }
 
     div b {
@@ -51,8 +49,8 @@ $chosen-select-padding-y: $custom-select-padding-y + .21;
   }
 
   .chosen-drop {
-    background: $white-offset;
-    border: $custom-select-border-width solid $custom-select-border-color;
+    background: $white;
+    border: $form-select-border-width solid $form-select-border-color;
   }
 
   .chosen-results li {
@@ -71,40 +69,38 @@ $chosen-select-padding-y: $custom-select-padding-y + .21;
     min-height: #{$input-height};
     font-size: $font-size-base;
     line-height: $input-line-height;
-    background-image: var(--white);
+    background-image: $white;
 
     li.search-choice {
       $chosen-multi-close-width: 20px;
 
       padding: 5px (13 + $chosen-multi-close-width) 5px 10px;
-      color: var(--white);
+      color: $white;
       background: var(--primary);
       border: 0;
       box-shadow: $cassiopeia-box-shadow;
 
       @if $enable-rounded {
-        border-radius: $custom-select-border-radius;
-      }
-
-      @else {
+        border-radius: $form-select-border-radius;
+      } @else {
         border-radius: 0;
       }
 
       .search-choice-close {
         top: 0;
         right: 0;
-        background: rgba(0, 0, 0, 0.2);
         width: $chosen-multi-close-width;
         height: 100%;
+        background: hsla(0, 0%, 0%, .2);
         background-image: none !important;
 
         &::before {
           position: absolute;
           top: 6px;
           right: ($chosen-multi-close-width / 4);
-          content: "\00d7";
-          color: var(--white);
           font-size: $font-size-base;
+          color: $white;
+          content: "\00d7";
         }
       }
     }

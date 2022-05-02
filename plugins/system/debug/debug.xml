@@ -1,22 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-<extension version="3.1" type="plugin" group="system" method="upgrade">
+<extension type="plugin" group="system" method="upgrade">
 	<name>plg_system_debug</name>
 	<author>Joomla! Project</author>
 	<creationDate>December 2006</creationDate>
-	<copyright>Copyright (C) 2005 - 2019 Open Source Matters. All rights reserved.</copyright>
+	<copyright>(C) 2006 Open Source Matters, Inc.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>3.0.0</version>
 	<description>PLG_DEBUG_XML_DESCRIPTION</description>
-	<namespace>Joomla\Plugin\System\Debug</namespace>
+	<namespace path="src">Joomla\Plugin\System\Debug</namespace>
 	<files>
 		<filename plugin="debug">debug.php</filename>
-		<filename>debugmonitor.php</filename>
+		<folder>src</folder>
 	</files>
 	<languages>
-		<language tag="en-GB">en-GB.plg_system_debug.ini</language>
-		<language tag="en-GB">en-GB.plg_system_debug.sys.ini</language>
+		<language tag="en-GB">language/en-GB/plg_system_debug.ini</language>
+		<language tag="en-GB">language/en-GB/plg_system_debug.sys.ini</language>
 	</languages>
 	<config>
 		<fields name="params">
@@ -26,7 +26,7 @@
 					type="radio"
 					label="PLG_DEBUG_FIELD_REFRESH_ASSETS_LABEL"
 					description="PLG_DEBUG_FIELD_REFRESH_ASSETS_DESC"
-					class="switcher"
+					layout="joomla.form.field.radio.switcher"
 					default="1"
 					filter="integer"
 					>
@@ -39,15 +39,15 @@
 					type="usergrouplist"
 					label="PLG_DEBUG_FIELD_ALLOWED_GROUPS_LABEL"
 					multiple="true"
-					filter="int_array"
-					size="10"
+					layout="joomla.form.field.list-fancy-select"
+					filter="intarray"
 				/>
 
 				<field
 					name="memory"
 					type="radio"
 					label="PLG_DEBUG_FIELD_MEMORY_LABEL"
-					class="switcher"
+					layout="joomla.form.field.radio.switcher"
 					default="1"
 					filter="integer"
 					>
@@ -59,7 +59,7 @@
 					name="request"
 					type="radio"
 					label="PLG_DEBUG_FIELD_REQUEST_LABEL"
-					class="switcher"
+					layout="joomla.form.field.radio.switcher"
 					default="1"
 					filter="integer"
 					>
@@ -71,7 +71,7 @@
 					name="session"
 					type="radio"
 					label="PLG_DEBUG_FIELD_SESSION_LABEL"
-					class="switcher"
+					layout="joomla.form.field.radio.switcher"
 					default="1"
 					filter="integer"
 					>
@@ -83,7 +83,7 @@
 					name="profile"
 					type="radio"
 					label="PLG_DEBUG_FIELD_PROFILING_LABEL"
-					class="switcher"
+					layout="joomla.form.field.radio.switcher"
 					default="1"
 					filter="integer"
 					>
@@ -95,7 +95,7 @@
 					name="queries"
 					type="radio"
 					label="PLG_DEBUG_FIELD_QUERIES_LABEL"
-					class="switcher"
+					layout="joomla.form.field.radio.switcher"
 					default="1"
 					filter="integer"
 					>
@@ -107,7 +107,7 @@
 					name="query_traces"
 					type="radio"
 					label="PLG_DEBUG_FIELD_QUERY_TRACES_LABEL"
-					class="switcher"
+					layout="joomla.form.field.radio.switcher"
 					default="0"
 					showon="queries:1"
 					filter="integer"
@@ -120,7 +120,7 @@
 					name="query_profiles"
 					type="radio"
 					label="PLG_DEBUG_FIELD_QUERY_PROFILES_LABEL"
-					class="switcher"
+					layout="joomla.form.field.radio.switcher"
 					default="0"
 					showon="queries:1"
 					filter="integer"
@@ -133,7 +133,7 @@
 					name="query_explains"
 					type="radio"
 					label="PLG_DEBUG_FIELD_QUERY_EXPLAINS_LABEL"
-					class="switcher"
+					layout="joomla.form.field.radio.switcher"
 					default="0"
 					showon="queries:1"
 					filter="integer"
@@ -152,7 +152,7 @@
 					name="language_errorfiles"
 					type="radio"
 					label="PLG_DEBUG_FIELD_LANGUAGE_ERRORFILES_LABEL"
-					class="switcher"
+					layout="joomla.form.field.radio.switcher"
 					default="1"
 					filter="integer"
 					>
@@ -164,7 +164,7 @@
 					name="language_files"
 					type="radio"
 					label="PLG_DEBUG_FIELD_LANGUAGE_FILES_LABEL"
-					class="switcher"
+					layout="joomla.form.field.radio.switcher"
 					default="1"
 					filter="integer"
 					>
@@ -176,7 +176,7 @@
 					name="language_strings"
 					type="radio"
 					label="PLG_DEBUG_FIELD_LANGUAGE_STRING_LABEL"
-					class="switcher"
+					layout="joomla.form.field.radio.switcher"
 					default="1"
 					filter="integer"
 					>
@@ -188,7 +188,7 @@
 					name="strip-first"
 					type="radio"
 					label="PLG_DEBUG_FIELD_STRIP_FIRST_LABEL"
-					class="switcher"
+					layout="joomla.form.field.radio.switcher"
 					default="1"
 					filter="integer"
 					>
@@ -223,7 +223,7 @@
 					name="logs"
 					type="radio"
 					label="PLG_DEBUG_FIELD_LOGS_LABEL"
-					class="switcher"
+					layout="joomla.form.field.radio.switcher"
 					default="1"
 					>
 					<option value="0">JHIDE</option>
@@ -231,78 +231,18 @@
 				</field>
 
 				<field
-					name="log_priorities"
-					type="list"
-					label="PLG_DEBUG_FIELD_LOG_PRIORITIES_LABEL"
-					multiple="true"
-					default="all"
-					>
-					<option value="all">PLG_DEBUG_FIELD_LOG_PRIORITIES_ALL</option>
-					<option value="emergency">PLG_DEBUG_FIELD_LOG_PRIORITIES_EMERGENCY</option>
-					<option value="alert">PLG_DEBUG_FIELD_LOG_PRIORITIES_ALERT</option>
-					<option value="critical">PLG_DEBUG_FIELD_LOG_PRIORITIES_CRITICAL</option>
-					<option value="error">PLG_DEBUG_FIELD_LOG_PRIORITIES_ERROR</option>
-					<option value="warning">PLG_DEBUG_FIELD_LOG_PRIORITIES_WARNING</option>
-					<option value="notice">PLG_DEBUG_FIELD_LOG_PRIORITIES_NOTICE</option>
-					<option value="info">PLG_DEBUG_FIELD_LOG_PRIORITIES_INFO</option>
-					<option value="debug">PLG_DEBUG_FIELD_LOG_PRIORITIES_DEBUG</option>
-				</field>
-
-				<field
-					name="log_categories"
-					type="text"
-					label="PLG_DEBUG_FIELD_LOG_CATEGORIES_LABEL"
-					description="PLG_DEBUG_FIELD_LOG_CATEGORIES_DESC"
-					size="60"
-					default=""
-				/>
-
-				<field
-					name="log_category_mode"
-					type="radio"
-					label="PLG_DEBUG_FIELD_LOG_CATEGORY_MODE_LABEL"
-					class="switcher switcher-danger"
-					default="0"
-					>
-					<option value="0">PLG_DEBUG_FIELD_LOG_CATEGORY_MODE_INCLUDE</option>
-					<option value="1">PLG_DEBUG_FIELD_LOG_CATEGORY_MODE_EXCLUDE</option>
-				</field>
-
-				<field
-					name="log-deprecated"
-					type="radio"
-					label="PLG_DEBUG_FIELD_LOG_DEPRECATED_LABEL"
-					class="switcher"
-					default="0"
-					filter="integer"
-					>
-					<option value="0">JNO</option>
-					<option value="1">JYES</option>
-				</field>
-
-				<field
 					name="log-deprecated-core"
 					type="radio"
 					label="PLG_DEBUG_FIELD_LOG_DEPRECATED_CORE_LABEL"
-					class="switcher"
+					layout="joomla.form.field.radio.switcher"
 					default="0"
 					filter="integer"
+					showon="logs:1"
 					>
 					<option value="0">JNO</option>
 					<option value="1">JYES</option>
 				</field>
 
-				<field
-					name="log-everything"
-					type="radio"
-					label="PLG_DEBUG_FIELD_LOG_EVERYTHING_LABEL"
-					class="switcher"
-					default="0"
-					filter="integer"
-					>
-					<option value="0">JNO</option>
-					<option value="1">JYES</option>
-				</field>
 			</fieldset>
 		</fields>
 	</config>

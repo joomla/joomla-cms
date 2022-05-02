@@ -6,10 +6,12 @@
 				name="directory"
 				type="folderlist"
 				label="PLG_FIELDS_IMAGELIST_PARAMS_DIRECTORY_LABEL"
+				description="PLG_FIELDS_IMAGELIST_PARAMS_DIRECTORY_DESC"
 				directory="images"
 				hide_none="true"
 				hide_default="true"
 				recursive="true"
+				validate="options"
 				>
 				<option value="">COM_FIELDS_FIELD_USE_GLOBAL</option>
 				<option value="/">/</option>
@@ -20,6 +22,7 @@
 				type="list"
 				label="PLG_FIELDS_IMAGELIST_PARAMS_MULTIPLE_LABEL"
 				filter="integer"
+				validate="options"
 				>
 				<option value="">COM_FIELDS_FIELD_USE_GLOBAL</option>
 				<option value="1">JYES</option>
@@ -31,6 +34,7 @@
 				type="textarea"
 				label="PLG_FIELDS_IMAGELIST_PARAMS_IMAGE_CLASS_LABEL"
 				size="40"
+				validate="CssIdentifier"
 			/>
 		</fieldset>
 	</fields>

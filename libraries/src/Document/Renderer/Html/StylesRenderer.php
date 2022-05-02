@@ -1,9 +1,8 @@
 <?php
 /**
- * @package     Joomla.Platform
- * @subpackage  Document
+ * Joomla! Content Management System
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2005 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -22,6 +21,15 @@ use Joomla\CMS\WebAsset\WebAssetItemInterface;
 class StylesRenderer extends DocumentRenderer
 {
 	/**
+	 * List of already rendered src
+	 *
+	 * @var array
+	 *
+	 * @since   4.0.0
+	 */
+	private $renderedSrc = [];
+
+	/**
 	 * Renders the document stylesheets and style tags and returns the results as a string
 	 *
 	 * @param   string  $head     (unused)
@@ -34,110 +42,60 @@ class StylesRenderer extends DocumentRenderer
 	 */
 	public function render($head, $params = array(), $content = null)
 	{
-		// Get line endings
-		$lnEnd        = $this->_doc->_getLineEnd();
 		$tab          = $this->_doc->_getTab();
-		$tagEnd       = ' />';
 		$buffer       = '';
-		$mediaVersion = $this->_doc->getMediaVersion();
 		$wam          = $this->_doc->getWebAssetManager();
 		$assets       = $wam->getAssets('style', true);
-		$assets       = array_merge(array_values($assets), $this->_doc->_styleSheets);
-		$renderedUrls = [];
 
-		$defaultCssMimes = array('text/css');
+		// Get a list of inline assets and their relation with regular assets
+		$inlineAssets   = $wam->filterOutInlineAssets($assets);
+		$inlineRelation = $wam->getInlineRelation($inlineAssets);
+
+		// Merge with existing styleSheets, for rendering
+		$assets = array_merge(array_values($assets), $this->_doc->_styleSheets);
 
 		// Generate stylesheet links
 		foreach ($assets as $key => $item)
 		{
 			$asset = $item instanceof WebAssetItemInterface ? $item : null;
 
-			if ($asset)
+			// Add href attribute for non Asset item
+			if (!$asset)
 			{
-				$src = $asset->getUri();
+				$item['href'] = $key;
+			}
 
-				if (!$src)
+			// Check for inline content "before"
+			if ($asset && !empty($inlineRelation[$asset->getName()]['before']))
+			{
+				foreach ($inlineRelation[$asset->getName()]['before'] as $itemBefore)
 				{
-					continue;
+					$buffer .= $this->renderInlineElement($itemBefore);
+
+					// Remove this item from inline queue
+					unset($inlineAssets[$itemBefore->getName()]);
 				}
-
-				$attribs     = $asset->getAttributes();
-				$version     = $asset->getVersion();
-				$conditional = $asset->getOption('conditional');
-			}
-			else
-			{
-				$src     = $key;
-				$attribs = $item;
-				$version = isset($attribs['options']['version']) ? $attribs['options']['version'] : '';
-
-				// Check if stylesheet uses IE conditional statements.
-				$conditional = !empty($attribs['options']['conditional']) ? $attribs['options']['conditional'] : null;
 			}
 
-			// Prevent double rendering
-			if (!empty($renderedUrls[$src]))
+			$buffer .= $this->renderElement($item);
+
+			// Check for inline content "after"
+			if ($asset && !empty($inlineRelation[$asset->getName()]['after']))
 			{
-				continue;
-			}
-
-			$renderedUrls[$src] = true;
-
-			// Check if script uses media version.
-			if ($version && strpos($src, '?') === false && ($mediaVersion || $version !== 'auto'))
-			{
-				$src .= '?' . ($version === 'auto' ? $mediaVersion : $version);
-			}
-
-			$buffer .= $tab;
-
-			// This is for IE conditional statements support.
-			if (!\is_null($conditional))
-			{
-				$buffer .= '<!--[if ' . $conditional . ']>';
-			}
-
-			$buffer .= '<link href="' . $src . '" rel="stylesheet"';
-
-			// Add script tag attributes.
-			foreach ($attribs as $attrib => $value)
-			{
-				// Don't add the 'options' attribute. This attribute is for internal use (version, conditional, etc).
-				if ($attrib === 'options')
+				foreach ($inlineRelation[$asset->getName()]['after'] as $itemBefore)
 				{
-					continue;
+					$buffer .= $this->renderInlineElement($itemBefore);
+
+					// Remove this item from inline queue
+					unset($inlineAssets[$itemBefore->getName()]);
 				}
-
-				// Don't add type attribute if document is HTML5 and it's a default mime type. 'mime' is for B/C.
-				if (\in_array($attrib, array('type', 'mime')) && $this->_doc->isHtml5() && \in_array($value, $defaultCssMimes))
-				{
-					continue;
-				}
-
-				// Don't add type attribute if document is HTML5 and it's a default mime type. 'mime' is for B/C.
-				if ($attrib === 'mime')
-				{
-					$attrib = 'type';
-				}
-
-				// Add attribute to script tag output.
-				$buffer .= ' ' . htmlspecialchars($attrib, ENT_COMPAT, 'UTF-8');
-
-				// Json encode value if it's an array.
-				$value = !is_scalar($value) ? json_encode($value) : $value;
-
-				$buffer .= '="' . htmlspecialchars($value, ENT_COMPAT, 'UTF-8') . '"';
 			}
+		}
 
-			$buffer .= $tagEnd;
-
-			// This is for IE conditional statements support.
-			if (!\is_null($conditional))
-			{
-				$buffer .= '<![endif]-->';
-			}
-
-			$buffer .= $lnEnd;
+		// Generate script declarations for assets
+		foreach ($inlineAssets as $item)
+		{
+			$buffer .= $this->renderInlineElement($item);
 		}
 
 		// Generate stylesheet declarations
@@ -151,60 +109,237 @@ class StylesRenderer extends DocumentRenderer
 
 			foreach ($contents as $content)
 			{
-				$buffer .= $tab . '<style';
-
-				if (!\is_null($type) && (!$this->_doc->isHtml5() || !\in_array($type, $defaultCssMimes)))
-				{
-					$buffer .= ' type="' . $type . '"';
-				}
-
-				if ($this->_doc->cspNonce)
-				{
-					$buffer .= ' nonce="' . $this->_doc->cspNonce . '"';
-				}
-
-				$buffer .= '>' . $lnEnd;
-
-				// This is for full XHTML support.
-				if ($this->_doc->_mime != 'text/html')
-				{
-					$buffer .= $tab . $tab . '/*<![CDATA[*/' . $lnEnd;
-				}
-
-				$buffer .= $content . $lnEnd;
-
-				// See above note
-				if ($this->_doc->_mime != 'text/html')
-				{
-					$buffer .= $tab . $tab . '/*]]>*/' . $lnEnd;
-				}
-
-				$buffer .= $tab . '</style>' . $lnEnd;
+				$buffer .= $this->renderInlineElement(
+					[
+						'type' => $type,
+						'content' => $content,
+					]
+				);
 			}
-		}
-
-		// Generate scripts options
-		$scriptOptions = $this->_doc->getScriptOptions();
-
-		if (!empty($scriptOptions))
-		{
-			$nonce = '';
-
-			if ($this->_doc->cspNonce)
-			{
-				$nonce = ' nonce="' . $this->_doc->cspNonce . '"';
-			}
-
-			$buffer .= $tab . '<script type="application/json" class="joomla-script-options new"' . $nonce . '>';
-
-			$prettyPrint = (JDEBUG && \defined('JSON_PRETTY_PRINT') ? JSON_PRETTY_PRINT : false);
-			$jsonOptions = json_encode($scriptOptions, $prettyPrint);
-			$jsonOptions = $jsonOptions ? $jsonOptions : '{}';
-
-			$buffer .= $jsonOptions;
-			$buffer .= '</script>' . $lnEnd;
 		}
 
 		return ltrim($buffer, $tab);
+	}
+
+	/**
+	 * Renders the element
+	 *
+	 * @param   WebAssetItemInterface|array  $item  The element
+	 *
+	 * @return  string  The resulting string
+	 *
+	 * @since   4.0.0
+	 */
+	private function renderElement($item) : string
+	{
+		$buffer = '';
+		$asset  = $item instanceof WebAssetItemInterface ? $item : null;
+		$src    = $asset ? $asset->getUri() : ($item['href'] ?? '');
+
+		// Make sure we have a src, and it not already rendered
+		if (!$src || !empty($this->renderedSrc[$src]))
+		{
+			return '';
+		}
+
+		$lnEnd        = $this->_doc->_getLineEnd();
+		$tab          = $this->_doc->_getTab();
+		$mediaVersion = $this->_doc->getMediaVersion();
+
+		// Get the attributes and other options
+		if ($asset)
+		{
+			$attribs     = $asset->getAttributes();
+			$version     = $asset->getVersion();
+			$conditional = $asset->getOption('conditional');
+
+			// Add an asset info for debugging
+			if (JDEBUG)
+			{
+				$attribs['data-asset-name'] = $asset->getName();
+
+				if ($asset->getDependencies())
+				{
+					$attribs['data-asset-dependencies'] = implode(',', $asset->getDependencies());
+				}
+			}
+		}
+		else
+		{
+			$attribs     = $item;
+			$version     = isset($attribs['options']['version']) ? $attribs['options']['version'] : '';
+			$conditional = !empty($attribs['options']['conditional']) ? $attribs['options']['conditional'] : null;
+		}
+
+		// To prevent double rendering
+		$this->renderedSrc[$src] = true;
+
+		// Check if script uses media version.
+		if ($version && strpos($src, '?') === false && ($mediaVersion || $version !== 'auto'))
+		{
+			$src .= '?' . ($version === 'auto' ? $mediaVersion : $version);
+		}
+
+		$buffer .= $tab;
+
+		// This is for IE conditional statements support.
+		if (!\is_null($conditional))
+		{
+			$buffer .= '<!--[if ' . $conditional . ']>';
+		}
+
+		$relation = isset($attribs['rel']) ? $attribs['rel'] : 'stylesheet';
+
+		if (isset($attribs['rel']))
+		{
+			unset($attribs['rel']);
+		}
+
+		// Render the element with attributes
+		$buffer .= '<link href="' . htmlspecialchars($src) . '" rel="' . $relation . '"';
+		$buffer .= $this->renderAttributes($attribs);
+		$buffer .= ' />';
+
+		if ($relation === 'lazy-stylesheet')
+		{
+			$buffer .= '<noscript><link href="' . htmlspecialchars($src) . '" rel="stylesheet" /></noscript>';
+		}
+
+		// This is for IE conditional statements support.
+		if (!\is_null($conditional))
+		{
+			$buffer .= '<![endif]-->';
+		}
+
+		$buffer .= $lnEnd;
+
+		return $buffer;
+	}
+
+	/**
+	 * Renders the inline element
+	 *
+	 * @param   WebAssetItemInterface|array  $item  The element
+	 *
+	 * @return  string  The resulting string
+	 *
+	 * @since   4.0.0
+	 */
+	private function renderInlineElement($item) : string
+	{
+		$buffer = '';
+		$lnEnd  = $this->_doc->_getLineEnd();
+		$tab    = $this->_doc->_getTab();
+
+		if ($item instanceof WebAssetItemInterface)
+		{
+			$attribs = $item->getAttributes();
+			$content = $item->getOption('content');
+		}
+		else
+		{
+			$attribs = $item;
+			$content = $item['content'] ?? '';
+
+			unset($attribs['content']);
+		}
+
+		// Do not produce empty elements
+		if (!$content)
+		{
+			return '';
+		}
+
+		// Add "nonce" attribute if exist
+		if ($this->_doc->cspNonce)
+		{
+			$attribs['nonce'] = $this->_doc->cspNonce;
+		}
+
+		$buffer .= $tab . '<style';
+		$buffer .= $this->renderAttributes($attribs);
+		$buffer .= '>';
+
+		// This is for full XHTML support.
+		if ($this->_doc->_mime !== 'text/html')
+		{
+			$buffer .= $tab . $tab . '/*<![CDATA[*/' . $lnEnd;
+		}
+
+		$buffer .= $content;
+
+		// See above note
+		if ($this->_doc->_mime !== 'text/html')
+		{
+			$buffer .= $tab . $tab . '/*]]>*/' . $lnEnd;
+		}
+
+		$buffer .= '</style>' . $lnEnd;
+
+		return $buffer;
+	}
+
+	/**
+	 * Renders the element attributes
+	 *
+	 * @param   array  $attributes  The element attributes
+	 *
+	 * @return  string  The attributes string
+	 *
+	 * @since   4.0.0
+	 */
+	private function renderAttributes(array $attributes) : string
+	{
+		$buffer = '';
+
+		$defaultCssMimes = array('text/css');
+
+		foreach ($attributes as $attrib => $value)
+		{
+			// Don't add the 'options' attribute. This attribute is for internal use (version, conditional, etc).
+			if ($attrib === 'options' || $attrib === 'href')
+			{
+				continue;
+			}
+
+			// Don't add type attribute if document is HTML5 and it's a default mime type. 'mime' is for B/C.
+			if (\in_array($attrib, array('type', 'mime')) && $this->_doc->isHtml5() && \in_array($value, $defaultCssMimes))
+			{
+				continue;
+			}
+
+			// Skip the attribute if value is bool:false.
+			if ($value === false)
+			{
+				continue;
+			}
+
+			// NoValue attribute, if it have bool:true
+			$isNoValueAttrib = $value === true;
+
+			// Don't add type attribute if document is HTML5 and it's a default mime type. 'mime' is for B/C.
+			if ($attrib === 'mime')
+			{
+				$attrib = 'type';
+			}
+			// NoValue attribute in non HTML5 should contain a value, set it equal to attribute name.
+			elseif ($isNoValueAttrib)
+			{
+				$value = $attrib;
+			}
+
+			// Add attribute to script tag output.
+			$buffer .= ' ' . htmlspecialchars($attrib, ENT_COMPAT, 'UTF-8');
+
+			if (!($this->_doc->isHtml5() && $isNoValueAttrib))
+			{
+				// Json encode value if it's an array.
+				$value = !is_scalar($value) ? json_encode($value) : $value;
+
+				$buffer .= '="' . htmlspecialchars($value, ENT_COMPAT, 'UTF-8') . '"';
+			}
+		}
+
+		return $buffer;
 	}
 }

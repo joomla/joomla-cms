@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2009 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -21,6 +21,7 @@ use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Uri\Uri;
+use Joomla\Input\Input;
 
 /**
  * Controller tailored to suit most form-based admin operations.
@@ -79,13 +80,13 @@ class FormController extends BaseController implements FormFactoryAwareInterface
 	 *                                              Recognized key values include 'name', 'default_task', 'model_path', and
 	 *                                              'view_path' (this list is not meant to be comprehensive).
 	 * @param   MVCFactoryInterface   $factory      The factory.
-	 * @param   CMSApplication        $app          The JApplication for the dispatcher
-	 * @param   \JInput               $input        Input
+	 * @param   CMSApplication        $app          The Application for the dispatcher
+	 * @param   Input                 $input        Input
 	 * @param   FormFactoryInterface  $formFactory  The form factory.
 	 *
 	 * @since   3.0
 	 */
-	public function __construct($config = array(), MVCFactoryInterface $factory = null, $app = null, $input = null,
+	public function __construct($config = array(), MVCFactoryInterface $factory = null, ?CMSApplication $app = null, ?Input $input = null,
 		FormFactoryInterface $formFactory = null
 	)
 	{
@@ -118,7 +119,7 @@ class FormController extends BaseController implements FormFactoryAwareInterface
 
 			if (!preg_match('/(.*)' . $match . '(.*)/i', \get_class($this), $r))
 			{
-				throw new \Exception(Text::_('JLIB_APPLICATION_ERROR_CONTROLLER_GET_NAME'), 500);
+				throw new \Exception(Text::sprintf('JLIB_APPLICATION_ERROR_GET_NAME', __METHOD__), 500);
 			}
 
 			// Remove the backslashes and the suffix controller
@@ -144,6 +145,7 @@ class FormController extends BaseController implements FormFactoryAwareInterface
 		$this->registerTask('save2menu', 'save');
 		$this->registerTask('save2new', 'save');
 		$this->registerTask('save2copy', 'save');
+		$this->registerTask('editAssociations', 'save');
 	}
 
 	/**
@@ -540,80 +542,6 @@ class FormController extends BaseController implements FormFactoryAwareInterface
 	}
 
 	/**
-	 * Method to load a row from version history
-	 *
-	 * @return  mixed  True if the record can be added, an error object if not.
-	 *
-	 * @since   3.2
-	 */
-	public function loadhistory()
-	{
-		$model = $this->getModel();
-		$table = $model->getTable();
-		$historyId = $this->input->getInt('version_id', null);
-
-		if (!$model->loadhistory($historyId, $table))
-		{
-			$this->setMessage($model->getError(), 'error');
-
-			$this->setRedirect(
-				Route::_(
-					'index.php?option=' . $this->option . '&view=' . $this->view_list
-					. $this->getRedirectToListAppend(), false
-				)
-			);
-
-			return false;
-		}
-
-		// Determine the name of the primary key for the data.
-		if (empty($key))
-		{
-			$key = $table->getKeyName();
-		}
-
-		$recordId = $table->$key;
-
-		// To avoid data collisions the urlVar may be different from the primary key.
-		$urlVar = empty($this->urlVar) ? $key : $this->urlVar;
-
-		// Access check.
-		if (!$this->allowEdit(array($key => $recordId), $key))
-		{
-			$this->setMessage(Text::_('JLIB_APPLICATION_ERROR_EDIT_NOT_PERMITTED'), 'error');
-
-			$this->setRedirect(
-				Route::_(
-					'index.php?option=' . $this->option . '&view=' . $this->view_list
-					. $this->getRedirectToListAppend(), false
-				)
-			);
-			$table->checkin();
-
-			return false;
-		}
-
-		$table->store();
-		$this->setRedirect(
-			Route::_(
-				'index.php?option=' . $this->option . '&view=' . $this->view_item
-				. $this->getRedirectToItemAppend($recordId, $urlVar), false
-			)
-		);
-
-		$this->setMessage(
-			Text::sprintf(
-				'JLIB_APPLICATION_SUCCESS_LOAD_HISTORY', $model->getState('save_date'), $model->getState('version_note')
-			)
-		);
-
-		// Invoke the postSave method to allow for the child class to access the model.
-		$this->postSaveHook($model);
-
-		return true;
-	}
-
-	/**
 	 * Method to save a record.
 	 *
 	 * @param   string  $key     The name of the primary key of the URL variable.
@@ -731,6 +659,26 @@ class FormController extends BaseController implements FormFactoryAwareInterface
 				else
 				{
 					$app->enqueueMessage($errors[$i], 'warning');
+				}
+			}
+
+			/**
+			 * We need the filtered value of calendar fields because the UTC normalisation is
+			 * done in the filter and on output. This would apply the Timezone offset on
+			 * reload. We set the calendar values we save to the processed date.
+			 */
+			$filteredData = $form->filter($data);
+
+			foreach ($form->getFieldset() as $field)
+			{
+				if ($field->type === 'Calendar')
+				{
+					$fieldName = $field->fieldname;
+
+					if (isset($filteredData[$fieldName]))
+					{
+						$data[$fieldName] = $filteredData[$fieldName];
+					}
 				}
 			}
 
@@ -911,20 +859,31 @@ class FormController extends BaseController implements FormFactoryAwareInterface
 			false
 		);
 
-		// Validate the posted data.
-		// Sometimes the form needs some posted data, such as for plugins and modules.
+		/** @var \Joomla\CMS\Form\Form $form */
 		$form = $model->getForm($data, false);
 
-		if (!$form)
-		{
-			$app->enqueueMessage($model->getError(), 'error');
+		/**
+		 * We need the filtered value of calendar fields because the UTC normalisation is
+		 * done in the filter and on output. This would apply the Timezone offset on
+		 * reload. We set the calendar values we save to the processed date.
+		 */
+		$filteredData = $form->filter($data);
 
-			$this->setRedirect($redirectUrl);
-			$this->redirect();
+		foreach ($form->getFieldset() as $field)
+		{
+			if ($field->type === 'Calendar')
+			{
+				$fieldName = $field->fieldname;
+
+				if (isset($filteredData[$fieldName]))
+				{
+					$data[$fieldName] = $filteredData[$fieldName];
+				}
+			}
 		}
 
 		// Save the data in the session.
-		$app->setUserState($this->option . '.edit.' . $this->context . '.data', $form->filter($data));
+		$app->setUserState($this->option . '.edit.' . $this->context . '.data', $data);
 
 		$this->setRedirect($redirectUrl);
 		$this->redirect();
@@ -936,6 +895,8 @@ class FormController extends BaseController implements FormFactoryAwareInterface
 	 * @return  void
 	 *
 	 * @since   3.9.0
+	 *
+	 * @deprecated 5.0  It is handled by regular save method now.
 	 */
 	public function editAssociations()
 	{

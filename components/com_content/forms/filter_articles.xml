@@ -23,11 +23,11 @@
 		<field
 			name="category_id"
 			type="category"
-			label="JOPTION_FILTER_CATEGORY"
-			description="JOPTION_FILTER_CATEGORY_DESC"
+			label="JOPTION_SELECT_CATEGORY"
 			multiple="true"
-			class="multipleCategories"
 			extension="com_content"
+			layout="joomla.form.field.list-fancy-select"
+			hint="JOPTION_SELECT_CATEGORY"
 			onchange="this.form.submit();"
 			published="0,1,2"
 		/>
@@ -35,20 +35,20 @@
 		<field
 			name="access"
 			type="accesslevel"
-			label="JOPTION_FILTER_ACCESS"
-			description="JOPTION_FILTER_ACCESS_DESC"
+			label="JOPTION_SELECT_ACCESS"
 			multiple="true"
-			class="multipleAccessLevels"
+			layout="joomla.form.field.list-fancy-select"
+			hint="JOPTION_SELECT_ACCESS"
 			onchange="this.form.submit();"
 		/>
 
 		<field
 			name="author_id"
 			type="author"
-			label="COM_CONTENT_FILTER_AUTHOR"
-			description="COM_CONTENT_FILTER_AUTHOR_DESC"
+			label="JOPTION_SELECT_AUTHOR"
 			multiple="true"
-			class="multipleAuthors"
+			layout="joomla.form.field.list-fancy-select"
+			hint="JOPTION_SELECT_AUTHOR"
 			onchange="this.form.submit();"
 			>
 			<option value="0">JNONE</option>
@@ -82,13 +82,14 @@
 		<field
 			name="tag"
 			type="tag"
-			label="JOPTION_FILTER_TAG"
-			description="JOPTION_FILTER_TAG_DESC"
+			label="JTAG"
 			multiple="true"
-			class="multipleTags"
 			mode="nested"
+			custom="false"
+			hint="JOPTION_SELECT_TAG"
 			onchange="this.form.submit();"
 		/>
+
 	</fields>
 	<fields name="list">
 		<field
@@ -98,6 +99,7 @@
 			description="COM_CONTENT_LIST_FULL_ORDERING_DESC"
 			onchange="this.form.submit();"
 			default="a.title ASC"
+			validate="options"
 			>
 			<option value="">JGLOBAL_SORT_BY</option>
 			<option value="a.ordering ASC">JGRID_HEADING_ORDERING_ASC</option>

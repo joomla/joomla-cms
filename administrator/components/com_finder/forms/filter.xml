@@ -16,7 +16,6 @@
 			type="text"
 			label="JGLOBAL_TITLE"
 			size="40"
-			id="title"
 			required="true"
 		/>
 
@@ -24,6 +23,7 @@
 			name="alias"
 			type="text"
 			label="JFIELD_ALIAS_LABEL"
+			description="JFIELD_ALIAS_DESC"
 			hint="JFIELD_ALIAS_PLACEHOLDER"
 			size="45"
 		/>
@@ -54,6 +54,7 @@
 			name="created_by"
 			type="user"
 			label="COM_FINDER_FIELD_CREATED_BY_LABEL"
+			validate="UserId"
 		/>
 
 		<field
@@ -70,6 +71,7 @@
 			class="readonly"
 			readonly="true"
 			filter="unset"
+			validate="UserId"
 		 />
 
 		<field
@@ -88,10 +90,11 @@
 			name="state"
 			type="list"
 			label="JSTATUS"
-			class="custom-select-color-state"
+			class="form-select-color-state"
 			filter="intval"
 			size="1"
 			default="1"
+			validate="options"
 			>
 			<option value="1">JPUBLISHED</option>
 			<option value="0">JUNPUBLISHED</option>
@@ -116,6 +119,7 @@
 				label="COM_FINDER_FILTER_WHEN_START_DATE_LABEL"
 				default=""
 				filter="string"
+				validate="options"
 				>
 				<option value="">JNONE</option>
 				<option value="-1">COM_FINDER_FILTER_WHEN_BEFORE</option>
@@ -138,6 +142,7 @@
 				label="COM_FINDER_FILTER_WHEN_END_DATE_LABEL"
 				default=""
 				filter="string"
+				validate="options"
 				>
 				<option value="">JNONE</option>
 				<option value="-1">COM_FINDER_FILTER_WHEN_BEFORE</option>

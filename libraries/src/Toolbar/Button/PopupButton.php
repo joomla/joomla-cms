@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2006 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,7 +12,6 @@ namespace Joomla\CMS\Toolbar\Button;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
-use Joomla\CMS\Language\Text;
 use Joomla\CMS\Toolbar\ToolbarButton;
 use Joomla\CMS\Uri\Uri;
 
@@ -132,7 +131,7 @@ class PopupButton extends ToolbarButton
 		{
 			// Build the options array for the modal
 			$params = array();
-			$params['title']      = Text::_($options['title'] ?? $options['text']);
+			$params['title']      = $options['title'] ?? $options['text'];
 			$params['url']        = $this->getUrl();
 			$params['height']     = $options['iframeHeight'] ?? 480;
 			$params['width']      = $options['iframeWidth'] ?? 640;
@@ -159,8 +158,12 @@ class PopupButton extends ToolbarButton
 			// TODO: There should be a better workaround than this
 			Factory::getDocument()->addScriptDeclaration(
 				<<<JS
-window.addEventListener('DOMContentLoaded', function() {
-	document.body.appendChild(document.getElementById('{$options['selector']}'));
+document.addEventListener('DOMContentLoaded', function() {
+  var modal =document.getElementById('{$options['selector']}');
+  document.body.appendChild(modal);
+  if (Joomla && Joomla.Bootstrap && Joomla.Bootstrap.Methods && Joomla.Bootstrap.Methods.Modal) {
+    Joomla.Bootstrap.Methods.Initialise.Modal(modal);
+  }
 });
 JS
 			);
@@ -171,8 +174,8 @@ JS
 		{
 			Factory::getDocument()->addScriptDeclaration(
 				<<<JS
-window.addEventListener('DOMContentLoaded', function() {
-	jQuery('#{$options['selector']}').on('hide.bs.modal', function () {
+document.addEventListener('DOMContentLoaded', function() {
+	document.querySelector('#{$options['selector']}').addEventListener('hide.bs.modal', function() {
 	    {$options['onclose']}
 	});
 });
@@ -194,6 +197,8 @@ JS
 	 */
 	private function _getCommand($url)
 	{
+		$url = $url ?? '';
+
 		if (strpos($url, 'http') !== 0)
 		{
 			$url = Uri::base() . $url;

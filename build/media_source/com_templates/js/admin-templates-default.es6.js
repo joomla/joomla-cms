@@ -1,5 +1,5 @@
 /**
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2018 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 (() => {
@@ -26,7 +26,7 @@
       folder.addEventListener('click', (event) => {
         event.preventDefault();
 
-        const list = folder.parentNode.querySelector('ul');
+        const list = event.currentTarget.parentNode.querySelector('ul');
 
         if (!list.classList.contains('hidden')) {
           list.classList.add('hidden');
@@ -45,12 +45,12 @@
           fileModalFold.classList.remove('selected');
         });
 
-        event.target.classList.add('selected');
+        event.currentTarget.classList.add('selected');
 
         const listElsAddressToAdd = [].slice.call(document.querySelectorAll('#fileModal input.address'));
 
         listElsAddressToAdd.forEach((element) => {
-          element.value = event.target.getAttribute('data-id');
+          element.value = event.currentTarget.getAttribute('data-id');
         });
       });
     });
@@ -64,11 +64,11 @@
           folderModalFldr.classList.remove('selected');
         });
 
-        event.target.classList.add('selected');
+        event.currentTarget.classList.add('selected');
         const listElsAddressToAdd = [].slice.call(document.querySelectorAll('#folderModal input.address'));
 
         listElsAddressToAdd.forEach((element) => {
-          element.value = event.target.getAttribute('data-id');
+          element.value = event.currentTarget.getAttribute('data-id');
         });
       });
     });

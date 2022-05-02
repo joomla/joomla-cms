@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<extension type="component" version="4.0" method="upgrade">
+<extension type="component" method="upgrade">
 	<name>com_banners</name>
 	<author>Joomla! Project</author>
 	<creationDate>April 2006</creationDate>
-	<copyright>(C) 2005 - 2019 Open Source Matters. All rights reserved.</copyright>
+	<copyright>(C) 2006 Open Source Matters, Inc.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>4.0.0</version>
 	<description>COM_BANNERS_XML_DESCRIPTION</description>
-	<namespace>Joomla\Component\Banners</namespace>
+	<namespace path="src">Joomla\Component\Banners</namespace>
 	<install> <!-- Runs on install -->
 		<sql>
 			<file driver="mysql" charset="utf8">sql/install.mysql.utf8.sql</file>
@@ -21,11 +21,7 @@
 		</sql>
 	</uninstall>
 	<files folder="site">
-		<filename>router.php</filename>
-		<folder>Controller</folder>
-		<folder>Helper</folder>
-		<folder>helpers</folder>
-		<folder>Model</folder>
+		<folder>src</folder>
 	</files>
 	<languages folder="site">
 		<language tag="en-GB">language/en-GB/com_banners.ini</language>
@@ -33,8 +29,9 @@
 	<media destination="com_banners" folder="media">
 		<folder>js</folder>
 	</media>
+
 	<administration>
-		<menu img="class:banners">com_banners</menu>
+		<menu img="class:bookmark">com_banners</menu>
 		<submenu>
 			<!--
 				Note that all & must be escaped to &amp; for the file to be valid
@@ -77,19 +74,12 @@
 			<filename>access.xml</filename>
 			<filename>banners.xml</filename>
 			<filename>config.xml</filename>
-			<folder>Controller</folder>
-			<folder>Extension</folder>
-			<folder>Field</folder>
 			<folder>forms</folder>
-			<folder>Helper</folder>
 			<folder>helpers</folder>
-			<folder>Model</folder>
-			<folder>Service</folder>
 			<folder>services</folder>
 			<folder>sql</folder>
-			<folder>Table</folder>
+			<folder>src</folder>
 			<folder>tmpl</folder>
-			<folder>View</folder>
 		</files>
 		<languages folder="admin">
 			<language tag="en-GB">language/en-GB/com_banners.ini</language>

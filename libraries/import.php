@@ -3,9 +3,7 @@
  * Bootstrap file for the Joomla Platform.  Including this file into your application will make Joomla
  * Platform libraries available for use.
  *
- * @package    Joomla.Platform
- *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2011 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 

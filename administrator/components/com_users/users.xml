@@ -1,24 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<extension type="component" version="4.0" method="upgrade">
+<extension type="component" method="upgrade">
 	<name>com_users</name>
 	<author>Joomla! Project</author>
 	<creationDate>April 2006</creationDate>
-	<copyright>(C) 2005 - 2019 Open Source Matters. All rights reserved.</copyright>
+	<copyright>(C) 2006 Open Source Matters, Inc.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>4.0.0</version>
 	<description>COM_USERS_XML_DESCRIPTION</description>
-	<namespace>Joomla\Component\Users</namespace>
+	<namespace path="src">Joomla\Component\Users</namespace>
 	<files folder="site">
-		<filename>router.php</filename>
-		<folder>Controller</folder>
 		<folder>forms</folder>
-		<folder>helpers</folder>
-		<folder>Model</folder>
-		<folder>Rule</folder>
+		<folder>layouts</folder>
+		<folder>src</folder>
 		<folder>tmpl</folder>
-		<folder>View</folder>
 	</files>
 	<languages folder="site">
 		<language tag="en-GB">language/en-GB/com_users.ini</language>
@@ -31,20 +27,18 @@
 			<filename>access.xml</filename>
 			<filename>config.xml</filename>
 			<filename>users.xml</filename>
-			<folder>Controller</folder>
-			<folder>Field</folder>
 			<folder>forms</folder>
-			<folder>Helper</folder>
 			<folder>helpers</folder>
-			<folder>Model</folder>
 			<folder>services</folder>
-			<folder>Table</folder>
+			<folder>src</folder>
 			<folder>tmpl</folder>
-			<folder>View</folder>
 		</files>
 		<languages folder="admin">
 			<language tag="en-GB">language/en-GB/com_users.ini</language>
 			<language tag="en-GB">language/en-GB/com_users.sys.ini</language>
 		</languages>
 	</administration>
+	<dashboards>
+		<dashboard title="COM_USERS_DASHBOARD_TITLE" icon="icon-users">users</dashboard>
+	</dashboards>
 </extension>

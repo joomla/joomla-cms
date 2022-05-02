@@ -20,9 +20,10 @@
 			name="enabled"
 			type="list"
 			label="JSTATUS"
-			class="custom-select-color-state"
+			class="form-select-color-state"
 			size="1"
 			default="1"
+			validate="options"
 			>
 			<option value="1">JENABLED</option>
 			<option value="0">JDISABLED</option>
@@ -32,7 +33,8 @@
 			name="access"
 			type="accesslevel"
 			label="JFIELD_ACCESS_LABEL"
-			size="1"
+			filter="UINT"
+			validate="options"
 		/>
 
 		<field

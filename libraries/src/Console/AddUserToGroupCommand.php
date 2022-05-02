@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2019 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -15,6 +15,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\User\User;
 use Joomla\CMS\User\UserHelper;
 use Joomla\Console\Command\AbstractCommand;
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Exception\InvalidOptionException;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -92,7 +93,7 @@ class AddUserToGroupCommand extends AbstractCommand
 		{
 			$this->ioStyle->error("The user " . $this->username . " does not exist!");
 
-			return 1;
+			return Command::FAILURE;
 		}
 
 		// Fetch user
@@ -115,17 +116,17 @@ class AddUserToGroupCommand extends AbstractCommand
 
 			if (UserHelper::addUserToGroup($user->id, $userGroup))
 			{
-				$this->ioStyle->success("Add '" . $user->username . "' to group '" . $result . "'!");
+				$this->ioStyle->success("Added '" . $user->username . "' to group '" . $result . "'!");
 			}
 			else
 			{
 				$this->ioStyle->error("Can't add '" . $user->username . "' to group '" . $result . "'!");
 
-				return 1;
+				return Command::FAILURE;
 			}
 		}
 
-		return 0;
+		return Command::SUCCESS;
 	}
 
 
@@ -289,15 +290,12 @@ class AddUserToGroupCommand extends AbstractCommand
 	 */
 	protected function configure(): void
 	{
-		$this->setDescription('Add a user to group');
+		$help = "<info>%command.name%</info> adds a user to a group
+		\nUsage: <info>php %command.full_name%</info>";
+
+		$this->setDescription('Add a user to a group');
 		$this->addOption('username', null, InputOption::VALUE_OPTIONAL, 'username');
 		$this->addOption('group', null, InputOption::VALUE_OPTIONAL, 'group');
-		$this->setHelp(
-			<<<EOF
-The <info>%command.name%</info> command adds a user to a group
-
-<info>php %command.full_name%</info>
-EOF
-		);
+		$this->setHelp($help);
 	}
 }

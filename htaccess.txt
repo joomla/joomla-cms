@@ -1,6 +1,6 @@
 ##
 # @package    Joomla
-# @copyright  Copyright (C) 2005 - 2019 Open Source Matters. All rights reserved.
+# @copyright  (C) 2005 Open Source Matters, Inc. <https://www.joomla.org>
 # @license    GNU General Public License version 2 or later; see LICENSE.txt
 ##
 
@@ -16,19 +16,41 @@
 # set it here.
 ##
 
+## Can be commented out if causes errors, see notes above.
+Options +FollowSymlinks
+Options -Indexes
+
 ## No directory listings
-<IfModule autoindex>
-  IndexIgnore *
+<IfModule mod_autoindex.c>
+	IndexIgnore *
 </IfModule>
 
 ## Suppress mime type detection in browsers for unknown types
 <IfModule mod_headers.c>
-Header always set X-Content-Type-Options "nosniff"
+	Header always set X-Content-Type-Options "nosniff"
+##
+# Disable Federated Learning of Cohorts (FLoC)
+# If you uncomment the below directive you have to allow this technology in the
+# Global Configuration of Joomla. Read more about this in the Post-Installation
+# message in the backend.
+##
+# Header always set Permissions-Policy "interest-cohort=()"
 </IfModule>
 
-## Can be commented out if causes errors, see notes above.
-Options +FollowSymlinks
-Options -Indexes
+## Protect against certain cross-origin requests. More information can be found here:
+## https://developer.mozilla.org/en-US/docs/Web/HTTP/Cross-Origin_Resource_Policy_(CORP)
+## https://web.dev/why-coop-coep/
+#<IfModule mod_headers.c>
+#	Header always set Cross-Origin-Resource-Policy "same-origin"
+#	Header always set Cross-Origin-Embedder-Policy "require-corp"
+#</IfModule>
+
+## Disable inline JavaScript when directly opening SVG files or embedding them with the object-tag
+<FilesMatch "\.svg$">
+  <IfModule mod_headers.c>
+    Header always set Content-Security-Policy "script-src 'none'"
+  </IfModule>
+</FilesMatch>
 
 ## These directives are only enabled if the Apache mod_rewrite module is enabled
 <IfModule mod_rewrite.c>
@@ -70,8 +92,21 @@ Options -Indexes
 
 	## Begin - Joomla! core SEF Section.
 	#
+	# PHP FastCGI fix for HTTP Authorization, required for the API application
 	RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
-	#
+	# -- SEF URLs for the API application
+	# If the requested path starts with /api, the file is not /api/index.php
+	# and the request has not already been internally rewritten to the
+	# api/index.php script
+	RewriteCond %{REQUEST_URI} ^/api/
+	RewriteCond %{REQUEST_URI} !^/api/index\.php
+	# and the requested path and file doesn't directly match a physical file
+	RewriteCond %{REQUEST_FILENAME} !-f
+	# and the requested path and file doesn't directly match a physical folder
+	RewriteCond %{REQUEST_FILENAME} !-d
+	# internally rewrite the request to the /api/index.php script
+	RewriteRule .* api/index.php [L]
+	# -- SEF URLs for the public frontend application
 	# If the requested path and file is not /index.php and the request
 	# has not already been internally rewritten to the index.php script
 	RewriteCond %{REQUEST_URI} !^/index\.php
@@ -87,43 +122,45 @@ Options -Indexes
 
 ## These directives are only enabled if the Apache mod_rewrite module is disabled
 <IfModule !mod_rewrite.c>
-    <IfModule mod_alias.c>
-        # When Apache mod_rewrite is not available, we instruct a temporary redirect
-        # of the start page to the front controller explicitly so that the website
-        # and the generated links can still be used.
-        RedirectMatch 302 ^/$ /index.php/
-        # RedirectTemp cannot be used instead
-    </IfModule>
+	<IfModule mod_alias.c>
+		# When Apache mod_rewrite is not available, we instruct a temporary redirect
+		# of the start page to the front controller explicitly so that the website
+		# and the generated links can still be used.
+		RedirectMatch 302 ^/$ /index.php/
+		# RedirectTemp cannot be used instead
+	</IfModule>
 </IfModule>
 
 ## These directives are only enabled if the Apache mod_headers module is enabled.
 ## This section will check if a .gz file exists and if so will stream it
 ##     directly or fallback to gzip any asset on the fly
+## If your site starts to look strange after enabling this, and you see
+##     ERR_CONTENT_DECODING_FAILED in your browser console network tab,
+##     then your server is already gzipping css and js files and you don't need this
+##     block enabled in your .htaccess
 <IfModule mod_headers.c>
-    # Serve gzip compressed CSS files if they exist
-    # and the client accepts gzip.
-    RewriteCond "%{HTTP:Accept-encoding}" "gzip"
-    RewriteCond "%{REQUEST_FILENAME}\.gz" -s
-    RewriteRule "^(.*)\.css" "$1\.css\.gz" [QSA]
+	# Serve gzip compressed CSS files if they exist
+	# and the client accepts gzip.
+	RewriteCond "%{HTTP:Accept-encoding}" "gzip"
+	RewriteCond "%{REQUEST_FILENAME}\.gz" -s
+	RewriteRule "^(.*)\.css" "$1\.css\.gz" [QSA]
 
-    # Serve gzip compressed JS files if they exist
-    # and the client accepts gzip.
-    RewriteCond "%{HTTP:Accept-encoding}" "gzip"
-    RewriteCond "%{REQUEST_FILENAME}\.gz" -s
-    RewriteRule "^(.*)\.js" "$1\.js\.gz" [QSA]
+	# Serve gzip compressed JS files if they exist
+	# and the client accepts gzip.
+	RewriteCond "%{HTTP:Accept-encoding}" "gzip"
+	RewriteCond "%{REQUEST_FILENAME}\.gz" -s
+	RewriteRule "^(.*)\.js" "$1\.js\.gz" [QSA]
 
+	# Serve correct content types, and prevent mod_deflate double gzip.
+	RewriteRule "\.css\.gz$" "-" [T=text/css,E=no-gzip:1]
+	RewriteRule "\.js\.gz$" "-" [T=text/javascript,E=no-gzip:1]
 
-    # Serve correct content types, and prevent mod_deflate double gzip.
-    RewriteRule "\.css\.gz$" "-" [T=text/css,E=no-gzip:1]
-    RewriteRule "\.js\.gz$" "-" [T=text/javascript,E=no-gzip:1]
+	<FilesMatch "(\.js\.gz|\.css\.gz)$">
+		# Serve correct encoding type.
+		Header append Content-Encoding gzip
 
-
-    <FilesMatch "(\.js\.gz|\.css\.gz)$">
-      # Serve correct encoding type.
-      Header append Content-Encoding gzip
-
-      # Force proxies to cache gzipped &
-      # non-gzipped css/js files separately.
-      Header append Vary Accept-Encoding
-    </FilesMatch>
+		# Force proxies to cache gzipped &
+		# non-gzipped css/js files separately.
+		Header append Vary Accept-Encoding
+	</FilesMatch>
 </IfModule>

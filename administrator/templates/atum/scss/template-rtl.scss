@@ -1,4 +1,5 @@
 @import "template";
+@import "vendor/bootstrap/bootstrap-rtl";
 
 // Global
 dl,
@@ -7,257 +8,40 @@ ul {
   padding-right: 0;
 }
 
-body {
-  text-align: right;
-}
-
-.close {
-  float: left;
-
-  .notify-alerts & {
-    right: auto;
-    left: -.5rem;
-  }
-}
-
-.control-group {
-  .custom-select {
-    float: right;
-  }
-}
-
-.dropdown-menu-right {
-
-  &::after {
-    right: auto;
-    left: .9rem;
-  }
-}
-
-.sidebar-wrapper {
-  right: 0;
-  left: auto;
-}
-.subhead {
-	.dropdown-toggle.btn-action::after {
-		margin: 0 16px 0 -22px;
-	}
-}
-.switcher {
-    float: right;
-}
-.form-no-margin .control-group .controls  .switcher__legend {
-    text-align: right;
-}
-// Alerts
-.notify-alerts {
-  margin-left: 0;
-
-  .closed & {
-    margin-right: 0;
-  }
-}
-
-// Header
-.header {
-  .page-title [class^='icon-'] {
-    margin-right: 0;
-    margin-left: 15px;
-  }
-  .logo img {
-    margin-right: .8rem;
-    margin-left: auto;
-  }
-}
-
-.menu-collapse {
-  right: 0;
-  left: auto;
-  margin-right: -7.5px;
-  margin-left: 0;
-}
-
-.menu-toggle-icon::before {
-  content: "\f054";
-
-  .closed & {
-    content: "\f053";
-  }
-}
-
-// Status
-.status {
-  margin-right: 250px;
-  margin-left: 0;
-
-  .closed & {
-    margin-right: 50px;
-    margin-left: 0;
-  }
-}
-
-.sidebar-wrapper[data-hidden='1'] ~ .status {
-  margin-right: 0;
-}
-
-// Toolbar
-.subhead {
-
-  .btn,
-  .btn-sm {
-    [class*=' fa-'],
-    [class^='fa-'],
-    [class^='icon-'],
-    [class*=' icon-'],
-    [class^='#{$fa-css-prefix}-'],
-    [class*=' #{$fa-css-prefix}-'] {
-      margin: 0 -27px 0 27px;
-    }
-  }
-
-  .btn-group {
-    margin-left: .75rem !important;
-  }
-
-  .btn-toolbar > * {
-    margin-right: .75rem;
-    margin-left: 0;
-
-    &:first-child {
-      margin-right: 0;
-    }
-  }
-}
-
-// com_cpanel
-.com_cpanel {
-
-  .card {
-
-    .list-group {
-
-      > .published {
-        border-right: 5px solid theme-color("success");
-        border-left: 0;
-      }
-
-      > .unpublished {
-        border-right: 5px solid theme-color("danger");
-        border-left: 0;
-      }
-    }
-
-    .module-dropdown {
-      right: auto;
-      left: 0;
-
-      > a {
-        border-right: 1px solid var(--border);
-        border-left: 0;
-        border-top-left-radius: $border-radius;
-        border-top-right-radius: 0;
-      }
-    }
-  }
-
-  .module-actions {
-    right: auto;
-    left: 0;
-  }
-}
-
-.js-stools .js-stools-container-filters {
-  right: auto;
-  left: 0;
-}
-
-.ml-auto {
-  margin-right: auto !important;
-  margin-left: 0 !important;
-}
-
-.mr-auto {
-  margin-right: 0 !important;
-  margin-left: auto !important;
-}
-
-.ml-2 {
-  margin-right: .5rem;
-  margin-left: 0 !important;
-}
-
-.mr-2 {
-  margin-right: 0 !important;
-  margin-left: .5rem;
-}
-
-#helpsite-refresh {
-  float: right;
-  margin-top: 1px;
-  margin-right: 4px;
-}
-
-.field-calendar {
-  float: none;
-}
-
-.form-text {
-  float: right;
-}
-
-.field-user-wrapper {
-  float: none;
-}
-
-.field-media-input {
-  margin-right: 220px;
-}
-
-// Quickicon specific
-.message-alert {
-  text-align: left !important;
-}
-
-// Bootstrap overrides
-.text-left {
-  text-align: right !important;
-}
-
-.text-right {
-  text-align: left !important;
-}
-
-// System panel
-.menu-quicktask, .menu-badge {
-    float: left;
-}
-
-// Modal header override
-.modal-header .close {
-  margin-left: -15px;
-  margin-right: 0 !important;
-  border-left: 0 !important;
-  border-right: 1px solid var(--border);
-}
-
-// Changelog modal override
-.changelog {
-  text-align: right !important;
-
-  &__tag {
-    text-align: left;
-  }
-
-  &__list {
-
-    ul {
-      padding-right: 15px;
-      padding-left: auto;
-    }
-  }
-}
-
 // Redirect urls fields
-#jform_new_url, #jform_old_url, #new_url {
+#jform_new_url,
+#jform_old_url,
+#new_url {
   text-align: left;
+}
+
+// Database prefix
+#jform_dbprefix {
+  text-align: right;
+  direction: ltr;
+}
+
+.input-group > .form-control:not(:last-child),
+.input-group > .form-select:not(:last-child) {
+  @include border-start-radius(0);
+  @include border-end-radius($border-radius);
+}
+
+.btn-group > .btn:first-child:not(.dropdown-toggle) {
+  @include border-end-radius($border-radius);
+}
+
+.btn-group > .btn:not(:last-child):not(.dropdown-toggle),
+.btn-group > .btn-group:not(:last-child) > .btn {
+  @include border-start-radius(0);
+  margin-left: -1px;
+}
+
+.btn-group > .btn:last-child:not(.dropdown-toggle) {
+  @include border-start-radius($border-radius);
+}
+
+.btn-group > .btn:not(:first-child),
+.btn-group > .btn-group:not(:first-child) {
+  @include border-end-radius(0);
 }

@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2009 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -100,6 +100,14 @@ class EditorField extends TextareaField
 	 * @since  3.2
 	 */
 	protected $editorType;
+
+	/**
+	 * The parent class of the field
+	 *
+	 * @var  string
+	 * @since 4.0.0
+	 */
+	protected $parentclass;
 
 	/**
 	 * Method to get certain otherwise inaccessible properties from the form field object.
@@ -286,19 +294,27 @@ class EditorField extends TextareaField
 				// Get the database object.
 				$db = Factory::getDbo();
 
+				// Build the query.
+				$query = $db->getQuery(true)
+					->select($db->quoteName('element'))
+					->from($db->quoteName('#__extensions'))
+					->where(
+						[
+							$db->quoteName('element') . ' = :editor',
+							$db->quoteName('folder') . ' = ' . $db->quote('editors'),
+							$db->quoteName('enabled') . ' = 1',
+						]
+					);
+
+				// Declare variable before binding.
+				$element = '';
+				$query->bind(':editor', $element);
+				$query->setLimit(1);
+
 				// Iterate over the types looking for an existing editor.
 				foreach ($types as $element)
 				{
-					// Build the query.
-					$query = $db->getQuery(true)
-						->select('element')
-						->from('#__extensions')
-						->where('element = ' . $db->quote($element))
-						->where('folder = ' . $db->quote('editors'))
-						->where('enabled = 1');
-
-					// Check of the editor exists.
-					$query->setLimit(1);
+					// Check if the editor exists.
 					$db->setQuery($query);
 					$editor = $db->loadResult();
 

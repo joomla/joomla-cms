@@ -3,262 +3,144 @@
 .quick-icons {
   background-color: $white;
 
-  li {
+  .nav {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+    grid-gap: 1rem;
+  }
+
+  a {
+    text-decoration: none;
+  }
+
+  ul {
     padding: 0;
   }
-  a {
-    color: var(--atum-bg-dark-50);
-    width: 100%;
+
+  .quickicon {
+    --text-color: hsl(var(--hue), 30%, 40%);
+    --bg-color: hsl(var(--hue), 60%, 97%);
+    --icon-color: hsl(var(--hue), 30%, 40%);
+    --bg-color-hvr: var(--template-bg-dark);
+
+    display: flex;
+    flex-grow: 1;
+
+    a {
+      display: flex;
+      flex-direction: column;
+      flex-grow: 1;
+      justify-content: flex-end;
+      padding: 0 1rem;
+      color: var(--text-color);
+      background-color: var(--bg-color);
+      transition: all .25s ease;
+
+      .quickicon-icon {
+        margin-top: .5rem;
+        margin-inline-start: .2rem;
+
+        > * {
+          font-size: $quickicon-icon-size;
+          color: var(--icon-color);
+        }
+      }
+
+      .quickicon-name {
+        padding: .125rem 0 .6rem;
+        font-size: $display2-size;
+        font-weight: bold;
+      }
+
+      .quickicon-amount {
+        padding: .25rem .5rem;
+        font-weight: $bold-weight;
+        line-height: 1rem;
+        background: hsl(var(--hue),50%,93%);
+        border-radius: $border-radius;
+        transition: all .25s ease;
+        margin-inline-start: .5rem;
+      }
+
+      .j-links-link {
+        display: block;
+        padding: 0 .2rem;
+        line-height: 1.1;
+      }
+
+      &:hover,
+      &:focus,
+      &:active {
+        color: $white;
+        text-decoration: none;
+        background: var(--bg-color-hvr);
+
+        .quickicon-amount {
+          background: var(--icon-color);
+        }
+      }
+
+      &.warning,
+      &.danger {
+        --text-color: var(--danger);
+        --bg-color: #f4f0f0;
+        --icon-color: #ce8484;
+        --bg-color-hvr: var(--danger);
+      }
+
+      &.success {
+        --text-color: var(--success);
+        --bg-color: #f3f9f3;
+        --icon-color: #55a258;
+        --bg-color-hvr: var(--success);
+      }
+    }
+  }
+
+  .quickicon-info {
+    display: flex;
+    align-items: flex-end;
+  }
+
+  .quickicon-linkadd {
+    width: 2.5rem;
+    font-size: 1.2rem;
+    background: hsl(var(--hue),50%,93%);
     transition: all .25s ease;
 
-    @include hover-focus-active {
-      text-decoration: none;
-      color: $white;
-      background: var(--atum-bg-dark);
-    }
+    a {
+      align-items: flex-end;
+      justify-content: center;
+      width: 100%;
 
-    .fa,
-    .fab {
-      font-size: $quickicon-icon-size;
-      margin: 0 auto;
+      > * {
+        margin-bottom: 10px;
+        color: hsl(var(--hue), 30%, 40%);
+      }
 
-      &.big {
-            font-size: $quickicon-icon-size-big;
-          }
-       }
-    }
+      &:hover,
+      &:focus,
+      &:active {
+        background: var(--template-bg-dark);
 
-  // Group link to the overview and link to the edit form in a container
-  .quickicon-group {
-    width: calc(33.333% - 1rem);
-    max-width: calc(33.333% - 1rem);
-    flex: 1 1 calc(33.333% - 1rem);
-    padding: 0;
-
-    > ul {
-      padding: 0;
+        * {
+          color: $white;
+        }
+      }
     }
-
-    @media (max-width: 1350px)  {
-      width: calc(50% - 1rem);
-      max-width: calc(50% - 1rem);
-      flex: 1 1 calc(50% - 1rem);
-    }
-    @media (max-width: 1150px) {
-      width: calc(100% - 1rem);
-      max-width: calc(100% - 1rem);
-      flex: 1 1 calc(100% - 1rem);
-    }
-    @include media-breakpoint-down(sm) {
-      width: calc(50% - 1rem);
-      max-width: calc(50% - 1rem);
-      flex: 1 1 calc(50% - 1rem);
-    }
-    @media (max-width: 430px) {
-      width: calc(100% - 1rem);
-      max-width: calc(100% - 1rem);
-      flex: 1 1 calc(100% - 1rem);
-    }
-
-    .quickicon-linkadd {
-      background-color: var(--atum-bg-light);
-      width: 2rem;
-     }
-    }
-
-  // Single icon
-  .quickicon-single {
-    width: calc(33.333% - 1rem);
-    max-width: calc(33.333% - 1rem);
-    flex: 1 1 calc(33.333% - 1rem);
-    background: $quickicon-bg;
   }
 
   .quickicon-single,
   .quickicon-group {
-    border: 1px solid $gray-400;
-    margin: 0.5rem;
-    min-height: 5.7rem;
-
-    @media (max-width: 1350px) {
-      width: calc(50% - 1rem);
-      max-width: calc(50% - 1rem);
-      flex: 1 1 calc(50% - 1rem);
-    }
-    @media (max-width: 1150px) {
-      width: calc(100% - 1rem);
-      max-width: calc(100% - 1rem);
-      flex: 1 1 calc(100% - 1rem);
-    }
-    @include media-breakpoint-down(sm) {
-      width: calc(50% - 1rem);
-      max-width: calc(50% - 1rem);
-      flex: 1 1 calc(50% - 1rem);
-    }
-    @media (max-width: 430px) {
-      width: calc(100% - 1rem);
-      max-width: calc(100% - 1rem);
-      flex: 1 1 calc(100% - 1rem);
-    }
-  }
-
-  .quickicon a {
-    display: inline-flex;
-    height: 100%;
-    flex-direction: column;
-    background-color: var(--toolbar-bg);
-    line-height: 1.1;
-    align-self: baseline;
-    text-align: center;
-
-    > div {
-      flex: 1 0 0;
-      margin: 0 auto;
-
-      &.quickicon-icon {
-        margin: .8rem auto 0;
-
-        &.big {
-          .fa,
-          .fab {
-            font-size: $quickicon-icon-size-big;
-          }
-        }
-      }
-    }
-
-    .quickicon-name {
-      font-size: $display2-size;
-      padding: .2rem .2rem .6rem .2rem;
-    }
-
-    .quickicon-amount {
-      font-size: $display1-size;
-      font-weight: $bold-weight;
-      padding: .3rem;
-      margin-top: .3rem !important;
-
-      > .fa-spinner {
-        font-size: $display1-size;
-      }
-    }
-
-    .quickicon-text {
-      text-align: center;
-      min-height: 1.2rem;
-      padding: 0.2rem;
-    }
-
-    .j-links-link {
-      display: block;
-      padding: 0 1rem;
-      line-height: 1.1;
-    }
-
-    &.warning,
-    &.danger {
-      background: $danger-bg;
-      border: 1px solid lighten($danger-txt, 30%);
-
-      .fa,
-      .fab {
-        color: $danger-txt;
-      }
-
-      @include hover-focus-active {
-        background: var(--danger);
-        color: var(--white);
-
-        .fa,
-        .fab {
-          &::before {
-            color: var(--white);
-          }
-        }
-      }
-    }
-
-    &.success {
-      color: $success-txt;
-      border: 1px solid lighten($success-txt, 20%);
-
-      .fa,
-      .fab {
-        color: var(--success);
-      }
-
-      @include hover-focus-active {
-        background: var(--success);
-        color: var(--white);
-
-        .fa,
-        .fab {
-          &::before {
-            color: var(--white);
-          }
-        }
-      }
-    }
-
-    @include hover-focus-active {
-      text-decoration: none;
-      color: $white;
-      background: var(--atum-bg-dark);
-    }
+    display: flex;
+    min-height: 6rem;
+    overflow: hidden;
+    border: 1px solid hsl(var(--hue),50%,93%);
+    border-radius: 4px;
   }
 }
 
-#content {
-  .menu-quicktask {
-    position: absolute;
-
-    [dir=ltr] & {
-      right: 1.25rem;
-    }
-
-    [dir=rtl] & {
-      left: 1.25rem;
-    }
-  }
+#content .menu-quicktask {
+  position: absolute;
+  inset-inline-end: 1.25rem;
 }
-
-#cpanel-modules {
-  .cpanel-quickicons,
-  .cpanel {
-    .card-columns {
-      @include media-breakpoint-down(md) {
-        column-count: 2;
-      }
-
-      @include media-breakpoint-down(sm) {
-        column-count: 1;
-      }
-    }
-  }
-}
-
-#wrapper.closed {
-  .quick-icons {
-    .quickicon-single,
-    .quickicon-group {
-      @media (max-width: 1180px) {
-        width: calc(50% - 1rem);
-        max-width: calc(50% - 1rem);
-        flex: 1 1 calc(50% - 1rem);
-      }
-
-      @media (max-width: 950px) {
-        width: calc(100% - 1rem);
-        max-width: calc(100% - 1rem);
-        flex: 1 1 calc(100% - 1rem);
-      }
-
-      @media (max-width: 767px) {
-        width: calc(33% - 1rem);
-        max-width: calc(33% - 1rem);
-        flex: 1 1 calc(33% - 1rem);
-      }
-    }
-  }
-}
-

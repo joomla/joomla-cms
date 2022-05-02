@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2009 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -101,7 +101,7 @@ abstract class FormModel extends BaseDatabaseModel implements FormFactoryAwareIn
 			$checkedOutField = $table->getColumnAlias('checked_out');
 
 			// Check if this is the user having previously checked out the row.
-			if ($table->$checkedOutField > 0 && $table->$checkedOutField != $user->get('id') && !$user->authorise('core.admin', 'com_checkin'))
+			if ($table->$checkedOutField > 0 && $table->$checkedOutField != $user->get('id') && !$user->authorise('core.manage', 'com_checkin'))
 			{
 				$this->setError(Text::_('JLIB_APPLICATION_ERROR_CHECKIN_USER_MISMATCH'));
 
@@ -139,7 +139,15 @@ abstract class FormModel extends BaseDatabaseModel implements FormFactoryAwareIn
 
 			if (!$table->load($pk))
 			{
-				$this->setError($table->getError());
+				if ($table->getError() === false)
+				{
+					// There was no error returned, but false indicates that the row did not exist in the db, so probably previously deleted.
+					$this->setError(Text::_('JLIB_APPLICATION_ERROR_NOT_EXIST'));
+				}
+				else
+				{
+					$this->setError($table->getError());
+				}
 
 				return false;
 			}
@@ -191,7 +199,20 @@ abstract class FormModel extends BaseDatabaseModel implements FormFactoryAwareIn
 		// Include the plugins for the delete events.
 		PluginHelper::importPlugin($this->events_map['validate']);
 
-		Factory::getApplication()->triggerEvent('onUserBeforeDataValidation', array($form, &$data));
+		$dispatcher = Factory::getContainer()->get('dispatcher');
+
+		if (!empty($dispatcher->getListeners('onUserBeforeDataValidation')))
+		{
+			@trigger_error(
+				'The `onUserBeforeDataValidation` event is deprecated and will be removed in 5.0.'
+				. 'Use the `onContentValidateData` event instead.',
+				E_USER_DEPRECATED
+			);
+
+			Factory::getApplication()->triggerEvent('onUserBeforeDataValidation', array($form, &$data));
+		}
+
+		Factory::getApplication()->triggerEvent('onContentBeforeValidateData', array($form, &$data));
 
 		// Filter and validate the form data.
 		$data = $form->filter($data);

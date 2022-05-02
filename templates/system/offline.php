@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  Template.system
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2005 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -16,24 +16,23 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Uri\Uri;
 
-/** @var JDocumentHtml $this */
+/** @var Joomla\CMS\Document\HtmlDocument $this */
 
 $app = Factory::getApplication();
+$wa  = $this->getWebAssetManager();
 
 // Styles
-HTMLHelper::_('stylesheet', 'templates/system/css/offline.css', ['version' => 'auto']);
+$wa->registerAndUseStyle('template.system.offline', 'templates/system/css/offline.css');
 
 if ($this->direction === 'rtl')
 {
-	HTMLHelper::_('stylesheet', 'templates/system/css/offline_rtl.css', ['version' => 'auto']);
+	$wa->registerAndUseStyle('template.system.offline_rtl', 'templates/system/css/offline_rtl.css');
 }
 
-HTMLHelper::_('stylesheet', 'templates/system/css/general.css', ['version' => 'auto']);
-
-// Add JavaScript Frameworks
-HTMLHelper::_('bootstrap.framework');
+$wa->registerAndUseStyle('template.system.general', 'templates/system/css/general.css');
 
 $twofactormethods = AuthenticationHelper::getTwoFactorMethods();
+
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>">
@@ -72,11 +71,11 @@ $twofactormethods = AuthenticationHelper::getTwoFactorMethods();
 		<?php if (count($twofactormethods) > 1) : ?>
 			<p id="form-login-secretkey">
 				<label for="secretkey"><?php echo Text::_('JGLOBAL_SECRETKEY'); ?></label>
-				<input type="text" name="secretkey" class="inputbox" alt="<?php echo Text::_('JGLOBAL_SECRETKEY'); ?>" id="secretkey" />
+				<input type="text" name="secretkey" autocomplete="one-time-code" class="inputbox" alt="<?php echo Text::_('JGLOBAL_SECRETKEY'); ?>" id="secretkey" />
 			</p>
 		<?php endif; ?>
 		<p id="submit-button">
-			<input type="submit" name="Submit" class="button login" value="<?php echo Text::_('JLOGIN'); ?>" />
+			<button type="submit" name="Submit" class="button login"><?php echo Text::_('JLOGIN'); ?></button>
 		</p>
 		<input type="hidden" name="option" value="com_users" />
 		<input type="hidden" name="task" value="user.login" />

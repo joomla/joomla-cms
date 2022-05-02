@@ -2,11 +2,12 @@
   "$schema": "https://developer.joomla.org/schemas/json-schema/web_assets.json",
   "name": "atum",
   "version": "4.0.0",
-  "description": "Atum is the Joomla 4 administrator template",
+  "description": "This file contains details of the assets used by Atum, the default Joomla 4 administrator template.",
   "license": "GPL-2.0-or-later",
   "assets": [
     {
       "name": "template.atum.ltr",
+      "description": "The css file to be used when the site is left to right (LTR).",
       "type": "style",
       "uri": "template.min.css",
       "dependencies": [
@@ -15,6 +16,7 @@
     },
     {
       "name": "template.atum.rtl",
+      "description": "The css file to be used when the site is right to left (RTL).",
       "type": "style",
       "uri": "template-rtl.min.css",
       "dependencies": [
@@ -23,29 +25,55 @@
     },
     {
       "name": "template.active.language",
+      "description": "An asset to allow language specific css, eg 'language/[lang-CODE]/[lang-CODE].css', to use it as a dependency to the active template",
       "type": "style",
       "uri": "",
       "class": "LangActiveAssetItem",
-      "client": "administrator"
-    },
-    {
-      "name": "template.user",
-      "type": "style",
-      "uri": "user.css"
-    },
-    {
-      "name": "template.atum",
-      "type": "script",
-      "uri": "templates/atum/template.min.js",
+      "client": "administrator",
       "dependencies": [
-        "core"
+        "template.active"
       ]
     },
     {
+      "name": "template.user",
+      "description": "A file where a user can add their own css.",
+      "type": "style",
+      "uri": "user.css",
+      "dependencies": [
+        "template.active",
+        "template.active.language"
+      ]
+    },
+    {
+      "name": "template.atum-es5",
+      "description": "The file containing the javascript for this template.",
+      "type": "script",
+      "uri": "media/templates/administrator/atum/js/template-es5.min.js",
+      "dependencies": [
+        "core"
+      ],
+      "attributes": {
+        "nomodule": true,
+        "defer": true
+      }
+    },
+    {
+      "name": "template.atum",
+      "description": "The file containing the javascript for this template.",
+      "type": "script",
+      "uri": "media/templates/administrator/atum/js/template.min.js",
+      "dependencies": [
+        "template.atum-es5"
+      ],
+      "attributes": {
+        "type": "module"
+      }
+    },
+    {
       "name": "template.active",
+      "description": "A dummy asset to allow extensions to use it as a dependency to the active template",
       "type": "script",
       "uri": "",
-      "description": "A dummy asset to allow extensions to use it as a dependency to active template",
       "dependencies": [
         "template.atum"
       ]
@@ -55,9 +83,6 @@
       "type": "preset",
       "dependencies": [
         "core#script",
-        "bootstrap.js.bundle#script",
-        "css-vars-ponyfill#script",
-        "focus-visible#script",
         "template.atum#script"
       ]
     },

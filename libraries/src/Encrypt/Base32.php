@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2013 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -13,7 +13,6 @@ namespace Joomla\CMS\Encrypt;
 /**
  * Base32 encryption class
  *
- * @package  FrameworkOnFramework
  * @since    1.0
  */
 class Base32
@@ -142,7 +141,7 @@ class Base32
 		// Remove the extra 0's we added
 		$str = preg_replace('/000(.{5})/', '$1', $str);
 
-		// Unpad if nessicary
+		// Unpad if necessary
 		$length = \strlen($str);
 		$rbits = $length & 7;
 
@@ -183,7 +182,7 @@ class Base32
 	{
 		$str = strtoupper($str);
 
-		return $this->bin2str($this->tobin($str));
+		return $this->bin2str($this->toBin($str));
 	}
 
 	/**
@@ -212,7 +211,7 @@ class Base32
 	 * Used with array_map to map the characters from a base32
 	 * character set directly into a binary string
 	 *
-	 * @param   string  $chr  The caracter to map
+	 * @param   string  $chr  The character to map
 	 *
 	 * @return  string  String of 0's and 1's
 	 *

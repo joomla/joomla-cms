@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2005 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -61,10 +61,10 @@ class Uri extends \Joomla\Uri\Uri
 		if (empty(static::$instances[$uri]))
 		{
 			// Are we obtaining the URI from the server?
-			if ($uri == 'SERVER')
+			if ($uri === 'SERVER')
 			{
 				// Determine if the request was over SSL (HTTPS).
-				if (isset($_SERVER['HTTPS']) && !empty($_SERVER['HTTPS']) && (strtolower($_SERVER['HTTPS']) != 'off'))
+				if (isset($_SERVER['HTTPS']) && !empty($_SERVER['HTTPS']) && (strtolower($_SERVER['HTTPS']) !== 'off'))
 				{
 					$https = 's://';
 				}
@@ -140,7 +140,7 @@ class Uri extends \Joomla\Uri\Uri
 		{
 			$config = Factory::getContainer()->get('config');
 			$uri = static::getInstance();
-			$live_site = ($uri->isSsl()) ? str_replace('http://', 'https://', $config->get('live_site')) : $config->get('live_site');
+			$live_site = ($uri->isSsl()) ? str_replace('http://', 'https://', $config->get('live_site', '')) : $config->get('live_site', '');
 
 			if (trim($live_site) != '')
 			{
@@ -148,12 +148,14 @@ class Uri extends \Joomla\Uri\Uri
 				static::$base['prefix'] = $uri->toString(array('scheme', 'host', 'port'));
 				static::$base['path'] = rtrim($uri->toString(array('path')), '/\\');
 
-				if (\defined('JPATH_BASE') && \defined('JPATH_ADMINISTRATOR'))
+				if (\defined('JPATH_BASE') && \defined('JPATH_ADMINISTRATOR') && JPATH_BASE == JPATH_ADMINISTRATOR)
 				{
-					if (JPATH_BASE == JPATH_ADMINISTRATOR)
-					{
-						static::$base['path'] .= '/administrator';
-					}
+					static::$base['path'] .= '/administrator';
+				}
+
+				if (\defined('JPATH_BASE') && \defined('JPATH_API') && JPATH_BASE == JPATH_API)
+				{
+					static::$base['path'] .= '/api';
 				}
 			}
 			else

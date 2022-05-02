@@ -2,7 +2,7 @@
 <form>
 	<fields name="params" label="COM_MENUS_LINKTYPE_OPTIONS_LABEL"
 	>
-		<fieldset name="menu-options" label="COM_MENUS_LINKTYPE_OPTIONS_LABEL" class="options-grid-form-half">
+		<fieldset name="menu-options" label="COM_MENUS_LINKTYPE_OPTIONS_LABEL">
 
 			<field
 				name="menu-anchor_title"
@@ -14,6 +14,7 @@
 				name="menu-anchor_css"
 				type="text"
 				label="COM_MENUS_ITEM_FIELD_ANCHOR_CSS_LABEL"
+				validate="CssIdentifier"
 			/>
 
 			<field
@@ -26,13 +27,14 @@
 				name="menu_image_css"
 				type="text"
 				label="COM_MENUS_ITEM_FIELD_MENU_IMAGE_CSS_LABEL"
+				validate="CssIdentifier"
 			/>
 
 			<field
 				name="menu_text"
 				type="radio"
 				label="COM_MENUS_ITEM_FIELD_MENU_TEXT_LABEL"
-				class="switcher"
+				layout="joomla.form.field.radio.switcher"
 				default="1" filter="integer"
 				>
 				<option value="0">JNO</option>
@@ -43,7 +45,7 @@
 				name="menu_show"
 				type="radio"
 				label="COM_MENUS_ITEM_FIELD_MENU_SHOW_LABEL"
-				class="switcher"
+				layout="joomla.form.field.radio.switcher"
 				default="1"
 				filter="integer"
 				>
@@ -65,9 +67,10 @@
 				name="show_page_heading"
 				type="list"
 				label="COM_MENUS_ITEM_FIELD_SHOW_PAGE_HEADING_LABEL"
-				class="custom-select-color-state"
+				class="form-select-color-state"
 				default=""
 				useglobal="true"
+				validate="options"
 				>
 				<option value="1">JSHOW</option>
 				<option value="0">JHIDE</option>
@@ -83,37 +86,33 @@
 				name="pageclass_sfx"
 				type="text"
 				label="COM_MENUS_ITEM_FIELD_PAGE_CLASS_LABEL"
+				validate="CssIdentifier"
 			/>
 
 		</fieldset>
 
-		<fieldset name="metadata" label="JGLOBAL_FIELDSET_METADATA_OPTIONS" class="options-grid-form-half">
+		<fieldset name="metadata" label="JGLOBAL_FIELDSET_METADATA_OPTIONS">
 			<field
 				name="menu-meta_description"
 				type="textarea"
 				label="JFIELD_META_DESCRIPTION_LABEL"
 				rows="3"
 				cols="40"
-			/>
-
-			<field
-				name="menu-meta_keywords"
-				type="textarea"
-				label="JFIELD_META_KEYWORDS_LABEL"
-				rows="3"
-				cols="40"
+				maxlength="160"
+				charcounter="true"
 			/>
 
 			<field
 				name="robots"
 				type="list"
 				label="JFIELD_METADATA_ROBOTS_LABEL"
+				validate="options"
 				>
 				<option value="">JGLOBAL_USE_GLOBAL</option>
-				<option value="index, follow">JGLOBAL_INDEX_FOLLOW</option>
-				<option value="noindex, follow">JGLOBAL_NOINDEX_FOLLOW</option>
-				<option value="index, nofollow">JGLOBAL_INDEX_NOFOLLOW</option>
-				<option value="noindex, nofollow">JGLOBAL_NOINDEX_NOFOLLOW</option>
+				<option value="index, follow" />
+				<option value="noindex, follow" />
+				<option value="index, nofollow" />
+				<option value="noindex, nofollow" />
 			</field>
 		</fieldset>
 

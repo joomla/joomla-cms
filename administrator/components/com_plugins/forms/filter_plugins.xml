@@ -13,7 +13,7 @@
 		<field
 			name="enabled"
 			type="plugin_status"
-			label="JOPTION_SELECT_PUBLISHED"
+			label="JSTATUS"
 			onchange="this.form.submit();"
 			>
 			<option value="">JOPTION_SELECT_PUBLISHED</option>
@@ -22,7 +22,7 @@
 		<field
 			name="folder"
 			type="PluginType"
-			label="COM_PLUGINS_OPTION_FOLDER"
+			label="COM_PLUGINS_FOLDER_HEADING"
 			onchange="this.form.submit();"
 			>
 			<option value="">COM_PLUGINS_OPTION_FOLDER</option>
@@ -31,7 +31,7 @@
 		<field
 			name="element"
 			type="PluginElement"
-			label="COM_PLUGINS_OPTION_ELEMENT"
+			label="COM_PLUGINS_ELEMENT_HEADING"
 			onchange="this.form.submit();"
 			>
 			<option value="">COM_PLUGINS_OPTION_ELEMENT</option>
@@ -40,7 +40,7 @@
 		<field
 			name="access"
 			type="accesslevel"
-			label="JOPTION_SELECT_ACCESS"
+			label="JGRID_HEADING_ACCESS"
 			onchange="this.form.submit();"
 			>
 			<option value="">JOPTION_SELECT_ACCESS</option>
@@ -54,6 +54,7 @@
 			label="JGLOBAL_SORT_BY"
 			onchange="this.form.submit();"
 			default="folder ASC"
+			validate="options"
 			>
 			<option value="">JGLOBAL_SORT_BY</option>
 			<option value="ordering ASC">JGRID_HEADING_ORDERING_ASC</option>

@@ -1,31 +1,7 @@
 // Icons
 
-.icon-back::before {
-  content: "\e008";
-}
-
-.icon-crop::before {
-  content: "\f125";
-}
-
-.icon-white {
+.#{$jicon-css-prefix}-white {
   color: $white;
-}
-
-.icon-publish {
-  color: theme-color("success");
-
-  .dropdown-status-group & {
-    color: inherit;
-  }
-}
-
-.icon-unpublish {
-  color: theme-color("danger");
-
-  .dropdown-status-group & {
-    color: inherit;
-  }
 }
 
 .tbody-icon {
@@ -34,8 +10,10 @@
   background-color: transparent;
   border: 0;
 
-  [class^='icon-'],
-  [class*=' icon-'] {
+  [class^="#{$jicon-css-prefix}-"],
+  [class*=" #{$jicon-css-prefix}-"],
+  [class^="#{$fa-css-prefix}-"],
+  [class*=" #{$fa-css-prefix}-"] {
     width: 26px;
     height: 26px;
     font-size: 1rem;
@@ -45,65 +23,63 @@
     border-radius: 50%;
   }
 
-  .icon-publish {
+  .#{$jicon-css-prefix}-publish,
+  .#{$jicon-css-prefix}-check,
+  .#{$fa-css-prefix}-check {
     color: var(--success);
     border-color: var(--success);
   }
 
-  .icon-featured {
-    color: var(--atum-special-color);
-    border-color: var(--atum-special-color);
+  .#{$jicon-css-prefix}-home,
+  .#{$jicon-css-prefix}-color-featured,
+  .#{$jicon-css-prefix}-star.featured,
+  .#{$fa-css-prefix}-star.featured {
+    color: $warning;
+    border-color: $warning;
   }
 
-  .icon-archive {
-    color: var(--atum-text-dark);
+  .#{$jicon-css-prefix}-folder,
+  .#{$fa-css-prefix}-folder {
+    color: var(--template-text-dark);
     border-color: $gray-700;
   }
 
-  .icon-checkedout {
+  .#{$jicon-css-prefix}-checkedout,
+  .#{$jicon-css-prefix}-lock,
+  .#{$fa-css-prefix}-lock {
     width: auto;
     height: auto;
     font-size: 1.2rem;
     line-height: 1rem;
-    color: var(--atum-text-dark);
+    color: var(--template-text-dark);
     border: 0;
   }
-}
-.icon-joomla::before {
-	content:"\f1aa";
-	font-family: "Font Awesome 5 Brands"
-}
-.icon-shield-alt::before {
-	content:"\f3ed";
-}
-.icon-address-book::before {
-	content:"\f2b9";
-}
-.icon-images::before {
-	content:"\f302";
-}
-.info-circle::before {
-	content:"\f05a";
-}
-.icon-paint-brush::before {
-	content:"\f1fc";
-}
-.icon-language::before {
-	content:"\f1ab";
-}
-.icon-rss::before {
-	content:"\f09e";
-}
-.icon-map-signs::before {
-	content:"\f277";
-}
-.icon-envelope-open-text::before {
-	content:"\f658";
-}
-.icon-users-cog::before {
-	content:"\f509";
-}
-.icon-user-lock::before {
-	content:"\f502";
+
+  &.home-disabled,
+  &.featured-disabled,
+  &.color-featured-disabled,
+  &.#{$jicon-css-prefix}-star-disabled,
+  &.#{$fa-css-prefix}-star-disabled {
+    cursor: not-allowed;
+    opacity: 1;
+  }
+
+  &.disabled .#{$jicon-css-prefix}-home,
+  &.disabled .#{$fa-css-prefix}-home {
+    color: $state-warning-bg;
+    border-color: $state-warning-bg;
+  }
 }
 
+// WebAuthn
+.plg_system_webauthn_login_button svg {
+  margin-inline-end: 2px;
+}
+
+.plg_system_webauthn_login_button svg path {
+  fill: var(--white);
+}
+
+.badge > span {
+  margin-inline-end: .5rem;
+}

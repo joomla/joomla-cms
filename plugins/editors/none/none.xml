@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<extension version="3.1" type="plugin" group="editors" method="upgrade">
+<extension type="plugin" group="editors" method="upgrade">
 	<name>plg_editors_none</name>
 	<version>3.0.0</version>
 	<creationDate>September 2005</creationDate>
 	<author>Joomla! Project</author>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
-	<copyright>Copyright (C) 2005 - 2019 Open Source Matters. All rights reserved.</copyright>
+	<copyright>(C) 2005 Open Source Matters, Inc.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<description>PLG_NONE_XML_DESCRIPTION</description>
 	<files>
 		<filename plugin="none">none.php</filename>
 	</files>
 	<languages>
-		<language tag="en-GB">en-GB.plg_editors_none.ini</language>
-		<language tag="en-GB">en-GB.plg_editors_none.sys.ini</language>
+		<language tag="en-GB">language/en-GB/plg_editors_none.ini</language>
+		<language tag="en-GB">language/en-GB/plg_editors_none.sys.ini</language>
 	</languages>
 </extension>

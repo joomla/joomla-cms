@@ -1,9 +1,8 @@
 <?php
 /**
- * @package     Joomla.Libraries
- * @subpackage  Service
+ * Joomla! Content Management System
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2018 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -15,11 +14,25 @@ use Joomla\CMS\Application\AdministratorApplication;
 use Joomla\CMS\Application\ApiApplication;
 use Joomla\CMS\Application\ConsoleApplication;
 use Joomla\CMS\Application\SiteApplication;
+use Joomla\CMS\Console\CheckJoomlaUpdatesCommand;
+use Joomla\CMS\Console\ExtensionInstallCommand;
+use Joomla\CMS\Console\ExtensionDiscoverCommand;
+use Joomla\CMS\Console\ExtensionDiscoverInstallCommand;
+use Joomla\CMS\Console\ExtensionDiscoverListCommand;
+use Joomla\CMS\Console\ExtensionRemoveCommand;
+use Joomla\CMS\Console\ExtensionsListCommand;
+use Joomla\CMS\Console\FinderIndexCommand;
+use Joomla\CMS\Console\GetConfigurationCommand;
 use Joomla\CMS\Console\Loader\WritableContainerLoader;
 use Joomla\CMS\Console\Loader\WritableLoaderInterface;
 use Joomla\CMS\Console\SessionGcCommand;
 use Joomla\CMS\Console\SessionMetadataGcCommand;
+use Joomla\CMS\Console\SetConfigurationCommand;
+use Joomla\CMS\Console\SiteDownCommand;
+use Joomla\CMS\Console\SiteUpCommand;
+use Joomla\CMS\Console\UpdateCoreCommand;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Language\LanguageFactoryInterface;
 use Joomla\CMS\User\UserFactoryInterface;
 use Joomla\Console\Application as BaseConsoleApplication;
 use Joomla\Console\Loader\LoaderInterface;
@@ -34,7 +47,7 @@ use Psr\Log\LoggerInterface;
 /**
  * Application service provider
  *
- * @since  4.0
+ * @since  4.0.0
  */
 class Application implements ServiceProviderInterface
 {
@@ -45,7 +58,7 @@ class Application implements ServiceProviderInterface
 	 *
 	 * @return  void
 	 *
-	 * @since   4.0
+	 * @since   4.0.0
 	 */
 	public function register(Container $container)
 	{
@@ -102,7 +115,14 @@ class Application implements ServiceProviderInterface
 				{
 					$dispatcher = $container->get(DispatcherInterface::class);
 
-					$app = new ConsoleApplication(null, null, $container->get('config'), $dispatcher, $container);
+					// Console uses the default system language
+					$config = $container->get('config');
+					$locale = $config->get('language');
+					$debug  = $config->get('debug_lang');
+
+					$lang = $container->get(LanguageFactoryInterface::class)->createLanguage($locale, $debug);
+
+					$app = new ConsoleApplication($config, $dispatcher, $container, $lang);
 
 					// The session service provider needs Factory::$application, set it if still null
 					if (Factory::$application === null)
@@ -127,10 +147,23 @@ class Application implements ServiceProviderInterface
 				function (Container $container)
 				{
 					$mapping = [
-						SessionGcCommand::getDefaultName()         => SessionGcCommand::class,
-						SessionMetadataGcCommand::getDefaultName() => SessionMetadataGcCommand::class,
-						ExportCommand::getDefaultName()            => ExportCommand::class,
-						ImportCommand::getDefaultName()            => ImportCommand::class,
+						SessionGcCommand::getDefaultName()                 => SessionGcCommand::class,
+						SessionMetadataGcCommand::getDefaultName()         => SessionMetadataGcCommand::class,
+						ExportCommand::getDefaultName()                    => ExportCommand::class,
+						ImportCommand::getDefaultName()                    => ImportCommand::class,
+						SiteDownCommand::getDefaultName()                  => SiteDownCommand::class,
+						SiteUpCommand::getDefaultName()                    => SiteUpCommand::class,
+						SetConfigurationCommand::getDefaultName()          => SetConfigurationCommand::class,
+						GetConfigurationCommand::getDefaultName()          => GetConfigurationCommand::class,
+						ExtensionsListCommand::getDefaultName()            => ExtensionsListCommand::class,
+						CheckJoomlaUpdatesCommand::getDefaultName()        => CheckJoomlaUpdatesCommand::class,
+						ExtensionRemoveCommand::getDefaultName()           => ExtensionRemoveCommand::class,
+						ExtensionInstallCommand::getDefaultName()          => ExtensionInstallCommand::class,
+						ExtensionDiscoverCommand::getDefaultName()  	   => ExtensionDiscoverCommand::class,
+						ExtensionDiscoverInstallCommand::getDefaultName()  => ExtensionDiscoverInstallCommand::class,
+						ExtensionDiscoverListCommand::getDefaultName()     => ExtensionDiscoverListCommand::class,
+						UpdateCoreCommand::getDefaultName()                => UpdateCoreCommand::class,
+						FinderIndexCommand::getDefaultName()               => FinderIndexCommand::class,
 					];
 
 					return new WritableContainerLoader($container, $mapping);

@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2005 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -25,7 +25,8 @@ abstract class PluginHelper
 	/**
 	 * A persistent cache of the loaded plugins.
 	 *
-	 * @var    array
+	 * @var    array|null
+	 *
 	 * @since  1.7
 	 */
 	protected static $plugins = null;
@@ -43,36 +44,42 @@ abstract class PluginHelper
 	 */
 	public static function getLayoutPath($type, $name, $layout = 'default')
 	{
-		$template = Factory::getApplication()->getTemplate();
+		$templateObj   = Factory::getApplication()->getTemplate(true);
 		$defaultLayout = $layout;
+		$template      = $templateObj->template;
 
 		if (strpos($layout, ':') !== false)
 		{
 			// Get the template and file name from the string
 			$temp = explode(':', $layout);
-			$template = $temp[0] === '_' ? $template : $temp[0];
+			$template = $temp[0] === '_' ? $templateObj->template : $temp[0];
 			$layout = $temp[1];
 			$defaultLayout = $temp[1] ?: 'default';
 		}
 
 		// Build the template and base path for the layout
 		$tPath = JPATH_THEMES . '/' . $template . '/html/plg_' . $type . '_' . $name . '/' . $layout . '.php';
+		$iPath = JPATH_THEMES . '/' . $templateObj->parent . '/html/plg_' . $type . '_' . $name . '/' . $layout . '.php';
 		$bPath = JPATH_PLUGINS . '/' . $type . '/' . $name . '/tmpl/' . $defaultLayout . '.php';
 		$dPath = JPATH_PLUGINS . '/' . $type . '/' . $name . '/tmpl/default.php';
 
 		// If the template has a layout override use it
-		if (file_exists($tPath))
+		if (is_file($tPath))
 		{
 			return $tPath;
 		}
-		elseif (file_exists($bPath))
+
+		if (!empty($templateObj->parent) && is_file($iPath))
+		{
+			return $iPath;
+		}
+
+		if (is_file($bPath))
 		{
 			return $bPath;
 		}
-		else
-		{
-			return $dPath;
-		}
+
+		return $dPath;
 	}
 
 	/**
@@ -88,7 +95,7 @@ abstract class PluginHelper
 	 */
 	public static function getPlugin($type, $plugin = null)
 	{
-		$result = array();
+		$result = [];
 		$plugins = static::load();
 
 		// Find the correct plugin(s) to return.
@@ -151,7 +158,7 @@ abstract class PluginHelper
 	 */
 	public static function importPlugin($type, $plugin = null, $autocreate = true, DispatcherInterface $dispatcher = null)
 	{
-		static $loaded = array();
+		static $loaded = [];
 
 		// Check for the default args, if so we can optimise cheaply
 		$defaults = false;
@@ -169,7 +176,7 @@ abstract class PluginHelper
 
 		if (!isset($loaded[$dispatcherHash]))
 		{
-			$loaded[$dispatcherHash] = array();
+			$loaded[$dispatcherHash] = [];
 		}
 
 		if (!$defaults || !isset($loaded[$dispatcherHash][$type]))
@@ -214,7 +221,7 @@ abstract class PluginHelper
 	 */
 	protected static function import($plugin, $autocreate = true, DispatcherInterface $dispatcher = null)
 	{
-		static $plugins = array();
+		static $plugins = [];
 
 		// Get the dispatcher's hash to allow paths to be tracked against unique dispatchers
 		$hash = spl_object_hash($dispatcher) . $plugin->type . $plugin->name;
@@ -257,7 +264,7 @@ abstract class PluginHelper
 
 		$levels = Factory::getUser()->getAuthorisedViewLevels();
 
-		/** @var \JCacheControllerCallback $cache */
+		/** @var \Joomla\CMS\Cache\Controller\CallbackController $cache */
 		$cache = Factory::getCache('com_plugins', 'callback');
 
 		$loader = function () use ($levels)

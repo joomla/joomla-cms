@@ -1,5 +1,5 @@
 /**
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2018 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -18,13 +18,13 @@
 
       // do field validation
       if (form.jform_subject.value === '') {
-        html.innerText = Joomla.JText._('COM_USERS_MAIL_PLEASE_FILL_IN_THE_SUBJECT');
+        html.innerText = Joomla.Text._('COM_USERS_MAIL_PLEASE_FILL_IN_THE_SUBJECT');
         form.insertAdjacentElement('afterbegin', html);
       } else if (form.jform_group.value < 0) {
-        html.innerText = Joomla.JText._('COM_USERS_MAIL_PLEASE_SELECT_A_GROUP');
+        html.innerText = Joomla.Text._('COM_USERS_MAIL_PLEASE_SELECT_A_GROUP');
         form.insertAdjacentElement('afterbegin', html);
       } else if (form.jform_message.value === '') {
-        html.innerText = Joomla.JText._('COM_USERS_MAIL_PLEASE_FILL_IN_THE_MESSAGE');
+        html.innerText = Joomla.Text._('COM_USERS_MAIL_PLEASE_FILL_IN_THE_MESSAGE');
         form.insertAdjacentElement('afterbegin', html);
       } else {
         Joomla.submitform(pressbutton);

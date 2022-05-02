@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2008 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -10,6 +10,7 @@ namespace Joomla\CMS\Updater;
 
 \defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Adapter\AdapterInstance;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Http\HttpFactory;
 use Joomla\CMS\Language\Text;
@@ -18,14 +19,12 @@ use Joomla\CMS\Version;
 use Joomla\Database\ParameterType;
 use Joomla\Registry\Registry;
 
-\JLoader::import('joomla.base.adapterinstance');
-
 /**
  * UpdateAdapter class.
  *
  * @since  1.7.0
  */
-abstract class UpdateAdapter extends \JAdapterInstance
+abstract class UpdateAdapter extends AdapterInstance
 {
 	/**
 	 * Resource handle for the XML Parser
@@ -46,7 +45,7 @@ abstract class UpdateAdapter extends \JAdapterInstance
 	/**
 	 * ID of update site
 	 *
-	 * @var    string
+	 * @var    integer
 	 * @since  3.0.0
 	 */
 	protected $updateSiteId = 0;
@@ -62,7 +61,7 @@ abstract class UpdateAdapter extends \JAdapterInstance
 	/**
 	 * Should we try appending a .xml extension to the update site's URL?
 	 *
-	 * @var   bool
+	 * @var   boolean
 	 */
 	protected $appendExtension = false;
 
@@ -88,7 +87,7 @@ abstract class UpdateAdapter extends \JAdapterInstance
 	 * 3	rc			Release Candidate versions (almost stable, minor bugs might be present)
 	 * 4	stable		Stable versions (production quality code)
 	 *
-	 * @var    int
+	 * @var    integer
 	 * @since  14.1
 	 *
 	 * @see    Updater
@@ -98,7 +97,7 @@ abstract class UpdateAdapter extends \JAdapterInstance
 	/**
 	 * Gets the reference to the current direct parent
 	 *
-	 * @return  object
+	 * @return  string
 	 *
 	 * @since   1.7.0
 	 */
@@ -135,17 +134,17 @@ abstract class UpdateAdapter extends \JAdapterInstance
 	 * from their URL and enabled afterwards. If the URL fetch fails with a PHP fatal error (e.g. timeout) the faulty
 	 * update site will remain disabled the next time we attempt to load the update information.
 	 *
-	 * @param   int   $update_site_id  The numeric ID of the update site to enable/disable
-	 * @param   bool  $enabled         Enable the site when true, disable it when false
+	 * @param   int   $updateSiteId  The numeric ID of the update site to enable/disable
+	 * @param   bool  $enabled       Enable the site when true, disable it when false
 	 *
 	 * @return  void
 	 */
-	protected function toggleUpdateSite($update_site_id, $enabled = true)
+	protected function toggleUpdateSite($updateSiteId, $enabled = true)
 	{
-		$update_site_id = (int) $update_site_id;
+		$updateSiteId = (int) $updateSiteId;
 		$enabled = (bool) $enabled ? 1 : 0;
 
-		if (empty($update_site_id))
+		if (empty($updateSiteId))
 		{
 			return;
 		}
@@ -156,7 +155,7 @@ abstract class UpdateAdapter extends \JAdapterInstance
 			->set($db->quoteName('enabled') . ' = :enabled')
 			->where($db->quoteName('update_site_id') . ' = :id')
 			->bind(':enabled', $enabled, ParameterType::INTEGER)
-			->bind(':id', $update_site_id, ParameterType::INTEGER);
+			->bind(':id', $updateSiteId, ParameterType::INTEGER);
 		$db->setQuery($query);
 
 		try
@@ -212,7 +211,7 @@ abstract class UpdateAdapter extends \JAdapterInstance
 	 *
 	 * @param   array  $options  The update options, see findUpdate() in children classes
 	 *
-	 * @return  boolean|\JHttpResponse  False if we can't connect to the site, JHttpResponse otherwise
+	 * @return  \Joomla\CMS\Http\Response|bool  False if we can't connect to the site, HTTP Response object otherwise
 	 *
 	 * @throws  \Exception
 	 */
@@ -235,9 +234,9 @@ abstract class UpdateAdapter extends \JAdapterInstance
 			$this->appendExtension = $options['append_extension'];
 		}
 
-		if ($this->appendExtension && (substr($url, -4) != '.xml'))
+		if ($this->appendExtension && (substr($url, -4) !== '.xml'))
 		{
-			if (substr($url, -1) != '/')
+			if (substr($url, -1) !== '/')
 			{
 				$url .= '/';
 			}
@@ -280,7 +279,7 @@ abstract class UpdateAdapter extends \JAdapterInstance
 		if ($response === null || $response->code !== 200)
 		{
 			// If the URL is missing the .xml extension, try appending it and retry loading the update
-			if (!$this->appendExtension && (substr($url, -4) != '.xml'))
+			if (!$this->appendExtension && (substr($url, -4) !== '.xml'))
 			{
 				$options['append_extension'] = true;
 

@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2018 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -26,6 +26,8 @@ use Joomla\CMS\Menu\AbstractMenu;
 use Joomla\CMS\MVC\Factory\LegacyFactory;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Factory\MVCFactoryServiceInterface;
+use Joomla\CMS\Tag\TagServiceInterface;
+use Joomla\CMS\Tag\TagServiceTrait;
 
 /**
  * Access to component specific services.
@@ -33,9 +35,13 @@ use Joomla\CMS\MVC\Factory\MVCFactoryServiceInterface;
  * @since  4.0.0
  */
 class LegacyComponent
-	implements ComponentInterface, MVCFactoryServiceInterface, CategoryServiceInterface, FieldsServiceInterface, RouterServiceInterface
+	implements ComponentInterface, MVCFactoryServiceInterface, CategoryServiceInterface, FieldsServiceInterface, RouterServiceInterface,
+	TagServiceInterface
 {
-	use CategoryServiceTrait;
+	use CategoryServiceTrait, TagServiceTrait {
+		CategoryServiceTrait::getTableNameForSection insteadof TagServiceTrait;
+		CategoryServiceTrait::getStateColumnForSection insteadof TagServiceTrait;
+	}
 
 	/**
 	 * @var string
@@ -227,7 +233,7 @@ class LegacyComponent
 			$path = JPATH_SITE . '/components/com_' . $this->component . '/router.php';
 
 			// Use the custom routing handler if it exists
-			if (file_exists($path))
+			if (is_file($path))
 			{
 				require_once $path;
 			}
@@ -264,7 +270,7 @@ class LegacyComponent
 
 		$file = Path::clean(JPATH_ADMINISTRATOR . '/components/com_' . $this->component . '/helpers/' . $this->component . '.php');
 
-		if (!file_exists($file))
+		if (!is_file($file))
 		{
 			return false;
 		}

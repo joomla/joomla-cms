@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<extension version="3.7" type="plugin" group="quickicon" method="upgrade">
+<extension type="plugin" group="quickicon" method="upgrade">
 	<name>plg_quickicon_phpversioncheck</name>
 	<author>Joomla! Project</author>
 	<creationDate>August 2016</creationDate>
-	<copyright>Copyright (C) 2005 - 2019 Open Source Matters. All rights reserved.</copyright>
+	<copyright>(C) 2016 Open Source Matters, Inc.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
@@ -13,7 +13,7 @@
 		<filename plugin="phpversioncheck">phpversioncheck.php</filename>
 	</files>
 	<languages>
-		<language tag="en-GB">en-GB.plg_quickicon_phpversioncheck.ini</language>
-		<language tag="en-GB">en-GB.plg_quickicon_phpversioncheck.sys.ini</language>
+		<language tag="en-GB">language/en-GB/plg_quickicon_phpversioncheck.ini</language>
+		<language tag="en-GB">language/en-GB/plg_quickicon_phpversioncheck.sys.ini</language>
 	</languages>
 </extension>

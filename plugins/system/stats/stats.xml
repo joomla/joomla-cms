@@ -1,23 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
-<extension version="3.6" type="plugin" group="system" method="upgrade">
+<extension type="plugin" group="system" method="upgrade">
 	<name>plg_system_stats</name>
 	<author>Joomla! Project</author>
 	<creationDate>November 2013</creationDate>
-	<copyright>Copyright (C) 2005 - 2019 Open Source Matters. All rights reserved.</copyright>
+	<copyright>(C) 2013 Open Source Matters, Inc.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>3.5.0</version>
 	<description>PLG_SYSTEM_STATS_XML_DESCRIPTION</description>
-	<namespace>Joomla\Plugin\System\Stats</namespace>
+	<namespace path="src">Joomla\Plugin\System\Stats</namespace>
 	<files>
 		<folder>field</folder>
 		<folder>layouts</folder>
 		<filename plugin="stats">stats.php</filename>
 	</files>
-	<languages folder="language">
-		<language tag="en-GB">en-GB/en-GB.plg_system_stats.ini</language>
-		<language tag="en-GB">en-GB/en-GB.plg_system_stats.sys.ini</language>
+	<languages>
+		<language tag="en-GB">language/en-GB/plg_system_stats.ini</language>
+		<language tag="en-GB">language/en-GB/plg_system_stats.sys.ini</language>
 	</languages>
 	<config>
 		<fields name="params">
@@ -48,6 +48,7 @@
 					type="list"
 					label="PLG_SYSTEM_STATS_MODE_LABEL"
 					default="1"
+					validate="options"
 					>
 					<option value="1">PLG_SYSTEM_STATS_MODE_OPTION_ALWAYS_SEND</option>
 					<option value="2">PLG_SYSTEM_STATS_MODE_OPTION_ON_DEMAND</option>

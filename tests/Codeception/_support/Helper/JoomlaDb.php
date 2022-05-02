@@ -3,7 +3,7 @@
  * @package     Joomla.Tests
  * @subpackage  Helper
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2019 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -31,7 +31,7 @@ class JoomlaDb extends Db
 	/**
 	 * Codeception Hook: called after configuration is loaded.
 	 *
-	 * @return  mixed
+	 * @return  void
 	 *
 	 * @since   3.7.3
 	 */
@@ -39,7 +39,7 @@ class JoomlaDb extends Db
 	{
 		$this->prefix = (isset($this->config['prefix'])) ? $this->config['prefix'] : '';
 
-		return parent::_initialize();
+		parent::_initialize();
 	}
 
 	/**
@@ -65,7 +65,7 @@ class JoomlaDb extends Db
 	 * @param   string  $table     Table
 	 * @param   array   $criteria  Criteria
 	 *
-	 * @return  mixed|false
+	 * @return  void
 	 *
 	 * @since   3.7.3
 	 */
@@ -73,7 +73,7 @@ class JoomlaDb extends Db
 	{
 		$table = $this->addPrefix($table);
 
-		return parent::seeInDatabase($table, $criteria);
+		parent::seeInDatabase($table, $criteria);
 	}
 
 	/**
@@ -82,7 +82,7 @@ class JoomlaDb extends Db
 	 * @param   string  $table     Table
 	 * @param   array   $criteria  Criteria
 	 *
-	 * @return  mixed|false
+	 * @return  void
 	 *
 	 * @since   3.7.3
 	 */
@@ -90,7 +90,7 @@ class JoomlaDb extends Db
 	{
 		$table = $this->addPrefix($table);
 
-		return parent::dontSeeInDatabase($table, $criteria);
+		parent::dontSeeInDatabase($table, $criteria);
 	}
 
 	/**
@@ -104,7 +104,7 @@ class JoomlaDb extends Db
 	 *
 	 * @since   3.7.3
 	 */
-	public function grabFromDatabase($table, $column, $criteria = null)
+	public function grabFromDatabase($table, $column, $criteria = array())
 	{
 		$table = $this->addPrefix($table);
 
@@ -118,7 +118,7 @@ class JoomlaDb extends Db
 	 * @param   string   $table           Table name
 	 * @param   array    $criteria        Search criteria [Optional]
 	 *
-	 * @return  mixed|boolean
+	 * @return  void
 	 *
 	 * @since   3.7.3
 	 */
@@ -126,7 +126,7 @@ class JoomlaDb extends Db
 	{
 		$table = $this->addPrefix($table);
 
-		return parent::seeNumRecords($expectedNumber, $table, $criteria);
+		parent::seeNumRecords($expectedNumber, $table, $criteria);
 	}
 
 	/**
@@ -144,6 +144,24 @@ class JoomlaDb extends Db
 		$table = $this->addPrefix($table);
 
 		return parent::grabNumRecords($table, $criteria);
+	}
+
+	/**
+	 * Update an SQL record into a database.
+	 *
+	 * @param   string  $table     Table name
+	 * @param   array   $data      Data to update in the table. Key=> value is column name => data
+	 * @param   array   $criteria  Search criteria [Optional]
+	 *
+	 * @return  void
+	 *
+	 * @since   4.0.0
+	 */
+	public function updateInDatabase($table, array $data, array $criteria = [])
+	{
+		$table = $this->addPrefix($table);
+
+		parent::updateInDatabase($table, $data, $criteria);
 	}
 
 	/**
@@ -172,6 +190,6 @@ class JoomlaDb extends Db
 	 */
 	public function getConfig($value)
 	{
-		return $this->getModule('JoomlaBrowser')->_getConfig($value);
+		return $this->getModule('Joomla\Browser\JoomlaBrowser')->_getConfig($value);
 	}
 }

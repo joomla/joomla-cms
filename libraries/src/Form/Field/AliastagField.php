@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2016 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -41,8 +41,13 @@ class AliastagField extends ListField
 		// Get list of tag type alias
 		$db    = Factory::getDbo();
 		$query = $db->getQuery(true)
-			->select('Distinct type_alias AS value, type_alias AS text')
-			->from('#__contentitem_tag_map');
+			->select(
+				[
+					'DISTINCT ' . $db->quoteName('type_alias', 'value'),
+					$db->quoteName('type_alias', 'text'),
+				]
+			)
+			->from($db->quoteName('#__contentitem_tag_map'));
 		$db->setQuery($query);
 
 		$options = $db->loadObjectList();
@@ -53,8 +58,8 @@ class AliastagField extends ListField
 		{
 			$parts     = explode('.', $item->value);
 			$extension = $parts[0];
-			$lang->load($extension . '.sys', JPATH_ADMINISTRATOR, null, false, true)
-			|| $lang->load($extension, Path::clean(JPATH_ADMINISTRATOR . '/components/' . $extension), null, false, true);
+			$lang->load($extension . '.sys', JPATH_ADMINISTRATOR)
+			|| $lang->load($extension, Path::clean(JPATH_ADMINISTRATOR . '/components/' . $extension));
 			$options[$i]->text = Text::_(strtoupper($extension) . '_TAGS_' . strtoupper($parts[1]));
 		}
 
@@ -66,7 +71,7 @@ class AliastagField extends ListField
 			$options,
 			function ($a, $b)
 			{
-				return $a->text > $b->text;
+				return strcmp($a->text, $b->text);
 			}
 		);
 

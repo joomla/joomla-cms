@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2009 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -18,6 +18,7 @@ use Joomla\CMS\Form\Form;
 use Joomla\CMS\Form\FormField;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\Database\ParameterType;
 
 /**
  * Form Field to display a list of the layouts for a component view from
@@ -69,12 +70,12 @@ class ComponentlayoutField extends FormField
 		$template = (string) $this->element['template'];
 		$template = preg_replace('#\W#', '', $template);
 
-		$template_style_id = '';
+		$template_style_id = 0;
 
 		if ($this->form instanceof Form)
 		{
-			$template_style_id = $this->form->getValue('template_style_id');
-			$template_style_id = preg_replace('#\W#', '', $template_style_id);
+			$template_style_id = $this->form->getValue('template_style_id', null, 0);
+			$template_style_id = (int) preg_replace('#\W#', '', $template_style_id);
 		}
 
 		$view = (string) $this->element['view'];
@@ -85,29 +86,41 @@ class ComponentlayoutField extends FormField
 		{
 			// Load language file
 			$lang = Factory::getLanguage();
-			$lang->load($extension . '.sys', JPATH_ADMINISTRATOR, null, false, true)
-			|| $lang->load($extension . '.sys', JPATH_ADMINISTRATOR . '/components/' . $extension, null, false, true);
+			$lang->load($extension . '.sys', JPATH_ADMINISTRATOR)
+			|| $lang->load($extension . '.sys', JPATH_ADMINISTRATOR . '/components/' . $extension);
 
 			// Get the database object and a new query object.
 			$db = Factory::getDbo();
 			$query = $db->getQuery(true);
 
 			// Build the query.
-			$query->select('e.element, e.name')
-				->from('#__extensions as e')
-				->where('e.client_id = ' . (int) $clientId)
-				->where('e.type = ' . $db->quote('template'))
-				->where('e.enabled = 1');
+			$query->select(
+				[
+					$db->quoteName('e.element'),
+					$db->quoteName('e.name'),
+				]
+			)
+				->from($db->quoteName('#__extensions', 'e'))
+				->where(
+					[
+						$db->quoteName('e.client_id') . ' = :clientId',
+						$db->quoteName('e.type') . ' = ' . $db->quote('template'),
+						$db->quoteName('e.enabled') . ' = 1',
+					]
+				)
+				->bind(':clientId', $clientId, ParameterType::INTEGER);
 
 			if ($template)
 			{
-				$query->where('e.element = ' . $db->quote($template));
+				$query->where($db->quoteName('e.element') . ' = :template')
+					->bind(':template', $template);
 			}
 
 			if ($template_style_id)
 			{
-				$query->join('LEFT', '#__template_styles as s on s.template=e.element')
-					->where('s.id=' . (int) $template_style_id);
+				$query->join('LEFT', $db->quoteName('#__template_styles', 's'), $db->quoteName('s.template') . ' = ' . $db->quoteName('e.element'))
+					->where($db->quoteName('s.id') . ' = :style')
+					->bind(':style', $template_style_id, ParameterType::INTEGER);
 			}
 
 			// Set the query and load the templates.
@@ -115,12 +128,12 @@ class ComponentlayoutField extends FormField
 			$templates = $db->loadObjectList('element');
 
 			// Build the search paths for component layouts.
-			$component_path = Path::clean($client->path . '/components/' . $extension . '/views/' . $view . '/tmpl');
+			$component_path = Path::clean($client->path . '/components/' . $extension . '/tmpl/' . $view);
 
-			// Check if the old layouts folder exists, else use the new one
-			if (!file_exists($component_path))
+			// Check if the new layouts folder exists, else use the old one
+			if (!is_dir($component_path))
 			{
-				$component_path = Path::clean($client->path . '/components/' . $extension . '/tmpl/' . $view);
+				$component_path = Path::clean($client->path . '/components/' . $extension . '/views/' . $view . '/tmpl');
 			}
 
 			// Prepare array of component layouts
@@ -178,8 +191,8 @@ class ComponentlayoutField extends FormField
 				foreach ($templates as $template)
 				{
 					// Load language file
-					$lang->load('tpl_' . $template->element . '.sys', $client->path, null, false, true)
-						|| $lang->load('tpl_' . $template->element . '.sys', $client->path . '/templates/' . $template->element, null, false, true);
+					$lang->load('tpl_' . $template->element . '.sys', $client->path)
+						|| $lang->load('tpl_' . $template->element . '.sys', $client->path . '/templates/' . $template->element);
 
 					$template_path = Path::clean(
 						$client->path

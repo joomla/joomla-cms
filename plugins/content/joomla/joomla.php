@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Content.joomla
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2010 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -16,10 +16,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Table\CoreContent;
 use Joomla\CMS\User\User;
-use Joomla\CMS\Workflow\Workflow;
 use Joomla\CMS\Workflow\WorkflowServiceInterface;
-use Joomla\Component\Content\Administrator\Table\ArticleTable;
-use Joomla\Component\Workflow\Administrator\Model\StagesModel;
 use Joomla\Component\Workflow\Administrator\Table\StageTable;
 use Joomla\Component\Workflow\Administrator\Table\WorkflowTable;
 use Joomla\Database\DatabaseDriver;
@@ -102,29 +99,28 @@ class PlgContentJoomla extends CMSPlugin
 	 * @param   object   $article  A JTableContent object
 	 * @param   boolean  $isNew    If the content is just about to be created
 	 *
-	 * @return  boolean   true if function not enabled, is in frontend or is new. Else true or
-	 *                    false depending on success of save function.
+	 * @return  void
 	 *
 	 * @since   1.6
 	 */
-	public function onContentAfterSave($context, $article, $isNew)
+	public function onContentAfterSave($context, $article, $isNew): void
 	{
 		// Check we are handling the frontend edit form.
 		if ($context !== 'com_content.form')
 		{
-			return true;
+			return;
 		}
 
 		// Check if this function is enabled.
 		if (!$this->params->def('email_new_fe', 1))
 		{
-			return true;
+			return;
 		}
 
 		// Check this is a new article.
 		if (!$isNew)
 		{
-			return true;
+			return;
 		}
 
 		$db = $this->db;
@@ -138,7 +134,7 @@ class PlgContentJoomla extends CMSPlugin
 
 		if (empty($users))
 		{
-			return true;
+			return;
 		}
 
 		$user = $this->app->getIdentity();
@@ -147,7 +143,6 @@ class PlgContentJoomla extends CMSPlugin
 
 		$default_language = ComponentHelper::getParams('com_languages')->get('administrator');
 		$debug = $this->app->get('debug_lang');
-		$result = true;
 
 		foreach ($users as $user_id)
 		{
@@ -164,11 +159,9 @@ class PlgContentJoomla extends CMSPlugin
 				);
 				$model_message = $this->app->bootComponent('com_messages')->getMVCFactory()
 					->createModel('Message', 'Administrator');
-				$result = $model_message->save($message);
+				$model_message->save($message);
 			}
 		}
-
-		return $result;
 	}
 
 	/**
@@ -357,7 +350,9 @@ class PlgContentJoomla extends CMSPlugin
 			return true;
 		}
 
-		$model = new StagesModel(['ignore_request' => true]);
+		/** @var \Joomla\Component\Workflow\Administrator\Model\StagesModel $model */
+		$model = $this->app->bootComponent('com_workflow')->getMVCFactory()
+			->createModel('Stages', 'Administrator', ['ignore_request' => true]);
 
 		$model->setState('filter.workflow_id', $pk);
 		$model->setState('filter.extension', $table->extension);
@@ -471,26 +466,24 @@ class PlgContentJoomla extends CMSPlugin
 		return $count;
 	}
 
-
-
 	/**
 	 * Get count of items in assigned to a stage
 	 *
-	 * @param   array   $stage_ids  The stage ids to test for
+	 * @param   array   $stageIds   The stage ids to test for
 	 * @param   string  $extension  The extension of the workflow
 	 *
 	 * @return  bool
 	 *
 	 * @since   4.0.0
 	 */
-	private function _countItemsInStage(array $stage_ids, string $extension) : bool
+	private function _countItemsInStage(array $stageIds, string $extension) : bool
 	{
 		$db = $this->db;
 
 		$parts = explode('.', $extension);
 
-		$stage_ids = ArrayHelper::toInteger($stage_ids);
-		$stage_ids = array_filter($stage_ids);
+		$stageIds = ArrayHelper::toInteger($stageIds);
+		$stageIds = array_filter($stageIds);
 
 		$section = '';
 
@@ -503,9 +496,9 @@ class PlgContentJoomla extends CMSPlugin
 
 		$table = $component->getWorkflowTableBySection($section);
 
-		if (empty($stage_ids) || !$table)
+		if (empty($stageIds) || !$table)
 		{
-			return true;
+			return false;
 		}
 
 		$query = $db->getQuery(true);
@@ -516,7 +509,7 @@ class PlgContentJoomla extends CMSPlugin
 			->from($db->quoteName($table, 'b'))
 			->where($db->quoteName('wa.stage_id') . ' = ' . $db->quoteName('s.id'))
 			->where($db->quoteName('wa.item_id') . ' = ' . $db->quoteName('b.id'))
-			->whereIn($db->quoteName('s.id'), $stage_ids);
+			->whereIn($db->quoteName('s.id'), $stageIds);
 
 		try
 		{
@@ -615,12 +608,6 @@ class PlgContentJoomla extends CMSPlugin
 			return true;
 		}
 
-		// Check if this function is enabled.
-		if (!$this->params->def('email_new_stage', 0) || $context != 'com_content.article')
-		{
-			return true;
-		}
-
 		$db = $this->db;
 		$query = $db->getQuery(true)
 			->select($db->quoteName('core_content_id'))
@@ -633,89 +620,6 @@ class PlgContentJoomla extends CMSPlugin
 
 		$cctable = new CoreContent($db);
 		$cctable->publish($ccIds, $value);
-
-		$query = $db->getQuery(true)
-			->select($db->quoteName('id'))
-			->from($db->quoteName('#__users'))
-			->where($db->quoteName('sendEmail') . ' = 1')
-			->where($db->quoteName('block') . ' = 0');
-
-		$users = (array) $db->setQuery($query)->loadColumn();
-
-		if (empty($users))
-		{
-			return true;
-		}
-
-		$user = $this->app->getIdentity();
-
-		// Messaging for changed items
-		$default_language = ComponentHelper::getParams('com_languages')->get('administrator');
-		$debug = $this->app->get('debug_lang');
-
-		$article = new ArticleTable($db);
-
-		$workflow = new Workflow(['extension' => 'com_content']);
-
-		foreach ($pks as $pk)
-		{
-			if (!$article->load($pk))
-			{
-				continue;
-			}
-
-			$assoc   = $workflow->getAssociation($pk);
-			$stageId = (int) $assoc->stage_id;
-
-			// Load new transitions
-			$query = $db->getQuery(true)
-				->select($db->quoteName('t.id'))
-				->from($db->quoteName('#__workflow_transitions', 't'))
-				->from($db->quoteName('#__workflow_stages', 's'))
-				->where($db->quoteName('t.from_stage_id') . ' = :stageid')
-				->where($db->quoteName('t.to_stage_id') . ' = ' . $db->quoteName('s.id'))
-				->where($db->quoteName('t.published') . ' = 1')
-				->where($db->quoteName('s.published') . ' = 1')
-				->order($db->quoteName('t.ordering'))
-				->bind(':stageid', $stageId, ParameterType::INTEGER);
-
-			$transitions = $db->setQuery($query)->loadObjectList();
-
-			foreach ($users as $user_id)
-			{
-				if ($user_id != $user->id)
-				{
-					// Check if the user has available transitions
-					$items = array_filter(
-						$transitions,
-						function ($item) use ($user)
-						{
-							return $user->authorise('core.execute.transition', 'com_content.transition.' . $item->id);
-						}
-					);
-
-					if (!count($items))
-					{
-						continue;
-					}
-
-					// Load language for messaging
-					$receiver = User::getInstance($user_id);
-					$lang = Language::getInstance($receiver->getParam('admin_language', $default_language), $debug);
-					$lang->load('plg_content_joomla');
-
-					$message = array(
-						'user_id_to' => $user_id,
-						'subject' => $lang->_('PLG_CONTENT_JOOMLA_ON_STAGE_CHANGE_SUBJECT'),
-						'message' => sprintf($lang->_('PLG_CONTENT_JOOMLA_ON_STAGE_CHANGE_MSG'), $user->name, $article->title),
-					);
-
-					$model_message = $this->app->bootComponent('com_messages')
-						->getMVCFactory()->createModel('Message', 'Administrator');
-					$model_message->save($message);
-				}
-			}
-		}
 
 		return true;
 	}

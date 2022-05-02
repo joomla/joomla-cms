@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <form>
-	<fieldset name="user_details">
+	<fieldset name="user_details" label="COM_USERS_USER_ACCOUNT_DETAILS">
 		<field
 			name="name"
 			type="text"
@@ -21,6 +21,7 @@
 			name="password"
 			type="password"
 			label="JGLOBAL_PASSWORD"
+			rules="true"
 			autocomplete="new-password"
 			class="validate-password-strength"
 			filter="raw"
@@ -103,7 +104,7 @@
 			type="radio"
 			label="COM_USERS_USER_FIELD_SENDEMAIL_LABEL"
 			default="0"
-			class="switcher"
+			layout="joomla.form.field.radio.switcher"
 			>
 			<option value="0">JNO</option>
 			<option value="1">JYES</option>
@@ -113,7 +114,7 @@
 			name="block"
 			type="radio"
 			label="COM_USERS_USER_FIELD_BLOCK_LABEL"
-			class="switcher"
+			layout="joomla.form.field.radio.switcher"
 			default="0"
 			>
 			<option value="1">COM_USERS_USER_FIELD_BLOCK</option>
@@ -125,7 +126,7 @@
 			type="radio"
 			label="COM_USERS_USER_FIELD_REQUIRERESET_LABEL"
 			default="0"
-			class="switcher"
+			layout="joomla.form.field.radio.switcher"
 			>
 			<option value="0">JNO</option>
 			<option value="1">JYES</option>
@@ -133,7 +134,7 @@
 
 		<field
 			name="id"
-			type="number"
+			type="text"
 			label="JGLOBAL_FIELD_ID_LABEL"
 			class="readonly"
 			default="0"
@@ -201,7 +202,7 @@
 				name="a11y_mono"
 				type="radio"
 				label="COM_USERS_A11Y_SETTINGS_FIELD_MONOCHROME"
-				class="switcher"
+				layout="joomla.form.field.radio.switcher"
 				default="0"
 				>
 				<option value="0">JNO</option>
@@ -211,7 +212,7 @@
 				name="a11y_contrast"
 				type="radio"
 				label="COM_USERS_A11Y_SETTINGS_FIELD_CONTRAST"
-				class="switcher"
+				layout="joomla.form.field.radio.switcher"
 				default="0"
 				>
 				<option value="0">JNO</option>
@@ -221,7 +222,7 @@
 				name="a11y_highlight"
 				type="radio"
 				label="COM_USERS_A11Y_SETTINGS_FIELD_HIGHLIGHT"
-				class="switcher"
+				layout="joomla.form.field.radio.switcher"
 				default="0"
 				>
 				<option value="0">JNO</option>
@@ -231,7 +232,7 @@
 				name="a11y_font"
 				type="radio"
 				label="COM_USERS_A11Y_SETTINGS_FIELD_FONTSIZE"
-				class="switcher"
+				layout="joomla.form.field.radio.switcher"
 				default="0"
 				>
 				<option value="0">JNO</option>

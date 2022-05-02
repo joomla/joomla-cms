@@ -1,5 +1,5 @@
 /**
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2017 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 // @TODO remove jQuery dependency
@@ -71,7 +71,10 @@ jQuery(document).ready(function($) {
       var currentLang = targetLang.replace(/_/,'-');
       $('#jform_itemlanguage option[value=\"' + currentSwitcher + '\"]').val(currentLang + ':0:add');
       currentLangSelect.val('');
-      Joomla.Event.dispatch(currentLangSelect[0], 'change');
+      currentLangSelect[0].dispatchEvent(new CustomEvent('change', {
+        bubbles: true,
+        cancelable: true,
+      }));
 
       // Save one of the items to confirm action
       Joomla.submitbutton('reference');
@@ -215,13 +218,13 @@ jQuery(document).ready(function($) {
       // If we are creating a new association (before save) we need to add the new association.
       if (targetLoadedId == '0')
       {
-        document.getElementById('select-change-text').innerHTML =  document.getElementById('select-change').getAttribute('data-select');
+        document.getElementById('select-change-text').innerHTML =  Joomla.sanitizeHtml(document.getElementById('select-change').getAttribute('data-select'));
       }
       // If we are editing an association.
       else
       {
         // Show change language button
-        document.getElementById('select-change-text').innerHTML =  document.getElementById('select-change').getAttribute('data-change');
+        document.getElementById('select-change-text').innerHTML =  Joomla.sanitizeHtml(document.getElementById('select-change').getAttribute('data-change'));
         $('#remove-assoc').removeClass("hidden");
         $('#toolbar-copy').hide();
 

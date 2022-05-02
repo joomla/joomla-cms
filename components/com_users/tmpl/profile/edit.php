@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2009 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -14,15 +14,18 @@ use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 
-HTMLHelper::_('behavior.keepalive');
-HTMLHelper::_('behavior.formvalidator');
-HTMLHelper::_('bootstrap.tooltip');
+HTMLHelper::_('bootstrap.tooltip', '.hasTooltip');
 
 // Load user_profile plugin language
 $lang = Factory::getLanguage();
 $lang->load('plg_user_profile', JPATH_ADMINISTRATOR);
 
-HTMLHelper::_('script', 'com_users/two-factor-switcher.min.js', array('version' => 'auto', 'relative' => true));
+/** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
+$wa = $this->document->getWebAssetManager();
+$wa->useScript('keepalive')
+	->useScript('form.validate')
+	->useScript('com_users.two-factor-switcher');
+
 ?>
 <div class="com-users-profile__edit profile-edit">
 	<?php if ($this->params->get('show_page_heading')) : ?>
@@ -52,24 +55,7 @@ HTMLHelper::_('script', 'com_users/two-factor-switcher.min.js', array('version' 
 					<?php endif; ?>
 					<?php // Iterate through the fields in the set and display them. ?>
 					<?php foreach ($fields as $field) : ?>
-					<?php // If the field is hidden, just display the input. ?>
-						<?php if ($field->hidden) : ?>
-							<?php echo $field->input; ?>
-						<?php else : ?>
-							<div class="control-group">
-								<div class="control-label">
-									<?php echo $field->label; ?>
-									<?php if (!$field->required && $field->type !== 'Spacer') : ?>
-										<span class="optional">
-											<?php echo Text::_('COM_USERS_OPTIONAL'); ?>
-										</span>
-									<?php endif; ?>
-								</div>
-								<div class="controls">
-									<?php echo $field->input; ?>
-								</div>
-							</div>
-						<?php endif; ?>
+						<?php echo $field->renderField(); ?>
 					<?php endforeach; ?>
 				</fieldset>
 			<?php endif; ?>
@@ -87,13 +73,13 @@ HTMLHelper::_('script', 'com_users/two-factor-switcher.min.js', array('version' 
 						</label>
 					</div>
 					<div class="controls">
-						<?php echo HTMLHelper::_('select.genericlist', $this->twofactormethods, 'jform[twofactor][method]', array('onchange' => 'Joomla.twoFactorMethodChange()'), 'value', 'text', $this->otpConfig->method, 'jform_twofactor_method', false); ?>
+						<?php echo HTMLHelper::_('select.genericlist', $this->twofactormethods, 'jform[twofactor][method]', array('onchange' => 'Joomla.twoFactorMethodChange();', 'class' => 'form-select'), 'value', 'text', $this->otpConfig->method, 'jform_twofactor_method', false); ?>
 					</div>
 				</div>
 				<div id="com_users_twofactor_forms_container" class="com-users-profile__twofactor-form">
 					<?php foreach ($this->twofactorform as $form) : ?>
-						<?php $style = $form['method'] == $this->otpConfig->method ? 'display: block' : 'display: none'; ?>
-						<div id="com_users_twofactor_<?php echo $form['method']; ?>" style="<?php echo $style; ?>">
+						<?php $class = $form['method'] == $this->otpConfig->method ? '' : ' class="hidden"'; ?>
+						<div id="com_users_twofactor_<?php echo $form['method']; ?>"<?php echo $class; ?>>
 							<?php echo $form['form']; ?>
 						</div>
 					<?php endforeach; ?>
@@ -105,12 +91,12 @@ HTMLHelper::_('script', 'com_users/two-factor-switcher.min.js', array('version' 
 					<?php echo Text::_('COM_USERS_PROFILE_OTEPS'); ?>
 				</legend>
 				<div class="alert alert-info">
-					<span class="fa fa-info-circle" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('INFO'); ?></span>
+					<span class="icon-info-circle" aria-hidden="true"></span><span class="visually-hidden"><?php echo Text::_('INFO'); ?></span>
 					<?php echo Text::_('COM_USERS_PROFILE_OTEPS_DESC'); ?>
 				</div>
 				<?php if (empty($this->otpConfig->otep)) : ?>
 					<div class="alert alert-warning">
-						<span class="fa fa-exclamation-circle" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('WARNING'); ?></span>
+						<span class="icon-exclamation-circle" aria-hidden="true"></span><span class="visually-hidden"><?php echo Text::_('WARNING'); ?></span>
 						<?php echo Text::_('COM_USERS_PROFILE_OTEPS_WAIT_DESC'); ?>
 					</div>
 				<?php else : ?>
@@ -127,9 +113,11 @@ HTMLHelper::_('script', 'com_users/two-factor-switcher.min.js', array('version' 
 		<div class="com-users-profile__edit-submit control-group">
 			<div class="controls">
 				<button type="submit" class="btn btn-primary validate" name="task" value="profile.save">
-					<?php echo Text::_('JSUBMIT'); ?>
+					<span class="icon-check" aria-hidden="true"></span>
+					<?php echo Text::_('JSAVE'); ?>
 				</button>
 				<button type="submit" class="btn btn-danger" name="task" value="profile.cancel" formnovalidate>
+					<span class="icon-times" aria-hidden="true"></span>
 					<?php echo Text::_('JCANCEL'); ?>
 				</button>
 				<input type="hidden" name="option" value="com_users">

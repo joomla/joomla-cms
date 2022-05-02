@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2005 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -14,7 +14,11 @@ use Joomla\CMS\Access\Rules;
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Tag\TaggableTableInterface;
+use Joomla\CMS\Tag\TaggableTableTrait;
+use Joomla\CMS\Versioning\VersionableTableInterface;
 use Joomla\Database\DatabaseDriver;
+use Joomla\Database\ParameterType;
 use Joomla\Registry\Registry;
 
 /**
@@ -22,8 +26,10 @@ use Joomla\Registry\Registry;
  *
  * @since  1.5
  */
-class Category extends Nested
+class Category extends Nested implements VersionableTableInterface, TaggableTableInterface
 {
+	use TaggableTableTrait;
+
 	/**
 	 * Indicates that columns fully support the NULL value in the database
 	 *
@@ -41,6 +47,8 @@ class Category extends Nested
 	 */
 	public function __construct(DatabaseDriver $db)
 	{
+		// @deprecated 5.0 This format was used by tags and versioning before 4.0 before the introduction of the
+		//                 getTypeAlias function. This notation with the {} will be removed in Joomla 5
 		$this->typeAlias = '{extension}.category';
 		parent::__construct('#__categories', 'id', $db);
 		$this->access = (int) Factory::getApplication()->get('access');
@@ -77,7 +85,7 @@ class Category extends Nested
 	/**
 	 * Get the parent asset id for the record
 	 *
-	 * @param   Table    $table  A JTable object for the asset parent.
+	 * @param   Table    $table  A Table object for the asset parent.
 	 * @param   integer  $id     The id for the asset
 	 *
 	 * @return  integer  The id of the asset's parent
@@ -95,7 +103,8 @@ class Category extends Nested
 			$query = $this->_db->getQuery(true)
 				->select($this->_db->quoteName('asset_id'))
 				->from($this->_db->quoteName('#__categories'))
-				->where($this->_db->quoteName('id') . ' = ' . $this->parent_id);
+				->where($this->_db->quoteName('id') . ' = :parentId')
+				->bind(':parentId', $this->parent_id, ParameterType::INTEGER);
 
 			// Get the asset id from the database.
 			$this->_db->setQuery($query);
@@ -112,7 +121,8 @@ class Category extends Nested
 			$query = $this->_db->getQuery(true)
 				->select($this->_db->quoteName('id'))
 				->from($this->_db->quoteName('#__assets'))
-				->where($this->_db->quoteName('name') . ' = ' . $this->_db->quote($this->extension));
+				->where($this->_db->quoteName('name') . ' = :extension')
+				->bind(':extension', $this->extension);
 
 			// Get the asset id from the database.
 			$this->_db->setQuery($query);
@@ -227,29 +237,29 @@ class Category extends Nested
 	 */
 	public function store($updateNulls = true)
 	{
-		$date = Factory::getDate();
+		$date = Factory::getDate()->toSql();
 		$user = Factory::getUser();
+
+		// Set created date if not set.
+		if (!(int) $this->created_time)
+		{
+			$this->created_time = $date;
+		}
 
 		if ($this->id)
 		{
 			// Existing category
 			$this->modified_user_id = $user->get('id');
-			$this->modified_time    = $date->toSql();
+			$this->modified_time    = $date;
 		}
 		else
 		{
-			// New category. A category created_time and created_user_id field can be set by the user,
-			// so we don't touch either of these if they are set.
-			if (!(int) $this->created_time)
-			{
-				$this->created_time = $date->toSql();
-			}
-
 			if (!(int) ($this->modified_time))
 			{
 				$this->modified_time = $this->created_time;
 			}
 
+			// Field created_user_id can be set by the user, so we don't touch it if it's set.
 			if (empty($this->created_user_id))
 			{
 				$this->created_user_id = $user->get('id');
@@ -273,5 +283,17 @@ class Category extends Nested
 		}
 
 		return parent::store($updateNulls);
+	}
+
+	/**
+	 * Get the type alias for the history table
+	 *
+	 * @return  string  The alias as described above
+	 *
+	 * @since   4.0.0
+	 */
+	public function getTypeAlias()
+	{
+		return $this->extension . '.category';
 	}
 }

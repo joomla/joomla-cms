@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_templates
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2013 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -51,7 +51,7 @@ ksort($this->files, SORT_NATURAL);
 			?>
 			<li class="<?php echo $class; ?>">
 				<a class="folder-url" href="">
-					<span class="fa fa-folder fa-fw" aria-hidden="true"></span>&nbsp;<?php $explodeArray = explode('/', $key); echo $this->escape(end($explodeArray)); ?>
+					<span class="icon-folder icon-fw" aria-hidden="true"></span>&nbsp;<?php $explodeArray = explode('/', $key); echo $this->escape(end($explodeArray)); ?>
 				</a>
 				<?php echo $this->directoryTree($value); ?>
 			</li>
@@ -59,7 +59,7 @@ ksort($this->files, SORT_NATURAL);
 		<?php if (is_object($value)) : ?>
 			<li>
 				<a class="file" href='<?php echo Route::_('index.php?option=com_templates&view=template&id=' . $this->id . '&file=' . $value->id); ?>'>
-					<span class="fa fa-file-alt fa-fw" aria-hidden="true"></span>&nbsp;<?php echo $this->escape($value->name); ?>
+					<span class="icon-file-alt" aria-hidden="true"></span>&nbsp;<?php echo $this->escape($value->name); ?>
 				</a>
 			</li>
 		<?php endif; ?>

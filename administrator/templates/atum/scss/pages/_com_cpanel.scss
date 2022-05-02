@@ -2,8 +2,8 @@
 
 .cpanel-add-module-icon,
 .com-cpanel {
-
-  &-help, &-system {
+  &-help,
+  &-system {
 
     .list-group-item {
       padding: 0;
@@ -18,11 +18,11 @@
   &-help {
 
     &__header {
-      color: var(--atum-special-color);
+      color: var(--template-special-color);
     }
 
     a {
-      color: var(--atum-link-color);
+      color: var(--template-link-color);
     }
 
     h2 {
@@ -36,13 +36,12 @@
 
     &__category {
       margin-bottom: 1.5em;
-      -webkit-column-break-inside: avoid;
       page-break-inside: avoid;
       break-inside: avoid;
     }
 
     &__header {
-      color: var(--atum-special-color);
+      color: var(--template-special-color);
 
       span {
         margin-right: 5px;
@@ -50,7 +49,7 @@
     }
 
     a {
-      color: var(--atum-link-color);
+      color: var(--template-link-color);
     }
 
     h2 {
@@ -58,11 +57,11 @@
     }
 
 
-    @include media-breakpoint-down(md) {
+    @include media-breakpoint-down(lg) {
       column-count: 2;
     }
 
-    @include media-breakpoint-down(sm) {
+    @include media-breakpoint-down(md) {
       column-count: 1;
     }
   }
@@ -71,113 +70,176 @@
 .com_cpanel {
 
   .content {
-    margin-top: 0;
+    margin-top: 2rem;
   }
 
   .card {
-
-    p:first-of-type {
-      margin-top: 0;
-    }
-
     p:last-child {
       margin-bottom: 0;
     }
 
     .list-group,
     .table {
-      > .published {
-        padding-left: .9rem;
-        border-left: 5px solid var(--success);
-      }
-
-      > .unpublished {
-        padding-left: .9rem;
-        border-left: 5px solid var(--danger);
-      }
+      padding: 0;
+      margin-bottom: unset;
     }
 
   }
 
   .card-header {
-    min-height: 2.5rem;
-    color: var(--atum-bg-dark);
+    display: flex;
+    align-items: center;
+    padding: 1rem 1rem .75rem;
     font-weight: $font-weight-bold;
+    color: var(--template-bg-dark);
     background: var(--card-bg);
+
+    > [class^="icon-"],
+    > img {
+      margin-inline-end: .5rem;
+    }
+
+    .btn {
+      margin-top: .25em;
+      margin-bottom: .25em;
+    }
+  }
+
+  .card-body {
+    padding: 0;
+    overflow: hidden;
+    border-bottom-right-radius: $border-radius;
+    border-bottom-left-radius: $border-radius;
   }
 
   .module-actions {
-    position: absolute;
-    top: 0;
-    right: 0;
-    z-index: $zindex-actions;
+    order: 1;
+    margin-inline-start: auto;
 
-    > a {
-      display: inline-block;
-      width: 2.6em;
-      height: 2.6em;
-      line-height: 2.6em;
-      color: var(--atum-special-color);
+    > * {
+      padding: 0;
+      color: var(--template-bg-dark-70);
     }
   }
 
   .cpanel-add-module {
-    background-color: var(--atum-bg-light);
-    border: 0.125rem dashed var(--atum-link-color);
-    position: relative;
-    transition: all .3s ease-in;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-end;
+    width: 100%;
+    min-height: 130px;
+    padding: 0 1rem;
+    font-size: .875rem;
+    font-weight: 700;
+    line-height: 1;
+    color: hsl(var(--hue),30%,40%);
+    background-color: hsl(var(--hue),35%,98%);
+    border: 1px solid hsl(var(--hue),35%,88%);
+    border-radius: $border-radius;
+    transition: all .15s ease-in;
 
-    @include hover-focus-active() {
-      border-color: var(--atum-bg-dark);
+    &:hover,
+    &:focus,
+    &:active {
+      color: #fff;
       text-decoration: none;
-      background-color: var(--white);
-
-      .cpanel-add-module-icon {
-
-        .fa {
-          opacity: 0.3;
-        }
-      }
+      background: var(--template-bg-dark);
     }
 
-    span {
-      position: relative;
+    > span {
+      padding: .25rem 0 1rem;
     }
 
     .cpanel-add-module-icon {
-      position: absolute;
-      top: -0.25rem;
-      left: 12rem;
-      right: 0;
-      bottom: 0;
-
-      .fa {
-        transition: all .3s ease-in;
-        font-size: 7rem;
-        transform: translateX(-100%);
-      }
+      font-size: 2rem;
+      color: hsl(var(--hue),30%,40%);
+      margin-inline-end: .5rem;
     }
   }
 }
 
 .cpanel-modules {
-  .list-group-item:hover {
-    background:var(--toolbar-bg);
+  .list-group {
+    border-top: 1px solid $list-group-border-color;
   }
 
-  .list-group-item a > span.fa {
-    background: var(--atum-link-color);
-    color: rgba(255,255,255,.9);
-    display: block;
-    padding: 0.5rem;
-    box-shadow: $atum-box-shadow;
-
+  .list-group-item {
     &:hover {
-      background: var(--atum-link-hover-color);
+      background: var(--toolbar-bg);
+    }
+
+    a {
+      font-weight: 500;
+      text-decoration: underline;
+    }
+
+    .btn {
+      text-decoration: none;
+    }
+
+    .list-group-item a > span {
+      &[class^="#{$jicon-css-prefix}-"],
+      &[class*=" #{$jicon-css-prefix}-"],
+      &[class^="#{$fa-css-prefix}-"],
+      &[class*=" #{$fa-css-prefix}-"] {
+        display: block;
+        padding: .5rem;
+        color: rgba(255, 255, 255, .9);
+        background: var(--template-link-color);
+        box-shadow: $atum-box-shadow;
+
+        &:hover {
+          background: var(--template-link-hover-color);
+        }
+      }
     }
   }
 
-   h2 {
-      font-size: $h4-font-size;
+  .list-group-item span.home-image {
+    &[class^="#{$jicon-css-prefix}-"],
+    &[class*=" #{$jicon-css-prefix}-"],
+    &[class^="#{$fa-css-prefix}-"],
+    &[class*=" #{$fa-css-prefix}-"] {
+      display: inline-block;
+      padding: 0;
+      margin: 0 .85rem;
+      font-size: .9rem;
+      color: rgba(1, 1, 1, 1);
+      background: var(--white-offset);
+      box-shadow: none;
+      transform: scale(1.2);
     }
+  }
+
+  h2 {
+    margin-bottom: 0;
+    font-size: $h4-font-size;
+  }
+
+  .mod-custom {
+    padding: 1rem;
+  }
+}
+
+.sample-data {
+  .list-group-item {
+    padding: 1rem;
+  }
+}
+
+.sample-data__title {
+  font-weight: bold;
+  color: var(--primary);
+}
+
+.sample-data__icon {
+  width: 1.3rem;
+  text-align: center;
+}
+
+.sample-data__desc {
+  border-inline-start: 4px solid hsl(var(--hue),50%,93%);
+  padding-inline-start: 1rem;
+  margin-inline-start: 8px;
 }

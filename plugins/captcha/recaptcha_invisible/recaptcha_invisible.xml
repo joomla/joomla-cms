@@ -1,20 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<extension version="3.8" type="plugin" group="captcha" method="upgrade">
+<extension type="plugin" group="captcha" method="upgrade">
 	<name>plg_captcha_recaptcha_invisible</name>
 	<version>3.8</version>
 	<creationDate>November 2017</creationDate>
 	<author>Joomla! Project</author>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
-	<copyright>Copyright (C) 2005 - 2019 Open Source Matters. All rights reserved.</copyright>
+	<copyright>(C) 2017 Open Source Matters, Inc.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<description>PLG_CAPTCHA_RECAPTCHA_INVISIBLE_XML_DESCRIPTION</description>
 	<files>
 		<filename plugin="recaptcha_invisible">recaptcha_invisible.php</filename>
 	</files>
 	<languages>
-		<language tag="en-GB">en-GB.plg_captcha_recaptcha_invisible.ini</language>
-		<language tag="en-GB">en-GB.plg_captcha_recaptcha_invisible.sys.ini</language>
+		<language tag="en-GB">language/en-GB/plg_captcha_recaptcha_invisible.ini</language>
+		<language tag="en-GB">language/en-GB/plg_captcha_recaptcha_invisible.sys.ini</language>
 	</languages>
 	<config>
 		<fields name="params">
@@ -50,6 +50,7 @@
 					label="PLG_RECAPTCHA_INVISIBLE_BADGE_LABEL"
 					description="PLG_RECAPTCHA_INVISIBLE_BADGE_DESC"
 					default="bottomright"
+					validate="options"
 					>
 					<option value="bottomright">PLG_RECAPTCHA_INVISIBLE_BADGE_BOTTOMRIGHT</option>
 					<option value="bottomleft">PLG_RECAPTCHA_INVISIBLE_BADGE_BOTTOMLEFT</option>

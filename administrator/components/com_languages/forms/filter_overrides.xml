@@ -7,7 +7,7 @@
 		onchange="this.form.submit();"
 		filtermode="selector"
 		addfieldprefix="Joomla\Component\Languages\Administrator\Field"
-	>
+		>
 		<option value="">COM_LANGUAGES_OVERRIDE_SELECT_LANGUAGE</option>
 	</field>
 	<fields name="filter">
@@ -16,7 +16,7 @@
 			type="text"
 			inputmode="search"
 			label="JSEARCH_FILTER"
-			description="COM_LANGUAGES_SEARCH_IN_TITLE"
+			description="COM_LANGUAGES_VIEW_OVERRIDES_FILTER_SEARCH_DESC"
 			hint="JSEARCH_FILTER"
 		/>
 	</fields>
@@ -27,6 +27,7 @@
 			label="JGLOBAL_SORT_BY"
 			onchange="this.form.submit();"
 			default="key ASC"
+			validate="options"
 			>
 			<option value="">JGLOBAL_SORT_BY</option>
 			<option value="key ASC">COM_LANGUAGES_VIEW_OVERRIDES_KEY_ASC</option>
@@ -38,7 +39,7 @@
 		<field
 			name="limit"
 			type="limitbox"
-			label="JGLOBAL_LIMIT"
+			label="JGLOBAL_LIST_LIMIT"
 			default="25"
 			onchange="this.form.submit();"
 		/>

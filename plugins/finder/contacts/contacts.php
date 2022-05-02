@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Finder.Contacts
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2011 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -11,18 +11,21 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Categories\Categories;
 use Joomla\CMS\Component\ComponentHelper;
-use Joomla\CMS\Factory;
+use Joomla\CMS\Table\Table;
+use Joomla\Component\Contact\Site\Helper\RouteHelper;
+use Joomla\Component\Finder\Administrator\Indexer\Adapter;
+use Joomla\Component\Finder\Administrator\Indexer\Helper;
+use Joomla\Component\Finder\Administrator\Indexer\Indexer;
+use Joomla\Component\Finder\Administrator\Indexer\Result;
 use Joomla\Database\DatabaseQuery;
 use Joomla\Registry\Registry;
-
-JLoader::register('FinderIndexerAdapter', JPATH_ADMINISTRATOR . '/components/com_finder/helpers/indexer/adapter.php');
 
 /**
  * Finder adapter for Joomla Contacts.
  *
  * @since  2.5
  */
-class PlgFinderContacts extends FinderIndexerAdapter
+class PlgFinderContacts extends Adapter
 {
 	/**
 	 * The plugin identifier.
@@ -108,14 +111,14 @@ class PlgFinderContacts extends FinderIndexerAdapter
 	 * This event will fire when contacts are deleted and when an indexed item is deleted.
 	 *
 	 * @param   string  $context  The context of the action being performed.
-	 * @param   JTable  $table    A JTable object containing the record to be deleted
+	 * @param   Table   $table    A Table object containing the record to be deleted
 	 *
-	 * @return  boolean  True on success.
+	 * @return  void
 	 *
 	 * @since   2.5
 	 * @throws  Exception on database error.
 	 */
-	public function onFinderAfterDelete($context, $table)
+	public function onFinderAfterDelete($context, $table): void
 	{
 		if ($context === 'com_contact.contact')
 		{
@@ -127,26 +130,26 @@ class PlgFinderContacts extends FinderIndexerAdapter
 		}
 		else
 		{
-			return true;
+			return;
 		}
 
 		// Remove the items.
-		return $this->remove($id);
+		$this->remove($id);
 	}
 
 	/**
 	 * Method to determine if the access level of an item changed.
 	 *
 	 * @param   string   $context  The context of the content passed to the plugin.
-	 * @param   JTable   $row      A JTable object
+	 * @param   Table    $row      A Table object
 	 * @param   boolean  $isNew    If the content has just been created
 	 *
-	 * @return  boolean  True on success.
+	 * @return  void
 	 *
 	 * @since   2.5
 	 * @throws  Exception on database error.
 	 */
-	public function onFinderAfterSave($context, $row, $isNew)
+	public function onFinderAfterSave($context, $row, $isNew): void
 	{
 		// We only want to handle contacts here
 		if ($context === 'com_contact.contact')
@@ -171,8 +174,6 @@ class PlgFinderContacts extends FinderIndexerAdapter
 				$this->categoryAccessChange($row);
 			}
 		}
-
-		return true;
 	}
 
 	/**
@@ -181,7 +182,7 @@ class PlgFinderContacts extends FinderIndexerAdapter
 	 * to queue the item to be indexed later.
 	 *
 	 * @param   string   $context  The context of the content passed to the plugin.
-	 * @param   JTable   $row      A JTable object
+	 * @param   Table    $row      A Table object
 	 * @param   boolean  $isNew    If the content is just about to be created
 	 *
 	 * @return  boolean  True on success.
@@ -243,16 +244,16 @@ class PlgFinderContacts extends FinderIndexerAdapter
 	}
 
 	/**
-	 * Method to index an item. The item must be a FinderIndexerResult object.
+	 * Method to index an item. The item must be a Result object.
 	 *
-	 * @param   FinderIndexerResult  $item  The item to index as a FinderIndexerResult object.
+	 * @param   Result  $item  The item to index as a Result object.
 	 *
 	 * @return  void
 	 *
 	 * @since   2.5
 	 * @throws  Exception on database error.
 	 */
-	protected function index(FinderIndexerResult $item)
+	protected function index(Result $item)
 	{
 		// Check if the extension is enabled
 		if (ComponentHelper::isEnabled($this->extension) === false)
@@ -269,7 +270,7 @@ class PlgFinderContacts extends FinderIndexerAdapter
 		$item->url = $this->getUrl($item->id, $this->extension, $this->layout);
 
 		// Build the necessary route and path information.
-		$item->route = ContactHelperRoute::getContactRoute($item->slug, $item->catslug, $item->language);
+		$item->route = RouteHelper::getContactRoute($item->slug, $item->catslug, $item->language);
 
 		// Get the menu title if it exists.
 		$title = $this->getItemMenuTitle($item->url);
@@ -288,71 +289,71 @@ class PlgFinderContacts extends FinderIndexerAdapter
 		// Handle the contact position.
 		if ($item->params->get('show_position', true))
 		{
-			$item->addInstruction(FinderIndexer::META_CONTEXT, 'position');
+			$item->addInstruction(Indexer::META_CONTEXT, 'position');
 		}
 
 		// Handle the contact street address.
 		if ($item->params->get('show_street_address', true))
 		{
-			$item->addInstruction(FinderIndexer::META_CONTEXT, 'address');
+			$item->addInstruction(Indexer::META_CONTEXT, 'address');
 		}
 
 		// Handle the contact city.
 		if ($item->params->get('show_suburb', true))
 		{
-			$item->addInstruction(FinderIndexer::META_CONTEXT, 'city');
+			$item->addInstruction(Indexer::META_CONTEXT, 'city');
 		}
 
 		// Handle the contact region.
 		if ($item->params->get('show_state', true))
 		{
-			$item->addInstruction(FinderIndexer::META_CONTEXT, 'region');
+			$item->addInstruction(Indexer::META_CONTEXT, 'region');
 		}
 
 		// Handle the contact country.
 		if ($item->params->get('show_country', true))
 		{
-			$item->addInstruction(FinderIndexer::META_CONTEXT, 'country');
+			$item->addInstruction(Indexer::META_CONTEXT, 'country');
 		}
 
 		// Handle the contact zip code.
 		if ($item->params->get('show_postcode', true))
 		{
-			$item->addInstruction(FinderIndexer::META_CONTEXT, 'zip');
+			$item->addInstruction(Indexer::META_CONTEXT, 'zip');
 		}
 
 		// Handle the contact telephone number.
 		if ($item->params->get('show_telephone', true))
 		{
-			$item->addInstruction(FinderIndexer::META_CONTEXT, 'telephone');
+			$item->addInstruction(Indexer::META_CONTEXT, 'telephone');
 		}
 
 		// Handle the contact fax number.
 		if ($item->params->get('show_fax', true))
 		{
-			$item->addInstruction(FinderIndexer::META_CONTEXT, 'fax');
+			$item->addInstruction(Indexer::META_CONTEXT, 'fax');
 		}
 
 		// Handle the contact email address.
 		if ($item->params->get('show_email', true))
 		{
-			$item->addInstruction(FinderIndexer::META_CONTEXT, 'email');
+			$item->addInstruction(Indexer::META_CONTEXT, 'email');
 		}
 
 		// Handle the contact mobile number.
 		if ($item->params->get('show_mobile', true))
 		{
-			$item->addInstruction(FinderIndexer::META_CONTEXT, 'mobile');
+			$item->addInstruction(Indexer::META_CONTEXT, 'mobile');
 		}
 
 		// Handle the contact webpage.
 		if ($item->params->get('show_webpage', true))
 		{
-			$item->addInstruction(FinderIndexer::META_CONTEXT, 'webpage');
+			$item->addInstruction(Indexer::META_CONTEXT, 'webpage');
 		}
 
 		// Handle the contact user name.
-		$item->addInstruction(FinderIndexer::META_CONTEXT, 'user');
+		$item->addInstruction(Indexer::META_CONTEXT, 'user');
 
 		// Add the type taxonomy data.
 		$item->addTaxonomy('Type', 'Contact');
@@ -360,6 +361,13 @@ class PlgFinderContacts extends FinderIndexerAdapter
 		// Add the category taxonomy data.
 		$categories = Categories::getInstance('com_contact', ['published' => false, 'access' => false]);
 		$category = $categories->get($item->catid);
+
+		// Category does not exist, stop here
+		if (!$category)
+		{
+			return;
+		}
+
 		$item->addNestedTaxonomy('Category', $category, $this->translateState($category->published), $category->access, $category->language);
 
 		// Add the language taxonomy data.
@@ -378,7 +386,7 @@ class PlgFinderContacts extends FinderIndexerAdapter
 		}
 
 		// Get content extras.
-		FinderIndexerHelper::getContentExtras($item);
+		Helper::getContentExtras($item);
 
 		// Index the item.
 		$this->indexer->index($item);
@@ -393,24 +401,21 @@ class PlgFinderContacts extends FinderIndexerAdapter
 	 */
 	protected function setup()
 	{
-		// Load dependent classes.
-		JLoader::register('ContactHelperRoute', JPATH_SITE . '/components/com_contact/helpers/route.php');
-
 		return true;
 	}
 
 	/**
 	 * Method to get the SQL query used to retrieve the list of content items.
 	 *
-	 * @param   mixed  $query  A JDatabaseQuery object or null.
+	 * @param   mixed  $query  A DatabaseQuery object or null.
 	 *
-	 * @return  JDatabaseQuery  A database object.
+	 * @return  DatabaseQuery  A database object.
 	 *
 	 * @since   2.5
 	 */
 	protected function getListQuery($query = null)
 	{
-		$db = Factory::getDbo();
+		$db = $this->db;
 
 		// Check if we can use the supplied SQL query.
 		$query = $query instanceof DatabaseQuery ? $query : $db->getQuery(true)

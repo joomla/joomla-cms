@@ -2,59 +2,62 @@
 
 .editor {
 
-	.toggle-editor {
-		margin-top: 1rem;
-	}
+  .toggle-editor {
+    margin-top: 1rem;
+  }
 
-	.mce-tinymce {
-		border: 1px solid var(--atum-bg-dark);
-	}
+  .mce-tinymce {
+    border: 1px solid var(--template-bg-dark);
+  }
 
-	.mce-btn,
-	.mce-panel {
-		background: var(--white-offset);
-	}
+  .mce-btn,
+  .mce-panel {
+    background: var(--white-offset);
+  }
 }
 
+.tox-fullscreen {
+  z-index: $zindex-modal-backdrop - 1 !important;
+}
 
 .container-main {
-	.mce-panel {
-		border: 0;
-		background: transparent;
-		box-shadow: none;
-	}
+  .mce-panel {
+    background: transparent;
+    border: 0;
+    box-shadow: none;
+  }
 
-	.mce-top-part {
-		margin-bottom: 1rem;
+  .mce-top-part {
+    margin-bottom: 1rem;
 
-		&::before {
-			box-shadow: none;
-		}
-	}
+    &::before {
+      box-shadow: none;
+    }
+  }
 
-	.mce-menubar .mce-menubtn {
-		background-color: $white;
-	}
+  .mce-menubar .mce-menubtn {
+    background-color: $white;
+  }
 
-	.mce-flow-layout-item {
-		margin: 2px 8px 2px 0px;
-	}
+  .mce-flow-layout-item {
+    margin: 2px 8px 2px 0;
+  }
 
-	.mce-btn-group {
+  .mce-btn-group {
 
-		&:not(:first-child) {
-			margin-left: 0;
-			margin-right: 6px;
-		}
+    &:not(:first-child) {
+      margin-right: 6px;
+      margin-left: 0;
+    }
 
-		.mce-btn {
-			margin: 0 1px 0 0;
-		}
+    .mce-btn {
+      margin: 0 1px 0 0;
+    }
 
-	}
+  }
 
-	.mce-statusbar .mce-container-body {
-		background-color: $white;
-		border-top: var(--atum-bg-light) 1px solid;
-	}
+  .mce-statusbar .mce-container-body {
+    background-color: $white;
+    border-top: var(--template-bg-light) 1px solid;
+  }
 }

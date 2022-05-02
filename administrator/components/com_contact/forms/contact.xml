@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <form>
-
 	<fieldset addfieldprefix="Joomla\Component\Contact\Administrator\Field">
-
 		<field
 			name="id"
-			type="number"
+			type="text"
 			label="JGLOBAL_FIELD_ID_LABEL"
 			default="0"
 			class="readonly"
@@ -24,6 +22,7 @@
 			name="alias"
 			type="text"
 			label="JFIELD_ALIAS_LABEL"
+			description="JFIELD_ALIAS_DESC"
 			size="45"
 			hint="JFIELD_ALIAS_PLACEHOLDER"
 		/>
@@ -40,6 +39,7 @@
 			name="user_id"
 			type="user"
 			label="COM_CONTACT_FIELD_LINKED_USER_LABEL"
+			validate="UserId"
 		/>
 
 		<field
@@ -47,9 +47,9 @@
 			type="list"
 			label="JSTATUS"
 			default="1"
-			id="published"
-			class="custom-select-color-state"
+			class="form-select-color-state"
 			size="1"
+			validate="options"
 			>
 			<option value="1">JPUBLISHED</option>
 			<option value="0">JUNPUBLISHED</option>
@@ -72,7 +72,8 @@
 			name="access"
 			type="accesslevel"
 			label="JFIELD_ACCESS_LABEL"
-			size="1"
+			filter="UINT"
+			validate="options"
 		/>
 
 		<field
@@ -88,6 +89,7 @@
 			name="created_by"
 			type="user"
 			label="JGLOBAL_FIELD_CREATED_BY_LABEL"
+			validate="UserId"
 		/>
 
 		<field
@@ -126,6 +128,7 @@
 			class="readonly"
 			readonly="true"
 			filter="unset"
+			validate="UserId"
 		/>
 
 		<field
@@ -181,6 +184,8 @@
 			label="JFIELD_META_DESCRIPTION_LABEL"
 			rows="3"
 			cols="30"
+			maxlength="160"
+			charcounter="true"
 		/>
 
 		<field
@@ -194,7 +199,7 @@
 		<field
 			name="featured"
 			type="radio"
-			class="switcher"
+			layout="joomla.form.field.radio.switcher"
 			label="JFEATURED"
 			default="0"
 			>
@@ -209,70 +214,9 @@
 			class="advancedSelect"
 			multiple="true"
 		/>
-
-		<field
-			name="contact_icons"
-			type="list"
-			label="COM_CONTACT_FIELD_ICONS_SETTINGS"
-			default="0"
-			>
-			<option value="0">COM_CONTACT_FIELD_VALUE_NONE</option>
-			<option value="1">COM_CONTACT_FIELD_VALUE_TEXT</option>
-			<option value="2">COM_CONTACT_FIELD_VALUE_ICONS</option>
-		</field>
-
-		<field
-			name="icon_address"
-			type="media"
-			label="COM_CONTACT_FIELD_ICONS_ADDRESS_LABEL"
-			hide_none="1"
-		/>
-
-		<field
-			name="icon_email"
-			type="media"
-			label="COM_CONTACT_FIELD_ICONS_EMAIL_LABEL"
-			hide_none="1"
-		/>
-
-		<field
-			name="icon_telephone"
-			type="media"
-			label="COM_CONTACT_FIELD_ICONS_TELEPHONE_LABEL"
-			hide_none="1"
-		/>
-
-		<field
-			name="icon_mobile"
-			type="media"
-			label="COM_CONTACT_FIELD_ICONS_MOBILE_LABEL"
-			hide_none="1"
-		/>
-
-		<field
-			name="icon_fax"
-			type="media"
-			label="COM_CONTACT_FIELD_ICONS_FAX_LABEL"
-			hide_none="1"
-		/>
-
-		<field
-			name="icon_misc"
-			type="media"
-			label="COM_CONTACT_FIELD_ICONS_MISC_LABEL"
-			hide_none="1"
-		/>
 	</fieldset>
 
 	<fieldset name="details" label="COM_CONTACT_CONTACT_DETAILS">
-
-		<field
-			name="@text_details"
-			type="note"
-			label=""
-			description="COM_CONTACT_EDIT_DETAILS"
-		/>
-
 		<field
 			name="image"
 			type="media"
@@ -384,16 +328,14 @@
 	</fieldset>
 
 	<fields name="params">
-
 		<fieldset name="display" label="JGLOBAL_FIELDSET_DISPLAY_OPTIONS">
-
 			<fieldset name="basic" label="JGLOBAL_FIELDSET_DISPLAY_OPTIONS">
-
 				<field
 					name="show_contact_category"
 					type="list"
 					label="JGLOBAL_SHOW_CATEGORY_LABEL"
 					useglobal="true"
+					validate="options"
 					>
 					<option value="hide">JHIDE</option>
 					<option value="show_no_link">COM_CONTACT_FIELD_VALUE_NO_LINK</option>
@@ -405,6 +347,7 @@
 					type="list"
 					label="COM_CONTACT_FIELD_CONTACT_SHOW_LIST_LABEL"
 					useglobal="true"
+					validate="options"
 					>
 					<option value="0">JHIDE</option>
 					<option value="1">JSHOW</option>
@@ -415,6 +358,7 @@
 					type="list"
 					label="COM_CONTACT_FIELD_SHOW_TAGS_LABEL"
 					useglobal="true"
+					validate="options"
 					>
 					<option value="0">JHIDE</option>
 					<option value="1">JSHOW</option>
@@ -424,8 +368,9 @@
 					name="show_info"
 					type="list"
 					label="COM_CONTACT_FIELD_SHOW_INFO_LABEL"
-					class="custom-select-color"
+					class="form-select-color"
 					useglobal="true"
+					validate="options"
 					>
 					<option value="0">JHIDE</option>
 					<option value="1">JSHOW</option>
@@ -437,6 +382,7 @@
 					label="COM_CONTACT_FIELD_PARAMS_NAME_LABEL"
 					useglobal="true"
 					showon="show_info:1"
+					validate="options"
 					>
 					<option value="0">JHIDE</option>
 					<option value="1">JSHOW</option>
@@ -448,6 +394,7 @@
 					label="COM_CONTACT_FIELD_PARAMS_CONTACT_POSITION_LABEL"
 					useglobal="true"
 					showon="show_info:1"
+					validate="options"
 					>
 					<option value="0">JHIDE</option>
 					<option value="1">JSHOW</option>
@@ -459,6 +406,7 @@
 					label="JGLOBAL_EMAIL"
 					useglobal="true"
 					showon="show_info:1"
+					validate="options"
 					>
 					<option value="0">JHIDE</option>
 					<option value="1">JSHOW</option>
@@ -468,9 +416,10 @@
 					name="add_mailto_link"
 					type="list"
 					label="COM_CONTACT_FIELD_PARAMS_ADD_MAILTO_LINK_LABEL"
-					class="custom-select-color"
+					class="form-select-color"
 					useglobal="true"
 					showon="show_info:1"
+					validate="options"
 					>
 					<option value="1">JYES</option>
 					<option value="0">JNO</option>
@@ -482,6 +431,7 @@
 					label="COM_CONTACT_FIELD_PARAMS_STREET_ADDRESS_LABEL"
 					useglobal="true"
 					showon="show_info:1"
+					validate="options"
 					>
 					<option value="0">JHIDE</option>
 					<option value="1">JSHOW</option>
@@ -493,6 +443,7 @@
 					label="COM_CONTACT_FIELD_PARAMS_TOWN-SUBURB_LABEL"
 					useglobal="true"
 					showon="show_info:1"
+					validate="options"
 					>
 					<option value="0">JHIDE</option>
 					<option value="1">JSHOW</option>
@@ -504,6 +455,7 @@
 					label="COM_CONTACT_FIELD_PARAMS_STATE-COUNTY_LABEL"
 					useglobal="true"
 					showon="show_info:1"
+					validate="options"
 					>
 					<option value="0">JHIDE</option>
 					<option value="1">JSHOW</option>
@@ -515,6 +467,7 @@
 					label="COM_CONTACT_FIELD_PARAMS_POST-ZIP_CODE_LABEL"
 					useglobal="true"
 					showon="show_info:1"
+					validate="options"
 					>
 					<option value="0">JHIDE</option>
 					<option value="1">JSHOW</option>
@@ -526,6 +479,7 @@
 					label="COM_CONTACT_FIELD_PARAMS_COUNTRY_LABEL"
 					useglobal="true"
 					showon="show_info:1"
+					validate="options"
 					>
 					<option value="0">JHIDE</option>
 					<option value="1">JSHOW</option>
@@ -537,6 +491,7 @@
 					label="COM_CONTACT_FIELD_PARAMS_TELEPHONE_LABEL"
 					useglobal="true"
 					showon="show_info:1"
+					validate="options"
 					>
 					<option value="0">JHIDE</option>
 					<option value="1">JSHOW</option>
@@ -548,6 +503,7 @@
 					label="COM_CONTACT_FIELD_PARAMS_MOBILE_LABEL"
 					useglobal="true"
 					showon="show_info:1"
+					validate="options"
 					>
 					<option value="0">JHIDE</option>
 					<option value="1">JSHOW</option>
@@ -559,6 +515,7 @@
 					label="COM_CONTACT_FIELD_PARAMS_FAX_LABEL"
 					useglobal="true"
 					showon="show_info:1"
+					validate="options"
 					>
 					<option value="0">JHIDE</option>
 					<option value="1">JSHOW</option>
@@ -570,6 +527,7 @@
 					label="COM_CONTACT_FIELD_PARAMS_WEBPAGE_LABEL"
 					useglobal="true"
 					showon="show_info:1"
+					validate="options"
 					>
 					<option value="0">JHIDE</option>
 					<option value="1">JSHOW</option>
@@ -579,9 +537,10 @@
 					name="show_image"
 					type="list"
 					label="COM_CONTACT_FIELD_PARAMS_SHOW_IMAGE_LABEL"
-					class="custom-select-color"
+					class="form-select-color"
 					useglobal="true"
 					showon="show_info:1"
+					validate="options"
 					>
 					<option value="0">JHIDE</option>
 					<option value="1">JSHOW</option>
@@ -591,8 +550,9 @@
 					name="show_misc"
 					type="list"
 					label="COM_CONTACT_FIELD_PARAMS_MISC_INFO_LABEL"
-				class="custom-select-color"
+					class="form-select-color"
 					useglobal="true"
+					validate="options"
 					>
 					<option value="0">JHIDE</option>
 					<option value="1">JSHOW</option>
@@ -603,6 +563,7 @@
 					type="list"
 					label="COM_CONTACT_FIELD_PARAMS_VCARD_LABEL"
 					useglobal="true"
+					validate="options"
 					>
 					<option value="0">JHIDE</option>
 					<option value="1">JSHOW</option>
@@ -613,6 +574,7 @@
 					type="list"
 					label="COM_CONTACT_FIELD_ARTICLES_SHOW_LABEL"
 					useglobal="true"
+					validate="options"
 					>
 					<option value="0">JHIDE</option>
 					<option value="1">JSHOW</option>
@@ -624,6 +586,7 @@
 					label="COM_CONTACT_FIELD_ARTICLES_DISPLAY_NUM_LABEL"
 					default=""
 					useglobal="true"
+					validate="options"
 					>
 					<option value="5">J5</option>
 					<option value="10">J10</option>
@@ -646,6 +609,7 @@
 					type="list"
 					label="COM_CONTACT_FIELD_PROFILE_SHOW_LABEL"
 					useglobal="true"
+					validate="options"
 					>
 					<option value="0">JHIDE</option>
 					<option value="1">JSHOW</option>
@@ -658,6 +622,7 @@
 					multiple="true"
 					context="com_users.user"
 					addfieldprefix="Joomla\Component\Fields\Administrator\Field"
+					layout="joomla.form.field.list-fancy-select"
 					>
 					<option value="-1">JALL</option>
 				</field>
@@ -666,21 +631,20 @@
 					name="contact_layout"
 					type="componentlayout"
 					label="JFIELD_ALT_LAYOUT_LABEL"
-					class="custom-select"
+					class="form-select"
 					extension="com_contact"
 					view="contact"
 					useglobal="true"
 				/>
-
 			</fieldset>
 
 			<fieldset name="link" label="JGLOBAL_FIELDSET_DISPLAY_LINK_OPTIONS">
-
 				<field
 					name="show_links"
 					type="list"
 					label="COM_CONTACT_FIELD_SHOW_LINKS_LABEL"
 					useglobal="true"
+					validate="options"
 					>
 					<option value="0">JHIDE</option>
 					<option value="1">JSHOW</option>
@@ -702,12 +666,12 @@
 					validate="url"
 				/>
 
-			<field
-				name="linkd_name"
-				type="text"
-				label="COM_CONTACT_FIELD_LINKD_NAME_LABEL"
-				size="30"
-			/>
+				<field
+					name="linkb_name"
+					type="text"
+					label="COM_CONTACT_FIELD_LINKB_NAME_LABEL"
+					size="30"
+				/>
 
 				<field
 					name="linkb"
@@ -770,12 +734,12 @@
 
 		<fieldset name="email" label="COM_CONTACT_FIELDSET_CONTACT_LABEL">
 			<fieldset name="form" label="COM_CONTACT_FIELDSET_FORM_LABEL">
-
 				<field
 					name="show_email_form"
 					type="list"
 					label="COM_CONTACT_FIELD_EMAIL_SHOW_FORM_LABEL"
 					useglobal="true"
+					validate="options"
 					>
 					<option value="0">JHIDE</option>
 					<option value="1">JSHOW</option>
@@ -786,6 +750,7 @@
 					type="list"
 					label="COM_CONTACT_FIELD_EMAIL_EMAIL_COPY_LABEL"
 					useglobal="true"
+					validate="options"
 					>
 					<option value="0">JHIDE</option>
 					<option value="1">JSHOW</option>
@@ -796,6 +761,7 @@
 					type="list"
 					label="COM_CONTACT_FIELD_CONFIG_SESSION_CHECK_LABEL"
 					useglobal="true"
+					validate="options"
 					>
 					<option value="0">JNO</option>
 					<option value="1">JYES</option>
@@ -806,6 +772,7 @@
 					type="list"
 					label="COM_CONTACT_FIELD_CONFIG_CUSTOM_REPLY_LABEL"
 					useglobal="true"
+					validate="options"
 					>
 					<option value="0">JNO</option>
 					<option value="1">JYES</option>
@@ -822,19 +789,18 @@
 	</fields>
 
 	<fields name="metadata" label="JGLOBAL_FIELDSET_METADATA_OPTIONS">
-
 		<fieldset name="jmetadata" label="JGLOBAL_FIELDSET_METADATA_OPTIONS">
-
 			<field
 				name="robots"
 				type="list"
 				label="JFIELD_METADATA_ROBOTS_LABEL"
+				validate="options"
 				>
 				<option value="">JGLOBAL_USE_GLOBAL</option>
-				<option value="index, follow">JGLOBAL_INDEX_FOLLOW</option>
-				<option value="noindex, follow">JGLOBAL_NOINDEX_FOLLOW</option>
-				<option value="index, nofollow">JGLOBAL_INDEX_NOFOLLOW</option>
-				<option value="noindex, nofollow">JGLOBAL_NOINDEX_NOFOLLOW</option>
+				<option value="index, follow" />
+				<option value="noindex, follow" />
+				<option value="index, nofollow" />
+				<option value="noindex, nofollow" />
 			</field>
 
 			<field
@@ -848,7 +814,7 @@
 
 	<field
 		name="hits"
-		type="number"
+		type="text"
 		label="JGLOBAL_HITS"
 		class="readonly"
 		readonly="true"

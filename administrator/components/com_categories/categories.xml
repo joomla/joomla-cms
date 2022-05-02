@@ -1,29 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
-<extension type="component" version="4.0" method="upgrade">
+<extension type="component" method="upgrade">
 	<name>com_categories</name>
 	<author>Joomla! Project</author>
 	<creationDate>December 2007</creationDate>
-	<copyright>(C) 2005 - 2019 Open Source Matters. All rights reserved.</copyright>
+	<copyright>(C) 2007 Open Source Matters, Inc.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>4.0.0</version>
 	<description>COM_CATEGORIES_XML_DESCRIPTION</description>
-	<namespace>Joomla\Component\Categories</namespace>
+	<namespace path="src">Joomla\Component\Categories</namespace>
 	<administration>
 		<files folder="admin">
 			<filename>categories.xml</filename>
-			<filename>dispatcher.php</filename>
-			<folder>Controller</folder>
-			<folder>Field</folder>
 			<folder>forms</folder>
-			<folder>Helper</folder>
 			<folder>helpers</folder>
 			<folder>layouts</folder>
-			<folder>Model</folder>
-			<folder>Table</folder>
+			<folder>services</folder>
+			<folder>src</folder>
 			<folder>tmpl</folder>
-			<folder>View</folder>
 		</files>
 		<languages folder="admin">
 			<language tag="en-GB">language/en-GB/com_categories.ini</language>

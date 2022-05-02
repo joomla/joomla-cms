@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2006 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -13,6 +13,7 @@ namespace Joomla\CMS\Mail;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
+use Joomla\CMS\Mail\Exception\MailDisabledException;
 use PHPMailer\PHPMailer\Exception as phpmailerException;
 use PHPMailer\PHPMailer\PHPMailer;
 
@@ -53,7 +54,7 @@ class Mail extends PHPMailer
 		// PHPMailer has an issue using the relative path for its language files
 		$this->setLanguage('en_gb', __DIR__ . '/language/');
 
-		// Configure a callback function to handle errors when $this->edebug() is called
+		// Configure a callback function to handle errors when $this->debug() is called
 		$this->Debugoutput = function ($message, $level)
 		{
 			Log::add(sprintf('Error in Mail API: %s', $message), Log::ERROR, 'mail');
@@ -68,16 +69,23 @@ class Mail extends PHPMailer
 		// Don't disclose the PHPMailer version
 		$this->XMailer = ' ';
 
-		/*
-		 * PHPMailer 5.2 can't validate e-mail addresses with the new regex library used in PHP 7.3+
-		 * Setting $validator to "php" uses the native php function filter_var
+		/**
+		 * Which validator to use by default when validating email addresses.
+		 * Validation patterns supported:
+		 * `auto` Pick best pattern automatically;
+		 * `pcre8` Use the squiloople.com pattern, requires PCRE > 8.0;
+		 * `pcre` Use old PCRE implementation;
+		 * `php` Use PHP built-in FILTER_VALIDATE_EMAIL;
+		 * `html5` Use the pattern given by the HTML5 spec for 'email' type form input elements.
+		 * `noregex` Don't use a regex: super fast, really dumb.
 		 *
-		 * @see https://github.com/joomla/joomla-cms/issues/24707
+		 * The default used by phpmailer is `php` but this does not support dotless domains so instead we use `html5`
+		 *
+		 * @see PHPMailer::validateAddress()
+		 *
+		 * @var string|callable
 		 */
-		if (version_compare(PHP_VERSION, '7.3.0', '>='))
-		{
-			PHPMailer::$validator = 'php';
-		}
+		PHPMailer::$validator = 'html5';
 	}
 
 	/**
@@ -110,59 +118,65 @@ class Mail extends PHPMailer
 	 *
 	 * @since   1.7.0
 	 *
-	 * @throws  \RuntimeException   if the mail function is disabled
-	 * @throws  phpmailerException  if sending failed
+	 * @throws  MailDisabledException  if the mail function is disabled
+	 * @throws  phpmailerException     if sending failed
 	 */
 	public function Send()
 	{
-		if (Factory::getApplication()->get('mailonline', 1))
+		if (!Factory::getApplication()->get('mailonline', 1))
 		{
-			if (($this->Mailer == 'mail') && !\function_exists('mail'))
+			throw new MailDisabledException(
+				MailDisabledException::REASON_USER_DISABLED,
+				Text::_('JLIB_MAIL_FUNCTION_OFFLINE'),
+				500
+			);
+		}
+
+		if ($this->Mailer === 'mail' && !\function_exists('mail'))
+		{
+			throw new MailDisabledException(
+				MailDisabledException::REASON_MAIL_FUNCTION_NOT_AVAILABLE,
+				Text::_('JLIB_MAIL_FUNCTION_DISABLED'),
+				500
+			);
+		}
+
+		try
+		{
+			$result = parent::send();
+		}
+		catch (phpmailerException $e)
+		{
+			// If auto TLS is disabled just let this bubble up
+			if (!$this->SMTPAutoTLS)
 			{
-				throw new \RuntimeException(Text::_('JLIB_MAIL_FUNCTION_DISABLED'), 500);
+				throw $e;
 			}
+
+			$result = false;
+		}
+
+		/*
+		 * If sending failed and auto TLS is enabled, retry sending with the feature disabled
+		 *
+		 * See https://github.com/PHPMailer/PHPMailer/wiki/Troubleshooting#opportunistic-tls for more info
+		 */
+		if (!$result && $this->SMTPAutoTLS)
+		{
+			$this->SMTPAutoTLS = false;
 
 			try
 			{
 				$result = parent::send();
 			}
-			catch (phpmailerException $e)
+			finally
 			{
-				// If auto TLS is disabled just let this bubble up
-				if (!$this->SMTPAutoTLS)
-				{
-					throw $e;
-				}
-
-				$result = false;
+				// Reset the value for any future emails
+				$this->SMTPAutoTLS = true;
 			}
-
-			/*
-			 * If sending failed and auto TLS is enabled, retry sending with the feature disabled
-			 *
-			 * See https://github.com/PHPMailer/PHPMailer/wiki/Troubleshooting#opportunistic-tls for more info
-			 */
-			if (!$result && $this->SMTPAutoTLS)
-			{
-				$this->SMTPAutoTLS = false;
-
-				try
-				{
-					$result = parent::send();
-				}
-				finally
-				{
-					// Reset the value for any future emails
-					$this->SMTPAutoTLS = true;
-				}
-			}
-
-			return $result;
 		}
 
-		Factory::getApplication()->enqueueMessage(Text::_('JLIB_MAIL_FUNCTION_OFFLINE'), 'warning');
-
-		return false;
+		return $result;
 	}
 
 	/**
@@ -183,7 +197,7 @@ class Mail extends PHPMailer
 	{
 		if (\is_array($from))
 		{
-			// If $from is an array we assume it has an adress and a name
+			// If $from is an array we assume it has an address and a name
 			if (isset($from[2]))
 			{
 				// If it is an array with entries, use them
@@ -204,7 +218,7 @@ class Mail extends PHPMailer
 			// If it is neither, we log a message and throw an exception
 			Log::add(Text::sprintf('JLIB_MAIL_INVALID_EMAIL_SENDER', $from), Log::WARNING, 'jerror');
 
-			throw new \UnexpectedValueException(sprintf('Invalid email Sender: %s, Mail::setSender(%s)', $from));
+			throw new \UnexpectedValueException(sprintf('Invalid email sender: %s', $from));
 		}
 
 		if ($result === false)
@@ -400,7 +414,7 @@ class Mail extends PHPMailer
 	 *
 	 * @since   3.0.1
 	 * @throws  \InvalidArgumentException  if the argument array counts do not match
-	 * @throws  phpmailerException 			if setting the attatchment failed and exception throwing is enabled
+	 * @throws  phpmailerException 			if setting the attachment failed and exception throwing is enabled
 	 */
 	public function addAttachment($path, $name = '', $encoding = 'base64', $type = 'application/octet-stream', $disposition = 'attachment')
 	{
@@ -595,7 +609,7 @@ class Mail extends PHPMailer
 		$this->Password = $pass;
 		$this->Port = $port;
 
-		if ($secure == 'ssl' || $secure == 'tls')
+		if ($secure === 'ssl' || $secure === 'tls')
 		{
 			$this->SMTPSecure = $secure;
 		}
@@ -634,7 +648,8 @@ class Mail extends PHPMailer
 	 *
 	 * @since   1.7.0
 	 *
-	 * @throws  phpmailerException  if exception throwing is enabled
+	 * @throws  MailDisabledException  if the mail function is disabled
+	 * @throws  phpmailerException     if exception throwing is enabled
 	 */
 	public function sendMail($from, $fromName, $recipient, $subject, $body, $mode = false, $cc = null, $bcc = null, $attachment = null,
 		$replyTo = null, $replyToName = null
@@ -699,7 +714,7 @@ class Mail extends PHPMailer
 		}
 
 		// Add sender to replyTo only if no replyTo received
-		$autoReplyTo = (empty($this->ReplyTo)) ? true : false;
+		$autoReplyTo = empty($this->ReplyTo);
 
 		if ($this->setSender(array($from, $fromName, $autoReplyTo)) === false)
 		{

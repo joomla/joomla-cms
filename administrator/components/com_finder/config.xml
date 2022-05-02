@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <config>
+	<help key="Smart_Search:_Options"/>
 	<fieldset
 		name="search"
 		label="COM_FINDER_FIELDSET_SEARCH_OPTIONS_LABEL"
@@ -10,7 +11,7 @@
 			name="show_taxonomy"
 			type="radio"
 			label="COM_FINDER_CONFIG_SHOW_TAXONOMY_LABEL"
-			class="switcher"
+			layout="joomla.form.field.radio.switcher"
 			default="1"
 			>
 			<option value="0">JHIDE</option>
@@ -21,7 +22,7 @@
 			name="show_description"
 			type="radio"
 			label="COM_FINDER_CONFIG_SHOW_DESCRIPTION_LABEL"
-			class="switcher"
+			layout="joomla.form.field.radio.switcher"
 			default="1"
 			>
 			<option value="0">JHIDE</option>
@@ -41,7 +42,7 @@
 			name="show_date"
 			type="radio"
 			label="COM_FINDER_CONFIG_SHOW_DATE_LABEL"
-			class="switcher"
+			layout="joomla.form.field.radio.switcher"
 			default="1"
 			>
 			<option value="0">JHIDE</option>
@@ -52,7 +53,7 @@
 			name="show_url"
 			type="radio"
 			label="COM_FINDER_CONFIG_SHOW_URL_LABEL"
-			class="switcher"
+			layout="joomla.form.field.radio.switcher"
 			default="1"
 			>
 			<option value="0">JHIDE</option>
@@ -60,10 +61,10 @@
 		</field>
 
 		<field
-			name="logging_enabled"
+			name="gather_search_statistics"
 			type="radio"
 			label="COM_FINDER_CONFIG_GATHER_SEARCH_STATISTICS_LABEL"
-			class="switcher"
+			layout="joomla.form.field.radio.switcher"
 			default="0"
 			>
 			<option value="0">JNO</option>
@@ -74,7 +75,7 @@
 			name="allow_empty_query"
 			type="radio"
 			label="COM_FINDER_CONFIG_ALLOW_EMPTY_QUERY_LABEL"
-			class="switcher"
+			layout="joomla.form.field.radio.switcher"
 			default="0"
 			>
 			<option value="0">JNO</option>
@@ -85,7 +86,7 @@
 			name="show_autosuggest"
 			type="radio"
 			label="COM_FINDER_CONFIG_SHOW_AUTOSUGGEST_LABEL"
-			class="switcher"
+			layout="joomla.form.field.radio.switcher"
 			default="1"
 			>
 			<option value="0">JHIDE</option>
@@ -96,7 +97,7 @@
 			name="show_suggested_query"
 			type="radio"
 			label="COM_FINDER_CONFIG_SHOW_SUGGESTED_QUERY_LABEL"
-			class="switcher"
+			layout="joomla.form.field.radio.switcher"
 			default="1"
 			validate="options"
 			>
@@ -108,7 +109,7 @@
 			name="show_explained_query"
 			type="radio"
 			label="COM_FINDER_CONFIG_SHOW_EXPLAINED_QUERY_LABEL"
-			class="switcher"
+			layout="joomla.form.field.radio.switcher"
 			default="1"
 			validate="options"
 			>
@@ -120,7 +121,7 @@
 			name="show_advanced"
 			type="radio"
 			label="COM_FINDER_CONFIG_SHOW_ADVANCED_LABEL"
-			class="switcher"
+			layout="joomla.form.field.radio.switcher"
 			default="1"
 			>
 			<option value="0">JHIDE</option>
@@ -131,7 +132,7 @@
 			name="show_advanced_tips"
 			type="radio"
 			label="COM_FINDER_CONFIG_SHOW_ADVANCED_TIPS_LABEL"
-			class="switcher"
+			layout="joomla.form.field.radio.switcher"
 			default="1"
 			showon="show_advanced:1"
 			>
@@ -143,7 +144,7 @@
 			name="expand_advanced"
 			type="radio"
 			label="COM_FINDER_CONFIG_EXPAND_ADVANCED_LABEL"
-			class="switcher"
+			layout="joomla.form.field.radio.switcher"
 			default="0"
 			showon="show_advanced:1"
 			>
@@ -155,7 +156,7 @@
 			name="show_date_filters"
 			type="radio"
 			label="COM_FINDER_CONFIG_SHOW_DATE_FILTERS_LABEL"
-			class="switcher"
+			layout="joomla.form.field.radio.switcher"
 			default="0"
 			showon="show_advanced:1"
 			>
@@ -171,6 +172,7 @@
 			validate="options"
 			>
 			<option value="relevance">COM_FINDER_CONFIG_SORT_OPTION_RELEVANCE</option>
+			<option value="title">COM_FINDER_CONFIG_SORT_OPTION_TITLE</option>
 			<option value="date">COM_FINDER_CONFIG_SORT_OPTION_START_DATE</option>
 			<option value="price">COM_FINDER_CONFIG_SORT_OPTION_LIST_PRICE</option>
 		</field>
@@ -190,7 +192,7 @@
 			name="highlight_terms"
 			type="radio"
 			label="COM_FINDER_CONFIG_HILIGHT_CONTENT_SEARCH_TERMS_LABEL"
-			class="switcher"
+			layout="joomla.form.field.radio.switcher"
 			default="1"
 			>
 			<option value="0">JNO</option>
@@ -201,7 +203,7 @@
 			name="opensearch"
 			type="radio"
 			label="COM_FINDER_CONFIG_OPENSEARCH_LABEL"
-			class="switcher"
+			layout="joomla.form.field.radio.switcher"
 			default="1"
 			>
 			<option value="0">JNO</option>
@@ -219,7 +221,7 @@
 		<field
 			name="opensearch_description"
 			type="textarea"
-			label="COM_FINDER_CONFIG_FIELD_OPENSEARCH_DESCRIPTON_LABEL"
+			label="COM_FINDER_CONFIG_FIELD_OPENSEARCH_DESCRIPTION_LABEL"
 			default=""
 			cols="30"
 			rows="2"
@@ -277,6 +279,7 @@
 			type="number"
 			label="COM_FINDER_CONFIG_TITLE_MULTIPLIER_LABEL"
 			default="1.7"
+			min="0"
 		/>
 
 		<field
@@ -284,6 +287,7 @@
 			type="number"
 			label="COM_FINDER_CONFIG_TEXT_MULTIPLIER_LABEL"
 			default="0.7"
+			min="0"
 		/>
 
 		<field
@@ -291,6 +295,7 @@
 			type="number"
 			label="COM_FINDER_CONFIG_META_MULTIPLIER_LABEL"
 			default="1.2"
+			min="0"
 		/>
 
 		<field
@@ -298,6 +303,7 @@
 			type="number"
 			label="COM_FINDER_CONFIG_PATH_MULTIPLIER_LABEL"
 			default="2.0"
+			min="0"
 		/>
 
 		<field
@@ -305,13 +311,14 @@
 			type="number"
 			label="COM_FINDER_CONFIG_MISC_MULTIPLIER_LABEL"
 			default="0.3"
+			min="0"
 		/>
 
 		<field
 			name="enable_logging"
 			type="radio"
 			label="COM_FINDER_CONFIG_ENABLE_LOGGING_LABEL"
-			class="switcher"
+			layout="joomla.form.field.radio.switcher"
 			default="0"
 			>
 			<option value="0">JNO</option>
@@ -332,7 +339,7 @@
 			name="filter_commonwords"
 			type="radio"
 			label="COM_FINDER_CONFIG_FILTER_COMMONWORDS_LABEL"
-			class="switcher"
+			layout="joomla.form.field.radio.switcher"
 			default="0"
 			>
 			<option value="0">JNO</option>
@@ -343,7 +350,7 @@
 			name="filter_numerics"
 			type="radio"
 			label="COM_FINDER_CONFIG_FILTER_NUMERICS_LABEL"
-			class="switcher"
+			layout="joomla.form.field.radio.switcher"
 			default="0"
 			>
 			<option value="0">JNO</option>

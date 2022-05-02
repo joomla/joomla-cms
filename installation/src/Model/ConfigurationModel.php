@@ -3,18 +3,23 @@
  * @package     Joomla.Installation
  * @subpackage  Model
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2009 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Installation\Model;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Installation\Helper\DatabaseHelper;
+use Joomla\CMS\Installer\Installer;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\User\UserHelper;
+use Joomla\CMS\Version;
+use Joomla\Database\DatabaseDriver;
+use Joomla\Filesystem\File;
+use Joomla\Filesystem\Folder;
 use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
 
@@ -25,6 +30,14 @@ use Joomla\Utilities\ArrayHelper;
  */
 class ConfigurationModel extends BaseInstallationModel
 {
+	/**
+	 * The generated user ID.
+	 *
+	 * @var    integer
+	 * @since  4.0.0
+	 */
+	protected static $userId = 0;
+
 	/**
 	 * Method to setup the configuration file
 	 *
@@ -39,59 +52,329 @@ class ConfigurationModel extends BaseInstallationModel
 		// Get the options as an object for easier handling.
 		$options = ArrayHelper::toObject($options);
 
+		// Get a database object.
+		try
+		{
+			$db = DatabaseHelper::getDbo(
+				$options->db_type,
+				$options->db_host,
+				$options->db_user,
+				$options->db_pass_plain,
+				$options->db_name,
+				$options->db_prefix,
+				true,
+				DatabaseHelper::getEncryptionSettings($options)
+			);
+		}
+		catch (\RuntimeException $e)
+		{
+			Factory::getApplication()->enqueueMessage(Text::sprintf('INSTL_ERROR_CONNECT_DB', $e->getMessage()), 'error');
+
+			return false;
+		}
+
 		// Attempt to create the configuration.
 		if (!$this->createConfiguration($options))
 		{
 			return false;
 		}
 
-		// Do the database init/fill
-		$databaseModel = new DatabaseModel;
+		$serverType = $db->getServerType();
 
-		// Create Db
-		if (!$databaseModel->createDatabase($options))
+		// Attempt to update the table #__schema.
+		$pathPart = JPATH_ADMINISTRATOR . '/components/com_admin/sql/updates/' . $serverType . '/';
+
+		$files = Folder::files($pathPart, '\.sql$');
+
+		if (empty($files))
 		{
-			$this->deleteConfiguration();
+			Factory::getApplication()->enqueueMessage(Text::_('INSTL_ERROR_INITIALISE_SCHEMA'), 'error');
 
 			return false;
 		}
 
-		$options->db_select = true;
-		$options->db_created = 1;
+		$version = '';
 
-		// Handle old db if exists
-		if (!$databaseModel->handleOldDatabase())
+		foreach ($files as $file)
 		{
-			$this->deleteConfiguration();
+			if (version_compare($version, File::stripExt($file)) < 0)
+			{
+				$version = File::stripExt($file);
+			}
+		}
+
+		$query = $db->getQuery(true)
+			->select('extension_id')
+			->from($db->quoteName('#__extensions'))
+			->where($db->quoteName('name') . ' = ' . $db->quote('files_joomla'));
+		$db->setQuery($query);
+		$eid = $db->loadResult();
+
+		$query->clear()
+			->insert($db->quoteName('#__schemas'))
+			->columns(
+				array(
+					$db->quoteName('extension_id'),
+					$db->quoteName('version_id')
+				)
+			)
+			->values($eid . ', ' . $db->quote($version));
+		$db->setQuery($query);
+
+		try
+		{
+			$db->execute();
+		}
+		catch (\RuntimeException $e)
+		{
+			Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
 
 			return false;
 		}
 
-		// Create tables
-		if (!$databaseModel->createTables($options))
-		{
-			$this->deleteConfiguration();
+		// Attempt to refresh manifest caches.
+		$query->clear()
+			->select('*')
+			->from('#__extensions');
+		$db->setQuery($query);
 
-			return false;
+		$return = true;
+
+		try
+		{
+			$extensions = $db->loadObjectList();
+		}
+		catch (\RuntimeException $e)
+		{
+			Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+			$return = false;
+		}
+
+		Factory::$database = $db;
+		$installer = Installer::getInstance();
+
+		foreach ($extensions as $extension)
+		{
+			if (!$installer->refreshManifestCache($extension->extension_id))
+			{
+				Factory::getApplication()->enqueueMessage(
+					Text::sprintf('INSTL_DATABASE_COULD_NOT_REFRESH_MANIFEST_CACHE', $extension->name),
+					'error'
+				);
+
+				return false;
+			}
+		}
+
+		// Handle default backend language setting. This feature is available for localized versions of Joomla.
+		$languages = Factory::getApplication()->getLocaliseAdmin($db);
+
+		if (in_array($options->language, $languages['admin']) || in_array($options->language, $languages['site']))
+		{
+			// Build the language parameters for the language manager.
+			$params = array();
+
+			// Set default administrator/site language to sample data values.
+			$params['administrator'] = 'en-GB';
+			$params['site']          = 'en-GB';
+
+			if (in_array($options->language, $languages['admin']))
+			{
+				$params['administrator'] = $options->language;
+			}
+
+			if (in_array($options->language, $languages['site']))
+			{
+				$params['site'] = $options->language;
+			}
+
+			$params = json_encode($params);
+
+			// Update the language settings in the language manager.
+			$query->clear()
+				->update($db->quoteName('#__extensions'))
+				->set($db->quoteName('params') . ' = ' . $db->quote($params))
+				->where($db->quoteName('element') . ' = ' . $db->quote('com_languages'));
+			$db->setQuery($query);
+
+			try
+			{
+				$db->execute();
+			}
+			catch (\RuntimeException $e)
+			{
+				Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+
+				$return = false;
+			}
 		}
 
 		// Attempt to create the root user.
-		if (!$this->createRootUser($options))
+		if (!$this->createRootUser($options, $db))
 		{
 			$this->deleteConfiguration();
 
 			return false;
 		}
 
-		// Install CMS data
-		if (!$databaseModel->installCmsData())
-		{
-			$this->deleteConfiguration();
+		// Update the cms data user ids.
+		$this->updateUserIds($db);
 
-			return false;
+		// Check for testing sampledata plugin.
+		$this->checkTestingSampledata($db);
+
+		return $return;
+	}
+
+	/**
+	 * Retrieves the default user ID and sets it if necessary.
+	 *
+	 * @return  integer  The user ID.
+	 *
+	 * @since   3.1
+	 */
+	public static function getUserId()
+	{
+		if (!self::$userId)
+		{
+			self::$userId = self::generateRandUserId();
 		}
 
-		return true;
+		return self::$userId;
+	}
+
+	/**
+	 * Generates the user ID.
+	 *
+	 * @return  integer  The user ID.
+	 *
+	 * @since   3.1
+	 */
+	protected static function generateRandUserId()
+	{
+		$session    = Factory::getSession();
+		$randUserId = $session->get('randUserId');
+
+		if (empty($randUserId))
+		{
+			// Create the ID for the root user only once and store in session.
+			$randUserId = mt_rand(1, 1000);
+			$session->set('randUserId', $randUserId);
+		}
+
+		return $randUserId;
+	}
+
+	/**
+	 * Resets the user ID.
+	 *
+	 * @return  void
+	 *
+	 * @since   3.1
+	 */
+	public static function resetRandUserId()
+	{
+		self::$userId = 0;
+
+		Factory::getSession()->set('randUserId', self::$userId);
+	}
+
+	/**
+	 * Method to update the user id of sql data content to the new rand user id.
+	 *
+	 * @param   DatabaseDriver  $db  Database connector object $db*.
+	 *
+	 * @return  void
+	 *
+	 * @since   3.6.1
+	 */
+	protected function updateUserIds($db)
+	{
+		// Create the ID for the root user.
+		$userId = self::getUserId();
+
+		// Update all core tables created_by fields of the tables with the random user id.
+		$updatesArray = array(
+			'#__banners'         => array('created_by', 'modified_by'),
+			'#__categories'      => array('created_user_id', 'modified_user_id'),
+			'#__contact_details' => array('created_by', 'modified_by'),
+			'#__content'         => array('created_by', 'modified_by'),
+			'#__fields'          => array('created_user_id', 'modified_by'),
+			'#__finder_filters'  => array('created_by', 'modified_by'),
+			'#__newsfeeds'       => array('created_by', 'modified_by'),
+			'#__tags'            => array('created_user_id', 'modified_user_id'),
+			'#__ucm_content'     => array('core_created_user_id', 'core_modified_user_id'),
+			'#__history'         => array('editor_user_id'),
+			'#__user_notes'      => array('created_user_id', 'modified_user_id'),
+			'#__workflows'       => array('created_by', 'modified_by'),
+		);
+
+		foreach ($updatesArray as $table => $fields)
+		{
+			foreach ($fields as $field)
+			{
+				$query = $db->getQuery(true)
+					->update($db->quoteName($table))
+					->set($db->quoteName($field) . ' = ' . $db->quote($userId))
+					->where($db->quoteName($field) . ' != 0')
+					->where($db->quoteName($field) . ' IS NOT NULL');
+
+				$db->setQuery($query);
+
+				try
+				{
+					$db->execute();
+				}
+				catch (\RuntimeException $e)
+				{
+					Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+				}
+			}
+		}
+	}
+
+	/**
+	 * Method to check for the testing sampledata plugin.
+	 *
+	 * @param   DatabaseDriver  $db  Database connector object $db*.
+	 *
+	 * @return  void
+	 *
+	 * @since   4.0.0
+	 */
+	public function checkTestingSampledata($db)
+	{
+		$version = new Version;
+
+		if (!$version->isInDevelopmentState() || !is_file(JPATH_PLUGINS . '/sampledata/testing/testing.php'))
+		{
+			return;
+		}
+
+		$testingPlugin = new \stdClass;
+		$testingPlugin->extension_id = null;
+		$testingPlugin->name = 'plg_sampledata_testing';
+		$testingPlugin->type = 'plugin';
+		$testingPlugin->element = 'testing';
+		$testingPlugin->folder = 'sampledata';
+		$testingPlugin->client_id = 0;
+		$testingPlugin->enabled = 1;
+		$testingPlugin->access = 1;
+		$testingPlugin->manifest_cache = '';
+		$testingPlugin->params = '{}';
+		$testingPlugin->custom_data = '';
+
+		$db->insertObject('#__extensions', $testingPlugin, 'extension_id');
+
+		$installer = new Installer;
+
+		if (!$installer->refreshManifestCache($testingPlugin->extension_id))
+		{
+			Factory::getApplication()->enqueueMessage(
+				Text::sprintf('INSTL_DATABASE_COULD_NOT_REFRESH_MANIFEST_CACHE', $testingPlugin->name),
+				'error'
+			);
+		}
 	}
 
 	/**
@@ -105,8 +388,6 @@ class ConfigurationModel extends BaseInstallationModel
 	 */
 	public function createConfiguration($options)
 	{
-		$saveFtp = isset($options->ftp_save) && $options->ftp_save;
-
 		// Create a new registry to build the configuration options.
 		$registry = new Registry;
 
@@ -133,26 +414,20 @@ class ConfigurationModel extends BaseInstallationModel
 		$registry->set('password', $options->db_pass_plain);
 		$registry->set('db', $options->db_name);
 		$registry->set('dbprefix', $options->db_prefix);
-		$registry->set('dbencryption', 0);
-		$registry->set('dbsslverifyservercert', false);
-		$registry->set('dbsslkey', '');
-		$registry->set('dbsslcert', '');
-		$registry->set('dbsslca', '');
-		$registry->set('dbsslcapath', '');
-		$registry->set('dbsslcipher', '');
+		$registry->set('dbencryption', $options->db_encryption);
+		$registry->set('dbsslverifyservercert', $options->db_sslverifyservercert);
+		$registry->set('dbsslkey', $options->db_sslkey);
+		$registry->set('dbsslcert', $options->db_sslcert);
+		$registry->set('dbsslca', $options->db_sslca);
+		$registry->set('dbsslcipher', $options->db_sslcipher);
 
 		// Server settings.
+		$registry->set('force_ssl', 0);
 		$registry->set('live_site', '');
 		$registry->set('secret', UserHelper::genRandomPassword(16));
 		$registry->set('gzip', false);
 		$registry->set('error_reporting', 'default');
 		$registry->set('helpurl', $options->helpurl);
-		$registry->set('ftp_host', $options->ftp_host ?? '');
-		$registry->set('ftp_port', isset($options->ftp_host) ? $options->ftp_port : '');
-		$registry->set('ftp_user', ($saveFtp && isset($options->ftp_user)) ? $options->ftp_user : '');
-		$registry->set('ftp_pass', ($saveFtp && isset($options->ftp_pass)) ? $options->ftp_pass : '');
-		$registry->set('ftp_root', ($saveFtp && isset($options->ftp_root)) ? $options->ftp_root : '');
-		$registry->set('ftp_enable', (isset($options->ftp_host) && null === $options->ftp_host) ? $options->ftp_enable : 0);
 
 		// Locale settings.
 		$registry->set('offset', 'UTC');
@@ -178,8 +453,6 @@ class ConfigurationModel extends BaseInstallationModel
 
 		// Meta settings.
 		$registry->set('MetaDesc', '');
-		$registry->set('MetaKeys', '');
-		$registry->set('MetaTitle', true);
 		$registry->set('MetaAuthor', true);
 		$registry->set('MetaVersion', false);
 		$registry->set('robots', '');
@@ -221,21 +494,11 @@ class ConfigurationModel extends BaseInstallationModel
 
 		/*
 		 * If the file exists but isn't writable OR if the file doesn't exist and the parent directory
-		 * is not writable we need to use FTP.
+		 * is not writable the user needs to fix this.
 		 */
-		$useFTP = false;
-
 		if ((file_exists($path) && !is_writable($path)) || (!file_exists($path) && !is_writable(dirname($path) . '/')))
 		{
 			return false;
-
-			// $useFTP = true;
-		}
-
-		// Enable/Disable override.
-		if (!isset($options->ftpEnable) || ($options->ftpEnable != 1))
-		{
-			$useFTP = false;
 		}
 
 		// Get the session
@@ -258,37 +521,19 @@ class ConfigurationModel extends BaseInstallationModel
 	/**
 	 * Method to create the root user for the site.
 	 *
-	 * @param   object  $options  The session options.
+	 * @param   object          $options  The session options.
+	 * @param   DatabaseDriver  $db       Database connector object $db*.
 	 *
 	 * @return  boolean  True on success.
 	 *
 	 * @since   3.1
 	 */
-	private function createRootUser($options)
+	private function createRootUser($options, $db)
 	{
-		// Get a database object.
-		try
-		{
-			$db = DatabaseHelper::getDbo(
-				$options->db_type,
-				$options->db_host,
-				$options->db_user,
-				$options->db_pass_plain,
-				$options->db_name,
-				$options->db_prefix
-			);
-		}
-		catch (\RuntimeException $e)
-		{
-			Factory::getApplication()->enqueueMessage(Text::sprintf('INSTL_ERROR_CONNECT_DB', $e->getMessage()), 'error');
-
-			return false;
-		}
-
 		$cryptpass = UserHelper::hashPassword($options->admin_password_plain);
 
 		// Take the admin user id - we'll need to leave this in the session for sample data install later on.
-		$userId = DatabaseModel::getUserId();
+		$userId = self::getUserId();
 
 		// Create the admin user.
 		date_default_timezone_set('UTC');
@@ -420,7 +665,7 @@ class ConfigurationModel extends BaseInstallationModel
 
 		if (file_exists($path))
 		{
-			unlink($path);
+			File::delete($path);
 		}
 	}
 }

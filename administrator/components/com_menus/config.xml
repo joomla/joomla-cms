@@ -5,6 +5,8 @@
 		label="COM_MENUS_PAGE_OPTIONS_LABEL"
 		>
 
+		<help key="Menus:_Options"/>
+
 		<field
 			name="page_title"
 			type="text"
@@ -15,7 +17,7 @@
 		<field
 			name="show_page_heading"
 			type="radio"
-			class="switcher"
+			layout="joomla.form.field.radio.switcher"
 			label="COM_MENUS_ITEM_FIELD_SHOW_PAGE_HEADING_LABEL"
 			default="0"
 			filter="integer"
@@ -36,7 +38,7 @@
 			name="pageclass_sfx"
 			type="text"
 			label="COM_MENUS_ITEM_FIELD_PAGE_CLASS_LABEL"
-			default=""
+			validate="CssIdentifier"
 		/>
 
 	</fieldset>

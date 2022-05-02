@@ -17,6 +17,7 @@
 			label="JGLOBAL_SORT_BY"
 			onchange="this.form.submit();"
 			default="name ASC"
+			validate="options"
 			>
 			<option value="">JGLOBAL_SORT_BY</option>
 			<option value="name ASC">JGRID_HEADING_LANGUAGE_ASC</option>
@@ -32,5 +33,5 @@
 			default="25"
 			onchange="this.form.submit();"
 		/>
-    </fields>
+	</fields>
 </form>

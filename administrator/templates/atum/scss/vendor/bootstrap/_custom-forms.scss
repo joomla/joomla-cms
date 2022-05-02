@@ -1,12 +1,20 @@
 // Custom Forms
 
 .custom-select {
+  @extend .form-select;
+}
+
+.form-select {
   max-width: $input-max-width;
-  
+  cursor: pointer;
+  background: $form-select-background;
+  background-color: $form-select-bg;
+  border: $input-border;
+
   [dir=rtl] & {
-    padding: $custom-select-padding-y $custom-select-padding-x $custom-select-padding-y ($custom-select-padding-x + $custom-select-indicator-padding);
-    background-position-x: 0%;
-    background-image: url(../images/select-bg-rtl.svg);
+    padding: $form-select-padding-y $form-select-padding-x $form-select-padding-y ($form-select-padding-x + $form-select-indicator-padding);
+    background: $form-select-background-rtl;
+    background-color: $form-select-bg;
   }
 
   &[multiple] {
@@ -14,41 +22,55 @@
     background-color: var(--white-offset);
 
     option {
+      padding: $form-select-multiple-padding-y $form-select-padding-x;
       background-color: var(--white-offset);
-      padding: $custom-select-multiple-padding-y $custom-select-padding-x;
+
       &:checked {
-        color: var(--atum-text-light);
-        background-color: var(--atum-bg-dark) !important;
+        color: var(--template-text-light);
+        background-color: var(--template-bg-dark) !important;
       }
     }
   }
 
-  &.custom-select-color-state {
+  &.form-select-success,
+  &.custom-select-success {
+    color: var(--success);
+    background-color: var(--success);
+    border-color: var(--success);
 
-    &.custom-select-success {
-      color: theme-color("success");
-      background-color: theme-color("success");
-      border-color: theme-color("sucess");
-
-      option {
-        color: $custom-select-color;
-        background-color: var(--white-offset);
-      }
-    }
-
-    &.custom-select-danger {
-      color: theme-color("danger");
-      background-color: theme-color("danger");
-      border-color: theme-color("danger");
-
-      option {
-        color: $custom-select-color;
-        background-color: var(--white-offset);
-      }
+    option {
+      color: $form-select-color;
+      background-color: var(--white-offset);
     }
   }
-  optgroup, option {
+
+  &.form-select-danger,
+  &.custom-select-danger {
+    color: var(--danger);
+    background-color: var(--danger);
+    border-color: var(--danger);
+
+    option {
+      color: $form-select-color;
+      background-color: var(--white-offset);
+    }
+  }
+
+  &:focus {
+    border-color: $focuscolor;
+    box-shadow: $focusshadow;
+  }
+
+  &:disabled {
+    cursor: default;
+    background: $gray-200;
+    border: 0;
+    box-shadow: none;
+  }
+
+  optgroup,
+  option {
+    color: var(--template-text-dark);
     background-color: $white;
-    color: var(--atum-text-dark);
   }
 }

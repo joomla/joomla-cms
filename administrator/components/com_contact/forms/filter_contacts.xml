@@ -15,9 +15,10 @@
 		<field
 			name="featured"
 			type="list"
-			label="JOPTION_SELECT_FEATURED"
+			label="JFEATURED"
 			onchange="this.form.submit();"
 			default=""
+			validate="options"
 			>
 			<option value="">JOPTION_SELECT_FEATURED</option>
 			<option value="0">JUNFEATURED</option>
@@ -27,7 +28,7 @@
 		<field
 			name="published"
 			type="status"
-			label="JOPTION_SELECT_PUBLISHED"
+			label="JSTATUS"
 			onchange="this.form.submit();"
 			>
 			<option value="">JOPTION_SELECT_PUBLISHED</option>
@@ -36,18 +37,19 @@
 		<field
 			name="category_id"
 			type="category"
-			label="JOPTION_SELECT_CATEGORY"
+			label="JCATEGORY"
+			multiple="true"
 			extension="com_contact"
-			published="0,1,2"
+			layout="joomla.form.field.list-fancy-select"
+			hint="JOPTION_SELECT_CATEGORY"
 			onchange="this.form.submit();"
-			>
-			<option value="">JOPTION_SELECT_CATEGORY</option>
-		</field>
+			published="0,1,2"
+		/>
 
 		<field
 			name="access"
 			type="accesslevel"
-			label="JOPTION_SELECT_ACCESS"
+			label="JGRID_HEADING_ACCESS"
 			onchange="this.form.submit();"
 			>
 			<option value="">JOPTION_SELECT_ACCESS</option>
@@ -56,7 +58,7 @@
 		<field
 			name="language"
 			type="contentlanguage"
-			label="JOPTION_SELECT_LANGUAGE"
+			label="JGRID_HEADING_LANGUAGE"
 			onchange="this.form.submit();"
 			>
 			<option value="">JOPTION_SELECT_LANGUAGE</option>
@@ -66,7 +68,7 @@
 		<field
 			name="tag"
 			type="tag"
-			label="JOPTION_SELECT_TAG"
+			label="JTAG"
 			multiple="true"
 			mode="nested"
 			custom="false"
@@ -77,7 +79,7 @@
 		<field
 			name="level"
 			type="integer"
-			label="JOPTION_SELECT_MAX_LEVELS"
+			label="JGLOBAL_MAXLEVEL_LABEL"
 			first="1"
 			last="10"
 			step="1"
@@ -96,14 +98,15 @@
 			label="JGLOBAL_SORT_BY"
 			default="a.name ASC"
 			onchange="this.form.submit();"
+			validate="options"
 			>
 			<option value="">JGLOBAL_SORT_BY</option>
 			<option value="a.ordering ASC">JGRID_HEADING_ORDERING_ASC</option>
 			<option value="a.ordering DESC">JGRID_HEADING_ORDERING_DESC</option>
-			<option value="a.published ASC">JSTATUS_ASC</option>
-			<option value="a.published DESC">JSTATUS_DESC</option>
 			<option value="a.featured ASC">JFEATURED_ASC</option>
 			<option value="a.featured DESC">JFEATURED_DESC</option>
+			<option value="a.published ASC">JSTATUS_ASC</option>
+			<option value="a.published DESC">JSTATUS_DESC</option>
 			<option value="a.name ASC">JGLOBAL_TITLE_ASC</option>
 			<option value="a.name DESC">JGLOBAL_TITLE_DESC</option>
 			<option value="category_title ASC">JCATEGORY_ASC</option>

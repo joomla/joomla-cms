@@ -3,21 +3,14 @@
  * @package     Joomla.Site
  * @subpackage  Layout
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2015 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('JPATH_BASE') or die;
+defined('_JEXEC') or die;
 
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
-
-/**
- * Layout variables
- * ---------------------
- *
- * none
- */
 
 ?>
 <label id="batch-access-lbl" for="batch-access">
@@ -26,9 +19,9 @@ use Joomla\CMS\Language\Text;
 	<?php echo HTMLHelper::_(
 		'access.assetgrouplist',
 		'batch[assetgroup_id]', '',
-		'class="custom-select"',
+		'class="form-select"',
 		array(
 			'title' => Text::_('JLIB_HTML_BATCH_NOCHANGE'),
 			'id'    => 'batch-access'
 		)
-	); ?>
+	);

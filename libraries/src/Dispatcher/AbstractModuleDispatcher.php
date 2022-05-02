@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2018 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -68,8 +68,18 @@ abstract class AbstractModuleDispatcher extends Dispatcher
 		// Execute the layout without the module context
 		$loader = static function (array $displayData)
 		{
-			extract($displayData);
-			require ModuleHelper::getLayoutPath($displayData['module']->module, $displayData['params']->get('layout', 'default'));
+			// If $displayData doesn't exist in extracted data, unset the variable.
+			if (!\array_key_exists('displayData', $displayData))
+			{
+				extract($displayData);
+				unset($displayData);
+			}
+			else
+			{
+				extract($displayData);
+			}
+
+			require ModuleHelper::getLayoutPath($module->module, $params->get('layout', 'default'));
 		};
 
 		$loader($displayData);
@@ -116,8 +126,8 @@ abstract class AbstractModuleDispatcher extends Dispatcher
 		if (!$langPaths || (!isset($langPaths[$coreLanguageDirectory]) && !isset($langPaths[$extensionLanguageDirectory])))
 		{
 			// 1.5 or Core then 1.6 3PD
-			$language->load($this->module->module, $coreLanguageDirectory, null, false, true) ||
-			$language->load($this->module->module, $extensionLanguageDirectory, null, false, true);
+			$language->load($this->module->module, $coreLanguageDirectory) ||
+			$language->load($this->module->module, $extensionLanguageDirectory);
 		}
 	}
 }

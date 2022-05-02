@@ -1,25 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
-<extension type="module" version="3.1" client="site" method="upgrade">
+<extension type="module" client="site" method="upgrade">
 	<name>mod_articles_category</name>
 	<author>Joomla! Project</author>
 	<creationDate>February 2010</creationDate>
-	<copyright>Copyright (C) 2005 - 2019 Open Source Matters. All rights reserved.</copyright>
+	<copyright>(C) 2010 Open Source Matters, Inc.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>3.0.0</version>
 	<description>MOD_ARTICLES_CATEGORY_XML_DESCRIPTION</description>
-	<namespace>Joomla\Module\ArticlesCategory</namespace>
+	<namespace path="src">Joomla\Module\ArticlesCategory</namespace>
 	<files>
 		<filename module="mod_articles_category">mod_articles_category.php</filename>
+		<folder>src</folder>
 		<folder>tmpl</folder>
-		<filename>helper.php</filename>
 	</files>
 	<languages>
-		<language tag="en-GB">en-GB.mod_articles_category.ini</language>
-		<language tag="en-GB">en-GB.mod_articles_category.sys.ini</language>
+		<language tag="en-GB">language/en-GB/mod_articles_category.ini</language>
+		<language tag="en-GB">language/en-GB/mod_articles_category.sys.ini</language>
 	</languages>
-	<help key="JHELP_EXTENSIONS_MODULE_MANAGER_ARTICLES_CATEGORY" />
+	<help key="Site_Modules:_Articles_-_Category" />
 	<config>
 		<fields name="params">
 			<fieldset name="basic">
@@ -29,6 +29,7 @@
 					label="MOD_ARTICLES_CATEGORY_FIELD_MODE_LABEL"
 					description="MOD_ARTICLES_CATEGORY_FIELD_MODE_DESC"
 					default="normal"
+					validate="options"
 					>
 					<option value="normal">MOD_ARTICLES_CATEGORY_OPTION_NORMAL_VALUE</option>
 					<option value="dynamic">MOD_ARTICLES_CATEGORY_OPTION_DYNAMIC_VALUE</option>
@@ -37,7 +38,7 @@
 				<field
 					name="show_on_article_page"
 					type="radio"
-					class="switcher"
+					layout="joomla.form.field.radio.switcher"
 					label="MOD_ARTICLES_CATEGORY_FIELD_SHOWONARTICLEPAGE_LABEL"
 					description="MOD_ARTICLES_CATEGORY_FIELD_SHOWONARTICLEPAGE_DESC"
 					default="1"
@@ -68,6 +69,7 @@
 					type="list"
 					label="MOD_ARTICLES_CATEGORY_FIELD_SHOWFEATURED_LABEL"
 					default="show"
+					validate="options"
 					>
 					<option value="show">JSHOW</option>
 					<option value="hide">JHIDE</option>
@@ -83,7 +85,7 @@
 				<field
 					name="category_filtering_type"
 					type="radio"
-					class="switcher"
+					layout="joomla.form.field.radio.switcher"
 					label="MOD_ARTICLES_CATEGORY_FIELD_CATFILTERINGTYPE_LABEL"
 					default="1"
 					filter="integer"
@@ -98,14 +100,15 @@
 					label="JCATEGORY"
 					extension="com_content"
 					multiple="true"
-					filter="int_array"
+					layout="joomla.form.field.list-fancy-select"
+					filter="intarray"
 					class="multipleCategories"
 				/>
 
 				<field
 					name="show_child_category_articles"
 					type="radio"
-					class="switcher"
+					layout="joomla.form.field.radio.switcher"
 					label="MOD_ARTICLES_CATEGORY_FIELD_SHOWCHILDCATEGORYARTICLES_LABEL"
 					default="0"
 					filter="integer"
@@ -135,7 +138,7 @@
 					label="JTAG"
 					mode="nested"
 					multiple="true"
-					filter="int_array"
+					filter="intarray"
 					class="multipleTags"
 				/>
 
@@ -148,7 +151,7 @@
 				<field
 					name="author_filtering_type"
 					type="radio"
-					class="switcher"
+					layout="joomla.form.field.radio.switcher"
 					label="MOD_ARTICLES_CATEGORY_FIELD_AUTHORFILTERING_LABEL"
 					default="1"
 					filter="integer"
@@ -162,7 +165,8 @@
 					type="author"
 					label="MOD_ARTICLES_CATEGORY_FIELD_AUTHOR_LABEL"
 					multiple="true"
-					filter="int_array"
+					layout="joomla.form.field.list-fancy-select"
+					filter="intarray"
 					class="multipleAuthors"
 				/>
 
@@ -175,7 +179,7 @@
 				<field
 					name="author_alias_filtering_type"
 					type="radio"
-					class="switcher"
+					layout="joomla.form.field.radio.switcher"
 					label="MOD_ARTICLES_CATEGORY_FIELD_AUTHORALIASFILTERING_LABEL"
 					default="1"
 					filter="integer"
@@ -189,6 +193,7 @@
 					type="sql"
 					label="MOD_ARTICLES_CATEGORY_FIELD_AUTHORALIAS_LABEL"
 					multiple="true"
+					layout="joomla.form.field.list-fancy-select"
 					query="select distinct(created_by_alias) from #__content where created_by_alias != '' order by created_by_alias ASC"
 					key_field="created_by_alias"
 					value_field="created_by_alias"
@@ -220,6 +225,7 @@
 					type="list"
 					label="MOD_ARTICLES_CATEGORY_FIELD_DATEFILTERING_LABEL"
 					default="off"
+					validate="options"
 					>
 					<option value="off">MOD_ARTICLES_CATEGORY_OPTION_OFF_VALUE</option>
 					<option value="range">MOD_ARTICLES_CATEGORY_OPTION_DATERANGE_VALUE</option>
@@ -232,6 +238,7 @@
 					label="MOD_ARTICLES_CATEGORY_FIELD_DATERANGEFIELD_LABEL"
 					default="a.created"
 					showon="date_filtering!:off"
+					validate="options"
 					>
 					<option value="a.created">MOD_ARTICLES_CATEGORY_OPTION_CREATED_VALUE</option>
 					<option value="a.modified">MOD_ARTICLES_CATEGORY_OPTION_MODIFIED_VALUE</option>
@@ -281,10 +288,11 @@
 					type="list"
 					label="MOD_ARTICLES_CATEGORY_FIELD_ARTICLEORDERING_LABEL"
 					default="a.title"
+					validate="options"
 					>
 					<option value="a.ordering">MOD_ARTICLES_CATEGORY_OPTION_ORDERING_VALUE</option>
 					<option value="fp.ordering">MOD_ARTICLES_CATEGORY_OPTION_ORDERINGFEATURED_VALUE</option>
-					<option value="a.hits">MOD_ARTICLES_CATEGORY_OPTION_HITS_VALUE</option>
+					<option value="a.hits" requires="hits">MOD_ARTICLES_CATEGORY_OPTION_HITS_VALUE</option>
 					<option value="a.title">JGLOBAL_TITLE</option>
 					<option value="a.id">MOD_ARTICLES_CATEGORY_OPTION_ID_VALUE</option>
 					<option value="a.alias">JFIELD_ALIAS_LABEL</option>
@@ -302,6 +310,7 @@
 					type="list"
 					label="MOD_ARTICLES_CATEGORY_FIELD_ARTICLEORDERINGDIR_LABEL"
 					default="ASC"
+					validate="options"
 					>
 					<option value="DESC">MOD_ARTICLES_CATEGORY_OPTION_DESCENDING_VALUE</option>
 					<option value="ASC">MOD_ARTICLES_CATEGORY_OPTION_ASCENDING_VALUE</option>
@@ -318,6 +327,7 @@
 					type="list"
 					label="MOD_ARTICLES_CATEGORY_FIELD_ARTICLEGROUPING_LABEL"
 					default="none"
+					validate="options"
 					>
 					<option value="none">JNONE</option>
 					<option value="year">MOD_ARTICLES_CATEGORY_OPTION_YEAR_VALUE</option>
@@ -334,6 +344,7 @@
 					description="MOD_ARTICLES_CATEGORY_FIELD_DATEGROUPINGFIELD_DESC"
 					default="created"
 					showon="article_grouping:year,month_year"
+					validate="options"
 					>
 					<option value="created">MOD_ARTICLES_CATEGORY_OPTION_CREATED_VALUE</option>
 					<option value="modified">MOD_ARTICLES_CATEGORY_OPTION_MODIFIED_VALUE</option>
@@ -355,6 +366,7 @@
 					label="MOD_ARTICLES_CATEGORY_FIELD_ARTICLEGROUPINGDIR_LABEL"
 					default="ksort"
 					showon="article_grouping!:none"
+					validate="options"
 					>
 					<option value="krsort">MOD_ARTICLES_CATEGORY_OPTION_DESCENDING_VALUE</option>
 					<option value="ksort">MOD_ARTICLES_CATEGORY_OPTION_ASCENDING_VALUE</option>
@@ -370,7 +382,7 @@
 				<field
 					name="link_titles"
 					type="radio"
-					class="switcher"
+					layout="joomla.form.field.radio.switcher"
 					label="MOD_ARTICLES_CATEGORY_FIELD_LINKTITLES_LABEL"
 					default="1"
 					filter="integer"
@@ -382,7 +394,7 @@
 				<field
 					name="show_date"
 					type="radio"
-					class="switcher"
+					layout="joomla.form.field.radio.switcher"
 					label="JDATE"
 					default="0"
 					filter="integer"
@@ -397,6 +409,7 @@
 					label="MOD_ARTICLES_CATEGORY_FIELD_DATEFIELD_LABEL"
 					default="created"
 					showon="show_date:1"
+					validate="options"
 					>
 					<option value="created">MOD_ARTICLES_CATEGORY_OPTION_CREATED_VALUE</option>
 					<option value="modified">MOD_ARTICLES_CATEGORY_OPTION_MODIFIED_VALUE</option>
@@ -415,7 +428,7 @@
 				<field
 					name="show_category"
 					type="radio"
-					class="switcher"
+					layout="joomla.form.field.radio.switcher"
 					label="JCATEGORY"
 					default="0"
 					filter="integer"
@@ -427,7 +440,7 @@
 				<field
 					name="show_hits"
 					type="radio"
-					class="switcher"
+					layout="joomla.form.field.radio.switcher"
 					label="MOD_ARTICLES_CATEGORY_FIELD_SHOWHITS_LABEL"
 					default="0"
 					filter="integer"
@@ -439,7 +452,7 @@
 				<field
 					name="show_author"
 					type="radio"
-					class="switcher"
+					layout="joomla.form.field.radio.switcher"
 					label="JAUTHOR"
 					default="0"
 					filter="integer"
@@ -451,7 +464,7 @@
 				<field
 					name="show_tags"
 					type="radio"
-					class="switcher"
+					layout="joomla.form.field.radio.switcher"
 					label="JTAG"
 					default="0"
 					filter="integer"
@@ -463,7 +476,7 @@
 				<field
 					name="show_introtext"
 					type="radio"
-					class="switcher"
+					layout="joomla.form.field.radio.switcher"
 					label="MOD_ARTICLES_CATEGORY_FIELD_SHOWINTROTEXT_LABEL"
 					default="0"
 					filter="integer"
@@ -484,7 +497,7 @@
 				<field
 					name="show_readmore"
 					type="radio"
-					class="switcher"
+					layout="joomla.form.field.radio.switcher"
 					label="JGLOBAL_SHOW_READMORE_LABEL"
 					default="0"
 					filter="integer"
@@ -496,7 +509,7 @@
 				<field
 					name="show_readmore_title"
 					type="radio"
-					class="switcher"
+					layout="joomla.form.field.radio.switcher"
 					label="JGLOBAL_SHOW_READMORE_TITLE_LABEL"
 					default="1"
 					filter="integer"
@@ -523,7 +536,8 @@
 					name="layout"
 					type="modulelayout"
 					label="JFIELD_ALT_LAYOUT_LABEL"
-					class="custom-select"
+					class="form-select"
+					validate="moduleLayout"
 				/>
 
 				<field
@@ -531,6 +545,7 @@
 					type="textarea"
 					label="COM_MODULES_FIELD_MODULECLASS_SFX_LABEL"
 					rows="3"
+					validate="CssIdentifier"
 				/>
 
 				<field
@@ -539,6 +554,7 @@
 					label="COM_MODULES_FIELD_CACHING_LABEL"
 					default="1"
 					filter="integer"
+					validate="options"
 					>
 					<option value="1">JGLOBAL_USE_GLOBAL</option>
 					<option value="0">COM_MODULES_FIELD_VALUE_NOCACHING</option>

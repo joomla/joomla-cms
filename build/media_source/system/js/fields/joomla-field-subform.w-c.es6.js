@@ -1,9 +1,9 @@
 /**
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2019 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-(function (customElements) {
+((customElements) => {
   'use strict';
 
   const KEYCODE = {
@@ -11,41 +11,6 @@
     ESC: 27,
     ENTER: 13,
   };
-
-  // Find matchesFn with vendor prefix
-  let matchesFn = 'matches';
-  ['matches', 'msMatchesSelector'].some((fn) => {
-    if (typeof document.body[fn] === 'function') {
-      matchesFn = fn;
-      return true;
-    }
-    return false;
-  });
-
-  /**
-   * Helper to find a closest parent element
-   *
-   * @param {HTMLElement} element
-   * @param {String}      selector
-   *
-   * @returns {HTMLElement|null}
-   */
-  function closest(element, selector) {
-    let parent;
-
-    // Traverse parents
-    while (element) {
-      parent = element.parentElement;
-      if (parent && parent[matchesFn](selector)) {
-        return parent;
-      }
-
-      // eslint-disable-next-line no-param-reassign
-      element = parent;
-    }
-
-    return null;
-  }
 
   /**
    * Helper for testing whether a selection modifier is pressed
@@ -77,9 +42,9 @@
 
     set name(value) {
       // Update the template
-      this.template = this.template.replace(new RegExp(` name="${this.name.replace(/[\[\]]/g, '\\$&')}`, 'g'), ` name="${value}`);
+      this.template = this.template.replace(new RegExp(` name="${this.name.replace(/[[\]]/g, '\\$&')}`, 'g'), ` name="${value}`);
 
-      return this.setAttribute('name', value);
+      this.setAttribute('name', value);
     }
 
     constructor() {
@@ -94,12 +59,11 @@
         const allContainers = this.querySelectorAll(this.rowsContainer);
 
         // Find closest, and exclude nested
-        for (let i = 0, l = allContainers.length; i < l; i++) {
-          if (closest(allContainers[i], 'joomla-field-subform') === this) {
-            this.containerWithRows = allContainers[i];
-            break;
+        Array.from(allContainers).forEach((container) => {
+          if (container.closest('joomla-field-subform') === this) {
+            this.containerWithRows = container;
           }
-        }
+        });
       }
 
       // Keep track of row index, this is important to avoid a name duplication
@@ -115,25 +79,29 @@
       // Bind buttons
       if (this.buttonAdd || this.buttonRemove) {
         this.addEventListener('click', (event) => {
-          let btnAdd = null; let
-            btnRem = null;
+          let btnAdd = null;
+          let btnRem = null;
 
           if (that.buttonAdd) {
-            btnAdd = event.target[matchesFn](that.buttonAdd) ? event.target : closest(event.target, that.buttonAdd);
+            btnAdd = event.target.matches(that.buttonAdd)
+              ? event.target
+              : event.target.closest(that.buttonAdd);
           }
 
           if (that.buttonRemove) {
-            btnRem = event.target[matchesFn](that.buttonRemove) ? event.target : closest(event.target, that.buttonRemove);
+            btnRem = event.target.matches(that.buttonRemove)
+              ? event.target
+              : event.target.closest(that.buttonRemove);
           }
 
-          // Check actine, with extra check for nested joomla-field-subform
-          if (btnAdd && closest(btnAdd, 'joomla-field-subform') === that) {
-            let row = closest(btnAdd, that.repeatableElement);
-            row = closest(row, 'joomla-field-subform') === that ? row : null;
+          // Check active, with extra check for nested joomla-field-subform
+          if (btnAdd && btnAdd.closest('joomla-field-subform') === that) {
+            let row = btnAdd.closest(that.repeatableElement);
+            row = row && row.closest('joomla-field-subform') === that ? row : null;
             that.addRow(row);
             event.preventDefault();
-          } else if (btnRem && closest(btnRem, 'joomla-field-subform') === that) {
-            const row = closest(btnRem, that.repeatableElement);
+          } else if (btnRem && btnRem.closest('joomla-field-subform') === that) {
+            const row = btnRem.closest(that.repeatableElement);
             that.removeRow(row);
             event.preventDefault();
           }
@@ -141,12 +109,13 @@
 
         this.addEventListener('keydown', (event) => {
           if (event.keyCode !== KEYCODE.SPACE) return;
-          const isAdd = that.buttonAdd && event.target[matchesFn](that.buttonAdd);
-          const isRem = that.buttonRemove && event.target[matchesFn](that.buttonRemove);
+          const isAdd = that.buttonAdd && event.target.matches(that.buttonAdd);
+          const isRem = that.buttonRemove && event.target.matches(that.buttonRemove);
 
-          if ((isAdd || isRem) && closest(event.target, 'joomla-field-subform') === that) {
-            let row = closest(event.target, that.repeatableElement);
-            row = closest(row, 'joomla-field-subform') === that ? row : null;
+          if ((isAdd || isRem) && event.target.closest('joomla-field-subform') === that) {
+            let row = event.target.closest(that.repeatableElement);
+            row = row && row.closest('joomla-field-subform') === that ? row : null;
+
             if (isRem && row) {
               that.removeRow(row);
             } else if (isAdd) {
@@ -168,16 +137,15 @@
      * @returns {HTMLElement[]}
      */
     getRows() {
-      const rows = this.containerWithRows.children;
-      const matchesFn = document.body.msMatchesSelector ? 'msMatchesSelector' : 'matches';
+      const rows = Array.from(this.containerWithRows.children);
       const result = [];
 
       // Filter out the rows
-      for (let i = 0, l = rows.length; i < l; i++) {
-        if (rows[i][matchesFn](this.repeatableElement)) {
-          result.push(rows[i]);
+      rows.forEach((row) => {
+        if (row.matches(this.repeatableElement)) {
+          result.push(row);
         }
-      }
+      });
 
       return result;
     }
@@ -186,14 +154,14 @@
      * Prepare a row template
      */
     prepareTemplate() {
-      const tmplElement = [].slice.call(this.children).filter(el => el.classList.contains('subform-repeatable-template-section'));
+      const tmplElement = [].slice.call(this.children).filter((el) => el.classList.contains('subform-repeatable-template-section'));
 
       if (tmplElement[0]) {
         this.template = tmplElement[0].innerHTML;
       }
 
       if (!this.template) {
-        throw new Error('The row template are required to subform element to work');
+        throw new Error('The row template is required for the subform element to work');
       }
     }
 
@@ -203,7 +171,7 @@
      * @returns {HTMLElement}
      */
     addRow(after) {
-      // Count how much we already have
+      // Count how many we already have
       const count = this.getRows().length;
       if (count >= this.maximum) {
         return null;
@@ -226,7 +194,7 @@
         this.containerWithRows.append(row);
       }
 
-      // Add dragable attributes
+      // Add draggable attributes
       if (this.buttonMove) {
         row.setAttribute('draggable', 'false');
         row.setAttribute('aria-grabbed', 'false');
@@ -244,9 +212,10 @@
         bubbles: true,
       }));
 
-      if (window.Joomla) {
-        Joomla.Event.dispatch(row, 'joomla:updated');
-      }
+      row.dispatchEvent(new CustomEvent('joomla:updated', {
+        bubbles: true,
+        cancelable: true,
+      }));
 
       return row;
     }
@@ -268,24 +237,24 @@
         bubbles: true,
       }));
 
-      if (window.Joomla) {
-        Joomla.Event.dispatch(row, 'joomla:removed');
-      }
+      row.dispatchEvent(new CustomEvent('joomla:removed', {
+        bubbles: true,
+        cancelable: true,
+      }));
 
       row.parentNode.removeChild(row);
     }
 
     /**
-     * Fix names ind id`s for field that in the row
+     * Fix name and id for fields that are in the row
      * @param {HTMLElement} row
      * @param {Number} count
      */
     fixUniqueAttributes(row, count) {
-      count = count || 0;
-
+      const countTmp = count || 0;
       const group = row.getAttribute('data-group'); // current group name
       const basename = row.getAttribute('data-base-name');
-      const countnew = Math.max(this.lastRowIndex, count);
+      const countnew = Math.max(this.lastRowIndex, countTmp);
       const groupnew = basename + countnew; // new group name
 
       this.lastRowIndex = countnew + 1;
@@ -296,19 +265,26 @@
       const ids = {}; // Collect id for fix checkboxes and radio
 
       // Filter out nested
-      haveName = [].slice.call(haveName).filter(el => closest(el, 'joomla-field-subform') === this);
+      haveName = [].slice.call(haveName).filter((el) => {
+        if (el.nodeName === 'JOOMLA-FIELD-SUBFORM') {
+          // Skip self in .closest() call
+          return el.parentElement.closest('joomla-field-subform') === this;
+        }
 
-      for (let i = 0, l = haveName.length; i < l; i++) {
-        const $el = haveName[i];
+        return el.closest('joomla-field-subform') === this;
+      });
+
+      haveName.forEach((elem) => {
+        const $el = elem;
         const name = $el.getAttribute('name');
+        const aria = $el.getAttribute('aria-describedby');
         const id = name
           .replace(/(\[\]$)/g, '')
           .replace(/(\]\[)/g, '__')
           .replace(/\[/g, '_')
-          .replace(/\]/g, '')
-          .replace(/\W/g, '_'); // id from name
+          .replace(/\]/g, ''); // id from name
         const nameNew = name.replace(`[${group}][`, `[${groupnew}][`); // New name
-        let idNew = id.replace(group, groupnew); // Count new id
+        let idNew = id.replace(group, groupnew).replace(/\W/g, '_'); // Count new id
         let countMulti = 0; // count for multiple radio/checkboxes
         let forOldAttr = id; // Fix "for" in the labels
 
@@ -317,8 +293,7 @@
           countMulti = ids[id] ? ids[id].length : 0;
           if (!countMulti) {
             // Set the id for fieldset and group label
-            const fieldset = closest($el, 'fieldset.checkboxes');
-
+            const fieldset = $el.closest('fieldset.checkboxes');
 
             const elLbl = row.querySelector(`label[for="${id}"]`);
 
@@ -338,8 +313,7 @@
           countMulti = ids[id] ? ids[id].length : 0;
           if (!countMulti) {
             // Set the id for fieldset and group label
-            const fieldset = closest($el, 'fieldset.radio');
-
+            const fieldset = $el.closest('fieldset.radio');
 
             const elLbl = row.querySelector(`label[for="${id}"]`);
 
@@ -369,13 +343,17 @@
           $el.id = idNew;
         }
 
-        // Guess there a label for this input
+        if (aria) {
+          $el.setAttribute('aria-describedby', `${nameNew}-desc`);
+        }
+
+        // Check if there is a label for this input
         const lbl = row.querySelector(`label[for="${forOldAttr}"]`);
         if (lbl) {
           lbl.setAttribute('for', idNew);
           lbl.setAttribute('id', `${idNew}-lbl`);
         }
-      }
+      });
     }
 
     /**
@@ -388,23 +366,22 @@
       let item = null; // Storing the selected item
       let touched = false; // We have a touch events
 
-      // Find all existing rows and add dragable attributes
-      const rows = this.getRows();
-      for (let ir = 0, lr = rows.length; ir < lr; ir++) {
-        const childRow = rows[ir];
+      // Find all existing rows and add draggable attributes
+      const rows = Array.from(this.getRows());
 
-        childRow.setAttribute('draggable', 'false');
-        childRow.setAttribute('aria-grabbed', 'false');
-        childRow.setAttribute('tabindex', '0');
-      }
+      rows.forEach((row) => {
+        row.setAttribute('draggable', 'false');
+        row.setAttribute('aria-grabbed', 'false');
+        row.setAttribute('tabindex', '0');
+      });
 
       // Helper method to test whether Handler was clicked
       function getMoveHandler(element) {
         return !element.form // This need to test whether the element is :input
-        && element[matchesFn](that.buttonMove) ? element : closest(element, that.buttonMove);
+        && element.matches(that.buttonMove) ? element : element.closest(that.buttonMove);
       }
 
-      // Helper method to mover row to selected position
+      // Helper method to move row to selected position
       function switchRowPositions(src, dest) {
         let isRowBefore = false;
         if (src.parentNode === dest.parentNode) {
@@ -423,19 +400,24 @@
         }
       }
 
-      // Touch interaction:
-      // - a touch of "move button" mark a row dragable / "selected", or deselect previous selected
-      // - a touch of "move button" in the destination row will move a selected row to a new position
+      /**
+       *  Touch interaction:
+       *
+       *  - a touch of "move button" marks a row draggable / "selected",
+       *     or deselect previous selected
+       *
+       *  - a touch of "move button" in the destination row will move
+       *     a selected row to a new position
+       */
       this.addEventListener('touchstart', (event) => {
         touched = true;
 
         // Check for .move button
         const handler = getMoveHandler(event.target);
 
+        const row = handler ? handler.closest(that.repeatableElement) : null;
 
-        const row = handler ? closest(handler, that.repeatableElement) : null;
-
-        if (!row || closest(row, 'joomla-field-subform') !== that) {
+        if (!row || row.closest('joomla-field-subform') !== that) {
           return;
         }
 
@@ -444,9 +426,7 @@
           row.setAttribute('draggable', 'true');
           row.setAttribute('aria-grabbed', 'true');
           item = row;
-        }
-        // Second selection
-        else {
+        } else { // Second selection
           // Move to selected position
           if (row !== item) {
             switchRowPositions(item, row);
@@ -463,16 +443,15 @@
       // Mouse interaction
       // - mouse down, enable "draggable" and allow to drag the row,
       // - mouse up, disable "draggable"
-      this.addEventListener('mousedown', (event) => {
+      this.addEventListener('mousedown', ({ target }) => {
         if (touched) return;
 
         // Check for .move button
-        const handler = getMoveHandler(event.target);
+        const handler = getMoveHandler(target);
 
+        const row = handler ? handler.closest(that.repeatableElement) : null;
 
-        const row = handler ? closest(handler, that.repeatableElement) : null;
-
-        if (!row || closest(row, 'joomla-field-subform') !== that) {
+        if (!row || row.closest('joomla-field-subform') !== that) {
           return;
         }
 
@@ -481,7 +460,7 @@
         item = row;
       });
 
-      this.addEventListener('mouseup', (event) => {
+      this.addEventListener('mouseup', () => {
         if (item && !touched) {
           item.setAttribute('draggable', 'false');
           item.setAttribute('aria-grabbed', 'false');
@@ -496,15 +475,17 @@
       // - "enter" to place selected row in to destination
       // - "esc" to cancel selection
       this.addEventListener('keydown', (event) => {
-        if ((event.keyCode !== KEYCODE.ESC && event.keyCode !== KEYCODE.SPACE && event.keyCode !== KEYCODE.ENTER)
-          || event.target.form || !event.target[matchesFn](that.repeatableElement)) {
+        if ((event.keyCode !== KEYCODE.ESC
+          && event.keyCode !== KEYCODE.SPACE
+          && event.keyCode !== KEYCODE.ENTER) || event.target.form
+          || !event.target.matches(that.repeatableElement)) {
           return;
         }
 
         const row = event.target;
 
         // Make sure we handle correct children
-        if (!row || closest(row, 'joomla-field-subform') !== that) {
+        if (!row || row.closest('joomla-field-subform') !== that) {
           return;
         }
 
@@ -515,9 +496,7 @@
             row.setAttribute('draggable', 'false');
             row.setAttribute('aria-grabbed', 'false');
             item = null;
-          }
-          // Select new
-          else {
+          } else { // Select new
             // If there was previously selected
             if (item) {
               item.setAttribute('draggable', 'false');
@@ -534,7 +513,6 @@
           // Prevent default to suppress any native actions
           event.preventDefault();
         }
-
 
         // Escape is the abort keystroke (for any target element)
         if (event.keyCode === KEYCODE.ESC && item) {
@@ -563,13 +541,13 @@
       });
 
       // dragstart event to initiate mouse dragging
-      this.addEventListener('dragstart', (event) => {
+      this.addEventListener('dragstart', ({ dataTransfer }) => {
         if (item) {
           // We going to move the row
-          event.dataTransfer.effectAllowed = 'move';
+          dataTransfer.effectAllowed = 'move';
 
           // This need to work in Firefox and IE10+
-          event.dataTransfer.setData('text', '');
+          dataTransfer.setData('text', '');
         }
       });
 
@@ -580,14 +558,17 @@
       });
 
       // Handle drag action, move element to hovered position
-      this.addEventListener('dragenter', (event) => {
+      this.addEventListener('dragenter', ({ target }) => {
         // Make sure the target in the correct container
-        if (!item || that.rowsContainer && closest(event.target, that.rowsContainer) !== that.containerWithRows) {
+        if (!item || (that.rowsContainer
+          && target.closest(that.rowsContainer) !== that.containerWithRows)) {
           return;
         }
 
         // Find a hovered row, and replace it
-        const row = event.target[matchesFn](that.repeatableElement) ? event.target : closest(event.target, that.repeatableElement);
+        const row = target.matches(that.repeatableElement)
+          ? target
+          : target.closest(that.repeatableElement);
         if (!row) return;
 
         switchRowPositions(item, row);
@@ -606,6 +587,4 @@
   }
 
   customElements.define('joomla-field-subform', JoomlaFieldSubform);
-
-
-}(customElements));
+})(customElements);

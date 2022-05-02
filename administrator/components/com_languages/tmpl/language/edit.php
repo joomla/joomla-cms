@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_languages
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2009 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -13,20 +13,22 @@ use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 
-HTMLHelper::_('behavior.formvalidator');
-HTMLHelper::_('behavior.keepalive');
+/** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
+$wa = $this->document->getWebAssetManager();
+$wa->useScript('keepalive')
+	->useScript('form.validate')
+	->useScript('com_languages.admin-language-edit-change-flag');
 
-HTMLHelper::_('script', 'com_languages/admin-language-edit-change-flag.js', ['version' => 'auto', 'relative' => true]);
 ?>
 
-<form action="<?php echo Route::_('index.php?option=com_languages&view=language&layout=edit&lang_id=' . (int) $this->item->lang_id); ?>" method="post" name="adminForm" id="language-form" class="form-validate">
+<h2><?php echo $this->form->getValue('title', null, Text::_('COM_LANGUAGES_LANGUAGE_NEW_LANGUAGE_TITLE')); ?></h2>
 
-	<h2 class="my-4 text-primary"><?php echo $this->form->getValue('title'); ?></h2>
+<form action="<?php echo Route::_('index.php?option=com_languages&view=language&layout=edit&lang_id=' . (int) $this->item->lang_id); ?>" method="post" name="adminForm" id="language-form" aria-label="<?php echo Text::_('COM_LANGUAGES_LANGUAGE_FORM_' . ((int) $this->item->lang_id === 0 ? 'NEW' : 'EDIT'), true); ?>" class="main-card form-validate">
 
-	<?php echo HTMLHelper::_('uitab.startTabSet', 'myTab', array('active' => 'details')); ?>
+	<?php echo HTMLHelper::_('uitab.startTabSet', 'myTab', ['active' => 'details', 'recall' => true, 'breakpoint' => 768]); ?>
 
 		<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'details', Text::_('JDETAILS')); ?>
-			<fieldset id="fieldset-details" class="options-grid-form">
+			<fieldset id="fieldset-details" class="options-form">
 				<legend><?php echo Text::_('JDETAILS'); ?></legend>
 				<div>
 				<?php echo $this->form->renderField('title'); ?>
@@ -58,7 +60,7 @@ HTMLHelper::_('script', 'com_languages/admin-language-edit-change-flag.js', ['ve
 		<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'metadata', Text::_('JGLOBAL_FIELDSET_OPTIONS')); ?>
 			<div class="row">
 				<div class="col-md-6 mb-3">
-					<fieldset id="fieldset-sitename" class="options-grid-form options-grid-form-full">
+					<fieldset id="fieldset-sitename" class="options-form">
 						<legend><?php echo Text::_('COM_LANGUAGES_FIELDSET_SITE_NAME_LABEL'); ?></legend>
 						<div>
 						<?php echo $this->form->renderFieldset('site_name'); ?>
@@ -66,7 +68,7 @@ HTMLHelper::_('script', 'com_languages/admin-language-edit-change-flag.js', ['ve
 					</fieldset>
 				</div>
 				<div class="col-md-6 mb-3">
-					<fieldset id="fieldset-metadata" class="options-grid-form options-grid-form-full">
+					<fieldset id="fieldset-metadata" class="options-form">
 						<legend><?php echo Text::_('JGLOBAL_FIELDSET_METADATA_OPTIONS'); ?></legend>
 						<div>
 						<?php echo $this->form->renderFieldset('metadata'); ?>

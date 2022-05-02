@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2005 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -60,7 +60,7 @@ class Cache
 			'locking'      => true,
 			'locktime'     => 15,
 			'checkTime'    => true,
-			'caching'      => ($app->get('caching') >= 1) ? true : false,
+			'caching'      => ($app->get('caching') >= 1),
 		);
 
 		// Overwrite default options with given options
@@ -122,7 +122,7 @@ class Cache
 			$fileName = $file->getFilename();
 
 			// Only load for php files.
-			if (!$file->isFile() || $file->getExtension() != 'php' || $fileName == 'CacheStorageHelper.php')
+			if (!$file->isFile() || $file->getExtension() !== 'php' || $fileName === 'CacheStorageHelper.php')
 			{
 				continue;
 			}
@@ -517,7 +517,7 @@ class Cache
 	/**
 	 * Perform workarounds on retrieved cached data
 	 *
-	 * @param   string  $data     Cached data
+	 * @param   array   $data     Cached data
 	 * @param   array   $options  Array of options
 	 *
 	 * @return  string  Body of cached data
@@ -595,18 +595,18 @@ class Cache
 	 * @param   string  $data     Cached data
 	 * @param   array   $options  Array of options
 	 *
-	 * @return  string  Data to be cached
+	 * @return  array  Data to be cached
 	 *
 	 * @since   1.7.0
 	 */
-	public static function setWorkarounds($data, $options = array())
+	public static function setWorkarounds($data, $options = [])
 	{
-		$loptions = array(
+		$loptions = [
 			'nopathway'  => 0,
 			'nohead'     => 0,
 			'nomodules'  => 0,
 			'modulemode' => 0,
-		);
+		];
 
 		if (isset($options['nopathway']))
 		{
@@ -638,13 +638,13 @@ class Cache
 
 			if (!\is_array($buffer1))
 			{
-				$buffer1 = array();
+				$buffer1 = [];
 			}
 
 			// Make sure the module buffer is an array.
 			if (!isset($buffer1['module']) || !\is_array($buffer1['module']))
 			{
-				$buffer1['module'] = array();
+				$buffer1['module'] = [];
 			}
 		}
 
@@ -665,7 +665,7 @@ class Cache
 					unset($options['headerbefore'][$un]);
 				}
 
-				$cached['head'] = array();
+				$cached['head'] = [];
 
 				// Only store what this module has added
 				foreach ($headnow as $now => $value)
@@ -680,7 +680,7 @@ class Cache
 						$newvalue = array_map('unserialize', $newvalue);
 
 						// Special treatment for script and style declarations.
-						if (($now == 'script' || $now == 'style') && \is_array($newvalue) && \is_array($options['headerbefore'][$now]))
+						if (($now === 'script' || $now === 'style') && \is_array($newvalue) && \is_array($options['headerbefore'][$now]))
 						{
 							foreach ($newvalue as $type => $currentScriptStr)
 							{
@@ -688,9 +688,13 @@ class Cache
 								{
 									$oldScriptStr = $options['headerbefore'][$now][strtolower($type)];
 
-									if ($oldScriptStr != $currentScriptStr)
+									// Save only the appended declaration.
+									if (\is_array($oldScriptStr) && \is_array($currentScriptStr))
 									{
-										// Save only the appended declaration.
+										$newvalue[strtolower($type)] = array_diff_key($currentScriptStr, $oldScriptStr);
+									}
+									else
+									{
 										$newvalue[strtolower($type)] = StringHelper::substr($currentScriptStr, StringHelper::strlen($oldScriptStr));
 									}
 								}
@@ -731,13 +735,13 @@ class Cache
 
 			if (!\is_array($buffer2))
 			{
-				$buffer2 = array();
+				$buffer2 = [];
 			}
 
 			// Make sure the module buffer is an array.
 			if (!isset($buffer2['module']) || !\is_array($buffer2['module']))
 			{
-				$buffer2['module'] = array();
+				$buffer2['module'] = [];
 			}
 
 			// Compare the second module buffer against the first buffer.
@@ -811,7 +815,7 @@ class Cache
 	public static function getPlatformPrefix()
 	{
 		// No prefix when Global Config is set to no platform specific prefix
-		if (!Factory::getApplication()->get('cache_platformprefix', '0'))
+		if (!Factory::getApplication()->get('cache_platformprefix', false))
 		{
 			return '';
 		}

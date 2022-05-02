@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2011 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -17,7 +17,7 @@ use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\Event\DispatcherAwareInterface;
 use Joomla\Event\DispatcherAwareTrait;
-use Joomla\Event\Event;
+use Joomla\Event\DispatcherInterface;
 use Joomla\Registry\Registry;
 
 /**
@@ -36,7 +36,7 @@ class Captcha implements DispatcherAwareInterface
 	 * @var	   CMSPlugin
 	 * @since  2.5
 	 */
-	private $_captcha;
+	private $captcha;
 
 	/**
 	 * Editor Plugin name
@@ -44,7 +44,7 @@ class Captcha implements DispatcherAwareInterface
 	 * @var    string
 	 * @since  2.5
 	 */
-	private $_name;
+	private $name;
 
 	/**
 	 * Array of instances of this class.
@@ -52,7 +52,7 @@ class Captcha implements DispatcherAwareInterface
 	 * @var	   Captcha[]
 	 * @since  2.5
 	 */
-	private static $_instances = array();
+	private static $instances = array();
 
 	/**
 	 * Class constructor.
@@ -65,8 +65,17 @@ class Captcha implements DispatcherAwareInterface
 	 */
 	public function __construct($captcha, $options)
 	{
-		$this->_name = $captcha;
-		$this->setDispatcher(Factory::getApplication()->getDispatcher());
+		$this->name = $captcha;
+
+		if (!empty($options['dispatcher']) && $options['dispatcher'] instanceof DispatcherInterface)
+		{
+			$this->setDispatcher($options['dispatcher']);
+		}
+		else
+		{
+			$this->setDispatcher(Factory::getApplication()->getDispatcher());
+		}
+
 		$this->_load($options);
 	}
 
@@ -86,12 +95,12 @@ class Captcha implements DispatcherAwareInterface
 	{
 		$signature = md5(serialize(array($captcha, $options)));
 
-		if (empty(self::$_instances[$signature]))
+		if (empty(self::$instances[$signature]))
 		{
-			self::$_instances[$signature] = new Captcha($captcha, $options);
+			self::$instances[$signature] = new Captcha($captcha, $options);
 		}
 
-		return self::$_instances[$signature];
+		return self::$instances[$signature];
 	}
 
 	/**
@@ -106,12 +115,9 @@ class Captcha implements DispatcherAwareInterface
 	 */
 	public function initialise($id)
 	{
-		$event = new Event(
-			'onInit',
-			['id' => $id]
-		);
+		$arg = ['id' => $id];
 
-		$this->getDispatcher()->dispatch('onInit', $event);
+		$this->update('onInit', $arg);
 
 		return true;
 	}
@@ -131,7 +137,7 @@ class Captcha implements DispatcherAwareInterface
 	public function display($name, $id, $class = '')
 	{
 		// Check if captcha is already loaded.
-		if ($this->_captcha === null)
+		if ($this->captcha === null)
 		{
 			return '';
 		}
@@ -142,19 +148,15 @@ class Captcha implements DispatcherAwareInterface
 			return '';
 		}
 
-		$event = new Event(
-			'onDisplay',
-			[
-				'name'  => $name,
-				'id'    => $id ?: $name,
-				'class' => $class,
-			]
-		);
+		$arg = [
+			'name'  => $name,
+			'id'    => $id ?: $name,
+			'class' => $class,
+		];
 
-		$result = $this->getDispatcher()->dispatch('onInit', $event);
+		$result = $this->update('onDisplay', $arg);
 
-		// TODO REFACTOR ME! This is Ye Olde Way of returning plugin results
-		return $result['result'][0];
+		return $result;
 	}
 
 	/**
@@ -170,20 +172,16 @@ class Captcha implements DispatcherAwareInterface
 	public function checkAnswer($code)
 	{
 		// Check if captcha is already loaded
-		if ($this->_captcha === null)
+		if ($this->captcha === null)
 		{
 			return false;
 		}
 
-		$event = new Event(
-			'onCheckAnswer',
-			['code'	=> $code]
-		);
+		$arg = ['code'	=> $code];
 
-		$result = $this->getDispatcher()->dispatch('onCheckAnswer', $event);
+		$result = $this->update('onCheckAnswer', $arg);
 
-		// TODO REFACTOR ME! This is Ye Olde Way of returning plugin results
-		return $result['result'][0];
+		return $result;
 	}
 
 	/**
@@ -197,23 +195,39 @@ class Captcha implements DispatcherAwareInterface
 	 */
 	public function setupField(\Joomla\CMS\Form\Field\CaptchaField $field, \SimpleXMLElement $element)
 	{
-		if ($this->_captcha === null)
+		if ($this->captcha === null)
 		{
 			return;
 		}
 
-		$event = new Event(
-			'onSetupField',
-			[
-				'field' => $field,
-				'element' => $element,
-			]
-		);
+		$arg = [
+			'field' => $field,
+			'element' => $element,
+		];
 
-		$result = $this->getDispatcher()->dispatch('onCheckAnswer', $event);
+		$result = $this->update('onSetupField', $arg);
 
-		// TODO REFACTOR ME! This is Ye Olde Way of returning plugin results
-		return $result['result'][0];
+		return $result;
+	}
+
+	/**
+	 * Method to call the captcha callback if it exist.
+	 *
+	 * @param   string  $name   Callback name
+	 * @param   array   &$args  Arguments
+	 *
+	 * @return  mixed
+	 *
+	 * @since   4.0.0
+	 */
+	private function update($name, &$args)
+	{
+		if (method_exists($this->captcha, $name))
+		{
+			return call_user_func_array(array($this->captcha, $name), array_values($args));
+		}
+
+		return null;
 	}
 
 	/**
@@ -229,7 +243,7 @@ class Captcha implements DispatcherAwareInterface
 	private function _load(array $options = array())
 	{
 		// Build the path to the needed captcha plugin
-		$name = InputFilter::getInstance()->clean($this->_name, 'cmd');
+		$name = InputFilter::getInstance()->clean($this->name, 'cmd');
 		$path = JPATH_PLUGINS . '/captcha/' . $name . '/' . $name . '.php';
 
 		if (!is_file($path))
@@ -241,7 +255,7 @@ class Captcha implements DispatcherAwareInterface
 		require_once $path;
 
 		// Get the plugin
-		$plugin = PluginHelper::getPlugin('captcha', $this->_name);
+		$plugin = PluginHelper::getPlugin('captcha', $this->name);
 
 		if (!$plugin)
 		{
@@ -256,8 +270,8 @@ class Captcha implements DispatcherAwareInterface
 		}
 
 		// Build captcha plugin classname
-		$name = 'PlgCaptcha' . $this->_name;
+		$name = 'PlgCaptcha' . $this->name;
 		$dispatcher     = $this->getDispatcher();
-		$this->_captcha = new $name($dispatcher, (array) $plugin, $options);
+		$this->captcha = new $name($dispatcher, (array) $plugin, $options);
 	}
 }

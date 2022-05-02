@@ -5,15 +5,13 @@
 			name="language"
 			type="installation.language"
 			label="INSTL_SELECT_LANGUAGE_TITLE"
-			id="language"
-			class="custom-select-sm required"
+			class="required"
 			default="en-GB"
 		/>
 		<field
 			name="site_name"
 			type="text"
 			label="INSTL_SITE_NAME_DESC"
-			id="site_name"
 			class="form-control"
 			required="true"
 		/>
@@ -21,7 +19,6 @@
 			name="admin_email"
 			type="email"
 			label="INSTL_ADMIN_EMAIL_DESC"
-			id="admin_email"
 			class="form-control"
 			validate="email"
 			required="true"
@@ -30,7 +27,6 @@
 			name="admin_user"
 			type="text"
 			label="INSTL_ADMIN_USER_DESC"
-			id="admin_user"
 			required="true"
 			class="form-control"
 			size="30"
@@ -39,7 +35,6 @@
 			name="admin_username"
 			type="text"
 			label="INSTL_ADMIN_USERNAME_DESC"
-			id="admin_username"
 			required="true"
 			validate="username"
 			class="form-control"
@@ -50,17 +45,19 @@
 			name="admin_password"
 			type="password"
 			label="INSTL_ADMIN_PASSWORD_DESC"
-			id="admin_password"
-			class="form-control"
+			description="INSTL_ADMIN_PASSWORD_LENGTH"
 			required="true"
 			autocomplete="new-password"
+			validate="password"
+			strengthmeter="true"
+			force="on"
+			filter="raw"
 		/>
 		<field
 			name="db_type"
 			type="databaseconnection"
 			label="INSTL_DATABASE_TYPE_DESC"
-			id="db_type"
-			class="custom-select"
+			class="form-select"
 			supported="mysql,mysqli,pgsql,postgresql"
 			required="true"
 			default="mysqli"
@@ -70,7 +67,6 @@
 			name="db_host"
 			type="text"
 			label="INSTL_DATABASE_HOST_DESC"
-			id="db_host"
 			class="form-control"
 			default="localhost"
 			required="true"
@@ -79,7 +75,6 @@
 			name="db_user"
 			type="text"
 			label="INSTL_DATABASE_USER_DESC"
-			id="db_user"
 			class="form-control"
 			required="true"
 		/>
@@ -87,7 +82,6 @@
 			name="db_pass"
 			type="password"
 			label="INSTL_DATABASE_PASSWORD_DESC"
-			id="db_pass"
 			class="form-control"
 			autocomplete="off"
 			filter="raw"
@@ -96,7 +90,6 @@
 			name="db_name"
 			type="text"
 			label="INSTL_DATABASE_NAME_DESC"
-			id="db_name"
 			class="form-control"
 			required="true"
 			default="joomla_db"
@@ -109,7 +102,6 @@
 			name="db_prefix"
 			type="installation.prefix"
 			label="INSTL_DATABASE_PREFIX_DESC"
-			id="db_prefix"
 			class="form-control"
 			required="true"
 			validate="prefix"
@@ -119,8 +111,68 @@
 		<field
 			name="db_old"
 			type="hidden"
-			id="db_old"
 			default="backup"
 		/>
+
+		<field
+			name="db_encryption"
+			type="list"
+			label="INSTL_DATABASE_ENCRYPTION_MODE_LABEL"
+			class="form-select"
+			required="true"
+			default="0"
+			filter="integer"
+			validate="options"
+			>
+			<option value="0">INSTL_DATABASE_ENCRYPTION_MODE_VALUE_NONE</option>
+			<option value="1">INSTL_DATABASE_ENCRYPTION_MODE_VALUE_ONE_WAY</option>
+			<option value="2">INSTL_DATABASE_ENCRYPTION_MODE_VALUE_TWO_WAY</option>
+		</field>
+
+		<field
+			name="db_sslkey"
+			type="text"
+			label="INSTL_DATABASE_ENCRYPTION_KEY_LABEL"
+			filter="path"
+			showon="db_encryption:2"
+		/>
+
+		<field
+			name="db_sslcert"
+			type="text"
+			label="INSTL_DATABASE_ENCRYPTION_CERT_LABEL"
+			filter="path"
+			showon="db_encryption:2"
+		/>
+
+		<field
+			name="db_sslverifyservercert"
+			type="radio"
+			label="INSTL_DATABASE_ENCRYPTION_VERIFY_SERVER_CERT_LABEL"
+			layout="joomla.form.field.radio.switcher"
+			default="0"
+			filter="boolean"
+			showon="db_encryption:1,2"
+			>
+			<option value="0">JNO</option>
+			<option value="1">JYES</option>
+		</field>
+
+		<field
+			name="db_sslca"
+			type="text"
+			label="INSTL_DATABASE_ENCRYPTION_CA_LABEL"
+			filter="path"
+			showon="db_encryption:1,2[AND]db_sslverifyservercert:1"
+		/>
+
+		<field
+			name="db_sslcipher"
+			type="text"
+			label="INSTL_DATABASE_ENCRYPTION_CIPHER_LABEL"
+			filter="string"
+			showon="db_type:mysql,mysqli[AND]db_encryption:2"
+		/>
+
 	</fieldset>
 </form>

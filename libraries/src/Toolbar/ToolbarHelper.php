@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2005 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -43,7 +43,14 @@ abstract class ToolbarHelper
 
 		$app = Factory::getApplication();
 		$app->JComponentTitle = $html;
-		Factory::getDocument()->setTitle(strip_tags($title) . ' - ' . $app->get('sitename') . ' - ' . Text::_('JADMINISTRATION'));
+		$title = strip_tags($title) . ' - ' . $app->get('sitename');
+
+		if ($app->isClient('administrator'))
+		{
+			$title .= ' - ' . Text::_('JADMINISTRATION');
+		}
+
+		Factory::getDocument()->setTitle($title);
 	}
 
 	/**
@@ -83,7 +90,7 @@ abstract class ToolbarHelper
 	 *
 	 * @param   string  $task        The task to perform (picked up by the switch($task) blocks).
 	 * @param   string  $icon        The image to display.
-	 * @param   string  $iconOver    The image to display when moused over.
+	 * @param   string  $iconOver    @deprecated 5.0
 	 * @param   string  $alt         The alt text for the icon image.
 	 * @param   bool    $listSelect  True if required to check that a standard list item is checked.
 	 * @param   string  $formId      The id of action form.
@@ -138,6 +145,12 @@ abstract class ToolbarHelper
 	 */
 	public static function help($ref, $com = false, $override = null, $component = null)
 	{
+		// Don't show a help button if neither $ref nor $override is given
+		if (!$ref && !$override)
+		{
+			return;
+		}
+
 		$bar = Toolbar::getInstance('toolbar');
 
 		// Add a help button.
@@ -160,7 +173,8 @@ abstract class ToolbarHelper
 		$bar = Toolbar::getInstance('toolbar');
 
 		// Add a back button.
-		$bar->appendButton('Link', 'back', $alt, $href);
+		$arrow  = Factory::getLanguage()->isRtl() ? 'arrow-right' : 'arrow-left';
+		$bar->appendButton('Link', $arrow, $alt, $href);
 	}
 
 	/**
@@ -479,47 +493,45 @@ abstract class ToolbarHelper
 		$bar = Toolbar::getInstance('toolbar');
 
 		// Add an apply button
-		$bar->appendButton('Standard', 'apply', $alt, $task, false);
+		$bar->apply($task, $alt);
 	}
 
 	/**
 	 * Writes a save button for a given option.
 	 * Save operation leads to a save and then close action.
 	 *
-	 * @param   string   $task   An override for the task.
-	 * @param   string   $alt    An override for the alt text.
-	 * @param   boolean  $group  True or false
+	 * @param   string   $task  An override for the task.
+	 * @param   string   $alt   An override for the alt text.
 	 *
 	 * @return  void
 	 *
 	 * @since   1.5
 	 */
-	public static function save($task = 'save', $alt = 'JTOOLBAR_SAVE', $group = false)
+	public static function save($task = 'save', $alt = 'JTOOLBAR_SAVE')
 	{
 		$bar = Toolbar::getInstance('toolbar');
 
 		// Add a save button.
-		$bar->appendButton('Standard', 'save', $alt, $task, false, $group);
+		$bar->save($task, $alt);
 	}
 
 	/**
 	 * Writes a save and create new button for a given option.
 	 * Save and create operation leads to a save and then add action.
 	 *
-	 * @param   string   $task   An override for the task.
-	 * @param   string   $alt    An override for the alt text.
-	 * @param   boolean  $group  True or false
+	 * @param   string   $task  An override for the task.
+	 * @param   string   $alt   An override for the alt text.
 	 *
 	 * @return  void
 	 *
 	 * @since   1.6
 	 */
-	public static function save2new($task = 'save2new', $alt = 'JTOOLBAR_SAVE_AND_NEW', $group = false)
+	public static function save2new($task = 'save2new', $alt = 'JTOOLBAR_SAVE_AND_NEW')
 	{
 		$bar = Toolbar::getInstance('toolbar');
 
 		// Add a save and create new button.
-		$bar->appendButton('Standard', 'save-new', $alt, $task, false, $group);
+		$bar->save2new($task, $alt);
 	}
 
 	/**
@@ -527,20 +539,19 @@ abstract class ToolbarHelper
 	 * Save as copy operation leads to a save after clearing the key,
 	 * then returns user to edit mode with new key.
 	 *
-	 * @param   string   $task   An override for the task.
-	 * @param   string   $alt    An override for the alt text.
-	 * @param   boolean  $group  True or false
+	 * @param   string   $task  An override for the task.
+	 * @param   string   $alt   An override for the alt text.
 	 *
 	 * @return  void
 	 *
 	 * @since   1.6
 	 */
-	public static function save2copy($task = 'save2copy', $alt = 'JTOOLBAR_SAVE_AS_COPY', $group = false)
+	public static function save2copy($task = 'save2copy', $alt = 'JTOOLBAR_SAVE_AS_COPY')
 	{
 		$bar = Toolbar::getInstance('toolbar');
 
 		// Add a save and create new button.
-		$bar->appendButton('Standard', 'save-copy', $alt, $task, false, $group);
+		$bar->save2copy($task, $alt);
 	}
 
 	/**
@@ -587,13 +598,13 @@ abstract class ToolbarHelper
 	 * @param   integer  $height     The height of the popup. [UNUSED]
 	 * @param   integer  $width      The width of the popup. [UNUSED]
 	 * @param   string   $alt        The name of the button.
-	 * @param   string   $path       An alternative path for the configuation xml relative to JPATH_SITE.
+	 * @param   string   $path       An alternative path for the configuration xml relative to JPATH_SITE.
 	 *
 	 * @return  void
 	 *
 	 * @since   1.5
 	 */
-	public static function preferences($component, $height = '550', $width = '875', $alt = 'JToolbar_Options', $path = '')
+	public static function preferences($component, $height = 550, $width = 875, $alt = 'JTOOLBAR_OPTIONS', $path = '')
 	{
 		$component = urlencode($component);
 		$path = urlencode($path);
@@ -638,9 +649,7 @@ abstract class ToolbarHelper
 		$options['title']     = Text::_($alt);
 		$options['height']    = $height;
 		$options['width']     = $width;
-		$options['itemId']    = $itemId;
-		$options['typeId']    = $typeId;
-		$options['typeAlias'] = $typeAlias;
+		$options['itemId']    = $typeAlias . '.' . $itemId;
 
 		$bar    = Toolbar::getInstance('toolbar');
 		$layout = new FileLayout('joomla.toolbar.versions');
@@ -696,17 +705,18 @@ abstract class ToolbarHelper
 	 * @param   string  $targetModalId  ID of the target modal box
 	 * @param   string  $icon           Icon class to show on modal button
 	 * @param   string  $alt            Title for the modal button
+	 * @param   string  $class          The button class
 	 *
 	 * @return  void
 	 *
 	 * @since   3.2
 	 */
-	public static function modal($targetModalId, $icon, $alt)
+	public static function modal($targetModalId, $icon, $alt, $class = 'btn-primary')
 	{
 		$title = Text::_($alt);
 
-		$dhtml = '<joomla-toolbar-button><button data-toggle="modal" data-target="#' . $targetModalId . '" class="btn btn-primary">
-			<span class="' . $icon . '" title="' . $title . '"></span> ' . $title . '</button></joomla-toolbar-button>';
+		$dhtml = '<joomla-toolbar-button><button data-bs-toggle="modal" data-bs-target="#' . $targetModalId . '" class="btn ' . $class . '">
+			<span class="' . $icon . ' icon-fw" title="' . $title . '"></span> ' . $title . '</button></joomla-toolbar-button>';
 
 		$bar = Toolbar::getInstance('toolbar');
 		$bar->appendButton('Custom', $dhtml, $alt);

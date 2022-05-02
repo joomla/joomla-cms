@@ -2,11 +2,21 @@
 
 .form-control {
   max-width: $input-max-width;
-  background-color: var(--white-offset);
+  background-color: $white;
+  border: $input-border;
+  border-radius: $border-radius;
+
+  &:focus {
+    border-color: $focuscolor;
+    box-shadow: $focusshadow;
+  }
 }
 
 .control-group {
-  margin-bottom: 18px;
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  margin: 0 0 1rem;
 
   > .form-check {
     display: inline-block;
@@ -19,46 +29,35 @@
   }
 
   .control-label {
-    float: left;
-    width: 220px;
-    padding-top: 5px;
-    padding-right: 5px;
-    text-align: left;
+    width: 240px;
+    padding: .3rem 1rem .3rem 0;
   }
 
   .controls {
-    margin-left: 220px;
+    position: relative;
+    flex: 1;
+    min-width: 210px;
+
+    + div {
+      width: 100%;
+      margin: 5px 0 10px;
+    }
+  }
+
+  .form-vertical & {
+    flex-direction: column;
   }
 }
 
-.control-group {
-  .switcher__legend {
-    font-size: $label-font-size;
-  }
-}
-
-.form-no-margin {
-
-  .control-group {
-
-    .controls {
-      margin-left: 0;
-      .switcher__legend {
-        float:none;
-        margin-left: 0;
-      }
-    }
-
-    .control-label {
-      float: none;
-    }
-  }
+.stack .control-label {
+  width: 100%;
 }
 
 .spacer {
   hr {
     width: 380px;
   }
+
   label {
     width: 440px;
   }
@@ -67,10 +66,6 @@
 td .form-control {
   display: inline-block;
   width: auto;
-}
-
-legend {
-  margin-bottom: 1.1rem;
 }
 
 .checkboxes {
@@ -93,48 +88,43 @@ legend {
 
 // Validation
 .invalid {
-  color: theme-color("danger");
-  border-color: theme-color("danger");
+  color: var(--danger);
+  border-color: var(--danger);
 }
 
 .valid {
-  border-color: theme-color("success");
+  border-color: var(--success);
 }
 
 .form-control-feedback {
   display: block;
 }
 
-[aria-grabbed='true'] {
-  box-shadow: 0 0 2px 1px theme-color("primary");
+[aria-grabbed="true"] {
+  box-shadow: $input-box-shadow;
 }
 
 .sortable-handler.inactive {
-  opacity: 0.3;
+  opacity: .3;
 }
 
-// Search Input Tooltip
-/* make the containers relative */
-.control-group > .controls {
-  position: relative;
-}
-
- /* set up hidden tooltip */
+// set up hidden tooltip
 [role="tooltip"]:not(.show) {
-  display: none;
-  padding: 0.25em;
-  margin: 0.25em;
-  color: $white;
-  background: $black;
-  max-width: 100%;
   z-index: $zindex-tooltip;
+  display: none;
+  padding: .5em;
+  margin: .25em;
+  color: $white;
+  text-align: start;
+  background: $black;
+  border-radius: .2rem !important;
 }
 
- /* reveal associated tooltip on focus */
+// reveal associated tooltip on focus
 :focus + [role="tooltip"],
 :hover + [role="tooltip"] {
-  display: block;
   position: absolute;
+  display: block;
 }
 
 [id="filter[search]-desc"] {
@@ -146,22 +136,59 @@ legend {
   bottom: auto;
 }
 
-.switcher__legend {
-  font-size: $label-font-size;
-  color: var(--atum-special-color);
-  margin-bottom: 0;
+.input-group > .form-control[readonly] {
+  margin-right: 1px;
 }
 
-[class^="icon-"]:not(.input-group-text),
-[class*=" icon-"]:not(.input-group-text) {
-  margin-right: 0.5em;
+.form-group {
+  @extend .mb-3;
+}
 
-  [dir=rtl] & {
-    margin-left: 0.5em;
-    margin-right: 0;
+// Subform - non table layout
+div.subform-repeatable-group {
+  position: relative;
+  padding: 32px 32px 16px 28px;
+  margin-top: 20px;
+  border: $input-border;
+  border-radius: $border-radius;
+
+  > .btn-toolbar {
+
+    .btn-group {
+      position: static;
+    }
+
+    .btn {
+      position: absolute;
+
+      &.group-add {
+        right: -1px;
+        bottom: -1px;
+        border-radius: $border-radius 0 $border-radius 0;
+      }
+      &.group-remove {
+        top: -1px;
+        right: -1px;
+        border-radius: 0 $border-radius 0 $border-radius;
+      }
+      &.group-move {
+        top: 50%;
+        right: 100%;
+        margin-top: -27px;
+        line-height: 52px;
+        border-radius: $border-radius 0 0 $border-radius;
+      }
+    }
   }
 }
 
-joomla-field-user [class*=" icon-"]:not(.input-group-text) {
-  margin-right: 0;
+// Highlight draggable section
+.subform-repeatable-group[draggable="true"] {
+  // For non table layout
+  background-color: $teal;
+
+  // For table layout
+  > td {
+    background-color: $teal;
+  }
 }

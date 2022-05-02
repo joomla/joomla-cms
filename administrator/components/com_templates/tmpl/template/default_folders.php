@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_templates
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2013 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -16,7 +16,7 @@ ksort($this->files, SORT_STRING);
 		<?php if (is_array($value)) : ?>
 			<li class="folder-select">
 				<a class="folder-url" data-id="<?php echo base64_encode($key); ?>" href="">
-					<span class="fa fa-folder fa-fw" aria-hidden="true"></span>
+					<span class="icon-folder icon-fw" aria-hidden="true"></span>
 					<?php $explodeArray = explode('/', $key); echo $this->escape(end($explodeArray)); ?>
 				</a>
 				<?php echo $this->folderTree($value); ?>

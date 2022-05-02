@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2009 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -11,18 +11,22 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Button\FeaturedButton;
 use Joomla\CMS\Button\PublishedButton;
+use Joomla\CMS\Button\TransitionButton;
+use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Associations;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Session\Session;
-use Joomla\Component\Content\Administrator\Extension\ContentComponent;
 use Joomla\Component\Content\Administrator\Helper\ContentHelper;
+use Joomla\Utilities\ArrayHelper;
 
 HTMLHelper::_('behavior.multiselect');
 
+$app       = Factory::getApplication();
 $user      = Factory::getUser();
 $userId    = $user->get('id');
 $listOrder = $this->escape($this->state->get('list.ordering'));
@@ -37,6 +41,10 @@ elseif (strpos($listOrder, 'publish_down') !== false)
 {
 	$orderingColumn = 'publish_down';
 }
+elseif (strpos($listOrder, 'modified') !== false)
+{
+	$orderingColumn = 'modified';
+}
 else
 {
 	$orderingColumn = 'created';
@@ -49,6 +57,13 @@ if ($saveOrder && !empty($this->items))
 	HTMLHelper::_('draggablelist.draggable');
 }
 
+$workflow_enabled  = ComponentHelper::getParams('com_content')->get('workflow_enabled');
+$workflow_state    = false;
+$workflow_featured = false;
+
+if ($workflow_enabled) :
+
+// @todo move the script to a file
 $js = <<<JS
 (function() {
 	document.addEventListener('DOMContentLoaded', function() {
@@ -63,10 +78,19 @@ $js = <<<JS
 })();
 JS;
 
-// @todo mode the script to a file
-$this->document->addScriptDeclaration($js);
+/** @var \Joomla\CMS\WebAsset\WebAssetManager $wa */
+$wa = $this->document->getWebAssetManager();
 
-HTMLHelper::_('script', 'com_content/admin-articles-workflow-buttons.js', ['relative' => true, 'version' => 'auto']);
+$wa->getRegistry()->addExtensionRegistryFile('com_workflow');
+$wa->useScript('com_workflow.admin-items-workflow-buttons')
+	->addInlineScript($js, [], ['type' => 'module']);
+
+$workflow_state    = Factory::getApplication()->bootComponent('com_content')->isFunctionalityUsed('core.state', 'com_content.article');
+$workflow_featured = Factory::getApplication()->bootComponent('com_content')->isFunctionalityUsed('core.featured', 'com_content.article');
+
+endif;
+
+$assoc = Associations::isEnabled();
 
 ?>
 
@@ -80,57 +104,71 @@ HTMLHelper::_('script', 'com_content/admin-articles-workflow-buttons.js', ['rela
 				?>
 				<?php if (empty($this->items)) : ?>
 					<div class="alert alert-info">
-						<span class="fa fa-info-circle" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('INFO'); ?></span>
+						<span class="icon-info-circle" aria-hidden="true"></span><span class="visually-hidden"><?php echo Text::_('INFO'); ?></span>
 						<?php echo Text::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
 					</div>
 				<?php else : ?>
-					<table class="table" id="articleList">
-						<caption id="captionTable" class="sr-only">
-							<?php echo Text::_('COM_CONTENT_FEATURED_TABLE_CAPTION'); ?>, <?php echo Text::_('JGLOBAL_SORTED_BY'); ?>
+					<table class="table itemList" id="articleList">
+						<caption class="visually-hidden">
+							<?php echo Text::_('COM_CONTENT_FEATURED_TABLE_CAPTION'); ?>,
+							<span id="orderedBy"><?php echo Text::_('JGLOBAL_SORTED_BY'); ?> </span>,
+							<span id="filteredBy"><?php echo Text::_('JGLOBAL_FILTERED_BY'); ?></span>
 						</caption>
 						<thead>
 							<tr>
-								<td style="width:1%" class="text-center">
+								<td class="w-1 text-center">
 									<?php echo HTMLHelper::_('grid.checkall'); ?>
 								</td>
-								<th scope="col" style="width:1%" class="text-center d-none d-md-table-cell">
-									<?php echo HTMLHelper::_('searchtools.sort', '', 'fp.ordering', $listDirn, $listOrder, null, 'asc', 'JGRID_HEADING_ORDERING', 'icon-menu-2'); ?>
+								<th scope="col" class="w-1 text-center d-none d-md-table-cell">
+									<?php echo HTMLHelper::_('searchtools.sort', '', 'fp.ordering', $listDirn, $listOrder, null, 'asc', 'JGRID_HEADING_ORDERING', 'icon-sort'); ?>
 								</th>
-								<th scope="col" style="width:1%" class="text-center">
+								<?php if ($workflow_enabled) : ?>
+									<th scope="col" class="w-1 text-center">
+										<?php echo HTMLHelper::_('searchtools.sort', 'JSTAGE', 'ws.title', $listDirn, $listOrder); ?>
+									</th>
+								<?php endif; ?>
+								<th scope="col" class="w-1 text-center d-none d-md-table-cell">
 									<?php echo Text::_('JFEATURED'); ?>
 								</th>
-								<th scope="col" style="width:1%; min-width:85px" class="text-center">
+								<th scope="col" class="w-1 text-center">
 									<?php echo HTMLHelper::_('searchtools.sort', 'JSTATUS', 'a.state', $listDirn, $listOrder); ?>
 								</th>
-								<th scope="col">
+								<th scope="col" style="min-width:100px">
 									<?php echo HTMLHelper::_('searchtools.sort', 'JGLOBAL_TITLE', 'a.title', $listDirn, $listOrder); ?>
 								</th>
-								<th scope="col" style="width:10%" class="d-none d-md-table-cell">
+								<th scope="col" class="w-10 d-none d-md-table-cell">
 									<?php echo HTMLHelper::_('searchtools.sort', 'JGRID_HEADING_ACCESS', 'a.access', $listDirn, $listOrder); ?>
 								</th>
-								<th scope="col" style="width:10%" class="d-none d-md-table-cell">
+								<th scope="col" class="w-10 d-none d-md-table-cell">
 									<?php echo HTMLHelper::_('searchtools.sort', 'JAUTHOR', 'a.created_by', $listDirn, $listOrder); ?>
 								</th>
+								<?php if ($assoc) : ?>
+									<th scope="col" class="w-5 d-none d-md-table-cell">
+										<?php echo HTMLHelper::_('searchtools.sort', 'COM_CONTENT_HEADING_ASSOCIATION', 'association', $listDirn, $listOrder); ?>
+									</th>
+								<?php endif; ?>
 								<?php if (Multilanguage::isEnabled()) : ?>
-									<th scope="col" style="width:10%" class="d-none d-md-table-cell">
+									<th scope="col" class="w-10 d-none d-md-table-cell">
 										<?php echo HTMLHelper::_('searchtools.sort', 'JGRID_HEADING_LANGUAGE', 'language', $listDirn, $listOrder); ?>
 									</th>
 								<?php endif; ?>
-								<th scope="col" style="width:10%" class="d-none d-md-table-cell text-center">
+								<th scope="col" class="w-10 d-none d-md-table-cell text-center">
 									<?php echo HTMLHelper::_('searchtools.sort', 'COM_CONTENT_HEADING_DATE_' . strtoupper($orderingColumn), 'a.' . $orderingColumn, $listDirn, $listOrder); ?>
 								</th>
-								<th scope="col" style="width:3%" class="d-none d-lg-table-cell text-center">
-									<?php echo HTMLHelper::_('searchtools.sort', 'JGLOBAL_HITS', 'a.hits', $listDirn, $listOrder); ?>
-								</th>
+								<?php if ($this->hits) : ?>
+									<th scope="col" class="w-3 d-none d-lg-table-cell text-center">
+										<?php echo HTMLHelper::_('searchtools.sort', 'JGLOBAL_HITS', 'a.hits', $listDirn, $listOrder); ?>
+									</th>
+								<?php endif; ?>
 								<?php if ($this->vote) : ?>
-									<th scope="col" style="width:3%" class="d-none d-md-table-cell text-center">
+									<th scope="col" class="w-3 d-none d-md-table-cell text-center">
 										<?php echo HTMLHelper::_('searchtools.sort', 'JGLOBAL_VOTES', 'rating_count', $listDirn, $listOrder); ?>
 									</th>
-									<th scope="col" style="width:3%" class="d-none d-md-table-cell text-center">
+									<th scope="col" class="w-3 d-none d-md-table-cell text-center">
 										<?php echo HTMLHelper::_('searchtools.sort', 'JGLOBAL_RATINGS', 'rating', $listDirn, $listOrder); ?>
 									</th>
 								<?php endif; ?>
-								<th scope="col" style="width:3%" class="d-none d-lg-table-cell">
+								<th scope="col" class="w-3 d-none d-lg-table-cell">
 									<?php echo HTMLHelper::_('searchtools.sort', 'JGRID_HEADING_ID', 'a.id', $listDirn, $listOrder); ?>
 								</th>
 							</tr>
@@ -141,50 +179,24 @@ HTMLHelper::_('script', 'com_content/admin-articles-workflow-buttons.js', ['rela
 							$item->max_ordering = 0;
 							$ordering         = ($listOrder == 'fp.ordering');
 							$assetId          = 'com_content.article.' . $item->id;
-							$canCreate        = $user->authorise('core.create', 'com_content.category.' . $item->catid);
-							$canEdit          = $user->authorise('core.edit', 'com_content.article.' . $item->id);
-							$canCheckin       = $user->authorise('core.manage', 'com_checkin') || $item->checked_out == $userId || $item->checked_out == 0;
+							$canCreate        = $user->authorise('core.create',     'com_content.category.' . $item->catid);
+							$canEdit          = $user->authorise('core.edit',       'com_content.article.' . $item->id);
+							$canCheckin       = $user->authorise('core.manage',     'com_checkin') || $item->checked_out == $userId || is_null($item->checked_out);
 							$canChange        = $user->authorise('core.edit.state', 'com_content.article.' . $item->id) && $canCheckin;
 							$canEditCat       = $user->authorise('core.edit',       'com_content.category.' . $item->catid);
 							$canEditOwnCat    = $user->authorise('core.edit.own',   'com_content.category.' . $item->catid) && $item->category_uid == $userId;
 							$canEditParCat    = $user->authorise('core.edit',       'com_content.category.' . $item->parent_category_id);
 							$canEditOwnParCat = $user->authorise('core.edit.own',   'com_content.category.' . $item->parent_category_id) && $item->parent_category_uid == $userId;
 
-							$transitions = ContentHelper::filterTransitions($this->transitions, $item->stage_id, $item->workflow_id);
+							$transitions = ContentHelper::filterTransitions($this->transitions, (int) $item->stage_id, (int) $item->workflow_id);
 
-							$publish = 0;
-							$unpublish = 0;
-							$archive = 0;
-							$trash = 0;
-
-							foreach ($transitions as $transition) :
-								switch ($transition['stage_condition']) :
-									case ContentComponent::CONDITION_PUBLISHED:
-										++$publish;
-										break;
-									case ContentComponent::CONDITION_UNPUBLISHED:
-										++$unpublish;
-										break;
-									case ContentComponent::CONDITION_ARCHIVED:
-										++$archive;
-										break;
-									case ContentComponent::CONDITION_TRASHED:
-										++$trash;
-										break;
-								endswitch;
-							endforeach;
+							$transition_ids = ArrayHelper::getColumn($transitions, 'value');
+							$transition_ids = ArrayHelper::toInteger($transition_ids);
 
 							?>
-							<tr class="row<?php echo $i % 2; ?>" data-dragable-group="<?php echo $item->catid; ?>"
-								data-condition-publish="<?php echo (int) ($publish > 0); ?>"
-								data-condition-unpublish="<?php echo (int) ($unpublish > 0); ?>"
-								data-condition-archive="<?php echo (int) ($archive > 0); ?>"
-								data-condition-trash="<?php echo (int) ($trash > 0); ?>"
-								data-workflow_id="<?php echo (int) $item->workflow_id; ?>"
-								data-stage_id="<?php echo (int) $item->stage_id; ?>"
-							>
+							<tr class="row<?php echo $i % 2; ?>" data-transitions="<?php echo implode(',', $transition_ids); ?>">
 								<td class="text-center">
-									<?php echo HTMLHelper::_('grid.id', $i, $item->id); ?>
+									<?php echo HTMLHelper::_('grid.id', $i, $item->id, false, 'cid', 'cb', $item->title); ?>
 								</td>
 								<td class="text-center d-none d-md-table-cell">
 									<?php
@@ -200,48 +212,50 @@ HTMLHelper::_('script', 'com_content/admin-articles-workflow-buttons.js', ['rela
 									}
 									?>
 									<span class="sortable-handler<?php echo $iconClass ?>">
-										<span class="fa fa-ellipsis-v" aria-hidden="true"></span>
+										<span class="icon-ellipsis-v" aria-hidden="true"></span>
 									</span>
 									<?php if ($canChange && $saveOrder) : ?>
 										<input type="text" name="order[]" size="5" value="<?php echo $item->ordering; ?>" class="width-20 text-area-order hidden">
 									<?php endif; ?>
 								</td>
-								<td class="text-center">
-									<?php
+								<?php if ($workflow_enabled) : ?>
+								<td class="article-stage text-center">
+								<?php
+								$options = [
+									'transitions' => $transitions,
+									'title' => Text::_($item->stage_title),
+									'tip_content' => Text::sprintf('JWORKFLOW', Text::_($item->workflow_title)),
+									'id' => 'workflow-' . $item->id,
+									'task' => 'articles.runTransitions'
+								];
 
-										$options = [
-											'disabled' => !$canChange
-										];
-
-										echo (new FeaturedButton)
-											->render($item->featured, $i, $options, $item->featured_up, $item->featured_down);
-									?>
+								echo (new TransitionButton($options))
+									->render(0, $i);
+								?>
 								</td>
-								<td class="article-status">
-									<div class="d-flex">
-										<div class="btn-group tbody-icon mr-1">
-										<?php
+								<?php endif; ?>
+								<td class="text-center d-none d-md-table-cell">
+								<?php
+									$options = [
+										'task_prefix' => 'articles.',
+										'disabled' => $workflow_featured || !$canChange,
+										'id' => 'featured-' . $item->id
+									];
 
-											$options = [
-												'transitions' => $transitions,
-												'stage' => Text::_($item->stage_title),
-												'id' => (int) $item->id
-											];
+									echo (new FeaturedButton)
+										->render((int) $item->featured, $i, $options, $item->featured_up, $item->featured_down);
+								?>
+								</td>
+								<td class="article-status text-center">
+								<?php
+									$options = [
+										'task_prefix' => 'articles.',
+										'disabled' => $workflow_state || !$canChange,
+										'id' => 'state-' . $item->id
+									];
 
-											echo (new PublishedButton)
-													->removeState(0)
-													->removeState(1)
-													->removeState(2)
-													->removeState(-2)
-													->addState(ContentComponent::CONDITION_PUBLISHED, '', 'publish', Text::_('COM_CONTENT_CHANGE_STAGE'), ['tip_title' => Text::_('JPUBLISHED')])
-													->addState(ContentComponent::CONDITION_UNPUBLISHED, '', 'unpublish', Text::_('COM_CONTENT_CHANGE_STAGE'), ['tip_title' => Text::_('JUNPUBLISHED')])
-													->addState(ContentComponent::CONDITION_ARCHIVED, '', 'archive', Text::_('COM_CONTENT_CHANGE_STAGE'), ['tip_title' => Text::_('JARCHIVED')])
-													->addState(ContentComponent::CONDITION_TRASHED, '', 'trash', Text::_('COM_CONTENT_CHANGE_STAGE'), ['tip_title' => Text::_('JTRASHED')])
-													->setLayout('joomla.button.transition-button')
-													->render($item->stage_condition, $i, $options, $item->publish_up, $item->publish_down);
-										?>
-										</div>
-									</div>
+									echo (new PublishedButton)->render((int) $item->state, $i, $options, $item->publish_up, $item->publish_down);
+								?>
 								</td>
 								<th scope="row" class="has-context">
 									<div class="break-word">
@@ -249,18 +263,18 @@ HTMLHelper::_('script', 'com_content/admin-articles-workflow-buttons.js', ['rela
 											<?php echo HTMLHelper::_('jgrid.checkedout', $i, $item->editor, $item->checked_out_time, 'articles.', $canCheckin); ?>
 										<?php endif; ?>
 										<?php if ($canEdit) : ?>
-											<a href="<?php echo Route::_('index.php?option=com_content&task=article.edit&return=featured&id=' . $item->id); ?>" title="<?php echo Text::_('JACTION_EDIT'); ?> <?php echo $this->escape(addslashes($item->title)); ?>">
+											<a href="<?php echo Route::_('index.php?option=com_content&task=article.edit&return=featured&id=' . $item->id); ?>" title="<?php echo Text::_('JACTION_EDIT'); ?> <?php echo $this->escape($item->title); ?>">
 												<?php echo $this->escape($item->title); ?></a>
 										<?php else : ?>
 											<span title="<?php echo Text::sprintf('JFIELD_ALIAS_LABEL', $this->escape($item->alias)); ?>"><?php echo $this->escape($item->title); ?></span>
 										<?php endif; ?>
-										<span class="small break-word">
+										<div class="small break-word">
 											<?php if (empty($item->note)) : ?>
 												<?php echo Text::sprintf('JGLOBAL_LIST_ALIAS', $this->escape($item->alias)); ?>
 											<?php else : ?>
 												<?php echo Text::sprintf('JGLOBAL_LIST_ALIAS_NOTE', $this->escape($item->alias), $this->escape($item->note)); ?>
 											<?php endif; ?>
-										</span>
+										</div>
 										<div class="small">
 											<?php
 											$ParentCatUrl = Route::_('index.php?option=com_categories&task=category.edit&id=' . $item->parent_category_id . '&extension=com_content');
@@ -331,6 +345,13 @@ HTMLHelper::_('script', 'com_content/admin-articles-workflow-buttons.js', ['rela
 										<div class="smallsub"><?php echo Text::sprintf('JGLOBAL_LIST_ALIAS', $this->escape($item->created_by_alias)); ?></div>
 									<?php endif; ?>
 								</td>
+								<?php if ($assoc) : ?>
+									<td class="d-none d-md-table-cell">
+										<?php if ($item->association) : ?>
+											<?php echo HTMLHelper::_('contentadministrator.association', $item->id); ?>
+										<?php endif; ?>
+									</td>
+								<?php endif; ?>
 								<?php if (Multilanguage::isEnabled()) : ?>
 									<td class="small d-none d-md-table-cell">
 										<?php echo LayoutHelper::render('joomla.content.language', $item); ?>
@@ -342,20 +363,22 @@ HTMLHelper::_('script', 'com_content/admin-articles-workflow-buttons.js', ['rela
 									echo $date > 0 ? HTMLHelper::_('date', $date, Text::_('DATE_FORMAT_LC4')) : '-';
 									?>
 								</td>
-								<td class="d-none d-lg-table-cell text-center">
-									<span class="badge badge-info">
-									<?php echo (int) $item->hits; ?>
-									</span>
-								</td>
+								<?php if ($this->hits) : ?>
+									<td class="d-none d-lg-table-cell text-center">
+										<span class="badge bg-info">
+											<?php echo (int) $item->hits; ?>
+										</span>
+									</td>
+								<?php endif; ?>
 								<?php if ($this->vote) : ?>
 									<td class="d-none d-md-table-cell text-center">
-										<span class="badge badge-success" >
-										<?php echo (int) $item->rating_count; ?>
+										<span class="badge bg-success">
+											<?php echo (int) $item->rating_count; ?>
 										</span>
 									</td>
 									<td class="d-none d-md-table-cell text-center">
-										<span class="badge badge-warning" >
-										<?php echo (int) $item->rating; ?>
+										<span class="badge bg-warning text-dark">
+											<?php echo (int) $item->rating; ?>
 										</span>
 									</td>
 								<?php endif; ?>
@@ -380,6 +403,10 @@ HTMLHelper::_('script', 'com_content/admin-articles-workflow-buttons.js', ['rela
 						$this->loadTemplate('stage_body')
 					); ?>
 
+				<?php endif; ?>
+
+				<?php if ($workflow_enabled) : ?>
+				<input type="hidden" name="transition_id" value="">
 				<?php endif; ?>
 
 				<input type="hidden" name="task" value="">

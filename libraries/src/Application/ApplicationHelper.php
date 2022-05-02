@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2006 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -48,7 +48,7 @@ class ApplicationHelper
 		}
 
 		$input = Factory::getApplication()->input;
-		$option = strtolower($input->get('option'));
+		$option = strtolower($input->get('option', ''));
 
 		if (empty($option))
 		{
@@ -90,7 +90,7 @@ class ApplicationHelper
 	{
 		if (Factory::getApplication()->get('unicodeslugs') == 1)
 		{
-			$output = OutputFilter::stringURLUnicodeSlug($string);
+			$output = OutputFilter::stringUrlUnicodeSlug($string);
 		}
 		else
 		{
@@ -113,10 +113,10 @@ class ApplicationHelper
 	 * This method will return a client information array if called
 	 * with no arguments which can be used to add custom application information.
 	 *
-	 * @param   integer  $id      A client identifier
-	 * @param   boolean  $byName  If True, find the client by its name
+	 * @param   integer|string|null   $id      A client identifier
+	 * @param   boolean               $byName  If true, find the client by its name
 	 *
-	 * @return  mixed  Object describing the client or false if not known
+	 * @return  \stdClass|array|void  Object describing the client, array containing all the clients or void if $id not known
 	 *
 	 * @since   1.5
 	 */
@@ -182,8 +182,6 @@ class ApplicationHelper
 				}
 			}
 		}
-
-		return;
 	}
 
 	/**

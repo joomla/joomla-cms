@@ -3,24 +3,25 @@
  * @package     Joomla.Site
  * @subpackage  mod_breadcrumbs
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2006 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Router\Route;
 
 ?>
-<nav role="navigation" aria-label="<?php echo $module->name; ?>">
-	<ol itemscope itemtype="https://schema.org/BreadcrumbList" class="mod-breadcrumbs breadcrumb">
+<nav class="mod-breadcrumbs__wrapper" aria-label="<?php echo htmlspecialchars($module->title, ENT_QUOTES, 'UTF-8'); ?>">
+	<ol itemscope itemtype="https://schema.org/BreadcrumbList" class="mod-breadcrumbs breadcrumb px-3 py-2">
 		<?php if ($params->get('showHere', 1)) : ?>
-			<li class="mod-breadcrumbs__here float-left">
+			<li class="mod-breadcrumbs__here float-start">
 				<?php echo Text::_('MOD_BREADCRUMBS_HERE'); ?>&#160;
 			</li>
 		<?php else : ?>
-			<li class="mod-breadcrumbs__divider float-left">
-				<span class="divider fa fa-location" aria-hidden="true"></span>
+			<li class="mod-breadcrumbs__divider float-start">
+				<span class="divider icon-location icon-fw" aria-hidden="true"></span>
 			</li>
 		<?php endif; ?>
 
@@ -47,7 +48,7 @@ use Joomla\CMS\Language\Text;
 		foreach ($list as $key => $item) :
 			if ($key !== $last_item_key) :
 				if (!empty($item->link)) :
-					$breadcrumbItem = '<a itemprop="item" href="' . $item->link . '" class="pathway"><span itemprop="name">' . $item->name . '</span></a>';
+					$breadcrumbItem = '<a itemprop="item" href="' . Route::_($item->link) . '" class="pathway"><span itemprop="name">' . html_entity_decode($item->name, ENT_QUOTES, 'UTF-8') . '</span></a>';
 				else :
 					$breadcrumbItem = '<span itemprop="name">' . $item->name . '</span>';
 				endif;
@@ -56,8 +57,8 @@ use Joomla\CMS\Language\Text;
 					<meta itemprop="position" content="<?php echo $key + 1; ?>">
 				</li>
 			<?php elseif ($show_last) :
-				$breadcrumbItem = '<span itemprop="name">' . $item->name . '</span>';
-				// Render last item if reqd. ?>
+				$breadcrumbItem = '<span itemprop="name">' . html_entity_decode($item->name, ENT_QUOTES, 'UTF-8') . '</span>';
+				// Render last item if required. ?>
 				<li aria-current="page" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem" class="mod-breadcrumbs__item breadcrumb-item active"><?php echo $breadcrumbItem; ?>
 					<meta itemprop="position" content="<?php echo $key + 1; ?>">
 				</li>

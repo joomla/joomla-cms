@@ -3,29 +3,39 @@
  * @package     Joomla.Plugin
  * @subpackage  Installer.packageinstaller
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2016 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\FilesystemHelper;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 
+/** @var PlgInstallerPackageInstaller $this */
+
 HTMLHelper::_('form.csrf');
 
+Text::script('PLG_INSTALLER_PACKAGEINSTALLER_NO_PACKAGE');
 Text::script('PLG_INSTALLER_PACKAGEINSTALLER_UPLOAD_ERROR_UNKNOWN');
 Text::script('PLG_INSTALLER_PACKAGEINSTALLER_UPLOAD_ERROR_EMPTY');
+Text::script('COM_INSTALLER_MSG_WARNINGS_UPLOADFILETOOBIG');
 
-$return  = Factory::getApplication()->input->getBase64('return');
-$maxSize = FilesystemHelper::fileUploadMaxSize();
+$this->app->getDocument()->getWebAssetManager()
+	->registerAndUseScript(
+		'plg_installer_packageinstaller.packageinstaller',
+		'plg_installer_packageinstaller/packageinstaller.js',
+		[],
+		['defer' => true],
+		['core']
+	);
+
+$return = $this->app->input->getBase64('return');
+$maxSizeBytes = FilesystemHelper::fileUploadMaxSize(false);
+$maxSize = HTMLHelper::_('number.bytes', $maxSizeBytes);
 ?>
-
 <legend><?php echo Text::_('PLG_INSTALLER_PACKAGEINSTALLER_UPLOAD_INSTALL_JOOMLA_EXTENSION'); ?></legend>
-
-<hr>
 
 <div id="uploader-wrapper">
 	<div id="dragarea" data-state="pending">
@@ -34,8 +44,8 @@ $maxSize = FilesystemHelper::fileUploadMaxSize();
 				<span id="upload-icon" class="icon-upload" aria-hidden="true"></span>
 			</p>
 			<div id="upload-progress" class="upload-progress">
-				<div class="progress progress-striped active">
-					<div class="bar bar-success"
+				<div class="progress">
+					<div class="progress-bar progress-bar-striped bg-success progress-bar-animated"
 						 style="width: 0;"
 						 role="progressbar"
 						 aria-valuenow="0"
@@ -51,8 +61,8 @@ $maxSize = FilesystemHelper::fileUploadMaxSize();
 				</p>
 			</div>
 			<div class="install-progress">
-				<div class="progress progress-striped active">
-					<div class="bar" style="width: 100%;"></div>
+				<div class="progress">
+					<div class="progress-bar progress-bar-striped" style="width: 100%;"></div>
 				</div>
 				<p class="lead">
 					<span class="installing-text">
@@ -71,7 +81,7 @@ $maxSize = FilesystemHelper::fileUploadMaxSize();
 					</button>
 				</p>
 				<p>
-					<?php echo Text::sprintf('JGLOBAL_MAXIMUM_UPLOAD_SIZE_LIMIT', $maxSize); ?>
+					<?php echo Text::sprintf('JGLOBAL_MAXIMUM_UPLOAD_SIZE_LIMIT', '&#x200E;' . $maxSize); ?>
 				</p>
 			</div>
 		</div>
@@ -83,7 +93,8 @@ $maxSize = FilesystemHelper::fileUploadMaxSize();
 		<label for="install_package" class="control-label"><?php echo Text::_('PLG_INSTALLER_PACKAGEINSTALLER_EXTENSION_PACKAGE_FILE'); ?></label>
 		<div class="controls">
 			<input class="form-control-file" id="install_package" name="install_package" type="file">
-			<small class="form-text text-muted"><?php echo Text::sprintf('JGLOBAL_MAXIMUM_UPLOAD_SIZE_LIMIT', $maxSize); ?></small>
+			<input id="max_upload_size" name="max_upload_size" type="hidden" value="<?php echo $maxSizeBytes; ?>" />
+			<small class="form-text"><?php echo Text::sprintf('JGLOBAL_MAXIMUM_UPLOAD_SIZE_LIMIT', $maxSize); ?></small>
 		</div>
 	</div>
 	<div class="form-actions">

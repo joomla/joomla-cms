@@ -3,113 +3,98 @@
 .modal {
 
   .btn {
-    margin-right: .5rem;
+    padding: 0 22px;
+    margin-inline-end: .5rem;
+    font-size: 1rem;
+    line-height: 2.3rem;
+    color: var(--template-text-dark);
     background: var(--white);
     border-color: var(--whiteoffset);
-    color: var(--atum-text-dark);
-    padding: 0 22px;
-    font-size: 1rem;
-    line-height: 2.375rem;
-    box-shadow: 1px 1px 1px 0 rgba(0,0,0,.25);
-
-
+    box-shadow: 1px 1px 1px 0 rgba(0, 0, 0, .25);
   }
 
   .btn-primary:not([href]),
   .btn-success:not([href]),
   .btn-danger:not([href]),
   .btn-secondary:not([href]) {
-    color: var(--atum-text-dark);
-    border:1px solid var(--atum-text-dark);
-    background:var(--white);
-
-
+    color: var(--template-text-dark);
+    background: var(--white);
+    border: 1px solid var(--template-text-dark);
   }
 
-  .btn-primary:not([href])
-  {
+  .btn-primary:not([href]) {
     &:hover {
       color: var(--white);
-      background:var(--primary);
+      background: var(--primary);
       border-color: var(--primary);
     }
   }
 
-  .btn-secondary:not([href])
-  {
+  .btn-secondary:not([href]) {
     &:hover {
       color: var(--white);
-      background:var(--secondary);
+      background: var(--secondary);
       border-color: var(--secondary);
     }
   }
 
-  .btn-success:not([href])
-  {
+  .btn-success:not([href]) {
     &:hover {
       color: var(--white);
-      background:var(--success);
+      background: var(--success);
       border-color: var(--success);
     }
   }
 
-  .btn-danger:not([href])
-  {
+  .btn-danger:not([href]) {
     &:hover {
       color: var(--white);
-      background:var(--danger);
+      background: var(--danger);
       border-color: var(--danger);
     }
   }
 
-  .btn.btn-danger [class*=" fa-"],
-  .btn.btn-danger [class*=" icon-"],
-  .btn.btn-danger [class^=fa-],
-  .btn.btn-danger [class^=icon-],
-  .btn.btn-danger span{
-    background-color: var(--danger);
-    color: hsla(0,0%,100%,.9);
-
-    display: inline-block;
-    width: 2.375rem;
-    height: 100%;
-    margin: 0 16px 0 -22px;
-    line-height: 2.375rem;
+  .btn.btn-danger {
+    [class^="#{$jicon-css-prefix}-"],
+    [class*=" #{$jicon-css-prefix}-"],
+    [class^="#{$fa-css-prefix}-"],
+    [class*=" #{$fa-css-prefix}-"],
+    span {
+      display: inline-block;
+      width: 2.375rem;
+      height: 100%;
+      margin: 0 16px;
+      margin-inline-start: -22px;
+      line-height: 2.375rem;
+      color: hsla(0, 0%, 100%, .9);
+      background-color: var(--danger);
+    }
   }
 
-  .btn.btn-success [class*=" fa-"],
-  .btn.btn-success [class*=" icon-"],
-  .btn.btn-success [class^=fa-],
-  .btn.btn-success [class^=icon-],
-  .btn.btn-success span{
-    background-color: var(--success);
-    color: hsla(0,0%,100%,.9);
-
-    display: inline-block;
-    width: 2.375rem;
-    height: 100%;
-    margin: 0 16px 0 -22px;
-    line-height: 2.375rem;
+  .btn.btn-success {
+    [class^="#{$jicon-css-prefix}-"],
+    [class*=" #{$jicon-css-prefix}-"],
+    [class^="#{$fa-css-prefix}-"],
+    [class*=" #{$fa-css-prefix}-"],
+    span {
+      display: inline-block;
+      width: 2.375rem;
+      height: 100%;
+      margin: 0 16px;
+      margin-inline-start: -22px;
+      line-height: 2.375rem;
+      color: hsla(0, 0%, 100%, .9);
+      background-color: var(--success);
+    }
   }
-
 }
 
 .modal-header {
   padding: 0 15px;
-
-  .close {
-    width: $modal-header-height;
-    height: $modal-header-height;
-    margin-top: 0;
-    margin-right: -15px;
-    font-size: 2rem;
-    line-height: 1rem;
-    border-left: 1px solid var(--border);
-  }
 }
 
 .modal-body {
-  overflow-y: auto;
+  overflow-y: initial;
 }
 
 .modal-title {
@@ -118,18 +103,18 @@
 }
 
 .contentpane {
-  padding: 15px;
+  padding: 20px;
 }
 
 // Changelog
 .changelog {
-  text-align: left !important;
+  text-align: start !important;
 
   &__item {
     display: flex;
     border-bottom: 1px solid $table-border-color;
 
-    @include media-breakpoint-down(sm) {
+    @include media-breakpoint-down(md) {
       flex-direction: column;
     }
   }
@@ -138,9 +123,9 @@
     flex: 1 0 180px;
     max-width: 180px;
     padding: 10px 15px;
+    text-align: end;
     background: darken($gray-100, 2.5%);
     border-right: 1px solid $table-border-color;
-    text-align: right;
 
     .badge {
       border-radius: .2rem;
@@ -150,7 +135,7 @@
       }
     }
 
-    @include media-breakpoint-down(sm) {
+    @include media-breakpoint-down(md) {
       flex: 1 0 auto;
       max-width: 100%;
       text-align: left;
@@ -163,14 +148,14 @@
     padding: 10px 15px;
 
     ul {
-      padding-left: 15px;
+      padding-inline-start: 15px;
       margin-bottom: 0;
     }
 
     li {
       margin-bottom: .15rem;
 
-      &:last-of-type{
+      &:last-of-type {
         margin-bottom: 0;
       }
     }

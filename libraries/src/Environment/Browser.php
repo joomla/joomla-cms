@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2005 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -902,8 +902,6 @@ class Browser
 				return substr($_SERVER['SERVER_PROTOCOL'], $pos + 1);
 			}
 		}
-
-		return;
 	}
 
 	/**
@@ -937,14 +935,14 @@ class Browser
 			{
 				$wildcard_match = true;
 
-				if ($type != 'image')
+				if ($type !== 'image')
 				{
 					return true;
 				}
 			}
 
 			// Deal with Mozilla pjpeg/jpeg issue
-			if ($this->isBrowser('mozilla') && ($mimetype == 'image/pjpeg') && (strpos($this->accept, 'image/jpeg') !== false))
+			if ($this->isBrowser('mozilla') && ($mimetype === 'image/pjpeg') && (strpos($this->accept, 'image/jpeg') !== false))
 			{
 				return true;
 			}
@@ -955,7 +953,7 @@ class Browser
 			}
 		}
 
-		if ($type != 'image')
+		if ($type !== 'image')
 		{
 			return false;
 		}

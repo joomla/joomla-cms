@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2007 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -15,7 +15,7 @@ use Joomla\Registry\Registry;
  * Content Component HTML Helper
  *
  * @since       1.5
- * @deprecated  5.0 Use the class \Joomla\Component\Content\Site\Service\HTML\Icon instead
+ * @deprecated  5.0 Use the class \Joomla\Component\Content\Administrator\Service\HTML\Icon instead
  */
 abstract class JHtmlIcon
 {
@@ -29,28 +29,11 @@ abstract class JHtmlIcon
 	 *
 	 * @return  string  The HTML markup for the create item link
 	 *
-	 * @deprecated 5.0 Use the class \Joomla\Component\Content\Site\Service\HTML\Icon instead
+	 * @deprecated 5.0 Use the class \Joomla\Component\Content\Administrator\Service\HTML\Icon instead
 	 */
 	public static function create($category, $params, $attribs = array(), $legacy = false)
 	{
 		return self::getIcon()->create($category, $params, $attribs, $legacy);
-	}
-
-	/**
-	 * Method to generate a link to the email item page for the given article
-	 *
-	 * @param   object    $article  The article information
-	 * @param   Registry  $params   The item parameters
-	 * @param   array     $attribs  Optional attributes for the link
-	 * @param   boolean   $legacy   True to use legacy images, false to use icomoon based graphic
-	 *
-	 * @return  string  The HTML markup for the email item link
-	 *
-	 * @deprecated 5.0 Use the class \Joomla\Component\Content\Site\Service\HTML\Icon instead
-	 */
-	public static function email($article, $params, $attribs = array(), $legacy = false)
-	{
-		return self::getIcon()->email($article, $params, $attribs, $legacy);
 	}
 
 	/**
@@ -68,7 +51,7 @@ abstract class JHtmlIcon
 	 *
 	 * @since   1.6
 	 *
-	 * @deprecated 5.0 Use the class \Joomla\Component\Content\Site\Service\HTML\Icon instead
+	 * @deprecated 5.0 Use the class \Joomla\Component\Content\Administrator\Service\HTML\Icon instead
 	 */
 	public static function edit($article, $params, $attribs = array(), $legacy = false)
 	{
@@ -85,11 +68,11 @@ abstract class JHtmlIcon
 	 *
 	 * @return  string  The HTML markup for the popup link
 	 *
-	 * @deprecated 5.0 Use the class \Joomla\Component\Content\Site\Service\HTML\Icon instead
+	 * @deprecated 5.0 Use the class \Joomla\Component\Content\Administrator\Service\HTML\Icon instead
 	 */
 	public static function print_popup($article, $params, $attribs = array(), $legacy = false)
 	{
-		return self::getIcon()->print_popup($article, $params, $attribs, $legacy);
+		throw new \Exception('Sorry, Joomla 4 no longer supports print_popup');
 	}
 
 	/**
@@ -102,7 +85,7 @@ abstract class JHtmlIcon
 	 *
 	 * @return  string  The HTML markup for the popup link
 	 *
-	 * @deprecated 5.0 Use the class \Joomla\Component\Content\Site\Service\HTML\Icon instead
+	 * @deprecated 5.0 Use the class \Joomla\Component\Content\Administrator\Service\HTML\Icon instead
 	 */
 	public static function print_screen($article, $params, $attribs = array(), $legacy = false)
 	{

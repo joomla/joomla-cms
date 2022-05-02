@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<extension version="3.2" type="plugin" group="content" method="upgrade">
+<extension type="plugin" group="content" method="upgrade">
 	<name>plg_content_contact</name>
 	<author>Joomla! Project</author>
 	<creationDate>January 2014</creationDate>
-	<copyright>Copyright (C) 2005 - 2019 Open Source Matters. All rights reserved.</copyright>
+	<copyright>(C) 2014 Open Source Matters, Inc.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
@@ -13,8 +13,8 @@
 		<filename plugin="contact">contact.php</filename>
 	</files>
 	<languages>
-		<language tag="en-GB">en-GB.plg_content_contact.ini</language>
-		<language tag="en-GB">en-GB.plg_content_contact.sys.ini</language>
+		<language tag="en-GB">language/en-GB/plg_content_contact.ini</language>
+		<language tag="en-GB">language/en-GB/plg_content_contact.sys.ini</language>
 	</languages>
 	<config>
 		<fields name="params">
@@ -25,6 +25,7 @@
 					label="PLG_CONTENT_CONTACT_PARAM_URL_LABEL"
 					description="PLG_CONTENT_CONTACT_PARAM_URL_DESCRIPTION"
 					default="url"
+					validate="options"
 					>
 					<option value="url">PLG_CONTENT_CONTACT_PARAM_URL_URL</option>
 					<option value="webpage">PLG_CONTENT_CONTACT_PARAM_URL_WEBPAGE</option>
@@ -37,7 +38,7 @@
 					label="PLG_CONTENT_CONTACT_PARAM_ALIAS_LABEL"
 					description="PLG_CONTENT_CONTACT_PARAM_ALIAS_DESCRIPTION"
 					default="0"
-					class="switcher"
+					layout="joomla.form.field.radio.switcher"
 					filter="integer"
 					>
 					<option value="0">JNO</option>

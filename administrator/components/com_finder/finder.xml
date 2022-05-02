@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<extension type="component" version="4.0" method="upgrade">
+<extension type="component" method="upgrade">
 	<name>com_finder</name>
 	<author>Joomla! Project</author>
-	<copyright>(C) 2005 - 2019 Open Source Matters. All rights reserved.</copyright>
+	<copyright>(C) 2011 Open Source Matters, Inc.</copyright>
 	<creationDate>August 2011</creationDate>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>4.0.0</version>
 	<description>COM_FINDER_XML_DESCRIPTION</description>
-	<namespace>Joomla\Component\Finder</namespace>
+	<namespace path="src">Joomla\Component\Finder</namespace>
 	<menu link="option=com_finder">COM_FINDER</menu>
 	<install>
 		<sql>
@@ -24,13 +24,9 @@
 		</sql>
 	</uninstall>
 	<files folder="site">
-		<filename>router.php</filename>
-		<folder>Controller</folder>
-		<folder>Helper</folder>
 		<folder>helpers</folder>
-		<folder>Model</folder>
+		<folder>src</folder>
 		<folder>tmpl</folder>
-		<folder>View</folder>
 	</files>
 	<media destination="com_finder" folder="media">
 		<folder>css</folder>
@@ -44,22 +40,17 @@
 			<filename>access.xml</filename>
 			<filename>config.xml</filename>
 			<filename>finder.xml</filename>
-			<folder>Controller</folder>
-			<folder>Field</folder>
 			<folder>forms</folder>
-			<folder>Helper</folder>
 			<folder>helpers</folder>
-			<folder>Model</folder>
 			<folder>services</folder>
+			<folder>src</folder>
 			<folder>sql</folder>
-			<folder>Table</folder>
 			<folder>tmpl</folder>
-			<folder>View</folder>
 		</files>
 		<languages folder="admin">
 			<language tag="en-GB">language/en-GB/com_finder.ini</language>
 			<language tag="en-GB">language/en-GB/com_finder.sys.ini</language>
 		</languages>
-		<menu img="class:finder" link="option=com_finder">COM_FINDER</menu>
+		<menu img="class:search-plus" link="option=com_finder">COM_FINDER</menu>
 	</administration>
 </extension>

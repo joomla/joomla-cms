@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<extension version="3.1" type="plugin" group="system" method="upgrade">
+<extension type="plugin" group="system" method="upgrade">
 	<name>plg_system_redirect</name>
 	<author>Joomla! Project</author>
 	<creationDate>April 2009</creationDate>
-	<copyright>Copyright (C) 2005 - 2019 Open Source Matters. All rights reserved.</copyright>
+	<copyright>(C) 2009 Open Source Matters, Inc.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
@@ -14,8 +14,8 @@
 		<filename plugin="redirect">redirect.php</filename>
 	</files>
 	<languages>
-		<language tag="en-GB">en-GB.plg_system_redirect.ini</language>
-		<language tag="en-GB">en-GB.plg_system_redirect.sys.ini</language>
+		<language tag="en-GB">language/en-GB/plg_system_redirect.ini</language>
+		<language tag="en-GB">language/en-GB/plg_system_redirect.sys.ini</language>
 	</languages>
 	<config>
 		<fields name="params">
@@ -23,7 +23,7 @@
 				<field
 					name="collect_urls"
 					type="radio"
-					class="switcher"
+					layout="joomla.form.field.radio.switcher"
 					label="PLG_SYSTEM_REDIRECT_FIELD_COLLECT_URLS_LABEL"
 					default="1"
 					filter="integer"
@@ -34,7 +34,7 @@
 				<field
 					name="includeUrl"
 					type="radio"
-					class="switcher"
+					layout="joomla.form.field.radio.switcher"
 					label="PLG_SYSTEM_REDIRECT_FIELD_STORE_FULL_URL_LABEL"
 					default="1"
 					filter="integer"
@@ -48,6 +48,7 @@
 					label="PLG_SYSTEM_REDIRECT_FIELD_EXCLUDE_URLS_LABEL"
 					multiple="true"
 					formsource="plugins/system/redirect/form/excludes.xml"
+					layout="joomla.form.field.subform.repeatable-table"
 				/>
 			</fieldset>
 		</fields>

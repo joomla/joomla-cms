@@ -3,7 +3,7 @@
 	<fieldset>
 		<field
 			name="id"
-			type="number"
+			type="text"
 			label="JGLOBAL_FIELD_ID_LABEL"
 			default="0"
 			class="readonly"
@@ -35,9 +35,10 @@
 			label="JCATEGORY"
 			extension="com_content"
 			multiple="true"
+			showon="only_use_in_subform:0"
 			addfieldprefix="Joomla\Component\Categories\Administrator\Field"
 			>
-			<option value="">JALL</option>
+			<option value="0">JALL</option>
 			<option value="-1">JNONE</option>
 		</field>
 
@@ -69,13 +70,24 @@
 			name="required"
 			type="radio"
 			label="COM_FIELDS_FIELD_REQUIRED_LABEL"
-			class="switcher"
+			layout="joomla.form.field.radio.switcher"
 			default="0"
 			>
 			<option value="0">JNO</option>
 			<option value="1">JYES</option>
 		</field>
 
+		<field
+			name="only_use_in_subform"
+			type="radio"
+			label="COM_FIELDS_FIELD_ONLY_USE_IN_SUBFORM_LABEL"
+			layout="joomla.form.field.radio.switcher"
+			default="0"
+			showon="type!:subform"
+			>
+			<option value="0">JNO</option>
+			<option value="1">JYES</option>
+		</field>
 		<field
 			name="default_value"
 			type="textarea"
@@ -87,9 +99,10 @@
 			name="state"
 			type="list"
 			label="JSTATUS"
-			class="custom-select-color-state"
+			class="form-select-color-state"
 			default="1"
 			size="1"
+			validate="options"
 			>
 			<option value="1">JPUBLISHED</option>
 			<option value="0">JUNPUBLISHED</option>
@@ -113,6 +126,7 @@
 			name="created_user_id"
 			type="user"
 			label="JGLOBAL_FIELD_CREATED_BY_LABEL"
+			validate="UserId"
 		/>
 
 		<field
@@ -132,6 +146,7 @@
 			class="readonly"
 			readonly="true"
 			filter="unset"
+			validate="UserId"
 		/>
 
 		<field
@@ -182,13 +197,14 @@
 			name="access"
 			type="accesslevel"
 			label="JFIELD_ACCESS_LABEL"
+			filter="UINT"
+			validate="options"
 		/>
 
 		<field
 			name="rules"
 			type="rules"
 			label="JFIELD_RULES_LABEL"
-			id="rules"
 			translate_label="false"
 			filter="rules"
 			validate="rules"
@@ -218,6 +234,7 @@
 					type="textarea"
 					label="COM_FIELDS_FIELD_CLASS_LABEL"
 					size="40"
+					validate="CssIdentifier"
 				/>
 
 				<field
@@ -225,6 +242,7 @@
 					type="textarea"
 					label="COM_FIELDS_FIELD_LABEL_FORM_CLASS_LABEL"
 					size="40"
+					validate="CssIdentifier"
 				/>
 
 				<field
@@ -232,6 +250,7 @@
 					type="list"
 					label="COM_FIELDS_FIELD_EDITABLE_IN_LABEL"
 					default=""
+					validate="options"
 					>
 					<option value="1">COM_FIELDS_FIELD_EDITABLE_IN_SITE</option>
 					<option value="2">COM_FIELDS_FIELD_EDITABLE_IN_ADMIN</option>
@@ -246,13 +265,22 @@
 					type="textarea"
 					label="COM_FIELDS_FIELD_RENDER_CLASS_LABEL"
 					size="40"
+					validate="CssIdentifier"
+				/>
+
+				<field
+					name="value_render_class"
+					type="textarea"
+					label="COM_FIELDS_FIELD_VALUE_RENDER_CLASS_LABEL"
+					description="COM_FIELDS_FIELD_VALUE_RENDER_CLASS_DESC"
+					size="40"
 				/>
 
 				<field
 					name="showlabel"
 					type="radio"
 					label="COM_FIELDS_FIELD_SHOWLABEL_LABEL"
-					class="switcher"
+					layout="joomla.form.field.radio.switcher"
 					default="1"
 					>
 					<option value="0">JHIDE</option>
@@ -265,6 +293,7 @@
 					label="COM_FIELDS_FIELD_LABEL_RENDER_CLASS_LABEL"
 					size="40"
 					showon="showlabel:1"
+					validate="CssIdentifier"
 				/>
 
 				<field
@@ -272,6 +301,7 @@
 					type="list"
 					label="COM_FIELDS_FIELD_DISPLAY_LABEL"
 					default="2"
+					validate="options"
 					>
 					<option value="1">COM_FIELDS_FIELD_DISPLAY_AFTER_TITLE</option>
 					<option value="2">COM_FIELDS_FIELD_DISPLAY_BEFORE_DISPLAY</option>
@@ -297,7 +327,7 @@
 					name="layout"
 					type="fieldLayout"
 					label="COM_FIELDS_FIELD_LAYOUT_LABEL"
-					class="custom-select"
+					class="form-select"
 				/>
 
 				<field
@@ -305,6 +335,7 @@
 					type="list"
 					label="JFIELD_DISPLAY_READONLY_LABEL"
 					default="2"
+					validate="options"
 					>
 					<option value="2">JGLOBAL_INHERIT</option>
 					<option value="1">JYES</option>

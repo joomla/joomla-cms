@@ -1,8 +1,6 @@
 // Table
 
 .table {
-  box-shadow: 1px 1px 1px 0px rgba(0, 0, 0, 0.25);
-
   thead {
 
     th {
@@ -11,51 +9,58 @@
 
     th,
     td {
-      font-weight: $font-weight-normal;
-      color: var(--atum-text-dark);
       white-space: nowrap;
-      border-bottom: 2px solid $gray-300;
-      @include media-breakpoint-down(xs) {
+
+      .sysinfo & {
         white-space: normal;
       }
     }
 
     a {
-      font-weight: $font-weight-normal;
-      color: var(--atum-link-colors);
+      color: var(--template-link-color);
+
       &#sorted {
+        font-weight: $medium-weight;
         color: $gray-800;
-        font-weight: 500;
       }
     }
 
-    .actions, .actions-th1{
-      @include media-breakpoint-down(xs) {
-        width:28%;
+    .actions,
+    .actions-th1 {
+      @include media-breakpoint-down(md) {
+        width: 28%;
       }
-
     }
   }
 
   tbody {
     tr {
-      @include hover-focus-active {
+      &:hover,
+      &:focus,
+      &:active {
         background-color: $table-hover-bg;
       }
-    }
 
-    a:not(.badge) {
-      text-decoration: underline;
+      &:last-of-type {
+        th,
+        td {
+          border-bottom: 0;
+        }
+      }
     }
 
     .itemnumber a.btn,
     .itemnumber span.btn {
+      padding: .1rem .5rem;
       text-decoration: none;
-      padding: 0.1rem .5rem;
     }
 
     th {
-      font-weight: 500;
+      font-weight: $medium-weight;
+    }
+
+    a:not(.badge) {
+      text-decoration: underline;
     }
   }
 
@@ -64,9 +69,16 @@
     label {
       margin-bottom: 0;
     }
-    .inactive .fa, .inactive [class^=icon-] {
+
+    .inactive [class^="#{$jicon-css-prefix}-"],
+    .inactive [class*=" #{$jicon-css-prefix}-"],
+    .inactive [class^="#{$fa-css-prefix}-"],
+    .inactive [class*=" #{$fa-css-prefix}-"] {
       color: $gray-400;
     }
+  }
 
+  .j-main-container > & {
+    box-shadow: 0 2px 10px -8px var(--template-bg-dark-50);
   }
 }

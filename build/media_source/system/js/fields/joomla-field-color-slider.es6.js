@@ -1,5 +1,5 @@
 /**
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2019 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,36 +12,36 @@
    * Regex for hex values e.g. #FF3929
    * @type {RegExp}
    */
-  const hexRegex = new RegExp(/^#([a-z0-9]{1,2})([a-z0-9]{1,2})([a-z0-9]{1,2})$/i);
+  const hexRegex = /^#([a-z0-9]{1,2})([a-z0-9]{1,2})([a-z0-9]{1,2})$/i;
 
   /**
    * Regex for rgb values e.g. rgba(255, 0, 24, 0.5);
    * @type {RegExp}
    */
-  const rgbRegex = new RegExp(/^rgba?\(([0-9]+)[\D]+([0-9]+)[\D]+([0-9]+)(?:[\D]+([0-9](?:.\d+)?))?\)$/i);
+  const rgbRegex = /^rgba?\(([0-9]+)[\D]+([0-9]+)[\D]+([0-9]+)(?:[\D]+([0-9](?:.\d+)?))?\)$/i;
 
   /**
    * Regex for hsl values e.g. hsl(255,0,24);
    * @type {RegExp}
    */
-  const hslRegex = new RegExp(/^hsla?\(([0-9]+)[\D]+([0-9]+)[\D]+([0-9]+)[\D]+([0-9](?:.\d+)?)?\)$/i);
+  const hslRegex = /^hsla?\(([0-9]+)[\D]+([0-9]+)[\D]+([0-9]+)[\D]+([0-9](?:.\d+)?)?\)$/i;
 
   /**
    * Regex for saturation and lightness of hsl - only accepts 1 or 0 or 0.4 or 40
    * @type {RegExp}
    */
-  const hslNumberRegex = new RegExp(/^(([0-1])|(0\\.[0-9]+)|([0-9]{1,2})|(100))$/);
+  const hslNumberRegex = /^(([0-1])|(0\\.[0-9]+)|([0-9]{1,2})|(100))$/;
 
   /**
    * Regex for hue values - one to three numbers
    * @type {RegExp}
    */
-  const hueRegex = new RegExp(/^[0-9]{1,3}$/);
+  const hueRegex = /^[0-9]{1,3}$/;
 
   /**
    * Creates a slider for the color values hue, saturation and light.
    *
-   * @since 4.0
+   * @since 4.0.0
    */
   class JoomlaFieldColorSlider {
     /**
@@ -247,7 +247,7 @@
         // Longer end color so slider selection matches displayed colors
         colors.push(this.getSliderValueAsRgb(endValue, slider.dataset.type));
 
-        colors = colors.map(value => this.getRgbString(value));
+        colors = colors.map((value) => this.getRgbString(value));
         slider.style.background = `linear-gradient(90deg, ${colors.join(',')})`;
         slider.style.webkitAppearance = 'none';
       });
@@ -493,7 +493,7 @@
 
       s *= 100;
       l *= 100;
-      [h, s, l] = [h, s, l].map(value => Math.round(value));
+      [h, s, l] = [h, s, l].map((value) => Math.round(value));
 
       if (withAlpha || this.setAlpha) {
         a = a || this.alpha;
@@ -537,7 +537,7 @@
         rgb = [parts[1], parts[2], parts[3], parts[4]];
       }
 
-      const [r, g, b] = rgb.map(value => (value > 1 ? value / 255 : value));
+      const [r, g, b] = rgb.map((value) => (value > 1 ? value / 255 : value));
       const max = Math.max(r, g, b);
       const min = Math.min(r, g, b);
       const l = (max + min) / 2;
@@ -633,7 +633,7 @@
         return this.hslToRgb(this.defaultHsl);
       }
 
-      const rgb = [r, g, b].map(value => Math.round((value + m) * 255));
+      const rgb = [r, g, b].map((value) => Math.round((value + m) * 255));
       rgb.push(a);
 
       return rgb;

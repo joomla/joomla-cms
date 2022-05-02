@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Content.loadmodule
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2006 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -85,7 +85,11 @@ class PlgContentLoadmodule extends CMSPlugin
 				$output = $this->_load($position, $style);
 
 				// We should replace only first occurrence in order to allow positions with the same name to regenerate their content:
-				$article->text = preg_replace("|$match[0]|", addcslashes($output, '\\$'), $article->text, 1);
+				if (($start = strpos($article->text, $match[0])) !== false)
+				{
+					$article->text = substr_replace($article->text, $output, $start, strlen($match[0]));
+				}
+
 				$style = $this->params->def('style', 'none');
 			}
 		}
@@ -120,7 +124,11 @@ class PlgContentLoadmodule extends CMSPlugin
 				$output = $this->_loadmod($module, $name, $stylemod);
 
 				// We should replace only first occurrence in order to allow positions with the same name to regenerate their content:
-				$article->text = preg_replace(addcslashes("|$matchmod[0]|", '()'), addcslashes($output, '\\$'), $article->text, 1);
+				if (($start = strpos($article->text, $matchmod[0])) !== false)
+				{
+					$article->text = substr_replace($article->text, $output, $start, strlen($matchmod[0]));
+				}
+
 				$stylemod = $this->params->def('style', 'none');
 			}
 		}
@@ -137,7 +145,11 @@ class PlgContentLoadmodule extends CMSPlugin
 				$output = $this->_loadid($id);
 
 				// We should replace only first occurrence in order to allow positions with the same name to regenerate their content:
-				$article->text = preg_replace("|$match[0]|", addcslashes($output, '\\$'), $article->text, 1);
+				if (($start = strpos($article->text, $match[0])) !== false)
+				{
+					$article->text = substr_replace($article->text, $output, $start, strlen($match[0]));
+				}
+
 				$style = $this->params->def('style', 'none');
 			}
 		}

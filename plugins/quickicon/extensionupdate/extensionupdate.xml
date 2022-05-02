@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<extension version="3.1" type="plugin" group="quickicon" method="upgrade">
+<extension type="plugin" group="quickicon" method="upgrade">
 	<name>plg_quickicon_extensionupdate</name>
 	<author>Joomla! Project</author>
 	<creationDate>August 2011</creationDate>
-	<copyright>Copyright (C) 2005 - 2019 Open Source Matters. All rights reserved.</copyright>
+	<copyright>(C) 2011 Open Source Matters, Inc.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
@@ -13,13 +13,13 @@
 		<filename plugin="extensionupdate">extensionupdate.php</filename>
 	</files>
 	<languages>
-		<language tag="en-GB">en-GB.plg_quickicon_extensionupdate.ini</language>
-		<language tag="en-GB">en-GB.plg_quickicon_extensionupdate.sys.ini</language>
+		<language tag="en-GB">language/en-GB/plg_quickicon_extensionupdate.ini</language>
+		<language tag="en-GB">language/en-GB/plg_quickicon_extensionupdate.sys.ini</language>
 	</languages>
 	<config>
 		<fields name="params">
 			<fieldset name="basic">
-				<field 
+				<field
 					name="context"
 					type="text"
 					label="PLG_QUICKICON_EXTENSIONUPDATE_GROUP_LABEL"

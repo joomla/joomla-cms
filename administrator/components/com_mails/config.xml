@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <config>
+	<help key="Mail_Templates:_Options"/>
 	<fieldset
 		name="mails_options"
 		label="COM_MAILS_CONFIG_MAIL_OPTIONS" >
@@ -9,6 +10,7 @@
 			type="list"
 			label="COM_MAILS_FIELD_MAIL_STYLE_LABEL"
 			default="plaintext"
+			validate="options"
 			>
 			<option value="plaintext">COM_MAILS_FIELD_OPTION_PLAINTEXT</option>
 			<option value="html">COM_MAILS_FIELD_OPTION_HTML</option>
@@ -19,7 +21,7 @@
 			name="alternative_mailconfig"
 			type="radio"
 			label="COM_MAILS_CONFIG_FIELD_ALTERNATIVE_MAILCONFIG_LABEL"
-			class="switcher"
+			layout="joomla.form.field.radio.switcher"
 			default="0"
 			>
 			<option value="0">JNO</option>
@@ -30,7 +32,7 @@
 			name="copy_mails"
 			type="radio"
 			label="COM_MAILS_CONFIG_FIELD_COPY_MAILS_LABEL"
-			class="switcher"
+			layout="joomla.form.field.radio.switcher"
 			default="0"
 			>
 			<option value="0">JDISABLED</option>
@@ -43,6 +45,8 @@
 			label="COM_MAILS_CONFIG_FIELD_ATTACHMENT_FOLDER_LABEL"
 			description="COM_MAILS_CONFIG_FIELD_ATTACHMENT_FOLDER_DESC"
 			size="40"
+			validate="folderPathExists"
+			exclude="administrator|api|cache|cli|components|includes|language|layouts|libraries|modules|plugins|templates|tmp"
 		/>
 
 	</fieldset>
@@ -59,7 +63,7 @@
 			label="JCONFIG_PERMISSIONS_LABEL"
 			filter="rules"
 			validate="rules"
-			component="com_messages"
+			component="com_mails"
 			section="component"
 		/>
 	</fieldset>

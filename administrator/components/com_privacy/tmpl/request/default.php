@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_privacy
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2018 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -14,15 +14,15 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 use Joomla\Component\Actionlogs\Administrator\Helper\ActionlogsHelper;
 
-/** @var PrivacyViewRequest $this */
+/** @var \Joomla\Component\Privacy\Administrator\View\Request\HtmlView $this */
 
 HTMLHelper::_('behavior.formvalidator');
 HTMLHelper::_('behavior.keepalive');
 
 ?>
-<form action="<?php echo Route::_('index.php?option=com_privacy&view=request&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="item-form" class="form-validate" data-cancel-task="request.cancel">
+<form action="<?php echo Route::_('index.php?option=com_privacy&view=request&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="item-form" class="form-validate">
 	<div class="row mt-3">
-		<div class="col-12 col-md-6 mb-3">
+		<div class="col-12 col-md-4 mb-3">
 			<div class="card">
 				<h3 class="card-header"><?php echo Text::_('COM_PRIVACY_HEADING_REQUEST_INFORMATION'); ?></h3>
 				<div class="card-body">
@@ -42,17 +42,17 @@ HTMLHelper::_('behavior.keepalive');
 				</div>
 			</div>
 		</div>
-		<div class="col-12 col-md-6 mb-3">
+		<div class="col-12 col-md-8 mb-3">
 			<div class="card">
 				<h3 class="card-header"><?php echo Text::_('COM_PRIVACY_HEADING_ACTION_LOG'); ?></h3>
 				<div class="card-body">
 					<?php if (empty($this->actionlogs)) : ?>
 						<div class="alert alert-info">
-							<span class="fa fa-info-circle" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('INFO'); ?></span>
+							<span class="icon-info-circle" aria-hidden="true"></span><span class="visually-hidden"><?php echo Text::_('INFO'); ?></span>
 							<?php echo Text::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
 						</div>
 					<?php else : ?>
-						<table class="table table-striped table-hover">
+						<table class="table">
 							<thead>
 								<th>
 									<?php echo Text::_('COM_ACTIONLOGS_ACTION'); ?>

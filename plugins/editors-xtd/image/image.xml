@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<extension version="3.1" type="plugin" group="editors-xtd" method="upgrade">
+<extension type="plugin" group="editors-xtd" method="upgrade">
 	<name>plg_editors-xtd_image</name>
 	<author>Joomla! Project</author>
 	<creationDate>August 2004</creationDate>
-	<copyright>Copyright (C) 2005 - 2019 Open Source Matters. All rights reserved.</copyright>
+	<copyright>(C) 2005 Open Source Matters, Inc.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
@@ -13,7 +13,7 @@
 		<filename plugin="image">image.php</filename>
 	</files>
 	<languages>
-		<language tag="en-GB">en-GB.plg_editors-xtd_image.ini</language>
-		<language tag="en-GB">en-GB.plg_editors-xtd_image.sys.ini</language>
+		<language tag="en-GB">language/en-GB/plg_editors-xtd_image.ini</language>
+		<language tag="en-GB">language/en-GB/plg_editors-xtd_image.sys.ini</language>
 	</languages>
 </extension>

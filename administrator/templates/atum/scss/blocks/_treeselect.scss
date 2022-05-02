@@ -19,33 +19,23 @@
     &::before {
       position: absolute;
       top: 14px;
-      left: ($treeselect-indent - 15px);
+      inset-inline-start: ($treeselect-indent - 15px);
       width: 10px;
       height: 1px;
       margin: auto;
       content: "";
       background-color: rgba(0, 0, 0, .2);
-
-      [dir=rtl] & {
-      left: 0;
-      right: ($treeselect-indent - 15px);
-      }
     }
 
     &::after {
       position: absolute;
       top: 0;
       bottom: 0;
-      left: ($treeselect-indent - 15px);
+      inset-inline-start: ($treeselect-indent - 15px);
       width: 1px;
       height: 100%;
       content: "";
       background-color: rgba(0, 0, 0, .2);
-
-      [dir=rtl] & {
-      left: 0;
-      right: ($treeselect-indent - 15px);
-      }
     }
 
     &:last-child {
@@ -56,7 +46,7 @@
     }
 
     li {
-      padding-left: $treeselect-indent;
+      padding-inline-start: $treeselect-indent;
     }
   }
 
@@ -65,7 +55,8 @@
     display: none;
   }
 
-  .icon- {
+  .#{$jicon-css-prefix}-,
+  .#{$fa-css-prefix}- {
     display: none;
   }
 
@@ -102,7 +93,7 @@
     &::after {
       margin-left: 0;
       font-size: 1rem;
-      color: var(--atum-text-dark);
+      color: var(--template-text-dark);
     }
   }
 }
@@ -117,14 +108,8 @@
 
     li::before,
     li::after {
-      left: 8px;
+      inset-inline-start: 8px;
       display: block;
-
-      [dir=rtl] & {
-      left: 0;
-      right: 8px;
-      margin: 0;
-      }
     }
 
     li::before {
@@ -140,12 +125,7 @@
     line-height: 1.8rem;
 
     li {
-      padding-left: 20px;
-
-      [dir=rtl] & {
-      padding-left: 0;
-      padding-right: 20px;
-      }
+      padding-inline-start: 20px;
     }
   }
 }

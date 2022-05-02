@@ -3,7 +3,7 @@
  * @package     Joomla.Tests
  * @subpackage  AcceptanceTester.Step
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2019 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 namespace Step\Acceptance\Administrator;
@@ -20,11 +20,17 @@ use Page\Acceptance\Administrator\ContentListPage;
  */
 class Content extends Admin
 {
+	/**
+	 * Flag if workflows are enabled by default
+	 *
+	 * @var bool
+	 */
+	private $workflowsEnabled = false;
 
 	/**
 	 * Method to create an article.
 	 *
-	 * @param  Array  articleDetails Array with Article Details like Title, Alias, Content etc
+	 * @param  array  articleDetails Array with Article Details like Title, Alias, Content etc
 	 *
 	 * @return void
 	 *
@@ -121,8 +127,17 @@ class Content extends Admin
 		$I->checkAllResults();
 		$I->clickToolbarButton('Action');
 		$I->wait(2);
-		$I->clickToolbarButton('unpublish');
-		$I->filterByCondition($title, "Unpublished");
+
+		if ($this->workflowsEnabled)
+		{
+			$I->clickToolbarButton('transition', '1');
+		}
+		else
+		{
+			$I->clickToolbarButton('unpublish');
+		}
+
+		$I->filterByCondition($title, "0");
 	}
 
 	/**
@@ -144,8 +159,17 @@ class Content extends Admin
 		$I->checkAllResults();
 		$I->clickToolbarButton('Action');
 		$I->wait(2);
-		$I->clickToolbarButton('publish');
-		$I->filterByCondition($title, "Published");
+
+		if ($this->workflowsEnabled)
+		{
+			$I->clickToolbarButton('transition', '2');
+		}
+		else
+		{
+			$I->clickToolbarButton('publish');
+		}
+
+		$I->filterByCondition($title, "1");
 	}
 
 	/**
@@ -168,8 +192,17 @@ class Content extends Admin
 		$I->checkAllResults();
 		$I->clickToolbarButton('Action');
 		$I->wait(2);
-		$I->clickToolbarButton('trash');
-		$I->filterByCondition($title, "Trashed");
+
+		if ($this->workflowsEnabled)
+		{
+			$I->clickToolbarButton('transition', '3');
+		}
+		else
+		{
+			$I->clickToolbarButton('trash');
+		}
+
+		$I->filterByCondition($title, "-2");
 	}
 
 	/**
@@ -188,7 +221,7 @@ class Content extends Admin
 		$I = $this;
 		$I->amOnPage(ContentListPage::$url);
 		$I->waitForElement(ContentListPage::$filterSearch, $I->getConfig('timeout'));
-		$I->filterByCondition($title, "Trashed");
+		$I->filterByCondition($title, "-2");
 		$I->searchForArticle($title);
 		$I->checkAllResults();
 		$I->clickToolbarButton('empty trash');
@@ -208,9 +241,15 @@ class Content extends Admin
 	public function filterByCondition($title, $condition)
 	{
 		$I = $this;
-		$I->click("//div[@class='js-stools-container-bar']//button[contains(text(), 'Filter')]");
+
+		// Make sure that the class js-stools-container-filters is visible. 
+		// Filter is a toggle button and I never know what happened before.
+		$I->executeJS("[].forEach.call(document.querySelectorAll('.js-stools-container-filters'), function (el) {
+			el.classList.add('js-stools-container-filters-visible');
+		  });");
+		$I->selectOption('//*[@id="filter_published"]', $condition);
 		$I->wait(2);
-		$I->selectOptionInChosenByIdUsingJs('filter_condition', $condition);
+
 		$I->see($title);
 	}
 }

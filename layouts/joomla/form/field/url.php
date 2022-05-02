@@ -3,11 +3,11 @@
  * @package     Joomla.Site
  * @subpackage  Layout
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2016 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('JPATH_BASE') or die;
+defined('_JEXEC') or die;
 
 use Joomla\CMS\String\PunycodeHelper;
 
@@ -44,6 +44,8 @@ extract($displayData);
  * @var   array    $options         Options available for this field.
  * @var   array    $inputType       Options available for this field.
  * @var   string   $accept          File types that are accepted.
+ * @var   string   $dataAttribute   Miscellaneous data attributes preprocessed for HTML output
+ * @var   array    $dataAttributes  Miscellaneous data attribute for eg, data-*.
  */
 
 $attributes = array(
@@ -58,7 +60,14 @@ $attributes = array(
 	$onchange ? ' onchange="' . $onchange . '"' : '',
 	!empty($maxLength) ? $maxLength : '',
 	$required ? ' required' : '',
+	$dataAttribute,
 );
+
+// @deprecated  5.0 The unicode conversion of the URL will be moved to \Joomla\CMS\Form\Field\UrlField::getLayoutData
+if ($value !== null)
+{
+	$value = $this->escape(PunycodeHelper::urlToUTF8($value));
+}
 ?>
 <input
 	<?php echo $inputType; ?>
@@ -66,5 +75,5 @@ $attributes = array(
 	name="<?php echo $name; ?>"
 	<?php echo !empty($class) ? ' class="form-control ' . $class . '"' : 'class="form-control"'; ?>
 	id="<?php echo $id; ?>"
-	value="<?php echo htmlspecialchars(PunycodeHelper::urlToUTF8($value), ENT_COMPAT, 'UTF-8'); ?>"
+	value="<?php echo $value; ?>"
 	<?php echo implode(' ', $attributes); ?>>
