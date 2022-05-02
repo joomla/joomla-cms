@@ -142,7 +142,11 @@ class JNamespacePsr4Map
 		 */
 		$error_reporting = error_reporting(0);
 
-		if (!File::write($this->file, implode("\n", $content)))
+		try
+		{
+			File::write($this->file, implode("\n", $content));
+		}
+		catch (Exception $e)
 		{
 			Log::add('Could not save ' . $this->file, Log::WARNING);
 
@@ -194,7 +198,14 @@ class JNamespacePsr4Map
 		}
 		elseif ($type === 'plugin')
 		{
-			$directories = Folder::folders(JPATH_PLUGINS, '.', false, true);
+			try
+			{
+				$directories = Folder::folders(JPATH_PLUGINS, '.', false, true);
+			}
+			catch (Exception $e)
+			{
+				$directories = [];
+			}
 		}
 		else
 		{
@@ -205,7 +216,16 @@ class JNamespacePsr4Map
 
 		foreach ($directories as $directory)
 		{
-			foreach (Folder::folders($directory) as $extension)
+			try
+			{
+				$extensionFolders = Folder::folders($directory);
+			}
+			catch (Exception $e)
+			{
+				continue;
+			}
+
+			foreach ($extensionFolders as $extension)
 			{
 				// Compile the extension path
 				$extensionPath = $directory . '/' . $extension . '/';
