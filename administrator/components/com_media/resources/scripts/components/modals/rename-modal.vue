@@ -101,7 +101,7 @@ export default {
     save() {
       // Check if the form is valid
       if (!this.isValid()) {
-        // TODO mark the field as invalid
+        // @todo mark the field as invalid
         return;
       }
       let newName = this.$refs.nameField.value;
@@ -116,7 +116,7 @@ export default {
 
       // Rename the item
       this.$store.dispatch('renameItem', {
-        path: this.item.path,
+        item: this.item,
         newPath: newPath + newName,
         newName,
       });

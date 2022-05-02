@@ -249,7 +249,8 @@ class PlgSystemCache extends CMSPlugin
 			$exclusions = explode("\n", $exclusions);
 
 			// Gets internal URI.
-			$internal_uri	= '/index.php?' . Uri::getInstance()->buildQuery($this->app->getRouter()->getVars());
+			// Router can be injected when turned into a DI built plugin
+			$internal_uri	= '/index.php?' . Uri::getInstance()->buildQuery(Factory::getContainer()->get(SiteRouter::class)->getVars());
 
 			// Loop through each pattern.
 			if ($exclusions)
@@ -260,7 +261,7 @@ class PlgSystemCache extends CMSPlugin
 					if ($exclusion !== '')
 					{
 						// Test both external and internal URI
-						if (preg_match('#' . $exclusion . '#i', $this->_cache_key . ' ' . $internal_uri, $match))
+						if (preg_match('#' . $exclusion . '#i', $this->_cache_key . ' ' . $internal_uri))
 						{
 							return true;
 						}

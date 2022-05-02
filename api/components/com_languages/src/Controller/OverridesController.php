@@ -97,7 +97,7 @@ class OverridesController extends ApiController
 
 		$data = $this->input->get('data', json_decode($this->input->json->getRaw(), true), 'array');
 
-		// TODO: Not the cleanest thing ever but it works...
+		// @todo: Not the cleanest thing ever but it works...
 		Form::addFormPath(JPATH_COMPONENT_ADMINISTRATOR . '/forms');
 
 		// Validate the posted data.
@@ -117,7 +117,7 @@ class OverridesController extends ApiController
 			$errors   = $model->getErrors();
 			$messages = [];
 
-			for ($i = 0, $n = count($errors); $i < $n && $i < 3; $i++)
+			for ($i = 0, $n = \count($errors); $i < $n && $i < 3; $i++)
 			{
 				if ($errors[$i] instanceof \Exception)
 				{

@@ -18,7 +18,7 @@ use Joomla\CMS\Uri\Uri;
  * Email helper class, provides static methods to perform various tasks relevant
  * to the Joomla email routines.
  *
- * TODO: Test these methods as the regex work is first run and not tested thoroughly
+ * @todo: Test these methods as the regex work is first run and not tested thoroughly
  *
  * @since  1.7.0
  */
@@ -202,7 +202,7 @@ abstract class MailHelper
 	 *
 	 * @return  string  The converted content which the relative urls are converted to absolute urls
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.1.0
 	 */
 	public static function convertRelativeToAbsoluteUrls($content)
 	{
@@ -252,7 +252,7 @@ abstract class MailHelper
 	 * @return  void
 	 *
 	 * @throws  \RuntimeException  If there is an error in previous regular expression function call.
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.1.0
 	 */
 	private static function checkContent($content)
 	{

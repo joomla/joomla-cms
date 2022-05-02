@@ -38,7 +38,7 @@ export const getContents = (context, payload) => {
       context.commit(types.SET_IS_LOADING, false);
     })
     .catch((error) => {
-      // TODO error handling
+      // @todo error handling
       context.commit(types.SET_IS_LOADING, false);
       // eslint-disable-next-line no-console
       console.log('error', error);
@@ -58,7 +58,7 @@ export const getFullContents = (context, payload) => {
       context.commit(types.SET_IS_LOADING, false);
     })
     .catch((error) => {
-      // TODO error handling
+      // @todo error handling
       context.commit(types.SET_IS_LOADING, false);
       // eslint-disable-next-line no-console
       console.log('error', error);
@@ -129,6 +129,9 @@ export const toggleBrowserItemSelect = (context, payload) => {
  * @param payload object with the new folder name and its parent directory
  */
 export const createDirectory = (context, payload) => {
+  if (!api.canCreate) {
+    return;
+  }
   context.commit(types.SET_IS_LOADING, true);
   api.createDirectory(payload.name, payload.parent)
     .then((folder) => {
@@ -137,7 +140,7 @@ export const createDirectory = (context, payload) => {
       context.commit(types.SET_IS_LOADING, false);
     })
     .catch((error) => {
-      // TODO error handling
+      // @todo error handling
       context.commit(types.SET_IS_LOADING, false);
       // eslint-disable-next-line no-console
       console.log('error', error);
@@ -150,6 +153,9 @@ export const createDirectory = (context, payload) => {
  * @param payload object with the new folder name and its parent directory
  */
 export const uploadFile = (context, payload) => {
+  if (!api.canCreate) {
+    return;
+  }
   context.commit(types.SET_IS_LOADING, true);
   api.upload(payload.name, payload.parent, payload.content, payload.override || false)
     .then((file) => {
@@ -172,22 +178,29 @@ export const uploadFile = (context, payload) => {
 /**
  * Rename an item
  * @param context
- * @param payload object: the old and the new path
+ * @param payload object: the item and the new path
  */
 export const renameItem = (context, payload) => {
+  if (!api.canEdit) {
+    return;
+  }
+
+  if (typeof payload.item.canEdit !== 'undefined' && payload.item.canEdit === false) {
+    return;
+  }
   context.commit(types.SET_IS_LOADING, true);
-  api.rename(payload.path, payload.newPath)
+  api.rename(payload.item.path, payload.newPath)
     .then((item) => {
       context.commit(types.RENAME_SUCCESS, {
         item,
-        oldPath: payload.path,
+        oldPath: payload.item.path,
         newName: payload.newName,
       });
       context.commit(types.HIDE_RENAME_MODAL);
       context.commit(types.SET_IS_LOADING, false);
     })
     .catch((error) => {
-      // TODO error handling
+      // @todo error handling
       context.commit(types.SET_IS_LOADING, false);
       // eslint-disable-next-line no-console
       console.log('error', error);
@@ -199,11 +212,17 @@ export const renameItem = (context, payload) => {
  * @param context
  */
 export const deleteSelectedItems = (context) => {
+  if (!api.canDelete) {
+    return;
+  }
   context.commit(types.SET_IS_LOADING, true);
   // Get the selected items from the store
   const { selectedItems } = context.state;
   if (selectedItems.length > 0) {
     selectedItems.forEach((item) => {
+      if (typeof item.canDelete !== 'undefined' && item.canDelete === false) {
+        return;
+      }
       api.delete(item.path)
         .then(() => {
           context.commit(types.DELETE_SUCCESS, item);
@@ -211,13 +230,13 @@ export const deleteSelectedItems = (context) => {
           context.commit(types.SET_IS_LOADING, false);
         })
         .catch((error) => {
-          // TODO error handling
+          // @todo error handling
           context.commit(types.SET_IS_LOADING, false);
           // eslint-disable-next-line no-console
           console.log('error', error);
         });
     });
   } else {
-    // TODO notify the user that he has to select at least one item
+    // @todo notify the user that he has to select at least one item
   }
 };

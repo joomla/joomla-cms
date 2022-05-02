@@ -774,7 +774,7 @@ class PlgSampledataBlog extends CMSPlugin
 				&& ComponentHelper::getParams('com_content')->get('workflow_enabled'))
 			{
 				// Set the article featured in #__content_frontpage
-				$query = $this->db->getQuery(true);
+				$this->db->getQuery(true);
 
 				$featuredItem = (object) [
 					'content_id'      => $articleModel->getItem()->id,
@@ -1684,7 +1684,7 @@ class PlgSampledataBlog extends CMSPlugin
 				),
 			),
 			array(
-				// Similiar Items
+				// Similar Items
 				'title'    => Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_MODULES_MODULE_10_TITLE'),
 				'ordering' => 0,
 				'module'   => 'mod_tags_similar',

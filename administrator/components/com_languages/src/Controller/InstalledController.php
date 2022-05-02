@@ -35,7 +35,7 @@ class InstalledController extends BaseController
 		// Check for request forgeries.
 		$this->checkToken();
 
-		$cid = $this->input->get('cid', '');
+		$cid   = (string) $this->input->get('cid', '', 'string');
 		$model = $this->getModel('installed');
 
 		if ($model->publish($cid))
@@ -81,7 +81,7 @@ class InstalledController extends BaseController
 		// Check for request forgeries.
 		$this->checkToken();
 
-		$cid   = $this->input->get('cid', '');
+		$cid   = (string) $this->input->get('cid', '', 'string');
 		$model = $this->getModel('installed');
 
 		// Fetching the language name from the langmetadata.xml or xx-XX.xml respectively.
@@ -92,12 +92,12 @@ class InstalledController extends BaseController
 			$file = JPATH_ADMINISTRATOR . '/language/' . $cid . '/' . $cid . '.xml';
 		}
 
-		$info         = LanguageHelper::parseXMLLanguageFile($file);
-		$languageName = $info['nativeName'];
+		$info = LanguageHelper::parseXMLLanguageFile($file);
 
 		if ($model->switchAdminLanguage($cid))
 		{
 			// Switching to the new language for the message
+			$languageName = $info['nativeName'];
 			$language = Factory::getLanguage();
 			$newLang = Language::getInstance($cid);
 			Factory::$language = $newLang;

@@ -242,7 +242,7 @@ class DiscoverModel extends InstallerModel
 				}
 			}
 
-			// TODO - We are only receiving the message for the last Installer instance
+			// @todo - We are only receiving the message for the last Installer instance
 			$this->setState('action', 'remove');
 			$this->setState('name', $installer->get('name'));
 			$app->setUserState('com_installer.message', $installer->message);
@@ -304,5 +304,25 @@ class DiscoverModel extends InstallerModel
 		$query->where($this->_db->quoteName('state') . ' = -1');
 
 		return $query;
+	}
+
+	/**
+	 * Checks for not installed extensions in extensions table.
+	 *
+	 * @return  boolean  True if there are discovered extensions in the database.
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function checkExtensions()
+	{
+		$db    = $this->getDatabase();
+		$query = $db->getQuery(true)
+			->select('*')
+			->from($db->quoteName('#__extensions'))
+			->where($db->quoteName('state') . ' = -1');
+		$db->setQuery($query);
+		$discoveredExtensions = $db->loadObjectList();
+
+		return count($discoveredExtensions) > 0;
 	}
 }

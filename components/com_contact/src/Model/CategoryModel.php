@@ -166,7 +166,7 @@ class CategoryModel extends ListModel
 			->select($this->getSlugColumn($query, 'a.id', 'a.alias') . ' AS slug')
 			->select($this->getSlugColumn($query, 'c.id', 'c.alias') . ' AS catslug')
 		/**
-		 * TODO: we actually should be doing it but it's wrong this way
+		 * @todo: we actually should be doing it but it's wrong this way
 		 *	. ' CASE WHEN CHAR_LENGTH(a.alias) THEN CONCAT_WS(\':\', a.id, a.alias) ELSE a.id END as slug, '
 		 *	. ' CASE WHEN CHAR_LENGTH(c.alias) THEN CONCAT_WS(\':\', c.id, c.alias) ELSE c.id END AS catslug ');
 		 */
@@ -292,7 +292,7 @@ class CategoryModel extends ListModel
 		else
 		{
 			$limit = $app->getUserStateFromRequest(
-				'com_contact.category.list',
+				'com_contact.category.list.limit',
 				'limit',
 				$mergedParams->get('contacts_display_num', $app->get('list_limit')),
 				'uint'

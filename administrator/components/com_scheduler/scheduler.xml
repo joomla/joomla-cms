@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension type="component" method="upgrade">
+	<name>com_scheduler</name>
+	<author>Joomla! Project</author>
+	<creationDate>July 2021</creationDate>
+	<copyright>(C) 2021 Open Source Matters, Inc.</copyright>
+	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
+	<authorEmail>admin@joomla.org</authorEmail>
+	<authorUrl>www.joomla.org</authorUrl>
+	<version>4.1.0</version>
+	<description>COM_SCHEDULER_XML_DESCRIPTION</description>
+	<namespace path="src">Joomla\Component\Scheduler</namespace>
+	<media destination="com_scheduler" folder="media">
+		<folder>js</folder>
+		<folder>css</folder>
+	</media>
+	<administration>
+		<filename>access.xml</filename>
+		<filename>config.xml</filename>
+		<filename>scheduler.xml</filename>
+		<folder>forms</folder>
+		<folder>services</folder>
+		<folder>src</folder>
+		<folder>tmpl</folder>
+		<languages folder="admin">
+			<language tag="en-GB">language/en-GB/com_scheduler.ini</language>
+			<language tag="en-GB">language/en-GB/com_scheduler.sys.ini</language>
+		</languages>
+	</administration>
+</extension>

@@ -124,10 +124,11 @@ const getImageSize = (url) => new Promise((resolve, reject) => {
 
 const insertAsImage = async (media, editor, fieldClass) => {
   if (media.url) {
-    if (/local-/.test(media.adapter)) {
-      const { rootFull } = Joomla.getOptions('system.paths');
+    const { rootFull } = Joomla.getOptions('system.paths');
+    const parts = media.url.split(rootFull);
+    if (parts.length > 1) {
       // eslint-disable-next-line prefer-destructuring
-      Joomla.selectedMediaFile.url = media.url.split(rootFull)[1];
+      Joomla.selectedMediaFile.url = parts[1];
       if (media.thumb_path) {
         Joomla.selectedMediaFile.thumb = media.thumb_path;
       } else {
@@ -196,18 +197,19 @@ const insertAsImage = async (media, editor, fieldClass) => {
           Joomla.selectedMediaFile.width = 0;
         }
       }
-      editor.value = `${Joomla.selectedMediaFile.url}#joomlaImage://${media.path.replace(':', '')}?width=${Joomla.selectedMediaFile.width}&height=${Joomla.selectedMediaFile.height}`;
-      fieldClass.updatePreview();
+      fieldClass.markValid();
+      fieldClass.setValue(`${Joomla.selectedMediaFile.url}#joomlaImage://${media.path.replace(':', '')}?width=${Joomla.selectedMediaFile.width}&height=${Joomla.selectedMediaFile.height}`);
     }
   }
 };
 
 const insertAsOther = (media, editor, fieldClass, type) => {
   if (media.url) {
-    if (/local-/.test(media.adapter)) {
-      const { rootFull } = Joomla.getOptions('system.paths');
+    const { rootFull } = Joomla.getOptions('system.paths');
+    const parts = media.url.split(rootFull);
+    if (parts.length > 1) {
       // eslint-disable-next-line prefer-destructuring
-      Joomla.selectedMediaFile.url = `${media.url.split(rootFull)[1]}`;
+      Joomla.selectedMediaFile.url = parts[1];
     } else {
       Joomla.selectedMediaFile.url = media.url;
     }
@@ -254,9 +256,9 @@ const insertAsOther = (media, editor, fieldClass, type) => {
 
       Joomla.editors.instances[editor].replaceSelection(outputText);
     } else {
-      editor.value = Joomla.selectedMediaFile.url;
+      fieldClass.markValid();
       fieldClass.givenType = type;
-      fieldClass.updatePreview();
+      fieldClass.setValue(Joomla.selectedMediaFile.url);
     }
   }
 };

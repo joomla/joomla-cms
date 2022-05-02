@@ -1,0 +1,44 @@
+// Footer
+
+.footer {
+  margin-top: $cassiopeia-grid-gutter;
+  color: $white;
+  background-color: var(--cassiopeia-color-primary);
+  background-image: $cassiopeia-header-grad;
+
+  .grid-child {
+    align-items: center;
+    justify-content: space-between;
+    padding: 2.5rem ($cassiopeia-grid-gutter * .5);
+  }
+
+  a {
+    color: currentColor;
+  }
+
+  [dir=rtl] & {
+    background-image: $cassiopeia-header-grad-rtl;
+  }
+
+  .mod-menu {
+    position: relative;
+  }
+
+  @if $metismenu==true {
+    .metismenu.mod-menu {
+      .mm-collapse {
+        background: var(--cassiopeia-color-primary);
+      }
+    }
+  }
+
+  @include media-breakpoint-down(lg) {
+    .grid-child {
+      flex-direction: column;
+
+      .mod-footer {
+        margin: .375rem 0;
+      }
+    }
+  }
+}

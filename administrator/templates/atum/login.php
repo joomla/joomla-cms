@@ -35,13 +35,13 @@ $this->addHeadLink(HTMLHelper::_('image', 'joomla-favicon-pinned.svg', '', [], t
 // Template params
 $logoBrandLarge  = $this->params->get('logoBrandLarge')
 	? Uri::root() . htmlspecialchars($this->params->get('logoBrandLarge'), ENT_QUOTES)
-	: $this->baseurl . '/templates/' . $this->template . '/images/logos/brand-large.svg';
+	: Uri::root() . 'media/templates/administrator/atum/images/logos/brand-large.svg';
 $loginLogo = $this->params->get('loginLogo')
 	? Uri::root() . $this->params->get('loginLogo')
-	: $this->baseurl . '/templates/' . $this->template . '/images/logos/login.svg';
+	: Uri::root() . 'media/templates/administrator/atum/images/logos/login.svg';
 $logoBrandSmall = $this->params->get('logoBrandSmall')
 	? Uri::root() . htmlspecialchars($this->params->get('logoBrandSmall'), ENT_QUOTES)
-	: $this->baseurl . '/templates/' . $this->template . '/images/logos/brand-small.svg';
+	: Uri::root() . 'media/templates/administrator/atum/images/logos/brand-small.svg';
 
 $logoBrandLargeAlt = empty($this->params->get('logoBrandLargeAlt')) && empty($this->params->get('emptyLogoBrandLargeAlt'))
 	? 'alt=""'
@@ -118,7 +118,7 @@ HTMLHelper::_('bootstrap.dropdown');
 		<?php echo $statusModules; ?>
 	</header>
 
-	<div id="wrapper" class="wrapper">
+	<div id="wrapper" class="wrapper flex-grow-1">
 		<div class="container-fluid container-main">
 			<section id="content" class="content h-100">
 				<div class="login_message">

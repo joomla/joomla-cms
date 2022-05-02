@@ -262,7 +262,10 @@ class FormController extends BaseController implements FormFactoryAwareInterface
 	public function batch($model)
 	{
 		$vars = $this->input->post->get('batch', array(), 'array');
-		$cid  = $this->input->post->get('cid', array(), 'array');
+		$cid  = (array) $this->input->post->get('cid', array(), 'int');
+
+		// Remove zero values resulting from input filter
+		$cid = array_filter($cid);
 
 		// Build an array of item contexts to check
 		$contexts = array();
@@ -369,7 +372,7 @@ class FormController extends BaseController implements FormFactoryAwareInterface
 
 		$model = $this->getModel();
 		$table = $model->getTable();
-		$cid   = $this->input->post->get('cid', array(), 'array');
+		$cid   = (array) $this->input->post->get('cid', array(), 'int');
 		$context = "$this->option.edit.$this->context";
 
 		// Determine the name of the primary key for the data.
@@ -749,7 +752,7 @@ class FormController extends BaseController implements FormFactoryAwareInterface
 		{
 			case 'apply':
 				// Set the record data in the session.
-				$recordId = $model->getState($this->context . '.id');
+				$recordId = $model->getState($model->getName() . '.id');
 				$this->holdEditId($context, $recordId);
 				$app->setUserState($context . '.data', null);
 				$model->checkout($recordId);
@@ -875,9 +878,19 @@ class FormController extends BaseController implements FormFactoryAwareInterface
 			{
 				$fieldName = $field->fieldname;
 
-				if (isset($filteredData[$fieldName]))
+				if ($field->group)
 				{
-					$data[$fieldName] = $filteredData[$fieldName];
+					if (isset($filteredData[$field->group][$fieldName]))
+					{
+						$data[$field->group][$fieldName] = $filteredData[$field->group][$fieldName];
+					}
+				}
+				else
+				{
+					if (isset($filteredData[$fieldName]))
+					{
+						$data[$fieldName] = $filteredData[$fieldName];
+					}
 				}
 			}
 		}
