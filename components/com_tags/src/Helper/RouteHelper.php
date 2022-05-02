@@ -81,17 +81,19 @@ class RouteHelper extends CMSRouteHelper
 	/**
 	 * Tries to load the router for the component and calls it. Otherwise calls getRoute.
 	 *
-	 * @param   integer  $id  The ID of the tag
+	 * @param   string   $language  The language of the tag
+	 * @param   integer  $id        The ID of the tag
 	 *
 	 * @return  string  URL link to pass to the router
 	 *
 	 * @since   3.1
 	 */
-	public static function getTagRoute($id)
+	public static function getTagRoute($id, string $language = '*')
 	{
-		$needles = array(
-			'tag'  => array((int) $id)
-		);
+		$needles = [
+			'tag'      => [(int) $id],
+			'language' => $language
+		];
 
 		if ($id < 1)
 		{
@@ -107,7 +109,10 @@ class RouteHelper extends CMSRouteHelper
 			}
 			else
 			{
-				$needles = array('tags' => array(1, 0));
+				$needles = [
+					'tags'     => [1, 0],
+					'language' => $language,
+				];
 
 				if ($item = self::_findItem($needles))
 				{

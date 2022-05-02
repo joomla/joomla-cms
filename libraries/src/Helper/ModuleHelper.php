@@ -425,7 +425,7 @@ abstract class ModuleHelper
 		$query   = $db->getQuery(true);
 		$nowDate = Factory::getDate()->toSql();
 
-		$query->select($db->quoteName(['m.id', 'm.title', 'm.module', 'm.position', 'm.content', 'm.showtitle', 'm.params', 'mm.menuid']))
+		$query->select($db->quoteName(['m.id', 'm.title', 'm.module', 'm.position', 'm.content', 'm.showtitle', 'm.params', 'm.language', 'mm.menuid']))
 			->from($db->quoteName('#__modules', 'm'))
 			->join(
 				'LEFT',
