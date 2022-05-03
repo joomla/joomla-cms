@@ -120,7 +120,7 @@
 					type="modulelayout"
 					label="JFIELD_ALT_LAYOUT_LABEL"
 					class="form-select"
- 				/>
+				/>
 
 				<field
 					name="moduleclass_sfx"
@@ -146,7 +146,7 @@
 					name="cache_time"
 					type="number"
 					label="COM_MODULES_FIELD_CACHE_TIME_LABEL"
- 					default="900"
+					default="900"
 					filter="integer"
 					min="1"
 					validate="number"

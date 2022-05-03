@@ -64,7 +64,7 @@
 					label="JFIELD_ALT_LAYOUT_LABEL"
 					class="form-select"
 					validate="moduleLayout"
- 				/>
+				/>
 
 				<field
 					name="moduleclass_sfx"
