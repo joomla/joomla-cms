@@ -471,7 +471,7 @@ trait DisplayTrait
 				'document_base_url'  => Uri::root(true) . '/',
 				'image_caption'      => true,
 				'importcss_append'   => true,
-				'height'             => $height ?: $this->params->get('html_height', '550'),
+				'height'             => $height ?: $this->params->get('html_height', '550px'),
 				'width'              => $width ?: $this->params->get('html_width', ''),
 				'elementpath'        => (bool) $levelParams->get('element_path', true),
 				'resize'             => $resizing,
