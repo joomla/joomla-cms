@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension type="plugin" group="system" method="upgrade">
+	<name>plg_system_headerhierarchycorrector</name>
+	<author>Yash Vora</author>
+	<creationDate>10/4/2022</creationDate>
+	<version>4.0.1</version>
+	<description>PLG_SYSTEM_HEADERHIERARCHYCORRECTOR_DESCRIPTION</description>
+	<projectName>headerhierarchycorrector</projectName>
+
+	<media destination="plg_system_headerhierarchycorrector" folder="media">
+		<folder>js</folder>
+		<filename>index.html</filename>
+	</media>
+
+	<files>
+		<filename plugin="headerhierarchycorrector">index.html</filename>
+		<filename plugin="headerhierarchycorrector">headerhierarchycorrector.php</filename>
+		<filename plugin="headerhierarchycorrector">manifest.xml</filename>
+	</files>
+
+	<languages>
+		<language tag="en-GB">language/en-GB/en-GB.plg_system_headerhierarchycorrector.ini</language>
+		<language tag="en-GB">language/en-GB/en-GB.plg_system_headerhierarchycorrector.sys.ini</language>
+	</languages>
+
+	<administration>
+		<languages>
+			<language tag="en-GB">language/en-GB/en-GB.plg_system_headerhierarchycorrector.ini</language>
+			<language tag="en-GB">language/en-GB/en-GB.plg_system_headerhierarchycorrector.sys.ini</language>
+		</languages>
+	</administration>
+</extension>

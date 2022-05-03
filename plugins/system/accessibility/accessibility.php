@@ -41,7 +41,7 @@ class PlgSystemAccessibility extends CMSPlugin
 		if ($section !== 'both' && $this->app->isClient($section) !== true)
 		{
 			return;
-		}
+		}	
 
 		// Get the document object.
 		$document = $this->app->getDocument();

@@ -1,0 +1,16 @@
+<updates>
+	<update>
+		<name><![CDATA[ Header Hierarchy Corrector System Plugin ]]></name>
+		<description><![CDATA[ Header Hierarchy Corrector System Plugin is a Joomla! CMS Plugin. It checks header hierarchy in the frontend and corrects it. ]]></description>
+		<element>headerhierarchycorrector</element>
+		<folder>system</folder>
+		<type>plugin</type>
+		<version>4.0.0</version>
+		<tags>
+			<tag>stable</tag>
+		</tags>
+		<section>Updates</section>
+		<targetplatform name="joomla" version="4.[0]"/>
+		<client>site</client>
+	</update>
+</updates>
