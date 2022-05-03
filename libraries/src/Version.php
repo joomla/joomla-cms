@@ -63,7 +63,7 @@ final class Version
 	 * @var    string
 	 * @since  3.8.0
 	 */
-	const EXTRA_VERSION = 'alpha2-dev';
+	const EXTRA_VERSION = 'alpha3-dev';
 
 	/**
 	 * Development status.
@@ -79,7 +79,7 @@ final class Version
 	 * @var    string
 	 * @since  3.5
 	 */
-	const CODENAME = 'Kuamini';
+	const CODENAME = 'Uaminifu';
 
 	/**
 	 * Release date.
@@ -87,7 +87,7 @@ final class Version
 	 * @var    string
 	 * @since  3.5
 	 */
-	const RELDATE = '29-March-2022';
+	const RELDATE = '26-April-2022';
 
 	/**
 	 * Release time.
@@ -95,7 +95,7 @@ final class Version
 	 * @var    string
 	 * @since  3.5
 	 */
-	const RELTIME = '18:41';
+	const RELTIME = '16:49';
 
 	/**
 	 * Release timezone.
@@ -125,7 +125,7 @@ final class Version
 	 * Media version string
 	 *
 	 * @var string
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	private static $mediaVersion = null;
 
@@ -304,7 +304,7 @@ final class Version
 	 *
 	 * @return CacheController
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	private function getMediaVersionCache(): CacheController
 	{
