@@ -37,4 +37,9 @@ $numberOfUrgentRequests       = PrivacyStatusHelper::getNumberUrgentRequests();
 $urgentRequestDays            = (int) ComponentHelper::getParams('com_privacy')->get('notify', 14);
 $databaseConnectionEncryption = Factory::getContainer()->get('DatabaseDriver')->getConnectionEncryption();
 
+if ($params->get('automatic_title', 0))
+{
+	$module->title = PrivacyStatusHelper::getTitle($params);
+}
+
 require ModuleHelper::getLayoutPath('mod_privacy_status', $params->get('layout', 'default'));

@@ -29,6 +29,11 @@ $lang->load('com_privacy', JPATH_ADMINISTRATOR)
 
 $list = PrivacyDashboardHelper::getData();
 
+if ($params->get('automatic_title', 0))
+{
+	$module->title = PrivacyDashboardHelper::getTitle($params);
+}
+
 if (count($list))
 {
 	require ModuleHelper::getLayoutPath('mod_privacy_dashboard', $params->get('layout', 'default'));
