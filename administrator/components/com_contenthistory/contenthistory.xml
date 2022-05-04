@@ -2,7 +2,7 @@
 <extension type="component" method="upgrade">
 	<name>com_contenthistory</name>
 	<author>Joomla! Project</author>
-	<creationDate>May 2013</creationDate>
+	<creationDate>2013-05</creationDate>
 	<copyright>(C) 2013 Open Source Matters, Inc.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
