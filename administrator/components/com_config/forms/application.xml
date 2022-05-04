@@ -1132,6 +1132,7 @@
 			name="log_path"
 			type="text"
 			label="COM_CONFIG_FIELD_LOG_PATH_LABEL"
+			description="COM_CONFIG_FIELD_LOG_PATH_DESC"
 			required="true"
 			filter="string"
 		/>
