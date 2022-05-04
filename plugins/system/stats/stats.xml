@@ -2,7 +2,7 @@
 <extension type="plugin" group="system" method="upgrade">
 	<name>plg_system_stats</name>
 	<author>Joomla! Project</author>
-	<creationDate>November 2013</creationDate>
+	<creationDate>2013-11</creationDate>
 	<copyright>(C) 2013 Open Source Matters, Inc.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
