@@ -13,6 +13,7 @@ use Joomla\CMS\Cache\CacheControllerFactoryInterface;
 use Joomla\CMS\Extension\PluginInterface;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Profiler\Profiler;
+use Joomla\CMS\Router\SiteRouter;
 use Joomla\DI\Container;
 use Joomla\DI\ServiceProviderInterface;
 use Joomla\Event\DispatcherInterface;
@@ -38,8 +39,9 @@ return new class implements ServiceProviderInterface {
 				$documentFactory        = $container->get('document.factory');
 				$cacheControllerFactory = $container->get(CacheControllerFactoryInterface::class);
 				$profiler               = (defined('JDEBUG') && JDEBUG) ? Profiler::getInstance('Application') : null;
+				$router                 = $container->has(SiteRouter::class) ? $container->get(SiteRouter::class) : null;
 
-				return new Cache($dispatcher, (array) $plugin, $documentFactory, $cacheControllerFactory, $profiler);
+				return new Cache($dispatcher, (array) $plugin, $documentFactory, $cacheControllerFactory, $profiler, $router);
 			}
 		);
 	}

@@ -20,6 +20,7 @@ use Joomla\CMS\Document\FactoryInterface as DocumentFactoryInterface;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Profiler\Profiler;
+use Joomla\CMS\Router\SiteRouter;
 use Joomla\CMS\Uri\Uri;
 use Joomla\Event\DispatcherInterface;
 use Joomla\Event\Event;
@@ -74,6 +75,14 @@ final class Cache extends CMSPlugin implements SubscriberInterface
 	private $profiler;
 
 	/**
+	 * The frontend router, injected by the service provider.
+	 *
+	 * @var   SiteRouter|null
+	 * @since __DEPLOY_VERSION__
+	 */
+	private $router;
+
+	/**
 	 * Constructor
 	 *
 	 * @param   DispatcherInterface              $subject                 The object to observe
@@ -89,6 +98,7 @@ final class Cache extends CMSPlugin implements SubscriberInterface
 	 *                                                                    document factory
 	 * @param   CacheControllerFactoryInterface  $cacheControllerFactory  Cache controller factory
 	 * @param   Profiler|null                    $profiler                The application profiler
+	 * @param   SiteRouter|null                  $router                  The frontend router
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
@@ -97,7 +107,8 @@ final class Cache extends CMSPlugin implements SubscriberInterface
 		$config,
 		DocumentFactoryInterface $documentFactory,
 		CacheControllerFactoryInterface $cacheControllerFactory,
-		?Profiler $profiler
+		?Profiler $profiler,
+		?SiteRouter $router
 	)
 	{
 		parent::__construct($subject, $config);
@@ -105,6 +116,7 @@ final class Cache extends CMSPlugin implements SubscriberInterface
 		$this->documentFactory        = $documentFactory;
 		$this->cacheControllerFactory = $cacheControllerFactory;
 		$this->profiler               = $profiler;
+		$this->router                 = $router;
 	}
 
 	/**
@@ -339,7 +351,7 @@ final class Cache extends CMSPlugin implements SubscriberInterface
 
 			// Gets the internal (non-SEF) and the external (possibly SEF) URIs.
 			$internalUrl = '/index.php?'
-				. Uri::getInstance()->buildQuery($this->app->getRouter()->getVars());
+				. Uri::getInstance()->buildQuery($this->router->getVars());
 			$externalUrl = Uri::getInstance()->toString();
 
 			$reduceCallback
