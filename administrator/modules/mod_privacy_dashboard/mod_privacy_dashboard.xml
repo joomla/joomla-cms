@@ -2,7 +2,7 @@
 <extension type="module" client="administrator" method="upgrade">
 	<name>mod_privacy_dashboard</name>
 	<author>Joomla! Project</author>
-	<creationDate>June 2018</creationDate>
+	<creationDate>2018-06</creationDate>
 	<copyright>(C) 2018 Open Source Matters, Inc.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
@@ -40,7 +40,6 @@
 					name="layout"
 					type="modulelayout"
 					label="JFIELD_ALT_LAYOUT_LABEL"
-					description="JFIELD_ALT_MODULE_LAYOUT_DESC"
 					class="form-select"
 					validate="moduleLayout"
 				/>

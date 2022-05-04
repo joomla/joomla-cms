@@ -2,7 +2,7 @@
 <extension type="module" client="administrator" method="upgrade">
 	<name>mod_logged</name>
 	<author>Joomla! Project</author>
-	<creationDate>January 2005</creationDate>
+	<creationDate>2005-01</creationDate>
 	<copyright>(C) 2005 Open Source Matters, Inc.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
@@ -64,7 +64,7 @@
 					label="JFIELD_ALT_LAYOUT_LABEL"
 					class="form-select"
 					validate="moduleLayout"
- 				/>
+				/>
 
 				<field
 					name="moduleclass_sfx"
