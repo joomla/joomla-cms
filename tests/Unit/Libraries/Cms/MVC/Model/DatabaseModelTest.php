@@ -246,14 +246,17 @@ class DatabaseModelTest extends UnitTestCase
 	{
 		$model = new class(['dbo' => $this->createStub(DatabaseInterface::class)], $this->createStub(MVCFactoryInterface::class)) extends BaseDatabaseModel
 		{
-			public function initVariable($value)
+			public function cache($key, $value)
 			{
-				$this->test[$value] = $value;
+				if (!isset($this->test[$key]))
+				{
+					$this->test[$key] = $value;
+				}
 
-				return $this->test[$value];
+				return $this->test[$key];
 			}
 		};
 
-		$this->assertEquals(1, $model->initVariable(1));
+		$this->assertEquals('test', $model->cache(1, 'test'));
 	}
 }
