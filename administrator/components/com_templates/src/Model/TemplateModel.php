@@ -681,6 +681,9 @@ class TemplateModel extends FormModel
 			{
 				$this->template = $result;
 
+				// Client ID is not always an integer, so enforce here
+				$this->template->client_id = (int) $this->template->client_id;
+
 				if (!isset($this->template->xmldata))
 				{
 					$this->template->xmldata = TemplatesHelper::parseXMLTemplateFile($this->template->client_id === 0 ? JPATH_ROOT : JPATH_ROOT . '/administrator', $this->template->name);
@@ -1451,7 +1454,7 @@ class TemplateModel extends FormModel
 		if ($this->getTemplate())
 		{
 			$app      = Factory::getApplication();
-			$path     = $this->getBasePath();;
+			$path     = $this->getBasePath();
 			$fileName = File::makeSafe($file['name']);
 
 			$err = null;
@@ -2209,7 +2212,7 @@ class TemplateModel extends FormModel
 	 *
 	 * @return  array   array of id,titles of the styles
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.1.3
 	 */
 	public function getAllTemplateStyles()
 	{
@@ -2242,7 +2245,7 @@ class TemplateModel extends FormModel
 	 *
 	 * @return  boolean   true if name is not used, false otherwise
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.1.3
 	 */
 	public function copyStyles()
 	{
