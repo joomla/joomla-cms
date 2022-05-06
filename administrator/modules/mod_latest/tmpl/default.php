@@ -47,7 +47,7 @@ $moduleId = str_replace(' ', '', $module->title) . $module->id;
 				<td>
 					<?php echo Text::_($item->stage_title); ?>
 				</td>
-				<?php endif; ?>
+			<?php endif; ?>
 			<td>
 				<?php echo $item->author_name; ?>
 			</td>
