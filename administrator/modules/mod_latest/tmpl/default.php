@@ -9,12 +9,10 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 
 $moduleId = str_replace(' ', '', $module->title) . $module->id;
-$workflow_enabled  = ComponentHelper::getParams('com_content')->get('workflow_enabled');
 
 ?>
 <table class="table" id="<?php echo $moduleId; ?>">
