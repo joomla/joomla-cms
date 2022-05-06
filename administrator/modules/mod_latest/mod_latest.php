@@ -16,7 +16,7 @@ use Joomla\Module\Latest\Administrator\Helper\LatestHelper;
 
 $model = $app->bootComponent('com_content')->getMVCFactory()->createModel('Articles', 'Administrator', ['ignore_request' => true]);
 $list = LatestHelper::getList($params, $model);
-$workflow_enabled  = ComponentHelper::getParams('com_content')->get('workflow_enabled');
+$workflow_enabled = ComponentHelper::getParams('com_content')->get('workflow_enabled');
 
 if ($workflow_enabled)
 {
