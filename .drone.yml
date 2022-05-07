@@ -6,14 +6,13 @@ clone:
 
 steps:
   - name: composer
-    image: joomlaprojects/docker-images:php7.3
+    image: joomlaprojects/docker-images:php7.4
     volumes:
       - name: composer-cache
         path: /tmp/composer-cache
     commands:
       - composer validate --no-check-all --strict
-      - composer install --no-progress --no-suggest
-      - patch -N -p0 < tests/patch/phpunit8_php8_match.patch || echo "Ignore this error."
+      - composer install --no-progress
 
   - name: phpcs
     image: joomlaprojects/docker-images:php7.2
@@ -420,6 +419,6 @@ steps:
 
 ---
 kind: signature
-hmac: a6f3f2ed21261b612d052724e5f43a5dd55168f98cbaa48eeaa358816bb255df
+hmac: 15e1abb49597a83c250c8785948aa9fa0c6d93ec88b03e45c30d8050b338ea5d
 
 ...
