@@ -23,7 +23,7 @@ steps:
       - echo $(date)
 
   - name: npm
-    image: node:14-alpine
+    image: node:16-alpine
     depends_on: [ phpcs ]
     commands:
       - npm ci --unsafe-perm
