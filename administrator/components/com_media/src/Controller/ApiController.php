@@ -105,24 +105,24 @@ class ApiController extends BaseController
 	 * 		index.php?option=com_media&task=api.files
 	 * 		/api/files
 	 * - GET a list of files and subfolders of a given folder:
-	 * 		index.php?option=com_media&task=api.files&format=json&path=/sampledata/fruitshop
-	 * 		/api/files/sampledata/fruitshop
+	 * 		index.php?option=com_media&task=api.files&format=json&path=/sampledata/cassiopeia
+	 * 		/api/files/sampledata/cassiopeia
 	 * - GET a list of files and subfolders of a given folder for a given search term:
 	 *   use recursive=1 to search recursively in the working directory
-	 * 		index.php?option=com_media&task=api.files&format=json&path=/sampledata/fruitshop&search=apple
-	 * 		/api/files/sampledata/fruitshop?search=apple
+	 * 		index.php?option=com_media&task=api.files&format=json&path=/sampledata/cassiopeia&search=nasa5
+	 * 		/api/files/sampledata/cassiopeia?search=nasa5
 	 *   To look up in same working directory set flag recursive=0
-	 *      index.php?option=com_media&task=api.files&format=json&path=/sampledata/fruitshop&search=apple&recursive=0
-	 * 		/api/files/sampledata/fruitshop?search=apple&recursive=0
+	 *      index.php?option=com_media&task=api.files&format=json&path=/sampledata/cassiopeia&search=nasa5&recursive=0
+	 * 		/api/files/sampledata/cassiopeia?search=nasa5&recursive=0
 	 * - GET file information for a specific file:
-	 * 		index.php?option=com_media&task=api.files&format=json&path=/sampledata/fruitshop/test.jpg
-	 * 		/api/files/sampledata/fruitshop/test.jpg
+	 * 		index.php?option=com_media&task=api.files&format=json&path=/sampledata/cassiopeia/test.jpg
+	 * 		/api/files/sampledata/cassiopeia/test.jpg
 	 * - GET a temporary URL to a given file
-	 *      index.php?option=com_media&task=api.files&format=json&path=/sampledata/fruitshop/test.jpg&url=1&temp=1
-	 * 		/api/files/sampledata/fruitshop/test.jpg&url=1&temp=1
+	 *      index.php?option=com_media&task=api.files&format=json&path=/sampledata/cassiopeia/test.jpg&url=1&temp=1
+	 * 		/api/files/sampledata/cassiopeia/test.jpg&url=1&temp=1
 	 * - GET a temporary URL to a given file
-	 *      index.php?option=com_media&task=api.files&format=json&path=/sampledata/fruitshop/test.jpg&url=1
-	 * 		/api/files/sampledata/fruitshop/test.jpg&url=1
+	 *      index.php?option=com_media&task=api.files&format=json&path=/sampledata/cassiopeia/test.jpg&url=1
+	 * 		/api/files/sampledata/cassiopeia/test.jpg&url=1
 	 *
 	 * @return  array  The data to send with the response
 	 *
@@ -147,11 +147,11 @@ class ApiController extends BaseController
 	 * Examples:
 	 *
 	 * - DELETE an existing folder in a specific folder:
-	 * 		index.php?option=com_media&task=api.files&format=json&path=/sampledata/fruitshop/test
-	 * 		/api/files/sampledata/fruitshop/test
+	 * 		index.php?option=com_media&task=api.files&format=json&path=/sampledata/cassiopeia/test
+	 * 		/api/files/sampledata/cassiopeia/test
 	 * - DELETE an existing file in a specific folder:
-	 * 		index.php?option=com_media&task=api.files&path=/sampledata/fruitshop/test.jpg
-	 * 		/api/files/sampledata/fruitshop/test.jpg
+	 * 		index.php?option=com_media&task=api.files&path=/sampledata/cassiopeia/test.jpg
+	 * 		/api/files/sampledata/cassiopeia/test.jpg
 	 *
 	 * @return  null
 	 *
@@ -176,8 +176,8 @@ class ApiController extends BaseController
 	 * Examples:
 	 *
 	 * - POST a new file or folder into a specific folder, the file or folder information is returned:
-	 * 		index.php?option=com_media&task=api.files&format=json&path=/sampledata/fruitshop
-	 * 		/api/files/sampledata/fruitshop
+	 * 		index.php?option=com_media&task=api.files&format=json&path=/sampledata/cassiopeia
+	 * 		/api/files/sampledata/cassiopeia
 	 *
 	 * 		New file body:
 	 * 		{
@@ -233,8 +233,8 @@ class ApiController extends BaseController
 	 * Examples:
 	 *
 	 * - PUT a media file, the file or folder information is returned:
-	 * 		index.php?option=com_media&task=api.files&format=json&path=/sampledata/fruitshop/test.jpg
-	 * 		/api/files/sampledata/fruitshop/test.jpg
+	 * 		index.php?option=com_media&task=api.files&format=json&path=/sampledata/cassiopeia/test.jpg
+	 * 		/api/files/sampledata/cassiopeia/test.jpg
 	 *
 	 * 		Update file body:
 	 * 		{
@@ -243,8 +243,8 @@ class ApiController extends BaseController
 	 *
 	 * - PUT move a file, folder to another one
 	 *     path : will be taken as the source
-	 *     index.php?option=com_media&task=api.files&format=json&path=/sampledata/fruitshop/test.jpg
-	 * 	   /api/files/sampledata/fruitshop/test.jpg
+	 *     index.php?option=com_media&task=api.files&format=json&path=/sampledata/cassiopeia/test.jpg
+	 * 	   /api/files/sampledata/cassiopeia/test.jpg
 	 *
 	 *     JSON body:
 	 *     {
@@ -254,8 +254,8 @@ class ApiController extends BaseController
 	 *
 	 * - PUT copy a file, folder to another one
 	 *     path : will be taken as the source
-	 *     index.php?option=com_media&task=api.files&format=json&path=/sampledata/fruitshop/test.jpg
-	 * 	   /api/files/sampledata/fruitshop/test.jpg
+	 *     index.php?option=com_media&task=api.files&format=json&path=/sampledata/cassiopeia/test.jpg
+	 * 	   /api/files/sampledata/cassiopeia/test.jpg
 	 *
 	 *     JSON body:
 	 *     {
