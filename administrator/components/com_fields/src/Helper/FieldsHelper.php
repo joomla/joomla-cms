@@ -179,7 +179,7 @@ class FieldsHelper
 			$fieldValues = self::$fieldCache->getFieldValues($fieldIds, $item->id);
 
 			$new = array();
-			
+
 			$render = array();
 
 			foreach ($fields as $key => $original)
@@ -219,12 +219,12 @@ class FieldsHelper
 				$new[$key] = $field;
 			}
 
-			if($render)
+			if ($render)
 			{
 				PluginHelper::importPlugin('fields');
 			}
 
-			foreach($render as &$field)
+			foreach ($render as &$field)
 			{
 				/*
 				 * On before field prepare
@@ -235,7 +235,7 @@ class FieldsHelper
 
 			$contents = [];
 
-			foreach($render as $key => &$field)
+			foreach ($render as $key => &$field)
 			{
 				// Gathering the value for the field
 				$value = Factory::getApplication()->triggerEvent('onCustomFieldsPrepareField', array($context, $item, &$field));
@@ -248,7 +248,7 @@ class FieldsHelper
 				$contents[$key] = $value;
 			}
 
-			foreach($render as $key => &$field)
+			foreach ($render as $key => &$field)
 			{
 				$value = $contents[$key];
 
