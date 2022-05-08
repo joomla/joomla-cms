@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension type="plugin" group="system" method="upgrade">
+    <name>plg_system_shortcut</name>
+    <author>Joomla! Project</author>
+    <creationDate>Jun 2021</creationDate>
+    <copyright>(C) 2021 Open Source Matters, Inc.</copyright>
+	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
+	<authorEmail>admin@joomla.org</authorEmail>
+	<authorUrl>www.joomla.org</authorUrl>
+    <description>PLG_SYSTEM_SHORTCUT_XML_DESCRIPTION</description>
+    <media destination="plg_system_shortcut" folder="media">
+        <folder>js</folder>
+    </media>
+    <files>
+        <filename plugin="shortcut">shortcut.php</filename>
+    </files>
+    <languages>
+        <language tag="en-GB">language/en-GB/en-GB.plg_system_shortcut.ini</language>
+        <language tag="en-GB">language/en-GB/en-GB.plg_system_shortcut.sys.ini</language>
+    </languages>
+</extension>
