@@ -216,9 +216,9 @@ class FieldsHelper
 					PluginHelper::importPlugin('fields');
 
 					/*
-				 	* On before field prepare
-				 	* Event allow plugins to modify the output of the field before it is prepared
-				 	*/
+					 * On before field prepare
+					 * Event allow plugins to modify the output of the field before it is prepared
+					 */
 					Factory::getApplication()->triggerEvent('onCustomFieldsBeforePrepareField', array($context, $item, &$field));
 
 					$render[$key] = $field;
