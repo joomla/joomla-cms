@@ -51,6 +51,7 @@
     "mark.js": "^8.11.1",
     "mediaelement": "^4.2.16",
     "metismenujs": "^1.2.1",
+    "mousetrap": "^1.6.5",
     "punycode": "^2.1.1",
     "qrcode-generator": "^1.4.4",
     "roboto-fontface": "^0.10.0",
