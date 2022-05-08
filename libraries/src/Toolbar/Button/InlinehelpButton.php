@@ -25,7 +25,7 @@ class InlinehelpButton extends BasicButton
 	 *
 	 * @var  string
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.1.3
 	 */
 	protected $layout = 'joomla.toolbar.inlinehelp';
 
