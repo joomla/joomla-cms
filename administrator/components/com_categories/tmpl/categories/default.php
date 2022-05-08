@@ -18,7 +18,10 @@ use Joomla\CMS\Router\Route;
 use Joomla\CMS\Session\Session;
 use Joomla\String\Inflector;
 
-HTMLHelper::_('behavior.multiselect');
+/** @var \Joomla\CMS\WebAsset\WebAssetManager $wa */
+$wa = $this->document->getWebAssetManager();
+$wa->useScript('table.columns')
+	->useScript('multiselect');
 
 $user      = Factory::getUser();
 $userId    = $user->get('id');
@@ -200,13 +203,13 @@ if ($saveOrder && !empty($this->items))
 										<?php endif; ?>
 										<div>
 										<?php echo $prefix; ?>
-										<span class="small">
-											<?php if (empty($item->note)) : ?>
-												<?php echo Text::sprintf('JGLOBAL_LIST_ALIAS', $this->escape($item->alias)); ?>
-											<?php else : ?>
-												<?php echo Text::sprintf('JGLOBAL_LIST_ALIAS_NOTE', $this->escape($item->alias), $this->escape($item->note)); ?>
-											<?php endif; ?>
-										</span>
+											<span class="small">
+												<?php if (empty($item->note)) : ?>
+													<?php echo Text::sprintf('JGLOBAL_LIST_ALIAS', $this->escape($item->alias)); ?>
+												<?php else : ?>
+													<?php echo Text::sprintf('JGLOBAL_LIST_ALIAS_NOTE', $this->escape($item->alias), $this->escape($item->note)); ?>
+												<?php endif; ?>
+											</span>
 										</div>
 									</th>
 									<?php if (isset($this->items[0]) && property_exists($this->items[0], 'count_published')) : ?>

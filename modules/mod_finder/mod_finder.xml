@@ -2,7 +2,7 @@
 <extension type="module" client="site" method="upgrade">
 	<name>mod_finder</name>
 	<author>Joomla! Project</author>
-	<creationDate>August 2011</creationDate>
+	<creationDate>2011-08</creationDate>
 	<copyright>(C) 2011 Open Source Matters, Inc.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
@@ -16,10 +16,10 @@
 		<folder>tmpl</folder>
 	</files>
 	<languages>
-		<language tag="en-GB">language/en-GB/en-GB.mod_finder.ini</language>
-		<language tag="en-GB">language/en-GB/en-GB.mod_finder.sys.ini</language>
+		<language tag="en-GB">language/en-GB/mod_finder.ini</language>
+		<language tag="en-GB">language/en-GB/mod_finder.sys.ini</language>
 	</languages>
-	<help key="JHELP_EXTENSIONS_MODULE_MANAGER_SMART_SEARCH" />
+	<help key="Site_Modules:_Smart_Search" />
 	<config>
 		<fields name="params" addfieldprefix="Joomla\Component\Finder\Administrator\Field">
 			<fieldset name="basic">

@@ -44,6 +44,8 @@ Joomla = window.Joomla || {};
   };
 
   document.addEventListener('DOMContentLoaded', () => {
+    const confirmButton = document.getElementById('confirmButton');
+    const uploadForm = document.getElementById('uploadForm');
     const uploadButton = document.getElementById('uploadButton');
     const uploadField = document.getElementById('install_package');
     const installButton = document.querySelector('.emptystate-btnadd', document.getElementById('joomlaupdate-wrapper'));
@@ -52,9 +54,40 @@ Joomla = window.Joomla || {};
     const task = form ? form.querySelector('[name=task]', form) : null;
     if (uploadButton) {
       uploadButton.addEventListener('click', Joomla.submitbuttonUpload);
+      updateCheck.addEventListener('change', () => {
+        uploadButton.disabled = !updateCheck.checked;
+      });
+    }
+    if (confirmButton && !updateCheck.checked) {
+      confirmButton.classList.add('disabled');
+    }
+    if (confirmButton && updateCheck) {
+      updateCheck.addEventListener('change', () => {
+        if (updateCheck.checked) {
+          confirmButton.classList.remove('disabled');
+        } else {
+          confirmButton.classList.add('disabled');
+        }
+      });
     }
     if (uploadField) {
       uploadField.addEventListener('change', Joomla.installpackageChange);
+      uploadField.addEventListener('change', () => {
+        const fileSize = uploadForm.install_package.files[0].size;
+        const allowedSize = uploadForm.max_upload_size.value;
+        if (fileSize <= allowedSize && updateCheck.disabled) {
+          updateCheck.disabled = !updateCheck.disabled;
+        } else if (fileSize <= allowedSize && !updateCheck.disabled && !updateCheck.checked) {
+          updateCheck.disabled = false;
+        } else if (fileSize <= allowedSize && updateCheck.checked) {
+          updateCheck.checked = false;
+          uploadButton.disabled = true;
+        } else if (fileSize > allowedSize && !updateCheck.disabled) {
+          updateCheck.disabled = !updateCheck.disabled;
+          updateCheck.checked = false;
+          uploadButton.disabled = true;
+        }
+      });
     }
     // Trigger (re-) install (including checkbox confirm if we update)
     if (installButton && installButton.getAttribute('href') === '#' && task) {
@@ -123,8 +156,8 @@ Joomla = window.Joomla || {};
       default:
     }
     if (infoIcon) {
-      infoIcon.classList.remove('fa-spinner', 'fa-spin', 'text-info');
-      infoIcon.classList.add(`fa-${iconClass}`, `text-${iconColor}`);
+      infoIcon.classList.remove('fa-spinner', 'fa-spin');
+      infoIcon.classList.add(`fa-${iconClass}`, `text-${iconColor}`, 'bg-white');
     }
     // Hide table of addons to load
     const checkedExtensions = document.querySelector('#compatibilityTable0');
@@ -271,7 +304,6 @@ Joomla = window.Joomla || {};
    */
   PreUpdateChecker.setResultView = (extensionData) => {
     let html = '';
-    // eslint-disable-next-line max-len
     // const direction = (document.dir !== undefined) ? document.dir : document.getElementsByTagName('html')[0].getAttribute('dir');
 
     // Process Target Version Extension Compatibility
@@ -287,7 +319,6 @@ Joomla = window.Joomla || {};
       switch (extensionData.compatibilityData.upgradeCompatibilityStatus.state) {
         case PreUpdateChecker.STATE.COMPATIBLE:
           if (extensionData.compatibilityData.upgradeWarning) {
-            // eslint-disable-next-line max-len
             const compatibleVersion = Joomla.sanitizeHtml(extensionData.compatibilityData.upgradeCompatibilityStatus.compatibleVersion);
             html = `<span class="label label-warning">${compatibleVersion}</span>`;
             // @TODO activate when language strings are correct
@@ -295,10 +326,8 @@ Joomla = window.Joomla || {};
               compatibilitytypes.querySelector('#updateorangewarning').classList.remove('hidden');
             } */
           } else {
-            // eslint-disable-next-line max-len
             html = extensionData.compatibilityData.upgradeCompatibilityStatus.compatibleVersion === false
               ? Joomla.Text._('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSION_NO_COMPATIBILITY_INFORMATION')
-              // eslint-disable-next-line max-len
               : Joomla.sanitizeHtml(extensionData.compatibilityData.upgradeCompatibilityStatus.compatibleVersion);
           }
           break;
@@ -336,7 +365,6 @@ Joomla = window.Joomla || {};
       // Switch the compatibility state
       switch (extensionData.compatibilityData.currentCompatibilityStatus.state) {
         case PreUpdateChecker.STATE.COMPATIBLE:
-          // eslint-disable-next-line max-len
           html = extensionData.compatibilityData.currentCompatibilityStatus.compatibleVersion === false
             ? Joomla.Text._('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSION_NO_COMPATIBILITY_INFORMATION')
             : extensionData.compatibilityData.currentCompatibilityStatus.compatibleVersion;
@@ -369,12 +397,9 @@ Joomla = window.Joomla || {};
 
     // Process the nonCoreCriticalPlugin list
     if (extensionData.compatibilityData.resultGroup === 3) {
-      PreUpdateChecker.nonCoreCriticalPlugins.forEach((plugin, cpi) => {
-        if (plugin.package_id.toString() === extensionId
-            || plugin.extension_id.toString() === extensionId) {
-          PreUpdateChecker.nonCoreCriticalPlugins.splice(cpi, 1);
-        }
-      });
+      PreUpdateChecker.nonCoreCriticalPlugins = PreUpdateChecker.nonCoreCriticalPlugins
+        // eslint-disable-next-line max-len
+        .filter((ext) => !(ext.package_id.toString() === extensionId || ext.extension_id.toString() === extensionId));
     }
 
     // Have we finished?

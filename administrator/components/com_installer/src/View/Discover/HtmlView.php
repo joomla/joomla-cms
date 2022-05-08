@@ -11,7 +11,6 @@ namespace Joomla\Component\Installer\Administrator\View\Discover;
 
 \defined('_JEXEC') or die;
 
-use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\Component\Installer\Administrator\View\Installer\HtmlView as InstallerViewDefault;
@@ -43,9 +42,9 @@ class HtmlView extends InstallerViewDefault
 	public function display($tpl = null)
 	{
 		// Run discover from the model.
-		if (!$this->checkExtensions())
+		if (!$this->getModel()->checkExtensions())
 		{
-			$this->getModel('discover')->discover();
+			$this->getModel()->discover();
 		}
 
 		// Get data from the model.
@@ -90,28 +89,6 @@ class HtmlView extends InstallerViewDefault
 
 		parent::addToolbar();
 
-		ToolbarHelper::help('JHELP_EXTENSIONS_EXTENSION_MANAGER_DISCOVER');
-	}
-
-	/**
-	 * Check extensions.
-	 *
-	 * Checks uninstalled extensions in extensions table.
-	 *
-	 * @return  boolean  True if there are discovered extensions on the database.
-	 *
-	 * @since   3.5
-	 */
-	public function checkExtensions()
-	{
-		$db = Factory::getDbo();
-		$query = $db->getQuery(true)
-			->select('*')
-			->from($db->quoteName('#__extensions'))
-			->where($db->quoteName('state') . ' = -1');
-		$db->setQuery($query);
-		$discoveredExtensions = $db->loadObjectList();
-
-		return (count($discoveredExtensions) === 0) ? false : true;
+		ToolbarHelper::help('Extensions:_Discover');
 	}
 }

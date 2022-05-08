@@ -44,7 +44,7 @@ class UpdateController extends BaseController
 
 		try
 		{
-			Log::add(Text::sprintf('COM_JOOMLAUPDATE_UPDATE_LOG_START', $user->id, $user->name, '&#x200E;' . \JVERSION), Log::INFO, 'Update');
+			Log::add(Text::sprintf('COM_JOOMLAUPDATE_UPDATE_LOG_START', $user->id, $user->name, \JVERSION), Log::INFO, 'Update');
 		}
 		catch (\RuntimeException $exception)
 		{
@@ -243,7 +243,7 @@ class UpdateController extends BaseController
 	public function purge()
 	{
 		// Check for request forgeries
-		$this->checkToken();
+		$this->checkToken('request');
 
 		// Purge updates
 		/** @var \Joomla\Component\Joomlaupdate\Administrator\Model\UpdateModel $model */
@@ -487,32 +487,57 @@ class UpdateController extends BaseController
 		$model = $this->getModel('Update');
 		$upgradeCompatibilityStatus = $model->fetchCompatibility($extensionID, $joomlaTargetVersion);
 		$currentCompatibilityStatus = $model->fetchCompatibility($extensionID, $joomlaCurrentVersion);
+		$upgradeUpdateVersion       = false;
+		$currentUpdateVersion       = false;
 
 		$upgradeWarning = 0;
 
-		if ($upgradeCompatibilityStatus->state == 1 && $upgradeCompatibilityStatus->compatibleVersion !== false)
+		if ($upgradeCompatibilityStatus->state == 1 && !empty($upgradeCompatibilityStatus->compatibleVersions))
 		{
-			if (version_compare($upgradeCompatibilityStatus->compatibleVersion, $extensionVersion, 'gt'))
+			$upgradeUpdateVersion = end($upgradeCompatibilityStatus->compatibleVersions);
+		}
+
+		if ($currentCompatibilityStatus->state == 1 && !empty($currentCompatibilityStatus->compatibleVersions))
+		{
+			$currentUpdateVersion = end($currentCompatibilityStatus->compatibleVersions);
+		}
+
+		if ($upgradeUpdateVersion !== false)
+		{
+			$upgradeOldestVersion = $upgradeCompatibilityStatus->compatibleVersions[0];
+
+			if ($currentUpdateVersion !== false)
 			{
-				// Extension needs upgrade before upgrading Joomla
+				// If there are updates compatible with both CMS versions use these
+				$bothCompatibleVersions = array_values(
+					array_intersect($upgradeCompatibilityStatus->compatibleVersions, $currentCompatibilityStatus->compatibleVersions)
+				);
+
+				if (!empty($bothCompatibleVersions))
+				{
+					$upgradeOldestVersion = $bothCompatibleVersions[0];
+					$upgradeUpdateVersion = end($bothCompatibleVersions);
+				}
+			}
+
+			if (version_compare($upgradeOldestVersion, $extensionVersion, '>'))
+			{
+				// Installed version is empty or older than the oldest compatible update: Update required
 				$resultGroup = 2;
 			}
 			else
 			{
-				// Current version is up to date and compatible
+				// Current version is compatible
 				$resultGroup = 3;
 			}
 
-			if ($currentCompatibilityStatus->state == 1)
+			if ($currentUpdateVersion !== false && version_compare($upgradeUpdateVersion, $currentUpdateVersion, '<'))
 			{
-				if (version_compare($upgradeCompatibilityStatus->compatibleVersion, $currentCompatibilityStatus->compatibleVersion, 'lt'))
-				{
-					// Special case warning when version compatible with target is lower than current
-					$upgradeWarning = 2;
-				}
+				// Special case warning when version compatible with target is lower than current
+				$upgradeWarning = 2;
 			}
 		}
-		elseif ($currentCompatibilityStatus->state == 1)
+		elseif ($currentUpdateVersion !== false)
 		{
 			// No compatible version for target version but there is a compatible version for current version
 			$resultGroup = 1;
@@ -525,8 +550,14 @@ class UpdateController extends BaseController
 
 		// Do we need to capture
 		$combinedCompatibilityStatus = array(
-			'upgradeCompatibilityStatus' => $upgradeCompatibilityStatus,
-			'currentCompatibilityStatus' => $currentCompatibilityStatus,
+			'upgradeCompatibilityStatus' => (object) array(
+				'state' => $upgradeCompatibilityStatus->state,
+				'compatibleVersion' => $upgradeUpdateVersion
+			),
+			'currentCompatibilityStatus' => (object) array(
+				'state' => $currentCompatibilityStatus->state,
+				'compatibleVersion' => $currentUpdateVersion
+			),
 			'resultGroup' => $resultGroup,
 			'upgradeWarning' => $upgradeWarning,
 		);

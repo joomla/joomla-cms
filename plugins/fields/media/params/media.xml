@@ -19,7 +19,6 @@
 				validate="options"
 				>
 				<option value="">COM_FIELDS_FIELD_USE_GLOBAL</option>
-				<option value="tooltip">PLG_FIELDS_MEDIA_PARAMS_PREVIEW_TOOLTIP</option>
 				<option value="true">PLG_FIELDS_MEDIA_PARAMS_PREVIEW_INLINE</option>
 				<option value="false">JNO</option>
 			</field>
@@ -28,7 +27,6 @@
 				name="image_class"
 				type="textarea"
 				label="PLG_FIELDS_MEDIA_PARAMS_IMAGE_CLASS_LABEL"
-				size="40"
 				validate="CssIdentifier"
 			/>
 		</fieldset>

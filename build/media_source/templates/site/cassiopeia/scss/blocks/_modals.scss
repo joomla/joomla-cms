@@ -1,0 +1,34 @@
+// Modals
+
+.modal {
+  .btn {
+    margin-right: .5rem;
+  }
+
+  .btn-primary:not([href]),
+  .btn-success:not([href]) {
+    color: $white;
+
+    &:hover {
+      color: $white;
+    }
+  }
+}
+
+.modal-header {
+  padding: 0 15px;
+}
+
+.modal-title {
+  font-weight: var(--cassiopeia-font-weight-normal, $font-weight-normal);
+  line-height: $modal-header-height;
+}
+
+.contentpane {
+  padding: 15px;
+
+  .main-card {
+    margin: -10px;
+    box-shadow: none;
+  }
+}

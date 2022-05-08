@@ -37,9 +37,9 @@ class HtmlView extends BaseHtmlView
 	protected $data;
 
 	/**
-	 * The \JForm object
+	 * The Form object
 	 *
-	 * @var  \JForm
+	 * @var  \Joomla\CMS\Form\Form
 	 */
 	protected $form;
 
@@ -62,6 +62,8 @@ class HtmlView extends BaseHtmlView
 	 *
 	 * @var    DatabaseDriver
 	 * @since  3.6.3
+	 *
+	 * @deprecated  5.0 Will be removed without replacement
 	 */
 	protected $db;
 
@@ -162,7 +164,7 @@ class HtmlView extends BaseHtmlView
 		}
 
 		// Escape strings for HTML output
-		$this->pageclass_sfx = htmlspecialchars($this->params->get('pageclass_sfx'));
+		$this->pageclass_sfx = htmlspecialchars($this->params->get('pageclass_sfx', ''));
 
 		$this->prepareDocument();
 

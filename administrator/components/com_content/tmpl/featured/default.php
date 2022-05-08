@@ -24,7 +24,10 @@ use Joomla\CMS\Session\Session;
 use Joomla\Component\Content\Administrator\Helper\ContentHelper;
 use Joomla\Utilities\ArrayHelper;
 
-HTMLHelper::_('behavior.multiselect');
+/** @var \Joomla\CMS\WebAsset\WebAssetManager $wa */
+$wa = $this->document->getWebAssetManager();
+$wa->useScript('table.columns')
+	->useScript('multiselect');
 
 $app       = Factory::getApplication();
 $user      = Factory::getUser();
@@ -77,9 +80,6 @@ $js = <<<JS
 	});
 })();
 JS;
-
-/** @var \Joomla\CMS\WebAsset\WebAssetManager $wa */
-$wa = $this->document->getWebAssetManager();
 
 $wa->getRegistry()->addExtensionRegistryFile('com_workflow');
 $wa->useScript('com_workflow.admin-items-workflow-buttons')
@@ -194,9 +194,7 @@ $assoc = Associations::isEnabled();
 							$transition_ids = ArrayHelper::toInteger($transition_ids);
 
 							?>
-							<tr class="row<?php echo $i % 2; ?>" data-draggable-group="<?php echo $item->catid; ?>"
-								data-transitions="<?php echo implode(',', $transition_ids); ?>"
-							>
+							<tr class="row<?php echo $i % 2; ?>" data-transitions="<?php echo implode(',', $transition_ids); ?>">
 								<td class="text-center">
 									<?php echo HTMLHelper::_('grid.id', $i, $item->id, false, 'cid', 'cb', $item->title); ?>
 								</td>
@@ -227,7 +225,8 @@ $assoc = Associations::isEnabled();
 									'transitions' => $transitions,
 									'title' => Text::_($item->stage_title),
 									'tip_content' => Text::sprintf('JWORKFLOW', Text::_($item->workflow_title)),
-									'id' => 'workflow-' . $item->id
+									'id' => 'workflow-' . $item->id,
+									'task' => 'articles.runTransitions'
 								];
 
 								echo (new TransitionButton($options))
@@ -252,7 +251,8 @@ $assoc = Associations::isEnabled();
 									$options = [
 										'task_prefix' => 'articles.',
 										'disabled' => $workflow_state || !$canChange,
-										'id' => 'state-' . $item->id
+										'id' => 'state-' . $item->id,
+										'category_published' => $item->category_published
 									];
 
 									echo (new PublishedButton)->render((int) $item->state, $i, $options, $item->publish_up, $item->publish_down);
@@ -327,6 +327,9 @@ $assoc = Associations::isEnabled();
 													echo '</a>';
 												endif;
 											}
+											if ($item->category_published < '1') :
+												echo $item->category_published == '0' ? ' (' . Text::_('JUNPUBLISHED') . ')' : ' (' . Text::_('JTRASHED') . ')';
+											endif;
 											?>
 										</div>
 									</div>

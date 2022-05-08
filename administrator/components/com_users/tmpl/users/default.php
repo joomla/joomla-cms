@@ -18,7 +18,10 @@ use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\String\PunycodeHelper;
 
-HTMLHelper::_('behavior.multiselect');
+/** @var \Joomla\CMS\WebAsset\WebAssetManager $wa */
+$wa = $this->document->getWebAssetManager();
+$wa->useScript('table.columns')
+	->useScript('multiselect');
 
 $listOrder  = $this->escape($this->state->get('list.ordering'));
 $listDirn   = $this->escape($this->state->get('list.direction'));
@@ -53,9 +56,6 @@ $tfa        = PluginHelper::isEnabled('twofactorauth');
 								</td>
 								<th scope="col">
 									<?php echo HTMLHelper::_('searchtools.sort', 'COM_USERS_HEADING_NAME', 'a.name', $listDirn, $listOrder); ?>
-								</th>
-								<th scope="col" class="text-center d-none d-md-table-cell">
-									<?php echo Text::_('COM_USERS_DEBUG_PERMISSIONS'); ?>
 								</th>
 								<th scope="col" class="w-10 d-none d-md-table-cell">
 									<?php echo HTMLHelper::_('searchtools.sort', 'JGLOBAL_USERNAME', 'a.username', $listDirn, $listOrder); ?>
@@ -132,12 +132,6 @@ $tfa        = PluginHelper::isEnabled('twofactorauth');
 										<span class="badge bg-warning text-dark"><?php echo Text::_('COM_USERS_PASSWORD_RESET_REQUIRED'); ?></span>
 									<?php endif; ?>
 								</th>
-								<td class="text-center btns d-none d-md-table-cell">
-									<a href="<?php echo Route::_('index.php?option=com_users&view=debuguser&user_id=' . (int) $item->id); ?>">
-										<span class="icon-list" aria-hidden="true"></span>
-										<span class="visually-hidden"><?php echo Text::_('COM_USERS_DEBUG_PERMISSIONS'); ?></span>
-									</a>
-								</td>
 								<td class="break-word d-none d-md-table-cell">
 									<?php echo $this->escape($item->username); ?>
 								</td>
@@ -178,6 +172,10 @@ $tfa        = PluginHelper::isEnabled('twofactorauth');
 									<?php else : ?>
 										<?php echo nl2br($item->group_names, false); ?>
 									<?php endif; ?>
+									<a  class="btn btn-sm btn-secondary"
+										href="<?php echo Route::_('index.php?option=com_users&view=debuguser&user_id=' . (int) $item->id); ?>">
+										<?php echo Text::_('COM_USERS_DEBUG_PERMISSIONS'); ?>
+									</a>
 								</td>
 								<td class="d-none d-xl-table-cell break-word">
 									<?php echo PunycodeHelper::emailToUTF8($this->escape($item->email)); ?>

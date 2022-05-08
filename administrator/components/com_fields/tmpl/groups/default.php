@@ -17,7 +17,10 @@ use Joomla\CMS\Router\Route;
 use Joomla\CMS\Session\Session;
 use Joomla\Component\Fields\Administrator\Helper\FieldsHelper;
 
-HTMLHelper::_('behavior.multiselect');
+/** @var \Joomla\CMS\WebAsset\WebAssetManager $wa */
+$wa = $this->document->getWebAssetManager();
+$wa->useScript('table.columns')
+	->useScript('multiselect');
 
 $app       = Factory::getApplication();
 $user      = Factory::getUser();
@@ -64,7 +67,7 @@ if (count($this->filterForm->getField('context')->options) > 1)
 						<?php echo Text::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
 					</div>
 				<?php else : ?>
-					<table class="table" id="groupList">
+					<table class="table" id="fieldgroupList">
 						<caption class="visually-hidden">
 							<?php echo Text::_('COM_FIELDS_GROUPS_TABLE_CAPTION'); ?>,
 							<span id="orderedBy"><?php echo Text::_('JGLOBAL_SORTED_BY'); ?> </span>,
@@ -136,11 +139,11 @@ if (count($this->filterForm->getField('context')->options) > 1)
 											<?php else : ?>
 												<?php echo $this->escape($item->title); ?>
 											<?php endif; ?>
-											<span class="small break-word">
+											<div class="small break-word">
 												<?php if ($item->note) : ?>
 													<?php echo Text::sprintf('JGLOBAL_LIST_NOTE', $this->escape($item->note)); ?>
 												<?php endif; ?>
-											</span>
+											</div>
 										</div>
 									</th>
 									<td class="small d-none d-md-table-cell">

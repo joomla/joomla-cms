@@ -2,7 +2,7 @@
 <extension type="plugin" group="installer">
 	<name>plg_installer_folderinstaller</name>
 	<author>Joomla! Project</author>
-	<creationDate>May 2016</creationDate>
+	<creationDate>2016-05</creationDate>
 	<copyright>(C) 2016 Open Source Matters, Inc.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
@@ -15,7 +15,7 @@
 	</files>
 
 	<languages>
-		<language tag="en-GB">en-GB.plg_installer_folderinstaller.ini</language>
-		<language tag="en-GB">en-GB.plg_installer_folderinstaller.sys.ini</language>
+		<language tag="en-GB">language/en-GB/plg_installer_folderinstaller.ini</language>
+		<language tag="en-GB">language/en-GB/plg_installer_folderinstaller.sys.ini</language>
 	</languages>
 </extension>

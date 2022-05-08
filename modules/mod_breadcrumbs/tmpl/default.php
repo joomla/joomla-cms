@@ -24,7 +24,7 @@ use Joomla\CMS\WebAsset\WebAssetManager;
 			</li>
 		<?php else : ?>
 			<li class="mod-breadcrumbs__divider float-start">
-				<span class="divider icon-location" aria-hidden="true"></span>
+				<span class="divider icon-location icon-fw" aria-hidden="true"></span>
 			</li>
 		<?php endif; ?>
 
@@ -57,14 +57,14 @@ use Joomla\CMS\WebAsset\WebAssetManager;
 				else :
 					$breadcrumbItem = '<span>' . $item->name . '</span>';
 				endif;
+				echo '<li class="mod-breadcrumbs__item breadcrumb-item' . $class . '">' . $breadcrumbItem . '</li>';
 
 			elseif ($show_last) :
 				// Render last item if required.
 				$breadcrumbItem = '<span>' . $item->name . '</span>';
 				$class          = ' active';
+				echo '<li class="mod-breadcrumbs__item breadcrumb-item' . $class . '">' . $breadcrumbItem . '</li>';
 			endif;
-
-			echo '<li class="mod-breadcrumbs__item breadcrumb-item' . $class . '">' . $breadcrumbItem . '</li>';
 		endforeach; ?>
 	</ol>
 	<?php

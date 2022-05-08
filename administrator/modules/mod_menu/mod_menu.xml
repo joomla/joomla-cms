@@ -2,7 +2,7 @@
 <extension type="module" client="administrator" method="upgrade">
 	<name>mod_menu</name>
 	<author>Joomla! Project</author>
-	<creationDate>March 2006</creationDate>
+	<creationDate>2006-03</creationDate>
 	<copyright>(C) 2006 Open Source Matters, Inc.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
@@ -16,10 +16,10 @@
 		<folder>tmpl</folder>
 	</files>
 	<languages>
-		<language tag="en-GB">en-GB.mod_menu.ini</language>
-		<language tag="en-GB">en-GB.mod_menu.sys.ini</language>
+		<language tag="en-GB">language/en-GB/mod_menu.ini</language>
+		<language tag="en-GB">language/en-GB/mod_menu.sys.ini</language>
 	</languages>
-	<help key="JHELP_EXTENSIONS_MODULE_MANAGER_ADMIN_MENU" />
+	<help key="Admin_Modules:_Administrator_Menu" />
 	<config>
 		<fields name="params">
 			<fieldset name="basic" addfieldprefix="Joomla\Component\Menus\Administrator\Field">
@@ -87,7 +87,6 @@
 					label="MOD_MENU_FIELD_FORUMURL_LABEL"
 					description="MOD_MENU_FIELD_FORUMURL_DESC"
 					filter="url"
-					size="30"
 					default=""
 					showon="menutype:*"
 					validate="url"

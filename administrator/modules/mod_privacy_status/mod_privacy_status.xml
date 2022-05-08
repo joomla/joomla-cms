@@ -2,7 +2,7 @@
 <extension type="module" client="administrator" method="upgrade">
 	<name>mod_privacy_status</name>
 	<author>Joomla! Project</author>
-	<creationDate>July 2019</creationDate>
+	<creationDate>2019-07</creationDate>
 	<copyright>(C) 2019 Open Source Matters, Inc.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
@@ -16,10 +16,10 @@
 		<folder>tmpl</folder>
 	</files>
 	<languages>
-		<language tag="en-GB">en-GB.mod_privacy_status.ini</language>
-		<language tag="en-GB">en-GB.mod_privacy_status.sys.ini</language>
+		<language tag="en-GB">language/en-GB/mod_privacy_status.ini</language>
+		<language tag="en-GB">language/en-GB/mod_privacy_status.sys.ini</language>
 	</languages>
-	<help key="JHELP_EXTENSIONS_MODULE_MANAGER_ADMIN_PRIVACY_STATUS" />
+	<help key="Admin_Modules:_Privacy_Status_Check" />
 	<config>
 		<fields name="params">
 			<fieldset name="advanced">
@@ -56,6 +56,8 @@
 					label="COM_MODULES_FIELD_CACHE_TIME_LABEL"
 					default="900"
 					filter="integer"
+					min="1"
+					validate="number"
 				/>
 
 				<field

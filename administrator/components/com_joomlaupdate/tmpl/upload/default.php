@@ -17,13 +17,12 @@ use Joomla\Component\Joomlaupdate\Administrator\View\Joomlaupdate\HtmlView;
 
 /** @var HtmlView $this */
 
-/** @var WebAssetManager $wa */
+/** @var \Joomla\CMS\WebAsset\WebAssetManager $wa */
 $wa = $this->document->getWebAssetManager();
 $wa->useScript('core')
 	->useScript('com_joomlaupdate.default')
 	->useScript('bootstrap.popover');
 
-HTMLHelper::_('behavior.core');
 Text::script('COM_INSTALLER_MSG_INSTALL_PLEASE_SELECT_A_PACKAGE', true);
 Text::script('COM_INSTALLER_MSG_WARNINGS_UPLOADFILETOOBIG', true);
 Text::script('JGLOBAL_SELECTED_UPLOAD_FILE_SIZE', true);
@@ -77,20 +76,20 @@ $currentJoomlaVersion = isset($this->updateInfo['current']) ? $this->updateInfo[
 		<?php $maxSize = HTMLHelper::_('number.bytes', $maxSizeBytes); ?>
 		<input id="max_upload_size" name="max_upload_size" type="hidden" value="<?php echo $maxSizeBytes; ?>"/>
 		<div class="form-text"><?php echo Text::sprintf('JGLOBAL_MAXIMUM_UPLOAD_SIZE_LIMIT', '&#x200E;' . $maxSize); ?></div>
-		<div class="form-text hidden" id="file_size" name="file_size"><?php echo Text::sprintf('JGLOBAL_SELECTED_UPLOAD_FILE_SIZE', '&#x200E;' . ''); ?></div>
+		<div class="form-text hidden" id="file_size"><?php echo Text::sprintf('JGLOBAL_SELECTED_UPLOAD_FILE_SIZE', '&#x200E;' . ''); ?></div>
 		<div class="alert alert-warning hidden" id="max_upload_size_warn">
 			<?php echo Text::_('COM_INSTALLER_MSG_WARNINGS_UPLOADFILETOOBIG'); ?>
 		</div>
 	</div>
 
 	<div class="form-check mb-3">
-		<input class="form-check-input me-2" type="checkbox" value="" id="joomlaupdate-confirm-backup">
+		<input class="form-check-input me-2" type="checkbox" disabled value="" id="joomlaupdate-confirm-backup">
 		<label class="form-check-label" for="joomlaupdate-confirm-backup">
 			<?php echo Text::_('COM_JOOMLAUPDATE_UPDATE_CONFIRM_BACKUP'); ?>
 		</label>
 	</div>
 
-	<button id="uploadButton" class="btn btn-primary" type="button"><?php echo Text::_('COM_INSTALLER_UPLOAD_AND_INSTALL'); ?></button>
+	<button id="uploadButton" class="btn btn-primary" disabled type="button"><?php echo Text::_('COM_INSTALLER_UPLOAD_AND_INSTALL'); ?></button>
 
 	<input type="hidden" name="task" value="update.upload">
 	<input type="hidden" name="option" value="com_joomlaupdate">

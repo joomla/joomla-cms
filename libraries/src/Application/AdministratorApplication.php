@@ -197,7 +197,8 @@ class AdministratorApplication extends CMSApplication
 	 *
 	 * @return  Router
 	 *
-	 * @since	3.2
+	 * @since      3.2
+	 * @deprecated 5.0 Inject the router or load it from the dependency injection container
 	 */
 	public static function getRouter($name = 'administrator', array $options = array())
 	{
@@ -272,7 +273,7 @@ class AdministratorApplication extends CMSApplication
 		if (!is_file(JPATH_THEMES . '/' . $template->template . '/index.php')
 			&& !is_file(JPATH_THEMES . '/' . $template->parent . '/index.php'))
 		{
-			$this->enqueueMessage(Text::_('JERROR_ALERTNOTEMPLATE'), 'error');
+			$this->getLogger()->error(Text::_('JERROR_ALERTNOTEMPLATE'), ['category' => 'system']);
 			$template->params = new Registry;
 			$template->template = 'atum';
 
@@ -385,7 +386,7 @@ class AdministratorApplication extends CMSApplication
 
 		if (!($result instanceof \Exception))
 		{
-			$lang = $this->input->getCmd('lang');
+			$lang = $this->input->getCmd('lang', '');
 			$lang = preg_replace('/[^A-Z-]/i', '', $lang);
 
 			if ($lang)
@@ -558,7 +559,7 @@ class AdministratorApplication extends CMSApplication
 	{
 		/** @var self $app */
 		$app    = Factory::getApplication();
-		$option = strtolower($app->input->get('option'));
+		$option = strtolower($app->input->get('option', ''));
 		$user   = $app->getIdentity();
 
 		/**

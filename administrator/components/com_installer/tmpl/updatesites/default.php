@@ -15,8 +15,10 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 
-HTMLHelper::_('behavior.multiselect');
-HTMLHelper::_('bootstrap.popover', 'span.hasPopover', ['trigger' => 'hover focus']);
+/** @var \Joomla\CMS\WebAsset\WebAssetManager $wa */
+$wa = $this->document->getWebAssetManager();
+$wa->useScript('table.columns')
+	->useScript('multiselect');
 
 $user      = Factory::getApplication()->getIdentity();
 $userId    = $user->get('id');
@@ -92,38 +94,33 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 										<?php echo HTMLHelper::_('jgrid.checkedout', $i, $item->editor, $item->checked_out_time, 'updatesites.', $canCheckin); ?>
 									<?php endif; ?>
 									<?php if ($canEdit) : ?>
-										<a class="hasPopover"
+										<a
 											href="<?php echo Route::_('index.php?option=com_installer&task=updatesite.edit&update_site_id=' . (int) $item->update_site_id); ?>"
-											title="<?php echo Text::_('COM_INSTALLER_UPDATESITE_EDIT_TITLE') ?>"
-											data-bs-content="<?php echo Text::sprintf('COM_INSTALLER_UPDATESITE_EDIT_TIP', $item->update_site_name, $item->name) ?>"
+											title="<?php echo Text::_('JACTION_EDIT'); ?> <?php echo $this->escape($item->update_site_name); ?>"
 										>
 											<?php echo Text::_($item->update_site_name); ?>
 										</a>
 									<?php else : ?>
 										<?php echo Text::_($item->update_site_name); ?>
 									<?php endif; ?>
-									<br>
-									<span class="small break-word">
+									<div class="small break-word">
 										<a href="<?php echo $item->location; ?>" target="_blank" rel="noopener noreferrer"><?php echo $this->escape($item->location); ?></a>
-									</span>
-									<br>
-									<span class="small break-word">
+									</div>
+									<div class="small break-word">
 										<?php if ($item->downloadKey['valid']) : ?>
 										<span class="badge bg-info">
 											<?php echo Text::_('COM_INSTALLER_DOWNLOADKEY_EXTRA_QUERY_LABEL'); ?>
 										</span>
 										<code><?php echo $item->downloadKey['value']; ?></code>
 										<?php elseif ($item->downloadKey['supported']) : ?>
-										<span class="badge bg-danger">
-											<span class="hasPopover"
-													title="<?php echo Text::_('COM_INSTALLER_DOWNLOADKEY_MISSING_LABEL') ?>"
-													data-bs-content="<?php echo Text::_('COM_INSTALLER_DOWNLOADKEY_MISSING_TIP') ?>"
-											>
+										<span class="badge bg-danger" tabindex="0">
 											<?php echo Text::_('COM_INSTALLER_DOWNLOADKEY_MISSING_LABEL'); ?>
-											</span>
 										</span>
+										<div role="tooltip" id="tip-missing<?php echo $i; ?>">
+											<?php echo Text::_('COM_INSTALLER_DOWNLOADKEY_MISSING_TIP'); ?>
+										</div>
 										<?php endif; ?>
-									</span>
+									</div>
 								</th>
 								<td class="d-none d-md-table-cell">
 									<span tabindex="0">

@@ -46,7 +46,7 @@ $headerClass = $headerClass ? ' ' . htmlspecialchars($headerClass, ENT_QUOTES, '
 			<?php $dropdownPosition = Factory::getLanguage()->isRtl() ? 'start' : 'end'; ?>
 			<div class="module-actions dropdown">
 				<button type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="btn" id="dropdownMenuButton-<?php echo $id; ?>">
-					<span class="icon-cog" aria-hidden="true"></span>
+					<span class="icon-cogs" aria-hidden="true"></span>
 					<span class="visually-hidden"><?php echo Text::sprintf('JACTION_EDIT_MODULE', $module->title); ?></span>
 				</button>
 				<div class="dropdown-menu dropdown-menu-<?php echo $dropdownPosition; ?>" aria-labelledby="dropdownMenuButton-<?php echo $id; ?>">

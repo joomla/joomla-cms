@@ -18,7 +18,10 @@ use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Session\Session;
 
-HTMLHelper::_('behavior.multiselect');
+/** @var \Joomla\CMS\WebAsset\WebAssetManager $wa */
+$wa = $this->document->getWebAssetManager();
+$wa->useScript('table.columns')
+	->useScript('multiselect');
 
 $user      = Factory::getUser();
 $userId    = $user->get('id');
@@ -142,9 +145,9 @@ if ($saveOrder && !empty($this->items))
 										<?php else : ?>
 											<?php echo $this->escape($item->name); ?>
 										<?php endif; ?>
-										<span class="small">
+										<div class="small">
 											<?php echo Text::sprintf('JGLOBAL_LIST_ALIAS', $this->escape($item->alias)); ?>
-										</span>
+										</div>
 										<div class="small">
 											<?php echo Text::_('JCATEGORY') . ': ' . $this->escape($item->category_title); ?>
 										</div>

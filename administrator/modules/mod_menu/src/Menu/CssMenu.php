@@ -421,7 +421,7 @@ class CssMenu
 				continue;
 			}
 			elseif (($item->link === 'index.php?option=com_installer&view=install' || $item->link === 'index.php?option=com_installer&view=languages')
-				&& !$this->user->authorise('core.admin'))
+				&& !$user->authorise('core.admin'))
 			{
 				continue;
 			}
@@ -433,6 +433,11 @@ class CssMenu
 					continue;
 				}
 			}
+			elseif ($item->link === 'index.php?option=com_messages&view=messages' && !$user->authorise('core.manage', 'com_users'))
+			{
+				$parent->removeChild($item);
+				continue;
+			}
 
 			if ($assetName && !$user->authorise(($item->scope === 'edit') ? 'core.create' : 'core.manage', $assetName))
 			{
@@ -441,7 +446,7 @@ class CssMenu
 			}
 
 			// Exclude if link is invalid
-			if (!\in_array($item->type, array('separator', 'heading', 'container')) && trim($item->link) === '')
+			if (is_null($item->link) || !\in_array($item->type, array('separator', 'heading', 'container')) && trim($item->link) === '')
 			{
 				$parent->removeChild($item);
 				continue;

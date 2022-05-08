@@ -2,7 +2,7 @@
 <extension type="module" client="site" method="upgrade">
 	<name>mod_languages</name>
 	<author>Joomla! Project</author>
-	<creationDate>February 2010</creationDate>
+	<creationDate>2010-02</creationDate>
 	<copyright>(C) 2010 Open Source Matters, Inc.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
@@ -16,10 +16,10 @@
 		<folder>tmpl</folder>
 	</files>
 	<languages>
-		<language tag="en-GB">en-GB.mod_languages.ini</language>
-		<language tag="en-GB">en-GB.mod_languages.sys.ini</language>
+		<language tag="en-GB">language/en-GB/mod_languages.ini</language>
+		<language tag="en-GB">language/en-GB/mod_languages.sys.ini</language>
 	</languages>
-	<help key="JHELP_EXTENSIONS_MODULE_MANAGER_LANGUAGE_SWITCHER" />
+	<help key="Site_Modules:_Language_Switcher" />
 	<config>
 		<fieldset>
 			<field

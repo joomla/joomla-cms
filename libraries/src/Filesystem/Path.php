@@ -161,8 +161,8 @@ class Path
 	 *
 	 * @return  string  A cleaned version of the path or exit on error.
 	 *
-	 * @since   1.7.0
 	 * @throws  \Exception
+	 * @since   1.7.0
 	 */
 	public static function check($path)
 	{
@@ -173,8 +173,7 @@ class Path
 				sprintf(
 					'%s() - Use of relative paths not permitted',
 					__METHOD__
-				),
-				20
+				)
 			);
 		}
 
@@ -186,9 +185,8 @@ class Path
 				sprintf(
 					'%1$s() - Snooping out of bounds @ %2$s',
 					__METHOD__,
-					$path
-				),
-				20
+					self::removeRoot($path)
+				)
 			);
 		}
 
@@ -203,8 +201,8 @@ class Path
 	 *
 	 * @return  string  The cleaned path.
 	 *
-	 * @since   1.7.0
 	 * @throws  \UnexpectedValueException
+	 * @since   1.7.0
 	 */
 	public static function clean($path, $ds = DIRECTORY_SEPARATOR)
 	{
@@ -214,8 +212,7 @@ class Path
 				sprintf(
 					'%s() - $path is not a string',
 					__METHOD__
-				),
-				20
+				)
 			);
 		}
 
@@ -257,7 +254,7 @@ class Path
 		// Try to find a writable directory
 		$dir = false;
 
-		foreach (array($jtp, $ssp, '/tmp') as $currentDir)
+		foreach ([$jtp, $ssp, '/tmp'] as $currentDir)
 		{
 			if (is_writable($currentDir))
 			{
@@ -318,7 +315,7 @@ class Path
 				// traversal attempts on the local file system.
 
 				// Needed for substr() later
-				$path = realpath($path);
+				$path     = realpath($path);
 				$fullname = realpath($fullname);
 			}
 
@@ -355,7 +352,7 @@ class Path
 		// Save start character for absolute path
 		$startCharacter = ($path[0] === DIRECTORY_SEPARATOR) ? DIRECTORY_SEPARATOR : '';
 
-		$parts = array();
+		$parts = [];
 
 		foreach (explode(DIRECTORY_SEPARATOR, $path) as $part)
 		{
@@ -381,5 +378,34 @@ class Path
 		}
 
 		return $startCharacter . implode(DIRECTORY_SEPARATOR, $parts);
+	}
+
+	/**
+	 * Remove all references to root directory path and the system tmp path from a message
+	 *
+	 * @param   string  $message        The message to be cleaned
+	 * @param   string  $rootDirectory  Optional root directory, defaults to JPATH_ROOT
+	 *
+	 * @return  string
+	 *
+	 * @since   3.10.7
+	 */
+	public static function removeRoot($message, $rootDirectory = null)
+	{
+		if (empty($rootDirectory))
+		{
+			$rootDirectory = JPATH_ROOT;
+		}
+
+		$makePattern = static function ($dir) {
+			return '~' . str_replace('~', '\\~', preg_replace('~[/\\\\]+~', '[/\\\\\\\\]+', $dir)) . '~';
+		};
+
+		$replacements = [
+			$makePattern(static::clean($rootDirectory)) => '[ROOT]',
+			$makePattern(sys_get_temp_dir())            => '[TMP]',
+		];
+
+		return preg_replace(array_keys($replacements), array_values($replacements), $message);
 	}
 }

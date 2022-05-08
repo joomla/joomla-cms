@@ -57,7 +57,7 @@ $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=c
 	<?php echo LayoutHelper::render('joomla.edit.title_alias', $this); ?>
 
 	<div class="main-card">
-		<?php echo HTMLHelper::_('uitab.startTabSet', 'myTab', array('active' => 'general')); ?>
+		<?php echo HTMLHelper::_('uitab.startTabSet', 'myTab', ['active' => 'general', 'recall' => true, 'breakpoint' => 768]); ?>
 		<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'general', Text::_('JCATEGORY')); ?>
 		<div class="row">
 			<div class="col-lg-9">
@@ -124,6 +124,7 @@ $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=c
 
 		<?php echo $this->form->getInput('extension'); ?>
 		<input type="hidden" name="task" value="">
+		<input type="hidden" name="return" value="<?php echo $input->getBase64('return'); ?>">
 		<input type="hidden" name="forcedLanguage" value="<?php echo $input->get('forcedLanguage', '', 'cmd'); ?>">
 		<?php echo HTMLHelper::_('form.token'); ?>
 	</div>

@@ -2,7 +2,7 @@
 <extension type="module" client="administrator" method="upgrade">
 	<name>mod_loginsupport</name>
 	<author>Joomla! Project</author>
-	<creationDate>June 2019</creationDate>
+	<creationDate>2019-06</creationDate>
 	<copyright>(C) 2019 Open Source Matters, Inc.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
@@ -15,10 +15,10 @@
 		<folder>tmpl</folder>
 	</files>
 	<languages>
-		<language tag="en-GB">en-GB.mod_loginsupport.ini</language>
-		<language tag="en-GB">en-GB.mod_loginsupport.sys.ini</language>
+		<language tag="en-GB">language/en-GB/mod_loginsupport.ini</language>
+		<language tag="en-GB">language/en-GB/mod_loginsupport.sys.ini</language>
 	</languages>
-	<help key="JHELP_EXTENSIONS_MODULE_MANAGER_ADMIN_LOGIN_SUPPORT" />
+	<help key="Admin_Modules:_Login_Support_Information" />
 	<config>
 		<fields name="params">
 			<fieldset name="basic">
@@ -27,7 +27,6 @@
 					type="url"
 					label="MOD_LOGINSUPPORT_FIELD_FORUM_URL_LABEL"
 					filter="url"
-					size="50"
 					default="https://forum.joomla.org/"
 				/>
 
@@ -36,7 +35,6 @@
 					type="url"
 					label="MOD_LOGINSUPPORT_FIELD_DOCUMENTATION_URL_LABEL"
 					filter="url"
-					size="50"
 					default="https://docs.joomla.org/"
 				/>
 
@@ -45,7 +43,6 @@
 					type="url"
 					label="MOD_LOGINSUPPORT_FIELD_NEWS_URL_LABEL"
 					filter="url"
-					size="50"
 					default="https://www.joomla.org/announcements.html"
 				/>
 			</fieldset>
@@ -59,6 +56,14 @@
 				/>
 
 				<field
+					name="moduleclass_sfx"
+					type="textarea"
+					label="COM_MODULES_FIELD_MODULECLASS_SFX_LABEL"
+					rows="3"
+					validate="CssIdentifier"
+				/>
+
+				<field
 					name="automatic_title"
 					type="radio"
 					label="COM_MODULES_FIELD_AUTOMATIC_TITLE_LABEL"
@@ -69,14 +74,6 @@
 					<option value="0">JNO</option>
 					<option value="1">JYES</option>
 				</field>
-
-				<field
-					name="moduleclass_sfx"
-					type="textarea"
-					label="COM_MODULES_FIELD_MODULECLASS_SFX_LABEL"
-					rows="3"
-					validate="CssIdentifier"
-				/>
 
 				<field
 					name="cache"
@@ -96,6 +93,8 @@
 					label="COM_MODULES_FIELD_CACHE_TIME_LABEL"
 					default="0"
 					filter="integer"
+					min="0"
+					validate="number"
 				/>
 
 				<field

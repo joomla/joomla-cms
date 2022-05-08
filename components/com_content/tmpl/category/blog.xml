@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <metadata>
 	<layout title="COM_CONTENT_CATEGORY_VIEW_BLOG_TITLE" option="COM_CONTENT_CATEGORY_VIEW_BLOG_OPTION">
-		<help key = "JHELP_MENUS_MENU_ITEM_ARTICLE_CATEGORY_BLOG" />
+		<help key = "Menu_Item:_Category_Blog" />
 		<message>
 			<![CDATA[COM_CONTENT_CATEGORY_VIEW_BLOG_DESC]]>
 		</message>
@@ -123,7 +123,7 @@
 				<field
 					name="show_category_heading_title_text"
 					type="list"
-	 				label="JGLOBAL_SHOW_SUBCATEGORY_HEADING"
+					label="JGLOBAL_SHOW_SUBCATEGORY_HEADING"
 					useglobal="true"
 					class="form-select-color-state"
 					validate="options"
@@ -222,7 +222,7 @@
 				name="multi_column_order"
 				type="list"
 				label="JGLOBAL_MULTI_COLUMN_ORDER_LABEL"
-				parentclass="stack span-1-inline"
+				parentclass="stack span-2-inline"
 				useglobal="true"
 				validate="options"
 				>
@@ -371,7 +371,8 @@
 		>
 
 			<field
-				name="article_layout" type="componentlayout"
+				name="article_layout"
+				type="componentlayout"
 				label="JGLOBAL_FIELD_LAYOUT_LABEL"
 				description="JGLOBAL_FIELD_LAYOUT_DESC"
 				class="form-select"

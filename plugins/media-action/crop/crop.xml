@@ -2,7 +2,7 @@
 <extension type="plugin" group="media-action" method="upgrade">
 	<name>plg_media-action_crop</name>
 	<author>Joomla! Project</author>
-	<creationDate>January 2017</creationDate>
+	<creationDate>2017-01</creationDate>
 	<copyright>(C) 2017 Open Source Matters, Inc.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
@@ -14,7 +14,7 @@
 		<folder>form</folder>
 	</files>
 	<languages>
-		<language tag="en-GB">en-GB.plg_media-action_crop.ini</language>
-		<language tag="en-GB">en-GB.plg_media-action_crop.sys.ini</language>
+		<language tag="en-GB">language/en-GB/plg_media-action_crop.ini</language>
+		<language tag="en-GB">language/en-GB/plg_media-action_crop.sys.ini</language>
 	</languages>
 </extension>

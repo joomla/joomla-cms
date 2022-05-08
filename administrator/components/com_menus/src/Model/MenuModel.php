@@ -78,7 +78,7 @@ class MenuModel extends FormModel
 	 * @param   string  $prefix  A prefix for the table class name. Optional.
 	 * @param   array   $config  Configuration array for model. Optional.
 	 *
-	 * @return  \JTable    A database object
+	 * @return  Table   A database object
 	 *
 	 * @since   1.6
 	 */
@@ -334,7 +334,7 @@ class MenuModel extends FormModel
 				// Trigger the after delete event.
 				Factory::getApplication()->triggerEvent('onContentAfterDelete', array($this->_context, $table));
 
-				// TODO: Delete the menu associations - Menu items and Modules
+				// @todo: Delete the menu associations - Menu items and Modules
 			}
 		}
 
@@ -389,6 +389,29 @@ class MenuModel extends FormModel
 		}
 
 		return $result;
+	}
+
+	/**
+	 * Returns the extension elements for the given items
+	 *
+	 * @param  array  $itemIds  The item ids
+	 *
+	 * @return array
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
+	public function getExtensionElementsForMenuItems(array $itemIds): array
+	{
+		$db    = $this->getDatabase();
+		$query = $db->getQuery(true);
+
+		$query
+			->select($db->quoteName('e.element'))
+			->from($db->quoteName('#__extensions', 'e'))
+			->join('INNER', $db->quoteName('#__menu', 'm'), $db->quoteName('m.component_id') . ' = ' . $db->quoteName('e.extension_id'))
+			->whereIn($db->quoteName('m.id'), ArrayHelper::toInteger($itemIds));
+
+		return $db->setQuery($query)->loadColumn();
 	}
 
 	/**

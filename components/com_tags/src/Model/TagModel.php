@@ -186,7 +186,7 @@ class TagModel extends ListModel
 		$this->setState('params', $params);
 
 		// Load state from the request.
-		$ids = $app->input->get('id', array(), 'array');
+		$ids = (array) $app->input->get('id', array());
 
 		if (count($ids) == 1)
 		{
@@ -194,6 +194,9 @@ class TagModel extends ListModel
 		}
 
 		$ids = ArrayHelper::toInteger($ids);
+
+		// Remove zero values resulting from bad input
+		$ids = array_filter($ids);
 
 		$pkString = implode(',', $ids);
 
@@ -284,7 +287,7 @@ class TagModel extends ListModel
 			}
 
 			// Get a level row instance.
-			/** @var \Joomla\Component\Tags\Administrator\Table\Tag $table */
+			/** @var \Joomla\Component\Tags\Administrator\Table\TagTable $table */
 			$table = $this->getTable();
 
 			$idsArray = explode(',', $pk);
@@ -349,7 +352,7 @@ class TagModel extends ListModel
 		{
 			$pk    = (!empty($pk)) ? $pk : (int) $this->getState('tag.id');
 
-			/** @var \Joomla\Component\Tags\Administrator\Table\Tag $table */
+			/** @var \Joomla\Component\Tags\Administrator\Table\TagTable $table */
 			$table = $this->getTable();
 			$table->hit($pk);
 

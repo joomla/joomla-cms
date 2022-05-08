@@ -32,7 +32,7 @@ use Joomla\Component\Fields\Administrator\Helper\FieldsHelper;
 class HtmlView extends BaseHtmlView
 {
 	/**
-	 * @var  \JForm
+	 * @var    \Joomla\CMS\Form\Form
 	 *
 	 * @since  3.7.0
 	 */
@@ -53,14 +53,14 @@ class HtmlView extends BaseHtmlView
 	protected $items;
 
 	/**
-	 * @var  \JPagination
+	 * @var    \Joomla\CMS\Pagination\Pagination
 	 *
 	 * @since  3.7.0
 	 */
 	protected $pagination;
 
 	/**
-	 * @var  \JObject
+	 * @var    \Joomla\CMS\Object\CMSObject
 	 *
 	 * @since  3.7.0
 	 */
@@ -73,7 +73,8 @@ class HtmlView extends BaseHtmlView
 	 *
 	 * @return  void
 	 *
-	 * @see     JViewLegacy::loadTemplate()
+	 * @see     \Joomla\CMS\MVC\View\HtmlView::loadTemplate()
+	 *
 	 * @since   3.7.0
 	 */
 	public function display($tpl = null)
@@ -193,7 +194,10 @@ class HtmlView extends BaseHtmlView
 
 		if ($this->state->get('filter.state') == -2 && $canDo->get('core.delete', $component))
 		{
-			ToolbarHelper::deleteList('', 'fields.delete', 'JTOOLBAR_EMPTY_TRASH');
+			$toolbar->delete('fields.delete')
+				->text('JTOOLBAR_EMPTY_TRASH')
+				->message('JGLOBAL_CONFIRM_DELETE')
+				->listCheck(true);
 		}
 
 		if ($canDo->get('core.admin') || $canDo->get('core.options'))
@@ -201,6 +205,6 @@ class HtmlView extends BaseHtmlView
 			$toolbar->preferences($component);
 		}
 
-		$toolbar->help('JHELP_COMPONENTS_FIELDS_FIELDS');
+		$toolbar->help('Component:_Fields');
 	}
 }

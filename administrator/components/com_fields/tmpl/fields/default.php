@@ -18,7 +18,10 @@ use Joomla\CMS\Router\Route;
 use Joomla\CMS\Session\Session;
 use Joomla\Component\Fields\Administrator\Helper\FieldsHelper;
 
-HTMLHelper::_('behavior.multiselect');
+/** @var \Joomla\CMS\WebAsset\WebAssetManager $wa */
+$wa = $this->document->getWebAssetManager();
+$wa->useScript('table.columns')
+	->useScript('multiselect');
 
 $app       = Factory::getApplication();
 $user      = Factory::getUser();
@@ -144,19 +147,18 @@ if (count($this->filterForm->getField('context')->options) > 1)
 											<?php else : ?>
 												<?php echo $this->escape($item->title); ?>
 											<?php endif; ?>
-											<span class="small break-word">
+											<div class="small break-word">
 												<?php if (empty($item->note)) : ?>
 													<?php echo Text::sprintf('JGLOBAL_LIST_NAME', $this->escape($item->name)); ?>
 												<?php else : ?>
 													<?php echo Text::sprintf('JGLOBAL_LIST_NAME_NOTE', $this->escape($item->name), $this->escape($item->note)); ?>
 												<?php endif; ?>
-											</span>
+											</div>
 											<?php if ($item->only_use_in_subform) : ?>
 												<div class="small badge bg-secondary">
 													<?php echo Text::_('COM_FIELDS_FIELD_ONLY_USE_IN_SUBFORM_BADGE'); ?>
 												</div>
-											<?php endif; ?>
-											<?php if ($category) : ?>
+											<?php elseif ($category) : ?>
 												<div class="small">
 													<?php echo Text::_('JCATEGORY') . ': '; ?>
 													<?php $categories = FieldsHelper::getAssignedCategoriesTitles($item->id); ?>

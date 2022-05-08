@@ -2,7 +2,7 @@
 <extension type="plugin" group="editors" method="upgrade">
 	<name>plg_editors_none</name>
 	<version>3.0.0</version>
-	<creationDate>September 2005</creationDate>
+	<creationDate>2005-09</creationDate>
 	<author>Joomla! Project</author>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
@@ -13,7 +13,7 @@
 		<filename plugin="none">none.php</filename>
 	</files>
 	<languages>
-		<language tag="en-GB">en-GB.plg_editors_none.ini</language>
-		<language tag="en-GB">en-GB.plg_editors_none.sys.ini</language>
+		<language tag="en-GB">language/en-GB/plg_editors_none.ini</language>
+		<language tag="en-GB">language/en-GB/plg_editors_none.sys.ini</language>
 	</languages>
 </extension>

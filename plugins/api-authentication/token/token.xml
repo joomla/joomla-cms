@@ -2,7 +2,7 @@
 <extension type="plugin" group="api-authentication" method="upgrade">
 	<name>plg_api-authentication_token</name>
 	<author>Joomla! Project</author>
-	<creationDate>November 2019</creationDate>
+	<creationDate>2019-11</creationDate>
 	<copyright>(C) 2020 Open Source Matters, Inc.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
@@ -13,7 +13,7 @@
 		<filename plugin="token">token.php</filename>
 	</files>
 	<languages>
-		<language tag="en-GB">en-GB.plg_api-authentication_token.ini</language>
-		<language tag="en-GB">en-GB.plg_api-authentication_token.sys.ini</language>
+		<language tag="en-GB">language/en-GB/plg_api-authentication_token.ini</language>
+		<language tag="en-GB">language/en-GB/plg_api-authentication_token.sys.ini</language>
 	</languages>
 </extension>

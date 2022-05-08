@@ -23,7 +23,9 @@ use Joomla\CMS\Table\Extension;
 use Joomla\CMS\Table\Table;
 use Joomla\Database\DatabaseDriver;
 use Joomla\Database\Exception\ExecutionFailureException;
+use Joomla\Database\Exception\PrepareStatementFailureException;
 use Joomla\Database\ParameterType;
+use Joomla\DI\ContainerAwareInterface;
 
 /**
  * Joomla base installer class
@@ -138,6 +140,20 @@ class Installer extends Adapter
 	protected static $instances;
 
 	/**
+	 * A comment marker to indicate that an update SQL query may fail without triggering an update error.
+	 *
+	 * @since  4.2.0
+	 */
+	protected const CAN_FAIL_MARKER = '/** CAN FAIL **/';
+
+	/**
+	 * The length of the CAN_FAIL_MARKER string
+	 *
+	 * @since  4.2.0
+	 */
+	protected const CAN_FAIL_MARKER_LENGTH = 16;
+
+	/**
 	 * Constructor
 	 *
 	 * @param   string  $basepath       Base Path of the adapters
@@ -172,6 +188,155 @@ class Installer extends Adapter
 		}
 
 		return self::$instances[$basepath];
+	}
+
+	/**
+	 * Splits a string of multiple queries into an array of individual queries.
+	 *
+	 * This is different than DatabaseDriver::splitSql. It supports the special CAN FAIL comment
+	 * marker which indicates that a SQL statement could fail without raising an error during the
+	 * installation.
+	 *
+	 * @param   string|null  $sql  Input SQL string with which to split into individual queries.
+	 *
+	 * @return  array
+	 *
+	 * @since   4.2.0
+	 */
+	public static function splitSql(?string $sql): array
+	{
+		if (empty($sql))
+		{
+			return [];
+		}
+
+		$start     = 0;
+		$open      = false;
+		$comment   = false;
+		$endString = '';
+		$end       = \strlen($sql);
+		$queries   = [];
+		$query     = '';
+
+		for ($i = 0; $i < $end; $i++)
+		{
+			$current      = substr($sql, $i, 1);
+			$current2     = substr($sql, $i, 2);
+			$current3     = substr($sql, $i, 3);
+			$lenEndString = \strlen($endString);
+			$testEnd      = substr($sql, $i, $lenEndString);
+
+			if ($current === '"' || $current === "'" || $current2 === '--'
+				|| ($current2 === '/*' && $current3 !== '/*!' && $current3 !== '/*+')
+				|| ($current === '#' && $current3 !== '#__')
+				|| ($comment && $testEnd === $endString))
+			{
+				// Check if quoted with previous backslash
+				$n = 2;
+
+				while (substr($sql, $i - $n + 1, 1) === '\\' && $n < $i)
+				{
+					$n++;
+				}
+
+				// Not quoted
+				if ($n % 2 === 0)
+				{
+					if ($open)
+					{
+						if ($testEnd === $endString)
+						{
+							if ($comment)
+							{
+								$comment = false;
+
+								if ($lenEndString > 1)
+								{
+									$i += ($lenEndString - 1);
+									$current = substr($sql, $i, 1);
+								}
+
+								$start = $i + 1;
+							}
+
+							$open      = false;
+							$endString = '';
+						}
+					}
+					else
+					{
+						$open = true;
+
+						if ($current2 === '--')
+						{
+							$endString = "\n";
+							$comment   = true;
+						}
+						elseif ($current2 === '/*')
+						{
+							$endString = '*/';
+							$comment   = true;
+						}
+						elseif ($current === '#')
+						{
+							$endString = "\n";
+							$comment   = true;
+						}
+						else
+						{
+							$endString = $current;
+						}
+
+						if ($comment && $start < $i)
+						{
+							$query .= substr($sql, $start, $i - $start);
+						}
+					}
+				}
+			}
+
+			if ($comment)
+			{
+				$start = $i + 1;
+			}
+
+			if (($current === ';' && !$open) || $i === $end - 1)
+			{
+				if ($current === ';' && !$open && $start <= $i && $start > self::CAN_FAIL_MARKER_LENGTH)
+				{
+					$possibleMarker = substr($sql, $start - self::CAN_FAIL_MARKER_LENGTH, $i - $start + self::CAN_FAIL_MARKER_LENGTH);
+
+					if (strtoupper($possibleMarker) === self::CAN_FAIL_MARKER)
+					{
+						$start -= self::CAN_FAIL_MARKER_LENGTH;
+					}
+				}
+
+				if ($start <= $i)
+				{
+					$query .= substr($sql, $start, $i - $start + 1);
+				}
+
+				$query = trim($query);
+
+				if ($query)
+				{
+					if (($i === $end - 1) && ($current !== ';'))
+					{
+						$query .= ';';
+					}
+
+					$queries[] = $query;
+				}
+
+				$query = '';
+				$start = $i + 1;
+			}
+
+			$endComment = false;
+		}
+
+		return $queries;
 	}
 
 	/**
@@ -521,17 +686,6 @@ class Installer extends Adapter
 
 		// Make sure Joomla can figure out what has changed
 		clearstatcache();
-
-		/**
-		 * Flush the opcache regardless of result to ensure consistency
-		 *
-		 * In some (most?) systems PHP's CLI has a separate opcode cache to the one used by the web server or FPM process,
-		 * which means running opcache_reset() in the CLI won't reset the webserver/fpm opcode cache, and vice versa.
-		 */
-		if (function_exists('opcache_reset'))
-		{
-			\opcache_reset();
-		}
 
 		// Fire the onExtensionAfterInstall
 		Factory::getApplication()->triggerEvent(
@@ -959,11 +1113,9 @@ class Installer extends Adapter
 			return 0;
 		}
 
-		$db = & $this->_db;
-
-		$dbDriver = $db->getServerType();
-
-		$update_count = 0;
+		$db          = &$this->_db;
+		$dbDriver    = $db->getServerType();
+		$updateCount = 0;
 
 		// Get the name of the sql file to process
 		foreach ($element->children() as $file)
@@ -980,57 +1132,66 @@ class Installer extends Adapter
 				$fDriver = 'postgresql';
 			}
 
-			if ($fCharset === 'utf8' && $fDriver == $dbDriver)
+			if ($fCharset !== 'utf8' || $fDriver != $dbDriver)
 			{
-				$sqlfile = $this->getPath('extension_root') . '/' . trim($file);
+				continue;
+			}
 
-				// Check that sql files exists before reading. Otherwise raise error for rollback
-				if (!file_exists($sqlfile))
+			$sqlfile = $this->getPath('extension_root') . '/' . trim($file);
+
+			// Check that sql files exists before reading. Otherwise raise error for rollback
+			if (!file_exists($sqlfile))
+			{
+				Log::add(Text::sprintf('JLIB_INSTALLER_ERROR_SQL_FILENOTFOUND', $sqlfile), Log::WARNING, 'jerror');
+
+				return false;
+			}
+
+			$buffer = file_get_contents($sqlfile);
+
+			// Graceful exit and rollback if read not successful
+			if ($buffer === false)
+			{
+				Log::add(Text::_('JLIB_INSTALLER_ERROR_SQL_READBUFFER'), Log::WARNING, 'jerror');
+
+				return false;
+			}
+
+			// Create an array of queries from the sql file
+			$queries = self::splitSql($buffer);
+
+			if (\count($queries) === 0)
+			{
+				// No queries to process
+				continue;
+			}
+
+			// Process each query in the $queries array (split out of sql file).
+			foreach ($queries as $query)
+			{
+				$canFail = strlen($query) > self::CAN_FAIL_MARKER_LENGTH + 1 &&
+					strtoupper(substr($query, -self::CAN_FAIL_MARKER_LENGTH - 1)) === (self::CAN_FAIL_MARKER . ';');
+				$query   = $canFail ? (substr($query, 0, -self::CAN_FAIL_MARKER_LENGTH - 1) . ';') : $query;
+
+				try
 				{
-					Log::add(Text::sprintf('JLIB_INSTALLER_ERROR_SQL_FILENOTFOUND', $sqlfile), Log::WARNING, 'jerror');
-
-					return false;
+					$db->setQuery($query)->execute();
 				}
-
-				$buffer = file_get_contents($sqlfile);
-
-				// Graceful exit and rollback if read not successful
-				if ($buffer === false)
+				catch (ExecutionFailureException $e)
 				{
-					Log::add(Text::_('JLIB_INSTALLER_ERROR_SQL_READBUFFER'), Log::WARNING, 'jerror');
-
-					return false;
-				}
-
-				// Create an array of queries from the sql file
-				$queries = DatabaseDriver::splitSql($buffer);
-
-				if (\count($queries) === 0)
-				{
-					// No queries to process
-					continue;
-				}
-
-				// Process each query in the $queries array (split out of sql file).
-				foreach ($queries as $query)
-				{
-					try
-					{
-						$db->setQuery($query)->execute();
-					}
-					catch (ExecutionFailureException $e)
+					if (!$canFail)
 					{
 						Log::add(Text::sprintf('JLIB_INSTALLER_ERROR_SQL_ERROR', $e->getMessage()), Log::WARNING, 'jerror');
 
 						return false;
 					}
-
-					$update_count++;
 				}
+
+				$updateCount++;
 			}
 		}
 
-		return $update_count;
+		return $updateCount;
 	}
 
 	/**
@@ -1108,162 +1269,233 @@ class Installer extends Adapter
 	 * @param   \SimpleXMLElement  $schema  The XML node to process
 	 * @param   integer            $eid     Extension Identifier
 	 *
-	 * @return  boolean           Result of the operations
+	 * @return  boolean|int  Number of SQL updates executed; false on failure.
 	 *
 	 * @since   3.1
 	 */
 	public function parseSchemaUpdates(\SimpleXMLElement $schema, $eid)
 	{
-		$update_count = 0;
+		$updateCount = 0;
 
 		// Ensure we have an XML element and a valid extension id
-		if ($eid && $schema)
+		if (!$eid || !$schema)
 		{
-			$db = Factory::getDbo();
-			$schemapaths = $schema->children();
+			return $updateCount;
+		}
 
-			if (\count($schemapaths))
+		$db          = Factory::getDbo();
+		$schemapaths = $schema->children();
+
+		if (!\count($schemapaths))
+		{
+			return $updateCount;
+		}
+
+		$dbDriver = $db->getServerType();
+
+		$schemapath = '';
+
+		foreach ($schemapaths as $entry)
+		{
+			$attrs = $entry->attributes();
+
+			// Assuming that the type is a mandatory attribute but if it is not mandatory then there should be a discussion for it.
+			$uDriver = strtolower($attrs['type']);
+
+			if ($uDriver === 'mysqli' || $uDriver === 'pdomysql')
 			{
-				$dbDriver = $db->getServerType();
+				$uDriver = 'mysql';
+			}
+			elseif ($uDriver === 'pgsql')
+			{
+				$uDriver = 'postgresql';
+			}
 
-				$schemapath = '';
+			if ($uDriver == $dbDriver)
+			{
+				$schemapath = $entry;
+				break;
+			}
+		}
 
-				foreach ($schemapaths as $entry)
+		if ($schemapath === '')
+		{
+			return $updateCount;
+		}
+
+		$files = Folder::files($this->getPath('extension_root') . '/' . $schemapath, '\.sql$');
+
+		if (empty($files))
+		{
+			return $updateCount;
+		}
+
+		Log::add(Text::_('JLIB_INSTALLER_SQL_BEGIN'), Log::INFO, 'Update');
+		Log::add(Text::sprintf('JLIB_INSTALLER_SQL_BEGIN_SCHEMA', $version), Log::INFO, 'Update');
+
+		$files = str_replace('.sql', '', $files);
+		usort($files, 'version_compare');
+
+		$query = $db->getQuery(true)
+			->select('version_id')
+			->from('#__schemas')
+			->where('extension_id = :extension_id')
+			->bind(':extension_id', $eid, ParameterType::INTEGER);
+		$db->setQuery($query);
+
+		$hasVersion = true;
+
+		try
+		{
+			$version = $db->loadResult();
+
+			// No version - use initial version.
+			if (!$version)
+			{
+				$version    = '0.0.0';
+				$hasVersion = false;
+			}
+		}
+		catch (ExecutionFailureException $e)
+		{
+			$version = '0.0.0';
+		}
+
+		foreach ($files as $file)
+		{
+			// Skip over files earlier or equal to the latest schema version recorded for this extension.
+			if (version_compare($file, $version) <= 0)
+			{
+				continue;
+			}
+
+			$buffer = file_get_contents(sprintf("%s/%s/%s.sql", $this->getPath('extension_root'), $schemapath, $file));
+
+			// Graceful exit and rollback if read not successful
+			if ($buffer === false)
+			{
+				Log::add(Text::sprintf('JLIB_INSTALLER_ERROR_SQL_READBUFFER'), Log::WARNING, 'jerror');
+
+				return false;
+			}
+
+			// Create an array of queries from the sql file
+			$queries = self::splitSql($buffer);
+
+			// Process each query in the $queries array (split out of sql file).
+			foreach ($queries as $query)
+			{
+				$canFail = strlen($query) > self::CAN_FAIL_MARKER_LENGTH + 1 &&
+					strtoupper(substr($query, -self::CAN_FAIL_MARKER_LENGTH - 1)) === (self::CAN_FAIL_MARKER . ';');
+				$query   = $canFail ? (substr($query, 0, -self::CAN_FAIL_MARKER_LENGTH - 1) . ';') : $query;
+
+				$queryString = (string) $query;
+				$queryString = str_replace(["\r", "\n"], ['', ' '], substr($queryString, 0, 80));
+
+				try
 				{
-					$attrs = $entry->attributes();
-
-					// Assuming that the type is a mandatory attribute but if it is not mandatory then there should be a discussion for it.
-					$uDriver = strtolower($attrs['type']);
-
-					if ($uDriver === 'mysqli' || $uDriver === 'pdomysql')
-					{
-						$uDriver = 'mysql';
-					}
-					elseif ($uDriver === 'pgsql')
-					{
-						$uDriver = 'postgresql';
-					}
-
-					if ($uDriver == $dbDriver)
-					{
-						$schemapath = $entry;
-						break;
-					}
+					$db->setQuery($query)->execute();
 				}
-
-				if ($schemapath !== '')
+				catch (ExecutionFailureException | PrepareStatementFailureException $e)
 				{
-					$files = Folder::files($this->getPath('extension_root') . '/' . $schemapath, '\.sql$');
-
-					if (empty($files))
+					if (!$canFail)
 					{
-						return $update_count;
-					}
+						$errorMessage = Text::sprintf('JLIB_INSTALLER_ERROR_SQL_ERROR', $e->getMessage());
 
-					$files = str_replace('.sql', '', $files);
-					usort($files, 'version_compare');
+						// Log the error in the update log file
+						Log::add(Text::sprintf('JLIB_INSTALLER_UPDATE_LOG_QUERY', $file, $queryString), Log::INFO, 'Update');
+						Log::add($errorMessage, Log::INFO, 'Update');
+						Log::add(Text::_('JLIB_INSTALLER_SQL_END_NOT_COMPLETE'), Log::INFO, 'Update');
 
-					$query = $db->getQuery(true)
-						->select('version_id')
-						->from('#__schemas')
-						->where('extension_id = :extension_id')
-						->bind(':extension_id', $eid, ParameterType::INTEGER);
-					$db->setQuery($query);
-
-					try
-					{
-						$version = $db->loadResult();
-
-						// No version - use initial version.
-						if (!$version)
-						{
-							$version = '0.0.0';
-						}
-					}
-					catch (ExecutionFailureException $e)
-					{
-						$version = '0.0.0';
-					}
-
-					foreach ($files as $file)
-					{
-						if (version_compare($file, $version) > 0)
-						{
-							$buffer = file_get_contents($this->getPath('extension_root') . '/' . $schemapath . '/' . $file . '.sql');
-
-							// Graceful exit and rollback if read not successful
-							if ($buffer === false)
-							{
-								Log::add(Text::sprintf('JLIB_INSTALLER_ERROR_SQL_READBUFFER'), Log::WARNING, 'jerror');
-
-								return false;
-							}
-
-							// Create an array of queries from the sql file
-							$queries = DatabaseDriver::splitSql($buffer);
-
-							if (\count($queries) === 0)
-							{
-								// No queries to process
-								continue;
-							}
-
-							// Process each query in the $queries array (split out of sql file).
-							foreach ($queries as $query)
-							{
-								try
-								{
-									$db->setQuery($query)->execute();
-								}
-								catch (ExecutionFailureException $e)
-								{
-									Log::add(Text::sprintf('JLIB_INSTALLER_ERROR_SQL_ERROR', $e->getMessage()), Log::WARNING, 'jerror');
-
-									return false;
-								}
-
-								$queryString = (string) $query;
-								$queryString = str_replace(array("\r", "\n"), array('', ' '), substr($queryString, 0, 80));
-								Log::add(Text::sprintf('JLIB_INSTALLER_UPDATE_LOG_QUERY', $file, $queryString), Log::INFO, 'Update');
-
-								$update_count++;
-							}
-						}
-					}
-
-					// Update the database
-					$query = $db->getQuery(true)
-						->delete('#__schemas')
-						->where('extension_id = :extension_id')
-						->bind(':extension_id', $eid, ParameterType::INTEGER);
-					$db->setQuery($query);
-
-					try
-					{
-						$db->execute();
-
-						$schemaVersion = end($files);
-
-						$query->clear()
-							->insert($db->quoteName('#__schemas'))
-							->columns(array($db->quoteName('extension_id'), $db->quoteName('version_id')))
-							->values(':extension_id, :version_id')
-							->bind(':extension_id', $eid, ParameterType::INTEGER)
-							->bind(':version_id', $schemaVersion);
-						$db->setQuery($query);
-						$db->execute();
-					}
-					catch (ExecutionFailureException $e)
-					{
-						Log::add(Text::sprintf('JLIB_INSTALLER_ERROR_SQL_ERROR', $e->getMessage()), Log::WARNING, 'jerror');
+						// Show the error message to the user
+						Log::add($errorMessage, Log::WARNING, 'jerror');
 
 						return false;
 					}
 				}
+
+				Log::add(Text::sprintf('JLIB_INSTALLER_UPDATE_LOG_QUERY', $file, $queryString), Log::INFO, 'Update');
+
+				$updateCount++;
+			}
+
+			// Update the schema version for this extension
+			try
+			{
+				$this->updateSchemaTable($eid, $file, $hasVersion);
+				$hasVersion = true;
+			}
+			catch (ExecutionFailureException $e)
+			{
+				Log::add(Text::sprintf('JLIB_INSTALLER_ERROR_SQL_ERROR', $e->getMessage()), Log::WARNING, 'jerror');
+
+				return false;
 			}
 		}
 
-		return $update_count;
+		Log::add(Text::_('JLIB_INSTALLER_SQL_END'), Log::INFO, 'Update');
+
+		return $updateCount;
+	}
+
+	/**
+	 * Update the schema table with the latest version
+	 *
+	 * @param   int     $eid      Extension ID.
+	 * @param   string  $version  Latest schema version ID.
+	 * @param   boolean $update   Should I run an update against an existing record or insert a new one?
+	 *
+	 * @return  void
+	 *
+	 * @since   4.2.0
+	 */
+	protected function updateSchemaTable(int $eid, string $version, bool $update = false): void
+	{
+		/** @var DatabaseDriver $db */
+		$db    = Factory::getContainer()->get('DatabaseDriver');
+
+		$o = (object) [
+			'extension_id' => $eid,
+			'version_id'   => $version,
+		];
+
+		try
+		{
+			if ($update)
+			{
+				$db->updateObject('#__schemas', $o, 'extension_id');
+			}
+			else
+			{
+				$db->insertObject('#__schemas', $o);
+			}
+		}
+		catch (ExecutionFailureException $e)
+		{
+			/**
+			 * Safe fallback: delete any existing record and insert afresh.
+			 *
+			 * It is possible that the schema version may be populated after we detected it does not
+			 * exist (or removed after we detected it exists) and before we finish executing the SQL
+			 * update script. This could happen e.g. if the update SQL script messes with it, or if
+			 * another process is also tinkering with the #__schemas table.
+			 *
+			 * The safe fallback below even runs inside a transaction to prevent interference from
+			 * another process.
+			 */
+			$db->transactionStart();
+
+			$query = $db->getQuery(true)
+				->delete('#__schemas')
+				->where('extension_id = :extension_id')
+				->bind(':extension_id', $eid, ParameterType::INTEGER);
+
+			$db->setQuery($query)->execute();
+
+			$db->insertObject('#__schemas', $o);
+
+			$db->transactionCommit();
+		}
 	}
 
 	/**
@@ -1371,7 +1603,7 @@ class Installer extends Adapter
 
 			/*
 			 * Before we can add a file to the copyfiles array we need to ensure
-			 * that the folder we are copying our file to exits and if it doesn't,
+			 * that the folder we are copying our file to exists and if it doesn't,
 			 * we need to create it.
 			 */
 
@@ -1495,7 +1727,7 @@ class Installer extends Adapter
 
 			/*
 			 * Before we can add a file to the copyfiles array we need to ensure
-			 * that the folder we are copying our file to exits and if it doesn't,
+			 * that the folder we are copying our file to exists and if it doesn't,
 			 * we need to create it.
 			 */
 
@@ -1584,7 +1816,7 @@ class Installer extends Adapter
 
 			/*
 			 * Before we can add a file to the copyfiles array we need to ensure
-			 * that the folder we are copying our file to exits and if it doesn't,
+			 * that the folder we are copying our file to exists and if it doesn't,
 			 * we need to create it.
 			 */
 
@@ -2313,6 +2545,17 @@ class Installer extends Adapter
 		$data['description'] = (string) $xml->description;
 		$data['group'] = (string) $xml->group;
 
+		// Child template specific fields.
+		if (isset($xml->inheritable))
+		{
+			$data['inheritable'] = (string) $xml->inheritable === '0' ? false : true;
+		}
+
+		if (isset($xml->parent) && (string) $xml->parent !== '')
+		{
+			$data['parent'] = (string) $xml->parent;
+		}
+
 		if ($xml->files && \count($xml->files->children()))
 		{
 			$filename = basename($path);
@@ -2440,6 +2683,13 @@ class Installer extends Adapter
 			return Factory::getContainer()->get($class);
 		}
 
-		return new $class($this, $this->getDbo(), $options);
+		$adapter = new $class($this, $this->getDbo(), $options);
+
+		if ($adapter instanceof ContainerAwareInterface)
+		{
+			$adapter->setContainer(Factory::getContainer());
+		}
+
+		return $adapter;
 	}
 }

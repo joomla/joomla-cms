@@ -18,7 +18,10 @@ use Joomla\CMS\Router\Route;
 use Joomla\CMS\Session\Session;
 use Joomla\String\Inflector;
 
-HTMLHelper::_('behavior.multiselect');
+/** @var \Joomla\CMS\WebAsset\WebAssetManager $wa */
+$wa = $this->document->getWebAssetManager();
+$wa->useScript('table.columns')
+	->useScript('multiselect');
 
 $app       = Factory::getApplication();
 $user      = Factory::getUser();
@@ -68,7 +71,7 @@ if ($saveOrder && !empty($this->items))
 				<?php echo Text::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
 			</div>
 		<?php else : ?>
-			<table class="table" id="categoryList">
+			<table class="table" id="tagList">
 				<caption class="visually-hidden">
 					<?php echo Text::_('COM_TAGS_TABLE_CAPTION'); ?>,
 							<span id="orderedBy"><?php echo Text::_('JGLOBAL_SORTED_BY'); ?> </span>,
@@ -200,13 +203,13 @@ if ($saveOrder && !empty($this->items))
 								<?php else : ?>
 									<?php echo $this->escape($item->title); ?>
 								<?php endif; ?>
-								<span class="small" title="<?php echo $this->escape($item->path); ?>">
+								<div class="small" title="<?php echo $this->escape($item->path); ?>">
 									<?php if (empty($item->note)) : ?>
 										<?php echo Text::sprintf('JGLOBAL_LIST_ALIAS', $this->escape($item->alias)); ?>
 									<?php else : ?>
 										<?php echo Text::sprintf('JGLOBAL_LIST_ALIAS_NOTE', $this->escape($item->alias), $this->escape($item->note)); ?>
 									<?php endif; ?>
-								</span>
+								</div>
 							</th>
 
 						<?php if (isset($this->items[0]) && property_exists($this->items[0], 'count_published')) : ?>

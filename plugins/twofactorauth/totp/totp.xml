@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<extension type="plugin" group="system" method="upgrade">
+<extension type="plugin" group="twofactorauth" method="upgrade">
 	<name>plg_twofactorauth_totp</name>
 	<author>Joomla! Project</author>
-	<creationDate>August 2013</creationDate>
+	<creationDate>2013-08</creationDate>
 	<copyright>(C) 2013 Open Source Matters, Inc.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
@@ -15,8 +15,8 @@
 		<folder>tmpl</folder>
 	</files>
 	<languages>
-		<language tag="en-GB">en-GB.plg_twofactorauth_totp.ini</language>
-		<language tag="en-GB">en-GB.plg_twofactorauth_totp.sys.ini</language>
+		<language tag="en-GB">language/en-GB/plg_twofactorauth_totp.ini</language>
+		<language tag="en-GB">language/en-GB/plg_twofactorauth_totp.sys.ini</language>
 	</languages>
 	<config>
 		<fields name="params">

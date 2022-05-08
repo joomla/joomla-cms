@@ -2,7 +2,7 @@
 <extension type="plugin" group="content" method="upgrade">
 	<name>plg_content_contact</name>
 	<author>Joomla! Project</author>
-	<creationDate>January 2014</creationDate>
+	<creationDate>2014-01</creationDate>
 	<copyright>(C) 2014 Open Source Matters, Inc.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
@@ -13,8 +13,8 @@
 		<filename plugin="contact">contact.php</filename>
 	</files>
 	<languages>
-		<language tag="en-GB">en-GB.plg_content_contact.ini</language>
-		<language tag="en-GB">en-GB.plg_content_contact.sys.ini</language>
+		<language tag="en-GB">language/en-GB/plg_content_contact.ini</language>
+		<language tag="en-GB">language/en-GB/plg_content_contact.sys.ini</language>
 	</languages>
 	<config>
 		<fields name="params">

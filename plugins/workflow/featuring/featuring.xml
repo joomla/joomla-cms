@@ -2,7 +2,7 @@
 <extension type="plugin" group="workflow" method="upgrade">
 	<name>plg_workflow_featuring</name>
 	<author>Joomla! Project</author>
-	<creationDate>March 2020</creationDate>
+	<creationDate>2020-03</creationDate>
 	<copyright>(C) 2020 Open Source Matters, Inc.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
@@ -14,8 +14,8 @@
 		<folder>forms</folder>
 	</files>
 	<languages>
-		<language tag="en-GB">plg_workflow_featuring.ini</language>
-		<language tag="en-GB">plg_workflow_featuring.sys.ini</language>
+		<language tag="en-GB">language/en-GB/plg_workflow_featuring.ini</language>
+		<language tag="en-GB">language/en-GB/plg_workflow_featuring.sys.ini</language>
 	</languages>
 	<config>
 		<fields name="params">

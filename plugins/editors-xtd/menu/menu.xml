@@ -2,7 +2,7 @@
 <extension type="plugin" group="editors-xtd" method="upgrade">
 	<name>plg_editors-xtd_menu</name>
 	<author>Joomla! Project</author>
-	<creationDate>August 2016</creationDate>
+	<creationDate>2016-08</creationDate>
 	<copyright>(C) 2016 Open Source Matters, Inc.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
@@ -13,7 +13,7 @@
 		<filename plugin="menu">menu.php</filename>
 	</files>
 	<languages>
-		<language tag="en-GB">en-GB.plg_editors-xtd_menu.ini</language>
-		<language tag="en-GB">en-GB.plg_editors-xtd_menu.sys.ini</language>
+		<language tag="en-GB">language/en-GB/plg_editors-xtd_menu.ini</language>
+		<language tag="en-GB">language/en-GB/plg_editors-xtd_menu.sys.ini</language>
 	</languages>
 </extension>

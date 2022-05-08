@@ -15,7 +15,6 @@ use Joomla\CMS\Cache\Exception\CacheExceptionInterface;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Session\Session;
-use Joomla\String\StringHelper;
 
 /**
  * Joomla! Cache base object
@@ -595,18 +594,18 @@ class Cache
 	 * @param   string  $data     Cached data
 	 * @param   array   $options  Array of options
 	 *
-	 * @return  string  Data to be cached
+	 * @return  array  Data to be cached
 	 *
 	 * @since   1.7.0
 	 */
-	public static function setWorkarounds($data, $options = array())
+	public static function setWorkarounds($data, $options = [])
 	{
-		$loptions = array(
+		$loptions = [
 			'nopathway'  => 0,
 			'nohead'     => 0,
 			'nomodules'  => 0,
 			'modulemode' => 0,
-		);
+		];
 
 		if (isset($options['nopathway']))
 		{
@@ -638,13 +637,13 @@ class Cache
 
 			if (!\is_array($buffer1))
 			{
-				$buffer1 = array();
+				$buffer1 = [];
 			}
 
 			// Make sure the module buffer is an array.
 			if (!isset($buffer1['module']) || !\is_array($buffer1['module']))
 			{
-				$buffer1['module'] = array();
+				$buffer1['module'] = [];
 			}
 		}
 
@@ -656,71 +655,38 @@ class Cache
 		{
 			if ($loptions['modulemode'] == 1)
 			{
-				$headnow = $document->getHeadData();
-				$unset   = array('title', 'description', 'link', 'links', 'metaTags');
+				$headNow = $document->getHeadData();
+				$unset   = ['title', 'description', 'link', 'links', 'metaTags'];
 
-				foreach ($unset as $un)
+				foreach ($unset as $key)
 				{
-					unset($headnow[$un]);
-					unset($options['headerbefore'][$un]);
+					unset($headNow[$key]);
 				}
 
-				$cached['head'] = array();
-
-				// Only store what this module has added
-				foreach ($headnow as $now => $value)
+				// Sanitize empty data
+				foreach (\array_keys($headNow) as $key)
 				{
-					if (isset($options['headerbefore'][$now]))
+					if (!isset($headNow[$key]) || $headNow[$key] === [])
 					{
-						// We have to serialize the content of the arrays because the may contain other arrays which is a notice in PHP 5.4 and newer
-						$nowvalue    = array_map('serialize', $headnow[$now]);
-						$beforevalue = array_map('serialize', $options['headerbefore'][$now]);
-
-						$newvalue = array_diff_assoc($nowvalue, $beforevalue);
-						$newvalue = array_map('unserialize', $newvalue);
-
-						// Special treatment for script and style declarations.
-						if (($now === 'script' || $now === 'style') && \is_array($newvalue) && \is_array($options['headerbefore'][$now]))
-						{
-							foreach ($newvalue as $type => $currentScriptStr)
-							{
-								if (isset($options['headerbefore'][$now][strtolower($type)]))
-								{
-									$oldScriptStr = $options['headerbefore'][$now][strtolower($type)];
-
-									if ($oldScriptStr != $currentScriptStr)
-									{
-										// Save only the appended declaration.
-										$newvalue[strtolower($type)] = StringHelper::substr($currentScriptStr, StringHelper::strlen($oldScriptStr));
-									}
-								}
-							}
-						}
-					}
-					else
-					{
-						$newvalue = $headnow[$now];
-					}
-
-					if (!empty($newvalue))
-					{
-						$cached['head'][$now] = $newvalue;
+						unset($headNow[$key]);
 					}
 				}
+
+				$cached['head'] = $headNow;
 			}
 			else
 			{
 				$cached['head'] = $document->getHeadData();
+
+				// Document MIME encoding
+				$cached['mime_encoding'] = $document->getMimeEncoding();
 			}
 		}
-
-		// Document MIME encoding
-		$cached['mime_encoding'] = $document->getMimeEncoding();
 
 		// Pathway data
 		if ($app->isClient('site') && $loptions['nopathway'] != 1)
 		{
-			$cached['pathway'] = \is_array($data) && isset($data['pathway']) ? $data['pathway'] : $app->getPathway()->getPathway();
+			$cached['pathway'] = $data['pathway'] ?? $app->getPathway()->getPathway();
 		}
 
 		if ($loptions['nomodules'] != 1)
@@ -731,13 +697,13 @@ class Cache
 
 			if (!\is_array($buffer2))
 			{
-				$buffer2 = array();
+				$buffer2 = [];
 			}
 
 			// Make sure the module buffer is an array.
 			if (!isset($buffer2['module']) || !\is_array($buffer2['module']))
 			{
-				$buffer2['module'] = array();
+				$buffer2['module'] = [];
 			}
 
 			// Compare the second module buffer against the first buffer.

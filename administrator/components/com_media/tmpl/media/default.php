@@ -14,8 +14,10 @@ use Joomla\CMS\Session\Session;
 use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Uri\Uri;
 
+$app    = Factory::getApplication();
 $params = ComponentHelper::getParams('com_media');
-$input  = Factory::getApplication()->input;
+$input  = $app->input;
+$user   = $app->getIdentity();
 
 /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
 $wa = $this->document->getWebAssetManager();
@@ -39,7 +41,7 @@ if ($tmpl === 'component')
 $mediaTypes = '&mediatypes=' . $input->getString('mediatypes', '0,1,2,3');
 
 // Populate the media config
-$config = array(
+$config = [
 	'apiBaseUrl'          => Uri::base() . 'index.php?option=com_media&format=json' . $mediaTypes,
 	'csrfToken'           => Session::getFormToken(),
 	'filePath'            => $params->get('file_path', 'images'),
@@ -54,7 +56,10 @@ $config = array(
 	'providers'           => (array) $this->providers,
 	'currentPath'         => $this->currentPath,
 	'isModal'             => $tmpl === 'component',
-);
+	'canCreate'           => $user->authorise('core.create', 'com_media'),
+	'canEdit'             => $user->authorise('core.edit', 'com_media'),
+	'canDelete'           => $user->authorise('core.delete', 'com_media'),
+];
 $this->document->addScriptOptions('com_media', $config);
 ?>
 <div id="com-media"></div>

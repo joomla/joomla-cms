@@ -93,7 +93,7 @@ class ArticleController extends FormController
 	 */
 	protected function allowAdd($data = array())
 	{
-		$user       = Factory::getUser();
+		$user       = $this->app->getIdentity();
 		$categoryId = ArrayHelper::getValue($data, 'catid', $this->input->getInt('catid'), 'int');
 		$allow      = null;
 
@@ -127,7 +127,7 @@ class ArticleController extends FormController
 	protected function allowEdit($data = array(), $key = 'id')
 	{
 		$recordId = (int) isset($data[$key]) ? $data[$key] : 0;
-		$user = Factory::getUser();
+		$user = $this->app->getIdentity();
 
 		// Zero record (id:0), return component edit permission by calling parent controller method
 		if (!$recordId)
@@ -294,7 +294,7 @@ class ArticleController extends FormController
 			$append .= '&tmpl=' . $tmpl;
 		}
 
-		// TODO This is a bandaid, not a long term solution.
+		// @todo This is a bandaid, not a long term solution.
 		/**
 		 * if ($layout)
 		 * {
@@ -367,6 +367,12 @@ class ArticleController extends FormController
 	public function save($key = null, $urlVar = 'a_id')
 	{
 		$result    = parent::save($key, $urlVar);
+
+		if (\in_array($this->getTask(), ['save2copy', 'apply'], true))
+		{
+			return $result;
+		}
+
 		$app       = Factory::getApplication();
 		$articleId = $app->input->getInt('a_id');
 
@@ -390,6 +396,10 @@ class ArticleController extends FormController
 			{
 				$this->setRedirect(Route::_('index.php?Itemid=' . $menuitem . $lang, false));
 			}
+		}
+		elseif ($this->getTask() === 'save2copy')
+		{
+			// Redirect to the article page, use the redirect url set from parent controller
 		}
 		else
 		{
@@ -415,7 +425,7 @@ class ArticleController extends FormController
 	 */
 	public function reload($key = null, $urlVar = 'a_id')
 	{
-		return parent::reload($key, $urlVar);
+		parent::reload($key, $urlVar);
 	}
 
 	/**

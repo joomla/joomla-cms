@@ -2,7 +2,7 @@
 <extension type="module" client="site" method="upgrade">
 	<name>mod_articles_news</name>
 	<author>Joomla! Project</author>
-	<creationDate>July 2006</creationDate>
+	<creationDate>2006-07</creationDate>
 	<copyright>(C) 2006 Open Source Matters, Inc.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
@@ -11,15 +11,15 @@
 	<description>MOD_ARTICLES_NEWS_XML_DESCRIPTION</description>
 	<namespace path="src">Joomla\Module\ArticlesNews</namespace>
 	<files>
-		<filename module="mod_articles_news">mod_articles_news.php</filename>
-		<folder>src</folder>
+		<folder module="mod_articles_news">src</folder>
+		<folder>services</folder>
 		<folder>tmpl</folder>
 	</files>
 	<languages>
-		<language tag="en-GB">en-GB.mod_articles_news.ini</language>
-		<language tag="en-GB">en-GB.mod_articles_news.sys.ini</language>
+		<language tag="en-GB">language/en-GB/mod_articles_news.ini</language>
+		<language tag="en-GB">language/en-GB/mod_articles_news.sys.ini</language>
 	</languages>
-	<help key="JHELP_EXTENSIONS_MODULE_MANAGER_ARTICLES_NEWSFLASH"/>
+	<help key="Site_Modules:_Articles_-_Newsflash"/>
 	<config>
 		<fields name="params">
 			<fieldset name="basic">
@@ -165,6 +165,8 @@
 					label="MOD_ARTICLES_NEWS_FIELD_ITEMS_LABEL"
 					default="5"
 					filter="integer"
+					min="1"
+					validate="number"
 				/>
 
 				<field

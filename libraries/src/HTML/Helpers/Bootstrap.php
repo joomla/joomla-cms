@@ -282,7 +282,7 @@ abstract class Bootstrap
 		if ($selector !== '')
 		{
 			// Setup options object
-			$opt['backdrop'] = isset($options['backdrop']) ? (bool) $options['backdrop'] : true;
+			$opt['backdrop'] = isset($options['backdrop']) ? $options['backdrop'] : false;
 			$opt['keyboard'] = isset($options['keyboard']) ? (bool) $options['keyboard'] : true;
 			$opt['focus']    = isset($options['focus']) ? (bool) $options['focus'] : true;
 

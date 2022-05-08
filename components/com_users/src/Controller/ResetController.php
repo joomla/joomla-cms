@@ -43,7 +43,7 @@ class ResetController extends BaseController
 		$return	= $model->processResetRequest($data);
 
 		// Check for a hard error.
-		if ($return instanceof \Exception)
+		if ($return instanceof \Exception && JDEBUG)
 		{
 			// Get the error message to display.
 			if ($app->get('error_reporting'))
@@ -60,7 +60,7 @@ class ResetController extends BaseController
 
 			return false;
 		}
-		elseif ($return === false)
+		elseif ($return === false && JDEBUG)
 		{
 			// The request failed.
 			// Go back to the request form.
@@ -69,14 +69,12 @@ class ResetController extends BaseController
 
 			return false;
 		}
-		else
-		{
-			// The request succeeded.
-			// Proceed to step two.
-			$this->setRedirect(Route::_('index.php?option=com_users&view=reset&layout=confirm', false));
 
-			return true;
-		}
+		// To not expose if the user exists or not we send a generic message.
+		$message = Text::_('COM_USERS_RESET_REQUEST');
+		$this->setRedirect(Route::_('index.php?option=com_users&view=reset&layout=confirm', false), $message, 'notice');
+
+		return true;
 	}
 
 	/**
@@ -94,7 +92,7 @@ class ResetController extends BaseController
 
 		$app   = $this->app;
 
-		/** @var \Joomla\Component\Users\Site\Model\Reset $model */
+		/** @var \Joomla\Component\Users\Site\Model\ResetModel $model */
 		$model = $this->getModel('Reset', 'Site');
 		$data  = $this->input->get('jform', array(), 'array');
 

@@ -12,7 +12,13 @@ if (!Joomla) {
  * @param {*} path
  * @returns {string}
  */
-const getExtension = (path) => path.split(/[#?]/)[0].split('.').pop().trim();
+const getExtension = (path) => {
+  const parts = path.split(/[#]/);
+  if (parts.length > 1) {
+    return parts[1].split(/[?]/)[0].split('.').pop().trim();
+  }
+  return path.split(/[#?]/)[0].split('.').pop().trim();
+};
 
 class JoomlaFieldMedia extends HTMLElement {
   constructor() {
@@ -24,6 +30,9 @@ class JoomlaFieldMedia extends HTMLElement {
     this.modalClose = this.modalClose.bind(this);
     this.setValue = this.setValue.bind(this);
     this.updatePreview = this.updatePreview.bind(this);
+    this.validateValue = this.validateValue.bind(this);
+    this.markValid = this.markValid.bind(this);
+    this.markInvalid = this.markInvalid.bind(this);
   }
 
   static get observedAttributes() {
@@ -124,6 +133,8 @@ class JoomlaFieldMedia extends HTMLElement {
     }
 
     this.updatePreview();
+    this.inputElement.removeAttribute('readonly');
+    this.inputElement.addEventListener('change', this.validateValue);
   }
 
   disconnectedCallback() {
@@ -132,6 +143,9 @@ class JoomlaFieldMedia extends HTMLElement {
     }
     if (this.buttonClearEl) {
       this.buttonClearEl.removeEventListener('click', this.clearValue);
+    }
+    if (this.inputElement) {
+      this.inputElement.removeEventListener('change', this.validateValue);
     }
   }
 
@@ -166,6 +180,7 @@ class JoomlaFieldMedia extends HTMLElement {
 
   setValue(value) {
     this.inputElement.value = value;
+    this.validatedUrl = value;
     this.updatePreview();
 
     // trigger change event both on the input and on the custom element
@@ -176,19 +191,104 @@ class JoomlaFieldMedia extends HTMLElement {
     }));
   }
 
-  clearValue() {
-    this.setValue('');
+  validateValue(event) {
+    let { value } = event.target;
+    if (this.validatedUrl === value || value === '') return;
+
+    if (/^(http(s)?:\/\/).+$/.test(value)) {
+      try {
+        fetch(value).then((response) => {
+          if (response.status === 200) {
+            this.validatedUrl = value;
+            this.markValid();
+          } else {
+            this.validatedUrl = value;
+            this.markInvalid();
+          }
+        });
+      } catch (err) {
+        this.validatedUrl = value;
+        this.markInvalid();
+      }
+    } else {
+      if (/^\//.test(value)) {
+        value = value.substring(1);
+      }
+
+      const hashedUrl = value.split('#');
+      const urlParts = hashedUrl[0].split('/');
+      const rest = urlParts.slice(1);
+      fetch(`${Joomla.getOptions('system.paths').rootFull}/${value}`)
+        .then((response) => response.blob())
+        .then((blob) => {
+          if (blob.type.includes('image')) {
+            const img = new Image();
+            img.src = URL.createObjectURL(blob);
+
+            img.onload = () => {
+              this.inputElement.value = `${urlParts[0]}/${rest.join('/')}#joomlaImage://local-${urlParts[0]}/${rest.join('/')}?width=${img.width}&height=${img.height}`;
+              this.validatedUrl = `${urlParts[0]}/${rest.join('/')}#joomlaImage://local-${urlParts[0]}/${rest.join('/')}?width=${img.width}&height=${img.height}`;
+              this.markValid();
+            };
+          } else if (blob.type.includes('audio')) {
+            this.inputElement.value = value;
+            this.validatedUrl = value;
+            this.markValid();
+          } else if (blob.type.includes('video')) {
+            this.inputElement.value = value;
+            this.validatedUrl = value;
+            this.markValid();
+          } else if (blob.type.includes('application/pdf')) {
+            this.inputElement.value = value;
+            this.validatedUrl = value;
+            this.markValid();
+          } else {
+            this.validatedUrl = value;
+            this.markInvalid();
+          }
+        })
+        .catch(() => {
+          this.setValue(value);
+          this.validatedUrl = value;
+          this.markInvalid();
+        });
+    }
   }
 
-  updatePreview(withValue) {
+  markValid() {
+    this.inputElement.removeAttribute('required');
+    this.inputElement.removeAttribute('pattern');
+    if (document.formvalidator) {
+      document.formvalidator.validate(this.inputElement);
+    }
+  }
+
+  markInvalid() {
+    this.inputElement.setAttribute('required', '');
+    this.inputElement.setAttribute('pattern', '/^(http://INVALID/).+$/');
+    if (document.formvalidator) {
+      document.formvalidator.validate(this.inputElement);
+    }
+  }
+
+  clearValue() {
+    this.setValue('');
+    this.validatedUrl = '';
+    this.inputElement.removeAttribute('required');
+    this.inputElement.removeAttribute('pattern');
+    if (document.formvalidator) {
+      document.formvalidator.validate(this.inputElement);
+    }
+  }
+
+  updatePreview() {
     if (['true', 'static'].indexOf(this.preview) === -1 || this.preview === 'false' || !this.previewElement) {
       return;
     }
 
     // Reset preview
     if (this.preview) {
-      let { value } = this.inputElement;
-      if (withValue) value = withValue;
+      const { value } = this.inputElement;
       const { supportedExtensions } = this;
       if (!value) {
         this.buttonClearEl.style.display = 'none';

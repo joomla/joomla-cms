@@ -24,6 +24,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Router\Router;
+use Joomla\CMS\Router\SiteRouter;
 use Joomla\CMS\Uri\Uri;
 use Joomla\Component\Menus\Administrator\Helper\MenusHelper;
 use Joomla\Registry\Registry;
@@ -155,7 +156,8 @@ class PlgSystemLanguageFilter extends CMSPlugin
 		$this->app->item_associations = $this->params->get('item_associations', 0);
 
 		// We need to make sure we are always using the site router, even if the language plugin is executed in admin app.
-		$router = CMSApplication::getInstance('site')->getRouter('site');
+		// Router can be injected when turned into a DI built plugin
+		$router = Factory::getContainer()->get(SiteRouter::class);
 
 		// Attach build rules for language SEF.
 		$router->attachBuildRule(array($this, 'preprocessBuildRule'), Router::PROCESS_BEFORE);
@@ -481,8 +483,7 @@ class PlgSystemLanguageFilter extends CMSPlugin
 				// We cannot cache this redirect in browser. 301 is cacheable by default so we need to force to not cache it in browsers.
 				$this->app->setHeader('Expires', 'Wed, 17 Aug 2005 00:00:00 GMT', true);
 				$this->app->setHeader('Last-Modified', gmdate('D, d M Y H:i:s') . ' GMT', true);
-				$this->app->setHeader('Cache-Control', 'no-store, no-cache, must-revalidate, post-check=0, pre-check=0', false);
-				$this->app->setHeader('Pragma', 'no-cache');
+				$this->app->setHeader('Cache-Control', 'no-store, no-cache, must-revalidate', false);
 				$this->app->sendHeaders();
 			}
 
@@ -765,7 +766,9 @@ class PlgSystemLanguageFilter extends CMSPlugin
 			$remove_default_prefix = $this->params->get('remove_default_prefix', 0);
 			$server                = Uri::getInstance()->toString(array('scheme', 'host', 'port'));
 			$is_home               = false;
-			$currentInternalUrl    = 'index.php?' . http_build_query($this->app->getRouter()->getVars());
+
+			// Router can be injected when turned into a DI built plugin
+			$currentInternalUrl    = 'index.php?' . http_build_query(Factory::getContainer()->get(SiteRouter::class)->getVars());
 
 			if ($active)
 			{
@@ -795,7 +798,7 @@ class PlgSystemLanguageFilter extends CMSPlugin
 			else
 			{
 				$cName = ucfirst(substr($option, 4)) . 'HelperAssociation';
-				JLoader::register($cName, JPath::clean(JPATH_SITE . '/components/' . $option . '/helpers/association.php'));
+				JLoader::register($cName, \Joomla\CMS\Filesystem\Path::clean(JPATH_SITE . '/components/' . $option . '/helpers/association.php'));
 
 				if (class_exists($cName) && is_callable(array($cName, 'getAssociations')))
 				{

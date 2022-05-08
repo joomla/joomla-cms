@@ -14,11 +14,11 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 
-HTMLHelper::_('behavior.multiselect');
-
 /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
 $wa = $this->document->getWebAssetManager();
-$wa->useScript('com_installer.changelog');
+$wa->useScript('com_installer.changelog')
+	->useScript('table.columns')
+	->useScript('multiselect');
 
 $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
@@ -65,7 +65,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 									<?php echo Text::_('JVERSION'); ?>
 								</th>
 								<th scope="col" class="w-10 d-none d-md-table-cell">
-									<?php echo Text::_('JDATE'); ?>
+									<?php echo HTMLHelper::_('searchtools.sort', 'JDATE', 'creationDate', $listDirn, $listOrder); ?>
 								</th>
 								<th scope="col" class="w-10 d-none d-md-table-cell">
 									<?php echo Text::_('JAUTHOR'); ?>
@@ -85,6 +85,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 							</tr>
 						</thead>
 						<tbody>
+						<?php $createdDateFormat = Text::_('DATE_FORMAT_LC4'); ?>
 						<?php foreach ($this->items as $i => $item) : ?>
 							<tr class="row<?php echo $i % 2; if ($item->status == 2) echo ' protected'; ?>">
 								<td class="text-center">
@@ -133,7 +134,16 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 									endif; ?>
 								</td>
 								<td class="d-none d-md-table-cell">
-									<?php echo !empty($item->creationDate) ? $item->creationDate : '&#160;'; ?>
+									<?php if (!empty($item->creationDate)) : ?>
+										<?php try {
+											echo HTMLHelper::date($item->creationDate, $createdDateFormat);
+										}
+										catch (Exception $e) {
+											echo $item->creationDate;
+										}?>
+									<?php else: ?>
+										<?php echo '&#160;'; ?>
+									<?php endif; ?>
 								</td>
 								<td class="d-none d-md-table-cell">
 									<?php echo !empty($item->author) ? $item->author : '&#160;'; ?>

@@ -13,9 +13,10 @@ use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 
-// Load tooltips behavior
-HTMLHelper::_('behavior.formvalidator');
-HTMLHelper::_('behavior.keepalive');
+/** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
+$wa = $this->document->getWebAssetManager();
+$wa->useScript('keepalive')
+	->useScript('form.validate');
 
 // Load JS message titles
 Text::script('ERROR');
@@ -36,7 +37,7 @@ Text::script('MESSAGE');
 			</div>
 		</div>
 		<div class="col-md-9">
-			<?php echo HTMLHelper::_('uitab.startTabSet', 'configTabs', array('active' => 'page-site')); ?>
+			<?php echo HTMLHelper::_('uitab.startTabSet', 'configTabs', ['active' => 'page-site', 'recall' => true, 'breakpoint' => 768]); ?>
 				<?php echo HTMLHelper::_('uitab.addTab', 'configTabs', 'page-site', Text::_('JSITE')); ?>
 					<?php echo $this->loadTemplate('site'); ?>
 					<?php echo $this->loadTemplate('metadata'); ?>

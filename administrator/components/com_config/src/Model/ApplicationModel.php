@@ -20,6 +20,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\File;
 use Joomla\CMS\Filesystem\Folder;
 use Joomla\CMS\Filesystem\Path;
+use Joomla\CMS\Filter\OutputFilter;
 use Joomla\CMS\Http\HttpFactory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
@@ -92,7 +93,7 @@ class ApplicationModel extends FormModel
 		$data   = ArrayHelper::fromObject($config);
 
 		// Get the correct driver at runtime
-		$data['dbtype'] = Factory::getDbo()->getName();
+		$data['dbtype'] = $this->getDatabase()->getName();
 
 		// Prime the asset_id for the rules.
 		$data['asset_id'] = 1;
@@ -495,17 +496,18 @@ class ApplicationModel extends FormModel
 		// Escape the offline message if present.
 		if (isset($data['offline_message']))
 		{
-			$data['offline_message'] = \JFilterOutput::ampReplace($data['offline_message']);
+			$data['offline_message'] = OutputFilter::ampReplace($data['offline_message']);
 		}
 
 		// Purge the database session table if we are changing to the database handler.
 		if ($prev['session_handler'] != 'database' && $data['session_handler'] == 'database')
 		{
-			$query = $this->_db->getQuery(true)
-				->delete($this->_db->quoteName('#__session'))
-				->where($this->_db->quoteName('time') . ' < ' . (time() - 1));
-			$this->_db->setQuery($query);
-			$this->_db->execute();
+			$db    = $this->getDatabase();
+			$query = $db->getQuery(true)
+				->delete($db->quoteName('#__session'))
+				->where($db->quoteName('time') . ' < ' . (time() - 1));
+			$db->setQuery($query);
+			$db->execute();
 		}
 
 		// Purge the database session table if we are disabling session metadata
@@ -956,12 +958,6 @@ class ApplicationModel extends FormModel
 			throw new \RuntimeException(Text::_('COM_CONFIG_ERROR_WRITE_FAILED'));
 		}
 
-		// Invalidates the cached configuration file
-		if (function_exists('opcache_invalidate'))
-		{
-			\opcache_invalidate($file);
-		}
-
 		// Attempt to make the file unwriteable.
 		if (Path::isOwner($file) && !Path::setPermissions($file, '0444'))
 		{
@@ -1096,7 +1092,7 @@ class ApplicationModel extends FormModel
 				}
 
 				/**
-				 * @to do: incorrect ACL stored
+				 * @todo: incorrect ACL stored
 				 * When changing a permission of an item that doesn't have a row in the asset table the row a new row is created.
 				 * This works fine for item <-> component <-> global config scenario and component <-> global config scenario.
 				 * But doesn't work properly for item <-> section(s) <-> component <-> global config scenario,
@@ -1175,22 +1171,25 @@ class ApplicationModel extends FormModel
 
 		try
 		{
+			// The database instance
+			$db = $this->getDatabase();
+
 			// Get the asset id by the name of the component.
-			$query = $this->_db->getQuery(true)
-				->select($this->_db->quoteName('id'))
-				->from($this->_db->quoteName('#__assets'))
-				->where($this->_db->quoteName('name') . ' = :component')
+			$query = $db->getQuery(true)
+				->select($db->quoteName('id'))
+				->from($db->quoteName('#__assets'))
+				->where($db->quoteName('name') . ' = :component')
 				->bind(':component', $permission['component']);
 
-			$this->_db->setQuery($query);
+			$db->setQuery($query);
 
-			$assetId = (int) $this->_db->loadResult();
+			$assetId = (int) $db->loadResult();
 
 			// Fetch the parent asset id.
 			$parentAssetId = null;
 
 			/**
-			 * @to do: incorrect info
+			 * @todo: incorrect info
 			 * When creating a new item (not saving) it uses the calculated permissions from the component (item <-> component <-> global config).
 			 * But if we have a section too (item <-> section(s) <-> component <-> global config) this is not correct.
 			 * Also, currently it uses the component permission, but should use the calculated permissions for a child of the component/section.
@@ -1201,38 +1200,38 @@ class ApplicationModel extends FormModel
 			{
 				// In this case we need to get the component rules too.
 				$query->clear()
-					->select($this->_db->quoteName('parent_id'))
-					->from($this->_db->quoteName('#__assets'))
-					->where($this->_db->quoteName('id') . ' = :assetid')
+					->select($db->quoteName('parent_id'))
+					->from($db->quoteName('#__assets'))
+					->where($db->quoteName('id') . ' = :assetid')
 					->bind(':assetid', $assetId, ParameterType::INTEGER);
 
-				$this->_db->setQuery($query);
+				$db->setQuery($query);
 
-				$parentAssetId = (int) $this->_db->loadResult();
+				$parentAssetId = (int) $db->loadResult();
 			}
 
 			// Get the group parent id of the current group.
 			$rule = (int) $permission['rule'];
 			$query->clear()
-				->select($this->_db->quoteName('parent_id'))
-				->from($this->_db->quoteName('#__usergroups'))
-				->where($this->_db->quoteName('id') . ' = :rule')
+				->select($db->quoteName('parent_id'))
+				->from($db->quoteName('#__usergroups'))
+				->where($db->quoteName('id') . ' = :rule')
 				->bind(':rule', $rule, ParameterType::INTEGER);
 
-			$this->_db->setQuery($query);
+			$db->setQuery($query);
 
-			$parentGroupId = (int) $this->_db->loadResult();
+			$parentGroupId = (int) $db->loadResult();
 
 			// Count the number of child groups of the current group.
 			$query->clear()
-				->select('COUNT(' . $this->_db->quoteName('id') . ')')
-				->from($this->_db->quoteName('#__usergroups'))
-				->where($this->_db->quoteName('parent_id') . ' = :rule')
+				->select('COUNT(' . $db->quoteName('id') . ')')
+				->from($db->quoteName('#__usergroups'))
+				->where($db->quoteName('parent_id') . ' = :rule')
 				->bind(':rule', $rule, ParameterType::INTEGER);
 
-			$this->_db->setQuery($query);
+			$db->setQuery($query);
 
-			$totalChildGroups = (int) $this->_db->loadResult();
+			$totalChildGroups = (int) $db->loadResult();
 		}
 		catch (\Exception $e)
 		{
@@ -1291,7 +1290,7 @@ class ApplicationModel extends FormModel
 			// Second part: Overwrite the calculated permissions labels if there is an explicit permission in the current group.
 
 			/**
-			 * @to do: incorrect info
+			 * @todo: incorrect info
 			 * If a component has a permission that doesn't exists in global config (ex: frontend editing in com_modules) by default
 			 * we get "Not Allowed (Inherited)" when we should get "Not Allowed (Default)".
 			 */

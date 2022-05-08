@@ -15,8 +15,10 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 
-HTMLHelper::_('behavior.formvalidator');
-HTMLHelper::_('behavior.keepalive');
+/** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
+$wa = $this->document->getWebAssetManager();
+$wa->useScript('keepalive')
+	->useScript('form.validate');
 
 $app = Factory::getApplication();
 $user = $app->getIdentity();
@@ -51,7 +53,7 @@ $lang     = Factory::getLanguage()->getTag();
 	<?php endif; ?>
 
 	<div class="main-card">
-		<?php echo HTMLHelper::_('uitab.startTabSet', 'myTab', array('active' => 'general')); ?>
+		<?php echo HTMLHelper::_('uitab.startTabSet', 'myTab', ['active' => 'general', 'recall' => true, 'breakpoint' => 768]); ?>
 
 		<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'description', Text::_('COM_WORKFLOW_DESCRIPTION'));?>
 		<div class="row">

@@ -16,11 +16,11 @@ use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\Component\Associations\Administrator\Helper\AssociationsHelper;
 
-HTMLHelper::_('behavior.multiselect');
-
 /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
 $wa = $this->document->getWebAssetManager();
-$wa->useScript('com_associations.admin-associations-default');
+$wa->useScript('com_associations.admin-associations-default')
+	->useScript('table.columns')
+	->useScript('multiselect');
 
 $listOrder        = $this->escape($this->state->get('list.ordering'));
 $listDirn         = $this->escape($this->state->get('list.direction'));
@@ -120,9 +120,9 @@ Text::script('COM_ASSOCIATIONS_PURGE_CONFIRM_PROMPT', true);
 											<span title="<?php echo Text::sprintf('JFIELD_ALIAS_LABEL', $this->escape($item->alias)); ?>"><?php echo $this->escape($item->title); ?></span>
 										<?php endif; ?>
 										<?php if (!empty($this->typeFields['alias'])) : ?>
-											<span class="small">
+											<div class="small">
 												<?php echo Text::sprintf('JGLOBAL_LIST_ALIAS', $this->escape($item->alias)); ?>
-											</span>
+											</div>
 										<?php endif; ?>
 										<?php if (!empty($this->typeFields['catid'])) : ?>
 											<div class="small">

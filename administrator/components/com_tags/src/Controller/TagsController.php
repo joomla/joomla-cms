@@ -72,11 +72,11 @@ class TagsController extends AdminController
 	}
 
 	/**
-	 * Method to get the number of published tags for quickicons
+	 * Method to get the JSON-encoded amount of published tags for quickicons
 	 *
-	 * @return  string  The JSON-encoded amount of published articles
+	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.1.0
 	 */
 	public function getQuickiconContent()
 	{
