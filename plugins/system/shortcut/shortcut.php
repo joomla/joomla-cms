@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @package     Joomla.Plugins
  * @subpackage  System.shortcut
@@ -8,9 +7,11 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-\defined('_JEXEC') or die;
+defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\Plugin\CMSPlugin;
+use Joomla\CMS\Language\Text;
 
 /**
  * Shortcut plugin to add accessible keyboard navigation to the site and administrator templates.
@@ -157,6 +158,7 @@ class PlgSystemShortcut extends CMSPlugin
 			
 			return true;
 		}
+
 		return true;
 	}
 }
