@@ -52,7 +52,7 @@
 					edit="true"
 					clear="true"
 					>
-					<option value="">JOPTION_SELECT_MENU</option>
+					<option value="">JOPTION_SELECT_MENU_ITEM</option>
 				</field>
 
 				<field
@@ -66,7 +66,7 @@
 					edit="true"
 					clear="true"
 					>
-					<option value="">JOPTION_SELECT_MENU</option>
+					<option value="">JOPTION_SELECT_MENU_ITEM</option>
 				</field>
 
 				<field
@@ -79,7 +79,7 @@
 					edit="true"
 					clear="true"
 					>
-					<option value="">JOPTION_SELECT_MENU</option>
+					<option value="">JOPTION_SELECT_MENU_ITEM</option>
 				</field>
 
 				<field

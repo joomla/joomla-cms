@@ -260,21 +260,16 @@ class GroupModel extends AdminModel
 		// Check if I am a Super Admin
 		$iAmSuperAdmin = $user->authorise('core.admin');
 
-		// Do not allow to delete groups to which the current user belongs
 		foreach ($pks as $pk)
 		{
+			// Do not allow to delete groups to which the current user belongs
 			if (in_array($pk, $groups))
 			{
 				Factory::getApplication()->enqueueMessage(Text::_('COM_USERS_DELETE_ERROR_INVALID_GROUP'), 'error');
 
 				return false;
 			}
-		}
-
-		// Iterate the items to check if all of them exist.
-		foreach ($pks as $i => $pk)
-		{
-			if (!$table->load($pk))
+			elseif (!$table->load($pk))
 			{
 				// Item is not in the table.
 				$this->setError($table->getError());

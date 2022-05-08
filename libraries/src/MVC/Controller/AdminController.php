@@ -400,6 +400,9 @@ class AdminController extends BaseController
 	 */
 	public function saveOrderAjax()
 	{
+		// Check for request forgeries.
+		$this->checkToken();
+
 		// Get the input
 		$pks = $this->input->post->get('cid', array(), 'array');
 		$order = $this->input->post->get('order', array(), 'array');

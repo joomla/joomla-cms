@@ -65,7 +65,7 @@ $this->document->addScriptOptions('com_mails', ['templateData' => $this->templat
 			</div>
 			<div class="col-md-3">
 				<input type="button" id="btnResetBody" class="btn btn-secondary" value="<?php echo Text::_('COM_MAILS_RESET_TO_DEFAULT_BODY'); ?>" />
-				<div class="tags-container-body <?php echo $fieldBody->disabled ? 'hidden' : ''; ?>">
+				<div class="tags-container-body mt-3 <?php echo $fieldBody->disabled ? 'hidden' : ''; ?>">
 					<h2><?php echo Text::_('COM_MAILS_FIELDSET_TAGS_LABEL'); ?></h2>
 					<?php echo MailsHelper::mailtags($this->master, 'body'); ?>
 				</div>
@@ -80,7 +80,7 @@ $this->document->addScriptOptions('com_mails', ['templateData' => $this->templat
 			</div>
 			<div class="col-md-3">
 				<input type="button" id="btnResetHtmlBody" class="btn btn-secondary" value="<?php echo Text::_('COM_MAILS_RESET_TO_DEFAULT_HTML_BODY'); ?>" />
-				<div class="tags-container-htmlbody <?php echo $fieldHtmlBody->disabled ? 'hidden' : ''; ?>">
+				<div class="tags-container-htmlbody mt-3 <?php echo $fieldHtmlBody->disabled ? 'hidden' : ''; ?>">
 					<h2><?php echo Text::_('COM_MAILS_FIELDSET_TAGS_LABEL'); ?></h2>
 					<?php echo MailsHelper::mailtags($this->master, 'htmlbody'); ?>
 				</div>

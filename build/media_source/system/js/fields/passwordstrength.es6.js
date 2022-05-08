@@ -104,9 +104,9 @@ class PasswordStrength {
     const label = element.parentNode.parentNode.querySelector(`#password-${i}`);
 
     if (score === 100) {
-      label.innerText = Joomla.JText._('JFIELD_PASSWORD_INDICATE_COMPLETE');
+      label.innerText = Joomla.Text._('JFIELD_PASSWORD_INDICATE_COMPLETE');
     } else {
-      label.innerText = Joomla.JText._('JFIELD_PASSWORD_INDICATE_INCOMPLETE');
+      label.innerText = Joomla.Text._('JFIELD_PASSWORD_INDICATE_INCOMPLETE');
     }
     meter.value = score;
 

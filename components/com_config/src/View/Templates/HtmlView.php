@@ -66,7 +66,7 @@ class HtmlView extends BaseHtmlView
 	/**
 	 * Method to render the view.
 	 *
-	 * @return  string  The rendered view.
+	 * @return  void
 	 *
 	 * @since   3.2
 	 */

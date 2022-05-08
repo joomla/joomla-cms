@@ -38,12 +38,7 @@ Joomla.initialiseTabs = (el, options) => {
             link.setAttribute('role', 'tab');
             link.setAttribute('aria-controls', element.dataset.id);
             link.setAttribute('aria-selected', element.dataset.id);
-
-            /**
-             * As we are re-rendering text already displayed on the page we judge that there isn't
-             * a risk of XSS attacks
-             */
-            link.innerHTML = element.dataset.title;
+            link.innerHTML = Joomla.sanitizeHtml(element.dataset.title);
 
             const li = document.createElement('li');
             li.classList.add('nav-item');

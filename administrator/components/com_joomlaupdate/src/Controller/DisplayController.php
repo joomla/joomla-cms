@@ -45,6 +45,12 @@ class DisplayController extends BaseController
 		// Get and render the view.
 		if ($view = $this->getView($vName, $vFormat))
 		{
+			// Only super user can access file upload
+			if ($view == 'upload' && !$this->app->getIdentity()->authorise('core.admin', 'com_joomlaupdate'))
+			{
+				$this->app->redirect(Route::_('index.php?option=com_joomlaupdate', true));
+			}
+
 			// Get the model for the view.
 			/** @var \Joomla\Component\Joomlaupdate\Administrator\Model\UpdateModel $model */
 			$model = $this->getModel('Update');

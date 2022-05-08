@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "98b1cf07c4c8322cd5f7dc7cb7e85a84",
+    "content-hash": "d384efe5f59ee02cfa998ce5a1794b19",
     "packages": [
         {
             "name": "algo26-matthias/idna-convert",
@@ -169,16 +169,16 @@
         },
         {
             "name": "composer/ca-bundle",
-            "version": "1.2.9",
+            "version": "1.2.10",
             "source": {
                 "type": "git",
                 "url": "https://github.com/composer/ca-bundle.git",
-                "reference": "78a0e288fdcebf92aa2318a8d3656168da6ac1a5"
+                "reference": "9fdb22c2e97a614657716178093cd1da90a64aa8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/composer/ca-bundle/zipball/78a0e288fdcebf92aa2318a8d3656168da6ac1a5",
-                "reference": "78a0e288fdcebf92aa2318a8d3656168da6ac1a5",
+                "url": "https://api.github.com/repos/composer/ca-bundle/zipball/9fdb22c2e97a614657716178093cd1da90a64aa8",
+                "reference": "9fdb22c2e97a614657716178093cd1da90a64aa8",
                 "shasum": ""
             },
             "require": {
@@ -222,7 +222,26 @@
                 "ssl",
                 "tls"
             ],
-            "time": "2021-01-12T12:10:35+00:00"
+            "support": {
+                "irc": "irc://irc.freenode.org/composer",
+                "issues": "https://github.com/composer/ca-bundle/issues",
+                "source": "https://github.com/composer/ca-bundle/tree/1.2.10"
+            },
+            "funding": [
+                {
+                    "url": "https://packagist.com",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://github.com/composer",
+                    "type": "github"
+                },
+                {
+                    "url": "https://tidelift.com/funding/github/packagist/composer/composer",
+                    "type": "tidelift"
+                }
+            ],
+            "time": "2021-06-07T13:58:28+00:00"
         },
         {
             "name": "defuse/php-encryption",
@@ -913,21 +932,21 @@
         },
         {
             "name": "joomla/database",
-            "version": "2.0.0-beta3",
+            "version": "2.0.0-beta4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-framework/database.git",
-                "reference": "530a04e71ef728d7b571a83b5f16c2fa25a75790"
+                "reference": "3f3a1b42b3942f05c29f1b756d4014d58fed711e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-framework/database/zipball/530a04e71ef728d7b571a83b5f16c2fa25a75790",
-                "reference": "530a04e71ef728d7b571a83b5f16c2fa25a75790",
+                "url": "https://api.github.com/repos/joomla-framework/database/zipball/3f3a1b42b3942f05c29f1b756d4014d58fed711e",
+                "reference": "3f3a1b42b3942f05c29f1b756d4014d58fed711e",
                 "shasum": ""
             },
             "require": {
                 "joomla/event": "^2.0",
-                "php": "^7.2.5",
+                "php": "^7.2.5|^8.0",
                 "symfony/deprecation-contracts": "^2.1"
             },
             "require-dev": {
@@ -975,7 +994,21 @@
                 "framework",
                 "joomla"
             ],
-            "time": "2020-09-11T12:34:36+00:00"
+            "support": {
+                "issues": "https://github.com/joomla-framework/database/issues",
+                "source": "https://github.com/joomla-framework/database/tree/2.0.0-beta4"
+            },
+            "funding": [
+                {
+                    "url": "https://community.joomla.org/sponsorship-campaigns.html",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://github.com/joomla",
+                    "type": "github"
+                }
+            ],
+            "time": "2021-07-13T18:43:12+00:00"
         },
         {
             "name": "joomla/di",
@@ -1721,21 +1754,21 @@
         },
         {
             "name": "joomla/utilities",
-            "version": "2.0.0-beta",
+            "version": "2.0.0-beta2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-framework/utilities.git",
-                "reference": "e15b14b060e524ab869504942440e14473dfb3de"
+                "reference": "30aaf824c9e6702c92c0463246b237276aa02cae"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-framework/utilities/zipball/e15b14b060e524ab869504942440e14473dfb3de",
-                "reference": "e15b14b060e524ab869504942440e14473dfb3de",
+                "url": "https://api.github.com/repos/joomla-framework/utilities/zipball/30aaf824c9e6702c92c0463246b237276aa02cae",
+                "reference": "30aaf824c9e6702c92c0463246b237276aa02cae",
                 "shasum": ""
             },
             "require": {
                 "joomla/string": "^1.3|^2.0",
-                "php": "^7.2.5"
+                "php": "^7.2.5|^8.0"
             },
             "require-dev": {
                 "joomla/coding-standards": "^2.0@alpha",
@@ -1763,7 +1796,7 @@
                 "joomla",
                 "utilities"
             ],
-            "time": "2020-06-05T11:26:55+00:00"
+            "time": "2021-06-03T11:06:46+00:00"
         },
         {
             "name": "laminas/laminas-diactoros",
@@ -2156,16 +2189,16 @@
         },
         {
             "name": "phpmailer/phpmailer",
-            "version": "v6.4.1",
+            "version": "v6.5.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/PHPMailer/PHPMailer.git",
-                "reference": "9256f12d8fb0cd0500f93b19e18c356906cbed3d"
+                "reference": "a5b5c43e50b7fba655f793ad27303cd74c57363c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/PHPMailer/PHPMailer/zipball/9256f12d8fb0cd0500f93b19e18c356906cbed3d",
-                "reference": "9256f12d8fb0cd0500f93b19e18c356906cbed3d",
+                "url": "https://api.github.com/repos/PHPMailer/PHPMailer/zipball/a5b5c43e50b7fba655f793ad27303cd74c57363c",
+                "reference": "a5b5c43e50b7fba655f793ad27303cd74c57363c",
                 "shasum": ""
             },
             "require": {
@@ -2218,7 +2251,7 @@
                 }
             ],
             "description": "PHPMailer is a full-featured email creation and transfer class for PHP",
-            "time": "2021-04-29T12:25:04+00:00"
+            "time": "2021-06-16T14:33:43+00:00"
         },
         {
             "name": "psr/container",
@@ -8220,5 +8253,6 @@
     "platform-dev": [],
     "platform-overrides": {
         "php": "7.2.5"
-    }
+    },
+    "plugin-api-version": "2.1.0"
 }

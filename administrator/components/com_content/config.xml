@@ -743,6 +743,14 @@
 		/>
 
 		<field
+			name="blog_class"
+			type="text"
+			label="JGLOBAL_BLOG_CLASS"
+			description="JGLOBAL_BLOG_CLASS_NOTE_DESC"
+			validate="CssIdentifier"
+		/>
+
+		<field
 			name="num_columns"
 			type="number"
 			label="JGLOBAL_NUM_COLUMNS_LABEL"
@@ -760,13 +768,6 @@
 			<option value="0">JGLOBAL_BLOG_DOWN_OPTION</option>
 			<option value="1">JGLOBAL_BLOG_ACROSS_OPTION</option>
 		</field>
-
-		<field
-			name="blog_class"
-			type="text"
-			label="JGLOBAL_BLOG_CLASS"
-			validate="CssIdentifier"
-		/>
 
 		<field
 			name="num_links"
@@ -956,7 +957,6 @@
 			name="order_date"
 			type="list"
 			label="JGLOBAL_ORDERING_DATE_LABEL"
-			showon="orderby_sec:rdate,date"
 			default="published"
 			validate="options"
 			>

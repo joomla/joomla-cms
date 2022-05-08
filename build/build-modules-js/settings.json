@@ -532,6 +532,23 @@
         "dependencies": [],
         "licenseFilename": ""
       },
+      "mousetrap": {
+        "name": "mousetrap",
+        "licenseFilename": "LICENSE",
+        "js" : {
+          "mousetrap.min.js": "js/mousetrap.min.js"
+        },
+        "provideAssets": [
+          {
+            "name": "mousetrap",
+            "type": "script",
+            "uri": "mousetrap.min.js",
+            "attributes": {
+              "defer": true
+            }
+          }
+        ]
+      },
       "punycode": {
         "name": "punycode",
         "licenseFilename": "LICENSE-MIT.txt"

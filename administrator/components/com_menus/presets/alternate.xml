@@ -375,12 +375,12 @@
 			title="MOD_MENU_EXTENSIONS_EXTENSION_MANAGER"
 			type="component"
 			element="com_installer"
-			link="index.php?option=com_installer">
+			link="index.php?option=com_installer&amp;view=manage">
 			<menuitem
 				title="MOD_MENU_INSTALLER_SUBMENU_INSTALL"
 				type="component"
 				element="com_installer"
-				link="index.php?option=com_installer"
+				link="index.php?option=com_installer&amp;view=install"
 			/>
 
 			<menuitem
@@ -579,7 +579,7 @@
 			type="url"
 			target="_blank"
 			title="MOD_MENU_HELP_TRANSLATIONS"
-			link="https://community.joomla.org/translations.html"
+			link="https://downloads.joomla.org/language-packs"
 			scope="help"
 		/>
 

@@ -560,7 +560,7 @@ class JoomlaInstallerScript
 	 * Delete files that should not exist
 	 *
 	 * @param bool  $dryRun          If set to true, will not actually delete files, but just report their status for use in CLI
-	 * @param bool  $suppressOutput   Set to true to supress echoing any errors, and just return the $status array
+	 * @param bool  $suppressOutput   Set to true to suppress echoing any errors, and just return the $status array
 	 *
 	 * @return  array
 	 */
@@ -1460,7 +1460,6 @@ class JoomlaInstallerScript
 			'/administrator/components/com_media/controllers/file.json.php',
 			'/administrator/components/com_media/controllers/file.php',
 			'/administrator/components/com_media/controllers/folder.php',
-			'/administrator/components/com_media/helpers/media.php',
 			'/administrator/components/com_media/layouts/toolbar/deletemedia.php',
 			'/administrator/components/com_media/layouts/toolbar/newfolder.php',
 			'/administrator/components/com_media/layouts/toolbar/uploadmedia.php',
@@ -2855,6 +2854,7 @@ class JoomlaInstallerScript
 			'/components/com_contact/helpers/association.php',
 			'/components/com_contact/helpers/category.php',
 			'/components/com_contact/helpers/legacyrouter.php',
+			'/components/com_contact/layouts/joomla/form/renderfield.php',
 			'/components/com_contact/models/categories.php',
 			'/components/com_contact/models/category.php',
 			'/components/com_contact/models/contact.php',
@@ -3801,6 +3801,7 @@ class JoomlaInstallerScript
 			'/libraries/src/Form/FormWrapper.php',
 			'/libraries/src/Helper/ContentHistoryHelper.php',
 			'/libraries/src/Helper/SearchHelper.php',
+			'/libraries/src/Http/Transport/cacert.pem',
 			'/libraries/src/Http/Wrapper/FactoryWrapper.php',
 			'/libraries/src/Language/LanguageStemmer.php',
 			'/libraries/src/Language/Stemmer/Porteren.php',
@@ -3874,9 +3875,11 @@ class JoomlaInstallerScript
 			'/libraries/vendor/leafo/lessphp/lessify',
 			'/libraries/vendor/leafo/lessphp/lessify.inc.php',
 			'/libraries/vendor/leafo/lessphp/plessc',
+			'/libraries/vendor/paragonie/random_compat/LICENSE',
 			'/libraries/vendor/paragonie/random_compat/lib/byte_safe_strings.php',
 			'/libraries/vendor/paragonie/random_compat/lib/cast_to_int.php',
 			'/libraries/vendor/paragonie/random_compat/lib/error_polyfill.php',
+			'/libraries/vendor/paragonie/random_compat/lib/random.php',
 			'/libraries/vendor/paragonie/random_compat/lib/random_bytes_com_dotnet.php',
 			'/libraries/vendor/paragonie/random_compat/lib/random_bytes_dev_urandom.php',
 			'/libraries/vendor/paragonie/random_compat/lib/random_bytes_libsodium.php',
@@ -5423,6 +5426,8 @@ class JoomlaInstallerScript
 			'/libraries/vendor/ozdemirburak/iris/src/Traits/HsTrait.php',
 			'/libraries/vendor/ozdemirburak/iris/src/Traits/HslTrait.php',
 			'/libraries/vendor/ozdemirburak/iris/src/Traits/RgbTrait.php',
+			'/libraries/vendor/paragonie/random_compat/dist/random_compat.phar.pubkey',
+			'/libraries/vendor/paragonie/random_compat/dist/random_compat.phar.pubkey.asc',
 			'/libraries/vendor/psr/http-factory/.pullapprove.yml',
 			'/libraries/vendor/spomky-labs/cbor-php/.php_cs.dist',
 			'/libraries/vendor/spomky-labs/cbor-php/CODE_OF_CONDUCT.md',
@@ -5843,6 +5848,38 @@ class JoomlaInstallerScript
 			'/templates/cassiopeia/scss/tools/mixins/_margin.scss',
 			'/templates/cassiopeia/scss/tools/mixins/_visually-hidden.scss',
 			'/templates/system/js/error-locales.js',
+			// 4.0 from RC 1 to RC 2
+			'/administrator/components/com_fields/tmpl/field/modal.php',
+			'/administrator/templates/atum/scss/pages/_com_admin.scss',
+			'/administrator/templates/atum/scss/pages/_com_finder.scss',
+			'/administrator/templates/atum/scss/pages/_com_joomlaupdate.scss',
+			'/libraries/src/Error/JsonApi/InstallLanguageExceptionHandler.php',
+			'/libraries/src/MVC/Controller/Exception/InstallLanguage.php',
+			'/media/com_fields/js/admin-field-edit-modal-es5.js',
+			'/media/com_fields/js/admin-field-edit-modal-es5.min.js',
+			'/media/com_fields/js/admin-field-edit-modal-es5.min.js.gz',
+			'/media/com_fields/js/admin-field-edit-modal.js',
+			'/media/com_fields/js/admin-field-edit-modal.min.js',
+			'/media/com_fields/js/admin-field-edit-modal.min.js.gz',
+			// 4.0 from RC 3 to RC 4
+			'/administrator/components/com_joomlaupdate/tmpl/joomlaupdate/default.php',
+			'/administrator/components/com_joomlaupdate/tmpl/joomlaupdate/default_nodownload.php',
+			'/administrator/components/com_joomlaupdate/tmpl/joomlaupdate/default_noupdate.php',
+			'/administrator/components/com_joomlaupdate/tmpl/joomlaupdate/default_preupdatecheck.php',
+			'/administrator/components/com_joomlaupdate/tmpl/joomlaupdate/default_reinstall.php',
+			'/administrator/components/com_joomlaupdate/tmpl/joomlaupdate/default_update.php',
+			'/administrator/components/com_joomlaupdate/tmpl/joomlaupdate/default_updatemefirst.php',
+			'/administrator/components/com_joomlaupdate/tmpl/joomlaupdate/default_upload.php',
+			'/language/en-GB/com_messages.ini',
+			'/media/system/css/fields/joomla-image-select.css',
+			'/media/system/css/fields/joomla-image-select.min.css',
+			'/media/system/css/fields/joomla-image-select.min.css.gz',
+			'/media/system/js/fields/joomla-image-select-es5.js',
+			'/media/system/js/fields/joomla-image-select-es5.min.js',
+			'/media/system/js/fields/joomla-image-select-es5.min.js.gz',
+			'/media/system/js/fields/joomla-image-select.js',
+			'/media/system/js/fields/joomla-image-select.min.js',
+			'/media/system/js/fields/joomla-image-select.min.js.gz',
 		);
 
 		$folders = array(
@@ -6167,6 +6204,7 @@ class JoomlaInstallerScript
 			'/libraries/vendor/simplepie/simplepie',
 			'/libraries/vendor/simplepie',
 			'/libraries/vendor/phpmailer/phpmailer/extras',
+			'/libraries/vendor/paragonie/random_compat/lib',
 			'/libraries/vendor/leafo/lessphp',
 			'/libraries/vendor/leafo',
 			'/libraries/vendor/joomla/session/Joomla/Session/Storage',
@@ -6439,6 +6477,8 @@ class JoomlaInstallerScript
 			'/components/com_contact/models/rules',
 			'/components/com_contact/models/forms',
 			'/components/com_contact/models',
+			'/components/com_contact/layouts/joomla/form',
+			'/components/com_contact/layouts/joomla',
 			'/components/com_contact/controllers',
 			'/components/com_config/view/templates/tmpl',
 			'/components/com_config/view/templates',
@@ -6797,7 +6837,6 @@ class JoomlaInstallerScript
 			'/administrator/components/com_media/views/images',
 			'/administrator/components/com_media/views',
 			'/administrator/components/com_media/models',
-			'/administrator/components/com_media/helpers',
 			'/administrator/components/com_media/controllers',
 			'/administrator/components/com_login/views/login/tmpl',
 			'/administrator/components/com_login/views/login',
@@ -7034,7 +7073,7 @@ class JoomlaInstallerScript
 			'/libraries/vendor/joomla/controller',
 			'/api/components/com_installer/src/View/Languages',
 			'/administrator/components/com_finder/src/Indexer/Driver',
-			// 4.0 from Beta 2 to Beta 5
+			// 4.0 from Beta 4 to Beta 5
 			'/plugins/content/imagelazyload',
 			// 4.0 from Beta 5 to Beta 6
 			'/media/system/js/core.es6',
@@ -7051,6 +7090,8 @@ class JoomlaInstallerScript
 			'/media/vendor/punycode/js',
 			'/media/templates/atum/js',
 			'/media/templates/atum',
+			'/libraries/vendor/paragonie/random_compat/dist',
+			'/libraries/vendor/paragonie/random_compat',
 			'/libraries/vendor/ozdemirburak/iris/src/Traits',
 			'/libraries/vendor/ozdemirburak/iris/src/Helpers',
 			'/libraries/vendor/ozdemirburak/iris/src/Exceptions',
@@ -7058,6 +7099,7 @@ class JoomlaInstallerScript
 			'/libraries/vendor/ozdemirburak/iris/src',
 			'/libraries/vendor/ozdemirburak/iris',
 			'/libraries/vendor/ozdemirburak',
+			'/libraries/vendor/bin',
 			'/components/com_menus/src/Controller',
 			'/components/com_csp/src/Controller',
 			'/components/com_csp/src',

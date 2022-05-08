@@ -73,15 +73,19 @@ $listDirn = $this->escape($this->state->get('list.direction'));
 								</td>
 								<?php if (count($this->languages) > 1) : ?>
 									<td class="text-center">
+										<ul class="list-unstyled d-flex">
 										<?php foreach ($this->languages as $language) : ?>
-											<a href="<?php echo Route::_('index.php?option=com_mails&task=template.edit&template_id=' . $item->template_id . '&language=' . $language->lang_code); ?>">
-												<?php if ($language->image) : ?>
-													<?php echo HTMLHelper::_('image', 'mod_languages/' . $language->image . '.gif', $language->title_native, array('title' => $language->title_native), true); ?>
-												<?php else : ?>
-													<span class="badge bg-secondary" title="<?php echo $language->title_native; ?>"><?php echo $language->lang_code; ?></span>
-												<?php endif; ?>
-											</a>
+											<li class="p-1">
+												<a href="<?php echo Route::_('index.php?option=com_mails&task=template.edit&template_id=' . $item->template_id . '&language=' . $language->lang_code); ?>">
+													<?php if ($language->image) : ?>
+														<?php echo HTMLHelper::_('image', 'mod_languages/' . $language->image . '.gif', $language->title_native, array('title' => $language->title_native), true); ?>
+													<?php else : ?>
+														<span class="badge bg-secondary" title="<?php echo $language->title_native; ?>"><?php echo $language->lang_code; ?></span>
+													<?php endif; ?>
+												</a>
+											</li>
 										<?php endforeach; ?>
+										</ul>
 									</td>
 								<?php endif; ?>
 								<td class="d-none d-md-table-cell">

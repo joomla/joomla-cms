@@ -21,6 +21,7 @@
     > [class*=" container-"] {
       width: 100%;
       max-width: none;
+      column-gap: $cassiopeia-grid-gutter;
     }
 
     &:not(.has-sidebar-left) .container-component {
@@ -43,8 +44,7 @@
         ". side-l comp comp side-r ."
         ". bot-a bot-a bot-a bot-a ."
         ". bot-b bot-b bot-b bot-b ."
-        ". footer footer footer footer ."
-        ". debug debug debug debug .";
+        ". footer footer footer footer .";
     }
 
     &.wrapper-fluid {
@@ -112,8 +112,4 @@
 
 .container-footer {
   grid-area: footer;
-}
-
-.system-debug {
-  grid-area: debug;
 }

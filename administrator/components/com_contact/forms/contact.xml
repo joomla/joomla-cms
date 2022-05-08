@@ -3,7 +3,7 @@
 	<fieldset addfieldprefix="Joomla\Component\Contact\Administrator\Field">
 		<field
 			name="id"
-			type="number"
+			type="text"
 			label="JGLOBAL_FIELD_ID_LABEL"
 			default="0"
 			class="readonly"
@@ -213,60 +213,6 @@
 			label="JTAG"
 			class="advancedSelect"
 			multiple="true"
-		/>
-
-		<field
-			name="contact_icons"
-			type="list"
-			label="COM_CONTACT_FIELD_ICONS_SETTINGS"
-			default="0"
-			validate="options"
-			>
-			<option value="0">COM_CONTACT_FIELD_VALUE_NONE</option>
-			<option value="1">COM_CONTACT_FIELD_VALUE_TEXT</option>
-			<option value="2">COM_CONTACT_FIELD_VALUE_ICONS</option>
-		</field>
-
-		<field
-			name="icon_address"
-			type="media"
-			label="COM_CONTACT_FIELD_ICONS_ADDRESS_LABEL"
-			hide_none="1"
-		/>
-
-		<field
-			name="icon_email"
-			type="media"
-			label="COM_CONTACT_FIELD_ICONS_EMAIL_LABEL"
-			hide_none="1"
-		/>
-
-		<field
-			name="icon_telephone"
-			type="media"
-			label="COM_CONTACT_FIELD_ICONS_TELEPHONE_LABEL"
-			hide_none="1"
-		/>
-
-		<field
-			name="icon_mobile"
-			type="media"
-			label="COM_CONTACT_FIELD_ICONS_MOBILE_LABEL"
-			hide_none="1"
-		/>
-
-		<field
-			name="icon_fax"
-			type="media"
-			label="COM_CONTACT_FIELD_ICONS_FAX_LABEL"
-			hide_none="1"
-		/>
-
-		<field
-			name="icon_misc"
-			type="media"
-			label="COM_CONTACT_FIELD_ICONS_MISC_LABEL"
-			hide_none="1"
 		/>
 	</fieldset>
 
@@ -868,7 +814,7 @@
 
 	<field
 		name="hits"
-		type="number"
+		type="text"
 		label="JGLOBAL_HITS"
 		class="readonly"
 		readonly="true"

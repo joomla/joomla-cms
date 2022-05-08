@@ -27,10 +27,10 @@
     max-width: 25rem;
     padding: 30px;
     margin: 1rem;
-    color: var(--atum-text-dark);
+    color: var(--template-text-dark);
     background: var(--white);
     border-radius: 10px;
-    box-shadow: 0 4px 20px -10px var(--atum-bg-dark-50);
+    box-shadow: 0 4px 20px -10px var(--template-bg-dark-50);
 
     @include media-breakpoint-down(lg) {
       margin-bottom: 3rem;
@@ -50,7 +50,7 @@
       background-size: 4.4rem 2.4rem;
 
       path {
-        fill: var(--atum-bg-dark);
+        fill: var(--template-bg-dark);
       }
     }
 
@@ -77,7 +77,7 @@
 
         &.text-end {
           font-size: ($font-size-base * .75);
-          color: var(--atum-special-color);
+          color: var(--template-special-color);
         }
       }
     }
@@ -114,7 +114,7 @@
   input:focus,
   select:focus {
     background: $white;
-    box-shadow: inset 0 0 1px 1px var(--atum-contrast);
+    box-shadow: inset 0 0 1px 1px var(--template-contrast);
   }
 
   h1 {
@@ -125,7 +125,7 @@
 
   h2 {
     font-weight: $font-weight-normal;
-    color: var(--atum-bg-dark-10);
+    color: var(--template-bg-dark-10);
   }
 
   .btn {
@@ -149,7 +149,7 @@
     display: flex;
     flex-direction: column;
     max-width: none;
-    background-color: var(--atum-sidebar-bg);
+    background-color: var(--template-sidebar-bg);
 
     @include media-breakpoint-down(md) {
       order: 2;
@@ -174,7 +174,7 @@
     align-self: flex-end;
     width: 100%;
     font-size: ($font-size-base * .875);
-    color: var(--atum-text-light);
+    color: var(--template-text-light);
     text-align: center;
 
     .card {
@@ -220,7 +220,7 @@
     }
 
     @include media-breakpoint-down(md) {
-      background: var(--atum-bg-dark-70);
+      background: var(--template-bg-dark-70);
     }
   }
 }
@@ -247,7 +247,7 @@ label {
 .com_login .sidebar-wrapper .main-brand a,
 .com_login .sidebar-wrapper #sidebar,
 .com_login .sidebar-wrapper #sidebar a {
-  color: var(--atum-text-light);
+  color: var(--template-text-light);
 }
 
 .view-login {

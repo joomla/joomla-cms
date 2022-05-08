@@ -341,7 +341,7 @@ class SetConfigurationCommand extends AbstractCommand
 
 		if (!$model->validateDbConnection($options))
 		{
-			$this->ioStyle->error(Text::_('Failed to validate the db connection encription properties'));
+			$this->ioStyle->error(Text::_('Failed to validate the db connection encryption properties'));
 
 			return false;
 		}

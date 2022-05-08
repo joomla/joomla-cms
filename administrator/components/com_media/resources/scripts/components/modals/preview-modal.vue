@@ -17,11 +17,11 @@
     </template>
     <template #body>
       <div class="image-background">
-        <img
-          v-if="isImage()"
+        <audio
+          v-if="isAudio()"
+          controls
           :src="item.url"
-          :type="item.mime_type"
-        >
+        />
         <video
           v-if="isVideo()"
           controls
@@ -31,6 +31,18 @@
             :type="item.mime_type"
           >
         </video>
+        <object
+          v-if="isDoc()"
+          :type="item.mime_type"
+          :data="item.url"
+          width="800"
+          height="600"
+        />
+        <img
+          v-if="isImage()"
+          :src="item.url"
+          :type="item.mime_type"
+        >
       </div>
     </template>
     <template #backdrop-close>
@@ -67,6 +79,12 @@ export default {
     },
     isVideo() {
       return this.item.mime_type.indexOf('video/') === 0;
+    },
+    isAudio() {
+      return this.item.mime_type.indexOf('audio/') === 0;
+    },
+    isDoc() {
+      return this.item.mime_type.indexOf('application/') === 0;
     },
   },
 };

@@ -4,10 +4,10 @@
 
   .btn {
     padding: 0 22px;
-    margin-right: .5rem;
+    margin-inline-end: .5rem;
     font-size: 1rem;
     line-height: 2.3rem;
-    color: var(--atum-text-dark);
+    color: var(--template-text-dark);
     background: var(--white);
     border-color: var(--whiteoffset);
     box-shadow: 1px 1px 1px 0 rgba(0, 0, 0, .25);
@@ -17,9 +17,9 @@
   .btn-success:not([href]),
   .btn-danger:not([href]),
   .btn-secondary:not([href]) {
-    color: var(--atum-text-dark);
+    color: var(--template-text-dark);
     background: var(--white);
-    border: 1px solid var(--atum-text-dark);
+    border: 1px solid var(--template-text-dark);
   }
 
   .btn-primary:not([href]) {

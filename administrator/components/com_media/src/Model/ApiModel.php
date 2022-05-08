@@ -394,7 +394,7 @@ class ApiModel extends BaseDatabaseModel
 		$object->path      = $path;
 
 		PluginHelper::importPlugin('content');
-		
+
 		// Also include the filesystem plugins, perhaps they support batch processing too
  		PluginHelper::importPlugin('media-action');
 
@@ -532,18 +532,91 @@ class ApiModel extends BaseDatabaseModel
 		// Initialize the allowed extensions
 		if ($this->allowedExtensions === null)
 		{
-			// Get the setting from the params
-			$this->allowedExtensions = ComponentHelper::getParams('com_media')->get(
-				'upload_extensions',
-				'bmp,csv,doc,gif,ico,jpg,jpeg,odg,odp,ods,odt,pdf,png,ppt,txt,xcf,xls,BMP,CSV,DOC,GIF,ICO,JPG,JPEG,ODG,ODP,ODS,ODT,PDF,PNG,PPT,TXT,XCF,XLS'
+			// Get options from the input or fallback to images only
+			$mediaTypes = explode(',', Factory::getApplication()->input->getString('mediatypes', '0'));
+			$types      = [];
+			$extensions = [];
+
+			// Default to showing all supported formats
+			if (count($mediaTypes) === 0) {
+				$mediaTypes = ['0', '1', '2', '3'];
+			}
+
+			array_map(
+				function ($mediaType) use (&$types) {
+					switch ($mediaType) {
+						case '0':
+							$types[] = 'images';
+							break;
+						case '1':
+							$types[] = 'audios';
+							break;
+						case '2':
+							$types[] = 'videos';
+							break;
+						case '3':
+							$types[] = 'documents';
+							break;
+						default:
+							break;
+					}
+				},
+				$mediaTypes
 			);
 
+			$images = array_map(
+				'trim',
+				explode(
+					',',
+					ComponentHelper::getParams('com_media')->get(
+						'image_extensions',
+						'bmp,gif,jpg,jpeg,png,webp'
+					)
+				)
+			);
+			$audios = array_map(
+				'trim',
+				explode(
+					',',
+					ComponentHelper::getParams('com_media')->get(
+						'audio_extensions',
+						'mp3,m4a,mp4a,ogg'
+					)
+				)
+			);
+			$videos = array_map(
+				'trim',
+				explode(
+					',',
+					ComponentHelper::getParams('com_media')->get(
+						'video_extensions',
+						'mp4,mp4v,mpeg,mov,webm'
+					)
+				)
+			);
+			$documents = array_map(
+				'trim',
+				explode(
+					',',
+					ComponentHelper::getParams('com_media')->get(
+						'doc_extensions',
+						'doc,odg,odp,ods,odt,pdf,ppt,txt,xcf,xls,csv'
+					)
+				)
+			);
+
+			foreach ($types as $type) {
+				if (in_array($type, ['images', 'audios', 'videos', 'documents'])) {
+					$extensions = array_merge($extensions, ${$type});
+				}
+			}
+
 			// Make them an array
-			$this->allowedExtensions = explode(',', $this->allowedExtensions);
+			$this->allowedExtensions = $extensions;
 		}
 
 		// Extract the extension
-		$extension = substr($path, strrpos($path, '.') + 1);
+		$extension = strtolower(substr($path, strrpos($path, '.') + 1));
 
 		// Check if the extension exists in the allowed extensions
 		return in_array($extension, $this->allowedExtensions);

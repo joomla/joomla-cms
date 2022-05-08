@@ -482,7 +482,7 @@ class SiteRouter extends Router
 		{
 			if (!$item->home)
 			{
-				$tmp = $item->route . '/' . $tmp;
+				$tmp = $tmp ? $item->route . '/' . $tmp : $item->route;
 			}
 
 			unset($query['Itemid']);
@@ -493,14 +493,16 @@ class SiteRouter extends Router
 		}
 
 		// Get the route
-		$route = $uri->getPath() . '/' . $tmp;
+		if ($tmp)
+		{
+			$uri->setPath($uri->getPath() . '/' . $tmp);
+		}
 
 		// Unset unneeded query information
 		unset($query['option']);
 
 		// Set query again in the URI
 		$uri->setQuery($query);
-		$uri->setPath(trim($route, '/'));
 	}
 
 	/**

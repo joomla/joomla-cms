@@ -107,7 +107,7 @@ class HtmlView extends BaseHtmlView
 	 *
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
 	 *
-	 * @return  mixed  False if unsuccessful, otherwise void.
+	 * @return  void
 	 *
 	 * @throws  GenericDataException
 	 * @since   1.6
@@ -140,7 +140,7 @@ class HtmlView extends BaseHtmlView
 
 		$this->addToolbar();
 
-		return parent::display($tpl);
+		parent::display($tpl);
 	}
 
 	/**

@@ -17,7 +17,7 @@ $wa = $this->document->getWebAssetManager();
 $wa->useScript('com_fields.admin-fields-batch');
 $wa->useScript('joomla.batch-copymove');
 
-$context   = $this->escape($this->state->get('filter.context'));
+$context = $this->escape($this->state->get('filter.context'));
 ?>
 
 <div class="p-3">
@@ -35,7 +35,7 @@ $context   = $this->escape($this->state->get('filter.context'));
 	</div>
 	<div class="row">
 		<div class="form-group col-md-6">
-			<div class="controls">
+			<div class="control-group">
 				<?php $options = array(
 					HTMLHelper::_('select.option', 'c', Text::_('JLIB_HTML_BATCH_COPY')),
 					HTMLHelper::_('select.option', 'm', Text::_('JLIB_HTML_BATCH_MOVE'))
@@ -51,7 +51,7 @@ $context   = $this->escape($this->state->get('filter.context'));
 						<?php echo HTMLHelper::_('select.options', $this->get('Groups'), 'value', 'text'); ?>
 					</select>
 				</div>
-				<div id="batch-copy-move" class="control-group radio">
+				<div id="batch-copy-move">
 					<?php echo Text::_('JLIB_HTML_BATCH_MOVE_QUESTION'); ?>
 					<?php echo HTMLHelper::_('select.radiolist', $options, 'batch[move_copy]', '', 'value', 'text', 'm'); ?>
 				</div>

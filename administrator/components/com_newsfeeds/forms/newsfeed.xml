@@ -5,7 +5,7 @@
 
 		<field
 			name="id"
-			type="number"
+			type="text"
 			label="JGLOBAL_FIELD_ID_LABEL"
 			default="0"
 			class="readonly"
@@ -211,6 +211,15 @@
 			showtime="true"
 			size="22"
 			filter="user_utc"
+		/>
+
+		<field
+			name="hits"
+			type="text"
+			label="JGLOBAL_HITS"
+			class="readonly"
+			readonly="true"
+			filter="unset"
 		/>
 
 		<field
@@ -451,15 +460,6 @@
 				rows="2"
 				cols="30"
 				filter="string"
-			/>
-
-			<field
-				name="hits"
-				type="number"
-				label="JGLOBAL_HITS"
-				class="readonly"
-				readonly="true"
-				filter="unset"
 			/>
 		</fieldset>
 	</fields>

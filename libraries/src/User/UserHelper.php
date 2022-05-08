@@ -24,7 +24,9 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\CMS\Session\SessionManager;
 use Joomla\CMS\Uri\Uri;
+use Joomla\Database\Exception\ExecutionFailureException;
 use Joomla\Database\ParameterType;
 use Joomla\Utilities\ArrayHelper;
 
@@ -588,5 +590,90 @@ abstract class UserHelper
 		}
 
 		return false;
+	}
+
+	/**
+	 * Destroy all active session for a given user id
+	 *
+	 * @param   int      $userId       Id of user
+	 * @param   boolean  $keepCurrent  Keep the session of the currently acting user
+	 * @param   int      $clientId     Application client id
+	 *
+	 * @return  boolean
+	 *
+	 * @since   3.9.28
+	 */
+	public static function destroyUserSessions($userId, $keepCurrent = false, $clientId = null)
+	{
+		// Destroy all sessions for the user account if able
+		if (!Factory::getApplication()->get('session_metadata', true))
+		{
+			return false;
+		}
+
+		$db = Factory::getDbo();
+
+		try
+		{
+			$userId = (int) $userId;
+
+			$query = $db->getQuery(true)
+				->select($db->quoteName('session_id'))
+				->from($db->quoteName('#__session'))
+				->where($db->quoteName('userid') . ' = :userid')
+				->bind(':userid', $userId, ParameterType::INTEGER);
+
+			if ($clientId !== null)
+			{
+				$clientId = (int) $clientId;
+
+				$query->where($db->quoteName('client_id') . ' = :client_id')
+					->bind(':client_id', $clientId, ParameterType::INTEGER);
+			}
+
+			$sessionIds = $db->setQuery($query)->loadColumn();
+		}
+		catch (ExecutionFailureException $e)
+		{
+			return false;
+		}
+
+		// Convert PostgreSQL Session IDs into strings (see GitHub #33822)
+		foreach ($sessionIds as &$sessionId)
+		{
+			if (is_resource($sessionId) && get_resource_type($sessionId) === 'stream')
+			{
+				$sessionId = stream_get_contents($sessionId);
+			}
+		}
+
+		// If true, removes the current session id from the purge list
+		if ($keepCurrent)
+		{
+			$sessionIds = array_diff($sessionIds, array(Factory::getSession()->getId()));
+		}
+
+		// If there aren't any active sessions then there's nothing to do here
+		if (empty($sessionIds))
+		{
+			return false;
+		}
+
+		/** @var SessionManager $sessionManager */
+		$sessionManager = Factory::getContainer()->get('session.manager');
+		$sessionManager->destroySessions($sessionIds);
+
+		try
+		{
+			$db->setQuery(
+				$db->getQuery(true)
+					->delete($db->quoteName('#__session'))
+					->whereIn($db->quoteName('session_id'), $sessionIds, ParameterType::LARGE_OBJECT)
+			)->execute();
+		}
+		catch (ExecutionFailureException $e)
+		{
+			// No issue, let things go
+		}
 	}
 }

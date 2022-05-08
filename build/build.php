@@ -28,7 +28,7 @@ function usage(string $command)
 {
 	echo PHP_EOL;
 	echo 'Usage: php ' . $command . ' [options]' . PHP_EOL;
-	echo PHP_TAB . '[options]:'.PHP_EOL;
+	echo PHP_TAB . '[options]:' . PHP_EOL;
 	echo PHP_TAB . PHP_TAB . '--remote=<remote>:' . PHP_TAB . 'The git remote reference to build from (ex: `tags/3.8.6`, `4.0-dev`), defaults to the most recent tag for the repository' . PHP_EOL;
 	echo PHP_TAB . PHP_TAB . '--exclude-zip:' . PHP_TAB . PHP_TAB . 'Exclude the generation of .zip packages' . PHP_EOL;
 	echo PHP_TAB . PHP_TAB . '--exclude-gzip:' . PHP_TAB . PHP_TAB . 'Exclude the generation of .tar.gz packages' . PHP_EOL;
@@ -131,11 +131,6 @@ function clean_checkout(string $dir)
 	system('rm -rf images/sampledata/parks');
 	system('rm -rf images/sampledata/fruitshop');
 
-	// paragonie/random_compat
-	system('rm -rf libraries/vendor/paragonie/random_compat/other');
-	system('rm -rf libraries/vendor/paragonie/random_compat/build-phar.sh');
-	system('rm -rf libraries/vendor/paragonie/random_compat/psalm-autoload.php');
-
 	// paragonie/sodium_compat
 	system('rm -rf libraries/vendor/paragonie/sodium_compat/build-phar.sh');
 
@@ -150,16 +145,9 @@ function clean_checkout(string $dir)
 	system('rm -rf libraries/vendor/symfony/*/Resources/doc');
 	system('rm -rf libraries/vendor/symfony/*/Tests');
 	system('rm -rf libraries/vendor/symfony/console/Resources');
-	system('rm -rf libraries/vendor/symfony/debug/Resources');
-	system('rm -rf libraries/vendor/symfony/polyfill-util/LegacyTestListener.php');
-	system('rm -rf libraries/vendor/symfony/polyfill-util/TestListener.php');
-	system('rm -rf libraries/vendor/symfony/polyfill-util/TestListenerTrait.php');
 
 	// wamania/php-stemmer
 	system('rm -rf libraries/vendor/wamania/php-stemmer/test');
-
-	// zendframework/zend-diactoros
-	system('rm -rf libraries/vendor/zendframework/zend-diactoros/mkdocs.yml');
 
 	echo "Cleanup complete.\n";
 
@@ -211,6 +199,9 @@ $excludeBzip2 = isset($options['exclude-bzip2']);
 $excludeZstd  = !isset($options['include-zstd']);
 $showHelp     = isset($options['help']);
 
+// Disable the generation of extra text files
+$includeExtraTextfiles = false;
+
 if ($showHelp)
 {
 	usage($argv[0]);
@@ -224,6 +215,9 @@ if (!$remote)
 	$tagVersion = system($systemGit . ' describe --tags `' . $systemGit . ' rev-list --tags --max-count=1`', $tagVersion);
 	$remote = 'tags/' . $tagVersion;
 	chdir($here);
+
+	// We are in release mode so we need the extra text files
+	$includeExtraTextfiles = true;
 }
 
 echo "Start build for remote $remote.\n";
@@ -370,9 +364,6 @@ $doNotPackage = array(
 	// Media Manager Node Assets
 	'administrator/components/com_media/webpack.config.js',
 	'administrator/components/com_media/resources',
-	// Remove the testing sample data from all packages
-	'installation/sql/mysql/sample_testing.sql',
-	'installation/sql/postgresql/sample_testing.sql',
 );
 
 /*
@@ -427,18 +418,21 @@ for ($num = $release - 1; $num >= 0; $num--)
 	// Loop through and add all files except: tests, installation, build, .git, .travis, travis, phpunit, .md, or images
 	foreach ($files as $file)
 	{
-		if (substr($file, 0, 1) === 'R') {
-			$fileName   = substr($file, strrpos($file, "\t") + 1);
-		} else {
-			$fileName   = substr($file, 2);
+		if (substr($file, 0, 1) === 'R')
+		{
+			$fileName = substr($file, strrpos($file, "\t") + 1);
 		}
-		$folderPath = explode('/', $fileName);
-		$baseFolderName = $folderPath[0];
+		else
+		{
+			$fileName = substr($file, 2);
+		}
 
-		$doNotPackageFile = in_array(trim($fileName), $doNotPackage);
-		$doNotPatchFile = in_array(trim($fileName), $doNotPatch);
+		$folderPath             = explode('/', $fileName);
+		$baseFolderName         = $folderPath[0];
+		$doNotPackageFile       = in_array(trim($fileName), $doNotPackage);
+		$doNotPatchFile         = in_array(trim($fileName), $doNotPatch);
 		$doNotPackageBaseFolder = in_array($baseFolderName, $doNotPackage);
-		$doNotPatchBaseFolder = in_array($baseFolderName, $doNotPatch);
+		$doNotPatchBaseFolder   = in_array($baseFolderName, $doNotPatch);
 
 		if ($doNotPackageFile || $doNotPatchFile || $doNotPackageBaseFolder || $doNotPatchBaseFolder)
 		{
@@ -619,84 +613,98 @@ if (!$excludeZstd)
 
 chdir('..');
 
-foreach (array_keys($checksums) as $packageName)
+// Thats only needed when we release a version
+if ($includeExtraTextfiles)
 {
-	echo "Generating checksums for $packageName\n";
 
-	foreach (array('md5', 'sha1', 'sha256', 'sha384', 'sha512') as $hash)
+	foreach (array_keys($checksums) as $packageName)
 	{
-		if (file_exists('packages/' . $packageName))
+		echo "Generating checksums for $packageName\n";
+
+		foreach (array('sha256', 'sha384', 'sha512') as $hash)
 		{
-			$checksums[$packageName][$hash] = hash_file($hash, 'packages/' . $packageName);
+			if (file_exists('packages/' . $packageName))
+			{
+				$checksums[$packageName][$hash] = hash_file($hash, 'packages/' . $packageName);
+			}
+			else
+			{
+				echo "Package $packageName not found in build directories\n";
+			}
 		}
-		else
+	}
+
+	echo "Generating checksums.txt file\n";
+
+	$checksumsContent = '';
+
+	foreach ($checksums as $packageName => $packageHashes)
+	{
+		$checksumsContent .= "Filename: $packageName\n";
+
+		foreach ($packageHashes as $hashType => $hash)
 		{
-			echo "Package $packageName not found in build directories\n";
+			$checksumsContent .= "$hashType: $hash\n";
 		}
-	}
-}
 
-echo "Generating checksums.txt file\n";
-
-$checksumsContent = '';
-
-foreach ($checksums as $packageName => $packageHashes)
-{
-	$checksumsContent .= "Filename: $packageName\n";
-
-	foreach ($packageHashes as $hashType => $hash)
-	{
-		$checksumsContent .= "$hashType: $hash\n";
+		$checksumsContent .= "\n";
 	}
 
-	$checksumsContent .= "\n";
-}
+	file_put_contents('checksums.txt', $checksumsContent);
 
-file_put_contents('checksums.txt', $checksumsContent);
+	echo "Generating github_release.txt file\n";
 
-echo "Generating github_release.txt file\n";
+	$githubContent = array();
+	$githubText    = '';
+	$releaseText   = array(
+		'FULL'    => 'New Joomla! Installations ',
+		'POINT'   => 'Update from Joomla! ' . $version . '.' . $previousRelease . ' ',
+		'MINOR'   => 'Update from Joomla! ' . $version . '.x ',
+		'UPGRADE' => 'Update from Joomla! 3.10 ',
+	);
+	$githubLink = 'https://github.com/joomla/joomla-cms/releases/download/' . $tagVersion . '/';
 
-$githubContent = array();
-$githubText = '';
-$releaseText = array(
-	'FULL' => 'New Joomla! Installations ',
-	'POINT' => 'Update from Joomla! ' . $version . '.' . $previousRelease . ' ',
-	'MINOR' => 'Update from Joomla! ' . $version . '.x ',
-	'UPGRADE' => 'Update from Joomla! 3.10 ',
-);
-$githubLink = 'https://github.com/joomla/joomla-cms/releases/download/' . $tagVersion . '/';
-
-foreach ($checksums as $packageName => $packageHashes)
-{
-	$type = '';
-	if (strpos($packageName, 'Full_Package') !== false)
+	foreach ($checksums as $packageName => $packageHashes)
 	{
-		$type = 'FULL';
-	} elseif (strpos($packageName, 'Patch_Package') !== false) {
-		if (strpos($packageName, '.x_to') !== false) {
-			$type = 'MINOR';
-		} else {
-			$type = 'POINT';
+		$type = '';
+
+		if (strpos($packageName, 'Full_Package') !== false)
+		{
+			$type = 'FULL';
 		}
-	} elseif (strpos($packageName, 'Update_Package') !== false) {
-		$type = 'UPGRADE';
+		elseif (strpos($packageName, 'Patch_Package') !== false)
+		{
+			if (strpos($packageName, '.x_to') !== false)
+			{
+				$type = 'MINOR';
+			}
+			else
+			{
+				$type = 'POINT';
+			}
+		}
+		elseif (strpos($packageName, 'Update_Package') !== false)
+		{
+			$type = 'UPGRADE';
+		}
+
+		$githubContent[$type][] = '[' . substr($packageName, strpos($packageName, 'Package') + 7) . '](' . $githubLink . $packageName . ')';
 	}
 
-	$githubContent[$type][] = '[' . substr($packageName, strpos($packageName, 'Package') + 7) . '](' . $githubLink . $packageName . ')';
-}
+	foreach ($releaseText as $type => $text)
+	{
+		if (empty($githubContent[$type]))
+		{
+			continue;
+		}
 
-foreach($releaseText as $type => $text)
-{
-	if (empty($githubContent[$type])) {
-		continue;
+		$githubText .= $text;
+		$githubText .= implode(" | ", $githubContent[$type]);
+
+		$githubText .= "\n";
 	}
 
-	$githubText .= $text;
-	$githubText .= implode(" | ", $githubContent[$type]);
-
-	$githubText .= "\n";
+	file_put_contents('github_release.txt', $githubText);
 }
-
-file_put_contents('github_release.txt', $githubText);
 
 echo "Build of version $fullVersion complete!\n";

@@ -286,7 +286,7 @@ Joomla = window.Joomla || {};
 
     // eslint-disable-next-line class-methods-use-this
     checkActiveStatus(cont) {
-      const els = this.getFilterFields();
+      const els = [].slice.call(this.getFilterFields());
       let activeFilterCount = 0;
 
       els.forEach((item) => {
@@ -467,7 +467,7 @@ Joomla = window.Joomla || {};
               }
 
               // Append the option and repopulate the chosen field
-              this.orderFieldName.innerHTML += $option;
+              this.orderFieldName.innerHTML += Joomla.sanitizeHtml($option);
             }
           }
         });

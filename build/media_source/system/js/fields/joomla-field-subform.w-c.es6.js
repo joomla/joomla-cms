@@ -96,8 +96,8 @@
 
           // Check active, with extra check for nested joomla-field-subform
           if (btnAdd && btnAdd.closest('joomla-field-subform') === that) {
-            let row = btnAdd.closest('joomla-field-subform');
-            row = row.closest(that.repeatableElement) === that ? row : null;
+            let row = btnAdd.closest(that.repeatableElement);
+            row = row && row.closest('joomla-field-subform') === that ? row : null;
             that.addRow(row);
             event.preventDefault();
           } else if (btnRem && btnRem.closest('joomla-field-subform') === that) {
@@ -113,8 +113,9 @@
           const isRem = that.buttonRemove && event.target.matches(that.buttonRemove);
 
           if ((isAdd || isRem) && event.target.closest('joomla-field-subform') === that) {
-            let row = event.target.closest('joomla-field-subform');
-            row = row.closest(that.repeatableElement) === that ? row : null;
+            let row = event.target.closest(that.repeatableElement);
+            row = row && row.closest('joomla-field-subform') === that ? row : null;
+
             if (isRem && row) {
               that.removeRow(row);
             } else if (isAdd) {

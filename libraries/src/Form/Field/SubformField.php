@@ -247,6 +247,7 @@ class SubformField extends FormField
 		$data['control']   = $control;
 		$data['buttons']   = $this->buttons;
 		$data['fieldname'] = $this->fieldname;
+		$data['fieldId']   = $this->id;
 		$data['groupByFieldset'] = $this->groupByFieldset;
 
 		/**
@@ -369,13 +370,13 @@ class SubformField extends FormField
 	/**
 	 * Binds given data to the subform and its elements.
 	 *
-	 * @param   Form  &$subForm  Form instance of the subform.
+	 * @param   Form  $subForm  Form instance of the subform.
 	 *
 	 * @return  Form[]  Array of Form instances for the rows.
 	 *
 	 * @since   3.9.7
 	 */
-	private function loadSubFormData(Form &$subForm)
+	protected function loadSubFormData(Form $subForm)
 	{
 		$value = $this->value ? (array) $this->value : array();
 

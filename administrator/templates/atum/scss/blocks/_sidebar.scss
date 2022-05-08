@@ -4,8 +4,8 @@
   z-index: $zindex-sidebar;
   min-height: calc(100vh - 69px);
   overflow: hidden;
-  background-color: var(--atum-sidebar-bg);
-  box-shadow: 0 0 20px -10px var(--atum-bg-dark-50);
+  background-color: var(--template-sidebar-bg);
+  box-shadow: 0 0 20px -10px var(--template-bg-dark-50);
 
   .sidebar-sticky {
     position: sticky;
@@ -25,9 +25,9 @@
       text-decoration: none;
 
       &:hover {
-        color: var(--atum-text-light);
+        color: var(--template-text-light);
         text-decoration: none;
-        background-color: var(--atum-bg-dark-65);
+        background-color: var(--template-bg-dark-65);
       }
     }
 
@@ -69,7 +69,7 @@
   }
 
   .sidebar-toggle {
-    background: var(--atum-bg-dark-60);
+    background: var(--template-bg-dark-60);
 
     a {
       color: $white;
@@ -110,14 +110,14 @@
   ul {
     width: 100%;
     padding: 0;
-    background-color: var(--atum-bg-dark-75);
+    background-color: var(--template-bg-dark-75);
   }
 
   .divider {
     height: 1px;
     margin: 0 0 0 48px;
     list-style: none;
-    background-color: var(--atum-bg-dark-60);
+    background-color: var(--template-bg-dark-60);
   }
 
   .menuitem-group {
@@ -126,7 +126,7 @@
     padding-inline-start: 3rem;
 
     .sidebar-item-title {
-      color: var(--atum-bg-dark-30);
+      color: var(--template-bg-dark-30);
     }
   }
 
@@ -155,11 +155,11 @@
   }
 
   a.mm-active {
-    background-color: var(--atum-bg-dark-70);
+    background-color: var(--template-bg-dark-70);
   }
 
   a.mm-active + .menu-quicktask {
-    background-color: var(--atum-bg-dark-60);
+    background-color: var(--template-bg-dark-60);
   }
 
   .mm-active > .has-arrow::after {
@@ -185,7 +185,7 @@
   .badge {
     align-self: center;
     margin: 0 .3rem .25rem;
-    background-color: var(--atum-bg-dark-60);
+    background-color: var(--template-bg-dark-60);
   }
 }
 
@@ -222,7 +222,7 @@
     padding: 0 1rem;
     white-space: nowrap;
     pointer-events: none;
-    background-color: var(--atum-bg-dark-60);
+    background-color: var(--template-bg-dark-60);
     border-radius: 0 $border-radius $border-radius 0;
   }
 
@@ -243,7 +243,7 @@
 @include media-breakpoint-down(sm) {
   #menu-collapse {
     display: none;
-    background: var(--atum-bg-dark-50);
+    background: var(--template-bg-dark-50);
   }
 
   .toggler-burger {
@@ -254,6 +254,7 @@
     padding: 10px 15px;
 
     [dir="rtl"] & {
+      right: auto;
       left: 0;
     }
 

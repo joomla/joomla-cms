@@ -10,12 +10,10 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Application\CMSApplicationInterface;
-use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\Session\SessionManager;
-use Joomla\Database\Exception\ExecutionFailureException;
 use Joomla\CMS\Table\User as JTableUser;
 use Joomla\CMS\User\User;
+use Joomla\CMS\User\UserHelper;
 use Joomla\Component\Privacy\Administrator\Plugin\PrivacyPlugin;
 use Joomla\Component\Privacy\Administrator\Removal\Status;
 use Joomla\Component\Privacy\Administrator\Table\RequestTable;
@@ -124,8 +122,6 @@ class PlgPrivacyUser extends PrivacyPlugin
 			return;
 		}
 
-		$db = $this->db;
-
 		$pseudoanonymisedData = [
 			'name'      => 'User ID ' . $user->id,
 			'username'  => bin2hex(random_bytes(12)),
@@ -137,51 +133,8 @@ class PlgPrivacyUser extends PrivacyPlugin
 
 		$user->save();
 
-		// Destroy all sessions for the user account if able
-		if (!$this->app->get('session_metadata', true))
-		{
-			return;
-		}
-
-		try
-		{
-			$userId = (int) $user->id;
-
-			$sessionIds = $this->db->setQuery(
-				$this->db->getQuery(true)
-					->select($this->db->quoteName('session_id'))
-					->from($this->db->quoteName('#__session'))
-					->where($this->db->quoteName('userid') . ' = :userid')
-					->bind(':userid', $userId, ParameterType::INTEGER)
-			)->loadColumn();
-		}
-		catch (ExecutionFailureException $e)
-		{
-			return;
-		}
-
-		// If there aren't any active sessions then there's nothing to do here
-		if (empty($sessionIds))
-		{
-			return;
-		}
-
-		/** @var SessionManager $sessionManager */
-		$sessionManager = Factory::getContainer()->get('session.manager');
-		$sessionManager->destroySessions($sessionIds);
-
-		try
-		{
-			$this->db->setQuery(
-				$this->db->getQuery(true)
-					->delete($this->db->quoteName('#__session'))
-					->whereIn($this->db->quoteName('session_id'), $sessionIds, ParameterType::LARGE_OBJECT)
-			)->execute();
-		}
-		catch (ExecutionFailureException $e)
-		{
-			// No issue, let things go
-		}
+		// Destroy all sessions for the user account
+		UserHelper::destroyUserSessions($user->id);
 	}
 
 	/**

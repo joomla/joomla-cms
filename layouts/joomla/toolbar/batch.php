@@ -20,7 +20,7 @@ $id    = isset($displayData['id']) ? $displayData['id'] : '';
 $title = $displayData['title'];
 Text::script('JLIB_HTML_PLEASE_MAKE_A_SELECTION_FROM_THE_LIST');
 Text::script('ERROR');
-$message = "{'error': [Joomla.JText._('JLIB_HTML_PLEASE_MAKE_A_SELECTION_FROM_THE_LIST')]}";
+$message = "{'error': [Joomla.Text._('JLIB_HTML_PLEASE_MAKE_A_SELECTION_FROM_THE_LIST')]}";
 $alert = "Joomla.renderMessages(" . $message . ")";
 ?>
 <button<?php echo $id; ?> type="button" data-bs-toggle="modal" onclick="if (document.adminForm.boxchecked.value==0){<?php echo $alert; ?>}else{document.getElementById('collapseModal').open(); return true;}" class="btn btn-primary">

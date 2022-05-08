@@ -10,6 +10,7 @@ namespace Joomla\CMS\Http\Transport;
 
 \defined('JPATH_PLATFORM') or die;
 
+use Composer\CaBundle\CaBundle;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Http\Response;
 use Joomla\CMS\Http\TransportInterface;
@@ -137,7 +138,7 @@ class StreamTransport extends AbstractTransport implements TransportInterface
 				'http' => $options,
 				'ssl' => array(
 					'verify_peer'      => true,
-					'cafile'           => $this->getOption('stream.certpath', __DIR__ . '/cacert.pem'),
+					'cafile'           => $this->getOption('stream.certpath', CaBundle::getBundledCaBundlePath()),
 					'verify_depth'     => 5,
 					'verify_peer_name' => true,
 				),

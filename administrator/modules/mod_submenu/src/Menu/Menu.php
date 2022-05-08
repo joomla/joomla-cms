@@ -171,6 +171,11 @@ abstract class Menu
 				$parent->removeChild($item);
 				continue;
 			}
+			elseif (($item->link === 'index.php?option=com_installer&view=install' || $item->link === 'index.php?option=com_installer&view=languages')
+				&& !$user->authorise('core.admin'))
+			{
+				continue;
+			}
 			elseif ($item->element === 'com_admin')
 			{
 				parse_str($item->link, $query);

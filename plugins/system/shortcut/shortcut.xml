@@ -1,0 +1,534 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension type="plugin" group="system" method="upgrade">
+    <name>plg_system_shortcut</name>
+    <author>Joomla! Project</author>
+    <creationDate>Jun 2021</creationDate>
+    <copyright>(C) 2021 Open Source Matters, Inc.</copyright>
+    <license>GNU General Public License version 2 or later; see LICENSE.txt</license>
+    <authorEmail>admin@joomla.org</authorEmail>
+    <authorUrl>www.joomla.org</authorUrl>
+    <version>DEPLOY_VERSION</version>
+    <description>PLG_SYSTEM_SHORTCUT_XML_DESCRIPTION</description>
+    <media destination="plg_system_shortcut" folder="media">
+    <folder>js</folder>
+    </media>
+    <files>
+        <filename plugin="shortcut">shortcut.php</filename>
+        <filename>index.html</filename>
+	    <folder>fields</folder>
+    </files>
+    <languages>
+        <language tag="en-GB">language/en-GB/en-GB.plg_system_shortcut.ini</language>
+        <language tag="en-GB">language/en-GB/en-GB.plg_system_shortcut.sys.ini</language>
+    </languages>
+    <config>
+        <fields name="params">
+	        <fieldset 
+                name="buttons" 
+                label="PLG_SYSTEM_SHORTCUT_BUTTONS_LBL" 
+                addfieldpath="/plugins/system/shortcut/fields"
+                >
+
+            <field 
+                name="new_keySelect" 
+                type="keyselect" 
+                default="ALT + N" 
+                class="new" 
+                label="PLG_SYSTEM_SHORTCUT_BUTTON_NEW_LBL" 
+            />
+
+            <field 
+                type="hidden" 
+                name="new_keyEvent" 
+                default="n" 
+            />
+
+	    <field 
+                type="hidden" 
+                name="new_hasShift" 
+                default="0" 
+            />
+
+	    <field 
+                type="hidden" 
+                name="new_hasAlt" 
+                default="1" 
+            />
+
+	    <field 
+                type="hidden" 
+                name="new_hasControl" 
+                default="0" 
+            />
+
+            <field 
+                name="apply_keySelect" 
+                type="keyselect" 
+                default="ALT + S" 
+                class="apply" 
+                label="PLG_SYSTEM_SHORTCUT_BUTTON_APPLY_LBL" 
+            />
+
+            <field 
+                type="hidden" 
+                name="apply_keyEvent" 
+                default="s" 
+            />
+
+	    <field 
+                type="hidden" 
+                name="apply_hasShift"
+                default="0" 
+            />
+
+	    <field 
+                type="hidden" 
+                name="apply_hasAlt" 
+                default="1" 
+            />
+
+	    <field 
+                type="hidden" 
+                name="apply_hasControl" 
+                default="0" 
+            />
+
+            <field 
+                name="save_keySelect" 
+                type="keyselect" 
+                default="ALT + W" 
+                class="save" 
+                label="PLG_SYSTEM_SHORTCUT_BUTTON_SAVE_LBL" 
+            />
+
+            <field 
+                type="hidden" 
+                name="save_keyEvent" 
+                default="w" 
+            />
+
+            <field 
+                type="hidden" 
+                name="save_hasShift" 
+                default="0" 
+            />
+
+	    <field 
+                type="hidden" 
+                name="save_hasAlt" 
+                default="1" 
+            />
+
+            <field 
+                type="hidden" 
+                name="save_hasControl" 
+                default="0" 
+            />
+
+            <field 
+                name="saveNew_keySelect" 
+                type="keyselect" 
+                default="SHIFT + ALT + N" 
+                class="saveNew" 
+                label="PLG_SYSTEM_SHORTCUT_BUTTON_SAVENEW_LBL" 
+            />
+
+            <field 
+                type="hidden" 
+                name="saveNew_keyEvent" 
+                default="n" 
+            />
+
+            <field 
+                type="hidden" 
+                name="saveNew_hasShift" 
+                default="1" 
+            />
+
+	    <field 
+                type="hidden" 
+                name="saveNew_hasAlt" 
+                default="1" 
+            />
+
+	    <field 
+                type="hidden" 
+                name="saveNew_hasControl" 
+                default="0" 
+            />
+		
+            <field 
+                name="help_keySelect" 
+                type="keyselect" 
+                default="ALT + X" 
+                class="help" 
+                label="PLG_SYSTEM_SHORTCUT_BUTTON_HELP_LBL" 
+            />
+
+            <field 
+                type="hidden" 
+                name="help_keyEvent" 
+                default="x" 
+            />
+
+            <field 
+                type="hidden" 
+                name="help_hasShift" 
+                default="0" 
+            />
+
+	    <field 
+                type="hidden" 
+                name="help_hasAlt" 
+                default="1" 
+            />
+
+	    <field 
+                type="hidden" 
+                name="help_hasControl" 
+                default="0" 
+            />
+		
+            <field 
+                name="cancel_keySelect" 
+                type="keyselect" 
+                default="ALT + Q" 
+                class="cancel" 
+                label="PLG_SYSTEM_SHORTCUT_BUTTON_CANCEL_LBL" 
+            />
+
+            <field 
+                type="hidden" 
+                name="cancel_keyEvent" 
+                default="q" 
+            />
+
+            <field 
+                type="hidden" 
+                name="cancel_hasShift" 
+                default="0" 
+            />
+
+	    <field 
+                type="hidden" 
+                name="cancel_hasAlt" 
+                default="1" 
+            />
+
+	    <field 
+                type="hidden" 
+                name="cancel_hasControl" 
+                default="0" 
+            />
+		
+            <field 
+                name="copy_keySelect" 
+                type="keyselect" 
+                default="SHIFT + ALT + C"
+                class="copy" 
+                label="PLG_SYSTEM_SHORTCUT_BUTTON_COPY_LBL" 
+            />
+
+            <field 
+                type="hidden" 
+                name="copy_keyEvent" 
+                default="c" 
+            />
+
+	    <field 
+                type="hidden" 
+                name="copy_hasShift" 
+                default="1" 
+            />
+
+	    <field 
+                type="hidden" 
+                name="copy_hasAlt" 
+                default="1" 
+            />
+
+	    <field 
+                type="hidden" 
+                name="copy_hasControl" 
+                default="0" 
+            />
+		
+            <field type="spacer" />
+	    <field 
+                type="restoredefaults" 
+                label="PLG_SYSTEM_SHORTCUT_BUTTON_RESTORE_DEFAULTS_LBL" 
+                class="buttons" 
+            />
+            </fieldset>
+            <fieldset 
+                name="editor" 
+                label="PLG_SYSTEM_SHORTCUT_EDITOR_LBL" 
+                addfieldpath="/plugins/system/shortcut/fields"
+                >
+
+            <field 
+                name="article_keySelect" 
+                type="keyselect" 
+                default="CTRL + ALT + A" 
+                class="article" 
+                label="PLG_SYSTEM_SHORTCUT_CMS_CONTENT_ARTICLE_LBL" 
+            />
+
+            <field 
+                type="hidden" 
+                name="article_keyEvent" 
+                default="a" 
+            />
+
+            <field 
+                type="hidden" 
+                name="article_hasShift" 
+                default="0" 
+            />
+
+	    <field 
+                type="hidden" 
+                name="article_hasAlt" 
+                default="1" 
+            />
+
+	    <field 
+                type="hidden" 
+                name="article_hasControl" 
+                default="1" 
+            />
+		
+            <field 
+                name="contact_keySelect" 
+                type="keyselect" 
+                default="CTRL + ALT + C" 
+                class="contact" 
+                label="PLG_SYSTEM_SHORTCUT_CMS_CONTENT_CONTACT_LBL" 
+            />
+
+            <field 
+                type="hidden" 
+                name="contact_keyEvent" 
+                default="c" 
+            />
+
+            <field 
+                type="hidden" 
+                name="contact_hasShift" 
+                default="0" 
+            />
+
+	    <field 
+                type="hidden" 
+                name="contact_hasAlt" 
+                default="1" 
+            />
+
+	    <field 
+                type="hidden" 
+                name="contact_hasControl" 
+                default="1" 
+            />
+
+            <field 
+                name="fields_keySelect" 
+                type="keyselect" 
+                default="CTRL + ALT + F" 
+                class="fields" 
+                label="PLG_SYSTEM_SHORTCUT_CMS_CONTENT_FIELDS_LBL" 
+            />
+
+            <field 
+                type="hidden" 
+                name="fields_keyEvent" 
+                default="f" 
+            />
+
+            <field 
+                type="hidden" 
+                name="fields_hasShift" 
+                default="0" 
+            />
+
+            <field 
+                type="hidden" 
+                name="fields_hasAlt" 
+                default="1" 
+            />
+
+	    <field 
+                type="hidden" 
+                name="fields_hasControl" 
+                default="1" 
+            />
+		
+            <field 
+                name="image_keySelect" 
+                type="keyselect" 
+                default="CTRL + ALT + I" 
+                class="image" 
+                label="PLG_SYSTEM_SHORTCUT_CMS_CONTENT_IMAGE_LBL" 
+            />
+
+            <field 
+                type="hidden" 
+                name="image_keyEvent" 
+                default="i" 
+            />
+
+            <field 
+                type="hidden" 
+                name="image_hasShift" 
+                default="0"
+            />
+
+	    <field 
+                type="hidden" 
+                name="image_hasAlt" 
+                default="1" 
+            />
+
+	    <field 
+                type="hidden" 
+                name="image_hasControl" 
+                default="1" 
+            />
+		
+            <field 
+                name="menu_keySelect" 
+                type="keyselect" 
+                default="CTRL + ALT + M" 
+                class="menu" 
+                label="PLG_SYSTEM_SHORTCUT_CMS_CONTENT_MENU_LBL" 
+            />
+
+            <field 
+                type="hidden" 
+                name="menu_keyEvent" 
+                default="m" 
+            />
+
+            <field 
+                type="hidden" 
+                name="menu_hasShift" 
+                default="0" 
+            />
+
+            <field 
+                type="hidden" 
+                name="menu_hasAlt" 
+                default="1" 
+            />
+
+            <field 
+                type="hidden" 
+                name="menu_hasControl" 
+                default="1" 
+            />
+
+            <field 
+                name="module_keySelect" 
+                type="keyselect" 
+                default="CTRL + SHIFT + ALT + M" 
+                class="module" 
+                label="PLG_SYSTEM_SHORTCUT_CMS_CONTENT_MODULE_LBL" 
+            />
+
+            <field 
+                type="hidden" 
+                name="module_keyEvent" 
+                default="m" 
+            />
+
+            <field 
+                type="hidden" 
+                name="module_hasShift" 
+                default="1" 
+            />
+
+            <field 
+                type="hidden" 
+                name="module_hasAlt" 
+                default="1" 
+            />
+
+            <field 
+                type="hidden" 
+                name="module_hasControl" 
+                default="1" 
+            />
+		
+            <field 
+                name="pagebreak_keySelect" 
+                type="keyselect" 
+                default="CTRL + ALT + P" 
+                class="pagebreak" 
+                label="PLG_SYSTEM_SHORTCUT_CMS_CONTENT_PAGEBREAK_LBL" 
+            />
+
+            <field 
+                type="hidden" 
+                name="pagebreak_keyEvent" 
+                default="p" 
+            />
+
+            <field 
+                type="hidden" 
+                name="pagebreak_hasShift" 
+                default="0" 
+            />
+
+	    <field 
+                type="hidden" 
+                name="pagebreak_hasAlt" 
+                default="1" 
+            />
+
+	    <field 
+                type="hidden" 
+                name="pagebreak_hasControl" 
+                default="1" 
+            />
+		
+            <field 
+                name="readmore_keySelect" 
+                type="keyselect" 
+                default="CTRL + ALT + R" 
+                class="readmore" 
+                label="PLG_SYSTEM_SHORTCUT_CMS_CONTENT_READMORE_LBL" 
+            />
+
+            <field 
+                type="hidden" 
+                name="readmore_keyEvent" 
+                default="r" 
+            />
+
+	    <field 
+                type="hidden" 
+                name="readmore_hasShift" 
+                default="0" 
+            />
+
+            <field 
+                type="hidden" 
+                name="readmore_hasAlt" 
+                default="1" 
+            />
+
+	    <field 
+                type="hidden" 
+                name="readmore_hasControl" 
+                default="1" 
+            />
+		
+            <field type="spacer" />
+	    <field 
+                type="restoredefaults" 
+                label="PLG_SYSTEM_SHORTCUT_BUTTON_RESTORE_DEFAULTS_LBL" 
+                class="editor" 
+            />
+            </fieldset>
+        </fields>
+  </config>
+</extension>

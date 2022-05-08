@@ -15,6 +15,7 @@ html {
 
 body {
   position: relative;
+  min-height: 100vh;
 }
 
 img {
@@ -82,16 +83,6 @@ a {
 
 .btn-group {
   margin-bottom: $cassiopeia-grid-gutter;
-  > .input-group-append {
-    > .btn-primary {
-      @include border-end-radius($border-radius);
-      @include border-start-radius(0);
-    }
-    > .btn-secondary {
-      margin-left: $cassiopeia-grid-gutter/2;
-    }
-  }
-
   > input {
     padding: $cassiopeia-grid-gutter/2;
     border: 1px solid $gray-400;
@@ -101,18 +92,6 @@ a {
 }
 
 [dir="rtl"] .btn-group {
-  > .input-group-append {
-    > .btn-primary {
-      @include border-start-radius($border-radius);
-      @include border-end-radius(0);
-    }
-
-    > .btn-secondary {
-      margin-right: $cassiopeia-grid-gutter/2;
-      margin-left: 0;
-    }
-  }
-
   > input {
     @include border-end-radius($border-radius);
     @include border-start-radius(0);
@@ -238,10 +217,6 @@ figcaption {
 
 .mod-menu {
   flex-direction: column;
-}
-
-.mod-languages__select {
-  background-color: $white;
 }
 
 // meter element

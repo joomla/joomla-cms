@@ -2,15 +2,15 @@
   width: 100%;
   padding: 1vw 2vw;
   margin-bottom: 1rem;
-  color: var(--atum-text-dark);
-  border: 1px solid var(--atum-bg-dark-20);
+  color: var(--template-text-dark);
+  border: 1px solid var(--template-bg-dark-20);
 
   > legend {
     float: none;
     width: auto;
     padding: 0 1rem;
     font-weight: $font-weight-bold;
-    color: var(--atum-text-dark);
+    color: var(--template-text-dark);
     background-color: $white;
   }
 }

@@ -16,16 +16,17 @@
 }
 
 .dropdown-item {
+  text-align: start;
   border-bottom: 1px solid rgba(0, 0, 0, .1);
 
   &:hover,
   &:focus {
     .btn-primary + .dropdown-menu & {
-      background-color: var(--atum-bg-dark);
+      background-color: var(--template-bg-dark);
     }
 
     .btn-secondary + .dropdown-menu & {
-      color: var(--atum-text-light);
+      color: var(--template-text-light);
       background-color: var(--secondary);
     }
 
@@ -38,12 +39,12 @@
     }
 
     .dropdown-status-group .dropdown-menu &:not(.disabled) {
-      color: var(--atum-text-light);
-      background-color: var(--atum-bg-dark);
+      color: var(--template-text-light);
+      background-color: var(--template-bg-dark);
     }
 
     .dropdown-save-group .dropdown-menu &:not(.disabled) {
-      color: var(--atum-text-light);
+      color: var(--template-text-light);
       background-color: var(--success);
     }
   }
