@@ -249,7 +249,6 @@ class FieldsHelper
 		return $fields;
 	}
 
-
 	/**
 	 * Renders the layout file and data on the context and does a fall back to
 	 * Fields afterwards.
