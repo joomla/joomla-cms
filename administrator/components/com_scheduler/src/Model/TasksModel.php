@@ -465,7 +465,7 @@ class TasksModel extends ListModel
 	 * @return void
 	 * @since  4.1.0
 	 */
-	protected function populateState($ordering = 'a.id', $direction = 'ASC'): void
+	protected function populateState($ordering = 'a.title', $direction = 'DESC'): void
 	{
 		// Call the parent method
 		parent::populateState($ordering, $direction);
