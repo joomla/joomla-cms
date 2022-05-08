@@ -213,24 +213,18 @@ class FieldsHelper
 				// If boolean prepare, if int, it is the event type: 1 - After Title, 2 - Before Display Content, 3 - After Display Content, 0 - Do not prepare
 				if ($prepareValue && (is_bool($prepareValue) || $prepareValue === (int) $field->params->get('display', '2')))
 				{
+					PluginHelper::importPlugin('fields');
+
+					/*
+				 	* On before field prepare
+				 	* Event allow plugins to modify the output of the field before it is prepared
+				 	*/
+					Factory::getApplication()->triggerEvent('onCustomFieldsBeforePrepareField', array($context, $item, &$field));
+
 					$render[$key] = $field;
 				}
 
 				$new[$key] = $field;
-			}
-
-			if ($render)
-			{
-				PluginHelper::importPlugin('fields');
-			}
-
-			foreach ($render as &$field)
-			{
-				/*
-				 * On before field prepare
-				 * Event allow plugins to modify the output of the field before it is prepared
-				 */
-				Factory::getApplication()->triggerEvent('onCustomFieldsBeforePrepareField', array($context, $item, &$field));
 			}
 
 			$contents = [];
