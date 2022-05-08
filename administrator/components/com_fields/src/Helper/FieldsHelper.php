@@ -179,8 +179,6 @@ class FieldsHelper
 			$fieldValues = self::$fieldCache->getFieldValues($fieldIds, $item->id);
 
 			$new = array();
-			
-			$render = array();
 
 			foreach ($fields as $key => $original)
 			{
@@ -213,47 +211,36 @@ class FieldsHelper
 				// If boolean prepare, if int, it is the event type: 1 - After Title, 2 - Before Display, 3 - After Display, 0 - Do not prepare
 				if ($prepareValue && (is_bool($prepareValue) || $prepareValue === (int) $field->params->get('display', '2')))
 				{
-					$render[$key] = $field;
+					PluginHelper::importPlugin('fields');
+
+					/*
+					 * On before field prepare
+					 * Event allow plugins to modify the output of the field before it is prepared
+					 */
+					Factory::getApplication()->triggerEvent('onCustomFieldsBeforePrepareField', array($context, $item, &$field));
+
+					// Gathering the value for the field
+					$value = Factory::getApplication()->triggerEvent('onCustomFieldsPrepareField', array($context, $item, &$field));
+
+					if (is_array($value))
+					{
+						$value = implode(' ', $value);
+					}
+
+					/*
+					 * On after field render
+					 * Event allows plugins to modify the output of the prepared field
+					 */
+					Factory::getApplication()->triggerEvent('onCustomFieldsAfterPrepareField', array($context, $item, $field, &$value));
+
+					// Assign the value
+					$field->value = $value;
+
+					// Assign the render value
+					$field->content = $value;
 				}
 
 				$new[$key] = $field;
-			}
-
-			if($render)
-			{
-				PluginHelper::importPlugin('fields');
-			}
-
-			foreach($render as &$field)
-			{
-				/*
-				 * On before field prepare
-				 * Event allow plugins to modify the output of the field before it is prepared
-				 */
-				Factory::getApplication()->triggerEvent('onCustomFieldsBeforePrepareField', array($context, $item, &$field));
-			}
-
-			foreach($render as &$field)
-			{
-				// Gathering the value for the field
-				$value = Factory::getApplication()->triggerEvent('onCustomFieldsPrepareField', array($context, $item, &$field));
-
-				if (is_array($value))
-				{
-					$value = implode(' ', $value);
-				}
-
-				/*
-				 * On after field render
-				 * Event allows plugins to modify the output of the prepared field
-				 */
-				Factory::getApplication()->triggerEvent('onCustomFieldsAfterPrepareField', array($context, $item, $field, &$value));
-
-				// Assign the value
-				$field->value = $value;
-
-				// Assign the render value
-				$field->content = $value;
 			}
 
 			$fields = $new;
@@ -261,6 +248,7 @@ class FieldsHelper
 
 		return $fields;
 	}
+
 
 	/**
 	 * Renders the layout file and data on the context and does a fall back to
