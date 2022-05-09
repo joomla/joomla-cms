@@ -351,7 +351,7 @@ class TasksModel extends ListModel
 		if (!$multiOrdering || !\is_array($multiOrdering))
 		{
 			$orderCol = $this->state->get('list.ordering', 'a.title');
-			$orderDir = $this->state->get('list.direction', 'desc');
+			$orderDir = $this->state->get('list.direction', 'asc');
 
 			// Type title ordering is handled exceptionally in _getList()
 			if ($orderCol !== 'j.type_title')
@@ -393,7 +393,7 @@ class TasksModel extends ListModel
 
 		// Get stuff from the model state
 		$listOrder      = $this->getState('list.ordering', 'a.title');
-		$listDirectionN = strtolower($this->getState('list.direction', 'desc')) == 'desc' ? -1 : 1;
+		$listDirectionN = strtolower($this->getState('list.direction', 'asc')) == 'desc' ? -1 : 1;
 
 		// Set limit parameters and get object list
 		$query->setLimit($limit, $limitstart);
@@ -465,7 +465,7 @@ class TasksModel extends ListModel
 	 * @return void
 	 * @since  4.1.0
 	 */
-	protected function populateState($ordering = 'a.title', $direction = 'DESC'): void
+	protected function populateState($ordering = 'a.title', $direction = 'ASC'): void
 	{
 		// Call the parent method
 		parent::populateState($ordering, $direction);
