@@ -50,7 +50,7 @@ module.exports.tinyMCE = async (packageName, version) => {
     await mkdir(join(itemvendorPath, 'skins'), { mode: 0o755 });
     await mkdir(join(itemvendorPath, 'themes'), { mode: 0o755 });
     await mkdir(join(itemvendorPath, 'templates'), { mode: 0o755 });
-	await mkdir(join(itemvendorPath, 'models'), { mode: 0o755 });
+    await mkdir(join(itemvendorPath, 'models'), { mode: 0o755 });
   }
 
   await copyAllFiles('icons', 'tinymce', 'icons');
