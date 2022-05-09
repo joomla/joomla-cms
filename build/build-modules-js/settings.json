@@ -386,6 +386,24 @@
         "dependencies": [],
         "licenseFilename": "LICENSE.txt"
       },
+      "hotkeys-js": {
+        "name": "hotkeys.js",
+        "licenseFilename": "LICENSE",
+        "js" : {
+          "dist/hotkeys.js": "js/hotkeys.js",
+          "dist/hotkeys.min.js": "js/hotkeys.min.js"
+        },
+        "provideAssets": [
+          {
+            "name": "hotkeys.js",
+            "type": "script",
+            "uri": "hotkeys.min.js",
+            "attributes": {
+              "defer": true
+            }
+          }
+        ]
+      },
       "jquery": {
         "name": "jquery",
         "js": {
@@ -533,23 +551,6 @@
         },
         "dependencies": [],
         "licenseFilename": ""
-      },
-      "mousetrap": {
-        "name": "mousetrap",
-        "licenseFilename": "LICENSE",
-        "js" : {
-          "mousetrap.min.js": "js/mousetrap.min.js"
-        },
-        "provideAssets": [
-          {
-            "name": "mousetrap",
-            "type": "script",
-            "uri": "mousetrap.min.js",
-            "attributes": {
-              "defer": true
-            }
-          }
-        ]
       },
       "punycode": {
         "name": "punycode",
