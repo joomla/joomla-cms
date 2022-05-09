@@ -73,8 +73,8 @@ trait DisplayTrait
 		$textarea->class    = 'mce_editable joomla-editor-tinymce';
 		$textarea->cols     = $col;
 		$textarea->rows     = $row;
-		$textarea->width    = $width;
-		$textarea->height   = $height;
+		$textarea->width    = is_numeric($width) ? $width . 'px' : $width;
+		$textarea->height   = is_numeric($height) ? $height . 'px' : $height;
 		$textarea->content  = $content;
 		$textarea->readonly = !empty($params['readonly']);
 
