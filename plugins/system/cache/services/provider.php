@@ -1,6 +1,6 @@
 <?php
 /**
- * @package         Joomla.Plugin
+ * @package     Joomla.Plugin
  * @subpackage  System.cache
  *
  * @copyright   (C) 2022 Open Source Matters, Inc. <https://www.joomla.org>
