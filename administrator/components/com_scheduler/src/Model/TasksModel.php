@@ -390,7 +390,6 @@ class TasksModel extends ListModel
 	 */
 	protected function _getList($query, $limitstart = 0, $limit = 0): array
 	{
-
 		// Get stuff from the model state
 		$listOrder      = $this->getState('list.ordering', 'a.title');
 		$listDirectionN = strtolower($this->getState('list.direction', 'asc')) == 'desc' ? -1 : 1;
