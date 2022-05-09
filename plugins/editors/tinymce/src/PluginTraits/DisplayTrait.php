@@ -402,7 +402,7 @@ trait DisplayTrait
 		}
 
 		// Convert pt to px in dropdown
-		$scriptOptions['fontsize_formats'] = '8px 10px 12px 14px 18px 24px 36px';
+		$scriptOptions['font_size_formats'] = '8px 10px 12px 14px 18px 24px 36px';
 
 		// select the languages for the "language of parts" menu
 		if (isset($extraOptions->content_languages) && $extraOptions->content_languages)
@@ -444,20 +444,21 @@ trait DisplayTrait
 		$scriptOptions   = array_merge(
 			$scriptOptions,
 			[
-				'suffix'   => JDEBUG ? '' : '.min',
-				'baseURL'  => Uri::root(true) . '/media/vendor/tinymce',
-				'directionality' => $language->isRtl() ? 'rtl' : 'ltr',
-				'language' => $langPrefix,
+				'suffix'                      => JDEBUG ? '' : '.min',
+				'baseURL'                     => Uri::root(true) . '/media/vendor/tinymce',
+				'directionality'              => $language->isRtl() ? 'rtl' : 'ltr',
+				'language'                    => $langPrefix,
 				'autosave_restore_when_empty' => false,
-				'skin'     => $skin,
-				'theme'    => $theme,
-				'schema'   => 'html5',
+				'skin'                        => $skin,
+				'theme'                       => $theme,
+				'schema'                      => 'html5',
 
 				// Toolbars
-				'menubar'  => empty($menubar)  ? false : implode(' ', array_unique($menubar)),
+				'menubar' => empty($menubar)  ? false : implode(' ', array_unique($menubar)),
 				'toolbar' => empty($toolbar) ? null  : 'jxtdbuttons ' . implode(' ', $toolbar),
 
-				'plugins'  => implode(',', array_unique($plugins)),
+				// Plugins
+				'plugins' => implode(',', array_unique($plugins)),
 
 				// Quickbars
 				'quickbars_image_toolbar'     => false,
@@ -465,11 +466,10 @@ trait DisplayTrait
 				'quickbars_selection_toolbar' => 'bold italic underline | H2 H3 | link blockquote',
 
 				// Cleanup/Output
-				'browser_spellcheck' => true,
-				'entity_encoding'    => $levelParams->get('entity_encoding', 'raw'),
-				'verify_html'        => !$ignore_filter,
-				'paste_as_text'      => (bool) $levelParams->get('paste_as_text', false),
-
+				'browser_spellcheck'      => true,
+				'entity_encoding'         => $levelParams->get('entity_encoding', 'raw'),
+				'verify_html'             => !$ignore_filter,
+				'paste_as_text'           => (bool) $levelParams->get('paste_as_text', false),
 				'valid_elements'          => $valid_elements,
 				'extended_valid_elements' => implode(',', $elements),
 				'invalid_elements'        => $invalid_elements,
@@ -522,7 +522,7 @@ trait DisplayTrait
 			$scriptOptions['forced_root_block'] = 'p';
 		}
 
-		$scriptOptions['rel_list'] = [
+		$scriptOptions['link_rel_list'] = [
 			['title' => 'None', 'value' => ''],
 			['title' => 'Alternate', 'value' => 'alternate'],
 			['title' => 'Author', 'value' => 'author'],
