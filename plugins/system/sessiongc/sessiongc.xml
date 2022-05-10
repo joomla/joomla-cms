@@ -2,7 +2,7 @@
 <extension type="plugin" group="system" method="upgrade">
 	<name>plg_system_sessiongc</name>
 	<author>Joomla! Project</author>
-	<creationDate>February 2018</creationDate>
+	<creationDate>2018-02</creationDate>
 	<copyright>(C) 2018 Open Source Matters, Inc.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
