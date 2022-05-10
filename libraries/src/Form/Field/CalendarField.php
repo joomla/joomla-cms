@@ -274,7 +274,17 @@ class CalendarField extends FormField
 		{
 			$tz = date_default_timezone_get();
 			date_default_timezone_set('UTC');
-			$this->value = strftime($this->format, strtotime($this->value));
+
+			if ($this->filterFormat)
+			{
+				$date = \DateTimeImmutable::createFromFormat('U', strtotime($this->value));
+				$this->value = $date->format($this->filterFormat);
+			}
+			else
+			{
+				$this->value = strftime($this->format, strtotime($this->value));
+			}
+
 			date_default_timezone_set($tz);
 		}
 		else
