@@ -461,7 +461,7 @@ steps:
       - rclone config create nightly sftp host $nightly_host user $nightly_user pass $nightly_password port 22 use_insecure_cipher true disable_hashcheck true
       - rclone copy ./build/tmp/packages/ nightly:/home/devj/public_html/nightlies/ -v
 
-when:
+trigger:
   event:
     - cron
   cron:
