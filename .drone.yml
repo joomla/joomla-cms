@@ -417,9 +417,60 @@ steps:
       branch:
         - 4.2-dev
 
+---
+kind: pipeline
+name: nightly_build
+
+steps:
+  - name: prepare
+    image: joomlaprojects/docker-images:packager
+    commands:
+      - export MINORVERSION=${DRONE_BRANCH%-*}
+      - composer --version
+      - mkdir -p transfer
+      - date +%s > transfer/$MINORVERSION-time.txt
+      - git rev-parse origin/$MINORVERSION-dev > transfer/$MINORVERSION.txt
+      - php build/build.php --remote=origin/$MINORVERSION-dev --exclude-gzip --exclude-bzip2
+      - mv build/tmp/packages/* transfer/
+
+  - name: cleanup
+    image: appleboy/drone-ssh
+    environment:
+      ssh_password:
+        from_secret: nightly_password
+      ssh_user:
+        from_secret: nightly_user
+      ssh_host:
+        from_secret: nightly_host
+    commands:
+      - export MINORVERSION=${DRONE_BRANCH%-*}
+      - rm -f public_html/nightlies/Joomla_$MINORVERSION.*
+      - rm -rf public_html/cache/com_content
+
+  - name: upload
+    image: debian:stable-slim
+    environment:
+      ssh_password:
+        from_secret: nightly_password
+      ssh_user:
+        from_secret: nightly_user
+      ssh_host:
+        from_secret: nightly_host
+    commands:
+      - apt update && apt install -y rclone openssh-client
+      - rclone config create nightly sftp host $nightly_host user $nightly_user pass $nightly_password port 22 use_insecure_cipher true disable_hashcheck true
+      - rclone copy ./build/tmp/packages/ nightly:/home/devj/public_html/nightlies/ -v
+
+when:
+  event:
+    - cron
+  cron:
+    - nightly
+  repo:
+    - joomla/joomla-cms
 
 ---
 kind: signature
-hmac: adfaa112f82d0487b292e9b22400b04abfbf56eb44516bc764abc1804a6f472b
+hmac: 520aa3d9cf9823ce45f897f51bcee2dbd0dacd03b088ad8901055fc92d0408b3
 
 ...
