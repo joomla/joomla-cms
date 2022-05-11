@@ -15,7 +15,7 @@
 			type="text"
 			label="COM_CONTACT_FIELD_NAME_LABEL"
 			required="true"
-		 />
+		/>
 
 		<field
 			name="alias"
@@ -167,7 +167,7 @@
 			label="JFIELD_META_KEYWORDS_LABEL"
 			rows="3"
 			cols="30"
-		 />
+		/>
 
 		<field
 			name="metadesc"

@@ -246,7 +246,7 @@ class SetConfigurationCommand extends AbstractCommand
 		$this->addArgument(
 			'options',
 			InputArgument::REQUIRED | InputArgument::IS_ARRAY,
-			'All options you want to set'
+			'All the options you want to set'
 		);
 
 		$help = "<info>%command.name%</info> sets the value for a configuration option
