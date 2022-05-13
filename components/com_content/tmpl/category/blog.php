@@ -30,6 +30,9 @@ $beforeDisplayContent = trim(implode("\n", $results));
 $results = $app->triggerEvent('onContentAfterDisplay', array($this->category->extension . '.categories', &$this->category, &$this->params, 0));
 $afterDisplayContent = trim(implode("\n", $results));
 
+$results = $app->triggerEvent('onContentAfterItems', array($this->category->extension . '.categories', &$this->category, &$this->params, 0));
+$afterDisplayItems = trim(implode("\n", $results));
+
 $htag    = $this->params->get('show_page_heading') ? 'h2' : 'h1';
 
 ?>
@@ -124,6 +127,8 @@ $htag    = $this->params->get('show_page_heading') ? 'h2' : 'h1';
 			<?php echo $this->loadTemplate('links'); ?>
 		</div>
 	<?php endif; ?>
+
+	<?php echo $afterDisplayItems; ?>
 
 	<?php if ($this->maxLevel != 0 && !empty($this->children[$this->category->id])) : ?>
 		<div class="com-content-category-blog__children cat-children">
