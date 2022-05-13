@@ -231,7 +231,7 @@ $afterDisplayItems = trim(implode("\n", $results));
 		<?php echo $item->event->afterDisplayContent; ?>
 	</div>
 	<?php endforeach; ?>
-</div>	
+</div>
 
 <?php echo $afterDisplayItems; ?>
 
