@@ -152,7 +152,7 @@ class CaptiveController extends BaseController
 		{
 			TfaHelper::triggerEvent(new GenericEvent('onComUsersCaptiveValidateInvalidMethod'));
 
-			throw new RuntimeException(Text::_('COM_USERS_ERR_INVALID_METHOD'), 500);
+			throw new RuntimeException(Text::_('COM_USERS_TFA_INVALID_METHOD'), 500);
 		}
 
 		// Validate the code
@@ -210,7 +210,7 @@ class CaptiveController extends BaseController
 		{
 			// The code is wrong. Display an error and go back.
 			$captiveURL = Route::_('index.php?option=com_users&view=captive&record_id=' . $recordId, false);
-			$message    = Text::_('COM_USERS_ERR_INVALID_CODE');
+			$message    = Text::_('COM_USERS_TFA_INVALID_CODE');
 			$this->setRedirect($captiveURL, $message, 'error');
 
 			TfaHelper::triggerEvent(new GenericEvent('onComUsersCaptiveValidateFailed', [$record->title]));

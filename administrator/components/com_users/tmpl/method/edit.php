@@ -64,8 +64,8 @@ $userId   = (int) $this->user->id ?? 0;
 		<div class="row mb-3">
 			<label class="col-sm-3 col-form-label hasTooltip"
 				for="com-users-method-edit-title"
-				title="<?php echo $this->escape(Text::_('COM_USERS_LBL_EDIT_FIELD_TITLE_DESC')) ?>">
-				<?php echo Text::_('COM_USERS_LBL_EDIT_FIELD_TITLE'); ?>
+				title="<?php echo $this->escape(Text::_('COM_USERS_TFA_EDIT_FIELD_TITLE_DESC')) ?>">
+				<?php echo Text::_('COM_USERS_TFA_EDIT_FIELD_TITLE'); ?>
 			</label>
 			<div class="col-sm-9">
 				<input type="text"
@@ -73,7 +73,7 @@ $userId   = (int) $this->user->id ?? 0;
 						id="com-users-method-edit-title"
 						name="title"
 						value="<?php echo $this->escape($this->record->title) ?>"
-						placeholder="<?php echo Text::_('COM_USERS_LBL_EDIT_FIELD_TITLE_DESC') ?>">
+						placeholder="<?php echo Text::_('COM_USERS_TFA_EDIT_FIELD_TITLE_DESC') ?>">
 			</div>
 		</div>
 
@@ -82,7 +82,7 @@ $userId   = (int) $this->user->id ?? 0;
 				<div class="form-check">
 					<input class="form-check-input" type="checkbox" id="com-users-is-default-method" <?php echo $this->record->default ? 'checked="checked"' : ''; ?> name="default">
 					<label class="form-check-label" for="com-users-is-default-method">
-						<?php echo Text::_('COM_USERS_LBL_EDIT_FIELD_DEFAULT'); ?>
+						<?php echo Text::_('COM_USERS_TFA_EDIT_FIELD_DEFAULT'); ?>
 					</label>
 				</div>
 			</div>

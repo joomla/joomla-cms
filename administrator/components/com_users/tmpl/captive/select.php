@@ -23,7 +23,7 @@ $shownMethods = [];
 ?>
 <div id="com-users-select">
 	<h3 id="com-users-select-heading">
-		<?php echo Text::_('COM_USERS_HEAD_SELECT_PAGE'); ?>
+		<?php echo Text::_('COM_USERS_TFA_SELECT_PAGE_HEAD'); ?>
 	</h3>
 	<div id="com-users-select-information">
 		<p>

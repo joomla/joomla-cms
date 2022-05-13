@@ -22,16 +22,16 @@ use Joomla\Component\Users\Administrator\View\Methods\HtmlView;
 <div id="com-users-methods-list">
 	<?php if (!$this->isAdmin): ?>
 	<h3 id="com-users-methods-list-head">
-		<?php echo Text::_('COM_USERS_HEAD_FIRSTTIME_PAGE'); ?>
+		<?php echo Text::_('COM_USERS_TFA_FIRSTTIME_PAGE_HEAD'); ?>
 	</h3>
 	<?php endif; ?>
 	<div id="com-users-methods-list-instructions" class="alert alert-info">
 		<h2 class="alert-heading">
 			<span class="fa fa-shield-alt" aria-hidden="true"></span>
-			<?php echo Text::_('COM_USERS_LBL_FIRSTTIME_INSTRUCTIONS_HEAD'); ?>
+			<?php echo Text::_('COM_USERS_TFA_FIRSTTIME_INSTRUCTIONS_HEAD'); ?>
 		</h2>
 		<p>
-			<?php echo Text::_('COM_USERS_LBL_FIRSTTIME_INSTRUCTIONS_WHATITDOES'); ?>
+			<?php echo Text::_('COM_USERS_TFA_FIRSTTIME_INSTRUCTIONS_WHATITDOES'); ?>
 		</p>
 		<a href="<?php echo Route::_(
 				'index.php?option=com_users&task=methods.dontshowthisagain' .
@@ -40,7 +40,7 @@ use Joomla\Component\Users\Administrator\View\Methods\HtmlView;
 				'&' . Factory::getApplication()->getFormToken() . '=1'
 		)?>"
 		   class="btn btn-danger w-100">
-			<?php echo Text::_('COM_USERS_LBL_FIRSTTIME_NOTINTERESTED'); ?>
+			<?php echo Text::_('COM_USERS_TFA_FIRSTTIME_NOTINTERESTED'); ?>
 		</a>
 	</div>
 

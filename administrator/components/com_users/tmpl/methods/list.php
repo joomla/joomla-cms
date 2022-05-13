@@ -39,7 +39,7 @@ $model = $this->getModel();
 						<?php echo $method['display'] ?>
 						<?php if ($this->defaultMethod == $methodName): ?>
 							<span id="com-users-methods-list-method-default-tag" class="badge bg-info me-1">
-							<?php echo Text::_('COM_USERS_LBL_LIST_DEFAULTTAG') ?>
+							<?php echo Text::_('COM_USERS_TFA_LIST_DEFAULTTAG') ?>
 							</span>
 						<?php endif; ?>
 					</h4>
@@ -61,16 +61,16 @@ $model = $this->getModel();
 										<div class="alert alert-info">
 											<h3 class="alert-heading">
 												<span class="icon icon-info-circle icon-info-sign" aria-hidden="true"></span>
-												<?php echo Text::sprintf('COM_USERS_LBL_OTEP_PRINT_PROMPT_HEAD', Route::_('index.php?option=com_users&task=method.edit&id=' . (int) $record->id . ($this->returnURL ? '&returnurl=' . $this->escape(urlencode($this->returnURL)) : '') . '&user_id=' . $this->user->id)) ?>
+												<?php echo Text::sprintf('COM_USERS_TFA_OTEP_PRINT_PROMPT_HEAD', Route::_('index.php?option=com_users&task=method.edit&id=' . (int) $record->id . ($this->returnURL ? '&returnurl=' . $this->escape(urlencode($this->returnURL)) : '') . '&user_id=' . $this->user->id)) ?>
 											</h3>
 											<p class="text-muted">
-												<?php echo Text::_('COM_USERS_LBL_OTEP_PRINT_PROMPT') ?>
+												<?php echo Text::_('COM_USERS_TFA_OTEP_PRINT_PROMPT') ?>
 											</p>
 										</div>
 									<?php else: ?>
 										<div class="com-users-methods-list-method-record-title-container">
 											<?php if ($record->default): ?>
-												<span id="com-users-methods-list-method-default-badge-small" class="badge bg-info me-1 hasTooltip" title="<?php echo $this->escape(Text::_('COM_USERS_LBL_LIST_DEFAULTTAG')) ?>"><span class="icon icon-star"></span></span>
+												<span id="com-users-methods-list-method-default-badge-small" class="badge bg-info me-1 hasTooltip" title="<?php echo $this->escape(Text::_('COM_USERS_TFA_LIST_DEFAULTTAG')) ?>"><span class="icon icon-star"></span></span>
 											<?php endif; ?>
 											<span class="com-users-methods-list-method-record-title">
 												<?php echo $this->escape($record->title); ?>
@@ -113,7 +113,7 @@ $model = $this->getModel();
 						<a href="<?php echo Route::_('index.php?option=com_users&task=method.add&method=' . $this->escape(urlencode($method['name'])) . ($this->returnURL ? '&returnurl=' . $this->escape(urlencode($this->returnURL)) : '') . '&user_id=' . $this->user->id)?>"
 						   class="com-users-methods-list-method-addnew btn btn-primary"
 						>
-							<?php echo Text::sprintf('COM_USERS_LBL_LIST_ADD_A', $method['display']) ?>
+							<?php echo Text::sprintf('COM_USERS_TFA_ADD_AUTHENTICATOR_OF_TYPE', $method['display']) ?>
 						</a>
 					</div>
 				<?php endif; ?>

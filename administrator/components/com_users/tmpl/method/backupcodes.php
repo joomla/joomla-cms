@@ -62,12 +62,12 @@ if ($this->record->method != 'backupcodes')
 </table>
 
 <p>
-	<?php echo Text::_('COM_USERS_LBL_OTEPS_RESET_INFO'); ?>
+	<?php echo Text::_('COM_USERS_TFA_OTEPS_RESET_INFO'); ?>
 </p>
 
 <a class="btn btn-danger" href="<?php echo Route::_(sprintf("index.php?option=com_users&task=method.regenbackupcodes&user_id=%s&%s=1%s", $this->user->id, Factory::getApplication()->getFormToken(), empty($this->returnURL) ? '' : '&returnurl=' . $this->returnURL)) ?>">
 	<span class="icon icon-refresh"></span>
-	<?php echo Text::_('COM_USERS_LBL_OTEPS_RESET'); ?>
+	<?php echo Text::_('COM_USERS_TFA_OTEPS_RESET'); ?>
 </a>
 
 <a href="<?php echo $cancelURL ?>"
