@@ -9,6 +9,9 @@
 
 defined('_JEXEC') or die;
 
+$results = $app->triggerEvent('onContentAfterItems', array($this->category->extension . '.categories', &$this->category, &$this->params, 0));
+$afterDisplayItems = trim(implode("\n", $results));
+
 ?>
 <div class="blog-featured" itemscope itemtype="https://schema.org/Blog">
 	<?php if ($this->params->get('show_page_heading') != 0) : ?>
@@ -59,6 +62,8 @@ defined('_JEXEC') or die;
 			<?php echo $this->loadTemplate('links'); ?>
 		</div>
 	<?php endif; ?>
+
+	<?php echo $afterDisplayItems; ?>
 
 	<?php if ($this->params->def('show_pagination', 2) == 1  || ($this->params->get('show_pagination') == 2 && $this->pagination->pagesTotal > 1)) : ?>
 		<div class="w-100">
