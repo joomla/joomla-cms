@@ -11,9 +11,6 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Layout\LayoutHelper;
 
-$results = Factory::getApplication()->triggerEvent('onContentAfterItems', array('com_content.archive', &$item, &$item->params, 0));
-$item->event->afterDisplayItems = trim(implode("\n", $results));
-
 ?>
 <div class="com-content-category category-list">
 
@@ -21,7 +18,5 @@ $item->event->afterDisplayItems = trim(implode("\n", $results));
 $this->subtemplatename = 'articles';
 echo LayoutHelper::render('joomla.content.category_default', $this);
 ?>
-	
-<?php echo $afterDisplayItems; ?>
 
 </div>
