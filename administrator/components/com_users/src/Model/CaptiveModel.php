@@ -56,7 +56,7 @@ class CaptiveModel extends BaseDatabaseModel
 	 *
 	 * @since __DEPLOY_VERSION__
 	 */
-	public function killAllModules(CMSApplication $app = null): void
+	public function suppressAllModules(CMSApplication $app = null): void
 	{
 		if (is_null($app))
 		{
