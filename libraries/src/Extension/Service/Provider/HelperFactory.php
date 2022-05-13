@@ -36,7 +36,7 @@ class HelperFactory implements ServiceProviderInterface
 	 *
 	 * @param   string  $namespace  The namespace
 	 *
-	 * @since   HelperFactory
+	 * @since   4.0.0
 	 */
 	public function __construct(string $namespace)
 	{

@@ -14,6 +14,10 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Object\CMSObject;
+use Joomla\Database\DatabaseAwareInterface;
+use Joomla\Database\DatabaseAwareTrait;
+use Joomla\Database\DatabaseInterface;
+use Joomla\Database\Exception\DatabaseNotFoundException;
 use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
 
@@ -30,6 +34,8 @@ use Joomla\Utilities\ArrayHelper;
  */
 class Form
 {
+	use DatabaseAwareTrait;
+
 	/**
 	 * The Registry data store for form fields during display.
 	 *
@@ -1612,6 +1618,19 @@ class Form
 
 		// Load the FormField object for the field.
 		$field = FormHelper::loadFieldType($type);
+
+		if ($field instanceof DatabaseAwareInterface)
+		{
+			try
+			{
+				$field->setDatabase($this->getDatabase());
+			}
+			catch (DatabaseNotFoundException $e)
+			{
+				@trigger_error(sprintf('Database must be set, this will not be caught anymore in 5.0.'), E_USER_DEPRECATED);
+				$field->setDatabase(Factory::getContainer()->get(DatabaseInterface::class));
+			}
+		}
 
 		// If the object could not be loaded, get a text field object.
 		if ($field === false)
