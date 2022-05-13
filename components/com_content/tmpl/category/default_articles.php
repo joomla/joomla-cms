@@ -31,6 +31,9 @@ $listOrder  = $this->escape($this->state->get('list.ordering'));
 $listDirn   = $this->escape($this->state->get('list.direction'));
 $langFilter = false;
 
+$results = Factory::getApplication()->triggerEvent('onContentAfterItems', array('com_content.category', &$this, &$this->params));
+$afterDisplayItems = trim(implode("\n", $results));
+
 // Tags filtering based on language filter
 if (($this->params->get('filter_field') === 'tag') && (Multilanguage::isEnabled()))
 {
@@ -327,6 +330,8 @@ $currentDate = Factory::getDate()->format('Y-m-d H:i:s');
 	<?php if ($this->category->getParams()->get('access-create')) : ?>
 		<?php echo HTMLHelper::_('contenticon.create', $this->category, $this->category->params); ?>
 	<?php endif; ?>
+
+	<?php echo $afterDisplayItems; ?>
 
 	<?php // Add pagination links ?>
 	<?php if (!empty($this->items)) : ?>
