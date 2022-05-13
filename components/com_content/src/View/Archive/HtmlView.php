@@ -161,6 +161,9 @@ class HtmlView extends BaseHtmlView
 
 			$results = Factory::getApplication()->triggerEvent('onContentAfterDisplay', array('com_content.archive', &$item, &$item->params, 0));
 			$item->event->afterDisplayContent = trim(implode("\n", $results));
+
+			$results = Factory::getApplication()->triggerEvent('onContentAfterItems', array('com_content.archive', &$item, &$item->params, 0));
+			$item->event->afterDisplayItems = trim(implode("\n", $results));
 		}
 
 		$form = new \stdClass;
