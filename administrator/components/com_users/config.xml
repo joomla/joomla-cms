@@ -305,6 +305,122 @@
 		</fieldset>
 	</fieldset>
 
+	<!-- TODO Two Factor Authentication -->
+	<fieldset
+		name="twofactorauth"
+		label="COM_USERS_CONFIG_TWOFACTORAUTH_SETTINGS_LABEL"
+		description="COM_USERS_CONFIG_TWOFACTORAUTH_SETTINGS_DESC"
+		addfieldprefix="Joomla\Component\Users\Administrator\Field"
+	>
+		<field name="allowed_positions_frontend"
+			   type="modulesposition"
+			   default=""
+			   layout="joomla.form.field.list-fancy-select"
+			   size="7"
+			   label="COM_USERS_CONFIG_ALLOWED_POSITIONS_FRONTEND_LABEL"
+			   description="COM_USERS_CONFIG_ALLOWED_POSITIONS_FRONTEND_DESC"
+			   client="site"
+			   multiple="1"
+			   class="input-large"/>
+
+		<field name="frontend_show_title"
+			   type="radio"
+			   layout="joomla.form.field.radio.switcher"
+			   default="1"
+			   label="COM_USERS_CONFIG_FRONTEND_SHOW_TITLE_LABEL"
+			   description="COM_USERS_CONFIG_FRONTEND_SHOW_TITLE_DESC"
+		>
+			<option value="0">JNo</option>
+			<option value="1">JYes</option>
+		</field>
+
+		<field name="allowed_positions_backend"
+			   type="modulesposition"
+			   default=""
+			   size="7"
+			   layout="joomla.form.field.list-fancy-select"
+			   label="COM_USERS_CONFIG_ALLOWED_POSITIONS_BACKEND_LABEL"
+			   description="COM_USERS_CONFIG_ALLOWED_POSITIONS_BACKEND_DESC"
+			   client="administrator"
+			   multiple="1"
+			   class="input-large"/>
+
+		<field name="neverTSVUserGroups"
+			   type="UserGroupList"
+			   layout="joomla.form.field.list-fancy-select"
+			   checksuperusergroup="1"
+			   default=""
+			   multiple="1"
+			   label="COM_USERS_CONFIG_NEVERTSVUSERGROUPS_LABEL"
+			   description="COM_USERS_CONFIG_NEVERTSVUSERGROUPS_DESC"
+		>
+			<option value="0">COM_USERS_CONFIG_LBL_NOGROUP</option>
+		</field>
+
+		<field name="forceTSVUserGroups"
+			   type="UserGroupList"
+			   layout="joomla.form.field.list-fancy-select"
+			   checksuperusergroup="1"
+			   default=""
+			   multiple="1"
+			   label="COM_USERS_CONFIG_FORCETSVUSERGROUPS_LABEL"
+			   description="COM_USERS_CONFIG_FORCETSVUSERGROUPS_DESC"
+		>
+			<option value="0">COM_USERS_CONFIG_LBL_NOGROUP</option>
+		</field>
+
+		<field name="captive_template"
+			   type="templatestyle"
+			   label="COM_USERS_CONFIG_FRONTEND_CAPTIVE_TEMPLATE_LABEL"
+			   description="COM_USERS_CONFIG_FRONTEND_CAPTIVE_TEMPLATE_DESC"
+			   client="site"
+		>
+			<option value="">JGLOBAL_USE_GLOBAL</option>
+		</field>
+
+		<field
+				name="tfaonsilent"
+				type="radio"
+				layout="joomla.form.field.radio.switcher"
+				label="COM_USERS_CONFIG_TFAONSILENT_LABEL"
+				description="COM_USERS_CONFIG_TFAONSILENT_DESC"
+				default="0"
+		>
+			<option value="0">JNo</option>
+			<option value="1">JYes</option>
+		</field>
+
+		<field
+				name="silentresponses"
+				type="text"
+				label="COM_USERS_CONFIG_SILENTRESPONSES_LABEL"
+				description="COM_USERS_CONFIG_SILENTRESPONSES_DESC"
+				default="cookie, passwordless"
+				showon="2svonsilent:0"
+		/>
+
+		<field
+				name="tfaredirectonlogin"
+				type="radio"
+				layout="joomla.form.field.radio.switcher"
+				label="COM_USERS_CONFIG_REDIRECTONLOGIN_LABEL"
+				description="COM_USERS_CONFIG_REDIRECTONLOGIN_DESC"
+				default="1"
+		>
+			<option value="0">JNo</option>
+			<option value="1">JYes</option>
+		</field>
+
+		<field
+				name="tfaredirecturl"
+				type="text"
+				label="COM_USERS_CONFIG_REDIRECTURL_LABEL"
+				description="COM_USERS_CONFIG_REDIRECTURL_DESC"
+				default=""
+				showon="redirectonlogin:1"
+		/>
+	</fieldset>
+
 	<fieldset
 		name="permissions"
 		label="JCONFIG_PERMISSIONS_LABEL"
