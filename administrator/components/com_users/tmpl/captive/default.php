@@ -63,18 +63,8 @@ $model           = $this->getModel();
 
 		<div id="users-tfa-captive-form-method-fields">
 			<?php if ($this->renderOptions['field_type'] == 'custom'): ?>
-				<?php echo  $this->renderOptions['html']; ?>
-			<?php else:
-				$js = <<< JS
-; // Fix broken third party Javascript...
-window.addEventListener("DOMContentLoaded", function() {
-	document.getElementById('users-tfa-code').focus();
-});
-
-JS;
-				$this->document->addScriptDeclaration($js);
-
-			?>
+				<?php echo $this->renderOptions['html']; ?>
+			<?php else: ?>
 				<div class="row mb-3">
 					<?php if ($this->renderOptions['label']): ?>
 					<label for="users-tfa-code" class="col-sm-3 col-form-label">

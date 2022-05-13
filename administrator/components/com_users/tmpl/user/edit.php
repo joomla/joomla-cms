@@ -19,8 +19,7 @@ use Joomla\Component\Users\Administrator\Helper\UsersHelper;
 /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
 $wa = $this->document->getWebAssetManager();
 $wa->useScript('keepalive')
-	->useScript('form.validate')
-	->useScript('com_users.two-factor-switcher');
+	->useScript('form.validate');
 
 $input = Factory::getApplication()->input;
 
@@ -65,6 +64,7 @@ $this->useCoreUI = true;
 
 		<?php if (!empty($this->tfaform) && $this->item->id) : ?>
 		<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'twofactorauth', Text::_('COM_USERS_USER_TWO_FACTOR_AUTH')); ?>
+			<!-- TODO Display the new TFA setup here -->
 			<fieldset class="options-form">
 				<legend><?php echo Text::_('COM_USERS_USER_TWO_FACTOR_AUTH'); ?></legend>
 				<div class="control-group">

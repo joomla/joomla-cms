@@ -176,6 +176,12 @@ class HtmlView extends BaseHtmlView
 				$this->renderOptions      = $model->loadCaptiveRenderOptions($this->record);
 				$this->allowEntryBatching = $this->renderOptions['allowEntryBatching'] ?? 0;
 
+				if ($this->renderOptions['field_type'] !== 'custom')
+				{
+					$this->document->getWebAssetManager()
+						->useScript('com_users.two-factor-focus');
+				}
+
 				TfaHelper::triggerEvent(
 					new GenericEvent(
 						'onComUsersCaptiveShowCaptive',
