@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 
-$results = $app->triggerEvent('onContentAfterItems', array($this->category->extension . '.categories', &$this->category, &$this->params, 0));
+$results = $app->triggerEvent('onContentAfterItems', array($this->category->extension . '.featured', &$this->category, &$this->params, 0));
 $afterDisplayItems = trim(implode("\n", $results));
 
 ?>
