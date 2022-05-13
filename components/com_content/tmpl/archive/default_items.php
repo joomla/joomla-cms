@@ -16,7 +16,7 @@ use Joomla\Component\Content\Site\Helper\RouteHelper;
 
 $params = $this->params;
 
-$results = Factory::getApplication()->triggerEvent('onContentAfterItems', array('com_content.archive', &$this, &$params));
+$results = Factory::getApplication()->triggerEvent('onContentAfterItems', array('com_content.archive', &$this, &$this->params));
 $afterDisplayItems = trim(implode("\n", $results));
 
 ?>
