@@ -15,6 +15,10 @@ use Joomla\CMS\Router\Route;
 use Joomla\Component\Content\Site\Helper\RouteHelper;
 
 $params = $this->params;
+
+$results = Factory::getApplication()->triggerEvent('onContentAfterItems', array('com_content.archive', &$this, &$params));
+$afterDisplayItems = trim(implode("\n", $results));
+
 ?>
 <div id="archive-items" class="com-content-archive__items">
 	<?php foreach ($this->items as $i => $item) : ?>
@@ -227,7 +231,10 @@ $params = $this->params;
 		<?php echo $item->event->afterDisplayContent; ?>
 	</div>
 	<?php endforeach; ?>
-</div>
+</div>	
+
+<?php echo $afterDisplayItems; ?>
+
 <div class="com-content-archive__navigation w-100">
 	<?php if ($this->params->def('show_pagination_results', 1)) : ?>
 		<p class="com-content-archive__counter counter float-end pt-3 pe-2">
