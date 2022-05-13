@@ -279,6 +279,7 @@ class UserModel extends AdminModel
 		}
 
 		// Handle the two factor authentication setup
+		// TODO Refactor this
 		if (isset($data['twofactor']['method']))
 		{
 			$twoFactorMethod = $data['twofactor']['method'];
@@ -1211,6 +1212,8 @@ class UserModel extends AdminModel
 	 *
 	 * @since   3.2
 	 * @throws  \Exception
+	 *
+	 * @todo Refactor me
 	 */
 	public function getTwofactorform($userId = null)
 	{
@@ -1303,6 +1306,8 @@ class UserModel extends AdminModel
 	 *
 	 * @since   3.2
 	 * @throws  \Exception
+	 *
+	 * @todo Refactor me
 	 */
 	public function isValidSecretKey($userId, $secretKey, $options = array())
 	{

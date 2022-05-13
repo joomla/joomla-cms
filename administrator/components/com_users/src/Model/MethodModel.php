@@ -93,7 +93,7 @@ class MethodModel extends BaseDatabaseModel
 
 		$renderOptions = new SetupRenderOptions;
 
-		$results = TfaHelper::triggerEvent(new GenericEvent('onTfaGetSetup', ['record' => $this->getRecord($user)]));
+		$results = TfaHelper::triggerEvent(new GenericEvent('onUserTwofactorGetSetup', ['record' => $this->getRecord($user)]));
 
 		if (empty($results))
 		{

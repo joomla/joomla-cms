@@ -358,6 +358,7 @@ class ProfileModel extends FormModel
 	 * @return  array
 	 *
 	 * @since   3.2
+	 * @todo    Refactor this
 	 */
 	public function getTwofactorform($userId = null)
 	{

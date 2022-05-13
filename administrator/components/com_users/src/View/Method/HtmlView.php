@@ -165,10 +165,6 @@ class HtmlView extends BaseHtmlView
 			$this->title = '';
 		}
 
-		// Include CSS
-		$wam = $this->document->getWebAssetManager();
-		$wam->useStyle('com_users.methods');
-
 		// Display the view
 		parent::display($tpl);
 	}

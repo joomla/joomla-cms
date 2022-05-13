@@ -102,7 +102,7 @@ class HtmlView extends BaseHtmlView
 
 		TfaHelper::triggerEvent(
 			new GenericEvent(
-				'onTfaBeforeDisplayMethods',
+				'onUserTwofactorBeforeDisplayMethods',
 				[
 					'user' => $user,
 				]
@@ -196,10 +196,6 @@ class HtmlView extends BaseHtmlView
 			ToolbarHelper::title(Text::_('COM_USERS_HEADING_TFA'), 'users user-lock');
 			$this->title = '';
 		}
-
-		// Include CSS
-		$wam = $this->document->getWebAssetManager();
-		$wam->useStyle('com_users.captive');
 
 		// Display the view
 		parent::display($tpl);

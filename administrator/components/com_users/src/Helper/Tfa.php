@@ -53,11 +53,11 @@ abstract class Tfa
 	 */
 	public static function getTfaMethods(): array
 	{
-		PluginHelper::importPlugin('tfa');
+		PluginHelper::importPlugin('twofactorauth');
 
 		if (is_null(self::$allTFAs))
 		{
-			$event = new GenericEvent('onTfaGetMethod', []);
+			$event = new GenericEvent('onUserTwofactorCallback', []);
 
 			// Get all the plugin results
 			$temp = self::triggerEvent($event);

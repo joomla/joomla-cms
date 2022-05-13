@@ -117,6 +117,8 @@ class UsersHelper extends ContentHelper
 	 *
 	 * @since   3.2.0
 	 * @throws  \Exception
+	 *
+	 * @todo Refactor this
 	 */
 	public static function getTwoFactorMethods()
 	{

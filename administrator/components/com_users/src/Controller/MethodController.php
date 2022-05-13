@@ -315,7 +315,7 @@ class MethodController extends BaseControllerAlias
 		/** @var MethodModel $model */
 		$model = $this->getModel('Method', 'Administrator');
 
-		// Ask the plugin to validate the input by calling onTfaSaveSetup
+		// Ask the plugin to validate the input by calling onUserTwofactorSaveSetup
 		$result = [];
 		$input  = $this->app->input;
 
@@ -326,7 +326,7 @@ class MethodController extends BaseControllerAlias
 		try
 		{
 			$pluginResults = TfaHelper::triggerEvent(
-				new GenericEvent('onTfaSaveSetup',
+				new GenericEvent('onUserTwofactorSaveSetup',
 					[
 						'record' => $record,
 						'input'  => $input

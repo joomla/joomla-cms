@@ -159,10 +159,6 @@ class HtmlView extends BaseHtmlView
 			);
 		}
 
-		// Include CSS
-		$this->document->getWebAssetManager()
-			->useStyle('com_users.methods');
-
 		// Back-end: always show a title in the 'title' module position, not in the page body
 		if ($this->isAdmin)
 		{

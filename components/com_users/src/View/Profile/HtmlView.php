@@ -118,7 +118,9 @@ class HtmlView extends BaseHtmlView
 		$this->form	        = $this->getModel()->getForm(new CMSObject(array('id' => $user->id)));
 		$this->state            = $this->get('State');
 		$this->params           = $this->state->get('params');
+		// @todo    Refactor this
 		$this->twofactorform    = $this->get('Twofactorform');
+		// @todo    Refactor this
 		$this->twofactormethods = UsersHelper::getTwoFactorMethods();
 		$this->otpConfig        = $this->get('OtpConfig');
 		$this->db               = Factory::getDbo();

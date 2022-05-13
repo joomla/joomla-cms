@@ -65,9 +65,9 @@ class CallbackController extends BaseController
 			throw new RuntimeException(Text::_('JERROR_ALERTNOAUTHOR'), 403);
 		}
 
-		PluginHelper::importPlugin('loginguard');
+		PluginHelper::importPlugin('twofactorauth');
 
-		TfaHelper::triggerEvent(new GenericEvent('onTfaCallback', ['method' => $method]));
+		TfaHelper::triggerEvent(new GenericEvent('onUserTwofactorCallback', ['method' => $method]));
 
 		/**
 		 * The first plugin to handle the request should either redirect or close the application. If we are still here
