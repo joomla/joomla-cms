@@ -97,6 +97,10 @@ td .form-control {
   &[id^=id-skip-] {
     right: auto;
   }
+
+  &[id^=cbunpublish] {
+    right: auto;
+  }
 }
 
 // reveal associated tooltip on focus

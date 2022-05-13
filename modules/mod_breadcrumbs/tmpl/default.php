@@ -17,7 +17,7 @@ use Joomla\CMS\WebAsset\WebAssetManager;
 
 ?>
 <nav class="mod-breadcrumbs__wrapper" aria-label="<?php echo htmlspecialchars($module->title, ENT_QUOTES, 'UTF-8'); ?>">
-	<ol itemscope itemtype="https://schema.org/BreadcrumbList" class="mod-breadcrumbs breadcrumb px-3 py-2">
+	<ol class="mod-breadcrumbs breadcrumb px-3 py-2">
 		<?php if ($params->get('showHere', 1)) : ?>
 			<li class="mod-breadcrumbs__here float-start">
 				<?php echo Text::_('MOD_BREADCRUMBS_HERE'); ?>&#160;
@@ -78,14 +78,30 @@ use Joomla\CMS\WebAsset\WebAssetManager;
 
 	foreach ($list as $key => $item)
 	{
-		$data['itemListElement'][] = [
-				'@type'    => 'ListItem',
-				'position' => $key + 1,
-				'item'     => [
-						'@id'  => $item->link ? Route::_($item->link, true, Route::TLS_IGNORE, true) : Route::_(Uri::getInstance()),
-						'name' => $item->name
-				]
-		];
+		// Only add item to JSON if it has a valid link, otherwise skip it.
+		if (!empty($item->link))
+		{
+			$data['itemListElement'][] = [
+					'@type'    => 'ListItem',
+					'position' => $key + 1,
+					'item'     => [
+							'@id'  => Route::_($item->link, true, Route::TLS_IGNORE, true),
+							'name' => $item->name,
+					],
+			];
+		}
+		elseif ($key === $last_item_key)
+		{
+			// Add the last item (current page) to JSON, but without a link.
+			// Google accepts items without a URL only as the current page.
+			$data['itemListElement'][] = [
+					'@type'    => 'ListItem',
+					'position' => $key + 1,
+					'item'     => [
+							'name' => $item->name,
+					],
+			];
+		}
 	}
 
 	/** @var WebAssetManager $wa */
