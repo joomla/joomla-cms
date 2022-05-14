@@ -161,7 +161,7 @@ abstract class Tfa
 					continue;
 				}
 
-				$method = new MethodDescriptor($method);
+				$method = $method instanceof MethodDescriptor ? $method : new MethodDescriptor($method);
 
 				if (empty($method['name']))
 				{

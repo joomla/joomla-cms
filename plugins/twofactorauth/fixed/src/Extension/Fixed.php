@@ -330,9 +330,9 @@ class Fixed extends CMSPlugin implements SubscriberInterface
 	 */
 	private function setResult(Event $event, $return)
 	{
-		$return   = $event->getArgument('result', []) ?: [];
-		$return[] = $return;
+		$result   = $event->getArgument('result', []) ?: [];
+		$result[] = $return;
 
-		$event->setArgument('result', $return);
+		$event->setArgument('result', $result);
 	}
 }
