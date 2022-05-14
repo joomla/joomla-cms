@@ -322,7 +322,7 @@ abstract class FormField
 	 * @since  3.2
 	 */
 	protected $onclick;
-
+	
 	/**
 	 * The conditions to show/hide the field.
 	 *
@@ -330,7 +330,15 @@ abstract class FormField
 	 * @since  3.7.0
 	 */
 	protected $showon;
-
+	
+	/**
+	 * The conditions to make field required or optional.
+	 *
+	 * @var    string
+	 * @since  4.2.0
+	 */
+	protected $requireon;
+	
 	/**
 	 * The parent class of the field
 	 *
@@ -458,6 +466,7 @@ abstract class FormField
 			case 'spellcheck':
 			case 'validationtext':
 			case 'showon':
+			case 'requireon':
 			case 'parentclass':
 				return $this->$name;
 
@@ -503,7 +512,7 @@ abstract class FormField
 	 */
 	public function __set($name, $value)
 	{
-		switch ($name)
+	  switch ($name)
 		{
 			case 'class':
 				// Removes spaces from left & right and extra spaces from middle
@@ -521,6 +530,7 @@ abstract class FormField
 			case 'validationtext':
 			case 'group':
 			case 'showon':
+			case 'requireon':
 			case 'parentclass':
 			case 'default':
 			case 'autocomplete':
@@ -633,7 +643,7 @@ abstract class FormField
 		{
 			return false;
 		}
-
+		
 		// Reset the input and label values.
 		$this->input = null;
 		$this->label = null;
@@ -647,7 +657,7 @@ abstract class FormField
 		$attributes = array(
 			'multiple', 'name', 'id', 'hint', 'class', 'description', 'labelclass', 'onchange', 'onclick', 'validate', 'pattern', 'validationtext',
 			'default', 'required', 'disabled', 'readonly', 'autofocus', 'hidden', 'autocomplete', 'spellcheck', 'translateHint', 'translateLabel',
-			'translate_label', 'translateDescription', 'translate_description', 'size', 'showon');
+			'translate_label', 'translateDescription', 'translate_description', 'size', 'showon', 'requireon');
 
 		$this->default = isset($element['value']) ? (string) $element['value'] : $this->default;
 
@@ -661,10 +671,11 @@ abstract class FormField
 			$this->value = $value;
 		}
 
+		
 		// Lets detect miscellaneous data attribute. For eg, data-*
 		foreach ($this->element->attributes() as $key => $value)
 		{
-			if (strpos($key, 'data-') === 0)
+		  if (strpos($key, 'data-') === 0)
 			{
 				// Data attribute key value pair
 				$this->dataAttributes[$key] = $value;
@@ -1066,14 +1077,21 @@ abstract class FormField
 				$options['hiddenDescription'] = $this->hiddenDescription;
 			}
 		}
-
+		
 		if ($this->showon)
 		{
-			$options['rel']           = ' data-showon=\'' .
-				json_encode(FormHelper::parseShowOnConditions($this->showon, $this->formControl, $this->group)) . '\'';
-			$options['showonEnabled'] = true;
+		  $options['rel']           = ' data-showon=\'' .
+				  json_encode(FormHelper::parseShowOnConditions($this->showon, $this->formControl, $this->group)) . '\'';
+				  $options['showonEnabled'] = true;
 		}
-
+		
+		if ($this->requireon)
+		{
+		  $options['rel']           = ' data-requireon=\'' .
+				  json_encode(FormHelper::parseRequireOnConditions($this->requireon, $this->formControl, $this->group)) . '\'';
+				  $options['requireonEnabled'] = true;
+		}
+		
 		$data = array(
 			'input'   => $this->getInput(),
 			'label'   => $this->getLabel(),
@@ -1347,8 +1365,8 @@ abstract class FormField
 			'validationtext' => $this->validationtext,
 			'readonly'       => $this->readonly,
 			'repeat'         => $this->repeat,
-			'required'       => (bool) $this->required,
-			'size'           => $this->size,
+		  'required'       => (bool) $this->required ||(bool) $this->requireon,
+		  'size'           => $this->size,
 			'spellcheck'     => $this->spellcheck,
 			'validate'       => $this->validate,
 			'value'          => $this->value,
