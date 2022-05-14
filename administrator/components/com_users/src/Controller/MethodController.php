@@ -104,7 +104,7 @@ class MethodController extends BaseControllerAlias
 		// Pass the return URL to the view
 		$returnURL  = $this->input->getBase64('returnurl');
 		$viewLayout = $this->input->get('layout', 'default', 'string');
-		$view       = $this->getView();
+		$view       = $this->getView('Method', 'html');
 		$view->setLayout($viewLayout);
 		$view->returnURL = $returnURL;
 		$view->user      = $user;
@@ -155,7 +155,7 @@ class MethodController extends BaseControllerAlias
 		// Pass the return URL to the view
 		$returnURL  = $this->input->getBase64('returnurl');
 		$viewLayout = $this->input->get('layout', 'default', 'string');
-		$view       = $this->getView();
+		$view       = $this->getView('Method', 'html');
 		$view->setLayout($viewLayout);
 		$view->returnURL = $returnURL;
 		$view->user      = $user;

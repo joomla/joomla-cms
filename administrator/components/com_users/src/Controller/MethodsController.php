@@ -141,7 +141,7 @@ class MethodsController extends BaseController
 
 		$returnURL  = $this->input->getBase64('returnurl');
 		$viewLayout = $this->input->get('layout', 'default', 'string');
-		$view       = $this->getView();
+		$view       = $this->getView('Methods', 'html');
 		$view->setLayout($viewLayout);
 		$view->returnURL = $returnURL;
 		$view->user      = $user;
