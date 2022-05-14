@@ -4,7 +4,7 @@
  */
 
 /**
- * JField 'showon' class
+ * JField 'requireon' class
  */
 class Requireon {
   /**
@@ -13,7 +13,6 @@ class Requireon {
    * @param {HTMLElement} cont Container element
    */
   constructor(cont) {
-
     const self = this;
     this.container = cont || document;
     this.fields = {// origin-field-name: {
@@ -25,7 +24,7 @@ class Requireon {
 
     if (this.requireonFields.length) {
       // @todo refactor this, dry
-      this.requireonFields.forEach(field => {
+      this.requireonFields.forEach((field) => {
         // Set up only once
         if (field.hasAttribute('data-requireon-initialised')) {
           return;
@@ -47,8 +46,7 @@ class Requireon {
             };
           } // Add trigger elements
 
-
-          localFields.forEach(cField => {
+          localFields.forEach((cField) => {
             if (this.fields[requireonData[0].field].origin.indexOf(cField) === -1) {
               this.fields[requireonData[0].field].origin.push(cField);
             }
@@ -71,8 +69,7 @@ class Requireon {
                 };
               } // Add trigger elements
 
-
-              localFields.forEach(cField => {
+              localFields.forEach((cField) => {
                 if (this.fields[requireonData[0].field].origin.indexOf(cField) === -1) {
                   this.fields[requireonData[0].field].origin.push(cField);
                 }
@@ -88,12 +85,10 @@ class Requireon {
 
       this.linkedOptions = this.linkedOptions.bind(this); // Attach events to referenced element, to check condition on change and keyup
 
-
-      Object.keys(this.fields).forEach(key => {
-
+      Object.keys(this.fields).forEach((key) => {
 
         if (this.fields[key].origin.length) {
-          this.fields[key].origin.forEach(elem => {
+          this.fields[key].origin.forEach((elem) => {
 
             // Initialize the requireon behaviour for the given HTMLElement
             self.linkedOptions(key); // Setup listeners
@@ -120,7 +115,7 @@ class Requireon {
    */
   linkedOptions(key) {
     // Loop through the elements that need to be either mandatory or optional
-    this.fields[key].targets.forEach(field => {
+    this.fields[key].targets.forEach((field) => {
       const elementRequireonDatas = JSON.parse(field.getAttribute('data-requireon')) || [];
       let requirefield = true;
       let itemval; // Check if target conditions are satisfied
@@ -129,7 +124,7 @@ class Requireon {
         const condition = elementRequireonData || {};
         condition.valid = 0; // Test in each of the elements in the field array if condition is valid
 
-        this.fields[key].origin.forEach(originField => {
+        this.fields[key].origin.forEach((originField) => {
           if (originField.name.replace('[]', '') !== elementRequireonData.field) {
             return;
           }
@@ -145,7 +140,7 @@ class Requireon {
 
             itemval = document.getElementById(originId).value;
           } else if (originField.nodeName === 'SELECT' && originField.hasAttribute('multiple')) {
-            itemval = Array.from(originField.querySelectorAll('option:checked')).map(el => el.value);
+            itemval = Array.from(originField.querySelectorAll('option:checked')).map((el) => el.value);
           } else {
             // Select lists, text-area etc. Note that multiple-select list returns
             // an Array here s0 we can always treat 'itemval' as an array
@@ -164,7 +159,7 @@ class Requireon {
           } // Test if any of the values of the field exists in requireon conditions
 
 
-          itemval.forEach(val => {
+          itemval.forEach((val) => {
             // ":" Equal to one or more of the values condition
             if (condition.sign === '=' && condition.values.indexOf(val) !== -1) {
               condition.valid = 1;
@@ -308,7 +303,7 @@ document.addEventListener('joomla:updated', ({
         replace.push(`[${$parent.dataset.group}]`);
       }); // Fix showon field names in a current group
 
-      elements.forEach(element => {
+      elements.forEach((element) => {
         let {
           requireon
         } = element.dataset;
