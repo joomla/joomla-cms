@@ -57,7 +57,7 @@ class Fixed extends CMSPlugin implements SubscriberInterface
 	 * @var   string
 	 * @since __DEPLOY_VERSION__
 	 */
-	private $tfaMethodName = 'totp';
+	private $tfaMethodName = 'fixed';
 
 	/**
 	 * Should I try to detect and register legacy event listeners?
