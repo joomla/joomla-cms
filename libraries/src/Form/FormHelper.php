@@ -576,4 +576,102 @@ class FormHelper
 
 		return $showOnData;
 	}
+
+
+	/**
+	 * Parse the require on conditions
+	 *
+	 * @param   string  $requireOn    Require on conditions.
+	 * @param   string  $formControl  Form name.
+	 * @param   string  $group        The dot-separated form group path.
+	 *
+	 * @return  array   Array with require on conditions.
+	 *
+	 * @since   4.2.0
+	 */
+	public static function parseRequireOnConditions($requireOn, $formControl = null, $group = null)
+	{
+	  // Process the requireon data.
+	  if (!requireOn)
+	  {
+	    return array();
+	  }
+	  
+	  $formPath = $formControl ?: '';
+	  
+	  if ($group)
+	  {
+	    $groups = explode('.', $group);
+	    
+	    // An empty formControl leads to invalid shown property
+	    // Use the 1st part of the group instead to avoid.
+	    if (empty($formPath) && isset($groups[0]))
+	    {
+	      $formPath = $groups[0];
+	      array_shift($groups);
+	    }
+	    
+	    foreach ($groups as $group)
+	    {
+	      $formPath .= '[' . $group . ']';
+	    }
+	  }
+	  
+	  $requireOnData  = array();
+	  $requireOnParts = preg_split('#(\[AND\]|\[OR\])#', $requireOn, -1, PREG_SPLIT_DELIM_CAPTURE);
+	  $op          = '';
+	  
+	  foreach ($requireOnParts as $requireOnPart)
+	  {
+	    if (($requireOnPart === '[AND]') || $requireOnPart === '[OR]')
+	    {
+	      $op = trim($requireOnPart, '[]');
+	      continue;
+	    }
+	    
+	    $compareEqual     = strpos($requireOnPart, '!:') === false;
+	    $requireOnPartBlocks = explode(($compareEqual ? ':' : '!:'), $requireOnPart, 2);
+	    
+	    $dotPos = strpos($requireOnPartBlocks[0], '.');
+	    
+	    if ($dotPos === false)
+	    {
+	      $field = $formPath ? $formPath . '[' . $requireOnPartBlocks[0] . ']' : $requireOnPartBlocks[0];
+	    }
+	    else
+	    {
+	      if ($dotPos === 0)
+	      {
+	        $fieldName = substr($requireOnPartBlocks[0], 1);
+	        $field     = $formControl ? $formControl . '[' . $fieldName . ']' : $fieldName;
+	      }
+	      else
+	      {
+	        if ($formControl)
+	        {
+	          $field = $formControl . ('[' . str_replace('.', '][', $requireOnPartBlocks[0]) . ']');
+	        }
+	        else
+	        {
+	          $groupParts = explode('.', $requireOnPartBlocks[0]);
+	          $field      = array_shift($groupParts) . '[' . join('][', $groupParts) . ']';
+	        }
+	      }
+	    }
+	    
+	    $requireOnData[] = array(
+	      'field'  => $field,
+	      'values' => explode(',', $requireOnPartBlocks[1]),
+	      'sign'   => $compareEqual === true ? '=' : '!=',
+	      'op'     => $op,
+	    );
+	    
+	    if ($op !== '')
+	    {
+	      $op = '';
+	    }
+	  }
+	  
+	  return $requireOnData;
+	}
 }
