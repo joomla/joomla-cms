@@ -9,8 +9,6 @@
 
 namespace Joomla\Plugin\Twofactorauth\Totp\Extension;
 
-defined('_JEXEC') or die;
-
 use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Encrypt\Totp as TotpHelper;
 use Joomla\CMS\Factory;
