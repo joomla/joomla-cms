@@ -40,7 +40,6 @@
 	</fields>
 
 	<fields name="list">
-		<!-- @todo: Add options for execution date(s) -->
 		<field
 			name="fullordering"
 			type="list"
