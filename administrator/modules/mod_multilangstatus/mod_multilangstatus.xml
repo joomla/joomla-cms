@@ -2,7 +2,7 @@
 <extension type="module" client="administrator" method="upgrade">
 	<name>mod_multilangstatus</name>
 	<author>Joomla! Project</author>
-	<creationDate>September 2011</creationDate>
+	<creationDate>2011-09</creationDate>
 	<copyright>(C) 2011 Open Source Matters, Inc.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
