@@ -397,16 +397,16 @@ class Totp extends CMSPlugin implements SubscriberInterface
 	 * Add a result to an event
 	 *
 	 * @param   Event  $event   The event to add a result to
-	 * @param   mixed  $result  The result value to add to the event
+	 * @param   mixed  $return  The result value to add to the event
 	 *
 	 * @return void
 	 * @since __DEPLOY_VERSION__
 	 */
-	private function setResult(Event $event, $result)
+	private function setResult(Event $event, $return)
 	{
-		$result   = $event->getArgument('result', []) ?: [];
-		$result[] = $result;
+		$return   = $event->getArgument('result', []) ?: [];
+		$return[] = $return;
 
-		$event->setArgument('result', $result);
+		$event->setArgument('result', $return);
 	}
 }
