@@ -322,7 +322,7 @@ abstract class FormField
 	 * @since  3.2
 	 */
 	protected $onclick;
-	
+
 	/**
 	 * The conditions to show/hide the field.
 	 *
@@ -330,7 +330,7 @@ abstract class FormField
 	 * @since  3.7.0
 	 */
 	protected $showon;
-	
+
 	/**
 	 * The conditions to make field required or optional.
 	 *
@@ -338,7 +338,7 @@ abstract class FormField
 	 * @since  4.2.0
 	 */
 	protected $requireon;
-	
+
 	/**
 	 * The parent class of the field
 	 *
@@ -512,7 +512,7 @@ abstract class FormField
 	 */
 	public function __set($name, $value)
 	{
-	  switch ($name)
+		switch ($name)
 		{
 			case 'class':
 				// Removes spaces from left & right and extra spaces from middle
@@ -643,7 +643,7 @@ abstract class FormField
 		{
 			return false;
 		}
-		
+
 		// Reset the input and label values.
 		$this->input = null;
 		$this->label = null;
@@ -1083,7 +1083,7 @@ abstract class FormField
 				json_encode(FormHelper::parseShowOnConditions($this->showon, $this->formControl, $this->group)) . '\'';
 			$options['showonEnabled'] = true;
 		}
-		
+
 		if ($this->requireon)
 		{
 			$options['rel']           = ' data-requireon=\'' .
