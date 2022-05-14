@@ -12,11 +12,16 @@ namespace Joomla\Plugin\System\Tfa\Extension;
 use Exception;
 use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Date\Date;
+use Joomla\CMS\Encrypt\Aes;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Router\Route;
+use Joomla\CMS\Table\User as UserTable;
 use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\User\User;
 use Joomla\Component\Users\Administrator\Helper\Tfa as TfaHelper;
+use Joomla\Component\Users\Administrator\Table\TfaTable;
 use Joomla\Database\DatabaseDriver;
 use Joomla\Database\ParameterType;
 use Joomla\Event\DispatcherInterface;
@@ -285,6 +290,14 @@ class Tfa extends CMSPlugin implements SubscriberInterface
 		 */
 		[$options] = $event->getArguments();
 
+		/** @var User $user */
+		$user = $options['user'];
+
+		if ($user instanceof User)
+		{
+			$this->migrateFromLegacyTFA($user);
+		}
+
 		$this->saveRedirectionUrlToSession();
 		$this->disableTfaOnSilentLogin($options);
 		$this->redirectToTFASetup($options);
@@ -377,8 +390,6 @@ class Tfa extends CMSPlugin implements SubscriberInterface
 	 */
 	private function needsTFA(User $user): bool
 	{
-		// TODO Automatically migrate from legacy TFA
-
 		// Get the user's TFA records
 		$records = TfaHelper::getUserTfaRecords($user->id);
 
@@ -752,5 +763,158 @@ class Tfa extends CMSPlugin implements SubscriberInterface
 		}
 
 		return $result == 1;
+	}
+
+	/**
+	 * Automatically migrates a user's legacy TFA records into the new Captive TFA format.
+	 *
+	 * @param   User  $user  The user to migrate records for.
+	 *
+	 * @return  void
+	 * @since __DEPLOY_VERSION__
+	 */
+	private function migrateFromLegacyTFA(User $user): void
+	{
+		if ($user->guest || $user->id <= 0)
+		{
+			return;
+		}
+
+		$userTable = new UserTable($this->db);
+
+		if (!$userTable->load($user->id) || empty($userTable->otpKey))
+		{
+			return;
+		}
+
+		[$otpMethod, $otpKey] = explode(':', $userTable->otpKey, 2);
+		$secret       = $this->app->get('secret', null);
+		$otpKey       = $this->decryptTFAString($secret, $otpKey);
+		$otep         = $this->decryptTFAString($secret, $userTable->otep);
+		$config       = @json_decode($otpKey, true);
+		$hasConverted = true;
+
+		if (!empty($config))
+		{
+			switch ($otpMethod)
+			{
+				case 'totp':
+					(new TfaTable($this->db))->save(
+						[
+							'user_id'    => $user->id,
+							'title'      => 'Authenticator',
+							'method'     => 'totp',
+							'default'    => 0,
+							'created_on' => Date::getInstance()->toSql(),
+							'last_used'  => $this->db->getNullDate(),
+							'options'    => ['key' => $config['code']],
+						]
+					);
+					break;
+
+				case 'yubikey':
+					(new TfaTable($this->db))->save(
+						[
+							'user_id'    => $user->id,
+							'title'      => 'YubiKey ' . $config['yubikey'],
+							'method'     => 'yubikey',
+							'default'    => 0,
+							'created_on' => Date::getInstance()->toSql(),
+							'last_used'  => $this->db->getNullDate(),
+							'options'    => ['id' => $config['yubikey']],
+						]
+					);
+					break;
+
+				default:
+					$hasConverted = false;
+					break;
+			}
+		}
+
+
+		// Convert the emergency codes
+		if ($hasConverted && !empty(@json_decode($otep, true)))
+		{
+			// Delete any other record with the same user_id and Method.
+			$method = 'emergencycodes';
+			$userId = $user->id;
+			$query  = $this->db->getQuery(true)
+				->delete($this->db->qn('#__user_tfa'))
+				->where($this->db->qn('user_id') . ' = :user_id')
+				->where($this->db->qn('method') . ' = :method')
+				->bind(':user_id', $userId, ParameterType::INTEGER)
+				->bind(':method', $method);
+			$this->db->setQuery($query)->execute();
+
+			// Migrate data
+			(new TfaTable($this->db))->save(
+				[
+					'user_id'    => $user->id,
+					'title'      => Text::_('COM_LOGINGUARD_LBL_BACKUPCODES'),
+					'method'     => 'backupcodes',
+					'default'    => 0,
+					'created_on' => Date::getInstance()->toSql(),
+					'last_used'  => $this->db->getNullDate(),
+					'options'    => @json_decode($otep, true),
+				]
+			);
+		}
+
+		// Remove the legacy TFA
+		$update = (object) [
+			'id'     => $user->id,
+			'otpKey' => '',
+			'otep'   => '',
+		];
+		$this->db->updateObject('#__users', $update, ['id']);
+	}
+
+	/**
+	 * Tries to decrypt the TFA configuration, using a different Method depending on the Joomla! version.
+	 *
+	 * @param   string   $secret            Site's secret key
+	 * @param   string   $stringToDecrypt   Base64-encoded and encrypted, JSON-encoded information
+	 *
+	 * @return  string  Decrypted, but JSON-encoded, information
+	 *
+	 * @see     https://github.com/joomla/joomla-cms/pull/12497
+	 * @since   __DEPLOY_VERSION__
+	 */
+	private function decryptTFAString(string $secret, string $stringToDecrypt): string
+	{
+		// Is this already decrypted?
+		try
+		{
+			$decrypted = @json_decode($stringToDecrypt, true);
+		}
+		catch (Exception $e)
+		{
+			$decrypted = null;
+		}
+
+		if (!empty($decrypted))
+		{
+			return $stringToDecrypt;
+		}
+
+		// No, we need to decrypt the string
+		$aes       = new Aes($secret, 256);
+		$decrypted = $aes->decryptString($stringToDecrypt);
+
+		if (!is_string($decrypted) || empty($decrypted))
+		{
+			$aes->setPassword($secret, true);
+
+			$decrypted = $aes->decryptString($stringToDecrypt);
+		}
+
+		if (!is_string($decrypted) || empty($decrypted))
+		{
+			return '';
+		}
+
+		// Remove the null padding added during encryption
+		return rtrim($decrypted, "\0");
 	}
 }
