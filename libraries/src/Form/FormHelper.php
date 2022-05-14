@@ -621,7 +621,8 @@ class FormHelper
 		$requireOnParts = preg_split('#(\[AND\]|\[OR\])#', $requireOn, -1, PREG_SPLIT_DELIM_CAPTURE);
 		$op          = '';
 
-		foreach ($requireOnParts as $requireOnPart) {
+		foreach ($requireOnParts as $requireOnPart)
+		{
 			if (($requireOnPart === '[AND]') || $requireOnPart === '[OR]')
 			{
 				$op = trim($requireOnPart, '[]');
