@@ -2,7 +2,7 @@
 -- Create the new table for captive TFA
 --
 CREATE TABLE IF NOT EXISTS `#__user_tfa` (
-  `id`         int unsigned NOT NULL AUTO_INCREMENT,
+  `id`         SERIAL,
   `user_id`    int unsigned NOT NULL,
   `title`      VARCHAR(255)    NOT NULL,
   `method`     VARCHAR(100)    NOT NULL,

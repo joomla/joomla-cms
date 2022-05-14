@@ -350,7 +350,7 @@ class Tfa extends CMSPlugin implements SubscriberInterface
 
 		// Delete TFA records
 		$query = $db->getQuery(true)
-			->delete($db->qn('#__users_tfa'))
+			->delete($db->qn('#__user_tfa'))
 			->where($db->quoteName('user_id') . ' = :userId')
 			->bind(':userId', $userId, ParameterType::INTEGER);
 
