@@ -26,25 +26,24 @@ $wa = Factory::getApplication()->getDocument()->getWebAssetManager();
 		<div class="form-grid">
 		<?php foreach ($fieldsnames as $fieldname) : ?>
 			<?php foreach ($displayData->form->getFieldset($fieldname) as $field) : ?>
-				<?php $datashowon = ''; ?> 
-  			        <?php $dataRequireOn = ''; ?>
+				<?php $datashowon = ''; ?>
+				<?php $dataRequireOn = ''; ?>
 				<?php $groupClass = $field->type === 'Spacer' ? ' field-spacer' : ''; ?>
 				<?php if ($field->showon) : ?>
 					<?php $wa->useScript('showon'); ?>
-					<?php $dataRequireOn = ' data-showon=\'' . json_encode(FormHelper::parseShowOnConditions($field->showon, $field->formControl, $field->group)) . '\''; ?>
+					<?php $datashowon = ' data-showon=\'' . json_encode(FormHelper::parseShowOnConditions($field->showon, $field->formControl, $field->group)) . '\''; ?>
 				<?php endif; ?>
-        			<?php if ($field->requireon) : ?>
-          				<?php $wa->useScript('requireon'); ?>
+				 <?php if ($field->requireon) : ?>
+					<?php $wa->useScript('requireon'); ?>
 					<?php $dataRequireOn = ' data-requireon=\'' . json_encode(FormHelper::parseRequireOnConditions($field->requireon, $field->formControl, $field->group)) . '\''; ?>
-        			<?php endif; ?>
-
-					<?php if (isset($displayData->showlabel)) : ?>
+				<?php endif; ?>
+				<?php if (isset($displayData->showlabel)) : ?>
 					<div class="control-group<?php echo $groupClass; ?>"<?php echo $datashowon.$dataRequireOn; ?>>
 						<div class="controls"><?php echo $field->input; ?></div>
 					</div>
-					<?php else : ?>
-						<?php echo $field->renderField(); ?>
-					<?php endif; ?>
+				<?php else : ?>
+					<?php echo $field->renderField(); ?>
+				<?php endif; ?>
 			<?php endforeach; ?>
 		<?php endforeach; ?>
 		</div>
