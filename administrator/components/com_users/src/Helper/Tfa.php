@@ -92,8 +92,9 @@ abstract class Tfa
 
 		// Get a view object
 		$appRoot = $app->isClient('site') ? \JPATH_SITE : \JPATH_ADMINISTRATOR;
+		$prefix  = $app->isClient('site') ? 'Site' : 'Administrator';
 		/** @var HtmlView $view */
-		$view = $factory->createView('Methods', 'Site', 'Html',
+		$view = $factory->createView('Methods', $prefix, 'Html',
 			[
 				'base_path' => $appRoot . '/components/com_users',
 			]
