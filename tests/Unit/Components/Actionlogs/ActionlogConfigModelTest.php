@@ -13,7 +13,6 @@ use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\Component\Actionlogs\Administrator\Model\ActionlogConfigModel;
 use Joomla\Database\DatabaseInterface;
 use Joomla\Tests\Unit\UnitTestCase;
-use stdClass;
 
 /**
  * Test class for ActionlogConfigModel
@@ -33,7 +32,7 @@ class ActionlogConfigModelTest extends UnitTestCase
 	 */
 	public function testGetLogContentTypeParams()
 	{
-		$config = new stdClass;
+		$config = new \stdClass;
 		$db = $this->createStub(DatabaseInterface::class);
 		$db->method('getQuery')->willReturn($this->getQueryStub($db));
 		$db->method('loadObject')->willReturn($config);
