@@ -671,11 +671,10 @@ abstract class FormField
 			$this->value = $value;
 		}
 
-		
 		// Lets detect miscellaneous data attribute. For eg, data-*
 		foreach ($this->element->attributes() as $key => $value)
 		{
-		  if (strpos($key, 'data-') === 0)
+			if (strpos($key, 'data-') === 0)
 			{
 				// Data attribute key value pair
 				$this->dataAttributes[$key] = $value;
@@ -1077,21 +1076,21 @@ abstract class FormField
 				$options['hiddenDescription'] = $this->hiddenDescription;
 			}
 		}
-		
+
 		if ($this->showon)
 		{
-		  $options['rel']           = ' data-showon=\'' .
-				  json_encode(FormHelper::parseShowOnConditions($this->showon, $this->formControl, $this->group)) . '\'';
-				  $options['showonEnabled'] = true;
+			$options['rel']           = ' data-showon=\'' .
+				json_encode(FormHelper::parseShowOnConditions($this->showon, $this->formControl, $this->group)) . '\'';
+			$options['showonEnabled'] = true;
 		}
 		
 		if ($this->requireon)
 		{
-		  $options['rel']           = ' data-requireon=\'' .
-				  json_encode(FormHelper::parseRequireOnConditions($this->requireon, $this->formControl, $this->group)) . '\'';
-				  $options['requireonEnabled'] = true;
+			$options['rel']           = ' data-requireon=\'' .
+				json_encode(FormHelper::parseRequireOnConditions($this->requireon, $this->formControl, $this->group)) . '\'';
+			$options['requireonEnabled'] = true;
 		}
-		
+
 		$data = array(
 			'input'   => $this->getInput(),
 			'label'   => $this->getLabel(),
@@ -1365,8 +1364,8 @@ abstract class FormField
 			'validationtext' => $this->validationtext,
 			'readonly'       => $this->readonly,
 			'repeat'         => $this->repeat,
-		  'required'       => (bool) $this->required ||(bool) $this->requireon,
-		  'size'           => $this->size,
+			'required'       => (bool) $this->required ||(bool) $this->requireon,
+			'size'           => $this->size,
 			'spellcheck'     => $this->spellcheck,
 			'validate'       => $this->validate,
 			'value'          => $this->value,
