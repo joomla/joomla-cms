@@ -24,6 +24,9 @@ use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Table\Table;
 use Joomla\Component\Fields\Administrator\Helper\FieldsHelper;
+use Joomla\Database\DatabaseAwareInterface;
+use Joomla\Database\DatabaseInterface;
+use Joomla\Database\Exception\DatabaseNotFoundException;
 use Joomla\Database\ParameterType;
 use Joomla\Registry\Registry;
 use Joomla\String\StringHelper;
@@ -301,7 +304,9 @@ class FieldModel extends AdminModel
 		$node = $dom->appendChild(new \DOMElement('form'));
 
 		// Trigger the event to create the field dom node
-		Factory::getApplication()->triggerEvent('onCustomFieldsPrepareDom', array($obj, $node, new Form($data['context'])));
+		$form = new Form($data['context']);
+		$form->setDatabase($this->getDatabase());
+		Factory::getApplication()->triggerEvent('onCustomFieldsPrepareDom', array($obj, $node, $form));
 
 		// Check if a node is created
 		if (!$node->firstChild)
@@ -319,6 +324,19 @@ class FieldModel extends AdminModel
 		if (!$rule)
 		{
 			return true;
+		}
+
+		if ($rule instanceof DatabaseAwareInterface)
+		{
+			try
+			{
+				$rule->setDatabase($this->getDatabase());
+			}
+			catch (DatabaseNotFoundException $e)
+			{
+				@trigger_error(sprintf('Database must be set, this will not be caught anymore in 5.0.'), E_USER_DEPRECATED);
+				$rule->setDatabase(Factory::getContainer()->get(DatabaseInterface::class));
+			}
 		}
 
 		try
