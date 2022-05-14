@@ -538,11 +538,6 @@ class AdministratorApplication extends CMSApplication
 			$this->redirect((string) $uri, 301);
 		}
 
-		if ($this->isTwoFactorAuthenticationRequired())
-		{
-			$this->redirectIfTwoFactorAuthenticationRequired();
-		}
-
 		// Trigger the onAfterRoute event.
 		PluginHelper::importPlugin('system');
 		$this->triggerEvent('onAfterRoute');

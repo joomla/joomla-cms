@@ -870,11 +870,6 @@ final class SiteApplication extends CMSApplication
 			$this->input->def($key, $value);
 		}
 
-		if ($this->isTwoFactorAuthenticationRequired())
-		{
-			$this->redirectIfTwoFactorAuthenticationRequired();
-		}
-
 		// Trigger the onAfterRoute event.
 		PluginHelper::importPlugin('system');
 		$this->triggerEvent('onAfterRoute');
