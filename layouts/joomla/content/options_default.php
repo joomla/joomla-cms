@@ -33,7 +33,7 @@ $wa = Factory::getApplication()->getDocument()->getWebAssetManager();
 					<?php $wa->useScript('showon'); ?>
 					<?php $datashowon = ' data-showon=\'' . json_encode(FormHelper::parseShowOnConditions($field->showon, $field->formControl, $field->group)) . '\''; ?>
 				<?php endif; ?>
-				 <?php if ($field->requireon) : ?>
+				<?php if ($field->requireon) : ?>
 					<?php $wa->useScript('requireon'); ?>
 					<?php $dataRequireOn = ' data-requireon=\'' . json_encode(FormHelper::parseRequireOnConditions($field->requireon, $field->formControl, $field->group)) . '\''; ?>
 				<?php endif; ?>
