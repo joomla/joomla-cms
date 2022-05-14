@@ -25,11 +25,17 @@ extract($displayData);
  * @var   string  $descClass    The class name to use for the description
  */
 
+/** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
+$wa = Factory::getApplication()->getDocument()->getWebAssetManager();
+  
 if (!empty($options['showonEnabled']))
 {
-	/** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
-	$wa = Factory::getApplication()->getDocument()->getWebAssetManager();
 	$wa->useScript('showon');
+}
+
+if (!empty($options['requireonEnabled']))
+{
+	$wa->useScript('requireon');
 }
 
 $class           = empty($options['class']) ? '' : ' ' . $options['class'];
@@ -37,7 +43,7 @@ $rel             = empty($options['rel']) ? '' : ' ' . $options['rel'];
 $id              = ($id ?? $name) . '-desc';
 $hideLabel       = !empty($options['hiddenLabel']);
 $hideDescription = empty($options['hiddenDescription']) ? false : $options['hiddenDescription'];
-$descClass       = ($options['descClass'] ?? '') ?: 'hide-aware-inline-help d-none';
+$descClass       = ($options['descClass'] ?? '') ?: 'hide-aware-inline-help';
 
 if (!empty($parentclass))
 {
