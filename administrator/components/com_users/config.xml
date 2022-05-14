@@ -345,26 +345,26 @@
 			   multiple="1"
 			   class="input-large"/>
 
-		<field name="neverTSVUserGroups"
+		<field name="neverTFAUserGroups"
 			   type="UserGroupList"
 			   layout="joomla.form.field.list-fancy-select"
 			   checksuperusergroup="1"
 			   default=""
 			   multiple="1"
-			   label="COM_USERS_CONFIG_NEVERTSVUSERGROUPS_LABEL"
-			   description="COM_USERS_CONFIG_NEVERTSVUSERGROUPS_DESC"
+			   label="COM_USERS_CONFIG_NEVERTFAUSERGROUPS_LABEL"
+			   description="COM_USERS_CONFIG_NEVERTFAUSERGROUPS_DESC"
 		>
 			<option value="0">COM_USERS_CONFIG_LBL_NOGROUP</option>
 		</field>
 
-		<field name="forceTSVUserGroups"
+		<field name="forceTFAUserGroups"
 			   type="UserGroupList"
 			   layout="joomla.form.field.list-fancy-select"
 			   checksuperusergroup="1"
 			   default=""
 			   multiple="1"
-			   label="COM_USERS_CONFIG_FORCETSVUSERGROUPS_LABEL"
-			   description="COM_USERS_CONFIG_FORCETSVUSERGROUPS_DESC"
+			   label="COM_USERS_CONFIG_FORCETFAUSERGROUPS_LABEL"
+			   description="COM_USERS_CONFIG_FORCETFAUSERGROUPS_DESC"
 		>
 			<option value="0">COM_USERS_CONFIG_LBL_NOGROUP</option>
 		</field>
@@ -396,7 +396,7 @@
 				label="COM_USERS_CONFIG_SILENTRESPONSES_LABEL"
 				description="COM_USERS_CONFIG_SILENTRESPONSES_DESC"
 				default="cookie, passwordless"
-				showon="2svonsilent:0"
+				showon="tfaonsilent:0"
 		/>
 
 		<field
@@ -405,7 +405,7 @@
 				layout="joomla.form.field.radio.switcher"
 				label="COM_USERS_CONFIG_REDIRECTONLOGIN_LABEL"
 				description="COM_USERS_CONFIG_REDIRECTONLOGIN_DESC"
-				default="1"
+				default="0"
 		>
 			<option value="0">JNo</option>
 			<option value="1">JYes</option>
