@@ -25,6 +25,7 @@ use Joomla\CMS\Language\Language;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\Menu\AbstractMenu;
+use Joomla\CMS\Menu\MenuFactoryInterface;
 use Joomla\CMS\Pathway\Pathway;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Profiler\Profiler;
@@ -127,6 +128,15 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 	 * @since  4.0.0
 	 */
 	protected $authenticationPluginType = 'authentication';
+
+	/**
+	 * The menu factory
+	 *
+	 * @var   MenuFactoryInterface
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
+	private $menuFactory;
 
 	/**
 	 * Class constructor.
@@ -515,7 +525,12 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 			$options['app'] = $this;
 		}
 
-		return AbstractMenu::getInstance($name, $options);
+		if ($this->menuFactory === null)
+		{
+			$this->menuFactory = $this->getContainer()->get(MenuFactoryInterface::class);
+		}
+
+		return $this->menuFactory->createMenu($name, $options);
 	}
 
 	/**
@@ -1311,5 +1326,19 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 
 			Log::addLogger(['text_file' => 'custom-logging.php'], $priority, $categories, $mode);
 		}
+	}
+
+	/**
+	 * Sets the internal menu factory.
+	 *
+	 * @param  MenuFactoryInterface  $menuFactory  The menu factory
+	 *
+	 * @return void
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
+	public function setMenuFactory(MenuFactoryInterface $menuFactory): void
+	{
+		$this->menuFactory = $menuFactory;
 	}
 }
