@@ -2218,7 +2218,7 @@ class TemplateModel extends FormModel
 	{
 		$template = $this->getTemplate();
 
-		if (!$template->xmldata->inheritable)
+		if (empty($template->xmldata->inheritable))
 		{
 			return [];
 		}
