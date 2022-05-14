@@ -23,6 +23,7 @@ use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\String\PunycodeHelper;
 use Joomla\CMS\User\User;
 use Joomla\CMS\User\UserHelper;
+use Joomla\Component\Users\Administrator\Model\UserModel;
 use Joomla\Registry\Registry;
 
 /**
@@ -358,39 +359,29 @@ class ProfileModel extends FormModel
 	 * @return  array
 	 *
 	 * @since   3.2
-	 * @todo    Refactor this
+	 * @deprecated __DEPLOY_VERSION__ Will be removed in 5.0.
 	 */
 	public function getTwofactorform($userId = null)
 	{
-		$userId = (!empty($userId)) ? $userId : (int) $this->getState('user.id');
-
-		$model = $this->bootComponent('com_users')->getMVCFactory()
-			->createModel('User', 'Administrator');
-
-		$otpConfig = $model->getOtpConfig($userId);
-
-		PluginHelper::importPlugin('twofactorauth');
-
-		return Factory::getApplication()->triggerEvent('onUserTwofactorShowConfiguration', array($otpConfig, $userId));
+		return [];
 	}
 
 	/**
-	 * Returns the one time password (OTP) – a.k.a. two factor authentication –
-	 * configuration for a particular user.
+	 * No longer used
 	 *
-	 * @param   integer  $userId  The numeric ID of the user
+	 * @param   integer  $userId  Ignored
 	 *
-	 * @return  \stdClass  An object holding the OTP configuration for this user
+	 * @return  \stdClass
 	 *
 	 * @since   3.2
+	 * @deprecated __DEPLOY_VERSION__  Will be removed in 5.0
 	 */
 	public function getOtpConfig($userId = null)
 	{
-		$userId = (!empty($userId)) ? $userId : (int) $this->getState('user.id');
-
+		/** @var UserModel $model */
 		$model = $this->bootComponent('com_users')
 			->getMVCFactory()->createModel('User', 'Administrator');
 
-		return $model->getOtpConfig($userId);
+		return $model->getOtpConfig();
 	}
 }

@@ -16,6 +16,8 @@ use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Router\Route;
 
+/** @var \Joomla\Component\Users\Site\View\Login\HtmlView $cookieLogin */
+
 HTMLHelper::_('behavior.keepalive');
 HTMLHelper::_('behavior.formvalidator');
 
@@ -51,10 +53,6 @@ $usersConfig = ComponentHelper::getParams('com_users');
 
 		<fieldset>
 			<?php echo $this->form->renderFieldset('credentials', ['class' => 'com-users-login__input']); ?>
-
-			<?php if ($this->tfa) : ?>
-				<?php echo $this->form->renderField('secretkey', null, null, ['class' => 'com-users-login__secretkey']); ?>
-			<?php endif; ?>
 
 			<?php if (PluginHelper::isEnabled('system', 'remember')) : ?>
 				<div class="com-users-login__remember">

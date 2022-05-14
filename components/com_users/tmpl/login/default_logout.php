@@ -14,6 +14,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 
+/** @var \Joomla\Component\Users\Site\View\Login\HtmlView $cookieLogin */
 ?>
 <div class="com-users-logout logout">
 	<?php if ($this->params->get('show_page_heading')) : ?>

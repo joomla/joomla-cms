@@ -10,14 +10,21 @@
 namespace Joomla\Component\Users\Administrator\Helper;
 
 use Exception;
+use Joomla\CMS\Application\CMSApplication;
+use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Document\HtmlDocument;
 use Joomla\CMS\Event\GenericEvent;
-use Joomla\Component\Users\Administrator\DataShape\MethodDescriptor;
-use Joomla\Component\Users\Administrator\Table\TfaTable;
 use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\User\User;
 use Joomla\CMS\User\UserFactoryInterface;
+use Joomla\Component\Users\Administrator\DataShape\MethodDescriptor;
+use Joomla\Component\Users\Administrator\Model\BackupcodesModel;
+use Joomla\Component\Users\Administrator\Model\MethodsModel;
+use Joomla\Component\Users\Administrator\Table\TfaTable;
+use Joomla\Component\Users\Administrator\View\Methods\HtmlView;
 use Joomla\Database\DatabaseDriver;
 use Joomla\Database\ParameterType;
 use Joomla\Event\Event;
@@ -44,6 +51,87 @@ abstract class Tfa
 	 * @since __DEPLOY_VERSION__
 	 */
 	protected static $isAdmin = null;
+
+	/**
+	 * Get the HTML for the Two Factor Authentication configuration interface for a user.
+	 *
+	 * This helper method uses a sort of primitive HMVC to display the com_users' Methods page which
+	 * renders the TFA configuration interface.
+	 *
+	 * @param   User  $user  The user we are going to show the configuration UI for.
+	 *
+	 * @return  string|null  The HTML of the UI; null if we cannot / must not show it.
+	 * @throws  Exception
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public static function getConfigurationInterface(User $user): ?string
+	{
+		// Check the conditions
+		if (!self::canShowConfigurationInterface($user))
+		{
+			return null;
+		}
+
+		/** @var CMSApplication $app */
+		$app = Factory::getApplication();
+
+		if (!$app->input->getCmd('option', '') === 'com_users')
+		{
+			$app->getLanguage()->load('com_users');
+			$app->getDocument()->getWebAssetManager()->getRegistry()->addExtensionRegistryFile('com_users');
+		}
+
+		// Get a model
+		/** @var MVCFactoryInterface $factory */
+		$factory = Factory::getApplication()->bootComponent('com_users')->getMVCFactory();
+
+		/** @var MethodsModel $methodsModel */
+		$methodsModel = $factory->createModel('Methods', 'Administrator');
+		/** @var BackupcodesModel $methodsModel */
+		$backupCodesModel = $factory->createModel('Backupcodes', 'Administrator');
+
+		// Get a view object
+		$appRoot = $app->isClient('site') ? \JPATH_SITE : \JPATH_ADMINISTRATOR;
+		/** @var HtmlView $view */
+		$view = $factory->createView('Methods', 'Site', 'Html',
+			[
+				'base_path' => $appRoot . '/components/com_users',
+			]
+		);
+		$view->setModel($methodsModel, true);
+		/** @noinspection PhpParamsInspection */
+		$view->setModel($backupCodesModel);
+		$view->document  = $app->getDocument();
+		$view->returnURL = base64_encode(Uri::getInstance()->toString());
+		$view->user      = $user;
+
+		@ob_start();
+
+		try
+		{
+			$view->display();
+		}
+		catch (\Throwable $e)
+		{
+			@ob_end_clean();
+
+			/**
+			 * This is intentional! When you are developing a Two Factor Authentication plugin you
+			 * will inevitably mess something up and end up with an error. This would cause the
+			 * entire TFA configuration page to dissappear. No problem! Set Debug System to Yes in
+			 * Global Configuration and you can see the error exception which will help you solve
+			 * your problem.
+			 */
+			if (defined('JDEBUG') && JDEBUG)
+			{
+				throw $e;
+			}
+
+			return null;
+		}
+
+		return @ob_get_clean();
+	}
 
 	/**
 	 * Get a list of all of the TFA Methods
@@ -240,5 +328,63 @@ abstract class Tfa
 		}
 
 		return $records;
+	}
+
+	/**
+	 * Are the conditions for showing the TFA configuration interface met?
+	 *
+	 * @param   User|null  $user  The user to be configured
+	 *
+	 * @return  boolean
+	 * @throws  Exception
+	 * @since __DEPLOY_VERSION__
+	 */
+	private static function canShowConfigurationInterface(?User $user = null): bool
+	{
+		// I need at least one TFA method plugin for the setup interface to make any sense.
+		$plugins = PluginHelper::getPlugin('twofactorauth');
+
+		if (count($plugins) < 1)
+		{
+			return false;
+		}
+
+		/** @var CMSApplication $app */
+		$app = Factory::getApplication();
+
+		// We can only show a configuration page in the front- or backend application.
+		if (!$app->isClient('site') && !$app->isClient('administrator'))
+		{
+			return false;
+		}
+
+		// Only show the configuration page if we have an HTML document
+		if (!($app->getDocument() instanceof HtmlDocument))
+		{
+			return false;
+		}
+
+		// If I have no user to check against that's all the checking I can do.
+		if (empty($user))
+		{
+			return true;
+		}
+
+		// I must be able to edit the user's TFA settings
+		if (!self::canEditUser($user))
+		{
+			return false;
+		}
+
+		// If the user is in a user group which disallows TFA we won't show the setup page either.
+		$neverTFAGroups = ComponentHelper::getParams('com_users')->get('neverTFAUserGroups', []);
+		$neverTFAGroups = is_array($neverTFAGroups) ? $neverTFAGroups : [];
+
+		if (count(array_intersect($user->getAuthorisedGroups(), $neverTFAGroups)))
+		{
+			return false;
+		}
+
+		return true;
 	}
 }

@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+/** @var \Joomla\Component\Users\Site\View\Login\HtmlView $cookieLogin */
+
 $cookieLogin = $this->user->get('cookieLogin');
 
 if (!empty($cookieLogin) || $this->user->get('guest'))

@@ -19,7 +19,7 @@ use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\User\User;
-use Joomla\Component\Users\Administrator\Helper\UsersHelper;
+use Joomla\Component\Users\Administrator\Helper\Tfa;
 use Joomla\Database\DatabaseDriver;
 
 /**
@@ -68,36 +68,20 @@ class HtmlView extends BaseHtmlView
 	protected $db;
 
 	/**
-	 * Configuration forms for all two-factor authentication methods.
-	 *
-	 * @var    array
-	 * @since  4.0.0
-	 */
-	protected $twofactorform;
-
-	/**
-	 * List of two factor authentication methods available.
-	 *
-	 * @var    array
-	 * @since  4.0.0
-	 */
-	protected $twofactormethods;
-
-	/**
-	 * One time password (OTP) – a.k.a. two factor authentication – configuration for the user.
-	 *
-	 * @var    \stdClass
-	 * @since  4.0.0
-	 */
-	protected $otpConfig;
-
-	/**
 	 * The page class suffix
 	 *
 	 * @var    string
 	 * @since  4.0.0
 	 */
 	protected $pageclass_sfx = '';
+
+	/**
+	 * The Two Factor Authentication configuration interface for the user.
+	 *
+	 * @var   string|null
+	 * @since __DEPLOY_VERSION__
+	 */
+	protected $tfaConfigurationUI;
 
 	/**
 	 * Execute and display a template script.
@@ -114,16 +98,12 @@ class HtmlView extends BaseHtmlView
 		$user = Factory::getUser();
 
 		// Get the view data.
-		$this->data	        = $this->get('Data');
-		$this->form	        = $this->getModel()->getForm(new CMSObject(array('id' => $user->id)));
-		$this->state            = $this->get('State');
-		$this->params           = $this->state->get('params');
-		// @todo    Refactor this
-		$this->twofactorform    = $this->get('Twofactorform');
-		// @todo    Refactor this
-		$this->twofactormethods = UsersHelper::getTwoFactorMethods();
-		$this->otpConfig        = $this->get('OtpConfig');
-		$this->db               = Factory::getDbo();
+		$this->data               = $this->get('Data');
+		$this->form               = $this->getModel()->getForm(new CMSObject(['id' => $user->id]));
+		$this->state              = $this->get('State');
+		$this->params             = $this->state->get('params');
+		$this->tfaConfigurationUI = Tfa::getConfigurationInterface($user);
+		$this->db                 = Factory::getDbo();
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))

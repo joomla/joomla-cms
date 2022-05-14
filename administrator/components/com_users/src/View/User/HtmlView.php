@@ -18,6 +18,7 @@ use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Toolbar\ToolbarHelper;
+use Joomla\Component\Users\Administrator\Helper\Tfa;
 
 /**
  * User view class.
@@ -63,21 +64,12 @@ class HtmlView extends BaseHtmlView
 	protected $state;
 
 	/**
-	 * Configuration forms for all two-factor authentication methods
+	 * The Two Factor Authentication configuration interface for the user.
 	 *
-	 * @var    array
-	 * @since  3.2
+	 * @var   string|null
+	 * @since __DEPLOY_VERSION__
 	 */
-	protected $tfaform;
-
-	/**
-	 * Returns the one time password (OTP) – a.k.a. two factor authentication –
-	 * configuration for the user.
-	 *
-	 * @var    \stdClass
-	 * @since  3.2
-	 */
-	protected $otpConfig;
+	protected $tfaConfigurationUI;
 
 	/**
 	 * Display the view
@@ -98,10 +90,8 @@ class HtmlView extends BaseHtmlView
 			$app->redirect('index.php?option=com_users&view=users');
 		}
 
-		$this->form      = $this->get('Form');
-		$this->state     = $this->get('State');
-		$this->tfaform   = $this->get('Twofactorform');
-		$this->otpConfig = $this->get('otpConfig');
+		$this->form                     = $this->get('Form');
+		$this->state                    = $this->get('State');
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
@@ -120,6 +110,8 @@ class HtmlView extends BaseHtmlView
 
 		$this->form->setValue('password', null);
 		$this->form->setValue('password2', null);
+
+		$this->tfaConfigurationUI = Tfa::getConfigurationInterface($user);
 
 		parent::display($tpl);
 		$this->addToolbar();
