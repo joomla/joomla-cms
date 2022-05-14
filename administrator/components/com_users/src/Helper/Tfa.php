@@ -57,7 +57,7 @@ abstract class Tfa
 
 		if (is_null(self::$allTFAs))
 		{
-			$event = new GenericEvent('onUserTwofactorCallback', []);
+			$event = new GenericEvent('onUserTwofactorGetMethod', []);
 
 			// Get all the plugin results
 			$temp = self::triggerEvent($event);

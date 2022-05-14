@@ -160,7 +160,7 @@ class CaptiveController extends BaseController
 			?: Factory::getContainer()->get(UserFactoryInterface::class)->loadUserById(0);
 
 		$results     = TfaHelper::triggerEvent(
-			new GenericEvent('onLoginGuardTfaValidate',
+			new GenericEvent('onUserTwofactorValidate',
 				[
 					'record' => $record,
 					'user'   => $user,
