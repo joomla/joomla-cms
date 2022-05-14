@@ -27,7 +27,7 @@ extract($displayData);
 
 /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
 $wa = Factory::getApplication()->getDocument()->getWebAssetManager();
-  
+
 if (!empty($options['showonEnabled']))
 {
 	$wa->useScript('showon');
