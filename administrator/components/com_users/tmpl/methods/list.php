@@ -27,19 +27,27 @@ HTMLHelper::_('bootstrap.tooltip', '.hasTooltip');
 $model = $this->getModel();
 
 ?>
-<div id="com-users-methods-list-container">
-	<?php foreach($this->methods as $methodName => $method): ?>
-		<div class="com-users-methods-list-method com-users-methods-list-method-name-<?php echo htmlentities($method['display'])?> <?php echo ($this->defaultMethod == $methodName) ? 'com-users-methods-list-method-default' : ''?> ">
-			<div class="com-users-methods-list-method-header">
-				<div class="com-users-methods-list-method-image">
-					<img src="<?php echo Uri::root() . $method['image'] ?>" alt="<?php echo $this->escape($method['name']) ?>">
+<div id="com-users-methods-list-container" class="p-1">
+	<?php foreach($this->methods as $methodName => $method):
+		$methodClass = 'com-users-methods-list-method-name-' . htmlentities($method['name'])
+			. ($this->defaultMethod == $methodName ? ' com-users-methods-list-method-default' : '');
+		?>
+		<div class="com-users-methods-list-method <?php echo $methodClass?> my-3 p-2 border border-1">
+			<div class="com-users-methods-list-method-header d-flex flex-wrap align-items-center gap-2">
+				<div class="com-users-methods-list-method-image pt-1 px-3 pb-2">
+					<img src="<?php echo Uri::root() . $method['image'] ?>"
+						 alt="<?php echo $this->escape($method['name']) ?>"
+						 class="img-fluid"
+					>
 				</div>
-				<div class="com-users-methods-list-method-title">
-					<h4>
-						<?php echo $method['display'] ?>
+				<div class="com-users-methods-list-method-title flex-grow-1">
+					<h4 class="fs-4 p-0 m-0 d-flex gap-3 align-items-center">
+						<span class="me-1 flex-grow-1">
+							<?php echo $method['display'] ?>
+						</span>
 						<?php if ($this->defaultMethod == $methodName): ?>
 							<span id="com-users-methods-list-method-default-tag" class="badge bg-info me-1">
-							<?php echo Text::_('COM_USERS_TFA_LIST_DEFAULTTAG') ?>
+								<?php echo Text::_('COM_USERS_TFA_LIST_DEFAULTTAG') ?>
 							</span>
 						<?php endif; ?>
 					</h4>
@@ -52,11 +60,10 @@ $model = $this->getModel();
 
 			<div class="com-users-methods-list-method-records-container">
 				<?php if (count($method['active'])): ?>
-					<div class="com-users-methods-list-method-records">
+					<div class="com-users-methods-list-method-records border-top border-dark pt-2 my-2">
 						<?php  foreach($method['active'] as $record): ?>
-							<div class="com-users-methods-list-method-record">
-								<div class="com-users-methods-list-method-record-info">
-
+							<div class="com-users-methods-list-method-record d-flex flex-row flex-wrap justify-content-start">
+								<div class="com-users-methods-list-method-record-info flex-grow-1 d-flex flex-column align-items-start gap-1">
 									<?php if ($methodName == 'backupcodes'): ?>
 										<div class="alert alert-info">
 											<h3 class="alert-heading">
@@ -68,17 +75,22 @@ $model = $this->getModel();
 											</p>
 										</div>
 									<?php else: ?>
-										<div class="com-users-methods-list-method-record-title-container">
+										<div class="com-users-methods-list-method-record-title-container mb-1">
 											<?php if ($record->default): ?>
-												<span id="com-users-methods-list-method-default-badge-small" class="badge bg-info me-1 hasTooltip" title="<?php echo $this->escape(Text::_('COM_USERS_TFA_LIST_DEFAULTTAG')) ?>"><span class="icon icon-star"></span></span>
+												<span id="com-users-methods-list-method-default-badge-small"
+													  class="text-warning me-1 hasTooltip"
+													  title="<?php echo $this->escape(Text::_('COM_USERS_TFA_LIST_DEFAULTTAG')) ?>">
+													<span class="icon icon-star" aria-hidden="true"></span>
+													<span class="visually-hidden"><?php echo $this->escape(Text::_('COM_USERS_TFA_LIST_DEFAULTTAG')) ?></span>
+												</span>
 											<?php endif; ?>
-											<span class="com-users-methods-list-method-record-title">
+											<span class="com-users-methods-list-method-record-title fs-4 fw-bold">
 												<?php echo $this->escape($record->title); ?>
 											</span>
 										</div>
 									<?php endif; ?>
 
-									<div class="com-users-methods-list-method-record-lastused">
+									<div class="com-users-methods-list-method-record-lastused my-1 d-flex flex-row flex-wrap justify-content-evenly text-muted w-100">
 										<span class="com-users-methods-list-method-record-createdon">
 											<?php echo Text::sprintf('COM_USERS_TFA_LBL_CREATEDON', $model->formatRelative($record->created_on)) ?>
 										</span>
@@ -90,14 +102,14 @@ $model = $this->getModel();
 								</div>
 
 								<?php if ($methodName != 'backupcodes'): ?>
-								<div class="com-users-methods-list-method-record-actions">
-									<a class="com-users-methods-list-method-record-edit btn btn-secondary"
+								<div class="com-users-methods-list-method-record-actions my-2 d-flex flex-row flex-wrap justify-content-center align-content-center align-items-start">
+									<a class="com-users-methods-list-method-record-edit btn btn-secondary btn-sm mx-1"
 									   href="<?php echo Route::_('index.php?option=com_users&task=method.edit&id=' . (int) $record->id . ($this->returnURL ? '&returnurl=' . $this->escape(urlencode($this->returnURL)) : '') . '&user_id=' . $this->user->id)?>">
 										<span class="icon icon-pencil"></span>
 									</a>
 
 									<?php if ($method['canDisable']): ?>
-										<a class="com-users-methods-list-method-record-delete btn btn-danger"
+										<a class="com-users-methods-list-method-record-delete btn btn-danger btn-sm mx-1"
 										   href="<?php echo Route::_('index.php?option=com_users&task=method.delete&id=' . (int) $record->id . ($this->returnURL ? '&returnurl=' . $this->escape(urlencode($this->returnURL)) : '') . '&user_id=' . $this->user->id . '&' . Factory::getApplication()->getFormToken() . '=1')?>"
 										><span class="icon icon-trash"></span></a>
 									<?php endif; ?>
