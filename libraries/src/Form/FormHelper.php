@@ -592,23 +592,27 @@ class FormHelper
 	public static function parseRequireOnConditions($requireOn, $formControl = null, $group = null)
 	{
 		// Process the requireon data.
-		if (!requireOn) {
+		if (!requireOn)
+		{
 			return array();
 		}
 
 		$formPath = $formControl ?: '';
 
-		if ($group) {
+		if ($group)
+		{
 			$groups = explode('.', $group);
 
 			// An empty formControl leads to invalid shown property
 			// Use the 1st part of the group instead to avoid.
-			if (empty($formPath) && isset($groups[0])) {
+			if (empty($formPath) && isset($groups[0]))
+			{
 				$formPath = $groups[0];
 				array_shift($groups);
 			}
 
-			foreach ($groups as $group) {
+			foreach ($groups as $group)
+			{
 				$formPath .= '[' . $group . ']';
 			}
 		}
@@ -618,7 +622,8 @@ class FormHelper
 		$op          = '';
 
 		foreach ($requireOnParts as $requireOnPart) {
-			if (($requireOnPart === '[AND]') || $requireOnPart === '[OR]') {
+			if (($requireOnPart === '[AND]') || $requireOnPart === '[OR]')
+			{
 				$op = trim($requireOnPart, '[]');
 				continue;
 			}
@@ -628,16 +633,25 @@ class FormHelper
 
 			$dotPos = strpos($requireOnPartBlocks[0], '.');
 
-			if ($dotPos === false) {
+			if ($dotPos === false)
+			{
 				$field = $formPath ? $formPath . '[' . $requireOnPartBlocks[0] . ']' : $requireOnPartBlocks[0];
-			} else {
-				if ($dotPos === 0) {
+			}
+			else
+			{
+				if ($dotPos === 0)
+				{
 					$fieldName = substr($requireOnPartBlocks[0], 1);
 					$field     = $formControl ? $formControl . '[' . $fieldName . ']' : $fieldName;
-				} else {
-					if ($formControl) {
+				}
+				else
+				{
+					if ($formControl)
+					{
 						$field = $formControl . ('[' . str_replace('.', '][', $requireOnPartBlocks[0]) . ']');
-					} else {
+					}
+					else
+					{
 						$groupParts = explode('.', $requireOnPartBlocks[0]);
 						$field      = array_shift($groupParts) . '[' . join('][', $groupParts) . ']';
 					}
@@ -651,7 +665,8 @@ class FormHelper
 				'op'     => $op,
 			);
 
-			if ($op !== '') {
+			if ($op !== '')
+			{
 				$op = '';
 			}
 		}
