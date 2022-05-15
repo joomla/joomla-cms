@@ -481,9 +481,9 @@ class FormHelper
 	}
 
 	/**
-	 * Parse the show on conditions
+	 * Parse the field conditions which is used for attributes such as `showon` and `requireon`
 	 *
-	 * @param   string  $showOn       Show on conditions.
+	 * @param   string  $conditions   Show on conditions.
 	 * @param   string  $formControl  Form name.
 	 * @param   string  $group        The dot-separated form group path.
 	 *
@@ -491,10 +491,10 @@ class FormHelper
 	 *
 	 * @since   3.7.0
 	 */
-	public static function parseShowOnConditions($showOn, $formControl = null, $group = null)
+	public static function parseFieldConditions($conditions, $formControl = null, $group = null)
 	{
 		// Process the showon data.
-		if (!$showOn)
+		if (!$conditions)
 		{
 			return array();
 		}
@@ -519,51 +519,51 @@ class FormHelper
 			}
 		}
 
-		$showOnData  = array();
-		$showOnParts = preg_split('#(\[AND\]|\[OR\])#', $showOn, -1, PREG_SPLIT_DELIM_CAPTURE);
+		$conditionData  = array();
+		$conditionParts = preg_split('#(\[AND\]|\[OR\])#', $$conditions, -1, PREG_SPLIT_DELIM_CAPTURE);
 		$op          = '';
 
-		foreach ($showOnParts as $showOnPart)
+		foreach ($conditionParts as $conditionPart)
 		{
-			if (($showOnPart === '[AND]') || $showOnPart === '[OR]')
+			if (($conditionPart === '[AND]') || $conditionPart === '[OR]')
 			{
-				$op = trim($showOnPart, '[]');
+				$op = trim($conditionPart, '[]');
 				continue;
 			}
 
-			$compareEqual     = strpos($showOnPart, '!:') === false;
-			$showOnPartBlocks = explode(($compareEqual ? ':' : '!:'), $showOnPart, 2);
+			$compareEqual     = strpos($conditionPart, '!:') === false;
+			$conditionPartBlocks = explode(($compareEqual ? ':' : '!:'), $conditionPart, 2);
 
-			$dotPos = strpos($showOnPartBlocks[0], '.');
+			$dotPos = strpos($conditionPartBlocks[0], '.');
 
 			if ($dotPos === false)
 			{
-				$field = $formPath ? $formPath . '[' . $showOnPartBlocks[0] . ']' : $showOnPartBlocks[0];
+				$field = $formPath ? $formPath . '[' . $conditionPartBlocks[0] . ']' : $conditionPartBlocks[0];
 			}
 			else
 			{
 				if ($dotPos === 0)
 				{
-					$fieldName = substr($showOnPartBlocks[0], 1);
+					$fieldName = substr($conditionPartBlocks[0], 1);
 					$field     = $formControl ? $formControl . '[' . $fieldName . ']' : $fieldName;
 				}
 				else
 				{
 					if ($formControl)
 					{
-						$field = $formControl . ('[' . str_replace('.', '][', $showOnPartBlocks[0]) . ']');
+						$field = $formControl . ('[' . str_replace('.', '][', $conditionPartBlocks[0]) . ']');
 					}
 					else
 					{
-						$groupParts = explode('.', $showOnPartBlocks[0]);
+						$groupParts = explode('.', $conditionPartBlocks[0]);
 						$field      = array_shift($groupParts) . '[' . join('][', $groupParts) . ']';
 					}
 				}
 			}
 
-			$showOnData[] = array(
+			$conditionData[] = array(
 				'field'  => $field,
-				'values' => explode(',', $showOnPartBlocks[1]),
+				'values' => explode(',', $conditionPartBlocks[1]),
 				'sign'   => $compareEqual === true ? '=' : '!=',
 				'op'     => $op,
 			);
@@ -574,6 +574,6 @@ class FormHelper
 			}
 		}
 
-		return $showOnData;
+		return $conditionData;
 	}
 }
