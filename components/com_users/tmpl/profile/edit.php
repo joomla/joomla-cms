@@ -25,8 +25,7 @@ $lang->load('plg_user_profile', JPATH_ADMINISTRATOR);
 /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
 $wa = $this->document->getWebAssetManager();
 $wa->useScript('keepalive')
-	->useScript('form.validate')
-	->useScript('com_users.two-factor-switcher');
+	->useScript('form.validate');
 
 ?>
 <div class="com-users-profile__edit profile-edit">
