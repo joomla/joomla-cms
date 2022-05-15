@@ -8,6 +8,10 @@
  */
 namespace Joomla\Tests\Unit;
 
+use Joomla\Database\DatabaseInterface;
+use Joomla\Database\DatabaseQuery;
+use Joomla\Database\QueryInterface;
+
 /**
  * Base Unit Test case for common behaviour across unit tests
  *
@@ -15,4 +19,24 @@ namespace Joomla\Tests\Unit;
  */
 abstract class UnitTestCase extends \PHPUnit\Framework\TestCase
 {
+	/**
+	 * Returns a database query instance.
+	 *
+	 * @param   DatabaseInterface  $db  The database
+	 *
+	 * @return  QueryInterface
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	protected function getQueryStub(DatabaseInterface $db): QueryInterface
+	{
+		return new class($db) extends DatabaseQuery
+		{
+			public function groupConcat($expression, $separator = ',')
+			{}
+
+			public function processLimit($query, $limit, $offset = 0)
+			{}
+		};
+	}
 }
