@@ -145,6 +145,15 @@ class ListField extends FormField
 				$tmp['optionattr'] = " data-showon='" . $encodedConditions . "'";
 			}
 
+			if ((string) $option['requireon'])
+			{
+				$encodedConditions = json_encode(
+					FormHelper::parseRequireOnConditions((string) $option['requireon'], $this->formControl, $this->group)
+				);
+
+				$tmp['optionattr'] = " data-requireon='" . $encodedConditions . "'";
+			}
+
 			// Add the option object to the result set.
 			$options[] = (object) $tmp;
 		}
