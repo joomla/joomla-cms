@@ -43,7 +43,7 @@ final class Basic extends CMSPlugin
 	 *
 	 * @since  __DEPLOY_VERSION__
 	 */
-	protected $userFactory;
+	private $userFactory;
 
 	/**
 	 * Constructor.
