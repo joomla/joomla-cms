@@ -34,8 +34,9 @@
       // Do nothing
     }
 
-    // TODO Use Joomla's messages instead of an alert
-    alert(message);
+    Joomla.renderMessages({
+      error: message,
+    });
   };
 
   const setUp = (e) => {
@@ -43,8 +44,9 @@
 
     // Make sure the browser supports Webauthn
     if (!('credentials' in navigator)) {
-      // TODO Use Joomla's messages instead of an alert
-      alert(Joomla.JText._('PLG_TWOFACTORAUTH_WEBAUTHN_ERR_NOTAVAILABLE_HEAD'));
+      Joomla.renderMessages({
+        error: Joomla.JText._('PLG_TWOFACTORAUTH_WEBAUTHN_ERR_NOTAVAILABLE_HEAD'),
+      });
 
       return false;
     }
@@ -102,8 +104,9 @@
   const validate = () => {
     // Make sure the browser supports Webauthn
     if (!('credentials' in navigator)) {
-      // TODO Use Joomla's messages instead of an alert
-      alert(Joomla.JText._('PLG_TWOFACTORAUTH_WEBAUTHN_ERR_NOTAVAILABLE_HEAD'));
+      Joomla.renderMessages({
+        error: Joomla.JText._('PLG_TWOFACTORAUTH_WEBAUTHN_ERR_NOTAVAILABLE_HEAD'),
+      });
 
       return;
     }
