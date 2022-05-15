@@ -15,8 +15,6 @@ use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Joomla\CMS\MVC\Model\DatabaseAwareTrait;
 use Joomla\CMS\Table\Table;
 use Joomla\Database\DatabaseInterface;
-use Joomla\Database\DatabaseQuery;
-use Joomla\Database\QueryInterface;
 use Joomla\Tests\Unit\UnitTestCase;
 
 /**
@@ -260,26 +258,5 @@ class DatabaseModelTest extends UnitTestCase
 		};
 
 		$this->assertEquals('test', $model->cache(1, 'test'));
-	}
-
-	/**
-	 * Returns a database query instance.
-	 *
-	 * @param   DatabaseInterface  $db  The database
-	 *
-	 * @return  QueryInterface
-	 *
-	 * @since   4.2.0
-	 */
-	private function getQueryStub(DatabaseInterface $db): QueryInterface
-	{
-		return new class($db) extends DatabaseQuery
-		{
-			public function groupConcat($expression, $separator = ',')
-			{}
-
-			public function processLimit($query, $limit, $offset = 0)
-			{}
-		};
 	}
 }
