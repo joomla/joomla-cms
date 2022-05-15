@@ -237,7 +237,7 @@ if (!window.Joomla) {
 
 if (!Joomla.Requireon) {
   Joomla.Requireon = {
-    initialise: (container) => new Requireon(container)
+    initialise: (container) => new Requireon(container),
   };
 }
 
