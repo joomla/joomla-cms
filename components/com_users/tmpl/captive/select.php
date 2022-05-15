@@ -31,7 +31,7 @@ $shownMethods = [];
 		</p>
 	</div>
 
-	<div class="com-users-select-methods">
+	<div class="com-users-select-methods p-2">
 		<?php foreach ($this->records as $record):
 			if (!array_key_exists($record->method, $this->tfaMethods) && ($record->method != 'backupcodes')) continue;
 
@@ -45,28 +45,29 @@ $shownMethods = [];
 
 			$methodName = $this->getModel()->translateMethodName($record->method);
 		?>
-		<a class="com-users-method"
+		<a class="com-users-method py-2 px-2 border-top border-dark bg-light d-flex flex-row flex-wrap justify-content-start align-items-center text-decoration-none gap-2 text-body"
 		   href="<?php echo Route::_('index.php?option=com_users&view=captive&record_id=' . $record->id)?>">
 			<img src="<?php echo Uri::root() . $this->getModel()->getMethodImage($record->method) ?>"
-				 alt="<?php echo $this->escape(strip_tags($record->title)) ?>" class="com-users-method-image" />
+				 alt="<?php echo $this->escape(strip_tags($record->title)) ?>"
+				 class="com-users-method-image img-fluid" />
 			<?php if (!$this->allowEntryBatching || !$allowEntryBatching): ?>
-			<span class="com-users-method-title">
-				<?php if ($record->method === 'backupcodes'): ?>
-					<?php echo $record->title ?>
-				<?php else: ?>
-					<?php echo $this->escape($record->title) ?>
-				<?php endif; ?>
-			</span>
-			<span class="com-users-method-name">
-				<?php echo $methodName ?>
-			</span>
+				<span class="com-users-method-title flex-grow-1 fs-5 fw-bold">
+					<?php if ($record->method === 'backupcodes'): ?>
+						<?php echo $record->title ?>
+					<?php else: ?>
+						<?php echo $this->escape($record->title) ?>
+					<?php endif; ?>
+				</span>
+				<small class="com-users-method-name text-muted">
+					<?php echo $methodName ?>
+				</small>
 			<?php else: ?>
-			<span class="com-users-method-title">
-				<?php echo $methodName ?>
-			</span>
-			<span class="com-users-method-name">
-				<?php echo $methodName ?>
-			</span>
+				<span class="com-users-method-title flex-grow-1 fs-5 fw-bold">
+					<?php echo $methodName ?>
+				</span>
+				<small class="com-users-method-name text-muted">
+					<?php echo $methodName ?>
+				</small>
 			<?php endif; ?>
 		</a>
 		<?php endforeach; ?>
