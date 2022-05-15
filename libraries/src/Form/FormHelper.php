@@ -479,7 +479,7 @@ class FormHelper
 
 		return $prefixes;
 	}
-	
+
 	/**
 	 * Parse the show on conditions
 	 *
@@ -495,7 +495,7 @@ class FormHelper
 	 */
 	public static function parseShowOnConditions($showOn, $formControl = null, $group = null)
 	{
-		return parseFieldConditions($showOn, $formControl, $group );
+		return parseFieldConditions($showOn, $formControl, $group);
 	}
 
 	/**
