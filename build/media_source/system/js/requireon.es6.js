@@ -188,7 +188,7 @@ class Requireon {
 
       if (field.tagName !== 'option') {
         // Get the indicator of requiredness...
-        let star = field.getElementsByClassName('star');
+        const star = field.getElementsByClassName('star');
 
         if (requirefield) {
           if (star.length) {
@@ -202,9 +202,9 @@ class Requireon {
           } else if (field.getElementsByTagName('input').length > 0) {
             field.getElementsByTagName('input')[0].setAttribute('required', '');
           }
-          
+
           field.dispatchEvent(new CustomEvent('joomla:requireon-mandatory', {
-            bubbles: true
+            bubbles: true,
           }));
         } else {
           if (star.length) {
@@ -220,7 +220,7 @@ class Requireon {
           }
 
           field.dispatchEvent(new CustomEvent('joomla:requireon-optional', {
-            bubbles: true
+            bubbles: true,
           }));
         }
       } else {
@@ -229,20 +229,17 @@ class Requireon {
       }
     });
   }
-
 }
 
 if (!window.Joomla) {
   throw new Error('Joomla API is not properly initialized');
 } // Provide a public API
 
-
 if (!Joomla.Requireon) {
   Joomla.Requireon = {
-    initialise: container => new Requireon(container)
+    initialise: (container) => new Requireon(container)
   };
 }
-
 
 /**
  * Initialize 'requireon' feature at an initial page load
@@ -274,12 +271,11 @@ const getMatchedParents = ($child, selector) => {
   return parents;
 };
 
-
 /**
  * Initialize 'requireon' feature when part of the page was updated
  */
 document.addEventListener('joomla:updated', ({
-  target
+  target,
 }) => {
   // Check is it subform, then wee need to fix some "requireon" config
   if (target.classList.contains('subform-repeatable-group')) {
@@ -289,14 +285,14 @@ document.addEventListener('joomla:updated', ({
       const search = [];
       const replace = []; // Collect all parent groups of changed group
 
-      getMatchedParents(target, '.subform-repeatable-group').forEach($parent => {
+      getMatchedParents(target, '.subform-repeatable-group').forEach(($parent) => {
         search.push(new RegExp(`\\[${$parent.dataset.baseName}X\\]`, 'g'));
         replace.push(`[${$parent.dataset.group}]`);
       }); // Fix showon field names in a current group
 
       elements.forEach((element) => {
         let {
-          requireon
+          requireon,
         } = element.dataset;
         search.forEach((pattern, i) => {
           requireon = requireon.replace(pattern, replace[i]);
