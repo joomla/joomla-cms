@@ -493,7 +493,7 @@ class FormHelper
 	 */
 	public static function parseFieldConditions($conditions, $formControl = null, $group = null)
 	{
-		// Process the showon data.
+		// Process the conditions data.
 		if (!$conditions)
 		{
 			return array();
