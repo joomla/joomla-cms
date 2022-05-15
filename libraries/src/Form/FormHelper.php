@@ -520,7 +520,7 @@ class FormHelper
 		}
 
 		$conditionData  = array();
-		$conditionParts = preg_split('#(\[AND\]|\[OR\])#', $$conditions, -1, PREG_SPLIT_DELIM_CAPTURE);
+		$conditionParts = preg_split('#(\[AND\]|\[OR\])#', $conditions, -1, PREG_SPLIT_DELIM_CAPTURE);
 		$op          = '';
 
 		foreach ($conditionParts as $conditionPart)
