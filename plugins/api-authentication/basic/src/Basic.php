@@ -14,9 +14,10 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Application\CMSApplicationInterface;
 use Joomla\CMS\Authentication\Authentication;
 use Joomla\CMS\Plugin\CMSPlugin;
-use Joomla\CMS\User\User;
+use Joomla\CMS\User\UserFactoryInterface;
 use Joomla\CMS\User\UserHelper;
 use Joomla\Database\DatabaseAwareTrait;
+use Joomla\Event\DispatcherInterface;
 
 /**
  * Joomla Authentication plugin
@@ -34,6 +35,31 @@ final class Basic extends CMSPlugin
 	 * @since  4.0.0
 	 */
 	protected $app;
+
+	/**
+	 * The user factory
+	 *
+	 * @var    UserFactoryInterface
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $userFactory;
+
+	/**
+	 * Constructor.
+	 *
+	 * @param   DispatcherInterface   $dispatcher   The dispatcher
+	 * @param   array                 $config       An optional associative array of configuration settings
+	 * @param   UserFactoryInterface  $userFactory  The suer factory
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function __construct(DispatcherInterface $dispatcher, array $config, UserFactoryInterface $userFactory)
+	{
+		parent::__construct($dispatcher, $config);
+
+		$this->userFactory = $userFactory;
+	}
 
 	/**
 	 * This method should handle any authentication and report back to the subject
@@ -78,7 +104,7 @@ final class Basic extends CMSPlugin
 			if ($match === true)
 			{
 				// Bring this in line with the rest of the system
-				$user               = User::getInstance($result->id);
+				$user               = $this->userFactory->loadUserById($result->id);
 				$response->email    = $user->email;
 				$response->fullname = $user->name;
 				$response->username = $username;
