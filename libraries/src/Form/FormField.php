@@ -339,6 +339,14 @@ abstract class FormField implements DatabaseAwareInterface
 	protected $showon;
 
 	/**
+	 * The conditions to make field required or optional.
+	 *
+	 * @var    string
+	 * @since  4.2.0
+	 */
+	protected $requireon;
+
+	/**
 	 * The parent class of the field
 	 *
 	 * @var  string
@@ -465,6 +473,7 @@ abstract class FormField implements DatabaseAwareInterface
 			case 'spellcheck':
 			case 'validationtext':
 			case 'showon':
+			case 'requireon':
 			case 'parentclass':
 				return $this->$name;
 
@@ -528,6 +537,7 @@ abstract class FormField implements DatabaseAwareInterface
 			case 'validationtext':
 			case 'group':
 			case 'showon':
+			case 'requireon':
 			case 'parentclass':
 			case 'default':
 			case 'autocomplete':
@@ -654,7 +664,7 @@ abstract class FormField implements DatabaseAwareInterface
 		$attributes = array(
 			'multiple', 'name', 'id', 'hint', 'class', 'description', 'labelclass', 'onchange', 'onclick', 'validate', 'pattern', 'validationtext',
 			'default', 'required', 'disabled', 'readonly', 'autofocus', 'hidden', 'autocomplete', 'spellcheck', 'translateHint', 'translateLabel',
-			'translate_label', 'translateDescription', 'translate_description', 'size', 'showon');
+			'translate_label', 'translateDescription', 'translate_description', 'size', 'showon', 'requireon');
 
 		$this->default = isset($element['value']) ? (string) $element['value'] : $this->default;
 
@@ -1081,6 +1091,13 @@ abstract class FormField implements DatabaseAwareInterface
 			$options['showonEnabled'] = true;
 		}
 
+		if ($this->requireon)
+		{
+			$options['rel']           = ' data-requireon=\'' .
+				json_encode(FormHelper::parseRequireOnConditions($this->requireon, $this->formControl, $this->group)) . '\'';
+			$options['requireonEnabled'] = true;
+		}
+
 		$data = array(
 			'input'   => $this->getInput(),
 			'label'   => $this->getLabel(),
@@ -1380,7 +1397,7 @@ abstract class FormField implements DatabaseAwareInterface
 			'validationtext' => $this->validationtext,
 			'readonly'       => $this->readonly,
 			'repeat'         => $this->repeat,
-			'required'       => (bool) $this->required,
+			'required'       => (bool) $this->required ||(bool) $this->requireon,
 			'size'           => $this->size,
 			'spellcheck'     => $this->spellcheck,
 			'validate'       => $this->validate,
