@@ -25,11 +25,16 @@ $wa = Factory::getApplication()->getDocument()->getWebAssetManager();
 	<?php foreach ($filters as $fieldName => $field) : ?>
 		<?php if ($fieldName !== 'filter_search') : ?>
 			<?php $dataShowOn = ''; ?>
+			<?php $dataRequireOn = ''; ?>
 			<?php if ($field->showon) : ?>
 				<?php $wa->useScript('showon'); ?>
 				<?php $dataShowOn = " data-showon='" . json_encode(FormHelper::parseShowOnConditions($field->showon, $field->formControl, $field->group)) . "'"; ?>
 			<?php endif; ?>
-			<div class="js-stools-field-filter"<?php echo $dataShowOn; ?>>
+			<?php if ($field->requireon) : ?>
+				<?php $wa->useScript('requireon'); ?>
+				<?php $dataRequireOn = " data-requireon='" . json_encode(FormHelper::parseRequireOnConditions($field->requireon, $field->formControl, $field->group)) . "'"; ?>
+			<?php endif; ?>
+			<div class="js-stools-field-filter"<?php echo $dataShowOn.$dataRequireOn; ?>>
 				<span class="visually-hidden"><?php echo $field->label; ?></span>
 				<?php echo $field->input; ?>
 			</div>
