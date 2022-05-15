@@ -480,7 +480,6 @@ class FormHelper
 		return $prefixes;
 	}
 	
-	
 	/**
 	 * Parse the show on conditions
 	 *
