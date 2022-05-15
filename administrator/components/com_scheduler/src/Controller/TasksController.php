@@ -57,7 +57,10 @@ class TasksController extends AdminController
 		$this->checkToken();
 
 		/** @var integer[] $cid Items to publish (from request parameters). */
-		$cid = $this->input->get('cid', [], 'array');
+		$cid = (array) $this->input->get('cid', [], 'int');
+
+		// Remove zero values resulting from input filter
+		$cid = array_filter($cid);
 
 		if (empty($cid))
 		{
