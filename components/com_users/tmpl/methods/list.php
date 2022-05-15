@@ -66,7 +66,7 @@ $model = $this->getModel();
 								<div class="com-users-methods-list-method-record-info flex-grow-1 d-flex flex-column align-items-start gap-1">
 									<?php if ($methodName == 'backupcodes'): ?>
 										<div class="alert alert-info">
-											<h3 class="alert-heading">
+											<h3 class="alert-heading fs-6">
 												<span class="icon icon-info-circle icon-info-sign" aria-hidden="true"></span>
 												<?php echo Text::sprintf('COM_USERS_TFA_OTEP_PRINT_PROMPT_HEAD', Route::_('index.php?option=com_users&task=method.edit&id=' . (int) $record->id . ($this->returnURL ? '&returnurl=' . $this->escape(urlencode($this->returnURL)) : '') . '&user_id=' . $this->user->id)) ?>
 											</h3>

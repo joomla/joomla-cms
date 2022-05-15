@@ -105,6 +105,7 @@ abstract class Tfa
 		$view->document  = $app->getDocument();
 		$view->returnURL = base64_encode(Uri::getInstance()->toString());
 		$view->user      = $user;
+		$view->set('forHMVC', true);
 
 		@ob_start();
 

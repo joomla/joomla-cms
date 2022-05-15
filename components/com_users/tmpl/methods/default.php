@@ -33,11 +33,12 @@ use Joomla\Component\Users\Site\View\Methods\HtmlView;
 		<?php endif; ?>
 	</div>
 
-	<?php if (!$this->isAdmin): ?>
+	<?php if (!$this->get('forHMVC', false)): ?>
 	<h3 id="com-users-methods-list-head">
 		<?php echo Text::_('COM_USERS_TFA_LIST_PAGE_HEAD'); ?>
 	</h3>
-	<?php endif; ?>
+	<?php endif ?>
+
 	<div id="com-users-methods-list-instructions" class="alert alert-info mt-2">
 		<span class="icon icon-info-circle"></span>
 		<?php echo Text::_('COM_USERS_TFA_LIST_INSTRUCTIONS'); ?>
