@@ -139,7 +139,7 @@ class ListField extends FormField
 			if ((string) $option['showon'])
 			{
 				$encodedConditions = json_encode(
-					FormHelper::parseShowOnConditions((string) $option['showon'], $this->formControl, $this->group)
+					FormHelper::parseFieldConditions((string) $option['showon'], $this->formControl, $this->group)
 				);
 
 				$tmp['optionattr'] = " data-showon='" . $encodedConditions . "'";
@@ -148,7 +148,7 @@ class ListField extends FormField
 			if ((string) $option['requireon'])
 			{
 				$encodedConditions = json_encode(
-					FormHelper::parseRequireOnConditions((string) $option['requireon'], $this->formControl, $this->group)
+					FormHelper::parseFieldConditions((string) $option['requireon'], $this->formControl, $this->group)
 				);
 
 				$tmp['optionattr'] = " data-requireon='" . $encodedConditions . "'";
