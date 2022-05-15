@@ -96,11 +96,11 @@ class CaptiveController extends BaseController
 
 		// Pass the model to the view
 		/** @var CaptiveModel $model */
-		$model = $this->getModel('Captive', 'Administrator');
+		$model = $this->getModel('Captive');
 		$view->setModel($model, true);
 
 		/** @var BackupcodesModel $codesModel */
-		$codesModel = $this->getModel('Backupcodes', 'Administrator');
+		$codesModel = $this->getModel('Backupcodes');
 		$view->setModel($codesModel, false);
 
 		try
@@ -142,7 +142,7 @@ class CaptiveController extends BaseController
 		$recordId  = $this->input->getInt('record_id', null);
 		$code       = $this->input->get('code', null, 'raw');
 		/** @var CaptiveModel $model */
-		$model = $this->getModel('Captive', 'Administrator');
+		$model = $this->getModel('Captive');
 
 		// Validate the TFA record
 		$model->setState('record_id', $recordId);
@@ -173,7 +173,7 @@ class CaptiveController extends BaseController
 		if ($record->method == 'backupcodes')
 		{
 			/** @var BackupcodesModel $codesModel */
-			$codesModel = $this->getModel('Backupcodes', 'Administrator');
+			$codesModel = $this->getModel('Backupcodes');
 			$results    = [$codesModel->isBackupCode($code, $user)];
 			/**
 			 * This is required! Do not remove!

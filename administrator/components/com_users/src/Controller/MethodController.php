@@ -98,7 +98,7 @@ class MethodController extends BaseControllerAlias
 		$this->assertMethodExists($method);
 
 		/** @var MethodModel $model */
-		$model = $this->getModel('Method', 'Administrator');
+		$model = $this->getModel('Method');
 		$model->setState('method', $method);
 
 		// Pass the return URL to the view
@@ -149,7 +149,7 @@ class MethodController extends BaseControllerAlias
 		}
 
 		/** @var MethodModel $model */
-		$model = $this->getModel('Method', 'Administrator');
+		$model = $this->getModel('Method');
 		$model->setState('id', $id);
 
 		// Pass the return URL to the view
@@ -192,7 +192,7 @@ class MethodController extends BaseControllerAlias
 		$this->assertCanEdit($user);
 
 		/** @var BackupcodesModel $model */
-		$model = $this->getModel('Backupcodes', 'Administrator');
+		$model = $this->getModel('Backupcodes');
 		$model->regenerateBackupCodes($user);
 
 		$backupCodesRecord = $model->getBackupCodesRecord($user);
@@ -313,7 +313,7 @@ class MethodController extends BaseControllerAlias
 		}
 
 		/** @var MethodModel $model */
-		$model = $this->getModel('Method', 'Administrator');
+		$model = $this->getModel('Method');
 
 		// Ask the plugin to validate the input by calling onUserTwofactorSaveSetup
 		$result = [];
@@ -433,7 +433,7 @@ class MethodController extends BaseControllerAlias
 		}
 
 		/** @var MethodModel $model */
-		$model = $this->getModel('Method', 'Administrator');
+		$model = $this->getModel('Method');
 
 		$model->setState('id', $id);
 
@@ -482,7 +482,7 @@ class MethodController extends BaseControllerAlias
 	private function assertMethodExists(?string $method): void
 	{
 		/** @var MethodModel $model */
-		$model = $this->getModel('Method', 'Administrator');
+		$model = $this->getModel('Method');
 
 		if (empty($method) || !$model->methodExists($method))
 		{

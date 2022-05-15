@@ -81,7 +81,7 @@ class MethodsController extends BaseController
 
 		// Delete all TSV Methods for the user
 		/** @var MethodsModel $model */
-		$model   = $this->getModel('Methods', 'Administrator');
+		$model   = $this->getModel('Methods');
 		$type    = null;
 		$message = null;
 
@@ -146,7 +146,7 @@ class MethodsController extends BaseController
 		$view->returnURL = $returnURL;
 		$view->user      = $user;
 
-		$backupCodesModel = $this->getModel('Backupcodes', 'Administrator');
+		$backupCodesModel = $this->getModel('Backupcodes');
 		$view->setModel($backupCodesModel, false);
 
 		parent::display($cachable, $urlparams);
@@ -185,7 +185,7 @@ class MethodsController extends BaseController
 		);
 
 		/** @var MethodsModel $model */
-		$model = $this->getModel('Methods', 'Administrator');
+		$model = $this->getModel('Methods');
 		$model->setFlag($user, true);
 
 		// Redirect
