@@ -92,7 +92,7 @@ class WorkflowstageField extends GroupedlistField
 	 */
 	protected function getGroups()
 	{
-		$db    = Factory::getDbo();
+		$db    = $this->getDatabase();
 		$query = $db->getQuery(true);
 
 		// Select distinct stages for existing articles
