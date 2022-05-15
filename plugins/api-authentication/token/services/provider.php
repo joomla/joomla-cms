@@ -34,9 +34,11 @@ return new class implements ServiceProviderInterface {
 			PluginInterface::class,
 			function (Container $container)
 			{
-				$dispatcher = $container->get(DispatcherInterface::class);
-
-				$plugin = new Token($dispatcher, (array) PluginHelper::getPlugin('system', 'cache'), $container->get(UserFactoryInterface::class));
+				$plugin = new Token(
+					$container->get(DispatcherInterface::class),
+					(array) PluginHelper::getPlugin('system', 'cache'),
+					$container->get(UserFactoryInterface::class)
+				);
 				$plugin->setDatabase($container->get(DatabaseInterface::class));
 
 				return $plugin;
