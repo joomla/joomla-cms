@@ -125,6 +125,39 @@ class PlgUserJoomla extends CMSPlugin
 		{
 			// Do nothing.
 		}
+
+		// Delete Two Factor Authentication user profile records
+		$profileKey = 'tfa.%';
+		$query      = $this->db->getQuery(true)
+			->delete($this->db->quoteName('#__user_profiles'))
+			->where($this->db->quoteName('user_id') . ' = :userId')
+			->where($this->db->quoteName('profile_key') . ' LIKE :profileKey')
+			->bind(':userId', $userId, ParameterType::INTEGER)
+			->bind(':profileKey', $profileKey, ParameterType::STRING);
+
+		try
+		{
+			$this->db->setQuery($query)->execute();
+		}
+		catch (Exception $e)
+		{
+			// Do nothing
+		}
+
+		// Delete Two Factor Authentication records
+		$query = $this->db->getQuery(true)
+			->delete($this->db->qn('#__user_tfa'))
+			->where($this->db->quoteName('user_id') . ' = :userId')
+			->bind(':userId', $userId, ParameterType::INTEGER);
+
+		try
+		{
+			$this->db->setQuery($query)->execute();
+		}
+		catch (Exception $e)
+		{
+			// Do nothing
+		}
 	}
 
 	/**

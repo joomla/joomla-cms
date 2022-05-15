@@ -13,7 +13,6 @@ use Exception;
 use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Date\Date;
-use Joomla\CMS\Document\HtmlDocument;
 use Joomla\CMS\Encrypt\Aes;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\CMSPlugin;
@@ -28,7 +27,6 @@ use Joomla\Database\ParameterType;
 use Joomla\Event\DispatcherInterface;
 use Joomla\Event\Event;
 use Joomla\Event\SubscriberInterface;
-use Joomla\Utilities\ArrayHelper;
 
 /**
  * Joomla! Two Factor Authentication
@@ -120,7 +118,6 @@ class Tfa extends CMSPlugin implements SubscriberInterface
 		return [
 			'onAfterRoute'      => 'onAfterRoute',
 			'onUserAfterLogin'  => 'onUserAfterLogin',
-			'onUserAfterDelete' => 'onUserAfterDelete',
 		];
 	}
 
@@ -301,83 +298,6 @@ class Tfa extends CMSPlugin implements SubscriberInterface
 		$this->saveRedirectionUrlToSession();
 		$this->disableTfaOnSilentLogin($options);
 		$this->redirectToTFASetup($options);
-	}
-
-	/**
-	 * Remove all user profile information for the given user ID
-	 *
-	 * Method is called after user data is deleted from the database
-	 *
-	 * @param   Event   $event   The event we are handling
-	 *
-	 * @return  void
-	 * @since   __DEPLOY_VERSION__
-	 */
-	public function onUserAfterDelete(Event $event): void
-	{
-		/**
-		 * @var array  $user    Holds the user data
-		 * @var bool   $success True if user was successfully stored in the database
-		 * @var string $msg     Message
-		 */
-		[$user, $success, $msg] = $event->getArguments();
-		$result = $event->getArgument('result') ?: [];
-
-		if (!$success)
-		{
-			$result[] = false;
-			$event->setArgument('result', $result);
-
-			return;
-		}
-
-		$userId = ArrayHelper::getValue($user, 'id', 0, 'int');
-
-		if (!$userId)
-		{
-			$result[] = true;
-			$event->setArgument('result', $result);
-
-			return;
-		}
-
-		$db = $this->db;
-
-		// Delete user profile records
-		$profileKey = 'tfa.%';
-		$query      = $db->getQuery(true)
-			->delete($db->quoteName('#__user_profiles'))
-			->where($db->quoteName('user_id') . ' = :userId')
-			->where($db->quoteName('profile_key') . ' LIKE :profileKey')
-			->bind(':userId', $userId, ParameterType::INTEGER)
-			->bind(':profileKey', $profileKey, ParameterType::STRING);
-
-		try
-		{
-			$db->setQuery($query)->execute();
-		}
-		catch (Exception $e)
-		{
-			// No sweat if it failed
-		}
-
-		// Delete TFA records
-		$query = $db->getQuery(true)
-			->delete($db->qn('#__user_tfa'))
-			->where($db->quoteName('user_id') . ' = :userId')
-			->bind(':userId', $userId, ParameterType::INTEGER);
-
-		try
-		{
-			$db->setQuery($query)->execute();
-		}
-		catch (Exception $e)
-		{
-			// No sweat if it failed
-		}
-
-		$result[] = true;
-		$event->setArgument('result', $result);
 	}
 
 	/**
