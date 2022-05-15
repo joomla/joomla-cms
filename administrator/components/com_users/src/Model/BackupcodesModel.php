@@ -12,6 +12,7 @@ namespace Joomla\Component\Users\Administrator\Model;
 use Joomla\CMS\Crypt\Crypt;
 use Joomla\CMS\Date\Date;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Joomla\CMS\User\User;
 use Joomla\CMS\User\UserFactoryInterface;
@@ -131,7 +132,7 @@ class BackupcodesModel extends BaseDatabaseModel
 
 			$newData = [
 				'user_id'    => $user->id,
-				'title'      => 'Backup Codes',
+				'title'      => Text::_('COM_USERS_PROFILE_OTEPS'),
 				'method'     => 'backupcodes',
 				'default'    => 0,
 				'created_on' => $jNow->toSql(),

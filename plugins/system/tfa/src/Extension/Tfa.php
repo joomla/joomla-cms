@@ -799,10 +799,12 @@ class Tfa extends CMSPlugin implements SubscriberInterface
 			switch ($otpMethod)
 			{
 				case 'totp':
+					$this->app->getLanguage()->load('plg_twofactorauth_totp', JPATH_ADMINISTRATOR);
+
 					(new TfaTable($this->db))->save(
 						[
 							'user_id'    => $user->id,
-							'title'      => 'Authenticator',
+							'title'      => Text::_('PLG_TWOFACTORAUTH_TOTP_METHOD_TITLE'),
 							'method'     => 'totp',
 							'default'    => 0,
 							'created_on' => Date::getInstance()->toSql(),
@@ -813,10 +815,12 @@ class Tfa extends CMSPlugin implements SubscriberInterface
 					break;
 
 				case 'yubikey':
+					$this->app->getLanguage()->load('plg_twofactorauth_yubikey', JPATH_ADMINISTRATOR);
+
 					(new TfaTable($this->db))->save(
 						[
 							'user_id'    => $user->id,
-							'title'      => 'YubiKey ' . $config['yubikey'],
+							'title'      => sprintf("%s %s", Text::_('PLG_TWOFACTORAUTH_YUBIKEY_METHOD_TITLE'), $config['yubikey']),
 							'method'     => 'yubikey',
 							'default'    => 0,
 							'created_on' => Date::getInstance()->toSql(),
