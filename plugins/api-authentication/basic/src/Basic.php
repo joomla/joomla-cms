@@ -7,36 +7,33 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+namespace Joomla\Plugin\ApiAuthentication\Basic;
+
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Application\CMSApplicationInterface;
 use Joomla\CMS\Authentication\Authentication;
-use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\User\User;
 use Joomla\CMS\User\UserHelper;
+use Joomla\Database\DatabaseAwareTrait;
 
 /**
  * Joomla Authentication plugin
  *
  * @since  4.0.0
  */
-class PlgApiAuthenticationBasic extends CMSPlugin
+final class Basic extends CMSPlugin
 {
-	/**
-	 * The application object
-	 *
-	 * @var    \Joomla\CMS\Application\CMSApplicationInterface
-	 * @since  4.0.0
-	 */
-	protected $app;
+	use DatabaseAwareTrait;
 
 	/**
 	 * The application object
 	 *
-	 * @var    \Joomla\Database\DatabaseInterface
+	 * @var    CMSApplicationInterface
 	 * @since  4.0.0
 	 */
-	protected $db;
+	protected $app;
 
 	/**
 	 * This method should handle any authentication and report back to the subject
@@ -59,12 +56,12 @@ class PlgApiAuthenticationBasic extends CMSPlugin
 		if ($password === '')
 		{
 			$response->status        = Authentication::STATUS_FAILURE;
-			$response->error_message = Text::_('JGLOBAL_AUTH_EMPTY_PASS_NOT_ALLOWED');
+			$response->error_message = $this->app->getLanguage()->_('JGLOBAL_AUTH_EMPTY_PASS_NOT_ALLOWED');
 
 			return;
 		}
 
-		$db    = $this->db;
+		$db    = $this->getDatabase();
 		$query = $db->getQuery(true)
 			->select($db->quoteName(['id', 'password']))
 			->from($db->quoteName('#__users'))
@@ -103,7 +100,7 @@ class PlgApiAuthenticationBasic extends CMSPlugin
 			{
 				// Invalid password
 				$response->status        = Authentication::STATUS_FAILURE;
-				$response->error_message = Text::_('JGLOBAL_AUTH_INVALID_PASS');
+				$response->error_message = $this->app->getLanguage()->_('JGLOBAL_AUTH_INVALID_PASS');
 			}
 		}
 		else
@@ -114,7 +111,7 @@ class PlgApiAuthenticationBasic extends CMSPlugin
 
 			// Invalid user
 			$response->status        = Authentication::STATUS_FAILURE;
-			$response->error_message = Text::_('JGLOBAL_AUTH_NO_USER');
+			$response->error_message = $this->app->getLanguage()->_('JGLOBAL_AUTH_NO_USER');
 		}
 	}
 }

@@ -9,8 +9,10 @@
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>4.0.0</version>
 	<description>PLG_API-AUTHENTICATION_BASIC_XML_DESCRIPTION</description>
+	<namespace path="src">Joomla\Plugin\ApiAuthentication\Basic</namespace>
 	<files>
-		<filename plugin="basic">basic.php</filename>
+		<folder plugin="cache">services</folder>
+		<folder>src</folder>
 	</files>
 	<languages>
 		<language tag="en-GB">language/en-GB/plg_authentication_api_basic.ini</language>
