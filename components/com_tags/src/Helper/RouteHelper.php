@@ -81,8 +81,8 @@ class RouteHelper extends CMSRouteHelper
 	/**
 	 * Tries to load the router for the component and calls it. Otherwise calls getRoute.
 	 *
-	 * @param   string   $language  The language of the tag
 	 * @param   integer  $id        The ID of the tag
+	 * @param   string   $language  The language of the tag
 	 *
 	 * @return  string  URL link to pass to the router
 	 *
