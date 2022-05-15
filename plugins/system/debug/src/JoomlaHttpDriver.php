@@ -53,7 +53,7 @@ class JoomlaHttpDriver implements HttpDriverInterface
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	function setHeaders(array $headers)
+	public function setHeaders(array $headers)
 	{
 		if ($this->app instanceof CMSApplication)
 		{
@@ -71,7 +71,7 @@ class JoomlaHttpDriver implements HttpDriverInterface
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	function isSessionStarted()
+	public function isSessionStarted()
 	{
 		return $this->app->getSession()->isStarted();
 	}
@@ -84,7 +84,7 @@ class JoomlaHttpDriver implements HttpDriverInterface
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	function setSessionValue($name, $value)
+	public function setSessionValue($name, $value)
 	{
 		$this->app->getSession()->set($name, $value);
 	}
@@ -98,7 +98,7 @@ class JoomlaHttpDriver implements HttpDriverInterface
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	function hasSessionValue($name)
+	public function hasSessionValue($name)
 	{
 		return $this->app->getSession()->has($name);
 	}
@@ -112,7 +112,7 @@ class JoomlaHttpDriver implements HttpDriverInterface
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	function getSessionValue($name)
+	public function getSessionValue($name)
 	{
 		return $this->app->getSession()->get($name);
 	}
@@ -124,7 +124,7 @@ class JoomlaHttpDriver implements HttpDriverInterface
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	function deleteSessionValue($name)
+	public function deleteSessionValue($name)
 	{
 		$this->app->getSession()->remove($name);
 	}
