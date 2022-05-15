@@ -91,10 +91,10 @@ $model = $this->getModel();
 									<?php endif; ?>
 
 									<div class="com-users-methods-list-method-record-lastused my-1 d-flex flex-row flex-wrap justify-content-evenly text-muted w-100">
-										<span class="com-users-methods-list-method-record-createdon">
+										<span class="com-users-methods-list-method-record-createdon w-50">
 											<?php echo Text::sprintf('COM_USERS_TFA_LBL_CREATEDON', $model->formatRelative($record->created_on)) ?>
 										</span>
-										<span class="com-users-methods-list-method-record-lastused-date">
+										<span class="com-users-methods-list-method-record-lastused-date w-50">
 											<?php echo Text::sprintf('COM_USERS_TFA_LBL_LASTUSED', $model->formatRelative($record->last_used)) ?>
 										</span>
 									</div>

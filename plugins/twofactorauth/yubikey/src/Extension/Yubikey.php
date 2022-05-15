@@ -12,7 +12,6 @@ namespace Joomla\Plugin\Twofactorauth\Yubikey\Extension;
 use Exception;
 use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Http\HttpFactory;
-use Joomla\Input\Input;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Uri\Uri;
@@ -24,6 +23,7 @@ use Joomla\Component\Users\Administrator\Helper\Tfa as TfaHelper;
 use Joomla\Component\Users\Administrator\Table\TfaTable;
 use Joomla\Event\Event;
 use Joomla\Event\SubscriberInterface;
+use Joomla\Input\Input;
 use RuntimeException;
 
 /**
@@ -100,11 +100,11 @@ class Yubikey extends CMSPlugin implements SubscriberInterface
 			$event,
 			new MethodDescriptor(
 				[
-					'name'      => $this->tfaMethodName,
-					'display'   => Text::_('PLG_TWOFACTORAUTH_YUBIKEY_METHOD_TITLE'),
-					'shortinfo' => Text::_('PLG_TWOFACTORAUTH_YUBIKEY_SHORTINFO'),
-					'image'     => 'media/plg_twofactorauth_yubikey/images/yubikey.svg',
-					'allowMultiple'      => true,
+					'name'               => $this->tfaMethodName,
+					'display'            => Text::_('PLG_TWOFACTORAUTH_YUBIKEY_METHOD_TITLE'),
+					'shortinfo'          => Text::_('PLG_TWOFACTORAUTH_YUBIKEY_SHORTINFO'),
+					'image'              => 'media/plg_twofactorauth_yubikey/images/yubikey.svg',
+					'allowEntryBatching' => true,
 				]
 			)
 		);

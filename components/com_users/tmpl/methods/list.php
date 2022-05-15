@@ -46,7 +46,7 @@ $model = $this->getModel();
 							<?php echo $method['display'] ?>
 						</span>
 						<?php if ($this->defaultMethod == $methodName): ?>
-							<span id="com-users-methods-list-method-default-tag" class="badge bg-info me-1">
+							<span id="com-users-methods-list-method-default-tag" class="badge bg-info me-1 fs-6">
 								<?php echo Text::_('COM_USERS_TFA_LIST_DEFAULTTAG') ?>
 							</span>
 						<?php endif; ?>
@@ -90,11 +90,11 @@ $model = $this->getModel();
 										</div>
 									<?php endif; ?>
 
-									<div class="com-users-methods-list-method-record-lastused my-1 d-flex flex-row flex-wrap justify-content-evenly text-muted w-100">
-										<span class="com-users-methods-list-method-record-createdon">
+									<div class="com-users-methods-list-method-record-lastused my-1 d-flex flex-row flex-wrap justify-content-start text-muted w-100">
+										<span class="com-users-methods-list-method-record-createdon w-50">
 											<?php echo Text::sprintf('COM_USERS_TFA_LBL_CREATEDON', $model->formatRelative($record->created_on)) ?>
 										</span>
-										<span class="com-users-methods-list-method-record-lastused-date">
+										<span class="com-users-methods-list-method-record-lastused-date w-50">
 											<?php echo Text::sprintf('COM_USERS_TFA_LBL_LASTUSED', $model->formatRelative($record->last_used)) ?>
 										</span>
 									</div>

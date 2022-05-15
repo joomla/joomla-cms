@@ -116,7 +116,7 @@ class CaptiveRenderOptions extends DataShapeObject
 	 * @var   boolean
 	 * @since __DEPLOY_VERSION__
 	 */
-	protected $allowEntryBatching = false;
+	protected $allowEntryBatching = true;
 
 	/**
 	 * URL for help content
