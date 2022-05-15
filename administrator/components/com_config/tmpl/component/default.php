@@ -66,7 +66,13 @@ $xml = $this->form->getXml();
 					<?php $dataShowOn = ''; ?>
 					<?php if (!empty($fieldSet->showon)) : ?>
 						<?php $wa->useScript('showon'); ?>
-						<?php $dataShowOn = ' data-showon=\'' . json_encode(FormHelper::parseShowOnConditions($fieldSet->showon, $this->formControl)) . '\''; ?>
+						<?php $dataShowOn = ' data-showon=\'' . json_encode(FormHelper::parseFieldConditions($fieldSet->showon, $this->formControl)) . '\''; ?>
+					<?php endif; ?>
+
+					<?php $dataRequireOn = ''; ?>
+					<?php if (!empty($fieldSet->requireon)) : ?>
+						<?php $wa->useScript('requireon'); ?>
+						<?php $dataRequireOn = ' data-requireon=\'' . json_encode(FormHelper::parseFieldConditions($fieldSet->requireon, $this->formControl)) . '\''; ?>
 					<?php endif; ?>
 
 					<?php $label = empty($fieldSet->label) ? 'COM_CONFIG_' . $name . '_FIELDSET_LABEL' : $fieldSet->label; ?>
