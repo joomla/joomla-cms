@@ -25,6 +25,7 @@ use Joomla\CMS\Language\Language;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\Menu\AbstractMenu;
+use Joomla\CMS\Menu\MenuFactoryInterface;
 use Joomla\CMS\Pathway\Pathway;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Profiler\Profiler;
@@ -127,6 +128,15 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 	 * @since  4.0.0
 	 */
 	protected $authenticationPluginType = 'authentication';
+
+	/**
+	 * The menu factory
+	 *
+	 * @var   MenuFactoryInterface
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
+	private $menuFactory;
 
 	/**
 	 * Class constructor.
@@ -515,7 +525,12 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 			$options['app'] = $this;
 		}
 
-		return AbstractMenu::getInstance($name, $options);
+		if ($this->menuFactory === null)
+		{
+			$this->menuFactory = $this->getContainer()->get(MenuFactoryInterface::class);
+		}
+
+		return $this->menuFactory->createMenu($name, $options);
 	}
 
 	/**
@@ -598,7 +613,9 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 	 *
 	 * @return  Router
 	 *
-	 * @since   3.2
+	 * @since      3.2
+	 *
+	 * @deprecated 5.0 Inject the router or load it from the dependency injection container
 	 */
 	public static function getRouter($name = null, array $options = array())
 	{
@@ -1056,9 +1073,11 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 	 * are then set in the request object to be processed when the application is being
 	 * dispatched.
 	 *
-	 * @return  void
+	 * @return     void
 	 *
-	 * @since   3.2
+	 * @since      3.2
+	 *
+	 * @deprecated 5.0 Implement the route functionality in the extending class, this here will be removed without replacement
 	 */
 	protected function route()
 	{
@@ -1445,5 +1464,19 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 
 			Log::addLogger(['text_file' => 'custom-logging.php'], $priority, $categories, $mode);
 		}
+	}
+
+	/**
+	 * Sets the internal menu factory.
+	 *
+	 * @param  MenuFactoryInterface  $menuFactory  The menu factory
+	 *
+	 * @return void
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
+	public function setMenuFactory(MenuFactoryInterface $menuFactory): void
+	{
+		$this->menuFactory = $menuFactory;
 	}
 }

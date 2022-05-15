@@ -11,7 +11,6 @@ namespace Joomla\CMS\Form\Field;
 \defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Application\ApplicationHelper;
-use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\Folder;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\HTML\HTMLHelper;
@@ -228,7 +227,7 @@ class ChromestyleField extends GroupedlistField
 	 */
 	protected function getTemplates()
 	{
-		$db = Factory::getDbo();
+		$db = $this->getDatabase();
 
 		// Get the database object and a new query object.
 		$query = $db->getQuery(true);

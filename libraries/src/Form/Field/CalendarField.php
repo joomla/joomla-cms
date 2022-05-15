@@ -245,7 +245,7 @@ class CalendarField extends FormField
 		{
 			case 'SERVER_UTC':
 				// Convert a date to UTC based on the server timezone.
-				if ($this->value && $this->value != Factory::getDbo()->getNullDate())
+				if ($this->value && $this->value != $this->getDatabase()->getNullDate())
 				{
 					// Get a date object based on the correct timezone.
 					$date = Factory::getDate($this->value, 'UTC');
@@ -257,7 +257,7 @@ class CalendarField extends FormField
 				break;
 			case 'USER_UTC':
 				// Convert a date to UTC based on the user timezone.
-				if ($this->value && $this->value != Factory::getDbo()->getNullDate())
+				if ($this->value && $this->value != $this->getDatabase()->getNullDate())
 				{
 					// Get a date object based on the correct timezone.
 					$date = Factory::getDate($this->value, 'UTC');
@@ -270,7 +270,7 @@ class CalendarField extends FormField
 		}
 
 		// Format value when not nulldate ('0000-00-00 00:00:00'), otherwise blank it as it would result in 1970-01-01.
-		if ($this->value && $this->value != Factory::getDbo()->getNullDate() && strtotime($this->value) !== false)
+		if ($this->value && $this->value != $this->getDatabase()->getNullDate() && strtotime($this->value) !== false)
 		{
 			$tz = date_default_timezone_get();
 			date_default_timezone_set('UTC');
