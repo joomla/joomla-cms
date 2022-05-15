@@ -15,7 +15,8 @@ use DebugBar\DataCollector\RequestDataCollector;
 use DebugBar\DebugBar;
 use DebugBar\OpenHandler;
 use Joomla\Application\ApplicationEvents;
-use Joomla\CMS\Application\CMSApplicationInterface;
+use Joomla\CMS\Application\CMSApplication;
+use Joomla\CMS\Application\ConsoleApplication;
 use Joomla\CMS\Document\HtmlDocument;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\Log\LogEntry;
@@ -35,6 +36,7 @@ use Joomla\Plugin\System\Debug\DataCollector\ProfileCollector;
 use Joomla\Plugin\System\Debug\DataCollector\QueryCollector;
 use Joomla\Plugin\System\Debug\DataCollector\SessionCollector;
 use Joomla\Plugin\System\Debug\JavascriptRenderer;
+use Joomla\Plugin\System\Debug\JoomlaHttpDriver;
 use Joomla\Plugin\System\Debug\Storage\FileStorage;
 
 /**
@@ -95,7 +97,7 @@ class PlgSystemDebug extends CMSPlugin implements SubscriberInterface
 	/**
 	 * Application object.
 	 *
-	 * @var    CMSApplicationInterface
+	 * @var    CMSApplication|ConsoleApplication
 	 * @since  3.3
 	 */
 	protected $app;
@@ -194,6 +196,7 @@ class PlgSystemDebug extends CMSPlugin implements SubscriberInterface
 
 		$this->debugBar = new DebugBar;
 		$this->debugBar->setStorage(new FileStorage($storagePath));
+		$this->debugBar->setHttpDriver(new JoomlaHttpDriver($this->app));
 
 		$this->isAjax = $this->app->input->get('option') === 'com_ajax'
 			&& $this->app->input->get('plugin') === 'debug' && $this->app->input->get('group') === 'system';
