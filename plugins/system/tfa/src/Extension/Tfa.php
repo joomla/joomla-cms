@@ -13,6 +13,7 @@ use Exception;
 use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Date\Date;
+use Joomla\CMS\Document\HtmlDocument;
 use Joomla\CMS\Encrypt\Aes;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\CMSPlugin;
@@ -172,13 +173,6 @@ class Tfa extends CMSPlugin implements SubscriberInterface
 			return;
 		}
 
-		// This also checks if we are in the site/administrator app and the user is logged in.
-		if (!$this->willNeedRedirect())
-		{
-			return;
-		}
-
-		// Make sure we are logged in
 		try
 		{
 			$user = $this->app->getIdentity();
@@ -193,11 +187,23 @@ class Tfa extends CMSPlugin implements SubscriberInterface
 			return;
 		}
 
+		if (!$this->willNeedRedirect())
+		{
+			return;
+		}
+
 		// We only kick in when the user has actually set up TFA or must definitely enable TFA.
 		$needsTFA     = $this->needsTFA($user);
 		$disabledTSV  = $this->disabledTSV($user);
 		$mandatoryTSV = $this->mandatoryTSV($user);
 		$session      = $this->app->getSession();
+		$isNonHtml    = $this->app->input->getCmd('format', 'html') !== 'html';
+
+		// Prevent non-interactive (non-HTML) content from being loaded until TFA is validated.
+		if ($needsTFA && $isNonHtml)
+		{
+			throw new \RuntimeException(Text::_('JERROR_ALERTNOAUTHOR'), 403);
+		}
 
 		if ($needsTFA && !$disabledTSV)
 		{
@@ -214,17 +220,11 @@ class Tfa extends CMSPlugin implements SubscriberInterface
 
 			if ($imperfectReturn || empty($returnUrl) || !Uri::isInternal($returnUrl))
 			{
-				if (!$this->isTfaPage())
-				{
-					$session->set(
-						'com_users.return_url',
-						Uri::getInstance()->toString(['scheme', 'user', 'pass', 'host', 'port', 'path', 'query', 'fragment'])
-					);
-				}
-				elseif (empty($returnUrl))
-				{
-					$session->set('com_users.return_url', Uri::base());
-				}
+				$returnUrl = $this->isTfaPage()
+					? Uri::base()
+					: Uri::getInstance()->toString(['scheme', 'user', 'pass', 'host', 'port', 'path', 'query', 'fragment']);
+				$session->set('com_users.return_url', $returnUrl);
+				$session->remove('com_users.imperfect_return');
 			}
 
 			// Redirect
@@ -638,6 +638,12 @@ class Tfa extends CMSPlugin implements SubscriberInterface
 	 */
 	private function saveRedirectionUrlToSession(): void
 	{
+		// If this is not an HTML page do not save its URL to the session
+		if ($this->app->input->getCmd('format', 'html') !== 'html')
+		{
+			return;
+		}
+
 		$session = $this->app->getSession();
 
 		// Save the current URL and mark it as an imperfect return (we'll fall back to it if all else fails)
