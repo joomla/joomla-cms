@@ -479,17 +479,36 @@ class FormHelper
 
 		return $prefixes;
 	}
-
+	
+	
 	/**
-	 * Parse the field conditions which is used for attributes such as `showon` and `requireon`
+	 * Parse the show on conditions
 	 *
-	 * @param   string  $conditions   Show on conditions.
+	 * @param   string  $showOn       Show on conditions.
 	 * @param   string  $formControl  Form name.
 	 * @param   string  $group        The dot-separated form group path.
 	 *
 	 * @return  array   Array with show on conditions.
 	 *
 	 * @since   3.7.0
+	 *
+	 * @deprecated 5.0 Use \Joomla\CMS\Form\FormHelper::parseFieldConditions instead
+	 */
+	public static function parseShowOnConditions($showOn, $formControl = null, $group = null)
+	{
+		return parseFieldConditions($showOn, $formControl, $group );
+	}
+
+	/**
+	 * Parse the field conditions which is used for attributes such as `showon` and `requireon`
+	 *
+	 * @param   string  $conditions   Show/Require on conditions.
+	 * @param   string  $formControl  Form name.
+	 * @param   string  $group        The dot-separated form group path.
+	 *
+	 * @return  array   Array with show on conditions.
+	 *
+	 * @since   4.2.0
 	 */
 	public static function parseFieldConditions($conditions, $formControl = null, $group = null)
 	{
