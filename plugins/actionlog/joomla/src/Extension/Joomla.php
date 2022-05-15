@@ -96,6 +96,7 @@ final class Joomla extends ActionLogPlugin
 
 		$this->loggableVerbs      = $params->get('loggable_verbs', []);
 	}
+
 	/**
 	 * After save content logging method
 	 * This method adds a record to #__action_logs contains (message, date, context, user)
