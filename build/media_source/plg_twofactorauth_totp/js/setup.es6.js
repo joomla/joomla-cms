@@ -1,7 +1,9 @@
 /**
- * @package   AkeebaLoginGuard
- * @copyright Copyright (c)2016-2022 Nicholas K. Dionysopoulos / Akeeba Ltd
- * @license   GNU General Public License version 3, or later
+ * @package     Joomla.Plugin
+ * @subpackage  Twofactorauth.webauthn
+ *
+ * @copyright   (C) 2020 Open Source Matters, Inc. <https://www.joomla.org>
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 ((Joomla, document, qrcode) => {

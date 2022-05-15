@@ -116,7 +116,7 @@ class DisplayController extends BaseController
 				case 'methods':
 				case 'method':
 					$controller = $this->factory->createController($vName, 'Site', [], $this->app, $this->input);
-					$task = $this->input->get('task', '');
+					$task       = $this->input->get('task', '');
 
 					return $controller->execute($task);
 

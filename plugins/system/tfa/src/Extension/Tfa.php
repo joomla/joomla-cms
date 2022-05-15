@@ -606,7 +606,7 @@ class Tfa extends CMSPlugin implements SubscriberInterface
 	 */
 	private function isTfaPage(): bool
 	{
-		if (!$this->app->isClient('site') && $this->app->isClient('administrator'))
+		if (!$this->app->isClient('site') && !$this->app->isClient('administrator'))
 		{
 			return false;
 		}
