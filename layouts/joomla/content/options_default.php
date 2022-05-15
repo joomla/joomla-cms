@@ -31,11 +31,11 @@ $wa = Factory::getApplication()->getDocument()->getWebAssetManager();
 				<?php $groupClass = $field->type === 'Spacer' ? ' field-spacer' : ''; ?>
 				<?php if ($field->showon) : ?>
 					<?php $wa->useScript('showon'); ?>
-					<?php $datashowon = ' data-showon=\'' . json_encode(FormHelper::parseShowOnConditions($field->showon, $field->formControl, $field->group)) . '\''; ?>
+					<?php $datashowon = ' data-showon=\'' . json_encode(FormHelper::parseFieldConditions($field->showon, $field->formControl, $field->group)) . '\''; ?>
 				<?php endif; ?>
 				<?php if ($field->requireon) : ?>
 					<?php $wa->useScript('requireon'); ?>
-					<?php $dataRequireOn = ' data-requireon=\'' . json_encode(FormHelper::parseRequireOnConditions($field->requireon, $field->formControl, $field->group)) . '\''; ?>
+					<?php $dataRequireOn = ' data-requireon=\'' . json_encode(FormHelper::parseFieldConditions($field->requireon, $field->formControl, $field->group)) . '\''; ?>
 				<?php endif; ?>
 				<?php if (isset($displayData->showlabel)) : ?>
 					<div class="control-group<?php echo $groupClass; ?>"<?php echo $datashowon.$dataRequireOn; ?>>
