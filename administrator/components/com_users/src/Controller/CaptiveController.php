@@ -49,7 +49,7 @@ class CaptiveController extends BaseController
 	{
 		parent::__construct($config, $factory, $app, $input);
 
-		$this->registerDefaultTask('captive');
+		$this->registerTask('captive', 'display');
 	}
 
 	/**
@@ -62,7 +62,7 @@ class CaptiveController extends BaseController
 	 * @throws  Exception
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function captive($cachable = false, $urlparams = false): void
+	public function display($cachable = false, $urlparams = false): void
 	{
 		$user = $this->app->getIdentity()
 			?: Factory::getContainer()->get(UserFactoryInterface::class)->loadUserById(0);

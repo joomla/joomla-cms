@@ -832,7 +832,6 @@ class Tfa extends CMSPlugin implements SubscriberInterface
 			}
 		}
 
-
 		// Convert the emergency codes
 		if ($hasConverted && !empty(@json_decode($otep, true)))
 		{
