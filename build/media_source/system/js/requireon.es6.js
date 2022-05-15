@@ -42,7 +42,7 @@ class Requireon {
           if (!this.fields[requireonData[0].field]) {
             this.fields[requireonData[0].field] = {
               origin: [],
-              targets: []
+              targets: [],
             };
           } // Add trigger elements
 
@@ -65,7 +65,7 @@ class Requireon {
               if (!this.fields[requireonData[0].field]) {
                 this.fields[requireonData[0].field] = {
                   origin: [],
-                  targets: []
+                  targets: [],
                 };
               } // Add trigger elements
 
@@ -86,10 +86,8 @@ class Requireon {
       this.linkedOptions = this.linkedOptions.bind(this); // Attach events to referenced element, to check condition on change and keyup
 
       Object.keys(this.fields).forEach((key) => {
-
         if (this.fields[key].origin.length) {
           this.fields[key].origin.forEach((elem) => {
-
             // Initialize the requireon behaviour for the given HTMLElement
             self.linkedOptions(key); // Setup listeners
 
@@ -107,7 +105,6 @@ class Requireon {
       });
     }
   }
-
 
   /**
    *
@@ -153,18 +150,15 @@ class Requireon {
           } // Convert to array to allow multiple values in the field (e.g. type=list multiple)
           // and normalize as string
 
-
           if (!(typeof itemval === 'object')) {
             itemval = JSON.parse(`["${itemval}"]`);
           } // Test if any of the values of the field exists in requireon conditions
-
 
           itemval.forEach((val) => {
             // ":" Equal to one or more of the values condition
             if (condition.sign === '=' && condition.values.indexOf(val) !== -1) {
               condition.valid = 1;
             } // "!:" Not equal to one or more of the values condition
-
 
             if (condition.sign === '!=' && condition.values.indexOf(val) === -1) {
               condition.valid = 1;
@@ -185,7 +179,6 @@ class Requireon {
             condition.valid = 0;
           } // OR operator: one of the previous and current conditions must be valid
 
-
           if (condition.op === 'OR' && condition.valid + elementRequireonDatas[index - 1].valid > 0) {
             requirefield = true;
             condition.valid = 1;
@@ -195,7 +188,7 @@ class Requireon {
 
       if (field.tagName !== 'option') {
         // Get the indicator of requiredness...
-        var star = field.getElementsByClassName('star');
+        let star = field.getElementsByClassName('star');
 
         if (requirefield) {
           if (star.length) {
@@ -204,13 +197,12 @@ class Requireon {
 
           if (field.getElementsByTagName('select').length > 0) {
             field.getElementsByTagName('select')[0].setAttribute('required', '');
-          }
-          else if (field.getElementsByTagName('textarea').length > 0) {
+          } else if (field.getElementsByTagName('textarea').length > 0) {
             field.getElementsByTagName('textarea')[0].setAttribute('required', '');
-          }
-          else if (field.getElementsByTagName('input').length > 0) {
+          } else if (field.getElementsByTagName('input').length > 0) {
             field.getElementsByTagName('input')[0].setAttribute('required', '');
           }
+          
           field.dispatchEvent(new CustomEvent('joomla:requireon-mandatory', {
             bubbles: true
           }));
@@ -221,8 +213,7 @@ class Requireon {
 
           if (field.getElementsByTagName('select').length > 0) {
             field.getElementsByTagName('select')[0].removeAttribute('required');
-          }
-          else if (field.getElementsByTagName('textarea').length > 0) {
+          } else if (field.getElementsByTagName('textarea').length > 0) {
             field.getElementsByTagName('textarea')[0].removeAttribute('required');
           } else if (field.getElementsByTagName('input').length > 0) {
             field.getElementsByTagName('input')[0].removeAttribute('required');
