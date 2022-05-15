@@ -28,11 +28,11 @@ $wa = Factory::getApplication()->getDocument()->getWebAssetManager();
 			<?php $dataRequireOn = ''; ?>
 			<?php if ($field->showon) : ?>
 				<?php $wa->useScript('showon'); ?>
-				<?php $dataShowOn = " data-showon='" . json_encode(FormHelper::parseShowOnConditions($field->showon, $field->formControl, $field->group)) . "'"; ?>
+				<?php $dataShowOn = " data-showon='" . json_encode(FormHelper::parseFieldConditions($field->showon, $field->formControl, $field->group)) . "'"; ?>
 			<?php endif; ?>
 			<?php if ($field->requireon) : ?>
 				<?php $wa->useScript('requireon'); ?>
-				<?php $dataRequireOn = " data-requireon='" . json_encode(FormHelper::parseRequireOnConditions($field->requireon, $field->formControl, $field->group)) . "'"; ?>
+				<?php $dataRequireOn = " data-requireon='" . json_encode(FormHelper::parseFieldConditions($field->requireon, $field->formControl, $field->group)) . "'"; ?>
 			<?php endif; ?>
 			<div class="js-stools-field-filter"<?php echo $dataShowOn.$dataRequireOn; ?>>
 				<span class="visually-hidden"><?php echo $field->label; ?></span>
