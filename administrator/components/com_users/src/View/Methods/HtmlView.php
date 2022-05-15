@@ -171,7 +171,8 @@ class HtmlView extends BaseHtmlView
 		// Display the view
 		parent::display($tpl);
 
-		TfaHelper::triggerEvent(
+		$app->triggerEvent(
+			'onComUsersViewMethodsAfterDisplay',
 			new GenericEvent('onComUsersViewMethodsAfterDisplay', [$this])
 		);
 	}

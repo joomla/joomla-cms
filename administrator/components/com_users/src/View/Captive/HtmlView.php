@@ -100,7 +100,8 @@ class HtmlView extends BaseHtmlView
 		$user = Factory::getApplication()->getIdentity()
 			?: Factory::getContainer()->get(UserFactoryInterface::class)->loadUserById(0);
 
-		TfaHelper::triggerEvent(
+		$app->triggerEvent(
+			'onUserTwofactorBeforeDisplayMethods',
 			new GenericEvent(
 				'onUserTwofactorBeforeDisplayMethods',
 				[
@@ -166,7 +167,8 @@ class HtmlView extends BaseHtmlView
 			case 'select':
 				$this->allowEntryBatching = 1;
 
-				TfaHelper::triggerEvent(
+				$app->triggerEvent(
+					'onComUsersCaptiveShowSelect',
 					new GenericEvent('onComUsersCaptiveShowSelect', [])
 				);
 				break;
@@ -182,7 +184,8 @@ class HtmlView extends BaseHtmlView
 						->useScript('com_users.two-factor-focus');
 				}
 
-				TfaHelper::triggerEvent(
+				$app->triggerEvent(
+					'onComUsersCaptiveShowCaptive',
 					new GenericEvent(
 						'onComUsersCaptiveShowCaptive',
 						[

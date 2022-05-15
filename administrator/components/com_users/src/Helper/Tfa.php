@@ -147,10 +147,11 @@ abstract class Tfa
 
 		if (is_null(self::$allTFAs))
 		{
-			$event = new GenericEvent('onUserTwofactorGetMethod', []);
-
 			// Get all the plugin results
-			$temp = self::triggerEvent($event);
+			$temp = Factory::getApplication()->triggerEvent(
+				'onUserTwofactorGetMethod',
+				new GenericEvent('onUserTwofactorGetMethod', [])
+			);
 
 			// Normalize the results
 			self::$allTFAs = [];
@@ -174,30 +175,6 @@ abstract class Tfa
 		}
 
 		return self::$allTFAs;
-	}
-
-	/**
-	 * Trigger a global Event and return the results (if it implements the ResultAwareInterface)
-	 *
-	 * @param   Event  $event  The event to trigger
-	 *
-	 * @return  array
-	 * @since __DEPLOY_VERSION__
-	 */
-	public static function triggerEvent(Event $event): array
-	{
-		try
-		{
-			$dispatcher = Factory::getApplication()->getDispatcher();
-		}
-		catch (Exception $exception)
-		{
-			return [];
-		}
-
-		$result = $dispatcher->dispatch($event->getName(), $event);
-
-		return $result->getArgument('result', []) ?: [];
 	}
 
 	/**

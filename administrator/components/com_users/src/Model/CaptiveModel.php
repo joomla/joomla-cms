@@ -228,7 +228,10 @@ class CaptiveModel extends BaseDatabaseModel
 			return $renderOptions;
 		}
 
-		$results = TfaHelper::triggerEvent(new GenericEvent('onUserTwofactorCaptive', ['record' => $record]));
+		$results = Factory::getApplication()->triggerEvent(
+			'onUserTwofactorCaptive',
+			new GenericEvent('onUserTwofactorCaptive', ['record' => $record])
+		);
 
 		if (empty($results))
 		{

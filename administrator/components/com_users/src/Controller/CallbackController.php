@@ -67,7 +67,10 @@ class CallbackController extends BaseController
 
 		PluginHelper::importPlugin('twofactorauth');
 
-		TfaHelper::triggerEvent(new GenericEvent('onUserTwofactorCallback', ['method' => $method]));
+		$this->app->triggerEvent(
+			'onUserTwofactorCallback',
+			new GenericEvent('onUserTwofactorCallback', ['method' => $method])
+		);
 
 		/**
 		 * The first plugin to handle the request should either redirect or close the application. If we are still here

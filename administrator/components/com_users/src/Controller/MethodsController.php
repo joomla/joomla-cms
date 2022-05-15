@@ -85,7 +85,8 @@ class MethodsController extends BaseController
 		$type    = null;
 		$message = null;
 
-		TfaHelper::triggerEvent(
+		$this->app->triggerEvent(
+			'onComUsersControllerMethodsBeforeDisable',
 			new GenericEvent('onComUsersControllerMethodsBeforeDisable', [$user])
 		);
 
@@ -180,7 +181,8 @@ class MethodsController extends BaseController
 			throw new RuntimeException(Text::_('JERROR_ALERTNOAUTHOR'), 403);
 		}
 
-		TfaHelper::triggerEvent(
+		$this->app->triggerEvent(
+			'onComUsersControllerMethodsBeforeDontshowthisagain',
 			new GenericEvent('onComUsersControllerMethodsBeforeDontshowthisagain', [$user])
 		);
 

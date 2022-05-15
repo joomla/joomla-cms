@@ -150,7 +150,10 @@ class CaptiveController extends BaseController
 
 		if (empty($record))
 		{
-			TfaHelper::triggerEvent(new GenericEvent('onComUsersCaptiveValidateInvalidMethod'));
+			$this->app->triggerEvent(
+				'onComUsersCaptiveValidateInvalidMethod',
+				new GenericEvent('onComUsersCaptiveValidateInvalidMethod')
+			);
 
 			throw new RuntimeException(Text::_('COM_USERS_TFA_INVALID_METHOD'), 500);
 		}
@@ -159,7 +162,8 @@ class CaptiveController extends BaseController
 		$user = $this->app->getIdentity()
 			?: Factory::getContainer()->get(UserFactoryInterface::class)->loadUserById(0);
 
-		$results     = TfaHelper::triggerEvent(
+		$results     = $this->app->triggerEvent(
+			'onUserTwofactorValidate',
 			new GenericEvent('onUserTwofactorValidate',
 				[
 					'record' => $record,
@@ -168,6 +172,7 @@ class CaptiveController extends BaseController
 				]
 			)
 		);
+
 		$isValidCode = false;
 
 		if ($record->method == 'backupcodes')
@@ -213,7 +218,10 @@ class CaptiveController extends BaseController
 			$message    = Text::_('COM_USERS_TFA_INVALID_CODE');
 			$this->setRedirect($captiveURL, $message, 'error');
 
-			TfaHelper::triggerEvent(new GenericEvent('onComUsersCaptiveValidateFailed', [$record->title]));
+			$this->app->triggerEvent(
+				'onComUsersCaptiveValidateFailed',
+				new GenericEvent('onComUsersCaptiveValidateFailed', [$record->title])
+			);
 
 			return;
 		}
@@ -240,7 +248,10 @@ class CaptiveController extends BaseController
 
 		$this->setRedirect($returnUrl);
 
-		TfaHelper::triggerEvent(new GenericEvent('onComUsersCaptiveValidateSuccess', [$record->title]));
+		$this->app->triggerEvent(
+			'onComUsersCaptiveValidateSuccess',
+			new GenericEvent('onComUsersCaptiveValidateSuccess', [$record->title])
+		);
 	}
 
 	/**

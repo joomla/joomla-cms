@@ -112,7 +112,8 @@ class MethodController extends BaseControllerAlias
 
 		$view->setModel($model, true);
 
-		TfaHelper::triggerEvent(
+		$this->app->triggerEvent(
+			'onComUsersControllerMethodBeforeAdd',
 			new GenericEvent('onComUsersControllerMethodBeforeAdd', [$user, $method])
 		);
 
@@ -163,7 +164,8 @@ class MethodController extends BaseControllerAlias
 
 		$view->setModel($model, true);
 
-		TfaHelper::triggerEvent(
+		$this->app->triggerEvent(
+			'onComUsersControllerMethodBeforeEdit',
 			new GenericEvent('onComUsersControllerMethodBeforeEdit', [$id, $user])
 		);
 
@@ -208,7 +210,8 @@ class MethodController extends BaseControllerAlias
 
 		$this->setRedirect(Route::_($redirectUrl, false));
 
-		TfaHelper::triggerEvent(
+		$this->app->triggerEvent(
+			'onComUsersControllerMethodAfterRegenbackupcodes',
 			new GenericEvent('onComUsersControllerMethodAfterRegenbackupcodes')
 		);
 	}
@@ -245,7 +248,8 @@ class MethodController extends BaseControllerAlias
 		$type    = null;
 		$message = null;
 
-		TfaHelper::triggerEvent(
+		$this->app->triggerEvent(
+			'onComUsersControllerMethodBeforeDelete',
 			new GenericEvent('onComUsersControllerMethodBeforeDelete', [$id, $user])
 		);
 
@@ -319,13 +323,15 @@ class MethodController extends BaseControllerAlias
 		$result = [];
 		$input  = $this->app->input;
 
-		TfaHelper::triggerEvent(
+		$this->app->triggerEvent(
+			'onComUsersControllerMethodBeforeSave',
 			new GenericEvent('onComUsersControllerMethodBeforeSave', [$id, $user])
 		);
 
 		try
 		{
-			$pluginResults = TfaHelper::triggerEvent(
+			$pluginResults = $this->app->triggerEvent(
+				'onUserTwofactorSaveSetup',
 				new GenericEvent('onUserTwofactorSaveSetup',
 					[
 						'record' => $record,
