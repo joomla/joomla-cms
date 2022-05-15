@@ -25,11 +25,17 @@ extract($displayData);
  * @var   string  $descClass    The class name to use for the description
  */
 
+/** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
+$wa = Factory::getApplication()->getDocument()->getWebAssetManager();
+
 if (!empty($options['showonEnabled']))
 {
-	/** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
-	$wa = Factory::getApplication()->getDocument()->getWebAssetManager();
 	$wa->useScript('showon');
+}
+
+if (!empty($options['requireonEnabled']))
+{
+	$wa->useScript('requireon');
 }
 
 $class           = empty($options['class']) ? '' : ' ' . $options['class'];
