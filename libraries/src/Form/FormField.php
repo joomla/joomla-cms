@@ -1087,14 +1087,14 @@ abstract class FormField implements DatabaseAwareInterface
 		if ($this->showon)
 		{
 			$options['rel']           = ' data-showon=\'' .
-				json_encode(FormHelper::parseShowOnConditions($this->showon, $this->formControl, $this->group)) . '\'';
+				json_encode(FormHelper::parseFieldConditions($this->showon, $this->formControl, $this->group)) . '\'';
 			$options['showonEnabled'] = true;
 		}
 
 		if ($this->requireon)
 		{
 			$options['rel']           = ' data-requireon=\'' .
-				json_encode(FormHelper::parseRequireOnConditions($this->requireon, $this->formControl, $this->group)) . '\'';
+				json_encode(FormHelper::parseFieldConditions($this->requireon, $this->formControl, $this->group)) . '\'';
 			$options['requireonEnabled'] = true;
 		}
 
