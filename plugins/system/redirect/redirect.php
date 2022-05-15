@@ -287,6 +287,14 @@ class PlgSystemRedirect extends CMSPlugin implements SubscriberInterface
 					return;
 				}
 			}
+
+			// Check the static 404 setting if set redirect it to that for now.
+			$static404Destination = $this->params->get('static_404', '');
+
+			if (!empty($static404Destination))
+			{
+				$app->redirect($static404Destination, 301);
+			}
 		}
 		// We have an unpublished redirect object, increment the hit counter
 		else

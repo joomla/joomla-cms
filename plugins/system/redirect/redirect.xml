@@ -32,6 +32,14 @@
 					<option value="1">JENABLED</option>
 				</field>
 				<field
+					name="static_404"
+					type="url"
+					label="PLG_SYSTEM_REDIRECT_FIELD_STATIC_404_URL_LABEL"
+					relative="true"
+					filter="url"
+					validate="url"
+				/>
+				<field
 					name="includeUrl"
 					type="radio"
 					layout="joomla.form.field.radio.switcher"
