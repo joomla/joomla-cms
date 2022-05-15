@@ -50,7 +50,7 @@ final class Basic extends CMSPlugin
 	 *
 	 * @param   DispatcherInterface   $dispatcher   The dispatcher
 	 * @param   array                 $config       An optional associative array of configuration settings
-	 * @param   UserFactoryInterface  $userFactory  The suer factory
+	 * @param   UserFactoryInterface  $userFactory  The user factory
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
