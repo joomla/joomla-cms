@@ -9,7 +9,7 @@
 		<field
 			name="filename"
 			type="hidden"
-		 />
+		/>
 
 		<field
 			name="source"
