@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-namespace Joomla\Plugin\Actionlog\Joomla\Extension;
+namespace Joomla\Plugin\Actionlog\Joomla;
 
 defined('_JEXEC') or die;
 
