@@ -49,7 +49,7 @@ $userId   = (int) $this->user->id ?? 0;
 		<?php if (!empty($this->renderOptions['help_url'])): ?>
 		<span class="float-end">
 			<a href="<?php echo $this->renderOptions['help_url'] ?>"
-			   class="btn btn-sm btn-small btn-default btn-inverse btn-dark"
+			   class="btn btn-sm btn-default btn-inverse btn-dark"
 			   target="_blank"
 			>
 				<span class="icon icon-question-sign" aria-hidden="true"></span>
@@ -142,7 +142,7 @@ $userId   = (int) $this->user->id ?? 0;
 			<div class="col-sm-9 offset-sm-3">
 				<?php if ($this->renderOptions['show_submit'] || $this->isEditExisting): ?>
 				<button type="submit" class="btn btn-primary me-3">
-					<span class="icon icon-ok"></span>
+					<span class="icon icon-ok" aria-hidden="true"></span>
 					<?php echo Text::_('JSAVE'); ?>
 				</button>
 				<?php endif; ?>
