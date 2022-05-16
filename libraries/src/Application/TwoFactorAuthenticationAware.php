@@ -209,7 +209,7 @@ trait TwoFactorAuthenticationAware
 		// Let's get a list of all currently active TFA Methods
 		$tfaMethods = TfaHelper::getTfaMethods();
 
-		// If not TFA Method is active we can't really display a Captive login page.
+		// If no TFA Method is active we can't really display a Captive login page.
 		if (empty($tfaMethods))
 		{
 			return false;
