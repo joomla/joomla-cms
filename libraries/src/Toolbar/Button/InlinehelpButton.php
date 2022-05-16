@@ -21,6 +21,15 @@ namespace Joomla\CMS\Toolbar\Button;
 class InlinehelpButton extends BasicButton
 {
 	/**
+	 * Property layout.
+	 *
+	 * @var  string
+	 *
+	 * @since  4.1.3
+	 */
+	protected $layout = 'joomla.toolbar.inlinehelp';
+
+	/**
 	 * Prepare options for this button.
 	 *
 	 * @param   array  $options  The options for this button.
