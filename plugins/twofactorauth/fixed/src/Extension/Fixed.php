@@ -166,7 +166,7 @@ class Fixed extends CMSPlugin implements SubscriberInterface
 	 */
 	public function onUserTwofactorGetSetup(Event $event): void
 	{
-		/** @var TfaTable $record The #__loginguard_tfa record currently selected by the user. */
+		/** @var TfaTable $record The record currently selected by the user. */
 		$record = $event['record'];
 
 		// Make sure we are actually meant to handle this Method

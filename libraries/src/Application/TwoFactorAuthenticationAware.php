@@ -462,7 +462,7 @@ trait TwoFactorAuthenticationAware
 			(new TfaTable($db))->save(
 				[
 					'user_id'    => $user->id,
-					'title'      => Text::_('COM_LOGINGUARD_LBL_BACKUPCODES'),
+					'title'      => Text::_('COM_USERS_USER_OTEPS'),
 					'method'     => 'backupcodes',
 					'default'    => 0,
 					'created_on' => Date::getInstance()->toSql(),

@@ -1031,7 +1031,7 @@ CREATE TABLE IF NOT EXISTS `#__user_tfa` (
   `options`    LONGTEXT        NULL,
   `created_on` DATETIME        NULL,
   `last_used`  DATETIME        NULL,
-  INDEX `#__loginguard_tfa_user` (`user_id`)
+  INDEX `#__user_tfa_user` (`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci COMMENT='Two Factor Authentication settings';
 
 -- --------------------------------------------------------

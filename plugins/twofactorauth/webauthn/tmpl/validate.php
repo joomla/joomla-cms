@@ -20,7 +20,7 @@ include PluginHelper::getLayoutPath('twofactorauth', 'webauthn', 'error');
 	<input name="code" value="" id="twofactorauthCode" class="form-control input-lg" type="hidden">
 
 	<a id="plg_twofactorauth_webauthn_validate_button"
-	   class="btn btn-primary btn-lg btn-big loginguard-button-primary-large"
+	   class="btn btn-primary btn-lg btn-big"
 	>
 		<span class="icon icon-lock" aria-hidden="true"></span>
 		<?php echo Text::_('PLG_TWOFACTORAUTH_WEBAUTHN_LBL_VALIDATEKEY'); ?>
