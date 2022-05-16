@@ -45,7 +45,7 @@ $shownMethods = [];
 
 			$methodName = $this->getModel()->translateMethodName($record->method);
 		?>
-		<a class="com-users-method py-2 px-2 border-top border-dark bg-light d-flex flex-row flex-wrap justify-content-start align-items-center text-decoration-none gap-2 text-body"
+		<a class="com-users-method p-2 border-top border-dark bg-light d-flex flex-row flex-wrap justify-content-start align-items-center text-decoration-none gap-2 text-body"
 		   href="<?php echo Route::_('index.php?option=com_users&view=captive&record_id=' . $record->id)?>">
 			<img src="<?php echo Uri::root() . $this->getModel()->getMethodImage($record->method) ?>"
 				 alt="<?php echo $this->escape(strip_tags($record->title)) ?>"
