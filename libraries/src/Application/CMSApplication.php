@@ -1264,7 +1264,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 		return false;
 	}
 
-		/**
+	/**
 	 * Setup logging functionality.
 	 *
 	 * @return void
