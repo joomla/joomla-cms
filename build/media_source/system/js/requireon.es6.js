@@ -288,7 +288,7 @@ document.addEventListener('joomla:updated', ({
       getMatchedParents(target, '.subform-repeatable-group').forEach(($parent) => {
         search.push(new RegExp(`\\[${$parent.dataset.baseName}X\\]`, 'g'));
         replace.push(`[${$parent.dataset.group}]`);
-      }); // Fix showon field names in a current group
+      }); // Fix requireon field names in a current group
 
       elements.forEach((element) => {
         let {
