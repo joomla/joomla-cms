@@ -68,7 +68,7 @@ if ($this->record->method != 'backupcodes')
 </p>
 
 <a class="btn btn-danger" href="<?php echo Route::_(sprintf("index.php?option=com_users&task=method.regenbackupcodes&user_id=%s&%s=1%s", $this->user->id, Factory::getApplication()->getFormToken(), empty($this->returnURL) ? '' : '&returnurl=' . $this->returnURL)) ?>">
-	<span class="icon icon-refresh"></span>
+	<span class="icon icon-refresh" aria-hidden="true"></span>
 	<?php echo Text::_('COM_USERS_TFA_OTEPS_RESET'); ?>
 </a>
 
