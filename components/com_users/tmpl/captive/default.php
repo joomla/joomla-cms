@@ -90,7 +90,7 @@ $model           = $this->getModel();
 
 		<div id="users-tfa-captive-form-standard-buttons" class="row mb-3">
 			<div class="col-sm-9 offset-sm-3">
-				<button class="btn btn-large btn-lg btn-primary me-3"
+				<button class="btn btn-lg btn-primary me-3"
 						id="users-tfa-captive-button-submit"
 						style="<?php echo  $this->renderOptions['hide_submit'] ? 'display: none' : '' ?>"
 						type="submit">
