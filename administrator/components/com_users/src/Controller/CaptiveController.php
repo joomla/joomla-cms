@@ -104,7 +104,7 @@ class CaptiveController extends BaseController
 
 		try
 		{
-			// Suppress all modules on the page except the ones explicitly allowed
+			// Suppress all modules on the page except those explicitly allowed
 			$model->suppressAllModules();
 		}
 		catch (Exception $e)
@@ -239,7 +239,7 @@ class CaptiveController extends BaseController
 		// Get the return URL stored by the plugin in the session
 		$returnUrl = $session->get('com_users.return_url', '');
 
-		// If the return URL is not set or not inside this site redirect to the site's front page
+		// If the return URL is not set or not internal to this site redirect to the site's front page
 		if (empty($returnUrl) || !Uri::isInternal($returnUrl))
 		{
 			$returnUrl = Uri::base();
