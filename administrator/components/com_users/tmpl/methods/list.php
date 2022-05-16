@@ -105,13 +105,17 @@ $model = $this->getModel();
 								<div class="com-users-methods-list-method-record-actions my-2 d-flex flex-row flex-wrap justify-content-center align-content-center align-items-start">
 									<a class="com-users-methods-list-method-record-edit btn btn-secondary btn-sm mx-1"
 									   href="<?php echo Route::_('index.php?option=com_users&task=method.edit&id=' . (int) $record->id . ($this->returnURL ? '&returnurl=' . $this->escape(urlencode($this->returnURL)) : '') . '&user_id=' . $this->user->id)?>">
-										<span class="icon icon-pencil"></span>
+										<span class="icon icon-pencil" aria-hidden="true"></span>
+										<span class="visually-hidden"><?php echo Text::_('JACTION_EDIT') ?></span>
 									</a>
 
 									<?php if ($method['canDisable']): ?>
 										<a class="com-users-methods-list-method-record-delete btn btn-danger btn-sm mx-1"
 										   href="<?php echo Route::_('index.php?option=com_users&task=method.delete&id=' . (int) $record->id . ($this->returnURL ? '&returnurl=' . $this->escape(urlencode($this->returnURL)) : '') . '&user_id=' . $this->user->id . '&' . Factory::getApplication()->getFormToken() . '=1')?>"
-										><span class="icon icon-trash"></span></a>
+										>
+											<span class="icon icon-trash" aria-hidden="true"></span>
+											<span class="visually-hidden"><?php echo Text::_('JACTION_DELETE') ?></span>
+										</a>
 									<?php endif; ?>
 								</div>
 								<?php endif; ?>
