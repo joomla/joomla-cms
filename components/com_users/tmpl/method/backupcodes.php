@@ -47,13 +47,15 @@ if ($this->record->method != 'backupcodes')
 		<tr>
 			<td>
 				<?php if (!empty($this->backupCodes[2 * $i])): ?>
-				&#128273;
+					<?php // This is a Key emoji; we can hide it from screen readers ?>
+					<span aria-hidden="true">&#128273;</span>
 					<?php echo $this->backupCodes[2 * $i] ?>
 				<?php endif; ?>
 			</td>
 			<td>
 				<?php if (!empty($this->backupCodes[1 + 2 * $i])): ?>
-				&#128273;
+					<?php // This is a Key emoji; we can hide it from screen readers ?>
+					<span aria-hidden="true">&#128273;</span>
 					<?php echo $this->backupCodes[1 + 2 * $i] ?>
 				<?php endif ;?>
 			</td>
