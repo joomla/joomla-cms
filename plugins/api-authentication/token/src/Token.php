@@ -28,7 +28,7 @@ use Joomla\Registry\Registry;
  *
  * @since  4.0.0
  */
-class Token extends CMSPlugin
+final class Token extends CMSPlugin
 {
 	use DatabaseAwareTrait;
 
