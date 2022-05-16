@@ -315,11 +315,11 @@
 		<field
 			name="allowed_positions_frontend"
 			type="modulesposition"
+			label="COM_USERS_CONFIG_ALLOWED_POSITIONS_FRONTEND_LABEL"
+			description="COM_USERS_CONFIG_ALLOWED_POSITIONS_FRONTEND_DESC"
 			default=""
 			layout="joomla.form.field.list-fancy-select"
 			size="7"
-			label="COM_USERS_CONFIG_ALLOWED_POSITIONS_FRONTEND_LABEL"
-			description="COM_USERS_CONFIG_ALLOWED_POSITIONS_FRONTEND_DESC"
 			client="site"
 			multiple="1"
 			class="input-large"
@@ -328,10 +328,10 @@
 		<field
 			name="frontend_show_title"
 			type="radio"
-			layout="joomla.form.field.radio.switcher"
-			default="1"
 			label="COM_USERS_CONFIG_FRONTEND_SHOW_TITLE_LABEL"
 			description="COM_USERS_CONFIG_FRONTEND_SHOW_TITLE_DESC"
+			layout="joomla.form.field.radio.switcher"
+			default="1"
 			>
 			<option value="0">JNo</option>
 			<option value="1">JYes</option>
@@ -340,11 +340,11 @@
 		<field
 			name="allowed_positions_backend"
 			type="modulesposition"
+			label="COM_USERS_CONFIG_ALLOWED_POSITIONS_BACKEND_LABEL"
+			description="COM_USERS_CONFIG_ALLOWED_POSITIONS_BACKEND_DESC"
 			default=""
 			size="7"
 			layout="joomla.form.field.list-fancy-select"
-			label="COM_USERS_CONFIG_ALLOWED_POSITIONS_BACKEND_LABEL"
-			description="COM_USERS_CONFIG_ALLOWED_POSITIONS_BACKEND_DESC"
 			client="administrator"
 			multiple="1"
 			class="input-large"
@@ -353,12 +353,12 @@
 		<field
 			name="neverTFAUserGroups"
 			type="UserGroupList"
+			label="COM_USERS_CONFIG_NEVERTFAUSERGROUPS_LABEL"
+			description="COM_USERS_CONFIG_NEVERTFAUSERGROUPS_DESC"
 			layout="joomla.form.field.list-fancy-select"
 			checksuperusergroup="1"
 			default=""
 			multiple="1"
-			label="COM_USERS_CONFIG_NEVERTFAUSERGROUPS_LABEL"
-			description="COM_USERS_CONFIG_NEVERTFAUSERGROUPS_DESC"
 			>
 			<option value="0">COM_USERS_CONFIG_LBL_NOGROUP</option>
 		</field>
@@ -366,12 +366,12 @@
 		<field
 			name="forceTFAUserGroups"
 			type="UserGroupList"
+			label="COM_USERS_CONFIG_FORCETFAUSERGROUPS_LABEL"
+			description="COM_USERS_CONFIG_FORCETFAUSERGROUPS_DESC"
 			layout="joomla.form.field.list-fancy-select"
 			checksuperusergroup="1"
 			default=""
 			multiple="1"
-			label="COM_USERS_CONFIG_FORCETFAUSERGROUPS_LABEL"
-			description="COM_USERS_CONFIG_FORCETFAUSERGROUPS_DESC"
 			>
 			<option value="0">COM_USERS_CONFIG_LBL_NOGROUP</option>
 		</field>
@@ -389,9 +389,9 @@
 		<field
 			name="tfaonsilent"
 			type="radio"
-			layout="joomla.form.field.radio.switcher"
 			label="COM_USERS_CONFIG_TFAONSILENT_LABEL"
 			description="COM_USERS_CONFIG_TFAONSILENT_DESC"
+			layout="joomla.form.field.radio.switcher"
 			default="0"
 			>
 			<option value="0">JNo</option>
@@ -410,9 +410,9 @@
 		<field
 			name="tfaredirectonlogin"
 			type="radio"
-			layout="joomla.form.field.radio.switcher"
 			label="COM_USERS_CONFIG_REDIRECTONLOGIN_LABEL"
 			description="COM_USERS_CONFIG_REDIRECTONLOGIN_DESC"
+			layout="joomla.form.field.radio.switcher"
 			default="0"
 			>
 			<option value="0">JNo</option>
