@@ -15,8 +15,6 @@ namespace Joomla\Component\Scheduler\Administrator\Traits;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Form\Form;
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\Log\Log;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\Component\Scheduler\Administrator\Event\ExecuteTaskEvent;
 use Joomla\Component\Scheduler\Administrator\Task\Status;
@@ -46,7 +44,17 @@ trait TaskPluginTrait
 	protected $snapshot = [];
 
 	/**
-	 * Set information to {@see $snapshot} when initializing a routine.
+	 * The task logger. We expect this logger from {@see ExecuteTaskEvent}, setting it up in {@see startRoutine}.
+	 *
+	 * @var   callable {@signature (string $message, string $level = 'info'): void}
+	 * @since __DEPLOY__VERSION__
+	 * @todo  update doc once phpDocumentor adds callable signature support:
+	 *        {@link https://github.com/phpDocumentor/phpDocumentor/issues/1712}.
+	 */
+	protected $logger;
+
+	/**
+	 * Setup injected dependencies and {@see $snapshot} on routine initialisation.
 	 *
 	 * @param   ExecuteTaskEvent  $event  The onExecuteTask event.
 	 *
@@ -60,6 +68,8 @@ trait TaskPluginTrait
 		{
 			return;
 		}
+
+		$this->logger = $event->getArgument('logger');
 
 		$this->snapshot['logCategory'] = $event->getArgument('subject')->logCategory;
 		$this->snapshot['plugin']      = $this->_name;
@@ -233,30 +243,16 @@ trait TaskPluginTrait
 	 * @return void
 	 *
 	 * @since  4.1.0
-	 * @throws \Exception
-	 * @todo   : use dependency injection here (starting from the Task & Scheduler classes).
+	 * @throws \LogicException|\InvalidArgumentException
 	 */
 	protected function logTask(string $message, string $priority = 'info'): void
 	{
-		static $langLoaded;
-		static $priorityMap = [
-			'debug'   => Log::DEBUG,
-			'error'   => Log::ERROR,
-			'info'    => Log::INFO,
-			'notice'  => Log::NOTICE,
-			'warning' => Log::WARNING,
-		];
-
-		if (!$langLoaded)
+		if (empty($this->logger))
 		{
-			$app = $this->app ?? Factory::getApplication();
-			$app->getLanguage()->load('com_scheduler', JPATH_ADMINISTRATOR);
-			$langLoaded = true;
+			throw new \LogicException("Logger has not been setup!");
 		}
 
-		$category = $this->snapshot['logCategory'];
-
-		Log::add(Text::_('COM_SCHEDULER_ROUTINE_LOG_PREFIX') . $message, $priorityMap[$priority] ?? Log::INFO, $category);
+		($this->logger)($message, $priority);
 	}
 
 	/**

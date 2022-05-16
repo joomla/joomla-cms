@@ -15,12 +15,14 @@ namespace Joomla\Component\Scheduler\Administrator\Scheduler;
 use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Log\DelegatingPsrLogger;
 use Joomla\CMS\Log\Log;
 use Joomla\Component\Scheduler\Administrator\Extension\SchedulerComponent;
 use Joomla\Component\Scheduler\Administrator\Model\TaskModel;
 use Joomla\Component\Scheduler\Administrator\Model\TasksModel;
 use Joomla\Component\Scheduler\Administrator\Task\Status;
 use Joomla\Component\Scheduler\Administrator\Task\Task;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\OptionsResolver\Exception\AccessException;
 use Symfony\Component\OptionsResolver\Exception\InvalidOptionsException;
 use Symfony\Component\OptionsResolver\Exception\UndefinedOptionsException;
@@ -128,14 +130,17 @@ class Scheduler
 
 		$app->getLanguage()->load('com_scheduler', JPATH_ADMINISTRATOR);
 
-		$options['text_entry_format'] = '{DATE}	{TIME}	{PRIORITY}	{MESSAGE}';
-		$options['text_file']         = 'joomla_scheduler.php';
-		Log::addLogger($options, Log::ALL, $task->logCategory);
+		$loggerOptions = [
+			'text_entry_format' => '{DATE}	{TIME}	{PRIORITY}	{MESSAGE}',
+			'text_file'         => 'joomla_scheduler.php'
+		];
+		/** ! No non-static methods to add a sub-logger to {@see DelegatingPsrLogger} (Task::logger) */
+		Log::addLogger($loggerOptions, Log::ALL, $task->logCategory);
 
 		$taskId    = $task->get('id');
 		$taskTitle = $task->get('title');
 
-		$task->log(Text::sprintf('COM_SCHEDULER_SCHEDULER_TASK_START', $taskId, $taskTitle), 'info');
+		$task->log(Text::sprintf('COM_SCHEDULER_SCHEDULER_TASK_START', $taskId, $taskTitle));
 
 		// Let's try to avoid time-outs
 		if (\function_exists('set_time_limit'))
@@ -256,7 +261,7 @@ class Scheduler
 			return null;
 		}
 
-		return new Task($task);
+		return new Task($task, Factory::getContainer()->get(LoggerInterface::class));
 	}
 
 	/**

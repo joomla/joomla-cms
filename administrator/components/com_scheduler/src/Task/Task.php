@@ -17,6 +17,7 @@ use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Event\AbstractEvent;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Log\DelegatingPsrLogger;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\Component\Scheduler\Administrator\Event\ExecuteTaskEvent;
@@ -32,6 +33,7 @@ use Joomla\Utilities\ArrayHelper;
 use Psr\Log\InvalidArgumentException;
 use Psr\Log\LoggerAwareInterface;
 use Psr\Log\LoggerAwareTrait;
+use Psr\Log\LoggerInterface;
 
 /**
  * The Task class defines methods for the execution, logging and
@@ -125,12 +127,13 @@ class Task implements LoggerAwareInterface
 	/**
 	 * Constructor for {@see Task}.
 	 *
-	 * @param   object  $record  A task from {@see TaskTable}.
+	 * @param   object           $record  A task from {@see TaskTable}.
+	 * @param   LoggerInterface  $logger  A logger instance for the Task's logs.
 	 *
 	 * @since 4.1.0
 	 * @throws \Exception
 	 */
-	public function __construct(object $record)
+	public function __construct(object $record, LoggerInterface $logger)
 	{
 		// Workaround because Registry dumps private properties otherwise.
 		$taskOption     = $record->taskOption;
@@ -141,17 +144,24 @@ class Task implements LoggerAwareInterface
 		$this->set('taskOption', $taskOption);
 		$this->app = Factory::getApplication();
 		$this->db  = Factory::getContainer()->get(DatabaseDriver::class);
-		$this->setLogger(Log::createDelegatedLogger());
+
+		$this->setLogger($logger);
 		$this->logCategory = 'task' . $this->get('id');
 
+		// ! We use an "injected" logger but still need a static {@see Log} call to set up sub-loggers :/
 		if ($this->get('params.individual_log'))
 		{
 			$logFile = $this->get('params.log_file') ?? 'task_' . $this->get('id') . '.log.php';
 
 			$options['text_entry_format'] = '{DATE}	{TIME}	{PRIORITY}	{MESSAGE}';
 			$options['text_file']         = $logFile;
+
+			/** No non-static methods on {@see DelegatingPsrLogger} to set up sub-loggers... */
 			Log::addLogger($options, Log::ALL, [$this->logCategory]);
 		}
+
+		// We need `com_scheduler` language strings for logging
+		$this->app->getLanguage()->load('com_scheduler', JPATH_ADMINISTRATOR);
 	}
 
 	/**
@@ -221,6 +231,7 @@ class Task implements LoggerAwareInterface
 				'routineId'       => $this->get('type'),
 				'langConstPrefix' => $this->get('taskOption')->langConstPrefix,
 				'params'          => $this->get('params'),
+				'logger'		  => [$this, 'log'],
 			]
 		);
 
@@ -431,6 +442,8 @@ class Task implements LoggerAwareInterface
 	}
 
 	/**
+	 * Log a message with the task logger.
+	 *
 	 * @param   string  $message   Log message
 	 * @param   string  $priority  Log level, defaults to 'info'
 	 *
