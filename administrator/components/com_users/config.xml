@@ -109,33 +109,6 @@
 			<option value="0">JNO</option>
 			<option value="1">JYES</option>
 		</field>
-
-		<field
-			name="enforce_2fa_options"
-			type="list"
-			label="COM_USERS_CONFIG_FIELD_ENFORCE_2FA_FIELD_LABEL"
-			description="COM_USERS_CONFIG_FIELD_ENFORCE_2FA_FIELD_DESC"
-			default="0"
-			filter="integer"
-			validate="options"
-			>
-			<option value="0">JNO</option>
-			<option value="1">COM_USERS_CONFIG_FIELD_ENFORCE_2FA_FIELD_SITE</option>
-			<option value="2">COM_USERS_CONFIG_FIELD_ENFORCE_2FA_FIELD_ADMIN</option>
-			<option value="3">COM_USERS_CONFIG_FIELD_ENFORCE_2FA_FIELD_BOTH</option>
-		</field>
-
-		<field
-			name="enforce_2fa_usergroups"
-			type="usergrouplist"
-			label="COM_USERS_CONFIG_FIELD_ENFORCE_2FA_GROUPS_LABEL"
-			layout="joomla.form.field.list-fancy-select"
-			multiple="true"
-			filter="int_array"
-			size="10"
-			showon="enforce_2fa_options!:0"
-		/>
-
 	</fieldset>
 
 	<fieldset
