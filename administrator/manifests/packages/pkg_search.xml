@@ -2,7 +2,7 @@
 <extension type="package" version="4.0" method="upgrade">
 	<name>pkg_search</name>
 	<packagename>search</packagename>
-	<creationDate>17.08.2021</creationDate>
+	<creationDate>2021-08-17</creationDate>
 	<packager>Joomla! Project</packager>
 	<copyright>(C) 2021 Open Source Matters. All rights reserved.</copyright>
 	<packageremail>admin@joomla.org</packageremail>
