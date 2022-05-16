@@ -135,14 +135,15 @@ class ListField extends FormField
 			// Set some event handler attributes. But really, should be using unobtrusive js.
 			$tmp['onclick']  = (string) $option['onclick'];
 			$tmp['onchange'] = (string) $option['onchange'];
-
+			$option['optionattr'] = "";
+			
 			if ((string) $option['showon'])
 			{
 				$encodedConditions = json_encode(
 					FormHelper::parseFieldConditions((string) $option['showon'], $this->formControl, $this->group)
 				);
 
-				$tmp['optionattr'] = " data-showon='" . $encodedConditions . "'";
+				$tmp['optionattr'] .= " data-showon='" . $encodedConditions . "'";
 			}
 
 			if ((string) $option['requireon'])
@@ -151,7 +152,7 @@ class ListField extends FormField
 					FormHelper::parseFieldConditions((string) $option['requireon'], $this->formControl, $this->group)
 				);
 
-				$tmp['optionattr'] = " data-requireon='" . $encodedConditions . "'";
+				$tmp['optionattr'] .= " data-requireon='" . $encodedConditions . "'";
 			}
 
 			// Add the option object to the result set.
