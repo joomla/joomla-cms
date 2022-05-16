@@ -1397,7 +1397,7 @@ abstract class FormField implements DatabaseAwareInterface
 			'validationtext' => $this->validationtext,
 			'readonly'       => $this->readonly,
 			'repeat'         => $this->repeat,
-			'required'       => (bool) $this->required ||(bool) $this->requireon,
+			'required'       => (bool) $this->required || (bool) $this->requireon,
 			'size'           => $this->size,
 			'spellcheck'     => $this->spellcheck,
 			'validate'       => $this->validate,
