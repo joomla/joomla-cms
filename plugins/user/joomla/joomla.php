@@ -428,8 +428,8 @@ class PlgUserJoomla extends CMSPlugin
 	}
 
 	/**
-	 * Hooks on the Joomla! login event. Detects silent logins and disables the Two Step Verification Captive page in
-	 * this case.
+	 * Hooks on the Joomla! login event. Detects silent logins and disables the Two Factor
+	 * Authentication Captive page in this case.
 	 *
 	 * Moreover, it will save the redirection URL and the Captive URL which is necessary in Joomla 4. You see, in Joomla
 	 * 4 having unified sessions turned on makes the backend login redirect you to the frontend of the site AFTER

@@ -10,7 +10,9 @@
 namespace Joomla\Component\Users\Site\Model;
 
 /**
- * Two Step Verification Method management model
+ * Two Factor Authentication Method management model
+ *
+ * @since __DEPLOY_VERSION__
  */
 class MethodModel extends \Joomla\Component\Users\Administrator\Model\MethodModel
 {

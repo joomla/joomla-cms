@@ -21,7 +21,9 @@ use Joomla\CMS\User\User;
 use Joomla\CMS\User\UserFactoryInterface;
 
 /**
- * Two Step Verification Method management model
+ * Two Two Factor Authentication management model
+ *
+ * @since __DEPLOY_VERSION__
  */
 class MethodModel extends BaseDatabaseModel
 {

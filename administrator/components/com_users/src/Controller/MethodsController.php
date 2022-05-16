@@ -52,7 +52,7 @@ class MethodsController extends BaseController
 	}
 
 	/**
-	 * Disable Two Step Verification for the current user
+	 * Disable Two Factor Authentication for the current user
 	 *
 	 * @param   bool   $cachable     Can this view be cached
 	 * @param   array  $urlparams    An array of safe url parameters and their variable types, for valid values see
@@ -79,7 +79,7 @@ class MethodsController extends BaseController
 			throw new RuntimeException(Text::_('JERROR_ALERTNOAUTHOR'), 403);
 		}
 
-		// Delete all TSV Methods for the user
+		// Delete all TFA Methods for the user
 		/** @var MethodsModel $model */
 		$model   = $this->getModel('Methods');
 		$type    = null;
@@ -154,7 +154,7 @@ class MethodsController extends BaseController
 	}
 
 	/**
-	 * Disable Two Step Verification for the current user
+	 * Disable Two Factor Authentication for the current user
 	 *
 	 * @param   bool   $cachable     Can this view be cached
 	 * @param   array  $urlparams    An array of safe url parameters and their variable types, for valid values see

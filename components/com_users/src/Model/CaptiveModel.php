@@ -10,7 +10,7 @@
 namespace Joomla\Component\Users\Site\Model;
 
 /**
- * Captive Two Step Verification page's model
+ * Captive Two Factor Authentication page's model
  *
  * @since __DEPLOY_VERSION__
  */

@@ -23,7 +23,7 @@ use Joomla\Database\ParameterType;
 use RuntimeException;
 
 /**
- * Two Step Verification Methods list page's model
+ * Two Factor Authentication Methods list page's model
  *
  * @since __DEPLOY_VERSION__
  */
@@ -82,9 +82,9 @@ class MethodsModel extends BaseDatabaseModel
 	}
 
 	/**
-	 * Delete all Two Step Verification Methods for the given user.
+	 * Delete all Two Factor Authentication Methods for the given user.
 	 *
-	 * @param   User|null  $user  The user object to reset TSV for. Null to use the current user.
+	 * @param   User|null  $user  The user object to reset TFA for. Null to use the current user.
 	 *
 	 * @return  void
 	 * @throws  Exception
@@ -99,7 +99,7 @@ class MethodsModel extends BaseDatabaseModel
 			$user = Factory::getApplication()->getIdentity() ?: Factory::getUser();
 		}
 
-		// If the user object is a guest (who can't have TSV) we abort with an error
+		// If the user object is a guest (who can't have TFA) we abort with an error
 		if ($user->guest)
 		{
 			throw new RuntimeException(Text::_('JERROR_ALERTNOAUTHOR'), 403);

@@ -10,7 +10,7 @@
 namespace Joomla\Component\Users\Site\Model;
 
 /**
- * Two Step Verification Methods list page's model
+ * Two Factor Authentication Methods list page's model
  *
  * @since __DEPLOY_VERSION__
  */

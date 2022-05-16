@@ -24,7 +24,7 @@ use Joomla\Component\Users\Administrator\Table\TfaTable;
 use Joomla\Event\Event;
 
 /**
- * Captive Two Step Verification page's model
+ * Captive Two Factor Authentication page's model
  *
  * @since __DEPLOY_VERSION__
  */

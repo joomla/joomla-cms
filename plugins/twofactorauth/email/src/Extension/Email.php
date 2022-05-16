@@ -353,8 +353,8 @@ class Email extends CMSPlugin implements SubscriberInterface
 	}
 
 	/**
-	 * Validates the Two Factor Authentication code submitted by the user in the Captive Two Step Verification page. If
-	 * the record does not correspond to your plugin return FALSE.
+	 * Validates the Two Factor Authentication code submitted by the user in the Captive Two Factor
+	 * Authentication page. If the record does not correspond to your plugin return FALSE.
 	 *
 	 * @param   Event  $event  The event we are handling
 	 *
