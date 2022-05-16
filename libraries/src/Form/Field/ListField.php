@@ -136,7 +136,7 @@ class ListField extends FormField
 			$tmp['onclick']  = (string) $option['onclick'];
 			$tmp['onchange'] = (string) $option['onchange'];
 			$option['optionattr'] = "";
-			
+
 			if ((string) $option['showon'])
 			{
 				$encodedConditions = json_encode(
