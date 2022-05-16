@@ -11,7 +11,6 @@ namespace Joomla\Component\Actionlogs\Administrator\Field;
 
 \defined('_JEXEC') or die;
 
-use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Field\ListField;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
@@ -41,7 +40,7 @@ class ExtensionField extends ListField
 	 */
 	public function getOptions()
 	{
-		$db    = Factory::getDbo();
+		$db    = $this->getDatabase();
 		$query = $db->getQuery(true)
 			->select('DISTINCT ' . $db->quoteName('extension'))
 			->from($db->quoteName('#__action_logs'))

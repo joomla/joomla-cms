@@ -43,7 +43,7 @@ class ComponentsWorkflowField extends ListField
 	protected function getOptions()
 	{
 		// Initialise variable.
-		$db = Factory::getDbo();
+		$db = $this->getDatabase();
 
 		$query = $db->getQuery(true)
 			->select('DISTINCT a.name AS text, a.element AS value')
