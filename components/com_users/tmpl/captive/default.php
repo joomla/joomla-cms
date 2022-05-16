@@ -26,12 +26,13 @@ $model           = $this->getModel();
 <div class="users-tfa-captive card card-body">
 	<h3 id="users-tfa-title">
 		<?php if (!empty($this->renderOptions['help_url'])): ?>
-			<span class="pull-right float-end">
+			<span class="float-end">
 		<a href="<?php echo  $this->renderOptions['help_url'] ?>"
 				class="btn btn-sm btn-secondary"
 				target="_blank"
 		>
-			<span class="icon icon-question-sign"></span>
+			<span class="icon icon-question-sign" aria-hidden="true"></span>
+			<span class="visually-hidden"><?php echo Text::_('JHELP') ?></span>
 		</a>
 		</span>
 		<?php endif;?>

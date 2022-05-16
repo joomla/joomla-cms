@@ -47,12 +47,13 @@ $userId   = (int) $this->user->id ?? 0;
 
 		<?php if (!empty($this->title)): ?>
 		<?php if (!empty($this->renderOptions['help_url'])): ?>
-		<span class="pull-right float-end">
+		<span class="float-end">
 			<a href="<?php echo $this->renderOptions['help_url'] ?>"
 			   class="btn btn-sm btn-small btn-default btn-inverse btn-dark"
 			   target="_blank"
 			>
-				<span class="icon icon-question-sign"></span>
+				<span class="icon icon-question-sign" aria-hidden="true"></span>
+				<span class="visually-hidden"><?php echo Text::_('JHELP') ?></span>
 			</a>
 		</span>
 		<?php endif;?>
