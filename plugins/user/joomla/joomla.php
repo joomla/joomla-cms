@@ -10,17 +10,23 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Date\Date;
+use Joomla\CMS\Encrypt\Aes;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\LanguageFactoryInterface;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\Mail\MailTemplate;
 use Joomla\CMS\Plugin\CMSPlugin;
+use Joomla\CMS\Router\Route;
+use Joomla\CMS\Table\User as UserTable;
 use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\User\User;
 use Joomla\CMS\User\UserHelper;
+use Joomla\Component\Users\Administrator\Table\TfaTable;
 use Joomla\Database\Exception\ExecutionFailureException;
 use Joomla\Database\ParameterType;
+use Joomla\Event\Event;
 use Joomla\Registry\Registry;
 
 /**
@@ -419,6 +425,74 @@ class PlgUserJoomla extends CMSPlugin
 		}
 
 		return true;
+	}
+
+	/**
+	 * Hooks on the Joomla! login event. Detects silent logins and disables the Two Step Verification Captive page in
+	 * this case.
+	 *
+	 * Moreover, it will save the redirection URL and the Captive URL which is necessary in Joomla 4. You see, in Joomla
+	 * 4 having unified sessions turned on makes the backend login redirect you to the frontend of the site AFTER
+	 * logging in, something which would cause the Captive page to appear in the frontend and redirect you to the public
+	 * frontend homepage after successfully passing the Two Step verification process.
+	 *
+	 * @param   array  $options  Passed by Joomla. user: a User object; responseType: string, authentication response type.
+	 *
+	 * @return void
+	 * @since  __DEPLOY_VERSION__
+	 */
+	public function onUserAfterLogin(array $options): void
+	{
+		if (!($this->app->isClient('administrator')) && !($this->app->isClient('site')))
+		{
+			return;
+		}
+
+		$this->disableTfaOnSilentLogin($options);
+	}
+
+	/**
+	 * Detect silent logins and disable TFA if the relevant com_users option is set.
+	 *
+	 * @param   array  $options  The array of login options and login result
+	 *
+	 * @return  void
+	 * @since   __DEPLOY_VERSION__
+	 */
+	private function disableTfaOnSilentLogin(array $options): void
+	{
+		$userParams         = ComponentHelper::getParams('com_users');
+		$doTfaOnSilentLogin = $userParams->get('tfaonsilent', 0) == 1;
+
+		// Should I show 2SV even on silent logins? Default: 1 (yes, show)
+		if ($doTfaOnSilentLogin)
+		{
+			return;
+		}
+
+		// Make sure I have a valid user
+		/** @var User $user */
+		$user = $options['user'];
+
+		if (!is_object($user) || !($user instanceof User) || $user->guest)
+		{
+			return;
+		}
+
+		$silentResponseTypes = array_map(
+			'trim',
+			explode(',', $userParams->get('silentresponses', '') ?: '')
+		);
+		$silentResponseTypes = $silentResponseTypes ?: ['cookie', 'passwordless'];
+
+		// Only proceed if this is not a silent login
+		if (!in_array(strtolower($options['responseType'] ?? ''), $silentResponseTypes))
+		{
+			return;
+		}
+
+		// Set the flag indicating that TFA is already checked.
+		$this->app->getSession()->set('com_users.tfa_checked', 1);
 	}
 
 	/**

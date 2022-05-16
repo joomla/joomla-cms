@@ -32,6 +32,8 @@ use Joomla\Registry\Registry;
  */
 class AdministratorApplication extends CMSApplication
 {
+	use TwoFactorAuthenticationAware;
+
 	/**
 	 * List of allowed components for guests and users which do not have the core.login.admin privilege.
 	 *
@@ -537,6 +539,8 @@ class AdministratorApplication extends CMSApplication
 			$uri->setScheme('https');
 			$this->redirect((string) $uri, 301);
 		}
+
+		$this->isHandlingTwoFactorAuthentication();
 
 		// Trigger the onAfterRoute event.
 		PluginHelper::importPlugin('system');
