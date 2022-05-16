@@ -231,6 +231,9 @@ $assoc = Associations::isEnabled();
 								echo (new TransitionButton($options))
 									->render(0, $i);
 								?>
+									<div class="small">
+										<?php echo Text::_($item->stage_title); ?>
+									</div>
 								</td>
 								<?php endif; ?>
 								<td class="text-center d-none d-md-table-cell">
