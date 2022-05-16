@@ -10,18 +10,18 @@
 namespace Joomla\Plugin\System\Debug;
 
 use DebugBar\HttpDriverInterface;
-use Joomla\CMS\Application\CMSApplication;
-use Joomla\CMS\Application\ConsoleApplication;
+use Joomla\Application\WebApplicationInterface;
+use Joomla\CMS\Application\CMSApplicationInterface;
 
 /**
  * Joomla HTTP driver for DebugBar
  *
  * @since   __DEPLOY_VERSION__
  */
-class JoomlaHttpDriver implements HttpDriverInterface
+final class JoomlaHttpDriver implements HttpDriverInterface
 {
 	/**
-	 * @var CMSApplication|ConsoleApplication
+	 * @var CMSApplicationInterface
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
@@ -30,20 +30,13 @@ class JoomlaHttpDriver implements HttpDriverInterface
 	/**
 	 * Constructor.
 	 *
-	 * @param   CMSApplication|ConsoleApplication  $app
+	 * @param   CMSApplicationInterface  $app
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function __construct($app)
+	public function __construct(CMSApplicationInterface $app)
 	{
-		if ($app instanceof CMSApplication || $app instanceof ConsoleApplication)
-		{
-			$this->app = $app;
-		}
-		else
-		{
-			throw new \InvalidArgumentException(sprintf('Unexpected Application instance for %s', __METHOD__));
-		}
+		$this->app = $app;
 	}
 
 	/**
@@ -55,7 +48,7 @@ class JoomlaHttpDriver implements HttpDriverInterface
 	 */
 	public function setHeaders(array $headers)
 	{
-		if ($this->app instanceof CMSApplication)
+		if ($this->app instanceof WebApplicationInterface)
 		{
 			foreach ($headers as $name => $value)
 			{

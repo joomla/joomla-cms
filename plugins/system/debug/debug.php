@@ -15,8 +15,7 @@ use DebugBar\DataCollector\RequestDataCollector;
 use DebugBar\DebugBar;
 use DebugBar\OpenHandler;
 use Joomla\Application\ApplicationEvents;
-use Joomla\CMS\Application\CMSApplication;
-use Joomla\CMS\Application\ConsoleApplication;
+use Joomla\CMS\Application\CMSApplicationInterface;
 use Joomla\CMS\Document\HtmlDocument;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\Log\LogEntry;
@@ -97,7 +96,7 @@ class PlgSystemDebug extends CMSPlugin implements SubscriberInterface
 	/**
 	 * Application object.
 	 *
-	 * @var    CMSApplication|ConsoleApplication
+	 * @var    CMSApplicationInterface
 	 * @since  3.3
 	 */
 	protected $app;
