@@ -22,11 +22,11 @@ $actions = [];
 
 // Split the actions table
 foreach ($this->actions as $action) :
-	$name  = $action[0];
-	if (in_array($name, ['core.login.site', 'core.login.admin', 'core.login.offline', 'core.login.api', 'core.admin'] )) :
-			$loginActions[] = $action;
-		else :
-			$actions[] = $action;
+	$name = $action[0];
+	if (in_array($name, ['core.login.site', 'core.login.admin', 'core.login.offline', 'core.login.api', 'core.admin'])) :
+		$loginActions[] = $action;
+	else :
+		$actions[] = $action;
 	endif;
 endforeach;
 ?>
