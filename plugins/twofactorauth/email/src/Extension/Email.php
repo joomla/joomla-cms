@@ -185,7 +185,7 @@ class Email extends CMSPlugin implements SubscriberInterface
 					// Placeholder text for the HTML input box. Leave empty if you don't need it.
 					'placeholder'        => Text::_('PLG_TWOFACTORAUTH_EMAIL_LBL_SETUP_PLACEHOLDER'),
 					// Label to show above the HTML input box. Leave empty if you don't need it.
-					'label'              => Text::_('PLG_TWOFACTORAUTH_EMAIL_LBL_SETUP_LABEL'),
+					'label'              => Text::_('PLG_TWOFACTORAUTH_EMAIL_LBL_LABEL'),
 					// Custom HTML. Only used when field_type = custom.
 					'html'               => '',
 					// Custom HTML to display below the TFA form
@@ -259,7 +259,7 @@ class Email extends CMSPlugin implements SubscriberInterface
 						'input_type'    => 'number',
 						'input_value'   => '',
 						'placeholder'   => Text::_('PLG_TWOFACTORAUTH_EMAIL_LBL_SETUP_PLACEHOLDER'),
-						'label'         => Text::_('PLG_TWOFACTORAUTH_EMAIL_LBL_SETUP_LABEL'),
+						'label'         => Text::_('PLG_TWOFACTORAUTH_EMAIL_LBL_LABEL'),
 					]
 				)
 			);
