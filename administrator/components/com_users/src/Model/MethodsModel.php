@@ -107,8 +107,8 @@ class MethodsModel extends BaseDatabaseModel
 
 		$db    = $this->getDbo();
 		$query = $db->getQuery(true)
-			->delete($db->qn('#__user_tfa'))
-			->where($db->qn('user_id') . ' = :user_id')
+			->delete($db->quoteName('#__user_tfa'))
+			->where($db->quoteName('user_id') . ' = :user_id')
 			->bind(':user_id', $user->id, ParameterType::INTEGER);
 		$db->setQuery($query)->execute();
 	}
@@ -204,10 +204,10 @@ class MethodsModel extends BaseDatabaseModel
 		$db         = $this->getDbo();
 		$profileKey = 'tfa.dontshow';
 		$query      = $db->getQuery(true)
-			->select($db->qn('profile_value'))
-			->from($db->qn('#__user_profiles'))
-			->where($db->qn('user_id') . ' = :user_id')
-			->where($db->qn('profile_key') . ' = :profileKey')
+			->select($db->quoteName('profile_value'))
+			->from($db->quoteName('#__user_profiles'))
+			->where($db->quoteName('user_id') . ' = :user_id')
+			->where($db->quoteName('profile_key') . ' = :profileKey')
 			->bind(':user_id', $user->id, ParameterType::INTEGER)
 			->bind(':profileKey', $profileKey, ParameterType::STRING);
 

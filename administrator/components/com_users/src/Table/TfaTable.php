@@ -426,7 +426,7 @@ class TfaTable extends Table
 			$one   = 1;
 			$query = $db->getQuery(true)
 				->update($db->quoteName('#__user_tfa'))
-				->set($db->qn('default') . ' = :one')
+				->set($db->quoteName('default') . ' = :one')
 				->where($db->quoteName('id') . ' = :id')
 				->bind(':one', $one, ParameterType::INTEGER)
 				->bind(':id', $id, ParameterType::INTEGER);

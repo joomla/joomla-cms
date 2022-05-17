@@ -54,7 +54,7 @@ function com_users_postinstall_action(): void
 	$db->execute();
 
 	$query = $db->getQuery(true)
-		->select('extension_id')
+		->select($db->quoteName('extension_id'))
 		->from($db->quoteName('#__extensions'))
 		->where($db->quoteName('type') . ' = ' . $db->quote('plugin'))
 		->where($db->quoteName('folder') . ' = ' . $db->quote('system'))
