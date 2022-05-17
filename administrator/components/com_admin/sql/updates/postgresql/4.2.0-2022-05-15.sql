@@ -5,7 +5,7 @@ CREATE TABLE IF NOT EXISTS "#__user_tfa" (
   "id" serial NOT NULL,
   "user_id" bigint NOT NULL,
   "title" varchar(255) DEFAULT '' NOT NULL,
-  "method" varchar(100) DEFAULT '' NOT NULL,
+  "method" varchar(100) NOT NULL,
   "default" smallint DEFAULT 0 NOT NULL,
   "options" text NOT NULL,
   "created_on" timestamp without time zone NOT NULL,

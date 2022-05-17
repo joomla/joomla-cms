@@ -5,7 +5,7 @@ CREATE TABLE IF NOT EXISTS `#__user_tfa` (
   `id` int NOT NULL AUTO_INCREMENT,
   `user_id` int unsigned NOT NULL,
   `title` varchar(255) NOT NULL DEFAULT '',
-  `method` varchar(100) NOT NULL DEFAULT '',
+  `method` varchar(100) NOT NULL,
   `default` tinyint NOT NULL DEFAULT 0,
   `options` mediumtext NOT NULL,
   `created_on` datetime NOT NULL,
