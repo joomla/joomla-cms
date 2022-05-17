@@ -19,7 +19,7 @@ use Joomla\CMS\User\UserFactoryInterface;
 use Joomla\Component\Users\Administrator\Helper\Tfa as TfaHelper;
 use Joomla\Component\Users\Administrator\Model\BackupcodesModel;
 use Joomla\Component\Users\Administrator\Model\CaptiveModel;
-use Joomla\Component\Users\Administrator\View\SiteTemplateAware;
+use Joomla\Component\Users\Administrator\View\SiteTemplateTrait;
 use stdClass;
 
 /**
@@ -29,7 +29,7 @@ use stdClass;
  */
 class HtmlView extends BaseHtmlView
 {
-	use SiteTemplateAware;
+	use SiteTemplateTrait;
 
 	/**
 	 * The TFA Method records for the current user which correspond to enabled plugins

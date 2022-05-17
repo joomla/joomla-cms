@@ -21,7 +21,7 @@ use Joomla\Component\Users\Administrator\DataShape\MethodDescriptor;
 use Joomla\Component\Users\Administrator\Helper\Tfa as TfaHelper;
 use Joomla\Component\Users\Administrator\Model\BackupcodesModel;
 use Joomla\Component\Users\Administrator\Model\MethodsModel;
-use Joomla\Component\Users\Administrator\View\SiteTemplateAware;
+use Joomla\Component\Users\Administrator\View\SiteTemplateTrait;
 
 /**
  * View for Two Factor Authentication methods list page
@@ -30,7 +30,7 @@ use Joomla\Component\Users\Administrator\View\SiteTemplateAware;
  */
 class HtmlView extends BaseHtmlView
 {
-	use SiteTemplateAware;
+	use SiteTemplateTrait;
 
 	/**
 	 * Is this an administrator page?

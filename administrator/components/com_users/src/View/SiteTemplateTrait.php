@@ -20,7 +20,7 @@ use ReflectionObject;
  *
  * @since __DEPLOY_VERSION__
  */
-trait SiteTemplateAware
+trait SiteTemplateTrait
 {
 	/**
 	 * Set a specific site template style in the frontend application
