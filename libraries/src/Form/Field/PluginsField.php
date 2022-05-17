@@ -120,7 +120,7 @@ class PluginsField extends ListField
 		if (!empty($folder))
 		{
 			// Get list of plugins
-			$db    = Factory::getDbo();
+			$db    = $this->getDatabase();
 			$query = $db->getQuery(true)
 				->select(
 					[

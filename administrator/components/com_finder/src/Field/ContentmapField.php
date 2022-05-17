@@ -44,7 +44,7 @@ class ContentmapField extends GroupedlistField
 		$groups = array();
 
 		// Get the database object and a new query object.
-		$db = Factory::getDbo();
+		$db = $this->getDatabase();
 
 		// Levels subquery.
 		$levelQuery = $db->getQuery(true);
