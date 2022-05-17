@@ -335,13 +335,11 @@ class TfaTable extends Table
 		 * user.
 		 */
 		$db    = $this->getDbo();
-		$zero  = 0;
 		$query = $db->getQuery(true)
 			->update($db->quoteName('#__user_tfa'))
-			->set($db->quoteName('default') . ' = :zero')
+			->set($db->quoteName('default') . ' = 0')
 			->where($db->quoteName('user_id') . ' = :user_id')
 			->where($db->quoteName('id') . ' != :id')
-			->bind(':zero', $zero, ParameterType::INTEGER)
 			// phpcs:ignore
 			->bind(':user_id', $this->user_id, ParameterType::INTEGER)
 			->bind(':id', $this->id, ParameterType::INTEGER);
@@ -423,12 +421,10 @@ class TfaTable extends Table
 			}
 
 			$id    = array_shift($ids);
-			$one   = 1;
 			$query = $db->getQuery(true)
 				->update($db->quoteName('#__user_tfa'))
-				->set($db->quoteName('default') . ' = :one')
+				->set($db->quoteName('default') . ' = 1')
 				->where($db->quoteName('id') . ' = :id')
-				->bind(':one', $one, ParameterType::INTEGER)
 				->bind(':id', $id, ParameterType::INTEGER);
 			$db->setQuery($query)->execute();
 		}
