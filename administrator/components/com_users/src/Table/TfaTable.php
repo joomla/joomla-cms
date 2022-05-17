@@ -63,6 +63,7 @@ class TfaTable extends Table
 	 * @var   boolean
 	 * @since __DEPLOY_VERSION__
 	 */
+	// phpcs:ignore
 	protected $_supportNullValue = true;
 
 	/**
@@ -98,8 +99,10 @@ class TfaTable extends Table
 		$this->options = $this->encryptService->encrypt(json_encode($this->options ?: []));
 
 		// Set last_used date to null if empty or zero date
+		// phpcs:ignore
 		if (!((int) $this->last_used))
 		{
+			// phpcs:ignore
 			$this->last_used = null;
 		}
 
