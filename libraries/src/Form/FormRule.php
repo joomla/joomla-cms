@@ -24,7 +24,7 @@ if (!\defined('JCOMPAT_UNICODE_PROPERTIES'))
 	 * @var    boolean
 	 * @since  1.6
 	 *
-	 * @deprecated 4.2 Will be removed without replacement in Joomla 5.0 (Also remove phpcs exception)
+	 * @deprecated 5.0 Will be removed without replacement (Also remove phpcs exception)
 	 */
 	\define('JCOMPAT_UNICODE_PROPERTIES', (bool) @preg_match('/\pL/u', 'a'));
 }
@@ -81,7 +81,7 @@ class FormRule
 
 		if ($unicodePropertiesSupport === null)
 		{
-				$unicodePropertiesSupport = (bool) @\preg_match('/\pL/u', 'a');
+			$unicodePropertiesSupport = (bool) @\preg_match('/\pL/u', 'a');
 		}
 
 		// Add unicode property support if available.
