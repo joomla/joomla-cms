@@ -957,6 +957,14 @@ class UserModel extends AdminModel
 	 */
 	public function getOtpConfig($userId = null)
 	{
+		@trigger_error(
+			sprintf(
+				'%s() is deprecated. Use \Joomla\Component\Users\Administrator\Helper\Tfa::getUserTfaRecords() instead.',
+				__METHOD__
+			),
+			E_USER_DEPRECATED
+		);
+
 		// Return the configuration object
 		return (object) array(
 			'method' => 'none',
@@ -978,6 +986,14 @@ class UserModel extends AdminModel
 	 */
 	public function setOtpConfig($userId, $otpConfig)
 	{
+		@trigger_error(
+			sprintf(
+				'%s() is deprecated. Two Factor Authentication actions are handled by plugins in the twofactorauth folder.',
+				__METHOD__
+			),
+			E_USER_DEPRECATED
+		);
+
 		return true;
 	}
 
@@ -991,6 +1007,14 @@ class UserModel extends AdminModel
 	 */
 	public function getOtpConfigEncryptionKey()
 	{
+		@trigger_error(
+			sprintf(
+				'%s() is deprecated. Use \Joomla\CMS\Factory::getApplication()->get(\'secret\') instead',
+				__METHOD__
+			),
+			E_USER_DEPRECATED
+		);
+
 		return Factory::getApplication()->get('secret');
 	}
 
@@ -1008,6 +1032,14 @@ class UserModel extends AdminModel
 	 */
 	public function getTwofactorform($userId = null)
 	{
+		@trigger_error(
+			sprintf(
+				'%s() is deprecated. Use \Joomla\Component\Users\Administrator\Helper\Tfa::getConfigurationInterface()',
+				__METHOD__
+			),
+			E_USER_DEPRECATED
+		);
+
 		return [];
 	}
 
@@ -1024,6 +1056,14 @@ class UserModel extends AdminModel
 	 */
 	public function generateOteps($userId, $count = 10)
 	{
+		@trigger_error(
+			sprintf(
+				'%s() is deprecated. See \Joomla\Component\Users\Administrator\Model\BackupcodesModel::saveBackupCodes()',
+				__METHOD__
+			),
+			E_USER_DEPRECATED
+		);
+
 		return [];
 	}
 
@@ -1043,6 +1083,14 @@ class UserModel extends AdminModel
 	 */
 	public function isValidSecretKey($userId, $secretKey, $options = array())
 	{
+		@trigger_error(
+			sprintf(
+				'%s() is deprecated. Two Factor Authentication actions are handled by plugins in the twofactorauth folder.',
+				__METHOD__
+			),
+			E_USER_DEPRECATED
+		);
+
 		return true;
 	}
 
@@ -1060,6 +1108,14 @@ class UserModel extends AdminModel
 	 */
 	public function isValidOtep($userId, $otep, $otpConfig = null)
 	{
+		@trigger_error(
+			sprintf(
+				'%s() is deprecated. Two Factor Authentication actions are handled by plugins in the twofactorauth folder.',
+				__METHOD__
+			),
+			E_USER_DEPRECATED
+		);
+
 		return true;
 	}
 }

@@ -378,6 +378,14 @@ class ProfileModel extends FormModel
 	 */
 	public function getOtpConfig($userId = null)
 	{
+		@trigger_error(
+			sprintf(
+				'%s() is deprecated. Use \Joomla\Component\Users\Administrator\Helper\Tfa::getUserTfaRecords() instead.',
+				__METHOD__
+			),
+			E_USER_DEPRECATED
+		);
+
 		/** @var UserModel $model */
 		$model = $this->bootComponent('com_users')
 			->getMVCFactory()->createModel('User', 'Administrator');
