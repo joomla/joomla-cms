@@ -331,7 +331,7 @@ trait TwoFactorAuthenticationAware
 		$allowedViews = ['captive', 'method', 'methods', 'callback'];
 		$allowedTasks = [
 			'captive.display', 'captive.captive', 'captive.validate',
-			'method.display', 'method.add', 'method.edit', 'method.regenbackupcodes', 'method.delete', 'method.save',
+			'method.display', 'method.add', 'method.edit', 'method.regenerateBackupCodes', 'method.delete', 'method.save',
 			'methods.display', 'methods.disable', 'methods.dontshowthisagain',
 		];
 

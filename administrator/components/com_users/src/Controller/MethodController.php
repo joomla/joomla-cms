@@ -182,7 +182,7 @@ class MethodController extends BaseControllerAlias
 	 * @throws Exception
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function regenbackupcodes($cachable = false, $urlparams = []): void
+	public function regenerateBackupCodes($cachable = false, $urlparams = []): void
 	{
 		$this->assertLoggedInUser();
 
@@ -211,8 +211,8 @@ class MethodController extends BaseControllerAlias
 		$this->setRedirect(Route::_($redirectUrl, false));
 
 		$this->app->triggerEvent(
-			'onComUsersControllerMethodAfterRegenbackupcodes',
-			new GenericEvent('onComUsersControllerMethodAfterRegenbackupcodes')
+			'onComUsersControllerMethodAfterRegenerateBackupCodes',
+			new GenericEvent('onComUsersControllerMethodAfterRegenerateBackupCodes')
 		);
 	}
 
