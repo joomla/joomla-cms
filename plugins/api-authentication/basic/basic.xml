@@ -11,7 +11,7 @@
 	<description>PLG_API-AUTHENTICATION_BASIC_XML_DESCRIPTION</description>
 	<namespace path="src">Joomla\Plugin\ApiAuthentication\Basic</namespace>
 	<files>
-		<folder plugin="cache">services</folder>
+		<folder plugin="basic">services</folder>
 		<folder>src</folder>
 	</files>
 	<languages>
