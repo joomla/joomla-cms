@@ -6,7 +6,7 @@
   z-index: $zindex-toolbar;
   width: auto;
   min-height: 43px;
-  padding: 10px 0;
+  padding: .25rem;
   color: #495057; //#0c192e;
   background: $white;
   box-shadow: -3px -2px 22px #ddd;
@@ -178,12 +178,5 @@
     .dropdown-toggle-split {
       width: auto;
     }
-  }
-}
-
-// In Microsoft Edge, sticky positioning doesn't work when combined with dir "rtl" attribute
-@supports (-ms-ime-align: auto) {
-  [dir=rtl] .subhead {
-    position: relative;
   }
 }

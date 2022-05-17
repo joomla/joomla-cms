@@ -30,27 +30,6 @@ use Joomla\Registry\Registry;
 class Icon
 {
 	/**
-	 * The application
-	 *
-	 * @var    CMSApplication
-	 *
-	 * @since  4.0.0
-	 */
-	private $application;
-
-	/**
-	 * Service constructor
-	 *
-	 * @param   CMSApplication  $application  The application
-	 *
-	 * @since   4.0.0
-	 */
-	public function __construct(CMSApplication $application)
-	{
-		$this->application = $application;
-	}
-
-	/**
 	 * Method to generate a link to the create item page for the given category
 	 *
 	 * @param   object    $category  The category information
@@ -115,13 +94,13 @@ class Icon
 		// Ignore if in a popup window.
 		if ($params && $params->get('popup'))
 		{
-			return;
+			return '';
 		}
 
 		// Ignore if the state is negative (trashed).
 		if (!in_array($article->state, [Workflow::CONDITION_UNPUBLISHED, Workflow::CONDITION_PUBLISHED]))
 		{
-			return;
+			return '';
 		}
 
 		// Show checked_out icon if the article is checked out by a different user

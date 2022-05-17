@@ -40,7 +40,6 @@
 	</fields>
 
 	<fields name="list">
-		<!-- @todo: Add options for execution date(s) -->
 		<field
 			name="fullordering"
 			type="list"
@@ -50,18 +49,20 @@
 			validate="options"
 			>
 			<option value="">JGLOBAL_SORT_BY</option>
-			<option value="a.state ASC">JSTATUS_ASC</option>
-			<option value="a.state DESC">JSTATUS_DESC</option>
 			<option value="a.ordering ASC">JGRID_HEADING_ORDERING_ASC</option>
 			<option value="a.ordering DESC">JGRID_HEADING_ORDERING_DESC</option>
+			<option value="a.state ASC">JSTATUS_ASC</option>
+			<option value="a.state DESC">JSTATUS_DESC</option>
 			<option value="a.title ASC">JGLOBAL_TITLE_ASC</option>
 			<option value="a.title DESC">JGLOBAL_TITLE_DESC</option>
 			<option value="j.type_title ASC">COM_SCHEDULER_TASK_TYPE_ASC</option>
 			<option value="j.type_title DESC">COM_SCHEDULER_TASK_TYPE_DESC</option>
-			<option value="a.id ASC">JGRID_HEADING_ID_ASC</option>
-			<option value="a.id DESC">JGRID_HEADING_ID_DESC</option>
+			<option value="a.last_execution ASC">COM_SCHEDULER_LAST_RUN_ASC</option>
+			<option value="a.last_execution DESC">COM_SCHEDULER_LAST_RUN_DESC</option>
 			<option value="a.priority ASC">COM_SCHEDULER_TASK_PRIORITY_ASC</option>
 			<option value="a.priority DESC">COM_SCHEDULER_TASK_PRIORITY_DESC</option>
+			<option value="a.id ASC">JGRID_HEADING_ID_ASC</option>
+			<option value="a.id DESC">JGRID_HEADING_ID_DESC</option>
 		</field>
 		<field
 			name="limit"

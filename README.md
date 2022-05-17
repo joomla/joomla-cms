@@ -39,13 +39,13 @@ You will need:
 **Steps to setup the local environment:**
 - Clone the repository:
 ```bash
-git clone git@github.com:joomla/joomla-cms.git
+git clone https://github.com/joomla/joomla-cms.git
 ```
 - Go to the joomla-cms folder:
 ```bash
 cd joomla-cms
 ```
-- Go to the 4.1-dev branch:
+- Go to the 4.2-dev branch:
 ```bash
 git checkout 4.2-dev
 ```

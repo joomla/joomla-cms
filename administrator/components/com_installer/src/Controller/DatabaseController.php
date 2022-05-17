@@ -40,9 +40,12 @@ class DatabaseController extends BaseController
 		$this->checkToken();
 
 		// Get items to fix the database.
-		$cid = $this->input->get('cid', array(), 'array');
+		$cid = (array) $this->input->get('cid', array(), 'int');
 
-		if (!is_array($cid) || count($cid) < 1)
+		// Remove zero values resulting from input filter
+		$cid = array_filter($cid);
+
+		if (empty($cid))
 		{
 			$this->app->getLogger()->warning(
 				Text::_(
