@@ -439,7 +439,7 @@ class FieldsModel extends ListModel
 			{
 				$field->fieldparams = new Registry($field->fieldparams);
 				$field->params = new Registry($field->params);
-				$app->triggerEvent('onCustomFieldsGetField', array(&$field));
+				$app->triggerEvent('onCustomFieldsGetField', array($field));
 			}
 		}
 
