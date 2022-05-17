@@ -229,7 +229,7 @@ class PlgFieldsSubform extends FieldsPlugin
 					$subfield->value = implode(' ', $subfield->value);
 				}
 
-				$subfield->content = &$subfield->value;
+				$subfield->content = $subfield->value;
 
 				// Store the subfield (incl. its raw and rendered value) into this rows sub fields
 				$row_subfields[$subfield->fieldname] = $subfield;
