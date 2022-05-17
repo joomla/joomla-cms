@@ -144,7 +144,6 @@ class Webauthn extends CMSPlugin implements SubscriberInterface
 			$document = $this->app->getDocument();
 			$wam      = $document->getWebAssetManager();
 			$wam->getRegistry()->addExtensionRegistryFile('PLG_TWOFACTORAUTH_WEBAUTHN');
-			$wam->useScript('plg_twofactorauth_webauthn.webauthn');
 
 			$layoutPath = PluginHelper::getLayoutPath('twofactorauth', 'webauthn', 'register');
 			ob_start();
@@ -361,7 +360,6 @@ class Webauthn extends CMSPlugin implements SubscriberInterface
 		$document = $this->app->getDocument();
 		$wam      = $document->getWebAssetManager();
 		$wam->getRegistry()->addExtensionRegistryFile('plg_twofactorauth_webauthn');
-		$wam->useScript('plg_twofactorauth_webauthn.webauthn');
 
 		// Load JS translations
 		Text::script('PLG_TWOFACTORAUTH_WEBAUTHN_ERR_NOTAVAILABLE_HEAD');

@@ -22,6 +22,12 @@ use Joomla\Component\Users\Administrator\View\Captive\HtmlView;
  */
 $model           = $this->getModel();
 
+if ($this->renderOptions['field_type'] !== 'custom')
+{
+	$this->document->getWebAssetManager()
+			->useScript('com_users.two-factor-focus');
+}
+
 ?>
 <div class="users-tfa-captive card card-body">
 	<h3 id="users-tfa-title">

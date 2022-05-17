@@ -15,6 +15,8 @@ use Joomla\CMS\Plugin\PluginHelper;
 
 include PluginHelper::getLayoutPath('twofactorauth', 'webauthn', 'error');
 
+$this->app->getDocument()->getWebAssetManager()->useScript('plg_twofactorauth_webauthn.webauthn');
+
 ?>
 <div id="twofactorauth-webauthn-controls" class="my-2">
 	<input id="twofactorauth-method-code" name="code" value="" placeholder="" type="hidden">
