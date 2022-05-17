@@ -1362,14 +1362,19 @@ class Query
 			{
 				$searchTerm .= '%';
 				$searchStem .= '%';
+				$query->where('(t.term LIKE ' . $db->quote($searchTerm) . ' OR t.stem LIKE ' . $db->quote($searchStem) . ')');
 			}
 			elseif ($this->wordmode === 'fuzzy')
 			{
 				$searchTerm = '%' . $searchTerm . '%';
 				$searchStem = '%' . $searchStem . '%';
+				$query->where('(t.term LIKE ' . $db->quote($searchTerm) . ' OR t.stem LIKE ' . $db->quote($searchStem) . ')');
+			}
+			else
+			{
+				$query->where('(t.term = ' . $db->quote($searchTerm) . ' OR t.stem = ' . $db->quote($searchStem) . ')');
 			}
 
-			$query->where('(t.term = ' . $db->quote($searchTerm) . ' OR t.stem = ' . $db->quote($searchStem) . ')');
 			$query->where('t.phrase = 0')
 				->where('t.language IN (\'*\',' . $db->quote($token->language) . ')');
 		}
