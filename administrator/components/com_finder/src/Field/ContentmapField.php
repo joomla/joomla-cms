@@ -95,6 +95,8 @@ class ContentmapField extends GroupedlistField
 	}
 
 	/**
+	 * Indenting and translating options for the list
+	 *
 	 * @param   int    $parent   Parent ID to process
 	 * @param   array  $parents  Array of arrays of items with parent IDs as keys
 	 *
