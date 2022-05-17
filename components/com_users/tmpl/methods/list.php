@@ -95,7 +95,11 @@ $model = $this->getModel();
 											<?php echo Text::sprintf('COM_USERS_TFA_LBL_CREATEDON', $model->formatRelative($record->created_on)) ?>
 										</span>
 										<span class="com-users-methods-list-method-record-lastused-date w-50">
-											<?php echo Text::sprintf('COM_USERS_TFA_LBL_LASTUSED', $model->formatRelative($record->last_used)) ?>
+											<?php if ($record->last_used === null) : ?>
+												<?php echo Text::sprintf('COM_USERS_TFA_LBL_LASTUSED', Text::_('JNEVER')); ?>
+											<?php else : ?>
+												<?php echo Text::sprintf('COM_USERS_TFA_LBL_LASTUSED', $model->formatRelative($record->last_used)) ?>
+											<?php endif; ?>
 										</span>
 									</div>
 

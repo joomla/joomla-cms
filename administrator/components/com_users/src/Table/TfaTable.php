@@ -58,6 +58,14 @@ class TfaTable extends Table
 	private $encryptService;
 
 	/**
+	 * Indicates that columns fully support the NULL value in the database
+	 *
+	 * @var   boolean
+	 * @since __DEPLOY_VERSION__
+	 */
+	protected $_supportNullValue = true;
+
+	/**
 	 * Table constructor
 	 *
 	 * @param   DatabaseDriver            $db          Database driver object
@@ -84,10 +92,16 @@ class TfaTable extends Table
 	 *
 	 * @since __DEPLOY_VERSION__
 	 */
-	public function store($updateNulls = false)
+	public function store($updateNulls = true)
 	{
 		// Encrypt the options before saving them
 		$this->options = $this->encryptService->encrypt(json_encode($this->options ?: []));
+
+		// Set last_used date to null if empty or zero date
+		if (!((int) $this->last_used))
+		{
+			$this->last_used = null;
+		}
 
 		// Let's find out if we are saving a new TFA method record without having backup codes yet.
 		$mustCreateBackupCodes = false;
@@ -110,9 +124,10 @@ class TfaTable extends Table
 			}
 			else
 			{
-				// New record. Update the created_on column
+				// New record. Update the created_on and last_used columns
 				// phpcs:ignore
 				$this->created_on = Date::getInstance()->toSql();
+				$this->last_used  = null;
 			}
 
 			// Do I need to mark this record as the default?

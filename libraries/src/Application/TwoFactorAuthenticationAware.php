@@ -416,7 +416,7 @@ trait TwoFactorAuthenticationAware
 							'method'     => 'totp',
 							'default'    => 0,
 							'created_on' => Date::getInstance()->toSql(),
-							'last_used'  => $db->getNullDate(),
+							'last_used'  => null,
 							'options'    => ['key' => $config['code']],
 						]
 					);
@@ -432,7 +432,7 @@ trait TwoFactorAuthenticationAware
 							'method'     => 'yubikey',
 							'default'    => 0,
 							'created_on' => Date::getInstance()->toSql(),
-							'last_used'  => $db->getNullDate(),
+							'last_used'  => null,
 							'options'    => ['id' => $config['yubikey']],
 						]
 					);
@@ -466,7 +466,7 @@ trait TwoFactorAuthenticationAware
 					'method'     => 'backupcodes',
 					'default'    => 0,
 					'created_on' => Date::getInstance()->toSql(),
-					'last_used'  => $db->getNullDate(),
+					'last_used'  => null,
 					'options'    => @json_decode($otep, true),
 				]
 			);
