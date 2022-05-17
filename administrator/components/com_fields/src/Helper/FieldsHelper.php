@@ -234,10 +234,10 @@ class FieldsHelper
 					Factory::getApplication()->triggerEvent('onCustomFieldsAfterPrepareField', array($context, $item, $field, &$value));
 
 					// Assign the value
-					$field->value = $value;
+					$field->value = &$value;
 
 					// Assign the render value
-					$field->content = $value;
+					$field->content = &$value;
 				}
 
 				$new[$key] = $field;
