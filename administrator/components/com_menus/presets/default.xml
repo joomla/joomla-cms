@@ -323,10 +323,10 @@
 	<menuitem
 		title="MOD_MENU_SYSTEM"
 		type="heading"
-		icon="users"
+		icon="wrench"
 		class="class:wrench"
 		dashboard="system"
-	>
+		>
 		<menuitem
 			title="MOD_MENU_INFORMATION"
 			type="heading"
