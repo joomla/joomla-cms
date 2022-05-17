@@ -433,7 +433,6 @@ class FieldsModel extends ListModel
 
 		if (is_array($result))
 		{
-			PluginHelper::importPlugin('fields');
 			$app = Factory::getApplication();
 
 			foreach ($result as $field)
