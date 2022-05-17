@@ -173,7 +173,7 @@ class CategoryeditField extends ListField
 			? (int) reset($oldCat)
 			: (int) $oldCat;
 
-		$db   = Factory::getDbo();
+		$db   = $this->getDatabase();
 		$user = Factory::getUser();
 
 		$query = $db->getQuery(true)
