@@ -35,7 +35,7 @@ use Throwable;
  * @property int    $default     Is this the default Method?
  * @property array  $options     Configuration options for the TFA Method.
  * @property string $created_on  Date and time the record was created.
- * @property string $last_used   Date and time the record was las used successfully.
+ * @property string $last_used   Date and time the record was last used successfully.
  *
  * @since __DEPLOY_VERSION__
  */
