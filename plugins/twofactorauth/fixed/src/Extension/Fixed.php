@@ -103,7 +103,7 @@ class Fixed extends CMSPlugin implements SubscriberInterface
 					'name'      => $this->tfaMethodName,
 					'display'   => Text::_('PLG_TWOFACTORAUTH_FIXED_LBL_DISPLAYEDAS'),
 					'shortinfo' => Text::_('PLG_TWOFACTORAUTH_FIXED_LBL_SHORTINFO'),
-					'image'     => 'media/PLG_TWOFACTORAUTH_fixed/images/fixed.svg',
+					'image'     => 'media/plg_twofactorauth_fixed/images/fixed.svg',
 				]
 			)
 		);
