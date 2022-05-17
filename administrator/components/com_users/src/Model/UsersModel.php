@@ -190,8 +190,11 @@ class UsersModel extends ListModel
 			foreach ($items as $item)
 			{
 				$userIds[] = (int) $item->id;
+				// phpcs:ignore
 				$item->group_count = 0;
+				// phpcs:ignore
 				$item->group_names = '';
+				// phpcs:ignore
 				$item->note_count = 0;
 			}
 
@@ -247,14 +250,17 @@ class UsersModel extends ListModel
 			{
 				if (isset($userGroups[$item->id]))
 				{
+					// phpcs:ignore
 					$item->group_count = $userGroups[$item->id]->group_count;
 
 					// Group_concat in other databases is not supported
-					$item->group_names = $this->_getUserDisplayedGroups($item->id);
+					// phpcs:ignore
+					$item->group_names = $this->getUserDisplayedGroups($item->id);
 				}
 
 				if (isset($userNotes[$item->id]))
 				{
+					// phpcs:ignore
 					$item->note_count = $userNotes[$item->id]->note_count;
 				}
 			}
@@ -582,7 +588,7 @@ class UsersModel extends ListModel
 	 *
 	 * @return  string   Groups titles imploded :$
 	 */
-	protected function _getUserDisplayedGroups($userId)
+	protected function getUserDisplayedGroups($userId)
 	{
 		$db    = $this->getDbo();
 		$query = $db->getQuery(true)
