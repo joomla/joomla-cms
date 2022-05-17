@@ -433,13 +433,10 @@ class FieldsModel extends ListModel
 
 		if (is_array($result))
 		{
-			$app = Factory::getApplication();
-
 			foreach ($result as $field)
 			{
 				$field->fieldparams = new Registry($field->fieldparams);
 				$field->params = new Registry($field->params);
-				$app->triggerEvent('onCustomFieldsGetField', array($field));
 			}
 		}
 
