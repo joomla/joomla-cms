@@ -66,8 +66,6 @@ class CaptiveController extends BaseController
 		$user = $this->app->getIdentity()
 			?: Factory::getContainer()->get(UserFactoryInterface::class)->loadUserById(0);
 
-		$this->setSiteTemplateStyle();
-
 		// Only allow logged in Users
 		if ($user->guest)
 		{
@@ -134,8 +132,6 @@ class CaptiveController extends BaseController
 	{
 		// CSRF Check
 		$this->checkToken($this->input->getMethod());
-
-		$this->setSiteTemplateStyle();
 
 		// Get the TFA parameters from the request
 		$recordId  = $this->input->getInt('record_id', null);
@@ -251,40 +247,5 @@ class CaptiveController extends BaseController
 			'onComUsersCaptiveValidateSuccess',
 			new GenericEvent('onComUsersCaptiveValidateSuccess', [$record->title])
 		);
-	}
-
-	/**
-	 * Set a specific site template style in the frontend application
-	 *
-	 * @return void
-	 * @since __DEPLOY_VERSION__
-	 */
-	private function setSiteTemplateStyle(): void
-	{
-		$itemId = $this->input->get('Itemid');
-
-		if (!empty($itemId))
-		{
-			return;
-		}
-
-		$templateStyle = (int) ComponentHelper::getParams('com_users')->get('captive_template', '');
-
-		if (empty($templateStyle) || !$this->app->isClient('site'))
-		{
-			return;
-		}
-
-		$this->app->input->set('templateStyle', $templateStyle);
-
-		$refApp      = new ReflectionObject($this->app);
-		$refTemplate = $refApp->getProperty('template');
-		$refTemplate->setAccessible(true);
-		$refTemplate->setValue($this->app, null);
-
-		$template = $this->app->getTemplate(true);
-
-		$this->app->set('theme', $template->template);
-		$this->app->set('themeParams', $template->params);
 	}
 }

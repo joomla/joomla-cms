@@ -126,7 +126,6 @@ class MethodsController extends BaseController
 	public function display($cachable = false, $urlparams = []): void
 	{
 		$this->assertLoggedInUser();
-		$this->setSiteTemplateStyle();
 
 		// Make sure I am allowed to edit the specified user
 		$userId  = $this->input->getInt('user_id', null);
@@ -218,41 +217,4 @@ class MethodsController extends BaseController
 			throw new RuntimeException(Text::_('JERROR_ALERTNOAUTHOR'), 403);
 		}
 	}
-
-	/**
-	 * Set a specific site template style in the frontend application
-	 *
-	 * @return  void
-	 * @since   __DEPLOY_VERSION__
-	 */
-	private function setSiteTemplateStyle(): void
-	{
-		$itemId = $this->app->input->get('Itemid');
-
-		if (!empty($itemId))
-		{
-			return;
-		}
-
-		$templateStyle = (int) ComponentHelper::getParams('com_users')
-			->get('captive_template', '');
-
-		if (empty($templateStyle) || !$this->app->isClient('site'))
-		{
-			return;
-		}
-
-		$this->app->input->set('templateStyle', $templateStyle);
-
-		$refApp      = new ReflectionObject($this->app);
-		$refTemplate = $refApp->getProperty('template');
-		$refTemplate->setAccessible(true);
-		$refTemplate->setValue($this->app, null);
-
-		$template = $this->app->getTemplate(true);
-
-		$this->app->set('theme', $template->template);
-		$this->app->set('themeParams', $template->params);
-	}
-
 }

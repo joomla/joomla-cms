@@ -19,6 +19,7 @@ use Joomla\CMS\User\UserFactoryInterface;
 use Joomla\Component\Users\Administrator\Helper\Tfa as TfaHelper;
 use Joomla\Component\Users\Administrator\Model\BackupcodesModel;
 use Joomla\Component\Users\Administrator\Model\CaptiveModel;
+use Joomla\Component\Users\Administrator\View\SiteTemplateAware;
 use stdClass;
 
 /**
@@ -28,6 +29,8 @@ use stdClass;
  */
 class HtmlView extends BaseHtmlView
 {
+	use SiteTemplateAware;
+
 	/**
 	 * The TFA Method records for the current user which correspond to enabled plugins
 	 *
@@ -96,6 +99,8 @@ class HtmlView extends BaseHtmlView
 	 */
 	public function display($tpl = null)
 	{
+		$this->setSiteTemplateStyle();
+
 		$app  = Factory::getApplication();
 		$user = Factory::getApplication()->getIdentity()
 			?: Factory::getContainer()->get(UserFactoryInterface::class)->loadUserById(0);
