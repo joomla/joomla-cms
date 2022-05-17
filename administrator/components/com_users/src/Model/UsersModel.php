@@ -16,6 +16,9 @@ use Joomla\CMS\Date\Date;
 use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\ListModel;
+use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\Component\Users\Administrator\DataShape\MethodDescriptor;
+use Joomla\Component\Users\Administrator\Helper\Tfa;
 use Joomla\Database\DatabaseQuery;
 use Joomla\Database\ParameterType;
 use Joomla\Utilities\ArrayHelper;
@@ -285,6 +288,25 @@ class UsersModel extends ListModel
 		);
 
 		$query->from($db->quoteName('#__users') . ' AS a');
+
+		// Include TFA information
+		if (PluginHelper::isEnabled('twofactorauth'))
+		{
+			$subQuery = $db->getQuery(true)
+				->select(
+					[
+						'MIN(' . $db->quoteName('user_id') . ') AS ' . $db->quoteName('uid'),
+						'COUNT(*) AS ' . $db->quoteName('tfaRecords')
+					]
+				)
+				->from($db->quoteName('#__user_tfa'));
+			$query->select($db->quoteName('tfa.tfaRecords'))
+				->join(
+					'left',
+					'(' . $subQuery . ') AS ' . $db->quoteName('tfa'),
+					$db->quoteName('tfa.uid') . ' = ' . $db->quoteName('a.id')
+				);
+		}
 
 		// If the model is set to check item state, add to the query.
 		$state = $this->getState('filter.state');

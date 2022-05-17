@@ -18,6 +18,10 @@ use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\String\PunycodeHelper;
 
+/** @var \Joomla\Component\Users\Administrator\View\Users\HtmlView $this */
+
+// phpcs:ignoreFile
+
 /** @var \Joomla\CMS\WebAsset\WebAssetManager $wa */
 $wa = $this->document->getWebAssetManager();
 $wa->useScript('table.columns')
@@ -152,7 +156,7 @@ $tfa        = PluginHelper::isEnabled('twofactorauth');
 								<?php if ($tfa) : ?>
 								<td class="text-center d-none d-md-table-cell">
 									<span class="tbody-icon">
-									<?php if (!empty($item->otpKey)) : ?>
+									<?php if ($item->tfaRecords > 0) : ?>
 										<span class="icon-check" aria-hidden="true"></span>
 										<span class="visually-hidden"><?php echo Text::_('COM_USERS_TFA_ACTIVE'); ?></span>
 									<?php else : ?>
