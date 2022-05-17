@@ -224,7 +224,8 @@ class Totp extends CMSPlugin implements SubscriberInterface
 						Text::_('PLG_TWOFACTORAUTH_TOTP_LBL_SETUP_TABLE_KEY')  => $key,
 						Text::_('PLG_TWOFACTORAUTH_TOTP_LBL_SETUP_TABLE_QR')   => "<span id=\"users-tfa-totp-qrcode\" />",
 						Text::_('PLG_TWOFACTORAUTH_TOTP_LBL_SETUP_TABLE_LINK')
-							=> Text::sprintf('PLG_TWOFACTORAUTH_TOTP_LBL_SETUP_TABLE_LINK_TEXT', $otpURL),
+							=> Text::sprintf('PLG_TWOFACTORAUTH_TOTP_LBL_SETUP_TABLE_LINK_TEXT', $otpURL) .
+							'<br/><small>' . Text::_('PLG_TWOFACTORAUTH_TOTP_LBL_SETUP_TABLE_LINK_NOTE') . '</small>',
 					],
 					'hidden_data'   => [
 						'key' => $key,
