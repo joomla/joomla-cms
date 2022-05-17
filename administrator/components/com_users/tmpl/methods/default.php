@@ -21,7 +21,7 @@ use Joomla\Component\Users\Administrator\View\Methods\HtmlView;
 <div id="com-users-methods-list" class="container-fluid">
 	<div id="com-users-methods-reset-container" class="d-flex align-items-center border border-1 rounded-3 p-2 bg-light">
 		<div id="com-users-methods-reset-message" class="flex-grow-1">
-			<?php echo Text::sprintf('COM_USERS_TFA_LIST_STATUS', Text::_('COM_USERS_TFA_LIST_STATUS_' . ($this->tfaActive ? 'ON' : 'OFF'))) ?>
+			<?php echo Text::_('COM_USERS_TFA_LIST_STATUS_' . ($this->tfaActive ? 'ON' : 'OFF')) ?>
 		</div>
 		<?php if ($this->tfaActive): ?>
 			<div>
