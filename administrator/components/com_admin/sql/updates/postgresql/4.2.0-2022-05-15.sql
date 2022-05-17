@@ -13,7 +13,7 @@ CREATE TABLE IF NOT EXISTS "#__user_tfa" (
   PRIMARY KEY ("id")
 );
 
-CREATE INDEX "#__user_tfa_idx_user_id" ON "#__user_tfa" ("user_id");
+CREATE INDEX "#__user_tfa_idx_user_id" ON "#__user_tfa" ("user_id") /** CAN FAIL **/;
 
 COMMENT ON TABLE "#__user_tfa" IS 'Two Factor Authentication settings';
 
