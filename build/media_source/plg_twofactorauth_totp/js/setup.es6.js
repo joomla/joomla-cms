@@ -9,7 +9,7 @@
 ((Joomla, document, qrcode) => {
   'use strict';
 
-  document.addEventListener('DOMContentLoaded', function () {
+  document.addEventListener('DOMContentLoaded', () => {
     const elTarget = document.getElementById('users-tfa-totp-qrcode');
     const qrData = Joomla.getOptions('plg_twofactorauth_totp.totp.qr');
 

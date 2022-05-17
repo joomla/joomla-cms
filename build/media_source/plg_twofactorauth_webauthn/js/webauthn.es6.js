@@ -56,7 +56,7 @@
     const publicKey = JSON.parse(atob(rawPKData));
 
     // Convert the public key information to a format usable by the browser's credentials manager
-    publicKey.challenge = Uint8Array.from(window.atob(base64url2base64(publicKey.challenge)), (c) => c.charCodeAt(0),);
+    publicKey.challenge = Uint8Array.from(window.atob(base64url2base64(publicKey.challenge)), (c) => c.charCodeAt(0));
 
     publicKey.user.id = Uint8Array.from(window.atob(publicKey.user.id), (c) => c.charCodeAt(0));
 
@@ -79,10 +79,10 @@
           rawId: arrayToBase64String(new Uint8Array(data.rawId)),
           response: {
             clientDataJSON: arrayToBase64String(
-              new Uint8Array(data.response.clientDataJSON)
+              new Uint8Array(data.response.clientDataJSON),
             ),
             attestationObject: arrayToBase64String(
-              new Uint8Array(data.response.attestationObject)
+              new Uint8Array(data.response.attestationObject),
             ),
           },
         };
@@ -119,7 +119,7 @@
       return;
     }
 
-    publicKey.challenge = Uint8Array.from(window.atob(base64url2base64(publicKey.challenge)), (c) => c.charCodeAt(0),);
+    publicKey.challenge = Uint8Array.from(window.atob(base64url2base64(publicKey.challenge)), (c) => c.charCodeAt(0));
 
     if (publicKey.allowCredentials) {
       publicKey.allowCredentials = publicKey.allowCredentials.map((data) => {
@@ -139,16 +139,16 @@
           rawId: arrayToBase64String(new Uint8Array(data.rawId)),
           response: {
             authenticatorData: arrayToBase64String(
-              new Uint8Array(data.response.authenticatorData)
+              new Uint8Array(data.response.authenticatorData),
             ),
             clientDataJSON: arrayToBase64String(
-              new Uint8Array(data.response.clientDataJSON)
+              new Uint8Array(data.response.clientDataJSON),
             ),
             signature: arrayToBase64String(
-              new Uint8Array(data.response.signature)
+              new Uint8Array(data.response.signature),
             ),
             userHandle: data.response.userHandle ? arrayToBase64String(
-              new Uint8Array(data.response.userHandle)
+              new Uint8Array(data.response.userHandle),
             ) : null,
           },
         };
