@@ -303,7 +303,7 @@ class TfaTable extends Table
 			$decrypted = @json_decode($decrypted, true);
 		}
 
-		// FAll back to legacy decryption
+		// Fall back to legacy decryption
 		if (!is_array($decrypted))
 		{
 			$decrypted = @json_decode($this->encryptService->decrypt($this->options ?? '', true), true);
