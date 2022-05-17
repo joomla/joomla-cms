@@ -67,8 +67,8 @@ $model = $this->getModel();
 						<?php  foreach($method['active'] as $record): ?>
 							<div class="com-users-methods-list-method-record d-flex flex-row flex-wrap justify-content-start">
 								<div class="com-users-methods-list-method-record-info flex-grow-1 d-flex flex-column align-items-start gap-1">
-									<?php if ($methodName == 'backupcodes'): ?>
-										<div class="alert alert-info">
+									<?php if ($methodName === 'backupcodes'): ?>
+										<div class="alert alert-info mt-1">
 											<h3 class="alert-heading fs-6">
 												<span class="icon icon-info-circle icon-info-sign" aria-hidden="true"></span>
 												<?php echo Text::sprintf('COM_USERS_TFA_OTEP_PRINT_PROMPT_HEAD', Route::_('index.php?option=com_users&task=method.edit&id=' . (int) $record->id . ($this->returnURL ? '&returnurl=' . $this->escape(urlencode($this->returnURL)) : '') . '&user_id=' . $this->user->id)) ?>
@@ -104,7 +104,7 @@ $model = $this->getModel();
 
 								</div>
 
-								<?php if ($methodName != 'backupcodes'): ?>
+								<?php if ($methodName !== 'backupcodes'): ?>
 								<div class="com-users-methods-list-method-record-actions my-2 d-flex flex-row flex-wrap justify-content-center align-content-center align-items-start">
 									<a class="com-users-methods-list-method-record-edit btn btn-secondary btn-sm mx-1"
 									   href="<?php echo Route::_('index.php?option=com_users&task=method.edit&id=' . (int) $record->id . ($this->returnURL ? '&returnurl=' . $this->escape(urlencode($this->returnURL)) : '') . '&user_id=' . $this->user->id)?>">
