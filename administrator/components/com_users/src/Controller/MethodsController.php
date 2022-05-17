@@ -162,7 +162,7 @@ class MethodsController extends BaseController
 	 * @return  void
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function dontshowthisagain($cachable = false, $urlparams = []): void
+	public function doNotShowThisAgain($cachable = false, $urlparams = []): void
 	{
 		$this->assertLoggedInUser();
 
@@ -181,8 +181,8 @@ class MethodsController extends BaseController
 		}
 
 		$this->app->triggerEvent(
-			'onComUsersControllerMethodsBeforeDontshowthisagain',
-			new GenericEvent('onComUsersControllerMethodsBeforeDontshowthisagain', [$user])
+			'onComUsersControllerMethodsBeforeDoNotShowThisAgain',
+			new GenericEvent('onComUsersControllerMethodsBeforeDoNotShowThisAgain', [$user])
 		);
 
 		/** @var MethodsModel $model */

@@ -34,7 +34,7 @@ use Joomla\Component\Users\Site\View\Methods\HtmlView;
 			<?php echo Text::_('COM_USERS_TFA_FIRSTTIME_INSTRUCTIONS_WHATITDOES'); ?>
 		</p>
 		<a href="<?php echo Route::_(
-				'index.php?option=com_users&task=methods.dontshowthisagain' .
+				'index.php?option=com_users&task=methods.doNotShowThisAgain' .
 				($this->returnURL ? '&returnurl=' . $this->escape(urlencode($this->returnURL)) : '') .
 				'&user_id=' . $this->user->id .
 				'&' . Factory::getApplication()->getFormToken() . '=1'

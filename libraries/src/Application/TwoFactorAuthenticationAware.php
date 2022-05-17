@@ -332,7 +332,7 @@ trait TwoFactorAuthenticationAware
 		$allowedTasks = [
 			'captive.display', 'captive.captive', 'captive.validate',
 			'method.display', 'method.add', 'method.edit', 'method.regenerateBackupCodes', 'method.delete', 'method.save',
-			'methods.display', 'methods.disable', 'methods.dontshowthisagain',
+			'methods.display', 'methods.disable', 'methods.doNotShowThisAgain',
 		];
 
 		return in_array($view, $allowedViews) || in_array($task, $allowedTasks);
