@@ -120,6 +120,7 @@ class AdminController extends BaseController
 			if (isset($app->input))
 			{
 				$context = $app->input->get('context', '', 'string');
+
 				if ($context)
 				{
 					$this->view_list = $this->view_list . '&context=' . $context;
