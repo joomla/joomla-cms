@@ -86,7 +86,7 @@ class CaptiveController extends BaseController
 		$view->document = $this->app->getDocument();
 
 		// If we're already logged in go to the site's home page
-		if ($this->app->getSession()->get('com_users.tfa_checked', 0) == 1)
+		if ((int) $this->app->getSession()->get('com_users.tfa_checked', 0) === 1)
 		{
 			$url = Route::_('index.php?option=com_users&task=methods.display', false);
 
@@ -174,7 +174,7 @@ class CaptiveController extends BaseController
 
 		$isValidCode = false;
 
-		if ($record->method == 'backupcodes')
+		if ($record->method === 'backupcodes')
 		{
 			/** @var BackupcodesModel $codesModel */
 			$codesModel = $this->getModel('Backupcodes');
