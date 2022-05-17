@@ -73,6 +73,29 @@
       "attributes": {
         "type": "module"
       }
+    },
+    {
+      "name": "com_users.two-factor-list.es5",
+      "type": "script",
+      "uri": "com_users/two-factor-list-es5.min.js",
+      "dependencies": [
+        "core"
+      ],
+      "attributes": {
+        "nomodule": true,
+        "defer": true
+      }
+    },
+    {
+      "name": "com_users.two-factor-list",
+      "type": "script",
+      "uri": "com_users/two-factor-list.min.js",
+      "dependencies": [
+        "com_users.two-factor-list.es5"
+      ],
+      "attributes": {
+        "type": "module"
+      }
     }
   ]
 }

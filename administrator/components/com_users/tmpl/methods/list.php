@@ -26,6 +26,8 @@ HTMLHelper::_('bootstrap.tooltip', '.hasTooltip');
 /** @var MethodsModel $model */
 $model = $this->getModel();
 
+$this->document->getWebAssetManager()->useScript('com_users.two-factor-list');
+
 ?>
 <div id="com-users-methods-list-container" class="p-1">
 	<?php foreach($this->methods as $methodName => $method):

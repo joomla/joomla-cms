@@ -180,5 +180,7 @@ class HtmlView extends BaseHtmlView
 			'onComUsersViewMethodsAfterDisplay',
 			new GenericEvent('onComUsersViewMethodsAfterDisplay', [$this])
 		);
+
+		Text::script('JGLOBAL_CONFIRM_DELETE');
 	}
 }
