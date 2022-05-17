@@ -16,7 +16,7 @@ use Joomla\Database\DatabaseInterface;
 use Joomla\DI\Container;
 use Joomla\DI\ServiceProviderInterface;
 use Joomla\Event\DispatcherInterface;
-use Joomla\Plugin\ApiAuthentication\Basic\Basic;
+use Joomla\Plugin\ApiAuthentication\Basic\Extension\Basic;
 
 return new class implements ServiceProviderInterface {
 	/**

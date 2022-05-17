@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-namespace Joomla\Plugin\ApiAuthentication\Basic;
+namespace Joomla\Plugin\ApiAuthentication\Basic\Extension;
 
 defined('_JEXEC') or die;
 
