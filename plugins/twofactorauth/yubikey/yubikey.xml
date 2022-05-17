@@ -18,22 +18,4 @@
 		<language tag="en-GB">language/en-GB/plg_twofactorauth_yubikey.ini</language>
 		<language tag="en-GB">language/en-GB/plg_twofactorauth_yubikey.sys.ini</language>
 	</languages>
-	<config>
-		<fields name="params">
-			<fieldset name="basic">
-				<field
-					name="section"
-					type="list"
-					label="PLG_TWOFACTORAUTH_YUBIKEY_SECTION_LABEL"
-					default="3"
-					filter="integer"
-					validate="options"
-					>
-					<option value="1">PLG_TWOFACTORAUTH_YUBIKEY_SECTION_SITE</option>
-					<option value="2">PLG_TWOFACTORAUTH_YUBIKEY_SECTION_ADMIN</option>
-					<option value="3">PLG_TWOFACTORAUTH_YUBIKEY_SECTION_BOTH</option>
-				</field>
-			</fieldset>
-		</fields>
-	</config>
 </extension>
