@@ -115,6 +115,13 @@ class AdminController extends BaseController
 			}
 
 			$this->view_list = strtolower($r[2]);
+
+			// Add the context to $this->view_list to use in the redirect URL
+			$context = $app->input->get('context', '', 'string');
+			if ($context)
+			{
+				$this->view_list = $this->view_list . '&context=' . $context;
+			}
 		}
 	}
 
