@@ -130,7 +130,7 @@ class MethodsModel extends BaseDatabaseModel
 	{
 		if (empty($dateTimeText))
 		{
-			return '&ndash;';
+			return Text::_('JNEVER');
 		}
 
 		// The timestamp is given in UTC. Make sure Joomla! parses it as such.
@@ -141,7 +141,7 @@ class MethodsModel extends BaseDatabaseModel
 		// I'm pretty sure we didn't have TFA in Joomla back in 1970 ;)
 		if ($unixStamp < 0)
 		{
-			return '&ndash;';
+			return Text::_('JNEVER');
 		}
 
 		// I need to display the date in the user's local timezone. That's how you do it.
