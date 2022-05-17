@@ -28,6 +28,9 @@ use Joomla\CMS\Language\Text;
 		<div class="card-header"><h2><?php echo Text::_('COM_FINDER_ITEM_FIELDSET_TERMS_TITLE'); ?></h2></div>
 		<div class="card-body">
 			<table class="table">
+				<caption class="visually-hidden">
+					<?php echo Text::_('COM_FINDER_ITEM_TERMS_TABLE_CAPTION'); ?>,
+				</caption>
 				<thead>
 				<tr>
 					<th scope="col">id</th>
@@ -61,6 +64,9 @@ use Joomla\CMS\Language\Text;
 		<div class="card-header"><h2><?php echo Text::_('COM_FINDER_ITEM_FIELDSET_TAXONOMIES_TITLE'); ?></h2></div>
 		<div class="card-body">
 			<table class="table">
+				<caption class="visually-hidden">
+					<?php echo Text::_('COM_FINDER_ITEM_TAXONOMIES_TABLE_CAPTION'); ?>,
+				</caption>
 				<thead>
 					<tr>
 						<th scope="col">id</th>
