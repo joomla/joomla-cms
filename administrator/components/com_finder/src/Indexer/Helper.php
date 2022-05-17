@@ -463,7 +463,7 @@ class Helper
 			}
 
 			// We want to add this field as a taxonomy
-			if (($searchindex == 1 || $searchindex == 3) && $field->value)
+			if (($searchindex == 2 || $searchindex == 3) && $field->value)
 			{
 				$item->addTaxonomy($field->title, $field->value, $field->state, $field->access, $field->language);
 			}
