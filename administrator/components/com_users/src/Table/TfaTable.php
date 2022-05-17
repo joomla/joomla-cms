@@ -106,58 +106,65 @@ class TfaTable extends Table
 			$this->last_used = null;
 		}
 
+		// phpcs:ignore
+		$records = TfaHelper::getUserTfaRecords($this->user_id);
+
+		if ($this->id)
+		{
+			// Existing record. Remove it from the list of records.
+			$records = array_filter(
+				$records,
+				function ($rec) {
+					return $rec->id != $this->id;
+				}
+			);
+		}
+
+		// Update the dates on a new record
+		if (empty($this->id))
+		{
+			// phpcs:ignore
+			$this->created_on = Date::getInstance()->toSql();
+			// phpcs:ignore
+			$this->last_used  = null;
+		}
+
+		// Do I need to mark this record as the default?
+		if ($this->default == 0)
+		{
+			$hasDefaultRecord = array_reduce(
+				$records,
+				function ($carry, $record)
+				{
+					return $carry || ($record->default == 1);
+				},
+				false
+			);
+
+			$this->default = $hasDefaultRecord ? 0 : 1;
+		}
+
 		// Let's find out if we are saving a new TFA method record without having backup codes yet.
 		$mustCreateBackupCodes = false;
 
 		if (empty($this->id) && $this->method !== 'backupcodes')
 		{
-			// phpcs:ignore
-			$records = TfaHelper::getUserTfaRecords($this->user_id);
-
-			if ($this->id)
-			{
-				// Existing record. Remove it from the list of records.
-				$records = array_filter(
-					$records,
-					function ($rec)
-					{
-						return $rec->id != $this->id;
-					}
-				);
-			}
-			else
-			{
-				// New record. Update the created_on and last_used columns
-				// phpcs:ignore
-				$this->created_on = Date::getInstance()->toSql();
-				$this->last_used  = null;
-			}
-
-			// Do I need to mark this record as the default?
-			if ($this->default == 0)
-			{
-				$hasDefaultRecord = array_reduce(
-					$records,
-					function ($carry, $record)
-					{
-						return $carry || ($record->default == 1);
-					},
-					false
-				);
-
-				if (!$hasDefaultRecord)
+			// Do I have any backup records?
+			$hasBackupCodes = array_reduce(
+				$records,
+				function (bool $carry, $record)
 				{
-					$this->default = 1;
-				}
-			}
+					return $carry || $record->method === 'backupcodes';
+				},
+				false
+			);
 
-			// Get the number of records this user_id has, except the current record.
-			$numOldRecords = count($records);
+			$mustCreateBackupCodes = !$hasBackupCodes;
 
-			if ($numOldRecords == 0)
+			// If the only other entry is the backup records one I need to make this the default method
+			if ($hasBackupCodes && count($records) === 1)
 			{
-				$mustCreateBackupCodes = true;
-				$this->default         = 1;
+				$this->default = 1;
 			}
 		}
 
