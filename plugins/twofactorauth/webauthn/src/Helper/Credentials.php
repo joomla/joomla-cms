@@ -197,7 +197,7 @@ abstract class Credentials
 			throw new RuntimeException(Text::_('PLG_TWOFACTORAUTH_WEBAUTHN_ERR_CREATE_INVALID_LOGIN_REQUEST'));
 		}
 
-		// Make sure the user is ourselves (we cannot perform 2SV on behalf of another user!)
+		// Make sure the user is ourselves (we cannot perform TFA on behalf of another user!)
 		$currentUser = Factory::getApplication()->getIdentity()
 			?: Factory::getContainer()->get(UserFactoryInterface::class)->loadUserById(0);
 

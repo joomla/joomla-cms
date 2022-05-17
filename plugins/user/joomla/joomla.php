@@ -464,7 +464,7 @@ class PlgUserJoomla extends CMSPlugin
 		$userParams         = ComponentHelper::getParams('com_users');
 		$doTfaOnSilentLogin = $userParams->get('tfaonsilent', 0) == 1;
 
-		// Should I show 2SV even on silent logins? Default: 1 (yes, show)
+		// Should I show TFA even on silent logins? Default: 1 (yes, show)
 		if ($doTfaOnSilentLogin)
 		{
 			return;

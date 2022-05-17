@@ -409,7 +409,7 @@ class Email extends CMSPlugin implements SubscriberInterface
 	}
 
 	/**
-	 * Executes before showing the 2SV Methods for the user. Used for the Force Enable feature.
+	 * Executes before showing the TFA Methods for the user. Used for the Force Enable feature.
 	 *
 	 * @param   Event  $event  The event we are handling
 	 *
