@@ -114,7 +114,7 @@ class MethodsController extends BaseController
 	}
 
 	/**
-	 * List all available Two Step Validation Methods available and guide the user to setting them up
+	 * List all available Two Factor Authentication Methods available and guide the user to setting them up
 	 *
 	 * @param   bool   $cachable     Can this view be cached
 	 * @param   array  $urlparams    An array of safe url parameters and their variable types, for valid values see
