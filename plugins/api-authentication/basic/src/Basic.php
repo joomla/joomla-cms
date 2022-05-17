@@ -40,7 +40,6 @@ final class Basic extends CMSPlugin
 	 * The user factory
 	 *
 	 * @var    UserFactoryInterface
-	 *
 	 * @since  __DEPLOY_VERSION__
 	 */
 	private $userFactory;
