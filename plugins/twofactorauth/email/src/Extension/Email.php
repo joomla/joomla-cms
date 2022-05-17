@@ -128,7 +128,7 @@ class Email extends CMSPlugin implements SubscriberInterface
 					'name'      => $this->tfaMethodName,
 					'display'   => Text::_('PLG_TWOFACTORAUTH_EMAIL_LBL_DISPLAYEDAS'),
 					'shortinfo' => Text::_('PLG_TWOFACTORAUTH_EMAIL_LBL_SHORTINFO'),
-					'image'     => 'media/plg_twofactor_email/images/email.svg',
+					'image'     => 'media/plg_twofactorauth_email/images/email.svg',
 				]
 			)
 		);
@@ -228,7 +228,7 @@ class Email extends CMSPlugin implements SubscriberInterface
 
 		// If there's a key in the session use that instead.
 		$session = $this->app->getSession();
-		$session->get('plg_twofactor_email.emailcode.key', $key);
+		$session->get('plg_twofactorauth_email.emailcode.key', $key);
 
 		// Initialize objects
 		$timeStep = min(max((int) $this->params->get('timestep', 120), 30), 900);
@@ -239,9 +239,9 @@ class Email extends CMSPlugin implements SubscriberInterface
 		{
 			$key = $totp->generateSecret();
 
-			$session->set('plg_twofactor_email.emailcode.key', $key);
+			$session->set('plg_twofactorauth_email.emailcode.key', $key);
 			// phpcs:ignore
-			$session->set('plg_twofactor_email.emailcode.user_id', $record->user_id);
+			$session->set('plg_twofactorauth_email.emailcode.user_id', $record->user_id);
 
 			// phpcs:ignore
 			$user = Factory::getContainer()->get(UserFactoryInterface::class)->loadUserById($record->user_id);
@@ -313,7 +313,7 @@ class Email extends CMSPlugin implements SubscriberInterface
 		// If there is no key in the options fetch one from the session
 		if (empty($key))
 		{
-			$key = $session->get('plg_twofactor_email.emailcode.key', null);
+			$key = $session->get('plg_twofactorauth_email.emailcode.key', null);
 		}
 
 		// If there is still no key in the options throw an error
@@ -346,7 +346,7 @@ class Email extends CMSPlugin implements SubscriberInterface
 		}
 
 		// The code is valid. Unset the key from the session.
-		$session->set('plg_twofactor_email.emailcode.key', null);
+		$session->set('plg_twofactorauth_email.emailcode.key', null);
 
 		// Return the configuration to be serialized
 		$this->setResult($event, ['key' => $key]);
