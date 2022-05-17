@@ -43,7 +43,7 @@ use RuntimeException;
  *
  * @since __DEPLOY_VERSION__
  */
-trait TwoFactorAuthenticationAware
+trait TwoFactorAuthenticationHandler
 {
 	/**
 	 * Handle the redirection to the Two Factor Authentication captive login or setup page.

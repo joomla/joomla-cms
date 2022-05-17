@@ -35,7 +35,7 @@ use Joomla\String\StringHelper;
  */
 final class SiteApplication extends CMSApplication
 {
-	use TwoFactorAuthenticationAware;
+	use TwoFactorAuthenticationHandler;
 
 	/**
 	 * Option to filter by language
