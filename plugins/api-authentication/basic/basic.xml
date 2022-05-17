@@ -15,7 +15,7 @@
 		<folder>src</folder>
 	</files>
 	<languages>
-		<language tag="en-GB">language/en-GB/plg_authentication-api_basic.ini</language>
-		<language tag="en-GB">language/en-GB/plg_authentication-api_basic.sys.ini</language>
+		<language tag="en-GB">language/en-GB/plg_api-authentication_basic.ini</language>
+		<language tag="en-GB">language/en-GB/plg_api-authentication_basic.sys.ini</language>
 	</languages>
 </extension>
