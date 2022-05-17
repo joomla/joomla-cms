@@ -40,17 +40,20 @@ $model = $this->getModel();
 						 class="img-fluid"
 					>
 				</div>
-				<div class="com-users-methods-list-method-title flex-grow-1">
+				<div class="com-users-methods-list-method-title flex-grow-1 d-flex flex-column">
 					<h4 class="fs-4 p-0 m-0 d-flex gap-3 align-items-center">
 						<span class="me-1 flex-grow-1">
 							<?php echo $method['display'] ?>
 						</span>
 						<?php if ($this->defaultMethod == $methodName): ?>
-							<span id="com-users-methods-list-method-default-tag" class="badge bg-info me-1 fs-6">
+							<span id="com-users-methods-list-method-default-tag" class="badge bg-info me-1">
 								<?php echo Text::_('COM_USERS_TFA_LIST_DEFAULTTAG') ?>
 							</span>
 						<?php endif; ?>
 					</h4>
+					<div class="com-users-methods-list-method-info my-1 small text-muted">
+						<?php echo $method['shortinfo'] ?>
+					</div>
 				</div>
 				<div class="com-users-methods-list-method-info">
 					<span class="hasTooltip icon icon-info-circle icon-info-sign"

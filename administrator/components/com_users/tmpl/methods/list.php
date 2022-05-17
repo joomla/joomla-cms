@@ -40,7 +40,7 @@ $model = $this->getModel();
 						 class="img-fluid"
 					>
 				</div>
-				<div class="com-users-methods-list-method-title flex-grow-1">
+				<div class="com-users-methods-list-method-title flex-grow-1 d-flex flex-column">
 					<h4 class="fs-4 p-0 m-0 d-flex gap-3 align-items-center">
 						<span class="me-1 flex-grow-1">
 							<?php echo $method['display'] ?>
@@ -51,10 +51,9 @@ $model = $this->getModel();
 							</span>
 						<?php endif; ?>
 					</h4>
-				</div>
-				<div class="com-users-methods-list-method-info">
-					<span class="hasTooltip icon icon-info-circle icon-info-sign"
-						  title="<?php echo $this->escape($method['shortinfo']) ?>"></span>
+					<div class="com-users-methods-list-method-info my-1 small text-muted">
+						<?php echo $method['shortinfo'] ?>
+					</div>
 				</div>
 			</div>
 
