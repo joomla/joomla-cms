@@ -52,7 +52,7 @@ class Email extends CMSPlugin implements SubscriberInterface
 	private const CODE_LENGTH = 6;
 
 	/**
-	 * Length of the secret key used for generating the OTPs. Constant: 10 characters.
+	 * Length of the secret key used for generating the OTPs. Constant: 20 characters.
 	 *
 	 * @since __DEPLOY_VERSION__
 	 */
