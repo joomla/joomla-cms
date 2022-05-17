@@ -1028,7 +1028,7 @@ CREATE TABLE IF NOT EXISTS `#__user_tfa` (
   `title` varchar(255) NOT NULL DEFAULT '',
   `method` varchar(100) NOT NULL DEFAULT '',
   `default` tinyint NOT NULL DEFAULT 0,
-  `options` longtext NOT NULL,
+  `options` mediumtext NOT NULL,
   `created_on` datetime NOT NULL,
   `last_used` datetime,
   PRIMARY KEY (`id`),
