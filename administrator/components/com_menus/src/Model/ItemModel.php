@@ -1433,8 +1433,8 @@ class ItemModel extends AdminModel
 	 */
 	public function save($data)
 	{
-		$pk         = isset($data['id']) ? $data['id'] : (int) $this->getState('item.id');
-		$isNew      = true;
+		$pk      = isset($data['id']) ? $data['id'] : (int) $this->getState('item.id');
+		$isNew   = true;
 		$db      = $this->getDbo();
 		$query   = $db->getQuery(true);
 		$table   = $this->getTable();
@@ -1512,13 +1512,24 @@ class ItemModel extends AdminModel
 			return false;
 		}
 
-		// Alter the title & alias for save as copy.  Also, unset the home record.
-		if (!$isNew && $data['id'] == 0)
+		// Alter the title & alias for save2copy when required. Also, unset the home record.
+		if (Factory::getApplication()->input->get('task') === 'save2copy' && $data['id'] === 0)
 		{
-			list($title, $alias) = $this->generateNewTitle($table->parent_id, $table->alias, $table->title);
+			$origTable = $this->getTable();
+			$origTable->load($this->getState('item.id'));
 
-			$table->title     = $title;
-			$table->alias     = $alias;
+			if ($table->title === $origTable->title)
+			{
+				list($title, $alias) = $this->generateNewTitle($table->parent_id, $table->alias, $table->title);
+				$table->title = $title;
+				$table->alias = $alias;
+			}
+
+			if ($table->alias === $origTable->alias)
+			{
+				$table->alias = '';
+			}
+
 			$table->published = 0;
 			$table->home      = 0;
 		}
