@@ -348,6 +348,7 @@
 			class="class:component"
 			permission="core.manage;com_joomlaupdate"
 		/>
+
 		<menuitem
 			title="COM_POSTINSTALL"
 			type="component"
@@ -362,6 +363,14 @@
 			element="com_redirect"
 			link="index.php?option=com_redirect&amp;view=links"
 			permission="core.manage;com_redirect"
+		/>
+
+		<menuitem
+			title="MOD_MENU_MANAGE_SCHEDULED_TASKS"
+			type="component"
+			element="com_scheduler"
+			link="index.php?option=com_scheduler&amp;view=tasks"
+			permission="core.manage;com_scheduler"
 		/>
 	</menuitem>
 
