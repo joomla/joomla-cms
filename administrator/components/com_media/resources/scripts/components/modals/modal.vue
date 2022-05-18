@@ -73,13 +73,14 @@ export default {
     this.focusableElements = 'button:not([disabled]), [href], input:not([disabled]), select, textarea, [tabindex]:not([tabindex="-1"])';
     this.modal = document.querySelector('.modal-dialog');
     this.focusableContent = this.modal.querySelectorAll(this.focusableElements);
-    this.firstFocusableElement = this.focusableContent[0];
-    this.lastFocusableElement = this.focusableContent[this.focusableContent.length - 1];
+    this.focusableArray = Array.from(this.focusableContent);
+    [this.firstFocusableElement] = this.focusableArray;
+    [this.lastFocusableElement] = this.focusableArray.slice(-1);
     document.addEventListener('keydown', this.onKeyPress);
     this.firstFocusableElement.focus();
 
     /* Setting up the MutationObserver on the modal-footer */
-    this.targetNode = document.querySelector('.modal-footer');
+    this.targetNode = document.querySelector('.modal-footer');  
     this.config = { attributes: true, childList: true, subtree: true };
     this.observer = new MutationObserver(this.callBack);
     this.observer.observe(this.targetNode, this.config);
@@ -97,15 +98,19 @@ export default {
       mutationsList.forEach((mutation) => {
         if (mutation.type === 'attributes') {
           document.removeEventListener('keydown', this.onKeyPress);
-          this.focusableContent = this.modal.querySelectorAll(this.focusableElements);
-          this.firstFocusableElement = this.focusableContent[0];
-          this.lastFocusableElement = this.focusableContent[this.focusableContent.length - 1];
-          document.addEventListener('keydown', this.onKeyPress);
+          setTimeout(() => {
+            this.focusableContent = this.modal.querySelectorAll(this.focusableElements);
+            this.focusableArray = Array.from(this.focusableContent);
+            [this.firstFocusableElement] = this.focusableArray;
+            [this.lastFocusableElement] = this.focusableArray.slice(-1);
+            document.addEventListener('keydown', this.onKeyPress);
+          },0);
         }
       });
     },
     /* Handle KeyDown events */
     onKeyPress(e) {
+      console.log(this.firstFocusableElement);
       const isTabPressed = e.key === 'Tab' || e.keyCode === 9;
       if (!isTabPressed) {
         return;
