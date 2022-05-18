@@ -80,7 +80,7 @@ export default {
     this.firstFocusableElement.focus();
 
     /* Setting up the MutationObserver on the modal-footer */
-    this.targetNode = document.querySelector('.modal-footer');  
+    this.targetNode = document.querySelector('.modal-footer'); 
     this.config = { attributes: true, childList: true, subtree: true };
     this.observer = new MutationObserver(this.callBack);
     this.observer.observe(this.targetNode, this.config);
@@ -104,7 +104,7 @@ export default {
             [this.firstFocusableElement] = this.focusableArray;
             [this.lastFocusableElement] = this.focusableArray.slice(-1);
             document.addEventListener('keydown', this.onKeyPress);
-          },0);
+          }, 0);
         }
       });
     },
