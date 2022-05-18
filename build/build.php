@@ -135,12 +135,6 @@ function clean_checkout(string $dir)
 	system('rm -rf libraries/vendor/google/recaptcha/examples');
 	system('rm -rf libraries/vendor/google/recaptcha/tests');
 
-	// maximebf/debugbar
-	system('rm -rf libraries/vendor/maximebf/debugbar/build');
-	system('rm -rf libraries/vendor/maximebf/debugbar/demo');
-	system('rm -rf libraries/vendor/maximebf/debugbar/docs');
-	system('rm -rf libraries/vendor/maximebf/debugbar/tests');
-
 	// jakeasmith/http_build_url
 	system ('rm -rf libraries/vendor/jakeasmith/http_build_url/tests');
 
@@ -154,6 +148,12 @@ function clean_checkout(string $dir)
 	system('rm -rf plugins/sampledata/testing');
 	system('rm -rf images/sampledata/parks');
 	system('rm -rf images/sampledata/fruitshop');
+
+	// maximebf/debugbar
+	system('rm -rf libraries/vendor/maximebf/debugbar/build');
+	system('rm -rf libraries/vendor/maximebf/debugbar/demo');
+	system('rm -rf libraries/vendor/maximebf/debugbar/docs');
+	system('rm -rf libraries/vendor/maximebf/debugbar/tests');
 
 	// paragonie/sodium_compat
 	system('rm -rf libraries/vendor/paragonie/sodium_compat/build-phar.sh');
