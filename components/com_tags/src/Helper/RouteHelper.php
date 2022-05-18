@@ -92,7 +92,7 @@ class RouteHelper extends CMSRouteHelper
 	{
 		$needles = [
 			'tag'      => [(int) $id],
-			'language' => $language
+			'language' => $language,
 		];
 
 		if ($id < 1)
