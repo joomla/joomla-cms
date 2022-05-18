@@ -24,9 +24,8 @@ use Joomla\CMS\User\User;
 use Joomla\Component\Users\Administrator\DataShape\CaptiveRenderOptions;
 use Joomla\Component\Users\Administrator\DataShape\MethodDescriptor;
 use Joomla\Component\Users\Administrator\DataShape\SetupRenderOptions;
-use Joomla\Component\Users\Administrator\Helper\Tfa as TfaHelper;
-use Joomla\Component\Users\Administrator\Table\TfaTable;
-use Joomla\Event\Event;
+use Joomla\Component\Users\Administrator\Helper\Mfa as MfaHelper;
+use Joomla\Component\Users\Administrator\Table\MfaTable;
 use Joomla\Event\SubscriberInterface;
 use Joomla\Input\Input;
 use RuntimeException;
@@ -55,12 +54,12 @@ class Yubikey extends CMSPlugin implements SubscriberInterface
 	protected $autoloadLanguage = true;
 
 	/**
-	 * The TFA Method name handled by this plugin
+	 * The MFA Method name handled by this plugin
 	 *
 	 * @var   string
 	 * @since __DEPLOY_VERSION__
 	 */
-	private $tfaMethodName = 'yubikey';
+	private $mfaMethodName = 'yubikey';
 
 	/**
 	 * Should I try to detect and register legacy event listeners?
@@ -92,7 +91,7 @@ class Yubikey extends CMSPlugin implements SubscriberInterface
 
 
 	/**
-	 * Gets the identity of this TFA Method
+	 * Gets the identity of this MFA Method
 	 *
 	 * @param   GetMethod  $event  The event we are handling
 	 *
@@ -104,7 +103,7 @@ class Yubikey extends CMSPlugin implements SubscriberInterface
 		$event->addResult(
 			new MethodDescriptor(
 				[
-					'name'               => $this->tfaMethodName,
+					'name'               => $this->mfaMethodName,
 					'display'            => Text::_('PLG_TWOFACTORAUTH_YUBIKEY_METHOD_TITLE'),
 					'shortinfo'          => Text::_('PLG_TWOFACTORAUTH_YUBIKEY_SHORTINFO'),
 					'image'              => 'media/plg_twofactorauth_yubikey/images/yubikey.svg',
@@ -115,8 +114,8 @@ class Yubikey extends CMSPlugin implements SubscriberInterface
 	}
 
 	/**
-	 * Returns the information which allows Joomla to render the Captive TFA page. This is the page
-	 * which appears right after you log in and asks you to validate your login with TFA.
+	 * Returns the information which allows Joomla to render the Captive MFA page. This is the page
+	 * which appears right after you log in and asks you to validate your login with MFA.
 	 *
 	 * @param   Captive  $event  The event we are handling
 	 *
@@ -126,12 +125,12 @@ class Yubikey extends CMSPlugin implements SubscriberInterface
 	public function onUserTwofactorCaptive(Captive $event): void
 	{
 		/**
-		 * @var   TfaTable $record The record currently selected by the user.
+		 * @var   MfaTable $record The record currently selected by the user.
 		 */
 		$record = $event['record'];
 
 		// Make sure we are actually meant to handle this Method
-		if ($record->method != $this->tfaMethodName)
+		if ($record->method != $this->mfaMethodName)
 		{
 			return;
 		}
@@ -139,9 +138,9 @@ class Yubikey extends CMSPlugin implements SubscriberInterface
 		$event->addResult(
 			new CaptiveRenderOptions(
 				[
-					// Custom HTML to display above the TFA form
+					// Custom HTML to display above the MFA form
 					'pre_message'        => '',
-					// How to render the TFA code field. "input" (HTML input element) or "custom" (custom HTML)
+					// How to render the MFA code field. "input" (HTML input element) or "custom" (custom HTML)
 					'field_type'         => 'input',
 					// The type attribute for the HTML input box. Typically "text" or "password". Use any HTML5 input type.
 					'input_type'         => 'text',
@@ -151,9 +150,9 @@ class Yubikey extends CMSPlugin implements SubscriberInterface
 					'label'              => Text::_('PLG_TWOFACTORAUTH_YUBIKEY_CODE_LABEL'),
 					// Custom HTML. Only used when field_type = custom.
 					'html'               => '',
-					// Custom HTML to display below the TFA form
+					// Custom HTML to display below the MFA form
 					'post_message'       => '',
-					// Allow authentication against all entries of this TFA Method.
+					// Allow authentication against all entries of this MFA Method.
 					'allowEntryBatching' => 1,
 				]
 			)
@@ -161,8 +160,8 @@ class Yubikey extends CMSPlugin implements SubscriberInterface
 	}
 
 	/**
-	 * Returns the information which allows Joomla to render the TFA setup page. This is the page
-	 * which allows the user to add or modify a TFA Method for their user account. If the record
+	 * Returns the information which allows Joomla to render the MFA setup page. This is the page
+	 * which allows the user to add or modify a MFA Method for their user account. If the record
 	 * does not correspond to your plugin return an empty array.
 	 *
 	 * @param   GetSetup  $event  The event we are handling
@@ -173,12 +172,12 @@ class Yubikey extends CMSPlugin implements SubscriberInterface
 	public function onUserTwofactorGetSetup(GetSetup $event): void
 	{
 		/**
-		 * @var   TfaTable $record The record currently selected by the user.
+		 * @var   MfaTable $record The record currently selected by the user.
 		 */
 		$record = $event['record'];
 
 		// Make sure we are actually meant to handle this Method
-		if ($record->method != $this->tfaMethodName)
+		if ($record->method != $this->mfaMethodName)
 		{
 			return;
 		}
@@ -219,7 +218,7 @@ class Yubikey extends CMSPlugin implements SubscriberInterface
 	}
 
 	/**
-	 * Parse the input from the TFA setup page and return the configuration information to be saved to the database. If
+	 * Parse the input from the MFA setup page and return the configuration information to be saved to the database. If
 	 * the information is invalid throw a RuntimeException to signal the need to display the editor page again. The
 	 * message of the exception will be displayed to the user. If the record does not correspond to your plugin return
 	 * an empty array.
@@ -233,14 +232,14 @@ class Yubikey extends CMSPlugin implements SubscriberInterface
 	public function onUserTwofactorSaveSetup(SaveSetup $event): void
 	{
 		/**
-		 * @var   TfaTable $record The record currently selected by the user.
+		 * @var   MfaTable $record The record currently selected by the user.
 		 * @var   Input    $input  The user input you are going to take into account.
 		 */
 		$record = $event['record'];
 		$input  = $event['input'];
 
 		// Make sure we are actually meant to handle this Method
-		if ($record->method != $this->tfaMethodName)
+		if ($record->method != $this->mfaMethodName)
 		{
 			return;
 		}
@@ -296,7 +295,7 @@ class Yubikey extends CMSPlugin implements SubscriberInterface
 	public function onUserTwofactorValidate(Validate $event): void
 	{
 		/**
-		 * @var   TfaTable $record The TFA Method's record you're validatng against
+		 * @var   MfaTable $record The MFA Method's record you're validatng against
 		 * @var   User     $user   The user record
 		 * @var   string   $code   The submitted code
 		 */
@@ -305,14 +304,14 @@ class Yubikey extends CMSPlugin implements SubscriberInterface
 		$code   = $event['code'];
 
 		// Make sure we are actually meant to handle this Method
-		if ($record->method != $this->tfaMethodName)
+		if ($record->method != $this->mfaMethodName)
 		{
 			$event->addResult(false);
 
 			return;
 		}
 
-		// Double check the TFA Method is for the correct user
+		// Double check the MFA Method is for the correct user
 		// phpcs:ignore
 		if ($user->id != $record->user_id)
 		{
@@ -324,7 +323,7 @@ class Yubikey extends CMSPlugin implements SubscriberInterface
 		try
 		{
 			// phpcs:ignore
-			$records = TfaHelper::getUserTfaRecords($record->user_id);
+			$records = MfaHelper::getUserMfaRecords($record->user_id);
 			$records = array_filter(
 				$records,
 				function ($rec) use ($record) {
@@ -601,12 +600,12 @@ class Yubikey extends CMSPlugin implements SubscriberInterface
 	/**
 	 * Decodes the options from a record into an options object.
 	 *
-	 * @param   TfaTable  $record  The record to decode
+	 * @param   MfaTable  $record  The record to decode
 	 *
 	 * @return  array
 	 * @since   __DEPLOY_VERSION__
 	 */
-	private function decodeRecordOptions(TfaTable $record): array
+	private function decodeRecordOptions(MfaTable $record): array
 	{
 		$options = [
 			'id' => '',
@@ -623,14 +622,14 @@ class Yubikey extends CMSPlugin implements SubscriberInterface
 	}
 
 	/**
-	 * @param   TfaTable  $record  The record to validate against
+	 * @param   MfaTable  $record  The record to validate against
 	 * @param   string    $code    The code given to us by the user
 	 *
 	 * @return  boolean
 	 * @throws  Exception
 	 * @since   __DEPLOY_VERSION__
 	 */
-	private function validateAgainstRecord(TfaTable $record, string $code): bool
+	private function validateAgainstRecord(MfaTable $record, string $code): bool
 	{
 		// Load the options from the record (if any)
 		$options = $this->decodeRecordOptions($record);

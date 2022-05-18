@@ -326,7 +326,7 @@ class ProfileModel extends FormModel
 	{
 		@trigger_error(
 			sprintf(
-				'%s() is deprecated. Use \Joomla\Component\Users\Administrator\Helper\Tfa::getUserTfaRecords() instead.',
+				'%s() is deprecated. Use \Joomla\Component\Users\Administrator\Helper\Mfa::getUserMfaRecords() instead.',
 				__METHOD__
 			),
 			E_USER_DEPRECATED

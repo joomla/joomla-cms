@@ -21,7 +21,7 @@ use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\User\UserFactoryInterface;
-use Joomla\Component\Users\Administrator\Helper\Tfa as TfaHelper;
+use Joomla\Component\Users\Administrator\Helper\Mfa as MfaHelper;
 use Joomla\Component\Users\Administrator\Model\MethodsModel;
 use Joomla\Input\Input;
 use ReflectionObject;
@@ -75,12 +75,12 @@ class MethodsController extends BaseController
 			: Factory::getContainer()->get(UserFactoryInterface::class)->loadUserById($userId);
 		$user   = $user ?? Factory::getContainer()->get(UserFactoryInterface::class)->loadUserById(0);
 
-		if (!TfaHelper::canEditUser($user))
+		if (!MfaHelper::canEditUser($user))
 		{
 			throw new RuntimeException(Text::_('JERROR_ALERTNOAUTHOR'), 403);
 		}
 
-		// Delete all TFA Methods for the user
+		// Delete all MFA Methods for the user
 		/** @var MethodsModel $model */
 		$model   = $this->getModel('Methods');
 		$type    = null;
@@ -133,7 +133,7 @@ class MethodsController extends BaseController
 			: Factory::getContainer()->get(UserFactoryInterface::class)->loadUserById($userId);
 		$user    = $user ?? Factory::getContainer()->get(UserFactoryInterface::class)->loadUserById(0);
 
-		if (!TfaHelper::canEditUser($user))
+		if (!MfaHelper::canEditUser($user))
 		{
 			throw new RuntimeException(Text::_('JERROR_ALERTNOAUTHOR'), 403);
 		}
@@ -174,7 +174,7 @@ class MethodsController extends BaseController
 			: Factory::getContainer()->get(UserFactoryInterface::class)->loadUserById($userId);
 		$user    = $user ?? Factory::getContainer()->get(UserFactoryInterface::class)->loadUserById(0);
 
-		if (!TfaHelper::canEditUser($user))
+		if (!MfaHelper::canEditUser($user))
 		{
 			throw new RuntimeException(Text::_('JERROR_ALERTNOAUTHOR'), 403);
 		}

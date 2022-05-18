@@ -40,7 +40,7 @@ class HtmlView extends BaseHtmlView
 	public $renderOptions = [];
 
 	/**
-	 * The TFA Method record being edited
+	 * The MFA Method record being edited
 	 *
 	 * @var   object
 	 * @since __DEPLOY_VERSION__

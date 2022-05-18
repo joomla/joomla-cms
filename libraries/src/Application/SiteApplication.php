@@ -35,7 +35,7 @@ use Joomla\String\StringHelper;
  */
 final class SiteApplication extends CMSApplication
 {
-	use TwoFactorAuthenticationHandler;
+	use MultiFactorAuthenticationHandler;
 
 	/**
 	 * Option to filter by language
@@ -234,7 +234,7 @@ final class SiteApplication extends CMSApplication
 		// Mark afterRoute in the profiler.
 		JDEBUG ? $this->profiler->mark('afterRoute') : null;
 
-		if (!$this->isHandlingTwoFactorAuthentication())
+		if (!$this->isHandlingMultiFactorAuthentication())
 		{
 			/*
 			 * Check if the user is required to reset their password

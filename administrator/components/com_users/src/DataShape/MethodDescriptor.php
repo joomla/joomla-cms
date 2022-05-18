@@ -9,24 +9,24 @@
 
 namespace Joomla\Component\Users\Administrator\DataShape;
 
-use Joomla\Component\Users\Administrator\Table\TfaTable;
+use Joomla\Component\Users\Administrator\Table\MfaTable;
 
 /**
- * @property  string  $name                Internal code of this TFA Method
- * @property  string  $display             User-facing name for this TFA Method
- * @property  string  $shortinfo           Short description of this TFA Method displayed to the user
+ * @property  string  $name                Internal code of this MFA Method
+ * @property  string  $display             User-facing name for this MFA Method
+ * @property  string  $shortinfo           Short description of this MFA Method displayed to the user
  * @property  string  $image               URL to the logo image for this Method
  * @property  bool    $canDisable          Are we allowed to disable it?
  * @property  bool    $allowMultiple       Are we allowed to have multiple instances of it per user?
  * @property  string  $help_url            URL for help content
- * @property  bool    $allowEntryBatching  Allow authentication against all entries of this TFA Method.
+ * @property  bool    $allowEntryBatching  Allow authentication against all entries of this MFA Method.
  *
  * @since       __DEPLOY_VERSION__
  */
 class MethodDescriptor extends DataShapeObject
 {
 	/**
-	 * Internal code of this TFA Method
+	 * Internal code of this MFA Method
 	 *
 	 * @var   string
 	 * @since __DEPLOY_VERSION__
@@ -34,7 +34,7 @@ class MethodDescriptor extends DataShapeObject
 	protected $name = '';
 
 	/**
-	 * User-facing name for this TFA Method
+	 * User-facing name for this MFA Method
 	 *
 	 * @var   string
 	 * @since __DEPLOY_VERSION__
@@ -42,7 +42,7 @@ class MethodDescriptor extends DataShapeObject
 	protected $display = '';
 
 	/**
-	 * Short description of this TFA Method displayed to the user
+	 * Short description of this MFA Method displayed to the user
 	 *
 	 * @var   string
 	 * @since __DEPLOY_VERSION__
@@ -83,7 +83,7 @@ class MethodDescriptor extends DataShapeObject
 	protected $help_url = '';
 
 	/**
-	 * Allow authentication against all entries of this TFA Method.
+	 * Allow authentication against all entries of this MFA Method.
 	 *
 	 * Otherwise authentication takes place against a SPECIFIC entry at a time.
 	 *
@@ -95,21 +95,21 @@ class MethodDescriptor extends DataShapeObject
 	/**
 	 * Active authentication methods, used internally only
 	 *
-	 * @var   TfaTable[]
+	 * @var   MfaTable[]
 	 * @since __DEPLOY_VERSION__
 	 * @internal
 	 */
 	protected $active = [];
 
 	/**
-	 * Adds an active TFA method
+	 * Adds an active MFA method
 	 *
-	 * @param   TfaTable  $record  The TFA method record to add
+	 * @param   MfaTable  $record  The MFA method record to add
 	 *
 	 * @return void
 	 * @since __DEPLOY_VERSION__
 	 */
-	public function addActiveMethod(TfaTable $record)
+	public function addActiveMethod(MfaTable $record)
 	{
 		$this->active[$record->id] = $record;
 	}

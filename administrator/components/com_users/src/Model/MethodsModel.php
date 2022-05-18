@@ -18,7 +18,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Joomla\CMS\User\User;
 use Joomla\CMS\User\UserFactoryInterface;
-use Joomla\Component\Users\Administrator\Helper\Tfa as TfaHelper;
+use Joomla\Component\Users\Administrator\Helper\Mfa as MfaHelper;
 use Joomla\Database\ParameterType;
 use RuntimeException;
 
@@ -52,8 +52,8 @@ class MethodsModel extends BaseDatabaseModel
 			return [];
 		}
 
-		// Get an associative array of TFA Methods
-		$rawMethods = TfaHelper::getTfaMethods();
+		// Get an associative array of MFA Methods
+		$rawMethods = MfaHelper::getMfaMethods();
 		$methods    = [];
 
 		foreach ($rawMethods as $method)
@@ -62,12 +62,12 @@ class MethodsModel extends BaseDatabaseModel
 			$methods[$method['name']] = $method;
 		}
 
-		// Put the user TFA records into the Methods array
-		$userTfaRecords = TfaHelper::getUserTfaRecords($user->id);
+		// Put the user MFA records into the Methods array
+		$userMfaRecords = MfaHelper::getUserMfaRecords($user->id);
 
-		if (!empty($userTfaRecords))
+		if (!empty($userMfaRecords))
 		{
-			foreach ($userTfaRecords as $record)
+			foreach ($userMfaRecords as $record)
 			{
 				if (!isset($methods[$record->method]))
 				{
@@ -84,7 +84,7 @@ class MethodsModel extends BaseDatabaseModel
 	/**
 	 * Delete all Two Factor Authentication Methods for the given user.
 	 *
-	 * @param   User|null  $user  The user object to reset TFA for. Null to use the current user.
+	 * @param   User|null  $user  The user object to reset MFA for. Null to use the current user.
 	 *
 	 * @return  void
 	 * @throws  Exception
@@ -99,7 +99,7 @@ class MethodsModel extends BaseDatabaseModel
 			$user = Factory::getApplication()->getIdentity() ?: Factory::getUser();
 		}
 
-		// If the user object is a guest (who can't have TFA) we abort with an error
+		// If the user object is a guest (who can't have MFA) we abort with an error
 		if ($user->guest)
 		{
 			throw new RuntimeException(Text::_('JERROR_ALERTNOAUTHOR'), 403);
@@ -107,7 +107,7 @@ class MethodsModel extends BaseDatabaseModel
 
 		$db    = $this->getDbo();
 		$query = $db->getQuery(true)
-			->delete($db->quoteName('#__user_tfa'))
+			->delete($db->quoteName('#__user_mfa'))
 			->where($db->quoteName('user_id') . ' = :user_id')
 			->bind(':user_id', $user->id, ParameterType::INTEGER);
 		$db->setQuery($query)->execute();
@@ -138,7 +138,7 @@ class MethodsModel extends BaseDatabaseModel
 		$jDate       = new Date($dateTimeText, $utcTimeZone);
 		$unixStamp   = $jDate->toUnix();
 
-		// I'm pretty sure we didn't have TFA in Joomla back in 1970 ;)
+		// I'm pretty sure we didn't have MFA in Joomla back in 1970 ;)
 		if ($unixStamp < 0)
 		{
 			return Text::_('JNEVER');
@@ -152,8 +152,8 @@ class MethodsModel extends BaseDatabaseModel
 		$jDate->setTimezone($tz);
 
 		// Default format string: way in the past, the time of the day is not important
-		$formatString    = Text::_('COM_USERS_TFA_LBL_DATE_FORMAT_PAST');
-		$containerString = Text::_('COM_USERS_TFA_LBL_PAST');
+		$formatString    = Text::_('COM_USERS_MFA_LBL_DATE_FORMAT_PAST');
+		$containerString = Text::_('COM_USERS_MFA_LBL_PAST');
 
 		// If the timestamp is within the last 72 hours we may need a special format
 		if ($unixStamp > (time() - (72 * 3600)))
@@ -166,8 +166,8 @@ class MethodsModel extends BaseDatabaseModel
 
 			if ($checkDate == $checkNow)
 			{
-				$formatString    = Text::_('COM_USERS_TFA_LBL_DATE_FORMAT_TODAY');
-				$containerString = Text::_('COM_USERS_TFA_LBL_TODAY');
+				$formatString    = Text::_('COM_USERS_MFA_LBL_DATE_FORMAT_TODAY');
+				$containerString = Text::_('COM_USERS_MFA_LBL_TODAY');
 			}
 			else
 			{
@@ -180,8 +180,8 @@ class MethodsModel extends BaseDatabaseModel
 
 				if ($checkDate == $checkYesterday)
 				{
-					$formatString    = Text::_('COM_USERS_TFA_LBL_DATE_FORMAT_YESTERDAY');
-					$containerString = Text::_('COM_USERS_TFA_LBL_YESTERDAY');
+					$formatString    = Text::_('COM_USERS_MFA_LBL_DATE_FORMAT_YESTERDAY');
+					$containerString = Text::_('COM_USERS_MFA_LBL_YESTERDAY');
 				}
 			}
 		}
@@ -202,7 +202,7 @@ class MethodsModel extends BaseDatabaseModel
 	public function setFlag(User $user, bool $flag = true): void
 	{
 		$db         = $this->getDbo();
-		$profileKey = 'tfa.dontshow';
+		$profileKey = 'mfa.dontshow';
 		$query      = $db->getQuery(true)
 			->select($db->quoteName('profile_value'))
 			->from($db->quoteName('#__user_profiles'))
@@ -224,7 +224,7 @@ class MethodsModel extends BaseDatabaseModel
 
 		$object = (object) [
 			'user_id'       => $user->id,
-			'profile_key'   => 'tfa.dontshow',
+			'profile_key'   => 'mfa.dontshow',
 			'profile_value' => ($flag ? 1 : 0),
 			'ordering'      => 1,
 		];

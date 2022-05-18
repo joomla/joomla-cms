@@ -19,7 +19,7 @@ use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\User\User;
-use Joomla\Component\Users\Administrator\Helper\Tfa;
+use Joomla\Component\Users\Administrator\Helper\Mfa;
 use Joomla\Database\DatabaseDriver;
 
 /**
@@ -102,7 +102,7 @@ class HtmlView extends BaseHtmlView
 		$this->form               = $this->getModel()->getForm(new CMSObject(['id' => $user->id]));
 		$this->state              = $this->get('State');
 		$this->params             = $this->state->get('params');
-		$this->tfaConfigurationUI = Tfa::getConfigurationInterface($user);
+		$this->tfaConfigurationUI = Mfa::getConfigurationInterface($user);
 		$this->db                 = Factory::getDbo();
 
 		// Check for errors.

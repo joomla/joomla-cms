@@ -102,7 +102,7 @@ if ($this->renderOptions['field_type'] !== 'custom')
 						style="<?php echo  $this->renderOptions['hide_submit'] ? 'display: none' : '' ?>"
 						type="submit">
 					<span class="icon icon-rightarrow icon-arrow-right" aria-hidden="true"></span>
-					<?php echo  Text::_('COM_USERS_TFA_VALIDATE'); ?>
+					<?php echo  Text::_('COM_USERS_MFA_VALIDATE'); ?>
 				</button>
 
 				<?php if ($this->isAdmin): ?>
@@ -110,19 +110,19 @@ if ($this->renderOptions['field_type'] !== 'custom')
 					   class="btn btn-danger"
 					   id="users-tfa-captive-button-logout">
 						<span class="icon icon-lock" aria-hidden="true"></span>
-						<?php echo  Text::_('COM_USERS_TFA_LOGOUT'); ?>
+						<?php echo  Text::_('COM_USERS_MFA_LOGOUT'); ?>
 					</a>
 				<?php else: ?>
 					<a href="<?php echo  Route::_('index.php?option=com_users&task=user.logout&' . Factory::getApplication()->getFormToken() . '=1') ?>"
 					   class="btn btn-danger" id="users-tfa-captive-button-logout">
 						<span class="icon icon-lock" aria-hidden="true"></span>
-						<?php echo  Text::_('COM_USERS_TFA_LOGOUT'); ?>
+						<?php echo  Text::_('COM_USERS_MFA_LOGOUT'); ?>
 					</a>
 				<?php endif; ?>
 				<?php if (count($this->records) > 1): ?>
 					<div id="users-tfa-captive-form-choose-another" class="my-3">
 						<a href="<?php echo  Route::_('index.php?option=com_users&view=captive&task=select') ?>">
-							<?php echo  Text::_('COM_USERS_TFA_USE_DIFFERENT_METHOD'); ?>
+							<?php echo  Text::_('COM_USERS_MFA_USE_DIFFERENT_METHOD'); ?>
 						</a>
 					</div>
 				<?php endif; ?>

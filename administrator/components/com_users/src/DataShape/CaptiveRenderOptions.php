@@ -12,13 +12,13 @@ namespace Joomla\Component\Users\Administrator\DataShape;
 use InvalidArgumentException;
 
 /**
- * @property  string $pre_message         Custom HTML to display above the TFA form
- * @property  string $field_type          How to render the TFA code field. "input" or "custom".
+ * @property  string $pre_message         Custom HTML to display above the MFA form
+ * @property  string $field_type          How to render the MFA code field. "input" or "custom".
  * @property  string $input_type          The type attribute for the HTML input box. Typically "text" or "password".
  * @property  string $placeholder         Placeholder text for the HTML input box. Leave empty if you don't need it.
  * @property  string $label               Label to show above the HTML input box. Leave empty if you don't need it.
  * @property  string $html                Custom HTML. Only used when field_type = custom.
- * @property  string $post_message        Custom HTML to display below the TFA form
+ * @property  string $post_message        Custom HTML to display below the MFA form
  * @property  bool   $hide_submit         Should I hide the default Submit button?
  * @property  bool   $allowEntryBatching  Is this method validating against all configured authenticators of this type?
  * @property  string $help_url            URL for help content
@@ -42,7 +42,7 @@ class CaptiveRenderOptions extends DataShapeObject
 	public const FIELD_CUSTOM = 'custom';
 
 	/**
-	 * Custom HTML to display above the TFA form
+	 * Custom HTML to display above the MFA form
 	 *
 	 * @var   string
 	 * @since __DEPLOY_VERSION__
@@ -51,7 +51,7 @@ class CaptiveRenderOptions extends DataShapeObject
 	protected $pre_message = '';
 
 	/**
-	 * How to render the TFA code field. "input" (HTML input element) or "custom" (custom HTML)
+	 * How to render the MFA code field. "input" (HTML input element) or "custom" (custom HTML)
 	 *
 	 * @var   string
 	 * @since __DEPLOY_VERSION__
@@ -93,7 +93,7 @@ class CaptiveRenderOptions extends DataShapeObject
 	protected $html = '';
 
 	/**
-	 * Custom HTML to display below the TFA form
+	 * Custom HTML to display below the MFA form
 	 *
 	 * @var   string
 	 * @since __DEPLOY_VERSION__
@@ -111,7 +111,7 @@ class CaptiveRenderOptions extends DataShapeObject
 	protected $hide_submit = false;
 
 	/**
-	 * Is this TFA method validating against all configured authenticators of the same type?
+	 * Is this MFA method validating against all configured authenticators of the same type?
 	 *
 	 * @var   boolean
 	 * @since __DEPLOY_VERSION__

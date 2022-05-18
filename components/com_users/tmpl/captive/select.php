@@ -23,7 +23,7 @@ $shownMethods = [];
 ?>
 <div id="com-users-select">
 	<h3 id="com-users-select-heading">
-		<?php echo Text::_('COM_USERS_TFA_SELECT_PAGE_HEAD'); ?>
+		<?php echo Text::_('COM_USERS_MFA_SELECT_PAGE_HEAD'); ?>
 	</h3>
 	<div id="com-users-select-information">
 		<p>
@@ -33,9 +33,9 @@ $shownMethods = [];
 
 	<div class="com-users-select-methods p-2">
 		<?php foreach ($this->records as $record):
-			if (!array_key_exists($record->method, $this->tfaMethods) && ($record->method != 'backupcodes')) continue;
+			if (!array_key_exists($record->method, $this->mfaMethods) && ($record->method != 'backupcodes')) continue;
 
-			$allowEntryBatching = isset($this->tfaMethods[$record->method]) ? $this->tfaMethods[$record->method]['allowEntryBatching'] : false;
+			$allowEntryBatching = isset($this->mfaMethods[$record->method]) ? $this->mfaMethods[$record->method]['allowEntryBatching'] : false;
 
 			if ($this->allowEntryBatching)
 			{

@@ -86,7 +86,7 @@ class CaptiveController extends BaseController
 		$view->document = $this->app->getDocument();
 
 		// If we're already logged in go to the site's home page
-		if ((int) $this->app->getSession()->get('com_users.tfa_checked', 0) === 1)
+		if ((int) $this->app->getSession()->get('com_users.mfa_checked', 0) === 1)
 		{
 			$url = Route::_('index.php?option=com_users&task=methods.display', false);
 
@@ -112,7 +112,7 @@ class CaptiveController extends BaseController
 			// If we can't kill the modules we can still survive.
 		}
 
-		// Pass the TFA record ID to the model
+		// Pass the MFA record ID to the model
 		$recordId = $this->input->getInt('record_id', null);
 		$model->setState('record_id', $recordId);
 
@@ -121,7 +121,7 @@ class CaptiveController extends BaseController
 	}
 
 	/**
-	 * Validate the TFA code entered by the user
+	 * Validate the MFA code entered by the user
 	 *
 	 * @param   bool   $cachable         Ignored. This page is never cached.
 	 * @param   array  $urlparameters    Ignored. This page is never cached.
@@ -135,13 +135,13 @@ class CaptiveController extends BaseController
 		// CSRF Check
 		$this->checkToken($this->input->getMethod());
 
-		// Get the TFA parameters from the request
+		// Get the MFA parameters from the request
 		$recordId  = $this->input->getInt('record_id', null);
 		$code       = $this->input->get('code', null, 'raw');
 		/** @var CaptiveModel $model */
 		$model = $this->getModel('Captive');
 
-		// Validate the TFA record
+		// Validate the MFA record
 		$model->setState('record_id', $recordId);
 		$record = $model->getRecord();
 
@@ -150,7 +150,7 @@ class CaptiveController extends BaseController
 			$event = new NotifyActionLog('onComUsersCaptiveValidateInvalidMethod');
 			$this->app->getDispatcher()->dispatch($event->getName(), $event);
 
-			throw new RuntimeException(Text::_('COM_USERS_TFA_INVALID_METHOD'), 500);
+			throw new RuntimeException(Text::_('COM_USERS_MFA_INVALID_METHOD'), 500);
 		}
 
 		// Validate the code
@@ -173,7 +173,7 @@ class CaptiveController extends BaseController
 			/**
 			 * This is required! Do not remove!
 			 *
-			 * There is a store() call below. It saves the in-memory TFA record to the database. That includes the
+			 * There is a store() call below. It saves the in-memory MFA record to the database. That includes the
 			 * options key which contains the configuration of the Method. For backup codes, these are the actual codes
 			 * you can use. When we check for a backup code validity we also "burn" it, i.e. we remove it from the
 			 * options table and save that to the database. However, this DOES NOT update the $record here. Therefore
@@ -205,7 +205,7 @@ class CaptiveController extends BaseController
 		{
 			// The code is wrong. Display an error and go back.
 			$captiveURL = Route::_('index.php?option=com_users&view=captive&record_id=' . $recordId, false);
-			$message    = Text::_('COM_USERS_TFA_INVALID_CODE');
+			$message    = Text::_('COM_USERS_MFA_INVALID_CODE');
 			$this->setRedirect($captiveURL, $message, 'error');
 
 			$event = new NotifyActionLog('onComUsersCaptiveValidateFailed', [$record->title]);
@@ -223,7 +223,7 @@ class CaptiveController extends BaseController
 
 		// Flag the user as fully logged in
 		$session = $this->app->getSession();
-		$session->set('com_users.tfa_checked', 1);
+		$session->set('com_users.mfa_checked', 1);
 
 		// Get the return URL stored by the plugin in the session
 		$returnUrl = $session->get('com_users.return_url', '');

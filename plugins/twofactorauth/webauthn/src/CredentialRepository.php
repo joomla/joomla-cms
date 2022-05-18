@@ -12,8 +12,8 @@ namespace Joomla\Plugin\Twofactorauth\Webauthn;
 use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\User\UserFactoryInterface;
-use Joomla\Component\Users\Administrator\Helper\Tfa as TfaHelper;
-use Joomla\Component\Users\Administrator\Table\TfaTable;
+use Joomla\Component\Users\Administrator\Helper\Mfa as MfaHelper;
+use Joomla\Component\Users\Administrator\Table\MfaTable;
 use RuntimeException;
 use Webauthn\AttestationStatement\AttestationStatement;
 use Webauthn\AttestedCredentialData;
@@ -27,7 +27,7 @@ use Webauthn\TrustPath\EmptyTrustPath;
  * Implementation of the credentials repository for the WebAuthn library.
  *
  * Important assumption: interaction with Webauthn through the library is only performed for the currently logged in
- * user. Therefore all Methods which take a credential ID work by checking the Joomla TFA records of the current
+ * user. Therefore all Methods which take a credential ID work by checking the Joomla MFA records of the current
  * user only. This is a necessity. The records are stored encrypted, therefore we cannot do a partial search in the
  * table. We have to load the records, decrypt them and inspect them. We cannot do that for thousands of records but
  * we CAN do that for the few records each user has under their account.
@@ -115,14 +115,14 @@ class CredentialRepository implements PublicKeyCredentialSourceRepository
 
 		$return = [];
 
-		$results = TfaHelper::getUserTfaRecords($userId);
+		$results = MfaHelper::getUserMfaRecords($userId);
 
 		if (count($results) < 1)
 		{
 			return $return;
 		}
 
-		/** @var TfaTable $result */
+		/** @var MfaTable $result */
 		foreach ($results as $result)
 		{
 			$options = $result->options;
@@ -235,14 +235,14 @@ class CredentialRepository implements PublicKeyCredentialSourceRepository
 		// Create or update a record
 		/** @var MVCFactoryInterface $factory */
 		$factory = Factory::getApplication()->bootComponent('com_users')->getMVCFactory();
-		/** @var TfaTable $tfaTable */
-		$tfaTable = $factory->createTable('Tfa', 'Administrator');
+		/** @var MfaTable $mfaTable */
+		$mfaTable = $factory->createTable('Mfa', 'Administrator');
 
 		if ($recordId)
 		{
-			$tfaTable->load($recordId);
+			$mfaTable->load($recordId);
 
-			$options = $tfaTable->options;
+			$options = $mfaTable->options;
 
 			if (isset($options['attested']))
 			{
@@ -250,7 +250,7 @@ class CredentialRepository implements PublicKeyCredentialSourceRepository
 			}
 
 			$options['pubkeysource'] = $publicKeyCredentialSource;
-			$tfaTable->save(
+			$mfaTable->save(
 				[
 					'options' => $options
 				]
@@ -258,8 +258,8 @@ class CredentialRepository implements PublicKeyCredentialSourceRepository
 		}
 		else
 		{
-			$tfaTable->reset();
-			$tfaTable->save(
+			$mfaTable->reset();
+			$mfaTable->save(
 				[
 					'user_id' => $this->userId,
 					'title'   => 'WebAuthn auto-save',

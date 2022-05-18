@@ -49,7 +49,7 @@ $this->document->getWebAssetManager()->useScript('com_users.two-factor-list');
 						</span>
 						<?php if ($this->defaultMethod == $methodName): ?>
 							<span id="com-users-methods-list-method-default-tag" class="badge bg-info me-1">
-								<?php echo Text::_('COM_USERS_TFA_LIST_DEFAULTTAG') ?>
+								<?php echo Text::_('COM_USERS_MFA_LIST_DEFAULTTAG') ?>
 							</span>
 						<?php endif; ?>
 					</h4>
@@ -73,10 +73,10 @@ $this->document->getWebAssetManager()->useScript('com_users.two-factor-list');
 										<div class="alert alert-info mt-1">
 											<h3 class="alert-heading fs-6">
 												<span class="icon icon-info-circle icon-info-sign" aria-hidden="true"></span>
-												<?php echo Text::sprintf('COM_USERS_TFA_OTEP_PRINT_PROMPT_HEAD', Route::_('index.php?option=com_users&task=method.edit&id=' . (int) $record->id . ($this->returnURL ? '&returnurl=' . $this->escape(urlencode($this->returnURL)) : '') . '&user_id=' . $this->user->id)) ?>
+												<?php echo Text::sprintf('COM_USERS_MFA_OTEP_PRINT_PROMPT_HEAD', Route::_('index.php?option=com_users&task=method.edit&id=' . (int) $record->id . ($this->returnURL ? '&returnurl=' . $this->escape(urlencode($this->returnURL)) : '') . '&user_id=' . $this->user->id)) ?>
 											</h3>
 											<p class="text-muted">
-												<?php echo Text::_('COM_USERS_TFA_OTEP_PRINT_PROMPT') ?>
+												<?php echo Text::_('COM_USERS_MFA_OTEP_PRINT_PROMPT') ?>
 											</p>
 										</div>
 									<?php else: ?>
@@ -84,9 +84,9 @@ $this->document->getWebAssetManager()->useScript('com_users.two-factor-list');
 											<?php if ($record->default): ?>
 												<span id="com-users-methods-list-method-default-badge-small"
 													  class="text-warning me-1 hasTooltip"
-													  title="<?php echo $this->escape(Text::_('COM_USERS_TFA_LIST_DEFAULTTAG')) ?>">
+													  title="<?php echo $this->escape(Text::_('COM_USERS_MFA_LIST_DEFAULTTAG')) ?>">
 													<span class="icon icon-star" aria-hidden="true"></span>
-													<span class="visually-hidden"><?php echo $this->escape(Text::_('COM_USERS_TFA_LIST_DEFAULTTAG')) ?></span>
+													<span class="visually-hidden"><?php echo $this->escape(Text::_('COM_USERS_MFA_LIST_DEFAULTTAG')) ?></span>
 												</span>
 											<?php endif; ?>
 											<span class="com-users-methods-list-method-record-title fs-4 fw-bold">
@@ -97,10 +97,10 @@ $this->document->getWebAssetManager()->useScript('com_users.two-factor-list');
 
 									<div class="com-users-methods-list-method-record-lastused my-1 d-flex flex-row flex-wrap justify-content-start text-muted w-100">
 										<span class="com-users-methods-list-method-record-createdon w-50">
-											<?php echo Text::sprintf('COM_USERS_TFA_LBL_CREATEDON', $model->formatRelative($record->created_on)) ?>
+											<?php echo Text::sprintf('COM_USERS_MFA_LBL_CREATEDON', $model->formatRelative($record->created_on)) ?>
 										</span>
 										<span class="com-users-methods-list-method-record-lastused-date w-50">
-											<?php echo Text::sprintf('COM_USERS_TFA_LBL_LASTUSED', $model->formatRelative($record->last_used)) ?>
+											<?php echo Text::sprintf('COM_USERS_MFA_LBL_LASTUSED', $model->formatRelative($record->last_used)) ?>
 										</span>
 									</div>
 
@@ -134,7 +134,7 @@ $this->document->getWebAssetManager()->useScript('com_users.two-factor-list');
 						<a href="<?php echo Route::_('index.php?option=com_users&task=method.add&method=' . $this->escape(urlencode($method['name'])) . ($this->returnURL ? '&returnurl=' . $this->escape(urlencode($this->returnURL)) : '') . '&user_id=' . $this->user->id)?>"
 						   class="com-users-methods-list-method-addnew btn btn-primary"
 						>
-							<?php echo Text::sprintf('COM_USERS_TFA_ADD_AUTHENTICATOR_OF_TYPE', $method['display']) ?>
+							<?php echo Text::sprintf('COM_USERS_MFA_ADD_AUTHENTICATOR_OF_TYPE', $method['display']) ?>
 						</a>
 					</div>
 				<?php endif; ?>

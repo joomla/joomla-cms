@@ -18,7 +18,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\CMS\User\UserFactoryInterface;
-use Joomla\Component\Users\Administrator\Helper\Tfa as TfaHelper;
+use Joomla\Component\Users\Administrator\Helper\Mfa as MfaHelper;
 use Joomla\Component\Users\Administrator\Model\BackupcodesModel;
 use Joomla\Component\Users\Administrator\Model\CaptiveModel;
 use Joomla\Component\Users\Administrator\View\SiteTemplateTrait;
@@ -34,7 +34,7 @@ class HtmlView extends BaseHtmlView
 	use SiteTemplateTrait;
 
 	/**
-	 * The TFA Method records for the current user which correspond to enabled plugins
+	 * The MFA Method records for the current user which correspond to enabled plugins
 	 *
 	 * @var   array
 	 * @since __DEPLOY_VERSION__
@@ -42,7 +42,7 @@ class HtmlView extends BaseHtmlView
 	public $records = [];
 
 	/**
-	 * The currently selected TFA Method record against which we'll be authenticating
+	 * The currently selected MFA Method record against which we'll be authenticating
 	 *
 	 * @var   null|stdClass
 	 * @since __DEPLOY_VERSION__
@@ -50,7 +50,7 @@ class HtmlView extends BaseHtmlView
 	public $record = null;
 
 	/**
-	 * The Captive TFA page's rendering options
+	 * The Captive MFA page's rendering options
 	 *
 	 * @var   array|null
 	 * @since __DEPLOY_VERSION__
@@ -82,12 +82,12 @@ class HtmlView extends BaseHtmlView
 	public $allowEntryBatching = false;
 
 	/**
-	 * All enabled TFA Methods (plugins)
+	 * All enabled MFA Methods (plugins)
 	 *
 	 * @var   array
 	 * @since __DEPLOY_VERSION__
 	 */
-	public $tfaMethods;
+	public $mfaMethods;
 
 	/**
 	 * Execute and display a template script.
@@ -117,7 +117,7 @@ class HtmlView extends BaseHtmlView
 		$this->isAdmin    = $app->isClient('administrator');
 		$this->records    = $this->get('records');
 		$this->record     = $this->get('record');
-		$this->tfaMethods = TfaHelper::getTfaMethods();
+		$this->mfaMethods = MfaHelper::getMfaMethods();
 
 		if (!empty($this->records))
 		{
@@ -132,7 +132,7 @@ class HtmlView extends BaseHtmlView
 			}
 		}
 
-		// If we only have one record there's no point asking the user to select a TFA Method
+		// If we only have one record there's no point asking the user to select a MFA Method
 		if (empty($this->record) && !empty($this->records))
 		{
 			// Default to the first record
@@ -153,7 +153,7 @@ class HtmlView extends BaseHtmlView
 			}
 		}
 
-		// Set the correct layout based on the availability of a TFA record
+		// Set the correct layout based on the availability of a MFA record
 		$this->setLayout('default');
 
 		// If we have no record selected or explicitly asked to run the 'select' task use the correct layout
@@ -192,7 +192,7 @@ class HtmlView extends BaseHtmlView
 		// Back-end: always show a title in the 'title' module position, not in the page body
 		if ($this->isAdmin)
 		{
-			ToolbarHelper::title(Text::_('COM_USERS_HEADING_TFA'), 'users user-lock');
+			ToolbarHelper::title(Text::_('COM_USERS_HEADING_MFA'), 'users user-lock');
 			$this->title = '';
 		}
 

@@ -15,9 +15,9 @@ use Joomla\Database\DatabaseDriver;
 use Joomla\Database\ParameterType;
 
 /**
- * Post-installation message about the new Two Factor Authentication: condition check.
+ * Post-installation message about the new Multi-factor Authentication: condition check.
  *
- * Returns true if neither of the two new core TFA plugins are enabled.
+ * Returns true if neither of the two new core MFA plugins are enabled.
  *
  * @return  boolean
  * @since   __DEPLOY_VERSION__
@@ -25,14 +25,13 @@ use Joomla\Database\ParameterType;
 // phpcs:ignore
 function com_users_postinstall_condition(): bool
 {
-	return !PluginHelper::isEnabled('twofactorauth', 'webauthn')
-		&& !PluginHelper::isEnabled('twofactorauth', 'email');
+	return count(PluginHelper::getPlugin('multifactorauth')) < 1;
 }
 
 /**
- * Post-installation message about the new Two Factor Authentication: action.
+ * Post-installation message about the new Multi-factor Authentication: action.
  *
- * Enables the core TFA plugins.
+ * Enables the core MFA plugins.
  *
  * @return  void
  * @since   __DEPLOY_VERSION__
@@ -42,14 +41,14 @@ function com_users_postinstall_action(): void
 {
 	/** @var DatabaseDriver $db */
 	$db             = Factory::getContainer()->get('DatabaseDriver');
-	$coreTfaPlugins = ['email', 'totp', 'webauthn', 'yubikey'];
+	$coreMfaPlugins = ['email', 'totp', 'webauthn', 'yubikey'];
 
 	$query = $db->getQuery(true)
 		->update($db->quoteName('#__extensions'))
 		->set($db->quoteName('enabled') . ' = 1')
 		->where($db->quoteName('type') . ' = ' . $db->quote('plugin'))
-		->where($db->quoteName('folder') . ' = ' . $db->quote('twofactorauth'))
-		->whereIn($db->quoteName('element'), $coreTfaPlugins, ParameterType::STRING);
+		->where($db->quoteName('folder') . ' = ' . $db->quote('multifactorauth'))
+		->whereIn($db->quoteName('element'), $coreMfaPlugins, ParameterType::STRING);
 	$db->setQuery($query);
 	$db->execute();
 

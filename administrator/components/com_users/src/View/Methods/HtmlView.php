@@ -9,7 +9,6 @@
 
 namespace Joomla\Component\Users\Administrator\View\Methods;
 
-use Joomla\CMS\Event\GenericEvent;
 use Joomla\CMS\Event\TwoFactor\NotifyActionLog;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
@@ -19,7 +18,6 @@ use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\CMS\User\User;
 use Joomla\CMS\User\UserFactoryInterface;
 use Joomla\Component\Users\Administrator\DataShape\MethodDescriptor;
-use Joomla\Component\Users\Administrator\Helper\Tfa as TfaHelper;
 use Joomla\Component\Users\Administrator\Model\BackupcodesModel;
 use Joomla\Component\Users\Administrator\Model\MethodsModel;
 use Joomla\Component\Users\Administrator\View\SiteTemplateTrait;
@@ -42,7 +40,7 @@ class HtmlView extends BaseHtmlView
 	public $isAdmin = false;
 
 	/**
-	 * The TFA Methods available for this user
+	 * The MFA Methods available for this user
 	 *
 	 * @var   array
 	 * @since __DEPLOY_VERSION__
@@ -58,12 +56,12 @@ class HtmlView extends BaseHtmlView
 	public $returnURL = null;
 
 	/**
-	 * Are there any active TFA Methods at all?
+	 * Are there any active MFA Methods at all?
 	 *
 	 * @var   boolean
 	 * @since __DEPLOY_VERSION__
 	 */
-	public $tfaActive = false;
+	public $mfaActive = false;
 
 	/**
 	 * Which Method has the default record?
@@ -126,7 +124,7 @@ class HtmlView extends BaseHtmlView
 			}
 
 			$activeRecords   += $methodActiveRecords;
-			$this->tfaActive = true;
+			$this->mfaActive = true;
 
 			foreach ($method['active'] as $record)
 			{
@@ -168,7 +166,7 @@ class HtmlView extends BaseHtmlView
 		// Back-end: always show a title in the 'title' module position, not in the page body
 		if ($this->isAdmin)
 		{
-			ToolbarHelper::title(Text::_('COM_USERS_TFA_LIST_PAGE_HEAD'), 'users user-lock');
+			ToolbarHelper::title(Text::_('COM_USERS_MFA_LIST_PAGE_HEAD'), 'users user-lock');
 			$this->title = '';
 
 			ToolbarHelper::back('JTOOLBAR_BACK', Route::_('index.php?option=com_users'));

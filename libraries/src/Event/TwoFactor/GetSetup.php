@@ -16,7 +16,7 @@ use Joomla\CMS\Event\Result\ResultAware;
 use Joomla\CMS\Event\Result\ResultAwareInterface;
 use Joomla\CMS\Event\Result\ResultTypeObjectAware;
 use Joomla\Component\Users\Administrator\DataShape\SetupRenderOptions;
-use Joomla\Component\Users\Administrator\Table\TfaTable;
+use Joomla\Component\Users\Administrator\Table\MfaTable;
 
 /**
  * Concrete Event class for the onUserTwofactorGetSetup event
@@ -31,11 +31,11 @@ class GetSetup extends AbstractImmutableEvent implements ResultAwareInterface
 	/**
 	 * Public constructor
 	 *
-	 * @param   TfaTable  $record  The record to display the setup page for
+	 * @param   MfaTable  $record  The record to display the setup page for
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function __construct(TfaTable $record)
+	public function __construct(MfaTable $record)
 	{
 		parent::__construct('onUserTwofactorGetSetup', ['record' => $record]);
 
@@ -48,16 +48,16 @@ class GetSetup extends AbstractImmutableEvent implements ResultAwareInterface
 	/**
 	 * Validate the value of the 'record' named parameter
 	 *
-	 * @param   TfaTable  $value  The value to validate
+	 * @param   MfaTable  $value  The value to validate
 	 *
-	 * @return  TfaTable
+	 * @return  MfaTable
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function setRecord(TfaTable $value): TfaTable
+	public function setRecord(MfaTable $value): MfaTable
 	{
 		if (empty($value))
 		{
-			throw new DomainException(sprintf('Argument \'record\' of event %s must be a TfaTable object', $this->name));
+			throw new DomainException(sprintf('Argument \'record\' of event %s must be a MfaTable object', $this->name));
 		}
 
 		return $value;

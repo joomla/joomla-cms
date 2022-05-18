@@ -18,7 +18,7 @@ use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Toolbar\ToolbarHelper;
-use Joomla\Component\Users\Administrator\Helper\Tfa;
+use Joomla\Component\Users\Administrator\Helper\Mfa;
 
 /**
  * User view class.
@@ -111,7 +111,7 @@ class HtmlView extends BaseHtmlView
 		$this->form->setValue('password', null);
 		$this->form->setValue('password2', null);
 
-		$this->tfaConfigurationUI = Tfa::getConfigurationInterface($user);
+		$this->tfaConfigurationUI = Mfa::getConfigurationInterface($user);
 
 		parent::display($tpl);
 		$this->addToolbar();

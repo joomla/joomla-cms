@@ -257,10 +257,10 @@
 		/>
 
 		<field
-				name="neverTFAUserGroups"
+				name="neverMFAUserGroups"
 				type="UserGroupList"
-				label="COM_USERS_CONFIG_NEVERTFAUSERGROUPS_LABEL"
-				description="COM_USERS_CONFIG_NEVERTFAUSERGROUPS_DESC"
+				label="COM_USERS_CONFIG_NEVERMFAUSERGROUPS_LABEL"
+				description="COM_USERS_CONFIG_NEVERMFAUSERGROUPS_DESC"
 				layout="joomla.form.field.list-fancy-select"
 				checksuperusergroup="1"
 				default=""
@@ -270,10 +270,10 @@
 		</field>
 
 		<field
-			name="forceTFAUserGroups"
+			name="forceMFAUserGroups"
 			type="UserGroupList"
-			label="COM_USERS_CONFIG_FORCETFAUSERGROUPS_LABEL"
-			description="COM_USERS_CONFIG_FORCETFAUSERGROUPS_DESC"
+			label="COM_USERS_CONFIG_FORCEMFAUSERGROUPS_LABEL"
+			description="COM_USERS_CONFIG_FORCEMFAUSERGROUPS_DESC"
 			layout="joomla.form.field.list-fancy-select"
 			checksuperusergroup="1"
 			default=""
@@ -293,10 +293,10 @@
 		</field>
 
 		<field
-			name="tfaonsilent"
+			name="mfaonsilent"
 			type="radio"
-			label="COM_USERS_CONFIG_TFAONSILENT_LABEL"
-			description="COM_USERS_CONFIG_TFAONSILENT_DESC"
+			label="COM_USERS_CONFIG_MFAONSILENT_LABEL"
+			description="COM_USERS_CONFIG_MFAONSILENT_DESC"
 			layout="joomla.form.field.radio.switcher"
 			default="0"
 			>
@@ -310,11 +310,11 @@
 			label="COM_USERS_CONFIG_SILENTRESPONSES_LABEL"
 			description="COM_USERS_CONFIG_SILENTRESPONSES_DESC"
 			default="cookie, passwordless"
-			showon="tfaonsilent:0"
+			showon="mfaonsilent:0"
 		/>
 
 		<field
-			name="tfaredirectonlogin"
+			name="mfaredirectonlogin"
 			type="radio"
 			label="COM_USERS_CONFIG_REDIRECTONLOGIN_LABEL"
 			description="COM_USERS_CONFIG_REDIRECTONLOGIN_DESC"
@@ -326,7 +326,7 @@
 		</field>
 
 		<field
-			name="tfaredirecturl"
+			name="mfaredirecturl"
 			type="text"
 			label="COM_USERS_CONFIG_REDIRECTURL_LABEL"
 			description="COM_USERS_CONFIG_REDIRECTURL_DESC"

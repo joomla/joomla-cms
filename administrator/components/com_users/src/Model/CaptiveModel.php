@@ -19,8 +19,8 @@ use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Joomla\CMS\User\User;
 use Joomla\CMS\User\UserFactoryInterface;
 use Joomla\Component\Users\Administrator\DataShape\CaptiveRenderOptions;
-use Joomla\Component\Users\Administrator\Helper\Tfa as TfaHelper;
-use Joomla\Component\Users\Administrator\Table\TfaTable;
+use Joomla\Component\Users\Administrator\Helper\Mfa as MfaHelper;
+use Joomla\Component\Users\Administrator\Table\MfaTable;
 use Joomla\Event\Event;
 
 /**
@@ -31,12 +31,12 @@ use Joomla\Event\Event;
 class CaptiveModel extends BaseDatabaseModel
 {
 	/**
-	 * Cache of the names of the currently active TFA Methods
+	 * Cache of the names of the currently active MFA Methods
 	 *
 	 * @var  array|null
 	 * @since __DEPLOY_VERSION__
 	 */
-	protected $activeTFAMethodNames = null;
+	protected $activeMFAMethodNames = null;
 
 	/**
 	 * Prevents Joomla from displaying any modules.
@@ -67,7 +67,7 @@ class CaptiveModel extends BaseDatabaseModel
 	}
 
 	/**
-	 * Get the TFA records for the user which correspond to active plugins
+	 * Get the MFA records for the user which correspond to active plugins
 	 *
 	 * @param   User|null  $user                The user for which to fetch records. Skip to use the current user.
 	 * @param   bool       $includeBackupCodes  Should I include the backup codes record?
@@ -85,19 +85,19 @@ class CaptiveModel extends BaseDatabaseModel
 				?: Factory::getContainer()->get(UserFactoryInterface::class)->loadUserById(0);
 		}
 
-		// Get the user's TFA records
-		$records = TfaHelper::getUserTfaRecords($user->id);
+		// Get the user's MFA records
+		$records = MfaHelper::getUserMfaRecords($user->id);
 
-		// No TFA Methods? Then we obviously don't need to display a Captive login page.
+		// No MFA Methods? Then we obviously don't need to display a Captive login page.
 		if (empty($records))
 		{
 			return [];
 		}
 
-		// Get the enabled TFA Methods' names
+		// Get the enabled MFA Methods' names
 		$methodNames = $this->getActiveMethodNames();
 
-		// Filter the records based on currently active TFA Methods
+		// Filter the records based on currently active MFA Methods
 		$ret = [];
 
 		$methodNames[] = 'backupcodes';
@@ -127,52 +127,52 @@ class CaptiveModel extends BaseDatabaseModel
 	}
 
 	/**
-	 * Return all the active TFA Methods' names
+	 * Return all the active MFA Methods' names
 	 *
 	 * @return  array
 	 * @since __DEPLOY_VERSION__
 	 */
 	private function getActiveMethodNames(): ?array
 	{
-		if (!is_null($this->activeTFAMethodNames))
+		if (!is_null($this->activeMFAMethodNames))
 		{
-			return $this->activeTFAMethodNames;
+			return $this->activeMFAMethodNames;
 		}
 
-		// Let's get a list of all currently active TFA Methods
-		$tfaMethods = TfaHelper::getTfaMethods();
+		// Let's get a list of all currently active MFA Methods
+		$mfaMethods = MfaHelper::getMfaMethods();
 
-		// If no TFA Method is active we can't really display a Captive login page.
-		if (empty($tfaMethods))
+		// If no MFA Method is active we can't really display a Captive login page.
+		if (empty($mfaMethods))
 		{
-			$this->activeTFAMethodNames = [];
+			$this->activeMFAMethodNames = [];
 
-			return $this->activeTFAMethodNames;
+			return $this->activeMFAMethodNames;
 		}
 
 		// Get a list of just the Method names
-		$this->activeTFAMethodNames = [];
+		$this->activeMFAMethodNames = [];
 
-		foreach ($tfaMethods as $tfaMethod)
+		foreach ($mfaMethods as $mfaMethod)
 		{
-			$this->activeTFAMethodNames[] = $tfaMethod['name'];
+			$this->activeMFAMethodNames[] = $mfaMethod['name'];
 		}
 
-		return $this->activeTFAMethodNames;
+		return $this->activeMFAMethodNames;
 	}
 
 	/**
-	 * Get the currently selected TFA record for the current user. If the record ID is empty, it does not correspond to
+	 * Get the currently selected MFA record for the current user. If the record ID is empty, it does not correspond to
 	 * the currently logged in user or does not correspond to an active plugin null is returned instead.
 	 *
 	 * @param   User|null  $user  The user for which to fetch records. Skip to use the current user.
 	 *
-	 * @return  TfaTable|null
+	 * @return  MfaTable|null
 	 * @throws  Exception
 	 *
 	 * @since __DEPLOY_VERSION__
 	 */
-	public function getRecord(?User $user = null): ?TfaTable
+	public function getRecord(?User $user = null): ?MfaTable
 	{
 		$id = (int) $this->getState('record_id', null);
 
@@ -187,8 +187,8 @@ class CaptiveModel extends BaseDatabaseModel
 				?: Factory::getContainer()->get(UserFactoryInterface::class)->loadUserById(0);
 		}
 
-		/** @var TfaTable $record */
-		$record = $this->getTable('Tfa', 'Administrator');
+		/** @var MfaTable $record */
+		$record = $this->getTable('Mfa', 'Administrator');
 		$loaded = $record->load(
 			[
 				'user_id' => $user->id,
@@ -212,14 +212,14 @@ class CaptiveModel extends BaseDatabaseModel
 	}
 
 	/**
-	 * Load the Captive login page render options for a specific TFA record
+	 * Load the Captive login page render options for a specific MFA record
 	 *
-	 * @param   TfaTable  $record  The TFA record to process
+	 * @param   MfaTable  $record  The MFA record to process
 	 *
 	 * @return  CaptiveRenderOptions  The rendering options
 	 * @since __DEPLOY_VERSION__
 	 */
-	public function loadCaptiveRenderOptions(?TfaTable $record): CaptiveRenderOptions
+	public function loadCaptiveRenderOptions(?MfaTable $record): CaptiveRenderOptions
 	{
 		$renderOptions = new CaptiveRenderOptions;
 
@@ -273,9 +273,9 @@ class CaptiveModel extends BaseDatabaseModel
 	}
 
 	/**
-	 * Translate a TFA Method's name into its human-readable, display name
+	 * Translate a MFA Method's name into its human-readable, display name
 	 *
-	 * @param   string  $name  The internal TFA Method name
+	 * @param   string  $name  The internal MFA Method name
 	 *
 	 * @return  string
 	 * @since __DEPLOY_VERSION__
@@ -287,13 +287,13 @@ class CaptiveModel extends BaseDatabaseModel
 		if (!is_array($map))
 		{
 			$map        = [];
-			$tfaMethods = TfaHelper::getTfaMethods();
+			$mfaMethods = MfaHelper::getMfaMethods();
 
-			if (!empty($tfaMethods))
+			if (!empty($mfaMethods))
 			{
-				foreach ($tfaMethods as $tfaMethod)
+				foreach ($mfaMethods as $mfaMethod)
 				{
-					$map[$tfaMethod['name']] = $tfaMethod['display'];
+					$map[$mfaMethod['name']] = $mfaMethod['display'];
 				}
 			}
 		}
@@ -307,9 +307,9 @@ class CaptiveModel extends BaseDatabaseModel
 	}
 
 	/**
-	 * Translate a TFA Method's name into the relative URL if its logo image
+	 * Translate a MFA Method's name into the relative URL if its logo image
 	 *
-	 * @param   string  $name  The internal TFA Method name
+	 * @param   string  $name  The internal MFA Method name
 	 *
 	 * @return  string
 	 * @since __DEPLOY_VERSION__
@@ -321,13 +321,13 @@ class CaptiveModel extends BaseDatabaseModel
 		if (!is_array($map))
 		{
 			$map        = [];
-			$tfaMethods = TfaHelper::getTfaMethods();
+			$mfaMethods = MfaHelper::getMfaMethods();
 
-			if (!empty($tfaMethods))
+			if (!empty($mfaMethods))
 			{
-				foreach ($tfaMethods as $tfaMethod)
+				foreach ($mfaMethods as $mfaMethod)
 				{
-					$map[$tfaMethod['name']] = $tfaMethod['image'];
+					$map[$mfaMethod['name']] = $mfaMethod['image'];
 				}
 			}
 		}

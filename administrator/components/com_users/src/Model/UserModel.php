@@ -959,7 +959,7 @@ class UserModel extends AdminModel
 	{
 		@trigger_error(
 			sprintf(
-				'%s() is deprecated. Use \Joomla\Component\Users\Administrator\Helper\Tfa::getUserTfaRecords() instead.',
+				'%s() is deprecated. Use \Joomla\Component\Users\Administrator\Helper\Mfa::getUserMfaRecords() instead.',
 				__METHOD__
 			),
 			E_USER_DEPRECATED
@@ -1034,7 +1034,7 @@ class UserModel extends AdminModel
 	{
 		@trigger_error(
 			sprintf(
-				'%s() is deprecated. Use \Joomla\Component\Users\Administrator\Helper\Tfa::getConfigurationInterface()',
+				'%s() is deprecated. Use \Joomla\Component\Users\Administrator\Helper\Mfa::getConfigurationInterface()',
 				__METHOD__
 			),
 			E_USER_DEPRECATED
@@ -1079,7 +1079,7 @@ class UserModel extends AdminModel
 	 * @since   3.2
 	 * @throws  \Exception
 	 *
-	 * @deprecated __DEPLOY_VERSION__ Will be removed in 5.0. TFA validation is done in the captive login.
+	 * @deprecated __DEPLOY_VERSION__ Will be removed in 5.0. MFA validation is done in the captive login.
 	 */
 	public function isValidSecretKey($userId, $secretKey, $options = array())
 	{

@@ -16,7 +16,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\Table\Table;
 use Joomla\CMS\User\UserFactoryInterface;
-use Joomla\Component\Users\Administrator\Helper\Tfa as TfaHelper;
+use Joomla\Component\Users\Administrator\Helper\Mfa as MfaHelper;
 use Joomla\Component\Users\Administrator\Model\BackupcodesModel;
 use Joomla\Component\Users\Administrator\Service\Encrypt;
 use Joomla\Database\DatabaseDriver;
@@ -31,15 +31,15 @@ use Throwable;
  * @property int    $id          Record ID.
  * @property int    $user_id     User ID
  * @property string $title       Record title.
- * @property string $method      TFA Method (corresponds to one of the plugins).
+ * @property string $method      MFA Method (corresponds to one of the plugins).
  * @property int    $default     Is this the default Method?
- * @property array  $options     Configuration options for the TFA Method.
+ * @property array  $options     Configuration options for the MFA Method.
  * @property string $created_on  Date and time the record was created.
  * @property string $last_used   Date and time the record was last used successfully.
  *
  * @since __DEPLOY_VERSION__
  */
-class TfaTable extends Table
+class MfaTable extends Table
 {
 	/**
 	 * Delete flags per ID, set up onBeforeDelete and used onAfterDelete
@@ -76,7 +76,7 @@ class TfaTable extends Table
 	 */
 	public function __construct(DatabaseDriver $db, DispatcherInterface $dispatcher = null)
 	{
-		parent::__construct('#__user_tfa', 'id', $db, $dispatcher);
+		parent::__construct('#__user_mfa', 'id', $db, $dispatcher);
 
 		$this->encryptService = new Encrypt;
 	}
@@ -107,7 +107,7 @@ class TfaTable extends Table
 		}
 
 		// phpcs:ignore
-		$records = TfaHelper::getUserTfaRecords($this->user_id);
+		$records = MfaHelper::getUserMfaRecords($this->user_id);
 
 		if ($this->id)
 		{
@@ -144,7 +144,7 @@ class TfaTable extends Table
 			$this->default = $hasDefaultRecord ? 0 : 1;
 		}
 
-		// Let's find out if we are saving a new TFA method record without having backup codes yet.
+		// Let's find out if we are saving a new MFA method record without having backup codes yet.
 		$mustCreateBackupCodes = false;
 
 		if (empty($this->id) && $this->method !== 'backupcodes')
@@ -262,7 +262,7 @@ class TfaTable extends Table
 
 		// You can only delete your own records, unless you're a super user or have delete privileges on this component
 		// phpcs:ignore
-		if (($record->user_id !== $user->id) && !TfaHelper::canEditUser($user))
+		if (($record->user_id !== $user->id) && !MfaHelper::canEditUser($user))
 		{
 			throw new RuntimeException(Text::_('JERROR_ALERTNOAUTHOR'), 403);
 		}
@@ -336,7 +336,7 @@ class TfaTable extends Table
 		 */
 		$db    = $this->getDbo();
 		$query = $db->getQuery(true)
-			->update($db->quoteName('#__user_tfa'))
+			->update($db->quoteName('#__user_mfa'))
 			->set($db->quoteName('default') . ' = 0')
 			->where($db->quoteName('user_id') . ' = :user_id')
 			->where($db->quoteName('id') . ' != :id')
@@ -388,13 +388,13 @@ class TfaTable extends Table
 		if (($this->deleteFlags[$pk]['numRecords'] <= 2) && ($this->deleteFlags[$pk]['method'] != 'backupcodes'))
 		{
 			/**
-			 * This was the second to last TFA record in the database (the last one is the `backupcodes`). Therefore, we
+			 * This was the second to last MFA record in the database (the last one is the `backupcodes`). Therefore, we
 			 * need to delete the remaining entry and go away. We don't trigger this if the Method we are deleting was
 			 * the `backupcodes` because we might just be regenerating the backup codes.
 			 */
 			$db    = $this->getDbo();
 			$query = $db->getQuery(true)
-				->delete($db->quoteName('#__user_tfa'))
+				->delete($db->quoteName('#__user_mfa'))
 				->where($db->quoteName('user_id') . ' = :user_id')
 				->bind(':user_id', $this->deleteFlags[$pk]['user_id'], ParameterType::INTEGER);
 			$db->setQuery($query)->execute();
@@ -410,7 +410,7 @@ class TfaTable extends Table
 			$db    = $this->getDbo();
 			$query = $db->getQuery(true)
 				->select($db->quoteName('id'))
-				->from($db->quoteName('#__user_tfa'))
+				->from($db->quoteName('#__user_mfa'))
 				->where($db->quoteName('user_id') . ' = :user_id')
 				->bind(':user_id', $this->deleteFlags[$pk]['user_id'], ParameterType::INTEGER);
 			$ids   = $db->setQuery($query)->loadColumn();
@@ -422,7 +422,7 @@ class TfaTable extends Table
 
 			$id    = array_shift($ids);
 			$query = $db->getQuery(true)
-				->update($db->quoteName('#__user_tfa'))
+				->update($db->quoteName('#__user_mfa'))
 				->set($db->quoteName('default') . ' = 1')
 				->where($db->quoteName('id') . ' = :id')
 				->bind(':id', $id, ParameterType::INTEGER);
@@ -431,7 +431,7 @@ class TfaTable extends Table
 	}
 
 	/**
-	 * Get the number of TFA records for a give user ID
+	 * Get the number of MFA records for a give user ID
 	 *
 	 * @param   int  $userId  The user ID to check
 	 *
@@ -444,7 +444,7 @@ class TfaTable extends Table
 		$db            = $this->getDbo();
 		$query         = $db->getQuery(true)
 			->select('COUNT(*)')
-			->from($db->quoteName('#__user_tfa'))
+			->from($db->quoteName('#__user_mfa'))
 			->where($db->quoteName('user_id') . ' = :user_id')
 			->bind(':user_id', $userId, ParameterType::INTEGER);
 		$numOldRecords = $db->setQuery($query)->loadResult();

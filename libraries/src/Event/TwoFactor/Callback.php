@@ -23,7 +23,7 @@ class Callback extends AbstractImmutableEvent
 	/**
 	 * Public constructor
 	 *
-	 * @param   string  $method  The TFA method name
+	 * @param   string  $method  The MFA method name
 	 *
 	 * @since __DEPLOY_VERSION__
 	 */

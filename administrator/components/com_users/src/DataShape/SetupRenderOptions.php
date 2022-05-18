@@ -14,13 +14,13 @@ use InvalidArgumentException;
 /**
  * Data shape for Method Setup Render Options
  *
- * @property string $default_title Default title if you are setting up this TFA Method for the first time
- * @property string $pre_message   Custom HTML to display above the TFA setup form
- * @property string $table_heading Heading for displayed tabular data. Typically used to display a list of fixed TFA
+ * @property string $default_title Default title if you are setting up this MFA Method for the first time
+ * @property string $pre_message   Custom HTML to display above the MFA setup form
+ * @property string $table_heading Heading for displayed tabular data. Typically used to display a list of fixed MFA
  *                                 codes, TOTP setup parameters etc
  * @property array  $tabular_data  Any tabular data to display (label => custom HTML). See above
  * @property array  $hidden_data   Hidden fields to include in the form (name => value)
- * @property string $field_type    How to render the TFA setup code field. "input" (HTML input element) or "custom"
+ * @property string $field_type    How to render the MFA setup code field. "input" (HTML input element) or "custom"
  *                                 (custom HTML)
  * @property string $input_type    The type attribute for the HTML input box. Typically "text" or "password". Use any
  *                                 HTML5 input type.
@@ -29,9 +29,9 @@ use InvalidArgumentException;
  * @property string $placeholder   Placeholder text for the HTML input box. Leave empty if you don't need it.
  * @property string $label         Label to show above the HTML input box. Leave empty if you don't need it.
  * @property string $html          Custom HTML. Only used when field_type = custom.
- * @property bool   $show_submit   Should I show the submit button (apply the TFA setup)?
- * @property string $submit_class  Additional CSS classes for the submit button (apply the TFA setup)
- * @property string $post_message  Custom HTML to display below the TFA setup form
+ * @property bool   $show_submit   Should I show the submit button (apply the MFA setup)?
+ * @property string $submit_class  Additional CSS classes for the submit button (apply the MFA setup)
+ * @property string $post_message  Custom HTML to display below the MFA setup form
  * @property string $help_url      A URL with help content for this Method to display to the user
  *
  * @since       __DEPLOY_VERSION__
@@ -53,7 +53,7 @@ class SetupRenderOptions extends DataShapeObject
 	public const FIELD_CUSTOM = 'custom';
 
 	/**
-	 * Default title if you are setting up this TFA Method for the first time
+	 * Default title if you are setting up this MFA Method for the first time
 	 *
 	 * @var   string
 	 * @since __DEPLOY_VERSION__
@@ -62,7 +62,7 @@ class SetupRenderOptions extends DataShapeObject
 	protected $default_title = '';
 
 	/**
-	 * Custom HTML to display above the TFA setup form parameters etc
+	 * Custom HTML to display above the MFA setup form parameters etc
 	 *
 	 * @var   string
 	 * @since __DEPLOY_VERSION__
@@ -71,7 +71,7 @@ class SetupRenderOptions extends DataShapeObject
 	protected $pre_message = '';
 
 	/**
-	 * Heading for displayed tabular data. Typically used to display a list of fixed TFA codes, TOTP setup
+	 * Heading for displayed tabular data. Typically used to display a list of fixed MFA codes, TOTP setup
 	 *
 	 * @var   string
 	 * @since __DEPLOY_VERSION__
@@ -98,7 +98,7 @@ class SetupRenderOptions extends DataShapeObject
 	protected $hidden_data = [];
 
 	/**
-	 * How to render the TFA setup code field. "input" (HTML input element) or "custom" (custom HTML)
+	 * How to render the MFA setup code field. "input" (HTML input element) or "custom" (custom HTML)
 	 *
 	 * @var   string
 	 * @since __DEPLOY_VERSION__
@@ -149,7 +149,7 @@ class SetupRenderOptions extends DataShapeObject
 	protected $html = '';
 
 	/**
-	 * Should I show the submit button (apply the TFA setup)?
+	 * Should I show the submit button (apply the MFA setup)?
 	 *
 	 * @var   boolean
 	 * @since __DEPLOY_VERSION__
@@ -158,7 +158,7 @@ class SetupRenderOptions extends DataShapeObject
 	protected $show_submit = true;
 
 	/**
-	 * Additional CSS classes for the submit button (apply the TFA setup)
+	 * Additional CSS classes for the submit button (apply the MFA setup)
 	 *
 	 * @var   string
 	 * @since __DEPLOY_VERSION__
@@ -167,7 +167,7 @@ class SetupRenderOptions extends DataShapeObject
 	protected $submit_class = '';
 
 	/**
-	 * Custom HTML to display below the TFA setup form
+	 * Custom HTML to display below the MFA setup form
 	 *
 	 * @var   string
 	 * @since __DEPLOY_VERSION__

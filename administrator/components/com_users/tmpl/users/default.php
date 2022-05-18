@@ -72,7 +72,7 @@ $tfa        = PluginHelper::isEnabled('twofactorauth');
 								</th>
 								<?php if ($tfa) : ?>
 								<th scope="col" class="w-5 text-center d-none d-md-table-cell">
-									<?php echo Text::_('COM_USERS_HEADING_TFA'); ?>
+									<?php echo Text::_('COM_USERS_HEADING_MFA'); ?>
 								</th>
 								<?php endif; ?>
 								<th scope="col" class="w-12 d-none d-md-table-cell">
@@ -158,10 +158,10 @@ $tfa        = PluginHelper::isEnabled('twofactorauth');
 									<span class="tbody-icon">
 									<?php if ($item->tfaRecords > 0) : ?>
 										<span class="icon-check" aria-hidden="true"></span>
-										<span class="visually-hidden"><?php echo Text::_('COM_USERS_TFA_ACTIVE'); ?></span>
+										<span class="visually-hidden"><?php echo Text::_('COM_USERS_MFA_ACTIVE'); ?></span>
 									<?php else : ?>
 										<span class="icon-times" aria-hidden="true"></span>
-										<span class="visually-hidden"><?php echo Text::_('COM_USERS_TFA_NOTACTIVE'); ?></span>
+										<span class="visually-hidden"><?php echo Text::_('COM_USERS_MFA_NOTACTIVE'); ?></span>
 									<?php endif; ?>
 									</span>
 								</td>

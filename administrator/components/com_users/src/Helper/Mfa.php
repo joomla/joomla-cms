@@ -23,25 +23,25 @@ use Joomla\CMS\User\UserFactoryInterface;
 use Joomla\Component\Users\Administrator\DataShape\MethodDescriptor;
 use Joomla\Component\Users\Administrator\Model\BackupcodesModel;
 use Joomla\Component\Users\Administrator\Model\MethodsModel;
-use Joomla\Component\Users\Administrator\Table\TfaTable;
+use Joomla\Component\Users\Administrator\Table\MfaTable;
 use Joomla\Component\Users\Administrator\View\Methods\HtmlView;
 use Joomla\Database\DatabaseDriver;
 use Joomla\Database\ParameterType;
 
 /**
- * Helper functions for captive TFA handling
+ * Helper functions for captive MFA handling
  *
  * @since __DEPLOY_VERSION__
  */
-abstract class Tfa
+abstract class Mfa
 {
 	/**
-	 * Cache of all currently active TFAs
+	 * Cache of all currently active MFAs
 	 *
 	 * @var   array|null
 	 * @since __DEPLOY_VERSION__
 	 */
-	protected static $allTFAs = null;
+	protected static $allMFAs = null;
 
 	/**
 	 * Are we inside the administrator application
@@ -55,7 +55,7 @@ abstract class Tfa
 	 * Get the HTML for the Two Factor Authentication configuration interface for a user.
 	 *
 	 * This helper method uses a sort of primitive HMVC to display the com_users' Methods page which
-	 * renders the TFA configuration interface.
+	 * renders the MFA configuration interface.
 	 *
 	 * @param   User  $user  The user we are going to show the configuration UI for.
 	 *
@@ -119,7 +119,7 @@ abstract class Tfa
 			/**
 			 * This is intentional! When you are developing a Two Factor Authentication plugin you
 			 * will inevitably mess something up and end up with an error. This would cause the
-			 * entire TFA configuration page to dissappear. No problem! Set Debug System to Yes in
+			 * entire MFA configuration page to dissappear. No problem! Set Debug System to Yes in
 			 * Global Configuration and you can see the error exception which will help you solve
 			 * your problem.
 			 */
@@ -135,16 +135,16 @@ abstract class Tfa
 	}
 
 	/**
-	 * Get a list of all of the TFA Methods
+	 * Get a list of all of the MFA Methods
 	 *
 	 * @return  MethodDescriptor[]
 	 * @since __DEPLOY_VERSION__
 	 */
-	public static function getTfaMethods(): array
+	public static function getMfaMethods(): array
 	{
 		PluginHelper::importPlugin('twofactorauth');
 
-		if (is_null(self::$allTFAs))
+		if (is_null(self::$allMFAs))
 		{
 			// Get all the plugin results
 			$event = new GetMethod;
@@ -154,7 +154,7 @@ abstract class Tfa
 				->getArgument('result');
 
 			// Normalize the results
-			self::$allTFAs = [];
+			self::$allMFAs = [];
 
 			foreach ($temp as $method)
 			{
@@ -170,15 +170,15 @@ abstract class Tfa
 					continue;
 				}
 
-				self::$allTFAs[$method['name']] = $method;
+				self::$allMFAs[$method['name']] = $method;
 			}
 		}
 
-		return self::$allTFAs;
+		return self::$allMFAs;
 	}
 
 	/**
-	 * Is the current user allowed to edit the TFA configuration of $user? To do so I must either be editing my own
+	 * Is the current user allowed to edit the MFA configuration of $user? To do so I must either be editing my own
 	 * account OR I have to be a Super User editing a non-superuser's account. Important to note: nobody can edit the
 	 * accounts of Super Users except themselves. Therefore make damn sure you keep those backup codes safe!
 	 *
@@ -196,7 +196,7 @@ abstract class Tfa
 			return true;
 		}
 
-		// Guests can't have TFA
+		// Guests can't have MFA
 		if ($user->guest)
 		{
 			return false;
@@ -229,16 +229,16 @@ abstract class Tfa
 	}
 
 	/**
-	 * Return all TFA records for a specific user
+	 * Return all MFA records for a specific user
 	 *
 	 * @param   int|null  $userId  User ID. NULL for currently logged in user.
 	 *
-	 * @return  TfaTable[]
+	 * @return  MfaTable[]
 	 * @throws  Exception
 	 *
 	 * @since __DEPLOY_VERSION__
 	 */
-	public static function getUserTfaRecords(?int $userId): array
+	public static function getUserMfaRecords(?int $userId): array
 	{
 		if (empty($userId))
 		{
@@ -250,7 +250,7 @@ abstract class Tfa
 		$db    = Factory::getContainer()->get('DatabaseDriver');
 		$query = $db->getQuery(true)
 			->select($db->quoteName('id'))
-			->from($db->quoteName('#__user_tfa'))
+			->from($db->quoteName('#__user_mfa'))
 			->where($db->quoteName('user_id') . ' = :user_id')
 			->bind(':user_id', $userId, ParameterType::INTEGER);
 
@@ -271,11 +271,11 @@ abstract class Tfa
 		/** @var MVCFactoryInterface $factory */
 		$factory = Factory::getApplication()->bootComponent('com_users')->getMVCFactory();
 
-		// Map all results to Tfa table objects
+		// Map all results to MFA table objects
 		$records = array_map(
 			function ($id) use ($factory) {
-				/** @var TfaTable $record */
-				$record = $factory->createTable('Tfa', 'Administrator');
+				/** @var MfaTable $record */
+				$record = $factory->createTable('Mfa', 'Administrator');
 				$loaded = $record->load($id);
 
 				return $loaded ? $record : null;
@@ -310,7 +310,7 @@ abstract class Tfa
 	}
 
 	/**
-	 * Are the conditions for showing the TFA configuration interface met?
+	 * Are the conditions for showing the MFA configuration interface met?
 	 *
 	 * @param   User|null  $user  The user to be configured
 	 *
@@ -320,7 +320,7 @@ abstract class Tfa
 	 */
 	private static function canShowConfigurationInterface(?User $user = null): bool
 	{
-		// I need at least one TFA method plugin for the setup interface to make any sense.
+		// I need at least one MFA method plugin for the setup interface to make any sense.
 		$plugins = PluginHelper::getPlugin('twofactorauth');
 
 		if (count($plugins) < 1)
@@ -349,17 +349,17 @@ abstract class Tfa
 			return true;
 		}
 
-		// I must be able to edit the user's TFA settings
+		// I must be able to edit the user's MFA settings
 		if (!self::canEditUser($user))
 		{
 			return false;
 		}
 
-		// If the user is in a user group which disallows TFA we won't show the setup page either.
-		$neverTFAGroups = ComponentHelper::getParams('com_users')->get('neverTFAUserGroups', []);
-		$neverTFAGroups = is_array($neverTFAGroups) ? $neverTFAGroups : [];
+		// If the user is in a user group which disallows MFA we won't show the setup page either.
+		$neverMFAGroups = ComponentHelper::getParams('com_users')->get('neverMFAUserGroups', []);
+		$neverMFAGroups = is_array($neverMFAGroups) ? $neverMFAGroups : [];
 
-		if (count(array_intersect($user->getAuthorisedGroups(), $neverTFAGroups)))
+		if (count(array_intersect($user->getAuthorisedGroups(), $neverMFAGroups)))
 		{
 			return false;
 		}

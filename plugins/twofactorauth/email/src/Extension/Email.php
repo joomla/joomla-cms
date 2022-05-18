@@ -32,9 +32,8 @@ use Joomla\CMS\User\UserFactoryInterface;
 use Joomla\Component\Users\Administrator\DataShape\CaptiveRenderOptions;
 use Joomla\Component\Users\Administrator\DataShape\MethodDescriptor;
 use Joomla\Component\Users\Administrator\DataShape\SetupRenderOptions;
-use Joomla\Component\Users\Administrator\Helper\Tfa as TfaHelper;
-use Joomla\Component\Users\Administrator\Table\TfaTable;
-use Joomla\Event\Event;
+use Joomla\Component\Users\Administrator\Helper\Mfa as MfaHelper;
+use Joomla\Component\Users\Administrator\Table\MfaTable;
 use Joomla\Event\SubscriberInterface;
 use PHPMailer\PHPMailer\Exception as phpMailerException;
 use RuntimeException;
@@ -91,12 +90,12 @@ class Email extends CMSPlugin implements SubscriberInterface
 	protected $autoloadLanguage = true;
 
 	/**
-	 * The TFA Method name handled by this plugin
+	 * The MFA Method name handled by this plugin
 	 *
 	 * @var   string
 	 * @since __DEPLOY_VERSION__
 	 */
-	private $tfaMethodName = 'email';
+	private $mfaMethodName = 'email';
 
 	/**
 	 * Returns an array of events this subscriber will listen to.
@@ -118,7 +117,7 @@ class Email extends CMSPlugin implements SubscriberInterface
 	}
 
 	/**
-	 * Gets the identity of this TFA Method
+	 * Gets the identity of this MFA Method
 	 *
 	 * @param   GetMethod  $event  The event we are handling
 	 *
@@ -130,7 +129,7 @@ class Email extends CMSPlugin implements SubscriberInterface
 		$event->addResult(
 			new MethodDescriptor(
 				[
-					'name'      => $this->tfaMethodName,
+					'name'      => $this->mfaMethodName,
 					'display'   => Text::_('PLG_TWOFACTORAUTH_EMAIL_LBL_DISPLAYEDAS'),
 					'shortinfo' => Text::_('PLG_TWOFACTORAUTH_EMAIL_LBL_SHORTINFO'),
 					'image'     => 'media/plg_twofactorauth_email/images/email.svg',
@@ -140,8 +139,8 @@ class Email extends CMSPlugin implements SubscriberInterface
 	}
 
 	/**
-	 * Returns the information which allows Joomla to render the Captive TFA page. This is the page
-	 * which appears right after you log in and asks you to validate your login with TFA.
+	 * Returns the information which allows Joomla to render the Captive MFA page. This is the page
+	 * which appears right after you log in and asks you to validate your login with MFA.
 	 *
 	 * @param   Captive  $event  The event we are handling
 	 *
@@ -151,12 +150,12 @@ class Email extends CMSPlugin implements SubscriberInterface
 	public function onUserTwofactorCaptive(Captive $event): void
 	{
 		/**
-		 * @var   TfaTable $record The record currently selected by the user.
+		 * @var   MfaTable $record The record currently selected by the user.
 		 */
 		$record = $event['record'];
 
 		// Make sure we are actually meant to handle this Method
-		if ($record->method != $this->tfaMethodName)
+		if ($record->method != $this->mfaMethodName)
 		{
 			return;
 		}
@@ -181,9 +180,9 @@ class Email extends CMSPlugin implements SubscriberInterface
 		$event->addResult(
 			new CaptiveRenderOptions(
 				[
-					// Custom HTML to display above the TFA form
+					// Custom HTML to display above the MFA form
 					'pre_message'        => Text::_('PLG_TWOFACTORAUTH_EMAIL_LBL_PRE_MESSAGE'),
-					// How to render the TFA code field. "input" (HTML input element) or "custom" (custom HTML)
+					// How to render the MFA code field. "input" (HTML input element) or "custom" (custom HTML)
 					'field_type'         => 'input',
 					// The type attribute for the HTML input box. Typically "text" or "password". Use any HTML5 input type.
 					'input_type'         => 'number',
@@ -193,11 +192,11 @@ class Email extends CMSPlugin implements SubscriberInterface
 					'label'              => Text::_('PLG_TWOFACTORAUTH_EMAIL_LBL_LABEL'),
 					// Custom HTML. Only used when field_type = custom.
 					'html'               => '',
-					// Custom HTML to display below the TFA form
+					// Custom HTML to display below the MFA form
 					'post_message'       => '',
 					// Should I hide the default Submit button?
 					'hide_submit'        => false,
-					// Is this TFA method validating against all configured authenticators of the same type?
+					// Is this MFA method validating against all configured authenticators of the same type?
 					'allowEntryBatching' => false,
 				]
 			)
@@ -205,8 +204,8 @@ class Email extends CMSPlugin implements SubscriberInterface
 	}
 
 	/**
-	 * Returns the information which allows Joomla to render the TFA setup page. This is the page
-	 * which allows the user to add or modify a TFA Method for their user account. If the record
+	 * Returns the information which allows Joomla to render the MFA setup page. This is the page
+	 * which allows the user to add or modify a MFA Method for their user account. If the record
 	 * does not correspond to your plugin return an empty array.
 	 *
 	 * @param   GetSetup  $event  The event we are handling
@@ -217,11 +216,11 @@ class Email extends CMSPlugin implements SubscriberInterface
 	 */
 	public function onUserTwofactorGetSetup(GetSetup $event): void
 	{
-		/** @var TfaTable $record The record currently selected by the user. */
+		/** @var MfaTable $record The record currently selected by the user. */
 		$record = $event['record'];
 
 		// Make sure we are actually meant to handle this Method
-		if ($record->method != $this->tfaMethodName)
+		if ($record->method != $this->mfaMethodName)
 		{
 			return;
 		}
@@ -285,7 +284,7 @@ class Email extends CMSPlugin implements SubscriberInterface
 	}
 
 	/**
-	 * Parse the input from the TFA setup page and return the configuration information to be saved to the database. If
+	 * Parse the input from the MFA setup page and return the configuration information to be saved to the database. If
 	 * the information is invalid throw a RuntimeException to signal the need to display the editor page again. The
 	 * message of the exception will be displayed to the user. If the record does not correspond to your plugin return
 	 * an empty array.
@@ -298,14 +297,14 @@ class Email extends CMSPlugin implements SubscriberInterface
 	public function onUserTwofactorSaveSetup(SaveSetup $event): void
 	{
 		/**
-		 * @var TfaTable $record The record currently selected by the user.
+		 * @var MfaTable $record The record currently selected by the user.
 		 * @var Input    $input  The user input you are going to take into account.
 		 */
 		$record = $event['record'];
 		$input  = $event['input'];
 
 		// Make sure we are actually meant to handle this Method
-		if ($record->method != $this->tfaMethodName)
+		if ($record->method != $this->mfaMethodName)
 		{
 			return;
 		}
@@ -370,7 +369,7 @@ class Email extends CMSPlugin implements SubscriberInterface
 	public function onUserTwofactorValidate(Validate $event): void
 	{
 		/**
-		 * @var   TfaTable    $record The TFA Method's record you're validating against
+		 * @var   MfaTable    $record The MFA Method's record you're validating against
 		 * @var   User        $user   The user record
 		 * @var   string|null $code   The submitted code
 		 */
@@ -379,14 +378,14 @@ class Email extends CMSPlugin implements SubscriberInterface
 		$code   = $event['code'];
 
 		// Make sure we are actually meant to handle this Method
-		if ($record->method != $this->tfaMethodName)
+		if ($record->method != $this->mfaMethodName)
 		{
 			$event->addResult(false);
 
 			return;
 		}
 
-		// Double check the TFA Method is for the correct user
+		// Double check the MFA Method is for the correct user
 		// phpcs:ignore
 		if ($user->id != $record->user_id)
 		{
@@ -407,7 +406,7 @@ class Email extends CMSPlugin implements SubscriberInterface
 			return;
 		}
 
-		// Check the TFA code for validity
+		// Check the MFA code for validity
 		$timeStep = min(max((int) $this->params->get('timestep', 120), 30), 900);
 		$totp     = new Totp($timeStep, self::CODE_LENGTH, self::SECRET_KEY_LENGTH);
 
@@ -415,7 +414,7 @@ class Email extends CMSPlugin implements SubscriberInterface
 	}
 
 	/**
-	 * Executes before showing the TFA Methods for the user. Used for the Force Enable feature.
+	 * Executes before showing the MFA Methods for the user. Used for the Force Enable feature.
 	 *
 	 * @param   BeforeDisplayMethods  $event  The event we are handling
 	 *
@@ -435,19 +434,19 @@ class Email extends CMSPlugin implements SubscriberInterface
 		}
 
 		// Get second factor Methods for this user
-		$userTfaRecords = TfaHelper::getUserTfaRecords($user->id);
+		$userMfaRecords = MfaHelper::getUserMfaRecords($user->id);
 
 		// If there are no Methods go back
-		if (count($userTfaRecords) < 1)
+		if (count($userMfaRecords) < 1)
 		{
 			return;
 		}
 
 		// If the only Method is backup codes go back
-		if (count($userTfaRecords) == 1)
+		if (count($userMfaRecords) == 1)
 		{
-			/** @var TfaTable $record */
-			$record = reset($userTfaRecords);
+			/** @var MfaTable $record */
+			$record = reset($userMfaRecords);
 
 			if ($record->method == 'backupcodes')
 			{
@@ -457,8 +456,8 @@ class Email extends CMSPlugin implements SubscriberInterface
 
 		// If I already have the email Method go back
 		$emailRecords = array_filter(
-			$userTfaRecords,
-			function (TfaTable $record)
+			$userMfaRecords,
+			function (MfaTable $record)
 			{
 				return $record->method == 'email';
 			}
@@ -474,8 +473,8 @@ class Email extends CMSPlugin implements SubscriberInterface
 		{
 			/** @var MVCFactoryInterface $factory */
 			$factory = $this->app->bootComponent('com_users')->getMVCFactory();
-			/** @var TfaTable $record */
-			$record = $factory->createTable('Tfa', 'Administrator');
+			/** @var MfaTable $record */
+			$record = $factory->createTable('Mfa', 'Administrator');
 			$record->reset();
 
 			$timeStep = min(max((int) $this->params->get('timestep', 120), 30), 900);
@@ -501,12 +500,12 @@ class Email extends CMSPlugin implements SubscriberInterface
 	/**
 	 * Decodes the options from a record into an options object.
 	 *
-	 * @param   TfaTable  $record  The record to decode
+	 * @param   MfaTable  $record  The record to decode
 	 *
 	 * @return  array
 	 * @since   __DEPLOY_VERSION__
 	 */
-	private function decodeRecordOptions(TfaTable $record): array
+	private function decodeRecordOptions(MfaTable $record): array
 	{
 		$options = [
 			'key' => '',

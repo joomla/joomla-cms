@@ -16,7 +16,7 @@ use ReflectionException;
 use ReflectionObject;
 
 /**
- * Dynamically modify the frontend template when showing a TFA captive page.
+ * Dynamically modify the frontend template when showing a MFA captive page.
  *
  * @since __DEPLOY_VERSION__
  */

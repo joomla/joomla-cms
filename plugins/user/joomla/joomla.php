@@ -23,7 +23,7 @@ use Joomla\CMS\Table\User as UserTable;
 use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\User\User;
 use Joomla\CMS\User\UserHelper;
-use Joomla\Component\Users\Administrator\Table\TfaTable;
+use Joomla\Component\Users\Administrator\Table\MfaTable;
 use Joomla\Database\Exception\ExecutionFailureException;
 use Joomla\Database\ParameterType;
 use Joomla\Event\Event;
@@ -133,7 +133,7 @@ class PlgUserJoomla extends CMSPlugin
 		}
 
 		// Delete Two Factor Authentication user profile records
-		$profileKey = 'tfa.%';
+		$profileKey = 'mfa.%';
 		$query      = $this->db->getQuery(true)
 			->delete($this->db->quoteName('#__user_profiles'))
 			->where($this->db->quoteName('user_id') . ' = :userId')
@@ -152,7 +152,7 @@ class PlgUserJoomla extends CMSPlugin
 
 		// Delete Two Factor Authentication records
 		$query = $this->db->getQuery(true)
-			->delete($this->db->qn('#__user_tfa'))
+			->delete($this->db->qn('#__user_mfa'))
 			->where($this->db->quoteName('user_id') . ' = :userId')
 			->bind(':userId', $userId, ParameterType::INTEGER);
 
@@ -448,24 +448,24 @@ class PlgUserJoomla extends CMSPlugin
 			return;
 		}
 
-		$this->disableTfaOnSilentLogin($options);
+		$this->disableMfaOnSilentLogin($options);
 	}
 
 	/**
-	 * Detect silent logins and disable TFA if the relevant com_users option is set.
+	 * Detect silent logins and disable MFA if the relevant com_users option is set.
 	 *
 	 * @param   array  $options  The array of login options and login result
 	 *
 	 * @return  void
 	 * @since   __DEPLOY_VERSION__
 	 */
-	private function disableTfaOnSilentLogin(array $options): void
+	private function disableMfaOnSilentLogin(array $options): void
 	{
 		$userParams         = ComponentHelper::getParams('com_users');
-		$doTfaOnSilentLogin = $userParams->get('tfaonsilent', 0) == 1;
+		$doMfaOnSilentLogin = $userParams->get('mfaonsilent', 0) == 1;
 
-		// Should I show TFA even on silent logins? Default: 1 (yes, show)
-		if ($doTfaOnSilentLogin)
+		// Should I show MFA even on silent logins? Default: 1 (yes, show)
+		if ($doMfaOnSilentLogin)
 		{
 			return;
 		}
@@ -491,8 +491,8 @@ class PlgUserJoomla extends CMSPlugin
 			return;
 		}
 
-		// Set the flag indicating that TFA is already checked.
-		$this->app->getSession()->set('com_users.tfa_checked', 1);
+		// Set the flag indicating that MFA is already checked.
+		$this->app->getSession()->set('com_users.mfa_checked', 1);
 	}
 
 	/**

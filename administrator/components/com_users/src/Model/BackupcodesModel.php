@@ -16,7 +16,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Joomla\CMS\User\User;
 use Joomla\CMS\User\UserFactoryInterface;
-use Joomla\Component\Users\Administrator\Table\TfaTable;
+use Joomla\Component\Users\Administrator\Table\MfaTable;
 
 /**
  * Model for managing backup codes
@@ -38,11 +38,11 @@ class BackupcodesModel extends BaseDatabaseModel
 	 *
 	 * @param   User|null   $user   The user in question. Use null for the currently logged in user.
 	 *
-	 * @return  TfaTable|null  Record object or null if none is found
+	 * @return  MfaTable|null  Record object or null if none is found
 	 * @throws  \Exception
 	 * @since __DEPLOY_VERSION__
 	 */
-	public function getBackupCodesRecord(User $user = null): ?TfaTable
+	public function getBackupCodesRecord(User $user = null): ?MfaTable
 	{
 		// Make sure I have a user
 		if (empty($user))
@@ -51,8 +51,8 @@ class BackupcodesModel extends BaseDatabaseModel
 				Factory::getContainer()->get(UserFactoryInterface::class)->loadUserById(0);
 		}
 
-		/** @var TfaTable $record */
-		$record = $this->getTable('Tfa', 'Administrator');
+		/** @var MfaTable $record */
+		$record = $this->getTable('Mfa', 'Administrator');
 		$loaded = $record->load(
 			[
 				'user_id' => $user->id,
@@ -123,8 +123,8 @@ class BackupcodesModel extends BaseDatabaseModel
 		$existingCodes = $this->getBackupCodes($user);
 		$jNow          = Date::getInstance();
 
-		/** @var TfaTable $record */
-		$record = $this->getTable('Tfa', 'Administrator');
+		/** @var MfaTable $record */
+		$record = $this->getTable('Mfa', 'Administrator');
 
 		if (is_null($existingCodes))
 		{
@@ -194,8 +194,8 @@ class BackupcodesModel extends BaseDatabaseModel
 		$this->cache[$user->id] = null;
 
 		// Try to load the record
-		/** @var TfaTable $record */
-		$record = $this->getTable('Tfa', 'Administrator');
+		/** @var MfaTable $record */
+		$record = $this->getTable('Mfa', 'Administrator');
 		$loaded = $record->load(
 			[
 				'user_id' => $user->id,

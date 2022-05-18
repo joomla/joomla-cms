@@ -15,7 +15,7 @@ use Joomla\CMS\Event\AbstractImmutableEvent;
 use Joomla\CMS\Event\Result\ResultAware;
 use Joomla\CMS\Event\Result\ResultAwareInterface;
 use Joomla\CMS\Event\Result\ResultTypeArrayAware;
-use Joomla\Component\Users\Administrator\Table\TfaTable;
+use Joomla\Component\Users\Administrator\Table\MfaTable;
 use Joomla\Input\Input;
 
 /**
@@ -31,12 +31,12 @@ class SaveSetup extends AbstractImmutableEvent implements ResultAwareInterface
 	/**
 	 * Public constructor
 	 *
-	 * @param   TfaTable  $record  The record to save into
+	 * @param   MfaTable  $record  The record to save into
 	 * @param   Input     $input   The application input object
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function __construct(TfaTable $record, Input $input)
+	public function __construct(MfaTable $record, Input $input)
 	{
 		parent::__construct(
 			'onUserTwofactorSaveSetup',
@@ -52,16 +52,16 @@ class SaveSetup extends AbstractImmutableEvent implements ResultAwareInterface
 	/**
 	 * Validate the value of the 'record' named parameter
 	 *
-	 * @param   TfaTable  $value  The value to validate
+	 * @param   MfaTable  $value  The value to validate
 	 *
-	 * @return  TfaTable
+	 * @return  MfaTable
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function setRecord(TfaTable $value): TfaTable
+	public function setRecord(MfaTable $value): MfaTable
 	{
 		if (empty($value))
 		{
-			throw new DomainException(sprintf('Argument \'record\' of event %s must be a TfaTable object', $this->name));
+			throw new DomainException(sprintf('Argument \'record\' of event %s must be a MfaTable object', $this->name));
 		}
 
 		return $value;

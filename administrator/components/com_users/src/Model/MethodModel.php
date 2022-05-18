@@ -14,8 +14,8 @@ use Joomla\CMS\Event\GenericEvent;
 use Joomla\CMS\Event\TwoFactor\GetSetup;
 use Joomla\CMS\Language\Text;
 use Joomla\Component\Users\Administrator\DataShape\SetupRenderOptions;
-use Joomla\Component\Users\Administrator\Helper\Tfa as TfaHelper;
-use Joomla\Component\Users\Administrator\Table\TfaTable;
+use Joomla\Component\Users\Administrator\Helper\Mfa as MfaHelper;
+use Joomla\Component\Users\Administrator\Table\MfaTable;
 use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Joomla\CMS\User\User;
@@ -29,15 +29,15 @@ use Joomla\CMS\User\UserFactoryInterface;
 class MethodModel extends BaseDatabaseModel
 {
 	/**
-	 * List of TFA Methods
+	 * List of MFA Methods
 	 *
 	 * @var   array
 	 * @since __DEPLOY_VERSION__
 	 */
-	protected $tfaMethods = null;
+	protected $mfaMethods = null;
 
 	/**
-	 * Get the specified TFA Method's record
+	 * Get the specified MFA Method's record
 	 *
 	 * @param   string  $method  The Method to retrieve.
 	 *
@@ -58,11 +58,11 @@ class MethodModel extends BaseDatabaseModel
 			];
 		}
 
-		return $this->tfaMethods[$method];
+		return $this->mfaMethods[$method];
 	}
 
 	/**
-	 * Is the specified TFA Method available?
+	 * Is the specified MFA Method available?
 	 *
 	 * @param   string  $method  The Method to check.
 	 *
@@ -71,12 +71,12 @@ class MethodModel extends BaseDatabaseModel
 	 */
 	public function methodExists(string $method): bool
 	{
-		if (!is_array($this->tfaMethods))
+		if (!is_array($this->mfaMethods))
 		{
-			$this->populateTfaMethods();
+			$this->populateMfaMethods();
 		}
 
-		return isset($this->tfaMethods[$method]);
+		return isset($this->mfaMethods[$method]);
 	}
 
 	/**
@@ -121,16 +121,16 @@ class MethodModel extends BaseDatabaseModel
 	}
 
 	/**
-	 * Get the specified TFA record. It will return a fake default record when no record ID is specified.
+	 * Get the specified MFA record. It will return a fake default record when no record ID is specified.
 	 *
 	 * @param   User|null  $user  The user record. Null to use the currently logged in user.
 	 *
-	 * @return  TfaTable
+	 * @return  MfaTable
 	 * @throws  Exception
 	 *
 	 * @since __DEPLOY_VERSION__
 	 */
-	public function getRecord(User $user = null): TfaTable
+	public function getRecord(User $user = null): MfaTable
 	{
 		if (is_null($user))
 		{
@@ -146,8 +146,8 @@ class MethodModel extends BaseDatabaseModel
 			return $defaultRecord;
 		}
 
-		/** @var TfaTable $record */
-		$record = $this->getTable('Tfa', 'Administrator');
+		/** @var MfaTable $record */
+		$record = $this->getTable('Mfa', 'Administrator');
 		$loaded = $record->load(
 			[
 				'user_id' => $user->id,
@@ -181,12 +181,12 @@ class MethodModel extends BaseDatabaseModel
 
 		switch ($task)
 		{
-			case 'tfa':
+			case 'mfa':
 				$key = 'COM_USERS_USER_TWO_FACTOR_AUTH';
 				break;
 
 			default:
-				$key = sprintf('COM_USERS_TFA_%s_PAGE_HEAD', $task);
+				$key = sprintf('COM_USERS_MFA_%s_PAGE_HEAD', $task);
 				break;
 		}
 
@@ -196,12 +196,12 @@ class MethodModel extends BaseDatabaseModel
 	/**
 	 * @param   User|null  $user  The user record. Null to use the current user.
 	 *
-	 * @return  TfaTable
+	 * @return  MfaTable
 	 * @throws  Exception
 	 *
 	 * @since __DEPLOY_VERSION__
 	 */
-	protected function getDefaultRecord(?User $user = null): TfaTable
+	protected function getDefaultRecord(?User $user = null): MfaTable
 	{
 		if (is_null($user))
 		{
@@ -212,18 +212,18 @@ class MethodModel extends BaseDatabaseModel
 		$method = $this->getState('method');
 		$title  = '';
 
-		if (is_null($this->tfaMethods))
+		if (is_null($this->mfaMethods))
 		{
-			$this->populateTfaMethods();
+			$this->populateMfaMethods();
 		}
 
-		if ($method && isset($this->tfaMethods[$method]))
+		if ($method && isset($this->mfaMethods[$method]))
 		{
-			$title = $this->tfaMethods[$method]['display'];
+			$title = $this->mfaMethods[$method]['display'];
 		}
 
-		/** @var TfaTable $record */
-		$record = $this->getTable('Tfa', 'Administrator');
+		/** @var MfaTable $record */
+		$record = $this->getTable('Mfa', 'Administrator');
 
 		$record->bind(
 			[
@@ -240,28 +240,28 @@ class MethodModel extends BaseDatabaseModel
 	}
 
 	/**
-	 * Populate the list of TFA Methods
+	 * Populate the list of MFA Methods
 	 *
 	 * @return void
 	 * @since __DEPLOY_VERSION__
 	 */
-	private function populateTfaMethods(): void
+	private function populateMfaMethods(): void
 	{
-		$this->tfaMethods = [];
-		$tfaMethods       = TfaHelper::getTfaMethods();
+		$this->mfaMethods = [];
+		$mfaMethods       = MfaHelper::getMfaMethods();
 
-		if (empty($tfaMethods))
+		if (empty($mfaMethods))
 		{
 			return;
 		}
 
-		foreach ($tfaMethods as $method)
+		foreach ($mfaMethods as $method)
 		{
-			$this->tfaMethods[$method['name']] = $method;
+			$this->mfaMethods[$method['name']] = $method;
 		}
 
 		// We also need to add the backup codes Method
-		$this->tfaMethods['backupcodes'] = [
+		$this->mfaMethods['backupcodes'] = [
 			'name'          => 'backupcodes',
 			'display'       => Text::_('COM_USERS_USER_OTEPS'),
 			'shortinfo'     => Text::_('COM_USERS_USER_OTEPS_DESC'),

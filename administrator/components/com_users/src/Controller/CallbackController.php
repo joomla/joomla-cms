@@ -10,13 +10,11 @@
 namespace Joomla\Component\Users\Administrator\Controller;
 
 use Joomla\CMS\Application\CMSApplication;
-use Joomla\CMS\Event\GenericEvent;
 use Joomla\CMS\Event\TwoFactor\Callback;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\Plugin\PluginHelper;
-use Joomla\Component\Users\Administrator\Helper\Tfa as TfaHelper;
 use Joomla\Input\Input;
 use RuntimeException;
 

@@ -27,7 +27,7 @@ class BeforeDisplayMethods extends AbstractImmutableEvent
 	/**
 	 * Public constructor
 	 *
-	 * @param   User  $user  The user the TFA methods are displayed for
+	 * @param   User  $user  The user the MFA methods are displayed for
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */

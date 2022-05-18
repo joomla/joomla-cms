@@ -21,10 +21,10 @@ use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\User\User;
 use Joomla\CMS\User\UserFactoryInterface;
-use Joomla\Component\Users\Administrator\Helper\Tfa as TfaHelper;
+use Joomla\Component\Users\Administrator\Helper\Mfa as MfaHelper;
 use Joomla\Component\Users\Administrator\Model\BackupcodesModel;
 use Joomla\Component\Users\Administrator\Model\MethodModel;
-use Joomla\Component\Users\Administrator\Table\TfaTable;
+use Joomla\Component\Users\Administrator\Table\MfaTable;
 use Joomla\Input\Input;
 use RuntimeException;
 
@@ -76,7 +76,7 @@ class MethodController extends BaseControllerAlias
 	}
 
 	/**
-	 * Add a new TFA Method
+	 * Add a new MFA Method
 	 *
 	 * @param   boolean        $cachable   Ignored. This page is never cached.
 	 * @param   boolean|array  $urlparams  Ignored. This page is never cached.
@@ -121,7 +121,7 @@ class MethodController extends BaseControllerAlias
 	}
 
 	/**
-	 * Edit an existing TFA Method
+	 * Edit an existing MFA Method
 	 *
 	 * @param   boolean        $cachable   Ignored. This page is never cached.
 	 * @param   boolean|array  $urlparams  Ignored. This page is never cached.
@@ -213,7 +213,7 @@ class MethodController extends BaseControllerAlias
 	}
 
 	/**
-	 * Delete an existing TFA Method
+	 * Delete an existing MFA Method
 	 *
 	 * @param   boolean        $cachable   Ignored. This page is never cached.
 	 * @param   boolean|array  $urlparams  Ignored. This page is never cached.
@@ -270,7 +270,7 @@ class MethodController extends BaseControllerAlias
 	}
 
 	/**
-	 * Save the TFA Method
+	 * Save the MFA Method
 	 *
 	 * @param   boolean        $cachable   Ignored. This page is never cached.
 	 * @param   boolean|array  $urlparams  Ignored. This page is never cached.
@@ -415,10 +415,10 @@ class MethodController extends BaseControllerAlias
 	 * @param   int        $id    Record ID to check
 	 * @param   User|null  $user  User record. Null to use current user.
 	 *
-	 * @return  TfaTable  The loaded record
+	 * @return  MfaTable  The loaded record
 	 * @since   __DEPLOY_VERSION__
 	 */
-	private function assertValidRecordId($id, ?User $user = null): TfaTable
+	private function assertValidRecordId($id, ?User $user = null): MfaTable
 	{
 		if (is_null($user))
 		{
@@ -459,14 +459,14 @@ class MethodController extends BaseControllerAlias
 				?: Factory::getContainer()->get(UserFactoryInterface::class)->loadUserById(0);
 		}
 
-		if (!TfaHelper::canEditUser($user))
+		if (!MfaHelper::canEditUser($user))
 		{
 			throw new RuntimeException(Text::_('JERROR_ALERTNOAUTHOR'), 403);
 		}
 	}
 
 	/**
-	 * Assert that the specified TFA Method exists, is activated and enabled for the current user
+	 * Assert that the specified MFA Method exists, is activated and enabled for the current user
 	 *
 	 * @param   string|null  $method  The Method to check
 	 *

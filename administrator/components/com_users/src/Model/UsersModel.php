@@ -18,7 +18,7 @@ use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\Component\Users\Administrator\DataShape\MethodDescriptor;
-use Joomla\Component\Users\Administrator\Helper\Tfa;
+use Joomla\Component\Users\Administrator\Helper\Mfa;
 use Joomla\Database\DatabaseQuery;
 use Joomla\Database\ParameterType;
 use Joomla\Utilities\ArrayHelper;
@@ -295,7 +295,7 @@ class UsersModel extends ListModel
 
 		$query->from($db->quoteName('#__users') . ' AS a');
 
-		// Include TFA information
+		// Include MFA information
 		if (PluginHelper::isEnabled('twofactorauth'))
 		{
 			$subQuery = $db->getQuery(true)

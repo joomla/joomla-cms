@@ -18,8 +18,8 @@ use Joomla\CMS\Router\Route;
 use Joomla\CMS\Table\User as UserTable;
 use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\User\User;
-use Joomla\Component\Users\Administrator\Helper\Tfa as TfaHelper;
-use Joomla\Component\Users\Administrator\Table\TfaTable;
+use Joomla\Component\Users\Administrator\Helper\Mfa as MfaHelper;
+use Joomla\Component\Users\Administrator\Table\MfaTable;
 use Joomla\Database\DatabaseDriver;
 use Joomla\Database\ParameterType;
 use RuntimeException;
@@ -27,7 +27,7 @@ use RuntimeException;
 /**
  * Implements the code required for integrating with Joomla's Two Factor Authentication.
  *
- * Please keep in mind that Joomla's TFA, like any TFA method, is designed to be user-interactive.
+ * Please keep in mind that Joomla's MFA, like any MFA method, is designed to be user-interactive.
  * Moreover, it's meant to be used in an HTML- and JavaScript-aware execution environment i.e. a web
  * browser, web view or similar.
  *
@@ -43,7 +43,7 @@ use RuntimeException;
  *
  * @since __DEPLOY_VERSION__
  */
-trait TwoFactorAuthenticationHandler
+trait MultiFactorAuthenticationHandler
 {
 	/**
 	 * Handle the redirection to the Two Factor Authentication captive login or setup page.
@@ -52,7 +52,7 @@ trait TwoFactorAuthenticationHandler
 	 * @throws  Exception
 	 * @since   __DEPLOY_VERSION__
 	 */
-	protected function isHandlingTwoFactorAuthentication(): bool
+	protected function isHandlingMultiFactorAuthentication(): bool
 	{
 		// Two Factor Authentication checks take place only for logged in users.
 		try
@@ -76,62 +76,62 @@ trait TwoFactorAuthenticationHandler
 		}
 
 		/**
-		 * Automatically migrate from legacy TFA, if needed.
+		 * Automatically migrate from legacy MFA, if needed.
 		 *
 		 * We prefer to do a user-by-user migration instead of migrating everybody on Joomla update
 		 * for practical reasons. On a site with hundreds or thousands of users the migration could
 		 * take several minutes, causing Joomla Update to time out.
 		 *
-		 * Instead, every time we are in a captive Two Factor Authentication page (captive TFA login
-		 * or captive forced TFA setup) we spend a few milliseconds to check if a migration is
+		 * Instead, every time we are in a captive Two Factor Authentication page (captive MFA login
+		 * or captive forced MFA setup) we spend a few milliseconds to check if a migration is
 		 * necessary. If it's necessary, we perform it.
 		 *
 		 * The captive pages don't load any content or modules, therefore the few extra milliseconds
 		 * we spend here are not a big deal. A failed all-users migration which would stop Joomla
 		 * Update dead in its tracks would, however, be a big deal (broken sites). Moreover, a
 		 * migration that has to be initiated by the site owner would also be a big deal — if they
-		 * did not know they need to do it none of their users who had previously enabled TFA would
+		 * did not know they need to do it none of their users who had previously enabled MFA would
 		 * now have it enabled!
 		 *
 		 * To paraphrase Otto von Bismarck: programming, like politics, is the art of the possible,
 		 * the attainable -- the art of the next best.
 		 */
-		$this->migrateFromLegacyTFA();
+		$this->migrateFromLegacyMFA();
 
-		// We only kick in when the user has actually set up TFA or must definitely enable TFA.
+		// We only kick in when the user has actually set up MFA or must definitely enable MFA.
 		$userOptions        = ComponentHelper::getParams('com_users');
-		$neverTFAUserGroups = $userOptions->get('neverTFAUserGroups', []);
-		$forceTFAUserGroups = $userOptions->get('forceTFAUserGroups', []);
-		$isTFADisallowed    = count(
+		$neverMFAUserGroups = $userOptions->get('neverMFAUserGroups', []);
+		$forceMFAUserGroups = $userOptions->get('forceMFAUserGroups', []);
+		$isMFADisallowed    = count(
 			array_intersect(
-				is_array($neverTFAUserGroups) ? $neverTFAUserGroups : [],
+				is_array($neverMFAUserGroups) ? $neverMFAUserGroups : [],
 				$user->getAuthorisedGroups()
 			)
 		) > 1;
-		$isTFAMandatory     = count(
+		$isMFAMandatory     = count(
 			array_intersect(
-				is_array($forceTFAUserGroups) ? $forceTFAUserGroups : [],
+				is_array($forceMFAUserGroups) ? $forceMFAUserGroups : [],
 				$user->getAuthorisedGroups()
 			)
 		) > 1;
-		$isTFAPending    = $this->isTwoFactorAuthenticationPending();
+		$isMFAPending    = $this->isMultiFactorAuthenticationPending();
 		$session         = $this->getSession();
 		$isNonHtml       = $this->input->getCmd('format', 'html') !== 'html';
 
-		// Prevent non-interactive (non-HTML) content from being loaded until TFA is validated.
-		if ($isTFAPending && $isNonHtml)
+		// Prevent non-interactive (non-HTML) content from being loaded until MFA is validated.
+		if ($isMFAPending && $isNonHtml)
 		{
 			throw new RuntimeException(Text::_('JERROR_ALERTNOAUTHOR'), 403);
 		}
 
-		if ($isTFAPending && !$isTFADisallowed)
+		if ($isMFAPending && !$isMFADisallowed)
 		{
 			/**
 			 * Saves the current URL as the return URL if all of the following conditions apply
-			 * - It is not a URL to com_users' TFA feature itself
+			 * - It is not a URL to com_users' MFA feature itself
 			 * - A return URL does not already exist, is imperfect or external to the site
 			 *
-			 * If no return URL has been set up and the current URL is com_users' TFA feature
+			 * If no return URL has been set up and the current URL is com_users' MFA feature
 			 * we will save the home page as the redirect target.
 			 */
 			$returnUrl       = $session->get('com_users.return_url', '');
@@ -148,17 +148,17 @@ trait TwoFactorAuthenticationHandler
 			$this->redirect(Route::_('index.php?option=com_users&view=captive', false), 307);
 		}
 
-		// If we're here someone just logged in but does not have TFA set up. Just flag him as logged in and continue.
-		$session->set('com_users.tfa_checked', 1);
+		// If we're here someone just logged in but does not have MFA set up. Just flag him as logged in and continue.
+		$session->set('com_users.mfa_checked', 1);
 
-		// If the user is in a group that requires TFA we will redirect them to the setup page.
-		if (!$isTFAPending && $isTFAMandatory)
+		// If the user is in a group that requires MFA we will redirect them to the setup page.
+		if (!$isMFAPending && $isMFAMandatory)
 		{
-			// First unset the flag to make sure the redirection will apply until they conform to the mandatory TFA
-			$session->set('com_users.tfa_checked', 0);
+			// First unset the flag to make sure the redirection will apply until they conform to the mandatory MFA
+			$session->set('com_users.mfa_checked', 0);
 
-			// Now set a flag which forces rechecking TFA for this user
-			$session->set('com_users.mandatory_tfa_setup', 1);
+			// Now set a flag which forces rechecking MFA for this user
+			$session->set('com_users.mandatory_mfa_setup', 1);
 
 			// Then redirect them to the setup page
 			if (!$this->isTwoFactorAuthenticationPage())
@@ -168,12 +168,12 @@ trait TwoFactorAuthenticationHandler
 			}
 		}
 
-		// Do I need to redirect the user to the TFA setup page after they have fully logged in?
-		if (!$isTFAPending && !$isTFADisallowed && ($userOptions->get('tfaredirectonlogin', 0) == 1)
+		// Do I need to redirect the user to the MFA setup page after they have fully logged in?
+		if (!$isMFAPending && !$isMFADisallowed && ($userOptions->get('mfaredirectonlogin', 0) == 1)
 			&& !$user->guest  && !$this->hasRejectedTwoFactorAuthenticationSetup())
 		{
 			$this->redirect(
-				$userOptions->get('tfaredirecturl', '') ?:
+				$userOptions->get('mfaredirecturl', '') ?:
 					Route::_('index.php?option=com_users&view=methods&layout=firsttime', false)
 			);
 		}
@@ -182,13 +182,13 @@ trait TwoFactorAuthenticationHandler
 	}
 
 	/**
-	 * Does the current user need to complete TFA authentication before being allowed to access the site?
+	 * Does the current user need to complete MFA authentication before being allowed to access the site?
 	 *
 	 * @return  boolean
 	 * @throws  Exception
 	 * @since   __DEPLOY_VERSION__
 	 */
-	private function isTwoFactorAuthenticationPending(): bool
+	private function isMultiFactorAuthenticationPending(): bool
 	{
 		$user = $this->getIdentity();
 
@@ -197,20 +197,20 @@ trait TwoFactorAuthenticationHandler
 			return false;
 		}
 
-		// Get the user's TFA records
-		$records = TfaHelper::getUserTfaRecords($user->id);
+		// Get the user's MFA records
+		$records = MfaHelper::getUserMfaRecords($user->id);
 
-		// No TFA Methods? Then we obviously don't need to display a Captive login page.
+		// No MFA Methods? Then we obviously don't need to display a Captive login page.
 		if (count($records) < 1)
 		{
 			return false;
 		}
 
-		// Let's get a list of all currently active TFA Methods
-		$tfaMethods = TfaHelper::getTfaMethods();
+		// Let's get a list of all currently active MFA Methods
+		$mfaMethods = MfaHelper::getMfaMethods();
 
-		// If no TFA Method is active we can't really display a Captive login page.
-		if (empty($tfaMethods))
+		// If no MFA Method is active we can't really display a Captive login page.
+		if (empty($mfaMethods))
 		{
 			return false;
 		}
@@ -218,12 +218,12 @@ trait TwoFactorAuthenticationHandler
 		// Get a list of just the Method names
 		$methodNames = [];
 
-		foreach ($tfaMethods as $tfaMethod)
+		foreach ($mfaMethods as $mfaMethod)
 		{
-			$methodNames[] = $tfaMethod['name'];
+			$methodNames[] = $mfaMethod['name'];
 		}
 
-		// Filter the records based on currently active TFA Methods
+		// Filter the records based on currently active MFA Methods
 		foreach ($records as $record)
 		{
 			if (in_array($record->method, $methodNames))
@@ -233,7 +233,7 @@ trait TwoFactorAuthenticationHandler
 			}
 		}
 
-		// No viable TFA Method found. We won't show the Captive page.
+		// No viable MFA Method found. We won't show the Captive page.
 		return false;
 	}
 
@@ -248,17 +248,17 @@ trait TwoFactorAuthenticationHandler
 		$isAdmin = $this->isClient('administrator');
 
 		/**
-		 * We only kick in if the session flag is not set AND the user is not flagged for monitoring of their TFA status
+		 * We only kick in if the session flag is not set AND the user is not flagged for monitoring of their MFA status
 		 *
-		 * In case a user belongs to a group which requires TFA to be always enabled and they logged in without having
-		 * TFA enabled we have the recheck flag. This prevents the user from enabling and immediately disabling TFA,
-		 * circumventing the requirement for TFA.
+		 * In case a user belongs to a group which requires MFA to be always enabled and they logged in without having
+		 * MFA enabled we have the recheck flag. This prevents the user from enabling and immediately disabling MFA,
+		 * circumventing the requirement for MFA.
 		 */
 		$session             = $this->getSession();
-		$isTFAComplete       = $session->get('com_users.tfa_checked', 0) != 0;
-		$isTFASetupMandatory = $session->get('com_users.mandatory_tfa_setup', 0) != 0;
+		$isMFAComplete       = $session->get('com_users.mfa_checked', 0) != 0;
+		$isMFASetupMandatory = $session->get('com_users.mandatory_mfa_setup', 0) != 0;
 
-		if ($isTFAComplete && !$isTFASetupMandatory)
+		if ($isMFAComplete && !$isMFASetupMandatory)
 		{
 			return false;
 		}
@@ -287,7 +287,7 @@ trait TwoFactorAuthenticationHandler
 			return false;
 		}
 
-		// Do not redirect if we are already in a TFA management or captive page
+		// Do not redirect if we are already in a MFA management or captive page
 		if ($this->isTwoFactorAuthenticationPage())
 		{
 			return false;
@@ -296,13 +296,13 @@ trait TwoFactorAuthenticationHandler
 		$option       = strtolower($this->input->getCmd('option', ''));
 		$task         = strtolower($this->input->getCmd('task', ''));
 
-		// Allow the frontend user to log out (in case they forgot their TFA code or something)
+		// Allow the frontend user to log out (in case they forgot their MFA code or something)
 		if (!$isAdmin && ($option == 'com_users') && in_array($task, ['user.logout', 'user.menulogout']))
 		{
 			return false;
 		}
 
-		// Allow the backend user to log out (in case they forgot their TFA code or something)
+		// Allow the backend user to log out (in case they forgot their MFA code or something)
 		if ($isAdmin && ($option == 'com_login') && ($task == 'logout'))
 		{
 			return false;
@@ -347,7 +347,7 @@ trait TwoFactorAuthenticationHandler
 	private function hasRejectedTwoFactorAuthenticationSetup(): bool
 	{
 		$user       = $this->getIdentity();
-		$profileKey = 'tfa.dontshow';
+		$profileKey = 'mfa.dontshow';
 		/** @var DatabaseDriver $db */
 		$db         = Factory::getContainer()->get('DatabaseDriver');
 		$query      = $db->getQuery(true)
@@ -371,12 +371,12 @@ trait TwoFactorAuthenticationHandler
 	}
 
 	/**
-	 * Automatically migrates a user's legacy TFA records into the new Captive TFA format.
+	 * Automatically migrates a user's legacy MFA records into the new Captive MFA format.
 	 *
 	 * @return  void
 	 * @since __DEPLOY_VERSION__
 	 */
-	private function migrateFromLegacyTFA(): void
+	private function migrateFromLegacyMFA(): void
 	{
 		$user = $this->getIdentity();
 
@@ -409,7 +409,7 @@ trait TwoFactorAuthenticationHandler
 				case 'totp':
 					$this->getLanguage()->load('plg_twofactorauth_totp', JPATH_ADMINISTRATOR);
 
-					(new TfaTable($db))->save(
+					(new MfaTable($db))->save(
 						[
 							'user_id'    => $user->id,
 							'title'      => Text::_('PLG_TWOFACTORAUTH_TOTP_METHOD_TITLE'),
@@ -425,7 +425,7 @@ trait TwoFactorAuthenticationHandler
 				case 'yubikey':
 					$this->getLanguage()->load('plg_twofactorauth_yubikey', JPATH_ADMINISTRATOR);
 
-					(new TfaTable($db))->save(
+					(new MfaTable($db))->save(
 						[
 							'user_id'    => $user->id,
 							'title'      => sprintf("%s %s", Text::_('PLG_TWOFACTORAUTH_YUBIKEY_METHOD_TITLE'), $config['yubikey']),
@@ -451,7 +451,7 @@ trait TwoFactorAuthenticationHandler
 			$method = 'emergencycodes';
 			$userId = $user->id;
 			$query  = $db->getQuery(true)
-				->delete($db->qn('#__user_tfa'))
+				->delete($db->qn('#__user_mfa'))
 				->where($db->qn('user_id') . ' = :user_id')
 				->where($db->qn('method') . ' = :method')
 				->bind(':user_id', $userId, ParameterType::INTEGER)
@@ -459,7 +459,7 @@ trait TwoFactorAuthenticationHandler
 			$db->setQuery($query)->execute();
 
 			// Migrate data
-			(new TfaTable($db))->save(
+			(new MfaTable($db))->save(
 				[
 					'user_id'    => $user->id,
 					'title'      => Text::_('COM_USERS_USER_OTEPS'),
@@ -472,7 +472,7 @@ trait TwoFactorAuthenticationHandler
 			);
 		}
 
-		// Remove the legacy TFA
+		// Remove the legacy MFA
 		$update = (object) [
 			'id'     => $user->id,
 			'otpKey' => '',
@@ -482,7 +482,7 @@ trait TwoFactorAuthenticationHandler
 	}
 
 	/**
-	 * Tries to decrypt the legacy TFA configuration.
+	 * Tries to decrypt the legacy MFA configuration.
 	 *
 	 * @param   string   $secret            Site's secret key
 	 * @param   string   $stringToDecrypt   Base64-encoded and encrypted, JSON-encoded information

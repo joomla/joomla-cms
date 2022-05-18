@@ -19,7 +19,6 @@ use Joomla\CMS\Event\TwoFactor\GetSetup;
 use Joomla\CMS\Event\TwoFactor\SaveSetup;
 use Joomla\CMS\Event\TwoFactor\Validate;
 use Joomla\CMS\Factory;
-use Joomla\Input\Input;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Plugin\PluginHelper;
@@ -28,9 +27,9 @@ use Joomla\CMS\User\UserFactoryInterface;
 use Joomla\Component\Users\Administrator\DataShape\CaptiveRenderOptions;
 use Joomla\Component\Users\Administrator\DataShape\MethodDescriptor;
 use Joomla\Component\Users\Administrator\DataShape\SetupRenderOptions;
-use Joomla\Component\Users\Administrator\Table\TfaTable as TfaTable;
-use Joomla\Event\Event;
+use Joomla\Component\Users\Administrator\Table\MfaTable;
 use Joomla\Event\SubscriberInterface;
+use Joomla\Input\Input;
 use Joomla\Plugin\Twofactorauth\Webauthn\Helper\Credentials;
 use RuntimeException;
 use Webauthn\PublicKeyCredentialRequestOptions;
@@ -59,12 +58,12 @@ class Webauthn extends CMSPlugin implements SubscriberInterface
 	protected $autoloadLanguage = true;
 
 	/**
-	 * The TFA Method name handled by this plugin
+	 * The MFA Method name handled by this plugin
 	 *
 	 * @var   string
 	 * @since  __DEPLOY_VERSION__
 	 */
-	private $tfaMethodName = 'webauthn';
+	private $mfaMethodName = 'webauthn';
 
 	/**
 	 * Returns an array of events this subscriber will listen to.
@@ -85,7 +84,7 @@ class Webauthn extends CMSPlugin implements SubscriberInterface
 	}
 
 	/**
-	 * Gets the identity of this TFA Method
+	 * Gets the identity of this MFA Method
 	 *
 	 * @param   GetMethod  $event  The event we are handling
 	 *
@@ -97,7 +96,7 @@ class Webauthn extends CMSPlugin implements SubscriberInterface
 		$event->addResult(
 			new MethodDescriptor(
 				[
-					'name'               => $this->tfaMethodName,
+					'name'               => $this->mfaMethodName,
 					'display'            => Text::_('PLG_TWOFACTORAUTH_WEBAUTHN_LBL_DISPLAYEDAS'),
 					'shortinfo'          => Text::_('PLG_TWOFACTORAUTH_WEBAUTHN_LBL_SHORTINFO'),
 					'image'              => 'media/plg_twofactorauth_webauthn/images/webauthn.svg',
@@ -109,8 +108,8 @@ class Webauthn extends CMSPlugin implements SubscriberInterface
 	}
 
 	/**
-	 * Returns the information which allows Joomla to render the TFA setup page. This is the page
-	 * which allows the user to add or modify a TFA Method for their user account. If the record
+	 * Returns the information which allows Joomla to render the MFA setup page. This is the page
+	 * which allows the user to add or modify a MFA Method for their user account. If the record
 	 * does not correspond to your plugin return an empty array.
 	 *
 	 * @param   GetSetup  $event  The event we are handling
@@ -122,12 +121,12 @@ class Webauthn extends CMSPlugin implements SubscriberInterface
 	public function onUserTwofactorGetSetup(GetSetup $event): void
 	{
 		/**
-		 * @var   TfaTable $record The record currently selected by the user.
+		 * @var   MfaTable $record The record currently selected by the user.
 		 */
 		$record = $event['record'];
 
 		// Make sure we are actually meant to handle this Method
-		if ($record->method != $this->tfaMethodName)
+		if ($record->method != $this->mfaMethodName)
 		{
 			return;
 		}
@@ -189,7 +188,7 @@ class Webauthn extends CMSPlugin implements SubscriberInterface
 	}
 
 	/**
-	 * Parse the input from the TFA setup page and return the configuration information to be saved to the database. If
+	 * Parse the input from the MFA setup page and return the configuration information to be saved to the database. If
 	 * the information is invalid throw a RuntimeException to signal the need to display the editor page again. The
 	 * message of the exception will be displayed to the user. If the record does not correspond to your plugin return
 	 * an empty array.
@@ -202,14 +201,14 @@ class Webauthn extends CMSPlugin implements SubscriberInterface
 	public function onUserTwofactorSaveSetup(SaveSetup $event): void
 	{
 		/**
-		 * @var   TfaTable $record The record currently selected by the user.
+		 * @var   MfaTable $record The record currently selected by the user.
 		 * @var   Input    $input  The user input you are going to take into account.
 		 */
 		$record = $event['record'];
 		$input  = $event['input'];
 
 		// Make sure we are actually meant to handle this Method
-		if ($record->method != $this->tfaMethodName)
+		if ($record->method != $this->mfaMethodName)
 		{
 			return;
 		}
@@ -259,8 +258,8 @@ class Webauthn extends CMSPlugin implements SubscriberInterface
 	}
 
 	/**
-	 * Returns the information which allows Joomla to render the Captive TFA page. This is the page
-	 * which appears right after you log in and asks you to validate your login with TFA.
+	 * Returns the information which allows Joomla to render the Captive MFA page. This is the page
+	 * which appears right after you log in and asks you to validate your login with MFA.
 	 *
 	 * @param   Captive  $event  The event we are handling
 	 *
@@ -271,12 +270,12 @@ class Webauthn extends CMSPlugin implements SubscriberInterface
 	public function onUserTwofactorCaptive(Captive $event): void
 	{
 		/**
-		 * @var   TfaTable $record The record currently selected by the user.
+		 * @var   MfaTable $record The record currently selected by the user.
 		 */
 		$record = $event['record'];
 
 		// Make sure we are actually meant to handle this Method
-		if ($record->method != $this->tfaMethodName)
+		if ($record->method != $this->mfaMethodName)
 		{
 			return;
 		}
@@ -372,9 +371,9 @@ class Webauthn extends CMSPlugin implements SubscriberInterface
 		$event->addResult(
 			new CaptiveRenderOptions(
 				[
-					// Custom HTML to display above the TFA form
+					// Custom HTML to display above the MFA form
 					'pre_message'        => Text::_('PLG_TWOFACTORAUTH_WEBAUTHN_LBL_INSTRUCTIONS'),
-					// How to render the TFA code field. "input" (HTML input element) or "custom" (custom HTML)
+					// How to render the MFA code field. "input" (HTML input element) or "custom" (custom HTML)
 					'field_type'         => 'custom',
 					// The type attribute for the HTML input box. Typically "text" or "password". Use any HTML5 input type.
 					'input_type'         => '',
@@ -384,11 +383,11 @@ class Webauthn extends CMSPlugin implements SubscriberInterface
 					'label'              => '',
 					// Custom HTML. Only used when field_type = custom.
 					'html'               => $html,
-					// Custom HTML to display below the TFA form
+					// Custom HTML to display below the MFA form
 					'post_message'       => '',
 					// Should I hide the submit button?
 					'hide_submit'        => true,
-					// Allow authentication against all entries of this TFA Method.
+					// Allow authentication against all entries of this MFA Method.
 					'allowEntryBatching' => true,
 				]
 			)
@@ -407,7 +406,7 @@ class Webauthn extends CMSPlugin implements SubscriberInterface
 	public function onUserTwofactorValidate(Validate $event): void
 	{
 		/**
-		 * @var   TfaTable $record The TFA Method's record you're validatng against
+		 * @var   MfaTable $record The MFA Method's record you're validatng against
 		 * @var   User     $user   The user record
 		 * @var   string   $code   The submitted code
 		 */
@@ -416,14 +415,14 @@ class Webauthn extends CMSPlugin implements SubscriberInterface
 		$code   = $event['code'];
 
 		// Make sure we are actually meant to handle this Method
-		if ($record->method != $this->tfaMethodName)
+		if ($record->method != $this->mfaMethodName)
 		{
 			$event->addResult(false);
 
 			return;
 		}
 
-		// Double check the TFA Method is for the correct user
+		// Double check the MFA Method is for the correct user
 		// phpcs:ignore
 		if ($user->id != $record->user_id)
 		{
