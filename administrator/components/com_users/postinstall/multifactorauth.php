@@ -52,15 +52,6 @@ function com_users_postinstall_mfa_action(): void
 	$db->setQuery($query);
 	$db->execute();
 
-	$query = $db->getQuery(true)
-		->select($db->quoteName('extension_id'))
-		->from($db->quoteName('#__extensions'))
-		->where($db->quoteName('type') . ' = ' . $db->quote('plugin'))
-		->where($db->quoteName('folder') . ' = ' . $db->quote('system'))
-		->where($db->quoteName('element') . ' = ' . $db->quote('httpheaders'));
-	$db->setQuery($query);
-	$extensionId = $db->loadResult();
-
-	$url = 'index.php?option=com_plugins&task=plugin.edit&extension_id=' . $extensionId;
+	$url = 'index.php?option=com_plugins&filter[folder]=multifactorauth';
 	Factory::getApplication()->redirect($url);
 }
