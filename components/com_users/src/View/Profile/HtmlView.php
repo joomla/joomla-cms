@@ -81,7 +81,7 @@ class HtmlView extends BaseHtmlView
 	 * @var   string|null
 	 * @since __DEPLOY_VERSION__
 	 */
-	protected $tfaConfigurationUI;
+	protected $mfaConfigurationUI;
 
 	/**
 	 * Execute and display a template script.
@@ -102,7 +102,7 @@ class HtmlView extends BaseHtmlView
 		$this->form               = $this->getModel()->getForm(new CMSObject(['id' => $user->id]));
 		$this->state              = $this->get('State');
 		$this->params             = $this->state->get('params');
-		$this->tfaConfigurationUI = Mfa::getConfigurationInterface($user);
+		$this->mfaConfigurationUI = Mfa::getConfigurationInterface($user);
 		$this->db                 = Factory::getDbo();
 
 		// Check for errors.

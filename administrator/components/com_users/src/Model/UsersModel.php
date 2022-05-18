@@ -302,15 +302,15 @@ class UsersModel extends ListModel
 				->select(
 					[
 						'MIN(' . $db->quoteName('user_id') . ') AS ' . $db->quoteName('uid'),
-						'COUNT(*) AS ' . $db->quoteName('tfaRecords')
+						'COUNT(*) AS ' . $db->quoteName('mfaRecords')
 					]
 				)
 				->from($db->quoteName('#__user_mfa'));
-			$query->select($db->quoteName('tfa.tfaRecords'))
+			$query->select($db->quoteName('mfa.mfaRecords'))
 				->join(
 					'left',
-					'(' . $subQuery . ') AS ' . $db->quoteName('tfa'),
-					$db->quoteName('tfa.uid') . ' = ' . $db->quoteName('a.id')
+					'(' . $subQuery . ') AS ' . $db->quoteName('mfa'),
+					$db->quoteName('mfa.uid') . ' = ' . $db->quoteName('a.id')
 				);
 		}
 

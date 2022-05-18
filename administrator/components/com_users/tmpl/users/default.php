@@ -30,7 +30,7 @@ $wa->useScript('table.columns')
 $listOrder  = $this->escape($this->state->get('list.ordering'));
 $listDirn   = $this->escape($this->state->get('list.direction'));
 $loggeduser = Factory::getUser();
-$tfa        = PluginHelper::isEnabled('multifactorauth');
+$mfa        = PluginHelper::isEnabled('multifactorauth');
 
 ?>
 <form action="<?php echo Route::_('index.php?option=com_users&view=users'); ?>" method="post" name="adminForm" id="adminForm">
@@ -70,7 +70,7 @@ $tfa        = PluginHelper::isEnabled('multifactorauth');
 								<th scope="col" class="w-5 text-center d-md-table-cell">
 									<?php echo HTMLHelper::_('searchtools.sort', 'COM_USERS_HEADING_ACTIVATED', 'a.activation', $listDirn, $listOrder); ?>
 								</th>
-								<?php if ($tfa) : ?>
+								<?php if ($mfa) : ?>
 								<th scope="col" class="w-5 text-center d-none d-md-table-cell">
 									<?php echo Text::_('COM_USERS_HEADING_MFA'); ?>
 								</th>
@@ -153,10 +153,10 @@ $tfa        = PluginHelper::isEnabled('multifactorauth');
 									echo HTMLHelper::_('jgrid.state', HTMLHelper::_('users.activateStates'), $activated, $i, 'users.', (boolean) $activated);
 									?>
 								</td>
-								<?php if ($tfa) : ?>
+								<?php if ($mfa) : ?>
 								<td class="text-center d-none d-md-table-cell">
 									<span class="tbody-icon">
-									<?php if ($item->tfaRecords > 0) : ?>
+									<?php if ($item->mfaRecords > 0) : ?>
 										<span class="icon-check" aria-hidden="true"></span>
 										<span class="visually-hidden"><?php echo Text::_('COM_USERS_MFA_ACTIVE'); ?></span>
 									<?php else : ?>

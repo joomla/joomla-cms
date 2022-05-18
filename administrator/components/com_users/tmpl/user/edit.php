@@ -64,11 +64,11 @@ $this->useCoreUI = true;
 		echo LayoutHelper::render('joomla.edit.params', $this);
 		?>
 
-		<?php if (!empty($this->tfaConfigurationUI)) : ?>
-		<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'multifactorauth', Text::_('COM_USERS_USER_TWO_FACTOR_AUTH')); ?>
+		<?php if (!empty($this->mfaConfigurationUI)) : ?>
+		<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'multifactorauth', Text::_('COM_USERS_USER_MULTIFACTOR_AUTH')); ?>
 			<fieldset class="options-form">
-				<legend><?php echo Text::_('COM_USERS_USER_TWO_FACTOR_AUTH'); ?></legend>
-				<?php echo $this->tfaConfigurationUI ?>
+				<legend><?php echo Text::_('COM_USERS_USER_MULTIFACTOR_AUTH'); ?></legend>
+				<?php echo $this->mfaConfigurationUI ?>
 			</fieldset>
 		<?php echo HTMLHelper::_('uitab.endTab'); ?>
 		<?php endif; ?>

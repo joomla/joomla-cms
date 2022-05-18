@@ -269,7 +269,7 @@ class CaptiveModel extends BaseDatabaseModel
 			return '';
 		}
 
-		return Text::_('COM_USERS_USER_TWO_FACTOR_AUTH');
+		return Text::_('COM_USERS_USER_MULTIFACTOR_AUTH');
 	}
 
 	/**

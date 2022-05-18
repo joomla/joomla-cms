@@ -182,7 +182,7 @@ class MethodModel extends BaseDatabaseModel
 		switch ($task)
 		{
 			case 'mfa':
-				$key = 'COM_USERS_USER_TWO_FACTOR_AUTH';
+				$key = 'COM_USERS_USER_MULTIFACTOR_AUTH';
 				break;
 
 			default:

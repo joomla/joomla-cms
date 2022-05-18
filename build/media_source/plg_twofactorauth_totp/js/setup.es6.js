@@ -10,7 +10,7 @@
   'use strict';
 
   document.addEventListener('DOMContentLoaded', () => {
-    const elTarget = document.getElementById('users-tfa-totp-qrcode');
+    const elTarget = document.getElementById('users-mfa-totp-qrcode');
     const qrData = Joomla.getOptions('plg_multifactorauth_totp.totp.qr');
 
     if (!elTarget || !qrData) {

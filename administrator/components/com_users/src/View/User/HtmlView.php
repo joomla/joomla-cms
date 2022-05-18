@@ -69,7 +69,7 @@ class HtmlView extends BaseHtmlView
 	 * @var   string|null
 	 * @since __DEPLOY_VERSION__
 	 */
-	protected $tfaConfigurationUI;
+	protected $mfaConfigurationUI;
 
 	/**
 	 * Display the view
@@ -111,7 +111,7 @@ class HtmlView extends BaseHtmlView
 		$this->form->setValue('password', null);
 		$this->form->setValue('password2', null);
 
-		$this->tfaConfigurationUI = Mfa::getConfigurationInterface($user);
+		$this->mfaConfigurationUI = Mfa::getConfigurationInterface($user);
 
 		parent::display($tpl);
 		$this->addToolbar();

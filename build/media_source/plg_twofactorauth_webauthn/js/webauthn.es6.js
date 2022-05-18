@@ -158,7 +158,7 @@
         };
 
         document.getElementById('multifactorauthCode').value = btoa(JSON.stringify(publicKeyCredential));
-        document.getElementById('users-tfa-captive-form').submit();
+        document.getElementById('users-mfa-captive-form').submit();
       }, (error) => {
         // Example: timeout, interaction refused...
         handleError(error);
@@ -188,7 +188,7 @@
       document.getElementById('plg_multifactorauth_webauthn_validate_button')
         .addEventListener('click', onValidateClick);
 
-      document.getElementById('users-tfa-captive-button-submit')
+      document.getElementById('users-mfa-captive-button-submit')
         .addEventListener('click', onValidateClick);
     } else {
       document.getElementById('plg_multifactorauth_webauthn_register_button')
