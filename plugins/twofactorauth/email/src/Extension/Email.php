@@ -177,7 +177,7 @@ class Email extends CMSPlugin implements SubscriberInterface
 			new CaptiveRenderOptions(
 				[
 					// Custom HTML to display above the TFA form
-					'pre_message'        => '',
+					'pre_message'        => Text::_('PLG_TWOFACTORAUTH_EMAIL_LBL_PRE_MESSAGE'),
 					// How to render the TFA code field. "input" (HTML input element) or "custom" (custom HTML)
 					'field_type'         => 'input',
 					// The type attribute for the HTML input box. Typically "text" or "password". Use any HTML5 input type.
@@ -259,6 +259,7 @@ class Email extends CMSPlugin implements SubscriberInterface
 						'input_type'    => 'number',
 						'input_value'   => '',
 						'placeholder'   => Text::_('PLG_TWOFACTORAUTH_EMAIL_LBL_SETUP_PLACEHOLDER'),
+						'pre_message'   => Text::_('PLG_TWOFACTORAUTH_EMAIL_LBL_PRE_MESSAGE'),
 						'label'         => Text::_('PLG_TWOFACTORAUTH_EMAIL_LBL_LABEL'),
 					]
 				)
