@@ -23,7 +23,7 @@ use Joomla\Database\ParameterType;
  * @since   __DEPLOY_VERSION__
  */
 // phpcs:ignore
-function com_users_postinstall_condition(): bool
+function com_users_postinstall_mfa_condition(): bool
 {
 	return count(PluginHelper::getPlugin('multifactorauth')) < 1;
 }
@@ -37,7 +37,7 @@ function com_users_postinstall_condition(): bool
  * @since   __DEPLOY_VERSION__
  */
 // phpcs:ignore
-function com_users_postinstall_action(): void
+function com_users_postinstall_mfa_action(): void
 {
 	/** @var DatabaseDriver $db */
 	$db             = Factory::getContainer()->get('DatabaseDriver');

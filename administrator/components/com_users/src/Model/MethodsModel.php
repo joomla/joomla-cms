@@ -30,7 +30,7 @@ use RuntimeException;
 class MethodsModel extends BaseDatabaseModel
 {
 	/**
-	 * Returns a list of all available and their currently active records for given user.
+	 * Returns a list of all available MFA methods and their currently active records for a given user.
 	 *
 	 * @param   User|null  $user  The user object. Skip to use the current user.
 	 *
